@@ -4,22 +4,37 @@ import { DEFAULT_FEEDS } from './constants';
 import { fetchAllFeeds } from './services/rssService';
 import { ArticleCard } from './components/ArticleCard';
 import { FeedManager } from './components/FeedManager';
-import { Settings, RefreshCw, AudioWaveform, Radio, Lock } from 'lucide-react';
+import { Settings, RefreshCw, AudioWaveform, Radio, Lock, X } from 'lucide-react';
 
 const PASSWORD = 'Tamerelapute1423!!';
 
 const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return localStorage.getItem('sonaa_auth') === 'true';
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => {
+    return localStorage.getItem('sonaa_admin_auth') === 'true';
   });
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
   const [passwordError, setPasswordError] = useState(false);
+
+  const handleSettingsClick = () => {
+    if (view === ViewMode.ADMIN) {
+      setView(ViewMode.GRID);
+    } else if (isAdminAuthenticated) {
+      setView(ViewMode.ADMIN);
+    } else {
+      setShowPasswordModal(true);
+      setPasswordInput('');
+      setPasswordError(false);
+    }
+  };
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (passwordInput === PASSWORD) {
-      setIsAuthenticated(true);
-      localStorage.setItem('sonaa_auth', 'true');
+      setIsAdminAuthenticated(true);
+      localStorage.setItem('sonaa_admin_auth', 'true');
+      setShowPasswordModal(false);
+      setView(ViewMode.ADMIN);
       setPasswordError(false);
     } else {
       setPasswordError(true);
@@ -27,7 +42,7 @@ const App: React.FC = () => {
   };
 
   const [view, setView] = useState<ViewMode>(ViewMode.GRID);
-  
+
   // Initialize feeds from local storage or defaults
   const [feeds, setFeeds] = useState<FeedSource[]>(() => {
     const saved = localStorage.getItem('sonaa_feeds');
@@ -59,51 +74,57 @@ const App: React.FC = () => {
     }
   }, [view, feeds]); // Reload if feeds change or view changes back to grid
 
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans flex items-center justify-center">
-        <form onSubmit={handleLogin} className="bg-zinc-900 p-8 rounded-2xl border border-zinc-800 w-full max-w-sm">
-          <div className="flex flex-col items-center gap-4 mb-6">
-            <div className="w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
-              <AudioWaveform className="text-white" size={36} />
-            </div>
-            <h1 className="text-2xl font-bold">Sonaa</h1>
-          </div>
-          <div className="space-y-4">
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" size={18} />
-              <input
-                type="password"
-                value={passwordInput}
-                onChange={(e) => setPasswordInput(e.target.value)}
-                placeholder="Mot de passe"
-                className={`w-full bg-zinc-800 border ${passwordError ? 'border-red-500' : 'border-zinc-700'} rounded-lg py-3 pl-10 pr-4 text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500 transition-colors`}
-                autoFocus
-              />
-            </div>
-            {passwordError && (
-              <p className="text-red-500 text-sm text-center">Mot de passe incorrect</p>
-            )}
-            <button
-              type="submit"
-              className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-lg font-medium hover:from-indigo-500 hover:to-purple-500 transition-all"
-            >
-              Entrer
-            </button>
-          </div>
-        </form>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans selection:bg-indigo-500/30">
+
+      {/* Password Modal */}
+      {showPasswordModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-sm">
+          <form onSubmit={handleLogin} className="bg-zinc-900 p-8 rounded-2xl border border-zinc-800 w-full max-w-sm relative">
+            <button
+              type="button"
+              onClick={() => setShowPasswordModal(false)}
+              className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors"
+            >
+              <X size={20} />
+            </button>
+            <div className="flex flex-col items-center gap-4 mb-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                <Settings className="text-white" size={36} />
+              </div>
+              <h2 className="text-xl font-bold">Accès Admin</h2>
+            </div>
+            <div className="space-y-4">
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" size={18} />
+                <input
+                  type="password"
+                  value={passwordInput}
+                  onChange={(e) => setPasswordInput(e.target.value)}
+                  placeholder="Mot de passe"
+                  className={`w-full bg-zinc-800 border ${passwordError ? 'border-red-500' : 'border-zinc-700'} rounded-lg py-3 pl-10 pr-4 text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500 transition-colors`}
+                  autoFocus
+                />
+              </div>
+              {passwordError && (
+                <p className="text-red-500 text-sm text-center">Mot de passe incorrect</p>
+              )}
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-lg font-medium hover:from-indigo-500 hover:to-purple-500 transition-all"
+              >
+                Entrer
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
 
       {/* Sticky Header */}
       <header className="sticky top-0 z-50 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50">
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
-          
-          <div 
+
+          <div
             className="flex items-center gap-3 cursor-pointer group"
             onClick={() => setView(ViewMode.GRID)}
           >
@@ -118,13 +139,13 @@ const App: React.FC = () => {
           <div className="flex items-center gap-2">
              {view === ViewMode.GRID && (
                 <div className="hidden md:flex items-center gap-2 mr-4 text-xs text-zinc-500 bg-zinc-900 px-3 py-1.5 rounded-full border border-zinc-800">
-                    <Radio size={12} className="text-green-500 animate-pulse"/> 
+                    <Radio size={12} className="text-green-500 animate-pulse"/>
                     {articles.length} stories live
                     {lastUpdated && <span className="text-zinc-600">| Updated {lastUpdated.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>}
                 </div>
              )}
 
-            <button 
+            <button
                 onClick={loadData}
                 disabled={loading || view === ViewMode.ADMIN}
                 className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-full transition-all disabled:opacity-50"
@@ -132,9 +153,9 @@ const App: React.FC = () => {
             >
                 <RefreshCw size={20} className={loading ? 'animate-spin' : ''} />
             </button>
-            
-            <button 
-                onClick={() => setView(view === ViewMode.GRID ? ViewMode.ADMIN : ViewMode.GRID)}
+
+            <button
+                onClick={handleSettingsClick}
                 className={`p-2 rounded-full transition-all ${view === ViewMode.ADMIN ? 'text-indigo-400 bg-indigo-500/10' : 'text-zinc-400 hover:text-white hover:bg-zinc-800'}`}
                 title="Manage Feeds"
             >
@@ -146,7 +167,7 @@ const App: React.FC = () => {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 md:px-6 py-8">
-        
+
         {view === ViewMode.ADMIN ? (
           <FeedManager feeds={feeds} setFeeds={setFeeds} onClose={() => setView(ViewMode.GRID)} />
         ) : (
@@ -163,7 +184,7 @@ const App: React.FC = () => {
                     ))}
                 </div>
             )}
-            
+
             {!loading && articles.length === 0 && (
                 <div className="text-center py-20 text-zinc-500">
                     <p className="text-xl">No signal detected.</p>
