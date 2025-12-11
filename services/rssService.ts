@@ -109,11 +109,20 @@ const getCandidateImages = (item: any): string[] => {
 };
 
 const BAD_PATTERNS = [
-    'feeds.feedburner.com', '~r/', 
+    'feeds.feedburner.com', '~r/',
     'doubleclick.net', 'gravatar.com', 'emoji', 'facebook.com/tr',
     'pixel', 'blank.gif', 'spacer.gif', '1x1',
     'share-icon', 'button', 'avatar', 'logo', 'icon', 'author',
-    'googleusercontent', 'feed-icon', 'icon-'
+    'googleusercontent', 'feed-icon', 'icon-',
+    // Stock photo sites - often generic/unrelated images
+    'shutterstock', 'istockphoto', 'gettyimages', 'depositphotos',
+    'stock-photo', 'stock_photo', 'stockphoto',
+    // Ad networks and trackers
+    'ad.', 'ads.', 'adserver', 'advertising', 'banner',
+    // Social media buttons/icons
+    'twitter.com/intent', 'facebook.com/sharer', 'pinterest.com/pin',
+    // Common placeholder patterns
+    'placeholder', 'default-image', 'no-image', 'noimage'
 ];
 
 /**
@@ -122,7 +131,7 @@ const BAD_PATTERNS = [
 const isValidImageUrl = (url: string, feedImage: string | undefined): boolean => {
     if (!url || url.length < 20) return false;
     const lowerUrl = url.toLowerCase();
-    
+
     // Check bad patterns
     if (BAD_PATTERNS.some(pattern => lowerUrl.includes(pattern))) return false;
 
@@ -132,6 +141,50 @@ const isValidImageUrl = (url: string, feedImage: string | undefined): boolean =>
     if (cleanFeedImage && lowerUrl.includes(cleanFeedImage)) return false;
 
     return true;
+};
+
+/**
+ * Score an image URL - higher score = more likely to be a relevant product/article image
+ */
+const scoreImageUrl = (url: string, articleTitle: string): number => {
+    let score = 0;
+    const lowerUrl = url.toLowerCase();
+    const titleWords = articleTitle.toLowerCase().split(/\s+/).filter(w => w.length > 3);
+
+    // Bonus: URL contains words from article title (likely product image)
+    titleWords.forEach(word => {
+        if (lowerUrl.includes(word)) score += 10;
+    });
+
+    // Bonus: Image is from same domain as common synth/music sites
+    const goodDomains = ['synthanatomy', 'gearnews', 'musicradar', 'attackmagazine',
+                         'cdm.link', 'kvraudio', 'soundonsound', 'bedroomproducers',
+                         'pluginboutique', 'wordpress', 'wp-content'];
+    if (goodDomains.some(d => lowerUrl.includes(d))) score += 5;
+
+    // Bonus: Looks like a product/feature image path
+    const goodPatterns = ['product', 'feature', 'upload', 'content', 'article',
+                          'post', 'news', 'review', 'synth', 'plugin', 'vst'];
+    goodPatterns.forEach(p => {
+        if (lowerUrl.includes(p)) score += 3;
+    });
+
+    // Penalty: Very generic Unsplash/Pexels URLs (stock photos)
+    if (lowerUrl.includes('unsplash.com') || lowerUrl.includes('pexels.com')) {
+        score -= 20;
+    }
+
+    // Penalty: Image dimensions suggest thumbnail/icon (often in URL)
+    if (lowerUrl.match(/[_-](50|100|150|32|64|thumb|small|mini)/)) {
+        score -= 5;
+    }
+
+    // Bonus: Larger image sizes in URL
+    if (lowerUrl.match(/[_-](800|1200|1024|large|full|featured)/)) {
+        score += 5;
+    }
+
+    return score;
 };
 
 export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> => {
@@ -165,17 +218,16 @@ export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> 
     // Step 2: Process Items
     const validArticles = data.items.map((item, index): Article | null => {
       const candidates = getCandidateImages(item);
-      let selectedImage: string | null = null;
 
-      for (const url of candidates) {
-          if (!isValidImageUrl(url, feedLogo)) continue;
+      // Filter and score all valid candidates
+      const scoredCandidates = candidates
+          .filter(url => isValidImageUrl(url, feedLogo))
+          .filter(url => (imageFrequencyMap.get(url) || 0) <= 2)
+          .map(url => ({ url, score: scoreImageUrl(url, item.title) }))
+          .sort((a, b) => b.score - a.score);
 
-          // Frequency Check (>2 means it's likely a shared asset/logo)
-          if ((imageFrequencyMap.get(url) || 0) > 2) continue;
-
-          selectedImage = url;
-          break; 
-      }
+      // Select the highest-scoring image
+      const selectedImage = scoredCandidates.length > 0 ? scoredCandidates[0].url : null;
 
       // STRICT FILTER: If no valid image is found, return null immediately.
       if (!selectedImage) {
