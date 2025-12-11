@@ -131,21 +131,69 @@ const BAD_PATTERNS = [
 ];
 
 /**
+ * Extract domain from URL
+ */
+const extractDomain = (url: string): string => {
+    try {
+        const hostname = new URL(url).hostname;
+        // Remove www. and get main domain
+        return hostname.replace(/^www\./, '').toLowerCase();
+    } catch {
+        return '';
+    }
+};
+
+/**
+ * Trusted image hosting domains (CDNs used by music sites)
+ */
+const TRUSTED_IMAGE_DOMAINS = [
+    // WordPress / common CMS CDNs
+    'wp.com', 'wordpress.com', 'i0.wp.com', 'i1.wp.com', 'i2.wp.com', 'i3.wp.com',
+    // Music site domains
+    'synthanatomy.com', 'gearnews.com', 'musicradar.com', 'attackmagazine.com',
+    'cdm.link', 'kvraudio.com', 'soundonsound.com', 'bedroomproducersblog.com',
+    'pluginboutique.com', 'xlr8r.com', 'mixmag.net', 'ra.co', 'residentadvisor.net',
+    'guettapen.com', 'tsugi.fr', 'electro-news.eu', 'traxmag.com', 'bandcamp.com',
+    'midnightrebels.com', 'subvert.fm', 'audiofanzine.com', 'lessondiers.com',
+    'kr-homestudio.fr', 'gearspace.com',
+    // YouTube thumbnails
+    'i.ytimg.com', 'img.youtube.com', 'ytimg.com',
+    // Common CDNs
+    'cloudinary.com', 'imgix.net', 'fastly.net', 'akamaized.net',
+    'cloudfront.net', 'amazonaws.com', 's3.amazonaws.com'
+];
+
+/**
  * Validates a single URL against basic rules
  */
-const isValidImageUrl = (url: string, feedImage: string | undefined): boolean => {
+const isValidImageUrl = (url: string, feedImage: string | undefined, articleUrl: string): boolean => {
     if (!url || url.length < 20) return false;
     const lowerUrl = url.toLowerCase();
 
     // Check bad patterns
     if (BAD_PATTERNS.some(pattern => lowerUrl.includes(pattern))) return false;
 
-    // Check feed image match
+    // Check feed image match (reject feed logos)
     if (feedImage && url === feedImage) return false;
     const cleanFeedImage = feedImage ? feedImage.split('?')[0].toLowerCase() : '';
     if (cleanFeedImage && lowerUrl.includes(cleanFeedImage)) return false;
 
-    return true;
+    // STRICT DOMAIN CHECK: Image must be from trusted domain OR same domain as article
+    const imageDomain = extractDomain(url);
+    const articleDomain = extractDomain(articleUrl);
+
+    // Check if image is from same domain as article
+    if (imageDomain && articleDomain && imageDomain.includes(articleDomain.split('.')[0])) {
+        return true;
+    }
+
+    // Check if image is from a trusted CDN/domain
+    if (TRUSTED_IMAGE_DOMAINS.some(trusted => imageDomain.includes(trusted) || lowerUrl.includes(trusted))) {
+        return true;
+    }
+
+    // Reject all other images (external stock photos, ads, etc.)
+    return false;
 };
 
 /**
@@ -221,7 +269,7 @@ export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> 
 
       // Filter and score all valid candidates
       const scoredCandidates = candidates
-          .filter(url => isValidImageUrl(url, feedLogo))
+          .filter(url => isValidImageUrl(url, feedLogo, item.link))
           .filter(url => (imageFrequencyMap.get(url) || 0) <= 2)
           .map(url => ({ url, score: scoreImageUrl(url, item.title) }))
           .sort((a, b) => b.score - a.score);
