@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Article } from '../types';
 import { ExternalLink, Clock, PlayCircle, Youtube } from 'lucide-react';
-import { FALLBACK_IMAGES } from '../constants';
 
 interface ArticleCardProps {
   article: Article;
 }
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
-  // Initialize with article thumbnail, ensuring we have a value
+  // Initialize with article thumbnail
   const [imgSrc, setImgSrc] = useState<string>(article.thumbnail);
+  const [isVisible, setIsVisible] = useState(true);
 
   // Sync state if prop changes (e.g. reload)
   useEffect(() => {
     setImgSrc(article.thumbnail);
+    setIsVisible(true);
   }, [article.thumbnail]);
 
   // Calculate relative time
@@ -42,23 +43,20 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
   };
 
   const handleImageError = () => {
-    // If the current image fails, switch to a fallback.
-    // Use title hash to keep it consistent for the same article.
-    let hash = 0;
-    for (let i = 0; i < article.title.length; i++) {
-        hash = ((hash << 5) - hash) + article.title.charCodeAt(i);
-        hash = hash & hash;
-    }
-    const index = Math.abs(hash) % FALLBACK_IMAGES.length;
-    
-    // Prevent infinite loops if fallback also fails (unlikely but safe)
-    if (imgSrc !== FALLBACK_IMAGES[index]) {
-        setImgSrc(FALLBACK_IMAGES[index]);
-    }
+    // If image fails to load, hide the entire card.
+    // The user requested: "Si l'article n'a pas d'image, n'affiche pas la tuile"
+    setIsVisible(false);
   };
 
+  if (!isVisible) return null;
+
   return (
-    <div className={`group flex flex-col h-full bg-zinc-900 rounded-xl overflow-hidden border transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${article.isVideo ? 'border-red-900/30 hover:border-red-500/50' : 'border-zinc-800 hover:border-zinc-600 hover:shadow-indigo-500/10'}`}>
+    <a 
+      href={article.link} 
+      target="_blank" 
+      rel="noopener noreferrer"
+      className={`group flex flex-col h-full bg-zinc-900 rounded-xl overflow-hidden border transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 cursor-pointer block text-left ${article.isVideo ? 'border-red-900/30 hover:border-red-500/50' : 'border-zinc-800 hover:border-zinc-600 hover:shadow-indigo-500/10'}`}
+    >
       
       {/* Image Container */}
       <div className="relative aspect-video overflow-hidden shrink-0 bg-zinc-950">
@@ -101,26 +99,23 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
            </div>
         </div>
 
-        <a href={article.link} target="_blank" rel="noopener noreferrer" className={`block transition-colors ${article.isVideo ? 'group-hover:text-red-400' : 'group-hover:text-indigo-400'}`}>
-            <h3 className="text-xl font-bold text-zinc-100 leading-tight mb-3 font-sans line-clamp-3">
-            {article.title}
-            </h3>
-        </a>
+        {/* Title (Now just a h3, styling handles hover effect via group-hover on parent) */}
+        <h3 className={`text-xl font-bold text-zinc-100 leading-tight mb-3 font-sans line-clamp-3 transition-colors ${article.isVideo ? 'group-hover:text-red-400' : 'group-hover:text-indigo-400'}`}>
+          {article.title}
+        </h3>
 
         {/* Show snippet only for articles, or shorter for video */}
         <p className="text-zinc-400 text-sm leading-relaxed mb-4 line-clamp-3 grow">
           {article.contentSnippet}
         </p>
 
-        <a 
-          href={article.link} 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-300 hover:text-white transition-colors mt-auto pt-2"
+        {/* Fake button visual (since the whole card is the button) */}
+        <div 
+          className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-300 group-hover:text-white transition-colors mt-auto pt-2"
         >
           {article.isVideo ? 'WATCH VIDEO' : 'READ MORE'} <ExternalLink size={12} />
-        </a>
+        </div>
       </div>
-    </div>
+    </a>
   );
 };

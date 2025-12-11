@@ -1,5 +1,4 @@
 import { Article, FeedSource, RSS2JSONResponse } from '../types';
-import { FALLBACK_IMAGES } from '../constants';
 
 const RSS_TO_JSON_API = 'https://api.rss2json.com/v1/api.json?rss_url=';
 
@@ -64,20 +63,6 @@ const BANDCAMP_ELECTRO_KEYWORDS = [
   'club', 'dance', 'beat', 'modular', 'eurorack', 'idm', 'jungle', 'drum and bass',
   'dubstep', 'garage', 'electro', 'lo-fi', 'vaporwave', 'techno', 'trance', 'breakbeat'
 ];
-
-/**
- * Generate a hash code from a string (Improved for better distribution)
- */
-const hashCode = (str: string) => {
-  let hash = 0;
-  if (str.length === 0) return hash;
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash = hash & hash; // Convert to 32bit integer
-  }
-  return Math.abs(hash);
-};
 
 /**
  * Helper to ensure HTTPS to avoid Mixed Content errors
@@ -154,13 +139,13 @@ export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> 
     const response = await fetch(`${RSS_TO_JSON_API}${encodeURIComponent(source.rssUrl)}`);
     
     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        // Silently fail for individual feed errors
+        return [];
     }
 
     const data: RSS2JSONResponse = await response.json();
 
     if (data.status !== 'ok') {
-      console.warn(`Failed to fetch RSS for ${source.name}: ${data.status}`);
       return [];
     }
 
@@ -178,7 +163,7 @@ export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> 
     });
 
     // Step 2: Process Items
-    return data.items.map((item, index) => {
+    const validArticles = data.items.map((item, index): Article | null => {
       const candidates = getCandidateImages(item);
       let selectedImage: string | null = null;
 
@@ -192,19 +177,18 @@ export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> 
           break; 
       }
 
-      // Fallback
+      // STRICT FILTER: If no valid image is found, return null immediately.
       if (!selectedImage) {
-         const hash = hashCode(item.title + source.name); 
-         selectedImage = FALLBACK_IMAGES[hash % FALLBACK_IMAGES.length];
-      } else {
-         // Fix protocol and YouTube quality
-         selectedImage = ensureHttps(selectedImage);
-         
-         if (source.isVideoSource && selectedImage.includes('default.jpg')) {
-             if (selectedImage.includes('mqdefault')) {
-                  selectedImage = selectedImage.replace('mqdefault', 'hqdefault');
-             }
-         }
+         return null;
+      }
+
+      // Fix protocol and YouTube quality
+      selectedImage = ensureHttps(selectedImage);
+      
+      if (source.isVideoSource && selectedImage.includes('default.jpg')) {
+          if (selectedImage.includes('mqdefault')) {
+              selectedImage = selectedImage.replace('mqdefault', 'hqdefault');
+          }
       }
 
       // Clean snippet
@@ -229,9 +213,11 @@ export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> 
         isVideo: source.isVideoSource
       };
     });
+
+    // Filter out nulls (articles with no images)
+    return validArticles.filter((article): article is Article => article !== null);
+
   } catch (error) {
-    // console.error(`Error fetching feed ${source.name}:`, error);
-    // Suppress console spam for individual feed failures, just return empty
     return [];
   }
 };
