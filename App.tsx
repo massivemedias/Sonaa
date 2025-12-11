@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Article, FeedSource, ViewMode } from './types';
 import { DEFAULT_FEEDS } from './constants';
 import { fetchAllFeeds } from './services/rssService';
-import { ArticleCard } from './components/ArticleCard';
+import { ArticleCard, CompactArticleCard } from './components/ArticleCard';
 import { FeedManager } from './components/FeedManager';
 import { Settings, RefreshCw, AudioWaveform, Radio, Lock, X } from 'lucide-react';
 
@@ -188,10 +188,41 @@ const App: React.FC = () => {
                   <p className="animate-pulse">Aggregating frequencies...</p>
                </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-20 auto-rows-fr">
-                    {articles.map((article) => (
-                        <ArticleCard key={article.id} article={article} />
-                    ))}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-20">
+                    {(() => {
+                      const elements: React.ReactNode[] = [];
+                      const noImageQueue: Article[] = [];
+
+                      articles.forEach((article, idx) => {
+                        if (article.thumbnail) {
+                          // Article with image - full card
+                          elements.push(<ArticleCard key={article.id} article={article} />);
+                        } else {
+                          // Article without image - queue for pairing
+                          noImageQueue.push(article);
+                          if (noImageQueue.length === 2) {
+                            elements.push(
+                              <div key={`pair-${noImageQueue[0].id}`} className="flex flex-col gap-3">
+                                <CompactArticleCard article={noImageQueue[0]} />
+                                <CompactArticleCard article={noImageQueue[1]} />
+                              </div>
+                            );
+                            noImageQueue.length = 0;
+                          }
+                        }
+                      });
+
+                      // Handle remaining single no-image article
+                      if (noImageQueue.length === 1) {
+                        elements.push(
+                          <div key={`single-${noImageQueue[0].id}`} className="flex flex-col gap-3">
+                            <CompactArticleCard article={noImageQueue[0]} />
+                          </div>
+                        );
+                      }
+
+                      return elements;
+                    })()}
                 </div>
             )}
 

@@ -4,7 +4,7 @@ export interface Article {
   link: string;
   pubDate: string;
   contentSnippet: string;
-  thumbnail: string;
+  thumbnail: string | null;
   sourceTitle: string;
   sourceIcon?: string;
   categories: string[];

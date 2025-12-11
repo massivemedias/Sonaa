@@ -6,43 +6,32 @@ interface ArticleCardProps {
   article: Article;
 }
 
-export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
-  const [imgSrc, setImgSrc] = useState<string | null>(article.thumbnail);
-  const [hasImage, setHasImage] = useState(!!article.thumbnail);
+const timeAgo = (dateString: string) => {
+  try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return "recently";
 
-  useEffect(() => {
-    setImgSrc(article.thumbnail);
-    setHasImage(!!article.thumbnail);
-  }, [article.thumbnail]);
+      const now = new Date();
+      const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-  const timeAgo = (dateString: string) => {
-    try {
-        const date = new Date(dateString);
-        if (isNaN(date.getTime())) return "recently";
+      let interval = seconds / 31536000;
+      if (interval > 1) return Math.floor(interval) + "y";
+      interval = seconds / 2592000;
+      if (interval > 1) return Math.floor(interval) + "mo";
+      interval = seconds / 86400;
+      if (interval > 1) return Math.floor(interval) + "d";
+      interval = seconds / 3600;
+      if (interval > 1) return Math.floor(interval) + "h";
+      interval = seconds / 60;
+      if (interval > 1) return Math.floor(interval) + "m";
+      return "now";
+  } catch (e) {
+      return "recently";
+  }
+};
 
-        const now = new Date();
-        const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-
-        let interval = seconds / 31536000;
-        if (interval > 1) return Math.floor(interval) + "y";
-        interval = seconds / 2592000;
-        if (interval > 1) return Math.floor(interval) + "mo";
-        interval = seconds / 86400;
-        if (interval > 1) return Math.floor(interval) + "d";
-        interval = seconds / 3600;
-        if (interval > 1) return Math.floor(interval) + "h";
-        interval = seconds / 60;
-        if (interval > 1) return Math.floor(interval) + "m";
-        return "now";
-    } catch (e) {
-        return "recently";
-    }
-  };
-
-  const handleImageError = () => {
-    setHasImage(false);
-  };
-
+// Compact card for articles without images - stacked two per cell
+export const CompactArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
   const handleClick = () => {
     window.open(article.link, '_blank', 'noopener,noreferrer');
   };
@@ -53,49 +42,91 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
       role="link"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && handleClick()}
+      className="group flex-1 bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 hover:border-zinc-600 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 cursor-pointer select-none p-4"
+    >
+      <div className="flex items-start justify-between gap-2 mb-2">
+        <div className="flex items-center gap-2 text-xs text-zinc-500">
+          <span className="bg-zinc-800 border border-zinc-700 px-2 py-0.5 rounded text-zinc-400 font-medium flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+            {article.sourceTitle}
+          </span>
+          <span className="flex items-center gap-1">
+            <Clock size={10} />
+            {timeAgo(article.pubDate)}
+          </span>
+        </div>
+      </div>
+
+      <h3 className="text-base font-bold text-zinc-100 leading-snug mb-2 line-clamp-2 group-hover:text-indigo-400 transition-colors">
+        {article.title}
+      </h3>
+
+      <p className="text-zinc-500 text-xs leading-relaxed line-clamp-2">
+        {article.contentSnippet}
+      </p>
+    </div>
+  );
+};
+
+// Full card for articles WITH images
+export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
+  const [imgSrc, setImgSrc] = useState<string | null>(article.thumbnail);
+  const [hasImage, setHasImage] = useState(!!article.thumbnail);
+
+  useEffect(() => {
+    setImgSrc(article.thumbnail);
+    setHasImage(!!article.thumbnail);
+  }, [article.thumbnail]);
+
+  const handleImageError = () => {
+    setHasImage(false);
+  };
+
+  const handleClick = () => {
+    window.open(article.link, '_blank', 'noopener,noreferrer');
+  };
+
+  // If no image or image fails to load, don't render
+  if (!hasImage || !imgSrc) return null;
+
+  return (
+    <div
+      onClick={handleClick}
+      role="link"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === 'Enter' && handleClick()}
       className={`group flex flex-col h-full bg-zinc-900 rounded-xl overflow-hidden border transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 cursor-pointer select-none ${article.isVideo ? 'border-red-900/30 hover:border-red-500/50' : 'border-zinc-800 hover:border-zinc-600 hover:shadow-indigo-500/10'}`}
     >
+      {/* Image Container */}
+      <div className="relative aspect-video overflow-hidden shrink-0 bg-zinc-950">
+        <img
+          src={imgSrc}
+          alt={article.title}
+          onError={handleImageError}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100"
+          loading="lazy"
+          draggable={false}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent opacity-80 pointer-events-none" />
 
-      {/* Image Container - only show if we have an image */}
-      {hasImage && imgSrc && (
-        <div className="relative aspect-video overflow-hidden shrink-0 bg-zinc-950">
-          <img
-            src={imgSrc}
-            alt={article.title}
-            onError={handleImageError}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100"
-            loading="lazy"
-            draggable={false}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent opacity-80 pointer-events-none" />
-
-          {/* Source Badge on image */}
-          <div className={`absolute top-3 left-3 backdrop-blur-sm border px-2 py-1 rounded text-xs font-semibold flex items-center gap-1 pointer-events-none ${article.isVideo ? 'bg-red-950/80 border-red-800 text-red-200' : 'bg-zinc-950/80 border-zinc-700 text-zinc-300'}`}>
-              {article.isVideo ? <Youtube size={12} className="text-red-500" /> : <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>}
-              {article.sourceTitle}
-          </div>
-
-          {/* Video Play Overlay */}
-          {article.isVideo && (
-             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="bg-black/50 rounded-full p-3 backdrop-blur-sm border border-white/20 group-hover:scale-110 transition-transform">
-                   <PlayCircle size={40} className="text-white/90" />
-                </div>
-             </div>
-          )}
+        {/* Source Badge on image */}
+        <div className={`absolute top-3 left-3 backdrop-blur-sm border px-2 py-1 rounded text-xs font-semibold flex items-center gap-1 pointer-events-none ${article.isVideo ? 'bg-red-950/80 border-red-800 text-red-200' : 'bg-zinc-950/80 border-zinc-700 text-zinc-300'}`}>
+            {article.isVideo ? <Youtube size={12} className="text-red-500" /> : <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>}
+            {article.sourceTitle}
         </div>
-      )}
+
+        {/* Video Play Overlay */}
+        {article.isVideo && (
+           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="bg-black/50 rounded-full p-3 backdrop-blur-sm border border-white/20 group-hover:scale-110 transition-transform">
+                 <PlayCircle size={40} className="text-white/90" />
+              </div>
+           </div>
+        )}
+      </div>
 
       {/* Content */}
-      <div className={`p-5 flex flex-col grow ${!hasImage ? 'pt-4' : ''}`}>
-        {/* Source Badge for text-only cards */}
-        {!hasImage && (
-          <div className={`mb-3 self-start backdrop-blur-sm border px-2 py-1 rounded text-xs font-semibold flex items-center gap-1 ${article.isVideo ? 'bg-red-950/80 border-red-800 text-red-200' : 'bg-zinc-800 border-zinc-700 text-zinc-300'}`}>
-              {article.isVideo ? <Youtube size={12} className="text-red-500" /> : <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>}
-              {article.sourceTitle}
-          </div>
-        )}
-
+      <div className="p-5 flex flex-col grow">
         <div className="flex justify-between items-center mb-3 text-xs text-zinc-500">
            <div className="flex items-center gap-1">
               <Clock size={12} />
@@ -112,7 +143,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
           {article.title}
         </h3>
 
-        <p className={`text-zinc-400 text-sm leading-relaxed mb-4 grow ${hasImage ? 'line-clamp-3' : 'line-clamp-5'}`}>
+        <p className="text-zinc-400 text-sm leading-relaxed mb-4 grow line-clamp-3">
           {article.contentSnippet}
         </p>
 
