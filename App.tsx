@@ -43,10 +43,20 @@ const App: React.FC = () => {
 
   const [view, setView] = useState<ViewMode>(ViewMode.GRID);
 
-  // Initialize feeds from local storage or defaults
+  // Initialize feeds from local storage, merging with any new defaults
   const [feeds, setFeeds] = useState<FeedSource[]>(() => {
     const saved = localStorage.getItem('sonaa_feeds');
-    return saved ? JSON.parse(saved) : DEFAULT_FEEDS;
+    if (!saved) return DEFAULT_FEEDS;
+
+    const savedFeeds: FeedSource[] = JSON.parse(saved);
+    const savedIds = new Set(savedFeeds.map(f => f.id));
+
+    // Add any new feeds from defaults that aren't in saved feeds
+    const newFeeds = DEFAULT_FEEDS.filter(f => !savedIds.has(f.id));
+    if (newFeeds.length > 0) {
+      return [...savedFeeds, ...newFeeds];
+    }
+    return savedFeeds;
   });
 
   const [articles, setArticles] = useState<Article[]>([]);
