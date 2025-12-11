@@ -156,6 +156,10 @@ const TRUSTED_IMAGE_DOMAINS = [
     'guettapen.com', 'tsugi.fr', 'electro-news.eu', 'traxmag.com', 'bandcamp.com',
     'midnightrebels.com', 'subvert.fm', 'audiofanzine.com', 'lessondiers.com',
     'kr-homestudio.fr', 'gearspace.com', 'frandroid.com',
+    // Tech news sites
+    'tomsguide.com', 'iphon.fr', 'jeuxvideo.com', 'theverge.com',
+    'petapixel.com', 'korben.info', 'clubic.com', 'synthtopia.com',
+    'lesnumeriques.com', 'engadget.com', '9to5google.com', 'musictech.com',
     // YouTube thumbnails
     'i.ytimg.com', 'img.youtube.com', 'ytimg.com',
     // Common CDNs

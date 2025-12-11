@@ -4,9 +4,28 @@ import { DEFAULT_FEEDS } from './constants';
 import { fetchAllFeeds } from './services/rssService';
 import { ArticleCard } from './components/ArticleCard';
 import { FeedManager } from './components/FeedManager';
-import { Settings, RefreshCw, AudioWaveform, Radio } from 'lucide-react';
+import { Settings, RefreshCw, AudioWaveform, Radio, Lock } from 'lucide-react';
+
+const PASSWORD = 'Tamerelapute1423!!';
 
 const App: React.FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return localStorage.getItem('sonaa_auth') === 'true';
+  });
+  const [passwordInput, setPasswordInput] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordInput === PASSWORD) {
+      setIsAuthenticated(true);
+      localStorage.setItem('sonaa_auth', 'true');
+      setPasswordError(false);
+    } else {
+      setPasswordError(true);
+    }
+  };
+
   const [view, setView] = useState<ViewMode>(ViewMode.GRID);
   
   // Initialize feeds from local storage or defaults
@@ -40,9 +59,46 @@ const App: React.FC = () => {
     }
   }, [view, feeds]); // Reload if feeds change or view changes back to grid
 
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans flex items-center justify-center">
+        <form onSubmit={handleLogin} className="bg-zinc-900 p-8 rounded-2xl border border-zinc-800 w-full max-w-sm">
+          <div className="flex flex-col items-center gap-4 mb-6">
+            <div className="w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
+              <AudioWaveform className="text-white" size={36} />
+            </div>
+            <h1 className="text-2xl font-bold">Sonaa</h1>
+          </div>
+          <div className="space-y-4">
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" size={18} />
+              <input
+                type="password"
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                placeholder="Mot de passe"
+                className={`w-full bg-zinc-800 border ${passwordError ? 'border-red-500' : 'border-zinc-700'} rounded-lg py-3 pl-10 pr-4 text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500 transition-colors`}
+                autoFocus
+              />
+            </div>
+            {passwordError && (
+              <p className="text-red-500 text-sm text-center">Mot de passe incorrect</p>
+            )}
+            <button
+              type="submit"
+              className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-lg font-medium hover:from-indigo-500 hover:to-purple-500 transition-all"
+            >
+              Entrer
+            </button>
+          </div>
+        </form>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans selection:bg-indigo-500/30">
-      
+
       {/* Sticky Header */}
       <header className="sticky top-0 z-50 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50">
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
