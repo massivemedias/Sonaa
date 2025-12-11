@@ -57,38 +57,92 @@ const BANDCAMP_ELECTRO_KEYWORDS = [
 ];
 
 /**
- * Robustly extracts an image URL from an RSS item.
- * Checks Enclosure -> Description -> Content.
+ * Generate a hash code from a string (for consistent but random-looking fallback selection)
  */
-const extractImage = (item: any, fallbackIndex: number): string => {
-  // 1. Try RSS Enclosure (often the highest quality)
-  if (item.enclosure && item.enclosure.link && (item.enclosure.type?.startsWith('image/') || item.enclosure.link.match(/\.(jpg|jpeg|png|gif|webp)$/i))) {
-    return item.enclosure.link;
+const hashCode = (str: string) => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return Math.abs(hash);
+};
+
+/**
+ * Robustly extracts an image URL from an RSS item using Regex and Key checks.
+ */
+const extractImage = (item: any, feedImage: string | undefined): string | null => {
+  const candidates: string[] = [];
+
+  // 1. Try RSS Enclosure (Standard)
+  if (item.enclosure && item.enclosure.link) {
+    // Check if it's actually an image type
+    const type = item.enclosure.type || '';
+    // Some feeds have type="image/jpeg", others just link to .jpg
+    if (type.startsWith('image') || item.enclosure.link.match(/\.(jpg|jpeg|png|webp|gif)$/i)) {
+         candidates.push(item.enclosure.link);
+    }
   }
 
-  // 2. Try the 'thumbnail' field from rss2json (sometimes populated)
-  if (item.thumbnail && item.thumbnail.length > 0) {
-    return item.thumbnail;
+  // 2. Try rss2json 'thumbnail' field
+  if (item.thumbnail && item.thumbnail.length > 5) {
+    candidates.push(item.thumbnail);
   }
 
-  // 3. Regex for HTML content (Content or Description)
-  // Handles <img src="...">, <img src='...'>, and attributes before src
-  const imgRegex = /<img[^>]+src=["']([^"']+)["']/i;
+  // 3. Regex HTML Inspection (Content & Description)
+  // Look for both src and data-src/data-lazy-src which many blogs use
+  const htmlSources = [item.description, item.content];
+  
+  // Regex to find all img tags and capture src or data-src
+  // Matches: <img ... src="url" ...> OR <img ... data-src="url" ...>
+  // We grab all matches to filter them later
+  const imgRegex = /<img[^>]+(?:data-src|data-lazy-src|src)=["']([^"']+)["']/gi;
 
-  // Check description first (often summary with image)
-  if (item.description) {
-    const match = item.description.match(imgRegex);
-    if (match && match[1]) return match[1];
+  htmlSources.forEach(html => {
+    if (!html) return;
+    let match;
+    while ((match = imgRegex.exec(html)) !== null) {
+      if (match[1]) {
+        candidates.push(match[1]);
+      }
+    }
+  });
+
+  // 4. Filter Candidates
+  // This is critical to avoid "Same Image" bug where we pick up a tracking pixel or social icon
+  const BAD_PATTERNS = [
+      'feeds.feedburner.com', '~r/', 
+      'doubleclick.net', 
+      'gravatar.com', 
+      'emoji', 
+      'facebook.com/tr',
+      'pixel', 'blank.gif', 'spacer.gif', '1x1',
+      'share-icon', 'button', 'avatar',
+      'logo', 'icon', 'author'
+  ];
+
+  const cleanFeedImage = feedImage ? feedImage.split('?')[0].toLowerCase() : '';
+
+  for (const url of candidates) {
+      if (!url) continue;
+      const lowerUrl = url.toLowerCase();
+
+      // RULE 1: Filter out bad patterns (junk, ads, pixels)
+      if (BAD_PATTERNS.some(pattern => lowerUrl.includes(pattern))) continue;
+
+      // RULE 2: Ignore if it matches the Feed Logo (check strict and fuzzy)
+      if (feedImage && url === feedImage) continue;
+      if (cleanFeedImage && lowerUrl.includes(cleanFeedImage)) continue; // Fuzzy logo match
+
+      // RULE 3: Length check (too short = likely icon or junk)
+      if (url.length < 20) continue;
+
+      // If we survived the filters, this is a likely valid article image.
+      return url;
   }
 
-  // Check full content
-  if (item.content) {
-    const match = item.content.match(imgRegex);
-    if (match && match[1]) return match[1];
-  }
-
-  // 4. Deterministic Fallback
-  return FALLBACK_IMAGES[fallbackIndex % FALLBACK_IMAGES.length];
+  return null;
 };
 
 export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> => {
@@ -101,13 +155,27 @@ export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> 
       return [];
     }
 
+    const feedLogo = data.feed.image;
+
     return data.items.map((item, index) => {
       // Improved Image Extraction
-      let imageUrl = extractImage(item, item.title.length + index);
+      let imageUrl = extractImage(item, feedLogo);
+      
+      // If no valid image found, use a deterministic fallback based on title hash
+      // This ensures variety instead of using the same fallback for everyone
+      if (!imageUrl) {
+         const hash = hashCode(item.title);
+         imageUrl = FALLBACK_IMAGES[hash % FALLBACK_IMAGES.length];
+      }
 
       // Special handling for YouTube images to get higher quality
-      if (source.isVideoSource && imageUrl.includes('hqdefault')) {
-          imageUrl = imageUrl.replace('hqdefault', 'mqdefault'); 
+      // (rss2json often returns mqdefault or hqdefault, maxresdefault is best if available but risky, hq is safe)
+      if (source.isVideoSource && imageUrl.includes('default.jpg')) {
+          if (imageUrl.includes('hqdefault')) {
+              // keep it
+          } else if (imageUrl.includes('mqdefault')) {
+               imageUrl = imageUrl.replace('mqdefault', 'hqdefault');
+          }
       }
 
       // Clean HTML tags from description
@@ -185,11 +253,6 @@ export const fetchAllFeeds = async (sources: FeedSource[]): Promise<Article[]> =
     const text = (article.title + ' ' + article.categories.join(' ') + ' ' + article.contentSnippet).toLowerCase();
     
     const hasExcludedKeyword = EXCLUDED_KEYWORDS.some(k => text.includes(k));
-    
-    // Safety check: sometimes "Bass" is music, not instrument. 
-    // If it says "Bass Music", "Drum and Bass", "Future Bass", allow it even if "Bass" is in exclusion list (though "bass guitar" is the specific exclusion now).
-    // The exclusion list is now specific enough ('bass guitar', 'electric bass') that this collision is unlikely, 
-    // but we double check against "Synthesizer" context if needed.
     
     return !hasExcludedKeyword;
   });

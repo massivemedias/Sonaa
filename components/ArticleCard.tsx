@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Article } from '../types';
 import { ExternalLink, Clock, PlayCircle, Youtube } from 'lucide-react';
+import { FALLBACK_IMAGES } from '../constants';
 
 interface ArticleCardProps {
   article: Article;
 }
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
+  // Local state for image source to handle fallbacks on load error
+  const [imgSrc, setImgSrc] = useState(article.thumbnail);
+
   // Calculate relative time (e.g., "2 hours ago")
   const timeAgo = (dateString: string) => {
     const date = new Date(dateString);
@@ -26,14 +30,21 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
     return "now";
   };
 
+  const handleImageError = () => {
+    // Determine a consistent fallback based on title length
+    const index = article.title.length % FALLBACK_IMAGES.length;
+    setImgSrc(FALLBACK_IMAGES[index]);
+  };
+
   return (
-    <div className={`group break-inside-avoid mb-6 relative bg-zinc-900 rounded-xl overflow-hidden border transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${article.isVideo ? 'border-red-900/30 hover:border-red-500/50' : 'border-zinc-800 hover:border-zinc-600 hover:shadow-indigo-500/10'}`}>
+    <div className={`group flex flex-col h-full bg-zinc-900 rounded-xl overflow-hidden border transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${article.isVideo ? 'border-red-900/30 hover:border-red-500/50' : 'border-zinc-800 hover:border-zinc-600 hover:shadow-indigo-500/10'}`}>
       
       {/* Image Container */}
-      <div className="relative aspect-video overflow-hidden">
+      <div className="relative aspect-video overflow-hidden shrink-0">
         <img 
-          src={article.thumbnail} 
+          src={imgSrc} 
           alt={article.title}
+          onError={handleImageError}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100"
           loading="lazy"
         />
@@ -56,7 +67,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
       </div>
 
       {/* Content */}
-      <div className="p-5">
+      <div className="p-5 flex flex-col grow">
         <div className="flex justify-between items-center mb-3 text-xs text-zinc-500">
            <div className="flex items-center gap-1">
               <Clock size={12} />
@@ -70,13 +81,13 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
         </div>
 
         <a href={article.link} target="_blank" rel="noopener noreferrer" className={`block transition-colors ${article.isVideo ? 'group-hover:text-red-400' : 'group-hover:text-indigo-400'}`}>
-            <h3 className="text-xl font-bold text-zinc-100 leading-tight mb-3 font-sans">
+            <h3 className="text-xl font-bold text-zinc-100 leading-tight mb-3 font-sans line-clamp-3">
             {article.title}
             </h3>
         </a>
 
         {/* Show snippet only for articles, or shorter for video */}
-        <p className="text-zinc-400 text-sm leading-relaxed mb-4 line-clamp-3">
+        <p className="text-zinc-400 text-sm leading-relaxed mb-4 line-clamp-3 grow">
           {article.contentSnippet}
         </p>
 
@@ -84,7 +95,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
           href={article.link} 
           target="_blank" 
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-300 hover:text-white transition-colors"
+          className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-300 hover:text-white transition-colors mt-auto pt-2"
         >
           {article.isVideo ? 'WATCH VIDEO' : 'READ MORE'} <ExternalLink size={12} />
         </a>

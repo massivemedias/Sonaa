@@ -226,8 +226,7 @@ export const DEFAULT_FEEDS: FeedSource[] = [
   }
 ];
 
-// Placeholder images for when RSS doesn't provide one. 
-// Added more variety to avoid "always the same image" feeling.
+// Expanded pool of images for when RSS doesn't provide one.
 export const FALLBACK_IMAGES = [
   'https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=800&auto=format&fit=crop', // Abstract lights
   'https://images.unsplash.com/photo-1598653222000-6b7b7a552625?q=80&w=800&auto=format&fit=crop', // Modular synth
@@ -237,4 +236,16 @@ export const FALLBACK_IMAGES = [
   'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?q=80&w=800&auto=format&fit=crop', // Studio speakers
   'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=800&auto=format&fit=crop', // Club crowd
   'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=800&auto=format&fit=crop', // Waveform
+  'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=800&auto=format&fit=crop', // Eurorack close up
+  'https://images.unsplash.com/photo-1563330232-5711c0c6204c?q=80&w=800&auto=format&fit=crop', // Vinyl record
+  'https://images.unsplash.com/photo-1571330735066-03aaa9429d89?q=80&w=800&auto=format&fit=crop', // Studio desk
+  'https://images.unsplash.com/photo-1493225255756-d9584f8606e9?q=80&w=800&auto=format&fit=crop', // Surfer/waves abstract
+  'https://images.unsplash.com/photo-1629821422712-4299b9087590?q=80&w=800&auto=format&fit=crop', // Patch cables
+  'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop', // Retro computer
+  'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop', // Cyberpunk city
+  'https://images.unsplash.com/photo-1647427060118-4911c9821b82?q=80&w=800&auto=format&fit=crop', // Mixing console
+  'https://images.unsplash.com/photo-1482442120256-9c03866de390?q=80&w=800&auto=format&fit=crop', // Dark guitar aesthetic
+  'https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=800&auto=format&fit=crop', // Music studio night
+  'https://images.unsplash.com/photo-1460039230329-eb070fc6c77c?q=80&w=800&auto=format&fit=crop', // Abstract sound waves
+  'https://images.unsplash.com/photo-1525926477800-7a3be5fa6cc8?q=80&w=800&auto=format&fit=crop', // Neon lights
 ];
