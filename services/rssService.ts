@@ -2,6 +2,19 @@ import { Article, FeedSource, RSS2JSONResponse } from '../types';
 
 const RSS_TO_JSON_API = 'https://api.rss2json.com/v1/api.json?rss_url=';
 
+/**
+ * Decode HTML entities in text (handles double-encoded entities like &amp;#039;)
+ */
+const decodeHtmlEntities = (text: string): string => {
+  if (!text) return '';
+  // First pass: decode &amp; to & (fixes double encoding)
+  let decoded = text.replace(/&amp;/g, '&');
+  // Second pass: use DOM to decode all HTML entities
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = decoded;
+  return tempDiv.textContent || tempDiv.innerText || decoded;
+};
+
 // 1. GLOBAL EXCLUSIONS
 // Keywords to exclude from ALL feeds (guitars, stage lighting, etc.)
 const EXCLUDED_KEYWORDS = [
@@ -318,7 +331,7 @@ export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> 
 
       return {
         id: item.guid || item.link,
-        title: item.title,
+        title: decodeHtmlEntities(item.title),
         link: item.link,
         pubDate: item.pubDate,
         contentSnippet: truncatedDesc,
