@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Article } from '../types';
 import { ExternalLink, Clock, PlayCircle, Youtube } from 'lucide-react';
 import { FALLBACK_IMAGES } from '../constants';
@@ -8,39 +8,60 @@ interface ArticleCardProps {
 }
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
-  // Local state for image source to handle fallbacks on load error
-  const [imgSrc, setImgSrc] = useState(article.thumbnail);
+  // Initialize with article thumbnail, ensuring we have a value
+  const [imgSrc, setImgSrc] = useState<string>(article.thumbnail);
 
-  // Calculate relative time (e.g., "2 hours ago")
+  // Sync state if prop changes (e.g. reload)
+  useEffect(() => {
+    setImgSrc(article.thumbnail);
+  }, [article.thumbnail]);
+
+  // Calculate relative time
   const timeAgo = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-    
-    let interval = seconds / 31536000;
-    if (interval > 1) return Math.floor(interval) + "y";
-    interval = seconds / 2592000;
-    if (interval > 1) return Math.floor(interval) + "mo";
-    interval = seconds / 86400;
-    if (interval > 1) return Math.floor(interval) + "d";
-    interval = seconds / 3600;
-    if (interval > 1) return Math.floor(interval) + "h";
-    interval = seconds / 60;
-    if (interval > 1) return Math.floor(interval) + "m";
-    return "now";
+    try {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return "recently";
+        
+        const now = new Date();
+        const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+        
+        let interval = seconds / 31536000;
+        if (interval > 1) return Math.floor(interval) + "y";
+        interval = seconds / 2592000;
+        if (interval > 1) return Math.floor(interval) + "mo";
+        interval = seconds / 86400;
+        if (interval > 1) return Math.floor(interval) + "d";
+        interval = seconds / 3600;
+        if (interval > 1) return Math.floor(interval) + "h";
+        interval = seconds / 60;
+        if (interval > 1) return Math.floor(interval) + "m";
+        return "now";
+    } catch (e) {
+        return "recently";
+    }
   };
 
   const handleImageError = () => {
-    // Determine a consistent fallback based on title length
-    const index = article.title.length % FALLBACK_IMAGES.length;
-    setImgSrc(FALLBACK_IMAGES[index]);
+    // If the current image fails, switch to a fallback.
+    // Use title hash to keep it consistent for the same article.
+    let hash = 0;
+    for (let i = 0; i < article.title.length; i++) {
+        hash = ((hash << 5) - hash) + article.title.charCodeAt(i);
+        hash = hash & hash;
+    }
+    const index = Math.abs(hash) % FALLBACK_IMAGES.length;
+    
+    // Prevent infinite loops if fallback also fails (unlikely but safe)
+    if (imgSrc !== FALLBACK_IMAGES[index]) {
+        setImgSrc(FALLBACK_IMAGES[index]);
+    }
   };
 
   return (
     <div className={`group flex flex-col h-full bg-zinc-900 rounded-xl overflow-hidden border transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${article.isVideo ? 'border-red-900/30 hover:border-red-500/50' : 'border-zinc-800 hover:border-zinc-600 hover:shadow-indigo-500/10'}`}>
       
       {/* Image Container */}
-      <div className="relative aspect-video overflow-hidden shrink-0">
+      <div className="relative aspect-video overflow-hidden shrink-0 bg-zinc-950">
         <img 
           src={imgSrc} 
           alt={article.title}
