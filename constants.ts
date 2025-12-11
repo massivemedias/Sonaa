@@ -167,6 +167,15 @@ export const DEFAULT_FEEDS: FeedSource[] = [
     isActive: true,
   },
 
+  // --- TECH NEWS ---
+  {
+    id: 'frandroid',
+    name: 'Frandroid',
+    url: 'https://www.frandroid.com/',
+    rssUrl: 'https://www.frandroid.com/feed',
+    isActive: true,
+  },
+
   // --- YOUTUBE CHANNELS (Video) ---
   {
     id: 'andrew-huang',

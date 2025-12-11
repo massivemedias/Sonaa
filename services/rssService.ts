@@ -155,7 +155,7 @@ const TRUSTED_IMAGE_DOMAINS = [
     'pluginboutique.com', 'xlr8r.com', 'mixmag.net', 'ra.co', 'residentadvisor.net',
     'guettapen.com', 'tsugi.fr', 'electro-news.eu', 'traxmag.com', 'bandcamp.com',
     'midnightrebels.com', 'subvert.fm', 'audiofanzine.com', 'lessondiers.com',
-    'kr-homestudio.fr', 'gearspace.com',
+    'kr-homestudio.fr', 'gearspace.com', 'frandroid.com',
     // YouTube thumbnails
     'i.ytimg.com', 'img.youtube.com', 'ytimg.com',
     // Common CDNs
