@@ -179,7 +179,7 @@ export const DEFAULT_FEEDS: FeedSource[] = [
     id: 'tomsguide',
     name: "Tom's Guide",
     url: 'https://www.tomsguide.com/',
-    rssUrl: 'https://www.tomsguide.com/feeds/all',
+    rssUrl: 'https://www.tomsguide.com/feeds.xml',
     isActive: true,
   },
   {

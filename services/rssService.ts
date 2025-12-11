@@ -164,7 +164,14 @@ const TRUSTED_IMAGE_DOMAINS = [
     'i.ytimg.com', 'img.youtube.com', 'ytimg.com',
     // Common CDNs
     'cloudinary.com', 'imgix.net', 'fastly.net', 'akamaized.net',
-    'cloudfront.net', 'amazonaws.com', 's3.amazonaws.com'
+    'cloudfront.net', 'amazonaws.com', 's3.amazonaws.com',
+    // Additional CDNs for tech sites
+    'cdn.vox-cdn.com', 'duet-cdn.vox-cdn.com', 'platform.vox-cdn.com',
+    'cdn.mos.cms.futurecdn.net', 'futurecdn.net', 'futureplc.com',
+    'static.fnac-static.com', 'lesnumeriques.com',
+    'img.lemde.fr', 'pbs.twimg.com', 'media.githubusercontent.com',
+    'cdn.arstechnica.net', 'cdn.9to5google.com', 'i0.hdslb.com',
+    'www.numerama.com', 'c.clc2l.com', 'static.hitek.fr'
 ];
 
 /**
