@@ -117,12 +117,17 @@ const BAD_PATTERNS = [
     // Stock photo sites - often generic/unrelated images
     'shutterstock', 'istockphoto', 'gettyimages', 'depositphotos',
     'stock-photo', 'stock_photo', 'stockphoto',
+    'unsplash.com', 'pexels.com', 'pixabay.com', 'freepik.com',
     // Ad networks and trackers
     'ad.', 'ads.', 'adserver', 'advertising', 'banner',
     // Social media buttons/icons
     'twitter.com/intent', 'facebook.com/sharer', 'pinterest.com/pin',
     // Common placeholder patterns
-    'placeholder', 'default-image', 'no-image', 'noimage'
+    'placeholder', 'default-image', 'no-image', 'noimage',
+    // Generic stock image keywords in URLs
+    'flower', 'flowers', 'nature', 'landscape', 'sunset', 'sunrise',
+    'abstract-background', 'business-people', 'happy-people', 'smiling',
+    'handshake', 'teamwork', 'office-worker'
 ];
 
 /**
@@ -168,11 +173,6 @@ const scoreImageUrl = (url: string, articleTitle: string): number => {
     goodPatterns.forEach(p => {
         if (lowerUrl.includes(p)) score += 3;
     });
-
-    // Penalty: Very generic Unsplash/Pexels URLs (stock photos)
-    if (lowerUrl.includes('unsplash.com') || lowerUrl.includes('pexels.com')) {
-        score -= 20;
-    }
 
     // Penalty: Image dimensions suggest thumbnail/icon (often in URL)
     if (lowerUrl.match(/[_-](50|100|150|32|64|thumb|small|mini)/)) {
@@ -227,7 +227,7 @@ export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> 
           .sort((a, b) => b.score - a.score);
 
       // Select the highest-scoring image
-      const selectedImage = scoredCandidates.length > 0 ? scoredCandidates[0].url : null;
+      let selectedImage = scoredCandidates.length > 0 ? scoredCandidates[0].url : null;
 
       // STRICT FILTER: If no valid image is found, return null immediately.
       if (!selectedImage) {
