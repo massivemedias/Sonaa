@@ -6,12 +6,12 @@
     </linearGradient>
   </defs>
   <rect width="180" height="180" rx="34" fill="url(#grad)"/>
-  <g fill="none" stroke="white" stroke-width="6" stroke-linecap="round">
-    <!-- Wavy lines like AudioWaveform -->
-    <path d="M40,60 Q45,90 40,120"/>
-    <path d="M65,40 Q75,90 65,140"/>
-    <path d="M90,20 Q105,90 90,160"/>
-    <path d="M115,40 Q125,90 115,140"/>
-    <path d="M140,60 Q145,90 140,120"/>
-  </g>
+  <polyline
+    fill="none"
+    stroke="white"
+    stroke-width="6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    points="45,115 45,65 67,130 67,50 90,140 90,40 113,130 113,50 135,115 135,65"
+  />
 </svg>
