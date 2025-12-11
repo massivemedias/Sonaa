@@ -171,7 +171,12 @@ const TRUSTED_IMAGE_DOMAINS = [
     'static.fnac-static.com', 'lesnumeriques.com',
     'img.lemde.fr', 'pbs.twimg.com', 'media.githubusercontent.com',
     'cdn.arstechnica.net', 'cdn.9to5google.com', 'i0.hdslb.com',
-    'www.numerama.com', 'c.clc2l.com', 'static.hitek.fr'
+    'www.numerama.com', 'c.clc2l.com', 'static.hitek.fr',
+    // More site-specific CDNs
+    'pic.clubic.com', 'platform.theverge.com', 'cdn.theverge.com',
+    'cdn.iphon.fr', 'image.jeuxvideo.com', 'images.frandroid.com',
+    'cdn.lesnumeriques.com', 'o.aolcdn.com', 's.yimg.com',
+    '9to5google.com', 'cdn.petapixel.com', 'static.musictech.com'
 ];
 
 /**
