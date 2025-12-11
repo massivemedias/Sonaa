@@ -7,12 +7,12 @@ interface ArticleCardProps {
 }
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
-  const [imgSrc, setImgSrc] = useState<string>(article.thumbnail);
-  const [isVisible, setIsVisible] = useState(true);
+  const [imgSrc, setImgSrc] = useState<string | null>(article.thumbnail);
+  const [hasImage, setHasImage] = useState(!!article.thumbnail);
 
   useEffect(() => {
     setImgSrc(article.thumbnail);
-    setIsVisible(true);
+    setHasImage(!!article.thumbnail);
   }, [article.thumbnail]);
 
   const timeAgo = (dateString: string) => {
@@ -40,14 +40,12 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
   };
 
   const handleImageError = () => {
-    setIsVisible(false);
+    setHasImage(false);
   };
 
   const handleClick = () => {
     window.open(article.link, '_blank', 'noopener,noreferrer');
   };
-
-  if (!isVisible) return null;
 
   return (
     <div
@@ -58,36 +56,46 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
       className={`group flex flex-col h-full bg-zinc-900 rounded-xl overflow-hidden border transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 cursor-pointer select-none ${article.isVideo ? 'border-red-900/30 hover:border-red-500/50' : 'border-zinc-800 hover:border-zinc-600 hover:shadow-indigo-500/10'}`}
     >
 
-      {/* Image Container */}
-      <div className="relative aspect-video overflow-hidden shrink-0 bg-zinc-950">
-        <img
-          src={imgSrc}
-          alt={article.title}
-          onError={handleImageError}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100"
-          loading="lazy"
-          draggable={false}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent opacity-80 pointer-events-none" />
+      {/* Image Container - only show if we have an image */}
+      {hasImage && imgSrc && (
+        <div className="relative aspect-video overflow-hidden shrink-0 bg-zinc-950">
+          <img
+            src={imgSrc}
+            alt={article.title}
+            onError={handleImageError}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100"
+            loading="lazy"
+            draggable={false}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent opacity-80 pointer-events-none" />
 
-        {/* Source Badge */}
-        <div className={`absolute top-3 left-3 backdrop-blur-sm border px-2 py-1 rounded text-xs font-semibold flex items-center gap-1 pointer-events-none ${article.isVideo ? 'bg-red-950/80 border-red-800 text-red-200' : 'bg-zinc-950/80 border-zinc-700 text-zinc-300'}`}>
-            {article.isVideo ? <Youtube size={12} className="text-red-500" /> : <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>}
-            {article.sourceTitle}
+          {/* Source Badge on image */}
+          <div className={`absolute top-3 left-3 backdrop-blur-sm border px-2 py-1 rounded text-xs font-semibold flex items-center gap-1 pointer-events-none ${article.isVideo ? 'bg-red-950/80 border-red-800 text-red-200' : 'bg-zinc-950/80 border-zinc-700 text-zinc-300'}`}>
+              {article.isVideo ? <Youtube size={12} className="text-red-500" /> : <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>}
+              {article.sourceTitle}
+          </div>
+
+          {/* Video Play Overlay */}
+          {article.isVideo && (
+             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="bg-black/50 rounded-full p-3 backdrop-blur-sm border border-white/20 group-hover:scale-110 transition-transform">
+                   <PlayCircle size={40} className="text-white/90" />
+                </div>
+             </div>
+          )}
         </div>
-
-        {/* Video Play Overlay */}
-        {article.isVideo && (
-           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="bg-black/50 rounded-full p-3 backdrop-blur-sm border border-white/20 group-hover:scale-110 transition-transform">
-                 <PlayCircle size={40} className="text-white/90" />
-              </div>
-           </div>
-        )}
-      </div>
+      )}
 
       {/* Content */}
-      <div className="p-5 flex flex-col grow">
+      <div className={`p-5 flex flex-col grow ${!hasImage ? 'pt-4' : ''}`}>
+        {/* Source Badge for text-only cards */}
+        {!hasImage && (
+          <div className={`mb-3 self-start backdrop-blur-sm border px-2 py-1 rounded text-xs font-semibold flex items-center gap-1 ${article.isVideo ? 'bg-red-950/80 border-red-800 text-red-200' : 'bg-zinc-800 border-zinc-700 text-zinc-300'}`}>
+              {article.isVideo ? <Youtube size={12} className="text-red-500" /> : <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>}
+              {article.sourceTitle}
+          </div>
+        )}
+
         <div className="flex justify-between items-center mb-3 text-xs text-zinc-500">
            <div className="flex items-center gap-1">
               <Clock size={12} />
@@ -104,7 +112,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
           {article.title}
         </h3>
 
-        <p className="text-zinc-400 text-sm leading-relaxed mb-4 line-clamp-3 grow">
+        <p className={`text-zinc-400 text-sm leading-relaxed mb-4 grow ${hasImage ? 'line-clamp-3' : 'line-clamp-5'}`}>
           {article.contentSnippet}
         </p>
 

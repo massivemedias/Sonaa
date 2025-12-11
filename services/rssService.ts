@@ -96,7 +96,7 @@ const getCandidateImages = (item: any): string[] => {
     // 1. Enclosure
     if (item.enclosure && item.enclosure.link) {
         const type = item.enclosure.type || '';
-        if (type.startsWith('image') || item.enclosure.link.match(/\.(jpg|jpeg|png|webp|gif)$/i)) {
+        if (type.startsWith('image') || item.enclosure.link.match(/\.(jpg|jpeg|png|webp|gif|avif)$/i)) {
              candidates.push(item.enclosure.link);
         }
     }
@@ -303,18 +303,15 @@ export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> 
           .map(url => ({ url, score: scoreImageUrl(url, item.title) }))
           .sort((a, b) => b.score - a.score);
 
-      // Select the highest-scoring image
+      // Select the highest-scoring image (can be null for text-only articles)
       let selectedImage = scoredCandidates.length > 0 ? scoredCandidates[0].url : null;
 
-      // STRICT FILTER: If no valid image is found, return null immediately.
-      if (!selectedImage) {
-         return null;
-      }
-
       // Fix protocol and YouTube quality
-      selectedImage = ensureHttps(selectedImage);
+      if (selectedImage) {
+        selectedImage = ensureHttps(selectedImage);
+      }
       
-      if (source.isVideoSource && selectedImage.includes('default.jpg')) {
+      if (source.isVideoSource && selectedImage && selectedImage.includes('default.jpg')) {
           if (selectedImage.includes('mqdefault')) {
               selectedImage = selectedImage.replace('mqdefault', 'hqdefault');
           }
