@@ -1,12 +1,20 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Only initialize if API key is available (optional feature)
+const apiKey = process.env.API_KEY || '';
+const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
 
 /**
  * Uses Gemini to attempt to find a valid RSS feed URL for a given website.
  * This is useful because users often paste "attackmagazine.com" instead of the full feed URL.
  */
 export const discoverFeedUrl = async (websiteUrl: string): Promise<{ rssUrl: string; name: string } | null> => {
+  // Return null if Gemini is not configured
+  if (!ai) {
+    console.log("Gemini API not configured, skipping feed discovery");
+    return null;
+  }
+
   try {
     const modelId = "gemini-2.5-flash";
     
