@@ -1,0 +1,17 @@
+{
+  "name": "Sonaa",
+  "short_name": "Sonaa",
+  "description": "RSS News Aggregator for Electronic Music",
+  "start_url": "/Sonaa/",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#6366f1",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
