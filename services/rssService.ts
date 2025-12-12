@@ -2,6 +2,89 @@ import { Article, FeedSource, RSS2JSONResponse } from '../types';
 
 const RSS_TO_JSON_API = 'https://api.rss2json.com/v1/api.json?rss_url=';
 
+// Cache for fetched og:image URLs to avoid re-fetching
+const ogImageCache = new Map<string, string | null>();
+
+/**
+ * Fetch og:image meta tag from article page using CORS proxy
+ * This is used when RSS feed doesn't provide an image
+ */
+const fetchOgImage = async (articleUrl: string): Promise<string | null> => {
+  // Check cache first
+  if (ogImageCache.has(articleUrl)) {
+    return ogImageCache.get(articleUrl) || null;
+  }
+
+  try {
+    // Use allorigins.win as CORS proxy
+    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(articleUrl)}`;
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
+    const response = await fetch(proxyUrl, {
+      signal: controller.signal,
+      headers: { 'Accept': 'text/html' }
+    });
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      ogImageCache.set(articleUrl, null);
+      return null;
+    }
+
+    const html = await response.text();
+
+    // Extract og:image from HTML
+    const ogImageMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i) ||
+                         html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i);
+
+    if (ogImageMatch && ogImageMatch[1]) {
+      let imageUrl = ogImageMatch[1];
+      // Ensure HTTPS
+      if (imageUrl.startsWith('http:')) {
+        imageUrl = imageUrl.replace('http:', 'https:');
+      }
+      // Make relative URLs absolute
+      if (imageUrl.startsWith('//')) {
+        imageUrl = 'https:' + imageUrl;
+      } else if (imageUrl.startsWith('/')) {
+        const urlObj = new URL(articleUrl);
+        imageUrl = urlObj.origin + imageUrl;
+      }
+
+      ogImageCache.set(articleUrl, imageUrl);
+      return imageUrl;
+    }
+
+    // Fallback: try twitter:image
+    const twitterImageMatch = html.match(/<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i) ||
+                              html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+name=["']twitter:image["']/i);
+
+    if (twitterImageMatch && twitterImageMatch[1]) {
+      let imageUrl = twitterImageMatch[1];
+      if (imageUrl.startsWith('http:')) {
+        imageUrl = imageUrl.replace('http:', 'https:');
+      }
+      if (imageUrl.startsWith('//')) {
+        imageUrl = 'https:' + imageUrl;
+      } else if (imageUrl.startsWith('/')) {
+        const urlObj = new URL(articleUrl);
+        imageUrl = urlObj.origin + imageUrl;
+      }
+
+      ogImageCache.set(articleUrl, imageUrl);
+      return imageUrl;
+    }
+
+    ogImageCache.set(articleUrl, null);
+    return null;
+  } catch (error) {
+    ogImageCache.set(articleUrl, null);
+    return null;
+  }
+};
+
 /**
  * Decode HTML entities in text (handles double-encoded entities like &amp;#039;)
  */
@@ -267,7 +350,7 @@ const scoreImageUrl = (url: string, articleTitle: string): number => {
 export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> => {
   try {
     const response = await fetch(`${RSS_TO_JSON_API}${encodeURIComponent(source.rssUrl)}`);
-    
+
     if (!response.ok) {
         // Silently fail for individual feed errors
         return [];
@@ -283,7 +366,7 @@ export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> 
 
     // STEP 1: PRE-SCAN FOR DUPLICATES
     const imageFrequencyMap = new Map<string, number>();
-    
+
     data.items.forEach(item => {
         const candidates = getCandidateImages(item);
         const uniqueCandidates = [...new Set(candidates)];
@@ -292,8 +375,8 @@ export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> 
         });
     });
 
-    // Step 2: Process Items
-    const validArticles = data.items.map((item, index): Article | null => {
+    // Step 2: Process Items (now async to fetch og:image when needed)
+    const articlePromises = data.items.map(async (item, index): Promise<Article> => {
       const candidates = getCandidateImages(item);
 
       // Filter and score all valid candidates
@@ -306,11 +389,19 @@ export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> 
       // Select the highest-scoring image (can be null for text-only articles)
       let selectedImage = scoredCandidates.length > 0 ? scoredCandidates[0].url : null;
 
+      // If no image found in RSS, try fetching og:image from the article page
+      if (!selectedImage) {
+        const ogImage = await fetchOgImage(item.link);
+        if (ogImage) {
+          selectedImage = ogImage;
+        }
+      }
+
       // Fix protocol and YouTube quality
       if (selectedImage) {
         selectedImage = ensureHttps(selectedImage);
       }
-      
+
       if (source.isVideoSource && selectedImage && selectedImage.includes('default.jpg')) {
           if (selectedImage.includes('mqdefault')) {
               selectedImage = selectedImage.replace('mqdefault', 'hqdefault');
@@ -319,11 +410,11 @@ export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> 
 
       // Clean snippet
       const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = item.description || item.content; 
+      tempDiv.innerHTML = item.description || item.content;
       const cleanDescription = tempDiv.textContent || tempDiv.innerText || "";
       const maxLength = source.isVideoSource ? 100 : 150;
-      const truncatedDesc = cleanDescription.length > maxLength 
-        ? cleanDescription.substring(0, maxLength) + "..." 
+      const truncatedDesc = cleanDescription.length > maxLength
+        ? cleanDescription.substring(0, maxLength) + "..."
         : cleanDescription;
 
       return {
@@ -340,8 +431,10 @@ export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> 
       };
     });
 
-    // Filter out nulls (articles with no images)
-    return validArticles.filter((article): article is Article => article !== null);
+    // Wait for all articles to be processed (including og:image fetching)
+    const validArticles = await Promise.all(articlePromises);
+
+    return validArticles;
 
   } catch (error) {
     return [];
