@@ -550,7 +550,10 @@ export const fetchAllFeeds = async (sources: FeedSource[]): Promise<Article[]> =
     return !hasExcludedKeyword;
   });
 
-  return shuffleArray(pool);
+  // Sort by date (most recent first)
+  pool.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
+
+  return pool;
 };
 
 /**
