@@ -43,21 +43,43 @@ const App: React.FC = () => {
 
   const [view, setView] = useState<ViewMode>(ViewMode.GRID);
 
-  // Initialize feeds from local storage, merging with any new defaults
+  // Track deleted feed IDs to prevent re-adding them from defaults
+  const [deletedFeedIds, setDeletedFeedIds] = useState<Set<string>>(() => {
+    const saved = localStorage.getItem('sonaa_deleted_feeds');
+    return saved ? new Set(JSON.parse(saved)) : new Set();
+  });
+
+  // Initialize feeds from local storage, merging with any new defaults (except deleted ones)
   const [feeds, setFeeds] = useState<FeedSource[]>(() => {
     const saved = localStorage.getItem('sonaa_feeds');
-    if (!saved) return DEFAULT_FEEDS;
+    const deletedIds = localStorage.getItem('sonaa_deleted_feeds');
+    const deletedSet = deletedIds ? new Set(JSON.parse(deletedIds)) : new Set();
+
+    if (!saved) {
+      // First load: use defaults minus any previously deleted
+      return DEFAULT_FEEDS.filter(f => !deletedSet.has(f.id));
+    }
 
     const savedFeeds: FeedSource[] = JSON.parse(saved);
     const savedIds = new Set(savedFeeds.map(f => f.id));
 
-    // Add any new feeds from defaults that aren't in saved feeds
-    const newFeeds = DEFAULT_FEEDS.filter(f => !savedIds.has(f.id));
+    // Add any new feeds from defaults that aren't in saved feeds AND weren't deleted
+    const newFeeds = DEFAULT_FEEDS.filter(f => !savedIds.has(f.id) && !deletedSet.has(f.id));
     if (newFeeds.length > 0) {
       return [...savedFeeds, ...newFeeds];
     }
     return savedFeeds;
   });
+
+  // Helper to delete a feed (tracks it so it won't come back)
+  const deleteFeed = (feedId: string) => {
+    setFeeds(prev => prev.filter(f => f.id !== feedId));
+    setDeletedFeedIds(prev => {
+      const newSet = new Set(prev);
+      newSet.add(feedId);
+      return newSet;
+    });
+  };
 
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
@@ -67,6 +89,11 @@ const App: React.FC = () => {
   useEffect(() => {
     localStorage.setItem('sonaa_feeds', JSON.stringify(feeds));
   }, [feeds]);
+
+  // Persist deleted feed IDs
+  useEffect(() => {
+    localStorage.setItem('sonaa_deleted_feeds', JSON.stringify([...deletedFeedIds]));
+  }, [deletedFeedIds]);
 
   // Load articles (2-phase: fast initial load, then background image fetching)
   const loadData = async () => {
@@ -190,7 +217,7 @@ const App: React.FC = () => {
       <main className="max-w-7xl mx-auto px-4 md:px-6 py-8">
 
         {view === ViewMode.ADMIN ? (
-          <FeedManager feeds={feeds} setFeeds={setFeeds} onClose={() => setView(ViewMode.GRID)} />
+          <FeedManager feeds={feeds} setFeeds={setFeeds} onDeleteFeed={deleteFeed} onClose={() => setView(ViewMode.GRID)} />
         ) : (
           <>
             {loading && articles.length === 0 ? (

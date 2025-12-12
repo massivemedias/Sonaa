@@ -6,10 +6,11 @@ import { Plus, Trash2, Search, Loader2, Globe, CheckCircle, AlertCircle } from '
 interface FeedManagerProps {
   feeds: FeedSource[];
   setFeeds: (feeds: FeedSource[]) => void;
+  onDeleteFeed: (feedId: string) => void;
   onClose: () => void;
 }
 
-export const FeedManager: React.FC<FeedManagerProps> = ({ feeds, setFeeds, onClose }) => {
+export const FeedManager: React.FC<FeedManagerProps> = ({ feeds, setFeeds, onDeleteFeed, onClose }) => {
   const [urlInput, setUrlInput] = useState('');
   const [isDiscovering, setIsDiscovering] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -57,7 +58,7 @@ export const FeedManager: React.FC<FeedManagerProps> = ({ feeds, setFeeds, onClo
   };
 
   const removeFeed = (id: string) => {
-    setFeeds(feeds.filter(f => f.id !== id));
+    onDeleteFeed(id);
   };
 
   const toggleFeed = (id: string) => {
