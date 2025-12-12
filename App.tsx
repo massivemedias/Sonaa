@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Article, FeedSource, ViewMode } from './types';
 import { DEFAULT_FEEDS } from './constants';
 import { fetchAllFeeds, fetchMissingImages } from './services/rssService';
@@ -84,6 +84,34 @@ const App: React.FC = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+
+  // Infinite scroll state
+  const ARTICLES_PER_PAGE = 12;
+  const [visibleCount, setVisibleCount] = useState(ARTICLES_PER_PAGE);
+  const loaderRef = useRef<HTMLDivElement>(null);
+
+  // Reset visible count when articles change
+  useEffect(() => {
+    setVisibleCount(ARTICLES_PER_PAGE);
+  }, [articles.length]);
+
+  // Infinite scroll observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && visibleCount < articles.length) {
+          setVisibleCount(prev => Math.min(prev + ARTICLES_PER_PAGE, articles.length));
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (loaderRef.current) {
+      observer.observe(loaderRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [visibleCount, articles.length]);
 
   // Persist feeds
   useEffect(() => {
@@ -226,12 +254,14 @@ const App: React.FC = () => {
                   <p className="animate-pulse">Aggregating frequencies...</p>
                </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-20">
+                <>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {(() => {
                       const elements: React.ReactNode[] = [];
                       const noImageQueue: Article[] = [];
+                      const visibleArticles = articles.slice(0, visibleCount);
 
-                      articles.forEach((article, idx) => {
+                      visibleArticles.forEach((article, idx) => {
                         if (article.thumbnail) {
                           // Article with image - full card
                           elements.push(<ArticleCard key={article.id} article={article} />);
@@ -262,6 +292,20 @@ const App: React.FC = () => {
                       return elements;
                     })()}
                 </div>
+
+                {/* Infinite scroll loader */}
+                {visibleCount < articles.length && (
+                  <div ref={loaderRef} className="flex justify-center py-10">
+                    <div className="w-8 h-8 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin"></div>
+                  </div>
+                )}
+
+                {visibleCount >= articles.length && articles.length > 0 && (
+                  <div className="text-center py-10 text-zinc-600 text-sm">
+                    Fin du feed • {articles.length} articles
+                  </div>
+                )}
+                </>
             )}
 
             {!loading && articles.length === 0 && (
