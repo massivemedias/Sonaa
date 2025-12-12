@@ -20,7 +20,7 @@ const fetchOgImage = async (articleUrl: string): Promise<string | null> => {
     const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(articleUrl)}`;
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
 
     const response = await fetch(proxyUrl, {
       signal: controller.signal,
@@ -35,12 +35,11 @@ const fetchOgImage = async (articleUrl: string): Promise<string | null> => {
 
     const html = await response.text();
 
-    // Extract og:image from HTML
-    const ogImageMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i) ||
-                         html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i);
-
-    if (ogImageMatch && ogImageMatch[1]) {
-      let imageUrl = ogImageMatch[1];
+    // Helper function to normalize image URL
+    const normalizeImageUrl = (url: string): string => {
+      let imageUrl = url.trim();
+      // Decode HTML entities in URL
+      imageUrl = imageUrl.replace(/&amp;/g, '&');
       // Ensure HTTPS
       if (imageUrl.startsWith('http:')) {
         imageUrl = imageUrl.replace('http:', 'https:');
@@ -49,32 +48,61 @@ const fetchOgImage = async (articleUrl: string): Promise<string | null> => {
       if (imageUrl.startsWith('//')) {
         imageUrl = 'https:' + imageUrl;
       } else if (imageUrl.startsWith('/')) {
-        const urlObj = new URL(articleUrl);
-        imageUrl = urlObj.origin + imageUrl;
+        try {
+          const urlObj = new URL(articleUrl);
+          imageUrl = urlObj.origin + imageUrl;
+        } catch {}
       }
-
-      ogImageCache.set(articleUrl, imageUrl);
       return imageUrl;
+    };
+
+    // Try multiple regex patterns for og:image (handles various HTML formats)
+    const ogPatterns = [
+      /<meta[^>]+property\s*=\s*["']og:image["'][^>]+content\s*=\s*["']([^"']+)["']/i,
+      /<meta[^>]+content\s*=\s*["']([^"']+)["'][^>]+property\s*=\s*["']og:image["']/i,
+      /<meta\s+property\s*=\s*["']og:image["']\s+content\s*=\s*["']([^"']+)["']/i,
+      /<meta\s+content\s*=\s*["']([^"']+)["']\s+property\s*=\s*["']og:image["']/i,
+    ];
+
+    for (const pattern of ogPatterns) {
+      const match = html.match(pattern);
+      if (match && match[1] && match[1].length > 10) {
+        const imageUrl = normalizeImageUrl(match[1]);
+        if (imageUrl.startsWith('https://')) {
+          ogImageCache.set(articleUrl, imageUrl);
+          return imageUrl;
+        }
+      }
     }
 
-    // Fallback: try twitter:image
-    const twitterImageMatch = html.match(/<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i) ||
-                              html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+name=["']twitter:image["']/i);
+    // Fallback: try twitter:image patterns
+    const twitterPatterns = [
+      /<meta[^>]+name\s*=\s*["']twitter:image["'][^>]+content\s*=\s*["']([^"']+)["']/i,
+      /<meta[^>]+content\s*=\s*["']([^"']+)["'][^>]+name\s*=\s*["']twitter:image["']/i,
+      /<meta[^>]+property\s*=\s*["']twitter:image["'][^>]+content\s*=\s*["']([^"']+)["']/i,
+    ];
 
-    if (twitterImageMatch && twitterImageMatch[1]) {
-      let imageUrl = twitterImageMatch[1];
-      if (imageUrl.startsWith('http:')) {
-        imageUrl = imageUrl.replace('http:', 'https:');
+    for (const pattern of twitterPatterns) {
+      const match = html.match(pattern);
+      if (match && match[1] && match[1].length > 10) {
+        const imageUrl = normalizeImageUrl(match[1]);
+        if (imageUrl.startsWith('https://')) {
+          ogImageCache.set(articleUrl, imageUrl);
+          return imageUrl;
+        }
       }
-      if (imageUrl.startsWith('//')) {
-        imageUrl = 'https:' + imageUrl;
-      } else if (imageUrl.startsWith('/')) {
-        const urlObj = new URL(articleUrl);
-        imageUrl = urlObj.origin + imageUrl;
-      }
+    }
 
-      ogImageCache.set(articleUrl, imageUrl);
-      return imageUrl;
+    // Last resort: find first large image in article content
+    const articleImgMatch = html.match(/<article[^>]*>[\s\S]*?<img[^>]+src\s*=\s*["']([^"']+)["']/i) ||
+                            html.match(/<div[^>]+class\s*=\s*["'][^"']*(?:post|article|content|entry)[^"']*["'][^>]*>[\s\S]*?<img[^>]+src\s*=\s*["']([^"']+)["']/i);
+
+    if (articleImgMatch && articleImgMatch[1]) {
+      const imageUrl = normalizeImageUrl(articleImgMatch[1]);
+      if (imageUrl.startsWith('https://') && !imageUrl.includes('avatar') && !imageUrl.includes('icon') && !imageUrl.includes('logo')) {
+        ogImageCache.set(articleUrl, imageUrl);
+        return imageUrl;
+      }
     }
 
     ogImageCache.set(articleUrl, null);
@@ -249,7 +277,7 @@ const TRUSTED_IMAGE_DOMAINS = [
     'synthanatomy.com', 'gearnews.com', 'musicradar.com', 'attackmagazine.com',
     'cdm.link', 'kvraudio.com', 'soundonsound.com', 'bedroomproducersblog.com',
     'pluginboutique.com', 'xlr8r.com', 'mixmag.net', 'ra.co', 'residentadvisor.net',
-    'guettapen.com', 'tsugi.fr', 'electro-news.eu', 'traxmag.com', 'bandcamp.com',
+    'guettapen.com', 'tsugi.fr', 'i.tsugi.fr', 'electro-news.eu', 'traxmag.com', 'bandcamp.com',
     'midnightrebels.com', 'subvert.fm', 'audiofanzine.com', 'lessondiers.com',
     'kr-homestudio.fr', 'gearspace.com', 'frandroid.com',
     // Tech news sites
