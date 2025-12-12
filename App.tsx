@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Article, FeedSource, ViewMode } from './types';
 import { DEFAULT_FEEDS } from './constants';
-import { fetchAllFeeds } from './services/rssService';
+import { fetchAllFeeds, fetchMissingImages } from './services/rssService';
 import { ArticleCard, CompactArticleCard } from './components/ArticleCard';
 import { FeedManager } from './components/FeedManager';
 import { Settings, RefreshCw, AudioWaveform, Radio, Lock, X } from 'lucide-react';
@@ -68,13 +68,24 @@ const App: React.FC = () => {
     localStorage.setItem('sonaa_feeds', JSON.stringify(feeds));
   }, [feeds]);
 
-  // Load articles
+  // Load articles (2-phase: fast initial load, then background image fetching)
   const loadData = async () => {
     setLoading(true);
+
+    // Phase 1: Fast load - get articles without waiting for og:images
     const data = await fetchAllFeeds(feeds);
     setArticles(data);
     setLastUpdated(new Date());
     setLoading(false);
+
+    // Phase 2: Background - fetch missing og:images and update articles
+    fetchMissingImages(data, (articleId, imageUrl) => {
+      setArticles(prev => prev.map(article =>
+        article.id === articleId
+          ? { ...article, thumbnail: imageUrl }
+          : article
+      ));
+    });
   };
 
   useEffect(() => {

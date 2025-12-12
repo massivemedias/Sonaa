@@ -441,8 +441,8 @@ export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> 
         });
     });
 
-    // Step 2: Process Items (now async to fetch og:image when needed)
-    const articlePromises = data.items.map(async (item, index): Promise<Article> => {
+    // Step 2: Process Items FAST (no og:image fetching - done in background)
+    const articles = data.items.map((item): Article => {
       const candidates = getCandidateImages(item);
 
       // Filter and score all valid candidates
@@ -452,16 +452,8 @@ export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> 
           .map(url => ({ url, score: scoreImageUrl(url, item.title) }))
           .sort((a, b) => b.score - a.score);
 
-      // Select the highest-scoring image (can be null for text-only articles)
+      // Select the highest-scoring image (can be null - will be fetched in background)
       let selectedImage = scoredCandidates.length > 0 ? scoredCandidates[0].url : null;
-
-      // If no image found in RSS, try fetching og:image from the article page
-      if (!selectedImage) {
-        const ogImage = await fetchOgImage(item.link);
-        if (ogImage) {
-          selectedImage = ogImage;
-        }
-      }
 
       // Fix protocol and YouTube quality
       if (selectedImage) {
@@ -497,10 +489,7 @@ export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> 
       };
     });
 
-    // Wait for all articles to be processed (including og:image fetching)
-    const validArticles = await Promise.all(articlePromises);
-
-    return validArticles;
+    return articles;
 
   } catch (error) {
     return [];
@@ -562,4 +551,39 @@ export const fetchAllFeeds = async (sources: FeedSource[]): Promise<Article[]> =
   });
 
   return shuffleArray(pool);
+};
+
+/**
+ * Fetch missing og:images in background and call onUpdate for each found image
+ * This runs AFTER initial load to avoid blocking the UI
+ */
+export const fetchMissingImages = async (
+  articles: Article[],
+  onUpdate: (articleId: string, imageUrl: string) => void
+): Promise<void> => {
+  // Get articles without images (limit to avoid too many requests)
+  const articlesWithoutImages = articles
+    .filter(a => !a.thumbnail && !a.isVideo)
+    .slice(0, 20); // Limit to 20 articles max
+
+  // Process in small batches of 3 to avoid overwhelming proxies
+  const BATCH_SIZE = 3;
+
+  for (let i = 0; i < articlesWithoutImages.length; i += BATCH_SIZE) {
+    const batch = articlesWithoutImages.slice(i, i + BATCH_SIZE);
+
+    await Promise.all(
+      batch.map(async (article) => {
+        const ogImage = await fetchOgImage(article.link);
+        if (ogImage) {
+          onUpdate(article.id, ogImage);
+        }
+      })
+    );
+
+    // Small delay between batches
+    if (i + BATCH_SIZE < articlesWithoutImages.length) {
+      await delay(100);
+    }
+  }
 };
