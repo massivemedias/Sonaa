@@ -16,24 +16,39 @@ const fetchOgImage = async (articleUrl: string): Promise<string | null> => {
   }
 
   try {
-    // Use allorigins.win as CORS proxy
-    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(articleUrl)}`;
+    // Try multiple CORS proxies for reliability
+    const proxies = [
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(articleUrl)}`,
+      `https://corsproxy.io/?${encodeURIComponent(articleUrl)}`,
+    ];
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
+    let html = '';
 
-    const response = await fetch(proxyUrl, {
-      signal: controller.signal,
-      headers: { 'Accept': 'text/html' }
-    });
-    clearTimeout(timeoutId);
+    for (const proxyUrl of proxies) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 6000); // 6 second timeout per proxy
 
-    if (!response.ok) {
+        const response = await fetch(proxyUrl, {
+          signal: controller.signal,
+          headers: { 'Accept': 'text/html' }
+        });
+        clearTimeout(timeoutId);
+
+        if (response.ok) {
+          html = await response.text();
+          if (html.length > 1000) break; // Got valid HTML, stop trying proxies
+        }
+      } catch {
+        // Try next proxy
+        continue;
+      }
+    }
+
+    if (!html || html.length < 1000) {
       ogImageCache.set(articleUrl, null);
       return null;
     }
-
-    const html = await response.text();
 
     // Helper function to normalize image URL
     const normalizeImageUrl = (url: string): string => {
@@ -58,10 +73,15 @@ const fetchOgImage = async (articleUrl: string): Promise<string | null> => {
 
     // Try multiple regex patterns for og:image (handles various HTML formats)
     const ogPatterns = [
+      // Standard formats with property before content
       /<meta[^>]+property\s*=\s*["']og:image["'][^>]+content\s*=\s*["']([^"']+)["']/i,
-      /<meta[^>]+content\s*=\s*["']([^"']+)["'][^>]+property\s*=\s*["']og:image["']/i,
       /<meta\s+property\s*=\s*["']og:image["']\s+content\s*=\s*["']([^"']+)["']/i,
+      // Content before property (alternate order)
+      /<meta[^>]+content\s*=\s*["']([^"']+)["'][^>]+property\s*=\s*["']og:image["']/i,
       /<meta\s+content\s*=\s*["']([^"']+)["']\s+property\s*=\s*["']og:image["']/i,
+      // Very flexible pattern - any og:image meta tag
+      /property\s*=\s*["']og:image["'][^>]*content\s*=\s*["']([^"']+)["']/i,
+      /content\s*=\s*["'](https?:\/\/[^"']+\.(?:jpg|jpeg|png|webp|gif)[^"']*)["'][^>]*property\s*=\s*["']og:image["']/i,
     ];
 
     for (const pattern of ogPatterns) {
@@ -69,6 +89,24 @@ const fetchOgImage = async (articleUrl: string): Promise<string | null> => {
       if (match && match[1] && match[1].length > 10) {
         const imageUrl = normalizeImageUrl(match[1]);
         if (imageUrl.startsWith('https://')) {
+          ogImageCache.set(articleUrl, imageUrl);
+          return imageUrl;
+        }
+      }
+    }
+
+    // Try JSON-LD structured data (thumbnailUrl or image in schema)
+    const jsonLdPatterns = [
+      /"thumbnailUrl"\s*:\s*"([^"]+)"/i,
+      /"image"\s*:\s*{\s*[^}]*"url"\s*:\s*"([^"]+)"/i,
+      /"image"\s*:\s*"([^"]+\.(?:jpg|jpeg|png|webp|gif)[^"]*)"/i,
+    ];
+
+    for (const pattern of jsonLdPatterns) {
+      const match = html.match(pattern);
+      if (match && match[1] && match[1].length > 10) {
+        const imageUrl = normalizeImageUrl(match[1]);
+        if (imageUrl.startsWith('https://') && !imageUrl.includes('logo') && !imageUrl.includes('icon')) {
           ogImageCache.set(articleUrl, imageUrl);
           return imageUrl;
         }
@@ -403,8 +441,8 @@ export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> 
         });
     });
 
-    // Step 2: Process Items (now async to fetch og:image when needed)
-    const articlePromises = data.items.map(async (item, index): Promise<Article> => {
+    // Step 2: Process Items FAST (no og:image fetching - done in background)
+    const articles = data.items.map((item): Article => {
       const candidates = getCandidateImages(item);
 
       // Filter and score all valid candidates
@@ -414,16 +452,8 @@ export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> 
           .map(url => ({ url, score: scoreImageUrl(url, item.title) }))
           .sort((a, b) => b.score - a.score);
 
-      // Select the highest-scoring image (can be null for text-only articles)
+      // Select the highest-scoring image (can be null - will be fetched in background)
       let selectedImage = scoredCandidates.length > 0 ? scoredCandidates[0].url : null;
-
-      // If no image found in RSS, try fetching og:image from the article page
-      if (!selectedImage) {
-        const ogImage = await fetchOgImage(item.link);
-        if (ogImage) {
-          selectedImage = ogImage;
-        }
-      }
 
       // Fix protocol and YouTube quality
       if (selectedImage) {
@@ -459,10 +489,7 @@ export const fetchFeedArticles = async (source: FeedSource): Promise<Article[]> 
       };
     });
 
-    // Wait for all articles to be processed (including og:image fetching)
-    const validArticles = await Promise.all(articlePromises);
-
-    return validArticles;
+    return articles;
 
   } catch (error) {
     return [];
@@ -524,4 +551,39 @@ export const fetchAllFeeds = async (sources: FeedSource[]): Promise<Article[]> =
   });
 
   return shuffleArray(pool);
+};
+
+/**
+ * Fetch missing og:images in background and call onUpdate for each found image
+ * This runs AFTER initial load to avoid blocking the UI
+ */
+export const fetchMissingImages = async (
+  articles: Article[],
+  onUpdate: (articleId: string, imageUrl: string) => void
+): Promise<void> => {
+  // Get articles without images (limit to avoid too many requests)
+  const articlesWithoutImages = articles
+    .filter(a => !a.thumbnail && !a.isVideo)
+    .slice(0, 20); // Limit to 20 articles max
+
+  // Process in small batches of 3 to avoid overwhelming proxies
+  const BATCH_SIZE = 3;
+
+  for (let i = 0; i < articlesWithoutImages.length; i += BATCH_SIZE) {
+    const batch = articlesWithoutImages.slice(i, i + BATCH_SIZE);
+
+    await Promise.all(
+      batch.map(async (article) => {
+        const ogImage = await fetchOgImage(article.link);
+        if (ogImage) {
+          onUpdate(article.id, ogImage);
+        }
+      })
+    );
+
+    // Small delay between batches
+    if (i + BATCH_SIZE < articlesWithoutImages.length) {
+      await delay(100);
+    }
+  }
 };
