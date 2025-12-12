@@ -16,24 +16,39 @@ const fetchOgImage = async (articleUrl: string): Promise<string | null> => {
   }
 
   try {
-    // Use allorigins.win as CORS proxy
-    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(articleUrl)}`;
+    // Try multiple CORS proxies for reliability
+    const proxies = [
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(articleUrl)}`,
+      `https://corsproxy.io/?${encodeURIComponent(articleUrl)}`,
+    ];
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
+    let html = '';
 
-    const response = await fetch(proxyUrl, {
-      signal: controller.signal,
-      headers: { 'Accept': 'text/html' }
-    });
-    clearTimeout(timeoutId);
+    for (const proxyUrl of proxies) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 6000); // 6 second timeout per proxy
 
-    if (!response.ok) {
+        const response = await fetch(proxyUrl, {
+          signal: controller.signal,
+          headers: { 'Accept': 'text/html' }
+        });
+        clearTimeout(timeoutId);
+
+        if (response.ok) {
+          html = await response.text();
+          if (html.length > 1000) break; // Got valid HTML, stop trying proxies
+        }
+      } catch {
+        // Try next proxy
+        continue;
+      }
+    }
+
+    if (!html || html.length < 1000) {
       ogImageCache.set(articleUrl, null);
       return null;
     }
-
-    const html = await response.text();
 
     // Helper function to normalize image URL
     const normalizeImageUrl = (url: string): string => {
@@ -58,10 +73,15 @@ const fetchOgImage = async (articleUrl: string): Promise<string | null> => {
 
     // Try multiple regex patterns for og:image (handles various HTML formats)
     const ogPatterns = [
+      // Standard formats with property before content
       /<meta[^>]+property\s*=\s*["']og:image["'][^>]+content\s*=\s*["']([^"']+)["']/i,
-      /<meta[^>]+content\s*=\s*["']([^"']+)["'][^>]+property\s*=\s*["']og:image["']/i,
       /<meta\s+property\s*=\s*["']og:image["']\s+content\s*=\s*["']([^"']+)["']/i,
+      // Content before property (alternate order)
+      /<meta[^>]+content\s*=\s*["']([^"']+)["'][^>]+property\s*=\s*["']og:image["']/i,
       /<meta\s+content\s*=\s*["']([^"']+)["']\s+property\s*=\s*["']og:image["']/i,
+      // Very flexible pattern - any og:image meta tag
+      /property\s*=\s*["']og:image["'][^>]*content\s*=\s*["']([^"']+)["']/i,
+      /content\s*=\s*["'](https?:\/\/[^"']+\.(?:jpg|jpeg|png|webp|gif)[^"']*)["'][^>]*property\s*=\s*["']og:image["']/i,
     ];
 
     for (const pattern of ogPatterns) {
@@ -69,6 +89,24 @@ const fetchOgImage = async (articleUrl: string): Promise<string | null> => {
       if (match && match[1] && match[1].length > 10) {
         const imageUrl = normalizeImageUrl(match[1]);
         if (imageUrl.startsWith('https://')) {
+          ogImageCache.set(articleUrl, imageUrl);
+          return imageUrl;
+        }
+      }
+    }
+
+    // Try JSON-LD structured data (thumbnailUrl or image in schema)
+    const jsonLdPatterns = [
+      /"thumbnailUrl"\s*:\s*"([^"]+)"/i,
+      /"image"\s*:\s*{\s*[^}]*"url"\s*:\s*"([^"]+)"/i,
+      /"image"\s*:\s*"([^"]+\.(?:jpg|jpeg|png|webp|gif)[^"]*)"/i,
+    ];
+
+    for (const pattern of jsonLdPatterns) {
+      const match = html.match(pattern);
+      if (match && match[1] && match[1].length > 10) {
+        const imageUrl = normalizeImageUrl(match[1]);
+        if (imageUrl.startsWith('https://') && !imageUrl.includes('logo') && !imageUrl.includes('icon')) {
           ogImageCache.set(articleUrl, imageUrl);
           return imageUrl;
         }
