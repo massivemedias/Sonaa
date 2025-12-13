@@ -510,15 +510,15 @@ const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 export const fetchAllFeeds = async (sources: FeedSource[]): Promise<Article[]> => {
   const activeSources = sources.filter(s => s.isActive);
   
-  // Batch requests to prevent overwhelming the free RSS2JSON API (500 errors)
-  const BATCH_SIZE = 4;
+  // Batch requests - larger batches for speed
+  const BATCH_SIZE = 10;
   let pool: Article[] = [];
-  
+
   for (let i = 0; i < activeSources.length; i += BATCH_SIZE) {
       const batch = activeSources.slice(i, i + BATCH_SIZE);
       const promises = batch.map(source => fetchFeedArticles(source));
       const results = await Promise.all(promises);
-      
+
       results.forEach((feedArticles, index) => {
         // Logic to process this feed (Video limit vs Standard limit)
         const source = batch[index];
@@ -537,9 +537,9 @@ export const fetchAllFeeds = async (sources: FeedSource[]): Promise<Article[]> =
         pool.push(...topItems);
       });
 
-      // Add a small delay between batches to be nice to the API
+      // Minimal delay between batches
       if (i + BATCH_SIZE < activeSources.length) {
-          await delay(250);
+          await delay(50);
       }
   }
 

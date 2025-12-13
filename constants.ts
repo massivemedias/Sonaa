@@ -197,13 +197,6 @@ export const DEFAULT_FEEDS: FeedSource[] = [
     isActive: true,
   },
   {
-    id: 'theverge',
-    name: 'The Verge',
-    url: 'https://www.theverge.com/',
-    rssUrl: 'https://www.theverge.com/rss/index.xml',
-    isActive: true,
-  },
-  {
     id: 'petapixel',
     name: 'PetaPixel',
     url: 'https://petapixel.com/',
