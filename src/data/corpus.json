@@ -208,7 +208,11 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "HINRG",
+    "Electro Boogie"
+   ]
   },
   {
    "id": "italodisco",
@@ -272,7 +276,11 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Italo",
+    "Italo Pop"
+   ]
   },
   {
    "id": "spacesynth",
@@ -335,7 +343,12 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Space Disco",
+    "Space Rock",
+    "Cosmo Rock"
+   ]
   },
   {
    "id": "cosmic",
@@ -365,10 +378,11 @@
       "year": 2014,
       "verified": true,
       "cover": {
-       "url": "https://i.ytimg.com/vi/xW-3hP86U-A/maxresdefault.jpg",
-       "source": "youtube",
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music7/v4/7c/87/b5/7c87b597-2911-0ea6-957f-53498cbec7df/cover.jpg/600x600bb.jpg",
+       "source": "itunes",
        "local": "covers/xW-3hP86U-A.jpg"
-      }
+      },
+      "album": "Cosmic Drag"
      }
     ],
     "actuel": []
@@ -436,7 +450,11 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Post-Disco",
+    "Electro Funk"
+   ]
   },
   {
    "id": "nudisco",
@@ -499,7 +517,10 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Nudisco"
+   ]
   },
   {
    "id": "indiedance",
@@ -640,7 +661,12 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Classic House",
+    "House",
+    "Jackin House"
+   ]
   },
   {
    "id": "acidhouse",
@@ -704,7 +730,10 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Acid"
+   ]
   },
   {
    "id": "garagehouse",
@@ -895,7 +924,10 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Techno Dance"
+   ]
   },
   {
    "id": "ukhouse",
@@ -956,7 +988,10 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Brit House"
+   ]
   },
   {
    "id": "italohouse",
@@ -1022,7 +1057,12 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Gospel House",
+    "Diva House",
+    "Italo Dance"
+   ]
   },
   {
    "id": "hardhouse",
@@ -1083,7 +1123,13 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Booty House",
+    "Ghetto House",
+    "Juke",
+    "Footwork"
+   ]
   },
   {
    "id": "discohouse",
@@ -1149,7 +1195,10 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Funky House"
+   ]
   },
   {
    "id": "frenchhouse",
@@ -1210,7 +1259,12 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Filter House",
+    "Sidechain House",
+    "Tekfunk"
+   ]
   },
   {
    "id": "progressivehouse",
@@ -1271,7 +1325,12 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Prog House",
+    "Epic House",
+    "Leftfield"
+   ]
   },
   {
    "id": "electrohouse",
@@ -1387,7 +1446,10 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Classic Techno"
+   ]
   },
   {
    "id": "bleeptechno",
@@ -1448,7 +1510,10 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "UK Techno"
+   ]
   },
   {
    "id": "acidtechno",
@@ -1612,7 +1677,12 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Tekno",
+    "Free Tekno",
+    "Teknival"
+   ]
   },
   {
    "id": "schranz",
@@ -1661,7 +1731,11 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Progressive Techno",
+    "Hard Tekno"
+   ]
   },
   {
    "id": "industrialtechno",
@@ -1788,7 +1862,10 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Deep Techno"
+   ]
   },
   {
    "id": "ambienttechno",
@@ -1849,7 +1926,11 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Intelligent Techno",
+    "IDM"
+   ]
   },
   {
    "id": "bangintechno",
@@ -1971,7 +2052,10 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Minimal"
+   ]
   },
   {
    "id": "techhouse",
@@ -2037,7 +2121,11 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Techno House",
+    "House Techno"
+   ]
   },
   {
    "id": "microhouse",
@@ -2098,7 +2186,11 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Minimal House",
+    "Glitch House"
+   ]
   },
   {
    "id": "clickscuts",
@@ -2147,7 +2239,10 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Clicks and Cuts"
+   ]
   },
   {
    "id": "minimaltech",
@@ -2208,7 +2303,13 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Plinky Plonk",
+    "Berliner School",
+    "Minimal Tech House",
+    "mnml"
+   ]
   },
   {
    "id": "deeptech",
@@ -2330,7 +2431,10 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Scratchy Electrohouse"
+   ]
   },
   {
    "id": "minimalprog",
@@ -2396,7 +2500,14 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Minimal Progressive House",
+    "Minimal Progressive",
+    "Min Prog",
+    "Min P",
+    "Min"
+   ]
   },
   {
    "id": "trance",
@@ -2585,7 +2696,13 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Belearic House",
+    "Balearic Beat",
+    "Balearic Music",
+    "Ibiza Trance"
+   ]
   },
   {
    "id": "progressivetrance",
@@ -2712,7 +2829,11 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Techtrance",
+    "Techno-trance"
+   ]
   },
   {
    "id": "dreamtrance",
@@ -2773,7 +2894,11 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Dream House",
+    "Dream Dance"
+   ]
   },
   {
    "id": "germantrance",
@@ -2834,7 +2959,11 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Hard Acid Trance",
+    "Makina"
+   ]
   },
   {
    "id": "hardtrance",
@@ -2956,7 +3085,11 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Epic Trance",
+    "Uplifting"
+   ]
   },
   {
    "id": "vocaltrance",
@@ -3083,7 +3216,14 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Psychedelic Goacore",
+    "Nitzhogoa",
+    "Newskool Goa",
+    "NeoGoa",
+    "Goa"
+   ]
   },
   {
    "id": "psychedelictrance",
@@ -3144,7 +3284,15 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Uptempo Psy",
+    "UK Psy",
+    "Melodic Psytrance",
+    "Dark Psytrance",
+    "Psytrance",
+    "Psy Trance"
+   ]
   },
   {
    "id": "fullon",
@@ -3205,7 +3353,17 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Fullon Psy",
+    "Uplifting Psy",
+    "Anthem Psy",
+    "Morning Psy",
+    "Twilight Psy",
+    "Night Psy",
+    "Peak Hour Psy",
+    "Israeli Psy"
+   ]
   },
   {
    "id": "nitzhonot",
@@ -3254,7 +3412,10 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Nitzhogoa"
+   ]
   },
   {
    "id": "darkpsy",
@@ -3364,7 +3525,11 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Forest",
+    "Forestpsy"
+   ]
   },
   {
    "id": "hitech",
@@ -3413,7 +3578,10 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Hitech"
+   ]
   },
   {
    "id": "progpsy",
@@ -3474,7 +3642,11 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Progressive Psytrance",
+    "Prog Psy"
+   ]
   },
   {
    "id": "suomisaundi",
@@ -3511,7 +3683,11 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Suomi",
+    "Finnish Psy"
+   ]
   },
   {
    "id": "psydub",
@@ -3572,7 +3748,18 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Ambient Psy",
+    "Ambient Goa",
+    "Psy Chill",
+    "Psy Dub",
+    "Psybient",
+    "Psychedelic Chillout",
+    "Downtempo Psy",
+    "Psy Breaks",
+    "Deep Trance"
+   ]
   },
   {
    "id": "industrial",
@@ -3627,7 +3814,10 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Experimental Rock"
+   ]
   },
   {
    "id": "ebm",
@@ -3688,7 +3878,14 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Electronic Body Music",
+    "Body Music",
+    "Techno-Industrial",
+    "Industrial Dance",
+    "Synth-Industrial"
+   ]
   },
   {
    "id": "newbeat",
@@ -3749,7 +3946,13 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Death Disco",
+    "Slo-beat",
+    "Chug",
+    "Slow Techno"
+   ]
   },
   {
    "id": "electroindustrial",
@@ -3871,7 +4074,10 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Hellektro"
+   ]
   },
   {
    "id": "technobodymusic",
@@ -3932,7 +4138,10 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "TBM"
+   ]
   },
   {
    "id": "coldwave",
@@ -3993,7 +4202,10 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "Cold Wave"
+   ]
   },
   {
    "id": "ndh",
@@ -4059,7 +4271,11 @@
      }
     ],
     "actuel": []
-   }
+   },
+   "aliases": [
+    "NDH",
+    "Neue Deutsche Harte"
+   ]
   }
  ]
 }

@@ -1,0 +1,136 @@
+/* Écran d'accueil, montré une seule fois. Il ne doit pas ressembler à une page
+   de garde : fond sombre translucide, l'atlas se devine déjà derrière. */
+
+.welcome {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  font-family: var(--font-ui);
+  background: oklch(0.08 0.01 250 / 0.86);
+  animation: welcome-in 240ms var(--motion-ease);
+}
+
+@keyframes welcome-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.welcome-inner {
+  width: min(30rem, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.welcome-name {
+  margin: 0;
+  font-size: clamp(2.2rem, 9vw, 3.2rem);
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ink-primary);
+}
+
+.welcome-line {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--ink-secondary);
+  max-width: 26rem;
+}
+
+.welcome-families {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+.welcome-families li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.welcome-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.welcome-keys {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.4rem 1rem;
+  margin: 0;
+  font-size: 0.8125rem;
+  border-top: 1px solid var(--rule-hairline);
+  padding-top: 1rem;
+}
+
+.welcome-keys dt {
+  font-weight: 500;
+  color: var(--ink-primary);
+  white-space: nowrap;
+}
+
+.welcome-keys dd {
+  margin: 0;
+  font-weight: 400;
+  color: var(--ink-secondary);
+}
+
+.welcome-go {
+  align-self: flex-start;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: oklch(0.14 0.01 250);
+  background: var(--ink-primary);
+  border: 0;
+  padding: 0.6rem 1.6rem;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+@media (max-width: 700px) {
+  .welcome {
+    place-items: end stretch;
+    padding: 1.1rem;
+    padding-bottom: max(1.1rem, env(safe-area-inset-bottom));
+  }
+  .welcome-name {
+    letter-spacing: 0.24em;
+  }
+  .welcome-keys {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+  .welcome-keys dd {
+    margin-bottom: 0.4rem;
+  }
+  .welcome-go {
+    align-self: stretch;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .welcome {
+    animation: none;
+  }
+}

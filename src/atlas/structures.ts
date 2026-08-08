@@ -106,6 +106,8 @@ export interface Genre {
   readonly confidence: 'established' | 'debated';
   /** Ce que disent les sources, et laquelle a été suivie. */
   readonly note: string;
+  /** Autres noms, pour la recherche. */
+  readonly aliases: readonly string[];
   /** Ascendances hors famille, déjà résolues. */
   readonly externalParents: { readonly family: number; readonly label: string }[];
   /** Fondateurs du genre, toutes époques. Rempli sans clé, par oEmbed. */
@@ -206,6 +208,7 @@ export const buildStructure = (familyIndex: number): Structure => {
       bpmRange: [lo, hi],
       confidence: entry.confidence,
       note: entry.note,
+      aliases: entry.aliases ?? [],
       externalParents: entry.parents
         .filter((pp) => pp.family !== entry.family)
         .map((pp) => ({

@@ -1,0 +1,218 @@
+/* Fiche d'un genre. Colonne à gauche sur poste de bureau, feuille en bas sur
+   mobile. Elle ne masque jamais la sphère qu'elle décrit. */
+
+.card {
+  position: fixed;
+  left: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 11;
+  width: min(23rem, calc(100vw - 2.5rem));
+  max-height: min(34rem, calc(100vh - 9rem));
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.1rem 1.2rem 1rem;
+  font-family: var(--font-ui);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-primary);
+  background: oklch(0.11 0.012 250 / 0.94);
+  border: 1px solid var(--rule-hairline);
+  border-left: 2px solid var(--family);
+}
+
+.card-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.card-family {
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--family);
+}
+
+.card-name {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.card-bpm {
+  margin: 0.1rem 0 0;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--ink-secondary);
+}
+
+.card-major {
+  color: var(--family);
+}
+
+/* Le badge de doute. Visible, pas discret : une filiation contestée est une
+   information, pas une gêne. */
+.card-debated {
+  margin: 0.5rem 0 0;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--ink-secondary);
+}
+
+.card-badge {
+  display: inline-block;
+  margin-right: 0.4rem;
+  padding: 0.1rem 0.4rem;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: oklch(0.82 0.13 60);
+  border: 1px solid oklch(0.5 0.09 60);
+}
+
+.card-rows {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  gap: 0.45rem 0.7rem;
+  margin: 0;
+  font-size: 0.8125rem;
+}
+
+.card-rows dt {
+  font-weight: 400;
+  color: var(--ink-secondary);
+}
+
+.card-rows dd {
+  margin: 0;
+  font-weight: 500;
+}
+
+.card-link,
+.card-chip {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--ink-primary);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--family);
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.card-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.6rem;
+}
+
+.card-chip {
+  border-bottom-color: oklch(0.45 0.03 250);
+}
+
+.card-chip:hover,
+.card-chip:focus-visible,
+.card-link:hover,
+.card-link:focus-visible {
+  border-bottom-color: var(--family);
+  color: #fff;
+}
+
+.card-founder,
+.card-none {
+  font-weight: 400;
+  color: var(--ink-secondary);
+}
+
+.card-graft {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-right: 0.7rem;
+  font-weight: 400;
+}
+
+.card-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.card-aliases {
+  font-weight: 400 !important;
+  color: var(--ink-secondary);
+  line-height: 1.5;
+}
+
+.card-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.1rem;
+}
+
+.card-listen {
+  flex: 1;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: oklch(0.14 0.01 250);
+  background: var(--family);
+  border: 0;
+  padding: 0.55rem 0.8rem;
+  cursor: pointer;
+}
+
+.card-listen:disabled {
+  color: var(--ink-secondary);
+  background: transparent;
+  border: 1px solid var(--rule-hairline);
+  cursor: default;
+}
+
+.card-close {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--ink-secondary);
+  background: transparent;
+  border: 1px solid var(--rule-hairline);
+  padding: 0.55rem 0.8rem;
+  cursor: pointer;
+}
+
+/* Sur mobile la fiche devient une feuille en bas : une colonne latérale de
+   23 rem ne tient pas dans 390 px sans écraser l'atlas. */
+@media (max-width: 700px) {
+  .card {
+    left: 0;
+    right: 0;
+    top: auto;
+    bottom: 0;
+    transform: none;
+    width: auto;
+    max-height: 62vh;
+    border: 0;
+    border-top: 2px solid var(--family);
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+
+  .card-rows {
+    grid-template-columns: 4.75rem 1fr;
+  }
+
+  .card-listen,
+  .card-close {
+    min-height: 44px;
+  }
+}

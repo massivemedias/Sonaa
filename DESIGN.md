@@ -259,7 +259,38 @@ de son propre parent. Chaque génération forme un anneau identifiable. La
 relaxation anti-chevauchement ne déplace que les feuilles, et faiblement : elle
 corrige les collisions sans détruire la structure.
 
-### 5c. La vue morceaux : un panneau flottant, dans la scène
+### 5c. La fiche d'un genre
+
+Cliquer une sphère ne tombe pas dans un lecteur. La caméra vole sur le noeud, ses
+dérivés se déploient, et sa FICHE s'ouvre : le nom, la famille, l'intervalle de
+BPM, son parent, ses greffes avec la famille d'où elles viennent, ses dérivés,
+ses autres noms, et le badge **filiation débattue** avec la note qui dit quelles
+sources se contredisent et laquelle a été suivie.
+
+Le doute est affiché, pas caché. Une filiation contestée est une information.
+
+Le parent et les dérivés sont cliquables : la fiche est aussi un moyen de remonter
+et de descendre la généalogie sans viser une sphère.
+
+Écouter est une **action de la fiche**, jamais un effet de bord du clic. La fiche
+est en DOM plat : c'est du texte à lire. La plaque 3D reste réservée aux morceaux.
+
+### 5c bis. Chercher un genre
+
+Barre oblique. On cherche sur le nom, sur les alias et sur le nom de famille, et
+le résultat fait **voler la caméra** : on doit voir le trajet, sinon on ne sait
+plus où on est.
+
+Les alias sont filtrés : un alias qui est le nom d'un autre genre du corpus est
+écarté, sinon taper un nom enverrait sur le mauvais noeud.
+
+### 5c ter. L'accueil, une seule fois
+
+Au premier chargement seulement : le nom, une phrase, les sept familles avec leur
+teinte, cinq gestes. Il disparaît au premier clic et ne revient plus. Ce n'est
+pas une page d'accueil, c'est une légende de carte qu'on lit une fois.
+
+### 5d. La vue morceaux : un panneau flottant, dans la scène
 
 Elle ne remplace plus la 3D par un panneau plat. Arriver sur un genre feuille
 fait voler la caméra vers sa sphère, et une PLAQUE apparaît devant, dans

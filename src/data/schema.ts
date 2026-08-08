@@ -74,7 +74,12 @@ export const genreSchema = z.strictObject({
   bpm: z.tuple([z.number().int().min(60).max(220), z.number().int().min(60).max(220)]),
   /** Étiqueté par défaut quand la famille est déployée. */
   major: z.boolean(),
-  note: z.string()
+  note: z.string(),
+  /* Autres noms du genre, pour la recherche. Repris du champ `aka` d'Ishkur v3,
+     filtrés : un alias qui est le nom d'un AUTRE genre du corpus est écarté,
+     sinon la recherche saute sur le mauvais noeud. Ishkur donne par exemple
+     « Detroit Techno » comme alias de Minimal Techno, ce qui est son ancêtre. */
+  aliases: z.array(z.string().min(2)).optional()
 });
 
 export const familySchema = z.strictObject({

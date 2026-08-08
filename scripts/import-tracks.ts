@@ -31,6 +31,11 @@
    artiste et titre normalisé, n'est jamais réécrit. On ajoute, on ne remplace
    pas. Le corpus vérifié fait foi.
 
+   FICHIER PARTIEL, c'est le cas normal. On ne remplira jamais 68 genres d'un
+   coup : le fichier ne contient que les genres qu'on traite ce jour-là. Un
+   genre absent du fichier n'est pas touché, et le script termine en rappelant
+   lesquels restent sous la cible de trois morceaux.
+
    Usage :
      npm run import:tracks                    vérifie et écrit
      npm run import:tracks -- --dry-run       vérifie sans rien écrire
@@ -272,6 +277,29 @@ console.log(
   `${skippedExisting} déjà présents et laissés en place, ${failures.length} non résolus, ` +
     `${unknownGenre} sur un genre inconnu.`
 );
+
+/* Un fichier partiel est la norme. On rappelle donc ce qui manque encore, pour
+   que la prochaine passe sache quoi viser sans relire tout le corpus. */
+const CIBLE = 3;
+const count = (g: Genre): number => g.tracks.essentiel.length + g.tracks.actuel.length;
+const touched = new Set(rows.map((r) => r.genreId));
+const remaining = corpus.genres
+  .filter((g) => count(g) < CIBLE)
+  .sort((a, b) => count(a) - count(b));
+
+if (remaining.length === 0) {
+  console.log(`\nTous les genres atteignent la cible de ${CIBLE} morceaux.`);
+} else {
+  console.log(`\n${remaining.length} genre(s) encore sous la cible de ${CIBLE} :`);
+  for (const g of remaining) {
+    const mark = touched.has(g.id) ? ' (traité dans ce fichier, encore incomplet)' : '';
+    console.log(`  ${g.id.padEnd(20)} ${count(g)}/${CIBLE}${mark}`);
+  }
+  const untouched = remaining.filter((g) => !touched.has(g.id));
+  if (untouched.length > 0) {
+    console.log(`\nAbsents du fichier : ${untouched.map((g) => g.id).join(', ')}`);
+  }
+}
 
 const report: string[] = [
   '# Lignes non résolues de tracks-canon.md',

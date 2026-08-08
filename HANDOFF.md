@@ -22,6 +22,9 @@ l'iframe officielle. Sept familles, 68 genres, 190 morceaux verifies.
 **A relire par Mika :** `CORPUS.md`, les 68 filiations, dont 17 marquees
 `debated`. Dark disco, indie dance et psy-prog sont son terrain.
 
+**Etat de l'interface :** fiche de genre au clic, recherche sur barre oblique
+avec 119 alias, ecran d'accueil montre une seule fois, rendu verifie sur 390 px.
+
 **Prochaine action de Mika :** ecrire `tracks-canon.md` a la racine, un tableau
 markdown par genre, pour les genres sous la cible de trois morceaux.
 `npm run validate:data` les nomme en fin de rapport. Puis

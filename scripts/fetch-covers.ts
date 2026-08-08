@@ -173,9 +173,38 @@ const corpus = JSON.parse(readFileSync(CORPUS, 'utf8')) as Corpus;
 /* Écriture après CHAQUE trouvaille. iTunes se referme sans prévenir et les
    pauses montent à quatre minutes : un script tué en cours de route perdait
    tout ce qu'il avait trouvé. C'est arrivé une fois, 109 pochettes perdues.
-   Le fichier est maintenant toujours à jour, et le script est interruptible. */
+
+   L'écriture RELIT le fichier et n'y applique QUE les champs dont ce script est
+   propriétaire, `cover` et `album`, indexés par identifiant de vidéo. Sans cela,
+   un script qui tourne des heures réécrit le corpus tel qu'il l'a chargé au
+   départ et efface tout ce qui a été ajouté entre-temps par ailleurs. C'est
+   arrivé aussi : une passe d'alias a été effacée en silence. */
+const owned = new Map<string, { cover?: Track['cover']; album?: string }>();
+
+const remember = (track: Track): void => {
+  const entry: { cover?: Track['cover']; album?: string } = {};
+  if (track.cover) entry.cover = track.cover;
+  if (track.album) entry.album = track.album;
+  owned.set(track.youtubeId, entry);
+};
+
 const writeCorpus = (): void => {
-  writeFileSync(CORPUS, `${JSON.stringify(corpus, null, 1)}\n`, 'utf8');
+  let disk: Corpus;
+  try {
+    disk = JSON.parse(readFileSync(CORPUS, 'utf8')) as Corpus;
+  } catch {
+    return;
+  }
+  for (const genre of disk.genres) {
+    for (const track of [...genre.tracks.essentiel, ...genre.tracks.actuel]) {
+      const mine = owned.get(track.youtubeId);
+      if (!mine) continue;
+      if (mine.cover) track.cover = mine.cover;
+      else delete track.cover;
+      if (mine.album) track.album = mine.album;
+    }
+  }
+  writeFileSync(CORPUS, `${JSON.stringify(disk, null, 1)}\n`, 'utf8');
 };
 
 let itunes = 0;
@@ -215,12 +244,14 @@ for (const genre of corpus.genres) {
       if (hit.album) track.album = hit.album;
       itunes += 1;
       console.log(`  ok    ${genre.id.padEnd(20)} ${track.artist} - ${track.title}`);
+      remember(track);
       writeCorpus();
     } else if (previous?.source === 'itunes') {
       /* En --force, une recherche qui échoue pour cause de quota ne doit PAS
          remplacer une vraie pochette par une vignette de vidéo. On garde
          l'ancienne : l'échec est celui du réseau, pas celui de la pochette. */
       track.cover = previous;
+      remember(track);
       kept += 1;
       console.log(`  garde ${genre.id.padEnd(20)} ${track.artist} - ${track.title}`);
     } else {
@@ -232,6 +263,7 @@ for (const genre of corpus.genres) {
       fallback += 1;
       console.log(`  repli ${genre.id.padEnd(20)} ${track.artist} - ${track.title}`);
     }
+    remember(track);
     writeCorpus();
   }
 }
@@ -260,6 +292,7 @@ for (const genre of corpus.genres) {
       };
     }
     track.cover.local = `covers/${track.youtubeId}.jpg`;
+    remember(track);
     const dest = `${OUT}/${track.youtubeId}.jpg`;
 
     try {
@@ -301,6 +334,7 @@ for (const genre of corpus.genres) {
       /* Aucune image : on retire la pochette au lieu d'en garder une qui
          pointe dans le vide. L'interface dessinera une pochette procédurale. */
       delete track.cover;
+      remember(track);
       missing += 1;
       console.warn(`  image introuvable : ${genre.id} ${track.artist} - ${track.title}`);
     }

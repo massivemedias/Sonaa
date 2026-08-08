@@ -131,6 +131,10 @@ export interface AtlasHandles {
   onNavigate: (nav: NavState) => void;
   /** Demande d'ouverture du panneau morceaux pour un genre. */
   onTracks: (familyIndex: number, genreLocal: number) => void;
+  /* Fiche du genre atteint. Cliquer une sphère ouvre d'abord la fiche : on veut
+     savoir de quoi on parle, d'où ça vient et ce que ça a donné, AVANT de
+     décider d'écouter. Les morceaux se demandent depuis la fiche. */
+  onGenreInfo: (familyIndex: number, genreLocal: number) => void;
   /** Géométrie du panneau à chaque image, ou null quand il est fermé. */
   onPanel: (panel: PanelState | null) => void;
   onContextLost: () => void;
@@ -144,6 +148,8 @@ export interface AtlasApi {
   rotate: (direction: 1 | -1) => void;
   goUp: () => void;
   goToFamily: (familyIndex: number) => void;
+  /** Vol vers un genre nommé, depuis la recherche ou la fiche. */
+  goToGenre: (familyIndex: number, genreLocal: number) => void;
   setSuspended: (suspended: boolean) => void;
   /** Ouvre la plaque devant la sphère d'un genre, et vole vers elle. */
   openPanel: (familyIndex: number, genreLocal: number) => void;
@@ -165,6 +171,11 @@ const MAX_DISTANCE = 520;
 /* Taille des labels : plancher et plafond stricts. Jamais de texte à 8 px
    parce qu'un noeud est loin, jamais de titre géant parce qu'il est proche. */
 const LABEL_PX_CEILING = 22;
+
+/* Hauteur du bandeau d'interface en haut et en bas, en pixels. Le fil d'Ariane
+   passe sur deux lignes quand le chemin est long, d'où la marge généreuse. */
+const CHROME_TOP = 64;
+const CHROME_BOTTOM = 74;
 const DESKTOP = { maxLabels: 56, floorPx: 13 };
 const MOBILE = { maxLabels: 20, floorPx: 15 };
 
@@ -178,6 +189,8 @@ const MOBILE = { maxLabels: 20, floorPx: 15 };
    0.92, la bande se faisait rogner. */
 const PANEL_ASPECT = 0.86;
 const PANEL_FILL = 0.52;
+/** Part de la LARGEUR que la plaque peut occuper. C'est la contrainte en portrait. */
+const PANEL_FILL_WIDTH = 0.92;
 const PANEL_TILT_DEG = 9;
 const PANEL_RISE = 0.2;
 /** Suivi amorti : la plaque accompagne la caméra, elle ne lui colle pas. */
@@ -203,7 +216,8 @@ const backOut = (t: number): number => {
 // ------------------------------------------------------------------ init
 
 export const initAtlas = (handles: AtlasHandles): AtlasApi => {
-  const { canvas, labelLayer, onStats, onNavigate, onTracks, onPanel, onContextLost } = handles;
+  const { canvas, labelLayer, onStats, onNavigate, onTracks, onGenreInfo, onPanel, onContextLost } =
+    handles;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const renderer = new WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: 'high-performance' });
@@ -565,9 +579,14 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
       halfH = Math.max(halfH, Math.abs(dx * rightX + dz * rightZ) + r);
     });
 
+    /* En portrait, c'est la largeur qui contraint : l'atlas est large et plat.
+       Le remplir à 70 pour cent de la largeur laissait alors les deux tiers de
+       la hauteur vides et des amas minuscules. On remplit davantage quand
+       l'écran est plus haut que large. */
     const tan = Math.tan((FOV * Math.PI) / 360);
-    const byHeight = halfV / (ATLAS_FILL * tan);
-    const byWidth = halfH / (ATLAS_FILL * tan * Math.max(0.2, aspect));
+    const fill = aspect < 0.85 ? 0.9 : ATLAS_FILL;
+    const byHeight = halfV / (fill * tan);
+    const byWidth = halfH / (fill * tan * Math.max(0.2, aspect));
     return clamp(Math.max(byHeight, byWidth), MIN_DISTANCE, MAX_DISTANCE);
   };
 
@@ -874,12 +893,21 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     panelSlot = globalIndex;
     panelHeight = Math.max(4.2, (sphereRadii[globalIndex] ?? 2) * 3.6);
 
-    // Distance telle que la plaque occupe PANEL_FILL de la hauteur de l'écran.
-    const dist = clamp(
-      panelHeight / (2 * Math.tan((FOV * Math.PI) / 360) * PANEL_FILL),
-      MIN_DISTANCE,
-      MAX_DISTANCE
-    );
+    /* Distance telle que la plaque tienne dans les DEUX axes. Ne la calculer
+       que sur la hauteur marchait sur un écran large et débordait en portrait :
+       sur 390 px, une plaque remplissant 52 pour cent de la hauteur faisait
+       une fois et demie la largeur de l'écran.
+
+       On ajoute aussi le décalage vers la caméra : la plaque est posée devant
+       la sphère, donc plus près que la cible d'orbite, et sa taille projetée
+       est plus grande que ce que la distance d'orbite laisse croire. */
+    const tan = Math.tan((FOV * Math.PI) / 360);
+    const halfHeightWorld = panelHeight / 2;
+    const offset = (sphereRadii[globalIndex] ?? 2) + halfHeightWorld * 0.35;
+    const aspect = Math.max(0.2, camera.aspect);
+    const byHeight = panelHeight / (2 * tan * PANEL_FILL);
+    const byWidth = (panelHeight * PANEL_ASPECT) / (2 * tan * aspect * PANEL_FILL_WIDTH);
+    const dist = clamp(Math.max(byHeight, byWidth) + offset, MIN_DISTANCE, MAX_DISTANCE);
     startFly(slot.world, dist, now);
 
     // Première pose sans amortissement, sinon la plaque arrive en glissant
@@ -918,15 +946,15 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     const slot = slotsData[globalIndex];
     if (!slot) return;
 
-    // Second clic sur un genre déjà actif, ou feuille : les morceaux.
-    if (activeGenre === globalIndex || slot.children.length === 0) {
-      openPanel(slot.family, slot.local);
-      return;
-    }
+    /* Le clic n'ouvre plus les morceaux directement. Il vole sur le noeud,
+       déploie ses dérivés s'il en a, et ouvre sa FICHE. Écouter est une action
+       de la fiche, pas un effet de bord du clic : on ne tombe plus dans un
+       lecteur sans savoir où on est. */
+    closePanel();
 
-    /* Vraie descente. Le chemin est recalculé depuis la racine de la famille,
-       donc le fil d'Ariane reflète toujours la filiation réelle et non
-       l'historique des clics. */
+    /* Le chemin est recalculé depuis la racine de la famille, donc le fil
+       d'Ariane reflète toujours la filiation réelle et non l'historique des
+       clics. */
     const base = familyOffset[slot.family] ?? 0;
     genrePath = pathToGenre(slot.family, slot.local).map((local) => base + local);
     activeGenre = globalIndex;
@@ -938,6 +966,41 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
 
     startFly(slot.world, frameDistance(genreFrameRadius(globalIndex)), now);
     emitNav();
+    onGenreInfo(slot.family, slot.local);
+  };
+
+  /* Aller sur un genre nommé, depuis la recherche ou depuis la fiche.
+
+     Sa famille doit d'abord se déployer : tant qu'elle est compacte, la sphère
+     visée est encore rangée dans l'amas et le cadrage calculé sur cette
+     position colle la caméra à quelques unités du noeud. On mémorise donc la
+     cible et la boucle de rendu la consomme quand la diffusion est faite. */
+  let pendingGenre = -1;
+
+  const goToGenre = (familyIndex: number, genreLocal: number): void => {
+    const now = performance.now();
+    const base = familyOffset[familyIndex] ?? 0;
+    const target = base + genreLocal;
+
+    if (activeFamily === familyIndex && (familyProgress[familyIndex] ?? 0) > 0.9) {
+      selectGenre(target, now);
+      return;
+    }
+    selectFamily(familyIndex, now);
+    pendingGenre = target;
+  };
+
+  const consumePendingGenre = (now: number): void => {
+    if (pendingGenre < 0) return;
+    const slot = slotsData[pendingGenre];
+    if (!slot) {
+      pendingGenre = -1;
+      return;
+    }
+    if ((familyProgress[slot.family] ?? 0) < 0.9) return;
+    const target = pendingGenre;
+    pendingGenre = -1;
+    selectGenre(target, now);
   };
 
   const goUp = (): void => {
@@ -1154,6 +1217,10 @@ const OVERLAP_TOLERANCE = 4;
       const sx = scratch.x * halfW + halfW;
       const sy = -scratch.y * halfH + halfH;
       if (sx < -200 || sx > width + 200 || sy < -80 || sy > height + 80) return;
+      /* Bande haute réservée au fil d'Ariane, bande basse aux contrôles et à la
+         ligne d'aide. Un label qui s'y place se superpose à du texte
+         d'interface, et les deux deviennent illisibles. */
+      if (sy < CHROME_TOP || sy > height - CHROME_BOTTOM) return;
 
       const depth = camera.position.distanceTo(world);
       nearest = Math.min(nearest, depth);
@@ -1792,6 +1859,7 @@ const OVERLAP_TOLERANCE = 4;
       }
     }
 
+    consumePendingGenre(now);
     updatePanel(now);
     projectLabels(now);
     renderer.info.reset();
@@ -1835,6 +1903,7 @@ const OVERLAP_TOLERANCE = 4;
     recenter,
     openPanel,
     closePanel,
+    goToGenre,
     open: (familyIndex: number) => setDeploy(familyIndex, true, performance.now()),
     close: (familyIndex: number) => setDeploy(familyIndex, false, performance.now()),
     setOrbit: (az: number, el: number, dist: number) => {
@@ -1888,6 +1957,7 @@ const OVERLAP_TOLERANCE = 4;
     },
     openPanel,
     closePanel,
+    goToGenre,
     setSuspended: (value: boolean) => {
       suspended = value;
     },

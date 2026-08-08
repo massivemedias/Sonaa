@@ -403,3 +403,48 @@
     width: 100%;
   }
 }
+
+/* --- Corrections mesurées sur 390 px ------------------------------------ */
+
+@media (max-width: 700px) {
+  /* La ligne d'aide était en `white-space: nowrap` centrée : sur 390 px elle
+     dépassait des deux côtés et passait sous les contrôles. Elle se replie et
+     se place au-dessus d'eux. */
+  .help-line {
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: calc(2 * 2.75rem + 0.4rem + 1.6rem);
+    transform: none;
+    white-space: normal;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  .controls {
+    bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+
+  /* Les noms de familles se posaient à DROITE de la sphère : près du bord droit
+     de l'écran, « MINIMAL » sortait du cadre. Sur mobile ils passent dessous et
+     centrés, ce qui est une règle de gabarit et non un décalage au cas par cas :
+     aucun label n'est déplacé individuellement. */
+  .atlas-label[data-major='1'] {
+    translate: -50% 1.35rem;
+    margin-left: 0;
+    text-align: center;
+  }
+
+  /* Le fil d'Ariane peut être long : il se replie au lieu de sortir, et il se
+     resserre pour ne pas manger quatre lignes sur un chemin profond. */
+  .crumbs {
+    right: 5.5rem;
+    flex-wrap: wrap;
+    row-gap: 0.1rem;
+    column-gap: 0.3rem;
+    font-size: 0.625rem;
+  }
+  .crumb {
+    font-size: 0.625rem;
+    letter-spacing: 0.05em;
+  }
+}

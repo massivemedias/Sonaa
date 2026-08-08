@@ -938,6 +938,79 @@ sous la cible de trois morceaux. C'est la liste de travail pour
 
 ---
 
+## ADR-036 : Fiche de genre, recherche, accueil, et deux ecritures sur un meme fichier
+
+**Contexte.** L'atlas se navigue et s'ecoute, mais il ne se LIT pas : cliquer une
+sphere tombait directement dans un lecteur, sans jamais dire de quoi on parle ni
+d'ou ca vient. Et rien ne permettait d'atteindre un genre dont on connait le nom.
+
+**Decision 1 : le clic ouvre une FICHE, pas un lecteur.** Cliquer une sphere vole
+dessus, deploie ses derives, et ouvre sa fiche : nom, famille, intervalle de BPM,
+parent cliquable, greffes avec leur famille, derives cliquables, alias, et le
+badge de filiation debattue avec la note qui dit quelles sources se contredisent.
+Ecouter est une action de la fiche.
+
+La fiche est en DOM plat, pas en plaque 3D : c'est du texte a lire. La plaque
+reste reservee aux morceaux, qui sont un objet a contempler.
+
+**Piege paye.** Le bouton d'ecoute de la fiche appelait le rappel React
+`onTracks` directement. Le moteur n'etait donc jamais prevenu, la plaque n'etait
+pas posee, et la fenetre video se retrouvait sans geometrie : un panneau sans
+plaque ni video, visible seulement sur mobile ou le debordement sautait aux yeux.
+Ecouter doit passer par `openPanel` du moteur, qui appelle `onTracks` lui-meme.
+
+**Decision 2 : recherche sur barre oblique.** Nom, alias, nom de famille. Le
+resultat fait VOLER la camera, il ne teleporte pas.
+
+Les alias viennent du champ `aka` d'Ishkur v3, filtres par une regle : un alias
+qui est le nom d'un AUTRE genre du corpus est ecarte. Ishkur donne « Detroit
+Techno » comme alias de Minimal Techno, alors que c'est son ancetre ; taper le
+nom aurait envoye sur le mauvais noeud. Vingt alias ecartes sur cent
+trente-neuf, plus deux corrections a la main : une plaisanterie de l'auteur et un
+alias ambigu entre deux genres de la meme famille. 119 alias sur 48 genres.
+
+**Decision 3 : voler vers un genre demande d'attendre le deploiement.** Tant que
+sa famille est compacte, la sphere visee est rangee dans l'amas et le cadrage
+calcule sur cette position colle la camera a quelques unites du noeud. La cible
+est donc memorisee et la boucle de rendu la consomme quand la diffusion depasse
+90 pour cent.
+
+**Decision 4 : ecran d'accueil, une seule fois.** Le nom, une phrase, les sept
+familles avec leur teinte, et cinq gestes. Il disparait au premier clic et ne
+revient plus. Il marque aussi la ligne d'aide comme vue : repeter la meme chose
+juste apres serait du bruit.
+
+**Decision 5, la plus importante : deux scripts n'ecrivent pas le meme fichier
+en aveugle.** `fetch-covers` tourne des heures a cause du quota iTunes. Il
+chargeait le corpus au demarrage et le reecrivait entier a chaque trouvaille :
+une passe d'alias faite pendant ce temps a ete effacee en silence, et le symptome
+observe etait « la recherche ne trouve rien ».
+
+L'ecriture RELIT desormais le fichier et n'y applique QUE les champs dont le
+script est proprietaire, `cover` et `album`, indexes par identifiant de video.
+Tout script long doit suivre cette regle.
+
+**Mobile, mesure sur 390 par 844.** Quatre defauts trouves et corriges :
+
+1. Le panneau morceaux etait cadre sur la HAUTEUR seulement. En portrait, une
+   plaque remplissant 52 pour cent de la hauteur faisait une fois et demie la
+   largeur de l'ecran. Le cadrage tient maintenant les deux axes, et il compte le
+   decalage de la plaque vers la camera, qui la rapproche de 14 pour cent.
+2. Les noms de familles se posaient a droite de la sphere et « MINIMAL » sortait
+   du cadre. Sur mobile ils passent dessous et centres. C'est une regle de
+   gabarit, pas un decalage au cas par cas : aucun label n'est deplace
+   individuellement, la regle d'ADR-029 tient.
+3. La ligne d'aide etait en `nowrap` centree : elle depassait des deux cotes et
+   passait sous les controles. Elle se replie au-dessus d'eux.
+4. Le cadrage de l'atlas remplissait 70 pour cent de la largeur en portrait, ce
+   qui laissait les deux tiers de la hauteur vides. On monte a 90 pour cent quand
+   l'ecran est plus haut que large.
+
+Ajout au passage : deux bandes reservees a l'interface, 64 pixels en haut et 74
+en bas, ou aucun label ne se place. Ils se superposaient au fil d'Ariane.
+
+---
+
 ## Pièges GLSL rencontrés, à ne pas repayer
 
 Trois erreurs coûteuses rencontrées sur le prototype de rendu. Elles ne

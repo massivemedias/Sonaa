@@ -1,10 +1,16 @@
-/* Coquille du prototype. JETABLE, non branchée au reste du projet. */
+/* Coquille de l'atlas. Elle route les vues et ne dessine rien elle-même :
+   la 3D est dans webgl.ts, les morceaux dans PlayerLayer, la fiche dans
+   GenreCard, la recherche dans SearchOverlay. */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { FAMILIES, STRUCTURES } from './structures.ts';
 import { PlayerLayer, type PanelBus } from './PlayerLayer.tsx';
+import { GenreCard } from './GenreCard.tsx';
+import { SearchOverlay } from './SearchOverlay.tsx';
+import { Welcome } from './Welcome.tsx';
 import type { NavState, PanelState, AtlasApi, AtlasStats } from './webgl.ts';
 import './atlas.css';
+import './welcome.css';
 
 type Mode = 'attente' | 'webgl' | 'repli';
 
@@ -19,6 +25,9 @@ const hasWebGL = (): boolean => {
 
 const fmt = (ms: number): string => `${ms.toFixed(2)} ms`;
 const HELP_KEY = 'sonaa-help-seen';
+/* L'écran d'accueil se montre une seule fois dans la vie du navigateur. Clé
+   distincte de la ligne d'aide : ce sont deux choses différentes. */
+const WELCOME_KEY = 'sonaa-welcome-seen';
 
 function Fallback({ notice }: { notice: string }) {
   return (
@@ -46,6 +55,15 @@ export function AtlasPage() {
   const [panelGenre, setPanelGenre] = useState<{ familyIndex: number; genreLocal: number } | null>(
     null
   );
+  /* Fiche du genre atteint. Elle s'ouvre au clic sur une sphère, avant les
+     morceaux : écouter est une action de la fiche, pas un effet du clic. */
+  const [cardGenre, setCardGenre] = useState<{ familyIndex: number; genreLocal: number } | null>(
+    null
+  );
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(
+    () => localStorage.getItem(WELCOME_KEY) !== '1'
+  );
   const [reason, setReason] = useState('Chargement de la couche WebGL…');
   const [showHelp, setShowHelp] = useState(() => localStorage.getItem(HELP_KEY) !== '1');
   const [showHud, setShowHud] = useState(false);
@@ -54,6 +72,11 @@ export function AtlasPage() {
   const onNavigate = useCallback((next: NavState) => setNav(next), []);
   const onTracks = useCallback(
     (familyIndex: number, genreLocal: number) => setPanelGenre({ familyIndex, genreLocal }),
+    []
+  );
+
+  const onGenreInfo = useCallback(
+    (familyIndex: number, genreLocal: number) => setCardGenre({ familyIndex, genreLocal }),
     []
   );
 
@@ -92,6 +115,7 @@ export function AtlasPage() {
           onStats,
           onNavigate,
           onTracks,
+          onGenreInfo,
           onPanel,
           onContextLost: () => {
             setMode('repli');
@@ -108,7 +132,7 @@ export function AtlasPage() {
       apiRef.current?.dispose();
       apiRef.current = null;
     };
-  }, [onStats, onNavigate, onTracks, onPanel]);
+  }, [onStats, onNavigate, onTracks, onGenreInfo, onPanel]);
 
   /* La 3D n'est plus suspendue : le panneau vit DANS la scène, devant la
      sphère du genre. On continue donc à orbiter et à zoomer pendant qu'il est
@@ -118,6 +142,43 @@ export function AtlasPage() {
     setPanelGenre(null);
     apiRef.current?.closePanel();
     apiRef.current?.goUp();
+  }, []);
+
+  const dismissWelcome = useCallback(() => {
+    localStorage.setItem(WELCOME_KEY, '1');
+    setShowWelcome(false);
+    /* L'accueil vient de dire comment on navigue : répéter la même chose dans
+       la ligne d'aide juste après serait du bruit. */
+    localStorage.setItem(HELP_KEY, '1');
+    setShowHelp(false);
+  }, []);
+
+  /* La barre oblique ouvre la recherche, partout sauf dans un champ de saisie.
+     Échap la referme, et c'est SearchOverlay qui s'en charge. */
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent): void => {
+      if (event.target instanceof HTMLInputElement) return;
+      if (event.key === '/' && !searchOpen) {
+        event.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [searchOpen]);
+
+  const goToGenre = useCallback((familyIndex: number, genreLocal: number) => {
+    setPanelGenre(null);
+    apiRef.current?.closePanel();
+    apiRef.current?.goToGenre(familyIndex, genreLocal);
+  }, []);
+
+  /* Écouter passe par le MOTEUR, pas par l'état React seul. C'est lui qui pose
+     la plaque dans la scène et qui en émet la géométrie ; le prévenir est la
+     seule façon d'avoir une fenêtre vidéo positionnée. Appeler onTracks
+     directement affichait un panneau sans plaque ni fenêtre. */
+  const openTracks = useCallback((familyIndex: number, genreLocal: number) => {
+    apiRef.current?.openPanel(familyIndex, genreLocal);
   }, []);
 
   const reopenPanel = useCallback((familyIndex: number, genreLocal: number) => {
@@ -169,6 +230,7 @@ export function AtlasPage() {
           data-current={level === 'atlas' && !panelGenre}
           onClick={act(() => {
             setPanelGenre(null);
+            setCardGenre(null);
             apiRef.current?.closePanel();
             apiRef.current?.goToFamily(-1);
           })}
@@ -214,10 +276,10 @@ export function AtlasPage() {
         )}
       </nav>
 
-      {showHelp && mode === 'webgl' && !panelGenre && (
+      {showHelp && !showWelcome && mode === 'webgl' && !panelGenre && (
         <p className="help-line" role="status">
-          Glisser pour tourner · molette pour zoomer · clic sur une sphère pour y descendre ·
-          Échap pour remonter
+          Glisser pour tourner · molette pour zoomer · clic sur une sphère pour sa fiche ·
+          barre oblique pour chercher · Échap pour remonter
         </p>
       )}
 
@@ -233,6 +295,22 @@ export function AtlasPage() {
           <button onClick={act(() => apiRef.current?.goUp())} aria-label="Remonter d'un niveau" title="Remonter (Échap)">↑</button>
         </div>
       )}
+
+      {/* La fiche s'efface quand les morceaux passent devant : les deux ne se
+          lisent pas en même temps. */}
+      {mode === 'webgl' && cardGenre && !panelGenre && (
+        <GenreCard
+          familyIndex={cardGenre.familyIndex}
+          genreLocal={cardGenre.genreLocal}
+          onClose={() => setCardGenre(null)}
+          onTracks={openTracks}
+          onGoToGenre={goToGenre}
+        />
+      )}
+
+      {searchOpen && <SearchOverlay onPick={goToGenre} onClose={() => setSearchOpen(false)} />}
+
+      {showWelcome && <Welcome onDismiss={dismissWelcome} />}
 
       {mode === 'webgl' && (
         <PlayerLayer
