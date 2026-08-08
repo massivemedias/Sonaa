@@ -83,11 +83,25 @@ export const familySchema = z.strictObject({
   hue: z.number().min(0).max(360)
 });
 
+/* Deux listes par genre, comme prévu depuis le départ (ADR-026).
+
+   `essentiel` : les fondateurs du genre, toutes époques. C'est ce qu'on sait
+   remplir sans clé, par recherche puis vérification oEmbed.
+
+   `actuel` : les sorties récentes triées par écoutes. Cela demande la YouTube
+   Data API, donc une clé, donc un secret d'intégration continue. La liste
+   existe dès maintenant et reste vide : l'onglet ne s'affiche que si elle
+   contient quelque chose, ce qui évite de promettre une vue morte. */
+export const trackListsSchema = z.strictObject({
+  essentiel: z.array(trackSchema),
+  actuel: z.array(trackSchema)
+});
+
 export const corpusSchema = z
   .strictObject({
     version: z.literal(1),
     families: z.array(familySchema).length(FAMILY_IDS.length),
-    genres: z.array(genreSchema.extend({ tracks: z.array(trackSchema) })).min(1)
+    genres: z.array(genreSchema.extend({ tracks: trackListsSchema })).min(1)
   })
   .check((ctx) => {
     const doc = ctx.value;
@@ -155,6 +169,20 @@ export const corpusSchema = z
       return d;
     };
     for (const g of doc.genres) resolve(g.id, new Set());
+
+    /* Un identifiant de vidéo ne doit apparaître qu'une fois dans tout le
+       corpus. Le même identifiant sur deux genres est presque toujours une
+       compilation ou un mix pris pour un morceau. */
+    const seenVideo = new Map<string, string>();
+    for (const g of doc.genres) {
+      for (const t of [...g.tracks.essentiel, ...g.tracks.actuel]) {
+        const owner = seenVideo.get(t.youtubeId);
+        if (owner !== undefined && owner !== g.id) {
+          fail(`identifiant ${t.youtubeId} partagé entre ${owner} et ${g.id}`, ['genres']);
+        }
+        seenVideo.set(t.youtubeId, g.id);
+      }
+    }
 
     for (const family of FAMILY_IDS) {
       const genres = doc.genres.filter((g) => g.family === family);

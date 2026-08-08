@@ -33,6 +33,8 @@ export interface Playback {
   familyIndex: number;
   genreLocal: number;
   trackIndex: number;
+  /** Liste d'où vient le morceau : l'enchaînement reste dans celle-là. */
+  list: 'essentiel' | 'actuel';
 }
 
 interface Props {
@@ -132,17 +134,35 @@ export function PlayerLayer({ bus, panelGenre, onClose, onReopen }: Props) {
   const [volume, setVolume] = useState(80);
   const [expanded, setExpanded] = useState(false);
   const [apiFailed, setApiFailed] = useState(false);
+  /* Deux listes : les fondateurs du genre, et les sorties récentes. L'onglet ne
+     s'affiche que si la seconde contient quelque chose, sinon on promettrait une
+     vue morte : elle demande la YouTube Data API et donc une clé. */
+  const [tab, setTab] = useState<'essentiel' | 'actuel'>('essentiel');
 
   // --- données ------------------------------------------------------------
 
-  const panelTracks: Track[] = useMemo(() => {
+  const genreOf = (familyIndex: number, genreLocal: number) =>
+    STRUCTURES[familyIndex]?.genres[genreLocal];
+
+  const panelActuel: Track[] = useMemo(() => {
     if (!panelGenre) return [];
-    return STRUCTURES[panelGenre.familyIndex]?.genres[panelGenre.genreLocal]?.tracks ?? [];
+    return genreOf(panelGenre.familyIndex, panelGenre.genreLocal)?.tracksActuel ?? [];
   }, [panelGenre]);
 
+  const panelTracks: Track[] = useMemo(() => {
+    if (!panelGenre) return [];
+    const g = genreOf(panelGenre.familyIndex, panelGenre.genreLocal);
+    if (!g) return [];
+    return tab === 'actuel' && g.tracksActuel.length > 0 ? g.tracksActuel : g.tracksEssentiel;
+  }, [panelGenre, tab]);
+
+  /* La lecture suit sa propre liste : changer d'onglet ne doit pas couper le
+     morceau en cours. On retrouve donc le morceau joué dans les deux listes. */
   const playedTracks: Track[] = useMemo(() => {
     if (!playback) return [];
-    return STRUCTURES[playback.familyIndex]?.genres[playback.genreLocal]?.tracks ?? [];
+    const g = genreOf(playback.familyIndex, playback.genreLocal);
+    if (!g) return [];
+    return playback.list === 'actuel' ? g.tracksActuel : g.tracksEssentiel;
   }, [playback]);
 
   const currentTrack = playback ? playedTracks[playback.trackIndex] : undefined;
@@ -170,15 +190,19 @@ export function PlayerLayer({ bus, panelGenre, onClose, onReopen }: Props) {
 
   // --- lecteur ------------------------------------------------------------
 
-  const play = useCallback((familyIndex: number, genreLocal: number, trackIndex: number) => {
-    setPlayback({ familyIndex, genreLocal, trackIndex });
-  }, []);
+  const play = useCallback(
+    (familyIndex: number, genreLocal: number, trackIndex: number, list: 'essentiel' | 'actuel') => {
+      setPlayback({ familyIndex, genreLocal, trackIndex, list });
+    },
+    []
+  );
 
   const step = useCallback(
     (delta: number) => {
       setPlayback((p) => {
         if (!p) return p;
-        const list = STRUCTURES[p.familyIndex]?.genres[p.genreLocal]?.tracks ?? [];
+        const g = STRUCTURES[p.familyIndex]?.genres[p.genreLocal];
+        const list = (p.list === 'actuel' ? g?.tracksActuel : g?.tracksEssentiel) ?? [];
         if (list.length === 0) return p;
         return { ...p, trackIndex: (p.trackIndex + delta + list.length) % list.length };
       });
@@ -379,6 +403,8 @@ export function PlayerLayer({ bus, panelGenre, onClose, onReopen }: Props) {
   // --- rendu --------------------------------------------------------------
 
   const progress = duration > 0 ? (position / duration) * 100 : 0;
+  const currentList: 'essentiel' | 'actuel' =
+    tab === 'actuel' && panelActuel.length > 0 ? 'actuel' : 'essentiel';
 
   return (
     <>
@@ -421,7 +447,7 @@ export function PlayerLayer({ bus, panelGenre, onClose, onReopen }: Props) {
             {!playingHere && shownInPanel && (
               <button
                 className="panel-bigplay"
-                onClick={() => play(panelGenre.familyIndex, panelGenre.genreLocal, 0)}
+                onClick={() => play(panelGenre.familyIndex, panelGenre.genreLocal, 0, currentList)}
                 aria-label={`Lire ${shownInPanel.title}`}
               >
                 ▶
@@ -455,13 +481,33 @@ export function PlayerLayer({ bus, panelGenre, onClose, onReopen }: Props) {
               {shownInPanel?.year ? ` · ${shownInPanel.year}` : ''}
             </p>
 
+            {/* L'onglet Actuel n'existe que s'il a du contenu. */}
+            {panelActuel.length > 0 && (
+              <div className="panel-tabs" role="tablist" aria-label="Sélection de morceaux">
+                <button
+                  role="tab"
+                  aria-selected={currentList === 'essentiel'}
+                  onClick={() => setTab('essentiel')}
+                >
+                  Essentiel
+                </button>
+                <button
+                  role="tab"
+                  aria-selected={currentList === 'actuel'}
+                  onClick={() => setTab('actuel')}
+                >
+                  Actuel
+                </button>
+              </div>
+            )}
+
             <ul className="panel-strip">
               {panelTracks.map((track, i) => (
                 <li key={track.id}>
                   <button
                     className="panel-thumb"
                     data-active={playingHere && playback?.trackIndex === i}
-                    onClick={() => play(panelGenre.familyIndex, panelGenre.genreLocal, i)}
+                    onClick={() => play(panelGenre.familyIndex, panelGenre.genreLocal, i, currentList)}
                     aria-label={`Lire ${track.title} de ${track.artist}`}
                     title={`${track.artist} - ${track.title}`}
                   >
@@ -485,7 +531,7 @@ export function PlayerLayer({ bus, panelGenre, onClose, onReopen }: Props) {
               <button
                 className="panel-main"
                 onClick={() =>
-                  playingHere ? toggle() : play(panelGenre.familyIndex, panelGenre.genreLocal, 0)
+                  playingHere ? toggle() : play(panelGenre.familyIndex, panelGenre.genreLocal, 0, currentList)
                 }
                 aria-label={playing && playingHere ? 'Pause' : 'Lecture'}
               >

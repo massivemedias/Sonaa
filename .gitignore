@@ -4,3 +4,6 @@ dist
 .env.*
 .DS_Store
 *.local
+
+# Sortie de npm run import:tracks, regeneree a chaque passage.
+tracks-canon-report.md

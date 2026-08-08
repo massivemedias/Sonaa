@@ -42,6 +42,9 @@ const FORCE = process.argv.includes('--force');
    recherche et ne fait que télécharger les images déjà retenues, pour que le
    site soit complet même quand le quota est épuisé. */
 const COVERS_ONLY = process.argv.includes('--covers-only');
+/* --only-missing : ne cherche que les morceaux qui n'ont pas encore de vraie
+   pochette. C'est le mode à relancer tant que le quota n'a pas tout couvert. */
+const ONLY_MISSING = process.argv.includes('--only-missing');
 
 interface Track {
   youtubeId: string;
@@ -54,7 +57,11 @@ interface Track {
      l'album : c'est ce qu'on affiche, en le nommant pour ce qu'il est. */
   album?: string;
 }
-interface Genre { id: string; label: string; tracks: Track[] }
+interface Genre {
+  id: string;
+  label: string;
+  tracks: { essentiel: Track[]; actuel: Track[] };
+}
 interface Corpus { version: number; families: unknown[]; genres: Genre[] }
 
 const sleep = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms));
@@ -96,32 +103,34 @@ interface ItunesResult {
   artworkUrl100?: string;
 }
 
-/* iTunes limite le débit sans le documenter et répond 403 dès qu'on insiste.
-   Recul exponentiel plutôt qu'abandon : une pochette manquée pour cause de
-   quota n'est pas une pochette introuvable. */
+/* iTunes limite le débit sans le documenter et répond 403 dès qu'on insiste,
+   par adresse IP et sur une fenêtre longue. Recul exponentiel plutôt
+   qu'abandon, et plafond de pause porté à quatre minutes : une pochette manquée
+   pour cause de quota n'est pas une pochette introuvable, elle vaut la peine
+   d'attendre. Le script est fait pour tourner en tâche de fond sur des heures. */
 const UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17 Safari/605.1.15';
 
-let cooldown = 900;
+let cooldown = 1600;
 
 const search = async (term: string): Promise<ItunesResult[]> => {
   const url =
     'https://itunes.apple.com/search?media=music&entity=song&limit=12&term=' +
     encodeURIComponent(term);
 
-  for (let attempt = 0; attempt < 5; attempt += 1) {
+  for (let attempt = 0; attempt < 8; attempt += 1) {
     const res = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'application/json' } });
     if (res.ok) {
-      cooldown = Math.max(900, cooldown * 0.9);
+      cooldown = Math.max(1400, cooldown * 0.92);
       const body = (await res.json()) as { results?: ItunesResult[] };
       return body.results ?? [];
     }
     if (res.status !== 403 && res.status !== 429) throw new Error(`iTunes ${res.status}`);
-    cooldown = Math.min(30000, cooldown * 2);
+    cooldown = Math.min(240000, cooldown * 2.5);
     console.warn(`    quota iTunes, pause de ${Math.round(cooldown / 1000)} s`);
     await sleep(cooldown);
   }
-  throw new Error('iTunes 403 après 5 tentatives');
+  throw new Error('iTunes 403 après 8 tentatives');
 };
 
 /** 600 px au lieu des 100 px renvoyés par défaut. Même image, autre gabarit. */
@@ -161,6 +170,14 @@ const match = (
 
 const corpus = JSON.parse(readFileSync(CORPUS, 'utf8')) as Corpus;
 
+/* Écriture après CHAQUE trouvaille. iTunes se referme sans prévenir et les
+   pauses montent à quatre minutes : un script tué en cours de route perdait
+   tout ce qu'il avait trouvé. C'est arrivé une fois, 109 pochettes perdues.
+   Le fichier est maintenant toujours à jour, et le script est interruptible. */
+const writeCorpus = (): void => {
+  writeFileSync(CORPUS, `${JSON.stringify(corpus, null, 1)}\n`, 'utf8');
+};
+
 let itunes = 0;
 let fallback = 0;
 let kept = 0;
@@ -168,12 +185,17 @@ let failures = 0;
 
 for (const genre of corpus.genres) {
   if (COVERS_ONLY) break;
-  for (const track of genre.tracks) {
+  for (const track of [...genre.tracks.essentiel, ...genre.tracks.actuel]) {
     if (!FORCE && track.cover?.source === 'itunes') {
       kept += 1;
       continue;
     }
+    if (ONLY_MISSING && track.cover?.source === 'itunes') {
+      kept += 1;
+      continue;
+    }
 
+    const previous = track.cover;
     let hit: { url: string; album: string } | null = null;
     // Deux formulations : la seconde aide quand l'artiste est écrit autrement
     // dans les deux bases.
@@ -193,6 +215,14 @@ for (const genre of corpus.genres) {
       if (hit.album) track.album = hit.album;
       itunes += 1;
       console.log(`  ok    ${genre.id.padEnd(20)} ${track.artist} - ${track.title}`);
+      writeCorpus();
+    } else if (previous?.source === 'itunes') {
+      /* En --force, une recherche qui échoue pour cause de quota ne doit PAS
+         remplacer une vraie pochette par une vignette de vidéo. On garde
+         l'ancienne : l'échec est celui du réseau, pas celui de la pochette. */
+      track.cover = previous;
+      kept += 1;
+      console.log(`  garde ${genre.id.padEnd(20)} ${track.artist} - ${track.title}`);
     } else {
       track.cover = {
         url: `https://i.ytimg.com/vi/${track.youtubeId}/maxresdefault.jpg`,
@@ -202,6 +232,7 @@ for (const genre of corpus.genres) {
       fallback += 1;
       console.log(`  repli ${genre.id.padEnd(20)} ${track.artist} - ${track.title}`);
     }
+    writeCorpus();
   }
 }
 
@@ -217,7 +248,7 @@ let already = 0;
 let missing = 0;
 
 for (const genre of corpus.genres) {
-  for (const track of genre.tracks) {
+  for (const track of [...genre.tracks.essentiel, ...genre.tracks.actuel]) {
     /* Un morceau sans pochette retenue prend le repli vignette, même en
        --covers-only : sinon les morceaux ajoutés après la dernière recherche
        iTunes resteraient sans image du tout. */
@@ -287,7 +318,7 @@ console.log(
     '-gravity center -extent 400x400 -quality 78 -strip "$f"; done'
 );
 
-const total = corpus.genres.reduce((n, g) => n + g.tracks.length, 0);
+const total = corpus.genres.reduce((n, g) => n + g.tracks.essentiel.length + g.tracks.actuel.length, 0);
 console.log(
   `\n${total} morceaux : ${itunes} pochettes iTunes, ${fallback} replis vignette YouTube, ` +
     `${kept} conservées, ${failures} appels en échec.`

@@ -30,8 +30,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Garde-fou du matcher d'identifiants YouTube. Dix cas issus du corpus
+      # réel : quatre faux qu'une version permissive avait laissés passer, six
+      # justes qu'une version trop stricte rejetait. Voir ADR-035.
+      - name: Contrôler le matcher
+        run: npm run check:matcher
+
       # Fait autorité sur les données : cycles, références mortes, orphelins,
-      # cohérence des dates. Voir ARCHITECTURE.md ADR-005.
+      # doublons d'identifiants, couverture par genre. Voir ADR-005.
       - name: Valider les données
         run: npm run validate:data
 

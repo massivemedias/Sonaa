@@ -445,3 +445,31 @@
   width: 100%;
   height: 100%;
 }
+
+/* Onglets Essentiel et Actuel. Ils n'apparaissent que si la liste Actuel a du
+   contenu : promettre un onglet vide serait pire que ne pas l'avoir. */
+.panel-tabs {
+  display: flex;
+  gap: calc(var(--panel-w) * 0.02);
+  margin-top: calc(var(--panel-w) * 0.008);
+  flex: none;
+}
+
+.panel-tabs button {
+  font-family: var(--font-ui);
+  font-size: calc(var(--panel-w) * 0.024);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  padding: 0 0 0.25em;
+  cursor: pointer;
+}
+
+.panel-tabs button[aria-selected='true'] {
+  color: var(--ink-primary);
+  border-bottom-color: var(--family);
+}

@@ -22,10 +22,11 @@ l'iframe officielle. Sept familles, 68 genres, 190 morceaux verifies.
 **A relire par Mika :** `CORPUS.md`, les 68 filiations, dont 17 marquees
 `debated`. Dark disco, indie dance et psy-prog sont son terrain.
 
-**Reste a faire sur les pochettes :** relancer `npm run fetch:covers -- --force`
-quand le quota iTunes sera revenu. iTunes limite par adresse IP sur une fenetre
-longue et repond 403 pendant des heures : 27 pochettes sur 190 seulement sont de
-vraies pochettes, les autres sont des vignettes de video recadrees.
+**Prochaine action de Mika :** ecrire `tracks-canon.md` a la racine, un tableau
+markdown par genre, pour les genres sous la cible de trois morceaux.
+`npm run validate:data` les nomme en fin de rapport. Puis
+`npm run import:tracks -- --dry-run`, relire `tracks-canon-report.md`, corriger,
+et relancer sans `--dry-run`. Format documente dans le README.
 
 **L'atlas EST le produit, il vit dans `src/atlas/`.** Le mot « prototype » est
 caduc : la direction est tranchée, c'est ce code qu'on regarde, qu'on navigue et
@@ -275,7 +276,7 @@ expliquée dans les notes et une source. Une filiation musicale est une
 interprétation, pas un fait.
 
 **Aucun identifiant YouTube inventé, jamais.** Un identifiant non vérifié n'a
-pas le droit d'exister. `scripts/verify-youtube.ts` fait autorité sur le champ
+pas le droit d'exister. `scripts/lib/match.ts` fait autorité sur le champ
 `verified`, et le build de production retire les morceaux non vérifiés. Un genre
 sans morceau vérifié affiche « Sélection en cours de vérification. »
 
@@ -375,6 +376,11 @@ src/app/           page d'accueil P0
 src/design/        tokens.css et base.css
 src/data/schema.ts schéma Zod, à reprendre pour P1
 src/proto/         PROTOTYPE JETABLE, à supprimer après validation
-scripts/           validate-data, verify-youtube à écrire, fetch-tracks, fetch-covers
+scripts/           lib/match.ts   LE matcher, autorité sur « est-ce bien ce morceau »
+                   check-matcher  garde-fou du matcher, 10 cas réels, tourne en CI
+                   validate-data  intégrité du corpus et couverture par genre
+                   import-tracks  injection de tracks-canon.md, source humaine
+                   fetch-covers   pochettes iTunes puis téléchargement local
+                   fetch-tracks   onglet Actuel, demande YOUTUBE_API_KEY
 .github/workflows/ deploy.yml, fonctionnel
 ```

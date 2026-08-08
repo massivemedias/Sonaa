@@ -1,136 +1,187 @@
-/* Récupération des morceaux, AU BUILD UNIQUEMENT.
+/* Onglet Actuel : les sorties récentes d'un genre, triées par écoutes.
 
-   Ce script ne tourne jamais côté client. La clé est lue dans
-   process.env.YOUTUBE_API_KEY, fournie par un secret GitHub Actions, et rien
-   de ce qu'elle sert à obtenir ne la contient : seuls le titre, la chaîne, la
-   date de publication et le nombre de vues sont figés dans le JSON.
+   C'est le seul script du projet qui demande une clé. Elle est lue dans
+   l'environnement, jamais écrite dans le dépôt, jamais dans le bundle : elle
+   vient d'un secret d'intégration continue, et ce script ne tourne qu'au build.
 
-   Deux listes par genre :
-   - ACTUEL     sorties des 5 dernières années, triées par vues décroissantes
-   - ESSENTIEL  fondateurs, toutes époques, saisis à la main dans les données
+   Usage :
+     YOUTUBE_API_KEY=... npm run fetch:tracks
+     YOUTUBE_API_KEY=... npm run fetch:tracks -- --only=techno,house
+     YOUTUBE_API_KEY=... npm run fetch:tracks -- --dry-run
 
-   Usage : YOUTUBE_API_KEY=... npm run fetch:tracks -- [famille]
-*/
+   Ce que fait la Data API que oEmbed ne peut pas faire : chercher par date et
+   par nombre de vues. Ce qu'elle ne dispense pas de faire : vérifier. Les
+   résultats passent par le MÊME matcher que tout le reste, plus le contrôle
+   d'intégrabilité, parce qu'une vidéo trouvée par l'API peut très bien refuser
+   l'iframe, et qu'une recherche par mot-clé rapporte beaucoup de bruit.
 
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+   Rien n'est jamais écrasé : on ajoute à `tracks.actuel` ce qui n'y est pas
+   déjà, et on ne touche jamais à `tracks.essentiel`. */
+
+import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
-const GENRES_DIR = fileURLToPath(new URL('../src/data/genres', import.meta.url));
-const API = 'https://www.googleapis.com/youtube/v3';
-const CURRENT_YEARS = 5;
-const CURRENT_TARGET = 20;
+import { judge, normalise, oembed, sleep } from './lib/match.ts';
 
-const key = process.env['YOUTUBE_API_KEY'];
-if (!key) {
-  console.error('YOUTUBE_API_KEY absente. Ce script ne tourne qu\'au build, jamais côté client.');
+const CORPUS = fileURLToPath(new URL('../src/data/corpus.json', import.meta.url));
+
+const KEY = process.env['YOUTUBE_API_KEY'];
+const DRY = process.argv.includes('--dry-run');
+const onlyArg = process.argv.find((a) => a.startsWith('--only='));
+const ONLY = onlyArg ? new Set(onlyArg.slice('--only='.length).split(',').filter(Boolean)) : null;
+
+/** Combien de morceaux récents par genre, et sur quelle fenêtre. */
+const PER_GENRE = 6;
+const YEARS_BACK = 5;
+
+if (!KEY) {
+  console.error(
+    "YOUTUBE_API_KEY absente de l'environnement.\n" +
+      "Ce script ne tourne qu'au build, avec un secret d'intégration continue.\n" +
+      "Sans clé, l'onglet Actuel reste vide et ne s'affiche pas : c'est un état valide."
+  );
   process.exit(1);
 }
 
-interface SearchItem {
-  id: { videoId?: string };
-  snippet: { title: string; channelTitle: string; publishedAt: string };
+interface Track {
+  youtubeId: string;
+  artist: string;
+  title: string;
+  year: number | null;
+  verified: true;
+  album?: string;
+  cover?: { url: string; source: 'itunes' | 'youtube'; local: string };
 }
-
-interface StatsItem {
+interface Genre {
   id: string;
-  statistics?: { viewCount?: string };
-  status?: { embeddable?: boolean };
+  label: string;
+  family: string;
+  tracks: { essentiel: Track[]; actuel: Track[] };
+}
+interface Corpus { version: number; families: unknown[]; genres: Genre[] }
+
+interface SearchItem {
+  id?: { videoId?: string };
+  snippet?: { title?: string; channelTitle?: string; publishedAt?: string };
 }
 
-const sleep = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms));
+const search = async (query: string): Promise<SearchItem[]> => {
+  const after = new Date();
+  after.setFullYear(after.getFullYear() - YEARS_BACK);
 
-const search = async (query: string, publishedAfter: string): Promise<SearchItem[]> => {
-  const url =
-    `${API}/search?part=snippet&type=video&videoEmbeddable=true&maxResults=50` +
-    `&q=${encodeURIComponent(query)}&publishedAfter=${publishedAfter}&key=${key}`;
+  const url = new URL('https://www.googleapis.com/youtube/v3/search');
+  url.searchParams.set('key', KEY);
+  url.searchParams.set('part', 'snippet');
+  url.searchParams.set('type', 'video');
+  url.searchParams.set('maxResults', '25');
+  url.searchParams.set('order', 'viewCount');
+  url.searchParams.set('videoEmbeddable', 'true');
+  url.searchParams.set('publishedAfter', `${after.toISOString().slice(0, 19)}Z`);
+  url.searchParams.set('q', query);
 
-  const response = await fetch(url);
-  if (!response.ok) {
-    console.error(`  recherche en échec (${response.status}) pour ${query}`);
-    return [];
-  }
-  const body = (await response.json()) as { items?: SearchItem[] };
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`YouTube Data API ${res.status} ${await res.text()}`);
+  const body = (await res.json()) as { items?: SearchItem[] };
   return body.items ?? [];
 };
 
-/* Les vues ne sont pas dans la recherche : il faut un second appel sur les
-   identifiants, par lots de 50. C'est ce qui permet le tri par popularité. */
-const hydrate = async (ids: string[]): Promise<Map<string, { views: number; embeddable: boolean }>> => {
-  const out = new Map<string, { views: number; embeddable: boolean }>();
-  for (let i = 0; i < ids.length; i += 50) {
-    const batch = ids.slice(i, i + 50);
-    const url = `${API}/videos?part=statistics,status&id=${batch.join(',')}&key=${key}`;
-    const response = await fetch(url);
-    if (!response.ok) continue;
-    const body = (await response.json()) as { items?: StatsItem[] };
-    for (const item of body.items ?? []) {
-      out.set(item.id, {
-        views: Number(item.statistics?.viewCount ?? 0),
-        embeddable: item.status?.embeddable !== false
-      });
-    }
-    await sleep(120);
-  }
-  return out;
+/* Un titre de vidéo est presque toujours « Artiste - Titre ». On coupe sur le
+   premier tiret, et on abandonne la ligne si on n'en trouve pas : deviner
+   l'artiste produirait des métadonnées fausses. */
+const split = (videoTitle: string): { artist: string; title: string } | null => {
+  const cleaned = videoTitle
+    .replace(/\s*[[(](official|video|audio|clip|hd|4k|lyrics?)[^)\]]*[)\]]/gi, '')
+    .replace(/\s*\|.*$/, '')
+    .trim();
+  const m = /^(.{2,60}?)\s+[-–—]\s+(.{2,90})$/.exec(cleaned);
+  if (!m?.[1] || !m[2]) return null;
+  return { artist: m[1].trim(), title: m[2].trim() };
 };
 
-interface Genre {
-  id: string;
-  name: string;
-  discogsStyles?: string[];
-  tracksCurrent?: unknown[];
-  [key: string]: unknown;
-}
+const corpus = JSON.parse(readFileSync(CORPUS, 'utf8')) as Corpus;
 
-const only = process.argv[2];
-const files = readdirSync(GENRES_DIR)
-  .filter((f) => f.endsWith('.json'))
-  .filter((f) => !only || f === `${only}.json`);
+let added = 0;
+let examined = 0;
+const empty: string[] = [];
 
-const since = new Date();
-since.setFullYear(since.getFullYear() - CURRENT_YEARS);
-const publishedAfter = since.toISOString();
+for (const genre of corpus.genres) {
+  if (ONLY && !ONLY.has(genre.id) && !ONLY.has(genre.family)) continue;
 
-for (const file of files) {
-  const path = join(GENRES_DIR, file);
-  const genres = JSON.parse(readFileSync(path, 'utf8')) as Genre[];
+  const known = new Set(
+    [...genre.tracks.essentiel, ...genre.tracks.actuel].map((t) => t.youtubeId)
+  );
+  const knownPairs = new Set(
+    [...genre.tracks.essentiel, ...genre.tracks.actuel].map(
+      (t) => `${normalise(t.artist)}|${normalise(t.title)}`
+    )
+  );
 
-  for (const genre of genres) {
-    const query = `${genre.name} ${(genre.discogsStyles ?? []).slice(0, 2).join(' ')}`.trim();
-    console.log(`${genre.id} : recherche « ${query} »`);
-
-    const items = await search(query, publishedAfter);
-    const ids = items.map((i) => i.id.videoId).filter((v): v is string => Boolean(v));
-    const stats = await hydrate(ids);
-
-    const tracks = items
-      .map((item) => {
-        const id = item.id.videoId;
-        if (!id) return null;
-        const s = stats.get(id);
-        if (!s || !s.embeddable) return null;
-        return {
-          youtubeId: id,
-          title: item.snippet.title,
-          channel: item.snippet.channelTitle,
-          publishedAt: item.snippet.publishedAt,
-          views: s.views,
-          // verify-youtube.ts fait autorité sur ce champ, jamais ce script.
-          verified: false
-        };
-      })
-      .filter((t): t is NonNullable<typeof t> => t !== null)
-      .sort((a, b) => b.views - a.views)
-      .slice(0, CURRENT_TARGET);
-
-    genre.tracksCurrent = tracks;
-    console.log(`  ${tracks.length} morceaux retenus`);
-    await sleep(200);
+  let items: SearchItem[] = [];
+  try {
+    items = await search(`${genre.label} track`);
+  } catch (error) {
+    console.error(`  ${genre.id} : ${(error as Error).message}`);
+    continue;
   }
 
-  writeFileSync(path, `${JSON.stringify(genres, null, 2)}\n`);
-  console.log(`${file} mis à jour.`);
+  const found: Track[] = [];
+  for (const item of items) {
+    if (found.length >= PER_GENRE) break;
+    const videoId = item.id?.videoId;
+    const videoTitle = item.snippet?.title;
+    if (!videoId || !videoTitle || known.has(videoId)) continue;
+
+    const parsed = split(videoTitle);
+    if (!parsed) continue;
+
+    const pair = `${normalise(parsed.artist)}|${normalise(parsed.title)}`;
+    if (knownPairs.has(pair)) continue;
+
+    examined += 1;
+
+    /* Le matcher, sur ce que l'API a renvoyé contre ce qu'on en a déduit. Cela
+       écarte les titres qu'on a mal découpés et les vidéos hors sujet. */
+    const verdict = judge(
+      { title: videoTitle, channel: item.snippet?.channelTitle ?? '' },
+      parsed.artist,
+      parsed.title
+    );
+    if (!verdict.ok) continue;
+
+    // videoEmbeddable=true ne suffit pas : on confirme par oEmbed, seule source
+    // qui dit vraiment si l'iframe acceptera la vidéo.
+    const candidate = await oembed(videoId);
+    await sleep(120);
+    if (!candidate) continue;
+
+    const year = item.snippet?.publishedAt
+      ? Number.parseInt(item.snippet.publishedAt.slice(0, 4), 10)
+      : null;
+
+    found.push({
+      youtubeId: videoId,
+      artist: parsed.artist,
+      title: parsed.title,
+      year: Number.isFinite(year) ? year : null,
+      verified: true
+    });
+    known.add(videoId);
+    knownPairs.add(pair);
+  }
+
+  if (found.length === 0) empty.push(genre.id);
+  genre.tracks.actuel.push(...found);
+  added += found.length;
+  console.log(`  ${genre.id.padEnd(20)} ${found.length} sortie(s) récente(s) retenue(s)`);
 }
 
-console.log('\nRappel : lancer npm run verify:youtube avant tout build de production.');
+if (!DRY && added > 0) {
+  writeFileSync(CORPUS, `${JSON.stringify(corpus, null, 1)}\n`, 'utf8');
+  console.log(`\n${added} morceaux ajoutés à l'onglet Actuel sur ${examined} candidats examinés.`);
+} else {
+  console.log(`\n${DRY ? 'Essai à blanc. ' : ''}${added} morceaux retenus, corpus inchangé.`);
+}
+if (empty.length > 0) {
+  console.log(`Aucune sortie récente retenue pour : ${empty.join(', ')}`);
+}
+console.log("Penser à lancer npm run fetch:covers ensuite, pour les pochettes des nouveaux morceaux.");

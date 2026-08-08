@@ -51,47 +51,50 @@
    ],
    "major": true,
    "note": "Fondateur de la famille. Philadelphie et New York, 1972. Ishkur v3 ne contient pas Disco : son atlas commence a l'electronique, la filiation est donc reprise de Wikipedia et Discogs.",
-   "tracks": [
-    {
-     "youtubeId": "aXgSHL7efKg",
-     "artist": "Chic",
-     "title": "Le Freak",
-     "year": 1978,
-     "verified": true,
-     "album": "C'est Chic (2018 Remaster)",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/23/5b/b2/235bb2c3-abaa-22e2-753d-afa8b1806dfe/603497853588.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/aXgSHL7efKg.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "aXgSHL7efKg",
+      "artist": "Chic",
+      "title": "Le Freak",
+      "year": 1978,
+      "verified": true,
+      "album": "C'est Chic (2018 Remaster)",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/23/5b/b2/235bb2c3-abaa-22e2-753d-afa8b1806dfe/603497853588.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/aXgSHL7efKg.jpg"
+      }
+     },
+     {
+      "youtubeId": "yEbaeLv-aOo",
+      "artist": "Donna Summer",
+      "title": "I Feel Love",
+      "year": 1977,
+      "verified": true,
+      "album": "I Remember Yesterday",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/82/13/19/8213190b-60a9-95cd-9cc0-0948e08a085a/06UMGIM05259.rgb.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/yEbaeLv-aOo.jpg"
+      }
+     },
+     {
+      "youtubeId": "nIrnevgyCFw",
+      "artist": "Sister Sledge",
+      "title": "Lost In Music",
+      "year": 1979,
+      "verified": true,
+      "album": "We Are Family (1995 Remaster)",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/da/e8/56/mzi.ptvoczcg.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/nIrnevgyCFw.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "yEbaeLv-aOo",
-     "artist": "Donna Summer",
-     "title": "I Feel Love",
-     "year": 1977,
-     "verified": true,
-     "album": "I Remember Yesterday",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/82/13/19/8213190b-60a9-95cd-9cc0-0948e08a085a/06UMGIM05259.rgb.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/yEbaeLv-aOo.jpg"
-     }
-    },
-    {
-     "youtubeId": "nIrnevgyCFw",
-     "artist": "Sister Sledge",
-     "title": "Lost In Music",
-     "year": 1979,
-     "verified": true,
-     "album": "We Are Family (1995 Remaster)",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/da/e8/56/mzi.ptvoczcg.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/nIrnevgyCFw.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "eurodisco",
@@ -112,47 +115,50 @@
    ],
    "major": false,
    "note": "Munich, Giorgio Moroder. Discogs le nomme Euro-Disco.",
-   "tracks": [
-    {
-     "youtubeId": "qTFEyFEu1Fk",
-     "artist": "Giorgio Moroder",
-     "title": "From Here To Eternity",
-     "year": 1977,
-     "verified": true,
-     "album": "Club Remixes Selection Two",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/bd/bf/2f/bdbf2f29-f505-02c3-4010-39cd320958df/cover.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/qTFEyFEu1Fk.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "qTFEyFEu1Fk",
+      "artist": "Giorgio Moroder",
+      "title": "From Here To Eternity",
+      "year": 1977,
+      "verified": true,
+      "album": "Club Remixes Selection Two",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/bd/bf/2f/bdbf2f29-f505-02c3-4010-39cd320958df/cover.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/qTFEyFEu1Fk.jpg"
+      }
+     },
+     {
+      "youtubeId": "wC_kCnm3GYQ",
+      "artist": "Silver Convention",
+      "title": "Fly Robin Fly",
+      "year": 1975,
+      "verified": true,
+      "album": "Save Me",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/da/a9/55/daa955bf-a39e-2eb6-6d3e-a28311c93694/mzi.xmhwmthg.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/wC_kCnm3GYQ.jpg"
+      }
+     },
+     {
+      "youtubeId": "yDyndnMgCvQ",
+      "artist": "Boney M",
+      "title": "Nightflight To Venus",
+      "year": 1978,
+      "verified": true,
+      "album": "Nightflight to Venus (2007 Remastered Version)",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/d9/7d/8d/d97d8df4-d396-92b4-a68d-916718a9d454/dj.vmtarinh.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/yDyndnMgCvQ.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "wC_kCnm3GYQ",
-     "artist": "Silver Convention",
-     "title": "Fly Robin Fly",
-     "year": 1975,
-     "verified": true,
-     "album": "Save Me",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/da/a9/55/daa955bf-a39e-2eb6-6d3e-a28311c93694/mzi.xmhwmthg.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/wC_kCnm3GYQ.jpg"
-     }
-    },
-    {
-     "youtubeId": "yDyndnMgCvQ",
-     "artist": "Boney M",
-     "title": "Nightflight To Venus",
-     "year": 1978,
-     "verified": true,
-     "album": "Nightflight to Venus (2007 Remastered Version)",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/d9/7d/8d/d97d8df4-d396-92b4-a68d-916718a9d454/dj.vmtarinh.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/yDyndnMgCvQ.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "hinrg",
@@ -173,46 +179,36 @@
    ],
    "major": true,
    "note": "Ishkur v3 fait descendre Hi-NRG de Spacesynth (1977). Wikipedia et Discogs le font descendre directement du disco europeen, via Patrick Cowley et Giorgio Moroder. J'ai suivi Wikipedia : Spacesynth est posterieur (1983) et ne peut pas etre l'ancetre d'un genre de 1977.",
-   "tracks": [
-    {
-     "youtubeId": "g_gax4gqWPo",
-     "artist": "Arpadys",
-     "title": "Monkey Star",
-     "year": 1977,
-     "verified": true,
-     "album": "Arpadys - EP",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/5f/d0/2c/mzi.qqvgjyhe.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/g_gax4gqWPo.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "g_gax4gqWPo",
+      "artist": "Arpadys",
+      "title": "Monkey Star",
+      "year": 1977,
+      "verified": true,
+      "album": "Arpadys - EP",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/5f/d0/2c/mzi.qqvgjyhe.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/g_gax4gqWPo.jpg"
+      }
+     },
+     {
+      "youtubeId": "tV0POOH9mMk",
+      "artist": "Peter Moesser's Music",
+      "title": "High",
+      "year": 1977,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/tV0POOH9mMk/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/tV0POOH9mMk.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "tV0POOH9mMk",
-     "artist": "Peter Moesser's Music",
-     "title": "High",
-     "year": 1977,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/tV0POOH9mMk/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/tV0POOH9mMk.jpg"
-     }
-    },
-    {
-     "youtubeId": "qTFEyFEu1Fk",
-     "artist": "Giorgio Moroder",
-     "title": "From Here To Eternity",
-     "year": 1977,
-     "verified": true,
-     "album": "Club Remixes Selection Two",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/bd/bf/2f/bdbf2f29-f505-02c3-4010-39cd320958df/cover.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/qTFEyFEu1Fk.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "italodisco",
@@ -233,47 +229,50 @@
    ],
    "major": true,
    "note": "Italie, 1979-1980. Ishkur v3 le fait descendre de Spacesynth, meme probleme de chronologie que Hi-NRG.",
-   "tracks": [
-    {
-     "youtubeId": "Iq5F1sQkImM",
-     "artist": "Easy Going",
-     "title": "Fear",
-     "year": 1979,
-     "verified": true,
-     "album": "Fear - Single",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/7e/9d/68/7e9d6882-843f-8403-749d-127fdc424a23/5055779328072.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/Iq5F1sQkImM.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "Iq5F1sQkImM",
+      "artist": "Easy Going",
+      "title": "Fear",
+      "year": 1979,
+      "verified": true,
+      "album": "Fear - Single",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/7e/9d/68/7e9d6882-843f-8403-749d-127fdc424a23/5055779328072.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/Iq5F1sQkImM.jpg"
+      }
+     },
+     {
+      "youtubeId": "B85dYk77V-o",
+      "artist": "Candido",
+      "title": "Jingo",
+      "year": 1979,
+      "verified": true,
+      "album": "Dancin' & Prancin'",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/a4/55/0e/a4550e09-0aca-2bb1-ba97-69b2ee9454f3/4050538292879.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/B85dYk77V-o.jpg"
+      }
+     },
+     {
+      "youtubeId": "19X-g5jHRzI",
+      "artist": "The Immortals",
+      "title": "The Ultimate Warlord",
+      "year": 1979,
+      "verified": true,
+      "album": "The Ultimate Warlord / Warlord - EP",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music60/v4/ba/de/8a/bade8a48-0151-927c-95cc-245d553c4212/dj.cxypgsji.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/19X-g5jHRzI.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "B85dYk77V-o",
-     "artist": "Candido",
-     "title": "Jingo",
-     "year": 1979,
-     "verified": true,
-     "album": "Dancin' & Prancin'",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/a4/55/0e/a4550e09-0aca-2bb1-ba97-69b2ee9454f3/4050538292879.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/B85dYk77V-o.jpg"
-     }
-    },
-    {
-     "youtubeId": "19X-g5jHRzI",
-     "artist": "The Immortals",
-     "title": "The Ultimate Warlord",
-     "year": 1979,
-     "verified": true,
-     "album": "The Ultimate Warlord / Warlord - EP",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music60/v4/ba/de/8a/bade8a48-0151-927c-95cc-245d553c4212/dj.cxypgsji.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/19X-g5jHRzI.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "spacesynth",
@@ -294,46 +293,49 @@
    ],
    "major": false,
    "note": "Ishkur v3 en fait l'ancetre de l'Italo et du Hi-NRG. Discogs et la scene le decrivent comme une branche instrumentale de l'Italo, posterieure (Laserdance, 1984). J'ai inverse le lien par rapport a Ishkur.",
-   "tracks": [
-    {
-     "youtubeId": "pjUptK4UKTo",
-     "artist": "Zanov",
-     "title": "Moebius 256",
-     "year": 1977,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/pjUptK4UKTo/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/pjUptK4UKTo.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "pjUptK4UKTo",
+      "artist": "Zanov",
+      "title": "Moebius 256",
+      "year": 1977,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/pjUptK4UKTo/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/pjUptK4UKTo.jpg"
+      }
+     },
+     {
+      "youtubeId": "ZavwtJxmqJI",
+      "artist": "Space",
+      "title": "Magic Fly",
+      "year": 1977,
+      "verified": true,
+      "album": "Magic Fly",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a7/23/e2/a723e22f-4909-09f1-3301-2c536e3d62ec/5060131018188_cover.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/ZavwtJxmqJI.jpg"
+      }
+     },
+     {
+      "youtubeId": "b9jPcozl1ns",
+      "artist": "Electronic System",
+      "title": "Cosmos Trip",
+      "year": 1977,
+      "verified": true,
+      "album": "Disco Machine",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/48/da/a3/mzi.bogjadbn.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/b9jPcozl1ns.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "ZavwtJxmqJI",
-     "artist": "Space",
-     "title": "Magic Fly",
-     "year": 1977,
-     "verified": true,
-     "album": "Magic Fly",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a7/23/e2/a723e22f-4909-09f1-3301-2c536e3d62ec/5060131018188_cover.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/ZavwtJxmqJI.jpg"
-     }
-    },
-    {
-     "youtubeId": "b9jPcozl1ns",
-     "artist": "Electronic System",
-     "title": "Cosmos Trip",
-     "year": 1977,
-     "verified": true,
-     "album": "Disco Machine",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/48/da/a3/mzi.bogjadbn.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/b9jPcozl1ns.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "cosmic",
@@ -354,20 +356,23 @@
    ],
    "major": false,
    "note": "Baldelli, Cosmic Club, Italie 1979. Absent d'Ishkur.",
-   "tracks": [
-    {
-     "youtubeId": "xW-3hP86U-A",
-     "artist": "Daniele Baldelli",
-     "title": "Cosmic Drag",
-     "year": 2014,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/xW-3hP86U-A/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/xW-3hP86U-A.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "xW-3hP86U-A",
+      "artist": "Daniele Baldelli",
+      "title": "Cosmic Drag",
+      "year": 2014,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/xW-3hP86U-A/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/xW-3hP86U-A.jpg"
+      }
      }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "boogie",
@@ -388,47 +393,50 @@
    ],
    "major": false,
    "note": "Post-disco electronique, New York 1980-1984. Discogs : Boogie. Absent d'Ishkur.",
-   "tracks": [
-    {
-     "youtubeId": "PTVE7oghjb8",
-     "artist": "Kashif",
-     "title": "Help Yourself To My Love",
-     "year": 1983,
-     "verified": true,
-     "album": "Kashif",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/c6/b4/e1/c6b4e1a8-9365-fc81-b438-3453beed071b/5060196464180.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/PTVE7oghjb8.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "PTVE7oghjb8",
+      "artist": "Kashif",
+      "title": "Help Yourself To My Love",
+      "year": 1983,
+      "verified": true,
+      "album": "Kashif",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/c6/b4/e1/c6b4e1a8-9365-fc81-b438-3453beed071b/5060196464180.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/PTVE7oghjb8.jpg"
+      }
+     },
+     {
+      "youtubeId": "pAQGetcjC-A",
+      "artist": "D Train",
+      "title": "You re The One For Me",
+      "year": 1981,
+      "verified": true,
+      "album": "Prelude Mastermixes, Vol. 1",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/29/cc/3f/mzi.ezgnqnel.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/pAQGetcjC-A.jpg"
+      }
+     },
+     {
+      "youtubeId": "ASiqxSwHpQ8",
+      "artist": "Evelyn King",
+      "title": "Love Come Down",
+      "year": 1982,
+      "verified": true,
+      "album": "Get Loose",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/f9/f7/06/f9f70652-e229-e10d-14bc-0c00d32645fd/886443502703.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/ASiqxSwHpQ8.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "pAQGetcjC-A",
-     "artist": "D Train",
-     "title": "You re The One For Me",
-     "year": 1981,
-     "verified": true,
-     "album": "Prelude Mastermixes, Vol. 1",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/29/cc/3f/mzi.ezgnqnel.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/pAQGetcjC-A.jpg"
-     }
-    },
-    {
-     "youtubeId": "ASiqxSwHpQ8",
-     "artist": "Evelyn King",
-     "title": "Love Come Down",
-     "year": 1982,
-     "verified": true,
-     "album": "Get Loose",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/f9/f7/06/f9f70652-e229-e10d-14bc-0c00d32645fd/886443502703.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/ASiqxSwHpQ8.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "nudisco",
@@ -449,46 +457,49 @@
    ],
    "major": true,
    "note": "Reprise du disco par la scene house des annees 2000. Absent d'Ishkur v3.",
-   "tracks": [
-    {
-     "youtubeId": "4mP20PGdrf0",
-     "artist": "Lindstrom",
-     "title": "I Feel Space",
-     "year": 2005,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/4mP20PGdrf0/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/4mP20PGdrf0.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "4mP20PGdrf0",
+      "artist": "Lindstrom",
+      "title": "I Feel Space",
+      "year": 2005,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/4mP20PGdrf0/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/4mP20PGdrf0.jpg"
+      }
+     },
+     {
+      "youtubeId": "YEZyHkc4pk8",
+      "artist": "Prins Thomas",
+      "title": "Wendy Not Walter",
+      "year": 2010,
+      "verified": true,
+      "album": "Prins Thomas",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/cd/fe/08/mzi.tqmtpzrv.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/YEZyHkc4pk8.jpg"
+      }
+     },
+     {
+      "youtubeId": "gHiqPG0526U",
+      "artist": "Todd Terje",
+      "title": "Inspector Norse",
+      "year": 2012,
+      "verified": true,
+      "album": "It's the Arps - EP",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/34/ad/68/34ad68d6-dcc9-41f5-1899-fe2ffe4985a6/600116081919_1.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/gHiqPG0526U.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "YEZyHkc4pk8",
-     "artist": "Prins Thomas",
-     "title": "Wendy Not Walter",
-     "year": 2010,
-     "verified": true,
-     "album": "Prins Thomas",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/cd/fe/08/mzi.tqmtpzrv.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/YEZyHkc4pk8.jpg"
-     }
-    },
-    {
-     "youtubeId": "gHiqPG0526U",
-     "artist": "Todd Terje",
-     "title": "Inspector Norse",
-     "year": 2012,
-     "verified": true,
-     "album": "It's the Arps - EP",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/34/ad/68/34ad68d6-dcc9-41f5-1899-fe2ffe4985a6/600116081919_1.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/gHiqPG0526U.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "indiedance",
@@ -509,20 +520,23 @@
    ],
    "major": true,
    "note": "Terrain de Mika, a corriger. Je l'ai rattache au nu-disco, mais on le rattache aussi souvent a l'electroclash et au dark disco.",
-   "tracks": [
-    {
-     "youtubeId": "x2dQptUXSDc",
-     "artist": "Roman Fluegel",
-     "title": "Gehts Noch",
-     "year": 2004,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/x2dQptUXSDc/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/x2dQptUXSDc.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "x2dQptUXSDc",
+      "artist": "Roman Fluegel",
+      "title": "Gehts Noch",
+      "year": 2004,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/x2dQptUXSDc/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/x2dQptUXSDc.jpg"
+      }
      }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "darkdisco",
@@ -548,33 +562,23 @@
    ],
    "major": true,
    "note": "Terrain de Mika, a corriger. Greffe EBM posee par defaut, la famille industrial n'existe pas dans ce corpus v1 : la greffe est donc declaree mais non resolue.",
-   "tracks": [
-    {
-     "youtubeId": "MRsqEm8KT1s",
-     "artist": "Curses",
-     "title": "Incenser",
-     "year": 2020,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/MRsqEm8KT1s/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/MRsqEm8KT1s.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "MRsqEm8KT1s",
+      "artist": "Curses",
+      "title": "Incenser",
+      "year": 2020,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/MRsqEm8KT1s/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/MRsqEm8KT1s.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "6uMOl8UEzrE",
-     "artist": "Emmanuel Top",
-     "title": "Turkish Bazar",
-     "year": 1995,
-     "verified": true,
-     "album": "Release",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/94/44/6c/mzi.gwnlxtbp.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/6uMOl8UEzrE.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "chicagohouse",
@@ -595,45 +599,48 @@
    ],
    "major": true,
    "note": "Fondateur de la famille. Chicago, 1984, Warehouse. Descend directement du disco : greffe vers la famille disco.",
-   "tracks": [
-    {
-     "youtubeId": "Ry3nDoVi2Hg",
-     "artist": "Vince Lawrence",
-     "title": "Thorns",
-     "year": 1984,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/Ry3nDoVi2Hg/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/Ry3nDoVi2Hg.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "Ry3nDoVi2Hg",
+      "artist": "Vince Lawrence",
+      "title": "Thorns",
+      "year": 1984,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/Ry3nDoVi2Hg/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/Ry3nDoVi2Hg.jpg"
+      }
+     },
+     {
+      "youtubeId": "JFIMliwtRjI",
+      "artist": "Z-Factor feat Jesse Saunders",
+      "title": "Fantasy (Vocal)",
+      "year": 1984,
+      "verified": true,
+      "album": "Fantasy - Single",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/36/a4/ec/36a4ecd0-89de-090f-eb9a-404022aa53fb/65068.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/JFIMliwtRjI.jpg"
+      }
+     },
+     {
+      "youtubeId": "Pe-N7DDY-Mg",
+      "artist": "Jesse Velez",
+      "title": "We Don't Need No Music",
+      "year": 1985,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/Pe-N7DDY-Mg/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/Pe-N7DDY-Mg.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "JFIMliwtRjI",
-     "artist": "Z-Factor feat Jesse Saunders",
-     "title": "Fantasy (Vocal)",
-     "year": 1984,
-     "verified": true,
-     "album": "Fantasy - Single",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/36/a4/ec/36a4ecd0-89de-090f-eb9a-404022aa53fb/65068.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/JFIMliwtRjI.jpg"
-     }
-    },
-    {
-     "youtubeId": "Pe-N7DDY-Mg",
-     "artist": "Jesse Velez",
-     "title": "We Don't Need No Music",
-     "year": 1985,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/Pe-N7DDY-Mg/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/Pe-N7DDY-Mg.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "acidhouse",
@@ -654,47 +661,50 @@
    ],
    "major": true,
    "note": "Chicago 1986, Phuture, TB-303. Accord de toutes les sources.",
-   "tracks": [
-    {
-     "youtubeId": "lJnqRCwPeSw",
-     "artist": "Sleezy D",
-     "title": "I've Lost Control",
-     "year": 1986,
-     "verified": true,
-     "album": "I've Lost Control - Single",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/e7/0d/07/e70d0762-dee5-78a6-5c2d-6a5b2fbaaa5e/196626199706.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/lJnqRCwPeSw.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "lJnqRCwPeSw",
+      "artist": "Sleezy D",
+      "title": "I've Lost Control",
+      "year": 1986,
+      "verified": true,
+      "album": "I've Lost Control - Single",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/e7/0d/07/e70d0762-dee5-78a6-5c2d-6a5b2fbaaa5e/196626199706.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/lJnqRCwPeSw.jpg"
+      }
+     },
+     {
+      "youtubeId": "UtO-Tbs7Puw",
+      "artist": "Adonis",
+      "title": "We're Rocking Down The House (Instrumental)",
+      "year": 1986,
+      "verified": true,
+      "album": "We're Rocking Down the House (Radio Edit) - Single",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/67/c6/af/67c6af2e-fbd6-3bc7-67be-80bf825bc366/859795611744_cover.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/UtO-Tbs7Puw.jpg"
+      }
+     },
+     {
+      "youtubeId": "wXuQb8Ln6_g",
+      "artist": "Chip E",
+      "title": "Time To Jack",
+      "year": 1986,
+      "verified": true,
+      "album": "Time to Jack",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/53/3e/7c/mzi.zlnvcumx.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/wXuQb8Ln6_g.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "UtO-Tbs7Puw",
-     "artist": "Adonis",
-     "title": "We're Rocking Down The House (Instrumental)",
-     "year": 1986,
-     "verified": true,
-     "album": "We're Rocking Down the House (Radio Edit) - Single",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/67/c6/af/67c6af2e-fbd6-3bc7-67be-80bf825bc366/859795611744_cover.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/UtO-Tbs7Puw.jpg"
-     }
-    },
-    {
-     "youtubeId": "wXuQb8Ln6_g",
-     "artist": "Chip E",
-     "title": "Time To Jack",
-     "year": 1986,
-     "verified": true,
-     "album": "Time to Jack",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/53/3e/7c/mzi.zlnvcumx.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/wXuQb8Ln6_g.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "garagehouse",
@@ -720,45 +730,48 @@
    ],
    "major": true,
    "note": "Paradise Garage, New York. Ishkur v3 lui donne aucun parent et le date de la fin des annees 70, donc anterieur a la house de Chicago. Wikipedia le presente comme contemporain et parallele. Rattachement structurel a Chicago House par commodite de lecture, la double ascendance disco est portee par la greffe.",
-   "tracks": [
-    {
-     "youtubeId": "XXt7P3ZTLpA",
-     "artist": "Fern Kinney",
-     "title": "Groove Me",
-     "year": 1979,
-     "verified": true,
-     "album": "Groove Me",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/0d/1d/b0/0d1db09d-d991-2c68-d102-5ea17502d6bb/mzi.qaarnvxv.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/XXt7P3ZTLpA.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "XXt7P3ZTLpA",
+      "artist": "Fern Kinney",
+      "title": "Groove Me",
+      "year": 1979,
+      "verified": true,
+      "album": "Groove Me",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/0d/1d/b0/0d1db09d-d991-2c68-d102-5ea17502d6bb/mzi.qaarnvxv.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/XXt7P3ZTLpA.jpg"
+      }
+     },
+     {
+      "youtubeId": "Gp-PyzscBrs",
+      "artist": "Delegation",
+      "title": "You And I",
+      "year": 1979,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/Gp-PyzscBrs/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/Gp-PyzscBrs.jpg"
+      }
+     },
+     {
+      "youtubeId": "jcgiN0GkaI4",
+      "artist": "Thp Orchestra",
+      "title": "Good To Me",
+      "year": 1979,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/jcgiN0GkaI4/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/jcgiN0GkaI4.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "Gp-PyzscBrs",
-     "artist": "Delegation",
-     "title": "You And I",
-     "year": 1979,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/Gp-PyzscBrs/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/Gp-PyzscBrs.jpg"
-     }
-    },
-    {
-     "youtubeId": "jcgiN0GkaI4",
-     "artist": "Thp Orchestra",
-     "title": "Good To Me",
-     "year": 1979,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/jcgiN0GkaI4/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/jcgiN0GkaI4.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "usdeephouse",
@@ -779,45 +792,48 @@
    ],
    "major": true,
    "note": "Larry Heard, Chicago et New York, 1985-1988.",
-   "tracks": [
-    {
-     "youtubeId": "v12aZZ6Hm6o",
-     "artist": "M1",
-     "title": "Stars (Light mix)",
-     "year": 1992,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/v12aZZ6Hm6o/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/v12aZZ6Hm6o.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "v12aZZ6Hm6o",
+      "artist": "M1",
+      "title": "Stars (Light mix)",
+      "year": 1992,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/v12aZZ6Hm6o/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/v12aZZ6Hm6o.jpg"
+      }
+     },
+     {
+      "youtubeId": "FSnpofA0KVc",
+      "artist": "Progetto Tribale",
+      "title": "Bongo Midi",
+      "year": 1992,
+      "verified": true,
+      "album": "Volume 2 - EP",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/8c/41/5e/8c415e1e-3404-72ab-8abd-7585e4ed9930/8044290133224.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/FSnpofA0KVc.jpg"
+      }
+     },
+     {
+      "youtubeId": "ywTQHQP4Ang",
+      "artist": "Open House & Placid Angels",
+      "title": "Rainforest",
+      "year": 1992,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/ywTQHQP4Ang/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/ywTQHQP4Ang.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "FSnpofA0KVc",
-     "artist": "Progetto Tribale",
-     "title": "Bongo Midi",
-     "year": 1992,
-     "verified": true,
-     "album": "Volume 2 - EP",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/8c/41/5e/8c415e1e-3404-72ab-8abd-7585e4ed9930/8044290133224.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/FSnpofA0KVc.jpg"
-     }
-    },
-    {
-     "youtubeId": "ywTQHQP4Ang",
-     "artist": "Open House & Placid Angels",
-     "title": "Rainforest",
-     "year": 1992,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/ywTQHQP4Ang/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/ywTQHQP4Ang.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "hiphouse",
@@ -838,45 +854,48 @@
    ],
    "major": false,
    "note": "Chicago 1988, Fast Eddie, Tyree Cooper.",
-   "tracks": [
-    {
-     "youtubeId": "jaSi7qvgfQU",
-     "artist": "The Beatmasters feat The Cookie Crew",
-     "title": "Rok Da House",
-     "year": 1987,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/jaSi7qvgfQU/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/jaSi7qvgfQU.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "jaSi7qvgfQU",
+      "artist": "The Beatmasters feat The Cookie Crew",
+      "title": "Rok Da House",
+      "year": 1987,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/jaSi7qvgfQU/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/jaSi7qvgfQU.jpg"
+      }
+     },
+     {
+      "youtubeId": "cRtOXKlStH8",
+      "artist": "Wee Papa Girl Rappers feat 2 Men And A Drum Machine",
+      "title": "Heat It Up",
+      "year": 1988,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/cRtOXKlStH8/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/cRtOXKlStH8.jpg"
+      }
+     },
+     {
+      "youtubeId": "a0sCQ7CxcHI",
+      "artist": "Kool Rock Steady",
+      "title": "I'll Make You Dance",
+      "year": 1988,
+      "verified": true,
+      "album": "Kool Rock Steady - Single",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music4/v4/01/39/fd/0139fded-1786-5824-5550-3238a740eba4/888003418004.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/a0sCQ7CxcHI.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "cRtOXKlStH8",
-     "artist": "Wee Papa Girl Rappers feat 2 Men And A Drum Machine",
-     "title": "Heat It Up",
-     "year": 1988,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/cRtOXKlStH8/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/cRtOXKlStH8.jpg"
-     }
-    },
-    {
-     "youtubeId": "a0sCQ7CxcHI",
-     "artist": "Kool Rock Steady",
-     "title": "I'll Make You Dance",
-     "year": 1988,
-     "verified": true,
-     "album": "Kool Rock Steady - Single",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music4/v4/01/39/fd/0139fded-1786-5824-5550-3238a740eba4/888003418004.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/a0sCQ7CxcHI.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "ukhouse",
@@ -897,44 +916,47 @@
    ],
    "major": false,
    "note": "Importation britannique, 1987-1988.",
-   "tracks": [
-    {
-     "youtubeId": "mxFZle1oeHg",
-     "artist": "Hotline",
-     "title": "Rock This House",
-     "year": 1986,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/mxFZle1oeHg/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/mxFZle1oeHg.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "mxFZle1oeHg",
+      "artist": "Hotline",
+      "title": "Rock This House",
+      "year": 1986,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/mxFZle1oeHg/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/mxFZle1oeHg.jpg"
+      }
+     },
+     {
+      "youtubeId": "tAlYP1Ymh-Y",
+      "artist": "Kissing The Pink",
+      "title": "Certain Things Are Likely",
+      "year": 1986,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/tAlYP1Ymh-Y/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/tAlYP1Ymh-Y.jpg"
+      }
+     },
+     {
+      "youtubeId": "K7mzPSC4_-s",
+      "artist": "Ralphi Rosario feat Xavia Gold",
+      "title": "You Used To Hold Me",
+      "year": 1987,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/K7mzPSC4_-s/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/K7mzPSC4_-s.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "tAlYP1Ymh-Y",
-     "artist": "Kissing The Pink",
-     "title": "Certain Things Are Likely",
-     "year": 1986,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/tAlYP1Ymh-Y/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/tAlYP1Ymh-Y.jpg"
-     }
-    },
-    {
-     "youtubeId": "K7mzPSC4_-s",
-     "artist": "Ralphi Rosario feat Xavia Gold",
-     "title": "You Used To Hold Me",
-     "year": 1987,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/K7mzPSC4_-s/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/K7mzPSC4_-s.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "italohouse",
@@ -960,44 +982,47 @@
    ],
    "major": false,
    "note": "Ishkur v3 le fait descendre de Hard House (1987). Discogs et la scene le rattachent au piano house britannique et a l'heritage italo. J'ai suivi la seconde lecture.",
-   "tracks": [
-    {
-     "youtubeId": "ZgnJGi-0plI",
-     "artist": "Gino Latino",
-     "title": "Welcome",
-     "year": 1988,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/ZgnJGi-0plI/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/ZgnJGi-0plI.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "ZgnJGi-0plI",
+      "artist": "Gino Latino",
+      "title": "Welcome",
+      "year": 1988,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/ZgnJGi-0plI/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/ZgnJGi-0plI.jpg"
+      }
+     },
+     {
+      "youtubeId": "eFpOfQqSFg0",
+      "artist": "El Chico",
+      "title": "House Music Lovers",
+      "year": 1989,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/eFpOfQqSFg0/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/eFpOfQqSFg0.jpg"
+      }
+     },
+     {
+      "youtubeId": "01pLUx8LfuQ",
+      "artist": "Maurizio Pavesi feat Lisa Scott",
+      "title": "In Case Of Love (Cool Cut mix)",
+      "year": 1989,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/01pLUx8LfuQ/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/01pLUx8LfuQ.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "eFpOfQqSFg0",
-     "artist": "El Chico",
-     "title": "House Music Lovers",
-     "year": 1989,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/eFpOfQqSFg0/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/eFpOfQqSFg0.jpg"
-     }
-    },
-    {
-     "youtubeId": "01pLUx8LfuQ",
-     "artist": "Maurizio Pavesi feat Lisa Scott",
-     "title": "In Case Of Love (Cool Cut mix)",
-     "year": 1989,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/01pLUx8LfuQ/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/01pLUx8LfuQ.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "hardhouse",
@@ -1018,44 +1043,47 @@
    ],
    "major": false,
    "note": "Royaume-Uni, milieu des annees 90. Ishkur le fait descendre de Chicago House.",
-   "tracks": [
-    {
-     "youtubeId": "J_DfyIGyfAg",
-     "artist": "DJ Trajic",
-     "title": "Soul Patrol",
-     "year": 1994,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/J_DfyIGyfAg/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/J_DfyIGyfAg.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "J_DfyIGyfAg",
+      "artist": "DJ Trajic",
+      "title": "Soul Patrol",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/J_DfyIGyfAg/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/J_DfyIGyfAg.jpg"
+      }
+     },
+     {
+      "youtubeId": "QQH27nwRdeM",
+      "artist": "Jammin Gerald",
+      "title": "Pump That Shit",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/QQH27nwRdeM/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/QQH27nwRdeM.jpg"
+      }
+     },
+     {
+      "youtubeId": "X3q1yJQyDk8",
+      "artist": "DJ Groove",
+      "title": "Come Along My Brotha (Radio Club Version)",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/X3q1yJQyDk8/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/X3q1yJQyDk8.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "QQH27nwRdeM",
-     "artist": "Jammin Gerald",
-     "title": "Pump That Shit",
-     "year": 1994,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/QQH27nwRdeM/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/QQH27nwRdeM.jpg"
-     }
-    },
-    {
-     "youtubeId": "X3q1yJQyDk8",
-     "artist": "DJ Groove",
-     "title": "Come Along My Brotha (Radio Club Version)",
-     "year": 1994,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/X3q1yJQyDk8/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/X3q1yJQyDk8.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "discohouse",
@@ -1081,44 +1109,47 @@
    ],
    "major": true,
    "note": "Reprise de boucles disco, debut des annees 90.",
-   "tracks": [
-    {
-     "youtubeId": "QAbDiRFBIUg",
-     "artist": "Deee-Lite",
-     "title": "Groove Is In The Heart (Meeting Of The Minds mix)",
-     "year": 1990,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/QAbDiRFBIUg/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/QAbDiRFBIUg.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "QAbDiRFBIUg",
+      "artist": "Deee-Lite",
+      "title": "Groove Is In The Heart (Meeting Of The Minds mix)",
+      "year": 1990,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/QAbDiRFBIUg/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/QAbDiRFBIUg.jpg"
+      }
+     },
+     {
+      "youtubeId": "R6hMPC9kpa4",
+      "artist": "Dsk",
+      "title": "I'll Keep Holding On",
+      "year": 1992,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/R6hMPC9kpa4/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/R6hMPC9kpa4.jpg"
+      }
+     },
+     {
+      "youtubeId": "MH4D05iivsQ",
+      "artist": "Fire Island",
+      "title": "There But For The Grace Of God",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/MH4D05iivsQ/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/MH4D05iivsQ.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "R6hMPC9kpa4",
-     "artist": "Dsk",
-     "title": "I'll Keep Holding On",
-     "year": 1992,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/R6hMPC9kpa4/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/R6hMPC9kpa4.jpg"
-     }
-    },
-    {
-     "youtubeId": "MH4D05iivsQ",
-     "artist": "Fire Island",
-     "title": "There But For The Grace Of God",
-     "year": 1993,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/MH4D05iivsQ/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/MH4D05iivsQ.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "frenchhouse",
@@ -1139,44 +1170,47 @@
    ],
    "major": true,
    "note": "French touch, 1995. Accord de toutes les sources.",
-   "tracks": [
-    {
-     "youtubeId": "mmi60Bd4jSs",
-     "artist": "Daft Punk",
-     "title": "Da Funk",
-     "year": 1995,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/mmi60Bd4jSs/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/mmi60Bd4jSs.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "mmi60Bd4jSs",
+      "artist": "Daft Punk",
+      "title": "Da Funk",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/mmi60Bd4jSs/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/mmi60Bd4jSs.jpg"
+      }
+     },
+     {
+      "youtubeId": "WRCnzyX3P8g",
+      "artist": "Cheek",
+      "title": "Venus (Sunshine People)",
+      "year": 1996,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/WRCnzyX3P8g/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/WRCnzyX3P8g.jpg"
+      }
+     },
+     {
+      "youtubeId": "_v-xIWXVj_w",
+      "artist": "Chateau Flight",
+      "title": "Discobole",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/_v-xIWXVj_w/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/_v-xIWXVj_w.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "WRCnzyX3P8g",
-     "artist": "Cheek",
-     "title": "Venus (Sunshine People)",
-     "year": 1996,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/WRCnzyX3P8g/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/WRCnzyX3P8g.jpg"
-     }
-    },
-    {
-     "youtubeId": "_v-xIWXVj_w",
-     "artist": "Chateau Flight",
-     "title": "Discobole",
-     "year": 1997,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/_v-xIWXVj_w/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/_v-xIWXVj_w.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "progressivehouse",
@@ -1197,44 +1231,47 @@
    ],
    "major": true,
    "note": "Royaume-Uni, 1990-1992. Ishkur v3 le fait descendre de UK House, accord.",
-   "tracks": [
-    {
-     "youtubeId": "xYddGjXFTt4",
-     "artist": "Happy Mondays",
-     "title": "W.F.L. (Think About The Future)",
-     "year": 1990,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/xYddGjXFTt4/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/xYddGjXFTt4.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "xYddGjXFTt4",
+      "artist": "Happy Mondays",
+      "title": "W.F.L. (Think About The Future)",
+      "year": 1990,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/xYddGjXFTt4/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/xYddGjXFTt4.jpg"
+      }
+     },
+     {
+      "youtubeId": "Al3nN7KifiQ",
+      "artist": "Lost",
+      "title": "Baz De Conga",
+      "year": 1990,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/Al3nN7KifiQ/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/Al3nN7KifiQ.jpg"
+      }
+     },
+     {
+      "youtubeId": "Z4pWtwo0s1I",
+      "artist": "The Farm",
+      "title": "The Groovy Train",
+      "year": 1990,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/Z4pWtwo0s1I/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/Z4pWtwo0s1I.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "Al3nN7KifiQ",
-     "artist": "Lost",
-     "title": "Baz De Conga",
-     "year": 1990,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/Al3nN7KifiQ/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/Al3nN7KifiQ.jpg"
-     }
-    },
-    {
-     "youtubeId": "Z4pWtwo0s1I",
-     "artist": "The Farm",
-     "title": "The Groovy Train",
-     "year": 1990,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/Z4pWtwo0s1I/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/Z4pWtwo0s1I.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "electrohouse",
@@ -1255,44 +1292,47 @@
    ],
    "major": false,
    "note": "Ishkur v3 le fait descendre de French House (2001). D'autres sources le font descendre de l'electroclash. Desaccord non tranche.",
-   "tracks": [
-    {
-     "youtubeId": "gRSOgrYEI-U",
-     "artist": "Who Da Funk feat Jessica Eve",
-     "title": "Shiny Disco Balls",
-     "year": 2002,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/gRSOgrYEI-U/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/gRSOgrYEI-U.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "gRSOgrYEI-U",
+      "artist": "Who Da Funk feat Jessica Eve",
+      "title": "Shiny Disco Balls",
+      "year": 2002,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/gRSOgrYEI-U/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/gRSOgrYEI-U.jpg"
+      }
+     },
+     {
+      "youtubeId": "Q4TuImwotuk",
+      "artist": "Memory Boy",
+      "title": "(There Is No) Electricity",
+      "year": 2002,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/Q4TuImwotuk/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/Q4TuImwotuk.jpg"
+      }
+     },
+     {
+      "youtubeId": "-V3iSfdNxRA",
+      "artist": "Daniel Diamond",
+      "title": "Champu",
+      "year": 2002,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/-V3iSfdNxRA/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/-V3iSfdNxRA.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "Q4TuImwotuk",
-     "artist": "Memory Boy",
-     "title": "(There Is No) Electricity",
-     "year": 2002,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/Q4TuImwotuk/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/Q4TuImwotuk.jpg"
-     }
-    },
-    {
-     "youtubeId": "-V3iSfdNxRA",
-     "artist": "Daniel Diamond",
-     "title": "Champu",
-     "year": 2002,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/-V3iSfdNxRA/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/-V3iSfdNxRA.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "detroittechno",
@@ -1307,44 +1347,47 @@
    ],
    "major": true,
    "note": "Fondateur de la famille. Detroit, 1985, Belleville Three. Ishkur v3 le fait descendre de l'Electro (1981), lien reel mais la famille electro n'existe pas dans ce corpus v1.",
-   "tracks": [
-    {
-     "youtubeId": "znqTF1msuAM",
-     "artist": "A Number Of Names",
-     "title": "Sharevari (Instrumental)",
-     "year": 1981,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/znqTF1msuAM/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/znqTF1msuAM.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "znqTF1msuAM",
+      "artist": "A Number Of Names",
+      "title": "Sharevari (Instrumental)",
+      "year": 1981,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/znqTF1msuAM/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/znqTF1msuAM.jpg"
+      }
+     },
+     {
+      "youtubeId": "U3NfI9jbUGI",
+      "artist": "Cybotron",
+      "title": "Techno City",
+      "year": 1984,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/U3NfI9jbUGI/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/U3NfI9jbUGI.jpg"
+      }
+     },
+     {
+      "youtubeId": "i1qFXXneNzE",
+      "artist": "Model 500",
+      "title": "Electric Entourage",
+      "year": 1987,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/i1qFXXneNzE/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/i1qFXXneNzE.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "U3NfI9jbUGI",
-     "artist": "Cybotron",
-     "title": "Techno City",
-     "year": 1984,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/U3NfI9jbUGI/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/U3NfI9jbUGI.jpg"
-     }
-    },
-    {
-     "youtubeId": "i1qFXXneNzE",
-     "artist": "Model 500",
-     "title": "Electric Entourage",
-     "year": 1987,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/i1qFXXneNzE/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/i1qFXXneNzE.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "bleeptechno",
@@ -1365,44 +1408,47 @@
    ],
    "major": false,
    "note": "Sheffield et Leeds, 1988-1990, Warp.",
-   "tracks": [
-    {
-     "youtubeId": "ooD4plDsO60",
-     "artist": "Sweet Exorcist",
-     "title": "Testone",
-     "year": 1989,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/ooD4plDsO60/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/ooD4plDsO60.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "ooD4plDsO60",
+      "artist": "Sweet Exorcist",
+      "title": "Testone",
+      "year": 1989,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/ooD4plDsO60/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/ooD4plDsO60.jpg"
+      }
+     },
+     {
+      "youtubeId": "LN9XzxooZt0",
+      "artist": "Candy Flip",
+      "title": "Evolution",
+      "year": 1989,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/LN9XzxooZt0/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/LN9XzxooZt0.jpg"
+      }
+     },
+     {
+      "youtubeId": "hkTMo_STlws",
+      "artist": "Unique 3",
+      "title": "The Theme (Unique mix)",
+      "year": 1989,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/hkTMo_STlws/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/hkTMo_STlws.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "LN9XzxooZt0",
-     "artist": "Candy Flip",
-     "title": "Evolution",
-     "year": 1989,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/LN9XzxooZt0/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/LN9XzxooZt0.jpg"
-     }
-    },
-    {
-     "youtubeId": "hkTMo_STlws",
-     "artist": "Unique 3",
-     "title": "The Theme (Unique mix)",
-     "year": 1989,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/hkTMo_STlws/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/hkTMo_STlws.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "acidtechno",
@@ -1428,20 +1474,23 @@
    ],
    "major": false,
    "note": "Londres, squat parties, 1993. Double ascendance acid house evidente.",
-   "tracks": [
-    {
-     "youtubeId": "G8IwGUR8S54",
-     "artist": "Emmanuel Top",
-     "title": "Acid Phase",
-     "year": 1995,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/G8IwGUR8S54/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/G8IwGUR8S54.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "G8IwGUR8S54",
+      "artist": "Emmanuel Top",
+      "title": "Acid Phase",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/G8IwGUR8S54/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/G8IwGUR8S54.jpg"
+      }
      }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "eurotechno",
@@ -1462,44 +1511,47 @@
    ],
    "major": false,
    "note": "Belgique et Allemagne, 1989-1991.",
-   "tracks": [
-    {
-     "youtubeId": "uaovVrQyhZg",
-     "artist": "Mescalinum United",
-     "title": "Into Mekong Center",
-     "year": 1989,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/uaovVrQyhZg/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/uaovVrQyhZg.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "uaovVrQyhZg",
+      "artist": "Mescalinum United",
+      "title": "Into Mekong Center",
+      "year": 1989,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/uaovVrQyhZg/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/uaovVrQyhZg.jpg"
+      }
+     },
+     {
+      "youtubeId": "8hFO3fdj_6Y",
+      "artist": "Dirty Mind",
+      "title": "The Killer",
+      "year": 1990,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/8hFO3fdj_6Y/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/8hFO3fdj_6Y.jpg"
+      }
+     },
+     {
+      "youtubeId": "aiqzDNIVuik",
+      "artist": "Mental Overdrive",
+      "title": "Theme of St. Baafs (The Bells)",
+      "year": 1990,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/aiqzDNIVuik/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/aiqzDNIVuik.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "8hFO3fdj_6Y",
-     "artist": "Dirty Mind",
-     "title": "The Killer",
-     "year": 1990,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/8hFO3fdj_6Y/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/8hFO3fdj_6Y.jpg"
-     }
-    },
-    {
-     "youtubeId": "aiqzDNIVuik",
-     "artist": "Mental Overdrive",
-     "title": "Theme of St. Baafs (The Bells)",
-     "year": 1990,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/aiqzDNIVuik/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/aiqzDNIVuik.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "hardtechno",
@@ -1520,44 +1572,47 @@
    ],
    "major": true,
    "note": "Ishkur v3 le fait descendre de Bleep Techno (1992). L'usage courant le rattache a la techno europeenne dure de Berlin et Francfort. Desaccord non tranche.",
-   "tracks": [
-    {
-     "youtubeId": "6SpiSAceeHo",
-     "artist": "Sp 23",
-     "title": "Untitled (A2)",
-     "year": 1993,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/6SpiSAceeHo/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/6SpiSAceeHo.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "6SpiSAceeHo",
+      "artist": "Sp 23",
+      "title": "Untitled (A2)",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/6SpiSAceeHo/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/6SpiSAceeHo.jpg"
+      }
+     },
+     {
+      "youtubeId": "8Ps00LwguqA",
+      "artist": "Morph",
+      "title": "Stormwatch",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/8Ps00LwguqA/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/8Ps00LwguqA.jpg"
+      }
+     },
+     {
+      "youtubeId": "T9TaWn-oWv4",
+      "artist": "Spiral Tribe",
+      "title": "Probably Taking Drugs",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/T9TaWn-oWv4/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/T9TaWn-oWv4.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "8Ps00LwguqA",
-     "artist": "Morph",
-     "title": "Stormwatch",
-     "year": 1994,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/8Ps00LwguqA/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/8Ps00LwguqA.jpg"
-     }
-    },
-    {
-     "youtubeId": "T9TaWn-oWv4",
-     "artist": "Spiral Tribe",
-     "title": "Probably Taking Drugs",
-     "year": 1995,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/T9TaWn-oWv4/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/T9TaWn-oWv4.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "schranz",
@@ -1578,32 +1633,35 @@
    ],
    "major": false,
    "note": "Francfort, 1999, Chris Liebing. Accord des sources.",
-   "tracks": [
-    {
-     "youtubeId": "fb_WRPzsdvY",
-     "artist": "Spirallianz",
-     "title": "Blast Food",
-     "year": 2000,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/fb_WRPzsdvY/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/fb_WRPzsdvY.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "fb_WRPzsdvY",
+      "artist": "Spirallianz",
+      "title": "Blast Food",
+      "year": 2000,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/fb_WRPzsdvY/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/fb_WRPzsdvY.jpg"
+      }
+     },
+     {
+      "youtubeId": "kyGfewR8wIM",
+      "artist": "Marco Zaffarano",
+      "title": "Playback (Picotto mix)",
+      "year": 2002,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/kyGfewR8wIM/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/kyGfewR8wIM.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "kyGfewR8wIM",
-     "artist": "Marco Zaffarano",
-     "title": "Playback (Picotto mix)",
-     "year": 2002,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/kyGfewR8wIM/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/kyGfewR8wIM.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "industrialtechno",
@@ -1629,44 +1687,47 @@
    ],
    "major": true,
    "note": "Birmingham et Berlin, milieu des annees 90. Greffe EBM declaree mais non resolue, la famille industrial n'est pas dans ce corpus v1. Absent d'Ishkur v3 sous ce nom.",
-   "tracks": [
-    {
-     "youtubeId": "vazFAtsqBoM",
-     "artist": "Surgeon",
-     "title": "Badger Bite",
-     "year": 1997,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/vazFAtsqBoM/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/vazFAtsqBoM.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "vazFAtsqBoM",
+      "artist": "Surgeon",
+      "title": "Badger Bite",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/vazFAtsqBoM/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/vazFAtsqBoM.jpg"
+      }
+     },
+     {
+      "youtubeId": "GObKe1V3xmU",
+      "artist": "Regis",
+      "title": "Blood Witness",
+      "year": 1996,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/GObKe1V3xmU/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/GObKe1V3xmU.jpg"
+      }
+     },
+     {
+      "youtubeId": "jYo02BJbUpI",
+      "artist": "Ancient Methods",
+      "title": "The Jericho Recordings",
+      "year": 2008,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/jYo02BJbUpI/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/jYo02BJbUpI.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "GObKe1V3xmU",
-     "artist": "Regis",
-     "title": "Blood Witness",
-     "year": 1996,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/GObKe1V3xmU/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/GObKe1V3xmU.jpg"
-     }
-    },
-    {
-     "youtubeId": "jYo02BJbUpI",
-     "artist": "Ancient Methods",
-     "title": "The Jericho Recordings",
-     "year": 2008,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/jYo02BJbUpI/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/jYo02BJbUpI.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "dubtechno",
@@ -1687,44 +1748,47 @@
    ],
    "major": true,
    "note": "Berlin, 1993, Basic Channel. Ishkur v3 : Detroit Techno 1992, accord.",
-   "tracks": [
-    {
-     "youtubeId": "KIdkN5V8MKc",
-     "artist": "Human Mesh Dance",
-     "title": "Dahlia",
-     "year": 1993,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/KIdkN5V8MKc/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/KIdkN5V8MKc.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "KIdkN5V8MKc",
+      "artist": "Human Mesh Dance",
+      "title": "Dahlia",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/KIdkN5V8MKc/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/KIdkN5V8MKc.jpg"
+      }
+     },
+     {
+      "youtubeId": "HK0T9rdXgd0",
+      "artist": "Blunted Dummies",
+      "title": "House For All",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/HK0T9rdXgd0/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/HK0T9rdXgd0.jpg"
+      }
+     },
+     {
+      "youtubeId": "boVIMXaAqk8",
+      "artist": "Basic Channel",
+      "title": "Octaedre",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/boVIMXaAqk8/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/boVIMXaAqk8.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "HK0T9rdXgd0",
-     "artist": "Blunted Dummies",
-     "title": "House For All",
-     "year": 1993,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/HK0T9rdXgd0/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/HK0T9rdXgd0.jpg"
-     }
-    },
-    {
-     "youtubeId": "boVIMXaAqk8",
-     "artist": "Basic Channel",
-     "title": "Octaedre",
-     "year": 1994,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/boVIMXaAqk8/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/boVIMXaAqk8.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "ambienttechno",
@@ -1745,44 +1809,47 @@
    ],
    "major": false,
    "note": "Royaume-Uni, 1992, Warp Artificial Intelligence.",
-   "tracks": [
-    {
-     "youtubeId": "Nsw5mLJtMgA",
-     "artist": "Neutron 9000",
-     "title": "The Way To Heaven",
-     "year": 1990,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/Nsw5mLJtMgA/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/Nsw5mLJtMgA.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "Nsw5mLJtMgA",
+      "artist": "Neutron 9000",
+      "title": "The Way To Heaven",
+      "year": 1990,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/Nsw5mLJtMgA/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/Nsw5mLJtMgA.jpg"
+      }
+     },
+     {
+      "youtubeId": "8qxBjcGjS3M",
+      "artist": "Biosphere",
+      "title": "Baby Interphase",
+      "year": 1991,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/8qxBjcGjS3M/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/8qxBjcGjS3M.jpg"
+      }
+     },
+     {
+      "youtubeId": "4w-Yt_sjkQ0",
+      "artist": "The Irresistible Force",
+      "title": "Space Is The Place (Ambient mix)",
+      "year": 1991,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/4w-Yt_sjkQ0/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/4w-Yt_sjkQ0.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "8qxBjcGjS3M",
-     "artist": "Biosphere",
-     "title": "Baby Interphase",
-     "year": 1991,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/8qxBjcGjS3M/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/8qxBjcGjS3M.jpg"
-     }
-    },
-    {
-     "youtubeId": "4w-Yt_sjkQ0",
-     "artist": "The Irresistible Force",
-     "title": "Space Is The Place (Ambient mix)",
-     "year": 1991,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/4w-Yt_sjkQ0/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/4w-Yt_sjkQ0.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "bangintechno",
@@ -1803,44 +1870,47 @@
    ],
    "major": false,
    "note": "Ishkur v3 le fait descendre de Detroit Techno (1994). Je l'ai rattache a la hard techno, dont il est stylistiquement indissociable.",
-   "tracks": [
-    {
-     "youtubeId": "_5ZoJlj9eOY",
-     "artist": "Ken IshII",
-     "title": "Stretch",
-     "year": 1995,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/_5ZoJlj9eOY/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/_5ZoJlj9eOY.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "_5ZoJlj9eOY",
+      "artist": "Ken IshII",
+      "title": "Stretch",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/_5ZoJlj9eOY/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/_5ZoJlj9eOY.jpg"
+      }
+     },
+     {
+      "youtubeId": "zQvidAjIIt4",
+      "artist": "Damon Wild & Woody Mcbride",
+      "title": "Downtown",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/zQvidAjIIt4/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/zQvidAjIIt4.jpg"
+      }
+     },
+     {
+      "youtubeId": "gwGFb-A2QzE",
+      "artist": "The Advent",
+      "title": "Farencounters",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/gwGFb-A2QzE/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/gwGFb-A2QzE.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "zQvidAjIIt4",
-     "artist": "Damon Wild & Woody Mcbride",
-     "title": "Downtown",
-     "year": 1995,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/zQvidAjIIt4/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/zQvidAjIIt4.jpg"
-     }
-    },
-    {
-     "youtubeId": "gwGFb-A2QzE",
-     "artist": "The Advent",
-     "title": "Farencounters",
-     "year": 1995,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/gwGFb-A2QzE/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/gwGFb-A2QzE.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "minimaltechno",
@@ -1861,44 +1931,47 @@
    ],
    "major": true,
    "note": "Fondateur de la famille. Detroit et Berlin, 1991, Robert Hood et Plastikman. Greffe vers la techno de Detroit, qui est son ascendance reelle.",
-   "tracks": [
-    {
-     "youtubeId": "MpGR_pra4vY",
-     "artist": "X-102",
-     "title": "Phoebe",
-     "year": 1992,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/MpGR_pra4vY/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/MpGR_pra4vY.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "MpGR_pra4vY",
+      "artist": "X-102",
+      "title": "Phoebe",
+      "year": 1992,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/MpGR_pra4vY/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/MpGR_pra4vY.jpg"
+      }
+     },
+     {
+      "youtubeId": "4ED2-MEGLC0",
+      "artist": "Kibu",
+      "title": "No Humans Left",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/4ED2-MEGLC0/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/4ED2-MEGLC0.jpg"
+      }
+     },
+     {
+      "youtubeId": "0HBzYnc-AYI",
+      "artist": "Aphrohead",
+      "title": "In The Dark (Dave Clarke Mix)",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/0HBzYnc-AYI/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/0HBzYnc-AYI.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "4ED2-MEGLC0",
-     "artist": "Kibu",
-     "title": "No Humans Left",
-     "year": 1993,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/4ED2-MEGLC0/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/4ED2-MEGLC0.jpg"
-     }
-    },
-    {
-     "youtubeId": "0HBzYnc-AYI",
-     "artist": "Aphrohead",
-     "title": "In The Dark (Dave Clarke Mix)",
-     "year": 1993,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/0HBzYnc-AYI/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/0HBzYnc-AYI.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "techhouse",
@@ -1924,44 +1997,47 @@
    ],
    "major": true,
    "note": "Ishkur v3 lui donne deux parents, UK House (1992) et Progressive House (1991), et le range dans sa propre scene. Je l'ai rattache au minimal pour la lisibilite de cette famille, avec greffe vers la house. Arbitrage discutable.",
-   "tracks": [
-    {
-     "youtubeId": "wUwS9jqbId0",
-     "artist": "Paperclip People",
-     "title": "Throw",
-     "year": 1994,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/wUwS9jqbId0/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/wUwS9jqbId0.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "wUwS9jqbId0",
+      "artist": "Paperclip People",
+      "title": "Throw",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/wUwS9jqbId0/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/wUwS9jqbId0.jpg"
+      }
+     },
+     {
+      "youtubeId": "_YB2x90mR5M",
+      "artist": "Rozzo",
+      "title": "Into Your Space",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/_YB2x90mR5M/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/_YB2x90mR5M.jpg"
+      }
+     },
+     {
+      "youtubeId": "XzA3NitortE",
+      "artist": "As One",
+      "title": "We No Longer Understand",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/XzA3NitortE/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/XzA3NitortE.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "_YB2x90mR5M",
-     "artist": "Rozzo",
-     "title": "Into Your Space",
-     "year": 1994,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/_YB2x90mR5M/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/_YB2x90mR5M.jpg"
-     }
-    },
-    {
-     "youtubeId": "XzA3NitortE",
-     "artist": "As One",
-     "title": "We No Longer Understand",
-     "year": 1995,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/XzA3NitortE/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/XzA3NitortE.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "microhouse",
@@ -1982,44 +2058,47 @@
    ],
    "major": true,
    "note": "Cologne, 1997, Kompakt et Perlon. Ishkur v3 : Tech House 1996, accord.",
-   "tracks": [
-    {
-     "youtubeId": "7O5CqF-51zQ",
-     "artist": "Tandem",
-     "title": "Tandem",
-     "year": 1997,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/7O5CqF-51zQ/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/7O5CqF-51zQ.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "7O5CqF-51zQ",
+      "artist": "Tandem",
+      "title": "Tandem",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/7O5CqF-51zQ/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/7O5CqF-51zQ.jpg"
+      }
+     },
+     {
+      "youtubeId": "Cmj0LNnS0n8",
+      "artist": "Farben",
+      "title": "Discfunction",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/Cmj0LNnS0n8/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/Cmj0LNnS0n8.jpg"
+      }
+     },
+     {
+      "youtubeId": "11YgeWmw8nU",
+      "artist": "Pantytec",
+      "title": "Into The Duster",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/11YgeWmw8nU/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/11YgeWmw8nU.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "Cmj0LNnS0n8",
-     "artist": "Farben",
-     "title": "Discfunction",
-     "year": 1998,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/Cmj0LNnS0n8/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/Cmj0LNnS0n8.jpg"
-     }
-    },
-    {
-     "youtubeId": "11YgeWmw8nU",
-     "artist": "Pantytec",
-     "title": "Into The Duster",
-     "year": 1998,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/11YgeWmw8nU/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/11YgeWmw8nU.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "clickscuts",
@@ -2040,32 +2119,35 @@
    ],
    "major": false,
    "note": "Mille Plateaux, 1999-2001. Absent d'Ishkur v3.",
-   "tracks": [
-    {
-     "youtubeId": "w7nNF0FJ3-I",
-     "artist": "Akufen",
-     "title": "Deck The House",
-     "year": 2002,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/w7nNF0FJ3-I/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/w7nNF0FJ3-I.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "w7nNF0FJ3-I",
+      "artist": "Akufen",
+      "title": "Deck The House",
+      "year": 2002,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/w7nNF0FJ3-I/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/w7nNF0FJ3-I.jpg"
+      }
+     },
+     {
+      "youtubeId": "h0i1Szq6GM8",
+      "artist": "Ricardo Villalobos",
+      "title": "Dexter",
+      "year": 2003,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/h0i1Szq6GM8/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/h0i1Szq6GM8.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "h0i1Szq6GM8",
-     "artist": "Ricardo Villalobos",
-     "title": "Dexter",
-     "year": 2003,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/h0i1Szq6GM8/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/h0i1Szq6GM8.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "minimaltech",
@@ -2086,44 +2168,47 @@
    ],
    "major": true,
    "note": "Vague roumaine et berlinoise des annees 2000. Ishkur v3 : Microhouse 2001, accord.",
-   "tracks": [
-    {
-     "youtubeId": "M_uCd_d4Tiw",
-     "artist": "Headgear",
-     "title": "Believers Goodbye",
-     "year": 2002,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/M_uCd_d4Tiw/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/M_uCd_d4Tiw.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "M_uCd_d4Tiw",
+      "artist": "Headgear",
+      "title": "Believers Goodbye",
+      "year": 2002,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/M_uCd_d4Tiw/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/M_uCd_d4Tiw.jpg"
+      }
+     },
+     {
+      "youtubeId": "etfQc34igjk",
+      "artist": "Glowing Glisses",
+      "title": "Johannas World",
+      "year": 2002,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/etfQc34igjk/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/etfQc34igjk.jpg"
+      }
+     },
+     {
+      "youtubeId": "IRaJqb1oyFQ",
+      "artist": "Plastikman",
+      "title": "Ping Pong",
+      "year": 2003,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/IRaJqb1oyFQ/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/IRaJqb1oyFQ.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "etfQc34igjk",
-     "artist": "Glowing Glisses",
-     "title": "Johannas World",
-     "year": 2002,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/etfQc34igjk/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/etfQc34igjk.jpg"
-     }
-    },
-    {
-     "youtubeId": "IRaJqb1oyFQ",
-     "artist": "Plastikman",
-     "title": "Ping Pong",
-     "year": 2003,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/IRaJqb1oyFQ/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/IRaJqb1oyFQ.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "deeptech",
@@ -2144,44 +2229,47 @@
    ],
    "major": false,
    "note": "Ishkur v3 : Tech House 1998, accord.",
-   "tracks": [
-    {
-     "youtubeId": "QWgWV0lNtYQ",
-     "artist": "Hakan Lidbo",
-     "title": "Televinken",
-     "year": 1999,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/QWgWV0lNtYQ/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/QWgWV0lNtYQ.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "QWgWV0lNtYQ",
+      "artist": "Hakan Lidbo",
+      "title": "Televinken",
+      "year": 1999,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/QWgWV0lNtYQ/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/QWgWV0lNtYQ.jpg"
+      }
+     },
+     {
+      "youtubeId": "ZBZ04-gQfWM",
+      "artist": "Little Green Men",
+      "title": "Time Changes",
+      "year": 1999,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/ZBZ04-gQfWM/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/ZBZ04-gQfWM.jpg"
+      }
+     },
+     {
+      "youtubeId": "zUd-ZcMnhtE",
+      "artist": "Interpol",
+      "title": "Personal Use",
+      "year": 2001,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/zUd-ZcMnhtE/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/zUd-ZcMnhtE.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "ZBZ04-gQfWM",
-     "artist": "Little Green Men",
-     "title": "Time Changes",
-     "year": 1999,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/ZBZ04-gQfWM/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/ZBZ04-gQfWM.jpg"
-     }
-    },
-    {
-     "youtubeId": "zUd-ZcMnhtE",
-     "artist": "Interpol",
-     "title": "Personal Use",
-     "year": 2001,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/zUd-ZcMnhtE/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/zUd-ZcMnhtE.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "fidgethouse",
@@ -2202,44 +2290,47 @@
    ],
    "major": false,
    "note": "Royaume-Uni, milieu des annees 2000, Switch et Jesse Rose.",
-   "tracks": [
-    {
-     "youtubeId": "qmsbP13xu6k",
-     "artist": "Mr. Oizo",
-     "title": "Flat Beat",
-     "year": 1999,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/qmsbP13xu6k/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/qmsbP13xu6k.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "qmsbP13xu6k",
+      "artist": "Mr. Oizo",
+      "title": "Flat Beat",
+      "year": 1999,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/qmsbP13xu6k/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/qmsbP13xu6k.jpg"
+      }
+     },
+     {
+      "youtubeId": "mQGc_9kBN8c",
+      "artist": "Format B",
+      "title": "Like A Techmachine",
+      "year": 2005,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/mQGc_9kBN8c/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/mQGc_9kBN8c.jpg"
+      }
+     },
+     {
+      "youtubeId": "mZ756MWPMRQ",
+      "artist": "Induceve",
+      "title": "Stay Cool",
+      "year": 2006,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/mZ756MWPMRQ/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/mZ756MWPMRQ.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "mQGc_9kBN8c",
-     "artist": "Format B",
-     "title": "Like A Techmachine",
-     "year": 2005,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/mQGc_9kBN8c/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/mQGc_9kBN8c.jpg"
-     }
-    },
-    {
-     "youtubeId": "mZ756MWPMRQ",
-     "artist": "Induceve",
-     "title": "Stay Cool",
-     "year": 2006,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/mZ756MWPMRQ/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/mZ756MWPMRQ.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "minimalprog",
@@ -2265,44 +2356,47 @@
    ],
    "major": false,
    "note": "Ishkur v3 le range dans sa scene Progressive et le fait descendre de Progressive (2003). Il est a la frontiere du minimal et du psy progressif : greffe declaree vers le psy-prog. Terrain de Mika, a corriger.",
-   "tracks": [
-    {
-     "youtubeId": "H8gYJIEKYpY",
-     "artist": "The MFA",
-     "title": "The Difference It Makes",
-     "year": 2004,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/H8gYJIEKYpY/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/H8gYJIEKYpY.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "H8gYJIEKYpY",
+      "artist": "The MFA",
+      "title": "The Difference It Makes",
+      "year": 2004,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/H8gYJIEKYpY/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/H8gYJIEKYpY.jpg"
+      }
+     },
+     {
+      "youtubeId": "pN0QzsTbgmg",
+      "artist": "Nathan Fake",
+      "title": "The Sky Was Pink (Holden mix)",
+      "year": 2004,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/pN0QzsTbgmg/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/pN0QzsTbgmg.jpg"
+      }
+     },
+     {
+      "youtubeId": "Xy71oHnVrL0",
+      "artist": "Fairmont",
+      "title": "Gazebo",
+      "year": 2005,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/Xy71oHnVrL0/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/Xy71oHnVrL0.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "pN0QzsTbgmg",
-     "artist": "Nathan Fake",
-     "title": "The Sky Was Pink (Holden mix)",
-     "year": 2004,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/pN0QzsTbgmg/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/pN0QzsTbgmg.jpg"
-     }
-    },
-    {
-     "youtubeId": "Xy71oHnVrL0",
-     "artist": "Fairmont",
-     "title": "Gazebo",
-     "year": 2005,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/Xy71oHnVrL0/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/Xy71oHnVrL0.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "trance",
@@ -2323,44 +2417,47 @@
    ],
    "major": true,
    "note": "Fondateur de la famille. Francfort, 1990, Dance 2 Trance et Sven Vath. Ishkur v3 le fait descendre de l'EBM (1987), lecture minoritaire. Wikipedia et Discogs le font naitre de la techno et de la house acide. Greffe EBM declaree mais non resolue.",
-   "tracks": [
-    {
-     "youtubeId": "VeF8jX28lpA",
-     "artist": "Abfahrt",
-     "title": "Alone It's Me (Alley Cat Edit)",
-     "year": 1989,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/VeF8jX28lpA/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/VeF8jX28lpA.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "VeF8jX28lpA",
+      "artist": "Abfahrt",
+      "title": "Alone It's Me (Alley Cat Edit)",
+      "year": 1989,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/VeF8jX28lpA/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/VeF8jX28lpA.jpg"
+      }
+     },
+     {
+      "youtubeId": "9eb6cL4QLIA",
+      "artist": "Out Of The Ordinary",
+      "title": "Play It Again (Why Don't You Try This Side mix)",
+      "year": 1989,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/9eb6cL4QLIA/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/9eb6cL4QLIA.jpg"
+      }
+     },
+     {
+      "youtubeId": "_ZCPK_9wFL4",
+      "artist": "Eclips 21",
+      "title": "Nebula (1st Soul mix)",
+      "year": 1990,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/_ZCPK_9wFL4/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/_ZCPK_9wFL4.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "9eb6cL4QLIA",
-     "artist": "Out Of The Ordinary",
-     "title": "Play It Again (Why Don't You Try This Side mix)",
-     "year": 1989,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/9eb6cL4QLIA/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/9eb6cL4QLIA.jpg"
-     }
-    },
-    {
-     "youtubeId": "_ZCPK_9wFL4",
-     "artist": "Eclips 21",
-     "title": "Nebula (1st Soul mix)",
-     "year": 1990,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/_ZCPK_9wFL4/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/_ZCPK_9wFL4.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "acidtrance",
@@ -2386,45 +2483,48 @@
    ],
    "major": false,
    "note": "1992, jonction du 303 et du trance.",
-   "tracks": [
-    {
-     "youtubeId": "Un4CeV_l3pI",
-     "artist": "Hardfloor",
-     "title": "Acperience 1",
-     "year": 1992,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/Un4CeV_l3pI/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/Un4CeV_l3pI.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "Un4CeV_l3pI",
+      "artist": "Hardfloor",
+      "title": "Acperience 1",
+      "year": 1992,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/Un4CeV_l3pI/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/Un4CeV_l3pI.jpg"
+      }
+     },
+     {
+      "youtubeId": "B631aGiDcqs",
+      "artist": "Union Jack",
+      "title": "Two Full Moons And A Trout",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/B631aGiDcqs/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/B631aGiDcqs.jpg"
+      }
+     },
+     {
+      "youtubeId": "6uMOl8UEzrE",
+      "artist": "Emmanuel Top",
+      "title": "Turkish Bazar",
+      "year": 1995,
+      "verified": true,
+      "album": "Release",
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/94/44/6c/mzi.gwnlxtbp.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/6uMOl8UEzrE.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "B631aGiDcqs",
-     "artist": "Union Jack",
-     "title": "Two Full Moons And A Trout",
-     "year": 1993,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/B631aGiDcqs/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/B631aGiDcqs.jpg"
-     }
-    },
-    {
-     "youtubeId": "6uMOl8UEzrE",
-     "artist": "Emmanuel Top",
-     "title": "Turkish Bazar",
-     "year": 1995,
-     "verified": true,
-     "album": "Release",
-     "cover": {
-      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/94/44/6c/mzi.gwnlxtbp.jpg/600x600bb.jpg",
-      "source": "itunes",
-      "local": "covers/6uMOl8UEzrE.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "balearictrance",
@@ -2445,44 +2545,47 @@
    ],
    "major": false,
    "note": "Ibiza, 1990. Ishkur v3 : Trance 1990, accord.",
-   "tracks": [
-    {
-     "youtubeId": "o7d4oTkg8Ho",
-     "artist": "Alien Nation",
-     "title": "Lovers Of The World (Radioactive Mix 1)",
-     "year": 1991,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/o7d4oTkg8Ho/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/o7d4oTkg8Ho.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "o7d4oTkg8Ho",
+      "artist": "Alien Nation",
+      "title": "Lovers Of The World (Radioactive Mix 1)",
+      "year": 1991,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/o7d4oTkg8Ho/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/o7d4oTkg8Ho.jpg"
+      }
+     },
+     {
+      "youtubeId": "zLy--cFj6W0",
+      "artist": "Jam & Spoon",
+      "title": "Stella",
+      "year": 1992,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/zLy--cFj6W0/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/zLy--cFj6W0.jpg"
+      }
+     },
+     {
+      "youtubeId": "7nBtLzFX0RY",
+      "artist": "Electrotete",
+      "title": "I Love You (Cubic 22 mix)",
+      "year": 1992,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/7nBtLzFX0RY/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/7nBtLzFX0RY.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "zLy--cFj6W0",
-     "artist": "Jam & Spoon",
-     "title": "Stella",
-     "year": 1992,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/zLy--cFj6W0/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/zLy--cFj6W0.jpg"
-     }
-    },
-    {
-     "youtubeId": "7nBtLzFX0RY",
-     "artist": "Electrotete",
-     "title": "I Love You (Cubic 22 mix)",
-     "year": 1992,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/7nBtLzFX0RY/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/7nBtLzFX0RY.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "progressivetrance",
@@ -2508,44 +2611,47 @@
    ],
    "major": true,
    "note": "1993-1994. Double ascendance progressive house evidente.",
-   "tracks": [
-    {
-     "youtubeId": "n31huqXclgk",
-     "artist": "F2",
-     "title": "Dominica",
-     "year": 1994,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/n31huqXclgk/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/n31huqXclgk.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "n31huqXclgk",
+      "artist": "F2",
+      "title": "Dominica",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/n31huqXclgk/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/n31huqXclgk.jpg"
+      }
+     },
+     {
+      "youtubeId": "xa3A2RasFyU",
+      "artist": "Paul van Dyk",
+      "title": "Emergency",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/xa3A2RasFyU/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/xa3A2RasFyU.jpg"
+      }
+     },
+     {
+      "youtubeId": "TLtpPZOD360",
+      "artist": "The Aloof",
+      "title": "Agent O (Life's A Gas mix)",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/TLtpPZOD360/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/TLtpPZOD360.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "xa3A2RasFyU",
-     "artist": "Paul van Dyk",
-     "title": "Emergency",
-     "year": 1994,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/xa3A2RasFyU/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/xa3A2RasFyU.jpg"
-     }
-    },
-    {
-     "youtubeId": "TLtpPZOD360",
-     "artist": "The Aloof",
-     "title": "Agent O (Life's A Gas mix)",
-     "year": 1994,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/TLtpPZOD360/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/TLtpPZOD360.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "techtrance",
@@ -2566,44 +2672,47 @@
    ],
    "major": false,
    "note": "1997-1999. Ishkur v3 : Progressive Trance 1997, accord.",
-   "tracks": [
-    {
-     "youtubeId": "DMahHB-pmVw",
-     "artist": "Ecano",
-     "title": "Run",
-     "year": 1998,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/DMahHB-pmVw/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/DMahHB-pmVw.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "DMahHB-pmVw",
+      "artist": "Ecano",
+      "title": "Run",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/DMahHB-pmVw/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/DMahHB-pmVw.jpg"
+      }
+     },
+     {
+      "youtubeId": "1p5bIEpp2-A",
+      "artist": "Breeder",
+      "title": "The Chain",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/1p5bIEpp2-A/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/1p5bIEpp2-A.jpg"
+      }
+     },
+     {
+      "youtubeId": "UE9xLxthwtA",
+      "artist": "S.O.L.",
+      "title": "Quantensprung",
+      "year": 1999,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/UE9xLxthwtA/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/UE9xLxthwtA.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "1p5bIEpp2-A",
-     "artist": "Breeder",
-     "title": "The Chain",
-     "year": 1998,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/1p5bIEpp2-A/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/1p5bIEpp2-A.jpg"
-     }
-    },
-    {
-     "youtubeId": "UE9xLxthwtA",
-     "artist": "S.O.L.",
-     "title": "Quantensprung",
-     "year": 1999,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/UE9xLxthwtA/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/UE9xLxthwtA.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "dreamtrance",
@@ -2624,44 +2733,47 @@
    ],
    "major": false,
    "note": "Italie, 1993-1996, Robert Miles. Ishkur v3 : Balearic Trance 1992, accord.",
-   "tracks": [
-    {
-     "youtubeId": "WelA5zijdI0",
-     "artist": "Voyager",
-     "title": "Baseball Furies (Gianni Parrini Progressive mix)",
-     "year": 1993,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/WelA5zijdI0/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/WelA5zijdI0.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "WelA5zijdI0",
+      "artist": "Voyager",
+      "title": "Baseball Furies (Gianni Parrini Progressive mix)",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/WelA5zijdI0/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/WelA5zijdI0.jpg"
+      }
+     },
+     {
+      "youtubeId": "xl6ptP_6Q-M",
+      "artist": "Roland Brant",
+      "title": "Nuclear Sun (Gianni Parrini mix)",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/xl6ptP_6Q-M/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/xl6ptP_6Q-M.jpg"
+      }
+     },
+     {
+      "youtubeId": "mdH7t_Kdy_A",
+      "artist": "Voyager",
+      "title": "City Of Light",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/mdH7t_Kdy_A/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/mdH7t_Kdy_A.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "xl6ptP_6Q-M",
-     "artist": "Roland Brant",
-     "title": "Nuclear Sun (Gianni Parrini mix)",
-     "year": 1993,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/xl6ptP_6Q-M/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/xl6ptP_6Q-M.jpg"
-     }
-    },
-    {
-     "youtubeId": "mdH7t_Kdy_A",
-     "artist": "Voyager",
-     "title": "City Of Light",
-     "year": 1994,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/mdH7t_Kdy_A/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/mdH7t_Kdy_A.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "germantrance",
@@ -2682,44 +2794,47 @@
    ],
    "major": false,
    "note": "Ishkur v3 : Trance 1989 plus Anthem House 1991.",
-   "tracks": [
-    {
-     "youtubeId": "Mj4VoVxLcWc",
-     "artist": "Komakino",
-     "title": "Dark Zone",
-     "year": 1992,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/Mj4VoVxLcWc/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/Mj4VoVxLcWc.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "Mj4VoVxLcWc",
+      "artist": "Komakino",
+      "title": "Dark Zone",
+      "year": 1992,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/Mj4VoVxLcWc/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/Mj4VoVxLcWc.jpg"
+      }
+     },
+     {
+      "youtubeId": "rG827q9xsNw",
+      "artist": "Voov",
+      "title": "It's Anything You Want It To Be, And It's A Gas",
+      "year": 1992,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/rG827q9xsNw/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/rG827q9xsNw.jpg"
+      }
+     },
+     {
+      "youtubeId": "z4BSyf9rMqc",
+      "artist": "Komakino",
+      "title": "Outface (G60 mix)",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/z4BSyf9rMqc/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/z4BSyf9rMqc.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "rG827q9xsNw",
-     "artist": "Voov",
-     "title": "It's Anything You Want It To Be, And It's A Gas",
-     "year": 1992,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/rG827q9xsNw/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/rG827q9xsNw.jpg"
-     }
-    },
-    {
-     "youtubeId": "z4BSyf9rMqc",
-     "artist": "Komakino",
-     "title": "Outface (G60 mix)",
-     "year": 1993,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/z4BSyf9rMqc/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/z4BSyf9rMqc.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "hardtrance",
@@ -2740,44 +2855,47 @@
    ],
    "major": false,
    "note": "Allemagne et Pays-Bas, milieu des annees 90.",
-   "tracks": [
-    {
-     "youtubeId": "rz7v6GXrZP8",
-     "artist": "Marc Acardipane Presents Marshall Masters",
-     "title": "I Like It Loud",
-     "year": 1997,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/rz7v6GXrZP8/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/rz7v6GXrZP8.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "rz7v6GXrZP8",
+      "artist": "Marc Acardipane Presents Marshall Masters",
+      "title": "I Like It Loud",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/rz7v6GXrZP8/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/rz7v6GXrZP8.jpg"
+      }
+     },
+     {
+      "youtubeId": "P0Tb9iKJqZE",
+      "artist": "Jam X",
+      "title": "Keep It That Way",
+      "year": 2000,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/P0Tb9iKJqZE/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/P0Tb9iKJqZE.jpg"
+      }
+     },
+     {
+      "youtubeId": "7updrYM5_wU",
+      "artist": "Checkmate",
+      "title": "Another World",
+      "year": 2000,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/7updrYM5_wU/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/7updrYM5_wU.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "P0Tb9iKJqZE",
-     "artist": "Jam X",
-     "title": "Keep It That Way",
-     "year": 2000,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/P0Tb9iKJqZE/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/P0Tb9iKJqZE.jpg"
-     }
-    },
-    {
-     "youtubeId": "7updrYM5_wU",
-     "artist": "Checkmate",
-     "title": "Another World",
-     "year": 2000,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/7updrYM5_wU/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/7updrYM5_wU.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "upliftingtrance",
@@ -2798,44 +2916,47 @@
    ],
    "major": true,
    "note": "Epic trance, 1996-2000. Ishkur v3 ne le nomme pas ainsi.",
-   "tracks": [
-    {
-     "youtubeId": "Qgx_V0So0qk",
-     "artist": "Ferry Corsten",
-     "title": "Out Of The Blue",
-     "year": 1999,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/Qgx_V0So0qk/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/Qgx_V0So0qk.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "Qgx_V0So0qk",
+      "artist": "Ferry Corsten",
+      "title": "Out Of The Blue",
+      "year": 1999,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/Qgx_V0So0qk/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/Qgx_V0So0qk.jpg"
+      }
+     },
+     {
+      "youtubeId": "kFSwSNgwMlY",
+      "artist": "Gouryella",
+      "title": "Gouryella",
+      "year": 1999,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/kFSwSNgwMlY/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/kFSwSNgwMlY.jpg"
+      }
+     },
+     {
+      "youtubeId": "n6798SH-7hA",
+      "artist": "Above And Beyond",
+      "title": "Far From In Love",
+      "year": 2005,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/n6798SH-7hA/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/n6798SH-7hA.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "kFSwSNgwMlY",
-     "artist": "Gouryella",
-     "title": "Gouryella",
-     "year": 1999,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/kFSwSNgwMlY/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/kFSwSNgwMlY.jpg"
-     }
-    },
-    {
-     "youtubeId": "n6798SH-7hA",
-     "artist": "Above And Beyond",
-     "title": "Far From In Love",
-     "year": 2005,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/n6798SH-7hA/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/n6798SH-7hA.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "vocaltrance",
@@ -2856,44 +2977,47 @@
    ],
    "major": false,
    "note": "Ishkur v3 le fait descendre de l'Eurodance (1996) et le range dans Europop. Je l'ai rattache au trance uplifting, plus proche de l'usage courant.",
-   "tracks": [
-    {
-     "youtubeId": "1CzclpphpKc",
-     "artist": "Three 'n One Present Serial Diva",
-     "title": "Pearl River",
-     "year": 1997,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/1CzclpphpKc/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/1CzclpphpKc.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "1CzclpphpKc",
+      "artist": "Three 'n One Present Serial Diva",
+      "title": "Pearl River",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/1CzclpphpKc/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/1CzclpphpKc.jpg"
+      }
+     },
+     {
+      "youtubeId": "Rq5HTIACtnM",
+      "artist": "Qattara",
+      "title": "Come With Me (Qattara Vocal mix)",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/Rq5HTIACtnM/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/Rq5HTIACtnM.jpg"
+      }
+     },
+     {
+      "youtubeId": "Lgs9QUtWc3M",
+      "artist": "Alice Deejay",
+      "title": "Better Off Alone",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/Lgs9QUtWc3M/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/Lgs9QUtWc3M.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "Rq5HTIACtnM",
-     "artist": "Qattara",
-     "title": "Come With Me (Qattara Vocal mix)",
-     "year": 1997,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/Rq5HTIACtnM/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/Rq5HTIACtnM.jpg"
-     }
-    },
-    {
-     "youtubeId": "Lgs9QUtWc3M",
-     "artist": "Alice Deejay",
-     "title": "Better Off Alone",
-     "year": 1998,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/Lgs9QUtWc3M/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/Lgs9QUtWc3M.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "goatrance",
@@ -2919,44 +3043,47 @@
    ],
    "major": true,
    "note": "Fondateur de la famille. Goa, Inde, 1991-1994. Ishkur v3 le fait descendre de l'EBM (1990). Wikipedia le fait naitre de l'acid trance, de la new beat et de l'industriel. Les deux ascendances sont portees en greffes.",
-   "tracks": [
-    {
-     "youtubeId": "Tq_rtGOOr6o",
-     "artist": "The Infinity Project",
-     "title": "The Law",
-     "year": 1991,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/Tq_rtGOOr6o/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/Tq_rtGOOr6o.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "Tq_rtGOOr6o",
+      "artist": "The Infinity Project",
+      "title": "The Law",
+      "year": 1991,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/Tq_rtGOOr6o/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/Tq_rtGOOr6o.jpg"
+      }
+     },
+     {
+      "youtubeId": "xZ84T32CQ7s",
+      "artist": "Trilithon",
+      "title": "Prayer (Mutant Version)",
+      "year": 1991,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/xZ84T32CQ7s/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/xZ84T32CQ7s.jpg"
+      }
+     },
+     {
+      "youtubeId": "nDy7I0999xA",
+      "artist": "S.M.I.L.E.",
+      "title": "Call Of The Huichol",
+      "year": 1992,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/nDy7I0999xA/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/nDy7I0999xA.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "xZ84T32CQ7s",
-     "artist": "Trilithon",
-     "title": "Prayer (Mutant Version)",
-     "year": 1991,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/xZ84T32CQ7s/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/xZ84T32CQ7s.jpg"
-     }
-    },
-    {
-     "youtubeId": "nDy7I0999xA",
-     "artist": "S.M.I.L.E.",
-     "title": "Call Of The Huichol",
-     "year": 1992,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/nDy7I0999xA/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/nDy7I0999xA.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "psychedelictrance",
@@ -2977,44 +3104,47 @@
    ],
    "major": true,
    "note": "1996-1998, passage au numerique. Accord de toutes les sources, y compris Ishkur v3.",
-   "tracks": [
-    {
-     "youtubeId": "ZMfQcozx_TQ",
-     "artist": "Disco Volante",
-     "title": "El Metro (Cosmosis mix)",
-     "year": 1995,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/ZMfQcozx_TQ/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/ZMfQcozx_TQ.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "ZMfQcozx_TQ",
+      "artist": "Disco Volante",
+      "title": "El Metro (Cosmosis mix)",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/ZMfQcozx_TQ/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/ZMfQcozx_TQ.jpg"
+      }
+     },
+     {
+      "youtubeId": "skH_IdHURc0",
+      "artist": "Koma Club",
+      "title": "Palpitating",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/skH_IdHURc0/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/skH_IdHURc0.jpg"
+      }
+     },
+     {
+      "youtubeId": "jMabA-XEAJ0",
+      "artist": "Tanzmuzik",
+      "title": "Cainern",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/jMabA-XEAJ0/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/jMabA-XEAJ0.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "skH_IdHURc0",
-     "artist": "Koma Club",
-     "title": "Palpitating",
-     "year": 1995,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/skH_IdHURc0/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/skH_IdHURc0.jpg"
-     }
-    },
-    {
-     "youtubeId": "jMabA-XEAJ0",
-     "artist": "Tanzmuzik",
-     "title": "Cainern",
-     "year": 1995,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/jMabA-XEAJ0/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/jMabA-XEAJ0.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "fullon",
@@ -3035,44 +3165,47 @@
    ],
    "major": true,
    "note": "Israel, 1997. Ishkur v3 : Psychedelic Trance 1996, accord.",
-   "tracks": [
-    {
-     "youtubeId": "nvdPa3BbZMY",
-     "artist": "The Delta",
-     "title": "As A Child I Could Walk On The Ceiling",
-     "year": 1997,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/nvdPa3BbZMY/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/nvdPa3BbZMY.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "nvdPa3BbZMY",
+      "artist": "The Delta",
+      "title": "As A Child I Could Walk On The Ceiling",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/nvdPa3BbZMY/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/nvdPa3BbZMY.jpg"
+      }
+     },
+     {
+      "youtubeId": "tjsY0Z-TjGU",
+      "artist": "The SUN Project",
+      "title": "At The Edge Of Time",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/tjsY0Z-TjGU/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/tjsY0Z-TjGU.jpg"
+      }
+     },
+     {
+      "youtubeId": "Nx-thbZxfkU",
+      "artist": "Space Tribe",
+      "title": "You Can Be Anything",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/Nx-thbZxfkU/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/Nx-thbZxfkU.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "tjsY0Z-TjGU",
-     "artist": "The SUN Project",
-     "title": "At The Edge Of Time",
-     "year": 1997,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/tjsY0Z-TjGU/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/tjsY0Z-TjGU.jpg"
-     }
-    },
-    {
-     "youtubeId": "Nx-thbZxfkU",
-     "artist": "Space Tribe",
-     "title": "You Can Be Anything",
-     "year": 1998,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/Nx-thbZxfkU/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/Nx-thbZxfkU.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "nitzhonot",
@@ -3093,32 +3226,35 @@
    ],
    "major": false,
    "note": "Israel, 1996-1998. Certaines sources le placent avant le full-on plutot qu'apres. Absent d'Ishkur v3.",
-   "tracks": [
-    {
-     "youtubeId": "TQ7zXC6bX4w",
-     "artist": "Sandman",
-     "title": "Witchcraft",
-     "year": 1997,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/TQ7zXC6bX4w/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/TQ7zXC6bX4w.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "TQ7zXC6bX4w",
+      "artist": "Sandman",
+      "title": "Witchcraft",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/TQ7zXC6bX4w/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/TQ7zXC6bX4w.jpg"
+      }
+     },
+     {
+      "youtubeId": "dF0qJcTreRY",
+      "artist": "Oforia",
+      "title": "Delirious",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/dF0qJcTreRY/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/dF0qJcTreRY.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "dF0qJcTreRY",
-     "artist": "Oforia",
-     "title": "Delirious",
-     "year": 1998,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/dF0qJcTreRY/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/dF0qJcTreRY.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "darkpsy",
@@ -3139,44 +3275,47 @@
    ],
    "major": true,
    "note": "1999-2003. Ishkur v3 : Psychedelic Trance 1997, accord.",
-   "tracks": [
-    {
-     "youtubeId": "0TvbxFy6UuA",
-     "artist": "Xenomorph",
-     "title": "Hallucinatory Spheres",
-     "year": 1998,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/0TvbxFy6UuA/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/0TvbxFy6UuA.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "0TvbxFy6UuA",
+      "artist": "Xenomorph",
+      "title": "Hallucinatory Spheres",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/0TvbxFy6UuA/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/0TvbxFy6UuA.jpg"
+      }
+     },
+     {
+      "youtubeId": "LqS1zlCxy-Q",
+      "artist": "Tristan",
+      "title": "Mind Over Matter",
+      "year": 1999,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/LqS1zlCxy-Q/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/LqS1zlCxy-Q.jpg"
+      }
+     },
+     {
+      "youtubeId": "58G8Vc0KAe8",
+      "artist": "Crystal Distortion",
+      "title": "Y2k Bug",
+      "year": 1999,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/58G8Vc0KAe8/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/58G8Vc0KAe8.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "LqS1zlCxy-Q",
-     "artist": "Tristan",
-     "title": "Mind Over Matter",
-     "year": 1999,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/LqS1zlCxy-Q/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/LqS1zlCxy-Q.jpg"
-     }
-    },
-    {
-     "youtubeId": "58G8Vc0KAe8",
-     "artist": "Crystal Distortion",
-     "title": "Y2k Bug",
-     "year": 1999,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/58G8Vc0KAe8/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/58G8Vc0KAe8.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "forestpsy",
@@ -3197,32 +3336,35 @@
    ],
    "major": false,
    "note": "Russie et Finlande, annees 2000. Absent d'Ishkur v3.",
-   "tracks": [
-    {
-     "youtubeId": "-nNQviDYLlM",
-     "artist": "Fungus Funk",
-     "title": "Total Confusion",
-     "year": 2003,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/-nNQviDYLlM/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/-nNQviDYLlM.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "-nNQviDYLlM",
+      "artist": "Fungus Funk",
+      "title": "Total Confusion",
+      "year": 2003,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/-nNQviDYLlM/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/-nNQviDYLlM.jpg"
+      }
+     },
+     {
+      "youtubeId": "aK6sIZxVH9g",
+      "artist": "Psykovsky",
+      "title": "Sunya",
+      "year": 2006,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/aK6sIZxVH9g/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/aK6sIZxVH9g.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "aK6sIZxVH9g",
-     "artist": "Psykovsky",
-     "title": "Sunya",
-     "year": 2006,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/aK6sIZxVH9g/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/aK6sIZxVH9g.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "hitech",
@@ -3243,32 +3385,35 @@
    ],
    "major": false,
    "note": "Fin des annees 2000. Absent d'Ishkur v3.",
-   "tracks": [
-    {
-     "youtubeId": "w3ZEVrmbBWE",
-     "artist": "Mad Tribe",
-     "title": "Sonic Mandala",
-     "year": 2016,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/w3ZEVrmbBWE/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/w3ZEVrmbBWE.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "w3ZEVrmbBWE",
+      "artist": "Mad Tribe",
+      "title": "Sonic Mandala",
+      "year": 2016,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/w3ZEVrmbBWE/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/w3ZEVrmbBWE.jpg"
+      }
+     },
+     {
+      "youtubeId": "FNEfeNr_n1M",
+      "artist": "Ocelot",
+      "title": "Elephant",
+      "year": 2009,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/FNEfeNr_n1M/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/FNEfeNr_n1M.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "FNEfeNr_n1M",
-     "artist": "Ocelot",
-     "title": "Elephant",
-     "year": 2009,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/FNEfeNr_n1M/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/FNEfeNr_n1M.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "progpsy",
@@ -3289,44 +3434,47 @@
    ],
    "major": true,
    "note": "Terrain de Mika, a corriger. Ishkur v3 le fait descendre de Psychedelic Trance (1995), ce qui est tres tot. La scene le date plutot de 1999-2002.",
-   "tracks": [
-    {
-     "youtubeId": "gM0LhSCmhuU",
-     "artist": "Planet Ben",
-     "title": "Screwdriver",
-     "year": 1996,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/gM0LhSCmhuU/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/gM0LhSCmhuU.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "gM0LhSCmhuU",
+      "artist": "Planet Ben",
+      "title": "Screwdriver",
+      "year": 1996,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/gM0LhSCmhuU/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/gM0LhSCmhuU.jpg"
+      }
+     },
+     {
+      "youtubeId": "2ivd_86B4ug",
+      "artist": "Feuerhake",
+      "title": "Extremely Well",
+      "year": 2000,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/2ivd_86B4ug/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/2ivd_86B4ug.jpg"
+      }
+     },
+     {
+      "youtubeId": "FK9rI_oKLb0",
+      "artist": "Space Safari",
+      "title": "Fun Key",
+      "year": 2000,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/FK9rI_oKLb0/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/FK9rI_oKLb0.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "2ivd_86B4ug",
-     "artist": "Feuerhake",
-     "title": "Extremely Well",
-     "year": 2000,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/2ivd_86B4ug/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/2ivd_86B4ug.jpg"
-     }
-    },
-    {
-     "youtubeId": "FK9rI_oKLb0",
-     "artist": "Space Safari",
-     "title": "Fun Key",
-     "year": 2000,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/FK9rI_oKLb0/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/FK9rI_oKLb0.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "suomisaundi",
@@ -3347,20 +3495,23 @@
    ],
    "major": false,
    "note": "Finlande, milieu des annees 90. Cite par Wikipedia, absent d'Ishkur v3.",
-   "tracks": [
-    {
-     "youtubeId": "T54okIetp4o",
-     "artist": "Aavepyora",
-     "title": "Ihmisia Ja Eläimiä",
-     "year": 2005,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/T54okIetp4o/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/T54okIetp4o.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "T54okIetp4o",
+      "artist": "Aavepyora",
+      "title": "Ihmisia Ja Eläimiä",
+      "year": 2005,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/T54okIetp4o/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/T54okIetp4o.jpg"
+      }
      }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "psydub",
@@ -3381,44 +3532,47 @@
    ],
    "major": false,
    "note": "Ishkur v3 : Goa Trance 1992, accord.",
-   "tracks": [
-    {
-     "youtubeId": "ydf07TXN6v8",
-     "artist": "Tranquility Bass",
-     "title": "Mya Yadana",
-     "year": 1993,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/ydf07TXN6v8/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/ydf07TXN6v8.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "ydf07TXN6v8",
+      "artist": "Tranquility Bass",
+      "title": "Mya Yadana",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/ydf07TXN6v8/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/ydf07TXN6v8.jpg"
+      }
+     },
+     {
+      "youtubeId": "ic4Efww4dCs",
+      "artist": "Lumukanda",
+      "title": "Sunday St Kilda Setdown",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/ic4Efww4dCs/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/ic4Efww4dCs.jpg"
+      }
+     },
+     {
+      "youtubeId": "Hcmdy9E4PMQ",
+      "artist": "Young American Primitive",
+      "title": "Sunrise",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/Hcmdy9E4PMQ/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/Hcmdy9E4PMQ.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "ic4Efww4dCs",
-     "artist": "Lumukanda",
-     "title": "Sunday St Kilda Setdown",
-     "year": 1993,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/ic4Efww4dCs/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/ic4Efww4dCs.jpg"
-     }
-    },
-    {
-     "youtubeId": "Hcmdy9E4PMQ",
-     "artist": "Young American Primitive",
-     "title": "Sunrise",
-     "year": 1993,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/Hcmdy9E4PMQ/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/Hcmdy9E4PMQ.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "industrial",
@@ -3433,44 +3587,47 @@
    ],
    "major": true,
    "note": "Fondateur de la famille. Sheffield et Londres, 1975-1977, Throbbing Gristle et le label Industrial Records d'ou le genre tire son nom. Ishkur v3 le date de la fin des annees 70, accord.",
-   "tracks": [
-    {
-     "youtubeId": "6Je7ar2NbB0",
-     "artist": "Throbbing Gristle",
-     "title": "We Hate You (Little Girls)",
-     "year": 1979,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/6Je7ar2NbB0/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/6Je7ar2NbB0.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "6Je7ar2NbB0",
+      "artist": "Throbbing Gristle",
+      "title": "We Hate You (Little Girls)",
+      "year": 1979,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/6Je7ar2NbB0/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/6Je7ar2NbB0.jpg"
+      }
+     },
+     {
+      "youtubeId": "JtgXyQwDt3E",
+      "artist": "Montecazazza",
+      "title": "To Mom On Mother's Day",
+      "year": 1979,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/JtgXyQwDt3E/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/JtgXyQwDt3E.jpg"
+      }
+     },
+     {
+      "youtubeId": "cz8lqWdpJPw",
+      "artist": "Einsturznde Neubauten",
+      "title": "Tanz Debil",
+      "year": 1981,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/cz8lqWdpJPw/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/cz8lqWdpJPw.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "JtgXyQwDt3E",
-     "artist": "Montecazazza",
-     "title": "To Mom On Mother's Day",
-     "year": 1979,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/JtgXyQwDt3E/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/JtgXyQwDt3E.jpg"
-     }
-    },
-    {
-     "youtubeId": "cz8lqWdpJPw",
-     "artist": "Einsturznde Neubauten",
-     "title": "Tanz Debil",
-     "year": 1981,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/cz8lqWdpJPw/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/cz8lqWdpJPw.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "ebm",
@@ -3491,44 +3648,47 @@
    ],
    "major": true,
    "note": "Electronic Body Music. Deutsch Amerikanische Freundschaft puis Front 242, 1980-1982. Le terme est de Front 242. C'est ce genre qui alimente les quatre greffes restees en suspens dans la version precedente du corpus.",
-   "tracks": [
-    {
-     "youtubeId": "a_sAH2QGotE",
-     "artist": "Liaisons Dangereuses",
-     "title": "Los Ninos Del Parque",
-     "year": 1981,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/a_sAH2QGotE/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/a_sAH2QGotE.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "a_sAH2QGotE",
+      "artist": "Liaisons Dangereuses",
+      "title": "Los Ninos Del Parque",
+      "year": 1981,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/a_sAH2QGotE/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/a_sAH2QGotE.jpg"
+      }
+     },
+     {
+      "youtubeId": "RjI4gxtZWaU",
+      "artist": "Absolute Body Control",
+      "title": "So Obvious",
+      "year": 1981,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/RjI4gxtZWaU/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/RjI4gxtZWaU.jpg"
+      }
+     },
+     {
+      "youtubeId": "O8uUzcSNO-w",
+      "artist": "Terror Against Terror",
+      "title": "By Any Means Necessary",
+      "year": 1982,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/O8uUzcSNO-w/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/O8uUzcSNO-w.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "RjI4gxtZWaU",
-     "artist": "Absolute Body Control",
-     "title": "So Obvious",
-     "year": 1981,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/RjI4gxtZWaU/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/RjI4gxtZWaU.jpg"
-     }
-    },
-    {
-     "youtubeId": "O8uUzcSNO-w",
-     "artist": "Terror Against Terror",
-     "title": "By Any Means Necessary",
-     "year": 1982,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/O8uUzcSNO-w/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/O8uUzcSNO-w.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "newbeat",
@@ -3549,44 +3709,47 @@
    ],
    "major": true,
    "note": "Belgique, 1987-1989. Ne d'EBM jouee au ralenti en club. Ishkur v3 le fait descendre du hardcore, ce qui est chronologiquement impossible : la new beat precede le hardcore de plusieurs annees. J'ai suivi Wikipedia et Discogs.",
-   "tracks": [
-    {
-     "youtubeId": "GSRnm5iclPM",
-     "artist": "Arbeid Adelt!",
-     "title": "Death Disco",
-     "year": 1987,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/GSRnm5iclPM/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/GSRnm5iclPM.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "GSRnm5iclPM",
+      "artist": "Arbeid Adelt!",
+      "title": "Death Disco",
+      "year": 1987,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/GSRnm5iclPM/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/GSRnm5iclPM.jpg"
+      }
+     },
+     {
+      "youtubeId": "KZEkS3Ckaro",
+      "artist": "Shock Taktix",
+      "title": "This Is Not",
+      "year": 1987,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/KZEkS3Ckaro/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/KZEkS3Ckaro.jpg"
+      }
+     },
+     {
+      "youtubeId": "-r6oRFBhLMc",
+      "artist": "Indicate",
+      "title": "Cojeme",
+      "year": 1987,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/-r6oRFBhLMc/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/-r6oRFBhLMc.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "KZEkS3Ckaro",
-     "artist": "Shock Taktix",
-     "title": "This Is Not",
-     "year": 1987,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/KZEkS3Ckaro/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/KZEkS3Ckaro.jpg"
-     }
-    },
-    {
-     "youtubeId": "-r6oRFBhLMc",
-     "artist": "Indicate",
-     "title": "Cojeme",
-     "year": 1987,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/-r6oRFBhLMc/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/-r6oRFBhLMc.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "electroindustrial",
@@ -3607,44 +3770,47 @@
    ],
    "major": true,
    "note": "Amerique du Nord, 1988. Skinny Puppy et Front Line Assembly. Absent d'Ishkur v3 sous ce nom.",
-   "tracks": [
-    {
-     "youtubeId": "axsrOmLZOUA",
-     "artist": "Skinny Puppy",
-     "title": "Worlock",
-     "year": 1990,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/axsrOmLZOUA/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/axsrOmLZOUA.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "axsrOmLZOUA",
+      "artist": "Skinny Puppy",
+      "title": "Worlock",
+      "year": 1990,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/axsrOmLZOUA/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/axsrOmLZOUA.jpg"
+      }
+     },
+     {
+      "youtubeId": "RWjBPIbJMzY",
+      "artist": "Front Line Assembly",
+      "title": "Mindphaser",
+      "year": 1992,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/RWjBPIbJMzY/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/RWjBPIbJMzY.jpg"
+      }
+     },
+     {
+      "youtubeId": "KUOeibCly70",
+      "artist": "Haujobb",
+      "title": "Dead Market",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/KUOeibCly70/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/KUOeibCly70.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "RWjBPIbJMzY",
-     "artist": "Front Line Assembly",
-     "title": "Mindphaser",
-     "year": 1992,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/RWjBPIbJMzY/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/RWjBPIbJMzY.jpg"
-     }
-    },
-    {
-     "youtubeId": "KUOeibCly70",
-     "artist": "Haujobb",
-     "title": "Dead Market",
-     "year": 1995,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/KUOeibCly70/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/KUOeibCly70.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "darkelectro",
@@ -3665,44 +3831,47 @@
    ],
    "major": false,
    "note": "Allemagne, 1991-1994. yelworC, Placebo Effect, Mentallo And The Fixer. Absent d'Ishkur v3.",
-   "tracks": [
-    {
-     "youtubeId": "qPzRoMeFl4k",
-     "artist": "yelworC",
-     "title": "Trinity",
-     "year": 1992,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/qPzRoMeFl4k/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/qPzRoMeFl4k.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "qPzRoMeFl4k",
+      "artist": "yelworC",
+      "title": "Trinity",
+      "year": 1992,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/qPzRoMeFl4k/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/qPzRoMeFl4k.jpg"
+      }
+     },
+     {
+      "youtubeId": "mP4cuUVUwOU",
+      "artist": "Mentallo And The Fixer",
+      "title": "Burnt Beyond Recognition",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/mP4cuUVUwOU/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/mP4cuUVUwOU.jpg"
+      }
+     },
+     {
+      "youtubeId": "NUrMUuFz6Ew",
+      "artist": "Wumpscut",
+      "title": "Soylent Green",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/NUrMUuFz6Ew/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/NUrMUuFz6Ew.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "mP4cuUVUwOU",
-     "artist": "Mentallo And The Fixer",
-     "title": "Burnt Beyond Recognition",
-     "year": 1993,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/mP4cuUVUwOU/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/mP4cuUVUwOU.jpg"
-     }
-    },
-    {
-     "youtubeId": "NUrMUuFz6Ew",
-     "artist": "Wumpscut",
-     "title": "Soylent Green",
-     "year": 1993,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/NUrMUuFz6Ew/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/NUrMUuFz6Ew.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "technobodymusic",
@@ -3723,44 +3892,47 @@
    ],
    "major": false,
    "note": "Berlin, annees 2010. Terme porte par le label Aufnahme + Wiedergabe pour la jonction de l'EBM et de la techno. Certaines sources n'y voient pas un genre mais une etiquette de label : filiation marquee comme debattue.",
-   "tracks": [
-    {
-     "youtubeId": "xiu16MwaEUE",
-     "artist": "Phase Fatale",
-     "title": "Anubis",
-     "year": 2017,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/xiu16MwaEUE/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/xiu16MwaEUE.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "xiu16MwaEUE",
+      "artist": "Phase Fatale",
+      "title": "Anubis",
+      "year": 2017,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/xiu16MwaEUE/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/xiu16MwaEUE.jpg"
+      }
+     },
+     {
+      "youtubeId": "_R2poBlOhew",
+      "artist": "Kris Baha",
+      "title": "Palais",
+      "year": 2018,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/_R2poBlOhew/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/_R2poBlOhew.jpg"
+      }
+     },
+     {
+      "youtubeId": "6Tu7ZjmdSYc",
+      "artist": "Boy Harsher",
+      "title": "Pain",
+      "year": 2016,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/6Tu7ZjmdSYc/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/6Tu7ZjmdSYc.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "_R2poBlOhew",
-     "artist": "Kris Baha",
-     "title": "Palais",
-     "year": 2018,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/_R2poBlOhew/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/_R2poBlOhew.jpg"
-     }
-    },
-    {
-     "youtubeId": "6Tu7ZjmdSYc",
-     "artist": "Boy Harsher",
-     "title": "Pain",
-     "year": 2016,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/6Tu7ZjmdSYc/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/6Tu7ZjmdSYc.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "coldwave",
@@ -3781,44 +3953,47 @@
    ],
    "major": false,
    "note": "France et Belgique, 1979-1983. Trisomie 21, Asylum Party. Ishkur v3 ne le nomme pas, il range ce territoire sous Darkwave.",
-   "tracks": [
-    {
-     "youtubeId": "A3ZVZVMIG7g",
-     "artist": "Trisomie 21",
-     "title": "The Last Song",
-     "year": 1984,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/A3ZVZVMIG7g/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/A3ZVZVMIG7g.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "A3ZVZVMIG7g",
+      "artist": "Trisomie 21",
+      "title": "The Last Song",
+      "year": 1984,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/A3ZVZVMIG7g/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/A3ZVZVMIG7g.jpg"
+      }
+     },
+     {
+      "youtubeId": "VeZtT8zBaZU",
+      "artist": "Asylum Party",
+      "title": "Julia",
+      "year": 1989,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/VeZtT8zBaZU/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/VeZtT8zBaZU.jpg"
+      }
+     },
+     {
+      "youtubeId": "q9g-aJ0Cdr0",
+      "artist": "KaS Product",
+      "title": "So Young But So Cold",
+      "year": 1982,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/q9g-aJ0Cdr0/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/q9g-aJ0Cdr0.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "VeZtT8zBaZU",
-     "artist": "Asylum Party",
-     "title": "Julia",
-     "year": 1989,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/VeZtT8zBaZU/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/VeZtT8zBaZU.jpg"
-     }
-    },
-    {
-     "youtubeId": "q9g-aJ0Cdr0",
-     "artist": "KaS Product",
-     "title": "So Young But So Cold",
-     "year": 1982,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/q9g-aJ0Cdr0/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/q9g-aJ0Cdr0.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   },
   {
    "id": "ndh",
@@ -3844,44 +4019,47 @@
    ],
    "major": false,
    "note": "Allemagne, 1994-1997, Rammstein et Oomph!. Sa part electronique vient plutot de l'electro-industriel que de l'industriel des origines : greffe declaree. Absent d'Ishkur v3, qui s'arrete a Industrial Rock.",
-   "tracks": [
-    {
-     "youtubeId": "W3q8Od5qJio",
-     "artist": "Rammstein",
-     "title": "Du Hast",
-     "year": 1997,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/W3q8Od5qJio/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/W3q8Od5qJio.jpg"
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "W3q8Od5qJio",
+      "artist": "Rammstein",
+      "title": "Du Hast",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/W3q8Od5qJio/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/W3q8Od5qJio.jpg"
+      }
+     },
+     {
+      "youtubeId": "fuLPJg2gwjQ",
+      "artist": "Oomph!",
+      "title": "Augen Auf",
+      "year": 2004,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/fuLPJg2gwjQ/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/fuLPJg2gwjQ.jpg"
+      }
+     },
+     {
+      "youtubeId": "yjO1bMHbDpY",
+      "artist": "Eisbrecher",
+      "title": "Verrueckt",
+      "year": 2008,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/yjO1bMHbDpY/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/yjO1bMHbDpY.jpg"
+      }
      }
-    },
-    {
-     "youtubeId": "fuLPJg2gwjQ",
-     "artist": "Oomph!",
-     "title": "Augen Auf",
-     "year": 2004,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/fuLPJg2gwjQ/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/fuLPJg2gwjQ.jpg"
-     }
-    },
-    {
-     "youtubeId": "yjO1bMHbDpY",
-     "artist": "Eisbrecher",
-     "title": "Verrueckt",
-     "year": 2008,
-     "verified": true,
-     "cover": {
-      "url": "https://i.ytimg.com/vi/yjO1bMHbDpY/maxresdefault.jpg",
-      "source": "youtube",
-      "local": "covers/yjO1bMHbDpY.jpg"
-     }
-    }
-   ]
+    ],
+    "actuel": []
+   }
   }
  ]
 }

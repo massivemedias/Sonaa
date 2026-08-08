@@ -106,11 +106,17 @@ sans passer par la CI.
 **Contexte.** Le brief interdit tout identifiant non vérifié en production. Un contrôle
 qui se contenterait d'avertir serait ignoré au bout de trois semaines.
 
-**Décision.** `scripts/verify-youtube.ts` interroge l'endpoint oEmbed, compare le titre
-retourné à `artist` et `title` par similarité, écrit le champ `verified` et produit
-`reports/youtube-verification.md`. Le build de production **retire** les morceaux
-`verified: false` du bundle. Un genre sans aucun morceau vérifié affiche « Sélection en
-cours de vérification. »
+**Décision.** L'endpoint oEmbed public fait autorité, sans clé : un 200 signifie
+que la vidéo existe **et** qu'elle est intégrable, ce qui est exactement la
+condition de l'iframe. La comparaison du titre et de l'artiste est faite par le
+matcher partagé de `scripts/lib/match.ts` (ADR-035).
+
+> **Corrigé.** La version précédente annonçait un script `verify-youtube.ts` qui
+> écrirait `verified: false` sur les identifiants douteux. Il n'a jamais existé et
+> n'existera pas : un identifiant qui ne passe pas la vérification est **retiré**,
+> jamais conservé avec un drapeau. `verified` ne peut donc valoir que `true`, et le
+> schéma Zod l'impose littéralement. Un genre sans morceau vérifié garde une liste
+> vide, et l'interface le dit.
 
 **Conséquences.** Un morceau retiré de YouTube fait rétrécir la sélection au prochain
 build, sans jamais casser le site. Point de vigilance : oEmbed sur 700 morceaux est
@@ -563,9 +569,10 @@ le navigateur d'un visiteur, et aucune clé ne doit approcher le bundle.
 `process.env.YOUTUBE_API_KEY`, fournie par un secret GitHub Actions. Deux appels
 par genre : une recherche filtrée sur les cinq dernières années et sur les
 vidéos intégrables, puis un appel sur les identifiants pour récupérer le nombre
-de vues, qui n'est pas dans la recherche. Titre, chaîne, date et vues sont figés
-dans le JSON. Le champ `verified` reste faux : `verify-youtube.ts` garde
-l'autorité dessus (ADR-006).
+de vues, qui n'est pas dans la recherche. Les résultats passent par le matcher
+partagé puis par un contrôle oEmbed, parce qu'une vidéo trouvée par l'API peut
+refuser l'iframe et qu'une recherche par mot-clé rapporte beaucoup de bruit. Ce
+qui ne passe pas n'est pas écrit.
 
 `scripts/fetch-covers.ts` interroge l'API iTunes Search, gratuite et sans clé,
 sur artiste plus titre, et fige l'URL d'artwork carré en 600 pixels. La
@@ -874,6 +881,60 @@ en tiret cadratin. L'image de partage est generee depuis la palette reelle du
 corpus, 1200 x 630. Les metadonnees Open Graph exigent une URL ABSOLUE par
 specification : c'est la seule exception a la regle du chemin relatif, declaree
 une fois dans `index.html`.
+
+---
+
+## ADR-035 : Le matcher est un module partage, et le corpus accepte une source humaine
+
+**Contexte.** Le durcissement du matcher a rejete 41 morceaux sur 202, un sur
+cinq. Il a aussi mis en evidence sa limite : sur les scenes de niche, la
+recherche automatique ne trouve pas parce que les morceaux ne sont pas sur
+YouTube sous le nom cherche, pas parce que le test est trop strict. Suomisaundi,
+cosmic disco, indie dance, dark disco, nitzhonot, techno body music restent a un
+ou deux morceaux.
+
+**Decision 1 : une seule definition de la rigueur.** `scripts/lib/match.ts` fait
+autorite sur « est-ce bien ce morceau », et tout script qui ecrit un identifiant
+YouTube passe par lui. Le seuil est couverture du titre a 0,6 ET couverture de
+l'artiste a 0,34, sur des jetons replies pour les accents, les transcriptions
+allemandes et les prefixes de quatre lettres. Le module porte l'historique du
+rejet en commentaire, pour qu'on ne l'assouplisse pas par ignorance.
+
+Le module expose aussi `searchYouTube` et `oembed`. Aucun identifiant n'est
+jamais construit : il vient d'une recherche reelle, puis il est verifie.
+
+**Decision 2 : une source humaine, verifiee comme les autres.**
+`scripts/import-tracks.ts` lit `tracks-canon.md`, un tableau markdown par genre,
+et NE FAIT PAS CONFIANCE au fichier sur les identifiants. Il lit des noms,
+cherche lui-meme, et n'ecrit que ce qui passe le matcher. Un identifiant present
+dans le fichier serait quand meme reverifie.
+
+Fusion sans ecrasement : un morceau deja present, identifie par son couple
+artiste et titre normalise, n'est jamais reecrit. Le corpus verifie fait foi.
+
+Il refuse aussi un identifiant deja utilise ailleurs dans le corpus : le meme
+identifiant sur deux genres est presque toujours une compilation ou un mix pris
+pour un morceau. Le schema controle desormais la meme chose.
+
+Le rapport `tracks-canon-report.md` liste chaque ligne non resolue avec les
+candidats refuses et leurs deux scores. Un score de titre bas dit que la video
+est un autre morceau, un score d'artiste bas dit que c'est une reprise. C'est ce
+qui permet une correction a la main sans deviner.
+
+**Decision 3 : deux listes par genre, des maintenant.** `tracks.essentiel` porte
+les fondateurs du genre, `tracks.actuel` les sorties recentes. Tout l'existant
+est passe dans `essentiel` : ce sont des fondateurs trouves par recherche, pas
+des sorties recentes. `actuel` demande la YouTube Data API et reste vide.
+
+L'onglet ne s'affiche que si `actuel` a du contenu. Un onglet vide promet une vue
+qui n'existe pas ; mieux vaut ne pas l'afficher que de le montrer mort. La
+lecture retient de quelle liste vient le morceau en cours, pour que changer
+d'onglet ne coupe pas le son.
+
+**Decision 4 : la validation dit ou sont les trous.** `validate-data` affiche la
+couverture par genre, classee du plus pauvre au plus riche, et nomme les genres
+sous la cible de trois morceaux. C'est la liste de travail pour
+`tracks-canon.md`, pas une statistique decorative.
 
 ---
 

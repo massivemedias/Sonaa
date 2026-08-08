@@ -108,7 +108,10 @@ export interface Genre {
   readonly note: string;
   /** Ascendances hors famille, déjà résolues. */
   readonly externalParents: { readonly family: number; readonly label: string }[];
-  readonly tracks: Track[];
+  /** Fondateurs du genre, toutes époques. Rempli sans clé, par oEmbed. */
+  readonly tracksEssentiel: Track[];
+  /** Sorties récentes. Demande la YouTube Data API, donc vide pour l'instant. */
+  readonly tracksActuel: Track[];
   /** Enfants directs dans l'arbre de filiation, remplis après construction. */
   children: number[];
   /** Position déployée, relative au centre de famille. */
@@ -155,6 +158,18 @@ const mulberry32 = (seed: number) => () => {
    Rien ne pouvait s'y lire. */
 const DEPTH_RADIUS = [3.2, 2.05, 1.4, 1.05];
 
+const toTracks = (list: CorpusGenre['tracks']['essentiel'], rand: () => number): Track[] =>
+  list.map((t, k) => ({
+    id: t.youtubeId,
+    artist: t.artist,
+    title: t.title,
+    year: t.year,
+    album: t.album ?? null,
+    cover: t.cover ? `${import.meta.env.BASE_URL}${t.cover.local}` : '',
+    seed: Math.floor(rand() * 65536) + k,
+    youtubeId: t.youtubeId
+  }));
+
 export const buildStructure = (familyIndex: number): Structure => {
   const family = FAMILIES[familyIndex];
   if (!family) return { genres: [], links: [], deployedRadius: 1, compactRadius: 1 };
@@ -197,16 +212,8 @@ export const buildStructure = (familyIndex: number): Structure => {
           family: familyIndexOf(pp.family),
           label: FAMILIES[familyIndexOf(pp.family)]?.label ?? pp.family
         })),
-      tracks: entry.tracks.map((t, k) => ({
-        id: t.youtubeId,
-        artist: t.artist,
-        title: t.title,
-        year: t.year,
-        album: t.album ?? null,
-        cover: t.cover ? `${import.meta.env.BASE_URL}${t.cover.local}` : '',
-        seed: Math.floor(rand() * 65536) + k,
-        youtubeId: t.youtubeId
-      })),
+      tracksEssentiel: toTracks(entry.tracks.essentiel, rand),
+      tracksActuel: toTracks(entry.tracks.actuel, rand),
       children: [],
       deployed: [0, 0, 0],
       compact: [0, 0, 0]

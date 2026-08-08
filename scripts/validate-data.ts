@@ -53,11 +53,11 @@ if (!parsed.success) {
     }
 
     const ids = new Set<string>();
-    for (const t of g.tracks) {
+    for (const t of [...g.tracks.essentiel, ...g.tracks.actuel]) {
       if (ids.has(t.youtubeId)) errors.push(`${g.id} : identifiant YouTube en double, ${t.youtubeId}`);
       ids.add(t.youtubeId);
     }
-    if (g.tracks.length === 0) warnings.push(`${g.id} : aucun morceau vérifié`);
+    if (ids.size === 0) warnings.push(`${g.id} : aucun morceau vérifié`);
   }
 
   // Décompte, pour que la CI dise ce qu'elle a validé.
@@ -65,7 +65,10 @@ if (!parsed.success) {
     const n = doc.genres.filter((g) => g.family === f).length;
     return `${f} ${n}`;
   }).join(', ');
-  const tracks = doc.genres.reduce((n, g) => n + g.tracks.length, 0);
+  const countOf = (g: (typeof doc.genres)[number]): number =>
+    g.tracks.essentiel.length + g.tracks.actuel.length;
+  const tracks = doc.genres.reduce((n, g) => n + countOf(g), 0);
+  const actuel = doc.genres.reduce((n, g) => n + g.tracks.actuel.length, 0);
   const debated = doc.genres.filter((g) => g.confidence === 'debated').length;
   const grafts = doc.genres.reduce(
     (n, g) => n + g.parents.filter((p) => p.family !== g.family).length,
@@ -73,7 +76,35 @@ if (!parsed.success) {
   );
 
   console.log(`Corpus : ${doc.genres.length} genres (${perFamily})`);
-  console.log(`Morceaux vérifiés : ${tracks} | filiations débattues : ${debated} | greffes : ${grafts}`);
+  console.log(
+    `Morceaux vérifiés : ${tracks} dont ${actuel} en onglet Actuel | ` +
+      `filiations débattues : ${debated} | greffes : ${grafts}`
+  );
+
+  /* Où sont les trous. Classé du plus pauvre au plus riche : c'est la liste de
+     travail pour tracks-canon.md, pas une statistique décorative. */
+  const CIBLE = 3;
+  const ranked = [...doc.genres].sort((a, b) => countOf(a) - countOf(b) || a.id.localeCompare(b.id));
+  const sous = ranked.filter((g) => countOf(g) < CIBLE);
+
+  console.log('');
+  console.log(`Couverture par genre, du plus faible au plus fort (cible ${CIBLE}) :`);
+  console.log('  genre                famille      ess.  act.  total');
+  for (const g of ranked) {
+    const total = countOf(g);
+    const flag = total === 0 ? ' VIDE' : total < CIBLE ? ' à compléter' : '';
+    console.log(
+      `  ${g.id.padEnd(20)} ${g.family.padEnd(12)} ` +
+        `${String(g.tracks.essentiel.length).padStart(4)}  ` +
+        `${String(g.tracks.actuel.length).padStart(4)}  ` +
+        `${String(total).padStart(5)}${flag}`
+    );
+  }
+  console.log('');
+  console.log(
+    `${sous.length} genre(s) sous la cible de ${CIBLE} : ` +
+      (sous.length > 0 ? sous.map((g) => `${g.id} (${countOf(g)})`).join(', ') : 'aucun')
+  );
 }
 
 for (const w of warnings) console.warn(`AVERTISSEMENT ${w}`);

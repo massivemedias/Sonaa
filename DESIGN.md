@@ -275,7 +275,12 @@ Sur la plaque, de haut en bas :
   gabarit : rien ne saute au démarrage ;
 - **artiste, titre, album, année**. Le label de disque demanderait un jeton
   Discogs, donc c'est l'album qui est affiché, nommé pour ce qu'il est ;
-- la **bande des autres morceaux du genre**, en pochettes carrées cliquables ;
+- **deux onglets**, Essentiel et Actuel. Essentiel porte les fondateurs du
+  genre, toutes époques. Actuel porte les sorties récentes triées par écoutes.
+  L'onglet ne s'affiche **que si Actuel a du contenu** : montrer un onglet vide
+  promet une vue qui n'existe pas. Changer d'onglet ne coupe pas le morceau en
+  cours, la lecture retient de quelle liste il vient ;
+- la **bande des morceaux du genre**, en pochettes carrées cliquables ;
 - le **transport complet** : lecture et pause, précédent, suivant, barre de
   défilement cliquable, volume, et un bouton qui agrandit la vidéo à toute la
   plaque.
