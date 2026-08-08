@@ -23,6 +23,7 @@ import {
   STRUCTURES,
   TOTAL_GENRES,
   TOTAL_INTERNAL_LINKS,
+  ATLAS_CENTER,
   pathToGenre
 } from './masses.ts';
 
@@ -118,6 +119,9 @@ export interface ProtoApi {
 }
 
 const FOV = 40;
+/* Distance de cadrage de l'atlas : les 14 familles doivent occuper environ
+   70 pour cent de la hauteur de l'écran. Calculée, pas devinée. */
+const ATLAS_FILL = 0.7;
 const LABEL_POOL = 64;
 /* Amplitude de dolly large : on doit pouvoir arriver assez près pour qu'une
    sphère occupe la moitié de la hauteur de l'écran. À 40 degrés de champ, cela
@@ -211,7 +215,10 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
   const sphereCenters = new Float32Array(TOTAL_GENRES * 3);
   const sphereRadii = new Float32Array(TOTAL_GENRES);
   const sphereColors = new Float32Array(TOTAL_GENRES * 3);
-  const sphereState = new Float32Array(TOTAL_GENRES * 3);
+  const sphereState = new Float32Array(TOTAL_GENRES * 4);
+  /* Mis à jour par la passe de labels, consommé par le shader à l'image
+     suivante : 33 ms de retard, invisible. */
+  const labelled = new Uint8Array(TOTAL_GENRES);
 
   interface Slot {
     family: number;
@@ -245,9 +252,10 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
         sphereColors[i * 3] = r;
         sphereColors[i * 3 + 1] = g;
         sphereColors[i * 3 + 2] = b;
-        sphereState[i * 3] = 1;
-        sphereState[i * 3 + 1] = 0;
-        sphereState[i * 3 + 2] = genre.children.length;
+        sphereState[i * 4] = 1;
+        sphereState[i * 4 + 1] = 0;
+        sphereState[i * 4 + 2] = genre.children.length;
+        sphereState[i * 4 + 3] = 0;
 
         slotsData.push({
           family: fi,
@@ -279,7 +287,7 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
   sphereGeometry.instanceCount = TOTAL_GENRES;
 
   const sphereCenterAttr = new InstancedBufferAttribute(sphereCenters, 3);
-  const sphereStateAttr = new InstancedBufferAttribute(sphereState, 3);
+  const sphereStateAttr = new InstancedBufferAttribute(sphereState, 4);
   sphereCenterAttr.setUsage(35048);
   sphereStateAttr.setUsage(35048);
   sphereGeometry.setAttribute('aCenter', sphereCenterAttr);
@@ -424,11 +432,38 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
 
   // ------------------------------------------------------------- caméra
 
-  const target = new Vector3(0, 8, 0);
+  const atlasTarget = new Vector3(...ATLAS_CENTER);
+
+  /* Cadrage de l'atlas mesuré, pas déduit d'une sphère englobante. Celle-ci
+     est presque vide : deux familles excentrées en fixent le rayon alors que
+     les douze autres se concentrent au centre, et la scène apparaissait deux
+     fois trop petite. On mesure l'étendue VERTICALE réelle en espace caméra,
+     qui ne dépend pas de la distance, et on résout. */
+  const atlasDistance = (() => {
+    const az = 0.55;
+    const el = 0.2;
+    // Axe vertical de la caméra pour cette orientation d'orbite.
+    const upX = -Math.sin(el) * Math.sin(az);
+    const upY = Math.cos(el);
+    const upZ = -Math.sin(el) * Math.cos(az);
+
+    let half = 1;
+    FAMILIES.forEach((family, i) => {
+      const dx = family.center[0] - ATLAS_CENTER[0];
+      const dy = family.center[1] - ATLAS_CENTER[1];
+      const dz = family.center[2] - ATLAS_CENTER[2];
+      const along = Math.abs(dx * upX + dy * upY + dz * upZ);
+      half = Math.max(half, along + (STRUCTURES[i]?.compactRadius ?? 6));
+    });
+
+    return clamp(half / (ATLAS_FILL * Math.tan((FOV * Math.PI) / 360)), MIN_DISTANCE, MAX_DISTANCE);
+  })();
+
+  const target = atlasTarget.clone();
   const targetSmooth = target.clone();
   let azimuth = 0.55;
   let elevation = 0.2;
-  let distance = 240;
+  let distance = atlasDistance;
   let azVel = 0;
   let elVel = 0;
   let dollyVel = 0;
@@ -754,7 +789,7 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
       focusDir = -1;
       focusStart = now;
       level = 'atlas';
-      startFly(new Vector3(0, 8, 0), 240, now);
+      startFly(atlasTarget, atlasDistance, now);
     }
     emitNav();
   };
@@ -819,9 +854,9 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
   canvas.addEventListener('pointercancel', onPointerUp);
 
   const recenter = (): void => {
-    target.set(0, 8, 0);
-    targetSmooth.set(0, 8, 0);
-    distance = 240;
+    target.copy(atlasTarget);
+    targetSmooth.copy(atlasTarget);
+    distance = atlasDistance;
     azVel = 0;
     elVel = 0;
     dollyVel = 0;
@@ -866,6 +901,8 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
     sy: number;
     depth: number;
     kind: 'family' | 'genre';
+    /** Index global de la sphère, ou -1 pour un label de famille. */
+    slot: number;
     /** Jamais masqué par une collision. */
     pinned: boolean;
     opacity: number;
@@ -910,7 +947,8 @@ const OVERLAP_TOLERANCE = 4;
       world: Vector3,
       kind: 'family' | 'genre',
       pinned: boolean,
-      opacityScale: number
+      opacityScale: number,
+      slot = -1
     ): void => {
       scratch.copy(world).project(camera);
       if (scratch.z > 1) return;
@@ -924,8 +962,12 @@ const OVERLAP_TOLERANCE = 4;
       /* Compensation de distance, bornée. La formule seule donnerait 5 px au
          loin et 60 px au premier plan : le plancher et le plafond sont ce qui
          rend l'ensemble lisible à tous les zooms. */
-      const raw = 1500 / Math.max(depth, 1);
-      const px = clamp(raw, labelRules.floorPx, LABEL_PX_CEILING);
+      /* Les noms de familles sont plus petits que les noms de genres au niveau
+         Atlas : sinon le texte fait la largeur de l'amas qu'il désigne. Ils
+         grandissent normalement quand on approche. */
+      const isAtlasFamily = kind === 'family' && level === 'atlas';
+      const raw = (1500 / Math.max(depth, 1)) * (isAtlasFamily ? 0.72 : 1);
+      const px = clamp(raw, isAtlasFamily ? 10 : labelRules.floorPx, LABEL_PX_CEILING);
 
       candidates.push({
         key,
@@ -934,6 +976,7 @@ const OVERLAP_TOLERANCE = 4;
         sy,
         depth,
         kind,
+        slot,
         pinned,
         opacity: opacityScale,
         px,
@@ -998,7 +1041,7 @@ const OVERLAP_TOLERANCE = 4;
          compte suffisent, l'anneau porte déjà le sens. */
       const suffix = slot.children.length > 0 ? ` · ${slot.children.length}` : ' ♪';
 
-      add(`g-${slot.label}`, `${slot.label}${suffix}`, slot.world, 'genre', isPinned, opacity);
+      add(`g-${slot.label}`, `${slot.label}${suffix}`, slot.world, 'genre', isPinned, opacity, i);
     }
 
     /* Atténuation des lointains : plus on s'approche, plus l'arrière-plan
@@ -1026,6 +1069,11 @@ const OVERLAP_TOLERANCE = 4;
 
     labelsShown = placed.length;
     genreLabelsShown = placed.filter((c) => c.kind === 'genre').length;
+
+    labelled.fill(0);
+    for (const c of placed) {
+      if (c.slot >= 0) labelled[c.slot] = 1;
+    }
 
     for (let i = 0; i < LABEL_POOL; i += 1) {
       const ls = labelSlots[i];
@@ -1280,9 +1328,10 @@ const OVERLAP_TOLERANCE = 4;
       sphereCenters[i * 3] = slot.world.x;
       sphereCenters[i * 3 + 1] = slot.world.y;
       sphereCenters[i * 3 + 2] = slot.world.z;
-      sphereState[i * 3] = suspended ? presence * 0.35 : presence;
-      sphereState[i * 3 + 1] = i === focusIndex ? 0.22 : 0;
-      sphereState[i * 3 + 2] = ringOn;
+      sphereState[i * 4] = suspended ? presence * 0.35 : presence;
+      sphereState[i * 4 + 1] = i === focusIndex ? 0.22 : 0;
+      sphereState[i * 4 + 2] = ringOn;
+      sphereState[i * 4 + 3] = labelled[i] ?? 0;
     }
     sphereCenterAttr.needsUpdate = true;
     sphereStateAttr.needsUpdate = true;
@@ -1424,7 +1473,7 @@ const OVERLAP_TOLERANCE = 4;
         activeFamily = -1;
         activeGenre = -1;
         level = 'atlas';
-        startFly(new Vector3(0, 8, 0), 240, now);
+        startFly(atlasTarget, atlasDistance, now);
         emitNav();
       } else {
         selectFamily(familyIndex, performance.now());

@@ -27,21 +27,29 @@ export interface FamilyLink {
    chroma soutenue mais jamais fluo (0.13 à 0.18), teintes espacées d'au moins
    22 degrés pour qu'aucune paire ne se confonde, et rien entre 90 et 120
    degrés, la zone olive-kaki qui salit tout. */
+/* Échelle chromatique refaite. Trois règles :
+   chroma soutenue mais jamais fluo (0.13 à 0.18), teintes espacées d'au moins
+   22 degrés pour qu'aucune paire ne se confonde, et rien entre 90 et 120
+   degrés, la zone olive-kaki qui salit tout.
+
+   Positions resserrées d'un facteur 0.62 par rapport à la version précédente :
+   l'atlas était si large et si plat que le faire tenir à l'écran réduisait les
+   amas à des points. On veut voir des corps, pas des billes perdues. */
 export const FAMILIES: readonly Family[] = [
-  { id: 'roots',      label: 'Roots',      center: [0, -8, 0],      hue: 40,  count: 12 },
-  { id: 'disco',      label: 'Disco',      center: [-30, 4, 12],    hue: 15,  count: 14 },
-  { id: 'house',      label: 'House',      center: [-40, 16, -22],  hue: 350, count: 22 },
-  { id: 'electro',    label: 'Electro',    center: [-10, 24, 38],   hue: 130, count: 10 },
-  { id: 'techno',     label: 'Techno',     center: [14, 20, -32],   hue: 218, count: 26 },
-  { id: 'minimal',    label: 'Minimal',    center: [36, 6, -54],    hue: 196, count: 12 },
-  { id: 'trance',     label: 'Trance',     center: [48, 34, -8],    hue: 262, count: 16 },
-  { id: 'psy',        label: 'Psy',        center: [72, 24, 18],    hue: 240, count: 12 },
-  { id: 'breaks',     label: 'Breaks',     center: [-54, 34, 26],   hue: 306, count: 18 },
-  { id: 'bass',       label: 'Bass',       center: [-74, 22, 54],   hue: 328, count: 16 },
-  { id: 'hardcore',   label: 'Hardcore',   center: [-18, 50, -10],  hue: 284, count: 12 },
-  { id: 'industrial', label: 'Industrial', center: [26, 50, 40],    hue: 62,  count: 10 },
-  { id: 'ambient',    label: 'Ambient',    center: [4, -32, 48],    hue: 174, count: 14 },
-  { id: 'downtempo',  label: 'Downtempo',  center: [-28, -26, 62],  hue: 152, count: 10 }
+  { id: 'roots',      label: 'Roots',      center: [0, -5, 0],      hue: 40,  count: 12 },
+  { id: 'disco',      label: 'Disco',      center: [-19, 2, 7],     hue: 15,  count: 14 },
+  { id: 'house',      label: 'House',      center: [-25, 10, -14],  hue: 350, count: 22 },
+  { id: 'electro',    label: 'Electro',    center: [-6, 15, 24],    hue: 130, count: 10 },
+  { id: 'techno',     label: 'Techno',     center: [9, 12, -20],    hue: 218, count: 26 },
+  { id: 'minimal',    label: 'Minimal',    center: [22, 4, -33],    hue: 196, count: 12 },
+  { id: 'trance',     label: 'Trance',     center: [30, 21, -5],    hue: 262, count: 16 },
+  { id: 'psy',        label: 'Psy',        center: [45, 15, 11],    hue: 240, count: 12 },
+  { id: 'breaks',     label: 'Breaks',     center: [-34, 21, 16],   hue: 306, count: 18 },
+  { id: 'bass',       label: 'Bass',       center: [-46, 14, 33],   hue: 355, count: 16 },
+  { id: 'hardcore',   label: 'Hardcore',   center: [-11, 31, -6],   hue: 284, count: 12 },
+  { id: 'industrial', label: 'Industrial', center: [16, 31, 25],    hue: 62,  count: 10 },
+  { id: 'ambient',    label: 'Ambient',    center: [2, -20, 30],    hue: 174, count: 14 },
+  { id: 'downtempo',  label: 'Downtempo',  center: [-17, -16, 38],  hue: 160, count: 10 }
 ];
 
 const idx = (id: string): number => FAMILIES.findIndex((f) => f.id === id);
@@ -314,7 +322,7 @@ export const buildStructure = (familyIndex: number): Structure => {
   }
 
   for (const g of genres) {
-    g.compact = [g.deployed[0] * 0.24, g.deployed[1] * 0.24, g.deployed[2] * 0.24];
+    g.compact = [g.deployed[0] * 0.32, g.deployed[1] * 0.32, g.deployed[2] * 0.32];
   }
 
   const radiusOf = (key: 'deployed' | 'compact'): number =>
@@ -348,6 +356,17 @@ export const STRUCTURES: readonly Structure[] = FAMILIES.map((_, i) => buildStru
 /** Seuil d'entrée : franchi en avançant, la structure se déploie. */
 export const enterDistance = (familyIndex: number): number =>
   (STRUCTURES[familyIndex]?.compactRadius ?? 6) * 4.2;
+
+/* Rayon englobant de l'atlas, centre inclus. Sert à calculer la distance de
+   cadrage par défaut : les 14 familles doivent occuper environ 70 pour cent de
+   la hauteur de l'écran, pas 20. */
+export const ATLAS_CENTER: readonly [number, number, number] = [-2, 6, 8];
+export const ATLAS_RADIUS = FAMILIES.reduce((max, family, i) => {
+  const dx = family.center[0] - ATLAS_CENTER[0];
+  const dy = family.center[1] - ATLAS_CENTER[1];
+  const dz = family.center[2] - ATLAS_CENTER[2];
+  return Math.max(max, Math.hypot(dx, dy, dz) + (STRUCTURES[i]?.compactRadius ?? 6));
+}, 1);
 
 export const TOTAL_GENRES = STRUCTURES.reduce((n, s) => n + s.genres.length, 0);
 export const TOTAL_INTERNAL_LINKS = STRUCTURES.reduce((n, s) => n + s.links.length, 0);

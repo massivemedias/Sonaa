@@ -50,7 +50,7 @@ export const sphereVert = `
 attribute vec3 aCenter;
 attribute float aRadius;
 attribute vec3 aColor;
-attribute vec3 aState; // x: présence, y: halo, z: nombre de dérivés
+attribute vec4 aState; // x: présence, y: halo, z: dérivés, w: étiquetée
 
 uniform vec3 uCameraPos;
 
@@ -58,7 +58,7 @@ varying vec2 vUv;
 varying vec3 vCenter;
 varying float vRadius;
 varying vec3 vColor;
-varying vec3 vState;
+varying vec4 vState;
 varying float vViewDepth;
 
 void main() {
@@ -90,7 +90,7 @@ varying vec2 vUv;
 varying vec3 vCenter;
 varying float vRadius;
 varying vec3 vColor;
-varying vec3 vState;
+varying vec4 vState;
 varying float vViewDepth;
 
 uniform vec3 uCameraPos;
@@ -115,14 +115,14 @@ void main() {
   float aa = clamp(pixelWorld / max(vRadius, 0.001), 0.004, 0.5);
   float body = 1.0 - smoothstep(1.0 - aa, 1.0 + aa, r);
 
-  /* Anneau indicateur : une sphère qui a des dérivés porte une couronne fine
-     hors de sa silhouette. Une feuille n'en a pas, donc on sait avant de
-     cliquer s'il y a quelque chose dessous. */
+  /* Anneau indicateur. Il doit se remarquer quand on le cherche, pas encadrer
+     la sphère : trois fois plus fin qu'avant, dans la teinte de la famille et
+     non en blanc, et plafonné à 35 pour cent d'opacité. */
   float hasKids = step(0.5, vState.z);
-  float ringW = max(aa * 1.6, 0.028);
-  float ring = (smoothstep(1.16 - ringW, 1.16, r) - smoothstep(1.24, 1.24 + ringW, r)) * hasKids;
+  float ringW = max(aa * 0.9, 0.009);
+  float ring = (smoothstep(1.185 - ringW, 1.185, r) - smoothstep(1.212, 1.212 + ringW, r)) * hasKids;
 
-  float alpha = (body + ring * 0.85) * presence;
+  float alpha = (body + ring * 0.35) * presence;
   if (alpha < 0.02) discard;
 
   // Normale analytique du disque : c'est une sphère sans géométrie de sphère.
@@ -138,9 +138,15 @@ void main() {
   float rim = pow(1.0 - nz, 3.0);
 
   vec3 col = vColor * lambert + vColor * rim * 0.55;
-  // L'anneau est plus clair que le corps : il se lit comme un signe, pas comme
-  // une partie de la sphère.
-  col = mix(col, clamp(vColor * 1.9, 0.0, 1.0), clamp(ring, 0.0, 1.0));
+  // Anneau dans la teinte, à peine plus clair que le corps.
+  col = mix(col, clamp(vColor * 1.15, 0.0, 1.0), clamp(ring, 0.0, 1.0));
+
+  /* Assombrissement local sous le texte. Le label est posé à droite du centre
+     de la sphère : quand la sphère est étiquetée, on baisse légèrement sa
+     moitié droite pour que le blanc tienne, dans le shader et non par un
+     rectangle DOM. */
+  float labelled = vState.w;
+  col *= mix(1.0, mix(1.0, 0.62, smoothstep(-0.15, 0.75, p.x)), labelled);
 
   // Halo : il sature, il ne blanchit pas.
   float glow = vState.y;

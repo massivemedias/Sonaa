@@ -56,9 +56,6 @@
   /* Plaque sombre obligatoire : le blanc sur une sphère claire ne dépasse pas
      2,5:1, alors qu'il atteint 19:1 sur cette plaque. Mesuré, pas supposé. */
   background: oklch(0.13 0.012 250 / 0.82);
-  /* Padding horizontal réduit de moitié : les plaques large font masquer trop
-     de labels par l'évitement de collision. */
-  padding: 0.12em 0.2em;
   border-radius: 2px;
   transition: opacity 120ms linear;
 }
@@ -69,7 +66,6 @@
   font-weight: var(--weight-family);
   letter-spacing: var(--tracking-family);
   text-transform: uppercase;
-  background: oklch(0.13 0.012 250 / 0.9);
 }
 
 .proto-label[data-kind='genre'] {
