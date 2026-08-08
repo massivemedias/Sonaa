@@ -69,11 +69,19 @@
      Les woff2 sous-ensemblés arrivent en P6 : d'ici là on s'appuie sur
      des replis système choisis pour ne pas trahir l'intention.
      --------------------------------------------------------------- */
-  --font-display: 'Archivo', system-ui, -apple-system, sans-serif;
-  --font-reading: 'Literata', Georgia, 'Times New Roman', serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  /* SF Pro Display partout. Une seule famille, trois graisses : 600 pour les
+     noms de familles, 500 pour les genres, 400 pour les données. Le mono
+     disparaît, y compris pour les BPM. */
+  --font-ui: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  --font-display: var(--font-ui);
+  --font-reading: var(--font-ui);
+  --font-mono: var(--font-ui);
 
-  --tracking-family: 0.42em;  /* noms de familles posés à plat derrière la carte */
+  --weight-family: 600;
+  --weight-genre: 500;
+  --weight-data: 400;
+
+  --tracking-family: 0.14em;  /* majuscules des familles, interlettrage ouvert */
   --tracking-display: 0.18em;
   --leading-reading: 1.65;
 

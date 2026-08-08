@@ -58,6 +58,10 @@ et c'est à budgéter en P2.
 
 ## ADR-004 : SVG jusqu'à 600 noeuds visibles, Canvas au-delà
 
+> **REMPLACÉ par ADR-018.** Le rendu principal passe en WebGL, avec une
+> répartition en trois couches. Le repli SVG survit, mais comme filet de
+> sécurité (ADR-020), plus comme mode nominal.
+
 **Contexte.** Le SVG donne l'accessibilité, le focus clavier et le CSS gratuitement.
 Il s'effondre en pan et zoom au-delà de quelques centaines de noeuds animés.
 
@@ -219,6 +223,9 @@ explicitement. Aucune autre décision de ce document n'en dépend.
 
 ## ADR-013 : D3 en modules ciblés, jamais le paquet complet
 
+> **Budget révisé par ADR-021**, porté à 420 Ko gzip. La règle des modules
+> ciblés reste entière et s'étend à Three.js (ADR-019).
+
 **Contexte.** Budget de 250 Ko gzip pour le JS initial, hors données.
 
 **Décision.** Uniquement `d3-zoom`, `d3-selection`, `d3-scale`, `d3-shape`, `d3-interpolate`
@@ -286,6 +293,305 @@ mot de passe reste compromis pour autant : il a été public, il doit être chan
 où il a été réutilisé, indépendamment de cette opération. Le clone iCloud actuel n'est
 plus une source fiable et ne doit servir qu'à récupérer `DESIGN.md`, `ARCHITECTURE.md`
 et les logos, par copie de fichiers, jamais par opération git.
+
+---
+
+## ADR-017 : L'avis esbuild sur Vite 5 est accepté, pas corrigé
+
+**Contexte.** `npm audit` remonte GHSA-67mh-4wv8-2f99 sur esbuild, tiré par Vite 5.
+La faille permet à n'importe quel site web d'envoyer des requêtes au serveur de
+développement et d'en lire la réponse. Le correctif impose Vite 8, un saut de trois
+majeures qui contredit la stack imposée.
+
+**Décision.** On reste sur Vite 5 et on n'applique pas le correctif.
+
+**Pourquoi c'est sans conséquence ici.** La faille ne touche que `vite dev`, un
+serveur qui ne tourne que sur un poste de développement. SONAA publie des fichiers
+statiques sur GitHub Pages : il n'y a aucun serveur de développement en production,
+et le build lui-même n'est pas affecté. La surface d'attaque se limite à une machine
+de développement qui visiterait un site hostile pendant que `npm run dev` tourne.
+
+**Conséquences.** `npm audit` restera bruyant tant que la stack sera en Vite 5, ce
+qui est acceptable mais doit être connu pour ne pas être re-diagnostiqué à chaque
+installation. À réévaluer si Vite 5 reçoit un correctif rétroporté, ou au moment
+où une montée de version majeure sera de toute façon nécessaire.
+
+---
+
+## ADR-018 : Rendu hybride en trois couches, remplace ADR-004
+
+**Contexte.** Un seul moteur de rendu ne sait pas bien faire les trois choses que
+SONAA demande simultanément : de la matière dense et animée sur des milliers
+d'entités, du texte accessible et sélectionnable, et des repères géométriques
+parfaitement stables.
+
+**Décision.** Trois couches superposées, chacune cantonnée à ce qu'elle fait le
+mieux.
+
+1. **WebGL (Three.js, caméra orthographique).** Noeuds et arêtes, en deux
+   `InstancedMesh`, donc deux appels de dessin pour le graphe entier. Shaders
+   écrits à la main. Capsules tracées par fonction de distance signée, pas de
+   géométrie par noeud. Fond en shader plein écran.
+2. **DOM en overlay.** Tout le texte, positionné par projection des coordonnées
+   WebGL à chaque image. Plafond de 60 labels, pool de noeuds recyclés.
+3. **SVG.** Axe temporel gradué et minimap uniquement.
+
+**Pourquoi orthographique.** La perspective déformerait l'axe du temps. Deux
+segments de même durée doivent avoir la même longueur à l'écran quelle que soit
+leur position, sinon la lecture comparative des longévités, qui est la promesse
+du produit (ADR-003), devient fausse.
+
+**Conséquences.** La couche DOM devient le porteur unique de l'accessibilité, ce
+qui simplifie ADR-008 : il n'y a plus de texte inatteignable dans un canvas. En
+contrepartie, la projection des coordonnées doit tourner à chaque image sans
+provoquer de recalcul de mise en page, donc positionnement par `transform`
+uniquement, jamais par `top` et `left`.
+
+---
+
+## ADR-019 : Three.js en modules ciblés, deux appels de dessin, aucun asset
+
+**Contexte.** Three.js complet pèse de l'ordre de 170 Ko gzip. Un `import * as
+THREE` embarque tout, y compris les chargeurs et les géométries dont on n'aura
+jamais l'usage.
+
+**Décision.** Imports nommés exclusivement, jamais d'espace de noms. Aucun modèle
+3D, aucune texture bitmap, aucun asset externe : toute la matière est générée par
+shader. Le graphe reste à deux appels de dessin.
+
+**Conséquence sur le bloom.** Un bloom sélectif par post-traitement imposerait un
+`EffectComposer`, plusieurs cibles de rendu et des passes supplémentaires, ce qui
+contredit frontalement la contrainte des deux appels de dessin. Le halo de la
+lignée active est donc produit **dans le shader des noeuds et des arêtes**, en
+additif, piloté par un attribut d'instance. Même lecture à l'écran, sans passe
+supplémentaire et sans cible de rendu intermédiaire.
+
+**À vérifier.** Le tree-shaking doit être contrôlé sur le bundle réel, pas
+supposé. Un contrôle de taille en CI échoue au-dessus du budget d'ADR-021.
+
+---
+
+## ADR-020 : Repli SVG obligatoire et garde de performance
+
+**Contexte.** WebGL peut être indisponible, désactivé par politique d'entreprise,
+ou perdu en cours de route sur un `webglcontextlost`. Un atlas qui devient une
+page blanche dans ces cas-là n'est pas un site, c'est une démo.
+
+**Décision.** Un rendu SVG complet et fonctionnel prend le relais si WebGL
+manque ou si le contexte est perdu. Il n'est pas dégradé sur le plan de
+l'information : mêmes noeuds, mêmes arêtes, mêmes liens, même navigation. Il perd
+la matière, pas le contenu.
+
+Trois gardes complémentaires :
+- rapport de pixels plafonné à 2, quel que soit l'écran ;
+- images par seconde mesurées sur 2 secondes glissantes, halo coupé sous 40 ;
+- cibles : 60 images par seconde sur poste de bureau, 40 minimum sur mobile de
+  milieu de gamme.
+
+**Conséquences.** Deux chemins de rendu à maintenir, comme dans l'ancien ADR-004,
+mais avec une répartition plus saine : le SVG n'est plus un mode nominal à tenir
+au même niveau de finition, c'est un filet. Il doit rester correct, pas beau.
+
+---
+
+## ADR-021 : Budget porté à 420 Ko gzip, WebGL en import dynamique
+
+**Contexte.** ADR-013 fixait 250 Ko gzip. Three.js, même en imports ciblés, ne
+tient pas dans cette enveloppe avec le reste.
+
+**Décision.** Budget relevé à 420 Ko gzip pour le JS, hors données. La couche
+WebGL est chargée en **import dynamique après le premier rendu** : le squelette
+de la carte, l'axe, l'interface et le repli SVG s'affichent d'abord, la matière
+arrive ensuite.
+
+**Conséquences.** La cible de 2 secondes en 4G porte sur le premier rendu utile,
+pas sur l'arrivée de la couche WebGL. Corollaire à assumer : le repli SVG n'est
+pas seulement un filet, c'est aussi le premier état visible de toute visite. Il
+doit donc être correct dès la première image, pas seulement en cas de panne.
+
+---
+
+## ADR-022 : La pulsation vient du BPM déclaré, jamais de l'audio
+
+**Contexte.** Faire battre la lignée active au rythme du morceau en cours suppose
+d'analyser le son. L'iframe YouTube est servie depuis un autre domaine : la Web
+Audio API ne peut pas s'y brancher, et toute tentative de contournement relèverait
+de l'extraction de flux, ce que le projet s'interdit.
+
+**Décision.** Le battement est calculé à partir du champ `bpm` du genre en cours
+de lecture. Il pilote l'intensité du halo de la lignée active et le grain du fond,
+à faible amplitude. Coupé par `prefers-reduced-motion`.
+
+**Conséquences.** Le battement est juste en tempo mais pas en phase avec le
+morceau : il ne peut pas l'être. C'est assumé, et c'est une raison de plus pour
+garder l'amplitude basse. Un genre sans `bpm` renseigné ne pulse pas, ce qui est
+préférable à une valeur inventée.
+
+---
+
+## ADR-023 : Budget de rendu révisé pour le volumétrique, et mode réduit
+
+> Remplace les cibles de performance d'ADR-020 pour la couche WebGL.
+
+**Contexte.** Le passage à l'espace habitable remplace des rubans et des
+capsules par du raymarching volumétrique. Sur le prototype, le coût est passé
+d'environ 0,16 ms au pire à 6,6 ms, soit un facteur quarante. Desktop tenait,
+mobile non : l'estimation donnait 33 à 66 ms contre 25 ms de budget pour 40
+images par seconde.
+
+**Décision.** Deux dégradations, appliquées ensemble, toutes deux dans le
+shader et sans cible de rendu intermédiaire.
+
+1. **Pas adaptatifs, en continu.** Le nombre de pas de marche est interpolé
+   entre 22 en vue d'ensemble et 10 quand une masse remplit l'écran. La
+   couverture se déduit du rayon angulaire. Aucun palier : une transition par
+   seuils se verrait comme un claquement de qualité pendant le dolly.
+2. **Plein régime sur les trois masses les plus proches seulement.** Les autres
+   passent par une approximation analytique sans boucle, un seul échantillon au
+   milieu de la corde. À quelques dizaines de pixels, personne ne lit une
+   densité interne. La masse ouverte reste toujours au plein régime.
+
+**Mode réduit choisi au démarrage, pas après une chute.** Un détecteur de
+capacité inspecte l'agent utilisateur, le nombre de coeurs et la chaîne du
+renderer WebGL. Sur mobile ou GPU faible, le rendu démarre directement en
+réduit : 12 pas maximum, plage 12 à 6, deux masses au plein régime, rapport de
+pixels plafonné à 1,5. Attendre une chute de fps garantirait une première
+seconde mauvaise sur exactement les machines qui en ont le moins besoin.
+
+**Ce qui n'est pas fait.** La passe volumétrique en demi-résolution, qui
+diviserait encore le coût par quatre, casserait la contrainte de cible de rendu
+unique. Elle reste en réserve, à rouvrir seulement si les deux dégradations
+ci-dessus ne suffisent pas une fois mesurées ensemble.
+
+---
+
+## ADR-024 : La vue liste devient un chemin de première classe
+
+> Précise ADR-008 et remplace la notion de repli graphique.
+
+**Contexte.** Le repli sans WebGL dessinait la frise en SVG. La frise n'existe
+plus, et redessiner un espace volumétrique en SVG n'a aucun sens.
+
+**Décision.** `#/index` sert une navigation hiérarchique complète, familles puis
+genres, avec le même contenu et les mêmes liens que l'espace. Elle n'est pas un
+repli : c'est l'index accessible du produit, annoncé et utilisable par tout le
+monde. Sans WebGL, l'espace y renvoie au lieu d'afficher une demi-carte.
+
+**Conséquences.** Construite sur `details` et `summary` natifs, donc atteignable
+au clavier et correctement annoncée sans un seul `aria-expanded` à maintenir à
+la main, donc sans occasion de mentir au lecteur d'écran. Le coût est un second
+rendu du même modèle, déjà acté en ADR-008.
+
+---
+
+## ADR-025 : Navigation à trois niveaux, jamais sans vol de caméra
+
+**Contexte.** Un espace 3D sans repères se traverse à l'aveugle. Le prototype
+volumétrique n'avait qu'une entrée par proximité, invisible et indevinable.
+
+**Décision.** Trois niveaux, atlas puis famille puis genre, et une règle unique :
+**aucun changement de niveau ne se fait sans que la caméra vole vers la cible**,
+600 ms, easing doux, cadrage calculé pour que le noeud et ses enfants directs
+tiennent dans le champ. Le noeud atteint devient le centre d'orbite.
+
+Trois moyens d'y parvenir, tous équivalents : le clic sur une sphère, le fil
+d'Ariane permanent en haut à gauche dont chaque segment remonte, et le clavier.
+Échap et le clic dans le vide remontent d'un niveau, toujours avec vol.
+
+**Accessibilité de la commande.** Le trackpad seul ne suffit pas. Le glissement
+souris tourne, la molette zoome, les flèches tournent, plus et moins zooment,
+0 recentre. Des contrôles visibles en permanence en bas à droite doublent tout
+cela. Une ligne d'aide s'affiche au premier chargement, disparaît à la première
+interaction et ne revient plus, mémorisée dans `localStorage`.
+
+**Conséquences.** Le vol doit se terminer même si l'image suivante arrive après
+la fin de l'intervalle, sinon la caméra n'atteint jamais sa destination sur une
+machine lente. Un simple test « temps écoulé inférieur à la durée » ne suffit
+pas, il faut un drapeau et une fin forcée.
+
+---
+
+## ADR-026 : La vue tracks est une vue 2D, pas une surcouche 3D
+
+**Contexte.** Choisir un morceau est une tâche de liste, pas d'espace. La
+maintenir dans la scène 3D reviendrait à faire de la lecture de texte une
+question de caméra.
+
+**Décision.** Entrer dans les morceaux **suspend la 3D** : le canvas recule,
+se floute légèrement, cesse de recevoir les gestes, et un panneau 2D plein
+passe devant. Grille de pochettes carrées, 3 à 5 colonnes selon la largeur.
+Lecteur persistant en bas : pochette, artiste, titre, transport, barre de
+défilement cliquable, volume. Retour au graphe par bouton explicite et par Échap.
+
+Deux onglets, deux sélections : **Actuel**, les sorties des cinq dernières
+années triées par vues décroissantes, et **Essentiel**, les fondateurs du genre
+toutes époques.
+
+**Conséquences.** La lecture réelle passera par l'iframe YouTube pilotée par
+notre propre interface, jamais par les commandes de YouTube. Dans le prototype,
+le transport est **simulé et étiqueté comme tel** : les données sont factices,
+et le projet s'interdit d'inventer un identifiant (ADR-006). Le branchement de
+l'iframe se fait en P3, sur des identifiants vérifiés.
+
+---
+
+## ADR-027 : Morceaux et pochettes figés au build, aucune clé côté client
+
+**Contexte.** Il faut des morceaux récents et populaires par genre, et des
+pochettes. Les deux viennent d'API tierces. Aucune ne doit être appelée depuis
+le navigateur d'un visiteur, et aucune clé ne doit approcher le bundle.
+
+**Décision.** Deux scripts qui ne tournent qu'au build.
+
+`scripts/fetch-tracks.ts` interroge YouTube Data API v3 avec une clé lue dans
+`process.env.YOUTUBE_API_KEY`, fournie par un secret GitHub Actions. Deux appels
+par genre : une recherche filtrée sur les cinq dernières années et sur les
+vidéos intégrables, puis un appel sur les identifiants pour récupérer le nombre
+de vues, qui n'est pas dans la recherche. Titre, chaîne, date et vues sont figés
+dans le JSON. Le champ `verified` reste faux : `verify-youtube.ts` garde
+l'autorité dessus (ADR-006).
+
+`scripts/fetch-covers.ts` interroge l'API iTunes Search, gratuite et sans clé,
+sur artiste plus titre, et fige l'URL d'artwork carré en 600 pixels. La
+correspondance est exigeante sur l'artiste ET le titre : une pochette fausse est
+pire qu'aucune. Repli sur la miniature YouTube sinon.
+
+**Conséquences.** Au runtime, le seul appel tiers restant est l'iframe YouTube.
+Le contrôle anti-secret de la CI (ADR-011) couvre déjà le cas où une clé
+fuiterait dans `dist/`. Contrepartie à assumer : les données vieillissent entre
+deux builds, et l'onglet « Actuel » n'est actuel qu'à la date du dernier build.
+
+---
+
+## Pièges GLSL rencontrés, à ne pas repayer
+
+Trois erreurs coûteuses rencontrées sur le prototype de rendu. Elles ne
+produisent aucun message clair et se diagnostiquent mal : autant les écrire.
+
+**`half` est un mot réservé en GLSL.** `vec2 half = ...` échoue à la
+compilation avec « Illegal use of reserved word ». Le message pointe la bonne
+ligne, mais on cherche ailleurs parce que le mot paraît anodin.
+
+**`fwidth` renvoie 0 dans le chemin GLSL 1.0 que three utilise par défaut**,
+même sur un contexte WebGL 2. Conséquence indirecte et silencieuse :
+`smoothstep(a, a, x)` avec `a` identique des deux côtés est **indéfini** et
+produit un NaN. Aucun `discard` ne se déclenche, aucune erreur n'est levée, et
+rien ne s'écrit à l'écran. Ne jamais dériver un seuil de `fwidth` sans plancher.
+Pour l'antialiasing d'un ruban, la couverture analytique à partir de la largeur
+connue est plus sûre et plus rapide.
+
+**`camera.matrixWorldInverse` n'est mis à jour que par le rendu.** Appeler
+`Vector3.project(camera)` juste après avoir déplacé la caméra, mais avant
+`renderer.render`, projette avec la matrice de l'image précédente. Les labels
+DOM dérivent d'une image, ce qui se voit surtout en rotation rapide. Il faut
+`camera.updateMatrixWorld()` **puis**
+`camera.matrixWorldInverse.copy(camera.matrixWorld).invert()`.
+
+**Corollaire de méthode.** Un ruban élargi en espace écran, par conversion
+pixels vers NDC, s'est révélé impossible à faire fonctionner de façon fiable aux
+largeurs réalistes. L'élargissement en espace monde, perpendiculairement à la
+tangente et face à la caméra, avec un plancher exprimé en pixels converti en
+unités monde, fonctionne du premier coup et se raisonne bien mieux.
 
 ---
 

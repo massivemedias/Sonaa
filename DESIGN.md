@@ -23,6 +23,11 @@ Conséquence directe, et c'est la règle qui gouverne tout le reste :
 
 ## 2. L'idée structurante : le genre est une durée, pas un point
 
+> **CADUC.** Le temps ne structure plus l'espace. L'axe temporel, le layout
+> timeline-DAG et la lecture à plat sont abandonnés. L'année reste une donnée
+> affichée dans le panneau de détail, elle n'a plus de géométrie.
+> Remplacé par la section 5, l'espace habitable.
+
 C'est la décision qui différencie SONAA de tout autre graphe.
 
 Dans une carte de genres classique, un genre est un cercle. Ici, un genre est **un trait
@@ -72,81 +77,186 @@ de surface sans jamais passer au gris de dashboard.
 
 ### 3.2 Les familles
 
-Quatorze familles, quatorze teintes. Mais la teinte seule ne suffit pas : quatorze couleurs
-réparties sur la roue donnent un arc-en-ciel, c'est-à-dire du bruit.
+Quatorze familles, quatorze teintes, et trois règles qui rendent l'échelle
+utilisable au lieu d'être un arc-en-ciel ou une bouillie.
 
-Deux disciplines empêchent ça :
+**Chroma soutenue, jamais fluo.** Entre `C 0.13` et `C 0.18`, plafond absolu à
+`0.20`. La version précédente plafonnait à `0.10` et le résultat était terne :
+les familles se confondaient et l'olive tirait vers le sale.
 
-**Chroma plafonné.** Toutes les familles vivent entre `C 0.05` et `C 0.10`. À l'écran, ce
-sont des graphites teintés, pas des bonbons. La planche reste lisible comme un ensemble.
+**Luminosité entre `L 0.60` et `L 0.75`.** C'est la plage dans laquelle une
+sphère ressort franchement d'un fond à `L 0.16`. Le fondateur d'une famille
+monte à `0.75`, ses dérivés vivent entre `0.60` et `0.72`.
 
-**La couleur pleine est réservée à la lignée active.** C'est la règle qui fait tenir tout
-le système : au repos, rien n'est saturé. Quand une lignée s'allume, elle est le seul
-endroit de l'écran où la chroma monte à `C 0.16`. La saturation devient un événement,
-pas un décor.
-
-Attribution des teintes, par adjacence généalogique, pour que les couloirs voisins sur la
-carte soient aussi voisins en couleur :
+**Écart minimal de 22 degrés entre deux teintes, et rien entre 90 et 120
+degrés.** C'est la zone olive-kaki, celle qui salit tout ce qu'elle touche.
+Elle est purement et simplement exclue de l'échelle.
 
 ```
-roots        H  70   C 0.015   quasi achromatique, c'est le substrat
-disco        H  55
-house        H  30
-bass         H 355
-breaks       H 330
-hardcore     H 300
-trance       H 275
-psy          H 250
-techno       H 225
-minimal      H 205
-ambient      H 185
-downtempo    H 160
-electro      H 135
-industrial   H 105
+disco         15      techno       218
+roots         40      psy          240
+industrial    62      trance       262
+electro      130      hardcore     284
+downtempo    152      breaks       306
+ambient      174      bass         328
+minimal      196      house        350
+                            (90 à 120 : interdit)
 ```
 
-### 3.3 La luminosité encode l'ancienneté
+### 3.3 Le contraste des labels, mesuré et non supposé
 
-`L` varie de `0.86` pour les genres les plus anciens à `0.62` pour les plus récents.
+Un label blanc sur le fond donne **19,4:1**. Le même label blanc posé sur une
+sphère claire tombe entre **1,96 et 2,52:1**, ce qui est inutilisable.
 
-Le sens de la variation est délibéré et il est l'inverse de l'intuition « vieux = sombre ».
-Sur une planche d'archive, **c'est l'encre ancienne qui a passé** : elle est plus claire,
-plus délavée, moins chromatique. L'encre récente est dense et franche. Un genre de 1977
-est donc un trait pâle et fin, un genre de 2015 un trait sombre et net.
-
-Bénéfice non négociable : la plage `L 0.62 → 0.86` sur un fond à `L 0.17` garantit un
-contraste supérieur à 7:1 partout. Aucun noeud n'est illisible, quelle que soit son époque.
-L'inverse (ancien = sombre) aurait enterré les racines dans le fond.
+Conséquence, et c'est une règle et non une préférence : **tout label porte une
+plaque sombre**. Le contraste redevient celui du fond quel que soit ce qui passe
+derrière, et l'échelle chromatique reste libre d'être franche.
 
 ---
 
 ## 4. Typographie
 
-Trois familles, toutes en woff2, sous-ensemble latin étendu pour le français et l'espagnol,
-`font-display: swap`.
+**Une seule famille, SF Pro Display**, avec la pile
+`-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif`.
 
-**Display, `Archivo` variable.** Choisie pour son axe de largeur : un seul fichier donne
-le condensé et l'étendu. Elle sert à une seule chose, et c'est un idiome de cartographie :
-**les noms de familles sont posés à plat derrière la carte**, en capitales très étendues,
-très interlettrées, à faible contraste, exactement comme le nom d'une région sur une carte
-IGN. Ils appartiennent au fond, pas à l'interface. On ne les clique pas, on se repère avec.
+Le trio Archivo, Literata et IBM Plex Mono est abandonné. Trois familles pour
+une interface aussi dense produisaient un patchwork, et le mono sur les BPM
+faisait ressembler chaque étiquette à une sortie de terminal.
 
-**Lecture, `Literata`.** Un serif à faible contraste, robuste sur fond sombre, pour les
-descriptions de genres. Le choix du serif est assumé : SONAA est un ouvrage de référence,
-pas un magazine. Ses empattements tiennent la ligne sur 400 à 800 signes là où une
-grotesque de plus fatiguerait. Corps de texte à `L 0.93`, ratio AAA.
+La hiérarchie passe désormais par la **graisse**, pas par la famille :
 
-**Données, `IBM Plex Mono`.** Toute donnée mesurée passe en mono, sans exception : années,
-BPM, identifiants, sources, compteurs du lecteur, graduations de l'axe. C'est la voix de
-l'instrument. Sa couverture diacritique est complète, ce qui compte pour trois langues.
+| Rôle | Graisse | Traitement |
+|---|---|---|
+| Nom de famille | 600 | capitales, interlettrage ouvert à `0.14em` |
+| Nom de genre | 500 | casse normale |
+| Données, BPM, mesures | 400 | casse normale, plus de mono |
 
-Règle d'application : si une valeur pourrait figurer dans un tableau, elle est en mono.
-Si elle relève de la prose, elle est en Literata. Si c'est un nom de famille de genres,
-elle est en Archivo. Aucun autre cas.
+**Taille des labels : plancher et plafond stricts.** La compensation de distance
+seule donnerait 5 pixels au loin et 60 au premier plan. Bornes : jamais en
+dessous de **13 px** sur poste de bureau, **15 px** sur mobile, jamais au-dessus
+de **22 px**. En dehors de ces bornes, un label ne se lit pas ou écrase la carte.
 
 ---
 
-## 5. Le cadre de la planche
+## 5. L'espace habitable, ce qui remplace la planche
+
+> **Mise à jour.** Les masses volumétriques diffuses sont abandonnées. Une
+> famille est désormais une STRUCTURE de sphères nettes reliées par des liens
+> fins, référence moléculaire, et l'ouverture est une diffusion animée. Le
+> détail des morceaux se lit dans une vue 2D dédiée, décrite en section 5c.
+> Les années ne structurent plus rien et ne sont plus affichées.
+
+SONAA n'est plus une planche qu'on lit, c'est un espace qu'on habite.
+
+**Le niveau 1, l'espace.** Quatorze masses volumétriques flottent dans le vide,
+une par grande famille. Chacune porte sa teinte, sa densité et un volume
+proportionnel au nombre de genres qu'elle contient. Les familles proches
+stylistiquement sont proches spatialement, et des liens rares et épais relient
+celles qui sont nées l'une de l'autre. Rien d'autre : pas de grille, pas de
+repère, pas de sol.
+
+**Le niveau 2, dans la masse.** Approcher suffit. Franchir le seuil de proximité
+ouvre la masse, qui perd sa densité pendant qu'on traverse sa paroi et révèle
+son amas interne de sous-genres. Les autres masses reculent et s'estompent sans
+disparaître : on ne perd jamais le nord. Reculer ressort, symétriquement.
+
+**Le niveau 3, le genre.** Le détail, les morceaux, les filiations.
+
+Il n'y a **aucun changement d'écran** entre ces niveaux, et aucun bouton pour
+passer de l'un à l'autre. On avance, on entre. C'est la seule mécanique.
+
+### La matière d'une masse
+
+Une masse doit avoir l'air d'un **corps**, pas d'un ballon. Volume translucide,
+densité interne visible, silhouette qui bouge légèrement. La référence est un
+corps organique dense, pas un nuage de particules ni une sphère lissée.
+Techniquement : imposteur billboard et raymarching d'un champ de distance signé,
+avec bruit 3D à deux octaves. Tout est calculé, aucun asset.
+
+### La navigation, qui est le coeur
+
+Le pincement à deux doigts est un **dolly**, pas un zoom d'échelle : on avance
+réellement dans l'espace. Le glissement à deux doigts orbite. Tout porte de
+l'inertie et de l'amortissement, rien ne s'arrête net. Le geste doit avoir du
+poids, sinon l'espace n'a pas de volume.
+
+### 5b. La diffusion, animation signature
+
+À l'ouverture d'une famille, ses sphères s'écartent de leur position compacte
+vers leur position déployée **en cascade**, du fondateur vers les dérivés, en
+suivant les liens de filiation. 480 ms au total, 40 ms de décalage par niveau,
+easing à léger dépassement. Les liens se tracent en même temps, du parent vers
+l'enfant, avec une tête de propagation plus vive juste derrière le front.
+
+Les labels n'apparaissent qu'après, une fois les positions stabilisées, jamais
+pendant le mouvement : sinon ils traînent derrière les sphères et la propagation
+devient une bouillie. La fermeture est la même cascade inversée, en 300 ms.
+
+Ce doit se lire comme une propagation, pas comme un fondu. `prefers-reduced-motion`
+remplace le tout par une apparition directe.
+
+### 5b bis. La descente, et comment la hiérarchie se lit
+
+La descente n'est pas une mise en évidence, c'est un **déplacement**. Cliquer un
+genre qui a des dérivés fait trois choses ensemble :
+
+1. La caméra vole sur lui, il devient le centre d'orbite.
+2. Ses dérivés s'écartent **de lui**, en cascade par génération, 400 ms, 45 ms
+   de décalage par niveau, même easing à dépassement que la diffusion de famille.
+3. Le reste de la famille recule et tombe à 12 pour cent, et perd ses labels.
+   Le contexte reste visible, il n'est plus lisible.
+
+Au niveau genre, **tous les dérivés sont étiquetés, sans exception**. Le filtre
+des majeurs ne vaut qu'au niveau famille. On est descendu dans le détail, on ne
+cache plus rien. Le noeud focalisé garde son label, en graisse renforcée.
+
+Les liens du sous-arbre passent au premier plan et s'épaississent, les autres
+liens de la famille tombent à un dixième.
+
+Un second clic sur le même genre, ou un clic sur une feuille, ouvre les morceaux.
+Échap remonte d'un cran dans le chemin, pas directement à la famille.
+
+### Trois signes qui rendent la hiérarchie lisible sans cliquer
+
+**La taille dit la génération.** Le rayon est indexé sur la profondeur, pas sur
+une notion vague d'importance : 3,2 pour une racine, 2,05 pour ses genres, 1,4
+pour les sous-genres, 1,05 au-delà. Une racine domine visiblement ses dérivés.
+
+**Le lien dit le sens.** Il s'effile du parent vers l'enfant, de pleine épaisseur
+à 42 pour cent, et son dégradé va de la couleur du parent à celle de l'enfant.
+On voit qui descend de qui sans une seule flèche.
+
+**L'anneau dit qu'il y a quelque chose dessous.** Une sphère qui a des dérivés
+porte une couronne fine hors de sa silhouette, et son label annonce le compte,
+« 3 dérivés ». Une feuille n'a pas d'anneau et son label dit « morceaux ».
+On sait donc, avant de cliquer, si le clic descend ou s'il ouvre le lecteur.
+
+**Et la disposition dit la filiation.** Les enfants d'un noeud s'organisent en
+couronne autour de lui, dans un disque perpendiculaire à la direction qui vient
+de son propre parent. Chaque génération forme un anneau identifiable. La
+relaxation anti-chevauchement ne déplace que les feuilles, et faiblement : elle
+corrige les collisions sans détruire la structure.
+
+### 5c. La vue morceaux
+
+Entrer dans les morceaux suspend la 3D : elle recule, se floute légèrement, et
+un panneau 2D plein passe devant. Pas de sphères, pas de caméra, pas de
+profondeur. Choisir un morceau est une tâche de liste.
+
+Grille de pochettes carrées. Sur chaque carte : pochette, artiste, titre, label,
+bouton de lecture au survol. Lecteur persistant en bas, avec barre de défilement
+cliquable. Deux onglets : **Actuel**, les sorties récentes triées par écoutes, et
+**Essentiel**, les fondateurs du genre.
+
+Les pochettes ne sont jamais des assets du dépôt : elles sont figées au build
+depuis une source tierce, ou générées.
+
+---
+
+## 5b bis. Le cadre de la planche
+
+> **CADUC.** Il n'y a plus de planche, plus de cadre, plus de colonne de temps,
+> plus de croix de repérage. Voir la section 5.
 
 L'interface est **une seule planche encadrée**, pas un empilement de cartes.
 
@@ -195,7 +305,73 @@ parallaxe, pas d'apparition en fondu, pas de ressort.
 
 ---
 
-## 7. Écriture d'interface
+## 7. Le rendu, trois couches
+
+La carte n'est pas dessinée par une seule technologie. Chaque couche fait ce
+qu'elle fait le mieux, et rien d'autre.
+
+### Couche 1, WebGL : la matière
+
+Three.js, **caméra orthographique**. Aucune perspective, jamais. Le temps est un
+axe mesuré, une fuite perspective le déformerait et mentirait sur les durées.
+
+- Les noeuds sont des **capsules étirées sur l'axe du temps**, pas des sphères.
+  La forme est la durée. Un `InstancedMesh`, un seul appel de dessin.
+- Les arêtes sont un second `InstancedMesh`, un seul appel. Le graphe entier
+  tient donc en deux appels de dessin.
+- Shaders écrits à la main, aucun matériau par défaut. Les capsules sont
+  tracées par fonction de distance signée : nettes à tous les zooms, sans
+  géométrie supplémentaire.
+- Chaque arête porte un **dégradé de progression du parent vers l'enfant** et un
+  **flux lent qui descend le long du lien**. Le sens de l'héritage se lit sans
+  flèche.
+- **Bloom sélectif, uniquement sur la lignée active.** Jamais de bloom global :
+  un halo partout serait une ambiance, un halo sur une seule lignée est une
+  information.
+
+Le fond est un shader plein écran : grain organique très fin et animé, plus un
+dégradé de profondeur froid. La référence est le **relevé sismique et l'émulsion
+argentique**, la matière d'un support d'enregistrement. Ni espace, ni nébuleuse,
+ni cyberpunk, ni dégradé indigo-violet.
+
+### Couche 2, DOM : tout le texte
+
+Positionné par projection des coordonnées WebGL, à chaque image.
+
+Labels de genres, années, BPM, panneau de détail, interface. **Aucun texte n'est
+rendu en WebGL.** C'est cette couche qui porte l'accessibilité, le focus clavier
+et la sélection de texte, et une police rastérisée par le navigateur reste plus
+lisible que n'importe quel atlas de glyphes.
+
+Plafond de **60 labels affichés simultanément**, choisis par niveau de zoom puis
+par distance au centre du viewport. Les noeuds DOM sont recyclés dans un pool de
+taille fixe, jamais créés ni détruits pendant le déplacement.
+
+### Couche 3, SVG : les repères
+
+L'axe temporel gradué et la minimap, rien d'autre. Statiques, nets, lisibles.
+Ce sont les deux éléments qui doivent rester parfaitement stables pendant qu'on
+navigue, donc ils ne passent pas par le rendu temps réel.
+
+---
+
+## 8. La pulsation
+
+Pendant la lecture d'un morceau, la lignée active bat.
+
+Le battement est **calculé à partir du champ `bpm` du genre en cours**, pas
+analysé depuis le son. L'iframe YouTube est cross-origin : la Web Audio API ne
+peut pas en lire le signal, et aucun contournement n'est tenté.
+
+Il agit sur deux choses seulement, l'intensité du bloom de la lignée active et
+le grain du fond. Amplitude faible. SONAA n'est pas un visualiseur de boîte de
+nuit : c'est un métronome discret qui rappelle qu'on écoute quelque chose.
+
+Coupé par `prefers-reduced-motion`.
+
+---
+
+## 9. Écriture d'interface
 
 Voix d'archiviste. Phrases courtes, voix active, un libellé égale une action, même mot du
 bouton jusqu'au message de confirmation.
@@ -211,15 +387,27 @@ Pas d'emoji. Pas de tiret cadratin. Pas de superlatif.
 
 ---
 
-## 8. Interdits, rappelés pour qu'on puisse me les opposer
+## 10. Interdits, rappelés pour qu'on puisse me les opposer
 
 Dégradé violet-bleu. Cartes arrondies à ombre portée. Glassmorphism. Fond crème avec serif
 à fort contraste et accent terracotta. Emoji dans l'interface. Illustration 3D. Hero avec
 un gros chiffre et un petit label. Un accent acide unique sur fond noir pur.
 
+Et pour la couche WebGL, qui est l'endroit où l'on dérape le plus vite :
+perspective, caméra qui orbite, parallaxe au mouvement de souris, noeuds
+sphériques brillants, particules flottant sans raison, tunnel, wireframe néon,
+ciel étoilé, nébuleuse, scroll qui pilote une animation cinématique.
+
+Et depuis le passage à l'espace habitable : frise chronologique, grille de fond,
+planche technique, vol libre sans contrainte, caméra qui orbite toute seule,
+parallaxe au mouvement de souris, particules décoratives sans fonction.
+
+La 3D est ici au service de la densité d'information et de la profondeur de
+lecture. Dès qu'elle devient un spectacle, elle est à retirer.
+
 ---
 
-## 9. Révision critique du premier jet
+## 11. Révision critique du premier jet
 
 Le brief demande de relire ce document et de réécrire ce qui ressemblerait à n'importe
 quel projet. Voici ce que j'ai effectivement changé, et pourquoi.

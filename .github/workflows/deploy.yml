@@ -30,6 +30,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Fait autorité sur les données : cycles, références mortes, orphelins,
+      # cohérence des dates. Voir ARCHITECTURE.md ADR-005.
+      - name: Valider les données
+        run: npm run validate:data
+
       - name: Build
         run: npm run build
 
