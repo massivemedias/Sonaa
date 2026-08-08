@@ -50,6 +50,26 @@
    "id": "bass",
    "label": "Bass",
    "hue": 306
+  },
+  {
+   "id": "electro",
+   "label": "Electro",
+   "hue": 82
+  },
+  {
+   "id": "hardcore",
+   "label": "Hardcore",
+   "hue": 146
+  },
+  {
+   "id": "ambient",
+   "label": "Ambient",
+   "hue": 168
+  },
+  {
+   "id": "downtempo",
+   "label": "Downtempo",
+   "hue": 124
   }
  ],
  "genres": [
@@ -5878,6 +5898,1620 @@
    "aliases": [
     "Post-Club",
     "Deconstructed"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "electrofunk",
+   "label": "Electro Funk",
+   "family": "electro",
+   "structuralParent": null,
+   "parents": [
+    {
+     "id": "funk",
+     "family": "roots",
+     "confidence": "established"
+    },
+    {
+     "id": "prototechno",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    110,
+    130
+   ],
+   "major": true,
+   "note": "Fondateur de la famille. New York, 1982, Planet Rock d'Afrika Bambaataa : la boite a rythmes TR-808 sur un motif emprunte a Kraftwerk. C'est le chainon manquant entre le funk, le proto-techno allemand et tout ce qui suit, d'ou les deux greffes.",
+   "aliases": [
+    "Electro",
+    "Electro-Funk",
+    "Electrofunk"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "electrohop",
+   "label": "Electro Hop",
+   "family": "electro",
+   "structuralParent": "electrofunk",
+   "parents": [
+    {
+     "id": "electrofunk",
+     "family": "electro",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    105,
+    120
+   ],
+   "major": false,
+   "note": "Los Angeles, 1984-1988, Egyptian Lover, World Class Wreckin' Cru. L'electro funk devient un support de rap sur la cote ouest.",
+   "aliases": [
+    "Electro Rap",
+    "West Coast Electro"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "miamibass",
+   "label": "Miami Bass",
+   "family": "electro",
+   "structuralParent": "electrofunk",
+   "parents": [
+    {
+     "id": "electrofunk",
+     "family": "electro",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    120,
+    140
+   ],
+   "major": true,
+   "note": "Miami, 1985-1990, 2 Live Crew, Dynamix II. L'electro avec la 808 poussee jusqu'a la distorsion du grave.",
+   "aliases": [
+    "Booty Bass",
+    "Bass Music Miami"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "technobass",
+   "label": "Techno Bass",
+   "family": "electro",
+   "structuralParent": "miamibass",
+   "parents": [
+    {
+     "id": "miamibass",
+     "family": "electro",
+     "confidence": "established"
+    },
+    {
+     "id": "detroittechno",
+     "family": "techno",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    125,
+    140
+   ],
+   "major": false,
+   "note": "Detroit, 1989-1995, Aux 88, DJ Assault. Le Miami Bass rencontre la techno de Detroit, sur place.",
+   "aliases": [
+    "Detroit Bass",
+    "Ghettotech"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "freestyle",
+   "label": "Freestyle",
+   "family": "electro",
+   "structuralParent": "electrofunk",
+   "parents": [
+    {
+     "id": "electrofunk",
+     "family": "electro",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    115,
+    130
+   ],
+   "major": false,
+   "note": "New York et Miami, 1983-1990. L'electro avec des voix chantees et une harmonie pop.",
+   "aliases": [
+    "Latin Hip Hop",
+    "Freestyle Music"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "latinfreestyle",
+   "label": "Latin Freestyle",
+   "family": "electro",
+   "structuralParent": "freestyle",
+   "parents": [
+    {
+     "id": "freestyle",
+     "family": "electro",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    115,
+    128
+   ],
+   "major": false,
+   "note": "Communautes latino de New York et Miami, fin des annees 1980. Percussions latines sur la trame freestyle.",
+   "aliases": [
+    "Latin Freestyle Dance"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "detroitelectro",
+   "label": "Detroit Electro",
+   "family": "electro",
+   "structuralParent": "electrofunk",
+   "parents": [
+    {
+     "id": "electrofunk",
+     "family": "electro",
+     "confidence": "established"
+    },
+    {
+     "id": "detroittechno",
+     "family": "techno",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    125,
+    140
+   ],
+   "major": true,
+   "note": "Detroit, 1994-2000, Drexciya, Dopplereffekt. L'electro reprise par la scene techno de Detroit, froide et conceptuelle.",
+   "aliases": [
+    "Electro Bass Detroit",
+    "Drexciyan Electro"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "electromodern",
+   "label": "Electro",
+   "family": "electro",
+   "structuralParent": "detroitelectro",
+   "parents": [
+    {
+     "id": "detroitelectro",
+     "family": "electro",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    125,
+    140
+   ],
+   "major": false,
+   "note": "Depuis la fin des annees 1990, scenes europeenne et nord-americaine. L'electro comme genre de club a part entiere, hors de son berceau hip-hop.",
+   "aliases": [
+    "Modern Electro",
+    "Nu Electro",
+    "Electro Club"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "synthfunk",
+   "label": "Synth-Funk",
+   "family": "electro",
+   "structuralParent": "electrofunk",
+   "parents": [
+    {
+     "id": "electrofunk",
+     "family": "electro",
+     "confidence": "established"
+    },
+    {
+     "id": "funk",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    100,
+    120
+   ],
+   "major": false,
+   "note": "Fin des annees 1970, Zapp, Parliament tardif. Filiation debattue : le synth-funk est contemporain de l'electro funk, voire son precurseur immediat. Le ranger sous lui est une commodite d'arbre plus qu'une chronologie.",
+   "aliases": [
+    "Synth Funk",
+    "Electro Boogie",
+    "Funk Synthetique"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "electroclash",
+   "label": "Electroclash",
+   "family": "electro",
+   "structuralParent": "electrofunk",
+   "parents": [
+    {
+     "id": "electrofunk",
+     "family": "electro",
+     "confidence": "established"
+    },
+    {
+     "id": "synthpop",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    120,
+    135
+   ],
+   "major": true,
+   "note": "New York et Berlin, 1998-2004, Miss Kittin, Fischerspooner, Peaches. L'electro funk rejoue avec l'attitude de la new wave et du punk, d'ou la greffe vers le synth-pop.",
+   "aliases": [
+    "Electro Clash",
+    "Nu Synthpop",
+    "Tech Pop"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "skweee",
+   "label": "Skweee",
+   "family": "electro",
+   "structuralParent": "electrofunk",
+   "parents": [
+    {
+     "id": "electrofunk",
+     "family": "electro",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    90,
+    110
+   ],
+   "major": false,
+   "note": "Scandinavie, 2007-2011. Melodies pressees hors de synthetiseurs minces, sur des rythmes lents, avec une economie de moyens assumee.",
+   "aliases": [
+    "Scandinavian Funk",
+    "Skweee Funk"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "hardcoretechno",
+   "label": "Hardcore Techno",
+   "family": "hardcore",
+   "structuralParent": null,
+   "parents": [
+    {
+     "id": "breakbeathardcore",
+     "family": "breaks",
+     "confidence": "established"
+    },
+    {
+     "id": "eurotechno",
+     "family": "techno",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    160,
+    190
+   ],
+   "major": true,
+   "note": "Fondateur de la famille. Pays-Bas, Belgique et Allemagne, 1990-1992. Nait du breakbeat hardcore britannique et de la techno europeenne dure, poussees jusqu'a la saturation de la grosse caisse. Les deux greffes disent cela.",
+   "aliases": [
+    "Hardcore",
+    "Rave Hardcore Continental"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "gabber",
+   "label": "Gabber",
+   "family": "hardcore",
+   "structuralParent": "hardcoretechno",
+   "parents": [
+    {
+     "id": "hardcoretechno",
+     "family": "hardcore",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    170,
+    200
+   ],
+   "major": true,
+   "note": "Rotterdam, 1992-1995. Grosse caisse distordue et saturee jusqu'a devenir une note. Le mot veut dire copain en argot d'Amsterdam.",
+   "aliases": [
+    "Gabba",
+    "Rotterdam Hardcore",
+    "Gabberhouse"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "terrorcore",
+   "label": "Terrorcore",
+   "family": "hardcore",
+   "structuralParent": "gabber",
+   "parents": [
+    {
+     "id": "gabber",
+     "family": "hardcore",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    190,
+    220
+   ],
+   "major": false,
+   "note": "1993-1996. Le gabber accelere et volontairement agressif, avec prelevements de films d'horreur.",
+   "aliases": [
+    "Terror",
+    "Terror Hardcore"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "speedcore",
+   "label": "Speedcore",
+   "family": "hardcore",
+   "structuralParent": "terrorcore",
+   "parents": [
+    {
+     "id": "terrorcore",
+     "family": "hardcore",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    220,
+    320
+   ],
+   "major": false,
+   "note": "A partir de 1994. Au-dela de 300 battements par minute la grosse caisse cesse d'etre un rythme et devient un bourdonnement. C'est le sujet du genre.",
+   "aliases": [
+    "Splittercore",
+    "Extratone",
+    "Flashcore"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "nustylegabber",
+   "label": "Nu Style Gabber",
+   "family": "hardcore",
+   "structuralParent": "gabber",
+   "parents": [
+    {
+     "id": "gabber",
+     "family": "hardcore",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    150,
+    165
+   ],
+   "major": false,
+   "note": "Pays-Bas, 2002-2008. Le gabber ralenti et propre, avec une grosse caisse plus musicale et des melodies.",
+   "aliases": [
+    "Nustyle",
+    "Mainstream Hardcore",
+    "Nu Style"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "uptempo",
+   "label": "Uptempo Hardcore",
+   "family": "hardcore",
+   "structuralParent": "nustylegabber",
+   "parents": [
+    {
+     "id": "nustylegabber",
+     "family": "hardcore",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    180,
+    220
+   ],
+   "major": false,
+   "note": "Annees 2010. Retour de la vitesse sur la production propre du nu style, avec des grosses caisses sculptees.",
+   "aliases": [
+    "Uptempo",
+    "Xtra Raw"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "doomcore",
+   "label": "Doomcore",
+   "family": "hardcore",
+   "structuralParent": "gabber",
+   "parents": [
+    {
+     "id": "gabber",
+     "family": "hardcore",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    120,
+    150
+   ],
+   "major": false,
+   "note": "Milieu des annees 1990. Le gabber ralenti a l'extreme, lourd et sombre, a l'oppose du terrorcore.",
+   "aliases": [
+    "Doom Core",
+    "Slow Hardcore"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "frenchcore",
+   "label": "Frenchcore",
+   "family": "hardcore",
+   "structuralParent": "gabber",
+   "parents": [
+    {
+     "id": "gabber",
+     "family": "hardcore",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    190,
+    210
+   ],
+   "major": true,
+   "note": "France, 1995-2000, Radium, Micropoint. Grosse caisse roulante et rapide, heritee de la scene des sound systems libres.",
+   "aliases": [
+    "French Core",
+    "Frenchcore Hardcore"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "dubstyle",
+   "label": "Dubstyle",
+   "family": "hardcore",
+   "structuralParent": "gabber",
+   "parents": [
+    {
+     "id": "gabber",
+     "family": "hardcore",
+     "confidence": "established"
+    },
+    {
+     "id": "dubstep",
+     "family": "bass",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    140,
+    150
+   ],
+   "major": false,
+   "note": "Fin des annees 2000. Le gabber croise le dubstep : grosse caisse hardcore, basse et contretemps de dubstep.",
+   "aliases": [
+    "Dub Style",
+    "Hardstep"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "happyhardcore",
+   "label": "Happy Hardcore",
+   "family": "hardcore",
+   "structuralParent": "hardcoretechno",
+   "parents": [
+    {
+     "id": "hardcoretechno",
+     "family": "hardcore",
+     "confidence": "established"
+    },
+    {
+     "id": "breakbeathardcore",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    165,
+    180
+   ],
+   "major": true,
+   "note": "Royaume-Uni, 1993-1997. Le versant lumineux : voix aigues, pianos, accords majeurs, sur une grosse caisse rapide. Descend du breakbeat hardcore autant que du hardcore continental.",
+   "aliases": [
+    "Happy Core",
+    "4-Beat",
+    "Hardcore Happy"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "bouncytechno",
+   "label": "Bouncy Techno",
+   "family": "hardcore",
+   "structuralParent": "happyhardcore",
+   "parents": [
+    {
+     "id": "happyhardcore",
+     "family": "hardcore",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    160,
+    175
+   ],
+   "major": false,
+   "note": "Ecosse et Nord de l'Angleterre, 1993-1996. Basse rebondissante en contretemps, sur trame happy hardcore.",
+   "aliases": [
+    "Bouncy House",
+    "Scottish Bouncy"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "ukhardcore",
+   "label": "UK Hardcore",
+   "family": "hardcore",
+   "structuralParent": "happyhardcore",
+   "parents": [
+    {
+     "id": "happyhardcore",
+     "family": "hardcore",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    170,
+    180
+   ],
+   "major": false,
+   "note": "Royaume-Uni, a partir de 1999. Le happy hardcore modernise, production propre et melodies de trance.",
+   "aliases": [
+    "Freeform Hardcore",
+    "Happy Hardcore UK"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "raggacore",
+   "label": "Raggacore",
+   "family": "hardcore",
+   "structuralParent": "happyhardcore",
+   "parents": [
+    {
+     "id": "happyhardcore",
+     "family": "hardcore",
+     "confidence": "established"
+    },
+    {
+     "id": "raggajungle",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    170,
+    200
+   ],
+   "major": false,
+   "note": "Annees 2000. Voix de deejay jamaicain sur grosse caisse hardcore, cousin du ragga jungle.",
+   "aliases": [
+    "Ragga Core",
+    "Ragga Hardcore"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "jcore",
+   "label": "J-Core",
+   "family": "hardcore",
+   "structuralParent": "happyhardcore",
+   "parents": [
+    {
+     "id": "happyhardcore",
+     "family": "hardcore",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    170,
+    190
+   ],
+   "major": false,
+   "note": "Japon, a partir de 2005. Happy hardcore avec voix et melodies issues de la pop japonaise et du jeu video.",
+   "aliases": [
+    "Japanese Hardcore",
+    "J Core",
+    "Denpa Core"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "hardstyle",
+   "label": "Hardstyle",
+   "family": "hardcore",
+   "structuralParent": "hardcoretechno",
+   "parents": [
+    {
+     "id": "hardcoretechno",
+     "family": "hardcore",
+     "confidence": "established"
+    },
+    {
+     "id": "hardtrance",
+     "family": "trance",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    145,
+    155
+   ],
+   "major": true,
+   "note": "Pays-Bas, 1999-2003. Grosse caisse suivie d'un contretemps grave, tempo modere. Nait a la jonction du hardcore et de la hard trance, d'ou la greffe.",
+   "aliases": [
+    "Hard Style",
+    "Rawstyle",
+    "Euphoric Hardstyle"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "jumpstyle",
+   "label": "Jumpstyle",
+   "family": "hardcore",
+   "structuralParent": "hardstyle",
+   "parents": [
+    {
+     "id": "hardstyle",
+     "family": "hardcore",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    140,
+    150
+   ],
+   "major": false,
+   "note": "Belgique et Pays-Bas, 2003-2008. Hardstyle avec une danse propre, d'ou le nom.",
+   "aliases": [
+    "Jump Style",
+    "Jumpen"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "lentoviolento",
+   "label": "Lento Violento",
+   "family": "hardcore",
+   "structuralParent": "hardstyle",
+   "parents": [
+    {
+     "id": "hardstyle",
+     "family": "hardcore",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    90,
+    110
+   ],
+   "major": false,
+   "note": "Italie, a partir de 2005, Gigi D'Agostino. Le hardstyle ralenti de moitie, lourd et lent, le nom le dit.",
+   "aliases": [
+    "Slow Hard",
+    "Lento"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "makina",
+   "label": "Makina",
+   "family": "hardcore",
+   "structuralParent": "hardcoretechno",
+   "parents": [
+    {
+     "id": "hardcoretechno",
+     "family": "hardcore",
+     "confidence": "established"
+    },
+    {
+     "id": "hardtrance",
+     "family": "trance",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    160,
+    180
+   ],
+   "major": false,
+   "note": "Catalogne, 1994-2000. Melodies rapides et aigues sur grosse caisse dure, cousin espagnol de la hard trance.",
+   "aliases": [
+    "Maquina",
+    "Makina Catalana"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "digitalhardcore",
+   "label": "Digital Hardcore",
+   "family": "hardcore",
+   "structuralParent": "hardcoretechno",
+   "parents": [
+    {
+     "id": "hardcoretechno",
+     "family": "hardcore",
+     "confidence": "established"
+    },
+    {
+     "id": "breakcore",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    160,
+    200
+   ],
+   "major": false,
+   "note": "Berlin, 1994-1999, Atari Teenage Riot. Hardcore, punk et breakcore melanges, avec guitares et cris.",
+   "aliases": [
+    "Digital Punk",
+    "Riot Beats"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "ambientgenre",
+   "label": "Ambient",
+   "family": "ambient",
+   "structuralParent": null,
+   "parents": [
+    {
+     "id": "kosmische",
+     "family": "roots",
+     "confidence": "established"
+    },
+    {
+     "id": "electroacoustic",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": null,
+   "major": true,
+   "note": "Fondateur de la famille. Brian Eno nomme le genre en 1978 avec Music for Airports : une musique aussi ignorable qu'interessante. Ses racines sont le kosmische allemand et l'electroacoustique, d'ou les greffes. Sans tempo.",
+   "aliases": [
+    "Ambient Music",
+    "Musique Ambiante"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "darkambient",
+   "label": "Dark Ambient",
+   "family": "ambient",
+   "structuralParent": "ambientgenre",
+   "parents": [
+    {
+     "id": "ambientgenre",
+     "family": "ambient",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": null,
+   "major": true,
+   "note": "Annees 1980, Lustmord, Coil. L'ambient sans consolation : nappes graves, resonances de caverne.",
+   "aliases": [
+    "Dark Ambient Industrial",
+    "Black Ambient"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "isolationism",
+   "label": "Isolationism",
+   "family": "ambient",
+   "structuralParent": "darkambient",
+   "parents": [
+    {
+     "id": "darkambient",
+     "family": "ambient",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": null,
+   "major": false,
+   "note": "1993-1996, terme lance par The Wire. L'ambient sombre poussee vers le vide et le bruit blanc.",
+   "aliases": [
+    "Isolationist Ambient",
+    "Ambient Isolationism"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "dungeonsynth",
+   "label": "Dungeon Synth",
+   "family": "ambient",
+   "structuralParent": "darkambient",
+   "parents": [
+    {
+     "id": "darkambient",
+     "family": "ambient",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": null,
+   "major": false,
+   "note": "Annees 1990 puis renouveau dans les annees 2010. Synthetiseurs bon marche et imaginaire medieval, ne dans la marge du black metal.",
+   "aliases": [
+    "Dungeon Music",
+    "Comfy Synth"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "drone",
+   "label": "Drone",
+   "family": "ambient",
+   "structuralParent": "ambientgenre",
+   "parents": [
+    {
+     "id": "ambientgenre",
+     "family": "ambient",
+     "confidence": "established"
+    },
+    {
+     "id": "electroacoustic",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": null,
+   "major": false,
+   "note": "Filiation debattue : le drone comme pratique precede l'ambient de vingt ans, chez La Monte Young des les annees 1960. Le ranger sous l'ambient est une commodite d'arbre.",
+   "aliases": [
+    "Drone Music",
+    "Drone Ambient"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "lowercase",
+   "label": "Lowercase",
+   "family": "ambient",
+   "structuralParent": "drone",
+   "parents": [
+    {
+     "id": "drone",
+     "family": "ambient",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": null,
+   "major": false,
+   "note": "Fin des annees 1990, Steve Roden. Sons infimes amplifies jusqu'a devenir audibles. Le silence est le materiau.",
+   "aliases": [
+    "Lowercase Sound",
+    "Microsound"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "ambientdub",
+   "label": "Ambient Dub",
+   "family": "ambient",
+   "structuralParent": "ambientgenre",
+   "parents": [
+    {
+     "id": "ambientgenre",
+     "family": "ambient",
+     "confidence": "established"
+    },
+    {
+     "id": "dub",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    60,
+    100
+   ],
+   "major": false,
+   "note": "Debut des annees 1990. L'ambient avec l'echo et la basse du dub, d'ou la greffe.",
+   "aliases": [
+    "Dub Ambient",
+    "Ambient Dub Techno"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "illbient",
+   "label": "Illbient",
+   "family": "ambient",
+   "structuralParent": "ambientdub",
+   "parents": [
+    {
+     "id": "ambientdub",
+     "family": "ambient",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    70,
+    100
+   ],
+   "major": false,
+   "note": "Brooklyn, 1995-1999, DJ Spooky. Ambient dub urbaine, collage et grain, versant new-yorkais du trip-hop.",
+   "aliases": [
+    "Ill Bient",
+    "Illbient Dub"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "newage",
+   "label": "New Age",
+   "family": "ambient",
+   "structuralParent": "ambientgenre",
+   "parents": [
+    {
+     "id": "ambientgenre",
+     "family": "ambient",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": null,
+   "major": false,
+   "note": "Annees 1980. L'ambient a usage de bien-etre, harmonie consonante et instruments acoustiques melanges aux synthetiseurs.",
+   "aliases": [
+    "New Age Music",
+    "Musique Nouvel Age"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "idm",
+   "label": "IDM",
+   "family": "ambient",
+   "structuralParent": "ambientgenre",
+   "parents": [
+    {
+     "id": "ambientgenre",
+     "family": "ambient",
+     "confidence": "established"
+    },
+    {
+     "id": "detroittechno",
+     "family": "techno",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    90,
+    160
+   ],
+   "major": true,
+   "note": "Royaume-Uni, 1992, la compilation Artificial Intelligence de Warp. Le nom, intelligent dance music, est une maladresse assumee de l'epoque. Nait de la techno de Detroit ecoutee comme de la musique de chambre, d'ou la greffe.",
+   "aliases": [
+    "Intelligent Dance Music",
+    "Braindance",
+    "Electronic Listening Music"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "braindance",
+   "label": "Braindance",
+   "family": "ambient",
+   "structuralParent": "idm",
+   "parents": [
+    {
+     "id": "idm",
+     "family": "ambient",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    100,
+    160
+   ],
+   "major": false,
+   "note": "Terme de Rephlex, le label d'Aphex Twin, pour dire l'IDM sans le mot intelligent. Meme territoire, autre etiquette.",
+   "aliases": [
+    "Rephlex Sound"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "glitch",
+   "label": "Glitch",
+   "family": "ambient",
+   "structuralParent": "idm",
+   "parents": [
+    {
+     "id": "idm",
+     "family": "ambient",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    90,
+    140
+   ],
+   "major": true,
+   "note": "Fin des annees 1990, Oval, Mille Plateaux. L'erreur numerique, le disque raye, le decrochage, pris comme materiau musical.",
+   "aliases": [
+    "Glitch Music",
+    "Clicks and Cuts",
+    "Microsound"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "downtempogenre",
+   "label": "Downtempo",
+   "family": "downtempo",
+   "structuralParent": null,
+   "parents": [
+    {
+     "id": "ambientgenre",
+     "family": "ambient",
+     "confidence": "established"
+    },
+    {
+     "id": "dub",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    80,
+    110
+   ],
+   "major": true,
+   "note": "Fondateur de la famille. Debut des annees 1990. Terme parapluie pour la musique electronique lente destinee a l'ecoute, nee dans les salles de repos des raves. Greffes vers l'ambient et le dub.",
+   "aliases": [
+    "Down Tempo",
+    "Downbeat",
+    "Chill"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "triphop",
+   "label": "Trip-Hop",
+   "family": "downtempo",
+   "structuralParent": "downtempogenre",
+   "parents": [
+    {
+     "id": "downtempogenre",
+     "family": "downtempo",
+     "confidence": "established"
+    },
+    {
+     "id": "dub",
+     "family": "roots",
+     "confidence": "established"
+    },
+    {
+     "id": "ambientgenre",
+     "family": "ambient",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    80,
+    100
+   ],
+   "major": true,
+   "note": "Bristol, 1993-1996, Massive Attack, Portishead, Tricky. Le hip-hop ralenti, avec la basse et l'echo du dub et les nappes de l'ambient. Le mot a d'abord ete un reproche de journaliste.",
+   "aliases": [
+    "Trip Hop",
+    "Bristol Sound",
+    "Abstract Hip Hop"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "bristolsound",
+   "label": "Bristol Sound",
+   "family": "downtempo",
+   "structuralParent": "triphop",
+   "parents": [
+    {
+     "id": "triphop",
+     "family": "downtempo",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    80,
+    95
+   ],
+   "major": false,
+   "note": "Filiation debattue, et volontairement : le son de Bristol est le berceau du trip-hop, pas son descendant. Il est range sous lui parce que le trip-hop est le nom qui a circule. A trancher.",
+   "aliases": [
+    "Bristol Trip Hop",
+    "Wild Bunch Sound"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "lofihiphop",
+   "label": "Lo-Fi Hip Hop",
+   "family": "downtempo",
+   "structuralParent": "triphop",
+   "parents": [
+    {
+     "id": "triphop",
+     "family": "downtempo",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    70,
+    90
+   ],
+   "major": false,
+   "note": "Annees 2010, phenomene de diffusion en continu. Boucles de piano et grain de vinyle, faites pour ne pas etre ecoutees vraiment.",
+   "aliases": [
+    "Lofi Hip Hop",
+    "Lo-Fi Beats",
+    "Chillhop"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "chillout",
+   "label": "Chill-Out",
+   "family": "downtempo",
+   "structuralParent": "downtempogenre",
+   "parents": [
+    {
+     "id": "downtempogenre",
+     "family": "downtempo",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    90,
+    115
+   ],
+   "major": true,
+   "note": "Ibiza et Londres, 1990-1995. La salle de repos devient un genre : le Chill Out Room du Heaven, puis les compilations Cafe del Mar.",
+   "aliases": [
+    "Chillout",
+    "Chill Out",
+    "Ambient Chill"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "lounge",
+   "label": "Lounge",
+   "family": "downtempo",
+   "structuralParent": "chillout",
+   "parents": [
+    {
+     "id": "chillout",
+     "family": "downtempo",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    90,
+    115
+   ],
+   "major": false,
+   "note": "Fin des annees 1990. Le chill-out avec un vernis de musique de cocktail des annees 1960, souvent pour les lieux plus que pour l'ecoute.",
+   "aliases": [
+    "Lounge Music",
+    "Nu Lounge",
+    "Cocktail Electronica"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "balearic",
+   "label": "Balearic",
+   "family": "downtempo",
+   "structuralParent": "chillout",
+   "parents": [
+    {
+     "id": "chillout",
+     "family": "downtempo",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    100,
+    120
+   ],
+   "major": false,
+   "note": "Ibiza, 1987, Alfredo au Amnesia. Filiation debattue : le balearic precede le chill-out et l'a nourri. Rattachement d'arbre, pas de chronologie.",
+   "aliases": [
+    "Balearic Beat",
+    "Ibiza Sound",
+    "Balearic House"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "ambienthouse",
+   "label": "Ambient House",
+   "family": "downtempo",
+   "structuralParent": "downtempogenre",
+   "parents": [
+    {
+     "id": "downtempogenre",
+     "family": "downtempo",
+     "confidence": "established"
+    },
+    {
+     "id": "chicagohouse",
+     "family": "house",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    110,
+    125
+   ],
+   "major": false,
+   "note": "Royaume-Uni, 1989-1992, The Orb, KLF. La house avec des nappes ambient et sans urgence, d'ou la greffe vers la house de Chicago.",
+   "aliases": [
+    "Ambient House Music",
+    "Chill House"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "nujazz",
+   "label": "Nu Jazz",
+   "family": "downtempo",
+   "structuralParent": "downtempogenre",
+   "parents": [
+    {
+     "id": "downtempogenre",
+     "family": "downtempo",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    90,
+    120
+   ],
+   "major": false,
+   "note": "Fin des annees 1990, Jazzanova, St Germain. Le jazz joue avec les outils de la musique electronique, ou l'inverse.",
+   "aliases": [
+    "Nu-Jazz",
+    "Future Jazz",
+    "Electro Jazz"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "psybient",
+   "label": "Psybient",
+   "family": "downtempo",
+   "structuralParent": "downtempogenre",
+   "parents": [
+    {
+     "id": "downtempogenre",
+     "family": "downtempo",
+     "confidence": "established"
+    },
+    {
+     "id": "psydub",
+     "family": "psy",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    70,
+    100
+   ],
+   "major": false,
+   "note": "Annees 2000, Shpongle, Entheogenic. L'ambient psychedelique, issue de la scene psytrance, d'ou la greffe vers le psydub. Les deux noms designent presque la meme chose.",
+   "aliases": [
+    "Psychedelic Ambient",
+    "Psy Chill",
+    "Ambient Psy"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "chillwave",
+   "label": "Chillwave",
+   "family": "downtempo",
+   "structuralParent": "downtempogenre",
+   "parents": [
+    {
+     "id": "downtempogenre",
+     "family": "downtempo",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    90,
+    115
+   ],
+   "major": false,
+   "note": "Etats-Unis, 2009-2012, Washed Out, Neon Indian. Nostalgie des annees 1980 passee au filtre de la cassette.",
+   "aliases": [
+    "Glo-Fi",
+    "Hypnagogic Pop"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "folktronica",
+   "label": "Folktronica",
+   "family": "downtempo",
+   "structuralParent": "downtempogenre",
+   "parents": [
+    {
+     "id": "downtempogenre",
+     "family": "downtempo",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    80,
+    110
+   ],
+   "major": false,
+   "note": "Annees 2000, Four Tet, The Books. Instruments acoustiques decoupes et remontes avec les methodes de l'electronique.",
+   "aliases": [
+    "Folk Electronica",
+    "Acoustronica"
    ],
    "tracks": {
     "essentiel": [],

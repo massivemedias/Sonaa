@@ -55,7 +55,11 @@ const CENTERS: Record<string, readonly [number, number, number]> = {
      au-dessus, et la position le dit. */
   roots: [-4, -26, 4],
   breaks: [-38, 20, 16],
-  bass: [-50, 12, 34]
+  bass: [-50, 12, 34],
+  electro: [-8, 16, 28],
+  hardcore: [-14, 36, -10],
+  ambient: [6, -16, 34],
+  downtempo: [-22, -14, 44]
 };
 
 export const FAMILIES: readonly Family[] = CORPUS.families.map((f) => ({

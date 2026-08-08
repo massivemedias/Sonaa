@@ -30,7 +30,13 @@ export const FAMILY_IDS = [
   /* Vague 2 : la lignee britannique. Sans elle, SONAA racontait une histoire
      uniquement continentale et americaine. */
   'breaks',
-  'bass'
+  'bass',
+  /* Vague 3. Quatorze familles au total : c'est le plafond que la palette peut
+     porter, avec un ecart minimal de 22 degres et la zone olive-kaki exclue. */
+  'electro',
+  'hardcore',
+  'ambient',
+  'downtempo'
 ] as const;
 export type FamilyId = (typeof FAMILY_IDS)[number];
 
