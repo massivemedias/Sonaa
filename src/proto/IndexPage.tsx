@@ -85,10 +85,10 @@ export function IndexPage() {
                       {genres.map((genre) => (
                         <tr key={genre.id}>
                           <th scope="row">{genre.label}</th>
-                          <td className="index-mono">{genre.bpm}</td>
                           <td className="index-mono">
-                            {genre.tracksCurrent.length + genre.tracksEssential.length}
+                            {genre.bpmRange[0]}-{genre.bpmRange[1]}
                           </td>
+                          <td className="index-mono">{genre.tracks.length}</td>
                         </tr>
                       ))}
                     </tbody>

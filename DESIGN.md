@@ -114,15 +114,10 @@ donc c'était pire. Deux mécanismes le remplacent, et aucun n'ajoute de bloc
 opaque :
 
 1. **Double ombre portée** sur le texte, une nette de 1 px et une diffuse de
-   6 px, en noir à 70 pour cent. C'est le traitement des quatorze noms de
-   familles en 3D.
-2. **Contour de la même couleur que le fond** sur le texte de l'arbre 2D, tracé
-   sous le remplissage sur 3,5 px. En 2D la position du texte est connue, donc un
-   contour suffit et rien n'a besoin d'être assombri.
-
-> **Caduc.** L'assombrissement local de la sphère dans le shader, qui baissait sa
-> moitié droite à 62 pour cent sous un label, est retiré : au niveau atlas aucune
-> sphère n'est plus étiquetée, et les noms de genres ne vivent plus qu'en 2D.
+   6 px, en noir à 70 pour cent.
+2. **Assombrissement local de la sphère dans le shader.** Quand une sphère est
+   étiquetée, sa moitié droite, celle où le label se pose, descend à 62 pour
+   cent. C'est fait par le rendu, jamais par un élément DOM.
 
 Cette règle a déjà régressé une fois, par une substitution de texte qui n'a rien
 remplacé et que je n'avais pas vérifiée. Toute modification du style des labels
@@ -154,75 +149,106 @@ de **22 px**. En dehors de ces bornes, un label ne se lit pas ou écrase la cart
 
 ---
 
-## 5. Le partage : atlas en 3D, filiation en 2D
+## 5. L'espace habitable, ce qui remplace la planche
 
-> **Ce qui a changé, et pourquoi.** La descente en 3D est abandonnée. Une
-> disposition en couronnes dans l'espace ne peut pas rendre une filiation
-> lisible : en perspective, la taille apparente d'un noeud dépend de sa distance
-> à la caméra, donc elle ne peut pas encoder la génération ; deux sphères
-> éloignées se touchent à l'écran ; les liens partent dans toutes les
-> directions. Le principe était faux, pas son exécution. La 3D reste pour ce
-> qu'elle fait bien, l'ensemble ; la hiérarchie descend en 2D, où la mise en
-> page est calculée.
+> **Mise à jour.** Les masses volumétriques diffuses sont abandonnées. Une
+> famille est désormais une STRUCTURE de sphères nettes reliées par des liens
+> fins, référence moléculaire, et l'ouverture est une diffusion animée. Le
+> détail des morceaux se lit dans une vue 2D dédiée, décrite en section 5c.
+> Les années ne structurent plus rien et ne sont plus affichées.
 
-Deux niveaux, deux techniques, une frontière nette.
+SONAA n'est plus une planche qu'on lit, c'est un espace qu'on habite.
 
-### 5a. Le niveau atlas, en 3D
+**Le niveau 1, l'espace.** Quatorze masses volumétriques flottent dans le vide,
+une par grande famille. Chacune porte sa teinte, sa densité et un volume
+proportionnel au nombre de genres qu'elle contient. Les familles proches
+stylistiquement sont proches spatialement, et des liens rares et épais relient
+celles qui sont nées l'une de l'autre. Rien d'autre : pas de grille, pas de
+repère, pas de sol.
 
-Quatorze amas de sphères flottent dans le vide, un par grande famille. Chacun
-porte sa teinte et un volume proportionnel au nombre de genres qu'il contient.
-Les familles proches stylistiquement sont proches spatialement, et des liens
-fins relient celles qui se sont nourries l'une de l'autre. Rien d'autre : pas de
-grille, pas de repère, pas de sol.
+**Le niveau 2, dans la masse.** Approcher suffit. Franchir le seuil de proximité
+ouvre la masse, qui perd sa densité pendant qu'on traverse sa paroi et révèle
+son amas interne de sous-genres. Les autres masses reculent et s'estompent sans
+disparaître : on ne perd jamais le nord. Reculer ressort, symétriquement.
 
-À ce niveau, **aucun label de genre, aucun anneau, aucune sphère étiquetée**.
-Uniquement les quatorze noms de familles. On voit des corps colorés, point.
+**Le niveau 3, le genre.** Le détail, les morceaux, les filiations.
 
-La navigation est une orbite : glisser tourne, la molette avance réellement dans
-l'espace, tout porte de l'inertie. Les flèches tournent, plus et moins zooment,
-0 recentre.
+Il n'y a **aucun changement d'écran** entre ces niveaux, et aucun bouton pour
+passer de l'un à l'autre. On avance, on entre. C'est la seule mécanique.
 
-### 5b. Le passage à la famille
+### La matière d'une masse
 
-Cliquer un amas fait deux choses ensemble : la caméra vole vers lui en 600 ms, et
-l'arbre 2D de la famille prend la place, en surimpression, comme la vue morceaux
-le fait déjà. La 3D reste derrière, atténuée à 28 pour cent, jamais supprimée :
-on ne perd pas le nord, mais on ne la lit plus.
+Une masse doit avoir l'air d'un **corps**, pas d'un ballon. Volume translucide,
+densité interne visible, silhouette qui bouge légèrement. La référence est un
+corps organique dense, pas un nuage de particules ni une sphère lissée.
+Techniquement : imposteur billboard et raymarching d'un champ de distance signé,
+avec bruit 3D à deux octaves. Tout est calculé, aucun asset.
 
-Échap ou le fil d'Ariane ramènent à l'atlas, et la 3D revient au premier plan.
+### La navigation, qui est le coeur
 
-### 5c. L'arbre 2D, la seule vue de la filiation
+Le pincement à deux doigts est un **dolly**, pas un zoom d'échelle : on avance
+réellement dans l'espace. Le glissement à deux doigts orbite. Tout porte de
+l'inertie et de l'amortissement, rien ne s'arrête net. Le geste doit avoir du
+poids, sinon l'espace n'a pas de volume.
 
-Le fondateur est en haut. Ses enfants sur la ligne suivante, et ainsi de suite.
-La profondeur se lit sur l'axe vertical, une génération par ligne, 116 px de pas.
+### 5b. La diffusion, animation signature
 
-**Les liens sont nets et visibles en permanence**, jamais révélés au survol : la
-filiation est l'information principale du projet, pas un détail à découvrir.
+À l'ouverture d'une famille, ses sphères s'écartent de leur position compacte
+vers leur position déployée **en cascade**, du fondateur vers les dérivés, en
+suivant les liens de filiation. 480 ms au total, 40 ms de décalage par niveau,
+easing à léger dépassement. Les liens se tracent en même temps, du parent vers
+l'enfant, avec une tête de propagation plus vive juste derrière le front.
 
-**Le nom de chaque genre est toujours lisible.** Aucun masquage, aucune collision
-possible : les feuilles visibles se rangent de gauche à droite à pas fixe et
-chaque parent se centre sur ses enfants. La mise en page est calculée, pas
-négociée. C'est exactement ce que la 3D ne pouvait pas garantir.
+Les labels n'apparaissent qu'après, une fois les positions stabilisées, jamais
+pendant le mouvement : sinon ils traînent derrière les sphères et la propagation
+devient une bouillie. La fermeture est la même cascade inversée, en 300 ms.
 
-**La taille du noeud dit l'importance**, pas la génération : le diamètre va de 26
-à 56 px selon l'importance du genre. La génération, elle, est déjà portée par la
-ligne. Chaque noeud est rond, dans la teinte de sa famille.
+Ce doit se lire comme une propagation, pas comme un fondu. `prefers-reduced-motion`
+remplace le tout par une apparition directe.
 
-**Un noeud qui a des sous-genres se distingue d'une feuille** : il porte un
-anneau fin, en pointillé quand il est replié, en trait plein quand il est
-déployé, et il affiche en son centre le nombre de ses dérivés.
+### 5b bis. La descente, et comment la hiérarchie se lit
 
-Cliquer un noeud le développe sur place, ses enfants apparaissent en dessous,
-l'arbre se réorganise en 260 ms. Cliquer une feuille ouvre la vue morceaux.
+La descente n'est pas une mise en évidence, c'est un **déplacement**. Cliquer un
+genre qui a des dérivés fait trois choses ensemble :
 
-**Les parents venus d'une autre famille** apparaissent en haut, hors de l'arbre,
-reliés en pointillé et portant le nom de leur famille. C'est la greffe : elle dit
-que la généalogie est un graphe sans casser la lecture en arbre.
+1. La caméra vole sur lui, il devient le centre d'orbite.
+2. Ses dérivés s'écartent **de lui**, en cascade par génération, 400 ms, 45 ms
+   de décalage par niveau, même easing à dépassement que la diffusion de famille.
+3. Le reste de la famille recule et tombe à 12 pour cent, et perd ses labels.
+   Le contexte reste visible, il n'est plus lisible.
 
-Le déplacement est un pan et un zoom dans le plan, comme sur une carte. Aucune
-orbite, aucune perspective à ce niveau.
+Au niveau genre, **tous les dérivés sont étiquetés, sans exception**. Le filtre
+des majeurs ne vaut qu'au niveau famille. On est descendu dans le détail, on ne
+cache plus rien. Le noeud focalisé garde son label, en graisse renforcée.
 
-### 5d. La vue morceaux
+Les liens du sous-arbre passent au premier plan et s'épaississent, les autres
+liens de la famille tombent à un dixième.
+
+Un second clic sur le même genre, ou un clic sur une feuille, ouvre les morceaux.
+Échap remonte d'un cran dans le chemin, pas directement à la famille.
+
+### Trois signes qui rendent la hiérarchie lisible sans cliquer
+
+**La taille dit la génération.** Le rayon est indexé sur la profondeur, pas sur
+une notion vague d'importance : 3,2 pour une racine, 2,05 pour ses genres, 1,4
+pour les sous-genres, 1,05 au-delà. Une racine domine visiblement ses dérivés.
+
+**Le lien dit le sens.** Il s'effile du parent vers l'enfant, de pleine épaisseur
+à 42 pour cent, et son dégradé va de la couleur du parent à celle de l'enfant.
+On voit qui descend de qui sans une seule flèche.
+
+**L'anneau dit qu'il y a quelque chose dessous.** Une sphère qui a des dérivés
+porte une couronne fine hors de sa silhouette, et son label annonce le compte,
+« 3 dérivés ». Une feuille n'a pas d'anneau et son label dit « morceaux ».
+On sait donc, avant de cliquer, si le clic descend ou s'il ouvre le lecteur.
+
+**Et la disposition dit la filiation.** Les enfants d'un noeud s'organisent en
+couronne autour de lui, dans un disque perpendiculaire à la direction qui vient
+de son propre parent. Chaque génération forme un anneau identifiable. La
+relaxation anti-chevauchement ne déplace que les feuilles, et faiblement : elle
+corrige les collisions sans détruire la structure.
+
+### 5c. La vue morceaux
 
 Entrer dans les morceaux suspend la 3D : elle recule, se floute légèrement, et
 un panneau 2D plein passe devant. Pas de sphères, pas de caméra, pas de
@@ -238,7 +264,7 @@ depuis une source tierce, ou générées.
 
 ---
 
-## 5 bis. Le cadre de la planche
+## 5b bis. Le cadre de la planche
 
 > **CADUC.** Il n'y a plus de planche, plus de cadre, plus de colonne de temps,
 > plus de croix de repérage. Voir la section 5.
@@ -269,10 +295,9 @@ L'interface est **une seule planche encadrée**, pas un empilement de cartes.
 
 > **CADUC.** Cette section décrit une propagation indexée sur l'écart d'années
 > réel entre deux genres. Les années n'ont plus de géométrie et ne structurent
-> plus rien, donc cette mécanique n'existe pas. La diffusion en cascade d'une
-> famille en 3D est également caduque : il n'y a plus de position déployée en 3D.
-> Le mouvement signature est désormais le **vol de caméra vers une famille** et
-> le **développement en place d'un noeud dans l'arbre 2D**, décrits en 5b et 5c.
+> plus rien, donc cette mécanique n'existe pas. L'animation signature est
+> désormais la **diffusion d'une famille**, décrite en section 5b, et la
+> **descente sur un genre**, décrite en 5b bis.
 
 
 Le brief impose une seule orchestration mémorable, l'illumination de la lignée. Voici sa
@@ -330,31 +355,24 @@ assumée : on avance réellement dans l'espace, c'est ce qui donne le volume.
 
 **Trois appels de dessin au total**, fond compris.
 
-### Couche 2, DOM : le texte de l'atlas et l'interface
+### Couche 2, DOM : tout le texte
 
-Positionné par projection des coordonnées WebGL, à chaque image. **Aucun texte
-n'est rendu en WebGL.** C'est cette couche qui porte l'accessibilité, le focus
-clavier et la sélection de texte, et une police rastérisée par le navigateur
-reste plus lisible que n'importe quel atlas de glyphes.
+Positionné par projection des coordonnées WebGL, à chaque image.
 
-Au niveau atlas elle ne porte que **les quatorze noms de familles**, plus le fil
-d'Ariane et les contrôles. Les noeuds DOM sont recyclés dans un pool de taille
-fixe, jamais créés ni détruits pendant le déplacement.
+Labels de genres, années, BPM, panneau de détail, interface. **Aucun texte n'est
+rendu en WebGL.** C'est cette couche qui porte l'accessibilité, le focus clavier
+et la sélection de texte, et une police rastérisée par le navigateur reste plus
+lisible que n'importe quel atlas de glyphes.
 
-> **Caduc.** Le plafond de 60 labels et la sélection par distance à la caméra
-> n'ont plus d'objet : il n'y a plus que quatorze candidats, et aucun label de
-> genre en 3D. Reste un test de chevauchement entre les quatorze, qui masque le
-> nom de la famille la plus lointaine en cas de conflit, avec 4 px de tolérance.
+Plafond de **60 labels affichés simultanément**, choisis par niveau de zoom puis
+par distance au centre du viewport. Les noeuds DOM sont recyclés dans un pool de
+taille fixe, jamais créés ni détruits pendant le déplacement.
 
-### Couche 3, SVG : l'arbre 2D
+### Couche 3, SVG : les repères
 
-L'arbre de filiation d'une famille, et rien d'autre. C'est le bon outil : la mise
-en page est calculée côté JavaScript, le tracé doit être net à toute échelle, et
-chaque noeud doit être un élément focalisable au clavier. Il ne passe pas par le
-rendu temps réel.
-
-> **Caduc.** L'axe temporel gradué et la minimap, qui occupaient cette couche,
-> n'existent plus : le temps ne structure plus l'espace.
+L'axe temporel gradué et la minimap, rien d'autre. Statiques, nets, lisibles.
+Ce sont les deux éléments qui doivent rester parfaitement stables pendant qu'on
+navigue, donc ils ne passent pas par le rendu temps réel.
 
 ---
 

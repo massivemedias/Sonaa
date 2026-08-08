@@ -499,12 +499,6 @@ rendu du même modèle, déjà acté en ADR-008.
 
 ## ADR-025 : Navigation à trois niveaux, jamais sans vol de caméra
 
-> **Partiellement caduc, voir ADR-031.** Les trois niveaux subsistent, mais seul
-> le passage atlas vers famille est encore un vol de caméra en 3D. La descente
-> dans la hiérarchie se fait maintenant en 2D, sans caméra. Ce qui reste en
-> vigueur ici : le fil d'Ariane, le vol de 600 ms vers une famille, la ligne
-> d'aide, les contrôles visibles, le clavier, et la fin forcée du vol.
-
 **Contexte.** Un espace 3D sans repères se traverse à l'aveugle. Le prototype
 volumétrique n'avait qu'une entrée par proximité, invisible et indevinable.
 
@@ -599,10 +593,10 @@ on ne savait plus quelle sphère appartenait à quelle famille.
    Une seconde passe les écarte dans le plan de l'écran à l'angle par défaut,
    sans toucher à leur profondeur, avec une marge de 10 unités. La passe 1 est
    ensuite rejouée pour ne rien casser.
-3. ~~**Écartement dynamique.**~~ **Caduc, voir ADR-031.** Il n'y a plus d'état
-   déployé en 3D : ouvrir une famille ne demande plus de place dans l'espace,
-   puisque l'arbre passe en 2D par-dessus. Les deux relaxations statiques, elles,
-   restent nécessaires et en vigueur.
+3. **Écartement dynamique.** Garantir la séparation à l'état déployé imposerait
+   un atlas quatre fois plus large et des amas minuscules. À l'ouverture d'une
+   famille, les autres sont donc **poussées radialement** pour laisser la place
+   réellement occupée, et rejoignent leur cible avec amortissement.
 
 **Conséquences.** La séparation en projection n'est garantie qu'à l'angle par
 défaut : c'est une limite inhérente à une projection, une rotation peut recréer
@@ -616,11 +610,6 @@ en projection, aucun chevauchement.
 ---
 
 ## ADR-029 : Une seule famille déployée à la fois, anneaux limités au niveau navigable
-
-> **Largement caduc, voir ADR-031.** Il n'y a plus de famille déployée en 3D,
-> donc plus de règle d'exclusion à faire respecter, et plus aucun anneau : ils
-> sont retirés du shader. Ce qui reste en vigueur : les liens entre familles à
-> 10 pour cent d'opacité, allumés au survol de l'une de leurs extrémités.
 
 **Contexte.** Rien n'interdisait plusieurs familles ouvertes simultanément, et
 les anneaux indicateurs s'affichaient sur les 204 sphères de l'atlas, y compris
@@ -679,63 +668,89 @@ contrôler qu'il existe exactement un fondateur par famille.
 
 ---
 
-## ADR-031 : Atlas en 3D, filiation en 2D, remplace la descente en 3D
+## ADR-031 : L'arbre 2D est écrit, essayé, puis suspendu
 
-**Contexte.** La hiérarchie était rendue en 3D : couronnes d'enfants autour de
-leur parent, dans un disque perpendiculaire à la direction venue du grand-parent,
-avec une relaxation anti-chevauchement sur les feuilles, des anneaux indicateurs,
-des labels de genres et un évitement de collision entre ces labels. Trois passes
-d'affinage ont porté sur la lisibilité de cette vue. Elle n'est jamais devenue
-lisible, et l'échec est de principe, pas d'exécution :
+**Contexte.** Après trois passes d'affinage restées insuffisantes, la hiérarchie
+en couronnes 3D a été remplacée par un arbre 2D à plat : atlas en 3D, famille et
+en dessous en 2D. Le code a été écrit, construit et déployé, puis annulé par un
+`git revert` du commit `d6d6684`.
 
-1. **La taille ne peut pas encoder la génération.** En perspective, le rayon
-   apparent d'un noeud est son rayon divisé par sa distance à la caméra. Un
-   enfant proche de l'objectif paraît plus gros que son parent lointain. Le signe
-   « la taille dit la génération » est contredit par la projection elle-même.
-2. **La séparation en 3D ne garantit pas la séparation à l'écran.** Deux sphères
-   éloignées dans l'espace mais alignées avec l'axe de vue se touchent. On peut
-   corriger à un angle donné, pas à tous les angles à la fois.
-3. **Les liens partent dans toutes les directions.** Un arbre lu dans un volume
-   n'a pas de sens de lecture. Rien ne dit où est le haut, donc rien ne dit qui
-   descend de qui.
+**Pourquoi l'annulation.** Le diagnostic portait sur la mise en page, alors que
+le prototype affichait des noeuds nommés `disco-1`, `disco-2`, `techno-3`. Des
+étiquettes factices de longueur uniforme et sans signification ne permettent pas
+de juger la lisibilité d'une filiation : on ne peut pas voir si une couronne
+« se lit » quand rien de ce qu'elle porte n'a de sens. L'ordre de travail était
+inversé.
 
-**Décision.** Partager par technique, à la frontière de la famille.
+**Décision.** Retour à l'atlas 3D en couronnes. Le corpus de noms réels passe
+avant toute nouvelle passe graphique, et la question du 2D contre 3D sera
+rejugée sur des vrais noms, pas avant.
 
-| Niveau | Rendu | Interaction |
-|---|---|---|
-| Atlas | 3D, quatorze amas de sphères, quatorze noms de familles | orbite, dolly, clavier, clic sur un amas |
-| Famille et en dessous | 2D, arbre SVG en surimpression | pan, zoom dans le plan, clic pour développer |
-| Morceaux | 2D, panneau plein | liste, lecteur |
+**Ce qui reste valable de l'analyse, à ne pas réécrire.** Trois limites de la
+représentation 3D sont structurelles et ne dépendent pas des noms :
 
-Au niveau atlas : **aucun label de genre, aucun anneau, aucune sphère
-étiquetée**. Cliquer un amas fait voler la caméra vers lui, en 600 ms, et l'arbre
-2D prend la place. La 3D reste derrière à 28 pour cent de présence. Échap ou le
-fil d'Ariane ramènent à l'atlas et la 3D revient au premier plan.
+1. En perspective, le rayon apparent d'un noeud est son rayon divisé par sa
+   distance à la caméra. Un enfant proche paraît plus gros qu'un parent lointain,
+   donc la taille ne peut pas encoder la génération de façon fiable.
+2. Une séparation garantie en volume ne garantit rien à l'écran : deux noeuds
+   alignés avec l'axe de vue se touchent. Corrigeable à un angle donné, pas à
+   tous.
+3. Un arbre lu dans un volume n'a pas de sens de lecture imposé.
 
-L'arbre 2D est **calculé**, donc aucune collision n'est possible : les feuilles
-visibles se rangent de gauche à droite à pas fixe de 158 px, chaque parent se
-centre sur ses enfants, une génération par ligne de 116 px. Le diamètre du noeud
-encode l'importance, entre 26 et 56 px, jamais la génération, qui est déjà portée
-par la ligne. Les liens sont permanents. Un parent porte un anneau fin et le
-compte de ses dérivés ; une feuille n'en a pas. Les greffes, ascendances venues
-d'une autre famille (ADR-030), sont posées au-dessus de l'arbre, en pointillé,
-étiquetées du nom de leur famille.
+Si l'essai sur vrais noms confirme le problème, le commit `d6d6684` contient
+l'implémentation complète de l'arbre 2D et peut être remis par un revert du
+revert. Ne pas le réécrire de zéro.
 
-**Code retiré, pas mis en sommeil.** Positions déployées en 3D, cascade de
-diffusion, focus sur un genre, relaxation anti-chevauchement des feuilles,
-placement en couronnes, labels de genres et leur évitement de collision, anneaux
-indicateurs dans le shader, assombrissement de la moitié droite d'une sphère
-étiquetée, écartement dynamique des familles, état de navigation à trois niveaux
-dans le moteur. La composante `aState` des sphères passe de `vec4` à `vec2` :
-présence et halo, plus rien d'autre. La marge du quad tombe de 2,66 à 2,16 fois
-le rayon, puisque l'anneau ne vit plus hors de la silhouette.
+**Conséquences.** ADR-025, ADR-028 et ADR-029 redeviennent pleinement en vigueur.
+DESIGN.md décrit de nouveau les couronnes et la descente 3D.
 
-**Conséquences.** Le moteur WebGL n'a plus qu'une responsabilité, l'atlas, et
-tient en trois appels de dessin. La couche SVG, jusqu'ici destinée à un axe
-temporel qui n'existe plus, porte l'arbre : c'est le bon outil, parce que le
-tracé doit rester net à toute échelle et que chaque noeud doit être focalisable
-au clavier. Ce qui est perdu : la sensation de descendre physiquement dans la
-matière. C'est un renoncement assumé, la filiation prime.
+---
+
+## ADR-032 : Le corpus passe avant le graphisme, et les identifiants se verifient sans cle
+
+**Contexte.** Trois passes d'affinage graphique ont echoue sur un prototype
+peuple de noeuds nommes `disco-1`, `disco-2`, `techno-3`. Des etiquettes
+factices, toutes de meme longueur et sans signification, ne permettent pas de
+juger la lisibilite d'une filiation. L'ordre de travail etait inverse.
+
+**Decision 1 : le corpus d'abord.** 60 genres reels, six familles, filiations
+sourcees, branches dans le prototype 3D existant a la place des donnees
+generees. La question du rendu se rejuge sur ces noms, pas avant.
+
+**Sources et arbitrage.** Le dataset Ishkur's Guide v3 d'igorbrigadir est le
+point de depart : 166 genres, 352 aretes dirigees avec annees. Recoupe avec
+Ishkur v2.5, Wikipedia et Discogs. Deux constats a ne pas repayer :
+
+- **Les aretes de v2.5 ne sont pas des filiations.** Elles encodent l'arbre de
+  navigation du guide, pas la causalite. `house -> disco`, `goatrance ->
+  psychedelictrance` et `hinrg <- italodisco` sont tous chronologiquement
+  inverses. Seul v3 porte des aretes dirigees datees, exploitables.
+- **Ishkur a des lectures minoritaires assumees.** Hi-NRG et Italo Disco y
+  descendent de Spacesynth, qui leur est posterieur de cinq ans ; Trance et Goa
+  Trance y descendent de l'EBM. Ces filiations sont marquees `debated` avec la
+  source suivie inscrite dans la note, jamais tranchees en silence.
+
+**Decision 2 : la verification des identifiants YouTube ne demande aucune cle.**
+L'endpoint oEmbed public repond 200 uniquement si la video existe **et** est
+embarquable, ce qui est exactement la condition de l'iframe. Un 403 ou un 400
+suffit a rejeter. La chaine est : recherche YouTube reelle pour obtenir des
+identifiants candidats, puis oEmbed, puis controle que le titre renvoye partage
+du vocabulaire avec l'artiste et le titre cherches. Aucun identifiant n'est
+ecrit de memoire, et un genre sans identifiant verifiable garde une liste vide.
+
+Consequence directe : le transport simule de la vue morceaux est remplace par
+l'iframe officielle sur `youtube-nocookie.com`. C'est le seul appel tiers du
+runtime, et il ne se declenche qu'a la lecture.
+
+**Decision 3 : les liens entre familles sont deduits, jamais ecrits.** Ils
+viennent des ascendances qui traversent une famille dans le corpus, conformement
+a ADR-030. Une seule source de verite, donc la carte ne peut pas contredire les
+donnees.
+
+**Mesure.** 60 genres, 178 identifiants verifies sur 180 vises, 58 genres sur 60
+a trois morceaux, aucun genre vide. 15 filiations marquees `debated`, 11 greffes
+resolues, 4 greffes vers l'EBM laissees non resolues faute de famille
+industrial dans ce corpus v1.
 
 ---
 

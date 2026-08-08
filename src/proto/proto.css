@@ -70,6 +70,10 @@
   text-transform: uppercase;
 }
 
+.proto-label[data-kind='genre'] {
+  z-index: 2;
+}
+
 /* --- Repli --------------------------------------------------------------- */
 
 .proto-fallback {
@@ -673,4 +677,61 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
+}
+
+/* Noeud focalisé : graisse plus forte que ses dérivés. */
+.proto-label[data-focus='1'] {
+  font-weight: var(--weight-family);
+}
+
+/* --- Lecteur YouTube réel ------------------------------------------------
+   Le transport simulé a disparu : la lecture passe par l'iframe officielle,
+   qui porte ses propres commandes. Le bandeau ne garde que le contexte et le
+   passage d'un morceau à l'autre. */
+
+.player-frame {
+  flex: none;
+  width: 15rem;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--rule-hairline);
+  background: #000;
+  overflow: hidden;
+}
+
+.player-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.player-stop {
+  margin-left: auto;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  color: var(--ink-secondary);
+  background: transparent;
+  border: 1px solid var(--rule-hairline);
+  min-width: 2rem;
+  min-height: 2rem;
+  cursor: pointer;
+}
+
+.tracks-flag {
+  font: inherit;
+  color: oklch(0.78 0.13 60);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px dotted currentColor;
+  padding: 0;
+  cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .player {
+    flex-wrap: wrap;
+  }
+  .player-frame {
+    width: 100%;
+  }
 }
