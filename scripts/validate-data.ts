@@ -14,6 +14,14 @@ import { FAMILY_IDS, corpusSchema } from '../src/data/schema.ts';
 
 const CORPUS = fileURLToPath(new URL('../src/data/corpus.json', import.meta.url));
 
+const foldName = (s: string): string =>
+  s
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+
 const errors: string[] = [];
 const warnings: string[] = [];
 
@@ -42,6 +50,19 @@ if (!parsed.success) {
     if (gap < 22) errors.push(`teintes trop proches : ${h} et ${next}, écart ${gap} degrés`);
     if (h >= 90 && h <= 120) errors.push(`teinte ${h} dans la zone olive-kaki interdite`);
   });
+
+  /* Un alias qui est le nom d'un AUTRE genre fait sauter la recherche sur le
+     mauvais noeud. Le cas est apparu en grandissant : « Footwork » était un
+     alias de Hard House tant que le genre Footwork n'existait pas. */
+  const labelToId = new Map(doc.genres.map((g) => [foldName(g.label), g.id]));
+  for (const g of doc.genres) {
+    for (const alias of g.aliases ?? []) {
+      const owner = labelToId.get(foldName(alias));
+      if (owner !== undefined && owner !== g.id) {
+        errors.push(`${g.id} : l'alias « ${alias} » est le nom du genre ${owner}`);
+      }
+    }
+  }
 
   for (const g of doc.genres) {
     if (g.bpm !== null) {

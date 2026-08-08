@@ -501,11 +501,7 @@
      }
     ],
     "actuel": []
-   },
-   "aliases": [
-    "Post-Disco",
-    "Electro Funk"
-   ]
+   }
   },
   {
    "id": "nudisco",
@@ -1182,10 +1178,7 @@
     "actuel": []
    },
    "aliases": [
-    "Booty House",
-    "Ghetto House",
-    "Juke",
-    "Footwork"
+    "Booty House"
    ]
   },
   {
@@ -2032,8 +2025,7 @@
     "actuel": []
    },
    "aliases": [
-    "Intelligent Techno",
-    "IDM"
+    "Intelligent Techno"
    ]
   },
   {
@@ -2827,8 +2819,7 @@
    "aliases": [
     "Belearic House",
     "Balearic Beat",
-    "Balearic Music",
-    "Ibiza Trance"
+    "Balearic Music"
    ]
   },
   {
@@ -3099,8 +3090,7 @@
     "actuel": []
    },
    "aliases": [
-    "Hard Acid Trance",
-    "Makina"
+    "Hard Acid Trance"
    ]
   },
   {
@@ -3507,7 +3497,6 @@
     "Uplifting Psy",
     "Anthem Psy",
     "Morning Psy",
-    "Twilight Psy",
     "Night Psy",
     "Peak Hour Psy",
     "Israeli Psy"
@@ -3906,7 +3895,6 @@
     "Ambient Goa",
     "Psy Chill",
     "Psy Dub",
-    "Psybient",
     "Psychedelic Chillout",
     "Downtempo Psy",
     "Psy Breaks",
@@ -4866,8 +4854,7 @@
    "major": true,
    "note": "Londres, 1993-1994. Le breakbeat accelere et decoupe, sur une ligne de basse issue du reggae. Greffe vers le dub, qui lui donne sa basse et son rapport au studio.",
    "aliases": [
-    "Jungle Techno",
-    "Ragga Jungle"
+    "Jungle Techno"
    ],
    "tracks": {
     "essentiel": [],
@@ -5413,7 +5400,6 @@
    "note": "Fondateur de la famille. Londres, 1995-1997. Nait de la garage house de New York acceleree pour les clubs britanniques, avec l'influence rythmique de la jungle. Les deux greffes disent exactement cela.",
    "aliases": [
     "UKG",
-    "Speed Garage",
     "Garage"
    ],
    "tracks": {
@@ -5929,7 +5915,6 @@
    "major": true,
    "note": "Fondateur de la famille. New York, 1982, Planet Rock d'Afrika Bambaataa : la boite a rythmes TR-808 sur un motif emprunte a Kraftwerk. C'est le chainon manquant entre le funk, le proto-techno allemand et tout ce qui suit, d'ou les deux greffes.",
    "aliases": [
-    "Electro",
     "Electro-Funk",
     "Electrofunk"
    ],
@@ -7085,7 +7070,6 @@
    "note": "Royaume-Uni, 1992, la compilation Artificial Intelligence de Warp. Le nom, intelligent dance music, est une maladresse assumee de l'epoque. Nait de la techno de Detroit ecoutee comme de la musique de chambre, d'ou la greffe.",
    "aliases": [
     "Intelligent Dance Music",
-    "Braindance",
     "Electronic Listening Music"
    ],
    "tracks": {
@@ -7214,7 +7198,6 @@
    "note": "Bristol, 1993-1996, Massive Attack, Portishead, Tricky. Le hip-hop ralenti, avec la basse et l'echo du dub et les nappes de l'ambient. Le mot a d'abord ete un reproche de journaliste.",
    "aliases": [
     "Trip Hop",
-    "Bristol Sound",
     "Abstract Hip Hop"
    ],
    "tracks": {
@@ -7512,6 +7495,1312 @@
    "aliases": [
     "Folk Electronica",
     "Acoustronica"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "discodub",
+   "label": "Disco Dub",
+   "family": "disco",
+   "structuralParent": "disco",
+   "parents": [
+    {
+     "id": "disco",
+     "family": "disco",
+     "confidence": "established"
+    },
+    {
+     "id": "dub",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    105,
+    120
+   ],
+   "major": false,
+   "note": "New York, 1976-1979, Walter Gibbons, Larry Levan. Le maxi 45 tours retravaille avec les methodes du dub : versions instrumentales etirees, echo, batterie nue. Greffe evidente vers le dub.",
+   "aliases": [
+    "Dub Disco",
+    "Disco Mix"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "postdisco",
+   "label": "Post-Disco",
+   "family": "disco",
+   "structuralParent": "disco",
+   "parents": [
+    {
+     "id": "disco",
+     "family": "disco",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    100,
+    118
+   ],
+   "major": false,
+   "note": "New York, 1979-1983, apres la Disco Demolition Night. Le disco depouille de ses cordes, plus proche du groove : Leftfield disco, proto-house. Frontiere floue avec le boogie, les deux se recouvrent.",
+   "aliases": [
+    "Leftfield Disco",
+    "Proto-House"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "nuitalo",
+   "label": "Nu-Italo",
+   "family": "disco",
+   "structuralParent": "italodisco",
+   "parents": [
+    {
+     "id": "italodisco",
+     "family": "disco",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    118,
+    130
+   ],
+   "major": false,
+   "note": "Fin des annees 1990, labels Clone et Radius. L'italo disco repris par la scene electronique neerlandaise et italienne, au premier degre.",
+   "aliases": [
+    "Nu Italo",
+    "Italo Revival",
+    "New Italo"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "discopunk",
+   "label": "Disco Punk",
+   "family": "disco",
+   "structuralParent": "disco",
+   "parents": [
+    {
+     "id": "disco",
+     "family": "disco",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    110,
+    125
+   ],
+   "major": false,
+   "note": "New York, 1978-1982 puis revival 2002. Gang of Four, ESG, puis The Rapture : la rythmique disco jouee avec la rage du punk.",
+   "aliases": [
+    "Punk Funk",
+    "Dance-Punk",
+    "Disco-Punk"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "tribalhouse",
+   "label": "Tribal House",
+   "family": "house",
+   "structuralParent": "chicagohouse",
+   "parents": [
+    {
+     "id": "chicagohouse",
+     "family": "house",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    122,
+    128
+   ],
+   "major": false,
+   "note": "New York et Londres, debut des annees 1990, Junior Vasquez, Danny Tenaglia. Percussions superposees, presque pas d'harmonie.",
+   "aliases": [
+    "Tribal",
+    "Tribal Progressive"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "afrohouse",
+   "label": "Afro House",
+   "family": "house",
+   "structuralParent": "tribalhouse",
+   "parents": [
+    {
+     "id": "tribalhouse",
+     "family": "house",
+     "confidence": "established"
+    },
+    {
+     "id": "usdeephouse",
+     "family": "house",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    118,
+    125
+   ],
+   "major": true,
+   "note": "Afrique du Sud et diaspora, annees 2000, Black Coffee, Culoe De Song. Percussions et voix africaines sur la trame house. Le kwaito local et la deep house s'y melent.",
+   "aliases": [
+    "Afro Deep",
+    "Afro Tech",
+    "African House"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "soulfulhouse",
+   "label": "Soulful House",
+   "family": "house",
+   "structuralParent": "usdeephouse",
+   "parents": [
+    {
+     "id": "usdeephouse",
+     "family": "house",
+     "confidence": "established"
+    },
+    {
+     "id": "garagehouse",
+     "family": "house",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    120,
+    126
+   ],
+   "major": false,
+   "note": "New York et New Jersey, annees 1990, Masters at Work, Kerri Chandler. La deep house avec la voix au centre, heritage direct du gospel et de la soul.",
+   "aliases": [
+    "Soulful",
+    "Vocal House",
+    "NJ Sound"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "latinhouse",
+   "label": "Latin House",
+   "family": "house",
+   "structuralParent": "chicagohouse",
+   "parents": [
+    {
+     "id": "chicagohouse",
+     "family": "house",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    122,
+    128
+   ],
+   "major": false,
+   "note": "Chicago, New York et Miami, annees 1990. Percussions et cuivres latins sur la house.",
+   "aliases": [
+    "Latino House",
+    "Tribal Latin"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "ghettohouse",
+   "label": "Ghetto House",
+   "family": "house",
+   "structuralParent": "chicagohouse",
+   "parents": [
+    {
+     "id": "chicagohouse",
+     "family": "house",
+     "confidence": "established"
+    },
+    {
+     "id": "miamibass",
+     "family": "electro",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    128,
+    140
+   ],
+   "major": true,
+   "note": "Chicago, 1992-1998, labels Dance Mania, DJ Deeon, DJ Funk. La house reduite a la 808, une phrase repetee et un tempo qui monte.",
+   "aliases": [
+    "Booty House",
+    "Ghetto"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "juke",
+   "label": "Juke",
+   "family": "house",
+   "structuralParent": "ghettohouse",
+   "parents": [
+    {
+     "id": "ghettohouse",
+     "family": "house",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    150,
+    160
+   ],
+   "major": false,
+   "note": "Chicago, fin des annees 1990. Le ghetto house accelere pour la danse du meme nom.",
+   "aliases": [
+    "Chicago Juke"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "footwork",
+   "label": "Footwork",
+   "family": "house",
+   "structuralParent": "juke",
+   "parents": [
+    {
+     "id": "juke",
+     "family": "house",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    155,
+    165
+   ],
+   "major": true,
+   "note": "Chicago, 2005-2010, DJ Rashad, RP Boo. Le juke deconstruit : triolets, vides, voix hachees. Devenu un langage mondial via Teklife et Hyperdub.",
+   "aliases": [
+    "Footwerk",
+    "Chicago Footwork"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "basshouse",
+   "label": "Bass House",
+   "family": "house",
+   "structuralParent": "electrohouse",
+   "parents": [
+    {
+     "id": "electrohouse",
+     "family": "house",
+     "confidence": "established"
+    },
+    {
+     "id": "ukbass",
+     "family": "bass",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    126,
+    132
+   ],
+   "major": false,
+   "note": "Annees 2010, Jauz, AC Slater. La house avec la basse du dubstep, greffe assumee.",
+   "aliases": [
+    "G-House",
+    "Bass House EDM"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "futurehouse",
+   "label": "Future House",
+   "family": "house",
+   "structuralParent": "electrohouse",
+   "parents": [
+    {
+     "id": "electrohouse",
+     "family": "house",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    122,
+    128
+   ],
+   "major": false,
+   "note": "2013-2016, Tchami, Oliver Heldens. Basse en dents de scie filtree, house de festival.",
+   "aliases": [
+    "Future House EDM"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "lofihouse",
+   "label": "Lo-Fi House",
+   "family": "house",
+   "structuralParent": "usdeephouse",
+   "parents": [
+    {
+     "id": "usdeephouse",
+     "family": "house",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    118,
+    125
+   ],
+   "major": false,
+   "note": "2015-2018, DJ Boring, Ross from Friends. La deep house sous une couche de souffle et de compression volontaires.",
+   "aliases": [
+    "Lofi House",
+    "Lo Fi House",
+    "Outsider House"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "amapiano",
+   "label": "Amapiano",
+   "family": "house",
+   "structuralParent": "afrohouse",
+   "parents": [
+    {
+     "id": "afrohouse",
+     "family": "house",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    110,
+    118
+   ],
+   "major": true,
+   "note": "Afrique du Sud, 2016-2020. Basse log drum, piano, espace. Filiation debattue : il vient du kwaito et du jazz local autant que de la house, et certains y voient une famille propre.",
+   "aliases": [
+    "Piano",
+    "Yanos"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "gqom",
+   "label": "Gqom",
+   "family": "house",
+   "structuralParent": "afrohouse",
+   "parents": [
+    {
+     "id": "afrohouse",
+     "family": "house",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    120,
+    128
+   ],
+   "major": false,
+   "note": "Durban, 2012-2016. Rythme cale sur le triolet, sombre et vide, sans la basse ronde de la house. Filiation debattue pour la meme raison que l'amapiano.",
+   "aliases": [
+    "Gqom Tech",
+    "Sgubhu"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "belgiantechno",
+   "label": "Belgian Techno",
+   "family": "techno",
+   "structuralParent": "eurotechno",
+   "parents": [
+    {
+     "id": "eurotechno",
+     "family": "techno",
+     "confidence": "established"
+    },
+    {
+     "id": "newbeat",
+     "family": "industrial",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    125,
+    140
+   ],
+   "major": false,
+   "note": "Belgique, 1989-1992, R&S Records, CJ Bolland. Le versant belge de la techno europeenne, plus dur et plus riffe que Detroit. C'est lui que le breakbeat hardcore britannique a pille. Greffe vers la new beat, qui l'a precede sur place.",
+   "aliases": [
+    "R&S Sound",
+    "Belgian Rave"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "birminghamtechno",
+   "label": "Birmingham Techno",
+   "family": "techno",
+   "structuralParent": "hardtechno",
+   "parents": [
+    {
+     "id": "hardtechno",
+     "family": "techno",
+     "confidence": "established"
+    },
+    {
+     "id": "industrial",
+     "family": "industrial",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    135,
+    150
+   ],
+   "major": false,
+   "note": "Birmingham, 1993-1998, Surgeon, Regis, label Downwards. Boucles seches et repetitives, sans montee ni refrain, l'ossature de la techno industrielle qui suivra.",
+   "aliases": [
+    "Birmingham Sound",
+    "British Techno"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "hypnotictechno",
+   "label": "Hypnotic Techno",
+   "family": "techno",
+   "structuralParent": "dubtechno",
+   "parents": [
+    {
+     "id": "dubtechno",
+     "family": "techno",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    125,
+    135
+   ],
+   "major": false,
+   "note": "Annees 2000-2010, Donato Dozzy, labels Prologue et Spazio Disponibile. Boucles longues a evolution lente, entre la dub techno et la transe.",
+   "aliases": [
+    "Hypnotic",
+    "Deep Hypnotic Techno"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "melodictechno",
+   "label": "Melodic Techno",
+   "family": "techno",
+   "structuralParent": "detroittechno",
+   "parents": [
+    {
+     "id": "detroittechno",
+     "family": "techno",
+     "confidence": "debated"
+    },
+    {
+     "id": "minimaltechno",
+     "family": "minimal",
+     "confidence": "established"
+    },
+    {
+     "id": "progressivehouse",
+     "family": "house",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    120,
+    126
+   ],
+   "major": false,
+   "note": "Annees 2010, Tale of Us, Afterlife. Filiation debattue, et frontiere commerciale recente : melodic techno contre melodic house est un partage de marketing plus que de musique.",
+   "aliases": [
+    "Melodic House and Techno",
+    "Afterlife Sound"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "peaktimetechno",
+   "label": "Peak Time Techno",
+   "family": "techno",
+   "structuralParent": "hardtechno",
+   "parents": [
+    {
+     "id": "hardtechno",
+     "family": "techno",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    130,
+    140
+   ],
+   "major": false,
+   "note": "Annees 2010, terme des plateformes de vente. La techno de grande salle, montees et lachers. Nom de rayon plus que de scene, marque debated pour cela.",
+   "aliases": [
+    "Big Room Techno",
+    "Mainstage Techno"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "brokentechno",
+   "label": "Broken Techno",
+   "family": "techno",
+   "structuralParent": "bleeptechno",
+   "parents": [
+    {
+     "id": "bleeptechno",
+     "family": "techno",
+     "confidence": "established"
+    },
+    {
+     "id": "detroitelectro",
+     "family": "electro",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    130,
+    140
+   ],
+   "major": false,
+   "note": "Annees 2010-2020. La techno sans le quatre temps : rythmiques cassees heritees de l'electro et du breakbeat.",
+   "aliases": [
+    "Broken Beat Techno",
+    "UK Broken Techno"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "rominimal",
+   "label": "Ro-Minimal",
+   "family": "minimal",
+   "structuralParent": "minimaltech",
+   "parents": [
+    {
+     "id": "minimaltech",
+     "family": "minimal",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    122,
+    128
+   ],
+   "major": true,
+   "note": "Roumanie, 2005-2015, Ricardo Villalobos comme parrain, Raresh, Petre Inspirescu. Boucles infinies, sons minuscules, sets de dix heures. La scene roumaine revendique sa difference avec le minimal berlinois, d'ou le debated.",
+   "aliases": [
+    "Romanian Minimal",
+    "Rominimal",
+    "Minimal Roumain"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "microtechno",
+   "label": "Micro Techno",
+   "family": "minimal",
+   "structuralParent": "minimaltechno",
+   "parents": [
+    {
+     "id": "minimaltechno",
+     "family": "minimal",
+     "confidence": "established"
+    },
+    {
+     "id": "glitch",
+     "family": "ambient",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    125,
+    132
+   ],
+   "major": false,
+   "note": "Fin des annees 1990, Cologne et Berlin. La minimal techno reduite a ses impulsions, cousine du glitch.",
+   "aliases": [
+    "Microtechno",
+    "Click Techno"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "minimalwave",
+   "label": "Minimal Wave",
+   "family": "minimal",
+   "structuralParent": "minimaltech",
+   "parents": [
+    {
+     "id": "synthpop",
+     "family": "roots",
+     "confidence": "established"
+    },
+    {
+     "id": "coldwave",
+     "family": "industrial",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    100,
+    130
+   ],
+   "major": false,
+   "note": "Terme des annees 2000 pour rehabiliter la synth-pop obscure de 1979-1985. RATTACHEMENT CONVENTIONNEL : ce n'est pas un derive du minimal de club, c'est une archeologie du synth-pop, d'ou les greffes. Range ici par le nom plus que par la filiation.",
+   "structuralOnly": true,
+   "aliases": [
+    "Minimal Synth",
+    "Cold Minimal Wave"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "eurotrance",
+   "label": "Euro Trance",
+   "family": "trance",
+   "structuralParent": "upliftingtrance",
+   "parents": [
+    {
+     "id": "upliftingtrance",
+     "family": "trance",
+     "confidence": "established"
+    },
+    {
+     "id": "germantrance",
+     "family": "trance",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    138,
+    145
+   ],
+   "major": false,
+   "note": "Europe continentale, 1999-2005. L'uplifting simplifie pour la radio et les grandes salles, refrains chantes.",
+   "aliases": [
+    "Eurotrance",
+    "Hands Up Trance"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "anthemtrance",
+   "label": "Anthem Trance",
+   "family": "trance",
+   "structuralParent": "upliftingtrance",
+   "parents": [
+    {
+     "id": "upliftingtrance",
+     "family": "trance",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    136,
+    142
+   ],
+   "major": false,
+   "note": "1996-2002. Le refrain hymne au centre : Gouryella, Binary Finary. Frontiere tenue avec l'uplifting, souvent le meme disque.",
+   "aliases": [
+    "Anthem",
+    "Trance Anthem"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "ibizatrance",
+   "label": "Ibiza Trance",
+   "family": "trance",
+   "structuralParent": "balearictrance",
+   "parents": [
+    {
+     "id": "balearictrance",
+     "family": "trance",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    132,
+    138
+   ],
+   "major": false,
+   "note": "1997-2002. Le balearic devenu produit d'ete : Cafe del Mar en compilation, ATB, Chicane.",
+   "aliases": [
+    "Balearic Trance Pop",
+    "Sunset Trance"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "orchestraltrance",
+   "label": "Orchestral Trance",
+   "family": "trance",
+   "structuralParent": "upliftingtrance",
+   "parents": [
+    {
+     "id": "upliftingtrance",
+     "family": "trance",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    132,
+    140
+   ],
+   "major": false,
+   "note": "Annees 2000. L'uplifting avec un orchestre, reel ou echantillonne.",
+   "aliases": [
+    "Symphonic Trance",
+    "Epic Orchestral Trance"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "psycore",
+   "label": "Psycore",
+   "family": "psy",
+   "structuralParent": "darkpsy",
+   "parents": [
+    {
+     "id": "darkpsy",
+     "family": "psy",
+     "confidence": "established"
+    },
+    {
+     "id": "speedcore",
+     "family": "hardcore",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    160,
+    200
+   ],
+   "major": false,
+   "note": "Annees 2000. Le dark psy pousse vers le hardcore : au-dela de 160, textures dechirees. Greffe vers le speedcore assumee.",
+   "aliases": [
+    "Psy Core",
+    "Psychedelic Hardcore"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "zenonesque",
+   "label": "Zenonesque",
+   "family": "psy",
+   "structuralParent": "progpsy",
+   "parents": [
+    {
+     "id": "progpsy",
+     "family": "psy",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    118,
+    132
+   ],
+   "major": false,
+   "note": "Annees 2010, label Zenon. Psy progressif sombre et texture, sans les hymnes. Le vocabulaire est conteste : psytech, psy-prog et zenonesque decoupent le meme territoire de deux ou trois facons. Terrain de Mika, a trancher.",
+   "aliases": [
+    "Zenon Sound",
+    "Dark Progressive Psy"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "psytech",
+   "label": "Psytech",
+   "family": "psy",
+   "structuralParent": "progpsy",
+   "parents": [
+    {
+     "id": "progpsy",
+     "family": "psy",
+     "confidence": "established"
+    },
+    {
+     "id": "techhouse",
+     "family": "minimal",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    125,
+    135
+   ],
+   "major": false,
+   "note": "Annees 2010. Entre la techno et le psy progressif. Meme querelle de vocabulaire que le zenonesque, marque debated pour la meme raison. Terrain de Mika, a trancher.",
+   "aliases": [
+    "Psy Tech",
+    "Psychedelic Techno"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "twilightpsy",
+   "label": "Twilight Psy",
+   "family": "psy",
+   "structuralParent": "fullon",
+   "parents": [
+    {
+     "id": "fullon",
+     "family": "psy",
+     "confidence": "established"
+    },
+    {
+     "id": "darkpsy",
+     "family": "psy",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    145,
+    150
+   ],
+   "major": false,
+   "note": "Afrique du Sud, annees 2000. Entre le full-on nocturne et le dark psy, le nom dit l'heure.",
+   "aliases": [
+    "Twilight",
+    "South African Psy"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "morningfullon",
+   "label": "Morning Full-On",
+   "family": "psy",
+   "structuralParent": "fullon",
+   "parents": [
+    {
+     "id": "fullon",
+     "family": "psy",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    140,
+    145
+   ],
+   "major": false,
+   "note": "Annees 2000. Le full-on du lever du jour : majeur, melodique, euphorique.",
+   "aliases": [
+    "Morning Psy",
+    "Morning Trance"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "neogoa",
+   "label": "Neo Goa",
+   "family": "psy",
+   "structuralParent": "goatrance",
+   "parents": [
+    {
+     "id": "goatrance",
+     "family": "psy",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    138,
+    148
+   ],
+   "major": false,
+   "note": "Annees 2010. Le retour assume au son Goa de 1994-1997, production moderne.",
+   "aliases": [
+    "New School Goa",
+    "Goa Revival"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "powerelectronics",
+   "label": "Power Electronics",
+   "family": "industrial",
+   "structuralParent": "industrial",
+   "parents": [
+    {
+     "id": "industrial",
+     "family": "industrial",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": null,
+   "major": false,
+   "note": "Royaume-Uni, 1980-1985, Whitehouse. Larsen, ondes carrees et voix hurlee, sans rythme. Sans tempo.",
+   "aliases": [
+    "Power Noise Vocal",
+    "Heavy Electronics"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "rhythmicnoise",
+   "label": "Rhythmic Noise",
+   "family": "industrial",
+   "structuralParent": "powerelectronics",
+   "parents": [
+    {
+     "id": "powerelectronics",
+     "family": "industrial",
+     "confidence": "established"
+    },
+    {
+     "id": "industrialtechno",
+     "family": "techno",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    120,
+    150
+   ],
+   "major": false,
+   "note": "Annees 1990, labels Hands et Ant-Zen. Le bruit mis au pas : distorsion totale mais quatre temps.",
+   "aliases": [
+    "Power Noise",
+    "Rhythmic Industrial"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "darkwave",
+   "label": "Darkwave",
+   "family": "industrial",
+   "structuralParent": "coldwave",
+   "parents": [
+    {
+     "id": "coldwave",
+     "family": "industrial",
+     "confidence": "established"
+    },
+    {
+     "id": "synthpop",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    90,
+    130
+   ],
+   "major": false,
+   "note": "Europe, annees 1980. Le versant sombre de la new wave, synthetiseurs et voix graves. Recouvre en partie la coldwave francaise, la frontiere est linguistique autant que musicale.",
+   "aliases": [
+    "Dark Wave",
+    "Ethereal Wave"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "industrialrock",
+   "label": "Industrial Rock",
+   "family": "industrial",
+   "structuralParent": "industrial",
+   "parents": [
+    {
+     "id": "industrial",
+     "family": "industrial",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    100,
+    140
+   ],
+   "major": false,
+   "note": "1988-1996, Ministry, Nine Inch Nails. Guitares sur machines. C'est la porte par laquelle l'industriel est entre dans le rock du grand public.",
+   "aliases": [
+    "Industrial Metal",
+    "Machine Rock"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "futurepop",
+   "label": "Futurepop",
+   "family": "industrial",
+   "structuralParent": "electroindustrial",
+   "parents": [
+    {
+     "id": "electroindustrial",
+     "family": "industrial",
+     "confidence": "established"
+    },
+    {
+     "id": "upliftingtrance",
+     "family": "trance",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    120,
+    135
+   ],
+   "major": false,
+   "note": "1998-2005, VNV Nation, Apoptygma Berzerk, Covenant. L'electro-industriel qui assume le refrain de synth-pop et la montee de trance.",
+   "aliases": [
+    "Future Pop"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "aggrotech",
+   "label": "Aggrotech",
+   "family": "industrial",
+   "structuralParent": "darkelectro",
+   "parents": [
+    {
+     "id": "darkelectro",
+     "family": "industrial",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    130,
+    145
+   ],
+   "major": false,
+   "note": "Annees 2000, Hocico, Suicide Commando tardif. Le dark electro durci : voix saturee, grosse caisse en avant.",
+   "aliases": [
+    "Hellektro",
+    "Terror EBM",
+    "Harsh EBM"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "darkstep",
+   "label": "Darkstep",
+   "family": "breaks",
+   "structuralParent": "techstep",
+   "parents": [
+    {
+     "id": "techstep",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    170,
+    180
+   ],
+   "major": false,
+   "note": "Fin des annees 1990. Le techstep pousse vers l'horreur, ambiances de film noir.",
+   "aliases": [
+    "Dark DnB",
+    "Darkside DnB"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "breakbeatgarage",
+   "label": "Breakbeat Garage",
+   "family": "bass",
+   "structuralParent": "ukgarage",
+   "parents": [
+    {
+     "id": "ukgarage",
+     "family": "bass",
+     "confidence": "established"
+    },
+    {
+     "id": "breakbeat",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    130,
+    138
+   ],
+   "major": false,
+   "note": "Londres, 2000-2003. Le garage qui retrouve ses breaks, chainon vers le grime et le dubstep.",
+   "aliases": [
+    "Breakbeat UKG",
+    "Garage Breaks"
    ],
    "tracks": {
     "essentiel": [],

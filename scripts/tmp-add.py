@@ -22,7 +22,7 @@ def add(families, genres):
                'structuralParent':g.get('parent'),
                'parents':g.get('parents',[]),
                'confidence':g.get('conf','established'),
-               'bpm':list(g['bpm']),'major':bool(g.get('major',False)),
+               'bpm':(list(g['bpm']) if g['bpm'] else None),'major':bool(g.get('major',False)),
                'note':g['note']}
         if g.get('structuralOnly'): entry['structuralOnly']=True
         if g.get('aliases'): entry['aliases']=g['aliases']
