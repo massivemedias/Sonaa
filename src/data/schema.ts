@@ -26,7 +26,11 @@ export const FAMILY_IDS = [
   'industrial',
   /* Vague 1 : la racine commune. Sans elle, Disco, Industrial et Techno
      n'avaient aucun ancetre et l'atlas etait structurellement faux. */
-  'roots'
+  'roots',
+  /* Vague 2 : la lignee britannique. Sans elle, SONAA racontait une histoire
+     uniquement continentale et americaine. */
+  'breaks',
+  'bass'
 ] as const;
 export type FamilyId = (typeof FAMILY_IDS)[number];
 

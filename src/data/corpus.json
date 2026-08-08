@@ -40,6 +40,16 @@
    "id": "roots",
    "label": "Roots",
    "hue": 38
+  },
+  {
+   "id": "breaks",
+   "label": "Breaks",
+   "hue": 284
+  },
+  {
+   "id": "bass",
+   "label": "Bass",
+   "hue": 306
   }
  ],
  "genres": [
@@ -4710,6 +4720,1164 @@
     "Synthpop",
     "Electropop",
     "New Romantic"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "breakbeat",
+   "label": "Breakbeat",
+   "family": "breaks",
+   "structuralParent": null,
+   "parents": [
+    {
+     "id": "funk",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    120,
+    140
+   ],
+   "major": true,
+   "note": "Fondateur de la famille. Le principe est plus ancien que le genre : une boucle de batterie prelevee sur un disque funk, l'Amen Break de The Winstons ou le Funky Drummer de James Brown. Comme genre nomme, Royaume-Uni, 1986-1990.",
+   "aliases": [
+    "Break Beat",
+    "Breaks"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "breakbeathardcore",
+   "label": "Breakbeat Hardcore",
+   "family": "breaks",
+   "structuralParent": "breakbeat",
+   "parents": [
+    {
+     "id": "breakbeat",
+     "family": "breaks",
+     "confidence": "established"
+    },
+    {
+     "id": "chicagohouse",
+     "family": "house",
+     "confidence": "established"
+    },
+    {
+     "id": "eurotechno",
+     "family": "techno",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    130,
+    150
+   ],
+   "major": true,
+   "note": "Royaume-Uni, 1990-1992. Croisement du breakbeat, des pianos de la house de Chicago et de la techno belge dure. C'est le point de depart de toute la lignee britannique : jungle, drum and bass et hardcore en sortent.",
+   "aliases": [
+    "Rave Hardcore",
+    "Oldskool Hardcore",
+    "Hardcore Breaks"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "darkcore",
+   "label": "Darkcore",
+   "family": "breaks",
+   "structuralParent": "breakbeathardcore",
+   "parents": [
+    {
+     "id": "breakbeathardcore",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    140,
+    155
+   ],
+   "major": false,
+   "note": "Royaume-Uni, 1992-1993. Le versant sombre du breakbeat hardcore, quand les pianos disparaissent au profit des nappes menacantes et des basses profondes.",
+   "aliases": [
+    "Dark Hardcore",
+    "Darkside"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "jungle",
+   "label": "Jungle",
+   "family": "breaks",
+   "structuralParent": "darkcore",
+   "parents": [
+    {
+     "id": "darkcore",
+     "family": "breaks",
+     "confidence": "established"
+    },
+    {
+     "id": "dub",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    155,
+    175
+   ],
+   "major": true,
+   "note": "Londres, 1993-1994. Le breakbeat accelere et decoupe, sur une ligne de basse issue du reggae. Greffe vers le dub, qui lui donne sa basse et son rapport au studio.",
+   "aliases": [
+    "Jungle Techno",
+    "Ragga Jungle"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "drumandbass",
+   "label": "Drum and Bass",
+   "family": "breaks",
+   "structuralParent": "jungle",
+   "parents": [
+    {
+     "id": "jungle",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    165,
+    180
+   ],
+   "major": true,
+   "note": "Royaume-Uni, 1995-1997. La jungle se durcit et se simplifie, les breaks deviennent des motifs programmes plutot que des boucles prelevees.",
+   "aliases": [
+    "Drum n Bass",
+    "DnB",
+    "D&B",
+    "Drum & Bass"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "techstep",
+   "label": "Techstep",
+   "family": "breaks",
+   "structuralParent": "drumandbass",
+   "parents": [
+    {
+     "id": "drumandbass",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    170,
+    180
+   ],
+   "major": false,
+   "note": "Royaume-Uni, 1996, Ed Rush et Trace. Le drum and bass passe au metal : basses saturees, textures industrielles.",
+   "aliases": [
+    "Tech Step"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "neurofunk",
+   "label": "Neurofunk",
+   "family": "breaks",
+   "structuralParent": "techstep",
+   "parents": [
+    {
+     "id": "techstep",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    170,
+    178
+   ],
+   "major": true,
+   "note": "1997-1999, Bad Company, Optical. Le techstep se met a swinguer, la basse devient un motif reptilien.",
+   "aliases": [
+    "Neuro",
+    "Neuro DnB"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "liquiddnb",
+   "label": "Liquid Drum and Bass",
+   "family": "breaks",
+   "structuralParent": "drumandbass",
+   "parents": [
+    {
+     "id": "drumandbass",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    170,
+    176
+   ],
+   "major": true,
+   "note": "Fin des annees 1990. Retour des accords et des voix, versant lumineux du drum and bass.",
+   "aliases": [
+    "Liquid Funk",
+    "Liquid DnB",
+    "Liquid"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "jumpup",
+   "label": "Jump-Up",
+   "family": "breaks",
+   "structuralParent": "drumandbass",
+   "parents": [
+    {
+     "id": "drumandbass",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    172,
+    180
+   ],
+   "major": false,
+   "note": "Royaume-Uni, milieu des annees 1990. Basses rondes et refrains, fait pour le dancefloor plutot que pour l'ecoute.",
+   "aliases": [
+    "Jump Up"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "drumfunk",
+   "label": "Drumfunk",
+   "family": "breaks",
+   "structuralParent": "drumandbass",
+   "parents": [
+    {
+     "id": "drumandbass",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    170,
+    180
+   ],
+   "major": false,
+   "note": "Annees 2000, Paradox, Fanu. Le break retrouve sa complexite de boucle jouee, a l'inverse du techstep.",
+   "aliases": [
+    "Drum Funk"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "drumstep",
+   "label": "Drumstep",
+   "family": "breaks",
+   "structuralParent": "drumandbass",
+   "parents": [
+    {
+     "id": "drumandbass",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    140,
+    160
+   ],
+   "major": false,
+   "note": "Fin des annees 2000. Drum and bass a moitie tempo dans la caisse claire, croisement avec le dubstep.",
+   "aliases": [
+    "Drum Step",
+    "Halftime"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "raggajungle",
+   "label": "Ragga Jungle",
+   "family": "breaks",
+   "structuralParent": "jungle",
+   "parents": [
+    {
+     "id": "jungle",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    160,
+    175
+   ],
+   "major": false,
+   "note": "1994-1995. Jungle avec voix de deejay jamaicain, souvent prelevee sur des disques ragga.",
+   "aliases": [
+    "Jungle Ragga"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "drillnbass",
+   "label": "Drill and Bass",
+   "family": "breaks",
+   "structuralParent": "jungle",
+   "parents": [
+    {
+     "id": "jungle",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    160,
+    190
+   ],
+   "major": false,
+   "note": "Royaume-Uni, 1996-1998, Squarepusher, Aphex Twin. La jungle poussee jusqu'a l'absurde, breaks decoupes a la milliseconde. Frontiere floue avec l'IDM, d'ou la greffe.",
+   "aliases": [
+    "Drill n Bass",
+    "Drill & Bass"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "breakcore",
+   "label": "Breakcore",
+   "family": "breaks",
+   "structuralParent": "darkcore",
+   "parents": [
+    {
+     "id": "darkcore",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    170,
+    220
+   ],
+   "major": false,
+   "note": "Fin des annees 1990, Venetian Snares, Bong-Ra. Saturation, collage, tempo libre. Croisement du darkcore et de la culture hardcore.",
+   "aliases": [
+    "Break Core",
+    "Mashcore"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "crossbreed",
+   "label": "Crossbreed",
+   "family": "breaks",
+   "structuralParent": "breakcore",
+   "parents": [
+    {
+     "id": "breakcore",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    170,
+    190
+   ],
+   "major": false,
+   "note": "Annees 2000. Croisement du breakcore et du drum and bass techstep, avec la frappe du hardcore.",
+   "aliases": [
+    "Cross Breed",
+    "Crossbreed DnB"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "bigbeat",
+   "label": "Big Beat",
+   "family": "breaks",
+   "structuralParent": "breakbeat",
+   "parents": [
+    {
+     "id": "breakbeat",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    120,
+    140
+   ],
+   "major": true,
+   "note": "Royaume-Uni, 1995-1999, Chemical Brothers, Fatboy Slim, Prodigy. Le breakbeat passe a la radio : riffs, refrains, structure de chanson rock.",
+   "aliases": [
+    "Chemical Breaks",
+    "Big Beat Breaks"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "nuskoolbreaks",
+   "label": "Nu Skool Breaks",
+   "family": "breaks",
+   "structuralParent": "breakbeat",
+   "parents": [
+    {
+     "id": "breakbeat",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    125,
+    135
+   ],
+   "major": false,
+   "note": "Royaume-Uni, 1997-2002, Adam Freeland, Rennie Pilgrem. Breakbeat de club, propre et basse, apres l'exces du big beat.",
+   "aliases": [
+    "Nu Skool",
+    "Nuskool Breaks",
+    "Tech Funk"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "progressivebreaks",
+   "label": "Progressive Breaks",
+   "family": "breaks",
+   "structuralParent": "nuskoolbreaks",
+   "parents": [
+    {
+     "id": "nuskoolbreaks",
+     "family": "breaks",
+     "confidence": "established"
+    },
+    {
+     "id": "progressivehouse",
+     "family": "house",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    125,
+    132
+   ],
+   "major": false,
+   "note": "Fin des annees 1990. Le nu skool rencontre la house progressive : montees longues, nappes.",
+   "aliases": [
+    "Prog Breaks"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "floridabreaks",
+   "label": "Florida Breaks",
+   "family": "breaks",
+   "structuralParent": "breakbeat",
+   "parents": [
+    {
+     "id": "breakbeat",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    125,
+    135
+   ],
+   "major": false,
+   "note": "Floride, 1993-1998. Breakbeat a basse lourde, cousin du Miami Bass dont il partage la scene.",
+   "aliases": [
+    "Funky Breaks",
+    "Florida Breakbeat"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "brokenbeat",
+   "label": "Broken Beat",
+   "family": "breaks",
+   "structuralParent": "breakbeat",
+   "parents": [
+    {
+     "id": "breakbeat",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    120,
+    130
+   ],
+   "major": false,
+   "note": "Londres ouest, 1999-2004, Bugz in the Attic, IG Culture. Rythmiques deboitees et harmonie jazz-funk.",
+   "aliases": [
+    "Bruk",
+    "West London Sound"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "ghettofunk",
+   "label": "Ghetto Funk",
+   "family": "breaks",
+   "structuralParent": "bigbeat",
+   "parents": [
+    {
+     "id": "bigbeat",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    105,
+    115
+   ],
+   "major": false,
+   "note": "Fin des annees 2000. Le big beat ralenti, sur des prelevements funk et hip-hop assumes.",
+   "aliases": [
+    "Ghetto Funk Breaks",
+    "Glitch Funk"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "psybreaks",
+   "label": "Psybreaks",
+   "family": "breaks",
+   "structuralParent": "nuskoolbreaks",
+   "parents": [
+    {
+     "id": "nuskoolbreaks",
+     "family": "breaks",
+     "confidence": "established"
+    },
+    {
+     "id": "psychedelictrance",
+     "family": "psy",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    130,
+    140
+   ],
+   "major": false,
+   "note": "Annees 2000. Le nu skool breaks avec les sons et les nappes du psytrance. Greffe vers le psy.",
+   "aliases": [
+    "Psy Breaks",
+    "Psychedelic Breaks"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "ukgarage",
+   "label": "UK Garage",
+   "family": "bass",
+   "structuralParent": null,
+   "parents": [
+    {
+     "id": "garagehouse",
+     "family": "house",
+     "confidence": "established"
+    },
+    {
+     "id": "jungle",
+     "family": "breaks",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    128,
+    138
+   ],
+   "major": true,
+   "note": "Fondateur de la famille. Londres, 1995-1997. Nait de la garage house de New York acceleree pour les clubs britanniques, avec l'influence rythmique de la jungle. Les deux greffes disent exactement cela.",
+   "aliases": [
+    "UKG",
+    "Speed Garage",
+    "Garage"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "speedgarage",
+   "label": "Speed Garage",
+   "family": "bass",
+   "structuralParent": "ukgarage",
+   "parents": [
+    {
+     "id": "ukgarage",
+     "family": "bass",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    130,
+    140
+   ],
+   "major": false,
+   "note": "Royaume-Uni, 1996-1998. La premiere forme du UK garage, avec basses de jungle et voix accelerees.",
+   "aliases": [
+    "Speed UKG"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "2step",
+   "label": "2-Step",
+   "family": "bass",
+   "structuralParent": "ukgarage",
+   "parents": [
+    {
+     "id": "ukgarage",
+     "family": "bass",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    130,
+    140
+   ],
+   "major": true,
+   "note": "Royaume-Uni, 1998-2001. La caisse claire quitte le quatre temps : le rythme boite, d'ou le nom. C'est de la que sortent le grime et le dubstep.",
+   "aliases": [
+    "Two Step",
+    "2 Step Garage",
+    "2-Step Garage"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "dubstep",
+   "label": "Dubstep",
+   "family": "bass",
+   "structuralParent": "2step",
+   "parents": [
+    {
+     "id": "2step",
+     "family": "bass",
+     "confidence": "established"
+    },
+    {
+     "id": "dub",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    138,
+    142
+   ],
+   "major": true,
+   "note": "Croydon, 2001-2003, Horsepower Productions, El-B. Le 2-step depouille, ralenti dans la perception par le contretemps, sur une basse et une reverberation heritees du dub.",
+   "aliases": [
+    "Dub Step"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "brostep",
+   "label": "Brostep",
+   "family": "bass",
+   "structuralParent": "dubstep",
+   "parents": [
+    {
+     "id": "dubstep",
+     "family": "bass",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    138,
+    145
+   ],
+   "major": false,
+   "note": "Etats-Unis, 2008-2011, Rusko puis Skrillex. La basse passe du grave ressenti au medium agressif. Nom d'abord peremptoire, puis assume.",
+   "aliases": [
+    "Bro Step",
+    "American Dubstep"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "riddim",
+   "label": "Riddim",
+   "family": "bass",
+   "structuralParent": "brostep",
+   "parents": [
+    {
+     "id": "brostep",
+     "family": "bass",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    140,
+    150
+   ],
+   "major": false,
+   "note": "Annees 2010. Motif de basse court et repete, structure minimale. Filiation debattue : la scene y voit une rupture de generation avec le dubstep, d'autres un simple sous-genre du brostep. Les deux lectures se defendent, je n'ai pas tranche.",
+   "aliases": [
+    "Riddim Dubstep"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "futuregarage",
+   "label": "Future Garage",
+   "family": "bass",
+   "structuralParent": "dubstep",
+   "parents": [
+    {
+     "id": "dubstep",
+     "family": "bass",
+     "confidence": "established"
+    },
+    {
+     "id": "2step",
+     "family": "bass",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    130,
+    140
+   ],
+   "major": true,
+   "note": "Royaume-Uni, 2009-2012, Burial. Retour au 2-step par le dubstep, avec grain de vinyle et voix hachees.",
+   "aliases": [
+    "Future Garage UK"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "grime",
+   "label": "Grime",
+   "family": "bass",
+   "structuralParent": "2step",
+   "parents": [
+    {
+     "id": "2step",
+     "family": "bass",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    138,
+    142
+   ],
+   "major": true,
+   "note": "Londres est, 2002-2004, Wiley, Dizzee Rascal. Le 2-step devient un support de rap britannique, sur des sons de synthese durs.",
+   "aliases": [
+    "Eskibeat",
+    "Sublow"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "bassline",
+   "label": "Bassline",
+   "family": "bass",
+   "structuralParent": "speedgarage",
+   "parents": [
+    {
+     "id": "speedgarage",
+     "family": "bass",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    135,
+    142
+   ],
+   "major": false,
+   "note": "Sheffield et Nord de l'Angleterre, 2005-2008. Le speed garage avec une basse au premier plan et des voix soul.",
+   "aliases": [
+    "Niche",
+    "Bassline House",
+    "4x4 Garage"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "ukfunky",
+   "label": "UK Funky",
+   "family": "bass",
+   "structuralParent": "2step",
+   "parents": [
+    {
+     "id": "2step",
+     "family": "bass",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    128,
+    132
+   ],
+   "major": false,
+   "note": "Londres, 2008-2010. Le garage rencontre les percussions afro et latines, retour au quatre temps.",
+   "aliases": [
+    "Funky House UK",
+    "UK Funky House"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "breakstep",
+   "label": "Breakstep",
+   "family": "bass",
+   "structuralParent": "2step",
+   "parents": [
+    {
+     "id": "2step",
+     "family": "bass",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    135,
+    145
+   ],
+   "major": false,
+   "note": "Royaume-Uni, 2002-2005. Chainon entre le 2-step et le dubstep, avec des breaks encore audibles.",
+   "aliases": [
+    "Break Step"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "ukbass",
+   "label": "UK Bass",
+   "family": "bass",
+   "structuralParent": "dubstep",
+   "parents": [
+    {
+     "id": "dubstep",
+     "family": "bass",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    128,
+    145
+   ],
+   "major": true,
+   "note": "Royaume-Uni, apres 2010. Terme parapluie assume, pour tout ce qui vient du garage et du dubstep sans se ranger dans un genre. Filiation debattue par nature : c'est une categorie, pas un style.",
+   "aliases": [
+    "Bass Music",
+    "Post-Dubstep"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "wonky",
+   "label": "Wonky",
+   "family": "bass",
+   "structuralParent": "ukbass",
+   "parents": [
+    {
+     "id": "ukbass",
+     "family": "bass",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    130,
+    140
+   ],
+   "major": false,
+   "note": "Fin des annees 2000, Hudson Mohawke, Rustie. Synthetiseurs desaccordes et rythmes titubants.",
+   "aliases": [
+    "Wonky Bass",
+    "Aquacrunk"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "futurebass",
+   "label": "Future Bass",
+   "family": "bass",
+   "structuralParent": "ukbass",
+   "parents": [
+    {
+     "id": "ukbass",
+     "family": "bass",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    140,
+    160
+   ],
+   "major": false,
+   "note": "Annees 2010. Accords de synthese satures et voix aigues. Filiation debattue : sa parente avec le UK bass est reelle mais son centre de gravite est nord-americain, et certains le rangeraient dans une famille propre.",
+   "aliases": [
+    "Future Bass EDM"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "trapedm",
+   "label": "Trap",
+   "family": "bass",
+   "structuralParent": "ukbass",
+   "parents": [
+    {
+     "id": "ukbass",
+     "family": "bass",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    140,
+    160
+   ],
+   "major": false,
+   "note": "Annees 2010, versant electronique du trap d'Atlanta. Filiation debattue pour la meme raison que le future bass : le rattacher au UK bass est une commodite d'arbre, son ascendance principale est le hip-hop du Sud, hors de ce corpus.",
+   "aliases": [
+    "EDM Trap",
+    "Festival Trap"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "baltimoreclub",
+   "label": "Baltimore Club",
+   "family": "bass",
+   "structuralParent": "ukgarage",
+   "parents": [
+    {
+     "id": "chicagohouse",
+     "family": "house",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    128,
+    135
+   ],
+   "major": false,
+   "note": "Baltimore, 1991. RATTACHEMENT CONVENTIONNEL : ce genre ne descend pas du UK garage, il lui est anterieur et parallele. Sa vraie ascendance est la house de Chicago et le hip-hop, d'ou la greffe. Il est range ici parce que la famille bass rassemble les musiques de club a basse dominante.",
+   "structuralOnly": true,
+   "aliases": [
+    "Bmore Club",
+    "Baltimore Breaks"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "jerseyclub",
+   "label": "Jersey Club",
+   "family": "bass",
+   "structuralParent": "baltimoreclub",
+   "parents": [
+    {
+     "id": "baltimoreclub",
+     "family": "bass",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    130,
+    140
+   ],
+   "major": false,
+   "note": "Newark, annees 2000. Descendant direct du Baltimore club, avec voix hachees et grosse caisse en rafale.",
+   "aliases": [
+    "Jersey Sound",
+    "Brick City Club"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "deconstructedclub",
+   "label": "Deconstructed Club",
+   "family": "bass",
+   "structuralParent": "ukbass",
+   "parents": [
+    {
+     "id": "ukbass",
+     "family": "bass",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    120,
+    160
+   ],
+   "major": false,
+   "note": "Annees 2010, labels Janus, PAN, NAAFI. La musique de club demontee : rythme instable, textures abrasives, forme ouverte.",
+   "aliases": [
+    "Post-Club",
+    "Deconstructed"
    ],
    "tracks": {
     "essentiel": [],

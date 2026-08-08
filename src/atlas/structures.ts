@@ -53,7 +53,9 @@ const CENTERS: Record<string, readonly [number, number, number]> = {
   industrial: [16, 31, 25],
   /* La racine se place SOUS l'atlas : elle est l'origine de tout ce qui est
      au-dessus, et la position le dit. */
-  roots: [-4, -26, 4]
+  roots: [-4, -26, 4],
+  breaks: [-38, 20, 16],
+  bass: [-50, 12, 34]
 };
 
 export const FAMILIES: readonly Family[] = CORPUS.families.map((f) => ({
