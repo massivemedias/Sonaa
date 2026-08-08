@@ -31,7 +31,7 @@ import {
   familyRadius,
   ATLAS_CENTER,
   pathToGenre
-} from './masses.ts';
+} from './structures.ts';
 
 import {
   backgroundFrag,
@@ -70,7 +70,7 @@ const oklchToSrgb = (L: number, C: number, hDeg: number): [number, number, numbe
 
 // ------------------------------------------------------------------ types
 
-export interface ProtoStats {
+export interface AtlasStats {
   fps: number;
   drawCalls: number;
   spheres: number;
@@ -83,10 +83,10 @@ export interface ProtoStats {
   labelsShown: number;
   genreLabelsShown: number;
   reduced: boolean;
-  results: ProtoResults | null;
+  results: AtlasResults | null;
 }
 
-export interface ProtoResults {
+export interface AtlasResults {
   backgroundMs: number;
   spheresMs: number;
   linksMs: number;
@@ -124,10 +124,10 @@ export interface PanelState {
   visible: boolean;
 }
 
-export interface ProtoHandles {
+export interface AtlasHandles {
   canvas: HTMLCanvasElement;
   labelLayer: HTMLElement;
-  onStats: (stats: ProtoStats) => void;
+  onStats: (stats: AtlasStats) => void;
   onNavigate: (nav: NavState) => void;
   /** Demande d'ouverture du panneau morceaux pour un genre. */
   onTracks: (familyIndex: number, genreLocal: number) => void;
@@ -136,7 +136,7 @@ export interface ProtoHandles {
   onContextLost: () => void;
 }
 
-export interface ProtoApi {
+export interface AtlasApi {
   dispose: () => void;
   runProfile: () => Promise<void>;
   recenter: () => void;
@@ -202,7 +202,7 @@ const backOut = (t: number): number => {
 
 // ------------------------------------------------------------------ init
 
-export const initProto = (handles: ProtoHandles): ProtoApi => {
+export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   const { canvas, labelLayer, onStats, onNavigate, onTracks, onPanel, onContextLost } = handles;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -777,7 +777,7 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
   const onFirstInteraction = (): void => {
     if (interacted) return;
     interacted = true;
-    document.documentElement.dataset['protoTouched'] = '1';
+    document.documentElement.dataset['atlasTouched'] = '1';
   };
 
   const onPointerDown = (event: PointerEvent): void => {
@@ -1077,7 +1077,7 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
   const labelSlots: LabelSlot[] = [];
   for (let i = 0; i < LABEL_POOL; i += 1) {
     const el = document.createElement('span');
-    el.className = 'proto-label';
+    el.className = 'atlas-label';
     el.style.transform = 'translate3d(-9999px,-9999px,0)';
     labelLayer.appendChild(el);
     labelSlots.push({ el, key: '', x: -9999, y: -9999, px: 14, opacity: 0, visible: false });
@@ -1551,7 +1551,7 @@ const OVERLAP_TOLERANCE = 4;
     return (performance.now() - t0) / iterations;
   };
 
-  let results: ProtoResults | null = null;
+  let results: AtlasResults | null = null;
   let profiling = false;
 
   const runProfile = async (): Promise<void> => {
@@ -1828,7 +1828,7 @@ const OVERLAP_TOLERANCE = 4;
   requestAnimationFrame(frame);
   void runProfile();
 
-  (window as unknown as { __proto?: unknown }).__proto = {
+  (window as unknown as { __atlas?: unknown }).__atlas = {
     measureGpu,
     measureLabels,
     runProfile,

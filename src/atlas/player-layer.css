@@ -431,3 +431,17 @@
     transition: none;
   }
 }
+
+/* Pochette procédurale : même gabarit qu'une image, dessinée au lieu d'être
+   téléchargée. Dernier recours quand aucune source n'a d'image. */
+.panel-cover-generated,
+.panel-thumb .procedural-cover {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.panel-cover-generated .procedural-cover {
+  width: 100%;
+  height: 100%;
+}

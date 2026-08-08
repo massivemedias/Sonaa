@@ -9,7 +9,7 @@
    Aucun aria-expanded à maintenir à la main, donc aucune occasion de mentir. */
 
 import { useMemo } from 'react';
-import { FAMILIES, FAMILY_LINKS, STRUCTURES } from './masses.ts';
+import { FAMILIES, FAMILY_LINKS, STRUCTURES } from './structures.ts';
 import './index-view.css';
 
 export function IndexPage() {
@@ -39,7 +39,7 @@ export function IndexPage() {
           contenu et mêmes liens que l&apos;espace, sans la matière.
         </p>
         <p className="index-mono">
-          <a href="#/proto">Ouvrir l&apos;espace 3D</a>
+          <a href="#/">Ouvrir l&apos;atlas 3D</a>
         </p>
       </header>
 

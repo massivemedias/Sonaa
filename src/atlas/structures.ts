@@ -49,7 +49,8 @@ const CENTERS: Record<string, readonly [number, number, number]> = {
   techno:  [9, 12, -20],
   minimal: [22, 4, -33],
   trance:  [30, 21, -5],
-  psy:     [45, 15, 11]
+  psy:     [45, 15, 11],
+  industrial: [16, 31, 25]
 };
 
 export const FAMILIES: readonly Family[] = CORPUS.families.map((f) => ({

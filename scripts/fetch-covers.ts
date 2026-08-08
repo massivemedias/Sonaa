@@ -20,6 +20,15 @@
    script, le seul appel tiers qui reste est l'iframe YouTube, et seulement à la
    lecture.
 
+   Recadrage : une vignette YouTube est en 16:9, la pochette est carrée. On
+   recadre depuis le CENTRE et non depuis le haut, sinon on garde le ciel et on
+   coupe le sujet. Et si `maxresdefault` n'existe pas, on descend sur
+   `hqdefault`, qui existe toujours.
+
+   Dernier repli : aucune image du tout. On ne met alors pas une vignette laide,
+   on ne met rien, et l'interface dessine une pochette procédurale avec la teinte
+   de la famille et les initiales de l'artiste.
+
    Usage : npm run fetch:covers [-- --force]
    Sans --force, un morceau qui a déjà une pochette iTunes n'est pas réinterrogé. */
 
@@ -209,7 +218,16 @@ let missing = 0;
 
 for (const genre of corpus.genres) {
   for (const track of genre.tracks) {
-    if (!track.cover) continue;
+    /* Un morceau sans pochette retenue prend le repli vignette, même en
+       --covers-only : sinon les morceaux ajoutés après la dernière recherche
+       iTunes resteraient sans image du tout. */
+    if (!track.cover) {
+      track.cover = {
+        url: `https://i.ytimg.com/vi/${track.youtubeId}/maxresdefault.jpg`,
+        source: 'youtube',
+        local: `covers/${track.youtubeId}.jpg`
+      };
+    }
     track.cover.local = `covers/${track.youtubeId}.jpg`;
     const dest = `${OUT}/${track.youtubeId}.jpg`;
 
@@ -222,9 +240,14 @@ for (const genre of corpus.genres) {
       // pas encore téléchargée
     }
 
+    /* Ordre de repli : l'URL retenue, puis les gabarits YouTube du plus grand
+       au plus petit. hqdefault existe pour toute vidéo publique. */
     const candidates = [track.cover.url];
     if (track.cover.source === 'youtube') {
-      candidates.push(`https://i.ytimg.com/vi/${track.youtubeId}/hqdefault.jpg`);
+      candidates.push(
+        `https://i.ytimg.com/vi/${track.youtubeId}/sddefault.jpg`,
+        `https://i.ytimg.com/vi/${track.youtubeId}/hqdefault.jpg`
+      );
     }
 
     let ok = false;
@@ -244,6 +267,9 @@ for (const genre of corpus.genres) {
       }
     }
     if (!ok) {
+      /* Aucune image : on retire la pochette au lieu d'en garder une qui
+         pointe dans le vide. L'interface dessinera une pochette procédurale. */
+      delete track.cover;
       missing += 1;
       console.warn(`  image introuvable : ${genre.id} ${track.artist} - ${track.title}`);
     }
@@ -254,6 +280,11 @@ writeFileSync(CORPUS, `${JSON.stringify(corpus, null, 1)}\n`, 'utf8');
 
 console.log(
   `Images locales : ${downloaded} téléchargées, ${already} déjà présentes, ${missing} manquantes.`
+);
+console.log(
+  'Recadrage carré depuis le centre à faire ensuite :\n' +
+    "  cd public/covers && for f in *.jpg; do magick \"$f\" -resize 400x400^ " +
+    '-gravity center -extent 400x400 -quality 78 -strip "$f"; done'
 );
 
 const total = corpus.genres.reduce((n, g) => n + g.tracks.length, 0);

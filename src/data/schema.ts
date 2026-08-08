@@ -14,7 +14,17 @@
 
 import { z } from 'zod';
 
-export const FAMILY_IDS = ['disco', 'house', 'techno', 'minimal', 'trance', 'psy'] as const;
+export const FAMILY_IDS = [
+  'disco',
+  'house',
+  'techno',
+  'minimal',
+  'trance',
+  'psy',
+  /* Ajoutée pour résoudre les quatre greffes EBM qui restaient déclarées mais
+     non résolues : Dark Disco, Industrial Techno, Trance et Goa Trance. */
+  'industrial'
+] as const;
 export type FamilyId = (typeof FAMILY_IDS)[number];
 
 const familyId = z.enum(FAMILY_IDS);

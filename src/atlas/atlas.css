@@ -2,14 +2,14 @@
    CSS global volontairement : la couche WebGL crée les labels en impératif et
    a besoin de noms de classes stables. */
 
-.proto-root {
+.atlas-root {
   position: fixed;
   inset: 0;
   overflow: hidden;
   background: oklch(0.16 0.012 250);
 }
 
-.proto-canvas {
+.atlas-canvas {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -21,24 +21,24 @@
   transition: opacity 300ms var(--motion-ease);
 }
 
-.proto-canvas:active {
+.atlas-canvas:active {
   cursor: grabbing;
 }
 
-.proto-canvas[data-active='true'] {
+.atlas-canvas[data-active='true'] {
   opacity: 1;
 }
 
 /* --- Couche DOM : tout le texte ----------------------------------------- */
 
-.proto-labels {
+.atlas-labels {
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 2;
 }
 
-.proto-label {
+.atlas-label {
   position: absolute;
   top: 0;
   left: 0;
@@ -63,20 +63,20 @@
 }
 
 /* Nom de famille : au-dessus des genres, jamais dessous, et plus gras. */
-.proto-label[data-major='1'] {
+.atlas-label[data-major='1'] {
   z-index: 3;
   font-weight: var(--weight-family);
   letter-spacing: var(--tracking-family);
   text-transform: uppercase;
 }
 
-.proto-label[data-kind='genre'] {
+.atlas-label[data-kind='genre'] {
   z-index: 2;
 }
 
 /* --- Repli --------------------------------------------------------------- */
 
-.proto-fallback {
+.atlas-fallback {
   position: absolute;
   inset: 0;
   z-index: 1;
@@ -88,14 +88,14 @@
   padding: 2rem;
 }
 
-.proto-fallback-notice {
+.atlas-fallback-notice {
   font-family: var(--font-ui);
   font-size: 0.6875rem;
   letter-spacing: 0.05em;
   color: var(--ink-secondary);
 }
 
-.proto-fallback-list {
+.atlas-fallback-list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -107,7 +107,7 @@
   border: 1px solid var(--rule-hairline);
 }
 
-.proto-fallback-list li {
+.atlas-fallback-list li {
   display: flex;
   align-items: center;
   gap: 0.6rem;
@@ -118,12 +118,12 @@
   color: var(--ink-secondary);
 }
 
-.proto-fallback-list strong {
+.atlas-fallback-list strong {
   color: var(--ink-primary);
   font-weight: 500;
 }
 
-.proto-fallback-dot {
+.atlas-fallback-dot {
   width: 0.55rem;
   height: 0.55rem;
   border-radius: 50%;
@@ -132,7 +132,7 @@
 
 /* --- HUD ----------------------------------------------------------------- */
 
-.proto-hud {
+.atlas-hud {
   position: absolute;
   top: 0.75rem;
   right: 0.75rem;
@@ -146,7 +146,7 @@
   color: var(--ink-secondary);
 }
 
-.proto-hud-title {
+.atlas-hud-title {
   font-size: 0.625rem;
   letter-spacing: 0.09em;
   text-transform: uppercase;
@@ -156,39 +156,39 @@
   margin-bottom: 0.55rem;
 }
 
-.proto-hud-grid {
+.atlas-hud-grid {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 0.18rem 0.75rem;
   margin: 0 0 0.9rem;
 }
 
-.proto-hud-grid dd {
+.atlas-hud-grid dd {
   margin: 0;
   text-align: right;
   color: var(--ink-primary);
 }
 
-.proto-hud-grid dd[data-alert='true'] {
+.atlas-hud-grid dd[data-alert='true'] {
   color: oklch(0.72 0.15 30);
 }
 
-.proto-hud-grid dd[data-strong='true'] {
+.atlas-hud-grid dd[data-strong='true'] {
   color: oklch(0.82 0.14 150);
 }
 
-.proto-hud-wait {
+.atlas-hud-wait {
   margin-bottom: 0.9rem;
 }
 
-.proto-hud-actions {
+.atlas-hud-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.3rem;
   margin-bottom: 0.7rem;
 }
 
-.proto-hud-actions button {
+.atlas-hud-actions button {
   font-family: var(--font-ui);
   font-size: 0.625rem;
   color: var(--ink-primary);
@@ -198,11 +198,11 @@
   cursor: pointer;
 }
 
-.proto-hud-actions button:hover {
+.atlas-hud-actions button:hover {
   border-color: var(--rule-strong);
 }
 
-.proto-hud-note {
+.atlas-hud-note {
   font-size: 0.5938rem;
   line-height: 1.55;
   color: var(--ink-secondary);
@@ -210,8 +210,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .proto-canvas,
-  .proto-label {
+  .atlas-canvas,
+  .atlas-label {
     transition: none;
   }
 }
@@ -235,12 +235,12 @@
 
 /* ===================== NAVIGATION ACCESSIBLE ===================== */
 
-.proto-canvas[data-suspended='true'] {
+.atlas-canvas[data-suspended='true'] {
   filter: blur(7px) saturate(0.7);
   transform: scale(1.04);
 }
 
-.proto-labels[data-suspended='true'] {
+.atlas-labels[data-suspended='true'] {
   opacity: 0;
   pointer-events: none;
 }
@@ -345,11 +345,11 @@
   cursor: pointer;
 }
 
-.proto-hud {
+.atlas-hud {
   top: 3.2rem;
 }
 
-.proto-hud-link {
+.atlas-hud-link {
   font-family: var(--font-ui);
   font-size: 0.625rem;
   color: var(--ink-secondary);
@@ -370,7 +370,7 @@
   .track-play {
     transition: none;
   }
-  .proto-canvas[data-suspended='true'] {
+  .atlas-canvas[data-suspended='true'] {
     transform: none;
   }
 }
@@ -386,7 +386,7 @@
 }
 
 /* Noeud focalisé : graisse plus forte que ses dérivés. */
-.proto-label[data-focus='1'] {
+.atlas-label[data-focus='1'] {
   font-weight: var(--weight-family);
 }
 

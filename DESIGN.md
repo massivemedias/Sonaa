@@ -5,6 +5,17 @@ Statut : proposition, en attente de validation.
 
 ---
 
+---
+
+## 0. Statut de ce document
+
+> **L'atlas n'est plus un prototype.** Il vit dans `src/atlas/` et la racine du
+> site l'ouvre directement. Partout où ce document, ou ARCHITECTURE.md, parle
+> d'un prototype jetable, c'est caduc : voir ADR-034. Les sections marquées
+> CADUC décrivent des concepts abandonnés et sont conservées pour mémoire, afin
+> qu'on ne les repropose pas sans raison neuve.
+
+
 ## 1. L'objet de référence
 
 SONAA n'est pas un site de musique. C'est **une planche de relevé**.

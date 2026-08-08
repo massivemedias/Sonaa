@@ -480,6 +480,9 @@ ci-dessus ne suffisent pas une fois mesurées ensemble.
 
 ## ADR-024 : La vue liste devient un chemin de première classe
 
+> **Toujours en vigueur.** La route est `#/index`. La racine du site ouvre
+> désormais l'atlas et non une page d'accueil, voir ADR-031 et ADR-034.
+
 > Précise ADR-008 et remplace la notion de repli graphique.
 
 **Contexte.** Le repli sans WebGL dessinait la frise en SVG. La frise n'existe
@@ -810,6 +813,67 @@ une chasse fixe finit par en ramener une.
 
 **Mesure.** 4 appels de dessin, image complete a 0,081 ms pour un budget de
 16,67 ms.
+
+---
+
+## ADR-034 : L'atlas est le produit, la famille industrial ferme les greffes
+
+**Contexte.** `src/proto/` etait declare jetable, et le depot servait une page
+d'accueil P0 devant l'atlas. Les deux etaient vrais tant que la direction
+n'etait pas tranchee. Elle l'est : c'est l'atlas qu'on regarde, qu'on navigue et
+qu'on ecoute.
+
+**Decision 1 : plus de prototype.** `src/proto/` devient `src/atlas/`, et la
+racine du site ouvre l'atlas directement. La page d'accueil P0 et `src/app/`
+sont supprimees. `#/index` reste la vue liste accessible, chemin de premiere
+classe et non repli (ADR-024). Renommages internes : `ProtoPage` devient
+`AtlasPage`, `masses.ts` devient `structures.ts`, les classes `proto-*`
+deviennent `atlas-*`, `window.__proto` devient `window.__atlas`.
+
+Tout ce qui, dans DESIGN.md, ARCHITECTURE.md et HANDOFF.md, decrivait ce code
+comme jetable est caduc. Le nom `masses` l'etait deja : il venait des masses
+volumetriques abandonnees.
+
+**Decision 2 : la famille industrial entre dans le corpus.** Huit genres,
+d'Industrial a Neue Deutsche Haerte. Elle resout les quatre greffes vers l'EBM
+qui restaient declarees mais non resolues, faute de cible : Dark Disco,
+Industrial Techno, Trance et Goa Trance. Le corpus passe de 60 a 68 genres, de 6
+a 7 familles, de 11 a 15 greffes, et il n'en reste aucune en suspens.
+
+Teinte 60, laiton oxyde. Ecart de 45 degres avec le disco, de 136 avec le
+minimal, et hors de la zone olive-kaki interdite entre 90 et 120 degres.
+
+**Decision 3 : le test de correspondance des morceaux exigeait l'artiste OU le
+titre, il exige maintenant les deux.** L'ancienne regle acceptait un mot commun
+sur trois : une recherche « Phase Fatale Reproduction » renvoyait « Velvet
+Imprints », du bon artiste et du mauvais morceau, et passait. Le cas inverse
+existe aussi, une reprise du meme titre par quelqu'un d'autre. La regle est
+maintenant couverture du titre superieure a 0,6 ET couverture de l'artiste
+superieure a 0,34, sur des jetons replies pour les accents et les
+transcriptions allemandes, avec correspondance par prefixe de quatre lettres.
+
+Cout de cette rigueur, mesure : 41 morceaux sur 202 rejetes a la revision. Apres
+choix de meilleurs candidats sur les genres de niche, 190 morceaux verifies sur
+204 vises, aucun genre vide. C'est le prix d'un corpus dont chaque ligne est
+vraie.
+
+**Decision 4 : trois niveaux de repli pour les pochettes.** Pochette iTunes,
+sinon vignette de la video, sinon pochette dessinee. Les vignettes YouTube en
+`hqdefault` et `sddefault` sont en 4:3 avec des bandes noires : on retire les
+bandes AVANT le recadrage carre, sinon le carre est a moitie noir. Le recadrage
+part du centre, jamais du haut. En dernier recours, `ProceduralCover` dessine un
+carre avec la teinte de la famille et les initiales de l'artiste, en SVG,
+`preserveAspectRatio="xMidYMid slice"` pour remplir la fenetre 16:9 sans bandes.
+
+**Decision 5 : le champ affiche s'appelle album, pas label.** iTunes ne donne
+que l'album ; le label de disque demanderait un jeton Discogs. L'interface
+ecrit « Album X » plutot que de laisser croire a un label.
+
+**Titre et partage.** `document.title` suit la navigation, en point median et non
+en tiret cadratin. L'image de partage est generee depuis la palette reelle du
+corpus, 1200 x 630. Les metadonnees Open Graph exigent une URL ABSOLUE par
+specification : c'est la seule exception a la regle du chemin relatif, declaree
+une fois dans `index.html`.
 
 ---
 

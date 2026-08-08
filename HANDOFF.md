@@ -16,23 +16,27 @@ fonctionnel. Deux commits sur `main` après la recréation du dépôt.
 **Phase P1 faite en v1.** `src/data/corpus.json` porte 60 genres reels sur six
 familles, valide par le schema Zod de `src/data/schema.ts` et par
 `npm run validate:data`. 178 identifiants YouTube verifies par oEmbed, sans cle.
-Le corpus est branche dans le prototype 3D a la place des donnees generees, et
-la vue morceaux lit reellement via l'iframe officielle.
+Le corpus est branche dans l'atlas 3D, et la vue morceaux lit reellement via
+l'iframe officielle. Sept familles, 68 genres, 190 morceaux verifies.
 
-**A relire par Mika :** `CORPUS.md`, les 60 filiations, dont 15 marquees
+**A relire par Mika :** `CORPUS.md`, les 68 filiations, dont 17 marquees
 `debated`. Dark disco, indie dance et psy-prog sont son terrain.
 
-**Un prototype jetable vit dans `src/proto/`.** Il n'est pas le produit : c'est
-l'instrument qui sert à valider la direction avant d'écrire le corpus. Il est
-volontairement inclus dans le build de production pendant la phase de
-validation, pour être regardable en ligne.
+**Reste a faire sur les pochettes :** relancer `npm run fetch:covers -- --force`
+quand le quota iTunes sera revenu. iTunes limite par adresse IP sur une fenetre
+longue et repond 403 pendant des heures : 27 pochettes sur 190 seulement sont de
+vraies pochettes, les autres sont des vignettes de video recadrees.
+
+**L'atlas EST le produit, il vit dans `src/atlas/`.** Le mot « prototype » est
+caduc : la direction est tranchée, c'est ce code qu'on regarde, qu'on navigue et
+qu'on écoute. La racine du site l'ouvre directement, il n'y a plus de page
+d'accueil P0 à traverser. Voir ADR-034.
 
 - `https://massivemedias.github.io/Sonaa/#/proto` l'espace 3D, 60 genres reels
 - `https://massivemedias.github.io/Sonaa/#/index` la vue liste accessible
 - `https://massivemedias.github.io/Sonaa/` la page d'accueil P0
 
-Le prototype et `src/proto/` seront **supprimés** quand le vrai moteur sera
-écrit. Rien de ce qu'il contient n'est du code de production.
+Ce qui reste à faire dessus est de l'affinage, pas un remplacement.
 
 ---
 
@@ -171,7 +175,7 @@ navigateur à 0×0, ce qui rendait toute capture en fichier impossible. Mika
 regarde directement en ligne.
 
 **Vue liste `#/index`.** Elle existe et fonctionne, mais elle est branchée sur
-les données factices du prototype. À rebrancher sur le corpus réel en P1.
+les données factices. Rebranché sur le corpus réel, cette note est caduque.
 
 ---
 
@@ -257,7 +261,7 @@ s'est retrouvé dans `ARCHITECTURE.md` et n'a été rattrapé qu'avant le push.
 
 **Les vrais noms avant le graphisme.** On ne juge pas une mise en page avec des
 noeuds nommés `disco-1` et `disco-2`. Le corpus passe donc avant toute nouvelle
-passe graphique, et le prototype sera rejugé une fois les vrais noms branchés.
+passe graphique. Fait : les vrais noms sont branchés.
 
 **Mika ne délègue pas le corpus.** L'agent ne remplit pas les 60 genres seul.
 Il produit **un brouillon par lignée**, et Mika relit **chaque filiation** avant
@@ -356,7 +360,7 @@ machine lente.
 dynamique après le premier rendu. Actuellement : index 62 K, webgl 137 K,
 proto 4 K. Marge confortable.
 
-**Performance actuelle** du prototype, mesurée : 0,10 ms au pire sur les 16,67 ms
+**Performance mesurée**, panneau morceaux ouvert : 0,081 ms sur les 16,67 ms
 d'un budget 60 images par seconde, 3 appels de dessin, 204 sphères, 204 liens.
 
 ---

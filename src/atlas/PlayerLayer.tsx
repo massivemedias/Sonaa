@@ -19,7 +19,8 @@
       que quand le genre change, la position est appliquée en style direct. */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { FAMILIES, STRUCTURES, type Track } from './masses.ts';
+import { FAMILIES, STRUCTURES, type Track } from './structures.ts';
+import { ProceduralCover } from './ProceduralCover.tsx';
 import type { PanelState } from './webgl.ts';
 import './player-layer.css';
 
@@ -397,13 +398,25 @@ export function PlayerLayer({ bus, panelGenre, onClose, onReopen }: Props) {
           {/* Fenêtre vidéo : au repos la pochette, en lecture la vidéo, au
               même endroit et au même gabarit. */}
           <div className="panel-window">
-            {!playingHere && shownInPanel?.cover && (
-              <img
-                className="panel-cover"
-                src={shownInPanel.cover}
-                alt={`Pochette de ${shownInPanel.title}`}
-                draggable={false}
-              />
+            {/* Ni pochette iTunes ni vignette de vidéo : on en dessine une
+                plutôt que de laisser un trou ou une image cassée. */}
+            {!playingHere && shownInPanel && (
+              shownInPanel.cover ? (
+                <img
+                  className="panel-cover"
+                  src={shownInPanel.cover}
+                  alt={`Pochette de ${shownInPanel.title}`}
+                  draggable={false}
+                />
+              ) : (
+                <span className="panel-cover panel-cover-generated">
+                  <ProceduralCover
+                    artist={shownInPanel.artist}
+                    title={shownInPanel.title}
+                    hue={panelFamily.hue}
+                  />
+                </span>
+              )
             )}
             {!playingHere && shownInPanel && (
               <button
@@ -422,15 +435,23 @@ export function PlayerLayer({ bus, panelGenre, onClose, onReopen }: Props) {
           </div>
 
           <div className="panel-body">
+            {/* La greffe est nommée ici : c'est la seule trace visible qu'un
+                genre descend aussi d'une autre famille. */}
             <p className="panel-genre">
-              {panelFamily.label} · {panelGenreData.bpmRange[0]}-{panelGenreData.bpmRange[1]} BPM
+              {panelFamily.label}
+              {panelGenreData.externalParents.length > 0 && (
+                <> · greffe {panelGenreData.externalParents.map((x) => x.label).join(', ')}</>
+              )}{' '}
+              · {panelGenreData.bpmRange[0]}-{panelGenreData.bpmRange[1]} BPM
             </p>
             <h2 className="panel-title">{shownInPanel ? shownInPanel.title : panelGenreData.label}</h2>
             <p className="panel-artist">
               {shownInPanel ? shownInPanel.artist : `${panelTracks.length} morceaux`}
             </p>
+            {/* Album et non label de disque : le label demanderait un jeton
+                Discogs, et nommer « label » ce qui est un album serait faux. */}
             <p className="panel-meta">
-              {shownInPanel?.album ? `${shownInPanel.album}` : panelGenreData.label}
+              {shownInPanel?.album ? `Album ${shownInPanel.album}` : panelGenreData.label}
               {shownInPanel?.year ? ` · ${shownInPanel.year}` : ''}
             </p>
 
@@ -444,7 +465,16 @@ export function PlayerLayer({ bus, panelGenre, onClose, onReopen }: Props) {
                     aria-label={`Lire ${track.title} de ${track.artist}`}
                     title={`${track.artist} - ${track.title}`}
                   >
-                    {track.cover ? <img src={track.cover} alt="" draggable={false} /> : null}
+                    {track.cover ? (
+                      <img src={track.cover} alt="" draggable={false} />
+                    ) : (
+                      <ProceduralCover
+                        artist={track.artist}
+                        title={track.title}
+                        hue={panelFamily.hue}
+                        size={120}
+                      />
+                    )}
                   </button>
                 </li>
               ))}

@@ -1,10 +1,10 @@
 /* Coquille du prototype. JETABLE, non branchée au reste du projet. */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { FAMILIES } from './masses.ts';
+import { FAMILIES, STRUCTURES } from './structures.ts';
 import { PlayerLayer, type PanelBus } from './PlayerLayer.tsx';
-import type { NavState, PanelState, ProtoApi, ProtoStats } from './webgl.ts';
-import './proto.css';
+import type { NavState, PanelState, AtlasApi, AtlasStats } from './webgl.ts';
+import './atlas.css';
 
 type Mode = 'attente' | 'webgl' | 'repli';
 
@@ -18,26 +18,26 @@ const hasWebGL = (): boolean => {
 };
 
 const fmt = (ms: number): string => `${ms.toFixed(2)} ms`;
-const HELP_KEY = 'sonaa-proto-help-seen';
+const HELP_KEY = 'sonaa-help-seen';
 
 function Fallback({ notice }: { notice: string }) {
   return (
-    <div className="proto-fallback">
-      <p className="proto-fallback-notice">{notice}</p>
-      <p className="proto-fallback-notice">
+    <div className="atlas-fallback">
+      <p className="atlas-fallback-notice">{notice}</p>
+      <p className="atlas-fallback-notice">
         <a href="#/index">Ouvrir l&apos;index, navigation complète des familles et des genres</a>
       </p>
     </div>
   );
 }
 
-export function ProtoPage() {
+export function AtlasPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
-  const apiRef = useRef<ProtoApi | null>(null);
+  const apiRef = useRef<AtlasApi | null>(null);
 
   const [mode, setMode] = useState<Mode>('attente');
-  const [stats, setStats] = useState<ProtoStats | null>(null);
+  const [stats, setStats] = useState<AtlasStats | null>(null);
   const [nav, setNav] = useState<NavState | null>(null);
   /* La géométrie du panneau change à chaque image pendant un vol de caméra.
      Elle ne passe donc pas par un état React : le bus la transmet en impératif
@@ -50,7 +50,7 @@ export function ProtoPage() {
   const [showHelp, setShowHelp] = useState(() => localStorage.getItem(HELP_KEY) !== '1');
   const [showHud, setShowHud] = useState(false);
 
-  const onStats = useCallback((next: ProtoStats) => setStats(next), []);
+  const onStats = useCallback((next: AtlasStats) => setStats(next), []);
   const onNavigate = useCallback((next: NavState) => setNav(next), []);
   const onTracks = useCallback(
     (familyIndex: number, genreLocal: number) => setPanelGenre({ familyIndex, genreLocal }),
@@ -80,13 +80,13 @@ export function ProtoPage() {
 
     let disposed = false;
     const id = window.setTimeout(() => {
-      void import('./webgl.ts').then(({ initProto }) => {
+      void import('./webgl.ts').then(({ initAtlas }) => {
         if (disposed) return;
         const canvas = canvasRef.current;
         const labelLayer = labelRef.current;
         if (!canvas || !labelLayer) return;
 
-        apiRef.current = initProto({
+        apiRef.current = initAtlas({
           canvas,
           labelLayer,
           onStats,
@@ -129,18 +129,35 @@ export function ProtoPage() {
     fn();
   };
 
+  /* Le titre du document suit la navigation : un onglet ouvert doit dire où on
+     en est, et un lien copié depuis la barre d'adresse doit être lisible.
+     Point médian et non tiret cadratin. */
+  useEffect(() => {
+    const parts: string[] = [];
+    if (panelGenre) {
+      const genre = STRUCTURES[panelGenre.familyIndex]?.genres[panelGenre.genreLocal];
+      if (genre) parts.push(`${genre.label}, morceaux`);
+    } else if (nav && nav.path.length > 0) {
+      const last = nav.path[nav.path.length - 1];
+      if (last) parts.push(last.label);
+    } else if (nav && nav.familyIndex >= 0) {
+      parts.push(nav.familyLabel);
+    }
+    document.title = parts.length > 0 ? `${parts.join(' ')} · SONAA` : 'SONAA';
+  }, [nav, panelGenre]);
+
   const results = stats?.results ?? null;
   const level = nav?.level ?? 'atlas';
 
   return (
-    <div className="proto-root" onPointerDown={dismissHelp} onWheel={dismissHelp}>
+    <div className="atlas-root" onPointerDown={dismissHelp} onWheel={dismissHelp}>
       <canvas
         ref={canvasRef}
-        className="proto-canvas"
+        className="atlas-canvas"
         data-active={mode === 'webgl'}
         data-suspended={false}
       />
-      <div ref={labelRef} className="proto-labels" data-suspended={panelGenre !== null} aria-hidden="true" />
+      <div ref={labelRef} className="atlas-labels" data-suspended={panelGenre !== null} aria-hidden="true" />
 
       {mode !== 'webgl' && <Fallback notice={reason} />}
 
@@ -231,9 +248,9 @@ export function ProtoPage() {
       </button>
 
       {showHud && (
-        <div className="proto-hud">
-          <p className="proto-hud-title">Prototype jetable</p>
-          <dl className="proto-hud-grid">
+        <div className="atlas-hud">
+          <p className="atlas-hud-title">Prototype jetable</p>
+          <dl className="atlas-hud-grid">
             <dt>familles</dt>
             <dd>{FAMILIES.length}</dd>
             <dt>sphères</dt>
@@ -253,7 +270,7 @@ export function ProtoPage() {
           </dl>
 
           {results ? (
-            <dl className="proto-hud-grid">
+            <dl className="atlas-hud-grid">
               <dt>fond</dt>
               <dd>{fmt(results.backgroundMs)}</dd>
               <dt>sphères</dt>
@@ -264,12 +281,12 @@ export function ProtoPage() {
               <dd data-alert={results.totalMs > 16.67}>{fmt(results.totalMs)}</dd>
             </dl>
           ) : (
-            <p className="proto-hud-wait">Mesure en cours…</p>
+            <p className="atlas-hud-wait">Mesure en cours…</p>
           )}
 
-          <div className="proto-hud-actions">
+          <div className="atlas-hud-actions">
             <button onClick={() => void apiRef.current?.runProfile()}>Remesurer</button>
-            <a className="proto-hud-link" href="#/index">Index accessible</a>
+            <a className="atlas-hud-link" href="#/index">Index accessible</a>
           </div>
         </div>
       )}
