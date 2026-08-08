@@ -7,6 +7,10 @@ Statut global : proposition, en attente de validation. Aucun code écrit.
 
 ## ADR-001 : Le layout est calculé au build, jamais au chargement
 
+> **CADUC.** Il n'y a plus de layout timeline à sérialiser. Les positions sont
+> dérivées de la filiation et calculées au chargement, en quelques millisecondes
+> pour 60 genres. Remplacé par ADR-028.
+
 **Contexte.** 180 noeuds, un ordonnancement de Sugiyama avec 8 à 12 passes puis jusqu'à
 300 itérations de relaxation. C'est de l'ordre de la seconde de calcul, sur le thread
 principal, avant le premier pixel.
@@ -25,6 +29,10 @@ le script `dev` pour ne pas produire de positions périmées en développement.
 
 ## ADR-002 : Un layout maison, aucune librairie de graphes
 
+> **PARTIELLEMENT CADUC.** La décision de ne prendre aucune librairie de graphes
+> tient. La justification, un axe Y contraint par le temps, ne tient plus : le
+> placement est une disposition en couronnes dérivée de la filiation.
+
 **Contexte.** react-flow, cytoscape et vis-network sont interdits par le brief, et à
 raison : leur rendu est identifiable au premier coup d'oeil. Mais il y a une raison plus
 forte.
@@ -41,6 +49,9 @@ ce qui est la promesse même du produit.
 ---
 
 ## ADR-003 : Le noeud est un segment, pas un point
+
+> **CADUC.** Le noeud est une sphère dont le rayon est indexé sur la profondeur
+> dans l'arbre de filiation. Plus aucun segment de durée, plus aucun `yearStart`.
 
 **Contexte.** Voir DESIGN.md section 2. Un genre occupe `[yearStart, yearEnd]` sur l'axe Y.
 
@@ -254,6 +265,8 @@ par un préchargement au survol.
 ---
 
 ## ADR-015 : Une seule rupture d'échelle, déclarée à l'écran
+
+> **CADUC.** Il n'y a plus d'échelle de temps, donc plus de rupture à déclarer.
 
 **Contexte.** Le linéaire strict de 1948 à aujourd'hui laisse une vingtaine d'années
 quasi vides entre la musique concrète et le krautrock, ce qui étire la planche sans rien
@@ -560,6 +573,98 @@ pire qu'aucune. Repli sur la miniature YouTube sinon.
 Le contrôle anti-secret de la CI (ADR-011) couvre déjà le cas où une clé
 fuiterait dans `dist/`. Contrepartie à assumer : les données vieillissent entre
 deux builds, et l'onglet « Actuel » n'est actuel qu'à la date du dernier build.
+
+---
+
+## ADR-028 : Séparation garantie des familles, et écartement dynamique
+
+**Contexte.** Les centres de familles étaient écrits à la main pour encoder la
+proximité stylistique, sans aucune garantie de non-chevauchement. Résultat
+constaté à l'écran : Breaks passait devant Disco, House débordait sur Electro, et
+on ne savait plus quelle sphère appartenait à quelle famille.
+
+**Décision.** Deux relaxations au chargement, puis un écartement dynamique.
+
+1. **Séparation en volume.** Les positions éditoriales servent de point de
+   départ, puis on impose une distance minimale égale à la somme des rayons
+   compacts plus une marge de 14 unités.
+2. **Séparation en projection.** La séparation en volume ne suffit pas : deux
+   familles éloignées mais alignées avec l'axe de vue se recouvrent à l'écran.
+   Une seconde passe les écarte dans le plan de l'écran à l'angle par défaut,
+   sans toucher à leur profondeur, avec une marge de 10 unités. La passe 1 est
+   ensuite rejouée pour ne rien casser.
+3. **Écartement dynamique.** Garantir la séparation à l'état déployé imposerait
+   un atlas quatre fois plus large et des amas minuscules. À l'ouverture d'une
+   famille, les autres sont donc **poussées radialement** pour laisser la place
+   réellement occupée, et rejoignent leur cible avec amortissement.
+
+**Conséquences.** La séparation en projection n'est garantie qu'à l'angle par
+défaut : c'est une limite inhérente à une projection, une rotation peut recréer
+des recouvrements. `DEFAULT_AZIMUTH` et `DEFAULT_ELEVATION` sont une seule
+source de vérité partagée entre les données et le moteur, parce que la relaxation
+en dépend.
+
+Mesuré après les trois passes : séparation minimale de 14,0 en volume et de 9,7
+en projection, aucun chevauchement.
+
+---
+
+## ADR-029 : Une seule famille déployée à la fois, anneaux limités au niveau navigable
+
+**Contexte.** Rien n'interdisait plusieurs familles ouvertes simultanément, et
+les anneaux indicateurs s'affichaient sur les 204 sphères de l'atlas, y compris
+sur des familles compactes où l'on ne peut pas encore descendre. L'ensemble se
+lisait comme un éparpillement.
+
+**Décision.** Ouvrir une famille referme automatiquement toute autre famille
+ouverte. Au niveau Atlas, toutes sont compactes. Les anneaux n'apparaissent que
+sur les sphères du **niveau actuellement navigable**, c'est-à-dire celles de la
+famille déployée : au niveau Atlas, aucun anneau.
+
+Les liens entre familles passent à **10 pour cent d'opacité** par défaut et ne
+s'allument qu'au survol ou à la sélection de l'une de leurs deux extrémités. Ils
+traversaient l'écran en diagonale et brouillaient toute lecture.
+
+**Conséquences.** L'état de l'atlas devient déterministe : zéro ou une famille
+ouverte, jamais deux. La comparaison de deux familles déployées côte à côte
+devient impossible, ce qui est un renoncement assumé au profit de la lisibilité.
+
+---
+
+## ADR-030 : Le DAG est la vérité, l'arbre est une vue
+
+**Contexte.** La généalogie musicale est un graphe orienté acyclique : la deep
+house descend de la house de Chicago et du garage de New York. Le rendu en
+couronnes suppose un parent unique pour positionner un noeud. C'est la
+contradiction de fond du projet, et la contourner en ne gardant qu'un parent
+reviendrait à mentir sur le contenu pour arranger le rendu.
+
+**Décision.** Les données portent **tous** les parents, le layout n'en utilise
+qu'un, désigné **explicitement**.
+
+```
+parents: Edge[]              la vérité généalogique, un DAG, aucune limite
+structuralParent?: GenreId   celui qui positionne, doit être l'un des parents
+                             et appartenir à la même famille
+```
+
+Le choix est nommé, pas déduit : ni « le premier de la liste », qu'un
+réordonnancement de JSON casserait, ni « celui de plus fort poids », qu'on règle
+pour d'autres raisons. Il est visible à la relecture et tranché genre par genre.
+
+Un genre sans `structuralParent` est le **fondateur de sa famille**. Il peut
+avoir des parents, mais dans d'autres familles. Exactement un par famille.
+
+Les autres parents deviennent des **greffes** : trait plus fin, sans effilement,
+opacité basse, autorisées à traverser d'une famille à l'autre, allumées au
+survol ou à la sélection d'une extrémité. La double ascendance cesse d'être un
+problème de layout pour devenir une couche d'information.
+
+**Conséquences.** Les liens entre familles ne sont plus déclarés à la main : ils
+se **dérivent** des parentés qui traversent une frontière de famille. Une seule
+source de vérité. Le validateur doit exiger `structuralParent` dès qu'un genre a
+un parent dans sa propre famille, vérifier qu'il en fait bien partie, et
+contrôler qu'il existe exactement un fondateur par famille.
 
 ---
 

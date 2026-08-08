@@ -52,11 +52,13 @@
   font-family: var(--font-ui);
   font-weight: var(--weight-genre);
   letter-spacing: 0.01em;
-  color: var(--ink-primary);
-  /* Plaque sombre obligatoire : le blanc sur une sphère claire ne dépasse pas
-     2,5:1, alors qu'il atteint 19:1 sur cette plaque. Mesuré, pas supposé. */
-  background: oklch(0.13 0.012 250 / 0.82);
-  border-radius: 2px;
+  color: #fff;
+  /* AUCUNE plaque, aucun fond, aucune bordure. Le contraste vient de deux
+     ombres portées et de l'assombrissement local de la sphère fait en shader.
+     Cette règle a déjà régressé une fois : ne pas la réintroduire. */
+  text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.7),
+    0 0 6px rgba(0, 0, 0, 0.7);
   transition: opacity 120ms linear;
 }
 

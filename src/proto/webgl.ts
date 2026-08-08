@@ -23,6 +23,11 @@ import {
   STRUCTURES,
   TOTAL_GENRES,
   TOTAL_INTERNAL_LINKS,
+  FAMILY_CENTERS,
+  FAMILY_MARGIN,
+  DEFAULT_AZIMUTH,
+  DEFAULT_ELEVATION,
+  familyRadius,
   ATLAS_CENTER,
   pathToGenre
 } from './masses.ts';
@@ -243,7 +248,7 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
       familyOffset[fi] = cursor;
       const structure = STRUCTURES[fi];
       if (!structure) return;
-      const [cx, cy, cz] = family.center;
+      const [cx, cy, cz] = FAMILY_CENTERS[fi] ?? family.center;
 
       structure.genres.forEach((genre, li) => {
         const i = cursor + li;
@@ -266,8 +271,10 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
           children: genre.children,
           parent: genre.parent,
           major: genre.major,
-          compact: new Vector3(cx + genre.compact[0], cy + genre.compact[1], cz + genre.compact[2]),
-          deployed: new Vector3(cx + genre.deployed[0], cy + genre.deployed[1], cz + genre.deployed[2]),
+          // Offsets RELATIFS au centre de famille : le centre bouge quand une
+          // famille se déploie et pousse les autres.
+          compact: new Vector3(...genre.compact),
+          deployed: new Vector3(...genre.deployed),
           world: new Vector3(cx + genre.compact[0], cy + genre.compact[1], cz + genre.compact[2])
         });
       });
@@ -440,8 +447,8 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
      fois trop petite. On mesure l'étendue VERTICALE réelle en espace caméra,
      qui ne dépend pas de la distance, et on résout. */
   const atlasDistance = (() => {
-    const az = 0.55;
-    const el = 0.2;
+    const az = DEFAULT_AZIMUTH;
+    const el = DEFAULT_ELEVATION;
     // Axe vertical de la caméra pour cette orientation d'orbite.
     const upX = -Math.sin(el) * Math.sin(az);
     const upY = Math.cos(el);
@@ -461,8 +468,8 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
 
   const target = atlasTarget.clone();
   const targetSmooth = target.clone();
-  let azimuth = 0.55;
-  let elevation = 0.2;
+  let azimuth = DEFAULT_AZIMUTH;
+  let elevation = DEFAULT_ELEVATION;
   let distance = atlasDistance;
   let azVel = 0;
   let elVel = 0;
@@ -571,6 +578,18 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
   const setDeploy = (familyIndex: number, open: boolean, now: number): void => {
     if (familyIndex < 0) return;
     const dir = open ? 1 : -1;
+
+    /* Une seule famille déployée à la fois. Au niveau Atlas, toutes sont
+       compactes ; ouvrir l'une referme l'autre, sans exception. */
+    if (open) {
+      for (let i = 0; i < FAMILIES.length; i += 1) {
+        if (i !== familyIndex && deployDir[i] === 1) {
+          deployDir[i] = -1;
+          deployStart[i] = now;
+        }
+      }
+    }
+
     if (deployDir[familyIndex] === dir) return;
     deployDir[familyIndex] = dir;
     deployStart[familyIndex] = now;
@@ -698,7 +717,7 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
   const projected = new Float32Array(TOTAL_GENRES * 3); // sx, sy, depth
   const scratch = new Vector3();
 
-  const familyRadius = (fi: number): number => STRUCTURES[fi]?.deployedRadius ?? 12;
+  const familyFrameRadius = (fi: number): number => STRUCTURES[fi]?.deployedRadius ?? 12;
 
   /* Rayon de cadrage d'un genre : lui et ses enfants directs. */
   const genreFrameRadius = (globalIndex: number): number => {
@@ -725,7 +744,7 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
     level = 'family';
     setDeploy(fi, true, now);
     const c = familyCenters[fi];
-    if (c) startFly(c, frameDistance(familyRadius(fi)), now);
+    if (c) startFly(c, frameDistance(familyFrameRadius(fi)), now);
     emitNav();
   };
 
@@ -779,7 +798,7 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
       focusIndex = -1;
       level = 'family';
       const c = activeFamily >= 0 ? familyCenters[activeFamily] : undefined;
-      if (c) startFly(c, frameDistance(familyRadius(activeFamily)), now);
+      if (c) startFly(c, frameDistance(familyFrameRadius(activeFamily)), now);
     } else if (level === 'family') {
       if (activeFamily >= 0) setDeploy(activeFamily, false, now);
       activeFamily = -1;
@@ -1118,7 +1137,46 @@ const OVERLAP_TOLERANCE = 4;
     labelCpuFrames += 1;
   };
 
-  const familyCenters = FAMILIES.map((f) => new Vector3(...f.center));
+  /* Centres de familles dynamiques. `base` vient de la relaxation qui garantit
+     la séparation à l'état compact. Quand une famille s'ouvre, les autres sont
+     poussées radialement pour lui laisser la place réellement occupée par son
+     déploiement, et rejoignent leur cible avec amortissement. */
+  const familyBase = FAMILY_CENTERS.map((c) => new Vector3(c[0], c[1], c[2]));
+  const familyTarget = familyBase.map((c) => c.clone());
+  const familyCenters = familyBase.map((c) => c.clone());
+  const pushDir = new Vector3();
+
+  const updateFamilyCenters = (): void => {
+    const open = openIndex;
+    const progress = open >= 0 ? clamp(familyProgress[open] ?? 0, 0, 1) : 0;
+
+    for (let i = 0; i < familyBase.length; i += 1) {
+      const base = familyBase[i];
+      const target = familyTarget[i];
+      if (!base || !target) continue;
+
+      if (open < 0 || i === open || progress <= 0.001) {
+        target.copy(base);
+      } else {
+        const origin = familyBase[open];
+        if (!origin) continue;
+        pushDir.copy(base).sub(origin);
+        const dist = pushDir.length() || 0.001;
+        pushDir.divideScalar(dist);
+
+        const needed =
+          familyRadius(open, true) * progress + familyRadius(i, false) + FAMILY_MARGIN;
+        target.copy(origin).addScaledVector(pushDir, Math.max(dist, needed));
+      }
+    }
+
+    const k = reducedMotion ? 1 : 0.12;
+    for (let i = 0; i < familyCenters.length; i += 1) {
+      const c = familyCenters[i];
+      const t = familyTarget[i];
+      if (c && t) c.lerp(t, k);
+    }
+  };
 
   // --------------------------------------------------------------- rendu
 
@@ -1273,6 +1331,9 @@ const OVERLAP_TOLERANCE = 4;
     nearestIndex = best;
     nearestDist = bestDist;
 
+    // Les autres familles s'écartent avant qu'on calcule les positions.
+    updateFamilyCenters();
+
     // Positions : interpolation compacte vers déployée, en cascade.
     for (let fi = 0; fi < FAMILIES.length; fi += 1) familyProgress[fi] = 1;
 
@@ -1284,7 +1345,9 @@ const OVERLAP_TOLERANCE = 4;
       if (!slot) continue;
 
       const p = clamp(genreProgress(slot, now), -0.2, 1.2);
+      const center = familyCenters[slot.family];
       slot.world.lerpVectors(slot.compact, slot.deployed, p);
+      if (center) slot.world.add(center);
 
       const fp = familyProgress[slot.family] ?? 1;
       familyProgress[slot.family] = Math.min(fp, clamp(p, 0, 1));
@@ -1293,9 +1356,19 @@ const OVERLAP_TOLERANCE = 4;
          par génération, tandis que le reste de la famille se replie. C'est la
          même grammaire que la diffusion de famille, un cran plus bas. */
       let presence = 1;
-      let ringOn = slot.children.length;
+      /* Anneaux uniquement sur le niveau actuellement navigable. Au niveau
+         Atlas on ne descend pas encore dans les genres, donc aucun anneau :
+         c'est ce qui encombrait le plus la vue d'ensemble. */
+      let ringOn =
+        slot.family === openIndex && (familyProgress[slot.family] ?? 0) > 0.5
+          ? slot.children.length
+          : 0;
 
       if (focusSlot && focusBase && slot.family === focusSlot.family) {
+        const fc = familyCenters[slot.family];
+        const bx = focusBase.x + (fc?.x ?? 0);
+        const by = focusBase.y + (fc?.y ?? 0);
+        const bz = focusBase.z + (fc?.z ?? 0);
         const inSubtree = isDescendant(i, focusIndex);
         const generation = Math.max(0, slot.depth - focusSlot.depth);
         const delay = focusDir === 1 ? FOCUS_DELAY_MS * generation : 0;
@@ -1305,17 +1378,17 @@ const OVERLAP_TOLERANCE = 4;
         if (inSubtree) {
           // On écarte le sous-arbre depuis le noeud focalisé.
           expand.set(
-            focusBase.x + (slot.deployed.x - focusBase.x) * 1.95,
-            focusBase.y + (slot.deployed.y - focusBase.y) * 1.95,
-            focusBase.z + (slot.deployed.z - focusBase.z) * 1.95
+            bx + (slot.deployed.x - focusBase.x) * 1.95,
+            by + (slot.deployed.y - focusBase.y) * 1.95,
+            bz + (slot.deployed.z - focusBase.z) * 1.95
           );
           slot.world.lerp(expand, clamp(k, 0, 1));
         } else {
           // Le reste recule et s'atténue à 12 pour cent, il reste du contexte.
           recede.set(
-            slot.compact.x + (slot.deployed.x - slot.compact.x) * 0.45,
-            slot.compact.y + (slot.deployed.y - slot.compact.y) * 0.45,
-            slot.compact.z + (slot.deployed.z - slot.compact.z) * 0.45
+            (fc?.x ?? 0) + slot.compact.x + (slot.deployed.x - slot.compact.x) * 0.45,
+            (fc?.y ?? 0) + slot.compact.y + (slot.deployed.y - slot.compact.y) * 0.45,
+            (fc?.z ?? 0) + slot.compact.z + (slot.deployed.z - slot.compact.z) * 0.45
           );
           slot.world.lerp(recede, clamp(k, 0, 1));
           presence = 1 - clamp(k, 0, 1) * 0.88;
@@ -1365,7 +1438,18 @@ const OVERLAP_TOLERANCE = 4;
         linkP0.set([ca.x, ca.y, ca.z], i * 3);
         linkP1.set([cb.x, cb.y, cb.z], i * 3);
         linkMeta[i * 3 + 2] = 1;
-        linkMeta[i * 3 + 1] = 1 - (familyProgress[ref.familyA] ?? 0) * 0.5;
+
+        /* Les liens entre familles traversaient tout l'écran en diagonale et
+           brouillaient la lecture. Ils sont désormais quasi invisibles par
+           défaut, et ne s'allument que si l'une de leurs deux extrémités est
+           la famille sélectionnée ou celle du noeud survolé. */
+        const hoveredFamily = hovered >= 0 ? (slotsData[hovered]?.family ?? -1) : -1;
+        const concerned =
+          ref.familyA === activeFamily ||
+          ref.familyB === activeFamily ||
+          ref.familyA === hoveredFamily ||
+          ref.familyB === hoveredFamily;
+        linkMeta[i * 3 + 1] = concerned ? 0.9 : 0.1;
       }
     }
     linkP0Attr.needsUpdate = true;

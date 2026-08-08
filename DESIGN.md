@@ -108,9 +108,20 @@ minimal      196      house        350
 Un label blanc sur le fond donne **19,4:1**. Le même label blanc posé sur une
 sphère claire tombe entre **1,96 et 2,52:1**, ce qui est inutilisable.
 
-Conséquence, et c'est une règle et non une préférence : **tout label porte une
-plaque sombre**. Le contraste redevient celui du fond quel que soit ce qui passe
-derrière, et l'échelle chromatique reste libre d'être franche.
+**La réponse n'est pas une plaque.** Une première version posait un rectangle
+sombre derrière chaque label : ça réglait le contraste et ça masquait l'objet,
+donc c'était pire. Deux mécanismes le remplacent, et aucun n'ajoute de bloc
+opaque :
+
+1. **Double ombre portée** sur le texte, une nette de 1 px et une diffuse de
+   6 px, en noir à 70 pour cent.
+2. **Assombrissement local de la sphère dans le shader.** Quand une sphère est
+   étiquetée, sa moitié droite, celle où le label se pose, descend à 62 pour
+   cent. C'est fait par le rendu, jamais par un élément DOM.
+
+Cette règle a déjà régressé une fois, par une substitution de texte qui n'a rien
+remplacé et que je n'avais pas vérifiée. Toute modification du style des labels
+doit être contrôlée par un `grep` sur `background` dans `proto.css`.
 
 ---
 
@@ -282,6 +293,13 @@ L'interface est **une seule planche encadrée**, pas un empilement de cartes.
 
 ## 6. L'élément signature : la propagation
 
+> **CADUC.** Cette section décrit une propagation indexée sur l'écart d'années
+> réel entre deux genres. Les années n'ont plus de géométrie et ne structurent
+> plus rien, donc cette mécanique n'existe pas. L'animation signature est
+> désormais la **diffusion d'une famille**, décrite en section 5b, et la
+> **descente sur un genre**, décrite en 5b bis.
+
+
 Le brief impose une seule orchestration mémorable, l'illumination de la lignée. Voici sa
 forme précise.
 
@@ -312,27 +330,30 @@ qu'elle fait le mieux, et rien d'autre.
 
 ### Couche 1, WebGL : la matière
 
-Three.js, **caméra orthographique**. Aucune perspective, jamais. Le temps est un
-axe mesuré, une fuite perspective le déformerait et mentirait sur les durées.
+> **Corrigé.** La version précédente de cette section imposait une caméra
+> orthographique et des capsules étirées sur l'axe du temps. Les deux sont
+> caduques : l'espace est habitable donc la perspective est le sujet, et les
+> noeuds sont des sphères.
 
-- Les noeuds sont des **capsules étirées sur l'axe du temps**, pas des sphères.
-  La forme est la durée. Un `InstancedMesh`, un seul appel de dessin.
-- Les arêtes sont un second `InstancedMesh`, un seul appel. Le graphe entier
-  tient donc en deux appels de dessin.
-- Shaders écrits à la main, aucun matériau par défaut. Les capsules sont
-  tracées par fonction de distance signée : nettes à tous les zooms, sans
-  géométrie supplémentaire.
-- Chaque arête porte un **dégradé de progression du parent vers l'enfant** et un
-  **flux lent qui descend le long du lien**. Le sens de l'héritage se lit sans
-  flèche.
-- **Bloom sélectif, uniquement sur la lignée active.** Jamais de bloom global :
-  un halo partout serait une ambiance, un halo sur une seule lignée est une
-  information.
+Three.js, **caméra perspective** à 40 degrés de champ. La perspective est
+assumée : on avance réellement dans l'espace, c'est ce qui donne le volume.
+Élévation bornée de -10 à +85 degrés, azimut libre, aucune translation latérale.
 
-Le fond est un shader plein écran : grain organique très fin et animé, plus un
-dégradé de profondeur froid. La référence est le **relevé sismique et l'émulsion
-argentique**, la matière d'un support d'enregistrement. Ni espace, ni nébuleuse,
-ni cyberpunk, ni dégradé indigo-violet.
+- Les noeuds sont des **sphères**, rendues en imposteurs billboard dont la
+  normale est reconstruite analytiquement depuis le disque. Aucune géométrie de
+  sphère, aucun asset. Un seul appel de dessin pour toutes les sphères de
+  l'atlas.
+- Les liens sont un second appel de dessin, rubans tessellés élargis **en espace
+  monde** perpendiculairement à la tangente.
+- Ombrage lambertien plus un liseré, **aucune composante spéculaire** : ni
+  chrome, ni vernis, ni plastique.
+- **Halo calculé dans le shader**, jamais par une passe de post-traitement, et
+  il sature au lieu de blanchir : une couleur lavée perd la teinte de famille,
+  donc l'information.
+- Le fond est un shader plein écran, grain d'émulsion très fin et dégradé de
+  profondeur froid. Ni espace, ni nébuleuse, ni dégradé indigo-violet.
+
+**Trois appels de dessin au total**, fond compris.
 
 ### Couche 2, DOM : tout le texte
 

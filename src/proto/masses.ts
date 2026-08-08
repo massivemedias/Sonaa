@@ -322,7 +322,7 @@ export const buildStructure = (familyIndex: number): Structure => {
   }
 
   for (const g of genres) {
-    g.compact = [g.deployed[0] * 0.32, g.deployed[1] * 0.32, g.deployed[2] * 0.32];
+    g.compact = [g.deployed[0] * 0.17, g.deployed[1] * 0.17, g.deployed[2] * 0.17];
   }
 
   const radiusOf = (key: 'deployed' | 'compact'): number =>
@@ -357,14 +357,157 @@ export const STRUCTURES: readonly Structure[] = FAMILIES.map((_, i) => buildStru
 export const enterDistance = (familyIndex: number): number =>
   (STRUCTURES[familyIndex]?.compactRadius ?? 6) * 4.2;
 
+/* SÉPARATION DES FAMILLES.
+
+   Les centres écrits à la main encodent la proximité stylistique, mais rien ne
+   garantissait qu'ils ne se chevauchent pas : sur la capture, Breaks passait
+   devant Disco et House débordait. On relaxe donc ces positions pour imposer
+   une marge minimale entre volumes compacts, en partant des positions
+   éditoriales pour préserver l'arrangement voulu.
+
+   La séparation à l'état déployé n'est pas garantie ici : elle le serait au
+   prix d'un atlas quatre fois plus large et d'amas minuscules. C'est le
+   déplacement dynamique des familles, à l'ouverture de l'une d'elles, qui s'en
+   charge côté rendu. */
+/* 14 unités et non 6 : la séparation en 3D ne garantit pas la séparation en
+   projection. Deux familles distantes mais alignées avec l'axe de vue se
+   recouvraient à l'écran. Une marge large réduit fortement ce cas, sans le
+   supprimer complètement, ce qui est une limite inhérente à une projection. */
+export const FAMILY_MARGIN = 14;
+/** Marge exigée dans le plan de l'écran à l'angle par défaut. */
+export const PROJECTED_MARGIN = 10;
+
+/* Angles de la vue par défaut. Une seule source de vérité, partagée avec le
+   moteur de rendu : la seconde relaxation en dépend. */
+export const DEFAULT_AZIMUTH = 0.55;
+export const DEFAULT_ELEVATION = 0.2;
+
+export const FAMILY_CENTERS: readonly (readonly [number, number, number])[] = (() => {
+  const pos = FAMILIES.map((f) => [...f.center] as [number, number, number]);
+  const radius = FAMILIES.map((_, i) => STRUCTURES[i]?.compactRadius ?? 6);
+
+  // Passe 1, séparation en volume.
+  for (let pass = 0; pass < 220; pass += 1) {
+    let moved = 0;
+    for (let a = 0; a < pos.length; a += 1) {
+      for (let b = a + 1; b < pos.length; b += 1) {
+        const pa = pos[a];
+        const pb = pos[b];
+        if (!pa || !pb) continue;
+        const dx = pb[0] - pa[0];
+        const dy = pb[1] - pa[1];
+        const dz = pb[2] - pa[2];
+        const d = Math.hypot(dx, dy, dz) || 0.001;
+        const want = (radius[a] ?? 6) + (radius[b] ?? 6) + FAMILY_MARGIN;
+        if (d >= want) continue;
+        const push = ((want - d) / d) * 0.5;
+        pa[0] -= dx * push; pa[1] -= dy * push; pa[2] -= dz * push;
+        pb[0] += dx * push; pb[1] += dy * push; pb[2] += dz * push;
+        moved += want - d;
+      }
+    }
+    if (moved < 0.01) break;
+  }
+
+  /* Passe 2, séparation EN PROJECTION à l'angle par défaut.
+     La séparation en volume ne suffit pas : deux familles éloignées mais
+     alignées avec l'axe de vue se recouvrent à l'écran, c'était le cas de
+     House et Electro. On les écarte donc aussi dans le plan de l'écran, sans
+     toucher à leur profondeur, puis on relance la passe 1 pour ne rien casser. */
+  const az = DEFAULT_AZIMUTH;
+  const el = DEFAULT_ELEVATION;
+  const fwd: [number, number, number] = [
+    Math.cos(el) * Math.sin(az),
+    Math.sin(el),
+    Math.cos(el) * Math.cos(az)
+  ];
+  const up: [number, number, number] = [
+    -Math.sin(el) * Math.sin(az),
+    Math.cos(el),
+    -Math.sin(el) * Math.cos(az)
+  ];
+  const right: [number, number, number] = [
+    fwd[1] * up[2] - fwd[2] * up[1],
+    fwd[2] * up[0] - fwd[0] * up[2],
+    fwd[0] * up[1] - fwd[1] * up[0]
+  ];
+
+  for (let pass = 0; pass < 260; pass += 1) {
+    let moved = 0;
+    for (let a = 0; a < pos.length; a += 1) {
+      for (let b = a + 1; b < pos.length; b += 1) {
+        const pa = pos[a];
+        const pb = pos[b];
+        if (!pa || !pb) continue;
+        const dx = pb[0] - pa[0];
+        const dy = pb[1] - pa[1];
+        const dz = pb[2] - pa[2];
+        const du = dx * up[0] + dy * up[1] + dz * up[2];
+        const dr = dx * right[0] + dy * right[1] + dz * right[2];
+        const onScreen = Math.hypot(du, dr) || 0.001;
+        const want = (radius[a] ?? 6) + (radius[b] ?? 6) + PROJECTED_MARGIN;
+        if (onScreen >= want) continue;
+
+        const push = ((want - onScreen) / onScreen) * 0.5;
+        const mu = du * push;
+        const mr = dr * push;
+        const sx = up[0] * mu + right[0] * mr;
+        const sy = up[1] * mu + right[1] * mr;
+        const sz = up[2] * mu + right[2] * mr;
+        pa[0] -= sx; pa[1] -= sy; pa[2] -= sz;
+        pb[0] += sx; pb[1] += sy; pb[2] += sz;
+        moved += want - onScreen;
+      }
+    }
+    if (moved < 0.01) break;
+  }
+
+  // Passe 1 rejouée : la passe 2 peut avoir rapproché deux familles en volume.
+  for (let pass = 0; pass < 220; pass += 1) {
+    let moved = 0;
+    for (let a = 0; a < pos.length; a += 1) {
+      for (let b = a + 1; b < pos.length; b += 1) {
+        const pa = pos[a];
+        const pb = pos[b];
+        if (!pa || !pb) continue;
+        const dx = pb[0] - pa[0];
+        const dy = pb[1] - pa[1];
+        const dz = pb[2] - pa[2];
+        const d = Math.hypot(dx, dy, dz) || 0.001;
+        const want = (radius[a] ?? 6) + (radius[b] ?? 6) + FAMILY_MARGIN;
+        if (d >= want) continue;
+        const push = ((want - d) / d) * 0.35;
+        pa[0] -= dx * push; pa[1] -= dy * push; pa[2] -= dz * push;
+        pb[0] += dx * push; pb[1] += dy * push; pb[2] += dz * push;
+        moved += want - d;
+      }
+    }
+    if (moved < 0.01) break;
+  }
+
+  return pos.map((p) => [p[0], p[1], p[2]] as const);
+})();
+
+/** Rayon réservé d'une famille selon son état. */
+export const familyRadius = (i: number, deployed: boolean): number =>
+  (deployed ? STRUCTURES[i]?.deployedRadius : STRUCTURES[i]?.compactRadius) ?? 6;
+
 /* Rayon englobant de l'atlas, centre inclus. Sert à calculer la distance de
    cadrage par défaut : les 14 familles doivent occuper environ 70 pour cent de
    la hauteur de l'écran, pas 20. */
-export const ATLAS_CENTER: readonly [number, number, number] = [-2, 6, 8];
-export const ATLAS_RADIUS = FAMILIES.reduce((max, family, i) => {
-  const dx = family.center[0] - ATLAS_CENTER[0];
-  const dy = family.center[1] - ATLAS_CENTER[1];
-  const dz = family.center[2] - ATLAS_CENTER[2];
+export const ATLAS_CENTER: readonly [number, number, number] = (() => {
+  const n = FAMILY_CENTERS.length || 1;
+  const sum = FAMILY_CENTERS.reduce(
+    (acc, c) => [acc[0] + c[0], acc[1] + c[1], acc[2] + c[2]] as [number, number, number],
+    [0, 0, 0] as [number, number, number]
+  );
+  return [sum[0] / n, sum[1] / n, sum[2] / n] as const;
+})();
+
+export const ATLAS_RADIUS = FAMILY_CENTERS.reduce((max, c, i) => {
+  const dx = c[0] - ATLAS_CENTER[0];
+  const dy = c[1] - ATLAS_CENTER[1];
+  const dz = c[2] - ATLAS_CENTER[2];
   return Math.max(max, Math.hypot(dx, dy, dz) + (STRUCTURES[i]?.compactRadius ?? 6));
 }, 1);
 

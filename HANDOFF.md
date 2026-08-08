@@ -63,7 +63,10 @@ filiation, dans lequel on descend par niveaux jusqu'aux morceaux.
 | Rubans de liens élargis en **espace monde** | l'élargissement en espace écran s'est révélé impossible à fiabiliser aux largeurs réalistes. Documenté comme piège |
 | Tout le texte en DOM projeté, jamais en WebGL | c'est la couche qui porte l'accessibilité, et le navigateur rastérise mieux que n'importe quel atlas de glyphes |
 | Labels : masquage du plus lointain en cas de collision, **jamais de décalage** | règle posée par Mika |
-| Aucune plaque sous les labels | deux ombres portées plus assombrissement local de la sphère dans le shader |
+| Aucune plaque sous les labels | deux ombres portées plus assombrissement local de la sphère dans le shader. **A déjà régressé une fois**, contrôler par `grep background` dans proto.css |
+| Séparation des familles garantie par deux relaxations, en volume et en projection | les centres écrits à la main se chevauchaient. ADR-028 |
+| Une seule famille déployée à la fois, aucun anneau au niveau Atlas | plusieurs familles ouvertes et 204 anneaux se lisaient comme un éparpillement. ADR-029 |
+| Liens entre familles à 10 % d'opacité, allumés au survol | ils traversaient l'écran en diagonale. ADR-029 |
 | Anneau discret sur les noeuds à dérivés | indice, pas cadre : tiers d'épaisseur, teinte de la famille, 35 % d'opacité max |
 | Rayon de sphère indexé sur la profondeur | c'est ce qui rend la hiérarchie lisible sans cliquer |
 | Liens effilés du parent vers l'enfant | la direction de la filiation se lit sans flèche |
@@ -128,6 +131,10 @@ n'exécute.
 ---
 
 ## 4. Ce qui reste ouvert
+
+**structuralParent validé par Mika.** Le DAG est la vérité, l'arbre est une vue,
+désignation explicite genre par genre, greffes visibles au survol, liens entre
+familles dérivés. Documenté ADR-030, **pas encore codé** : le schéma P1 attend.
 
 **Labels au niveau famille.** 3 labels de genres visibles sur 6 candidats à
 l'angle par défaut. L'objectif fixé était 5. Padding réduit, tolérance de
@@ -272,6 +279,15 @@ les contrôles de cohérence de dates, ajouter les deux listes de morceaux, rend
 volontairement fautive : il attrape cycles, références mortes, orphelins et
 incohérences. Ses contrôles de dates sont à remplacer par les contrôles de
 profondeur et de `major`.
+
+---
+
+## 7 bis. Dette documentaire réglée
+
+DESIGN.md sections 3.3, 6 et 7 et les ADR 001, 002, 003 et 015 décrivaient
+l'ancien modèle temporel sans être marqués caducs. C'est corrigé : 3.3 et 7 sont
+réécrits sur l'état réel, 6 est marqué caduc, les quatre ADR portent une note.
+Un document qui mentait sur quatre points a été rendu exact.
 
 ---
 
