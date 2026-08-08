@@ -144,6 +144,15 @@ export function AtlasPage() {
     apiRef.current?.goUp();
   }, []);
 
+  /* Retour à l'Atlas : ferme le panneau, ferme la fiche, referme la famille.
+     C'est ce que fait le premier segment du fil d'Ariane, et le logotype. */
+  const backToAtlas = useCallback(() => {
+    setPanelGenre(null);
+    setCardGenre(null);
+    apiRef.current?.closePanel();
+    apiRef.current?.goToFamily(-1);
+  }, []);
+
   const dismissWelcome = useCallback(() => {
     localStorage.setItem(WELCOME_KEY, '1');
     setShowWelcome(false);
@@ -222,18 +231,24 @@ export function AtlasPage() {
 
       {mode !== 'webgl' && <Fallback notice={reason} />}
 
+      {/* Le logotype est le retour à l'accueil. Discret et petit : il ne doit
+          pas concurrencer la carte, qui est le sujet. */}
+      <button
+        className="brand"
+        onClick={act(backToAtlas)}
+        aria-label="SONAA, revenir à la vue Atlas"
+        title="Revenir à l'Atlas"
+      >
+        <img src={`${import.meta.env.BASE_URL}brand/sonaa-wordmark.png`} alt="SONAA" draggable={false} />
+      </button>
+
       {/* Fil d'Ariane permanent : on sait toujours où on est, et on remonte
           en un clic sur n'importe quel segment. */}
       <nav className="crumbs" data-hidden={false} aria-label="Fil d'Ariane">
         <button
           className="crumb"
           data-current={level === 'atlas' && !panelGenre}
-          onClick={act(() => {
-            setPanelGenre(null);
-            setCardGenre(null);
-            apiRef.current?.closePanel();
-            apiRef.current?.goToFamily(-1);
-          })}
+          onClick={act(backToAtlas)}
         >
           Atlas
         </button>

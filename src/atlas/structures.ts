@@ -129,10 +129,10 @@ export interface Track {
   readonly year: number | null;
   /** Album donné par iTunes. Ce n'est pas le label de disque. */
   readonly album: string | null;
-  /** Chemin de la pochette, servi par le site : aucun appel tiers au runtime. */
+  /** Chemin de la pochette, servi par le site : aucun appel tiers au runtime.
+      Vide quand aucune image n'existe : l'interface en dessine une, dérivée du
+      nom de l'artiste et du titre, sans graine à stocker. */
   readonly cover: string;
-  /** Graine de repli, quand aucune pochette n'a été trouvée. */
-  readonly seed: number;
   /** Identifiant vérifié par oEmbed au build. Jamais inventé (ADR-006). */
   readonly youtubeId: string;
 }
@@ -146,6 +146,10 @@ export interface Structure {
   readonly compactRadius: number;
 }
 
+/* Générateur déterministe. Il ne fabrique AUCUNE donnée : il ne sert qu'à la
+   variation géométrique des couronnes, pour que les anneaux ne soient pas
+   mécaniquement réguliers. Les noms, les BPM, les filiations et les morceaux
+   viennent tous du corpus, sans exception. */
 const mulberry32 = (seed: number) => () => {
   seed |= 0;
   seed = (seed + 0x6d2b79f5) | 0;
@@ -160,15 +164,14 @@ const mulberry32 = (seed: number) => () => {
    Rien ne pouvait s'y lire. */
 const DEPTH_RADIUS = [3.2, 2.05, 1.4, 1.05];
 
-const toTracks = (list: CorpusGenre['tracks']['essentiel'], rand: () => number): Track[] =>
-  list.map((t, k) => ({
+const toTracks = (list: CorpusGenre['tracks']['essentiel']): Track[] =>
+  list.map((t) => ({
     id: t.youtubeId,
     artist: t.artist,
     title: t.title,
     year: t.year,
     album: t.album ?? null,
     cover: t.cover ? `${import.meta.env.BASE_URL}${t.cover.local}` : '',
-    seed: Math.floor(rand() * 65536) + k,
     youtubeId: t.youtubeId
   }));
 
@@ -215,8 +218,8 @@ export const buildStructure = (familyIndex: number): Structure => {
           family: familyIndexOf(pp.family),
           label: FAMILIES[familyIndexOf(pp.family)]?.label ?? pp.family
         })),
-      tracksEssentiel: toTracks(entry.tracks.essentiel, rand),
-      tracksActuel: toTracks(entry.tracks.actuel, rand),
+      tracksEssentiel: toTracks(entry.tracks.essentiel),
+      tracksActuel: toTracks(entry.tracks.actuel),
       children: [],
       deployed: [0, 0, 0],
       compact: [0, 0, 0]

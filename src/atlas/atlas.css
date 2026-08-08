@@ -448,3 +448,60 @@
     letter-spacing: 0.05em;
   }
 }
+
+/* --- Identité ------------------------------------------------------------
+   Le logotype est le retour à l'accueil. Petit et discret : la carte est le
+   sujet, pas la marque. Aucun effet, aucune ombre, aucune animation. */
+
+.brand {
+  position: absolute;
+  left: 1.25rem;
+  top: 0.85rem;
+  z-index: 7;
+  display: block;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  line-height: 0;
+  opacity: 0.72;
+  transition: opacity 140ms linear;
+}
+
+.brand:hover,
+.brand:focus-visible {
+  opacity: 1;
+}
+
+.brand img {
+  /* 22 px de haut : mesuré lisible sur le fond sombre, et une fois et demie
+     plus petit que le nom d'une famille dans l'atlas. */
+  height: 22px;
+  width: auto;
+  display: block;
+}
+
+/* Le fil d'Ariane descend sous le logotype plutôt que de se battre avec lui. */
+.crumbs {
+  top: 2.9rem;
+}
+
+@media (max-width: 700px) {
+  .brand {
+    left: 0.9rem;
+    top: 0.7rem;
+  }
+  .brand img {
+    height: 19px;
+  }
+  .crumbs {
+    top: 2.5rem;
+    left: 0.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand {
+    transition: none;
+  }
+}

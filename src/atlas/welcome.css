@@ -134,3 +134,16 @@
     animation: none;
   }
 }
+
+/* Le logotype remplace le mot composé en capitales : c'est la marque, pas une
+   approximation typographique. */
+.welcome-name {
+  line-height: 0;
+  letter-spacing: normal;
+}
+
+.welcome-name img {
+  height: clamp(56px, 17vw, 84px);
+  width: auto;
+  display: block;
+}

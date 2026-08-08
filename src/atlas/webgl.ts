@@ -1300,14 +1300,17 @@ const OVERLAP_TOLERANCE = 4;
       let opacity = 1;
       if (hov && !highlighted.has(i) && focusIndex < 0) opacity = 0.2;
 
-      /* Indice de descente dans le texte : on sait avant de cliquer s'il y a
-         quelque chose dessous, et sinon que le clic mène aux morceaux. */
-      /* Suffixe compact. « 3 dérivés » écrit en clair faisait 230 px de plaque
-         et l'évitement de collision en supprimait la moitié. Le nom et le
-         compte suffisent, l'anneau porte déjà le sens. */
-      const suffix = slot.children.length > 0 ? ` · ${slot.children.length}` : ' ♪';
+      /* Le label ne porte QUE le nom du genre.
 
-      add(`g-${slot.label}`, `${slot.label}${suffix}`, slot.world, 'genre', isPinned, opacity, i);
+         Il portait un suffixe compact, « · 3 » pour le nombre de dérivés et
+         « ♪ » pour une feuille, censé dire avant le clic si l'on descend ou si
+         l'on écoute. Deux raisons de le retirer. La première est qu'il se lisait
+         comme une partie du nom : « Minimal Tech · 1 » a été lu « minimal-1 »,
+         donc pris pour un identifiant technique resté d'un jeu de données
+         factice. La seconde est qu'il n'a plus d'objet : le clic ouvre toujours
+         la fiche, et c'est la fiche qui nomme les dérivés un par un, ce qui vaut
+         mieux qu'un compte. L'anneau autour de la sphère porte déjà le signe. */
+      add(`g-${slot.label}`, slot.label, slot.world, 'genre', isPinned, opacity, i);
     }
 
     /* Atténuation des lointains : plus on s'approche, plus l'arrière-plan

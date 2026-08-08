@@ -94,18 +94,21 @@ const UA =
 
 export const sleep = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms));
 
-/** Identifiants candidats pour une requête. Aucun identifiant n'est jamais construit. */
-export const searchYouTube = async (query: string, limit = 4): Promise<string[]> => {
-  const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
-  let html = '';
-  try {
-    const res = await fetch(url, { headers: { 'User-Agent': UA, 'Accept-Language': 'en-US,en;q=0.9' } });
-    if (!res.ok) return [];
-    html = await res.text();
-  } catch {
-    return [];
-  }
+/* Espacement des recherches. YouTube coupe sans prévenir après une vingtaine
+   de requêtes rapprochées : la page revient bien en 200 mais sans aucun
+   résultat. Symptôme observé, 87 refus sur 105 lignes toutes trouvables, et le
+   rapport disait « aucun résultat » là où il fallait lire « on nous a fermé la
+   porte ». On espace donc, et on retente. */
+const SEARCH_INTERVAL_MS = 1400;
+let lastSearch = 0;
 
+const pace = async (): Promise<void> => {
+  const wait = SEARCH_INTERVAL_MS - (Date.now() - lastSearch);
+  if (wait > 0) await sleep(wait);
+  lastSearch = Date.now();
+};
+
+const scrape = (html: string, limit: number): string[] => {
   const out: string[] = [];
   const seen = new Set<string>();
   for (const m of html.matchAll(/"videoId":"([A-Za-z0-9_-]{11})"/g)) {
@@ -116,6 +119,35 @@ export const searchYouTube = async (query: string, limit = 4): Promise<string[]>
     if (out.length >= limit) break;
   }
   return out;
+};
+
+/** Identifiants candidats pour une requête. Aucun identifiant n'est jamais construit. */
+export const searchYouTube = async (query: string, limit = 4): Promise<string[]> => {
+  const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    await pace();
+    let html = '';
+    try {
+      const res = await fetch(url, {
+        headers: { 'User-Agent': UA, 'Accept-Language': 'en-US,en;q=0.9' }
+      });
+      if (res.ok) html = await res.text();
+    } catch {
+      html = '';
+    }
+
+    const found = scrape(html, limit);
+    if (found.length > 0) return found;
+
+    /* Zéro résultat peut vouloir dire deux choses : la requête ne donne
+       vraiment rien, ou on nous a fermé la porte. Une page de résultats
+       normale, même vide, contient le mot videoId quelque part ; une page de
+       blocage ou de consentement, non. */
+    if (html.includes('"videoId"')) return [];
+    await sleep(4000 * (attempt + 1));
+  }
+  return [];
 };
 
 /* oEmbed public, sans clé. Un 200 signifie que la vidéo existe ET qu'elle est

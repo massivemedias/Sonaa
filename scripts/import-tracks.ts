@@ -11,17 +11,31 @@
    partagé de scripts/lib/match.ts. Un identifiant présent dans le fichier
    d'entrée serait quand même revérifié. Aucun identifiant inventé, jamais.
 
-   Format attendu de tracks-canon.md, à la racine. Un tableau markdown par
-   genre, précédé d'un titre de section portant l'identifiant du genre entre
-   accents graves. Les colonnes sont repérées par leur en-tête, l'ordre est
-   libre, la casse indifférente.
+   Format attendu de tracks-canon.md, à la racine. DEUX formes acceptées, parce
+   qu'un tableau collé depuis un tableur arrive séparé par des tabulations et
+   avec le genre en colonne, pas en titre de section.
+
+   Forme 1, une section par genre :
 
      ## `suomisaundi`
 
      | artiste        | titre         | annee | role       |
      |----------------|---------------|-------|------------|
      | Texas Faggott  | Konnichi Wa   | 1999  | fondateur  |
-     | Haltya         | Hoi Hoi       | 2001  | essentiel  |
+
+   Forme 2, un seul tableau avec une colonne genre, séparé par des tabulations
+   ou par des barres verticales :
+
+     Genre	Artiste	Titre	Année	Rôle
+     suomisaundi	Texas Faggott	Konnichi Wa	1999	origine
+
+   Les colonnes sont repérées par leur en-tête, l'ordre est libre, la casse et
+   les accents indifférents.
+
+   Le nom de genre est résolu contre l'identifiant, puis contre le nom affiché,
+   puis contre les alias, en ignorant espaces et ponctuation. « deephouse »
+   trouve donc `usdeephouse` par son nom « Deep House », et « psytrance » trouve
+   `psychedelictrance` par son alias.
 
    `role` est facultatif et documentaire : il dit pourquoi le morceau est là.
    Les valeurs reconnues sont `fondateur`, `essentiel` et `actuel`. Seul
@@ -72,6 +86,7 @@ interface Track {
 interface Genre {
   id: string;
   label: string;
+  aliases?: string[];
   tracks: { essentiel: Track[]; actuel: Track[] };
 }
 interface Corpus {
@@ -99,7 +114,14 @@ const cells = (line: string): string[] =>
     .split('|')
     .map((c) => c.trim());
 
-const isSeparator = (line: string): boolean => /^\s*\|?[\s:-]+\|[\s|:-]*$/.test(line);
+const isSeparator = (line: string): boolean =>
+  /^\s*\|?[\s:-]+\|[\s|:-]*$/.test(line) || /^[\s|:-]{4,}$/.test(line);
+
+/** Découpe une ligne séparée par des tabulations. */
+const tabCells = (line: string): string[] => line.split('\t').map((c) => c.trim());
+
+/** Sans espaces ni ponctuation : « Deep House » et « deephouse » se rejoignent. */
+const squash = (s: string): string => normalise(s).replace(/ /g, '');
 
 const parseCanon = (text: string): { rows: CanonRow[]; problems: string[] } => {
   const rows: CanonRow[] = [];
@@ -121,20 +143,17 @@ const parseCanon = (text: string): { rows: CanonRow[]; problems: string[] } => {
       return;
     }
 
-    if (!line.trim().startsWith('|')) {
+    const isPipe = line.trim().startsWith('|');
+    const isTabbed = line.includes('\t');
+    if (!isPipe && !isTabbed) {
       if (line.trim() === '') header = null;
       return;
     }
     if (isSeparator(line)) return;
 
-    const parts = cells(line);
+    const parts = isPipe ? cells(line) : tabCells(line);
     if (!header) {
       header = parts.map((h) => normalise(h));
-      return;
-    }
-
-    if (!genreId) {
-      problems.push(`ligne ${lineNo} : tableau sans identifiant de genre au-dessus`);
       return;
     }
 
@@ -145,6 +164,14 @@ const parseCanon = (text: string): { rows: CanonRow[]; problems: string[] } => {
       }
       return '';
     };
+
+    // Colonne genre, s'il y en a une : elle l'emporte sur le titre de section.
+    const inline = at('genre', 'famille');
+    const which = inline || genreId;
+    if (!which) {
+      problems.push(`ligne ${lineNo} : ni colonne genre ni identifiant de section`);
+      return;
+    }
 
     const artist = at('artiste', 'artist');
     const title = at('titre', 'title');
@@ -157,7 +184,7 @@ const parseCanon = (text: string): { rows: CanonRow[]; problems: string[] } => {
     const yearNum = Number.parseInt(yearRaw, 10);
 
     rows.push({
-      genreId,
+      genreId: which,
       artist,
       title,
       year: Number.isFinite(yearNum) && yearNum >= 1960 && yearNum <= 2100 ? yearNum : null,
@@ -181,7 +208,23 @@ if (!existsSync(CANON)) {
 }
 
 const corpus = JSON.parse(readFileSync(CORPUS, 'utf8')) as Corpus;
+
+/* Résolution d'un nom de genre. On accepte l'identifiant, le nom affiché ou un
+   alias, en ignorant espaces et ponctuation : un fichier écrit à la main dit
+   « deephouse » ou « Deep House », pas `usdeephouse`. */
 const byId = new Map(corpus.genres.map((g) => [g.id, g]));
+const resolveGenre = (name: string): Genre | undefined => {
+  const direct = byId.get(name);
+  if (direct) return direct;
+  const key = squash(name);
+  for (const g of corpus.genres) {
+    if (squash(g.id) === key || squash(g.label) === key) return g;
+  }
+  for (const g of corpus.genres) {
+    if ((g.aliases ?? []).some((a) => squash(a) === key)) return g;
+  }
+  return undefined;
+};
 
 const { rows, problems } = parseCanon(readFileSync(CANON, 'utf8'));
 console.log(`${rows.length} lignes lues dans tracks-canon.md`);
@@ -202,9 +245,9 @@ let skippedExisting = 0;
 let unknownGenre = 0;
 
 for (const row of rows) {
-  if (ONLY && !ONLY.has(row.genreId)) continue;
+  if (ONLY && !ONLY.has(row.genreId) && !ONLY.has(squash(row.genreId))) continue;
 
-  const genre = byId.get(row.genreId);
+  const genre = resolveGenre(row.genreId);
   if (!genre) {
     unknownGenre += 1;
     failures.push({ row, reason: `genre inconnu dans le corpus : ${row.genreId}`, rejected: [] });
@@ -282,7 +325,7 @@ console.log(
    que la prochaine passe sache quoi viser sans relire tout le corpus. */
 const CIBLE = 3;
 const count = (g: Genre): number => g.tracks.essentiel.length + g.tracks.actuel.length;
-const touched = new Set(rows.map((r) => r.genreId));
+const touched = new Set(rows.map((r) => resolveGenre(r.genreId)?.id).filter(Boolean));
 const remaining = corpus.genres
   .filter((g) => count(g) < CIBLE)
   .sort((a, b) => count(a) - count(b));

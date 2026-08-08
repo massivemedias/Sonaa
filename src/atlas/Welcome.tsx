@@ -14,7 +14,13 @@ export function Welcome({ onDismiss }: Props) {
   return (
     <div className="welcome" role="dialog" aria-modal="true" aria-label="Bienvenue">
       <div className="welcome-inner">
-        <h1 className="welcome-name">SONAA</h1>
+        <h1 className="welcome-name">
+          <img
+            src={`${import.meta.env.BASE_URL}brand/sonaa-wordmark.png`}
+            alt="SONAA"
+            draggable={false}
+          />
+        </h1>
         <p className="welcome-line">
           Un atlas des musiques électroniques, où chaque genre est relié à ce dont il vient
           et à ce qu&apos;il a donné.

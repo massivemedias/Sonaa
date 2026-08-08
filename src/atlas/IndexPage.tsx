@@ -33,7 +33,14 @@ export function IndexPage() {
       </a>
 
       <header className="index-head">
-        <h1>SONAA, index</h1>
+        <h1 className="index-title">
+          <img
+            src={`${import.meta.env.BASE_URL}brand/sonaa-wordmark.png`}
+            alt="SONAA"
+            draggable={false}
+          />
+          <span>Index</span>
+        </h1>
         <p>
           Navigation hiérarchique des {FAMILIES.length} familles et de leurs {total} genres. Même
           contenu et mêmes liens que l&apos;espace, sans la matière.
