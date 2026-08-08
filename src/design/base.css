@@ -1,0 +1,37 @@
+/* Remise à zéro minimale et socle de page.
+   Pas de framework, pas de librairie de composants : SONAA a une identité,
+   pas un thème. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--surface-plate);
+  color: var(--ink-primary);
+  font-family: var(--font-reading);
+  line-height: var(--leading-reading);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink-primary);
+  outline-offset: 3px;
+}

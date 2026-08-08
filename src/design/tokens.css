@@ -1,0 +1,96 @@
+/* SONAA, jetons de design.
+   Chaque valeur est nommée par son rôle, jamais par sa valeur.
+   Référence : DESIGN.md sections 3, 4, 5 et 6.
+
+   Règle qui gouverne ce fichier : rien ici n'est décoratif. Une teinte, une
+   luminosité ou une durée encode une donnée, ou n'a pas sa place. */
+
+:root {
+  /* ---------------------------------------------------------------
+     SURFACES ET FILETS
+     Graphite froid légèrement désaturé. Pas de noir pur.
+     --------------------------------------------------------------- */
+  --surface-plate: oklch(0.17 0.012 250);   /* le fond de la planche */
+  --surface-margin: oklch(0.14 0.010 250);  /* marges, colonne de temps, dock */
+  --surface-raised: oklch(0.21 0.014 250);  /* bloc d'annotation, modales */
+
+  --rule-hairline: oklch(0.30 0.010 250);   /* grille, filets, cadre */
+  --rule-strong: oklch(0.42 0.012 250);     /* graduations de décennie */
+  --rule-width: 1px;
+
+  --ink-primary: oklch(0.93 0.008 250);     /* texte de lecture, ratio AAA */
+  --ink-secondary: oklch(0.68 0.010 250);   /* données mono, légendes */
+
+  /* ---------------------------------------------------------------
+     FAMILLES
+     Une teinte par famille. Le chroma est plafonné pour que quatorze
+     couleurs ne produisent pas un arc-en-ciel : ce sont des graphites
+     teintés, pas des bonbons.
+     --------------------------------------------------------------- */
+  --family-chroma: 0.075;        /* plafond au repos, entre 0.05 et 0.10 */
+  --family-chroma-roots: 0.015;  /* les racines sont le substrat, quasi neutres */
+
+  --family-roots-hue: 70;
+  --family-disco-hue: 55;
+  --family-house-hue: 30;
+  --family-bass-hue: 355;
+  --family-breaks-hue: 330;
+  --family-hardcore-hue: 300;
+  --family-trance-hue: 275;
+  --family-psy-hue: 250;
+  --family-techno-hue: 225;
+  --family-minimal-hue: 205;
+  --family-ambient-hue: 185;
+  --family-downtempo-hue: 160;
+  --family-electro-hue: 135;
+  --family-industrial-hue: 105;
+
+  /* ---------------------------------------------------------------
+     ANCIENNETÉ
+     La luminosité encode l'âge. Ancien égale encre passée, donc plus
+     claire. Récent égale encre fraîche, donc plus dense. La plage tient
+     un contraste supérieur à 7:1 sur --surface-plate à ses deux bouts.
+     --------------------------------------------------------------- */
+  --age-lightness-oldest: 0.86;
+  --age-lightness-newest: 0.62;
+
+  /* ---------------------------------------------------------------
+     LIGNÉE ACTIVE
+     Seul moment où la chroma monte. La saturation est un événement,
+     pas un décor. Le reste de la planche s'atténue sans disparaître.
+     --------------------------------------------------------------- */
+  --lineage-chroma: 0.16;
+  --dimmed-lightness: 0.30;
+  --dimmed-chroma: 0.02;
+
+  /* ---------------------------------------------------------------
+     TYPOGRAPHIE
+     Trois rôles, trois familles, aucun autre cas.
+     Les woff2 sous-ensemblés arrivent en P6 : d'ici là on s'appuie sur
+     des replis système choisis pour ne pas trahir l'intention.
+     --------------------------------------------------------------- */
+  --font-display: 'Archivo', system-ui, -apple-system, sans-serif;
+  --font-reading: 'Literata', Georgia, 'Times New Roman', serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --tracking-family: 0.42em;  /* noms de familles posés à plat derrière la carte */
+  --tracking-display: 0.18em;
+  --leading-reading: 1.65;
+
+  /* ---------------------------------------------------------------
+     MOUVEMENT
+     Une seule orchestration mémorable, la propagation de lignée, dont
+     la vitesse est indexée sur l'écart d'années réel. Tout le reste
+     est fonctionnel et discret.
+     --------------------------------------------------------------- */
+  --motion-zoom: 300ms;
+  --motion-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --propagation-per-year: 40ms;  /* durée d'un segment, par année franchie */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-zoom: 0ms;
+    --propagation-per-year: 0ms;
+  }
+}
