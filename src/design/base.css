@@ -18,7 +18,7 @@ body {
   margin: 0;
   background-color: var(--surface-plate);
   color: var(--ink-primary);
-  font-family: var(--font-reading);
+  font-family: var(--font-ui);
   line-height: var(--leading-reading);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;

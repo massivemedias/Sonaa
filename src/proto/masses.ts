@@ -121,7 +121,11 @@ export interface Track {
   readonly artist: string;
   readonly title: string;
   readonly year: number | null;
-  /** Graine de pochette : la pochette est générée, jamais téléchargée. */
+  /** Album donné par iTunes. Ce n'est pas le label de disque. */
+  readonly album: string | null;
+  /** Chemin de la pochette, servi par le site : aucun appel tiers au runtime. */
+  readonly cover: string;
+  /** Graine de repli, quand aucune pochette n'a été trouvée. */
   readonly seed: number;
   /** Identifiant vérifié par oEmbed au build. Jamais inventé (ADR-006). */
   readonly youtubeId: string;
@@ -197,6 +201,8 @@ export const buildStructure = (familyIndex: number): Structure => {
         artist: t.artist,
         title: t.title,
         year: t.year,
+        album: t.album ?? null,
+        cover: t.cover ? `${import.meta.env.BASE_URL}${t.cover.local}` : '',
         seed: Math.floor(rand() * 65536) + k,
         youtubeId: t.youtubeId
       })),

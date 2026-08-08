@@ -260,3 +260,64 @@ void main() {
   gl_FragColor = vec4(rgb, alpha);
 }
 `;
+
+// ------------------------------------------------------- PANNEAU FLOTTANT
+
+/* La plaque du panneau morceaux. Elle vit DANS la scène : quatre sommets
+   calculés en espace monde côté CPU, face caméra, avec une inclinaison fixe.
+   Seule la fenêtre vidéo est en DOM par-dessus, parce qu'une iframe ne peut
+   pas se rendre dans une texture WebGL.
+
+   Rectangle à coins arrondis calculé analytiquement, pas de texture, pas
+   d'asset. Le liseré porte la teinte de la famille. */
+
+export const panelVert = `
+attribute vec2 aQuadUv;
+varying vec2 vQuadUv;
+
+void main() {
+  vQuadUv = aQuadUv;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+}
+`;
+
+export const panelFrag = `
+precision highp float;
+
+varying vec2 vQuadUv;
+
+uniform vec3 uTint;
+uniform float uOpacity;
+uniform vec2 uAspect;   // largeur/hauteur en unités monde, pour un arrondi régulier
+uniform float uEdgePx;  // douceur du bord, en fraction de la plaque
+
+/* Distance signée à un rectangle arrondi, dans l'espace de la plaque. */
+float roundedBox(vec2 p, vec2 b, float r) {
+  vec2 q = abs(p) - b + r;
+  return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - r;
+}
+
+void main() {
+  vec2 p = (vQuadUv * 2.0 - 1.0) * uAspect;
+  float radius = min(uAspect.x, uAspect.y) * 0.07;
+  float d = roundedBox(p, uAspect * 0.995, radius);
+
+  float aa = max(uEdgePx, 0.0015);
+  float inside = 1.0 - smoothstep(-aa, aa, d);
+  if (inside < 0.004) discard;
+
+  /* Liseré : une bande fine juste à l'intérieur du bord, dans la teinte de la
+     famille. C'est ce qui rattache le panneau à la sphère derrière lui. */
+  float rim = smoothstep(-aa * 5.5, -aa * 1.5, d) * inside;
+
+  // Plaque sombre, très légèrement dégradée du haut vers le bas.
+  vec3 plate = mix(vec3(0.040, 0.045, 0.056), vec3(0.022, 0.025, 0.032), vQuadUv.y);
+  plate = mix(plate, uTint * 0.55, rim * 0.85);
+
+  float alpha = inside * uOpacity;
+  // Le liseré reste opaque même si la plaque est translucide.
+  alpha = max(alpha, rim * 0.95);
+
+  gl_FragColor = vec4(plate, alpha);
+}
+`;

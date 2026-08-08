@@ -754,6 +754,65 @@ industrial dans ce corpus v1.
 
 ---
 
+## ADR-033 : Le panneau morceaux est un objet de la scene, l'iframe le suit
+
+**Contexte.** La vue morceaux etait un panneau 2D plein ecran qui suspendait la
+3D. Sortir de l'espace pour ecouter cassait la continuite : on quittait l'atlas
+au moment precis ou l'on arrivait a destination.
+
+**Decision.** La plaque est rendue en WebGL, dans la scene, devant la sphere du
+genre : face camera, inclinee de 9 degres, suivi amorti, aucune rotation propre.
+La 3D n'est plus suspendue, on continue d'orbiter et de zoomer.
+
+**Contrainte technique inevitable.** Une iframe ne peut pas se rendre dans une
+texture WebGL. La fenetre video est donc un element HTML superpose au canvas,
+positionne par projection de la plaque et portant la meme inclinaison en CSS.
+C'est le seul element qui ne pouvait pas etre peint en WebGL.
+
+**Trois pieges payes sur cette illusion, a ne pas repayer.**
+
+1. **`Float32BufferAttribute` recopie le tableau qu'on lui passe.** Ecrire dans
+   le `Float32Array` d'origine n'atteint jamais la geometrie : le quad restait
+   degenere a l'origine et la plaque etait simplement invisible, sans aucune
+   erreur. Utiliser `BufferAttribute`, qui garde la reference.
+2. **Deux projections separees pour la largeur et la hauteur donnent un rapport
+   faux.** Hors de l'axe optique, projeter le bord haut puis le bord droit
+   produit des demi-tailles qui ne sont pas dans le rapport de la plaque. Une
+   plaque face camera se reduit a une seule echelle, calculee depuis la
+   profondeur : `hauteurPx = hauteurMonde * hauteurEcran / (2 tan(fov/2) * d)`.
+3. **Viser la position de la sphere au moment du clic ne suffit pas.** La
+   descente sur un genre repositionne les spheres apres le clic, donc la cible
+   est perimee d'une image. La camera suit la sphere a chaque image tant que le
+   panneau est ouvert.
+
+**Persistance de la lecture.** L'iframe n'est jamais demontee ni reparentee :
+reparenter une iframe la recharge, donc la lecture s'arrete. Elle vit dans un
+conteneur de premier niveau qu'on deplace par transformation vers la fenetre de
+la plaque ou vers le mini-lecteur. La geometrie ne passe pas par un etat React,
+qui provoquerait un rendu complet a chaque image pendant un vol de camera : elle
+transite par un bus imperatif, et React ne se rerend que quand le genre change.
+
+**Transport reel.** L'API IFrame Player officielle porte lecture, pause,
+deplacement, volume et duree. Elle remplace le transport simule, qui n'avait de
+sens que tant qu'aucun identifiant n'etait verifie.
+
+**Pochettes.** iTunes Search au build, correspondance exigeante sur l'artiste ET
+le titre, repli sur la vignette de la video. Les images sont telechargees dans
+`public/covers/` et servies par le site : une balise `img` vers un domaine tiers
+est un appel tiers au runtime, et la regle dit qu'il n'y en a aucun hors iframe.
+iTunes limite par adresse IP sur une longue fenetre et repond 403 pendant des
+heures : le script accepte `--covers-only` pour ne faire que le telechargement
+quand le quota est epuise.
+
+**Typographie.** Les alias `--font-display`, `--font-reading` et `--font-mono`
+sont supprimes. Une seule variable, `--font-ui`. Un nom de variable qui annonce
+une chasse fixe finit par en ramener une.
+
+**Mesure.** 4 appels de dessin, image complete a 0,081 ms pour un budget de
+16,67 ms.
+
+---
+
 ## Pièges GLSL rencontrés, à ne pas repayer
 
 Trois erreurs coûteuses rencontrées sur le prototype de rendu. Elles ne

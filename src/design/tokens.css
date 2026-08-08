@@ -72,10 +72,10 @@
   /* SF Pro Display partout. Une seule famille, trois graisses : 600 pour les
      noms de familles, 500 pour les genres, 400 pour les données. Le mono
      disparaît, y compris pour les BPM. */
+  /* Une seule pile, sans exception, y compris pour les données et les BPM.
+     Les alias --font-display, --font-reading et --font-mono ont été retirés :
+     un nom de variable qui annonce une chasse fixe finit par en ramener une. */
   --font-ui: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
-  --font-display: var(--font-ui);
-  --font-reading: var(--font-ui);
-  --font-mono: var(--font-ui);
 
   --weight-family: 600;
   --weight-genre: 500;

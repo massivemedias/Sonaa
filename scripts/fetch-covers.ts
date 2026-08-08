@@ -1,115 +1,263 @@
-/* Récupération des pochettes, AU BUILD UNIQUEMENT.
+/* Pochettes, figées au build.
 
-   L'API iTunes Search est gratuite et sans clé. On l'interroge sur artiste
-   plus titre, on récupère l'artwork carré en 600 pixels, et on FIGE l'URL dans
-   le JSON. Repli sur la miniature YouTube quand aucune correspondance ne
-   ressort, ce qui arrive souvent sur les sorties de niche.
+   Source : API iTunes Search, gratuite et sans clé. Elle n'est JAMAIS appelée
+   depuis le navigateur d'un visiteur : ce script tourne au build, et seules les
+   URLs résultantes entrent dans le JSON.
 
-   Aucun appel tiers ne subsiste au runtime, hormis l'iframe YouTube.
+   La correspondance est exigeante. Une pochette fausse est pire qu'aucune :
+   elle raconte une histoire inexacte sur un morceau réel. On exige donc que
+   l'artiste ET le titre correspondent après normalisation, avec une tolérance
+   sur les mentions de remix et de version que les deux bases écrivent
+   différemment.
 
-   Usage : npm run fetch:covers -- [famille]
-*/
+   Repli : la vignette YouTube en maxresdefault, qui existe toujours puisque
+   l'identifiant a déjà été vérifié. Elle est marquée comme telle, pour qu'on
+   sache toujours d'où vient une image.
 
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+   Deuxième temps : les images sont TÉLÉCHARGÉES dans public/covers/ et servies
+   par le site. « Aucun appel tiers au runtime » se prend au mot : une balise
+   img pointant sur mzstatic.com ou sur ytimg.com est un appel tiers. Après ce
+   script, le seul appel tiers qui reste est l'iframe YouTube, et seulement à la
+   lecture.
+
+   Usage : npm run fetch:covers [-- --force]
+   Sans --force, un morceau qui a déjà une pochette iTunes n'est pas réinterrogé. */
+
+import { mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
-const GENRES_DIR = fileURLToPath(new URL('../src/data/genres', import.meta.url));
-const ITUNES = 'https://itunes.apple.com/search';
-
-const sleep = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms));
-
-interface ItunesResult {
-  artistName: string;
-  trackName: string;
-  artworkUrl100?: string;
-}
-
-/* iTunes renvoie du 100 pixels. L'URL se réécrit en 600, c'est documenté et
-   stable depuis des années, et ça évite une seconde requête. */
-const upscale = (url: string): string => url.replace(/\/100x100bb\./, '/600x600bb.');
-
-const norm = (s: string): string =>
-  s
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/[^a-z0-9]+/g, ' ')
-    .trim();
-
-const lookup = async (artist: string, title: string): Promise<string | null> => {
-  const term = `${artist} ${title}`;
-  const url = `${ITUNES}?term=${encodeURIComponent(term)}&entity=song&limit=8`;
-
-  const response = await fetch(url);
-  if (!response.ok) return null;
-
-  const body = (await response.json()) as { results?: ItunesResult[] };
-  const wantedArtist = norm(artist);
-  const wantedTitle = norm(title);
-
-  for (const result of body.results ?? []) {
-    if (!result.artworkUrl100) continue;
-    const a = norm(result.artistName);
-    const t = norm(result.trackName);
-    // Correspondance exigeante : une pochette fausse est pire qu'aucune.
-    if ((a.includes(wantedArtist) || wantedArtist.includes(a)) && (t.includes(wantedTitle) || wantedTitle.includes(t))) {
-      return upscale(result.artworkUrl100);
-    }
-  }
-  return null;
-};
+const CORPUS = fileURLToPath(new URL('../src/data/corpus.json', import.meta.url));
+const FORCE = process.argv.includes('--force');
+/* iTunes limite par adresse IP sur une longue fenêtre : après quelques dizaines
+   de requêtes il répond 403 pendant des heures. --covers-only saute la
+   recherche et ne fait que télécharger les images déjà retenues, pour que le
+   site soit complet même quand le quota est épuisé. */
+const COVERS_ONLY = process.argv.includes('--covers-only');
 
 interface Track {
   youtubeId: string;
-  artist?: string;
-  title?: string;
-  cover?: string;
-  coverSource?: 'itunes' | 'youtube';
+  artist: string;
+  title: string;
+  year: number | null;
+  verified: true;
+  cover?: { url: string; source: 'itunes' | 'youtube'; local: string };
+  /* Le vrai label de disque demanderait un jeton Discogs. iTunes ne donne que
+     l'album : c'est ce qu'on affiche, en le nommant pour ce qu'il est. */
+  album?: string;
+}
+interface Genre { id: string; label: string; tracks: Track[] }
+interface Corpus { version: number; families: unknown[]; genres: Genre[] }
+
+const sleep = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms));
+
+/** Minuscules, accents retirés, ponctuation réduite à des espaces. */
+const norm = (s: string): string =>
+  s
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+
+/** Retire ce qui distingue une version d'une autre, pas le titre lui-même. */
+const stripVersion = (s: string): string =>
+  norm(s)
+    .replace(
+      /\b(original|radio|club|extended|vocal|instrumental|dub|edit|mix|remix|remastered|remaster|version|feat|featuring|pt|part|single|album|live|remixes)\b/g,
+      ' '
+    )
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const tokens = (s: string): string[] => stripVersion(s).split(' ').filter((w) => w.length > 2);
+
+/** Part des mots attendus effectivement présents. */
+const coverage = (want: string, got: string): number => {
+  const w = tokens(want);
+  if (w.length === 0) return 0;
+  const g = new Set(tokens(got));
+  return w.filter((t) => g.has(t)).length / w.length;
+};
+
+interface ItunesResult {
+  artistName?: string;
+  trackName?: string;
+  collectionName?: string;
+  artworkUrl100?: string;
 }
 
-interface Genre {
-  id: string;
-  tracksCurrent?: Track[];
-  tracksEssential?: Track[];
-  [key: string]: unknown;
-}
+/* iTunes limite le débit sans le documenter et répond 403 dès qu'on insiste.
+   Recul exponentiel plutôt qu'abandon : une pochette manquée pour cause de
+   quota n'est pas une pochette introuvable. */
+const UA =
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17 Safari/605.1.15';
 
-const only = process.argv[2];
-const files = readdirSync(GENRES_DIR)
-  .filter((f) => f.endsWith('.json'))
-  .filter((f) => !only || f === `${only}.json`);
+let cooldown = 900;
 
-let found = 0;
-let fallback = 0;
+const search = async (term: string): Promise<ItunesResult[]> => {
+  const url =
+    'https://itunes.apple.com/search?media=music&entity=song&limit=12&term=' +
+    encodeURIComponent(term);
 
-for (const file of files) {
-  const path = join(GENRES_DIR, file);
-  const genres = JSON.parse(readFileSync(path, 'utf8')) as Genre[];
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    const res = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'application/json' } });
+    if (res.ok) {
+      cooldown = Math.max(900, cooldown * 0.9);
+      const body = (await res.json()) as { results?: ItunesResult[] };
+      return body.results ?? [];
+    }
+    if (res.status !== 403 && res.status !== 429) throw new Error(`iTunes ${res.status}`);
+    cooldown = Math.min(30000, cooldown * 2);
+    console.warn(`    quota iTunes, pause de ${Math.round(cooldown / 1000)} s`);
+    await sleep(cooldown);
+  }
+  throw new Error('iTunes 403 après 5 tentatives');
+};
 
-  for (const genre of genres) {
-    for (const track of [...(genre.tracksCurrent ?? []), ...(genre.tracksEssential ?? [])]) {
-      if (track.cover) continue;
+/** 600 px au lieu des 100 px renvoyés par défaut. Même image, autre gabarit. */
+const upscale = (url: string): string => url.replace(/\/\d+x\d+bb\.(jpg|png)$/, '/600x600bb.$1');
 
-      const artwork = track.artist && track.title ? await lookup(track.artist, track.title) : null;
+const match = (
+  results: ItunesResult[],
+  artist: string,
+  title: string
+): { url: string; album: string } | null => {
+  let best: { url: string; album: string; score: number } | null = null;
 
-      if (artwork) {
-        track.cover = artwork;
-        track.coverSource = 'itunes';
-        found += 1;
-      } else if (track.youtubeId) {
-        track.cover = `https://i.ytimg.com/vi/${track.youtubeId}/hqdefault.jpg`;
-        track.coverSource = 'youtube';
-        fallback += 1;
-      }
+  for (const r of results) {
+    if (!r.artworkUrl100 || !r.artistName || !r.trackName) continue;
 
-      // L'API iTunes tolère mal les rafales : on reste poli.
-      await sleep(320);
+    const artistScore = Math.max(
+      coverage(artist, r.artistName),
+      // Certains morceaux sont crédités à une compilation : l'artiste est alors
+      // dans le titre du morceau plutôt que dans le champ artiste.
+      coverage(artist, `${r.artistName} ${r.trackName} ${r.collectionName ?? ''}`) * 0.9
+    );
+    const titleScore = coverage(title, r.trackName);
+
+    // Les deux doivent tenir. Un artiste juste avec un titre faux donne une
+    // pochette d'un autre morceau du même artiste : c'est exactement le cas
+    // qu'on refuse.
+    if (artistScore < 0.7 || titleScore < 0.7) continue;
+
+    const score = artistScore + titleScore;
+    if (!best || score > best.score) {
+      best = { url: upscale(r.artworkUrl100), album: r.collectionName ?? '', score };
     }
   }
 
-  writeFileSync(path, `${JSON.stringify(genres, null, 2)}\n`);
-  console.log(`${file} mis à jour.`);
+  return best ? { url: best.url, album: best.album } : null;
+};
+
+const corpus = JSON.parse(readFileSync(CORPUS, 'utf8')) as Corpus;
+
+let itunes = 0;
+let fallback = 0;
+let kept = 0;
+let failures = 0;
+
+for (const genre of corpus.genres) {
+  if (COVERS_ONLY) break;
+  for (const track of genre.tracks) {
+    if (!FORCE && track.cover?.source === 'itunes') {
+      kept += 1;
+      continue;
+    }
+
+    let hit: { url: string; album: string } | null = null;
+    // Deux formulations : la seconde aide quand l'artiste est écrit autrement
+    // dans les deux bases.
+    for (const term of [`${track.artist} ${track.title}`, track.title]) {
+      try {
+        hit = match(await search(term), track.artist, track.title);
+      } catch (error) {
+        failures += 1;
+        console.warn(`  iTunes indisponible sur "${term}" : ${(error as Error).message}`);
+      }
+      await sleep(cooldown);
+      if (hit) break;
+    }
+
+    if (hit) {
+      track.cover = { url: hit.url, source: 'itunes', local: `covers/${track.youtubeId}.jpg` };
+      if (hit.album) track.album = hit.album;
+      itunes += 1;
+      console.log(`  ok    ${genre.id.padEnd(20)} ${track.artist} - ${track.title}`);
+    } else {
+      track.cover = {
+        url: `https://i.ytimg.com/vi/${track.youtubeId}/maxresdefault.jpg`,
+        source: 'youtube',
+        local: `covers/${track.youtubeId}.jpg`
+      };
+      fallback += 1;
+      console.log(`  repli ${genre.id.padEnd(20)} ${track.artist} - ${track.title}`);
+    }
+  }
 }
 
-console.log(`\n${found} pochettes iTunes, ${fallback} replis sur la miniature YouTube.`);
+writeFileSync(CORPUS, `${JSON.stringify(corpus, null, 1)}\n`, 'utf8');
+
+/* Téléchargement local. La vignette maxresdefault n'existe pas pour toutes les
+   vidéos : on retombe alors sur hqdefault, qui existe toujours. */
+const OUT = fileURLToPath(new URL('../public/covers', import.meta.url));
+mkdirSync(OUT, { recursive: true });
+
+let downloaded = 0;
+let already = 0;
+let missing = 0;
+
+for (const genre of corpus.genres) {
+  for (const track of genre.tracks) {
+    if (!track.cover) continue;
+    track.cover.local = `covers/${track.youtubeId}.jpg`;
+    const dest = `${OUT}/${track.youtubeId}.jpg`;
+
+    try {
+      if (statSync(dest).size > 2048) {
+        already += 1;
+        continue;
+      }
+    } catch {
+      // pas encore téléchargée
+    }
+
+    const candidates = [track.cover.url];
+    if (track.cover.source === 'youtube') {
+      candidates.push(`https://i.ytimg.com/vi/${track.youtubeId}/hqdefault.jpg`);
+    }
+
+    let ok = false;
+    for (const url of candidates) {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) continue;
+        const buf = Buffer.from(await res.arrayBuffer());
+        // Une vignette absente est servie en placeholder gris de 1 ko environ.
+        if (buf.byteLength < 2048) continue;
+        writeFileSync(dest, buf);
+        downloaded += 1;
+        ok = true;
+        break;
+      } catch {
+        // on tente le candidat suivant
+      }
+    }
+    if (!ok) {
+      missing += 1;
+      console.warn(`  image introuvable : ${genre.id} ${track.artist} - ${track.title}`);
+    }
+  }
+}
+
+writeFileSync(CORPUS, `${JSON.stringify(corpus, null, 1)}\n`, 'utf8');
+
+console.log(
+  `Images locales : ${downloaded} téléchargées, ${already} déjà présentes, ${missing} manquantes.`
+);
+
+const total = corpus.genres.reduce((n, g) => n + g.tracks.length, 0);
+console.log(
+  `\n${total} morceaux : ${itunes} pochettes iTunes, ${fallback} replis vignette YouTube, ` +
+    `${kept} conservées, ${failures} appels en échec.`
+);

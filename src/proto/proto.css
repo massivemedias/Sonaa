@@ -89,7 +89,7 @@
 }
 
 .proto-fallback-notice {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 0.6875rem;
   letter-spacing: 0.05em;
   color: var(--ink-secondary);
@@ -113,7 +113,7 @@
   gap: 0.6rem;
   padding: 0.65rem 0.8rem;
   background: var(--surface-margin);
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 0.6875rem;
   color: var(--ink-secondary);
 }
@@ -141,7 +141,7 @@
   padding: 0.85rem 1rem 1rem;
   background: oklch(0.12 0.01 250 / 0.92);
   border: 1px solid var(--rule-hairline);
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 0.6875rem;
   color: var(--ink-secondary);
 }
@@ -189,7 +189,7 @@
 }
 
 .proto-hud-actions button {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 0.625rem;
   color: var(--ink-primary);
   background: transparent;
@@ -259,7 +259,7 @@
 }
 
 .crumb {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -290,7 +290,7 @@
   left: 50%;
   transform: translateX(-50%);
   z-index: 6;
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 0.6875rem;
   letter-spacing: 0.04em;
   color: var(--ink-secondary);
@@ -316,7 +316,7 @@
   height: 2rem;
   display: grid;
   place-items: center;
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 0.8rem;
   color: var(--ink-secondary);
   background: oklch(0.12 0.01 250 / 0.85);
@@ -334,7 +334,7 @@
   top: 1rem;
   right: 1rem;
   z-index: 6;
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 0.625rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -350,303 +350,13 @@
 }
 
 .proto-hud-link {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 0.625rem;
   color: var(--ink-secondary);
   align-self: center;
-}
-
-/* ========================== VUE TRACKS ========================== */
-
-.tracks {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  background: oklch(0.13 0.012 250 / 0.94);
-  overflow: hidden;
-}
-
-.tracks-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1.5rem;
-  padding: 1.5rem 2rem 1rem;
-  border-bottom: 1px solid var(--rule-hairline);
-}
-
-.tracks-crumb {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-secondary);
-}
-
-.tracks-head h2 {
-  font-family: var(--font-display);
-  font-size: clamp(1.4rem, 3vw, 2.1rem);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-primary);
-  margin: 0.2rem 0;
-}
-
-.tracks-meta {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  color: var(--ink-secondary);
-}
-
-.tracks-head-right {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.tracks-tabs {
-  display: flex;
-  border: 1px solid var(--rule-hairline);
-}
-
-.tracks-tabs button {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-secondary);
-  background: transparent;
-  border: 0;
-  padding: 0.45rem 0.9rem;
-  cursor: pointer;
-}
-
-.tracks-tabs button[aria-selected='true'] {
-  color: var(--ink-primary);
-  background: var(--surface-raised);
-}
-
-.tracks-close {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  color: var(--ink-primary);
-  background: transparent;
-  border: 1px solid var(--rule-hairline);
-  padding: 0.45rem 0.8rem;
-  cursor: pointer;
-}
-
-.tracks-warning {
-  padding: 0.6rem 2rem;
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
-  line-height: 1.6;
-  color: oklch(0.75 0.11 60);
-  border-bottom: 1px solid var(--rule-hairline);
-}
-
-.tracks-grid {
-  flex: 1;
-  overflow-y: auto;
-  list-style: none;
-  margin: 0;
-  padding: 1.5rem 2rem 7rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
-  gap: 1.25rem;
-}
-
-.track-card {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  text-align: left;
-  background: transparent;
-  border: 0;
-  padding: 0;
-  cursor: pointer;
-  color: var(--ink-secondary);
-}
-
-.track-cover {
-  position: relative;
-  display: block;
-  aspect-ratio: 1;
-  overflow: hidden;
-  border: 1px solid var(--rule-hairline);
-  margin-bottom: 0.5rem;
-}
-
-.track-cover .cover {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.track-play {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  font-size: 1.5rem;
-  color: var(--ink-primary);
-  background: oklch(0.1 0.01 250 / 0.55);
-  opacity: 0;
-  transition: opacity 140ms linear;
-}
-
-.track-card:hover .track-play,
-.track-card:focus-visible .track-play,
-.track-card[data-active='true'] .track-play {
-  opacity: 1;
-}
-
-.track-card[data-active='true'] .track-cover {
-  border-color: var(--ink-primary);
-}
-
-.track-artist {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  color: var(--ink-primary);
-}
-
-.track-title {
-  font-size: 0.8125rem;
-  color: var(--ink-secondary);
-}
-
-.track-label {
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
-  color: var(--ink-secondary);
-  opacity: 0.7;
 }
 
 /* Lecteur persistant. */
-.player {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  padding: 0.7rem 1.5rem;
-  background: oklch(0.1 0.01 250 / 0.97);
-  border-top: 1px solid var(--rule-hairline);
-}
-
-.player-cover {
-  width: 2.75rem;
-  height: 2.75rem;
-  flex: none;
-  border: 1px solid var(--rule-hairline);
-  display: block;
-}
-
-.player-meta {
-  display: flex;
-  flex-direction: column;
-  min-width: 9rem;
-  max-width: 14rem;
-}
-
-.player-meta strong {
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--ink-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.player-meta span {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  color: var(--ink-secondary);
-}
-
-.player-transport {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-}
-
-.player-transport button {
-  width: 1.9rem;
-  height: 1.9rem;
-  display: grid;
-  place-items: center;
-  color: var(--ink-secondary);
-  background: transparent;
-  border: 1px solid transparent;
-  cursor: pointer;
-  font-size: 0.75rem;
-}
-
-.player-transport button:hover:not(:disabled) {
-  color: var(--ink-primary);
-  border-color: var(--rule-hairline);
-}
-
-.player-transport button:disabled {
-  opacity: 0.35;
-  cursor: default;
-}
-
-.player-main {
-  border-color: var(--rule-hairline) !important;
-  color: var(--ink-primary) !important;
-}
-
-.player-time {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  color: var(--ink-secondary);
-  min-width: 2.6rem;
-  text-align: center;
-}
-
-.player-bar {
-  flex: 1;
-  height: 0.75rem;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.player-bar::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-}
-
-.player-bar-fill {
-  height: 2px;
-  background: var(--ink-primary);
-  position: relative;
-}
-
-.player-bar {
-  position: relative;
-  background:
-    linear-gradient(var(--rule-hairline), var(--rule-hairline)) left center / 100% 2px no-repeat;
-}
-
-.player-bar-fill {
-  align-self: center;
-}
-
-.player-volume input {
-  width: 5rem;
-  accent-color: var(--ink-primary);
-}
-
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -669,10 +379,6 @@
   display: none;
 }
 
-.tracks {
-  background: oklch(0.115 0.012 250);
-}
-
 .crumb-group {
   display: inline-flex;
   align-items: center;
@@ -688,44 +394,6 @@
    Le transport simulé a disparu : la lecture passe par l'iframe officielle,
    qui porte ses propres commandes. Le bandeau ne garde que le contexte et le
    passage d'un morceau à l'autre. */
-
-.player-frame {
-  flex: none;
-  width: 15rem;
-  aspect-ratio: 16 / 9;
-  border: 1px solid var(--rule-hairline);
-  background: #000;
-  overflow: hidden;
-}
-
-.player-frame iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-  display: block;
-}
-
-.player-stop {
-  margin-left: auto;
-  font-family: var(--font-ui);
-  font-size: 0.9rem;
-  color: var(--ink-secondary);
-  background: transparent;
-  border: 1px solid var(--rule-hairline);
-  min-width: 2rem;
-  min-height: 2rem;
-  cursor: pointer;
-}
-
-.tracks-flag {
-  font: inherit;
-  color: oklch(0.78 0.13 60);
-  background: transparent;
-  border: 0;
-  border-bottom: 1px dotted currentColor;
-  padding: 0;
-  cursor: pointer;
-}
 
 @media (max-width: 700px) {
   .player {

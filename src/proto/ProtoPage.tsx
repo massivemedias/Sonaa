@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { FAMILIES } from './masses.ts';
-import { TracksView } from './TracksView.tsx';
-import type { NavState, ProtoApi, ProtoStats } from './webgl.ts';
+import { PlayerLayer, type PanelBus } from './PlayerLayer.tsx';
+import type { NavState, PanelState, ProtoApi, ProtoStats } from './webgl.ts';
 import './proto.css';
 
 type Mode = 'attente' | 'webgl' | 'repli';
@@ -39,14 +39,30 @@ export function ProtoPage() {
   const [mode, setMode] = useState<Mode>('attente');
   const [stats, setStats] = useState<ProtoStats | null>(null);
   const [nav, setNav] = useState<NavState | null>(null);
-  const [tracks, setTracks] = useState<{ family: number; genre: number } | null>(null);
+  /* La géométrie du panneau change à chaque image pendant un vol de caméra.
+     Elle ne passe donc pas par un état React : le bus la transmet en impératif
+     à la couche lecteur, et React ne se rerend que quand le genre change. */
+  const busRef = useRef<PanelBus>({ current: null, listeners: new Set() });
+  const [panelGenre, setPanelGenre] = useState<{ familyIndex: number; genreLocal: number } | null>(
+    null
+  );
   const [reason, setReason] = useState('Chargement de la couche WebGL…');
   const [showHelp, setShowHelp] = useState(() => localStorage.getItem(HELP_KEY) !== '1');
   const [showHud, setShowHud] = useState(false);
 
   const onStats = useCallback((next: ProtoStats) => setStats(next), []);
   const onNavigate = useCallback((next: NavState) => setNav(next), []);
-  const onTracks = useCallback((family: number, genre: number) => setTracks({ family, genre }), []);
+  const onTracks = useCallback(
+    (familyIndex: number, genreLocal: number) => setPanelGenre({ familyIndex, genreLocal }),
+    []
+  );
+
+  const onPanel = useCallback((state: PanelState | null) => {
+    const bus = busRef.current;
+    bus.current = state;
+    for (const listener of bus.listeners) listener(state);
+    if (state === null) setPanelGenre(null);
+  }, []);
 
   const dismissHelp = useCallback(() => {
     setShowHelp((visible) => {
@@ -76,6 +92,7 @@ export function ProtoPage() {
           onStats,
           onNavigate,
           onTracks,
+          onPanel,
           onContextLost: () => {
             setMode('repli');
             setReason('Contexte WebGL perdu, bascule sur le repli.');
@@ -91,12 +108,21 @@ export function ProtoPage() {
       apiRef.current?.dispose();
       apiRef.current = null;
     };
-  }, [onStats, onNavigate, onTracks]);
+  }, [onStats, onNavigate, onTracks, onPanel]);
 
-  // La 3D est suspendue tant que la vue tracks est devant.
-  useEffect(() => {
-    apiRef.current?.setSuspended(tracks !== null);
-  }, [tracks]);
+  /* La 3D n'est plus suspendue : le panneau vit DANS la scène, devant la
+     sphère du genre. On continue donc à orbiter et à zoomer pendant qu'il est
+     ouvert, et la plaque suit la caméra sans jamais tourner sur elle-même. */
+
+  const closePanel = useCallback(() => {
+    setPanelGenre(null);
+    apiRef.current?.closePanel();
+    apiRef.current?.goUp();
+  }, []);
+
+  const reopenPanel = useCallback((familyIndex: number, genreLocal: number) => {
+    apiRef.current?.openPanel(familyIndex, genreLocal);
+  }, []);
 
   const act = (fn: () => void) => () => {
     dismissHelp();
@@ -112,20 +138,21 @@ export function ProtoPage() {
         ref={canvasRef}
         className="proto-canvas"
         data-active={mode === 'webgl'}
-        data-suspended={tracks !== null}
+        data-suspended={false}
       />
-      <div ref={labelRef} className="proto-labels" data-suspended={tracks !== null} aria-hidden="true" />
+      <div ref={labelRef} className="proto-labels" data-suspended={panelGenre !== null} aria-hidden="true" />
 
       {mode !== 'webgl' && <Fallback notice={reason} />}
 
       {/* Fil d'Ariane permanent : on sait toujours où on est, et on remonte
           en un clic sur n'importe quel segment. */}
-      <nav className="crumbs" data-hidden={tracks !== null} aria-label="Fil d'Ariane">
+      <nav className="crumbs" data-hidden={false} aria-label="Fil d'Ariane">
         <button
           className="crumb"
-          data-current={level === 'atlas' && !tracks}
+          data-current={level === 'atlas' && !panelGenre}
           onClick={act(() => {
-            setTracks(null);
+            setPanelGenre(null);
+            apiRef.current?.closePanel();
             apiRef.current?.goToFamily(-1);
           })}
         >
@@ -137,9 +164,10 @@ export function ProtoPage() {
             <span className="crumb-sep" aria-hidden="true">›</span>
             <button
               className="crumb"
-              data-current={level === 'family' && !tracks}
+              data-current={level === 'family' && !panelGenre}
               onClick={act(() => {
-                setTracks(null);
+                setPanelGenre(null);
+                apiRef.current?.closePanel();
                 apiRef.current?.goToFamily(nav.familyIndex);
               })}
             >
@@ -153,15 +181,15 @@ export function ProtoPage() {
             <span className="crumb-sep" aria-hidden="true">›</span>
             <button
               className="crumb"
-              data-current={!tracks && i === (nav.path.length - 1)}
-              onClick={act(() => setTracks(null))}
+              data-current={!panelGenre && i === (nav.path.length - 1)}
+              onClick={act(() => { setPanelGenre(null); apiRef.current?.closePanel(); })}
             >
               {seg.label}
             </button>
           </span>
         ))}
 
-        {tracks && (
+        {panelGenre && (
           <>
             <span className="crumb-sep" aria-hidden="true">›</span>
             <span className="crumb" data-current="true">Morceaux</span>
@@ -169,7 +197,7 @@ export function ProtoPage() {
         )}
       </nav>
 
-      {showHelp && mode === 'webgl' && !tracks && (
+      {showHelp && mode === 'webgl' && !panelGenre && (
         <p className="help-line" role="status">
           Glisser pour tourner · molette pour zoomer · clic sur une sphère pour y descendre ·
           Échap pour remonter
@@ -178,7 +206,7 @@ export function ProtoPage() {
 
       {/* Contrôles visibles en permanence : la navigation ne doit pas se
           deviner. Ils font exactement ce que font la souris et le clavier. */}
-      {mode === 'webgl' && !tracks && (
+      {mode === 'webgl' && (
         <div className="controls" aria-label="Contrôles de navigation">
           <button onClick={act(() => apiRef.current?.zoom(1))} aria-label="Zoom avant" title="Zoom avant (+)">+</button>
           <button onClick={act(() => apiRef.current?.zoom(-1))} aria-label="Zoom arrière" title="Zoom arrière (-)">−</button>
@@ -189,8 +217,13 @@ export function ProtoPage() {
         </div>
       )}
 
-      {tracks && (
-        <TracksView familyIndex={tracks.family} genreLocal={tracks.genre} onClose={() => setTracks(null)} />
+      {mode === 'webgl' && (
+        <PlayerLayer
+          bus={busRef.current}
+          panelGenre={panelGenre}
+          onClose={closePanel}
+          onReopen={reopenPanel}
+        />
       )}
 
       <button className="hud-toggle" onClick={() => setShowHud((v) => !v)}>
@@ -212,7 +245,7 @@ export function ProtoPage() {
             <dt>draw calls</dt>
             <dd>{stats?.drawCalls ?? '—'}</dd>
             <dt>niveau</dt>
-            <dd>{tracks ? 'tracks' : level}</dd>
+            <dd>{panelGenre ? 'morceaux' : level}</dd>
             <dt>diffusion</dt>
             <dd>{stats ? `${stats.deployPct.toFixed(0)} %` : '—'}</dd>
             <dt>rendu</dt>

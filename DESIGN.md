@@ -248,19 +248,57 @@ de son propre parent. Chaque génération forme un anneau identifiable. La
 relaxation anti-chevauchement ne déplace que les feuilles, et faiblement : elle
 corrige les collisions sans détruire la structure.
 
-### 5c. La vue morceaux
+### 5c. La vue morceaux : un panneau flottant, dans la scène
 
-Entrer dans les morceaux suspend la 3D : elle recule, se floute légèrement, et
-un panneau 2D plein passe devant. Pas de sphères, pas de caméra, pas de
-profondeur. Choisir un morceau est une tâche de liste.
+Elle ne remplace plus la 3D par un panneau plat. Arriver sur un genre feuille
+fait voler la caméra vers sa sphère, et une PLAQUE apparaît devant, dans
+l'espace : un plan incliné de 9 degrés, face caméra, qui suit la caméra en
+amorti et ne tourne jamais sur lui-même. La sphère du genre reste visible
+derrière et en dessous, avec sa couleur de famille, qui est aussi celle du
+liseré de la plaque.
 
-Grille de pochettes carrées. Sur chaque carte : pochette, artiste, titre, label,
-bouton de lecture au survol. Lecteur persistant en bas, avec barre de défilement
-cliquable. Deux onglets : **Actuel**, les sorties récentes triées par écoutes, et
-**Essentiel**, les fondateurs du genre.
+Sur la plaque, de haut en bas :
 
-Les pochettes ne sont jamais des assets du dépôt : elles sont figées au build
-depuis une source tierce, ou générées.
+- une **fenêtre vidéo 16:9**. Au repos elle montre la **pochette** du morceau,
+  pas la vignette YouTube. En lecture, la vidéo prend sa place, au même
+  gabarit : rien ne saute au démarrage ;
+- **artiste, titre, album, année**. Le label de disque demanderait un jeton
+  Discogs, donc c'est l'album qui est affiché, nommé pour ce qu'il est ;
+- la **bande des autres morceaux du genre**, en pochettes carrées cliquables ;
+- le **transport complet** : lecture et pause, précédent, suivant, barre de
+  défilement cliquable, volume, et un bouton qui agrandit la vidéo à toute la
+  plaque.
+
+**Pourquoi la fenêtre vidéo est en DOM.** Une iframe ne peut pas se rendre dans
+une texture WebGL. La plaque est donc peinte en WebGL, et tout le reste est un
+élément HTML superposé au canvas, positionné par projection de la plaque et
+portant la même inclinaison en CSS. L'illusion tient parce que la plaque est
+face caméra : sa projection reste un rectangle, jamais un quadrilatère
+quelconque.
+
+**Ce qui a été mesuré et corrigé sur cette illusion.** Mesurer séparément la
+demi-largeur et la demi-hauteur par deux projections donne des rapports faux dès
+que la plaque s'écarte de l'axe optique : le DOM ne collait plus au rendu. Une
+plaque face caméra se réduit à une seule échelle, calculée depuis la
+profondeur. De même, viser la position de la sphère au moment du clic ne suffit
+pas : la descente sur un genre repositionne les sphères après coup. La caméra
+suit donc la sphère à chaque image tant que le panneau est ouvert.
+
+**La lecture survit à la fermeture.** L'iframe n'est jamais démontée ni
+reparentée, sinon la lecture s'arrête. Elle vit dans un conteneur de premier
+niveau qu'on déplace vers la fenêtre de la plaque ou vers le mini-lecteur, en
+bas de l'écran, qui apparaît quand on remonte dans l'atlas. Un clic dessus
+ramène au panneau du genre.
+
+Échap ferme la plaque et remonte d'un niveau.
+
+**Les pochettes.** Récupérées au build par l'API iTunes Search, gratuite et sans
+clé, sur artiste plus titre, avec une correspondance exigeante : l'artiste ET le
+titre doivent tenir après normalisation. Une pochette fausse est pire
+qu'aucune. Sans correspondance, repli sur la vignette de la vidéo, marquée comme
+telle. Les images sont ensuite **téléchargées et servies par le site** : « aucun
+appel tiers au runtime » se prend au mot, une balise `img` vers un domaine
+tiers en est un. Il ne reste que l'iframe YouTube, et seulement à la lecture.
 
 ---
 

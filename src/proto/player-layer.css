@@ -1,0 +1,433 @@
+/* Panneau morceaux flottant, et mini-lecteur.
+
+   Tout est dimensionné à partir de --panel-w, la largeur projetée de la plaque
+   rendue en WebGL. Le panneau grandit et rétrécit d'une seule pièce quand on
+   avance ou qu'on recule : c'est un objet de la scène, pas une boîte d'interface.
+
+   SF Pro Display partout, sans exception, y compris les durées et les BPM.
+   Aucune police à chasse fixe nulle part. */
+
+.panel,
+.mini,
+.yt-wrap {
+  font-family: var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Conteneur de l'iframe ---------------------------------------------- */
+
+/* Monté une fois, jamais démonté ni reparenté : c'est ce qui permet à la
+   lecture de survivre à la fermeture du panneau. Il est simplement déplacé. */
+.yt-wrap {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 14;
+  opacity: 0;
+  transform-style: preserve-3d;
+  transition: opacity 200ms linear;
+}
+
+.yt-slot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid var(--rule-hairline);
+}
+
+.yt-slot[data-idle='true'] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.yt-slot iframe,
+.yt-mount {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+/* --- La plaque ---------------------------------------------------------- */
+
+.panel {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 12;
+  transform-style: preserve-3d;
+  display: flex;
+  flex-direction: column;
+  padding: var(--panel-pad);
+  gap: calc(var(--panel-w) * 0.022);
+  color: var(--ink-primary);
+  opacity: 0;
+  transition: opacity 220ms var(--motion-ease);
+  /* La plaque elle-même est peinte en WebGL, derrière. Ici, rien de plein. */
+  background: transparent;
+}
+
+/* La fenêtre vidéo. La pochette au repos, la vidéo en lecture, même gabarit
+   et même position : rien ne saute au démarrage. */
+.panel-window {
+  position: relative;
+  width: 100%;
+  height: var(--video-h);
+  flex: none;
+  overflow: hidden;
+  background: oklch(0.08 0.01 250);
+  border: 1px solid var(--rule-hairline);
+}
+
+.panel-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.panel-bigplay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: calc(var(--panel-w) * 0.11);
+  color: #fff;
+  background: oklch(0.1 0.01 250 / 0.35);
+  border: 0;
+  cursor: pointer;
+  transition: background 140ms linear;
+}
+
+.panel-bigplay:hover,
+.panel-bigplay:focus-visible {
+  background: oklch(0.1 0.01 250 / 0.6);
+}
+
+.panel-failed {
+  position: absolute;
+  inset: auto 0 0 0;
+  margin: 0;
+  padding: 0.4em 0.6em;
+  font-size: calc(var(--panel-w) * 0.026);
+  font-weight: 400;
+  color: oklch(0.8 0.12 60);
+  background: oklch(0.1 0.01 250 / 0.9);
+}
+
+.panel[data-expanded='true'] .panel-body {
+  display: none;
+}
+
+.panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--panel-w) * 0.014);
+  min-height: 0;
+}
+
+/* Le texte ne se comprime pas. Sans cela, la boîte flexible rétrécit le titre
+   sous la hauteur de sa ligne et `overflow: hidden` coupe les jambages : c'est
+   ce qui rognait le bas de « Night Voices ». Seule la bande de pochettes cède. */
+.panel-genre,
+.panel-title,
+.panel-artist,
+.panel-meta,
+.panel-transport {
+  flex: none;
+}
+
+.panel-strip {
+  flex: 0 1 auto;
+  min-height: 0;
+}
+
+/* Hiérarchie par graisse : 600 titres, 500 morceaux et artistes, 400 données. */
+.panel-genre {
+  margin: 0;
+  font-size: calc(var(--panel-w) * 0.026);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+.panel-title {
+  margin: 0;
+  font-size: calc(var(--panel-w) * 0.056);
+  font-weight: 600;
+  /* 1.15 rognait les jambages des majuscules descendantes : le titre est la
+     ligne la plus grande du panneau, elle doit respirer. */
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.panel-artist {
+  margin: 0;
+  font-size: calc(var(--panel-w) * 0.038);
+  font-weight: 500;
+  color: var(--ink-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.panel-meta {
+  margin: 0;
+  font-size: calc(var(--panel-w) * 0.028);
+  font-weight: 400;
+  color: var(--ink-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Bande de pochettes : les autres morceaux du genre, en carrés cliquables. */
+.panel-strip {
+  display: flex;
+  gap: calc(var(--panel-w) * 0.02);
+  list-style: none;
+  margin: calc(var(--panel-w) * 0.012) 0 0;
+  padding: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.panel-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.panel-thumb {
+  width: calc(var(--panel-w) * 0.135);
+  height: calc(var(--panel-w) * 0.135);
+  flex: none;
+  padding: 0;
+  border: 1px solid var(--rule-hairline);
+  background: oklch(0.08 0.01 250);
+  cursor: pointer;
+  overflow: hidden;
+  opacity: 0.72;
+  transition: opacity 140ms linear, border-color 140ms linear;
+}
+
+.panel-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.panel-thumb:hover,
+.panel-thumb:focus-visible {
+  opacity: 1;
+}
+
+.panel-thumb[data-active='true'] {
+  opacity: 1;
+  border-color: var(--family);
+  box-shadow: 0 0 0 1px var(--family);
+}
+
+/* Transport complet. */
+.panel-transport {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--panel-w) * 0.018);
+  margin-top: calc(var(--panel-w) * 0.01);
+}
+
+.panel-transport button {
+  font-family: var(--font-ui);
+  font-size: calc(var(--panel-w) * 0.032);
+  font-weight: 400;
+  color: var(--ink-primary);
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.panel-transport button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.panel-main {
+  font-size: calc(var(--panel-w) * 0.042) !important;
+  color: var(--family) !important;
+}
+
+.panel-time {
+  font-size: calc(var(--panel-w) * 0.024);
+  font-weight: 400;
+  color: var(--ink-secondary);
+  flex: none;
+  min-width: calc(var(--panel-w) * 0.07);
+}
+
+.panel-bar {
+  flex: 1;
+  height: calc(var(--panel-w) * 0.012);
+  min-height: 3px;
+  background: oklch(0.3 0.01 250);
+  cursor: pointer;
+  position: relative;
+}
+
+.panel-bar-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--family);
+}
+
+.panel-volume input {
+  width: calc(var(--panel-w) * 0.13);
+  accent-color: var(--family);
+  cursor: pointer;
+}
+
+.panel-expand {
+  font-size: calc(var(--panel-w) * 0.03) !important;
+}
+
+.panel-close {
+  position: absolute;
+  top: calc(var(--panel-pad) * 0.35);
+  right: calc(var(--panel-pad) * 0.35);
+  width: calc(var(--panel-w) * 0.055);
+  height: calc(var(--panel-w) * 0.055);
+  font-family: var(--font-ui);
+  font-size: calc(var(--panel-w) * 0.026);
+  font-weight: 400;
+  color: var(--ink-secondary);
+  background: oklch(0.1 0.01 250 / 0.75);
+  border: 1px solid var(--rule-hairline);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+
+/* --- Mini-lecteur ------------------------------------------------------- */
+
+/* La lecture continue quand on referme le panneau et qu'on remonte. Le carré
+   de gauche est un emplacement vide : la vraie iframe vient s'y poser. */
+.mini {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 13;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 1.1rem 0.5rem 0.9rem;
+  background: oklch(0.1 0.01 250 / 0.97);
+  border-top: 1px solid var(--rule-hairline);
+}
+
+.mini-back {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  color: var(--ink-primary);
+  min-width: 0;
+}
+
+.mini-slot {
+  width: 78px;
+  height: 44px;
+  flex: none;
+  display: block;
+}
+
+.mini-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  max-width: 18rem;
+}
+
+.mini-text strong {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mini-text span {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--ink-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mini-transport {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex: none;
+}
+
+.mini-transport button,
+.mini-stop {
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--ink-primary);
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.mini-bar {
+  flex: 1;
+  height: 3px;
+  background: oklch(0.3 0.01 250);
+  position: relative;
+  cursor: pointer;
+}
+
+.mini-bar-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--ink-primary);
+}
+
+.mini-stop {
+  color: var(--ink-secondary);
+  flex: none;
+}
+
+@media (max-width: 700px) {
+  .mini-text {
+    max-width: 9rem;
+  }
+  .mini-transport button,
+  .mini-stop {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .yt-wrap {
+    transition: none;
+  }
+}

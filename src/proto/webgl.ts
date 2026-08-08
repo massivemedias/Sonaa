@@ -5,6 +5,7 @@ import {
   BufferAttribute,
   Float32BufferAttribute,
   InstancedBufferAttribute,
+  BufferGeometry,
   InstancedBufferGeometry,
   Mesh,
   OrthographicCamera,
@@ -38,7 +39,9 @@ import {
   linkFrag,
   linkVert,
   sphereFrag,
-  sphereVert
+  sphereVert,
+  panelVert,
+  panelFrag
 } from './shaders.ts';
 
 // ------------------------------------------------------------------ couleur
@@ -102,13 +105,34 @@ export interface NavState {
   path: { index: number; label: string }[];
 }
 
+/* Géométrie du panneau, recalculée à chaque image et transmise au DOM.
+   La fenêtre vidéo et les commandes se positionnent dessus : l'iframe YouTube
+   ne peut pas se rendre dans une texture WebGL, donc elle se superpose au
+   canvas en suivant exactement la plaque rendue en 3D. */
+export interface PanelState {
+  familyIndex: number;
+  genreLocal: number;
+  /** Centre de la plaque, en pixels CSS. */
+  x: number;
+  y: number;
+  /** Taille projetée de la plaque, en pixels CSS. */
+  width: number;
+  height: number;
+  /** Inclinaison de la plaque, en degrés. Le DOM applique la même. */
+  tiltDeg: number;
+  /** Faux quand la plaque passe derrière la caméra. */
+  visible: boolean;
+}
+
 export interface ProtoHandles {
   canvas: HTMLCanvasElement;
   labelLayer: HTMLElement;
   onStats: (stats: ProtoStats) => void;
   onNavigate: (nav: NavState) => void;
-  /** Demande d'ouverture de la vue tracks pour un genre. */
+  /** Demande d'ouverture du panneau morceaux pour un genre. */
   onTracks: (familyIndex: number, genreLocal: number) => void;
+  /** Géométrie du panneau à chaque image, ou null quand il est fermé. */
+  onPanel: (panel: PanelState | null) => void;
   onContextLost: () => void;
 }
 
@@ -121,6 +145,9 @@ export interface ProtoApi {
   goUp: () => void;
   goToFamily: (familyIndex: number) => void;
   setSuspended: (suspended: boolean) => void;
+  /** Ouvre la plaque devant la sphère d'un genre, et vole vers elle. */
+  openPanel: (familyIndex: number, genreLocal: number) => void;
+  closePanel: () => void;
 }
 
 const FOV = 40;
@@ -140,6 +167,21 @@ const MAX_DISTANCE = 520;
 const LABEL_PX_CEILING = 22;
 const DESKTOP = { maxLabels: 56, floorPx: 13 };
 const MOBILE = { maxLabels: 20, floorPx: 15 };
+
+/* Le panneau morceaux.
+   Proportion portrait : une fenêtre 16:9 en haut, puis le texte, la bande de
+   pochettes et le transport. Il occupe 66 pour cent de la hauteur de l'écran au
+   moment où on arrive dessus, et il est décalé vers le haut pour que la sphère
+   du genre reste visible en dessous. */
+/* Rapport largeur sur hauteur. Mesuré sur le contenu réel : fenêtre 16:9,
+   quatre lignes de texte, bande de pochettes et transport ne tiennent pas dans
+   0.92, la bande se faisait rogner. */
+const PANEL_ASPECT = 0.86;
+const PANEL_FILL = 0.52;
+const PANEL_TILT_DEG = 9;
+const PANEL_RISE = 0.2;
+/** Suivi amorti : la plaque accompagne la caméra, elle ne lui colle pas. */
+const PANEL_FOLLOW = 0.14;
 
 /* La diffusion. Rapide et énergique : c'est l'animation signature. */
 const OPEN_MS = 480;
@@ -161,7 +203,7 @@ const backOut = (t: number): number => {
 // ------------------------------------------------------------------ init
 
 export const initProto = (handles: ProtoHandles): ProtoApi => {
-  const { canvas, labelLayer, onStats, onNavigate, onTracks, onContextLost } = handles;
+  const { canvas, labelLayer, onStats, onNavigate, onTracks, onPanel, onContextLost } = handles;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const renderer = new WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: 'high-performance' });
@@ -437,6 +479,58 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
   linkMesh.renderOrder = 2;
   scene.add(linkMesh);
 
+  // -------------------------------------------------------------- panneau
+
+  /* La plaque est un quad de quatre sommets recalculés en espace monde à
+     chaque image : face caméra, inclinée d'un angle fixe, jamais en rotation
+     propre. Faire le billboard côté CPU plutôt qu'en GLSL permet de projeter
+     exactement les mêmes coins pour positionner le DOM par-dessus. */
+  const panelPositions = new Float32Array(12);
+  const panelGeometry = new BufferGeometry();
+  /* BufferAttribute et NON Float32BufferAttribute : ce dernier recopie le
+     tableau qu'on lui passe, si bien que les écritures faites ensuite dans
+     panelPositions n'atteignaient jamais la géométrie et le quad restait
+     dégénéré à l'origine. */
+  const panelPosAttr = new BufferAttribute(panelPositions, 3);
+  panelPosAttr.setUsage(35048);
+  panelGeometry.setAttribute('position', panelPosAttr);
+  panelGeometry.setAttribute('aQuadUv', new Float32BufferAttribute(new Float32Array([0, 0, 1, 0, 0, 1, 1, 1]), 2));
+  panelGeometry.setIndex([0, 1, 2, 2, 1, 3]);
+
+  const panelUniforms = {
+    uTint: { value: new Vector3(1, 1, 1) },
+    uOpacity: { value: 0 },
+    uAspect: { value: new Vector2(PANEL_ASPECT, 1) },
+    uEdgePx: { value: 0.004 }
+  };
+
+  const panelMesh = new Mesh(
+    panelGeometry,
+    new ShaderMaterial({
+      vertexShader: panelVert,
+      fragmentShader: panelFrag,
+      uniforms: panelUniforms,
+      transparent: true,
+      depthTest: true,
+      depthWrite: false
+    })
+  );
+  panelMesh.frustumCulled = false;
+  panelMesh.renderOrder = 3;
+  panelMesh.visible = false;
+  scene.add(panelMesh);
+
+  let panelSlot = -1;
+  let panelHeight = 6;
+  let panelOpacity = 0;
+  const panelPos = new Vector3();
+  const panelTarget = new Vector3();
+  const panelRight = new Vector3();
+  const panelUp = new Vector3();
+  const panelFwd = new Vector3();
+  const panelCorner = new Vector3();
+  let lastPanelEmit = '';
+
   // ------------------------------------------------------------- caméra
 
   const atlasTarget = new Vector3(...ATLAS_CENTER);
@@ -446,25 +540,38 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
      les douze autres se concentrent au centre, et la scène apparaissait deux
      fois trop petite. On mesure l'étendue VERTICALE réelle en espace caméra,
      qui ne dépend pas de la distance, et on résout. */
-  const atlasDistance = (() => {
+  /* Cadrage de l'atlas. On mesure l'étendue réelle dans les DEUX axes de la
+     caméra, pas seulement la verticale : sur une fenêtre en portrait, c'est la
+     largeur qui déborde, et deux familles sur six sortaient de l'écran. */
+  const atlasDistanceFor = (aspect: number): number => {
     const az = DEFAULT_AZIMUTH;
     const el = DEFAULT_ELEVATION;
     // Axe vertical de la caméra pour cette orientation d'orbite.
     const upX = -Math.sin(el) * Math.sin(az);
     const upY = Math.cos(el);
     const upZ = -Math.sin(el) * Math.cos(az);
+    // Axe horizontal : perpendiculaire à la direction de vue, dans le plan.
+    const rightX = Math.cos(az);
+    const rightZ = -Math.sin(az);
 
-    let half = 1;
+    let halfV = 1;
+    let halfH = 1;
     FAMILIES.forEach((family, i) => {
       const dx = family.center[0] - ATLAS_CENTER[0];
       const dy = family.center[1] - ATLAS_CENTER[1];
       const dz = family.center[2] - ATLAS_CENTER[2];
-      const along = Math.abs(dx * upX + dy * upY + dz * upZ);
-      half = Math.max(half, along + (STRUCTURES[i]?.compactRadius ?? 6));
+      const r = STRUCTURES[i]?.compactRadius ?? 6;
+      halfV = Math.max(halfV, Math.abs(dx * upX + dy * upY + dz * upZ) + r);
+      halfH = Math.max(halfH, Math.abs(dx * rightX + dz * rightZ) + r);
     });
 
-    return clamp(half / (ATLAS_FILL * Math.tan((FOV * Math.PI) / 360)), MIN_DISTANCE, MAX_DISTANCE);
-  })();
+    const tan = Math.tan((FOV * Math.PI) / 360);
+    const byHeight = halfV / (ATLAS_FILL * tan);
+    const byWidth = halfH / (ATLAS_FILL * tan * Math.max(0.2, aspect));
+    return clamp(Math.max(byHeight, byWidth), MIN_DISTANCE, MAX_DISTANCE);
+  };
+
+  let atlasDistance = atlasDistanceFor(1);
 
   const target = atlasTarget.clone();
   const targetSmooth = target.clone();
@@ -628,6 +735,11 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
+
+    // Le cadrage de l'atlas dépend du format de la fenêtre : on le refait.
+    const wasAtlas = Math.abs(distance - atlasDistance) < 0.5;
+    atlasDistance = atlasDistanceFor(camera.aspect);
+    if (wasAtlas) distance = atlasDistance;
     bgUniforms.uResolution.value.set(width, height);
     const pixelScale = (2 * Math.tan((FOV * Math.PI) / 360)) / height;
     sphereUniforms.uPixelScale.value = pixelScale;
@@ -748,13 +860,67 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
     emitNav();
   };
 
+  /* Ouvrir le panneau, c'est voler jusqu'à la sphère et poser la plaque
+     devant. La taille de la plaque est fixée en unités monde à l'ouverture,
+     pas recalculée à chaque image : c'est un objet de la scène, il doit
+     grandir quand on avance, pas rester collé à l'écran. */
+  const openPanel = (familyIndex: number, genreLocal: number): void => {
+    const base = familyOffset[familyIndex] ?? 0;
+    const globalIndex = base + genreLocal;
+    const slot = slotsData[globalIndex];
+    if (!slot) return;
+
+    const now = performance.now();
+    panelSlot = globalIndex;
+    panelHeight = Math.max(4.2, (sphereRadii[globalIndex] ?? 2) * 3.6);
+
+    // Distance telle que la plaque occupe PANEL_FILL de la hauteur de l'écran.
+    const dist = clamp(
+      panelHeight / (2 * Math.tan((FOV * Math.PI) / 360) * PANEL_FILL),
+      MIN_DISTANCE,
+      MAX_DISTANCE
+    );
+    startFly(slot.world, dist, now);
+
+    // Première pose sans amortissement, sinon la plaque arrive en glissant
+    // depuis sa position précédente, à l'autre bout de l'atlas.
+    panelPos.copy(slot.world);
+    panelMesh.visible = true;
+
+    /* Le panneau est une descente : le fil d'Ariane doit montrer le chemin
+       complet jusqu'au genre, pas s'arrêter à la famille. */
+    const path = pathToGenre(familyIndex, genreLocal).map((local) => base + local);
+    genrePath = path;
+    activeGenre = globalIndex;
+    focusIndex = globalIndex;
+    focusDir = 1;
+    focusStart = now;
+    level = 'genre';
+
+    const family = FAMILIES[slot.family];
+    if (family) {
+      const [r, g, b] = oklchToSrgb(0.7, 0.15, family.hue);
+      panelUniforms.uTint.value.set(r, g, b);
+    }
+
+    onTracks(familyIndex, genreLocal);
+    emitNav();
+  };
+
+  const closePanel = (): void => {
+    if (panelSlot < 0) return;
+    panelSlot = -1;
+    lastPanelEmit = '';
+    onPanel(null);
+  };
+
   const selectGenre = (globalIndex: number, now: number): void => {
     const slot = slotsData[globalIndex];
     if (!slot) return;
 
     // Second clic sur un genre déjà actif, ou feuille : les morceaux.
     if (activeGenre === globalIndex || slot.children.length === 0) {
-      onTracks(slot.family, slot.local);
+      openPanel(slot.family, slot.local);
       return;
     }
 
@@ -858,7 +1024,9 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
       case '+': case '=': dollyVel -= 5.5; break;
       case '-': case '_': dollyVel += 5.5; break;
       case '0': recenter(); break;
-      case 'Escape': goUp(); break;
+      /* Échap appartient au panneau tant qu'il est ouvert : c'est la couche
+         DOM qui le ferme puis remonte, sinon on remonterait deux fois. */
+      case 'Escape': if (panelSlot < 0) goUp(); break;
       default: return;
     }
     event.preventDefault();
@@ -872,7 +1040,11 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
   canvas.addEventListener('pointerup', onPointerUp);
   canvas.addEventListener('pointercancel', onPointerUp);
 
+  /* Recentrer, c'est revenir à l'atlas, pas seulement replacer la caméra.
+     Sans remise à zéro de la navigation, le fil d'Ariane continuait d'annoncer
+     une famille sélectionnée qu'on ne voyait plus. */
   const recenter = (): void => {
+    closePanel();
     target.copy(atlasTarget);
     targetSmooth.copy(atlasTarget);
     distance = atlasDistance;
@@ -880,6 +1052,14 @@ export const initProto = (handles: ProtoHandles): ProtoApi => {
     elVel = 0;
     dollyVel = 0;
     for (let i = 0; i < FAMILIES.length; i += 1) setDeploy(i, false, performance.now());
+    activeFamily = -1;
+    activeGenre = -1;
+    genrePath = [];
+    focusIndex = -1;
+    focusDir = -1;
+    focusStart = performance.now();
+    level = 'atlas';
+    emitNav();
   };
 
   // ------------------------------------------------------------- labels
@@ -1180,6 +1360,134 @@ const OVERLAP_TOLERANCE = 4;
 
   // --------------------------------------------------------------- rendu
 
+
+  /* Mise à jour de la plaque. Trois choses, dans cet ordre : la base face
+     caméra, le suivi amorti de la cible, puis la projection des coins pour
+     que le DOM se pose exactement dessus. */
+  const updatePanel = (now: number): void => {
+    if (panelSlot < 0) {
+      if (panelOpacity > 0.001) {
+        panelOpacity *= 0.82;
+        panelUniforms.uOpacity.value = panelOpacity;
+      } else {
+        panelMesh.visible = false;
+        panelOpacity = 0;
+      }
+      return;
+    }
+
+    const slot = slotsData[panelSlot];
+    if (!slot) return;
+
+    panelMesh.visible = true;
+    panelOpacity = Math.min(0.965, panelOpacity + 0.09);
+    panelUniforms.uOpacity.value = panelOpacity;
+
+    // Base orthonormée face caméra. La plaque ne tourne jamais sur elle-même :
+    // son axe horizontal est celui de la caméra, toujours.
+    panelFwd.copy(cameraPos).sub(slot.world).normalize();
+    panelRight.crossVectors(camera.up, panelFwd).normalize();
+    panelUp.crossVectors(panelFwd, panelRight).normalize();
+
+    const halfH = panelHeight / 2;
+    const halfW = (panelHeight * PANEL_ASPECT) / 2;
+    const radius = sphereRadii[panelSlot] ?? 2;
+
+    // Devant la sphère, et relevée : la sphère reste visible en dessous.
+    panelTarget
+      .copy(slot.world)
+      .addScaledVector(panelFwd, radius + halfH * 0.35)
+      .addScaledVector(panelUp, halfH * PANEL_RISE * 2);
+
+    // Suivi amorti, sauf en mouvement réduit où tout est direct.
+    panelPos.lerp(panelTarget, reducedMotion ? 1 : PANEL_FOLLOW);
+
+    /* Inclinaison fixe autour de l'axe horizontal. Le haut de la plaque part
+       vers l'arrière, le bas vient vers l'avant : c'est ce qui la fait lire
+       comme un objet posé dans l'espace et non comme un rectangle collé. */
+    const tilt = (PANEL_TILT_DEG * Math.PI) / 180;
+    const cos = Math.cos(tilt);
+    const sin = Math.sin(tilt);
+    const upX = panelUp.x * cos - panelFwd.x * sin;
+    const upY = panelUp.y * cos - panelFwd.y * sin;
+    const upZ = panelUp.z * cos - panelFwd.z * sin;
+
+    const corner = (sx: number, sy: number, out: number): void => {
+      panelCorner.set(
+        panelPos.x + panelRight.x * halfW * sx + upX * halfH * sy,
+        panelPos.y + panelRight.y * halfW * sx + upY * halfH * sy,
+        panelPos.z + panelRight.z * halfW * sx + upZ * halfH * sy
+      );
+      panelPositions[out] = panelCorner.x;
+      panelPositions[out + 1] = panelCorner.y;
+      panelPositions[out + 2] = panelCorner.z;
+    };
+    corner(-1, -1, 0);
+    corner(1, -1, 3);
+    corner(-1, 1, 6);
+    corner(1, 1, 9);
+
+    panelPosAttr.needsUpdate = true;
+
+    panelUniforms.uAspect.value.set(PANEL_ASPECT, 1);
+    // Douceur de bord constante à l'écran : elle dépend de la profondeur.
+    const viewDepth = Math.max(0.1, cameraPos.distanceTo(panelPos));
+    void upX; void upY; void upZ;
+    panelUniforms.uEdgePx.value = clamp(
+      (sphereUniforms.uPixelScale.value * viewDepth) / panelHeight,
+      0.0012,
+      0.02
+    );
+
+    /* Projection. Le DOM ne recalcule rien : il reçoit un centre, une taille
+       et l'inclinaison, et applique la même transformation. */
+    const halfWpx = width / 2;
+    const halfHpx = height / 2;
+    scratch.copy(panelPos).project(camera);
+    const cx = scratch.x * halfWpx + halfWpx;
+    const cy = -scratch.y * halfHpx + halfHpx;
+    const behind = scratch.z > 1;
+
+    /* Échelle analytique plutôt que deux projections séparées. Hors de l'axe
+       optique, projeter le bord haut puis le bord droit donne des demi-tailles
+       qui ne sont pas dans le rapport de la plaque : le DOM ne collait plus au
+       rendu. Une plaque face caméra se réduit à une seule échelle. */
+    const pxPerWorld = height / (2 * Math.tan((FOV * Math.PI) / 360) * Math.max(0.001, viewDepth));
+    const wPx = panelHeight * PANEL_ASPECT * pxPerWorld;
+    // L'inclinaison raccourcit la plaque à l'écran, exactement comme le fera la
+    // rotation CSS appliquée au DOM.
+    const hPx = panelHeight * pxPerWorld;
+
+    const state: PanelState = {
+      familyIndex: slot.family,
+      genreLocal: slot.local,
+      x: cx,
+      y: cy,
+      width: wPx,
+      height: hPx,
+      tiltDeg: PANEL_TILT_DEG,
+      /* Une seule image mal cadrée suffit à faire clignoter le panneau à
+         l'autre bout de l'écran : on exige aussi qu'il soit à peu près là. */
+      visible:
+        !behind &&
+        wPx > 40 &&
+        hPx > 40 &&
+        cx > -width &&
+        cx < width * 2 &&
+        cy > -height &&
+        cy < height * 2
+    };
+
+    // On n'émet que si quelque chose a bougé d'au moins un demi-pixel :
+    // sinon React se rerend soixante fois par seconde pour rien.
+    const key = `${slot.family}/${slot.local}/${Math.round(cx * 2)}/${Math.round(cy * 2)}/${Math.round(wPx * 2)}/${Math.round(hPx * 2)}/${state.visible}`;
+    if (key !== lastPanelEmit) {
+      lastPanelEmit = key;
+      onPanel(state);
+    }
+    void now;
+  };
+
   const renderOnce = (bg: boolean): void => {
     renderer.autoClear = true;
     if (bg) {
@@ -1313,6 +1621,18 @@ const OVERLAP_TOLERANCE = 4;
       distance = flyFromDist + (flyToDist - flyFromDist) * k;
       target.copy(targetSmooth);
       if (k >= 1) flying = false;
+    }
+
+    /* Suivi continu quand un panneau est ouvert. La descente sur un genre
+       déplace les sphères après le clic : viser une position figée laisserait
+       la plaque sortir du cadre. On recale donc la cible à chaque image, en
+       douceur, sans toucher à l'azimut ni à la distance choisis par l'usager. */
+    if (panelSlot >= 0 && !flying) {
+      const slot = slotsData[panelSlot];
+      if (slot) {
+        target.copy(slot.world);
+        targetSmooth.lerp(target, reducedMotion ? 1 : 0.12);
+      }
     }
 
     applyCamera();
@@ -1472,6 +1792,7 @@ const OVERLAP_TOLERANCE = 4;
       }
     }
 
+    updatePanel(now);
     projectLabels(now);
     renderer.info.reset();
     renderOnce(true);
@@ -1512,6 +1833,8 @@ const OVERLAP_TOLERANCE = 4;
     measureLabels,
     runProfile,
     recenter,
+    openPanel,
+    closePanel,
     open: (familyIndex: number) => setDeploy(familyIndex, true, performance.now()),
     close: (familyIndex: number) => setDeploy(familyIndex, false, performance.now()),
     setOrbit: (az: number, el: number, dist: number) => {
@@ -1563,6 +1886,8 @@ const OVERLAP_TOLERANCE = 4;
         selectFamily(familyIndex, performance.now());
       }
     },
+    openPanel,
+    closePanel,
     setSuspended: (value: boolean) => {
       suspended = value;
     },

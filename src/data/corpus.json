@@ -52,21 +52,39 @@
      "artist": "Chic",
      "title": "Le Freak",
      "year": 1978,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/23/5b/b2/235bb2c3-abaa-22e2-753d-afa8b1806dfe/603497853588.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/aXgSHL7efKg.jpg"
+     },
+     "album": "C'est Chic (2018 Remaster)"
     },
     {
      "youtubeId": "yEbaeLv-aOo",
      "artist": "Donna Summer",
      "title": "I Feel Love",
      "year": 1977,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/82/13/19/8213190b-60a9-95cd-9cc0-0948e08a085a/06UMGIM05259.rgb.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/yEbaeLv-aOo.jpg"
+     },
+     "album": "I Remember Yesterday"
     },
     {
      "youtubeId": "nIrnevgyCFw",
      "artist": "Sister Sledge",
      "title": "Lost In Music",
      "year": 1979,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/da/e8/56/mzi.ptvoczcg.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/nIrnevgyCFw.jpg"
+     },
+     "album": "We Are Family (1995 Remaster)"
     }
    ]
   },
@@ -95,21 +113,39 @@
      "artist": "Giorgio Moroder",
      "title": "From Here To Eternity",
      "year": 1977,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/bd/bf/2f/bdbf2f29-f505-02c3-4010-39cd320958df/cover.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/qTFEyFEu1Fk.jpg"
+     },
+     "album": "Club Remixes Selection Two"
     },
     {
      "youtubeId": "wC_kCnm3GYQ",
      "artist": "Silver Convention",
      "title": "Fly Robin Fly",
      "year": 1975,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/da/a9/55/daa955bf-a39e-2eb6-6d3e-a28311c93694/mzi.xmhwmthg.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/wC_kCnm3GYQ.jpg"
+     },
+     "album": "Save Me"
     },
     {
      "youtubeId": "yDyndnMgCvQ",
      "artist": "Boney M",
      "title": "Nightflight To Venus",
      "year": 1978,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/d9/7d/8d/d97d8df4-d396-92b4-a68d-916718a9d454/dj.vmtarinh.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/yDyndnMgCvQ.jpg"
+     },
+     "album": "Nightflight to Venus (2007 Remastered Version)"
     }
    ]
   },
@@ -138,21 +174,38 @@
      "artist": "Arpadys",
      "title": "Monkey Star",
      "year": 1977,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/5f/d0/2c/mzi.qqvgjyhe.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/g_gax4gqWPo.jpg"
+     },
+     "album": "Arpadys - EP"
     },
     {
      "youtubeId": "tV0POOH9mMk",
      "artist": "Peter Moesser's Music",
      "title": "High",
      "year": 1977,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/tV0POOH9mMk/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/tV0POOH9mMk.jpg"
+     }
     },
     {
      "youtubeId": "qTFEyFEu1Fk",
      "artist": "Giorgio Moroder",
      "title": "From Here To Eternity",
      "year": 1977,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/bd/bf/2f/bdbf2f29-f505-02c3-4010-39cd320958df/cover.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/qTFEyFEu1Fk.jpg"
+     },
+     "album": "Club Remixes Selection Two"
     }
    ]
   },
@@ -181,21 +234,39 @@
      "artist": "Easy Going",
      "title": "Fear",
      "year": 1979,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/7e/9d/68/7e9d6882-843f-8403-749d-127fdc424a23/5055779328072.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/Iq5F1sQkImM.jpg"
+     },
+     "album": "Fear - Single"
     },
     {
      "youtubeId": "B85dYk77V-o",
      "artist": "Candido",
      "title": "Jingo",
      "year": 1979,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/a4/55/0e/a4550e09-0aca-2bb1-ba97-69b2ee9454f3/4050538292879.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/B85dYk77V-o.jpg"
+     },
+     "album": "Dancin' & Prancin'"
     },
     {
      "youtubeId": "19X-g5jHRzI",
      "artist": "The Immortals",
      "title": "The Ultimate Warlord",
      "year": 1979,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music60/v4/ba/de/8a/bade8a48-0151-927c-95cc-245d553c4212/dj.cxypgsji.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/19X-g5jHRzI.jpg"
+     },
+     "album": "The Ultimate Warlord / Warlord - EP"
     }
    ]
   },
@@ -224,21 +295,38 @@
      "artist": "Zanov",
      "title": "Moebius 256",
      "year": 1977,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/pjUptK4UKTo/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/pjUptK4UKTo.jpg"
+     }
     },
     {
      "youtubeId": "ZavwtJxmqJI",
      "artist": "Space",
      "title": "Magic Fly",
      "year": 1977,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a7/23/e2/a723e22f-4909-09f1-3301-2c536e3d62ec/5060131018188_cover.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/ZavwtJxmqJI.jpg"
+     },
+     "album": "Magic Fly"
     },
     {
      "youtubeId": "b9jPcozl1ns",
      "artist": "Electronic System",
      "title": "Cosmos Trip",
      "year": 1977,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/48/da/a3/mzi.bogjadbn.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/b9jPcozl1ns.jpg"
+     },
+     "album": "Disco Machine"
     }
    ]
   },
@@ -267,21 +355,38 @@
      "artist": "Baldelli",
      "title": "Cosmic Mix",
      "year": 1979,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music2/v4/0c/66/1c/0c661ccf-43b5-1575-c6c5-1f768502ccd7/cover.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/xfHjewVvgRg.jpg"
+     },
+     "album": "Cosmic Efficacy - Single"
     },
     {
      "youtubeId": "BaCT_DKZTxA",
      "artist": "Ilija Rudman",
      "title": "Nite Trippin",
      "year": 2010,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/BaCT_DKZTxA/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/BaCT_DKZTxA.jpg"
+     }
     },
     {
      "youtubeId": "AFdEqOjzGiI",
      "artist": "Daniele Baldelli",
      "title": "Cosmic Drag",
      "year": 2014,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music7/v4/7c/87/b5/7c87b597-2911-0ea6-957f-53498cbec7df/cover.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/AFdEqOjzGiI.jpg"
+     },
+     "album": "Cosmic Drag"
     }
    ]
   },
@@ -310,21 +415,39 @@
      "artist": "Kashif",
      "title": "Help Yourself To My Love",
      "year": 1983,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/c6/b4/e1/c6b4e1a8-9365-fc81-b438-3453beed071b/5060196464180.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/PTVE7oghjb8.jpg"
+     },
+     "album": "Kashif"
     },
     {
      "youtubeId": "pAQGetcjC-A",
      "artist": "D Train",
      "title": "You re The One For Me",
      "year": 1981,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/29/cc/3f/mzi.ezgnqnel.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/pAQGetcjC-A.jpg"
+     },
+     "album": "Prelude Mastermixes, Vol. 1"
     },
     {
      "youtubeId": "ASiqxSwHpQ8",
      "artist": "Evelyn King",
      "title": "Love Come Down",
      "year": 1982,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/f9/f7/06/f9f70652-e229-e10d-14bc-0c00d32645fd/886443502703.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/ASiqxSwHpQ8.jpg"
+     },
+     "album": "Get Loose"
     }
    ]
   },
@@ -353,21 +476,38 @@
      "artist": "Lindstrom",
      "title": "I Feel Space",
      "year": 2005,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/4mP20PGdrf0/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/4mP20PGdrf0.jpg"
+     }
     },
     {
      "youtubeId": "YEZyHkc4pk8",
      "artist": "Prins Thomas",
      "title": "Wendy Not Walter",
      "year": 2010,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/cd/fe/08/mzi.tqmtpzrv.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/YEZyHkc4pk8.jpg"
+     },
+     "album": "Prins Thomas"
     },
     {
      "youtubeId": "gHiqPG0526U",
      "artist": "Todd Terje",
      "title": "Inspector Norse",
      "year": 2012,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/34/ad/68/34ad68d6-dcc9-41f5-1899-fe2ffe4985a6/600116081919_1.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/gHiqPG0526U.jpg"
+     },
+     "album": "It's the Arps - EP"
     }
    ]
   },
@@ -396,21 +536,36 @@
      "artist": "Roman Fluegel",
      "title": "Gehts Noch",
      "year": 2004,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/x2dQptUXSDc/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/x2dQptUXSDc.jpg"
+     }
     },
     {
      "youtubeId": "AZvxqDmKdvQ",
      "artist": "Curses",
      "title": "Rip It Out",
      "year": 2019,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/AZvxqDmKdvQ/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/AZvxqDmKdvQ.jpg"
+     }
     },
     {
      "youtubeId": "2nMYNpo72oI",
      "artist": "Marvin And Guy",
      "title": "Sirens Of Jupiter",
      "year": 2017,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/2nMYNpo72oI/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/2nMYNpo72oI.jpg"
+     }
     }
    ]
   },
@@ -439,14 +594,25 @@
      "artist": "Fringe Society",
      "title": "Nocturnal",
      "year": 2019,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/qPwLpnvbIvc/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/qPwLpnvbIvc.jpg"
+     }
     },
     {
      "youtubeId": "6uMOl8UEzrE",
      "artist": "Emmanuel Top",
      "title": "Turkish Bazar",
      "year": 1995,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/94/44/6c/mzi.gwnlxtbp.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/6uMOl8UEzrE.jpg"
+     },
+     "album": "Release"
     }
    ]
   },
@@ -475,21 +641,37 @@
      "artist": "Vince Lawrence",
      "title": "Thorns",
      "year": 1984,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/Ry3nDoVi2Hg/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/Ry3nDoVi2Hg.jpg"
+     }
     },
     {
      "youtubeId": "JFIMliwtRjI",
      "artist": "Z-Factor feat Jesse Saunders",
      "title": "Fantasy (Vocal)",
      "year": 1984,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/36/a4/ec/36a4ecd0-89de-090f-eb9a-404022aa53fb/65068.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/JFIMliwtRjI.jpg"
+     },
+     "album": "Fantasy - Single"
     },
     {
      "youtubeId": "phCZj5N3zIQ",
      "artist": "Jesse Velez",
      "title": "We Don't Need No Music",
      "year": 1985,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/phCZj5N3zIQ/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/phCZj5N3zIQ.jpg"
+     }
     }
    ]
   },
@@ -518,21 +700,39 @@
      "artist": "Sleezy D",
      "title": "I've Lost Control",
      "year": 1986,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/e7/0d/07/e70d0762-dee5-78a6-5c2d-6a5b2fbaaa5e/196626199706.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/lJnqRCwPeSw.jpg"
+     },
+     "album": "I've Lost Control - Single"
     },
     {
      "youtubeId": "UtO-Tbs7Puw",
      "artist": "Adonis",
      "title": "We're Rocking Down The House (Instrumental)",
      "year": 1986,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/67/c6/af/67c6af2e-fbd6-3bc7-67be-80bf825bc366/859795611744_cover.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/UtO-Tbs7Puw.jpg"
+     },
+     "album": "We're Rocking Down the House (Radio Edit) - Single"
     },
     {
      "youtubeId": "wXuQb8Ln6_g",
      "artist": "Chip E",
      "title": "Time To Jack",
      "year": 1986,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/53/3e/7c/mzi.zlnvcumx.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/wXuQb8Ln6_g.jpg"
+     },
+     "album": "Time to Jack"
     }
    ]
   },
@@ -566,21 +766,37 @@
      "artist": "Fern Kinney",
      "title": "Groove Me",
      "year": 1979,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/0d/1d/b0/0d1db09d-d991-2c68-d102-5ea17502d6bb/mzi.qaarnvxv.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/XXt7P3ZTLpA.jpg"
+     },
+     "album": "Groove Me"
     },
     {
      "youtubeId": "Gp-PyzscBrs",
      "artist": "Delegation",
      "title": "You And I",
      "year": 1979,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/Gp-PyzscBrs/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/Gp-PyzscBrs.jpg"
+     }
     },
     {
      "youtubeId": "jcgiN0GkaI4",
      "artist": "Thp Orchestra",
      "title": "Good To Me",
      "year": 1979,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/jcgiN0GkaI4/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/jcgiN0GkaI4.jpg"
+     }
     }
    ]
   },
@@ -609,21 +825,37 @@
      "artist": "M1",
      "title": "Stars (Light mix)",
      "year": 1992,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/v12aZZ6Hm6o/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/v12aZZ6Hm6o.jpg"
+     }
     },
     {
      "youtubeId": "FSnpofA0KVc",
      "artist": "Progetto Tribale",
      "title": "Bongo Midi",
      "year": 1992,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/8c/41/5e/8c415e1e-3404-72ab-8abd-7585e4ed9930/8044290133224.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/FSnpofA0KVc.jpg"
+     },
+     "album": "Volume 2 - EP"
     },
     {
      "youtubeId": "ywTQHQP4Ang",
      "artist": "Open House & Placid Angels",
      "title": "Rainforest",
      "year": 1992,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/ywTQHQP4Ang/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/ywTQHQP4Ang.jpg"
+     }
     }
    ]
   },
@@ -652,21 +884,37 @@
      "artist": "The Beatmasters feat The Cookie Crew",
      "title": "Rok Da House",
      "year": 1987,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/jaSi7qvgfQU/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/jaSi7qvgfQU.jpg"
+     }
     },
     {
      "youtubeId": "cRtOXKlStH8",
      "artist": "Wee Papa Girl Rappers feat 2 Men And A Drum Machine",
      "title": "Heat It Up",
      "year": 1988,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/cRtOXKlStH8/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/cRtOXKlStH8.jpg"
+     }
     },
     {
      "youtubeId": "a0sCQ7CxcHI",
      "artist": "Kool Rock Steady",
      "title": "I'll Make You Dance",
      "year": 1988,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music4/v4/01/39/fd/0139fded-1786-5824-5550-3238a740eba4/888003418004.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/a0sCQ7CxcHI.jpg"
+     },
+     "album": "Kool Rock Steady - Single"
     }
    ]
   },
@@ -695,21 +943,36 @@
      "artist": "Hotline",
      "title": "Rock This House",
      "year": 1986,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/mxFZle1oeHg/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/mxFZle1oeHg.jpg"
+     }
     },
     {
      "youtubeId": "tAlYP1Ymh-Y",
      "artist": "Kissing The Pink",
      "title": "Certain Things Are Likely",
      "year": 1986,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/tAlYP1Ymh-Y/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/tAlYP1Ymh-Y.jpg"
+     }
     },
     {
      "youtubeId": "K7mzPSC4_-s",
      "artist": "Ralphi Rosario feat Xavia Gold",
      "title": "You Used To Hold Me",
      "year": 1987,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/K7mzPSC4_-s/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/K7mzPSC4_-s.jpg"
+     }
     }
    ]
   },
@@ -743,21 +1006,36 @@
      "artist": "Gino Latino",
      "title": "Welcome",
      "year": 1988,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/ZgnJGi-0plI/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/ZgnJGi-0plI.jpg"
+     }
     },
     {
      "youtubeId": "eFpOfQqSFg0",
      "artist": "El Chico",
      "title": "House Music Lovers",
      "year": 1989,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/eFpOfQqSFg0/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/eFpOfQqSFg0.jpg"
+     }
     },
     {
      "youtubeId": "01pLUx8LfuQ",
      "artist": "Maurizio Pavesi feat Lisa Scott",
      "title": "In Case Of Love (Cool Cut mix)",
      "year": 1989,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/01pLUx8LfuQ/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/01pLUx8LfuQ.jpg"
+     }
     }
    ]
   },
@@ -786,21 +1064,36 @@
      "artist": "DJ Trajic",
      "title": "Soul Patrol",
      "year": 1994,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/J_DfyIGyfAg/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/J_DfyIGyfAg.jpg"
+     }
     },
     {
      "youtubeId": "QQH27nwRdeM",
      "artist": "Jammin Gerald",
      "title": "Pump That Shit",
      "year": 1994,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/QQH27nwRdeM/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/QQH27nwRdeM.jpg"
+     }
     },
     {
      "youtubeId": "X3q1yJQyDk8",
      "artist": "DJ Groove",
      "title": "Come Along My Brotha (Radio Club Version)",
      "year": 1994,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/X3q1yJQyDk8/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/X3q1yJQyDk8.jpg"
+     }
     }
    ]
   },
@@ -834,21 +1127,36 @@
      "artist": "Deee-Lite",
      "title": "Groove Is In The Heart (Meeting Of The Minds mix)",
      "year": 1990,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/QAbDiRFBIUg/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/QAbDiRFBIUg.jpg"
+     }
     },
     {
      "youtubeId": "R6hMPC9kpa4",
      "artist": "Dsk",
      "title": "I'll Keep Holding On",
      "year": 1992,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/R6hMPC9kpa4/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/R6hMPC9kpa4.jpg"
+     }
     },
     {
      "youtubeId": "MH4D05iivsQ",
      "artist": "Fire Island",
      "title": "There But For The Grace Of God",
      "year": 1993,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/MH4D05iivsQ/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/MH4D05iivsQ.jpg"
+     }
     }
    ]
   },
@@ -877,21 +1185,36 @@
      "artist": "Daft Punk",
      "title": "Da Funk",
      "year": 1995,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/mmi60Bd4jSs/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/mmi60Bd4jSs.jpg"
+     }
     },
     {
      "youtubeId": "WRCnzyX3P8g",
      "artist": "Cheek",
      "title": "Venus (Sunshine People)",
      "year": 1996,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/WRCnzyX3P8g/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/WRCnzyX3P8g.jpg"
+     }
     },
     {
      "youtubeId": "_v-xIWXVj_w",
      "artist": "Chateau Flight",
      "title": "Discobole",
      "year": 1997,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/_v-xIWXVj_w/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/_v-xIWXVj_w.jpg"
+     }
     }
    ]
   },
@@ -920,21 +1243,36 @@
      "artist": "Happy Mondays",
      "title": "W.F.L. (Think About The Future)",
      "year": 1990,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/xYddGjXFTt4/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/xYddGjXFTt4.jpg"
+     }
     },
     {
      "youtubeId": "Al3nN7KifiQ",
      "artist": "Lost",
      "title": "Baz De Conga",
      "year": 1990,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/Al3nN7KifiQ/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/Al3nN7KifiQ.jpg"
+     }
     },
     {
      "youtubeId": "Z4pWtwo0s1I",
      "artist": "The Farm",
      "title": "The Groovy Train",
      "year": 1990,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/Z4pWtwo0s1I/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/Z4pWtwo0s1I.jpg"
+     }
     }
    ]
   },
@@ -963,21 +1301,36 @@
      "artist": "Who Da Funk feat Jessica Eve",
      "title": "Shiny Disco Balls",
      "year": 2002,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/gRSOgrYEI-U/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/gRSOgrYEI-U.jpg"
+     }
     },
     {
      "youtubeId": "Q4TuImwotuk",
      "artist": "Memory Boy",
      "title": "(There Is No) Electricity",
      "year": 2002,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/Q4TuImwotuk/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/Q4TuImwotuk.jpg"
+     }
     },
     {
      "youtubeId": "-V3iSfdNxRA",
      "artist": "Daniel Diamond",
      "title": "Champu",
      "year": 2002,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/-V3iSfdNxRA/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/-V3iSfdNxRA.jpg"
+     }
     }
    ]
   },
@@ -1000,21 +1353,36 @@
      "artist": "A Number Of Names",
      "title": "Sharevari (Instrumental)",
      "year": 1981,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/znqTF1msuAM/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/znqTF1msuAM.jpg"
+     }
     },
     {
      "youtubeId": "U3NfI9jbUGI",
      "artist": "Cybotron",
      "title": "Techno City",
      "year": 1984,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/U3NfI9jbUGI/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/U3NfI9jbUGI.jpg"
+     }
     },
     {
      "youtubeId": "i1qFXXneNzE",
      "artist": "Model 500",
      "title": "Electric Entourage",
      "year": 1987,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/i1qFXXneNzE/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/i1qFXXneNzE.jpg"
+     }
     }
    ]
   },
@@ -1043,21 +1411,36 @@
      "artist": "Sweet Exorcist",
      "title": "Testone",
      "year": 1989,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/ooD4plDsO60/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/ooD4plDsO60.jpg"
+     }
     },
     {
      "youtubeId": "LN9XzxooZt0",
      "artist": "Candy Flip",
      "title": "Evolution",
      "year": 1989,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/LN9XzxooZt0/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/LN9XzxooZt0.jpg"
+     }
     },
     {
      "youtubeId": "hkTMo_STlws",
      "artist": "Unique 3",
      "title": "The Theme (Unique mix)",
      "year": 1989,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/hkTMo_STlws/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/hkTMo_STlws.jpg"
+     }
     }
    ]
   },
@@ -1091,21 +1474,36 @@
      "artist": "Emmanuel Top",
      "title": "Acid Phase",
      "year": 1995,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/G8IwGUR8S54/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/G8IwGUR8S54.jpg"
+     }
     },
     {
      "youtubeId": "WMXEv45nc6M",
      "artist": "Chris Liberator",
      "title": "Bass Invaders",
      "year": 1997,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/WMXEv45nc6M/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/WMXEv45nc6M.jpg"
+     }
     },
     {
      "youtubeId": "me6r11tEhxg",
      "artist": "The Liberator DJs",
      "title": "Hardcore Motherfucker",
      "year": 1996,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/me6r11tEhxg/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/me6r11tEhxg.jpg"
+     }
     }
    ]
   },
@@ -1134,21 +1532,36 @@
      "artist": "Mescalinum United",
      "title": "Into Mekong Center",
      "year": 1989,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/uaovVrQyhZg/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/uaovVrQyhZg.jpg"
+     }
     },
     {
      "youtubeId": "8hFO3fdj_6Y",
      "artist": "Dirty Mind",
      "title": "The Killer",
      "year": 1990,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/8hFO3fdj_6Y/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/8hFO3fdj_6Y.jpg"
+     }
     },
     {
      "youtubeId": "aiqzDNIVuik",
      "artist": "Mental Overdrive",
      "title": "Theme of St. Baafs (The Bells)",
      "year": 1990,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/aiqzDNIVuik/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/aiqzDNIVuik.jpg"
+     }
     }
    ]
   },
@@ -1177,21 +1590,36 @@
      "artist": "Vene",
      "title": "Pain",
      "year": 1993,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/1YMZw6xhfoE/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/1YMZw6xhfoE.jpg"
+     }
     },
     {
      "youtubeId": "NBwGNwnJKXo",
      "artist": "Sp 23",
      "title": "Untitled (A2)",
      "year": 1993,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/NBwGNwnJKXo/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/NBwGNwnJKXo.jpg"
+     }
     },
     {
      "youtubeId": "8Ps00LwguqA",
      "artist": "Morph",
      "title": "Stormwatch",
      "year": 1994,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/8Ps00LwguqA/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/8Ps00LwguqA.jpg"
+     }
     }
    ]
   },
@@ -1220,14 +1648,24 @@
      "artist": "Spirallianz",
      "title": "Blast Food",
      "year": 2000,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/fb_WRPzsdvY/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/fb_WRPzsdvY.jpg"
+     }
     },
     {
      "youtubeId": "kyGfewR8wIM",
      "artist": "Marco Zaffarano",
      "title": "Playback (Picotto mix)",
      "year": 2002,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/kyGfewR8wIM/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/kyGfewR8wIM.jpg"
+     }
     }
    ]
   },
@@ -1256,21 +1694,36 @@
      "artist": "Surgeon",
      "title": "Badger Bite",
      "year": 1997,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/QEn1wJgSN_g/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/QEn1wJgSN_g.jpg"
+     }
     },
     {
      "youtubeId": "GObKe1V3xmU",
      "artist": "Regis",
      "title": "Blood Witness",
      "year": 1996,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/GObKe1V3xmU/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/GObKe1V3xmU.jpg"
+     }
     },
     {
      "youtubeId": "9qYFehsT1Dg",
      "artist": "Ancient Methods",
      "title": "The Jericho Recordings",
      "year": 2008,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/9qYFehsT1Dg/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/9qYFehsT1Dg.jpg"
+     }
     }
    ]
   },
@@ -1299,21 +1752,36 @@
      "artist": "Human Mesh Dance",
      "title": "Dahlia",
      "year": 1993,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/KIdkN5V8MKc/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/KIdkN5V8MKc.jpg"
+     }
     },
     {
      "youtubeId": "HK0T9rdXgd0",
      "artist": "Blunted Dummies",
      "title": "House For All",
      "year": 1993,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/HK0T9rdXgd0/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/HK0T9rdXgd0.jpg"
+     }
     },
     {
      "youtubeId": "boVIMXaAqk8",
      "artist": "Basic Channel",
      "title": "Octaedre",
      "year": 1994,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/boVIMXaAqk8/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/boVIMXaAqk8.jpg"
+     }
     }
    ]
   },
@@ -1342,21 +1810,36 @@
      "artist": "Neutron 9000",
      "title": "The Way To Heaven",
      "year": 1990,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/Nsw5mLJtMgA/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/Nsw5mLJtMgA.jpg"
+     }
     },
     {
      "youtubeId": "8qxBjcGjS3M",
      "artist": "Biosphere",
      "title": "Baby Interphase",
      "year": 1991,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/8qxBjcGjS3M/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/8qxBjcGjS3M.jpg"
+     }
     },
     {
      "youtubeId": "4w-Yt_sjkQ0",
      "artist": "The Irresistible Force",
      "title": "Space Is The Place (Ambient mix)",
      "year": 1991,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/4w-Yt_sjkQ0/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/4w-Yt_sjkQ0.jpg"
+     }
     }
    ]
   },
@@ -1385,21 +1868,36 @@
      "artist": "Ken IshII",
      "title": "Stretch",
      "year": 1995,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/_5ZoJlj9eOY/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/_5ZoJlj9eOY.jpg"
+     }
     },
     {
      "youtubeId": "zQvidAjIIt4",
      "artist": "Damon Wild & Woody Mcbride",
      "title": "Downtown",
      "year": 1995,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/zQvidAjIIt4/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/zQvidAjIIt4.jpg"
+     }
     },
     {
      "youtubeId": "gwGFb-A2QzE",
      "artist": "The Advent",
      "title": "Farencounters",
      "year": 1995,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/gwGFb-A2QzE/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/gwGFb-A2QzE.jpg"
+     }
     }
    ]
   },
@@ -1428,21 +1926,36 @@
      "artist": "X-102",
      "title": "Phoebe",
      "year": 1992,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/MpGR_pra4vY/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/MpGR_pra4vY.jpg"
+     }
     },
     {
      "youtubeId": "4ED2-MEGLC0",
      "artist": "Kibu",
      "title": "No Humans Left",
      "year": 1993,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/4ED2-MEGLC0/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/4ED2-MEGLC0.jpg"
+     }
     },
     {
      "youtubeId": "0HBzYnc-AYI",
      "artist": "Aphrohead",
      "title": "In The Dark (Dave Clarke Mix)",
      "year": 1993,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/0HBzYnc-AYI/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/0HBzYnc-AYI.jpg"
+     }
     }
    ]
   },
@@ -1476,21 +1989,36 @@
      "artist": "Paperclip People",
      "title": "Throw",
      "year": 1994,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/3M4atQx48QQ/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/3M4atQx48QQ.jpg"
+     }
     },
     {
      "youtubeId": "_YB2x90mR5M",
      "artist": "Rozzo",
      "title": "Into Your Space",
      "year": 1994,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/_YB2x90mR5M/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/_YB2x90mR5M.jpg"
+     }
     },
     {
      "youtubeId": "M5YL8VugaAA",
      "artist": "Noni",
      "title": "Be My (Native mix)",
      "year": 1994,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/M5YL8VugaAA/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/M5YL8VugaAA.jpg"
+     }
     }
    ]
   },
@@ -1519,21 +2047,36 @@
      "artist": "Tandem",
      "title": "Tandem",
      "year": 1997,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/cyekX2unoHo/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/cyekX2unoHo.jpg"
+     }
     },
     {
      "youtubeId": "Cmj0LNnS0n8",
      "artist": "Farben",
      "title": "Discfunction",
      "year": 1998,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/Cmj0LNnS0n8/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/Cmj0LNnS0n8.jpg"
+     }
     },
     {
      "youtubeId": "11YgeWmw8nU",
      "artist": "Pantytec",
      "title": "Into The Duster",
      "year": 1998,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/11YgeWmw8nU/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/11YgeWmw8nU.jpg"
+     }
     }
    ]
   },
@@ -1562,21 +2105,36 @@
      "artist": "Akufen",
      "title": "Deck The House",
      "year": 2002,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/w7nNF0FJ3-I/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/w7nNF0FJ3-I.jpg"
+     }
     },
     {
      "youtubeId": "ECfDchoBhy8",
      "artist": "Vladislav Delay",
      "title": "Pinnesiaani",
      "year": 2000,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/ECfDchoBhy8/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/ECfDchoBhy8.jpg"
+     }
     },
     {
      "youtubeId": "h0i1Szq6GM8",
      "artist": "Ricardo Villalobos",
      "title": "Dexter",
      "year": 2003,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/h0i1Szq6GM8/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/h0i1Szq6GM8.jpg"
+     }
     }
    ]
   },
@@ -1605,21 +2163,36 @@
      "artist": "Headgear",
      "title": "Believers Goodbye",
      "year": 2002,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/M_uCd_d4Tiw/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/M_uCd_d4Tiw.jpg"
+     }
     },
     {
      "youtubeId": "O5DCzEIa5-g",
      "artist": "Dialogue",
      "title": "Sugar Hat",
      "year": 2002,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/O5DCzEIa5-g/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/O5DCzEIa5-g.jpg"
+     }
     },
     {
      "youtubeId": "_EPOh9QJors",
      "artist": "Skelf",
      "title": "Ivanhoe",
      "year": 2002,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/_EPOh9QJors/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/_EPOh9QJors.jpg"
+     }
     }
    ]
   },
@@ -1648,21 +2221,36 @@
      "artist": "Hakan Lidbo",
      "title": "Televinken",
      "year": 1999,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/M8SuQboif8o/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/M8SuQboif8o.jpg"
+     }
     },
     {
      "youtubeId": "ZBZ04-gQfWM",
      "artist": "Little Green Men",
      "title": "Time Changes",
      "year": 1999,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/ZBZ04-gQfWM/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/ZBZ04-gQfWM.jpg"
+     }
     },
     {
      "youtubeId": "q1uS3MwrbWM",
      "artist": "Planete Noire",
      "title": "Children Of The Ghetto (Mike Maire mix)",
      "year": 2000,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/q1uS3MwrbWM/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/q1uS3MwrbWM.jpg"
+     }
     }
    ]
   },
@@ -1691,21 +2279,36 @@
      "artist": "Mr. Oizo",
      "title": "Flat Beat",
      "year": 1999,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/qmsbP13xu6k/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/qmsbP13xu6k.jpg"
+     }
     },
     {
      "youtubeId": "mQGc_9kBN8c",
      "artist": "Format B",
      "title": "Like A Techmachine",
      "year": 2005,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/mQGc_9kBN8c/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/mQGc_9kBN8c.jpg"
+     }
     },
     {
      "youtubeId": "mZ756MWPMRQ",
      "artist": "Induceve",
      "title": "Stay Cool",
      "year": 2006,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/mZ756MWPMRQ/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/mZ756MWPMRQ.jpg"
+     }
     }
    ]
   },
@@ -1739,21 +2342,36 @@
      "artist": "The MFA",
      "title": "The Difference It Makes",
      "year": 2004,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/H8gYJIEKYpY/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/H8gYJIEKYpY.jpg"
+     }
     },
     {
      "youtubeId": "pN0QzsTbgmg",
      "artist": "Nathan Fake",
      "title": "The Sky Was Pink (Holden mix)",
      "year": 2004,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/pN0QzsTbgmg/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/pN0QzsTbgmg.jpg"
+     }
     },
     {
      "youtubeId": "Xy71oHnVrL0",
      "artist": "Fairmont",
      "title": "Gazebo",
      "year": 2005,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/Xy71oHnVrL0/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/Xy71oHnVrL0.jpg"
+     }
     }
    ]
   },
@@ -1776,21 +2394,36 @@
      "artist": "Abfahrt",
      "title": "Alone It's Me (Alley Cat Edit)",
      "year": 1989,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/VeF8jX28lpA/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/VeF8jX28lpA.jpg"
+     }
     },
     {
      "youtubeId": "Jb-2AVFRMO0",
      "artist": "Out Of The Ordinary",
      "title": "Play It Again (Why Don't You Try This Side mix)",
      "year": 1989,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/Jb-2AVFRMO0/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/Jb-2AVFRMO0.jpg"
+     }
     },
     {
      "youtubeId": "_ZCPK_9wFL4",
      "artist": "Eclips 21",
      "title": "Nebula (1st Soul mix)",
      "year": 1990,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/_ZCPK_9wFL4/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/_ZCPK_9wFL4.jpg"
+     }
     }
    ]
   },
@@ -1824,21 +2457,37 @@
      "artist": "Hardfloor",
      "title": "Acperience 1",
      "year": 1992,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/Un4CeV_l3pI/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/Un4CeV_l3pI.jpg"
+     }
     },
     {
      "youtubeId": "B631aGiDcqs",
      "artist": "Union Jack",
      "title": "Two Full Moons And A Trout",
      "year": 1993,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/B631aGiDcqs/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/B631aGiDcqs.jpg"
+     }
     },
     {
      "youtubeId": "6uMOl8UEzrE",
      "artist": "Emmanuel Top",
      "title": "Turkish Bazar",
      "year": 1995,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/94/44/6c/mzi.gwnlxtbp.jpg/600x600bb.jpg",
+      "source": "itunes",
+      "local": "covers/6uMOl8UEzrE.jpg"
+     },
+     "album": "Release"
     }
    ]
   },
@@ -1867,21 +2516,36 @@
      "artist": "Alien Nation",
      "title": "Lovers Of The World (Radioactive Mix 1)",
      "year": 1991,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/o7d4oTkg8Ho/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/o7d4oTkg8Ho.jpg"
+     }
     },
     {
      "youtubeId": "zLy--cFj6W0",
      "artist": "Jam & Spoon",
      "title": "Stella",
      "year": 1992,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/zLy--cFj6W0/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/zLy--cFj6W0.jpg"
+     }
     },
     {
      "youtubeId": "7nBtLzFX0RY",
      "artist": "Electrotete",
      "title": "I Love You (Cubic 22 mix)",
      "year": 1992,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/7nBtLzFX0RY/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/7nBtLzFX0RY.jpg"
+     }
     }
    ]
   },
@@ -1915,21 +2579,36 @@
      "artist": "F2",
      "title": "Dominica",
      "year": 1994,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/n31huqXclgk/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/n31huqXclgk.jpg"
+     }
     },
     {
      "youtubeId": "xa3A2RasFyU",
      "artist": "Paul van Dyk",
      "title": "Emergency",
      "year": 1994,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/xa3A2RasFyU/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/xa3A2RasFyU.jpg"
+     }
     },
     {
      "youtubeId": "TLtpPZOD360",
      "artist": "The Aloof",
      "title": "Agent O (Life's A Gas mix)",
      "year": 1994,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/TLtpPZOD360/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/TLtpPZOD360.jpg"
+     }
     }
    ]
   },
@@ -1958,21 +2637,36 @@
      "artist": "Ecano",
      "title": "Run",
      "year": 1998,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/DMahHB-pmVw/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/DMahHB-pmVw.jpg"
+     }
     },
     {
      "youtubeId": "1p5bIEpp2-A",
      "artist": "Breeder",
      "title": "The Chain",
      "year": 1998,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/1p5bIEpp2-A/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/1p5bIEpp2-A.jpg"
+     }
     },
     {
      "youtubeId": "UE9xLxthwtA",
      "artist": "S.O.L.",
      "title": "Quantensprung",
      "year": 1999,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/UE9xLxthwtA/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/UE9xLxthwtA.jpg"
+     }
     }
    ]
   },
@@ -2001,21 +2695,36 @@
      "artist": "Voyager",
      "title": "Baseball Furies (Gianni Parrini Progressive mix)",
      "year": 1993,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/BMlyOo1pKEA/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/BMlyOo1pKEA.jpg"
+     }
     },
     {
      "youtubeId": "xl6ptP_6Q-M",
      "artist": "Roland Brant",
      "title": "Nuclear Sun (Gianni Parrini mix)",
      "year": 1993,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/xl6ptP_6Q-M/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/xl6ptP_6Q-M.jpg"
+     }
     },
     {
      "youtubeId": "mdH7t_Kdy_A",
      "artist": "Voyager",
      "title": "City Of Light",
      "year": 1994,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/mdH7t_Kdy_A/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/mdH7t_Kdy_A.jpg"
+     }
     }
    ]
   },
@@ -2044,21 +2753,36 @@
      "artist": "Komakino",
      "title": "Dark Zone",
      "year": 1992,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/Mj4VoVxLcWc/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/Mj4VoVxLcWc.jpg"
+     }
     },
     {
      "youtubeId": "rG827q9xsNw",
      "artist": "Voov",
      "title": "It's Anything You Want It To Be, And It's A Gas",
      "year": 1992,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/rG827q9xsNw/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/rG827q9xsNw.jpg"
+     }
     },
     {
      "youtubeId": "z4BSyf9rMqc",
      "artist": "Komakino",
      "title": "Outface (G60 mix)",
      "year": 1993,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/z4BSyf9rMqc/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/z4BSyf9rMqc.jpg"
+     }
     }
    ]
   },
@@ -2087,21 +2811,36 @@
      "artist": "Marc Acardipane Presents Marshall Masters",
      "title": "I Like It Loud",
      "year": 1997,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/rz7v6GXrZP8/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/rz7v6GXrZP8.jpg"
+     }
     },
     {
      "youtubeId": "uxLb3QduntI",
      "artist": "Jam X",
      "title": "Keep It That Way",
      "year": 2000,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/uxLb3QduntI/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/uxLb3QduntI.jpg"
+     }
     },
     {
      "youtubeId": "7updrYM5_wU",
      "artist": "Checkmate",
      "title": "Another World",
      "year": 2000,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/7updrYM5_wU/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/7updrYM5_wU.jpg"
+     }
     }
    ]
   },
@@ -2130,21 +2869,36 @@
      "artist": "Ferry Corsten",
      "title": "Out Of The Blue",
      "year": 1999,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/Qgx_V0So0qk/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/Qgx_V0So0qk.jpg"
+     }
     },
     {
      "youtubeId": "kFSwSNgwMlY",
      "artist": "Gouryella",
      "title": "Gouryella",
      "year": 1999,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/kFSwSNgwMlY/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/kFSwSNgwMlY.jpg"
+     }
     },
     {
      "youtubeId": "n6798SH-7hA",
      "artist": "Above And Beyond",
      "title": "Far From In Love",
      "year": 2005,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/n6798SH-7hA/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/n6798SH-7hA.jpg"
+     }
     }
    ]
   },
@@ -2173,21 +2927,36 @@
      "artist": "Three 'n One Present Serial Diva",
      "title": "Pearl River",
      "year": 1997,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/1CzclpphpKc/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/1CzclpphpKc.jpg"
+     }
     },
     {
      "youtubeId": "Rq5HTIACtnM",
      "artist": "Qattara",
      "title": "Come With Me (Qattara Vocal mix)",
      "year": 1997,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/Rq5HTIACtnM/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/Rq5HTIACtnM.jpg"
+     }
     },
     {
      "youtubeId": "Lgs9QUtWc3M",
      "artist": "Alice Deejay",
      "title": "Better Off Alone",
      "year": 1998,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/Lgs9QUtWc3M/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/Lgs9QUtWc3M.jpg"
+     }
     }
    ]
   },
@@ -2216,21 +2985,36 @@
      "artist": "The Infinity Project",
      "title": "The Law",
      "year": 1991,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/Tq_rtGOOr6o/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/Tq_rtGOOr6o.jpg"
+     }
     },
     {
      "youtubeId": "xZ84T32CQ7s",
      "artist": "Trilithon",
      "title": "Prayer (Mutant Version)",
      "year": 1991,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/xZ84T32CQ7s/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/xZ84T32CQ7s.jpg"
+     }
     },
     {
      "youtubeId": "nDy7I0999xA",
      "artist": "S.M.I.L.E.",
      "title": "Call Of The Huichol",
      "year": 1992,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/nDy7I0999xA/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/nDy7I0999xA.jpg"
+     }
     }
    ]
   },
@@ -2259,21 +3043,36 @@
      "artist": "Disco Volante",
      "title": "El Metro (Cosmosis mix)",
      "year": 1995,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/ZMfQcozx_TQ/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/ZMfQcozx_TQ.jpg"
+     }
     },
     {
      "youtubeId": "skH_IdHURc0",
      "artist": "Koma Club",
      "title": "Palpitating",
      "year": 1995,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/skH_IdHURc0/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/skH_IdHURc0.jpg"
+     }
     },
     {
      "youtubeId": "jMabA-XEAJ0",
      "artist": "Tanzmuzik",
      "title": "Cainern",
      "year": 1995,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/jMabA-XEAJ0/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/jMabA-XEAJ0.jpg"
+     }
     }
    ]
   },
@@ -2302,21 +3101,36 @@
      "artist": "The Delta",
      "title": "As A Child I Could Walk On The Ceiling",
      "year": 1997,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/nvdPa3BbZMY/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/nvdPa3BbZMY.jpg"
+     }
     },
     {
      "youtubeId": "tjsY0Z-TjGU",
      "artist": "The SUN Project",
      "title": "At The Edge Of Time",
      "year": 1997,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/tjsY0Z-TjGU/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/tjsY0Z-TjGU.jpg"
+     }
     },
     {
      "youtubeId": "Nx-thbZxfkU",
      "artist": "Space Tribe",
      "title": "You Can Be Anything",
      "year": 1998,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/Nx-thbZxfkU/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/Nx-thbZxfkU.jpg"
+     }
     }
    ]
   },
@@ -2345,21 +3159,36 @@
      "artist": "Growling Mad Scientists",
      "title": "Nitzhonot",
      "year": 1998,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/b0tck5zTgdw/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/b0tck5zTgdw.jpg"
+     }
     },
     {
      "youtubeId": "5Qx7ctt8HiM",
      "artist": "Sandman",
      "title": "Witchcraft",
      "year": 1997,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/5Qx7ctt8HiM/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/5Qx7ctt8HiM.jpg"
+     }
     },
     {
      "youtubeId": "UphD3hU7icA",
      "artist": "Oforia",
      "title": "Delirious",
      "year": 1998,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/UphD3hU7icA/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/UphD3hU7icA.jpg"
+     }
     }
    ]
   },
@@ -2388,21 +3217,36 @@
      "artist": "Xenomorph",
      "title": "Hallucinatory Spheres",
      "year": 1998,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/0TvbxFy6UuA/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/0TvbxFy6UuA.jpg"
+     }
     },
     {
      "youtubeId": "LqS1zlCxy-Q",
      "artist": "Tristan",
      "title": "Mind Over Matter",
      "year": 1999,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/LqS1zlCxy-Q/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/LqS1zlCxy-Q.jpg"
+     }
     },
     {
      "youtubeId": "58G8Vc0KAe8",
      "artist": "Crystal Distortion",
      "title": "Y2k Bug",
      "year": 1999,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/58G8Vc0KAe8/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/58G8Vc0KAe8.jpg"
+     }
     }
    ]
   },
@@ -2431,21 +3275,36 @@
      "artist": "Kindzadza",
      "title": "Night Voices",
      "year": 2005,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/DYG748IU6Zs/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/DYG748IU6Zs.jpg"
+     }
     },
     {
      "youtubeId": "Uhll1ustQHw",
      "artist": "Psykovsky",
      "title": "Dva",
      "year": 2004,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/Uhll1ustQHw/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/Uhll1ustQHw.jpg"
+     }
     },
     {
      "youtubeId": "njqXBZ7aBlI",
      "artist": "Ocelot",
      "title": "Shakti",
      "year": 2007,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/njqXBZ7aBlI/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/njqXBZ7aBlI.jpg"
+     }
     }
    ]
   },
@@ -2474,21 +3333,36 @@
      "artist": "Farebi Jalebi",
      "title": "Chatur",
      "year": 2016,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/OwK8iJTv8B0/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/OwK8iJTv8B0.jpg"
+     }
     },
     {
      "youtubeId": "WQ604cSbLgI",
      "artist": "Hyperfrequencies",
      "title": "Aliens Are Coming",
      "year": 2014,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/WQ604cSbLgI/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/WQ604cSbLgI.jpg"
+     }
     },
     {
      "youtubeId": "9A2d2-V-4as",
      "artist": "Bombax",
      "title": "Sweet Dreams",
      "year": 2018,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/9A2d2-V-4as/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/9A2d2-V-4as.jpg"
+     }
     }
    ]
   },
@@ -2517,21 +3391,36 @@
      "artist": "Planet Ben",
      "title": "Screwdriver",
      "year": 1996,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/gM0LhSCmhuU/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/gM0LhSCmhuU.jpg"
+     }
     },
     {
      "youtubeId": "2ivd_86B4ug",
      "artist": "Feuerhake",
      "title": "Extremely Well",
      "year": 2000,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/2ivd_86B4ug/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/2ivd_86B4ug.jpg"
+     }
     },
     {
      "youtubeId": "FK9rI_oKLb0",
      "artist": "Space Safari",
      "title": "Fun Key",
      "year": 2000,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/FK9rI_oKLb0/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/FK9rI_oKLb0.jpg"
+     }
     }
    ]
   },
@@ -2560,21 +3449,36 @@
      "artist": "Texas Faggott",
      "title": "Kalja Bailut",
      "year": 1999,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/zjL8jnkb_1Y/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/zjL8jnkb_1Y.jpg"
+     }
     },
     {
      "youtubeId": "U0TqscscO8o",
      "artist": "Haltya",
      "title": "Mudbath",
      "year": 2001,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/U0TqscscO8o/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/U0TqscscO8o.jpg"
+     }
     },
     {
      "youtubeId": "PmRrAZsb-Vk",
      "artist": "Squaremeat",
      "title": "Anouman",
      "year": 2003,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/PmRrAZsb-Vk/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/PmRrAZsb-Vk.jpg"
+     }
     }
    ]
   },
@@ -2603,21 +3507,36 @@
      "artist": "Tranquility Bass",
      "title": "Mya Yadana",
      "year": 1993,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/ydf07TXN6v8/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/ydf07TXN6v8.jpg"
+     }
     },
     {
      "youtubeId": "ic4Efww4dCs",
      "artist": "Lumukanda",
      "title": "Sunday St Kilda Setdown",
      "year": 1993,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/ic4Efww4dCs/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/ic4Efww4dCs.jpg"
+     }
     },
     {
      "youtubeId": "Hcmdy9E4PMQ",
      "artist": "Young American Primitive",
      "title": "Sunrise",
      "year": 1993,
-     "verified": true
+     "verified": true,
+     "cover": {
+      "url": "https://i.ytimg.com/vi/Hcmdy9E4PMQ/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/Hcmdy9E4PMQ.jpg"
+     }
     }
    ]
   }

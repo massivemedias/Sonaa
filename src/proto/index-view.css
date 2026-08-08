@@ -18,13 +18,13 @@
   position: static;
   display: inline-block;
   margin-bottom: 1rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 0.75rem;
   color: var(--ink-primary);
 }
 
 .index-head h1 {
-  font-family: var(--font-display);
+  font-family: var(--font-ui);
   font-size: clamp(1.75rem, 5vw, 2.75rem);
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -37,7 +37,7 @@
 }
 
 .index-mono {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 0.75rem;
   letter-spacing: 0.04em;
   color: var(--ink-secondary);
@@ -74,7 +74,7 @@
 
 .index-family-name {
   flex: 1;
-  font-family: var(--font-display);
+  font-family: var(--font-ui);
   font-size: 1rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -97,7 +97,7 @@
   grid-template-columns: auto 1fr;
   gap: 0.15rem 0.9rem;
   margin: 0 0 1.1rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 0.75rem;
 }
 
@@ -124,7 +124,7 @@
 }
 
 .index-genres thead th {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 0.6875rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;

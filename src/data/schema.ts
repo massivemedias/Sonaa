@@ -36,7 +36,20 @@ export const trackSchema = z.strictObject({
   title: z.string().min(1),
   year: z.number().int().min(1960).max(2030).nullable(),
   /** Toujours vrai. Un identifiant non vérifié n'a pas le droit d'exister. */
-  verified: z.literal(true)
+  verified: z.literal(true),
+  /* Pochette figée au build. `source` dit d'où vient l'image, pour qu'on ne
+     confonde jamais une vraie pochette avec une vignette de vidéo. `local` est
+     le chemin servi par le site lui-même : aucun appel tiers au runtime. */
+  cover: z
+    .strictObject({
+      url: z.string().url(),
+      source: z.enum(['itunes', 'youtube']),
+      local: z.string().startsWith('covers/')
+    })
+    .optional(),
+  /* iTunes donne l'album, pas le label de disque : le label demanderait un
+     jeton Discogs. On affiche donc l'album, en le nommant pour ce qu'il est. */
+  album: z.string().optional()
 });
 
 export const genreSchema = z.strictObject({
