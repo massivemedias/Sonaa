@@ -499,6 +499,12 @@ rendu du même modèle, déjà acté en ADR-008.
 
 ## ADR-025 : Navigation à trois niveaux, jamais sans vol de caméra
 
+> **Partiellement caduc, voir ADR-031.** Les trois niveaux subsistent, mais seul
+> le passage atlas vers famille est encore un vol de caméra en 3D. La descente
+> dans la hiérarchie se fait maintenant en 2D, sans caméra. Ce qui reste en
+> vigueur ici : le fil d'Ariane, le vol de 600 ms vers une famille, la ligne
+> d'aide, les contrôles visibles, le clavier, et la fin forcée du vol.
+
 **Contexte.** Un espace 3D sans repères se traverse à l'aveugle. Le prototype
 volumétrique n'avait qu'une entrée par proximité, invisible et indevinable.
 
@@ -593,10 +599,10 @@ on ne savait plus quelle sphère appartenait à quelle famille.
    Une seconde passe les écarte dans le plan de l'écran à l'angle par défaut,
    sans toucher à leur profondeur, avec une marge de 10 unités. La passe 1 est
    ensuite rejouée pour ne rien casser.
-3. **Écartement dynamique.** Garantir la séparation à l'état déployé imposerait
-   un atlas quatre fois plus large et des amas minuscules. À l'ouverture d'une
-   famille, les autres sont donc **poussées radialement** pour laisser la place
-   réellement occupée, et rejoignent leur cible avec amortissement.
+3. ~~**Écartement dynamique.**~~ **Caduc, voir ADR-031.** Il n'y a plus d'état
+   déployé en 3D : ouvrir une famille ne demande plus de place dans l'espace,
+   puisque l'arbre passe en 2D par-dessus. Les deux relaxations statiques, elles,
+   restent nécessaires et en vigueur.
 
 **Conséquences.** La séparation en projection n'est garantie qu'à l'angle par
 défaut : c'est une limite inhérente à une projection, une rotation peut recréer
@@ -610,6 +616,11 @@ en projection, aucun chevauchement.
 ---
 
 ## ADR-029 : Une seule famille déployée à la fois, anneaux limités au niveau navigable
+
+> **Largement caduc, voir ADR-031.** Il n'y a plus de famille déployée en 3D,
+> donc plus de règle d'exclusion à faire respecter, et plus aucun anneau : ils
+> sont retirés du shader. Ce qui reste en vigueur : les liens entre familles à
+> 10 pour cent d'opacité, allumés au survol de l'une de leurs extrémités.
 
 **Contexte.** Rien n'interdisait plusieurs familles ouvertes simultanément, et
 les anneaux indicateurs s'affichaient sur les 204 sphères de l'atlas, y compris
@@ -665,6 +676,66 @@ se **dérivent** des parentés qui traversent une frontière de famille. Une seu
 source de vérité. Le validateur doit exiger `structuralParent` dès qu'un genre a
 un parent dans sa propre famille, vérifier qu'il en fait bien partie, et
 contrôler qu'il existe exactement un fondateur par famille.
+
+---
+
+## ADR-031 : Atlas en 3D, filiation en 2D, remplace la descente en 3D
+
+**Contexte.** La hiérarchie était rendue en 3D : couronnes d'enfants autour de
+leur parent, dans un disque perpendiculaire à la direction venue du grand-parent,
+avec une relaxation anti-chevauchement sur les feuilles, des anneaux indicateurs,
+des labels de genres et un évitement de collision entre ces labels. Trois passes
+d'affinage ont porté sur la lisibilité de cette vue. Elle n'est jamais devenue
+lisible, et l'échec est de principe, pas d'exécution :
+
+1. **La taille ne peut pas encoder la génération.** En perspective, le rayon
+   apparent d'un noeud est son rayon divisé par sa distance à la caméra. Un
+   enfant proche de l'objectif paraît plus gros que son parent lointain. Le signe
+   « la taille dit la génération » est contredit par la projection elle-même.
+2. **La séparation en 3D ne garantit pas la séparation à l'écran.** Deux sphères
+   éloignées dans l'espace mais alignées avec l'axe de vue se touchent. On peut
+   corriger à un angle donné, pas à tous les angles à la fois.
+3. **Les liens partent dans toutes les directions.** Un arbre lu dans un volume
+   n'a pas de sens de lecture. Rien ne dit où est le haut, donc rien ne dit qui
+   descend de qui.
+
+**Décision.** Partager par technique, à la frontière de la famille.
+
+| Niveau | Rendu | Interaction |
+|---|---|---|
+| Atlas | 3D, quatorze amas de sphères, quatorze noms de familles | orbite, dolly, clavier, clic sur un amas |
+| Famille et en dessous | 2D, arbre SVG en surimpression | pan, zoom dans le plan, clic pour développer |
+| Morceaux | 2D, panneau plein | liste, lecteur |
+
+Au niveau atlas : **aucun label de genre, aucun anneau, aucune sphère
+étiquetée**. Cliquer un amas fait voler la caméra vers lui, en 600 ms, et l'arbre
+2D prend la place. La 3D reste derrière à 28 pour cent de présence. Échap ou le
+fil d'Ariane ramènent à l'atlas et la 3D revient au premier plan.
+
+L'arbre 2D est **calculé**, donc aucune collision n'est possible : les feuilles
+visibles se rangent de gauche à droite à pas fixe de 158 px, chaque parent se
+centre sur ses enfants, une génération par ligne de 116 px. Le diamètre du noeud
+encode l'importance, entre 26 et 56 px, jamais la génération, qui est déjà portée
+par la ligne. Les liens sont permanents. Un parent porte un anneau fin et le
+compte de ses dérivés ; une feuille n'en a pas. Les greffes, ascendances venues
+d'une autre famille (ADR-030), sont posées au-dessus de l'arbre, en pointillé,
+étiquetées du nom de leur famille.
+
+**Code retiré, pas mis en sommeil.** Positions déployées en 3D, cascade de
+diffusion, focus sur un genre, relaxation anti-chevauchement des feuilles,
+placement en couronnes, labels de genres et leur évitement de collision, anneaux
+indicateurs dans le shader, assombrissement de la moitié droite d'une sphère
+étiquetée, écartement dynamique des familles, état de navigation à trois niveaux
+dans le moteur. La composante `aState` des sphères passe de `vec4` à `vec2` :
+présence et halo, plus rien d'autre. La marge du quad tombe de 2,66 à 2,16 fois
+le rayon, puisque l'anneau ne vit plus hors de la silhouette.
+
+**Conséquences.** Le moteur WebGL n'a plus qu'une responsabilité, l'atlas, et
+tient en trois appels de dessin. La couche SVG, jusqu'ici destinée à un axe
+temporel qui n'existe plus, porte l'arbre : c'est le bon outil, parce que le
+tracé doit rester net à toute échelle et que chaque noeud doit être focalisable
+au clavier. Ce qui est perdu : la sensation de descendre physiquement dans la
+matière. C'est un renoncement assumé, la filiation prime.
 
 ---
 

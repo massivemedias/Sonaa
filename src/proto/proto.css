@@ -70,10 +70,6 @@
   text-transform: uppercase;
 }
 
-.proto-label[data-kind='genre'] {
-  z-index: 2;
-}
-
 /* --- Repli --------------------------------------------------------------- */
 
 .proto-fallback {
@@ -677,9 +673,4 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-}
-
-/* Noeud focalisé : graisse plus forte que ses dérivés. */
-.proto-label[data-focus='1'] {
-  font-weight: var(--weight-family);
 }

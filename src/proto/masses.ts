@@ -1,13 +1,16 @@
-/* Structures de familles. JETABLE.
+/* Données du prototype. JETABLE.
 
-   Une famille n'est plus une brume, c'est un CORPS CONSTRUIT : un arbre de
-   sphères reliées par des liens fins. La filiation interne se voit de
-   l'extérieur, avant même d'entrer. Référence visée : une structure
-   moléculaire, quelque chose de net et de compté.
+   Partage définitif : la 3D sert l'atlas, la 2D sert tout le reste.
 
-   Chaque genre a deux positions : compacte, quand la famille est refermée sur
-   elle-même, et déployée, quand elle s'ouvre. La diffusion anime le passage de
-   l'une à l'autre, en cascade le long des liens. */
+   Ce fichier ne contient donc PLUS aucun placement 3D des genres. Les couronnes,
+   les positions déployées et la relaxation anti-chevauchement des genres sont
+   supprimées : en perspective, la taille d'un noeud dépend de sa distance à la
+   caméra, donc elle ne peut pas encoder la génération. La hiérarchie se lit
+   désormais dans un arbre 2D, où la mise en page est calculée et où aucun
+   chevauchement n'est possible.
+
+   Ce qui reste en 3D : la position des sphères DANS l'amas compact d'une
+   famille, qui ne sert qu'à donner un corps à la famille vue de loin. */
 
 export interface Family {
   readonly id: string;
@@ -17,24 +20,6 @@ export interface Family {
   readonly count: number;
 }
 
-export interface FamilyLink {
-  readonly from: number;
-  readonly to: number;
-  readonly weight: number;
-}
-
-/* Échelle chromatique refaite. Trois règles :
-   chroma soutenue mais jamais fluo (0.13 à 0.18), teintes espacées d'au moins
-   22 degrés pour qu'aucune paire ne se confonde, et rien entre 90 et 120
-   degrés, la zone olive-kaki qui salit tout. */
-/* Échelle chromatique refaite. Trois règles :
-   chroma soutenue mais jamais fluo (0.13 à 0.18), teintes espacées d'au moins
-   22 degrés pour qu'aucune paire ne se confonde, et rien entre 90 et 120
-   degrés, la zone olive-kaki qui salit tout.
-
-   Positions resserrées d'un facteur 0.62 par rapport à la version précédente :
-   l'atlas était si large et si plat que le faire tenir à l'écran réduisait les
-   amas à des points. On veut voir des corps, pas des billes perdues. */
 export const FAMILIES: readonly Family[] = [
   { id: 'roots',      label: 'Roots',      center: [0, -5, 0],      hue: 40,  count: 12 },
   { id: 'disco',      label: 'Disco',      center: [-19, 2, 7],     hue: 15,  count: 14 },
@@ -52,51 +37,8 @@ export const FAMILIES: readonly Family[] = [
   { id: 'downtempo',  label: 'Downtempo',  center: [-17, -16, 38],  hue: 160, count: 10 }
 ];
 
-const idx = (id: string): number => FAMILIES.findIndex((f) => f.id === id);
 
-export const FAMILY_LINKS: readonly FamilyLink[] = [
-  { from: idx('roots'), to: idx('disco'), weight: 1 },
-  { from: idx('roots'), to: idx('industrial'), weight: 0.6 },
-  { from: idx('roots'), to: idx('ambient'), weight: 0.6 },
-  { from: idx('disco'), to: idx('house'), weight: 1 },
-  { from: idx('disco'), to: idx('electro'), weight: 0.7 },
-  { from: idx('house'), to: idx('techno'), weight: 1 },
-  { from: idx('house'), to: idx('breaks'), weight: 0.8 },
-  { from: idx('techno'), to: idx('minimal'), weight: 1 },
-  { from: idx('techno'), to: idx('trance'), weight: 0.8 },
-  { from: idx('techno'), to: idx('hardcore'), weight: 0.7 },
-  { from: idx('trance'), to: idx('psy'), weight: 1 },
-  { from: idx('breaks'), to: idx('bass'), weight: 1 },
-  { from: idx('breaks'), to: idx('hardcore'), weight: 0.6 },
-  { from: idx('ambient'), to: idx('downtempo'), weight: 0.8 }
-];
-
-export interface Genre {
-  readonly id: string;
-  readonly label: string;
-  readonly family: number;
-  /** Index du parent dans la même famille, -1 pour le fondateur. */
-  readonly parent: number;
-  /** Profondeur dans l'arbre de filiation. Pilote le décalage de la cascade. */
-  readonly depth: number;
-  readonly radius: number;
-  /** 0.60 à 0.75 : les sphères doivent ressortir du fond sombre. */
-  readonly lightness: number;
-  readonly chroma: number;
-  /** Étiqueté par défaut quand la famille est déployée. */
-  readonly major: boolean;
-  readonly bpm: number;
-  /** Sorties récentes, triées par vues décroissantes au build. */
-  readonly tracksCurrent: Track[];
-  /** Fondateurs du genre, toutes époques. */
-  readonly tracksEssential: Track[];
-  /** Enfants directs dans l'arbre de filiation, remplis après construction. */
-  children: number[];
-  /** Position déployée, relative au centre de famille. */
-  deployed: [number, number, number];
-  /** Position compacte, relative au centre de famille. */
-  compact: [number, number, number];
-}
+// ------------------------------------------------------------------ morceaux
 
 export interface Track {
   readonly id: string;
@@ -105,32 +47,13 @@ export interface Track {
   readonly label: string;
   /** Durée en secondes. Transport SIMULÉ : aucun audio n'est chargé ici. */
   readonly duration: number;
-  /** Graine de pochette : la pochette est générée, jamais téléchargée. */
   readonly seed: number;
-  /** Vide dans le prototype. Aucun identifiant n'est inventé (ADR-006). */
+  /** Vide dans le prototype. Aucun identifiant n'est inventé. */
   readonly youtubeId: string;
 }
 
-export interface Structure {
-  readonly genres: Genre[];
-  /** Liens internes, index locaux. */
-  readonly links: { from: number; to: number }[];
-  /** Rayon de la silhouette déployée, sert au seuil d'entrée. */
-  readonly deployedRadius: number;
-  readonly compactRadius: number;
-}
-
-const mulberry32 = (seed: number) => () => {
-  seed |= 0;
-  seed = (seed + 0x6d2b79f5) | 0;
-  let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-};
-
 const ARTISTS = ['Kern', 'Vasso', 'Ondine', 'Sabla', 'Mörk', 'Tenax', 'Duval', 'Rives', 'Halo', 'Cassel', 'Nyx', 'Brut'];
 const WORDS = ['Sillon', 'Onde', 'Basalte', 'Ferrite', 'Cendre', 'Palier', 'Ruche', 'Cobalt', 'Lisière', 'Halogène', 'Tréma', 'Vertige'];
-
 const LABELS = ['Ostgut', 'Perlon', 'Rekids', 'Hessle', 'Livity', 'Kompakt', 'Warp', 'Tresor', 'Peacefrog', 'Delsin'];
 
 const buildTracks = (genreId: string, rand: () => number, n: number, tag: string): Track[] => {
@@ -149,288 +72,214 @@ const buildTracks = (genreId: string, rand: () => number, n: number, tag: string
   return out;
 };
 
-/* Arbre explicite à trois niveaux minimum : une racine, des genres, des
-   sous-genres. L'ancien générateur tirait un parent au hasard parmi les
-   précédents, ce qui produisait un arbre plat où tout était au même niveau.
-   Rien ne pouvait s'y lire. */
-const DEPTH_RADIUS = [3.2, 2.05, 1.4, 1.05];
+// -------------------------------------------------------------------- genres
+
+/** Ascendance venue d'une autre famille. C'est la greffe, rendue en pointillé. */
+export interface ExternalParent {
+  readonly family: number;
+  readonly label: string;
+}
+
+export interface Genre {
+  readonly id: string;
+  readonly label: string;
+  readonly family: number;
+  /** Index du parent DANS la même famille, -1 pour le fondateur. */
+  readonly parent: number;
+  readonly depth: number;
+  readonly children: number[];
+  /** Sert au diamètre du noeud dans l'arbre 2D, 0 à 1. */
+  readonly importance: number;
+  /** Sert au rayon de la sphère dans l'amas 3D de l'atlas. */
+  readonly sphereRadius: number;
+  readonly lightness: number;
+  readonly chroma: number;
+  readonly bpm: number;
+  readonly externalParents: ExternalParent[];
+  readonly tracksCurrent: Track[];
+  readonly tracksEssential: Track[];
+  /** Position DANS l'amas compact. Aucune position déployée : plus de 3D ici. */
+  packed: [number, number, number];
+}
+
+export interface Structure {
+  readonly genres: Genre[];
+  readonly compactRadius: number;
+}
+
+const mulberry32 = (seed: number) => () => {
+  seed |= 0;
+  seed = (seed + 0x6d2b79f5) | 0;
+  let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+};
+
+const GOLDEN = Math.PI * (3 - Math.sqrt(5));
+
+/* Empilement déterministe dans une boule. Aucune relaxation : ce nuage ne sert
+   qu'à donner un corps à la famille vue de loin, il ne porte aucune lecture. */
+const packInBall = (i: number, n: number, radius: number): [number, number, number] => {
+  const y = 1 - (i / Math.max(1, n - 1)) * 2;
+  const r = Math.sqrt(Math.max(0, 1 - y * y));
+  const theta = GOLDEN * i;
+  const shell = radius * Math.cbrt((i + 0.5) / n);
+  return [Math.cos(theta) * r * shell, y * shell, Math.sin(theta) * r * shell];
+};
+
+const DEPTH_SPHERE_RADIUS = [2.1, 1.5, 1.1, 0.9];
 
 export const buildStructure = (familyIndex: number): Structure => {
   const family = FAMILIES[familyIndex];
-  if (!family) return { genres: [], links: [], deployedRadius: 1, compactRadius: 1 };
+  if (!family) return { genres: [], compactRadius: 4 };
 
   const rand = mulberry32(7717 + familyIndex * 131);
   const genres: Genre[] = [];
-  const links: { from: number; to: number }[] = [];
 
   const push = (parent: number, depth: number): number => {
     const i = genres.length;
     const founder = depth === 0;
+    const gid = `${family.id}-${i.toString(36)}`;
     genres.push({
-      id: `${family.id}-${i.toString(36)}`,
-      label: `${family.id}-${i.toString(36)}`,
+      id: gid,
+      label: gid,
       family: familyIndex,
       parent,
       depth,
-      // Taille indexée sur la PROFONDEUR : une racine domine ses dérivés, et
-      // ça décroît à chaque génération. C'est ce qui rend l'arbre lisible.
-      radius: (DEPTH_RADIUS[Math.min(depth, 3)] ?? 1) * (0.88 + rand() * 0.24),
+      children: [],
+      importance: founder ? 1 : Math.max(0.28, 1 - depth * 0.26 - rand() * 0.12),
+      sphereRadius: (DEPTH_SPHERE_RADIUS[Math.min(depth, 3)] ?? 1) * (0.9 + rand() * 0.2),
       lightness: founder ? 0.75 : 0.72 - depth * 0.04 + rand() * 0.06,
       chroma: founder ? 0.175 : 0.145 + rand() * 0.03,
-      major: depth <= 1,
       bpm: 108 + Math.floor(rand() * 46),
-      tracksCurrent: buildTracks(`${family.id}-${i.toString(36)}`, rand, 12 + Math.floor(rand() * 8), 'c'),
-      tracksEssential: buildTracks(`${family.id}-${i.toString(36)}`, rand, 4 + Math.floor(rand() * 4), 'e'),
-      children: [],
-      deployed: [0, 0, 0],
-      compact: [0, 0, 0]
+      externalParents: [],
+      tracksCurrent: buildTracks(gid, rand, 12 + Math.floor(rand() * 8), 'c'),
+      tracksEssential: buildTracks(gid, rand, 4 + Math.floor(rand() * 4), 'e'),
+      packed: [0, 0, 0]
     });
-    if (parent >= 0) {
-      genres[parent]?.children.push(i);
-      links.push({ from: parent, to: i });
-    }
+    if (parent >= 0) genres[parent]?.children.push(i);
     return i;
   };
 
-  /* Construction par niveaux, avec un budget d'effectif. Les grandes familles
-     obtiennent une troisième génération, les petites s'arrêtent à deux. */
+  // Arbre explicite par niveaux : une racine, des genres, des sous-genres.
   const budget = family.count;
   const root = push(-1, 0);
-  const wantsDeep = budget >= 16;
-
   const level1: number[] = [];
   const branches = Math.min(budget - 1, 3 + Math.floor(rand() * 3));
   for (let i = 0; i < branches; i += 1) level1.push(push(root, 1));
 
   const level2: number[] = [];
-  let cursor = level1.length;
   for (const parent of level1) {
     if (genres.length >= budget) break;
     const n = 1 + Math.floor(rand() * 3);
-    for (let i = 0; i < n && genres.length < budget; i += 1) {
-      level2.push(push(parent, 2));
-      cursor += 1;
-    }
+    for (let i = 0; i < n && genres.length < budget; i += 1) level2.push(push(parent, 2));
   }
 
-  if (wantsDeep) {
+  if (budget >= 16) {
     for (const parent of level2) {
       if (genres.length >= budget) break;
       if (rand() < 0.45) push(parent, 3);
     }
   }
 
-  // S'il reste du budget, on épaissit les branches existantes plutôt que
-  // d'ajouter des orphelins au même niveau.
   while (genres.length < budget) {
     const pool = level2.length > 0 && rand() < 0.6 ? level2 : level1;
     const parent = pool[Math.floor(rand() * pool.length)] ?? root;
-    const depth = (genres[parent]?.depth ?? 0) + 1;
-    push(parent, Math.min(depth, 3));
+    push(parent, Math.min((genres[parent]?.depth ?? 0) + 1, 3));
   }
 
-  /* Disposition en COURONNES. Les enfants d'un noeud s'organisent autour de
-     lui, dans un disque perpendiculaire à la direction qui vient de son propre
-     parent. Chaque génération forme donc un anneau identifiable, au lieu de se
-     mélanger dans un tas commun. */
-  const dirOf = new Map<number, [number, number, number]>();
-  dirOf.set(root, [0, 1, 0]);
+  // Positions dans l'amas compact.
+  const compactRadius = 3.2 + Math.sqrt(genres.length) * 0.55;
+  genres.forEach((g, i) => {
+    g.packed = packInBall(i, genres.length, compactRadius * 0.82);
+  });
 
-  const place = (index: number): void => {
-    const node = genres[index];
-    if (!node) return;
-    const kids = node.children;
-    if (kids.length === 0) return;
-
-    const inDir = dirOf.get(index) ?? [0, 1, 0];
-    // Base orthonormée autour de la direction entrante.
-    const up: [number, number, number] = Math.abs(inDir[1]) > 0.9 ? [1, 0, 0] : [0, 1, 0];
-    const ax: [number, number, number] = [
-      up[1] * inDir[2] - up[2] * inDir[1],
-      up[2] * inDir[0] - up[0] * inDir[2],
-      up[0] * inDir[1] - up[1] * inDir[0]
-    ];
-    const axLen = Math.hypot(...ax) || 1;
-    const a: [number, number, number] = [ax[0] / axLen, ax[1] / axLen, ax[2] / axLen];
-    const b: [number, number, number] = [
-      inDir[1] * a[2] - inDir[2] * a[1],
-      inDir[2] * a[0] - inDir[0] * a[2],
-      inDir[0] * a[1] - inDir[1] * a[0]
-    ];
-
-    const spread = 8.4 - node.depth * 1.5;
-    const tilt = 0.55;
-
-    kids.forEach((kid, k) => {
-      const child = genres[kid];
-      if (!child) return;
-      const angle = (k / kids.length) * Math.PI * 2 + node.depth * 0.7;
-      const wobble = 0.82 + rand() * 0.36;
-      const r = spread * wobble;
-
-      const dir: [number, number, number] = [
-        a[0] * Math.cos(angle) * r + b[0] * Math.sin(angle) * r + inDir[0] * r * tilt,
-        a[1] * Math.cos(angle) * r + b[1] * Math.sin(angle) * r + inDir[1] * r * tilt,
-        a[2] * Math.cos(angle) * r + b[2] * Math.sin(angle) * r + inDir[2] * r * tilt
-      ];
-
-      child.deployed = [
-        node.deployed[0] + dir[0],
-        node.deployed[1] + dir[1],
-        node.deployed[2] + dir[2]
-      ];
-
-      const dl = Math.hypot(...dir) || 1;
-      dirOf.set(kid, [dir[0] / dl, dir[1] / dl, dir[2] / dl]);
-      place(kid);
-    });
-  };
-
-  place(root);
-
-  /* Relaxation légère et RESPECTUEUSE des couronnes : on ne déplace que les
-     feuilles, et faiblement. L'ancienne version brassait tout et détruisait
-     la structure qu'on venait de construire. */
-  for (let pass = 0; pass < 10; pass += 1) {
-    for (let x = 0; x < genres.length; x += 1) {
-      for (let y = x + 1; y < genres.length; y += 1) {
-        const ga = genres[x];
-        const gb = genres[y];
-        if (!ga || !gb) continue;
-        if (ga.parent === y || gb.parent === x) continue;
-
-        const dx = gb.deployed[0] - ga.deployed[0];
-        const dy = gb.deployed[1] - ga.deployed[1];
-        const dz = gb.deployed[2] - ga.deployed[2];
-        const d = Math.hypot(dx, dy, dz) || 0.001;
-        const want = (ga.radius + gb.radius) * 1.7;
-        if (d >= want) continue;
-
-        const push2 = ((want - d) / d) * 0.16;
-        if (ga.children.length === 0) {
-          ga.deployed[0] -= dx * push2;
-          ga.deployed[1] -= dy * push2;
-          ga.deployed[2] -= dz * push2;
-        }
-        if (gb.children.length === 0) {
-          gb.deployed[0] += dx * push2;
-          gb.deployed[1] += dy * push2;
-          gb.deployed[2] += dz * push2;
-        }
-      }
-    }
-  }
-
-  for (const g of genres) {
-    g.compact = [g.deployed[0] * 0.17, g.deployed[1] * 0.17, g.deployed[2] * 0.17];
-  }
-
-  const radiusOf = (key: 'deployed' | 'compact'): number =>
-    genres.reduce((max, g) => Math.max(max, Math.hypot(...g[key]) + g.radius), 1);
-
-  return {
-    genres,
-    links,
-    deployedRadius: radiusOf('deployed'),
-    compactRadius: radiusOf('compact')
-  };
-};
-
-/** Chaîne de la racine jusqu'au genre, pour le fil d'Ariane. */
-export const pathToGenre = (familyIndex: number, local: number): number[] => {
-  const genres = STRUCTURES[familyIndex]?.genres;
-  if (!genres) return [];
-  const out: number[] = [];
-  let cursor = local;
-  let guard = 0;
-  while (cursor >= 0 && guard < 32) {
-    out.unshift(cursor);
-    cursor = genres[cursor]?.parent ?? -1;
-    guard += 1;
-  }
-  return out;
+  return { genres, compactRadius };
 };
 
 export const STRUCTURES: readonly Structure[] = FAMILIES.map((_, i) => buildStructure(i));
 
-/** Seuil d'entrée : franchi en avançant, la structure se déploie. */
-export const enterDistance = (familyIndex: number): number =>
-  (STRUCTURES[familyIndex]?.compactRadius ?? 6) * 4.2;
+/* Greffes factices. Un genre sur six reçoit une ascendance venue d'une autre
+   famille, pour que le rendu en pointillé de l'arbre 2D soit testable. */
+(() => {
+  const rand = mulberry32(4242);
+  STRUCTURES.forEach((structure, fi) => {
+    structure.genres.forEach((genre) => {
+      if (genre.depth === 0 || rand() > 0.17) return;
+      let other = Math.floor(rand() * FAMILIES.length);
+      if (other === fi) other = (other + 3) % FAMILIES.length;
+      const donor = STRUCTURES[other]?.genres[0];
+      if (!donor) return;
+      genre.externalParents.push({ family: other, label: donor.label });
+    });
+  });
+})();
 
-/* SÉPARATION DES FAMILLES.
+/** Liens entre familles DÉRIVÉS des greffes. Une seule source de vérité. */
+export const FAMILY_LINKS: readonly { from: number; to: number; weight: number }[] = (() => {
+  const seen = new Map<string, { from: number; to: number; weight: number }>();
+  STRUCTURES.forEach((structure, fi) => {
+    for (const genre of structure.genres) {
+      for (const ext of genre.externalParents) {
+        const key = `${ext.family}>${fi}`;
+        const existing = seen.get(key);
+        if (existing) existing.weight = Math.min(1, existing.weight + 0.25);
+        else seen.set(key, { from: ext.family, to: fi, weight: 0.5 });
+      }
+    }
+  });
+  return [...seen.values()];
+})();
 
-   Les centres écrits à la main encodent la proximité stylistique, mais rien ne
-   garantissait qu'ils ne se chevauchent pas : sur la capture, Breaks passait
-   devant Disco et House débordait. On relaxe donc ces positions pour imposer
-   une marge minimale entre volumes compacts, en partant des positions
-   éditoriales pour préserver l'arrangement voulu.
+// -------------------------------------------------- séparation des familles
 
-   La séparation à l'état déployé n'est pas garantie ici : elle le serait au
-   prix d'un atlas quatre fois plus large et d'amas minuscules. C'est le
-   déplacement dynamique des familles, à l'ouverture de l'une d'elles, qui s'en
-   charge côté rendu. */
-/* 14 unités et non 6 : la séparation en 3D ne garantit pas la séparation en
-   projection. Deux familles distantes mais alignées avec l'axe de vue se
-   recouvraient à l'écran. Une marge large réduit fortement ce cas, sans le
-   supprimer complètement, ce qui est une limite inhérente à une projection. */
 export const FAMILY_MARGIN = 14;
-/** Marge exigée dans le plan de l'écran à l'angle par défaut. */
 export const PROJECTED_MARGIN = 10;
-
-/* Angles de la vue par défaut. Une seule source de vérité, partagée avec le
-   moteur de rendu : la seconde relaxation en dépend. */
 export const DEFAULT_AZIMUTH = 0.55;
 export const DEFAULT_ELEVATION = 0.2;
 
+/* Deux relaxations, en volume puis dans le plan de l'écran à l'angle par
+   défaut. La seconde est nécessaire : deux familles éloignées mais alignées
+   avec l'axe de vue se recouvrent à l'écran. */
 export const FAMILY_CENTERS: readonly (readonly [number, number, number])[] = (() => {
   const pos = FAMILIES.map((f) => [...f.center] as [number, number, number]);
   const radius = FAMILIES.map((_, i) => STRUCTURES[i]?.compactRadius ?? 6);
 
-  // Passe 1, séparation en volume.
-  for (let pass = 0; pass < 220; pass += 1) {
-    let moved = 0;
-    for (let a = 0; a < pos.length; a += 1) {
-      for (let b = a + 1; b < pos.length; b += 1) {
-        const pa = pos[a];
-        const pb = pos[b];
-        if (!pa || !pb) continue;
-        const dx = pb[0] - pa[0];
-        const dy = pb[1] - pa[1];
-        const dz = pb[2] - pa[2];
-        const d = Math.hypot(dx, dy, dz) || 0.001;
-        const want = (radius[a] ?? 6) + (radius[b] ?? 6) + FAMILY_MARGIN;
-        if (d >= want) continue;
-        const push = ((want - d) / d) * 0.5;
-        pa[0] -= dx * push; pa[1] -= dy * push; pa[2] -= dz * push;
-        pb[0] += dx * push; pb[1] += dy * push; pb[2] += dz * push;
-        moved += want - d;
+  const volumePass = (strength: number): void => {
+    for (let pass = 0; pass < 220; pass += 1) {
+      let moved = 0;
+      for (let a = 0; a < pos.length; a += 1) {
+        for (let b = a + 1; b < pos.length; b += 1) {
+          const pa = pos[a];
+          const pb = pos[b];
+          if (!pa || !pb) continue;
+          const dx = pb[0] - pa[0];
+          const dy = pb[1] - pa[1];
+          const dz = pb[2] - pa[2];
+          const d = Math.hypot(dx, dy, dz) || 0.001;
+          const want = (radius[a] ?? 6) + (radius[b] ?? 6) + FAMILY_MARGIN;
+          if (d >= want) continue;
+          const push = ((want - d) / d) * strength;
+          pa[0] -= dx * push; pa[1] -= dy * push; pa[2] -= dz * push;
+          pb[0] += dx * push; pb[1] += dy * push; pb[2] += dz * push;
+          moved += want - d;
+        }
       }
+      if (moved < 0.01) break;
     }
-    if (moved < 0.01) break;
-  }
+  };
 
-  /* Passe 2, séparation EN PROJECTION à l'angle par défaut.
-     La séparation en volume ne suffit pas : deux familles éloignées mais
-     alignées avec l'axe de vue se recouvrent à l'écran, c'était le cas de
-     House et Electro. On les écarte donc aussi dans le plan de l'écran, sans
-     toucher à leur profondeur, puis on relance la passe 1 pour ne rien casser. */
+  volumePass(0.5);
+
   const az = DEFAULT_AZIMUTH;
   const el = DEFAULT_ELEVATION;
-  const fwd: [number, number, number] = [
-    Math.cos(el) * Math.sin(az),
-    Math.sin(el),
-    Math.cos(el) * Math.cos(az)
-  ];
-  const up: [number, number, number] = [
-    -Math.sin(el) * Math.sin(az),
-    Math.cos(el),
-    -Math.sin(el) * Math.cos(az)
-  ];
-  const right: [number, number, number] = [
+  const fwd = [Math.cos(el) * Math.sin(az), Math.sin(el), Math.cos(el) * Math.cos(az)] as const;
+  const up = [-Math.sin(el) * Math.sin(az), Math.cos(el), -Math.sin(el) * Math.cos(az)] as const;
+  const right = [
     fwd[1] * up[2] - fwd[2] * up[1],
     fwd[2] * up[0] - fwd[0] * up[2],
     fwd[0] * up[1] - fwd[1] * up[0]
-  ];
+  ] as const;
 
   for (let pass = 0; pass < 260; pass += 1) {
     let moved = 0;
@@ -449,11 +298,9 @@ export const FAMILY_CENTERS: readonly (readonly [number, number, number])[] = ((
         if (onScreen >= want) continue;
 
         const push = ((want - onScreen) / onScreen) * 0.5;
-        const mu = du * push;
-        const mr = dr * push;
-        const sx = up[0] * mu + right[0] * mr;
-        const sy = up[1] * mu + right[1] * mr;
-        const sz = up[2] * mu + right[2] * mr;
+        const sx = up[0] * du * push + right[0] * dr * push;
+        const sy = up[1] * du * push + right[1] * dr * push;
+        const sz = up[2] * du * push + right[2] * dr * push;
         pa[0] -= sx; pa[1] -= sy; pa[2] -= sz;
         pb[0] += sx; pb[1] += sy; pb[2] += sz;
         moved += want - onScreen;
@@ -462,39 +309,10 @@ export const FAMILY_CENTERS: readonly (readonly [number, number, number])[] = ((
     if (moved < 0.01) break;
   }
 
-  // Passe 1 rejouée : la passe 2 peut avoir rapproché deux familles en volume.
-  for (let pass = 0; pass < 220; pass += 1) {
-    let moved = 0;
-    for (let a = 0; a < pos.length; a += 1) {
-      for (let b = a + 1; b < pos.length; b += 1) {
-        const pa = pos[a];
-        const pb = pos[b];
-        if (!pa || !pb) continue;
-        const dx = pb[0] - pa[0];
-        const dy = pb[1] - pa[1];
-        const dz = pb[2] - pa[2];
-        const d = Math.hypot(dx, dy, dz) || 0.001;
-        const want = (radius[a] ?? 6) + (radius[b] ?? 6) + FAMILY_MARGIN;
-        if (d >= want) continue;
-        const push = ((want - d) / d) * 0.35;
-        pa[0] -= dx * push; pa[1] -= dy * push; pa[2] -= dz * push;
-        pb[0] += dx * push; pb[1] += dy * push; pb[2] += dz * push;
-        moved += want - d;
-      }
-    }
-    if (moved < 0.01) break;
-  }
-
+  volumePass(0.35);
   return pos.map((p) => [p[0], p[1], p[2]] as const);
 })();
 
-/** Rayon réservé d'une famille selon son état. */
-export const familyRadius = (i: number, deployed: boolean): number =>
-  (deployed ? STRUCTURES[i]?.deployedRadius : STRUCTURES[i]?.compactRadius) ?? 6;
-
-/* Rayon englobant de l'atlas, centre inclus. Sert à calculer la distance de
-   cadrage par défaut : les 14 familles doivent occuper environ 70 pour cent de
-   la hauteur de l'écran, pas 20. */
 export const ATLAS_CENTER: readonly [number, number, number] = (() => {
   const n = FAMILY_CENTERS.length || 1;
   const sum = FAMILY_CENTERS.reduce(
@@ -504,12 +322,19 @@ export const ATLAS_CENTER: readonly [number, number, number] = (() => {
   return [sum[0] / n, sum[1] / n, sum[2] / n] as const;
 })();
 
-export const ATLAS_RADIUS = FAMILY_CENTERS.reduce((max, c, i) => {
-  const dx = c[0] - ATLAS_CENTER[0];
-  const dy = c[1] - ATLAS_CENTER[1];
-  const dz = c[2] - ATLAS_CENTER[2];
-  return Math.max(max, Math.hypot(dx, dy, dz) + (STRUCTURES[i]?.compactRadius ?? 6));
-}, 1);
-
 export const TOTAL_GENRES = STRUCTURES.reduce((n, s) => n + s.genres.length, 0);
-export const TOTAL_INTERNAL_LINKS = STRUCTURES.reduce((n, s) => n + s.links.length, 0);
+
+/** Chaîne de la racine jusqu'au genre, pour le fil d'Ariane. */
+export const pathToGenre = (familyIndex: number, local: number): number[] => {
+  const genres = STRUCTURES[familyIndex]?.genres;
+  if (!genres) return [];
+  const out: number[] = [];
+  let cursor = local;
+  let guard = 0;
+  while (cursor >= 0 && guard < 32) {
+    out.unshift(cursor);
+    cursor = genres[cursor]?.parent ?? -1;
+    guard += 1;
+  }
+  return out;
+};

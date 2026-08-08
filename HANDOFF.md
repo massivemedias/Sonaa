@@ -21,7 +21,7 @@ l'instrument qui sert à valider la direction avant d'écrire le corpus. Il est
 volontairement inclus dans le build de production pendant la phase de
 validation, pour être regardable en ligne.
 
-- `https://massivemedias.github.io/Sonaa/#/proto` l'espace 3D
+- `https://massivemedias.github.io/Sonaa/#/proto` l'atlas 3D et les arbres 2D
 - `https://massivemedias.github.io/Sonaa/#/index` la vue liste accessible
 - `https://massivemedias.github.io/Sonaa/` la page d'accueil P0
 
@@ -32,9 +32,9 @@ Le prototype et `src/proto/` seront **supprimés** quand le vrai moteur sera
 
 ## 2. Le projet en une phrase
 
-Un atlas généalogique interactif des musiques électroniques. Un espace 3D
-habitable où chaque famille est une structure de sphères reliées par leur
-filiation, dans lequel on descend par niveaux jusqu'aux morceaux.
+Un atlas généalogique interactif des musiques électroniques. Un atlas 3D où
+chaque famille est un amas de sphères, et un arbre 2D par famille où la filiation
+se lit ligne par ligne jusqu'aux morceaux.
 
 100 % statique, aucun backend, aucune clé, GitHub Pages, base `/Sonaa/`.
 
@@ -63,34 +63,33 @@ filiation, dans lequel on descend par niveaux jusqu'aux morceaux.
 | Rubans de liens élargis en **espace monde** | l'élargissement en espace écran s'est révélé impossible à fiabiliser aux largeurs réalistes. Documenté comme piège |
 | Tout le texte en DOM projeté, jamais en WebGL | c'est la couche qui porte l'accessibilité, et le navigateur rastérise mieux que n'importe quel atlas de glyphes |
 | Labels : masquage du plus lointain en cas de collision, **jamais de décalage** | règle posée par Mika |
-| Aucune plaque sous les labels | deux ombres portées plus assombrissement local de la sphère dans le shader. **A déjà régressé une fois**, contrôler par `grep background` dans proto.css |
+| Aucune plaque sous les labels | deux ombres portées. **A déjà régressé une fois**, contrôler par `grep background` dans proto.css |
 | Séparation des familles garantie par deux relaxations, en volume et en projection | les centres écrits à la main se chevauchaient. ADR-028 |
-| Une seule famille déployée à la fois, aucun anneau au niveau Atlas | plusieurs familles ouvertes et 204 anneaux se lisaient comme un éparpillement. ADR-029 |
 | Liens entre familles à 10 % d'opacité, allumés au survol | ils traversaient l'écran en diagonale. ADR-029 |
-| Anneau discret sur les noeuds à dérivés | indice, pas cadre : tiers d'épaisseur, teinte de la famille, 35 % d'opacité max |
-| Rayon de sphère indexé sur la profondeur | c'est ce qui rend la hiérarchie lisible sans cliquer |
-| Liens effilés du parent vers l'enfant | la direction de la filiation se lit sans flèche |
-| Disposition en couronnes | les enfants s'organisent autour de leur parent, jamais dans un tas commun |
+| Liens effilés du parent vers l'enfant, en 3D comme en 2D | la direction de la filiation se lit sans flèche |
 | Cadrage de l'atlas calculé sur l'étendue verticale **mesurée** | la sphère englobante est presque vide, deux familles excentrées en fixaient le rayon et la scène apparaissait deux fois trop petite |
+| **Atlas en 3D, famille et en dessous en 2D** | une couronne 3D ne peut pas rendre une filiation lisible : en perspective la taille encode la distance et non la génération. ADR-031 |
+| Au niveau atlas, uniquement les 14 noms de familles | aucun label de genre, aucun anneau, aucune sphère étiquetée |
+| L'arbre 2D est **calculé** : pas fixe de 158 px entre feuilles, ligne de 116 px par génération | aucune collision n'est possible, donc aucun label n'a besoin d'être masqué |
+| Diamètre du noeud 2D = importance, de 26 à 56 px | la génération est déjà portée par la ligne, la taille peut donc dire autre chose |
 
 ### Navigation
 
-- Trois niveaux : atlas, famille, genre. Un quatrième écran pour les morceaux.
-- **Aucun changement de niveau sans vol de caméra**, 600 ms, easing doux, le
-  noeud atteint devient le centre d'orbite.
-- Molette et pincement zooment. Glissement tourne. Flèches tournent, `+` et `−`
-  zooment, `0` recentre, `Échap` remonte d'un cran.
-- Contrôles visibles en permanence en bas à droite. Cibles de 44 px sur mobile.
+- Trois niveaux : **atlas en 3D**, **famille en 2D**, **morceaux en 2D**.
+- Atlas : glissement tourne, molette et pincement avancent, flèches tournent,
+  `+` et `−` zooment, `0` recentre. Contrôles visibles en bas à droite, cibles de
+  44 px sur mobile.
+- Clic sur un amas : vol de caméra de 600 ms vers la famille **et** l'arbre 2D
+  prend la place. La 3D reste derrière à 28 % de présence, elle ne disparaît pas.
+- Arbre 2D : glisser déplace, molette zoome, dans le plan. **Aucune orbite,
+  aucune perspective.** Clic sur un noeud à dérivés le développe en place en
+  260 ms ; clic sur une feuille ouvre les morceaux ; `Entrée` et `Espace` font la
+  même chose au clavier.
+- `Échap` ou le fil d'Ariane ramènent à l'atlas, et la 3D revient au premier plan.
 - Fil d'Ariane permanent, chemin **recalculé depuis la racine** à chaque clic,
   jamais accumulé depuis l'historique : il ne peut pas mentir.
 - Ligne d'aide au premier chargement, effacée à la première interaction,
   mémorisée dans `localStorage`, ne revient plus.
-- La diffusion d'une famille est l'animation signature : cascade du fondateur
-  vers les dérivés le long des liens, 480 ms, 40 ms par niveau, easing à léger
-  dépassement. Fermeture inversée en 300 ms.
-- La descente sur un genre est la même grammaire un cran plus bas, 400 ms,
-  45 ms par génération. Tous les dérivés du noeud focalisé sont étiquetés, sans
-  filtre. Le reste de la famille recule à 12 % et perd ses labels.
 - `prefers-reduced-motion` remplace toute animation par une apparition directe.
 
 ### Typographie et couleur
@@ -107,7 +106,8 @@ filiation, dans lequel on descend par niveaux jusqu'aux morceaux.
 - 14 teintes, chroma 0,13 à 0,18, luminosité 0,60 à 0,75, écart minimal de
   22 degrés, **rien entre 90 et 120 degrés**, la zone olive-kaki qui salit.
 - Contraste **mesuré** : blanc sur le fond 19,4:1, blanc sur une sphère claire
-  1,96 à 2,52:1. C'est ce qui justifie les ombres et l'assombrissement local.
+  1,96 à 2,52:1. C'est ce qui justifie les deux ombres portées en 3D et le
+  contour de 3,5 px couleur du fond sur le texte de l'arbre 2D.
 
 ### Ce qui a été abandonné, et pourquoi
 
@@ -123,6 +123,13 @@ Quatre concepts se sont succédé. Ne pas les ressusciter sans raison neuve.
    mobile, et rendu « brume » alors qu'on veut des corps construits.
 4. **L'archive de l'ancien agrégateur RSS dans `public/OLD/`.** Abandonnée,
    l'agrégateur est mort. ADR-010 est marqué CADUC.
+5. **La descente en 3D : couronnes, diffusion en cascade, anneaux indicateurs,
+   labels de genres en 3D et leur évitement de collision.** Abandonnée après
+   trois passes d'affinage. L'échec est de principe : en perspective, la taille
+   apparente d'un noeud dépend de sa distance à la caméra, donc elle ne peut pas
+   encoder la génération ; deux sphères éloignées mais alignées avec l'axe de vue
+   se touchent à l'écran ; un arbre lu dans un volume n'a pas de sens de lecture.
+   Le code a été **retiré**, pas mis en sommeil. ADR-031.
 
 Autre annulation : le `git mv` de l'ancien site vers `public/OLD/` décrit dans le
 brief était impossible, l'app chargeait du TypeScript JSX qu'aucun navigateur
@@ -201,6 +208,36 @@ Prochaine étape
 Règles du rapport : aucune valeur de secret, jamais, même partielle. Si une
 étape échoue, le statut est BLOQUÉ et « Action attendue de moi » contient la
 décision précise à prendre, pas une question ouverte.
+
+**Second bloc, pour Claude Desktop.** Après le bloc de rapport, ajouter un
+SECOND bloc séparé, destiné à être copié tel quel dans une conversation avec un
+Claude qui n'a **aucun** contexte du projet. Il doit être autosuffisant : pas de
+« comme on a dit », pas d'acronyme non expliqué, pas de renvoi à un fichier.
+Aucune valeur de secret, jamais, dans ce bloc non plus.
+
+```
+------------------------------------------------------------
+POUR CLAUDE DESKTOP - Étape <nom> - <date>
+
+Contexte du projet
+<3 lignes: ce qu'est SONAA, où on en est dans le plan de phases>
+
+Ce que je viens de faire
+<liste factuelle, une ligne par changement, avec les valeurs chiffrées>
+
+Ce que j'ai mesuré
+<les chiffres bruts: perf, comptages, tailles de bundle>
+
+Ce qui a cassé ou surpris
+<les régressions, les bugs trouvés, les limites atteintes>
+
+Ce qui reste ouvert
+<les arbitrages non tranchés, avec les options possibles>
+
+Ce que je propose de faire ensuite
+<une seule prochaine étape, précise>
+------------------------------------------------------------
+```
 
 **Commit et push à chaque étape validée.** Message conventionnel, une ligne de
 description claire. Après chaque push, donner **le lien du run GitHub Actions et
@@ -325,12 +362,16 @@ d'un budget 60 images par seconde, 3 appels de dessin, 204 sphères, 204 liens.
 
 ```
 DESIGN.md          direction artistique, sections CADUC conservées pour mémoire
-ARCHITECTURE.md    27 ADR, plus une section « pièges GLSL »
+ARCHITECTURE.md    31 ADR, plus une section « pièges GLSL »
 HANDOFF.md         ce document
 src/app/           page d'accueil P0
 src/design/        tokens.css et base.css
 src/data/schema.ts schéma Zod, à reprendre pour P1
 src/proto/         PROTOTYPE JETABLE, à supprimer après validation
+                   webgl.ts      atlas 3D uniquement, 14 labels de familles
+                   FamilyTree.tsx arbre 2D d'une famille, SVG, mise en page calculée
+                   TracksView.tsx vue morceaux 2D
+                   masses.ts     données factices, packing compact, greffes
 scripts/           validate-data, verify-youtube à écrire, fetch-tracks, fetch-covers
 .github/workflows/ deploy.yml, fonctionnel
 ```
