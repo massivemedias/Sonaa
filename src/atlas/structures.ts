@@ -50,7 +50,10 @@ const CENTERS: Record<string, readonly [number, number, number]> = {
   minimal: [22, 4, -33],
   trance:  [30, 21, -5],
   psy:     [45, 15, 11],
-  industrial: [16, 31, 25]
+  industrial: [16, 31, 25],
+  /* La racine se place SOUS l'atlas : elle est l'origine de tout ce qui est
+     au-dessus, et la position le dit. */
+  roots: [-4, -26, 4]
 };
 
 export const FAMILIES: readonly Family[] = CORPUS.families.map((f) => ({
@@ -100,12 +103,16 @@ export interface Genre {
   /** Étiqueté par défaut quand la famille est déployée. */
   readonly major: boolean;
   /** Milieu de l'intervalle, pour l'affichage. L'intervalle est la donnée. */
+  /** Milieu de l'intervalle, ou 0 quand le genre n'a pas de tempo. */
   readonly bpm: number;
-  readonly bpmRange: readonly [number, number];
+  /** `null` quand le genre n'a pas de tempo : on n'en invente pas un. */
+  readonly bpmRange: readonly [number, number] | null;
   /** 'debated' quand deux sources se contredisent sur la filiation. */
   readonly confidence: 'established' | 'debated';
   /** Ce que disent les sources, et laquelle a été suivie. */
   readonly note: string;
+  /** Rattachement de convention : ce n est PAS une filiation. */
+  readonly structuralOnly: boolean;
   /** Autres noms, pour la recherche. */
   readonly aliases: readonly string[];
   /** Ascendances hors famille, déjà résolues. */
@@ -194,7 +201,7 @@ export const buildStructure = (familyIndex: number): Structure => {
     const i = genres.length;
     localOf.set(entry.id, i);
 
-    const [lo, hi] = entry.bpm;
+    const [lo, hi] = entry.bpm ?? [0, 0];
     genres.push({
       id: entry.id,
       label: entry.label,
@@ -208,9 +215,10 @@ export const buildStructure = (familyIndex: number): Structure => {
       chroma: founder ? 0.175 : entry.major ? 0.165 : 0.14,
       major: entry.major,
       bpm: Math.round((lo + hi) / 2),
-      bpmRange: [lo, hi],
+      bpmRange: entry.bpm ? [lo, hi] : null,
       confidence: entry.confidence,
       note: entry.note,
+      structuralOnly: entry.structuralOnly ?? false,
       aliases: entry.aliases ?? [],
       externalParents: entry.parents
         .filter((pp) => pp.family !== entry.family)

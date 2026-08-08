@@ -23,7 +23,10 @@ export const FAMILY_IDS = [
   'psy',
   /* Ajoutée pour résoudre les quatre greffes EBM qui restaient déclarées mais
      non résolues : Dark Disco, Industrial Techno, Trance et Goa Trance. */
-  'industrial'
+  'industrial',
+  /* Vague 1 : la racine commune. Sans elle, Disco, Industrial et Techno
+     n'avaient aucun ancetre et l'atlas etait structurellement faux. */
+  'roots'
 ] as const;
 export type FamilyId = (typeof FAMILY_IDS)[number];
 
@@ -68,10 +71,28 @@ export const genreSchema = z.strictObject({
   family: familyId,
   /** `null` pour le fondateur d'une famille. Sinon, doit figurer dans `parents`. */
   structuralParent: genreId.nullable(),
+  /* Rattachement PUREMENT structurel : le noeud est placé sous ce parent pour
+     tenir dans un arbre, mais ce n'est PAS une filiation.
+
+     Le cas est réel et il fallait le nommer. La famille roots réunit les
+     ancêtres des musiques électroniques, et son fondateur est la musique
+     concrète. Or le funk et le dub ne descendent pas de la musique concrète :
+     ce sont des racines parallèles. Le schéma exige un fondateur unique par
+     famille, donc il faut bien accrocher ces noeuds quelque part. Plutôt
+     qu'inventer une arête fausse, on la déclare conventionnelle, `parents`
+     reste vide, et l'interface écrit « rattaché à » et non « vient de ». */
+  structuralOnly: z.boolean().optional(),
   parents: z.array(parentSchema),
   confidence,
-  /** Intervalle, pas une valeur : un genre à tempo variable est la règle. */
-  bpm: z.tuple([z.number().int().min(60).max(220), z.number().int().min(60).max(220)]),
+  /* Intervalle, pas une valeur : un genre à tempo variable est la règle.
+
+     `null` pour les genres qui n'ont pas de tempo du tout. Ce n'est pas un trou
+     dans les données : la musique concrète, l'électroacoustique et le space
+     music ne se comptent pas en battements par minute, et leur donner un
+     intervalle serait une invention. L'interface n'affiche alors rien. */
+  bpm: z
+    .tuple([z.number().int().min(40).max(320), z.number().int().min(40).max(320)])
+    .nullable(),
   /** Étiqueté par défaut quand la famille est déployée. */
   major: z.boolean(),
   note: z.string(),
@@ -138,7 +159,9 @@ export const corpusSchema = z
         fail(`parent structurel inconnu : ${g.structuralParent}`, ['genres', i, 'structuralParent']);
         return;
       }
-      if (!g.parents.some((p) => p.id === g.structuralParent)) {
+      /* Un rattachement conventionnel est dispensé de figurer dans `parents` :
+         c'est tout son objet. En revanche il doit rester dans la famille. */
+      if (!g.structuralOnly && !g.parents.some((p) => p.id === g.structuralParent)) {
         fail('le parent structurel doit aussi figurer dans parents', ['genres', i, 'structuralParent']);
       }
       if (structural.family !== g.family) {

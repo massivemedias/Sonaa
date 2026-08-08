@@ -468,7 +468,9 @@ export function PlayerLayer({ bus, panelGenre, onClose, onReopen }: Props) {
               {panelGenreData.externalParents.length > 0 && (
                 <> · greffe {panelGenreData.externalParents.map((x) => x.label).join(', ')}</>
               )}{' '}
-              · {panelGenreData.bpmRange[0]}-{panelGenreData.bpmRange[1]} BPM
+              {panelGenreData.bpmRange
+                ? ` · ${panelGenreData.bpmRange[0]}-${panelGenreData.bpmRange[1]} BPM`
+                : ''}
             </p>
             <h2 className="panel-title">{shownInPanel ? shownInPanel.title : panelGenreData.label}</h2>
             <p className="panel-artist">

@@ -93,7 +93,9 @@ export function IndexPage() {
                         <tr key={genre.id}>
                           <th scope="row">{genre.label}</th>
                           <td className="index-mono">
-                            {genre.bpmRange[0]}-{genre.bpmRange[1]}
+                            {genre.bpmRange
+                              ? `${genre.bpmRange[0]}-${genre.bpmRange[1]}`
+                              : '—'}
                           </td>
                           <td className="index-mono">{genre.tracksEssentiel.length + genre.tracksActuel.length}</td>
                         </tr>

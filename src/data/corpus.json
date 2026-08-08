@@ -35,6 +35,11 @@
    "id": "industrial",
    "label": "Industrial",
    "hue": 60
+  },
+  {
+   "id": "roots",
+   "label": "Roots",
+   "hue": 38
   }
  ],
  "genres": [
@@ -43,7 +48,18 @@
    "label": "Disco",
    "family": "disco",
    "structuralParent": null,
-   "parents": [],
+   "parents": [
+    {
+     "id": "funk",
+     "family": "roots",
+     "confidence": "established"
+    },
+    {
+     "id": "phillysoul",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
    "confidence": "established",
    "bpm": [
     110,
@@ -223,6 +239,11 @@
     {
      "id": "eurodisco",
      "family": "disco",
+     "confidence": "established"
+    },
+    {
+     "id": "synthpop",
+     "family": "roots",
      "confidence": "established"
     }
    ],
@@ -1414,7 +1435,23 @@
    "label": "Detroit Techno",
    "family": "techno",
    "structuralParent": null,
-   "parents": [],
+   "parents": [
+    {
+     "id": "funk",
+     "family": "roots",
+     "confidence": "established"
+    },
+    {
+     "id": "krautrock",
+     "family": "roots",
+     "confidence": "debated"
+    },
+    {
+     "id": "prototechno",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
    "confidence": "established",
    "bpm": [
     120,
@@ -1840,6 +1877,11 @@
     {
      "id": "detroittechno",
      "family": "techno",
+     "confidence": "established"
+    },
+    {
+     "id": "dub",
+     "family": "roots",
      "confidence": "established"
     }
    ],
@@ -3846,7 +3888,18 @@
    "label": "Industrial",
    "family": "industrial",
    "structuralParent": null,
-   "parents": [],
+   "parents": [
+    {
+     "id": "musiqueconcrete",
+     "family": "roots",
+     "confidence": "established"
+    },
+    {
+     "id": "earlyindustrial",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
    "confidence": "established",
    "bpm": [
     90,
@@ -4375,6 +4428,293 @@
     "NDH",
     "Neue Deutsche Harte"
    ]
+  },
+  {
+   "id": "musiqueconcrete",
+   "label": "Musique concrète",
+   "family": "roots",
+   "structuralParent": null,
+   "parents": [],
+   "confidence": "established",
+   "bpm": null,
+   "major": true,
+   "note": "Fondateur de la famille. Paris, 1948, Pierre Schaeffer au Club d'Essai de la RTF. Premiere musique composee avec des sons enregistres plutot qu'ecrits. Sans tempo : l'intervalle de BPM est nul, ce n'est pas une musique de danse.",
+   "aliases": [
+    "Concrete Music",
+    "Musique Concrete"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "electroacoustic",
+   "label": "Électroacoustique",
+   "family": "roots",
+   "structuralParent": "musiqueconcrete",
+   "parents": [
+    {
+     "id": "musiqueconcrete",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": null,
+   "major": false,
+   "note": "Cologne et Paris, annees 1950. Le studio de la WDR sous Stockhausen ajoute le son de synthese a la manipulation de bandes.",
+   "aliases": [
+    "Electroacoustic",
+    "Musique Electroacoustique"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "krautrock",
+   "label": "Krautrock",
+   "family": "roots",
+   "structuralParent": "electroacoustic",
+   "parents": [
+    {
+     "id": "electroacoustic",
+     "family": "roots",
+     "confidence": "debated"
+    }
+   ],
+   "confidence": "debated",
+   "bpm": [
+    90,
+    140
+   ],
+   "major": true,
+   "note": "Allemagne, 1968-1974, Can, Neu!, Faust. Filiation debattue : le krautrock est d'abord du rock, et son ascendance rock n'est pas dans ce corpus. Ce qui le rattache ici est sa part electronique, venue des studios electroacoustiques allemands. Rattachement retenu faute de mieux, a discuter.",
+   "aliases": [
+    "Kraut Rock",
+    "Kosmische Rock"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "kosmische",
+   "label": "Kosmische Musik",
+   "family": "roots",
+   "structuralParent": "krautrock",
+   "parents": [
+    {
+     "id": "krautrock",
+     "family": "roots",
+     "confidence": "established"
+    },
+    {
+     "id": "electroacoustic",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": null,
+   "major": false,
+   "note": "Berlin, 1971-1976, Tangerine Dream, Klaus Schulze, Ash Ra Tempel. Le sequenceur devient la structure du morceau, ce qui prefigure toute la musique repetitive qui suit.",
+   "aliases": [
+    "Cosmic Music",
+    "Berlin School"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "spacemusic",
+   "label": "Space Music",
+   "family": "roots",
+   "structuralParent": "kosmische",
+   "parents": [
+    {
+     "id": "kosmische",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": null,
+   "major": false,
+   "note": "Annees 1970, Jean-Michel Jarre, Vangelis. Branche large et lente du kosmische, sans pulsation marquee.",
+   "aliases": [
+    "Space Ambient",
+    "Cosmic Ambient"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "prototechno",
+   "label": "Proto-Techno",
+   "family": "roots",
+   "structuralParent": "krautrock",
+   "parents": [
+    {
+     "id": "krautrock",
+     "family": "roots",
+     "confidence": "established"
+    },
+    {
+     "id": "kosmische",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    100,
+    130
+   ],
+   "major": true,
+   "note": "Kraftwerk a partir de Trans-Europe Express, 1977, et Autobahn avant. La boite a rythmes prend la place du batteur : c'est la matrice directe de la techno de Detroit et de l'electro.",
+   "aliases": [
+    "Proto Techno",
+    "Electronic Body Pop"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "earlyindustrial",
+   "label": "Early Industrial",
+   "family": "roots",
+   "structuralParent": "musiqueconcrete",
+   "parents": [
+    {
+     "id": "musiqueconcrete",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": null,
+   "major": false,
+   "note": "Londres et Sheffield, 1975-1977, Throbbing Gristle et le label Industrial Records. Prend de la musique concrete sa methode, le collage de bandes, et lui ajoute une intention politique.",
+   "aliases": [
+    "Proto-Industrial",
+    "Industrial Music"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "funk",
+   "label": "Funk",
+   "family": "roots",
+   "structuralParent": "musiqueconcrete",
+   "parents": [],
+   "confidence": "established",
+   "bpm": [
+    95,
+    120
+   ],
+   "major": true,
+   "note": "Etats-Unis, 1967, James Brown puis Sly Stone et Parliament. RATTACHEMENT CONVENTIONNEL : le funk ne descend PAS de la musique concrete, c'est une racine parallele. Le schema impose un fondateur unique par famille, donc ce noeud est accroche a la racine pour tenir dans l'arbre, sans qu'aucune filiation soit affirmee. Ses parents reels sont hors de ce corpus, le rhythm and blues et le jazz.",
+   "structuralOnly": true,
+   "aliases": [
+    "Funk Music"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "phillysoul",
+   "label": "Philly Soul",
+   "family": "roots",
+   "structuralParent": "funk",
+   "parents": [
+    {
+     "id": "funk",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    100,
+    120
+   ],
+   "major": false,
+   "note": "Philadelphie, 1971-1975, Gamble et Huff, MFSB. Orchestration a cordes sur une rythmique funk : c'est directement la matrice du disco.",
+   "aliases": [
+    "Philadelphia Soul",
+    "Sound of Philadelphia",
+    "TSOP"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "dub",
+   "label": "Dub",
+   "family": "roots",
+   "structuralParent": "musiqueconcrete",
+   "parents": [],
+   "confidence": "established",
+   "bpm": [
+    60,
+    90
+   ],
+   "major": true,
+   "note": "Jamaique, 1968-1973, King Tubby et Lee Perry. RATTACHEMENT CONVENTIONNEL, comme le funk : le dub ne descend pas de la musique concrete. Il en partage la methode, le studio comme instrument, mais son ascendance est le reggae, hors de ce corpus. Son apport est immense : la reverberation et l'echo comme matiere, et le remix comme forme.",
+   "structuralOnly": true,
+   "aliases": [
+    "Dub Reggae"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
+  },
+  {
+   "id": "synthpop",
+   "label": "Synth-pop",
+   "family": "roots",
+   "structuralParent": "prototechno",
+   "parents": [
+    {
+     "id": "prototechno",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
+   "confidence": "established",
+   "bpm": [
+    105,
+    135
+   ],
+   "major": true,
+   "note": "Royaume-Uni, 1978-1982, Human League, Depeche Mode, OMD. Le synthetiseur devient un instrument de chanson populaire.",
+   "aliases": [
+    "Synthpop",
+    "Electropop",
+    "New Romantic"
+   ],
+   "tracks": {
+    "essentiel": [],
+    "actuel": []
+   }
   }
  ]
 }

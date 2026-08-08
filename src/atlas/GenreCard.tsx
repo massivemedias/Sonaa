@@ -42,7 +42,8 @@ export function GenreCard({ familyIndex, genreLocal, onClose, onTracks, onGoToGe
         <p className="card-family">{family.label}</p>
         <h2 className="card-name">{genre.label}</h2>
         <p className="card-bpm">
-          {genre.bpmRange[0]}-{genre.bpmRange[1]} BPM
+          {/* Pas de tempo inventé : certains genres n'en ont pas. */}
+          {genre.bpmRange ? `${genre.bpmRange[0]}-${genre.bpmRange[1]} BPM` : 'sans tempo'}
           {genre.major && <span className="card-major"> · genre majeur</span>}
         </p>
 
@@ -57,12 +58,23 @@ export function GenreCard({ familyIndex, genreLocal, onClose, onTracks, onGoToGe
       </header>
 
       <dl className="card-rows">
-        <dt>Vient de</dt>
+        <dt>{genre.structuralOnly ? 'Rattaché à' : 'Vient de'}</dt>
         <dd>
           {parent ? (
-            <button className="card-link" onClick={() => onGoToGenre(familyIndex, genre.parent)}>
-              {parent.label}
-            </button>
+            <>
+              <button className="card-link" onClick={() => onGoToGenre(familyIndex, genre.parent)}>
+                {parent.label}
+              </button>
+              {/* Un rattachement conventionnel doit se dire : le funk n'est pas
+                  issu de la musique concrète, il est seulement rangé sous elle
+                  parce qu'un arbre exige une racine unique. */}
+              {genre.structuralOnly && (
+                <span className="card-convention">
+                  {' '}
+                  par convention d&apos;arbre, ce n&apos;est pas une filiation
+                </span>
+              )}
+            </>
           ) : (
             <span className="card-founder">fondateur de la famille {family.label}</span>
           )}

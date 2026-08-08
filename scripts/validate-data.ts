@@ -44,8 +44,10 @@ if (!parsed.success) {
   });
 
   for (const g of doc.genres) {
-    const [lo, hi] = g.bpm;
-    if (lo > hi) errors.push(`${g.id} : intervalle de BPM inversé, ${lo} à ${hi}`);
+    if (g.bpm !== null) {
+      const [lo, hi] = g.bpm;
+      if (lo > hi) errors.push(`${g.id} : intervalle de BPM inversé, ${lo} à ${hi}`);
+    }
 
     // Une filiation débattue doit être argumentée, sinon le doute est muet.
     if (g.confidence === 'debated' && g.note.trim().length < 40) {
