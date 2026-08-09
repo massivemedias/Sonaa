@@ -712,3 +712,114 @@
     transition: none;
   }
 }
+
+/* --- La fiche vit dans la colonne (mission clic direct) -------------------- */
+
+.pcol-head {
+  margin-bottom: 0.9rem;
+}
+
+.pcol-genre-title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: var(--weight-family);
+  letter-spacing: 0.02em;
+  line-height: 1.15;
+}
+
+.pcol-genre-line {
+  margin: 0.3rem 0 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.pcol-family-name {
+  color: var(--family);
+  font-size: 0.75rem;
+  font-weight: var(--weight-family);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.pcol-bpm {
+  font-size: 0.71875rem;
+  font-weight: var(--weight-data);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-secondary);
+}
+
+.pcol-badge {
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  border: 1px solid var(--rule-hairline);
+  padding: 0.1rem 0.4rem;
+}
+
+.pcol-badge-draft {
+  color: oklch(0.75 0.12 80);
+  border-color: oklch(0.5 0.08 80);
+}
+
+/* Le transport est désormais DANS le flux, sous l'identité de la track. */
+.pcol-transport {
+  margin: 0.8rem 0 0.2rem;
+  border: 1px solid var(--rule-hairline);
+  border-left: 0;
+  border-right: 0;
+  background: transparent;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Les filiations, en pied de colonne. */
+.pcol-filiations {
+  margin-top: 1rem;
+  border-top: 1px solid var(--rule-hairline);
+  padding-top: 0.4rem;
+  padding-bottom: 0.6rem;
+}
+
+.pcol-filiations h4 {
+  margin: 0.6rem 0 0.15rem;
+  font-size: 0.625rem;
+  font-weight: var(--weight-data);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+.pcol-filiations p {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.pcol-fil-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.pcol-fil-link {
+  background: transparent;
+  border: 1px solid var(--rule-hairline);
+  color: var(--ink-primary);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  padding: 0.16rem 0.5rem;
+  cursor: pointer;
+  transition: border-color 150ms linear, color 150ms linear;
+}
+
+.pcol-fil-link:hover {
+  border-color: var(--family);
+  color: var(--family);
+}
+
+.pcol-fil-shared {
+  margin-bottom: 0.25rem !important;
+}

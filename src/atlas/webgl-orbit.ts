@@ -120,7 +120,7 @@ const backOut = (t: number): number => {
 // ------------------------------------------------------------------ init
 
 export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
-  const { canvas, labelLayer, onStats, onNavigate, onTracks, onGenreInfo, onPanel, onContextLost } =
+  const { canvas, labelLayer, onStats, onNavigate, onTracks, onPanel, onContextLost } =
     handles;
   /* Vrai une fois la caméra et les cibles construites : le resize d'init ne
      peut pas encore mesurer, il repasse une fois le moteur debout. */
@@ -990,46 +990,27 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     onPanel(null);
   };
 
+  /* LE CLIC OUVRE DIRECTEMENT LES TRACKS (mission clic direct). Plus de
+     fiche flottante : la colonne s'ouvre, prête à jouer. Un genre à dérivés
+     déploie son sous-arbre sur la carte EN MÊME TEMPS : ouvrir les tracks
+     n'empêche jamais de descendre. */
   const selectGenre = (globalIndex: number, now: number): void => {
     const slot = slotsData[globalIndex];
     if (!slot) return;
 
-    /* Un genre à dérivés ouvre sa FICHE : on veut savoir où on est avant
-       d'écouter. Une FEUILLE, elle, n'a rien d'autre à montrer que ses tracks :
-       le clic lance le lecteur directement, et la fiche reste accessible par
-       le nom du genre sur le panneau. */
-    if (slot.children.length === 0) {
-      const path = pathToGenre(slot.family, slot.local).map(
-        (local) => (familyOffset[slot.family] ?? 0) + local
-      );
-      genrePath = path;
-      activeGenre = globalIndex;
-      focusIndex = globalIndex;
-      focusDir = 1;
-      focusStart = now;
-      level = 'genre';
-      emitNav();
-      openPanel(slot.family, slot.local);
-      return;
-    }
-    /* La colonne du lecteur reste ouverte pendant la navigation : la
-       lecture ne s'interrompt jamais à cause d'un clic. */
-
-    /* Le chemin est recalculé depuis la racine de la famille, donc le fil
-       d'Ariane reflète toujours la filiation réelle et non l'historique des
-       clics. */
     const base = familyOffset[slot.family] ?? 0;
     genrePath = pathToGenre(slot.family, slot.local).map((local) => base + local);
     activeGenre = globalIndex;
     level = 'genre';
-
     focusIndex = globalIndex;
     focusDir = 1;
     focusStart = now;
 
-    startFly(slot.world, frameDistance(genreFrameRadius(globalIndex)), now);
+    if (slot.children.length > 0) {
+      startFly(slot.world, frameDistance(genreFrameRadius(globalIndex)), now);
+    }
     emitNav();
-    onGenreInfo(slot.family, slot.local);
+    openPanel(slot.family, slot.local);
   };
 
   /* Aller sur un genre nommé, depuis la recherche ou depuis la fiche.

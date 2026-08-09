@@ -16,8 +16,8 @@ import './tree-views.css';
 
 interface Props {
   mode: 'lineaire' | 'colonnes';
-  onShowCard: (familyIndex: number, genreLocal: number) => void;
-  onListen: (familyIndex: number, genreLocal: number) => void;
+  /** Le clic ouvre directement la colonne de tracks du genre. */
+  onOpen: (familyIndex: number, genreLocal: number) => void;
 }
 
 const familyIndexOf = (id: string): number => FAMILIES.findIndex((f) => f.id === id);
@@ -39,12 +39,10 @@ const rowsOf = (familyIndex: number): { genre: Genre; local: number }[] => {
 
 function FamilyBlock({
   familyIndex,
-  onShowCard,
-  onListen
+  onOpen
 }: {
   familyIndex: number;
-  onShowCard: Props['onShowCard'];
-  onListen: Props['onListen'];
+  onOpen: Props['onOpen'];
 }) {
   const family = FAMILIES[familyIndex];
   const rows = useMemo(() => rowsOf(familyIndex), [familyIndex]);
@@ -71,8 +69,8 @@ function FamilyBlock({
             />
             <button
               className="tv-name"
-              onClick={() => onShowCard(familyIndex, local)}
-              title="Ouvrir la fiche"
+              onClick={() => onOpen(familyIndex, local)}
+              title="Ouvrir les tracks et la fiche du genre"
             >
               {genre.label}
             </button>
@@ -85,7 +83,7 @@ function FamilyBlock({
             {genre.tracksEssentiel.length + genre.tracksActuel.length > 0 && (
               <button
                 className="tv-listen"
-                onClick={() => onListen(familyIndex, local)}
+                onClick={() => onOpen(familyIndex, local)}
                 aria-label={`Écouter ${genre.label}`}
                 title={`${genre.tracksEssentiel.length + genre.tracksActuel.length} tracks`}
               >
@@ -99,7 +97,7 @@ function FamilyBlock({
   );
 }
 
-export function TreeViews({ mode, onShowCard, onListen }: Props) {
+export function TreeViews({ mode, onOpen }: Props) {
   return (
     <div className={`tv tv-${mode}`} data-view={mode}>
       {SUPERFAMILIES.map((sf) => (
@@ -110,12 +108,7 @@ export function TreeViews({ mode, onShowCard, onListen }: Props) {
               .map(familyIndexOf)
               .filter((fi) => fi >= 0)
               .map((fi) => (
-                <FamilyBlock
-                  key={FAMILIES[fi]?.id}
-                  familyIndex={fi}
-                  onShowCard={onShowCard}
-                  onListen={onListen}
-                />
+                <FamilyBlock key={FAMILIES[fi]?.id} familyIndex={fi} onOpen={onOpen} />
               ))}
           </div>
         </section>

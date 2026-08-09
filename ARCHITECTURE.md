@@ -1441,6 +1441,36 @@ Deezer, iTunes, YouTube. Toujours aucun guide de cartographie nomme.
 
 ---
 
+## ADR-046 : Le clic ouvre directement les tracks, la fiche vit dans la colonne
+
+**Plus de panneau de fiche flottant.** Cliquer une sphere ouvre immediatement
+la colonne de droite, prete a jouer, dans TOUTES les vues. Le contenu de la
+fiche demenage dans la colonne. Hierarchie, de haut en bas : nom du genre en
+grand, famille en couleur, BPM, badges debattu et brouillon ; pochette,
+titre, artiste, transport (desormais dans le flux) ; la liste des tracks ;
+les infos du genre, ouvertes par defaut ; les FILIATIONS, qui survivent au
+demenagement : vient de, a donne, greffes, charnieres, aussi appele, toutes
+cliquables, un clic fait voler la camera et remplace le contenu de la
+colonne. Un genre a derives deploie son sous-arbre sur la carte en meme
+temps : ouvrir les tracks n'empeche jamais de descendre. Aucun geste cache.
+GenreCard et genre-card.css sont supprimes, onGenreInfo retire de l'API des
+moteurs.
+
+**Revue de finition.** Un vrai bug attrape : PlayerLayer etait demonte
+pendant la transition de vue (mode attente), ce qui detruisait l'iframe et
+coupait la lecture. Le lecteur est desormais monte EN PERMANENCE, sans
+condition de mode. Verifie apres correction : la lecture survit au
+changement de vue, de genre, a la fermeture de colonne (barre discrete) et
+a la reouverture ; les quatre vues passent a 390 px sans debordement ; la
+colonne du lecteur survit au changement de vue.
+
+**Discogs.** Le jeton annonce n'est arrive ni dans l'environnement ni dans
+un fichier : la relance avec les replis n'a pas pu etre lancee, le taux
+reste 86 pour cent (712/824). Le script est pret, la commande est
+DISCOGS_TOKEN=... npm run fetch:release.
+
+---
+
 ## Pièges GLSL rencontrés, à ne pas repayer
 
 Trois erreurs coûteuses rencontrées sur le prototype de rendu. Elles ne

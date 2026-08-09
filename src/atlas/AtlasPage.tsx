@@ -1,11 +1,12 @@
 /* Coquille de l'atlas. Elle route les vues et ne dessine rien elle-même :
-   la 3D est dans webgl.ts, les morceaux dans PlayerLayer, la fiche dans
-   GenreCard, la recherche dans SearchOverlay. */
+   la 3D est dans webgl.ts et webgl-orbit.ts, les vues document dans
+   TreeViews, le lecteur ET la fiche dans PlayerLayer (le clic ouvre
+   directement les tracks, la fiche vit dans la colonne), la recherche dans
+   SearchOverlay. */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { FAMILIES, STRUCTURES } from './structures.ts';
 import { PlayerLayer } from './PlayerLayer.tsx';
-import { GenreCard } from './GenreCard.tsx';
 import { SearchOverlay } from './SearchOverlay.tsx';
 import { Welcome } from './Welcome.tsx';
 import { TreeViews } from './TreeViews.tsx';
@@ -74,11 +75,6 @@ export function AtlasPage() {
   const [panelGenre, setPanelGenre] = useState<{ familyIndex: number; genreLocal: number } | null>(
     null
   );
-  /* Fiche du genre atteint. Elle s'ouvre au clic sur une sphère, avant les
-     morceaux : écouter est une action de la fiche, pas un effet du clic. */
-  const [cardGenre, setCardGenre] = useState<{ familyIndex: number; genreLocal: number } | null>(
-    null
-  );
   const [searchOpen, setSearchOpen] = useState(false);
   /* Fil d'Ariane replié sur petit écran : deux segments et un chevron. */
   const [crumbsExpanded, setCrumbsExpanded] = useState(false);
@@ -101,11 +97,6 @@ export function AtlasPage() {
   const onNavigate = useCallback((next: NavState) => setNav(next), []);
   const onTracks = useCallback(
     (familyIndex: number, genreLocal: number) => setPanelGenre({ familyIndex, genreLocal }),
-    []
-  );
-
-  const onGenreInfo = useCallback(
-    (familyIndex: number, genreLocal: number) => setCardGenre({ familyIndex, genreLocal }),
     []
   );
 
@@ -156,7 +147,6 @@ export function AtlasPage() {
           onStats,
           onNavigate,
           onTracks,
-          onGenreInfo,
           onPanel,
           onContextLost: () => {
             setMode('repli');
@@ -179,7 +169,7 @@ export function AtlasPage() {
       apiRef.current?.dispose();
       apiRef.current = null;
     };
-  }, [view, onStats, onNavigate, onTracks, onGenreInfo, onPanel]);
+  }, [view, onStats, onNavigate, onTracks, onPanel]);
 
   const chooseView = useCallback((next: ViewId) => {
     localStorage.setItem(VIEW_KEY, next);
@@ -211,7 +201,6 @@ export function AtlasPage() {
      C'est ce que fait le premier segment du fil d'Ariane, et le logotype. */
   const backToAtlas = useCallback(() => {
     setPanelGenre(null);
-    setCardGenre(null);
     apiRef.current?.closePanel();
     apiRef.current?.goToFamily(-1);
   }, []);
@@ -253,8 +242,8 @@ export function AtlasPage() {
 
   const goToGenre = useCallback((familyIndex: number, genreLocal: number) => {
     if (!apiRef.current) {
-      // Vue DOM : aller à un genre, c'est ouvrir sa fiche.
-      setCardGenre({ familyIndex, genreLocal });
+      // Vue DOM : aller à un genre, c'est ouvrir sa colonne de tracks.
+      setPanelGenre({ familyIndex, genreLocal });
       return;
     }
     apiRef.current.goToGenre(familyIndex, genreLocal);
@@ -314,8 +303,7 @@ export function AtlasPage() {
       {mode === 'dom' && (
         <TreeViews
           mode={view === 'colonnes' ? 'colonnes' : 'lineaire'}
-          onShowCard={(familyIndex, genreLocal) => setCardGenre({ familyIndex, genreLocal })}
-          onListen={openTracks}
+          onOpen={openTracks}
         />
       )}
 
@@ -445,8 +433,8 @@ export function AtlasPage() {
       {showHelp && !showWelcome && mode === 'webgl' && !panelGenre && (
         <p className="help-line" role="status">
           {view === 'libre'
-            ? 'Glisser pour tourner · molette pour zoomer · clic sur une sphère pour sa fiche · espace pour chercher'
-            : 'Glisser pour déplacer la carte · molette pour zoomer · clic sur une sphère pour sa fiche · espace pour chercher'}
+            ? 'Glisser pour tourner · molette pour zoomer · clic sur une sphère pour ses tracks · espace pour chercher'
+            : 'Glisser pour déplacer la carte · molette pour zoomer · clic sur une sphère pour ses tracks · espace pour chercher'}
         </p>
       )}
 
@@ -465,18 +453,6 @@ export function AtlasPage() {
         </div>
       )}
 
-      {/* La fiche s'efface quand les morceaux passent devant : les deux ne se
-          lisent pas en même temps. */}
-      {(mode === 'webgl' || mode === 'dom') && cardGenre && (
-        <GenreCard
-          familyIndex={cardGenre.familyIndex}
-          genreLocal={cardGenre.genreLocal}
-          onClose={() => setCardGenre(null)}
-          onTracks={openTracks}
-          onGoToGenre={goToGenre}
-        />
-      )}
-
       {searchOpen && (
         <SearchOverlay
           onPick={goToGenre}
@@ -487,19 +463,16 @@ export function AtlasPage() {
 
       {showWelcome && <Welcome views={VIEWS} current={view} onDismiss={dismissWelcome} />}
 
-      {(mode === 'webgl' || mode === 'dom') && (
-        <PlayerLayer
-          panelGenre={panelGenre}
-          onClose={closePanel}
-          onReopen={reopenPanel}
-          onGoToGenre={goToGenre}
-          onShowCard={(familyIndex: number, genreLocal: number) => {
-            setPanelGenre(null);
-            apiRef.current?.closePanel();
-            setCardGenre({ familyIndex, genreLocal });
-          }}
-        />
-      )}
+      {/* MONTÉ EN PERMANENCE, sans condition de mode : le démontage pendant
+          la transition de vue détruisait l'iframe et coupait la lecture.
+          La règle est absolue : la lecture survit à tout. */}
+      <PlayerLayer
+        panelGenre={panelGenre}
+        onClose={closePanel}
+        onReopen={reopenPanel}
+        onGoToGenre={goToGenre}
+        onGoToFamily={(familyIndex: number) => apiRef.current?.goToFamily(familyIndex)}
+      />
 
       {/* Pied de page discret : les crédits ne concurrencent pas la carte. */}
       <a className="credits-link" href="#/credits">

@@ -125,10 +125,6 @@ export interface AtlasHandles {
   onNavigate: (nav: NavState) => void;
   /** Demande d'ouverture du panneau tracks pour un genre. */
   onTracks: (familyIndex: number, genreLocal: number) => void;
-  /* Fiche du genre atteint. Cliquer une sphère ouvre d'abord la fiche : on veut
-     savoir de quoi on parle, d'où ça vient et ce que ça a donné, AVANT de
-     décider d'écouter. Les tracks se demandent depuis la fiche. */
-  onGenreInfo: (familyIndex: number, genreLocal: number) => void;
   /** Ouverture et fermeture du panneau lecteur. */
   onPanel: (panel: PanelState | null) => void;
   onContextLost: () => void;
@@ -186,7 +182,7 @@ const backOut = (t: number): number => {
 // ------------------------------------------------------------------ init
 
 export const initAtlas = (handles: AtlasHandles): AtlasApi => {
-  const { canvas, labelLayer, onStats, onNavigate, onTracks, onGenreInfo, onPanel, onContextLost } =
+  const { canvas, labelLayer, onStats, onNavigate, onTracks, onPanel, onContextLost } =
     handles;
   let engineReady = false;
   /** Vrai tant que la caméra est au cadrage par défaut de l'atlas. */
@@ -758,27 +754,13 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     onPanel(null);
   };
 
+  /* LE CLIC OUVRE DIRECTEMENT LES TRACKS (mission clic direct). Plus de
+     fiche flottante intermédiaire : la colonne s'ouvre, prête à jouer, et
+     si le genre a des dérivés la caméra cadre le sous-arbre en même temps.
+     Ouvrir les tracks n'empêche jamais de descendre. */
   const selectGenre = (globalIndex: number, now: number): void => {
     const slot = slotsData[globalIndex];
     if (!slot) return;
-
-    /* Un genre à dérivés ouvre sa FICHE, une feuille lance le lecteur
-       directement : la fiche reste accessible par le nom du genre sur le
-       panneau. */
-    if (slot.children.length === 0) {
-      const path = pathToGenre(slot.family, slot.local).map(
-        (local) => (familyOffset[slot.family] ?? 0) + local
-      );
-      genrePath = path;
-      activeGenre = globalIndex;
-      focusIndex = globalIndex;
-      level = 'genre';
-      emitNav();
-      openPanel(slot.family, slot.local);
-      return;
-    }
-    /* La colonne du lecteur reste ouverte pendant la navigation : la
-       lecture ne s'interrompt jamais à cause d'un clic. */
 
     const base = familyOffset[slot.family] ?? 0;
     genrePath = pathToGenre(slot.family, slot.local).map((local) => base + local);
@@ -786,9 +768,9 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     level = 'genre';
     focusIndex = globalIndex;
 
-    flyToBBox(subtreeBBox(globalIndex), now);
+    if (slot.children.length > 0) flyToBBox(subtreeBBox(globalIndex), now);
     emitNav();
-    onGenreInfo(slot.family, slot.local);
+    openPanel(slot.family, slot.local);
   };
 
   const goToGenre = (familyIndex: number, genreLocal: number): void => {
