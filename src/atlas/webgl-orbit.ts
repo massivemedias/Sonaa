@@ -1200,6 +1200,18 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   let labelCpuAccum = 0;
   let labelCpuFrames = 0;
   let lastLabelPass = 0;
+  /* Instantané en lecture seule de la dernière passe de placement, pour
+     verify:visual : les boîtes que l'arbitrage a réellement testées, à
+     confronter aux boîtes DOM mesurées. */
+  let lastPlacedSnapshot: {
+    key: string;
+    sx: number;
+    sy: number;
+    w: number;
+    h: number;
+    px: number;
+    opacity: number;
+  }[] = [];
   let labelsShown = 0;
   let genreLabelsShown = 0;
   let hovered = -1;
@@ -1311,19 +1323,41 @@ const OVERLAP_TOLERANCE = 1;
       const isAtlasFamily = kind === 'family' && level === 'atlas';
       const raw = (1500 / Math.max(depth, 1)) * (isAtlasFamily ? 0.72 : 1);
       const px = clamp(raw, isAtlasFamily ? 10 : labelRules.floorPx, LABEL_PX_CEILING);
+      const w = textWidth(text, px, kind);
+
+      /* Écran étroit : le nom de famille passe DESSOUS la sphère et centré.
+         Ce décalage vivait dans le CSS (translate -50% 1.35rem sur
+         data-major) et l'arbitrage n'en savait rien : la boîte testée
+         n'était pas la boîte affichée, et des paires famille/genre se
+         mordaient de 12 px à 426 px de large (mesuré par verify:visual).
+         Le décalage se fait ICI, avant l'arbitrage : la boîte testée est la
+         boîte rendue, par construction. Même seuil que le gabarit mobile. */
+      let fx = sx;
+      let fy = sy;
+      if (kind === 'family' && width <= 700) {
+        fx -= w / 2;
+        fy += 21.6;
+        /* La boîte décalée doit respecter les mêmes bandes que la boîte
+           d'origine : ancrée en écran elle se rabat, sinon elle est rejetée. */
+        if (screenDy !== 0) {
+          fy = clamp(fy, CHROME_TOP + 4, height - CHROME_BOTTOM - 4);
+        } else if (fy > height - CHROME_BOTTOM) {
+          return;
+        }
+      }
 
       candidates.push({
         key,
         text,
-        sx,
-        sy,
+        sx: fx,
+        sy: fy,
         depth,
         kind,
         slot,
         pinned,
         opacity: opacityScale,
         px,
-        w: textWidth(text, px, kind),
+        w,
         h: px * 1.45
       });
     };
@@ -1487,6 +1521,15 @@ const OVERLAP_TOLERANCE = 1;
 
     labelsShown = placed.length;
     genreLabelsShown = placed.filter((c) => c.kind === 'genre').length;
+    lastPlacedSnapshot = placed.map((c) => ({
+      key: c.key,
+      sx: c.sx,
+      sy: c.sy,
+      w: c.w,
+      h: c.h,
+      px: c.px,
+      opacity: c.opacity
+    }));
 
     labelled.fill(0);
     for (const c of placed) {
@@ -2047,6 +2090,7 @@ const OVERLAP_TOLERANCE = 1;
       size: [width, height],
       triangles: renderer.info.render.triangles
     }),
+    labelSnapshot: () => lastPlacedSnapshot,
     drawCallsPerFrame: () => {
       renderer.info.reset();
       renderOnce(true);

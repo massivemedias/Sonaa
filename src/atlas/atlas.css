@@ -448,15 +448,11 @@
     bottom: max(1rem, env(safe-area-inset-bottom));
   }
 
-  /* Les noms de familles se posaient à DROITE de la sphère : près du bord droit
-     de l'écran, « MINIMAL » sortait du cadre. Sur mobile ils passent dessous et
-     centrés, ce qui est une règle de gabarit et non un décalage au cas par cas :
-     aucun label n'est déplacé individuellement. */
-  .atlas-label[data-major='1'] {
-    translate: -50% 1.35rem;
-    margin-left: 0;
-    text-align: center;
-  }
+  /* Les noms de familles passent dessous et centrés sur écran étroit, mais
+     le décalage se fait DANS LE MOTEUR (webgl-orbit.ts), pas ici : un
+     translate CSS déplaçait la boîte affichée sans que l'arbitrage de
+     placement le sache, et des paires famille/genre se mordaient de 12 px
+     à 426 px de large. La boîte testée doit être la boîte rendue. */
 
   /* Le fil d'Ariane peut être long : il se replie au lieu de sortir, et il se
      resserre pour ne pas manger quatre lignes sur un chemin profond. */
