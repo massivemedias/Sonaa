@@ -72,6 +72,24 @@
 
 .atlas-label[data-kind='genre'] {
   z-index: 2;
+  /* Montserrat Black en majuscules, interlettrage ouvert : la livraison
+     demandée pour juger à l'écran. La police est auto-hébergée dans
+     public/fonts, sous licence OFL : aucun appel tiers au runtime.
+     Taille réduite d'un cran : une Black en majuscules occupe visuellement
+     un tiers de plus qu'une 500 en capitale initiale. */
+  font-family: 'Montserrat Black', var(--font-ui);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.82em;
+}
+
+@font-face {
+  font-family: 'Montserrat Black';
+  src: url('../../public/fonts/montserrat-black-latin.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
 }
 
 /* --- Repli --------------------------------------------------------------- */

@@ -492,3 +492,28 @@
   padding: 0;
   cursor: pointer;
 }
+
+/* Le nom du genre, en évidence sur le panneau. Cliquable : il ouvre la fiche. */
+.panel-genre-name {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: calc(var(--panel-w) * 0.04);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--family);
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.panel-genre-name:hover,
+.panel-genre-name:focus-visible {
+  text-decoration: underline;
+}
+
+.panel-genre-meta {
+  display: block;
+  margin-top: 0.1em;
+}

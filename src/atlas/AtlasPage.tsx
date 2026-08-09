@@ -162,19 +162,23 @@ export function AtlasPage() {
     setShowHelp(false);
   }, []);
 
-  /* La barre oblique ouvre la recherche, partout sauf dans un champ de saisie.
-     Échap la referme, et c'est SearchOverlay qui s'en charge. */
+  /* L'ESPACE ouvre la recherche, la barre oblique reste en second raccourci.
+     Exception : quand le panneau tracks est ouvert, l'espace appartient au
+     lecteur, c'est lecture et pause partout ailleurs sur le web et ici aussi.
+     Échap referme, et c'est SearchOverlay qui s'en charge. */
   useEffect(() => {
     const onKey = (event: KeyboardEvent): void => {
       if (event.target instanceof HTMLInputElement) return;
-      if (event.key === '/' && !searchOpen) {
+      if (searchOpen) return;
+      const spaceForSearch = event.code === 'Space' && panelGenre === null;
+      if (event.key === '/' || spaceForSearch) {
         event.preventDefault();
         setSearchOpen(true);
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [searchOpen]);
+  }, [searchOpen, panelGenre]);
 
   const goToGenre = useCallback((familyIndex: number, genreLocal: number) => {
     setPanelGenre(null);
@@ -206,7 +210,7 @@ export function AtlasPage() {
     const parts: string[] = [];
     if (panelGenre) {
       const genre = STRUCTURES[panelGenre.familyIndex]?.genres[panelGenre.genreLocal];
-      if (genre) parts.push(`${genre.label}, morceaux`);
+      if (genre) parts.push(`${genre.label}, tracks`);
     } else if (nav && nav.path.length > 0) {
       const last = nav.path[nav.path.length - 1];
       if (last) parts.push(last.label);
@@ -286,7 +290,7 @@ export function AtlasPage() {
         {panelGenre && (
           <>
             <span className="crumb-sep" aria-hidden="true">›</span>
-            <span className="crumb" data-current="true">Morceaux</span>
+            <span className="crumb" data-current="true">Tracks</span>
           </>
         )}
       </nav>
@@ -294,7 +298,7 @@ export function AtlasPage() {
       {showHelp && !showWelcome && mode === 'webgl' && !panelGenre && (
         <p className="help-line" role="status">
           Glisser pour tourner · molette pour zoomer · clic sur une sphère pour sa fiche ·
-          barre oblique pour chercher · Échap pour remonter
+          espace pour chercher · Échap pour remonter
         </p>
       )}
 
@@ -334,6 +338,11 @@ export function AtlasPage() {
           onClose={closePanel}
           onReopen={reopenPanel}
           onGoToGenre={goToGenre}
+          onShowCard={(familyIndex: number, genreLocal: number) => {
+            setPanelGenre(null);
+            apiRef.current?.closePanel();
+            setCardGenre({ familyIndex, genreLocal });
+          }}
         />
       )}
 
@@ -361,7 +370,7 @@ export function AtlasPage() {
             <dt>draw calls</dt>
             <dd>{stats?.drawCalls ?? '—'}</dd>
             <dt>niveau</dt>
-            <dd>{panelGenre ? 'morceaux' : level}</dd>
+            <dd>{panelGenre ? 'tracks' : level}</dd>
             <dt>diffusion</dt>
             <dd>{stats ? `${stats.deployPct.toFixed(0)} %` : '—'}</dd>
             <dt>rendu</dt>

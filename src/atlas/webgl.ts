@@ -956,10 +956,24 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     const slot = slotsData[globalIndex];
     if (!slot) return;
 
-    /* Le clic n'ouvre plus les morceaux directement. Il vole sur le noeud,
-       déploie ses dérivés s'il en a, et ouvre sa FICHE. Écouter est une action
-       de la fiche, pas un effet de bord du clic : on ne tombe plus dans un
-       lecteur sans savoir où on est. */
+    /* Un genre à dérivés ouvre sa FICHE : on veut savoir où on est avant
+       d'écouter. Une FEUILLE, elle, n'a rien d'autre à montrer que ses tracks :
+       le clic lance le lecteur directement, et la fiche reste accessible par
+       le nom du genre sur le panneau. */
+    if (slot.children.length === 0) {
+      const path = pathToGenre(slot.family, slot.local).map(
+        (local) => (familyOffset[slot.family] ?? 0) + local
+      );
+      genrePath = path;
+      activeGenre = globalIndex;
+      focusIndex = globalIndex;
+      focusDir = 1;
+      focusStart = now;
+      level = 'genre';
+      emitNav();
+      openPanel(slot.family, slot.local);
+      return;
+    }
     closePanel();
 
     /* Le chemin est recalculé depuis la racine de la famille, donc le fil
@@ -1334,16 +1348,25 @@ const OVERLAP_TOLERANCE = 4;
     /* Placement. Les épinglés d'abord, puis les familles, puis les genres, du
        plus proche au plus lointain. En cas de collision, on masque le plus
        lointain : on ne décale JAMAIS un label, sinon il ne désigne plus rien. */
+    /* Deux règles absolues, dans cet ordre.
+
+       1. Le nom de FAMILLE passe avant tout, même avant un genre épinglé : il
+          est l'ancre de lecture, il ne passe jamais sous un genre.
+       2. Deux labels ne se recouvrent JAMAIS. L'épinglage donnait un passe-
+          droit sur le test de chevauchement, et sur une capture « Disco » et
+          « Spacesynth » se recouvraient : tous les deux épinglés par le focus,
+          tous les deux dispensés du test. L'épinglage ne donne plus que la
+          priorité d'ordre ; le chevauchement, lui, masque toujours. */
     candidates.sort((a, b) => {
-      if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
       if (a.kind !== b.kind) return a.kind === 'family' ? -1 : 1;
+      if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
       return a.depth - b.depth;
     });
 
     for (const c of candidates) {
       if (c.opacity < 0.06) continue;
       if (placed.length >= labelRules.maxLabels) break;
-      if (!c.pinned && placed.some((other) => overlaps(c, other))) continue;
+      if (placed.some((other) => overlaps(c, other))) continue;
       placed.push(c);
     }
 
@@ -1372,6 +1395,7 @@ const OVERLAP_TOLERANCE = 4;
         ls.key = entry.key;
         ls.el.textContent = entry.text;
         ls.el.dataset['major'] = entry.kind === 'family' ? '1' : '0';
+        ls.el.dataset['kind'] = entry.kind;
         ls.el.dataset['kind'] = entry.kind;
         ls.el.dataset['focus'] = entry.key === `g-${slotsData[focusIndex]?.label ?? ''}` ? '1' : '0';
       }

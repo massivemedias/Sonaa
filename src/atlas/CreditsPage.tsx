@@ -64,13 +64,13 @@ export function CreditsPage() {
         <section aria-labelledby="credits-services">
           <h2 id="credits-services">Les services</h2>
           <ul>
-            <li>YouTube, la lecture des morceaux</li>
+            <li>YouTube, la lecture des tracks</li>
             <li>Deezer et iTunes, les pochettes</li>
           </ul>
           <p>
-            Les morceaux sont lus via le lecteur officiel YouTube. SONAA n&apos;héberge aucun
-            contenu audio : chaque identifiant de vidéo est vérifié, jamais inventé, et un
-            morceau retiré de YouTube disparaît de la sélection.
+            Les tracks sont lues via le lecteur officiel YouTube. SONAA n&apos;héberge aucun
+            contenu audio : chaque identifiant de vidéo est vérifié, jamais inventé, et une
+            track retirée de YouTube disparaît de la sélection.
           </p>
         </section>
 

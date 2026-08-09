@@ -45,8 +45,8 @@ export function Welcome({ onDismiss }: Props) {
           <dt>Molette</dt>
           <dd>avancer et reculer</dd>
           <dt>Clic sur une sphère</dt>
-          <dd>ouvrir sa fiche, puis ses morceaux</dd>
-          <dt>Barre oblique</dt>
+          <dd>ouvrir sa fiche, puis ses tracks</dd>
+          <dt>Espace</dt>
           <dd>chercher un genre par son nom</dd>
           <dt>Échap</dt>
           <dd>remonter d&apos;un niveau</dd>

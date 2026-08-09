@@ -169,8 +169,8 @@ export function GenreCard({ familyIndex, genreLocal, onClose, onTracks, onGoToGe
           disabled={tracks === 0}
         >
           {tracks === 0
-            ? 'Aucun morceau vérifié'
-            : `Écouter, ${tracks} morceau${tracks > 1 ? 'x' : ''}`}
+            ? 'Aucune track vérifiée'
+            : `Écouter, ${tracks} track${tracks > 1 ? 's' : ''}`}
         </button>
         <button className="card-close" onClick={onClose}>
           Fermer

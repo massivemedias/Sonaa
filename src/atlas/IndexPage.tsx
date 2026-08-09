@@ -85,7 +85,7 @@ export function IndexPage() {
                       <tr>
                         <th scope="col">Genre</th>
                         <th scope="col">BPM</th>
-                        <th scope="col">Morceaux</th>
+                        <th scope="col">Tracks</th>
                       </tr>
                     </thead>
                     <tbody>

@@ -46,6 +46,8 @@ interface Props {
   onReopen: (familyIndex: number, genreLocal: number) => void;
   /** Un morceau charnière mène à l'autre genre qui le revendique. */
   onGoToGenre: (familyIndex: number, genreLocal: number) => void;
+  /** Le nom du genre sur le panneau ouvre sa fiche. */
+  onShowCard: (familyIndex: number, genreLocal: number) => void;
 }
 
 /* Perspective du panneau. Assez longue pour que l'inclinaison se sente sans
@@ -121,7 +123,7 @@ const mmss = (s: number): string => {
 
 // -------------------------------------------------------------- composant
 
-export function PlayerLayer({ bus, panelGenre, onClose, onReopen, onGoToGenre }: Props) {
+export function PlayerLayer({ bus, panelGenre, onClose, onReopen, onGoToGenre, onShowCard }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const slotRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -463,20 +465,31 @@ export function PlayerLayer({ bus, panelGenre, onClose, onReopen, onGoToGenre }:
           </div>
 
           <div className="panel-body">
-            {/* La greffe est nommée ici : c'est la seule trace visible qu'un
-                genre descend aussi d'une autre famille. */}
+            {/* Le GENRE d'abord, en évidence : on lisait la famille et le BPM
+                sans jamais savoir dans quel genre on écoutait. Son nom ouvre la
+                fiche, ce qui la garde accessible quand une feuille lance le
+                lecteur directement. */}
             <p className="panel-genre">
-              {panelFamily.label}
-              {panelGenreData.externalParents.length > 0 && (
-                <> · greffe {panelGenreData.externalParents.map((x) => x.label).join(', ')}</>
-              )}{' '}
-              {panelGenreData.bpmRange
-                ? ` · ${panelGenreData.bpmRange[0]}-${panelGenreData.bpmRange[1]} BPM`
-                : ''}
+              <button
+                className="panel-genre-name"
+                onClick={() => onShowCard(panelGenre.familyIndex, panelGenre.genreLocal)}
+                title="Ouvrir la fiche du genre"
+              >
+                {panelGenreData.label}
+              </button>
+              <span className="panel-genre-meta">
+                {panelFamily.label}
+                {panelGenreData.externalParents.length > 0 && (
+                  <> · greffe {panelGenreData.externalParents.map((x) => x.label).join(', ')}</>
+                )}
+                {panelGenreData.bpmRange
+                  ? ` · ${panelGenreData.bpmRange[0]}-${panelGenreData.bpmRange[1]} BPM`
+                  : ''}
+              </span>
             </p>
             <h2 className="panel-title">{shownInPanel ? shownInPanel.title : panelGenreData.label}</h2>
             <p className="panel-artist">
-              {shownInPanel ? shownInPanel.artist : `${panelTracks.length} morceaux`}
+              {shownInPanel ? shownInPanel.artist : `${panelTracks.length} tracks`}
             </p>
             {/* Album et non label de disque : le label demanderait un jeton
                 Discogs, et nommer « label » ce qui est un album serait faux. */}
@@ -506,7 +519,7 @@ export function PlayerLayer({ bus, panelGenre, onClose, onReopen, onGoToGenre }:
 
             {/* L'onglet Actuel n'existe que s'il a du contenu. */}
             {panelActuel.length > 0 && (
-              <div className="panel-tabs" role="tablist" aria-label="Sélection de morceaux">
+              <div className="panel-tabs" role="tablist" aria-label="Sélection de tracks">
                 <button
                   role="tab"
                   aria-selected={currentList === 'essentiel'}
@@ -568,7 +581,7 @@ export function PlayerLayer({ bus, panelGenre, onClose, onReopen, onGoToGenre }:
                 onClick={seek}
                 role="slider"
                 tabIndex={0}
-                aria-label="Position dans le morceau"
+                aria-label="Position dans la track"
                 aria-valuemin={0}
                 aria-valuemax={Math.floor(duration)}
                 aria-valuenow={Math.floor(position)}
