@@ -24,10 +24,9 @@
    tempo croissant. */
 
 import {
+  FAMILY_RING_IDS,
   FAMILIES,
-  FAMILY_LINKS,
   STRUCTURES,
-  SUPERFAMILIES,
   TOTAL_GENRES
 } from './structures.ts';
 
@@ -42,12 +41,10 @@ import {
    tiers. La carte se parcourt, elle ne se randonne plus. */
 const GENRE_LH = 2.15;
 const FAMILY_LH = 3.6;
-const ENSEMBLE_LH = 4.6;
 const CHAR_W = 0.56;
 const SLOT_GAP = 0.7;
 const COL_GAP = 4.5;
 const FAMILY_GAP = 6;
-const ENSEMBLE_GAP = 10;
 
 const labelWidth = (text: string, lh: number): number => text.length * lh * CHAR_W + lh * 0.5;
 
@@ -56,8 +53,6 @@ export interface AtlasLayout {
   readonly positions: Float32Array;
   /** Ancre du nom de famille (au-dessus du fondateur). */
   readonly familyAnchor: { x: number; y: number }[];
-  /** Ancres des grands ensembles, toujours nommés. */
-  readonly ensembleAnchor: { label: string; x: number; y: number }[];
   /** Boîte englobante, créneaux de labels compris. */
   readonly bbox: { minX: number; maxX: number; minY: number; maxY: number };
   /** Boîte englobante par famille, pour cadrer une sélection. */
@@ -71,47 +66,15 @@ export interface AtlasLayout {
   readonly portrait: boolean;
 }
 
-/* Ordre des familles : groupées par grand ensemble, puis médiane des
-   partenaires de greffe à l'intérieur de chaque groupe, deux passes. */
-const familyOrder = (): number[] => {
-  const groups = SUPERFAMILIES.map((sf) =>
-    sf.members
-      .map((id) => FAMILIES.findIndex((f) => f.id === id))
-      .filter((i) => i >= 0)
-  );
-
-  const partners = new Map<number, number[]>();
-  for (const link of FAMILY_LINKS) {
-    partners.set(link.from, [...(partners.get(link.from) ?? []), link.to]);
-    partners.set(link.to, [...(partners.get(link.to) ?? []), link.from]);
-  }
-
-  for (let pass = 0; pass < 2; pass += 1) {
-    const rank = new Map<number, number>();
-    groups.flat().forEach((fi, i) => rank.set(fi, i));
-    for (const group of groups) {
-      group.sort((a, b) => {
-        const med = (fi: number): number => {
-          const ps = (partners.get(fi) ?? [])
-            .map((p) => rank.get(p) ?? 0)
-            .sort((x, y) => x - y);
-          const m = ps[Math.floor(ps.length / 2)];
-          return ps.length > 0 && m !== undefined ? m : (rank.get(fi) ?? 0);
-        };
-        const d = med(a) - med(b);
-        // Départage stable par identifiant : le même corpus donne le même ordre.
-        return d !== 0 ? d : (FAMILIES[a]?.id ?? '').localeCompare(FAMILIES[b]?.id ?? '');
-      });
-    }
-  }
-  return groups.flat();
-};
+/* Ordre des familles : celui de l'anneau d'affinités (ADR-053) — la vue
+   fixe empile les blocs dans le même voisinage stylistique que la carte. */
+const familyOrder = (): number[] =>
+  FAMILY_RING_IDS.map((id) => FAMILIES.findIndex((f) => f.id === id)).filter((i) => i >= 0);
 
 export const buildLayout = (portrait: boolean): AtlasLayout => {
   const positions = new Float32Array(TOTAL_GENRES * 3);
   const familyAnchor: { x: number; y: number }[] = FAMILIES.map(() => ({ x: 0, y: 0 }));
   const familyBBox = FAMILIES.map(() => ({ minX: 0, maxX: 0, minY: 0, maxY: 0 }));
-  const ensembleAnchor: { label: string; x: number; y: number }[] = [];
 
   const familyOffset: number[] = [];
   {
@@ -249,33 +212,12 @@ export const buildLayout = (portrait: boolean): AtlasLayout => {
 
   // ------------------------------------------------- empilement des blocs
 
-  const groupOf = new Map<number, number>();
-  SUPERFAMILIES.forEach((sf, si) => {
-    for (const id of sf.members) {
-      const fi = FAMILIES.findIndex((f) => f.id === id);
-      if (fi >= 0) groupOf.set(fi, si);
-    }
-  });
 
   let v = 0;
-  let lastGroup = -1;
   let familyPitchMin = Infinity;
   let prevFamilyCenter: number | null = null;
 
   for (const fi of order) {
-    const group = groupOf.get(fi) ?? -1;
-    if (group !== lastGroup) {
-      v += lastGroup >= 0 ? ENSEMBLE_GAP : 0;
-      const sf = SUPERFAMILIES[group];
-      ensembleAnchor.push({
-        label: sf?.label ?? '',
-        x: portrait ? v + (familySpan[fi] ?? 0) / 2 : colCenter[0] ?? 0,
-        y: 0 // corrigé après : dépend de l'orientation
-      });
-      v += ENSEMBLE_LH * 1.8;
-      lastGroup = group;
-    }
-
     const span = familySpan[fi] ?? 0;
     const top = v;
     const center = top + span / 2;
@@ -333,31 +275,6 @@ export const buildLayout = (portrait: boolean): AtlasLayout => {
 
   minPitch[0] = familyPitchMin;
 
-  // Ancres d'ensemble : posées maintenant que l'orientation des axes est connue.
-  {
-    let cursor = 0;
-    let gi = 0;
-    let last = -1;
-    for (const fi of order) {
-      const group = groupOf.get(fi) ?? -1;
-      if (group !== last) {
-        const anchor = ensembleAnchor[gi];
-        const bb = familyBBox[fi];
-        if (anchor && bb) {
-          /* Nettement AU-DESSUS du bloc, nom de famille compris : la tête
-             de section ne se bat jamais avec un nom de famille. */
-          anchor.x = portrait
-            ? (bb.minX + bb.maxX) / 2
-            : bb.minX + labelWidth(anchor.label, ENSEMBLE_LH) / 2;
-          anchor.y = bb.maxY + ENSEMBLE_LH * 1.6;
-        }
-        gi += 1;
-        last = group;
-      }
-      cursor += 1;
-    }
-    void cursor;
-  }
 
   // Boîte englobante globale, ancres comprises.
   let minX = Infinity;
@@ -370,17 +287,10 @@ export const buildLayout = (portrait: boolean): AtlasLayout => {
     minY = Math.min(minY, bb.minY);
     maxY = Math.max(maxY, bb.maxY);
   }
-  for (const a of ensembleAnchor) {
-    minX = Math.min(minX, a.x - labelWidth(a.label, ENSEMBLE_LH) / 2);
-    maxX = Math.max(maxX, a.x + labelWidth(a.label, ENSEMBLE_LH) / 2);
-    minY = Math.min(minY, a.y - ENSEMBLE_LH);
-    maxY = Math.max(maxY, a.y + ENSEMBLE_LH);
-  }
 
   return {
     positions,
     familyAnchor,
-    ensembleAnchor,
     bbox: { minX, maxX, minY, maxY },
     familyBBox,
     minPitch: minPitch.map((p) => (Number.isFinite(p) ? p : 10)),
@@ -391,6 +301,5 @@ export const buildLayout = (portrait: boolean): AtlasLayout => {
 /** Hauteurs de texte exportées : le moteur dimensionne les labels avec. */
 export const LABEL_WORLD = {
   genre: GENRE_LH,
-  family: FAMILY_LH,
-  ensemble: ENSEMBLE_LH
+  family: FAMILY_LH
 } as const;

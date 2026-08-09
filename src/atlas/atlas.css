@@ -88,15 +88,6 @@
   letter-spacing: 0.01em;
 }
 
-/* Les grands ensembles : têtes de section de la carte, toujours nommés. */
-.atlas-label[data-kind='ensemble'] {
-  z-index: 3;
-  font-weight: var(--weight-family);
-  letter-spacing: var(--tracking-family);
-  text-transform: uppercase;
-  color: var(--ink-secondary);
-}
-
 /* --- Repli --------------------------------------------------------------- */
 
 .atlas-fallback {

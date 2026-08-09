@@ -524,11 +524,15 @@
 
 .pcol-bar {
   flex: 1;
-  height: 8px;
+  /* PLUS GROSSE (verdict, capture à l'appui) : elle était écrasée par le
+     volume. 12 px au repos, 16 au survol, et une largeur minimale qui la
+     rend dominante dans la rangée. */
+  min-width: 96px;
+  height: 12px;
   background: oklch(0.3 0.01 250);
   position: relative;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 6px;
   transition: height 120ms linear;
 }
 
@@ -544,7 +548,7 @@
 }
 
 .pcol-bar:hover {
-  height: 12px;
+  height: 16px;
 }
 
 .pcol-bar-fill {
@@ -558,11 +562,11 @@
 .pcol-bar-fill::after {
   content: '';
   position: absolute;
-  right: -7px;
+  right: -9px;
   top: 50%;
   transform: translateY(-50%);
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: var(--ink-primary);
   border: 2px solid var(--family);
@@ -570,7 +574,8 @@
 }
 
 .pcol-volume input {
-  width: 64px;
+  /* Le volume cède la place à la barre de défilement. */
+  width: 48px;
   accent-color: var(--family);
 }
 
@@ -675,9 +680,9 @@
     display: none;
   }
 
-  /* Mobile : barre à 10 px, zone tactile de 44 px. */
+  /* Mobile : barre à 14 px, zone tactile de 44 px. */
   .pcol-bar {
-    height: 10px;
+    height: 14px;
   }
   .pcol-bar::before {
     height: 44px;

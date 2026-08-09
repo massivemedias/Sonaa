@@ -26,7 +26,6 @@ import {
   FAMILIES,
   FAMILY_LINKS,
   STRUCTURES,
-  SUPERFAMILIES,
   TOTAL_GENRES,
   TOTAL_INTERNAL_LINKS,
   FAMILY_CENTERS,
@@ -181,10 +180,6 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      90 degrés dans le plan de l'écran à l'angle par défaut. C'est une rotation
      exacte, les distances et donc la séparation garantie sont conservées. */
   const familyBaseLandscape = FAMILY_CENTERS.map((c) => new Vector3(c[0], c[1], c[2]));
-  const superMembers: number[][] = SUPERFAMILIES.map((sf) =>
-    sf.members.map((id) => FAMILIES.findIndex((f) => f.id === id)).filter((i) => i >= 0)
-  );
-  const superAnchor = new Vector3();
   const familyBase = familyBaseLandscape.map((v) => v.clone());
   let portraitApplied = false;
   let stretchApplied = 1;
@@ -1455,25 +1450,17 @@ const OVERLAP_TOLERANCE = 1;
       kind: 'family' | 'genre',
       pinned: boolean,
       opacityScale: number,
-      slot = -1,
-      screenDy = 0
+      slot = -1
     ): void => {
       scratch.copy(world).project(camera);
       if (scratch.z > 1) return;
       const sx = scratch.x * halfW + halfW;
-      let sy = -scratch.y * halfH + halfH + screenDy;
+      const sy = -scratch.y * halfH + halfH;
       if (sx < -200 || sx > width + 200 || sy < -80 || sy > height + 80) return;
-      /* Bande haute réservée au fil d'Ariane, bande basse aux contrôles et à la
-         ligne d'aide. Un label qui s'y place se superpose à du texte
-         d'interface, et les deux deviennent illisibles.
-
-         Les labels ANCRÉS EN ÉCRAN (screenDy, les grands ensembles) se
-         rabattent dans la bande au lieu d'être rejetés : « sous le membre le
-         plus bas » d'un ensemble qui occupe tout l'écran tombait dans la zone
-         des contrôles, et Quatre-temps n'était jamais nommé sur mobile. */
-      if (screenDy !== 0) {
-        sy = clamp(sy, CHROME_TOP + 4, height - CHROME_BOTTOM - 4);
-      } else if (sy < CHROME_TOP || sy > height - CHROME_BOTTOM) {
+      /* Bande haute réservée au fil d'Ariane, bande basse aux contrôles et à
+         la ligne d'aide : un label qui s'y place se superpose à du texte
+         d'interface. */
+      if (sy < CHROME_TOP || sy > height - CHROME_BOTTOM) {
         return;
       }
 
@@ -1503,11 +1490,8 @@ const OVERLAP_TOLERANCE = 1;
       if (kind === 'family' && width <= 700) {
         fx -= w / 2;
         fy += 21.6;
-        /* La boîte décalée doit respecter les mêmes bandes que la boîte
-           d'origine : ancrée en écran elle se rabat, sinon elle est rejetée. */
-        if (screenDy !== 0) {
-          fy = clamp(fy, CHROME_TOP + 4, height - CHROME_BOTTOM - 4);
-        } else if (fy > height - CHROME_BOTTOM) {
+        // La boîte décalée respecte la même bande basse que l'originale.
+        if (fy > height - CHROME_BOTTOM) {
           return;
         }
       }
@@ -1531,45 +1515,11 @@ const OVERLAP_TOLERANCE = 1;
     /* Le survol ne touche JAMAIS aux labels (règle, quatrième
        signalement) : il met la sphère en valeur, rien d'autre. */
 
-    /* NIVEAU ZÉRO : de loin, seuls les cinq grands ensembles sont nommés.
-       Les noms de familles apparaissent quand on zoome dedans. Pendant
-       l'intro, on nomme les familles : c'est leur naissance qu'on raconte. */
-    /* PLUS AUCUNE PORTE DE ZOOM (verdict de Mika) : les grands ensembles
-       gardent leur nom de loin, ET les familles ET les genres visibles sont
-       toujours candidats. Le placement arbitre par proximité, jamais par
-       superposition. */
-    const superMode = !introActive && level === 'atlas' && distance > atlasDistance * 0.72;
-
-    if (superMode) {
-      SUPERFAMILIES.forEach((sf, si) => {
-        const members = superMembers[si] ?? [];
-        if (members.length === 0) return;
-        /* L'ancre se calcule en ESPACE ÉCRAN : « sous l'ensemble » est une
-           notion d'écran, et la version en coordonnées monde dérivait dès que
-           l'atlas pivotait en portrait. On projette le centroïde et le bas de
-           chaque membre, et le nom se pose sous le plus bas. */
-        superAnchor.set(0, 0, 0);
-        for (const m of members) superAnchor.add(familyCenters[m] ?? new Vector3());
-        superAnchor.divideScalar(members.length);
-
-        scratch.copy(superAnchor).project(camera);
-        const anchorSy = -scratch.y * (height / 2) + height / 2;
-        let lowestSy = anchorSy;
-        for (const m of members) {
-          const c = familyCenters[m];
-          if (!c) continue;
-          const r = STRUCTURES[m]?.compactRadius ?? 6;
-          scratch.set(c.x, c.y - r, c.z).project(camera);
-          lowestSy = Math.max(lowestSy, -scratch.y * (height / 2) + height / 2);
-        }
-        /* Chute bornée : sous le membre le plus bas quand l'ensemble est
-           compact, mais jamais plus bas que 22 % de l'écran sous le centroïde.
-           En portrait étiré, un ensemble occupe la moitié de la hauteur et son
-           nom partait se battre avec les labels du bas de l'écran. */
-        const drop = Math.min(lowestSy - anchorSy, height * 0.22) + 16;
-        add(`s-${sf.id}`, sf.label, superAnchor, 'family', false, 1, -1, drop);
-      });
-    }
+    /* PLUS AUCUNE PORTE DE ZOOM (verdict de Mika) : familles ET genres
+       visibles sont toujours candidats. Le placement arbitre par
+       proximité, jamais par superposition. */
+    /* Plus de grands ensembles (ADR-053) : au premier affichage, les
+       quatorze familles sont le premier niveau, directement nommées. */
     FAMILIES.forEach((family, fi) => {
       // Intro : le nom apparaît à l'éclatement, environ 40 % du pop, et reste.
       if (introActive && introBirth(fi, performance.now()) < 0.4) return;
@@ -1637,33 +1587,15 @@ const OVERLAP_TOLERANCE = 1;
           cède à l'objet de lecture plus grand ;
        2. chevaucher un nom de MÊME niveau : LES DEUX cèdent, personne ne
           gagne par ordre d'arrivée.
-       Exception assumée : les GRANDS ENSEMBLES désignent des régions, ils se
-       décalent par petits pas plutôt que de céder, dans l'ordre stable de
-       SUPERFAMILIES. */
+       Plus d'exception : les grands ensembles ont disparu (ADR-053). */
     const levelOf = (c: Candidate): number => {
-      if (c.key.startsWith('s-')) return 0;
-      if (c.kind === 'family') return 1;
-      return 2 + (slotsData[c.slot]?.depth ?? 0);
+      if (c.kind === 'family') return 0;
+      return 1 + (slotsData[c.slot]?.depth ?? 0);
     };
     const maxLevel = candidates.reduce((m, c) => Math.max(m, levelOf(c)), 0);
 
     for (let lvl = 0; lvl <= maxLevel; lvl += 1) {
       const group = candidates.filter((c) => levelOf(c) === lvl && c.opacity >= 0.06);
-
-      if (lvl === 0) {
-        for (const c of group) {
-          if (placed.some((other) => overlaps(c, other))) {
-            let free = false;
-            while (!free && c.sy - 24 >= CHROME_TOP + 4) {
-              c.sy -= 24;
-              free = !placed.some((other) => overlaps(c, other));
-            }
-            if (!free) continue;
-          }
-          if (placed.length < labelRules.maxLabels) placed.push(c);
-        }
-        continue;
-      }
 
       const dead = new Set<number>();
       group.forEach((c, i) => {

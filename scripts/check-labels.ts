@@ -39,9 +39,8 @@ const webgl = ENGINES.map((f) => readFileSync(`${ATLAS}/${f}`, 'utf8')).join('\n
    les arguments sont simples. Si la forme du code change au point de casser ce
    parseur, c'est le moment de re-regarder les labels de toute façon. */
 const callSites = [...webgl.matchAll(/\badd\(\s*([\s\S]{0,200}?)\)/g)];
-// anchor.label : ensemble posé par layout.ts (vue fixe) ;
-// sf.label : ensemble posé par SUPERFAMILIES (vue libre). Noms nus tous deux.
-const ALLOWED_TEXT = new Set(['slot.label', 'family.label', 'anchor.label', 'sf.label']);
+// Plus d'ensembles (ADR-053) : familles et genres seulement, noms nus.
+const ALLOWED_TEXT = new Set(['slot.label', 'family.label']);
 
 let checked = 0;
 for (const call of callSites) {

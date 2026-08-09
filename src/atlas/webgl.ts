@@ -34,7 +34,8 @@ import {
   STRUCTURES,
   TOTAL_GENRES,
   TOTAL_INTERNAL_LINKS,
-  pathToGenre
+  pathToGenre,
+  FAMILY_RING_IDS
 } from './structures.ts';
 
 import { buildLayout, LABEL_WORLD, type AtlasLayout } from './layout.ts';
@@ -624,7 +625,8 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     /* On s'ouvre sur la PREMIÈRE tête de section, pas sur le bord brut : le
        bord d'un bloc, ce sont des feuilles sans contexte, tandis que la tête
        de section montre l'ensemble, la famille et son fondateur. */
-    const first = layout.ensembleAnchor[0];
+    /* On s'ouvre sur la première famille de l'anneau, pas sur le bord brut. */
+    const first = layout.familyAnchor[FAMILIES.findIndex((f) => f.id === FAMILY_RING_IDS[0])];
     if (layout.portrait) {
       const x = bb.maxX - bb.minX <= halfViewW * 2
         ? (bb.minX + bb.maxX) / 2
@@ -1235,7 +1237,7 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     text: string;
     sx: number;
     sy: number;
-    kind: 'ensemble' | 'family' | 'genre';
+    kind: 'family' | 'genre';
     slot: number;
     opacity: number;
     px: number;
@@ -1325,14 +1327,8 @@ const OVERLAP_TOLERANCE = 1;
     };
 
     /* PLUS AUCUNE PORTE DE ZOOM (verdict de Mika) : les noms des styles
-       sont TOUJOURS candidats, sans zoomer. Quand la place manque
-       physiquement, le placement garde les plus gros et les plus proches et
-       masque le reste : on ne superpose jamais, on n'exige jamais un zoom
-       pour qu'un nom existe. */
-    for (const anchor of layout.ensembleAnchor) {
-      add(`e-${anchor.label}`, anchor.label, anchor.x, anchor.y, 'ensemble', LABEL_WORLD.ensemble, 1);
-    }
-
+       sont TOUJOURS candidats, sans zoomer. Plus de grands ensembles
+       (ADR-053) : les quatorze familles SONT le premier niveau. */
     FAMILIES.forEach((family, fi) => {
       if (introActive && introBirth(fi, now) < 0.4) return;
       const anchor = layout.familyAnchor[fi];
@@ -1368,7 +1364,7 @@ const OVERLAP_TOLERANCE = 1;
           gagne par ordre d'arrivée.
        Déterministe et indépendant de l'ordre de parcours. */
     const levelOf = (c: Candidate): number =>
-      c.kind === 'ensemble' ? 0 : c.kind === 'family' ? 1 : 2 + (slotsData[c.slot]?.depth ?? 0);
+      c.kind === 'family' ? 0 : 1 + (slotsData[c.slot]?.depth ?? 0);
     const maxLevel = candidates.reduce((m, c) => Math.max(m, levelOf(c)), 0);
     for (let lvl = 0; lvl <= maxLevel; lvl += 1) {
       const group = candidates.filter((c) => levelOf(c) === lvl);
@@ -1781,7 +1777,6 @@ const OVERLAP_TOLERANCE = 1;
       aspect: camera.aspect,
       portrait: layout.portrait,
       bbox: layout.bbox,
-      ensembles: layout.ensembleAnchor,
       families: layout.familyAnchor,
       minPitch: layout.minPitch,
       introActive

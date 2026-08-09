@@ -40,24 +40,9 @@ export interface FamilyLink {
    amas à des points. On veut voir des corps, pas des billes perdues. */
 const CORPUS = corpus as unknown as Corpus;
 
-/* SUPER-FAMILLES, le niveau zéro. Cinq grands ensembles par PROXIMITÉ
-   STYLISTIQUE, pas par chronologie : le quatre-temps de club, la lignée
-   breakbeat, les racines et le disco, les musiques d'atmosphère, la machine.
-   Au premier affichage on ne voit qu'eux ; les noms de familles apparaissent
-   quand on zoome dedans. */
-export interface SuperFamily {
-  readonly id: string;
-  readonly label: string;
-  readonly members: readonly string[];
-}
-
-export const SUPERFAMILIES: readonly SuperFamily[] = [
-  { id: 'quatretemps', label: 'Quatre-temps', members: ['house', 'techno', 'minimal', 'trance', 'psy', 'hardcore'] },
-  { id: 'breakbeat', label: 'Breakbeat', members: ['breaks', 'bass', 'electro'] },
-  { id: 'racines', label: 'Racines et Disco', members: ['roots', 'disco'] },
-  { id: 'atmosphere', label: 'Atmosphère', members: ['ambient', 'downtempo'] },
-  { id: 'machine', label: 'Machine', members: ['industrial'] }
-];
+/* PLUS DE NIVEAU ZÉRO (ADR-053) : les grands ensembles sont supprimés,
+   leurs noms étaient artificiels. L'atlas a trois niveaux : les quatorze
+   familles, les genres, les sous-genres. */
 
 /* PLACEMENT PAR PROXIMITÉ STYLISTIQUE, calculé depuis les données, jamais
    décoratif. L'affinité entre deux familles est la somme de leurs greffes
@@ -101,84 +86,103 @@ const familyAffinity = (() => {
   return { ids, index, score };
 })();
 
-const CENTERS: Record<string, readonly [number, number, number]> = (() => {
-  const { index, score } = familyAffinity;
+/* PLACEMENT PAR PROXIMITÉ STYLISTIQUE, calculé depuis les données. Un seul
+   anneau de quatorze familles (ADR-053, plus de niveau zéro) : l'affinité
+   entre deux familles est la somme de leurs greffes croisées pondérée plus
+   la proximité de leurs tempos moyens, ET les voisinages EXIGÉS par le
+   verdict portent un bonus explicite pour être garantis, pas espérés :
+   Hardcore près de Techno et Breaks, Psy près de Trance, Minimal près de
+   Techno et House, Bass près de Breaks, Downtempo près d'Ambient, Disco
+   près de House et Roots. L'ordre de l'anneau est glouton puis affiné par
+   2-opt jusqu'à stabilité : déterministe, départages alphabétiques. */
+export const REQUIRED_NEIGHBORS: readonly [string, string][] = [
+  ['hardcore', 'techno'],
+  ['hardcore', 'breaks'],
+  ['psy', 'trance'],
+  ['minimal', 'techno'],
+  ['minimal', 'house'],
+  ['bass', 'breaks'],
+  ['downtempo', 'ambient'],
+  ['disco', 'house'],
+  ['disco', 'roots']
+];
 
-  const superScore = (A: SuperFamily, B: SuperFamily): number => {
-    let total = 0;
-    for (const a of A.members) {
-      for (const b of B.members) {
-        const ia = index.get(a);
-        const ib = index.get(b);
-        if (ia !== undefined && ib !== undefined) total += score(ia, ib);
-      }
-    }
-    return total;
+const RING_ORDER: readonly number[] = (() => {
+  const { ids, index, score } = familyAffinity;
+  const bonus = (a: number, b: number): number =>
+    REQUIRED_NEIGHBORS.some(
+      ([x, y]) =>
+        (index.get(x) === a && index.get(y) === b) ||
+        (index.get(x) === b && index.get(y) === a)
+    )
+      ? 12
+      : 0;
+  const s2 = (a: number, b: number): number => score(a, b) + bonus(a, b);
+  const ringSum = (ord: number[]): number => {
+    let t = 0;
+    for (let i = 0; i < ord.length; i += 1) t += s2(ord[i] ?? 0, ord[(i + 1) % ord.length] ?? 0);
+    return t;
   };
 
-  // Meilleur ordre circulaire des cinq ensembles : le premier est fixé, les
-  // permutations des quatre autres sont toutes essayées. Départage par ordre
-  // alphabétique des identifiants pour rester déterministe.
-  const rest = SUPERFAMILIES.slice(1);
-  const permutations = (arr: readonly SuperFamily[]): SuperFamily[][] =>
-    arr.length <= 1
-      ? [[...arr]]
-      : arr.flatMap((x, i) =>
-          permutations([...arr.slice(0, i), ...arr.slice(i + 1)]).map((p) => [x, ...p])
-        );
-  let bestOrder: SuperFamily[] = [SUPERFAMILIES[0] as SuperFamily, ...rest];
-  let bestTotal = -1;
-  for (const perm of permutations(rest)) {
-    const ring = [SUPERFAMILIES[0] as SuperFamily, ...perm];
-    let total = 0;
-    for (let i = 0; i < ring.length; i += 1) {
-      const a = ring[i];
-      const b = ring[(i + 1) % ring.length];
-      if (a && b) total += superScore(a, b);
+  /* Un seul départ glouton laissait le 2-opt dans un optimum local qui
+     éloignait Hardcore de Techno (mesuré). QUATORZE départs, un par
+     famille, chacun affiné par 2-opt : on garde le meilleur anneau, à
+     départage déterministe. */
+  const build = (startIdx: number): number[] => {
+    const order: number[] = [startIdx];
+    const remaining = ids.map((_, i) => i).filter((i) => i !== startIdx);
+    while (remaining.length > 0) {
+      const last = order[order.length - 1] ?? 0;
+      remaining.sort(
+        (a, b) => s2(last, b) - s2(last, a) || (ids[a] ?? '').localeCompare(ids[b] ?? '')
+      );
+      order.push(remaining.shift() ?? 0);
     }
-    const key = ring.map((x) => x.id).join('|');
-    const bestKey = bestOrder.map((x) => x.id).join('|');
-    if (total > bestTotal || (total === bestTotal && key < bestKey)) {
-      bestTotal = total;
-      bestOrder = ring;
+    let improved = true;
+    while (improved) {
+      improved = false;
+      for (let i = 0; i < order.length - 1; i += 1) {
+        for (let j = i + 1; j < order.length; j += 1) {
+          const candidate = [
+            ...order.slice(0, i),
+            ...order.slice(i, j + 1).reverse(),
+            ...order.slice(j + 1)
+          ];
+          if (ringSum(candidate) > ringSum(order)) {
+            order.splice(0, order.length, ...candidate);
+            improved = true;
+          }
+        }
+      }
     }
+    return order;
+  };
+
+  let best: number[] = build(0);
+  for (let s0 = 1; s0 < ids.length; s0 += 1) {
+    const cand = build(s0);
+    const d = ringSum(cand) - ringSum(best);
+    if (d > 0 || (d === 0 && cand.join(',') < best.join(','))) best = cand;
   }
+  return best;
+})();
 
-  const R0 = 34;
+/** Identifiants de familles dans l'ordre de l'anneau : la vue fixe et les
+    vues document suivent le même voisinage stylistique que la carte. */
+export const FAMILY_RING_IDS: readonly string[] = RING_ORDER.map(
+  (i) => familyAffinity.ids[i] ?? ''
+);
+
+const CENTERS: Record<string, readonly [number, number, number]> = (() => {
+  const R = 40;
   const out: Record<string, [number, number, number]> = {};
-  bestOrder.forEach((sf, si) => {
-    const theta = (si / bestOrder.length) * Math.PI * 2 - Math.PI / 2;
-    const ax = Math.cos(theta) * R0;
-    const az = Math.sin(theta) * R0;
-
-    if (sf.members.length === 1) {
-      const only = sf.members[0];
-      if (only) out[only] = [ax, 0, az];
-      return;
-    }
-
-    /* Rotation du sous-cercle : la famille la plus affine avec l'ensemble
-       suivant lui fait face. Rayon selon l'effectif. */
-    const next = bestOrder[(si + 1) % bestOrder.length];
-    const facing = (theta + Math.PI / 2) % (Math.PI * 2);
-    const r1 = sf.members.length <= 2 ? 8 : sf.members.length <= 3 ? 11 : 15;
-
-    const pull = (fid: string): number => {
-      const fi = index.get(fid);
-      if (fi === undefined || !next) return 0;
-      return next.members.reduce((acc, m) => {
-        const mi = index.get(m);
-        return mi === undefined ? acc : acc + score(fi, mi);
-      }, 0);
-    };
-    const members = [...sf.members].sort((a, b) => pull(b) - pull(a) || a.localeCompare(b));
-
-    members.forEach((fid, k) => {
-      const phi = facing + (k / members.length) * Math.PI * 2;
-      // Léger relief vertical, déterministe par position dans l'ensemble.
-      const lift = ((k % 3) - 1) * 4;
-      out[fid] = [ax + Math.cos(phi) * r1, lift, az + Math.sin(phi) * r1];
-    });
+  RING_ORDER.forEach((fi, k) => {
+    const id = familyAffinity.ids[fi];
+    if (!id) return;
+    const theta = (k / RING_ORDER.length) * Math.PI * 2 - Math.PI / 2;
+    // Léger relief vertical, déterministe par position dans l'anneau.
+    const lift = ((k % 3) - 1) * 4;
+    out[id] = [Math.cos(theta) * R, lift, Math.sin(theta) * R];
   });
   return out;
 })();

@@ -224,7 +224,7 @@ graisses vivent dans `tokens.css` (`--weight-*`) :
 
 | Rôle | Graisse | Traitement |
 |---|---|---|
-| Famille de tête, grands ensembles | 700 | capitales, interlettrage ouvert |
+| Famille de tête | 700 | capitales, interlettrage ouvert |
 | Nom de genre | 600 | capitale initiale |
 | Nom de track | 500 | casse normale |
 | Données, BPM, mesures | 400 | casse normale, plus de mono |

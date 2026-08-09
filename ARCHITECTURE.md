@@ -1179,6 +1179,9 @@ desormais en evidence sur le panneau et cliquable.
 
 ## ADR-041 : Exceptions nommees, grands ensembles, Inter, cadrage mobile
 
+> CADUC EN PARTIE (ADR-053) : la section « Grands ensembles, niveau zero »
+> est annulée, le niveau zéro est supprimé. Le reste tient toujours.
+
 **Exceptions de duree.** La regle des quinze minutes tuait des pieces uniques
 legitimes. Une liste NOMMEE dans scripts/lib/match.ts, trois entrees maximum,
 uniquement des pieces uniques jamais des albums : Brian Eno 1/1, Kraftwerk
@@ -1201,10 +1204,10 @@ d'ensemble designe une region, le decaler ne le fait pas mentir, contrairement
 a un label de genre qui se masque.
 
 **Placement par proximite stylistique.** Les centres de familles ne sont plus
-editoriaux : affinite = greffes croisees ponderees + proximite de tempo,
-ordre circulaire des cinq ensembles choisi par essai exhaustif des 24
-permutations, membres tires vers l'ensemble voisin. Deterministe, documente
-dans structures.ts. Dans une famille, l'anneau se range par tempo croissant.
+editoriaux : affinite = greffes croisees ponderees + proximite de tempo.
+(Revu par l'ADR-053 : plus d'ensembles, l'anneau est celui des quatorze
+familles directement.) Dans une famille, l'anneau se range par tempo
+croissant.
 
 **Labels toujours poses.** Le survol ne revele plus JAMAIS un nom : a chaque
 niveau de zoom, tout ce qui est visible est nomme, et quand il y a trop de
@@ -1413,8 +1416,8 @@ placement par niveaux (ensembles, familles, puis generations) : un nom ne
 cede qu'a un nom de NIVEAU SUPERIEUR deja pose (sa sphere est un objet de
 lecture plus petit a ce zoom), et a NIVEAU EGAL deux noms qui se chevauchent
 cedent TOUS LES DEUX, personne ne gagne par ordre d'arrivee. Deterministe et
-independant de l'ordre de parcours. Exception assumee : les grands ensembles
-designent des regions et se decalent par petits pas au lieu de ceder.
+independant de l'ordre de parcours. (L'exception des grands ensembles est
+caduque depuis l'ADR-053 : ils n'existent plus.)
 
 **Discogs.** Passe lancee par Mika a travers corpus-store, pendant que la
 mission ecrivait ailleurs : zero conflit, le verrou a fait ses preuves le
@@ -1761,6 +1764,48 @@ sonaa-logo.png, aucun redessin, aucune interprétation.
    Awesome Free en SVG inline (free-solid-svg-icons importé à la pièce),
    crosshairs pour recentrer (house ferait doublon avec le logo-accueil),
    attribution CC BY 4.0 aux crédits, aucun appel tiers au runtime.
+
+---
+
+## ADR-053 : Plus de niveau zéro, l'atlas a trois niveaux
+
+**Date** : 2026-08-09.
+
+**Contexte.** Verdict : les grands ensembles (Quatre-temps, Breakbeat,
+Racines et Disco, Atmosphère, Machine) n'apportent rien et leurs noms sont
+artificiels.
+
+**Décisions.**
+
+1. **Trois niveaux, et seulement trois** : les quatorze familles, les
+   genres, les sous-genres. SUPERFAMILIES disparaît du modèle, du layout,
+   des deux moteurs 3D et des vues document. Au premier affichage, les
+   quatorze familles sont directement nommées ; le fil d'Ariane va d'ATLAS
+   à la famille. Le cadrage par défaut montre les quatorze familles
+   entières (il était déjà calculé sur l'étendue réelle).
+
+2. **L'anneau des quatorze remplace l'anneau des cinq.** Même affinité
+   (greffes croisées pondérées + proximité de tempo), mais les voisinages
+   EXIGÉS portent un bonus explicite pour être garantis et non espérés :
+   Hardcore-Techno, Hardcore-Breaks, Psy-Trance, Minimal-Techno,
+   Minimal-House, Bass-Breaks, Downtempo-Ambient, Disco-House, Disco-Roots.
+   Quatorze départs gloutons affinés par 2-opt, meilleur anneau gardé,
+   départages alphabétiques : déterministe. Un seul départ laissait le
+   2-opt dans un optimum local qui éloignait Hardcore de Techno (mesuré) ;
+   avec quatorze départs, LES NEUF PAIRES EXIGÉES SONT TOUTES VOISINES
+   DIRECTES. La vue fixe et les vues document empilent les familles dans
+   l'ordre du même anneau.
+
+3. **Simplifications en cascade.** Plus de labels ancrés en écran
+   (screenDy), plus d'exception au placement par niveaux (les familles
+   cèdent entre elles comme tout le monde), plus de kind « ensemble »,
+   check:labels passe de six à quatre sites d'appel. Les sections
+   d'ensemble des vues Linéaire et Colonnes deviennent une liste de
+   familles dans l'ordre de l'anneau.
+
+**Caducité.** ADR-041, section « Grands ensembles, niveau zero » : annulée.
+Les mentions d'exception des ensembles dans le placement par niveaux :
+annulées.
 
 ---
 

@@ -1,6 +1,6 @@
 /* Les deux vues DOM du multi-vues (ADR-043) : LINÉAIRE et COLONNES.
 
-   La vue linéaire est un document : les grands ensembles en sections, les
+   La vue linéaire est un document : les familles en sections, les
    familles en blocs teintés, les genres en rangées serrées indentées par
    génération. La vue colonnes pose les mêmes blocs de familles dans une
    maçonnerie multi-colonnes : quatorze cartes qui tiennent l'écran.
@@ -11,7 +11,7 @@
    lecteur. Aucune donnée n'est inventée : tout vient de STRUCTURES. */
 
 import { useMemo } from 'react';
-import { FAMILIES, STRUCTURES, SUPERFAMILIES, type Genre } from './structures.ts';
+import { FAMILIES, FAMILY_RING_IDS, STRUCTURES, type Genre } from './structures.ts';
 import './tree-views.css';
 
 interface Props {
@@ -100,19 +100,15 @@ function FamilyBlock({
 export function TreeViews({ mode, onOpen }: Props) {
   return (
     <div className={`tv tv-${mode}`} data-view={mode}>
-      {SUPERFAMILIES.map((sf) => (
-        <section key={sf.id} className="tv-ensemble" aria-label={sf.label}>
-          <h2 className="tv-ensemble-name">{sf.label}</h2>
-          <div className="tv-ensemble-body">
-            {sf.members
-              .map(familyIndexOf)
-              .filter((fi) => fi >= 0)
-              .map((fi) => (
-                <FamilyBlock key={FAMILIES[fi]?.id} familyIndex={fi} onOpen={onOpen} />
-              ))}
-          </div>
-        </section>
-      ))}
+      {/* Plus de sections d'ensemble (ADR-053) : les quatorze familles sont
+          le premier niveau, dans l'ordre de l'anneau d'affinités. */}
+      <div className="tv-body">
+        {FAMILY_RING_IDS.map(familyIndexOf)
+          .filter((fi) => fi >= 0)
+          .map((fi) => (
+            <FamilyBlock key={FAMILIES[fi]?.id} familyIndex={fi} onOpen={onOpen} />
+          ))}
+      </div>
     </div>
   );
 }
