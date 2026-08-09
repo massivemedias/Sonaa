@@ -33,7 +33,21 @@ import { normalise, sleep } from './lib/match.ts';
 import { patchTracks } from './lib/corpus-store.ts';
 
 const CORPUS = fileURLToPath(new URL('../src/data/corpus.json', import.meta.url));
-const TOKEN = process.env['DISCOGS_TOKEN'];
+
+/* Jeton depuis l'environnement OU un fichier .env à la racine (gitignoré).
+   Sans dépendance : trois lignes de parseur suffisent, et le script marche
+   que le jeton soit exporté dans le shell ou posé dans le fichier. */
+const envToken = (name: string): string | undefined => {
+  if (process.env[name]) return process.env[name];
+  try {
+    const env = readFileSync(fileURLToPath(new URL('../.env', import.meta.url)), 'utf8');
+    const line = env.split('\n').find((l) => l.startsWith(`${name}=`));
+    return line?.slice(name.length + 1).trim().replace(/^["']|["']$/g, '') || undefined;
+  } catch {
+    return undefined;
+  }
+};
+const TOKEN = envToken('DISCOGS_TOKEN');
 const limitArg = process.argv.find((a) => a.startsWith('--limit='));
 const LIMIT = limitArg ? Number.parseInt(limitArg.slice('--limit='.length), 10) : Infinity;
 
@@ -60,8 +74,9 @@ interface Corpus {
 
 if (!TOKEN) {
   console.error(
-    'DISCOGS_TOKEN absent : chantier Discogs SAUTÉ. Fournir un jeton personnel ' +
-      '(discogs.com/settings/developers) puis relancer ce script, seul.'
+    'DISCOGS_TOKEN absent : ni dans l\'environnement, ni dans un .env à la ' +
+      'racine. Fournir un jeton personnel (discogs.com/settings/developers) ' +
+      'puis relancer ce script, seul.'
   );
   process.exit(0);
 }

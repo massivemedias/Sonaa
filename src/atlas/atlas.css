@@ -693,3 +693,17 @@
     min-height: 40px;
   }
 }
+
+/* Pied de page : crédits et index côte à côte, dans toutes les vues. */
+.foot-links {
+  position: absolute;
+  left: 1.25rem;
+  bottom: 1rem;
+  z-index: 6;
+  display: flex;
+  gap: 0.9rem;
+}
+
+.foot-links .credits-link {
+  position: static;
+}

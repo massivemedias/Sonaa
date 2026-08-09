@@ -21,7 +21,21 @@ import { normalise, sleep } from './lib/match.ts';
 import { patchTracks } from './lib/corpus-store.ts';
 
 const CORPUS = fileURLToPath(new URL('../src/data/corpus.json', import.meta.url));
-const KEY = process.env['GETSONGKEY_KEY'];
+
+/* Jeton depuis l'environnement OU un fichier .env à la racine (gitignoré).
+   Sans dépendance : trois lignes de parseur suffisent, et le script marche
+   que le jeton soit exporté dans le shell ou posé dans le fichier. */
+const envToken = (name: string): string | undefined => {
+  if (process.env[name]) return process.env[name];
+  try {
+    const env = readFileSync(fileURLToPath(new URL('../.env', import.meta.url)), 'utf8');
+    const line = env.split('\n').find((l) => l.startsWith(`${name}=`));
+    return line?.slice(name.length + 1).trim().replace(/^["']|["']$/g, '') || undefined;
+  } catch {
+    return undefined;
+  }
+};
+const KEY = envToken('GETSONGKEY_KEY');
 const limitArg = process.argv.find((a) => a.startsWith('--limit='));
 const LIMIT = limitArg ? Number.parseInt(limitArg.slice('--limit='.length), 10) : Infinity;
 

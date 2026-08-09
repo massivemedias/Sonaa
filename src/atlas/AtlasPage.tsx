@@ -474,10 +474,12 @@ export function AtlasPage() {
         onGoToFamily={(familyIndex: number) => apiRef.current?.goToFamily(familyIndex)}
       />
 
-      {/* Pied de page discret : les crédits ne concurrencent pas la carte. */}
-      <a className="credits-link" href="#/credits">
-        Crédits
-      </a>
+      {/* Pied de page discret, présent dans TOUTES les vues : crédits et
+          index accessible ne dépendent d'aucun mode. */}
+      <span className="foot-links">
+        <a className="credits-link" href="#/credits">Crédits</a>
+        <a className="credits-link" href="#/index">Index</a>
+      </span>
 
       <button className="hud-toggle" onClick={() => setShowHud((v) => !v)}>
         {showHud ? 'Masquer les mesures' : 'Mesures'}

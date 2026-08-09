@@ -72,6 +72,7 @@ interface YTNamespace {
       events?: {
         onReady?: () => void;
         onStateChange?: (event: { data: number }) => void;
+        onError?: (event: { data: number }) => void;
       };
     }
   ) => YTPlayer;
@@ -131,6 +132,10 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
   const [tab, setTab] = useState<'essentiel' | 'actuel'>('essentiel');
   const [infoOpen, setInfoOpen] = useState(true);
   const [sheetPos, setSheetPos] = useState<SheetPos>('half');
+  /* Erreur YouTube : vidéo retirée ou bloquée. Message honnête, passage à
+     la suivante, et on s'arrête si tout un tour de liste a échoué. */
+  const [notice, setNotice] = useState<string | null>(null);
+  const errorStreak = useRef(0);
   const narrow = window.matchMedia('(max-width: 700px)').matches;
   const dragStart = useRef<{ y: number; pos: SheetPos } | null>(null);
 
@@ -159,6 +164,8 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
   }, [playback]);
 
   const currentTrack = playback ? playedTracks[playback.trackIndex] : undefined;
+  const playedTracksRef = useRef(0);
+  playedTracksRef.current = playedTracks.length;
 
   const panelGenreData = panelGenre
     ? STRUCTURES[panelGenre.familyIndex]?.genres[panelGenre.genreLocal]
@@ -237,12 +244,34 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
             },
             onStateChange: (event) => {
               if (cancelled) return;
-              if (event.data === 1) setPlaying(true);
+              if (event.data === 1) {
+                setPlaying(true);
+                errorStreak.current = 0;
+                setNotice(null);
+              }
               if (event.data === 2) setPlaying(false);
               if (event.data === 0) {
                 setPlaying(false);
                 step(1);
               }
+            },
+            onError: (event) => {
+              if (cancelled) return;
+              setPlaying(false);
+              const reason =
+                event.data === 100
+                  ? 'retirée de YouTube'
+                  : event.data === 101 || event.data === 150
+                    ? "bloquée à l'intégration ou dans ce pays"
+                    : 'illisible';
+              errorStreak.current += 1;
+              /* Un tour complet d'échecs : on s'arrête, on ne boucle pas. */
+              if (errorStreak.current >= Math.max(2, playedTracksRef.current)) {
+                setNotice(`Track ${reason}. Aucune track lisible dans cette liste.`);
+                return;
+              }
+              setNotice(`Track ${reason}, passage à la suivante.`);
+              window.setTimeout(() => step(1), 1600);
             }
           }
         });
@@ -513,6 +542,9 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
             </p>
 
 
+            {notice && (
+              <p className="pcol-notice" role="status">{notice}</p>
+            )}
             {release?.label && (
               <p className="pcol-imprint">
                 <strong>{release.label}</strong>
@@ -834,6 +866,7 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
             <button onClick={() => step(1)} aria-label="Suivante">⏭</button>
           </span>
 
+          {notice && <span className="mini-notice">{notice}</span>}
           <div className="mini-bar" onClick={seek} role="presentation">
             <div className="mini-bar-fill" style={{ width: `${progress}%` }} />
           </div>

@@ -1471,6 +1471,40 @@ DISCOGS_TOKEN=... npm run fetch:release.
 
 ---
 
+## ADR-047 : Etat de chargement, erreurs YouTube, revue de sincerite
+
+**Etat de chargement.** Un splash inline dans index.html (logotype, ligne de
+progression, styles inline) est visible des le premier octet et remplace le
+noir pendant le chargement du corpus et de la 3D. React l'efface au montage.
+
+**Erreurs YouTube.** onError du lecteur officiel : video retiree (100) ou
+bloquee a l'integration ou par pays (101, 150) affiche un message honnete et
+passe a la suivante apres 1,6 s ; un tour complet d'echecs arrete la lecture
+au lieu de boucler. Le message vit dans la colonne et dans la barre.
+Chemin de code NON testable a la demande (impossible de forcer un blocage) :
+verifie par lecture, assume comme tel.
+
+**Credits et index.** Les deux liens vivent dans un pied commun rendu dans
+TOUTES les vues, moteur ou DOM.
+
+**Revue de sincerite (demandee apres le bug du lecteur demonte).** Les
+verifications qui testaient la mauvaise chose ont ete REFAITES en mesurant
+la bonne : la lecture qui survit se prouve par le temps ecoule qui avance
+apres la bascule de vue ; la carte vivante par un zoom qui agit colonne
+ouverte ; le deploiement des derives par leurs labels de generation 2
+presents apres le clic ; la position barre de la feuille par un glissement
+synthetique. Reste NON prouve visuellement, dit tel quel : la matite des
+spheres eteintes, la respiration et le survol, le flux dans les liens, le
+deroule image par image de l'intro, le toucher physique reel de la feuille,
+et la gestion d'erreur YouTube. Le detail est dans le rapport de mission.
+
+**Jeton Discogs.** Toujours introuvable sur cette machine (ni environnement
+ni .env, cherche jusque dans le dossier parent et le home). Les scripts a
+jeton lisent desormais AUSSI un .env a la racine (parseur minimal sans
+dependance) : des que le fichier existe reellement, la relance part.
+
+---
+
 ## Pièges GLSL rencontrés, à ne pas repayer
 
 Trois erreurs coûteuses rencontrées sur le prototype de rendu. Elles ne

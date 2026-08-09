@@ -823,3 +823,22 @@
 .pcol-fil-shared {
   margin-bottom: 0.25rem !important;
 }
+
+
+/* Message d'erreur YouTube : honnête et discret. */
+.pcol-notice {
+  margin: 0.5rem 0 0;
+  font-size: 0.75rem;
+  color: oklch(0.75 0.12 60);
+  border: 1px solid oklch(0.4 0.08 60);
+  padding: 0.35rem 0.55rem;
+}
+
+.mini-notice {
+  font-size: 0.6875rem;
+  color: oklch(0.75 0.12 60);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 16rem;
+}
