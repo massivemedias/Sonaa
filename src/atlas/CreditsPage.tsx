@@ -94,7 +94,11 @@ export function CreditsPage() {
           <h2 id="credits-author">L&apos;auteur</h2>
           <p>
             Michael Sanchez, Montréal ·{' '}
-            <a href="https://mauditemachine.com" rel="me noopener">
+            <a
+              href="https://mauditemachine.com"
+              target="_blank"
+              rel="me noopener noreferrer"
+            >
               mauditemachine.com
             </a>
           </p>

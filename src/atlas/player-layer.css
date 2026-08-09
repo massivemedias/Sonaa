@@ -473,3 +473,22 @@
   color: var(--ink-primary);
   border-bottom-color: var(--family);
 }
+
+/* Morceau charnière : appartient aussi à d'autres genres. */
+.panel-shared {
+  margin: 0;
+  font-size: calc(var(--panel-w) * 0.026);
+  font-weight: 400;
+  color: var(--ink-secondary);
+  flex: none;
+}
+
+.panel-shared-link {
+  font: inherit;
+  color: var(--ink-primary);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--family);
+  padding: 0;
+  cursor: pointer;
+}

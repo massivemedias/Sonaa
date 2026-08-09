@@ -121,6 +121,39 @@ export function GenreCard({ familyIndex, genreLocal, onClose, onTracks, onGoToGe
           )}
         </dd>
 
+        {/* Morceaux charnières du genre : partagés avec d'autres genres, et
+            c'est ce qui les rend intéressants. Cliquable, comme les dérivés. */}
+        {(() => {
+          const shared = [...genre.tracksEssentiel, ...genre.tracksActuel].filter(
+            (t) => t.sharedWith.length > 0
+          );
+          if (shared.length === 0) return null;
+          return (
+            <>
+              <dt>Charnières</dt>
+              <dd className="card-shared">
+                {shared.map((t) => (
+                  <span key={t.youtubeId} className="card-shared-row">
+                    {t.title},{' '}
+                    <span className="card-none">aussi revendiqué par </span>
+                    {t.sharedWith.map((x, i) => (
+                      <span key={`${x.familyIndex}-${x.genreLocal}`}>
+                        {i > 0 && ', '}
+                        <button
+                          className="card-link"
+                          onClick={() => onGoToGenre(x.familyIndex, x.genreLocal)}
+                        >
+                          {x.label}
+                        </button>
+                      </span>
+                    ))}
+                  </span>
+                ))}
+              </dd>
+            </>
+          );
+        })()}
+
         {genre.aliases.length > 0 && (
           <>
             <dt>Aussi appelé</dt>

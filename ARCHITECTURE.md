@@ -1094,6 +1094,46 @@ la source.
 
 ---
 
+## ADR-039 : Les morceaux charnieres, et le cadrage qui suit le nuage
+
+**Contexte.** L'anti-doublon refusait « Acperience 1 » en acid techno parce
+qu'il etait deja en acid trance. Mika a tranche : ce ne sont pas des erreurs, ce
+sont des morceaux CHARNIERES, et l'appartenance multiple est precisement ce qui
+les rend interessants.
+
+**Decision 1.** `shared: GenreId[]` sur un morceau liste les AUTRES genres qui
+le revendiquent. La validation exige la reciprocite : le meme identifiant dans
+plusieurs genres sans declaration des deux cotes reste une erreur, et une
+declaration vers un genre qui ne porte pas le morceau aussi. Le partage se
+declare, il ne se tolere pas en silence. L'interface l'affiche : « aussi
+revendique par X », cliquable, dans le panneau morceaux et dans la fiche.
+L'import accepte une colonne `partage` pour le declarer a la source.
+
+Trois charnieres fondatrices : Acperience 1 entre acid trance et acid techno,
+Spastik entre acid techno et minimal techno, Da Funk entre french house et
+disco house.
+
+**Decision 2, les fondateurs ne sont plus muets.** Les 19 fondateurs nommes par
+Mika ont recu chacun trois evidences documentees, proposees par la machine dans
+`tracks-founders.md` et verifiees par le matcher comme tout le reste : 57 sur
+57 resolus. Les sous-genres de niche restent a Mika. 339 morceaux verifies.
+
+**Decision 3, trois correctifs de cadrage mesures sur Breaks a 23 genres.**
+
+1. La camera vise le CENTROIDE du nuage deploye, plus la racine : la couronne
+   pousse vers le haut et cadrer le pied coupait la tete.
+2. L'ecart d'une couronne grandit avec la taille du sous-arbre, racine carree
+   plafonnee a 1,9 : la grappe drum and bass s'ecrasait sur ses voisines.
+3. `frameDistance` tient les deux axes, comme le cadrage de l'atlas : en fenetre
+   etroite, une famille cadree sur la hauteur debordait des cotes.
+
+Verdict apres correctifs : lisible a une vingtaine de genres par famille. La
+grappe drum and bass reste dense au niveau famille, mais la descente-focus la
+deplie. Au-dela d'une trentaine de genres par famille, il faudra soit scinder la
+famille, soit n'etiqueter au niveau famille que la premiere generation.
+
+---
+
 ## Pièges GLSL rencontrés, à ne pas repayer
 
 Trois erreurs coûteuses rencontrées sur le prototype de rendu. Elles ne

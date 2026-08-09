@@ -1690,6 +1690,22 @@
        "local": "covers/FQlAEiCb8m0.jpg"
       },
       "album": "Music Sounds Better With You"
+     },
+     {
+      "youtubeId": "mmi60Bd4jSs",
+      "artist": "Daft Punk",
+      "title": "Da Funk",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Features115/v4/34/8d/c7/348dc71c-d75e-9baf-671a-994e9e74b018/dj.pimdxdmf.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/mmi60Bd4jSs.jpg"
+      },
+      "album": "Homework",
+      "shared": [
+       "frenchhouse"
+      ]
      }
     ],
     "actuel": []
@@ -1730,7 +1746,10 @@
        "source": "itunes",
        "local": "covers/mmi60Bd4jSs.jpg"
       },
-      "album": "Homework"
+      "album": "Homework",
+      "shared": [
+       "discohouse"
+      ]
      },
      {
       "youtubeId": "WRCnzyX3P8g",
@@ -2258,7 +2277,26 @@
        "source": "deezer",
        "local": "covers/6TYsOMYaz6E.jpg"
       },
-      "album": "Recycled Plastik"
+      "album": "Recycled Plastik",
+      "shared": [
+       "minimaltechno"
+      ]
+     },
+     {
+      "youtubeId": "Un4CeV_l3pI",
+      "artist": "Hardfloor",
+      "title": "Acperience 1",
+      "year": 1992,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/0d/41/fc/mzi.yshxprcn.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/Un4CeV_l3pI.jpg"
+      },
+      "album": "Hardtrance Acperience - EP",
+      "shared": [
+       "acidtrance"
+      ]
      }
     ],
     "actuel": []
@@ -2866,6 +2904,22 @@
        "local": "covers/wu3dSwwlsGc.jpg"
       },
       "album": "Minimal Nation"
+     },
+     {
+      "youtubeId": "6TYsOMYaz6E",
+      "artist": "Plastikman",
+      "title": "Spastik",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/e2da7d9dc11d4c9b70bb56dbecc67df1/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/6TYsOMYaz6E.jpg"
+      },
+      "album": "Recycled Plastik",
+      "shared": [
+       "acidtechno"
+      ]
      }
     ],
     "actuel": []
@@ -3544,7 +3598,10 @@
        "source": "itunes",
        "local": "covers/Un4CeV_l3pI.jpg"
       },
-      "album": "Hardtrance Acperience - EP"
+      "album": "Hardtrance Acperience - EP",
+      "shared": [
+       "acidtechno"
+      ]
      },
      {
       "youtubeId": "B631aGiDcqs",
@@ -5650,7 +5707,47 @@
     "Musique Concrete"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "N9pOq8u6-bA",
+      "artist": "Pierre Schaeffer",
+      "title": "Etude aux chemins de fer",
+      "year": null,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/35/e1/31/35e1315a-5908-639a-1ec2-84f107d366f5/5013929319639.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/N9pOq8u6-bA.jpg"
+      },
+      "album": "Panorama de Musique Concréte"
+     },
+     {
+      "youtubeId": "-HBMvmJQzcY",
+      "artist": "Pierre Schaeffer",
+      "title": "Symphonie pour un homme seul",
+      "year": null,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/74c45400d5d6395b369e02b762f1a480/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/-HBMvmJQzcY.jpg"
+      },
+      "album": "Panorama de Musique Concréte"
+     },
+     {
+      "youtubeId": "vC1cgcOEErQ",
+      "artist": "Pierre Henry",
+      "title": "Psyche Rock",
+      "year": 1967,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/7e9f3e5e06547610c5bf72de4aa7821e/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/vC1cgcOEErQ.jpg"
+      },
+      "album": "P. Henry - Psyche Rock Sessions"
+     }
+    ],
     "actuel": []
    }
   },
@@ -5703,7 +5800,47 @@
     "Kosmische Rock"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "zndpi8tNZyQ",
+      "artist": "Neu!",
+      "title": "Hallogallo",
+      "year": 1972,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/72/31/44/72314446-ff57-09b0-bb05-0ca0c9b487df/634457040847.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/zndpi8tNZyQ.jpg"
+      },
+      "album": "Neu!"
+     },
+     {
+      "youtubeId": "YmN9oHa3ZIQ",
+      "artist": "Can",
+      "title": "Vitamin C",
+      "year": 1972,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/de6e0438afd357dc776fe6bce71ed0d8/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/YmN9oHa3ZIQ.jpg"
+      },
+      "album": "Rending Brass: The Cyclist Remixes"
+     },
+     {
+      "youtubeId": "GRxvQmTTz5I",
+      "artist": "Faust",
+      "title": "It's a Rainy Day Sunshine Girl",
+      "year": 1972,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/0074f86252260dbe79608f7da0e381d0/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/GRxvQmTTz5I.jpg"
+      },
+      "album": "So Far"
+     }
+    ],
     "actuel": []
    }
   },
@@ -5838,7 +5975,47 @@
     "Funk Music"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "ow4ecyCQeRM",
+      "artist": "James Brown",
+      "title": "Get Up I Feel Like Being a Sex Machine",
+      "year": 1970,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/897ea293006381e36aed10a54e1cdcad/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/ow4ecyCQeRM.jpg"
+      },
+      "album": "Sex Machine (Live)"
+     },
+     {
+      "youtubeId": "0wBqWb43y6I",
+      "artist": "Parliament",
+      "title": "Flash Light",
+      "year": 1977,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/976157f5db1d234ff67e37826ac8d526/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/0wBqWb43y6I.jpg"
+      },
+      "album": "Funked!: Volume 3 1977-1980"
+     },
+     {
+      "youtubeId": "3WOZwwRH6XU",
+      "artist": "Funkadelic",
+      "title": "One Nation Under a Groove",
+      "year": 1978,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/86/3c/81/863c81f9-499a-f662-c8ba-62e1e3ddb07f/894232554628.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/3WOZwwRH6XU.jpg"
+      },
+      "album": "Young Soul Rebels (Original Soundtrack) [Remastered]"
+     }
+    ],
     "actuel": []
    }
   },
@@ -5867,7 +6044,47 @@
     "TSOP"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "LS2PQs_IRNk",
+      "artist": "MFSB",
+      "title": "TSOP The Sound of Philadelphia",
+      "year": 1974,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/92ba4ec302c02cefd5f8b3ddf59236bc/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/LS2PQs_IRNk.jpg"
+      },
+      "album": "Lo Esencial De La Música Instrumental Más Hermosa Del Mundo"
+     },
+     {
+      "youtubeId": "SsYOAIR4L_w",
+      "artist": "The O'Jays",
+      "title": "Love Train",
+      "year": 1972,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/ed3703f61b7dfebe9123e6d822b1ef45/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/SsYOAIR4L_w.jpg"
+      },
+      "album": "Back Stabbers"
+     },
+     {
+      "youtubeId": "ZTt649Hvtxs",
+      "artist": "Harold Melvin and The Blue Notes",
+      "title": "The Love I Lost",
+      "year": 1973,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/7a096aa050e9c4cdb814219e5cb1db23/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/ZTt649Hvtxs.jpg"
+      },
+      "album": "Collectors' Item"
+     }
+    ],
     "actuel": []
    }
   },
@@ -5889,7 +6106,46 @@
     "Dub Reggae"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "wbCrYBWh62Y",
+      "artist": "Augustus Pablo",
+      "title": "King Tubby Meets Rockers Uptown",
+      "year": 1976,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/d2bba7eb8b1d230203e56647eaa029b0/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/wbCrYBWh62Y.jpg"
+      },
+      "album": "King Tubbys Meets Rockers Uptown"
+     },
+     {
+      "youtubeId": "ngCbyLLHBO8",
+      "artist": "The Upsetters",
+      "title": "Blackboard Jungle Dub",
+      "year": 1973,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/c6/5a/d4/mzi.lbmwiowb.tif/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/ngCbyLLHBO8.jpg"
+      },
+      "album": "Blackboard Jungle Dub"
+     },
+     {
+      "youtubeId": "thJZHtrWYfg",
+      "artist": "Scientist",
+      "title": "Dance of the Vampires",
+      "year": 1981,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/thJZHtrWYfg/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/thJZHtrWYfg.jpg"
+      }
+     }
+    ],
     "actuel": []
    }
   },
@@ -5918,7 +6174,47 @@
     "New Romantic"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "Im3JzxlatUs",
+      "artist": "Gary Numan",
+      "title": "Cars",
+      "year": 1979,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/9bc14dd6c91d046f2804379aff0d2083/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/Im3JzxlatUs.jpg"
+      },
+      "album": "The Pleasure Principle"
+     },
+     {
+      "youtubeId": "uPudE8nDog0",
+      "artist": "The Human League",
+      "title": "Don't You Want Me",
+      "year": 1981,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/48b77b8c1f7cab7d2ac16ce70440ea03/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/uPudE8nDog0.jpg"
+      },
+      "album": "Dare!"
+     },
+     {
+      "youtubeId": "d5XJ2GiR6Bo",
+      "artist": "Orchestral Manoeuvres in the Dark",
+      "title": "Enola Gay",
+      "year": 1980,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/b988b4b7013f5131f45445d34ca09f37/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/d5XJ2GiR6Bo.jpg"
+      },
+      "album": "The Best Of Orchestral Manoeuvres In The Dark"
+     }
+    ],
     "actuel": []
    }
   },
@@ -5985,7 +6281,47 @@
     "Hardcore Breaks"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "cSTBFZ-To2E",
+      "artist": "The Prodigy",
+      "title": "Charly",
+      "year": 1991,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/977b90d11a6f983bb0c4efe56b67bb12/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/cSTBFZ-To2E.jpg"
+      },
+      "album": "Charly"
+     },
+     {
+      "youtubeId": "gXCN1DhHTZA",
+      "artist": "SL2",
+      "title": "On a Ragga Tip",
+      "year": 1992,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/20f723d6aaeb51a47058f7c8ff7b43b2/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/gXCN1DhHTZA.jpg"
+      },
+      "album": "On a Ragga Tip '97"
+     },
+     {
+      "youtubeId": "JYE6HW-J0L8",
+      "artist": "Acen",
+      "title": "Trip II the Moon",
+      "year": 1992,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/17b35b295ded2fc37ffa50ff12b97026/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/JYE6HW-J0L8.jpg"
+      },
+      "album": "Trip To The Moon Remixes"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6045,7 +6381,46 @@
     "Jungle Techno"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "3QMiCBJ7yRM",
+      "artist": "Shy FX",
+      "title": "Original Nuttah",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/7a/0c/a3/7a0ca383-f42e-5941-88b5-94872a5f1fa9/Nicolette_-_Nicolette_DJ-Kicks.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/3QMiCBJ7yRM.jpg"
+      },
+      "album": "DJ-Kicks: Nicolette (DJ Mix)"
+     },
+     {
+      "youtubeId": "7Fm2V20gZhM",
+      "artist": "M-Beat",
+      "title": "Incredible",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/5456c281b825ee2b61638de9892e2a22/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/7Fm2V20gZhM.jpg"
+      },
+      "album": "Knowledge"
+     },
+     {
+      "youtubeId": "GGU7Hq9sj_c",
+      "artist": "Remarc",
+      "title": "RIP",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/GGU7Hq9sj_c/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/GGU7Hq9sj_c.jpg"
+      }
+     }
+    ],
     "actuel": []
    }
   },
@@ -6075,7 +6450,47 @@
     "Drum & Bass"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "i-P98B2skts",
+      "artist": "Goldie",
+      "title": "Inner City Life",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/f033e28d3cee156aeba7dac8d30d33a2/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/i-P98B2skts.jpg"
+      },
+      "album": "Inner City Life"
+     },
+     {
+      "youtubeId": "cwI0gbGEyuI",
+      "artist": "Roni Size",
+      "title": "Brown Paper Bag",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/975b5568cc4f3d3089327b13c129f115/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/cwI0gbGEyuI.jpg"
+      },
+      "album": "New Forms (20th Anniversary Edition)"
+     },
+     {
+      "youtubeId": "ufcRRtRbSfs",
+      "artist": "Adam F",
+      "title": "Metropolis",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/fb3352219804f985a791ccc1777b5a9b/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/ufcRRtRbSfs.jpg"
+      },
+      "album": "Colours Revisited"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6591,7 +7006,47 @@
     "Garage"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "cy-djtiU5RE",
+      "artist": "MJ Cole",
+      "title": "Sincere",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/0f6876e2f5cc8e3fa8c75069c174992f/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/cy-djtiU5RE.jpg"
+      },
+      "album": "Sincere (Deluxe)"
+     },
+     {
+      "youtubeId": "M0wv_cQv8As",
+      "artist": "Artful Dodger",
+      "title": "Re-Rewind",
+      "year": 1999,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/dd47d8df4fa2b94e03b322a3ae7e180c/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/M0wv_cQv8As.jpg"
+      },
+      "album": "Re-Rewind (The Crowd Say Bo Selecta) (feat. Craig David)"
+     },
+     {
+      "youtubeId": "8WZGUFGBPNQ",
+      "artist": "Double 99",
+      "title": "Ripgroove",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/1db7bc35d40d6a1564d9b832f1fedcdb/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/8WZGUFGBPNQ.jpg"
+      },
+      "album": "Ripgroove (25th Anniversary)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6647,7 +7102,47 @@
     "2-Step Garage"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "iR2tIyj8_y8",
+      "artist": "Sweet Female Attitude",
+      "title": "Flowers",
+      "year": 2000,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/122ffe13e9697ae6092dfbbb445112ad/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/iR2tIyj8_y8.jpg"
+      },
+      "album": "In Person"
+     },
+     {
+      "youtubeId": "fonXU_H46pk",
+      "artist": "Wookie",
+      "title": "Battle",
+      "year": 2000,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/b647a53e64371893dd6cecd60141fda9/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/fonXU_H46pk.jpg"
+      },
+      "album": "Wookie (Deluxe Edition)"
+     },
+     {
+      "youtubeId": "zz4U1B7enkM",
+      "artist": "Dem 2",
+      "title": "Destiny",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/d98ecf07d8ac4a90f451a2f6fdf2ae73/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/zz4U1B7enkM.jpg"
+      },
+      "album": "Destiny"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6679,7 +7174,46 @@
     "Dub Step"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "lcMAbnZy8l8",
+      "artist": "Skream",
+      "title": "Midnight Request Line",
+      "year": 2005,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/8d4aa75319aa32439adf79b4a78d0945/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/lcMAbnZy8l8.jpg"
+      },
+      "album": "Skream! (Expanded Edition)"
+     },
+     {
+      "youtubeId": "G9H3i0T1iN4",
+      "artist": "Digital Mystikz",
+      "title": "Anti War Dub",
+      "year": 2006,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/G9H3i0T1iN4/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/G9H3i0T1iN4.jpg"
+      }
+     },
+     {
+      "youtubeId": "rNStVlJWy88",
+      "artist": "Benga and Coki",
+      "title": "Night",
+      "year": 2008,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d8/59/22/d8592203-2376-d243-b516-084a1949853c/800071006242.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/rNStVlJWy88.jpg"
+      },
+      "album": "Diary of an Afro Warrior (Expanded Edition)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6794,7 +7328,47 @@
     "Sublow"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "YH0KWX2a8zY",
+      "artist": "Dizzee Rascal",
+      "title": "I Luv U",
+      "year": 2003,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/b6e0c08beab531119672cb35e5e6d183/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/YH0KWX2a8zY.jpg"
+      },
+      "album": "I Luv U"
+     },
+     {
+      "youtubeId": "mO3dl25gR_g",
+      "artist": "Wiley",
+      "title": "Eskimo",
+      "year": 2002,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/5135a562b7dc74c52055e311d36f5bab/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/mO3dl25gR_g.jpg"
+      },
+      "album": "Kurupt FM present The Lost Tape"
+     },
+     {
+      "youtubeId": "_xQKWnvtg6c",
+      "artist": "Skepta",
+      "title": "That's Not Me",
+      "year": 2014,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/00d76bb7f6e44cced9df5099c8aa7faa/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/_xQKWnvtg6c.jpg"
+      },
+      "album": "Konnichiwa"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7107,7 +7681,47 @@
     "Electrofunk"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "9J3lwZjHenA",
+      "artist": "Afrika Bambaataa",
+      "title": "Planet Rock",
+      "year": 1982,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/9c4137c57051e28f1948b8c47bd60ab0/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/9J3lwZjHenA.jpg"
+      },
+      "album": "Planet Rock (Digital 45)"
+     },
+     {
+      "youtubeId": "i46sF1PcqL8",
+      "artist": "Hashim",
+      "title": "Al-Naafiysh The Soul",
+      "year": 1983,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/9907456b88a2ff6393d89330919b6919/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/i46sF1PcqL8.jpg"
+      },
+      "album": "Al-Naafiysh (The Soul) (Kenny Summit & Tom Gianelli Remix)"
+     },
+     {
+      "youtubeId": "uAEw_sX7CFA",
+      "artist": "Newcleus",
+      "title": "Jam On It",
+      "year": 1984,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/e501b2997813505e92f0f93258c09c31/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/uAEw_sX7CFA.jpg"
+      },
+      "album": "Jam On It"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7471,7 +8085,47 @@
     "Gabberhouse"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "apBMYXcYFvI",
+      "artist": "Euromasters",
+      "title": "Alles Naar De Klote",
+      "year": 1992,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/f10a4fcd752af8cc51a83bd6abaeccf2/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/apBMYXcYFvI.jpg"
+      },
+      "album": "Alles naar de klote"
+     },
+     {
+      "youtubeId": "dqD1OohY2to",
+      "artist": "Rotterdam Termination Source",
+      "title": "Poing",
+      "year": 1992,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/e071edfc92daacc2f4a33d2dd9906fdb/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/dqD1OohY2to.jpg"
+      },
+      "album": "Poing"
+     },
+     {
+      "youtubeId": "SugFbxZxY_U",
+      "artist": "Neophyte",
+      "title": "Braincracking",
+      "year": 1996,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/35fe1030635119f74e95c7a1fe8c2d08/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/SugFbxZxY_U.jpg"
+      },
+      "album": "Braincracking (Nosferatu Remix)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7708,7 +8362,47 @@
     "Hardcore Happy"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "NG5vDG-zjmc",
+      "artist": "DJ Paul Elstak",
+      "title": "Rainbow in the Sky",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/8a365ccb009f0f2e8f60b1eb6cff40a9/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/NG5vDG-zjmc.jpg"
+      },
+      "album": "May the Forze Be with You"
+     },
+     {
+      "youtubeId": "YBQmV2zZK5o",
+      "artist": "Force and Styles",
+      "title": "Heart of Gold",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/30669561860d3633567845fd96c476e5/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/YBQmV2zZK5o.jpg"
+      },
+      "album": "Heart Of Gold"
+     },
+     {
+      "youtubeId": "WALO5tQQ1D0",
+      "artist": "Hixxy and Sharkey",
+      "title": "Toytown",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/e90f0069ea28da714a7f5aa6912b61cc/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/WALO5tQQ1D0.jpg"
+      },
+      "album": "Toytown (Eufeion Remix)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -8012,7 +8706,46 @@
     "Musique Ambiante"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "LKZ3fGR2SDY",
+      "artist": "Brian Eno",
+      "title": "1/1",
+      "year": 1978,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/LKZ3fGR2SDY/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/LKZ3fGR2SDY.jpg"
+      }
+     },
+     {
+      "youtubeId": "OlaTeXX3uH8",
+      "artist": "Brian Eno",
+      "title": "An Ending Ascent",
+      "year": 1983,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/0b5598cea4e3e0043088a82167a2d34d/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/OlaTeXX3uH8.jpg"
+      },
+      "album": "Apollo: Atmospheres And Soundtracks (Extended Edition)"
+     },
+     {
+      "youtubeId": "_AWIqXzvX-U",
+      "artist": "Aphex Twin",
+      "title": "Rhubarb",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/a56fa0f134499988714bb5bfcf1d2f71/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/_AWIqXzvX-U.jpg"
+      },
+      "album": "Selected Ambient Works Volume II (Expanded Edition)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -8261,7 +8994,47 @@
     "Electronic Listening Music"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "SM4tQcUt_mQ",
+      "artist": "Boards of Canada",
+      "title": "Roygbiv",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c3c2e2a739ed501d01791b16a3fd9ad3/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/SM4tQcUt_mQ.jpg"
+      },
+      "album": "Music Has The Right To Children"
+     },
+     {
+      "youtubeId": "5ZT3gTu4Sjw",
+      "artist": "Aphex Twin",
+      "title": "Windowlicker",
+      "year": 1999,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c41817ed179b3043007cd5309c56a272/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/5ZT3gTu4Sjw.jpg"
+      },
+      "album": "Windowlicker"
+     },
+     {
+      "youtubeId": "MWCSw_cNxKc",
+      "artist": "Squarepusher",
+      "title": "Come On My Selector",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c67c1c6134c59d443a4649e673716fdb/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/MWCSw_cNxKc.jpg"
+      },
+      "album": "Big Loada"
+     }
+    ],
     "actuel": []
    }
   },
@@ -8389,7 +9162,47 @@
     "Abstract Hip Hop"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "ZWmrfgj0MZI",
+      "artist": "Massive Attack",
+      "title": "Unfinished Sympathy",
+      "year": 1991,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/dab6a1e382fcc959e9a79f77e8276c5d/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/ZWmrfgj0MZI.jpg"
+      },
+      "album": "Singles Collection"
+     },
+     {
+      "youtubeId": "4qQyUi4zfDs",
+      "artist": "Portishead",
+      "title": "Glory Box",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/5942b88996f33c82790023d5d99395d3/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/4qQyUi4zfDs.jpg"
+      },
+      "album": "Dummy"
+     },
+     {
+      "youtubeId": "25y3cMC9i94",
+      "artist": "Tricky",
+      "title": "Aftermath",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/09e41882c0400fe091ceae9a7b40374b/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/25y3cMC9i94.jpg"
+      },
+      "album": "Maxinquaye"
+     }
+    ],
     "actuel": []
    }
   },

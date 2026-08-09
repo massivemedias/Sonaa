@@ -645,8 +645,15 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
      un quart de l'écran : six labels ne pouvaient pas y tenir sans se marcher
      dessus, et l'évitement de collision en supprimait la moitié. Le vrai levier
      de lisibilité était le cadrage, pas la largeur des plaques. */
-  const frameDistance = (radius: number): number =>
-    clamp((radius * 1.12) / Math.tan((FOV * Math.PI) / 360), MIN_DISTANCE, MAX_DISTANCE);
+  /* Le cadrage tient dans les DEUX axes. Le champ de vision de la caméra est
+     vertical : en fenêtre plus haute que large, une sphère cadrée sur la
+     hauteur déborde des côtés. Même correction que le cadrage de l'atlas. */
+  const frameDistance = (radius: number): number => {
+    const tan = Math.tan((FOV * Math.PI) / 360);
+    const byHeight = (radius * 1.12) / tan;
+    const byWidth = (radius * 1.12) / (tan * Math.max(0.2, camera.aspect));
+    return clamp(Math.max(byHeight, byWidth), MIN_DISTANCE, MAX_DISTANCE);
+  };
 
   const startFly = (to: Vector3, dist: number, now: number): void => {
     if (reducedMotion) {
@@ -875,7 +882,10 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     level = 'family';
     setDeploy(fi, true, now);
     const c = familyCenters[fi];
-    if (c) startFly(c, frameDistance(familyFrameRadius(fi)), now);
+    const dc = STRUCTURES[fi]?.deployedCenter ?? [0, 0, 0];
+    // La caméra vise le centroïde du nuage déployé, pas la racine : la
+    // couronne pousse vers le haut et cadrer le pied coupait la tête.
+    if (c) startFly(new Vector3(c.x + dc[0], c.y + dc[1], c.z + dc[2]), frameDistance(familyFrameRadius(fi)), now);
     emitNav();
   };
 
@@ -1027,7 +1037,8 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
       focusIndex = -1;
       level = 'family';
       const c = activeFamily >= 0 ? familyCenters[activeFamily] : undefined;
-      if (c) startFly(c, frameDistance(familyFrameRadius(activeFamily)), now);
+      const dc = STRUCTURES[activeFamily]?.deployedCenter ?? [0, 0, 0];
+      if (c) startFly(new Vector3(c.x + dc[0], c.y + dc[1], c.z + dc[2]), frameDistance(familyFrameRadius(activeFamily)), now);
     } else if (level === 'family') {
       if (activeFamily >= 0) setDeploy(activeFamily, false, now);
       activeFamily = -1;

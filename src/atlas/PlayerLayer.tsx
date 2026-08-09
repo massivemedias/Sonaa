@@ -44,6 +44,8 @@ interface Props {
   onClose: () => void;
   /** Le mini-lecteur demande de revenir au panneau du genre en cours. */
   onReopen: (familyIndex: number, genreLocal: number) => void;
+  /** Un morceau charnière mène à l'autre genre qui le revendique. */
+  onGoToGenre: (familyIndex: number, genreLocal: number) => void;
 }
 
 /* Perspective du panneau. Assez longue pour que l'inclinaison se sente sans
@@ -119,7 +121,7 @@ const mmss = (s: number): string => {
 
 // -------------------------------------------------------------- composant
 
-export function PlayerLayer({ bus, panelGenre, onClose, onReopen }: Props) {
+export function PlayerLayer({ bus, panelGenre, onClose, onReopen, onGoToGenre }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const slotRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -482,6 +484,25 @@ export function PlayerLayer({ bus, panelGenre, onClose, onReopen }: Props) {
               {shownInPanel?.album ? `Album ${shownInPanel.album}` : panelGenreData.label}
               {shownInPanel?.year ? ` · ${shownInPanel.year}` : ''}
             </p>
+
+            {/* Morceau charnière : il appartient aussi à d'autres genres, et
+                c'est une information de généalogie, pas une anomalie. */}
+            {shownInPanel && shownInPanel.sharedWith.length > 0 && (
+              <p className="panel-shared">
+                aussi revendiqué par{' '}
+                {shownInPanel.sharedWith.map((x, i) => (
+                  <span key={`${x.familyIndex}-${x.genreLocal}`}>
+                    {i > 0 && ', '}
+                    <button
+                      className="panel-shared-link"
+                      onClick={() => onGoToGenre(x.familyIndex, x.genreLocal)}
+                    >
+                      {x.label}
+                    </button>
+                  </span>
+                ))}
+              </p>
+            )}
 
             {/* L'onglet Actuel n'existe que s'il a du contenu. */}
             {panelActuel.length > 0 && (

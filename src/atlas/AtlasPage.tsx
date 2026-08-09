@@ -333,6 +333,7 @@ export function AtlasPage() {
           panelGenre={panelGenre}
           onClose={closePanel}
           onReopen={reopenPanel}
+          onGoToGenre={goToGenre}
         />
       )}
 

@@ -65,7 +65,12 @@ import { fileURLToPath } from 'node:url';
 import { normalise, resolveTrack, sleep, type Resolution } from './lib/match.ts';
 
 const CORPUS = fileURLToPath(new URL('../src/data/corpus.json', import.meta.url));
-const CANON = fileURLToPath(new URL('../tracks-canon.md', import.meta.url));
+/* --file= permet une source alternative, par exemple un canon des fondateurs
+   propose par la machine et distinct du fichier de Mika. */
+const fileArg = process.argv.find((a) => a.startsWith('--file='));
+const CANON = fileArg
+  ? fileURLToPath(new URL(`../${fileArg.slice('--file='.length)}`, import.meta.url))
+  : fileURLToPath(new URL('../tracks-canon.md', import.meta.url));
 const REPORT = fileURLToPath(new URL('../tracks-canon-report.md', import.meta.url));
 
 const DRY = process.argv.includes('--dry-run');
@@ -81,7 +86,8 @@ interface Track {
   year: number | null;
   verified: true;
   album?: string;
-  cover?: { url: string; source: 'itunes' | 'youtube'; local: string };
+  cover?: { url: string; source: 'deezer' | 'itunes' | 'youtube'; local: string };
+  shared?: string[];
 }
 interface Genre {
   id: string;
@@ -101,6 +107,8 @@ interface CanonRow {
   title: string;
   year: number | null;
   role: string;
+  /** Partage déclaré : les autres genres qui revendiquent ce morceau. */
+  sharedWith: string[];
   line: number;
 }
 
@@ -189,6 +197,9 @@ const parseCanon = (text: string): { rows: CanonRow[]; problems: string[] } => {
       title,
       year: Number.isFinite(yearNum) && yearNum >= 1960 && yearNum <= 2100 ? yearNum : null,
       role: normalise(at('role', 'rôle')),
+      // Colonne facultative : les autres genres qui revendiquent le morceau,
+      // séparés par des espaces. Le partage se déclare, il ne se déduit pas.
+      sharedWith: at('partage', 'shared').split(/[\s,]+/).filter(Boolean),
       line: lineNo
     });
   });
@@ -277,13 +288,25 @@ for (const row of rows) {
     continue;
   }
 
-  // Un identifiant déjà utilisé ailleurs dans le corpus est suspect : c'est
-  // souvent une compilation ou un mix, pas le morceau.
-  const already = corpus.genres.some((g) =>
+  /* Un identifiant déjà utilisé ailleurs n'est plus un refus sec : c'est un
+     MORCEAU CHARNIÈRE si le partage est déclaré dans la colonne partage, des
+     compilations ou des mixes pris pour un morceau sinon. Le partage se
+     déclare, il ne se tolère pas en silence. */
+  const holders = corpus.genres.filter((g) =>
     [...g.tracks.essentiel, ...g.tracks.actuel].some((t) => t.youtubeId === hit.videoId)
   );
-  if (already) {
-    failures.push({ row, reason: `identifiant déjà utilisé ailleurs : ${hit.videoId}`, rejected });
+  const declared = new Set(
+    row.sharedWith.map((name) => resolveGenre(name)?.id).filter((x): x is string => Boolean(x))
+  );
+  const undeclared = holders.filter((h) => !declared.has(h.id));
+  if (undeclared.length > 0) {
+    failures.push({
+      row,
+      reason:
+        `identifiant déjà utilisé par ${undeclared.map((h) => h.id).join(', ')} sans ` +
+        `déclaration de partage. Ajouter une colonne partage si c'est un morceau charnière.`,
+      rejected
+    });
     console.log(`  doublon ${row.genreId.padEnd(19)} ${row.artist} - ${row.title}`);
     continue;
   }
@@ -295,6 +318,20 @@ for (const row of rows) {
     year: row.year,
     verified: true
   };
+
+  // Réciprocité : chaque côté déclare tous les autres.
+  if (holders.length > 0) {
+    track.shared = holders.map((h) => h.id);
+    for (const holder of holders) {
+      for (const t of [...holder.tracks.essentiel, ...holder.tracks.actuel]) {
+        if (t.youtubeId !== hit.videoId) continue;
+        const set = new Set([...(t.shared ?? []), genre.id, ...holders.map((h) => h.id)]);
+        set.delete(holder.id);
+        t.shared = [...set].sort();
+      }
+    }
+    console.log(`  charnière avec ${holders.map((h) => h.id).join(', ')}`);
+  }
 
   const list = row.role === 'actuel' ? genre.tracks.actuel : genre.tracks.essentiel;
   list.push(track);

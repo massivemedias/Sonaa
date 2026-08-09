@@ -72,7 +72,14 @@ export const trackSchema = z.strictObject({
     .optional(),
   /* iTunes donne l'album, pas le label de disque : le label demanderait un
      jeton Discogs. On affiche donc l'album, en le nommant pour ce qu'il est. */
-  album: z.string().optional()
+  album: z.string().optional(),
+  /* Morceau CHARNIÈRE : il appartient à plusieurs genres, et c'est une
+     information, pas une anomalie. « Acperience 1 » est à la fois de l'acid
+     techno et de l'acid trance, c'est précisément ce qui le rend intéressant.
+     `shared` liste les AUTRES genres qui le revendiquent. Le même identifiant
+     doit alors figurer dans chacun, chacun déclarant les autres : un partage
+     non réciproque est une erreur de validation. */
+  shared: z.array(genreId).optional()
 });
 
 export const genreSchema = z.strictObject({
@@ -208,17 +215,56 @@ export const corpusSchema = z
     };
     for (const g of doc.genres) resolve(g.id, new Set());
 
-    /* Un identifiant de vidéo ne doit apparaître qu'une fois dans tout le
-       corpus. Le même identifiant sur deux genres est presque toujours une
-       compilation ou un mix pris pour un morceau. */
-    const seenVideo = new Map<string, string>();
+    /* Un identifiant de vidéo n'apparaît qu'une fois par genre, et s'il
+       apparaît dans plusieurs genres, le partage doit être DÉCLARÉ des deux
+       côtés par `shared`. Un morceau charnière est une fonctionnalité ; un
+       doublon silencieux reste presque toujours une compilation ou un mix pris
+       pour un morceau, et reste une erreur. */
+    const claims = new Map<string, { genre: string; shared: Set<string> }[]>();
     for (const g of doc.genres) {
       for (const t of [...g.tracks.essentiel, ...g.tracks.actuel]) {
-        const owner = seenVideo.get(t.youtubeId);
-        if (owner !== undefined && owner !== g.id) {
-          fail(`identifiant ${t.youtubeId} partagé entre ${owner} et ${g.id}`, ['genres']);
+        const list = claims.get(t.youtubeId) ?? [];
+        list.push({ genre: g.id, shared: new Set(t.shared ?? []) });
+        claims.set(t.youtubeId, list);
+      }
+    }
+    for (const [videoId, holders] of claims) {
+      if (holders.length === 1) {
+        const holder = holders[0];
+        if (holder && holder.shared.size > 0) {
+          fail(
+            `identifiant ${videoId} : ${holder.genre} déclare un partage avec ` +
+              `${[...holder.shared].join(', ')} mais est seul à porter le morceau`,
+            ['genres']
+          );
         }
-        seenVideo.set(t.youtubeId, g.id);
+        continue;
+      }
+      const ids = holders.map((h) => h.genre);
+      if (new Set(ids).size !== ids.length) {
+        fail(`identifiant ${videoId} présent deux fois dans un même genre`, ['genres']);
+        continue;
+      }
+      for (const holder of holders) {
+        const others = ids.filter((x) => x !== holder.genre);
+        for (const other of others) {
+          if (!holder.shared.has(other)) {
+            fail(
+              `identifiant ${videoId} partagé entre ${ids.join(' et ')} sans déclaration : ` +
+                `${holder.genre} doit porter shared: [${others.map((x) => `"${x}"`).join(', ')}]`,
+              ['genres']
+            );
+          }
+        }
+        for (const declared of holder.shared) {
+          if (!ids.includes(declared)) {
+            fail(
+              `identifiant ${videoId} : ${holder.genre} déclare un partage avec ${declared}, ` +
+                `qui ne porte pas le morceau`,
+              ['genres']
+            );
+          }
+        }
       }
     }
 

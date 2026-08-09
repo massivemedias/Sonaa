@@ -1,6 +1,6 @@
 # CORPUS SONAA
 
-Quatorze familles, 216 genres, 279 morceaux verifies.
+Quatorze familles, 216 genres, 339 morceaux verifies.
 L'indentation est la filiation structurelle, celle qui positionne le noeud
 dans l'arbre. Les autres ascendances sont notees en greffe.
 
@@ -10,12 +10,15 @@ Notation :
 - `[greffe: X, famille Y]` parent supplementaire dans une autre famille
 - `[convention]` rattachement d'arbre qui n'est PAS une filiation
 - `(?)` filiation marquee `debated`, a trancher
-- `n morceaux` identifiants YouTube verifies un par un
+- `n morceaux` identifiants YouTube verifies un par un ; `dont n charniere(s)`
+  compte les morceaux partages avec un autre genre, partage declare des deux
+  cotes
 
 Sources croisees : encyclopedies, bases discographiques, cartographies
-historiques des musiques electroniques, le comparatif de couverture fourni
-par Mika et le canon des fils Reddit. Ce document est l'appareil critique du
-depot ; l'interface, elle, ne nomme aucune source (ADR-038).
+historiques, le comparatif de couverture et le canon Reddit fournis par Mika,
+et le canon des fondateurs propose par la machine (tracks-founders.md). Ce
+document est l'appareil critique du depot ; l'interface ne nomme aucune
+source (ADR-038).
 
 ## DISCO (14)
 
@@ -47,8 +50,8 @@ depot ; l'interface, elle, ne nomme aucune source (ADR-038).
     - Italo House  [greffe: Italo Disco, famille disco]  (?)  4 morceaux
     - Hard House  4 morceaux
     - Progressive House  5 morceaux
-  - Disco House  [greffe: Disco, famille disco]  4 morceaux
-    - French House  6 morceaux
+  - Disco House  [greffe: Disco, famille disco]  5 morceaux dont 1 charniere
+    - French House  6 morceaux dont 1 charniere
       - Electro House  (?)  5 morceaux
         - Bass House  [greffe: UK Bass, famille bass]  0 morceau
         - Future House  0 morceau
@@ -66,7 +69,7 @@ depot ; l'interface, elle, ne nomme aucune source (ADR-038).
 - Detroit Techno  [fondateur]  [greffe: Funk, famille roots]  [greffe: Krautrock, famille roots]  [greffe: Proto-Techno, famille roots]  7 morceaux
   - Bleep Techno  5 morceaux
     - Broken Techno  [greffe: Detroit Electro, famille electro]  0 morceau
-  - Acid Techno  [greffe: Acid House, famille house]  2 morceaux
+  - Acid Techno  [greffe: Acid House, famille house]  3 morceaux dont 2 charnieres
   - Euro Techno  3 morceaux
     - Hard Techno  (?)  4 morceaux
       - Schranz  2 morceaux
@@ -82,7 +85,7 @@ depot ; l'interface, elle, ne nomme aucune source (ADR-038).
 
 ## MINIMAL (11)
 
-- Minimal Techno  [fondateur]  [greffe: Detroit Techno, famille techno]  4 morceaux
+- Minimal Techno  [fondateur]  [greffe: Detroit Techno, famille techno]  5 morceaux dont 1 charniere
   - Tech House  [greffe: UK House, famille house]  (?)  4 morceaux
     - Microhouse  4 morceaux
       - Clicks & Cuts  2 morceaux
@@ -97,7 +100,7 @@ depot ; l'interface, elle, ne nomme aucune source (ADR-038).
 ## TRANCE (14)
 
 - Trance  [fondateur]  [greffe: EBM, famille industrial]  (?)  7 morceaux
-  - Acid Trance  [greffe: Acid House, famille house]  3 morceaux
+  - Acid Trance  [greffe: Acid House, famille house]  3 morceaux dont 1 charniere
   - Balearic Trance  4 morceaux
     - Dream Trance  5 morceaux
     - Ibiza Trance  0 morceau
@@ -149,25 +152,25 @@ depot ; l'interface, elle, ne nomme aucune source (ADR-038).
 
 ## ROOTS (11)
 
-- Musique concrète  [fondateur]  0 morceau
+- Musique concrète  [fondateur]  3 morceaux
   - Électroacoustique  0 morceau
-    - Krautrock  (?)  0 morceau
+    - Krautrock  (?)  3 morceaux
       - Kosmische Musik  0 morceau
         - Space Music  0 morceau
       - Proto-Techno  0 morceau
-        - Synth-pop  0 morceau
+        - Synth-pop  3 morceaux
   - Early Industrial  0 morceau
-  - Funk  [convention]  0 morceau
-    - Philly Soul  0 morceau
-  - Dub  [convention]  0 morceau
+  - Funk  [convention]  3 morceaux
+    - Philly Soul  3 morceaux
+  - Dub  [convention]  3 morceaux
 
 ## BREAKS (23)
 
 - Breakbeat  [fondateur]  [greffe: Funk, famille roots]  0 morceau
-  - Breakbeat Hardcore  [greffe: Chicago House, famille house]  [greffe: Euro Techno, famille techno]  0 morceau
+  - Breakbeat Hardcore  [greffe: Chicago House, famille house]  [greffe: Euro Techno, famille techno]  3 morceaux
     - Darkcore  0 morceau
-      - Jungle  [greffe: Dub, famille roots]  0 morceau
-        - Drum and Bass  0 morceau
+      - Jungle  [greffe: Dub, famille roots]  3 morceaux
+        - Drum and Bass  3 morceaux
           - Techstep  0 morceau
             - Neurofunk  0 morceau
             - Darkstep  0 morceau
@@ -189,11 +192,11 @@ depot ; l'interface, elle, ne nomme aucune source (ADR-038).
 
 ## BASS (19)
 
-- UK Garage  [fondateur]  [greffe: Garage House, famille house]  [greffe: Jungle, famille breaks]  0 morceau
+- UK Garage  [fondateur]  [greffe: Garage House, famille house]  [greffe: Jungle, famille breaks]  3 morceaux
   - Speed Garage  0 morceau
     - Bassline  0 morceau
-  - 2-Step  0 morceau
-    - Dubstep  [greffe: Dub, famille roots]  0 morceau
+  - 2-Step  3 morceaux
+    - Dubstep  [greffe: Dub, famille roots]  3 morceaux
       - Brostep  0 morceau
         - Riddim  (?)  0 morceau
       - Future Garage  0 morceau
@@ -202,7 +205,7 @@ depot ; l'interface, elle, ne nomme aucune source (ADR-038).
         - Future Bass  (?)  0 morceau
         - Trap  (?)  0 morceau
         - Deconstructed Club  0 morceau
-    - Grime  0 morceau
+    - Grime  3 morceaux
     - UK Funky  0 morceau
     - Breakstep  0 morceau
   - Baltimore Club  [convention]  [greffe: Chicago House, famille house]  0 morceau
@@ -211,7 +214,7 @@ depot ; l'interface, elle, ne nomme aucune source (ADR-038).
 
 ## ELECTRO (11)
 
-- Electro Funk  [fondateur]  [greffe: Funk, famille roots]  [greffe: Proto-Techno, famille roots]  0 morceau
+- Electro Funk  [fondateur]  [greffe: Funk, famille roots]  [greffe: Proto-Techno, famille roots]  3 morceaux
   - Electro Hop  0 morceau
   - Miami Bass  0 morceau
     - Techno Bass  [greffe: Detroit Techno, famille techno]  0 morceau
@@ -226,7 +229,7 @@ depot ; l'interface, elle, ne nomme aucune source (ADR-038).
 ## HARDCORE (19)
 
 - Hardcore Techno  [fondateur]  [greffe: Breakbeat Hardcore, famille breaks]  [greffe: Euro Techno, famille techno]  0 morceau
-  - Gabber  0 morceau
+  - Gabber  3 morceaux
     - Terrorcore  0 morceau
       - Speedcore  0 morceau
     - Nu Style Gabber  0 morceau
@@ -234,7 +237,7 @@ depot ; l'interface, elle, ne nomme aucune source (ADR-038).
     - Doomcore  0 morceau
     - Frenchcore  0 morceau
     - Dubstyle  [greffe: Dubstep, famille bass]  0 morceau
-  - Happy Hardcore  [greffe: Breakbeat Hardcore, famille breaks]  0 morceau
+  - Happy Hardcore  [greffe: Breakbeat Hardcore, famille breaks]  3 morceaux
     - Bouncy Techno  0 morceau
     - UK Hardcore  0 morceau
     - Raggacore  [greffe: Ragga Jungle, famille breaks]  0 morceau
@@ -247,7 +250,7 @@ depot ; l'interface, elle, ne nomme aucune source (ADR-038).
 
 ## AMBIENT (12)
 
-- Ambient  [fondateur]  [greffe: Kosmische Musik, famille roots]  [greffe: Électroacoustique, famille roots]  0 morceau
+- Ambient  [fondateur]  [greffe: Kosmische Musik, famille roots]  [greffe: Électroacoustique, famille roots]  3 morceaux
   - Dark Ambient  0 morceau
     - Isolationism  0 morceau
     - Dungeon Synth  0 morceau
@@ -256,14 +259,14 @@ depot ; l'interface, elle, ne nomme aucune source (ADR-038).
   - Ambient Dub  [greffe: Dub, famille roots]  0 morceau
     - Illbient  0 morceau
   - New Age  0 morceau
-  - IDM  [greffe: Detroit Techno, famille techno]  0 morceau
+  - IDM  [greffe: Detroit Techno, famille techno]  3 morceaux
     - Braindance  (?)  0 morceau
     - Glitch  0 morceau
 
 ## DOWNTEMPO (12)
 
 - Downtempo  [fondateur]  [greffe: Ambient, famille ambient]  [greffe: Dub, famille roots]  0 morceau
-  - Trip-Hop  [greffe: Dub, famille roots]  [greffe: Ambient, famille ambient]  0 morceau
+  - Trip-Hop  [greffe: Dub, famille roots]  [greffe: Ambient, famille ambient]  3 morceaux
     - Bristol Sound  (?)  0 morceau
     - Lo-Fi Hip Hop  0 morceau
   - Chill-Out  0 morceau

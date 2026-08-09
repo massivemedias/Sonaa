@@ -148,6 +148,8 @@ export interface Track {
   readonly cover: string;
   /** Identifiant vérifié par oEmbed au build. Jamais inventé (ADR-006). */
   readonly youtubeId: string;
+  /** Morceau charnière : les AUTRES genres qui le revendiquent, résolus. */
+  readonly sharedWith: readonly { familyIndex: number; genreLocal: number; label: string }[];
 }
 
 export interface Structure {
@@ -156,6 +158,10 @@ export interface Structure {
   readonly links: { from: number; to: number }[];
   /** Rayon de la silhouette déployée, sert au seuil d'entrée. */
   readonly deployedRadius: number;
+  /* Centroïde des positions déployées, relatif au centre de famille. La
+     couronne pousse surtout vers le haut depuis la racine : cadrer la racine
+     laissait la moitié de l'arbre hors champ. On cadre le nuage, pas le pied. */
+  readonly deployedCenter: readonly [number, number, number];
   readonly compactRadius: number;
 }
 
@@ -177,20 +183,33 @@ const mulberry32 = (seed: number) => () => {
    Rien ne pouvait s'y lire. */
 const DEPTH_RADIUS = [3.2, 2.05, 1.4, 1.05];
 
+/* Résolution des charnières. Un morceau partagé pointe vers ses autres genres
+   par identifiant ; l'interface a besoin d'indices navigables. Résolu après
+   la construction de toutes les familles, car un partage peut traverser. */
+const trackShared: { track: { sharedWith: Track['sharedWith'] }; ids: string[] }[] = [];
+
 const toTracks = (list: CorpusGenre['tracks']['essentiel']): Track[] =>
-  list.map((t) => ({
-    id: t.youtubeId,
-    artist: t.artist,
-    title: t.title,
-    year: t.year,
-    album: t.album ?? null,
-    cover: t.cover ? `${import.meta.env.BASE_URL}${t.cover.local}` : '',
-    youtubeId: t.youtubeId
-  }));
+  list.map((t) => {
+    const track = {
+      id: t.youtubeId,
+      artist: t.artist,
+      title: t.title,
+      year: t.year,
+      album: t.album ?? null,
+      cover: t.cover ? `${import.meta.env.BASE_URL}${t.cover.local}` : '',
+      youtubeId: t.youtubeId,
+      sharedWith: [] as { familyIndex: number; genreLocal: number; label: string }[]
+    };
+    if (t.shared && t.shared.length > 0) {
+      trackShared.push({ track, ids: t.shared });
+    }
+    return track;
+  });
 
 export const buildStructure = (familyIndex: number): Structure => {
   const family = FAMILIES[familyIndex];
-  if (!family) return { genres: [], links: [], deployedRadius: 1, compactRadius: 1 };
+  if (!family)
+    return { genres: [], links: [], deployedRadius: 1, compactRadius: 1, deployedCenter: [0, 0, 0] };
 
   const rand = mulberry32(7717 + familyIndex * 131);
   const genres: Genre[] = [];
@@ -250,7 +269,8 @@ export const buildStructure = (familyIndex: number): Structure => {
   };
 
   const founderEntry = inFamily.find((g) => g.structuralParent === null);
-  if (!founderEntry) return { genres: [], links: [], deployedRadius: 1, compactRadius: 1 };
+  if (!founderEntry)
+    return { genres: [], links: [], deployedRadius: 1, compactRadius: 1, deployedCenter: [0, 0, 0] };
   walk(founderEntry, -1, 0);
 
   const root = 0;
@@ -284,7 +304,18 @@ export const buildStructure = (familyIndex: number): Structure => {
       inDir[0] * a[1] - inDir[1] * a[0]
     ];
 
-    const spread = 8.4 - node.depth * 1.5;
+    /* L'écart grandit avec la taille du sous-arbre : une branche de huit
+       dérivés a besoin de plus de place qu'une feuille double. Mesuré sur
+       Breaks à 23 genres, où la grappe drum and bass s'écrasait sur ses
+       voisines. Racine carrée pour ne pas faire exploser les grandes familles,
+       plafonnée à 1,9. */
+    const subtree = (i: number): number => {
+      const g = genres[i];
+      if (!g) return 1;
+      return 1 + g.children.reduce((a, c) => a + subtree(c), 0);
+    };
+    const factor = Math.min(1.9, Math.max(1, Math.sqrt(subtree(index) / 6)));
+    const spread = (8.4 - node.depth * 1.5) * factor;
     const tilt = 0.55;
 
     kids.forEach((kid, k) => {
@@ -354,10 +385,31 @@ export const buildStructure = (familyIndex: number): Structure => {
   const radiusOf = (key: 'deployed' | 'compact'): number =>
     genres.reduce((max, g) => Math.max(max, Math.hypot(...g[key]) + g.radius), 1);
 
+  const n = Math.max(1, genres.length);
+  const deployedCenter: [number, number, number] = [
+    genres.reduce((a, g) => a + g.deployed[0], 0) / n,
+    genres.reduce((a, g) => a + g.deployed[1], 0) / n,
+    genres.reduce((a, g) => a + g.deployed[2], 0) / n
+  ];
+  // Rayon mesuré depuis le centroïde : c'est lui que la caméra cadre.
+  const deployedRadius = genres.reduce(
+    (max, g) =>
+      Math.max(
+        max,
+        Math.hypot(
+          g.deployed[0] - deployedCenter[0],
+          g.deployed[1] - deployedCenter[1],
+          g.deployed[2] - deployedCenter[2]
+        ) + g.radius
+      ),
+    1
+  );
+
   return {
     genres,
     links,
-    deployedRadius: radiusOf('deployed'),
+    deployedRadius,
+    deployedCenter,
     compactRadius: radiusOf('compact')
   };
 };
@@ -378,6 +430,22 @@ export const pathToGenre = (familyIndex: number, local: number): number[] => {
 };
 
 export const STRUCTURES: readonly Structure[] = FAMILIES.map((_, i) => buildStructure(i));
+
+/* Deuxième passe des charnières : toutes les structures existent, on peut
+   résoudre chaque identifiant de genre en position navigable. */
+{
+  const locate = new Map<string, { familyIndex: number; genreLocal: number; label: string }>();
+  STRUCTURES.forEach((structure, familyIndex) => {
+    structure.genres.forEach((genre, genreLocal) => {
+      locate.set(genre.id, { familyIndex, genreLocal, label: genre.label });
+    });
+  });
+  for (const { track, ids } of trackShared) {
+    (track as { sharedWith: unknown }).sharedWith = ids
+      .map((id) => locate.get(id))
+      .filter((x): x is NonNullable<typeof x> => Boolean(x));
+  }
+}
 
 /** Seuil d'entrée : franchi en avançant, la structure se déploie. */
 export const enterDistance = (familyIndex: number): number =>
