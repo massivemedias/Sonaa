@@ -165,13 +165,20 @@ void main() {
 
 /* Ruban élargi en espace monde, perpendiculairement à la tangente.
    aMeta.z porte l'avancement du tracé : le lien se dessine du parent vers
-   l'enfant, ce qui donne la lecture de propagation. */
+   l'enfant, ce qui donne la lecture de propagation.
+
+   COURBES, plus des segments : la disposition fixe se lit de gauche à
+   droite, et un lien est un S propre entre la colonne du parent et celle de
+   l'enfant. Bézier cubique par instance, deux points de contrôle calculés
+   côté CPU au moment de la mise en page. */
 export const linkVert = `
 attribute float aT;
 attribute float aSide;
 
 attribute vec3 aP0;
 attribute vec3 aP1;
+attribute vec3 aCtrl0;
+attribute vec3 aCtrl1;
 attribute vec3 aColor0;
 attribute vec3 aColor1;
 attribute vec3 aMeta; // x: poids, y: présence, z: avancement du tracé
@@ -196,11 +203,18 @@ void main() {
   vColor1 = aColor1;
   vMeta = aMeta;
 
-  vec3 axis = aP1 - aP0;
-  vec3 pos = aP0 + axis * aT;
+  float t = aT;
+  float mt = 1.0 - t;
+  vec3 pos = mt * mt * mt * aP0
+           + 3.0 * mt * mt * t * aCtrl0
+           + 3.0 * mt * t * t * aCtrl1
+           + t * t * t * aP1;
+  vec3 deriv = 3.0 * mt * mt * (aCtrl0 - aP0)
+             + 6.0 * mt * t * (aCtrl1 - aCtrl0)
+             + 3.0 * t * t * (aP1 - aCtrl1);
 
-  float len = length(axis);
-  vec3 tangent = len > 1e-5 ? axis / len : vec3(0.0, 1.0, 0.0);
+  float len = length(deriv);
+  vec3 tangent = len > 1e-5 ? deriv / len : vec3(0.0, 1.0, 0.0);
 
   vec3 toCam = normalize(uCameraPos - pos);
   vec3 rawSide = cross(tangent, toCam);
@@ -258,66 +272,5 @@ void main() {
   if (alpha < 0.004) discard;
 
   gl_FragColor = vec4(rgb, alpha);
-}
-`;
-
-// ------------------------------------------------------- PANNEAU FLOTTANT
-
-/* La plaque du panneau morceaux. Elle vit DANS la scène : quatre sommets
-   calculés en espace monde côté CPU, face caméra, avec une inclinaison fixe.
-   Seule la fenêtre vidéo est en DOM par-dessus, parce qu'une iframe ne peut
-   pas se rendre dans une texture WebGL.
-
-   Rectangle à coins arrondis calculé analytiquement, pas de texture, pas
-   d'asset. Le liseré porte la teinte de la famille. */
-
-export const panelVert = `
-attribute vec2 aQuadUv;
-varying vec2 vQuadUv;
-
-void main() {
-  vQuadUv = aQuadUv;
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-}
-`;
-
-export const panelFrag = `
-precision highp float;
-
-varying vec2 vQuadUv;
-
-uniform vec3 uTint;
-uniform float uOpacity;
-uniform vec2 uAspect;   // largeur/hauteur en unités monde, pour un arrondi régulier
-uniform float uEdgePx;  // douceur du bord, en fraction de la plaque
-
-/* Distance signée à un rectangle arrondi, dans l'espace de la plaque. */
-float roundedBox(vec2 p, vec2 b, float r) {
-  vec2 q = abs(p) - b + r;
-  return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - r;
-}
-
-void main() {
-  vec2 p = (vQuadUv * 2.0 - 1.0) * uAspect;
-  float radius = min(uAspect.x, uAspect.y) * 0.07;
-  float d = roundedBox(p, uAspect * 0.995, radius);
-
-  float aa = max(uEdgePx, 0.0015);
-  float inside = 1.0 - smoothstep(-aa, aa, d);
-  if (inside < 0.004) discard;
-
-  /* Liseré : une bande fine juste à l'intérieur du bord, dans la teinte de la
-     famille. C'est ce qui rattache le panneau à la sphère derrière lui. */
-  float rim = smoothstep(-aa * 5.5, -aa * 1.5, d) * inside;
-
-  // Plaque sombre, très légèrement dégradée du haut vers le bas.
-  vec3 plate = mix(vec3(0.040, 0.045, 0.056), vec3(0.022, 0.025, 0.032), vQuadUv.y);
-  plate = mix(plate, uTint * 0.55, rim * 0.85);
-
-  float alpha = inside * uOpacity;
-  // Le liseré reste opaque même si la plaque est translucide.
-  alpha = max(alpha, rim * 0.95);
-
-  gl_FragColor = vec4(plate, alpha);
 }
 `;

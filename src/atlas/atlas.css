@@ -46,12 +46,13 @@
   position: absolute;
   top: 0;
   left: 0;
-  /* Positionné uniquement par transform : jamais top ni left. */
+  /* Positionné uniquement par transform : jamais top ni left. Le moteur
+     passe le coin haut-gauche de la boîte déjà centrée sous la sphère : la
+     mise en page a réservé cette place, aucune marge ne s'ajoute. */
   will-change: transform, opacity;
   transform: translate3d(-9999px, -9999px, 0);
-  transform-origin: left center;
-  margin-left: 0.6rem;
-  margin-top: -0.7rem;
+  transform-origin: left top;
+  margin: 0;
   white-space: nowrap;
   font-family: var(--font-ui);
   font-weight: var(--weight-genre);
@@ -80,6 +81,15 @@
      aux noms du niveau le plus haut. Montserrat est retirée. */
   font-weight: var(--weight-genre);
   letter-spacing: 0.01em;
+}
+
+/* Les grands ensembles : têtes de section de la carte, toujours nommés. */
+.atlas-label[data-kind='ensemble'] {
+  z-index: 3;
+  font-weight: var(--weight-family);
+  letter-spacing: var(--tracking-family);
+  text-transform: uppercase;
+  color: var(--ink-secondary);
 }
 
 /* --- Repli --------------------------------------------------------------- */

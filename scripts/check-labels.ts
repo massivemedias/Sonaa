@@ -6,12 +6,17 @@
    contrôle rend la récidive impossible : il échoue si un site d'appel compose
    le texte d'un label au lieu de passer le nom nu.
 
-   Deux contrôles, tous deux bloquants en CI :
+   Trois contrôles, tous bloquants en CI :
 
-   1. Dans webgl.ts, chaque appel à add() doit passer exactement `slot.label`
-      ou `family.label` comme texte. Ni gabarit, ni concaténation, ni appel.
+   1. Dans webgl.ts, chaque appel à add() doit passer exactement `slot.label`,
+      `family.label` ou `anchor.label` comme texte. Ni gabarit, ni
+      concaténation, ni appel.
    2. Aucun fichier de src/atlas ne contient les marqueurs de l'ancien
       suffixe : « ♪ », ou un « · » interpolé dans un gabarit de chaîne.
+   3. L'OPACITÉ d'un label ne dépend JAMAIS d'un état de survol ou de focus
+      (quatrième signalement de la règle : le survol met en valeur, il ne
+      révèle rien). La passe de labels de webgl.ts ne doit contenir aucune
+      référence au survol, et chaque add() passe une opacité littérale.
 
    Usage : npm run check:labels */
 
@@ -31,8 +36,8 @@ const webgl = readFileSync(`${ATLAS}/webgl.ts`, 'utf8');
    les arguments sont simples. Si la forme du code change au point de casser ce
    parseur, c'est le moment de re-regarder les labels de toute façon. */
 const callSites = [...webgl.matchAll(/\badd\(\s*([\s\S]{0,200}?)\)/g)];
-// sf.label : le nom nu d'un grand ensemble (SUPERFAMILIES dans structures.ts).
-const ALLOWED_TEXT = new Set(['slot.label', 'family.label', 'sf.label']);
+// anchor.label : le nom nu d'un grand ensemble, posé par layout.ts.
+const ALLOWED_TEXT = new Set(['slot.label', 'family.label', 'anchor.label']);
 
 let checked = 0;
 for (const call of callSites) {
@@ -55,7 +60,40 @@ if (checked === 0) {
   errors.push('webgl.ts : aucun site d\'appel add() trouvé, le parseur du contrôle est cassé.');
 }
 
-// --- 2. Les marqueurs de l'ancien suffixe -----------------------------------
+// --- 2. L'opacité ne dépend jamais du survol ni du focus ---------------------
+
+/* On isole la passe de labels : de sa déclaration au marqueur de section
+   suivant. Toute mention du survol dedans est une régression de la règle.
+   Le focus a le droit d'AJOUTER des noms (le sous-arbre courant est nommé),
+   jamais d'en moduler l'opacité : on vérifie donc aussi que chaque add()
+   passe l'opacité 1, littérale. */
+{
+  const start = webgl.indexOf('const projectLabels');
+  const end = webgl.indexOf('rendu', start);
+  if (start < 0 || end < 0) {
+    errors.push('webgl.ts : la passe de labels est introuvable, le contrôle est cassé.');
+  } else {
+    const pass = webgl.slice(start, end);
+    if (/hover/i.test(pass)) {
+      errors.push(
+        'webgl.ts : la passe de labels mentionne le survol. ' +
+          'Le survol met en valeur, il ne révèle ni ne masque JAMAIS un nom.'
+      );
+    }
+    for (const call of pass.matchAll(/\badd\(\s*([\s\S]{0,240}?)\)/g)) {
+      const args = (call[1] ?? '').split(',').map((p) => p.trim());
+      const opacity = args[6];
+      if (opacity !== undefined && opacity !== '1') {
+        errors.push(
+          `webgl.ts : un label reçoit une opacité calculée (« ${opacity} »). ` +
+            'L\'opacité des labels est littérale : elle ne dépend d\'aucun état.'
+        );
+      }
+    }
+  }
+}
+
+// --- 3. Les marqueurs de l'ancien suffixe -----------------------------------
 
 for (const name of readdirSync(ATLAS)) {
   if (!/\.(ts|tsx)$/.test(name)) continue;

@@ -4,7 +4,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { FAMILIES, STRUCTURES } from './structures.ts';
-import { PlayerLayer, type PanelBus } from './PlayerLayer.tsx';
+import { PlayerLayer } from './PlayerLayer.tsx';
 import { GenreCard } from './GenreCard.tsx';
 import { SearchOverlay } from './SearchOverlay.tsx';
 import { Welcome } from './Welcome.tsx';
@@ -51,10 +51,6 @@ export function AtlasPage() {
   const [mode, setMode] = useState<Mode>('attente');
   const [stats, setStats] = useState<AtlasStats | null>(null);
   const [nav, setNav] = useState<NavState | null>(null);
-  /* La géométrie du panneau change à chaque image pendant un vol de caméra.
-     Elle ne passe donc pas par un état React : le bus la transmet en impératif
-     à la couche lecteur, et React ne se rerend que quand le genre change. */
-  const busRef = useRef<PanelBus>({ current: null, listeners: new Set() });
   const [panelGenre, setPanelGenre] = useState<{ familyIndex: number; genreLocal: number } | null>(
     null
   );
@@ -93,12 +89,16 @@ export function AtlasPage() {
     []
   );
 
+  /* Le panneau n'a plus de géométrie par image : le moteur signale
+     seulement l'ouverture et la fermeture. */
   const onPanel = useCallback((state: PanelState | null) => {
-    const bus = busRef.current;
-    bus.current = state;
-    for (const listener of bus.listeners) listener(state);
     if (state === null) setPanelGenre(null);
   }, []);
+
+  /* Panneau ouvert : la 3D recule et s'estompe derrière le voile. */
+  useEffect(() => {
+    apiRef.current?.setSuspended(panelGenre !== null);
+  }, [panelGenre]);
 
   const dismissHelp = useCallback(() => {
     setShowHelp((visible) => {
@@ -377,8 +377,8 @@ export function AtlasPage() {
 
       {showHelp && !showWelcome && mode === 'webgl' && !panelGenre && (
         <p className="help-line" role="status">
-          Glisser pour tourner · molette pour zoomer · clic sur une sphère pour sa fiche ·
-          espace pour chercher · Échap pour remonter
+          Glisser pour déplacer la carte · molette pour zoomer · clic sur une sphère pour sa
+          fiche · espace pour chercher · Échap pour remonter
         </p>
       )}
 
@@ -388,8 +388,10 @@ export function AtlasPage() {
         <div className="controls" aria-label="Contrôles de navigation">
           <button onClick={act(() => apiRef.current?.zoom(1))} aria-label="Zoom avant" title="Zoom avant (+)">+</button>
           <button onClick={act(() => apiRef.current?.zoom(-1))} aria-label="Zoom arrière" title="Zoom arrière (-)">−</button>
-          <button onClick={act(() => apiRef.current?.rotate(-1))} aria-label="Tourner à gauche" title="Tourner à gauche (flèche gauche)">↺</button>
-          <button onClick={act(() => apiRef.current?.rotate(1))} aria-label="Tourner à droite" title="Tourner à droite (flèche droite)">↻</button>
+          {/* L'orbite est abandonnée : la carte se déplace, elle ne tourne
+              plus. Les flèches remplacent la rotation. */}
+          <button onClick={act(() => apiRef.current?.pan(-1, 0))} aria-label="Déplacer vers la gauche" title="Déplacer (flèches)">←</button>
+          <button onClick={act(() => apiRef.current?.pan(1, 0))} aria-label="Déplacer vers la droite" title="Déplacer (flèches)">→</button>
           <button onClick={act(() => apiRef.current?.recenter())} aria-label="Recentrer" title="Recentrer (0)">⌂</button>
           <button onClick={act(() => apiRef.current?.goUp())} aria-label="Remonter d'un niveau" title="Remonter (Échap)">↑</button>
         </div>
@@ -413,7 +415,6 @@ export function AtlasPage() {
 
       {mode === 'webgl' && (
         <PlayerLayer
-          bus={busRef.current}
           panelGenre={panelGenre}
           onClose={closePanel}
           onReopen={reopenPanel}

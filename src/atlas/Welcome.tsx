@@ -41,7 +41,7 @@ export function Welcome({ onDismiss }: Props) {
 
         <dl className="welcome-keys">
           <dt>Glisser</dt>
-          <dd>tourner autour de l&apos;atlas</dd>
+          <dd>déplacer la carte</dd>
           <dt>Molette</dt>
           <dd>avancer et reculer</dd>
           <dt>Clic sur une sphère</dt>

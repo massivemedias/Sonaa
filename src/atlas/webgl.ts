@@ -1,11 +1,21 @@
-/* Couche WebGL du prototype. JETABLE.
+/* Couche WebGL. DISPOSITION FIXE (ADR-042).
+
+   L'orbite libre est abandonnée. La 3D reste pour la profondeur et la
+   matière : sphères imposteurs, halo, grain du fond. La caméra ne tourne
+   plus : pan dans le plan de la carte et zoom, rien d'autre. Les positions
+   viennent de layout.ts, déterministes au pixel près.
+
+   La profondeur en Z ne sert qu'à la hiérarchie visuelle : le niveau courant
+   vient légèrement en avant, le reste recule et s'estompe. Le champ de la
+   caméra est étroit (14 degrés) : la perspective ne fausse jamais la lecture
+   des tailles.
+
    Import dynamique après le premier rendu. Imports nommés (ADR-019). */
 
 import {
   BufferAttribute,
   Float32BufferAttribute,
   InstancedBufferAttribute,
-  BufferGeometry,
   InstancedBufferGeometry,
   Mesh,
   OrthographicCamera,
@@ -22,17 +32,12 @@ import {
   FAMILIES,
   FAMILY_LINKS,
   STRUCTURES,
-  SUPERFAMILIES,
   TOTAL_GENRES,
   TOTAL_INTERNAL_LINKS,
-  FAMILY_CENTERS,
-  FAMILY_MARGIN,
-  DEFAULT_AZIMUTH,
-  DEFAULT_ELEVATION,
-  familyRadius,
-  ATLAS_CENTER,
   pathToGenre
 } from './structures.ts';
+
+import { buildLayout, LABEL_WORLD, type AtlasLayout } from './layout.ts';
 
 import {
   backgroundFrag,
@@ -40,9 +45,7 @@ import {
   linkFrag,
   linkVert,
   sphereFrag,
-  sphereVert,
-  panelVert,
-  panelFrag
+  sphereVert
 } from './shaders.ts';
 
 // ------------------------------------------------------------------ couleur
@@ -106,23 +109,13 @@ export interface NavState {
   path: { index: number; label: string }[];
 }
 
-/* Géométrie du panneau, recalculée à chaque image et transmise au DOM.
-   La fenêtre vidéo et les commandes se positionnent dessus : l'iframe YouTube
-   ne peut pas se rendre dans une texture WebGL, donc elle se superpose au
-   canvas en suivant exactement la plaque rendue en 3D. */
+/* Le lecteur n'est plus une plaque dans la scène : c'est un panneau DOM
+   rectangulaire, droit, aligné sur la grille de l'écran (ADR-042). Le moteur
+   n'émet plus une géométrie par image, seulement l'ouverture et la
+   fermeture. */
 export interface PanelState {
   familyIndex: number;
   genreLocal: number;
-  /** Centre de la plaque, en pixels CSS. */
-  x: number;
-  y: number;
-  /** Taille projetée de la plaque, en pixels CSS. */
-  width: number;
-  height: number;
-  /** Inclinaison de la plaque, en degrés. Le DOM applique la même. */
-  tiltDeg: number;
-  /** Faux quand la plaque passe derrière la caméra. */
-  visible: boolean;
 }
 
 export interface AtlasHandles {
@@ -130,13 +123,13 @@ export interface AtlasHandles {
   labelLayer: HTMLElement;
   onStats: (stats: AtlasStats) => void;
   onNavigate: (nav: NavState) => void;
-  /** Demande d'ouverture du panneau morceaux pour un genre. */
+  /** Demande d'ouverture du panneau tracks pour un genre. */
   onTracks: (familyIndex: number, genreLocal: number) => void;
   /* Fiche du genre atteint. Cliquer une sphère ouvre d'abord la fiche : on veut
      savoir de quoi on parle, d'où ça vient et ce que ça a donné, AVANT de
-     décider d'écouter. Les morceaux se demandent depuis la fiche. */
+     décider d'écouter. Les tracks se demandent depuis la fiche. */
   onGenreInfo: (familyIndex: number, genreLocal: number) => void;
-  /** Géométrie du panneau à chaque image, ou null quand il est fermé. */
+  /** Ouverture et fermeture du panneau lecteur. */
   onPanel: (panel: PanelState | null) => void;
   onContextLost: () => void;
 }
@@ -146,69 +139,43 @@ export interface AtlasApi {
   runProfile: () => Promise<void>;
   recenter: () => void;
   zoom: (direction: 1 | -1) => void;
-  rotate: (direction: 1 | -1) => void;
+  /** Pan clavier ou boutons : décale la vue d'un pas dans le plan. */
+  pan: (dx: number, dy: number) => void;
   goUp: () => void;
   goToFamily: (familyIndex: number) => void;
   /** Vol vers un genre nommé, depuis la recherche ou la fiche. */
   goToGenre: (familyIndex: number, genreLocal: number) => void;
   setSuspended: (suspended: boolean) => void;
-  /** Ouvre la plaque devant la sphère d'un genre, et vole vers elle. */
   openPanel: (familyIndex: number, genreLocal: number) => void;
   closePanel: () => void;
   /** Joue la naissance des familles. Rappel à la fin ou à l'interruption. */
   playIntro: (onEnd?: () => void) => void;
 }
 
-const FOV = 40;
-const LABEL_POOL = 64;
-/* Amplitude de dolly large : on doit pouvoir arriver assez près pour qu'une
-   sphère occupe la moitié de la hauteur de l'écran. À 40 degrés de champ, cela
-   demande une distance d'environ 5,7 fois le rayon, soit 6 unités pour une
-   petite sphère. On descend nettement en dessous pour garder de la marge. */
-const MIN_DISTANCE = 3;
-/* 1200 et non 520 : sur un écran étroit en portrait, cadrer l'atlas entier
-   demande environ 800 unités de recul. L'ancien plafond bloquait le cadrage
-   par défaut du mobile, la scène restait coupée quel que soit le calcul. */
-const MAX_DISTANCE = 1200;
+/* Champ étroit : la projection est quasi orthographique. Les décalages en Z
+   de la hiérarchie (±3 unités sur des distances de plusieurs centaines) font
+   moins d'un pour cent de variation de taille : la lecture des tailles reste
+   celle de la mise en page. */
+const FOV = 14;
+const LABEL_POOL = 96;
+const MIN_DISTANCE = 40;
+const MAX_DISTANCE = 9000;
 
-/* Taille des labels : plancher et plafond stricts. Jamais de texte à 8 px
-   parce qu'un noeud est loin, jamais de titre géant parce qu'il est proche. */
+/* Taille des labels : plancher et plafond stricts. Plancher 11 px (mission),
+   jamais de troncature ni d'abréviation : un nom qui ne tient pas à 11 px
+   attend le zoom suivant, il ne s'ampute pas. */
+const LABEL_PX_FLOOR = 11;
 const LABEL_PX_CEILING = 22;
 
-/* Hauteur du bandeau d'interface en haut et en bas, en pixels. Le fil d'Ariane
-   passe sur deux lignes quand le chemin est long, d'où la marge généreuse. */
+/* Décalage de hiérarchie en Z : le sous-arbre courant vient devant. */
+const Z_FRONT = 3;
+const Z_BACK = -3;
+
 const CHROME_TOP = 64;
 const CHROME_BOTTOM = 74;
-const DESKTOP = { maxLabels: 56, floorPx: 13 };
-const MOBILE = { maxLabels: 20, floorPx: 15 };
-
-/* Le panneau morceaux.
-   Proportion portrait : une fenêtre 16:9 en haut, puis le texte, la bande de
-   pochettes et le transport. Il occupe 66 pour cent de la hauteur de l'écran au
-   moment où on arrive dessus, et il est décalé vers le haut pour que la sphère
-   du genre reste visible en dessous. */
-/* Rapport largeur sur hauteur. Mesuré sur le contenu réel : fenêtre 16:9,
-   quatre lignes de texte, bande de pochettes et transport ne tiennent pas dans
-   0.92, la bande se faisait rogner. */
-const PANEL_ASPECT = 0.86;
-const PANEL_FILL = 0.52;
-/** Part de la LARGEUR que la plaque peut occuper. C'est la contrainte en portrait. */
-const PANEL_FILL_WIDTH = 0.92;
-const PANEL_TILT_DEG = 9;
-const PANEL_RISE = 0.2;
-/** Suivi amorti : la plaque accompagne la caméra, elle ne lui colle pas. */
-const PANEL_FOLLOW = 0.14;
-
-/* La diffusion. Rapide et énergique : c'est l'animation signature. */
-const OPEN_MS = 480;
-const OPEN_DELAY_MS = 40;
-const CLOSE_MS = 300;
-const CLOSE_DELAY_MS = 22;
 
 const clamp = (v: number, lo: number, hi: number): number => Math.min(hi, Math.max(lo, v));
 
-/* Easing avec léger dépassement. Un ease-out mou donnerait un fondu, pas une
-   propagation : le dépassement est ce qui met de l'énergie dans le geste. */
 const backOut = (t: number): number => {
   const c1 = 1.70158;
   const c3 = c1 + 1;
@@ -221,12 +188,9 @@ const backOut = (t: number): number => {
 export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   const { canvas, labelLayer, onStats, onNavigate, onTracks, onGenreInfo, onPanel, onContextLost } =
     handles;
-  /* Vrai une fois la caméra et les cibles construites : le resize d'init ne
-     peut pas encore mesurer, il repasse une fois le moteur debout. */
   let engineReady = false;
   /** Vrai tant que la caméra est au cadrage par défaut de l'atlas. */
   let cameraAtDefault = true;
-  let framingDiag: Record<string, number> | null = null;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const renderer = new WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: 'high-performance' });
@@ -263,7 +227,7 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   const bgUniforms = {
     uResolution: { value: new Vector2(1, 1) },
     uTime: { value: 0 },
-    uGrain: { value: 1 }
+    uGrain: { value: reduced ? 0.5 : 1 }
   };
   const bgMesh = new Mesh(
     new PlaneGeometry(2, 2),
@@ -274,63 +238,20 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   // --------------------------------------------------------------- scène
 
   const scene = new Scene();
-  const camera = new PerspectiveCamera(FOV, 1, 0.5, 4000);
+  const camera = new PerspectiveCamera(FOV, 1, 0.5, 30000);
   const cameraPos = new Vector3();
-  /* En portrait, l'atlas s'étale VERTICALEMENT : les positions tournent de
-     90 degrés dans le plan de l'écran à l'angle par défaut. C'est une rotation
-     exacte, les distances et donc la séparation garantie sont conservées. */
-  const familyBaseLandscape = FAMILY_CENTERS.map((c) => new Vector3(c[0], c[1], c[2]));
-  const superMembers: number[][] = SUPERFAMILIES.map((sf) =>
-    sf.members.map((id) => FAMILIES.findIndex((f) => f.id === id)).filter((i) => i >= 0)
-  );
-  const superAnchor = new Vector3();
-  const familyBase = familyBaseLandscape.map((v) => v.clone());
-  let portraitApplied = false;
-  let stretchApplied = 1;
-
-  /* `stretch` étire l'axe vertical de l'écran en portrait : après pivot,
-     l'atlas reste presque carré alors que l'écran est deux fois plus haut que
-     large, et la moitié de la hauteur restait vide. L'étirement ne fait
-     qu'AUGMENTER les séparations, la garantie de non-chevauchement tient. */
-  const applyOrientation = (portrait: boolean, stretch = 1): void => {
-    if (portrait === portraitApplied && stretch === stretchApplied) return;
-    portraitApplied = portrait;
-    stretchApplied = stretch;
-    const az = DEFAULT_AZIMUTH;
-    const el = DEFAULT_ELEVATION;
-    const right = new Vector3(Math.cos(az), 0, -Math.sin(az));
-    const up = new Vector3(-Math.sin(el) * Math.sin(az), Math.cos(el), -Math.sin(el) * Math.cos(az));
-    const fwd = new Vector3().crossVectors(right, up).negate();
-    const centerV = new Vector3(...ATLAS_CENTER);
-    familyBase.forEach((v, i) => {
-      const base = familyBaseLandscape[i];
-      if (!base) return;
-      if (!portrait) {
-        v.copy(base);
-        return;
-      }
-      const rel = base.clone().sub(centerV);
-      const h = rel.dot(right);
-      const vv = rel.dot(up);
-      const d = rel.dot(fwd);
-      v.copy(centerV)
-        .addScaledVector(right, vv)
-        .addScaledVector(up, h * stretch)
-        .addScaledVector(fwd, d);
-    });
-  };
   const fogColor = new Vector3(0.042, 0.047, 0.058);
+
+  // ------------------------------------------------------- mise en page
+
+  let layout: AtlasLayout = buildLayout(false);
 
   // ------------------------------------------------------------ sphères
 
-  /* Toutes les familles à plat dans un seul tampon : un appel de dessin pour
-     les 204 sphères de l'atlas. */
   const sphereCenters = new Float32Array(TOTAL_GENRES * 3);
   const sphereRadii = new Float32Array(TOTAL_GENRES);
   const sphereColors = new Float32Array(TOTAL_GENRES * 3);
   const sphereState = new Float32Array(TOTAL_GENRES * 4);
-  /* Mis à jour par la passe de labels, consommé par le shader à l'image
-     suivante : 33 ms de retard, invisible. */
   const labelled = new Uint8Array(TOTAL_GENRES);
 
   interface Slot {
@@ -342,8 +263,6 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     depth: number;
     label: string;
     bpm: number;
-    compact: Vector3;
-    deployed: Vector3;
     world: Vector3;
   }
 
@@ -356,7 +275,6 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
       familyOffset[fi] = cursor;
       const structure = STRUCTURES[fi];
       if (!structure) return;
-      const [cx, cy, cz] = FAMILY_CENTERS[fi] ?? family.center;
 
       structure.genres.forEach((genre, li) => {
         const i = cursor + li;
@@ -379,11 +297,7 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
           children: genre.children,
           parent: genre.parent,
           major: genre.major,
-          // Offsets RELATIFS au centre de famille : le centre bouge quand une
-          // famille se déploie et pousse les autres.
-          compact: new Vector3(...genre.compact),
-          deployed: new Vector3(...genre.deployed),
-          world: new Vector3(cx + genre.compact[0], cy + genre.compact[1], cz + genre.compact[2])
+          world: new Vector3()
         });
       });
       cursor += structure.genres.length;
@@ -412,11 +326,13 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   sphereGeometry.setAttribute('aColor', new InstancedBufferAttribute(sphereColors, 3));
   sphereGeometry.setAttribute('aState', sphereStateAttr);
 
+  /* Brouillard neutralisé : la profondeur ne raconte plus la distance à une
+     scène orbitale, elle sépare deux plans à quelques unités d'écart. */
   const sphereUniforms = {
     uCameraPos: { value: cameraPos },
     uLightDir: { value: new Vector3(0.42, 0.72, 0.55).normalize() },
     uPixelScale: { value: 0.001 },
-    uFog: { value: new Vector2(190, 620) },
+    uFog: { value: new Vector2(8000, 24000) },
     uFogColor: { value: fogColor }
   };
 
@@ -425,8 +341,6 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     fragmentShader: sphereFrag,
     uniforms: sphereUniforms,
     transparent: true,
-    // Les sphères écrivent la profondeur : l'occultation entre corps est
-    // correcte sans aucun tri par instance.
     depthTest: true,
     depthWrite: true
   });
@@ -441,12 +355,14 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   const LINK_COUNT = TOTAL_INTERNAL_LINKS + FAMILY_LINKS.length;
   const linkP0 = new Float32Array(LINK_COUNT * 3);
   const linkP1 = new Float32Array(LINK_COUNT * 3);
-  const linkC0 = new Float32Array(LINK_COUNT * 3);
-  const linkC1 = new Float32Array(LINK_COUNT * 3);
+  const linkCtrl0 = new Float32Array(LINK_COUNT * 3);
+  const linkCtrl1 = new Float32Array(LINK_COUNT * 3);
+  const linkColor0 = new Float32Array(LINK_COUNT * 3);
+  const linkColor1 = new Float32Array(LINK_COUNT * 3);
   const linkMeta = new Float32Array(LINK_COUNT * 3);
 
   interface LinkRef {
-    a: number; // index global de sphère, ou -1 pour un lien de famille
+    a: number; // index global de sphère ; les liens de famille visent les fondateurs
     b: number;
     familyA: number;
     familyB: number;
@@ -462,15 +378,13 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
       const base = familyOffset[fi] ?? 0;
       if (!structure) return;
       for (const link of structure.links) {
-        const gi = base + link.from;
-        const gj = base + link.to;
         const ci = oklchToSrgb(0.7, 0.07, family.hue);
-        linkC0.set(ci, cursor * 3);
-        linkC1.set(ci, cursor * 3);
+        linkColor0.set(ci, cursor * 3);
+        linkColor1.set(ci, cursor * 3);
         linkMeta[cursor * 3] = 0.35;
         linkMeta[cursor * 3 + 1] = 1;
-        linkMeta[cursor * 3 + 2] = 0;
-        linkRefs.push({ a: gi, b: gj, familyA: fi, familyB: fi, internal: true });
+        linkMeta[cursor * 3 + 2] = 1;
+        linkRefs.push({ a: base + link.from, b: base + link.to, familyA: fi, familyB: fi, internal: true });
         cursor += 1;
       }
     });
@@ -479,17 +393,23 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
       const fa = FAMILIES[link.from];
       const fb = FAMILIES[link.to];
       if (!fa || !fb) continue;
-      linkC0.set(oklchToSrgb(0.66, 0.06, fa.hue), cursor * 3);
-      linkC1.set(oklchToSrgb(0.66, 0.06, fb.hue), cursor * 3);
+      linkColor0.set(oklchToSrgb(0.66, 0.06, fa.hue), cursor * 3);
+      linkColor1.set(oklchToSrgb(0.66, 0.06, fb.hue), cursor * 3);
       linkMeta[cursor * 3] = link.weight;
       linkMeta[cursor * 3 + 1] = 1;
       linkMeta[cursor * 3 + 2] = 1;
-      linkRefs.push({ a: -1, b: -1, familyA: link.from, familyB: link.to, internal: false });
+      linkRefs.push({
+        a: (familyOffset[link.from] ?? 0),
+        b: (familyOffset[link.to] ?? 0),
+        familyA: link.from,
+        familyB: link.to,
+        internal: false
+      });
       cursor += 1;
     }
   }
 
-  const SEGMENTS = 12;
+  const SEGMENTS = 16;
   const vertCount = (SEGMENTS + 1) * 2;
   const ribbonPos = new Float32Array(vertCount * 3);
   const ribbonT = new Float32Array(vertCount);
@@ -516,12 +436,16 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
 
   const linkP0Attr = new InstancedBufferAttribute(linkP0, 3);
   const linkP1Attr = new InstancedBufferAttribute(linkP1, 3);
+  const linkCtrl0Attr = new InstancedBufferAttribute(linkCtrl0, 3);
+  const linkCtrl1Attr = new InstancedBufferAttribute(linkCtrl1, 3);
   const linkMetaAttr = new InstancedBufferAttribute(linkMeta, 3);
-  for (const a of [linkP0Attr, linkP1Attr, linkMetaAttr]) a.setUsage(35048);
+  for (const a of [linkP0Attr, linkP1Attr, linkCtrl0Attr, linkCtrl1Attr, linkMetaAttr]) a.setUsage(35048);
   linkGeometry.setAttribute('aP0', linkP0Attr);
   linkGeometry.setAttribute('aP1', linkP1Attr);
-  linkGeometry.setAttribute('aColor0', new InstancedBufferAttribute(linkC0, 3));
-  linkGeometry.setAttribute('aColor1', new InstancedBufferAttribute(linkC1, 3));
+  linkGeometry.setAttribute('aCtrl0', linkCtrl0Attr);
+  linkGeometry.setAttribute('aCtrl1', linkCtrl1Attr);
+  linkGeometry.setAttribute('aColor0', new InstancedBufferAttribute(linkColor0, 3));
+  linkGeometry.setAttribute('aColor1', new InstancedBufferAttribute(linkColor1, 3));
   linkGeometry.setAttribute('aMeta', linkMetaAttr);
 
   const linkUniforms = {
@@ -547,189 +471,165 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   linkMesh.renderOrder = 2;
   scene.add(linkMesh);
 
-  // -------------------------------------------------------------- panneau
+  // -------------------------------------------- application de la mise en page
 
-  /* La plaque est un quad de quatre sommets recalculés en espace monde à
-     chaque image : face caméra, inclinée d'un angle fixe, jamais en rotation
-     propre. Faire le billboard côté CPU plutôt qu'en GLSL permet de projeter
-     exactement les mêmes coins pour positionner le DOM par-dessus. */
-  const panelPositions = new Float32Array(12);
-  const panelGeometry = new BufferGeometry();
-  /* BufferAttribute et NON Float32BufferAttribute : ce dernier recopie le
-     tableau qu'on lui passe, si bien que les écritures faites ensuite dans
-     panelPositions n'atteignaient jamais la géométrie et le quad restait
-     dégénéré à l'origine. */
-  const panelPosAttr = new BufferAttribute(panelPositions, 3);
-  panelPosAttr.setUsage(35048);
-  panelGeometry.setAttribute('position', panelPosAttr);
-  panelGeometry.setAttribute('aQuadUv', new Float32BufferAttribute(new Float32Array([0, 0, 1, 0, 0, 1, 1, 1]), 2));
-  panelGeometry.setIndex([0, 1, 2, 2, 1, 3]);
+  /* Repose toutes les positions et les courbes des liens. Appelé au
+     démarrage et au changement d'orientation, jamais pendant une frame. */
+  const atlasTarget = new Vector3();
 
-  const panelUniforms = {
-    uTint: { value: new Vector3(1, 1, 1) },
-    uOpacity: { value: 0 },
-    uAspect: { value: new Vector2(PANEL_ASPECT, 1) },
-    uEdgePx: { value: 0.004 }
+  const applyLayout = (portrait: boolean): void => {
+    layout = buildLayout(portrait);
+    for (let i = 0; i < TOTAL_GENRES; i += 1) {
+      const slot = slotsData[i];
+      if (!slot) continue;
+      slot.world.set(
+        layout.positions[i * 3] ?? 0,
+        layout.positions[i * 3 + 1] ?? 0,
+        layout.positions[i * 3 + 2] ?? 0
+      );
+    }
+    atlasTarget.set(
+      (layout.bbox.minX + layout.bbox.maxX) / 2,
+      (layout.bbox.minY + layout.bbox.maxY) / 2,
+      0
+    );
+
+    /* Courbes des liens. L'axe des générations est +x en paysage, -y en
+       portrait : chaque lien part du bord aval du parent et arrive au bord
+       amont de l'enfant, en S. Les liens entre familles relient les
+       fondateurs par une arche dans la marge amont, pour ne pas traverser
+       les blocs. */
+    const ux = portrait ? 0 : 1;
+    const uy = portrait ? -1 : 0;
+    for (let i = 0; i < LINK_COUNT; i += 1) {
+      const ref = linkRefs[i];
+      if (!ref) continue;
+      const a = slotsData[ref.a];
+      const b = slotsData[ref.b];
+      if (!a || !b) continue;
+      const ra = sphereRadii[ref.a] ?? 1;
+      const rb = sphereRadii[ref.b] ?? 1;
+
+      if (ref.internal) {
+        const p0x = a.world.x + ux * (ra + 0.4);
+        const p0y = a.world.y + uy * (ra + 0.4);
+        const p1x = b.world.x - ux * (rb + 0.7);
+        const p1y = b.world.y - uy * (rb + 0.7);
+        const gap = Math.abs((p1x - p0x) * ux + (p1y - p0y) * uy);
+        const k = gap * 0.48;
+        linkP0.set([p0x, p0y, 0], i * 3);
+        linkP1.set([p1x, p1y, 0], i * 3);
+        linkCtrl0.set([p0x + ux * k, p0y + uy * k, 0], i * 3);
+        linkCtrl1.set([p1x - ux * k, p1y - uy * k, 0], i * 3);
+      } else {
+        const p0x = a.world.x - ux * (ra + 1.2);
+        const p0y = a.world.y - uy * (ra + 1.2);
+        const p1x = b.world.x - ux * (rb + 1.2);
+        const p1y = b.world.y - uy * (rb + 1.2);
+        const dist = Math.hypot(p1x - p0x, p1y - p0y);
+        const bow = 14 + dist * 0.14;
+        linkP0.set([p0x, p0y, 0], i * 3);
+        linkP1.set([p1x, p1y, 0], i * 3);
+        linkCtrl0.set([p0x - ux * bow, p0y - uy * bow, 0], i * 3);
+        linkCtrl1.set([p1x - ux * bow, p1y - uy * bow, 0], i * 3);
+      }
+    }
+    linkP0Attr.needsUpdate = true;
+    linkP1Attr.needsUpdate = true;
+    linkCtrl0Attr.needsUpdate = true;
+    linkCtrl1Attr.needsUpdate = true;
   };
 
-  const panelMesh = new Mesh(
-    panelGeometry,
-    new ShaderMaterial({
-      vertexShader: panelVert,
-      fragmentShader: panelFrag,
-      uniforms: panelUniforms,
-      transparent: true,
-      depthTest: true,
-      depthWrite: false
-    })
-  );
-  panelMesh.frustumCulled = false;
-  panelMesh.renderOrder = 3;
-  panelMesh.visible = false;
-  scene.add(panelMesh);
-
-  let panelSlot = -1;
-  let panelHeight = 6;
-  let panelOpacity = 0;
-  const panelPos = new Vector3();
-  const panelTarget = new Vector3();
-  const panelRight = new Vector3();
-  const panelUp = new Vector3();
-  const panelFwd = new Vector3();
-  const panelCorner = new Vector3();
-  let lastPanelEmit = '';
+  applyLayout(false);
 
   // ------------------------------------------------------------- caméra
 
-  const atlasTarget = new Vector3(...ATLAS_CENTER);
-
-  /* Cadrage de l'atlas mesuré, pas déduit d'une sphère englobante. Celle-ci
-     est presque vide : deux familles excentrées en fixent le rayon alors que
-     les douze autres se concentrent au centre, et la scène apparaissait deux
-     fois trop petite. On mesure l'étendue VERTICALE réelle en espace caméra,
-     qui ne dépend pas de la distance, et on résout. */
-  /* Cadrage de l'atlas. On mesure l'étendue réelle dans les DEUX axes de la
-     caméra, pas seulement la verticale : sur une fenêtre en portrait, c'est la
-     largeur qui déborde, et deux familles sur six sortaient de l'écran. */
-  /* Le cadrage tient TOUT : sphères ET labels, sur les deux axes, avec 8 %
-     de marge. Les labels comptent en pixels : un nom de famille centré sous
-     sa sphère ajoute environ 120 px de large et 40 px de haut, et le cadrage
-     qui les ignorait coupait BASS et DOWNTEMPO sur mobile. */
-  /* Sur mobile les noms de familles sont centrés SOUS la sphère : la
-     demi-largeur d'un nom suffit. 120 px de chaque côté mangeaient 61 % d'un
-     écran de 390 px et l'atlas devenait minuscule. */
-  let analyticDiag: { byHeight: number; byWidth: number } | null = null;
-  const LABEL_PAD_X = 70;
-  /* 48 et non 96 : un label pend d'environ 30 px sous sa sphère. 96 px pris
-     deux fois sur un téléphone en paysage (390 px de haut) laissaient moins de
-     la moitié de l'écran à la scène. */
-  const LABEL_PAD_Y = 48;
-
-  const effectiveFill = (px: number, pad: number): number =>
-    clamp(0.92 * (1 - (2 * pad) / Math.max(240, px)), 0.4, 0.92);
-
-  const atlasDistanceFor = (aspect: number, widthPx = 1200, heightPx = 800): number => {
-    const az = DEFAULT_AZIMUTH;
-    const el = DEFAULT_ELEVATION;
-    // Axe vertical de la caméra pour cette orientation d'orbite.
-    const upX = -Math.sin(el) * Math.sin(az);
-    const upY = Math.cos(el);
-    const upZ = -Math.sin(el) * Math.cos(az);
-    // Axe horizontal : perpendiculaire à la direction de vue, dans le plan.
-    const rightX = Math.cos(az);
-    const rightZ = -Math.sin(az);
-
-    /* familyBase et non FAMILY_CENTERS : en portrait l'atlas a pivoté de 90
-       degrés dans le plan de l'écran, et mesurer les positions d'origine
-       cadrait le fantôme de la version paysage. */
-    let halfV = 1;
-    let halfH = 1;
-    familyBase.forEach((c, i) => {
-      const dx = c.x - ATLAS_CENTER[0];
-      const dy = c.y - ATLAS_CENTER[1];
-      const dz = c.z - ATLAS_CENTER[2];
-      const r = STRUCTURES[i]?.compactRadius ?? 6;
-      halfV = Math.max(halfV, Math.abs(dx * upX + dy * upY + dz * upZ) + r);
-      halfH = Math.max(halfH, Math.abs(dx * rightX + dz * rightZ) + r);
-    });
-
-    /* En portrait, c'est la largeur qui contraint : l'atlas est large et plat.
-       Le remplir à 70 pour cent de la largeur laissait alors les deux tiers de
-       la hauteur vides et des amas minuscules. On remplit davantage quand
-       l'écran est plus haut que large. */
-    const tan = Math.tan((FOV * Math.PI) / 360);
-    const fillY = effectiveFill(heightPx, LABEL_PAD_Y);
-    const fillX = effectiveFill(widthPx, LABEL_PAD_X);
-    const byHeight = halfV / (fillY * tan);
-    const byWidth = halfH / (fillX * tan * Math.max(0.2, aspect));
-    analyticDiag = { byHeight, byWidth };
-    return clamp(Math.max(byHeight, byWidth), MIN_DISTANCE, MAX_DISTANCE);
-  };
-
-  let atlasDistance = atlasDistanceFor(1);
-
+  /* La caméra regarde la carte de face, toujours. Distance = zoom. */
   const target = atlasTarget.clone();
   const targetSmooth = target.clone();
-  let azimuth = DEFAULT_AZIMUTH;
-  let elevation = DEFAULT_ELEVATION;
-  let distance = atlasDistance;
-  let azVel = 0;
-  let elVel = 0;
+  let distance = 600;
   let dollyVel = 0;
-  const ELEVATION_LIMIT = (82 * Math.PI) / 180;
+  const tanHalf = Math.tan((FOV * Math.PI) / 360);
 
-  // ------------------------------------------------------- état déploiement
+  const applyCamera = (): void => {
+    cameraPos.set(targetSmooth.x, targetSmooth.y, targetSmooth.z + distance);
+    camera.position.copy(cameraPos);
+    camera.up.set(0, 1, 0);
+    camera.lookAt(targetSmooth);
+    camera.updateMatrixWorld();
+    camera.matrixWorldInverse.copy(camera.matrixWorld).invert();
+  };
 
-  const deployStart = new Float32Array(FAMILIES.length).fill(-1e9);
-  const deployDir = new Int8Array(FAMILIES.length); // 1 ouverture, -1 fermeture
-  const familyProgress = new Float32Array(FAMILIES.length);
-  let openIndex = -1;
-  let nearestIndex = 0;
-  let nearestDist = 0;
+  /** Monde par pixel à la profondeur du plan de la carte. */
+  const worldPerPixel = (): number => (2 * tanHalf * distance) / Math.max(1, height);
 
-  /* Trois niveaux de descente. Le niveau ne change jamais sans vol de caméra :
-     on ne doit pas pouvoir se retrouver ailleurs sans avoir vu le trajet. */
-  type Level = 'atlas' | 'family' | 'genre';
-  let level: Level = 'atlas';
-  let activeFamily = -1;
-  /* Chemin de descente : Atlas puis famille puis genre puis sous-genre. Le fil
-     d'Ariane en est la lecture directe, et chaque clic le recalcule depuis la
-     racine, donc il ne peut jamais mentir. */
-  let genrePath: number[] = [];
-  let activeGenre = -1;
+  /* Cadrage d'une boîte : la distance qui la fait tenir entière, marges
+     comprises. Les labels sont DANS la boîte : layout.ts les réserve. */
+  const fitDistance = (bb: { minX: number; maxX: number; minY: number; maxY: number }): number => {
+    const halfW = Math.max(1, (bb.maxX - bb.minX) / 2);
+    const halfH = Math.max(1, (bb.maxY - bb.minY) / 2);
+    const fill = 0.92;
+    const byH = halfH / (tanHalf * fill);
+    const byW = halfW / (tanHalf * fill * Math.max(0.2, camera.aspect));
+    return clamp(Math.max(byH, byW), MIN_DISTANCE, MAX_DISTANCE);
+  };
 
-  // Animation de descente, distincte de la diffusion de famille.
-  let focusStart = -1e9;
-  let focusIndex = -1;
-  let focusDir = 0; // 1 on descend, -1 on remonte
-  const FOCUS_MS = 400;
-  const FOCUS_DELAY_MS = 45;
+  let atlasDistance = 600;
 
-  // Vol de caméra : cible et distance interpolées, easing doux.
+  /* CADRAGE PAR DÉFAUT : une PAGE, pas une vignette. La carte est un
+     document long dans l'axe des familles ; le faire tenir en entier donnait
+     un filet de poussière illisible. On cadre donc l'AXE DES GÉNÉRATIONS en
+     entier (la profondeur de l'arbre, courte), et la vue s'ouvre au DÉBUT de
+     la lecture : en haut sur poste, à gauche sur mobile. Le reste se
+     parcourt au pan, comme une page se parcourt au défilement. Si la carte
+     tient entière à ce zoom, elle est simplement centrée. */
+  const computeDefaultFraming = (): void => {
+    const bb = layout.bbox;
+    const halfCross = layout.portrait
+      ? Math.max(1, (bb.maxY - bb.minY) / 2)
+      : Math.max(1, (bb.maxX - bb.minX) / 2);
+    const fill = 0.9;
+    atlasDistance = layout.portrait
+      ? clamp(halfCross / (tanHalf * fill), MIN_DISTANCE, MAX_DISTANCE)
+      : clamp(halfCross / (tanHalf * fill * Math.max(0.2, camera.aspect)), MIN_DISTANCE, MAX_DISTANCE);
+
+    const halfViewW = tanHalf * camera.aspect * atlasDistance;
+    const halfViewH = tanHalf * atlasDistance;
+    /* On s'ouvre sur la PREMIÈRE tête de section, pas sur le bord brut : le
+       bord d'un bloc, ce sont des feuilles sans contexte, tandis que la tête
+       de section montre l'ensemble, la famille et son fondateur. */
+    const first = layout.ensembleAnchor[0];
+    if (layout.portrait) {
+      const x = bb.maxX - bb.minX <= halfViewW * 2
+        ? (bb.minX + bb.maxX) / 2
+        : clamp(first?.x ?? bb.minX, bb.minX + halfViewW, bb.maxX - halfViewW);
+      atlasTarget.set(x, (bb.minY + bb.maxY) / 2, 0);
+    } else {
+      /* Le bandeau du fil d'Ariane occupe le haut de l'écran : la borne
+         haute laisse la marge correspondante au-dessus de la carte, sinon la
+         première tête de section tombait dessous et disparaissait. */
+      const chromeWorld = ((CHROME_TOP + 14) / Math.max(1, height)) * (2 * halfViewH);
+      const y = bb.maxY - bb.minY <= halfViewH * 2
+        ? (bb.minY + bb.maxY) / 2
+        : clamp(
+            (first?.y ?? bb.maxY) - halfViewH * 0.65,
+            bb.minY + halfViewH,
+            bb.maxY + chromeWorld - halfViewH
+          );
+      atlasTarget.set((bb.minX + bb.maxX) / 2, y, 0);
+    }
+  };
+
+  // ------------------------------------------------------------ vol
+
+  const FLY_MS = 900;
+  const easeInOut = (t: number): number => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+  let flying = false;
+  let flyStart = 0;
   const flyFrom = new Vector3();
   const flyTo = new Vector3();
-  let flyFromDist = 0;
-  let flyToDist = 0;
-  let flyStart = -1e9;
-  let flying = false;
-  const FLY_MS = 600;
-
-  const easeInOut = (t: number): number =>
-    t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-
-  /* Cadrage serré. Le facteur précédent, 1.7, laissait l'amas occuper à peine
-     un quart de l'écran : six labels ne pouvaient pas y tenir sans se marcher
-     dessus, et l'évitement de collision en supprimait la moitié. Le vrai levier
-     de lisibilité était le cadrage, pas la largeur des plaques. */
-  /* Le cadrage tient dans les DEUX axes. Le champ de vision de la caméra est
-     vertical : en fenêtre plus haute que large, une sphère cadrée sur la
-     hauteur déborde des côtés. Même correction que le cadrage de l'atlas. */
-  const frameDistance = (radius: number): number => {
-    const tan = Math.tan((FOV * Math.PI) / 360);
-    const byHeight = (radius * 1.12) / tan;
-    const byWidth = (radius * 1.12) / (tan * Math.max(0.2, camera.aspect));
-    return clamp(Math.max(byHeight, byWidth), MIN_DISTANCE, MAX_DISTANCE);
-  };
+  let flyFromDist = 1;
+  let flyToDist = 1;
 
   const startFly = (to: Vector3, dist: number, now: number): void => {
     cameraAtDefault = false;
@@ -746,10 +646,17 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     flyToDist = dist;
     flyStart = now;
     flying = true;
-    azVel = 0;
-    elVel = 0;
     dollyVel = 0;
   };
+
+  // ------------------------------------------------------------- navigation
+
+  let level: NavState['level'] = 'atlas';
+  let activeFamily = -1;
+  let activeGenre = -1;
+  let focusIndex = -1;
+  let genrePath: number[] = [];
+  let panelSlot = -1;
 
   const emitNav = (): void => {
     const fam = activeFamily >= 0 ? FAMILIES[activeFamily] : undefined;
@@ -765,64 +672,158 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     });
   };
 
-  /* Un noeud descend-il du noeud focalisé ? Profondeur maximale de 4, donc la
-     remontée de parents est négligeable, et ça évite de matérialiser des
-     ensembles à chaque image. */
   const isDescendant = (globalIndex: number, ancestor: number): boolean => {
-    if (ancestor < 0) return false;
+    if (globalIndex === ancestor) return true;
+    const slot = slotsData[globalIndex];
     const anc = slotsData[ancestor];
-    if (!anc) return false;
-    const base = familyOffset[anc.family] ?? 0;
-    let cursor: number = globalIndex;
-    let guard = 0;
-    while (cursor >= 0 && guard < 8) {
-      if (cursor === ancestor) return true;
-      const node: Slot | undefined = slotsData[cursor];
-      if (!node || node.family !== anc.family) return false;
-      cursor = node.parent >= 0 ? base + node.parent : -1;
-      guard += 1;
+    if (!slot || !anc || slot.family !== anc.family) return false;
+    const base = familyOffset[slot.family] ?? 0;
+    let cursor = slot;
+    while (cursor && cursor.parent >= 0) {
+      const next = slotsData[base + cursor.parent];
+      if (!next) return false;
+      if (base + cursor.parent === ancestor) return true;
+      cursor = next;
     }
     return false;
   };
 
-  const setDeploy = (familyIndex: number, open: boolean, now: number): void => {
-    if (familyIndex < 0) return;
-    const dir = open ? 1 : -1;
-
-    /* Une seule famille déployée à la fois. Au niveau Atlas, toutes sont
-       compactes ; ouvrir l'une referme l'autre, sans exception. */
-    if (open) {
-      for (let i = 0; i < FAMILIES.length; i += 1) {
-        if (i !== familyIndex && deployDir[i] === 1) {
-          deployDir[i] = -1;
-          deployStart[i] = now;
-        }
-      }
+  /* Boîte d'un sous-arbre, labels compris (approchés par le créneau : rayon
+     plus hauteur de nom sous la sphère). */
+  const subtreeBBox = (globalIndex: number): { minX: number; maxX: number; minY: number; maxY: number } => {
+    const root = slotsData[globalIndex];
+    const bb = { minX: Infinity, maxX: -Infinity, minY: Infinity, maxY: -Infinity };
+    if (!root) return { minX: -1, maxX: 1, minY: -1, maxY: 1 };
+    for (let i = 0; i < TOTAL_GENRES; i += 1) {
+      const slot = slotsData[i];
+      if (!slot || slot.family !== root.family) continue;
+      if (!isDescendant(i, globalIndex)) continue;
+      const r = sphereRadii[i] ?? 1;
+      const labelW = slot.label.length * LABEL_WORLD.genre * 0.58;
+      bb.minX = Math.min(bb.minX, slot.world.x - Math.max(r, labelW / 2) - 2);
+      bb.maxX = Math.max(bb.maxX, slot.world.x + Math.max(r, labelW / 2) + 2);
+      bb.minY = Math.min(bb.minY, slot.world.y - r - LABEL_WORLD.genre - 2);
+      bb.maxY = Math.max(bb.maxY, slot.world.y + r + 2);
     }
-
-    if (deployDir[familyIndex] === dir) return;
-    deployDir[familyIndex] = dir;
-    deployStart[familyIndex] = now;
-    if (open) openIndex = familyIndex;
-    else if (openIndex === familyIndex) openIndex = -1;
+    return bb;
   };
 
-  /* Avancement d'un genre : la cascade descend le long de la filiation, chaque
-     niveau décalé de quelques dizaines de millisecondes. À la fermeture, la
-     cascade s'inverse, les plus profonds partent en premier. */
-  const genreProgress = (slot: Slot, now: number): number => {
-    if (reducedMotion) return deployDir[slot.family] === 1 ? 1 : 0;
+  const flyToBBox = (bb: { minX: number; maxX: number; minY: number; maxY: number }, now: number): void => {
+    startFly(
+      new Vector3((bb.minX + bb.maxX) / 2, (bb.minY + bb.maxY) / 2, 0),
+      fitDistance(bb),
+      now
+    );
+  };
 
-    const dir = deployDir[slot.family] ?? 0;
-    const start = deployStart[slot.family] ?? -1e9;
-    const opening = dir === 1;
-    const duration = opening ? OPEN_MS : CLOSE_MS;
-    const delay = (opening ? OPEN_DELAY_MS : CLOSE_DELAY_MS) * slot.depth;
-    const elapsed = now - start - (opening ? delay : 0);
+  const selectFamily = (fi: number, now: number): void => {
+    activeFamily = fi;
+    activeGenre = -1;
+    genrePath = [];
+    focusIndex = -1;
+    level = 'family';
+    const bb = layout.familyBBox[fi];
+    if (bb) flyToBBox(bb, now);
+    emitNav();
+  };
 
-    const raw = clamp(elapsed / duration, 0, 1);
-    if (opening) return backOut(raw);
-    return 1 - backOut(clamp((now - start - CLOSE_DELAY_MS * (6 - Math.min(slot.depth, 6))) / duration, 0, 1));
+  const openPanel = (familyIndex: number, genreLocal: number): void => {
+    const base = familyOffset[familyIndex] ?? 0;
+    const globalIndex = base + genreLocal;
+    const slot = slotsData[globalIndex];
+    if (!slot) return;
+    panelSlot = globalIndex;
+    onTracks(familyIndex, genreLocal);
+    onPanel({ familyIndex, genreLocal });
+  };
+
+  const closePanel = (): void => {
+    if (panelSlot < 0) return;
+    panelSlot = -1;
+    onPanel(null);
+  };
+
+  const selectGenre = (globalIndex: number, now: number): void => {
+    const slot = slotsData[globalIndex];
+    if (!slot) return;
+
+    /* Un genre à dérivés ouvre sa FICHE, une feuille lance le lecteur
+       directement : la fiche reste accessible par le nom du genre sur le
+       panneau. */
+    if (slot.children.length === 0) {
+      const path = pathToGenre(slot.family, slot.local).map(
+        (local) => (familyOffset[slot.family] ?? 0) + local
+      );
+      genrePath = path;
+      activeGenre = globalIndex;
+      focusIndex = globalIndex;
+      level = 'genre';
+      emitNav();
+      openPanel(slot.family, slot.local);
+      return;
+    }
+    closePanel();
+
+    const base = familyOffset[slot.family] ?? 0;
+    genrePath = pathToGenre(slot.family, slot.local).map((local) => base + local);
+    activeGenre = globalIndex;
+    level = 'genre';
+    focusIndex = globalIndex;
+
+    flyToBBox(subtreeBBox(globalIndex), now);
+    emitNav();
+    onGenreInfo(slot.family, slot.local);
+  };
+
+  const goToGenre = (familyIndex: number, genreLocal: number): void => {
+    const now = performance.now();
+    const base = familyOffset[familyIndex] ?? 0;
+    activeFamily = familyIndex;
+    selectGenre(base + genreLocal, now);
+  };
+
+  const goUp = (): void => {
+    const now = performance.now();
+    if (level === 'genre') {
+      genrePath = genrePath.slice(0, -1);
+      const parent = genrePath[genrePath.length - 1];
+      if (parent !== undefined) {
+        activeGenre = parent;
+        focusIndex = parent;
+        flyToBBox(subtreeBBox(parent), now);
+        emitNav();
+        return;
+      }
+      activeGenre = -1;
+      focusIndex = -1;
+      level = 'family';
+      const bb = activeFamily >= 0 ? layout.familyBBox[activeFamily] : undefined;
+      if (bb) flyToBBox(bb, now);
+    } else if (level === 'family') {
+      activeFamily = -1;
+      activeGenre = -1;
+      genrePath = [];
+      focusIndex = -1;
+      level = 'atlas';
+      startFly(atlasTarget, atlasDistance, now);
+      cameraAtDefault = true;
+    }
+    emitNav();
+  };
+
+  const recenter = (): void => {
+    cameraAtDefault = true;
+    closePanel();
+    target.copy(atlasTarget);
+    targetSmooth.copy(atlasTarget);
+    distance = atlasDistance;
+    dollyVel = 0;
+    activeFamily = -1;
+    activeGenre = -1;
+    genrePath = [];
+    focusIndex = -1;
+    level = 'atlas';
+    emitNav();
   };
 
   // -------------------------------------------------------------- taille
@@ -839,80 +840,21 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
 
-    // Le cadrage de l'atlas dépend du format de la fenêtre : on le refait,
-    // et le portrait fait pivoter l'atlas pour occuper la hauteur.
-    const portrait = camera.aspect < 0.9;
-    applyOrientation(portrait);
-    /* Drapeau EXPLICITE et non heuristique : deux versions ont essayé de
-       reconnaître le cadrage par défaut en comparant des distances, et les
-       deux ont échoué sur l'ordre d'initialisation. La caméra sait si elle
-       est au cadrage par défaut ; l'utilisateur l'en sort en zoomant ou en
-       volant, recentrer l'y ramène. */
-    atlasDistance = atlasDistanceFor(camera.aspect, width, height);
-
-    /* Étalement vertical en portrait : on étire l'axe vertical jusqu'à ce que
-       la hauteur contraigne autant que la largeur. Le rapport byWidth/byHeight
-       est exactement ce facteur, borné pour ne pas produire une colonne
-       filiforme sur les écrans très hauts. */
-    if (portrait && analyticDiag) {
-      const stretch = clamp(
-        analyticDiag.byWidth / Math.max(1, analyticDiag.byHeight),
-        1,
-        2.2
-      );
-      if (stretch > 1.02) {
-        applyOrientation(portrait, stretch);
-        atlasDistance = atlasDistanceFor(camera.aspect, width, height);
-      }
-    }
-
-    /* Correction MESURÉE : les axes analytiques accumulent les approximations
-       (pivot portrait, relief, rayons). On pose la caméra, on projette
-       réellement les quatorze familles avec leur rayon, et on corrige la
-       distance d'un facteur en une itération : la projection est quasi
-       linéaire en profondeur, une passe suffit.
-
-       Seulement quand le moteur est prêt : au premier resize de
-       l'initialisation, la caméra n'existe pas encore plus bas dans le
-       fichier, et trois versions de ce code ont trébuché sur cette zone
-       morte temporelle. */
     if (engineReady) {
-      const savedDistance = distance;
-      const savedTarget = targetSmooth.clone();
-      distance = atlasDistance;
-      targetSmooth.set(...ATLAS_CENTER);
-      applyCamera();
-
-      const fillY = effectiveFill(height, LABEL_PAD_Y);
-      const fillX = effectiveFill(width, LABEL_PAD_X);
-      let maxDx = 0;
-      let maxDy = 0;
-      const probe = new Vector3();
-      familyBase.forEach((c, i) => {
-        const r = STRUCTURES[i]?.compactRadius ?? 6;
-        for (const [ox, oy] of [[r, 0], [-r, 0], [0, r], [0, -r]] as const) {
-          probe.set(c.x + ox, c.y + oy, c.z).project(camera);
-          maxDx = Math.max(maxDx, Math.abs(probe.x));
-          maxDy = Math.max(maxDy, Math.abs(probe.y));
-        }
-      });
-      const over = Math.max(maxDx / fillX, maxDy / fillY);
-      framingDiag = { analytic: atlasDistance, over, maxDx, maxDy, fillX, fillY };
-      if (Number.isFinite(over) && over > 0.01) {
-        atlasDistance = clamp(atlasDistance * over, MIN_DISTANCE, MAX_DISTANCE);
+      const portrait = camera.aspect < 0.9;
+      if (portrait !== layout.portrait) {
+        applyLayout(portrait);
       }
-      distance = savedDistance;
-      targetSmooth.copy(savedTarget);
-      applyCamera();
+      computeDefaultFraming();
+      if (cameraAtDefault) {
+        distance = atlasDistance;
+        targetSmooth.copy(atlasTarget);
+        target.copy(atlasTarget);
+      }
     }
 
-    if (cameraAtDefault) {
-      distance = atlasDistance;
-      targetSmooth.set(...ATLAS_CENTER);
-      target.copy(targetSmooth);
-    }
     bgUniforms.uResolution.value.set(width, height);
-    const pixelScale = (2 * Math.tan((FOV * Math.PI) / 360)) / height;
+    const pixelScale = (2 * tanHalf) / height;
     sphereUniforms.uPixelScale.value = pixelScale;
     linkUniforms.uPixelScale.value = pixelScale;
   };
@@ -924,21 +866,6 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
 
   // -------------------------------------------------------- interactions
 
-  /* Molette et pincement font tous deux avancer et reculer. C'est ce que tout
-     le monde attend d'une molette, et le glissement suffit pour tourner. */
-  const onWheel = (event: WheelEvent): void => {
-    cameraAtDefault = false;
-    event.preventDefault();
-    if (suspended) return;
-    const k = event.ctrlKey ? 0.03 : 0.026;
-    dollyVel += event.deltaY * k;
-    // Un glissement horizontal franc au trackpad fait quand même tourner.
-    if (!event.ctrlKey && Math.abs(event.deltaX) > Math.abs(event.deltaY) * 1.5) {
-      dollyVel -= event.deltaY * k;
-      azVel -= event.deltaX * 0.0022;
-    }
-  };
-
   let dragging = false;
   let lastX = 0;
   let lastY = 0;
@@ -946,19 +873,150 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   let suspended = false;
   let interacted = false;
 
-  /* L'INTRO : la naissance des familles. Expansion RADIALE depuis le centre,
-     jamais un déroulé. Chaque famille apparaît en point à sa position finale
-     atteinte en s'éloignant du centre, éclate au-delà de sa taille, se
-     stabilise, et le lien se trace depuis la famille dont elle descend.
+  /* Molette : zoom vers le curseur. Le point du monde sous le curseur reste
+     sous le curseur, c'est la loupe qu'on attend d'une carte. */
+  const onWheel = (event: WheelEvent): void => {
+    cameraAtDefault = false;
+    event.preventDefault();
+    if (suspended) return;
+    onFirstInteraction();
 
-     L'ordre est chronologique et VÉRIFIÉ CONTRE LE CORPUS : les notes datent
-     l'Ambient de 1978, Music for Airports, donc il naît avant l'Electro (1982)
-     et la House (1984), contrairement à la liste de départ. Le reste suit.
+    const rect = canvas.getBoundingClientRect();
+    const ndcX = ((event.clientX - rect.left) / Math.max(1, width)) * 2 - 1;
+    const ndcY = -(((event.clientY - rect.top) / Math.max(1, height)) * 2 - 1);
+    const worldX = target.x + ndcX * tanHalf * camera.aspect * distance;
+    const worldY = target.y + ndcY * tanHalf * distance;
 
-     6 secondes, 350 ms par famille, chevauchement par pop de 700 ms. Aucune
-     caméra : elle est au cadrage par défaut du début à la fin, l'intro montre
-     cet espace en train de se peupler. Interruptible par n'importe quel clic
-     ou touche, jouée une fois, coupée par prefers-reduced-motion. */
+    const factor = Math.exp(event.deltaY * 0.0022);
+    const next = clamp(distance * factor, MIN_DISTANCE, MAX_DISTANCE);
+    const k = next / distance;
+    target.x = worldX - (worldX - target.x) * k;
+    target.y = worldY - (worldY - target.y) * k;
+    targetSmooth.copy(target);
+    distance = next;
+    flying = false;
+  };
+
+  const onPointerDown = (event: PointerEvent): void => {
+    if (suspended) return;
+    onFirstInteraction();
+    dragging = true;
+    moved = 0;
+    lastX = event.clientX;
+    lastY = event.clientY;
+    canvas.setPointerCapture(event.pointerId);
+  };
+
+  /* Survol : il MET EN VALEUR (halo de la sphère), il ne révèle rien. Les
+     labels ne lisent jamais cet état. */
+  let hovered = -1;
+  const onHover = (event: PointerEvent): void => {
+    if (suspended) return;
+    const rect = canvas.getBoundingClientRect();
+    const px = event.clientX - rect.left;
+    const py = event.clientY - rect.top;
+    let best = -1;
+    let bestD = 34;
+    for (let i = 0; i < TOTAL_GENRES; i += 1) {
+      if ((projected[i * 3 + 2] ?? 2) > 1) continue;
+      const d = Math.hypot(px - (projected[i * 3] ?? 0), py - (projected[i * 3 + 1] ?? 0));
+      if (d < bestD) {
+        bestD = d;
+        best = i;
+      }
+    }
+    hovered = best;
+  };
+
+  const onPointerMove = (event: PointerEvent): void => {
+    onHover(event);
+    if (!dragging || suspended) return;
+    const dx = event.clientX - lastX;
+    const dy = event.clientY - lastY;
+    moved += Math.abs(dx) + Math.abs(dy);
+    if (moved > 4) cameraAtDefault = false;
+    const wpp = worldPerPixel();
+    target.x -= dx * wpp;
+    target.y += dy * wpp;
+    targetSmooth.copy(target);
+    flying = false;
+    lastX = event.clientX;
+    lastY = event.clientY;
+  };
+
+  const projected = new Float32Array(TOTAL_GENRES * 3); // sx, sy, profondeur
+  const scratch = new Vector3();
+
+  const onPointerUp = (event: PointerEvent): void => {
+    if (dragging && moved < 5 && !suspended) {
+      const rect = canvas.getBoundingClientRect();
+      const px = event.clientX - rect.left;
+      const py = event.clientY - rect.top;
+      let best = -1;
+      let bestD = 44;
+      for (let i = 0; i < TOTAL_GENRES; i += 1) {
+        if ((projected[i * 3 + 2] ?? 2) > 1) continue;
+        const d = Math.hypot(px - (projected[i * 3] ?? 0), py - (projected[i * 3 + 1] ?? 0));
+        if (d < bestD) {
+          bestD = d;
+          best = i;
+        }
+      }
+
+      const now = performance.now();
+      const slot = best >= 0 ? slotsData[best] : undefined;
+
+      if (!slot) {
+        goUp();
+      } else if (level === 'atlas' || slot.family !== activeFamily) {
+        selectFamily(slot.family, now);
+      } else {
+        selectGenre(best, now);
+      }
+    }
+    dragging = false;
+    if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+  };
+
+  /* Clavier : flèches pour se déplacer dans le plan, plus et moins pour
+     zoomer, 0 pour recentrer, Échap pour remonter. */
+  const pan = (dx: number, dy: number): void => {
+    cameraAtDefault = false;
+    const wpp = worldPerPixel();
+    target.x += dx * 60 * wpp;
+    target.y -= dy * 60 * wpp;
+    targetSmooth.copy(target);
+    flying = false;
+  };
+
+  const onKey = (event: KeyboardEvent): void => {
+    if (introActive) { finishIntro(); return; }
+    if (event.target instanceof HTMLInputElement) return;
+    switch (event.key) {
+      case 'ArrowLeft': pan(-1, 0); break;
+      case 'ArrowRight': pan(1, 0); break;
+      case 'ArrowUp': pan(0, -1); break;
+      case 'ArrowDown': pan(0, 1); break;
+      case '+': case '=': dollyVel -= 5.5; break;
+      case '-': case '_': dollyVel += 5.5; break;
+      case '0': recenter(); break;
+      /* Échap appartient au panneau tant qu'il est ouvert : c'est la couche
+         DOM qui le ferme puis remonte, sinon on remonterait deux fois. */
+      case 'Escape': if (panelSlot < 0) goUp(); break;
+      default: return;
+    }
+    event.preventDefault();
+    onFirstInteraction();
+  };
+  window.addEventListener('keydown', onKey);
+
+  // --------------------------------------------------------------- intro
+
+  /* L'INTRO : la naissance des familles, adaptée à la disposition fixe. Les
+     familles apparaissent dans l'ordre chronologique du corpus, chacune
+     éclot en place en s'écartant du centre de la carte, et les liens entre
+     familles se tracent depuis la famille d'origine. La caméra ne bouge
+     pas : elle est au cadrage par défaut du début à la fin. */
   const INTRO_ORDER = [
     'roots', 'disco', 'industrial', 'ambient', 'electro', 'house', 'techno',
     'breaks', 'trance', 'hardcore', 'minimal', 'downtempo', 'psy', 'bass'
@@ -977,7 +1035,6 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     return clamp((now - introStart - rank * INTRO_STEP_MS) / INTRO_POP_MS, 0, 1);
   };
 
-  /** Point, éclatement au-delà de la taille finale, stabilisation. */
   const popScale = (t: number): number => (t <= 0 ? 0 : t >= 1 ? 1 : backOut(t) * (1 + 0.3 * Math.sin(t * Math.PI)));
 
   const finishIntro = (): void => {
@@ -1004,353 +1061,6 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     document.documentElement.dataset['atlasTouched'] = '1';
   };
 
-  const onPointerDown = (event: PointerEvent): void => {
-    if (suspended) return;
-    onFirstInteraction();
-    dragging = true;
-    moved = 0;
-    lastX = event.clientX;
-    lastY = event.clientY;
-    canvas.setPointerCapture(event.pointerId);
-  };
-
-  /* Survol : le noeud sous le curseur, son parent et ses enfants directs
-     restent lisibles, le reste s'efface. Réutilise la projection déjà faite
-     pour le clic, donc coût nul. */
-  const onHover = (event: PointerEvent): void => {
-    if (suspended) return;
-    const rect = canvas.getBoundingClientRect();
-    const px = event.clientX - rect.left;
-    const py = event.clientY - rect.top;
-    let best = -1;
-    let bestD = 34;
-    for (let i = 0; i < TOTAL_GENRES; i += 1) {
-      if ((projected[i * 3 + 2] ?? 2) > 1) continue;
-      const d = Math.hypot(px - (projected[i * 3] ?? 0), py - (projected[i * 3 + 1] ?? 0));
-      if (d < bestD) {
-        bestD = d;
-        best = i;
-      }
-    }
-    if (best !== hovered) {
-      hovered = best;
-      lastLabelPass = 0;
-    }
-  };
-
-  const onPointerMove = (event: PointerEvent): void => {
-    onHover(event);
-    if (!dragging || suspended) return;
-    const dx = event.clientX - lastX;
-    const dy = event.clientY - lastY;
-    moved += Math.abs(dx) + Math.abs(dy);
-    azVel -= dx * 0.0026;
-    elVel += dy * 0.0026;
-    lastX = event.clientX;
-    lastY = event.clientY;
-  };
-
-  const projected = new Float32Array(TOTAL_GENRES * 3); // sx, sy, depth
-  const scratch = new Vector3();
-
-  const familyFrameRadius = (fi: number): number => STRUCTURES[fi]?.deployedRadius ?? 12;
-
-  /* Rayon de cadrage d'un genre : lui et ses enfants directs. */
-  const genreFrameRadius = (globalIndex: number): number => {
-    const slot = slotsData[globalIndex];
-    if (!slot) return 6;
-    const base = familyOffset[slot.family] ?? 0;
-    let r = sphereRadii[globalIndex] ?? 2;
-    for (const child of slot.children) {
-      const cs = slotsData[base + child];
-      if (!cs) continue;
-      r = Math.max(r, slot.world.distanceTo(cs.world) + (sphereRadii[base + child] ?? 2));
-    }
-    return r * 1.35;
-  };
-
-  const selectFamily = (fi: number, now: number): void => {
-    if (activeFamily >= 0 && activeFamily !== fi) setDeploy(activeFamily, false, now);
-    activeFamily = fi;
-    activeGenre = -1;
-    genrePath = [];
-    focusIndex = -1;
-    focusDir = -1;
-    focusStart = now;
-    level = 'family';
-    setDeploy(fi, true, now);
-    const c = familyCenters[fi];
-    const dc = STRUCTURES[fi]?.deployedCenter ?? [0, 0, 0];
-    // La caméra vise le centroïde du nuage déployé, pas la racine : la
-    // couronne pousse vers le haut et cadrer le pied coupait la tête.
-    if (c) startFly(new Vector3(c.x + dc[0], c.y + dc[1], c.z + dc[2]), frameDistance(familyFrameRadius(fi)), now);
-    emitNav();
-  };
-
-  /* Ouvrir le panneau, c'est voler jusqu'à la sphère et poser la plaque
-     devant. La taille de la plaque est fixée en unités monde à l'ouverture,
-     pas recalculée à chaque image : c'est un objet de la scène, il doit
-     grandir quand on avance, pas rester collé à l'écran. */
-  const openPanel = (familyIndex: number, genreLocal: number): void => {
-    const base = familyOffset[familyIndex] ?? 0;
-    const globalIndex = base + genreLocal;
-    const slot = slotsData[globalIndex];
-    if (!slot) return;
-
-    const now = performance.now();
-    panelSlot = globalIndex;
-    panelHeight = Math.max(4.2, (sphereRadii[globalIndex] ?? 2) * 3.6);
-
-    /* Distance telle que la plaque tienne dans les DEUX axes. Ne la calculer
-       que sur la hauteur marchait sur un écran large et débordait en portrait :
-       sur 390 px, une plaque remplissant 52 pour cent de la hauteur faisait
-       une fois et demie la largeur de l'écran.
-
-       On ajoute aussi le décalage vers la caméra : la plaque est posée devant
-       la sphère, donc plus près que la cible d'orbite, et sa taille projetée
-       est plus grande que ce que la distance d'orbite laisse croire. */
-    const tan = Math.tan((FOV * Math.PI) / 360);
-    const halfHeightWorld = panelHeight / 2;
-    const offset = (sphereRadii[globalIndex] ?? 2) + halfHeightWorld * 0.35;
-    const aspect = Math.max(0.2, camera.aspect);
-    const byHeight = panelHeight / (2 * tan * PANEL_FILL);
-    const byWidth = (panelHeight * PANEL_ASPECT) / (2 * tan * aspect * PANEL_FILL_WIDTH);
-    const dist = clamp(Math.max(byHeight, byWidth) + offset, MIN_DISTANCE, MAX_DISTANCE);
-    startFly(slot.world, dist, now);
-
-    // Première pose sans amortissement, sinon la plaque arrive en glissant
-    // depuis sa position précédente, à l'autre bout de l'atlas.
-    panelPos.copy(slot.world);
-    panelMesh.visible = true;
-
-    /* Le panneau est une descente : le fil d'Ariane doit montrer le chemin
-       complet jusqu'au genre, pas s'arrêter à la famille. */
-    const path = pathToGenre(familyIndex, genreLocal).map((local) => base + local);
-    genrePath = path;
-    activeGenre = globalIndex;
-    focusIndex = globalIndex;
-    focusDir = 1;
-    focusStart = now;
-    level = 'genre';
-
-    const family = FAMILIES[slot.family];
-    if (family) {
-      const [r, g, b] = oklchToSrgb(0.7, 0.15, family.hue);
-      panelUniforms.uTint.value.set(r, g, b);
-    }
-
-    onTracks(familyIndex, genreLocal);
-    emitNav();
-  };
-
-  const closePanel = (): void => {
-    if (panelSlot < 0) return;
-    panelSlot = -1;
-    lastPanelEmit = '';
-    onPanel(null);
-  };
-
-  const selectGenre = (globalIndex: number, now: number): void => {
-    const slot = slotsData[globalIndex];
-    if (!slot) return;
-
-    /* Un genre à dérivés ouvre sa FICHE : on veut savoir où on est avant
-       d'écouter. Une FEUILLE, elle, n'a rien d'autre à montrer que ses tracks :
-       le clic lance le lecteur directement, et la fiche reste accessible par
-       le nom du genre sur le panneau. */
-    if (slot.children.length === 0) {
-      const path = pathToGenre(slot.family, slot.local).map(
-        (local) => (familyOffset[slot.family] ?? 0) + local
-      );
-      genrePath = path;
-      activeGenre = globalIndex;
-      focusIndex = globalIndex;
-      focusDir = 1;
-      focusStart = now;
-      level = 'genre';
-      emitNav();
-      openPanel(slot.family, slot.local);
-      return;
-    }
-    closePanel();
-
-    /* Le chemin est recalculé depuis la racine de la famille, donc le fil
-       d'Ariane reflète toujours la filiation réelle et non l'historique des
-       clics. */
-    const base = familyOffset[slot.family] ?? 0;
-    genrePath = pathToGenre(slot.family, slot.local).map((local) => base + local);
-    activeGenre = globalIndex;
-    level = 'genre';
-
-    focusIndex = globalIndex;
-    focusDir = 1;
-    focusStart = now;
-
-    startFly(slot.world, frameDistance(genreFrameRadius(globalIndex)), now);
-    emitNav();
-    onGenreInfo(slot.family, slot.local);
-  };
-
-  /* Aller sur un genre nommé, depuis la recherche ou depuis la fiche.
-
-     Sa famille doit d'abord se déployer : tant qu'elle est compacte, la sphère
-     visée est encore rangée dans l'amas et le cadrage calculé sur cette
-     position colle la caméra à quelques unités du noeud. On mémorise donc la
-     cible et la boucle de rendu la consomme quand la diffusion est faite. */
-  let pendingGenre = -1;
-
-  const goToGenre = (familyIndex: number, genreLocal: number): void => {
-    const now = performance.now();
-    const base = familyOffset[familyIndex] ?? 0;
-    const target = base + genreLocal;
-
-    if (activeFamily === familyIndex && (familyProgress[familyIndex] ?? 0) > 0.9) {
-      selectGenre(target, now);
-      return;
-    }
-    selectFamily(familyIndex, now);
-    pendingGenre = target;
-  };
-
-  const consumePendingGenre = (now: number): void => {
-    if (pendingGenre < 0) return;
-    const slot = slotsData[pendingGenre];
-    if (!slot) {
-      pendingGenre = -1;
-      return;
-    }
-    if ((familyProgress[slot.family] ?? 0) < 0.9) return;
-    const target = pendingGenre;
-    pendingGenre = -1;
-    selectGenre(target, now);
-  };
-
-  const goUp = (): void => {
-    const now = performance.now();
-    if (level === 'genre') {
-      /* On remonte d'un cran dans le chemin, pas directement à la famille :
-         Atlas > Bass > UK Garage > 2-step doit revenir sur UK Garage. */
-      genrePath = genrePath.slice(0, -1);
-      const parent = genrePath[genrePath.length - 1];
-      focusDir = -1;
-      focusStart = now;
-
-      if (parent !== undefined) {
-        activeGenre = parent;
-        focusIndex = parent;
-        focusDir = 1;
-        const slot = slotsData[parent];
-        if (slot) startFly(slot.world, frameDistance(genreFrameRadius(parent)), now);
-        emitNav();
-        return;
-      }
-
-      activeGenre = -1;
-      focusIndex = -1;
-      level = 'family';
-      const c = activeFamily >= 0 ? familyCenters[activeFamily] : undefined;
-      const dc = STRUCTURES[activeFamily]?.deployedCenter ?? [0, 0, 0];
-      if (c) startFly(new Vector3(c.x + dc[0], c.y + dc[1], c.z + dc[2]), frameDistance(familyFrameRadius(activeFamily)), now);
-    } else if (level === 'family') {
-      if (activeFamily >= 0) setDeploy(activeFamily, false, now);
-      activeFamily = -1;
-      activeGenre = -1;
-      genrePath = [];
-      focusIndex = -1;
-      focusDir = -1;
-      focusStart = now;
-      level = 'atlas';
-      startFly(atlasTarget, atlasDistance, now);
-      cameraAtDefault = true;
-    }
-    emitNav();
-  };
-
-  const onPointerUp = (event: PointerEvent): void => {
-    if (dragging && moved < 5 && !suspended) {
-      const rect = canvas.getBoundingClientRect();
-      const px = event.clientX - rect.left;
-      const py = event.clientY - rect.top;
-      let best = -1;
-      let bestD = 44;
-      for (let i = 0; i < TOTAL_GENRES; i += 1) {
-        if ((projected[i * 3 + 2] ?? 2) > 1) continue;
-        const d = Math.hypot(px - (projected[i * 3] ?? 0), py - (projected[i * 3 + 1] ?? 0));
-        if (d < bestD) {
-          bestD = d;
-          best = i;
-        }
-      }
-
-      const now = performance.now();
-      const slot = best >= 0 ? slotsData[best] : undefined;
-
-      if (!slot) {
-        // Clic dans le vide : on remonte d'un niveau.
-        goUp();
-      } else if (level === 'atlas' || slot.family !== activeFamily) {
-        selectFamily(slot.family, now);
-      } else {
-        selectGenre(best, now);
-      }
-    }
-    dragging = false;
-    if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
-  };
-
-  /* Clavier : flèches pour tourner, plus et moins pour zoomer, 0 pour
-     recentrer, Échap pour remonter. La navigation ne dépend pas d'un geste
-     trackpad que personne ne devine. */
-  const onKey = (event: KeyboardEvent): void => {
-    if (introActive) { finishIntro(); return; }
-    if (event.target instanceof HTMLInputElement) return;
-    switch (event.key) {
-      case 'ArrowLeft': azVel -= 0.045; break;
-      case 'ArrowRight': azVel += 0.045; break;
-      case 'ArrowUp': elVel += 0.035; break;
-      case 'ArrowDown': elVel -= 0.035; break;
-      case '+': case '=': dollyVel -= 5.5; break;
-      case '-': case '_': dollyVel += 5.5; break;
-      case '0': recenter(); break;
-      /* Échap appartient au panneau tant qu'il est ouvert : c'est la couche
-         DOM qui le ferme puis remonte, sinon on remonterait deux fois. */
-      case 'Escape': if (panelSlot < 0) goUp(); break;
-      default: return;
-    }
-    event.preventDefault();
-    onFirstInteraction();
-  };
-  window.addEventListener('keydown', onKey);
-
-  canvas.addEventListener('wheel', onWheel, { passive: false });
-  canvas.addEventListener('pointerdown', onPointerDown);
-  canvas.addEventListener('pointermove', onPointerMove);
-  canvas.addEventListener('pointerup', onPointerUp);
-  canvas.addEventListener('pointercancel', onPointerUp);
-
-  /* Recentrer, c'est revenir à l'atlas, pas seulement replacer la caméra.
-     Sans remise à zéro de la navigation, le fil d'Ariane continuait d'annoncer
-     une famille sélectionnée qu'on ne voyait plus. */
-  const recenter = (): void => {
-    cameraAtDefault = true;
-    closePanel();
-    target.copy(atlasTarget);
-    targetSmooth.copy(atlasTarget);
-    distance = atlasDistance;
-    azVel = 0;
-    elVel = 0;
-    dollyVel = 0;
-    for (let i = 0; i < FAMILIES.length; i += 1) setDeploy(i, false, performance.now());
-    activeFamily = -1;
-    activeGenre = -1;
-    genrePath = [];
-    focusIndex = -1;
-    focusDir = -1;
-    focusStart = performance.now();
-    level = 'atlas';
-    emitNav();
-  };
-
   // ------------------------------------------------------------- labels
 
   interface LabelSlot {
@@ -1372,27 +1082,19 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     labelSlots.push({ el, key: '', x: -9999, y: -9999, px: 14, opacity: 0, visible: false });
   }
 
-  const touch = window.matchMedia('(pointer: coarse), (max-width: 767px)').matches;
-  const labelRules = touch ? MOBILE : DESKTOP;
-
   let labelCpuAccum = 0;
   let labelCpuFrames = 0;
   let lastLabelPass = 0;
   let labelsShown = 0;
   let genreLabelsShown = 0;
-  let hovered = -1;
 
   interface Candidate {
     key: string;
     text: string;
     sx: number;
     sy: number;
-    depth: number;
-    kind: 'family' | 'genre';
-    /** Index global de la sphère, ou -1 pour un label de famille. */
+    kind: 'ensemble' | 'family' | 'genre';
     slot: number;
-    /** Jamais masqué par une collision. */
-    pinned: boolean;
     opacity: number;
     px: number;
     w: number;
@@ -1402,11 +1104,7 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   const candidates: Candidate[] = [];
   const placed: Candidate[] = [];
 
-/* Tolérance de chevauchement : deux plaques peuvent se toucher sur 4 pixels
-   avant qu'on masque la plus lointaine. Sans elle, l'évitement est si strict
-   qu'il supprime des labels qui se frôlent à peine. */
-const OVERLAP_TOLERANCE = 4;
-
+  const OVERLAP_TOLERANCE = 4;
   const overlaps = (a: Candidate, b: Candidate): boolean => {
     const t = OVERLAP_TOLERANCE;
     return (
@@ -1417,6 +1115,16 @@ const OVERLAP_TOLERANCE = 4;
     );
   };
 
+  /* RÈGLES (ADR-042, chantier labels) :
+     1. Aucun nom n'est jamais révélé ni caché par le survol : cette passe ne
+        lit PAS l'état de survol, et un contrôle CI le garantit.
+     2. La mise en page a réservé un créneau par nom : à un zoom donné, une
+        génération s'affiche ENTIÈRE quand son pas minimal projeté dépasse la
+        hauteur du label, sinon elle attend le zoom suivant. Tout ce qui est
+        visible est nommé, il n'y a pas de tri au mérite.
+     3. Plancher 11 px, plafond 22 px, jamais de troncature.
+     Le test de chevauchement reste comme FILET DE SÉCURITÉ : si la mise en
+     page tient sa garantie, il ne masque jamais rien. */
   const projectLabels = (now: number): void => {
     if (now - lastLabelPass < 33) return;
     lastLabelPass = now;
@@ -1426,214 +1134,101 @@ const OVERLAP_TOLERANCE = 4;
     placed.length = 0;
     const halfW = width / 2;
     const halfH = height / 2;
-
-    let nearest = Infinity;
+    const ppw = height / (2 * tanHalf * Math.max(1, distance));
 
     const add = (
       key: string,
       text: string,
-      world: Vector3,
-      kind: 'family' | 'genre',
-      pinned: boolean,
+      worldX: number,
+      worldY: number,
+      kind: Candidate['kind'],
+      lhWorld: number,
       opacityScale: number,
       slot = -1,
-      screenDy = 0
+      dropBelowRadius = 0
     ): void => {
-      scratch.copy(world).project(camera);
+      scratch.set(worldX, worldY, 0).project(camera);
       if (scratch.z > 1) return;
-      const sx = scratch.x * halfW + halfW;
-      let sy = -scratch.y * halfH + halfH + screenDy;
-      if (sx < -200 || sx > width + 200 || sy < -80 || sy > height + 80) return;
-      /* Bande haute réservée au fil d'Ariane, bande basse aux contrôles et à la
-         ligne d'aide. Un label qui s'y place se superpose à du texte
-         d'interface, et les deux deviennent illisibles.
+      const px = clamp(lhWorld * ppw, LABEL_PX_FLOOR, LABEL_PX_CEILING);
+      const w = text.length * px * 0.55 + px * 0.4;
+      const h = px * 1.45;
+      const cx = scratch.x * halfW + halfW;
+      let cy = -scratch.y * halfH + halfH;
+      if (dropBelowRadius > 0) cy += dropBelowRadius * ppw + 4 + h / 2;
+      const sx = cx - w / 2;
+      const sy = cy - h / 2;
+      if (sx > width + 40 || sx + w < -40 || sy > height + 40 || sy + h < -40) return;
+      if (cy < CHROME_TOP || cy > height - CHROME_BOTTOM) return;
 
-         Les labels ANCRÉS EN ÉCRAN (screenDy, les grands ensembles) se
-         rabattent dans la bande au lieu d'être rejetés : « sous le membre le
-         plus bas » d'un ensemble qui occupe tout l'écran tombait dans la zone
-         des contrôles, et Quatre-temps n'était jamais nommé sur mobile. */
-      if (screenDy !== 0) {
-        sy = clamp(sy, CHROME_TOP + 4, height - CHROME_BOTTOM - 4);
-      } else if (sy < CHROME_TOP || sy > height - CHROME_BOTTOM) {
-        return;
-      }
-
-      const depth = camera.position.distanceTo(world);
-      nearest = Math.min(nearest, depth);
-
-      /* Compensation de distance, bornée. La formule seule donnerait 5 px au
-         loin et 60 px au premier plan : le plancher et le plafond sont ce qui
-         rend l'ensemble lisible à tous les zooms. */
-      /* Les noms de familles sont plus petits que les noms de genres au niveau
-         Atlas : sinon le texte fait la largeur de l'amas qu'il désigne. Ils
-         grandissent normalement quand on approche. */
-      const isAtlasFamily = kind === 'family' && level === 'atlas';
-      const raw = (1500 / Math.max(depth, 1)) * (isAtlasFamily ? 0.72 : 1);
-      const px = clamp(raw, isAtlasFamily ? 10 : labelRules.floorPx, LABEL_PX_CEILING);
-
-      candidates.push({
-        key,
-        text,
-        sx,
-        sy,
-        depth,
-        kind,
-        slot,
-        pinned,
-        opacity: opacityScale,
-        px,
-        // Estimation de largeur : SF Pro tourne autour de 0,52 em par glyphe.
-        w: text.length * px * 0.52 + px * 0.4,
-        h: px * 1.45
-      });
+      candidates.push({ key, text, sx, sy, kind, slot, opacity: opacityScale, px, w, h });
     };
 
-    const hov = hovered >= 0 ? slotsData[hovered] : undefined;
+    /* Portes par génération : indice 0 = familles, d+1 = génération d. */
+    const gateOpen = (gen: number): boolean => {
+      const pitch = layout.minPitch[gen] ?? 10;
+      const px = clamp(
+        (gen === 0 ? LABEL_WORLD.family : LABEL_WORLD.genre) * ppw,
+        LABEL_PX_FLOOR,
+        LABEL_PX_CEILING
+      );
+      return pitch * ppw >= px * 1.25;
+    };
 
-    // Sous-arbre du survolé : lui, son parent, ses enfants directs.
-    const highlighted = new Set<number>();
-    if (hov) {
-      const base = familyOffset[hov.family] ?? 0;
-      highlighted.add(hovered);
-      if (hov.parent >= 0) highlighted.add(base + hov.parent);
-      for (const c of hov.children) highlighted.add(base + c);
+    // Les grands ensembles : toujours nommés, ils sont la carte de niveau zéro.
+    for (const anchor of layout.ensembleAnchor) {
+      add(`e-${anchor.label}`, anchor.label, anchor.x, anchor.y, 'ensemble', LABEL_WORLD.ensemble, 1);
     }
 
-    /* NIVEAU ZÉRO : de loin, seuls les cinq grands ensembles sont nommés.
-       Les noms de familles apparaissent quand on zoome dedans. Pendant
-       l'intro, on nomme les familles : c'est leur naissance qu'on raconte. */
-    const superMode =
-      !introActive && level === 'atlas' && distance > atlasDistance * 0.72;
-
-    if (superMode) {
-      SUPERFAMILIES.forEach((sf, si) => {
-        const members = superMembers[si] ?? [];
-        if (members.length === 0) return;
-        /* L'ancre se calcule en ESPACE ÉCRAN : « sous l'ensemble » est une
-           notion d'écran, et la version en coordonnées monde dérivait dès que
-           l'atlas pivotait en portrait. On projette le centroïde et le bas de
-           chaque membre, et le nom se pose sous le plus bas. */
-        superAnchor.set(0, 0, 0);
-        for (const m of members) superAnchor.add(familyCenters[m] ?? new Vector3());
-        superAnchor.divideScalar(members.length);
-
-        scratch.copy(superAnchor).project(camera);
-        const anchorSy = -scratch.y * (height / 2) + height / 2;
-        let lowestSy = anchorSy;
-        for (const m of members) {
-          const c = familyCenters[m];
-          if (!c) continue;
-          const r = STRUCTURES[m]?.compactRadius ?? 6;
-          scratch.set(c.x, c.y - r, c.z).project(camera);
-          lowestSy = Math.max(lowestSy, -scratch.y * (height / 2) + height / 2);
-        }
-        /* Chute bornée : sous le membre le plus bas quand l'ensemble est
-           compact, mais jamais plus bas que 22 % de l'écran sous le centroïde.
-           En portrait étiré, un ensemble occupe la moitié de la hauteur et son
-           nom partait se battre avec les labels du bas de l'écran. */
-        const drop = Math.min(lowestSy - anchorSy, height * 0.22) + 16;
-        add(`s-${sf.id}`, sf.label, superAnchor, 'family', false, 1, -1, drop);
-      });
-    } else {
+    // Les familles, quand leur pas le permet.
+    if (gateOpen(0)) {
       FAMILIES.forEach((family, fi) => {
-        // Intro : le nom apparaît à l'éclatement, environ 40 % du pop, et reste.
-        if (introActive && introBirth(fi, performance.now()) < 0.4) return;
-        const p = familyProgress[fi] ?? 0;
-        const isCurrent = fi === activeFamily;
-        add(
-          `f-${family.id}`,
-          family.label,
-          familyCenters[fi] ?? new Vector3(),
-          'family',
-          isCurrent,
-          isCurrent ? 1 : 1 - p * 0.5
-        );
+        if (introActive && introBirth(fi, now) < 0.4) return;
+        const anchor = layout.familyAnchor[fi];
+        if (!anchor) return;
+        add(`f-${family.id}`, family.label, anchor.x, anchor.y, 'family', LABEL_WORLD.family, 1);
       });
     }
 
+    /* Les genres, génération par génération. En focus, le sous-arbre courant
+       est nommé même si sa porte globale est fermée : ce qu'on regarde est
+       nommé, toujours. */
+    const focusSlot = focusIndex >= 0 ? slotsData[focusIndex] : undefined;
     for (let i = 0; i < TOTAL_GENRES; i += 1) {
       const slot = slotsData[i];
       if (!slot) continue;
-      if ((familyProgress[slot.family] ?? 0) < 0.999) continue;
+      if (introActive && introBirth(slot.family, now) < 0.75) continue;
 
-      const focusSlot = focusIndex >= 0 ? slotsData[focusIndex] : undefined;
-      const inFocusFamily = focusSlot ? slot.family === focusSlot.family : false;
-      const inSubtree = focusIndex >= 0 ? isDescendant(i, focusIndex) : false;
-
-      /* RÈGLE : à chaque niveau de zoom, tout ce qui est visible est nommé,
-         et le survol ne révèle JAMAIS un nom. Au niveau famille, la
-         génération courante est la première : tous ses noms sont là, ceux des
-         générations suivantes attendent la descente. Au niveau genre, le
-         noeud focalisé et ses enfants directs sont nommés, sans exception. */
-      if (focusIndex >= 0) {
-        if (!inFocusFamily) continue;
-        const isFocusOrChild =
-          i === focusIndex || (inSubtree && slot.depth === (focusSlot?.depth ?? 0) + 1);
-        if (!isFocusOrChild) continue;
-      } else {
-        if (superMode) continue;
-        if (slot.depth !== 1) continue;
+      const gen = slot.depth + 1;
+      let show = gateOpen(gen);
+      if (!show && focusSlot && slot.family === focusSlot.family) {
+        show =
+          i === focusIndex ||
+          (isDescendant(i, focusIndex) && slot.depth <= focusSlot.depth + 1);
       }
+      if (!show) continue;
 
-      const isPinned = i === focusIndex || i === hovered || inSubtree;
-      let opacity = 1;
-      if (hov && !highlighted.has(i) && focusIndex < 0) opacity = 0.2;
-
-      /* Le label ne porte QUE le nom du genre.
-
-         Il portait un suffixe compact, « · 3 » pour le nombre de dérivés et
-         « ♪ » pour une feuille, censé dire avant le clic si l'on descend ou si
-         l'on écoute. Deux raisons de le retirer. La première est qu'il se lisait
-         comme une partie du nom : « Minimal Tech · 1 » a été lu « minimal-1 »,
-         donc pris pour un identifiant technique resté d'un jeu de données
-         factice. La seconde est qu'il n'a plus d'objet : le clic ouvre toujours
-         la fiche, et c'est la fiche qui nomme les dérivés un par un, ce qui vaut
-         mieux qu'un compte. L'anneau autour de la sphère porte déjà le signe. */
-      add(`g-${slot.label}`, slot.label, slot.world, 'genre', isPinned, opacity, i);
+      add(
+        `g-${slot.family}-${slot.local}`,
+        slot.label,
+        slot.world.x,
+        slot.world.y,
+        'genre',
+        LABEL_WORLD.genre,
+        1,
+        i,
+        sphereRadii[i] ?? 1
+      );
     }
 
-    /* Atténuation des lointains : plus on s'approche, plus l'arrière-plan
-       s'efface, pour que le premier plan gagne en contraste. */
-    const fadeFar = nearest * 4 + 90;
-    for (const c of candidates) {
-      c.opacity *= clamp(1.15 - c.depth / fadeFar, 0, 1);
-    }
-
-    /* Placement. Les épinglés d'abord, puis les familles, puis les genres, du
-       plus proche au plus lointain. En cas de collision, on masque le plus
-       lointain : on ne décale JAMAIS un label, sinon il ne désigne plus rien. */
-    /* Deux règles absolues, dans cet ordre.
-
-       1. Le nom de FAMILLE passe avant tout, même avant un genre épinglé : il
-          est l'ancre de lecture, il ne passe jamais sous un genre.
-       2. Deux labels ne se recouvrent JAMAIS. L'épinglage donnait un passe-
-          droit sur le test de chevauchement, et sur une capture « Disco » et
-          « Spacesynth » se recouvraient : tous les deux épinglés par le focus,
-          tous les deux dispensés du test. L'épinglage ne donne plus que la
-          priorité d'ordre ; le chevauchement, lui, masque toujours. */
-    candidates.sort((a, b) => {
-      if (a.kind !== b.kind) return a.kind === 'family' ? -1 : 1;
-      if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
-      return a.depth - b.depth;
-    });
+    /* Placement : ensembles, puis familles, puis genres. Le filet de
+       sécurité masque en cas de collision au lieu de déplacer : un label
+       déplacé ne désigne plus rien. */
+    const rank = { ensemble: 0, family: 1, genre: 2 } as const;
+    candidates.sort((a, b) => rank[a.kind] - rank[b.kind]);
 
     for (const c of candidates) {
-      if (c.opacity < 0.06) continue;
-      if (placed.length >= labelRules.maxLabels) break;
-      if (placed.some((other) => overlaps(c, other))) {
-        /* Un label de genre désigne une sphère : le décaler le ferait mentir,
-           donc il se masque. Un label de GRAND ENSEMBLE désigne une région de
-           l'écran : il remonte par petits pas jusqu'à trouver un trou, sinon
-           les cinq noms se battaient au centre du portrait et Quatre-temps ne
-           s'affichait jamais. */
-        if (!c.key.startsWith('s-')) continue;
-        let free = false;
-        while (!free && c.sy - 24 >= CHROME_TOP + 4) {
-          c.sy -= 24;
-          free = !placed.some((other) => overlaps(c, other));
-        }
-        if (!free) continue;
-      }
+      if (placed.length >= LABEL_POOL) break;
+      if (placed.some((other) => overlaps(c, other))) continue;
       placed.push(c);
     }
 
@@ -1661,10 +1256,8 @@ const OVERLAP_TOLERANCE = 4;
       if (ls.key !== entry.key) {
         ls.key = entry.key;
         ls.el.textContent = entry.text;
-        ls.el.dataset['major'] = entry.kind === 'family' ? '1' : '0';
         ls.el.dataset['kind'] = entry.kind;
-        ls.el.dataset['kind'] = entry.kind;
-        ls.el.dataset['focus'] = entry.key === `g-${slotsData[focusIndex]?.label ?? ''}` ? '1' : '0';
+        ls.el.dataset['major'] = entry.kind === 'genre' ? '0' : '1';
       }
 
       if (Math.abs(entry.px - ls.px) >= 0.4) {
@@ -1689,176 +1282,7 @@ const OVERLAP_TOLERANCE = 4;
     labelCpuFrames += 1;
   };
 
-  /* Centres de familles dynamiques. `base` vient de la relaxation qui garantit
-     la séparation à l'état compact. Quand une famille s'ouvre, les autres sont
-     poussées radialement pour lui laisser la place réellement occupée par son
-     déploiement, et rejoignent leur cible avec amortissement. */
-
-  const familyTarget = familyBase.map((c) => c.clone());
-  const familyCenters = familyBase.map((c) => c.clone());
-  const pushDir = new Vector3();
-
-  const updateFamilyCenters = (): void => {
-    const open = openIndex;
-    const progress = open >= 0 ? clamp(familyProgress[open] ?? 0, 0, 1) : 0;
-
-    for (let i = 0; i < familyBase.length; i += 1) {
-      const base = familyBase[i];
-      const target = familyTarget[i];
-      if (!base || !target) continue;
-
-      if (open < 0 || i === open || progress <= 0.001) {
-        target.copy(base);
-      } else {
-        const origin = familyBase[open];
-        if (!origin) continue;
-        pushDir.copy(base).sub(origin);
-        const dist = pushDir.length() || 0.001;
-        pushDir.divideScalar(dist);
-
-        const needed =
-          familyRadius(open, true) * progress + familyRadius(i, false) + FAMILY_MARGIN;
-        target.copy(origin).addScaledVector(pushDir, Math.max(dist, needed));
-      }
-    }
-
-    const k = reducedMotion ? 1 : 0.12;
-    for (let i = 0; i < familyCenters.length; i += 1) {
-      const c = familyCenters[i];
-      const t = familyTarget[i];
-      if (c && t) c.lerp(t, k);
-    }
-  };
-
   // --------------------------------------------------------------- rendu
-
-
-  /* Mise à jour de la plaque. Trois choses, dans cet ordre : la base face
-     caméra, le suivi amorti de la cible, puis la projection des coins pour
-     que le DOM se pose exactement dessus. */
-  const updatePanel = (now: number): void => {
-    if (panelSlot < 0) {
-      if (panelOpacity > 0.001) {
-        panelOpacity *= 0.82;
-        panelUniforms.uOpacity.value = panelOpacity;
-      } else {
-        panelMesh.visible = false;
-        panelOpacity = 0;
-      }
-      return;
-    }
-
-    const slot = slotsData[panelSlot];
-    if (!slot) return;
-
-    panelMesh.visible = true;
-    panelOpacity = Math.min(0.965, panelOpacity + 0.09);
-    panelUniforms.uOpacity.value = panelOpacity;
-
-    // Base orthonormée face caméra. La plaque ne tourne jamais sur elle-même :
-    // son axe horizontal est celui de la caméra, toujours.
-    panelFwd.copy(cameraPos).sub(slot.world).normalize();
-    panelRight.crossVectors(camera.up, panelFwd).normalize();
-    panelUp.crossVectors(panelFwd, panelRight).normalize();
-
-    const halfH = panelHeight / 2;
-    const halfW = (panelHeight * PANEL_ASPECT) / 2;
-    const radius = sphereRadii[panelSlot] ?? 2;
-
-    // Devant la sphère, et relevée : la sphère reste visible en dessous.
-    panelTarget
-      .copy(slot.world)
-      .addScaledVector(panelFwd, radius + halfH * 0.35)
-      .addScaledVector(panelUp, halfH * PANEL_RISE * 2);
-
-    // Suivi amorti, sauf en mouvement réduit où tout est direct.
-    panelPos.lerp(panelTarget, reducedMotion ? 1 : PANEL_FOLLOW);
-
-    /* Inclinaison fixe autour de l'axe horizontal. Le haut de la plaque part
-       vers l'arrière, le bas vient vers l'avant : c'est ce qui la fait lire
-       comme un objet posé dans l'espace et non comme un rectangle collé. */
-    const tilt = (PANEL_TILT_DEG * Math.PI) / 180;
-    const cos = Math.cos(tilt);
-    const sin = Math.sin(tilt);
-    const upX = panelUp.x * cos - panelFwd.x * sin;
-    const upY = panelUp.y * cos - panelFwd.y * sin;
-    const upZ = panelUp.z * cos - panelFwd.z * sin;
-
-    const corner = (sx: number, sy: number, out: number): void => {
-      panelCorner.set(
-        panelPos.x + panelRight.x * halfW * sx + upX * halfH * sy,
-        panelPos.y + panelRight.y * halfW * sx + upY * halfH * sy,
-        panelPos.z + panelRight.z * halfW * sx + upZ * halfH * sy
-      );
-      panelPositions[out] = panelCorner.x;
-      panelPositions[out + 1] = panelCorner.y;
-      panelPositions[out + 2] = panelCorner.z;
-    };
-    corner(-1, -1, 0);
-    corner(1, -1, 3);
-    corner(-1, 1, 6);
-    corner(1, 1, 9);
-
-    panelPosAttr.needsUpdate = true;
-
-    panelUniforms.uAspect.value.set(PANEL_ASPECT, 1);
-    // Douceur de bord constante à l'écran : elle dépend de la profondeur.
-    const viewDepth = Math.max(0.1, cameraPos.distanceTo(panelPos));
-    void upX; void upY; void upZ;
-    panelUniforms.uEdgePx.value = clamp(
-      (sphereUniforms.uPixelScale.value * viewDepth) / panelHeight,
-      0.0012,
-      0.02
-    );
-
-    /* Projection. Le DOM ne recalcule rien : il reçoit un centre, une taille
-       et l'inclinaison, et applique la même transformation. */
-    const halfWpx = width / 2;
-    const halfHpx = height / 2;
-    scratch.copy(panelPos).project(camera);
-    const cx = scratch.x * halfWpx + halfWpx;
-    const cy = -scratch.y * halfHpx + halfHpx;
-    const behind = scratch.z > 1;
-
-    /* Échelle analytique plutôt que deux projections séparées. Hors de l'axe
-       optique, projeter le bord haut puis le bord droit donne des demi-tailles
-       qui ne sont pas dans le rapport de la plaque : le DOM ne collait plus au
-       rendu. Une plaque face caméra se réduit à une seule échelle. */
-    const pxPerWorld = height / (2 * Math.tan((FOV * Math.PI) / 360) * Math.max(0.001, viewDepth));
-    const wPx = panelHeight * PANEL_ASPECT * pxPerWorld;
-    // L'inclinaison raccourcit la plaque à l'écran, exactement comme le fera la
-    // rotation CSS appliquée au DOM.
-    const hPx = panelHeight * pxPerWorld;
-
-    const state: PanelState = {
-      familyIndex: slot.family,
-      genreLocal: slot.local,
-      x: cx,
-      y: cy,
-      width: wPx,
-      height: hPx,
-      tiltDeg: PANEL_TILT_DEG,
-      /* Une seule image mal cadrée suffit à faire clignoter le panneau à
-         l'autre bout de l'écran : on exige aussi qu'il soit à peu près là. */
-      visible:
-        !behind &&
-        wPx > 40 &&
-        hPx > 40 &&
-        cx > -width &&
-        cx < width * 2 &&
-        cy > -height &&
-        cy < height * 2
-    };
-
-    // On n'émet que si quelque chose a bougé d'au moins un demi-pixel :
-    // sinon React se rerend soixante fois par seconde pour rien.
-    const key = `${slot.family}/${slot.local}/${Math.round(cx * 2)}/${Math.round(cy * 2)}/${Math.round(wPx * 2)}/${Math.round(hPx * 2)}/${state.visible}`;
-    if (key !== lastPanelEmit) {
-      lastPanelEmit = key;
-      onPanel(state);
-    }
-    void now;
-  };
 
   const renderOnce = (bg: boolean): void => {
     renderer.autoClear = true;
@@ -1951,23 +1375,6 @@ const OVERLAP_TOLERANCE = 4;
   let fps = 60;
   let lastStatsPush = 0;
 
-  const applyCamera = (): void => {
-    const cosE = Math.cos(elevation);
-    cameraPos.set(
-      targetSmooth.x + distance * cosE * Math.sin(azimuth),
-      targetSmooth.y + distance * Math.sin(elevation),
-      targetSmooth.z + distance * cosE * Math.cos(azimuth)
-    );
-    camera.position.copy(cameraPos);
-    camera.up.set(0, 1, 0);
-    camera.lookAt(targetSmooth);
-    camera.updateMatrixWorld();
-    camera.matrixWorldInverse.copy(camera.matrixWorld).invert();
-  };
-
-  const expand = new Vector3();
-  const recede = new Vector3();
-
   const frame = (): void => {
     if (!running) return;
     requestAnimationFrame(frame);
@@ -1976,17 +1383,9 @@ const OVERLAP_TOLERANCE = 4;
     if (!reducedMotion) bgUniforms.uTime.value = now / 1000;
 
     const friction = reducedMotion ? 0 : 0.9;
-    azimuth += azVel;
-    elevation = clamp(elevation + elVel, -ELEVATION_LIMIT, ELEVATION_LIMIT);
     distance = clamp(distance * Math.exp(dollyVel * 0.02), MIN_DISTANCE, MAX_DISTANCE);
-    azVel *= friction;
-    elVel *= friction;
     dollyVel *= friction * 0.96;
 
-    /* Vol de caméra : on ne change jamais de niveau sans voir le trajet.
-       Le vol doit se TERMINER même si l'image suivante arrive après la fin de
-       l'intervalle : sinon, sur une machine lente ou un onglet en arrière-plan,
-       la caméra n'atteint jamais sa destination. */
     if (flying) {
       const k = easeInOut(clamp((now - flyStart) / FLY_MS, 0, 1));
       targetSmooth.lerpVectors(flyFrom, flyTo, k);
@@ -1995,130 +1394,67 @@ const OVERLAP_TOLERANCE = 4;
       if (k >= 1) flying = false;
     }
 
-    /* Suivi continu quand un panneau est ouvert. La descente sur un genre
-       déplace les sphères après le clic : viser une position figée laisserait
-       la plaque sortir du cadre. On recale donc la cible à chaque image, en
-       douceur, sans toucher à l'azimut ni à la distance choisis par l'usager. */
-    if (panelSlot >= 0 && !flying) {
-      const slot = slotsData[panelSlot];
-      if (slot) {
-        target.copy(slot.world);
-        targetSmooth.lerp(target, reducedMotion ? 1 : 0.12);
-      }
-    }
-
     applyCamera();
 
-    let best = 0;
-    let bestDist = Infinity;
-    for (let i = 0; i < familyCenters.length; i += 1) {
-      const c = familyCenters[i];
-      if (!c) continue;
-      const d = cameraPos.distanceTo(c);
-      if (d < bestDist) {
-        bestDist = d;
-        best = i;
-      }
-    }
-    nearestIndex = best;
-    nearestDist = bestDist;
-
-    // Les autres familles s'écartent avant qu'on calcule les positions.
-    updateFamilyCenters();
-
-    // Positions : interpolation compacte vers déployée, en cascade.
-    for (let fi = 0; fi < FAMILIES.length; fi += 1) familyProgress[fi] = 1;
-
     const focusSlot = focusIndex >= 0 ? slotsData[focusIndex] : undefined;
-    const focusBase = focusSlot ? focusSlot.deployed : null;
 
     for (let i = 0; i < TOTAL_GENRES; i += 1) {
       const slot = slotsData[i];
       if (!slot) continue;
 
-      const p = clamp(genreProgress(slot, now), -0.2, 1.2);
-      const center = familyCenters[slot.family];
-      slot.world.lerpVectors(slot.compact, slot.deployed, p);
-      if (center) slot.world.add(center);
-
-      const fp = familyProgress[slot.family] ?? 1;
-      familyProgress[slot.family] = Math.min(fp, clamp(p, 0, 1));
-
-      /* Descente : le sous-arbre du noeud focalisé s'écarte de lui, en cascade
-         par génération, tandis que le reste de la famille se replie. C'est la
-         même grammaire que la diffusion de famille, un cran plus bas. */
       let presence = 1;
+      let z = 0;
 
-      /* Intro : la famille non née est absente, la naissante gonfle et éclate.
-         La position s'éloigne du centre de l'atlas vers sa place finale. */
+      /* Hiérarchie par la profondeur : le niveau courant vient en avant,
+         le reste recule et s'estompe. Les POSITIONS dans le plan ne bougent
+         jamais : la carte est fixe, seule l'emphase circule. */
+      if (focusSlot) {
+        const inSubtree = isDescendant(i, focusIndex);
+        if (inSubtree) {
+          z = Z_FRONT;
+        } else if (slot.family === focusSlot.family) {
+          z = Z_BACK;
+          presence = 0.38;
+        } else {
+          z = Z_BACK;
+          presence = 0.22;
+        }
+      } else if (level === 'family' && activeFamily >= 0) {
+        if (slot.family === activeFamily) {
+          z = Z_FRONT;
+        } else {
+          z = Z_BACK;
+          presence = 0.42;
+        }
+      }
+
+      /* Intro : la famille non née est absente, la naissante gonfle et
+         éclate en s'écartant du centre de la carte vers sa place fixe. */
+      let px = slot.world.x;
+      let py = slot.world.y;
       if (introActive) {
         const birth = introBirth(slot.family, now);
         const sc = popScale(birth);
         sphereRadii[i] = (baseRadii[i] ?? 1) * sc;
         presence = sc <= 0.02 ? 0 : Math.min(1, sc);
         const e = 1 - Math.pow(1 - birth, 3);
-        slot.world.set(
-          atlasTarget.x + (slot.world.x - atlasTarget.x) * e,
-          atlasTarget.y + (slot.world.y - atlasTarget.y) * e,
-          atlasTarget.z + (slot.world.z - atlasTarget.z) * e
-        );
+        px = atlasTarget.x + (px - atlasTarget.x) * e;
+        py = atlasTarget.y + (py - atlasTarget.y) * e;
       }
 
-      /* Satellites de satellites : révélés au déploiement seulement. À l'état
-         compact ils sont repliés sur leur ancêtre de première génération ; les
-         afficher là ferait des sphères doubles. Ils surgissent avec la cascade,
-         chacun au rythme de sa propre génération. */
-      if (slot.depth >= 2) presence = clamp(p * 1.6 - 0.2, 0, 1);
-
-      /* Anneaux uniquement sur le niveau actuellement navigable. Au niveau
-         Atlas on ne descend pas encore dans les genres, donc aucun anneau :
-         c'est ce qui encombrait le plus la vue d'ensemble. */
-      let ringOn =
-        slot.family === openIndex && (familyProgress[slot.family] ?? 0) > 0.5
-          ? slot.children.length
-          : 0;
-
-      if (focusSlot && focusBase && slot.family === focusSlot.family) {
-        const fc = familyCenters[slot.family];
-        const bx = focusBase.x + (fc?.x ?? 0);
-        const by = focusBase.y + (fc?.y ?? 0);
-        const bz = focusBase.z + (fc?.z ?? 0);
-        const inSubtree = isDescendant(i, focusIndex);
-        const generation = Math.max(0, slot.depth - focusSlot.depth);
-        const delay = focusDir === 1 ? FOCUS_DELAY_MS * generation : 0;
-        const raw = clamp((now - focusStart - delay) / FOCUS_MS, 0, 1);
-        const k = focusDir === 1 ? backOut(raw) : 1 - raw;
-
-        if (inSubtree) {
-          // On écarte le sous-arbre depuis le noeud focalisé.
-          expand.set(
-            bx + (slot.deployed.x - focusBase.x) * 1.95,
-            by + (slot.deployed.y - focusBase.y) * 1.95,
-            bz + (slot.deployed.z - focusBase.z) * 1.95
-          );
-          slot.world.lerp(expand, clamp(k, 0, 1));
-        } else {
-          // Le reste recule et s'atténue à 12 pour cent, il reste du contexte.
-          recede.set(
-            (fc?.x ?? 0) + slot.compact.x + (slot.deployed.x - slot.compact.x) * 0.45,
-            (fc?.y ?? 0) + slot.compact.y + (slot.deployed.y - slot.compact.y) * 0.45,
-            (fc?.z ?? 0) + slot.compact.z + (slot.deployed.z - slot.compact.z) * 0.45
-          );
-          slot.world.lerp(recede, clamp(k, 0, 1));
-          presence = 1 - clamp(k, 0, 1) * 0.88;
-          ringOn = 0;
-        }
-      } else if (level === 'family' && activeFamily >= 0) {
-        presence = slot.family === activeFamily ? 1 : 0.5;
-      }
-
-      sphereCenters[i * 3] = slot.world.x;
-      sphereCenters[i * 3 + 1] = slot.world.y;
-      sphereCenters[i * 3 + 2] = slot.world.z;
+      sphereCenters[i * 3] = px;
+      sphereCenters[i * 3 + 1] = py;
+      sphereCenters[i * 3 + 2] = z;
       sphereState[i * 4] = suspended ? presence * 0.35 : presence;
-      sphereState[i * 4 + 1] = i === focusIndex ? 0.22 : 0;
-      sphereState[i * 4 + 2] = ringOn;
+      sphereState[i * 4 + 1] = i === focusIndex ? 0.22 : i === hovered ? 0.14 : 0;
+      sphereState[i * 4 + 2] = slot.children.length;
       sphereState[i * 4 + 3] = labelled[i] ?? 0;
+
+      // Projection écran pour le clic et le survol.
+      scratch.set(px, py, z).project(camera);
+      projected[i * 3] = scratch.x * (width / 2) + width / 2;
+      projected[i * 3 + 1] = -scratch.y * (height / 2) + height / 2;
+      projected[i * 3 + 2] = scratch.z;
     }
     sphereCenterAttr.needsUpdate = true;
     sphereStateAttr.needsUpdate = true;
@@ -2128,21 +1464,18 @@ const OVERLAP_TOLERANCE = 4;
       if (now - introStart > last) finishIntro();
     }
 
-    // Liens : extrémités suivies, tracé du parent vers l'enfant.
+    // Liens : les extrémités sont fixes, seule l'emphase se met à jour.
     for (let i = 0; i < LINK_COUNT; i += 1) {
       const ref = linkRefs[i];
       if (!ref) continue;
       if (ref.internal) {
-        const a = slotsData[ref.a];
-        const b = slotsData[ref.b];
-        if (!a || !b) continue;
-        linkP0.set([a.world.x, a.world.y, a.world.z], i * 3);
-        linkP1.set([b.world.x, b.world.y, b.world.z], i * 3);
-        linkMeta[i * 3 + 2] = clamp(genreProgress(b, now), 0, 1);
-
-        /* Les liens du sous-arbre focalisé passent au premier plan et
-           s'épaississent, les autres liens de la famille s'effacent presque. */
-        if (focusIndex >= 0 && a.family === (slotsData[focusIndex]?.family ?? -1)) {
+        if (introActive) {
+          linkMeta[i * 3 + 1] = 1;
+          linkMeta[i * 3 + 2] = clamp(introBirth(ref.familyA, now) * 1.4 - 0.2, 0, 1);
+          continue;
+        }
+        linkMeta[i * 3 + 2] = 1;
+        if (focusIndex >= 0 && ref.familyA === (slotsData[focusIndex]?.family ?? -1)) {
           const inSubtree = isDescendant(ref.b, focusIndex) && isDescendant(ref.a, focusIndex);
           linkMeta[i * 3] = inSubtree ? 1 : 0.12;
           linkMeta[i * 3 + 1] = inSubtree ? 1 : 0.1;
@@ -2151,27 +1484,14 @@ const OVERLAP_TOLERANCE = 4;
           linkMeta[i * 3 + 1] = 1;
         }
       } else {
-        const ca = familyCenters[ref.familyA];
-        const cb = familyCenters[ref.familyB];
-        if (!ca || !cb) continue;
-        linkP0.set([ca.x, ca.y, ca.z], i * 3);
-        linkP1.set([cb.x, cb.y, cb.z], i * 3);
-        linkMeta[i * 3 + 2] = 1;
-
-        /* Les liens entre familles traversaient tout l'écran en diagonale et
-           brouillaient la lecture. Ils sont désormais quasi invisibles par
-           défaut, et ne s'allument que si l'une de leurs deux extrémités est
-           la famille sélectionnée ou celle du noeud survolé. */
         if (introActive) {
-          /* Le lien se trace depuis la famille d'origine vers la naissante,
-             comme une propagation : l'avancement suit la naissance de la
-             famille d'arrivée. */
           const bornA = introBirth(ref.familyA, now);
           const bornB = introBirth(ref.familyB, now);
           linkMeta[i * 3 + 1] = bornA > 0.5 ? 0.55 : 0;
           linkMeta[i * 3 + 2] = clamp(bornB * 1.4, 0, 1);
           continue;
         }
+        linkMeta[i * 3 + 2] = 1;
         const hoveredFamily = hovered >= 0 ? (slotsData[hovered]?.family ?? -1) : -1;
         const concerned =
           ref.familyA === activeFamily ||
@@ -2181,51 +1501,46 @@ const OVERLAP_TOLERANCE = 4;
         linkMeta[i * 3 + 1] = concerned ? 0.9 : 0.1;
       }
     }
-    linkP0Attr.needsUpdate = true;
-    linkP1Attr.needsUpdate = true;
     linkMetaAttr.needsUpdate = true;
 
     if (profiling) return;
 
-    // Projection des sphères, réutilisée par le clic et par les labels.
-    {
-      const halfW = width / 2;
-      const halfH = height / 2;
-      for (let i = 0; i < TOTAL_GENRES; i += 1) {
-        const slot = slotsData[i];
-        if (!slot) continue;
-        scratch.copy(slot.world).project(camera);
-        projected[i * 3] = scratch.x * halfW + halfW;
-        projected[i * 3 + 1] = -scratch.y * halfH + halfH;
-        projected[i * 3 + 2] = scratch.z;
-      }
-    }
-
-    consumePendingGenre(now);
-    updatePanel(now);
-    projectLabels(now);
     renderer.info.reset();
     renderOnce(true);
+    projectLabels(now);
 
     frames += 1;
-    if (now - fpsWindowStart >= 500) {
+    if (now - fpsWindowStart > 500) {
       fps = (frames * 1000) / (now - fpsWindowStart);
       frames = 0;
       fpsWindowStart = now;
     }
 
-    if (now - lastStatsPush > 250) {
+    if (now - lastStatsPush > 500) {
       lastStatsPush = now;
+      const fam = activeFamily >= 0 ? FAMILIES[activeFamily] : undefined;
+      // La famille la plus proche du centre de vue, pour la ligne d'état.
+      let nearestIdx = 0;
+      let nearestD = Infinity;
+      FAMILIES.forEach((_, fi) => {
+        const anchor = layout.familyAnchor[fi];
+        if (!anchor) return;
+        const d = Math.hypot(anchor.x - targetSmooth.x, anchor.y - targetSmooth.y);
+        if (d < nearestD) {
+          nearestD = d;
+          nearestIdx = fi;
+        }
+      });
       onStats({
         fps,
         drawCalls: renderer.info.render.calls,
         spheres: TOTAL_GENRES,
         links: LINK_COUNT,
-        openLabel: openIndex >= 0 ? (FAMILIES[openIndex]?.label ?? '—') : '—',
-        deployPct: openIndex >= 0 ? (familyProgress[openIndex] ?? 0) * 100 : 0,
+        openLabel: fam?.label ?? '',
+        deployPct: 1,
         distance,
-        nearestLabel: FAMILIES[nearestIndex]?.label ?? '—',
-        nearestDistance: nearestDist,
+        nearestLabel: FAMILIES[nearestIdx]?.label ?? '',
+        nearestDistance: nearestD,
         labelsShown,
         genreLabelsShown,
         reduced,
@@ -2233,6 +1548,14 @@ const OVERLAP_TOLERANCE = 4;
       });
     }
   };
+
+  // ------------------------------------------------------------- énergie
+
+  canvas.addEventListener('wheel', onWheel, { passive: false });
+  canvas.addEventListener('pointerdown', onPointerDown);
+  canvas.addEventListener('pointermove', onPointerMove);
+  canvas.addEventListener('pointerup', onPointerUp);
+  canvas.addEventListener('pointercancel', onPointerUp);
 
   applyCamera();
   engineReady = true;
@@ -2248,13 +1571,12 @@ const OVERLAP_TOLERANCE = 4;
       width,
       height,
       aspect: camera.aspect,
-      introActive,
-      azimuth,
-      elevation,
-      defaults: [DEFAULT_AZIMUTH, DEFAULT_ELEVATION],
-      portraitApplied,
-      diag: framingDiag,
-      analytic: analyticDiag
+      portrait: layout.portrait,
+      bbox: layout.bbox,
+      ensembles: layout.ensembleAnchor,
+      families: layout.familyAnchor,
+      minPitch: layout.minPitch,
+      introActive
     }),
     measureGpu,
     measureLabels,
@@ -2263,53 +1585,29 @@ const OVERLAP_TOLERANCE = 4;
     openPanel,
     closePanel,
     goToGenre,
-    playIntro,
-    open: (familyIndex: number) => setDeploy(familyIndex, true, performance.now()),
-    close: (familyIndex: number) => setDeploy(familyIndex, false, performance.now()),
-    setOrbit: (az: number, el: number, dist: number) => {
-      azimuth = (az * Math.PI) / 180;
-      elevation = clamp((el * Math.PI) / 180, -ELEVATION_LIMIT, ELEVATION_LIMIT);
-      distance = clamp(dist, MIN_DISTANCE, MAX_DISTANCE);
-      azVel = 0;
-      elVel = 0;
-      dollyVel = 0;
-      applyCamera();
-    },
-    info: () => ({
-      spheres: TOTAL_GENRES,
-      links: LINK_COUNT,
-      reduced,
-      pixelRatio: renderer.getPixelRatio(),
-      size: [width, height],
-      triangles: renderer.info.render.triangles
-    }),
-    drawCallsPerFrame: () => {
-      renderer.info.reset();
-      renderOnce(true);
-      return renderer.info.render.calls;
-    }
+    playIntro
   };
-
-  emitNav();
 
   return {
     zoom: (direction: 1 | -1) => {
       onFirstInteraction();
+      cameraAtDefault = false;
       dollyVel += direction === 1 ? -5.5 : 5.5;
     },
-    rotate: (direction: 1 | -1) => {
+    pan: (dx: number, dy: number) => {
       onFirstInteraction();
-      azVel += direction * 0.05;
+      pan(dx, dy);
     },
     goUp,
     goToFamily: (familyIndex: number) => {
       if (familyIndex < 0) {
-        const now = performance.now();
-        if (activeFamily >= 0) setDeploy(activeFamily, false, now);
         activeFamily = -1;
         activeGenre = -1;
+        genrePath = [];
+        focusIndex = -1;
         level = 'atlas';
-        startFly(atlasTarget, atlasDistance, now);
+        startFly(atlasTarget, atlasDistance, performance.now());
+        cameraAtDefault = true;
         emitNav();
       } else {
         selectFamily(familyIndex, performance.now());
@@ -2322,25 +1620,22 @@ const OVERLAP_TOLERANCE = 4;
     setSuspended: (value: boolean) => {
       suspended = value;
     },
+    recenter,
+    runProfile,
     dispose: () => {
       running = false;
       resizeObserver.disconnect();
       window.removeEventListener('resize', resize);
+      window.removeEventListener('keydown', onKey);
       canvas.removeEventListener('webglcontextlost', onLost);
       canvas.removeEventListener('wheel', onWheel);
       canvas.removeEventListener('pointerdown', onPointerDown);
       canvas.removeEventListener('pointermove', onPointerMove);
       canvas.removeEventListener('pointerup', onPointerUp);
       canvas.removeEventListener('pointercancel', onPointerUp);
-      window.removeEventListener('keydown', onKey);
       for (const ls of labelSlots) ls.el.remove();
-      sphereGeometry.dispose();
-      linkGeometry.dispose();
-      sphereMaterial.dispose();
-      linkMaterial.dispose();
       renderer.dispose();
-    },
-    runProfile,
-    recenter
+      delete (window as unknown as { __atlas?: unknown }).__atlas;
+    }
   };
 };
