@@ -1,11 +1,8 @@
-/* Panneau morceaux flottant, et mini-lecteur.
+/* Le lecteur : panneau rectangulaire droit, mini-lecteur, et l'iframe.
 
-   Tout est dimensionné à partir de --panel-w, la largeur projetée de la plaque
-   rendue en WebGL. Le panneau grandit et rétrécit d'une seule pièce quand on
-   avance ou qu'on recule : c'est un objet de la scène, pas une boîte d'interface.
-
-   SF Pro Display partout, sans exception, y compris les durées et les BPM.
-   Aucune police à chasse fixe nulle part. */
+   Le panneau est une boîte d'interface alignée sur la grille de l'écran, pas
+   un objet de la scène : la 3D recule et s'estompe derrière le voile. Tout
+   est en Inter, hiérarchie par la graisse, chiffres tabulaires. */
 
 .panel,
 .mini,
@@ -22,14 +19,13 @@
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 14;
+  z-index: 16;
   opacity: 0;
-  transform-style: preserve-3d;
   transition: opacity 200ms linear;
 }
 
 .yt-slot {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   overflow: hidden;
@@ -50,235 +46,339 @@
   display: block;
 }
 
-/* --- La plaque ---------------------------------------------------------- */
+/* --- Le voile ------------------------------------------------------------ */
+
+.panel-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 11;
+  background: oklch(0.05 0.01 250 / 0.62);
+  backdrop-filter: blur(3px);
+}
+
+/* --- Le panneau ---------------------------------------------------------- */
 
 .panel {
   position: fixed;
-  left: 0;
-  top: 0;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   z-index: 12;
-  transform-style: preserve-3d;
+  width: min(960px, 94vw);
+  height: min(640px, 88dvh);
   display: flex;
   flex-direction: column;
-  padding: var(--panel-pad);
-  gap: calc(var(--panel-w) * 0.022);
   color: var(--ink-primary);
-  opacity: 0;
-  transition: opacity 220ms var(--motion-ease);
-  /* La plaque elle-même est peinte en WebGL, derrière. Ici, rien de plein. */
-  background: transparent;
+  background: oklch(0.09 0.012 250 / 0.985);
+  border: 1px solid var(--rule-hairline);
+  border-top: 2px solid var(--family);
 }
 
-/* La fenêtre vidéo. La pochette au repos, la vidéo en lecture, même gabarit
-   et même position : rien ne saute au démarrage. */
-.panel-window {
+.panel-columns {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(240px, 40%) 1fr;
+  gap: 1.6rem;
+  padding: 1.6rem;
+}
+
+/* Colonne gauche : la pochette CARRÉE en grand. La vidéo prend sa place en
+   lecture, dans la même boîte. */
+.panel-media {
   position: relative;
   width: 100%;
-  height: var(--video-h);
-  flex: none;
+  aspect-ratio: 1 / 1;
+  max-height: 100%;
+  align-self: start;
   overflow: hidden;
-  background: oklch(0.08 0.01 250);
+  background: oklch(0.07 0.01 250);
   border: 1px solid var(--rule-hairline);
 }
 
 .panel-cover {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+}
+
+.panel-cover-generated svg {
+  width: 100%;
+  height: 100%;
   display: block;
 }
 
 .panel-bigplay {
   position: absolute;
   inset: 0;
+  margin: auto;
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  border: 1px solid oklch(1 0 0 / 0.5);
+  background: oklch(0.1 0.01 250 / 0.66);
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
   display: grid;
   place-items: center;
-  font-size: calc(var(--panel-w) * 0.11);
-  color: #fff;
-  background: oklch(0.1 0.01 250 / 0.35);
-  border: 0;
-  cursor: pointer;
-  transition: background 140ms linear;
+  transition: background 160ms linear;
 }
 
-.panel-bigplay:hover,
-.panel-bigplay:focus-visible {
-  background: oklch(0.1 0.01 250 / 0.6);
+.panel-bigplay:hover {
+  background: oklch(0.16 0.02 250 / 0.8);
 }
 
 .panel-failed {
   position: absolute;
   inset: auto 0 0 0;
   margin: 0;
-  padding: 0.4em 0.6em;
-  font-size: calc(var(--panel-w) * 0.026);
-  font-weight: 400;
-  color: oklch(0.8 0.12 60);
-  background: oklch(0.1 0.01 250 / 0.9);
+  padding: 0.6rem 0.8rem;
+  font-size: 0.75rem;
+  color: var(--ink-secondary);
+  background: oklch(0.07 0.01 250 / 0.9);
 }
 
-.panel[data-expanded='true'] .panel-body {
-  display: none;
-}
-
+/* Colonne droite : identité puis liste. */
 .panel-body {
+  min-width: 0;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: calc(var(--panel-w) * 0.014);
-  min-height: 0;
-}
-
-/* Le texte ne se comprime pas. Sans cela, la boîte flexible rétrécit le titre
-   sous la hauteur de sa ligne et `overflow: hidden` coupe les jambages : c'est
-   ce qui rognait le bas de « Night Voices ». Seule la bande de pochettes cède. */
-.panel-genre,
-.panel-title,
-.panel-artist,
-.panel-meta,
-.panel-transport {
-  flex: none;
-}
-
-.panel-strip {
-  flex: 0 1 auto;
-  min-height: 0;
-}
-
-/* Hiérarchie par graisse : 600 titres, 500 morceaux et artistes, 400 données. */
-.panel-genre {
-  margin: 0;
-  font-size: calc(var(--panel-w) * 0.026);
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-secondary);
+  gap: 0.35rem;
 }
 
 .panel-title {
   margin: 0;
-  font-size: calc(var(--panel-w) * 0.056);
-  /* Nom de track : 500, la charte reserve 600 aux genres et 700 aux familles. */
+  font-size: 1.5rem;
   font-weight: var(--weight-track);
-  /* 1.15 rognait les jambages des majuscules descendantes : le titre est la
-     ligne la plus grande du panneau, elle doit respirer. */
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
 }
 
 .panel-artist {
   margin: 0;
-  font-size: calc(var(--panel-w) * 0.038);
-  font-weight: 500;
-  color: var(--ink-primary);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.panel-meta {
-  margin: 0;
-  font-size: calc(var(--panel-w) * 0.028);
-  font-weight: 400;
+  font-size: 1rem;
+  font-weight: var(--weight-data);
   color: var(--ink-secondary);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
-/* Bande de pochettes : les autres morceaux du genre, en carrés cliquables. */
-.panel-strip {
+.panel-genre {
+  margin: 0.3rem 0 0;
   display: flex;
-  gap: calc(var(--panel-w) * 0.02);
-  list-style: none;
-  margin: calc(var(--panel-w) * 0.012) 0 0;
-  padding: 0;
-  overflow-x: auto;
-  scrollbar-width: none;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
 }
 
-.panel-strip::-webkit-scrollbar {
-  display: none;
-}
-
-.panel-thumb {
-  width: calc(var(--panel-w) * 0.135);
-  height: calc(var(--panel-w) * 0.135);
-  flex: none;
+/* LE GENRE en couleur de famille, cliquable vers la fiche. */
+.panel-genre-name {
+  background: transparent;
+  border: 0;
   padding: 0;
-  border: 1px solid var(--rule-hairline);
-  background: oklch(0.08 0.01 250);
   cursor: pointer;
-  overflow: hidden;
-  opacity: 0.72;
-  transition: opacity 140ms linear, border-color 140ms linear;
+  color: var(--family);
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: var(--weight-genre);
+  letter-spacing: 0.01em;
 }
 
-.panel-thumb img {
+.panel-genre-name:hover {
+  text-decoration: underline;
+}
+
+.panel-genre-meta {
+  font-size: 0.75rem;
+  font-weight: var(--weight-data);
+  color: var(--ink-secondary);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.panel-release,
+.panel-keybpm {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: var(--weight-data);
+  color: var(--ink-secondary);
+}
+
+.panel-shared {
+  margin: 0.2rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--ink-secondary);
+}
+
+.panel-shared-link {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: var(--ink-primary);
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.panel-tabs {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.7rem;
+}
+
+.panel-tabs button {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: var(--weight-data);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  background: transparent;
+  border: 1px solid var(--rule-hairline);
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+}
+
+.panel-tabs button[aria-selected='true'] {
+  color: var(--ink-primary);
+  border-color: var(--family);
+}
+
+/* La liste VERTICALE des tracks : petite pochette, titre, artiste. */
+.panel-list {
+  list-style: none;
+  margin: 0.7rem 0 0;
+  padding: 0;
+  overflow-y: auto;
+  min-height: 0;
+  flex: 1;
+  scrollbar-width: thin;
+}
+
+.panel-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.45rem 0.5rem;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid oklch(1 0 0 / 0.05);
+  cursor: pointer;
+  color: var(--ink-primary);
+  text-align: left;
+  font-family: var(--font-ui);
+}
+
+.panel-row:hover {
+  background: oklch(1 0 0 / 0.04);
+}
+
+.panel-row[data-active='true'] {
+  background: oklch(1 0 0 / 0.07);
+  box-shadow: inset 2px 0 0 var(--family);
+}
+
+.panel-row-cover {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  overflow: hidden;
+  background: oklch(0.07 0.01 250);
+}
+
+.panel-row-cover img,
+.panel-row-cover svg {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.panel-thumb:hover,
-.panel-thumb:focus-visible {
-  opacity: 1;
+.panel-row-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
 }
 
-.panel-thumb[data-active='true'] {
-  opacity: 1;
-  border-color: var(--family);
-  box-shadow: 0 0 0 1px var(--family);
+.panel-row-text strong {
+  font-size: 0.875rem;
+  font-weight: var(--weight-track);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* Transport complet. */
+.panel-row-text span {
+  font-size: 0.75rem;
+  font-weight: var(--weight-data);
+  color: var(--ink-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.panel-row-year {
+  font-size: 0.75rem;
+  font-weight: var(--weight-data);
+  color: var(--ink-secondary);
+  flex: none;
+}
+
+/* --- Transport pleine largeur -------------------------------------------- */
+
 .panel-transport {
+  flex: none;
   display: flex;
   align-items: center;
-  gap: calc(var(--panel-w) * 0.018);
-  margin-top: calc(var(--panel-w) * 0.01);
+  gap: 0.8rem;
+  padding: 0.7rem 1.6rem;
+  border-top: 1px solid var(--rule-hairline);
 }
 
 .panel-transport button {
   font-family: var(--font-ui);
-  font-size: calc(var(--panel-w) * 0.032);
-  font-weight: 400;
+  font-size: 0.95rem;
   color: var(--ink-primary);
   background: transparent;
   border: 0;
-  padding: 0;
+  padding: 0.3rem;
   cursor: pointer;
   line-height: 1;
 }
 
 .panel-transport button:disabled {
-  opacity: 0.3;
+  color: oklch(0.4 0.01 250);
   cursor: default;
 }
 
 .panel-main {
-  font-size: calc(var(--panel-w) * 0.042) !important;
-  color: var(--family) !important;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--rule-hairline) !important;
+  border-radius: 50%;
 }
 
 .panel-time {
-  font-size: calc(var(--panel-w) * 0.024);
-  font-weight: 400;
+  font-size: 0.75rem;
+  font-weight: var(--weight-data);
   color: var(--ink-secondary);
-  flex: none;
-  min-width: calc(var(--panel-w) * 0.07);
+  min-width: 2.6rem;
+  text-align: center;
 }
 
 .panel-bar {
   flex: 1;
-  height: calc(var(--panel-w) * 0.012);
-  min-height: 3px;
+  height: 4px;
   background: oklch(0.3 0.01 250);
-  cursor: pointer;
   position: relative;
+  cursor: pointer;
 }
 
 .panel-bar-fill {
@@ -288,36 +388,82 @@
 }
 
 .panel-volume input {
-  width: calc(var(--panel-w) * 0.13);
+  width: 84px;
   accent-color: var(--family);
-  cursor: pointer;
 }
 
-.panel-expand {
-  font-size: calc(var(--panel-w) * 0.03) !important;
+.panel-youtube {
+  font-size: 0.75rem;
+  font-weight: var(--weight-data);
+  color: var(--ink-secondary);
+  text-decoration: none;
+  border: 1px solid var(--rule-hairline);
+  padding: 0.3rem 0.6rem;
+  white-space: nowrap;
+}
+
+.panel-youtube:hover {
+  color: var(--ink-primary);
 }
 
 .panel-close {
   position: absolute;
-  top: calc(var(--panel-pad) * 0.35);
-  right: calc(var(--panel-pad) * 0.35);
-  width: calc(var(--panel-w) * 0.055);
-  height: calc(var(--panel-w) * 0.055);
-  font-family: var(--font-ui);
-  font-size: calc(var(--panel-w) * 0.026);
-  font-weight: 400;
+  top: 0.6rem;
+  right: 0.6rem;
+  width: 34px;
+  height: 34px;
+  background: transparent;
+  border: 0;
   color: var(--ink-secondary);
-  background: oklch(0.1 0.01 250 / 0.75);
-  border: 1px solid var(--rule-hairline);
+  font-size: 1rem;
   cursor: pointer;
-  line-height: 1;
-  padding: 0;
 }
 
-/* --- Mini-lecteur ------------------------------------------------------- */
+.panel-close:hover {
+  color: var(--ink-primary);
+}
 
-/* La lecture continue quand on referme le panneau et qu'on remonte. Le carré
-   de gauche est un emplacement vide : la vraie iframe vient s'y poser. */
+/* --- Mobile --------------------------------------------------------------- */
+
+@media (max-width: 700px) {
+  .panel {
+    width: 100vw;
+    height: 100dvh;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  .panel-columns {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 1rem;
+    padding: 1rem;
+    overflow: hidden;
+  }
+
+  .panel-media {
+    max-width: min(52vw, 38dvh);
+    aspect-ratio: 1 / 1;
+    justify-self: center;
+  }
+
+  .panel-transport {
+    padding: 0.6rem 1rem calc(0.6rem + env(safe-area-inset-bottom));
+    flex-wrap: wrap;
+  }
+
+  .panel-transport button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .panel-volume {
+    display: none;
+  }
+}
+
+/* --- Mini-lecteur ---------------------------------------------------------- */
+
 .mini {
   position: fixed;
   left: 0;
@@ -361,7 +507,7 @@
 
 .mini-text strong {
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: var(--weight-track);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -369,7 +515,7 @@
 
 .mini-text span {
   font-size: 0.75rem;
-  font-weight: 400;
+  font-weight: var(--weight-data);
   color: var(--ink-secondary);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -387,7 +533,7 @@
 .mini-stop {
   font-family: var(--font-ui);
   font-size: 0.95rem;
-  font-weight: 400;
+  font-weight: var(--weight-data);
   color: var(--ink-primary);
   background: transparent;
   border: 0;
@@ -431,90 +577,4 @@
   .yt-wrap {
     transition: none;
   }
-}
-
-/* Pochette procédurale : même gabarit qu'une image, dessinée au lieu d'être
-   téléchargée. Dernier recours quand aucune source n'a d'image. */
-.panel-cover-generated,
-.panel-thumb .procedural-cover {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.panel-cover-generated .procedural-cover {
-  width: 100%;
-  height: 100%;
-}
-
-/* Onglets Essentiel et Actuel. Ils n'apparaissent que si la liste Actuel a du
-   contenu : promettre un onglet vide serait pire que ne pas l'avoir. */
-.panel-tabs {
-  display: flex;
-  gap: calc(var(--panel-w) * 0.02);
-  margin-top: calc(var(--panel-w) * 0.008);
-  flex: none;
-}
-
-.panel-tabs button {
-  font-family: var(--font-ui);
-  font-size: calc(var(--panel-w) * 0.024);
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-secondary);
-  background: transparent;
-  border: 0;
-  border-bottom: 1px solid transparent;
-  padding: 0 0 0.25em;
-  cursor: pointer;
-}
-
-.panel-tabs button[aria-selected='true'] {
-  color: var(--ink-primary);
-  border-bottom-color: var(--family);
-}
-
-/* Morceau charnière : appartient aussi à d'autres genres. */
-.panel-shared {
-  margin: 0;
-  font-size: calc(var(--panel-w) * 0.026);
-  font-weight: 400;
-  color: var(--ink-secondary);
-  flex: none;
-}
-
-.panel-shared-link {
-  font: inherit;
-  color: var(--ink-primary);
-  background: transparent;
-  border: 0;
-  border-bottom: 1px solid var(--family);
-  padding: 0;
-  cursor: pointer;
-}
-
-/* Le nom du genre, en évidence sur le panneau. Cliquable : il ouvre la fiche. */
-.panel-genre-name {
-  display: block;
-  font-family: var(--font-ui);
-  font-size: calc(var(--panel-w) * 0.04);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: var(--family);
-  background: transparent;
-  border: 0;
-  padding: 0;
-  cursor: pointer;
-  text-align: left;
-}
-
-.panel-genre-name:hover,
-.panel-genre-name:focus-visible {
-  text-decoration: underline;
-}
-
-.panel-genre-meta {
-  display: block;
-  margin-top: 0.1em;
 }

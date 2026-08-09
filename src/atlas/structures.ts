@@ -263,6 +263,17 @@ export interface Track {
   readonly year: number | null;
   /** Album donné par iTunes. Ce n'est pas le label de disque. */
   readonly album: string | null;
+  /* Sortie ORIGINALE, relevée sur Discogs par correspondance exigeante :
+     une donnée fausse est pire qu'aucune, donc chaque champ peut manquer. */
+  readonly release: {
+    readonly label: string | null;
+    readonly catno: string | null;
+    readonly country: string | null;
+    readonly year: number | null;
+    readonly format: string | null;
+  } | null;
+  /** Tonalité relevée, jamais déduite ni inventée. Absent le plus souvent. */
+  readonly key: string | null;
   /** Chemin de la pochette, servi par le site : aucun appel tiers au runtime.
       Vide quand aucune image n'existe : l'interface en dessine une, dérivée du
       nom de l'artiste et du titre, sans graine à stocker. */
@@ -321,6 +332,8 @@ const toTracks = (list: CorpusGenre['tracks']['essentiel']): Track[] =>
       title: t.title,
       year: t.year,
       album: t.album ?? null,
+      release: t.release ?? null,
+      key: t.key ?? null,
       cover: t.cover ? `${import.meta.env.BASE_URL}${t.cover.local}` : '',
       youtubeId: t.youtubeId,
       sharedWith: [] as { familyIndex: number; genreLocal: number; label: string }[]

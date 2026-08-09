@@ -73,6 +73,21 @@ export const trackSchema = z.strictObject({
   /* iTunes donne l'album, pas le label de disque : le label demanderait un
      jeton Discogs. On affiche donc l'album, en le nommant pour ce qu'il est. */
   album: z.string().optional(),
+  /* Sortie ORIGINALE, relevée sur Discogs (scripts/fetch-release-data.ts).
+     Correspondance exigeante : une donnée fausse est pire qu'aucune, chaque
+     champ peut donc manquer. Remplace l'album quand elle existe. */
+  release: z
+    .strictObject({
+      label: z.string().nullable(),
+      catno: z.string().nullable(),
+      country: z.string().nullable(),
+      year: z.number().int().min(1940).max(2030).nullable(),
+      format: z.string().nullable()
+    })
+    .optional(),
+  /* Tonalité RELEVÉE (GetSongKey), jamais déduite d'une analyse ni inventée.
+     Absente le plus souvent : le champ ne s'affiche que quand il existe. */
+  key: z.string().optional(),
   /* Morceau CHARNIÈRE : il appartient à plusieurs genres, et c'est une
      information, pas une anomalie. « Acperience 1 » est à la fois de l'acid
      techno et de l'acid trance, c'est précisément ce qui le rend intéressant.
