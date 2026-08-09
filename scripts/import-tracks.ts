@@ -197,7 +197,11 @@ const parseCanon = (text: string): { rows: CanonRow[]; problems: string[] } => {
       artist,
       title,
       year: Number.isFinite(yearNum) && yearNum >= 1960 && yearNum <= 2100 ? yearNum : null,
-      role: normalise(at('role', 'rôle')),
+      /* PAS normalise() ici : c'est la moulinette de matching musical, qui
+         translittère les umlauts (ue devient u) et transformait « actuel »
+         en « actul » — le rôle ne valait alors JAMAIS 'actuel' et tout
+         partait dans l'onglet Essentiel. Un mot-clé se compare en clair. */
+      role: at('role', 'rôle').trim().toLowerCase(),
       // Colonne facultative : les autres genres qui revendiquent le morceau,
       // séparés par des espaces. Le partage se déclare, il ne se déduit pas.
       sharedWith: at('partage', 'shared').split(/[\s,]+/).filter(Boolean),
