@@ -474,27 +474,35 @@ const testBoites = async (): Promise<BoitesResult> => {
   }
   await wait(900);
   const snap = a.labelSnapshot();
-  const dom = new Map<string, DOMRect>();
-  for (const el of document.querySelectorAll('.atlas-label')) {
-    const r = el.getBoundingClientRect();
-    if (r.left > -500 && Number(getComputedStyle(el).opacity) > 0.05) {
-      dom.set(el.textContent ?? '', r);
-    }
-  }
   let labels = 0;
   let pireEcart = 0;
   let sousEstimes = 0;
   let pire = '';
-  for (const s of snap) {
-    const r = dom.get(s.text);
-    if (!r) continue;
-    labels += 1;
-    const ecart = Math.max(Math.abs(r.left - s.sx), Math.abs(r.top - s.sy));
-    if (ecart > pireEcart) {
-      pireEcart = ecart;
-      pire = s.text;
+  for (const el of document.querySelectorAll('.atlas-label')) {
+    const r = el.getBoundingClientRect();
+    if (r.left <= -500 || Number(getComputedStyle(el).opacity) <= 0.05) continue;
+    /* Un genre fondateur porte le même nom que sa famille (Disco, Techno…) :
+       deux entrées du snapshot partagent alors le texte. On apparie chaque
+       label DOM à l'entrée LA PLUS PROCHE parmi les homonymes, sinon le
+       test compare le genre à la boîte de la famille et invente un écart. */
+    const candidats = snap.filter((s) => s.text === (el.textContent ?? ''));
+    if (candidats.length === 0) continue;
+    let best = candidats[0];
+    let bestEcart = Infinity;
+    for (const s of candidats) {
+      const ecart = Math.max(Math.abs(r.left - s.sx), Math.abs(r.top - s.sy));
+      if (ecart < bestEcart) {
+        bestEcart = ecart;
+        best = s;
+      }
     }
-    if (r.width > s.w + 1 || r.height > s.h + 1) sousEstimes += 1;
+    if (!best) continue;
+    labels += 1;
+    if (bestEcart > pireEcart) {
+      pireEcart = bestEcart;
+      pire = best.text;
+    }
+    if (r.width > best.w + 1 || r.height > best.h + 1) sousEstimes += 1;
   }
   return {
     labels,
