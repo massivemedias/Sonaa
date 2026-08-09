@@ -95,8 +95,10 @@ const CHROME_TOP = 64;
 const CHROME_BOTTOM = 74;
 /* Les noms sont toujours candidats : le plafond monte au niveau du pool.
    Sur mobile on reste plus bas, l'écran n'a pas la place de toute façon. */
-const DESKTOP = { maxLabels: 96, floorPx: 11 };
-const MOBILE = { maxLabels: 44, floorPx: 12 };
+/* Plancher abaissé de 11 à 9 px (verdict : les labels dominaient la carte
+   et forçaient le masquage). */
+const DESKTOP = { maxLabels: 96, floorPx: 9 };
+const MOBILE = { maxLabels: 44, floorPx: 9 };
 
 
 /* La diffusion. Rapide et énergique : c'est l'animation signature. */
@@ -841,6 +843,8 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   let introStart = 0;
   let introDone: (() => void) | null = null;
   const baseRadii = Float32Array.from(sphereRadii);
+  /* Rayon de référence pour lier la taille des labels à celle des sphères. */
+  const genreRadiusMax = Math.max(1e-3, ...Array.from(baseRadii));
 
   /* ANIMATIONS SOBRES : respiration 2 %, phase par noeud ; survol +8 % en
      150 ms environ. Coupé par prefers-reduced-motion. */
@@ -1475,7 +1479,18 @@ const OVERLAP_TOLERANCE = 1;
          grandissent normalement quand on approche. */
       const isAtlasFamily = kind === 'family' && level === 'atlas';
       const raw = (1500 / Math.max(depth, 1)) * (isAtlasFamily ? 0.72 : 1);
-      const px = clamp(raw, isAtlasFamily ? 10 : labelRules.floorPx, LABEL_PX_CEILING);
+      /* GENRES RÉDUITS de ~35 % et LIÉS À LEUR SPHÈRE (verdict : le texte
+         dominait la carte) : un satellite lointain porte un nom plus petit
+         qu'un fondateur. Racine carrée pour ne pas écraser les petits.
+         Les familles gardent leur taille : l'écart de niveaux se lit. */
+      const px =
+        kind === 'genre'
+          ? clamp(
+              raw * 0.65 * (0.72 + 0.33 * Math.sqrt((baseRadii[slot] ?? 1) / genreRadiusMax)),
+              labelRules.floorPx,
+              LABEL_PX_CEILING
+            )
+          : clamp(raw, isAtlasFamily ? 10 : labelRules.floorPx, LABEL_PX_CEILING);
       const w = textWidth(text, px, kind);
 
       /* Écran étroit : le nom de famille passe DESSOUS la sphère et centré.
@@ -1487,6 +1502,13 @@ const OVERLAP_TOLERANCE = 1;
          boîte rendue, par construction. Même seuil que le gabarit mobile. */
       let fx = sx;
       let fy = sy;
+      /* AUCUN LABEL COUPÉ PAR LE BORD (verdict, « Breakstep » coupé à
+         droite) : un genre qui déborde bascule du côté libre de sa sphère,
+         puis tout label reste dans le cadre. La boîte testée par
+         l'arbitrage est la boîte déplacée : rendu et test restent un. */
+      if (kind === 'genre' && fx + w > width - 4) {
+        fx = sx - w;
+      }
       if (kind === 'family' && width <= 700) {
         fx -= w / 2;
         fy += 21.6;
@@ -1495,6 +1517,8 @@ const OVERLAP_TOLERANCE = 1;
           return;
         }
       }
+
+      fx = Math.min(Math.max(fx, 4), Math.max(4, width - 4 - w));
 
       candidates.push({
         key,

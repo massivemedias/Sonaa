@@ -176,7 +176,7 @@ const MAX_DISTANCE = 9000;
 /* Taille des labels : plancher et plafond stricts. Plancher 11 px (mission),
    jamais de troncature ni d'abréviation : un nom qui ne tient pas à 11 px
    attend le zoom suivant, il ne s'ampute pas. */
-const LABEL_PX_FLOOR = 11;
+const LABEL_PX_FLOOR = 9;
 const LABEL_PX_CEILING = 22;
 
 /* Décalage de hiérarchie en Z : le sous-arbre courant vient devant. */
@@ -1152,6 +1152,8 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   let introStart = 0;
   let introDone: (() => void) | null = null;
   const baseRadii = Float32Array.from(sphereRadii);
+  /* Rayon de référence pour lier la taille des labels à celle des sphères. */
+  const genreRadiusMax = Math.max(1e-3, ...Array.from(baseRadii));
 
   /* ANIMATIONS SOBRES (mission). Respiration très lente des sphères, 2 pour
      cent d'amplitude, phase décalée par noeud pour éviter la pulsation
@@ -1312,13 +1314,24 @@ const OVERLAP_TOLERANCE = 1;
     ): void => {
       scratch.set(worldX, worldY, 0).project(camera);
       if (scratch.z > 1) return;
-      const px = clamp(lhWorld * ppw, LABEL_PX_FLOOR, LABEL_PX_CEILING);
+      /* Genres réduits de ~35 % et liés au rayon de leur sphère (verdict) ;
+         les familles gardent leur taille, l'écart de niveaux se lit. */
+      const px =
+        kind === 'genre'
+          ? clamp(
+              lhWorld * ppw * 0.65 * (0.72 + 0.33 * Math.sqrt((baseRadii[slot] ?? 1) / genreRadiusMax)),
+              LABEL_PX_FLOOR,
+              LABEL_PX_CEILING
+            )
+          : clamp(lhWorld * ppw, LABEL_PX_FLOOR, LABEL_PX_CEILING);
       const w = textWidth(text, px, kind);
       const h = px * 1.45;
       const cx = scratch.x * halfW + halfW;
       let cy = -scratch.y * halfH + halfH;
       if (dropBelowRadius > 0) cy += dropBelowRadius * ppw + 4 + h / 2;
-      const sx = cx - w / 2;
+      /* Aucun label coupé par le bord (verdict) : la boîte est ramenée
+         dans le cadre, et c'est cette boîte que l'arbitrage teste. */
+      const sx = Math.min(Math.max(cx - w / 2, 4), Math.max(4, width - 4 - w));
       const sy = cy - h / 2;
       if (sx > width + 40 || sx + w < -40 || sy > height + 40 || sy + h < -40) return;
       if (cy < CHROME_TOP || cy > height - CHROME_BOTTOM) return;
