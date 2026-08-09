@@ -1578,6 +1578,55 @@ unités monde, fonctionne du premier coup et se raisonne bien mieux.
 
 ---
 
+## ADR-049 : Dark disco vérifiée, confort de lecture, identité d'écran d'accueil
+
+**Date** : 2026-08-09.
+
+**Contexte.** Mission en cinq chantiers : intégrer les données dark disco /
+indie dance vérifiées à la main par Mika (le seul chemin qui permette de
+compléter une fiche de genre : les fiches restent en brouillon tant que lui
+seul ne les a pas tranchées), améliorer trois points de confort du lecteur et
+de la carte, et donner au site une identité d'écran d'accueil correcte sur
+iOS.
+
+**Décisions.**
+
+1. **Dark disco et indie dance sortent du brouillon.** Cinq tracks ajoutées
+   par le matcher autoritaire (5/5 à 1.00/1.00, aucune exception) : Pardon
+   Moi « Power To The People (Damon Jee Remix) » (2017, rôle origine),
+   Damon Jee « Bladed », Darlyn Vlys « Modelo 303 », Freudenthal remix de
+   « Missing Love », AFFKT « Revolte ». Descriptions, artistes et labels
+   fournis par Mika, recopiés tels quels. `redaction` retiré des deux
+   fiches ; il en reste neuf en brouillon dans `fiches-brouillon.md`.
+
+2. **Curseur de progression saisissable.** 8 px au repos, 12 px au survol,
+   poignée visible, zone cliquable étendue à 24 px par un `::before` ; en
+   mobile 10 px et zone tactile 44 px. La zone d'interaction est plus large
+   que le dessin : c'est elle qui compte, pas l'épaisseur visuelle.
+
+3. **Chaque rangée de la liste porte tout ce qu'on sait** : titre, artiste,
+   puis année · label · catalogue quand ils existent (`pcol-row-meta`,
+   chiffres tabulaires, ellipse). La track en cours reste distinguée.
+
+4. **Vol de caméra 600 → 850 ms**, sortie cubique douce `1-(1-t)³`, sans
+   rebond, dans les deux moteurs. Piège récidivant : les deux moteurs
+   (webgl.ts et webgl-orbit.ts) ont chacun leur copie de l'easing et de la
+   durée ; un patch sur un seul des deux passe inaperçu à l'œil pressé.
+
+5. **Icônes iOS opaques.** L'apple-touch-icon précédent portait un canal
+   alpha mais était déjà entièrement opaque (mesuré : `opaque: True`).
+   Régénéré quand même sans canal alpha (`-alpha off`), fond `#0a0c10`,
+   S du monogramme à 70 % de la largeur, coins carrés (iOS applique son
+   propre masque). Favicons 16/32/.ico refaits depuis la même source à
+   85 %, icônes PWA 192/512 + maskable (S à 55 %, marge de sécurité 20 %).
+   `apple-mobile-web-app-capable` + `status-bar-style black-translucent`
+   ajoutés ; manifest : `start_url` et `scope` absolus `/Sonaa/`,
+   `background_color` aligné sur `#0a0c10`. Les `env(safe-area-inset-*)`
+   étaient déjà posés sur les contrôles, le sélecteur de vues et la feuille
+   du lecteur — vérifiés, pas retouchés.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle

@@ -640,12 +640,19 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
               </div>
             )}
 
-            {/* La liste verticale : petite pochette, titre, artiste. La durée
-                n'est affichée que pour la track en cours : c'est la seule que
-                le lecteur connaît, et on n'invente pas les autres. */}
+            {/* La liste verticale : AUCUNE ligne muette. Chaque track affiche
+                titre, artiste, année, label et catalogue quand ils existent.
+                La track en cours reste distinguée et plus détaillée (sa durée
+                est la seule que le lecteur connaît, on n'invente pas les
+                autres). */}
             <ul className="pcol-list">
               {panelTracks.map((track, i) => {
                 const active = playingHere && playback?.trackIndex === i;
+                const meta: string[] = [];
+                const y = track.release?.year ?? track.year;
+                if (y) meta.push(String(y));
+                if (track.release?.label) meta.push(track.release.label);
+                if (track.release?.catno) meta.push(track.release.catno);
                 return (
                   <li key={track.id}>
                     <button
@@ -671,6 +678,9 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
                       <span className="pcol-row-text">
                         <strong>{track.title}</strong>
                         <span>{track.artist}</span>
+                        {meta.length > 0 && (
+                          <span className="pcol-row-meta">{meta.join(' · ')}</span>
+                        )}
                       </span>
                       {active && duration > 0 && (
                         <span className="pcol-row-duration">{mmss(duration)}</span>

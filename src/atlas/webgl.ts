@@ -633,8 +633,11 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
 
   // ------------------------------------------------------------ vol
 
-  const FLY_MS = 900;
-  const easeInOut = (t: number): number => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+  /* 850 ms : le mouvement se sent sans qu'on l'attende (verdict de Mika,
+   c'était trop rapide). Sortie douce, jamais de rebond. */
+  const FLY_MS = 850;
+  // Sortie douce cubique : part vite, se pose lentement, aucun rebond.
+  const easeInOut = (t: number): number => 1 - Math.pow(1 - t, 3);
   let flying = false;
   let flyStart = 0;
   const flyFrom = new Vector3();

@@ -401,6 +401,18 @@
   white-space: nowrap;
 }
 
+/* Métadonnées de rangée : année, label, catalogue. Discrètes, présentes. */
+.pcol-row-meta {
+  font-size: 0.65625rem;
+  font-weight: var(--weight-data);
+  color: var(--ink-secondary);
+  opacity: 0.85;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
 .pcol-row-duration {
   font-size: 0.71875rem;
   font-weight: var(--weight-data);
@@ -471,16 +483,49 @@
 
 .pcol-bar {
   flex: 1;
-  height: 4px;
+  height: 8px;
   background: oklch(0.3 0.01 250);
   position: relative;
   cursor: pointer;
+  border-radius: 4px;
+  transition: height 120ms linear;
+}
+
+/* Zone cliquable élargie à 24 px : la souris ne rate plus la barre. */
+.pcol-bar::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 24px;
+  transform: translateY(-50%);
+}
+
+.pcol-bar:hover {
+  height: 12px;
 }
 
 .pcol-bar-fill {
   position: absolute;
   inset: 0 auto 0 0;
   background: var(--family);
+  border-radius: 4px;
+}
+
+/* Poignée visible et attrapable, au bout du rempli. */
+.pcol-bar-fill::after {
+  content: '';
+  position: absolute;
+  right: -7px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--ink-primary);
+  border: 2px solid var(--family);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .pcol-volume input {
@@ -587,6 +632,14 @@
 
   .pcol-volume {
     display: none;
+  }
+
+  /* Mobile : barre à 10 px, zone tactile de 44 px. */
+  .pcol-bar {
+    height: 10px;
+  }
+  .pcol-bar::before {
+    height: 44px;
   }
 }
 

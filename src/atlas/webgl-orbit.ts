@@ -588,10 +588,10 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   let flyToDist = 0;
   let flyStart = -1e9;
   let flying = false;
-  const FLY_MS = 600;
+  const FLY_MS = 850;
 
-  const easeInOut = (t: number): number =>
-    t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  // Sortie douce cubique : part vite, se pose lentement, aucun rebond.
+  const easeInOut = (t: number): number => 1 - Math.pow(1 - t, 3);
 
   /* Cadrage serré. Le facteur précédent, 1.7, laissait l'amas occuper à peine
      un quart de l'écran : six labels ne pouvaient pas y tenir sans se marcher
