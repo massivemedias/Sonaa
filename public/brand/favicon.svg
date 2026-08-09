@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- S dessiné POUR la petite taille : trait quasi constant, contreformes
-       ouvertes, aucun détail sous 2 px à l'échelle 16. Inspiré du mouvement
-       du monogramme calligraphié, pas recadré dedans (le recadrage devenait
-       une tache à 16 px, mesuré). Le fond et l'encre basculent avec le thème
-       du navigateur. -->
+  <!-- S calligraphique dessiné POUR la petite taille : topologie de S (le
+       recadrage du monogramme se lisait « d » à 16 px, mesuré), plume large
+       simulée par double trait décalé, penche cursive, amorces de parafe.
+       Épaisseur minimale 2,3 px à l'échelle 16, contreformes ouvertes.
+       Le fond et l'encre basculent avec le thème du navigateur. -->
   <style>
     .bg { fill: #f2f4f8; }
     .s { stroke: #0a0c10; }
@@ -13,11 +13,8 @@
     }
   </style>
   <rect class="bg" x="0" y="0" width="32" height="32" rx="7" />
-  <path
-    class="s"
-    d="M 22.8 9.2 C 21.4 6.4 18.8 5.2 16 5.2 C 12 5.2 9.4 7.4 9.4 10.3 C 9.4 13.4 12.5 14.3 16 15.2 C 19.5 16.1 22.6 17.4 22.6 20.7 C 22.6 24 19.8 26.8 16 26.8 C 13 26.8 10 25.4 8.9 22.4"
-    fill="none"
-    stroke-width="5"
-    stroke-linecap="round"
-  />
+  <g transform="translate(16 16) skewX(-8) translate(-16 -16)" fill="none" stroke-linecap="round">
+    <path class="s" d="M 25.0 7.2 C 23.6 5.3 21.0 4.6 18.4 4.8 C 13.6 5.2 10.6 7.3 10.6 10.3 C 10.6 13.3 13.6 14.3 16.8 15.1 C 20.2 16.0 23.0 17.3 23.0 20.5 C 23.0 23.7 20.2 26.5 16.4 26.9 C 13.0 27.2 9.8 25.8 8.2 23.2 C 7.7 22.4 7.4 21.6 7.3 20.8" stroke-width="4.6" />
+    <path class="s" d="M 25.0 7.2 C 23.6 5.3 21.0 4.6 18.4 4.8 C 13.6 5.2 10.6 7.3 10.6 10.3 C 10.6 13.3 13.6 14.3 16.8 15.1 C 20.2 16.0 23.0 17.3 23.0 20.5 C 23.0 23.7 20.2 26.5 16.4 26.9 C 13.0 27.2 9.8 25.8 8.2 23.2 C 7.7 22.4 7.4 21.6 7.3 20.8" stroke-width="4.6" transform="translate(0.75 0.95)" />
+  </g>
 </svg>

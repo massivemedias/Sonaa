@@ -5,7 +5,7 @@
    SearchOverlay. */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { FAMILIES, STRUCTURES } from './structures.ts';
+import { STRUCTURES } from './structures.ts';
 import { PlayerLayer } from './PlayerLayer.tsx';
 import { SearchOverlay } from './SearchOverlay.tsx';
 import { Welcome } from './Welcome.tsx';
@@ -42,7 +42,6 @@ const hasWebGL = (): boolean => {
   }
 };
 
-const fmt = (ms: number): string => `${ms.toFixed(2)} ms`;
 const HELP_KEY = 'sonaa-help-seen';
 /* L'écran d'accueil se montre une seule fois dans la vie du navigateur. Clé
    distincte de la ligne d'aide : ce sont deux choses différentes. */
@@ -70,7 +69,6 @@ export function AtlasPage() {
   const [mode, setMode] = useState<Mode>('attente');
   // 3D libre par défaut (verdict de Mika) ; un choix mémorisé est respecté.
   const [view, setView] = useState<ViewId>(() => readView() ?? 'libre');
-  const [stats, setStats] = useState<AtlasStats | null>(null);
   const [nav, setNav] = useState<NavState | null>(null);
   const [panelGenre, setPanelGenre] = useState<{ familyIndex: number; genreLocal: number } | null>(
     null
@@ -91,9 +89,9 @@ export function AtlasPage() {
   );
   const [reason, setReason] = useState('Chargement de la couche WebGL…');
   const [showHelp, setShowHelp] = useState(() => localStorage.getItem(HELP_KEY) !== '1');
-  const [showHud, setShowHud] = useState(false);
 
-  const onStats = useCallback((next: AtlasStats) => setStats(next), []);
+  // Le HUD est retiré : les statistiques du moteur n'ont plus de lecteur.
+  const onStats = useCallback((_next: AtlasStats) => {}, []);
   const onNavigate = useCallback((next: NavState) => setNav(next), []);
   const onTracks = useCallback(
     (familyIndex: number, genreLocal: number) => setPanelGenre({ familyIndex, genreLocal }),
@@ -191,6 +189,26 @@ export function AtlasPage() {
     return () => window.clearTimeout(id);
   }, [mode]);
 
+  /* Les contrôles s'estompent à 60 % après 3 s sans interaction, et
+     reviennent à pleine opacité au moindre mouvement ou toucher. Attribut
+     DOM direct : pas de re-rendu React toutes les 3 secondes. */
+  const controlsRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    let timer = 0;
+    const wake = (): void => {
+      controlsRef.current?.removeAttribute('data-idle');
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => controlsRef.current?.setAttribute('data-idle', '1'), 3000);
+    };
+    wake();
+    const events: (keyof WindowEventMap)[] = ['pointerdown', 'pointermove', 'wheel', 'keydown', 'touchstart'];
+    for (const e of events) window.addEventListener(e, wake, { passive: true });
+    return () => {
+      window.clearTimeout(timer);
+      for (const e of events) window.removeEventListener(e, wake);
+    };
+  }, []);
+
   /* Le balayage du logo s'arrête quand l'onglet est en arrière-plan : une
      animation CSS ne se met pas en pause toute seule. */
   useEffect(() => {
@@ -210,12 +228,14 @@ export function AtlasPage() {
     apiRef.current?.closePanel();
   }, []);
 
-  /* Retour à l'Atlas : ferme le panneau, ferme la fiche, referme la famille.
-     C'est ce que fait le premier segment du fil d'Ariane, et le logotype. */
+  /* Retour à l'Atlas : cadrage d'ensemble et fil d'Ariane remis à zéro.
+     C'est ce que fait le premier segment du fil d'Ariane, et le logotype.
+     LA LECTURE NE SE COUPE PAS : si quelque chose joue sur mobile, la
+     feuille passe en barre discrète au lieu de se fermer ; c'est le
+     PlayerLayer qui tranche, via l'événement sonaa:home. */
   const backToAtlas = useCallback(() => {
-    setPanelGenre(null);
-    apiRef.current?.closePanel();
     apiRef.current?.goToFamily(-1);
+    window.dispatchEvent(new CustomEvent('sonaa:home'));
   }, []);
 
   const dismissWelcome = useCallback((picked?: ViewId) => {
@@ -300,7 +320,7 @@ export function AtlasPage() {
     document.title = parts.length > 0 ? `${parts.join(' ')} · SONAA` : 'SONAA';
   }, [nav, panelGenre]);
 
-  const results = stats?.results ?? null;
+
   const level = nav?.level ?? 'atlas';
 
   return (
@@ -322,22 +342,14 @@ export function AtlasPage() {
 
       {mode !== 'webgl' && mode !== 'dom' && <Fallback notice={reason} />}
 
-      {/* Le sélecteur de vue : quatre façons de lire la même carte. */}
-      <div className="view-switch" role="group" aria-label="Choisir la vue">
-        {VIEWS.map((v) => (
-          <button
-            key={v.id}
-            data-current={view === v.id}
-            onClick={() => view !== v.id && chooseView(v.id)}
-            title={v.hint}
-          >
-            {v.label}
-          </button>
-        ))}
-      </div>
+      {/* Le sélecteur de vue vit dans le pied de page, avec les crédits :
+          la barre permanente encombrait la carte une fois le choix fait
+          (verdict). Le choix reste à un clic, il n'est plus sous les yeux. */}
 
-      {/* Le logotype est le retour à l'accueil. Discret et petit : il ne doit
-          pas concurrencer la carte, qui est le sujet. */}
+      {/* Le logotype est le retour à l'accueil : cadrage d'ensemble, fil
+          d'Ariane remis à zéro, la lecture en cours passe en barre discrète
+          sans jamais se couper. Le balayage lumineux au survol sert
+          d'indice de cliquabilité. */}
       <button
         className="brand"
         onClick={act(backToAtlas)}
@@ -451,18 +463,15 @@ export function AtlasPage() {
         </p>
       )}
 
-      {/* Contrôles visibles en permanence : la navigation ne doit pas se
-          deviner. Ils font exactement ce que font la souris et le clavier. */}
+      {/* Trois contrôles, haut droit : plus, moins, recentrer. Rien d'autre,
+          la rotation est supprimée. Ils s'estompent après 3 s sans
+          interaction et reviennent au moindre geste (data-idle, posé par
+          l'effet d'inactivité). */}
       {mode === 'webgl' && (
-        <div className="controls" aria-label="Contrôles de navigation">
+        <div ref={controlsRef} className="controls" aria-label="Contrôles de navigation">
           <button onClick={act(() => apiRef.current?.zoom(1))} aria-label="Zoom avant" title="Zoom avant (+)">+</button>
           <button onClick={act(() => apiRef.current?.zoom(-1))} aria-label="Zoom arrière" title="Zoom arrière (-)">−</button>
-          {/* L'orbite est abandonnée : la carte se déplace, elle ne tourne
-              plus. Les flèches remplacent la rotation. */}
-          <button onClick={act(() => apiRef.current?.pan(-1, 0))} aria-label="Déplacer vers la gauche" title="Déplacer (flèches)">←</button>
-          <button onClick={act(() => apiRef.current?.pan(1, 0))} aria-label="Déplacer vers la droite" title="Déplacer (flèches)">→</button>
           <button onClick={act(() => apiRef.current?.recenter())} aria-label="Recentrer" title="Recentrer (0)">⌂</button>
-          <button onClick={act(() => apiRef.current?.goUp())} aria-label="Remonter d'un niveau" title="Remonter (Échap)">↑</button>
         </div>
       )}
 
@@ -485,62 +494,30 @@ export function AtlasPage() {
         onReopen={reopenPanel}
         onGoToGenre={goToGenre}
         onGoToFamily={(familyIndex: number) => apiRef.current?.goToFamily(familyIndex)}
+        onFrameFamily={(familyIndex: number) => apiRef.current?.frameFamily(familyIndex)}
       />
 
-      {/* Pied de page discret, présent dans TOUTES les vues : crédits et
-          index accessible ne dépendent d'aucun mode. */}
+      {/* Pied de page discret, présent dans TOUTES les vues : crédits, index
+          ET le changement de vue, qui n'a plus de barre permanente. */}
       <span className="foot-links">
+        {VIEWS.map((v) => (
+          <button
+            key={v.id}
+            className="foot-view"
+            data-current={view === v.id}
+            onClick={() => view !== v.id && chooseView(v.id)}
+            title={v.hint}
+          >
+            {v.label}
+          </button>
+        ))}
+        <span className="foot-sep" aria-hidden="true">·</span>
         <a className="credits-link" href="#/credits">Crédits</a>
         <a className="credits-link" href="#/index">Index</a>
       </span>
 
-      <button className="hud-toggle" onClick={() => setShowHud((v) => !v)}>
-        {showHud ? 'Masquer les mesures' : 'Mesures'}
-      </button>
-
-      {showHud && (
-        <div className="atlas-hud">
-          <p className="atlas-hud-title">Prototype jetable</p>
-          <dl className="atlas-hud-grid">
-            <dt>familles</dt>
-            <dd>{FAMILIES.length}</dd>
-            <dt>sphères</dt>
-            <dd>{stats?.spheres ?? '—'}</dd>
-            <dt>liens</dt>
-            <dd>{stats?.links ?? '—'}</dd>
-            <dt>fps</dt>
-            <dd data-alert={stats ? stats.fps < 40 : false}>{stats ? stats.fps.toFixed(0) : '—'}</dd>
-            <dt>draw calls</dt>
-            <dd>{stats?.drawCalls ?? '—'}</dd>
-            <dt>niveau</dt>
-            <dd>{panelGenre ? 'tracks' : level}</dd>
-            <dt>diffusion</dt>
-            <dd>{stats ? `${stats.deployPct.toFixed(0)} %` : '—'}</dd>
-            <dt>rendu</dt>
-            <dd data-alert={stats?.reduced === true}>{stats ? (stats.reduced ? 'réduit' : 'complet') : '—'}</dd>
-          </dl>
-
-          {results ? (
-            <dl className="atlas-hud-grid">
-              <dt>fond</dt>
-              <dd>{fmt(results.backgroundMs)}</dd>
-              <dt>sphères</dt>
-              <dd>{fmt(results.spheresMs)}</dd>
-              <dt>liens</dt>
-              <dd>{fmt(results.linksMs)}</dd>
-              <dt>image complète</dt>
-              <dd data-alert={results.totalMs > 16.67}>{fmt(results.totalMs)}</dd>
-            </dl>
-          ) : (
-            <p className="atlas-hud-wait">Mesure en cours…</p>
-          )}
-
-          <div className="atlas-hud-actions">
-            <button onClick={() => void apiRef.current?.runProfile()}>Remesurer</button>
-            <a className="atlas-hud-link" href="#/index">Index accessible</a>
-          </div>
-        </div>
-      )}
+      {/* Le HUD « Mesures » est retiré (verdict : on s'en fout). Le système
+          ?verify reste, c'est lui l'appareil de mesure. */}
     </div>
   );
 }

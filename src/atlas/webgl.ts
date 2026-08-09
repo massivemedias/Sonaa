@@ -146,6 +146,9 @@ export interface AtlasApi {
   closePanel: () => void;
   /** Joue la naissance des familles. Rappel à la fin ou à l'interruption. */
   playIntro: (onEnd?: () => void) => void;
+  /** Recadre la caméra sur la famille entière, sans toucher à la sélection.
+      Sert quand la feuille mobile ou la colonne changent la zone visible. */
+  frameFamily: (familyIndex: number) => void;
   /** Boîtes réellement testées par la dernière passe de placement des labels
       (lecture seule, pour verify:visual : boîte testée = boîte rendue). */
   labelSnapshot: () => {
@@ -743,6 +746,7 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   };
 
   const selectFamily = (fi: number, now: number): void => {
+    tapZoomPrev = null;
     activeFamily = fi;
     activeGenre = -1;
     genrePath = [];
@@ -783,7 +787,10 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     level = 'genre';
     focusIndex = globalIndex;
 
-    if (slot.children.length > 0) flyToBBox(subtreeBBox(globalIndex), now);
+    /* LA CARTE SE RECADRE SUR LA FAMILLE ENTIÈRE, pas sur le genre seul
+       (verdict) : le genre reste marqué dans l'ensemble par son halo. */
+    const bb = layout.familyBBox[slot.family];
+    if (bb) flyToBBox(bb, now);
     emitNav();
     openPanel(slot.family, slot.local);
   };
@@ -900,7 +907,33 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     const worldX = target.x + ndcX * tanHalf * camera.aspect * distance;
     const worldY = target.y + ndcY * tanHalf * distance;
 
-    const factor = Math.exp(event.deltaY * 0.0022);
+    // 0.0011 et non 0.0022 : la molette était trop nerveuse (verdict).
+    const factor = Math.exp(event.deltaY * 0.0011);
+    const next = clamp(distance * factor, MIN_DISTANCE, MAX_DISTANCE);
+    const k = next / distance;
+    target.x = worldX - (worldX - target.x) * k;
+    target.y = worldY - (worldY - target.y) * k;
+    targetSmooth.copy(target);
+    distance = next;
+    flying = false;
+  };
+
+  /* Pincement à deux doigts : zoom continu ancré au milieu des doigts, la
+     vue est plane donc l'ancrage est exact. Sensibilité réduite (exposant),
+     inertie nulle : le doigt commande, la carte suit. */
+  const activePointers = new Map<number, { x: number; y: number }>();
+  let pinchDist = 0;
+  let lastTapT = 0;
+  let lastTapX = 0;
+  let lastTapY = 0;
+  let tapTimer = 0;
+  let tapZoomPrev: { x: number; y: number; distance: number } | null = null;
+
+  const zoomAnchored = (px: number, py: number, factor: number): void => {
+    const ndcX = (px / Math.max(1, width)) * 2 - 1;
+    const ndcY = -((py / Math.max(1, height)) * 2 - 1);
+    const worldX = target.x + ndcX * tanHalf * camera.aspect * distance;
+    const worldY = target.y + ndcY * tanHalf * distance;
     const next = clamp(distance * factor, MIN_DISTANCE, MAX_DISTANCE);
     const k = next / distance;
     target.x = worldX - (worldX - target.x) * k;
@@ -913,11 +946,20 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   const onPointerDown = (event: PointerEvent): void => {
     if (suspended) return;
     onFirstInteraction();
+    activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    /* Capture blindée : un pointeur synthétique (tests) la fait jeter, et
+       l'exception coupait l'initialisation du geste. */
+    try { canvas.setPointerCapture(event.pointerId); } catch { /* test */ }
+    if (activePointers.size === 2) {
+      dragging = false;
+      const [a, b] = [...activePointers.values()];
+      if (a && b) pinchDist = Math.hypot(a.x - b.x, a.y - b.y);
+      return;
+    }
     dragging = true;
     moved = 0;
     lastX = event.clientX;
     lastY = event.clientY;
-    canvas.setPointerCapture(event.pointerId);
   };
 
   /* Survol : il MET EN VALEUR (halo de la sphère), il ne révèle rien. Les
@@ -943,7 +985,27 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
 
   const onPointerMove = (event: PointerEvent): void => {
     onHover(event);
-    if (!dragging || suspended) return;
+    if (suspended) return;
+    const entry = activePointers.get(event.pointerId);
+    if (entry) {
+      entry.x = event.clientX;
+      entry.y = event.clientY;
+    }
+
+    if (activePointers.size >= 2) {
+      const [a, b] = [...activePointers.values()];
+      if (!a || !b || pinchDist <= 0) return;
+      const d = Math.hypot(a.x - b.x, a.y - b.y);
+      if (d <= 0) return;
+      const rect = canvas.getBoundingClientRect();
+      const factor = Math.pow(pinchDist / d, 0.55);
+      zoomAnchored((a.x + b.x) / 2 - rect.left, (a.y + b.y) / 2 - rect.top, factor);
+      cameraAtDefault = false;
+      pinchDist = d;
+      return;
+    }
+
+    if (!dragging) return;
     const dx = event.clientX - lastX;
     const dy = event.clientY - lastY;
     moved += Math.abs(dx) + Math.abs(dy);
@@ -960,35 +1022,82 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   const projected = new Float32Array(TOTAL_GENRES * 3); // sx, sy, profondeur
   const scratch = new Vector3();
 
+  const performTapAction = (px: number, py: number): void => {
+    let best = -1;
+    let bestD = 44;
+    for (let i = 0; i < TOTAL_GENRES; i += 1) {
+      if ((projected[i * 3 + 2] ?? 2) > 1) continue;
+      const d = Math.hypot(px - (projected[i * 3] ?? 0), py - (projected[i * 3 + 1] ?? 0));
+      if (d < bestD) {
+        bestD = d;
+        best = i;
+      }
+    }
+    const now = performance.now();
+    const slot = best >= 0 ? slotsData[best] : undefined;
+    if (!slot) {
+      goUp();
+    } else if (level === 'atlas' || slot.family !== activeFamily) {
+      selectFamily(slot.family, now);
+    } else {
+      selectGenre(best, now);
+    }
+  };
+
+  /* Double tap : zoom sur le point touché, second double tap revient au
+     cadrage d'avant. Tactile seulement, le tap simple attend 280 ms. */
+  const doubleTapZoom = (px: number, py: number): void => {
+    if (tapZoomPrev) {
+      target.set(tapZoomPrev.x, tapZoomPrev.y, target.z);
+      targetSmooth.copy(target);
+      distance = tapZoomPrev.distance;
+      tapZoomPrev = null;
+      return;
+    }
+    tapZoomPrev = { x: target.x, y: target.y, distance };
+    zoomAnchored(px, py, 0.45);
+  };
+
   const onPointerUp = (event: PointerEvent): void => {
+    const wasPinching = pinchDist > 0 && activePointers.size >= 2;
+    activePointers.delete(event.pointerId);
+    if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+
+    if (wasPinching && activePointers.size < 2) {
+      pinchDist = 0;
+      const rest = [...activePointers.values()][0];
+      if (rest) {
+        dragging = true;
+        lastX = rest.x;
+        lastY = rest.y;
+        moved = 999;
+      }
+      return;
+    }
+
     if (dragging && moved < 5 && !suspended) {
       const rect = canvas.getBoundingClientRect();
       const px = event.clientX - rect.left;
       const py = event.clientY - rect.top;
-      let best = -1;
-      let bestD = 44;
-      for (let i = 0; i < TOTAL_GENRES; i += 1) {
-        if ((projected[i * 3 + 2] ?? 2) > 1) continue;
-        const d = Math.hypot(px - (projected[i * 3] ?? 0), py - (projected[i * 3 + 1] ?? 0));
-        if (d < bestD) {
-          bestD = d;
-          best = i;
+      if (event.pointerType === 'touch') {
+        const now = performance.now();
+        if (now - lastTapT < 300 && Math.hypot(px - lastTapX, py - lastTapY) < 40) {
+          window.clearTimeout(tapTimer);
+          tapTimer = 0;
+          lastTapT = 0;
+          doubleTapZoom(px, py);
+        } else {
+          lastTapT = now;
+          lastTapX = px;
+          lastTapY = py;
+          window.clearTimeout(tapTimer);
+          tapTimer = window.setTimeout(() => performTapAction(px, py), 280);
         }
-      }
-
-      const now = performance.now();
-      const slot = best >= 0 ? slotsData[best] : undefined;
-
-      if (!slot) {
-        goUp();
-      } else if (level === 'atlas' || slot.family !== activeFamily) {
-        selectFamily(slot.family, now);
       } else {
-        selectGenre(best, now);
+        performTapAction(px, py);
       }
     }
     dragging = false;
-    if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
   };
 
   /* Clavier : flèches pour se déplacer dans le plan, plus et moins pour
@@ -1646,6 +1755,10 @@ const OVERLAP_TOLERANCE = 1;
   (window as unknown as { __atlas?: unknown }).__atlas = {
     /* Crochets de MESURE pour npm run verify:visual : quand on ne peut pas
        voir, on mesure. Lecture seule sauf setHovered, qui simule le survol. */
+    frameFamily: (fi: number) => {
+      const bb = layout.familyBBox[fi];
+      if (bb) flyToBBox(bb, performance.now());
+    },
     sphereRadius: (i: number) => sphereRadii[i] ?? 0,
     sphereBase: (i: number) => baseRadii[i] ?? 0,
     setHovered: (i: number) => {
@@ -1718,6 +1831,10 @@ const OVERLAP_TOLERANCE = 1;
     recenter,
     runProfile,
     labelSnapshot: () => lastPlacedSnapshot,
+    frameFamily: (fi: number) => {
+      const bb = layout.familyBBox[fi];
+      if (bb) flyToBBox(bb, performance.now());
+    },
     dispose: () => {
       running = false;
       resizeObserver.disconnect();

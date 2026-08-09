@@ -800,18 +800,18 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
 
   // -------------------------------------------------------- interactions
 
-  /* Molette et pincement font tous deux avancer et reculer. C'est ce que tout
-     le monde attend d'une molette, et le glissement suffit pour tourner. */
+  /* Molette : avancer et reculer. Constantes DIVISÉES PAR DEUX (verdict :
+     trop nerveux, on perd le contrôle). */
   const onWheel = (event: WheelEvent): void => {
     cameraAtDefault = false;
     event.preventDefault();
     if (suspended) return;
-    const k = event.ctrlKey ? 0.03 : 0.026;
+    const k = event.ctrlKey ? 0.015 : 0.013;
     dollyVel += event.deltaY * k;
     // Un glissement horizontal franc au trackpad fait quand même tourner.
     if (!event.ctrlKey && Math.abs(event.deltaX) > Math.abs(event.deltaY) * 1.5) {
       dollyVel -= event.deltaY * k;
-      azVel -= event.deltaX * 0.0022;
+      azVel -= event.deltaX * 0.0011;
     }
   };
 
@@ -885,14 +885,68 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     document.documentElement.dataset['atlasTouched'] = '1';
   };
 
+  /* --- Gestes tactiles : le doigt commande, la carte suit -----------------
+
+     Le glissement et le pincement sont en SUIVI DIRECT : la carte bouge avec
+     le doigt pendant le geste, l'inertie n'existe qu'au relâchement, courte
+     et vite amortie. L'ancien modèle accumulait de la vélocité à chaque
+     mouvement : la carte dépassait le doigt, c'était nerveux (verdict).
+
+     Le pincement dolly autour du MILIEU des deux doigts : le point du monde
+     sous ce milieu reste sous ce milieu, comme le zoom d'une photo. */
+  const activePointers = new Map<number, { x: number; y: number }>();
+  let pinchDist = 0;
+  let pinchLogRate = 0; // ln(distance)/ms récent, pour l'inertie au relâchement
+  let pinchLastT = 0;
+  const DRAG_K = 0.013; // rad/px, la moitié du gain effectif d'avant
+  let dragVX = 0; // vitesse lissée du doigt, px/événement, pour l'inertie
+  let dragVY = 0;
+
+  /* Double tap (tactile seulement) : zoom sur le point touché, second double
+     tap revient au cadrage d'avant. Le tap simple est retardé de 280 ms pour
+     laisser sa chance au second tap, comme sur une carte native. */
+  let lastTapT = 0;
+  let lastTapX = 0;
+  let lastTapY = 0;
+  let tapTimer = 0;
+  let tapZoomPrev: { target: Vector3; distance: number } | null = null;
+
+  const pinchAnchor = new Vector3();
+  const pinchRay = new Vector3();
+
+  /** Point du monde sous un point écran, sur le plan de la cible face caméra. */
+  const worldUnder = (px: number, py: number, out: Vector3): Vector3 => {
+    pinchRay.set((px / width) * 2 - 1, -(py / height) * 2 + 1, 0.5).unproject(camera);
+    pinchRay.sub(camera.position).normalize();
+    const viewDir = out.copy(targetSmooth).sub(camera.position);
+    const depth = viewDir.length();
+    viewDir.normalize();
+    const along = pinchRay.dot(viewDir);
+    return out.copy(camera.position).addScaledVector(pinchRay, along > 0.0001 ? depth / along : depth);
+  };
+
   const onPointerDown = (event: PointerEvent): void => {
     if (suspended) return;
     onFirstInteraction();
+    activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    /* Capture blindée : un pointeur synthétique (tests) la fait jeter, et
+       l'exception coupait l'initialisation du geste. */
+    try { canvas.setPointerCapture(event.pointerId); } catch { /* test */ }
+    if (activePointers.size === 2) {
+      // Deux doigts : le glissement s'arrête, le pincement commence.
+      dragging = false;
+      const [a, b] = [...activePointers.values()];
+      if (a && b) pinchDist = Math.hypot(a.x - b.x, a.y - b.y);
+      pinchLogRate = 0;
+      pinchLastT = performance.now();
+      return;
+    }
     dragging = true;
     moved = 0;
+    dragVX = 0;
+    dragVY = 0;
     lastX = event.clientX;
     lastY = event.clientY;
-    canvas.setPointerCapture(event.pointerId);
   };
 
   /* Survol : le noeud sous le curseur, son parent et ses enfants directs
@@ -921,12 +975,52 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
 
   const onPointerMove = (event: PointerEvent): void => {
     onHover(event);
-    if (!dragging || suspended) return;
+    if (suspended) return;
+    const entry = activePointers.get(event.pointerId);
+    if (entry) {
+      entry.x = event.clientX;
+      entry.y = event.clientY;
+    }
+
+    /* PINCEMENT : suivi continu, pas de paliers. La distance caméra suit le
+       rapport d'écartement des doigts (sensibilité réduite de moitié par
+       l'exposant), et la cible glisse pour que le point sous le milieu des
+       doigts y reste. */
+    if (activePointers.size >= 2) {
+      const [a, b] = [...activePointers.values()];
+      if (!a || !b || pinchDist <= 0) return;
+      const rect = canvas.getBoundingClientRect();
+      const d = Math.hypot(a.x - b.x, a.y - b.y);
+      if (d <= 0) return;
+      const factor = Math.pow(pinchDist / d, 0.55);
+      const before = distance;
+      distance = clamp(distance * factor, MIN_DISTANCE, MAX_DISTANCE);
+      const applied = distance / before;
+      const midX = (a.x + b.x) / 2 - rect.left;
+      const midY = (a.y + b.y) / 2 - rect.top;
+      worldUnder(midX, midY, pinchAnchor);
+      // cible' = ancre + (cible - ancre) × rapport : l'ancre reste sous les doigts.
+      target.sub(pinchAnchor).multiplyScalar(applied).add(pinchAnchor);
+      targetSmooth.copy(target);
+      const now = performance.now();
+      const dt = Math.max(1, now - pinchLastT);
+      pinchLogRate = pinchLogRate * 0.5 + (Math.log(applied) / dt) * 0.5;
+      pinchLastT = now;
+      pinchDist = d;
+      flying = false;
+      cameraAtDefault = false;
+      return;
+    }
+
+    if (!dragging) return;
     const dx = event.clientX - lastX;
     const dy = event.clientY - lastY;
     moved += Math.abs(dx) + Math.abs(dy);
-    azVel -= dx * 0.0026;
-    elVel += dy * 0.0026;
+    /* SUIVI DIRECT : la rotation se fait pendant le geste, pas après. */
+    azimuth -= dx * DRAG_K;
+    elevation = clamp(elevation + dy * DRAG_K, -ELEVATION_LIMIT, ELEVATION_LIMIT);
+    dragVX = dragVX * 0.5 + dx * 0.5;
+    dragVY = dragVY * 0.5 + dy * 0.5;
     lastX = event.clientX;
     lastY = event.clientY;
   };
@@ -950,7 +1044,17 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     return r * 1.35;
   };
 
+  /* Cadrer la famille entière SANS toucher à la sélection : sert au vol du
+     clic sur un genre, et au recadrage quand la feuille mobile ou la colonne
+     changent la zone visible (le cadrage se recalcule sur le viewport réel). */
+  const frameFamily = (fi: number, now: number): void => {
+    const c = familyCenters[fi];
+    const dc = STRUCTURES[fi]?.deployedCenter ?? [0, 0, 0];
+    if (c) startFly(new Vector3(c.x + dc[0], c.y + dc[1], c.z + dc[2]), frameDistance(familyFrameRadius(fi)), now);
+  };
+
   const selectFamily = (fi: number, now: number): void => {
+    tapZoomPrev = null;
     if (activeFamily >= 0 && activeFamily !== fi) setDeploy(activeFamily, false, now);
     activeFamily = fi;
     activeGenre = -1;
@@ -1006,9 +1110,11 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     focusDir = 1;
     focusStart = now;
 
-    if (slot.children.length > 0) {
-      startFly(slot.world, frameDistance(genreFrameRadius(globalIndex)), now);
-    }
+    /* LA CARTE SE RECADRE SUR LA FAMILLE ENTIÈRE, pas sur le genre seul
+       (verdict) : en haut ou à gauche on voit HOUSE au complet avec Deep
+       House mise en évidence dans l'ensemble, halo et label posés par le
+       focus. Le sous-arbre du genre se déploie quand même. */
+    frameFamily(slot.family, now);
     emitNav();
     openPanel(slot.family, slot.local);
   };
@@ -1088,36 +1194,93 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     emitNav();
   };
 
+  const performTapAction = (px: number, py: number): void => {
+    let best = -1;
+    let bestD = 44;
+    for (let i = 0; i < TOTAL_GENRES; i += 1) {
+      if ((projected[i * 3 + 2] ?? 2) > 1) continue;
+      const d = Math.hypot(px - (projected[i * 3] ?? 0), py - (projected[i * 3 + 1] ?? 0));
+      if (d < bestD) {
+        bestD = d;
+        best = i;
+      }
+    }
+    const now = performance.now();
+    const slot = best >= 0 ? slotsData[best] : undefined;
+    if (!slot) {
+      // Clic dans le vide : on remonte d'un niveau.
+      goUp();
+    } else if (level === 'atlas' || slot.family !== activeFamily) {
+      selectFamily(slot.family, now);
+    } else {
+      selectGenre(best, now);
+    }
+  };
+
+  const doubleTapZoom = (px: number, py: number): void => {
+    const now = performance.now();
+    if (tapZoomPrev) {
+      // Second double tap : retour au cadrage d'avant.
+      startFly(tapZoomPrev.target, tapZoomPrev.distance, now);
+      tapZoomPrev = null;
+      return;
+    }
+    tapZoomPrev = { target: target.clone(), distance };
+    worldUnder(px, py, pinchAnchor);
+    startFly(pinchAnchor.clone(), Math.max(MIN_DISTANCE, distance * 0.45), now);
+  };
+
   const onPointerUp = (event: PointerEvent): void => {
+    const wasPinching = pinchDist > 0 && activePointers.size >= 2;
+    activePointers.delete(event.pointerId);
+    if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+
+    if (wasPinching && activePointers.size < 2) {
+      /* Fin du pincement : inertie légère dans le sens du geste, l'arrêt
+         doux vient de l'amortissement de la boucle de rendu. */
+      pinchDist = 0;
+      dollyVel = clamp((pinchLogRate * (1000 / 60)) / 0.02, -6, 6) * 0.6;
+      pinchLogRate = 0;
+      // Le doigt restant reprend un glissement propre, sans saut ni clic.
+      const rest = [...activePointers.values()][0];
+      if (rest) {
+        dragging = true;
+        lastX = rest.x;
+        lastY = rest.y;
+        moved = 999;
+        dragVX = 0;
+        dragVY = 0;
+      }
+      return;
+    }
+
     if (dragging && moved < 5 && !suspended) {
       const rect = canvas.getBoundingClientRect();
       const px = event.clientX - rect.left;
       const py = event.clientY - rect.top;
-      let best = -1;
-      let bestD = 44;
-      for (let i = 0; i < TOTAL_GENRES; i += 1) {
-        if ((projected[i * 3 + 2] ?? 2) > 1) continue;
-        const d = Math.hypot(px - (projected[i * 3] ?? 0), py - (projected[i * 3 + 1] ?? 0));
-        if (d < bestD) {
-          bestD = d;
-          best = i;
+      if (event.pointerType === 'touch') {
+        const now = performance.now();
+        if (now - lastTapT < 300 && Math.hypot(px - lastTapX, py - lastTapY) < 40) {
+          window.clearTimeout(tapTimer);
+          tapTimer = 0;
+          lastTapT = 0;
+          doubleTapZoom(px, py);
+        } else {
+          lastTapT = now;
+          lastTapX = px;
+          lastTapY = py;
+          window.clearTimeout(tapTimer);
+          tapTimer = window.setTimeout(() => performTapAction(px, py), 280);
         }
-      }
-
-      const now = performance.now();
-      const slot = best >= 0 ? slotsData[best] : undefined;
-
-      if (!slot) {
-        // Clic dans le vide : on remonte d'un niveau.
-        goUp();
-      } else if (level === 'atlas' || slot.family !== activeFamily) {
-        selectFamily(slot.family, now);
       } else {
-        selectGenre(best, now);
+        performTapAction(px, py);
       }
+    } else if (dragging && moved >= 5) {
+      /* Inertie de glissement : courte, vite amortie. */
+      azVel = -dragVX * DRAG_K * 0.35;
+      elVel = dragVY * DRAG_K * 0.35;
     }
     dragging = false;
-    if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
   };
 
   /* Clavier : flèches pour tourner, plus et moins pour zoomer, 0 pour
@@ -1155,6 +1318,8 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      une famille sélectionnée qu'on ne voyait plus. */
   const recenter = (): void => {
     cameraAtDefault = true;
+    tapZoomPrev = null;
+    pinchDist = 0;
     closePanel();
     target.copy(atlasTarget);
     targetSmooth.copy(atlasTarget);
@@ -1764,14 +1929,16 @@ const OVERLAP_TOLERANCE = 1;
       if (k >= 1) flying = false;
     }
 
-    /* Suivi continu quand un panneau est ouvert. La descente sur un genre
-       déplace les sphères après le clic : viser une position figée laisserait
-       la plaque sortir du cadre. On recale donc la cible à chaque image, en
-       douceur, sans toucher à l'azimut ni à la distance choisis par l'usager. */
+    /* Suivi continu quand un panneau est ouvert : la cible suit le CENTRE DE
+       LA FAMILLE du genre ouvert, pas la sphère du genre (verdict : la carte
+       montre la famille entière, le genre y est marqué par son halo). Les
+       centres bougent pendant la relaxation du déploiement, d'où le suivi. */
     if (panelSlot >= 0 && !flying) {
       const slot = slotsData[panelSlot];
-      if (slot) {
-        target.copy(slot.world);
+      const c = slot ? familyCenters[slot.family] : undefined;
+      const dc = slot ? (STRUCTURES[slot.family]?.deployedCenter ?? [0, 0, 0]) : [0, 0, 0];
+      if (c) {
+        target.set(c.x + (dc[0] ?? 0), c.y + (dc[1] ?? 0), c.z + (dc[2] ?? 0));
         targetSmooth.lerp(target, reducedMotion ? 1 : 0.12);
       }
     }
@@ -2037,6 +2204,8 @@ const OVERLAP_TOLERANCE = 1;
   (window as unknown as { __atlas?: unknown }).__atlas = {
     /* Crochets de MESURE pour npm run verify:visual : quand on ne peut pas
        voir, on mesure. Lecture seule sauf setHovered, qui simule le survol. */
+    frameFamily: (fi: number) => frameFamily(fi, performance.now()),
+    orbit: () => ({ azimuth, elevation, distance }),
     sphereRadius: (i: number) => sphereRadii[i] ?? 0,
     sphereBase: (i: number) => baseRadii[i] ?? 0,
     setHovered: (i: number) => {
@@ -2155,6 +2324,7 @@ const OVERLAP_TOLERANCE = 1;
     },
     runProfile,
     recenter,
-    labelSnapshot: () => lastPlacedSnapshot
+    labelSnapshot: () => lastPlacedSnapshot,
+    frameFamily: (fi: number) => frameFamily(fi, performance.now())
   };
 };

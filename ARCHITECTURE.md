@@ -1679,6 +1679,58 @@ et les meilleures récentes, la colonne réglable à la souris, le tout vérifi�
 
 ---
 
+## ADR-051 : Le doigt commande, l'interface s'efface
+
+**Date** : 2026-08-09.
+
+**Contexte.** Trois verdicts d'un coup : les gestes tactiles sont nerveux et
+le pincement ne marche pas ; l'écran se lit mal quand les tracks sont
+ouvertes ; le chrome (sélecteur de vues, contrôles, HUD Mesures) encombre.
+
+**Décisions.**
+
+1. **Suivi direct des gestes.** L'ancien modèle accumulait de la VÉLOCITÉ à
+   chaque événement de glissement : la carte dépassait le doigt. Désormais
+   le glissement tourne l'orbite PENDANT le geste (gain 0,013 rad/px, la
+   moitié de l'effectif d'avant), l'inertie n'existe qu'au relâchement,
+   courte et vite amortie. Le pincement à deux doigts existe enfin : dolly
+   continu au rapport d'écartement (exposant 0,55), ANCRÉ au milieu des
+   doigts (le point du monde sous ce milieu y reste, résolu sur le plan de
+   la cible face caméra), inertie légère au relâchement. Double tap : zoom
+   sur le point touché, second double tap revient au cadrage d'avant ; le
+   tap simple attend 280 ms sur tactile, comme une carte native. Molette
+   divisée par deux dans les deux moteurs. Piège de test : setPointerCapture
+   JETTE sur un pointeur synthétique et coupait l'initialisation du geste,
+   la capture est blindée.
+
+2. **Vue dédoublée.** Feuille mobile à mi-hauteur : la carte vit dans la
+   zone haute (48 dvh, hauteur EXPLICITE, canvas est un élément remplacé) et
+   se recadre sur la FAMILLE ENTIÈRE du genre ouvert, pas le genre seul ;
+   le genre reste marqué par son halo et son label épinglé. Même logique en
+   desktop avec la colonne. Le suivi de cible du panneau vise le centre de
+   famille, plus la sphère du genre. Le recadrage se rejoue quand la zone
+   change (ouverture, position de feuille), après que l'observateur de
+   taille du moteur a vu la nouvelle zone. Feuille en barre ou fermée :
+   pleine hauteur sans changer de cadrage.
+
+3. **Le chrome s'efface.** Plus de barre de vues permanente : le choix vit
+   au pied de page avec Crédits et Index. Les contrôles passent en HAUT
+   DROIT : trois ronds blancs de 44 px à glyphes noirs (plus, moins,
+   recentrer), ombre douce, sans bordure, estompés à 60 % après 3 s
+   d'inactivité, réveillés au moindre geste, sous env(safe-area-inset-top).
+   Le HUD Mesures est retiré (le système ?verify reste l'appareil de
+   mesure). Le logotype ramène à l'accueil : cadrage d'ensemble, fil
+   d'Ariane remis à zéro, et la lecture en cours passe en barre discrète au
+   lieu de se couper (événement sonaa:home, tranché par le lecteur).
+
+4. **Favicon calligraphique.** Le recadrage du monogramme se lisait « d » à
+   16 px quelle que soit l'épaisseur : la topologie était le problème, pas
+   le trait. Nouveau S à TOPOLOGIE DE S, plume large simulée (double trait
+   décalé en diagonale), penche cursive, testé au rendu à 16, 32 et 180 px.
+   Clair sur sombre et sombre sur clair, basculés par prefers-color-scheme.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle
