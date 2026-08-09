@@ -477,7 +477,13 @@ export function AtlasPage() {
         />
       )}
 
-      {searchOpen && <SearchOverlay onPick={goToGenre} onClose={() => setSearchOpen(false)} />}
+      {searchOpen && (
+        <SearchOverlay
+          onPick={goToGenre}
+          onListen={openTracks}
+          onClose={() => setSearchOpen(false)}
+        />
+      )}
 
       {showWelcome && <Welcome views={VIEWS} current={view} onDismiss={dismissWelcome} />}
 

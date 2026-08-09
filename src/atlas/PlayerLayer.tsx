@@ -398,22 +398,24 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onShow
   const currentList: 'essentiel' | 'actuel' =
     tab === 'actuel' && panelActuel.length > 0 ? 'actuel' : 'essentiel';
 
-  const releaseLine = (track: Track | undefined): string[] => {
-    if (!track) return [];
+  /* Les données de sortie, MISES EN VALEUR : le label de disque compte
+     autant que l'artiste pour du digging. Ligne dédiée label + catalogue
+     avec du poids, puis pays et format en dessous, plus discrets. Chaque
+     champ n'apparaît que s'il existe. */
+  const release = shownInPanel?.release ?? null;
+  const releaseMeta = ((): string[] => {
+    if (!shownInPanel) return [];
     const parts: string[] = [];
-    const r = track.release;
-    const year = r?.year ?? track.year;
+    const year = release?.year ?? shownInPanel.year;
     if (year) parts.push(String(year));
-    if (r?.label) parts.push(r.label);
-    if (r?.catno) parts.push(r.catno);
-    if (r?.country) parts.push(r.country);
-    if (r?.format) parts.push(r.format);
-    if (!r && track.album) parts.push(`Album ${track.album}`);
+    if (release?.country) parts.push(release.country);
+    if (release?.format) parts.push(release.format);
+    if (!release && shownInPanel.album) parts.push(`Album ${shownInPanel.album}`);
     if (panelGenreData?.bpmRange)
       parts.push(`${panelGenreData.bpmRange[0]}-${panelGenreData.bpmRange[1]} BPM`);
-    if (track.key) parts.push(`Tonalité ${track.key}`);
+    if (shownInPanel.key) parts.push(`Tonalité ${shownInPanel.key}`);
     return parts;
-  };
+  })();
 
   return (
     <>
@@ -496,8 +498,14 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onShow
               <span className="pcol-genre-meta">{panelFamily.label}</span>
             </p>
 
-            {releaseLine(shownInPanel).length > 0 && (
-              <p className="pcol-release">{releaseLine(shownInPanel).join(' · ')}</p>
+            {release?.label && (
+              <p className="pcol-imprint">
+                <strong>{release.label}</strong>
+                {release.catno && <span className="pcol-catno">{release.catno}</span>}
+              </p>
+            )}
+            {releaseMeta.length > 0 && (
+              <p className="pcol-release">{releaseMeta.join(' · ')}</p>
             )}
 
             {/* LES INFOS DU GENRE : la fiche en résumé, dans la colonne.

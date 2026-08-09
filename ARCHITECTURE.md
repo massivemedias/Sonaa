@@ -1404,6 +1404,43 @@ un choix memorise est respecte.
 
 ---
 
+## ADR-045 : Placement par niveaux, Discogs en valeur, recherche outil
+
+**Placement des labels PAR NIVEAUX.** Verification demandee par Mika : la
+boucle gourmande masquait bien un nom parce que son voisin etait passe
+avant lui, la logique refusee. Remplacee dans les deux moteurs par un
+placement par niveaux (ensembles, familles, puis generations) : un nom ne
+cede qu'a un nom de NIVEAU SUPERIEUR deja pose (sa sphere est un objet de
+lecture plus petit a ce zoom), et a NIVEAU EGAL deux noms qui se chevauchent
+cedent TOUS LES DEUX, personne ne gagne par ordre d'arrivee. Deterministe et
+independant de l'ordre de parcours. Exception assumee : les grands ensembles
+designent des regions et se decalent par petits pas au lieu de ceder.
+
+**Discogs.** Passe lancee par Mika a travers corpus-store, pendant que la
+mission ecrivait ailleurs : zero conflit, le verrou a fait ses preuves le
+jour de sa pose. Couverture 86 pour cent (712/824), aucune famille sous
+75 : pas de probleme de correspondance systemique. Les 112 echecs sont des
+titres a suffixe de mix et des artistes a creditation multiple ;
+fetch-release-data a recu des REPLIS de recherche (titre sans parentheses,
+artiste sans feat/and/vs) qui elargissent la recherche sans assouplir
+l'acceptation. A relancer pour tenter le reliquat.
+
+**Donnees de sortie en valeur.** Dans la colonne du lecteur : ligne dediee
+label + numero de catalogue avec du poids typographique (le label de disque
+compte autant que l'artiste pour du digging), pays et format en dessous,
+plus discrets. Chaque champ seulement s'il existe.
+
+**Recherche etendue.** Genres, ARTISTES, TITRES et LABELS de disque,
+resultats groupes par type. Un artiste ou un label ouvre la liste de ses
+tracks au corpus avec le genre de chacun : la rangee ouvre le lecteur, la
+pastille de genre vole vers la carte. Les labels viennent des donnees de
+sortie : un track sans sortie relevee n'apparait pas cote labels.
+
+**Credits.** Les bases sont nommees : Discogs, Last.fm, RateYourMusic,
+Deezer, iTunes, YouTube. Toujours aucun guide de cartographie nomme.
+
+---
+
 ## Pièges GLSL rencontrés, à ne pas repayer
 
 Trois erreurs coûteuses rencontrées sur le prototype de rendu. Elles ne

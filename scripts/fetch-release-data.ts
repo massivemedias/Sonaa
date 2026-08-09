@@ -90,7 +90,32 @@ const sameArtist = (a: string, b: string): boolean => {
   return na === nb || na.includes(nb) || nb.includes(na);
 };
 
+/* Replis de correspondance, dans l'ordre : tel quel, puis titre sans le
+   suffixe de mix entre parenthèses, puis artiste sans la créditation
+   multiple (feat, and, vs). L'analyse des 112 échecs de la première passe
+   montrait exactement ces deux classes. La correspondance en aval reste
+   aussi exigeante : le repli élargit la RECHERCHE, pas l'acceptation. */
+const variants = (artist: string, title: string): [string, string][] => {
+  const out: [string, string][] = [[artist, title]];
+  const bareTitle = title.replace(/\s*\([^)]*\)\s*$/, '').trim();
+  if (bareTitle && bareTitle !== title) out.push([artist, bareTitle]);
+  const bareArtist = artist.split(/\s+(?:feat\.?|featuring|and|&|vs\.?)\s+/i)[0]?.trim() ?? artist;
+  if (bareArtist && bareArtist !== artist) {
+    out.push([bareArtist, title]);
+    if (bareTitle && bareTitle !== title) out.push([bareArtist, bareTitle]);
+  }
+  return out;
+};
+
 const resolveRelease = async (artist: string, title: string): Promise<Release | null> => {
+  for (const [tryArtist, tryTitle] of variants(artist, title)) {
+    const found = await resolveReleaseOnce(tryArtist, tryTitle);
+    if (found) return found;
+  }
+  return null;
+};
+
+const resolveReleaseOnce = async (artist: string, title: string): Promise<Release | null> => {
   const search = (await discogs(
     'https://api.discogs.com/database/search?type=release&per_page=12&sort=year&sort_order=asc' +
       `&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(title)}`

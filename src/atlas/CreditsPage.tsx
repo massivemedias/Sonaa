@@ -62,15 +62,18 @@ export function CreditsPage() {
         </section>
 
         <section aria-labelledby="credits-services">
-          <h2 id="credits-services">Les services</h2>
+          <h2 id="credits-services">Les services et les bases</h2>
           <ul>
             <li>YouTube, la lecture des tracks</li>
+            <li>Discogs, les données de sortie : label, catalogue, pays, format</li>
+            <li>Last.fm et RateYourMusic, le croisement des sélections de tracks</li>
             <li>Deezer et iTunes, les pochettes</li>
           </ul>
           <p>
             Les tracks sont lues via le lecteur officiel YouTube. SONAA n&apos;héberge aucun
             contenu audio : chaque identifiant de vidéo est vérifié, jamais inventé, et une
-            track retirée de YouTube disparaît de la sélection.
+            track retirée de YouTube disparaît de la sélection. Les données de sortie
+            viennent de Discogs par correspondance exigeante : un champ douteux reste vide.
           </p>
         </section>
 

@@ -1237,25 +1237,38 @@ const OVERLAP_TOLERANCE = 1;
       );
     }
 
-    /* Placement : ensembles, puis familles, puis genres du plus gros au
-       plus petit (la taille projetée dit la proximité et la génération).
-       Le filet masque en cas de collision au lieu de déplacer : un label
-       déplacé ne désigne plus rien. */
-    const rank = { ensemble: 0, family: 1, genre: 2 } as const;
-    candidates.sort((a, b) => {
-      const d = rank[a.kind] - rank[b.kind];
-      if (d !== 0) return d;
-      // Générations hautes d'abord : à zoom égal leur nom prime, les
-      // feuilles se nomment dès qu'il reste de la place.
-      const da = a.slot >= 0 ? (slotsData[a.slot]?.depth ?? 9) : 9;
-      const db = b.slot >= 0 ? (slotsData[b.slot]?.depth ?? 9) : 9;
-      return da - db;
-    });
-
-    for (const c of candidates) {
-      if (placed.length >= LABEL_POOL) break;
-      if (placed.some((other) => overlaps(c, other))) continue;
-      placed.push(c);
+    /* PLACEMENT PAR NIVEAUX (ADR-045). Vérifié : l'ancienne boucle gourmande
+       masquait un nom parce que son voisin était passé AVANT lui, ce qui est
+       exactement la logique refusée. Désormais deux causes de masquage,
+       seulement :
+       1. le nom chevauche celui d'un NIVEAU SUPÉRIEUR déjà posé : sa sphère
+          est un objet de lecture plus petit à ce zoom, elle cède ;
+       2. il chevauche un nom de MÊME niveau : LES DEUX cèdent, personne ne
+          gagne par ordre d'arrivée.
+       Déterministe et indépendant de l'ordre de parcours. */
+    const levelOf = (c: Candidate): number =>
+      c.kind === 'ensemble' ? 0 : c.kind === 'family' ? 1 : 2 + (slotsData[c.slot]?.depth ?? 0);
+    const maxLevel = candidates.reduce((m, c) => Math.max(m, levelOf(c)), 0);
+    for (let lvl = 0; lvl <= maxLevel; lvl += 1) {
+      const group = candidates.filter((c) => levelOf(c) === lvl);
+      const dead = new Set<number>();
+      group.forEach((c, i) => {
+        if (placed.some((other) => overlaps(c, other))) dead.add(i);
+      });
+      for (let i = 0; i < group.length; i += 1) {
+        for (let j = i + 1; j < group.length; j += 1) {
+          if (dead.has(i) || dead.has(j)) continue;
+          const a = group[i];
+          const b = group[j];
+          if (a && b && overlaps(a, b)) {
+            dead.add(i);
+            dead.add(j);
+          }
+        }
+      }
+      group.forEach((c, i) => {
+        if (!dead.has(i) && placed.length < LABEL_POOL) placed.push(c);
+      });
     }
 
     labelsShown = placed.length;

@@ -1447,30 +1447,59 @@ const OVERLAP_TOLERANCE = 1;
           « Spacesynth » se recouvraient : tous les deux épinglés par le focus,
           tous les deux dispensés du test. L'épinglage ne donne plus que la
           priorité d'ordre ; le chevauchement, lui, masque toujours. */
-    candidates.sort((a, b) => {
-      if (a.kind !== b.kind) return a.kind === 'family' ? -1 : 1;
-      if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
-      return a.depth - b.depth;
-    });
+    /* PLACEMENT PAR NIVEAUX (ADR-045). Vérifié : la boucle gourmande
+       masquait un nom parce que son voisin était passé AVANT lui, la logique
+       refusée. Deux causes de masquage, seulement :
+       1. chevaucher un NIVEAU SUPÉRIEUR déjà posé : la sphère plus petite
+          cède à l'objet de lecture plus grand ;
+       2. chevaucher un nom de MÊME niveau : LES DEUX cèdent, personne ne
+          gagne par ordre d'arrivée.
+       Exception assumée : les GRANDS ENSEMBLES désignent des régions, ils se
+       décalent par petits pas plutôt que de céder, dans l'ordre stable de
+       SUPERFAMILIES. */
+    const levelOf = (c: Candidate): number => {
+      if (c.key.startsWith('s-')) return 0;
+      if (c.kind === 'family') return 1;
+      return 2 + (slotsData[c.slot]?.depth ?? 0);
+    };
+    const maxLevel = candidates.reduce((m, c) => Math.max(m, levelOf(c)), 0);
 
-    for (const c of candidates) {
-      if (c.opacity < 0.06) continue;
-      if (placed.length >= labelRules.maxLabels) break;
-      if (placed.some((other) => overlaps(c, other))) {
-        /* Un label de genre désigne une sphère : le décaler le ferait mentir,
-           donc il se masque. Un label de GRAND ENSEMBLE désigne une région de
-           l'écran : il remonte par petits pas jusqu'à trouver un trou, sinon
-           les cinq noms se battaient au centre du portrait et Quatre-temps ne
-           s'affichait jamais. */
-        if (!c.key.startsWith('s-')) continue;
-        let free = false;
-        while (!free && c.sy - 24 >= CHROME_TOP + 4) {
-          c.sy -= 24;
-          free = !placed.some((other) => overlaps(c, other));
+    for (let lvl = 0; lvl <= maxLevel; lvl += 1) {
+      const group = candidates.filter((c) => levelOf(c) === lvl && c.opacity >= 0.06);
+
+      if (lvl === 0) {
+        for (const c of group) {
+          if (placed.some((other) => overlaps(c, other))) {
+            let free = false;
+            while (!free && c.sy - 24 >= CHROME_TOP + 4) {
+              c.sy -= 24;
+              free = !placed.some((other) => overlaps(c, other));
+            }
+            if (!free) continue;
+          }
+          if (placed.length < labelRules.maxLabels) placed.push(c);
         }
-        if (!free) continue;
+        continue;
       }
-      placed.push(c);
+
+      const dead = new Set<number>();
+      group.forEach((c, i) => {
+        if (placed.some((other) => overlaps(c, other))) dead.add(i);
+      });
+      for (let i = 0; i < group.length; i += 1) {
+        for (let j = i + 1; j < group.length; j += 1) {
+          if (dead.has(i) || dead.has(j)) continue;
+          const a = group[i];
+          const b = group[j];
+          if (a && b && overlaps(a, b)) {
+            dead.add(i);
+            dead.add(j);
+          }
+        }
+      }
+      group.forEach((c, i) => {
+        if (!dead.has(i) && placed.length < labelRules.maxLabels) placed.push(c);
+      });
     }
 
     labelsShown = placed.length;

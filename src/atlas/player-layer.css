@@ -193,6 +193,31 @@
   text-transform: uppercase;
 }
 
+/* Le label de disque : ligne dédiée, du poids. C'est une donnée de digging,
+   pas une note de bas de page. */
+.pcol-imprint {
+  margin: 0.55rem 0 0;
+  font-size: 0.9375rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.pcol-imprint strong {
+  font-weight: var(--weight-genre);
+  color: var(--ink-primary);
+  letter-spacing: 0.01em;
+}
+
+.pcol-catno {
+  font-size: 0.75rem;
+  font-weight: var(--weight-data);
+  color: var(--ink-secondary);
+  font-variant-numeric: tabular-nums;
+  border: 1px solid var(--rule-hairline);
+  padding: 0.08rem 0.4rem;
+}
+
 .pcol-release {
   margin: 0.3rem 0 0;
   font-size: 0.78125rem;

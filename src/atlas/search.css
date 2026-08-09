@@ -126,3 +126,73 @@
     display: none;
   }
 }
+
+
+/* --- Recherche étendue (ADR-045) ------------------------------------------ */
+
+.search-group {
+  list-style: none;
+}
+
+.search-group > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.search-group-title {
+  margin: 0.55rem 0 0.2rem;
+  font-size: 0.625rem;
+  font-weight: var(--weight-family);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+.search-sub {
+  font-size: 0.71875rem;
+  color: var(--ink-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* La pastille de genre d'un track : cliquable vers la carte. */
+.search-genre-chip {
+  margin-left: auto;
+  font-size: 0.65625rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-primary);
+  border: 1px solid var(--rule-hairline);
+  padding: 0.12rem 0.45rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.search-genre-chip:hover {
+  border-color: var(--ink-secondary);
+}
+
+.search-drill-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.4rem 0.2rem 0.55rem;
+  border-bottom: 1px solid var(--rule-hairline);
+}
+
+.search-back {
+  background: transparent;
+  border: 1px solid var(--rule-hairline);
+  color: var(--ink-primary);
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.search-drill-name {
+  font-size: 0.9375rem;
+  font-weight: var(--weight-genre);
+}
