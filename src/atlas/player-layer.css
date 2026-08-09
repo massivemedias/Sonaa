@@ -59,6 +59,47 @@
   transition: width 300ms var(--motion-ease, ease), right 300ms var(--motion-ease, ease);
 }
 
+/* Pendant le redimensionnement à la souris, la transition suivrait la
+   poignée avec 300 ms de retard : coupée le temps du geste. */
+:root[data-player-resizing] .atlas-canvas,
+:root[data-player-resizing] .atlas-labels,
+:root[data-player-resizing] .tv {
+  transition: none !important;
+}
+
+/* Poignée de largeur : bord gauche de la colonne, zone de saisie de 10 px,
+   trait discret qui se révèle au survol et au focus. */
+.pcol-resize {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -5px;
+  width: 10px;
+  cursor: col-resize;
+  z-index: 3;
+  touch-action: none;
+}
+
+.pcol-resize::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 4px;
+  width: 2px;
+  background: transparent;
+  transition: background 120ms linear;
+}
+
+.pcol-resize:hover::after,
+.pcol-resize:focus-visible::after {
+  background: var(--family);
+}
+
+.pcol-resize:focus-visible {
+  outline: none;
+}
+
 /* --- La colonne ------------------------------------------------------------ */
 
 .pcol {

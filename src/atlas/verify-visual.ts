@@ -47,6 +47,14 @@ interface AtlasHooks {
   playIntro: (onEnd?: () => void) => void;
   setOrbit?: (az: number, el: number, dist: number) => void;
   framing: () => { atlasDistance: number };
+  labelSnapshot?: () => {
+    key: string;
+    text: string;
+    sx: number;
+    sy: number;
+    w: number;
+    h: number;
+  }[];
 }
 
 const atlas = (): AtlasHooks => (window as unknown as { __atlas: AtlasHooks }).__atlas;
@@ -433,6 +441,70 @@ const testRecouvrement = async (): Promise<RecouvrementResult> => {
   return { poses, pireCas: worst, verdict: worst.paires === 0 ? 'ok' : 'echec' };
 };
 
+// -------------------------------------- 5. fidélité des boîtes de labels
+
+/* Le bug des 12 px à 426 px venait d'un décalage CSS que l'arbitrage
+   ignorait : la boîte TESTÉE n'était pas la boîte RENDUE. Ce contrôle
+   confronte chaque boîte de la dernière passe de placement (crochet
+   labelSnapshot des deux moteurs 3D) à la boîte DOM affichée. La position
+   doit correspondre au pixel près (hystérésis de rendu : 1 px), et
+   l'estimation de taille doit MAJORER la réalité, jamais la sous-estimer.
+   Les vues Linéaire et Colonnes n'ont pas de passe de placement : leurs noms
+   sont en flux de document, le recouvrement y est impossible par
+   construction. */
+
+interface BoitesResult {
+  labels: number;
+  pireEcartPx: number;
+  sousEstimes: number;
+  pire: string;
+  verdict: 'ok' | 'echec' | 'labelSnapshot indisponible (vue DOM ?)';
+}
+
+const testBoites = async (): Promise<BoitesResult> => {
+  const a = atlas();
+  if (!a.labelSnapshot) {
+    return {
+      labels: 0,
+      pireEcartPx: 0,
+      sousEstimes: 0,
+      pire: '',
+      verdict: 'labelSnapshot indisponible (vue DOM ?)'
+    };
+  }
+  await wait(900);
+  const snap = a.labelSnapshot();
+  const dom = new Map<string, DOMRect>();
+  for (const el of document.querySelectorAll('.atlas-label')) {
+    const r = el.getBoundingClientRect();
+    if (r.left > -500 && Number(getComputedStyle(el).opacity) > 0.05) {
+      dom.set(el.textContent ?? '', r);
+    }
+  }
+  let labels = 0;
+  let pireEcart = 0;
+  let sousEstimes = 0;
+  let pire = '';
+  for (const s of snap) {
+    const r = dom.get(s.text);
+    if (!r) continue;
+    labels += 1;
+    const ecart = Math.max(Math.abs(r.left - s.sx), Math.abs(r.top - s.sy));
+    if (ecart > pireEcart) {
+      pireEcart = ecart;
+      pire = s.text;
+    }
+    if (r.width > s.w + 1 || r.height > s.h + 1) sousEstimes += 1;
+  }
+  return {
+    labels,
+    pireEcartPx: Math.round(pireEcart * 10) / 10,
+    sousEstimes,
+    pire,
+    verdict: labels > 0 && pireEcart <= 1.5 && sousEstimes === 0 ? 'ok' : 'echec'
+  };
+};
+
 // ------------------------------------------------------------- exécution
 
 export interface VisualReport {
@@ -442,6 +514,7 @@ export interface VisualReport {
   flux: FluxResult;
   intro: IntroResult;
   recouvrement: RecouvrementResult;
+  boites: BoitesResult;
 }
 
 export const runVisualVerification = async (): Promise<VisualReport> => {
@@ -450,9 +523,10 @@ export const runVisualVerification = async (): Promise<VisualReport> => {
   const respiration = await testRespiration();
   const survol = await testSurvol();
   const recouvrement = await testRecouvrement();
+  const boites = await testBoites();
   // L'intro en dernier : elle remet les rayons en scène.
   const intro = await testIntro();
-  return { matite, respiration, survol, flux, intro, recouvrement };
+  return { matite, respiration, survol, flux, intro, recouvrement, boites };
 };
 
 /** Auto-exécution quand l'URL porte ?verify : JSON à l'écran et en console. */

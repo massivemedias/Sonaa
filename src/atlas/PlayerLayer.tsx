@@ -139,6 +139,65 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
   const narrow = window.matchMedia('(max-width: 700px)').matches;
   const dragStart = useRef<{ y: number; pos: SheetPos } | null>(null);
 
+  /* --- Largeur de colonne réglable à la souris (desktop) ------------------
+     La largeur vit dans la variable CSS --player-w : la carte recadrée et la
+     colonne la partagent déjà, régler la variable règle tout. Bornes 320 px
+     et la moitié de l'écran (plafond 640 px), retenue par localStorage. */
+  const resizeStart = useRef<{ x: number; w: number } | null>(null);
+
+  const applyPlayerWidth = useCallback((px: number) => {
+    const max = Math.min(640, Math.round(window.innerWidth * 0.5));
+    const w = Math.round(Math.min(Math.max(px, 320), max));
+    /* La transition de 300 ms sur la carte recadrée gèle sa largeur quand la
+       variable change (mesuré : la carte restait à l'ancienne valeur). Toute
+       écriture de largeur coupe la transition le temps de deux frames ; le
+       drag pose l'attribut plus longtemps, c'est le même mécanisme. */
+    const root = document.documentElement;
+    const held = root.dataset['playerResizing'] === '1';
+    root.dataset['playerResizing'] = '1';
+    root.style.setProperty('--player-w', `${w}px`);
+    if (!held) {
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          if (!resizeStart.current) delete root.dataset['playerResizing'];
+        })
+      );
+    }
+    return w;
+  }, []);
+
+  useEffect(() => {
+    if (narrow) return;
+    const stored = Number(localStorage.getItem('sonaa-player-w'));
+    if (stored >= 320) applyPlayerWidth(stored);
+  }, [narrow, applyPlayerWidth]);
+
+  const onResizeDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    const cur = document.querySelector('.pcol')?.getBoundingClientRect().width ?? 400;
+    resizeStart.current = { x: e.clientX, w: cur };
+    document.documentElement.dataset['playerResizing'] = '1';
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+  };
+  const onResizeMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const s = resizeStart.current;
+    if (!s) return;
+    applyPlayerWidth(s.w + (s.x - e.clientX));
+  };
+  const onResizeUp = () => {
+    if (!resizeStart.current) return;
+    resizeStart.current = null;
+    delete document.documentElement.dataset['playerResizing'];
+    const w = document.querySelector('.pcol')?.getBoundingClientRect().width;
+    if (w) localStorage.setItem('sonaa-player-w', String(Math.round(w)));
+  };
+  const onResizeKey = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    e.preventDefault();
+    const cur = document.querySelector('.pcol')?.getBoundingClientRect().width ?? 400;
+    const w = applyPlayerWidth(cur + (e.key === 'ArrowLeft' ? 16 : -16));
+    localStorage.setItem('sonaa-player-w', String(w));
+  };
+
   // --- données ------------------------------------------------------------
 
   const genreOf = (familyIndex: number, genreLocal: number) =>
@@ -466,6 +525,22 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
           aria-label={`Lecteur, genre ${panelGenreData.label}`}
           style={{ ['--family' as string]: `oklch(0.72 0.15 ${panelFamily.hue})` }}
         >
+          {/* Poignée de redimensionnement, bord gauche (desktop). */}
+          {!narrow && (
+            <div
+              className="pcol-resize"
+              role="separator"
+              aria-orientation="vertical"
+              aria-label="Régler la largeur de la colonne, flèches gauche et droite"
+              tabIndex={0}
+              onPointerDown={onResizeDown}
+              onPointerMove={onResizeMove}
+              onPointerUp={onResizeUp}
+              onPointerCancel={onResizeUp}
+              onKeyDown={onResizeKey}
+            />
+          )}
+
           {/* Poignée de la feuille mobile. */}
           {narrow && (
             <button

@@ -146,6 +146,18 @@ export interface AtlasApi {
   closePanel: () => void;
   /** Joue la naissance des familles. Rappel à la fin ou à l'interruption. */
   playIntro: (onEnd?: () => void) => void;
+  /** Boîtes réellement testées par la dernière passe de placement des labels
+      (lecture seule, pour verify:visual : boîte testée = boîte rendue). */
+  labelSnapshot: () => {
+    key: string;
+    text: string;
+    sx: number;
+    sy: number;
+    w: number;
+    h: number;
+    px: number;
+    opacity: number;
+  }[];
 }
 
 /* Champ étroit : la projection est quasi orthographique. Les décalages en Z
@@ -1093,6 +1105,19 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   let labelCpuAccum = 0;
   let labelCpuFrames = 0;
   let lastLabelPass = 0;
+  /* Instantané en lecture seule de la dernière passe de placement, pour
+     verify:visual : les boîtes que l'arbitrage a réellement testées, à
+     confronter aux boîtes DOM mesurées. Même contrat que dans l'orbital. */
+  let lastPlacedSnapshot: {
+    key: string;
+    text: string;
+    sx: number;
+    sy: number;
+    w: number;
+    h: number;
+    px: number;
+    opacity: number;
+  }[] = [];
   let labelsShown = 0;
   let genreLabelsShown = 0;
 
@@ -1260,6 +1285,16 @@ const OVERLAP_TOLERANCE = 1;
 
     labelsShown = placed.length;
     genreLabelsShown = placed.filter((c) => c.kind === 'genre').length;
+    lastPlacedSnapshot = placed.map((c) => ({
+      key: c.key,
+      text: c.text,
+      sx: c.sx,
+      sy: c.sy,
+      w: c.w,
+      h: c.h,
+      px: c.px,
+      opacity: c.opacity
+    }));
 
     labelled.fill(0);
     for (const c of placed) {
@@ -1682,6 +1717,7 @@ const OVERLAP_TOLERANCE = 1;
     },
     recenter,
     runProfile,
+    labelSnapshot: () => lastPlacedSnapshot,
     dispose: () => {
       running = false;
       resizeObserver.disconnect();

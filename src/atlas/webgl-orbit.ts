@@ -1205,6 +1205,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      confronter aux boîtes DOM mesurées. */
   let lastPlacedSnapshot: {
     key: string;
+    text: string;
     sx: number;
     sy: number;
     w: number;
@@ -1523,6 +1524,7 @@ const OVERLAP_TOLERANCE = 1;
     genreLabelsShown = placed.filter((c) => c.kind === 'genre').length;
     lastPlacedSnapshot = placed.map((c) => ({
       key: c.key,
+      text: c.text,
       sx: c.sx,
       sy: c.sy,
       w: c.w,
@@ -2152,6 +2154,7 @@ const OVERLAP_TOLERANCE = 1;
       renderer.dispose();
     },
     runProfile,
-    recenter
+    recenter,
+    labelSnapshot: () => lastPlacedSnapshot
   };
 };

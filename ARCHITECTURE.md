@@ -1627,6 +1627,58 @@ iOS.
 
 ---
 
+## ADR-050 : Le corpus complet, la signature aux crédits, la colonne réglable
+
+**Date** : 2026-08-09.
+
+**Contexte.** Verdict de Mika sur l'intégration de sa propre musique, et
+mission d'ampleur : aucun genre vide, les meilleures tracks de chaque style
+et les meilleures récentes, la colonne réglable à la souris, le tout vérifié.
+
+**Décisions.**
+
+1. **Aucune track de Maudite Machine dans les listes canoniques, jamais.**
+   Un atlas qui cite son auteur parmi les canons des genres perd sa
+   crédibilité. La signature du projet vit dans les crédits, section
+   L'auteur : Michael Sanchez, alias Maudite Machine, fondateur de VRSTL
+   Records, avec les liens. C'est la seule place du site où l'auteur existe.
+   L'assemblage du canon jette mécaniquement toute ligne « Maudite Machine »
+   avant même le matcher.
+
+2. **L'onglet Actuel existe enfin dans les données.** Avant cette mission,
+   216 genres sur 216 avaient un onglet Actuel vide. Recherche par familles
+   (Reddit, RYM, presse spécialisée, croisée avec la connaissance des
+   scènes), candidates 2019-2026, puis LE MÊME matcher autoritaire que tout
+   le reste : rien n'entre sans correspondance titre ET artiste sur YouTube.
+   Les genres historiquement éteints gardent un Actuel court ou vide, c'est
+   un fait documentaire et non un manque.
+
+3. **Plus aucun genre vide.** Les sept genres à zéro track (psybreaks,
+   psycore, rominimal, skweee, suomisaundi, twilightpsy, zenonesque) et les
+   vingt-trois à une ou deux reçoivent un canon sourcé, au matcher toujours.
+   La déduplication contre le corpus ET intra-fichier se fait avant import :
+   une track déjà présente dans un autre genre n'est pas dupliquée sans
+   déclaration de charnière (règle des doublons, ADR antérieur).
+
+4. **La colonne se règle à la souris.** La largeur vit déjà dans la variable
+   --player-w que la carte recadrée et la colonne partagent : la poignée
+   (bord gauche, zone de 10 px, curseur col-resize, clavier flèches) ne fait
+   que régler la variable, bornée à [320 px, min(640 px, 50 vw)], retenue
+   par localStorage. Piège mesuré : la transition de 300 ms sur la carte
+   GÈLE sa largeur quand seule la variable change ; toute écriture de
+   largeur coupe donc la transition (attribut data-player-resizing), le
+   drag pour sa durée, le pas clavier pour deux frames.
+
+5. **Boîte testée = boîte rendue, prouvé par la machine.** Nouveau crochet
+   labelSnapshot() dans LES DEUX moteurs 3D : les boîtes que l'arbitrage a
+   réellement testées. Nouveau contrôle verify:visual « boites » : chaque
+   boîte testée est confrontée à la boîte DOM affichée (position au pixel
+   près, l'estimation doit majorer la réalité). Les vues Linéaire et
+   Colonnes n'ont pas de passe de placement : leurs noms sont en flux de
+   document, le recouvrement y est impossible par construction.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle

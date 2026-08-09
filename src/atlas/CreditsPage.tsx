@@ -95,14 +95,30 @@ export function CreditsPage() {
 
         <section aria-labelledby="credits-author">
           <h2 id="credits-author">L&apos;auteur</h2>
+          {/* La signature du projet vit ICI et seulement ici : aucune track de
+              Maudite Machine ne figure dans les listes canoniques des genres,
+              c'est une règle du projet. Un atlas qui cite son auteur parmi les
+              canons perd sa crédibilité. */}
           <p>
-            Michael Sanchez, Montréal ·{' '}
+            SONAA est réalisé par Michael Sanchez, alias Maudite Machine, producteur et DJ à
+            Montréal, fondateur de VRSTL Records. L&apos;atlas est un projet indépendant, né du
+            besoin de voir d&apos;où viennent les musiques qu&apos;on joue.
+          </p>
+          <p>
+            <a href="https://mauditemachine.com" target="_blank" rel="me noopener noreferrer">
+              mauditemachine.com
+            </a>
+            {' · '}
             <a
-              href="https://mauditemachine.com"
+              href="https://mauditemachine.bandcamp.com"
               target="_blank"
               rel="me noopener noreferrer"
             >
-              mauditemachine.com
+              Bandcamp
+            </a>
+            {' · '}
+            <a href="https://vrstlrecords.com" target="_blank" rel="noopener noreferrer">
+              VRSTL Records
             </a>
           </p>
         </section>
