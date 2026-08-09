@@ -132,7 +132,25 @@ export const genreSchema = z.strictObject({
      et filtrés : un alias qui est le nom d'un AUTRE genre du corpus est écarté,
      sinon la recherche saute sur le mauvais noeud. Une source donnait par
      exemple « Detroit Techno » comme alias de Minimal Techno, son ancêtre. */
-  aliases: z.array(z.string().min(2)).optional()
+  aliases: z.array(z.string().min(2)).optional(),
+
+  /* LA FICHE ENRICHIE, le vrai contenu du site (mission d'août 2026).
+
+     `description` : trois à cinq phrases, ton d'auteur, factuel. D'où il
+     vient, ce qui le distingue à l'oreille, ce qui a changé quand il est
+     apparu. Aucun superlatif creux.
+     `machines` : instruments et machines caractéristiques, précis. C'est ce
+     que les producteurs viennent chercher.
+     `labelsActuels` VIDE quand le genre est éteint : c'est une information
+     en soi, l'interface l'écrit au lieu de la cacher.
+     `redaction: 'brouillon'` : fiche écrite par la machine sur un terrain
+     réservé à Mika, à relire avant d'en retirer la marque. */
+  description: z.string().min(80).optional(),
+  machines: z.array(z.string().min(2)).optional(),
+  labelsHistoriques: z.array(z.string().min(2)).optional(),
+  labelsActuels: z.array(z.string()).optional(),
+  artistesCles: z.array(z.string().min(2)).optional(),
+  redaction: z.enum(['brouillon']).optional()
 });
 
 export const familySchema = z.strictObject({
