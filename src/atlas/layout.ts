@@ -37,14 +37,17 @@ import {
    Inter tourne autour de 0,58 em : l'estimation est volontairement large,
    un créneau trop généreux ne casse rien, un créneau trop juste fait se
    toucher deux noms. */
-const GENRE_LH = 2.4;
-const FAMILY_LH = 4.0;
-const ENSEMBLE_LH = 5.2;
-const CHAR_W = 0.58;
-const SLOT_GAP = 1.1;
-const COL_GAP = 7;
-const FAMILY_GAP = 9;
-const ENSEMBLE_GAP = 16;
+/* Rangs RESSERRÉS (mission multi-vues : « on scroll trop ») : les créneaux
+   restent garants du non-recouvrement, mais l'air entre eux est réduit d'un
+   tiers. La carte se parcourt, elle ne se randonne plus. */
+const GENRE_LH = 2.15;
+const FAMILY_LH = 3.6;
+const ENSEMBLE_LH = 4.6;
+const CHAR_W = 0.56;
+const SLOT_GAP = 0.7;
+const COL_GAP = 4.5;
+const FAMILY_GAP = 6;
+const ENSEMBLE_GAP = 10;
 
 const labelWidth = (text: string, lh: number): number => text.length * lh * CHAR_W + lh * 0.5;
 

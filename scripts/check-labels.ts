@@ -29,15 +29,19 @@ const errors: string[] = [];
 
 // --- 1. Les sites d'appel de add() -----------------------------------------
 
-const webgl = readFileSync(`${ATLAS}/webgl.ts`, 'utf8');
+/* DEUX moteurs depuis le multi-vues : la vue fixe et la vue libre. Les deux
+   passent les mêmes contrôles, un moteur ressuscité n'a pas de passe-droit. */
+const ENGINES = ['webgl.ts', 'webgl-orbit.ts'];
+const webgl = ENGINES.map((f) => readFileSync(`${ATLAS}/${f}`, 'utf8')).join('\n');
 
 /* On repère chaque appel `add(` puis on lit son deuxième argument. L'analyse
    est volontairement naïve : les appels sont sur une ou plusieurs lignes, mais
    les arguments sont simples. Si la forme du code change au point de casser ce
    parseur, c'est le moment de re-regarder les labels de toute façon. */
 const callSites = [...webgl.matchAll(/\badd\(\s*([\s\S]{0,200}?)\)/g)];
-// anchor.label : le nom nu d'un grand ensemble, posé par layout.ts.
-const ALLOWED_TEXT = new Set(['slot.label', 'family.label', 'anchor.label']);
+// anchor.label : ensemble posé par layout.ts (vue fixe) ;
+// sf.label : ensemble posé par SUPERFAMILIES (vue libre). Noms nus tous deux.
+const ALLOWED_TEXT = new Set(['slot.label', 'family.label', 'anchor.label', 'sf.label']);
 
 let checked = 0;
 for (const call of callSites) {
@@ -67,28 +71,37 @@ if (checked === 0) {
    Le focus a le droit d'AJOUTER des noms (le sous-arbre courant est nommé),
    jamais d'en moduler l'opacité : on vérifie donc aussi que chaque add()
    passe l'opacité 1, littérale. */
-{
-  const start = webgl.indexOf('const projectLabels');
-  const end = webgl.indexOf('rendu', start);
+for (const engine of ENGINES) {
+  const source = readFileSync(`${ATLAS}/${engine}`, 'utf8');
+  const start = source.indexOf('const projectLabels');
+  const end = source.indexOf('rendu', start);
   if (start < 0 || end < 0) {
-    errors.push('webgl.ts : la passe de labels est introuvable, le contrôle est cassé.');
-  } else {
-    const pass = webgl.slice(start, end);
-    if (/hover/i.test(pass)) {
-      errors.push(
-        'webgl.ts : la passe de labels mentionne le survol. ' +
-          'Le survol met en valeur, il ne révèle ni ne masque JAMAIS un nom.'
-      );
-    }
-    for (const call of pass.matchAll(/\badd\(\s*([\s\S]{0,240}?)\)/g)) {
-      const args = (call[1] ?? '').split(',').map((p) => p.trim());
-      const opacity = args[6];
-      if (opacity !== undefined && opacity !== '1') {
-        errors.push(
-          `webgl.ts : un label reçoit une opacité calculée (« ${opacity} »). ` +
-            'L\'opacité des labels est littérale : elle ne dépend d\'aucun état.'
-        );
+    errors.push(`${engine} : la passe de labels est introuvable, le contrôle est cassé.`);
+    continue;
+  }
+  const pass = source.slice(start, end);
+  if (/hover/i.test(pass)) {
+    errors.push(
+      `${engine} : la passe de labels mentionne le survol. ` +
+        'Le survol met en valeur, il ne révèle ni ne masque JAMAIS un nom.'
+    );
+  }
+  /* L'opacité est LITTÉRALE à chaque site d'appel : la position de
+     l'argument diffère entre moteurs, on exige simplement qu'aucun argument
+     d'opacité ne soit une expression. Repérage : l'argument juste après le
+     genre ('family'/'genre'/'ensemble'/lhWorld) qui n'est ni un nombre ni
+     un identifiant simple de slot déclenche l'erreur s'il contient un
+     opérateur ou un accès d'état. */
+  for (const call of pass.matchAll(/\badd\(\s*([\s\S]{0,260}?)\)/g)) {
+    const args = (call[1] ?? '').split(',').map((p) => p.trim());
+    for (const arg of args) {
+      if (/hovered|highlighted/.test(arg)) {
+        errors.push(`${engine} : un add() de label lit l'état de survol : « ${arg} ».`);
       }
+    }
+    const suspicious = args.filter((a) => /opacity|\?\s*1\s*:/.test(a));
+    for (const a of suspicious) {
+      errors.push(`${engine} : un label reçoit une opacité calculée (« ${a} »).`);
     }
   }
 }

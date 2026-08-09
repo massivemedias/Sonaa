@@ -1,16 +1,19 @@
 /* Écran d'accueil. Une seule fois, au premier chargement.
 
-   Trois choses et rien d'autre : le nom, ce que c'est, comment on navigue. Il
-   disparaît au premier clic et ne revient plus, mémorisé dans localStorage. Ce
-   n'est pas une page d'accueil, c'est une légende de carte qu'on lit une fois. */
+   Le nom, ce que c'est, et LE CHOIX DE LA VUE (ADR-043) : quatre façons de
+   lire la même carte, proposées dès l'entrée. Le choix se retient et se
+   change à tout moment par le sélecteur en haut de l'écran. */
 
 import { FAMILIES } from './structures.ts';
+import type { ViewId } from './AtlasPage.tsx';
 
 interface Props {
-  onDismiss: () => void;
+  views: { id: ViewId; label: string; hint: string }[];
+  current: ViewId;
+  onDismiss: (picked?: ViewId) => void;
 }
 
-export function Welcome({ onDismiss }: Props) {
+export function Welcome({ views, current, onDismiss }: Props) {
   return (
     <div className="welcome" role="dialog" aria-modal="true" aria-label="Bienvenue">
       <div className="welcome-inner">
@@ -39,20 +42,22 @@ export function Welcome({ onDismiss }: Props) {
           ))}
         </ul>
 
-        <dl className="welcome-keys">
-          <dt>Glisser</dt>
-          <dd>déplacer la carte</dd>
-          <dt>Molette</dt>
-          <dd>avancer et reculer</dd>
-          <dt>Clic sur une sphère</dt>
-          <dd>ouvrir sa fiche, puis ses tracks</dd>
-          <dt>Espace</dt>
-          <dd>chercher un genre par son nom</dd>
-          <dt>Échap</dt>
-          <dd>remonter d&apos;un niveau</dd>
-        </dl>
+        <p className="welcome-choose">Choisissez votre façon de lire la carte :</p>
+        <div className="welcome-views" role="group" aria-label="Choisir la vue">
+          {views.map((v) => (
+            <button
+              key={v.id}
+              className="welcome-view"
+              data-current={v.id === current}
+              onClick={() => onDismiss(v.id)}
+            >
+              <strong>{v.label}</strong>
+              <span>{v.hint}</span>
+            </button>
+          ))}
+        </div>
 
-        <button className="welcome-go" onClick={onDismiss} autoFocus>
+        <button className="welcome-go" onClick={() => onDismiss()} autoFocus>
           Entrer
         </button>
       </div>

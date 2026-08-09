@@ -238,6 +238,13 @@ de **22 px**. En dehors de ces bornes, un label ne se lit pas ou écrase la cart
 
 ## 5. L'espace habitable, ce qui remplace la planche
 
+> **Mise à jour (août 2026, ADR-043).** L'orbite n'est plus abandonnée :
+> elle est UNE DES QUATRE VUES proposées dès l'entrée (3D libre, 3D fixe,
+> linéaire, colonnes), mémorisées et commutables. La fiche de genre devient
+> le cœur du site (description d'auteur, machines, labels, artistes), le
+> lecteur une colonne latérale qui laisse la carte vivante, et l'ensemble
+> respire par des animations sobres coupées par prefers-reduced-motion.
+
 > **Mise à jour (août 2026, ADR-042).** L'orbite libre est abandonnée.
 > L'atlas est un ARBRE GÉNÉALOGIQUE COUCHÉ : familles de gauche à droite sur
 > poste, une génération par colonne ; pivoté sur mobile, lecture de haut en

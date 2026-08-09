@@ -238,3 +238,101 @@
   font-weight: 400;
   line-height: 1.5;
 }
+
+/* --- La fiche enrichie (ADR-043) ------------------------------------------ */
+
+.card-draft {
+  margin: 0.4rem 0 0;
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: oklch(0.75 0.12 80);
+}
+
+/* Corps de texte : 65 caractères de ligne au maximum, jamais plus large. */
+.card-description {
+  margin: 0.9rem 0 0;
+  max-width: 65ch;
+  font-size: 0.84375rem;
+  font-weight: var(--weight-data);
+  line-height: 1.62;
+  color: var(--ink-primary);
+}
+
+.card-section {
+  margin-top: 0.9rem;
+}
+
+.card-section h3 {
+  margin: 0 0 0.35rem;
+  font-size: 0.6875rem;
+  font-weight: var(--weight-family);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+.card-chips-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.card-chips-list li {
+  font-size: 0.71875rem;
+  font-weight: var(--weight-data);
+  color: var(--ink-primary);
+  border: 1px solid var(--rule-hairline);
+  padding: 0.18rem 0.5rem;
+}
+
+/* Labels en DEUX colonnes : l'historique et l'actuel se lisent côte à côte,
+   et le vide de la colonne actuelle raconte l'extinction. */
+.card-labels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
+}
+
+.card-labels h4 {
+  margin: 0 0 0.25rem;
+  font-size: 0.625rem;
+  font-weight: var(--weight-data);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+.card-labels ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.78125rem;
+  line-height: 1.55;
+}
+
+.card-artists {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+/* Ouverture de fiche : fondu et glissement de 12 px, 200 ms (mission
+   animations). Coupé par prefers-reduced-motion. */
+.card {
+  animation: card-in 200ms var(--motion-ease, ease);
+}
+
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    animation: none;
+  }
+}

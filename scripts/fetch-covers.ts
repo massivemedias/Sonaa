@@ -314,7 +314,10 @@ for (const genre of corpus.genres) {
   }
 }
 
-writeFileSync(CORPUS, `${JSON.stringify(corpus, null, 1)}\n`, 'utf8');
+/* JAMAIS d'écriture brute de l'instantané : ce script a déjà effacé un
+   import concurrent en réécrivant sa copie de démarrage (les charnières
+   Windowlicker, août 2026). Toute écriture passe par la fusion. */
+writeCorpus();
 
 /* Téléchargement local. La vignette maxresdefault n'existe pas pour toutes les
    vidéos : on retombe alors sur hqdefault, qui existe toujours. */
@@ -387,7 +390,12 @@ for (const genre of corpus.genres) {
   }
 }
 
-writeFileSync(CORPUS, `${JSON.stringify(corpus, null, 1)}\n`, 'utf8');
+for (const genre of corpus.genres) {
+  for (const track of [...genre.tracks.essentiel, ...genre.tracks.actuel]) {
+    remember(track);
+  }
+}
+writeCorpus();
 
 console.log(
   `Images locales : ${downloaded} téléchargées, ${already} déjà présentes, ${missing} manquantes.`

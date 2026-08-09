@@ -1306,6 +1306,69 @@ le panneau n'affiche que les champs presents, aucun gabarit vide.
 
 ---
 
+## ADR-043 : Multi-vues, fiches enrichies, lecteur en colonne, animations
+
+**Quatre vues au choix, des l'entree.** Le debat lineaire contre radial est
+tranche par le haut : on ne choisit pas a la place de l'utilisateur. L'ecran
+d'accueil propose quatre lectures de la meme carte, memorisees et
+commutables a tout moment par le selecteur en haut d'ecran :
+- 3D LIBRE : le moteur orbital d'avant ADR-042, ressuscite depuis git
+  (webgl-orbit.ts). Systeme planetaire, orbite, deploiement. Adapte : types
+  partages avec webgl.ts, plaque retiree, liens en Bezier (controles au
+  tiers = segment droit), et le survol ne touche plus aux labels.
+- 3D FIXE : l'arbre genealogique d'ADR-042, rangs RESSERRES d'un tiers
+  (mission : « on scroll trop »).
+- LINEAIRE : le corpus en document DOM dense, ensembles en sections,
+  familles en blocs teintes, rangees indentees par generation.
+- COLONNES : les memes blocs en maconnerie multi-colonnes, quatorze cartes.
+Les vues DOM n'ont pas de moteur : fiche et lecteur y fonctionnent pareil.
+check:labels couvre LES DEUX moteurs, un ressuscite n'a pas de passe-droit.
+
+**Fiches enrichies, le vrai contenu du site.** Cinq champs par genre au
+schema : description (3-5 phrases, ton d'auteur), machines (precises :
+TB-303, Amen break, log drum...), labelsHistoriques, labelsActuels (VIDE =
+genre eteint, 33 cas, l'interface l'ecrit), artistesCles. Les 216 genres
+sont remplis ; 11 fiches sur les terrains reserves a Mika portent
+redaction: 'brouillon' et un badge « a relire ». La fiche (GenreCard) est
+remise en page : en-tete, description a 65ch, machines, labels en deux
+colonnes, artistes, filiations, ecoute.
+
+**Lecteur en colonne laterale.** La carte reste VIVANTE : colonne droite de
+clamp(380px, 30vw, 420px), le canvas se recadre en douceur (largeur
+explicite : un element remplace ne s'etire pas entre left et right, piege
+CSS reel). Cliquer un autre genre remplace le contenu de la colonne, la
+lecture ne s'arrete jamais ; fermer la reduit en barre discrete. Mobile :
+feuille du bas a trois positions (barre, moitie, plein ecran) au glissement
+vertical. La colonne embarque les infos du genre, repliables et ouvertes
+par defaut. La duree n'est affichee que pour la track en cours : c'est la
+seule que le lecteur connait, on n'invente pas les autres.
+
+**Animations sobres.** Respiration des spheres 2 pour cent, phase decalee
+par noeud ; survol +8 pour cent lisse (~150 ms) et liens du noeud eclaires ;
+fondu-glissement 12 px / 200 ms a l'ouverture de fiche ; flux lumineux lent
+le long des liens du chemin actif (bande de 7 s dans le shader, uFlowTime) ;
+transitions en easing doux. Tout coupe par prefers-reduced-motion. Piege
+GLSL de plus : `active` est un mot RESERVE, le flux s'appelle onPath.
+
+**Charnieres tranchees.** Block Rockin' Beats, Hyph Mngo, Little Fluffy
+Clouds, Space Invaders Are Smoking Grass, Pacific State : declarees des deux
+cotes. Do You Mind est un cas interne a ukfunky (meme video que la version
+Kyla), rien a declarer.
+
+**Regression trouvee et reparee.** fetch-covers.ts gardait DEUX ecritures
+brutes de son instantane de demarrage en plus de l'ecriture par fusion :
+elles ont efface le lot de charnieres Windowlicker importe pendant que la
+passe tournait. Les deux ecritures passent desormais par la fusion, et le
+lot a ete reimporte. Regle confirmee : AUCUNE ecriture du corpus sans
+relecture du disque.
+
+**Discogs et tonalite.** DISCOGS_TOKEN attendu de Mika : fetch-release-data
+est pret a lancer tel quel. GetSongKey est abandonne pour l'instant
+(couverture insuffisante pour le cout) ; le script et le champ conditionnel
+restent.
+
+---
+
 ## Pièges GLSL rencontrés, à ne pas repayer
 
 Trois erreurs coûteuses rencontrées sur le prototype de rendu. Elles ne

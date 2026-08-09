@@ -242,6 +242,16 @@ export interface Genre {
   readonly structuralOnly: boolean;
   /** Autres noms, pour la recherche. */
   readonly aliases: readonly string[];
+  /* LA FICHE ENRICHIE : le vrai contenu du site (ADR-043). Champs absents
+     quand la donnée n'existe pas, jamais de gabarit vide. `redaction`
+     'brouillon' marque les fiches écrites par la machine sur les terrains
+     réservés à Mika, à relire. */
+  readonly description: string | null;
+  readonly machines: readonly string[];
+  readonly labelsHistoriques: readonly string[];
+  readonly labelsActuels: readonly string[] | null;
+  readonly artistesCles: readonly string[];
+  readonly redaction: 'brouillon' | null;
   /** Ascendances hors famille, déjà résolues. */
   readonly externalParents: { readonly family: number; readonly label: string }[];
   /** Fondateurs du genre, toutes époques. Rempli sans clé, par oEmbed. */
@@ -383,6 +393,12 @@ export const buildStructure = (familyIndex: number): Structure => {
       note: entry.note,
       structuralOnly: entry.structuralOnly ?? false,
       aliases: entry.aliases ?? [],
+      description: entry.description ?? null,
+      machines: entry.machines ?? [],
+      labelsHistoriques: entry.labelsHistoriques ?? [],
+      labelsActuels: entry.labelsActuels ?? null,
+      artistesCles: entry.artistesCles ?? [],
+      redaction: entry.redaction ?? null,
       externalParents: entry.parents
         .filter((pp) => pp.family !== entry.family)
         .map((pp) => ({

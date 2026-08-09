@@ -1,11 +1,10 @@
-/* Fiche d'un genre.
+/* Fiche d'un genre : LE CŒUR DU SITE (mission fiches enrichies).
 
-   Elle s'ouvre au clic sur une sphère, AVANT les morceaux. Cliquer ne doit pas
-   faire tomber dans un lecteur sans savoir où on est : la fiche dit de quoi on
-   parle, d'où ça vient et ce que ça a donné. Écouter est une action de la fiche.
-
-   Elle est en DOM plat, pas en plaque 3D : c'est du texte à lire, pas un objet
-   à contempler. La plaque 3D reste réservée aux morceaux. */
+   En-tête (nom, famille, BPM, badge débattu), description en corps de texte
+   à 65 caractères de ligne, machines, labels en deux colonnes historique et
+   actuel, artistes clés, puis les filiations et le bouton d'écoute. Chaque
+   champ n'apparaît que s'il existe. Un label actuel VIDE s'écrit : un genre
+   éteint est une information, pas un trou. */
 
 import { FAMILIES, STRUCTURES } from './structures.ts';
 import './genre-card.css';
@@ -55,7 +54,63 @@ export function GenreCard({ familyIndex, genreLocal, onClose, onTracks, onGoToGe
             {genre.note}
           </p>
         )}
+        {genre.redaction === 'brouillon' && (
+          <p className="card-draft">fiche en brouillon, à relire</p>
+        )}
       </header>
+
+      {/* Le contenu d'auteur : la raison d'être de la fiche. */}
+      {genre.description && <p className="card-description">{genre.description}</p>}
+
+      {genre.machines.length > 0 && (
+        <section className="card-section" aria-label="Machines et instruments">
+          <h3>Machines</h3>
+          <ul className="card-chips-list">
+            {genre.machines.map((m) => (
+              <li key={m}>{m}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {(genre.labelsHistoriques.length > 0 || genre.labelsActuels !== null) && (
+        <section className="card-section" aria-label="Labels">
+          <h3>Labels</h3>
+          <div className="card-labels">
+            <div>
+              <h4>Historiques</h4>
+              {genre.labelsHistoriques.length > 0 ? (
+                <ul>
+                  {genre.labelsHistoriques.map((l) => (
+                    <li key={l}>{l}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="card-none">sans label fondateur identifié</p>
+              )}
+            </div>
+            <div>
+              <h4>Actuels</h4>
+              {genre.labelsActuels && genre.labelsActuels.length > 0 ? (
+                <ul>
+                  {genre.labelsActuels.map((l) => (
+                    <li key={l}>{l}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="card-none">aucun, le genre ne produit plus</p>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {genre.artistesCles.length > 0 && (
+        <section className="card-section" aria-label="Artistes clés">
+          <h3>Artistes clés</h3>
+          <p className="card-artists">{genre.artistesCles.join(' · ')}</p>
+        </section>
+      )}
 
       <dl className="card-rows">
         <dt>{genre.structuralOnly ? 'Rattaché à' : 'Vient de'}</dt>

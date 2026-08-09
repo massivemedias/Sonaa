@@ -1,0 +1,179 @@
+/* Vues LINÉAIRE et COLONNES : le corpus comme document, joli et dense.
+
+   Inter, hiérarchie par la graisse, teintes de familles en pastilles et en
+   liserés. Les rangs sont volontairement serrés : la vue existe pour
+   parcourir vite, la fiche existe pour lire. */
+
+.tv {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  padding: 96px 24px 120px;
+  font-family: var(--font-ui);
+  color: var(--ink-primary);
+  scrollbar-width: thin;
+}
+
+.tv-ensemble {
+  max-width: 1240px;
+  margin: 0 auto 2.4rem;
+}
+
+.tv-ensemble-name {
+  margin: 0 0 0.9rem;
+  font-size: 0.8125rem;
+  font-weight: var(--weight-family);
+  letter-spacing: var(--tracking-family, 0.14em);
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  border-bottom: 1px solid var(--rule-hairline);
+  padding-bottom: 0.5rem;
+}
+
+/* --- Bloc famille --------------------------------------------------------- */
+
+.tv-family {
+  border: 1px solid var(--rule-hairline);
+  border-top: 2px solid var(--family);
+  background: oklch(0.1 0.012 250 / 0.55);
+  padding: 0.8rem 0.9rem 0.9rem;
+  break-inside: avoid;
+}
+
+.tv-family-name {
+  margin: 0 0 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: var(--weight-family);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--family);
+}
+
+.tv-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Rangée serrée : une génération = un cran d'indentation. */
+.tv-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.14rem 0;
+  padding-left: calc(var(--depth) * 1.05rem);
+  min-height: 26px;
+}
+
+.tv-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--family);
+  opacity: calc(1 - var(--depth) * 0.16);
+  flex: none;
+}
+
+.tv-name {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: var(--weight-genre);
+  letter-spacing: 0.01em;
+  color: var(--ink-primary);
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tv-name:hover {
+  color: var(--family);
+}
+
+.tv-debated {
+  font-size: 0.6875rem;
+  color: var(--ink-secondary);
+  border: 1px solid var(--rule-hairline);
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  line-height: 12px;
+  text-align: center;
+  flex: none;
+}
+
+.tv-bpm {
+  margin-left: auto;
+  font-size: 0.6875rem;
+  font-weight: var(--weight-data);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-secondary);
+  flex: none;
+}
+
+.tv-listen {
+  background: transparent;
+  border: 1px solid var(--rule-hairline);
+  color: var(--ink-secondary);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 0.5rem;
+  line-height: 1;
+  cursor: pointer;
+  flex: none;
+  display: grid;
+  place-items: center;
+  transition: color 150ms linear, border-color 150ms linear;
+}
+
+.tv-listen:hover {
+  color: var(--family);
+  border-color: var(--family);
+}
+
+/* Rangée sans BPM : le bouton d'écoute reste calé à droite. */
+.tv-row .tv-listen {
+  margin-left: 0.3rem;
+}
+.tv-row:not(:has(.tv-bpm)) .tv-listen {
+  margin-left: auto;
+}
+
+/* --- LINÉAIRE : blocs pleine largeur, lecture verticale ------------------- */
+
+.tv-lineaire .tv-ensemble-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.tv-lineaire .tv-rows {
+  column-width: 300px;
+  column-gap: 2rem;
+}
+
+/* --- COLONNES : maçonnerie de cartes famille ------------------------------ */
+
+.tv-colonnes .tv-ensemble-body {
+  columns: 320px;
+  column-gap: 1rem;
+}
+
+.tv-colonnes .tv-family {
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 700px) {
+  .tv {
+    padding: 84px 12px 140px;
+  }
+  .tv-lineaire .tv-rows {
+    column-width: auto;
+    columns: 1;
+  }
+}

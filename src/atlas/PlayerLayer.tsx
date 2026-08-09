@@ -1,18 +1,22 @@
-/* Le lecteur. Panneau rectangulaire DROIT, face caméra, aligné sur la grille
-   de l'écran (ADR-042) : la plaque inclinée dans la scène est abandonnée, la
-   3D recule et s'estompe derrière.
+/* LE LECTEUR EST UNE COLONNE LATÉRALE (mission colonne, remplace le panneau
+   plein écran). La carte reste VIVANTE à gauche : on navigue, on clique un
+   autre genre, la colonne remplace son contenu et la lecture en cours ne
+   s'arrête jamais tant qu'on n'a pas lancé une autre track.
 
-   Colonne gauche : la pochette carrée en grand, la vidéo prend sa place en
-   lecture. Colonne droite : le titre, l'artiste, LE GENRE en couleur de
-   famille et cliquable vers la fiche, l'année, le label, le numéro de
-   catalogue, le pays, le format, la tonalité et le BPM quand ils existent,
-   puis la liste verticale des autres tracks du genre. Transport en bas,
-   pleine largeur.
+   Desktop : colonne fixe à droite, 420 px (jamais moins de 380), la carte se
+   recadre en douceur. Mobile : feuille du bas à trois positions (barre,
+   moitié, plein écran), glissement vertical pour passer de l'une à l'autre.
 
-   Une contrainte a survécu à la refonte : l'iframe YouTube ne doit JAMAIS
-   être démontée ni reparentée, sinon la lecture s'arrête. Elle vit dans un
-   conteneur de premier niveau, monté une fois, positionné par mesure sur la
-   fenêtre média du panneau ou sur le mini-lecteur. */
+   Contenu, de haut en bas : pochette carrée (la vidéo prend sa place exacte
+   en lecture), titre et artiste, genre cliquable en couleur de famille,
+   métadonnées de sortie (chaque champ seulement s'il existe), LES INFOS DU
+   GENRE (description, machines, labels deux colonnes, artistes, repliables,
+   ouvertes par défaut), la liste verticale des tracks, les charnières. Le
+   transport est fixé en bas de colonne, toujours visible.
+
+   L'iframe YouTube n'est JAMAIS démontée ni reparentée : elle vit dans un
+   conteneur de premier niveau positionné par mesure, la lecture survit à
+   tout, fermeture de colonne comprise (elle devient barre discrète). */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FAMILIES, STRUCTURES, type Track } from './structures.ts';
@@ -28,16 +32,17 @@ export interface Playback {
 }
 
 interface Props {
-  /** Genre dont le panneau est ouvert, ou null. Change rarement. */
+  /** Genre dont la colonne est ouverte, ou null. Change souvent : le contenu
+      se remplace, la lecture continue. */
   panelGenre: { familyIndex: number; genreLocal: number } | null;
   onClose: () => void;
-  /** Le mini-lecteur demande de revenir au panneau du genre en cours. */
   onReopen: (familyIndex: number, genreLocal: number) => void;
-  /** Une track charnière mène à l'autre genre qui la revendique. */
   onGoToGenre: (familyIndex: number, genreLocal: number) => void;
-  /** Le nom du genre sur le panneau ouvre sa fiche. */
   onShowCard: (familyIndex: number, genreLocal: number) => void;
 }
+
+/** Position de la feuille mobile : barre, moitié, plein écran. */
+type SheetPos = 'bar' | 'half' | 'full';
 
 // ------------------------------------------------------- API IFrame YouTube
 
@@ -76,7 +81,6 @@ declare global {
 
 let apiPromise: Promise<YTNamespace> | null = null;
 
-/** Charge l'API IFrame officielle, une seule fois pour toute la page. */
 const loadYouTubeApi = (): Promise<YTNamespace> => {
   if (apiPromise) return apiPromise;
   apiPromise = new Promise<YTNamespace>((resolve, reject) => {
@@ -120,6 +124,10 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onShow
   const [volume, setVolume] = useState(80);
   const [apiFailed, setApiFailed] = useState(false);
   const [tab, setTab] = useState<'essentiel' | 'actuel'>('essentiel');
+  const [infoOpen, setInfoOpen] = useState(true);
+  const [sheetPos, setSheetPos] = useState<SheetPos>('half');
+  const narrow = window.matchMedia('(max-width: 700px)').matches;
+  const dragStart = useRef<{ y: number; pos: SheetPos } | null>(null);
 
   // --- données ------------------------------------------------------------
 
@@ -138,8 +146,6 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onShow
     return tab === 'actuel' && g.tracksActuel.length > 0 ? g.tracksActuel : g.tracksEssentiel;
   }, [panelGenre, tab]);
 
-  /* La lecture suit sa propre liste : changer d'onglet ne coupe pas la track
-     en cours. */
   const playedTracks: Track[] = useMemo(() => {
     if (!playback) return [];
     const g = genreOf(playback.familyIndex, playback.genreLocal);
@@ -160,9 +166,22 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onShow
     playback?.familyIndex === panelGenre?.familyIndex &&
     playback?.genreLocal === panelGenre?.genreLocal;
 
-  /* La track mise en avant : celle qui joue si elle est de ce genre, sinon
-     la première de la liste. */
   const shownInPanel: Track | undefined = playingHere ? currentTrack : panelTracks[0];
+
+  /* La colonne signale sa présence à la coquille : la carte se recadre par
+     CSS (marge droite), le moteur suit par son observateur de taille. */
+  useEffect(() => {
+    const root = document.querySelector('.atlas-root');
+    if (!root) return;
+    if (panelGenre && !narrow) root.setAttribute('data-player-open', 'true');
+    else root.removeAttribute('data-player-open');
+    return () => root.removeAttribute('data-player-open');
+  }, [panelGenre, narrow]);
+
+  // Ouvrir une colonne remet la feuille mobile à mi-hauteur.
+  useEffect(() => {
+    if (panelGenre) setSheetPos('half');
+  }, [panelGenre]);
 
   // --- lecteur ------------------------------------------------------------
 
@@ -183,8 +202,6 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onShow
     });
   }, []);
 
-  // Création unique du lecteur. Le noeud cible est créé impérativement :
-  // React ne doit jamais réconcilier ce que l'API IFrame remplace.
   useEffect(() => {
     let cancelled = false;
     const slot = slotRef.current;
@@ -215,7 +232,6 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onShow
             },
             onStateChange: (event) => {
               if (cancelled) return;
-              // 1 lecture, 2 pause, 0 fin.
               if (event.data === 1) setPlaying(true);
               if (event.data === 2) setPlaying(false);
               if (event.data === 0) {
@@ -239,7 +255,6 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onShow
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Changement de track.
   useEffect(() => {
     if (!ready || !currentTrack) return;
     playerRef.current?.loadVideoById(currentTrack.youtubeId);
@@ -252,7 +267,6 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onShow
     if (ready) playerRef.current?.setVolume(volume);
   }, [ready, volume]);
 
-  // Horloge de la barre de défilement. Quatre fois par seconde suffit.
   useEffect(() => {
     if (!playing) return;
     const id = window.setInterval(() => {
@@ -287,10 +301,9 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onShow
     void wrapRef.current?.requestFullscreen?.();
   }, []);
 
-  /* Position de l'iframe : mesurée sur la fenêtre média du panneau quand il
-     est ouvert et que la lecture est ici, sur le mini-lecteur sinon. Le
-     panneau est une boîte fixe : une mesure au montage et au resize suffit,
-     plus aucune géométrie par image. */
+  /* Position de l'iframe : sur la fenêtre média de la colonne quand la
+     lecture est ici et visible, sur la barre sinon. Mesure au montage, au
+     redimensionnement et au déplacement de la feuille. */
   useEffect(() => {
     const place = (): void => {
       const wrap = wrapRef.current;
@@ -298,7 +311,8 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onShow
       if (!wrap || !slot) return;
 
       const media = mediaRef.current;
-      if (media && panelGenre && playingHere) {
+      const mediaVisible = media && panelGenre && playingHere && !(narrow && sheetPos === 'bar');
+      if (mediaVisible && media) {
         const rect = media.getBoundingClientRect();
         wrap.style.opacity = '1';
         wrap.style.pointerEvents = 'auto';
@@ -320,14 +334,19 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onShow
     };
 
     place();
+    // La colonne glisse en 300 ms : on suit le mouvement, puis on se cale.
+    const id = window.setInterval(place, 90);
+    const stop = window.setTimeout(() => window.clearInterval(id), 480);
     window.addEventListener('resize', place);
     const observer = mediaRef.current ? new ResizeObserver(place) : null;
     if (mediaRef.current && observer) observer.observe(mediaRef.current);
     return () => {
+      window.clearInterval(id);
+      window.clearTimeout(stop);
       window.removeEventListener('resize', place);
       observer?.disconnect();
     };
-  }, [panelGenre, playingHere, playback]);
+  }, [panelGenre, playingHere, playback, narrow, sheetPos]);
 
   // --- clavier ------------------------------------------------------------
 
@@ -347,13 +366,38 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onShow
     return () => window.removeEventListener('keydown', onKey);
   }, [panelGenre, playback, onClose, toggle]);
 
+  // --- feuille mobile : glissement vertical entre les trois positions ------
+
+  const onHandleDown = useCallback((event: React.PointerEvent) => {
+    dragStart.current = { y: event.clientY, pos: sheetPos };
+    (event.target as HTMLElement).setPointerCapture(event.pointerId);
+  }, [sheetPos]);
+
+  const onHandleMove = useCallback((event: React.PointerEvent) => {
+    const start = dragStart.current;
+    if (!start) return;
+    const dy = event.clientY - start.y;
+    const order: SheetPos[] = ['bar', 'half', 'full'];
+    const idx = order.indexOf(start.pos);
+    if (dy < -70 && idx < 2) {
+      setSheetPos(order[idx + 1] ?? 'full');
+      dragStart.current = null;
+    } else if (dy > 70 && idx > 0) {
+      setSheetPos(order[idx - 1] ?? 'bar');
+      dragStart.current = null;
+    }
+  }, []);
+
+  const onHandleUp = useCallback(() => {
+    dragStart.current = null;
+  }, []);
+
   // --- rendu --------------------------------------------------------------
 
   const progress = duration > 0 ? (position / duration) * 100 : 0;
   const currentList: 'essentiel' | 'actuel' =
     tab === 'actuel' && panelActuel.length > 0 ? 'actuel' : 'essentiel';
 
-  /* Champs de sortie : seulement ce qui existe, jamais de gabarit vide. */
   const releaseLine = (track: Track | undefined): string[] => {
     if (!track) return [];
     const parts: string[] = [];
@@ -365,249 +409,314 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onShow
     if (r?.country) parts.push(r.country);
     if (r?.format) parts.push(r.format);
     if (!r && track.album) parts.push(`Album ${track.album}`);
+    if (panelGenreData?.bpmRange)
+      parts.push(`${panelGenreData.bpmRange[0]}-${panelGenreData.bpmRange[1]} BPM`);
+    if (track.key) parts.push(`Tonalité ${track.key}`);
     return parts;
   };
 
   return (
     <>
-      {/* Conteneur de l'iframe. Monté une fois, jamais démonté : c'est ce qui
-          permet à la lecture de survivre à la fermeture du panneau. */}
+      {/* Conteneur de l'iframe. Monté une fois, jamais démonté. */}
       <div ref={wrapRef} className="yt-wrap" aria-hidden={!playback}>
         <div ref={slotRef} className="yt-slot" data-idle={!playback} />
       </div>
 
       {panelGenre && panelGenreData && panelFamily && (
-        <>
-          <div className="panel-backdrop" onClick={onClose} aria-hidden="true" />
-          <section
-            className="panel"
-            role="dialog"
-            aria-label={`Tracks du genre ${panelGenreData.label}`}
-            style={{ ['--family' as string]: `oklch(0.72 0.15 ${panelFamily.hue})` }}
-          >
-            <div className="panel-columns">
-              {/* Colonne gauche : la pochette carrée en grand. La vidéo prend
-                  sa place en lecture, même boîte, rien ne saute. */}
-              <div className="panel-media" ref={mediaRef}>
-                {!playingHere && shownInPanel && (
-                  shownInPanel.cover ? (
-                    <img
-                      className="panel-cover"
-                      src={shownInPanel.cover}
-                      alt={`Pochette de ${shownInPanel.title}`}
-                      draggable={false}
+        <aside
+          className="pcol"
+          data-sheet={narrow ? sheetPos : undefined}
+          role="complementary"
+          aria-label={`Lecteur, genre ${panelGenreData.label}`}
+          style={{ ['--family' as string]: `oklch(0.72 0.15 ${panelFamily.hue})` }}
+        >
+          {/* Poignée de la feuille mobile. */}
+          {narrow && (
+            <button
+              className="pcol-handle"
+              onPointerDown={onHandleDown}
+              onPointerMove={onHandleMove}
+              onPointerUp={onHandleUp}
+              onClick={() => setSheetPos(sheetPos === 'bar' ? 'half' : sheetPos === 'half' ? 'full' : 'half')}
+              aria-label="Déplacer la feuille du lecteur"
+            >
+              <span aria-hidden="true" />
+            </button>
+          )}
+
+          <div className="pcol-scroll">
+            <div className="pcol-media" ref={mediaRef}>
+              {!playingHere && shownInPanel && (
+                shownInPanel.cover ? (
+                  <img
+                    className="pcol-cover"
+                    src={shownInPanel.cover}
+                    alt={`Pochette de ${shownInPanel.title}`}
+                    draggable={false}
+                  />
+                ) : (
+                  <span className="pcol-cover pcol-cover-generated">
+                    <ProceduralCover
+                      artist={shownInPanel.artist}
+                      title={shownInPanel.title}
+                      hue={panelFamily.hue}
                     />
-                  ) : (
-                    <span className="panel-cover panel-cover-generated">
-                      <ProceduralCover
-                        artist={shownInPanel.artist}
-                        title={shownInPanel.title}
-                        hue={panelFamily.hue}
-                      />
-                    </span>
-                  )
-                )}
-                {!playingHere && shownInPanel && (
-                  <button
-                    className="panel-bigplay"
-                    onClick={() => play(panelGenre.familyIndex, panelGenre.genreLocal, 0, currentList)}
-                    aria-label={`Lire ${shownInPanel.title}`}
-                  >
-                    ▶
-                  </button>
-                )}
-                {apiFailed && (
-                  <p className="panel-failed">
-                    Le lecteur YouTube n&apos;a pas pu se charger. La pochette reste affichée.
-                  </p>
-                )}
-              </div>
-
-              {/* Colonne droite : l'identité de la track, puis la liste. */}
-              <div className="panel-body">
-                <h2 className="panel-title">
-                  {shownInPanel ? shownInPanel.title : panelGenreData.label}
-                </h2>
-                <p className="panel-artist">
-                  {shownInPanel ? shownInPanel.artist : `${panelTracks.length} tracks`}
-                </p>
-
-                <p className="panel-genre">
-                  <button
-                    className="panel-genre-name"
-                    onClick={() => onShowCard(panelGenre.familyIndex, panelGenre.genreLocal)}
-                    title="Ouvrir la fiche du genre"
-                  >
-                    {panelGenreData.label}
-                  </button>
-                  <span className="panel-genre-meta">{panelFamily.label}</span>
-                </p>
-
-                {releaseLine(shownInPanel).length > 0 && (
-                  <p className="panel-release">{releaseLine(shownInPanel).join(' · ')}</p>
-                )}
-                {(shownInPanel?.key || panelGenreData.bpmRange) && (
-                  <p className="panel-keybpm">
-                    {shownInPanel?.key ? `Tonalité ${shownInPanel.key}` : ''}
-                    {shownInPanel?.key && panelGenreData.bpmRange ? ' · ' : ''}
-                    {panelGenreData.bpmRange
-                      ? `${panelGenreData.bpmRange[0]}-${panelGenreData.bpmRange[1]} BPM`
-                      : ''}
-                  </p>
-                )}
-
-                {shownInPanel && shownInPanel.sharedWith.length > 0 && (
-                  <p className="panel-shared">
-                    aussi revendiquée par{' '}
-                    {shownInPanel.sharedWith.map((x, i) => (
-                      <span key={`${x.familyIndex}-${x.genreLocal}`}>
-                        {i > 0 && ', '}
-                        <button
-                          className="panel-shared-link"
-                          onClick={() => onGoToGenre(x.familyIndex, x.genreLocal)}
-                        >
-                          {x.label}
-                        </button>
-                      </span>
-                    ))}
-                  </p>
-                )}
-
-                {panelActuel.length > 0 && (
-                  <div className="panel-tabs" role="tablist" aria-label="Sélection de tracks">
-                    <button
-                      role="tab"
-                      aria-selected={currentList === 'essentiel'}
-                      onClick={() => setTab('essentiel')}
-                    >
-                      Essentiel
-                    </button>
-                    <button
-                      role="tab"
-                      aria-selected={currentList === 'actuel'}
-                      onClick={() => setTab('actuel')}
-                    >
-                      Actuel
-                    </button>
-                  </div>
-                )}
-
-                {/* La liste VERTICALE des tracks du genre : petite pochette,
-                    titre, artiste. Plus de bande de vignettes. */}
-                <ul className="panel-list">
-                  {panelTracks.map((track, i) => (
-                    <li key={track.id}>
-                      <button
-                        className="panel-row"
-                        data-active={playingHere && playback?.trackIndex === i}
-                        onClick={() =>
-                          play(panelGenre.familyIndex, panelGenre.genreLocal, i, currentList)
-                        }
-                        aria-label={`Lire ${track.title} de ${track.artist}`}
-                      >
-                        <span className="panel-row-cover" aria-hidden="true">
-                          {track.cover ? (
-                            <img src={track.cover} alt="" draggable={false} />
-                          ) : (
-                            <ProceduralCover
-                              artist={track.artist}
-                              title={track.title}
-                              hue={panelFamily.hue}
-                              size={88}
-                            />
-                          )}
-                        </span>
-                        <span className="panel-row-text">
-                          <strong>{track.title}</strong>
-                          <span>{track.artist}</span>
-                        </span>
-                        {track.year && <span className="panel-row-year">{track.year}</span>}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* Transport pleine largeur, en bas. */}
-            <div className="panel-transport">
-              <button onClick={() => step(-1)} disabled={!playingHere} aria-label="Précédente">⏮</button>
-              <button
-                className="panel-main"
-                onClick={() =>
-                  playingHere
-                    ? toggle()
-                    : play(panelGenre.familyIndex, panelGenre.genreLocal, 0, currentList)
-                }
-                aria-label={playing && playingHere ? 'Pause' : 'Lecture'}
-              >
-                {playing && playingHere ? '❚❚' : '▶'}
-              </button>
-              <button onClick={() => step(1)} disabled={!playingHere} aria-label="Suivante">⏭</button>
-
-              <span className="panel-time">{playingHere ? mmss(position) : '0:00'}</span>
-              <div
-                className="panel-bar"
-                onClick={seek}
-                role="slider"
-                tabIndex={0}
-                aria-label="Position dans la track"
-                aria-valuemin={0}
-                aria-valuemax={Math.floor(duration)}
-                aria-valuenow={Math.floor(position)}
-              >
-                <div className="panel-bar-fill" style={{ width: `${playingHere ? progress : 0}%` }} />
-              </div>
-              <span className="panel-time">{playingHere ? mmss(duration) : '0:00'}</span>
-
-              <label className="panel-volume">
-                <span className="visually-hidden">Volume</span>
-                <input
-                  type="range"
-                  min={0}
-                  max={100}
-                  step={1}
-                  value={volume}
-                  onChange={(e) => setVolume(Number(e.target.value))}
-                />
-              </label>
-
-              <button
-                className="panel-fullscreen"
-                onClick={fullscreen}
-                disabled={!playingHere}
-                aria-label="Plein écran"
-                title="Plein écran"
-              >
-                ⛶
-              </button>
-              {shownInPanel && (
-                <a
-                  className="panel-youtube"
-                  href={`https://www.youtube.com/watch?v=${shownInPanel.youtubeId}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="Ouvrir sur YouTube"
+                  </span>
+                )
+              )}
+              {!playingHere && shownInPanel && (
+                <button
+                  className="pcol-bigplay"
+                  onClick={() => play(panelGenre.familyIndex, panelGenre.genreLocal, 0, currentList)}
+                  aria-label={`Lire ${shownInPanel.title}`}
                 >
-                  YouTube ↗
-                </a>
+                  ▶
+                </button>
+              )}
+              {apiFailed && (
+                <p className="pcol-failed">
+                  Le lecteur YouTube n&apos;a pas pu se charger. La pochette reste affichée.
+                </p>
               )}
             </div>
 
-            <button className="panel-close" onClick={onClose} aria-label="Fermer (Échap)">
-              ✕
+            <h2 className="pcol-title">{shownInPanel ? shownInPanel.title : panelGenreData.label}</h2>
+            <p className="pcol-artist">
+              {shownInPanel ? shownInPanel.artist : `${panelTracks.length} tracks`}
+            </p>
+
+            <p className="pcol-genre">
+              <button
+                className="pcol-genre-name"
+                onClick={() => onShowCard(panelGenre.familyIndex, panelGenre.genreLocal)}
+                title="Ouvrir la fiche du genre"
+              >
+                {panelGenreData.label}
+              </button>
+              <span className="pcol-genre-meta">{panelFamily.label}</span>
+            </p>
+
+            {releaseLine(shownInPanel).length > 0 && (
+              <p className="pcol-release">{releaseLine(shownInPanel).join(' · ')}</p>
+            )}
+
+            {/* LES INFOS DU GENRE : la fiche en résumé, dans la colonne.
+                Repliable, ouverte par défaut. */}
+            {(panelGenreData.description ||
+              panelGenreData.machines.length > 0 ||
+              panelGenreData.artistesCles.length > 0) && (
+              <section className="pcol-info" data-open={infoOpen}>
+                <button
+                  className="pcol-info-toggle"
+                  onClick={() => setInfoOpen((v) => !v)}
+                  aria-expanded={infoOpen}
+                >
+                  Le genre {infoOpen ? '▾' : '▸'}
+                </button>
+                {infoOpen && (
+                  <div className="pcol-info-body">
+                    {panelGenreData.redaction === 'brouillon' && (
+                      <p className="pcol-draft">fiche en brouillon, à relire</p>
+                    )}
+                    {panelGenreData.description && (
+                      <p className="pcol-description">{panelGenreData.description}</p>
+                    )}
+                    {panelGenreData.machines.length > 0 && (
+                      <>
+                        <h4>Machines</h4>
+                        <p className="pcol-info-line">{panelGenreData.machines.join(' · ')}</p>
+                      </>
+                    )}
+                    {(panelGenreData.labelsHistoriques.length > 0 ||
+                      panelGenreData.labelsActuels !== null) && (
+                      <div className="pcol-labels">
+                        <div>
+                          <h4>Labels historiques</h4>
+                          {panelGenreData.labelsHistoriques.length > 0 ? (
+                            <p className="pcol-info-line">
+                              {panelGenreData.labelsHistoriques.join(' · ')}
+                            </p>
+                          ) : (
+                            <p className="pcol-none">sans label fondateur identifié</p>
+                          )}
+                        </div>
+                        <div>
+                          <h4>Labels actuels</h4>
+                          {panelGenreData.labelsActuels && panelGenreData.labelsActuels.length > 0 ? (
+                            <p className="pcol-info-line">{panelGenreData.labelsActuels.join(' · ')}</p>
+                          ) : (
+                            <p className="pcol-none">aucun, le genre ne produit plus</p>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    {panelGenreData.artistesCles.length > 0 && (
+                      <>
+                        <h4>Artistes clés</h4>
+                        <p className="pcol-info-line">{panelGenreData.artistesCles.join(' · ')}</p>
+                      </>
+                    )}
+                  </div>
+                )}
+              </section>
+            )}
+
+            {panelActuel.length > 0 && (
+              <div className="pcol-tabs" role="tablist" aria-label="Sélection de tracks">
+                <button
+                  role="tab"
+                  aria-selected={currentList === 'essentiel'}
+                  onClick={() => setTab('essentiel')}
+                >
+                  Essentiel
+                </button>
+                <button
+                  role="tab"
+                  aria-selected={currentList === 'actuel'}
+                  onClick={() => setTab('actuel')}
+                >
+                  Actuel
+                </button>
+              </div>
+            )}
+
+            {/* La liste verticale : petite pochette, titre, artiste. La durée
+                n'est affichée que pour la track en cours : c'est la seule que
+                le lecteur connaît, et on n'invente pas les autres. */}
+            <ul className="pcol-list">
+              {panelTracks.map((track, i) => {
+                const active = playingHere && playback?.trackIndex === i;
+                return (
+                  <li key={track.id}>
+                    <button
+                      className="pcol-row"
+                      data-active={active}
+                      onClick={() =>
+                        play(panelGenre.familyIndex, panelGenre.genreLocal, i, currentList)
+                      }
+                      aria-label={`Lire ${track.title} de ${track.artist}`}
+                    >
+                      <span className="pcol-row-cover" aria-hidden="true">
+                        {track.cover ? (
+                          <img src={track.cover} alt="" draggable={false} />
+                        ) : (
+                          <ProceduralCover
+                            artist={track.artist}
+                            title={track.title}
+                            hue={panelFamily.hue}
+                            size={80}
+                          />
+                        )}
+                      </span>
+                      <span className="pcol-row-text">
+                        <strong>{track.title}</strong>
+                        <span>{track.artist}</span>
+                      </span>
+                      {active && duration > 0 && (
+                        <span className="pcol-row-duration">{mmss(duration)}</span>
+                      )}
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+
+            {shownInPanel && shownInPanel.sharedWith.length > 0 && (
+              <p className="pcol-shared">
+                aussi revendiquée par{' '}
+                {shownInPanel.sharedWith.map((x, i) => (
+                  <span key={`${x.familyIndex}-${x.genreLocal}`}>
+                    {i > 0 && ', '}
+                    <button
+                      className="pcol-shared-link"
+                      onClick={() => onGoToGenre(x.familyIndex, x.genreLocal)}
+                    >
+                      {x.label}
+                    </button>
+                  </span>
+                ))}
+              </p>
+            )}
+          </div>
+
+          {/* Transport fixé en bas de colonne, toujours visible. */}
+          <div className="pcol-transport">
+            <button onClick={() => step(-1)} disabled={!playingHere} aria-label="Précédente">⏮</button>
+            <button
+              className="pcol-main"
+              onClick={() =>
+                playingHere
+                  ? toggle()
+                  : play(panelGenre.familyIndex, panelGenre.genreLocal, 0, currentList)
+              }
+              aria-label={playing && playingHere ? 'Pause' : 'Lecture'}
+            >
+              {playing && playingHere ? '❚❚' : '▶'}
             </button>
-          </section>
-        </>
+            <button onClick={() => step(1)} disabled={!playingHere} aria-label="Suivante">⏭</button>
+
+            <span className="pcol-time">{playingHere ? mmss(position) : '0:00'}</span>
+            <div
+              className="pcol-bar"
+              onClick={seek}
+              role="slider"
+              tabIndex={0}
+              aria-label="Position dans la track"
+              aria-valuemin={0}
+              aria-valuemax={Math.floor(duration)}
+              aria-valuenow={Math.floor(position)}
+            >
+              <div className="pcol-bar-fill" style={{ width: `${playingHere ? progress : 0}%` }} />
+            </div>
+            <span className="pcol-time">{playingHere ? mmss(duration) : '0:00'}</span>
+
+            <label className="pcol-volume">
+              <span className="visually-hidden">Volume</span>
+              <input
+                type="range"
+                min={0}
+                max={100}
+                step={1}
+                value={volume}
+                onChange={(e) => setVolume(Number(e.target.value))}
+              />
+            </label>
+
+            <button
+              className="pcol-fullscreen"
+              onClick={fullscreen}
+              disabled={!playingHere}
+              aria-label="Plein écran"
+              title="Plein écran"
+            >
+              ⛶
+            </button>
+            {shownInPanel && (
+              <a
+                className="pcol-youtube"
+                href={`https://www.youtube.com/watch?v=${shownInPanel.youtubeId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Ouvrir sur YouTube"
+              >
+                YT ↗
+              </a>
+            )}
+          </div>
+
+          <button className="pcol-close" onClick={onClose} aria-label="Fermer la colonne (Échap)">
+            ✕
+          </button>
+        </aside>
       )}
 
-      {/* Mini-lecteur : la lecture continue quand on remonte dans l'atlas. */}
+      {/* Barre discrète : la lecture continue, colonne fermée. */}
       {playback && !panelGenre && currentTrack && (
         <div className="mini" role="region" aria-label="Lecture en cours">
           <button
             className="mini-back"
             onClick={() => onReopen(playback.familyIndex, playback.genreLocal)}
-            aria-label="Revenir au panneau du genre"
+            aria-label="Rouvrir la colonne du genre"
           >
             <span className="mini-slot" aria-hidden="true" />
             <span className="mini-text">

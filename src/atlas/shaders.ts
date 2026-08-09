@@ -250,6 +250,7 @@ varying float vViewDepth;
 
 uniform vec2 uFog;
 uniform vec3 uFogColor;
+uniform float uFlowTime;
 
 void main() {
   // Le lien n'existe que jusqu'au front de propagation.
@@ -264,6 +265,14 @@ void main() {
   // Tête de propagation : un peu plus vive juste derrière le front.
   float head = smoothstep(reveal - 0.18, reveal, vT) * step(vT, reveal);
   rgb *= 0.72 + head * 0.9;
+
+  /* Flux lumineux LENT le long des liens du chemin actif (poids plein) :
+     une bande douce qui descend du parent vers l'enfant. Coupé quand
+     uFlowTime reste à zéro (prefers-reduced-motion). */
+  float onPath = step(0.95, vMeta.x);
+  float band = fract(vT - uFlowTime);
+  float flow = smoothstep(0.0, 0.12, band) * (1.0 - smoothstep(0.12, 0.3, band));
+  rgb *= 1.0 + onPath * flow * 0.55 * step(0.001, uFlowTime);
 
   float fog = smoothstep(uFog.x, uFog.y, vViewDepth);
   rgb = mix(rgb, uFogColor, fog * 0.55);

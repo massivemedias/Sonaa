@@ -8,11 +8,29 @@ import { PlayerLayer } from './PlayerLayer.tsx';
 import { GenreCard } from './GenreCard.tsx';
 import { SearchOverlay } from './SearchOverlay.tsx';
 import { Welcome } from './Welcome.tsx';
+import { TreeViews } from './TreeViews.tsx';
 import type { NavState, PanelState, AtlasApi, AtlasStats } from './webgl.ts';
 import './atlas.css';
 import './welcome.css';
 
-type Mode = 'attente' | 'webgl' | 'repli';
+type Mode = 'attente' | 'webgl' | 'dom' | 'repli';
+
+/* QUATRE VUES AU CHOIX (ADR-043) : la 3D libre (l'orbite planétaire
+   ressuscitée), la 3D fixe (l'arbre généalogique), la linéaire (document
+   dense) et les colonnes (maçonnerie de cartes). Le choix se fait à
+   l'entrée, se change à tout moment, et se retient. */
+export type ViewId = 'libre' | 'fixe' | 'lineaire' | 'colonnes';
+const VIEW_KEY = 'sonaa-view';
+const VIEWS: { id: ViewId; label: string; hint: string }[] = [
+  { id: 'libre', label: '3D libre', hint: 'orbiter autour du système planétaire' },
+  { id: 'fixe', label: '3D fixe', hint: 'l\'arbre généalogique, pan et zoom' },
+  { id: 'lineaire', label: 'Linéaire', hint: 'le corpus en document dense' },
+  { id: 'colonnes', label: 'Colonnes', hint: 'les familles en cartes' }
+];
+const readView = (): ViewId | null => {
+  const raw = localStorage.getItem(VIEW_KEY);
+  return VIEWS.some((v) => v.id === raw) ? (raw as ViewId) : null;
+};
 
 const hasWebGL = (): boolean => {
   try {
@@ -49,6 +67,7 @@ export function AtlasPage() {
   const apiRef = useRef<AtlasApi | null>(null);
 
   const [mode, setMode] = useState<Mode>('attente');
+  const [view, setView] = useState<ViewId>(() => readView() ?? 'fixe');
   const [stats, setStats] = useState<AtlasStats | null>(null);
   const [nav, setNav] = useState<NavState | null>(null);
   const [panelGenre, setPanelGenre] = useState<{ familyIndex: number; genreLocal: number } | null>(
@@ -95,10 +114,8 @@ export function AtlasPage() {
     if (state === null) setPanelGenre(null);
   }, []);
 
-  /* Panneau ouvert : la 3D recule et s'estompe derrière le voile. */
-  useEffect(() => {
-    apiRef.current?.setSuspended(panelGenre !== null);
-  }, [panelGenre]);
+  /* La colonne du lecteur ne suspend PLUS la carte : elle reste vivante à
+     côté, on navigue pendant que la musique joue. */
 
   const dismissHelp = useCallback(() => {
     setShowHelp((visible) => {
@@ -108,6 +125,12 @@ export function AtlasPage() {
   }, []);
 
   useEffect(() => {
+    // Les vues DOM n'ont pas de moteur : rien à charger, rien à perdre.
+    if (view === 'lineaire' || view === 'colonnes') {
+      setMode('dom');
+      setNav(null);
+      return;
+    }
     if (!hasWebGL()) {
       setMode('repli');
       setReason('WebGL indisponible sur ce navigateur.');
@@ -116,13 +139,17 @@ export function AtlasPage() {
 
     let disposed = false;
     const id = window.setTimeout(() => {
-      void import('./webgl.ts').then(({ initAtlas }) => {
+      const load =
+        view === 'libre'
+          ? import('./webgl-orbit.ts').then((m) => m.initAtlasOrbit)
+          : import('./webgl.ts').then((m) => m.initAtlas);
+      void load.then((init) => {
         if (disposed) return;
         const canvas = canvasRef.current;
         const labelLayer = labelRef.current;
         if (!canvas || !labelLayer) return;
 
-        apiRef.current = initAtlas({
+        apiRef.current = init({
           canvas,
           labelLayer,
           onStats,
@@ -151,7 +178,14 @@ export function AtlasPage() {
       apiRef.current?.dispose();
       apiRef.current = null;
     };
-  }, [onStats, onNavigate, onTracks, onGenreInfo, onPanel]);
+  }, [view, onStats, onNavigate, onTracks, onGenreInfo, onPanel]);
+
+  const chooseView = useCallback((next: ViewId) => {
+    localStorage.setItem(VIEW_KEY, next);
+    setMode('attente');
+    setNav(null);
+    setView(next);
+  }, []);
 
   /* Le balayage du logo s'arrête quand l'onglet est en arrière-plan : une
      animation CSS ne se met pas en pause toute seule. */
@@ -170,7 +204,6 @@ export function AtlasPage() {
   const closePanel = useCallback(() => {
     setPanelGenre(null);
     apiRef.current?.closePanel();
-    apiRef.current?.goUp();
   }, []);
 
   /* Retour à l'Atlas : ferme le panneau, ferme la fiche, referme la famille.
@@ -182,18 +215,22 @@ export function AtlasPage() {
     apiRef.current?.goToFamily(-1);
   }, []);
 
-  const dismissWelcome = useCallback(() => {
+  const dismissWelcome = useCallback((picked?: ViewId) => {
     localStorage.setItem(WELCOME_KEY, '1');
     setShowWelcome(false);
     /* L'accueil vient de dire comment on navigue : répéter la même chose dans
        la ligne d'aide juste après serait du bruit. */
     localStorage.setItem(HELP_KEY, '1');
     setShowHelp(false);
+    if (picked && picked !== view) {
+      chooseView(picked);
+      return;
+    }
     // L'intro se joue après l'accueil, jamais dessous.
     if (localStorage.getItem(INTRO_KEY) !== '1') {
       apiRef.current?.playIntro();
     }
-  }, []);
+  }, [view, chooseView]);
 
   /* L'ESPACE ouvre la recherche, la barre oblique reste en second raccourci.
      Exception : quand le panneau tracks est ouvert, l'espace appartient au
@@ -214,9 +251,12 @@ export function AtlasPage() {
   }, [searchOpen, panelGenre]);
 
   const goToGenre = useCallback((familyIndex: number, genreLocal: number) => {
-    setPanelGenre(null);
-    apiRef.current?.closePanel();
-    apiRef.current?.goToGenre(familyIndex, genreLocal);
+    if (!apiRef.current) {
+      // Vue DOM : aller à un genre, c'est ouvrir sa fiche.
+      setCardGenre({ familyIndex, genreLocal });
+      return;
+    }
+    apiRef.current.goToGenre(familyIndex, genreLocal);
   }, []);
 
   /* Écouter passe par le MOTEUR, pas par l'état React seul. C'est lui qui pose
@@ -224,7 +264,11 @@ export function AtlasPage() {
      seule façon d'avoir une fenêtre vidéo positionnée. Appeler onTracks
      directement affichait un panneau sans plaque ni fenêtre. */
   const openTracks = useCallback((familyIndex: number, genreLocal: number) => {
-    apiRef.current?.openPanel(familyIndex, genreLocal);
+    if (!apiRef.current) {
+      setPanelGenre({ familyIndex, genreLocal });
+      return;
+    }
+    apiRef.current.openPanel(familyIndex, genreLocal);
   }, []);
 
   const reopenPanel = useCallback((familyIndex: number, genreLocal: number) => {
@@ -264,9 +308,31 @@ export function AtlasPage() {
         data-active={mode === 'webgl'}
         data-suspended={false}
       />
-      <div ref={labelRef} className="atlas-labels" data-suspended={panelGenre !== null} aria-hidden="true" />
+      <div ref={labelRef} className="atlas-labels" data-suspended={false} aria-hidden="true" />
 
-      {mode !== 'webgl' && <Fallback notice={reason} />}
+      {mode === 'dom' && (
+        <TreeViews
+          mode={view === 'colonnes' ? 'colonnes' : 'lineaire'}
+          onShowCard={(familyIndex, genreLocal) => setCardGenre({ familyIndex, genreLocal })}
+          onListen={openTracks}
+        />
+      )}
+
+      {mode !== 'webgl' && mode !== 'dom' && <Fallback notice={reason} />}
+
+      {/* Le sélecteur de vue : quatre façons de lire la même carte. */}
+      <div className="view-switch" role="group" aria-label="Choisir la vue">
+        {VIEWS.map((v) => (
+          <button
+            key={v.id}
+            data-current={view === v.id}
+            onClick={() => view !== v.id && chooseView(v.id)}
+            title={v.hint}
+          >
+            {v.label}
+          </button>
+        ))}
+      </div>
 
       {/* Le logotype est le retour à l'accueil. Discret et petit : il ne doit
           pas concurrencer la carte, qui est le sujet. */}
@@ -377,8 +443,9 @@ export function AtlasPage() {
 
       {showHelp && !showWelcome && mode === 'webgl' && !panelGenre && (
         <p className="help-line" role="status">
-          Glisser pour déplacer la carte · molette pour zoomer · clic sur une sphère pour sa
-          fiche · espace pour chercher · Échap pour remonter
+          {view === 'libre'
+            ? 'Glisser pour tourner · molette pour zoomer · clic sur une sphère pour sa fiche · espace pour chercher'
+            : 'Glisser pour déplacer la carte · molette pour zoomer · clic sur une sphère pour sa fiche · espace pour chercher'}
         </p>
       )}
 
@@ -399,7 +466,7 @@ export function AtlasPage() {
 
       {/* La fiche s'efface quand les morceaux passent devant : les deux ne se
           lisent pas en même temps. */}
-      {mode === 'webgl' && cardGenre && !panelGenre && (
+      {(mode === 'webgl' || mode === 'dom') && cardGenre && (
         <GenreCard
           familyIndex={cardGenre.familyIndex}
           genreLocal={cardGenre.genreLocal}
@@ -411,9 +478,9 @@ export function AtlasPage() {
 
       {searchOpen && <SearchOverlay onPick={goToGenre} onClose={() => setSearchOpen(false)} />}
 
-      {showWelcome && <Welcome onDismiss={dismissWelcome} />}
+      {showWelcome && <Welcome views={VIEWS} current={view} onDismiss={dismissWelcome} />}
 
-      {mode === 'webgl' && (
+      {(mode === 'webgl' || mode === 'dom') && (
         <PlayerLayer
           panelGenre={panelGenre}
           onClose={closePanel}

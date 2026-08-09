@@ -454,7 +454,8 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     uMinPixels: { value: 1.1 },
     uWidthWorld: { value: 0.075 },
     uFog: { value: sphereUniforms.uFog.value },
-    uFogColor: { value: fogColor }
+    uFogColor: { value: fogColor },
+    uFlowTime: { value: 0 }
   };
 
   const linkMaterial = new ShaderMaterial({
@@ -762,7 +763,8 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
       openPanel(slot.family, slot.local);
       return;
     }
-    closePanel();
+    /* La colonne du lecteur reste ouverte pendant la navigation : la
+       lecture ne s'interrompt jamais à cause d'un clic. */
 
     const base = familyOffset[slot.family] ?? 0;
     genrePath = pathToGenre(slot.family, slot.local).map((local) => base + local);
@@ -1028,6 +1030,13 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   let introStart = 0;
   let introDone: (() => void) | null = null;
   const baseRadii = Float32Array.from(sphereRadii);
+
+  /* ANIMATIONS SOBRES (mission). Respiration très lente des sphères, 2 pour
+     cent d'amplitude, phase décalée par noeud pour éviter la pulsation
+     collective. Survol : la sphère grossit de 8 pour cent en 150 ms environ
+     (lissage exponentiel). Tout est coupé par prefers-reduced-motion. */
+  const breathPhase = Float32Array.from({ length: TOTAL_GENRES }, (_, i) => (i * 2.399963) % 6.2832);
+  const hoverAmount = new Float32Array(TOTAL_GENRES);
 
   const introBirth = (fi: number, now: number): number => {
     const rank = INTRO_ORDER.indexOf(fi);
@@ -1380,7 +1389,11 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     requestAnimationFrame(frame);
     const now = performance.now();
 
-    if (!reducedMotion) bgUniforms.uTime.value = now / 1000;
+    if (!reducedMotion) {
+      bgUniforms.uTime.value = now / 1000;
+      // Flux lent le long des liens actifs : une bande toutes les 7 secondes.
+      linkUniforms.uFlowTime.value = (now / 7000) % 1;
+    }
 
     const friction = reducedMotion ? 0 : 0.9;
     distance = clamp(distance * Math.exp(dollyVel * 0.02), MIN_DISTANCE, MAX_DISTANCE);
@@ -1442,6 +1455,14 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
         py = atlasTarget.y + (py - atlasTarget.y) * e;
       }
 
+      /* Respiration et survol : le rayon vit, dans des bornes infimes. */
+      if (!reducedMotion && !introActive) {
+        const target = i === hovered ? 1 : 0;
+        hoverAmount[i] = (hoverAmount[i] ?? 0) + (target - (hoverAmount[i] ?? 0)) * 0.22;
+        const breath = 1 + 0.02 * Math.sin(now / 2300 + (breathPhase[i] ?? 0));
+        sphereRadii[i] = (baseRadii[i] ?? 1) * breath * (1 + 0.08 * (hoverAmount[i] ?? 0));
+      }
+
       sphereCenters[i * 3] = px;
       sphereCenters[i * 3 + 1] = py;
       sphereCenters[i * 3 + 2] = z;
@@ -1458,6 +1479,7 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     }
     sphereCenterAttr.needsUpdate = true;
     sphereStateAttr.needsUpdate = true;
+    if (!reducedMotion) sphereRadiusAttr.needsUpdate = true;
     if (introActive) {
       sphereRadiusAttr.needsUpdate = true;
       const last = INTRO_ORDER.length * INTRO_STEP_MS + INTRO_POP_MS + 400;
@@ -1481,6 +1503,12 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
           linkMeta[i * 3 + 1] = inSubtree ? 1 : 0.1;
         } else {
           linkMeta[i * 3] = 0.35;
+          linkMeta[i * 3 + 1] = 1;
+        }
+        /* Survol : les liens du noeud s'éclairent, du parent vers l'enfant
+           (le flux du shader suit déjà ce sens). */
+        if (hovered >= 0 && (ref.a === hovered || ref.b === hovered)) {
+          linkMeta[i * 3] = 1;
           linkMeta[i * 3 + 1] = 1;
         }
       } else {
