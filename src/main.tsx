@@ -17,28 +17,39 @@ const IndexPage = lazy(() =>
   import('./atlas/IndexPage.tsx').then((module) => ({ default: module.IndexPage }))
 );
 
+const CreditsPage = lazy(() =>
+  import('./atlas/CreditsPage.tsx').then((module) => ({ default: module.CreditsPage }))
+);
+
 const rootElement = document.getElementById('root');
 
 if (!rootElement) {
   throw new Error('Élément racine introuvable.');
 }
 
-const isIndex = window.location.hash.startsWith('#/index');
+const routeOf = (): 'index' | 'credits' | 'atlas' => {
+  if (window.location.hash.startsWith('#/index')) return 'index';
+  if (window.location.hash.startsWith('#/credits')) return 'credits';
+  return 'atlas';
+};
+const route = routeOf();
 
 /* Un changement de route recharge la page. C'est brutal mais honnête : le
    contexte WebGL et le lecteur YouTube ne se démontent pas proprement, et une
    navigation entre l'atlas et la vue liste est rare. */
-let lastRoute = window.location.hash.startsWith('#/index') ? 'index' : 'atlas';
+let lastRoute = routeOf();
 window.addEventListener('hashchange', () => {
-  const route = window.location.hash.startsWith('#/index') ? 'index' : 'atlas';
-  if (route !== lastRoute) {
-    lastRoute = route;
+  const next = routeOf();
+  if (next !== lastRoute) {
+    lastRoute = next;
     window.location.reload();
   }
 });
 
 createRoot(rootElement).render(
   <StrictMode>
-    <Suspense fallback={null}>{isIndex ? <IndexPage /> : <AtlasPage />}</Suspense>
+    <Suspense fallback={null}>
+      {route === 'index' ? <IndexPage /> : route === 'credits' ? <CreditsPage /> : <AtlasPage />}
+    </Suspense>
   </StrictMode>
 );

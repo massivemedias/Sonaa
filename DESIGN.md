@@ -136,6 +136,62 @@ doit être contrôlée par un `grep` sur `background` dans `proto.css`.
 
 ---
 
+## 3 bis. Identité
+
+Le logo est un logotype calligraphique, le mot Sonaa en pleins et déliés,
+livré en noir sur transparence en 11104 par 4808. Tout part de cette source,
+`public/brand/sonaa-logo.png`, jamais modifiée : `scripts/build-brand.sh`
+régénère chaque déclinaison.
+
+**Couleur.** Le logo est monochrome et se recolore dans la couleur du texte,
+`--ink-primary`, jamais dans une teinte de famille : les teintes sont porteuses
+de sens et le logo n'appartient à aucune famille. Sur fond clair, il resterait
+noir ; le cas ne se présente pas, le site n'a pas de fond clair.
+
+**Deux formes.**
+
+- Le **logotype**, le mot entier, rapport 2,31 pour 1. C'est la forme de
+  l'interface : coin supérieur gauche de l'atlas, écran d'accueil, en-tête de la
+  vue liste, image de partage.
+- La **marque**, le S initial et son parafe, taillée à 2700 pixels de large dans
+  la source, la seule coupe qui prenne le S entier sans ramasser un éclat de la
+  lettre suivante. C'est la forme des carrés : favicons, icônes d'application.
+  Le logotype entier dans un carré de 16 pixels serait une bavure de 16 par 7.
+
+**Tailles.**
+
+| Usage | Fichier | Taille |
+|---|---|---|
+| Onglet | favicon.ico, favicon-16, favicon-32 | 16, 32, 48 |
+| iOS | apple-touch-icon | 180, fond opaque, Apple ignore la transparence |
+| Application | icon-192, icon-512 | 192, 512 |
+| Application, maskable | icon-maskable-512 | 512, marque à 60 % du carré |
+| Interface | sonaa-wordmark | hauteur 22 px sur poste, 19 px sur mobile |
+| Partage | og.png | 1200 par 630, logotype centré |
+
+**Zone de protection.** Dans les carrés, la marque occupe 70 à 80 % du côté,
+88 % au seul 16 pixels où chaque pixel compte. En maskable, 60 % : le système
+peut rogner jusqu'à 20 % de chaque côté. Dans l'interface, le logotype garde au
+moins sa propre hauteur d'espace libre autour de lui.
+
+**Lisibilité aux petites tailles.** Les déliés de cette calligraphie sont des
+traits d'un pixel et disparaissent sous 32 pixels. Sous 48 pixels, la forme est
+dilatée d'une fraction de pixel, dégressive avec la taille. Ce n'est pas un
+effet ajouté au logo, c'est la seule façon qu'il survive à la réduction, et
+c'est nul dès que la place le permet. Lisibilité vérifiée à 24 pixels de haut
+sur le fond du site.
+
+**Interdits.** Aucun effet : pas d'ombre portée, pas de halo, pas de contour,
+pas d'animation, pas de dégradé. Le fond opaque des icônes n'est pas un effet,
+c'est une nécessité : une icône claire et transparente disparaît sur une barre
+d'onglets claire.
+
+**Rôle dans l'interface.** Le logotype est le retour à l'accueil, et rien
+d'autre. Petit, opacité 0,72 au repos : il ne concurrence pas la carte, qui est
+le sujet.
+
+---
+
 ## 4. Typographie
 
 **Une seule famille, SF Pro Display**, avec la pile

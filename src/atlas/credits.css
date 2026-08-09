@@ -1,0 +1,127 @@
+/* Crédits. Même typographie que le reste, une colonne, rien qui brille. */
+
+.credits {
+  min-height: 100vh;
+  padding: 3rem 1.5rem 4rem;
+  font-family: var(--font-ui);
+  color: var(--ink-primary);
+  background: oklch(0.16 0.012 250);
+}
+
+.credits-skip {
+  position: absolute;
+  left: -999px;
+}
+
+.credits-skip:focus {
+  left: 1rem;
+  top: 1rem;
+  z-index: 10;
+  background: var(--ink-primary);
+  color: oklch(0.14 0.01 250);
+  padding: 0.4rem 0.8rem;
+}
+
+.credits-head,
+.credits-body,
+.credits-foot {
+  max-width: 38rem;
+  margin: 0 auto;
+}
+
+.credits-head img {
+  height: 30px;
+  width: auto;
+  display: block;
+  opacity: 0.85;
+}
+
+.credits-head h1 {
+  margin: 1.6rem 0 0.3rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.credits-lede {
+  margin: 0 0 2.2rem;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: var(--ink-secondary);
+}
+
+.credits-body section {
+  margin-bottom: 2rem;
+}
+
+.credits-body h2 {
+  margin: 0 0 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+.credits-body p {
+  margin: 0 0 0.7rem;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+.credits-caveat {
+  color: var(--ink-secondary);
+}
+
+.credits-body ul {
+  list-style: none;
+  margin: 0 0 0.7rem;
+  padding: 0;
+  font-size: 0.9375rem;
+  line-height: 1.9;
+}
+
+.credits-body a {
+  color: var(--ink-primary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+.credits-body a:hover,
+.credits-foot a:hover {
+  border-bottom-color: var(--ink-primary);
+}
+
+.credits-families {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.1rem;
+}
+
+.credits-families li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.credits-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.credits-foot {
+  display: flex;
+  gap: 1.4rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--rule-hairline);
+}
+
+.credits-foot a {
+  font-size: 0.8125rem;
+  color: var(--ink-secondary);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}

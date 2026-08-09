@@ -40,6 +40,7 @@ build et jamais depuis le navigateur d'un visiteur.
 | `npm run import:tracks` | injecte les morceaux sourcés à la main de `tracks-canon.md` |
 | `npm run fetch:covers` | pochettes iTunes, puis téléchargement local |
 | `npm run check:matcher` | garde-fou du matcher, dix cas réels, tourne en CI |
+| `npm run check:labels` | garde-fou des labels : le nom seul, rien d'autre, tourne en CI |
 | `npm run fetch:tracks` | sorties récentes par YouTube Data API, demande une clé |
 
 ## Le corpus
@@ -109,10 +110,12 @@ deviner.
 
 ### Les pochettes
 
-Trois niveaux de repli, dans cet ordre : pochette iTunes si l'artiste **et** le
-titre correspondent, sinon vignette de la vidéo recadrée en carré depuis le
-centre, sinon pochette dessinée en SVG avec la teinte de la famille et les
-initiales de l'artiste.
+Quatre niveaux de repli, dans cet ordre : pochette Deezer si l'artiste **et** le
+titre correspondent, sinon pochette iTunes au même critère, sinon vignette de la
+vidéo recadrée en carré depuis le centre, sinon pochette dessinée en SVG avec la
+teinte de la famille et les initiales de l'artiste. Deezer passe en premier
+parce qu'iTunes limite par adresse IP sur des heures et a coupé trois campagnes
+de suite.
 
 `npm run fetch:covers` cherche puis télécharge dans `public/covers/`. Les images
 sont servies par le site : une balise `img` vers un domaine tiers serait un
@@ -135,20 +138,9 @@ Modes :
 | `-- --force` | recherche tout à nouveau, sans jamais dégrader une pochette existante |
 | `-- --covers-only` | pas de recherche, seulement le téléchargement local |
 
-Après téléchargement, recadrer. Les vignettes `hqdefault` et `sddefault` sont en
-4:3 avec des bandes noires qu'il faut retirer **avant** le carré, sinon le carré
-est à moitié noir :
-
-```
-cd public/covers && for f in *.jpg; do
-  case "$(magick identify -format '%wx%h' "$f")" in
-    400x400) continue ;;
-    480x360) magick "$f" -crop 480x270+0+45 +repage -resize 400x400^ -gravity center -extent 400x400 -quality 78 -strip "$f" ;;
-    640x480) magick "$f" -crop 640x360+0+60 +repage -resize 400x400^ -gravity center -extent 400x400 -quality 78 -strip "$f" ;;
-    *) magick "$f" -resize 400x400^ -gravity center -extent 400x400 -quality 78 -strip "$f" ;;
-  esac
-done
-```
+Après téléchargement, recadrer avec `npm run crop:covers`. Le script est
+idempotent et sait que les vignettes 4:3 portent des bandes noires à retirer
+**avant** le carré, sinon le carré est à moitié noir.
 
 ## Contraintes du projet
 
@@ -161,6 +153,14 @@ done
 - Au runtime, le seul appel tiers est l'iframe YouTube, et seulement à la
   lecture.
 - Pas de tiret cadratin dans le texte d'interface français.
+
+## Règle d'affichage des sources
+
+Aucune source documentaire particulière n'est nommée dans l'interface : ni dans
+les labels, ni dans les fiches, ni dans les notes. La page `#/credits` cite des
+catégories, encyclopédies, bases de données discographiques, cartographies
+historiques, jamais un guide en particulier. Les notes de `corpus.json` sont
+affichées dans les fiches et suivent la même règle.
 
 ## Déploiement
 

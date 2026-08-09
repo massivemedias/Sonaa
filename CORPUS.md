@@ -1,8 +1,8 @@
 # CORPUS SONAA
 
-Quatorze familles, 216 genres. L'indentation est la filiation structurelle,
-celle qui positionne le noeud dans l'arbre. Les autres ascendances sont notees
-en greffe.
+Quatorze familles, 216 genres, 279 morceaux verifies.
+L'indentation est la filiation structurelle, celle qui positionne le noeud
+dans l'arbre. Les autres ascendances sont notees en greffe.
 
 Notation :
 
@@ -12,22 +12,23 @@ Notation :
 - `(?)` filiation marquee `debated`, a trancher
 - `n morceaux` identifiants YouTube verifies un par un
 
-Sources croisees : dataset Ishkur's Guide v3, Ishkur v2.5, Wikipedia, Discogs,
-le comparatif de couverture fourni par Mika, et les fils Reddit convertis en
-tracks-canon. Les notes detaillees sont dans `src/data/corpus.json`.
+Sources croisees : encyclopedies, bases discographiques, cartographies
+historiques des musiques electroniques, le comparatif de couverture fourni
+par Mika et le canon des fils Reddit. Ce document est l'appareil critique du
+depot ; l'interface, elle, ne nomme aucune source (ADR-038).
 
 ## DISCO (14)
 
-- Disco  [fondateur]  [greffe: Funk, famille roots]  [greffe: Philly Soul, famille roots]  3 morceaux
+- Disco  [fondateur]  [greffe: Funk, famille roots]  [greffe: Philly Soul, famille roots]  6 morceaux
   - Euro Disco  3 morceaux
-    - Hi-NRG  (?)  2 morceaux
-    - Italo Disco  [greffe: Synth-pop, famille roots]  3 morceaux
-      - Spacesynth  (?)  3 morceaux
+    - Hi-NRG  (?)  5 morceaux
+    - Italo Disco  [greffe: Synth-pop, famille roots]  7 morceaux
+      - Spacesynth  (?)  5 morceaux
       - Nu-Italo  0 morceau
   - Cosmic Disco  1 morceau
   - Boogie  3 morceaux
-  - Nu-Disco  3 morceaux
-    - Indie Dance  (?)  1 morceau
+  - Nu-Disco  5 morceaux
+    - Indie Dance  (?)  4 morceaux
     - Dark Disco  [greffe: EBM, famille industrial]  (?)  1 morceau
   - Disco Dub  [greffe: Dub, famille roots]  0 morceau
   - Post-Disco  (?)  0 morceau
@@ -35,20 +36,20 @@ tracks-canon. Les notes detaillees sont dans `src/data/corpus.json`.
 
 ## HOUSE (24)
 
-- Chicago House  [fondateur]  [greffe: Disco, famille disco]  3 morceaux
-  - Acid House  3 morceaux
-  - Garage House  [greffe: Disco, famille disco]  (?)  3 morceaux
-    - Deep House  3 morceaux
+- Chicago House  [fondateur]  [greffe: Disco, famille disco]  7 morceaux
+  - Acid House  6 morceaux
+  - Garage House  [greffe: Disco, famille disco]  (?)  5 morceaux
+    - Deep House  5 morceaux
       - Soulful House  0 morceau
       - Lo-Fi House  0 morceau
-  - Hip House  3 morceaux
+  - Hip House  6 morceaux
   - UK House  3 morceaux
-    - Italo House  [greffe: Italo Disco, famille disco]  (?)  3 morceaux
-    - Hard House  3 morceaux
-    - Progressive House  3 morceaux
-  - Disco House  [greffe: Disco, famille disco]  3 morceaux
-    - French House  3 morceaux
-      - Electro House  (?)  3 morceaux
+    - Italo House  [greffe: Italo Disco, famille disco]  (?)  4 morceaux
+    - Hard House  4 morceaux
+    - Progressive House  5 morceaux
+  - Disco House  [greffe: Disco, famille disco]  4 morceaux
+    - French House  6 morceaux
+      - Electro House  (?)  5 morceaux
         - Bass House  [greffe: UK Bass, famille bass]  0 morceau
         - Future House  0 morceau
   - Tribal House  0 morceau
@@ -62,48 +63,48 @@ tracks-canon. Les notes detaillees sont dans `src/data/corpus.json`.
 
 ## TECHNO (16)
 
-- Detroit Techno  [fondateur]  [greffe: Funk, famille roots]  [greffe: Krautrock, famille roots]  [greffe: Proto-Techno, famille roots]  3 morceaux
-  - Bleep Techno  3 morceaux
+- Detroit Techno  [fondateur]  [greffe: Funk, famille roots]  [greffe: Krautrock, famille roots]  [greffe: Proto-Techno, famille roots]  7 morceaux
+  - Bleep Techno  5 morceaux
     - Broken Techno  [greffe: Detroit Electro, famille electro]  0 morceau
-  - Acid Techno  [greffe: Acid House, famille house]  1 morceau
+  - Acid Techno  [greffe: Acid House, famille house]  2 morceaux
   - Euro Techno  3 morceaux
-    - Hard Techno  (?)  3 morceaux
+    - Hard Techno  (?)  4 morceaux
       - Schranz  2 morceaux
-      - Industrial Techno  [greffe: EBM, famille industrial]  3 morceaux
+      - Industrial Techno  [greffe: EBM, famille industrial]  4 morceaux
       - Banging Techno  3 morceaux
       - Birmingham Techno  [greffe: Industrial, famille industrial]  0 morceau
       - Peak Time Techno  (?)  0 morceau
     - Belgian Techno  [greffe: New Beat, famille industrial]  0 morceau
-  - Dub Techno  [greffe: Dub, famille roots]  3 morceaux
+  - Dub Techno  [greffe: Dub, famille roots]  5 morceaux
     - Hypnotic Techno  0 morceau
-  - Ambient Techno  3 morceaux
+  - Ambient Techno  5 morceaux
   - Melodic Techno  [greffe: Minimal Techno, famille minimal]  [greffe: Progressive House, famille house]  (?)  0 morceau
 
 ## MINIMAL (11)
 
-- Minimal Techno  [fondateur]  [greffe: Detroit Techno, famille techno]  3 morceaux
-  - Tech House  [greffe: UK House, famille house]  (?)  3 morceaux
-    - Microhouse  3 morceaux
+- Minimal Techno  [fondateur]  [greffe: Detroit Techno, famille techno]  4 morceaux
+  - Tech House  [greffe: UK House, famille house]  (?)  4 morceaux
+    - Microhouse  4 morceaux
       - Clicks & Cuts  2 morceaux
       - Minimal Tech  3 morceaux
         - Minimal Prog  [greffe: Psy-Prog, famille psy]  (?)  3 morceaux
         - Ro-Minimal  (?)  0 morceau
         - Minimal Wave  [convention]  [greffe: Synth-pop, famille roots]  [greffe: Coldwave, famille industrial]  0 morceau
     - Deep Tech  3 morceaux
-    - Fidget House  3 morceaux
+    - Fidget House  5 morceaux
   - Micro Techno  [greffe: Glitch, famille ambient]  0 morceau
 
 ## TRANCE (14)
 
-- Trance  [fondateur]  [greffe: EBM, famille industrial]  (?)  3 morceaux
+- Trance  [fondateur]  [greffe: EBM, famille industrial]  (?)  7 morceaux
   - Acid Trance  [greffe: Acid House, famille house]  3 morceaux
-  - Balearic Trance  3 morceaux
-    - Dream Trance  3 morceaux
+  - Balearic Trance  4 morceaux
+    - Dream Trance  5 morceaux
     - Ibiza Trance  0 morceau
-  - Progressive Trance  [greffe: Progressive House, famille house]  3 morceaux
+  - Progressive Trance  [greffe: Progressive House, famille house]  4 morceaux
     - Tech Trance  3 morceaux
-    - Uplifting Trance  3 morceaux
-      - Vocal Trance  (?)  3 morceaux
+    - Uplifting Trance  5 morceaux
+      - Vocal Trance  (?)  5 morceaux
       - Euro Trance  0 morceau
       - Anthem Trance  (?)  0 morceau
       - Orchestral Trance  0 morceau
@@ -112,13 +113,13 @@ tracks-canon. Les notes detaillees sont dans `src/data/corpus.json`.
 
 ## PSY (16)
 
-- Goa Trance  [fondateur]  [greffe: Acid Trance, famille trance]  [greffe: EBM, famille industrial]  (?)  3 morceaux
-  - Psychedelic Trance  3 morceaux
-    - Full-On  3 morceaux
+- Goa Trance  [fondateur]  [greffe: Acid Trance, famille trance]  [greffe: EBM, famille industrial]  (?)  6 morceaux
+  - Psychedelic Trance  5 morceaux
+    - Full-On  5 morceaux
       - Nitzhonot  (?)  2 morceaux
       - Twilight Psy  0 morceau
       - Morning Full-On  0 morceau
-    - Dark Psy  3 morceaux
+    - Dark Psy  4 morceaux
       - Forest Psy  2 morceaux
       - Hi-Tech Psy  2 morceaux
       - Psycore  [greffe: Speedcore, famille hardcore]  0 morceau
@@ -126,16 +127,16 @@ tracks-canon. Les notes detaillees sont dans `src/data/corpus.json`.
       - Zenonesque  (?)  0 morceau
       - Psytech  [greffe: Tech House, famille minimal]  (?)  0 morceau
     - Suomisaundi  1 morceau
-  - Psydub  3 morceaux
+  - Psydub  5 morceaux
   - Neo Goa  0 morceau
 
 ## INDUSTRIAL (14)
 
-- Industrial  [fondateur]  [greffe: Musique concrète, famille roots]  [greffe: Early Industrial, famille roots]  3 morceaux
-  - EBM  3 morceaux
-    - New Beat  3 morceaux
+- Industrial  [fondateur]  [greffe: Musique concrète, famille roots]  [greffe: Early Industrial, famille roots]  7 morceaux
+  - EBM  6 morceaux
+    - New Beat  5 morceaux
     - Electro-Industrial  3 morceaux
-      - Dark Electro  3 morceaux
+      - Dark Electro  4 morceaux
         - Aggrotech  0 morceau
       - Futurepop  [greffe: Uplifting Trance, famille trance]  0 morceau
     - Techno Body Music  (?)  3 morceaux
@@ -278,39 +279,39 @@ tracks-canon. Les notes detaillees sont dans `src/data/corpus.json`.
 
 ## Les 40 filiations marquees debattues
 
-**Hi-NRG** (rattache a Euro Disco) : Ishkur v3 fait descendre Hi-NRG de Spacesynth (1977). Wikipedia et Discogs le font descendre directement du disco europeen, via Patrick Cowley et Giorgio Moroder. J'ai suivi Wikipedia : Spacesynth est posterieur (1983) et ne peut pas etre l'ancetre d'un genre de 1977.
+**Hi-NRG** (rattache a Euro Disco) : Une cartographie de reference fait descendre Hi-NRG de Spacesynth (1977). Wikipedia et Discogs le font descendre directement du disco europeen, via Patrick Cowley et Giorgio Moroder. J'ai suivi Wikipedia : Spacesynth est posterieur (1983) et ne peut pas etre l'ancetre d'un genre de 1977.
 
-**Spacesynth** (rattache a Italo Disco) : Ishkur v3 en fait l'ancetre de l'Italo et du Hi-NRG. Discogs et la scene le decrivent comme une branche instrumentale de l'Italo, posterieure (Laserdance, 1984). J'ai inverse le lien par rapport a Ishkur.
+**Spacesynth** (rattache a Italo Disco) : une cartographie de reference en fait l'ancetre de l'Italo et du Hi-NRG. Discogs et la scene le decrivent comme une branche instrumentale de l'Italo, posterieure (Laserdance, 1984). J'ai inverse le lien par rapport a cette cartographie.
 
 **Indie Dance** (rattache a Nu-Disco) : Terrain de Mika, a corriger. Je l'ai rattache au nu-disco, mais on le rattache aussi souvent a l'electroclash et au dark disco.
 
 **Dark Disco** (rattache a Nu-Disco) : Terrain de Mika, a corriger. Greffe EBM posee par defaut, la famille industrial n'existe pas dans ce corpus v1 : la greffe est donc declaree mais non resolue.
 
-**Garage House** (rattache a Chicago House) : Paradise Garage, New York. Ishkur v3 lui donne aucun parent et le date de la fin des annees 70, donc anterieur a la house de Chicago. Wikipedia le presente comme contemporain et parallele. Rattachement structurel a Chicago House par commodite de lecture, la double ascendance disco est portee par la greffe.
+**Garage House** (rattache a Chicago House) : Paradise Garage, New York. Une cartographie de reference lui donne aucun parent et le date de la fin des annees 70, donc anterieur a la house de Chicago. Wikipedia le presente comme contemporain et parallele. Rattachement structurel a Chicago House par commodite de lecture, la double ascendance disco est portee par la greffe.
 
-**Italo House** (rattache a UK House) : Ishkur v3 le fait descendre de Hard House (1987). Discogs et la scene le rattachent au piano house britannique et a l'heritage italo. J'ai suivi la seconde lecture.
+**Italo House** (rattache a UK House) : Une cartographie de reference le fait descendre de Hard House (1987). Discogs et la scene le rattachent au piano house britannique et a l'heritage italo. J'ai suivi la seconde lecture.
 
-**Electro House** (rattache a French House) : Ishkur v3 le fait descendre de French House (2001). D'autres sources le font descendre de l'electroclash. Desaccord non tranche.
+**Electro House** (rattache a French House) : Une cartographie de reference le fait descendre de French House (2001). D'autres sources le font descendre de l'electroclash. Desaccord non tranche.
 
-**Hard Techno** (rattache a Euro Techno) : Ishkur v3 le fait descendre de Bleep Techno (1992). L'usage courant le rattache a la techno europeenne dure de Berlin et Francfort. Desaccord non tranche.
+**Hard Techno** (rattache a Euro Techno) : Une cartographie de reference le fait descendre de Bleep Techno (1992). L'usage courant le rattache a la techno europeenne dure de Berlin et Francfort. Desaccord non tranche.
 
-**Tech House** (rattache a Minimal Techno) : Ishkur v3 lui donne deux parents, UK House (1992) et Progressive House (1991), et le range dans sa propre scene. Je l'ai rattache au minimal pour la lisibilite de cette famille, avec greffe vers la house. Arbitrage discutable.
+**Tech House** (rattache a Minimal Techno) : Une cartographie de reference lui donne deux parents, UK House (1992) et Progressive House (1991), et le range dans sa propre scene. Je l'ai rattache au minimal pour la lisibilite de cette famille, avec greffe vers la house. Arbitrage discutable.
 
-**Minimal Prog** (rattache a Minimal Tech) : Ishkur v3 le range dans sa scene Progressive et le fait descendre de Progressive (2003). Il est a la frontiere du minimal et du psy progressif : greffe declaree vers le psy-prog. Terrain de Mika, a corriger.
+**Minimal Prog** (rattache a Minimal Tech) : Une cartographie de reference le range dans sa scene Progressive et le fait descendre de Progressive (2003). Il est a la frontiere du minimal et du psy progressif : greffe declaree vers le psy-prog. Terrain de Mika, a corriger.
 
-**Trance** (rattache a aucun) : Fondateur de la famille. Francfort, 1990, Dance 2 Trance et Sven Vath. Ishkur v3 le fait descendre de l'EBM (1987), lecture minoritaire. Wikipedia et Discogs le font naitre de la techno et de la house acide. Greffe EBM declaree mais non resolue.
+**Trance** (rattache a aucun) : Fondateur de la famille. Francfort, 1990, Dance 2 Trance et Sven Vath. Une cartographie de reference le fait descendre de l'EBM (1987), lecture minoritaire. Wikipedia et Discogs le font naitre de la techno et de la house acide. Greffe EBM declaree mais non resolue.
 
-**Vocal Trance** (rattache a Uplifting Trance) : Ishkur v3 le fait descendre de l'Eurodance (1996) et le range dans Europop. Je l'ai rattache au trance uplifting, plus proche de l'usage courant.
+**Vocal Trance** (rattache a Uplifting Trance) : Une cartographie de reference le fait descendre de l'Eurodance (1996) et le range dans Europop. Je l'ai rattache au trance uplifting, plus proche de l'usage courant.
 
-**Goa Trance** (rattache a aucun) : Fondateur de la famille. Goa, Inde, 1991-1994. Ishkur v3 le fait descendre de l'EBM (1990). Wikipedia le fait naitre de l'acid trance, de la new beat et de l'industriel. Les deux ascendances sont portees en greffes.
+**Goa Trance** (rattache a aucun) : Fondateur de la famille. Goa, Inde, 1991-1994. Une cartographie de reference le fait descendre de l'EBM (1990). Wikipedia le fait naitre de l'acid trance, de la new beat et de l'industriel. Les deux ascendances sont portees en greffes.
 
-**Nitzhonot** (rattache a Full-On) : Israel, 1996-1998. Certaines sources le placent avant le full-on plutot qu'apres. Absent d'Ishkur v3.
+**Nitzhonot** (rattache a Full-On) : Israel, 1996-1998. Certaines sources le placent avant le full-on plutot qu'apres. Absent des cartographies de reference.
 
-**Psy-Prog** (rattache a Psychedelic Trance) : Terrain de Mika, a corriger. Ishkur v3 le fait descendre de Psychedelic Trance (1995), ce qui est tres tot. La scene le date plutot de 1999-2002.
+**Psy-Prog** (rattache a Psychedelic Trance) : Terrain de Mika, a corriger. Une cartographie de reference le fait descendre de Psychedelic Trance (1995), ce qui est tres tot. La scene le date plutot de 1999-2002.
 
 **Techno Body Music** (rattache a EBM) : Berlin, annees 2010. Terme porte par le label Aufnahme + Wiedergabe pour la jonction de l'EBM et de la techno. Certaines sources n'y voient pas un genre mais une etiquette de label : filiation marquee comme debattue.
 
-**Neue Deutsche Haerte** (rattache a Industrial) : Allemagne, 1994-1997, Rammstein et Oomph!. Sa part electronique vient plutot de l'electro-industriel que de l'industriel des origines : greffe declaree. Absent d'Ishkur v3, qui s'arrete a Industrial Rock.
+**Neue Deutsche Haerte** (rattache a Industrial) : Allemagne, 1994-1997, Rammstein et Oomph!. Sa part electronique vient plutot de l'electro-industriel que de l'industriel des origines : greffe declaree. Absent des cartographies de reference, qui s'arrete a Industrial Rock.
 
 **Krautrock** (rattache a Électroacoustique) : Allemagne, 1968-1974, Can, Neu!, Faust. Filiation debattue : le krautrock est d'abord du rock, et son ascendance rock n'est pas dans ce corpus. Ce qui le rattache ici est sa part electronique, venue des studios electroacoustiques allemands. Rattachement retenu faute de mieux, a discuter.
 

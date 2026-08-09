@@ -11,7 +11,9 @@
     "fetch:tracks": "tsx scripts/fetch-tracks.ts",
     "fetch:covers": "tsx scripts/fetch-covers.ts",
     "import:tracks": "tsx scripts/import-tracks.ts",
-    "check:matcher": "tsx scripts/check-matcher.ts"
+    "check:matcher": "tsx scripts/check-matcher.ts",
+    "check:labels": "tsx scripts/check-labels.ts",
+    "crop:covers": "bash scripts/crop-covers.sh"
   },
   "dependencies": {
     "react": "^19.2.0",

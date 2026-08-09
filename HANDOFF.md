@@ -30,11 +30,18 @@ l'iframe officielle. Sept familles, 68 genres, 190 morceaux verifies.
 **Etat de l'interface :** fiche de genre au clic, recherche sur barre oblique
 avec 119 alias, ecran d'accueil montre une seule fois, rendu verifie sur 390 px.
 
-**Prochaine action de Mika :** ecrire `tracks-canon.md` a la racine, un tableau
-markdown par genre, pour les genres sous la cible de trois morceaux.
-`npm run validate:data` les nomme en fin de rapport. Puis
-`npm run import:tracks -- --dry-run`, relire `tracks-canon-report.md`, corriger,
-et relancer sans `--dry-run`. Format documente dans le README.
+**tracks-canon.md importe.** Les 105 lignes du canon Reddit sont passees : 91
+morceaux ajoutes, 279 verifies au total. Six refus legitimes, doublons
+inter-genres bloques et trois introuvables, detail dans tracks-canon-report.md.
+
+**Prochaine action de Mika :** completer tracks-canon.md pour les genres encore
+sous la cible, `npm run validate:data` les nomme du plus pauvre au plus riche.
+Les 148 genres des vagues 2 a 4 partent de zero morceau.
+
+**Regle d'affichage des sources (ADR-038) :** aucune source documentaire
+particuliere n'est nommee dans l'interface, notes du corpus comprises. La page
+#/credits cite des categories. Les documents du depot, eux, nomment leurs
+sources : ils sont l'appareil critique, pas l'interface.
 
 **L'atlas EST le produit, il vit dans `src/atlas/`.** Le mot « prototype » est
 caduc : la direction est tranchée, c'est ce code qu'on regarde, qu'on navigue et

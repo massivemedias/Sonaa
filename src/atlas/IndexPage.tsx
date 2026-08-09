@@ -46,7 +46,7 @@ export function IndexPage() {
           contenu et mêmes liens que l&apos;espace, sans la matière.
         </p>
         <p className="index-mono">
-          <a href="#/">Ouvrir l&apos;atlas 3D</a>
+          <a href="#/">Ouvrir l&apos;atlas 3D</a> · <a href="#/credits">Crédits</a>
         </p>
       </header>
 

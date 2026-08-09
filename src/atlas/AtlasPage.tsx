@@ -336,6 +336,11 @@ export function AtlasPage() {
         />
       )}
 
+      {/* Pied de page discret : les crédits ne concurrencent pas la carte. */}
+      <a className="credits-link" href="#/credits">
+        Crédits
+      </a>
+
       <button className="hud-toggle" onClick={() => setShowHud((v) => !v)}>
         {showHud ? 'Masquer les mesures' : 'Mesures'}
       </button>

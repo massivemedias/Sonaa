@@ -1,9 +1,9 @@
 /* Recherche d'un genre. Raccourci « / », comme dans un lecteur de code.
 
    Elle cherche sur le nom, sur les alias et sur le nom de famille. Les alias
-   viennent du champ `aka` d'Ishkur, filtrés : un alias qui est le nom d'un
-   AUTRE genre du corpus est écarté, sinon taper « Detroit Techno » enverrait
-   sur Minimal Techno, dont Ishkur en fait un alias alors que c'est son ancêtre.
+   sont filtrés à la source : un alias qui est le nom d'un AUTRE genre du corpus
+   est écarté, sinon taper « Detroit Techno » enverrait sur Minimal Techno,
+   qu'une source donnait comme alias alors que c'est son ancêtre.
 
    Le résultat fait voler la caméra, il ne téléporte pas : on doit voir le
    trajet, sinon on ne sait plus où on est. */

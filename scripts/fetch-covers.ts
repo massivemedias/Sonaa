@@ -1,8 +1,13 @@
 /* Pochettes, figées au build.
 
-   Source : API iTunes Search, gratuite et sans clé. Elle n'est JAMAIS appelée
-   depuis le navigateur d'un visiteur : ce script tourne au build, et seules les
-   URLs résultantes entrent dans le JSON.
+   Deux sources, dans cet ordre : l'API Deezer d'abord, l'API iTunes Search en
+   repli. Toutes deux gratuites et sans clé, et jamais appelées depuis le
+   navigateur d'un visiteur : ce script tourne au build, et seules les URLs
+   résultantes entrent dans le JSON.
+
+   Deezer passe en premier pour une raison mesurée : iTunes limite par adresse
+   IP sur une fenêtre de plusieurs heures et a coupé trois campagnes de
+   pochettes de suite. Deezer tolère cinquante requêtes par cinq secondes.
 
    La correspondance est exigeante. Une pochette fausse est pire qu'aucune :
    elle raconte une histoire inexacte sur un morceau réel. On exige donc que
@@ -52,7 +57,7 @@ interface Track {
   title: string;
   year: number | null;
   verified: true;
-  cover?: { url: string; source: 'itunes' | 'youtube'; local: string };
+  cover?: { url: string; source: 'deezer' | 'itunes' | 'youtube'; local: string };
   /* Le vrai label de disque demanderait un jeton Discogs. iTunes ne donne que
      l'album : c'est ce qu'on affiche, en le nommant pour ce qu'il est. */
   album?: string;
@@ -133,6 +138,28 @@ const search = async (term: string): Promise<ItunesResult[]> => {
   throw new Error('iTunes 403 après 8 tentatives');
 };
 
+interface DeezerTrack {
+  title?: string;
+  artist?: { name?: string };
+  album?: { title?: string; cover_big?: string };
+}
+
+/* Deezer. Les résultats sont reprojetés dans la forme iTunes pour passer par le
+   MÊME contrôle de correspondance : une pochette fausse est pire qu'aucune,
+   quelle que soit la source. cover_big fait 500 par 500. */
+const searchDeezer = async (term: string): Promise<ItunesResult[]> => {
+  const url = 'https://api.deezer.com/search?limit=12&q=' + encodeURIComponent(term);
+  const res = await fetch(url, { headers: { 'User-Agent': UA } });
+  if (!res.ok) throw new Error(`Deezer ${res.status}`);
+  const body = (await res.json()) as { data?: DeezerTrack[] };
+  return (body.data ?? []).map((t) => ({
+    artistName: t.artist?.name ?? '',
+    trackName: t.title ?? '',
+    collectionName: t.album?.title ?? '',
+    artworkUrl100: t.album?.cover_big ?? ''
+  }));
+};
+
 /** 600 px au lieu des 100 px renvoyés par défaut. Même image, autre gabarit. */
 const upscale = (url: string): string => url.replace(/\/\d+x\d+bb\.(jpg|png)$/, '/600x600bb.$1');
 
@@ -208,6 +235,7 @@ const writeCorpus = (): void => {
 };
 
 let itunes = 0;
+let deezer = 0;
 let fallback = 0;
 let kept = 0;
 let failures = 0;
@@ -215,38 +243,56 @@ let failures = 0;
 for (const genre of corpus.genres) {
   if (COVERS_ONLY) break;
   for (const track of [...genre.tracks.essentiel, ...genre.tracks.actuel]) {
-    if (!FORCE && track.cover?.source === 'itunes') {
+    const hasRealCover = track.cover?.source === 'itunes' || track.cover?.source === 'deezer';
+    if (!FORCE && hasRealCover) {
       kept += 1;
       continue;
     }
-    if (ONLY_MISSING && track.cover?.source === 'itunes') {
+    if (ONLY_MISSING && hasRealCover) {
       kept += 1;
       continue;
     }
 
     const previous = track.cover;
     let hit: { url: string; album: string } | null = null;
-    // Deux formulations : la seconde aide quand l'artiste est écrit autrement
-    // dans les deux bases.
+    let hitSource: 'deezer' | 'itunes' = 'deezer';
+
+    // Deezer d'abord, avec le même contrôle exigeant.
     for (const term of [`${track.artist} ${track.title}`, track.title]) {
       try {
-        hit = match(await search(term), track.artist, track.title);
+        hit = match(await searchDeezer(term), track.artist, track.title);
       } catch (error) {
         failures += 1;
-        console.warn(`  iTunes indisponible sur "${term}" : ${(error as Error).message}`);
+        console.warn(`  Deezer indisponible sur "${term}" : ${(error as Error).message}`);
       }
-      await sleep(cooldown);
+      await sleep(150);
       if (hit) break;
     }
 
+    // iTunes en repli seulement : son quota est trop fragile pour l'user en premier.
+    if (!hit) {
+      hitSource = 'itunes';
+      for (const term of [`${track.artist} ${track.title}`, track.title]) {
+        try {
+          hit = match(await search(term), track.artist, track.title);
+        } catch (error) {
+          failures += 1;
+          console.warn(`  iTunes indisponible sur "${term}" : ${(error as Error).message}`);
+        }
+        await sleep(cooldown);
+        if (hit) break;
+      }
+    }
+
     if (hit) {
-      track.cover = { url: hit.url, source: 'itunes', local: `covers/${track.youtubeId}.jpg` };
+      track.cover = { url: hit.url, source: hitSource, local: `covers/${track.youtubeId}.jpg` };
       if (hit.album) track.album = hit.album;
-      itunes += 1;
-      console.log(`  ok    ${genre.id.padEnd(20)} ${track.artist} - ${track.title}`);
+      if (hitSource === 'deezer') deezer += 1;
+      else itunes += 1;
+      console.log(`  ok    ${genre.id.padEnd(20)} ${track.artist} - ${track.title} [${hitSource}]`);
       remember(track);
       writeCorpus();
-    } else if (previous?.source === 'itunes') {
+    } else if (previous?.source === 'itunes' || previous?.source === 'deezer') {
       /* En --force, une recherche qui échoue pour cause de quota ne doit PAS
          remplacer une vraie pochette par une vignette de vidéo. On garde
          l'ancienne : l'échec est celui du réseau, pas celui de la pochette. */
@@ -354,6 +400,6 @@ console.log(
 
 const total = corpus.genres.reduce((n, g) => n + g.tracks.essentiel.length + g.tracks.actuel.length, 0);
 console.log(
-  `\n${total} morceaux : ${itunes} pochettes iTunes, ${fallback} replis vignette YouTube, ` +
+  `\n${total} morceaux : ${deezer} pochettes Deezer, ${itunes} iTunes, ${fallback} replis vignette YouTube, ` +
     `${kept} conservées, ${failures} appels en échec.`
 );

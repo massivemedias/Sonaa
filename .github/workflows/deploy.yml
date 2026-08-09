@@ -36,6 +36,12 @@ jobs:
       - name: Contrôler le matcher
         run: npm run check:matcher
 
+      # Le label d'un genre affiche le nom seul. Un suffixe « · 3 » a déjà été
+      # pris pour un identifiant technique : ce contrôle rend la récidive
+      # impossible. Voir scripts/check-labels.ts.
+      - name: Contrôler les labels
+        run: npm run check:labels
+
       # Fait autorité sur les données : cycles, références mortes, orphelins,
       # doublons d'identifiants, couverture par genre. Voir ADR-005.
       - name: Valider les données

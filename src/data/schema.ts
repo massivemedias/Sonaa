@@ -66,7 +66,7 @@ export const trackSchema = z.strictObject({
   cover: z
     .strictObject({
       url: z.string().url(),
-      source: z.enum(['itunes', 'youtube']),
+      source: z.enum(['deezer', 'itunes', 'youtube']),
       local: z.string().startsWith('covers/')
     })
     .optional(),
@@ -106,10 +106,10 @@ export const genreSchema = z.strictObject({
   /** Étiqueté par défaut quand la famille est déployée. */
   major: z.boolean(),
   note: z.string(),
-  /* Autres noms du genre, pour la recherche. Repris du champ `aka` d'Ishkur v3,
-     filtrés : un alias qui est le nom d'un AUTRE genre du corpus est écarté,
-     sinon la recherche saute sur le mauvais noeud. Ishkur donne par exemple
-     « Detroit Techno » comme alias de Minimal Techno, ce qui est son ancêtre. */
+  /* Autres noms du genre, pour la recherche. Repris des sources documentaires
+     et filtrés : un alias qui est le nom d'un AUTRE genre du corpus est écarté,
+     sinon la recherche saute sur le mauvais noeud. Une source donnait par
+     exemple « Detroit Techno » comme alias de Minimal Techno, son ancêtre. */
   aliases: z.array(z.string().min(2)).optional()
 });
 

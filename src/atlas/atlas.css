@@ -505,3 +505,31 @@
     transition: none;
   }
 }
+
+/* Lien crédits, en pied, à l'opposé des contrôles. */
+.credits-link {
+  position: absolute;
+  left: 1.25rem;
+  bottom: 1rem;
+  z-index: 6;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  text-decoration: none;
+  opacity: 0.7;
+}
+
+.credits-link:hover,
+.credits-link:focus-visible {
+  opacity: 1;
+  color: var(--ink-primary);
+}
+
+@media (max-width: 700px) {
+  .credits-link {
+    left: 0.9rem;
+    bottom: max(0.9rem, env(safe-area-inset-bottom));
+  }
+}

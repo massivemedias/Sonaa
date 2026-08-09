@@ -1056,6 +1056,44 @@ tracks-canon.md et import-tracks, jamais par lot invente.
 
 ---
 
+## ADR-038 : La source ne s'affiche jamais, les credits citent des categories
+
+**Contexte.** Les notes du corpus, affichees dans les fiches, nommaient une
+cartographie particuliere une quarantaine de fois. Et `corpus.json` entre dans
+le bundle : ce qui est dans les donnees est dans l'interface.
+
+**Decision 1.** Aucune source documentaire particuliere n'est nommee dans
+l'interface : labels, fiches, notes, code embarque. Les 46 notes concernees sont
+reformulees en references neutres, « une cartographie de reference ». Les alias
+repris de ces sources restent utilisables pour la recherche : c'est la
+provenance qui ne s'affiche pas, pas la donnee. Les documents du depot,
+ARCHITECTURE.md et CORPUS.md, continuent de nommer leurs sources : ils sont
+l'appareil critique, pas l'interface.
+
+**Decision 2.** Une page de credits, route `#/credits`, accessible par un lien
+discret en pied d'atlas et depuis la vue liste. Elle cite des CATEGORIES,
+encyclopedies, bases discographiques, cartographies historiques, communautes
+d'auditeurs, sans hierarchie de dette et sans nommer un guide en particulier.
+Elle dit que les morceaux sont lus par le lecteur officiel YouTube, qu'aucun
+audio n'est heberge, et que les filiations sont une lecture, pas une verite.
+Francais seul : l'internationalisation n'est pas en place, on n'en simule pas.
+
+**Decision 3, le garde-fou des labels.** Un suffixe « · 3 » sur les labels avait
+ete supprime puis a ete revu sur une capture, en fait un bundle en cache : le
+code et le bundle en ligne etaient propres. Peu importe, la parole ne suffit
+pas : `scripts/check-labels.ts` verifie en CI que chaque site d'appel de label
+passe exactement `slot.label` ou `family.label`, ni gabarit ni concatenation, et
+qu'aucun marqueur de l'ancien suffixe ne revient. Le label affiche le nom seul,
+l'information de derives vit dans la fiche.
+
+**Decision 4.** Deezer devient la premiere source de pochettes, iTunes le
+repli : iTunes limite par adresse IP sur des heures et a coupe trois campagnes
+de suite, Deezer tolere cinquante requetes par cinq secondes. Meme matcher
+exigeant pour les deux : une pochette fausse est pire qu'aucune, quelle que soit
+la source.
+
+---
+
 ## Pièges GLSL rencontrés, à ne pas repayer
 
 Trois erreurs coûteuses rencontrées sur le prototype de rendu. Elles ne
