@@ -91,8 +91,39 @@ export const FULL_RELEASE_MARKERS =
 
 export const MAX_TRACK_SECONDS = 15 * 60;
 
-export const isFullRelease = (title: string, seconds?: number | null): boolean => {
+/* EXCEPTIONS AU PLAFOND DE DURÉE, nommées une par une, justification comprise.
+
+   Règles de cette liste : trois entrées au maximum, une exception est toujours
+   une PIÈCE UNIQUE, jamais un album ni une compilation, et les marqueurs de
+   parution s'appliquent toujours, exception ou pas. Une vidéo « 1/1 full
+   album » reste refusée même pour Eno.
+
+   1. Brian Eno, 1/1 : 17 min 22. La pièce fondatrice de l'ambient, celle qui
+      nomme le genre sur Music for Airports. L'exclure appauvrit le corpus.
+   2. Kraftwerk, Autobahn : 22 min 42. La pièce fondatrice du proto-techno.
+      L'édit single de 3 minutes existe mais c'est la pièce entière qui a fait
+      l'histoire.
+   3. Tangerine Dream, Phaedra : 17 min 39. La pièce-titre qui fonde l'école de
+      Berlin : le séquenceur devient la structure du morceau. */
+const DURATION_EXCEPTIONS: readonly { artist: string; title: string }[] = [
+  { artist: 'Brian Eno', title: '1/1' },
+  { artist: 'Kraftwerk', title: 'Autobahn' },
+  { artist: 'Tangerine Dream', title: 'Phaedra' }
+];
+
+export const isDurationExempt = (artist: string, title: string): boolean =>
+  DURATION_EXCEPTIONS.some(
+    (x) => normalise(x.artist) === normalise(artist) && normalise(x.title) === normalise(title)
+  );
+
+export const isFullRelease = (
+  title: string,
+  seconds?: number | null,
+  exempt = false
+): boolean => {
+  // Les marqueurs de parution priment sur tout, exception comprise.
   if (FULL_RELEASE_MARKERS.test(title)) return true;
+  if (exempt) return false;
   if (seconds !== undefined && seconds !== null && seconds > MAX_TRACK_SECONDS) return true;
   return false;
 };
@@ -107,7 +138,7 @@ export const judge = (
   const haystack = new Set(normalise(`${candidate.title} ${candidate.channel}`).split(' ').filter(Boolean));
   const titleScore = coverage(title, haystack);
   const artistScore = coverage(artist, haystack);
-  const fullRelease = isFullRelease(candidate.title, seconds);
+  const fullRelease = isFullRelease(candidate.title, seconds, isDurationExempt(artist, title));
   return {
     ok: !fullRelease && titleScore >= TITLE_THRESHOLD && artistScore >= ARTIST_THRESHOLD,
     titleScore,

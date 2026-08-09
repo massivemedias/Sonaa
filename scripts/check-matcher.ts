@@ -7,7 +7,7 @@
 
    Usage : npm run check:matcher */
 
-import { judge, isFullRelease, normalise } from './lib/match.ts';
+import { judge, isDurationExempt, isFullRelease, normalise } from './lib/match.ts';
 
 /* Les cas qui ont motivé le durcissement, plus ceux que la version trop stricte
    rejetait à tort. Attendu = ce que le matcher DOIT dire. */
@@ -57,6 +57,20 @@ if (!isFullRelease('Zanov - Moebius 256', 40 * 60 + 34)) {
 if (isFullRelease('Zanov - Moebius 256', 6 * 60)) {
   fails += 1;
   console.error('ECHEC une track de 6 minutes ne doit pas être refusée');
+}
+// L'exception Eno : la pièce fondatrice de l'ambient dure 17 minutes et passe,
+// mais un album qui la contient reste refusé, exception ou pas.
+if (isFullRelease('1/1 (Remastered 2004)', 17 * 60 + 22, isDurationExempt('Brian Eno', '1/1'))) {
+  fails += 1;
+  console.error('ECHEC 1/1 de Brian Eno doit passer par exception nominative');
+}
+if (!isFullRelease('Brian Eno - Music for Airports (Full Album)', 17 * 60, isDurationExempt('Brian Eno', '1/1'))) {
+  fails += 1;
+  console.error('ECHEC un album reste refusé même pour une pièce exemptée');
+}
+if (isDurationExempt('Brian Eno', 'Thursday Afternoon')) {
+  fails += 1;
+  console.error('ECHEC les exceptions sont nominatives, pas par artiste');
 }
 
 console.log('');

@@ -5759,7 +5759,47 @@
     "Musique Electroacoustique"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "nffOJXcJCDg",
+      "artist": "Karlheinz Stockhausen",
+      "title": "Gesang der Junglinge",
+      "year": null,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/876f705a9698721d15e9e5145b0b2eb0/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/nffOJXcJCDg.jpg"
+      },
+      "album": "A Young Person's Guide to the Avant-Garde"
+     },
+     {
+      "youtubeId": "nbdmzSeFy_Y",
+      "artist": "Karlheinz Stockhausen",
+      "title": "Kontakte",
+      "year": 1960,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/16555b78cc9ae2cd71c84d43a4b0bc6d/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/nbdmzSeFy_Y.jpg"
+      },
+      "album": "Kontakte"
+     },
+     {
+      "youtubeId": "XsOyxFybxPY",
+      "artist": "Iannis Xenakis",
+      "title": "Concret PH",
+      "year": null,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/7545e0645b219eccf013ac0b285fa9a7/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/XsOyxFybxPY.jpg"
+      },
+      "album": "Diamorphoses / Concret PH / Orient Occident / Bohor"
+     }
+    ],
     "actuel": []
    }
   },
@@ -5857,7 +5897,47 @@
     "Berlin School"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "HIQ0dd7B_FU",
+      "artist": "Tangerine Dream",
+      "title": "Phaedra",
+      "year": 1974,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/b3e42bf3e39429fb3c68f8beb84d8e56/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/HIQ0dd7B_FU.jpg"
+      },
+      "album": "Phaedra (Deluxe Version)"
+     },
+     {
+      "youtubeId": "gpkO8YwZfrA",
+      "artist": "Harmonia",
+      "title": "Deluxe",
+      "year": 1975,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/76c763fe2824c6ab4b261e48fde1214e/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/gpkO8YwZfrA.jpg"
+      },
+      "album": "Hollow (Deluxe Version)"
+     },
+     {
+      "youtubeId": "no4FBPY_usM",
+      "artist": "Cluster",
+      "title": "Sowiesoso",
+      "year": 1976,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/894bde17e8bb967a60eea3a8623c3a91/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/no4FBPY_usM.jpg"
+      },
+      "album": "Sowiesoso"
+     }
+    ],
     "actuel": []
    }
   },
@@ -5882,7 +5962,34 @@
     "Cosmic Ambient"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "n-coYYkJ7KE",
+      "artist": "Jean-Michel Jarre",
+      "title": "Oxygene Part IV",
+      "year": 1976,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/b4b9574f6543fc70a06777a20a4973e7/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/n-coYYkJ7KE.jpg"
+      },
+      "album": "The Music of Jean Michel Jarre"
+     },
+     {
+      "youtubeId": "HaMBmBeNvtM",
+      "artist": "Vangelis",
+      "title": "Pulstar",
+      "year": 1976,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/9a8b44392c88d8f9ba133706ca879cdb/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/HaMBmBeNvtM.jpg"
+      },
+      "album": "The Best Of..."
+     }
+    ],
     "actuel": []
    }
   },
@@ -5915,7 +6022,47 @@
     "Electronic Body Pop"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "iukUMRlaBBE",
+      "artist": "Kraftwerk",
+      "title": "Autobahn",
+      "year": 1974,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/d7abe494966aceca6351715e624d0fc0/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/iukUMRlaBBE.jpg"
+      },
+      "album": "Autobahn (2009 Remaster)"
+     },
+     {
+      "youtubeId": "kv8_EZrNhpY",
+      "artist": "Kraftwerk",
+      "title": "Trans-Europe Express",
+      "year": 1977,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/8f20a7733da4467a7cd0f4813d9bc8d1/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/kv8_EZrNhpY.jpg"
+      },
+      "album": "Trans-Europe Express (2009 Remaster)"
+     },
+     {
+      "youtubeId": "V-HqE1VdPgA",
+      "artist": "Giorgio Moroder",
+      "title": "The Chase",
+      "year": 1978,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/35c3b551f0b4b128e00d804094ace829/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/V-HqE1VdPgA.jpg"
+      },
+      "album": "The Chase (The Classic Mixes Europe)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -5940,7 +6087,47 @@
     "Industrial Music"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "5XpqCxJZdGs",
+      "artist": "Throbbing Gristle",
+      "title": "United",
+      "year": 1978,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c3f25cfb5c1529fef9e35281e3dd0c14/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/5XpqCxJZdGs.jpg"
+      },
+      "album": "In Formation - A TributeTo Throbbing Gristle"
+     },
+     {
+      "youtubeId": "HMHpdRZQ6K8",
+      "artist": "Cabaret Voltaire",
+      "title": "Nag Nag Nag",
+      "year": 1979,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/1041f0efdc8df2e6b6b33d7e36d20fdc/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/HMHpdRZQ6K8.jpg"
+      },
+      "album": "Methodology '74-'78: Attic Tapes"
+     },
+     {
+      "youtubeId": "OZWmYEUoweg",
+      "artist": "SPK",
+      "title": "Slogun",
+      "year": 1979,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/cd/0f/d2/dj.nhmmlnng.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/OZWmYEUoweg.jpg"
+      },
+      "album": "An Anthology of Noise and Electronic Music, Vol. 2"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6229,7 +6416,47 @@
     "Breaks"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "GxZuq57_bYM",
+      "artist": "The Winstons",
+      "title": "Amen Brother",
+      "year": 1969,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/208cbae00527585564142b2a13dfe0d7/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/GxZuq57_bYM.jpg"
+      },
+      "album": "Color Him Father"
+     },
+     {
+      "youtubeId": "AoQ4AtsFWVM",
+      "artist": "James Brown",
+      "title": "Funky Drummer",
+      "year": 1970,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/1298000b7dc18bb7b223043b390fd1ce/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/AoQ4AtsFWVM.jpg"
+      },
+      "album": "70's Funk Classics"
+     },
+     {
+      "youtubeId": "yeYLWDdsVTE",
+      "artist": "Coldcut",
+      "title": "Beats and Pieces",
+      "year": 1987,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/cd65730a00978e2fa902c5b7d2ca80e6/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/yeYLWDdsVTE.jpg"
+      },
+      "album": "People Hold On - The Best Of Coldcut"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6336,7 +6563,47 @@
     "Darkside"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "3WgWbcyBSSM",
+      "artist": "4hero",
+      "title": "Mr Kirk's Nightmare",
+      "year": 1990,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/3afc15f67419213d0ab0ab241e1d0b23/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/3WgWbcyBSSM.jpg"
+      },
+      "album": "Reinforced Presents Callin For Reinforcements"
+     },
+     {
+      "youtubeId": "OfvIiuyAMqQ",
+      "artist": "Rufige Kru",
+      "title": "Terminator",
+      "year": 1992,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/37a0c95be97c77c3b7cfe36fd1467329/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/OfvIiuyAMqQ.jpg"
+      },
+      "album": "The Alchemist: 1992-2012"
+     },
+     {
+      "youtubeId": "-5JJr4BvhzM",
+      "artist": "DJ Crystl",
+      "title": "Warpdrive",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/011903341baa83664820704a823f16e7/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/-5JJr4BvhzM.jpg"
+      },
+      "album": "Warpdrive / Powers"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6504,7 +6771,47 @@
     "Tech Step"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "St4P4m8hOlk",
+      "artist": "Ed Rush and Optical",
+      "title": "Bacteria",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/81/b1/2a/81b12a41-beed-0810-22d3-9470be8946d3/5051142013651_cover.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/St4P4m8hOlk.jpg"
+      },
+      "album": "Gas Mask / Bacteria - Single"
+     },
+     {
+      "youtubeId": "8UAUDbWrVhA",
+      "artist": "Konflict",
+      "title": "Messiah",
+      "year": 2000,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/2da2fdd012bf36110926f7355dd3e926/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/8UAUDbWrVhA.jpg"
+      },
+      "album": "Guerilla Warfare Sampler, Pt. 1"
+     },
+     {
+      "youtubeId": "uucE2ki-Lnk",
+      "artist": "Dom and Roland",
+      "title": "Thunder",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/7bca37d46c07b43aab1f725402607b7a/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/uucE2ki-Lnk.jpg"
+      },
+      "album": "Industry"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6532,7 +6839,47 @@
     "Neuro DnB"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "NVQIMLbVdYM",
+      "artist": "Ed Rush and Optical",
+      "title": "Funktion",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/bd/1c/2c/bd1c2cc2-fb98-5e5c-7a78-db47a9addf27/5060182936363_cover.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/NVQIMLbVdYM.jpg"
+      },
+      "album": "Funktion / Naked Lunch - Single"
+     },
+     {
+      "youtubeId": "fZAhJkswLEE",
+      "artist": "Noisia",
+      "title": "Stigma",
+      "year": 2007,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/cb83b6fa749118776f4ae9c393688e51/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/fZAhJkswLEE.jpg"
+      },
+      "album": "Split The Atom"
+     },
+     {
+      "youtubeId": "S_v172PgToE",
+      "artist": "Black Sun Empire",
+      "title": "Arrakis",
+      "year": 2004,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/e46d1159898a2dd38693a1b1d703c2b0/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/S_v172PgToE.jpg"
+      },
+      "album": "Driving Insane"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6561,7 +6908,47 @@
     "Liquid"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "DNQDoiuGq58",
+      "artist": "LTJ Bukem",
+      "title": "Music",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/f25523c20d507d9d834efc736f627536/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/DNQDoiuGq58.jpg"
+      },
+      "album": "Atlantis (Marky & S.P.Y. Rework)"
+     },
+     {
+      "youtubeId": "j_hzoTof0E8",
+      "artist": "Calibre",
+      "title": "Even If",
+      "year": 2003,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/2f619f4ab1ad1ff2aa081ff8ccbe8269/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/j_hzoTof0E8.jpg"
+      },
+      "album": "Even If"
+     },
+     {
+      "youtubeId": "Pz1W1OLkw14",
+      "artist": "High Contrast",
+      "title": "If We Ever",
+      "year": 2004,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/382a8eb33e56444934bc20d5cfe007b9/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/Pz1W1OLkw14.jpg"
+      },
+      "album": "If We Ever (Unglued Remix)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6588,7 +6975,47 @@
     "Jump Up"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "ByqSxjMo_5A",
+      "artist": "DJ Zinc",
+      "title": "Super Sharp Shooter",
+      "year": 1996,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/40ca51b9de12fcc6e1bf1f7952399fa1/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/ByqSxjMo_5A.jpg"
+      },
+      "album": "Super Sharp Shooter"
+     },
+     {
+      "youtubeId": "4THI7lxNeRw",
+      "artist": "DJ Hype",
+      "title": "Shot in the Dark",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/094174719f96fb0b94b140d9fb041dcb/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/4THI7lxNeRw.jpg"
+      },
+      "album": "Shot in the Dark"
+     },
+     {
+      "youtubeId": "A4yBa42yhgg",
+      "artist": "Hazard",
+      "title": "Machete",
+      "year": 2007,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/486497b2164f0d3bfb85294629c83fbc/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/A4yBa42yhgg.jpg"
+      },
+      "album": "Machete Bass EP"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6615,7 +7042,46 @@
     "Drum Funk"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "7lVH1Pym9Ik",
+      "artist": "Photek",
+      "title": "Ni Ten Ichi Ryu",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/7lVH1Pym9Ik/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/7lVH1Pym9Ik.jpg"
+      }
+     },
+     {
+      "youtubeId": "O4PeZ6YsbQ8",
+      "artist": "Paradox",
+      "title": "A Certain Sound",
+      "year": 2003,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/2da2fdd012bf36110926f7355dd3e926/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/O4PeZ6YsbQ8.jpg"
+      },
+      "album": "A Certain Sound / Deep Sleep"
+     },
+     {
+      "youtubeId": "zaZRjQ1HzO4",
+      "artist": "Source Direct",
+      "title": "Snake Style",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/b6423e1684b19057ac7e97c8e04f1b92/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/zaZRjQ1HzO4.jpg"
+      },
+      "album": "Snake Style 2"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6643,7 +7109,47 @@
     "Halftime"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "e-IWRmpefzE",
+      "artist": "Knife Party",
+      "title": "Bonfire",
+      "year": 2012,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/a62c65fe5d8e972479b74b46d66c902c/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/e-IWRmpefzE.jpg"
+      },
+      "album": "Rage Valley"
+     },
+     {
+      "youtubeId": "Bqg04aTO57U",
+      "artist": "Camo and Krooked",
+      "title": "All Fall Down",
+      "year": 2011,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/ee5d971d13d1b34341ec84a9894670ce/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/Bqg04aTO57U.jpg"
+      },
+      "album": "Cross The Line (Special Edition)"
+     },
+     {
+      "youtubeId": "-NfTuf5wIfw",
+      "artist": "Pendulum",
+      "title": "The Vulture",
+      "year": 2010,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/d4487e6e09a59bd14c7890b87f90ad4c/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/-NfTuf5wIfw.jpg"
+      },
+      "album": "Immersion"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6670,7 +7176,47 @@
     "Jungle Ragga"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "du12Bk7A3RE",
+      "artist": "Congo Natty",
+      "title": "Junglist",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/2045fb5b660265e0e4c6fba61b725d93/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/du12Bk7A3RE.jpg"
+      },
+      "album": "Congo Natty Presents: Nu Jungle, Vol. 1"
+     },
+     {
+      "youtubeId": "Uj7EO2uVfDQ",
+      "artist": "Dead Dred",
+      "title": "Dred Bass",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/995271b73d4ea0c77f0cbc2ee0d400a5/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/Uj7EO2uVfDQ.jpg"
+      },
+      "album": "Dred Bass / Dred Bass (Origin Unknown Remix)"
+     },
+     {
+      "youtubeId": "fiWN4EtivFM",
+      "artist": "Top Cat",
+      "title": "Ruffest Gun Ark",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/0f6dcc6a78e057075726dd1b09d074dc/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/fiWN4EtivFM.jpg"
+      },
+      "album": "The Best of Street Life Recordings Vol 1"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6698,7 +7244,47 @@
     "Drill & Bass"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "EEmK4NaRXo8",
+      "artist": "Squarepusher",
+      "title": "Port Rhombus",
+      "year": 1996,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/d3d5e930b253b1d8a583fd9e8a2d57fc/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/EEmK4NaRXo8.jpg"
+      },
+      "album": "Port Rhombus"
+     },
+     {
+      "youtubeId": "MdZs5PVcwBs",
+      "artist": "Aphex Twin",
+      "title": "Girl/Boy Song",
+      "year": 1996,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/3aa42e96e2c621d7e4caf305812a6398/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/MdZs5PVcwBs.jpg"
+      },
+      "album": "Richard D. James Album"
+     },
+     {
+      "youtubeId": "3c_E09gib-Y",
+      "artist": "u-Ziq",
+      "title": "Hasty Boom Alert",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/127c99c2caef68329cd1c0e4654cfc5a/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/3c_E09gib-Y.jpg"
+      },
+      "album": "Lunatic Harness"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6726,7 +7312,34 @@
     "Mashcore"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "2PBeKzVhWHY",
+      "artist": "Venetian Snares",
+      "title": "Szamar Madar",
+      "year": 2005,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/0fd868c7bb0aafb9599fd52c826f43fe/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/2PBeKzVhWHY.jpg"
+      },
+      "album": "Rossz Csillag Alatt Született"
+     },
+     {
+      "youtubeId": "FbJ63spk48s",
+      "artist": "Venetian Snares",
+      "title": "Hajnal",
+      "year": 2005,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/0fd868c7bb0aafb9599fd52c826f43fe/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/FbJ63spk48s.jpg"
+      },
+      "album": "Rossz Csillag Alatt Született"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6754,7 +7367,33 @@
     "Crossbreed DnB"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "EE3M0R1QJ5I",
+      "artist": "The Outside Agency",
+      "title": "Motherfucking Ants",
+      "year": 2011,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/EE3M0R1QJ5I/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/EE3M0R1QJ5I.jpg"
+      }
+     },
+     {
+      "youtubeId": "gXoInwtJtAE",
+      "artist": "Katharsys",
+      "title": "Zero",
+      "year": 2012,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/627b9dfeb33050ed38c415403c6250d4/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/gXoInwtJtAE.jpg"
+      },
+      "album": "Zero Point / Cold Spot"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6782,7 +7421,47 @@
     "Big Beat Breaks"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "iTxOKsyZ0Lw",
+      "artist": "The Chemical Brothers",
+      "title": "Block Rockin' Beats",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/7c8bd1e14f031edc71eb4fdd6737c428/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/iTxOKsyZ0Lw.jpg"
+      },
+      "album": "Dig Your Own Hole"
+     },
+     {
+      "youtubeId": "FMrIy9zm7QY",
+      "artist": "Fatboy Slim",
+      "title": "The Rockafeller Skank",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/e68e1ee186e411d59966aa00dc81a761/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/FMrIy9zm7QY.jpg"
+      },
+      "album": "Instrumental Covers Of Fatboy Slim"
+     },
+     {
+      "youtubeId": "wmin5WkOuPw",
+      "artist": "The Prodigy",
+      "title": "Firestarter",
+      "year": 1996,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/566d28d32080a6d82a2d4d145ea5ea7e/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/wmin5WkOuPw.jpg"
+      },
+      "album": "The Fat of the Land - Expanded Edition"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6811,7 +7490,47 @@
     "Tech Funk"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "0oMEuyhBkRo",
+      "artist": "Adam Freeland",
+      "title": "We Want Your Soul",
+      "year": 2003,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/9c93d69695cbbe1993116e0373b64c80/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/0oMEuyhBkRo.jpg"
+      },
+      "album": "Now & Them"
+     },
+     {
+      "youtubeId": "j2pBG_PBEYQ",
+      "artist": "Plump DJs",
+      "title": "The Funk Hits the Fan",
+      "year": 2000,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/931349321c7853c597a08852b8687bb0/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/j2pBG_PBEYQ.jpg"
+      },
+      "album": "RePlumped"
+     },
+     {
+      "youtubeId": "5yzI67KuNB8",
+      "artist": "Stanton Warriors",
+      "title": "Da Virus",
+      "year": 2001,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/0f16d20026c31bbf9b945eea4902d5af/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/5yzI67KuNB8.jpg"
+      },
+      "album": "Da Virus"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6843,7 +7562,47 @@
     "Prog Breaks"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "60OR68EfvS8",
+      "artist": "Hybrid",
+      "title": "Finished Symphony",
+      "year": 1999,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c8a69c6c1030421f0f76ccdb85d5b95f/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/60OR68EfvS8.jpg"
+      },
+      "album": "Re_Mixed EP1"
+     },
+     {
+      "youtubeId": "S6-Rnq9P_wM",
+      "artist": "Way Out West",
+      "title": "The Gift",
+      "year": 1996,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/97c2f72e1b3334a6113febcf3378b7b7/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/S6-Rnq9P_wM.jpg"
+      },
+      "album": "Way Out West"
+     },
+     {
+      "youtubeId": "WbOW2H9sBnk",
+      "artist": "Hybrid",
+      "title": "If I Survive",
+      "year": 1999,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/24515ba08549accdec0010884ff4fd8b/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/WbOW2H9sBnk.jpg"
+      },
+      "album": "Wide Angle"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6871,7 +7630,46 @@
     "Florida Breakbeat"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "v0_hOPVOAsY",
+      "artist": "Rabbit in the Moon",
+      "title": "Out of Body Experience",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/8f9d8185e42600236dafbea19f8d1dac/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/v0_hOPVOAsY.jpg"
+      },
+      "album": "Delusions of Grandeur"
+     },
+     {
+      "youtubeId": "fAD-yQmwKPU",
+      "artist": "DJ Icey",
+      "title": "Escape",
+      "year": 1996,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/11/33/7e/11337eca-eed5-f429-e3f2-6c8923208fe8/mzi.aieuaoug.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/fAD-yQmwKPU.jpg"
+      },
+      "album": "Essential Mix"
+     },
+     {
+      "youtubeId": "8sKllX-6QWs",
+      "artist": "K5",
+      "title": "Passion",
+      "year": 2001,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/8sKllX-6QWs/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/8sKllX-6QWs.jpg"
+      }
+     }
+    ],
     "actuel": []
    }
   },
@@ -6899,7 +7697,47 @@
     "West London Sound"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "JZzN2p2KoQg",
+      "artist": "Bugz in the Attic",
+      "title": "Booty La La",
+      "year": 2004,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/25e144fc12d29708a8496bc1fdee18d6/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/JZzN2p2KoQg.jpg"
+      },
+      "album": "Back In The Dog House"
+     },
+     {
+      "youtubeId": "E_L1MUn-7eQ",
+      "artist": "4hero",
+      "title": "Hold It Down",
+      "year": 2001,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/e7f8d0bb06ab0e9f360f694ad5d5ec2a/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/E_L1MUn-7eQ.jpg"
+      },
+      "album": "Creating Patterns"
+     },
+     {
+      "youtubeId": "yqTOHthkq2k",
+      "artist": "Seiji",
+      "title": "Loose Lips",
+      "year": 2002,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/9cc462f2ce730e085e316caf1b876d00/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/yqTOHthkq2k.jpg"
+      },
+      "album": "DJ-Kicks (Mr. Scruff) (DJ Mix)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -6927,7 +7765,21 @@
     "Glitch Funk"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "HikdySt8FUo",
+      "artist": "A.Skillz and Krafty Kuts",
+      "title": "Tricka Technology",
+      "year": 2003,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/e9/b1/2b/e9b12b85-e91c-7ce2-d135-cbba5328db33/5060155330907.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/HikdySt8FUo.jpg"
+      },
+      "album": "Tricka Technology"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7060,7 +7912,47 @@
     "Speed UKG"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "3N62q9rFKVM",
+      "artist": "187 Lockdown",
+      "title": "Gunman",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/5c/f7/ef/5cf7ef08-99f9-f3e9-1cdd-ab4107fc9a93/nimmo.png/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/3N62q9rFKVM.jpg"
+      },
+      "album": "HE.SHE.THEY. Nimmo Guest Mix (DJ Mix)"
+     },
+     {
+      "youtubeId": "_MFtoi1Ezso",
+      "artist": "Tina Moore",
+      "title": "Never Gonna Let You Go",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/ad9a0e9721f9e9125d055dbfd3e96b61/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/_MFtoi1Ezso.jpg"
+      },
+      "album": "Tina Moore"
+     },
+     {
+      "youtubeId": "9JQDp5X8vHU",
+      "artist": "Serious Danger",
+      "title": "Deeper",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/acfff74b6788103f4bfb12cf227f78c1/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/9JQDp5X8vHU.jpg"
+      },
+      "album": "Deeper - EP"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7228,7 +8120,47 @@
     "American Dubstep"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "WSeNSzJ2-Jw",
+      "artist": "Skrillex",
+      "title": "Scary Monsters and Nice Sprites",
+      "year": 2010,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/6f2e21fc97d9235e61dce67a37e62d7e/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/WSeNSzJ2-Jw.jpg"
+      },
+      "album": "More Monsters and Sprites EP"
+     },
+     {
+      "youtubeId": "iNmGzWe5jC8",
+      "artist": "Rusko",
+      "title": "Cockney Thug",
+      "year": 2008,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/938a13fab96d341fd1a3635f2bfd8208/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/iNmGzWe5jC8.jpg"
+      },
+      "album": "Cockney Thug"
+     },
+     {
+      "youtubeId": "h3cE9iXIx9c",
+      "artist": "Flux Pavilion",
+      "title": "Bass Cannon",
+      "year": 2011,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/8dc27c071bee42030d096f2bd715fa23/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/h3cE9iXIx9c.jpg"
+      },
+      "album": "Bass Cannon (Flux's Version - Crankdat Remix)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7255,7 +8187,46 @@
     "Riddim Dubstep"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "qHpZHV35O6I",
+      "artist": "Infekt",
+      "title": "Raptor",
+      "year": 2017,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/33e7f829836896609dd0682b3c012ee8/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/qHpZHV35O6I.jpg"
+      },
+      "album": "Fearless"
+     },
+     {
+      "youtubeId": "WgMjeq9CrMw",
+      "artist": "Phiso",
+      "title": "Jotaro",
+      "year": 2016,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/474d7903cbe8a7e727b9f458f626c36a/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/WgMjeq9CrMw.jpg"
+      },
+      "album": "Excision 2016 Mix Compilation"
+     },
+     {
+      "youtubeId": "uKCYDwkLaxw",
+      "artist": "Bommer and Crowell",
+      "title": "Loco",
+      "year": 2016,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/uKCYDwkLaxw/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/uKCYDwkLaxw.jpg"
+      }
+     }
+    ],
     "actuel": []
    }
   },
@@ -7287,7 +8258,47 @@
     "Future Garage UK"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "8k_f2QK77ew",
+      "artist": "Burial",
+      "title": "Archangel",
+      "year": 2007,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/9d/0f/1c/9d0f1c2b-2fae-d8ac-3920-ce9ec5bc85b5/7982.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/8k_f2QK77ew.jpg"
+      },
+      "album": "Untrue"
+     },
+     {
+      "youtubeId": "cfeVDzO-FqY",
+      "artist": "Mount Kimbie",
+      "title": "Maybes",
+      "year": 2009,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/8c19ddc48a4e596c35b6f2ac655d554f/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/cfeVDzO-FqY.jpg"
+      },
+      "album": "Maybes"
+     },
+     {
+      "youtubeId": "ZdUINbi4wSY",
+      "artist": "SBTRKT",
+      "title": "Wildfire",
+      "year": 2011,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/f9707d043113471a35a131a18dedeba7/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/ZdUINbi4wSY.jpg"
+      },
+      "album": "SBTRKT"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7384,7 +8395,45 @@
     "4x4 Garage"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "w_Chrqwt-Hk",
+      "artist": "T2",
+      "title": "Heartbroken",
+      "year": 2007,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/w_Chrqwt-Hk/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/w_Chrqwt-Hk.jpg"
+      }
+     },
+     {
+      "youtubeId": "f_D-8G2eRC4",
+      "artist": "H Two O",
+      "title": "What's It Gonna Be",
+      "year": 2008,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/abdee97c6565bfe0132a4100b492ca07/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/f_D-8G2eRC4.jpg"
+      },
+      "album": "What's It Gonna Be (feat. Platnum)"
+     },
+     {
+      "youtubeId": "fUGZq02cYIY",
+      "artist": "DJ Q",
+      "title": "You Wot",
+      "year": 2008,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/fUGZq02cYIY/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/fUGZq02cYIY.jpg"
+      }
+     }
+    ],
     "actuel": []
    }
   },
@@ -7412,7 +8461,47 @@
     "UK Funky House"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "G0c8qfMbMac",
+      "artist": "Kyla",
+      "title": "Do You Mind",
+      "year": 2008,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/6cf8aa0ac6e17205d93e9674e7a6aee5/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/G0c8qfMbMac.jpg"
+      },
+      "album": "Do You Mind (Remix)"
+     },
+     {
+      "youtubeId": "sVOdrWTLABA",
+      "artist": "Donae'o",
+      "title": "Party Hard",
+      "year": 2009,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/3c7616a4e55b3cb6e661c272aa63af2f/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/sVOdrWTLABA.jpg"
+      },
+      "album": "Party Hard"
+     },
+     {
+      "youtubeId": "Hf_DTjaY7E4",
+      "artist": "Roska",
+      "title": "Squark",
+      "year": 2009,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/d77a8c15ef7ed4200749f599fc914141/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/Hf_DTjaY7E4.jpg"
+      },
+      "album": "Rinse Presents: Roska"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7439,7 +8528,47 @@
     "Break Step"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "MfmqmrFHJZg",
+      "artist": "DJ Zinc",
+      "title": "138 Trek",
+      "year": 2000,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/5135a562b7dc74c52055e311d36f5bab/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/MfmqmrFHJZg.jpg"
+      },
+      "album": "Kurupt FM present The Lost Tape"
+     },
+     {
+      "youtubeId": "ljz9XYbXsUs",
+      "artist": "Zed Bias",
+      "title": "Neighbourhood",
+      "year": 2000,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/3cf7e61f5570d021cc2df71b17f14f05/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/ljz9XYbXsUs.jpg"
+      },
+      "album": "Neighbourhood"
+     },
+     {
+      "youtubeId": "-TIj8ECzQgk",
+      "artist": "Menta",
+      "title": "Sounds of Da Future",
+      "year": 2001,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/73/fb/b9/73fbb984-3492-5d19-23ba-7b1e58b256c4/5080007100960_cover.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/-TIj8ECzQgk.jpg"
+      },
+      "album": "Sounds Of The Future / Tonka (Remixes) - Single"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7467,7 +8596,47 @@
     "Post-Dubstep"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "Aa_PDKKc2_A",
+      "artist": "Joy Orbison",
+      "title": "Hyph Mngo",
+      "year": 2009,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/a03f763f52ed06380c35ff805afcff69/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/Aa_PDKKc2_A.jpg"
+      },
+      "album": "Hyph Mngo / Wet Look"
+     },
+     {
+      "youtubeId": "D2kr9udP6Zo",
+      "artist": "James Blake",
+      "title": "CMYK",
+      "year": 2010,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/1f92748bfb3257826904ef4a9210bf14/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/D2kr9udP6Zo.jpg"
+      },
+      "album": "CMYK"
+     },
+     {
+      "youtubeId": "s1jp94Psx18",
+      "artist": "Mosca",
+      "title": "Bax",
+      "year": 2011,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c2b0271687e05ee3e91ec8986ec9f24e/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/s1jp94Psx18.jpg"
+      },
+      "album": "Done Me Wrong / Bax"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7495,7 +8664,47 @@
     "Aquacrunk"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "s4AqCrR_nAU",
+      "artist": "Rustie",
+      "title": "Ultra Thizz",
+      "year": 2011,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/0a2c9136c8b3b65f7b9f2e13a9253969/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/s4AqCrR_nAU.jpg"
+      },
+      "album": "Glass Swords"
+     },
+     {
+      "youtubeId": "fEfYVJuU1os",
+      "artist": "Flying Lotus",
+      "title": "GNG BNG",
+      "year": 2008,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/692e32c025a3b7696d6f48b5751d7841/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/fEfYVJuU1os.jpg"
+      },
+      "album": "Los Angeles"
+     },
+     {
+      "youtubeId": "ZAGGkYmi-ek",
+      "artist": "Zomby",
+      "title": "Spliff Dub",
+      "year": 2008,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/3d/e6/28/3de62813-8ce6-4a99-937c-36daae6955cf/82712.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/ZAGGkYmi-ek.jpg"
+      },
+      "album": "Mush / Spliff Dub (Rustie Remix) - Single"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7522,7 +8731,47 @@
     "Future Bass EDM"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "X_H3cIsenBQ",
+      "artist": "Flume",
+      "title": "Holdin On",
+      "year": 2012,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ea/8b/1c/ea8b1c89-6896-6463-0b5e-ca6051909a2c/112213.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/X_H3cIsenBQ.jpg"
+      },
+      "album": "Flume"
+     },
+     {
+      "youtubeId": "Vv_3HnMr9e8",
+      "artist": "Cashmere Cat",
+      "title": "Mirror Maru",
+      "year": 2012,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/f674c1b64e0fdc048c107dcdfe8e0226/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/Vv_3HnMr9e8.jpg"
+      },
+      "album": "Mirror Maru - EP"
+     },
+     {
+      "youtubeId": "5LSm6pUdldk",
+      "artist": "Wave Racer",
+      "title": "Streamers",
+      "year": 2013,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/aa8eccae128f16522add6b3c3c2fc578/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/5LSm6pUdldk.jpg"
+      },
+      "album": "Streamers"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7550,7 +8799,47 @@
     "Festival Trap"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "qV0LHCHf-pE",
+      "artist": "Baauer",
+      "title": "Harlem Shake",
+      "year": 2012,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/da184c5dfab5f929d97453203493e725/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/qV0LHCHf-pE.jpg"
+      },
+      "album": "Harlem Shake"
+     },
+     {
+      "youtubeId": "6HzyUHxmkg0",
+      "artist": "TNGHT",
+      "title": "Higher Ground",
+      "year": 2012,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/7dea0916ad66b95e48ec3de07e90061c/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/6HzyUHxmkg0.jpg"
+      },
+      "album": "TNGHT"
+     },
+     {
+      "youtubeId": "04ufimjXEbA",
+      "artist": "RL Grime",
+      "title": "Core",
+      "year": 2014,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/b4a6cbac005cc3aa0d7a626ccca7508a/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/04ufimjXEbA.jpg"
+      },
+      "album": "VOID"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7579,7 +8868,46 @@
     "Baltimore Breaks"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "quUSjngSmN0",
+      "artist": "Rod Lee",
+      "title": "Dance My Pain Away",
+      "year": 2005,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/2faac21a2a5a9e5beefca97c2433f881/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/quUSjngSmN0.jpg"
+      },
+      "album": "...and all the pieces matter, Five Years of Music from The Wire (deluxe version)"
+     },
+     {
+      "youtubeId": "sXk30RyL0eQ",
+      "artist": "Blaqstarr",
+      "title": "Get Off",
+      "year": 2006,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/96/5b/6b/965b6b2f-ea75-7ad8-d5c7-66b43a716382/425.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/sXk30RyL0eQ.jpg"
+      },
+      "album": "Get Off - Single"
+     },
+     {
+      "youtubeId": "T7ToW0oRafo",
+      "artist": "DJ Class",
+      "title": "I'm the Shit",
+      "year": 2009,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/T7ToW0oRafo/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/T7ToW0oRafo.jpg"
+      }
+     }
+    ],
     "actuel": []
    }
   },
@@ -7607,7 +8935,47 @@
     "Brick City Club"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "Pf4Be8xeD9c",
+      "artist": "Cookiee Kawaii",
+      "title": "Vibe",
+      "year": 2019,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/f8586648905c99e56d3d4124c455aa70/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/Pf4Be8xeD9c.jpg"
+      },
+      "album": "Vibe (If I Back It Up)"
+     },
+     {
+      "youtubeId": "GHCMBuCkMKs",
+      "artist": "UNIIQU3",
+      "title": "Microdosing",
+      "year": 2018,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/98a820094e16598c5da3c6ded0fc3b62/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/GHCMBuCkMKs.jpg"
+      },
+      "album": "Microdosing"
+     },
+     {
+      "youtubeId": "0Sj2OGYQOjQ",
+      "artist": "DJ Sliink",
+      "title": "Vibrate",
+      "year": 2013,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/f9103c0a95a5cc1cd1315101d42e046e/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/0Sj2OGYQOjQ.jpg"
+      },
+      "album": "Vibrate EP"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7635,7 +9003,47 @@
     "Deconstructed"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "pcNG-zMlB8Q",
+      "artist": "Arca",
+      "title": "Xen",
+      "year": 2014,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music3/v4/18/9b/05/189b05a3-9a79-5a89-31bb-3f4158e0628a/724596961360.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/pcNG-zMlB8Q.jpg"
+      },
+      "album": "Xen"
+     },
+     {
+      "youtubeId": "uERIXLWeik0",
+      "artist": "SOPHIE",
+      "title": "Ponyboy",
+      "year": 2018,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/a604a9f24b9e6f78d7437a76923ccf47/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/uERIXLWeik0.jpg"
+      },
+      "album": "OIL OF EVERY PEARL'S UN-INSIDES NON-STOP REMIX ALBUM"
+     },
+     {
+      "youtubeId": "v3HpvxUyQ5Q",
+      "artist": "Lotic",
+      "title": "Hunted",
+      "year": 2018,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/656e50b3e7f19ed49bf3f3e62d946831/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/v3HpvxUyQ5Q.jpg"
+      },
+      "album": "Power"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7736,7 +9144,47 @@
     "West Coast Electro"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "qjFs9CPGhts",
+      "artist": "Egyptian Lover",
+      "title": "Egypt Egypt",
+      "year": 1984,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/cf92d74e542495099e6ef996c97e8ec4/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/qjFs9CPGhts.jpg"
+      },
+      "album": "On the Nile"
+     },
+     {
+      "youtubeId": "CbgNMEwBkLg",
+      "artist": "World Class Wreckin' Cru",
+      "title": "Surgery",
+      "year": 1984,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/cde17839e0da9d3db2d4865cbb39ee00/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/CbgNMEwBkLg.jpg"
+      },
+      "album": "Gold"
+     },
+     {
+      "youtubeId": "yRST3YQjIxo",
+      "artist": "Arabian Prince",
+      "title": "Strange Life",
+      "year": 1984,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c5eab58e7e0ad9121587fdedca834efc/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/yRST3YQjIxo.jpg"
+      },
+      "album": "Innovative Life"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7764,7 +9212,47 @@
     "Bass Music Miami"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "1d6Y7LxhGMg",
+      "artist": "2 Live Crew",
+      "title": "Throw the D",
+      "year": 1986,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/y2005/m07/d31/h04/mzi.kcfbrzuh.tif/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/1d6Y7LxhGMg.jpg"
+      },
+      "album": "The Essential DJ 12 Inch and Mega Mixes"
+     },
+     {
+      "youtubeId": "C7Okvrwtg6k",
+      "artist": "Dynamix II",
+      "title": "Just Give the DJ a Break",
+      "year": 1987,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/9d4e9bc839fd49097779a13c0b6a7648/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/C7Okvrwtg6k.jpg"
+      },
+      "album": "Dynamix II - The Album"
+     },
+     {
+      "youtubeId": "1yt69f5CkTs",
+      "artist": "DJ Magic Mike",
+      "title": "Drop the Bass",
+      "year": 1989,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/65ff12b43925853580e077a8238e66d2/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/1yt69f5CkTs.jpg"
+      },
+      "album": "Bass is the Name of the Game"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7797,7 +9285,46 @@
     "Ghettotech"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "eu2OYcgr4rM",
+      "artist": "DJ Assault",
+      "title": "Ass N Titties",
+      "year": 1996,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/640f72536176cb2c6467bed8bae9db23/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/eu2OYcgr4rM.jpg"
+      },
+      "album": "Ass n Titties"
+     },
+     {
+      "youtubeId": "eGvcIDSfKe0",
+      "artist": "Aux 88",
+      "title": "Bass Magnetic",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/eGvcIDSfKe0/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/eGvcIDSfKe0.jpg"
+      }
+     },
+     {
+      "youtubeId": "XzxIHXZdDc0",
+      "artist": "DJ Godfather",
+      "title": "Player Haters in Dis House",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/79dc932d9abe301d0874d866d9e5f971/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/XzxIHXZdDc0.jpg"
+      },
+      "album": "Player Haters in Dis House"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7825,7 +9352,47 @@
     "Freestyle Music"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "_-0sUuGufmw",
+      "artist": "Shannon",
+      "title": "Let the Music Play",
+      "year": 1983,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/b38018daaefd56ce18e3125c7ed5d91c/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/_-0sUuGufmw.jpg"
+      },
+      "album": "Let the Music Play"
+     },
+     {
+      "youtubeId": "P5m8lj5DCtI",
+      "artist": "Lisa Lisa and Cult Jam",
+      "title": "I Wonder If I Take You Home",
+      "year": 1985,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/330ddbeecdddf0e56afc9764f89eda2c/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/P5m8lj5DCtI.jpg"
+      },
+      "album": "Super Hits"
+     },
+     {
+      "youtubeId": "RNSuX4KoWWQ",
+      "artist": "Debbie Deb",
+      "title": "When I Hear Music",
+      "year": 1983,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/a2eed1fc5ba51343d7fb312eaa999a71/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/RNSuX4KoWWQ.jpg"
+      },
+      "album": "Trinere & Friends Greatest Hits"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7852,7 +9419,47 @@
     "Latin Freestyle Dance"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "2v8YragSIuI",
+      "artist": "Expose",
+      "title": "Point of No Return",
+      "year": 1985,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/f09c7ba4fa18d3eea47ff3226b34a9fd/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/2v8YragSIuI.jpg"
+      },
+      "album": "Arista Heritage Series: Expose"
+     },
+     {
+      "youtubeId": "1c5JDgC0cyo",
+      "artist": "TKA",
+      "title": "Maria",
+      "year": 1986,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ef/30/3b/ef303bbf-5c8b-2ef0-e28c-782f1a2b84fe/016998104071.png/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/1c5JDgC0cyo.jpg"
+      },
+      "album": "Greatest Hits"
+     },
+     {
+      "youtubeId": "MVITiigOQ-g",
+      "artist": "The Cover Girls",
+      "title": "Show Me",
+      "year": 1986,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/f837a57140cf313e5f2cf641de6e0504/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/MVITiigOQ-g.jpg"
+      },
+      "album": "Show Me"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7885,7 +9492,47 @@
     "Drexciyan Electro"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "wdbf7-tlDV8",
+      "artist": "Drexciya",
+      "title": "Bubble Metropolis",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/ccf210850f2bf6af96e867dfc8b2e044/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/wdbf7-tlDV8.jpg"
+      },
+      "album": "Journey of the Deep Sea Dweller I"
+     },
+     {
+      "youtubeId": "tKDQBX747vQ",
+      "artist": "Dopplereffekt",
+      "title": "Pornoactress",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/607fde74c22e8901410230dc412734fa/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/tKDQBX747vQ.jpg"
+      },
+      "album": "Gesamtkunstwerk"
+     },
+     {
+      "youtubeId": "3-z_lx3Jnvw",
+      "artist": "Japanese Telecom",
+      "title": "Virtual Geisha",
+      "year": 2001,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/528430a4868dc9a54cca1cb456ae482a/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/3-z_lx3Jnvw.jpg"
+      },
+      "album": "Virtual Geisha"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7914,7 +9561,32 @@
     "Electro Club"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "hOthRtHZrag",
+      "artist": "I-F",
+      "title": "Space Invaders Are Smoking Grass",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/hOthRtHZrag/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/hOthRtHZrag.jpg"
+      }
+     },
+     {
+      "youtubeId": "Q-mu7RSvN_Y",
+      "artist": "DMX Krew",
+      "title": "You Can't Hide Your Love",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/Q-mu7RSvN_Y/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/Q-mu7RSvN_Y.jpg"
+      }
+     }
+    ],
     "actuel": []
    }
   },
@@ -7948,7 +9620,47 @@
     "Funk Synthetique"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "r_IPV2zeDIc",
+      "artist": "Zapp",
+      "title": "More Bounce to the Ounce",
+      "year": 1980,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/703eea264f7541e1d11dabdd293247a7/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/r_IPV2zeDIc.jpg"
+      },
+      "album": "Zapp"
+     },
+     {
+      "youtubeId": "uRo426va26I",
+      "artist": "Midnight Star",
+      "title": "Freak-a-Zoid",
+      "year": 1983,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c3afb691af6145b5bbd9205dc4a087c5/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/uRo426va26I.jpg"
+      },
+      "album": "No Parking on the Dance Floor"
+     },
+     {
+      "youtubeId": "MZjAantupsA",
+      "artist": "Cameo",
+      "title": "Word Up",
+      "year": 1986,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/9c142fb4e95eee8e074d9c5b23e17ac0/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/MZjAantupsA.jpg"
+      },
+      "album": "Word Up"
+     }
+    ],
     "actuel": []
    }
   },
@@ -7982,7 +9694,47 @@
     "Tech Pop"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "ouWAymYiUn8",
+      "artist": "Miss Kittin and The Hacker",
+      "title": "Frank Sinatra",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/a9/8c/b9/a98cb9fb-595e-8a13-712c-578c1a05b59e/mzi.nfscyhwz.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/ouWAymYiUn8.jpg"
+      },
+      "album": "First Album"
+     },
+     {
+      "youtubeId": "M4uSTdJo4zk",
+      "artist": "Fischerspooner",
+      "title": "Emerge",
+      "year": 2001,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/79c2463e7840c2dc12fb50dec628f8eb/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/M4uSTdJo4zk.jpg"
+      },
+      "album": "Emerge 2020"
+     },
+     {
+      "youtubeId": "3cV6pnvCVM4",
+      "artist": "Peaches",
+      "title": "Fuck the Pain Away",
+      "year": 2000,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/b22bbd9320d4f3538e10b931443fb1ba/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/3cV6pnvCVM4.jpg"
+      },
+      "album": "The Teaches of Peaches"
+     }
+    ],
     "actuel": []
    }
   },
@@ -8043,7 +9795,47 @@
     "Rave Hardcore Continental"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "BL5xh-wt3Vc",
+      "artist": "Mescalinum United",
+      "title": "We Have Arrived",
+      "year": 1990,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/84ec09ced82a8cb608bf9f6a79ff7f29/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/BL5xh-wt3Vc.jpg"
+      },
+      "album": "We Have Arrived (Remastered 2017)"
+     },
+     {
+      "youtubeId": "Mx3LccRvidg",
+      "artist": "T99",
+      "title": "Anasthasia",
+      "year": 1991,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/9db667a1314daaaac221038396fdb7f5/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/Mx3LccRvidg.jpg"
+      },
+      "album": "Anasthasia"
+     },
+     {
+      "youtubeId": "Q--79iGN_t8",
+      "artist": "Human Resource",
+      "title": "Dominator",
+      "year": 1991,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/5532a68f2be4e4d4509ae18a8af167d9/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/Q--79iGN_t8.jpg"
+      },
+      "album": "Dominator"
+     }
+    ],
     "actuel": []
    }
   },
@@ -8140,7 +9932,45 @@
     "Terror Hardcore"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "6w2ABeV8lRQ",
+      "artist": "DJ Skinhead",
+      "title": "Extreme Terror",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/764db69c9bed192808ef9e05ed9afe1c/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/6w2ABeV8lRQ.jpg"
+      },
+      "album": "Extreme Terror Remixes"
+     },
+     {
+      "youtubeId": "DDMRBV7K15k",
+      "artist": "Disciples of Annihilation",
+      "title": "New York City Speedcore",
+      "year": 1996,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/DDMRBV7K15k/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/DDMRBV7K15k.jpg"
+      }
+     },
+     {
+      "youtubeId": "CjkOFXqbQV0",
+      "artist": "Delta 9",
+      "title": "Deep 13",
+      "year": 1996,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/CjkOFXqbQV0/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/CjkOFXqbQV0.jpg"
+      }
+     }
+    ],
     "actuel": []
    }
   },
@@ -8169,7 +9999,46 @@
     "Flashcore"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "vRJKOCmTXLo",
+      "artist": "Moby",
+      "title": "Thousand",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/bd3e25f9554445ea17e3ec2d5c75b519/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/vRJKOCmTXLo.jpg"
+      },
+      "album": "Next Is the E"
+     },
+     {
+      "youtubeId": "xpPML-k9D2Y",
+      "artist": "m1dy",
+      "title": "Speedcore Dandy",
+      "year": 2003,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/xpPML-k9D2Y/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/xpPML-k9D2Y.jpg"
+      }
+     },
+     {
+      "youtubeId": "Aw8a5AFinxw",
+      "artist": "The Berzerker",
+      "title": "Reality",
+      "year": 2000,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/5289b33a943d6c115a7cbedd81ca8282/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/Aw8a5AFinxw.jpg"
+      },
+      "album": "The Berzerker"
+     }
+    ],
     "actuel": []
    }
   },
@@ -8198,7 +10067,47 @@
     "Nu Style"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "_Aa_i5TL71A",
+      "artist": "Angerfist",
+      "title": "Raise Your Fist",
+      "year": 2006,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c2148c89d13959910020c76f03103e04/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/_Aa_i5TL71A.jpg"
+      },
+      "album": "Raise & Revolt"
+     },
+     {
+      "youtubeId": "4rIW1Xz63Wc",
+      "artist": "Evil Activities",
+      "title": "Nobody Said It Was Easy",
+      "year": 2007,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/6928bd20e15b2dd68c1b5dd19713c742/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/4rIW1Xz63Wc.jpg"
+      },
+      "album": "Nobody Said It Was Easy (Sefa Remix)"
+     },
+     {
+      "youtubeId": "Hf_kkNQ0YJo",
+      "artist": "Tha Playah",
+      "title": "Why So Serious",
+      "year": 2009,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/585c81ffe39d4b811dbad23ab75c83c0/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/Hf_kkNQ0YJo.jpg"
+      },
+      "album": "Walking The Line"
+     }
+    ],
     "actuel": []
    }
   },
@@ -8226,7 +10135,33 @@
     "Xtra Raw"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "8rbIo6TMO2E",
+      "artist": "Partyraiser and Destructive Tendencies",
+      "title": "Sound Becomes One",
+      "year": 2016,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/5f/8b/c4/5f8bc4fc-97a8-4515-39ce-a881a169b0b9/8718521040123.png/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/8rbIo6TMO2E.jpg"
+      },
+      "album": "Masters of Hardcore Raiders of Rampage"
+     },
+     {
+      "youtubeId": "NKaPutQaMbM",
+      "artist": "F. Noize",
+      "title": "Rock the Party",
+      "year": 2018,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/NKaPutQaMbM/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/NKaPutQaMbM.jpg"
+      }
+     }
+    ],
     "actuel": []
    }
   },
@@ -8254,7 +10189,21 @@
     "Slow Hardcore"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "xAx7soPm5z4",
+      "artist": "The Mover",
+      "title": "Waves of Life",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/525923f22a3660ddc868e8c69e16fb55/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/xAx7soPm5z4.jpg"
+      },
+      "album": "Major Night Sessions, Vol. 2"
+     }
+    ],
     "actuel": []
    }
   },
@@ -8282,7 +10231,20 @@
     "Frenchcore Hardcore"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "IguI5uZbPcQ",
+      "artist": "Micropoint",
+      "title": "Neurophonie",
+      "year": 2000,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/IguI5uZbPcQ/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/IguI5uZbPcQ.jpg"
+      }
+     }
+    ],
     "actuel": []
    }
   },
@@ -8417,7 +10379,46 @@
     "Scottish Bouncy"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "JhjuiOwE1Cw",
+      "artist": "Ultra-Sonic",
+      "title": "Annihilating Rhythm",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/bd3a3c66ad2ab7896707928ec3b053fc/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/JhjuiOwE1Cw.jpg"
+      },
+      "album": "Annihilating Rhythm Parts 1+2/Arpeggio"
+     },
+     {
+      "youtubeId": "vUjFv3uzRjc",
+      "artist": "Q-Tex",
+      "title": "Power of Love",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/e6b6e051bbb3185503e713c99360ec34/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/vUjFv3uzRjc.jpg"
+      },
+      "album": "Power Of Love"
+     },
+     {
+      "youtubeId": "D0b64qSGXj0",
+      "artist": "TTF",
+      "title": "Retribution 95",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/D0b64qSGXj0/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/D0b64qSGXj0.jpg"
+      }
+     }
+    ],
     "actuel": []
    }
   },
@@ -8445,7 +10446,34 @@
     "Happy Hardcore UK"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "Iq3mu8kGp9w",
+      "artist": "Styles and Breeze",
+      "title": "You're Shining",
+      "year": 2004,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/ed40cb9ed888bd3273fc3beaa91dfa3c/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/Iq3mu8kGp9w.jpg"
+      },
+      "album": "Skydivin'"
+     },
+     {
+      "youtubeId": "zAwh1h4iD3s",
+      "artist": "Darren Styles",
+      "title": "Save Me",
+      "year": 2006,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/ed40cb9ed888bd3273fc3beaa91dfa3c/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/zAwh1h4iD3s.jpg"
+      },
+      "album": "Skydivin'"
+     }
+    ],
     "actuel": []
    }
   },
@@ -8478,7 +10506,32 @@
     "Ragga Hardcore"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "1LVDFHPV9mE",
+      "artist": "Aaron Spectre",
+      "title": "Look Out Fi Liar",
+      "year": 2006,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/1LVDFHPV9mE/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/1LVDFHPV9mE.jpg"
+      }
+     },
+     {
+      "youtubeId": "KIa9U0_xg10",
+      "artist": "Bong-Ra",
+      "title": "Suicide Speed Machine Girl",
+      "year": 2005,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/KIa9U0_xg10/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/KIa9U0_xg10.jpg"
+      }
+     }
+    ],
     "actuel": []
    }
   },
@@ -8507,7 +10560,46 @@
     "Denpa Core"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "OjbjZcBctuM",
+      "artist": "Camellia",
+      "title": "Ghost",
+      "year": 2018,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/1587f4c267363f3a1d1cf9fd800209d0/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/OjbjZcBctuM.jpg"
+      },
+      "album": "Cyphisonia E.P."
+     },
+     {
+      "youtubeId": "yHgIYfNF8kY",
+      "artist": "t+pazolite",
+      "title": "Oshama Scramble",
+      "year": 2016,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/5e779a335f404818ef1e9afda74d9693/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/yHgIYfNF8kY.jpg"
+      },
+      "album": "Ponko2 Girlish"
+     },
+     {
+      "youtubeId": "fLd8slw8e4g",
+      "artist": "DJ Sharpnel",
+      "title": "Pretty Green Onions",
+      "year": 2003,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/fLd8slw8e4g/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/fLd8slw8e4g.jpg"
+      }
+     }
+    ],
     "actuel": []
    }
   },
@@ -8541,7 +10633,47 @@
     "Euphoric Hardstyle"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "VaiHTvifGt0",
+      "artist": "Headhunterz",
+      "title": "Dragonborn",
+      "year": 2012,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/26b3f702a7acbfe9f0db45c830cd9d4e/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/VaiHTvifGt0.jpg"
+      },
+      "album": "Headhunterz - Sacrifice"
+     },
+     {
+      "youtubeId": "JJx6dIKAAUY",
+      "artist": "Showtek",
+      "title": "Black",
+      "year": 2007,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/12dc4719bb00c6ea2a8a792d6bac2e3a/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/JJx6dIKAAUY.jpg"
+      },
+      "album": "Black 2008"
+     },
+     {
+      "youtubeId": "WA0t6ErCtus",
+      "artist": "Wildstylez",
+      "title": "Year of Summer",
+      "year": 2013,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/6e5d729548512c22d80737d97015a1ec/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/WA0t6ErCtus.jpg"
+      },
+      "album": "Year of Summer (Radio Edit) [Karaoke Version]"
+     }
+    ],
     "actuel": []
    }
   },
@@ -8569,7 +10701,47 @@
     "Jumpen"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "X8BQWQTV_xQ",
+      "artist": "Patrick Jumpen",
+      "title": "Holiday",
+      "year": 2007,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/e4398add2d94de745e3e3a1c3221de58/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/X8BQWQTV_xQ.jpg"
+      },
+      "album": "Holiday"
+     },
+     {
+      "youtubeId": "tq02Os7EF9s",
+      "artist": "Jeckyll and Hyde",
+      "title": "Frozen Flame",
+      "year": 2007,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/7fd12febc10cfa38279c617de86f55a7/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/tq02Os7EF9s.jpg"
+      },
+      "album": "The Album"
+     },
+     {
+      "youtubeId": "ZrPaEUjtYvQ",
+      "artist": "Scooter",
+      "title": "Jumping All Over the World",
+      "year": 2007,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/b59f0ab1628e28db545386acf53a6ff5/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/ZrPaEUjtYvQ.jpg"
+      },
+      "album": "20 Years Of Hardcore (Remastered)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -8597,7 +10769,34 @@
     "Lento"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "pCmh7mBEaoQ",
+      "artist": "Gigi D'Agostino",
+      "title": "Momento Contento",
+      "year": 2007,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/8ed2cea4e84d218cc8727b5aad916b60/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/pCmh7mBEaoQ.jpg"
+      },
+      "album": "Noisemaker 057"
+     },
+     {
+      "youtubeId": "97bmy7H7WfE",
+      "artist": "Gigi D'Agostino",
+      "title": "Vorrei fare una canzone",
+      "year": 2006,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/469211d5082242ea7c2046343544b9c8/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/97bmy7H7WfE.jpg"
+      },
+      "album": "Lento Violento...e altre storie"
+     }
+    ],
     "actuel": []
    }
   },
@@ -8663,7 +10862,46 @@
     "Riot Beats"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "plAr3adKbyc",
+      "artist": "Atari Teenage Riot",
+      "title": "Speed",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/5c53aa3d9491c6a08337bd4a10d11fd5/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/plAr3adKbyc.jpg"
+      },
+      "album": "The Fast And The Furious: Tokyo Drift (Original Motion Picture Soundtrack)"
+     },
+     {
+      "youtubeId": "i8JBUktSxvQ",
+      "artist": "Atari Teenage Riot",
+      "title": "Revolution Action",
+      "year": 1999,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/21902db7529b06ad39029f790f346c05/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/i8JBUktSxvQ.jpg"
+      },
+      "album": "60 Second Wipe Out"
+     },
+     {
+      "youtubeId": "2JPrpYK5ALU",
+      "artist": "EC8OR",
+      "title": "Cocaine Ducks",
+      "year": 1996,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/2JPrpYK5ALU/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/2JPrpYK5ALU.jpg"
+      }
+     }
+    ],
     "actuel": []
    }
   },
@@ -8719,6 +10957,18 @@
        "local": "covers/_AWIqXzvX-U.jpg"
       },
       "album": "Selected Ambient Works Volume II (Expanded Edition)"
+     },
+     {
+      "youtubeId": "LKZ3fGR2SDY",
+      "artist": "Brian Eno",
+      "title": "1/1",
+      "year": 1978,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/LKZ3fGR2SDY/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/LKZ3fGR2SDY.jpg"
+      }
      }
     ],
     "actuel": []
@@ -8745,7 +10995,47 @@
     "Black Ambient"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "mW-ZbEHeICw",
+      "artist": "Lustmord",
+      "title": "Heresy Part I",
+      "year": 1990,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/f5/4f/ff/f54fff77-d68f-ac33-0c0a-9721a777e81a/mzi.bxaudvpk.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/mW-ZbEHeICw.jpg"
+      },
+      "album": "Heresy"
+     },
+     {
+      "youtubeId": "w1WwQmhVMDo",
+      "artist": "Atrium Carceri",
+      "title": "The Untold",
+      "year": 2003,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c8f129769b428839013c4cca0bb9a26d/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/w1WwQmhVMDo.jpg"
+      },
+      "album": "The Untold"
+     },
+     {
+      "youtubeId": "zEJCe-XpDQo",
+      "artist": "Desiderii Marginis",
+      "title": "Deadbeat",
+      "year": 2001,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/349a816d262e80f31ff43b6cb7c18f8d/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/zEJCe-XpDQo.jpg"
+      },
+      "album": "Deadbeat"
+     }
+    ],
     "actuel": []
    }
   },
@@ -8770,7 +11060,47 @@
     "Ambient Isolationism"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "rQ5Vl0UeKjM",
+      "artist": "Thomas Koner",
+      "title": "Permafrost",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/455459c6ecdfe24e3e5fc3f438e102e8/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/rQ5Vl0UeKjM.jpg"
+      },
+      "album": "Permafrost"
+     },
+     {
+      "youtubeId": "7bNaXlHBdXI",
+      "artist": "Lull",
+      "title": "Thoughts",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/9c535a70970d2b44326faba59c9117f9/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/7bNaXlHBdXI.jpg"
+      },
+      "album": "Alone I Admire"
+     },
+     {
+      "youtubeId": "P19LztCd4ws",
+      "artist": "Final",
+      "title": "Open",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/badd6c8ea4b01615aa40e55cbaf806fe/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/P19LztCd4ws.jpg"
+      },
+      "album": "Jumanji: Open World - The Final Countdown (Official Trailer Music)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -8795,7 +11125,45 @@
     "Comfy Synth"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "3KDMEiqi55s",
+      "artist": "Mortiis",
+      "title": "Fodt til a herske",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/3KDMEiqi55s/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/3KDMEiqi55s.jpg"
+      }
+     },
+     {
+      "youtubeId": "XKSu-wZChcQ",
+      "artist": "Secret Stairways",
+      "title": "Enchantment of the Ring",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/XKSu-wZChcQ/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/XKSu-wZChcQ.jpg"
+      }
+     },
+     {
+      "youtubeId": "tOqFr1AgYT4",
+      "artist": "Old Tower",
+      "title": "The Rise of the Specter",
+      "year": 2017,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/1b/cb/b9/1bcbb9c2-1fa4-1dea-fdec-8db5e8d2db52/5059741945397_cover.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/tOqFr1AgYT4.jpg"
+      },
+      "album": "The Rise of the Spectral Horizons"
+     }
+    ],
     "actuel": []
    }
   },
@@ -8825,7 +11193,47 @@
     "Drone Ambient"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "7c6uMbP4--E",
+      "artist": "Sunn O)))",
+      "title": "It Took the Night to Believe",
+      "year": 2005,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/89be467b68cc66a14350ea10553f0cf8/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/7c6uMbP4--E.jpg"
+      },
+      "album": "Black One"
+     },
+     {
+      "youtubeId": "-bc37fU36Vk",
+      "artist": "Stars of the Lid",
+      "title": "Requiem for Dying Mothers Part 1",
+      "year": 2001,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/ec212fb04a1e1c82ea415c98c85c7b17/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/-bc37fU36Vk.jpg"
+      },
+      "album": "The Tired Sounds of Stars of the Lid"
+     },
+     {
+      "youtubeId": "PNKTsJMYtPE",
+      "artist": "Tim Hecker",
+      "title": "Chimeras",
+      "year": 2006,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/dc071d18d27dfe5de684935bd26f2af9/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/PNKTsJMYtPE.jpg"
+      },
+      "album": "Harmony in Ultraviolet"
+     }
+    ],
     "actuel": []
    }
   },
@@ -8850,7 +11258,34 @@
     "Microsound"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "oO8HrG2h9pA",
+      "artist": "Steve Roden",
+      "title": "Forms of Paper",
+      "year": 2001,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/f8f7fc152d464f54f4c647b2abe9ea96/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/oO8HrG2h9pA.jpg"
+      },
+      "album": "Forms of Paper"
+     },
+     {
+      "youtubeId": "SrwXiqF_6YU",
+      "artist": "Taylor Deupree",
+      "title": "Northern",
+      "year": 2006,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/81d512c07b281ef7f80660866fd88a79/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/SrwXiqF_6YU.jpg"
+      },
+      "album": "Northern (Reissue)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -8883,7 +11318,47 @@
     "Ambient Dub Techno"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "MEc8_2NAy4E",
+      "artist": "The Orb",
+      "title": "Towers of Dub",
+      "year": 1992,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/a4093b9f6b29f8bdbf33ab7141600457/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/MEc8_2NAy4E.jpg"
+      },
+      "album": "U.F.Orb"
+     },
+     {
+      "youtubeId": "5E20iADAe6g",
+      "artist": "Banco de Gaia",
+      "title": "Last Train to Lhasa",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/f55ccacbfd122ba9a484484eeba1a0ed/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/5E20iADAe6g.jpg"
+      },
+      "album": "Last Train to Lhasa (Special Edition)"
+     },
+     {
+      "youtubeId": "lULTNk_fSvs",
+      "artist": "Dreadzone",
+      "title": "Zion Youth",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/28c5f8023d223d25eb7087b41f9851d1/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/lULTNk_fSvs.jpg"
+      },
+      "album": "Second Light"
+     }
+    ],
     "actuel": []
    }
   },
@@ -8911,7 +11386,33 @@
     "Illbient Dub"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "0fbzQv9Di6I",
+      "artist": "DJ Spooky",
+      "title": "Galactic Funk",
+      "year": 1996,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/fedec550975f5f76c24dd6890716da53/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/0fbzQv9Di6I.jpg"
+      },
+      "album": "Songs Of A Dead Dreamer"
+     },
+     {
+      "youtubeId": "PDHn_d5-2ag",
+      "artist": "Byzar",
+      "title": "Gaiatronyk",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/PDHn_d5-2ag/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/PDHn_d5-2ag.jpg"
+      }
+     }
+    ],
     "actuel": []
    }
   },
@@ -8936,7 +11437,47 @@
     "Musique Nouvel Age"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "LTrk4X9ACtw",
+      "artist": "Enya",
+      "title": "Orinoco Flow",
+      "year": 1988,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/8e7deeaa0d3ef9ff7b907f5c1da8c086/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/LTrk4X9ACtw.jpg"
+      },
+      "album": "Orinoco Flow (Sail Away) (Single Version)"
+     },
+     {
+      "youtubeId": "4F9DxYhqmKw",
+      "artist": "Enigma",
+      "title": "Sadeness Part I",
+      "year": 1990,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/41dcad59af06817cd5e1aa33ba6203a4/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/4F9DxYhqmKw.jpg"
+      },
+      "album": "Sadeness (Part I)"
+     },
+     {
+      "youtubeId": "lIF5EEneWEU",
+      "artist": "Deep Forest",
+      "title": "Sweet Lullaby",
+      "year": 1992,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/1fe6eca803849e20743a80fe73aabd26/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/lIF5EEneWEU.jpg"
+      },
+      "album": "Deep Forest's Sweet Lullaby Remixed"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9036,7 +11577,34 @@
     "Rephlex Sound"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "cmoFNya6P4Q",
+      "artist": "Luke Vibert",
+      "title": "I Love Acid",
+      "year": 2003,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/3fcbec55b2a751aedc9287847f840167/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/cmoFNya6P4Q.jpg"
+      },
+      "album": "YosepH"
+     },
+     {
+      "youtubeId": "WoxjgVXMA80",
+      "artist": "Cylob",
+      "title": "Cut the Midrange Drop the Bass",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/419ce601024a45e974690a77ce4cbd64/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/WoxjgVXMA80.jpg"
+      },
+      "album": "Cymply The Best 93-01"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9065,7 +11633,47 @@
     "Microsound"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "vvW6qiTkZdw",
+      "artist": "Oval",
+      "title": "Do While",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/179e59003c0cc8664641269fcd91fdba/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/vvW6qiTkZdw.jpg"
+      },
+      "album": "94diskont."
+     },
+     {
+      "youtubeId": "lGcPwGqPHO0",
+      "artist": "Fennesz",
+      "title": "Endless Summer",
+      "year": 2001,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/ab93a3d967e71a3a21b366386f7f7a25/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/lGcPwGqPHO0.jpg"
+      },
+      "album": "Endless Summer"
+     },
+     {
+      "youtubeId": "JZcMLjnm1ps",
+      "artist": "Ryoji Ikeda",
+      "title": "Data.Matrix",
+      "year": 2005,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/fc47afa30143788059bba53c49e9dfdd/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/JZcMLjnm1ps.jpg"
+      },
+      "album": "dataplex"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9099,7 +11707,47 @@
     "Chill"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "zNhHhtJ1reM",
+      "artist": "Thievery Corporation",
+      "title": "Lebanese Blonde",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/4222104ba8ba8329ba53c06ace71db38/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/zNhHhtJ1reM.jpg"
+      },
+      "album": "Mirror Conspiracy"
+     },
+     {
+      "youtubeId": "U_OKigBRqBI",
+      "artist": "Zero 7",
+      "title": "Destiny",
+      "year": 2001,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/81e0f50c101b0144784c30396f6436b9/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/U_OKigBRqBI.jpg"
+      },
+      "album": "RECORD"
+     },
+     {
+      "youtubeId": "-lqF7S2ifBw",
+      "artist": "Kruder and Dorfmeister",
+      "title": "High Noon",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/6a0676cc7144dff9b3a7a3e21b3d947f/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/-lqF7S2ifBw.jpg"
+      },
+      "album": "DJ-Kicks"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9205,7 +11853,47 @@
     "Wild Bunch Sound"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "MQa5ceYyNUM",
+      "artist": "Smith and Mighty",
+      "title": "Walk On By",
+      "year": 1988,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/e08ced4a250662ca1061e01055f6fac8/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/MQa5ceYyNUM.jpg"
+      },
+      "album": "Dope Classics"
+     },
+     {
+      "youtubeId": "FeuebY6Cypg",
+      "artist": "Fresh 4",
+      "title": "Wishing on a Star",
+      "year": 1989,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/80/75/b0/8075b045-9e74-ae33-6740-e9498cceb489/00602547278210.rgb.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/FeuebY6Cypg.jpg"
+      },
+      "album": "Wishing On a Star - Single"
+     },
+     {
+      "youtubeId": "3Y4gQNrXE2U",
+      "artist": "Massive Attack",
+      "title": "Daydreaming",
+      "year": 1990,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/81ba5b6bf32dcbf2e2dae244a7cfab51/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/3Y4gQNrXE2U.jpg"
+      },
+      "album": "Blue Lines (2012 Mix/Master)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9234,7 +11922,47 @@
     "Chillhop"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "hQ5x8pHoIPA",
+      "artist": "Nujabes",
+      "title": "Feather",
+      "year": 2005,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/19fe1e85a63aa738807339d79cd8cb2c/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/hQ5x8pHoIPA.jpg"
+      },
+      "album": "Free Soul Nujabes First Collection"
+     },
+     {
+      "youtubeId": "0vmhgotEByc",
+      "artist": "J Dilla",
+      "title": "Time: The Donut of the Heart",
+      "year": 2006,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/20dca341e5524df8e34036fa076bf42f/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/0vmhgotEByc.jpg"
+      },
+      "album": "Donuts"
+     },
+     {
+      "youtubeId": "qOif_ni_9zc",
+      "artist": "potsu",
+      "title": "just friends",
+      "year": 2017,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/334ecd62daba7193fdc12f28b240c6f0/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/qOif_ni_9zc.jpg"
+      },
+      "album": "just friends"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9263,7 +11991,47 @@
     "Ambient Chill"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "YUX8fUrKRNU",
+      "artist": "Air",
+      "title": "La Femme d'Argent",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/ad9d610ccd4da75f4cbabf0dccad4bff/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/YUX8fUrKRNU.jpg"
+      },
+      "album": "The Bluegrass Tribute To Air: Blue Safari"
+     },
+     {
+      "youtubeId": "qQNX2_-hlFY",
+      "artist": "The KLF",
+      "title": "Madrugada Eterna",
+      "year": 1990,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/538909650bb894e70582e73ed85f5d88/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/qQNX2_-hlFY.jpg"
+      },
+      "album": "The White Room (Director's Cut)"
+     },
+     {
+      "youtubeId": "Iy8cWNor7do",
+      "artist": "Jose Padilla",
+      "title": "Agua",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music3/v4/4a/aa/e6/4aaae646-1413-a28b-6122-72735bff5cb1/4250783663374_1448.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/Iy8cWNor7do.jpg"
+      },
+      "album": "Café del Mar Ibiza, Vol. 1 - 20th Anniversary Edition Incl. Bonus Tracks Selected by José Padilla (Remastered)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9292,7 +12060,47 @@
     "Cocktail Electronica"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "WsHY_4RW0_Y",
+      "artist": "De-Phazz",
+      "title": "The Mambo Craze",
+      "year": 1999,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c263676c6326fbcd0f7c0fc35d4e6e06/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/WsHY_4RW0_Y.jpg"
+      },
+      "album": "Ravin's Legendary Tunes"
+     },
+     {
+      "youtubeId": "voV-v_B__MY",
+      "artist": "Gotan Project",
+      "title": "Epoca",
+      "year": 2001,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/b9942ac235b1b42e129577c49e2ad265/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/voV-v_B__MY.jpg"
+      },
+      "album": "La revancha del tango"
+     },
+     {
+      "youtubeId": "9J_7QwB5Syk",
+      "artist": "Tosca",
+      "title": "Suzuki",
+      "year": 2000,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/adede08f0972b364c7e498fd35487b85/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/9J_7QwB5Syk.jpg"
+      },
+      "album": "Suzuki"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9321,7 +12129,47 @@
     "Balearic House"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "SHz0KGQ1r7c",
+      "artist": "A Man Called Adam",
+      "title": "Estelle",
+      "year": 1991,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c922d10fea850d5806901a2a69ea52c0/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/SHz0KGQ1r7c.jpg"
+      },
+      "album": "Duende"
+     },
+     {
+      "youtubeId": "k8W0yK9L6qE",
+      "artist": "Penguin Cafe Orchestra",
+      "title": "Music for a Found Harmonium",
+      "year": 1984,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/b7bdfa1db1354d124f680110644fcfcf/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/k8W0yK9L6qE.jpg"
+      },
+      "album": "Broadcasting From Home"
+     },
+     {
+      "youtubeId": "DXhqDeTSEl4",
+      "artist": "Sueno Latino",
+      "title": "Sueno Latino",
+      "year": 1989,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/b7ae85c21004783ea06eab51b73fcba3/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/DXhqDeTSEl4.jpg"
+      },
+      "album": "Super Campeones / Captain Tsubasa (Covers TV Size Español Latino/Japonés)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9354,7 +12202,47 @@
     "Chill House"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "tLxDRePUwEY",
+      "artist": "808 State",
+      "title": "Pacific State",
+      "year": 1989,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/3e11684e7cab0c209980d756f336dd72/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/tLxDRePUwEY.jpg"
+      },
+      "album": "ESP: The 808 State Effect"
+     },
+     {
+      "youtubeId": "V3rTTIGbrcc",
+      "artist": "The Grid",
+      "title": "Floatation",
+      "year": 1990,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/968c94b404859fe4ab49c83e60b5bcd6/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/V3rTTIGbrcc.jpg"
+      },
+      "album": "Electric Head (Plus Bonus Tracks)"
+     },
+     {
+      "youtubeId": "0nL1-jnCkfw",
+      "artist": "The Orb",
+      "title": "A Huge Ever Growing Pulsating Brain That Rules from the Centre of the Ultraworld",
+      "year": 1989,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/1c4f7886d60d4bdeb5c64af9911a5998/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/0nL1-jnCkfw.jpg"
+      },
+      "album": "The Orb - History Of The Future"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9383,7 +12271,47 @@
     "Electro Jazz"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "6QImCMjW-PM",
+      "artist": "St Germain",
+      "title": "Rose Rouge",
+      "year": 2000,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/ef0909ad6c77adb1d70e49040b678b88/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/6QImCMjW-PM.jpg"
+      },
+      "album": "Tourist (Remastered)"
+     },
+     {
+      "youtubeId": "Wxy_jMknE-Y",
+      "artist": "Koop",
+      "title": "Waltz for Koop",
+      "year": 2001,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/4d50eb0e8a2fb78deac6c9c9e95d701b/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/Wxy_jMknE-Y.jpg"
+      },
+      "album": "Waltz for Koop"
+     },
+     {
+      "youtubeId": "1EMVF8sCNFQ",
+      "artist": "The Cinematic Orchestra",
+      "title": "All Things to All Men",
+      "year": 2002,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/b21a42c7b6f3dcc283a62f7a171d7497/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/1EMVF8sCNFQ.jpg"
+      },
+      "album": "Every Day (20th Anniversary Edition)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9417,7 +12345,47 @@
     "Ambient Psy"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "rRW_zVeRp9I",
+      "artist": "Carbon Based Lifeforms",
+      "title": "Photosynthesis",
+      "year": 2006,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c7d6c555a94486aee6d8737ca316590f/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/rRW_zVeRp9I.jpg"
+      },
+      "album": "Photosynthesis (Remixes)"
+     },
+     {
+      "youtubeId": "ua3pqbWD8E0",
+      "artist": "Entheogenic",
+      "title": "Ground Luminosity",
+      "year": 2002,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/0ce4b1e2928edc2b0a7c6bcf0c64bc83/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/ua3pqbWD8E0.jpg"
+      },
+      "album": "Spontaneous Illumination"
+     },
+     {
+      "youtubeId": "lQvqqBsjy6o",
+      "artist": "Asura",
+      "title": "Lost Eden",
+      "year": 2001,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/cce8258e205f3c9d9091c67147519d24/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/lQvqqBsjy6o.jpg"
+      },
+      "album": "Chiller Waves"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9445,7 +12413,47 @@
     "Hypnagogic Pop"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "eEfy3KkEkTE",
+      "artist": "Washed Out",
+      "title": "Feel It All Around",
+      "year": 2009,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/0ecbf9d3c525b5c2a66ad389e5ef9283/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/eEfy3KkEkTE.jpg"
+      },
+      "album": "Life of Leisure"
+     },
+     {
+      "youtubeId": "qlJ27Dcv4fc",
+      "artist": "Neon Indian",
+      "title": "Deadbeat Summer",
+      "year": 2009,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/d8eaf7f414755ca44dc9e268af7aa8ac/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/qlJ27Dcv4fc.jpg"
+      },
+      "album": "Psychic Chasms"
+     },
+     {
+      "youtubeId": "y_9geXMrvGk",
+      "artist": "Toro y Moi",
+      "title": "Blessa",
+      "year": 2010,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c1b0bdabd44dec188459fea63f86c983/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/y_9geXMrvGk.jpg"
+      },
+      "album": "Causers Of This"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9473,7 +12481,47 @@
     "Acoustronica"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "CWTAOwgTbu4",
+      "artist": "Four Tet",
+      "title": "She Moves She",
+      "year": 2003,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/25f986593e8f970c0ddd7662d4938777/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/CWTAOwgTbu4.jpg"
+      },
+      "album": "Rounds (Special Anniversary Edition)"
+     },
+     {
+      "youtubeId": "BgqU6lrJwQY",
+      "artist": "The Books",
+      "title": "Take Time",
+      "year": 2003,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/be63da9b034b73e638091acaf3c958c0/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/BgqU6lrJwQY.jpg"
+      },
+      "album": "The Lemon of Pink (Remastered)"
+     },
+     {
+      "youtubeId": "AI1NgFYJCN4",
+      "artist": "Tunng",
+      "title": "Bullets",
+      "year": 2007,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/2a9dd5f690dbf4da0a7738cc12f5a327/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/AI1NgFYJCN4.jpg"
+      },
+      "album": "This Is Tunng... Live from the BBC"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9506,7 +12554,47 @@
     "Disco Mix"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "eXwNcoPFDrU",
+      "artist": "Double Exposure",
+      "title": "Ten Percent",
+      "year": 1976,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/9239fdc1580efbb5b92215190c67b249/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/eXwNcoPFDrU.jpg"
+      },
+      "album": "Grandmaster Flash Presents: Salsoul Jam 2000"
+     },
+     {
+      "youtubeId": "WQv6E8acn7o",
+      "artist": "Instant Funk",
+      "title": "I Got My Mind Made Up",
+      "year": 1978,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/e5b202012cdcdc9189decc18fa180570/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/WQv6E8acn7o.jpg"
+      },
+      "album": "Instant Funk (Remastered 2022)"
+     },
+     {
+      "youtubeId": "SeM-ANuGldQ",
+      "artist": "First Choice",
+      "title": "Let No Man Put Asunder",
+      "year": 1983,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/1a11ed67ac1396446e40c6ffed3dedf3/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/SeM-ANuGldQ.jpg"
+      },
+      "album": "Delusions (Bonus Version)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9534,7 +12622,47 @@
     "Proto-House"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "_mCwO_uKQv8",
+      "artist": "Was (Not Was)",
+      "title": "Wheel Me Out",
+      "year": 1980,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/ecc4ce35d07b00512abea7429ba86052/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/_mCwO_uKQv8.jpg"
+      },
+      "album": "Wheel Me out Edits - EP"
+     },
+     {
+      "youtubeId": "w6VKgfwqnOY",
+      "artist": "ESG",
+      "title": "Moody",
+      "year": 1981,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/3bf1f09db94688c71b0da8b79b9ac646/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/w6VKgfwqnOY.jpg"
+      },
+      "album": "Dance to the Best of ESG"
+     },
+     {
+      "youtubeId": "aLZdv0BrSZE",
+      "artist": "Peech Boys",
+      "title": "Don't Make Me Wait",
+      "year": 1982,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/8701101ea31e904e576dfbf221745071/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/aLZdv0BrSZE.jpg"
+      },
+      "album": "Life Is Something Special"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9563,7 +12691,34 @@
     "New Italo"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "dzKlAggR8LM",
+      "artist": "Sally Shapiro",
+      "title": "I'll Be by Your Side",
+      "year": 2006,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/2e062f372f0cecbfed62fc419a26db43/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/dzKlAggR8LM.jpg"
+      },
+      "album": "Disco Romance"
+     },
+     {
+      "youtubeId": "_XPTdQXdzJo",
+      "artist": "Italoconnection",
+      "title": "Metropoli",
+      "year": 2015,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/6186e02e3b46635bdc6ee18e6e0c502d/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/_XPTdQXdzJo.jpg"
+      },
+      "album": "Metropoli"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9592,7 +12747,34 @@
     "Disco-Punk"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "FT4fZnNiWnY",
+      "artist": "Liquid Liquid",
+      "title": "Cavern",
+      "year": 1983,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/179a450a5f4070a4082b9e44c0e8e55b/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/FT4fZnNiWnY.jpg"
+      },
+      "album": "Black"
+     },
+     {
+      "youtubeId": "bhYP_aPvZTE",
+      "artist": "Gang of Four",
+      "title": "Damaged Goods",
+      "year": 1978,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/72a0c969f20a9a37195ae37037fa3dcc/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/bhYP_aPvZTE.jpg"
+      },
+      "album": "Live at Fisher College, Rochester, NY, USA - 25th Feb 1983"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9620,7 +12802,47 @@
     "Tribal Progressive"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "WzvowT6qwCQ",
+      "artist": "Danny Tenaglia",
+      "title": "Elements",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/bb09696b6698077ffe5516511f727dde/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/WzvowT6qwCQ.jpg"
+      },
+      "album": "Elements"
+     },
+     {
+      "youtubeId": "P6UZoVPZQys",
+      "artist": "Junior Vasquez",
+      "title": "Get Your Hands Off My Man",
+      "year": 1994,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/35b5d95fd51e2e8fd1591d50760dda53/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/P6UZoVPZQys.jpg"
+      },
+      "album": "Get Your Hands Off My Man"
+     },
+     {
+      "youtubeId": "qFziCJodPyU",
+      "artist": "Cevin Fisher",
+      "title": "The Freaks Come Out",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/175db1a4db14a6601a7a6e7309ed5eb3/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/qFziCJodPyU.jpg"
+      },
+      "album": "The Freaks Come Out"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9654,7 +12876,47 @@
     "African House"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "JjWaET5AWCw",
+      "artist": "Black Coffee",
+      "title": "We Dance Again",
+      "year": 2015,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/5aad9e0ba5012a503855874f7df9f377/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/JjWaET5AWCw.jpg"
+      },
+      "album": "We Dance Again"
+     },
+     {
+      "youtubeId": "zd9Jbjtaktk",
+      "artist": "Culoe De Song",
+      "title": "Webaba",
+      "year": 2009,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/7c4f8b39e20c0da86ec2164bd03a298b/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/zd9Jbjtaktk.jpg"
+      },
+      "album": "A Giant Leap"
+     },
+     {
+      "youtubeId": "tIckdwffbck",
+      "artist": "Da Capo",
+      "title": "Afrika",
+      "year": 2014,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/e4936a93074024e3c7dde6a7214b20d6/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/tIckdwffbck.jpg"
+      },
+      "album": "Afrika (Louie Vega Remixes)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9688,7 +12950,47 @@
     "NJ Sound"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "7OSMjaU4Kzg",
+      "artist": "Masters at Work",
+      "title": "To Be in Love",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/47c97b301d7fefebcfe7cfa1c4a978fb/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/7OSMjaU4Kzg.jpg"
+      },
+      "album": "To Be In Love ('99 Remixes)"
+     },
+     {
+      "youtubeId": "weyCHkdL-HI",
+      "artist": "Kerri Chandler",
+      "title": "Rain",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/766fb5f9ccc4380aef7478d5bc5d103e/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/weyCHkdL-HI.jpg"
+      },
+      "album": "Kerri Chandler's Nervous Tracks"
+     },
+     {
+      "youtubeId": "cjcqfJlYPd4",
+      "artist": "Blaze",
+      "title": "Lovelee Dae",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/fecdf39317ed09188ece50adcb613548/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/cjcqfJlYPd4.jpg"
+      },
+      "album": "Lovelee Dae"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9716,7 +13018,47 @@
     "Tribal Latin"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "VJPwhdS25j4",
+      "artist": "Ralphi Rosario",
+      "title": "You Used to Hold Me",
+      "year": 1987,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/f69910955407c566bfae53698d1e6f60/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/VJPwhdS25j4.jpg"
+      },
+      "album": "The Remixes 2000-2015"
+     },
+     {
+      "youtubeId": "w5qyIdqAyCk",
+      "artist": "Liberty City",
+      "title": "Some Lovin'",
+      "year": 1992,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/f2/51/ae/f251ae4e-6bda-da60-4cad-259163a7f4d5/802560014776.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/w5qyIdqAyCk.jpg"
+      },
+      "album": "fabric 74: Move D"
+     },
+     {
+      "youtubeId": "Dyb5uL5lP7U",
+      "artist": "David Morales",
+      "title": "In de Ghetto",
+      "year": 1996,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/cff39cd85f3b07170561e416db4abb4b/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/Dyb5uL5lP7U.jpg"
+      },
+      "album": "In De Ghetto"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9749,7 +13091,47 @@
     "Ghetto"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "hZlJKaR2Apg",
+      "artist": "DJ Deeon",
+      "title": "Freak Like Me",
+      "year": 1996,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/da7f47647b89789e305847f86ce17837/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/hZlJKaR2Apg.jpg"
+      },
+      "album": "Deeon Doez Deeon!"
+     },
+     {
+      "youtubeId": "XMxB4KXqVpA",
+      "artist": "DJ Funk",
+      "title": "Pump It",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/876fe909433c454df2d4190ae4bcf30d/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/XMxB4KXqVpA.jpg"
+      },
+      "album": "Pump It (Remixes)"
+     },
+     {
+      "youtubeId": "7U_BUIT1axg",
+      "artist": "Paul Johnson",
+      "title": "Feel My M.F. Bass",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/195992defe8841aff0c36f390ecbad7d/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/7U_BUIT1axg.jpg"
+      },
+      "album": "Hardcore Traxx: Dance Mania Records 1986-1995"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9776,7 +13158,47 @@
     "Chicago Juke"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "OCJTtDJT2Hc",
+      "artist": "DJ Gant-Man",
+      "title": "Juke Dat Girl",
+      "year": 2005,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/7d3c63682ba17bdc8ccb0b73a25c1a1b/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/OCJTtDJT2Hc.jpg"
+      },
+      "album": "Juke Dat Girl"
+     },
+     {
+      "youtubeId": "pV2GN8b6e9o",
+      "artist": "DJ Clent",
+      "title": "Back Up Off Me",
+      "year": 2004,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/f6f413e681d7d14d461e403a0998e82b/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/pV2GN8b6e9o.jpg"
+      },
+      "album": "Back Up Off Me"
+     },
+     {
+      "youtubeId": "V57-runa4v4",
+      "artist": "DJ Slugo",
+      "title": "Freaky Ride",
+      "year": 2002,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/eba28597962a6cd74948f6c233a81b44/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/V57-runa4v4.jpg"
+      },
+      "album": "Dance Mania Ghetto Classics Vol. 1"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9804,7 +13226,21 @@
     "Chicago Footwork"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "ZzEK5Z9ALU8",
+      "artist": "DJ Rashad",
+      "title": "Feelin",
+      "year": 2013,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/34e389caa01bcfff5d6a8d120d23037d/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/ZzEK5Z9ALU8.jpg"
+      },
+      "album": "Double Cup"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9837,7 +13273,47 @@
     "Bass House EDM"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "hkYq02183fc",
+      "artist": "Jauz",
+      "title": "Feel the Volume",
+      "year": 2015,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/d14a04dbbbca77f80a0d297756127ae6/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/hkYq02183fc.jpg"
+      },
+      "album": "Feel The Volume"
+     },
+     {
+      "youtubeId": "22MWrWPV_QM",
+      "artist": "Skrillex and Habstrakt",
+      "title": "Chicken Soup",
+      "year": 2018,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/cd/ca/13/cdca139d-bd47-8fec-1bee-5b4039ee3265/075679895509.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/22MWrWPV_QM.jpg"
+      },
+      "album": "HOWSLA"
+     },
+     {
+      "youtubeId": "8bCkadgRskA",
+      "artist": "Joyryde",
+      "title": "Hot Drum",
+      "year": 2017,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/9bf1946d8e6de7e3806b73b14c44977a/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/8bCkadgRskA.jpg"
+      },
+      "album": "HOT DRUM"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9864,7 +13340,47 @@
     "Future House EDM"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "f1IDFqzk1XA",
+      "artist": "Oliver Heldens",
+      "title": "Gecko",
+      "year": 2014,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/215ce468f012e22bc7694996e617839a/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/f1IDFqzk1XA.jpg"
+      },
+      "album": "Gecko (Overdrive) (Radio Edit)"
+     },
+     {
+      "youtubeId": "CH0FbBuPlaQ",
+      "artist": "Tchami",
+      "title": "Promesses",
+      "year": 2014,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c3dae44eb317e797f605b92945862e27/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/CH0FbBuPlaQ.jpg"
+      },
+      "album": "Promesses"
+     },
+     {
+      "youtubeId": "r6E3J4GPpjc",
+      "artist": "Don Diablo",
+      "title": "On My Mind",
+      "year": 2015,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/0bcc31c59c4b9c93720469db335a68f1/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/r6E3J4GPpjc.jpg"
+      },
+      "album": "On My Mind"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9893,7 +13409,46 @@
     "Outsider House"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "ar9qA3WJInk",
+      "artist": "DJ Boring",
+      "title": "Winona",
+      "year": 2016,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/1c521610f77c30d5668878a4587a8ed3/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/ar9qA3WJInk.jpg"
+      },
+      "album": "Winona"
+     },
+     {
+      "youtubeId": "s93kHQe8Upc",
+      "artist": "Ross from Friends",
+      "title": "Talk to Me You'll Understand",
+      "year": 2015,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/bbeefe9e41dfd801fe5bc1e4f4ae15f0/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/s93kHQe8Upc.jpg"
+      },
+      "album": "You'll Understand"
+     },
+     {
+      "youtubeId": "g6eu1Wb8CVE",
+      "artist": "DJ Seinfeld",
+      "title": "U",
+      "year": 2017,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/g6eu1Wb8CVE/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/g6eu1Wb8CVE.jpg"
+      }
+     }
+    ],
     "actuel": []
    }
   },
@@ -9921,7 +13476,34 @@
     "Yanos"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "kjgzYp1Cm4Y",
+      "artist": "Young Stunna",
+      "title": "Adiwele",
+      "year": 2021,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/0fc8206286e14875a00f85e0fd5874e9/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/kjgzYp1Cm4Y.jpg"
+      },
+      "album": "Notumato"
+     },
+     {
+      "youtubeId": "P2NHpLvs2xU",
+      "artist": "Mapara A Jazz",
+      "title": "John Vuli Gate",
+      "year": 2020,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/0f04ce3fdeb840606b1ef81aa9c26f89/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/P2NHpLvs2xU.jpg"
+      },
+      "album": "John Vuli Gate (feat. Ntosh Gazi & Colano)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9949,7 +13531,47 @@
     "Sgubhu"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "9ycr4BI8I94",
+      "artist": "DJ Lag",
+      "title": "Ice Drop",
+      "year": 2016,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/051fd3fe968ad02373cee19fba33a712/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/9ycr4BI8I94.jpg"
+      },
+      "album": "DJ Lag EP"
+     },
+     {
+      "youtubeId": "bu_hL0iBUmI",
+      "artist": "Babes Wodumo",
+      "title": "Wololo",
+      "year": 2016,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/bbe4735b2aa1bd87d19ddb835a819adb/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/bu_hL0iBUmI.jpg"
+      },
+      "album": "Gqom Queen, Vol. 1"
+     },
+     {
+      "youtubeId": "lYE2tQxJ1mQ",
+      "artist": "Distruction Boyz",
+      "title": "Omunye",
+      "year": 2017,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/e62225d6d0b5f64ac4c387f812fc74b9/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/lYE2tQxJ1mQ.jpg"
+      },
+      "album": "Gqom Is the Future"
+     }
+    ],
     "actuel": []
    }
   },
@@ -9982,7 +13604,47 @@
     "Belgian Rave"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "maOM81a-Gyg",
+      "artist": "Joey Beltram",
+      "title": "Energy Flash",
+      "year": 1990,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/7f0eeee5499336785af668a79ec2f50d/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/maOM81a-Gyg.jpg"
+      },
+      "album": "Classics"
+     },
+     {
+      "youtubeId": "200tmiDdht0",
+      "artist": "Outlander",
+      "title": "Vamp",
+      "year": 1991,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/9b7b3eebb12e3481ea7f61614364f387/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/200tmiDdht0.jpg"
+      },
+      "album": "Vamp"
+     },
+     {
+      "youtubeId": "Nkbqxr4Ht7k",
+      "artist": "CJ Bolland",
+      "title": "Horsepower",
+      "year": 1991,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/b423c6aaafeaf64caf7f4433728af7df/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/Nkbqxr4Ht7k.jpg"
+      },
+      "album": "Horsepower (Christian Smith Tronic Treatment Remix)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -10015,7 +13677,34 @@
     "British Techno"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "fZ1xP6WXPLY",
+      "artist": "Surgeon",
+      "title": "Magneze",
+      "year": 1996,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/fdfcf9427cb78037582fd1944da7722e/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/fZ1xP6WXPLY.jpg"
+      },
+      "album": "Surgeon (2014 Remaster)"
+     },
+     {
+      "youtubeId": "OvgedNSuduY",
+      "artist": "Surgeon",
+      "title": "Atol",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/fdfcf9427cb78037582fd1944da7722e/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/OvgedNSuduY.jpg"
+      },
+      "album": "Surgeon (2014 Remaster)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -10043,7 +13732,33 @@
     "Deep Hypnotic Techno"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "S5oo_HMCO3E",
+      "artist": "Voices from the Lake",
+      "title": "Iyo",
+      "year": 2012,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/86dfc2116ec65505e1fd59eaabb2a0e8/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/S5oo_HMCO3E.jpg"
+      },
+      "album": "Voices from the Lake(2023 Edition)"
+     },
+     {
+      "youtubeId": "AA2WEkdXwZg",
+      "artist": "Claudio PRC",
+      "title": "Volumi Dinamici",
+      "year": 2015,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/AA2WEkdXwZg/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/AA2WEkdXwZg.jpg"
+      }
+     }
+    ],
     "actuel": []
    }
   },
@@ -10081,7 +13796,47 @@
     "Afterlife Sound"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "AaxFuXpcQmE",
+      "artist": "Stephan Bodzin",
+      "title": "Singularity",
+      "year": 2015,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/7e4d54f447e41807f276507eb4a7017d/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/AaxFuXpcQmE.jpg"
+      },
+      "album": "Powers of Ten"
+     },
+     {
+      "youtubeId": "ZBM3DCf-t-M",
+      "artist": "Tale of Us",
+      "title": "North Star",
+      "year": 2013,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/578fd94a565087babbeba6d0642fc89e/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/ZBM3DCf-t-M.jpg"
+      },
+      "album": "North Star / Silent Space"
+     },
+     {
+      "youtubeId": "hSZH1k5SwzU",
+      "artist": "Mathame",
+      "title": "Nothing Around Us",
+      "year": 2018,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/bee5d1c35071250b6947378ff77b9c5d/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/hSZH1k5SwzU.jpg"
+      },
+      "album": "Nothing Around Us"
+     }
+    ],
     "actuel": []
    }
   },
@@ -10109,7 +13864,47 @@
     "Mainstage Techno"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "1-ZU3bCEGqQ",
+      "artist": "Charlotte de Witte",
+      "title": "Doppler",
+      "year": 2018,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/2634685d4c9e34156213fbba564420d4/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/1-ZU3bCEGqQ.jpg"
+      },
+      "album": "Formula EP"
+     },
+     {
+      "youtubeId": "NyTv1PwyU_Q",
+      "artist": "Amelie Lens",
+      "title": "Higher",
+      "year": 2017,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/dc1ff3d03ff2290778e08ec142b4cc9c/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/NyTv1PwyU_Q.jpg"
+      },
+      "album": "Higher EP"
+     },
+     {
+      "youtubeId": "KSR6DcpQcyE",
+      "artist": "Enrico Sangiuliano",
+      "title": "Astral Projection",
+      "year": 2018,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/960b8e1eb1c4f6efb3b5379166a2bc56/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/KSR6DcpQcyE.jpg"
+      },
+      "album": "Astral Projection"
+     }
+    ],
     "actuel": []
    }
   },
@@ -10142,7 +13937,46 @@
     "UK Broken Techno"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "1mR6zmSTDNE",
+      "artist": "Blawan",
+      "title": "Why They Hide Their Bodies Under My Garage",
+      "year": 2012,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/1mR6zmSTDNE/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/1mR6zmSTDNE.jpg"
+      }
+     },
+     {
+      "youtubeId": "SDRNdNXBZcQ",
+      "artist": "Objekt",
+      "title": "Theme from Q",
+      "year": 2017,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/02bd5e11df828ce7cca935911f3aa572/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/SDRNdNXBZcQ.jpg"
+      },
+      "album": "Objekt #4"
+     },
+     {
+      "youtubeId": "SRVxRUJxITY",
+      "artist": "Overmono",
+      "title": "So U Kno",
+      "year": 2021,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/50937ac0c81a285f0323a28b11885ba0/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/SRVxRUJxITY.jpg"
+      },
+      "album": "fabric presents Overmono (Mixed)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -10204,7 +14038,46 @@
     "Click Techno"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "AI3vAFYeMUo",
+      "artist": "Thomas Brinkmann",
+      "title": "Isch",
+      "year": 2000,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/f24c50705a40c580fdf5abf71793473a/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/AI3vAFYeMUo.jpg"
+      },
+      "album": "Isch"
+     },
+     {
+      "youtubeId": "SrwRBJup3uk",
+      "artist": "SND",
+      "title": "Travelog",
+      "year": 2002,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/SrwRBJup3uk/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/SrwRBJup3uk.jpg"
+      }
+     },
+     {
+      "youtubeId": "QYMv10eq4MA",
+      "artist": "Alva Noto",
+      "title": "Xerrox Phaser Acat 1",
+      "year": 2007,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/545cd0686fba4e4193ab34c5b963bf08/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/QYMv10eq4MA.jpg"
+      },
+      "album": "Xerrox, Vol. 2"
+     }
+    ],
     "actuel": []
    }
   },
@@ -10238,7 +14111,47 @@
     "Cold Minimal Wave"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "caP3tAmMEbc",
+      "artist": "Oppenheimer Analysis",
+      "title": "The Devil's Dancers",
+      "year": 1982,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/d4d6be2f11f544081a12c0c2bb52a90b/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/caP3tAmMEbc.jpg"
+      },
+      "album": "New Mexico"
+     },
+     {
+      "youtubeId": "Oeml4QthUu4",
+      "artist": "Crash Course in Science",
+      "title": "Flying Turns",
+      "year": 1981,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/56fa8ad4491e21eec248f30b6c949e39/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/Oeml4QthUu4.jpg"
+      },
+      "album": "Signals from Pier Thirteen"
+     },
+     {
+      "youtubeId": "HcaBan2Nazc",
+      "artist": "Martin Dupont",
+      "title": "Just Because",
+      "year": 1984,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/ab3ec3da0f0fd02adff65de6002ea871/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/HcaBan2Nazc.jpg"
+      },
+      "album": "Lost and Late..."
+     }
+    ],
     "actuel": []
    }
   },
@@ -10271,7 +14184,34 @@
     "Hands Up Trance"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "1DcABTJoWCc",
+      "artist": "ATB",
+      "title": "9PM Till I Come",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/06ad6042750464941103c80e5e02d1cc/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/1DcABTJoWCc.jpg"
+      },
+      "album": "Movin' Melodies"
+     },
+     {
+      "youtubeId": "y6120QOlsfU",
+      "artist": "Darude",
+      "title": "Sandstorm",
+      "year": 1999,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/44e790820c6d49aeb51398bc2fdb7ac9/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/y6120QOlsfU.jpg"
+      },
+      "album": "Sandstorm"
+     }
+    ],
     "actuel": []
    }
   },
@@ -10299,7 +14239,47 @@
     "Trance Anthem"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "QKwK-ZhTurg",
+      "artist": "Binary Finary",
+      "title": "1998",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/7b83a86ab575e22de4e7438d6167cd1d/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/QKwK-ZhTurg.jpg"
+      },
+      "album": "1998"
+     },
+     {
+      "youtubeId": "8pib0QJck10",
+      "artist": "Three Drives",
+      "title": "Greece 2000",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/5d28ccc078b73a8caac03d4d13d7eacd/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/8pib0QJck10.jpg"
+      },
+      "album": "Greece 2000"
+     },
+     {
+      "youtubeId": "--3eIRSg2RY",
+      "artist": "Paul van Dyk",
+      "title": "For an Angel",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/ce7ac88dab79a0d4a5482557822234ad/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/--3eIRSg2RY.jpg"
+      },
+      "album": "For An Angel"
+     }
+    ],
     "actuel": []
    }
   },
@@ -10327,7 +14307,47 @@
     "Sunset Trance"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "uTJtfytoYy4",
+      "artist": "Chicane",
+      "title": "Saltwater",
+      "year": 1999,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/8c5aaaf2b3adb5ae2393598e75270dc1/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/uTJtfytoYy4.jpg"
+      },
+      "album": "Saltwater"
+     },
+     {
+      "youtubeId": "UAv2s4Q2wwI",
+      "artist": "Chicane",
+      "title": "Offshore",
+      "year": 1996,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/a2bce4adf11a311137068d3396eb5087/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/UAv2s4Q2wwI.jpg"
+      },
+      "album": "Offshore"
+     },
+     {
+      "youtubeId": "qePY9hcWTbQ",
+      "artist": "Agnelli and Nelson",
+      "title": "El Nino",
+      "year": 1998,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/62c5da660e6ec43e7d7b6c72546557d4/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/qePY9hcWTbQ.jpg"
+      },
+      "album": "El Niño"
+     }
+    ],
     "actuel": []
    }
   },
@@ -10355,7 +14375,47 @@
     "Epic Orchestral Trance"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "o-T61s1_5RM",
+      "artist": "Andy Blueman",
+      "title": "Sea Tides",
+      "year": 2009,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/48082b2e9fcff7121c0b156f38f8a2a3/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/o-T61s1_5RM.jpg"
+      },
+      "album": "Sea Tides"
+     },
+     {
+      "youtubeId": "r0lvZuZeEMw",
+      "artist": "Tiesto",
+      "title": "Elements of Life",
+      "year": 2007,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/d898e229c10e5b2b2c86b0f5639bb5bb/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/r0lvZuZeEMw.jpg"
+      },
+      "album": "Elements Of Life"
+     },
+     {
+      "youtubeId": "ckDS83s2rFg",
+      "artist": "Daniel Kandi",
+      "title": "Breathe",
+      "year": 2007,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/43a4c59f336800f8d401c2b2516c530a/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/ckDS83s2rFg.jpg"
+      },
+      "album": "Breathe"
+     }
+    ],
     "actuel": []
    }
   },
@@ -10449,7 +14509,20 @@
     "Psychedelic Techno"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "d6e7pILmRuU",
+      "artist": "Gaudium",
+      "title": "Ganesh",
+      "year": 2008,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/d6e7pILmRuU/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/d6e7pILmRuU.jpg"
+      }
+     }
+    ],
     "actuel": []
    }
   },
@@ -10510,7 +14583,47 @@
     "Morning Trance"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "lIuEuJvKos4",
+      "artist": "Astrix",
+      "title": "Deep Jungle Walk",
+      "year": 2016,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/912fd4a95036bacae3874fed5dc8ffc0/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/lIuEuJvKos4.jpg"
+      },
+      "album": "He.art"
+     },
+     {
+      "youtubeId": "DZeakkab7kQ",
+      "artist": "Ace Ventura",
+      "title": "Rebirth",
+      "year": 2008,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/8691a5d54b49aaa1092b731a13a64079/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/DZeakkab7kQ.jpg"
+      },
+      "album": "Rebirth (Faders & Blazy Remix)"
+     },
+     {
+      "youtubeId": "3_YBIeU7VSU",
+      "artist": "Vini Vici",
+      "title": "The Tribe",
+      "year": 2015,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/3e4576acc876a6ee1210a16065cde075/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/3_YBIeU7VSU.jpg"
+      },
+      "album": "Future Classics"
+     }
+    ],
     "actuel": []
    }
   },
@@ -10538,7 +14651,33 @@
     "Goa Revival"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "3FLq2u6F_ZU",
+      "artist": "Filteria",
+      "title": "Sky Input",
+      "year": 2004,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/a3bff6764fc3b1f7691be07e00708380/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/3FLq2u6F_ZU.jpg"
+      },
+      "album": "Sky Input"
+     },
+     {
+      "youtubeId": "OtHbr_c4j2M",
+      "artist": "Median Project",
+      "title": "In the Depth of Space",
+      "year": 2015,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/OtHbr_c4j2M/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/OtHbr_c4j2M.jpg"
+      }
+     }
+    ],
     "actuel": []
    }
   },
@@ -10563,7 +14702,46 @@
     "Heavy Electronics"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "_1xwp61SEYw",
+      "artist": "Whitehouse",
+      "title": "Wriggle Like a Fucking Eel",
+      "year": 2003,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/_1xwp61SEYw/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/_1xwp61SEYw.jpg"
+      }
+     },
+     {
+      "youtubeId": "1XRQBHNDXmE",
+      "artist": "Prurient",
+      "title": "Military Road",
+      "year": 2006,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/4093565289ac308a5810f2371dcc66a9/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/1XRQBHNDXmE.jpg"
+      },
+      "album": "Pleasure Ground"
+     },
+     {
+      "youtubeId": "_JsmnV_-cwA",
+      "artist": "Genocide Organ",
+      "title": "Mind Control",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/8c4172499295ac242261587cc9b07227/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/_JsmnV_-cwA.jpg"
+      },
+      "album": ":Remember:"
+     }
+    ],
     "actuel": []
    }
   },
@@ -10596,7 +14774,33 @@
     "Rhythmic Industrial"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "XOiDJbW5DyI",
+      "artist": "Imminent Starvation",
+      "title": "Nord",
+      "year": 1999,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/XOiDJbW5DyI/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/XOiDJbW5DyI.jpg"
+      }
+     },
+     {
+      "youtubeId": "FXk51r0mixU",
+      "artist": "Converter",
+      "title": "Coma",
+      "year": 2001,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/943c288ea80cd4d25a2dadde2cb47cbf/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/FXk51r0mixU.jpg"
+      },
+      "album": "Coma"
+     }
+    ],
     "actuel": []
    }
   },
@@ -10629,7 +14833,47 @@
     "Ethereal Wave"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "x3fsh8JefvM",
+      "artist": "Clan of Xymox",
+      "title": "A Day",
+      "year": 1985,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/d8f42ebadb7a809782fadfd4e3c313af/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/x3fsh8JefvM.jpg"
+      },
+      "album": "Clan Of Xymox"
+     },
+     {
+      "youtubeId": "WPw7nlluRdc",
+      "artist": "Lebanon Hanover",
+      "title": "Gallowdance",
+      "year": 2013,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/b9b5eb1040987b4f4b9687ab8cdff3d6/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/WPw7nlluRdc.jpg"
+      },
+      "album": "Tomb for Two"
+     },
+     {
+      "youtubeId": "12CObTQqxlc",
+      "artist": "Deine Lakaien",
+      "title": "Love Me to the End",
+      "year": 1991,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/eae75fae412758624461b0dfc7d8c09a/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/12CObTQqxlc.jpg"
+      },
+      "album": "1987 - The Lost Early Works"
+     }
+    ],
     "actuel": []
    }
   },
@@ -10657,7 +14901,47 @@
     "Machine Rock"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "Ypkv0HeUvTc",
+      "artist": "Marilyn Manson",
+      "title": "The Beautiful People",
+      "year": 1996,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/821c89c0e9e399c8a91027f6b019142a/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/Ypkv0HeUvTc.jpg"
+      },
+      "album": "Antichrist Superstar"
+     },
+     {
+      "youtubeId": "9qKCDJAFkWo",
+      "artist": "KMFDM",
+      "title": "A Drug Against War",
+      "year": 1993,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/4bed0895429fba27bb92e46810a1a761/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/9qKCDJAFkWo.jpg"
+      },
+      "album": "Angst"
+     },
+     {
+      "youtubeId": "E0E0ynyIUsg",
+      "artist": "White Zombie",
+      "title": "More Human than Human",
+      "year": 1995,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/9a3d73784b6bfc7fe5905f06967f6db1/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/E0E0ynyIUsg.jpg"
+      },
+      "album": "Astro Creep: 2000 Songs Of Love, Destruction And Other Synthetic Delusions Of The Electric Head"
+     }
+    ],
     "actuel": []
    }
   },
@@ -10689,7 +14973,47 @@
     "Future Pop"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "Kfc3zcnrWMQ",
+      "artist": "VNV Nation",
+      "title": "Beloved",
+      "year": 2002,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/9b78aeb82ae90e53a8a431ca15f6cd18/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/Kfc3zcnrWMQ.jpg"
+      },
+      "album": "Futureperfect"
+     },
+     {
+      "youtubeId": "7eDkFlVSwnk",
+      "artist": "Covenant",
+      "title": "Call the Ships to Port",
+      "year": 2002,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/56b7ef6dcf94b8772958fe055577cf1d/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/7eDkFlVSwnk.jpg"
+      },
+      "album": "Northern Light"
+     },
+     {
+      "youtubeId": "hgX5JSFsRz4",
+      "artist": "Apoptygma Berzerk",
+      "title": "Kathy's Song",
+      "year": 2000,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/954fc621de4f9c603b9cd36a90a7c02b/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/hgX5JSFsRz4.jpg"
+      },
+      "album": "Kathy's Song XXV"
+     }
+    ],
     "actuel": []
    }
   },
@@ -10718,7 +15042,45 @@
     "Harsh EBM"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "RibfuH4yF04",
+      "artist": "Combichrist",
+      "title": "This Shit Will Fuck You Up",
+      "year": 2005,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/RibfuH4yF04/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/RibfuH4yF04.jpg"
+      }
+     },
+     {
+      "youtubeId": "89eNGn2X8nI",
+      "artist": "Hocico",
+      "title": "Born to Be Hated",
+      "year": 2002,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/9b4d045986998c82021da6d1e489560c/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/89eNGn2X8nI.jpg"
+      },
+      "album": "Wrack and Ruin"
+     },
+     {
+      "youtubeId": "OxlH3_kecQ4",
+      "artist": "Grendel",
+      "title": "Zombie Nation",
+      "year": 2006,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/OxlH3_kecQ4/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/OxlH3_kecQ4.jpg"
+      }
+     }
+    ],
     "actuel": []
    }
   },
@@ -10746,7 +15108,45 @@
     "Darkside DnB"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "dvjeQbYEAB0",
+      "artist": "Panacea",
+      "title": "Torture",
+      "year": 1997,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/dvjeQbYEAB0/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/dvjeQbYEAB0.jpg"
+      }
+     },
+     {
+      "youtubeId": "SVwTF7Nw3-w",
+      "artist": "Technical Itch",
+      "title": "The Rukus",
+      "year": 2003,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/SVwTF7Nw3-w/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/SVwTF7Nw3-w.jpg"
+      }
+     },
+     {
+      "youtubeId": "cnA2qjy6c0g",
+      "artist": "Limewax",
+      "title": "Everything",
+      "year": 2006,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c5fee25829e86f74a07c4e212038ada3/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/cnA2qjy6c0g.jpg"
+      },
+      "album": "Scars on the Horizon (2017 Remaster)"
+     }
+    ],
     "actuel": []
    }
   },
@@ -10779,7 +15179,46 @@
     "Garage Breaks"
    ],
    "tracks": {
-    "essentiel": [],
+    "essentiel": [
+     {
+      "youtubeId": "InxBNJ-wPz8",
+      "artist": "Menta",
+      "title": "Snake Charmer",
+      "year": 2001,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/a4/8e/82/a48e8280-5c58-285d-a3d8-69af1fe9db5e/7daaa235-50c4-49cd-8aa1-a958cdba4866.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/InxBNJ-wPz8.jpg"
+      },
+      "album": "What Came Before: Back II FWD (DJ Mix)"
+     },
+     {
+      "youtubeId": "cGCdWZjr6PA",
+      "artist": "Agent X",
+      "title": "Decoy",
+      "year": 2002,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/5135a562b7dc74c52055e311d36f5bab/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/cGCdWZjr6PA.jpg"
+      },
+      "album": "Kurupt FM present The Lost Tape"
+     },
+     {
+      "youtubeId": "QAafxIATMzc",
+      "artist": "Stanton Warriors",
+      "title": "Right Here",
+      "year": 2004,
+      "verified": true,
+      "cover": {
+       "url": "https://i.ytimg.com/vi/QAafxIATMzc/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/QAafxIATMzc.jpg"
+      }
+     }
+    ],
     "actuel": []
    }
   }

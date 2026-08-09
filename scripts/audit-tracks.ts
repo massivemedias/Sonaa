@@ -11,7 +11,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
-import { isFullRelease, resolveTrack, sleep } from './lib/match.ts';
+import { isDurationExempt, isFullRelease, resolveTrack, sleep } from './lib/match.ts';
 
 const CORPUS = fileURLToPath(new URL('../src/data/corpus.json', import.meta.url));
 const DRY = process.argv.includes('--dry-run');
@@ -84,7 +84,7 @@ for (const genre of corpus.genres) {
         unreachable += 1;
         continue;
       }
-      if (!isFullRelease(page.title, page.seconds)) continue;
+      if (!isFullRelease(page.title, page.seconds, isDurationExempt(track.artist, track.title))) continue;
 
       flagged += 1;
       const mins = page.seconds ? `${Math.round(page.seconds / 60)} min` : 'durée inconnue';
