@@ -178,6 +178,19 @@ export function AtlasPage() {
     setView(next);
   }, []);
 
+  /* VÉRIFICATION VISUELLE PAR LA MACHINE : l'app ouverte avec ?verify
+     mesure la matité des éteints, la respiration, le survol, le flux,
+     l'intro et le recouvrement sous rotation, puis affiche le JSON.
+     Voir npm run verify:visual pour la marche à suivre. */
+  useEffect(() => {
+    if (!new URLSearchParams(window.location.search).has('verify')) return;
+    if (mode !== 'webgl') return;
+    const id = window.setTimeout(() => {
+      void import('./verify-visual.ts').then((m) => m.runAndDisplay());
+    }, 2000);
+    return () => window.clearTimeout(id);
+  }, [mode]);
+
   /* Le balayage du logo s'arrête quand l'onglet est en arrière-plan : une
      animation CSS ne se met pas en pause toute seule. */
   useEffect(() => {

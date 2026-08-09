@@ -1120,7 +1120,9 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     measureCtx.font = `${upper ? 700 : 600} ${px}px Inter, sans-serif`;
     let w = measureCtx.measureText(upper ? text.toUpperCase() : text).width;
     w += text.length * px * (upper ? 0.14 : 0.01);
-    return w + 6;
+    // +8 et non +6 : le rendu sous-pixel laissait une paire se mordre de
+    // 3 px sous un azimut sur trente-six (mesuré par verify:visual).
+    return w + 8;
   };
 
   /* 1 px et non 4 : avec les noms toujours visibles, la tolérance de 4 px
@@ -1604,6 +1606,21 @@ const OVERLAP_TOLERANCE = 1;
   void runProfile();
 
   (window as unknown as { __atlas?: unknown }).__atlas = {
+    /* Crochets de MESURE pour npm run verify:visual : quand on ne peut pas
+       voir, on mesure. Lecture seule sauf setHovered, qui simule le survol. */
+    sphereRadius: (i: number) => sphereRadii[i] ?? 0,
+    sphereBase: (i: number) => baseRadii[i] ?? 0,
+    setHovered: (i: number) => {
+      hovered = i;
+    },
+    visibleCount: () => {
+      let n = 0;
+      for (let i = 0; i < TOTAL_GENRES; i += 1) {
+        if ((sphereRadii[i] ?? 0) > (baseRadii[i] ?? 1) * 0.05) n += 1;
+      }
+      return n;
+    },
+    reducedMotion,
     framing: () => ({
       distance,
       atlasDistance,

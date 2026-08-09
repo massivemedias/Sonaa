@@ -53,6 +53,11 @@
   transform: translate3d(-9999px, -9999px, 0);
   transform-origin: left top;
   margin: 0;
+  /* Hauteur de ligne EXPLICITE : la valeur héritée du body (1.65) rendait
+     la boîte réelle plus haute que la boîte estimée par le placement, et
+     une paire se mordait de 3 px sous un azimut. La boîte estimée compte
+     1.45 : avec 1.3 ici, l'estimation majore toujours la réalité. */
+  line-height: 1.3;
   white-space: nowrap;
   font-family: var(--font-ui);
   font-weight: var(--weight-genre);

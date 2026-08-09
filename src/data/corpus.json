@@ -1484,11 +1484,17 @@
       "title": "Fantasy (Vocal)",
       "year": 1984,
       "verified": true,
-      "album": "Fantasy - Single",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/36/a4/ec/36a4ecd0-89de-090f-eb9a-404022aa53fb/65068.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/JFIMliwtRjI.jpg"
+      },
+      "release": {
+       "label": "Mitchbal Records",
+       "catno": "MB8400",
+       "country": "US",
+       "year": 1984,
+       "format": "Vinyl, LP, Album"
       }
      },
      {
@@ -2151,6 +2157,13 @@
        "url": "https://i.ytimg.com/vi/ywTQHQP4Ang/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/ywTQHQP4Ang.jpg"
+      },
+      "release": {
+       "label": "Emotions Electric",
+       "catno": "EE0016",
+       "country": "Spain",
+       "year": 2026,
+       "format": "Vinyl, LP, Compilation"
       }
      },
      {
@@ -2292,7 +2305,13 @@
        "source": "deezer",
        "local": "covers/jaSi7qvgfQU.jpg"
       },
-      "album": "Anywayawanna - The Best Of The Beatmasters"
+      "release": {
+       "label": "Rhythm King",
+       "catno": "LEFT R 11 T",
+       "country": "UK",
+       "year": 1987,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "cRtOXKlStH8",
@@ -2304,6 +2323,13 @@
        "url": "https://i.ytimg.com/vi/cRtOXKlStH8/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/cRtOXKlStH8.jpg"
+      },
+      "release": {
+       "label": "Jive",
+       "catno": "6.15131 AC",
+       "country": "Germany",
+       "year": 1988,
+       "format": "Vinyl, 7\", 45 RPM"
       }
      },
      {
@@ -2472,6 +2498,13 @@
        "url": "https://i.ytimg.com/vi/K7mzPSC4_-s/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/K7mzPSC4_-s.jpg"
+      },
+      "release": {
+       "label": "Hot Mix 5 Records",
+       "catno": "HMF 102",
+       "country": "US",
+       "year": 1987,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
       }
      }
     ],
@@ -2580,6 +2613,13 @@
        "url": "https://i.ytimg.com/vi/01pLUx8LfuQ/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/01pLUx8LfuQ.jpg"
+      },
+      "release": {
+       "label": "Underground",
+       "catno": "UND 502",
+       "country": "Italy",
+       "year": 1989,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
       }
      },
      {
@@ -3302,7 +3342,13 @@
        "source": "itunes",
        "local": "covers/gRSOgrYEI-U.jpg"
       },
-      "album": "Shiny Disco Balls (feat. Jessica Eve) - EP"
+      "release": {
+       "label": "Cream",
+       "catno": "CREAM 22CDDJ",
+       "country": "UK",
+       "year": 2002,
+       "format": "CD, Single, Promo"
+      }
      },
      {
       "youtubeId": "Q4TuImwotuk",
@@ -3989,6 +4035,13 @@
        "url": "https://i.ytimg.com/vi/6SpiSAceeHo/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/6SpiSAceeHo.jpg"
+      },
+      "release": {
+       "label": "Blue Attack Records",
+       "catno": "123",
+       "country": "Netherlands",
+       "year": 1993,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
       }
      },
      {
@@ -4040,7 +4093,13 @@
        "source": "deezer",
        "local": "covers/SB5h5Z8peDs.jpg"
       },
-      "album": "Wisdom to the Wise (Red 2) [Remixes]"
+      "release": {
+       "label": "Deconstruction",
+       "catno": "DRIVE 001",
+       "country": "Europe",
+       "year": 1996,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      }
     ],
     "actuel": []
@@ -4507,6 +4566,13 @@
        "url": "https://i.ytimg.com/vi/4w-Yt_sjkQ0/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/4w-Yt_sjkQ0.jpg"
+      },
+      "release": {
+       "label": "Cyclotron",
+       "catno": "LEPTONE 9",
+       "country": "Germany",
+       "year": 1991,
+       "format": "Vinyl, 12\", 45 RPM"
       }
      },
      {
@@ -4752,7 +4818,13 @@
        "source": "itunes",
        "local": "covers/0HBzYnc-AYI.jpg"
       },
-      "album": "In the Dark We Live (Thee Lite)"
+      "release": {
+       "label": "Bush",
+       "catno": "Bush 1011",
+       "country": "UK",
+       "year": 1993,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "wu3dSwwlsGc",
@@ -5740,6 +5812,13 @@
        "url": "https://i.ytimg.com/vi/9eb6cL4QLIA/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/9eb6cL4QLIA.jpg"
+      },
+      "release": {
+       "label": "ZYX Records",
+       "catno": "ZYX 6199R-12",
+       "country": "Germany",
+       "year": 1989,
+       "format": "Vinyl, 12\", 45 RPM"
       }
      },
      {
@@ -5772,7 +5851,13 @@
        "source": "deezer",
        "local": "covers/6Pazt9whz0A.jpg"
       },
-      "album": "The Essential Silence"
+      "release": {
+       "label": "Nettwerk",
+       "catno": "0 6700 30113 2 7",
+       "country": "Russia",
+       "year": 1997,
+       "format": "CD, Album, Unofficial Release"
+      }
      },
      {
       "youtubeId": "0csxphA17bY",
@@ -6043,7 +6128,13 @@
        "source": "itunes",
        "local": "covers/7nBtLzFX0RY.jpg"
       },
-      "album": "The Sound of Belgium Vol. 2"
+      "release": {
+       "label": "Rave Age Records",
+       "catno": "AGE 00",
+       "country": "France",
+       "year": 1991,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "yyvp_nCM15Q",
@@ -6168,6 +6259,13 @@
        "url": "https://i.ytimg.com/vi/TLtpPZOD360/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/TLtpPZOD360.jpg"
+      },
+      "release": {
+       "label": "Flaw Recordings",
+       "catno": "FLAW 001",
+       "country": "UK",
+       "year": 1994,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
       }
      },
      {
@@ -6180,6 +6278,13 @@
        "url": "https://i.ytimg.com/vi/vlFxpS0-6y8/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/vlFxpS0-6y8.jpg"
+      },
+      "release": {
+       "label": "Boxed",
+       "catno": "BXD 1109",
+       "country": "UK",
+       "year": 1995,
+       "format": "Cassette, Mixed, Unofficial Release"
       }
      }
     ],
@@ -6355,7 +6460,13 @@
        "source": "itunes",
        "local": "covers/WelA5zijdI0.jpg"
       },
-      "album": "Techno Jump! Compilation"
+      "release": {
+       "label": "Discomagic Records",
+       "catno": "MIX 973",
+       "country": "Italy",
+       "year": 1993,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "xl6ptP_6Q-M",
@@ -6367,6 +6478,13 @@
        "url": "https://i.ytimg.com/vi/xl6ptP_6Q-M/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/xl6ptP_6Q-M.jpg"
+      },
+      "release": {
+       "label": "Désastre Records",
+       "catno": "DES 9303",
+       "country": "Italy",
+       "year": 1993,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
       }
      },
      {
@@ -7211,6 +7329,13 @@
        "url": "https://i.ytimg.com/vi/ZMfQcozx_TQ/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/ZMfQcozx_TQ.jpg"
+      },
+      "release": {
+       "label": "Transient Records",
+       "catno": "TRANR001DV",
+       "country": "UK",
+       "year": 1995,
+       "format": "Vinyl, 12\", White Label"
       }
      },
      {
@@ -13548,7 +13673,13 @@
        "source": "itunes",
        "local": "covers/rNStVlJWy88.jpg"
       },
-      "album": "Diary of an Afro Warrior (Expanded Edition)"
+      "release": {
+       "label": "Tempa",
+       "catno": "TEMPA 030",
+       "country": "UK",
+       "year": 2007,
+       "format": "Vinyl, 12\", Promo"
+      }
      }
     ],
     "actuel": []
@@ -13757,6 +13888,13 @@
        "url": "https://i.ytimg.com/vi/uKCYDwkLaxw/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/uKCYDwkLaxw.jpg"
+      },
+      "release": {
+       "label": "I Am Audio",
+       "catno": "IAMA027",
+       "country": null,
+       "year": 2017,
+       "format": "File, WAV, EP"
       }
      }
     ],
@@ -17510,7 +17648,13 @@
        "source": "itunes",
        "local": "covers/8rbIo6TMO2E.jpg"
       },
-      "album": "Masters of Hardcore Raiders of Rampage"
+      "release": {
+       "label": "Partyraiser Records",
+       "catno": "PRR013A",
+       "country": "Netherlands",
+       "year": 2015,
+       "format": "File, MP3"
+      }
      },
      {
       "youtubeId": "NKaPutQaMbM",
@@ -18168,7 +18312,13 @@
        "source": "deezer",
        "local": "covers/Iq3mu8kGp9w.jpg"
       },
-      "album": "Skydivin'"
+      "release": {
+       "label": "Central Station",
+       "catno": "CSR CD 5293",
+       "country": "Australia",
+       "year": 2005,
+       "format": "CD, Compilation, Mixed"
+      }
      },
      {
       "youtubeId": "zAwh1h4iD3s",
@@ -20141,6 +20291,13 @@
        "url": "https://i.ytimg.com/vi/YZ0fH26kF8M/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/YZ0fH26kF8M.jpg"
+      },
+      "release": {
+       "label": "Matador",
+       "catno": "OLE 483-2V",
+       "country": "US",
+       "year": 2000,
+       "format": "CD, Single, Promo"
       }
      },
      {
@@ -21800,7 +21957,13 @@
        "source": "itunes",
        "local": "covers/ylcinUF-plg.jpg"
       },
-      "album": "The K&D Sessions (DJ Mix)"
+      "release": {
+       "label": "!K7",
+       "catno": "!K7073CD",
+       "country": "Germany",
+       "year": 1998,
+       "format": "CD, Compilation, Mixed"
+      }
      },
      {
       "youtubeId": "HVIFUQV20NM",

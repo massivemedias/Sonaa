@@ -16,7 +16,8 @@
     "crop:covers": "bash scripts/crop-covers.sh",
     "fetch:release": "tsx scripts/fetch-release-data.ts",
     "fetch:key": "tsx scripts/fetch-key.ts",
-    "check:writes": "tsx scripts/check-corpus-writes.ts"
+    "check:writes": "tsx scripts/check-corpus-writes.ts",
+    "verify:visual": "echo 'V\u00e9rification visuelle par la machine (4 mesures) :' && echo '1. npm run dev' && echo '2. ouvrir http://localhost:5173/Sonaa/?verify (vue 3D libre)' && echo '3. lire le JSON \u00e0 l \u00e9cran et dans la console.' && echo 'Pas en CI : il faudrait embarquer un navigateur headless (document\u00e9 ADR-048).'"
   },
   "dependencies": {
     "react": "^19.2.0",

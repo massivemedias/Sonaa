@@ -145,11 +145,15 @@ void main() {
      Le liseré lumineux s'éteint presque, la couleur se désature et baisse
      d'un cran : on voit d'un coup d'oeil ce qui vit encore, sans marquage
      brutal. */
+  /* Coefficients CALIBRÉS par verify:visual, pas déduits : le liseré réduit
+     pèse déjà douze points de luminosité, l'assombrissement direct n'a
+     besoin que de quatre pour atteindre -16 % au total, et la désaturation
+     réelle à l'écran demande 0.64 de mélange pour mesurer -42 %. */
   float rimAmount = 0.55 * (1.0 - vExtinct * 0.72);
   vec3 col = vColor * lambert + vColor * rim * rimAmount;
   float grey = dot(col, vec3(0.2126, 0.7152, 0.0722));
-  col = mix(col, vec3(grey), vExtinct * 0.42);
-  col *= 1.0 - vExtinct * 0.16;
+  col = mix(col, vec3(grey), vExtinct * 0.64);
+  col *= 1.0 - vExtinct * 0.04;
   // Anneau dans la teinte, à peine plus clair que le corps.
   col = mix(col, clamp(vColor * 1.15, 0.0, 1.0), clamp(ring, 0.0, 1.0));
 

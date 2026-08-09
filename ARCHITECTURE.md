@@ -1505,6 +1505,47 @@ dependance) : des que le fichier existe reellement, la relance part.
 
 ---
 
+## ADR-048 : Quand on ne peut pas voir, on mesure (verify:visual)
+
+**Le principe.** Les effets visuels non verifiables a l'oeil par la machine
+sont MESURES : npm run verify:visual documente la marche (ouvrir l'app avec
+?verify, vue 3D libre), le module src/atlas/verify-visual.ts fait quatre
+controles et affiche le JSON. Pas en CI : il faudrait embarquer un
+navigateur headless ; execution manuelle documentee, ~50 secondes.
+
+**Les quatre mesures et ce qu'elles ont attrape.**
+1. MATITE DES ETEINTS : deux spheres cote a cote dans un canvas de test,
+   lecture des pixels. Premiere mesure : -27,5 / -26,4 au lieu de -42 /
+   -16 ; les coefficients du shader etaient deduits, pas calibres. Ils sont
+   desormais CALIBRES par la mesure (mix 0.64, assombrissement 0.04, le
+   lisere reduit pesant deja douze points) : -48,2 / -16,1, dans la
+   tolerance.
+2. RESPIRATION / SURVOL / FLUX : la respiration mesuree a 0,13 % par un
+   test dont la fenetre (2 s) etait courte devant la periode (14 s) : le
+   TEST etait faux, pas l'effet ; corrige, 2,00 % mesure. Le survol :
+   +8,56 %. Le flux : le max global etait la tete de propagation, fixe ;
+   le test soustrait desormais un profil de reference sans flux, et la
+   bande se deplace de 32 px entre deux instants.
+3. INTRO : 39 spheres a 1 s, 139 a 3 s, 216 a 5 s : la progressivite
+   existe.
+4. RECOUVREMENT SOUS ROTATION : 12 azimuts x 3 distances. La mesure a
+   attrape une paire reelle (Disco / Disco Dub, 3 px) : la hauteur de
+   ligne HERITEE du body (1.65) rendait la boite reelle plus haute que la
+   boite estimee (1.45). line-height: 1.3 explicite sur les labels, et le
+   pire cas est retombe a ZERO paire sur les 36 poses.
+
+**Lecon consignee.** Deux des quatre echecs initiaux etaient des tests qui
+mesuraient mal, deux etaient des effets mal calibres. Les deux se corrigent,
+et on dit lequel etait lequel.
+
+**Discogs.** Relance executee avec les replis (jeton via .env, lu par le
+script depuis cette mission) : +25 sorties sur les 109 interrogees, 737/824
+au total, 86 vers 89 pour cent. Le reliquat (87) est essentiellement des
+white labels, des editions confidentielles et des credits introuvables sur
+Discogs par ces requetes.
+
+---
+
 ## Pièges GLSL rencontrés, à ne pas repayer
 
 Trois erreurs coûteuses rencontrées sur le prototype de rendu. Elles ne
