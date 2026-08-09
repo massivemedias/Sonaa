@@ -1,26 +1,9 @@
 # Fiches en brouillon, à relire par Mika
 
-Les onze fiches écrites par la machine sur les terrains réservés.
+Les fiches restantes écrites par la machine sur les terrains réservés
+(dark disco et indie dance sont sorties de la liste, données de Mika intégrées).
 Corriger directement ici puis me renvoyer le fichier, ou coller les
 corrections en texte : je les reporte dans le corpus et retire le badge.
-
-## Dark Disco (darkdisco)
-
-Lecture sombre et lente du disco, quelque part entre l'italo, l'EBM et la cold wave, cristallisée à la fin des années 2010 autour d'une scène internationale de labels et de podcasts. Basses saturées, arpèges mineurs, voix parlées et une esthétique gothique assumée, le tout entre 95 et 115 battements. La frontière avec l'indie dance sombre est poreuse et revendiquée comme telle.
-
-- Machines : Basse analogique saturée, Arpégiateurs en mineur, Clones de TR-808, Delays et réverbérations longues
-- Labels historiques : aucun
-- Labels actuels : Fleisch, Espacio Cielo, Lo-Fi Trash, Days of Being Wild
-- Artistes clés : Curses, Damon Jee, Local Suicide, Theus Mago, Skelesys
-
-## Indie Dance (indiedance)
-
-Zone de rencontre entre le rock indépendant et la piste, réactivée au milieu des années 2000 puis reformulée dans les années 2010 en un son plus sombre et plus lent, souvent chanté, toujours mélodique. Basses rondes héritées de l'italo, guitares ou voix traitées, et un tempo qui reste sous celui de la techno. Le terme est un fourre-tout de plateformes, la scène réelle se joue entre clubs et festivals qui le revendiquent.
-
-- Machines : Basse analogique type Juno, Voix traitées chorus et delay, Guitares samplées, Roland TR-8 et clones 808
-- Labels historiques : DFA, Kitsuné, Modular
-- Labels actuels : Correspondant, Life and Death, Permanent Vacation
-- Artistes clés : LCD Soundsystem, Cut Copy, Curses, Jennifer Cardini, Zombies in Miami
 
 ## Psy-Prog (progpsy)
 

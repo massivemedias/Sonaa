@@ -1348,7 +1348,7 @@
     ],
     "actuel": []
    },
-   "description": "BROUILLON À RELIRE. Zone de rencontre entre le rock indépendant et la piste, réactivée au milieu des années 2000 puis reformulée dans les années 2010 en un son plus sombre et plus lent, souvent chanté, toujours mélodique. Basses rondes héritées de l'italo, guitares ou voix traitées, et un tempo qui reste sous celui de la techno. Le terme est un fourre-tout de plateformes, la scène réelle se joue entre clubs et festivals qui le revendiquent.",
+   "description": "Zone de rencontre entre le rock indépendant et la piste, réactivée au milieu des années 2000 puis reformulée dans les années 2010 en un son plus sombre et plus mélodique. Darlyn Vlys décrit le sien entre rock, indie dance et synthwave, et c'est la bonne clé : basses rondes héritées de l'italo, guitares ou voix traitées, un tempo qui reste sous celui de la techno. Le terme est un fourre-tout de plateformes, la scène réelle se joue dans les clubs et les festivals qui le revendiquent.",
    "machines": [
     "Basse analogique type Juno",
     "Voix traitées chorus et delay",
@@ -1358,21 +1358,24 @@
    "labelsHistoriques": [
     "DFA",
     "Kitsuné",
-    "Modular"
+    "Correspondant"
    ],
    "labelsActuels": [
     "Correspondant",
-    "Life and Death",
-    "Permanent Vacation"
+    "Permanent Vacation",
+    "Pets Recordings",
+    "Multi Culti",
+    "Polaris",
+    "Dust & Blood"
    ],
    "artistesCles": [
-    "LCD Soundsystem",
-    "Cut Copy",
+    "Darlyn Vlys",
+    "AFFKT",
+    "Damon Jee",
+    "Red Axes",
     "Curses",
-    "Jennifer Cardini",
-    "Zombies in Miami"
-   ],
-   "redaction": "brouillon"
+    "Marc Houle"
+   ]
   },
   {
    "id": "darkdisco",
@@ -1411,32 +1414,122 @@
        "source": "youtube",
        "local": "covers/MRsqEm8KT1s.jpg"
       }
+     },
+     {
+      "youtubeId": "3kVad-erTHU",
+      "artist": "Pardon Moi",
+      "title": "Power To The People (Damon Jee Remix)",
+      "year": 2017,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/42c90dd6b4161ab7905ab8b971477f45/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/3kVad-erTHU.jpg"
+      },
+      "release": {
+       "label": "Roam Recordings",
+       "catno": "Tidal",
+       "country": "Sweden",
+       "year": 2017,
+       "format": "File, FLAC"
+      }
+     },
+     {
+      "youtubeId": "axO_hFg7Gn0",
+      "artist": "Darlyn Vlys",
+      "title": "Bladed (Pardon Moi Remix)",
+      "year": 2019,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/5fd937b9a7627c9423c81a02e5202af0/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/axO_hFg7Gn0.jpg"
+      },
+      "album": "Bladed"
+     },
+     {
+      "youtubeId": "CKtZ_xcroAg",
+      "artist": "Darlyn Vlys",
+      "title": "Modelo 303",
+      "year": 2020,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/cedc6ff4365ad92b4562172196e7fddb/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/CKtZ_xcroAg.jpg"
+      },
+      "release": {
+       "label": "Dust & Blood",
+       "catno": "DUSTBLOOD 001",
+       "country": "France",
+       "year": 2020,
+       "format": "File, MP3, EP"
+      }
+     },
+     {
+      "youtubeId": "QL8VjkKe4iU",
+      "artist": "Leonie Pernet",
+      "title": "Missing Love (Jennifer Cardini & Damon Jee Remix)",
+      "year": 2019,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/88cf177b73b30ee4249a6a5b535e5d45/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/QL8VjkKe4iU.jpg"
+      },
+      "release": {
+       "label": "Infiné",
+       "catno": "CBBIF3122",
+       "country": "France",
+       "year": 2022,
+       "format": "File, MP3, EP"
+      }
+     },
+     {
+      "youtubeId": "HIPykEsJVDo",
+      "artist": "Damon Jee",
+      "title": "Revolte",
+      "year": 2022,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/0cbac3fe30899c1e86bea710285a0e2f/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/HIPykEsJVDo.jpg"
+      },
+      "album": "Rotation 01"
      }
     ],
     "actuel": []
    },
-   "description": "BROUILLON À RELIRE. Lecture sombre et lente du disco, quelque part entre l'italo, l'EBM et la cold wave, cristallisée à la fin des années 2010 autour d'une scène internationale de labels et de podcasts. Basses saturées, arpèges mineurs, voix parlées et une esthétique gothique assumée, le tout entre 95 et 115 battements. La frontière avec l'indie dance sombre est poreuse et revendiquée comme telle.",
+   "description": "Chug lent entre 115 et 125 battements, basses organiques souvent jouées, synthés froids hérités de la cold wave et de l'italo, sans la montée euphorique de l'indie dance. Né entre France et Allemagne autour de 2017, le mouvement se reconnaît un morceau fondateur : le remix de Power To The People par Damon Jee, chez Roam Recordings. La scène vit par ses labels et ses podcasts, entre clubs sombres et festivals qui la revendiquent.",
    "machines": [
-    "Basse analogique saturée",
-    "Arpégiateurs en mineur",
+    "Basses jouées puis traitées",
+    "Synthés froids type cold wave",
     "Clones de TR-808",
     "Delays et réverbérations longues"
    ],
-   "labelsHistoriques": [],
+   "labelsHistoriques": [
+    "Roam Recordings",
+    "Correspondant",
+    "Bordello A Parigi"
+   ],
    "labelsActuels": [
-    "Fleisch",
-    "Espacio Cielo",
-    "Lo-Fi Trash",
-    "Days of Being Wild"
+    "Dust & Blood",
+    "Polaris",
+    "Heimlich",
+    "Pets Recordings",
+    "TAU"
    ],
    "artistesCles": [
-    "Curses",
     "Damon Jee",
-    "Local Suicide",
-    "Theus Mago",
-    "Skelesys"
-   ],
-   "redaction": "brouillon"
+    "Darlyn Vlys",
+    "Pardon Moi",
+    "Freudenthal",
+    "AFFKT",
+    "MMYYLO",
+    "Surfface",
+    "Panthera"
+   ]
   },
   {
    "id": "chicagohouse",
@@ -24853,10 +24946,11 @@
       "year": 2002,
       "verified": true,
       "cover": {
-       "url": "https://i.ytimg.com/vi/SrwRBJup3uk/maxresdefault.jpg",
-       "source": "youtube",
+       "url": "https://cdn-images.dzcdn.net/images/cover/92927f412f59b031ce266d9253c035d7/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
        "local": "covers/SrwRBJup3uk.jpg"
-      }
+      },
+      "album": "Travelog (Extended Edition)"
      },
      {
       "youtubeId": "QYMv10eq4MA",

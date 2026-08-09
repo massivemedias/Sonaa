@@ -1,6 +1,6 @@
 # CORPUS SONAA
 
-Quatorze familles, 216 genres, 824 tracks verifiees.
+Quatorze familles, 216 genres, 829 tracks verifiees.
 L'indentation est la filiation structurelle, celle qui positionne le noeud
 dans l'arbre. Les autres ascendances sont notees en greffe.
 
@@ -30,8 +30,8 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
   - Cosmic Disco  1 track
   - Boogie  3 tracks
   - Nu-Disco  5 tracks
-    - Indie Dance  (?)  [fiche brouillon]  4 tracks
-    - Dark Disco  [greffe: EBM, famille industrial]  (?)  [fiche brouillon]  1 track
+    - Indie Dance  (?)  4 tracks
+    - Dark Disco  [greffe: EBM, famille industrial]  (?)  6 tracks
   - Disco Dub  [greffe: Dub, famille roots]  3 tracks
   - Post-Disco  (?)  3 tracks
   - Disco Punk  (?)  2 tracks
