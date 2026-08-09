@@ -75,7 +75,7 @@ const oklchToSrgb = (L: number, C: number, hDeg: number): [number, number, numbe
 import type { AtlasHandles, AtlasApi, AtlasResults } from './webgl.ts';
 
 const FOV = 40;
-const LABEL_POOL = 64;
+const LABEL_POOL = 96;
 /* Amplitude de dolly large : on doit pouvoir arriver assez près pour qu'une
    sphère occupe la moitié de la hauteur de l'écran. À 40 degrés de champ, cela
    demande une distance d'environ 5,7 fois le rayon, soit 6 unités pour une
@@ -94,8 +94,10 @@ const LABEL_PX_CEILING = 22;
    passe sur deux lignes quand le chemin est long, d'où la marge généreuse. */
 const CHROME_TOP = 64;
 const CHROME_BOTTOM = 74;
-const DESKTOP = { maxLabels: 56, floorPx: 13 };
-const MOBILE = { maxLabels: 20, floorPx: 15 };
+/* Les noms sont toujours candidats : le plafond monte au niveau du pool.
+   Sur mobile on reste plus bas, l'écran n'a pas la place de toute façon. */
+const DESKTOP = { maxLabels: 96, floorPx: 11 };
+const MOBILE = { maxLabels: 44, floorPx: 12 };
 
 
 /* La diffusion. Rapide et énergique : c'est l'animation signature. */
@@ -310,6 +312,20 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   sphereGeometry.setAttribute('aRadius', sphereRadiusAttr);
   sphereGeometry.setAttribute('aColor', new InstancedBufferAttribute(sphereColors, 3));
   sphereGeometry.setAttribute('aState', sphereStateAttr);
+  /* Genre ÉTEINT : labelsActuels existe et est vide, c'est une information
+     éditoriale du corpus, pas une déduction. Attribut statique. */
+  {
+    const extinct = new Float32Array(TOTAL_GENRES);
+    let cursor = 0;
+    STRUCTURES.forEach((structure) => {
+      structure.genres.forEach((genre, li) => {
+        extinct[cursor + li] =
+          genre.labelsActuels !== null && genre.labelsActuels.length === 0 ? 1 : 0;
+      });
+      cursor += structure.genres.length;
+    });
+    sphereGeometry.setAttribute('aExtinct', new InstancedBufferAttribute(extinct, 1));
+  }
 
   const sphereUniforms = {
     uCameraPos: { value: cameraPos },
@@ -1227,10 +1243,27 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   const candidates: Candidate[] = [];
   const placed: Candidate[] = [];
 
+  /* Largeur RÉELLE du texte, mesurée avec la fonte chargée : l'estimation
+     au glyphe moyen sous-estimait largement les capitales espacées des
+     familles, et des noms se chevauchaient malgré le filet. Mesure canvas
+     2D, déterministe à fonte égale ; l'interlettrage s'ajoute à la main. */
+  const measureCtx = document.createElement('canvas').getContext('2d');
+  const textWidth = (text: string, px: number, kind: string): number => {
+    const upper = kind !== 'genre';
+    if (!measureCtx) return text.length * px * (upper ? 0.85 : 0.58) + px * 0.4;
+    measureCtx.font = `${upper ? 700 : 600} ${px}px Inter, sans-serif`;
+    let w = measureCtx.measureText(upper ? text.toUpperCase() : text).width;
+    w += text.length * px * (upper ? 0.14 : 0.01);
+    return w + 6;
+  };
+
 /* Tolérance de chevauchement : deux plaques peuvent se toucher sur 4 pixels
    avant qu'on masque la plus lointaine. Sans elle, l'évitement est si strict
    qu'il supprime des labels qui se frôlent à peine. */
-const OVERLAP_TOLERANCE = 4;
+/* 1 px et non 4 : avec les noms toujours visibles, la tolérance de 4 px
+   laissait des paires se mordre visiblement. Se toucher, oui ; se
+   recouvrir, jamais. */
+const OVERLAP_TOLERANCE = 1;
 
   const overlaps = (a: Candidate, b: Candidate): boolean => {
     const t = OVERLAP_TOLERANCE;
@@ -1307,8 +1340,7 @@ const OVERLAP_TOLERANCE = 4;
         pinned,
         opacity: opacityScale,
         px,
-        // Estimation de largeur : SF Pro tourne autour de 0,52 em par glyphe.
-        w: text.length * px * 0.52 + px * 0.4,
+        w: textWidth(text, px, kind),
         h: px * 1.45
       });
     };
@@ -1319,8 +1351,11 @@ const OVERLAP_TOLERANCE = 4;
     /* NIVEAU ZÉRO : de loin, seuls les cinq grands ensembles sont nommés.
        Les noms de familles apparaissent quand on zoome dedans. Pendant
        l'intro, on nomme les familles : c'est leur naissance qu'on raconte. */
-    const superMode =
-      !introActive && level === 'atlas' && distance > atlasDistance * 0.72;
+    /* PLUS AUCUNE PORTE DE ZOOM (verdict de Mika) : les grands ensembles
+       gardent leur nom de loin, ET les familles ET les genres visibles sont
+       toujours candidats. Le placement arbitre par proximité, jamais par
+       superposition. */
+    const superMode = !introActive && level === 'atlas' && distance > atlasDistance * 0.72;
 
     if (superMode) {
       SUPERFAMILIES.forEach((sf, si) => {
@@ -1351,46 +1386,33 @@ const OVERLAP_TOLERANCE = 4;
         const drop = Math.min(lowestSy - anchorSy, height * 0.22) + 16;
         add(`s-${sf.id}`, sf.label, superAnchor, 'family', false, 1, -1, drop);
       });
-    } else {
-      FAMILIES.forEach((family, fi) => {
-        // Intro : le nom apparaît à l'éclatement, environ 40 % du pop, et reste.
-        if (introActive && introBirth(fi, performance.now()) < 0.4) return;
-        const isCurrent = fi === activeFamily;
-        add(
-          `f-${family.id}`,
-          family.label,
-          familyCenters[fi] ?? new Vector3(),
-          'family',
-          isCurrent,
-          1
-        );
-      });
     }
+    FAMILIES.forEach((family, fi) => {
+      // Intro : le nom apparaît à l'éclatement, environ 40 % du pop, et reste.
+      if (introActive && introBirth(fi, performance.now()) < 0.4) return;
+      const isCurrent = fi === activeFamily;
+      add(
+        `f-${family.id}`,
+        family.label,
+        familyCenters[fi] ?? new Vector3(),
+        'family',
+        isCurrent,
+        1
+      );
+    });
 
     for (let i = 0; i < TOTAL_GENRES; i += 1) {
       const slot = slotsData[i];
       if (!slot) continue;
-      if ((familyProgress[slot.family] ?? 0) < 0.999) continue;
+      if (introActive && introBirth(slot.family, performance.now()) < 0.75) continue;
 
-      const focusSlot = focusIndex >= 0 ? slotsData[focusIndex] : undefined;
-      const inFocusFamily = focusSlot ? slot.family === focusSlot.family : false;
+      /* RÈGLE (durcie par Mika) : tout ce qui est VISIBLE est nommé, sans
+         zoomer. Les satellites de génération 2 et plus n'existent à l'écran
+         qu'une fois leur famille déployée : repliés sur leur ancêtre, les
+         nommer écrirait des noms sur des sphères absentes. */
+      if (slot.depth >= 2 && (familyProgress[slot.family] ?? 0) < 0.5) continue;
+
       const inSubtree = focusIndex >= 0 ? isDescendant(i, focusIndex) : false;
-
-      /* RÈGLE : à chaque niveau de zoom, tout ce qui est visible est nommé,
-         et le survol ne révèle JAMAIS un nom. Au niveau famille, la
-         génération courante est la première : tous ses noms sont là, ceux des
-         générations suivantes attendent la descente. Au niveau genre, le
-         noeud focalisé et ses enfants directs sont nommés, sans exception. */
-      if (focusIndex >= 0) {
-        if (!inFocusFamily) continue;
-        const isFocusOrChild =
-          i === focusIndex || (inSubtree && slot.depth === (focusSlot?.depth ?? 0) + 1);
-        if (!isFocusOrChild) continue;
-      } else {
-        if (superMode) continue;
-        if (slot.depth !== 1) continue;
-      }
-
       const isPinned = i === focusIndex || inSubtree;
 
       /* Le label ne porte QUE le nom du genre.

@@ -51,6 +51,7 @@ attribute vec3 aCenter;
 attribute float aRadius;
 attribute vec3 aColor;
 attribute vec4 aState; // x: présence, y: halo, z: dérivés, w: étiquetée
+attribute float aExtinct; // 1 : genre éteint, plus aucun label ne le porte
 
 uniform vec3 uCameraPos;
 
@@ -60,6 +61,7 @@ varying float vRadius;
 varying vec3 vColor;
 varying vec4 vState;
 varying float vViewDepth;
+varying float vExtinct;
 
 void main() {
   vUv = uv;
@@ -67,6 +69,7 @@ void main() {
   vRadius = aRadius;
   vColor = aColor;
   vState = aState;
+  vExtinct = aExtinct;
 
   vec3 toCam = normalize(uCameraPos - aCenter);
   vec3 seed = abs(toCam.y) > 0.94 ? vec3(1.0, 0.0, 0.0) : vec3(0.0, 1.0, 0.0);
@@ -92,6 +95,7 @@ varying float vRadius;
 varying vec3 vColor;
 varying vec4 vState;
 varying float vViewDepth;
+varying float vExtinct;
 
 uniform vec3 uCameraPos;
 uniform vec3 uLightDir;
@@ -137,7 +141,15 @@ void main() {
   float lambert = 0.30 + 0.70 * max(dot(n, uLightDir), 0.0);
   float rim = pow(1.0 - nz, 3.0);
 
-  vec3 col = vColor * lambert + vColor * rim * 0.55;
+  /* GENRE ÉTEINT : la sphère est plus MATE et moins lumineuse, discrètement.
+     Le liseré lumineux s'éteint presque, la couleur se désature et baisse
+     d'un cran : on voit d'un coup d'oeil ce qui vit encore, sans marquage
+     brutal. */
+  float rimAmount = 0.55 * (1.0 - vExtinct * 0.72);
+  vec3 col = vColor * lambert + vColor * rim * rimAmount;
+  float grey = dot(col, vec3(0.2126, 0.7152, 0.0722));
+  col = mix(col, vec3(grey), vExtinct * 0.42);
+  col *= 1.0 - vExtinct * 0.16;
   // Anneau dans la teinte, à peine plus clair que le corps.
   col = mix(col, clamp(vColor * 1.15, 0.0, 1.0), clamp(ring, 0.0, 1.0));
 

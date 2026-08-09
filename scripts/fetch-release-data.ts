@@ -26,10 +26,11 @@
 
    Usage : DISCOGS_TOKEN=... npx tsx scripts/fetch-release-data.ts [--limit=N] */
 
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 import { normalise, sleep } from './lib/match.ts';
+import { patchTracks } from './lib/corpus-store.ts';
 
 const CORPUS = fileURLToPath(new URL('../src/data/corpus.json', import.meta.url));
 const TOKEN = process.env['DISCOGS_TOKEN'];
@@ -135,25 +136,15 @@ const resolveRelease = async (artist: string, title: string): Promise<Release | 
   return null;
 };
 
-/* Écriture par fusion : on relit le corpus du disque et on n'écrit QUE le
-   champ release de la track visée, par identifiant vidéo. */
+/* Écriture par le SEUL module autorisé. La sortie remplace l'album : deux
+   champs qui disent presque la même chose seraient une source de confusion. */
 const remember = new Map<string, Release>();
 const writeCorpus = (): void => {
-  const fresh = JSON.parse(readFileSync(CORPUS, 'utf8')) as Corpus;
-  for (const genre of fresh.genres) {
-    for (const list of [genre.tracks.essentiel, genre.tracks.actuel]) {
-      for (const track of list) {
-        const release = remember.get(track.youtubeId);
-        if (release) {
-          track.release = release;
-          // La sortie remplace l'album : deux champs qui disent presque la
-          // même chose seraient une source de confusion.
-          delete track.album;
-        }
-      }
-    }
+  const patches = new Map<string, { release?: unknown; album?: unknown }>();
+  for (const [videoId, release] of remember) {
+    patches.set(videoId, { release, album: undefined });
   }
-  writeFileSync(CORPUS, `${JSON.stringify(fresh, null, 1)}\n`, 'utf8');
+  patchTracks(['release', 'album'], patches);
 };
 
 const corpus = JSON.parse(readFileSync(CORPUS, 'utf8')) as Corpus;

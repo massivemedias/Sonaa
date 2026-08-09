@@ -105,11 +105,17 @@
       "title": "Le Freak",
       "year": 1978,
       "verified": true,
-      "album": "C'est Chic (2018 Remaster)",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/23/5b/b2/235bb2c3-abaa-22e2-753d-afa8b1806dfe/603497853588.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/aXgSHL7efKg.jpg"
+      },
+      "release": {
+       "label": "WEA",
+       "catno": "21.000",
+       "country": "Brazil",
+       "year": 1978,
+       "format": "Vinyl, 12\", 45 RPM"
       }
      },
      {
@@ -118,11 +124,17 @@
       "title": "I Feel Love",
       "year": 1977,
       "verified": true,
-      "album": "I Remember Yesterday",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/82/13/19/8213190b-60a9-95cd-9cc0-0948e08a085a/06UMGIM05259.rgb.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/yEbaeLv-aOo.jpg"
+      },
+      "release": {
+       "label": "Casablanca",
+       "catno": "NB 884",
+       "country": "US",
+       "year": 1977,
+       "format": "Vinyl, 7\", 45 RPM"
       }
      },
      {
@@ -131,11 +143,17 @@
       "title": "Lost In Music",
       "year": 1979,
       "verified": true,
-      "album": "We Are Family (1995 Remaster)",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/da/e8/56/mzi.ptvoczcg.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/nIrnevgyCFw.jpg"
+      },
+      "release": {
+       "label": "Atlantic",
+       "catno": "K50587",
+       "country": "UK",
+       "year": 1979,
+       "format": "Vinyl, LP, Album"
       }
      },
      {
@@ -149,7 +167,13 @@
        "source": "deezer",
        "local": "covers/aKmJxpKKvYM.jpg"
       },
-      "album": "Definitive Groove: Chic"
+      "release": {
+       "label": "Atlantic",
+       "catno": "SD 19153",
+       "country": "Australia",
+       "year": 1977,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "pG8TyIEAqps",
@@ -162,7 +186,13 @@
        "source": "deezer",
        "local": "covers/pG8TyIEAqps.jpg"
       },
-      "album": "Disco Inferno"
+      "release": {
+       "label": "Atlantic",
+       "catno": "ATL 50 339",
+       "country": "Germany",
+       "year": 1976,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "gD6cPE2BHic",
@@ -175,7 +205,13 @@
        "source": "deezer",
        "local": "covers/gD6cPE2BHic.jpg"
       },
-      "album": "Mighty Real: Greatest Dance Hits"
+      "release": {
+       "label": "Fantasy",
+       "catno": "BBS 2565",
+       "country": "Germany",
+       "year": 1978,
+       "format": "Vinyl, LP, Album"
+      }
      }
     ],
     "actuel": []
@@ -236,11 +272,17 @@
       "title": "From Here To Eternity",
       "year": 1977,
       "verified": true,
-      "album": "Club Remixes Selection Two",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/bd/bf/2f/bdbf2f29-f505-02c3-4010-39cd320958df/cover.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/qTFEyFEu1Fk.jpg"
+      },
+      "release": {
+       "label": "Oasis",
+       "catno": "11 538 AT",
+       "country": "Germany",
+       "year": 1977,
+       "format": "Vinyl, 7\", Single"
       }
      },
      {
@@ -249,11 +291,17 @@
       "title": "Fly Robin Fly",
       "year": 1975,
       "verified": true,
-      "album": "Save Me",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/da/a9/55/daa955bf-a39e-2eb6-6d3e-a28311c93694/mzi.xmhwmthg.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/wC_kCnm3GYQ.jpg"
+      },
+      "release": {
+       "label": "Love",
+       "catno": "C 108 L",
+       "country": null,
+       "year": 1975,
+       "format": "Cassette, Album, Unofficial Release"
       }
      },
      {
@@ -262,11 +310,17 @@
       "title": "Nightflight To Venus",
       "year": 1978,
       "verified": true,
-      "album": "Nightflight to Venus (2007 Remastered Version)",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/d9/7d/8d/d97d8df4-d396-92b4-a68d-916718a9d454/dj.vmtarinh.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/yDyndnMgCvQ.jpg"
+      },
+      "release": {
+       "label": "Atlantic",
+       "catno": "MS 5179",
+       "country": "Canada",
+       "year": 1978,
+       "format": "Vinyl, 7\", 45 RPM"
       }
      }
     ],
@@ -321,11 +375,17 @@
       "title": "Monkey Star",
       "year": 1977,
       "verified": true,
-      "album": "Arpadys - EP",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/5f/d0/2c/mzi.qqvgjyhe.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/g_gax4gqWPo.jpg"
+      },
+      "release": {
+       "label": "Polydor",
+       "catno": "2.933.802",
+       "country": "France",
+       "year": 1977,
+       "format": "Vinyl, LP, Album"
       }
      },
      {
@@ -338,6 +398,13 @@
        "url": "https://i.ytimg.com/vi/tV0POOH9mMk/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/tV0POOH9mMk.jpg"
+      },
+      "release": {
+       "label": "Ariola",
+       "catno": "11 603 AT",
+       "country": "Austria",
+       "year": 1977,
+       "format": "Vinyl, 7\", Single"
       }
      },
      {
@@ -351,7 +418,13 @@
        "source": "deezer",
        "local": "covers/bPny1esdZrk.jpg"
       },
-      "album": "Menergy (Purple Disco Machine Remix)"
+      "release": {
+       "label": "Megatone Records",
+       "catno": "M-1001",
+       "country": "US",
+       "year": 1981,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "O5dhV_EQy4Y",
@@ -364,7 +437,13 @@
        "source": "deezer",
        "local": "covers/O5dhV_EQy4Y.jpg"
       },
-      "album": "Do Ya Wanna Funk (In the Style of Sylvester) [Karaoke Version]"
+      "release": {
+       "label": "Megatone Records",
+       "catno": "INT 20338",
+       "country": "Italy",
+       "year": 1982,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "063RGou-P_8",
@@ -377,7 +456,13 @@
        "source": "deezer",
        "local": "covers/063RGou-P_8.jpg"
       },
-      "album": "You Think You're a Man"
+      "release": {
+       "label": "ZYX Records",
+       "catno": "ZYX-26108C",
+       "country": "Germany",
+       "year": 1988,
+       "format": "Cassette, Album"
+      }
      }
     ],
     "actuel": []
@@ -440,11 +525,17 @@
       "title": "Fear",
       "year": 1979,
       "verified": true,
-      "album": "Fear - Single",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/7e/9d/68/7e9d6882-843f-8403-749d-127fdc424a23/5055779328072.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/Iq5F1sQkImM.jpg"
+      },
+      "release": {
+       "label": "Banana Records",
+       "catno": "BAN 16501",
+       "country": "Italy",
+       "year": 1979,
+       "format": "Vinyl, 7\", 45 RPM"
       }
      },
      {
@@ -453,11 +544,17 @@
       "title": "Jingo",
       "year": 1979,
       "verified": true,
-      "album": "Dancin' & Prancin'",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/a4/55/0e/a4550e09-0aca-2bb1-ba97-69b2ee9454f3/4050538292879.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/B85dYk77V-o.jpg"
+      },
+      "release": {
+       "label": "Salsoul Records",
+       "catno": "SG 219 (DJ)",
+       "country": "US",
+       "year": 1979,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
       }
      },
      {
@@ -466,11 +563,17 @@
       "title": "The Ultimate Warlord",
       "year": 1979,
       "verified": true,
-      "album": "The Ultimate Warlord / Warlord - EP",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music60/v4/ba/de/8a/bade8a48-0151-927c-95cc-245d553c4212/dj.cxypgsji.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/19X-g5jHRzI.jpg"
+      },
+      "release": {
+       "label": "RCA Victor",
+       "catno": "KPN1-0330",
+       "country": "Canada",
+       "year": 1979,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
       }
      },
      {
@@ -484,7 +587,13 @@
        "source": "deezer",
        "local": "covers/zDV_dBYp4h0.jpg"
       },
-      "album": "Take A Chance"
+      "release": {
+       "label": "Squish",
+       "catno": "BTV10 001",
+       "country": "Italy",
+       "year": 1983,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "nZDPCjEoIMI",
@@ -497,7 +606,13 @@
        "source": "deezer",
        "local": "covers/nZDPCjEoIMI.jpg"
       },
-      "album": "Spacer woman (12 Inc, Mr. Disco)"
+      "release": {
+       "label": "Mr. Disc Organization",
+       "catno": "MDO 58008",
+       "country": "Italy",
+       "year": 1983,
+       "format": "Vinyl, 7\", 45 RPM"
+      }
      },
      {
       "youtubeId": "X6EbVwOumlE",
@@ -510,7 +625,13 @@
        "source": "deezer",
        "local": "covers/X6EbVwOumlE.jpg"
       },
-      "album": "Pure 80"
+      "release": {
+       "label": "Polydor",
+       "catno": "815 961-1",
+       "country": "France",
+       "year": 1983,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "WGr7w8ak4IE",
@@ -523,7 +644,13 @@
        "source": "deezer",
        "local": "covers/WGr7w8ak4IE.jpg"
       },
-      "album": "Greatest Hits & Remixes"
+      "release": {
+       "label": "RT Internacional",
+       "catno": "RTI 0-55-17",
+       "country": "Portugal",
+       "year": 1984,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "x0OMFm8FO90",
@@ -536,7 +663,13 @@
        "source": "deezer",
        "local": "covers/x0OMFm8FO90.jpg"
       },
-      "album": "Vamos a la Playa"
+      "release": {
+       "label": "RT Internacional",
+       "catno": "RTI 12-12",
+       "country": "Portugal",
+       "year": 1983,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "1_TQjEn6cpQ",
@@ -549,7 +682,13 @@
        "source": "deezer",
        "local": "covers/1_TQjEn6cpQ.jpg"
       },
-      "album": "Self Control"
+      "release": {
+       "label": "Carrere",
+       "catno": "825 238-2",
+       "country": "Germany",
+       "year": 1984,
+       "format": "CD, Album"
+      }
      },
      {
       "youtubeId": "EXmABxvHTG4",
@@ -562,7 +701,13 @@
        "source": "deezer",
        "local": "covers/EXmABxvHTG4.jpg"
       },
-      "album": "Dolce Vita (Original Remastered Version 2020)"
+      "release": {
+       "label": "Carrere",
+       "catno": "CAR 289",
+       "country": "UK",
+       "year": 1983,
+       "format": "Vinyl, 7\", 45 RPM"
+      }
      },
      {
       "youtubeId": "Dtrgwqei7ww",
@@ -575,7 +720,13 @@
        "source": "deezer",
        "local": "covers/Dtrgwqei7ww.jpg"
       },
-      "album": "The Collection"
+      "release": {
+       "label": "Baby Records",
+       "catno": "BAB 13-12",
+       "country": "Portugal",
+       "year": 1983,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "g_ffLVMcGhE",
@@ -588,7 +739,13 @@
        "source": "deezer",
        "local": "covers/g_ffLVMcGhE.jpg"
       },
-      "album": "Happy Children"
+      "release": {
+       "label": "Carrere",
+       "catno": "4Z9 05143",
+       "country": "US",
+       "year": 1983,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "--6CdAypJsQ",
@@ -601,7 +758,13 @@
        "source": "deezer",
        "local": "covers/--6CdAypJsQ.jpg"
       },
-      "album": "Living In The Background"
+      "release": {
+       "label": "Columbia",
+       "catno": "DO-1627",
+       "country": "Australia & New Zealand",
+       "year": 1984,
+       "format": "Vinyl, 7\", 45 RPM"
+      }
      }
     ],
     "actuel": []
@@ -669,6 +832,13 @@
        "url": "https://i.ytimg.com/vi/QCs2wJBMTv4/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/QCs2wJBMTv4.jpg"
+      },
+      "release": {
+       "label": "Polydor",
+       "catno": "2473 078",
+       "country": "Greece",
+       "year": 1977,
+       "format": "Vinyl, LP, Album"
       }
      },
      {
@@ -677,11 +847,17 @@
       "title": "Magic Fly",
       "year": 1977,
       "verified": true,
-      "album": "Magic Fly",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a7/23/e2/a723e22f-4909-09f1-3301-2c536e3d62ec/5060131018188_cover.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/ZavwtJxmqJI.jpg"
+      },
+      "release": {
+       "label": "Vogue",
+       "catno": "LDA 20276",
+       "country": "France",
+       "year": 1977,
+       "format": "Vinyl, LP, Album"
       }
      },
      {
@@ -690,11 +866,17 @@
       "title": "Cosmos Trip",
       "year": 1977,
       "verified": true,
-      "album": "Disco Machine",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/48/da/a3/mzi.bogjadbn.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/b9jPcozl1ns.jpg"
+      },
+      "release": {
+       "label": "Targa Records",
+       "catno": "Targa 783350102",
+       "country": "Belgium",
+       "year": 1977,
+       "format": "Vinyl, LP, Album"
       }
      },
      {
@@ -708,7 +890,13 @@
        "source": "deezer",
        "local": "covers/gBHjDsu6Cr0.jpg"
       },
-      "album": "Humanoid Invasion"
+      "release": {
+       "label": "ZYX Records",
+       "catno": "ZYX 5448",
+       "country": "Germany",
+       "year": 1986,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "GubZD0IfWvI",
@@ -721,7 +909,13 @@
        "source": "deezer",
        "local": "covers/GubZD0IfWvI.jpg"
       },
-      "album": "Greatest Hits & Remixes"
+      "release": {
+       "label": "Beat Box",
+       "catno": "BB 7033",
+       "country": "Scandinavia",
+       "year": 1985,
+       "format": "Vinyl, 7\", Single"
+      }
      }
     ],
     "actuel": []
@@ -787,7 +981,13 @@
        "source": "itunes",
        "local": "covers/xW-3hP86U-A.jpg"
       },
-      "album": "Cosmic Drag"
+      "release": {
+       "label": "Endless Flight",
+       "catno": "Endless Flight 63",
+       "country": "Europe",
+       "year": 2014,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      }
     ],
     "actuel": []
@@ -834,11 +1034,17 @@
       "title": "Help Yourself To My Love",
       "year": 1983,
       "verified": true,
-      "album": "Kashif",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/c6/b4/e1/c6b4e1a8-9365-fc81-b438-3453beed071b/5060196464180.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/PTVE7oghjb8.jpg"
+      },
+      "release": {
+       "label": "Arista",
+       "catno": "AL 9620",
+       "country": "US",
+       "year": 1983,
+       "format": "Vinyl, LP, Album"
       }
      },
      {
@@ -847,11 +1053,17 @@
       "title": "You re The One For Me",
       "year": 1981,
       "verified": true,
-      "album": "Prelude Mastermixes, Vol. 1",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/29/cc/3f/mzi.ezgnqnel.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/pAQGetcjC-A.jpg"
+      },
+      "release": {
+       "label": "Unidisc",
+       "catno": "SPLP-7059",
+       "country": "Canada",
+       "year": 2024,
+       "format": "Vinyl, LP, Album"
       }
      },
      {
@@ -860,11 +1072,17 @@
       "title": "Love Come Down",
       "year": 1982,
       "verified": true,
-      "album": "Get Loose",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/f9/f7/06/f9f70652-e229-e10d-14bc-0c00d32645fd/886443502703.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/ASiqxSwHpQ8.jpg"
+      },
+      "release": {
+       "label": "RCA",
+       "catno": "RCALP 3093",
+       "country": "UK",
+       "year": 1982,
+       "format": "Vinyl, LP, Advance"
       }
      }
     ],
@@ -927,7 +1145,13 @@
        "source": "deezer",
        "local": "covers/4mP20PGdrf0.jpg"
       },
-      "album": "Kitsuné X Ponystep Mixed by Jerry Bouthier"
+      "release": {
+       "label": "Feedelity",
+       "catno": "FEED 004",
+       "country": "Norway",
+       "year": 2005,
+       "format": "File, MP3"
+      }
      },
      {
       "youtubeId": "YEZyHkc4pk8",
@@ -935,11 +1159,17 @@
       "title": "Wendy Not Walter",
       "year": 2010,
       "verified": true,
-      "album": "Prins Thomas",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/cd/fe/08/mzi.tqmtpzrv.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/YEZyHkc4pk8.jpg"
+      },
+      "release": {
+       "label": "Full Pupp",
+       "catno": "FPCD004",
+       "country": "Norway",
+       "year": 2010,
+       "format": "CD, Album"
       }
      },
      {
@@ -948,11 +1178,17 @@
       "title": "Inspector Norse",
       "year": 2012,
       "verified": true,
-      "album": "It's the Arps - EP",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/34/ad/68/34ad68d6-dcc9-41f5-1899-fe2ffe4985a6/600116081919_1.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/gHiqPG0526U.jpg"
+      },
+      "release": {
+       "label": "Smalltown Supersound",
+       "catno": null,
+       "country": "Norway",
+       "year": 2012,
+       "format": "File, AAC, EP"
       }
      },
      {
@@ -979,7 +1215,13 @@
        "source": "deezer",
        "local": "covers/FI3gn4APNXc.jpg"
       },
-      "album": "Groovejet (If This Ain't Love)"
+      "release": {
+       "label": "Not On Label (Spiller)",
+       "catno": "SN02",
+       "country": null,
+       "year": 1999,
+       "format": "Vinyl, 12\", Unofficial Release"
+      }
      }
     ],
     "actuel": []
@@ -1057,7 +1299,13 @@
        "source": "deezer",
        "local": "covers/9ZNkPA_zUd4.jpg"
       },
-      "album": "This Is Happening"
+      "release": {
+       "label": "Parlophone",
+       "catno": "791401-PRL2",
+       "country": "US",
+       "year": 2010,
+       "format": "CD, Album, Reissue"
+      }
      },
      {
       "youtubeId": "6xG4oFny2Pk",
@@ -1070,7 +1318,13 @@
        "source": "deezer",
        "local": "covers/6xG4oFny2Pk.jpg"
       },
-      "album": "LCD Soundsystem"
+      "release": {
+       "label": "DFA",
+       "catno": "dfa 1001",
+       "country": "US",
+       "year": 2002,
+       "format": "CD, Single, Promo"
+      }
      },
      {
       "youtubeId": "kFIHkIGUJJ8",
@@ -1083,7 +1337,13 @@
        "source": "deezer",
        "local": "covers/kFIHkIGUJJ8.jpg"
       },
-      "album": "Echoes"
+      "release": {
+       "label": "Insound",
+       "catno": "INS19",
+       "country": "US",
+       "year": 2001,
+       "format": "CD, EP"
+      }
      }
     ],
     "actuel": []
@@ -1209,6 +1469,13 @@
        "url": "https://i.ytimg.com/vi/Ry3nDoVi2Hg/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/Ry3nDoVi2Hg.jpg"
+      },
+      "release": {
+       "label": "Mitchbal Records",
+       "catno": "MB8403",
+       "country": "US",
+       "year": 1984,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
       }
      },
      {
@@ -1247,7 +1514,13 @@
        "source": "deezer",
        "local": "covers/qUeMFG4wjJw.jpg"
       },
-      "album": "25th Anniversary of House Music"
+      "release": {
+       "label": "Jes Say Records",
+       "catno": "JS9999",
+       "country": "US",
+       "year": 1984,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "QAR8cq5Bl94",
@@ -1260,7 +1533,13 @@
        "source": "deezer",
        "local": "covers/QAR8cq5Bl94.jpg"
       },
-      "album": "Move Your Body"
+      "release": {
+       "label": "Trax Records",
+       "catno": "TX117",
+       "country": "US",
+       "year": 1986,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "LOLE1YE_oFQ",
@@ -1273,7 +1552,13 @@
        "source": "deezer",
        "local": "covers/LOLE1YE_oFQ.jpg"
       },
-      "album": "Baby Wants to Ride / Your Love"
+      "release": {
+       "label": "Trax Records",
+       "catno": "TX150",
+       "country": "US",
+       "year": 1987,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "ZaHUK5GnDgE",
@@ -1286,7 +1571,13 @@
        "source": "deezer",
        "local": "covers/ZaHUK5GnDgE.jpg"
       },
-      "album": "Jack Your Body (S&S Reloaded)"
+      "release": {
+       "label": "D.J. International Records",
+       "catno": "LONX 117",
+       "country": "UK",
+       "year": 1986,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "LDtbXxemnPw",
@@ -1363,11 +1654,17 @@
       "title": "I've Lost Control",
       "year": 1986,
       "verified": true,
-      "album": "I've Lost Control - Single",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/e7/0d/07/e70d0762-dee5-78a6-5c2d-6a5b2fbaaa5e/196626199706.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/lJnqRCwPeSw.jpg"
+      },
+      "release": {
+       "label": "Haçienda Records",
+       "catno": "FAC51",
+       "country": "UK",
+       "year": null,
+       "format": "Vinyl, 12\", Stereo"
       }
      },
      {
@@ -1389,11 +1686,17 @@
       "title": "Time To Jack",
       "year": 1986,
       "verified": true,
-      "album": "Time to Jack",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/53/3e/7c/mzi.zlnvcumx.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/wXuQb8Ln6_g.jpg"
+      },
+      "release": {
+       "label": "House Records",
+       "catno": "CHP001",
+       "country": "US",
+       "year": 1985,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
       }
      },
      {
@@ -1402,11 +1705,17 @@
       "title": "Acid Tracks",
       "year": 1987,
       "verified": true,
-      "album": "Acid Tracks",
       "cover": {
        "url": "https://cdn-images.dzcdn.net/images/cover/70d0f9b30ac432496da2d18154d24e2b/500x500-000000-80-0-0.jpg",
        "source": "deezer",
        "local": "covers/igNBeo3QSqc.jpg"
+      },
+      "release": {
+       "label": "Trax Records",
+       "catno": "TX142",
+       "country": "US",
+       "year": 1987,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
       }
      },
      {
@@ -1420,7 +1729,13 @@
        "source": "deezer",
        "local": "covers/C6V9WBTJlhw.jpg"
       },
-      "album": "Jack to the Sound (Digitally Remastered)"
+      "release": {
+       "label": "Westside Records",
+       "catno": "DJART 902",
+       "country": "UK",
+       "year": 1988,
+       "format": "Vinyl, LP, Test Pressing"
+      }
      },
      {
       "youtubeId": "sDyxyRcZWBA",
@@ -1446,7 +1761,13 @@
        "source": "deezer",
        "local": "covers/j7vxHOCeiQ4.jpg"
       },
-      "album": "Voodoo Ray"
+      "release": {
+       "label": "Rham!",
+       "catno": "RCD8804",
+       "country": "UK",
+       "year": 1988,
+       "format": "CD, EP, Single"
+      }
      },
      {
       "youtubeId": "3Y8w2W1uy2A",
@@ -1459,7 +1780,13 @@
        "source": "deezer",
        "local": "covers/3Y8w2W1uy2A.jpg"
       },
-      "album": "Club Epic - A Collection Of Classic Dance Mixes: Volume 4"
+      "release": {
+       "label": "FFRR",
+       "catno": "886675-1",
+       "country": "Greece",
+       "year": 1989,
+       "format": "Vinyl, 12\", Maxi-Single"
+      }
      },
      {
       "youtubeId": "6DnfjMbu-Pg",
@@ -1472,7 +1799,13 @@
        "source": "deezer",
        "local": "covers/6DnfjMbu-Pg.jpg"
       },
-      "album": "Stakker Humanoid (Remixes)"
+      "release": {
+       "label": "ZYX Records",
+       "catno": "ZYX 6047-12",
+       "country": "Germany",
+       "year": 1988,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "cZj9oQ-5aaY",
@@ -1485,7 +1818,13 @@
        "source": "deezer",
        "local": "covers/cZj9oQ-5aaY.jpg"
       },
-      "album": "No Way Back"
+      "release": {
+       "label": "Trax Records",
+       "catno": "TX112",
+       "country": "US",
+       "year": 1986,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "tLxDRePUwEY",
@@ -1501,7 +1840,13 @@
        "source": "deezer",
        "local": "covers/tLxDRePUwEY.jpg"
       },
-      "album": "ESP: The 808 State Effect"
+      "release": {
+       "label": "ZTT",
+       "catno": "ZANG-1-(T)",
+       "country": "UK",
+       "year": 1989,
+       "format": "Vinyl, 12\", Promo"
+      }
      }
     ],
     "actuel": []
@@ -1567,11 +1912,17 @@
       "title": "Groove Me",
       "year": 1979,
       "verified": true,
-      "album": "Groove Me",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/0d/1d/b0/0d1db09d-d991-2c68-d102-5ea17502d6bb/mzi.qaarnvxv.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/XXt7P3ZTLpA.jpg"
+      },
+      "release": {
+       "label": "WEA",
+       "catno": "WEA 99076",
+       "country": "Germany",
+       "year": 1979,
+       "format": "Vinyl, LP, Album"
       }
      },
      {
@@ -1585,7 +1936,13 @@
        "source": "deezer",
        "local": "covers/Gp-PyzscBrs.jpg"
       },
-      "album": "Greatest Hits"
+      "release": {
+       "label": "Ariola",
+       "catno": "VPLI 4237",
+       "country": "Australia & New Zealand",
+       "year": 1979,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "jcgiN0GkaI4",
@@ -1597,6 +1954,13 @@
        "url": "https://i.ytimg.com/vi/jcgiN0GkaI4/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/jcgiN0GkaI4.jpg"
+      },
+      "release": {
+       "label": "Atlantic",
+       "catno": "SD 19257",
+       "country": "US",
+       "year": 1979,
+       "format": "Vinyl, LP, Album"
       }
      },
      {
@@ -1610,7 +1974,13 @@
        "source": "deezer",
        "local": "covers/AbsZC257JP8.jpg"
       },
-      "album": "Love Is The Message"
+      "release": {
+       "label": "Philadelphia International Records",
+       "catno": "KZ 6006",
+       "country": "South Africa",
+       "year": 1973,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "uNKwr1Ne9G8",
@@ -1623,7 +1993,13 @@
        "source": "deezer",
        "local": "covers/uNKwr1Ne9G8.jpg"
       },
-      "album": "Pop Your Funk - Complete Singles Collection"
+      "release": {
+       "label": "West End Records",
+       "catno": "WES 1229",
+       "country": "US",
+       "year": 1980,
+       "format": "Vinyl, 7\", Single"
+      }
      },
      {
       "youtubeId": "Y_edhEpE_YM",
@@ -1636,7 +2012,13 @@
        "source": "deezer",
        "local": "covers/Y_edhEpE_YM.jpg"
       },
-      "album": "Foundation"
+      "release": {
+       "label": "Ultra Records",
+       "catno": "G0100049151050",
+       "country": "US",
+       "year": 2021,
+       "format": "File, WAV, Album"
+      }
      },
      {
       "youtubeId": "_KztNIg4cvE",
@@ -1649,7 +2031,13 @@
        "source": "deezer",
        "local": "covers/_KztNIg4cvE.jpg"
       },
-      "album": "The Best Of Crystal Waters"
+      "release": {
+       "label": "Mercury",
+       "catno": "848 894-1",
+       "country": "Europe",
+       "year": 1991,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "-_RtlkLgMYo",
@@ -1725,6 +2113,13 @@
        "url": "https://i.ytimg.com/vi/v12aZZ6Hm6o/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/v12aZZ6Hm6o.jpg"
+      },
+      "release": {
+       "label": "Emotive Records",
+       "catno": "EM727-0",
+       "country": "US",
+       "year": 1992,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
       }
      },
      {
@@ -1733,11 +2128,17 @@
       "title": "Bongo Midi",
       "year": 1992,
       "verified": true,
-      "album": "Volume 2 - EP",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/8c/41/5e/8c415e1e-3404-72ab-8abd-7585e4ed9930/8044290133224.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/FSnpofA0KVc.jpg"
+      },
+      "release": {
+       "label": "UMM",
+       "catno": "UMM 032",
+       "country": "Italy",
+       "year": 1992,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
       }
      },
      {
@@ -1763,7 +2164,13 @@
        "source": "deezer",
        "local": "covers/1N9Wnqz8Rh8.jpg"
       },
-      "album": "25th Anniversary of House Music"
+      "release": {
+       "label": "Trax Records",
+       "catno": "TX127",
+       "country": "US",
+       "year": 1986,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "5tqErnknRsE",
@@ -1776,7 +2183,13 @@
        "source": "deezer",
        "local": "covers/5tqErnknRsE.jpg"
       },
-      "album": "Amnesia"
+      "release": {
+       "label": "Alleviated Records",
+       "catno": "ML-2201",
+       "country": "US",
+       "year": 1985,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "6EfekgVVpe8",
@@ -1789,7 +2202,13 @@
        "source": "deezer",
        "local": "covers/6EfekgVVpe8.jpg"
       },
-      "album": "Bar A Thym"
+      "release": {
+       "label": "NRK Sound Division",
+       "catno": "NRK111",
+       "country": "UK",
+       "year": 2005,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "I579xnM6ocQ",
@@ -1802,7 +2221,13 @@
        "source": "deezer",
        "local": "covers/I579xnM6ocQ.jpg"
       },
-      "album": "Black Mahogani"
+      "release": {
+       "label": "Peacefrog Records",
+       "catno": "PFG050CD",
+       "country": "UK",
+       "year": 2004,
+       "format": "CD, Album"
+      }
      }
     ],
     "actuel": []
@@ -1905,7 +2330,13 @@
        "source": "deezer",
        "local": "covers/R7_1Xb5Uc8U.jpg"
       },
-      "album": "Straight Out The Jungle"
+      "release": {
+       "label": "Warlock Records",
+       "catno": "WAR2704",
+       "country": "Australia & New Zealand",
+       "year": null,
+       "format": "CD, Album, Reissue"
+      }
      },
      {
       "youtubeId": "KMHJxUC1iMI",
@@ -1918,7 +2349,13 @@
        "source": "deezer",
        "local": "covers/KMHJxUC1iMI.jpg"
       },
-      "album": "Yo Yo Get Funky (Andre Zimmer Remix)"
+      "release": {
+       "label": "Westside Records",
+       "catno": "DJART 902",
+       "country": "UK",
+       "year": 1988,
+       "format": "Vinyl, LP, Test Pressing"
+      }
      },
      {
       "youtubeId": "z8KSyOamx8Q",
@@ -1931,7 +2368,13 @@
        "source": "deezer",
        "local": "covers/z8KSyOamx8Q.jpg"
       },
-      "album": "Turn Up The Bass"
+      "release": {
+       "label": "D.J. International Records",
+       "catno": "DJ 33139",
+       "country": "Germany",
+       "year": 1988,
+       "format": "Vinyl, LP, Album"
+      }
      }
     ],
     "actuel": []
@@ -1991,6 +2434,13 @@
        "url": "https://i.ytimg.com/vi/mxFZle1oeHg/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/mxFZle1oeHg.jpg"
+      },
+      "release": {
+       "label": "Not On Label",
+       "catno": null,
+       "country": "UK",
+       "year": 1986,
+       "format": "Cassette, Single, Promo"
       }
      },
      {
@@ -2004,7 +2454,13 @@
        "source": "itunes",
        "local": "covers/tAlYP1Ymh-Y.jpg"
       },
-      "album": "Certain Things Are Likely"
+      "release": {
+       "label": "Not On Label",
+       "catno": null,
+       "country": "Germany",
+       "year": 1986,
+       "format": "Vinyl, 12\", Promo"
+      }
      },
      {
       "youtubeId": "K7mzPSC4_-s",
@@ -2087,7 +2543,13 @@
        "source": "itunes",
        "local": "covers/ZgnJGi-0plI.jpg"
       },
-      "album": "Welcome / Yo - EP"
+      "release": {
+       "label": "Not On Label",
+       "catno": null,
+       "country": "Italy",
+       "year": 1988,
+       "format": "Vinyl, 12\", Test Pressing"
+      }
      },
      {
       "youtubeId": "eFpOfQqSFg0",
@@ -2100,7 +2562,13 @@
        "source": "itunes",
        "local": "covers/eFpOfQqSFg0.jpg"
       },
-      "album": "House Oldschool Edition (30 House Classics 1989 - 1994)"
+      "release": {
+       "label": "Out",
+       "catno": "OUT 3215",
+       "country": "Italy",
+       "year": 1989,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "01pLUx8LfuQ",
@@ -2125,7 +2593,13 @@
        "source": "deezer",
        "local": "covers/M0quXl_od3g.jpg"
       },
-      "album": "Dreamland"
+      "release": {
+       "label": "Airplay Records",
+       "catno": "14.747",
+       "country": "France",
+       "year": 1989,
+       "format": "Vinyl, 7\", 45 RPM"
+      }
      }
     ],
     "actuel": []
@@ -2192,7 +2666,13 @@
        "source": "itunes",
        "local": "covers/J_DfyIGyfAg.jpg"
       },
-      "album": "UC Music Club Pack, Vol. 1"
+      "release": {
+       "label": "Underground Construction",
+       "catno": "UC 112 Test",
+       "country": "US",
+       "year": 1994,
+       "format": "Vinyl, 12\", Test Pressing"
+      }
      },
      {
       "youtubeId": "QQH27nwRdeM",
@@ -2205,7 +2685,13 @@
        "source": "itunes",
        "local": "covers/QQH27nwRdeM.jpg"
       },
-      "album": "Dance Mania: Ghetto Madness"
+      "release": {
+       "label": "Dance Mania",
+       "catno": "DM 081",
+       "country": "US",
+       "year": 1994,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "X3q1yJQyDk8",
@@ -2218,7 +2704,13 @@
        "source": "itunes",
        "local": "covers/X3q1yJQyDk8.jpg"
       },
-      "album": "Give Her The Drums / Come Along My Brotha - EP"
+      "release": {
+       "label": "Underground Construction",
+       "catno": "UC-114",
+       "country": "US",
+       "year": 1994,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "dfzkHmCQySQ",
@@ -2231,7 +2723,13 @@
        "source": "deezer",
        "local": "covers/dfzkHmCQySQ.jpg"
       },
-      "album": "The Dawn (TDV20 Edition)"
+      "release": {
+       "label": "Not On Label",
+       "catno": null,
+       "country": null,
+       "year": 1998,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      }
     ],
     "actuel": []
@@ -2299,7 +2797,13 @@
        "source": "itunes",
        "local": "covers/QAbDiRFBIUg.jpg"
       },
-      "album": "Groove Is In the Heart!!! - EP"
+      "release": {
+       "label": "Elektra",
+       "catno": "7559-66613-0",
+       "country": "Europe",
+       "year": 1990,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "R6hMPC9kpa4",
@@ -2325,7 +2829,13 @@
        "source": "itunes",
        "local": "covers/MH4D05iivsQ.jpg"
       },
-      "album": "There but for the Grace of God (feat. Love Nelson)"
+      "release": {
+       "label": "Junior Boy's Own",
+       "catno": "JBO 18R",
+       "country": "UK",
+       "year": 1993,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "FQlAEiCb8m0",
@@ -2338,7 +2848,13 @@
        "source": "deezer",
        "local": "covers/FQlAEiCb8m0.jpg"
       },
-      "album": "Music Sounds Better With You"
+      "release": {
+       "label": "Not On Label (Stardust)",
+       "catno": "RISIT 1031",
+       "country": null,
+       "year": 1998,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "mmi60Bd4jSs",
@@ -2351,10 +2867,16 @@
        "source": "itunes",
        "local": "covers/mmi60Bd4jSs.jpg"
       },
-      "album": "Homework",
       "shared": [
        "frenchhouse"
-      ]
+      ],
+      "release": {
+       "label": "Soma Quality Recordings",
+       "catno": "soma 25",
+       "country": "UK",
+       "year": 1995,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      }
     ],
     "actuel": []
@@ -2419,10 +2941,16 @@
        "source": "itunes",
        "local": "covers/mmi60Bd4jSs.jpg"
       },
-      "album": "Homework",
       "shared": [
        "discohouse"
-      ]
+      ],
+      "release": {
+       "label": "Soma Quality Recordings",
+       "catno": "soma 25",
+       "country": "UK",
+       "year": 1995,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "WRCnzyX3P8g",
@@ -2435,7 +2963,13 @@
        "source": "itunes",
        "local": "covers/WRCnzyX3P8g.jpg"
       },
-      "album": "Venus (sunshine people)"
+      "release": {
+       "label": "Versatile Records",
+       "catno": "VER 002",
+       "country": "France",
+       "year": 1996,
+       "format": "Vinyl, 12\""
+      }
      },
      {
       "youtubeId": "_v-xIWXVj_w",
@@ -2448,7 +2982,13 @@
        "source": "itunes",
        "local": "covers/_v-xIWXVj_w.jpg"
       },
-      "album": "Discobole EP"
+      "release": {
+       "label": "Versatile Records",
+       "catno": "VER 010",
+       "country": "France",
+       "year": 1997,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "FGBhQbmPwH8",
@@ -2461,7 +3001,13 @@
        "source": "deezer",
        "local": "covers/FGBhQbmPwH8.jpg"
       },
-      "album": "Discovery"
+      "release": {
+       "label": "Virgin",
+       "catno": "JBV 406",
+       "country": "Italy",
+       "year": 2000,
+       "format": "Vinyl, 7\", 45 RPM"
+      }
      },
      {
       "youtubeId": "mMfxI3r_LyA",
@@ -2474,7 +3020,13 @@
        "source": "deezer",
        "local": "covers/mMfxI3r_LyA.jpg"
       },
-      "album": "Lady (Hear Me Tonight) - Remix"
+      "release": {
+       "label": "Barclay",
+       "catno": "561 913 2",
+       "country": "France",
+       "year": 2000,
+       "format": "CD, Maxi-Single"
+      }
      },
      {
       "youtubeId": "0nS0accElcA",
@@ -2487,7 +3039,13 @@
        "source": "deezer",
        "local": "covers/0nS0accElcA.jpg"
       },
-      "album": "Intro (25th Anniversary)"
+      "release": {
+       "label": "Vulture Music",
+       "catno": "VULT 001",
+       "country": "France",
+       "year": 2000,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "R6Yfk-RL_9A",
@@ -2500,7 +3058,13 @@
        "source": "deezer",
        "local": "covers/R6Yfk-RL_9A.jpg"
       },
-      "album": "The Remixes, Vol. 1"
+      "release": {
+       "label": "Source",
+       "catno": "VISA 8223",
+       "country": "France",
+       "year": 1997,
+       "format": "Vinyl, 12\", Promo"
+      }
      },
      {
       "youtubeId": "Hu4dTob8avQ",
@@ -2513,7 +3077,13 @@
        "source": "deezer",
        "local": "covers/Hu4dTob8avQ.jpg"
       },
-      "album": "Am I Wrong"
+      "release": {
+       "label": "XL Recordings",
+       "catno": "XLCD 141",
+       "country": "UK",
+       "year": 2000,
+       "format": "CD, Album"
+      }
      }
     ],
     "actuel": []
@@ -2582,7 +3152,13 @@
        "source": "itunes",
        "local": "covers/xYddGjXFTt4.jpg"
       },
-      "album": "Bummed (Collector's Edition)"
+      "release": {
+       "label": "Factory",
+       "catno": "fac 232",
+       "country": "Ireland",
+       "year": 1989,
+       "format": "Vinyl, 7\", 45 RPM"
+      }
      },
      {
       "youtubeId": "Al3nN7KifiQ",
@@ -2594,6 +3170,13 @@
        "url": "https://i.ytimg.com/vi/Al3nN7KifiQ/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/Al3nN7KifiQ.jpg"
+      },
+      "release": {
+       "label": "Perfecto",
+       "catno": "PT 44196",
+       "country": "UK",
+       "year": 1990,
+       "format": "Vinyl, 12\", 45 RPM"
       }
      },
      {
@@ -2606,6 +3189,13 @@
        "url": "https://i.ytimg.com/vi/Z4pWtwo0s1I/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/Z4pWtwo0s1I.jpg"
+      },
+      "release": {
+       "label": "Produce Records",
+       "catno": "milk 102T",
+       "country": "UK",
+       "year": 1990,
+       "format": "Vinyl, 12\", 45 RPM"
       }
      },
      {
@@ -2619,7 +3209,13 @@
        "source": "deezer",
        "local": "covers/HRqPeKbYoGw.jpg"
       },
-      "album": "The Xpander E.P."
+      "release": {
+       "label": "Not On Label",
+       "catno": null,
+       "country": "UK",
+       "year": 1999,
+       "format": "Acetate, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "Gxlf9IwSvb4",
@@ -2631,6 +3227,13 @@
        "url": "https://i.ytimg.com/vi/Gxlf9IwSvb4/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/Gxlf9IwSvb4.jpg"
+      },
+      "release": {
+       "label": "Perfecto",
+       "catno": "PERF145CD1",
+       "country": "UK",
+       "year": 1997,
+       "format": "CD, Single"
       }
      }
     ],
@@ -2712,7 +3315,13 @@
        "source": "itunes",
        "local": "covers/Q4TuImwotuk.jpg"
       },
-      "album": "Tangent 2002: Disco Nouveau"
+      "release": {
+       "label": "Memory Boy Records",
+       "catno": "MEMOR 000",
+       "country": "US",
+       "year": 2002,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "-V3iSfdNxRA",
@@ -2725,7 +3334,13 @@
        "source": "itunes",
        "local": "covers/-V3iSfdNxRA.jpg"
       },
-      "album": "Champu - EP"
+      "release": {
+       "label": "Champange Records",
+       "catno": "CR-001",
+       "country": "US",
+       "year": 2001,
+       "format": "Vinyl, 12\""
+      }
      },
      {
       "youtubeId": "sy1dYFGkPUE",
@@ -2750,7 +3365,13 @@
        "source": "deezer",
        "local": "covers/VKzWLUQizz8.jpg"
       },
-      "album": "Justice"
+      "release": {
+       "label": "Ed Banger Records",
+       "catno": "2564-62986-2",
+       "country": "Argentina",
+       "year": 2007,
+       "format": "CD, Album"
+      }
      }
     ],
     "actuel": []
@@ -2821,7 +3442,13 @@
        "source": "itunes",
        "local": "covers/znqTF1msuAM.jpg"
       },
-      "album": "Disco Not Disco"
+      "release": {
+       "label": "Capriccio Records",
+       "catno": "P-928",
+       "country": "US",
+       "year": 1981,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "U3NfI9jbUGI",
@@ -2834,7 +3461,13 @@
        "source": "itunes",
        "local": "covers/U3NfI9jbUGI.jpg"
       },
-      "album": "Enter (Deluxe Edition)"
+      "release": {
+       "label": "Fantasy",
+       "catno": "947",
+       "country": "US",
+       "year": 1984,
+       "format": "Vinyl, 7\", Promo"
+      }
      },
      {
       "youtubeId": "i1qFXXneNzE",
@@ -2847,7 +3480,13 @@
        "source": "itunes",
        "local": "covers/i1qFXXneNzE.jpg"
       },
-      "album": "Classics"
+      "release": {
+       "label": "Metroplex",
+       "catno": "M-011",
+       "country": "US",
+       "year": 1987,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "vGFw2qeUp0s",
@@ -2860,7 +3499,13 @@
        "source": "deezer",
        "local": "covers/vGFw2qeUp0s.jpg"
       },
-      "album": "Strings Of Life"
+      "release": {
+       "label": "Transmat",
+       "catno": "MS 004",
+       "country": "US",
+       "year": 1987,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "KNz01ty-kTQ",
@@ -2886,7 +3531,13 @@
        "source": "deezer",
        "local": "covers/Gr-zG-IXDyo.jpg"
       },
-      "album": "Paradise"
+      "release": {
+       "label": "10 Records",
+       "catno": "TENX 249",
+       "country": "UK",
+       "year": 1988,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "YT4qqZHN8no",
@@ -2899,7 +3550,13 @@
        "source": "deezer",
        "local": "covers/YT4qqZHN8no.jpg"
       },
-      "album": "Enter (Deluxe Edition)"
+      "release": {
+       "label": "Fantasy",
+       "catno": "K-9202",
+       "country": "Australia",
+       "year": 1983,
+       "format": "Vinyl, 7\", 45 RPM"
+      }
      }
     ],
     "actuel": []
@@ -2966,7 +3623,13 @@
        "source": "itunes",
        "local": "covers/ooD4plDsO60.jpg"
       },
-      "album": "Warp10+2 Classics, 89-92"
+      "release": {
+       "label": "Warp Records",
+       "catno": "TT 001",
+       "country": "UK",
+       "year": 1989,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "LN9XzxooZt0",
@@ -2978,6 +3641,13 @@
        "url": "https://i.ytimg.com/vi/LN9XzxooZt0/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/LN9XzxooZt0.jpg"
+      },
+      "release": {
+       "label": "Carrere",
+       "catno": "9247",
+       "country": "France",
+       "year": 1990,
+       "format": "Vinyl, 12\", 45 RPM"
       }
      },
      {
@@ -2991,7 +3661,13 @@
        "source": "itunes",
        "local": "covers/hkTMo_STlws.jpg"
       },
-      "album": "Brothers Gonna Work It Out (DJ Mix)"
+      "release": {
+       "label": "10 Records",
+       "catno": "TENX 285",
+       "country": "UK",
+       "year": 1989,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "s-1Y2EqThyQ",
@@ -3004,7 +3680,13 @@
        "source": "deezer",
        "local": "covers/s-1Y2EqThyQ.jpg"
       },
-      "album": "LFO"
+      "release": {
+       "label": "Basic Mix",
+       "catno": "BASIX - 026",
+       "country": "Spain",
+       "year": 1990,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "hwyVNDIhxzM",
@@ -3017,7 +3699,13 @@
        "source": "deezer",
        "local": "covers/hwyVNDIhxzM.jpg"
       },
-      "album": "Jus' Unique"
+      "release": {
+       "label": "Chill Records",
+       "catno": "DB786",
+       "country": "UK",
+       "year": 1988,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      }
     ],
     "actuel": []
@@ -3086,7 +3774,13 @@
        "source": "itunes",
        "local": "covers/G8IwGUR8S54.jpg"
       },
-      "album": "Release"
+      "release": {
+       "label": "Attack Records",
+       "catno": "ATT-V-94 003",
+       "country": "France",
+       "year": 1994,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "6TYsOMYaz6E",
@@ -3099,10 +3793,16 @@
        "source": "deezer",
        "local": "covers/6TYsOMYaz6E.jpg"
       },
-      "album": "Recycled Plastik",
       "shared": [
        "minimaltechno"
-      ]
+      ],
+      "release": {
+       "label": "NovaMute",
+       "catno": "P 12 NoMu 28",
+       "country": "UK",
+       "year": 1993,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "Un4CeV_l3pI",
@@ -3115,10 +3815,16 @@
        "source": "itunes",
        "local": "covers/Un4CeV_l3pI.jpg"
       },
-      "album": "Hardtrance Acperience - EP",
       "shared": [
        "acidtrance"
-      ]
+      ],
+      "release": {
+       "label": "Harthouse",
+       "catno": "HH 008",
+       "country": "Germany",
+       "year": 1992,
+       "format": "Vinyl, 12\", EP"
+      }
      }
     ],
     "actuel": []
@@ -3178,6 +3884,13 @@
        "url": "https://i.ytimg.com/vi/uaovVrQyhZg/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/uaovVrQyhZg.jpg"
+      },
+      "release": {
+       "label": "Planet Core Productions",
+       "catno": "PCP 001",
+       "country": "Germany",
+       "year": 1989,
+       "format": "Vinyl, 12\", 45 RPM"
       }
      },
      {
@@ -3191,7 +3904,13 @@
        "source": "itunes",
        "local": "covers/8hFO3fdj_6Y.jpg"
       },
-      "album": "Workout Time, Vol. 1"
+      "release": {
+       "label": "Italian Style Production",
+       "catno": "ISP 1019",
+       "country": "Italy",
+       "year": 1990,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "aiqzDNIVuik",
@@ -3204,7 +3923,13 @@
        "source": "itunes",
        "local": "covers/aiqzDNIVuik.jpg"
       },
-      "album": "The Phuture That Never Happened"
+      "release": {
+       "label": "R & S Records",
+       "catno": "RS 923",
+       "country": "Belgium",
+       "year": 1990,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      }
     ],
     "actuel": []
@@ -3272,11 +3997,17 @@
       "title": "Stormwatch",
       "year": 1994,
       "verified": true,
-      "album": "100 Anthems: Trance",
       "cover": {
        "url": "https://cdn-images.dzcdn.net/images/cover/9cb35fd0fbc25c2fcf2156052bb0ab06/500x500-000000-80-0-0.jpg",
        "source": "deezer",
        "local": "covers/ZqLYBr8cmlo.jpg"
+      },
+      "release": {
+       "label": "Synewave",
+       "catno": "SW01",
+       "country": "US",
+       "year": 1994,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
       }
      },
      {
@@ -3289,6 +4020,13 @@
        "url": "https://i.ytimg.com/vi/T9TaWn-oWv4/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/T9TaWn-oWv4.jpg"
+      },
+      "release": {
+       "label": "Network23",
+       "catno": "NTW 23-09",
+       "country": "France",
+       "year": 1995,
+       "format": "Vinyl, 12\", 45 RPM"
       }
      },
      {
@@ -3368,6 +4106,13 @@
        "url": "https://i.ytimg.com/vi/ME-DxgLMt8g/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/ME-DxgLMt8g.jpg"
+      },
+      "release": {
+       "label": "Spirit Zone Recordings",
+       "catno": "SZ 073",
+       "country": "Germany",
+       "year": 2000,
+       "format": "Vinyl, 12\", White Label"
       }
      },
      {
@@ -3381,7 +4126,13 @@
        "source": "itunes",
        "local": "covers/kyGfewR8wIM.jpg"
       },
-      "album": "Re-Take / Playback - EP"
+      "release": {
+       "label": "Anima",
+       "catno": "ANI 002-12",
+       "country": "Germany",
+       "year": 2002,
+       "format": "Vinyl, 12\", White Label"
+      }
      }
     ],
     "actuel": []
@@ -3448,7 +4199,13 @@
        "source": "itunes",
        "local": "covers/vazFAtsqBoM.jpg"
       },
-      "album": "Pet 2000 (2014 Remaster) - Single"
+      "release": {
+       "label": "Downwards",
+       "catno": "LINO 10",
+       "country": "UK",
+       "year": 1995,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "GObKe1V3xmU",
@@ -3461,7 +4218,13 @@
        "source": "itunes",
        "local": "covers/GObKe1V3xmU.jpg"
       },
-      "album": "Manbait"
+      "release": {
+       "label": "Blackest Ever Black",
+       "catno": "BLACKEST004",
+       "country": "UK",
+       "year": 2011,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "jYo02BJbUpI",
@@ -3486,7 +4249,13 @@
        "source": "deezer",
        "local": "covers/raoB6BO7fTo.jpg"
       },
-      "album": "Recordings"
+      "release": {
+       "label": "Downwards",
+       "catno": "LINO32",
+       "country": "UK",
+       "year": 2004,
+       "format": "Vinyl, 12\", White Label"
+      }
      }
     ],
     "actuel": []
@@ -3554,7 +4323,13 @@
        "source": "deezer",
        "local": "covers/KIdkN5V8MKc.jpg"
       },
-      "album": "Hyaline"
+      "release": {
+       "label": "Instinct Records",
+       "catno": "EX-261-1",
+       "country": "US",
+       "year": 1993,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "HK0T9rdXgd0",
@@ -3567,7 +4342,13 @@
        "source": "itunes",
        "local": "covers/HK0T9rdXgd0.jpg"
       },
-      "album": "House for All - EP"
+      "release": {
+       "label": "D.J. Boy Records",
+       "catno": "D.J.B.R. 001",
+       "country": "US",
+       "year": 1992,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "boVIMXaAqk8",
@@ -3580,7 +4361,13 @@
        "source": "itunes",
        "local": "covers/boVIMXaAqk8.jpg"
       },
-      "album": "BCD-2"
+      "release": {
+       "label": "Basic Channel",
+       "catno": "BC-07",
+       "country": "Germany",
+       "year": 1994,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "Gi4vzEoJXHU",
@@ -3588,11 +4375,17 @@
       "title": "Quadrant Dub I",
       "year": 1994,
       "verified": true,
-      "album": "Quadrant Dub",
       "cover": {
        "url": "https://cdn-images.dzcdn.net/images/cover/ac962aeb84ba090a51e5c0aea5c1f9a4/500x500-000000-80-0-0.jpg",
        "source": "deezer",
        "local": "covers/Gi4vzEoJXHU.jpg"
+      },
+      "release": {
+       "label": "Basic Channel",
+       "catno": "BC 06",
+       "country": "Germany",
+       "year": 1994,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
       }
      },
      {
@@ -3606,7 +4399,13 @@
        "source": "deezer",
        "local": "covers/QSez2rq6pVE.jpg"
       },
-      "album": "Constant Limber"
+      "release": {
+       "label": "Resopal Schallware",
+       "catno": "RSPDUB001",
+       "country": "Germany",
+       "year": 2009,
+       "format": "CD, Album"
+      }
      }
     ],
     "actuel": []
@@ -3671,7 +4470,13 @@
        "source": "itunes",
        "local": "covers/Nsw5mLJtMgA.jpg"
       },
-      "album": "The Green House Effect"
+      "release": {
+       "label": "Profile Records",
+       "catno": "FILER 293",
+       "country": "UK",
+       "year": 1990,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "8qxBjcGjS3M",
@@ -3684,7 +4489,13 @@
        "source": "itunes",
        "local": "covers/8qxBjcGjS3M.jpg"
       },
-      "album": "Microgravity"
+      "release": {
+       "label": "Origo Sound",
+       "catno": "OCD 9105",
+       "country": "Norway",
+       "year": 1991,
+       "format": "CD, Album"
+      }
      },
      {
       "youtubeId": "4w-Yt_sjkQ0",
@@ -3709,7 +4520,13 @@
        "source": "deezer",
        "local": "covers/2tOutF8B3f8.jpg"
       },
-      "album": "Selected Ambient Works 85-92"
+      "release": {
+       "label": "Apollo",
+       "catno": "AMB LP 3922",
+       "country": "Belgium",
+       "year": 1992,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "2Ng9Pf_p7Fw",
@@ -3722,10 +4539,16 @@
        "source": "deezer",
        "local": "covers/2Ng9Pf_p7Fw.jpg"
       },
-      "album": "The Orb - History Of The Future",
       "shared": [
        "ambienthouse"
-      ]
+      ],
+      "release": {
+       "label": "Big Life",
+       "catno": "ORB PROMO 2",
+       "country": "UK",
+       "year": 1990,
+       "format": "Vinyl, 12\", Promo"
+      }
      }
     ],
     "actuel": []
@@ -3790,7 +4613,13 @@
        "source": "itunes",
        "local": "covers/_5ZoJlj9eOY.jpg"
       },
-      "album": "Jelly Tones"
+      "release": {
+       "label": "R & S Records",
+       "catno": "RS 95065",
+       "country": "UK & Europe",
+       "year": 1995,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "zQvidAjIIt4",
@@ -3802,6 +4631,13 @@
        "url": "https://i.ytimg.com/vi/zQvidAjIIt4/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/zQvidAjIIt4.jpg"
+      },
+      "release": {
+       "label": "Head In The Clouds",
+       "catno": "H 002",
+       "country": "US",
+       "year": 1995,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
       }
      },
      {
@@ -3814,6 +4650,13 @@
        "url": "https://i.ytimg.com/vi/gwGFb-A2QzE/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/gwGFb-A2QzE.jpg"
+      },
+      "release": {
+       "label": "Internal",
+       "catno": "TRULP 8",
+       "country": "UK",
+       "year": 1995,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
       }
      }
     ],
@@ -3871,7 +4714,13 @@
        "source": "itunes",
        "local": "covers/MpGR_pra4vY.jpg"
       },
-      "album": "Discovers the Rings of Saturn"
+      "release": {
+       "label": "Alfa International",
+       "catno": "ALCB-567",
+       "country": "Japan",
+       "year": 1992,
+       "format": "CD, Album, Promo"
+      }
      },
      {
       "youtubeId": "4ED2-MEGLC0",
@@ -3884,7 +4733,13 @@
        "source": "itunes",
        "local": "covers/4ED2-MEGLC0.jpg"
       },
-      "album": "Phase & Rhythm"
+      "release": {
+       "label": "Rising High Records",
+       "catno": "RSN 76",
+       "country": "UK",
+       "year": 1993,
+       "format": "Vinyl, 12\", White Label"
+      }
      },
      {
       "youtubeId": "0HBzYnc-AYI",
@@ -3910,7 +4765,13 @@
        "source": "deezer",
        "local": "covers/wu3dSwwlsGc.jpg"
       },
-      "album": "Minimal Nation"
+      "release": {
+       "label": "Axis",
+       "catno": "AX-007",
+       "country": "US",
+       "year": 1994,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "6TYsOMYaz6E",
@@ -3923,10 +4784,16 @@
        "source": "deezer",
        "local": "covers/6TYsOMYaz6E.jpg"
       },
-      "album": "Recycled Plastik",
       "shared": [
        "acidtechno"
-      ]
+      ],
+      "release": {
+       "label": "NovaMute",
+       "catno": "P 12 NoMu 28",
+       "country": "UK",
+       "year": 1993,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      }
     ],
     "actuel": []
@@ -3997,7 +4864,13 @@
        "source": "itunes",
        "local": "covers/wUwS9jqbId0.jpg"
       },
-      "album": "The Secret Tapes of Dr. Eich"
+      "release": {
+       "label": "Open",
+       "catno": "OPENT 001",
+       "country": "UK",
+       "year": 1994,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "_YB2x90mR5M",
@@ -4010,7 +4883,13 @@
        "source": "itunes",
        "local": "covers/_YB2x90mR5M.jpg"
       },
-      "album": "Into Your Heart - EP"
+      "release": {
+       "label": "Dance Street",
+       "catno": "DST 1262-8",
+       "country": "Germany",
+       "year": 1994,
+       "format": "CD, Single"
+      }
      },
      {
       "youtubeId": "XzA3NitortE",
@@ -4023,7 +4902,13 @@
        "source": "deezer",
        "local": "covers/XzA3NitortE.jpg"
       },
-      "album": "As One - Thology Vol.2"
+      "release": {
+       "label": "New Electronica",
+       "catno": "ELEC26CD",
+       "country": "UK",
+       "year": 1995,
+       "format": "CD, Album"
+      }
      },
      {
       "youtubeId": "rO0OhXeT1Qo",
@@ -4036,7 +4921,13 @@
        "source": "deezer",
        "local": "covers/rO0OhXeT1Qo.jpg"
       },
-      "album": "Cassagrande Presents Ralphi Rosario"
+      "release": {
+       "label": "Low Pressings",
+       "catno": "LP040",
+       "country": "UK",
+       "year": 2002,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "u31thuMehjM",
@@ -4049,7 +4940,13 @@
        "source": "deezer",
        "local": "covers/u31thuMehjM.jpg"
       },
-      "album": "Losing It"
+      "release": {
+       "label": "Catch & Release",
+       "catno": "CR001B",
+       "country": "Australia",
+       "year": 2018,
+       "format": "File, MP3, Stereo"
+      }
      }
     ],
     "actuel": []
@@ -4115,7 +5012,13 @@
        "source": "itunes",
        "local": "covers/7O5CqF-51zQ.jpg"
       },
-      "album": "Inferno"
+      "release": {
+       "label": "Extra",
+       "catno": "EXTRA.2001.2",
+       "country": "Czech Republic",
+       "year": 2000,
+       "format": "CD, Album"
+      }
      },
      {
       "youtubeId": "Cmj0LNnS0n8",
@@ -4128,7 +5031,13 @@
        "source": "itunes",
        "local": "covers/Cmj0LNnS0n8.jpg"
       },
-      "album": "1"
+      "release": {
+       "label": "Klang Elektronik",
+       "catno": "KLANG 19",
+       "country": "Germany",
+       "year": 1998,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "11YgeWmw8nU",
@@ -4140,6 +5049,13 @@
        "url": "https://i.ytimg.com/vi/11YgeWmw8nU/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/11YgeWmw8nU.jpg"
+      },
+      "release": {
+       "label": "Perlon",
+       "catno": "PERL 07",
+       "country": "Germany",
+       "year": 1998,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
       }
      },
      {
@@ -4153,7 +5069,13 @@
        "source": "deezer",
        "local": "covers/mQy2V_3LRMQ.jpg"
       },
-      "album": "Rest"
+      "release": {
+       "label": "Playhouse",
+       "catno": "PLAYHOUSE 22",
+       "country": "Germany",
+       "year": 1998,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "l_n8MtHoYN4",
@@ -4166,7 +5088,13 @@
        "source": "deezer",
        "local": "covers/l_n8MtHoYN4.jpg"
       },
-      "album": "Vocalcity"
+      "release": {
+       "label": "Force Tracks",
+       "catno": "FT14",
+       "country": "Germany",
+       "year": 2000,
+       "format": "Vinyl, 12\", Album"
+      }
      },
      {
       "youtubeId": "P-2hcWb23mg",
@@ -4179,7 +5107,13 @@
        "source": "deezer",
        "local": "covers/P-2hcWb23mg.jpg"
       },
-      "album": "textstar+ (Remaster 2022)"
+      "release": {
+       "label": "Klang Elektronik",
+       "catno": "klang elektronik cd07",
+       "country": "Germany",
+       "year": 2002,
+       "format": "CD, Compilation"
+      }
      }
     ],
     "actuel": []
@@ -4244,6 +5178,13 @@
        "url": "https://i.ytimg.com/vi/w7nNF0FJ3-I/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/w7nNF0FJ3-I.jpg"
+      },
+      "release": {
+       "label": "Force Inc. Music Works",
+       "catno": "FIM 223",
+       "country": "Germany",
+       "year": 2002,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
       }
      },
      {
@@ -4257,7 +5198,13 @@
        "source": "itunes",
        "local": "covers/h0i1Szq6GM8.jpg"
       },
-      "album": "Dexter - Single"
+      "release": {
+       "label": "Playhouse",
+       "catno": "Playhouse cd08",
+       "country": "Germany",
+       "year": 2003,
+       "format": "CD, Album, Promo"
+      }
      }
     ],
     "actuel": []
@@ -4345,7 +5292,13 @@
        "source": "itunes",
        "local": "covers/IRaJqb1oyFQ.jpg"
       },
-      "album": "Closer"
+      "release": {
+       "label": "NovaMute",
+       "catno": "NoMu 100 CD",
+       "country": "UK",
+       "year": 2003,
+       "format": "CD, Album"
+      }
      }
     ],
     "actuel": []
@@ -4411,7 +5364,13 @@
        "source": "itunes",
        "local": "covers/QWgWV0lNtYQ.jpg"
       },
-      "album": "Televinken - Single"
+      "release": {
+       "label": "Poker Flat Recordings",
+       "catno": "PFR 03",
+       "country": "Germany",
+       "year": 1999,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "ZBZ04-gQfWM",
@@ -4423,6 +5382,13 @@
        "url": "https://i.ytimg.com/vi/ZBZ04-gQfWM/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/ZBZ04-gQfWM.jpg"
+      },
+      "release": {
+       "label": "Forensic Records",
+       "catno": "for-004",
+       "country": "UK",
+       "year": 1999,
+       "format": "Vinyl, 12\", 45 RPM"
       }
      },
      {
@@ -4435,6 +5401,13 @@
        "url": "https://i.ytimg.com/vi/zUd-ZcMnhtE/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/zUd-ZcMnhtE.jpg"
+      },
+      "release": {
+       "label": "Highgrade Records",
+       "catno": "Highgrade 005",
+       "country": "Germany",
+       "year": 2001,
+       "format": "Vinyl, 12\", Test Pressing"
       }
      }
     ],
@@ -4495,7 +5468,13 @@
        "source": "itunes",
        "local": "covers/qmsbP13xu6k.jpg"
       },
-      "album": "Flat Beat - EP"
+      "release": {
+       "label": "F Communications",
+       "catno": "F 104 CDS",
+       "country": "UK & Europe",
+       "year": 1999,
+       "format": "CD, Single, Stereo"
+      }
      },
      {
       "youtubeId": "mQGc_9kBN8c",
@@ -4508,7 +5487,13 @@
        "source": "itunes",
        "local": "covers/mQGc_9kBN8c.jpg"
       },
-      "album": "Steam Circuit (Remastered)"
+      "release": {
+       "label": "Highgrade Records",
+       "catno": "HG030",
+       "country": "Germany",
+       "year": 2005,
+       "format": "File, MP3"
+      }
      },
      {
       "youtubeId": "mZ756MWPMRQ",
@@ -4521,7 +5506,13 @@
        "source": "itunes",
        "local": "covers/mZ756MWPMRQ.jpg"
       },
-      "album": "Dubsided One (Mixed by Subskrpt)"
+      "release": {
+       "label": "Dubsided",
+       "catno": "DSD008",
+       "country": "UK",
+       "year": 2006,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "vqBeK-ewrOI",
@@ -4534,7 +5525,13 @@
        "source": "deezer",
        "local": "covers/vqBeK-ewrOI.jpg"
       },
-      "album": "La Rocca (Club Classics)"
+      "release": {
+       "label": "Data Records",
+       "catno": null,
+       "country": "UK",
+       "year": 2005,
+       "format": "CDr, Single, Promo"
+      }
      },
      {
       "youtubeId": "iODdvJGpfIA",
@@ -4547,7 +5544,13 @@
        "source": "deezer",
        "local": "covers/iODdvJGpfIA.jpg"
       },
-      "album": "Mars"
+      "release": {
+       "label": "Cheap Thrills Records",
+       "catno": "CHEAP 003X",
+       "country": "UK",
+       "year": 2008,
+       "format": "CDr, Promo"
+      }
      }
     ],
     "actuel": []
@@ -4613,7 +5616,13 @@
        "source": "itunes",
        "local": "covers/H8gYJIEKYpY.jpg"
       },
-      "album": "The Difference It Makes - EP"
+      "release": {
+       "label": "Kompakt Pop",
+       "catno": "KOMPAKT POP 5",
+       "country": "Germany",
+       "year": 2004,
+       "format": "File, MP3"
+      }
      },
      {
       "youtubeId": "pN0QzsTbgmg",
@@ -4626,7 +5635,13 @@
        "source": "itunes",
        "local": "covers/pN0QzsTbgmg.jpg"
       },
-      "album": "The Sky Was Pink - EP"
+      "release": {
+       "label": "Not On Label",
+       "catno": null,
+       "country": "Russia",
+       "year": 2005,
+       "format": "CD, Compilation, Unofficial Release"
+      }
      },
      {
       "youtubeId": "Xy71oHnVrL0",
@@ -4639,7 +5654,13 @@
        "source": "itunes",
        "local": "covers/Xy71oHnVrL0.jpg"
       },
-      "album": "Gazebo Remixes"
+      "release": {
+       "label": "Border Community",
+       "catno": "09BCD",
+       "country": "UK",
+       "year": 2005,
+       "format": "File, MP3"
+      }
      }
     ],
     "actuel": []
@@ -4732,7 +5753,13 @@
        "source": "itunes",
        "local": "covers/_ZCPK_9wFL4.jpg"
       },
-      "album": "The Sound of Belgium Vol. 2"
+      "release": {
+       "label": "Indisc",
+       "catno": "DID 128064",
+       "country": "Belgium",
+       "year": 1990,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "6Pazt9whz0A",
@@ -4758,7 +5785,13 @@
        "source": "deezer",
        "local": "covers/0csxphA17bY.jpg"
       },
-      "album": "The Age Of Love (Remixes)"
+      "release": {
+       "label": "Airplay Records",
+       "catno": "95.173",
+       "country": "France",
+       "year": 1990,
+       "format": "CD, Maxi-Single"
+      }
      },
      {
       "youtubeId": "LZSnoaLWCVU",
@@ -4771,7 +5804,13 @@
        "source": "deezer",
        "local": "covers/LZSnoaLWCVU.jpg"
       },
-      "album": "Carte Blanche"
+      "release": {
+       "label": "Virgin",
+       "catno": "724389581720",
+       "country": "Germany",
+       "year": 1999,
+       "format": "CD, Maxi-Single"
+      }
      },
      {
       "youtubeId": "wPC2a3MXH3E",
@@ -4784,7 +5823,13 @@
        "source": "deezer",
        "local": "covers/wPC2a3MXH3E.jpg"
       },
-      "album": "Vol I, The Original Club Tracks"
+      "release": {
+       "label": "Eye Q Records",
+       "catno": "9031-76404-0",
+       "country": "Germany",
+       "year": 1991,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      }
     ],
     "actuel": []
@@ -4853,10 +5898,16 @@
        "source": "itunes",
        "local": "covers/Un4CeV_l3pI.jpg"
       },
-      "album": "Hardtrance Acperience - EP",
       "shared": [
        "acidtechno"
-      ]
+      ],
+      "release": {
+       "label": "Harthouse",
+       "catno": "HH 008",
+       "country": "Germany",
+       "year": 1992,
+       "format": "Vinyl, 12\", EP"
+      }
      },
      {
       "youtubeId": "B631aGiDcqs",
@@ -4869,7 +5920,13 @@
        "source": "itunes",
        "local": "covers/B631aGiDcqs.jpg"
       },
-      "album": "The Complete 'Two Full Moons & a Trout'"
+      "release": {
+       "label": "Labworks Germany",
+       "catno": "LAB 40",
+       "country": "Germany",
+       "year": 1993,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "6uMOl8UEzrE",
@@ -4877,11 +5934,17 @@
       "title": "Turkish Bazar",
       "year": 1995,
       "verified": true,
-      "album": "Release",
       "cover": {
        "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/94/44/6c/mzi.gwnlxtbp.jpg/600x600bb.jpg",
        "source": "itunes",
        "local": "covers/6uMOl8UEzrE.jpg"
+      },
+      "release": {
+       "label": "Le Petit Prince",
+       "catno": "Prince 94/18",
+       "country": "Germany",
+       "year": 1994,
+       "format": "Vinyl, 12\", White Label"
       }
      }
     ],
@@ -4941,6 +6004,13 @@
        "url": "https://i.ytimg.com/vi/o7d4oTkg8Ho/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/o7d4oTkg8Ho.jpg"
+      },
+      "release": {
+       "label": "MFS",
+       "catno": "0100 007",
+       "country": "Germany",
+       "year": 1991,
+       "format": "CD, Maxi-Single"
       }
      },
      {
@@ -4954,7 +6024,13 @@
        "source": "itunes",
        "local": "covers/zLy--cFj6W0.jpg"
       },
-      "album": "Tripomatic Fairytales 2001 (Deluxe Edition)"
+      "release": {
+       "label": "R & S Records",
+       "catno": "RSUK 14X",
+       "country": "UK",
+       "year": 1992,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "7nBtLzFX0RY",
@@ -4980,7 +6056,13 @@
        "source": "deezer",
        "local": "covers/yyvp_nCM15Q.jpg"
       },
-      "album": "Cafe Del Mar"
+      "release": {
+       "label": "Eye Q Records",
+       "catno": "Eye Q 001",
+       "country": "Germany",
+       "year": 1993,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      }
     ],
     "actuel": []
@@ -5048,6 +6130,13 @@
        "url": "https://i.ytimg.com/vi/n31huqXclgk/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/n31huqXclgk.jpg"
+      },
+      "release": {
+       "label": "Out On A Limb",
+       "catno": "OOL 5T",
+       "country": "UK",
+       "year": 1994,
+       "format": "Vinyl, 12\", White Label"
       }
      },
      {
@@ -5061,7 +6150,13 @@
        "source": "itunes",
        "local": "covers/xa3A2RasFyU.jpg"
       },
-      "album": "45 RPM"
+      "release": {
+       "label": "MFS",
+       "catno": "MFS 7062-0",
+       "country": "Germany",
+       "year": 1995,
+       "format": "Vinyl, 12\", White Label"
+      }
      },
      {
       "youtubeId": "TLtpPZOD360",
@@ -5151,7 +6246,13 @@
        "source": "itunes",
        "local": "covers/DMahHB-pmVw.jpg"
       },
-      "album": "Run - Single"
+      "release": {
+       "label": "Tetsuo",
+       "catno": "TET 053-12",
+       "country": "Germany",
+       "year": 1998,
+       "format": "Vinyl, 12\", Maxi-Single"
+      }
      },
      {
       "youtubeId": "1p5bIEpp2-A",
@@ -5164,7 +6265,13 @@
        "source": "itunes",
        "local": "covers/1p5bIEpp2-A.jpg"
       },
-      "album": "Solar Serenades (Remastered)"
+      "release": {
+       "label": "Rhythm Syndicate Records",
+       "catno": "RHYSYN001",
+       "country": "UK",
+       "year": 1998,
+       "format": "Vinyl, 12\", White Label"
+      }
      },
      {
       "youtubeId": "UE9xLxthwtA",
@@ -5176,6 +6283,13 @@
        "url": "https://i.ytimg.com/vi/UE9xLxthwtA/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/UE9xLxthwtA.jpg"
+      },
+      "release": {
+       "label": "Superstition",
+       "catno": "EFA 62098-6",
+       "country": "Germany",
+       "year": 1999,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
       }
      }
     ],
@@ -5266,7 +6380,13 @@
        "source": "itunes",
        "local": "covers/mdH7t_Kdy_A.jpg"
       },
-      "album": "From the New Nation of Long Shadows"
+      "release": {
+       "label": "Discomagic Records",
+       "catno": "MIX 1040",
+       "country": "Italy",
+       "year": 1994,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "DvyCbevQbtI",
@@ -5279,7 +6399,13 @@
        "source": "deezer",
        "local": "covers/DvyCbevQbtI.jpg"
       },
-      "album": "Dreamland (Album)"
+      "release": {
+       "label": "Yeti Records",
+       "catno": "YR 9514",
+       "country": "Belgium",
+       "year": 1995,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "4drFK8ohAxg",
@@ -5292,7 +6418,13 @@
        "source": "deezer",
        "local": "covers/4drFK8ohAxg.jpg"
       },
-      "album": "Dreamland (Album)"
+      "release": {
+       "label": "NEC Records",
+       "catno": "NEC 759529",
+       "country": "Belgium",
+       "year": 1996,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      }
     ],
     "actuel": []
@@ -5353,7 +6485,13 @@
        "source": "itunes",
        "local": "covers/Mj4VoVxLcWc.jpg"
       },
-      "album": "Out of the Dark - Single"
+      "release": {
+       "label": "Suck Me Plasma",
+       "catno": "SUCK FIFTEEN",
+       "country": "Germany",
+       "year": 1992,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "rG827q9xsNw",
@@ -5365,6 +6503,13 @@
        "url": "https://i.ytimg.com/vi/rG827q9xsNw/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/rG827q9xsNw.jpg"
+      },
+      "release": {
+       "label": "MFS",
+       "catno": "0700 016",
+       "country": "Germany",
+       "year": 1992,
+       "format": "Vinyl, 12\", 45 RPM"
       }
      },
      {
@@ -5378,7 +6523,13 @@
        "source": "itunes",
        "local": "covers/z4BSyf9rMqc.jpg"
       },
-      "album": "Energy Trance - EP"
+      "release": {
+       "label": "Suck Me Plasma",
+       "catno": "Suck 21",
+       "country": "Germany",
+       "year": 1993,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      }
     ],
     "actuel": []
@@ -5464,7 +6615,13 @@
        "source": "itunes",
        "local": "covers/7updrYM5_wU.jpg"
       },
-      "album": "Another World - Single"
+      "release": {
+       "label": "No Name Records",
+       "catno": "2103122",
+       "country": "Belgium",
+       "year": 2000,
+       "format": "CD, Single"
+      }
      }
     ],
     "actuel": []
@@ -5536,7 +6693,13 @@
        "source": "itunes",
        "local": "covers/kFSwSNgwMlY.jpg"
       },
-      "album": "Gouryella"
+      "release": {
+       "label": "Alchemy Mastering",
+       "catno": null,
+       "country": "UK",
+       "year": 1998,
+       "format": "Acetate, 12\""
+      }
      },
      {
       "youtubeId": "n6798SH-7hA",
@@ -5549,7 +6712,13 @@
        "source": "itunes",
        "local": "covers/n6798SH-7hA.jpg"
       },
-      "album": "Far from In Love - Single"
+      "release": {
+       "label": "Anjunabeats",
+       "catno": "ANJ-009",
+       "country": "UK",
+       "year": 2002,
+       "format": "File, MP3"
+      }
      },
      {
       "youtubeId": "ypDtUUtuNzQ",
@@ -5562,7 +6731,13 @@
        "source": "deezer",
        "local": "covers/ypDtUUtuNzQ.jpg"
       },
-      "album": "Airwave (Giuseppe Ottaviani Remix)"
+      "release": {
+       "label": "Free For All",
+       "catno": "7002725",
+       "country": "Netherlands",
+       "year": 1999,
+       "format": "Vinyl, 12\", Single Sided"
+      }
      },
      {
       "youtubeId": "mxGMfKtqi8o",
@@ -5575,7 +6750,13 @@
        "source": "deezer",
        "local": "covers/mxGMfKtqi8o.jpg"
       },
-      "album": "Universal Nation - Remastered Classic Mixes"
+      "release": {
+       "label": "Urban",
+       "catno": null,
+       "country": "Germany",
+       "year": 1998,
+       "format": "Vinyl, 12\""
+      }
      }
     ],
     "actuel": []
@@ -5652,6 +6833,13 @@
        "url": "https://i.ytimg.com/vi/Rq5HTIACtnM/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/Rq5HTIACtnM.jpg"
+      },
+      "release": {
+       "label": "Positiva",
+       "catno": "CDTIV-71",
+       "country": "UK",
+       "year": 1997,
+       "format": "CD, Single, Stereo"
       }
      },
      {
@@ -5665,7 +6853,13 @@
        "source": "itunes",
        "local": "covers/Lgs9QUtWc3M.jpg"
       },
-      "album": "Better Off Alone"
+      "release": {
+       "label": "ISBA Music Entertainment Inc.",
+       "catno": "ISB-SI-7021",
+       "country": "Canada",
+       "year": 1999,
+       "format": "CD, Maxi-Single"
+      }
      },
      {
       "youtubeId": "on8DJBt07eU",
@@ -5678,7 +6872,13 @@
        "source": "deezer",
        "local": "covers/on8DJBt07eU.jpg"
       },
-      "album": "Poetica (feat. Nadia Ali)"
+      "release": {
+       "label": "Sumo Records",
+       "catno": "099900003072",
+       "country": "UK",
+       "year": 2001,
+       "format": "Vinyl, 12\""
+      }
      },
      {
       "youtubeId": "wi3Ba0qUlUU",
@@ -5691,7 +6891,13 @@
        "source": "deezer",
        "local": "covers/wi3Ba0qUlUU.jpg"
       },
-      "album": "Past, Present & Future"
+      "release": {
+       "label": "Anjunabeats",
+       "catno": "ANJ-055",
+       "country": "UK",
+       "year": 2005,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      }
     ],
     "actuel": []
@@ -5758,7 +6964,13 @@
        "source": "itunes",
        "local": "covers/Tq_rtGOOr6o.jpg"
       },
-      "album": "Raja Ram's Anthology"
+      "release": {
+       "label": "Fabulous Music UK",
+       "catno": "FABU 005T",
+       "country": "UK",
+       "year": 1991,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "xZ84T32CQ7s",
@@ -5771,7 +6983,13 @@
        "source": "itunes",
        "local": "covers/xZ84T32CQ7s.jpg"
       },
-      "album": "Trance Dance 128"
+      "release": {
+       "label": "ZYX Records",
+       "catno": "ZYX 20207-2",
+       "country": "Germany",
+       "year": 1992,
+       "format": "CD, Album"
+      }
      },
      {
       "youtubeId": "nDy7I0999xA",
@@ -5783,6 +7001,13 @@
        "url": "https://i.ytimg.com/vi/nDy7I0999xA/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/nDy7I0999xA.jpg"
+      },
+      "release": {
+       "label": "Gaia Tonträger",
+       "catno": "GT002",
+       "country": "Germany",
+       "year": 1992,
+       "format": "Vinyl, 12\""
       }
      },
      {
@@ -5796,7 +7021,13 @@
        "source": "deezer",
        "local": "covers/iIsVzSMRw8E.jpg"
       },
-      "album": "Goa Classics Remixed"
+      "release": {
+       "label": "Dragonfly Records",
+       "catno": "BFLT 14",
+       "country": "UK",
+       "year": 1994,
+       "format": "Vinyl, 12\", Test Pressing"
+      }
      },
      {
       "youtubeId": "onquKz5SYRs",
@@ -5809,7 +7040,13 @@
        "source": "deezer",
        "local": "covers/onquKz5SYRs.jpg"
       },
-      "album": "Another World"
+      "release": {
+       "label": "Smart Records Copenhagen",
+       "catno": "SRCX 38",
+       "country": "Denmark",
+       "year": 1995,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "vYXofstcLO8",
@@ -5822,7 +7059,13 @@
        "source": "deezer",
        "local": "covers/vYXofstcLO8.jpg"
       },
-      "album": "I.F.O."
+      "release": {
+       "label": "Dragonfly Records",
+       "catno": null,
+       "country": "UK",
+       "year": 1997,
+       "format": "Cassette, Album, Promo"
+      }
      },
      {
       "youtubeId": "IZmbGaII1KM",
@@ -5835,7 +7078,13 @@
        "source": "deezer",
        "local": "covers/IZmbGaII1KM.jpg"
       },
-      "album": "Inside the Reactor"
+      "release": {
+       "label": "Blue Room Released",
+       "catno": "BR009CD",
+       "country": "UK",
+       "year": 1995,
+       "format": "CD, Album, Repress"
+      }
      },
      {
       "youtubeId": "kRCAlKQ4Gd8",
@@ -5848,7 +7097,13 @@
        "source": "deezer",
        "local": "covers/kRCAlKQ4Gd8.jpg"
       },
-      "album": "Trust In Trance vol 3"
+      "release": {
+       "label": "Trust In Trance Records",
+       "catno": "2041-4",
+       "country": "Israel",
+       "year": 1996,
+       "format": "Cassette, Album"
+      }
      },
      {
       "youtubeId": "WBgvx4CRndI",
@@ -5861,7 +7116,13 @@
        "source": "deezer",
        "local": "covers/WBgvx4CRndI.jpg"
       },
-      "album": "Laughing Gas"
+      "release": {
+       "label": "NovaMute",
+       "catno": "nomu 24 lp",
+       "country": "UK",
+       "year": 1993,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "nKKy0zXbJFE",
@@ -5874,7 +7135,13 @@
        "source": "deezer",
        "local": "covers/nKKy0zXbJFE.jpg"
       },
-      "album": "Teleport (Antinomy Remix)"
+      "release": {
+       "label": "Dragonfly Records",
+       "catno": "BFLT 18",
+       "country": "UK",
+       "year": 1994,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      }
     ],
     "actuel": []
@@ -5957,7 +7224,13 @@
        "source": "itunes",
        "local": "covers/skH_IdHURc0.jpg"
       },
-      "album": "Chap 2"
+      "release": {
+       "label": "Trans'Pact Productions",
+       "catno": "VOL 076",
+       "country": "France",
+       "year": 1994,
+       "format": "Vinyl, 12\""
+      }
      },
      {
       "youtubeId": "jMabA-XEAJ0",
@@ -5969,6 +7242,13 @@
        "url": "https://i.ytimg.com/vi/jMabA-XEAJ0/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/jMabA-XEAJ0.jpg"
+      },
+      "release": {
+       "label": "Rising High Records",
+       "catno": "RSN 105",
+       "country": "UK",
+       "year": 1995,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
       }
      },
      {
@@ -5982,7 +7262,13 @@
        "source": "deezer",
        "local": "covers/tOjcOwp0kSY.jpg"
       },
-      "album": "The Gathering"
+      "release": {
+       "label": "Balloonia Ltd.",
+       "catno": "BALLLP05",
+       "country": "Germany",
+       "year": 1999,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "jD3XsUR3ZRo",
@@ -5995,7 +7281,13 @@
        "source": "deezer",
        "local": "covers/jD3XsUR3ZRo.jpg"
       },
-      "album": "In Dub mixed by Ott"
+      "release": {
+       "label": "Twisted Records",
+       "catno": "TWSC 1",
+       "country": "UK",
+       "year": 1996,
+       "format": "CD, Single"
+      }
      },
      {
       "youtubeId": "wVwQYSVNJVM",
@@ -6008,7 +7300,13 @@
        "source": "deezer",
        "local": "covers/wVwQYSVNJVM.jpg"
       },
-      "album": "Becoming Insane"
+      "release": {
+       "label": "Republik Management",
+       "catno": null,
+       "country": "US",
+       "year": 2005,
+       "format": "CDr, Promo"
+      }
      },
      {
       "youtubeId": "a83Z1d1_ERo",
@@ -6021,7 +7319,13 @@
        "source": "deezer",
        "local": "covers/a83Z1d1_ERo.jpg"
       },
-      "album": "Tales of the Inexpressible"
+      "release": {
+       "label": "Twisted Records",
+       "catno": "TWSLP13",
+       "country": "UK",
+       "year": 2001,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "QG3e00uO1IQ",
@@ -6034,7 +7338,13 @@
        "source": "deezer",
        "local": "covers/QG3e00uO1IQ.jpg"
       },
-      "album": "Remixes"
+      "release": {
+       "label": "HOM-Mega Productions",
+       "catno": "HMCD37",
+       "country": "Brazil",
+       "year": 2004,
+       "format": "CD, Album"
+      }
      }
     ],
     "actuel": []
@@ -6104,7 +7414,13 @@
        "source": "itunes",
        "local": "covers/nvdPa3BbZMY.jpg"
       },
-      "album": "Minusman"
+      "release": {
+       "label": "Blue Room Released",
+       "catno": "BR037",
+       "country": "UK",
+       "year": 1997,
+       "format": "Vinyl, 12\", White Label"
+      }
      },
      {
       "youtubeId": "tjsY0Z-TjGU",
@@ -6130,7 +7446,13 @@
        "source": "deezer",
        "local": "covers/Nx-thbZxfkU.jpg"
       },
-      "album": "The Future's Right Now"
+      "release": {
+       "label": "Spirit Zone Recordings",
+       "catno": "SZ 044",
+       "country": "Germany",
+       "year": 1998,
+       "format": "Vinyl, 12\", Album"
+      }
      },
      {
       "youtubeId": "qPw6cfo0LPo",
@@ -6143,7 +7465,13 @@
        "source": "deezer",
        "local": "covers/qPw6cfo0LPo.jpg"
       },
-      "album": "Converting Vegetarians"
+      "release": {
+       "label": "YoYo Records",
+       "catno": "384 292-2",
+       "country": "Mexico",
+       "year": 2003,
+       "format": "CD, Album"
+      }
      },
      {
       "youtubeId": "3xFjbXNnnJo",
@@ -6156,7 +7484,13 @@
        "source": "deezer",
        "local": "covers/3xFjbXNnnJo.jpg"
       },
-      "album": "No Rules"
+      "release": {
+       "label": "Spirit Zone Recordings",
+       "catno": "SPIRIT ZONE 117",
+       "country": "Germany",
+       "year": 2002,
+       "format": "CD, Album"
+      }
      }
     ],
     "actuel": []
@@ -6234,11 +7568,17 @@
       "title": "Delirious",
       "year": 1998,
       "verified": true,
-      "album": "Delirious",
       "cover": {
        "url": "https://cdn-images.dzcdn.net/images/cover/b71fa2011b88471fe3b81b05c05d1753/500x500-000000-80-0-0.jpg",
        "source": "deezer",
        "local": "covers/e7Nyh01t7h0.jpg"
+      },
+      "release": {
+       "label": "Dragonfly Records",
+       "catno": "BFLLP 26",
+       "country": "UK",
+       "year": 1998,
+       "format": "Vinyl, LP, Album"
       }
      }
     ],
@@ -6298,7 +7638,13 @@
        "source": "itunes",
        "local": "covers/0TvbxFy6UuA.jpg"
       },
-      "album": "Cassandra's Nightmare"
+      "release": {
+       "label": "Koyote Records",
+       "catno": "KRCD007",
+       "country": "UK",
+       "year": 1998,
+       "format": "CD, Album"
+      }
      },
      {
       "youtubeId": "LqS1zlCxy-Q",
@@ -6310,6 +7656,13 @@
        "url": "https://i.ytimg.com/vi/LqS1zlCxy-Q/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/LqS1zlCxy-Q.jpg"
+      },
+      "release": {
+       "label": "Twisted Records",
+       "catno": "TWSLP9",
+       "country": "UK",
+       "year": 1999,
+       "format": "Vinyl, LP, Album"
       }
      },
      {
@@ -6322,6 +7675,13 @@
        "url": "https://i.ytimg.com/vi/58G8Vc0KAe8/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/58G8Vc0KAe8.jpg"
+      },
+      "release": {
+       "label": "LaBrat Audiochemicals",
+       "catno": "ENIMATEK 1",
+       "country": "France",
+       "year": 1999,
+       "format": "Vinyl, 12\", Promo"
       }
      },
      {
@@ -6330,11 +7690,17 @@
       "title": "Inside the Sphere",
       "year": 2002,
       "verified": true,
-      "album": "Inside The Sphere",
       "cover": {
        "url": "https://cdn-images.dzcdn.net/images/cover/65cb12fe7f39f45a4b7a2d4038315ddd/500x500-000000-80-0-0.jpg",
        "source": "deezer",
        "local": "covers/DoJwWildJC8.jpg"
+      },
+      "release": {
+       "label": "3D Vision",
+       "catno": "3DV CD 020",
+       "country": "France",
+       "year": 2004,
+       "format": "CD, Album"
       }
      }
     ],
@@ -6560,7 +7926,13 @@
        "source": "deezer",
        "local": "covers/2ivd_86B4ug.jpg"
       },
-      "album": "Feuerhake"
+      "release": {
+       "label": "Free Form",
+       "catno": "FFR 027",
+       "country": "Germany",
+       "year": 2000,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
+      }
      },
      {
       "youtubeId": "FK9rI_oKLb0",
@@ -6572,6 +7944,13 @@
        "url": "https://i.ytimg.com/vi/FK9rI_oKLb0/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/FK9rI_oKLb0.jpg"
+      },
+      "release": {
+       "label": "Free Form",
+       "catno": "ffr 030",
+       "country": "Germany",
+       "year": 2000,
+       "format": "Vinyl, 12\", 45 RPM"
       }
      }
     ],
@@ -6689,6 +8068,13 @@
        "url": "https://i.ytimg.com/vi/ydf07TXN6v8/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/ydf07TXN6v8.jpg"
+      },
+      "release": {
+       "label": "Exist Dance",
+       "catno": "Exist Dance 013",
+       "country": "US",
+       "year": 1994,
+       "format": "Vinyl, 12\", 33 ⅓ RPM"
       }
      },
      {
@@ -6702,7 +8088,13 @@
        "source": "itunes",
        "local": "covers/ic4Efww4dCs.jpg"
       },
-      "album": "Araglin (Out of Print)"
+      "release": {
+       "label": "Psy-Harmonics",
+       "catno": "PSY-007",
+       "country": "Australia",
+       "year": 1993,
+       "format": "CD, Album"
+      }
      },
      {
       "youtubeId": "Hcmdy9E4PMQ",
@@ -6715,7 +8107,13 @@
        "source": "itunes",
        "local": "covers/Hcmdy9E4PMQ.jpg"
       },
-      "album": "Café del Mar 35th Anniversary (1980-2015)"
+      "release": {
+       "label": "ZoëMagik Records",
+       "catno": "ZM-CD001",
+       "country": "US",
+       "year": 1993,
+       "format": "CD, Album"
+      }
      },
      {
       "youtubeId": "8qt2WbfotkU",
@@ -6728,7 +8126,13 @@
        "source": "deezer",
        "local": "covers/8qt2WbfotkU.jpg"
       },
-      "album": "Are You Shpongled? (2017 Remaster)"
+      "release": {
+       "label": "Twisted Records",
+       "catno": "TWSCD4",
+       "country": "UK",
+       "year": 1998,
+       "format": "CD, Album, Mixed"
+      }
      },
      {
       "youtubeId": "OnLhzs7d0E8",
@@ -6741,7 +8145,13 @@
        "source": "deezer",
        "local": "covers/OnLhzs7d0E8.jpg"
       },
-      "album": "Skylon"
+      "release": {
+       "label": "Twisted Records",
+       "catno": "TWSCD33",
+       "country": "UK",
+       "year": 2008,
+       "format": "CD, Album"
+      }
      }
     ],
     "actuel": []
@@ -6818,7 +8228,13 @@
        "source": "itunes",
        "local": "covers/6Je7ar2NbB0.jpg"
       },
-      "album": "The Taste of TG (A Beginner's Guide to the Music of Throbbing Gristle)"
+      "release": {
+       "label": "Not On Label (Throbbing Gristle Self-released)",
+       "catno": "none (later IR0001)",
+       "country": "UK",
+       "year": 1976,
+       "format": "Cassette, Limited Edition"
+      }
      },
      {
       "youtubeId": "JtgXyQwDt3E",
@@ -6855,7 +8271,13 @@
        "source": "deezer",
        "local": "covers/IZAIrbonUcA.jpg"
       },
-      "album": "In Formation - A TributeTo Throbbing Gristle"
+      "release": {
+       "label": "Industrial Records",
+       "catno": "IR0004",
+       "country": "UK",
+       "year": 1978,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "qxaPj19VnRA",
@@ -6868,7 +8290,13 @@
        "source": "deezer",
        "local": "covers/qxaPj19VnRA.jpg"
       },
-      "album": "Land of Rape and Honey"
+      "release": {
+       "label": "Sire",
+       "catno": "9 25799-4",
+       "country": "US",
+       "year": 1988,
+       "format": "Cassette, Album"
+      }
      },
      {
       "youtubeId": "ao-Sahfy7Hg",
@@ -6881,7 +8309,13 @@
        "source": "deezer",
        "local": "covers/ao-Sahfy7Hg.jpg"
       },
-      "album": "Pretty Hate Machine (Remastered)"
+      "release": {
+       "label": "TVT Records",
+       "catno": "TVT 2610-4",
+       "country": "US",
+       "year": 1989,
+       "format": "Cassette, Album"
+      }
      },
      {
       "youtubeId": "O1XGmYFPv_s",
@@ -6894,7 +8328,13 @@
        "source": "deezer",
        "local": "covers/O1XGmYFPv_s.jpg"
       },
-      "album": "Bites"
+      "release": {
+       "label": "Scarface",
+       "catno": "FACE 15",
+       "country": "Belgium",
+       "year": 1985,
+       "format": "Vinyl, LP, Album"
+      }
      }
     ],
     "actuel": []
@@ -6958,7 +8398,13 @@
        "source": "itunes",
        "local": "covers/a_sAH2QGotE.jpg"
       },
-      "album": "Liaisons dangereuses"
+      "release": {
+       "label": "Roadrunner Records",
+       "catno": "RR 5528",
+       "country": "Netherlands",
+       "year": 1981,
+       "format": "Vinyl, 7\", 45 RPM"
+      }
      },
      {
       "youtubeId": "RjI4gxtZWaU",
@@ -6971,7 +8417,13 @@
        "source": "itunes",
        "local": "covers/RjI4gxtZWaU.jpg"
       },
-      "album": "Wind[Re]Wind"
+      "release": {
+       "label": "Body Records",
+       "catno": "Body Tapes 001",
+       "country": "Belgium",
+       "year": 1981,
+       "format": "Cassette"
+      }
      },
      {
       "youtubeId": "O8uUzcSNO-w",
@@ -6984,7 +8436,13 @@
        "source": "itunes",
        "local": "covers/O8uUzcSNO-w.jpg"
       },
-      "album": "Psychological Warfare Technology Systems"
+      "release": {
+       "label": "Paragoric",
+       "catno": "PA-01",
+       "country": "Germany",
+       "year": 1992,
+       "format": "CD, Album"
+      }
      },
      {
       "youtubeId": "iFyRsLbrFfA",
@@ -6997,7 +8455,13 @@
        "source": "deezer",
        "local": "covers/iFyRsLbrFfA.jpg"
       },
-      "album": "Der Mussolini"
+      "release": {
+       "label": "Stroke Records",
+       "catno": "STROKE 002",
+       "country": "Sweden",
+       "year": 1997,
+       "format": "CD, EP"
+      }
      },
      {
       "youtubeId": "3_2GlKk08xQ",
@@ -7010,7 +8474,13 @@
        "source": "deezer",
        "local": "covers/3_2GlKk08xQ.jpg"
       },
-      "album": "That Total Age"
+      "release": {
+       "label": "Power Of Voice Communications",
+       "catno": "NEB 4",
+       "country": "UK",
+       "year": 1986,
+       "format": "Vinyl, 7\", 45 RPM"
+      }
      },
      {
       "youtubeId": "lPpUFBVSyWs",
@@ -7023,7 +8493,13 @@
        "source": "deezer",
        "local": "covers/lPpUFBVSyWs.jpg"
       },
-      "album": "Live Code 5413356424225"
+      "release": {
+       "label": "Red Rhino Europe",
+       "catno": "RRE LP 7",
+       "country": "Belgium",
+       "year": 1988,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "AGHMS_zh0zM",
@@ -7036,7 +8512,13 @@
        "source": "deezer",
        "local": "covers/AGHMS_zh0zM.jpg"
       },
-      "album": "That Total Age"
+      "release": {
+       "label": "Geffen Records",
+       "catno": "M5G 24155",
+       "country": "US",
+       "year": 1987,
+       "format": "Cassette, Album"
+      }
      },
      {
       "youtubeId": "1UI-aF_GO6I",
@@ -7049,7 +8531,13 @@
        "source": "deezer",
        "local": "covers/1UI-aF_GO6I.jpg"
       },
-      "album": "That Total Age"
+      "release": {
+       "label": "Power Of Voice Communications",
+       "catno": "NEB3",
+       "country": "UK",
+       "year": 1986,
+       "format": "Vinyl, 12\", White Label"
+      }
      }
     ],
     "actuel": []
@@ -7132,6 +8620,13 @@
        "url": "https://i.ytimg.com/vi/KZEkS3Ckaro/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/KZEkS3Ckaro.jpg"
+      },
+      "release": {
+       "label": "RCA",
+       "catno": "PT 41356 DJ",
+       "country": "UK",
+       "year": 1987,
+       "format": "Vinyl, 12\", Promo"
       }
      },
      {
@@ -7145,7 +8640,13 @@
        "source": "itunes",
        "local": "covers/-r6oRFBhLMc.jpg"
       },
-      "album": "Cojeme (Remastered 2022) - Single"
+      "release": {
+       "label": "ZYX Records",
+       "catno": "5762",
+       "country": "Germany",
+       "year": 1987,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "-FDy-RVeI-A",
@@ -7158,7 +8659,13 @@
        "source": "deezer",
        "local": "covers/-FDy-RVeI-A.jpg"
       },
-      "album": "Take This And Shove It [Remastered]"
+      "release": {
+       "label": "Antler Records",
+       "catno": "ANTLER 046",
+       "country": "Belgium",
+       "year": 1986,
+       "format": "Vinyl, 12\", 45 RPM"
+      }
      },
      {
       "youtubeId": "GGBBZHVlsA8",
@@ -7171,7 +8678,13 @@
        "source": "deezer",
        "local": "covers/GGBBZHVlsA8.jpg"
       },
-      "album": "Tanzen"
+      "release": {
+       "label": "Logic Records",
+       "catno": "662 299",
+       "country": "Germany",
+       "year": 1989,
+       "format": "CD, Maxi-Single, Stereo"
+      }
      }
     ],
     "actuel": []
@@ -7234,7 +8747,13 @@
        "source": "itunes",
        "local": "covers/axsrOmLZOUA.jpg"
       },
-      "album": "Rabies"
+      "release": {
+       "label": "Capitol Records",
+       "catno": "CDP 7 93007 2",
+       "country": "US",
+       "year": 1989,
+       "format": "CD, Album"
+      }
      },
      {
       "youtubeId": "RWjBPIbJMzY",
@@ -7247,7 +8766,13 @@
        "source": "itunes",
        "local": "covers/RWjBPIbJMzY.jpg"
       },
-      "album": "Reclamation"
+      "release": {
+       "label": "Apollon International",
+       "catno": "APCY-8089",
+       "country": "Japan",
+       "year": 1992,
+       "format": "CD, Album, Stereo"
+      }
      },
      {
       "youtubeId": "KUOeibCly70",
@@ -7260,7 +8785,13 @@
        "source": "itunes",
        "local": "covers/KUOeibCly70.jpg"
       },
-      "album": "New World March"
+      "release": {
+       "label": "Basic Unit Productions",
+       "catno": "BUP003",
+       "country": "Germany",
+       "year": 2011,
+       "format": "CD, Album, Limited Edition"
+      }
      }
     ],
     "actuel": []
@@ -7315,11 +8846,17 @@
       "title": "Trinity",
       "year": 1992,
       "verified": true,
-      "album": "Trinity",
       "cover": {
        "url": "https://cdn-images.dzcdn.net/images/cover/107a409854879c721fcd6ee8adabff4e/500x500-000000-80-0-0.jpg",
        "source": "deezer",
        "local": "covers/dv8dIofNJIs.jpg"
+      },
+      "release": {
+       "label": "Minuswelt Musikfabrik",
+       "catno": "minus013",
+       "country": "Germany",
+       "year": 2004,
+       "format": "CD, Album"
       }
      },
      {
@@ -7345,7 +8882,13 @@
        "source": "itunes",
        "local": "covers/NUrMUuFz6Ew.jpg"
       },
-      "album": "Music for a Slaughtering Tribe (Remastered)"
+      "release": {
+       "label": "VUZ Records",
+       "catno": "VUZ 03",
+       "country": "Germany",
+       "year": 1993,
+       "format": "CD, Album"
+      }
      },
      {
       "youtubeId": "vgeiBVCXi4c",
@@ -7358,7 +8901,13 @@
        "source": "deezer",
        "local": "covers/vgeiBVCXi4c.jpg"
       },
-      "album": "Hellraiser"
+      "release": {
+       "label": "Metropolis",
+       "catno": "MET 186",
+       "country": "US",
+       "year": 2000,
+       "format": "CD, Single"
+      }
      }
     ],
     "actuel": []
@@ -7421,7 +8970,13 @@
        "source": "itunes",
        "local": "covers/xiu16MwaEUE.jpg"
       },
-      "album": "Anubis - EP"
+      "release": {
+       "label": "Unterton",
+       "catno": "u-ton 11",
+       "country": "Germany",
+       "year": 2017,
+       "format": "File, MP3, EP"
+      }
      },
      {
       "youtubeId": "_R2poBlOhew",
@@ -7434,7 +8989,13 @@
        "source": "itunes",
        "local": "covers/_R2poBlOhew.jpg"
       },
-      "album": "Palais"
+      "release": {
+       "label": "CockTail d'Amore Music",
+       "catno": "CDALP003",
+       "country": "Germany",
+       "year": 2019,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "6Tu7ZjmdSYc",
@@ -7447,7 +9008,13 @@
        "source": "itunes",
        "local": "covers/6Tu7ZjmdSYc.jpg"
       },
-      "album": "Lesser Man EP"
+      "release": {
+       "label": "Not On Label (Boy Harsher Self-released)",
+       "catno": null,
+       "country": "US",
+       "year": 2014,
+       "format": "File, FLAC, EP"
+      }
      }
     ],
     "actuel": []
@@ -7510,7 +9077,13 @@
        "source": "itunes",
        "local": "covers/A3ZVZVMIG7g.jpg"
       },
-      "album": "Rendez-vous en France"
+      "release": {
+       "label": "Penguin",
+       "catno": "30.011",
+       "country": "Greece",
+       "year": 1986,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "VeZtT8zBaZU",
@@ -7523,7 +9096,13 @@
        "source": "itunes",
        "local": "covers/VeZtT8zBaZU.jpg"
       },
-      "album": "Picture One - EP"
+      "release": {
+       "label": "Asylum Yield",
+       "catno": "AY 01",
+       "country": "France",
+       "year": 1988,
+       "format": "Vinyl, LP, Mini-Album"
+      }
      },
      {
       "youtubeId": "q9g-aJ0Cdr0",
@@ -7536,7 +9115,13 @@
        "source": "itunes",
        "local": "covers/q9g-aJ0Cdr0.jpg"
       },
-      "album": "TRY OUT"
+      "release": {
+       "label": "RCA Victor",
+       "catno": "PL 37603",
+       "country": "France",
+       "year": 1981,
+       "format": "Vinyl, LP, Album"
+      }
      }
     ],
     "actuel": []
@@ -7606,7 +9191,13 @@
        "source": "itunes",
        "local": "covers/W3q8Od5qJio.jpg"
       },
-      "album": "Sehnsucht"
+      "release": {
+       "label": "Not On Label (Rammstein)",
+       "catno": "RS CD 188 B",
+       "country": "Germany",
+       "year": 1996,
+       "format": "CD, Unofficial Release"
+      }
      },
      {
       "youtubeId": "fuLPJg2gwjQ",
@@ -7689,7 +9280,13 @@
        "source": "itunes",
        "local": "covers/N9pOq8u6-bA.jpg"
       },
-      "album": "Panorama de Musique Concréte"
+      "release": {
+       "label": "Club National Du Disque",
+       "catno": "CND 15-16",
+       "country": "France",
+       "year": 1958,
+       "format": "Vinyl, LP, Compilation"
+      }
      },
      {
       "youtubeId": "-HBMvmJQzcY",
@@ -7702,7 +9299,13 @@
        "source": "deezer",
        "local": "covers/-HBMvmJQzcY.jpg"
       },
-      "album": "Panorama de Musique Concréte"
+      "release": {
+       "label": "London Ducretet-Thomson",
+       "catno": "DTL.93121",
+       "country": "UK",
+       "year": 1957,
+       "format": "Vinyl, LP, Promo"
+      }
      },
      {
       "youtubeId": "vC1cgcOEErQ",
@@ -7777,7 +9380,13 @@
        "source": "deezer",
        "local": "covers/nffOJXcJCDg.jpg"
       },
-      "album": "A Young Person's Guide to the Avant-Garde"
+      "release": {
+       "label": "Deutsche Grammophon",
+       "catno": "LP 16133",
+       "country": "Germany",
+       "year": 1957,
+       "format": "Vinyl, LP, 10\""
+      }
      },
      {
       "youtubeId": "nbdmzSeFy_Y",
@@ -7790,7 +9399,13 @@
        "source": "deezer",
        "local": "covers/nbdmzSeFy_Y.jpg"
       },
-      "album": "Kontakte"
+      "release": {
+       "label": "Deutsche Grammophon",
+       "catno": "138 811 SLPM",
+       "country": "Germany",
+       "year": 1962,
+       "format": "Vinyl, LP"
+      }
      },
      {
       "youtubeId": "XsOyxFybxPY",
@@ -7803,7 +9418,13 @@
        "source": "deezer",
        "local": "covers/XsOyxFybxPY.jpg"
       },
-      "album": "Diamorphoses / Concret PH / Orient Occident / Bohor"
+      "release": {
+       "label": "Electronic Music Foundation",
+       "catno": "EMF CD 003",
+       "country": "US",
+       "year": 1997,
+       "format": "CD, Compilation, Stereo"
+      }
      }
     ],
     "actuel": []
@@ -7882,7 +9503,13 @@
        "source": "deezer",
        "local": "covers/YmN9oHa3ZIQ.jpg"
       },
-      "album": "Rending Brass: The Cyclist Remixes"
+      "release": {
+       "label": "United Artists Records",
+       "catno": "UAS 29 414 I",
+       "country": "Germany",
+       "year": 1972,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "GRxvQmTTz5I",
@@ -7962,7 +9589,13 @@
        "source": "deezer",
        "local": "covers/HIQ0dd7B_FU.jpg"
       },
-      "album": "Phaedra (Deluxe Version)"
+      "release": {
+       "label": "Virgin",
+       "catno": "L 35138",
+       "country": "Australia",
+       "year": 1974,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "gpkO8YwZfrA",
@@ -7975,7 +9608,13 @@
        "source": "deezer",
        "local": "covers/gpkO8YwZfrA.jpg"
       },
-      "album": "Hollow (Deluxe Version)"
+      "release": {
+       "label": "Brain",
+       "catno": "brain 1073",
+       "country": "Germany",
+       "year": 1975,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "no4FBPY_usM",
@@ -7988,7 +9627,13 @@
        "source": "deezer",
        "local": "covers/no4FBPY_usM.jpg"
       },
-      "album": "Sowiesoso"
+      "release": {
+       "label": "Sky Records",
+       "catno": "sky 005",
+       "country": "Germany",
+       "year": 1976,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "srdlyhdZNd4",
@@ -8001,7 +9646,13 @@
        "source": "itunes",
        "local": "covers/srdlyhdZNd4.jpg"
       },
-      "album": "The Virgin Years 1974-1978 (Remastered)"
+      "release": {
+       "label": "Virgin",
+       "catno": "TP 13-116",
+       "country": "US",
+       "year": 1975,
+       "format": "8-Track Cartridge, Album"
+      }
      },
      {
       "youtubeId": "TXt5lORml1Y",
@@ -8014,7 +9665,13 @@
        "source": "deezer",
        "local": "covers/TXt5lORml1Y.jpg"
       },
-      "album": "Moondawn"
+      "release": {
+       "label": "Isadora",
+       "catno": "ISA 9001",
+       "country": "France",
+       "year": 1976,
+       "format": "Vinyl, LP, Album"
+      }
      }
     ],
     "actuel": []
@@ -8077,7 +9734,13 @@
        "source": "deezer",
        "local": "covers/n-coYYkJ7KE.jpg"
       },
-      "album": "The Music of Jean Michel Jarre"
+      "release": {
+       "label": "Les Disques Motors",
+       "catno": "2933 207",
+       "country": "France",
+       "year": 1976,
+       "format": "Vinyl, LP, Album"
+      }
      },
      {
       "youtubeId": "HaMBmBeNvtM",
@@ -8090,7 +9753,13 @@
        "source": "deezer",
        "local": "covers/HaMBmBeNvtM.jpg"
       },
-      "album": "The Best Of..."
+      "release": {
+       "label": "RCA",
+       "catno": "PB-5197",
+       "country": "Portugal",
+       "year": 1976,
+       "format": "Vinyl, 7\", Single"
+      }
      }
     ],
     "actuel": []
@@ -17912,10 +19581,16 @@
        "source": "deezer",
        "local": "covers/tLxDRePUwEY.jpg"
       },
-      "album": "ESP: The 808 State Effect",
       "shared": [
        "acidhouse"
-      ]
+      ],
+      "release": {
+       "label": "ZTT",
+       "catno": "ZANG-1-(T)",
+       "country": "UK",
+       "year": 1989,
+       "format": "Vinyl, 12\", Promo"
+      }
      },
      {
       "youtubeId": "V3rTTIGbrcc",
@@ -17983,7 +19658,13 @@
        "source": "deezer",
        "local": "covers/2Ng9Pf_p7Fw.jpg"
       },
-      "album": "The Orb - History Of The Future"
+      "release": {
+       "label": "Big Life",
+       "catno": "ORB PROMO 2",
+       "country": "UK",
+       "year": 1990,
+       "format": "Vinyl, 12\", Promo"
+      }
      }
     ],
     "actuel": []

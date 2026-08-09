@@ -42,6 +42,9 @@ jobs:
       - name: Contrôler les labels
         run: npm run check:labels
 
+      - name: Un seul chemin d'écriture du corpus
+        run: npm run check:writes
+
       # Fait autorité sur les données : cycles, références mortes, orphelins,
       # doublons d'identifiants, couverture par genre. Voir ADR-005.
       - name: Valider les données

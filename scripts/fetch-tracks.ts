@@ -18,7 +18,9 @@
    Rien n'est jamais écrasé : on ajoute à `tracks.actuel` ce qui n'y est pas
    déjà, et on ne touche jamais à `tracks.essentiel`. */
 
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
+
+import { transaction } from './lib/corpus-store.ts';
 import { fileURLToPath } from 'node:url';
 
 import { judge, normalise, oembed, sleep } from './lib/match.ts';
@@ -101,6 +103,7 @@ const split = (videoTitle: string): { artist: string; title: string } | null => 
 const corpus = JSON.parse(readFileSync(CORPUS, 'utf8')) as Corpus;
 
 let added = 0;
+const actuelAdditions: { genreId: string; tracks: { youtubeId: string }[] }[] = [];
 let examined = 0;
 const empty: string[] = [];
 
@@ -171,12 +174,26 @@ for (const genre of corpus.genres) {
 
   if (found.length === 0) empty.push(genre.id);
   genre.tracks.actuel.push(...found);
+  actuelAdditions.push({ genreId: genre.id, tracks: found });
   added += found.length;
   console.log(`  ${genre.id.padEnd(20)} ${found.length} sortie(s) récente(s) retenue(s)`);
 }
 
 if (!DRY && added > 0) {
-  writeFileSync(CORPUS, `${JSON.stringify(corpus, null, 1)}\n`, 'utf8');
+  // Rejoué sur le disque frais : jamais l'instantané de départ.
+  transaction((fresh) => {
+    for (const op of actuelAdditions) {
+      const g = fresh.genres.find((x) => x.id === op.genreId);
+      if (!g) continue;
+      const knownIds = new Set(
+        [...g.tracks.essentiel, ...g.tracks.actuel].map((t) => t.youtubeId)
+      );
+      for (const track of op.tracks) {
+        if (knownIds.has(track.youtubeId)) continue;
+        g.tracks.actuel.push(track as unknown as (typeof g.tracks.actuel)[number]);
+      }
+    }
+  });
   console.log(`\n${added} morceaux ajoutés à l'onglet Actuel sur ${examined} candidats examinés.`);
 } else {
   console.log(`\n${DRY ? 'Essai à blanc. ' : ''}${added} morceaux retenus, corpus inchangé.`);

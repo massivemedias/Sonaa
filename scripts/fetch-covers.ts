@@ -38,6 +38,8 @@
    Sans --force, un morceau qui a déjà une pochette iTunes n'est pas réinterrogé. */
 
 import { mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+
+import { patchTracks } from './lib/corpus-store.ts';
 import { fileURLToPath } from 'node:url';
 
 const CORPUS = fileURLToPath(new URL('../src/data/corpus.json', import.meta.url));
@@ -215,23 +217,14 @@ const remember = (track: Track): void => {
   owned.set(track.youtubeId, entry);
 };
 
+/* Écriture par le SEUL module autorisé : relecture du disque, champs
+   possédés uniquement (cover, album). Voir scripts/lib/corpus-store.ts. */
 const writeCorpus = (): void => {
-  let disk: Corpus;
-  try {
-    disk = JSON.parse(readFileSync(CORPUS, 'utf8')) as Corpus;
-  } catch {
-    return;
+  const patches = new Map<string, { cover?: unknown; album?: unknown }>();
+  for (const [videoId, mine] of owned) {
+    patches.set(videoId, { cover: mine.cover ?? undefined, album: mine.album ?? undefined });
   }
-  for (const genre of disk.genres) {
-    for (const track of [...genre.tracks.essentiel, ...genre.tracks.actuel]) {
-      const mine = owned.get(track.youtubeId);
-      if (!mine) continue;
-      if (mine.cover) track.cover = mine.cover;
-      else delete track.cover;
-      if (mine.album) track.album = mine.album;
-    }
-  }
-  writeFileSync(CORPUS, `${JSON.stringify(disk, null, 1)}\n`, 'utf8');
+  patchTracks(['cover', 'album'], patches);
 };
 
 let itunes = 0;

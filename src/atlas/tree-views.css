@@ -74,6 +74,14 @@
   flex: none;
 }
 
+/* Genre éteint : la pastille devient un anneau mat. Discret, lisible. */
+.tv-dot[data-extinct='true'] {
+  background: transparent;
+  border: 1px solid var(--family);
+  opacity: 0.45;
+  filter: saturate(0.5);
+}
+
 .tv-name {
   background: transparent;
   border: 0;

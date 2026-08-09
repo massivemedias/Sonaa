@@ -67,7 +67,8 @@ export function AtlasPage() {
   const apiRef = useRef<AtlasApi | null>(null);
 
   const [mode, setMode] = useState<Mode>('attente');
-  const [view, setView] = useState<ViewId>(() => readView() ?? 'fixe');
+  // 3D libre par défaut (verdict de Mika) ; un choix mémorisé est respecté.
+  const [view, setView] = useState<ViewId>(() => readView() ?? 'libre');
   const [stats, setStats] = useState<AtlasStats | null>(null);
   const [nav, setNav] = useState<NavState | null>(null);
   const [panelGenre, setPanelGenre] = useState<{ familyIndex: number; genreLocal: number } | null>(

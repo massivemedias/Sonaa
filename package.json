@@ -15,7 +15,8 @@
     "check:labels": "tsx scripts/check-labels.ts",
     "crop:covers": "bash scripts/crop-covers.sh",
     "fetch:release": "tsx scripts/fetch-release-data.ts",
-    "fetch:key": "tsx scripts/fetch-key.ts"
+    "fetch:key": "tsx scripts/fetch-key.ts",
+    "check:writes": "tsx scripts/check-corpus-writes.ts"
   },
   "dependencies": {
     "react": "^19.2.0",

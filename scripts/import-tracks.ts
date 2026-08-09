@@ -63,6 +63,7 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 import { normalise, resolveTrack, sleep, type Resolution } from './lib/match.ts';
+import { transaction, type AnyCorpus } from './lib/corpus-store.ts';
 
 const CORPUS = fileURLToPath(new URL('../src/data/corpus.json', import.meta.url));
 /* --file= permet une source alternative, par exemple un canon des fondateurs
@@ -252,6 +253,11 @@ interface Failure {
 
 const failures: Failure[] = [];
 let added = 0;
+/* Journal des écritures, rejoué sur le corpus FRAIS à la fin : le script
+   tourne longtemps, et écrire son instantané de départ écraserait ce qu'une
+   autre passe a posé entre-temps (c'est arrivé deux fois). */
+const additions: { genreId: string; list: 'essentiel' | 'actuel'; track: Track }[] = [];
+const linkIds = new Set<string>();
 let skippedExisting = 0;
 let unknownGenre = 0;
 
@@ -319,7 +325,8 @@ for (const row of rows) {
     verified: true
   };
 
-  // Réciprocité : chaque côté déclare tous les autres.
+  // Réciprocité : chaque côté déclare tous les autres. La liaison réelle se
+  // recalcule au moment de l'écriture, sur l'état frais du disque.
   if (holders.length > 0) {
     track.shared = holders.map((h) => h.id);
     for (const holder of holders) {
@@ -330,11 +337,13 @@ for (const row of rows) {
         t.shared = [...set].sort();
       }
     }
+    linkIds.add(hit.videoId);
     console.log(`  charnière avec ${holders.map((h) => h.id).join(', ')}`);
   }
 
   const list = row.role === 'actuel' ? genre.tracks.actuel : genre.tracks.essentiel;
   list.push(track);
+  additions.push({ genreId: genre.id, list: row.role === 'actuel' ? 'actuel' : 'essentiel', track });
   added += 1;
   console.log(
     `  ok     ${row.genreId.padEnd(20)} ${row.artist} - ${row.title}  ` +
@@ -345,7 +354,33 @@ for (const row of rows) {
 // --------------------------------------------------------------------- sortie
 
 if (!DRY && added > 0) {
-  writeFileSync(CORPUS, `${JSON.stringify(corpus, null, 1)}\n`, 'utf8');
+  /* Rejoué sur le disque FRAIS : les préconditions (doublon même genre)
+     sont revérifiées, et la réciprocité des charnières est recalculée sur
+     l'état réel au moment de l'écriture. */
+  transaction((fresh: AnyCorpus) => {
+    for (const op of additions) {
+      const g = fresh.genres.find((x) => x.id === op.genreId);
+      if (!g) continue;
+      const already = [...g.tracks.essentiel, ...g.tracks.actuel].some(
+        (t) => key(String(t['artist'] ?? ''), String(t['title'] ?? '')) === key(op.track.artist, op.track.title)
+      );
+      if (already) continue;
+      g.tracks[op.list].push(op.track as unknown as (typeof g.tracks.essentiel)[number]);
+    }
+    for (const videoId of linkIds) {
+      const holding = fresh.genres.filter((g) =>
+        [...g.tracks.essentiel, ...g.tracks.actuel].some((t) => t.youtubeId === videoId)
+      );
+      for (const holder of holding) {
+        for (const t of [...holder.tracks.essentiel, ...holder.tracks.actuel]) {
+          if (t.youtubeId !== videoId) continue;
+          const others = holding.map((h) => h.id).filter((id) => id !== holder.id).sort();
+          if (others.length > 0) t['shared'] = others;
+          else delete t['shared'];
+        }
+      }
+    }
+  });
   console.log(`\nCorpus écrit : ${added} morceaux ajoutés.`);
 } else if (DRY) {
   console.log(`\nEssai à blanc : ${added} morceaux auraient été ajoutés, rien n'est écrit.`);

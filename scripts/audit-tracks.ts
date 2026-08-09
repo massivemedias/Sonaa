@@ -8,7 +8,9 @@
 
    Usage : npx tsx scripts/audit-tracks.ts [--dry-run] */
 
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
+
+import { transaction } from './lib/corpus-store.ts';
 import { fileURLToPath } from 'node:url';
 
 import { isDurationExempt, isFullRelease, resolveTrack, sleep } from './lib/match.ts';
@@ -65,6 +67,10 @@ const inspect = async (
 
 const corpus = JSON.parse(readFileSync(CORPUS, 'utf8')) as Corpus;
 
+/* Journal des remplacements et retraits, rejoué sur le disque frais. */
+const replaceOps: { genreId: string; oldId: string; newId: string }[] = [];
+const removeOps: { genreId: string; oldId: string }[] = [];
+
 let scanned = 0;
 let flagged = 0;
 let replaced = 0;
@@ -95,12 +101,14 @@ for (const genre of corpus.genres) {
 
       const { hit } = await resolveTrack(track.artist, track.title);
       if (hit) {
+        replaceOps.push({ genreId: genre.id, oldId: track.youtubeId, newId: hit.videoId });
         track.youtubeId = hit.videoId;
         delete track.cover; // la pochette était liée à l'ancien identifiant
         delete track.shared; // un partage éventuel se redéclare, pas ne se devine
         replaced += 1;
         console.log(`    remplacé par ${hit.videoId} « ${hit.candidate.title.slice(0, 50)} »`);
       } else {
+        removeOps.push({ genreId: genre.id, oldId: track.youtubeId });
         list.splice(i, 1);
         removed += 1;
         console.log('    aucune vraie track trouvée, entrée retirée');
@@ -109,7 +117,28 @@ for (const genre of corpus.genres) {
   }
 }
 
-if (!DRY) writeFileSync(CORPUS, `${JSON.stringify(corpus, null, 1)}\n`, 'utf8');
+if (!DRY) {
+  transaction((fresh) => {
+    for (const genre of fresh.genres) {
+      for (const list of [genre.tracks.essentiel, genre.tracks.actuel]) {
+        for (let i = list.length - 1; i >= 0; i -= 1) {
+          const t = list[i];
+          if (!t) continue;
+          if (removeOps.some((op) => op.genreId === genre.id && op.oldId === t.youtubeId)) {
+            list.splice(i, 1);
+            continue;
+          }
+          const rep = replaceOps.find((op) => op.genreId === genre.id && op.oldId === t.youtubeId);
+          if (rep) {
+            t.youtubeId = rep.newId;
+            delete t['cover'];
+            delete t['shared'];
+          }
+        }
+      }
+    }
+  });
+}
 console.log(
   `\n${scanned} tracks relues : ${flagged} parutions complètes, ${replaced} remplacées, ` +
     `${removed} retirées, ${unreachable} pages injoignables.${DRY ? ' (essai à blanc)' : ''}`

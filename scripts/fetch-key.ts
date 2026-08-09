@@ -14,10 +14,11 @@
 
    Usage : GETSONGKEY_KEY=... npx tsx scripts/fetch-key.ts [--limit=N] */
 
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 import { normalise, sleep } from './lib/match.ts';
+import { patchTracks } from './lib/corpus-store.ts';
 
 const CORPUS = fileURLToPath(new URL('../src/data/corpus.json', import.meta.url));
 const KEY = process.env['GETSONGKEY_KEY'];
@@ -69,17 +70,11 @@ const resolveKey = async (artist: string, title: string): Promise<string | null>
 };
 
 const remember = new Map<string, string>();
+// Écriture par le SEUL module autorisé : champ key uniquement.
 const writeCorpus = (): void => {
-  const fresh = JSON.parse(readFileSync(CORPUS, 'utf8')) as Corpus;
-  for (const genre of fresh.genres) {
-    for (const list of [genre.tracks.essentiel, genre.tracks.actuel]) {
-      for (const track of list) {
-        const key = remember.get(track.youtubeId);
-        if (key) track.key = key;
-      }
-    }
-  }
-  writeFileSync(CORPUS, `${JSON.stringify(fresh, null, 1)}\n`, 'utf8');
+  const patches = new Map<string, { key?: unknown }>();
+  for (const [videoId, key] of remember) patches.set(videoId, { key });
+  patchTracks(['key'], patches);
 };
 
 const corpus = JSON.parse(readFileSync(CORPUS, 'utf8')) as Corpus;

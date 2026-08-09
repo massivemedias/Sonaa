@@ -60,7 +60,15 @@ function FamilyBlock({
       <ul className="tv-rows">
         {rows.map(({ genre, local }) => (
           <li key={genre.id} className="tv-row" style={{ ['--depth' as string]: genre.depth }}>
-            <span className="tv-dot" aria-hidden="true" />
+            <span
+              className="tv-dot"
+              data-extinct={genre.labelsActuels !== null && genre.labelsActuels.length === 0}
+              title={
+                genre.labelsActuels !== null && genre.labelsActuels.length === 0
+                  ? 'genre éteint, plus aucun label ne le porte'
+                  : undefined
+              }
+            />
             <button
               className="tv-name"
               onClick={() => onShowCard(familyIndex, local)}

@@ -1369,6 +1369,41 @@ restent.
 
 ---
 
+## ADR-044 : Un seul chemin d'ecriture, noms toujours poses, genres eteints
+
+**Le corpus n'a plus qu'UN chemin d'ecriture.** Apres le deuxieme ecrasement
+de donnees par fetch-covers (meme cause : reecriture de l'instantane de
+demarrage), la classe d'erreur est interdite structurellement.
+scripts/lib/corpus-store.ts est le seul module qui ecrit corpus.json :
+patchTracks(champs, patches) relit le disque et n'applique que les champs
+possedes par videoId ; transaction(fn) relit le disque et fait REJOUER les
+ecritures structurelles sur l'etat frais (import, audit, fetch-tracks ont
+ete convertis en journaux d'operations rejouees, preconditions
+reverifiees). Aucune API n'accepte un objet corpus complet.
+check:writes echoue en CI si un script fait autrement.
+
+**Noms toujours poses (quatrieme durcissement de la regle labels).** Plus
+aucune porte de zoom, dans AUCUN moteur : les noms des styles sont toujours
+candidats, familles et satellites visibles compris. Quand la place manque
+physiquement, le placement garde ensembles, puis familles, puis generations
+hautes, et masque le reste : on ne superpose jamais, on n'exige jamais un
+zoom pour qu'un nom existe. Deux corrections l'ont rendu tenable : la
+largeur des labels est MESUREE (canvas 2D, fonte reelle, interlettrage
+ajoute ; l'estimation au glyphe moyen sous-estimait les capitales espacees
+de moitie), et la tolerance de chevauchement passe de 4 px a 1 px. Mesure
+au moment du changement : 41 noms poses, 0 recouvrement.
+
+**Genres eteints visibles dans la carte.** labelsActuels vide = genre
+eteint (33 cas). La sphere devient plus mate et moins lumineuse (attribut
+aExtinct : liseret presque eteint, desaturation 42 pour cent, luminosite
+-16 pour cent), la pastille des vues DOM devient un anneau. Discret : on
+voit d'un coup d'oeil ce qui vit encore, sans marquage brutal.
+
+**Vue par defaut : 3D libre** (verdict de Mika). Les quatre vues restent,
+un choix memorise est respecte.
+
+---
+
 ## Pièges GLSL rencontrés, à ne pas repayer
 
 Trois erreurs coûteuses rencontrées sur le prototype de rendu. Elles ne

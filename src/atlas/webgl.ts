@@ -325,6 +325,20 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   sphereGeometry.setAttribute('aRadius', sphereRadiusAttr);
   sphereGeometry.setAttribute('aColor', new InstancedBufferAttribute(sphereColors, 3));
   sphereGeometry.setAttribute('aState', sphereStateAttr);
+  /* Genre ÉTEINT : labelsActuels existe et est vide, c'est une information
+     éditoriale du corpus, pas une déduction. Attribut statique. */
+  {
+    const extinct = new Float32Array(TOTAL_GENRES);
+    let cursor = 0;
+    STRUCTURES.forEach((structure) => {
+      structure.genres.forEach((genre, li) => {
+        extinct[cursor + li] =
+          genre.labelsActuels !== null && genre.labelsActuels.length === 0 ? 1 : 0;
+      });
+      cursor += structure.genres.length;
+    });
+    sphereGeometry.setAttribute('aExtinct', new InstancedBufferAttribute(extinct, 1));
+  }
 
   /* Brouillard neutralisé : la profondeur ne raconte plus la distance à une
      scène orbitale, elle sépare deux plans à quelques unités d'écart. */
@@ -1113,7 +1127,24 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   const candidates: Candidate[] = [];
   const placed: Candidate[] = [];
 
-  const OVERLAP_TOLERANCE = 4;
+  /* Largeur RÉELLE du texte, mesurée avec la fonte chargée : l'estimation
+     au glyphe moyen sous-estimait largement les capitales espacées des
+     familles, et des noms se chevauchaient malgré le filet. Mesure canvas
+     2D, déterministe à fonte égale ; l'interlettrage s'ajoute à la main. */
+  const measureCtx = document.createElement('canvas').getContext('2d');
+  const textWidth = (text: string, px: number, kind: string): number => {
+    const upper = kind !== 'genre';
+    if (!measureCtx) return text.length * px * (upper ? 0.85 : 0.58) + px * 0.4;
+    measureCtx.font = `${upper ? 700 : 600} ${px}px Inter, sans-serif`;
+    let w = measureCtx.measureText(upper ? text.toUpperCase() : text).width;
+    w += text.length * px * (upper ? 0.14 : 0.01);
+    return w + 6;
+  };
+
+  /* 1 px et non 4 : avec les noms toujours visibles, la tolérance de 4 px
+   laissait des paires se mordre visiblement. Se toucher, oui ; se
+   recouvrir, jamais. */
+const OVERLAP_TOLERANCE = 1;
   const overlaps = (a: Candidate, b: Candidate): boolean => {
     const t = OVERLAP_TOLERANCE;
     return (
@@ -1159,7 +1190,7 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
       scratch.set(worldX, worldY, 0).project(camera);
       if (scratch.z > 1) return;
       const px = clamp(lhWorld * ppw, LABEL_PX_FLOOR, LABEL_PX_CEILING);
-      const w = text.length * px * 0.55 + px * 0.4;
+      const w = textWidth(text, px, kind);
       const h = px * 1.45;
       const cx = scratch.x * halfW + halfW;
       let cy = -scratch.y * halfH + halfH;
@@ -1172,49 +1203,26 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
       candidates.push({ key, text, sx, sy, kind, slot, opacity: opacityScale, px, w, h });
     };
 
-    /* Portes par génération : indice 0 = familles, d+1 = génération d. */
-    const gateOpen = (gen: number): boolean => {
-      const pitch = layout.minPitch[gen] ?? 10;
-      const px = clamp(
-        (gen === 0 ? LABEL_WORLD.family : LABEL_WORLD.genre) * ppw,
-        LABEL_PX_FLOOR,
-        LABEL_PX_CEILING
-      );
-      return pitch * ppw >= px * 1.25;
-    };
-
-    // Les grands ensembles : toujours nommés, ils sont la carte de niveau zéro.
+    /* PLUS AUCUNE PORTE DE ZOOM (verdict de Mika) : les noms des styles
+       sont TOUJOURS candidats, sans zoomer. Quand la place manque
+       physiquement, le placement garde les plus gros et les plus proches et
+       masque le reste : on ne superpose jamais, on n'exige jamais un zoom
+       pour qu'un nom existe. */
     for (const anchor of layout.ensembleAnchor) {
       add(`e-${anchor.label}`, anchor.label, anchor.x, anchor.y, 'ensemble', LABEL_WORLD.ensemble, 1);
     }
 
-    // Les familles, quand leur pas le permet.
-    if (gateOpen(0)) {
-      FAMILIES.forEach((family, fi) => {
-        if (introActive && introBirth(fi, now) < 0.4) return;
-        const anchor = layout.familyAnchor[fi];
-        if (!anchor) return;
-        add(`f-${family.id}`, family.label, anchor.x, anchor.y, 'family', LABEL_WORLD.family, 1);
-      });
-    }
+    FAMILIES.forEach((family, fi) => {
+      if (introActive && introBirth(fi, now) < 0.4) return;
+      const anchor = layout.familyAnchor[fi];
+      if (!anchor) return;
+      add(`f-${family.id}`, family.label, anchor.x, anchor.y, 'family', LABEL_WORLD.family, 1);
+    });
 
-    /* Les genres, génération par génération. En focus, le sous-arbre courant
-       est nommé même si sa porte globale est fermée : ce qu'on regarde est
-       nommé, toujours. */
-    const focusSlot = focusIndex >= 0 ? slotsData[focusIndex] : undefined;
     for (let i = 0; i < TOTAL_GENRES; i += 1) {
       const slot = slotsData[i];
       if (!slot) continue;
       if (introActive && introBirth(slot.family, now) < 0.75) continue;
-
-      const gen = slot.depth + 1;
-      let show = gateOpen(gen);
-      if (!show && focusSlot && slot.family === focusSlot.family) {
-        show =
-          i === focusIndex ||
-          (isDescendant(i, focusIndex) && slot.depth <= focusSlot.depth + 1);
-      }
-      if (!show) continue;
 
       add(
         `g-${slot.family}-${slot.local}`,
@@ -1229,11 +1237,20 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
       );
     }
 
-    /* Placement : ensembles, puis familles, puis genres. Le filet de
-       sécurité masque en cas de collision au lieu de déplacer : un label
+    /* Placement : ensembles, puis familles, puis genres du plus gros au
+       plus petit (la taille projetée dit la proximité et la génération).
+       Le filet masque en cas de collision au lieu de déplacer : un label
        déplacé ne désigne plus rien. */
     const rank = { ensemble: 0, family: 1, genre: 2 } as const;
-    candidates.sort((a, b) => rank[a.kind] - rank[b.kind]);
+    candidates.sort((a, b) => {
+      const d = rank[a.kind] - rank[b.kind];
+      if (d !== 0) return d;
+      // Générations hautes d'abord : à zoom égal leur nom prime, les
+      // feuilles se nomment dès qu'il reste de la place.
+      const da = a.slot >= 0 ? (slotsData[a.slot]?.depth ?? 9) : 9;
+      const db = b.slot >= 0 ? (slotsData[b.slot]?.depth ?? 9) : 9;
+      return da - db;
+    });
 
     for (const c of candidates) {
       if (placed.length >= LABEL_POOL) break;
