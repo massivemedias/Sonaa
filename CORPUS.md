@@ -1,6 +1,6 @@
 # CORPUS SONAA
 
-Quatorze familles, 216 genres, 672 tracks verifiees.
+Quatorze familles, 216 genres, 819 tracks verifiees.
 L'indentation est la filiation structurelle, celle qui positionne le noeud
 dans l'arbre. Les autres ascendances sont notees en greffe.
 
@@ -24,7 +24,7 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
 - Disco  [fondateur]  [greffe: Funk, famille roots]  [greffe: Philly Soul, famille roots]  6 tracks
   - Euro Disco  3 tracks
     - Hi-NRG  (?)  5 tracks
-    - Italo Disco  [greffe: Synth-pop, famille roots]  7 tracks
+    - Italo Disco  [greffe: Synth-pop, famille roots]  13 tracks
       - Spacesynth  (?)  5 tracks
       - Nu-Italo  2 tracks
   - Cosmic Disco  1 track
@@ -38,10 +38,10 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
 
 ## HOUSE (24)
 
-- Chicago House  [fondateur]  [greffe: Disco, famille disco]  7 tracks
-  - Acid House  6 tracks
-  - Garage House  [greffe: Disco, famille disco]  (?)  5 tracks
-    - Deep House  5 tracks
+- Chicago House  [fondateur]  [greffe: Disco, famille disco]  8 tracks
+  - Acid House  10 tracks
+  - Garage House  [greffe: Disco, famille disco]  (?)  8 tracks
+    - Deep House  7 tracks
       - Soulful House  [greffe: Garage House, famille house]  3 tracks
       - Lo-Fi House  3 tracks
   - Hip House  6 tracks
@@ -50,7 +50,7 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
     - Hard House  4 tracks
     - Progressive House  5 tracks
   - Disco House  [greffe: Disco, famille disco]  5 tracks dont 1 charniere
-    - French House  6 tracks dont 1 charniere
+    - French House  8 tracks dont 1 charniere
       - Electro House  (?)  5 tracks
         - Bass House  [greffe: UK Bass, famille bass]  3 tracks
         - Future House  3 tracks
@@ -60,8 +60,8 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
       - Gqom  (?)  3 tracks
   - Latin House  3 tracks
   - Ghetto House  [greffe: Miami Bass, famille electro]  3 tracks
-    - Juke  3 tracks
-      - Footwork  1 track
+    - Juke  4 tracks
+      - Footwork  3 tracks
 
 ## TECHNO (16)
 
@@ -85,8 +85,8 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
 ## MINIMAL (11)
 
 - Minimal Techno  [fondateur]  [greffe: Detroit Techno, famille techno]  5 tracks dont 1 charniere
-  - Tech House  [greffe: UK House, famille house]  (?)  4 tracks
-    - Microhouse  4 tracks
+  - Tech House  [greffe: UK House, famille house]  (?)  5 tracks
+    - Microhouse  6 tracks
       - Clicks & Cuts  2 tracks
       - Minimal Tech  3 tracks
         - Minimal Prog  [greffe: Psy-Prog, famille psy]  (?)  3 tracks
@@ -115,8 +115,8 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
 
 ## PSY (16)
 
-- Goa Trance  [fondateur]  [greffe: Acid Trance, famille trance]  [greffe: EBM, famille industrial]  (?)  6 tracks
-  - Psychedelic Trance  5 tracks
+- Goa Trance  [fondateur]  [greffe: Acid Trance, famille trance]  [greffe: EBM, famille industrial]  (?)  10 tracks
+  - Psychedelic Trance  8 tracks
     - Full-On  5 tracks
       - Nitzhonot  (?)  2 tracks
       - Twilight Psy  [greffe: Dark Psy, famille psy]  0 tracks
@@ -135,7 +135,7 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
 ## INDUSTRIAL (14)
 
 - Industrial  [fondateur]  [greffe: Musique concrète, famille roots]  [greffe: Early Industrial, famille roots]  7 tracks
-  - EBM  6 tracks
+  - EBM  8 tracks
     - New Beat  5 tracks
     - Electro-Industrial  3 tracks
       - Dark Electro  4 tracks
@@ -154,7 +154,7 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
 - Musique concrète  [fondateur]  3 tracks
   - Électroacoustique  3 tracks
     - Krautrock  (?)  3 tracks
-      - Kosmische Musik  [greffe: Électroacoustique, famille roots]  3 tracks
+      - Kosmische Musik  [greffe: Électroacoustique, famille roots]  5 tracks
         - Space Music  2 tracks
       - Proto-Techno  [greffe: Kosmische Musik, famille roots]  3 tracks
         - Synth-pop  3 tracks
@@ -165,117 +165,117 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
 
 ## BREAKS (23)
 
-- Breakbeat  [fondateur]  [greffe: Funk, famille roots]  3 tracks
+- Breakbeat  [fondateur]  [greffe: Funk, famille roots]  7 tracks dont 1 charniere
   - Breakbeat Hardcore  [greffe: Chicago House, famille house]  [greffe: Euro Techno, famille techno]  3 tracks
-    - Darkcore  3 tracks
+    - Darkcore  4 tracks
       - Jungle  [greffe: Dub, famille roots]  3 tracks
         - Drum and Bass  3 tracks
-          - Techstep  3 tracks
+          - Techstep  6 tracks
             - Neurofunk  3 tracks
             - Darkstep  3 tracks
-          - Liquid Drum and Bass  3 tracks
-          - Jump-Up  3 tracks
+          - Liquid Drum and Bass  5 tracks
+          - Jump-Up  4 tracks
           - Drumfunk  3 tracks
           - Drumstep  3 tracks
         - Ragga Jungle  3 tracks
-        - Drill and Bass  (?)  3 tracks
-      - Breakcore  2 tracks
+        - Drill and Bass  (?)  5 tracks dont 3 charnieres
+      - Breakcore  4 tracks dont 2 charnieres
         - Crossbreed  2 tracks
-  - Big Beat  3 tracks
+  - Big Beat  5 tracks dont 1 charniere
     - Ghetto Funk  1 track
   - Nu Skool Breaks  3 tracks
-    - Progressive Breaks  [greffe: Progressive House, famille house]  3 tracks
+    - Progressive Breaks  [greffe: Progressive House, famille house]  4 tracks
     - Psybreaks  [greffe: Psychedelic Trance, famille psy]  0 tracks
   - Florida Breaks  3 tracks
-  - Broken Beat  3 tracks
+  - Broken Beat  4 tracks
 
 ## BASS (19)
 
 - UK Garage  [fondateur]  [greffe: Garage House, famille house]  [greffe: Jungle, famille breaks]  3 tracks
-  - Speed Garage  3 tracks
+  - Speed Garage  6 tracks
     - Bassline  3 tracks
   - 2-Step  3 tracks
     - Dubstep  [greffe: Dub, famille roots]  3 tracks
       - Brostep  3 tracks
         - Riddim  (?)  3 tracks
-      - Future Garage  [greffe: 2-Step, famille bass]  3 tracks
-      - UK Bass  (?)  3 tracks
+      - Future Garage  [greffe: 2-Step, famille bass]  5 tracks
+      - UK Bass  (?)  6 tracks
         - Wonky  3 tracks
-        - Future Bass  (?)  3 tracks
-        - Trap  (?)  3 tracks
-        - Deconstructed Club  3 tracks
+        - Future Bass  (?)  6 tracks
+        - Trap  (?)  5 tracks
+        - Deconstructed Club  5 tracks
     - Grime  3 tracks
-    - UK Funky  3 tracks
+    - UK Funky  5 tracks
     - Breakstep  3 tracks
-  - Baltimore Club  [convention]  [greffe: Chicago House, famille house]  3 tracks
-    - Jersey Club  3 tracks
+  - Baltimore Club  [convention]  [greffe: Chicago House, famille house]  6 tracks
+    - Jersey Club  4 tracks
   - Breakbeat Garage  [greffe: Breakbeat, famille breaks]  3 tracks
 
 ## ELECTRO (11)
 
 - Electro Funk  [fondateur]  [greffe: Funk, famille roots]  [greffe: Proto-Techno, famille roots]  3 tracks
   - Electro Hop  3 tracks
-  - Miami Bass  3 tracks
+  - Miami Bass  7 tracks
     - Techno Bass  [greffe: Detroit Techno, famille techno]  3 tracks
-  - Freestyle  3 tracks
-    - Latin Freestyle  3 tracks
-  - Detroit Electro  [greffe: Detroit Techno, famille techno]  3 tracks
+  - Freestyle  6 tracks
+    - Latin Freestyle  6 tracks
+  - Detroit Electro  [greffe: Detroit Techno, famille techno]  4 tracks
     - Electro  2 tracks
   - Synth-Funk  [greffe: Funk, famille roots]  (?)  3 tracks
-  - Electroclash  [greffe: Synth-pop, famille roots]  3 tracks
+  - Electroclash  [greffe: Synth-pop, famille roots]  5 tracks
   - Skweee  0 tracks
 
 ## HARDCORE (19)
 
 - Hardcore Techno  [fondateur]  [greffe: Breakbeat Hardcore, famille breaks]  [greffe: Euro Techno, famille techno]  3 tracks
   - Gabber  3 tracks
-    - Terrorcore  3 tracks
-      - Speedcore  3 tracks
+    - Terrorcore  4 tracks dont 2 charnieres
+      - Speedcore  8 tracks dont 2 charnieres
     - Nu Style Gabber  3 tracks
-      - Uptempo Hardcore  2 tracks
-    - Doomcore  1 track
-    - Frenchcore  1 track
-    - Dubstyle  [greffe: Dubstep, famille bass]  0 tracks
+      - Uptempo Hardcore  4 tracks
+    - Doomcore  3 tracks
+    - Frenchcore  4 tracks
+    - Dubstyle  [greffe: Dubstep, famille bass]  1 track
   - Happy Hardcore  [greffe: Breakbeat Hardcore, famille breaks]  3 tracks
-    - Bouncy Techno  3 tracks
+    - Bouncy Techno  5 tracks
     - UK Hardcore  2 tracks
-    - Raggacore  [greffe: Ragga Jungle, famille breaks]  2 tracks
-    - J-Core  3 tracks
-  - Hardstyle  [greffe: Hard Trance, famille trance]  3 tracks
-    - Jumpstyle  3 tracks
-    - Lento Violento  2 tracks
-  - Makina  [greffe: Hard Trance, famille trance]  0 tracks
-  - Digital Hardcore  [greffe: Breakcore, famille breaks]  3 tracks
+    - Raggacore  [greffe: Ragga Jungle, famille breaks]  5 tracks
+    - J-Core  6 tracks
+  - Hardstyle  [greffe: Hard Trance, famille trance]  7 tracks
+    - Jumpstyle  6 tracks
+    - Lento Violento  4 tracks
+  - Makina  [greffe: Hard Trance, famille trance]  2 tracks
+  - Digital Hardcore  [greffe: Breakcore, famille breaks]  8 tracks dont 2 charnieres
 
 ## AMBIENT (12)
 
 - Ambient  [fondateur]  [greffe: Kosmische Musik, famille roots]  [greffe: Électroacoustique, famille roots]  3 tracks
-  - Dark Ambient  3 tracks
+  - Dark Ambient  4 tracks
     - Isolationism  3 tracks
-    - Dungeon Synth  3 tracks
-  - Drone  [greffe: Électroacoustique, famille roots]  (?)  3 tracks
+    - Dungeon Synth  4 tracks
+  - Drone  [greffe: Électroacoustique, famille roots]  (?)  4 tracks
     - Lowercase  2 tracks
   - Ambient Dub  [greffe: Dub, famille roots]  3 tracks
-    - Illbient  2 tracks
+    - Illbient  4 tracks
   - New Age  3 tracks
-  - IDM  [greffe: Detroit Techno, famille techno]  3 tracks
-    - Braindance  (?)  2 tracks
-    - Glitch  3 tracks
+  - IDM  [greffe: Detroit Techno, famille techno]  3 tracks dont 2 charnieres
+    - Braindance  (?)  5 tracks dont 3 charnieres
+    - Glitch  4 tracks dont 1 charniere
 
 ## DOWNTEMPO (12)
 
 - Downtempo  [fondateur]  [greffe: Ambient, famille ambient]  [greffe: Dub, famille roots]  3 tracks
   - Trip-Hop  [greffe: Dub, famille roots]  [greffe: Ambient, famille ambient]  3 tracks
     - Bristol Sound  (?)  3 tracks
-    - Lo-Fi Hip Hop  3 tracks
+    - Lo-Fi Hip Hop  4 tracks
   - Chill-Out  3 tracks
     - Lounge  3 tracks
-    - Balearic  (?)  3 tracks
-  - Ambient House  [greffe: Chicago House, famille house]  3 tracks
-  - Nu Jazz  3 tracks
-  - Psybient  [greffe: Psydub, famille psy]  (?)  3 tracks
-  - Chillwave  3 tracks
-  - Folktronica  3 tracks
+    - Balearic  (?)  4 tracks
+  - Ambient House  [greffe: Chicago House, famille house]  5 tracks
+  - Nu Jazz  6 tracks
+  - Psybient  [greffe: Psydub, famille psy]  (?)  6 tracks
+  - Chillwave  4 tracks
+  - Folktronica  4 tracks
 
 ## Les 40 filiations marquees debattues
 

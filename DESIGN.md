@@ -238,6 +238,16 @@ de **22 px**. En dehors de ces bornes, un label ne se lit pas ou écrase la cart
 
 ## 5. L'espace habitable, ce qui remplace la planche
 
+> **Mise à jour (août 2026, ADR-042).** L'orbite libre est abandonnée.
+> L'atlas est un ARBRE GÉNÉALOGIQUE COUCHÉ : familles de gauche à droite sur
+> poste, une génération par colonne ; pivoté sur mobile, lecture de haut en
+> bas. Les positions sont fixes et déterministes, la caméra ne fait que se
+> déplacer dans le plan et zoomer. La 3D reste pour la matière : sphères,
+> halo, grain, et une profondeur qui ne sert qu'à la hiérarchie (le niveau
+> courant vient en avant). La place de chaque nom est réservée par la mise
+> en page : deux labels ne peuvent pas se recouvrir. Le lecteur est un
+> panneau droit aligné sur l'écran, la carte s'estompe derrière.
+
 > **Mise à jour.** Les masses volumétriques diffuses sont abandonnées. Une
 > famille est désormais une STRUCTURE de sphères nettes reliées par des liens
 > fins, référence moléculaire, et l'ouverture est une diffusion animée. Le

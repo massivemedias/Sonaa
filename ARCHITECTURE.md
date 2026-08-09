@@ -1241,6 +1241,71 @@ Verifie a 320, 390, 430 en portrait et paysage, et 1280 en repere.
 
 ---
 
+## ADR-042 : Disposition fixe, lecteur droit, second corpus, donnees de sortie
+
+**Disposition fixe.** L'orbite libre est ABANDONNEE. L'atlas est un arbre
+genealogique couche : sur poste, familles de gauche a droite, une generation
+par colonne ; sur mobile, la meme chose pivotee, une generation par rangee.
+Positions deterministes au pixel pres, calculees par src/atlas/layout.ts
+depuis le seul corpus. La camera ne fait plus que pan et zoom (zoom vers le
+curseur) ; champ de 14 degres, quasi orthographique : la perspective ne
+fausse jamais la lecture des tailles. Le Z ne sert qu'a la hierarchie : le
+sous-arbre courant vient a plus 3 unites, le reste recule et s'estompe, les
+positions dans le plan ne bougent JAMAIS. Les liens sont des Bezier cubiques
+en S, points de controle calcules a la mise en page ; les liens entre
+familles arquent dans la marge amont pour ne pas traverser les blocs.
+
+**Croisements.** Les liens structurels forment un arbre par famille, dessine
+en intervalles imbriques : ils ne PEUVENT pas se croiser. Les croisements
+restants viennent des liens entre familles : l'ordre des familles se calcule
+a la mediane des partenaires de greffe, par passes, a l'interieur des grands
+ensembles ; l'ordre des enfants d'un parent utilise la meme mediane sur les
+greffes externes, a defaut le tempo croissant.
+
+**Labels garantis par la mise en page.** Chaque noeud possede un CRENEAU qui
+comprend sa sphere et son nom : deux noms ne peuvent pas se recouvrir parce
+que deux creneaux ne se recouvrent pas. Une generation s'affiche ENTIERE
+quand son pas minimal projete depasse la hauteur de label, sinon elle attend
+le zoom suivant ; en focus, le sous-arbre courant est toujours nomme.
+Plancher 11 px, plafond 22 px, jamais de troncature. Le survol met en valeur
+(halo de sphere), il ne revele NI ne masque JAMAIS un nom : check:labels
+echoue desormais si la passe de labels mentionne le survol ou si un add()
+recoit une opacite calculee. Le test de chevauchement au rendu reste comme
+filet de securite ; mesure a la refonte : 36 labels, 0 collision.
+
+**Cadrage par defaut : une PAGE.** Faire tenir la carte entiere donnait un
+filet de poussiere. On cadre l'axe des generations en entier et la vue
+s'ouvre sur la premiere tete de section, en haut sur poste, a gauche sur
+mobile ; le reste se parcourt au pan. La borne haute reserve la marge du fil
+d'Ariane, sinon la premiere tete de section disparaissait dessous.
+
+**Lecteur.** La plaque inclinee dans la scene est abandonnee, avec son bus
+de geometrie par image. Panneau DOM rectangulaire droit, voile qui estompe
+la 3D derriere : pochette carree a gauche (la video prend sa place en
+lecture), titre, artiste, GENRE en couleur de famille cliquable vers la
+fiche, annee, label, catalogue, pays, format, tonalite et BPM quand ils
+existent, liste verticale des tracks du genre ; transport pleine largeur
+avec plein ecran et lien YouTube. L'iframe n'est toujours jamais demontee.
+
+**Second corpus.** tracks-canon-2.md (Last.fm x RYM x Discogs) importe par
+le pipeline durci : 142 tracks ajoutees, 814 au total. Charnieres declarees
+avec reciprocite (Windowlicker en drill and bass, braindance et glitch,
+
+etc.), resolution darkcore appliquee (sens breakbeat 92-93, le corpus la
+portait deja, seul Doc Scott manquait). Les doublons NON declares (Block
+Rockin' Beats en breakbeat quand bigbeat le tient) sont refuses et listes
+dans tracks-canon-report.md : le partage se declare, il ne se devine pas.
+
+**Donnees de sortie.** scripts/fetch-release-data.ts remplace l'album iTunes
+par la sortie originale Discogs (label, catalogue, pays, annee, format),
+correspondance exigeante : artiste conforme ET track presente dans la liste
+de titres de la sortie relue en detail. scripts/fetch-key.ts releve la
+tonalite sur GetSongKey, correspondance exacte, jamais deduite. Les deux
+chantiers SE SAUTENT proprement sans jeton (DISCOGS_TOKEN, GETSONGKEY_KEY) ;
+le panneau n'affiche que les champs presents, aucun gabarit vide.
+
+---
+
 ## Pièges GLSL rencontrés, à ne pas repayer
 
 Trois erreurs coûteuses rencontrées sur le prototype de rendu. Elles ne
