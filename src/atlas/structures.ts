@@ -181,7 +181,11 @@ const mulberry32 = (seed: number) => () => {
    sous-genres. L'ancien générateur tirait un parent au hasard parmi les
    précédents, ce qui produisait un arbre plat où tout était au même niveau.
    Rien ne pouvait s'y lire. */
-const DEPTH_RADIUS = [3.2, 2.05, 1.4, 1.05];
+/* SYSTÈME PLANÉTAIRE. Les écarts de taille entre générations sont MARQUÉS,
+   pas une progression douce : la planète domine d'un facteur 3,4 ses
+   satellites, qui dominent d'un facteur 2,7 les leurs. L'appartenance doit se
+   comprendre d'un coup d'oeil, sans lire un seul label. */
+const DEPTH_RADIUS = [4.6, 1.35, 0.5, 0.28];
 
 /* Résolution des charnières. Un morceau partagé pointe vers ses autres genres
    par identifiant ; l'interface a besoin d'indices navigables. Résolu après
@@ -275,12 +279,34 @@ export const buildStructure = (familyIndex: number): Structure => {
 
   const root = 0;
 
-  /* Disposition en COURONNES. Les enfants d'un noeud s'organisent autour de
-     lui, dans un disque perpendiculaire à la direction qui vient de son propre
-     parent. Chaque génération forme donc un anneau identifiable, au lieu de se
-     mélanger dans un tas commun. */
-  const dirOf = new Map<number, [number, number, number]>();
-  dirOf.set(root, [0, 1, 0]);
+  /* Disposition PLANÉTAIRE. Les enfants d'un noeud se rangent sur un ANNEAU
+     autour de lui, dans un plan proche de l'horizontale, jamais en tas : la
+     lecture est celle d'un système solaire, la planète au centre et ses
+     satellites en orbite. Chaque famille a sa propre inclinaison d'écliptique,
+     légère, pour que l'atlas ne soit pas un damier de disques parallèles. */
+  const eclTilt = 0.18 + rand() * 0.22;
+  const eclSpin = rand() * Math.PI * 2;
+  // Base du plan orbital : quasi horizontal, incliné de eclTilt.
+  const axisY: [number, number, number] = [
+    Math.sin(eclTilt) * Math.cos(eclSpin),
+    Math.cos(eclTilt),
+    Math.sin(eclTilt) * Math.sin(eclSpin)
+  ];
+  const seed0: [number, number, number] = Math.abs(axisY[1]) > 0.9 ? [1, 0, 0] : [0, 1, 0];
+  const eA: [number, number, number] = (() => {
+    const c: [number, number, number] = [
+      seed0[1] * axisY[2] - seed0[2] * axisY[1],
+      seed0[2] * axisY[0] - seed0[0] * axisY[2],
+      seed0[0] * axisY[1] - seed0[1] * axisY[0]
+    ];
+    const l = Math.hypot(...c) || 1;
+    return [c[0] / l, c[1] / l, c[2] / l];
+  })();
+  const eB: [number, number, number] = [
+    axisY[1] * eA[2] - axisY[2] * eA[1],
+    axisY[2] * eA[0] - axisY[0] * eA[2],
+    axisY[0] * eA[1] - axisY[1] * eA[0]
+  ];
 
   const place = (index: number): void => {
     const node = genres[index];
@@ -288,57 +314,29 @@ export const buildStructure = (familyIndex: number): Structure => {
     const kids = node.children;
     if (kids.length === 0) return;
 
-    const inDir = dirOf.get(index) ?? [0, 1, 0];
-    // Base orthonormée autour de la direction entrante.
-    const up: [number, number, number] = Math.abs(inDir[1]) > 0.9 ? [1, 0, 0] : [0, 1, 0];
-    const ax: [number, number, number] = [
-      up[1] * inDir[2] - up[2] * inDir[1],
-      up[2] * inDir[0] - up[0] * inDir[2],
-      up[0] * inDir[1] - up[1] * inDir[0]
-    ];
-    const axLen = Math.hypot(...ax) || 1;
-    const a: [number, number, number] = [ax[0] / axLen, ax[1] / axLen, ax[2] / axLen];
-    const b: [number, number, number] = [
-      inDir[1] * a[2] - inDir[2] * a[1],
-      inDir[2] * a[0] - inDir[0] * a[2],
-      inDir[0] * a[1] - inDir[1] * a[0]
-    ];
-
-    /* L'écart grandit avec la taille du sous-arbre : une branche de huit
-       dérivés a besoin de plus de place qu'une feuille double. Mesuré sur
-       Breaks à 23 genres, où la grappe drum and bass s'écrasait sur ses
-       voisines. Racine carrée pour ne pas faire exploser les grandes familles,
-       plafonnée à 1,9. */
-    const subtree = (i: number): number => {
-      const g = genres[i];
-      if (!g) return 1;
-      return 1 + g.children.reduce((a, c) => a + subtree(c), 0);
-    };
-    const factor = Math.min(1.9, Math.max(1, Math.sqrt(subtree(index) / 6)));
-    const spread = (8.4 - node.depth * 1.5) * factor;
-    const tilt = 0.55;
+    /* Rayon d'orbite : assez loin du corps parent pour que l'anneau se lise,
+       assez grand pour que les satellites ne se touchent pas entre eux. */
+    const parentR = node.radius;
+    const childR = Math.max(...kids.map((k) => genres[k]?.radius ?? 0.5), 0.3);
+    const byBody = parentR * 1.9 + childR * 1.6;
+    const byRing = (kids.length * childR * 2 * 1.7) / (2 * Math.PI);
+    const orbit = Math.max(byBody, byRing);
 
     kids.forEach((kid, k) => {
       const child = genres[kid];
       if (!child) return;
-      const angle = (k / kids.length) * Math.PI * 2 + node.depth * 0.7;
-      const wobble = 0.82 + rand() * 0.36;
-      const r = spread * wobble;
-
-      const dir: [number, number, number] = [
-        a[0] * Math.cos(angle) * r + b[0] * Math.sin(angle) * r + inDir[0] * r * tilt,
-        a[1] * Math.cos(angle) * r + b[1] * Math.sin(angle) * r + inDir[1] * r * tilt,
-        a[2] * Math.cos(angle) * r + b[2] * Math.sin(angle) * r + inDir[2] * r * tilt
-      ];
+      // Répartition régulière sur l'anneau, phase propre à chaque noeud pour
+      // que deux systèmes voisins ne s'alignent pas.
+      const angle = (k / kids.length) * Math.PI * 2 + index * 0.9 + rand() * 0.15;
+      // Léger relief : l'anneau ondule d'une fraction du rayon du corps, la
+      // profondeur se sent sans casser la lecture en anneau.
+      const lift = (rand() - 0.5) * parentR * 0.35;
 
       child.deployed = [
-        node.deployed[0] + dir[0],
-        node.deployed[1] + dir[1],
-        node.deployed[2] + dir[2]
+        node.deployed[0] + eA[0] * Math.cos(angle) * orbit + eB[0] * Math.sin(angle) * orbit + axisY[0] * lift,
+        node.deployed[1] + eA[1] * Math.cos(angle) * orbit + eB[1] * Math.sin(angle) * orbit + axisY[1] * lift,
+        node.deployed[2] + eA[2] * Math.cos(angle) * orbit + eB[2] * Math.sin(angle) * orbit + axisY[2] * lift
       ];
-
-      const dl = Math.hypot(...dir) || 1;
-      dirOf.set(kid, [dir[0] / dl, dir[1] / dl, dir[2] / dl]);
       place(kid);
     });
   };
@@ -378,8 +376,21 @@ export const buildStructure = (familyIndex: number): Structure => {
     }
   }
 
+  /* État compact, celui de l'atlas : la planète ET son premier anneau sont
+     déjà visibles, c'est ce qui fait lire chaque famille comme un système
+     solaire dès la première vue. Les générations suivantes sont repliées sur
+     leur ancêtre de première génération, d'où elles surgiront au déploiement. */
   for (const g of genres) {
-    g.compact = [g.deployed[0] * 0.17, g.deployed[1] * 0.17, g.deployed[2] * 0.17];
+    if (g.depth <= 1) {
+      g.compact = [g.deployed[0], g.deployed[1], g.deployed[2]];
+      continue;
+    }
+    let cursor = g;
+    while (cursor.depth > 1 && cursor.parent >= 0) {
+      cursor = genres[cursor.parent] ?? cursor;
+      if (cursor === g) break;
+    }
+    g.compact = [cursor.deployed[0], cursor.deployed[1], cursor.deployed[2]];
   }
 
   const radiusOf = (key: 'deployed' | 'compact'): number =>

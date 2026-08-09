@@ -108,6 +108,16 @@ export function CreditsPage() {
       <footer className="credits-foot">
         <a href="#/">Revenir à l&apos;atlas</a>
         <a href="#/index">Vue liste</a>
+        <button
+          className="credits-replay"
+          onClick={() => {
+            localStorage.removeItem('sonaa-intro-seen');
+            window.location.hash = '#/';
+            window.location.reload();
+          }}
+        >
+          Revoir l&apos;intro
+        </button>
       </footer>
     </main>
   );

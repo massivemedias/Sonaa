@@ -7,7 +7,7 @@
 
    Usage : npm run check:matcher */
 
-import { judge, normalise } from './lib/match.ts';
+import { judge, isFullRelease, normalise } from './lib/match.ts';
 
 /* Les cas qui ont motivé le durcissement, plus ceux que la version trop stricte
    rejetait à tort. Attendu = ce que le matcher DOIT dire. */
@@ -29,6 +29,15 @@ const cases: [string, string, string, string, boolean, string][] = [
   ['Throbbing Gristle', 'We Hate You (Little Girls)', 'We Hate You (Little Girls)', 'Carlos Buchan', false, 'artiste nulle part, refus assume'],
 ];
 
+// Parutions complètes : le bon artiste, le bon titre, et pourtant NON.
+// Le cas réel : Spacesynth jouait un album entier de 40 minutes.
+cases.push(
+  ['Zanov', 'Moebius 256', 'Zanov - Moebius 256 301 (full album)', 'vinylarchives', false, 'album entier annoncé dans le titre'],
+  ['Koto', 'Visitors', 'Koto - Visitors (Album Completo 1985)', 'italoteca', false, 'album completo'],
+  ['Laserdance', 'Humanoid Invasion', 'Laserdance Megamix 1988', 'spacesynth4ever', false, 'megamix'],
+  ['Jean-Michel Jarre', 'Oxygene 4', 'Jean-Michel Jarre - Oxygene (Full LP)', 'archives', false, 'full LP']
+);
+
 let fails = 0;
 for (const [artist, title, ytTitle, channel, expected, why] of cases) {
   const v = judge({ title: ytTitle, channel }, artist, title);
@@ -38,6 +47,16 @@ for (const [artist, title, ytTitle, channel, expected, why] of cases) {
     `${ok ? 'OK  ' : 'ECHEC'} ${expected ? 'accepter' : 'refuser '} | ` +
       `titre ${v.titleScore.toFixed(2)} artiste ${v.artistScore.toFixed(2)} | ${artist} - ${title} | ${why}`
   );
+}
+
+// La durée seule suffit à refuser, même avec un titre irréprochable.
+if (!isFullRelease('Zanov - Moebius 256', 40 * 60 + 34)) {
+  fails += 1;
+  console.error('ECHEC un candidat de 40 minutes doit être refusé par la durée seule');
+}
+if (isFullRelease('Zanov - Moebius 256', 6 * 60)) {
+  fails += 1;
+  console.error('ECHEC une track de 6 minutes ne doit pas être refusée');
 }
 
 console.log('');

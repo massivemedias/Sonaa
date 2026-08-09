@@ -485,15 +485,15 @@
    "tracks": {
     "essentiel": [
      {
-      "youtubeId": "pjUptK4UKTo",
+      "youtubeId": "QCs2wJBMTv4",
       "artist": "Zanov",
       "title": "Moebius 256",
       "year": 1977,
       "verified": true,
       "cover": {
-       "url": "https://i.ytimg.com/vi/pjUptK4UKTo/maxresdefault.jpg",
+       "url": "https://i.ytimg.com/vi/QCs2wJBMTv4/maxresdefault.jpg",
        "source": "youtube",
-       "local": "covers/pjUptK4UKTo.jpg"
+       "local": "covers/QCs2wJBMTv4.jpg"
       }
      },
      {
@@ -1055,12 +1055,12 @@
       "title": "Acid Tracks",
       "year": 1987,
       "verified": true,
+      "album": "Acid Tracks",
       "cover": {
        "url": "https://cdn-images.dzcdn.net/images/cover/70d0f9b30ac432496da2d18154d24e2b/500x500-000000-80-0-0.jpg",
        "source": "deezer",
        "local": "covers/igNBeo3QSqc.jpg"
-      },
-      "album": "Acid Tracks"
+      }
      },
      {
       "youtubeId": "C6V9WBTJlhw",
@@ -2399,17 +2399,17 @@
       }
      },
      {
-      "youtubeId": "8Ps00LwguqA",
+      "youtubeId": "ZqLYBr8cmlo",
       "artist": "Morph",
       "title": "Stormwatch",
       "year": 1994,
       "verified": true,
+      "album": "100 Anthems: Trance",
       "cover": {
-       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/b2/8e/4d/b28e4d7b-00ab-2a86-c3da-e5adcfd20bbb/886788983717.tif/600x600bb.jpg",
-       "source": "itunes",
-       "local": "covers/8Ps00LwguqA.jpg"
-      },
-      "album": "The Chillout Lounge, Vol. 13"
+       "url": "https://cdn-images.dzcdn.net/images/cover/9cb35fd0fbc25c2fcf2156052bb0ab06/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/ZqLYBr8cmlo.jpg"
+      }
      },
      {
       "youtubeId": "T9TaWn-oWv4",
@@ -2467,15 +2467,15 @@
    "tracks": {
     "essentiel": [
      {
-      "youtubeId": "fb_WRPzsdvY",
+      "youtubeId": "ME-DxgLMt8g",
       "artist": "Spirallianz",
       "title": "Blast Food",
       "year": 2000,
       "verified": true,
       "cover": {
-       "url": "https://i.ytimg.com/vi/fb_WRPzsdvY/maxresdefault.jpg",
+       "url": "https://i.ytimg.com/vi/ME-DxgLMt8g/maxresdefault.jpg",
        "source": "youtube",
-       "local": "covers/fb_WRPzsdvY.jpg"
+       "local": "covers/ME-DxgLMt8g.jpg"
       }
      },
      {
@@ -2651,12 +2651,12 @@
       "title": "Quadrant Dub I",
       "year": 1994,
       "verified": true,
+      "album": "Quadrant Dub",
       "cover": {
        "url": "https://cdn-images.dzcdn.net/images/cover/ac962aeb84ba090a51e5c0aea5c1f9a4/500x500-000000-80-0-0.jpg",
        "source": "deezer",
        "local": "covers/Gi4vzEoJXHU.jpg"
-      },
-      "album": "Quadrant Dub"
+      }
      },
      {
       "youtubeId": "QSez2rq6pVE",
@@ -4598,29 +4598,29 @@
    "tracks": {
     "essentiel": [
      {
-      "youtubeId": "TQ7zXC6bX4w",
+      "youtubeId": "qjbpfycF6PY",
       "artist": "Sandman",
       "title": "Witchcraft",
       "year": 1997,
       "verified": true,
       "cover": {
-       "url": "https://i.ytimg.com/vi/TQ7zXC6bX4w/maxresdefault.jpg",
+       "url": "https://i.ytimg.com/vi/qjbpfycF6PY/maxresdefault.jpg",
        "source": "youtube",
-       "local": "covers/TQ7zXC6bX4w.jpg"
+       "local": "covers/qjbpfycF6PY.jpg"
       }
      },
      {
-      "youtubeId": "dF0qJcTreRY",
+      "youtubeId": "e7Nyh01t7h0",
       "artist": "Oforia",
       "title": "Delirious",
       "year": 1998,
       "verified": true,
+      "album": "Delirious",
       "cover": {
-       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2e/0c/11/2e0c1118-0620-b512-28f3-09b55606e851/5063857210683_cover.jpg/600x600bb.jpg",
-       "source": "itunes",
-       "local": "covers/dF0qJcTreRY.jpg"
-      },
-      "album": "Delirious"
+       "url": "https://cdn-images.dzcdn.net/images/cover/b71fa2011b88471fe3b81b05c05d1753/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/e7Nyh01t7h0.jpg"
+      }
      }
     ],
     "actuel": []
@@ -4688,17 +4688,17 @@
       }
      },
      {
-      "youtubeId": "0PsmzczYRGk",
+      "youtubeId": "DoJwWildJC8",
       "artist": "Absolum",
       "title": "Inside the Sphere",
       "year": 2002,
       "verified": true,
+      "album": "Inside The Sphere",
       "cover": {
        "url": "https://cdn-images.dzcdn.net/images/cover/65cb12fe7f39f45a4b7a2d4038315ddd/500x500-000000-80-0-0.jpg",
        "source": "deezer",
-       "local": "covers/0PsmzczYRGk.jpg"
-      },
-      "album": "Inside The Sphere"
+       "local": "covers/DoJwWildJC8.jpg"
+      }
      }
     ],
     "actuel": []
@@ -4779,15 +4779,15 @@
    "tracks": {
     "essentiel": [
      {
-      "youtubeId": "w3ZEVrmbBWE",
+      "youtubeId": "8DNGcHzeG-U",
       "artist": "Mad Tribe",
       "title": "Sonic Mandala",
       "year": 2016,
       "verified": true,
       "cover": {
-       "url": "https://i.ytimg.com/vi/w3ZEVrmbBWE/maxresdefault.jpg",
+       "url": "https://i.ytimg.com/vi/8DNGcHzeG-U/maxresdefault.jpg",
        "source": "youtube",
-       "local": "covers/w3ZEVrmbBWE.jpg"
+       "local": "covers/8DNGcHzeG-U.jpg"
       }
      },
      {
@@ -4896,20 +4896,7 @@
    "major": false,
    "note": "Finlande, milieu des annees 90. Cite par Wikipedia, absent des cartographies de reference.",
    "tracks": {
-    "essentiel": [
-     {
-      "youtubeId": "T54okIetp4o",
-      "artist": "Aavepyora",
-      "title": "Ihmisia Ja Eläimiä",
-      "year": 2005,
-      "verified": true,
-      "cover": {
-       "url": "https://i.ytimg.com/vi/T54okIetp4o/maxresdefault.jpg",
-       "source": "youtube",
-       "local": "covers/T54okIetp4o.jpg"
-      }
-     }
-    ],
+    "essentiel": [],
     "actuel": []
    },
    "aliases": [
@@ -5429,28 +5416,28 @@
    "tracks": {
     "essentiel": [
      {
-      "youtubeId": "qPzRoMeFl4k",
+      "youtubeId": "dv8dIofNJIs",
       "artist": "yelworC",
       "title": "Trinity",
       "year": 1992,
       "verified": true,
+      "album": "Trinity",
       "cover": {
-       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/1a/b8/ae/1ab8aef0-52d3-b3d5-f46d-d9ce21f7e4c7/782388030960_Cover.jpg/600x600bb.jpg",
-       "source": "itunes",
-       "local": "covers/qPzRoMeFl4k.jpg"
-      },
-      "album": "Trinity"
+       "url": "https://cdn-images.dzcdn.net/images/cover/107a409854879c721fcd6ee8adabff4e/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/dv8dIofNJIs.jpg"
+      }
      },
      {
-      "youtubeId": "mP4cuUVUwOU",
+      "youtubeId": "O59hgX-LR7Y",
       "artist": "Mentallo And The Fixer",
       "title": "Burnt Beyond Recognition",
       "year": 1993,
       "verified": true,
       "cover": {
-       "url": "https://i.ytimg.com/vi/mP4cuUVUwOU/maxresdefault.jpg",
+       "url": "https://i.ytimg.com/vi/O59hgX-LR7Y/maxresdefault.jpg",
        "source": "youtube",
-       "local": "covers/mP4cuUVUwOU.jpg"
+       "local": "covers/O59hgX-LR7Y.jpg"
       }
      },
      {
@@ -8707,18 +8694,6 @@
    ],
    "tracks": {
     "essentiel": [
-     {
-      "youtubeId": "LKZ3fGR2SDY",
-      "artist": "Brian Eno",
-      "title": "1/1",
-      "year": 1978,
-      "verified": true,
-      "cover": {
-       "url": "https://i.ytimg.com/vi/LKZ3fGR2SDY/maxresdefault.jpg",
-       "source": "youtube",
-       "local": "covers/LKZ3fGR2SDY.jpg"
-      }
-     },
      {
       "youtubeId": "OlaTeXX3uH8",
       "artist": "Brian Eno",

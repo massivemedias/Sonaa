@@ -28,6 +28,9 @@ const HELP_KEY = 'sonaa-help-seen';
 /* L'écran d'accueil se montre une seule fois dans la vie du navigateur. Clé
    distincte de la ligne d'aide : ce sont deux choses différentes. */
 const WELCOME_KEY = 'sonaa-welcome-seen';
+/* L'intro, la naissance des familles, se joue une seule fois. Clé distincte de
+   l'accueil : « revoir l'intro » sur les crédits n'a pas à repasser l'accueil. */
+const INTRO_KEY = 'sonaa-intro-seen';
 
 function Fallback({ notice }: { notice: string }) {
   return (
@@ -123,6 +126,12 @@ export function AtlasPage() {
           }
         });
         setMode('webgl');
+        if (
+          localStorage.getItem(INTRO_KEY) !== '1' &&
+          localStorage.getItem(WELCOME_KEY) === '1'
+        ) {
+          apiRef.current?.playIntro();
+        }
       });
     }, 0);
 
@@ -133,6 +142,16 @@ export function AtlasPage() {
       apiRef.current = null;
     };
   }, [onStats, onNavigate, onTracks, onGenreInfo, onPanel]);
+
+  /* Le balayage du logo s'arrête quand l'onglet est en arrière-plan : une
+     animation CSS ne se met pas en pause toute seule. */
+  useEffect(() => {
+    const onVisibility = (): void => {
+      document.documentElement.toggleAttribute('data-tab-hidden', document.hidden);
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => document.removeEventListener('visibilitychange', onVisibility);
+  }, []);
 
   /* La 3D n'est plus suspendue : le panneau vit DANS la scène, devant la
      sphère du genre. On continue donc à orbiter et à zoomer pendant qu'il est
@@ -160,6 +179,10 @@ export function AtlasPage() {
        la ligne d'aide juste après serait du bruit. */
     localStorage.setItem(HELP_KEY, '1');
     setShowHelp(false);
+    // L'intro se joue après l'accueil, jamais dessous.
+    if (localStorage.getItem(INTRO_KEY) !== '1') {
+      apiRef.current?.playIntro();
+    }
   }, []);
 
   /* L'ESPACE ouvre la recherche, la barre oblique reste en second raccourci.
@@ -244,6 +267,11 @@ export function AtlasPage() {
         title="Revenir à l'Atlas"
       >
         <img src={`${import.meta.env.BASE_URL}brand/sonaa-wordmark.png`} alt="SONAA" draggable={false} />
+        {/* Le balayage lumineux. Le PNG n'a pas de tracé vectoriel : c'est un
+            masque en dégradé qui respecte la transparence, la lumière n'existe
+            que sur les pixels du glyphe, donc le point semble suivre le trait.
+            Choix documenté dans DESIGN.md, section identité. */}
+        <span className="brand-sweep" aria-hidden="true" />
       </button>
 
       {/* Fil d'Ariane permanent : on sait toujours où on est, et on remonte

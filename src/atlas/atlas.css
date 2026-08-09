@@ -492,16 +492,74 @@
 }
 
 .brand img {
-  /* 22 px de haut : mesuré lisible sur le fond sombre, et une fois et demie
-     plus petit que le nom d'une famille dans l'atlas. */
-  height: 22px;
+  /* Doublé : 44 px. Le fil d'Ariane descend d'autant, ils ne se battent pas. */
+  height: 44px;
   width: auto;
   display: block;
 }
 
+/* Le point lumineux qui parcourt le mot. Un masque du logotype limite la
+   lumière aux pixels du glyphe : la colonne brillante qui balaie de gauche à
+   droite n'éclaire que le trait, donc le point le SUIT. Tête nette, traînée
+   courte derrière, rien ne persiste, le logo n'est jamais déformé. */
+.brand-sweep {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  -webkit-mask-image: url('../../public/brand/sonaa-wordmark.png');
+  mask-image: url('../../public/brand/sonaa-wordmark.png');
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    transparent 44%,
+    rgba(255, 255, 255, 0.35) 48.5%,
+    #ffffff 50%,
+    transparent 51.5%,
+    transparent 100%
+  );
+  background-size: 320% 100%;
+  background-position: 140% 0;
+  /* 1,5 s de traversée dans un cycle de 16 s : au chargement, puis toutes les
+     14,5 secondes. */
+  animation: brand-sweep 16s linear infinite;
+}
+
+@keyframes brand-sweep {
+  0% { background-position: 140% 0; }
+  9.4% { background-position: -60% 0; }
+  100% { background-position: -60% 0; }
+}
+
+/* Au survol : la traversée repart immédiatement. */
+.brand:hover .brand-sweep,
+.brand:focus-visible .brand-sweep {
+  animation: brand-sweep-hover 1.5s linear;
+}
+
+@keyframes brand-sweep-hover {
+  0% { background-position: 140% 0; }
+  100% { background-position: -60% 0; }
+}
+
+/* Onglet en arrière-plan : plus un pixel ne bouge. */
+:root[data-tab-hidden] .brand-sweep {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-sweep {
+    animation: none;
+    background: none;
+  }
+}
+
 /* Le fil d'Ariane descend sous le logotype plutôt que de se battre avec lui. */
 .crumbs {
-  top: 2.9rem;
+  top: 4.4rem;
 }
 
 @media (max-width: 700px) {
@@ -510,10 +568,10 @@
     top: 0.7rem;
   }
   .brand img {
-    height: 19px;
+    height: 34px;
   }
   .crumbs {
-    top: 2.5rem;
+    top: 3.6rem;
     left: 0.9rem;
   }
 }

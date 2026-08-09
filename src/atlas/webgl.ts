@@ -154,6 +154,8 @@ export interface AtlasApi {
   /** Ouvre la plaque devant la sphère d'un genre, et vole vers elle. */
   openPanel: (familyIndex: number, genreLocal: number) => void;
   closePanel: () => void;
+  /** Joue la naissance des familles. Rappel à la fin ou à l'interruption. */
+  playIntro: (onEnd?: () => void) => void;
 }
 
 const FOV = 40;
@@ -354,7 +356,9 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   sphereCenterAttr.setUsage(35048);
   sphereStateAttr.setUsage(35048);
   sphereGeometry.setAttribute('aCenter', sphereCenterAttr);
-  sphereGeometry.setAttribute('aRadius', new InstancedBufferAttribute(sphereRadii, 1));
+  const sphereRadiusAttr = new InstancedBufferAttribute(sphereRadii, 1);
+  sphereRadiusAttr.setUsage(35048);
+  sphereGeometry.setAttribute('aRadius', sphereRadiusAttr);
   sphereGeometry.setAttribute('aColor', new InstancedBufferAttribute(sphereColors, 3));
   sphereGeometry.setAttribute('aState', sphereStateAttr);
 
@@ -584,7 +588,10 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
        la hauteur vides et des amas minuscules. On remplit davantage quand
        l'écran est plus haut que large. */
     const tan = Math.tan((FOV * Math.PI) / 360);
-    const fill = aspect < 0.85 ? 0.9 : ATLAS_FILL;
+    /* Les anneaux de satellites ajoutent une frange autour de chaque amas :
+       le remplissage redescend d'un cran, sinon Bass et Minimal sortaient des
+       bords en fenêtre étroite. */
+    const fill = aspect < 0.85 ? 0.78 : ATLAS_FILL * 0.94;
     const byHeight = halfV / (fill * tan);
     const byWidth = halfH / (fill * tan * Math.max(0.2, aspect));
     return clamp(Math.max(byHeight, byWidth), MIN_DISTANCE, MAX_DISTANCE);
@@ -800,7 +807,59 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   let suspended = false;
   let interacted = false;
 
+  /* L'INTRO : la naissance des familles. Expansion RADIALE depuis le centre,
+     jamais un déroulé. Chaque famille apparaît en point à sa position finale
+     atteinte en s'éloignant du centre, éclate au-delà de sa taille, se
+     stabilise, et le lien se trace depuis la famille dont elle descend.
+
+     L'ordre est chronologique et VÉRIFIÉ CONTRE LE CORPUS : les notes datent
+     l'Ambient de 1978, Music for Airports, donc il naît avant l'Electro (1982)
+     et la House (1984), contrairement à la liste de départ. Le reste suit.
+
+     6 secondes, 350 ms par famille, chevauchement par pop de 700 ms. Aucune
+     caméra : elle est au cadrage par défaut du début à la fin, l'intro montre
+     cet espace en train de se peupler. Interruptible par n'importe quel clic
+     ou touche, jouée une fois, coupée par prefers-reduced-motion. */
+  const INTRO_ORDER = [
+    'roots', 'disco', 'industrial', 'ambient', 'electro', 'house', 'techno',
+    'breaks', 'trance', 'hardcore', 'minimal', 'downtempo', 'psy', 'bass'
+  ].map((id) => FAMILIES.findIndex((f) => f.id === id));
+  const INTRO_STEP_MS = 350;
+  const INTRO_POP_MS = 700;
+
+  let introActive = false;
+  let introStart = 0;
+  let introDone: (() => void) | null = null;
+  const baseRadii = Float32Array.from(sphereRadii);
+
+  const introBirth = (fi: number, now: number): number => {
+    const rank = INTRO_ORDER.indexOf(fi);
+    if (rank < 0) return 1;
+    return clamp((now - introStart - rank * INTRO_STEP_MS) / INTRO_POP_MS, 0, 1);
+  };
+
+  /** Point, éclatement au-delà de la taille finale, stabilisation. */
+  const popScale = (t: number): number => (t <= 0 ? 0 : t >= 1 ? 1 : backOut(t) * (1 + 0.3 * Math.sin(t * Math.PI)));
+
+  const finishIntro = (): void => {
+    if (!introActive) return;
+    introActive = false;
+    sphereRadii.set(baseRadii);
+    sphereRadiusAttr.needsUpdate = true;
+    try { localStorage.setItem('sonaa-intro-seen', '1'); } catch { /* stockage privé */ }
+    introDone?.();
+    introDone = null;
+  };
+
+  const playIntro = (onEnd?: () => void): void => {
+    if (reducedMotion) { onEnd?.(); return; }
+    introDone = onEnd ?? null;
+    introStart = performance.now();
+    introActive = true;
+  };
+
   const onFirstInteraction = (): void => {
+    if (introActive) finishIntro();
     if (interacted) return;
     interacted = true;
     document.documentElement.dataset['atlasTouched'] = '1';
@@ -1103,6 +1162,7 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
      recentrer, Échap pour remonter. La navigation ne dépend pas d'un geste
      trackpad que personne ne devine. */
   const onKey = (event: KeyboardEvent): void => {
+    if (introActive) { finishIntro(); return; }
     if (event.target instanceof HTMLInputElement) return;
     switch (event.key) {
       case 'ArrowLeft': azVel -= 0.045; break;
@@ -1289,6 +1349,8 @@ const OVERLAP_TOLERANCE = 4;
     }
 
     FAMILIES.forEach((family, fi) => {
+      // Intro : le nom apparaît à l'éclatement, environ 40 % du pop, et reste.
+      if (introActive && introBirth(fi, performance.now()) < 0.4) return;
       const p = familyProgress[fi] ?? 0;
       const isCurrent = fi === activeFamily;
       add(
@@ -1781,6 +1843,28 @@ const OVERLAP_TOLERANCE = 4;
          par génération, tandis que le reste de la famille se replie. C'est la
          même grammaire que la diffusion de famille, un cran plus bas. */
       let presence = 1;
+
+      /* Intro : la famille non née est absente, la naissante gonfle et éclate.
+         La position s'éloigne du centre de l'atlas vers sa place finale. */
+      if (introActive) {
+        const birth = introBirth(slot.family, now);
+        const sc = popScale(birth);
+        sphereRadii[i] = (baseRadii[i] ?? 1) * sc;
+        presence = sc <= 0.02 ? 0 : Math.min(1, sc);
+        const e = 1 - Math.pow(1 - birth, 3);
+        slot.world.set(
+          atlasTarget.x + (slot.world.x - atlasTarget.x) * e,
+          atlasTarget.y + (slot.world.y - atlasTarget.y) * e,
+          atlasTarget.z + (slot.world.z - atlasTarget.z) * e
+        );
+      }
+
+      /* Satellites de satellites : révélés au déploiement seulement. À l'état
+         compact ils sont repliés sur leur ancêtre de première génération ; les
+         afficher là ferait des sphères doubles. Ils surgissent avec la cascade,
+         chacun au rythme de sa propre génération. */
+      if (slot.depth >= 2) presence = clamp(p * 1.6 - 0.2, 0, 1);
+
       /* Anneaux uniquement sur le niveau actuellement navigable. Au niveau
          Atlas on ne descend pas encore dans les genres, donc aucun anneau :
          c'est ce qui encombrait le plus la vue d'ensemble. */
@@ -1833,6 +1917,11 @@ const OVERLAP_TOLERANCE = 4;
     }
     sphereCenterAttr.needsUpdate = true;
     sphereStateAttr.needsUpdate = true;
+    if (introActive) {
+      sphereRadiusAttr.needsUpdate = true;
+      const last = INTRO_ORDER.length * INTRO_STEP_MS + INTRO_POP_MS + 400;
+      if (now - introStart > last) finishIntro();
+    }
 
     // Liens : extrémités suivies, tracé du parent vers l'enfant.
     for (let i = 0; i < LINK_COUNT; i += 1) {
@@ -1868,6 +1957,16 @@ const OVERLAP_TOLERANCE = 4;
            brouillaient la lecture. Ils sont désormais quasi invisibles par
            défaut, et ne s'allument que si l'une de leurs deux extrémités est
            la famille sélectionnée ou celle du noeud survolé. */
+        if (introActive) {
+          /* Le lien se trace depuis la famille d'origine vers la naissante,
+             comme une propagation : l'avancement suit la naissance de la
+             famille d'arrivée. */
+          const bornA = introBirth(ref.familyA, now);
+          const bornB = introBirth(ref.familyB, now);
+          linkMeta[i * 3 + 1] = bornA > 0.5 ? 0.55 : 0;
+          linkMeta[i * 3 + 2] = clamp(bornB * 1.4, 0, 1);
+          continue;
+        }
         const hoveredFamily = hovered >= 0 ? (slotsData[hovered]?.family ?? -1) : -1;
         const concerned =
           ref.familyA === activeFamily ||
@@ -1942,6 +2041,7 @@ const OVERLAP_TOLERANCE = 4;
     openPanel,
     closePanel,
     goToGenre,
+    playIntro,
     open: (familyIndex: number) => setDeploy(familyIndex, true, performance.now()),
     close: (familyIndex: number) => setDeploy(familyIndex, false, performance.now()),
     setOrbit: (az: number, el: number, dist: number) => {
@@ -1996,6 +2096,7 @@ const OVERLAP_TOLERANCE = 4;
     openPanel,
     closePanel,
     goToGenre,
+    playIntro,
     setSuspended: (value: boolean) => {
       suspended = value;
     },

@@ -187,8 +187,20 @@ c'est une nécessité : une icône claire et transparente disparaît sur une bar
 d'onglets claire.
 
 **Rôle dans l'interface.** Le logotype est le retour à l'accueil, et rien
-d'autre. Petit, opacité 0,72 au repos : il ne concurrence pas la carte, qui est
-le sujet.
+d'autre. Opacité 0,72 au repos : il ne concurrence pas la carte, qui est le
+sujet. 44 px de haut sur poste, 34 sur mobile, plus grand sur l'accueil et les
+crédits.
+
+**Le balayage lumineux.** Un point net traverse le mot de gauche à droite en
+1,5 seconde, au chargement, toutes les 14 à 16 secondes, et au survol. Le PNG
+n'a pas de tracé vectoriel : vectoriser proprement une calligraphie à pleins et
+déliés produirait des centaines de points de contrôle à corriger à la main.
+Le choix retenu est donc le **masque en dégradé respectant la transparence** :
+une colonne brillante balaie horizontalement, masquée par le logotype lui-même,
+si bien que la lumière n'existe que sur les pixels du glyphe et semble suivre
+le trait. Tête nette, traînée courte, aucune trace persistante, aucune
+déformation, pas de passe WebGL. L'animation s'arrête quand l'onglet est en
+arrière-plan et disparaît sous `prefers-reduced-motion`.
 
 ---
 

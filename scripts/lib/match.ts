@@ -73,17 +73,46 @@ export interface Verdict {
   ok: boolean;
   titleScore: number;
   artistScore: number;
+  /** Vrai quand le candidat est une parution complète, pas une track. */
+  fullRelease?: boolean;
 }
 
+/* Une PARUTION COMPLÈTE n'est pas une track. « Zanov - Moebius 256 301 (full
+   album) », 40 minutes, passait le matcher parce que le titre contient bien
+   l'artiste et le titre cherchés : le test de correspondance ne suffit pas, il
+   faut aussi refuser la nature de l'objet. Deux détecteurs :
+
+   1. Le titre annonce la parution : full album, álbum completo, LP, mix
+      complet, compilation, megamix, et leurs variantes.
+   2. La durée dépasse quinze minutes, quand elle est connue. Elle vient de la
+      page de résultats de recherche, oEmbed ne la donne pas. */
+export const FULL_RELEASE_MARKERS =
+  /\bfull\s*album\b|\balbum\s+complet(?:o)?\b|\b[aá]lbum\s+completo\b|\bfull\s*lp\b|\blp\b|\bmix\s+complet\b|\bcompilation\b|\bmegamix\b|\bfull\s*ep\b|\bcontinuous\s+mix\b|\bdj\s*mix\b|\ball\s+tracks\b/i;
+
+export const MAX_TRACK_SECONDS = 15 * 60;
+
+export const isFullRelease = (title: string, seconds?: number | null): boolean => {
+  if (FULL_RELEASE_MARKERS.test(title)) return true;
+  if (seconds !== undefined && seconds !== null && seconds > MAX_TRACK_SECONDS) return true;
+  return false;
+};
+
 /** Le verdict, avec ses deux scores : un rejet doit être explicable. */
-export const judge = (candidate: Candidate, artist: string, title: string): Verdict => {
+export const judge = (
+  candidate: Candidate,
+  artist: string,
+  title: string,
+  seconds?: number | null
+): Verdict => {
   const haystack = new Set(normalise(`${candidate.title} ${candidate.channel}`).split(' ').filter(Boolean));
   const titleScore = coverage(title, haystack);
   const artistScore = coverage(artist, haystack);
+  const fullRelease = isFullRelease(candidate.title, seconds);
   return {
-    ok: titleScore >= TITLE_THRESHOLD && artistScore >= ARTIST_THRESHOLD,
+    ok: !fullRelease && titleScore >= TITLE_THRESHOLD && artistScore >= ARTIST_THRESHOLD,
     titleScore,
-    artistScore
+    artistScore,
+    fullRelease
   };
 };
 
@@ -108,21 +137,37 @@ const pace = async (): Promise<void> => {
   lastSearch = Date.now();
 };
 
-const scrape = (html: string, limit: number): string[] => {
-  const out: string[] = [];
+export interface SearchHit {
+  id: string;
+  /** Durée en secondes, lue sur la page de résultats. Null si absente. */
+  seconds: number | null;
+}
+
+const parseLength = (text: string): number | null => {
+  const parts = text.split(':').map((x) => Number.parseInt(x, 10));
+  if (parts.some((x) => !Number.isFinite(x))) return null;
+  return parts.reduce((acc, x) => acc * 60 + x, 0);
+};
+
+const scrape = (html: string, limit: number): SearchHit[] => {
+  const out: SearchHit[] = [];
   const seen = new Set<string>();
-  for (const m of html.matchAll(/"videoId":"([A-Za-z0-9_-]{11})"/g)) {
-    const id = m[1];
-    if (!id || seen.has(id)) continue;
+  /* La page de résultats encode chaque vidéo dans un bloc videoRenderer qui
+     porte l'identifiant ET la durée. On découpe sur ces blocs plutôt que de
+     chercher les identifiants seuls : c'est la seule source de durée sans clé. */
+  for (const chunk of html.split('"videoRenderer":{"videoId":"').slice(1)) {
+    const id = chunk.slice(0, 11);
+    if (!/^[A-Za-z0-9_-]{11}$/.test(id) || seen.has(id)) continue;
     seen.add(id);
-    out.push(id);
+    const m = /"lengthText":\{(?:[^{}]|\{[^{}]*\})*?"simpleText":"([0-9:]+)"/.exec(chunk.slice(0, 3000));
+    out.push({ id, seconds: m?.[1] ? parseLength(m[1]) : null });
     if (out.length >= limit) break;
   }
   return out;
 };
 
-/** Identifiants candidats pour une requête. Aucun identifiant n'est jamais construit. */
-export const searchYouTube = async (query: string, limit = 4): Promise<string[]> => {
+/** Candidats pour une requête, avec leur durée. Aucun identifiant n'est jamais construit. */
+export const searchYouTube = async (query: string, limit = 4): Promise<SearchHit[]> => {
   const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
 
   for (let attempt = 0; attempt < 4; attempt += 1) {
@@ -179,10 +224,10 @@ export const resolveTrack = async (
   title: string
 ): Promise<{ hit: Resolution | null; rejected: Resolution[] }> => {
   const rejected: Resolution[] = [];
-  for (const videoId of await searchYouTube(`${artist} ${title}`)) {
+  for (const { id: videoId, seconds } of await searchYouTube(`${artist} ${title}`)) {
     const candidate = await oembed(videoId);
     if (!candidate) continue;
-    const verdict = judge(candidate, artist, title);
+    const verdict = judge(candidate, artist, title, seconds);
     if (verdict.ok) return { hit: { videoId, candidate, verdict }, rejected };
     rejected.push({ videoId, candidate, verdict });
   }
