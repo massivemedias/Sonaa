@@ -21,15 +21,20 @@ const CreditsPage = lazy(() =>
   import('./atlas/CreditsPage.tsx').then((module) => ({ default: module.CreditsPage }))
 );
 
+const AProposPage = lazy(() =>
+  import('./atlas/AProposPage.tsx').then((module) => ({ default: module.AProposPage }))
+);
+
 const rootElement = document.getElementById('root');
 
 if (!rootElement) {
   throw new Error('Élément racine introuvable.');
 }
 
-const routeOf = (): 'index' | 'credits' | 'atlas' => {
+const routeOf = (): 'index' | 'credits' | 'apropos' | 'atlas' => {
   if (window.location.hash.startsWith('#/index')) return 'index';
   if (window.location.hash.startsWith('#/credits')) return 'credits';
+  if (window.location.hash.startsWith('#/a-propos')) return 'apropos';
   return 'atlas';
 };
 const route = routeOf();
@@ -49,7 +54,15 @@ window.addEventListener('hashchange', () => {
 createRoot(rootElement).render(
   <StrictMode>
     <Suspense fallback={null}>
-      {route === 'index' ? <IndexPage /> : route === 'credits' ? <CreditsPage /> : <AtlasPage />}
+      {route === 'index' ? (
+        <IndexPage />
+      ) : route === 'credits' ? (
+        <CreditsPage />
+      ) : route === 'apropos' ? (
+        <AProposPage />
+      ) : (
+        <AtlasPage />
+      )}
     </Suspense>
   </StrictMode>
 );

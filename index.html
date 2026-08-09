@@ -14,26 +14,14 @@
     <!-- Identité. Les chemins sont relatifs : le site est servi sous /Sonaa/ et
          aucune URL absolue vers le domaine n'est écrite en dur, sauf dans les
          métadonnées Open Graph, dont la spécification l'exige. -->
-    <!-- Favicon : S vectoriel dessiné pour la petite taille (le recadrage du
-         monogramme calligraphié devenait une tache à 16 px). Le SVG bascule
-         seul entre thème clair et sombre ; les PNG suivent le thème par
-         l'attribut media ; l'ICO reste le dernier recours, en sombre. -->
+    <!-- Favicon : LE S DU LOGO, découpé de sonaa-logo.png, jamais redessiné
+         (verdict : l'identité prime sur la lisibilité à très petite taille,
+         réserve enregistrée à l'ADR). Pixels du logo, teintés ivoire sur le
+         fond du site ; dilatation légère du découpage sous 32 px, seule
+         retouche autorisée. -->
     <link rel="icon" href="brand/favicon.ico" sizes="48x48" />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="brand/favicon-light-32.png"
-      media="(prefers-color-scheme: light)"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="brand/favicon-32.png"
-      media="(prefers-color-scheme: dark)"
-    />
-    <link rel="icon" type="image/svg+xml" href="brand/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="brand/favicon-16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="brand/apple-touch-icon.png" />
     <link rel="manifest" href="manifest.webmanifest" />
     <meta name="apple-mobile-web-app-title" content="SONAA" />

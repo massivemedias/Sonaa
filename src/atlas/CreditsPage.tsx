@@ -68,6 +68,13 @@ export function CreditsPage() {
             <li>Discogs, les données de sortie : label, catalogue, pays, format</li>
             <li>Last.fm et RateYourMusic, le croisement des sélections de tracks</li>
             <li>Deezer et iTunes, les pochettes</li>
+            <li>
+              Icônes :{' '}
+              <a href="https://fontawesome.com" target="_blank" rel="noopener noreferrer">
+                Font Awesome Free
+              </a>
+              , licence CC BY 4.0, intégrées au site sans appel extérieur
+            </li>
           </ul>
           <p>
             Les tracks sont lues via le lecteur officiel YouTube. SONAA n&apos;héberge aucun

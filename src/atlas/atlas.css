@@ -251,14 +251,19 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font-family: var(--font-ui);
-  font-size: 1.05rem;
-  font-weight: 600;
   color: #0a0c10;
   background: #f2f4f8;
   border: 0;
   box-shadow: 0 2px 10px oklch(0 0 0 / 0.35);
   cursor: pointer;
+}
+
+/* Taille optique : ~40 % du diamètre du bouton, même graisse pour les trois
+   (le remplissage solid de Font Awesome est uniforme). */
+.controls .fa-icon {
+  width: 18px;
+  height: 18px;
+  display: block;
 }
 
 .controls button:hover {

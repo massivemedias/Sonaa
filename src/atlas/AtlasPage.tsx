@@ -6,6 +6,12 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { STRUCTURES } from './structures.ts';
+import {
+  faMagnifyingGlassPlus,
+  faMagnifyingGlassMinus,
+  faCrosshairs,
+  type IconDefinition
+} from '@fortawesome/free-solid-svg-icons';
 import { PlayerLayer } from './PlayerLayer.tsx';
 import { SearchOverlay } from './SearchOverlay.tsx';
 import { Welcome } from './Welcome.tsx';
@@ -49,6 +55,18 @@ const WELCOME_KEY = 'sonaa-welcome-seen';
 /* L'intro, la naissance des familles, se joue une seule fois. Clé distincte de
    l'accueil : « revoir l'intro » sur les crédits n'a pas à repasser l'accueil. */
 const INTRO_KEY = 'sonaa-intro-seen';
+
+/* SVG inline depuis les données d'icône : pas de fontawesome-svg-core, pas
+   de police, pas de CDN. Le glyphe hérite de currentColor (noir sur le rond
+   blanc), taille optique ~40 % du diamètre via la CSS. */
+function FaIcon({ icon }: { icon: IconDefinition }) {
+  const [w, h, , , path] = icon.icon;
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} className="fa-icon" aria-hidden="true" focusable="false">
+      <path fill="currentColor" d={Array.isArray(path) ? path.join(' ') : path} />
+    </svg>
+  );
+}
 
 function Fallback({ notice }: { notice: string }) {
   return (
@@ -463,15 +481,23 @@ export function AtlasPage() {
         </p>
       )}
 
-      {/* Trois contrôles, haut droit : plus, moins, recentrer. Rien d'autre,
-          la rotation est supprimée. Ils s'estompent après 3 s sans
-          interaction et reviennent au moindre geste (data-idle, posé par
-          l'effet d'inactivité). */}
+      {/* Trois contrôles, haut droit : zoom avant, zoom arrière, recentrer.
+          Icônes Font Awesome Free (CC BY 4.0) intégrées au bundle en SVG
+          inline via free-solid-svg-icons : aucun appel tiers au runtime.
+          Recentrer = crosshairs et non house : la maison ferait doublon
+          avec le logotype, qui est déjà le retour à l'accueil. Estompage
+          après 3 s d'inactivité (data-idle). */}
       {mode === 'webgl' && (
         <div ref={controlsRef} className="controls" aria-label="Contrôles de navigation">
-          <button onClick={act(() => apiRef.current?.zoom(1))} aria-label="Zoom avant" title="Zoom avant (+)">+</button>
-          <button onClick={act(() => apiRef.current?.zoom(-1))} aria-label="Zoom arrière" title="Zoom arrière (-)">−</button>
-          <button onClick={act(() => apiRef.current?.recenter())} aria-label="Recentrer" title="Recentrer (0)">⌂</button>
+          <button onClick={act(() => apiRef.current?.zoom(1))} aria-label="Zoom avant" title="Zoom avant (+)">
+            <FaIcon icon={faMagnifyingGlassPlus} />
+          </button>
+          <button onClick={act(() => apiRef.current?.zoom(-1))} aria-label="Zoom arrière" title="Zoom arrière (-)">
+            <FaIcon icon={faMagnifyingGlassMinus} />
+          </button>
+          <button onClick={act(() => apiRef.current?.recenter())} aria-label="Recentrer" title="Recentrer (0)">
+            <FaIcon icon={faCrosshairs} />
+          </button>
         </div>
       )}
 
@@ -512,6 +538,7 @@ export function AtlasPage() {
           </button>
         ))}
         <span className="foot-sep" aria-hidden="true">·</span>
+        <a className="credits-link" href="#/a-propos">À propos</a>
         <a className="credits-link" href="#/credits">Crédits</a>
         <a className="credits-link" href="#/index">Index</a>
       </span>
