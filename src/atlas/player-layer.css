@@ -157,7 +157,8 @@
 .panel-title {
   margin: 0;
   font-size: calc(var(--panel-w) * 0.056);
-  font-weight: 600;
+  /* Nom de track : 500, la charte reserve 600 aux genres et 700 aux familles. */
+  font-weight: var(--weight-track);
   /* 1.15 rognait les jambages des majuscules descendantes : le titre est la
      ligne la plus grande du panneau, elle doit respirer. */
   line-height: 1.3;

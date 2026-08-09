@@ -206,19 +206,27 @@ arrière-plan et disparaît sous `prefers-reduced-motion`.
 
 ## 4. Typographie
 
-**Une seule famille, SF Pro Display**, avec la pile
-`-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif`.
+> **Mise à jour (août 2026).** SF Pro Display est remplacée par **Inter**,
+> fonte variable auto-hébergée (48 Ko, latin). La pile système rendait
+> l'interface différente selon la machine ; une seule fonte livrée rend le
+> même site partout. Montserrat, qui restait sur les labels de genres, part
+> aussi : une seule famille, quatre graisses.
+
+**Une seule famille, Inter**, avec la pile
+`'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif`.
 
 Le trio Archivo, Literata et IBM Plex Mono est abandonné. Trois familles pour
 une interface aussi dense produisaient un patchwork, et le mono sur les BPM
 faisait ressembler chaque étiquette à une sortie de terminal.
 
-La hiérarchie passe désormais par la **graisse**, pas par la famille :
+La hiérarchie passe désormais par la **graisse**, pas par la famille. Les
+graisses vivent dans `tokens.css` (`--weight-*`) :
 
 | Rôle | Graisse | Traitement |
 |---|---|---|
-| Nom de famille | 600 | capitales, interlettrage ouvert à `0.14em` |
-| Nom de genre | 500 | casse normale |
+| Famille de tête, grands ensembles | 700 | capitales, interlettrage ouvert |
+| Nom de genre | 600 | capitale initiale |
+| Nom de track | 500 | casse normale |
 | Données, BPM, mesures | 400 | casse normale, plus de mono |
 
 **Taille des labels : plancher et plafond stricts.** La compensation de distance

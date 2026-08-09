@@ -73,12 +73,13 @@
      noms de familles, 500 pour les genres, 400 pour les données. Le mono
      disparaît, y compris pour les BPM. */
   /* Une seule pile, sans exception, y compris pour les données et les BPM.
-     Les alias --font-display, --font-reading et --font-mono ont été retirés :
-     un nom de variable qui annonce une chasse fixe finit par en ramener une. */
-  --font-ui: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
-
-  --weight-family: 600;
-  --weight-genre: 500;
+     Inter, auto-hébergée en police variable : mêmes formes sur toutes les
+     plateformes, là où SF Pro n'existait que chez Apple. Graisses de la
+     charte : 700 familles, 600 genres, 500 tracks, 400 données. */
+  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  --weight-family: 700;
+  --weight-genre: 600;
+  --weight-track: 500;
   --weight-data: 400;
 
   --tracking-family: 0.14em;  /* majuscules des familles, interlettrage ouvert */
@@ -101,4 +102,13 @@
     --motion-zoom: 0ms;
     --propagation-per-year: 0ms;
   }
+}
+
+/* Inter variable, sous-ensemble latin, auto-hébergée : aucun appel tiers. */
+@font-face {
+  font-family: 'Inter';
+  src: url('../../public/fonts/inter-variable-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
 }
