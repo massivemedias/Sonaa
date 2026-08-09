@@ -26,7 +26,7 @@ export function Welcome({ onDismiss }: Props) {
           et à ce qu&apos;il a donné.
         </p>
 
-        <ul className="welcome-families" aria-label="Les sept familles">
+        <ul className="welcome-families" aria-label="Les quatorze familles">
           {FAMILIES.map((f) => (
             <li key={f.id}>
               <span
