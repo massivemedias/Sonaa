@@ -13173,7 +13173,13 @@
    "label": "Dub",
    "family": "roots",
    "structuralParent": "musiqueconcrete",
-   "parents": [],
+   "parents": [
+    {
+     "id": "reggae",
+     "family": "roots",
+     "confidence": "established"
+    }
+   ],
    "confidence": "established",
    "bpm": [
     60,
@@ -13457,6 +13463,248 @@
    ]
   },
   {
+   "id": "hiphop",
+   "label": "Hip-Hop",
+   "family": "roots",
+   "structuralParent": "musiqueconcrete",
+   "parents": [],
+   "confidence": "established",
+   "bpm": [
+    85,
+    105
+   ],
+   "major": false,
+   "structuralOnly": true,
+   "aliases": [
+    "Rap",
+    "Hip Hop"
+   ],
+   "note": "Bronx, 1973. RATTACHEMENT CONVENTIONNEL : le hip-hop ne descend pas de la musique concrete, c'est une racine parallele accrochee a l'arbre pour tenir dans le schema, sans qu'aucune filiation soit affirmee. POINT D'ANCRAGE sans descendance developpee ici : le perimetre de SONAA est la musique electronique.",
+   "description": "Racine d'ancrage, pas une branche. Le hip-hop du Bronx invente le break isolé et bouclé, le sampling comme écriture et le DJ comme instrumentiste : tout ce que les musiques électroniques lui reprennent est là. SONAA ne développe pas cette lignée, son périmètre étant la musique électronique ; le hip-hop figure ici comme parent de ce qu'il a donné aux machines, du breakbeat hardcore au footwork.",
+   "machines": [
+    "Deux platines et une table de mixage",
+    "Échantillonneur (SP-1200, MPC60)",
+    "Boîte à rythmes TR-808",
+    "Micro et MC",
+    "Breaks de funk bouclés"
+   ],
+   "labelsHistoriques": [
+    "Sugar Hill",
+    "Def Jam",
+    "Tommy Boy"
+   ],
+   "labelsActuels": [],
+   "artistesCles": [
+    "DJ Kool Herc",
+    "Grandmaster Flash",
+    "Afrika Bambaataa",
+    "Run-DMC",
+    "Eric B. & Rakim",
+    "Public Enemy"
+   ],
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "gYMkEMCHtJ4",
+      "artist": "Grandmaster Flash & The Furious Five",
+      "title": "The Message",
+      "year": 1982,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/2ded97dadfb390209e65c94afad144cf/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/gYMkEMCHtJ4.jpg"
+      },
+      "release": {
+       "label": "Sound Of Scandinavia",
+       "catno": "SOSLP 079",
+       "country": "Sweden",
+       "year": 1982,
+       "format": "Vinyl, LP, Album"
+      }
+     },
+     {
+      "youtubeId": "mcCK99wHrk0",
+      "artist": "Sugarhill Gang",
+      "title": "Rapper's Delight",
+      "year": 1979,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/0a014ca36040b28b0804406bb8558ada/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/mcCK99wHrk0.jpg"
+      },
+      "release": {
+       "label": "Sugar Hill Records",
+       "catno": "SH-542",
+       "country": "US",
+       "year": 1979,
+       "format": "Vinyl, LP, Maxi-Single"
+      }
+     },
+     {
+      "youtubeId": "E7t8eoA_1jQ",
+      "artist": "Eric B. & Rakim",
+      "title": "Paid in Full",
+      "year": 1987,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c5a0ba17814011f4ccce2efec2eb4d67/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/E7t8eoA_1jQ.jpg"
+      },
+      "release": {
+       "label": "4th & Broadway",
+       "catno": "208 705",
+       "country": "Europe",
+       "year": 1987,
+       "format": "Vinyl, LP, Album"
+      }
+     },
+     {
+      "youtubeId": "Sd5gFx001qg",
+      "artist": "Run-DMC",
+      "title": "Peter Piper",
+      "year": 1986,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/df4b8cf8a601facf7e8800569f686ba3/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/Sd5gFx001qg.jpg"
+      },
+      "release": {
+       "label": "London Records",
+       "catno": "M28P 1242",
+       "country": "Japan",
+       "year": 1986,
+       "format": "Cassette, Album"
+      }
+     }
+    ],
+    "actuel": []
+   }
+  },
+  {
+   "id": "reggae",
+   "label": "Reggae",
+   "family": "roots",
+   "structuralParent": "musiqueconcrete",
+   "parents": [],
+   "confidence": "established",
+   "bpm": [
+    60,
+    90
+   ],
+   "major": false,
+   "structuralOnly": true,
+   "aliases": [],
+   "note": "Jamaique, 1968. RATTACHEMENT CONVENTIONNEL : le reggae ne descend pas de la musique concrete, c'est une racine parallele accrochee a l'arbre pour tenir dans le schema, sans qu'aucune filiation soit affirmee. POINT D'ANCRAGE sans descendance developpee ici : le perimetre de SONAA est la musique electronique.",
+   "description": "Racine d'ancrage, pas une branche. Le reggae jamaïcain apporte le sound system, la basse comme fondation, la version instrumentale et la culture du remix avant le mot : le dub en sort directement, et avec lui la moitié des musiques de basse britanniques. SONAA ne développe pas cette lignée, son périmètre étant la musique électronique ; le reggae figure ici comme parent de ce qu'il a donné, du dub à l'UK funky.",
+   "machines": [
+    "Sound system et caisson de basse",
+    "Console de studio (King Tubby, Lee Perry)",
+    "Chambre d’écho et réverbération à ressort",
+    "Basse électrique en fondation",
+    "Version instrumentale sur face B"
+   ],
+   "labelsHistoriques": [
+    "Studio One",
+    "Treasure Isle",
+    "Island",
+    "Trojan"
+   ],
+   "labelsActuels": [],
+   "artistesCles": [
+    "Bob Marley",
+    "Toots & The Maytals",
+    "Lee « Scratch » Perry",
+    "King Tubby",
+    "Junior Murvin",
+    "Burning Spear"
+   ],
+   "tracks": {
+    "essentiel": [
+     {
+      "youtubeId": "uw66FA6OTqA",
+      "artist": "Toots & The Maytals",
+      "title": "Pressure Drop",
+      "year": 1969,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/e332880670fe771a8ac98a9ba7fd3739/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/uw66FA6OTqA.jpg"
+      },
+      "release": {
+       "label": "Beverley's Records",
+       "catno": "LP 005",
+       "country": "Jamaica",
+       "year": 1969,
+       "format": "Vinyl, LP, Album"
+      }
+     },
+     {
+      "youtubeId": "4dZky936vtU",
+      "artist": "Junior Murvin",
+      "title": "Police and Thieves",
+      "year": 1976,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/cf5c6f1cb32b7b01f628a155a57e3f26/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/4dZky936vtU.jpg"
+      },
+      "release": {
+       "label": "Island Records",
+       "catno": "MS-2002",
+       "country": "US",
+       "year": 1976,
+       "format": "Vinyl, 7\", 45 RPM"
+      }
+     },
+     {
+      "youtubeId": "1ti2YCFgCoI",
+      "artist": "Bob Marley & The Wailers",
+      "title": "Could You Be Loved",
+      "year": 1980,
+      "verified": true,
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/8d66bb5d623fed6a464415dbc744df21/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/1ti2YCFgCoI.jpg"
+      },
+      "release": {
+       "label": "Island Records",
+       "catno": "6313 070",
+       "country": "France",
+       "year": 1980,
+       "format": "Vinyl, LP, Album"
+      }
+     },
+     {
+      "youtubeId": "ax5phXqMjCU",
+      "artist": "The Upsetters",
+      "title": "Return of Django",
+      "year": 1969,
+      "verified": true,
+      "cover": {
+       "url": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/d6/87/3e/d6873e67-94c4-6ec3-e2b7-891e3ab152d4/4050538797381.jpg/600x600bb.jpg",
+       "source": "itunes",
+       "local": "covers/ax5phXqMjCU.jpg"
+      },
+      "release": {
+       "label": "Upsetter Records",
+       "catno": null,
+       "country": "Jamaica",
+       "year": 1968,
+       "format": "Vinyl, 7\", 45 RPM"
+      }
+     }
+    ],
+    "actuel": []
+   }
+  },
+  {
    "id": "breakbeat",
    "label": "Breakbeat",
    "family": "breaks",
@@ -13681,6 +13929,11 @@
     {
      "id": "eurotechno",
      "family": "techno",
+     "confidence": "established"
+    },
+    {
+     "id": "hiphop",
+     "family": "roots",
      "confidence": "established"
     }
    ],
@@ -13949,6 +14202,11 @@
     },
     {
      "id": "dub",
+     "family": "roots",
+     "confidence": "established"
+    },
+    {
+     "id": "reggae",
      "family": "roots",
      "confidence": "established"
     }
@@ -17196,6 +17454,11 @@
      "id": "dub",
      "family": "roots",
      "confidence": "established"
+    },
+    {
+     "id": "reggae",
+     "family": "roots",
+     "confidence": "established"
     }
    ],
    "confidence": "established",
@@ -18123,6 +18386,11 @@
      "id": "2step",
      "family": "bass",
      "confidence": "established"
+    },
+    {
+     "id": "reggae",
+     "family": "roots",
+     "confidence": "established"
     }
    ],
    "confidence": "established",
@@ -19009,6 +19277,11 @@
      "id": "ukbass",
      "family": "bass",
      "confidence": "established"
+    },
+    {
+     "id": "hiphop",
+     "family": "roots",
+     "confidence": "established"
     }
    ],
    "confidence": "debated",
@@ -19214,6 +19487,11 @@
      "id": "chicagohouse",
      "family": "house",
      "confidence": "established"
+    },
+    {
+     "id": "hiphop",
+     "family": "roots",
+     "confidence": "established"
     }
    ],
    "confidence": "established",
@@ -19386,6 +19664,11 @@
     {
      "id": "baltimoreclub",
      "family": "bass",
+     "confidence": "established"
+    },
+    {
+     "id": "hiphop",
+     "family": "roots",
      "confidence": "established"
     }
    ],
@@ -19730,6 +20013,11 @@
     },
     {
      "id": "prototechno",
+     "family": "roots",
+     "confidence": "established"
+    },
+    {
+     "id": "hiphop",
      "family": "roots",
      "confidence": "established"
     }
@@ -23120,6 +23408,11 @@
      "id": "raggajungle",
      "family": "breaks",
      "confidence": "established"
+    },
+    {
+     "id": "reggae",
+     "family": "roots",
+     "confidence": "established"
     }
    ],
    "confidence": "established",
@@ -26368,6 +26661,11 @@
      "id": "ambientgenre",
      "family": "ambient",
      "confidence": "established"
+    },
+    {
+     "id": "hiphop",
+     "family": "roots",
+     "confidence": "established"
     }
    ],
    "confidence": "established",
@@ -29379,6 +29677,11 @@
      "id": "ghettohouse",
      "family": "house",
      "confidence": "established"
+    },
+    {
+     "id": "hiphop",
+     "family": "roots",
+     "confidence": "established"
     }
    ],
    "confidence": "established",
@@ -29517,6 +29820,11 @@
     {
      "id": "juke",
      "family": "house",
+     "confidence": "established"
+    },
+    {
+     "id": "hiphop",
+     "family": "roots",
      "confidence": "established"
     }
    ],

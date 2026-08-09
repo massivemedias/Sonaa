@@ -1,6 +1,6 @@
 # CORPUS SONAA
 
-Quatorze familles, 216 genres, 1228 tracks verifiees (301 dans l'onglet Actuel).
+Quatorze familles, 218 genres, 1236 tracks verifiees (301 dans l'onglet Actuel).
 L'indentation est la filiation structurelle, celle qui positionne le noeud
 dans l'arbre. Les autres ascendances sont notees en greffe.
 
@@ -60,8 +60,8 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
       - Gqom  (?)  6 tracks
   - Latin House  5 tracks
   - Ghetto House  [greffe: Miami Bass, famille electro]  3 tracks
-    - Juke  5 tracks
-      - Footwork  6 tracks
+    - Juke  [greffe: Hip-Hop, famille roots]  5 tracks
+      - Footwork  [greffe: Hip-Hop, famille roots]  6 tracks
 
 ## TECHNO (16)
 
@@ -149,7 +149,7 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
     - Rhythmic Noise  [greffe: Industrial Techno, famille techno]  5 tracks
   - Industrial Rock  5 tracks
 
-## ROOTS (11)
+## ROOTS (13)
 
 - Musique concrète  [fondateur]  3 tracks
   - Électroacoustique  3 tracks
@@ -161,14 +161,16 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
   - Early Industrial  4 tracks
   - Funk  [convention]  5 tracks
     - Philly Soul  4 tracks
-  - Dub  [convention]  5 tracks
+  - Dub  [convention]  [greffe: Reggae, famille roots]  5 tracks
+  - Hip-Hop  [convention]  4 tracks
+  - Reggae  [convention]  4 tracks
 
 ## BREAKS (23)
 
 - Breakbeat  [fondateur]  [greffe: Funk, famille roots]  8 tracks dont 2 charnieres
-  - Breakbeat Hardcore  [greffe: Chicago House, famille house]  [greffe: Euro Techno, famille techno]  5 tracks
+  - Breakbeat Hardcore  [greffe: Chicago House, famille house]  [greffe: Euro Techno, famille techno]  [greffe: Hip-Hop, famille roots]  5 tracks
     - Darkcore  4 tracks
-      - Jungle  [greffe: Dub, famille roots]  5 tracks
+      - Jungle  [greffe: Dub, famille roots]  [greffe: Reggae, famille roots]  5 tracks
         - Drum and Bass  5 tracks
           - Techstep  6 tracks
             - Neurofunk  5 tracks
@@ -195,25 +197,25 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
   - Speed Garage  9 tracks
     - Bassline  4 tracks
   - 2-Step  6 tracks
-    - Dubstep  [greffe: Dub, famille roots]  6 tracks
+    - Dubstep  [greffe: Dub, famille roots]  [greffe: Reggae, famille roots]  6 tracks
       - Brostep  5 tracks
         - Riddim  (?)  5 tracks
       - Future Garage  [greffe: 2-Step, famille bass]  8 tracks dont 1 charniere
       - UK Bass  (?)  8 tracks dont 1 charniere
         - Wonky  6 tracks
         - Future Bass  (?)  9 tracks
-        - Trap  (?)  8 tracks
+        - Trap  (?)  [greffe: Hip-Hop, famille roots]  8 tracks
         - Deconstructed Club  8 tracks
     - Grime  5 tracks
-    - UK Funky  6 tracks
+    - UK Funky  [greffe: Reggae, famille roots]  6 tracks
     - Breakstep  4 tracks
-  - Baltimore Club  [convention]  [greffe: Chicago House, famille house]  7 tracks
-    - Jersey Club  5 tracks
+  - Baltimore Club  [convention]  [greffe: Chicago House, famille house]  [greffe: Hip-Hop, famille roots]  7 tracks
+    - Jersey Club  [greffe: Hip-Hop, famille roots]  5 tracks
   - Breakbeat Garage  [greffe: Breakbeat, famille breaks]  5 tracks
 
 ## ELECTRO (11)
 
-- Electro Funk  [fondateur]  [greffe: Funk, famille roots]  [greffe: Proto-Techno, famille roots]  5 tracks
+- Electro Funk  [fondateur]  [greffe: Funk, famille roots]  [greffe: Proto-Techno, famille roots]  [greffe: Hip-Hop, famille roots]  5 tracks
   - Electro Hop  3 tracks
   - Miami Bass  7 tracks
     - Techno Bass  [greffe: Detroit Techno, famille techno]  5 tracks
@@ -239,7 +241,7 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
   - Happy Hardcore  [greffe: Breakbeat Hardcore, famille breaks]  4 tracks
     - Bouncy Techno  5 tracks
     - UK Hardcore  7 tracks
-    - Raggacore  [greffe: Ragga Jungle, famille breaks]  5 tracks
+    - Raggacore  [greffe: Ragga Jungle, famille breaks]  [greffe: Reggae, famille roots]  5 tracks
     - J-Core  8 tracks
   - Hardstyle  [greffe: Hard Trance, famille trance]  9 tracks
     - Jumpstyle  6 tracks
@@ -265,7 +267,7 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
 ## DOWNTEMPO (12)
 
 - Downtempo  [fondateur]  [greffe: Ambient, famille ambient]  [greffe: Dub, famille roots]  6 tracks
-  - Trip-Hop  [greffe: Dub, famille roots]  [greffe: Ambient, famille ambient]  5 tracks
+  - Trip-Hop  [greffe: Dub, famille roots]  [greffe: Ambient, famille ambient]  [greffe: Hip-Hop, famille roots]  5 tracks
     - Bristol Sound  (?)  3 tracks
     - Lo-Fi Hip Hop  6 tracks
   - Chill-Out  5 tracks
