@@ -1731,6 +1731,39 @@ ouvertes ; le chrome (sélecteur de vues, contrôles, HUD Mesures) encombre.
 
 ---
 
+## ADR-052 : Le favicon est le S du logo, littéralement
+
+**Date** : 2026-08-09.
+
+**Contexte.** Verdict : le S vectoriel « inspiré » du logo n'est pas le
+logo. La consigne est littérale : découper le S calligraphique de
+sonaa-logo.png, aucun redessin, aucune interprétation.
+
+**Décisions.**
+
+1. **Des pixels du logo, rien d'autre.** Découpe de sonaa-logo.png
+   (11104×4808) : boîte 0,0 à 3710,4808, puis gommage des SEULS fragments
+   étrangers entrés dans la boîte (flanc gauche du o, pointe du parafe
+   final du mot) — de l'effacement, jamais un tracé. Le trait de liaison
+   vers le o et l'attaque haute sont coupés au bord : c'est la découpe.
+   Glyphe teinté ivoire (#f2f4f8) par recoloration du masque, formes
+   intactes, sur carré opaque #0a0c10, S à 80 % de la hauteur.
+
+2. **Dilatation sous 32 px, seule retouche autorisée.** Les déliés cassent
+   à 32 et 16 (mesuré au rendu) : dilatation morphologique du découpage
+   (Disk:12 pour 32 et 48, Disk:22 pour 16). Le 180 et les icônes PWA
+   restent purs. RÉSERVE ENREGISTRÉE : à 16 px la calligraphie reste
+   difficile à lire ; l'identité visuelle prime sur la lisibilité à très
+   petite taille, verdict de l'auteur, on n'y revient plus.
+
+3. **À propos (#/a-propos)** : ce que c'est, comment le lire, l'auteur, la
+   méthode ; comptes calculés du corpus. **Icônes des contrôles** : Font
+   Awesome Free en SVG inline (free-solid-svg-icons importé à la pièce),
+   crosshairs pour recentrer (house ferait doublon avec le logo-accueil),
+   attribution CC BY 4.0 aux crédits, aucun appel tiers au runtime.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle
