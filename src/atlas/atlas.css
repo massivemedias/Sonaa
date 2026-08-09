@@ -5,6 +5,10 @@
 .atlas-root {
   position: fixed;
   inset: 0;
+  /* dvh : la barre d'adresse mobile change la hauteur en cours de route, et
+     vh ment pendant ce temps. inset 0 fait le travail, dvh le garantit. */
+  height: 100dvh;
+  width: 100vw;
   overflow: hidden;
   background: oklch(0.16 0.012 250);
 }
@@ -72,24 +76,10 @@
 
 .atlas-label[data-kind='genre'] {
   z-index: 2;
-  /* Montserrat Black en majuscules, interlettrage ouvert : la livraison
-     demandée pour juger à l'écran. La police est auto-hébergée dans
-     public/fonts, sous licence OFL : aucun appel tiers au runtime.
-     Taille réduite d'un cran : une Black en majuscules occupe visuellement
-     un tiers de plus qu'une 500 en capitale initiale. */
-  font-family: 'Montserrat Black', var(--font-ui);
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 0.82em;
-}
-
-@font-face {
-  font-family: 'Montserrat Black';
-  src: url('../../public/fonts/montserrat-black-latin.woff2') format('woff2');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
+  /* Inter 600, capitale initiale : les majuscules intégrales sont réservées
+     aux noms du niveau le plus haut. Montserrat est retirée. */
+  font-weight: var(--weight-genre);
+  letter-spacing: 0.01em;
 }
 
 /* --- Repli --------------------------------------------------------------- */
@@ -237,12 +227,12 @@
 /* Mobile : cibles tactiles de 44 px minimum. */
 @media (pointer: coarse), (max-width: 767px) {
   .controls {
-    grid-template-columns: repeat(3, 2.75rem);
+    grid-template-columns: repeat(3, 44px);
     gap: 0.4rem;
   }
   .controls button {
-    width: 2.75rem;
-    height: 2.75rem;
+    width: 44px;
+    height: 44px;
     font-size: 1rem;
   }
   .hud-toggle {
@@ -318,11 +308,12 @@
   white-space: nowrap;
 }
 
-/* Contrôles permanents. */
+/* Contrôles permanents. Décollés de 16 px et jamais coupés : les zones
+   sûres iOS s'ajoutent au retrait. */
 .controls {
   position: absolute;
-  right: 1rem;
-  bottom: 1rem;
+  right: calc(16px + env(safe-area-inset-right, 0px));
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   z-index: 6;
   display: grid;
   grid-template-columns: repeat(3, 2rem);
@@ -579,6 +570,40 @@
 @media (prefers-reduced-motion: reduce) {
   .brand {
     transition: none;
+  }
+}
+
+/* Fil d'Ariane replié : sous 600 px, deux segments et un chevron qui
+   déploie le chemin complet. Une seule ligne, jamais deux. */
+.crumb-ellipsis {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: var(--weight-data);
+  color: var(--ink-secondary);
+  background: transparent;
+  border: 1px solid var(--rule-hairline);
+  padding: 0.1rem 0.45rem;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+@media (max-width: 600px) {
+  .crumbs {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  /* Déplié : le chemin complet reste sur UNE ligne et défile
+     horizontalement. Le retour à la ligne poussait la scène vers le bas. */
+  .crumbs[data-expanded='true'] {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    overflow-x: auto;
+    max-width: calc(100vw - 1.8rem);
+    scrollbar-width: none;
+  }
+  .crumbs[data-expanded='true']::-webkit-scrollbar {
+    display: none;
   }
 }
 

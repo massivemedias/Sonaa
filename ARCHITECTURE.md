@@ -1177,6 +1177,70 @@ desormais en evidence sur le panneau et cliquable.
 
 ---
 
+## ADR-041 : Exceptions nommees, grands ensembles, Inter, cadrage mobile
+
+**Exceptions de duree.** La regle des quinze minutes tuait des pieces uniques
+legitimes. Une liste NOMMEE dans scripts/lib/match.ts, trois entrees maximum,
+uniquement des pieces uniques jamais des albums : Brian Eno 1/1, Kraftwerk
+Autobahn, Tangerine Dream Phaedra. Les marqueurs de titre (full album,
+compilation...) refusent TOUJOURS, meme une piece exemptee. Le 1/1 d'Eno est
+revenu dans le corpus par cette porte, documentee et testee dans check:matcher.
+
+**Canon des genres muets.** 128 genres muets remplis par le meme pipeline que
+les fondateurs (matcher durci, parutions completes refusees, rapport des refus
+dans tracks-canon-report.md). Les genres ou le jugement compte restent a Mika,
+liste dans tracks-muets.md.
+
+**Grands ensembles, niveau zero.** Cinq super-familles (Quatre-temps,
+Breakbeat, Racines et Disco, Atmosphere, Machine) dans structures.ts. De loin,
+seuls leurs cinq noms s'affichent ; les familles se nomment en zoomant
+(seuil : distance > 0,72 fois le cadrage par defaut). Leurs labels s'ancrent en
+ESPACE ECRAN sous le membre le plus bas, chute bornee a 22 pour cent de la
+hauteur, et remontent par pas de 24 px en cas de collision : un label
+d'ensemble designe une region, le decaler ne le fait pas mentir, contrairement
+a un label de genre qui se masque.
+
+**Placement par proximite stylistique.** Les centres de familles ne sont plus
+editoriaux : affinite = greffes croisees ponderees + proximite de tempo,
+ordre circulaire des cinq ensembles choisi par essai exhaustif des 24
+permutations, membres tires vers l'ensemble voisin. Deterministe, documente
+dans structures.ts. Dans une famille, l'anneau se range par tempo croissant.
+
+**Labels toujours poses.** Le survol ne revele plus JAMAIS un nom : a chaque
+niveau de zoom, tout ce qui est visible est nomme, et quand il y a trop de
+monde on ne nomme que la generation courante, les suivantes apparaissent en
+descendant. Regle : au niveau famille, la generation 1 ; en focus, le genre et
+ses enfants directs.
+
+**Inter partout.** Une seule fonte variable auto-hebergee (48 Ko) remplace
+Montserrat ET la pile systeme : 700 familles, 600 genres, 500 tracks, 400
+donnees, capitale initiale sauf les familles de tete en majuscules. Les poids
+vivent dans tokens.css (--weight-*).
+
+**Cadrage mobile.** Quatre causes reelles au mobile casse, quatre corrections :
+1. MAX_DISTANCE etait a 520 alors que le portrait demande environ 800 unites
+   de recul depuis que la relaxation ecarte les familles ; le plafond passe a
+   1200, c'etait LE blocage que deux heuristiques successives ont masque.
+2. Le cadrage par defaut est un drapeau EXPLICITE (cameraAtDefault), plus une
+   comparaison de distances : on sort du cadrage en zoomant ou en volant, on y
+   revient par recentrer ou remonter. Les heuristiques echouaient sur l'ordre
+   d'initialisation.
+3. En portrait l'atlas pivote de 90 degres dans le plan de l'ecran PUIS
+   s'etire verticalement du facteur byWidth/byHeight (borne a 2,2) : la
+   rotation seule laissait un atlas presque carre dans un ecran deux fois plus
+   haut que large. L'etirement ne fait qu'augmenter les separations.
+4. La correction MESUREE : la camera se pose au cadrage analytique, projette
+   les quatorze familles avec leur rayon, et corrige la distance du facteur
+   d'excedent en une passe. Gardee par engineReady contre la zone morte
+   temporelle de l'initialisation.
+Marges labels : 70 px lateraux, 48 px verticaux (96 mangeait la moitie d'un
+telephone en paysage). Fil d'Ariane sous 600 px : deux segments et un chevron,
+le chemin deplie DEFILE sur une ligne, il ne passe jamais a deux. Canvas en
+dvh, controles a 16 px des bords avec env(safe-area-inset), cibles 44 px.
+Verifie a 320, 390, 430 en portrait et paysage, et 1280 en repere.
+
+---
+
 ## Pièges GLSL rencontrés, à ne pas repayer
 
 Trois erreurs coûteuses rencontrées sur le prototype de rendu. Elles ne

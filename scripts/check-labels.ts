@@ -31,7 +31,8 @@ const webgl = readFileSync(`${ATLAS}/webgl.ts`, 'utf8');
    les arguments sont simples. Si la forme du code change au point de casser ce
    parseur, c'est le moment de re-regarder les labels de toute façon. */
 const callSites = [...webgl.matchAll(/\badd\(\s*([\s\S]{0,200}?)\)/g)];
-const ALLOWED_TEXT = new Set(['slot.label', 'family.label']);
+// sf.label : le nom nu d'un grand ensemble (SUPERFAMILIES dans structures.ts).
+const ALLOWED_TEXT = new Set(['slot.label', 'family.label', 'sf.label']);
 
 let checked = 0;
 for (const call of callSites) {

@@ -64,6 +64,16 @@ export function AtlasPage() {
     null
   );
   const [searchOpen, setSearchOpen] = useState(false);
+  /* Fil d'Ariane replié sur petit écran : deux segments et un chevron. */
+  const [crumbsExpanded, setCrumbsExpanded] = useState(false);
+  const [narrow, setNarrow] = useState(() => window.matchMedia('(max-width: 600px)').matches);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 600px)');
+    const onChange = (): void => setNarrow(mq.matches);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
   const [showWelcome, setShowWelcome] = useState(
     () => localStorage.getItem(WELCOME_KEY) !== '1'
   );
@@ -276,51 +286,93 @@ export function AtlasPage() {
 
       {/* Fil d'Ariane permanent : on sait toujours où on est, et on remonte
           en un clic sur n'importe quel segment. */}
-      <nav className="crumbs" data-hidden={false} aria-label="Fil d'Ariane">
-        <button
-          className="crumb"
-          data-current={level === 'atlas' && !panelGenre}
-          onClick={act(backToAtlas)}
-        >
-          Atlas
-        </button>
-
-        {nav && nav.familyIndex >= 0 && (
-          <>
-            <span className="crumb-sep" aria-hidden="true">›</span>
-            <button
-              className="crumb"
-              data-current={level === 'family' && !panelGenre}
-              onClick={act(() => {
+      <nav
+        className="crumbs"
+        data-hidden={false}
+        data-expanded={crumbsExpanded}
+        aria-label="Fil d'Ariane"
+      >
+        {(() => {
+          /* Sous 600 px : deux segments au plus, précédés d'un chevron qui
+             déploie le chemin complet. Une ligne, jamais deux. */
+          const totalSegments =
+            1 + (nav && nav.familyIndex >= 0 ? 1 : 0) + (nav?.path.length ?? 0) + (panelGenre ? 1 : 0);
+          if (narrow && !crumbsExpanded && totalSegments > 2) {
+            return (
+              <button
+                className="crumb-ellipsis"
+                onClick={() => setCrumbsExpanded(true)}
+                aria-label="Déployer le chemin complet"
+              >
+                ‹ …
+              </button>
+            );
+          }
+          if (narrow && crumbsExpanded) {
+            return (
+              <button
+                className="crumb-ellipsis"
+                onClick={() => setCrumbsExpanded(false)}
+                aria-label="Replier le chemin"
+              >
+                ×
+              </button>
+            );
+          }
+          return null;
+        })()}
+        {(() => {
+          /* Segments en données : le repli mobile ne garde que les deux
+             derniers, sans dupliquer la logique de rendu. */
+          interface Seg {
+            key: string;
+            label: string;
+            current: boolean;
+            onClick?: () => void;
+          }
+          const segments: Seg[] = [
+            { key: 'atlas', label: 'Atlas', current: level === 'atlas' && !panelGenre, onClick: act(backToAtlas) }
+          ];
+          if (nav && nav.familyIndex >= 0) {
+            const fi = nav.familyIndex;
+            segments.push({
+              key: 'family',
+              label: nav.familyLabel,
+              current: level === 'family' && !panelGenre,
+              onClick: act(() => {
                 setPanelGenre(null);
                 apiRef.current?.closePanel();
-                apiRef.current?.goToFamily(nav.familyIndex);
-              })}
-            >
-              {nav.familyLabel}
-            </button>
-          </>
-        )}
+                apiRef.current?.goToFamily(fi);
+              })
+            });
+          }
+          nav?.path.forEach((seg, i) => {
+            segments.push({
+              key: `g-${seg.index}`,
+              label: seg.label,
+              current: !panelGenre && i === (nav.path.length - 1),
+              onClick: act(() => {
+                setPanelGenre(null);
+                apiRef.current?.closePanel();
+              })
+            });
+          });
+          if (panelGenre) segments.push({ key: 'tracks', label: 'Tracks', current: true });
 
-        {nav?.path.map((seg, i) => (
-          <span key={seg.index} className="crumb-group">
-            <span className="crumb-sep" aria-hidden="true">›</span>
-            <button
-              className="crumb"
-              data-current={!panelGenre && i === (nav.path.length - 1)}
-              onClick={act(() => { setPanelGenre(null); apiRef.current?.closePanel(); })}
-            >
-              {seg.label}
-            </button>
-          </span>
-        ))}
-
-        {panelGenre && (
-          <>
-            <span className="crumb-sep" aria-hidden="true">›</span>
-            <span className="crumb" data-current="true">Tracks</span>
-          </>
-        )}
+          const shown = narrow && !crumbsExpanded ? segments.slice(-2) : segments;
+          return shown.map((seg, i) => (
+            <span key={seg.key} className="crumb-group">
+              {i > 0 && <span className="crumb-sep" aria-hidden="true">›</span>}
+              {seg.onClick ? (
+                <button className="crumb" data-current={seg.current} onClick={seg.onClick}>
+                  {seg.label}
+                </button>
+              ) : (
+                <span className="crumb" data-current={seg.current}>{seg.label}</span>
+              )}
+            </span>
+          ));
+        })()}
       </nav>
 
       {showHelp && !showWelcome && mode === 'webgl' && !panelGenre && (

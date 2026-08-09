@@ -40,27 +40,148 @@ export interface FamilyLink {
    amas à des points. On veut voir des corps, pas des billes perdues. */
 const CORPUS = corpus as unknown as Corpus;
 
-/* Positions éditoriales : elles encodent la proximité stylistique. La
-   séparation garantie est faite plus bas par relaxation, ces valeurs ne sont
-   qu'un point de départ. */
-const CENTERS: Record<string, readonly [number, number, number]> = {
-  disco:   [-19, 2, 7],
-  house:   [-25, 10, -14],
-  techno:  [9, 12, -20],
-  minimal: [22, 4, -33],
-  trance:  [30, 21, -5],
-  psy:     [45, 15, 11],
-  industrial: [16, 31, 25],
-  /* La racine se place SOUS l'atlas : elle est l'origine de tout ce qui est
-     au-dessus, et la position le dit. */
-  roots: [-4, -26, 4],
-  breaks: [-38, 20, 16],
-  bass: [-50, 12, 34],
-  electro: [-8, 16, 28],
-  hardcore: [-14, 36, -10],
-  ambient: [6, -16, 34],
-  downtempo: [-22, -14, 44]
-};
+/* SUPER-FAMILLES, le niveau zéro. Cinq grands ensembles par PROXIMITÉ
+   STYLISTIQUE, pas par chronologie : le quatre-temps de club, la lignée
+   breakbeat, les racines et le disco, les musiques d'atmosphère, la machine.
+   Au premier affichage on ne voit qu'eux ; les noms de familles apparaissent
+   quand on zoome dedans. */
+export interface SuperFamily {
+  readonly id: string;
+  readonly label: string;
+  readonly members: readonly string[];
+}
+
+export const SUPERFAMILIES: readonly SuperFamily[] = [
+  { id: 'quatretemps', label: 'Quatre-temps', members: ['house', 'techno', 'minimal', 'trance', 'psy', 'hardcore'] },
+  { id: 'breakbeat', label: 'Breakbeat', members: ['breaks', 'bass', 'electro'] },
+  { id: 'racines', label: 'Racines et Disco', members: ['roots', 'disco'] },
+  { id: 'atmosphere', label: 'Atmosphère', members: ['ambient', 'downtempo'] },
+  { id: 'machine', label: 'Machine', members: ['industrial'] }
+];
+
+/* PLACEMENT PAR PROXIMITÉ STYLISTIQUE, calculé depuis les données, jamais
+   décoratif. L'affinité entre deux familles est la somme de leurs greffes
+   croisées, pondérée, plus la proximité de leurs tempos moyens. Les cinq
+   ensembles se rangent autour d'un cercle dans l'ordre qui maximise
+   l'affinité entre voisins, essayé exhaustivement : cinq ensembles font
+   vingt-quatre ordres, le calcul est trivial et DÉTERMINISTE. Les familles
+   d'un ensemble se placent autour de son ancre, tournées pour que la famille
+   la plus affine avec l'ensemble voisin lui fasse face. */
+const familyAffinity = (() => {
+  const ids = CORPUS.families.map((f) => f.id);
+  const index = new Map<string, number>(ids.map((id, i) => [id, i]));
+  const n = ids.length;
+  const grafts: number[][] = Array.from({ length: n }, () => Array.from({ length: n }, () => 0));
+  const bpmSum: number[] = Array.from({ length: n }, () => 0);
+  const bpmCount: number[] = Array.from({ length: n }, () => 0);
+
+  for (const g of CORPUS.genres) {
+    const gi = index.get(g.family);
+    if (gi === undefined) continue;
+    if (g.bpm) {
+      bpmSum[gi] = (bpmSum[gi] ?? 0) + (g.bpm[0] + g.bpm[1]) / 2;
+      bpmCount[gi] = (bpmCount[gi] ?? 0) + 1;
+    }
+    for (const p of g.parents) {
+      const pi = index.get(p.family);
+      if (pi === undefined || pi === gi) continue;
+      const row = grafts[gi];
+      const col = grafts[pi];
+      if (row) row[pi] = (row[pi] ?? 0) + 1;
+      if (col) col[gi] = (col[gi] ?? 0) + 1;
+    }
+  }
+
+  const mid = ids.map((_, i) => ((bpmCount[i] ?? 0) > 0 ? (bpmSum[i] ?? 0) / (bpmCount[i] ?? 1) : 120));
+  const score = (a: number, b: number): number => {
+    const g = grafts[a]?.[b] ?? 0;
+    const bpmClose = Math.max(0, 1 - Math.abs((mid[a] ?? 120) - (mid[b] ?? 120)) / 80);
+    return g * 2 + bpmClose;
+  };
+  return { ids, index, score };
+})();
+
+const CENTERS: Record<string, readonly [number, number, number]> = (() => {
+  const { index, score } = familyAffinity;
+
+  const superScore = (A: SuperFamily, B: SuperFamily): number => {
+    let total = 0;
+    for (const a of A.members) {
+      for (const b of B.members) {
+        const ia = index.get(a);
+        const ib = index.get(b);
+        if (ia !== undefined && ib !== undefined) total += score(ia, ib);
+      }
+    }
+    return total;
+  };
+
+  // Meilleur ordre circulaire des cinq ensembles : le premier est fixé, les
+  // permutations des quatre autres sont toutes essayées. Départage par ordre
+  // alphabétique des identifiants pour rester déterministe.
+  const rest = SUPERFAMILIES.slice(1);
+  const permutations = (arr: readonly SuperFamily[]): SuperFamily[][] =>
+    arr.length <= 1
+      ? [[...arr]]
+      : arr.flatMap((x, i) =>
+          permutations([...arr.slice(0, i), ...arr.slice(i + 1)]).map((p) => [x, ...p])
+        );
+  let bestOrder: SuperFamily[] = [SUPERFAMILIES[0] as SuperFamily, ...rest];
+  let bestTotal = -1;
+  for (const perm of permutations(rest)) {
+    const ring = [SUPERFAMILIES[0] as SuperFamily, ...perm];
+    let total = 0;
+    for (let i = 0; i < ring.length; i += 1) {
+      const a = ring[i];
+      const b = ring[(i + 1) % ring.length];
+      if (a && b) total += superScore(a, b);
+    }
+    const key = ring.map((x) => x.id).join('|');
+    const bestKey = bestOrder.map((x) => x.id).join('|');
+    if (total > bestTotal || (total === bestTotal && key < bestKey)) {
+      bestTotal = total;
+      bestOrder = ring;
+    }
+  }
+
+  const R0 = 34;
+  const out: Record<string, [number, number, number]> = {};
+  bestOrder.forEach((sf, si) => {
+    const theta = (si / bestOrder.length) * Math.PI * 2 - Math.PI / 2;
+    const ax = Math.cos(theta) * R0;
+    const az = Math.sin(theta) * R0;
+
+    if (sf.members.length === 1) {
+      const only = sf.members[0];
+      if (only) out[only] = [ax, 0, az];
+      return;
+    }
+
+    /* Rotation du sous-cercle : la famille la plus affine avec l'ensemble
+       suivant lui fait face. Rayon selon l'effectif. */
+    const next = bestOrder[(si + 1) % bestOrder.length];
+    const facing = (theta + Math.PI / 2) % (Math.PI * 2);
+    const r1 = sf.members.length <= 2 ? 8 : sf.members.length <= 3 ? 11 : 15;
+
+    const pull = (fid: string): number => {
+      const fi = index.get(fid);
+      if (fi === undefined || !next) return 0;
+      return next.members.reduce((acc, m) => {
+        const mi = index.get(m);
+        return mi === undefined ? acc : acc + score(fi, mi);
+      }, 0);
+    };
+    const members = [...sf.members].sort((a, b) => pull(b) - pull(a) || a.localeCompare(b));
+
+    members.forEach((fid, k) => {
+      const phi = facing + (k / members.length) * Math.PI * 2;
+      // Léger relief vertical, déterministe par position dans l'ensemble.
+      const lift = ((k % 3) - 1) * 4;
+      out[fid] = [ax + Math.cos(phi) * r1, lift, az + Math.sin(phi) * r1];
+    });
+  });
+  return out;
+})();
 
 export const FAMILIES: readonly Family[] = CORPUS.families.map((f) => ({
   id: f.id,
@@ -322,12 +443,15 @@ export const buildStructure = (familyIndex: number): Structure => {
     const byRing = (kids.length * childR * 2 * 1.7) / (2 * Math.PI);
     const orbit = Math.max(byBody, byRing);
 
-    kids.forEach((kid, k) => {
+    /* Les voisins d'anneau sont des voisins de style : l'ordre autour de
+       l'orbite suit le TEMPO, du plus lent au plus rapide en tournant. C'est
+       déterministe et ça se vérifie à l'oreille. */
+    const ordered = [...kids].sort((x, y) => (genres[x]?.bpm ?? 0) - (genres[y]?.bpm ?? 0));
+
+    ordered.forEach((kid, k) => {
       const child = genres[kid];
       if (!child) return;
-      // Répartition régulière sur l'anneau, phase propre à chaque noeud pour
-      // que deux systèmes voisins ne s'alignent pas.
-      const angle = (k / kids.length) * Math.PI * 2 + index * 0.9 + rand() * 0.15;
+      const angle = (k / ordered.length) * Math.PI * 2 + index * 0.9 + rand() * 0.15;
       // Léger relief : l'anneau ondule d'une fraction du rayon du corps, la
       // profondeur se sent sans casser la lecture en anneau.
       const lift = (rand() - 0.5) * parentR * 0.35;

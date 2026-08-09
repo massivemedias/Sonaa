@@ -22,6 +22,7 @@ import {
   FAMILIES,
   FAMILY_LINKS,
   STRUCTURES,
+  SUPERFAMILIES,
   TOTAL_GENRES,
   TOTAL_INTERNAL_LINKS,
   FAMILY_CENTERS,
@@ -159,16 +160,16 @@ export interface AtlasApi {
 }
 
 const FOV = 40;
-/* Distance de cadrage de l'atlas : les 14 familles doivent occuper environ
-   70 pour cent de la hauteur de l'écran. Calculée, pas devinée. */
-const ATLAS_FILL = 0.7;
 const LABEL_POOL = 64;
 /* Amplitude de dolly large : on doit pouvoir arriver assez près pour qu'une
    sphère occupe la moitié de la hauteur de l'écran. À 40 degrés de champ, cela
    demande une distance d'environ 5,7 fois le rayon, soit 6 unités pour une
    petite sphère. On descend nettement en dessous pour garder de la marge. */
 const MIN_DISTANCE = 3;
-const MAX_DISTANCE = 520;
+/* 1200 et non 520 : sur un écran étroit en portrait, cadrer l'atlas entier
+   demande environ 800 unités de recul. L'ancien plafond bloquait le cadrage
+   par défaut du mobile, la scène restait coupée quel que soit le calcul. */
+const MAX_DISTANCE = 1200;
 
 /* Taille des labels : plancher et plafond stricts. Jamais de texte à 8 px
    parce qu'un noeud est loin, jamais de titre géant parce qu'il est proche. */
@@ -220,6 +221,12 @@ const backOut = (t: number): number => {
 export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   const { canvas, labelLayer, onStats, onNavigate, onTracks, onGenreInfo, onPanel, onContextLost } =
     handles;
+  /* Vrai une fois la caméra et les cibles construites : le resize d'init ne
+     peut pas encore mesurer, il repasse une fois le moteur debout. */
+  let engineReady = false;
+  /** Vrai tant que la caméra est au cadrage par défaut de l'atlas. */
+  let cameraAtDefault = true;
+  let framingDiag: Record<string, number> | null = null;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const renderer = new WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: 'high-performance' });
@@ -269,6 +276,49 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   const scene = new Scene();
   const camera = new PerspectiveCamera(FOV, 1, 0.5, 4000);
   const cameraPos = new Vector3();
+  /* En portrait, l'atlas s'étale VERTICALEMENT : les positions tournent de
+     90 degrés dans le plan de l'écran à l'angle par défaut. C'est une rotation
+     exacte, les distances et donc la séparation garantie sont conservées. */
+  const familyBaseLandscape = FAMILY_CENTERS.map((c) => new Vector3(c[0], c[1], c[2]));
+  const superMembers: number[][] = SUPERFAMILIES.map((sf) =>
+    sf.members.map((id) => FAMILIES.findIndex((f) => f.id === id)).filter((i) => i >= 0)
+  );
+  const superAnchor = new Vector3();
+  const familyBase = familyBaseLandscape.map((v) => v.clone());
+  let portraitApplied = false;
+  let stretchApplied = 1;
+
+  /* `stretch` étire l'axe vertical de l'écran en portrait : après pivot,
+     l'atlas reste presque carré alors que l'écran est deux fois plus haut que
+     large, et la moitié de la hauteur restait vide. L'étirement ne fait
+     qu'AUGMENTER les séparations, la garantie de non-chevauchement tient. */
+  const applyOrientation = (portrait: boolean, stretch = 1): void => {
+    if (portrait === portraitApplied && stretch === stretchApplied) return;
+    portraitApplied = portrait;
+    stretchApplied = stretch;
+    const az = DEFAULT_AZIMUTH;
+    const el = DEFAULT_ELEVATION;
+    const right = new Vector3(Math.cos(az), 0, -Math.sin(az));
+    const up = new Vector3(-Math.sin(el) * Math.sin(az), Math.cos(el), -Math.sin(el) * Math.cos(az));
+    const fwd = new Vector3().crossVectors(right, up).negate();
+    const centerV = new Vector3(...ATLAS_CENTER);
+    familyBase.forEach((v, i) => {
+      const base = familyBaseLandscape[i];
+      if (!base) return;
+      if (!portrait) {
+        v.copy(base);
+        return;
+      }
+      const rel = base.clone().sub(centerV);
+      const h = rel.dot(right);
+      const vv = rel.dot(up);
+      const d = rel.dot(fwd);
+      v.copy(centerV)
+        .addScaledVector(right, vv)
+        .addScaledVector(up, h * stretch)
+        .addScaledVector(fwd, d);
+    });
+  };
   const fogColor = new Vector3(0.042, 0.047, 0.058);
 
   // ------------------------------------------------------------ sphères
@@ -561,7 +611,24 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   /* Cadrage de l'atlas. On mesure l'étendue réelle dans les DEUX axes de la
      caméra, pas seulement la verticale : sur une fenêtre en portrait, c'est la
      largeur qui déborde, et deux familles sur six sortaient de l'écran. */
-  const atlasDistanceFor = (aspect: number): number => {
+  /* Le cadrage tient TOUT : sphères ET labels, sur les deux axes, avec 8 %
+     de marge. Les labels comptent en pixels : un nom de famille centré sous
+     sa sphère ajoute environ 120 px de large et 40 px de haut, et le cadrage
+     qui les ignorait coupait BASS et DOWNTEMPO sur mobile. */
+  /* Sur mobile les noms de familles sont centrés SOUS la sphère : la
+     demi-largeur d'un nom suffit. 120 px de chaque côté mangeaient 61 % d'un
+     écran de 390 px et l'atlas devenait minuscule. */
+  let analyticDiag: { byHeight: number; byWidth: number } | null = null;
+  const LABEL_PAD_X = 70;
+  /* 48 et non 96 : un label pend d'environ 30 px sous sa sphère. 96 px pris
+     deux fois sur un téléphone en paysage (390 px de haut) laissaient moins de
+     la moitié de l'écran à la scène. */
+  const LABEL_PAD_Y = 48;
+
+  const effectiveFill = (px: number, pad: number): number =>
+    clamp(0.92 * (1 - (2 * pad) / Math.max(240, px)), 0.4, 0.92);
+
+  const atlasDistanceFor = (aspect: number, widthPx = 1200, heightPx = 800): number => {
     const az = DEFAULT_AZIMUTH;
     const el = DEFAULT_ELEVATION;
     // Axe vertical de la caméra pour cette orientation d'orbite.
@@ -572,12 +639,15 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     const rightX = Math.cos(az);
     const rightZ = -Math.sin(az);
 
+    /* familyBase et non FAMILY_CENTERS : en portrait l'atlas a pivoté de 90
+       degrés dans le plan de l'écran, et mesurer les positions d'origine
+       cadrait le fantôme de la version paysage. */
     let halfV = 1;
     let halfH = 1;
-    FAMILIES.forEach((family, i) => {
-      const dx = family.center[0] - ATLAS_CENTER[0];
-      const dy = family.center[1] - ATLAS_CENTER[1];
-      const dz = family.center[2] - ATLAS_CENTER[2];
+    familyBase.forEach((c, i) => {
+      const dx = c.x - ATLAS_CENTER[0];
+      const dy = c.y - ATLAS_CENTER[1];
+      const dz = c.z - ATLAS_CENTER[2];
       const r = STRUCTURES[i]?.compactRadius ?? 6;
       halfV = Math.max(halfV, Math.abs(dx * upX + dy * upY + dz * upZ) + r);
       halfH = Math.max(halfH, Math.abs(dx * rightX + dz * rightZ) + r);
@@ -588,12 +658,11 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
        la hauteur vides et des amas minuscules. On remplit davantage quand
        l'écran est plus haut que large. */
     const tan = Math.tan((FOV * Math.PI) / 360);
-    /* Les anneaux de satellites ajoutent une frange autour de chaque amas :
-       le remplissage redescend d'un cran, sinon Bass et Minimal sortaient des
-       bords en fenêtre étroite. */
-    const fill = aspect < 0.85 ? 0.78 : ATLAS_FILL * 0.94;
-    const byHeight = halfV / (fill * tan);
-    const byWidth = halfH / (fill * tan * Math.max(0.2, aspect));
+    const fillY = effectiveFill(heightPx, LABEL_PAD_Y);
+    const fillX = effectiveFill(widthPx, LABEL_PAD_X);
+    const byHeight = halfV / (fillY * tan);
+    const byWidth = halfH / (fillX * tan * Math.max(0.2, aspect));
+    analyticDiag = { byHeight, byWidth };
     return clamp(Math.max(byHeight, byWidth), MIN_DISTANCE, MAX_DISTANCE);
   };
 
@@ -663,6 +732,7 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   };
 
   const startFly = (to: Vector3, dist: number, now: number): void => {
+    cameraAtDefault = false;
     if (reducedMotion) {
       targetSmooth.copy(to);
       target.copy(to);
@@ -769,10 +839,78 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
 
-    // Le cadrage de l'atlas dépend du format de la fenêtre : on le refait.
-    const wasAtlas = Math.abs(distance - atlasDistance) < 0.5;
-    atlasDistance = atlasDistanceFor(camera.aspect);
-    if (wasAtlas) distance = atlasDistance;
+    // Le cadrage de l'atlas dépend du format de la fenêtre : on le refait,
+    // et le portrait fait pivoter l'atlas pour occuper la hauteur.
+    const portrait = camera.aspect < 0.9;
+    applyOrientation(portrait);
+    /* Drapeau EXPLICITE et non heuristique : deux versions ont essayé de
+       reconnaître le cadrage par défaut en comparant des distances, et les
+       deux ont échoué sur l'ordre d'initialisation. La caméra sait si elle
+       est au cadrage par défaut ; l'utilisateur l'en sort en zoomant ou en
+       volant, recentrer l'y ramène. */
+    atlasDistance = atlasDistanceFor(camera.aspect, width, height);
+
+    /* Étalement vertical en portrait : on étire l'axe vertical jusqu'à ce que
+       la hauteur contraigne autant que la largeur. Le rapport byWidth/byHeight
+       est exactement ce facteur, borné pour ne pas produire une colonne
+       filiforme sur les écrans très hauts. */
+    if (portrait && analyticDiag) {
+      const stretch = clamp(
+        analyticDiag.byWidth / Math.max(1, analyticDiag.byHeight),
+        1,
+        2.2
+      );
+      if (stretch > 1.02) {
+        applyOrientation(portrait, stretch);
+        atlasDistance = atlasDistanceFor(camera.aspect, width, height);
+      }
+    }
+
+    /* Correction MESURÉE : les axes analytiques accumulent les approximations
+       (pivot portrait, relief, rayons). On pose la caméra, on projette
+       réellement les quatorze familles avec leur rayon, et on corrige la
+       distance d'un facteur en une itération : la projection est quasi
+       linéaire en profondeur, une passe suffit.
+
+       Seulement quand le moteur est prêt : au premier resize de
+       l'initialisation, la caméra n'existe pas encore plus bas dans le
+       fichier, et trois versions de ce code ont trébuché sur cette zone
+       morte temporelle. */
+    if (engineReady) {
+      const savedDistance = distance;
+      const savedTarget = targetSmooth.clone();
+      distance = atlasDistance;
+      targetSmooth.set(...ATLAS_CENTER);
+      applyCamera();
+
+      const fillY = effectiveFill(height, LABEL_PAD_Y);
+      const fillX = effectiveFill(width, LABEL_PAD_X);
+      let maxDx = 0;
+      let maxDy = 0;
+      const probe = new Vector3();
+      familyBase.forEach((c, i) => {
+        const r = STRUCTURES[i]?.compactRadius ?? 6;
+        for (const [ox, oy] of [[r, 0], [-r, 0], [0, r], [0, -r]] as const) {
+          probe.set(c.x + ox, c.y + oy, c.z).project(camera);
+          maxDx = Math.max(maxDx, Math.abs(probe.x));
+          maxDy = Math.max(maxDy, Math.abs(probe.y));
+        }
+      });
+      const over = Math.max(maxDx / fillX, maxDy / fillY);
+      framingDiag = { analytic: atlasDistance, over, maxDx, maxDy, fillX, fillY };
+      if (Number.isFinite(over) && over > 0.01) {
+        atlasDistance = clamp(atlasDistance * over, MIN_DISTANCE, MAX_DISTANCE);
+      }
+      distance = savedDistance;
+      targetSmooth.copy(savedTarget);
+      applyCamera();
+    }
+
+    if (cameraAtDefault) {
+      distance = atlasDistance;
+      targetSmooth.set(...ATLAS_CENTER);
+      target.copy(targetSmooth);
+    }
     bgUniforms.uResolution.value.set(width, height);
     const pixelScale = (2 * Math.tan((FOV * Math.PI) / 360)) / height;
     sphereUniforms.uPixelScale.value = pixelScale;
@@ -789,6 +927,7 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
   /* Molette et pincement font tous deux avancer et reculer. C'est ce que tout
      le monde attend d'une molette, et le glissement suffit pour tourner. */
   const onWheel = (event: WheelEvent): void => {
+    cameraAtDefault = false;
     event.preventDefault();
     if (suspended) return;
     const k = event.ctrlKey ? 0.03 : 0.026;
@@ -1122,6 +1261,7 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
       focusStart = now;
       level = 'atlas';
       startFly(atlasTarget, atlasDistance, now);
+      cameraAtDefault = true;
     }
     emitNav();
   };
@@ -1192,6 +1332,7 @@ export const initAtlas = (handles: AtlasHandles): AtlasApi => {
      Sans remise à zéro de la navigation, le fil d'Ariane continuait d'annoncer
      une famille sélectionnée qu'on ne voyait plus. */
   const recenter = (): void => {
+    cameraAtDefault = true;
     closePanel();
     target.copy(atlasTarget);
     targetSmooth.copy(atlasTarget);
@@ -1295,17 +1436,27 @@ const OVERLAP_TOLERANCE = 4;
       kind: 'family' | 'genre',
       pinned: boolean,
       opacityScale: number,
-      slot = -1
+      slot = -1,
+      screenDy = 0
     ): void => {
       scratch.copy(world).project(camera);
       if (scratch.z > 1) return;
       const sx = scratch.x * halfW + halfW;
-      const sy = -scratch.y * halfH + halfH;
+      let sy = -scratch.y * halfH + halfH + screenDy;
       if (sx < -200 || sx > width + 200 || sy < -80 || sy > height + 80) return;
       /* Bande haute réservée au fil d'Ariane, bande basse aux contrôles et à la
          ligne d'aide. Un label qui s'y place se superpose à du texte
-         d'interface, et les deux deviennent illisibles. */
-      if (sy < CHROME_TOP || sy > height - CHROME_BOTTOM) return;
+         d'interface, et les deux deviennent illisibles.
+
+         Les labels ANCRÉS EN ÉCRAN (screenDy, les grands ensembles) se
+         rabattent dans la bande au lieu d'être rejetés : « sous le membre le
+         plus bas » d'un ensemble qui occupe tout l'écran tombait dans la zone
+         des contrôles, et Quatre-temps n'était jamais nommé sur mobile. */
+      if (screenDy !== 0) {
+        sy = clamp(sy, CHROME_TOP + 4, height - CHROME_BOTTOM - 4);
+      } else if (sy < CHROME_TOP || sy > height - CHROME_BOTTOM) {
+        return;
+      }
 
       const depth = camera.position.distanceTo(world);
       nearest = Math.min(nearest, depth);
@@ -1348,20 +1499,57 @@ const OVERLAP_TOLERANCE = 4;
       for (const c of hov.children) highlighted.add(base + c);
     }
 
-    FAMILIES.forEach((family, fi) => {
-      // Intro : le nom apparaît à l'éclatement, environ 40 % du pop, et reste.
-      if (introActive && introBirth(fi, performance.now()) < 0.4) return;
-      const p = familyProgress[fi] ?? 0;
-      const isCurrent = fi === activeFamily;
-      add(
-        `f-${family.id}`,
-        family.label,
-        familyCenters[fi] ?? new Vector3(),
-        'family',
-        isCurrent,
-        isCurrent ? 1 : 1 - p * 0.5
-      );
-    });
+    /* NIVEAU ZÉRO : de loin, seuls les cinq grands ensembles sont nommés.
+       Les noms de familles apparaissent quand on zoome dedans. Pendant
+       l'intro, on nomme les familles : c'est leur naissance qu'on raconte. */
+    const superMode =
+      !introActive && level === 'atlas' && distance > atlasDistance * 0.72;
+
+    if (superMode) {
+      SUPERFAMILIES.forEach((sf, si) => {
+        const members = superMembers[si] ?? [];
+        if (members.length === 0) return;
+        /* L'ancre se calcule en ESPACE ÉCRAN : « sous l'ensemble » est une
+           notion d'écran, et la version en coordonnées monde dérivait dès que
+           l'atlas pivotait en portrait. On projette le centroïde et le bas de
+           chaque membre, et le nom se pose sous le plus bas. */
+        superAnchor.set(0, 0, 0);
+        for (const m of members) superAnchor.add(familyCenters[m] ?? new Vector3());
+        superAnchor.divideScalar(members.length);
+
+        scratch.copy(superAnchor).project(camera);
+        const anchorSy = -scratch.y * (height / 2) + height / 2;
+        let lowestSy = anchorSy;
+        for (const m of members) {
+          const c = familyCenters[m];
+          if (!c) continue;
+          const r = STRUCTURES[m]?.compactRadius ?? 6;
+          scratch.set(c.x, c.y - r, c.z).project(camera);
+          lowestSy = Math.max(lowestSy, -scratch.y * (height / 2) + height / 2);
+        }
+        /* Chute bornée : sous le membre le plus bas quand l'ensemble est
+           compact, mais jamais plus bas que 22 % de l'écran sous le centroïde.
+           En portrait étiré, un ensemble occupe la moitié de la hauteur et son
+           nom partait se battre avec les labels du bas de l'écran. */
+        const drop = Math.min(lowestSy - anchorSy, height * 0.22) + 16;
+        add(`s-${sf.id}`, sf.label, superAnchor, 'family', false, 1, -1, drop);
+      });
+    } else {
+      FAMILIES.forEach((family, fi) => {
+        // Intro : le nom apparaît à l'éclatement, environ 40 % du pop, et reste.
+        if (introActive && introBirth(fi, performance.now()) < 0.4) return;
+        const p = familyProgress[fi] ?? 0;
+        const isCurrent = fi === activeFamily;
+        add(
+          `f-${family.id}`,
+          family.label,
+          familyCenters[fi] ?? new Vector3(),
+          'family',
+          isCurrent,
+          isCurrent ? 1 : 1 - p * 0.5
+        );
+      });
+    }
 
     for (let i = 0; i < TOTAL_GENRES; i += 1) {
       const slot = slotsData[i];
@@ -1372,15 +1560,19 @@ const OVERLAP_TOLERANCE = 4;
       const inFocusFamily = focusSlot ? slot.family === focusSlot.family : false;
       const inSubtree = focusIndex >= 0 ? isDescendant(i, focusIndex) : false;
 
-      /* Au niveau genre, TOUS les dérivés du noeud focalisé sont étiquetés,
-         sans filtre de majeur : on est dans le détail, on ne cache plus rien.
-         Le reste de la famille perd ses labels. */
+      /* RÈGLE : à chaque niveau de zoom, tout ce qui est visible est nommé,
+         et le survol ne révèle JAMAIS un nom. Au niveau famille, la
+         génération courante est la première : tous ses noms sont là, ceux des
+         générations suivantes attendent la descente. Au niveau genre, le
+         noeud focalisé et ses enfants directs sont nommés, sans exception. */
       if (focusIndex >= 0) {
-        if (inFocusFamily && !inSubtree) continue;
         if (!inFocusFamily) continue;
+        const isFocusOrChild =
+          i === focusIndex || (inSubtree && slot.depth === (focusSlot?.depth ?? 0) + 1);
+        if (!isFocusOrChild) continue;
       } else {
-        const isPinned = i === hovered;
-        if (!slot.major && !isPinned && !highlighted.has(i)) continue;
+        if (superMode) continue;
+        if (slot.depth !== 1) continue;
       }
 
       const isPinned = i === focusIndex || i === hovered || inSubtree;
@@ -1428,7 +1620,20 @@ const OVERLAP_TOLERANCE = 4;
     for (const c of candidates) {
       if (c.opacity < 0.06) continue;
       if (placed.length >= labelRules.maxLabels) break;
-      if (placed.some((other) => overlaps(c, other))) continue;
+      if (placed.some((other) => overlaps(c, other))) {
+        /* Un label de genre désigne une sphère : le décaler le ferait mentir,
+           donc il se masque. Un label de GRAND ENSEMBLE désigne une région de
+           l'écran : il remonte par petits pas jusqu'à trouver un trou, sinon
+           les cinq noms se battaient au centre du portrait et Quatre-temps ne
+           s'affichait jamais. */
+        if (!c.key.startsWith('s-')) continue;
+        let free = false;
+        while (!free && c.sy - 24 >= CHROME_TOP + 4) {
+          c.sy -= 24;
+          free = !placed.some((other) => overlaps(c, other));
+        }
+        if (!free) continue;
+      }
       placed.push(c);
     }
 
@@ -1488,7 +1693,7 @@ const OVERLAP_TOLERANCE = 4;
      la séparation à l'état compact. Quand une famille s'ouvre, les autres sont
      poussées radialement pour lui laisser la place réellement occupée par son
      déploiement, et rejoignent leur cible avec amortissement. */
-  const familyBase = FAMILY_CENTERS.map((c) => new Vector3(c[0], c[1], c[2]));
+
   const familyTarget = familyBase.map((c) => c.clone());
   const familyCenters = familyBase.map((c) => c.clone());
   const pushDir = new Vector3();
@@ -2030,10 +2235,27 @@ const OVERLAP_TOLERANCE = 4;
   };
 
   applyCamera();
+  engineReady = true;
+  resize();
   requestAnimationFrame(frame);
   void runProfile();
 
   (window as unknown as { __atlas?: unknown }).__atlas = {
+    framing: () => ({
+      distance,
+      atlasDistance,
+      cameraAtDefault,
+      width,
+      height,
+      aspect: camera.aspect,
+      introActive,
+      azimuth,
+      elevation,
+      defaults: [DEFAULT_AZIMUTH, DEFAULT_ELEVATION],
+      portraitApplied,
+      diag: framingDiag,
+      analytic: analyticDiag
+    }),
     measureGpu,
     measureLabels,
     runProfile,
