@@ -7,6 +7,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { STRUCTURES } from './structures.ts';
 import {
+  faMagnifyingGlass,
   faMagnifyingGlassPlus,
   faMagnifyingGlassMinus,
   faCrosshairs,
@@ -48,7 +49,6 @@ const hasWebGL = (): boolean => {
   }
 };
 
-const HELP_KEY = 'sonaa-help-seen';
 /* L'écran d'accueil se montre une seule fois dans la vie du navigateur. Clé
    distincte de la ligne d'aide : ce sont deux choses différentes. */
 const WELCOME_KEY = 'sonaa-welcome-seen';
@@ -92,6 +92,17 @@ export function AtlasPage() {
     null
   );
   const [searchOpen, setSearchOpen] = useState(false);
+  /* Légende de navigation : aide-mémoire PERMANENT, repliable en une ligne,
+     choix mémorisé. Elle ne disparaît jamais complètement. */
+  const [legendCollapsed, setLegendCollapsed] = useState(
+    () => localStorage.getItem('sonaa-legend-collapsed') === '1'
+  );
+  const toggleLegend = useCallback(() => {
+    setLegendCollapsed((v) => {
+      localStorage.setItem('sonaa-legend-collapsed', v ? '0' : '1');
+      return !v;
+    });
+  }, []);
   /* Fil d'Ariane replié sur petit écran : deux segments et un chevron. */
   const [crumbsExpanded, setCrumbsExpanded] = useState(false);
   const [narrow, setNarrow] = useState(() => window.matchMedia('(max-width: 600px)').matches);
@@ -106,7 +117,6 @@ export function AtlasPage() {
     () => localStorage.getItem(WELCOME_KEY) !== '1'
   );
   const [reason, setReason] = useState('Chargement de la couche WebGL…');
-  const [showHelp, setShowHelp] = useState(() => localStorage.getItem(HELP_KEY) !== '1');
 
   // Le HUD est retiré : les statistiques du moteur n'ont plus de lecteur.
   const onStats = useCallback((_next: AtlasStats) => {}, []);
@@ -124,13 +134,6 @@ export function AtlasPage() {
 
   /* La colonne du lecteur ne suspend PLUS la carte : elle reste vivante à
      côté, on navigue pendant que la musique joue. */
-
-  const dismissHelp = useCallback(() => {
-    setShowHelp((visible) => {
-      if (visible) localStorage.setItem(HELP_KEY, '1');
-      return false;
-    });
-  }, []);
 
   useEffect(() => {
     // Les vues DOM n'ont pas de moteur : rien à charger, rien à perdre.
@@ -259,10 +262,6 @@ export function AtlasPage() {
   const dismissWelcome = useCallback((picked?: ViewId) => {
     localStorage.setItem(WELCOME_KEY, '1');
     setShowWelcome(false);
-    /* L'accueil vient de dire comment on navigue : répéter la même chose dans
-       la ligne d'aide juste après serait du bruit. */
-    localStorage.setItem(HELP_KEY, '1');
-    setShowHelp(false);
     if (picked && picked !== view) {
       chooseView(picked);
       return;
@@ -316,11 +315,6 @@ export function AtlasPage() {
     apiRef.current?.openPanel(familyIndex, genreLocal);
   }, []);
 
-  const act = (fn: () => void) => () => {
-    dismissHelp();
-    fn();
-  };
-
   /* Le titre du document suit la navigation : un onglet ouvert doit dire où on
      en est, et un lien copié depuis la barre d'adresse doit être lisible.
      Point médian et non tiret cadratin. */
@@ -342,7 +336,7 @@ export function AtlasPage() {
   const level = nav?.level ?? 'atlas';
 
   return (
-    <div className="atlas-root" onPointerDown={dismissHelp} onWheel={dismissHelp}>
+    <div className="atlas-root">
       <canvas
         ref={canvasRef}
         className="atlas-canvas"
@@ -370,7 +364,7 @@ export function AtlasPage() {
           d'indice de cliquabilité. */}
       <button
         className="brand"
-        onClick={act(backToAtlas)}
+        onClick={backToAtlas}
         aria-label="SONAA, revenir à la vue Atlas"
         title="Revenir à l'Atlas"
       >
@@ -429,7 +423,7 @@ export function AtlasPage() {
             onClick?: () => void;
           }
           const segments: Seg[] = [
-            { key: 'atlas', label: 'Atlas', current: level === 'atlas' && !panelGenre, onClick: act(backToAtlas) }
+            { key: 'atlas', label: 'Atlas', current: level === 'atlas' && !panelGenre, onClick: backToAtlas }
           ];
           if (nav && nav.familyIndex >= 0) {
             const fi = nav.familyIndex;
@@ -437,11 +431,11 @@ export function AtlasPage() {
               key: 'family',
               label: nav.familyLabel,
               current: level === 'family' && !panelGenre,
-              onClick: act(() => {
+              onClick: () => {
                 setPanelGenre(null);
                 apiRef.current?.closePanel();
                 apiRef.current?.goToFamily(fi);
-              })
+              }
             });
           }
           nav?.path.forEach((seg, i) => {
@@ -449,10 +443,10 @@ export function AtlasPage() {
               key: `g-${seg.index}`,
               label: seg.label,
               current: !panelGenre && i === (nav.path.length - 1),
-              onClick: act(() => {
+              onClick: () => {
                 setPanelGenre(null);
                 apiRef.current?.closePanel();
-              })
+              }
             });
           });
           if (panelGenre) segments.push({ key: 'tracks', label: 'Tracks', current: true });
@@ -473,14 +467,6 @@ export function AtlasPage() {
         })()}
       </nav>
 
-      {showHelp && !showWelcome && mode === 'webgl' && !panelGenre && (
-        <p className="help-line" role="status">
-          {view === 'libre'
-            ? 'Glisser pour tourner · molette pour zoomer · clic sur une sphère pour ses tracks · espace pour chercher'
-            : 'Glisser pour déplacer la carte · molette pour zoomer · clic sur une sphère pour ses tracks · espace pour chercher'}
-        </p>
-      )}
-
       {/* Trois contrôles, haut droit : zoom avant, zoom arrière, recentrer.
           Icônes Font Awesome Free (CC BY 4.0) intégrées au bundle en SVG
           inline via free-solid-svg-icons : aucun appel tiers au runtime.
@@ -489,16 +475,54 @@ export function AtlasPage() {
           après 3 s d'inactivité (data-idle). */}
       {mode === 'webgl' && (
         <div ref={controlsRef} className="controls" aria-label="Contrôles de navigation">
-          <button onClick={act(() => apiRef.current?.zoom(1))} aria-label="Zoom avant" title="Zoom avant (+)">
+          <button onClick={() => apiRef.current?.zoom(1)} aria-label="Zoom avant" title="Zoom avant (+)">
             <FaIcon icon={faMagnifyingGlassPlus} />
           </button>
-          <button onClick={act(() => apiRef.current?.zoom(-1))} aria-label="Zoom arrière" title="Zoom arrière (-)">
+          <button onClick={() => apiRef.current?.zoom(-1)} aria-label="Zoom arrière" title="Zoom arrière (-)">
             <FaIcon icon={faMagnifyingGlassMinus} />
           </button>
-          <button onClick={act(() => apiRef.current?.recenter())} aria-label="Recentrer" title="Recentrer (0)">
+          <button onClick={() => apiRef.current?.recenter()} aria-label="Recentrer" title="Recentrer (0)">
             <FaIcon icon={faCrosshairs} />
           </button>
+          {/* La loupe n'existe qu'à l'écran tactile : au clavier, Espace
+              suffit. Sans elle, la légende mobile mentirait. */}
+          <button
+            className="controls-search"
+            onClick={() => setSearchOpen(true)}
+            aria-label="Chercher un genre, un artiste, un label"
+            title="Chercher"
+          >
+            <FaIcon icon={faMagnifyingGlass} />
+          </button>
         </div>
+      )}
+
+      {/* Légende de navigation : permanente, discrète, repliable. Chaque
+          raccourci a été vérifié dans le code avant d'être écrit. */}
+      {mode === 'webgl' && (
+        <aside className="legend" data-collapsed={legendCollapsed}>
+          <button className="legend-toggle" onClick={toggleLegend}>
+            aide
+          </button>
+          {!legendCollapsed && (
+            <>
+              <ul className="legend-list legend-desktop">
+                <li><kbd>Espace</kbd><span>chercher un genre, un artiste, un label</span></li>
+                <li><kbd>Clic</kbd><span>ouvrir un genre et ses tracks</span></li>
+                <li><kbd>Molette</kbd><span>zoomer</span></li>
+                <li><kbd>Glisser</kbd><span>se déplacer</span></li>
+                <li><kbd>Échap</kbd><span>remonter d&apos;un niveau</span></li>
+                <li><kbd>0</kbd><span>revenir à la vue d&apos;ensemble</span></li>
+              </ul>
+              <ul className="legend-list legend-mobile">
+                <li><kbd>Toucher</kbd><span>ouvrir un genre</span></li>
+                <li><kbd>Pincer</kbd><span>zoomer</span></li>
+                <li><kbd>Glisser</kbd><span>se déplacer</span></li>
+                <li><kbd>Loupe</kbd><span>chercher</span></li>
+              </ul>
+            </>
+          )}
+        </aside>
       )}
 
       {searchOpen && (

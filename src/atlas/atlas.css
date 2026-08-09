@@ -202,23 +202,6 @@
   font-size: 0.8rem;
 }
 
-/* Ligne d'aide, une seule fois. */
-.help-line {
-  position: absolute;
-  bottom: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 6;
-  font-family: var(--font-ui);
-  font-size: 0.6875rem;
-  letter-spacing: 0.04em;
-  color: var(--ink-secondary);
-  background: oklch(0.12 0.01 250 / 0.9);
-  border: 1px solid var(--rule-hairline);
-  padding: 0.5rem 0.9rem;
-  white-space: nowrap;
-}
-
 /* Contrôles permanents. Décollés de 16 px et jamais coupés : les zones
    sûres iOS s'ajoutent au retrait. */
 .controls {
@@ -315,16 +298,6 @@
   /* La ligne d'aide était en `white-space: nowrap` centrée : sur 390 px elle
      dépassait des deux côtés et passait sous les contrôles. Elle se replie et
      se place au-dessus d'eux. */
-  .help-line {
-    left: 0.75rem;
-    right: 0.75rem;
-    bottom: calc(2 * 2.75rem + 0.4rem + 1.6rem);
-    transform: none;
-    white-space: normal;
-    line-height: 1.5;
-    text-align: center;
-  }
-
   .controls {
     bottom: max(1rem, env(safe-area-inset-bottom));
   }
@@ -585,5 +558,110 @@
   .atlas-root[data-sheet-pos='half'] .atlas-labels {
     bottom: 52dvh;
     height: 48dvh;
+  }
+}
+
+
+/* --- Légende de navigation : aide-mémoire permanent ----------------------- */
+
+.legend {
+  position: absolute;
+  left: 1.25rem;
+  bottom: calc(3.4rem + env(safe-area-inset-bottom, 0px));
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.55rem 0.7rem;
+  background: oklch(0.08 0.01 250 / 0.55);
+  border-radius: 4px;
+  font-family: var(--font-ui);
+  /* Pleine opacité 8 s, puis 25 %. Jamais zéro : c'est un aide-mémoire,
+     pas un tutoriel. Le survol la réveille. */
+  animation: legend-dim 600ms linear 8s forwards;
+}
+
+@keyframes legend-dim {
+  to { opacity: 0.25; }
+}
+
+.legend:hover,
+.legend:focus-within {
+  animation: none;
+  opacity: 1;
+}
+
+.legend-toggle {
+  align-self: flex-start;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.5938rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+.legend-list {
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+}
+
+.legend-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.6875rem;
+}
+
+.legend-list kbd {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.625rem;
+  color: var(--ink-primary);
+  min-width: 3.4em;
+}
+
+.legend-list span {
+  color: var(--ink-secondary);
+  font-weight: var(--weight-data);
+}
+
+.legend-mobile {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .legend-desktop {
+    display: none;
+  }
+  .legend-mobile {
+    display: flex;
+  }
+  /* Au-dessus de la feuille réduite ; disparaît quand elle monte. */
+  .atlas-root[data-sheet-pos='bar'] .legend {
+    bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+  }
+  .atlas-root[data-sheet-pos='half'] .legend,
+  .atlas-root[data-sheet-pos='full'] .legend {
+    display: none;
+  }
+}
+
+/* La loupe des contrôles : écran tactile seulement, Espace suffit au
+   clavier. */
+.controls-search {
+  display: none !important;
+}
+
+@media (pointer: coarse), (max-width: 700px) {
+  .controls-search {
+    display: grid !important;
   }
 }
