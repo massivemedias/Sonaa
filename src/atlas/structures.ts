@@ -468,34 +468,100 @@ export const buildStructure = (familyIndex: number): Structure => {
     const kids = node.children;
     if (kids.length === 0) return;
 
-    /* Rayon d'orbite : assez loin du corps parent pour que l'anneau se lise,
-       assez grand pour que les satellites ne se touchent pas entre eux. */
+    /* Rayon d'orbite PROPORTIONNEL AU NOMBRE D'ENFANTS (verdict « étale
+       davantage ») : l'anneau est dimensionné pour les NOMS, pas seulement
+       pour les corps. Le pas minimal par enfant est en unités monde, plus
+       large en première génération où les noms sont les plus présents :
+       une famille de 24 genres occupe nettement plus qu'une de 8, et la
+       caméra recule d'elle-même (le cadrage mesure les positions). */
     const parentR = node.radius;
     const childR = Math.max(...kids.map((k) => genres[k]?.radius ?? 0.5), 0.3);
     const byBody = parentR * 1.9 + childR * 1.6;
-    const byRing = (kids.length * childR * 2 * 1.7) / (2 * Math.PI);
-    const orbit = Math.max(byBody, byRing);
+    /* Le pas est celui d'un NOM, pas d'une sphère, et l'orbite d'un enfant
+       grandit avec la POPULATION de son sous-arbre : une branche de huit
+       genres réclame plus d'espace qu'une feuille. */
+    const subtree = (i: number): number => {
+      const g = genres[i];
+      if (!g) return 0;
+      return 1 + g.children.reduce((acc, c) => acc + subtree(c), 0);
+    };
+    const kidsWeight = kids.reduce((acc, k) => acc + Math.sqrt(subtree(k)), 0);
+    const LABEL_STEP = node.depth === 0 ? 7.0 : 8.0;
+    const step = Math.max(childR * 2 * 1.7, LABEL_STEP);
+    const ringNeed = (kidsWeight * step) / (2 * Math.PI);
 
     /* Les voisins d'anneau sont des voisins de style : l'ordre autour de
        l'orbite suit le TEMPO, du plus lent au plus rapide en tournant. C'est
        déterministe et ça se vérifie à l'oreille. */
     const ordered = [...kids].sort((x, y) => (genres[x]?.bpm ?? 0) - (genres[y]?.bpm ?? 0));
 
-    ordered.forEach((kid, k) => {
-      const child = genres[kid];
-      if (!child) return;
-      const angle = (k / ordered.length) * Math.PI * 2 + index * 0.9 + rand() * 0.15;
-      // Léger relief : l'anneau ondule d'une fraction du rayon du corps, la
-      // profondeur se sent sans casser la lecture en anneau.
-      const lift = (rand() - 0.5) * parentR * 0.35;
+    /* Les GÉNÉRATIONS S'ÉTIRENT VERS L'EXTÉRIEUR : les enfants d'un noeud
+       déjà en orbite se placent dans l'arc qui tourne le dos au centre de
+       la famille, au lieu du cercle complet. Sans ça, les lignées
+       profondes (Breaks : darkcore, jungle, drum and bass...) s'enroulaient
+       sur elles-mêmes en grappe illisible où les noms s'entretuaient
+       (mesuré : 4 genres de Breaks nommés sur 23). L'appartenance reste
+       lisible : tout tourne autour de la famille, en s'en éloignant. */
+    const radialPhi = (() => {
+      const nd = node.deployed;
+      const px = nd[0] * eA[0] + nd[1] * eA[1] + nd[2] * eA[2];
+      const py = nd[0] * eB[0] + nd[1] * eB[1] + nd[2] * eB[2];
+      return Math.hypot(px, py) < 0.5 ? null : Math.atan2(py, px);
+    })();
 
-      child.deployed = [
-        node.deployed[0] + eA[0] * Math.cos(angle) * orbit + eB[0] * Math.sin(angle) * orbit + axisY[0] * lift,
-        node.deployed[1] + eA[1] * Math.cos(angle) * orbit + eB[1] * Math.sin(angle) * orbit + axisY[1] * lift,
-        node.deployed[2] + eA[2] * Math.cos(angle) * orbit + eB[2] * Math.sin(angle) * orbit + axisY[2] * lift
-      ];
-      place(kid);
-    });
+    const putRing = (ring: number[], orbit: number, phase: number): void => {
+      ring.forEach((kid, k) => {
+        const child = genres[kid];
+        if (!child) return;
+        const angle =
+          radialPhi === null
+            ? (k / ring.length) * Math.PI * 2 + index * 0.9 + phase + rand() * 0.15
+            : radialPhi +
+              (ring.length === 1 ? 0 : (k / (ring.length - 1) - 0.5) * (Math.PI * 1.15)) +
+              phase +
+              rand() * 0.1;
+        // Léger relief : l'anneau ondule d'une fraction du rayon du corps, la
+        // profondeur se sent sans casser la lecture en anneau.
+        const lift = (rand() - 0.5) * parentR * 0.35;
+        child.deployed = [
+          node.deployed[0] + eA[0] * Math.cos(angle) * orbit + eB[0] * Math.sin(angle) * orbit + axisY[0] * lift,
+          node.deployed[1] + eA[1] * Math.cos(angle) * orbit + eB[1] * Math.sin(angle) * orbit + axisY[1] * lift,
+          node.deployed[2] + eA[2] * Math.cos(angle) * orbit + eB[2] * Math.sin(angle) * orbit + axisY[2] * lift
+        ];
+        place(kid);
+      });
+    };
+
+    if (node.depth === 0 && ordered.length > 7) {
+      /* DEUX RANGS pour les grandes couronnes : les genres majeurs (et ceux
+         qui portent une descendance) sur l'anneau intérieur, les autres sur
+         l'anneau extérieur, angles décalés d'un demi-pas pour que les noms
+         ne s'alignent jamais radialement. Le tri par tempo tient dans
+         chaque rang. */
+      const isInner = (k: number): boolean => {
+        const g = genres[k];
+        return Boolean(g && (g.major || g.children.length > 0));
+      };
+      let inner = ordered.filter(isInner);
+      let outer = ordered.filter((k) => !isInner(k));
+      if (inner.length === 0 || outer.length === 0) {
+        inner = ordered.filter((_, i) => i % 2 === 0);
+        outer = ordered.filter((_, i) => i % 2 === 1);
+      }
+      const innerWeight = inner.reduce((acc, k) => acc + Math.sqrt(subtree(k)), 0);
+      const orbitIn = Math.max(byBody, (innerWeight * step) / (2 * Math.PI));
+      const orbitOut = Math.max(
+        orbitIn * 1.55,
+        byBody + 4,
+        (outer.length * step) / (2 * Math.PI)
+      );
+      putRing(inner, orbitIn, 0);
+      putRing(outer, orbitOut, Math.PI / Math.max(1, outer.length));
+      return;
+    }
+
+    const orbit = Math.max(byBody, ringNeed, (ordered.length * step) / (2 * Math.PI));
+    putRing(ordered, orbit, 0);
   };
 
   place(root);

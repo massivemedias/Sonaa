@@ -1825,6 +1825,41 @@ AUCUNE AUTRE FAMILLE NON ÉLECTRONIQUE NE SERA AJOUTÉE : acté.
 
 ---
 
+## ADR-055 : Étalement du déploiement, chiffres exacts plutôt que promesse
+
+**Date** : 2026-08-09.
+
+**Décisions.**
+
+1. **L'anneau se dimensionne pour les NOMS.** Pas minimal par enfant en
+   unités monde (7 en première génération, 8 en profondeur), orbite liée à
+   la population du sous-arbre, deux rangs quand la couronne dépasse sept
+   (majeurs dedans, angles décalés d'un demi-pas). Les GÉNÉRATIONS
+   S'ÉTIRENT VERS L'EXTÉRIEUR : les enfants d'un noeud en orbite occupent
+   l'arc qui tourne le dos au centre — sans ça, les lignées profondes
+   s'enroulaient en grappe (mesuré : 4 genres de Breaks nommés sur 23).
+   La caméra recule seule (cadrage mesuré) et les voisines s'écartent
+   seules (poussée indexée sur le rayon déployé mesuré, lerp doux).
+
+2. **La famille ouverte est l'objet de lecture.** Ses genres passent avant
+   ceux des familles fermées entrées dans le champ (niveau déclaré). Son
+   NOM descend sous le système déployé : posé au centre, il écrasait
+   systématiquement le fondateur (Chicago House, Breakbeat, mesuré).
+
+3. **Résultat mesuré, pas promis.** À 1280 px colonne ouverte :
+   House 9 → 14 sur 24, Breaks 4 → 10 sur 23. À 390 px feuille à
+   mi-hauteur : House 8 sur 24, Breaks 2 sur 23. L'OBJECTIF DE 100 % N'EST
+   PAS ATTEINT. Cause structurelle : dans un layout planétaire, les
+   dérivés d'un même parent partagent un petit anneau ; la couronne de
+   Drum and Bass (8 noms, ~600 px de texte) tient sur ~150 px d'écran au
+   cadrage famille. Aucune police ≥ 9 px ni étalement raisonnable ne
+   résout ça sans casser la lecture d'appartenance. Pistes tranchables :
+   lignes de rappel en éventail (le nom s'éloigne, un trait le relie),
+   ou accepter que la colonne — qui nomme déjà 100 % des genres — est la
+   liste exhaustive, la carte étant le paysage.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle

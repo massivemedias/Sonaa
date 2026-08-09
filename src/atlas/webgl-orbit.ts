@@ -1509,7 +1509,15 @@ const OVERLAP_TOLERANCE = 1;
       if (kind === 'genre' && fx + w > width - 4) {
         fx = sx - w;
       }
-      if (kind === 'family' && width <= 700) {
+      /* Le nom de la famille OUVERTE descend SOUS son système déployé :
+         posé au centre, il écrasait systématiquement le FONDATEUR
+         (mesuré : Chicago House et Breakbeat toujours masqués). Décalage =
+         rayon déployé projeté en pixels, borné au tiers de l'écran. */
+      if (kind === 'family' && activeFamily >= 0 && text === FAMILIES[activeFamily]?.label) {
+        const rPx = (familyFrameRadius(activeFamily) * (height / 2)) / (Math.tan((FOV * Math.PI) / 360) * Math.max(1, depth));
+        fy += Math.min(height * 0.34, rPx + 14);
+        fx -= w / 2;
+      } else if (kind === 'family' && width <= 700) {
         fx -= w / 2;
         fy += 21.6;
         // La boîte décalée respecte la même bande basse que l'originale.
@@ -1517,6 +1525,7 @@ const OVERLAP_TOLERANCE = 1;
           return;
         }
       }
+      fy = Math.min(fy, height - CHROME_BOTTOM - 2);
 
       fx = Math.min(Math.max(fx, 4), Math.max(4, width - 4 - w));
 
@@ -1614,7 +1623,12 @@ const OVERLAP_TOLERANCE = 1;
        Plus d'exception : les grands ensembles ont disparu (ADR-053). */
     const levelOf = (c: Candidate): number => {
       if (c.kind === 'family') return 0;
-      return 1 + (slotsData[c.slot]?.depth ?? 0);
+      const slot = slotsData[c.slot];
+      const base = 1 + (slot?.depth ?? 0);
+      /* La famille OUVERTE est l'objet de lecture : ses genres passent
+         avant ceux des familles fermées entrées dans le champ quand la
+         caméra recule. C'est un niveau déclaré, pas un ordre d'arrivée. */
+      return activeFamily >= 0 && slot?.family !== activeFamily ? base + 10 : base;
     };
     const maxLevel = candidates.reduce((m, c) => Math.max(m, levelOf(c)), 0);
 

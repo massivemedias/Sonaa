@@ -1377,7 +1377,14 @@ const OVERLAP_TOLERANCE = 1;
           gagne par ordre d'arrivée.
        Déterministe et indépendant de l'ordre de parcours. */
     const levelOf = (c: Candidate): number =>
-      c.kind === 'family' ? 0 : 1 + (slotsData[c.slot]?.depth ?? 0);
+      c.kind === 'family'
+        ? 0
+        : (() => {
+            const slot = slotsData[c.slot];
+            const base = 1 + (slot?.depth ?? 0);
+            // La famille ouverte passe avant les familles fermées (niveau déclaré).
+            return activeFamily >= 0 && slot?.family !== activeFamily ? base + 10 : base;
+          })();
     const maxLevel = candidates.reduce((m, c) => Math.max(m, levelOf(c)), 0);
     for (let lvl = 0; lvl <= maxLevel; lvl += 1) {
       const group = candidates.filter((c) => levelOf(c) === lvl);
