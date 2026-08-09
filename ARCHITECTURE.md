@@ -1809,6 +1809,22 @@ annulées.
 
 ---
 
+## ADR-054 : Hip-Hop et Reggae, ancres de la famille roots
+
+**Date** : 2026-08-09.
+
+**Décisions.** Deux points d'ancrage ajoutés à roots, SANS descendance ni
+sous-genres : ce sont des racines que l'électronique cite, pas des
+branches que l'atlas développe. Même patron que Funk : rattachement
+conventionnel à la racine de l'arbre (structuralOnly), note explicite,
+description qui dit le rôle d'ancre ET le périmètre. Hip-Hop est parent
+supplémentaire de Breakbeat Hardcore, Electro Funk, Trip-Hop, Trap,
+Footwork, Juke, Jersey Club et Baltimore Club ; Reggae de Dub, Jungle,
+Dubstep, Raggacore et UK Funky. Huit tracks au matcher (8/8 exact).
+AUCUNE AUTRE FAMILLE NON ÉLECTRONIQUE NE SERA AJOUTÉE : acté.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle
