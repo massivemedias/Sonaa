@@ -1134,6 +1134,49 @@ famille, soit n'etiqueter au niveau famille que la premiere generation.
 
 ---
 
+## ADR-040 : Le lot d'interface d'aout, dix decisions en une passe
+
+**Vocabulaire.** « Morceaux » devient « tracks » partout dans l'interface, au
+feminin, usage de la scene. Un seul mot dans tout le site.
+
+**Parutions completes.** Le matcher refuse les albums entiers : marqueurs de
+titre (full album, album completo, LP, megamix, compilation, mix complet) et
+duree au-dela de quinze minutes. La duree vient de la page de resultats de
+recherche, oEmbed ne la donne pas ; l'audit des tracks en place la lit sur la
+page de lecture. Les 339 tracks ont ete relues : 14 albums remplaces, 2 retraits
+a la main dont le 1/1 d'Eno, 17 minutes reelles, que la regle refusera
+toujours ; c'est un cout assume de la regle sur l'ambient. Garde-fou CI etendu.
+
+**Systeme planetaire.** Ecarts de taille MARQUES entre generations, 4.6 puis
+1.35 puis 0.5 puis 0.28 ; enfants sur un ANNEAU dans un plan proche de
+l'horizontale, incline par famille ; l'etat compact montre deja la planete et
+son premier anneau, les sous-satellites surgissent au deploiement.
+L'appartenance se lit sans un seul label.
+
+**Intro.** Naissance des familles en expansion RADIALE, camera immobile au
+cadrage par defaut, 6 secondes, 350 ms par famille, liens traces depuis la
+famille d'origine via l'avancement aMeta.z deja present dans le shader. Ordre
+verifie contre le corpus : l'Ambient, nomme en 1978, nait avant l'Electro,
+correction assumee de la liste de depart. Interruptible par tout geste, jouee
+une fois, rejouable depuis les credits.
+
+**Logo.** Double a 44 px. Balayage lumineux par masque en degrade respectant la
+transparence : le PNG n'a pas de trace vectoriel, et la lumiere n'existant que
+sur les pixels du glyphe, le point suit le trait. Arret onglet cache,
+prefers-reduced-motion respecte.
+
+**Labels.** Montserrat Black majuscules livree pour le deuxieme niveau,
+auto-hebergee, 15,7 Ko. Le nom de famille passe avant tout, et le chevauchement
+masque TOUJOURS : l'epinglage donnait un passe-droit, c'est ce qui superposait
+Disco et Spacesynth.
+
+**Navigation.** L'espace ouvre la recherche, la barre oblique reste en second ;
+l'espace revient au lecteur quand le panneau tracks est ouvert. Une feuille
+lance le lecteur directement ; la fiche reste accessible par le nom du genre,
+desormais en evidence sur le panneau et cliquable.
+
+---
+
 ## Pièges GLSL rencontrés, à ne pas repayer
 
 Trois erreurs coûteuses rencontrées sur le prototype de rendu. Elles ne
