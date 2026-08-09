@@ -13,7 +13,9 @@
     "import:tracks": "tsx scripts/import-tracks.ts",
     "check:matcher": "tsx scripts/check-matcher.ts",
     "check:labels": "tsx scripts/check-labels.ts",
-    "crop:covers": "bash scripts/crop-covers.sh"
+    "crop:covers": "bash scripts/crop-covers.sh",
+    "fetch:release": "tsx scripts/fetch-release-data.ts",
+    "fetch:key": "tsx scripts/fetch-key.ts"
   },
   "dependencies": {
     "react": "^19.2.0",
