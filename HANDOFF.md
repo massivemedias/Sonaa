@@ -13,6 +13,11 @@ débats déjà tranchés.
 **Phase P0 terminée et en ligne.** Fondations, CI, déploiement GitHub Pages
 fonctionnel. Deux commits sur `main` après la recréation du dépôt.
 
+**Corpus etendu a 216 genres et 14 familles** par le comparatif de couverture
+de Mika, en quatre vagues : roots, breaks et bass, puis electro, hardcore,
+ambient, downtempo, puis complements. 148 genres restent sans morceaux, a
+remplir par tracks-canon.md. Voir ADR-037.
+
 **Phase P1 faite en v1.** `src/data/corpus.json` porte 60 genres reels sur six
 familles, valide par le schema Zod de `src/data/schema.ts` et par
 `npm run validate:data`. 178 identifiants YouTube verifies par oEmbed, sans cle.

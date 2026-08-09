@@ -1011,6 +1011,51 @@ en bas, ou aucun label ne se place. Ils se superposaient au fil d'Ariane.
 
 ---
 
+## ADR-037 : Le corpus passe de 68 a 216 genres, en quatre vagues
+
+**Contexte.** Le comparatif de couverture fourni par Mika, croisant Wikipedia,
+Ishkur, le wiki Electronic Music et Discogs, montrait que SONAA racontait une
+histoire uniquement continentale et americaine : pas de racine commune, pas de
+lignee britannique, pas de hardcore, pas d'ambient.
+
+**Decision.** Quatre vagues, deployees chacune sitot verte : roots en premier,
+breaks et bass ensuite, puis electro, hardcore, ambient et downtempo, puis les
+complements des sept familles d'origine. 216 genres, 14 familles, 76 greffes,
+40 filiations debattues.
+
+**Trois regles nees de la croissance, a garder.**
+
+1. **`structuralOnly`.** Le funk et le dub ne descendent pas de la musique
+   concrete, ce sont des racines paralleles ; le schema exige pourtant un
+   fondateur unique par famille. Plutot qu'inventer une arete fausse, le
+   rattachement est declare conventionnel : `parents` reste vide de ce lien, et
+   la fiche ecrit « rattache a » suivi de « ce n'est pas une filiation ».
+   Trois cas : Funk, Dub, Baltimore Club, Minimal Wave.
+
+2. **`bpm` nullable.** La musique concrete, l'ambient ou le drone ne se comptent
+   pas en battements par minute. Un intervalle invente serait une fausse donnee.
+   L'interface ecrit « sans tempo ».
+
+3. **Un alias qui devient un genre doit disparaitre comme alias.** A 68 genres,
+   « Footwork » etait un alias de Hard House ; a 216, c'est un genre, et la
+   recherche sautait sur le mauvais noeud. Quinze alias retires, et la regle est
+   un controle bloquant de validate-data.
+
+**Palette.** Quatorze teintes OKLCH, ecart minimal de 22 degres verifie par
+calcul, zone olive-kaki 90-120 exclue.
+
+**Mesure a 216 genres.** L'instancing tient sans effort : 3 appels de dessin
+inchanges, 246 liens, 6338 triangles, image complete a 0,053 ms sur 16,67. La
+lisibilite de l'atlas tient parce qu'au niveau atlas rien d'autre que les 14
+noms de familles ne s'affiche (ADR-031/034) : la densite interne des amas ne
+coute rien tant qu'on n'y est pas descendu.
+
+**Ce qui n'est pas fait.** Les 148 genres nouveaux n'ont aucun morceau : les
+listes partent vides et l'interface le dit. Ils se remplissent par
+tracks-canon.md et import-tracks, jamais par lot invente.
+
+---
+
 ## Pièges GLSL rencontrés, à ne pas repayer
 
 Trois erreurs coûteuses rencontrées sur le prototype de rendu. Elles ne
