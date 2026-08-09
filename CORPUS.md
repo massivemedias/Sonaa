@@ -1,6 +1,6 @@
 # CORPUS SONAA
 
-Quatorze familles, 216 genres, 819 tracks verifiees.
+Quatorze familles, 216 genres, 824 tracks verifiees.
 L'indentation est la filiation structurelle, celle qui positionne le noeud
 dans l'arbre. Les autres ascendances sont notees en greffe.
 
@@ -30,8 +30,8 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
   - Cosmic Disco  1 track
   - Boogie  3 tracks
   - Nu-Disco  5 tracks
-    - Indie Dance  (?)  4 tracks
-    - Dark Disco  [greffe: EBM, famille industrial]  (?)  1 track
+    - Indie Dance  (?)  [fiche brouillon]  4 tracks
+    - Dark Disco  [greffe: EBM, famille industrial]  (?)  [fiche brouillon]  1 track
   - Disco Dub  [greffe: Dub, famille roots]  3 tracks
   - Post-Disco  (?)  3 tracks
   - Disco Punk  (?)  2 tracks
@@ -39,7 +39,7 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
 ## HOUSE (24)
 
 - Chicago House  [fondateur]  [greffe: Disco, famille disco]  8 tracks
-  - Acid House  10 tracks
+  - Acid House  11 tracks dont 1 charniere
   - Garage House  [greffe: Disco, famille disco]  (?)  8 tracks
     - Deep House  7 tracks
       - Soulful House  [greffe: Garage House, famille house]  3 tracks
@@ -79,7 +79,7 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
     - Belgian Techno  [greffe: New Beat, famille industrial]  3 tracks
   - Dub Techno  [greffe: Dub, famille roots]  5 tracks
     - Hypnotic Techno  2 tracks
-  - Ambient Techno  5 tracks
+  - Ambient Techno  5 tracks dont 1 charniere
   - Melodic Techno  [greffe: Minimal Techno, famille minimal]  [greffe: Progressive House, famille house]  (?)  3 tracks
 
 ## MINIMAL (11)
@@ -89,7 +89,7 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
     - Microhouse  6 tracks
       - Clicks & Cuts  2 tracks
       - Minimal Tech  3 tracks
-        - Minimal Prog  [greffe: Psy-Prog, famille psy]  (?)  3 tracks
+        - Minimal Prog  [greffe: Psy-Prog, famille psy]  (?)  [fiche brouillon]  3 tracks
         - Ro-Minimal  (?)  0 tracks
         - Minimal Wave  [convention]  [greffe: Synth-pop, famille roots]  [greffe: Coldwave, famille industrial]  3 tracks
     - Deep Tech  3 tracks
@@ -118,17 +118,17 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
 - Goa Trance  [fondateur]  [greffe: Acid Trance, famille trance]  [greffe: EBM, famille industrial]  (?)  10 tracks
   - Psychedelic Trance  8 tracks
     - Full-On  5 tracks
-      - Nitzhonot  (?)  2 tracks
+      - Nitzhonot  (?)  [fiche brouillon]  2 tracks
       - Twilight Psy  [greffe: Dark Psy, famille psy]  0 tracks
       - Morning Full-On  3 tracks
     - Dark Psy  4 tracks
-      - Forest Psy  2 tracks
-      - Hi-Tech Psy  2 tracks
+      - Forest Psy  [fiche brouillon]  2 tracks
+      - Hi-Tech Psy  [fiche brouillon]  2 tracks
       - Psycore  [greffe: Speedcore, famille hardcore]  0 tracks
-    - Psy-Prog  (?)  3 tracks
-      - Zenonesque  (?)  0 tracks
-      - Psytech  [greffe: Tech House, famille minimal]  (?)  1 track
-    - Suomisaundi  0 tracks
+    - Psy-Prog  (?)  [fiche brouillon]  3 tracks
+      - Zenonesque  (?)  [fiche brouillon]  0 tracks
+      - Psytech  [greffe: Tech House, famille minimal]  (?)  [fiche brouillon]  1 track
+    - Suomisaundi  [fiche brouillon]  0 tracks
   - Psydub  5 tracks
   - Neo Goa  2 tracks
 
@@ -141,7 +141,7 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
       - Dark Electro  4 tracks
         - Aggrotech  3 tracks
       - Futurepop  [greffe: Uplifting Trance, famille trance]  3 tracks
-    - Techno Body Music  (?)  3 tracks
+    - Techno Body Music  (?)  [fiche brouillon]  3 tracks
   - Coldwave  3 tracks
     - Darkwave  [greffe: Synth-pop, famille roots]  (?)  3 tracks
   - Neue Deutsche Haerte  [greffe: Electro-Industrial, famille industrial]  (?)  3 tracks
@@ -165,7 +165,7 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
 
 ## BREAKS (23)
 
-- Breakbeat  [fondateur]  [greffe: Funk, famille roots]  7 tracks dont 1 charniere
+- Breakbeat  [fondateur]  [greffe: Funk, famille roots]  8 tracks dont 2 charnieres
   - Breakbeat Hardcore  [greffe: Chicago House, famille house]  [greffe: Euro Techno, famille techno]  3 tracks
     - Darkcore  4 tracks
       - Jungle  [greffe: Dub, famille roots]  3 tracks
@@ -181,7 +181,7 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
         - Drill and Bass  (?)  5 tracks dont 3 charnieres
       - Breakcore  4 tracks dont 2 charnieres
         - Crossbreed  2 tracks
-  - Big Beat  5 tracks dont 1 charniere
+  - Big Beat  5 tracks dont 2 charnieres
     - Ghetto Funk  1 track
   - Nu Skool Breaks  3 tracks
     - Progressive Breaks  [greffe: Progressive House, famille house]  4 tracks
@@ -198,8 +198,8 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
     - Dubstep  [greffe: Dub, famille roots]  3 tracks
       - Brostep  3 tracks
         - Riddim  (?)  3 tracks
-      - Future Garage  [greffe: 2-Step, famille bass]  5 tracks
-      - UK Bass  (?)  6 tracks
+      - Future Garage  [greffe: 2-Step, famille bass]  6 tracks dont 1 charniere
+      - UK Bass  (?)  6 tracks dont 1 charniere
         - Wonky  3 tracks
         - Future Bass  (?)  6 tracks
         - Trap  (?)  5 tracks
@@ -220,9 +220,9 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
   - Freestyle  6 tracks
     - Latin Freestyle  6 tracks
   - Detroit Electro  [greffe: Detroit Techno, famille techno]  4 tracks
-    - Electro  2 tracks
+    - Electro  2 tracks dont 1 charniere
   - Synth-Funk  [greffe: Funk, famille roots]  (?)  3 tracks
-  - Electroclash  [greffe: Synth-pop, famille roots]  5 tracks
+  - Electroclash  [greffe: Synth-pop, famille roots]  6 tracks dont 1 charniere
   - Skweee  0 tracks
 
 ## HARDCORE (19)
@@ -271,7 +271,7 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
   - Chill-Out  3 tracks
     - Lounge  3 tracks
     - Balearic  (?)  4 tracks
-  - Ambient House  [greffe: Chicago House, famille house]  5 tracks
+  - Ambient House  [greffe: Chicago House, famille house]  6 tracks dont 2 charnieres
   - Nu Jazz  6 tracks
   - Psybient  [greffe: Psydub, famille psy]  (?)  6 tracks
   - Chillwave  4 tracks

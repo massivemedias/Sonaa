@@ -1495,7 +1495,13 @@
       "verified": true,
       "shared": [
        "ambienthouse"
-      ]
+      ],
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/3e11684e7cab0c209980d756f336dd72/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/tLxDRePUwEY.jpg"
+      },
+      "album": "ESP: The 808 State Effect"
      }
     ],
     "actuel": []
@@ -8772,7 +8778,13 @@
       "verified": true,
       "shared": [
        "bigbeat"
-      ]
+      ],
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/7c8bd1e14f031edc71eb4fdd6737c428/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/iTxOKsyZ0Lw.jpg"
+      },
+      "album": "Dig Your Own Hole"
      }
     ],
     "actuel": []
@@ -9977,6 +9989,41 @@
       "shared": [
        "braindance"
       ]
+     },
+     {
+      "youtubeId": "5ZT3gTu4Sjw",
+      "artist": "Aphex Twin",
+      "title": "Windowlicker",
+      "year": 1999,
+      "verified": true,
+      "shared": [
+       "braindance",
+       "glitch",
+       "idm"
+      ],
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c41817ed179b3043007cd5309c56a272/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/5ZT3gTu4Sjw.jpg"
+      },
+      "album": "Windowlicker"
+     },
+     {
+      "youtubeId": "MWCSw_cNxKc",
+      "artist": "Squarepusher",
+      "title": "Come On My Selector",
+      "year": 1997,
+      "verified": true,
+      "shared": [
+       "braindance",
+       "idm"
+      ],
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c67c1c6134c59d443a4649e673716fdb/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/MWCSw_cNxKc.jpg"
+      },
+      "album": "Big Loada"
      }
     ],
     "actuel": []
@@ -11516,7 +11563,13 @@
       "verified": true,
       "shared": [
        "ukbass"
-      ]
+      ],
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/a03f763f52ed06380c35ff805afcff69/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/Aa_PDKKc2_A.jpg"
+      },
+      "album": "Hyph Mngo / Wet Look"
      }
     ],
     "actuel": []
@@ -13816,7 +13869,12 @@
       "verified": true,
       "shared": [
        "electromodern"
-      ]
+      ],
+      "cover": {
+       "url": "https://i.ytimg.com/vi/hOthRtHZrag/maxresdefault.jpg",
+       "source": "youtube",
+       "local": "covers/hOthRtHZrag.jpg"
+      }
      }
     ],
     "actuel": []
@@ -16847,7 +16905,12 @@
        "source": "deezer",
        "local": "covers/5ZT3gTu4Sjw.jpg"
       },
-      "album": "Windowlicker"
+      "album": "Windowlicker",
+      "shared": [
+       "braindance",
+       "drillnbass",
+       "glitch"
+      ]
      },
      {
       "youtubeId": "MWCSw_cNxKc",
@@ -16860,7 +16923,11 @@
        "source": "deezer",
        "local": "covers/MWCSw_cNxKc.jpg"
       },
-      "album": "Big Loada"
+      "album": "Big Loada",
+      "shared": [
+       "braindance",
+       "drillnbass"
+      ]
      }
     ],
     "actuel": []
@@ -16957,6 +17024,41 @@
        "local": "covers/3c_E09gib-Y.jpg"
       },
       "album": "Lunatic Harness"
+     },
+     {
+      "youtubeId": "5ZT3gTu4Sjw",
+      "artist": "Aphex Twin",
+      "title": "Windowlicker",
+      "year": 1999,
+      "verified": true,
+      "shared": [
+       "drillnbass",
+       "glitch",
+       "idm"
+      ],
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c41817ed179b3043007cd5309c56a272/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/5ZT3gTu4Sjw.jpg"
+      },
+      "album": "Windowlicker"
+     },
+     {
+      "youtubeId": "MWCSw_cNxKc",
+      "artist": "Squarepusher",
+      "title": "Come On My Selector",
+      "year": 1997,
+      "verified": true,
+      "shared": [
+       "drillnbass",
+       "idm"
+      ],
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c67c1c6134c59d443a4649e673716fdb/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/MWCSw_cNxKc.jpg"
+      },
+      "album": "Big Loada"
      }
     ],
     "actuel": []
@@ -17048,6 +17150,24 @@
        "local": "covers/JZcMLjnm1ps.jpg"
       },
       "album": "dataplex"
+     },
+     {
+      "youtubeId": "5ZT3gTu4Sjw",
+      "artist": "Aphex Twin",
+      "title": "Windowlicker",
+      "year": 1999,
+      "verified": true,
+      "shared": [
+       "drillnbass",
+       "idm",
+       "braindance"
+      ],
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/c41817ed179b3043007cd5309c56a272/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/5ZT3gTu4Sjw.jpg"
+      },
+      "album": "Windowlicker"
      }
     ],
     "actuel": []
@@ -17857,7 +17977,13 @@
       "verified": true,
       "shared": [
        "ambienttechno"
-      ]
+      ],
+      "cover": {
+       "url": "https://cdn-images.dzcdn.net/images/cover/1c4f7886d60d4bdeb5c64af9911a5998/500x500-000000-80-0-0.jpg",
+       "source": "deezer",
+       "local": "covers/2Ng9Pf_p7Fw.jpg"
+      },
+      "album": "The Orb - History Of The Future"
      }
     ],
     "actuel": []
