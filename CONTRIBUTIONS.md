@@ -66,12 +66,30 @@ connectée au moins une fois** — c'est cette connexion qui crée son compte.
 Dans l'éditeur SQL de la console Supabase :
 
 ```sql
-insert into public.moderators (user_id, note)
-select id, 'fondateur'
-  from auth.users
- where email = 'REMPLACER@PAR.LE.COURRIEL'
-on conflict (user_id) do nothing;
+do $$
+declare cible uuid;
+begin
+  select id into cible from auth.users
+   where email = 'REMPLACER@PAR.LE.COURRIEL';
+
+  if cible is null then
+    raise exception 'Aucun compte pour cette adresse. Connectez-vous une premiere fois sur le site, PUIS relancez cette commande.';
+  end if;
+
+  insert into public.moderators (user_id, note)
+  values (cible, 'fondateur')
+  on conflict (user_id) do nothing;
+
+  raise notice 'Moderateur ajoute.';
+end $$;
 ```
+
+**Pourquoi ce détour plutôt qu'un simple `insert … select`.** Un
+`insert into … select … where email = …` n'insère rien quand le compte
+n'existe pas encore — et ne lève **aucune erreur**. La console affiche
+« Success », alors que rien n'a été fait. Le cas s'est produit : la commande
+a été lancée avant la première connexion, elle a paru réussir, et personne
+n'était modérateur. Le bloc ci-dessus échoue bruyamment à la place.
 
 Vérifier :
 
