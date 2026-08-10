@@ -44,8 +44,8 @@ interface Props {
   onGoToGenre: (familyIndex: number, genreLocal: number) => void;
   /** Une greffe pointe une famille : le clic vole vers elle. */
   onGoToFamily: (familyIndex: number) => void;
-  /** Recadre la carte sur la famille entière sans toucher à la sélection. */
-  onFrameFamily: (familyIndex: number) => void;
+  /** Recadre la carte sur le niveau courant quand la zone visible change. */
+  onFrameCurrent: () => void;
 }
 
 /** Position de la feuille mobile : barre, moitié, plein écran. */
@@ -118,7 +118,7 @@ const mmss = (s: number): string => {
 
 // -------------------------------------------------------------- composant
 
-export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoToFamily, onFrameFamily }: Props) {
+export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoToFamily, onFrameCurrent }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const slotRef = useRef<HTMLDivElement>(null);
   const mediaRef = useRef<HTMLDivElement>(null);
@@ -269,9 +269,9 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
   useEffect(() => {
     if (!panelGenre) return;
     if (narrow && sheetPos === 'full') return; // carte couverte, rien à cadrer
-    const id = window.setTimeout(() => onFrameFamily(panelGenre.familyIndex), 90);
+    const id = window.setTimeout(() => onFrameCurrent(), 90);
     return () => window.clearTimeout(id);
-  }, [panelGenre, sheetPos, narrow, onFrameFamily]);
+  }, [panelGenre, sheetPos, narrow, onFrameCurrent]);
 
   /* Le logotype ramène à l'accueil : si quelque chose joue sur mobile, la
      feuille passe en barre discrète, la lecture continue ; sinon la colonne

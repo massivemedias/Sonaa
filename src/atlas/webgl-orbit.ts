@@ -91,8 +91,12 @@ const LABEL_PX_CEILING = 22;
 
 /* Hauteur du bandeau d'interface en haut et en bas, en pixels. Le fil d'Ariane
    passe sur deux lignes quand le chemin est long, d'où la marge généreuse. */
-const CHROME_TOP = 64;
-const CHROME_BOTTOM = 74;
+/* Bandes réservées AMINCIES (ADR-056) : les contrôles sont partis en haut
+   à droite et la légende se cache quand la feuille monte — les anciennes
+   bandes pleine largeur mangeaient la moitié d'une couronne à 390 px. Le
+   fil d'Ariane garde sa ligne, le pied sa marge. */
+const CHROME_TOP = 44;
+const CHROME_BOTTOM = 36;
 /* Les noms sont toujours candidats : le plafond monte au niveau du pool.
    Sur mobile on reste plus bas, l'écran n'a pas la place de toute façon. */
 /* Plancher abaissé de 11 à 9 px (verdict : les labels dominaient la carte
@@ -683,6 +687,23 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   /* Avancement d'un genre : la cascade descend le long de la filiation, chaque
      niveau décalé de quelques dizaines de millisecondes. À la fermeture, la
      cascade s'inverse, les plus profonds partent en premier. */
+  /* UN SEUL NIVEAU DÉPLOYÉ À LA FOIS (ADR-056) : un satellite de deuxième
+     génération et plus ne se déploie que si son PARENT est sur le chemin
+     ouvert (le genre cliqué et sa lignée). Sinon il reste replié sur son
+     ancêtre, signalé par l'anneau du parent et le compteur de la fiche.
+     C'est ce qui rend le nommage de 100 % des enfants directs possible :
+     l'écran ne contient plus jamais tout l'arbre d'une famille. */
+  const parentExpanded = (slot: Slot, globalIndex: number): boolean => {
+    if (slot.depth <= 1 || slot.parent < 0) return true;
+    /* Un genre SUR le chemin ouvert reste toujours déployé : sinon le genre
+       cliqué lui-même disparaissait quand il vivait en profondeur 2 ou plus
+       (mesuré : Drum and Bass absent de son propre niveau). */
+    if (globalIndex === activeGenre || genrePath.includes(globalIndex)) return true;
+    const pg = (familyOffset[slot.family] ?? 0) + slot.parent;
+    return pg === activeGenre || genrePath.includes(pg);
+  };
+  const expandAmount = new Float32Array(TOTAL_GENRES);
+
   const genreProgress = (slot: Slot, now: number): number => {
     if (reducedMotion) return deployDir[slot.family] === 1 ? 1 : 0;
 
@@ -1027,7 +1048,10 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   const projected = new Float32Array(TOTAL_GENRES * 3); // sx, sy, depth
   const scratch = new Vector3();
 
-  const familyFrameRadius = (fi: number): number => STRUCTURES[fi]?.deployedRadius ?? 12;
+  /* Niveau unique : à l'ouverture on cadre la COURONNE (fondateur +
+     première génération), plus l'arbre complet — il ne se déploie plus
+     jamais en entier. Marge de 3 unités pour les noms. */
+  const familyFrameRadius = (fi: number): number => (STRUCTURES[fi]?.crownRadius ?? 12) + 3;
 
   /* Rayon de cadrage d'un genre : lui et ses enfants directs. */
   const genreFrameRadius = (globalIndex: number): number => {
@@ -1038,7 +1062,11 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     for (const child of slot.children) {
       const cs = slotsData[base + child];
       if (!cs) continue;
-      r = Math.max(r, slot.world.distanceTo(cs.world) + (sphereRadii[base + child] ?? 2));
+      /* Positions DÉPLOYÉES et non courantes : au moment du clic les
+         enfants sont encore repliés sur leur parent, et mesurer là donnait
+         un rayon minuscule — la caméra se collait au genre et aucun enfant
+         n'était nommé (mesuré : 0 sur 6 pour Drum and Bass). */
+      r = Math.max(r, slot.deployed.distanceTo(cs.deployed) + (sphereRadii[base + child] ?? 2));
     }
     return r * 1.35;
   };
@@ -1109,11 +1137,13 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     focusDir = 1;
     focusStart = now;
 
-    /* LA CARTE SE RECADRE SUR LA FAMILLE ENTIÈRE, pas sur le genre seul
-       (verdict) : en haut ou à gauche on voit HOUSE au complet avec Deep
-       House mise en évidence dans l'ensemble, halo et label posés par le
-       focus. Le sous-arbre du genre se déploie quand même. */
-    frameFamily(slot.family, now);
+    /* NIVEAU UNIQUE (ADR-056) : cliquer un genre à dérivés descend d'un
+       cran — ses enfants se déploient et la caméra cadre CE sous-anneau,
+       la génération du dessus se resserre et s'estompe (grammaire de focus
+       existante). Une feuille garde le cadrage du niveau où elle vit. */
+    if (slot.children.length > 0) {
+      startFly(slot.world, frameDistance(genreFrameRadius(globalIndex) + 2.5), now);
+    }
     emitNav();
     openPanel(slot.family, slot.local);
   };
@@ -1502,6 +1532,33 @@ const OVERLAP_TOLERANCE = 1;
          boîte rendue, par construction. Même seuil que le gabarit mobile. */
       let fx = sx;
       let fy = sy;
+      /* LABELS DE GENRES POSÉS VERS L'EXTÉRIEUR DE LEUR ANNEAU (ADR-056) :
+         centrés sur la sphère, les huit noms d'une couronne se battaient au
+         centre contre le fondateur et six sur huit tombaient (mesuré). En
+         les repoussant radialement depuis le centre de leur système, leur
+         écart angulaire les sépare de lui-même. Le décalage vaut le rayon
+         projeté de la sphère plus une demi-boîte. */
+      if (kind === 'genre' && slot >= 0) {
+        const parentSlot = slotsData[slot];
+        const anchor = parentSlot ? familyCenters[parentSlot.family] : undefined;
+        if (anchor) {
+          scratch.copy(anchor).project(camera);
+          const ax = scratch.x * halfW + halfW;
+          const ay = -scratch.y * halfH + halfH;
+          let vx = sx - ax;
+          let vy = sy - ay;
+          const len = Math.hypot(vx, vy);
+          if (len > 2) {
+            vx /= len;
+            vy /= len;
+            const rPx = ((sphereRadii[slot] ?? 1) * halfH) / (Math.tan((FOV * Math.PI) / 360) * Math.max(1, depth));
+            const push = rPx + px * 0.9;
+            fx = sx + vx * push - (vx < 0 ? w : 0) - (Math.abs(vx) < 0.35 ? w / 2 : 0);
+            fy = sy + vy * push;
+          }
+        }
+      }
+
       /* AUCUN LABEL COUPÉ PAR LE BORD (verdict, « Breakstep » coupé à
          droite) : un genre qui déborde bascule du côté libre de sa sphère,
          puis tout label reste dans le cadre. La boîte testée par
@@ -1573,10 +1630,13 @@ const OVERLAP_TOLERANCE = 1;
       if (introActive && introBirth(slot.family, performance.now()) < 0.75) continue;
 
       /* RÈGLE (durcie par Mika) : tout ce qui est VISIBLE est nommé, sans
-         zoomer. Les satellites de génération 2 et plus n'existent à l'écran
-         qu'une fois leur famille déployée : repliés sur leur ancêtre, les
-         nommer écrirait des noms sur des sphères absentes. */
-      if (slot.depth >= 2 && (familyProgress[slot.family] ?? 0) < 0.5) continue;
+         zoomer. NIVEAU UNIQUE (ADR-056) : un satellite de génération 2 et
+         plus n'existe à l'écran que si son parent est sur le chemin ouvert
+         ET que son déploiement est engagé — replié sur son ancêtre, le
+         nommer écrirait un nom sur une sphère absente ET volerait la place
+         d'un genre de la couronne (mesuré : Deep House posé sur la place
+         de Garage House). */
+      if (slot.depth >= 2 && (expandAmount[i] ?? 0) < 0.5) continue;
 
       const inSubtree = focusIndex >= 0 ? isDescendant(i, focusIndex) : false;
       const isPinned = i === focusIndex || inSubtree;
@@ -1905,11 +1965,16 @@ const OVERLAP_TOLERANCE = 1;
        centres bougent pendant la relaxation du déploiement, d'où le suivi. */
     if (panelSlot >= 0 && !flying) {
       const slot = slotsData[panelSlot];
-      const c = slot ? familyCenters[slot.family] : undefined;
-      const dc = slot ? (STRUCTURES[slot.family]?.deployedCenter ?? [0, 0, 0]) : [0, 0, 0];
-      if (c) {
-        target.set(c.x + (dc[0] ?? 0), c.y + (dc[1] ?? 0), c.z + (dc[2] ?? 0));
+      if (slot && genrePath.length > 0 && slot.children.length > 0) {
+        /* Descendu sur un genre à dérivés : la cible suit CE sous-anneau. */
+        target.copy(slot.world);
         targetSmooth.lerp(target, reducedMotion ? 1 : 0.12);
+      } else {
+        const c = slot ? familyCenters[slot.family] : undefined;
+        if (c) {
+          target.set(c.x, c.y, c.z);
+          targetSmooth.lerp(target, reducedMotion ? 1 : 0.12);
+        }
       }
     }
 
@@ -1942,13 +2007,24 @@ const OVERLAP_TOLERANCE = 1;
       const slot = slotsData[i];
       if (!slot) continue;
 
-      const p = clamp(genreProgress(slot, now), -0.2, 1.2);
+      let p = clamp(genreProgress(slot, now), -0.2, 1.2);
+      if (slot.depth >= 2) {
+        // Niveau unique : le repli comme le déploiement sont lissés.
+        const want = parentExpanded(slot, i) ? 1 : 0;
+        expandAmount[i] = (expandAmount[i] ?? 0) + (want - (expandAmount[i] ?? 0)) * (reducedMotion ? 1 : 0.14);
+        p *= expandAmount[i] ?? 0;
+      }
       const center = familyCenters[slot.family];
       slot.world.lerpVectors(slot.compact, slot.deployed, p);
       if (center) slot.world.add(center);
 
-      const fp = familyProgress[slot.family] ?? 1;
-      familyProgress[slot.family] = Math.min(fp, clamp(p, 0, 1));
+      /* Le progrès de famille se mesure sur la COURONNE (depth <= 1) :
+         avec le niveau unique, les générations profondes sont repliées
+         volontairement et cloueraient le progrès à zéro. */
+      if (slot.depth <= 1) {
+        const fp = familyProgress[slot.family] ?? 1;
+        familyProgress[slot.family] = Math.min(fp, clamp(p, 0, 1));
+      }
 
       /* Descente : le sous-arbre du noeud focalisé s'écarte de lui, en cascade
          par génération, tandis que le reste de la famille se replie. C'est la
@@ -2295,6 +2371,19 @@ const OVERLAP_TOLERANCE = 1;
     runProfile,
     recenter,
     labelSnapshot: () => lastPlacedSnapshot,
-    frameFamily: (fi: number) => frameFamily(fi, performance.now())
+    frameFamily: (fi: number) => frameFamily(fi, performance.now()),
+    /* Recadre le NIVEAU COURANT : couronne au niveau famille, sous-anneau
+       en descente. C'est ce que la coquille appelle quand la zone visible
+       change (colonne, feuille) : re-cadrer la famille écrasait le cadrage
+       de descente (mesuré : 0 enfant de Drum and Bass nommé à 390 px). */
+    frameCurrent: () => {
+      const now = performance.now();
+      const g = activeGenre >= 0 ? slotsData[activeGenre] : undefined;
+      if (g && g.children.length > 0) {
+        startFly(g.world, frameDistance(genreFrameRadius(activeGenre) + 2.5), now);
+      } else if (activeFamily >= 0) {
+        frameFamily(activeFamily, now);
+      }
+    }
   };
 };

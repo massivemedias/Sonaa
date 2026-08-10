@@ -508,14 +508,14 @@ export function AtlasPage() {
             <>
               <ul className="legend-list legend-desktop">
                 <li><kbd>Espace</kbd><span>chercher un genre, un artiste, un label</span></li>
-                <li><kbd>Clic</kbd><span>ouvrir un genre et ses tracks</span></li>
+                <li><kbd>Clic</kbd><span>ouvrir un genre, ses tracks et ses dérivés</span></li>
                 <li><kbd>Molette</kbd><span>zoomer</span></li>
                 <li><kbd>Glisser</kbd><span>se déplacer</span></li>
                 <li><kbd>Échap</kbd><span>remonter d&apos;un niveau</span></li>
                 <li><kbd>0</kbd><span>revenir à la vue d&apos;ensemble</span></li>
               </ul>
               <ul className="legend-list legend-mobile">
-                <li><kbd>Toucher</kbd><span>ouvrir un genre</span></li>
+                <li><kbd>Toucher</kbd><span>ouvrir un genre et ses dérivés</span></li>
                 <li><kbd>Pincer</kbd><span>zoomer</span></li>
                 <li><kbd>Glisser</kbd><span>se déplacer</span></li>
                 <li><kbd>Loupe</kbd><span>chercher</span></li>
@@ -544,7 +544,7 @@ export function AtlasPage() {
         onReopen={reopenPanel}
         onGoToGenre={goToGenre}
         onGoToFamily={(familyIndex: number) => apiRef.current?.goToFamily(familyIndex)}
-        onFrameFamily={(familyIndex: number) => apiRef.current?.frameFamily(familyIndex)}
+        onFrameCurrent={() => apiRef.current?.frameCurrent()}
       />
 
       {/* Pied de page discret, présent dans TOUTES les vues : crédits, index

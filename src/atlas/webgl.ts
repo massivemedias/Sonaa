@@ -150,6 +150,9 @@ export interface AtlasApi {
   /** Recadre la caméra sur la famille entière, sans toucher à la sélection.
       Sert quand la feuille mobile ou la colonne changent la zone visible. */
   frameFamily: (familyIndex: number) => void;
+  /** Recadre le niveau courant : couronne au niveau famille, sous-anneau en
+      descente. */
+  frameCurrent: () => void;
   /** Boîtes réellement testées par la dernière passe de placement des labels
       (lecture seule, pour verify:visual : boîte testée = boîte rendue). */
   labelSnapshot: () => {
@@ -183,8 +186,12 @@ const LABEL_PX_CEILING = 22;
 const Z_FRONT = 3;
 const Z_BACK = -3;
 
-const CHROME_TOP = 64;
-const CHROME_BOTTOM = 74;
+/* Bandes réservées AMINCIES (ADR-056) : les contrôles sont partis en haut
+   à droite et la légende se cache quand la feuille monte — les anciennes
+   bandes pleine largeur mangeaient la moitié d'une couronne à 390 px. Le
+   fil d'Ariane garde sa ligne, le pied sa marge. */
+const CHROME_TOP = 44;
+const CHROME_BOTTOM = 36;
 
 const clamp = (v: number, lo: number, hi: number): number => Math.min(hi, Math.max(lo, v));
 
@@ -1775,6 +1782,15 @@ const OVERLAP_TOLERANCE = 1;
       const bb = layout.familyBBox[fi];
       if (bb) flyToBBox(bb, performance.now());
     },
+    frameCurrent: () => {
+      const now = performance.now();
+      if (activeGenre >= 0 && (slotsData[activeGenre]?.children.length ?? 0) > 0) {
+        flyToBBox(subtreeBBox(activeGenre), now);
+      } else if (activeFamily >= 0) {
+        const bb = layout.familyBBox[activeFamily];
+        if (bb) flyToBBox(bb, now);
+      }
+    },
     sphereRadius: (i: number) => sphereRadii[i] ?? 0,
     sphereBase: (i: number) => baseRadii[i] ?? 0,
     setHovered: (i: number) => {
@@ -1849,6 +1865,15 @@ const OVERLAP_TOLERANCE = 1;
     frameFamily: (fi: number) => {
       const bb = layout.familyBBox[fi];
       if (bb) flyToBBox(bb, performance.now());
+    },
+    frameCurrent: () => {
+      const now = performance.now();
+      if (activeGenre >= 0 && (slotsData[activeGenre]?.children.length ?? 0) > 0) {
+        flyToBBox(subtreeBBox(activeGenre), now);
+      } else if (activeFamily >= 0) {
+        const bb = layout.familyBBox[activeFamily];
+        if (bb) flyToBBox(bb, now);
+      }
     },
     dispose: () => {
       running = false;

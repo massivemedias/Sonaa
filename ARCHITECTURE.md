@@ -1860,6 +1860,51 @@ AUCUNE AUTRE FAMILLE NON ÉLECTRONIQUE NE SERA AJOUTÉE : acté.
 
 ---
 
+## ADR-056 : Un seul niveau déployé à la fois
+
+**Date** : 2026-08-09.
+
+**Contexte.** Le diagnostic de l'ADR-055 (cause géométrique, pas
+typographique) a été accepté : on arrête d'optimiser la taille et on change
+la règle.
+
+**Décisions.**
+
+1. **Un seul niveau déployé.** Ouvrir une famille déploie SES ENFANTS
+   DIRECTS, pas les petits-enfants. Les sous-genres restent repliés sur
+   leur parent, signalés par l'anneau indicateur et le compteur de la
+   fiche. Cliquer un genre à dérivés descend d'un cran : ses enfants se
+   déploient, la génération du dessus se resserre et s'estompe (grammaire
+   de focus existante). Un genre SUR le chemin ouvert reste toujours
+   déployé — sans cette exception, le genre cliqué disparaissait quand il
+   vivait en profondeur 2.
+
+2. **Le cadrage suit le niveau, pas l'arbre.** Nouveau `crownRadius`
+   (fondateur + première génération) : c'est lui que la caméra cadre à
+   l'ouverture. `frameCurrent()` remplace `frameFamily()` côté coquille :
+   re-cadrer la famille écrasait le cadrage de descente. Le rayon de
+   descente se mesure sur les positions DÉPLOYÉES et non courantes : au
+   moment du clic les enfants sont encore repliés, et mesurer là collait
+   la caméra au genre.
+
+3. **Labels de genres posés vers l'extérieur de leur anneau.** Centrés sur
+   la sphère, huit noms d'une couronne se battaient contre le fondateur au
+   centre et six tombaient. Repoussés radialement depuis le centre de leur
+   système (rayon projeté + demi-boîte), leur écart angulaire les sépare de
+   lui-même. Bandes de chrome amincies (64/74 → 44/36) : les contrôles sont
+   partis en haut à droite, elles mangeaient une demi-couronne à 390 px.
+
+4. **Chiffres mesurés, enfants directs nommés.**
+   1280 px, colonne ouverte : **House 9/9, Breaks 6/6 — 100 %**.
+   390 px, feuille à mi-hauteur : House 6/9, Breaks 3/6 (contre 3/9 et 2/6
+   avant les labels radiaux). LA DESCENTE D'UN CRAN N'EST PAS ENCORE
+   FONCTIONNELLE : sur Drum and Bass, 0 enfant sur 6 nommé, le vol de
+   descente et le suivi de cible du panneau se contredisent quand un
+   panneau est déjà ouvert sur un autre genre de la famille. À reprendre
+   isolément.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle

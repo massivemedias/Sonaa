@@ -304,6 +304,8 @@ export interface Structure {
   readonly links: { from: number; to: number }[];
   /** Rayon de la silhouette déployée, sert au seuil d'entrée. */
   readonly deployedRadius: number;
+  /** Fondateur + première génération : le cadrage du niveau unique. */
+  readonly crownRadius: number;
   /* Centroïde des positions déployées, relatif au centre de famille. La
      couronne pousse surtout vers le haut depuis la racine : cadrer la racine
      laissait la moitié de l'arbre hors champ. On cadre le nuage, pas le pied. */
@@ -361,7 +363,7 @@ const toTracks = (list: CorpusGenre['tracks']['essentiel']): Track[] =>
 export const buildStructure = (familyIndex: number): Structure => {
   const family = FAMILIES[familyIndex];
   if (!family)
-    return { genres: [], links: [], deployedRadius: 1, compactRadius: 1, deployedCenter: [0, 0, 0] };
+    return { genres: [], links: [], deployedRadius: 1, crownRadius: 1, compactRadius: 1, deployedCenter: [0, 0, 0] };
 
   const rand = mulberry32(7717 + familyIndex * 131);
   const genres: Genre[] = [];
@@ -428,7 +430,7 @@ export const buildStructure = (familyIndex: number): Structure => {
 
   const founderEntry = inFamily.find((g) => g.structuralParent === null);
   if (!founderEntry)
-    return { genres: [], links: [], deployedRadius: 1, compactRadius: 1, deployedCenter: [0, 0, 0] };
+    return { genres: [], links: [], deployedRadius: 1, crownRadius: 1, compactRadius: 1, deployedCenter: [0, 0, 0] };
   walk(founderEntry, -1, 0);
 
   const root = 0;
@@ -480,15 +482,11 @@ export const buildStructure = (familyIndex: number): Structure => {
     /* Le pas est celui d'un NOM, pas d'une sphère, et l'orbite d'un enfant
        grandit avec la POPULATION de son sous-arbre : une branche de huit
        genres réclame plus d'espace qu'une feuille. */
-    const subtree = (i: number): number => {
-      const g = genres[i];
-      if (!g) return 0;
-      return 1 + g.children.reduce((acc, c) => acc + subtree(c), 0);
-    };
-    const kidsWeight = kids.reduce((acc, k) => acc + Math.sqrt(subtree(k)), 0);
-    const LABEL_STEP = node.depth === 0 ? 7.0 : 8.0;
+    /* Niveau unique (ADR-056) : un seul anneau se déploie à la fois, le
+       pas n'a plus à réserver la place des petits-enfants. */
+    const LABEL_STEP = node.depth === 0 ? 5.5 : 5.0;
     const step = Math.max(childR * 2 * 1.7, LABEL_STEP);
-    const ringNeed = (kidsWeight * step) / (2 * Math.PI);
+    const ringNeed = (kids.length * step) / (2 * Math.PI);
 
     /* Les voisins d'anneau sont des voisins de style : l'ordre autour de
        l'orbite suit le TEMPO, du plus lent au plus rapide en tournant. C'est
@@ -548,8 +546,7 @@ export const buildStructure = (familyIndex: number): Structure => {
         inner = ordered.filter((_, i) => i % 2 === 0);
         outer = ordered.filter((_, i) => i % 2 === 1);
       }
-      const innerWeight = inner.reduce((acc, k) => acc + Math.sqrt(subtree(k)), 0);
-      const orbitIn = Math.max(byBody, (innerWeight * step) / (2 * Math.PI));
+      const orbitIn = Math.max(byBody, (inner.length * step) / (2 * Math.PI));
       const orbitOut = Math.max(
         orbitIn * 1.55,
         byBody + 4,
@@ -560,7 +557,7 @@ export const buildStructure = (familyIndex: number): Structure => {
       return;
     }
 
-    const orbit = Math.max(byBody, ringNeed, (ordered.length * step) / (2 * Math.PI));
+    const orbit = Math.max(byBody, ringNeed);
     putRing(ordered, orbit, 0);
   };
 
@@ -625,7 +622,17 @@ export const buildStructure = (familyIndex: number): Structure => {
     genres.reduce((a, g) => a + g.deployed[1], 0) / n,
     genres.reduce((a, g) => a + g.deployed[2], 0) / n
   ];
-  // Rayon mesuré depuis le centroïde : c'est lui que la caméra cadre.
+  /* Rayon de COURONNE : fondateur + première génération seulement. C'est
+     LUI que la caméra cadre à l'ouverture (niveau unique) ; deployedRadius
+     reste le rayon de l'arbre complet, pour l'écartement des voisines au
+     pire cas. */
+  const crownRadius = genres.reduce(
+    (max, g) =>
+      g.depth <= 1 ? Math.max(max, Math.hypot(...g.deployed) + g.radius) : max,
+    1
+  );
+
+  // Rayon mesuré depuis le centroïde : l'étendue de l'arbre complet.
   const deployedRadius = genres.reduce(
     (max, g) =>
       Math.max(
@@ -643,6 +650,7 @@ export const buildStructure = (familyIndex: number): Structure => {
     genres,
     links,
     deployedRadius,
+    crownRadius,
     deployedCenter,
     compactRadius: radiusOf('compact')
   };
