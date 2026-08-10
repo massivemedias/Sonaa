@@ -1128,3 +1128,81 @@
   text-overflow: ellipsis;
   max-width: 16rem;
 }
+
+/* --- Vote sur les tracks ---------------------------------------------------
+
+   Les flèches vivent À CÔTÉ du bouton de lecture, jamais dedans : un bouton
+   dans un bouton n'est pas du HTML valide, et le clic de vote déclencherait
+   la lecture. D'où le `li` en flex et le stopPropagation du composant. */
+
+.pcol-li {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.pcol-li .pcol-row {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.tvote {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.05rem;
+  width: 1.9rem;
+}
+
+.tvote-b {
+  width: 1.6rem;
+  height: 1.35rem;
+  display: grid;
+  place-items: center;
+  font-size: 0.7rem;
+  line-height: 1;
+  color: var(--ink-secondary);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.tvote-b:hover,
+.tvote-b:focus-visible {
+  color: var(--ink-primary);
+  border-color: var(--rule-hairline);
+}
+
+.tvote-actif {
+  color: var(--ink-primary);
+  border-color: var(--ink-secondary);
+  background: oklch(0.26 0.012 250);
+}
+
+.tvote-score {
+  font-size: 0.68rem;
+  font-weight: var(--weight-track);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-secondary);
+  line-height: 1;
+}
+
+.pcol-vote-erreur {
+  margin: 0 0 0.5rem;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.76rem;
+  line-height: 1.45;
+  color: oklch(0.88 0.09 25);
+  background: oklch(0.28 0.06 25 / 0.3);
+  border-left: 2px solid oklch(0.62 0.14 25);
+  border-radius: 2px;
+}
+
+@media (max-width: 700px) {
+  /* Cibles tactiles, comme partout ailleurs sur le site. */
+  .tvote { width: 2.4rem; }
+  .tvote-b { width: 2.2rem; height: 1.9rem; font-size: 0.8rem; }
+}

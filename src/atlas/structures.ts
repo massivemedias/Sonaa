@@ -350,7 +350,11 @@ const toTracks = (list: CorpusGenre['tracks']['essentiel']): Track[] =>
       album: t.album ?? null,
       release: t.release ?? null,
       key: t.key ?? null,
-      cover: t.cover ? `${import.meta.env.BASE_URL}${t.cover.local}` : '',
+      /* `import.meta.env` n'existe que sous Vite. Le repli à vide rend ce
+         module chargeable par un script Node, ce dont les contrôles de CI
+         ont besoin pour vérifier les règles du jeu sans navigateur. En
+         production la valeur est toujours là, le repli ne sert jamais. */
+      cover: t.cover ? `${import.meta.env?.BASE_URL ?? ''}${t.cover.local}` : '',
       youtubeId: t.youtubeId,
       sharedWith: [] as { familyIndex: number; genreLocal: number; label: string }[]
     };

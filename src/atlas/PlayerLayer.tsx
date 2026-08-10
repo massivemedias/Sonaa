@@ -27,6 +27,15 @@ import { FAMILIES, STRUCTURES, type Track } from './structures.ts';
 import { ProceduralCover } from './ProceduralCover.tsx';
 import { ContributeActions } from './ContributeActions.tsx';
 import { VolumeControl } from './VolumeControl.tsx';
+import { TrackVote } from './TrackVote.tsx';
+import { contributionsActives } from '../lib/config.ts';
+import {
+  mesVotesDuGenre,
+  NonConnecte,
+  scoresDuGenre,
+  sessionProbable,
+  voterTrack
+} from '../lib/track-votes.ts';
 import './player-layer.css';
 
 export interface Playback {
@@ -225,6 +234,94 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
     if (!g) return [];
     return playback.list === 'actuel' ? g.tracksActuel : g.tracksEssentiel;
   }, [playback]);
+
+  /* ---- VOTE SUR LES TRACKS -------------------------------------------- */
+
+  const panelGenreId = panelGenre
+    ? (genreOf(panelGenre.familyIndex, panelGenre.genreLocal)?.id ?? null)
+    : null;
+
+  const [scores, setScores] = useState<Map<string, number>>(new Map());
+  const [mesVotes, setMesVotes] = useState<Map<string, number>>(new Map());
+  const [voteErreur, setVoteErreur] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!panelGenreId || !contributionsActives) {
+      setScores(new Map());
+      setMesVotes(new Map());
+      return;
+    }
+    let vivant = true;
+    setVoteErreur(null);
+    void scoresDuGenre(panelGenreId).then((s) => {
+      if (vivant) setScores(s);
+    });
+    /* On ne charge le SDK par anticipation que si une session semble déjà
+       là : sinon il n'arrive qu'au premier clic sur une flèche. */
+    if (sessionProbable()) {
+      void mesVotesDuGenre(panelGenreId).then((v) => {
+        if (vivant) setMesVotes(v);
+      });
+    }
+    return () => {
+      vivant = false;
+    };
+  }, [panelGenreId]);
+
+  /* L'ORDRE AFFICHÉ, et l'index d'ORIGINE qui va avec.
+
+     Le lecteur repère une track par sa position dans la liste du corpus.
+     Trier l'affichage sans conserver cet index ferait jouer la mauvaise
+     track à chaque clic : le piège est silencieux, et il aurait fallu
+     l'entendre pour s'en apercevoir. */
+  const lignes = useMemo(() => {
+    const avecIndex = panelTracks.map((track, indexOrigine) => ({ track, indexOrigine }));
+    if (scores.size === 0) return avecIndex;
+    return avecIndex
+      .map((l) => ({ ...l, score: scores.get(l.track.youtubeId) ?? 0 }))
+      .sort((a, b) => b.score - a.score || a.indexOrigine - b.indexOrigine);
+  }, [panelTracks, scores]);
+
+  /* Vote optimiste : le score bouge au clic, l'écriture suit, et tout
+     revient exactement en arrière si elle échoue. */
+  const voterSurTrack = useCallback(
+    (videoId: string, valeur: 1 | -1) => {
+      if (!panelGenreId) return;
+      const ancien = mesVotes.get(videoId) ?? 0;
+      const nouveau = ancien === valeur ? 0 : valeur;
+      const delta = nouveau - ancien;
+      if (delta === 0) return;
+
+      const appliquer = (v: number, d: number) => {
+        setMesVotes((m) => {
+          const c = new Map(m);
+          if (v === 0) c.delete(videoId);
+          else c.set(videoId, v);
+          return c;
+        });
+        setScores((s) => {
+          const c = new Map(s);
+          c.set(videoId, (c.get(videoId) ?? 0) + d);
+          return c;
+        });
+      };
+
+      appliquer(nouveau, delta);
+      void voterTrack(panelGenreId, videoId, nouveau as 1 | -1 | 0)
+        .then(() => setVoteErreur(null))
+        .catch((e: unknown) => {
+          appliquer(ancien, -delta);
+          setVoteErreur(
+            e instanceof NonConnecte
+              ? 'Connectez-vous pour classer les tracks : le bouton « Proposer une track » plus bas envoie un lien.'
+              : e instanceof Error
+                ? e.message
+                : 'Vote impossible.'
+          );
+        });
+    },
+    [panelGenreId, mesVotes]
+  );
 
   const currentTrack = playback ? playedTracks[playback.trackIndex] : undefined;
   const playedTracksRef = useRef(0);
@@ -736,21 +833,35 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
                 La track en cours reste distinguée et plus détaillée (sa durée
                 est la seule que le lecteur connaît, on n'invente pas les
                 autres). */}
+            {voteErreur && (
+              <p className="pcol-vote-erreur" role="alert">
+                {voteErreur}
+              </p>
+            )}
+
             <ul className="pcol-list">
-              {panelTracks.map((track, i) => {
-                const active = playingHere && playback?.trackIndex === i;
+              {lignes.map(({ track, indexOrigine }) => {
+                const active = playingHere && playback?.trackIndex === indexOrigine;
                 const meta: string[] = [];
                 const y = track.release?.year ?? track.year;
                 if (y) meta.push(String(y));
                 if (track.release?.label) meta.push(track.release.label);
                 if (track.release?.catno) meta.push(track.release.catno);
                 return (
-                  <li key={track.id}>
+                  <li key={track.id} className="pcol-li">
+                    {contributionsActives && (
+                      <TrackVote
+                        score={scores.get(track.youtubeId) ?? 0}
+                        monVote={mesVotes.get(track.youtubeId) ?? 0}
+                        titre={track.title}
+                        onVote={(v) => voterSurTrack(track.youtubeId, v)}
+                      />
+                    )}
                     <button
                       className="pcol-row"
                       data-active={active}
                       onClick={() =>
-                        play(panelGenre.familyIndex, panelGenre.genreLocal, i, currentList)
+                        play(panelGenre.familyIndex, panelGenre.genreLocal, indexOrigine, currentList)
                       }
                       aria-label={`Lire ${track.title} de ${track.artist}`}
                     >

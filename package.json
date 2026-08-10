@@ -18,7 +18,10 @@
     "fetch:key": "tsx scripts/fetch-key.ts",
     "check:writes": "tsx scripts/check-corpus-writes.ts",
     "verify:visual": "echo 'Vérification visuelle par la machine (4 mesures) :' && echo '1. npm run dev' && echo '2. ouvrir http://localhost:5173/Sonaa/?verify (vue 3D libre)' && echo '3. lire le JSON à l écran et dans la console.' && echo 'Pas en CI : il faudrait embarquer un navigateur headless (documenté ADR-048).'",
-    "check:tirets": "tsx scripts/check-tirets.ts"
+    "check:tirets": "tsx scripts/check-tirets.ts",
+    "check:game": "tsx scripts/check-game-rules.ts",
+    "build:game-tree": "tsx scripts/build-game-tree.ts",
+    "check:game-tree": "tsx scripts/build-game-tree.ts --check"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^7.3.1",
