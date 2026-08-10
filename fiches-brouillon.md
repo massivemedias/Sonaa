@@ -1,87 +1,92 @@
 # Fiches en brouillon, à relire par Mika
 
-Les fiches restantes écrites par la machine sur les terrains réservés
-(dark disco et indie dance sont sorties de la liste, données de Mika intégrées).
-Corriger directement ici puis me renvoyer le fichier, ou coller les
-corrections en texte : je les reporte dans le corpus et retire le badge.
+Les neuf fiches restantes écrites par la machine sur les terrains réservés.
+Versions complètes, reportées dans le corpus AVEC le badge brouillon : lui
+seul se lève sur ta validation. Corriger directement ici puis me renvoyer le
+fichier, ou coller les corrections en texte : je les reporte et je retire le
+badge.
 
-## Psy-Prog (progpsy)
+Repère pour les trois psy qui se confondent : psy-prog = offbeat et lumière
+(Scandinavie), zenonesque = texture et ombre (Australie), psytech = kick
+droit et club (Hambourg puis netlabels).
 
-La psytrance ralentie et creusée : 135-142 battements, basse offbeat ronde, montées longues, sound design précis, plus de groove que d'assaut. L'école scandinave et allemande des années 2000 (Iboga, Digital Structures) l'a définie, la scène Zenon l'a ensuite assombrie. C'est la porte d'entrée des DJ techno vers le psychédélique, et inversement.
+## Psy-Prog (progpsy) — 132-140 BPM
 
-- Machines : Basse offbeat ronde, Percussions groove, Nappes et micro-FX, Automations longues
-- Labels historiques : Iboga, Digital Structures, Spiral Trax
-- Labels actuels : Iboga, Sofa Beats, Blue Tunes
-- Artistes clés : Atmos, Ticon, Vibrasphere, Ace Ventura, Liquid Soul
+Née à la fin des années 1990 en Scandinavie, quand la psytrance ralentit et se creuse : la basse offbeat devient ronde et roulante, les montées s'étirent sur des minutes, le sound design remplace l'assaut mélodique du full-on. C'est une musique de progression, pensée pour le lever du jour plus que pour le pic de la nuit. L'école suédoise (Atmos, Ticon, Vibrasphere) définit le son ; la vague israélienne des années 2010 (Ace Ventura, Liquid Soul) le rend plus mélodique et plus grand public. Ce qui la distingue : la basse OFFBEAT et la lumière, face au psytech qui roule droit comme une techno et au zenonesque qui refuse la mélodie.
 
-## Zenonesque (zenonesque)
+- Machines : Basse offbeat ronde (Virus TI, Nord Lead), Percussions groove discrètes, Nappes évolutives, Automations de filtre longues, Compression sidechain douce
+- Labels historiques : Iboga Records, Digital Structures, Spiral Trax, Tribal Vision
+- Labels actuels : Iboga, Iono Music, Blue Tunes, Sofa Beats
+- Artistes clés : Atmos, Ticon, Vibrasphere, Son Kite, Ace Ventura, Liquid Soul
 
-Le son du label australien Zenon devenu adjectif : psytrance progressive sombre et texturée, basses caoutchouteuses, ambiances industrielles feutrées, groove hypnotique plus que mélodie. Le vocabulaire est contesté, psytech, psy-prog et zenonesque découpant le même territoire de plusieurs façons ; le corpus le marque débattu et le laisse à trancher.
+## Zenonesque (zenonesque) — 118-132 BPM
 
-- Machines : Basses caoutchouteuses mid-tempo, Textures industrielles feutrées, Micro-FX granulaires, Grooves ternaires discrets
-- Labels historiques : Zenon
-- Labels actuels : Zenon, Techgnosis, Sangoma (frange)
-- Artistes clés : Sensient, Tetrameth, Grouch, Hypnagog
+Le son du label australien Zenon Records, milieu des années 2000, devenu un adjectif que la scène emploie plus volontiers que « progressive psy sombre ». Sensient en pose la grammaire : basses caoutchouteuses en mid-tempo, textures granulaires, ambiances industrielles feutrées, groove tribal lent. Aucune mélodie-refrain : la tension vient de la matière sonore elle-même, et le morceau avance par micro-variations plutôt que par montées. C'est l'Australie qui répond à la Scandinavie : plus lent, plus sombre, plus organique que la psy-prog, sans l'énergie club du psytech.
 
-## Minimal Prog (minimalprog)
+- Machines : Basse mid-tempo caoutchouteuse, Micro-FX granulaires, Enregistrements de terrain traités, Réverbes sombres courtes, Percussions organiques échantillonnées
+- Labels historiques : Zenon Records
+- Labels actuels : Zenon, Techgnosis, Occulta
+- Artistes clés : Sensient, Tetrameth, Grouch, Krumelur, Merkaba, Hypnagog
 
-Zone de contact entre le progressive et le minimal, où les trajectoires longues du premier adoptent l'économie de moyens du second. Nappes discrètes, basses rondes, évolutions à peine perceptibles sur des morceaux de huit minutes et plus. Le terme circule surtout chez les DJ et les auditeurs de la sphère progressive underground, sans scène nommée qui le revendique en propre.
+## Psytech (psytech) — 125-138 BPM
 
-- Machines : Basses rondes progressives, Nappes lentes, Percussions minimales, Automations longues
-- Labels historiques : Hooj Choons (frange tardive), Baroque
-- Labels actuels : Sudbeat, Replug, Sound Avenue
-- Artistes clés : Cid Inc, Guy J, Henry Saiz (frange), Navar
+La zone de contact entre la psytrance et la techno, là où le kick devient sec et le groove devient club. La basse ne rebondit plus en offbeat : elle roule droit, à la techno, et les textures psychédéliques se dosent par-dessus au lieu de saturer le spectre. Les racines sont à Hambourg au début des années 2000, quand X-Dream et The Delta durcissent leur son ; la scène des netlabels (Digital Diamonds en tête) et Techgnosis la portent aujourd'hui. Même querelle de vocabulaire que toujours : ce que Beatport range en « psytech » recouvre parfois la prog commerciale ; ici le mot désigne le versant techno, hypnotique et sec.
 
-## Techno Body Music (technobodymusic)
+- Machines : Kick techno sec, Basse roulante droite (jamais offbeat), Séquences modulaires, Delays dub, FX psychédéliques dosés, Percussions de club
+- Labels historiques : Solstice Music, Boshke Beats, Zenon (frange)
+- Labels actuels : Digital Diamonds, Techgnosis, Occulta (frange)
+- Artistes clés : X-Dream, The Delta, Beat Bizarre, Kliment, Sensient (versant techno), Fog
 
-La zone de refonte contemporaine où la techno réapprend l'EBM : basses séquencées carrées, voix froides, esthétique cuir et béton, tempo de club. Le terme circule depuis la fin des années 2010 autour de labels comme X-IMG ou aufnahme + wiedergabe pour nommer ce va-et-vient entre patrimoine body et pistes techno. Terrain réservé à Mika, fiche à relire.
+## Minimal Prog (minimalprog) — 120-126 BPM
 
-- Machines : Séquences EBM sur kicks techno, Basses analogiques carrées, Voix parlées froides, Distorsion maîtrisée
-- Labels historiques : aufnahme + wiedergabe
-- Labels actuels : X-IMG, Fleisch, Instruments of Discipline
-- Artistes clés : Schwefelgelb, Sarin, Years of Denial, Kontravoid
+La progressive house passée au tamis minimal, années 2005-2015 : la mélodie se réduit à des motifs de deux ou trois notes, la basse ronde porte tout, les delays dub creusent l'espace, et le morceau évolue sur dix minutes par soustraction plus que par addition. C'est la bande-son des warm-ups et des after : hypnotique, patiente, jamais spectaculaire. L'école sud-américaine autour d'Hernan Cattaneo en est le foyer vivant, avec une parenté assumée du côté de la psy-prog scandinave, d'où la greffe dans l'arbre.
 
-## Suomisaundi (suomisaundi)
+- Machines : Basse ronde soutenue, Delays dub synchronisés, Nappes discrètes, Percussions fantômes, Automations de filtre au long cours
+- Labels historiques : Bedrock, Hope Recordings, microCastle
+- Labels actuels : Sudbeats, Lost & Found, Replug, Movement Recordings
+- Artistes clés : Hernan Cattaneo, Guy J, Henry Saiz, Cid Inc, Eelke Kleijn, Yotto
 
-Le freestyle psychédélique finlandais, né au milieu des années 1990 : refus assumé des règles de production du genre, mélodies naïves, sons bricolés, humour absurde, structures qui partent en forêt. Le nom veut simplement dire son finlandais. Scène volontairement artisanale, autoéditée, culte et insaisissable, à l'image de ses étés arctiques.
+## Techno Body Music (technobodymusic) — 125-135 BPM
 
-- Machines : Synthés bon marché assumés, Samples absurdes, Production home studio libre, Grooves irréguliers
-- Labels historiques : Exogenic, Thixx'n'Dixx, 6-Dimension Soundz
-- Labels actuels : Antiscarp, Random Records
-- Artistes clés : Texas Faggott, Huopatossu Mononen, Salakavala, Eraser vs Yojalka
+Le retour de l'EBM dans le corps de la techno, Berlin années 2010 : basses séquencées distordues héritées de DAF et Nitzer Ebb, kicks techno, voix criées noyées de réverbération, esthétique cuir et néons froids. Le terme s'impose autour de 2017 avec la scène des clubs berlinois et des labels aufnahme + wiedergabe et Fleisch, et la compilation qui porte littéralement ce nom. C'est une musique de sueur et de machines vivantes, jouée autant en concert qu'en DJ set, qui a ramené la new wave industrielle sur les pistes techno.
 
-## Forest Psy (forestpsy)
+- Machines : Séquenceurs analogiques (MC-202, SH-101), Basses distordues, Boîtes à rythmes dures, Voix criées traitées, Réverbérations métalliques
+- Labels historiques : aufnahme + wiedergabe, Fleisch Records
+- Labels actuels : aufnahme + wiedergabe, Instruments of Discipline, She Lost Kontrol
+- Artistes clés : Schwefelgelb, Years of Denial, SARIN, Phase Fatale, Kontravoid, Sydney Valette
 
-Branche organique du dark : moins vite, plus humide, des textures de sous-bois, des basses rondes et des ambiances de clairière nocturne plutôt que d'assaut. La Suède de Parvati Records en est un foyer historique, les festivals de forêt son habitat naturel. L'esthétique est délibérément artisanale, champignons et mousse comprises.
+## Suomisaundi (suomisaundi) — 140-150 BPM
 
-- Machines : Basses rondes organiques, Textures granulaires naturelles, Field recordings de forêt, Delays feedback
-- Labels historiques : Parvati, Sanaton
-- Labels actuels : Parvati, Forestdelic, Zenon (frange)
-- Artistes clés : Derango, Kluster, Ajja (frange), Hypnoise
+La psytrance freeform finlandaise, née à la fin des années 1990 autour de Texas Faggott : un refus joyeux de toutes les règles du genre. Mélodies tordues, samples absurdes, funk caché sous les kicks, production volontairement artisanale où l'on entend le studio et les blagues entre amis. Le nom veut littéralement dire « son finlandais » et la scène l'assume : c'est une musique locale, autoproduite, qui se moque gentiment du sérieux cosmique de la Goa. Culte partout, comprise nulle part, vivante encore aujourd'hui dans les forêts de Finlande.
 
-## Hi-Tech Psy (hitech)
+- Machines : Synthés hardware dépareillés, Échantillonneurs pleins de samples farfelus, Guitares et basses jouées, Effets bon marché assumés, Production DIY
+- Labels historiques : Exogenic Records, 6-D Soundz, Freakdance Records
+- Labels actuels : Antiscarp Records, Random Records
+- Artistes clés : Texas Faggott, Squaremeat, Haltya, Luomuhappo, Eraser vs. Yöjalka, Salakavala
 
-L'extrême vitesse du psychédélique : 160 à 200 battements, sound design numérique hyperdétaillé, humour cartoon et glitch, énergie de jeu vidéo poussée dans la transe. Née du dark psy au tournant des années 2010, la scène circule entre Brésil, Japon et Europe de l'Est, plus proche parente du hardcore qu'elle ne l'admet.
+## Forest Psy (forestpsy) — 145-150 BPM
 
-- Machines : Kicks rapides percés, Basses hi-tech en doubles croches, FX glitch massifs, Sound design FM numérique
-- Labels historiques : Noize Conspiracy, Quintessence
-- Labels actuels : Alien Records, Hodna, Quintessence
-- Artistes clés : Highko, Psykovsky (frange), Kindzadza (frange), Necropsycho
+Le sous-bois de la psytrance : sombre mais organique, là où le darkpsy est numérique et agressif. Née au tournant des années 2000 dans l'axe Scandinavie-Copenhague autour de Parvati Records, avec Derango en pierre fondatrice : basse ronde et boisée, textures qui grouillent comme une litière de forêt, atmosphères de nuit humide, presque pas de mélodie mais un fourmillement permanent de détails. Ça se danse au sol, dans la boue, de préférence entre les arbres. La scène est mondiale aujourd'hui, des Balkans à l'Inde, et reste farouchement underground.
 
-## Nitzhonot (nitzhonot)
+- Machines : Basse ronde boisée, Granulateurs et textures de terrain, Delays organiques, Percussions acoustiques échantillonnées, Réverbérations de sous-bois
+- Labels historiques : Parvati Records, Fullmoon Records
+- Labels actuels : Parvati, Forestdelic Records, Sangoma Records, Occulta Records
+- Artistes clés : Derango, Ka-Sol, Atriohm, Fungus Funk, Kerlivin, Ajja (frange)
 
-Rameau israélien de la fin des années 1990, entre goa tardive et uplifting oriental : kicks très durs hérités de la hard trance, mélodies pleureuses en gammes phrygiennes, euphorie brute autour de 145-150. Le mot signifie victoires en hébreu. Scène brève et locale, culte chez les archivistes, dont l'influence se réentend dans certains revivals durs.
+## Hi-Tech Psy (hitech) — 170-200 BPM
 
-- Machines : Kicks hard trance, Leads orientaux FM, Arpèges rapides, Production DAT brute
-- Labels historiques : Krembo, Agada
-- Labels actuels : aucun (genre éteint)
-- Artistes clés : Eyal Barkan, Goldenfinger, Sandman (frange)
+L'extrémité vitesse du psychédélisme : née du darkpsy russe au tournant des années 2010, quand Kindzadza et la scène d'Osom Music poussent le tempo au-delà de 170 et découpent le son au scalpel numérique. Tout est précis, brillant, ultra-édité : des rafales de micro-sons qui pétillent comme un circuit imprimé en surchauffe, sur des kicks secs mitraillés. Moins sombre que le darkpsy dont elle sort : c'est maniaque et ludique plutôt que menaçant. Le mot « hi-tech » dit exactement ce qu'on entend, une technologie qui s'exhibe.
 
-## Psytech (psytech)
+- Machines : Stations numériques ultra-éditées, Synthèse FM et granulaire, Kicks secs à haute cadence, Micro-montage au sample près, Limiteurs poussés
+- Labels historiques : Osom Music, Noise Poison Records
+- Labels actuels : Osom Music, Alice-D Records, Kabrathor Records
+- Artistes clés : Kindzadza, Psykovsky (frange), Whrikk, Radioactive.Cake, Necropsycho, Kasadelica
 
-La zone où la psytrance progressive rencontre la techno : tempo descendu vers 130-138, kicks plus secs, textures psychédéliques sur des grooves de club. Même querelle de vocabulaire que le zenonesque, marqué débattu pour la même raison. Les DJ des deux mondes s'y croisent, ce qui est peut-être sa vraie définition.
+## Nitzhonot (nitzhonot) — 145-155 BPM
 
-- Machines : Kicks techno secs, Basses roulantes discrètes, FX psychédéliques dosés, Percussions club
-- Labels historiques : Zenon (frange), Iboga (frange)
-- Labels actuels : Techgnosis, Occulta, Sofa Beats
-- Artistes clés : Sensient (frange techno), Fog, Ryanosaurus
+L'hérésie israélienne de la Goa, 1997-2000 : « nitzhonot » veut dire « victoires » en hébreu, et le son y va franchement — kicks durs quasi hardtrance, mélodies orientales grandioses jouées sans deuxième degré, montées euphoriques taillées pour les plages de Tel-Aviv plutôt que pour les plateaux de l'Himalaya. La scène psy internationale l'a méprisée à l'époque, précisément parce qu'elle était populaire, locale et sentimentale. Elle a brûlé vite, laissé une poignée d'hymnes, et sa descendance directe est l'uplifting israélien qui a nourri le full-on commercial. Genre éteint, réhabilité par la nostalgie.
+
+- Machines : Kicks hardtrance durs, Leads orientaux en gammes phrygiennes, Arpégiateurs euphoriques, Cordes synthétiques grandioses, Production directe sans détour
+- Labels historiques : Phonokol, Trust in Trance Records
+- Labels actuels : Aucun, genre éteint ; quelques rééditions et hommages dispersés
+- Artistes clés : Eyal Barkan, Power Source, Shiva Shidapu, Sandman, Goldenfinger, Indoor
