@@ -484,7 +484,16 @@ export const buildStructure = (familyIndex: number): Structure => {
        genres réclame plus d'espace qu'une feuille. */
     /* Niveau unique (ADR-056) : un seul anneau se déploie à la fois, le
        pas n'a plus à réserver la place des petits-enfants. */
-    const LABEL_STEP = node.depth === 0 ? 5.5 : 5.0;
+    /* PAS ANGULAIRE DIMENSIONNÉ SUR LE NOM LE PLUS LONG (bug de la
+       descente, prouvé par la trace : reculer la caméra ne sert à rien, le
+       rapport largeur-de-nom sur rayon-d'anneau est INVARIANT au zoom —
+       les deux décroissent en 1/distance. Le seul levier est l'orbite en
+       unités monde. Un pas constant de 5 unités laissait six noms de
+       « Liquid Drum and Bass » se recouvrir quel que soit le zoom. */
+    const longest = Math.max(...kids.map((k) => (genres[k]?.label.length ?? 8)), 8);
+    /* Le pas dépend du NOMBRE d'enfants, pas de la profondeur : une petite
+       couronne peut être généreuse, une grande passe au second rang. */
+    const LABEL_STEP = (kids.length > 7 ? 0.62 : 1.15) * longest;
     const step = Math.max(childR * 2 * 1.7, LABEL_STEP);
     const ringNeed = (kids.length * step) / (2 * Math.PI);
 

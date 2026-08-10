@@ -1448,6 +1448,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   const candidates: Candidate[] = [];
   const placed: Candidate[] = [];
 
+
   /* Largeur RÉELLE du texte, mesurée avec la fonte chargée : l'estimation
      au glyphe moyen sous-estimait largement les capitales espacées des
      familles, et des noms se chevauchaient malgré le filet. Mesure canvas
@@ -1530,12 +1531,26 @@ const OVERLAP_TOLERANCE = 1;
          dominait la carte) : un satellite lointain porte un nom plus petit
          qu'un fondateur. Racine carrée pour ne pas écraser les petits.
          Les familles gardent leur taille : l'écart de niveaux se lit. */
+      /* PLAFOND DES GENRES BORNÉ PAR LA LARGEUR DE L'ÉCRAN (bug de la
+         descente, localisé par la trace : de très près, px atteignait le
+         plafond de 22 px, « Liquid Drum and Bass » faisait alors 223 px sur
+         390 de large, le rabattement anti-débordement empilait quatre noms
+         sur six au même x = 4, et à niveau égal ils s'annulaient tous —
+         6 candidats, 0 posé. Un nom ne dépasse donc jamais 40 % de la
+         largeur utile : le plafond de 22 px reste pour les familles, qui
+         sont courtes et vues de loin. */
+      const ceilByWidth = (() => {
+        if (kind !== 'genre') return LABEL_PX_CEILING;
+        const trial = textWidth(text, 10, kind);
+        if (trial <= 0) return LABEL_PX_CEILING;
+        return clamp((width * 0.4 * 10) / trial, labelRules.floorPx, LABEL_PX_CEILING);
+      })();
       const px =
         kind === 'genre'
           ? clamp(
               raw * 0.65 * (0.72 + 0.33 * Math.sqrt((baseRadii[slot] ?? 1) / genreRadiusMax)),
               labelRules.floorPx,
-              LABEL_PX_CEILING
+              ceilByWidth
             )
           : clamp(raw, isAtlasFamily ? 10 : labelRules.floorPx, LABEL_PX_CEILING);
       const w = textWidth(text, px, kind);
@@ -1601,6 +1616,16 @@ const OVERLAP_TOLERANCE = 1;
       }
       fy = Math.min(fy, height - CHROME_BOTTOM - 2);
 
+      /* Un label qui ne tient pas à sa position radiale revient CENTRÉ sur
+         sa sphère avant d'être rabattu au bord : le rabattement empilait
+         plusieurs noms exactement au même x, et à niveau égal ils
+         s'annulaient tous (trace : quatre noms sur six à x = 4, aucun
+         posé). Le centrage, lui, ne peut pas empiler deux sphères
+         distinctes. Le rabattement reste en dernier recours. */
+      if (kind === 'genre' && (fx < 4 || fx + w > width - 4)) {
+        const centered = sx - w / 2;
+        if (centered >= 4 && centered + w <= width - 4) fx = centered;
+      }
       fx = Math.min(Math.max(fx, 4), Math.max(4, width - 4 - w));
 
       candidates.push({
@@ -1698,14 +1723,32 @@ const OVERLAP_TOLERANCE = 1;
        2. chevaucher un nom de MÊME niveau : LES DEUX cèdent, personne ne
           gagne par ordre d'arrivée.
        Plus d'exception : les grands ensembles ont disparu (ADR-053). */
+    /* NIVEAU D'ARBITRAGE = NIVEAU DE LECTURE. La trace du bug de descente
+       l'a établi : les deux derniers noms manquants cédaient à des labels
+       de profondeur inférieure de leur propre famille, donc de « niveau
+       supérieur » au sens de l'ancien barème. Ce qu'on LIT passe désormais
+       avant ce qui l'entoure, en niveaux déclarés, jamais par ordre
+       d'arrivée :
+         0   le genre ouvert, ou les fondateurs quand on lit une famille
+         1   ses enfants directs, le niveau qu'on vient de déployer
+         2   le nom de la famille ouverte
+         3+  le reste de la famille, par profondeur
+         20+ les autres familles, entrées dans le champ par le recul */
+    const readParent = activeGenre >= 0 ? slotsData[activeGenre] : undefined;
     const levelOf = (c: Candidate): number => {
-      if (c.kind === 'family') return 0;
       const slot = slotsData[c.slot];
-      const base = 1 + (slot?.depth ?? 0);
-      /* La famille OUVERTE est l'objet de lecture : ses genres passent
-         avant ceux des familles fermées entrées dans le champ quand la
-         caméra recule. C'est un niveau déclaré, pas un ordre d'arrivée. */
-      return activeFamily >= 0 && slot?.family !== activeFamily ? base + 10 : base;
+      if (c.kind === 'family') {
+        return activeFamily >= 0 && c.key === `f-${FAMILIES[activeFamily]?.id}` ? 2 : 0;
+      }
+      if (!slot) return 30;
+      if (activeFamily >= 0 && slot.family !== activeFamily) return 20 + slot.depth;
+      if (readParent) {
+        if (c.slot === activeGenre) return 0;
+        const base = familyOffset[readParent.family] ?? 0;
+        if (readParent.children.some((k) => base + k === c.slot)) return 1;
+        return 3 + slot.depth;
+      }
+      return slot.depth === 0 ? 0 : 1 + slot.depth;
     };
     const maxLevel = candidates.reduce((m, c) => Math.max(m, levelOf(c)), 0);
 

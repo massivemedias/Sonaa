@@ -1940,6 +1940,55 @@ la règle.
 
 ---
 
+## ADR-058 : La descente localisée par instrumentation, puis corrigée
+
+**Date** : 2026-08-09.
+
+**Méthode.** Aucun correctif avant localisation. Le pipeline de labels a
+été instrumenté en sept étapes (nœud du niveau, candidature, position 3D,
+projection écran, boîte calculée, arbitrage, rendu DOM), avec comptage des
+six enfants de Drum and Bass à chaque étape. L'instrumentation a été
+RETIRÉE après diagnostic.
+
+**Ce que la trace a dit.** Le compte tombait de 6 à 0 ENTRE L'ÉTAPE 5 ET
+L'ÉTAPE 6, à l'arbitrage de chevauchement : les six étaient candidats,
+bien positionnés, projetés dans le viewport, avec des boîtes calculées.
+Deux découvertes que la seule lecture du code n'aurait pas données :
+
+1. **Le cas « qui marche » ne marchait pas non plus.** Panneau fermé,
+   même genre : trace identique. Le bug n'avait rien à voir avec le
+   panneau, il était systématique sur toute descente. L'hypothèse de
+   départ était fausse.
+
+2. **Les boîtes étaient empilées au bord.** De très près, px atteignait le
+   plafond de 22 px : « Liquid Drum and Bass » faisait 223 px de large sur
+   390 d'écran, le rabattement anti-débordement ramenait QUATRE noms sur
+   six exactement à x = 4, et à niveau égal ils s'annulaient tous.
+
+**Corrections, dans l'ordre de la preuve.**
+
+- **Plafond des genres borné par la largeur utile** (40 %) : le plafond de
+  22 px reste pour les familles, courtes et vues de loin. 0 → 2 sur 6.
+- **Repli sur la sphère avant rabattement au bord** : un label qui ne tient
+  pas à sa position radiale revient centré sur sa sphère, ce qui ne peut
+  pas empiler deux sphères distinctes. Positions réparties.
+- **Pas angulaire dimensionné sur le NOM LE PLUS LONG** (1,15 fois sa
+  longueur, 0,62 au-delà de sept enfants où le second rang prend le
+  relais). Constat théorique décisif : reculer la caméra ne sert à RIEN,
+  le rapport largeur-de-nom sur rayon-d'anneau est INVARIANT au zoom
+  (les deux décroissent en 1/distance). Le seul levier est l'orbite en
+  unités monde. 2 → 4 sur 6.
+- **Niveau d'arbitrage = niveau de lecture** : le genre ouvert (0), ses
+  enfants directs (1), le nom de sa famille (2), le reste par profondeur
+  (3+), les autres familles (20+). Les deux derniers manquants cédaient à
+  des genres de profondeur inférieure de leur propre famille. 4 → 6 sur 6.
+
+**Preuve finale, sans instrumentation, à 390 px feuille à mi-hauteur :**
+Drum and Bass **6/6**, UK Garage **5/5**, Trance **5/5**. Couronnes de
+familles inchangées au mieux mesuré (House 6/9, Breaks 4/6).
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle
