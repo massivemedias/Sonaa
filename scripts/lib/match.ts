@@ -190,7 +190,24 @@ const scrape = (html: string, limit: number): SearchHit[] => {
     const id = chunk.slice(0, 11);
     if (!/^[A-Za-z0-9_-]{11}$/.test(id) || seen.has(id)) continue;
     seen.add(id);
-    const m = /"lengthText":\{(?:[^{}]|\{[^{}]*\})*?"simpleText":"([0-9:]+)"/.exec(chunk.slice(0, 3000));
+    /* PANNE SILENCIEUSE RÉPARÉE. L'ancienne expression n'autorisait qu'UN
+       niveau d'accolades entre « lengthText » et « simpleText » :
+
+         /"lengthText":\{(?:[^{}]|\{[^{}]*\})*?"simpleText":"([0-9:]+)"/
+
+       Or YouTube en intercale DEUX, pour l'étiquette d'accessibilité :
+
+         "lengthText":{"accessibility":{"accessibilityData":{"label":"4 minutes, 13 seconds"}},"simpleText":"4:13"}
+
+       Résultat : plus aucune durée n'était extraite, donc le plafond de
+       quinze minutes ne s'appliquait plus JAMAIS, et le rejet des parutions
+       complètes ne tenait plus qu'aux marqueurs de titre. Mesuré sur 61
+       candidats : 61 durées inconnues, zéro connue.
+
+       La forme ci-dessous ne compte plus les accolades : elle prend le
+       premier « simpleText » horaire dans une fenêtre courte. Moins fine,
+       mais elle survivra au prochain remaniement de la page. */
+    const m = /"lengthText":\{[\s\S]{0,300}?"simpleText":"([0-9:]+)"/.exec(chunk.slice(0, 3000));
     out.push({ id, seconds: m?.[1] ? parseLength(m[1]) : null });
     if (out.length >= limit) break;
   }
