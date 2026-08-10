@@ -6,13 +6,21 @@ seul se lève sur ta validation. Corriger directement ici puis me renvoyer le
 fichier, ou coller les corrections en texte : je les reporte et je retire le
 badge.
 
-Repère pour les trois psy qui se confondent : psy-prog = offbeat et lumière
-(Scandinavie), zenonesque = texture et ombre (Australie), psytech = kick
-droit et club (Hambourg puis netlabels).
+LE TRIANGLE, corrigé après remontée de la scène. Chaque fiche dit ce qui la
+distingue des deux autres, c'est le point où l'atlas sera jugé :
+- PSY-PROG : basse OFFBEAT, mélodie et lumière. Scandinavie, fin des
+  années 1990. Naît de la rencontre progressive trance + psytrance.
+- ZENONESQUE : texture et OMBRE, aucune mélodie-refrain. Australie, milieu
+  des années 2000. Vient du dark psy ralenti croisé à la techno hypnotique,
+  PAS du psy-prog — l'erreur commune vient du tempo voisin.
+- PSYTECH : kick DROIT et club, basse roulante jamais offbeat. Hambourg puis
+  les netlabels. Carrefour techno / psytrance, pas un dérivé du psy-prog.
+Les frontières entre les trois sont contestées DANS la scène : les trois
+fiches portent « filiation débattue » et le disent.
 
 ## Psy-Prog (progpsy) — 132-140 BPM
 
-Née à la fin des années 1990 en Scandinavie, quand la psytrance ralentit et se creuse : la basse offbeat devient ronde et roulante, les montées s'étirent sur des minutes, le sound design remplace l'assaut mélodique du full-on. C'est une musique de progression, pensée pour le lever du jour plus que pour le pic de la nuit. L'école suédoise (Atmos, Ticon, Vibrasphere) définit le son ; la vague israélienne des années 2010 (Ace Ventura, Liquid Soul) le rend plus mélodique et plus grand public. Ce qui la distingue : la basse OFFBEAT et la lumière, face au psytech qui roule droit comme une techno et au zenonesque qui refuse la mélodie.
+Née à la fin des années 1990 en Scandinavie de la RENCONTRE entre la progressive trance et la psytrance, pas du goa seul : la psytrance ralentit et se creuse, la progressive lui donne ses trajectoires longues. La basse est OFFBEAT, ronde et roulante, les montées s'étirent sur des minutes, le sound design remplace l'assaut mélodique du full-on. C'est une musique de progression, pensée pour le lever du jour plus que pour le pic de la nuit. L'école suédoise (Atmos, Ticon, Vibrasphere) définit le son ; la vague israélienne des années 2010 (Ace Ventura, Liquid Soul) le rend plus mélodique et plus grand public. CE QUI LA DISTINGUE DES DEUX AUTRES : sa basse offbeat et sa lumière mélodique, là où le psytech roule droit comme une techno de club et où le zenonesque refuse la mélodie pour la texture. La frontière avec les deux est contestée dans la scène elle-même.
 
 - Machines : Basse offbeat ronde (Virus TI, Nord Lead), Percussions groove discrètes, Nappes évolutives, Automations de filtre longues, Compression sidechain douce
 - Labels historiques : Iboga Records, Digital Structures, Spiral Trax, Tribal Vision
@@ -21,7 +29,7 @@ Née à la fin des années 1990 en Scandinavie, quand la psytrance ralentit et s
 
 ## Zenonesque (zenonesque) — 118-132 BPM
 
-Le son du label australien Zenon Records, milieu des années 2000, devenu un adjectif que la scène emploie plus volontiers que « progressive psy sombre ». Sensient en pose la grammaire : basses caoutchouteuses en mid-tempo, textures granulaires, ambiances industrielles feutrées, groove tribal lent. Aucune mélodie-refrain : la tension vient de la matière sonore elle-même, et le morceau avance par micro-variations plutôt que par montées. C'est l'Australie qui répond à la Scandinavie : plus lent, plus sombre, plus organique que la psy-prog, sans l'énergie club du psytech.
+Le son du label australien Zenon Records, milieu des années 2000, devenu un adjectif que la scène emploie plus volontiers que « progressive psy sombre ». Il NE DESCEND PAS DU PSY-PROG : le rattachement au psy-prog est une erreur commune, née du tempo voisin, alors que le son vient d'ailleurs — du dark psy ralenti, croisé à la techno hypnotique, avec une frange glitchée héritée du downtempo. Sensient en pose la grammaire : basses caoutchouteuses en mid-tempo, textures granulaires, ambiances industrielles feutrées, groove tribal lent. Aucune mélodie-refrain : la tension vient de la matière sonore elle-même, et le morceau avance par micro-variations plutôt que par montées. CE QUI LE DISTINGUE DES DEUX AUTRES : la texture et l'ombre à la place de la mélodie, là où le psy-prog cherche la lumière et où le psytech cherche la piste. CONTROVERSE ASSUMÉE : certains le tiennent pour une branche du psy-prog, la scène Zenon le revendique comme autre chose — l'atlas garde le désaccord et marque la filiation débattue.
 
 - Machines : Basse mid-tempo caoutchouteuse, Micro-FX granulaires, Enregistrements de terrain traités, Réverbes sombres courtes, Percussions organiques échantillonnées
 - Labels historiques : Zenon Records
@@ -30,7 +38,7 @@ Le son du label australien Zenon Records, milieu des années 2000, devenu un adj
 
 ## Psytech (psytech) — 125-138 BPM
 
-La zone de contact entre la psytrance et la techno, là où le kick devient sec et le groove devient club. La basse ne rebondit plus en offbeat : elle roule droit, à la techno, et les textures psychédéliques se dosent par-dessus au lieu de saturer le spectre. Les racines sont à Hambourg au début des années 2000, quand X-Dream et The Delta durcissent leur son ; la scène des netlabels (Digital Diamonds en tête) et Techgnosis la portent aujourd'hui. Même querelle de vocabulaire que toujours : ce que Beatport range en « psytech » recouvre parfois la prog commerciale ; ici le mot désigne le versant techno, hypnotique et sec.
+Un CARREFOUR entre la techno et la psytrance, pas un dérivé linéaire du psy-prog : le kick devient sec, le groove devient club, et la basse ne rebondit plus en offbeat — elle roule DROIT, à la techno, les textures psychédéliques se dosant par-dessus au lieu de saturer le spectre. Les racines sont à Hambourg au début des années 2000, quand X-Dream et The Delta durcissent leur son ; la scène des netlabels (Digital Diamonds en tête) et Techgnosis la portent aujourd'hui, avec un pied franc dans la techno hypnotique et minimale. CE QUI LE DISTINGUE DES DEUX AUTRES : le kick droit et la fonction de piste, là où le psy-prog garde sa basse offbeat et sa mélodie, et où le zenonesque ralentit pour la texture. Même querelle de vocabulaire que toujours : ce que Beatport range en « psytech » recouvre parfois la prog commerciale, et la frontière avec psy-prog et zenonesque est contestée dans la scène elle-même — filiation débattue, greffes vers la techno déclarées.
 
 - Machines : Kick techno sec, Basse roulante droite (jamais offbeat), Séquences modulaires, Delays dub, FX psychédéliques dosés, Percussions de club
 - Labels historiques : Solstice Music, Boshke Beats, Zenon (frange)

@@ -125,9 +125,9 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
       - Forest Psy  [fiche brouillon]  6 tracks
       - Hi-Tech Psy  [fiche brouillon]  4 tracks
       - Psycore  [greffe: Speedcore, famille hardcore]  3 tracks
-    - Psy-Prog  (?)  [fiche brouillon]  5 tracks
-      - Zenonesque  (?)  [fiche brouillon]  5 tracks
-      - Psytech  [greffe: Tech House, famille minimal]  (?)  [fiche brouillon]  4 tracks
+      - Zenonesque  [greffe: Hypnotic Techno, famille techno]  [greffe: Psy-Prog, famille psy]  [greffe: Glitch, famille ambient]  (?)  [fiche brouillon]  5 tracks
+    - Psy-Prog  [greffe: Progressive Trance, famille trance]  (?)  [fiche brouillon]  5 tracks
+      - Psytech  [greffe: Hypnotic Techno, famille techno]  [greffe: Minimal Techno, famille minimal]  [greffe: Tech House, famille minimal]  (?)  [fiche brouillon]  4 tracks
     - Suomisaundi  [fiche brouillon]  6 tracks
   - Psydub  7 tracks
   - Neo Goa  6 tracks
@@ -309,7 +309,7 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
 
 **Nitzhonot** (rattache a Full-On) : Israel, 1996-1998. Certaines sources le placent avant le full-on plutot qu'apres. Absent des cartographies de reference.
 
-**Psy-Prog** (rattache a Psychedelic Trance) : Terrain de Mika, a corriger. Une cartographie de reference le fait descendre de Psychedelic Trance (1995), ce qui est tres tot. La scene le date plutot de 1999-2002.
+**Psy-Prog** (rattache a Psychedelic Trance, greffe Progressive Trance) : ASCENDANCE COMPLETEE apres remontee de la scene. Il naît de la RENCONTRE entre progressive trance et psytrance, pas du goa seul : la greffe vers la progressive trance est declaree. Une cartographie de reference le fait descendre de Psychedelic Trance des 1995, ce qui est tres tot ; la scene le date plutot de 1999-2002. Terrain de Mika, fiche en brouillon.
 
 **Techno Body Music** (rattache a EBM) : Berlin, annees 2010. Terme porte par le label Aufnahme + Wiedergabe pour la jonction de l'EBM et de la techno. Certaines sources n'y voient pas un genre mais une etiquette de label : filiation marquee comme debattue.
 
@@ -355,8 +355,8 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
 
 **Anthem Trance** (rattache a Uplifting Trance) : 1996-2002. Le refrain hymne au centre : Gouryella, Binary Finary. Frontiere tenue avec l'uplifting, souvent le meme disque.
 
-**Zenonesque** (rattache a Psy-Prog) : Annees 2010, label Zenon. Psy progressif sombre et texture, sans les hymnes. Le vocabulaire est conteste : psytech, psy-prog et zenonesque decoupent le meme territoire de deux ou trois facons. Terrain de Mika, a trancher.
+**Zenonesque** (RATTACHEMENT CORRIGE : Dark Psy, plus Psy-Prog) : label Zenon, Australie, milieu des annees 2000. FILIATION CORRIGEE apres remontee de la scene : le zenonesque ne descend PAS du psy-prog, le rattachement au psy-prog est une erreur commune nee du tempo voisin. Le son vient du dark psy ralenti croise a la techno hypnotique, avec une frange glitchee. CONTROVERSE CONSERVEE : certains le tiennent pour une branche du psy-prog, la scene Zenon le revendique comme autre chose, d'ou la greffe vers Psy-Prog marquee debattue. Terrain de Mika, fiche en brouillon.
 
-**Psytech** (rattache a Psy-Prog) : Annees 2010. Entre la techno et le psy progressif. Meme querelle de vocabulaire que le zenonesque, marque debated pour la meme raison. Terrain de Mika, a trancher.
+**Psytech** (rattachement CONVENTIONNEL a Psy-Prog, greffes vers la techno) : Hambourg puis les netlabels, debut des annees 2000. FILIATION PRECISEE apres remontee de la scene : ce n'est pas un derive lineaire du psy-prog mais un CARREFOUR entre techno et psytrance. Le schema imposant un parent structurel unique, le rattachement d'arbre reste conventionnel et les greffes vers Hypnotic Techno et Minimal Techno disent la filiation reelle. La frontiere avec psy-prog et zenonesque est contestee dans la scene elle-meme. Terrain de Mika, fiche en brouillon.
 
 **Darkwave** (rattache a Coldwave) : Europe, annees 1980. Le versant sombre de la new wave, synthetiseurs et voix graves. Recouvre en partie la coldwave francaise, la frontiere est linguistique autant que musicale.
