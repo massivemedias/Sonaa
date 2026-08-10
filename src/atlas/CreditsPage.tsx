@@ -30,11 +30,34 @@ export function CreditsPage() {
         </a>
         <h1>Crédits</h1>
         <p className="credits-lede">
-          Ce qui a servi à construire cet atlas, sans hiérarchie de dette.
+          {/* « sans hiérarchie de dette » a été retiré : la page en établit
+              désormais une, et la première section dit laquelle. Un chapeau
+              qui contredit ce qui le suit est pire qu'un chapeau absent. */}
+          Ce qui a servi à construire cet atlas, et ce dont il procède.
         </p>
       </header>
 
       <div id="credits-content" className="credits-body">
+        {/* La dette fondatrice vient en premier : c'est ce qui explique
+            pourquoi ce site existe, avant ce dont il est fait. */}
+        <section aria-labelledby="credits-inspiration">
+          <h2 id="credits-inspiration">L&apos;inspiration</h2>
+          <p>
+            SONAA doit son existence à{' '}
+            <a href="https://music.ishkur.com/" target="_blank" rel="noopener noreferrer">
+              Ishkur&apos;s Guide to Electronic Music
+            </a>
+            , la cartographie qui a appris à des générations d&apos;auditeurs que les genres
+            ont une ascendance, et qu&apos;on peut la parcourir en écoutant. SONAA en reprend
+            l&apos;ambition, avec une lecture actualisée, un corpus vérifié et une navigation
+            faite pour les écrans d&apos;aujourd&apos;hui.
+          </p>
+          <p className="credits-caveat">
+            Hommage, pas décalque : les filiations de SONAA ont été rétablies source par
+            source, et divergent d&apos;Ishkur là où le croisement le commandait.
+          </p>
+        </section>
+
         <section aria-labelledby="credits-sources">
           <h2 id="credits-sources">Les filiations</h2>
           <p>
@@ -81,6 +104,22 @@ export function CreditsPage() {
             contenu audio : chaque identifiant de vidéo est vérifié, jamais inventé, et une
             track retirée de YouTube disparaît de la sélection. Les données de sortie
             viennent de Discogs par correspondance exigeante : un champ douteux reste vide.
+          </p>
+        </section>
+
+        <section aria-labelledby="credits-outils">
+          <h2 id="credits-outils">Les outils</h2>
+          <p>
+            Ce site a été construit avec l&apos;aide de{' '}
+            <a href="https://claude.ai" target="_blank" rel="noopener noreferrer">
+              Claude
+            </a>
+            , l&apos;assistant d&apos;Anthropic : architecture, code, vérification du corpus et
+            rédaction des fiches. Les propositions du public s&apos;appuient sur{' '}
+            <a href="https://supabase.com" target="_blank" rel="noopener noreferrer">
+              Supabase
+            </a>
+            .
           </p>
         </section>
 

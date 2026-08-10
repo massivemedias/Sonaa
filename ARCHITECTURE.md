@@ -1070,8 +1070,9 @@ provenance qui ne s'affiche pas, pas la donnee. Les documents du depot,
 ARCHITECTURE.md et CORPUS.md, continuent de nommer leurs sources : ils sont
 l'appareil critique, pas l'interface.
 
-**Decision 2.** Une page de credits, route `#/credits`, accessible par un lien
-discret en pied d'atlas et depuis la vue liste. Elle cite des CATEGORIES,
+**Decision 2, REVISEE le 10 aout 2026, voir la revision en fin d'ADR.** Une page
+de credits, route `#/credits`, accessible par un lien discret en pied d'atlas et
+depuis la vue liste. Elle cite des CATEGORIES,
 encyclopedies, bases discographiques, cartographies historiques, communautes
 d'auditeurs, sans hierarchie de dette et sans nommer un guide en particulier.
 Elle dit que les morceaux sont lus par le lecteur officiel YouTube, qu'aucun
@@ -1091,6 +1092,36 @@ repli : iTunes limite par adresse IP sur des heures et a coupe trois campagnes
 de suite, Deezer tolere cinquante requetes par cinq secondes. Meme matcher
 exigeant pour les deux : une pochette fausse est pire qu'aucune, quelle que soit
 la source.
+
+### Revision du 10 aout 2026 : la dette est nommee, aux credits et nulle part ailleurs
+
+La decision 2 disait « sans nommer un guide en particulier ». Elle est levee,
+partiellement, sur demande de Mika.
+
+**Ce qui change.** La page de credits porte une section « L'inspiration » qui
+nomme **Ishkur's Guide to Electronic Music** et le cite comme l'ouvrage dont
+SONAA procede. Une section « Les outils » nomme **Claude** pour l'aide a
+l'architecture, au code, a la verification du corpus et a la redaction des
+fiches, et **Supabase** pour les propositions du public.
+
+**Ce qui ne change pas, et c'est l'essentiel.** Les 218 fiches de genres
+gardent « une cartographie de reference ». La decision 1 tient entierement :
+aucune source particuliere n'est nommee dans les labels, les fiches, les notes
+ni le corpus. La mention existe **a un seul endroit du site**.
+
+**Pourquoi cette asymetrie est coherente et non un compromis mou.** Une source
+citee quarante-six fois dans les donnees devient une caution : elle laisse
+croire que chaque filiation vient de la, alors que les filiations de SONAA ont
+ete rétablies source par source et divergent d'Ishkur la ou le croisement le
+commandait. Citee une fois aux credits, elle dit autre chose : d'ou vient
+l'ambition du projet. Une dette intellectuelle se reconnait a un endroit, une
+source de donnee se cite a chaque usage, et Ishkur est la premiere sans etre la
+seconde.
+
+**Regle de la section « Les outils ».** Seuls y figurent les outils
+reellement employes. Un outil evoque puis reconnu comme non utilise a ete
+ecarte : on ne cite pas ce qui n'a pas servi, meme pour faire bonne mesure,
+parce qu'une liste de credits qui gonfle cesse d'informer.
 
 ---
 
