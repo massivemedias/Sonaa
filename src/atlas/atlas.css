@@ -556,8 +556,8 @@
      largeur en desktop). Hauteur EXPLICITE. */
   .atlas-root[data-sheet-pos='half'] .atlas-canvas,
   .atlas-root[data-sheet-pos='half'] .atlas-labels {
-    bottom: 52dvh;
-    height: 48dvh;
+    bottom: 42dvh;
+    height: 58dvh;
   }
 }
 

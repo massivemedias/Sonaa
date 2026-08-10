@@ -1905,6 +1905,41 @@ la règle.
 
 ---
 
+## ADR-057 : Priorité du vol tranchée, feuille à 42 dvh, descente NON résolue
+
+**Date** : 2026-08-09.
+
+**Décisions.**
+
+1. **Le vol de descente gagne toujours.** Le suivi de cible ne s'applique
+   QUE hors vol, et il reprend la NOUVELLE cible : un verrou nomme le
+   niveau courant, la caméra converge vers son cadrage RECALCULÉ à chaque
+   image (auto-correctif, puisque les enfants s'écartent après le clic — un
+   cadrage figé au moment du clic collait la caméra au genre). Toute
+   interaction lâche le verrou : la main de l'usager passe avant la
+   machine. Mesuré : la distance converge bien vers la valeur voulue.
+
+2. **Feuille à mi-hauteur : 52 → 42 dvh.** Les deux pistes ont été
+   mesurées, la première gagne :
+   - piste A (42 dvh, carte 58 dvh) : Breaks 3 → 4 sur 6, House 6 sur 9 ;
+   - piste B (cadrage plus large à 390 px) : Breaks 4 sur 6 mais House
+     RECULE à 4 sur 9 — les labels butent au plancher de 9 px et ne
+     rétrécissent plus, donc élargir le cadrage ne fait qu'augmenter les
+     chevauchements. Piste B abandonnée, le plancher de 9 px tient.
+
+3. **LA DESCENTE D'UN CRAN RESTE CASSÉE : 0 enfant sur 6 pour Drum and
+   Bass, à toutes les largeurs.** Ce que le diagnostic a établi et écarté :
+   le verrou fonctionne (distance convergente, vérifié), le rayon de
+   cadrage est correct (5,79 unités mesurées, enfants à 3,98), les enfants
+   sont dans le champ, et le genre ouvert reste candidat même exempté du
+   seuil d'expansion et promu au niveau 0 d'arbitrage — DEUX correctifs
+   tentés puis RETIRÉS faute de preuve. La cause est donc en amont de
+   l'arbitrage, dans la candidature ou la projection des labels d'un genre
+   de profondeur 4. À reprendre en instrumentant le pipeline de labels pas
+   à pas, hors de toute autre mission.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle

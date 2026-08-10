@@ -822,6 +822,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      trop nerveux, on perd le contrôle). */
   const onWheel = (event: WheelEvent): void => {
     cameraAtDefault = false;
+    releaseFrameLock();
     event.preventDefault();
     if (suspended) return;
     const k = event.ctrlKey ? 0.015 : 0.013;
@@ -948,6 +949,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   const onPointerDown = (event: PointerEvent): void => {
     if (suspended) return;
     onFirstInteraction();
+    releaseFrameLock();
     activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
     /* Capture blindée : un pointeur synthétique (tests) la fait jeter, et
        l'exception coupait l'initialisation du geste. */
@@ -1082,6 +1084,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
 
   const selectFamily = (fi: number, now: number): void => {
     tapZoomPrev = null;
+    frameLock = -1;
     if (activeFamily >= 0 && activeFamily !== fi) setDeploy(activeFamily, false, now);
     activeFamily = fi;
     activeGenre = -1;
@@ -1142,7 +1145,10 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
        la génération du dessus se resserre et s'estompe (grammaire de focus
        existante). Une feuille garde le cadrage du niveau où elle vit. */
     if (slot.children.length > 0) {
+      frameLock = globalIndex;
       startFly(slot.world, frameDistance(genreFrameRadius(globalIndex) + 2.5), now);
+    } else {
+      frameLock = -1;
     }
     emitNav();
     openPanel(slot.family, slot.local);
@@ -1155,6 +1161,17 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      position colle la caméra à quelques unités du noeud. On mémorise donc la
      cible et la boucle de rendu la consomme quand la diffusion est faite. */
   let pendingGenre = -1;
+
+  /* PRIORITÉ TRANCHÉE (ADR-057) : le VOL DE DESCENTE gagne toujours. Le
+     suivi de cible ne s'applique QUE hors vol, et il reprend LA NOUVELLE
+     cible : le verrou nomme le niveau courant, et la caméra converge vers
+     son cadrage recalculé à chaque image — les enfants s'écartent après le
+     clic, un cadrage figé au moment du clic collait la caméra au genre.
+     Toute interaction lâche le verrou : la main passe avant la machine. */
+  let frameLock = -1;
+  const releaseFrameLock = (): void => {
+    frameLock = -1;
+  };
 
   const goToGenre = (familyIndex: number, genreLocal: number): void => {
     const now = performance.now();
@@ -1325,7 +1342,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       case 'ArrowDown': elVel -= 0.035; break;
       case '+': case '=': dollyVel -= 5.5; break;
       case '-': case '_': dollyVel += 5.5; break;
-      case '0': recenter(); break;
+      case '0': releaseFrameLock(); recenter(); break;
       /* Échap appartient au panneau tant qu'il est ouvert : c'est la couche
          DOM qui le ferme puis remonte, sinon on remonterait deux fois. */
       case 'Escape': if (panelSlot < 0) goUp(); break;
@@ -1963,13 +1980,15 @@ const OVERLAP_TOLERANCE = 1;
        LA FAMILLE du genre ouvert, pas la sphère du genre (verdict : la carte
        montre la famille entière, le genre y est marqué par son halo). Les
        centres bougent pendant la relaxation du déploiement, d'où le suivi. */
-    if (panelSlot >= 0 && !flying) {
-      const slot = slotsData[panelSlot];
-      if (slot && genrePath.length > 0 && slot.children.length > 0) {
-        /* Descendu sur un genre à dérivés : la cible suit CE sous-anneau. */
-        target.copy(slot.world);
+    if (!flying) {
+      const lock = frameLock >= 0 ? slotsData[frameLock] : undefined;
+      if (lock) {
+        target.copy(lock.world);
         targetSmooth.lerp(target, reducedMotion ? 1 : 0.12);
-      } else {
+        const want = frameDistance(genreFrameRadius(frameLock) + 2.5);
+        distance += (want - distance) * (reducedMotion ? 1 : 0.1);
+      } else if (panelSlot >= 0) {
+        const slot = slotsData[panelSlot];
         const c = slot ? familyCenters[slot.family] : undefined;
         if (c) {
           target.set(c.x, c.y, c.z);
@@ -2380,8 +2399,10 @@ const OVERLAP_TOLERANCE = 1;
       const now = performance.now();
       const g = activeGenre >= 0 ? slotsData[activeGenre] : undefined;
       if (g && g.children.length > 0) {
+        frameLock = activeGenre;
         startFly(g.world, frameDistance(genreFrameRadius(activeGenre) + 2.5), now);
       } else if (activeFamily >= 0) {
+        frameLock = -1;
         frameFamily(activeFamily, now);
       }
     }
