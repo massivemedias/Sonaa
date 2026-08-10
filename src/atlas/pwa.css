@@ -1,0 +1,128 @@
+/* Bandeaux de la PWA : réseau absent, mise à jour, installation.
+
+   Posés en bas, jamais en haut : le haut de l'écran porte le logo et la
+   recherche, et sur mobile la feuille du lecteur monte depuis le bas mais
+   laisse la barre libre quand elle est repliée. Un seul bandeau à la fois,
+   c'est le composant qui l'assure. */
+
+.pwa-bandeau {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  z-index: 70;
+
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  width: min(38rem, calc(100vw - 1.5rem));
+  padding: 0.7rem 0.9rem;
+
+  background: var(--surface-raised);
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 4px;
+  box-shadow: 0 0.75rem 2rem oklch(0.05 0.01 250 / 0.45);
+
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--ink-primary);
+}
+
+.pwa-bandeau p {
+  margin: 0;
+  flex: 1 1 auto;
+}
+
+.pwa-bandeau strong {
+  font-weight: var(--weight-genre);
+}
+
+/* Réseau absent : le seul cas où le bandeau doit se remarquer tout de suite,
+   parce qu'il explique une panne que la personne est en train de constater. */
+.pwa-bandeau-alerte {
+  border-left: 2px solid oklch(0.62 0.13 65);
+}
+
+/* Une modale ouverte a la priorité. Constaté à la capture : le bandeau se
+   posait sur le pied de la modale de contribution et masquait « Annuler » et
+   « Envoyer la proposition ». Un bandeau qui rend un formulaire inutilisable
+   est pire que pas de bandeau — il attendra la fermeture, et le message
+   qu'il porte n'est jamais urgent au point de valoir ça. */
+body:has(.contrib-fond) .pwa-bandeau {
+  display: none;
+}
+
+.pwa-actions {
+  display: flex;
+  gap: 0.45rem;
+  flex: 0 0 auto;
+}
+
+.pwa-bouton,
+.pwa-bouton-principal {
+  padding: 0.4rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: var(--weight-track);
+  border-radius: 3px;
+  border: var(--rule-width) solid var(--rule-hairline);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.pwa-bouton {
+  color: var(--ink-secondary);
+  background: transparent;
+}
+
+.pwa-bouton:hover,
+.pwa-bouton:focus-visible {
+  color: var(--ink-primary);
+  border-color: var(--rule-strong);
+}
+
+.pwa-bouton-principal {
+  color: oklch(0.14 0.01 250);
+  background: var(--ink-primary);
+  border-color: var(--ink-primary);
+}
+
+/* Le pictogramme « Partager » d'iOS, dessiné inline : aucun appel tiers, et
+   une capture d'écran aurait vieilli à la première refonte de Safari. */
+.pwa-geste {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  margin: 0 0.15rem;
+  vertical-align: -0.3rem;
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 3px;
+  color: var(--ink-primary);
+}
+
+.pwa-geste-mot {
+  font-weight: var(--weight-track);
+}
+
+@media (max-width: 560px) {
+  .pwa-bandeau {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  .pwa-actions {
+    justify-content: flex-end;
+  }
+
+  /* Cibles tactiles : les mêmes 44 px que partout ailleurs. */
+  .pwa-bouton,
+  .pwa-bouton-principal {
+    min-height: 2.75rem;
+    padding-inline: 1rem;
+  }
+}

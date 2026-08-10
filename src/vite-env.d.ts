@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+/// <reference types="vite-plugin-pwa/client" />
 
 /* Les deux seules variables du projet. Déclarées facultatives à dessein :
    SONAA doit se construire et fonctionner sans elles, la contribution étant

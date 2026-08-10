@@ -1989,6 +1989,67 @@ familles inchangées au mieux mesuré (House 6/9, Breaks 4/6).
 
 ---
 
+## ADR-059 : Application installable, consultable hors ligne sauf l'écoute
+
+**Contexte.** SONAA se consulte souvent en déplacement, et une part du
+corpus se lit sans jamais rien écouter. Un site qui exige le réseau pour
+afficher une filiation déjà téléchargée fait attendre pour rien.
+
+**Décision.** `vite-plugin-pwa` en mode `generateSW`, avec quatre règles.
+
+**1. Ce qui est préchargé, et ce qui ne l'est pas.** Le précache contient le
+shell : 41 entrées, 2,2 Mo — code, styles, police, icônes, manifest. Le
+corpus n'y figure pas séparément parce qu'il est importé en JSON et donc
+déjà compilé dans le bundle JavaScript ; le précacher l'aurait stocké deux
+fois. Les **1263 pochettes pèsent 39 Mo** : les précharger imposerait ce
+téléchargement, sur son forfait, à quiconque ouvre le site une fois. Elles
+sont mises en cache à l'usage (`CacheFirst`, 400 entrées, 60 jours). Les
+26 écrans de lancement iOS (2,9 Mo) sont hors précache pour la même raison :
+Safari en réclame un seul, celui de l'appareil.
+
+**2. YouTube n'est jamais mis en cache, sous aucune forme.** `NetworkOnly`,
+et c'est une règle, pas un réglage. La lecture passe par le lecteur
+officiel, dont les conditions interdisent d'intercepter les flux ; les URL
+de média sont signées et expirent, donc une réponse gardée ne rejouerait
+rien, elle produirait une erreur difficile à diagnostiquer ; et les
+vignettes appartiennent à YouTube. Supabase est également en `NetworkOnly` :
+un score de vote servi depuis un cache serait faux, et un faux compteur est
+pire qu'un compteur absent.
+
+**3. La mise à jour est proposée, jamais imposée.** `registerType: 'prompt'`.
+Une version appliquée dans le dos remplace le code sous les pieds de
+quelqu'un qui lit une fiche, et peut interrompre une écoute.
+
+**4. L'invite d'installation ne se pose qu'une fois.** Deuxième visite au
+plus tôt, jamais si l'application est déjà installée, et **un refus est
+définitif** — c'est la réapparition à chaque visite qui rend ces invites
+détestées. Sur iOS, aucun événement d'installation n'existe : on explique le
+geste (Partager, puis « Sur l'écran d'accueil »), c'est tout ce qui est
+possible, et c'est mieux que se taire.
+
+**Vérifié, serveur éteint** : la page, le manifest, la police, les icônes et
+une route profonde répondent toutes en 200 depuis le cache ; l'atlas se
+recharge entièrement, canvas WebGL et 96 labels compris ; la vue liste
+affiche ses 14 familles. Le cycle complet de mise à jour a été observé : une
+version en attente, la bannière, le clic, la version suivante active.
+
+**Un défaut trouvé à la capture, pas au raisonnement** : le bandeau se posait
+sur le pied de la modale de contribution et masquait « Annuler » et
+« Envoyer ». Une modale ouverte a désormais la priorité.
+
+**Lighthouse 11** (la dernière version qui contient encore la catégorie PWA,
+retirée en v12) : **PWA 100** sur les deux profils. Bureau 99 / 100 / 96 /
+100. Mobile 81 / 100 / 96 / 92.
+
+Les points manquants sont connus et assumés : « Bonnes pratiques » perd 4
+points sur un avertissement de cookie émis par l'iframe YouTube elle-même,
+déjà servie depuis `youtube-nocookie.com` ; « SEO » mobile perd 8 points sur
+« 39,85 % de texte lisible », qui est le **plancher de 9 px des labels de
+l'atlas** — un réglage demandé explicitement et dont le rendu est gelé
+(ADR-058). Le corriger reviendrait à défaire une décision prise.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle

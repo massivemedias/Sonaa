@@ -96,17 +96,29 @@ export async function envoyerLienMagique(email: string): Promise<ResultatEnvoi> 
     /after \d+ seconds/i.test(texte);
 
   if (limite) {
-    const secondes = texte.match(/after (\d+) seconds?/i)?.[1];
-    const attente = secondes ? delaiEnFrancais(Number(secondes)) : 'un moment';
-    return {
-      ok: false,
-      limiteAtteinte: true,
-      message:
-        `Le service d'envoi de courriels de SONAA est momentanément saturé : il ne peut ` +
-        `expédier que quelques liens de connexion par heure, pour tout le site. ` +
-        `Réessayez dans ${attente}. Si vous vous êtes déjà connecté sur cet appareil, ` +
-        `votre session est peut-être encore valable : rechargez la page avant de redemander un lien.`,
-    };
+    const secondes = Number(texte.match(/after (\d+) seconds?/i)?.[1] ?? 0);
+
+    /* Deux limites distinctes remontent sous le même code, et les confondre
+       produit une phrase qui se contredit. La courte est un simple
+       anti-rebond sur une adresse, de l'ordre de la minute ; la longue est
+       le quota d'envoi du site entier. Annoncer « quelques liens par heure »
+       à quelqu'un qui doit patienter trente secondes l'inquiète pour rien.
+       Dans les deux cas on dit la même chose sur le fond : ce n'est pas de
+       sa faute, et voici quand réessayer. */
+    const courte = secondes > 0 && secondes <= 120;
+
+    const message = courte
+      ? `Un lien vient déjà d'être demandé pour cette adresse. Patientez ` +
+        `${delaiEnFrancais(secondes)} avant d'en redemander un — pensez à regarder ` +
+        `dans les indésirables, le premier est peut-être déjà arrivé.`
+      : `Le service d'envoi de courriels de SONAA est momentanément saturé. Ce n'est pas ` +
+        `votre faute : le site entier ne peut expédier qu'un petit nombre de liens de ` +
+        `connexion par heure, et le quota vient d'être atteint. Réessayez dans ` +
+        `${secondes > 0 ? delaiEnFrancais(secondes) : 'une dizaine de minutes'}. Si vous vous ` +
+        `êtes déjà connecté sur cet appareil, votre session est peut-être encore valable : ` +
+        `rechargez la page avant de redemander un lien.`;
+
+    return { ok: false, limiteAtteinte: true, message };
   }
 
   return { ok: false, limiteAtteinte: false, message: texte || "L'envoi a échoué." };

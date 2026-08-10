@@ -2,6 +2,14 @@ import { StrictMode, lazy, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import './design/tokens.css';
 import './design/base.css';
+import { compterLaVisite, enregistrerLeServiceWorker } from './lib/pwa.ts';
+import { PwaLayer } from './atlas/PwaLayer.tsx';
+
+/* Le service worker et le compteur de visites démarrent avant React : le
+   premier doit prendre la main le plus tôt possible, le second doit compter
+   la visite même si le rendu échoue. */
+enregistrerLeServiceWorker();
+compterLaVisite();
 
 /* L'atlas EST le produit. La racine du site l'ouvre directement, il n'y a plus
    de page d'accueil intermédiaire à traverser.
@@ -82,5 +90,8 @@ createRoot(rootElement).render(
         <AtlasPage />
       )}
     </Suspense>
+    {/* Hors du Suspense : un bandeau « hors ligne » doit pouvoir s'afficher
+        même si le chunk de la page en cours n'a pas pu être chargé. */}
+    <PwaLayer />
   </StrictMode>
 );
