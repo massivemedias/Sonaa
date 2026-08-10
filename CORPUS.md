@@ -89,7 +89,7 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
     - Microhouse  8 tracks
       - Clicks & Cuts  6 tracks
       - Minimal Tech  4 tracks
-        - Minimal Prog  [greffe: Psy-Prog, famille psy]  (?)  [fiche brouillon]  5 tracks
+        - Minimal Prog  [greffe: Psy-Prog, famille psy]  (?)  5 tracks
         - Ro-Minimal  (?)  3 tracks
         - Minimal Wave  [convention]  [greffe: Synth-pop, famille roots]  [greffe: Coldwave, famille industrial]  4 tracks
     - Deep Tech  5 tracks
@@ -118,17 +118,17 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
 - Goa Trance  [fondateur]  [greffe: Acid Trance, famille trance]  [greffe: EBM, famille industrial]  (?)  12 tracks
   - Psychedelic Trance  10 tracks
     - Full-On  7 tracks
-      - Nitzhonot  (?)  [fiche brouillon]  6 tracks
+      - Nitzhonot  (?)  6 tracks
       - Twilight Psy  [greffe: Dark Psy, famille psy]  3 tracks
       - Morning Full-On  3 tracks
     - Dark Psy  5 tracks
-      - Forest Psy  [fiche brouillon]  6 tracks
-      - Hi-Tech Psy  [fiche brouillon]  4 tracks
+      - Forest Psy  6 tracks
+      - Hi-Tech Psy  4 tracks
       - Psycore  [greffe: Speedcore, famille hardcore]  3 tracks
       - Zenonesque  [greffe: Hypnotic Techno, famille techno]  [greffe: Psy-Prog, famille psy]  [greffe: Glitch, famille ambient]  (?)  5 tracks
     - Psy-Prog  [greffe: Progressive Trance, famille trance]  (?)  5 tracks
       - Psytech  [greffe: Hypnotic Techno, famille techno]  [greffe: Minimal Techno, famille minimal]  [greffe: Tech House, famille minimal]  (?)  4 tracks
-    - Suomisaundi  [fiche brouillon]  6 tracks
+    - Suomisaundi  6 tracks
   - Psydub  7 tracks
   - Neo Goa  6 tracks
 
@@ -141,7 +141,7 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
       - Dark Electro  6 tracks
         - Aggrotech  5 tracks
       - Futurepop  [greffe: Uplifting Trance, famille trance]  6 tracks
-    - Techno Body Music  (?)  [fiche brouillon]  4 tracks
+    - Techno Body Music  (?)  4 tracks
   - Coldwave  5 tracks
     - Darkwave  [greffe: Synth-pop, famille roots]  (?)  6 tracks
   - Neue Deutsche Haerte  [greffe: Electro-Industrial, famille industrial]  (?)  6 tracks
@@ -285,9 +285,9 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
 
 **Spacesynth** (rattache a Italo Disco) : une cartographie de reference en fait l'ancetre de l'Italo et du Hi-NRG. Discogs et la scene le decrivent comme une branche instrumentale de l'Italo, posterieure (Laserdance, 1984). J'ai inverse le lien par rapport a cette cartographie.
 
-**Indie Dance** (rattache a Nu-Disco) : Terrain de Mika, a corriger. Je l'ai rattache au nu-disco, mais on le rattache aussi souvent a l'electroclash et au dark disco.
+**Indie Dance** (rattache a Nu-Disco) : Fiche VALIDEE par Mika. Je l'ai rattache au nu-disco, mais on le rattache aussi souvent a l'electroclash et au dark disco.
 
-**Dark Disco** (rattache a Nu-Disco) : Terrain de Mika, a corriger. Greffe EBM posee par defaut, la famille industrial n'existe pas dans ce corpus v1 : la greffe est donc declaree mais non resolue.
+**Dark Disco** (rattache a Nu-Disco) : Fiche VALIDEE par Mika. Greffe EBM posee par defaut, la famille industrial n'existe pas dans ce corpus v1 : la greffe est donc declaree mais non resolue.
 
 **Garage House** (rattache a Chicago House) : Paradise Garage, New York. Une cartographie de reference lui donne aucun parent et le date de la fin des annees 70, donc anterieur a la house de Chicago. Wikipedia le presente comme contemporain et parallele. Rattachement structurel a Chicago House par commodite de lecture, la double ascendance disco est portee par la greffe.
 
@@ -299,7 +299,7 @@ critique du depot ; l'interface ne nomme aucune source (ADR-038).
 
 **Tech House** (rattache a Minimal Techno) : Une cartographie de reference lui donne deux parents, UK House (1992) et Progressive House (1991), et le range dans sa propre scene. Je l'ai rattache au minimal pour la lisibilite de cette famille, avec greffe vers la house. Arbitrage discutable.
 
-**Minimal Prog** (rattache a Minimal Tech) : Une cartographie de reference le range dans sa scene Progressive et le fait descendre de Progressive (2003). Il est a la frontiere du minimal et du psy progressif : greffe declaree vers le psy-prog. Terrain de Mika, a corriger.
+**Minimal Prog** (rattache a Minimal Tech) : Une cartographie de reference le range dans sa scene Progressive et le fait descendre de Progressive (2003). Il est a la frontiere du minimal et du psy progressif : greffe declaree vers le psy-prog. Fiche VALIDEE par Mika.
 
 **Trance** (rattache a aucun) : Fondateur de la famille. Francfort, 1990, Dance 2 Trance et Sven Vath. Une cartographie de reference le fait descendre de l'EBM (1987), lecture minoritaire. Wikipedia et Discogs le font naitre de la techno et de la house acide. Greffe EBM declaree mais non resolue.
 
