@@ -3,12 +3,12 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
-// SONAA est un site 100 % statique servi depuis GitHub Pages sur /Sonaa/.
+// SONAA est un site 100 % statique servi depuis GitHub Pages sur sonaa.ca.
 // Deux variables d'environnement seulement, toutes deux publiques par
 // conception : l'URL Supabase et la clé « publishable ». Aucun secret n'est
 // injecté au build, et un contrôle de CI le vérifie sur dist/.
 export default defineConfig({
-  base: '/Sonaa/',
+  base: '/',
   plugins: [
     react(),
     VitePWA({
@@ -27,8 +27,8 @@ export default defineConfig({
           'Atlas généalogique des musiques électroniques. 218 genres, 14 familles, écoute par le lecteur officiel YouTube.',
         lang: 'fr',
         dir: 'ltr',
-        start_url: '/Sonaa/',
-        scope: '/Sonaa/',
+        start_url: '/',
+        scope: '/',
         display: 'standalone',
         orientation: 'any',
         background_color: '#0a0c10',
@@ -52,7 +52,7 @@ export default defineConfig({
            son forfait. Elles sont mises en cache à l'usage, ci-dessous. */
         globIgnores: ['**/covers/**', '**/node_modules/**'],
         navigateFallback: 'index.html',
-        navigateFallbackDenylist: [/^\/Sonaa\/covers\//],
+        navigateFallbackDenylist: [/^\/covers\//],
         cleanupOutdatedCaches: true,
         /* Le chunk des structures pèse 680 Ko : au-dessus du défaut, et il
            n'est pas question de le laisser hors du cache, c'est le corpus. */
@@ -64,7 +64,7 @@ export default defineConfig({
                une pochette ne change jamais — si elle change, c'est un
                nouveau fichier. Plafond à 400 entrées pour ne pas remplir le
                disque de quelqu'un qui parcourt tout l'atlas. */
-            urlPattern: ({ url }) => url.pathname.startsWith('/Sonaa/covers/'),
+            urlPattern: ({ url }) => url.pathname.startsWith('/covers/'),
             handler: 'CacheFirst',
             options: {
               cacheName: 'sonaa-pochettes',
