@@ -165,19 +165,26 @@ famille.
   la forme de tout ce qui est carré ou rond, et il s'utilise TEL QUEL, sans
   recadrage : il porte déjà son fond.
 
-**Exception mesurée : les favicons 16 et 32.** Le lettrage occupe 60 % du
-disque ; à 16 pixels, cinq lettres tiendraient dans dix pixels de large, ce qui
-ne donne rien. Ces deux tailles sont donc recadrées sur le **S initial** du
-disque, fond du disque compris. Le 180 et les icônes d'application gardent le
-mot complet. Le 16 reçoit en plus une dilatation légère du trait, sans laquelle
-les déliés disparaissent.
+**Aucune exception : les favicons aussi sont le disque entier.** Une version
+précédente les recadrait sur le S initial, pour gagner en lisibilité à
+16 pixels. Ce n'est plus le cas. Le disque est la forme que la marque prend
+partout, onglet compris : on reconnaît une pastille avant de lire un lettrage,
+et une icône qui ne ressemble à aucune autre déclinaison ne sert pas la marque,
+même lisible.
+
+Ce que cela coûte, dit franchement : à 16 pixels le lettrage devient une trace
+claire au centre du disque, illisible comme mot. À 32 il se relit. Le disque,
+lui, est net aux deux tailles, et c'est lui qui identifie. Une dilatation du
+trait avant réduction a été essayée sur six réglages, de `Disk:0` à `Disk:12` :
+la luminance maximale est déjà à 255 sans elle et la moyenne ne bouge que de
+106 à 109. Elle épaississait sans rien apporter, elle a été retirée.
 
 **Tailles.**
 
 | Usage | Fichier | Contenu | Taille |
 |---|---|---|---|
-| Onglet | favicon.ico, favicon-16, favicon-32 | S initial | 16, 32, 48 |
-| Onglet, thème sombre | favicon-dark-16, favicon-dark-32 | S initial + filet | 16, 32 |
+| Onglet | favicon.ico, favicon-16, favicon-32 | disque entier | 16, 32, 48 |
+| Onglet, thème sombre | favicon-dark-16, favicon-dark-32 | disque entier + filet | 16, 32 |
 | iOS | apple-touch-icon | mot entier | 180, coins remplis, opaque |
 | Application | icon-192, icon-512 | mot entier | 192, 512 |
 | Application, maskable | icon-maskable-512 | mot entier, marge 20 % | 512 |
@@ -194,7 +201,8 @@ non supposées :
 - la variante de thème du favicon va dans le sens **sombre**, pas clair : un
   disque noir se détache parfaitement d'une barre d'onglets claire, et se perd
   dans une barre sombre. `favicon-dark-*` porte donc un filet clair, servi sous
-  `prefers-color-scheme: dark`.
+  `prefers-color-scheme: dark`. Ce filet suit le **bord du disque** : un cadre
+  rectangulaire autour d'une forme ronde se lirait comme une erreur.
 
 Le filet est une nécessité de lisibilité, pas un ornement : l'interdit d'effets
 ci-dessous vise les ombres, halos et dégradés appliqués au glyphe.
