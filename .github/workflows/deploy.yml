@@ -50,19 +50,43 @@ jobs:
       - name: Valider les données
         run: npm run validate:data
 
+      # Les deux seules variables du projet. Elles sont volontairement
+      # publiques : la clé est la clé « publishable » de Supabase, faite pour
+      # vivre dans un bundle, et ce sont les politiques RLS qui protègent les
+      # données. Si elles manquent, le build réussit quand même et le site
+      # se déploie sans la contribution — c'est le contrat de lib/supabase.ts.
       - name: Build
         run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
 
-      # SONAA n'a ni backend, ni clé, ni variable d'environnement. Ce contrôle
-      # interdit la récidive : aucun motif ressemblant à un secret ne peut
-      # atteindre la production. Référence : ARCHITECTURE.md ADR-011.
+      # SONAA embarque désormais une clé publique, et une seule. Ce contrôle
+      # sépare les deux cas : les motifs de secrets tiers restent interdits,
+      # et surtout AUCUNE clé de service Supabase ne doit atteindre dist/ —
+      # celle-là contourne toutes les politiques RLS. Référence : ADR-011.
       - name: Vérifier qu'aucun secret n'a traversé le build
         run: |
           if grep -rEl 'ghp_|github_pat_|AIza|sk-[A-Za-z0-9]{16}' dist/; then
             echo "::error::Motif de secret détecté dans dist/, déploiement interrompu."
             exit 1
           fi
-          echo "Aucun motif de secret dans dist/."
+          # Le motif vise une VRAIE clé, pas sa mention : lib/supabase.ts
+          # contient les chaînes « sb_secret_ » et « service_role » dans sa
+          # propre garde, et un grep naïf se déclenchait dessus. On exige
+          # donc la suite de caractères qui suit un vrai préfixe de clé.
+          if grep -rEl 'sb_secret_[A-Za-z0-9_-]{15,}' dist/; then
+            echo "::error::Une clé de service Supabase a atteint dist/. Elle ignore toutes les politiques RLS."
+            exit 1
+          fi
+          # Aucun JWT ne doit se trouver dans le bundle : la clé publique du
+          # projet est au format « publishable », pas au format JWT. Un JWT
+          # ici serait donc soit une ancienne clé anon, soit une service_role.
+          if grep -rEl 'eyJhbGciOi[A-Za-z0-9_.-]{60,}' dist/; then
+            echo "::error::Un jeton JWT est présent dans dist/. Aucun n'est attendu."
+            exit 1
+          fi
+          echo "Aucun motif de secret dans dist/, aucune clé de service, aucun JWT."
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

@@ -25,16 +25,30 @@ const AProposPage = lazy(() =>
   import('./atlas/AProposPage.tsx').then((module) => ({ default: module.AProposPage }))
 );
 
+/* Contribution. Chargée à la demande : le client Supabase et ces écrans ne
+   doivent rien coûter à qui vient seulement écouter l'atlas. */
+const PropositionsPage = lazy(() =>
+  import('./atlas/PropositionsPage.tsx').then((module) => ({ default: module.PropositionsPage }))
+);
+
+const ModerationPage = lazy(() =>
+  import('./atlas/ModerationPage.tsx').then((module) => ({ default: module.ModerationPage }))
+);
+
 const rootElement = document.getElementById('root');
 
 if (!rootElement) {
   throw new Error('Élément racine introuvable.');
 }
 
-const routeOf = (): 'index' | 'credits' | 'apropos' | 'atlas' => {
+type Route = 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'atlas';
+
+const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/index')) return 'index';
   if (window.location.hash.startsWith('#/credits')) return 'credits';
   if (window.location.hash.startsWith('#/a-propos')) return 'apropos';
+  if (window.location.hash.startsWith('#/propositions')) return 'propositions';
+  if (window.location.hash.startsWith('#/moderation')) return 'moderation';
   return 'atlas';
 };
 const route = routeOf();
@@ -60,6 +74,10 @@ createRoot(rootElement).render(
         <CreditsPage />
       ) : route === 'apropos' ? (
         <AProposPage />
+      ) : route === 'propositions' ? (
+        <PropositionsPage />
+      ) : route === 'moderation' ? (
+        <ModerationPage />
       ) : (
         <AtlasPage />
       )}

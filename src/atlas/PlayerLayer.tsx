@@ -25,6 +25,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FAMILIES, STRUCTURES, type Track } from './structures.ts';
 import { ProceduralCover } from './ProceduralCover.tsx';
+import { ContributeActions } from './ContributeActions.tsx';
 import './player-layer.css';
 
 export interface Playback {
@@ -950,6 +951,15 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
                 </>
               )}
             </section>
+
+            {/* 5. CONTRIBUER. En bas, après la fiche : on propose une
+                correction quand on a lu ce qui est écrit, pas avant. Le bloc
+                disparaît entièrement si la base n'est pas configurée. */}
+            <ContributeActions
+              genreId={panelGenreData.id}
+              genreLabel={panelGenreData.label}
+              filiationDebattue={panelGenreData.confidence === 'debated'}
+            />
 
           </div>
 

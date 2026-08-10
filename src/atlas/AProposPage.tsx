@@ -87,11 +87,27 @@ export function AProposPage() {
             <a href="#/credits">crédits</a>.
           </p>
         </section>
+
+        <section aria-labelledby="apropos-contribuer">
+          <h2 id="apropos-contribuer">Contribuer</h2>
+          <p>
+            La fiche de chaque genre permet de proposer une track, de signaler une correction et,
+            sur les filiations débattues, de défendre une autre lecture. Les propositions sont
+            publiques et se soutiennent ou se contestent depuis{' '}
+            <a href="#/propositions">la page des propositions</a>.
+          </p>
+          <p>
+            Une proposition acceptée n&apos;entre pas d&apos;elle-même dans l&apos;atlas : elle
+            est reportée à la main dans le corpus, avec ses sources. Le score oriente la décision,
+            il ne la prend pas.
+          </p>
+        </section>
       </div>
 
       <footer className="credits-foot">
         <a href="#/">Revenir à l&apos;atlas</a>
         <a href="#/credits">Crédits</a>
+        <a href="#/propositions">Propositions</a>
         <a href="#/index">Vue liste</a>
       </footer>
     </main>
