@@ -8,14 +8,23 @@
 
    Usage :
      npx tsx scripts/report-fiches-brouillon.ts
-     npx tsx scripts/report-fiches-brouillon.ts --lever-brouillon */
+     npx tsx scripts/report-fiches-brouillon.ts --lever=progpsy,zenonesque
+     npx tsx scripts/report-fiches-brouillon.ts --lever-brouillon   (toutes)
+
+   La levée est SÉLECTIVE par défaut : Mika valide fiche par fiche, et une
+   validation ne s'étend jamais aux autres. */
 
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 import { transaction } from './lib/corpus-store.ts';
 
-const LEVER = process.argv.includes('--lever-brouillon');
+const LEVER_ALL = process.argv.includes('--lever-brouillon');
+const leverArg = process.argv.find((a) => a.startsWith('--lever='));
+const LEVER_IDS = new Set(
+  leverArg ? leverArg.slice('--lever='.length).split(',').map((x) => x.trim()).filter(Boolean) : []
+);
+const leve = (id: string): boolean => LEVER_ALL || LEVER_IDS.has(id);
 
 interface Fiche {
   id: string;
@@ -82,11 +91,10 @@ transaction((corpus) => {
     g['labelsHistoriques'] = f.labelsHistoriques;
     g['labelsActuels'] = f.labelsActuels;
     g['artistesCles'] = f.artistesCles;
-    if (LEVER) delete g['redaction'];
+    if (leve(f.id)) delete g['redaction'];
     updated += 1;
   }
 });
 
-console.log(
-  `${updated} fiche(s) reportée(s)${LEVER ? ', badge brouillon levé' : ', badge brouillon CONSERVÉ'}.`
-);
+const levees = LEVER_ALL ? 'toutes' : LEVER_IDS.size > 0 ? [...LEVER_IDS].join(', ') : 'aucune';
+console.log(`${updated} fiche(s) reportée(s), badge levé sur : ${levees}.`);
