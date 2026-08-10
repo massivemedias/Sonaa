@@ -51,7 +51,7 @@ const TOKEN = envToken('DISCOGS_TOKEN');
 const limitArg = process.argv.find((a) => a.startsWith('--limit='));
 const LIMIT = limitArg ? Number.parseInt(limitArg.slice('--limit='.length), 10) : Infinity;
 
-const UA = 'SONAA/1.0 +https://massivemedias.github.io/Sonaa/';
+const UA = 'SONAA/1.0 +https://sonaa.ca/';
 
 interface Release {
   label: string | null;
