@@ -486,8 +486,7 @@ export const buildStructure = (familyIndex: number): Structure => {
        pas n'a plus à réserver la place des petits-enfants. */
     /* PAS ANGULAIRE DIMENSIONNÉ SUR LE NOM LE PLUS LONG (bug de la
        descente, prouvé par la trace : reculer la caméra ne sert à rien, le
-       rapport largeur-de-nom sur rayon-d'anneau est INVARIANT au zoom —
-       les deux décroissent en 1/distance. Le seul levier est l'orbite en
+       rapport largeur-de-nom sur rayon-d'anneau est INVARIANT au zoom, les deux décroissent en 1/distance. Le seul levier est l'orbite en
        unités monde. Un pas constant de 5 unités laissait six noms de
        « Liquid Drum and Bass » se recouvrir quel que soit le zoom. */
     const longest = Math.max(...kids.map((k) => (genres[k]?.label.length ?? 8)), 8);

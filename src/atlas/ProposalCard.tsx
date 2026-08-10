@@ -46,7 +46,7 @@ export function ProposalCard({
 
   const titre =
     p.kind === 'track'
-      ? `${payload.artist ?? '?'} — ${payload.title ?? '?'}`
+      ? `${payload.artist ?? '?'} · ${payload.title ?? '?'}`
       : p.kind === 'genre_edit'
         ? `Correction : ${LIBELLE_CHAMP[(payload.field ?? 'description') as ChampEditable] ?? payload.field}`
         : `Filiation : viendrait de ${LABEL_DE_GENRE.get(payload.parent_id ?? '') ?? payload.parent_id}`;

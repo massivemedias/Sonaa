@@ -66,7 +66,7 @@ export interface AtlasLayout {
   readonly portrait: boolean;
 }
 
-/* Ordre des familles : celui de l'anneau d'affinités (ADR-053) — la vue
+/* Ordre des familles : celui de l'anneau d'affinités (ADR-053), la vue
    fixe empile les blocs dans le même voisinage stylistique que la carte. */
 const familyOrder = (): number[] =>
   FAMILY_RING_IDS.map((id) => FAMILIES.findIndex((f) => f.id === id)).filter((i) => i >= 0);

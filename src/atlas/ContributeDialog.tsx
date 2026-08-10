@@ -1,8 +1,7 @@
 /* La modale de contribution : proposer une track, signaler une correction,
    donner son avis sur une filiation.
 
-   Un seul composant pour les trois, parce que le squelette est identique —
-   en-tête, corps, justification, envoi — et que trois modales presque
+   Un seul composant pour les trois, parce que le squelette est identique, en-tête, corps, justification, envoi, et que trois modales presque
    semblables divergeraient au premier correctif.
 
    La connexion est intégrée : si personne n'est connecté, la modale demande

@@ -92,7 +92,7 @@ const LABEL_PX_CEILING = 22;
 /* Hauteur du bandeau d'interface en haut et en bas, en pixels. Le fil d'Ariane
    passe sur deux lignes quand le chemin est long, d'où la marge généreuse. */
 /* Bandes réservées AMINCIES (ADR-056) : les contrôles sont partis en haut
-   à droite et la légende se cache quand la feuille monte — les anciennes
+   à droite et la légende se cache quand la feuille monte, les anciennes
    bandes pleine largeur mangeaient la moitié d'une couronne à 390 px. Le
    fil d'Ariane garde sa ligne, le pied sa marge. */
 const CHROME_TOP = 44;
@@ -1051,7 +1051,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   const scratch = new Vector3();
 
   /* Niveau unique : à l'ouverture on cadre la COURONNE (fondateur +
-     première génération), plus l'arbre complet — il ne se déploie plus
+     première génération), plus l'arbre complet, il ne se déploie plus
      jamais en entier. Marge de 3 unités pour les noms. */
   const familyFrameRadius = (fi: number): number => (STRUCTURES[fi]?.crownRadius ?? 12) + 3;
 
@@ -1066,7 +1066,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       if (!cs) continue;
       /* Positions DÉPLOYÉES et non courantes : au moment du clic les
          enfants sont encore repliés sur leur parent, et mesurer là donnait
-         un rayon minuscule — la caméra se collait au genre et aucun enfant
+         un rayon minuscule, la caméra se collait au genre et aucun enfant
          n'était nommé (mesuré : 0 sur 6 pour Drum and Bass). */
       r = Math.max(r, slot.deployed.distanceTo(cs.deployed) + (sphereRadii[base + child] ?? 2));
     }
@@ -1141,7 +1141,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     focusStart = now;
 
     /* NIVEAU UNIQUE (ADR-056) : cliquer un genre à dérivés descend d'un
-       cran — ses enfants se déploient et la caméra cadre CE sous-anneau,
+       cran, ses enfants se déploient et la caméra cadre CE sous-anneau,
        la génération du dessus se resserre et s'estompe (grammaire de focus
        existante). Une feuille garde le cadrage du niveau où elle vit. */
     if (slot.children.length > 0) {
@@ -1165,7 +1165,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   /* PRIORITÉ TRANCHÉE (ADR-057) : le VOL DE DESCENTE gagne toujours. Le
      suivi de cible ne s'applique QUE hors vol, et il reprend LA NOUVELLE
      cible : le verrou nomme le niveau courant, et la caméra converge vers
-     son cadrage recalculé à chaque image — les enfants s'écartent après le
+     son cadrage recalculé à chaque image, les enfants s'écartent après le
      clic, un cadrage figé au moment du clic collait la caméra au genre.
      Toute interaction lâche le verrou : la main passe avant la machine. */
   let frameLock = -1;
@@ -1535,8 +1535,7 @@ const OVERLAP_TOLERANCE = 1;
          descente, localisé par la trace : de très près, px atteignait le
          plafond de 22 px, « Liquid Drum and Bass » faisait alors 223 px sur
          390 de large, le rabattement anti-débordement empilait quatre noms
-         sur six au même x = 4, et à niveau égal ils s'annulaient tous —
-         6 candidats, 0 posé. Un nom ne dépasse donc jamais 40 % de la
+         sur six au même x = 4, et à niveau égal ils s'annulaient tous, 6 candidats, 0 posé. Un nom ne dépasse donc jamais 40 % de la
          largeur utile : le plafond de 22 px reste pour les familles, qui
          sont courtes et vues de loin. */
       const ceilByWidth = (() => {
@@ -1674,7 +1673,7 @@ const OVERLAP_TOLERANCE = 1;
       /* RÈGLE (durcie par Mika) : tout ce qui est VISIBLE est nommé, sans
          zoomer. NIVEAU UNIQUE (ADR-056) : un satellite de génération 2 et
          plus n'existe à l'écran que si son parent est sur le chemin ouvert
-         ET que son déploiement est engagé — replié sur son ancêtre, le
+         ET que son déploiement est engagé, replié sur son ancêtre, le
          nommer écrirait un nom sur une sphère absente ET volerait la place
          d'un genre de la couronne (mesuré : Deep House posé sur la place
          de Garage House). */
@@ -2290,10 +2289,10 @@ const OVERLAP_TOLERANCE = 1;
         drawCalls: renderer.info.render.calls,
         spheres: TOTAL_GENRES,
         links: LINK_COUNT,
-        openLabel: openIndex >= 0 ? (FAMILIES[openIndex]?.label ?? '—') : '—',
+        openLabel: openIndex >= 0 ? (FAMILIES[openIndex]?.label ?? '·') : '·',
         deployPct: openIndex >= 0 ? (familyProgress[openIndex] ?? 0) * 100 : 0,
         distance,
-        nearestLabel: FAMILIES[nearestIndex]?.label ?? '—',
+        nearestLabel: FAMILIES[nearestIndex]?.label ?? '·',
         nearestDistance: nearestDist,
         labelsShown,
         genreLabelsShown,

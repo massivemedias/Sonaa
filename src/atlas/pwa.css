@@ -47,7 +47,7 @@
 /* Une modale ouverte a la priorité. Constaté à la capture : le bandeau se
    posait sur le pied de la modale de contribution et masquait « Annuler » et
    « Envoyer la proposition ». Un bandeau qui rend un formulaire inutilisable
-   est pire que pas de bandeau — il attendra la fermeture, et le message
+   est pire que pas de bandeau, il attendra la fermeture, et le message
    qu'il porte n'est jamais urgent au point de valoir ça. */
 body:has(.contrib-fond) .pwa-bandeau {
   display: none;

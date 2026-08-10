@@ -2,8 +2,8 @@
 
    RÈGLE FONDATRICE : SONAA est un site statique qui doit continuer à
    fonctionner entièrement sans base. Les propositions sont un ajout, pas une
-   dépendance. Si les variables d'environnement sont absentes — build local
-   d'un contributeur, fork, panne de configuration — `supabase` vaut null et
+   dépendance. Si les variables d'environnement sont absentes, build local
+   d'un contributeur, fork, panne de configuration, `supabase` vaut null et
    toute l'interface de contribution disparaît proprement. L'atlas, le
    lecteur et les fiches ne s'en aperçoivent pas.
 

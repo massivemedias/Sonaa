@@ -187,7 +187,7 @@ const Z_FRONT = 3;
 const Z_BACK = -3;
 
 /* Bandes réservées AMINCIES (ADR-056) : les contrôles sont partis en haut
-   à droite et la légende se cache quand la feuille monte — les anciennes
+   à droite et la légende se cache quand la feuille monte, les anciennes
    bandes pleine largeur mangeaient la moitié d'une couronne à 390 px. Le
    fil d'Ariane garde sa ligne, le pied sa marge. */
 const CHROME_TOP = 44;

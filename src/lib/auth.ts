@@ -17,7 +17,7 @@
    Ce fichier ne connaît rien du fournisseur d'envoi. Passer du SMTP intégré
    à Resend se fait entièrement dans la console Supabase : le quota change,
    le code non. C'est pour cela que la limite n'est écrite nulle part ici en
-   dur — on relaie le délai que le serveur renvoie. */
+   dur, on relaie le délai que le serveur renvoie. */
 
 import { supabase } from './supabase.ts';
 
@@ -109,7 +109,7 @@ export async function envoyerLienMagique(email: string): Promise<ResultatEnvoi> 
 
     const message = courte
       ? `Un lien vient déjà d'être demandé pour cette adresse. Patientez ` +
-        `${delaiEnFrancais(secondes)} avant d'en redemander un — pensez à regarder ` +
+        `${delaiEnFrancais(secondes)} avant d'en redemander un, pensez à regarder ` +
         `dans les indésirables, le premier est peut-être déjà arrivé.`
       : `Le service d'envoi de courriels de SONAA est momentanément saturé. Ce n'est pas ` +
         `votre faute : le site entier ne peut expédier qu'un petit nombre de liens de ` +

@@ -33,7 +33,7 @@ export function ContributeActions({ genreId, genreLabel, filiationDebattue }: Pr
 
   /* Le compteur est la seule chose qui touche au réseau avant tout clic.
      Il passe par compterEnAttenteLeger, un fetch sans dépendance : le SDK
-     n'arrive qu'avec la modale. Son échec est silencieux — un compteur
+     n'arrive qu'avec la modale. Son échec est silencieux, un compteur
      absent ne doit jamais abîmer une fiche de genre. */
   useEffect(() => {
     if (!contributionsActives) return;

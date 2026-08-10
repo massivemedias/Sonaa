@@ -45,6 +45,12 @@ jobs:
       - name: Un seul chemin d'écriture du corpus
         run: npm run check:writes
 
+      # Aucun tiret cadratin ni demi-cadratin, y compris dans les commentaires :
+      # un « — » s'était glissé jusque dans l'interface, entre le nom d'artiste
+      # et le titre sur la liste des propositions. Voir scripts/check-tirets.ts.
+      - name: Contrôler les tirets
+        run: npm run check:tirets
+
       # Fait autorité sur les données : cycles, références mortes, orphelins,
       # doublons d'identifiants, couverture par genre. Voir ADR-005.
       - name: Valider les données

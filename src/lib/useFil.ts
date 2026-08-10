@@ -82,7 +82,7 @@ export function useFil(options: {
   /* Vote optimiste : l'écran bouge au clic, l'écriture suit, et l'état
      revient exactement en arrière si elle échoue. Attendre la réponse du
      serveur donne l'impression que le clic n'a pas pris, et se fait cliquer
-     deux fois — ce qui produit ensuite un vote qu'on n'a pas voulu. */
+     deux fois, ce qui produit ensuite un vote qu'on n'a pas voulu. */
   const cliquerVote = useCallback(
     (p: Proposition, valeur: 1 | -1) => {
       if (!session) {

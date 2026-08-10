@@ -2,7 +2,7 @@
    avec le rôle `actuel` mais tombés dans Essentiel.
 
    Cause : import-tracks passait le rôle par normalise(), la moulinette de
-   matching musical qui translittère « ue » en « u » — « actuel » devenait
+   matching musical qui translittère « ue » en « u », « actuel » devenait
    « actul » et la comparaison ne passait jamais. Le parseur est corrigé ;
    ce script déplace ce qui a déjà été écrit au mauvais endroit.
 

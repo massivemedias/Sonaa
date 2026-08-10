@@ -3,7 +3,7 @@
    Cette page ne protège rien par elle-même. Ce qui protège la modération,
    ce sont les politiques RLS : un non-modérateur qui ouvre cette adresse ne
    verra aucun bouton, et s'il en fabriquait un, la base refuserait la mise à
-   jour. L'écran ci-dessous est une commodité, pas une serrure — c'est
+   jour. L'écran ci-dessous est une commodité, pas une serrure, c'est
    pourquoi il ne cache rien qui ne soit déjà public.
 
    ACCEPTER N'IMPORTE RIEN. Une proposition acceptée reste une proposition :

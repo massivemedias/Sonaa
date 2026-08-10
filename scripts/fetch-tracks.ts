@@ -95,7 +95,7 @@ const split = (videoTitle: string): { artist: string; title: string } | null => 
     .replace(/\s*[[(](official|video|audio|clip|hd|4k|lyrics?)[^)\]]*[)\]]/gi, '')
     .replace(/\s*\|.*$/, '')
     .trim();
-  const m = /^(.{2,60}?)\s+[-–—]\s+(.{2,90})$/.exec(cleaned);
+  const m = /^(.{2,60}?)\s+[-, ]\s+(.{2,90})$/.exec(cleaned);
   if (!m?.[1] || !m[2]) return null;
   return { artist: m[1].trim(), title: m[2].trim() };
 };

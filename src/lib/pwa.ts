@@ -62,7 +62,7 @@ if (typeof window !== 'undefined') {
 
 /** `navigator.onLine` ment volontiers : il dit vrai dès qu'une interface
     réseau existe, même derrière un portail captif ou un tunnel mort. Pour
-    les décisions qui comptent — proposer une track, voter — on vérifie. */
+    les décisions qui comptent, proposer une track, voter, on vérifie. */
 export async function reseauVraimentJoignable(): Promise<boolean> {
   if (!navigator.onLine) return false;
   try {

@@ -2,7 +2,7 @@
 
    Ce module minuscule existe pour une raison mesurée : `supabase.ts` tire
    @supabase/supabase-js, soit 224 ko une fois assemblé. La fiche de genre a
-   besoin de savoir s'il faut afficher les boutons de contribution — une
+   besoin de savoir s'il faut afficher les boutons de contribution, une
    question à laquelle deux variables d'environnement répondent. Importer
    supabase.ts pour cela imposait le client entier à tout visiteur qui ouvre
    une fiche, y compris à qui vient seulement écouter.

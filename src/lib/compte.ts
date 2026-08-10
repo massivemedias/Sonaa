@@ -4,7 +4,7 @@
    Obtenir ce nombre par @supabase/supabase-js coûtait 222 ko de code à
    chaque ouverture de fiche, pour une requête qui tient en un fetch et dont
    la réponse est un seul entier. Le SDK apporte l'authentification, le
-   renouvellement de jeton, le temps réel — rien de tout cela n'est utile
+   renouvellement de jeton, le temps réel, rien de tout cela n'est utile
    pour lire un compteur public en lecture anonyme.
 
    PostgREST renvoie le total dans l'en-tête content-range quand on demande

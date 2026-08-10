@@ -1,9 +1,9 @@
 /* Ce que la PWA ajoute à l'écran : trois bandeaux, jamais plus d'un à la fois.
 
-   1. Réseau absent — le plus urgent, parce qu'il explique pourquoi la
+   1. Réseau absent, le plus urgent, parce qu'il explique pourquoi la
       lecture ne démarre pas. Il reste tant que la connexion manque.
-   2. Nouvelle version — proposée, jamais imposée.
-   3. Installation — à la deuxième visite seulement, refusable une fois pour
+   2. Nouvelle version, proposée, jamais imposée.
+   3. Installation, à la deuxième visite seulement, refusable une fois pour
       toutes.
 
    L'ordre est une priorité, pas un empilement : trois bandeaux superposés
