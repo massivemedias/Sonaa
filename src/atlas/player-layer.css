@@ -507,19 +507,43 @@
   cursor: default;
 }
 
+/* LE BOUTON DE LECTURE EST UN CERCLE PARFAIT, À TOUTE LARGEUR.
+   Il était posé à 36 px sans protection : la règle mobile
+   `.pcol-transport button { min-width: 42px }` le reprenait, et dans une
+   rangée en flex sans `flex-shrink: 0` la largeur cédait avant la hauteur
+   sous 390 px. Un ovale, donc. Les quatre déclarations ci-dessous sont
+   chacune nécessaire : les dimensions fixes donnent le cercle, `flex` à
+   `0 0 auto` interdit qu'on le comprime ou qu'on l'étire, et les min/max
+   neutralisent d'avance toute règle responsive qui viendrait le reprendre. */
 .pcol-main {
-  width: 36px;
-  height: 36px;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  max-width: 44px;
+  min-height: 44px;
+  max-height: 44px;
+  padding: 0;
+  display: grid;
+  place-items: center;
   border: 1px solid var(--rule-hairline) !important;
   border-radius: 50%;
+  aspect-ratio: 1 / 1;
 }
 
+/* Les temps sont la SEULE chose qui cède quand la rangée manque de place.
+   `flex: 0 1 auto` les rend compressibles, alors que la barre et les boutons
+   sont figés. L'ordre de sacrifice est décidé ici, pas laissé au hasard du
+   contenu. */
 .pcol-time {
+  flex: 0 1 auto;
   font-size: 0.6875rem;
   font-weight: var(--weight-data);
+  font-variant-numeric: tabular-nums;
   color: var(--ink-secondary);
   min-width: 2.3rem;
   text-align: center;
+  white-space: nowrap;
 }
 
 .pcol-bar {
@@ -573,10 +597,74 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-.pcol-volume input {
-  /* Le volume cède la place à la barre de défilement. */
-  width: 48px;
+/* --- Volume : icône, et curseur vertical escamotable ------------------------ */
+
+.pcol-vol {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.pcol-vol-bouton {
+  /* Les mêmes dimensions fixes que le bouton de lecture, pour la même
+     raison : rien ne doit pouvoir l'aplatir dans la rangée. */
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  padding: 0 !important;
+  display: grid;
+  place-items: center;
+  color: var(--ink-secondary) !important;
+}
+
+.pcol-vol-bouton:hover,
+.pcol-vol-bouton:focus-visible {
+  color: var(--ink-primary) !important;
+}
+
+.pcol-vol-bouton .fa-icon {
+  width: 15px;
+  height: 15px;
+  display: block;
+}
+
+/* Le curseur, au-dessus de l'icône. `bottom: 100%` le pose sur l'icône sans
+   jamais sortir par le bas de la barre, y compris quand le transport est
+   collé au bord inférieur de la feuille mobile. */
+.pcol-vol-piste {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 6px;
+  z-index: 14;
+
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 104px;
+  padding: 10px 0;
+
+  background: var(--surface-raised);
+  border: 1px solid var(--rule-hairline);
+  border-radius: 4px;
+  box-shadow: 0 6px 18px oklch(0.05 0.01 250 / 0.55);
+}
+
+/* `writing-mode: vertical-rl` et non l'ancien `-webkit-appearance:
+   slider-vertical`, retiré des navigateurs : c'est la façon standard
+   d'obtenir un curseur vertical aujourd'hui. `direction: rtl` met le fort
+   en haut, ce qui est le sens attendu d'un volume. */
+.pcol-vol-piste input[type='range'] {
+  writing-mode: vertical-rl;
+  direction: rtl;
+  width: 20px;
+  height: 84px;
+  margin: 0;
   accent-color: var(--family);
+  cursor: pointer;
 }
 
 .pcol-youtube {
@@ -671,22 +759,121 @@
     margin: 0 auto;
   }
 
+  /* Cibles tactiles. La règle vise les boutons de transport ORDINAIRES :
+     le bouton de lecture a ses propres dimensions, verrouillées plus haut
+     par des min/max, et le volume a les siennes. */
   .pcol-transport button {
     min-width: 42px;
     min-height: 42px;
   }
 
-  .pcol-volume {
-    display: none;
+  /* 48 px au doigt, toujours parfaitement rond. */
+  .pcol-main {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    max-width: 48px;
+    min-height: 48px;
+    max-height: 48px;
   }
 
-  /* Mobile : barre à 14 px, zone tactile de 44 px. */
+  /* Le volume EXISTE en mobile désormais : il était purement et simplement
+     masqué, faute de place pour un curseur horizontal. Zone tactile de
+     44 px, et une poignée large dans le curseur vertical. */
+  .pcol-vol-bouton {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+  }
+
+  .pcol-vol-bouton .fa-icon {
+    width: 17px;
+    height: 17px;
+  }
+
+  .pcol-vol-piste {
+    width: 44px;
+    height: 116px;
+  }
+
+  .pcol-vol-piste input[type='range'] {
+    width: 28px;
+    height: 92px;
+  }
+
+  /* Mobile : barre à 14 px, zone tactile de 44 px. Elle garde la place
+     libérée par le bouton plein écran retiré, et ne cède jamais : ce sont
+     les temps qui se resserrent. */
   .pcol-bar {
     height: 14px;
+    min-width: 72px;
   }
   .pcol-bar::before {
     height: 44px;
   }
+
+  /* Les temps se resserrent au lieu d'écraser la barre. Le chiffre tabulaire
+     évite que la rangée frémisse à chaque seconde. */
+  .pcol-time {
+    min-width: 2rem;
+    font-size: 0.625rem;
+  }
+
+  .pcol-transport {
+    gap: 0.35rem;
+  }
+}
+
+/* --- Colonne étroite : deux rangées ------------------------------------------
+
+   MESURÉ, PAS SUPPOSÉ. Sur une seule rangée, les huit éléments réclament au
+   minimum 385 px : à 320 px de fenêtre les temps tombaient à 0 px de large
+   et la rangée débordait quand même, à 390 px elle débordait encore avec la
+   barre coincée à son minimum de 72 px. « Les temps se resserrent » ne suffit
+   plus quand se resserrer veut dire disparaître.
+
+   REQUÊTE DE CONTENEUR ET NON MEDIA QUERY : ce qui contraint cette rangée
+   est la largeur de la COLONNE, pas celle de la fenêtre. En desktop la
+   colonne du lecteur fait environ 420 px quelle que soit la taille de
+   l'écran, donc une media query sur la fenêtre aurait laissé le même
+   débordement à 1280 px tout en le corrigeant à 320. Le conteneur dit la
+   vérité, la fenêtre non.
+
+   La barre passe donc à la ligne avec ses deux temps, et y devient beaucoup
+   plus large qu'elle ne l'était sur une rangée unique. L'ordre de lecture
+   est conservé. */
+
+.pcol-saut {
+  display: none;
+}
+
+.pcol-scroll {
+  container: pcol / inline-size;
+}
+
+@container pcol (max-width: 430px) {
+  .pcol-transport {
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+  }
+
+  /* Rangée 1 : les commandes. Rangée 2 : la position. */
+  .pcol-saut {
+    display: block;
+    flex-basis: 100%;
+    height: 0;
+    margin: 0;
+    order: 5;
+  }
+
+  .pcol-transport > button:first-of-type { order: 1; }
+  .pcol-main { order: 2; }
+  .pcol-transport > button:nth-of-type(3) { order: 3; }
+  .pcol-vol { order: 4; margin-left: auto; }
+  .pcol-youtube { order: 4; }
+
+  .pcol-time { order: 6; }
+  .pcol-bar { order: 6; }
 }
 
 /* --- Barre discrète ---------------------------------------------------------- */

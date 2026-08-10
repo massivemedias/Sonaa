@@ -26,6 +26,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FAMILIES, STRUCTURES, type Track } from './structures.ts';
 import { ProceduralCover } from './ProceduralCover.tsx';
 import { ContributeActions } from './ContributeActions.tsx';
+import { VolumeControl } from './VolumeControl.tsx';
 import './player-layer.css';
 
 export interface Playback {
@@ -423,10 +424,6 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
     [duration]
   );
 
-  const fullscreen = useCallback(() => {
-    void wrapRef.current?.requestFullscreen?.();
-  }, []);
-
   /* Position de l'iframe : sur la fenêtre média de la colonne quand la
      lecture est ici et visible, sur la barre sinon. Mesure au montage, au
      redimensionnement et au déplacement de la feuille. */
@@ -679,6 +676,12 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
               </button>
               <button onClick={() => step(1)} disabled={!playingHere} aria-label="Suivante">⏭</button>
 
+              {/* Sous 380 px, rien ne tient sur une seule rangée sans écraser
+                  les temps à zéro. Ce saut vide renvoie temps, barre et temps
+                  à la ligne, où la barre récupère toute la largeur. Il n'a
+                  aucune existence au-dessus de ce seuil. */}
+              <span className="pcol-saut" aria-hidden="true" />
+
               <span className="pcol-time">{playingHere ? mmss(position) : '0:00'}</span>
               <div
                 className="pcol-bar"
@@ -694,27 +697,7 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
               </div>
               <span className="pcol-time">{playingHere ? mmss(duration) : '0:00'}</span>
 
-              <label className="pcol-volume">
-                <span className="visually-hidden">Volume</span>
-                <input
-                  type="range"
-                  min={0}
-                  max={100}
-                  step={1}
-                  value={volume}
-                  onChange={(e) => setVolume(Number(e.target.value))}
-                />
-              </label>
-
-              <button
-                className="pcol-fullscreen"
-                onClick={fullscreen}
-                disabled={!playingHere}
-                aria-label="Plein écran"
-                title="Plein écran"
-              >
-                ⛶
-              </button>
+              <VolumeControl volume={volume} onChange={setVolume} />
               {shownInPanel && (
                 <a
                   className="pcol-youtube"
