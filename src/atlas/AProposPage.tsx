@@ -24,7 +24,7 @@ export function AProposPage() {
       <header className="credits-head">
         <a href="#/" aria-label="SONAA, revenir à l'atlas">
           <img
-            src={`${import.meta.env.BASE_URL}brand/sonaa-wordmark.png`}
+            src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`}
             alt="SONAA"
             draggable={false}
           />

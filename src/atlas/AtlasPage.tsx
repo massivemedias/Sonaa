@@ -368,7 +368,7 @@ export function AtlasPage() {
         aria-label="SONAA, revenir à la vue Atlas"
         title="Revenir à l'Atlas"
       >
-        <img src={`${import.meta.env.BASE_URL}brand/sonaa-wordmark.png`} alt="SONAA" draggable={false} />
+        <img src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`} alt="SONAA" draggable={false} />
         {/* Le balayage lumineux. Le PNG n'a pas de tracé vectoriel : c'est un
             masque en dégradé qui respecte la transparence, la lumière n'existe
             que sur les pixels du glyphe, donc le point semble suivre le trait.

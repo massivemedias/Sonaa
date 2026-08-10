@@ -35,7 +35,7 @@ export function IndexPage() {
       <header className="index-head">
         <h1 className="index-title">
           <img
-            src={`${import.meta.env.BASE_URL}brand/sonaa-wordmark.png`}
+            src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`}
             alt="SONAA"
             draggable={false}
           />

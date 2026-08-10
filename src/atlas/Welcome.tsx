@@ -19,7 +19,7 @@ export function Welcome({ views, current, onDismiss }: Props) {
       <div className="welcome-inner">
         <h1 className="welcome-name">
           <img
-            src={`${import.meta.env.BASE_URL}brand/sonaa-wordmark.png`}
+            src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`}
             alt="SONAA"
             draggable={false}
           />

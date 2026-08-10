@@ -14,14 +14,32 @@
     <!-- Identité. Les chemins sont relatifs : le site est servi sous /Sonaa/ et
          aucune URL absolue vers le domaine n'est écrite en dur, sauf dans les
          métadonnées Open Graph, dont la spécification l'exige. -->
-    <!-- Favicon : LE S DU LOGO, découpé de sonaa-logo.png, jamais redessiné
-         (verdict : l'identité prime sur la lisibilité à très petite taille,
-         réserve enregistrée à l'ADR). Pixels du logo, teintés ivoire sur le
-         fond du site ; dilatation légère du découpage sous 32 px, seule
-         retouche autorisée. -->
+    <!-- Icônes : découpées de SonaaLogoCircle.png, le logo rond, jamais
+         redessinées. Les favicons 16 et 32 sont recadrés sur le S initial :
+         le mot entier ferait cinq lettres sur seize pixels, donc rien.
+         Le 180 et les icônes PWA gardent le mot complet.
+
+         La variante de thème va dans le sens SOMBRE et non clair : le
+         disque est noir, donc il se détache très bien d'une barre claire,
+         mais se fond dans une barre sombre (contraste mesuré 1,07:1 contre
+         le fond du site). La variante sombre porte donc un filet clair. -->
     <link rel="icon" href="brand/favicon.ico" sizes="48x48" />
     <link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="brand/favicon-16.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="brand/favicon-dark-32.png"
+      media="(prefers-color-scheme: dark)"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="brand/favicon-dark-16.png"
+      media="(prefers-color-scheme: dark)"
+    />
     <link rel="apple-touch-icon" sizes="180x180" href="brand/apple-touch-icon.png" />
     <link rel="manifest" href="manifest.webmanifest" />
     <meta name="apple-mobile-web-app-title" content="SONAA" />
@@ -76,7 +94,7 @@
           text-transform: uppercase;
         "
       >
-        <img src="brand/sonaa-wordmark.png" alt="SONAA" style="height: 44px; opacity: 0.9" />
+        <img src="brand/sonaa-logo.png" alt="SONAA" style="height: 44px; opacity: 0.9" />
         <p style="margin: 0">chargement de l&rsquo;atlas</p>
         <div
           style="

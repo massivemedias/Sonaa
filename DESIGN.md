@@ -138,69 +138,90 @@ doit être contrôlée par un `grep` sur `background` dans `proto.css`.
 
 ## 3 bis. Identité
 
-Le logo est un logotype calligraphique, le mot Sonaa en pleins et déliés,
-livré en noir sur transparence en 11104 par 4808. Tout part de cette source,
-`public/brand/sonaa-logo.png`, jamais modifiée : `scripts/build-brand.sh`
-régénère chaque déclinaison.
+**Deux fichiers, et deux seulement.** Les sources livrées par Mika vivent à la
+racine du dépôt, intactes : `SonaaLogo.png` (9260 par 4028, logotype seul,
+blanc cassé sur transparence) et `SonaaLogoCircle.png` (4617 carré, le même
+logotype blanc dans un disque noir opaque, transparent hors du disque). Toutes
+les déclinaisons publiées sont dérivées de ces deux fichiers, jamais
+redessinées.
 
-**Couleur.** Le logo est monochrome et se recolore dans la couleur du texte,
-`--ink-primary`, jamais dans une teinte de famille : les teintes sont porteuses
-de sens et le logo n'appartient à aucune famille. Sur fond clair, il resterait
-noir ; le cas ne se présente pas, le site n'a pas de fond clair.
+Les versions servies sont dans `public/brand/` :
+`sonaa-logo.png` (1800 px de large, le logotype, seul fichier de logotype du
+projet) et `sonaa-logo-circle.png` (1024 carré, source de tout ce qui est
+carré ou rond).
 
-**Deux formes.**
+**Couleur.** L'encre est le blanc cassé `#FBFBFB` de la source, avec un canal
+alpha progressif sur les bords des traits. Aucune recoloration à l'usage : le
+logo est déjà à la bonne couleur, et la seule teinte du projet qui lui soit
+appliquée est celle du texte quand un contexte l'exige. Les teintes de famille
+lui restent interdites, elles portent du sens et le logo n'appartient à aucune
+famille.
 
-- Le **logotype**, le mot entier, rapport 2,31 pour 1. C'est la forme de
-  l'interface : coin supérieur gauche de l'atlas, écran d'accueil, en-tête de la
-  vue liste, image de partage.
-- La **marque**, le S initial et son parafe, taillée à 2700 pixels de large dans
-  la source, la seule coupe qui prenne le S entier sans ramasser un éclat de la
-  lettre suivante. C'est la forme des carrés : favicons, icônes d'application.
-  Le logotype entier dans un carré de 16 pixels serait une bavure de 16 par 7.
+**Deux formes, deux usages.**
+
+- Le **logotype** (`sonaa-logo.png`) : le mot entier. Coin supérieur gauche de
+  l'atlas, écran d'accueil, en-tête des crédits, de l'index et d'À propos.
+- Le **disque** (`sonaa-logo-circle.png`) : le mot dans son disque noir. C'est
+  la forme de tout ce qui est carré ou rond, et il s'utilise TEL QUEL, sans
+  recadrage : il porte déjà son fond.
+
+**Exception mesurée : les favicons 16 et 32.** Le lettrage occupe 60 % du
+disque ; à 16 pixels, cinq lettres tiendraient dans dix pixels de large, ce qui
+ne donne rien. Ces deux tailles sont donc recadrées sur le **S initial** du
+disque, fond du disque compris. Le 180 et les icônes d'application gardent le
+mot complet. Le 16 reçoit en plus une dilatation légère du trait, sans laquelle
+les déliés disparaissent.
 
 **Tailles.**
 
-| Usage | Fichier | Taille |
-|---|---|---|
-| Onglet | favicon.ico, favicon-16, favicon-32 | 16, 32, 48 |
-| iOS | apple-touch-icon | 180, fond opaque, Apple ignore la transparence |
-| Application | icon-192, icon-512 | 192, 512 |
-| Application, maskable | icon-maskable-512 | 512, marque à 60 % du carré |
-| Interface | sonaa-wordmark | hauteur 22 px sur poste, 19 px sur mobile |
-| Partage | og.png | 1200 par 630, logotype centré |
+| Usage | Fichier | Contenu | Taille |
+|---|---|---|---|
+| Onglet | favicon.ico, favicon-16, favicon-32 | S initial | 16, 32, 48 |
+| Onglet, thème sombre | favicon-dark-16, favicon-dark-32 | S initial + filet | 16, 32 |
+| iOS | apple-touch-icon | mot entier | 180, coins remplis, opaque |
+| Application | icon-192, icon-512 | mot entier | 192, 512 |
+| Application, maskable | icon-maskable-512 | mot entier, marge 20 % | 512 |
+| Interface | sonaa-logo | mot entier | 44 px de haut, 34 sur mobile |
+| Partage | og.png | disque et son filet | 1200 par 630 |
 
-**Zone de protection.** Dans les carrés, la marque occupe 70 à 80 % du côté,
-88 % au seul 16 pixels où chaque pixel compte. En maskable, 60 % : le système
-peut rogner jusqu'à 20 % de chaque côté. Dans l'interface, le logotype garde au
-moins sa propre hauteur d'espace libre autour de lui.
+**Le disque contre le fond du site : contraste mesuré 1,07 pour 1.** Le disque
+est noir pur, le fond du site est `#0a0c10` : posé dessus, il devient invisible
+et le lettrage semble flotter. Deux conséquences, l'une et l'autre mesurées et
+non supposées :
 
-**Lisibilité aux petites tailles.** Les déliés de cette calligraphie sont des
-traits d'un pixel et disparaissent sous 32 pixels. Sous 48 pixels, la forme est
-dilatée d'une fraction de pixel, dégressive avec la taille. Ce n'est pas un
-effet ajouté au logo, c'est la seule façon qu'il survive à la réduction, et
-c'est nul dès que la place le permet. Lisibilité vérifiée à 24 pixels de haut
-sur le fond du site.
+- l'image de partage porte un **filet ivoire à 28 % d'opacité** sur le bord du
+  disque, seule façon qu'il se lise comme un disque ;
+- la variante de thème du favicon va dans le sens **sombre**, pas clair : un
+  disque noir se détache parfaitement d'une barre d'onglets claire, et se perd
+  dans une barre sombre. `favicon-dark-*` porte donc un filet clair, servi sous
+  `prefers-color-scheme: dark`.
 
-**Interdits.** Aucun effet : pas d'ombre portée, pas de halo, pas de contour,
-pas d'animation, pas de dégradé. Le fond opaque des icônes n'est pas un effet,
-c'est une nécessité : une icône claire et transparente disparaît sur une barre
-d'onglets claire.
+Le filet est une nécessité de lisibilité, pas un ornement : l'interdit d'effets
+ci-dessous vise les ombres, halos et dégradés appliqués au glyphe.
+
+**Zone de protection.** Le disque occupe tout le carré, c'est sa nature. En
+maskable, il est ramené à 80 % du côté : le système peut rogner jusqu'à 20 %.
+Dans l'interface, le logotype garde au moins sa propre hauteur d'espace libre.
+
+**Interdits.** Aucun effet sur le glyphe : pas d'ombre portée, pas de halo, pas
+de contour, pas de dégradé. Le fond opaque des icônes et le filet du disque ne
+sont pas des effets, ce sont des conditions de lisibilité.
 
 **Rôle dans l'interface.** Le logotype est le retour à l'accueil, et rien
 d'autre. Opacité 0,72 au repos : il ne concurrence pas la carte, qui est le
-sujet. 44 px de haut sur poste, 34 sur mobile, plus grand sur l'accueil et les
-crédits.
+sujet.
 
 **Le balayage lumineux.** Un point net traverse le mot de gauche à droite en
 1,5 seconde, au chargement, toutes les 14 à 16 secondes, et au survol. Le PNG
-n'a pas de tracé vectoriel : vectoriser proprement une calligraphie à pleins et
-déliés produirait des centaines de points de contrôle à corriger à la main.
-Le choix retenu est donc le **masque en dégradé respectant la transparence** :
-une colonne brillante balaie horizontalement, masquée par le logotype lui-même,
-si bien que la lumière n'existe que sur les pixels du glyphe et semble suivre
-le trait. Tête nette, traînée courte, aucune trace persistante, aucune
-déformation, pas de passe WebGL. L'animation s'arrête quand l'onglet est en
-arrière-plan et disparaît sous `prefers-reduced-motion`.
+n'a pas de tracé vectoriel : vectoriser une calligraphie à pleins et déliés
+produirait des centaines de points de contrôle à corriger à la main. Le choix
+retenu est le **masque en dégradé respectant la transparence** : une colonne
+brillante balaie horizontalement, masquée par le logotype lui-même, si bien que
+la lumière n'existe que sur les pixels du glyphe et semble suivre le trait.
+Le nouveau logotype est le cas favorable pour ce mécanisme — fond entièrement
+transparent, lettres opaques — et l'effet fonctionne sans modification. Il
+s'arrête quand l'onglet est en arrière-plan et disparaît sous
+`prefers-reduced-motion`.
 
 ---
 

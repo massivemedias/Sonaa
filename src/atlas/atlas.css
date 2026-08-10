@@ -354,8 +354,9 @@
   display: block;
 }
 
-/* Le point lumineux qui parcourt le mot. Un masque du logotype limite la
-   lumière aux pixels du glyphe : la colonne brillante qui balaie de gauche à
+/* Le point lumineux qui parcourt le mot. Un masque du logotype
+   (sonaa-logo.png, fond transparent et lettres opaques : le cas favorable)
+   limite la lumière aux pixels du glyphe : la colonne brillante qui balaie de gauche à
    droite n'éclaire que le trait, donc le point le SUIT. Tête nette, traînée
    courte derrière, rien ne persiste, le logo n'est jamais déformé. */
 .brand {
@@ -366,8 +367,8 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  -webkit-mask-image: url('../../public/brand/sonaa-wordmark.png');
-  mask-image: url('../../public/brand/sonaa-wordmark.png');
+  -webkit-mask-image: url('../../public/brand/sonaa-logo.png');
+  mask-image: url('../../public/brand/sonaa-logo.png');
   -webkit-mask-size: contain;
   mask-size: contain;
   -webkit-mask-repeat: no-repeat;
