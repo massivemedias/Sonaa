@@ -1643,7 +1643,7 @@ et les meilleures récentes, la colonne réglable à la souris, le tout vérifi�
 1. **Aucune track de Maudite Machine dans les listes canoniques, jamais.**
    Un atlas qui cite son auteur parmi les canons des genres perd sa
    crédibilité. La signature du projet vit dans les crédits, section
-   L'auteur : Michael Sanchez, alias Maudite Machine, fondateur de VRSTL
+   L'auteur : Mika, alias Maudite Machine, fondateur de VRSTL
    Records, avec les liens. C'est la seule place du site où l'auteur existe.
    L'assemblage du canon jette mécaniquement toute ligne « Maudite Machine »
    avant même le matcher.

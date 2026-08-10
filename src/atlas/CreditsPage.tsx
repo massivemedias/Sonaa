@@ -107,7 +107,7 @@ export function CreditsPage() {
               c'est une règle du projet. Un atlas qui cite son auteur parmi les
               canons perd sa crédibilité. */}
           <p>
-            SONAA est réalisé par Michael Sanchez, alias Maudite Machine, producteur et DJ à
+            SONAA est réalisé par Mika, alias Maudite Machine, producteur et DJ à
             Montréal, fondateur de VRSTL Records. L&apos;atlas est un projet indépendant, né du
             besoin de voir d&apos;où viennent les musiques qu&apos;on joue.
           </p>

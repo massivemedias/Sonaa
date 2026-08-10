@@ -57,7 +57,7 @@ export function AProposPage() {
         <section aria-labelledby="apropos-auteur">
           <h2 id="apropos-auteur">L&apos;auteur</h2>
           <p>
-            SONAA est réalisé par Michael Sanchez, alias Maudite Machine, producteur et DJ à
+            SONAA est réalisé par Mika, alias Maudite Machine, producteur et DJ à
             Montréal, fondateur de VRSTL Records.
           </p>
           <p>
