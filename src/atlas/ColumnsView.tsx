@@ -1,21 +1,21 @@
-/* Les deux vues DOM du multi-vues (ADR-043) : LINÉAIRE et COLONNES.
+/* LA VUE COLONNES : les quatorze familles en maçonnerie de cartes.
 
-   La vue linéaire est un document : les familles en sections, les
-   familles en blocs teintés, les genres en rangées serrées indentées par
-   génération. La vue colonnes pose les mêmes blocs de familles dans une
-   maçonnerie multi-colonnes : quatorze cartes qui tiennent l'écran.
+   Seule vue sans WebGL, et seule alternative à la 3D libre depuis que la
+   3D fixe et la vue linéaire ont été retirées. Elle porte donc une
+   responsabilité qu'elle n'avait pas quand elle était une option parmi
+   quatre : c'est ici qu'on lit le corpus quand on ne veut pas, ou ne peut
+   pas, de la 3D.
 
-   Les deux réutilisent le même arbre de rangées : une rangée est un genre,
-   pastille à la teinte de la famille, nom, BPM, compte de tracks, badge
-   débattu. Cliquer le nom ouvre la fiche ; le bouton lecture ouvre le
-   lecteur. Aucune donnée n'est inventée : tout vient de STRUCTURES. */
+   Une rangée est un genre : pastille à la teinte de la famille, nom, BPM,
+   compte de tracks, badge débattu. Cliquer le nom ouvre la fiche ; le
+   bouton lecture ouvre le lecteur. Aucune donnée n'est inventée, tout
+   vient de STRUCTURES. */
 
 import { useMemo } from 'react';
 import { FAMILIES, FAMILY_RING_IDS, STRUCTURES, type Genre } from './structures.ts';
-import './tree-views.css';
+import './columns-view.css';
 
 interface Props {
-  mode: 'lineaire' | 'colonnes';
   /** Le clic ouvre directement la colonne de tracks du genre. */
   onOpen: (familyIndex: number, genreLocal: number) => void;
 }
@@ -97,9 +97,9 @@ function FamilyBlock({
   );
 }
 
-export function TreeViews({ mode, onOpen }: Props) {
+export function ColumnsView({ onOpen }: Props) {
   return (
-    <div className={`tv tv-${mode}`} data-view={mode}>
+    <div className="tv" data-view="colonnes">
       {/* Plus de sections d'ensemble (ADR-053) : les quatorze familles sont
           le premier niveau, dans l'ordre de l'anneau d'affinités. */}
       <div className="tv-body">

@@ -267,6 +267,11 @@ de **22 px**. En dehors de ces bornes, un label ne se lit pas ou écrase la cart
 
 ## 5. L'espace habitable, ce qui remplace la planche
 
+> **Mise à jour (10 août 2026, ADR-060).** Il reste DEUX vues : la 3D
+> libre, par défaut, et les colonnes. La 3D fixe et la vue linéaire sont
+> supprimées, code compris. Le sélecteur du pied est devenu une bascule à un
+> seul bouton, qui nomme sa destination.
+
 > **Mise à jour (août 2026, ADR-043).** L'orbite n'est plus abandonnée :
 > elle est UNE DES QUATRE VUES proposées dès l'entrée (3D libre, 3D fixe,
 > linéaire, colonnes), mémorisées et commutables. La fiche de genre devient

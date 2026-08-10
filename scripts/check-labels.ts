@@ -8,14 +8,14 @@
 
    Trois contrôles, tous bloquants en CI :
 
-   1. Dans webgl.ts, chaque appel à add() doit passer exactement `slot.label`,
+   1. Dans le moteur, chaque appel à add() doit passer exactement `slot.label`,
       `family.label` ou `anchor.label` comme texte. Ni gabarit, ni
       concaténation, ni appel.
    2. Aucun fichier de src/atlas ne contient les marqueurs de l'ancien
       suffixe : « ♪ », ou un « · » interpolé dans un gabarit de chaîne.
    3. L'OPACITÉ d'un label ne dépend JAMAIS d'un état de survol ou de focus
       (quatrième signalement de la règle : le survol met en valeur, il ne
-      révèle rien). La passe de labels de webgl.ts ne doit contenir aucune
+      révèle rien). La passe de labels du moteur ne doit contenir aucune
       référence au survol, et chaque add() passe une opacité littérale.
 
    Usage : npm run check:labels */
@@ -29,9 +29,12 @@ const errors: string[] = [];
 
 // --- 1. Les sites d'appel de add() -----------------------------------------
 
-/* DEUX moteurs depuis le multi-vues : la vue fixe et la vue libre. Les deux
-   passent les mêmes contrôles, un moteur ressuscité n'a pas de passe-droit. */
-const ENGINES = ['webgl.ts', 'webgl-orbit.ts'];
+/* UN SEUL moteur depuis le retrait de la vue « 3D fixe » : webgl.ts a été
+   supprimé avec elle. La liste reste une liste, et le contrôle continue de
+   parcourir chaque entrée : ce qui est vérifié ici est une règle du projet,
+   pas une propriété d'un fichier, et un second moteur qui reviendrait
+   s'ajouterait ici sans passe-droit. */
+const ENGINES = ['webgl-orbit.ts'];
 const webgl = ENGINES.map((f) => readFileSync(`${ATLAS}/${f}`, 'utf8')).join('\n');
 
 /* On repère chaque appel `add(` puis on lit son deuxième argument. L'analyse
@@ -54,13 +57,13 @@ for (const call of callSites) {
   checked += 1;
   if (!ALLOWED_TEXT.has(text)) {
     errors.push(
-      `webgl.ts : un label est composé au lieu d'être le nom nu : « ${text} ». ` +
+      `${ENGINES.join(', ')} : un label est composé au lieu d'être le nom nu : « ${text} ». ` +
         `Le label affiche le nom seul, l'information vit dans la fiche.`
     );
   }
 }
 if (checked === 0) {
-  errors.push('webgl.ts : aucun site d\'appel add() trouvé, le parseur du contrôle est cassé.');
+  errors.push(`${ENGINES.join(', ')} : aucun site d'appel add() trouvé, le parseur du contrôle est cassé.`);
 }
 
 // --- 2. L'opacité ne dépend jamais du survol ni du focus ---------------------

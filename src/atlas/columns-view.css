@@ -141,36 +141,19 @@
   margin-left: auto;
 }
 
-/* --- LINÉAIRE : blocs pleine largeur, lecture verticale ------------------- */
+/* --- Maçonnerie de cartes famille ---------------------------------------- */
 
-.tv-lineaire .tv-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-}
-
-.tv-lineaire .tv-rows {
-  column-width: 300px;
-  column-gap: 2rem;
-}
-
-/* --- COLONNES : maçonnerie de cartes famille ------------------------------ */
-
-.tv-colonnes .tv-body {
+.tv-body {
   columns: 320px;
   column-gap: 1rem;
 }
 
-.tv-colonnes .tv-family {
+.tv-family {
   margin-bottom: 1rem;
 }
 
 @media (max-width: 700px) {
   .tv {
     padding: 84px 12px 140px;
-  }
-  .tv-lineaire .tv-rows {
-    column-width: auto;
-    columns: 1;
   }
 }

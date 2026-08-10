@@ -382,7 +382,7 @@ const testIntro = async (): Promise<IntroResult> => {
 interface RecouvrementResult {
   poses: number;
   pireCas: { azimutDeg: number; distance: number; paires: number; pirePx: number };
-  verdict: 'ok' | 'echec' | 'setOrbit indisponible (vue fixe ?)';
+  verdict: 'ok' | 'echec' | 'setOrbit indisponible (vue sans moteur ?)';
 }
 
 const measureOverlaps = (): { paires: number; pirePx: number } => {
@@ -415,7 +415,7 @@ const testRecouvrement = async (): Promise<RecouvrementResult> => {
     return {
       poses: 0,
       pireCas: { azimutDeg: 0, distance: 0, paires: 0, pirePx: 0 },
-      verdict: 'setOrbit indisponible (vue fixe ?)'
+      verdict: 'setOrbit indisponible (vue sans moteur ?)'
     };
   }
   const ad = a.framing().atlasDistance;
@@ -449,7 +449,7 @@ const testRecouvrement = async (): Promise<RecouvrementResult> => {
    labelSnapshot des deux moteurs 3D) à la boîte DOM affichée. La position
    doit correspondre au pixel près (hystérésis de rendu : 1 px), et
    l'estimation de taille doit MAJORER la réalité, jamais la sous-estimer.
-   Les vues Linéaire et Colonnes n'ont pas de passe de placement : leurs noms
+   La vue Colonnes n'a pas de passe de placement : ses noms
    sont en flux de document, le recouvrement y est impossible par
    construction. */
 

@@ -71,7 +71,7 @@ const oklchToSrgb = (L: number, C: number, hDeg: number): [number, number, numbe
 };
 
 // Types partagés : la vue libre expose exactement la même API que la fixe.
-import type { AtlasHandles, AtlasApi, AtlasResults } from './webgl.ts';
+import type { AtlasHandles, AtlasApi, AtlasResults } from './atlas-api.ts';
 
 const FOV = 40;
 const LABEL_POOL = 96;

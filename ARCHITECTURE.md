@@ -1277,6 +1277,11 @@ Verifie a 320, 390, 430 en portrait et paysage, et 1280 en repere.
 
 ## ADR-042 : Disposition fixe, lecteur droit, second corpus, donnees de sortie
 
+> **CADUC pour sa partie « disposition fixe », depuis le 10 aout 2026
+> (ADR-060).** Le moteur decrit ici, webgl.ts, est supprime avec la vue
+> « 3D fixe ». Les autres decisions de cet ADR restent en vigueur : lecteur
+> a droite, second corpus, donnees de sortie Discogs.
+
 **Disposition fixe.** L'orbite libre est ABANDONNEE. L'atlas est un arbre
 genealogique couche : sur poste, familles de gauche a droite, une generation
 par colonne ; sur mobile, la meme chose pivotee, une generation par rangee.
@@ -1342,21 +1347,25 @@ le panneau n'affiche que les champs presents, aucun gabarit vide.
 
 ## ADR-043 : Multi-vues, fiches enrichies, lecteur en colonne, animations
 
-**Quatre vues au choix, des l'entree.** Le debat lineaire contre radial est
+**Quatre vues au choix, des l'entree. CADUC : il n'en reste DEUX depuis le
+10 aout 2026, voir ADR-060.** Le debat lineaire contre radial est
 tranche par le haut : on ne choisit pas a la place de l'utilisateur. L'ecran
 d'accueil propose quatre lectures de la meme carte, memorisees et
 commutables a tout moment par le selecteur en haut d'ecran :
 - 3D LIBRE : le moteur orbital d'avant ADR-042, ressuscite depuis git
   (webgl-orbit.ts). Systeme planetaire, orbite, deploiement. Adapte : types
   partages avec webgl.ts, plaque retiree, liens en Bezier (controles au
-  tiers = segment droit), et le survol ne touche plus aux labels.
+  tiers = segment droit), et le survol ne touche plus aux labels. **Seule
+  vue 3D restante, et vue par defaut.**
 - 3D FIXE : l'arbre genealogique d'ADR-042, rangs RESSERRES d'un tiers
-  (mission : « on scroll trop »).
+  (mission : « on scroll trop »). **SUPPRIMEE.**
 - LINEAIRE : le corpus en document DOM dense, ensembles en sections,
-  familles en blocs teintes, rangees indentees par generation.
+  familles en blocs teintes, rangees indentees par generation. **SUPPRIMEE.**
 - COLONNES : les memes blocs en maconnerie multi-colonnes, quatorze cartes.
+  **Conservee, seule alternative a la 3D.**
 Les vues DOM n'ont pas de moteur : fiche et lecteur y fonctionnent pareil.
 check:labels couvre LES DEUX moteurs, un ressuscite n'a pas de passe-droit.
+**Il n'en couvre plus qu'un, la liste reste une liste.**
 
 **Fiches enrichies, le vrai contenu du site.** Cinq champs par genre au
 schema : description (3-5 phrases, ton d'auteur), machines (precises :
@@ -2078,6 +2087,58 @@ déjà servie depuis `youtube-nocookie.com` ; « SEO » mobile perd 8 points sur
 « 39,85 % de texte lisible », qui est le **plancher de 9 px des labels de
 l'atlas** — un réglage demandé explicitement et dont le rendu est gelé
 (ADR-058). Le corriger reviendrait à défaire une décision prise.
+
+---
+
+## ADR-060 : Deux vues au lieu de quatre
+
+**Contexte.** ADR-043 avait tranche le debat lineaire contre radial « par le
+haut » : quatre vues, on ne choisit pas a la place de l'utilisateur. Le cout
+s'est vu a l'usage. Deux moteurs 3D a maintenir en parallele, dont un,
+webgl.ts, de 1894 lignes ; chaque correction de labels, de cadrage ou de
+geste a payer deux fois ; et une vue lineaire qui ne differait des colonnes
+que par deux regles CSS.
+
+**Decision, demandee par Mika.** Il reste **3D LIBRE**, vue par defaut, et
+**COLONNES**. La 3D fixe et la vue lineaire sont supprimees, code compris.
+
+**Ce qui a ete retire.** `webgl.ts` entier. Le mode `lineaire` de
+`TreeViews`, renomme `ColumnsView` puisqu'il n'a plus qu'un mode. Les regles
+`.tv-lineaire` de la feuille, renommee `columns-view.css`. Les deux entrees
+du selecteur, la branche d'import du second moteur, et la branche
+`view === 'lineaire'` du routage.
+
+**Le piege qu'il fallait desamorcer d'abord.** `webgl.ts` ne contenait pas
+que son moteur : il portait **les six interfaces du contrat** (`AtlasApi`,
+`AtlasHandles`, `NavState`, `PanelState`, `AtlasStats`, `AtlasResults`), et
+`webgl-orbit.ts` les importait de la. Supprimer le fichier aurait casse le
+moteur SURVIVANT. Les types sont donc extraits dans `atlas-api.ts` avant
+toute suppression. La dependance etait a l'envers depuis le debut : ces
+types ne decrivent pas un moteur, ils decrivent ce que tout moteur doit
+rendre a AtlasPage.
+
+**Le choix memorise.** `sonaa-view` vaut `fixe` ou `lineaire` chez tous ceux
+qui les avaient choisies. La cle n'est pas seulement ignoree, elle est
+**reecrite** : `fixe` devient `libre`, `lineaire` devient `colonnes`. Ignorer
+sans reecrire aurait laisse la valeur morte en place et rejoue le repli a
+chaque visite. Les acces au stockage sont proteges : en navigation privee on
+part sur le defaut, sans bruit.
+
+**Le selecteur devient une bascule.** Deux entrees cote a cote obligeaient a
+comparer deux teintes de gris pour savoir laquelle etait active. Un bouton
+unique nomme sa DESTINATION, « Vue Colonnes » ou « Vue 3D libre » : il dit a
+la fois ou l'on est et ou l'on va.
+
+**Ce qui a ete verifie et non suppose.** Les neuf methodes de l'API
+appelees par AtlasPage sont toutes declarees au contrat et implementees dans
+le moteur restant. `check:labels` visait `webgl.ts` : il pointe desormais le
+moteur survivant, et sa liste reste une liste, un second moteur qui
+reviendrait s'y ajouterait sans passe-droit. `verify:visual` passe aux
+quatre largeurs apres suppression.
+
+**Caducite.** ADR-043, section « Quatre vues au choix » : annulee pour le
+compte, conservee pour le raisonnement. ADR-042, partie « disposition
+fixe » : annulee, son moteur n'existe plus.
 
 ---
 

@@ -1,8 +1,7 @@
 /* Coquille de l'atlas. Elle route les vues et ne dessine rien elle-même :
-   la 3D est dans webgl.ts et webgl-orbit.ts, les vues document dans
-   TreeViews, le lecteur ET la fiche dans PlayerLayer (le clic ouvre
-   directement les tracks, la fiche vit dans la colonne), la recherche dans
-   SearchOverlay. */
+   la 3D est dans webgl-orbit.ts, la vue en cartes dans ColumnsView, le
+   lecteur ET la fiche dans PlayerLayer (le clic ouvre directement les
+   tracks, la fiche vit dans la colonne), la recherche dans SearchOverlay. */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { STRUCTURES } from './structures.ts';
@@ -16,28 +15,53 @@ import {
 import { PlayerLayer } from './PlayerLayer.tsx';
 import { SearchOverlay } from './SearchOverlay.tsx';
 import { Welcome } from './Welcome.tsx';
-import { TreeViews } from './TreeViews.tsx';
-import type { NavState, PanelState, AtlasApi, AtlasStats } from './webgl.ts';
+import { ColumnsView } from './ColumnsView.tsx';
+import type { NavState, PanelState, AtlasApi, AtlasStats } from './atlas-api.ts';
 import './atlas.css';
 import './welcome.css';
 
 type Mode = 'attente' | 'webgl' | 'dom' | 'repli';
 
-/* QUATRE VUES AU CHOIX (ADR-043) : la 3D libre (l'orbite planétaire
-   ressuscitée), la 3D fixe (l'arbre généalogique), la linéaire (document
-   dense) et les colonnes (maçonnerie de cartes). Le choix se fait à
-   l'entrée, se change à tout moment, et se retient. */
-export type ViewId = 'libre' | 'fixe' | 'lineaire' | 'colonnes';
+/* DEUX VUES (ADR-043, révisé) : la 3D libre, l'orbite planétaire, et les
+   colonnes, les familles en cartes sans WebGL. La 3D fixe et la vue
+   linéaire ont été retirées. Le choix se fait à l'entrée, se change à tout
+   moment, et se retient. */
+export type ViewId = 'libre' | 'colonnes';
 const VIEW_KEY = 'sonaa-view';
 const VIEWS: { id: ViewId; label: string; hint: string }[] = [
   { id: 'libre', label: '3D libre', hint: 'orbiter autour du système planétaire' },
-  { id: 'fixe', label: '3D fixe', hint: 'l\'arbre généalogique, pan et zoom' },
-  { id: 'lineaire', label: 'Linéaire', hint: 'le corpus en document dense' },
   { id: 'colonnes', label: 'Colonnes', hint: 'les familles en cartes' }
 ];
+
+/* Le choix mémorisé peut désigner une vue qui n'existe plus : « fixe » et
+   « lineaire » traînent dans le localStorage de tous ceux qui les avaient
+   choisies. On ne se contente pas de les ignorer, on RÉÉCRIT la clé, sinon
+   la valeur morte reste et le repli se rejoue à chaque visite.
+   « fixe » retombe sur la 3D libre, qui montre la même chose autrement ;
+   « lineaire » retombe sur les colonnes, qui sont l'autre vue en DOM. */
+const REMPLACEMENTS: Record<string, ViewId> = { fixe: 'libre', lineaire: 'colonnes' };
+
 const readView = (): ViewId | null => {
-  const raw = localStorage.getItem(VIEW_KEY);
-  return VIEWS.some((v) => v.id === raw) ? (raw as ViewId) : null;
+  let raw: string | null = null;
+  try {
+    raw = localStorage.getItem(VIEW_KEY);
+  } catch {
+    return null; // navigation privée : on part sur le défaut, sans bruit.
+  }
+  if (raw === null) return null;
+  if (VIEWS.some((v) => v.id === raw)) return raw as ViewId;
+
+  const remplacant = REMPLACEMENTS[raw];
+  if (remplacant) {
+    try {
+      localStorage.setItem(VIEW_KEY, remplacant);
+    } catch {
+      /* sans écriture possible, le repli s'appliquera à nouveau au prochain
+         chargement : c'est dégradé, jamais cassé. */
+    }
+    return remplacant;
+  }
+  return null; // valeur inconnue : défaut.
 };
 
 const hasWebGL = (): boolean => {
@@ -136,8 +160,8 @@ export function AtlasPage() {
      côté, on navigue pendant que la musique joue. */
 
   useEffect(() => {
-    // Les vues DOM n'ont pas de moteur : rien à charger, rien à perdre.
-    if (view === 'lineaire' || view === 'colonnes') {
+    // La vue colonnes n'a pas de moteur : rien à charger, rien à perdre.
+    if (view === 'colonnes') {
       setMode('dom');
       setNav(null);
       return;
@@ -150,10 +174,11 @@ export function AtlasPage() {
 
     let disposed = false;
     const id = window.setTimeout(() => {
-      const load =
-        view === 'libre'
-          ? import('./webgl-orbit.ts').then((m) => m.initAtlasOrbit)
-          : import('./webgl.ts').then((m) => m.initAtlas);
+      /* Un seul moteur désormais. La branche qui choisissait entre deux
+         imports a disparu avec la vue fixe : il n'y a plus d'alternative à
+         arbitrer, et un ternaire à une seule issue se lit comme un choix
+         qui n'existe pas. */
+      const load = import('./webgl-orbit.ts').then((m) => m.initAtlasOrbit);
       void load.then((init) => {
         if (disposed) return;
         const canvas = canvasRef.current;
@@ -346,10 +371,7 @@ export function AtlasPage() {
       <div ref={labelRef} className="atlas-labels" data-suspended={false} aria-hidden="true" />
 
       {mode === 'dom' && (
-        <TreeViews
-          mode={view === 'colonnes' ? 'colonnes' : 'lineaire'}
-          onOpen={openTracks}
-        />
+        <ColumnsView onOpen={openTracks} />
       )}
 
       {mode !== 'webgl' && mode !== 'dom' && <Fallback notice={reason} />}
@@ -550,17 +572,24 @@ export function AtlasPage() {
       {/* Pied de page discret, présent dans TOUTES les vues : crédits, index
           ET le changement de vue, qui n'a plus de barre permanente. */}
       <span className="foot-links">
-        {VIEWS.map((v) => (
-          <button
-            key={v.id}
-            className="foot-view"
-            data-current={view === v.id}
-            onClick={() => view !== v.id && chooseView(v.id)}
-            title={v.hint}
-          >
-            {v.label}
-          </button>
-        ))}
+        {/* BASCULE et non liste depuis qu'il ne reste que deux vues : deux
+            entrées côte à côte obligeaient à comparer deux teintes de gris
+            pour savoir laquelle était active. Un bouton unique qui nomme sa
+            DESTINATION dit à la fois où l'on est et où l'on va. */}
+        {(() => {
+          const autre = VIEWS.find((v) => v.id !== view);
+          if (!autre) return null;
+          return (
+            <button
+              className="foot-view"
+              onClick={() => chooseView(autre.id)}
+              title={autre.hint}
+              aria-label={`Passer à la vue ${autre.label}`}
+            >
+              Vue {autre.label}
+            </button>
+          );
+        })()}
         <span className="foot-sep" aria-hidden="true">·</span>
         <a className="credits-link" href="#/a-propos">À propos</a>
         <a className="credits-link" href="#/credits">Crédits</a>
