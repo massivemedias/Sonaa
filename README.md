@@ -4,7 +4,7 @@ Atlas généalogique des musiques électroniques. Un graphe orienté acyclique o
 chaque genre est un noeud relié à ses ancêtres et à ses descendants, navigable
 en 3D, et écoutable par le lecteur officiel YouTube.
 
-Publié sur https://massivemedias.github.io/Sonaa/
+Publié sur https://sonaa.ca
 
 La racine ouvre l'atlas. `#/index` ouvre la vue liste accessible, qui porte le
 même contenu sans WebGL.
@@ -148,7 +148,7 @@ idempotent et sait que les vignettes 4:3 portent des bandes noires à retirer
   secret d'intégration continue, lu au build seulement.
 - Aucune librairie de graphe tierce : le moteur de layout est écrit ici
   (ADR-002). React Flow, Cytoscape et vis-network sont exclus.
-- Base `/Sonaa/` partout. Seule exception, les métadonnées Open Graph, dont la
+- Base `/` partout. Seule exception, les métadonnées Open Graph, dont la
   spécification exige une URL absolue.
 - Au runtime, le seul appel tiers est l'iframe YouTube, et seulement à la
   lecture.
