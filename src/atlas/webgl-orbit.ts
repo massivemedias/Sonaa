@@ -924,8 +924,19 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   let dragVY = 0;
 
   /* Double tap (tactile seulement) : zoom sur le point touché, second double
-     tap revient au cadrage d'avant. Le tap simple est retardé de 280 ms pour
-     laisser sa chance au second tap, comme sur une carte native. */
+     tap revient au cadrage d'avant. Le tap simple attend, pour laisser sa
+     chance au second, comme sur une carte native.
+
+     UNE SEULE CONSTANTE POUR LES DEUX, et c'est une correction. L'attente
+     valait 280 ms, la fenêtre de détection 300 : un second tap arrivant
+     entre les deux trouvait le premier DÉJÀ EXÉCUTÉ, et déclenchait le zoom
+     par-dessus. On ouvrait une fiche et on zoomait. Attendre moins
+     longtemps qu'on ne détecte n'a aucun sens : la fenêtre EST l'attente.
+
+     180 ms sur verdict de Mika : 280 se sent, 180 passe inaperçu. Plancher
+     déclaré à 180, remontée autorisée à 220 si des doubles taps se
+     perdent. Mesuré plus bas, voir l'ADR. */
+  const DELAI_TAP = 180;
   let lastTapT = 0;
   let lastTapX = 0;
   let lastTapY = 0;
@@ -957,6 +968,9 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     if (activePointers.size === 2) {
       // Deux doigts : le glissement s'arrête, le pincement commence.
       dragging = false;
+      /* Le premier doigt avait allumé une sphère. Deux doigts ne visent
+         rien : on éteint, sinon l'éclat survivait à tout le pincement. */
+      eteindrePression();
       const [a, b] = [...activePointers.values()];
       if (a && b) pinchDist = Math.hypot(a.x - b.x, a.y - b.y);
       pinchLogRate = 0;
@@ -969,6 +983,46 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     dragVY = 0;
     lastX = event.clientX;
     lastY = event.clientY;
+
+    /* RETOUR IMMÉDIAT AU TOUCHER. La sphère visée s'allume à l'instant où le
+       doigt se pose ; l'action, elle, attend le relâchement et son délai.
+
+       Ce que ça répare n'est pas la latence, c'est sa PERCEPTION : entre le
+       doigt qui se pose et la fiche qui s'ouvre, l'écran ne disait rien, et
+       180 ms de silence se lisent comme un tap manqué. Un accusé de
+       réception immédiat suffit à faire disparaître l'attente ressentie,
+       même si l'attente réelle ne bouge pas.
+
+       Souris exclue : le survol l'allume déjà avant le clic. */
+    if (event.pointerType !== 'mouse') {
+      const rect = canvas.getBoundingClientRect();
+      allumerPression(event.clientX - rect.left, event.clientY - rect.top);
+    }
+  };
+
+  /* La sphère pressée, et la remise à zéro.
+
+     On réutilise `hovered`, qui pilote déjà l'éclat de la sphère et la mise
+     en valeur de ses liens : le toucher emprunte le chemin du survol plutôt
+     que d'en ouvrir un second, qu'il aurait fallu tenir en accord avec le
+     premier. */
+  const allumerPression = (px: number, py: number): void => {
+    const cible = nomTouche(px, py, 10);
+    const index =
+      cible && cible.kind === 'genre' && cible.slot >= 0
+        ? cible.slot
+        : chercherCible(px, py, 44);
+    if (index >= 0 && index !== hovered) {
+      hovered = index;
+      lastLabelPass = 0;
+    }
+  };
+
+  const eteindrePression = (): void => {
+    if (hovered !== -1) {
+      hovered = -1;
+      lastLabelPass = 0;
+    }
   };
 
   /* Survol : le noeud sous le curseur, son parent et ses enfants directs
@@ -1032,6 +1086,14 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     const dx = event.clientX - lastX;
     const dy = event.clientY - lastY;
     moved += Math.abs(dx) + Math.abs(dy);
+
+    /* GLISSER ÉTEINT, ET NE DÉCLENCHE RIEN. Le seuil est le même que celui
+       qui distingue un tap d'un glissement plus bas (5 px) : au-delà, ce
+       n'est plus une pression sur une sphère, c'est un geste de caméra.
+       Sans cela l'éclat restait allumé pendant toute l'orbite, sur une
+       sphère qu'on n'avait pas choisie. */
+    if (moved >= 5) eteindrePression();
+
     /* SUIVI DIRECT : la rotation se fait pendant le geste, pas après. */
     azimuth -= dx * DRAG_K;
     elevation = clamp(elevation + dy * DRAG_K, -ELEVATION_LIMIT, ELEVATION_LIMIT);
@@ -1405,17 +1467,21 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       const py = event.clientY - rect.top;
       if (event.pointerType === 'touch') {
         const now = performance.now();
-        if (now - lastTapT < 300 && Math.hypot(px - lastTapX, py - lastTapY) < 40) {
+        if (now - lastTapT < DELAI_TAP && Math.hypot(px - lastTapX, py - lastTapY) < 40) {
           window.clearTimeout(tapTimer);
           tapTimer = 0;
           lastTapT = 0;
+          eteindrePression();
           doubleTapZoom(px, py);
         } else {
           lastTapT = now;
           lastTapX = px;
           lastTapY = py;
           window.clearTimeout(tapTimer);
-          tapTimer = window.setTimeout(() => performTapAction(px, py), 280);
+          tapTimer = window.setTimeout(() => {
+            eteindrePression();
+            performTapAction(px, py);
+          }, DELAI_TAP);
         }
       } else {
         performTapAction(px, py);

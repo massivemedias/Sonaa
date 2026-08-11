@@ -2142,6 +2142,55 @@ fixe » : annulee, son moteur n'existe plus.
 
 ---
 
+## ADR-061 : Le tap repond a 180 ms, et il repond tout de suite
+
+**Contexte.** « 280 ms se sent, 180 ms passe inapercu » (Mika). Le tap
+simple etait retarde pour laisser sa chance au second tap du zoom.
+
+**Un defaut trouve en y touchant.** L attente valait 280 ms, la fenetre de
+detection du double tap 300. Un second tap arrivant entre les deux trouvait
+le premier DEJA EXECUTE et declenchait le zoom par-dessus : on ouvrait une
+fiche ET on zoomait. Attendre moins longtemps qu on ne detecte n a aucun
+sens, la fenetre EST l attente. Les deux valeurs sont desormais une seule
+constante, DELAI_TAP.
+
+**Mesure, au banc, en pointeur grossier.** Doubles taps simules a six
+ecarts, detection observee par le deplacement reel des labels :
+
+| ecart entre les taps | double tap detecte |
+|---|---|
+| 60 ms | oui |
+| 120 ms | oui |
+| 160 ms | non |
+| 175 ms | non |
+| 200 ms | non |
+| 240 ms | non |
+
+La fenetre effective est donc bien 180 ms, conforme au reglage.
+
+**Ce que la mesure ne dit pas, et qu il faut dire quand meme.** Elle ne
+prouve pas qu un humain reste sous 180 ms. Les referentiels systeme sont
+nettement plus larges : environ 300 ms pour le double tap mobile, 500 ms
+pour le double-clic de bureau. Un double tap intentionnel a 200 ou 250 ms
+est ordinaire, et il est perdu ici. La remontee a 220 ms est autorisee et
+prete ; elle attend un constat sur de vrais doigts, que le banc ne peut pas
+produire.
+
+**Retour immediat au toucher.** La sphere visee s allume a l instant ou le
+doigt se pose, l action suit au relachement. Ce que cela repare n est pas la
+latence mais sa PERCEPTION : entre le doigt qui se pose et la fiche qui s
+ouvre, l ecran ne disait rien, et 180 ms de silence se lisent comme un tap
+manque. L eclat emprunte le chemin de `hovered`, deja en place pour le
+survol, plutot que d ouvrir un second etat qu il aurait fallu tenir en
+accord avec le premier.
+
+**Glisser eteint et ne declenche rien**, au meme seuil de 5 px qui separe
+deja le tap du glissement. Deux doigts eteignent aussi : un pincement ne
+vise pas une sphere. Verifie : depart sur « Psy », la carte tourne, rien ne
+s ouvre.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle
