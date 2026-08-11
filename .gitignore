@@ -8,3 +8,4 @@ dist
 # Sortie de npm run import:tracks, regeneree a chaque passage.
 tracks-canon-report.md
 .env
+.actuel-state.json

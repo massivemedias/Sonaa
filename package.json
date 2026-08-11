@@ -23,7 +23,8 @@
     "build:game-tree": "tsx scripts/build-game-tree.ts",
     "check:game-tree": "tsx scripts/build-game-tree.ts --check",
     "check:plafond": "tsx scripts/check-plafond.ts",
-    "audit:durees": "tsx scripts/audit-durees.ts"
+    "audit:durees": "tsx scripts/audit-durees.ts",
+    "fetch:actuel": "node --experimental-strip-types --env-file=.env scripts/fetch-actuel.ts"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^7.3.1",

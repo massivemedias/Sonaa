@@ -2226,6 +2226,69 @@ Les deux valeurs qui s ecartaient sans raison sont corrigees ci-dessus.
 
 ---
 
+## ADR-062 : L'onglet Actuel se remplit sans bruler de quota
+
+**Statut** : accepte, 11 aout 2026.
+
+**Contexte.** Le quota gratuit de l'API YouTube n'est pas seulement un budget
+de 10 000 unites par jour : un quota separe, « Search Queries per day »,
+plafonne a 100 le nombre de `search.list`. A 100 unites l'appel, couvrir
+184 genres vivants a cinq morceaux chacun demandait environ 920 recherches,
+soit dix jours.
+
+**Trois mesures ont dissipe le probleme.**
+
+1. **Le projet sait deja chercher sur YouTube sans cle.** `searchYouTube`
+   lit la page de resultats publique. C'est le chemin qu'utilise deja
+   `import-tracks`, il est sous garde-fou de CI depuis `check:plafond`, et
+   il ne consomme aucun quota. `search.list` n'a jamais ete necessaire :
+   le chantier ne l'appelle pas une seule fois.
+
+2. **`videos.list` rend cinquante videos par appel, pour une unite.**
+   Mesure. Duree exacte, nombre de vues, date de publication, cinquante
+   identifiants d'un coup. C'est le seul poste de depense.
+
+3. **Cout constate : environ une unite par genre**, soit 184 unites pour
+   tout le chantier, sur 10 000 quotidiennes. Le chantier tient en une
+   passe, pas en dix jours.
+
+**Deux pieges mesures, et leur correction.**
+
+**La date de publication YouTube n'est pas la date de sortie.** « The Law »
+de The Infinity Project, paru en 1994, est publie sur YouTube en 2015.
+Filtrer « les cinq dernieres annees » sur `publishedAt` ferait entrer des
+morceaux de trente ans dans l'onglet Actuel. La date de sortie vient donc
+de Discogs, jamais de YouTube.
+
+**Sur Discogs, une release est un pressage, pas une oeuvre.** La premiere
+version de ce chantier, interrogee en `type=release&year=2026`, a propose
+« Cappella, Move On Baby » pour l'italo disco : le morceau est de 1994, le
+pressage de 2026. Meme faute pour « Lee Marrow, Shanghai », titre de 1986.
+Le filtre sur les formats courts n'y suffit pas, les reeditions numeriques
+etant elles aussi des singles. `type=master` interroge l'OEUVRE, dont
+l'annee est celle de la premiere parution. Mesure sur l'italo disco :
+273 releases contre 39 masters, et les faux de trente ans ont disparu.
+
+**Decision.** Candidats par Discogs en `type=master`, resolution des
+identifiants par la page publique, verification de la duree et des vues par
+`videos.list`. Etat persiste dans `.actuel-state.json`, compteur d'unites
+journalier, arret propre au plafond.
+
+**Ce que cette voie ne couvre pas, et c'est assume.** La precision de
+`type=master` se paie en couverture : le goa trance ne compte qu'un seul
+master en 2024. Ces genres restent sous la cible de cinq. C'est le
+comportement voulu, et il suit la regle du corpus : mieux vaut trois justes
+que cinq dont deux douteuses. Une sortie recente qui n'existe pas ne doit
+pas etre inventee.
+
+Subsiste un bruit d'etiquetage propre a Discogs, de l'ordre d'un candidat
+sur cinq : « Madonna, I Feel So Free » remonte en acid house. Ces entrees
+restent dans l'univers electronique et le vote sur les morceaux permet de
+les faire redescendre. Elles ne sont pas des identifiants inventes : la
+verification, elle, n'a pas bouge.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle
