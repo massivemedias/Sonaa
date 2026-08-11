@@ -2142,52 +2142,87 @@ fixe » : annulee, son moteur n'existe plus.
 
 ---
 
-## ADR-061 : Le tap repond a 180 ms, et il repond tout de suite
+## ADR-061 : Les timings suivent les standards, pas le jugé
 
-**Contexte.** « 280 ms se sent, 180 ms passe inapercu » (Mika). Le tap
-simple etait retarde pour laisser sa chance au second tap du zoom.
+**Regle posee par Mika, et qui vaut pour la suite.** Quand une decision
+depend d une perception humaine que le banc ne peut pas mesurer : chercher
+le standard etabli, le suivre, citer la source, trancher sans renvoyer la
+question.
 
-**Un defaut trouve en y touchant.** L attente valait 280 ms, la fenetre de
-detection du double tap 300. Un second tap arrivant entre les deux trouvait
-le premier DEJA EXECUTE et declenchait le zoom par-dessus : on ouvrait une
-fiche ET on zoomait. Attendre moins longtemps qu on ne detecte n a aucun
-sens, la fenetre EST l attente. Les deux valeurs sont desormais une seule
-constante, DELAI_TAP.
+### Le double tap : 300 ms
 
-**Mesure, au banc, en pointeur grossier.** Doubles taps simules a six
-ecarts, detection observee par le deplacement reel des labels :
+`ViewConfiguration.getDoubleTapTimeout()` d Android vaut **300 ms** ; macOS
+accorde environ **500 ms** au double-clic. 300 ms est donc la valeur basse
+du standard, et c est celle retenue.
 
-| ecart entre les taps | double tap detecte |
+180 ms avait ete essaye. Mesure au banc, doubles taps simules, detection
+observee au deplacement reel des labels : detecte a 60 et 120 ms, manque a
+160, 175, 200 et 240. Tout geste volontaire au-dela de 180 ms etait perdu,
+c est-a-dire une bonne part d entre eux.
+
+**La latence ne se sent pas, et ce n est pas une esperance.** La sphere
+visee s allume A LA POSE du doigt, avant toute action. Ce qui se lisait
+comme un tap manque etait le silence de l ecran pendant l attente, pas
+l attente elle-meme.
+
+**Une seule constante pour les deux roles**, `DELAI_TAP`. Avant, l attente
+valait 280 ms et la fenetre de detection 300 : un second tap arrivant entre
+les deux trouvait le premier deja execute et zoomait par-dessus. La fenetre
+EST l attente.
+
+### Le seuil tap contre glissement : 10 px, et une mesure fausse corrigee
+
+Android : `ViewConfiguration.getScaledTouchSlop()`, **8 dp**. iOS : UIKit
+laisse environ **10 points**. La valeur du projet etait **5 px**, sous les
+deux.
+
+**Le defaut le plus grave n etait pas le seuil mais la mesure.** `moved`
+additionnait les deplacements en distance de Manhattan au lieu de mesurer
+l ecart au point de pose. Un doigt qui tremble sur place, trois pixels dans
+un sens puis dans l autre, accumulait dix-huit pixels sans avoir bouge,
+franchissait le seuil, et son tap etait requalifie en glissement donc
+PERDU. C est l explication la plus probable des taps qui « ne prenaient
+pas », devant le ciblage lui-meme.
+
+Verifie : un tremblement de 18 px cumules, jamais plus de 3 px d ecart a l
+origine, conserve desormais le tap. Trois familles visees, trois ouvertes.
+
+Elargir ce seuil ne rend pas le glissement mou : la rotation suit le doigt
+en direct des le premier pixel, le seuil ne sert qu a trancher au
+relachement.
+
+### L action optimiste, evaluee puis ECARTEE
+
+L idee : declencher au premier tap et annuler si un second arrive. Elle
+supprimerait l attente. Elle est techniquement faisable et elle a ete
+ecartee, pour une raison qui n est pas la difficulte.
+
+`selectGenre` touche onze variables internes, lance un vol de camera et une
+animation de deploiement, et surtout appelle `onTracks`, qui sort du moteur
+pour ouvrir la colonne du lecteur cote React. Annuler suppose donc de
+defaire tout cela **a la vue de l utilisateur** : sur telephone, la feuille
+du lecteur monterait puis redescendrait, le nuage se deploierait puis se
+replierait, la camera partirait puis reviendrait. Un aller-retour visible
+de 300 ms est plus penible qu une attente de 300 ms accompagnee d un retour
+immediat.
+
+`selectFamily` remet en plus `tapZoomPrev` a null, precisement l etat dont
+le double tap a besoin pour revenir au cadrage d avant. L annuler
+demanderait de sauvegarder un etat pour pouvoir annuler un etat.
+
+### Revue des autres timings
+
+Passes en revue : durees d animation, seuils de geste, delais.
+
+| Valeur | Etat |
 |---|---|
-| 60 ms | oui |
-| 120 ms | oui |
-| 160 ms | non |
-| 175 ms | non |
-| 200 ms | non |
-| 240 ms | non |
+| `--motion-zoom` 300 ms | conforme, Material Design place les transitions moyennes entre 200 et 300 ms |
+| transitions 120 a 400 ms | dans la fourchette Material (100 a 500 ms) |
+| cibles tactiles 44 px | conforme, Apple HIG 44 pt, Android 48 dp |
+| tolerance de position du double tap, 40 px | conservee, Android est plus large mais un seuil serre evite de confondre deux taps distincts |
+| 1600 ms avant de passer a la track suivante apres une erreur | juge, mais aucun standard ne couvre ce cas ; c est un delai de lecture d un message, pas un geste |
 
-La fenetre effective est donc bien 180 ms, conforme au reglage.
-
-**Ce que la mesure ne dit pas, et qu il faut dire quand meme.** Elle ne
-prouve pas qu un humain reste sous 180 ms. Les referentiels systeme sont
-nettement plus larges : environ 300 ms pour le double tap mobile, 500 ms
-pour le double-clic de bureau. Un double tap intentionnel a 200 ou 250 ms
-est ordinaire, et il est perdu ici. La remontee a 220 ms est autorisee et
-prete ; elle attend un constat sur de vrais doigts, que le banc ne peut pas
-produire.
-
-**Retour immediat au toucher.** La sphere visee s allume a l instant ou le
-doigt se pose, l action suit au relachement. Ce que cela repare n est pas la
-latence mais sa PERCEPTION : entre le doigt qui se pose et la fiche qui s
-ouvre, l ecran ne disait rien, et 180 ms de silence se lisent comme un tap
-manque. L eclat emprunte le chemin de `hovered`, deja en place pour le
-survol, plutot que d ouvrir un second etat qu il aurait fallu tenir en
-accord avec le premier.
-
-**Glisser eteint et ne declenche rien**, au meme seuil de 5 px qui separe
-deja le tap du glissement. Deux doigts eteignent aussi : un pincement ne
-vise pas une sphere. Verifie : depart sur « Psy », la carte tourne, rien ne
-s ouvre.
+Les deux valeurs qui s ecartaient sans raison sont corrigees ci-dessus.
 
 ---
 

@@ -837,7 +837,27 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   let dragging = false;
   let lastX = 0;
   let lastY = 0;
+  /* SEUIL TAP CONTRE GLISSEMENT, aligné sur les plateformes.
+
+     Android : ViewConfiguration.getScaledTouchSlop(), 8 dp. iOS : UIKit
+     laisse environ 10 points avant de considérer un déplacement. On prend
+     10 px CSS, la plus permissive des deux : perdre un tap coûte plus cher
+     que déclencher une rotation d'un pixel, puisque la rotation suit le
+     doigt en direct de toute façon et qu'un seuil plus large ne la rend
+     donc pas molle.
+
+     La valeur précédente, 5, était sous les deux standards. */
+  const SEUIL_GLISSEMENT = 10;
   let moved = 0;
+  /* Point de POSE du doigt. `moved` mesurait la somme des déplacements en
+     distance de Manhattan, pas la distance parcourue : un doigt qui tremble
+     sur place, trois pixels dans un sens puis dans l'autre, accumulait
+     six pixels sans avoir bougé, franchissait le seuil, et son tap était
+     requalifié en glissement donc perdu. C'est la cause la plus probable
+     des taps qui « ne prennent pas ». On mesure désormais l'écart à
+     l'origine, qui ne grandit que si le doigt s'éloigne vraiment. */
+  let startX = 0;
+  let startY = 0;
   let suspended = false;
   let interacted = false;
 
@@ -933,10 +953,13 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      par-dessus. On ouvrait une fiche et on zoomait. Attendre moins
      longtemps qu'on ne détecte n'a aucun sens : la fenêtre EST l'attente.
 
-     180 ms sur verdict de Mika : 280 se sent, 180 passe inaperçu. Plancher
-     déclaré à 180, remontée autorisée à 220 si des doubles taps se
-     perdent. Mesuré plus bas, voir l'ADR. */
-  const DELAI_TAP = 180;
+     300 ms, aligné sur le standard : c'est exactement la valeur de
+     ViewConfiguration.getDoubleTapTimeout() d'Android, et macOS accorde
+     500 ms au double-clic. 180 ms, essayé avant, perdait tout double tap
+     au-delà de cet écart, c'est-à-dire une bonne part des gestes
+     volontaires. La latence n'est pas ressentie parce que la sphère
+     s'allume à la pose, avant toute action : voir allumerPression. */
+  const DELAI_TAP = 300;
   let lastTapT = 0;
   let lastTapX = 0;
   let lastTapY = 0;
@@ -983,6 +1006,8 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     dragVY = 0;
     lastX = event.clientX;
     lastY = event.clientY;
+    startX = event.clientX;
+    startY = event.clientY;
 
     /* RETOUR IMMÉDIAT AU TOUCHER. La sphère visée s'allume à l'instant où le
        doigt se pose ; l'action, elle, attend le relâchement et son délai.
@@ -1085,14 +1110,14 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     if (!dragging) return;
     const dx = event.clientX - lastX;
     const dy = event.clientY - lastY;
-    moved += Math.abs(dx) + Math.abs(dy);
+    moved = Math.hypot(event.clientX - startX, event.clientY - startY);
 
-    /* GLISSER ÉTEINT, ET NE DÉCLENCHE RIEN. Le seuil est le même que celui
-       qui distingue un tap d'un glissement plus bas (5 px) : au-delà, ce
-       n'est plus une pression sur une sphère, c'est un geste de caméra.
-       Sans cela l'éclat restait allumé pendant toute l'orbite, sur une
-       sphère qu'on n'avait pas choisie. */
-    if (moved >= 5) eteindrePression();
+    /* GLISSER ÉTEINT, ET NE DÉCLENCHE RIEN. Même seuil que celui qui
+       distingue un tap d'un glissement : au-delà, ce n'est plus une
+       pression sur une sphère, c'est un geste de caméra. Sans cela l'éclat
+       restait allumé pendant toute l'orbite, sur une sphère qu'on n'avait
+       pas choisie. */
+    if (moved >= SEUIL_GLISSEMENT) eteindrePression();
 
     /* SUIVI DIRECT : la rotation se fait pendant le geste, pas après. */
     azimuth -= dx * DRAG_K;
@@ -1461,7 +1486,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       return;
     }
 
-    if (dragging && moved < 5 && !suspended) {
+    if (dragging && moved < SEUIL_GLISSEMENT && !suspended) {
       const rect = canvas.getBoundingClientRect();
       const px = event.clientX - rect.left;
       const py = event.clientY - rect.top;
@@ -1486,7 +1511,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       } else {
         performTapAction(px, py);
       }
-    } else if (dragging && moved >= 5) {
+    } else if (dragging && moved >= SEUIL_GLISSEMENT) {
       /* Inertie de glissement : courte, vite amortie. */
       azVel = -dragVX * DRAG_K * 0.35;
       elVel = dragVY * DRAG_K * 0.35;
