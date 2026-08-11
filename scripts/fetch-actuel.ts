@@ -268,7 +268,10 @@ async function candidatsDiscogs(style: string): Promise<Candidat[]> {
         out.push({
           artist: m[1].replace(/\s*\(\d+\)$/, '').trim(),
           title: m[2].trim(),
-          annee: r.year ?? annee,
+          /* Discogs rend parfois l'annee en chaine. Sans cette conversion,
+             elle entre telle quelle dans le corpus et validate:data bloque
+             le deploiement, ce qui est arrive sur 177 entrees. */
+          annee: Number(r.year) || annee,
           possesseurs: r.community?.have ?? 0,
           masterId: r.master_id ?? 0,
           styles,

@@ -43,11 +43,7 @@
    Usage : node --experimental-strip-types scripts/annuler-remplacements.ts */
 
 import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
-
 import { transaction } from './lib/corpus-store.ts';
-
-const RACINE = fileURLToPath(new URL('..', import.meta.url));
 
 interface Cible {
   genre: string;

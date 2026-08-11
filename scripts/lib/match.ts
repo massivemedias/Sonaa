@@ -72,6 +72,8 @@ export interface Candidate {
 export interface Verdict {
   /** Le titre annonce un document SUR la musique, pas la musique. */
   about?: boolean;
+  /** Les numeros d'ordre se contredisent : Living Torch II pour I. */
+  numero?: boolean;
   ok: boolean;
   titleScore: number;
   artistScore: number;
@@ -154,6 +156,42 @@ export const isFullRelease = (
   return false;
 };
 
+
+/* LES NUMEROS D'ORDRE, QUE LA COUVERTURE DE MOTS IGNORE.
+
+   « Living Torch II » a ete accepte pour « Living Torch I ». Les deux
+   partagent tous leurs mots significatifs, le score de couverture est
+   parfait, et le chiffre romain seul distingue deux pieces differentes.
+   Meme piege avec « Pt. 1 » et « Pt. 2 », « Part One » et « Part Two »,
+   « Dub I » et « Dub II ».
+
+   La regle est stricte dans un seul sens : SI le titre cherche porte un
+   numero, le candidat doit porter LE MEME. Un titre sans numero n'impose
+   rien, sans quoi « Acid Tracks » refuserait toute video dont le titre
+   contient une annee ou un numero de catalogue. */
+const NUMERO_FINAL = /\b(?:pt\.?|part|no\.?|vol\.?)?\s*(i{1,3}v?|iv|vi{0,3}|ix|x|\d{1,2})\s*$/i;
+
+const ROMAINS: Record<string, number> = {
+  i: 1, ii: 2, iii: 3, iv: 4, v: 5, vi: 6, vii: 7, viii: 8, ix: 9, x: 10
+};
+
+/** Numero d'ordre en fin de titre, ou null s'il n'y en a pas. */
+export const numeroDOrdre = (title: string): number | null => {
+  const m = NUMERO_FINAL.exec(title.trim());
+  const brut = m?.[1]?.toLowerCase();
+  if (!brut) return null;
+  if (/^\d+$/.test(brut)) return Number(brut);
+  return ROMAINS[brut] ?? null;
+};
+
+/** Vrai quand les numeros d'ordre se contredisent. */
+export const numerosDiscordants = (voulu: string, candidat: string): boolean => {
+  const a = numeroDOrdre(voulu);
+  if (a === null) return false; // pas de numero cherche, rien a verifier
+  const b = numeroDOrdre(candidat);
+  return b !== null && b !== a;
+};
+
 /** Le verdict, avec ses deux scores : un rejet doit être explicable. */
 export const judge = (
   candidate: Candidate,
@@ -168,16 +206,19 @@ export const judge = (
   /* La nature prime sur les scores ET sur les exceptions de duree : une
      interview de Brian Eno sur 1/1 reste une interview. */
   const about = isAboutMusic(candidate.title);
+  const numero = numerosDiscordants(title, candidate.title);
   return {
     ok:
       !fullRelease &&
       !about &&
+      !numero &&
       titleScore >= TITLE_THRESHOLD &&
       artistScore >= ARTIST_THRESHOLD,
     titleScore,
     artistScore,
     fullRelease,
-    about
+    about,
+    numero
   };
 };
 

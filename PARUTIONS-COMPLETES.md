@@ -1,65 +1,76 @@
-# Parutions complètes : ce qui a été remplacé, ce qui a été gardé
+# Parutions completes : ce qui a ete mesure, et ce qui ne l'a pas ete
 
-Entrées de plus de 15 minutes trouvées par l'audit.
-La règle appliquée ne juge pas les disques un par un : on cherche une
-autre version de la même piste. Si une version courte existe et passe
-le matcher, l'entrée longue était une intégrale et elle est remplacée.
-Sinon, le morceau est tenu pour réellement long.
+La duree canonique vient de la fiche Discogs de la sortie, piste par
+piste. Une video conforme a cette duree est legitime, quelle que soit sa
+longueur ; une video qui la depasse de plus de 25 % est une integrale.
 
-## Remplacées (36)
+La regle precedente, « une version courte existe donc l'entree est une
+integrale », etait fausse : une piece de 35 minutes a toujours des
+extraits qui circulent. Elle avait produit 36 remplacements annules.
 
-- spacesynth | Zanov - Moebius 256 | 40 min -> McDQUR4C7tk
-- acidhouse | Phuture - Acid Tracks | 24 min -> yKHGv6Es610
-- industrialtechno | Ancient Methods - The Jericho Recordings | 70 min -> e5XE4HIFW34
-- minimaltechno | Rrose - Hymn to Moisture | 59 min -> OylxmZrEdvs
-- clickscuts | Vladislav Delay - Huone | 22 min -> q6OqbGv_qV0
-- nitzhonot | Sandman - Witchcraft | 73 min -> 5UUofTO-77A
-- electroacoustic | Karlheinz Stockhausen - Kontakte | 35 min -> 7XWNR_TcPFI
-- kosmische | Tangerine Dream - Phaedra | 38 min -> ou_bvJlm3rs
-- kosmische | Harmonia - Deluxe | 42 min -> bcmObwhFir8
-- kosmische | Klaus Schulze - Mindphaser | 25 min -> CXYfck7onXM
-- spacemusic | Klaus Schulze - Bayreuth Return | 30 min -> WRukC1PaZJA
-- techstep | Ed Rush & Optical - Wormhole | 70 min -> m73M3CtNDAY
-- drillnbass | µ-Ziq - Magic Pony Ride | 51 min -> kTUetY0p2Ao
-- breakcore | Alec Empire - Digital Hardcore | 20 min -> imfuruzh6T4
-- terrorcore | Noisekick & Paranoizer - Terrordrang | 142 min -> _uQMAhJ4h0o
-- raggacore | Shitmat - Killababylonkutz | 34 min -> oFn2tIu5tlU
-- digitalhardcore | Alec Empire - Digital Hardcore | 20 min -> dHR-hp2JmaY
-- ambientgenre | Brian Eno - 1/1 | 17 min -> t-mLxI8nrdc
-- ambientgenre | KMRU - Why Are You Here | 15 min -> gMMZYrNnHm4
-- isolationism | Thomas Koner - Permafrost | 37 min -> 3Jb2hxXJq4g
-- dungeonsynth | Old Tower - The Rise of the Specter | 29 min -> D0V26O4rXnI
-- drone | Kali Malone - Living Torch I | 33 min -> cvIqQgrTSTM
-- lowercase | Steve Roden - Forms of Paper | 54 min -> qqTMun41MF4
-- lowercase | Richard Chartier - Of Surfaces | 26 min -> KehRFEkK960
-- ambientdub | The Orb - Towers of Dub | 15 min -> YFAvSXS5H0E
-- illbient | Techno Animal vs Dalek - Megaton | 21 min -> pFvwOh5AxXY
-- glitch | Oval - Do While | 24 min -> RYSTR9bA9wQ
-- ambienthouse | The Orb - A Huge Ever Growing Pulsating Brain That Rules from the Centre of the Ultraworld | 18 min -> -HLZFrwXF78
-- nuitalo | Italoconnection - Metropoli | 55 min -> 3Xl3OiGs1nc
-- belgiantechno | Charlotte de Witte - Formula | 89 min -> XwX9w00dZcY
-- peaktimetechno | Amelie Lens - Higher | 72 min -> SmVoQ0jGEvM
-- rominimal | Cezar - Salvatore | 67 min -> wofAIjoydYI
-- psycore | Kindzadza - Waves From Inner Space | 64 min -> ejNtGL0S268
-- psycore | Psykovsky - Tanetsveta | 111 min -> qf2tUc3eegY
-- neogoa | Artifact303 - Back to Space | 41 min -> hAEZbFs4BaU
-- aggrotech | Grendel - Ascending the Abyss | 16 min -> CFUpGhgnI_g
+## Integrales remplacees (13)
 
-## Gardées, aucune version courte n'existe (13)
+- spacesynth | Zanov - Moebius 256 | video 40 min, Discogs 3 min -> j-ZZ0uMSu2M (3 min)
+- acidhouse | Phuture - Acid Tracks | video 24 min, Discogs 12 min -> yKHGv6Es610 (12 min)
+- kosmische | Tangerine Dream - Phaedra | video 38 min, Discogs 17 min -> EhQpXD2Z9WQ (18 min)
+- kosmische | Harmonia - Deluxe | video 42 min, Discogs 10 min -> bcmObwhFir8 (10 min)
+- techstep | Ed Rush & Optical - Wormhole | video 70 min, Discogs 7 min -> m73M3CtNDAY (7 min)
+- isolationism | Thomas Koner - Permafrost | video 37 min, Discogs 10 min -> 3Jb2hxXJq4g (10 min)
+- drone | Kali Malone - Living Torch I | video 33 min, Discogs 19 min -> 1GXCyVPRAq8 (15 min)
+- ambientdub | The Orb - Towers of Dub | video 15 min, Discogs 11 min -> YFAvSXS5H0E (13 min)
+- illbient | Techno Animal vs Dalek - Megaton | video 21 min, Discogs 5 min -> pFvwOh5AxXY (5 min)
+- ambienthouse | The Orb - A Huge Ever Growing Pulsating Brain That Rules from the Centre of the Ultraworld | video 18 min, Discogs 8 min -> -HLZFrwXF78 (8 min)
+- belgiantechno | Charlotte de Witte - Formula | video 89 min, Discogs 8 min -> XwX9w00dZcY (6 min)
+- peaktimetechno | Amelie Lens - Higher | video 72 min, Discogs 5 min -> SmVoQ0jGEvM (5 min)
+- psycore | Psykovsky - Tanetsveta | video 111 min, Discogs 8 min -> qf2tUc3eegY (8 min)
 
-Ces durées appartiennent à la forme : ambient, kosmische, musique
-concrète. Les raccourcir trahirait le genre.
+## Longues mais conformes a Discogs, gardees (9)
 
-- dubtechno | Basic Channel - Quadrant Dub I | 15 min
-- forestpsy | Battle of the Future Buddhas - Twin Sharkfins | 71 min
-- darkelectro | Mentallo And The Fixer - Burnt Beyond Recognition | 73 min
-- krautrock | Föllakzoid - I | 17 min
-- spacemusic | Steve Roach - Structures from Silence | 28 min
-- spacemusic | Steve Roach - Rest of Life | 22 min
-- frenchcore | Micropoint - Neurophonie | 57 min
-- dungeonsynth | Mortiis - Fodt til a herske | 53 min
-- dungeonsynth | Secret Stairways - Enchantment of the Ring | 29 min
-- psybient | Carbon Based Lifeforms - Stochastic | 95 min
-- microtechno | Rrose - Please Touch | 68 min
-- twilightpsy | Rinkadink - Rabbit From Darkside | 62 min
-- rhythmicnoise | Imminent Starvation - Nord | 68 min
+- clickscuts | Vladislav Delay - Huone | video 22 min, Discogs 22 min, conforme
+- spacemusic | Klaus Schulze - Bayreuth Return | video 30 min, Discogs 30 min, conforme
+- spacemusic | Steve Roach - Structures from Silence | video 28 min, Discogs 29 min, conforme
+- spacemusic | Steve Roach - Rest of Life | video 22 min, Discogs 23 min, conforme
+- ambientgenre | Brian Eno - 1/1 | video 17 min, Discogs 17 min, conforme
+- ambientgenre | KMRU - Why Are You Here | video 15 min, Discogs 15 min, conforme
+- lowercase | Steve Roden - Forms of Paper | video 54 min, Discogs 54 min, conforme
+- lowercase | Richard Chartier - Of Surfaces | video 26 min, Discogs 26 min, conforme
+- glitch | Oval - Do While | video 24 min, Discogs 24 min, conforme
+
+## Integrales sans remplacant conforme (3)
+
+Aucune video ne correspond a la duree canonique. Le defaut reste, il est
+connu et mesure.
+
+- dubtechno | Basic Channel - Quadrant Dub I | video 15 min, Discogs 21 min, aucune video conforme
+- krautrock | Föllakzoid - I | video 17 min, Discogs 8 min, aucune video conforme
+- kosmische | Klaus Schulze - Mindphaser | video 25 min, Discogs 10 min, aucune video conforme
+
+## Non mesurees (24)
+
+Discogs ne donne pas de duree pour ces pistes. Rien n'a ete touche :
+« je n'ai pas pu verifier » n'est pas « c'est correct ».
+
+- industrialtechno | Ancient Methods - The Jericho Recordings | video 70 min
+- minimaltechno | Rrose - Hymn to Moisture | video 59 min
+- nitzhonot | Sandman - Witchcraft | video 73 min
+- forestpsy | Battle of the Future Buddhas - Twin Sharkfins | video 71 min
+- darkelectro | Mentallo And The Fixer - Burnt Beyond Recognition | video 73 min
+- electroacoustic | Karlheinz Stockhausen - Kontakte | video 35 min
+- drillnbass | µ-Ziq - Magic Pony Ride | video 51 min
+- breakcore | Alec Empire - Digital Hardcore | video 20 min
+- terrorcore | Noisekick & Paranoizer - Terrordrang | video 142 min
+- frenchcore | Micropoint - Neurophonie | video 57 min
+- raggacore | Shitmat - Killababylonkutz | video 34 min
+- digitalhardcore | Alec Empire - Digital Hardcore | video 20 min
+- dungeonsynth | Mortiis - Fodt til a herske | video 53 min
+- dungeonsynth | Secret Stairways - Enchantment of the Ring | video 29 min
+- dungeonsynth | Old Tower - The Rise of the Specter | video 29 min
+- psybient | Carbon Based Lifeforms - Stochastic | video 95 min
+- nuitalo | Italoconnection - Metropoli | video 55 min
+- rominimal | Cezar - Salvatore | video 67 min
+- microtechno | Rrose - Please Touch | video 68 min
+- psycore | Kindzadza - Waves From Inner Space | video 64 min
+- twilightpsy | Rinkadink - Rabbit From Darkside | video 62 min
+- neogoa | Artifact303 - Back to Space | video 41 min
+- rhythmicnoise | Imminent Starvation - Nord | video 68 min
+- aggrotech | Grendel - Ascending the Abyss | video 16 min

@@ -19,7 +19,7 @@
 
    Usage : npm run check:nature */
 
-import { isAboutMusic, judge } from './lib/match.ts';
+import { isAboutMusic, judge, numerosDiscordants } from './lib/match.ts';
 
 const erreurs: string[] = [];
 
@@ -124,6 +124,42 @@ if (!bon.ok) {
   );
 }
 
+/* ------------- 4. Les numeros d'ordre, autre angle mort de la couverture */
+
+/* « Living Torch II » a ete accepte pour « Living Torch I » : mots identiques,
+   score parfait, et deux pieces differentes. Meme famille de faute que la
+   nature du document, meme cause, la comparaison de mots ne voit pas tout. */
+const NUMEROS: readonly { voulu: string; candidat: string; discordant: boolean }[] = [
+  { voulu: 'Living Torch I', candidat: 'Kali Malone - Living Torch II', discordant: true },
+  { voulu: 'Living Torch I', candidat: 'Kali Malone - Living Torch I', discordant: false },
+  { voulu: 'Quadrant Dub I', candidat: 'Basic Channel - Quadrant Dub II', discordant: true },
+  { voulu: 'Part 2', candidat: 'Some Piece Part 3', discordant: true },
+  { voulu: 'Acid Tracks', candidat: 'Phuture - Acid Tracks 1987', discordant: false },
+  { voulu: 'Windowlicker', candidat: 'Aphex Twin - Windowlicker', discordant: false }
+];
+
+for (const n of NUMEROS) {
+  if (numerosDiscordants(n.voulu, n.candidat) !== n.discordant) {
+    erreurs.push(
+      `Numeros : « ${n.voulu} » contre « ${n.candidat} » devrait etre ` +
+        `${n.discordant ? 'discordant' : 'concordant'}, il ne l est pas.`
+    );
+  }
+}
+
+const numVerdict = judge(
+  { title: 'Kali Malone - Living Torch II', channel: 'Ideologic Organ' },
+  'Kali Malone',
+  'Living Torch I',
+  900
+);
+if (numVerdict.ok) {
+  erreurs.push(
+    'judge() ACCEPTE « Living Torch II » pour « Living Torch I ». Le controle ' +
+      "des numeros n'est pas branche dans le verdict."
+  );
+}
+
 /* ------------------------------------------------------------- verdict */
 
 if (erreurs.length > 0) {
@@ -134,5 +170,5 @@ if (erreurs.length > 0) {
 
 console.log(
   `Nature : ${DOCUMENTS.length - 1} documents rejetes, ${MUSIQUE.length} musiques acceptees, ` +
-    'et le filtre est bien branche dans judge().'
+    `${NUMEROS.length} cas de numeros, et les deux filtres sont branches dans judge().`
 );
