@@ -1,7 +1,7 @@
 # Audit des titres : ce que les entrees annoncent, ce qu'elles jouent
 
-Lecture seule. 1760 entrees lues, 0 video(s) disparue(s),
-**136 suspecte(s)**.
+Lecture seule. 1763 entrees lues, 0 video(s) disparue(s),
+**120 suspecte(s)**.
 
 La gravite ne se deduit pas de la nature : un remix garde le theme et
 trahit la reference, une version alternative ne trahit presque rien, un
@@ -11,7 +11,7 @@ autre morceau ne joue pas du tout ce qui est annonce.
 
 | gravite | nombre |
 | --- | --- |
-| faute | 27 |
+| faute | 11 |
 | ecart | 43 |
 | detail | 66 |
 
@@ -21,50 +21,29 @@ autre morceau ne joue pas du tout ce qui est annonce.
 | --- | --- |
 | version alternative | 66 |
 | remix pris pour l original | 43 |
-| autre morceau | 21 |
-| document sur la musique | 6 |
+| autre morceau | 10 |
+| document sur la musique | 1 |
 
 ## Par famille
 
 | famille | suspectes | total | part |
 | --- | --- | --- | --- |
 | trance | 21 | 113 | 19 % |
-| psy | 13 | 103 | 13 % |
-| ambient | 10 | 97 | 10 % |
-| disco | 11 | 118 | 9 % |
-| minimal | 7 | 81 | 9 % |
-| house | 20 | 237 | 8 % |
+| psy | 9 | 100 | 9 % |
+| disco | 10 | 117 | 9 % |
+| ambient | 8 | 97 | 8 % |
+| house | 19 | 238 | 8 % |
 | electro | 6 | 85 | 7 % |
-| industrial | 7 | 124 | 6 % |
-| downtempo | 6 | 110 | 5 % |
-| hardcore | 8 | 150 | 5 % |
-| breaks | 8 | 154 | 5 % |
-| bass | 9 | 176 | 5 % |
-| roots | 5 | 98 | 5 % |
+| minimal | 5 | 79 | 6 % |
+| hardcore | 8 | 153 | 5 % |
+| roots | 5 | 101 | 5 % |
+| downtempo | 5 | 109 | 5 % |
+| bass | 8 | 176 | 5 % |
 | techno | 5 | 114 | 4 % |
+| industrial | 5 | 123 | 4 % |
+| breaks | 6 | 158 | 4 % |
 
 ## Le detail
-
-### FAUTE , autre morceau
-
-- genre : dubstep (bass, onglet actuel)
-- annonce : Zha , Ramta Jogi / Misirlou
-- joue : Zha - Ramta Jogi | Dubstep Remix | Taal | Aishwarya Rai | Anil Kapoor | Sukhwinder | A.R.Rahman
-- mots en trop : 9
-
-### FAUTE , autre morceau
-
-- genre : darkdisco (disco, onglet essentiel)
-- annonce : Curses , Incenser
-- joue : Curse Bangle & Curse Incense ULTIMATE GUIDE! | Pokemon Unite
-- mots en trop : 8
-
-### FAUTE , autre morceau
-
-- genre : hitech (psy, onglet essentiel)
-- annonce : Ocelot , Elephant
-- joue : Intense Wildlife Encounter: Ocelot Stalks and Hunts Coati #elephant #wonderfulworldofnat #wildlife
-- mots en trop : 8
 
 ### FAUTE , autre morceau
 
@@ -79,13 +58,6 @@ autre morceau ne joue pas du tout ce qui est annonce.
 - annonce : Khetzal , Corolle
 - joue : Khetzal - Listening Winds [ Corolle ] (Uplifting, Psychedelic, Progressive/Soft Psytrance, Psybient)
 - mots en trop : 8
-
-### FAUTE , autre morceau
-
-- genre : isolationism (ambient, onglet essentiel)
-- annonce : Final , Open
-- joue : LPGA Highlights: 2026 AIG Women's Open, Final Round | Golf Channel
-- mots en trop : 7
 
 ### FAUTE , autre morceau
 
@@ -110,13 +82,6 @@ autre morceau ne joue pas du tout ce qui est annonce.
 
 ### FAUTE , autre morceau
 
-- genre : twilightpsy (psy, onglet essentiel)
-- annonce : Shift , Coup de Grace
-- joue : Crit Shift PHANTOM STRIKE + ESSENCE SHIFT + COUP DE GRACE | Ability Draft
-- mots en trop : 6
-
-### FAUTE , autre morceau
-
 - genre : progressivehouse (house, onglet actuel)
 - annonce : Young Marco , What You Say?
 - joue : Young Marco – What You Say? Live from Boiler Room at Dekmantel 2022 | Ministry of Sound
@@ -131,87 +96,10 @@ autre morceau ne joue pas du tout ce qui est annonce.
 
 ### FAUTE , autre morceau
 
-- genre : microhouse (minimal, onglet essentiel)
-- annonce : Tandem , Tandem
-- joue : How Fast Can a Tandem Bike Really Go? 😲
-- mots en trop : 5
-
-### FAUTE , document sur la musique
-
-- genre : drumfunk (breaks, onglet essentiel)
-- annonce : Alpha Omega , Sinister
-- joue : X-Men: Sins of Sinister Alpha Trailer | Marvel Comics
-- mots en trop : 5
-
-### FAUTE , autre morceau
-
-- genre : psybreaks (breaks, onglet essentiel)
-- annonce : Tribal Vision , Freak Show
-- joue : Freak&Octagon - Tribal Dance (Original Mix) #Psytrance #Progressive #Fullon
-- mots en trop : 5
-
-### FAUTE , autre morceau
-
 - genre : lentoviolento (hardcore, onglet essentiel)
 - annonce : Gigi D'Agostino , Vorrei fare una canzone
 - joue : Gigi D'Agostino - Vorrei Fare una Canzone (Lento Violento e altre storie cd1)
 - mots en trop : 5
-
-### FAUTE , autre morceau
-
-- genre : drone (ambient, onglet actuel)
-- annonce : Sparkling Wide Pressure , Sparkling Wide Pressure
-- joue : [1080p] Sparkling Wide Pressure {Ver. Movie} (Sailor Jupiter Attack)
-- mots en trop : 5
-
-### FAUTE , autre morceau
-
-- genre : rominimal (minimal, onglet essentiel)
-- annonce : Cezar , Salvatore
-- joue : Eigenbros ep 50 - UFO technology Patents Part 2 (Salvatore Cezar Pais)
-- mots en trop : 5
-
-### FAUTE , autre morceau
-
-- genre : psycore (psy, onglet essentiel)
-- annonce : Savage Scream , Bloody Ballet
-- joue : Ballet of Blood | Dark Comedy Horror | Full Movie | Exclusive | Watch Now in HD
-- mots en trop : 5
-
-### FAUTE , document sur la musique
-
-- genre : psytech (psy, onglet essentiel)
-- annonce : Gaudium , Ganesh
-- joue : Making of Ganesh Idol-Tradition Meets Sustainability
-- mots en trop : 5
-
-### FAUTE , autre morceau
-
-- genre : powerelectronics (industrial, onglet actuel)
-- annonce : Outback , Outback
-- joue : Maddie’s Lullaby | Back to the Outback | Netflix Family
-- mots en trop : 5
-
-### FAUTE , document sur la musique
-
-- genre : aggrotech (industrial, onglet actuel)
-- annonce : Grendel , Ascending the Abyss
-- joue : GRENDEL - Grimm-Interview & Ascending The Abyss Tour 2019 - Pittsburgh, PA
-- mots en trop : 4
-
-### FAUTE , document sur la musique
-
-- genre : ukhouse (house, onglet actuel)
-- annonce : NMIXX , A Midsummer Nmixx's Dream
-- joue : [Unboxing] Nmixx ⟡ A Midsummer Nmixx's Dream ♡ Forest version ⟡ 3rd Single Album
-- mots en trop : 3
-
-### FAUTE , document sur la musique
-
-- genre : downtempogenre (downtempo, onglet actuel)
-- annonce : Saint Etienne , I've Been Trying To Tell You
-- joue : Saint Etienne - I've Been Trying To Tell You - Official Trailer
-- mots en trop : 1
 
 ### FAUTE , autre morceau
 
