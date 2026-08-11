@@ -56,6 +56,24 @@ for (const [i, { genre, t }] of lot.entries()) {
 }
 
 console.log(`\nMesurées : ${mesurees}, non mesurables : ${inconnues}.`);
+
+/* CE SCRIPT AVAIT LE DÉFAUT QU'IL TRAQUE.
+
+   Il annonçait « aucune parution complète détectée » aussi bien quand il
+   n'y en avait pas que quand il n'avait RIEN PU MESURER. Si l'extraction
+   de durée retombe en panne, un audit muet ressemblerait à un corpus
+   propre, et c'est précisément l'erreur qui a laissé entrer quarante-cinq
+   albums. On refuse donc de conclure sous la moitié de mesures. */
+const part = mesurees + inconnues === 0 ? 0 : mesurees / (mesurees + inconnues);
+if (part < 0.5) {
+  console.error(
+    `\nAUDIT NON CONCLUANT : seulement ${Math.round(part * 100)} % des tracks ont ` +
+      `pu être mesurées. L'absence de parution complète ci-dessus ne prouve RIEN. ` +
+      `Vérifier l'extraction de durée : npm run check:plafond.`
+  );
+  process.exit(1);
+}
+
 console.log(longues.length === 0
-  ? 'Aucune parution complète détectée dans ce lot.'
+  ? `Aucune parution complète dans ce lot, sur ${mesurees} tracks réellement mesurées.`
   : `${longues.length} track(s) au-dessus du plafond :\n  ${longues.join('\n  ')}`);

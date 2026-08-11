@@ -56,24 +56,45 @@ const write = (corpus: AnyCorpus): void => {
    retiré, un album remplacé par release). Toute copie de la track, dans
    tous les genres qui la tiennent, reçoit la même valeur : une charnière
    partage sa pochette. */
+/** Applique les correctifs et rend le compte de ce qui a VRAIMENT été
+    touché. Le retour n'est pas décoratif : un patch dont la track a été
+    retirée du corpus entre-temps ne trouve aucune cible, et l'ancienne
+    version l'ignorait sans rien dire. Un script pouvait annoncer « 50
+    pochettes posées » en n'en ayant écrit que vingt.
+
+    Les orphelins ne sont pas une erreur en soi : le corpus bouge, c'est
+    même la raison d'être de ce module. Ils doivent seulement être VUS. */
 export const patchTracks = (
   fields: readonly TrackField[],
   patches: ReadonlyMap<string, Partial<Record<TrackField, unknown>>>
-): void => {
+): { appliques: number; orphelins: string[] } => {
   const disk = readCorpus();
+  const touches = new Set<string>();
   for (const genre of disk.genres) {
     for (const track of [...genre.tracks.essentiel, ...genre.tracks.actuel]) {
       const patch = patches.get(track.youtubeId);
       if (!patch) continue;
+      let modifie = false;
       for (const field of fields) {
         if (!(field in patch)) continue;
         const value = patch[field];
         if (value === undefined) delete track[field];
         else track[field] = value;
+        modifie = true;
       }
+      if (modifie) touches.add(track.youtubeId);
     }
   }
   write(disk);
+
+  const orphelins = [...patches.keys()].filter((id) => !touches.has(id));
+  if (orphelins.length > 0) {
+    console.warn(
+      `corpus-store : ${orphelins.length} correctif(s) sans cible dans le corpus, ` +
+        `ignoré(s) : ${orphelins.slice(0, 5).join(', ')}${orphelins.length > 5 ? '…' : ''}`
+    );
+  }
+  return { appliques: touches.size, orphelins };
 };
 
 /* Écriture STRUCTURELLE : la fonction reçoit le corpus frais du disque et

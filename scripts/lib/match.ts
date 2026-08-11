@@ -215,7 +215,26 @@ const scrape = (html: string, limit: number): SearchHit[] => {
 };
 
 /** Candidats pour une requête, avec leur durée. Aucun identifiant n'est jamais construit. */
+/* COMPTEUR D'ÉCHECS RÉSEAU.
+
+   `searchYouTube` rend un tableau vide dans DEUX cas que rien ne
+   distinguait : « cette requête ne donne vraiment rien », et « on nous a
+   fermé la porte quatre fois de suite ». L'appelant concluait « non
+   résolu » dans les deux, et un blocage complet de YouTube produisait un
+   rapport d'import parfaitement normal, du genre « 0 ajouté, 60 non
+   résolus ».
+
+   C'est le même défaut que le plafond de durée : une opération qui échoue
+   sans le dire. Les appelants interrogent maintenant ce compteur et
+   refusent de conclure quand il grimpe. */
+export const reseau = { requetes: 0, echecs: 0 };
+
+/** Part des requêtes qui n'ont jamais abouti. 0 quand rien n'a été tenté. */
+export const tauxEchecReseau = (): number =>
+  reseau.requetes === 0 ? 0 : reseau.echecs / reseau.requetes;
+
 export const searchYouTube = async (query: string, limit = 4): Promise<SearchHit[]> => {
+  reseau.requetes += 1;
   const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
 
   for (let attempt = 0; attempt < 4; attempt += 1) {
@@ -240,6 +259,9 @@ export const searchYouTube = async (query: string, limit = 4): Promise<SearchHit
     if (html.includes('"videoId"')) return [];
     await sleep(4000 * (attempt + 1));
   }
+  /* Quatre tentatives, aucune page exploitable : ce n'est pas une requête
+     sans résultat, c'est une porte fermée. On le compte. */
+  reseau.echecs += 1;
   return [];
 };
 

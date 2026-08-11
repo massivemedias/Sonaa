@@ -62,7 +62,7 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
-import { normalise, resolveTrack, sleep, type Resolution } from './lib/match.ts';
+import { normalise, resolveTrack, sleep, tauxEchecReseau, reseau, type Resolution } from './lib/match.ts';
 import { transaction, type AnyCorpus } from './lib/corpus-store.ts';
 
 const CORPUS = fileURLToPath(new URL('../src/data/corpus.json', import.meta.url));
@@ -396,6 +396,24 @@ console.log(
   `${skippedExisting} déjà présents et laissés en place, ${failures.length} non résolus, ` +
     `${unknownGenre} sur un genre inconnu.`
 );
+
+/* « NON RÉSOLU » NE DOIT PAS COUVRIR « RÉSEAU EN PANNE ».
+
+   Une recherche qui ne rend rien et une recherche qu'on nous a refusée
+   produisaient le même « non résolu ». Un blocage complet de YouTube
+   ressemblait donc à un fichier de candidats douteux, et le rapport final
+   restait rassurant. On regarde maintenant le compteur, et on refuse de
+   conclure au-delà d'un quart de requêtes perdues. */
+const tauxEchec = tauxEchecReseau();
+if (reseau.requetes > 0 && tauxEchec > 0.25) {
+  console.error(
+    `\nRÉSEAU : ${reseau.echecs} requêtes perdues sur ${reseau.requetes} ` +
+      `(${Math.round(tauxEchec * 100)} %). Les « non résolus » ci-dessus ne veulent ` +
+      `rien dire : ils peuvent être des refus de YouTube et non des candidats ` +
+      `douteux. Relancer plus tard avant de conclure quoi que ce soit sur ce lot.`
+  );
+  process.exit(1);
+}
 
 /* Un fichier partiel est la norme. On rappelle donc ce qui manque encore, pour
    que la prochaine passe sache quoi viser sans relire tout le corpus. */
