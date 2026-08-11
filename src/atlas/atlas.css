@@ -676,3 +676,25 @@
     display: grid !important;
   }
 }
+
+/* MORCEAU CONTESTE. Le tri le fait deja descendre en bas de liste ; ceci le
+   dit a l'oeil. Volontairement sobre : la ligne reste lisible et jouable,
+   on signale un doute, on ne barre pas une entree que personne n'a tranchee.
+   Le vote est le correcteur de long terme du corpus, pas une sanction. */
+.tvote-en-doute .tvote-score {
+  color: #d98b7a;
+  font-weight: 600;
+}
+.tvote-en-doute::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: -0.5rem;
+  inset-block: 0.15rem;
+  inline-size: 2px;
+  background: #d98b7a;
+  opacity: 0.55;
+  border-radius: 1px;
+}
+.tvote-en-doute {
+  position: relative;
+}

@@ -2289,6 +2289,60 @@ verification, elle, n'a pas bouge.
 
 ---
 
+## ADR-063 : Le seuil de mots en trop n'est pas une preuve
+
+**Statut** : accepte, 11 aout 2026.
+
+**Contexte.** Le matcher comparait les titres dans un seul sens : il
+verifiait que les mots CHERCHES etaient presents dans le candidat, jamais ce
+que le candidat ajoutait. Trois campagnes de remplacement ont produit 36,
+puis 2, puis 6 faux, dont « The Ride, Alec Empiree DIGITAL HARDCORE » pour
+« Digital Hardcore » et « Harmonia, Deluxe, Walky Talky » pour « Deluxe ».
+Les deux obtiennent un score de couverture parfait.
+
+**Decision.** `motsEnTrop` compte les mots significatifs que le candidat
+apporte en plus, hors mots de bruit et hors artistes invites. Au-dela de
+CINQ, le candidat est refuse.
+
+**La calibration, et ce qu'elle a appris.**
+
+Premiere valeur essayee, quatre : DIX entrees du corpus tombaient, et les
+dix etaient JUSTES. « Tchami feat. Kaleem Taylor », « Lee Perry and The
+Upsetters », « Tyler ICU & Tumelo.za ft. Ceeka RSA ». Le comptage prenait
+les invites pour du bruit. Tout ce qui suit feat, ft, with, pres, vs est
+donc retire avant de compter, ce qui a fait passer le corpus de 91 a 95 %
+sous deux mots en trop.
+
+**LA REGLE QUE CET ADR EXISTE POUR CONSIGNER.**
+
+Meme apres cette correction, AUCUN SEUIL NE SEPARE PROPREMENT. Les deux
+populations se recouvrent :
+
+- « Human Mesh Dance (Taylor Deupree), Dahlia » compte SIX mots en trop,
+  et c'est la bonne video ;
+- « The Ride, Alec Empiree DIGITAL HARDCORE » n'en compte que DEUX, et
+  c'est un autre morceau.
+
+Cinq est retenu parce qu'une seule entree sur deux cents tombe. Le filtre
+ecarte « Salem Witchcraft » et « Shards Of Pol Pottery ». Il ne rattrape pas
+les faux a deux mots.
+
+**Le filtre reduit le taux d'erreur sans l'annuler. Les deux populations se
+recouvrent. Aucune garantie n'est possible par cette voie.**
+
+Que personne, dans six mois, ne prenne ce seuil pour une preuve. Un candidat
+qui passe n'est pas verifie, il n'est pas grossierement faux. La
+verification par mesure de chaque entree reste une etape du chantier, pas
+une precaution facultative.
+
+**Consequence assumee.** Les 23 genres restes sous la cible n'y seront pas
+forces. Les sources publiques sont epuisees, et forcer produirait exactement
+les fautes que cette journee a servi a nettoyer. Ils sont signales dans
+l'interface avec un appel a contribution : c'est la raison d'etre du
+systeme de propositions.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle
