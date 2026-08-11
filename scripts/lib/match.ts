@@ -76,6 +76,8 @@ export interface Verdict {
   numero?: boolean;
   /** Le candidat annonce une version ou une partie non demandee. */
   variante?: boolean;
+  /** Mots significatifs que le candidat ajoute a la requete. */
+  surplus?: number;
   ok: boolean;
   titleScore: number;
   artistScore: number;
@@ -217,7 +219,7 @@ export const numerosDiscordants = (voulu: string, candidat: string): boolean => 
    souvent la seule trace d'un morceau, et un remaster reste la meme prise.
    Les exclure appauvrirait le corpus sans rien corriger. */
 const VARIANTE =
-  /\b(?:remix|rmx|edit|dub|instrumental|acapella|a\s*cappella|rework|bootleg|mashup|vip|extended|reprise|cover|karaoke|version|mix)\b/i;
+  /\b(?:remix|rmx|edit|dub|instrumental|acapella|a\s*cappella|rework|bootleg|mashup|vip|extended|reprise|cover|karaoke|version|mix|radio|club|acoustic)\b/i;
 
 /** « Original Mix » et « Album Version » nomment la version canonique.
 
@@ -266,6 +268,91 @@ export const variantesDiscordantes = (voulu: string, candidat: string): boolean 
   return false;
 };
 
+
+/* CE QUE LE CANDIDAT AJOUTE, ET NON SEULEMENT CE QU'IL CONTIENT.
+
+   `coverage` mesure si les mots CHERCHES sont presents. Elle ne regarde
+   jamais ce que le candidat apporte en plus, et c'est la cause structurelle
+   des quatre derniers faux :
+
+     « The Ride, Alec Empiree DIGITAL HARDCORE » pour « Digital Hardcore »
+     « Harmonia, Deluxe, Walky Talky » pour « Deluxe »
+     « Salem Witchcraft, Sandman, 1975 Private Press 45 Rock Ballad »
+       pour « Sandman, Witchcraft »
+
+   Les trois obtiennent un score de couverture parfait. Ce sont d'autres
+   morceaux, et le signal est dans les mots EN TROP.
+
+   LES MOTS DE BRUIT NE COMPTENT PAS. Un titre YouTube porte presque
+   toujours « official video », « HD », « remastered », un numero de
+   catalogue, une annee : ces mots ne disent rien de l'identite du morceau.
+   Sans cette liste, « Charlotte de Witte, Formula (Original Mix)
+   [KNTXT010] » serait rejete pour trois mots en trop qui n'en sont pas. */
+const BRUIT =
+  /^(?:official|officiel|video|videoclip|clip|audio|music|musique|hd|hq|4k|full|complete|the|and|feat|featuring|ft|with|avec|remaster|remastered|remasterise|original|album|single|ep|lp|records?|recordings?|rec|music|out|now|free|download|premiere|exclusive|vinyl|mix|version|edit|extended|radio|club|live|acoustic|instrumental|dub|track|song|new|best|top|classic|old|school|rare|unreleased|bonus|part|pt|vol|volume|no|nr|version|mp3|hq|lyrics?|subtitle[sd]?|visualizer|visualiser|teaser|bpm|special|film|movie|soundtrack|ost|from|taken|anniversary|edition|reissue|bootleg|promo|snippet|preview|hardcore|toppop)$/i;
+
+/* LES COLLABORATEURS NE SONT PAS DES MOTS EN TROP.
+
+   Premiere calibration, seuil a quatre : dix entrees du corpus tombaient,
+   et les dix etaient JUSTES. « Tchami feat. Kaleem Taylor, Promesses »,
+   « Tyler ICU & Tumelo.za, Mnike (Visualizer) ft. Ceeka RSA », « Lee Perry
+   and The Upsetters, Blackboard Jungle Dub » : le nom d'un invite ou d'un
+   co-auteur n'indique pas un autre morceau.
+
+   Tout ce qui suit « feat », « ft », « featuring », « with », « pres »,
+   « vs » est donc retire avant le comptage. */
+const APRES_INVITE = /\b(?:feat|ft|featuring|with|avec|pres|presents|vs|versus)\b[\s\S]*$/i;
+
+/** Mots significatifs, hors bruit, hors chiffres, hors invites. */
+const motsUtiles = (texte: string): string[] =>
+  normalise(texte.replace(APRES_INVITE, ' '))
+    .split(' ')
+    .filter((w) => w.length > 2 && !BRUIT.test(w) && !/^\d+$/.test(w));
+
+/** Combien de mots significatifs le candidat ajoute a ce qu'on cherchait.
+
+    On compare au titre ET a l'artiste reunis : « Psykovsky, Kashyyyk &
+    Fractal Gauchos, Tanetsveta » ajoute des noms de collaborateurs, et ce
+    sont des mots en trop legitimes. C'est pourquoi le seuil ne peut pas
+    etre a zero, et c'est pourquoi il a ete calibre sur le corpus reel
+    plutot que choisi. */
+export const motsEnTrop = (artist: string, title: string, candidat: string): number => {
+  const attendus = new Set([...motsUtiles(artist), ...motsUtiles(title)]);
+  return motsUtiles(candidat).filter((w) => !attendus.has(w)).length;
+};
+
+/* LE SEUIL, ET CE QU'IL NE FAIT PAS.
+
+   Calibre sur 200 entrees reelles du corpus, titres YouTube mesures, et sur
+   les 47 faux des trois passes de remplacement. Distribution du corpus :
+   64 % a zero mot en trop, 91 % a deux ou moins, 98,5 % a quatre ou moins.
+
+   LES DEUX DISTRIBUTIONS SE CHEVAUCHENT, et aucun seuil ne les separe.
+   « Human Mesh Dance (Taylor Deupree), Dahlia » compte SIX mots en trop et
+   c'est la bonne video, le nom civil de l'artiste etant ajoute. « The Ride,
+   Alec Empiree DIGITAL HARDCORE » n'en compte que DEUX et c'est un autre
+   morceau.
+
+   CINQ est retenu, et le chemin pour y arriver compte autant que la valeur.
+
+   A quatre, DIX entrees du corpus tombaient et les dix etaient JUSTES :
+   « Tchami feat. Kaleem Taylor », « Lee Perry and The Upsetters »,
+   « Tyler ICU & Tumelo.za ft. Ceeka RSA ». Le comptage prenait les invites
+   pour du bruit. Ils sont desormais retires avant de compter, ce qui a fait
+   passer le corpus de 91 % a 95 % sous deux mots en trop.
+
+   Meme apres cette correction, aucun seuil ne separe proprement. A cinq, une
+   seule entree du corpus tombe sur deux cents, « Human Mesh Dance (Taylor
+   Deupree), Dahlia », ou le nom civil de l'artiste est ajoute. Le filtre
+   ecarte « Salem Witchcraft » (6) et « Shards Of Pol Pottery » (5), et
+   laisse passer « The Ride, DIGITAL HARDCORE » et « Deluxe, Walky Talky »,
+   qui ne comptent que deux mots en trop.
+
+   CE FILTRE REDUIT LE TAUX D'ERREUR, IL NE L'ANNULE PAS. Le dire est plus
+   utile que de laisser croire a une garantie : la verification par mesure de
+   chaque remplacant reste une etape du chantier, pas une precaution. */
+export const MAX_MOTS_EN_TROP = 5;
+
 /** Le verdict, avec ses deux scores : un rejet doit être explicable. */
 export const judge = (
   candidate: Candidate,
@@ -282,12 +369,14 @@ export const judge = (
   const about = isAboutMusic(candidate.title);
   const numero = numerosDiscordants(title, candidate.title);
   const variante = variantesDiscordantes(title, candidate.title);
+  const surplus = motsEnTrop(artist, title, candidate.title);
   return {
     ok:
       !fullRelease &&
       !about &&
       !numero &&
       !variante &&
+      surplus < MAX_MOTS_EN_TROP &&
       titleScore >= TITLE_THRESHOLD &&
       artistScore >= ARTIST_THRESHOLD,
     titleScore,
@@ -295,7 +384,8 @@ export const judge = (
     fullRelease,
     about,
     numero,
-    variante
+    variante,
+    surplus
   };
 };
 

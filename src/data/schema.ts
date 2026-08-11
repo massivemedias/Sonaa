@@ -60,6 +60,14 @@ export const trackSchema = z.strictObject({
   year: z.number().int().min(1960).max(2030).nullable(),
   /** Toujours vrai. Un identifiant non vérifié n'a pas le droit d'exister. */
   verified: z.literal(true),
+  /* La vidéo dépasse le plafond de quinze minutes ET aucune base publique ne
+     donne la durée canonique de la piste : impossible de dire si c'est une
+     pièce réellement longue ou l'album entier.
+
+     Ce champ existe pour qu'une passe future ne prenne pas ces entrées pour
+     vérifiées. Absent partout ailleurs, ce qui veut dire soit mesuré et
+     conforme, soit sous le plafond. */
+  dureeNonVerifiee: z.literal(true).optional(),
   /* Pochette figée au build. `source` dit d'où vient l'image, pour qu'on ne
      confonde jamais une vraie pochette avec une vignette de vidéo. `local` est
      le chemin servi par le site lui-même : aucun appel tiers au runtime. */

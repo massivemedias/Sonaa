@@ -232,7 +232,20 @@ for (const cible of cibles) {
 
   /* La video est-elle conforme a la duree canonique ? Si oui, l'entree est
      legitime malgre sa longueur : Bayreuth Return dure vraiment 30 minutes. */
-  const ecart = Math.abs(cible.min * 60 - canonique) / canonique;
+  /* UNE VIDEO PLUS COURTE QUE L'OEUVRE N'EST PAS UNE INTEGRALE.
+     « Basic Channel, Quadrant Dub I » dure 15 minutes en video pour 21
+     minutes au catalogue : c'est peut-etre une edition, ce n'est en aucun
+     cas un album entier, et la remplacer par un morceau encore plus court
+     n'aurait aucun sens. Seul un DEPASSEMENT signale une integrale. */
+  const secondes = cible.min * 60;
+  if (secondes < canonique) {
+    legitimes.push(
+      `${etiquette}, ${source} ${canonMin} min, video plus courte que l'oeuvre, pas une integrale`
+    );
+    continue;
+  }
+
+  const ecart = Math.abs(secondes - canonique) / canonique;
   if (ecart <= TOLERANCE) {
     legitimes.push(`${etiquette}, ${source} ${canonMin} min, conforme`);
     continue;

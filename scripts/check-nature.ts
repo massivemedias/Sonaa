@@ -22,6 +22,8 @@
 import {
   isAboutMusic,
   judge,
+  MAX_MOTS_EN_TROP,
+  motsEnTrop,
   numerosDiscordants,
   variantesDiscordantes
 } from './lib/match.ts';
@@ -256,6 +258,61 @@ if (varVerdict.ok) {
   );
 }
 
+/* ------ 6. Ce que le candidat AJOUTE, et non seulement ce qu'il contient */
+
+/* Quatrieme angle mort, et le plus profond : `coverage` mesure si les mots
+   cherches sont presents, jamais ce que le candidat apporte en plus.
+   Seuil calibre sur 200 entrees reelles du corpus et sur les faux des trois
+   passes de remplacement. Voir MAX_MOTS_EN_TROP dans lib/match.ts. */
+const SURPLUS: readonly { a: string; t: string; c: string; max: number; quoi: string }[] = [
+  // Faux reels, doivent compter beaucoup de mots en trop.
+  {
+    a: 'Sandman',
+    t: 'Witchcraft',
+    c: 'Salem Witchcraft - Sandman [1975 Private Press 45 Rock Ballad Detroit]',
+    max: 99,
+    quoi: 'un rock de 1975, autre artiste'
+  },
+  {
+    a: 'Alec Empire',
+    t: 'Digital Hardcore',
+    c: 'Alec Empire & EL-P - Shards Of Pol Pottery (Hard Beats) - Digital Hardcore',
+    max: 99,
+    quoi: 'un autre morceau du meme label'
+  },
+  // Vrais positifs du corpus, ne doivent PAS tomber.
+  { a: 'Tchami', t: 'Promesses', c: 'Tchami feat. Kaleem Taylor - Promesses (Official)', max: 0, quoi: 'un invite' },
+  {
+    a: 'The Upsetters',
+    t: 'Blackboard Jungle Dub',
+    c: 'Lee Perry and The Upsetters - Black board Jungle Dub',
+    max: 0,
+    quoi: 'artiste etendu'
+  },
+  {
+    a: 'Charlotte de Witte',
+    t: 'Formula',
+    c: 'Charlotte de Witte - Formula (Original Mix) [KNTXT010]',
+    max: 0,
+    quoi: 'numero de catalogue'
+  },
+  { a: 'Jeff Mills', t: 'The Bells', c: 'Jeff Mills - The Bells (Official Video) HD', max: 0, quoi: 'habillage YouTube' }
+];
+
+for (const x of SURPLUS) {
+  const n = motsEnTrop(x.a, x.t, x.c);
+  if (x.max === 99) {
+    if (n < MAX_MOTS_EN_TROP) {
+      erreurs.push(`Surplus : « ${x.c.slice(0, 40)} » (${x.quoi}) devrait etre rejete, il compte ${n} mots en trop.`);
+    }
+  } else if (n >= MAX_MOTS_EN_TROP) {
+    erreurs.push(
+      `Surplus : « ${x.c.slice(0, 40)} » (${x.quoi}) est un VRAI positif et ` +
+        `tomberait, ${n} mots en trop pour un seuil de ${MAX_MOTS_EN_TROP}.`
+    );
+  }
+}
+
 /* ------------------------------------------------------------- verdict */
 
 if (erreurs.length > 0) {
@@ -267,5 +324,5 @@ if (erreurs.length > 0) {
 console.log(
   `Nature : ${DOCUMENTS.length - 1} documents rejetes, ${MUSIQUE.length} musiques acceptees, ` +
     `${NUMEROS.length} cas de numeros, ${VARIANTES.length} cas de variantes, ` +
-    'et les trois filtres sont branches dans judge().'
+    `${SURPLUS.length} cas de surplus, et les quatre filtres sont branches dans judge().`
 );

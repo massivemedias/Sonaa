@@ -5836,7 +5836,8 @@
        "url": "https://i.ytimg.com/vi/jYo02BJbUpI/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/jYo02BJbUpI.jpg"
-      }
+      },
+      "dureeNonVerifiee": true
      },
      {
       "youtubeId": "raoB6BO7fTo",
@@ -10825,7 +10826,8 @@
        "url": "https://i.ytimg.com/vi/R69F9rTeimw/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/R69F9rTeimw.jpg"
-      }
+      },
+      "dureeNonVerifiee": true
      },
      {
       "youtubeId": "4R3lAiTMpJU",
@@ -12366,18 +12368,6 @@
       }
      },
      {
-      "youtubeId": "O59hgX-LR7Y",
-      "artist": "Mentallo And The Fixer",
-      "title": "Burnt Beyond Recognition",
-      "year": 1993,
-      "verified": true,
-      "cover": {
-       "url": "https://i.ytimg.com/vi/O59hgX-LR7Y/maxresdefault.jpg",
-       "source": "youtube",
-       "local": "covers/O59hgX-LR7Y.jpg"
-      }
-     },
-     {
       "youtubeId": "NUrMUuFz6Ew",
       "artist": "Wumpscut",
       "title": "Soylent Green",
@@ -13212,7 +13202,8 @@
        "country": "Germany",
        "year": 1962,
        "format": "Vinyl, LP"
-      }
+      },
+      "dureeNonVerifiee": true
      },
      {
       "youtubeId": "XsOyxFybxPY",
@@ -17103,7 +17094,8 @@
        "country": "Europe",
        "year": 2022,
        "format": "CD, Album"
-      }
+      },
+      "dureeNonVerifiee": true
      }
     ]
    },
@@ -24319,7 +24311,8 @@
        "url": "https://i.ytimg.com/vi/UZ9O4lQjLbI/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/UZ9O4lQjLbI.jpg"
-      }
+      },
+      "dureeNonVerifiee": true
      }
     ]
    },
@@ -25030,7 +25023,8 @@
        "url": "https://i.ytimg.com/vi/IguI5uZbPcQ/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/IguI5uZbPcQ.jpg"
-      }
+      },
+      "dureeNonVerifiee": true
      },
      {
       "youtubeId": "zaeuWKNbSEM",
@@ -25851,7 +25845,8 @@
        "country": "UK",
        "year": 2016,
        "format": "File, FLAC, Album"
-      }
+      },
+      "dureeNonVerifiee": true
      },
      {
       "youtubeId": "nhIbMXN58GU",
@@ -27651,25 +27646,6 @@
    "tracks": {
     "essentiel": [
      {
-      "youtubeId": "3KDMEiqi55s",
-      "artist": "Mortiis",
-      "title": "Fodt til a herske",
-      "year": 1993,
-      "verified": true,
-      "cover": {
-       "url": "https://i.ytimg.com/vi/3KDMEiqi55s/maxresdefault.jpg",
-       "source": "youtube",
-       "local": "covers/3KDMEiqi55s.jpg"
-      },
-      "release": {
-       "label": "Malicious Records",
-       "catno": "MR003LP",
-       "country": "Germany",
-       "year": 1994,
-       "format": "Vinyl, LP, Album"
-      }
-     },
-     {
       "youtubeId": "XKSu-wZChcQ",
       "artist": "Secret Stairways",
       "title": "Enchantment of the Ring",
@@ -27679,7 +27655,8 @@
        "url": "https://i.ytimg.com/vi/XKSu-wZChcQ/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/XKSu-wZChcQ.jpg"
-      }
+      },
+      "dureeNonVerifiee": true
      },
      {
       "youtubeId": "D0V26O4rXnI",
@@ -27900,7 +27877,7 @@
     ],
     "actuel": [
      {
-      "youtubeId": "p3sCtYMRndU",
+      "youtubeId": "wV3quO9C9M8",
       "artist": "Kali Malone",
       "title": "Living Torch I",
       "year": 2022,
@@ -31024,7 +31001,8 @@
        "url": "https://i.ytimg.com/vi/ELid0pTKe78/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/ELid0pTKe78.jpg"
-      }
+      },
+      "dureeNonVerifiee": true
      }
     ]
    },
@@ -35140,7 +35118,8 @@
        "url": "https://i.ytimg.com/vi/cBnvkV7rgr4/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/cBnvkV7rgr4.jpg"
-      }
+      },
+      "dureeNonVerifiee": true
      },
      {
       "youtubeId": "G64FuebOFHY",
@@ -35311,7 +35290,8 @@
        "url": "https://i.ytimg.com/vi/cuk4LrZknDA/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/cuk4LrZknDA.jpg"
-      }
+      },
+      "dureeNonVerifiee": true
      }
     ]
    },
@@ -36095,7 +36075,8 @@
        "url": "https://i.ytimg.com/vi/07YmtJujd3Y/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/07YmtJujd3Y.jpg"
-      }
+      },
+      "dureeNonVerifiee": true
      },
      {
       "youtubeId": "qf2tUc3eegY",
@@ -36510,7 +36491,8 @@
        "url": "https://i.ytimg.com/vi/-4DXCKx_Gk4/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/-4DXCKx_Gk4.jpg"
-      }
+      },
+      "dureeNonVerifiee": true
      },
      {
       "youtubeId": "rMbmFxuF4hY",
@@ -36725,18 +36707,6 @@
        "url": "https://i.ytimg.com/vi/OtHbr_c4j2M/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/OtHbr_c4j2M.jpg"
-      }
-     },
-     {
-      "youtubeId": "_HV68pklJE4",
-      "artist": "Artifact303",
-      "title": "Back to Space",
-      "year": 2011,
-      "verified": true,
-      "cover": {
-       "url": "https://i.ytimg.com/vi/_HV68pklJE4/maxresdefault.jpg",
-       "source": "youtube",
-       "local": "covers/_HV68pklJE4.jpg"
       }
      },
      {
@@ -37030,7 +37000,8 @@
        "url": "https://i.ytimg.com/vi/XOiDJbW5DyI/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/XOiDJbW5DyI.jpg"
-      }
+      },
+      "dureeNonVerifiee": true
      },
      {
       "youtubeId": "FXk51r0mixU",
@@ -37836,7 +37807,8 @@
        "url": "https://i.ytimg.com/vi/_PWXRXO4ZGc/maxresdefault.jpg",
        "source": "youtube",
        "local": "covers/_PWXRXO4ZGc.jpg"
-      }
+      },
+      "dureeNonVerifiee": true
      }
     ]
    },
