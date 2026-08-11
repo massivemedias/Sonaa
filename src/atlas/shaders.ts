@@ -126,7 +126,27 @@ void main() {
   float ringW = max(aa * 0.9, 0.009);
   float ring = (smoothstep(1.185 - ringW, 1.185, r) - smoothstep(1.212, 1.212 + ringW, r)) * hasKids;
 
-  float alpha = (body + ring * 0.35) * presence;
+  /* PAPILLOTEMENT DES SPHERES SOUS-PIXEL.
+
+     Les genres sont disposes sur des orbites concentriques, et la
+     perspective les resserre vers le centre de chaque famille : ce sont de
+     VRAIES spheres, pas un motif procedural. Aucune fonction periodique du
+     rayon n'existe dans ce shader, il n'y a donc pas de moire a filtrer.
+
+     Le scintillement vient de l'echantillonnage. Le terme aa est plafonne
+     a 0.5 : sous le pixel, une sphere gardait une intensite pleine en son
+     centre et apparaissait ou disparaissait selon l'endroit ou le pixel
+     tombait, a chaque image, avec la respiration et le moindre mouvement.
+
+     La correction conserve l'ENERGIE plutot que l'intensite : une sphere qui
+     couvre un quart de pixel doit peser un quart, de facon stable. C'est
+     l'equivalent, pour une geometrie, du filtrage par la derivee qu'on
+     applique a un motif procedural, et il ne demande pas fwidth, qui rend
+     zero sur le chemin GLSL 1.0 (voir ARCHITECTURE.md, pieges GLSL). */
+  float rayonPx = vRadius / max(pixelWorld, 1e-6);
+  float couverture = clamp(rayonPx * rayonPx, 0.0, 1.0);
+
+  float alpha = (body + ring * 0.35) * presence * couverture;
   if (alpha < 0.02) discard;
 
   // Normale analytique du disque : c'est une sphère sans géométrie de sphère.

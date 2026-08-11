@@ -698,3 +698,24 @@
 .tvote-en-doute {
   position: relative;
 }
+
+/* APPEL A CONTRIBUTION. Douze genres n'atteignent pas cinq morceaux
+   fondateurs et quatre-vingt-onze n'ont aucune sortie recente : les sources
+   publiques sont epuisees, et forcer produirait des entrees fausses.
+
+   Le ton est un appel, pas une erreur. Pas de rouge, pas d'icone
+   d'avertissement : une phrase et le bouton qui permet d'y repondre. C'est
+   le premier usage reel du systeme de propositions. */
+.pcol-manque {
+  margin-block-start: 1rem;
+  padding: 0.85rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+}
+.pcol-manque p {
+  margin: 0 0 0.6rem;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.72);
+}

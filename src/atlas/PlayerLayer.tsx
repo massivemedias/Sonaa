@@ -618,6 +618,33 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
   const currentList: 'essentiel' | 'actuel' =
     tab === 'actuel' && panelActuel.length > 0 ? 'actuel' : 'essentiel';
 
+  /* CE QUI MANQUE A CE GENRE, ET POURQUOI ON LE DIT.
+
+     Douze genres n'atteignent pas cinq morceaux fondateurs, et quatre-vingt-
+     onze n'ont aucune sortie recente. Ce ne sont pas des trous a cacher : les
+     sources publiques sont epuisees, Discogs ne connait pas darkpsy ni
+     zenonesque, et forcer produirait des entrees fausses.
+
+     C'est exactement ce que le systeme de propositions existe pour resoudre,
+     et c'est son premier usage reel. Le ton est donc un appel, pas un message
+     d'erreur : quelqu'un qui connait le style saura quoi proposer. */
+  const CIBLE_ESSENTIEL = 5;
+  const manque = useMemo(() => {
+    if (!panelGenreData) return null;
+    const eteint =
+      Array.isArray(panelGenreData.labelsActuels) && panelGenreData.labelsActuels.length === 0;
+    if (currentList === 'essentiel' && (panelGenreData.tracksEssentiel?.length ?? 0) < CIBLE_ESSENTIEL) {
+      return 'Ce genre manque de morceaux fondateurs. Si tu connais ce style, propose-en.';
+    }
+    /* Un genre eteint n'a pas de sorties recentes, et ce n'est pas un manque :
+       le lui reprocher serait une faute de lecture de la carte. */
+    if (currentList === 'actuel' && panelActuel.length === 0 && !eteint) {
+      return 'Aucune sortie recente pour ce genre. Si tu en connais, propose-la.';
+    }
+    return null;
+  }, [panelGenreData, currentList, panelActuel.length]);
+
+
   /* Les données de sortie, MISES EN VALEUR : le label de disque compte
      autant que l'artiste pour du digging. Ligne dédiée label + catalogue
      avec du poids, puis pays et format en dessous, plus discrets. Chaque
@@ -892,6 +919,17 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
                 );
               })}
             </ul>
+
+            {manque && contributionsActives && (
+              <div className="pcol-manque">
+                <p>{manque}</p>
+                <ContributeActions
+                  genreId={panelGenreData?.id ?? ''}
+                  genreLabel={panelGenreData?.label ?? ''}
+                  filiationDebattue={false}
+                />
+              </div>
+            )}
 
             {/* LES INFOS DU GENRE : la fiche en résumé, dans la colonne.
                 Repliable, ouverte par défaut. */}

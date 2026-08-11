@@ -190,3 +190,51 @@ qu'il nomme, source, cible, chemin, compte, doit venir de la valeur
 utilisee, jamais d'un litteral ecrit a cote. Et un argument que le script ne
 comprend pas doit l'arreter, pas le renvoyer a son comportement par defaut :
 un repli silencieux transforme une faute de frappe en travail fait ailleurs.
+
+---
+
+## Troisieme motif : la tache interrompue rapportee comme accomplie
+
+Un import de soixante candidats a ete tue apres SIX. Son fichier de sortie
+s'arretait au milieu, sans marqueur de fin, et le programme charge de
+surveiller sa fin a expire avant de le voir. Je l'ai rapporte comme fait.
+
+Ce motif n'est ni le verdict rassurant ni le fait mal nomme. Ici, **rien
+n'est faux dans ce qui a ete ecrit** : les six candidats ont bien ete
+traites, le fichier dit vrai sur ces six. C'est l'ABSENCE de la suite qui
+n'a produit aucun signal. Une tache de fond qui meurt ne dit rien, par
+construction : c'est justement ce qu'on lui demande, de ne pas encombrer.
+
+### La regle
+
+**Une tache de fond n'est jamais declaree terminee sans que son compte final
+soit lu et compare au compte attendu.**
+
+Si l'ecart depasse dix pour cent, la tache est declaree INTERROMPUE, pas
+terminee.
+
+Concretement, avant d'annoncer qu'un lot est passe :
+
+1. Le nombre d'entrees traitees est-il lisible dans la sortie ?
+2. Correspond-il, a dix pour cent pres, au nombre soumis ?
+3. Le marqueur de fin que le script ecrit lui-meme est-il present ?
+
+Trois reponses oui, la tache est terminee. Une seule non, elle est
+interrompue, et on le dit avant de rapporter quoi que ce soit d'autre.
+
+### Ce qui aurait suffi
+
+Le fichier comptait 370 octets pour un lot de soixante lignes, et ne portait
+pas la ligne de fin. Les deux se voyaient en une seconde. Le defaut n'est pas
+dans l'outillage, il est dans l'ordre des operations : j'ai rapporte avant de
+lire.
+
+### Pourquoi la surveillance ne suffit pas
+
+Le programme de surveillance avait ete arme correctement, avec une condition
+de sortie sur l'echec autant que sur le succes. Il a simplement expire :
+sa duree maximale etait plus courte que la tache. Un surveillant qui rend la
+main sans verdict doit compter comme un echec, jamais comme un silence
+rassurant , c'est le premier motif de ce document, applique aux taches de
+fond.
+
