@@ -13,6 +13,11 @@ interface Props {
   onDismiss: (picked?: ViewId) => void;
 }
 
+/* L'accroche de l'ecran d'accueil. Vide tant que Mika ne l'a pas ecrite :
+   une phrase inventee a sa place serait exactement le ton neutre qu'elle doit
+   corriger. Voir la section correspondante dans AProposPage. */
+const ACCROCHE: string = '';
+
 export function Welcome({ views, current, onDismiss }: Props) {
   return (
     <div className="welcome" role="dialog" aria-modal="true" aria-label="Bienvenue">
@@ -24,10 +29,30 @@ export function Welcome({ views, current, onDismiss }: Props) {
             draggable={false}
           />
         </h1>
-        <p className="welcome-line">
-          Un atlas des musiques électroniques, où chaque genre est relié à ce dont il vient
-          et à ce qu&apos;il a donné.
-        </p>
+        {/* L'ACCROCHE, en attente du texte de Mika.
+
+            La phrase ci-dessous dit ce que le site FAIT. Elle est correcte et
+            elle ne donne aucune raison de rester. L'accroche, elle, doit dire
+            pourquoi ce site existe : c'est la premiere chose que lit un
+            visiteur, et la seule que liront ceux qui ne cliquent pas.
+
+            Tant qu'ACCROCHE est vide, la description factuelle tient la place
+            et rien ne casse. Des qu'elle est remplie, elle passe devant et la
+            description devient une seconde ligne, plus discrete. */}
+        {ACCROCHE ? (
+          <>
+            <p className="welcome-accroche">{ACCROCHE}</p>
+            <p className="welcome-line welcome-line-secondaire">
+              Un atlas des musiques électroniques, où chaque genre est relié à ce dont il
+              vient et à ce qu&apos;il a donné.
+            </p>
+          </>
+        ) : (
+          <p className="welcome-line">
+            Un atlas des musiques électroniques, où chaque genre est relié à ce dont il vient
+            et à ce qu&apos;il a donné.
+          </p>
+        )}
 
         <ul className="welcome-families" aria-label="Les quatorze familles">
           {FAMILIES.map((f) => (

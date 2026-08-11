@@ -14,6 +14,10 @@ const TRACKS = STRUCTURES.reduce(
   0
 );
 
+/* Le texte d'auteur, a la premiere personne. Vide tant que Mika ne l'a pas
+   ecrit. Les paragraphes se separent par une ligne vide. */
+const TEXTE_AUTEUR: string = '';
+
 export function AProposPage() {
   return (
     <main className="credits">
@@ -60,6 +64,22 @@ export function AProposPage() {
             SONAA est réalisé par Mika, alias Maudite Machine, producteur et DJ à
             Montréal, fondateur de VRSTL Records.
           </p>
+
+          {/* ESPACE POUR LE TEXTE D'AUTEUR, a la premiere personne.
+
+              La ligne ci-dessus dit qui a fait le site. Ce bloc-ci est pour
+              dire pourquoi, et il est ecrit au « je » : c'est la difference
+              entre une notice et une voix.
+
+              Vide, il ne s'affiche pas du tout, plutot qu'un encadre en
+              attente qui ferait pense-bete a l'ecran. */}
+          {TEXTE_AUTEUR && (
+            <div className="apropos-voix">
+              {TEXTE_AUTEUR.split('\n\n').map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
+            </div>
+          )}
           <p>
             <a href="https://mauditemachine.com" target="_blank" rel="me noopener noreferrer">
               mauditemachine.com

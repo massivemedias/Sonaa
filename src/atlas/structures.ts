@@ -251,6 +251,17 @@ export interface Genre {
      'brouillon' marque les fiches écrites par la machine sur les terrains
      réservés à Mika, à relire. */
   readonly description: string | null;
+  /* LE MOT DE L'AUTEUR, distinct de la description.
+
+     La description dit ce que le genre EST, du dehors, et se veut verifiable.
+     Ce champ-ci porte un point de vue assume, a la premiere personne, sur les
+     genres ou Mika a quelque chose a dire que personne d'autre ne dira. Il
+     est signe a l'affichage, justement pour qu'on ne le confonde pas avec le
+     reste de la fiche.
+
+     Vide ou absent sur la quasi-totalite des genres, et c'est voulu : une
+     voix qui parle partout ne dit plus rien. */
+  readonly motDeLAuteur: string | null;
   readonly machines: readonly string[];
   readonly labelsHistoriques: readonly string[];
   readonly labelsActuels: readonly string[] | null;
@@ -404,6 +415,7 @@ export const buildStructure = (familyIndex: number): Structure => {
       structuralOnly: entry.structuralOnly ?? false,
       aliases: entry.aliases ?? [],
       description: entry.description ?? null,
+      motDeLAuteur: entry.motDeLAuteur ?? null,
       machines: entry.machines ?? [],
       labelsHistoriques: entry.labelsHistoriques ?? [],
       labelsActuels: entry.labelsActuels ?? null,

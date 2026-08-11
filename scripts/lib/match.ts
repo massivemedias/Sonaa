@@ -531,6 +531,32 @@ export interface Resolution {
 }
 
 
+
+/* GENRES RESERVES : la recherche automatique n'y touche pas.
+
+   Le psy est le terrain de Mika, et la mesure lui a donne raison deux fois.
+   Discogs ne connait ni darkpsy, ni hitech, ni zenonesque, ni twilight psy :
+   sa nomenclature s'arrete a « Psy-Trance » et « Goa Trance ». Et sur les
+   deux campagnes de recherche menees sur ces genres, la quasi-totalite des
+   propositions a ete refusee par le matcher, ou pire, acceptee a tort.
+
+   Ces genres attendent des morceaux fournis a la main par quelqu'un qui
+   connait la scene. Les chercher automatiquement ne produit pas des trous,
+   ca produit des erreurs, ce qui est strictement pire. */
+export const GENRES_RESERVES: readonly string[] = [
+  'darkpsy',
+  'hitech',
+  'psycore',
+  'zenonesque',
+  'twilightpsy',
+  'neogoa'
+];
+
+const RESERVES = new Set(GENRES_RESERVES);
+
+/** Vrai quand ce genre attend une selection humaine, pas une recherche. */
+export const estGenreReserve = (genreId: string): boolean => RESERVES.has(genreId.trim());
+
 /* ARTISTES A NOM ORDINAIRE : LA RECHERCHE AUTOMATIQUE EST DESACTIVEE.
 
    La lecon la plus reutilisable de la campagne de nettoyage. Seize entrees

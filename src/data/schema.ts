@@ -158,7 +158,16 @@ export const genreSchema = z.strictObject({
   labelsHistoriques: z.array(z.string().min(2)).optional(),
   labelsActuels: z.array(z.string()).optional(),
   artistesCles: z.array(z.string().min(2)).optional(),
-  redaction: z.enum(['brouillon']).optional()
+  redaction: z.enum(['brouillon']).optional(),
+
+  /* LE MOT DE L'AUTEUR. Distinct de `description`, qui dit ce que le genre
+     est et se veut verifiable : celui-ci porte un point de vue assume, a la
+     premiere personne, et il est signe a l'affichage pour qu'on ne les
+     confonde pas.
+
+     Optionnel et vide presque partout, deliberement : une voix qui parle sur
+     les 218 genres ne dit plus rien. */
+  motDeLAuteur: z.string().optional()
 });
 
 export const familySchema = z.strictObject({

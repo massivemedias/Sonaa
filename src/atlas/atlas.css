@@ -719,3 +719,40 @@
   line-height: 1.45;
   color: rgba(255, 255, 255, 0.72);
 }
+
+/* LE MOT DE L'AUTEUR. Il doit se lire comme une voix, pas comme une donnee
+   de plus : filet vertical, italique, retrait, et une signature. Sans ces
+   marques, un lecteur le prendrait pour la suite de la description et
+   croirait le site en train d'affirmer un fait. */
+.pcol-mot-auteur {
+  margin: 0.9rem 0 0;
+  padding: 0.1rem 0 0.1rem 0.85rem;
+  border-inline-start: 2px solid rgba(255, 255, 255, 0.28);
+}
+.pcol-mot-auteur p {
+  margin: 0;
+  font-style: italic;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.82);
+}
+.pcol-mot-signature {
+  margin-block-start: 0.4rem !important;
+  font-style: normal !important;
+  font-size: 0.78rem !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45) !important;
+}
+
+/* LE TEXTE D'AUTEUR sur la page A propos. Ecrit au « je », il se distingue
+   du reste de la page, qui est a la troisieme personne. */
+.apropos-voix {
+  margin-block-start: 0.9rem;
+  padding-inline-start: 0.9rem;
+  border-inline-start: 2px solid rgba(255, 255, 255, 0.24);
+}
+.apropos-voix p {
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.84);
+}

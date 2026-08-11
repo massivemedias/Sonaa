@@ -202,3 +202,19 @@
     transition: none;
   }
 }
+
+/* L'ACCROCHE. Elle passe devant la description factuelle des qu'elle existe :
+   plus grande, plus claire, c'est elle qu'on lit en premier. La description
+   recule d'un cran sans disparaitre, elle reste utile a qui veut savoir de
+   quoi il s'agit exactement. */
+.welcome-accroche {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.94);
+  max-width: 34ch;
+}
+.welcome-line-secondaire {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.58);
+}

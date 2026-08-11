@@ -968,6 +968,15 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
                     {panelGenreData.description && (
                       <p className="pcol-description">{panelGenreData.description}</p>
                     )}
+                    {/* Le mot de l'auteur : un point de vue assume, pas une
+                        donnee. Il porte une signature pour qu'on sache qui
+                        parle, et se distingue visuellement du factuel. */}
+                    {panelGenreData.motDeLAuteur && (
+                      <aside className="pcol-mot-auteur">
+                        <p>{panelGenreData.motDeLAuteur}</p>
+                        <p className="pcol-mot-signature">Mika</p>
+                      </aside>
+                    )}
                     {panelGenreData.machines.length > 0 && (
                       <>
                         <h4>Machines</h4>

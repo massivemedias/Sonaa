@@ -62,7 +62,9 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
-import { normalise, resolveTrack, sleep, tauxEchecReseau, reseau, type Resolution } from './lib/match.ts';
+import { normalise, resolveTrack, sleep, tauxEchecReseau, reseau, type Resolution,
+  estGenreReserve
+} from './lib/match.ts';
 import { transaction, type AnyCorpus } from './lib/corpus-store.ts';
 
 const CORPUS = fileURLToPath(new URL('../src/data/corpus.json', import.meta.url));
@@ -300,6 +302,18 @@ for (const row of rows) {
   );
   if (present.has(key(row.artist, row.title))) {
     skippedExisting += 1;
+    continue;
+  }
+
+  /* GENRE RESERVE : on ne cherche pas. Le psy attend une selection humaine,
+     et la chercher automatiquement produit des erreurs, pas des trous. */
+  if (estGenreReserve(row.genreId)) {
+    failures.push({
+      row,
+      reason: `genre reserve a une selection humaine, aucune recherche lancee`,
+      rejected: []
+    });
+    console.log(`  reserve  ${row.genreId.padEnd(18)} ${row.artist} - ${row.title}`);
     continue;
   }
 
