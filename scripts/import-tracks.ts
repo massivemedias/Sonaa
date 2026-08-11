@@ -303,7 +303,25 @@ for (const row of rows) {
     continue;
   }
 
-  const { hit, rejected } = await resolveTrack(row.artist, row.title);
+  const { hit, rejected, ambigu } = await resolveTrack(row.artist, row.title);
+
+  /* NOM D'ARTISTE TROP COURANT. Ce n'est pas un refus, c'est un renvoi vers
+     une verification humaine : « Final », « Tandem » ou « Ocelot » cherches
+     seuls ramenent du golf, un velo et un documentaire animalier, avec un
+     score de couverture parfait. Seize entrees ont ete retirees du corpus
+     pour ce motif. Le distinguer du refus ordinaire evite de croire que la
+     proposition etait mauvaise : elle n'a simplement pas ete cherchee. */
+  if (ambigu) {
+    failures.push({
+      row,
+      reason:
+        `nom d'artiste trop courant, recherche automatique desactivee : ` +
+        `verifier « ${row.artist} , ${row.title} » a la main et fournir l'identifiant`,
+      rejected: []
+    });
+    console.log(`  a la main ${row.genreId.padEnd(17)} ${row.artist} - ${row.title}`);
+    continue;
+  }
   await sleep(200);
 
   if (!hit) {

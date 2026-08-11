@@ -530,12 +530,86 @@ export interface Resolution {
   verdict: Verdict;
 }
 
+
+/* ARTISTES A NOM ORDINAIRE : LA RECHERCHE AUTOMATIQUE EST DESACTIVEE.
+
+   La lecon la plus reutilisable de la campagne de nettoyage. Seize entrees
+   ont du etre retirees du corpus, et elles avaient toutes la meme cause :
+   un artiste dont le nom est un mot courant.
+
+     Final, Open              -> LPGA Highlights, Golf Channel
+     Tandem, Tandem           -> How Fast Can a Tandem Bike Really Go
+     Ocelot, Elephant         -> un documentaire animalier
+     Curses, Incenser         -> un guide de jeu video Pokemon
+     Outback, Outback         -> un film Netflix
+     Shift, Coup de Grace     -> une partie de Dota
+     Alpha Omega, Sinister    -> une bande dessinee Marvel
+     Cezar, Salvatore         -> des brevets d'OVNI de la marine
+
+   Aucun filtre ne les attrape, et c'est structurel : le score de couverture
+   est PARFAIT, les mots cherches sont bien tous presents. Deux campagnes de
+   recherche, la seconde avec le style musical dans la requete, n'ont produit
+   qu'un seul candidat valable sur dix-sept. Elles ont propose une chanteuse
+   pop pour du microhouse et un onduleur solaire pour du power electronics.
+
+   CE QUI DECIDE DE L'INSCRIPTION DANS CETTE LISTE : le nom est un mot du
+   langage courant ET n'a pas d'association musicale dominante. Portishead,
+   The Orb, Four Tet et Bonobo portent aussi des mots ordinaires, mais toute
+   recherche les trouve : ils ne sont pas ici. Air, Justice, Pole, Oval y
+   sont, parce que le mot seul ramene autre chose aussi souvent que l'artiste.
+
+   Verifier a la main coute moins cher que nettoyer apres coup, et empeche
+   qu'une prochaine campagne remette du golf dans l'isolationism. */
+export const ARTISTES_AMBIGUS: readonly string[] = [
+  // Ceux qui ont reellement casse, retires du corpus.
+  'final',
+  'tandem',
+  'ocelot',
+  'curses',
+  'outback',
+  'shift',
+  'alpha omega',
+  'cezar',
+  'gaudium',
+  'grendel',
+  'zha',
+  'savage scream',
+  'tribal vision',
+  'sparkling wide pressure',
+  // Mots courants sans dominance musicale, presents dans le corpus.
+  'main',
+  'we',
+  'hyper',
+  'dylan',
+  'freq',
+  'pole',
+  'oval',
+  'spectre',
+  'radium',
+  'scanner',
+  'air',
+  'justice',
+  'osom',
+  'chasis',
+  'erang'
+];
+
+const AMBIGUS = new Set(ARTISTES_AMBIGUS);
+
+/** Vrai quand le nom de l'artiste est trop courant pour etre cherche seul. */
+export const estArtisteAmbigu = (artist: string): boolean =>
+  AMBIGUS.has(artist.trim().toLowerCase());
+
 /** Cherche puis vérifie. Renvoie null si rien ne passe le matcher. */
 export const resolveTrack = async (
   artist: string,
   title: string
-): Promise<{ hit: Resolution | null; rejected: Resolution[] }> => {
+): Promise<{ hit: Resolution | null; rejected: Resolution[]; ambigu?: true }> => {
   const rejected: Resolution[] = [];
+  /* NOM TROP COURANT : on ne cherche pas. Rendre `ambigu` plutot que
+     simplement `null` permet a l'appelant de dire « verification manuelle
+     requise » au lieu de « non resolu », qui sont deux choses differentes. */
+  if (estArtisteAmbigu(artist)) return { hit: null, rejected, ambigu: true };
   for (const { id: videoId, seconds } of await searchYouTube(`${artist} ${title}`)) {
     const candidate = await oembed(videoId);
     if (!candidate) continue;

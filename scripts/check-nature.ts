@@ -20,6 +20,7 @@
    Usage : npm run check:nature */
 
 import {
+  estArtisteAmbigu,
   isAboutMusic,
   judge,
   MAX_MOTS_EN_TROP,
@@ -313,6 +314,34 @@ for (const x of SURPLUS) {
   }
 }
 
+/* ------- 7. Les artistes a nom ordinaire ne sont pas cherches du tout */
+
+/* Seize entrees ont ete retirees du corpus parce que leur artiste porte un
+   mot courant : Final a ramene du golf, Tandem un velo, Ocelot un
+   documentaire animalier. Aucun filtre ne peut les attraper, le score de
+   couverture etant parfait. La seule reponse est de ne pas chercher. */
+const AMBIGUS: readonly { nom: string; ambigu: boolean; quoi: string }[] = [
+  { nom: 'Final', ambigu: true, quoi: 'a ramene des faits divers de golf' },
+  { nom: 'Tandem', ambigu: true, quoi: 'a ramene une video de velo' },
+  { nom: 'Ocelot', ambigu: true, quoi: 'a ramene un documentaire animalier' },
+  { nom: 'Curses', ambigu: true, quoi: 'a ramene un guide Pokemon' },
+  { nom: 'Outback', ambigu: true, quoi: 'a ramene un film Netflix' },
+  { nom: 'Cezar', ambigu: true, quoi: 'a ramene des brevets d OVNI' },
+  // Ceux qui NE DOIVENT PAS y etre : mots ordinaires, mais trouvables.
+  { nom: 'Portishead', ambigu: false, quoi: 'nom de lieu, mais sans ambiguite musicale' },
+  { nom: 'The Orb', ambigu: false, quoi: 'mot courant, mais trouvable' },
+  { nom: 'Four Tet', ambigu: false, quoi: 'trouvable' },
+  { nom: 'Aphex Twin', ambigu: false, quoi: 'nom propre' }
+];
+
+for (const a of AMBIGUS) {
+  if (estArtisteAmbigu(a.nom) !== a.ambigu) {
+    erreurs.push(
+      `Ambigus : « ${a.nom} » devrait ${a.ambigu ? 'exiger une verification manuelle' : 'etre cherchable'} (${a.quoi}).`
+    );
+  }
+}
+
 /* ------------------------------------------------------------- verdict */
 
 if (erreurs.length > 0) {
@@ -324,5 +353,6 @@ if (erreurs.length > 0) {
 console.log(
   `Nature : ${DOCUMENTS.length - 1} documents rejetes, ${MUSIQUE.length} musiques acceptees, ` +
     `${NUMEROS.length} cas de numeros, ${VARIANTES.length} cas de variantes, ` +
-    `${SURPLUS.length} cas de surplus, et les quatre filtres sont branches dans judge().`
+    `${SURPLUS.length} cas de surplus, ${AMBIGUS.length} noms ambigus, ` +
+    'et les quatre filtres sont branches dans judge().'
 );
