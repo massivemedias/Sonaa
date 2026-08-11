@@ -979,16 +979,10 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     const rect = canvas.getBoundingClientRect();
     const px = event.clientX - rect.left;
     const py = event.clientY - rect.top;
-    let best = -1;
-    let bestD = 34;
-    for (let i = 0; i < TOTAL_GENRES; i += 1) {
-      if ((projected[i * 3 + 2] ?? 2) > 1) continue;
-      const d = Math.hypot(px - (projected[i * 3] ?? 0), py - (projected[i * 3 + 1] ?? 0));
-      if (d < bestD) {
-        bestD = d;
-        best = i;
-      }
-    }
+    /* Le survol met en valeur ce que le clic sélectionnerait : les deux
+       doivent désigner la même sphère, sinon on éclaire une boule et on en
+       ouvre une autre. Même fonction, même portée, même départage. */
+    const best = chercherCible(px, py, 26);
     if (best !== hovered) {
       hovered = best;
       lastLabelPass = 0;
@@ -1240,23 +1234,128 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     emitNav();
   };
 
-  const performTapAction = (px: number, py: number): void => {
+  /* Rayon apparent d'une sphère, en pixels d'écran.
+
+     Sans lui, la cible était un disque de 44 px autour du CENTRE, quelle que
+     soit la taille de la boule : toucher le bord d'une grosse sphère ratait,
+     alors qu'on avait visiblement touché la sphère. C'est la première cause
+     du « il faut viser ». */
+  const rayonEcran = (index: number): number => {
+    const slot = slotsData[index];
+    if (!slot) return 0;
+    const d = camera.position.distanceTo(slot.world);
+    if (d <= 0.0001) return 0;
+    const rayonMonde = sphereRadii[index] ?? 2;
+    const hauteurVisible = 2 * Math.tan((FOV * Math.PI) / 360) * d;
+    return (rayonMonde / hauteurVisible) * height;
+  };
+
+  /* Ce qui est atteignable au doigt, et rien d'autre.
+
+     TROIS CORRECTIONS, dans l'ordre de ce qu'elles réparent :
+
+     1. LA PORTÉE. Le test parcourait les 218 genres, quel que soit le niveau
+        où l'on se trouve. Une sphère d'une autre famille, projetée derrière
+        celle qu'on visait, gagnait le tap si son centre tombait plus près du
+        doigt. Une fois DANS une famille, seuls ses genres répondent
+        désormais ; pour en changer, on remonte, et un tap dans le vide
+        remonte déjà.
+
+     2. LA CIBLE. Le rayon de tolérance est maintenant le plus grand du
+        rayon apparent de la sphère et d'une cible tactile confortable.
+        Toucher une grosse boule marche sur toute sa surface.
+
+     3. LE DÉPARTAGE. À touches comparables, c'est la sphère la PLUS PROCHE
+        DE LA CAMÉRA qui l'emporte, pas la plus proche du curseur. On
+        sélectionne ce qu'on voit devant, pas ce qui est caché derrière. */
+  const chercherCible = (px: number, py: number, toleranceMin: number): number => {
     let best = -1;
-    let bestD = 44;
+    let bestProfondeur = Infinity;
+
     for (let i = 0; i < TOTAL_GENRES; i += 1) {
-      if ((projected[i * 3 + 2] ?? 2) > 1) continue;
+      const profondeur = projected[i * 3 + 2] ?? 2;
+      if (profondeur > 1) continue; // derrière la caméra
+
+      // 1. La portée : dans une famille, elle seule répond.
+      if (level !== 'atlas' && activeFamily >= 0 && slotsData[i]?.family !== activeFamily) continue;
+
       const d = Math.hypot(px - (projected[i * 3] ?? 0), py - (projected[i * 3 + 1] ?? 0));
-      if (d < bestD) {
-        bestD = d;
+      // 2. La cible : la sphère elle-même, jamais moins que le doigt.
+      if (d > Math.max(toleranceMin, rayonEcran(i))) continue;
+
+      // 3. Le départage : ce qui est devant gagne.
+      if (profondeur < bestProfondeur) {
+        bestProfondeur = profondeur;
         best = i;
       }
     }
+    return best;
+  };
+
+  /* LE NOM TOUCHÉ, s'il y en a un.
+
+     Pourquoi le test passe par le canvas et non par un écouteur sur les
+     labels : ils vivent dans une COUCHE DISTINCTE du canvas. Leur donner
+     `pointer-events: auto` leur aurait fait capter le pointerdown, et
+     l'orbite n'aurait plus démarré dès que le doigt se posait sur un nom.
+     Avec vingt-trois noms visibles de 63 px de large sur un téléphone,
+     c'est une bonne part de l'écran où le glissement serait mort. On
+     remplacerait un problème par un autre.
+
+     Ici tout continue de passer par le canvas : orbite, pincement et
+     glissement sont intacts, et le nom devient une cible parmi les
+     autres. */
+  const nomTouche = (px: number, py: number, marge: number): LabelSlot | null => {
+    for (const ls of labelSlots) {
+      if (!ls.visible || ls.opacity <= 0.05 || ls.w <= 0) continue;
+      if (
+        px >= ls.x - marge &&
+        px <= ls.x + ls.w + marge &&
+        py >= ls.y - marge &&
+        py <= ls.y + ls.h + marge
+      ) {
+        return ls;
+      }
+    }
+    return null;
+  };
+
+  const performTapAction = (px: number, py: number): void => {
+    /* Le doigt couvre environ 9 mm, la souris un pixel. La tolérance suit le
+       pointeur, elle ne suit pas la mode. */
+    const grossier = window.matchMedia('(pointer: coarse)').matches;
     const now = performance.now();
+
+    /* LE NOM D'ABORD. C'est lui qu'on lit et qu'on vise ; la sphère est
+       souvent plus petite que le mot qui la désigne. */
+    const nom = nomTouche(px, py, grossier ? 10 : 4);
+    if (nom) {
+      if (nom.kind === 'family') {
+        if (level === 'atlas' && nom.famille >= 0) selectFamily(nom.famille, now);
+        return;
+      }
+      const vise = nom.slot >= 0 ? slotsData[nom.slot] : undefined;
+      if (vise) {
+        const dansLaFamille =
+          level === 'atlas' || activeFamily < 0 || vise.family === activeFamily;
+        if (dansLaFamille) {
+          if (level === 'atlas') selectFamily(vise.family, now);
+          else selectGenre(nom.slot, now);
+          return;
+        }
+      }
+      /* Nom d'une autre famille pendant qu'on est dans une : on ne
+         sélectionne pas, et on ne remonte pas non plus. Le tap est perdu,
+         ce qui est le comportement le moins surprenant. */
+      return;
+    }
+
+    const best = chercherCible(px, py, grossier ? 44 : 26);
     const slot = best >= 0 ? slotsData[best] : undefined;
     if (!slot) {
       // Clic dans le vide : on remonte d'un niveau.
       goUp();
-    } else if (level === 'atlas' || slot.family !== activeFamily) {
+    } else if (level === 'atlas') {
       selectFamily(slot.family, now);
     } else {
       selectGenre(best, now);
@@ -1394,6 +1493,16 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     px: number;
     opacity: number;
     visible: boolean;
+    /* CE QUE LE NOM DÉSIGNE, pour que le tap puisse le viser. Le label
+       d'un genre est posé À CÔTÉ de sa sphère, poussé radialement : taper
+       le nom tombait dans le vide, et il fallait viser la boule. */
+    slot: number;
+    kind: 'family' | 'genre';
+    famille: number;
+    /* Boîte rendue, en pixels d'écran. Renseignée au placement, donc
+       toujours celle qui est réellement affichée. */
+    w: number;
+    h: number;
   }
 
   const labelSlots: LabelSlot[] = [];
@@ -1402,7 +1511,10 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     el.className = 'atlas-label';
     el.style.transform = 'translate3d(-9999px,-9999px,0)';
     labelLayer.appendChild(el);
-    labelSlots.push({ el, key: '', x: -9999, y: -9999, px: 14, opacity: 0, visible: false });
+    labelSlots.push({
+      el, key: '', x: -9999, y: -9999, px: 14, opacity: 0, visible: false,
+      slot: -1, kind: 'genre', famille: -1, w: 0, h: 0
+    });
   }
 
   const touch = window.matchMedia('(pointer: coarse), (max-width: 767px)').matches;
@@ -1810,9 +1922,19 @@ const OVERLAP_TOLERANCE = 1;
         ls.el.textContent = entry.text;
         ls.el.dataset['major'] = entry.kind === 'family' ? '1' : '0';
         ls.el.dataset['kind'] = entry.kind;
-        ls.el.dataset['kind'] = entry.kind;
         ls.el.dataset['focus'] = entry.key === `g-${slotsData[focusIndex]?.label ?? ''}` ? '1' : '0';
       }
+
+      /* LE NOM EST UNE CIBLE DU TAP. Renseigné à chaque image, pas
+         seulement au changement de clé : la boîte suit la caméra. */
+      ls.slot = entry.slot;
+      ls.kind = entry.kind;
+      ls.famille =
+        entry.kind === 'family'
+          ? FAMILIES.findIndex((f) => f.label === entry.text)
+          : (slotsData[entry.slot]?.family ?? -1);
+      ls.w = entry.w;
+      ls.h = entry.h;
 
       if (Math.abs(entry.px - ls.px) >= 0.4) {
         ls.px = entry.px;

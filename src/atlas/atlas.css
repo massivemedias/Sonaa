@@ -70,6 +70,16 @@
     0 1px 1px rgba(0, 0, 0, 0.7),
     0 0 6px rgba(0, 0, 0, 0.7);
   transition: opacity 120ms linear;
+
+  /* AUCUN pointer-events ici, et c'est délibéré. Le nom EST une cible de
+     tap, mais le test se fait dans le moteur, sur le canvas, pas par le
+     DOM : les labels vivent dans une couche distincte du canvas, et leur
+     donner « pointer-events: auto » leur ferait capter le pointerdown.
+     L'orbite ne démarrerait plus dès que le doigt se pose sur un nom, ce
+     qui, avec vingt-trois noms visibles sur un téléphone, tuerait le
+     glissement sur une bonne part de l'écran.
+
+     Le ciblage des noms est dans webgl-orbit.ts, fonction nomTouche. */
 }
 
 /* Nom de famille : au-dessus des genres, jamais dessous, et plus gras. */
