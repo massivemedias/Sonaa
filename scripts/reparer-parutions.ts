@@ -27,8 +27,12 @@
    C'est vérifiable, ça ne dépend pas de ce que je crois savoir de chaque
    disque, et ça se relit. Le rapport dit toujours dans quel cas on est.
 
-   Usage : npm run reparer:parutions
-           npm run reparer:parutions -- --dry-run */
+   Les cibles viennent du fichier produit par l'audit, et non d'un nouveau
+   balayage : mesurer une deuxieme fois la duree des 1431 entrees couterait
+   une heure pour retrouver exactement la meme liste.
+
+   Usage : npm run reparer:parutions -- --cibles=<fichier.json>
+           npm run reparer:parutions -- --cibles=... --dry-run */
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -61,63 +65,74 @@ for (const g of corpus.genres) {
   for (const t of [...g.tracks.essentiel, ...g.tracks.actuel]) pris.add(t.youtubeId);
 }
 
-/** Durée d'une vidéo, par le chemin sans clé. */
-const dureeDe = async (artist: string, title: string, id: string): Promise<number | null> => {
-  for (const h of await searchYouTube(`${artist} ${title}`, 6)) {
-    if (h.id === id) return h.seconds ?? null;
-  }
-  return null;
-};
+interface Cible {
+  genre: string;
+  champ: 'essentiel' | 'actuel';
+  id: string;
+  artiste: string;
+  titre: string;
+  min: number;
+}
+
+const fichier = process.argv.find((a) => a.startsWith('--cibles='))?.slice(9);
+if (!fichier) {
+  console.error(
+    'Aucun fichier de cibles. Ce script ne redecouvre pas les entrees longues, ' +
+      "il repare celles que l'audit a deja trouvees.\n" +
+      '  npm run reparer:parutions -- --cibles=chemin/cibles.json'
+  );
+  process.exit(1);
+}
+
+const cibles = JSON.parse(readFileSync(fichier, 'utf8')) as Cible[];
+if (cibles.length === 0) {
+  console.error('Le fichier de cibles est vide. Rien a reparer, ou audit non abouti.');
+  process.exit(1);
+}
 
 const remplaces: string[] = [];
 const gardes: string[] = [];
 const irresolus: string[] = [];
 
-for (const genre of corpus.genres) {
-  for (const champ of ['essentiel', 'actuel'] as const) {
-    for (const track of genre.tracks[champ]) {
-      const secondes = await dureeDe(track.artist, track.title, track.youtubeId);
-      await sleep(400);
-      if (secondes === null || secondes <= MAX_TRACK_SECONDS) continue;
-
-      const min = `${Math.floor(secondes / 60)} min`;
-
-      /* On cherche une autre version, en écartant l'identifiant fautif et
-         tout ce qui est déjà dans le corpus. */
-      let remplacant: string | null = null;
-      for (const h of await searchYouTube(`${track.artist} ${track.title}`, 8)) {
-        if (h.id === track.youtubeId || pris.has(h.id)) continue;
-        if (h.seconds == null || h.seconds > MAX_TRACK_SECONDS) continue;
-        const cand = await oembed(h.id);
-        if (!cand) continue;
-        if (judge(cand, track.artist, track.title, h.seconds).ok) {
-          remplacant = h.id;
-          break;
-        }
-        await sleep(250);
-      }
-
-      const etiquette = `${genre.id} | ${track.artist} - ${track.title} | ${min}`;
-
-      if (remplacant) {
-        remplaces.push(`${etiquette} -> ${remplacant}`);
-        pris.add(remplacant);
-        if (!DRY) {
-          transaction((frais) => {
-            const g = (frais.genres as unknown as Genre[]).find((x) => x.id === genre.id);
-            const t = g?.tracks[champ].find((x) => x.youtubeId === track.youtubeId);
-            if (t) t.youtubeId = remplacant;
-          });
-        }
-      } else {
-        /* AUCUNE VERSION COURTE N'EXISTE. Deux lectures possibles, et il
-           faut les séparer : soit le morceau est réellement long, soit la
-           recherche a échoué. On ne peut pas les distinguer ici, alors on
-           le dit plutôt que de conclure. */
-        gardes.push(etiquette);
-      }
+for (const cible of cibles) {
+  /* On cherche une autre version, en écartant l'identifiant fautif et tout
+     ce qui est déjà dans le corpus. */
+  let remplacant: string | null = null;
+  let vues = 0;
+  for (const h of await searchYouTube(`${cible.artiste} ${cible.titre}`, 10)) {
+    vues += 1;
+    if (h.id === cible.id || pris.has(h.id)) continue;
+    if (h.seconds == null || h.seconds > MAX_TRACK_SECONDS) continue;
+    const cand = await oembed(h.id);
+    if (!cand) continue;
+    if (judge(cand, cible.artiste, cible.titre, h.seconds).ok) {
+      remplacant = h.id;
+      break;
     }
+    await sleep(250);
   }
+
+  const etiquette = `${cible.genre} | ${cible.artiste} - ${cible.titre} | ${cible.min} min`;
+
+  if (remplacant) {
+    remplaces.push(`${etiquette} -> ${remplacant}`);
+    pris.add(remplacant);
+    if (!DRY) {
+      transaction((frais) => {
+        const g = (frais.genres as unknown as Genre[]).find((x) => x.id === cible.genre);
+        const t = g?.tracks[cible.champ].find((x) => x.youtubeId === cible.id);
+        if (t) t.youtubeId = remplacant;
+      });
+    }
+  } else if (vues === 0) {
+    /* LA RECHERCHE N'A RIEN RENDU. Ce n'est pas « le morceau est long »,
+       c'est « je n'ai pas pu regarder ». Les deux ne doivent jamais etre
+       confondus, c'est la faute qui a laisse entrer ces entrees. */
+    irresolus.push(etiquette);
+  } else {
+    gardes.push(etiquette);
+  }
+  await sleep(300);
 }
 
 console.log(`\n${remplaces.length} entrée(s) remplacée(s) :`);
@@ -144,4 +159,11 @@ if (!DRY) {
   );
 }
 
-if (irresolus.length > 0) process.exit(1);
+if (irresolus.length > 0) {
+  console.error(
+    `\n${irresolus.length} entrée(s) sur lesquelles la recherche n'a RIEN rendu. ` +
+      `Ce n'est pas un verdict, c'est une absence de mesure. A relancer :`
+  );
+  for (const i of irresolus) console.error('  ' + i);
+  process.exit(1);
+}
