@@ -172,13 +172,51 @@ interface Candidat {
   title: string;
   annee: number;
   possesseurs: number;
+  /** Zero quand la sortie est unique : sa date est alors fiable. */
+  masterId: number;
+  /** Styles Discogs de l'oeuvre, DANS L'ORDRE. L'ordre est l'information. */
+  styles: string[];
+  /** Rang du style cherche dans ce tableau. 0 = style principal.
+      Number.MAX_SAFE_INTEGER si absent. */
+  rang: number;
 }
+
+/** Comparaison de styles tolerante aux variantes d'ecriture Discogs :
+    « Drum n Bass », « Drum and Bass », « Drum & Bass » designent le meme
+    style, et « Acid House » ne doit pas rater « Acid house ». */
+const memeStyle = (a: string, b: string): boolean => {
+  const n = (x: string) =>
+    x
+      .toLowerCase()
+      .replace(/&|\band\b/g, 'n')
+      .replace(/[^a-z0-9]/g, '');
+  return n(a) === n(b);
+};
+
+/** LA MESURE DU BRUIT.
+
+    Le premier soupcon portait sur le genre Discogs : « Madonna en acid
+    house, c'est du hors-sujet ». La mesure dit le contraire, la release
+    porte bien genre=["Electronic"]. Un filtre sur « Electronic » ne
+    l'attraperait pas, et il ne pourrait pas servir de toute facon : les
+    familles Hip-Hop et Reggae du corpus ne sont pas etiquetees Electronic.
+
+    CE QUI SE MESURE VRAIMENT, C'EST LE RANG. Discogs classe les styles par
+    importance. Madonna porte ["Dance-pop", "House", "Acid"] : « Acid »
+    arrive en troisieme, derriere de la pop, c'est une couleur du morceau,
+    pas sa nature. Ezequiel Arias porte ["Progressive House", "Acid"] :
+    deuxieme, le morceau est vraiment de cette famille.
+
+    Regle retenue : rang 0 ou 1, le style est central, l'entree est saine.
+    Rang 2 et au-dela, le style est marginal, l'entree est comptee comme
+    bruit. Style absent, l'entree est refusee, c'est du bruit certain. */
+const RANG_SAIN = 2;
 
 const anneeMin = new Date().getFullYear() - ANNEES_RECENTES;
 
 /** Sorties récentes d'un style, formats courts, les plus possédées d'abord.
 
-    `type=master` ET NON `type=release`, ET C'EST LE POINT CENTRAL.
+    LA DATE DE L'OEUVRE, ET NON CELLE DU PRESSAGE. C'EST LE POINT CENTRAL.
 
     Une « release » est un pressage. Un pressage de 2026 peut porter une
     musique de 1994 : la première version de ce chantier a proposé
@@ -202,7 +240,7 @@ async function candidatsDiscogs(style: string): Promise<Candidat[]> {
   for (let annee = new Date().getFullYear(); annee >= anneeMin; annee -= 1) {
     const url =
       `https://api.discogs.com/database/search?style=${encodeURIComponent(style)}` +
-      `&type=master&year=${annee}&format=Single&sort=have&sort_order=desc` +
+      `&type=release&year=${annee}&format=Single&sort=have&sort_order=desc` +
       `&per_page=25&token=${DISCOGS}`;
     try {
       const res = await fetch(url, { headers: { 'User-Agent': 'SONAA/1.0 +https://sonaa.ca/' } });
@@ -211,7 +249,13 @@ async function candidatsDiscogs(style: string): Promise<Candidat[]> {
         continue;
       }
       const j = (await res.json()) as {
-        results?: { title?: string; year?: number; community?: { have?: number } }[];
+        results?: {
+          title?: string;
+          year?: number;
+          style?: string[];
+          master_id?: number;
+          community?: { have?: number };
+        }[];
       };
       for (const r of j.results ?? []) {
         /* Discogs met « Artiste - Titre » dans un seul champ. On coupe au
@@ -219,11 +263,16 @@ async function candidatsDiscogs(style: string): Promise<Candidat[]> {
            n'ont pas cette forme. */
         const m = /^(.+?)\s+-\s+(.+)$/.exec(r.title ?? '');
         if (!m || !m[1] || !m[2]) continue;
+        const styles = r.style ?? [];
+        const rang = styles.findIndex((x) => memeStyle(x, style));
         out.push({
           artist: m[1].replace(/\s*\(\d+\)$/, '').trim(),
           title: m[2].trim(),
           annee: r.year ?? annee,
-          possesseurs: r.community?.have ?? 0
+          possesseurs: r.community?.have ?? 0,
+          masterId: r.master_id ?? 0,
+          styles,
+          rang: rang === -1 ? Number.MAX_SAFE_INTEGER : rang
         });
       }
     } catch {
@@ -233,6 +282,33 @@ async function candidatsDiscogs(style: string): Promise<Candidat[]> {
     await sleep(1100); // 60 requêtes par minute, on reste en dessous
   }
   return out;
+}
+
+/** Annee de PREMIERE parution d'une oeuvre. Sans master, la sortie est
+    unique et sa date de pressage fait foi. Le cache evite de redemander le
+    meme master, frequent quand un classique est reedite plusieurs fois. */
+const cacheMasters = new Map<number, number>();
+
+async function anneeDeLOeuvre(c: Candidat): Promise<number> {
+  if (c.masterId === 0) return c.annee;
+  const connu = cacheMasters.get(c.masterId);
+  if (connu !== undefined) return connu;
+  try {
+    const res = await fetch(`https://api.discogs.com/masters/${c.masterId}?token=${DISCOGS}`, {
+      headers: { 'User-Agent': 'SONAA/1.0 +https://sonaa.ca/' }
+    });
+    await sleep(1100);
+    if (!res.ok) return c.annee;
+    const j = (await res.json()) as { year?: number };
+    const an = j.year && j.year > 0 ? j.year : c.annee;
+    cacheMasters.set(c.masterId, an);
+    return an;
+  } catch {
+    /* Master injoignable : on garde la date du pressage, qui peut etre
+       fausse. C'est le seul endroit ou une reedition peut encore passer,
+       et il est borne par la disponibilite de Discogs. */
+    return c.annee;
+  }
 }
 
 /* --------------------------------------------- YouTube, une unité par lot */
@@ -323,9 +399,23 @@ console.log(
 let genresCouverts = 0;
 let ajouts = 0;
 
+/** Bruit par genre : entrees retenues dont le style est marginal. */
+const bruit: { id: string; famille: string; retenus: number; marginaux: number; refuses: number }[] =
+  [];
+
 for (const genre of aTraiter) {
   const manque = CIBLE - genre.tracks.actuel.length;
-  const candidats = await candidatsDiscogs(genre.label);
+  const bruts = await candidatsDiscogs(genre.label);
+
+  /* Style absent de l'oeuvre : bruit certain, refuse. Le reste passe, les
+     styles centraux en premier, la popularite ne departageant qu'a rang
+     egal. Sans ce tri, `sort=have` fait remonter les vedettes mal
+     etiquetees avant les sorties vraiment representatives du genre. */
+  const candidats = bruts
+    .filter((c) => c.rang !== Number.MAX_SAFE_INTEGER)
+    .sort((a, b) => a.rang - b.rang || b.possesseurs - a.possesseurs);
+
+  const refuses = bruts.length - candidats.length;
 
   if (candidats.length === 0) {
     console.log(`  ${genre.id.padEnd(20)} aucun candidat Discogs, genre laissé sous la cible`);
@@ -338,8 +428,15 @@ for (const genre of aTraiter) {
      On s'arrête dès qu'on a trois fois ce qui manque, pour laisser au tri
      par vues de quoi choisir sans multiplier les requêtes. */
   const resolus: { c: Candidat; id: string }[] = [];
+  let reeditions = 0;
   for (const c of candidats.slice(0, manque * 6)) {
     if (resolus.length >= manque * 3) break;
+    const annee = await anneeDeLOeuvre(c);
+    if (annee < anneeMin) {
+      reeditions += 1;
+      continue; // pressage recent d'une oeuvre ancienne
+    }
+    c.annee = annee;
     const { hit } = await resolveTrack(c.artist, c.title);
     if (hit && !dejaDansLeCorpus.has(hit.videoId)) {
       resolus.push({ c, id: hit.videoId });
@@ -390,6 +487,15 @@ for (const genre of aTraiter) {
     });
   }
 
+  const marginaux = retenus.filter((r) => r.c.rang >= RANG_SAIN).length;
+  bruit.push({
+    id: genre.id,
+    famille: genre.family,
+    retenus: retenus.length,
+    marginaux,
+    refuses
+  });
+
   ajouts += retenus.length;
   etat.ajoutsTotal += retenus.length;
   genresCouverts += 1;
@@ -407,8 +513,8 @@ for (const genre of aTraiter) {
 
   console.log(
     `  ${genre.id.padEnd(20)} +${retenus.length} actuel ` +
-      `(${candidats.length} candidats, ${resolus.length} résolus, ` +
-      `${etat.unitesConsommees} unités)`
+      `(${candidats.length} candidats, ${reeditions} rééditions écartées, ` +
+      `${resolus.length} résolus, ${etat.unitesConsommees} unités)`
   );
 }
 
@@ -418,6 +524,79 @@ console.log(
   `\n${genresCouverts} genre(s) traité(s), ${ajouts} track(s) ajoutée(s) en actuel.` +
     `\nQuota : ${etat.unitesConsommees} unités sur ${BUDGET} autorisées cette passe.`
 );
+
+/* ------------------------------------------- le bruit, famille par famille
+
+   Demande explicitement : si une famille depasse 40 % de styles marginaux,
+   c'est que le style Discogs interroge ne recouvre pas le genre SONAA, et
+   il faut le dire plutot que de laisser le vote nettoyer. */
+
+const SEUIL_ALERTE = 0.4;
+
+const parFamille = new Map<string, { retenus: number; marginaux: number; refuses: number }>();
+for (const b of bruit) {
+  const f = parFamille.get(b.famille) ?? { retenus: 0, marginaux: 0, refuses: 0 };
+  f.retenus += b.retenus;
+  f.marginaux += b.marginaux;
+  f.refuses += b.refuses;
+  parFamille.set(b.famille, f);
+}
+
+const lignes = [...parFamille.entries()]
+  .map(([famille, f]) => ({
+    famille,
+    ...f,
+    taux: f.retenus === 0 ? 0 : f.marginaux / f.retenus
+  }))
+  .sort((a, b) => b.taux - a.taux);
+
+console.log('\nBRUIT PAR FAMILLE, part des entrees dont le style est marginal :');
+for (const l of lignes) {
+  const pc = Math.round(l.taux * 100);
+  console.log(
+    `  ${l.famille.padEnd(22)} ${String(pc).padStart(3)} %  ` +
+      `(${l.marginaux}/${l.retenus} retenues, ${l.refuses} candidats refuses)` +
+      (l.taux > SEUIL_ALERTE ? '   <-- AU-DESSUS DU SEUIL' : '')
+  );
+}
+
+const alertes = lignes.filter((l) => l.taux > SEUIL_ALERTE && l.retenus >= 5);
+if (alertes.length > 0) {
+  console.log(
+    `\n${alertes.length} famille(s) au-dessus de 40 % de styles marginaux. ` +
+      `Le style Discogs interroge ne recouvre pas le genre SONAA pour :`
+  );
+  for (const a of alertes) {
+    const pires = bruit
+      .filter((b) => b.famille === a.famille && b.marginaux > 0)
+      .sort((x, y) => y.marginaux - x.marginaux)
+      .slice(0, 5)
+      .map((b) => `${b.id} ${b.marginaux}/${b.retenus}`);
+    console.log(`  ${a.famille} : ${pires.join(', ')}`);
+  }
+}
+
+if (!DRY) {
+  writeFileSync(
+    `${RACINE}BRUIT-ACTUEL.md`,
+    `# Bruit d'etiquetage sur l'onglet Actuel\n\n` +
+      `Mesure : part des entrees retenues dont le style cherche n'est PAS\n` +
+      `parmi les deux premiers styles Discogs de l'oeuvre. Un style au rang 2\n` +
+      `ou plus est une couleur du morceau, pas sa nature. Les candidats dont\n` +
+      `le style est absent sont refuses avant d'arriver ici.\n\n` +
+      `| famille | bruit | marginales / retenues | candidats refuses |\n` +
+      `| --- | --- | --- | --- |\n` +
+      lignes
+        .map(
+          (l) =>
+            `| ${l.famille} | ${Math.round(l.taux * 100)} % | ` +
+            `${l.marginaux} / ${l.retenus} | ${l.refuses} |`
+        )
+        .join('\n') +
+      `\n\nSeuil d'alerte : 40 %. Au-dessus, le style Discogs ne recouvre pas\n` +
+      `le genre SONAA et le vote ne suffira pas a nettoyer.\n`
+  );
+}
 
 const taux = tauxEchecReseau();
 if (reseau.requetes > 0 && taux > 0.25) {
