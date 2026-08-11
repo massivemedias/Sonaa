@@ -108,7 +108,9 @@ if (process.argv.includes('--check')) {
   try {
     existant = readFileSync(SORTIE, 'utf8');
   } catch {
-    console.error(`${SORTIE} est absent. Lancer : npx tsx scripts/build-game-tree.ts`);
+    console.error(
+      `${SORTIE} est absent. Lancer : npm run build:game-tree`
+    );
     process.exit(1);
   }
   if (existant !== sql) {

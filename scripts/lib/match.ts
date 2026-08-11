@@ -70,6 +70,8 @@ export interface Candidate {
 }
 
 export interface Verdict {
+  /** Le titre annonce un document SUR la musique, pas la musique. */
+  about?: boolean;
   ok: boolean;
   titleScore: number;
   artistScore: number;
@@ -90,6 +92,30 @@ export const FULL_RELEASE_MARKERS =
   /\bfull\s*album\b|\balbum\s+complet(?:o)?\b|\b[aá]lbum\s+completo\b|\bfull\s*lp\b|\blp\b|\bmix\s+complet\b|\bcompilation\b|\bmegamix\b|\bfull\s*ep\b|\bcontinuous\s+mix\b|\bdj\s*mix\b|\ball\s+tracks\b/i;
 
 export const MAX_TRACK_SECONDS = 15 * 60;
+
+/* CE QUE LA VIDEO EST, ET NON CE DONT ELLE PARLE.
+
+   Le matcher compare des mots : une video intitulee « Karlheinz Stockhausen
+   explains Kontakte » contient l'artiste et le titre, elle passe donc tous
+   les controles. C'est une interview. Trente-six remplacements ont ete
+   annules pour ce motif, parmi lesquels une bande-annonce d'album, une
+   critique, et plusieurs captations de concert.
+
+   Aucun score de similarite ne peut attraper cela : le probleme n'est pas
+   la ressemblance du titre, c'est la NATURE du document. Une video qui
+   parle de la musique n'est pas la musique.
+
+   Les marqueurs couvrent le francais, l'anglais et l'espagnol, les trois
+   langues rencontrees dans les resultats. « live » n'y figure PAS : une
+   captation de concert est de la musique, souvent la seule trace d'un
+   morceau, et l'exclure appauvrirait le corpus. */
+export const NATURE_MARKERS =
+  /\b(?:interview|entrevue|entrevista|explains?|explique|explica|talks?\s+about|parle\s+de|habla\s+de|documentary|documentaire|documental|trailer|bande[-\s]annonce|review|critique|resena|rese[nñ]a|reaction|reaccion|tutorial|tutoriel|how\s+to|comment\s+faire|c[oó]mo\s+hacer|behind\s+the\s+scenes|coulisses|making[-\s]of|breakdown|analysis|analyse|an[aá]lisis|track\s*by\s*track|first\s+look|unboxing)\b/i;
+
+/** Vrai quand le titre annonce un document SUR la musique, pas la musique. */
+export const isAboutMusic = (title: string): boolean => NATURE_MARKERS.test(title);
+
+
 
 /* EXCEPTIONS AU PLAFOND DE DURÉE, nommées une par une, justification comprise.
 
@@ -139,11 +165,19 @@ export const judge = (
   const titleScore = coverage(title, haystack);
   const artistScore = coverage(artist, haystack);
   const fullRelease = isFullRelease(candidate.title, seconds, isDurationExempt(artist, title));
+  /* La nature prime sur les scores ET sur les exceptions de duree : une
+     interview de Brian Eno sur 1/1 reste une interview. */
+  const about = isAboutMusic(candidate.title);
   return {
-    ok: !fullRelease && titleScore >= TITLE_THRESHOLD && artistScore >= ARTIST_THRESHOLD,
+    ok:
+      !fullRelease &&
+      !about &&
+      titleScore >= TITLE_THRESHOLD &&
+      artistScore >= ARTIST_THRESHOLD,
     titleScore,
     artistScore,
-    fullRelease
+    fullRelease,
+    about
   };
 };
 

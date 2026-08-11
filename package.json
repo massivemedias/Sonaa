@@ -25,7 +25,8 @@
     "check:plafond": "tsx scripts/check-plafond.ts",
     "audit:durees": "tsx scripts/audit-durees.ts",
     "fetch:actuel": "node --experimental-strip-types --env-file=.env scripts/fetch-actuel.ts",
-    "reparer:parutions": "node --experimental-strip-types --env-file=.env scripts/reparer-parutions.ts"
+    "reparer:parutions": "node --experimental-strip-types --env-file=.env scripts/reparer-parutions.ts",
+    "check:nature": "tsx scripts/check-nature.ts"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^7.3.1",

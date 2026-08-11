@@ -121,3 +121,72 @@ Quand un contrôle dépend d'une donnée qu'il ne produit pas lui-même —
 une durée extraite d'une page, une réponse réseau, une ligne à mettre à
 jour — il doit vérifier que cette donnée est bien arrivée, et le dire quand
 elle manque.
+
+---
+
+## Deuxieme motif : le rapport qui affirme ce que le script n'a pas fait
+
+Revue demandee apres un troisieme incident, de nature differente des deux
+premiers. `import-tracks` a annonce **« 105 lignes lues dans
+tracks-canon.md »** alors qu'on lui avait demande `tracks-lot7.md`.
+L'argument, mal ecrit, avait ete ignore ; le script avait relu sa source par
+defaut, et son compte-rendu nommait un fichier en dur.
+
+Le rapport etait donc exact sur le fond et faux sur les faits : 105 lignes
+avaient bien ete lues, mais pas celles qu'on croyait. Le verdict final,
+« tous les genres atteignent la cible », etait vrai pour l'ancien fichier et
+sans aucun rapport avec le travail demande.
+
+**Ce motif est distinct du verdict rassurant.** Le premier ment sur le
+RESULTAT : « rien a signaler » sans avoir rien verifie. Celui-ci ment sur
+les FAITS : le script a bien travaille, mais pas sur ce qu'il affirme. Il
+est plus difficile a voir, parce que tout, dans la sortie, a l'air
+coherent.
+
+Trois questions posees a chaque script :
+
+1. Le rapport nomme-t-il une source, une cible ou un chemin en dur, plutot
+   que la valeur reellement utilisee ?
+2. Un argument mal ecrit est-il ignore en silence, avec repli sur un defaut ?
+3. Les comptes affiches viennent-ils de ce qui a ete fait, ou d'une
+   constante ?
+
+### Corrige
+
+**`import-tracks.ts`, le nom de la source** : `${'`'}${'{'}rows.length${'}'} lignes lues dans
+tracks-canon.md${'`'}` nommait un fichier fixe. Le message affiche desormais la
+source reellement lue.
+
+**`import-tracks.ts`, l'argument positionnel** : `-- tracks-lot7.md` etait
+ignore, la syntaxe attendue etant `--file=`. Un fichier passe en positionnel
+ARRETE maintenant le script, au lieu de le laisser continuer sur une autre
+source. C'est le correctif qui compte le plus : le nom affiche aurait revele
+l'erreur apres coup, le refus l'empeche.
+
+**`import-tracks.ts`, le nom du rapport** : `Rapport ecrit dans
+tracks-canon-report.md` etait en dur. Vient desormais de la constante.
+
+**`build-game-tree.ts`** : le message d'aide citait un chemin d'invocation
+fixe, qui aurait vieilli sans qu'on le voie. Renvoie vers le script npm.
+
+### Verifie et sain
+
+Les comptes affiches par tous les scripts derivent des donnees traitees,
+aucun n'est une constante. `CIBLE` dans `import-tracks` est bien interpole,
+le message ne peut pas se desynchroniser de la valeur.
+
+### Un ecart signale, qui n'est pas un bogue
+
+`import-tracks` travaille avec une cible de **trois** morceaux, tandis que
+l'enrichissement vise **cinq**. Son « tous les genres atteignent la cible »
+est donc exact, et trompeur si on le lit avec l'objectif du chantier en
+tete. Ce n'est pas une valeur en dur mal rapportee, c'est un desaccord de
+definition entre deux outils, laisse en l'etat et note ici.
+
+### La regle qui en sort
+
+Un rapport ne doit affirmer que ce que le script a REELLEMENT fait. Tout ce
+qu'il nomme, source, cible, chemin, compte, doit venir de la valeur
+utilisee, jamais d'un litteral ecrit a cote. Et un argument que le script ne
+comprend pas doit l'arreter, pas le renvoyer a son comportement par defaut :
+un repli silencieux transforme une faute de frappe en travail fait ailleurs.

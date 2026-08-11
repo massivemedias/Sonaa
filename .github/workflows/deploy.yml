@@ -60,6 +60,16 @@ jobs:
       - name: Contrôler le plafond anti-parution
         run: npm run check:plafond
 
+      # Le matcher compare des mots : « Karlheinz Stockhausen explains Kontakte »
+      # contient l'artiste et le titre, passe le seuil de similarite, le plafond
+      # de duree et le rejet des parutions. C'est une interview. Trente-six
+      # remplacements ont ete annules pour ce motif, dont une bande-annonce
+      # d'album et une video sur des brevets d'OVNI. Aucun score de ressemblance
+      # ne peut attraper cela : le probleme est la NATURE du document.
+      # Les cas de test sont tires de ces erreurs reelles.
+      - name: Controler le filtre de nature
+        run: npm run check:nature
+
       # Fait autorité sur les données : cycles, références mortes, orphelins,
       # doublons d'identifiants, couverture par genre. Voir ADR-005.
       - name: Valider les données

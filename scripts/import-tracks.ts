@@ -69,9 +69,25 @@ const CORPUS = fileURLToPath(new URL('../src/data/corpus.json', import.meta.url)
 /* --file= permet une source alternative, par exemple un canon des fondateurs
    propose par la machine et distinct du fichier de Mika. */
 const fileArg = process.argv.find((a) => a.startsWith('--file='));
-const CANON = fileArg
-  ? fileURLToPath(new URL(`../${fileArg.slice('--file='.length)}`, import.meta.url))
-  : fileURLToPath(new URL('../tracks-canon.md', import.meta.url));
+const NOM_SOURCE = fileArg ? fileArg.slice('--file='.length) : 'tracks-canon.md';
+const CANON = fileURLToPath(new URL(`../${NOM_SOURCE}`, import.meta.url));
+
+/* UN FICHIER PASSE EN POSITIONNEL EST UNE ERREUR, PAS UN DEFAUT.
+   `import:tracks -- tracks-lot7.md` a deja tourne sans rien dire : l'argument
+   etant ignore, le script a relu tracks-canon.md et rendu un rapport
+   parfaitement normal, "102 deja presents, tous les genres atteignent la
+   cible". Le lot demande n'avait pas ete lu du tout. Un argument qu'on ne
+   comprend pas doit arreter le travail, jamais le laisser continuer sur une
+   autre source. */
+const positionnel = process.argv.slice(2).find((a) => !a.startsWith('--') && a.endsWith('.md'));
+if (positionnel) {
+  console.error(
+    `Fichier passe en positionnel : « ${positionnel} ».\n` +
+      `Ce script attend --file=${positionnel}, et sans cela il lirait ` +
+      `tracks-canon.md en silence. Arret.`
+  );
+  process.exit(1);
+}
 const REPORT = fileURLToPath(new URL('../tracks-canon-report.md', import.meta.url));
 
 const DRY = process.argv.includes('--dry-run');
@@ -243,7 +259,9 @@ const resolveGenre = (name: string): Genre | undefined => {
 };
 
 const { rows, problems } = parseCanon(readFileSync(CANON, 'utf8'));
-console.log(`${rows.length} lignes lues dans tracks-canon.md`);
+/* Le nom AFFICHE doit etre le nom LU. Il etait ecrit en dur, si bien qu'un
+   import sur une autre source annoncait quand meme tracks-canon.md. */
+console.log(`${rows.length} lignes lues dans ${NOM_SOURCE}`);
 for (const p of problems) console.warn(`AVERTISSEMENT ${p}`);
 
 /** Clé de doublon : le couple artiste et titre, normalisé. */
@@ -470,4 +488,6 @@ for (const f of failures) {
 if (failures.length === 0) report.push('Aucune. Toutes les lignes ont été résolues.');
 
 writeFileSync(REPORT, `${report.join('\n')}\n`, 'utf8');
-console.log(`Rapport écrit dans tracks-canon-report.md`);
+/* Le nom AFFICHE vient de la constante REELLE. Ecrire « tracks-canon-report.md »
+   en dur marcherait aujourd'hui et mentirait le jour ou REPORT changerait. */
+console.log(`Rapport écrit dans ${REPORT.split('/').pop()}`);
