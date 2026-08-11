@@ -211,7 +211,28 @@ const VARIANTES: readonly { voulu: string; candidat: string; rejet: boolean; quo
     quoi: 'autre volume'
   },
   { voulu: 'Part 1', candidat: 'Some Work Part 2', rejet: true, quoi: 'autre partie' },
-  { voulu: 'Strings of Life', candidat: 'Rhythim Is Rhythim - Strings of Life', rejet: false, quoi: 'titre nu' }
+  { voulu: 'Strings of Life', candidat: 'Rhythim Is Rhythim - Strings of Life', rejet: false, quoi: 'titre nu' },
+
+  /* Ajoutes apres coup : ces deux-la sont PASSES et ont du etre annules,
+     la liste ne couvrant alors que « remix » et « edit ». */
+  {
+    voulu: 'Moebius 256',
+    candidat: 'Zanov - Moebius 256 (Mr.eNeX Club Mix)',
+    rejet: true,
+    quoi: 'un Club Mix nest pas la piece de 1977'
+  },
+  {
+    voulu: 'Towers of Dub',
+    candidat: "The Orb - Towers Of Dub (Live '93 Version)",
+    rejet: true,
+    quoi: 'une Live Version nest pas la version studio'
+  },
+  {
+    voulu: 'Higher',
+    candidat: 'Amelie Lens - Higher (Original Mix)',
+    rejet: false,
+    quoi: 'Original Mix doit rester accepte malgre le mot mix'
+  }
 ];
 
 for (const v of VARIANTES) {

@@ -217,9 +217,16 @@ export const numerosDiscordants = (voulu: string, candidat: string): boolean => 
    souvent la seule trace d'un morceau, et un remaster reste la meme prise.
    Les exclure appauvrirait le corpus sans rien corriger. */
 const VARIANTE =
-  /\b(?:remix|rmx|edit|dub|instrumental|acapella|a\s*cappella|rework|bootleg|mashup|vip|extended|reprise|cover|karaoke)\b/i;
+  /\b(?:remix|rmx|edit|dub|instrumental|acapella|a\s*cappella|rework|bootleg|mashup|vip|extended|reprise|cover|karaoke|version|mix)\b/i;
 
-/** « Original Mix » et « Album Version » nomment la version canonique. */
+/** « Original Mix » et « Album Version » nomment la version canonique.
+
+    Cette exception DOIT etre testee avant `VARIANTE`, qui contient desormais
+    « version » et « mix » tout court. Ces deux mots ont ete ajoutes apres
+    coup : « Zanov, Moebius 256 (Mr.eNeX Club Mix) » et « Towers Of Dub
+    (Live 93 Version) » etaient passes, la liste ne couvrant que « remix » et
+    « edit ». Un Club Mix n'est pas la piece de 1977, une Live Version n'est
+    pas la version studio. */
 const VARIANTE_NEUTRE = /\b(?:original\s+mix|album\s+version|original\s+version)\b/i;
 
 /* Les subdivisions d'une oeuvre : Part, Vol, Chapter, et les faces A et B.
