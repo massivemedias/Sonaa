@@ -14882,6 +14882,27 @@
        "year": 1986,
        "format": "Cassette, Album"
       }
+     },
+     {
+      "youtubeId": "mmo3HFa2vjg",
+      "artist": "Public Enemy",
+      "title": "Fight The Power",
+      "year": 1989,
+      "verified": true
+     },
+     {
+      "youtubeId": "TLGWQfK-6DY",
+      "artist": "Run DMC",
+      "title": "It's Like That",
+      "year": 1983,
+      "verified": true
+     },
+     {
+      "youtubeId": "qORYO0atB6g",
+      "artist": "Beastie Boys",
+      "title": "Intergalactic",
+      "year": 1998,
+      "verified": true
      }
     ],
     "actuel": []
@@ -17899,6 +17920,20 @@
        "year": 2004,
        "format": "Vinyl, LP, Album"
       }
+     },
+     {
+      "youtubeId": "ncW9gYi9s3E",
+      "artist": "Hybrid",
+      "title": "Kid 2000",
+      "year": 2000,
+      "verified": true
+     },
+     {
+      "youtubeId": "MXPIToQzNQU",
+      "artist": "Digital Witchcraft",
+      "title": "Delta",
+      "year": 2001,
+      "verified": true
      }
     ],
     "actuel": [
@@ -18049,6 +18084,13 @@
       "artist": "Baby Anne",
       "title": "Bounce That Ass",
       "year": 2000,
+      "verified": true
+     },
+     {
+      "youtubeId": "1EypmRwr_rs",
+      "artist": "Dynamix II",
+      "title": "Just Give The DJ A Break",
+      "year": 1987,
       "verified": true
      }
     ],
@@ -20123,6 +20165,13 @@
       "artist": "Nightmare",
       "title": "Tell Me",
       "year": 2008,
+      "verified": true
+     },
+     {
+      "youtubeId": "b7Dyvr74JT8",
+      "artist": "Wideboys",
+      "title": "Sambuca",
+      "year": 2001,
       "verified": true
      }
     ],
@@ -24298,6 +24347,20 @@
        "local": "covers/70ajpozBfMY.jpg"
       },
       "album": "Wehrmacht"
+     },
+     {
+      "youtubeId": "C9yIGeBPnyE",
+      "artist": "Nasenbluten",
+      "title": "Intellectual Killer",
+      "year": 1995,
+      "verified": true
+     },
+     {
+      "youtubeId": "yRsBHbD5y88",
+      "artist": "Disciples Of Annihilation",
+      "title": "NYC Speedcore",
+      "year": 1996,
+      "verified": true
      }
     ],
     "actuel": [
@@ -25082,6 +25145,13 @@
        "year": 2016,
        "format": "File, MP3, Album"
       }
+     },
+     {
+      "youtubeId": "hh7CWG9IDHE",
+      "artist": "Radium",
+      "title": "The Beat Is Coming",
+      "year": 2001,
+      "verified": true
      }
     ],
     "actuel": [
@@ -28392,6 +28462,20 @@
        "year": 1992,
        "format": "CD, Single"
       }
+     },
+     {
+      "youtubeId": "nGgk_oEykWc",
+      "artist": "Spectre",
+      "title": "The Ill Saint",
+      "year": 1997,
+      "verified": true
+     },
+     {
+      "youtubeId": "Pbyd0-wpGpI",
+      "artist": "Sub Dub",
+      "title": "Dancehall Malfunction",
+      "year": 1996,
+      "verified": true
      }
     ],
     "actuel": []
@@ -34014,6 +34098,20 @@
       "title": "Mercedes",
       "year": 2016,
       "verified": true
+     },
+     {
+      "youtubeId": "RPvvJ-N9CGw",
+      "artist": "DJ Lag",
+      "title": "Trip To New York",
+      "year": 2019,
+      "verified": true
+     },
+     {
+      "youtubeId": "o-H09d8BnPc",
+      "artist": "Sbucardo Da DJ",
+      "title": "Woza",
+      "year": 2016,
+      "verified": true
      }
     ],
     "actuel": [
@@ -36627,6 +36725,13 @@
       "title": "Bust A Move",
       "year": 2000,
       "verified": true
+     },
+     {
+      "youtubeId": "afLtyzmYIkI",
+      "artist": "GMS",
+      "title": "Juice",
+      "year": 2001,
+      "verified": true
      }
     ],
     "actuel": []
@@ -36871,6 +36976,13 @@
       "artist": "Ramleh",
       "title": "Product Of Fear",
       "year": 1983,
+      "verified": true
+     },
+     {
+      "youtubeId": "lnPH4VS5ZuI",
+      "artist": "Whitehouse",
+      "title": "Cruise",
+      "year": 2001,
       "verified": true
      }
     ],
@@ -37923,6 +38035,27 @@
       "artist": "Dylan",
       "title": "Fabrication",
       "year": 2003,
+      "verified": true
+     },
+     {
+      "youtubeId": "H4YwGqe0T98",
+      "artist": "Dom & Roland",
+      "title": "Trauma",
+      "year": 1998,
+      "verified": true
+     },
+     {
+      "youtubeId": "o2Vh4lGRNoQ",
+      "artist": "Bad Company UK",
+      "title": "The Nine",
+      "year": 1999,
+      "verified": true
+     },
+     {
+      "youtubeId": "wz6lFm26vNQ",
+      "artist": "Konflict",
+      "title": "Messiah",
+      "year": 2000,
       "verified": true
      }
     ],
