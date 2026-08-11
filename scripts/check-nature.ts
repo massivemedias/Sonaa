@@ -19,7 +19,12 @@
 
    Usage : npm run check:nature */
 
-import { isAboutMusic, judge, numerosDiscordants } from './lib/match.ts';
+import {
+  isAboutMusic,
+  judge,
+  numerosDiscordants,
+  variantesDiscordantes
+} from './lib/match.ts';
 
 const erreurs: string[] = [];
 
@@ -160,6 +165,76 @@ if (numVerdict.ok) {
   );
 }
 
+/* --------- 5. Les variantes non demandees et les subdivisions */
+
+/* Troisieme angle mort de la couverture de mots, apres la nature du document
+   et les numeros d'ordre. « Bladed » et « Bladed (Pardon Moi Remix) » ont un
+   score parfait et ne sont pas la meme piste.
+
+   La regle est asymetrique : 35 entrees du corpus portent legitimement un
+   remix dans leur titre canonique, on ne rejette donc que ce que le titre
+   cherche NE DEMANDE PAS. Et « Original Mix » designe la version canonique,
+   pas une variante. */
+const VARIANTES: readonly { voulu: string; candidat: string; rejet: boolean; quoi: string }[] = [
+  { voulu: 'Bladed', candidat: 'Darlyn Vlys - Bladed (Pardon Moi Remix)', rejet: true, quoi: 'remix non demande' },
+  {
+    voulu: 'Bladed (Pardon Moi Remix)',
+    candidat: 'Darlyn Vlys - Bladed (Pardon Moi Remix)',
+    rejet: false,
+    quoi: 'remix demande, entree reelle du corpus'
+  },
+  {
+    voulu: 'Formula',
+    candidat: 'Charlotte de Witte - Formula (Original Mix)',
+    rejet: false,
+    quoi: 'Original Mix EST la version canonique'
+  },
+  { voulu: 'Xtal', candidat: 'Aphex Twin - Xtal [Remastered]', rejet: false, quoi: 'un remaster reste la meme prise' },
+  {
+    voulu: 'Born Slippy',
+    candidat: 'Underworld - Born Slippy (Live at Glastonbury)',
+    rejet: false,
+    quoi: 'une captation est souvent la seule trace'
+  },
+  {
+    voulu: 'Dub Fi Gwan',
+    candidat: 'King Tubby - Dub Fi Gwan',
+    rejet: false,
+    quoi: 'dub dans le titre meme, pas une mention de version'
+  },
+  { voulu: 'Windowlicker', candidat: 'Aphex Twin - Windowlicker (Radio Edit)', rejet: true, quoi: 'edit non demande' },
+  { voulu: 'Higher', candidat: 'Amelie Lens - Higher (Instrumental)', rejet: true, quoi: 'instrumental non demande' },
+  {
+    voulu: 'Selected Ambient Works Vol I',
+    candidat: 'Aphex Twin - Selected Ambient Works Vol II',
+    rejet: true,
+    quoi: 'autre volume'
+  },
+  { voulu: 'Part 1', candidat: 'Some Work Part 2', rejet: true, quoi: 'autre partie' },
+  { voulu: 'Strings of Life', candidat: 'Rhythim Is Rhythim - Strings of Life', rejet: false, quoi: 'titre nu' }
+];
+
+for (const v of VARIANTES) {
+  if (variantesDiscordantes(v.voulu, v.candidat) !== v.rejet) {
+    erreurs.push(
+      `Variantes : « ${v.candidat} » pour « ${v.voulu} » devrait etre ` +
+        `${v.rejet ? 'rejete' : 'accepte'} (${v.quoi}).`
+    );
+  }
+}
+
+const varVerdict = judge(
+  { title: 'Aphex Twin - Windowlicker (Radio Edit)', channel: 'Warp Records' },
+  'Aphex Twin',
+  'Windowlicker',
+  240
+);
+if (varVerdict.ok) {
+  erreurs.push(
+    "judge() ACCEPTE un Radio Edit pour le titre nu. Le controle des variantes n'est pas branche."
+  );
+}
+
 /* ------------------------------------------------------------- verdict */
 
 if (erreurs.length > 0) {
@@ -170,5 +245,6 @@ if (erreurs.length > 0) {
 
 console.log(
   `Nature : ${DOCUMENTS.length - 1} documents rejetes, ${MUSIQUE.length} musiques acceptees, ` +
-    `${NUMEROS.length} cas de numeros, et les deux filtres sont branches dans judge().`
+    `${NUMEROS.length} cas de numeros, ${VARIANTES.length} cas de variantes, ` +
+    'et les trois filtres sont branches dans judge().'
 );

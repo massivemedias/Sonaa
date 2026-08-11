@@ -165,6 +165,48 @@ async function dureeCanonique(artiste: string, titre: string): Promise<number | 
   return null;
 }
 
+/* ------------------------------------------ MusicBrainz, en repli gratuit
+
+   Discogs ne porte pas de duree pour toutes les sorties : 24 des 49 entrees
+   longues n'ont rien pu etre mesurees par lui. MusicBrainz couvre une
+   partie de ce trou, sans cle et sans quota, a une requete par seconde.
+
+   Taux mesure avant de lancer, sur huit de ces cas : SIX trouves, soit
+   75 %. La requete stricte par champs n'en rendait que deux ; la requete
+   libre, filtree localement sur les mots du titre, fait le reste. Les deux
+   echecs restants sont des sorties de tres petits labels que MusicBrainz
+   ne connait pas davantage que Discogs.
+
+   Ce qui compte : Kontakte de Stockhausen y figure a 34 min 51, ce qui
+   rend enfin mesurable, et donc legitime, une video de 35 minutes que la
+   premiere regle avait remplacee par une interview. */
+
+const MB_UA = { headers: { 'User-Agent': 'SONAA/1.0 (https://sonaa.ca)' } };
+
+async function dureeMusicBrainz(artiste: string, titre: string): Promise<number | null> {
+  try {
+    const q = encodeURIComponent(`${artiste} ${titre}`);
+    const r = (await (
+      await fetch(
+        `https://musicbrainz.org/ws/2/recording?query=${q}&fmt=json&limit=5`,
+        MB_UA
+      )
+    ).json()) as { recordings?: { title?: string; length?: number }[] };
+    await sleep(1100); // MusicBrainz demande une requete par seconde
+
+    const mots = motsCles(titre);
+    for (const rec of r.recordings ?? []) {
+      if (!rec.length || !rec.title) continue;
+      const t = rec.title.toLowerCase();
+      if (!mots.every((w) => t.includes(w))) continue;
+      return Math.round(rec.length / 1000);
+    }
+  } catch {
+    /* MusicBrainz injoignable : l'entree restera non mesuree, et le dira. */
+  }
+  return null;
+}
+
 /* ------------------------------------------------------------- la passe */
 
 const remplaces: string[] = [];
@@ -173,7 +215,12 @@ const nonMesures: string[] = [];
 const sansRemplacant: string[] = [];
 
 for (const cible of cibles) {
-  const canonique = await dureeCanonique(cible.artiste, cible.titre);
+  let canonique = await dureeCanonique(cible.artiste, cible.titre);
+  let source = 'Discogs';
+  if (canonique === null) {
+    canonique = await dureeMusicBrainz(cible.artiste, cible.titre);
+    source = 'MusicBrainz';
+  }
   const etiquette = `${cible.genre} | ${cible.artiste} - ${cible.titre} | video ${cible.min} min`;
 
   if (canonique === null) {
@@ -187,7 +234,7 @@ for (const cible of cibles) {
      legitime malgre sa longueur : Bayreuth Return dure vraiment 30 minutes. */
   const ecart = Math.abs(cible.min * 60 - canonique) / canonique;
   if (ecart <= TOLERANCE) {
-    legitimes.push(`${etiquette}, Discogs ${canonMin} min, conforme`);
+    legitimes.push(`${etiquette}, ${source} ${canonMin} min, conforme`);
     continue;
   }
 
@@ -212,7 +259,7 @@ for (const cible of cibles) {
 
   if (remplacant) {
     remplaces.push(
-      `${etiquette}, Discogs ${canonMin} min -> ${remplacant} (${Math.round(dureeRet / 60)} min)`
+      `${etiquette}, ${source} ${canonMin} min -> ${remplacant} (${Math.round(dureeRet / 60)} min)`
     );
     pris.add(remplacant);
     if (!DRY) {
@@ -223,7 +270,7 @@ for (const cible of cibles) {
       });
     }
   } else {
-    sansRemplacant.push(`${etiquette}, Discogs ${canonMin} min, aucune video conforme`);
+    sansRemplacant.push(`${etiquette}, ${source} ${canonMin} min, aucune video conforme`);
   }
   await sleep(300);
 }
@@ -258,7 +305,8 @@ if (!DRY) {
       `connu et mesure.\n\n` +
       (sansRemplacant.map((s) => `- ${s}`).join('\n') || '_aucune_') +
       `\n\n## Non mesurees (${nonMesures.length})\n\n` +
-      `Discogs ne donne pas de duree pour ces pistes. Rien n'a ete touche :\n` +
+      `Ni Discogs ni MusicBrainz ne donnent de duree pour ces pistes. Rien n'a\n` +
+      `ete touche : ` +
       `« je n'ai pas pu verifier » n'est pas « c'est correct ».\n\n` +
       (nonMesures.map((n) => `- ${n}`).join('\n') || '_aucune_') +
       `\n`

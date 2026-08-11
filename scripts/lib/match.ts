@@ -74,6 +74,8 @@ export interface Verdict {
   about?: boolean;
   /** Les numeros d'ordre se contredisent : Living Torch II pour I. */
   numero?: boolean;
+  /** Le candidat annonce une version ou une partie non demandee. */
+  variante?: boolean;
   ok: boolean;
   titleScore: number;
   artistScore: number;
@@ -192,6 +194,71 @@ export const numerosDiscordants = (voulu: string, candidat: string): boolean => 
   return b !== null && b !== a;
 };
 
+
+/* LES VARIANTES NON DEMANDEES, ET LES SUBDIVISIONS.
+
+   Meme famille de faute que les numeros d'ordre : la couverture de mots
+   donne un score parfait a « Bladed » et « Bladed (Pardon Moi Remix) »,
+   qui ne sont pas la meme piste. Un corpus canonique veut l'original quand
+   c'est l'original qu'on cherche.
+
+   LA REGLE EST ASYMETRIQUE, et c'est ce qui la rend sure. 35 entrees du
+   corpus portent deja un remix dans leur titre canonique, « Darlyn Vlys,
+   Bladed (Pardon Moi Remix) » par exemple : ces titres-la DEMANDENT le
+   remix, et le candidat doit le porter. On ne rejette donc que ce que le
+   titre cherche ne demande pas.
+
+   DEUX MENTIONS NE SONT PAS DES VARIANTES et doivent passer :
+   « Original Mix » designe la version canonique elle-meme, « Album
+   Version » aussi. Les exclure reviendrait a refuser « Charlotte de Witte,
+   Formula (Original Mix) », qui est exactement ce qu'on cherche.
+
+   « live » et « remaster » sont volontairement absents : une captation est
+   souvent la seule trace d'un morceau, et un remaster reste la meme prise.
+   Les exclure appauvrirait le corpus sans rien corriger. */
+const VARIANTE =
+  /\b(?:remix|rmx|edit|dub|instrumental|acapella|a\s*cappella|rework|bootleg|mashup|vip|extended|reprise|cover|karaoke)\b/i;
+
+/** « Original Mix » et « Album Version » nomment la version canonique. */
+const VARIANTE_NEUTRE = /\b(?:original\s+mix|album\s+version|original\s+version)\b/i;
+
+/* Les subdivisions d'une oeuvre : Part, Vol, Chapter, et les faces A et B.
+   « Selected Ambient Works Vol II » n'est pas « Vol I ». La face B d'un
+   45 tours n'est pas la face A. */
+const SUBDIVISION = /\b(?:part|pt\.?|vol\.?|volume|chapter|chapitre|side)\s*([a-z0-9ivx]+)\b/i;
+
+const mentionsVariantes = (titre: string): Set<string> => {
+  const out = new Set<string>();
+  /* On ne regarde QUE l'interieur des parentheses et des crochets : c'est la
+     ou se declarent les versions. « Dub Fi Gwan » de King Tubby porte « dub »
+     dans son titre meme, ce n'est pas une variante. */
+  for (const m of titre.matchAll(/[([]([^)\]]+)[)\]]/g)) {
+    const dedans = m[1] ?? '';
+    if (VARIANTE_NEUTRE.test(dedans)) continue;
+    const v = VARIANTE.exec(dedans);
+    if (v?.[0]) out.add(v[0].toLowerCase());
+  }
+  return out;
+};
+
+const subdivision = (titre: string): string | null =>
+  SUBDIVISION.exec(titre)?.[1]?.toLowerCase() ?? null;
+
+/** Vrai quand le candidat annonce une version ou une partie que le titre
+    cherche ne demande pas, ou une autre partie que celle demandee. */
+export const variantesDiscordantes = (voulu: string, candidat: string): boolean => {
+  const dem = mentionsVariantes(voulu);
+  for (const v of mentionsVariantes(candidat)) {
+    if (!dem.has(v)) return true; // une version qu'on n'a pas demandee
+  }
+  const a = subdivision(voulu);
+  if (a !== null) {
+    const b = subdivision(candidat);
+    if (b !== null && b !== a) return true; // Vol II pour Vol I
+  }
+  return false;
+};
+
 /** Le verdict, avec ses deux scores : un rejet doit être explicable. */
 export const judge = (
   candidate: Candidate,
@@ -207,18 +274,21 @@ export const judge = (
      interview de Brian Eno sur 1/1 reste une interview. */
   const about = isAboutMusic(candidate.title);
   const numero = numerosDiscordants(title, candidate.title);
+  const variante = variantesDiscordantes(title, candidate.title);
   return {
     ok:
       !fullRelease &&
       !about &&
       !numero &&
+      !variante &&
       titleScore >= TITLE_THRESHOLD &&
       artistScore >= ARTIST_THRESHOLD,
     titleScore,
     artistScore,
     fullRelease,
     about,
-    numero
+    numero,
+    variante
   };
 };
 

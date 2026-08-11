@@ -8,6 +8,63 @@ débats déjà tranchés.
 
 ---
 
+## Regle permanente : le second bloc de rapport
+
+**A la fin de CHAQUE mission**, apres le rapport habituel, ajouter un SECOND
+bloc separe, destine a etre copie tel quel dans une conversation avec un
+Claude qui n'a AUCUN contexte du projet.
+
+Cette regle avait ete suivie au debut du projet, puis abandonnee. Retablie
+a la demande de Mika.
+
+**Le bloc doit etre autosuffisant.** Quelqu'un qui n'a jamais entendu parler
+du projet doit pouvoir le lire et conseiller utilement. Donc :
+
+- aucun « comme on a dit », aucun renvoi a une conversation anterieure
+- aucun acronyme non explique
+- aucun renvoi a un fichier du depot : si un chiffre compte, il est dans le
+  bloc, pas dans un fichier que le lecteur n'a pas
+- **aucune valeur de secret, jamais** : ni cle, ni jeton, ni identifiant de
+  connexion, meme partiel, meme « publique ». On nomme la variable, jamais
+  sa valeur
+
+Format exact, separateurs compris :
+
+```
+------------------------------------------------------------
+POUR CLAUDE DESKTOP - <nom de la mission> - <date>
+
+Contexte du projet
+<3 lignes: ce qu'est SONAA, ou on en est>
+
+Ce que je viens de faire
+<liste factuelle, une ligne par changement, avec les chiffres>
+
+Ce que j'ai mesure
+<les chiffres bruts>
+
+Ce qui a casse ou surpris
+<les erreurs trouvees, les regressions, les limites atteintes>
+
+Ce qui reste ouvert
+<les arbitrages non tranches, avec les options>
+
+Ce que je propose de faire ensuite
+<une seule prochaine etape, precise>
+
+Ce dont j'ai besoin de Mika
+<uniquement ce qu'il doit faire lui-meme, ou "rien">
+------------------------------------------------------------
+```
+
+La section « Ce qui a casse ou surpris » n'est pas optionnelle et ne se
+remplit pas par politesse : c'est celle qui a le plus de valeur pour un
+lecteur exterieur, et c'est aussi celle qu'on est le plus tente d'alleger.
+Une mission sans surprise s'ecrit « rien », pas une reformulation flatteuse
+de ce qui a marche.
+
+---
+
 ## 1. Où on en est
 
 **Phase P0 terminée et en ligne.** Fondations, CI, déploiement GitHub Pages
