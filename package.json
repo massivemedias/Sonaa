@@ -21,7 +21,9 @@
     "check:tirets": "tsx scripts/check-tirets.ts",
     "check:game": "tsx scripts/check-game-rules.ts",
     "build:game-tree": "tsx scripts/build-game-tree.ts",
-    "check:game-tree": "tsx scripts/build-game-tree.ts --check"
+    "check:game-tree": "tsx scripts/build-game-tree.ts --check",
+    "check:plafond": "tsx scripts/check-plafond.ts",
+    "audit:durees": "tsx scripts/audit-durees.ts"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^7.3.1",

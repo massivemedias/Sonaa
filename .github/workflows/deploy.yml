@@ -51,6 +51,15 @@ jobs:
       - name: Contrôler les tirets
         run: npm run check:tirets
 
+      # LE GARDE-FOU DU GARDE-FOU. Le plafond de quinze minutes a cessé de
+      # mordre sans rien dire : l'extraction de la durée avait cessé de
+      # correspondre, et un contrôle qui ne reçoit plus sa donnée d'entrée
+      # rend « rien à signaler » au lieu d'alerter. Quarante-cinq intégrales
+      # d'album sont entrées ainsi. Ce contrôle vérifie la règle ET que la
+      # durée arrive encore. Voir scripts/check-plafond.ts.
+      - name: Contrôler le plafond anti-parution
+        run: npm run check:plafond
+
       # Fait autorité sur les données : cycles, références mortes, orphelins,
       # doublons d'identifiants, couverture par genre. Voir ADR-005.
       - name: Valider les données
