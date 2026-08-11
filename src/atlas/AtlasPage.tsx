@@ -520,8 +520,15 @@ export function AtlasPage() {
       )}
 
       {/* Légende de navigation : permanente, discrète, repliable. Chaque
-          raccourci a été vérifié dans le code avant d'être écrit. */}
-      {mode === 'webgl' && (
+          raccourci a été vérifié dans le code avant d'être écrit.
+
+          CACHÉE PENDANT L'ACCUEIL. Elle s'affichait par-dessus l'écran de
+          bienvenue, semi-transparente, et ses lignes se mélangeaient aux
+          labels de la carte en fond : « chercher un genre, un artiste, un
+          label » se lisait par-dessus « Power Electronics ». C'est la
+          première chose que voit un visiteur, et des raccourcis clavier
+          n'ont aucun sens avant d'être entré dans la carte. */}
+      {mode === 'webgl' && !showWelcome && (
         <aside className="legend" data-collapsed={legendCollapsed}>
           <button className="legend-toggle" onClick={toggleLegend}>
             aide

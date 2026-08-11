@@ -404,10 +404,26 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
     });
   }, []);
 
+  /* LE LECTEUR NE SE MONTE QU'A LA PREMIERE ECOUTE.
+
+     Il se montait au chargement de la page. Mesure sur le site construit :
+     l'API YouTube arrivait a 650 ms, son widget a 1394 ms, l'iframe du
+     lecteur a 1649 ms, et le premier pixel n'apparaissait qu'a 2588 ms.
+     Personne n'avait encore rien demande a ecouter.
+
+     Deux raisons de differer, et la seconde compte autant que la premiere.
+     La page s'affiche sans attendre un tiers. Et YouTube n'est contacte
+     qu'une fois que le visiteur a choisi d'ecouter quelque chose, ce qui
+     est la seule chose qui le justifie. */
+  const [lecteurDemande, setLecteurDemande] = useState(false);
+  useEffect(() => {
+    if (playback) setLecteurDemande(true);
+  }, [playback]);
+
   useEffect(() => {
     let cancelled = false;
     const slot = slotRef.current;
-    if (!slot) return;
+    if (!slot || !lecteurDemande) return;
 
     const mount = document.createElement('div');
     mount.className = 'yt-mount';
@@ -475,9 +491,9 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
       playerRef.current?.destroy();
       playerRef.current = null;
     };
-    // Monté une seule fois, volontairement.
+    // Monté une seule fois, à la première écoute demandée.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [lecteurDemande]);
 
   useEffect(() => {
     if (!ready || !currentTrack) return;

@@ -193,6 +193,24 @@ void main() {
   float fog = smoothstep(uFog.x, uFog.y, vViewDepth);
   col = mix(col, uFogColor, fog * 0.55);
 
+  /* BANDES CONCENTRIQUES. La couleur d'une sphere est un degrade radial,
+     lambert et lisere combines. Quantifie sur huit bits, un degrade doux
+     produit des paliers visibles, et sur un degrade RADIAL ces paliers sont
+     des anneaux concentriques.
+
+     Un bruit ordonne d'un demi-niveau, ajoute avant la sortie, repartit
+     l'erreur d'arrondi et fait disparaitre les paliers. C'est la correction
+     standard du banding, et elle est ancree sur gl_FragCoord : le motif est
+     FIXE a l'ecran, il ne peut donc pas papilloter par lui-meme.
+
+     A NE PAS CONFONDRE avec la cause du scintillement, qui reste a
+     etablir : ceci corrige les anneaux, pas leur battement. Le test qui
+     tranche est a portee de main sans code : activer la reduction des
+     animations du systeme coupe la respiration de 2 % des spheres. Si le
+     battement cesse, c'est elle. */
+  float dither = fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453);
+  col += (dither - 0.5) / 255.0;
+
   gl_FragColor = vec4(col, alpha);
 }
 `;

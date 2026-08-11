@@ -102,8 +102,7 @@ Les contrôles de CI sortent tous en code 1 quand ils échouent, et aucun ne
 peut rendre un verdict positif sans avoir travaillé :
 
 `check-matcher`, `check-labels`, `check-corpus-writes`, `check-tirets`,
-`check-game-rules`, `check-plafond`, `validate-data`, `build-game-tree
---check`.
+`check-plafond`, `check-nature`, `validate-data`.
 
 `check-matcher` mérite une mention : son verdict est
 `process.exit(fails === 0 ? 0 : 1)`, et non un `process.exit(1)` littéral.
@@ -165,9 +164,6 @@ l'erreur apres coup, le refus l'empeche.
 
 **`import-tracks.ts`, le nom du rapport** : `Rapport ecrit dans
 tracks-canon-report.md` etait en dur. Vient desormais de la constante.
-
-**`build-game-tree.ts`** : le message d'aide citait un chemin d'invocation
-fixe, qui aurait vieilli sans qu'on le voie. Renvoie vers le script npm.
 
 ### Verifie et sain
 

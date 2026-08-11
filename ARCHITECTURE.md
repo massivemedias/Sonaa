@@ -2343,6 +2343,48 @@ systeme de propositions.
 
 ---
 
+## ADR-064 : Le mini-jeu est retire
+
+**Statut** : accepte, 11 aout 2026.
+
+**Contexte.** Un mini-jeu de devinettes sur la filiation des genres avait ete
+concu : regles dans `src/jeu/regles.ts`, generateur d'arbre, deux controles
+de coherence, et deux migrations Supabase pour les parties et leur
+verification.
+
+Il n'a jamais ete termine. Les migrations n'ont pas ete appliquees, verifie :
+les tables rendent 404. Le code n'etait importe par aucune page. Et ses deux
+controles etaient les SEULS du projet a ne pas tourner en CI, ce qui en
+faisait du code que rien ne verifiait plus.
+
+**Decision.** Tout est retire : le code, les migrations, les controles, les
+scripts npm et les mentions dans la documentation.
+
+**Pourquoi retirer plutot que laisser dormir.**
+
+Trois raisons, dans l'ordre de leur poids.
+
+1. **La fonctionnalite n'est pas terminee et son prix n'a pas ete tranche.**
+   Ni le nombre de questions, ni la source des bonnes reponses, ni ce qu'on
+   fait d'une partie abandonnee. Un chantier arrete a mi-parcours n'est pas
+   une reserve, c'est une dette.
+
+2. **Du code mort laisse croire qu'il fonctionne.** Dans six mois, une
+   session qui trouve `src/jeu/regles.ts` et deux migrations le prendra pour
+   une fonctionnalite en pause, pas pour un abandon. Elle perdra du temps a
+   comprendre pourquoi ca ne marche pas, ou pire, elle publiera en croyant
+   que ca marche. C'est le meme defaut que le verdict rassurant documente
+   dans ECHECS-SILENCIEUX.md, applique a du code au lieu d'un rapport.
+
+3. **Rien n'est perdu.** L'historique git garde tout, et le retour arriere
+   est un `git revert` si l'envie revient.
+
+**Ce que cette suppression ne dit pas.** Le jeu n'est pas juge mauvais. Il
+n'a simplement pas ete fait, et un projet gagne a distinguer ce qui existe
+de ce qui a ete envisage.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle
