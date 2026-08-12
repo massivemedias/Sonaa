@@ -385,7 +385,21 @@ float hash21(vec2 p) {
 
 void main() {
   vec2 g = vUv * uResolution / 1.7;
-  float fine = hash21(floor(g) + floor(uTime * 2.0) * vec2(37.0, 17.0));
+  /* LE GRAIN EST FIGE, et c'est la correction du scintillement.
+
+     MESURE, sur 3 024 000 pixels, camera immobile, en deroulant la scene
+     image par image : grain anime, 2 138 150 pixels changent, soit 71 % de
+     l'ecran. Grain eteint, 391. Un facteur 5470.
+
+     J'avais deja ralenti ce grain de 24 images par seconde a 2, croyant
+     calmer le battement. C'etait pire : a 24 images il se lisait comme un
+     gresillement continu, a 2 il devient un CLIGNOTEMENT, l'ecran entier
+     basculant deux fois par seconde.
+
+     Un grain n'a aucune raison d'etre anime. Son role est de casser les
+     aplats du fond profond, qu'un degrade sur huit bits fait bander : une
+     texture fixe le fait aussi bien, et ne bouge pas. */
+  float fine = hash21(floor(g));
   // Additif et positif : il eclaircit legerement plutot que d'osciller,
   // ce qui suffit a rompre un aplat sans creer de trous sombres.
   gl_FragColor = vec4(vec3(fine * 0.012 * uGrain), 1.0);

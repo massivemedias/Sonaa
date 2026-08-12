@@ -81,6 +81,25 @@ export interface AtlasApi {
   playIntro: (onEnd?: () => void) => void;
   /** Recadre la caméra sur la famille entière, sans toucher à la sélection.
       Sert quand la feuille mobile ou la colonne changent la zone visible. */
+  /** Compte les pixels qui changent entre deux images rendues a etat
+      IDENTIQUE. Une scene stable doit rendre zero. Tout pixel instable est
+      un papillotement mesurable. Voir webgl-orbit.ts. */
+  composante?: (nom: string, actif: boolean) => { nom: string; actif: boolean };
+  mesurerScintillement?: (
+    images?: number,
+    seuil?: number,
+    pasMs?: number
+  ) => {
+    largeur: number;
+    hauteur: number;
+    pixels: number;
+    images: number;
+    seuil: number;
+    sautsMax: number;
+    sautsMoyen: number;
+    ecartMax: number;
+    variationsDouces: number;
+  };
   frameFamily: (familyIndex: number) => void;
   /** Recadre le niveau courant : couronne au niveau famille, sous-anneau en
       descente. */

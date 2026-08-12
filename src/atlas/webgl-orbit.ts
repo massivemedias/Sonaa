@@ -922,6 +922,12 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   /* RAYON DE L'ANCETRE DIRECT, par slot. Il sert a decider quand un satellite
      de satellite s'est assez ecarte pour etre montre sans chevaucher le corps
      dont il sort. Calcule une fois : le parent d'un genre ne change pas. */
+  /* Drapeaux de DIAGNOSTIC seulement, tous vrais en usage normal. Ils
+     permettent d'eteindre une composante pour mesurer sa part dans le
+     scintillement, sans avoir a reconstruire le site a chaque essai. */
+  let breathOn = true;
+  let repliesOn = true;
+
   const parentRadius = new Float32Array(sphereRadii.length);
   slotsData.forEach((slot, i) => {
     const base = familyOffset[slot.family] ?? 0;
@@ -2244,10 +2250,14 @@ const OVERLAP_TOLERANCE = 1;
   const expand = new Vector3();
   const recede = new Vector3();
 
-  const frame = (): void => {
-    if (!running) return;
-    requestAnimationFrame(frame);
-    const now = performance.now();
+  /* LE CORPS DE LA BOUCLE, SEPARE DE SON DECLENCHEUR.
+
+     requestAnimationFrame s'arrete des que la fenetre passe en arriere-plan,
+     ce qui rendait toute mesure de scintillement impossible. En separant
+     « ce qu'une image fait » de « quand elle est demandee », on peut dérouler
+     la scene a la main, image par image, temps simule, et lire les pixels
+     entre chaque. Le GPU dessine quand on le lui demande. */
+  const avancer = (now: number): void => {
 
     if (!reducedMotion) {
       bgUniforms.uTime.value = now / 1000;
@@ -2383,7 +2393,8 @@ const OVERLAP_TOLERANCE = 1;
          écartée d'au moins la somme des deux rayons : à ce moment-là, les
          surfaces ne peuvent plus se couper. Une trajectoire courte apparaît
          donc plus tard en proportion, ce qui est exactement ce qu'on veut. */
-      if (slot.depth >= 2) {
+      if (slot.depth >= 2 && !repliesOn) presence = 0;
+      else if (slot.depth >= 2) {
         const trajet = slot.compact.distanceTo(slot.deployed);
         const parcouru = trajet * Math.max(p, 0);
         /* La marge à franchir : le rayon de la sphère plus celui de son
@@ -2441,7 +2452,7 @@ const OVERLAP_TOLERANCE = 1;
       if (!reducedMotion && !introActive) {
         const targetHover = i === hovered ? 1 : 0;
         hoverAmount[i] = (hoverAmount[i] ?? 0) + (targetHover - (hoverAmount[i] ?? 0)) * 0.22;
-        const breath = 1 + 0.02 * Math.sin(now / 2300 + (breathPhase[i] ?? 0));
+        const breath = breathOn ? 1 + 0.02 * Math.sin(now / 2300 + (breathPhase[i] ?? 0)) : 1;
         sphereRadii[i] = (baseRadii[i] ?? 1) * breath * (1 + 0.08 * (hoverAmount[i] ?? 0));
       }
 
@@ -2581,6 +2592,12 @@ const OVERLAP_TOLERANCE = 1;
     }
   };
 
+  const frame = (): void => {
+    if (!running) return;
+    requestAnimationFrame(frame);
+    avancer(performance.now());
+  };
+
   applyCamera();
   engineReady = true;
   resize();
@@ -2591,6 +2608,101 @@ const OVERLAP_TOLERANCE = 1;
     /* Crochets de MESURE pour npm run verify:visual : quand on ne peut pas
        voir, on mesure. Lecture seule sauf setHovered, qui simule le survol. */
     frameFamily: (fi: number) => frameFamily(fi, performance.now()),
+
+    /* MESURE DU SCINTILLEMENT, deuxieme version.
+
+       LA PREMIERE ETAIT FAUSSE et rendait zero. Elle dessinait deux fois le
+       MEME etat : un GPU est deterministe, deux rendus identiques donnent le
+       meme resultat, et la mesure ne testait rien du tout.
+
+       Ce qu'il faut mesurer, c'est ce qui change alors que L'UTILISATEUR ne
+       bouge rien. On deroule donc la vraie boucle, image par image, temps
+       simule, camera FIGEE, et on compare les pixels d'une image a l'autre.
+
+       LE SEUIL SEPARE DEUX CHOSES QUI N'ONT RIEN A VOIR. La respiration des
+       spheres fait varier une couleur de un ou deux niveaux par image : c'est
+       voulu, doux, et invisible. Un conflit de profondeur fait BASCULER un
+       pixel d'une surface a l'autre, soit des dizaines de niveaux d'un coup.
+       Compter tout changement melangerait les deux ; on ne compte donc que
+       les sauts francs. */
+    /* INTERRUPTEURS DE DIAGNOSTIC. Pour trouver ce qui scintille, on eteint
+       une composante a la fois et on remesure. Celle dont l'extinction met le
+       compte a zero est la coupable. */
+    composante: (nom: string, actif: boolean) => {
+      if (nom === 'spheres') sphereMesh.visible = actif;
+      else if (nom === 'liens') linkMesh.visible = actif;
+      else if (nom === 'grain') grainMesh.visible = actif;
+      else if (nom === 'respiration') breathOn = actif;
+      else if (nom === 'repliees') repliesOn = actif;
+      return { nom, actif };
+    },
+
+    mesurerScintillement: (images = 12, seuil = 24, pasMs = 16.7) => {
+      const gl = renderer.getContext();
+      const w = renderer.domElement.width;
+      const h = renderer.domElement.height;
+      const a = new Uint8Array(w * h * 4);
+      const b = new Uint8Array(w * h * 4);
+
+      /* La camera est figee AVANT la premiere image et le reste : toute
+         difference mesuree vient de la scene, jamais du point de vue. */
+      azVel = 0;
+      elVel = 0;
+      dollyVel = 0;
+      applyCamera();
+
+      let t = performance.now();
+      const rendre = (cible: Uint8Array): void => {
+        t += pasMs;
+        avancer(t);
+        gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, cible);
+      };
+
+      rendre(a);
+      let pireSauts = 0;
+      let totalSauts = 0;
+      let pireEcart = 0;
+      let doux = 0;
+
+      for (let k = 0; k < images; k += 1) {
+        rendre(b);
+        let sauts = 0;
+        let ecart = 0;
+        let changes = 0;
+        for (let j = 0; j < a.length; j += 4) {
+          const d =
+            Math.abs((a[j] ?? 0) - (b[j] ?? 0)) +
+            Math.abs((a[j + 1] ?? 0) - (b[j + 1] ?? 0)) +
+            Math.abs((a[j + 2] ?? 0) - (b[j + 2] ?? 0));
+          if (d > 0) changes += 1;
+          if (d >= seuil) {
+            sauts += 1;
+            if (d > ecart) ecart = d;
+          }
+        }
+        totalSauts += sauts;
+        doux = Math.max(doux, changes - sauts);
+        if (sauts > pireSauts) pireSauts = sauts;
+        if (ecart > pireEcart) pireEcart = ecart;
+        a.set(b);
+      }
+
+      return {
+        largeur: w,
+        hauteur: h,
+        pixels: w * h,
+        images,
+        seuil,
+        /* LE CHIFFRE QUI COMPTE : pixels qui basculent franchement. */
+        sautsMax: pireSauts,
+        sautsMoyen: Math.round(totalSauts / images),
+        ecartMax: pireEcart,
+        /* Pour verifier que la mesure n'est pas aveugle : si ce nombre est a
+           zero lui aussi, c'est que rien ne bouge du tout et que la scene
+           n'anime pas, donc que la mesure ne prouve rien. */
+        variationsDouces: doux
+      };
+    },
     orbit: () => ({ azimuth, elevation, distance }),
     sphereRadius: (i: number) => sphereRadii[i] ?? 0,
     sphereBase: (i: number) => baseRadii[i] ?? 0,
@@ -2712,6 +2824,8 @@ const OVERLAP_TOLERANCE = 1;
     recenter,
     labelSnapshot: () => lastPlacedSnapshot,
     frameFamily: (fi: number) => frameFamily(fi, performance.now()),
+
+
     /* Recadre le NIVEAU COURANT : couronne au niveau famille, sous-anneau
        en descente. C'est ce que la coquille appelle quand la zone visible
        change (colonne, feuille) : re-cadrer la famille écrasait le cadrage
