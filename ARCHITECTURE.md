@@ -2553,6 +2553,139 @@ quelque chose que le site ne montre pas.
 
 ---
 
+## ADR-067 : Entrer dans un genre ferme l'ecran, le reste sort de la mise au point
+
+**Statut** : accepte, 12 aout 2026.
+
+**Contexte, tel qu'il a ete signale.** « Je suis dans Detroit Techno, et
+l'ecran montre BASS, AMBIENT, INDUSTRIAL, TRANCE, Baltimore Club, Gabber,
+Funk, Digital Hardcore. Aucun rapport avec Detroit Techno. » Le defaut etait
+reel et sa cause tenait en une ligne : le recul des voisins ne s'appliquait
+qu'a la famille focalisee, et l'attenuation des autres familles qu'au niveau
+famille. En mode genre, les treize autres familles passaient entre les deux
+branches et restaient a pleine presence.
+
+**Decision.** Ouvrir un genre ferme l'ecran sur une ZONE ACTIVE : le genre
+ouvert, ses derives directs, son parent direct. Tout le reste sort de la mise
+au point, perd ses noms, et **cesse de repondre au clic**. Les deux vont
+ensemble : un objet qu'on voit encore et qui ne repond plus est une panne ;
+un objet qui ne repond plus et qu'on voit flou est un arriere-plan.
+
+**Le flou est fait dans l'imposteur, sans post-traitement.** Un flou franc
+demanderait plusieurs cibles de rendu, ce qu'ADR-019 a refuse. Il n'y en a pas
+besoin : une sphere hors mise au point n'est pas une sphere nette qu'on
+flouterait, c'est un DISQUE DIFFUS, sans bord ni relief, et on peut la
+dessiner directement telle qu'elle doit paraitre. Trois choses ensemble, et
+il faut les trois : le bord s'etale (le terme d'antialiasing passe a 0,62),
+l'ombrage devient un aplat, l'opacite tombe a 18 %. L'anneau des noeuds a
+derives disparait completement, un trait fin etant la premiere chose que le
+flou emporte.
+
+**La couronne d'entree.** Les positions de la vue d'ensemble sont calculees
+une fois pour toutes pour que la famille tienne dans son volume. Vues de pres
+elles donnent des derives disperses, certains projetes SUR leur parent parce
+qu'ils sont derriere lui dans l'axe de la camera. A chaque descente, les
+derives sont donc redisposes sur un cercle centre sur le genre ouvert, dans
+le PLAN DE LA CAMERA au moment du clic : aucun enfant ne peut plus se
+retrouver derriere son parent. L'ordre angulaire d'avant est conserve, sinon
+un derive repere a droite se retrouverait a gauche.
+
+**Pourquoi les 44 px sont une propriete et non un reglage.** Le cadrage
+recule pour contenir la couronne. A n enfants, l'ecart a l'ecran vaut
+R·sin(π/n)·H / (1,12·(R+r)), qui ne depend plus de R des qu'il depasse le
+rayon des spheres : seuls le nombre d'enfants et la hauteur de la fenetre
+comptent.
+
+**Trois defauts trouves par la mesure, pas par le raisonnement.**
+
+1. La zone prenait tout le SOUS-ARBRE. Sur Detroit Techno, qui est la racine
+   de sa famille, elle contenait les seize genres techno : le mode focus ne
+   fermait plus rien. Ce sont les derives DIRECTS, ce qui est aussi le seul
+   niveau reellement deploye (ADR-056).
+2. Le parent n'etait pas place par la couronne. Sur un genre SANS derives, la
+   couronne etait vide, le parent restait soumis au recul general, et les
+   deux spheres de la zone se retrouvaient au meme endroit : ecart mesure 0
+   pixel, les deux noms se masquant l'un l'autre, ecran vide. Le parent est
+   desormais pose en haut a gauche, toujours, parce que c'est d'ou l'on vient.
+3. La couronne ignorait ce qui commande le cadrage. Le parent est ecarte
+   proportionnellement a SON rayon, et un fondateur de famille est la plus
+   grosse sphere de l'atlas : sur Dub Techno, le cadrage reculait pour
+   contenir Detroit Techno pendant que la couronne, calculee sur les petits
+   rayons des derives, restait minuscule. Ecart mesure : 27 px, sous la
+   cible. La couronne se met maintenant a l'echelle de ce qui commande le
+   cadrage.
+
+**Le flou est regle par le TEMPS, pas par les images.** Premiere version : un
+lissage exponentiel par image, comme le reste du fichier. Il donne 400 ms a
+soixante images par seconde et n'importe quoi ailleurs. Les positions, elles,
+sont reglees par le temps : la carte se reorganisait donc AVANT que
+l'arriere-plan ne s'efface. Une duree demandee en millisecondes se tient en
+millisecondes.
+
+**Sortir.** Echap remonte d'un cran. Un SECOND Echap, sans autre geste entre
+les deux, ou un clic dans le flou, sort du mode et rend la vue d'ensemble
+nette, sans repasser par les niveaux intermediaires. Le fil d'Ariane reste
+net et cliquable : il vit hors du canvas, le flou ne l'atteint pas.
+
+**Mesure finale**, fenetre 1273 x 720, colonne ouverte, cadre sur Detroit
+Techno : 7 cibles, ecart minimal 50 px entre surfaces, flou des 88 spheres
+hors zone a 1,00 sans exception, 7 noms affiches et pas un de plus. Et sur
+4440 points de la carte sondes en grille, 162 touchent une cible, **toutes
+dans la zone, zero capture hors zone**.
+
+---
+
+## ADR-068 : La colonne du lecteur est ouverte en permanence
+
+**Statut** : accepte, 12 aout 2026.
+
+**Decision.** La colonne ne se ferme plus. Elle se REDUIT par un bouton
+explicite, et le meme bouton la rappelle. La difference n'est pas cosmetique :
+une colonne fermee n'existe plus et il faut deviner comment la faire revenir ;
+une colonne reduite laisse son onglet a l'ecran, donc le chemin du retour est
+visible.
+
+**Elle montre toujours quelque chose.** Avant le premier clic, un genre tire
+au sort parmi ceux qui ont au moins cinq morceaux, different a chaque visite.
+C'est une invitation a decouvrir, et ca dit en une seconde a quoi sert le
+site. Le seuil de cinq evite qu'un genre pauvre donne la premiere impression
+d'un corpus vide. **Aucune lecture ne demarre jamais seule** : le morceau est
+charge, pret, silencieux.
+
+**Ouvrir une famille remplit aussi la colonne**, avec son fondateur, cherche
+comme la racine de l'arbre et non suppose « premier de la liste ». Sans cela,
+la colonne gardait le genre precedent pendant qu'on entrait ailleurs, seul
+moment ou l'ecran se contredisait.
+
+**L'arrivee, une seule fois.** Au tout premier chargement, la colonne se fait
+attendre cinq secondes puis glisse depuis la droite en 600 ms. Les cinq
+secondes laissent voir la carte et l'intro. Aux visites suivantes elle est la
+d'emblee : une animation d'arrivee qu'on rejoue devient une attente. Coupee
+par prefers-reduced-motion.
+
+**Consequences a l'interieur.** Echap appartient desormais a la carte,
+toujours : il fermait la colonne, la colonne ne se ferme plus, et le laisser
+la aurait rendu Echap inoperant sur la carte pour toujours. L'espace
+appartient au lecteur pour la meme raison. Le segment « Tracks » disparait du
+fil d'Ariane : il annoncait l'ouverture de la colonne, il serait la en
+permanence et ne dirait plus rien. Sur mobile, la feuille arrive en BARRE et
+non a mi-hauteur : sur un petit ecran la carte a besoin de toute la place.
+Elle monte a mi-hauteur quand on ouvre un genre, ce qui est une action et non
+un defaut.
+
+**Le cadrage suit.** L'attribut qui retrecit le canvas est pose en
+permanence, et le moteur recalcule le cadrage des quatorze familles sur la
+zone reellement disponible. Verifie a 1273 px comme a 390 px.
+
+**Un piege de developpement paye.** Le garde « ne pas ouvrir la feuille au
+premier rendu » etait une reference marquee une fois. En developpement, React
+monte, demonte et remonte les effets ; la marque survivait au demontage, et la
+feuille s'ouvrait a mi-hauteur des le chargement sur mobile. Le garde compare
+desormais la VALEUR precedente : c'est vrai quel que soit le nombre de fois
+ou l'effet est rejoue.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle

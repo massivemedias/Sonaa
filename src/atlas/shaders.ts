@@ -53,6 +53,7 @@ attribute float aRadius;
 attribute vec3 aColor;
 attribute vec4 aState; // x: présence, y: halo, z: dérivés, w: étiquetée
 attribute float aExtinct; // 1 : genre éteint, plus aucun label ne le porte
+attribute float aDefocus; // 0 net, 1 hors de la zone active : flou de mise au point
 
 uniform vec3 uCameraPos;
 
@@ -63,6 +64,7 @@ varying vec3 vColor;
 varying vec4 vState;
 varying float vViewDepth;
 varying float vExtinct;
+varying float vDefocus;
 
 void main() {
   vUv = uv;
@@ -71,6 +73,7 @@ void main() {
   vColor = aColor;
   vState = aState;
   vExtinct = aExtinct;
+  vDefocus = aDefocus;
 
   vec3 toCam = normalize(uCameraPos - aCenter);
   vec3 seed = abs(toCam.y) > 0.94 ? vec3(1.0, 0.0, 0.0) : vec3(0.0, 1.0, 0.0);
@@ -97,6 +100,7 @@ varying vec3 vColor;
 varying vec4 vState;
 varying float vViewDepth;
 varying float vExtinct;
+varying float vDefocus;
 
 uniform vec3 uCameraPos;
 uniform vec3 uLightDir;
@@ -118,6 +122,22 @@ void main() {
   // cette profondeur, jamais d'une dérivée.
   float pixelWorld = uPixelScale * vViewDepth;
   float aa = clamp(pixelWorld / max(vRadius, 0.001), 0.004, 0.5);
+
+  /* LE FLOU DE MISE AU POINT, DANS L'IMPOSTEUR.
+
+     Un flou franc demanderait normalement une passe de post-traitement, donc
+     plusieurs cibles de rendu : c'est exactement ce qu'ADR-019 a refusé, et
+     pour la même raison qu'alors, le nombre d'appels de dessin. Il n'y en a
+     pas besoin ici, parce qu'une sphère hors mise au point n'est pas une
+     sphère nette qu'on aurait floutée : c'est un DISQUE DIFFUS, sans bord ni
+     relief. On peut donc la dessiner directement telle qu'elle doit paraître.
+
+     Trois choses arrivent ensemble, et il faut les trois : le bord s'étale
+     très largement (aa passe de quelques millièmes à 0.62), le corps perd son
+     ombrage pour devenir un aplat, et l'opacité tombe. Une seule des trois ne
+     suffirait pas : un bord flou sur un corps encore modelé se lit comme une
+     sphère mal dessinée, pas comme une sphère hors du plan de netteté. */
+  aa = mix(aa, 0.62, vDefocus);
   float body = 1.0 - smoothstep(1.0 - aa, 1.0 + aa, r);
 
   /* Anneau indicateur. Il doit se remarquer quand on le cherche, pas encadrer
@@ -156,6 +176,12 @@ void main() {
   float epaisseurPx = 0.027 * (vRadius / max(pixelWorld, 1e-6));
   ring *= smoothstep(0.7, 2.0, epaisseurPx);
 
+  /* Hors mise au point, l'anneau n'existe plus du tout. Un trait fin est la
+     PREMIÈRE chose que le flou emporte dans l'optique réelle, et il désigne
+     ici quelque chose qu'on ne peut plus cliquer : le laisser serait à la
+     fois faux optiquement et menteur pour l'utilisateur. */
+  ring *= 1.0 - vDefocus;
+
   /* PAPILLOTEMENT DES SPHERES SOUS-PIXEL.
 
      Les genres sont disposes sur des orbites concentriques, et la
@@ -177,6 +203,10 @@ void main() {
   float couverture = clamp(rayonPx * rayonPx, 0.0, 1.0);
 
   float alpha = (body + ring * 0.35) * presence * couverture;
+  /* L'opacité tombe à 18 % : assez pour que la carte garde une profondeur
+     et qu'on voie qu'il y a un ailleurs, trop peu pour qu'on cherche à y
+     lire quoi que ce soit. */
+  alpha *= 1.0 - vDefocus * 0.82;
   if (alpha < 0.02) discard;
 
   // Normale analytique du disque : c'est une sphère sans géométrie de sphère.
@@ -199,8 +229,12 @@ void main() {
      pèse déjà douze points de luminosité, l'assombrissement direct n'a
      besoin que de quatre pour atteindre -16 % au total, et la désaturation
      réelle à l'écran demande 0.64 de mélange pour mesurer -42 %. */
-  float rimAmount = 0.55 * (1.0 - vExtinct * 0.72);
-  vec3 col = vColor * lambert + vColor * rim * rimAmount;
+  /* Hors mise au point, le modelé disparaît : plus de lambertien, plus de
+     liseré, un aplat de la teinte de la famille. C'est ce qui distingue un
+     disque diffus d'une petite sphère nette qu'on aurait rendue pâle. */
+  float rimAmount = 0.55 * (1.0 - vExtinct * 0.72) * (1.0 - vDefocus);
+  float lambertFlou = mix(lambert, 0.62, vDefocus);
+  vec3 col = vColor * lambertFlou + vColor * rim * rimAmount;
   float grey = dot(col, vec3(0.2126, 0.7152, 0.0722));
   col = mix(col, vec3(grey), vExtinct * 0.64);
   col *= 1.0 - vExtinct * 0.04;

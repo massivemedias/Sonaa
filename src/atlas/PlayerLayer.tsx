@@ -48,10 +48,13 @@ export interface Playback {
 }
 
 interface Props {
-  /** Genre dont la colonne est ouverte, ou null. Change souvent : le contenu
-      se remplace, la lecture continue. */
-  panelGenre: { familyIndex: number; genreLocal: number } | null;
-  onClose: () => void;
+  /* Genre affiché par la colonne. JAMAIS null : la colonne est ouverte en
+     permanence et montre un genre tiré au sort tant qu'on n'a rien ouvert.
+     Change souvent : le contenu se remplace, la lecture continue. */
+  panelGenre: { familyIndex: number; genreLocal: number };
+  /* L'accueil est passé : la colonne peut faire son entrée. Tant que l'écran
+     de bienvenue est là, elle attend, sinon elle glisserait par-dessus. */
+  demarrer: boolean;
   onReopen: (familyIndex: number, genreLocal: number) => void;
   onGoToGenre: (familyIndex: number, genreLocal: number) => void;
   /** Une greffe pointe une famille : le clic vole vers elle. */
@@ -130,7 +133,7 @@ const mmss = (s: number): string => {
 
 // -------------------------------------------------------------- composant
 
-export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoToFamily, onFrameCurrent }: Props) {
+export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoToFamily, onFrameCurrent }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const slotRef = useRef<HTMLDivElement>(null);
   const mediaRef = useRef<HTMLDivElement>(null);
@@ -145,7 +148,59 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
   const [apiFailed, setApiFailed] = useState(false);
   const [tab, setTab] = useState<'essentiel' | 'actuel'>('essentiel');
   const [infoOpen, setInfoOpen] = useState(true);
-  const [sheetPos, setSheetPos] = useState<SheetPos>('half');
+  /* LA FEUILLE MOBILE ARRIVE EN BARRE, pas à mi-hauteur. Sur un téléphone la
+     carte a besoin de toute la place, et une feuille à mi-hauteur au premier
+     chargement cache la moitié de ce qu'on vient d'ouvrir le site pour voir.
+     Elle monte à mi-hauteur quand on OUVRE un genre, ce qui est une action,
+     pas un défaut. */
+  const [sheetPos, setSheetPos] = useState<SheetPos>('bar');
+
+  /* LA COLONNE NE SE FERME PLUS, ELLE SE RÉDUIT.
+
+     Un bouton explicite la réduit, le même la rappelle. La différence n'est
+     pas cosmétique : une colonne fermée n'existe plus et il faut savoir
+     comment la faire revenir ; une colonne réduite laisse son bouton à
+     l'écran, donc le chemin du retour est visible en permanence. */
+  const [reduite, setReduite] = useState(false);
+
+  /* L'ENTRÉE, une seule fois dans la vie du navigateur.
+
+     Au tout premier chargement la colonne se fait attendre cinq secondes,
+     puis glisse depuis la droite. Les cinq secondes ne sont pas un effet :
+     elles laissent voir la carte et l'intro, qui sont ce qu'on est venu
+     voir. Aux visites suivantes elle est là dès le départ, sans glissement,
+     parce qu'une animation d'arrivée qu'on rejoue à chaque fois devient une
+     attente. */
+  const ENTREE_KEY = 'sonaa-colonne-vue';
+  const dejaVue = (): boolean => {
+    try {
+      return localStorage.getItem(ENTREE_KEY) === '1';
+    } catch {
+      return true; // navigation privée : pas d'animation, jamais de blocage.
+    }
+  };
+  const mouvementReduit =
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const [entree, setEntree] = useState<'attente' | 'glisse' | 'posee'>(() =>
+    dejaVue() || mouvementReduit ? 'posee' : 'attente'
+  );
+
+  useEffect(() => {
+    if (entree !== 'attente') return;
+    if (!demarrer) return; // l'écran d'accueil est encore là : on ne monte pas dessus.
+    const id = window.setTimeout(() => {
+      setEntree('glisse');
+      try {
+        localStorage.setItem(ENTREE_KEY, '1');
+      } catch {
+        /* sans écriture, l'entrée se rejouera : dégradé, jamais cassé. */
+      }
+      /* 600 ms de glissement, puis l'état se fige : garder la classe
+         d'animation ferait rejouer la transition au moindre re-rendu. */
+      window.setTimeout(() => setEntree('posee'), 600);
+    }, 5000);
+    return () => window.clearTimeout(id);
+  }, [entree, demarrer]);
   /* Erreur YouTube : vidéo retirée ou bloquée. Message honnête, passage à
      la suivante, et on s'arrête si tout un tour de liste a échoué. */
   const [notice, setNotice] = useState<string | null>(null);
@@ -347,20 +402,38 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
   useEffect(() => {
     const root = document.querySelector('.atlas-root');
     if (!root) return;
-    if (panelGenre && !narrow) root.setAttribute('data-player-open', 'true');
+    /* La carte doit compter avec la colonne EN PERMANENCE, et non plus
+       seulement quand elle s'ouvrait : c'est cet attribut qui rétrécit le
+       canvas, et le moteur recalcule le cadrage des quatorze familles sur la
+       zone réellement disponible. Tant que l'entrée n'a pas eu lieu, la
+       colonne n'est pas là et la carte a tout l'écran.
+       Réduite, la colonne rend sa place : c'est tout l'intérêt du bouton. */
+    const presente = !reduite && entree !== 'attente';
+    if (presente && !narrow) root.setAttribute('data-player-open', 'true');
     else root.removeAttribute('data-player-open');
-    if (panelGenre && narrow) root.setAttribute('data-sheet-pos', sheetPos);
+    if (presente && narrow) root.setAttribute('data-sheet-pos', sheetPos);
     else root.removeAttribute('data-sheet-pos');
     return () => {
       root.removeAttribute('data-player-open');
       root.removeAttribute('data-sheet-pos');
     };
-  }, [panelGenre, narrow, sheetPos]);
+  }, [reduite, entree, narrow, sheetPos]);
 
-  // Ouvrir une colonne remet la feuille mobile à mi-hauteur.
+  /* OUVRIR un genre monte la feuille à mi-hauteur, l'arrivée ne le fait pas.
+
+     Le garde compare la VALEUR précédente, il ne compte pas les rendus. Une
+     première version marquait « premier rendu vu » dans une référence : en
+     développement, React monte, démonte et remonte les effets, la marque
+     survivait au démontage, et la feuille s'ouvrait à mi-hauteur dès le
+     chargement sur mobile, mesuré à 390 px. Comparer la valeur est vrai quel
+     que soit le nombre de fois où l'effet est rejoué. */
+  const dernierGenre = useRef(panelGenre);
   useEffect(() => {
-    if (panelGenre) setSheetPos('half');
-  }, [panelGenre]);
+    if (dernierGenre.current === panelGenre) return;
+    dernierGenre.current = panelGenre;
+    setReduite(false); // ouvrir un genre rappelle une colonne réduite.
+    if (narrow) setSheetPos('half');
+  }, [panelGenre, narrow]);
 
   /* VUE DÉDOUBLÉE : la zone visible de la carte change quand la colonne
      s'ouvre ou que la feuille bouge. On recadre alors sur la FAMILLE du
@@ -373,18 +446,17 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
     return () => window.clearTimeout(id);
   }, [panelGenre, sheetPos, narrow, onFrameCurrent]);
 
-  /* Le logotype ramène à l'accueil : si quelque chose joue sur mobile, la
-     feuille passe en barre discrète, la lecture continue ; sinon la colonne
-     se ferme. L'événement vient d'AtlasPage. */
+  /* Le logotype ramène à l'accueil. Sur mobile la feuille redescend en barre
+     pour rendre la carte entière ; sur poste de bureau la colonne ne bouge
+     pas, puisqu'elle ne se ferme plus. La lecture continue dans les deux
+     cas, c'est la règle qui n'a jamais changé. L'événement vient d'AtlasPage. */
   useEffect(() => {
     const onHome = (): void => {
-      if (!panelGenre) return;
-      if (narrow && playback) setSheetPos('bar');
-      else onClose();
+      if (narrow) setSheetPos('bar');
     };
     window.addEventListener('sonaa:home', onHome);
     return () => window.removeEventListener('sonaa:home', onHome);
-  }, [panelGenre, narrow, playback, onClose]);
+  }, [narrow]);
 
   // --- lecteur ------------------------------------------------------------
 
@@ -587,13 +659,14 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
 
   // --- clavier ------------------------------------------------------------
 
+  /* ÉCHAP N'APPARTIENT PLUS À LA COLONNE. Il la fermait ; elle ne se ferme
+     plus. Le laisser ici aurait avalé la touche avant la carte, et le mode
+     focus n'aurait eu aucun moyen de sortie au clavier. Échap est à la
+     carte, l'espace est au lecteur : chacun sa touche, aucune des deux
+     partagée. */
   useEffect(() => {
     const onKey = (event: KeyboardEvent): void => {
       if (event.target instanceof HTMLInputElement) return;
-      if (event.key === 'Escape' && panelGenre) {
-        event.preventDefault();
-        onClose();
-      }
       if (event.code === 'Space' && playback) {
         event.preventDefault();
         toggle();
@@ -601,7 +674,7 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [panelGenre, playback, onClose, toggle]);
+  }, [playback, toggle]);
 
   // --- feuille mobile : glissement vertical entre les trois positions ------
 
@@ -708,10 +781,26 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
         <div ref={slotRef} className="yt-slot" data-idle={!playback} />
       </div>
 
-      {panelGenre && panelGenreData && panelFamily && (
+      {/* RAPPEL DE LA COLONNE RÉDUITE. Le seul chemin de retour, donc il est
+          toujours visible : une colonne qu'on réduit sans laisser de bouton
+          est une colonne qu'on a fermée. */}
+      {reduite && panelGenreData && (
+        <button
+          className="pcol-rappel"
+          onClick={() => setReduite(false)}
+          aria-label={`Rouvrir le lecteur, ${panelGenreData.label}`}
+          title="Rouvrir le lecteur"
+        >
+          <span className="pcol-rappel-nom">{panelGenreData.label}</span>
+          <span aria-hidden="true">‹</span>
+        </button>
+      )}
+
+      {!reduite && panelGenreData && panelFamily && (
         <aside
           className="pcol"
           data-sheet={narrow ? sheetPos : undefined}
+          data-entree={entree}
           role="complementary"
           aria-label={`Lecteur, genre ${panelGenreData.label}`}
           style={{ ['--family' as string]: `oklch(0.72 0.15 ${panelFamily.hue})` }}
@@ -1157,14 +1246,25 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
           </div>
 
 
-          <button className="pcol-close" onClick={onClose} aria-label="Fermer la colonne (Échap)">
-            ✕
+          {/* RÉDUIRE, et non fermer. Le chevron dit le geste : la colonne
+              part vers la droite et laisse un onglet qui la rappelle. Une
+              croix aurait promis une fermeture qui n'existe plus. */}
+          <button
+            className="pcol-close"
+            onClick={() => setReduite(true)}
+            aria-label="Réduire le lecteur"
+            title="Réduire le lecteur"
+          >
+            ›
           </button>
         </aside>
       )}
 
       {/* Barre discrète : la lecture continue, colonne fermée. */}
-      {playback && !panelGenre && currentTrack && (
+      {/* Barre discrète : la lecture reste pilotable quand la colonne est
+          réduite. Elle n'apparaît plus « colonne fermée », puisqu'il n'y a
+          plus de fermeture. */}
+      {playback && reduite && currentTrack && (
         <div className="mini" role="region" aria-label="Lecture en cours">
           <button
             className="mini-back"

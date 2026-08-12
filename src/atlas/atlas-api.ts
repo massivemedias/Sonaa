@@ -38,8 +38,12 @@ export interface NavState {
   genreIndex: number;
   genreLabel: string;
   genreHasChildren: boolean;
-  /** Chemin complet de descente, pour le fil d'Ariane. */
-  path: { index: number; label: string }[];
+  /* Chemin complet de descente, pour le fil d'Ariane. `index` est global,
+     `local` est l'index dans la famille : le fil d'Ariane redescend sur un
+     segment, et l'API de descente parle en index local. Sans lui, la coquille
+     devait refaire la conversion, et elle ne pouvait pas : les décalages de
+     famille vivent dans le moteur. */
+  path: { index: number; local: number; label: string }[];
 }
 
 /* Le lecteur n'est plus une plaque dans la scène : c'est un panneau DOM

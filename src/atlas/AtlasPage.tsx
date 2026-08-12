@@ -80,6 +80,36 @@ const WELCOME_KEY = 'sonaa-welcome-seen';
    l'accueil : « revoir l'intro » sur les crédits n'a pas à repasser l'accueil. */
 const INTRO_KEY = 'sonaa-intro-seen';
 
+/* LE GENRE D'ACCUEIL DE LA COLONNE.
+
+   La colonne est ouverte en permanence, donc elle a quelque chose à montrer
+   AVANT le premier clic. Un genre tiré au sort, différent à chaque visite :
+   c'est une invitation à découvrir, et ça dit en une seconde à quoi sert le
+   site, ce qu'aucune phrase ne fait aussi bien.
+
+   Le tirage se limite aux genres BIEN POURVUS, cinq morceaux au moins. Un
+   genre qui en a deux donnerait une première impression de corpus vide, et
+   c'est la première impression qu'on ne rejoue pas. Toutes les tracks du
+   corpus publié sont vérifiées, le compte suffit donc à qualifier.
+
+   Math.random est ici volontaire : le but EST que ce soit différent d'une
+   visite à l'autre. Rien n'en dépend qui doive être reproductible. */
+const SEUIL_ACCUEIL = 5;
+
+const genreDAccueil = (): { familyIndex: number; genreLocal: number } => {
+  const candidats: { familyIndex: number; genreLocal: number }[] = [];
+  STRUCTURES.forEach((structure, fi) => {
+    structure.genres.forEach((genre, gi) => {
+      const n = genre.tracksEssentiel.length + genre.tracksActuel.length;
+      if (n >= SEUIL_ACCUEIL) candidats.push({ familyIndex: fi, genreLocal: gi });
+    });
+  });
+  /* Repli : si le seuil ne laissait personne, on prend le premier genre
+     plutôt que de rendre une colonne vide. Ce cas n'existe pas dans le
+     corpus publié, il existe dans un corpus en cours d'écriture. */
+  return candidats[Math.floor(Math.random() * candidats.length)] ?? { familyIndex: 0, genreLocal: 0 };
+};
+
 /* SVG inline depuis les données d'icône : pas de fontawesome-svg-core, pas
    de police, pas de CDN. Le glyphe hérite de currentColor (noir sur le rond
    blanc), taille optique ~40 % du diamètre via la CSS. */
@@ -112,8 +142,12 @@ export function AtlasPage() {
   // 3D libre par défaut (verdict de Mika) ; un choix mémorisé est respecté.
   const [view, setView] = useState<ViewId>(() => readView() ?? 'libre');
   const [nav, setNav] = useState<NavState | null>(null);
-  const [panelGenre, setPanelGenre] = useState<{ familyIndex: number; genreLocal: number } | null>(
-    null
+  /* LA COLONNE NE SE FERME PLUS. `panelGenre` n'est donc JAMAIS null : il
+     porte le genre d'accueil tiré au sort tant qu'on n'a rien ouvert. Le
+     type non nullable n'est pas cosmétique, c'est ce qui empêche de
+     réintroduire une fermeture par mégarde ailleurs dans le fichier. */
+  const [panelGenre, setPanelGenre] = useState<{ familyIndex: number; genreLocal: number }>(
+    genreDAccueil
   );
   const [searchOpen, setSearchOpen] = useState(false);
   /* Légende de navigation : aide-mémoire PERMANENT, repliable en une ligne,
@@ -150,11 +184,11 @@ export function AtlasPage() {
     []
   );
 
-  /* Le panneau n'a plus de géométrie par image : le moteur signale
-     seulement l'ouverture et la fermeture. */
-  const onPanel = useCallback((state: PanelState | null) => {
-    if (state === null) setPanelGenre(null);
-  }, []);
+  /* Le moteur signalait la fermeture du panneau ; il n'y a plus de
+     fermeture. Le rappel reste au contrat pour ne pas toucher aux six
+     interfaces, mais il ne vide plus la colonne : c'était le seul chemin par
+     lequel elle pouvait redevenir vide. */
+  const onPanel = useCallback((_state: PanelState | null) => {}, []);
 
   /* La colonne du lecteur ne suspend PLUS la carte : elle reste vivante à
      côté, on navigue pendant que la musique joue. */
@@ -269,10 +303,9 @@ export function AtlasPage() {
      sphère du genre. On continue donc à orbiter et à zoomer pendant qu'il est
      ouvert, et la plaque suit la caméra sans jamais tourner sur elle-même. */
 
-  const closePanel = useCallback(() => {
-    setPanelGenre(null);
-    apiRef.current?.closePanel();
-  }, []);
+  /* Il n'y a plus de fermeture, seulement une RÉDUCTION, et c'est la colonne
+     elle-même qui la tient : elle sait si elle est réduite, la coquille n'a
+     pas à le savoir. */
 
   /* Retour à l'Atlas : cadrage d'ensemble et fil d'Ariane remis à zéro.
      C'est ce que fait le premier segment du fil d'Ariane, et le logotype.
@@ -305,15 +338,19 @@ export function AtlasPage() {
     const onKey = (event: KeyboardEvent): void => {
       if (event.target instanceof HTMLInputElement) return;
       if (searchOpen) return;
-      const spaceForSearch = event.code === 'Space' && panelGenre === null;
-      if (event.key === '/' || spaceForSearch) {
+      /* L'ESPACE APPARTIENT AU LECTEUR, désormais toujours. Il ouvrait la
+         recherche tant qu'aucune colonne n'était ouverte ; la colonne est
+         maintenant toujours ouverte, et l'espace est lecture-pause partout
+         ailleurs sur le web. La barre oblique reste le raccourci de
+         recherche, et la légende le dit. */
+      if (event.key === '/') {
         event.preventDefault();
         setSearchOpen(true);
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [searchOpen, panelGenre]);
+  }, [searchOpen]);
 
   const goToGenre = useCallback((familyIndex: number, genreLocal: number) => {
     if (!apiRef.current) {
@@ -410,7 +447,7 @@ export function AtlasPage() {
           /* Sous 600 px : deux segments au plus, précédés d'un chevron qui
              déploie le chemin complet. Une ligne, jamais deux. */
           const totalSegments =
-            1 + (nav && nav.familyIndex >= 0 ? 1 : 0) + (nav?.path.length ?? 0) + (panelGenre ? 1 : 0);
+            1 + (nav && nav.familyIndex >= 0 ? 1 : 0) + (nav?.path.length ?? 0);
           if (narrow && !crumbsExpanded && totalSegments > 2) {
             return (
               <button
@@ -444,34 +481,39 @@ export function AtlasPage() {
             current: boolean;
             onClick?: () => void;
           }
+          /* PLUS DE SEGMENT « TRACKS ». Il annonçait l'ouverture de la
+             colonne ; la colonne est toujours ouverte, il serait toujours là
+             et ne dirait plus rien. Le dernier genre du chemin est la vérité
+             de l'endroit où l'on est.
+
+             Le fil d'Ariane reste NET et cliquable en mode focus : il vit
+             hors du canvas, le flou ne l'atteint pas, et c'est par lui qu'on
+             remonte sans avoir à viser une sphère. */
           const segments: Seg[] = [
-            { key: 'atlas', label: 'Atlas', current: level === 'atlas' && !panelGenre, onClick: backToAtlas }
+            { key: 'atlas', label: 'Atlas', current: level === 'atlas', onClick: backToAtlas }
           ];
           if (nav && nav.familyIndex >= 0) {
             const fi = nav.familyIndex;
             segments.push({
               key: 'family',
               label: nav.familyLabel,
-              current: level === 'family' && !panelGenre,
-              onClick: () => {
-                setPanelGenre(null);
-                apiRef.current?.closePanel();
-                apiRef.current?.goToFamily(fi);
-              }
+              current: level === 'family',
+              onClick: () => apiRef.current?.goToFamily(fi)
             });
           }
           nav?.path.forEach((seg, i) => {
+            const fi = nav.familyIndex;
             segments.push({
               key: `g-${seg.index}`,
               label: seg.label,
-              current: !panelGenre && i === (nav.path.length - 1),
-              onClick: () => {
-                setPanelGenre(null);
-                apiRef.current?.closePanel();
-              }
+              current: i === nav.path.length - 1,
+              /* Un segment de genre REDESCEND sur ce genre : il refait sa
+                 couronne, referme la zone sur lui et remplace le contenu de
+                 la colonne. Avant, il se contentait de vider la colonne, ce
+                 qui laissait la carte où elle était. */
+              onClick: () => goToGenre(fi, seg.local)
             });
           });
-          if (panelGenre) segments.push({ key: 'tracks', label: 'Tracks', current: true });
 
           const shown = narrow && !crumbsExpanded ? segments.slice(-2) : segments;
           return shown.map((seg, i) => (
@@ -569,7 +611,7 @@ export function AtlasPage() {
           La règle est absolue : la lecture survit à tout. */}
       <PlayerLayer
         panelGenre={panelGenre}
-        onClose={closePanel}
+        demarrer={!showWelcome}
         onReopen={reopenPanel}
         onGoToGenre={goToGenre}
         onGoToFamily={(familyIndex: number) => apiRef.current?.goToFamily(familyIndex)}

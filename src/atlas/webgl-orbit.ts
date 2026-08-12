@@ -328,6 +328,14 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     sphereGeometry.setAttribute('aExtinct', new InstancedBufferAttribute(extinct, 1));
   }
 
+  /* MODE FOCUS : ce qui n'est pas dans la zone active sort de la mise au
+     point. Attribut dynamique, monté et descendu en 400 ms comme le reste de
+     la descente. Voir sphereFrag pour ce que le flou fait réellement. */
+  const defocus = new Float32Array(TOTAL_GENRES);
+  const defocusAttr = new InstancedBufferAttribute(defocus, 1);
+  defocusAttr.setUsage(35048);
+  sphereGeometry.setAttribute('aDefocus', defocusAttr);
+
   const sphereUniforms = {
     uCameraPos: { value: cameraPos },
     uLightDir: { value: new Vector3(0.42, 0.72, 0.55).normalize() },
@@ -581,6 +589,9 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   let focusStart = -1e9;
   let focusIndex = -1;
   let focusDir = 0; // 1 on descend, -1 on remonte
+  /* Deuxième Échap consécutif : il sort du mode focus au lieu de remonter
+     encore d'un cran. Tout autre geste le désarme. */
+  let echapArme = false;
   const FOCUS_MS = 400;
   const FOCUS_DELAY_MS = 45;
 
@@ -640,7 +651,11 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       genreIndex: activeGenre,
       genreLabel: gen?.label ?? '',
       genreHasChildren: (gen?.children.length ?? 0) > 0,
-      path: genrePath.map((gi) => ({ index: gi, label: slotsData[gi]?.label ?? '' }))
+      path: genrePath.map((gi) => ({
+        index: gi,
+        local: slotsData[gi]?.local ?? 0,
+        label: slotsData[gi]?.label ?? ''
+      }))
     });
   };
 
@@ -662,6 +677,226 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       guard += 1;
     }
     return false;
+  };
+
+  /* ================================================================== FOCUS
+     LA ZONE ACTIVE : le genre ouvert, ses dérivés, son parent direct.
+
+     Le reste de la carte sort de la mise au point ET cesse de répondre au
+     clic. Les deux vont ensemble : un objet qu'on voit encore et qui ne
+     répond plus est une panne ; un objet qui ne répond plus et qu'on voit
+     flou est un arrière-plan. C'est la même information dite deux fois, à
+     l'oeil et au doigt.
+
+     La zone est un tableau et non un test recalculé : elle sert à chaque
+     image pour 218 sphères, et à chaque clic pour le pointage. Deux
+     lectures de la même vérité, jamais deux calculs qui pourraient diverger. */
+  const zone = new Uint8Array(TOTAL_GENRES);
+  let zoneParent = -1;
+  let zoneActive = false;
+
+  /* LA RAMPE DE FLOU EST RÉGLÉE PAR LE TEMPS, PAS PAR LES IMAGES.
+
+     Première version : un lissage exponentiel par image, 0,15, comme le
+     reste du fichier. Il donne bien 400 ms à soixante images par seconde,
+     et n'importe quoi d'autre partout ailleurs. La mesure l'a pris en
+     défaut : dans un onglet dont la cadence est bridée, le flou mettait
+     plusieurs secondes à s'installer alors que les positions, elles, sont
+     réglées par le temps et arrivaient à l'heure. La carte se réorganisait
+     donc AVANT que l'arrière-plan ne s'efface.
+
+     On garde la valeur de départ au moment où la zone change, et on
+     interpole vers la cible sur FOCUS_MS. Une durée demandée en
+     millisecondes se tient en millisecondes. */
+  const defocusDepart = new Float32Array(TOTAL_GENRES);
+  let zoneStart = -1e9;
+
+  const rebuildZone = (): void => {
+    defocusDepart.set(defocus);
+    zoneStart = performance.now();
+    zone.fill(0);
+    zoneParent = -1;
+    zoneActive = focusIndex >= 0 && focusDir === 1;
+    if (!zoneActive) return;
+    const slot = slotsData[focusIndex];
+    if (!slot) {
+      zoneActive = false;
+      return;
+    }
+    zone[focusIndex] = 1;
+
+    /* LES DÉRIVÉS DIRECTS, ET EUX SEULS.
+
+       La première version prenait tout le sous-arbre. Mesuré sur Detroit
+       Techno, qui est la racine de sa famille : la zone contenait les SEIZE
+       genres techno, c'est-à-dire la famille entière, et le mode focus ne
+       fermait plus rien du tout.
+
+       C'est aussi ce qui est cohérent avec le déploiement à un seul niveau
+       (ADR-056) : les générations plus profondes sont repliées sur leur
+       parent, invisibles, et de rayon nul à l'écran. Les compter comme
+       cibles donnait des écarts négatifs entre deux sphères confondues. */
+    const base = familyOffset[slot.family] ?? 0;
+    for (const local of slot.children) zone[base + local] = 1;
+    /* Le parent direct garde le fil : sans lui on ne sait plus d'où l'on
+       vient, et remonter demanderait de sortir du mode. */
+    if (slot.parent >= 0) {
+      zoneParent = base + slot.parent;
+      zone[zoneParent] = 1;
+    }
+  };
+
+  /* LA COURONNE D'ENTRÉE, recalculée à chaque descente.
+
+     POURQUOI ON NE RÉUTILISE PAS LES POSITIONS DE LA VUE D'ENSEMBLE. Elles
+     sont calculées une fois pour toutes, au build, pour que la famille
+     entière tienne dans son volume. Vues de près, elles donnent exactement
+     ce qui a été signalé : des dérivés dispersés, certains projetés SUR leur
+     parent parce qu'ils sont derrière lui dans l'axe de la caméra, et des
+     cibles de quelques pixels.
+
+     Ce que fait cette couronne : elle place les enfants directs sur un
+     cercle centré sur le genre ouvert, dans le PLAN DE LA CAMÉRA au moment
+     du clic. Aucun enfant ne peut donc se retrouver derrière son parent, et
+     l'écart angulaire est le même pour tous.
+
+     POURQUOI 44 PX SONT GARANTIS SANS AVOIR À CHOISIR UN RAYON. Le cadrage
+     recule pour contenir la couronne : à n enfants, l'écart à l'écran vaut
+     R·sin(π/n)·H / (1,12·(R+r)), qui tend vers sin(π/n)·H/1,12 dès que R
+     dépasse le rayon des sphères. L'écart ne dépend donc PAS du rayon choisi
+     mais du nombre d'enfants et de la hauteur de la fenêtre. Le pire cas du
+     corpus est de 14 enfants directs : sin(π/14)·H/1,12 = 0,20·H, soit 76 px
+     sur une fenêtre de 390 px de haut. La marge est confortable, et c'est
+     une propriété du cadrage, pas un réglage à surveiller.
+
+     L'ORDRE EST CONSERVÉ. Les enfants sont rangés selon l'angle qu'ils
+     occupaient déjà à l'écran, puis répartis régulièrement. Sans cela, la
+     couronne rebattrait les cartes à chaque descente et un dérivé qu'on
+     venait de repérer à droite se retrouverait à gauche. */
+  const focusOffsets = new Map<number, Vector3>();
+
+  const buildFocusRing = (globalIndex: number): void => {
+    focusOffsets.clear();
+    const slot = slotsData[globalIndex];
+    if (!slot) return;
+    const base = familyOffset[slot.family] ?? 0;
+    const enfants = slot.children.map((local) => base + local).filter((i) => slotsData[i]);
+
+    /* Le plan de la caméra au moment du clic. L'orbite ne change pas pendant
+       un vol : la direction de vue d'après le vol est celle d'avant. */
+    const camRight = new Vector3().setFromMatrixColumn(camera.matrixWorld, 0).normalize();
+    const camUp = new Vector3().setFromMatrixColumn(camera.matrixWorld, 1).normalize();
+
+    const rParent = baseRadii[globalIndex] ?? 1;
+    let rEnfantMax = 0.5;
+    for (const e of enfants) rEnfantMax = Math.max(rEnfantMax, baseRadii[e] ?? 0.5);
+
+    /* LE PARENT EST PLACÉ, LUI AUSSI.
+
+       Il ne l'était pas, et c'est ce que la mesure a trouvé : sur un genre
+       SANS dérivés, la couronne était vide, le parent restait soumis au recul
+       général, et les deux sphères de la zone se retrouvaient au même endroit
+       à l'écran, écart mesuré 0 pixel. Les deux noms se masquaient l'un
+       l'autre par la règle de chevauchement, et l'écran devenait vide.
+
+       Il va en haut à gauche, toujours : c'est d'où l'on vient. Une position
+       fixe se retient, une position calculée oblige à le chercher. */
+    const rParentDuFocus = slot.parent >= 0 ? (baseRadii[base + slot.parent] ?? 1) : 0;
+    const distanceParent = (rParent + rParentDuFocus) * 2.9 + rEnfantMax;
+    if (slot.parent >= 0) {
+      const ang = (135 * Math.PI) / 180;
+      focusOffsets.set(
+        base + slot.parent,
+        new Vector3(
+          (camRight.x * Math.cos(ang) + camUp.x * Math.sin(ang)) * distanceParent,
+          (camRight.y * Math.cos(ang) + camUp.y * Math.sin(ang)) * distanceParent,
+          (camRight.z * Math.cos(ang) + camUp.z * Math.sin(ang)) * distanceParent
+        )
+      );
+    }
+
+    if (enfants.length === 0) return;
+
+    const n = enfants.length;
+    /* Deux contraintes, on prend la plus exigeante : ne pas toucher le
+       parent, et ne pas se toucher entre voisins sur le cercle. */
+    const rayonHorsParent = (rParent + rEnfantMax) * 2.35;
+    const rayonEntreVoisins = n > 1 ? (rEnfantMax * 2.6) / (2 * Math.sin(Math.PI / n)) : 0;
+
+    /* LA TROISIÈME CONTRAINTE, TROUVÉE À LA MESURE.
+
+       Le cadrage recule pour contenir TOUT ce qui est posé, le parent
+       compris. Or le parent est écarté proportionnellement à SON rayon, et
+       un fondateur de famille est la plus grosse sphère de l'atlas : sur Dub
+       Techno, le parent Detroit Techno tirait le cadrage à 49 px de rayon
+       tandis que la couronne, calculée sur les petits rayons des dérivés,
+       restait minuscule. Écart mesuré entre le genre ouvert et son unique
+       dérivé : 27 px, sous la cible de 44.
+
+       La couronne se met donc à l'échelle de ce qui commande le cadrage.
+       C'est ce qui rend la garantie vraie dans tous les cas et pas seulement
+       quand les rayons se ressemblent. */
+    const R = Math.max(rayonHorsParent, rayonEntreVoisins, distanceParent * 0.75);
+
+    /* Angle actuel de chaque enfant dans le plan de la caméra, pour ranger
+       la couronne dans l'ordre où l'oeil les voit déjà. */
+    const avecAngle = enfants.map((i) => {
+      const s = slotsData[i];
+      const dx = (s?.deployed.x ?? 0) - slot.deployed.x;
+      const dy = (s?.deployed.y ?? 0) - slot.deployed.y;
+      const dz = (s?.deployed.z ?? 0) - slot.deployed.z;
+      const u = camRight.x * dx + camRight.y * dy + camRight.z * dz;
+      const v = camUp.x * dx + camUp.y * dy + camUp.z * dz;
+      return { i, angle: Math.atan2(v, u) };
+    });
+    avecAngle.sort((a, b) => a.angle - b.angle);
+
+    /* Départ à midi et sens horaire : la couronne se lit comme un cadran.
+       Le décalage d'un demi-pas quand le parent est là écarte le premier
+       enfant du coin où celui-ci vient d'être posé. */
+    const biais = slot.parent >= 0 ? Math.PI / n : 0;
+    avecAngle.forEach((e, k) => {
+      const a = Math.PI / 2 - (k / n) * Math.PI * 2 - biais;
+      const off = new Vector3(
+        camRight.x * Math.cos(a) * R + camUp.x * Math.sin(a) * R,
+        camRight.y * Math.cos(a) * R + camUp.y * Math.sin(a) * R,
+        camRight.z * Math.cos(a) * R + camUp.z * Math.sin(a) * R
+      );
+      focusOffsets.set(e.i, off);
+    });
+
+    /* Générations plus profondes : elles gardent leur écart relatif à leur
+       parent, décalé sur la nouvelle position de celui-ci. Elles ne sont
+       visibles que si leur parent est sur le chemin ouvert (ADR-056), donc
+       ce cas est rare, mais il ne doit pas les renvoyer à l'ancienne place. */
+    for (let i = 0; i < TOTAL_GENRES; i += 1) {
+      const s = slotsData[i];
+      if (!s || s.family !== slot.family || focusOffsets.has(i)) continue;
+      if (!isDescendant(i, globalIndex) || i === globalIndex) continue;
+      if (s.parent >= 0 && base + s.parent === globalIndex) continue; // déjà sur la couronne
+      const pi = s.parent >= 0 ? base + s.parent : -1;
+      const parentOff = pi >= 0 ? focusOffsets.get(pi) : undefined;
+      if (!parentOff) continue;
+      const ps = slotsData[pi];
+      if (!ps) continue;
+      focusOffsets.set(
+        i,
+        new Vector3(
+          parentOff.x + (s.deployed.x - ps.deployed.x) * 1.6,
+          parentOff.y + (s.deployed.y - ps.deployed.y) * 1.6,
+          parentOff.z + (s.deployed.z - ps.deployed.z) * 1.6
+        )
+      );
+    }
+  };
+
+  /* Rayon de la couronne d'entrée, pour le cadrage. Lu depuis les décalages
+     réellement posés : le cadrage ne peut donc pas diverger de la
+     disposition, ce qui est arrivé une fois avec les positions déployées. */
+  const focusRingRadius = (): number => {
+    let r = 0;
+    for (const [i, off] of focusOffsets) r = Math.max(r, off.length() + (baseRadii[i] ?? 1));
+    return r;
   };
 
   const setDeploy = (familyIndex: number, open: boolean, now: number): void => {
@@ -1001,6 +1236,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     if (suspended) return;
     onFirstInteraction();
     releaseFrameLock();
+    echapArme = false;
     activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
     /* Capture blindée : un pointeur synthétique (tests) la fait jeter, et
        l'exception coupait l'initialisation du geste. */
@@ -1157,6 +1393,15 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   const genreFrameRadius = (globalIndex: number): number => {
     const slot = slotsData[globalIndex];
     if (!slot) return 6;
+
+    /* LA COURONNE D'ENTRÉE FAIT AUTORITÉ quand elle existe. Le cadrage doit
+       contenir la disposition RÉELLEMENT posée : mesurer les anciennes
+       positions déployées donnerait un cadre qui ne correspond à rien. */
+    if (globalIndex === focusIndex) {
+      const rr = focusRingRadius();
+      if (rr > 0) return rr * 1.22;
+    }
+
     const base = familyOffset[slot.family] ?? 0;
     let r = sphereRadii[globalIndex] ?? 2;
     for (const child of slot.children) {
@@ -1180,7 +1425,16 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     if (c) startFly(new Vector3(c.x + dc[0], c.y + dc[1], c.z + dc[2]), frameDistance(familyFrameRadius(fi)), now);
   };
 
-  const selectFamily = (fi: number, now: number): void => {
+  /* `montrerFondateur` : ouvrir une famille remplit aussi la colonne, avec
+     son fondateur. La colonne est ouverte en permanence, donc elle affiche
+     forcément quelque chose ; qu'elle garde le genre d'avant pendant qu'on
+     entre dans une autre famille était le seul moment où l'écran se
+     contredisait lui-même.
+
+     Le drapeau existe pour une raison précise : openPanel appelle
+     selectFamily quand on ouvre un genre d'une autre famille. Sans lui, les
+     deux s'appelleraient en boucle. */
+  const selectFamily = (fi: number, now: number, montrerFondateur = true): void => {
     tapZoomPrev = null;
     frameLock = -1;
     if (activeFamily >= 0 && activeFamily !== fi) setDeploy(activeFamily, false, now);
@@ -1191,6 +1445,8 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     focusDir = -1;
     focusStart = now;
     level = 'family';
+    rebuildZone();
+    focusOffsets.clear();
     setDeploy(fi, true, now);
     const c = familyCenters[fi];
     const dc = STRUCTURES[fi]?.deployedCenter ?? [0, 0, 0];
@@ -1198,6 +1454,24 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     // couronne pousse vers le haut et cadrer le pied coupait la tête.
     if (c) startFly(new Vector3(c.x + dc[0], c.y + dc[1], c.z + dc[2]), frameDistance(familyFrameRadius(fi)), now);
     emitNav();
+
+    if (montrerFondateur) {
+      /* Le fondateur est la racine de l'arbre de la famille, cherchée et non
+         supposée : « le premier genre de la liste » est vrai dans le corpus
+         d'aujourd'hui et le serait resté jusqu'au jour où il ne l'aurait
+         plus été, sans que rien ne le signale. */
+      const base = familyOffset[fi] ?? 0;
+      const structure = STRUCTURES[fi];
+      const nb = structure?.genres.length ?? 0;
+      for (let li = 0; li < nb; li += 1) {
+        if (slotsData[base + li]?.depth === 0) {
+          onTracks(fi, li);
+          onPanel({ familyIndex: fi, genreLocal: li });
+          panelSlot = base + li;
+          break;
+        }
+      }
+    }
   };
 
   /* Ouvrir le panneau, c'est voler jusqu'à la sphère et poser la plaque
@@ -1211,7 +1485,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     if (!slot) return;
     panelSlot = globalIndex;
     const now = performance.now();
-    if (activeFamily !== slot.family) selectFamily(slot.family, now);
+    if (activeFamily !== slot.family) selectFamily(slot.family, now, false);
     onTracks(familyIndex, genreLocal);
     onPanel({ familyIndex, genreLocal });
   };
@@ -1238,16 +1512,31 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     focusDir = 1;
     focusStart = now;
 
-    /* NIVEAU UNIQUE (ADR-056) : cliquer un genre à dérivés descend d'un
-       cran, ses enfants se déploient et la caméra cadre CE sous-anneau,
-       la génération du dessus se resserre et s'estompe (grammaire de focus
-       existante). Une feuille garde le cadrage du niveau où elle vit. */
-    if (slot.children.length > 0) {
-      frameLock = globalIndex;
-      startFly(slot.world, frameDistance(genreFrameRadius(globalIndex) + 2.5), now);
-    } else {
-      frameLock = -1;
-    }
+    /* ENTRER, c'est refaire la disposition et refermer la zone. Dans cet
+       ordre : la zone se lit sur la couronne, pas l'inverse. */
+    buildFocusRing(globalIndex);
+    rebuildZone();
+
+    /* LA CAMÉRA VA TOUJOURS SUR LE GENRE OUVERT, dérivés ou pas.
+
+       Une feuille ne déclenchait aucun vol : elle « gardait le cadrage du
+       niveau où elle vivait ». C'était tenable tant que le reste de la carte
+       restait net et donnait le contexte. Ce n'est plus le cas : tout ce qui
+       n'est pas la zone est flou, donc ne pas voler laisse un écran vide
+       avec la sphère ouverte quelque part hors champ. Mesuré sur Hypnotic
+       Techno : le nom se retrouvait sous la colonne, au bord droit.
+
+       On vise la position FINALE du genre, pas celle qu'il occupe au moment
+       du clic. Au clic il est encore en train de bouger, et viser une
+       position transitoire donnait un cadrage décalé de ce qui s'installe. */
+    frameLock = globalIndex;
+    const fc = familyCenters[slot.family];
+    const cible = new Vector3(
+      slot.deployed.x + (fc?.x ?? 0),
+      slot.deployed.y + (fc?.y ?? 0),
+      slot.deployed.z + (fc?.z ?? 0)
+    );
+    startFly(cible, frameDistance(genreFrameRadius(globalIndex) + 2.5), now);
     emitNav();
     openPanel(slot.family, slot.local);
   };
@@ -1311,15 +1600,36 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
         activeGenre = parent;
         focusIndex = parent;
         focusDir = 1;
+        /* Remonter au parent, c'est y ENTRER : sa couronne est refaite et la
+           zone se referme sur lui. Sans cela on remontait dans un mode focus
+           dont la zone désignait encore l'enfant qu'on venait de quitter. */
+        buildFocusRing(parent);
+        rebuildZone();
         const slot = slotsData[parent];
-        if (slot) startFly(slot.world, frameDistance(genreFrameRadius(parent)), now);
+        if (slot) {
+          const fc = familyCenters[slot.family];
+          startFly(
+            new Vector3(
+              slot.deployed.x + (fc?.x ?? 0),
+              slot.deployed.y + (fc?.y ?? 0),
+              slot.deployed.z + (fc?.z ?? 0)
+            ),
+            frameDistance(genreFrameRadius(parent)),
+            now
+          );
+        }
         emitNav();
+        /* Le panneau suit la carte : remonter d'un cran change le genre
+           courant, donc le contenu de la colonne. */
+        if (slot) openPanel(slot.family, slot.local);
         return;
       }
 
       activeGenre = -1;
       focusIndex = -1;
       level = 'family';
+      rebuildZone();
+      focusOffsets.clear();
       const c = activeFamily >= 0 ? familyCenters[activeFamily] : undefined;
       const dc = STRUCTURES[activeFamily]?.deployedCenter ?? [0, 0, 0];
       if (c) startFly(new Vector3(c.x + dc[0], c.y + dc[1], c.z + dc[2]), frameDistance(familyFrameRadius(activeFamily)), now);
@@ -1332,9 +1642,39 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       focusDir = -1;
       focusStart = now;
       level = 'atlas';
+      rebuildZone();
+      focusOffsets.clear();
       startFly(atlasTarget, atlasDistance, now);
       cameraAtDefault = true;
     }
+    emitNav();
+  };
+
+  /* SORTIR DU MODE, d'un coup : second Échap, ou clic dans le flou.
+
+     Ce n'est PAS « remonter deux fois ». On ne repasse par aucun niveau
+     intermédiaire : la carte redevient nette et la vue d'ensemble revient.
+     C'est ce que veut dire « sortir » ; remonter, c'est Échap une fois.
+
+     Deux différences avec recenter, et elles comptent toutes les deux : la
+     colonne du lecteur n'est pas refermée, puisqu'elle ne se ferme plus
+     jamais, et la lecture en cours n'est pas touchée. */
+  const sortirDuFocus = (): void => {
+    const now = performance.now();
+    tapZoomPrev = null;
+    frameLock = -1;
+    for (let i = 0; i < FAMILIES.length; i += 1) setDeploy(i, false, now);
+    activeFamily = -1;
+    activeGenre = -1;
+    genrePath = [];
+    focusIndex = -1;
+    focusDir = -1;
+    focusStart = now;
+    level = 'atlas';
+    rebuildZone();
+    focusOffsets.clear();
+    startFly(atlasTarget, atlasDistance, now);
+    cameraAtDefault = true;
     emitNav();
   };
 
@@ -1383,6 +1723,13 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       // 1. La portée : dans une famille, elle seule répond.
       if (level !== 'atlas' && activeFamily >= 0 && slotsData[i]?.family !== activeFamily) continue;
 
+      /* 1 bis. LA ZONE ACTIVE. En mode focus, seuls le genre ouvert, ses
+         dérivés et son parent direct sont atteignables. Tout le reste est
+         flou, et ce qui est flou ne se clique pas : on pouvait ouvrir un
+         genre d'une autre lignée depuis celui qu'on lisait, ce qui n'a
+         aucun sens. */
+      if (zoneActive && zone[i] !== 1) continue;
+
       const d = Math.hypot(px - (projected[i * 3] ?? 0), py - (projected[i * 3 + 1] ?? 0));
       // 2. La cible : la sphère elle-même, jamais moins que le doigt.
       if (d > Math.max(toleranceMin, rayonEcran(i))) continue;
@@ -1412,6 +1759,11 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   const nomTouche = (px: number, py: number, marge: number): LabelSlot | null => {
     for (const ls of labelSlots) {
       if (!ls.visible || ls.opacity <= 0.05 || ls.w <= 0) continue;
+      /* Un nom hors zone ne capte rien non plus. En mode focus il n'y en a
+         plus aucun d'affiché, mais le tableau des emplacements survit une
+         image à la passe de placement : sans ce test, le tout premier clic
+         après l'entrée pouvait encore viser un nom qui venait de partir. */
+      if (zoneActive && (ls.kind === 'family' || ls.slot < 0 || zone[ls.slot] !== 1)) continue;
       if (
         px >= ls.x - marge &&
         px <= ls.x + ls.w + marge &&
@@ -1457,8 +1809,13 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     const best = chercherCible(px, py, grossier ? 44 : 26);
     const slot = best >= 0 ? slotsData[best] : undefined;
     if (!slot) {
-      // Clic dans le vide : on remonte d'un niveau.
-      goUp();
+      /* Clic dans le vide. En mode focus, le vide est TOUT ce qui est flou,
+         et y cliquer sort du mode d'un seul geste : c'est le pendant naturel
+         du second Échap, et le geste que fait spontanément quelqu'un qui
+         veut refermer ce qu'il a ouvert. Hors mode focus, on remonte d'un
+         niveau comme avant. */
+      if (zoneActive) sortirDuFocus();
+      else goUp();
     } else if (level === 'atlas') {
       selectFamily(slot.family, now);
     } else {
@@ -1550,9 +1907,27 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       case '+': case '=': dollyVel -= 5.5; break;
       case '-': case '_': dollyVel += 5.5; break;
       case '0': releaseFrameLock(); recenter(); break;
-      /* Échap appartient au panneau tant qu'il est ouvert : c'est la couche
-         DOM qui le ferme puis remonte, sinon on remonterait deux fois. */
-      case 'Escape': if (panelSlot < 0) goUp(); break;
+      /* ÉCHAP APPARTIENT DÉSORMAIS À LA CARTE, TOUJOURS.
+
+         Il appartenait au panneau tant qu'il était ouvert : la couche DOM le
+         fermait, puis remontait. Cette règle n'a plus d'objet depuis que la
+         colonne ne se ferme jamais : le laisser en place aurait rendu Échap
+         inopérant sur la carte pour toujours, ce qui est exactement le genre
+         de panne qu'une règle survivant à sa raison d'être produit.
+
+         Une pression remonte d'un cran. Une SECONDE pression, sans rien
+         faire d'autre entre les deux, sort du mode focus et rend la vue
+         d'ensemble nette. Le drapeau se désarme au moindre autre geste :
+         deux Échap séparés par un clic sont deux remontées, pas une sortie. */
+      case 'Escape':
+        if (echapArme && zoneActive) {
+          echapArme = false;
+          sortirDuFocus();
+        } else {
+          echapArme = zoneActive;
+          goUp();
+        }
+        break;
       default: return;
     }
     event.preventDefault();
@@ -1588,6 +1963,8 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     focusDir = -1;
     focusStart = performance.now();
     level = 'atlas';
+    rebuildZone();
+    focusOffsets.clear();
     emitNav();
   };
 
@@ -1874,6 +2251,11 @@ const OVERLAP_TOLERANCE = 1;
     FAMILIES.forEach((family, fi) => {
       // Intro : le nom apparaît à l'éclatement, environ 40 % du pop, et reste.
       if (introActive && introBirth(fi, performance.now()) < 0.4) return;
+      /* MODE FOCUS : plus aucun nom de famille. Ils désignent des régions
+         floues et inatteignables, et ce sont eux qu'on lisait en premier
+         dans la capture du défaut : BASS, AMBIENT, INDUSTRIAL, TRANCE,
+         écrits net par-dessus une carte où l'on était entré ailleurs. */
+      if (zoneActive) return;
       const isCurrent = fi === activeFamily;
       add(
         `f-${family.id}`,
@@ -1897,7 +2279,18 @@ const OVERLAP_TOLERANCE = 1;
          nommer écrirait un nom sur une sphère absente ET volerait la place
          d'un genre de la couronne (mesuré : Deep House posé sur la place
          de Garage House). */
-      if (slot.depth >= 2 && (expandAmount[i] ?? 0) < 0.5) continue;
+      /* MODE FOCUS : seule la zone active porte un nom. Un nom net sur une
+         sphère floue serait la contradiction la plus visible de l'écran, et
+         il désignerait une cible qui ne répond plus. */
+      if (zoneActive && zone[i] !== 1) continue;
+
+      /* Le test de déploiement ne s'applique PAS aux membres de la zone :
+         leur place est posée par la couronne d'entrée, ils ne sortent pas
+         de leur parent et n'ont donc pas à attendre de l'avoir fait. Sans
+         cette exception, un dérivé profond restait sans nom tant que le
+         lissage de déploiement n'avait pas passé la moitié, ce qui dépend
+         de la cadence d'images et pas de ce qu'on voit. */
+      if (!zoneActive && slot.depth >= 2 && (expandAmount[i] ?? 0) < 0.5) continue;
 
       const inSubtree = focusIndex >= 0 ? isDescendant(i, focusIndex) : false;
       const isPinned = i === focusIndex || inSubtree;
@@ -2391,13 +2784,44 @@ const OVERLAP_TOLERANCE = 1;
         const k = focusDir === 1 ? backOut(raw) : 1 - raw;
 
         if (inSubtree) {
-          // On écarte le sous-arbre depuis le noeud focalisé.
-          expand.set(
-            bx + (slot.deployed.x - focusBase.x) * 1.95,
-            by + (slot.deployed.y - focusBase.y) * 1.95,
-            bz + (slot.deployed.z - focusBase.z) * 1.95
-          );
+          /* LA COURONNE D'ENTRÉE d'abord, l'ancien écartement en secours.
+
+             Les décalages posés au clic placent chaque dérivé sur un cercle
+             dans le plan de la caméra. Quand ils existent, ils font foi ; le
+             calcul d'origine, qui étirait les positions déployées d'un
+             facteur, ne sert plus que si la couronne n'a pas pu être bâtie. */
+          const off = focusOffsets.get(i);
+          if (off) {
+            expand.set(bx + off.x, by + off.y, bz + off.z);
+            /* PLEINE PRÉSENCE POUR CE QUE LA COURONNE A POSÉ.
+
+               L'atténuation des générations profondes se calcule sur la
+               distance parcourue depuis la position repliée : elle protège du
+               chevauchement pendant qu'une sphère sort de son parent. Une
+               sphère placée par la couronne n'en sort pas, elle est posée
+               d'emblée à bonne distance, et la formule lui donnait 0,28 de
+               présence pour un trajet qu'elle ne fait plus. Mesuré sur
+               Hypnotic Techno, qui s'affichait à quatre pixels et à peine
+               visible alors qu'il est l'un des trois objets de la zone. */
+            presence = 1;
+          } else {
+            expand.set(
+              bx + (slot.deployed.x - focusBase.x) * 1.95,
+              by + (slot.deployed.y - focusBase.y) * 1.95,
+              bz + (slot.deployed.z - focusBase.z) * 1.95
+            );
+          }
           slot.world.lerp(expand, clamp(k, 0, 1));
+        } else if (focusOffsets.has(i)) {
+          /* LE PARENT DIRECT : il n'est pas dans le sous-arbre, il est
+             pourtant dans la zone, et il a sa place posée par la couronne.
+             Sans cette branche il tombait dans le recul général et venait se
+             confondre avec le genre ouvert. */
+          const off = focusOffsets.get(i);
+          if (off) {
+            expand.set(bx + off.x, by + off.y, bz + off.z);
+            slot.world.lerp(expand, clamp(k, 0, 1));
+          }
         } else {
           // Le reste recule et s'atténue à 12 pour cent, il reste du contexte.
           recede.set(
@@ -2406,11 +2830,42 @@ const OVERLAP_TOLERANCE = 1;
             (fc?.z ?? 0) + slot.compact.z + (slot.deployed.z - slot.compact.z) * 0.45
           );
           slot.world.lerp(recede, clamp(k, 0, 1));
-          presence = 1 - clamp(k, 0, 1) * 0.88;
+          /* 40 % et non 12 : le flou fait maintenant l'essentiel de
+             l'effacement, et les deux atténuations multipliées passaient sous
+             le seuil de rejet du shader, où une sphère apparaît et disparaît
+             selon l'arrondi. Une seule chose doit régler l'effacement. */
+          presence = 1 - clamp(k, 0, 1) * 0.6;
           ringOn = 0;
         }
       } else if (level === 'family' && activeFamily >= 0) {
         presence = slot.family === activeFamily ? 1 : 0.5;
+      }
+
+      /* LES AUTRES FAMILLES, EN MODE FOCUS. C'était le défaut signalé : dans
+         Detroit Techno, l'écran montrait encore BASS, AMBIENT, INDUSTRIAL,
+         TRANCE, Gabber et Funk, à pleine présence. Aucune des deux branches
+         ci-dessus ne les touchait : la première ne regarde que la famille
+         focalisée, la seconde ne s'applique qu'au niveau famille. Elles
+         passaient donc entre les deux et restaient nettes. */
+      if (zoneActive && zone[i] !== 1 && slot.family !== (focusSlot?.family ?? -1)) {
+        presence *= 1 - 0.6 * (defocus[i] ?? 0);
+        ringOn = 0;
+      }
+
+      /* LE FLOU LUI-MÊME : 400 ms, montée et descente, jamais d'un coup.
+         Interpolation lissée aux deux bouts (3t² - 2t³), donc sans départ
+         ni arrivée brusques. Mouvement réduit : direct, comme toutes les
+         autres animations du fichier. */
+      {
+        const vise = zoneActive && zone[i] !== 1 ? 1 : 0;
+        if (reducedMotion) {
+          defocus[i] = vise;
+        } else {
+          const t = clamp((now - zoneStart) / FOCUS_MS, 0, 1);
+          const e = t * t * (3 - 2 * t);
+          const d0 = defocusDepart[i] ?? 0;
+          defocus[i] = d0 + (vise - d0) * e;
+        }
       }
 
       sphereCenters[i * 3] = slot.world.x;
@@ -2472,6 +2927,7 @@ const OVERLAP_TOLERANCE = 1;
     }
     sphereCenterAttr.needsUpdate = true;
     sphereStateAttr.needsUpdate = true;
+    defocusAttr.needsUpdate = true;
     if (!reducedMotion) sphereRadiusAttr.needsUpdate = true;
     if (introActive) {
       sphereRadiusAttr.needsUpdate = true;
@@ -2529,9 +2985,22 @@ const OVERLAP_TOLERANCE = 1;
         /* Les liens du sous-arbre focalisé passent au premier plan et
            s'épaississent, les autres liens de la famille s'effacent presque. */
         if (focusIndex >= 0 && a.family === (slotsData[focusIndex]?.family ?? -1)) {
-          const inSubtree = isDescendant(ref.b, focusIndex) && isDescendant(ref.a, focusIndex);
-          linkMeta[i * 3] = inSubtree ? 1 : 0.12;
-          linkMeta[i * 3 + 1] = inSubtree ? 1 : 0.1;
+          /* LA ZONE, PAS LE SOUS-ARBRE. Le test portait sur la descendance :
+             un lien entre Euro Techno, qui est dans la couronne, et Hard
+             Techno, qui est un petit-fils replié hors zone, comptait comme
+             interne et se dessinait à pleine opacité. À l'écran, cela faisait
+             des traits nets partant de la couronne vers le flou, exactement
+             ce que le mode focus doit supprimer. Un lien n'est net que si ses
+             DEUX extrémités sont nettes. */
+          const dansLaZone = zone[ref.a] === 1 && zone[ref.b] === 1;
+          linkMeta[i * 3] = dansLaZone ? 1 : 0.12;
+          linkMeta[i * 3 + 1] = dansLaZone ? 1 : 0.06;
+        } else if (zoneActive) {
+          /* Lien d'une autre famille en mode focus : il s'efface avec elle.
+             Un trait net reliant deux taches floues se lit comme une erreur
+             de rendu, et ramène l'oeil exactement là où il n'a rien à faire. */
+          linkMeta[i * 3] = 0.35;
+          linkMeta[i * 3 + 1] = 0.06;
         } else {
           linkMeta[i * 3] = 0.35;
           linkMeta[i * 3 + 1] = 1;
@@ -2564,7 +3033,10 @@ const OVERLAP_TOLERANCE = 1;
           ref.familyB === activeFamily ||
           ref.familyA === hoveredFamily ||
           ref.familyB === hoveredFamily;
-        linkMeta[i * 3 + 1] = concerned ? 0.9 : 0.1;
+        /* En mode focus, même les liens entre familles s'éteignent : ils
+           partent de la zone nette et filent vers le flou, ce qui invite
+           l'oeil à sortir de là où on vient d'entrer. */
+        linkMeta[i * 3 + 1] = zoneActive ? 0.04 : concerned ? 0.9 : 0.1;
       }
     }
     // Contrôles au tiers : la Bézier dégénère en segment droit.
@@ -2974,6 +3446,95 @@ const OVERLAP_TOLERANCE = 1;
       triangles: renderer.info.render.triangles
     }),
     labelSnapshot: () => lastPlacedSnapshot,
+
+    /* MESURE DU MODE FOCUS. Quand on ne peut pas voir, on mesure (ADR-048).
+       Rend la zone active, l'état de flou, et surtout LA PLUS COURTE
+       DISTANCE ENTRE DEUX CIBLES À L'ÉCRAN : c'est le chiffre qui dit si la
+       couronne d'entrée tient sa promesse de 44 px. */
+    zoneFocus: () => {
+      const dedans: {
+        label: string;
+        x: number;
+        y: number;
+        rayonPx: number;
+        presence: number;
+        profondeur: number;
+      }[] = [];
+      let flouMin = 1;
+      let flouMax = 0;
+      let netsHorsZone = 0;
+      for (let i = 0; i < TOTAL_GENRES; i += 1) {
+        const presence = sphereState[i * 4] ?? 0;
+        if (zoneActive && zone[i] === 1) {
+          dedans.push({
+            label: slotsData[i]?.label ?? '',
+            x: Math.round(projected[i * 3] ?? 0),
+            y: Math.round(projected[i * 3 + 1] ?? 0),
+            rayonPx: Math.round(rayonEcran(i)),
+            presence: Math.round(presence * 100) / 100,
+            profondeur: slotsData[i]?.depth ?? -1
+          });
+        } else if (zoneActive && presence > 0.02) {
+          flouMin = Math.min(flouMin, defocus[i] ?? 0);
+          flouMax = Math.max(flouMax, defocus[i] ?? 0);
+          if ((defocus[i] ?? 0) < 0.9) netsHorsZone += 1;
+        }
+      }
+      let ecartMin = Infinity;
+      let paire = '';
+      for (let a = 0; a < dedans.length; a += 1) {
+        for (let b = a + 1; b < dedans.length; b += 1) {
+          const p = dedans[a];
+          const q = dedans[b];
+          if (!p || !q) continue;
+          const d = Math.hypot(p.x - q.x, p.y - q.y) - p.rayonPx - q.rayonPx;
+          if (d < ecartMin) {
+            ecartMin = d;
+            paire = `${p.label} / ${q.label}`;
+          }
+        }
+      }
+      return {
+        actif: zoneActive,
+        /* L'ÉTAT DE NAVIGATION BRUT. Il a servi à trouver que le moteur ne
+           tournait pas du tout pendant les mesures automatisées : une page
+           en arrière-plan ne reçoit aucune image, donc rien n'avance, et
+           tout se lisait comme un défaut de rendu. Gardé pour le prochain
+           qui doutera. */
+        diag: {
+          depuisMs: Math.round(performance.now() - zoneStart),
+          niveau: level,
+          familleActive: activeFamily,
+          genreActif: activeGenre,
+          familleOuverte: openIndex,
+          progresFamille: activeFamily >= 0 ? Math.round((familyProgress[activeFamily] ?? -1) * 100) / 100 : null,
+          sensDeploiement: activeFamily >= 0 ? (deployDir[activeFamily] ?? 0) : null,
+          enAttente: pendingGenre
+        },
+        focus: focusIndex >= 0 ? (slotsData[focusIndex]?.label ?? '') : null,
+        parent: zoneParent >= 0 ? (slotsData[zoneParent]?.label ?? '') : null,
+        cibles: dedans.length,
+        membres: dedans,
+        ecartMinPx: dedans.length > 1 ? Math.round(ecartMin) : null,
+        paireLaPlusSerree: paire,
+        flouHorsZone: { min: Math.round(flouMin * 100) / 100, max: Math.round(flouMax * 100) / 100 },
+        horsZonePasEncoreFloues: netsHorsZone,
+        labelsAffiches: labelSlots.filter((l) => l.visible && l.opacity > 0.05).map((l) => l.el.textContent ?? '')
+      };
+    },
+
+    /* Ce que le clic ferait à cet endroit, SANS le faire. Sert à prouver
+       qu'aucune zone floue ne capte un clic, sans simuler d'événements. */
+    cibleSous: (px: number, py: number) => {
+      const nom = nomTouche(px, py, 4);
+      const sphere = chercherCible(px, py, 26);
+      return {
+        nom: nom ? (nom.el.textContent ?? '') : null,
+        sphere: sphere >= 0 ? (slotsData[sphere]?.label ?? '') : null,
+        dansLaZone: sphere >= 0 ? zone[sphere] === 1 : null
+      };
+    },
+
     drawCallsPerFrame: () => {
       renderer.info.reset();
       renderOnce(true);

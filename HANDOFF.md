@@ -113,7 +113,18 @@ crochets de mesure restent sous `window.__atlas.mesurerScintillement()`.
 **L'image de partage montre l'atlas** (ADR-066), plus le logotype seul. Elle
 se refait par `npm run capture:og`.
 
-**66 ADR** dans `ARCHITECTURE.md`. Aucun point ouvert déclaré à la fin du
+**Mode focus** (ADR-067). Entrer dans un genre ferme l'écran : le genre
+ouvert, ses dérivés directs et son parent direct restent nets et cliquables,
+tout le reste sort de la mise au point, perd ses noms et **ne répond plus au
+clic**. Les dérivés sont redisposés en couronne dans le plan de la caméra à
+chaque descente. Échap remonte d'un cran, un second Échap ou un clic dans le
+flou sort du mode.
+
+**La colonne du lecteur ne se ferme plus** (ADR-068). Elle se réduit, elle se
+rappelle, elle montre un genre tiré au sort avant le premier clic, et aucune
+lecture ne démarre jamais seule.
+
+**68 ADR** dans `ARCHITECTURE.md`. Aucun point ouvert déclaré à la fin du
 fichier.
 
 ---
@@ -225,6 +236,13 @@ seul est rempli.
 3. `motDeLAuteur` dans `src/data/corpus.json` : **vide sur les trois genres où
    il est posé**, `darkdisco`, `indiedance` et `progpsy`. Absent des 215
    autres, délibérément : une voix qui parle partout ne dit plus rien.
+
+**`check:plafond` échoue, et c'est antérieur.** Les trois sondes de durée ne
+rendent plus rien : « LA DURÉE N'EST PLUS LUE ». Vérifié sur l'arbre remisé,
+sans aucune modification : l'échec est identique, il ne vient pas du travail
+en cours. Il bloque la CI et donc toute publication tant qu'il n'est pas
+réglé. `scrape()` dans `scripts/lib/match.ts` est à reprendre, ou la sonde à
+rendre tolérante à l'absence de réseau.
 
 **Un fichier mort à supprimer.** `supabase/game-tree.sql`, 241 lignes,
 généré par un script qui n'existe plus et visant une table qui n'existe pas.
