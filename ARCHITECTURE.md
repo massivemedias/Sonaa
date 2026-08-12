@@ -3065,6 +3065,80 @@ zero nom pose sur la sphere d'un autre ; zero cible cliquable hors zone.
 
 ---
 
+## ADR-075 : Un genre visible est un genre nomme
+
+**Statut** : accepte, 12 aout 2026. **Renverse une regle d'ADR-040 et revise
+ADR-074.**
+
+**Contexte.** ADR-074 avait pose une regle de densite : a deux generations
+depliees, les intermediaires perdaient leur nom pour laisser la place aux
+nouvelles. Mesure sur Downtempo : **cinq spheres sur douze sans nom**. Verdict
+de Mika, sans appel.
+
+**Decision. Chaque sphere visible porte son nom, sans exception, sans
+condition, sans survol.** La lisibilite se regle par la TAILLE, jamais par le
+silence.
+
+**LA REGLE DE DECALAGE EST RENVERSEE.** Elle disait : « masquage du plus
+lointain en cas de collision, JAMAIS de decalage ». Elle dit desormais :
+**decalage, jamais de masquage**. C'est le meme arbitrage vu de l'autre cote,
+et c'est Mika qui tranche dans les deux sens.
+
+**Trois niveaux de taille, poses par lui** : la racine 22 px en graisse 700,
+ses derives 16 px en 600, la generation suivante 13 px en 500. Plancher absolu
+12 px. Hors zone, la taille continue de venir de la distance a la camera :
+c'est ce qui donne la profondeur a la vue d'ensemble, et dans la zone tout est
+a la meme distance, donc cette regle n'y dit plus rien.
+
+**Quatre recours, dans cet ordre, quand un nom en mord un autre** : ecarter les
+spheres, reculer la camera, decaler le nom du cote libre de sa sphere, et en
+tout dernier recours seulement le reduire jusqu'au plancher. Le placement
+essaie **huit positions** autour de chaque sphere, de la plus lisible a la
+moins evidente, a quatre paliers de taille. S'il n'en trouve aucune, il pose
+quand meme a la moins mauvaise : un nom qui se chevauche un peu se lit encore,
+un nom absent ne se lit pas du tout.
+
+**UNE CORRECTION QUI ETAIT FAUSSE, ET LA MESURE L'A DIT.** J'avais ecrit une
+boucle fermee : quand un nom en mord un autre, on multiplie tous les rayons de
+la disposition, la camera recule pour contenir le tout, on remesure. Elle a
+diverge jusqu'a sa borne, 2,59, et le resultat etait PIRE qu'au depart, ecart
+tombe de 49 a 34 px et un nom perdu sur douze.
+
+La raison est geometrique et aurait du etre vue avant d'ecrire la boucle : le
+cadrage maintient l'ensemble a une fraction fixe de l'ecran, donc multiplier
+toutes les distances par k eloigne la camera de k et l'ecart a l'ecran ne
+bouge pas d'un pixel. Pire, les rayons des spheres ne sont pas multiplies :
+l'etendue grandit un peu plus vite que les ecarts, et l'ecart RETRECIT.
+
+**Le seul levier qui deplace vraiment l'ecart en pixels est la PART DE L'ECRAN
+occupee.** Elle passe de 78 a 86 % a deux generations.
+
+**Mesure, par de vrais clics.**
+
+| cas | spheres | noms | egal | chevauchements | plus petit | ecart min |
+| --- | --- | --- | --- | --- | --- | --- |
+| Downtempo, 1 generation | 8 | 8 | oui | 0 | 16 px | 120 px |
+| Downtempo, 2 generations | 12 | 12 | oui | 0 | 13 px | 55 px |
+| Chicago House, 2 generations | 16 | 16 | oui | 0 | 13 px | 47 px |
+| Hardcore Techno, 2 generations | 17 | 17 | oui | 0 | 13 px | 49 px |
+
+Hardcore Techno est le cas le plus dense du corpus a deux generations, cinq
+derives et onze petits-derives. **Tout tient, sans chevauchement et sans
+descendre sous 13 px.** La question posee, « dis-le moi si tu ne peux pas »,
+n'a donc pas lieu d'etre : il n'y a pas de cas ou il faille choisir.
+
+**Un defaut de l'instrument, encore un.** Le test de recouvrement fait pivoter
+l'orbite sur trente-six poses. Depuis que le pilote entre dans un genre par un
+vrai clic avant de lancer la suite, il tournait DANS le mode focus, ou la
+couronne est posee une fois pour toutes dans le plan de la camera d'entree :
+la faire pivoter l'aplatit en ligne et les noms se superposent forcement. Il
+revient a la vue d'ensemble avant de mesurer, ce qui est ce que sa regle
+decrit.
+
+**verify:visual, quatre largeurs, aucun echec.**
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle

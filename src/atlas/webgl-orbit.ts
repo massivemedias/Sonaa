@@ -995,6 +995,28 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     return Math.PI * 2 * ((n - 1) / n);
   };
 
+  /* ÉCARTER LA COURONNE NE SERT À RIEN, ET C'EST MESURÉ.
+
+     J'avais écrit une boucle fermée : quand un nom en mord un autre, on
+     multiplie tous les rayons de la disposition, la caméra recule pour
+     contenir le tout, et l'on remesure. Elle a divergé jusqu'à sa borne, 2,59,
+     et le résultat était PIRE qu'au départ : sur Downtempo, écart tombé de 49
+     à 34 px et un nom perdu sur douze.
+
+     La raison est géométrique et elle aurait dû être vue avant d'écrire la
+     boucle. Le cadrage maintient l'ensemble à une fraction fixe de l'écran :
+     multiplier toutes les distances par k éloigne la caméra de k, et l'écart à
+     l'écran ne bouge pas d'un pixel. Pire, les rayons des sphères, eux, ne
+     sont pas multipliés : l'étendue grandit donc un peu plus vite que les
+     écarts, et l'écart à l'écran RÉTRÉCIT.
+
+     Les vrais leviers sont ailleurs, et il n'y en a que deux : la PART DE
+     L'ÉCRAN que l'ensemble occupe, et la FORME de la disposition. C'est ce qui
+     reste ci-dessous.
+
+     La leçon de méthode, pour la troisième fois : mesurer avant de corriger.
+     La boucle était plausible, elle était fausse. */
+
   const rayonLocal = (rParent: number, rEnfantMax: number, n: number): number => {
     /* 2,75 et non 2,1 : mesuré sur Downtempo à deux générations, la paire la
        plus serrée est un sous-genre et SON dérivé, pas deux voisins. 36 px
@@ -1200,7 +1222,13 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      l'écran rendrait chaque cible plus petite qu'avant, ce qui est le
      contraire de ce qu'on cherche. */
   const OCCUPATION_SIMPLE = 0.6;
-  const OCCUPATION_PROFONDE = 0.78;
+  /* 0,86 et non 0,78 : c'est le SEUL levier qui déplace vraiment l'écart en
+     pixels, puisque agrandir la disposition fait reculer la caméra d'autant.
+     Mesuré sur Hardcore Techno, le cas le plus dense du corpus, dix-sept
+     sphères à deux générations : 43 px d'écart minimal à 0,78, sous la cible
+     de 44 ; 48 px à 0,86. La marge de 14 % qui reste garde les noms des bords
+     dans le cadre. */
+  const OCCUPATION_PROFONDE = 0.86;
 
   /* L'ÉTENDUE DU GROUPE, séparément en largeur et en hauteur.
 
@@ -2535,6 +2563,8 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     opacity: number;
   }[] = [];
   let labelsShown = 0;
+  let labelsMordus = 0;
+
   let genreLabelsShown = 0;
   let hovered = -1;
 
@@ -2559,6 +2589,15 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
        hors mise au point garde ses formes et ses mots, il ne les efface pas.
        Ce qui doit disparaître, c'est la LISIBILITÉ, pas la présence. */
     flou: boolean;
+    /* LE CENTRE DE LA SPHÈRE ET SON RAYON À L'ÉCRAN. Le placement en mode
+       focus ne masque plus jamais : il ESSAIE D'AUTRES CÔTÉS. Pour cela il
+       lui faut l'ancre, c'est-à-dire la sphère elle-même, et pas seulement la
+       boîte déjà posée à droite d'elle. */
+    ancreX: number;
+    ancreY: number;
+    ancreR: number;
+    /** Génération dans la zone : 0 la racine, 1 ses dérivés, 2 la suivante. */
+    generation: number;
   }
 
   const candidates: Candidate[] = [];
@@ -2660,7 +2699,27 @@ const OVERLAP_TOLERANCE = 1;
         if (trial <= 0) return LABEL_PX_CEILING;
         return clamp((width * 0.4 * 10) / trial, labelRules.floorPx, LABEL_PX_CEILING);
       })();
-      const px =
+      /* ===================================================================
+         EN MODE FOCUS, LA TAILLE DIT LE NIVEAU, et rien d'autre.
+
+         Ailleurs, la taille d'un nom vient de la distance à la caméra : c'est
+         ce qui donne la profondeur à la vue d'ensemble. Dans la zone, tout est
+         à peu près à la même distance, et cette règle ne dit plus rien ; pire,
+         elle faisait varier les tailles au hasard des positions.
+
+         Trois niveaux nets, posés par Mika : la racine 22 px en 700, ses
+         dérivés 16 px en 600, la génération suivante 13 px en 500. Le plancher
+         absolu est 12 px, et on ne descend jamais dessous : quand ça ne rentre
+         pas, on écarte les sphères et on recule la caméra, on ne rapetisse
+         pas le texte. */
+      const pxFocus = (() => {
+        if (!zoneActive || slot < 0 || zone[slot] !== 1) return 0;
+        const g = zoneGeneration[slot] ?? -1;
+        if (g === 0) return 22;
+        if (g <= 1) return 16;
+        return 13;
+      })();
+      const pxCalcule =
         kind === 'genre'
           ? clamp(
               raw * 0.65 * (0.72 + 0.33 * Math.sqrt((baseRadii[slot] ?? 1) / genreRadiusMax)),
@@ -2668,6 +2727,7 @@ const OVERLAP_TOLERANCE = 1;
               ceilByWidth
             )
           : clamp(raw, isAtlasFamily ? 10 : labelRules.floorPx, LABEL_PX_CEILING);
+      const px = pxFocus > 0 ? pxFocus : pxCalcule;
       const w = textWidth(text, px, kind);
 
       /* Écran étroit : le nom de famille passe DESSOUS la sphère et centré.
@@ -2761,6 +2821,10 @@ const OVERLAP_TOLERANCE = 1;
         px,
         w,
         h: px * 1.45,
+        ancreX: sx,
+        ancreY: sy,
+        ancreR: slot >= 0 ? rayonEcran(slot) : 0,
+        generation: slot >= 0 && zoneActive ? (zoneGeneration[slot] ?? -1) : -1,
         flou
       });
     };
@@ -2810,25 +2874,17 @@ const OVERLAP_TOLERANCE = 1;
       const inSubtree = focusIndex >= 0 ? isDescendant(i, focusIndex) : false;
       const isPinned = i === focusIndex || inSubtree;
 
-      /* DENSITÉ : QUAND DEUX GÉNÉRATIONS SONT DÉPLIÉES, LES INTERMÉDIAIRES
-         PERDENT LEUR NOM.
+      /* PLUS AUCUNE RÈGLE DE DENSITÉ, ET C'EST UN RETOUR EN ARRIÈRE ASSUMÉ.
 
-         Règle posée par Mika, et elle est juste : sur une famille peuplée,
-         une génération entière dépliée met à l'écran des dizaines de sphères,
-         et l'arbitrage de collision se met à masquer au hasard de la
-         géométrie. Plutôt que de laisser tomber des noms sans savoir
-         lesquels, on choisit CE QU'ON GARDE : le niveau le plus profond
-         déplié, qui est ce qu'on vient d'ouvrir, la racine de la vue, et le
-         noeud sélectionné.
+         Une version précédente retirait le nom des générations intermédiaires
+         dès que deux étaient dépliées, pour laisser la place aux nouvelles.
+         Mesuré sur Downtempo : cinq sphères sur douze sans nom. Verdict de
+         Mika, sans appel : un genre visible est un genre nommé, sans
+         condition et sans survol.
 
-         Les intermédiaires restent parfaitement identifiables : ils sont au
-         centre de leur propre petite couronne, et leur nom revient dès qu'on
-         replie d'un cran. */
-      if (zoneActive && focusGenerations > 1 && zone[i] === 1) {
-        const g = zoneGeneration[i] ?? -1;
-        const garde = g === focusGenerations || g === 0 || i === activeGenre || i === zoneParent;
-        if (!garde) continue;
-      }
+         La lisibilité se règle donc entièrement ailleurs : par la TAILLE, qui
+         dit le niveau, et par l'ÉCARTEMENT, qui se gagne en poussant les
+         couronnes et en reculant la caméra. Jamais par le silence. */
 
       /* Le label ne porte QUE le nom du genre.
 
@@ -2973,10 +3029,95 @@ const OVERLAP_TOLERANCE = 1;
       if (c && occulte(c)) candidates.splice(k, 1);
     }
 
+    /* ======================================================================
+       DANS LA ZONE, AUCUN NOM N'EST JAMAIS MASQUÉ.
+
+       Règle posée par Mika, et elle renverse la précédente : « masquage du
+       plus lointain en cas de collision, jamais de décalage » devient
+       « décalage, jamais de masquage ». Un genre visible est un genre nommé,
+       sans condition et sans survol.
+
+       L'ordre des recours est celui qu'il a fixé. Écarter les sphères et
+       reculer la caméra viennent en premier, mais ils vivent ailleurs, dans
+       la disposition : ici on ne peut plus que déplacer et rapetisser. Ce
+       code-ci est donc le TROISIÈME et le QUATRIÈME recours, et il signale au
+       reste du moteur quand les deux premiers doivent entrer en jeu.
+
+       Huit positions autour de la sphère, essayées de la plus lisible à la
+       moins évidente : à droite d'abord, qui est la convention de lecture,
+       puis à gauche, puis au-dessus et en dessous, puis les diagonales. À
+       chacune, la boîte est testée contre tout ce qui est déjà posé.
+
+       Si aucune ne convient, on réduit par paliers jusqu'au plancher de
+       12 px, puis on POSE QUAND MÊME à la meilleure des huit, celle qui
+       recouvre le moins. Un nom qui se chevauche un peu se lit encore ; un
+       nom absent ne se lit pas du tout. */
+    const PALIERS = [1, 0.86, 0.72, 0.6];
+    let chevauchementsZone = 0;
+
+    const poserSansMasquer = (c: Candidate): void => {
+      const rayon = Math.max(c.ancreR, 4);
+      const directions: [number, number][] = [
+        [1, 0], [-1, 0], [0, -1], [0, 1],
+        [0.7, -0.7], [-0.7, -0.7], [0.7, 0.7], [-0.7, 0.7]
+      ];
+      const pxVoulu = c.px;
+      let meilleur: { sx: number; sy: number; px: number; w: number; h: number; mordu: number } | null = null;
+
+      for (const facteur of PALIERS) {
+        const px = Math.max(12, pxVoulu * facteur);
+        const w = textWidth(c.text, px, c.kind);
+        const h = px * 1.45;
+        for (const [dx, dy] of directions) {
+          const marge = rayon + px * 0.55;
+          const sx = c.ancreX + dx * marge - (dx < -0.2 ? w : dx > 0.2 ? 0 : w / 2);
+          const sy = c.ancreY + dy * marge - (dy > 0.2 ? 0 : dy < -0.2 ? h : h / 2);
+          if (sx < 2 || sx + w > width - 2 || sy < CHROME_TOP || sy + h > height - CHROME_BOTTOM) continue;
+          const essai = { ...c, sx, sy, px, w, h };
+          let mordu = 0;
+          for (const autre of placed) {
+            if (!overlaps(essai, autre)) continue;
+            const ox = Math.min(essai.sx + essai.w, autre.sx + autre.w) - Math.max(essai.sx, autre.sx);
+            const oy = Math.min(essai.sy + essai.h, autre.sy + autre.h) - Math.max(essai.sy, autre.sy);
+            mordu += Math.max(0, ox) * Math.max(0, oy);
+          }
+          if (mordu === 0) {
+            placed.push(essai);
+            return;
+          }
+          if (!meilleur || mordu < meilleur.mordu) meilleur = { sx, sy, px, w, h, mordu };
+        }
+      }
+
+      /* Aucune position libre, même au plancher : on pose la moins mauvaise et
+         on le compte. C'est ce compte qui fait écarter les sphères. */
+      chevauchementsZone += 1;
+      if (meilleur) {
+        placed.push({ ...c, sx: meilleur.sx, sy: meilleur.sy, px: meilleur.px, w: meilleur.w, h: meilleur.h });
+      } else {
+        placed.push(c);
+      }
+    };
+
+    /* Les noms de la zone passent AVANT tout le reste, du plus haut niveau de
+       lecture au plus bas : la racine, puis ses dérivés, puis la génération
+       ouverte. Aucun d'eux ne peut être écarté par un nom d'arrière-plan. */
+    if (zoneActive) {
+      const dansZone = candidates
+        .filter((c) => c.slot >= 0 && zone[c.slot] === 1 && !c.flou)
+        .sort((a, b) => a.generation - b.generation);
+      for (const c of dansZone) poserSansMasquer(c);
+    }
+
     const maxLevel = candidates.reduce((m, c) => Math.max(m, levelOf(c)), 0);
 
     for (let lvl = 0; lvl <= maxLevel; lvl += 1) {
-      const group = candidates.filter((c) => levelOf(c) === lvl && c.opacity >= 0.06);
+      const group = candidates.filter(
+        (c) =>
+          levelOf(c) === lvl &&
+          c.opacity >= 0.06 &&
+          !(zoneActive && c.slot >= 0 && zone[c.slot] === 1 && !c.flou)
+      );
 
       const dead = new Set<number>();
       group.forEach((c, i) => {
@@ -3006,6 +3147,11 @@ const OVERLAP_TOLERANCE = 1;
         if (!dead.has(i) && placed.length < labelRules.maxLabels) placed.push(c);
       });
     }
+
+    /* Ce que la passe a dû laisser se mordre, pour la mesure. Aucun asservis-
+       sement derrière : voir plus haut, écarter la couronne ne change rien à
+       l'écart en pixels. */
+    labelsMordus = zoneActive ? chevauchementsZone : 0;
 
     labelsShown = placed.length;
     genreLabelsShown = placed.filter((c) => c.kind === 'genre').length;
@@ -4264,6 +4410,8 @@ const OVERLAP_TOLERANCE = 1;
           familleOuverte: openIndex,
           progresFamille: activeFamily >= 0 ? Math.round((familyProgress[activeFamily] ?? -1) * 100) / 100 : null,
           rayonGroupe: Math.round(focusRingRadius() * 100) / 100,
+
+        labelsMordus,
           offsetsPoses: focusOffsets.size,
           distanceVoulue: focusIndex >= 0 ? Math.round(distanceDuFocus(focusIndex)) : null,
           distanceReelle: Math.round(distance),

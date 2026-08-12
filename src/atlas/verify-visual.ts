@@ -45,6 +45,7 @@ interface AtlasHooks {
   reducedMotion: boolean;
   playIntro: (onEnd?: () => void) => void;
   setOrbit?: (az: number, el: number, dist: number) => void;
+  recenter?: () => void;
   framing: () => { atlasDistance: number };
   labelSnapshot?: () => {
     key: string;
@@ -281,6 +282,21 @@ const measureOverlaps = (): { paires: number; pirePx: number } => {
 
 const testRecouvrement = async (): Promise<RecouvrementResult> => {
   const a = atlas();
+
+  /* CE TEST PORTE SUR LA VUE D'ENSEMBLE, et il faut l'y ramener.
+
+     Le pilote entre dans un genre par un vrai clic avant de lancer la suite,
+     pour que le test de focus trouve un mode armé. Celui-ci se retrouvait donc
+     à faire tourner l'orbite DANS le mode focus, où la couronne est posée une
+     fois pour toutes dans le plan de la caméra d'entrée : la faire pivoter
+     l'aplatit en ligne, et les noms se superposent forcément. Il rendait
+     « echec » sur une situation que sa règle ne décrit pas.
+
+     On revient donc à la vue d'ensemble avant de mesurer. C'est un préalable
+     de mise en place, pas la chose testée. */
+  a.recenter?.();
+  await wait(1200);
+
   if (!a.setOrbit) {
     return {
       poses: 0,
