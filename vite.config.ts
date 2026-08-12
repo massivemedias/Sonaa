@@ -73,6 +73,25 @@ export default defineConfig({
             },
           },
           {
+            /* ECRANS DE LANCEMENT iOS : gardes A L'USAGE, pas precaches.
+
+               Les vingt-six images pesent 2,9 Mo ensemble, et un appareil
+               donne n'en utilise QU'UNE, celle qui correspond exactement a sa
+               definition. Les precacher toutes ferait payer 2,9 Mo a chacun
+               pour 113 ko utiles : on garde donc celle qui sert, la premiere
+               fois qu'elle sert.
+
+               CacheFirst parce qu'une image de lancement ne change jamais :
+               si elle change, c'est un nouveau fichier avec un nouveau nom. */
+            urlPattern: ({ url }) => url.pathname.startsWith('/brand/splash/'),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'sonaa-lancement',
+              expiration: { maxEntries: 4, maxAgeSeconds: 60 * 60 * 24 * 180 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+          {
             /* YOUTUBE : JAMAIS EN CACHE, sous aucune forme. Trois raisons.
                La lecture passe par le lecteur officiel, dont les conditions
                d'utilisation interdisent d'intercepter ou de rejouer les flux.
