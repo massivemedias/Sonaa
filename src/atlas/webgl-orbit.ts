@@ -842,7 +842,9 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
 
      Le nom `focusIndex` reste celui de la racine : le renommer partout aurait
      touché quarante endroits pour un gain de vocabulaire. */
-  let focusGenerations = 1;
+  /* La profondeur du sous-arbre affiché, mesurée au dernier parcours. Sert au
+     cadrage et aux paliers de taille des noms. */
+  let zoneProfondeurMax = 0;
   const zoneGeneration = new Int8Array(TOTAL_GENRES);
 
   const rebuildZone = (): void => {
@@ -861,26 +863,38 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     zone[focusIndex] = 1;
     zoneGeneration[focusIndex] = 0;
 
-    /* TOUTE LA DESCENDANCE JUSQU'À LA GÉNÉRATION DÉPLIÉE, sans exception et
-       sans privilégier la branche cliquée. Parcours en largeur : c'est la
-       traduction directe de « une génération à la fois ». */
+    /* TOUT LE SOUS-ARBRE, D'UN SEUL COUP, JUSQU'AUX FEUILLES.
+
+       LE MODÈLE CHANGE POUR LA TROISIÈME FOIS, ET C'EST LA BONNE. D'abord une
+       branche à la fois : on perdait de vue les frères. Puis une génération à
+       la fois : on voyait le niveau mais jamais l'ensemble, et il fallait un
+       clic par génération pour descendre. « C'est trop lent et on ne voit
+       jamais l'ensemble », et c'est exact : un atlas généalogique dont il faut
+       trois clics pour voir une lignée ne montre pas la lignée.
+
+       Le parcours reste en largeur, mais sans borne : il s'arrête quand il n'y
+       a plus d'enfants. La profondeur enregistrée sert à la fois à la
+       disposition en anneaux et à la taille des noms. */
     const base = familyOffset[slot.family] ?? 0;
     let front = [focusIndex];
-    for (let g = 1; g <= focusGenerations; g += 1) {
+    let g = 0;
+    while (front.length > 0 && g < 12) {
+      g += 1;
       const suivant: number[] = [];
       for (const p of front) {
         const ps = slotsData[p];
         if (!ps) continue;
         for (const local of ps.children) {
           const e = base + local;
+          if (zone[e] === 1) continue; // garde : un DAG pourrait boucler
           zone[e] = 1;
           zoneGeneration[e] = g;
           suivant.push(e);
         }
       }
       front = suivant;
-      if (front.length === 0) break;
     }
+    zoneProfondeurMax = g - 1;
 
     /* Le parent direct de la racine garde le fil : sans lui on ne sait plus
        d'où l'on vient, et remonter demanderait de sortir du mode. */
@@ -925,31 +939,32 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   const focusRight = new Vector3(1, 0, 0);
   const focusUp = new Vector3(0, 1, 0);
 
-  /* LA DISPOSITION D'ENTRÉE, RÉCURSIVE.
+
+  /* ==========================================================================
+     LA DISPOSITION EN ANNEAUX CONCENTRIQUES.
+
+     TOUT LE SOUS-ARBRE EST POSÉ D'UN COUP. Le genre ouvert au centre, ses
+     dérivés directs sur le premier anneau, leurs dérivés sur le deuxième, et
+     ainsi de suite jusqu'aux feuilles.
+
+     CE QUI FAIT QUE LA FILIATION SE LIT : LES SECTEURS ANGULAIRES. Un noeud ne
+     reçoit pas un angle, il reçoit une PART DU CERCLE, et il la répartit entre
+     ses enfants au prorata du nombre de feuilles que chacun porte. Un dérivé
+     qui a douze descendants reçoit douze fois plus d'angle qu'une feuille. Ses
+     enfants restent donc DANS son secteur, à la verticale de lui, et l'oeil
+     suit une branche sans avoir besoin des liens.
+
+     C'est la disposition classique d'un arbre radial, et elle a une propriété
+     qui compte ici : deux sous-arbres ne peuvent PAS se croiser, par
+     construction, puisque leurs secteurs sont disjoints.
 
      POURQUOI ON NE RÉUTILISE PAS LES POSITIONS DE LA VUE D'ENSEMBLE. Elles
-     sont calculées une fois pour toutes, au build, pour que la famille entière
-     tienne dans son volume. Vues de près, elles donnent exactement ce qui a
-     été signalé : des dérivés dispersés, certains projetés SUR leur parent
-     parce qu'ils sont derrière lui dans l'axe de la caméra, et des cibles de
-     quelques pixels.
-
-     CE QUE FAIT CELLE-CI. La racine au centre. Ses dérivés sur une couronne,
-     dans le PLAN DE LA CAMÉRA au moment du clic, donc aucun ne peut se cacher
-     derrière un autre. Puis, si une deuxième génération est dépliée, CHACUN de
-     ces dérivés porte à son tour sa petite couronne locale.
-
-     L'ORDRE DU CALCUL EST L'INVERSE DE L'ORDRE DE LECTURE, et c'est le point
-     qui rend la chose juste. On ne peut pas placer la couronne principale
-     avant de savoir quelle place occupe chaque sous-système : un dérivé qui
-     porte six sous-genres a besoin de bien plus d'espace autour de lui qu'une
-     feuille. On calcule donc d'abord, de bas en haut, LE RAYON OCCUPÉ par
-     chaque sous-arbre ; ensuite seulement on pose les positions, de haut en
-     bas, en écartant la couronne principale juste assez pour que deux
-     sous-systèmes voisins ne se touchent pas.
-
-     Un seul calcul dans l'autre sens, et les petites couronnes se
-     chevauchaient dès qu'un dérivé avait plus d'enfants que ses voisins. */
+     sont calculées au build pour que la famille entière tienne dans son
+     volume. Vues de près, elles donnent des dérivés dispersés, certains
+     projetés SUR leur parent parce qu'ils sont derrière lui dans l'axe de la
+     caméra, et des cibles de quelques pixels. Ici tout est posé dans le PLAN
+     DE LA CAMÉRA au moment du clic : aucun noeud ne peut se cacher derrière
+     un autre. */
 
   const enfantsDe = (i: number): number[] => {
     const s = slotsData[i];
@@ -958,76 +973,18 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     return s.children.map((local) => base + local).filter((k) => slotsData[k]);
   };
 
-  /* Rayon occupé par le sous-arbre de `i` quand il reste `restant`
-     générations à déplier sous lui. Purement géométrique, sans effet de
-     bord : c'est ce qui permet de l'appeler plusieurs fois sans surprise. */
-  const rayonOccupe = (i: number, restant: number): number => {
-    const r = baseRadii[i] ?? 1;
-    if (restant <= 0) return r;
+  /* Le poids angulaire d'un noeud : le nombre de feuilles de son sous-arbre.
+     Une feuille pèse 1. C'est ce qui donne à chaque branche une part du cercle
+     proportionnelle à ce qu'elle contient, plutôt qu'une part égale qui
+     serrerait les grosses branches et gaspillerait l'espace des petites. */
+  const compterFeuilles = (i: number, vus: Set<number>): number => {
+    if (vus.has(i)) return 1;
+    vus.add(i);
     const enfants = enfantsDe(i);
-    if (enfants.length === 0) return r;
-    let rMax = 0;
-    for (const e of enfants) rMax = Math.max(rMax, rayonOccupe(e, restant - 1));
-    return rayonLocal(r, rMax, enfants.length) + rMax;
-  };
-
-  /* LES SOUS-COURONNES S'OUVRENT VERS L'EXTÉRIEUR, ELLES NE FONT PAS LE TOUR.
-
-     Première version : chaque dérivé portait ses sous-genres sur un cercle
-     complet autour de lui. Mesuré sur Downtempo à deux générations, écart
-     minimal entre cibles 23 px, pour 44 visés. La raison est géométrique et
-     elle ne se corrige pas en poussant les facteurs : sept systèmes complets
-     sur un même cercle se disputent la corde qui les sépare, et la moitié de
-     chaque petite couronne pointe vers le centre, c'est-à-dire vers la zone
-     déjà occupée par la racine et par les liens.
-
-     En éventail vers l'extérieur, les sous-genres partent dans l'espace libre
-     qui entoure la couronne, où il y en a d'autant plus qu'on s'éloigne. La
-     même place à l'écran porte alors des cibles bien plus écartées.
-
-     Le tour complet revient quand il y a beaucoup d'enfants (au-delà de
-     quatre), parce qu'un éventail trop ouvert redevient un cercle. */
-  const ANGLE_EVENTAIL = (n: number): number => {
-    if (n <= 1) return 0;
-    if (n === 2) return Math.PI * 0.5;
-    if (n === 3) return Math.PI * 0.72;
-    if (n === 4) return Math.PI * 0.95;
-    return Math.PI * 2 * ((n - 1) / n);
-  };
-
-  /* ÉCARTER LA COURONNE NE SERT À RIEN, ET C'EST MESURÉ.
-
-     J'avais écrit une boucle fermée : quand un nom en mord un autre, on
-     multiplie tous les rayons de la disposition, la caméra recule pour
-     contenir le tout, et l'on remesure. Elle a divergé jusqu'à sa borne, 2,59,
-     et le résultat était PIRE qu'au départ : sur Downtempo, écart tombé de 49
-     à 34 px et un nom perdu sur douze.
-
-     La raison est géométrique et elle aurait dû être vue avant d'écrire la
-     boucle. Le cadrage maintient l'ensemble à une fraction fixe de l'écran :
-     multiplier toutes les distances par k éloigne la caméra de k, et l'écart à
-     l'écran ne bouge pas d'un pixel. Pire, les rayons des sphères, eux, ne
-     sont pas multipliés : l'étendue grandit donc un peu plus vite que les
-     écarts, et l'écart à l'écran RÉTRÉCIT.
-
-     Les vrais leviers sont ailleurs, et il n'y en a que deux : la PART DE
-     L'ÉCRAN que l'ensemble occupe, et la FORME de la disposition. C'est ce qui
-     reste ci-dessous.
-
-     La leçon de méthode, pour la troisième fois : mesurer avant de corriger.
-     La boucle était plausible, elle était fausse. */
-
-  const rayonLocal = (rParent: number, rEnfantMax: number, n: number): number => {
-    /* 2,75 et non 2,1 : mesuré sur Downtempo à deux générations, la paire la
-       plus serrée est un sous-genre et SON dérivé, pas deux voisins. 36 px
-       d'écart avec 2,1, sous les 44 visés. */
-    const parParent = (rParent + rEnfantMax) * 2.75;
-    /* Séparation entre voisins DE L'ÉVENTAIL : l'angle entre deux enfants
-       vaut l'ouverture divisée par le nombre d'intervalles, jamais le tour
-       complet divisé par le nombre d'enfants. */
-    const pas = n > 1 ? ANGLE_EVENTAIL(n) / (n - 1) : 0;
-    const parVoisins = pas > 0 ? (rEnfantMax * 2.4) / (2 * Math.sin(Math.min(Math.PI / 2, pas / 2))) : 0;
-    return Math.max(parParent, parVoisins);
+    if (enfants.length === 0) return 1;
+    let n = 0;
+    for (const e of enfants) n += compterFeuilles(e, vus);
+    return n;
   };
 
   const buildFocusRing = (globalIndex: number): void => {
@@ -1042,84 +999,60 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     focusRight.copy(camRight);
     focusUp.copy(camUp);
 
-    const vecteur = (angle: number, rayon: number): Vector3 =>
-      new Vector3(
-        (camRight.x * Math.cos(angle) + camUp.x * Math.sin(angle)) * rayon,
-        (camRight.y * Math.cos(angle) + camUp.y * Math.sin(angle)) * rayon,
-        (camRight.z * Math.cos(angle) + camUp.z * Math.sin(angle)) * rayon
+    const poser = (index: number, angle: number, rayon: number): void => {
+      focusOffsets.set(
+        index,
+        new Vector3(
+          (camRight.x * Math.cos(angle) + camUp.x * Math.sin(angle)) * rayon,
+          (camRight.y * Math.cos(angle) + camUp.y * Math.sin(angle)) * rayon,
+          (camRight.z * Math.cos(angle) + camUp.z * Math.sin(angle)) * rayon
+        )
       );
-
-    const DROITE = 0;
-    const HAUT = Math.PI / 2;
-    const GAUCHE = Math.PI;
-
-    /* Pose la descendance de `i`, dont la position est déjà connue, sur
-       `restant` générations. `sortant` est la direction qui s'éloigne de la
-       racine : la petite couronne locale commence de ce côté, pour que les
-       sous-genres d'un dérivé partent vers l'extérieur et non vers le centre
-       déjà occupé. */
-    const poserDescendance = (i: number, centre: Vector3, restant: number, sortant: number): void => {
-      if (restant <= 0) return;
-      const enfants = enfantsDe(i);
-      const n = enfants.length;
-      if (n === 0) return;
-
-      const r = baseRadii[i] ?? 1;
-      let rMax = 0;
-      for (const e of enfants) rMax = Math.max(rMax, rayonOccupe(e, restant - 1));
-      const R = rayonLocal(r, rMax, n);
-
-      /* Ordre conservé : les dérivés sont rangés selon l'angle qu'ils
-         occupaient déjà à l'écran. Sans cela, la couronne rebattrait les
-         cartes à chaque descente et un dérivé repéré à droite se retrouverait
-         à gauche. */
-      const s = slotsData[i];
-      const avecAngle = enfants.map((e) => {
-        const es = slotsData[e];
-        const dx = (es?.deployed.x ?? 0) - (s?.deployed.x ?? 0);
-        const dy = (es?.deployed.y ?? 0) - (s?.deployed.y ?? 0);
-        const dz = (es?.deployed.z ?? 0) - (s?.deployed.z ?? 0);
-        return {
-          e,
-          angle: Math.atan2(
-            camUp.x * dx + camUp.y * dy + camUp.z * dz,
-            camRight.x * dx + camRight.y * dy + camRight.z * dz
-          )
-        };
-      });
-      avecAngle.sort((a, b) => a.angle - b.angle);
-
-      /* L'éventail est CENTRÉ sur la direction sortante : le premier enfant
-         d'un dérivé situé à droite de la racine part vers la droite, pas vers
-         le centre. */
-      const ouverture = ANGLE_EVENTAIL(n);
-      avecAngle.forEach((k, idx) => {
-        const a = n === 1 ? sortant : sortant - ouverture / 2 + (idx / (n - 1)) * ouverture;
-        const pos = centre.clone().add(vecteur(a, R));
-        focusOffsets.set(k.e, pos);
-        poserDescendance(k.e, pos, restant - 1, a);
-      });
     };
 
-    /* ---- 1. la racine et sa première couronne ---- */
-    const enfants = enfantsDe(globalIndex);
-    const n = enfants.length;
+    /* LE PAS DES ANNEAUX. Il est fixé sur la plus grosse sphère de l'arbre,
+       pas sur une constante : un fondateur de famille a un rayon plusieurs
+       fois supérieur à celui d'une feuille, et un pas calculé sur les petites
+       ferait passer le premier anneau à l'intérieur du centre. */
+    const sousArbre: number[] = [];
+    const file = [globalIndex];
+    const vus = new Set<number>([globalIndex]);
+    while (file.length > 0) {
+      const i = file.shift() as number;
+      sousArbre.push(i);
+      for (const e of enfantsDe(i)) {
+        if (vus.has(e)) continue;
+        vus.add(e);
+        file.push(e);
+      }
+    }
+    let rMax = 0.5;
+    for (const i of sousArbre) rMax = Math.max(rMax, baseRadii[i] ?? 0.5);
     const rRacine = baseRadii[globalIndex] ?? 1;
+    const PAS = Math.max((rRacine + rMax) * 2.2, rMax * 4.4);
+
+    /* LE PARENT DE LA RACINE garde le fil : sans lui on ne sait plus d'où l'on
+       vient. Il occupe une part du premier anneau comme s'il était un enfant
+       de plus, ce qui évite de le poser sur un secteur déjà pris. */
     const parentIndex = slot.parent >= 0 ? (familyOffset[slot.family] ?? 0) + slot.parent : -1;
 
-    /* La place que prend chaque dérivé, sous-systèmes compris. C'est ce
-       calcul qui manquait : la couronne principale s'écarte pour contenir les
-       petites couronnes, au lieu de les laisser se marcher dessus. */
-    let rMax = 0;
-    for (const e of enfants) rMax = Math.max(rMax, rayonOccupe(e, focusGenerations - 1));
-    const rParentSphere = parentIndex >= 0 ? (baseRadii[parentIndex] ?? 1) : 0;
-    const rVoisinMax = Math.max(rMax, rParentSphere);
+    const enfantsRacine = enfantsDe(globalIndex);
+    const poids = new Map<number, number>();
+    let total = 0;
+    for (const e of enfantsRacine) {
+      const p = compterFeuilles(e, new Set<number>());
+      poids.set(e, p);
+      total += p;
+    }
+    const partParent = parentIndex >= 0 ? Math.max(1, Math.round(total / Math.max(1, enfantsRacine.length))) : 0;
+    total += partParent;
+    if (total <= 0) total = 1;
 
-    const parParent = (rRacine + rVoisinMax) * (focusGenerations > 1 ? 1.55 : 2.35);
-    const parVoisins = n > 2 ? (rVoisinMax * 2.25) / (2 * Math.sin(Math.PI / n)) : 0;
-    const R = Math.max(parParent, parVoisins);
-
-    const avecAngle = enfants.map((e) => {
+    /* Ordre conservé : les branches sont rangées selon l'angle qu'elles
+       occupaient déjà à l'écran. Sans cela, la disposition rebattrait les
+       cartes à chaque descente et un dérivé repéré à droite se retrouverait à
+       gauche. */
+    const avecAngle = enfantsRacine.map((e) => {
       const es = slotsData[e];
       const dx = (es?.deployed.x ?? 0) - slot.deployed.x;
       const dy = (es?.deployed.y ?? 0) - slot.deployed.y;
@@ -1134,46 +1067,69 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     });
     avecAngle.sort((a, b) => a.angle - b.angle);
 
-    /* DES ANGLES QUI DÉPENDENT DU NOMBRE DE DÉRIVÉS. Une couronne de un ou
-       deux points n'est pas une couronne, c'est une ligne, et posée en
-       diagonale avec le parent dans un coin elle donne le genre ouvert collé
-       dans un angle et deux points en diagonale. */
-    if (n === 0) {
-      if (parentIndex >= 0) focusOffsets.set(parentIndex, vecteur(GAUCHE, Math.max(R, (rRacine + rParentSphere) * 2.35)));
-    } else if (n === 1) {
-      const e0 = avecAngle[0];
-      if (e0) {
-        const pos = vecteur(DROITE, R);
-        focusOffsets.set(e0.e, pos);
-        poserDescendance(e0.e, pos, focusGenerations - 1, DROITE);
-      }
-      if (parentIndex >= 0) focusOffsets.set(parentIndex, vecteur(GAUCHE, R));
-    } else if (n === 2) {
-      const [a, b] = avecAngle;
-      if (a) {
-        const pos = vecteur(GAUCHE, R);
-        focusOffsets.set(a.e, pos);
-        poserDescendance(a.e, pos, focusGenerations - 1, GAUCHE);
-      }
-      if (b) {
-        const pos = vecteur(DROITE, R);
-        focusOffsets.set(b.e, pos);
-        poserDescendance(b.e, pos, focusGenerations - 1, DROITE);
-      }
-      if (parentIndex >= 0) focusOffsets.set(parentIndex, vecteur(HAUT, R));
-    } else {
-      /* Départ à midi, sens horaire : la couronne se lit comme un cadran. Le
-         demi-pas de décalage libère l'intervalle où va le parent. */
-      const biais = parentIndex >= 0 ? Math.PI / n : 0;
-      avecAngle.forEach((k, idx) => {
-        const a = HAUT - (idx / n) * Math.PI * 2 - biais;
-        const pos = vecteur(a, R);
-        focusOffsets.set(k.e, pos);
-        poserDescendance(k.e, pos, focusGenerations - 1, a);
+    /* Descente récursive : chaque noeud reçoit un secteur [debut, fin] et le
+       partage entre ses enfants au prorata de leurs feuilles. Il se pose
+       lui-même au MILIEU de son secteur, sur l'anneau de sa profondeur. */
+    /* L'ÉCART MINIMAL ENTRE DEUX VOISINS, en unités du monde. Un anneau n'est
+       pas une distance, c'est un COMPROMIS entre la profondeur qu'il exprime
+       et la place qu'il offre. */
+    const ESPACE_MIN = rMax * 2.6;
+
+    const poserBranche = (
+      index: number,
+      debut: number,
+      fin: number,
+      profondeur: number,
+      rayonMin: number
+    ): void => {
+      /* UN ANNEAU S'ÉLOIGNE QUAND SON SECTEUR EST ÉTROIT.
+
+         C'est le défaut classique de l'arbre radial, et il s'est mesuré : sur
+         Chicago House, 24 sphères sur quatre niveaux, l'écart minimal entre
+         deux cibles tombait à 16 px, et à 9 px sur Breakbeat. La cause n'est
+         pas le nombre de noeuds mais la LARGEUR DE SECTEUR : une branche qui
+         ne porte qu'une feuille reçoit une part de cercle minuscule, et son
+         noeud, posé sur l'anneau de sa profondeur, se retrouve collé à celui
+         de la branche voisine.
+
+         Un noeud est donc posé sur le PLUS GRAND des deux rayons : celui de
+         sa profondeur, et celui qu'il faut pour que son secteur mesure au
+         moins l'écart minimal. L'arbre garde ses anneaux là où il y a de la
+         place, et s'étire là où il n'y en a pas. */
+      const largeurAngle = Math.max(0.02, fin - debut);
+      const rayon = Math.max(rayonMin, ESPACE_MIN / largeurAngle);
+      poser(index, (debut + fin) / 2, rayon);
+      const enfants = enfantsDe(index);
+      if (enfants.length === 0 || profondeur >= 11) return;
+      let poidsTotal = 0;
+      const p = enfants.map((e) => {
+        const w = compterFeuilles(e, new Set<number>());
+        poidsTotal += w;
+        return { e, w };
       });
-      if (parentIndex >= 0) focusOffsets.set(parentIndex, vecteur(HAUT + Math.PI / n, R));
+      if (poidsTotal <= 0) return;
+      let curseur = debut;
+      for (const { e, w } of p) {
+        const largeur = ((fin - debut) * w) / poidsTotal;
+        poserBranche(e, curseur, curseur + largeur, profondeur + 1, rayon + PAS);
+        curseur += largeur;
+      }
+    };
+
+    /* Départ à midi, sens horaire : la carte se lit comme un cadran. */
+    const DEPART = Math.PI / 2;
+    let curseur = DEPART;
+    for (const { e } of avecAngle) {
+      const largeur = (Math.PI * 2 * (poids.get(e) ?? 1)) / total;
+      poserBranche(e, curseur - largeur, curseur, 1, PAS);
+      curseur -= largeur;
+    }
+    if (parentIndex >= 0) {
+      const largeur = (Math.PI * 2 * partParent) / total;
+      poser(parentIndex, curseur - largeur / 2, PAS);
     }
   };
+
 
   /* Rayon de la couronne d'entrée, pour le cadrage. Lu depuis les décalages
      réellement posés : le cadrage ne peut donc pas diverger de la
@@ -1216,19 +1172,20 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      Le canvas est déjà rétréci par la colonne (règle CSS sur
      data-player-open), donc « l'espace disponible » est exactement ce que
      mesure la caméra : rien à déduire ici. */
-  /* L'ensemble occupe 60 % de la plus petite dimension quand une seule
-     génération est dépliée. Avec deux, il en occupe 78 % : la caméra recule
-     pour contenir la génération ouverte, mais reculer sans élargir la part de
-     l'écran rendrait chaque cible plus petite qu'avant, ce qui est le
-     contraire de ce qu'on cherche. */
-  const OCCUPATION_SIMPLE = 0.6;
+  /* L'ARBRE OCCUPE 85 % DE L'ESPACE DISPONIBLE, quelle que soit sa taille.
+
+     C'est le seul levier qui déplace vraiment l'écart entre deux cibles en
+     pixels : agrandir la disposition fait reculer la caméra d'autant et ne
+     change rien (mesuré, ADR-075). Il ne reste que la part de l'écran qu'on
+     accorde à l'ensemble, et les 15 % de marge gardent les noms des bords
+     dans le cadre. */
+  const OCCUPATION = 0.85;
   /* 0,86 et non 0,78 : c'est le SEUL levier qui déplace vraiment l'écart en
      pixels, puisque agrandir la disposition fait reculer la caméra d'autant.
      Mesuré sur Hardcore Techno, le cas le plus dense du corpus, dix-sept
      sphères à deux générations : 43 px d'écart minimal à 0,78, sous la cible
      de 44 ; 48 px à 0,86. La marge de 14 % qui reste garde les noms des bords
      dans le cadre. */
-  const OCCUPATION_PROFONDE = 0.86;
 
   /* L'ÉTENDUE DU GROUPE, séparément en largeur et en hauteur.
 
@@ -1270,12 +1227,22 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     return { minX, maxX, minY, maxY };
   };
 
+  /* LARGEUR ET HAUTEUR TOTALES de la boîte de l'arbre, pas des demi-étendues.
+
+     L'unité de ces deux nombres est la première chose à vérifier avant d'y
+     toucher : j'ai retiré le facteur 2 en le croyant en trop, alors que
+     l'appelant passe bien `maxX - minX`. La caméra est partie deux fois trop
+     loin, et l'arbre n'a plus occupé que 42 % de l'écran au lieu de 85.
+
+     La hauteur visible à la distance d vaut 2·d·tan. On veut que la hauteur
+     de l'arbre en occupe la fraction voulue : d = H / (2 · occupation · tan).
+     Même chose en largeur, au rapport de forme près, et l'on garde la plus
+     grande des deux distances. */
   const focusFrameDistance = (largeur: number, hauteur: number): number => {
     const tan = Math.tan((FOV * Math.PI) / 360);
     const aspect = Math.max(0.2, camera.aspect);
-    const occupation = focusGenerations > 1 ? OCCUPATION_PROFONDE : OCCUPATION_SIMPLE;
-    const parLargeur = largeur / Math.max(0.001, 2 * occupation * tan * aspect);
-    const parHauteur = hauteur / Math.max(0.001, 2 * occupation * tan);
+    const parLargeur = largeur / Math.max(0.001, 2 * OCCUPATION * tan * aspect);
+    const parHauteur = hauteur / Math.max(0.001, 2 * OCCUPATION * tan);
     return clamp(Math.max(parLargeur, parHauteur), MIN_DISTANCE, MAX_DISTANCE);
   };
 
@@ -1341,6 +1308,12 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      C'est ce qui rend le nommage de 100 % des enfants directs possible :
      l'écran ne contient plus jamais tout l'arbre d'une famille. */
   const parentExpanded = (slot: Slot, globalIndex: number): boolean => {
+    /* TOUT CE QUI EST DANS L'ARBRE AFFICHÉ EST DÉPLOYÉ, quelle que soit sa
+       profondeur. Le déploiement à un seul niveau (ADR-056) décrivait la
+       descente par générations, qui n'existe plus : un noeud de profondeur 4
+       posé sur son anneau doit être présent, sinon il est calculé, nommé, et
+       jamais peint. */
+    if (zoneActive && zone[globalIndex] === 1) return true;
     if (slot.depth <= 1 || slot.parent < 0) return true;
     /* Un genre SUR le chemin ouvert reste toujours déployé : sinon le genre
        cliqué lui-même disparaissait quand il vivait en profondeur 2 ou plus
@@ -1868,7 +1841,6 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     activeGenre = -1;
     genrePath = [];
     focusIndex = -1;
-    focusGenerations = 1;
     focusDir = -1;
     focusStart = now;
     level = 'family';
@@ -1972,21 +1944,12 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     const generationDuNoeud = dansLaZone ? (zoneGeneration[globalIndex] ?? -1) : -1;
 
     if (dansLaZone && generationDuNoeud >= 0) {
-      /* Déplier la génération D'APRÈS celle du noeud cliqué. Cliquer un noeud
-         d'une génération déjà dépassée ne replie rien : on ne perd jamais ce
-         qui est à l'écran par un simple clic de sélection. */
-      const voulu = Math.max(focusGenerations, generationDuNoeud + 1);
-      if (voulu !== focusGenerations) {
-        focusGenerations = voulu;
-        focusStart = now;
-        buildFocusRing(focusIndex);
-        rebuildZone();
-        /* LA CAMÉRA RECULE, ELLE NE SE RECENTRE PAS. Le centre reste la
-           racine ; seule la distance change, pour contenir la génération qui
-           vient de s'ouvrir. */
-        frameLock = focusIndex;
-        startFly(cibleDuFocus(focusIndex), distanceDuFocus(focusIndex), now);
-      }
+      /* CLIQUER UN NOEUD DE L'ARBRE NE REDÉPLOIE RIEN : tout est déjà là.
+
+         Il met le noeud en évidence et remplit la colonne de ses morceaux, un
+         point c'est tout. LA CAMÉRA NE BOUGE PAS. C'est ce qui rend l'arbre
+         explorable : on parcourt une lignée à la souris sans que le cadrage
+         se dérobe à chaque clic. */
       emitNav();
       openPanel(slot.family, slot.local);
       return;
@@ -2002,7 +1965,6 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     if (slot.children.length === 0 && slot.parent >= 0) racine = base + slot.parent;
 
     focusIndex = racine;
-    focusGenerations = 1;
     focusDir = 1;
     focusStart = now;
 
@@ -2068,53 +2030,26 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   const goUp = (): void => {
     const now = performance.now();
 
-    /* PREMIER CAS : UNE GÉNÉRATION EST DÉPLIÉE SOUS LA RACINE. Échap la
-       REPLIE, et ne remonte pas encore.
-
-       C'est la contrepartie exacte du clic : il ouvre une génération, Échap
-       la referme. Remonter directement à la racine aurait fait perdre d'un
-       coup tout ce qu'on venait d'ouvrir, alors que le geste demandé est
-       « un cran ». La sélection redescend sur le parent du noeud
-       sélectionné, qui est le noeud le plus profond encore visible. */
-    if (level === 'genre' && zoneActive && focusGenerations > 1) {
-      focusGenerations -= 1;
-      focusStart = now;
-      buildFocusRing(focusIndex);
-      rebuildZone();
-
-      /* La sélection remonte tant qu'elle n'est plus dans la zone. */
-      let sel = activeGenre;
-      let garde = 0;
-      while (sel >= 0 && zone[sel] !== 1 && garde < 8) {
-        const ss = slotsData[sel];
-        sel = ss && ss.parent >= 0 ? (familyOffset[ss.family] ?? 0) + ss.parent : focusIndex;
-        garde += 1;
-      }
-      activeGenre = sel >= 0 ? sel : focusIndex;
+    /* PREMIER CAS : UN NOEUD DE L'ARBRE EST SÉLECTIONNÉ, plus profond que la
+       racine. Échap remonte d'un cran DANS L'ARBRE : la sélection passe au
+       parent, et rien d'autre ne bouge. Ni la disposition, ni la caméra, ni
+       la zone : tout l'arbre est affiché, remonter n'est qu'un déplacement de
+       la sélection. */
+    if (level === 'genre' && zoneActive && activeGenre >= 0 && activeGenre !== focusIndex) {
       const as = slotsData[activeGenre];
-      if (as) {
-        genrePath = pathToGenre(as.family, as.local).map((l) => (familyOffset[as.family] ?? 0) + l);
+      const parent = as && as.parent >= 0 ? (familyOffset[as.family] ?? 0) + as.parent : focusIndex;
+      activeGenre = zone[parent] === 1 ? parent : focusIndex;
+      const ns = slotsData[activeGenre];
+      if (ns) {
+        genrePath = pathToGenre(ns.family, ns.local).map((l) => (familyOffset[ns.family] ?? 0) + l);
+        emitNav();
+        openPanel(ns.family, ns.local);
       }
-      frameLock = focusIndex;
-      startFly(cibleDuFocus(focusIndex), distanceDuFocus(focusIndex), now);
-      emitNav();
-      if (as) openPanel(as.family, as.local);
       return;
     }
 
-    /* DEUXIÈME CAS : un noeud de la première génération est sélectionné.
-       Remonter, c'est revenir à la racine ELLE-MÊME, sans toucher ni à la
-       zone ni à la caméra : on annule une sélection, on ne change pas de
-       lieu. Sans ce cas, Échap sautait par-dessus la racine et remontait au
-       grand-parent, ce qui faisait perdre un niveau. */
-    if (level === 'genre' && focusIndex >= 0 && activeGenre !== focusIndex) {
-      activeGenre = focusIndex;
-      genrePath = genrePath.slice(0, -1);
-      emitNav();
-      const fs = slotsData[focusIndex];
-      if (fs) openPanel(fs.family, fs.local);
-      return;
-    }
+    /* DEUXIÈME CAS : la RACINE de l'arbre est sélectionnée. Il n'y a plus rien
+       à remonter dedans, on quitte l'arbre et on remonte d'un niveau. */
 
     if (level === 'genre') {
       /* On remonte d'un cran dans le chemin, pas directement à la famille :
@@ -2127,8 +2062,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       if (parent !== undefined) {
         activeGenre = parent;
         focusIndex = parent;
-        focusGenerations = 1;
-        focusDir = 1;
+            focusDir = 1;
         /* Remonter au parent, c'est y ENTRER : sa couronne est refaite et la
            zone se referme sur lui. Sans cela on remontait dans un mode focus
            dont la zone désignait encore l'enfant qu'on venait de quitter. */
@@ -2145,8 +2079,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
 
       activeGenre = -1;
       focusIndex = -1;
-      focusGenerations = 1;
-      level = 'family';
+        level = 'family';
       rebuildZone();
       focusOffsets.clear();
       const c = activeFamily >= 0 ? familyCenters[activeFamily] : undefined;
@@ -2187,7 +2120,6 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     activeGenre = -1;
     genrePath = [];
     focusIndex = -1;
-    focusGenerations = 1;
     focusDir = -1;
     focusStart = now;
     level = 'atlas';
@@ -2204,6 +2136,17 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      soit la taille de la boule : toucher le bord d'une grosse sphère ratait,
      alors qu'on avait visiblement touché la sphère. C'est la première cause
      du « il faut viser ». */
+  /* Le rayon apparent SANS le grossissement de survol : c'est celui qui doit
+     servir à poser un nom, sinon le nom bouge quand on l'approche. */
+  const rayonEcranBase = (index: number): number => {
+    const slot = slotsData[index];
+    if (!slot) return 0;
+    const d = camera.position.distanceTo(slot.world);
+    if (d <= 0.0001) return 0;
+    const hauteurVisible = 2 * Math.tan((FOV * Math.PI) / 360) * d;
+    return ((baseRadii[index] ?? 2) / hauteurVisible) * height;
+  };
+
   const rayonEcran = (index: number): number => {
     const slot = slotsData[index];
     if (!slot) return 0;
@@ -2296,6 +2239,11 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     return null;
   };
 
+  /* CE QUE LE DERNIER TAP A DÉCIDÉ, et pourquoi. Sans cette trace, un clic qui
+     ne fait pas ce qu'on attend ne laisse aucune prise : on voit l'état
+     d'après, jamais le chemin emprunté pour y arriver. */
+  let dernierTap: Record<string, unknown> = {};
+
   const performTapAction = (px: number, py: number): void => {
     /* Le doigt couvre environ 9 mm, la souris un pixel. La tolérance suit le
        pointeur, elle ne suit pas la mode. */
@@ -2305,6 +2253,15 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     /* LE NOM D'ABORD. C'est lui qu'on lit et qu'on vise ; la sphère est
        souvent plus petite que le mot qui la désigne. */
     const nom = nomTouche(px, py, grossier ? 10 : 4);
+    dernierTap = {
+      px: Math.round(px),
+      py: Math.round(py),
+      nom: nom ? (nom.el.textContent ?? '') : null,
+      nomSlot: nom ? nom.slot : -1,
+      niveau: level,
+      familleActive: activeFamily,
+      zoneActive
+    };
     if (nom) {
       if (nom.kind === 'family') {
         if (level === 'atlas' && nom.famille >= 0) selectFamily(nom.famille, now);
@@ -2330,6 +2287,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
 
              goToGenre fait les deux dans l'ordre : la famille se déploie,
              puis le genre visé prend le focus quand elle est ouverte. */
+          dernierTap['decision'] = level === 'atlas' ? 'nom : entree depuis atlas' : 'nom : selection';
           if (level === 'atlas') goToGenre(vise.family, vise.local);
           else selectGenre(nom.slot, now);
           return;
@@ -2349,6 +2307,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
          du second Échap, et le geste que fait spontanément quelqu'un qui
          veut refermer ce qu'il a ouvert. Hors mode focus, on remonte d'un
          niveau comme avant. */
+      dernierTap['decision'] = zoneActive ? 'vide en focus : sortie' : 'vide : remontee';
       if (zoneActive) sortirDuFocus();
       else goUp();
     } else if (level === 'atlas') {
@@ -2496,7 +2455,6 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     activeGenre = -1;
     genrePath = [];
     focusIndex = -1;
-    focusGenerations = 1;
     focusDir = -1;
     focusStart = performance.now();
     level = 'atlas';
@@ -2531,6 +2489,10 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   const rayonsOcclusion = new Float32Array(TOTAL_GENRES);
   const distancesOcclusion = new Float32Array(TOTAL_GENRES);
 
+  /* Voir poserSansMasquer : la mémoire vit HORS de la passe, sinon elle est
+     vidée à chaque image et ne mémorise rien du tout. */
+  const positionRetenue = new Map<string, { dir: number; palier: number }>();
+
   const labelSlots: LabelSlot[] = [];
   for (let i = 0; i < LABEL_POOL; i += 1) {
     const el = document.createElement('span');
@@ -2564,6 +2526,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   }[] = [];
   let labelsShown = 0;
   let labelsMordus = 0;
+
 
   let genreLabelsShown = 0;
   let hovered = -1;
@@ -2667,7 +2630,19 @@ const OVERLAP_TOLERANCE = 1;
       /* Bande haute réservée au fil d'Ariane, bande basse aux contrôles et à
          la ligne d'aide : un label qui s'y place se superpose à du texte
          d'interface. */
-      if (sy < CHROME_TOP || sy > height - CHROME_BOTTOM) {
+      /* LA BANDE RÉSERVÉE NE FAIT PLUS DISPARAÎTRE UN NOM DE L'ARBRE.
+
+         Les bandes haute et basse sont reservées au fil d'Ariane et aux
+         contrôles : un nom qui s'y place se superpose à du texte d'interface,
+         et la règle vaut toujours pour la vue d'ensemble.
+
+         Mais dans l'arbre déployé, elle produisait un masquage, ce qui est
+         exactement ce qui est interdit : mesuré sur Musique concrète, treize
+         sphères et douze noms, « Philly Soul » tombant dans la bande haute.
+         Pour un membre de l'arbre, la recherche de position s'en charge : elle
+         essaie huit côtés et n'en retient aucun qui déborde. */
+      const dansArbre = zoneActive && slot >= 0 && zone[slot] === 1;
+      if (!dansArbre && (sy < CHROME_TOP || sy > height - CHROME_BOTTOM)) {
         return;
       }
 
@@ -2712,12 +2687,16 @@ const OVERLAP_TOLERANCE = 1;
          absolu est 12 px, et on ne descend jamais dessous : quand ça ne rentre
          pas, on écarte les sphères et on recule la caméra, on ne rapetisse
          pas le texte. */
+      /* QUATRE PALIERS, un par profondeur dans l'arbre, plancher à 12 px. La
+         taille dit le niveau : c'est elle qui remplace la descente par
+         générations comme moyen de savoir où l'on est dans la filiation. */
       const pxFocus = (() => {
         if (!zoneActive || slot < 0 || zone[slot] !== 1) return 0;
         const g = zoneGeneration[slot] ?? -1;
         if (g === 0) return 22;
-        if (g <= 1) return 16;
-        return 13;
+        if (g === 1) return 16;
+        if (g === 2) return 13;
+        return 12;
       })();
       const pxCalcule =
         kind === 'genre'
@@ -2758,7 +2737,21 @@ const OVERLAP_TOLERANCE = 1;
           if (len > 2) {
             vx /= len;
             vy /= len;
-            const rPx = ((sphereRadii[slot] ?? 1) * halfH) / (Math.tan((FOV * Math.PI) / 360) * Math.max(1, depth));
+            /* LE RAYON DE BASE, PAS CELUI DU SURVOL.
+
+               Le survol grossit la sphère de 8 %, et l'ancrage du nom suivait
+               ce rayon : approcher la souris d'un nom le faisait GLISSER vers
+               l'extérieur, de quelques pixels, pendant que le grossissement
+               s'installait. Le nom fuyait donc sous le curseur, et un clic
+               posé dessus pouvait tomber à côté une fois la marge de 4 px
+               dépassée.
+
+               Mesuré : le moteur trouvait « Funk » sous le point au moment de
+               la sonde, et plus rien au moment du clic, à coordonnées
+               identiques ; le tap était alors lu comme un clic dans le vide,
+               ce qui referme le mode focus. Un nom ne bouge plus quand on
+               s'en approche. */
+            const rPx = ((baseRadii[slot] ?? 1) * halfH) / (Math.tan((FOV * Math.PI) / 360) * Math.max(1, depth));
             const push = rPx + px * 0.9;
             fx = sx + vx * push - (vx < 0 ? w : 0) - (Math.abs(vx) < 0.35 ? w / 2 : 0);
             fy = sy + vy * push;
@@ -2823,7 +2816,9 @@ const OVERLAP_TOLERANCE = 1;
         h: px * 1.45,
         ancreX: sx,
         ancreY: sy,
-        ancreR: slot >= 0 ? rayonEcran(slot) : 0,
+        /* Rayon de BASE lui aussi : la recherche de position ne doit pas
+           déplacer un nom parce que la souris s'en approche. */
+        ancreR: slot >= 0 ? rayonEcranBase(slot) : 0,
         generation: slot >= 0 && zoneActive ? (zoneGeneration[slot] ?? -1) : -1,
         flou
       });
@@ -3048,7 +3043,25 @@ const OVERLAP_TOLERANCE = 1;
     };
     for (let k = candidates.length - 1; k >= 0; k -= 1) {
       const c = candidates[k];
-      if (c && occulte(c)) candidates.splice(k, 1);
+      if (!c) continue;
+      /* UN NOM DE L'ARBRE N'EST JAMAIS RETIRÉ PAR L'OCCULTATION : IL SE
+         DÉPLACE.
+
+         L'occultation supprime le nom dont l'ancre est cachée par une sphère
+         plus proche. C'est juste dans la vue d'ensemble, où un nom posé sur
+         une sphère qui n'est pas la sienne désigne le mauvais objet.
+
+         Dans l'arbre déployé, elle produisait un masquage, et le masquage est
+         interdit. Mesuré sur Musique concrète : treize sphères, douze noms,
+         « Philly Soul » retiré parce que son nom tombait sur la sphère de son
+         parent, à un millième d'unité de profondeur près. Tous les noeuds d'un
+         arbre radial sont dans le PLAN DE LA CAMÉRA, donc à peu près à la même
+         distance : l'écart qui déclenche la règle n'y a plus aucun sens.
+
+         La recherche de position, elle, essaie huit côtés : c'est à elle
+         d'écarter le nom de la sphère qui le gêne. */
+      const membreDeLArbre = zoneActive && c.slot >= 0 && zone[c.slot] === 1 && !c.flou;
+      if (!membreDeLArbre && occulte(c)) candidates.splice(k, 1);
     }
 
     /* ======================================================================
@@ -3077,6 +3090,20 @@ const OVERLAP_TOLERANCE = 1;
     const PALIERS = [1, 0.86, 0.72, 0.6];
     let chevauchementsZone = 0;
 
+    /* LA POSITION RETENUE À LA PASSE PRÉCÉDENTE, par nom.
+
+       Sans cette mémoire, la recherche repart des huit directions dans le même
+       ordre à chaque passe, et le premier emplacement libre change dès que la
+       caméra dérive d'un pixel : un nom se met alors à ALTERNER entre la
+       droite et la gauche de sa sphère, plusieurs fois par seconde.
+
+       Le défaut s'est vu à la mesure avant de se voir à l'oeil : le moteur
+       trouvait un nom sous le curseur à un instant, et plus rien 60 ms plus
+       tard aux mêmes coordonnées, si bien qu'un clic posé dessus était lu
+       comme un clic dans le vide et refermait le mode focus.
+
+       On réessaie donc d'abord la position d'avant. Elle ne cède que si elle
+       est réellement occupée, et le nom reste alors là où l'oeil l'a laissé. */
     const poserSansMasquer = (c: Candidate): void => {
       const rayon = Math.max(c.ancreR, 4);
       const directions: [number, number][] = [
@@ -3086,17 +3113,41 @@ const OVERLAP_TOLERANCE = 1;
       const pxVoulu = c.px;
       let meilleur: { sx: number; sy: number; px: number; w: number; h: number; mordu: number } | null = null;
 
-      for (const facteur of PALIERS) {
+      /* L'ordre d'essai commence par la position retenue à la passe d'avant. */
+      const memoire = positionRetenue.get(c.key);
+      const paliersIdx = memoire
+        ? [memoire.palier, ...PALIERS.map((_, i) => i).filter((i) => i !== memoire.palier)]
+        : PALIERS.map((_, i) => i);
+      for (const pi of paliersIdx) {
+        const facteur = PALIERS[pi] ?? 1;
         const px = Math.max(12, pxVoulu * facteur);
         const w = textWidth(c.text, px, c.kind);
         const h = px * 1.45;
-        for (const [dx, dy] of directions) {
+        const ordreDirs = memoire && pi === memoire.palier
+          ? [memoire.dir, ...directions.map((_, i) => i).filter((i) => i !== memoire.dir)]
+          : directions.map((_, i) => i);
+        for (const di of ordreDirs) {
+          const [dx, dy] = directions[di] as [number, number];
           const marge = rayon + px * 0.55;
           const sx = c.ancreX + dx * marge - (dx < -0.2 ? w : dx > 0.2 ? 0 : w / 2);
           const sy = c.ancreY + dy * marge - (dy > 0.2 ? 0 : dy < -0.2 ? h : h / 2);
           if (sx < 2 || sx + w > width - 2 || sy < CHROME_TOP || sy + h > height - CHROME_BOTTOM) continue;
           const essai = { ...c, sx, sy, px, w, h };
           let mordu = 0;
+          /* Une position qui tombe sur une AUTRE sphère de l'arbre est
+             comptée comme mordue : le nom y désignerait le mauvais objet.
+             C'est ce qui remplace l'occultation, en déplaçant au lieu de
+             supprimer. */
+          const cx = sx + w / 2;
+          const cy = sy + h / 2;
+          for (let k = 0; k < TOTAL_GENRES; k += 1) {
+            if (k === c.slot || zone[k] !== 1) continue;
+            const r = rayonEcranBase(k);
+            if (r < 6) continue;
+            const ddx = cx - (projected[k * 3] ?? 0);
+            const ddy = cy - (projected[k * 3 + 1] ?? 0);
+            if (ddx * ddx + ddy * ddy < r * r) mordu += r * r;
+          }
           for (const autre of placed) {
             if (!overlaps(essai, autre)) continue;
             const ox = Math.min(essai.sx + essai.w, autre.sx + autre.w) - Math.max(essai.sx, autre.sx);
@@ -3104,6 +3155,7 @@ const OVERLAP_TOLERANCE = 1;
             mordu += Math.max(0, ox) * Math.max(0, oy);
           }
           if (mordu === 0) {
+            positionRetenue.set(c.key, { dir: di, palier: pi });
             placed.push(essai);
             return;
           }
@@ -4438,13 +4490,14 @@ const OVERLAP_TOLERANCE = 1;
           distanceVoulue: focusIndex >= 0 ? Math.round(distanceDuFocus(focusIndex)) : null,
           distanceReelle: Math.round(distance),
           enVol: flying,
-          sensDeploiement: activeFamily >= 0 ? (deployDir[activeFamily] ?? 0) : null,
+          dernierTap,
+        sensDeploiement: activeFamily >= 0 ? (deployDir[activeFamily] ?? 0) : null,
           enAttente: pendingGenre
         },
         focus: focusIndex >= 0 ? (slotsData[focusIndex]?.label ?? '') : null,
         racine: focusIndex >= 0 ? (slotsData[focusIndex]?.label ?? '') : null,
         selection: activeGenre >= 0 ? (slotsData[activeGenre]?.label ?? '') : null,
-        generations: focusGenerations,
+        generations: zoneProfondeurMax,
         nommes: dedans.filter((d) => d.nomme).length,
         parGeneration: (() => {
           const c: Record<string, { total: number; nommes: number }> = {};
@@ -4523,6 +4576,7 @@ const OVERLAP_TOLERANCE = 1;
       const sphere = chercherCible(px, py, 26);
       return {
         nom: nom ? (nom.el.textContent ?? '') : null,
+        nomSlot: nom ? nom.slot : -1,
         sphere: sphere >= 0 ? (slotsData[sphere]?.label ?? '') : null,
         dansLaZone: sphere >= 0 ? zone[sphere] === 1 : null
       };

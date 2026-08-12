@@ -3296,6 +3296,89 @@ avertissement, aucune requete en echec, aucun statut au-dessus de 400.
 
 ---
 
+## ADR-079 : Un clic deploie TOUT le sous-arbre, en anneaux concentriques
+
+**Statut** : accepte, 12 aout 2026. **Remplace ADR-074. Le gel d'ADR-078 est
+leve pour ce seul changement, sur demande de Mika.**
+
+**Contexte.** Le modele precedent ouvrait UNE generation par clic. « C'est trop
+lent et on ne voit jamais l'ensemble », et c'est exact : un atlas genealogique
+qui demande trois clics pour montrer une lignee ne montre pas la lignee.
+
+**Decision. Au clic, tout le sous-arbre s'affiche, jusqu'aux feuilles.**
+
+**LA DISPOSITION EST UN ARBRE RADIAL A SECTEURS.** Le genre ouvert au centre,
+un anneau par generation. Un noeud ne recoit pas un angle, il recoit une PART
+DU CERCLE, qu'il partage entre ses enfants au prorata du nombre de FEUILLES
+que chacun porte. Ses enfants restent donc dans son secteur, et l'oeil suit une
+branche sans avoir besoin des liens. Deux sous-arbres ne peuvent pas se croiser,
+par construction.
+
+**UN ANNEAU S'ELOIGNE QUAND SON SECTEUR EST ETROIT.** C'est le defaut classique
+de l'arbre radial : une branche qui ne porte qu'une feuille recoit une part de
+cercle minuscule, et son noeud se retrouve colle a celui de la branche voisine.
+Mesure avant correction : ecart minimal 16 px sur Chicago House, 9 px sur
+Breakbeat. Un noeud est donc pose sur le plus grand des deux rayons, celui de
+sa profondeur et celui qu'il faut pour que son secteur mesure au moins l'ecart
+minimal.
+
+**Le clic sur un noeud de l'arbre ne redeploie rien** : tout est deja la. Il met
+le noeud en evidence, remplit la colonne, et LA CAMERA NE BOUGE PAS. Echap
+remonte d'un cran dans l'arbre, en deplacant la selection, sans toucher ni a la
+disposition ni au cadrage ; depuis la racine, il quitte l'arbre.
+
+**QUATRE DEFAUTS TROUVES A LA MESURE, tous anterieurs a cette mission.**
+
+1. **Un nom fuyait sous le curseur.** L'ancrage d'un nom suivait le rayon de sa
+   sphere GONFLE PAR LE SURVOL, 8 % : approcher la souris faisait glisser le
+   nom, et un clic pose dessus pouvait tomber a cote. Le rayon de base sert
+   desormais d'ancre.
+2. **Un nom alternait de cote.** La recherche de position repartait des huit
+   directions dans le meme ordre a chaque passe : le premier emplacement libre
+   changeait des que la camera derivait d'un pixel. Le nom battait entre la
+   droite et la gauche plusieurs fois par seconde, et un clic lu 60 ms plus
+   tard tombait dans le vide, ce qui refermait le mode focus. La position
+   retenue a la passe precedente est reessayee d'abord.
+3. **L'occultation SUPPRIMAIT un nom au lieu de le deplacer.** Un nom dont
+   l'ancre est cachee par une sphere plus proche etait retire : juste dans la
+   vue d'ensemble, interdit dans l'arbre, ou tous les noeuds sont dans le plan
+   de la camera et donc a la meme distance a un milliseme pres. Mesure :
+   « Philly Soul » retire, treize spheres et douze noms. La recherche de
+   position ecarte desormais le nom de la sphere qui le gene.
+4. **Le cadrage etait deux fois trop loin, apres que je l'ai « corrige ».**
+   J'ai retire un facteur 2 en le croyant en trop, alors que l'appelant passe
+   bien une etendue TOTALE. L'arbre n'occupait plus que 42 % de l'ecran.
+   L'unite des arguments est la premiere chose a verifier avant d'y toucher.
+
+**MESURE FINALE, par de vrais clics, arbre complet.**
+
+| arbre | spheres | noms | egal | chevauchements | plus petit | ecart min |
+| --- | --- | --- | --- | --- | --- | --- |
+| Musique concrete, 4 niveaux | 13 | 13 | oui | 0 | 12 px | 88 px |
+| Chicago House, 4 niveaux | 24 | 24 | oui | 0 | 12 px | 41 px |
+| Breakbeat, 6 niveaux | 23 | 23 | oui | 0 | 12 px | 29 px |
+| Disco a 390 px de large | 14 | 14 | oui | 0 | 12 px | 38 px |
+
+**CE QUI NE TIENT PAS, ET LE CHIFFRE EXACT.** Tous les noms sont poses, sans
+un seul chevauchement, sur les arbres les plus denses du corpus. Ce qui ne
+tient pas est **l'ecart de 44 px entre deux cibles** : 41 px sur Chicago House,
+**29 px sur Breakbeat**, 38 px sur Disco a 390 px de large. La souris s'en
+accommode, le doigt non.
+
+La cause est geometrique et ne se corrige pas en poussant un facteur : un arbre
+radial impose que les noeuds vivent sur des anneaux, aux angles que dicte la
+hierarchie, ce qui laisse la majeure partie du disque vide. A 85 % de l'ecran,
+il n'y a pas la place pour 23 noeuds a 44 px les uns des autres.
+
+**Trois solutions possibles, aucune appliquee sans arbitrage de Mika.** Laisser
+l'arbre DEBORDER du cadre au-dela d'une certaine densite, en gardant la
+distance qui garantit 44 px, et se deplacer pour l'explorer. Accepter 29 px sur
+les deux arbres concernes, ce qui est confortable a la souris et serre au
+doigt. Ou n'appliquer le debordement que sous 768 px de large, la ou le doigt
+est le pointeur.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle
