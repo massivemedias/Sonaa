@@ -2462,8 +2462,43 @@ const OVERLAP_TOLERANCE = 1;
         const a = slotsData[ref.a];
         const b = slotsData[ref.b];
         if (!a || !b) continue;
-        linkP0.set([a.world.x, a.world.y, a.world.z], i * 3);
-        linkP1.set([b.world.x, b.world.y, b.world.z], i * 3);
+
+        /* LE LIEN S'ARRETE A LA SURFACE, PAS AU CENTRE.
+
+           Il allait d'un centre de sphere a l'autre, donc ses deux
+           extremites etaient A L'INTERIEUR des spheres. Or une sphere est
+           ici un IMPOSTOR : un quad plat tourne vers la camera, pas un
+           volume. Rien n'occulte donc la portion de lien qui penetre dedans,
+           et le trait reste visible jusqu'au centre.
+
+           Vu de pres, cela fait une barre en travers de la sphere, avec une
+           extremite franche en son milieu. Vu de loin sur de petites
+           spheres, cela fait des points brillants qui semblent grouiller.
+           C'est un motif FIXE, ce qui explique qu'aucune mesure entre deux
+           images consecutives n'ait pu le voir.
+
+           On retranche donc a chaque bout le rayon de la sphere concernee.
+           Si les deux spheres se touchent presque, le lien disparait plutot
+           que de s'inverser : un trait de longueur negative se dessinerait
+           a l'envers. */
+        const lax = b.world.x - a.world.x;
+        const lay = b.world.y - a.world.y;
+        const laz = b.world.z - a.world.z;
+        const len = Math.hypot(lax, lay, laz);
+        const ra = sphereRadii[ref.a] ?? 0;
+        const rb = sphereRadii[ref.b] ?? 0;
+
+        if (len > ra + rb + 0.001) {
+          const ux = lax / len;
+          const uy = lay / len;
+          const uz = laz / len;
+          linkP0.set([a.world.x + ux * ra, a.world.y + uy * ra, a.world.z + uz * ra], i * 3);
+          linkP1.set([b.world.x - ux * rb, b.world.y - uy * rb, b.world.z - uz * rb], i * 3);
+        } else {
+          /* Trop courts pour etre traces : les deux corps se touchent deja. */
+          linkP0.set([a.world.x, a.world.y, a.world.z], i * 3);
+          linkP1.set([a.world.x, a.world.y, a.world.z], i * 3);
+        }
         linkMeta[i * 3 + 2] = clamp(genreProgress(b, now), 0, 1);
 
         /* Les liens du sous-arbre focalisé passent au premier plan et
@@ -2618,6 +2653,108 @@ const OVERLAP_TOLERANCE = 1;
       else if (nom === 'repliees') repliesOn = actif;
       else if (nom === 'flux') fluxOn = actif;
       return { nom, actif };
+    },
+
+    /* ANALYSE SPATIALE D'UNE SEULE IMAGE.
+
+       La mesure image-par-image rend zero quand le motif est FIXE : il n'y a
+       rien a comparer entre deux images identiques. Un motif de haute
+       frequence spatiale, immobile, fait pourtant vibrer l'oeil, et c'est
+       ce qu'on appelle du moire.
+
+       On rend donc UNE image, et on lit une ligne de pixels. Une surface
+       lisse change de sens une ou deux fois le long d'un diametre ; un motif
+       de haute frequence en change des dizaines. */
+    lignePixels: (cx: number, cy: number, longueur: number, vertical = false) => {
+      const gl = renderer.getContext();
+      const w = renderer.domElement.width;
+      const h = renderer.domElement.height;
+
+      renderer.autoClear = true;
+      renderer.render(bgScene, bgCamera);
+      renderer.autoClear = false;
+      renderer.clearDepth();
+      renderer.render(scene, camera);
+      renderer.autoClear = true;
+
+      const x0 = Math.max(0, Math.min(w - 1, Math.round(cx - (vertical ? 0 : longueur / 2))));
+      const y0 = Math.max(0, Math.min(h - 1, Math.round(cy - (vertical ? longueur / 2 : 0))));
+      const lw = vertical ? 1 : Math.min(longueur, w - x0);
+      const lh = vertical ? Math.min(longueur, h - y0) : 1;
+      const buf = new Uint8Array(lw * lh * 4);
+      gl.readPixels(x0, y0, lw, lh, gl.RGBA, gl.UNSIGNED_BYTE, buf);
+
+      const lum: number[] = [];
+      for (let i = 0; i < lw * lh; i += 1) {
+        lum.push(
+          Math.round(
+            0.2126 * (buf[i * 4] ?? 0) + 0.7152 * (buf[i * 4 + 1] ?? 0) + 0.0722 * (buf[i * 4 + 2] ?? 0)
+          )
+        );
+      }
+
+      /* Inversions de sens : la signature d'un motif. Un degrade propre monte
+         puis descend, soit une inversion. Des alternances repetees en font
+         autant qu'il y a de franges. */
+      let inversions = 0;
+      let sens = 0;
+      for (let i = 1; i < lum.length; i += 1) {
+        const d = (lum[i] ?? 0) - (lum[i - 1] ?? 0);
+        if (d === 0) continue;
+        const sg = Math.sign(d);
+        if (sens !== 0 && sg !== sens) inversions += 1;
+        sens = sg;
+      }
+      return { x0, y0, largeur: lw, hauteur: lh, inversions, luminances: lum };
+    },
+
+    /** Rend une image et renvoie une zone en PNG, pour la regarder. */
+    capturerZone: (cx: number, cy: number, taille: number, agrandissement = 4) => {
+      const gl = renderer.getContext();
+      const w = renderer.domElement.width;
+      const h = renderer.domElement.height;
+
+      renderer.autoClear = true;
+      renderer.render(bgScene, bgCamera);
+      renderer.autoClear = false;
+      renderer.clearDepth();
+      renderer.render(scene, camera);
+      renderer.autoClear = true;
+
+      const t = Math.min(taille, w, h);
+      const x0 = Math.max(0, Math.min(w - t, Math.round(cx - t / 2)));
+      const y0 = Math.max(0, Math.min(h - t, Math.round(cy - t / 2)));
+      const buf = new Uint8Array(t * t * 4);
+      gl.readPixels(x0, y0, t, t, gl.RGBA, gl.UNSIGNED_BYTE, buf);
+
+      const src = document.createElement('canvas');
+      src.width = t;
+      src.height = t;
+      const sc = src.getContext('2d');
+      if (!sc) return null;
+      const img = sc.createImageData(t, t);
+      /* readPixels rend l'image a l'envers par rapport au canvas 2D. */
+      for (let y = 0; y < t; y += 1) {
+        for (let x = 0; x < t; x += 1) {
+          const s = ((t - 1 - y) * t + x) * 4;
+          const d = (y * t + x) * 4;
+          img.data[d] = buf[s] ?? 0;
+          img.data[d + 1] = buf[s + 1] ?? 0;
+          img.data[d + 2] = buf[s + 2] ?? 0;
+          img.data[d + 3] = 255;
+        }
+      }
+      sc.putImageData(img, 0, 0);
+
+      const out = document.createElement('canvas');
+      out.width = t * agrandissement;
+      out.height = t * agrandissement;
+      const oc = out.getContext('2d');
+      if (!oc) return null;
+      /* Aucun lissage : on veut voir les pixels tels qu'ils sont. */
+      oc.imageSmoothingEnabled = false;
+      oc.drawImage(src, 0, 0, out.width, out.height);
+      return out.toDataURL('image/png');
     },
 
     mesurerScintillement: (images = 12, seuil = 24, pasMs = 16.7) => {
