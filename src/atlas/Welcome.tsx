@@ -13,10 +13,21 @@ interface Props {
   onDismiss: (picked?: ViewId) => void;
 }
 
-/* L'accroche de l'ecran d'accueil. Vide tant que Mika ne l'a pas ecrite :
-   une phrase inventee a sa place serait exactement le ton neutre qu'elle doit
-   corriger. Voir la section correspondante dans AProposPage. */
-const ACCROCHE: string = '';
+/* L'ACCROCHE, ecrite par Mika.
+
+   Elle remplace « Un atlas des musiques electroniques, ou chaque genre est
+   relie a ce dont il vient » : cette phrase decrivait ce que le site FAIT,
+   celle-ci dit pourquoi il existe. C'est la difference entre une notice et
+   une raison de rester.
+
+   Elle est a la premiere personne et signee, donc mise en forme comme une
+   voix : pas de guillemets, la signature suffit a dire qui parle. */
+const ACCROCHE: readonly string[] = [
+  "Je ne savais jamais dans quel style ranger un morceau.",
+  "On me posait la question, je n'avais pas de réponse claire.",
+  "J'ai fait cette carte pour ça. 218 genres, leurs filiations, et de quoi les écouter."
+];
+const SIGNATURE = 'Maudite Machine';
 
 export function Welcome({ views, current, onDismiss }: Props) {
   return (
@@ -39,20 +50,12 @@ export function Welcome({ views, current, onDismiss }: Props) {
             Tant qu'ACCROCHE est vide, la description factuelle tient la place
             et rien ne casse. Des qu'elle est remplie, elle passe devant et la
             description devient une seconde ligne, plus discrete. */}
-        {ACCROCHE ? (
-          <>
-            <p className="welcome-accroche">{ACCROCHE}</p>
-            <p className="welcome-line welcome-line-secondaire">
-              Un atlas des musiques électroniques, où chaque genre est relié à ce dont il
-              vient et à ce qu&apos;il a donné.
-            </p>
-          </>
-        ) : (
-          <p className="welcome-line">
-            Un atlas des musiques électroniques, où chaque genre est relié à ce dont il vient
-            et à ce qu&apos;il a donné.
-          </p>
-        )}
+        <div className="welcome-accroche">
+          {ACCROCHE.map((ligne) => (
+            <p key={ligne}>{ligne}</p>
+          ))}
+          <p className="welcome-signature">{SIGNATURE}</p>
+        </div>
 
         <ul className="welcome-families" aria-label="Les quatorze familles">
           {FAMILIES.map((f) => (

@@ -644,21 +644,41 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
      C'est exactement ce que le systeme de propositions existe pour resoudre,
      et c'est son premier usage reel. Le ton est donc un appel, pas un message
      d'erreur : quelqu'un qui connait le style saura quoi proposer. */
+  /* CONNECTE OU NON. `sessionProbable` lit le jeton depose par Supabase dans
+     le stockage local, sans toucher au reseau ni charger le SDK : on peut
+     donc adapter l'interface sans rien couter a qui ne contribuera jamais. */
+  const [connecte, setConnecte] = useState(() => sessionProbable());
+  useEffect(() => {
+    const verifier = () => setConnecte(sessionProbable());
+    window.addEventListener('focus', verifier);
+    window.addEventListener('storage', verifier);
+    return () => {
+      window.removeEventListener('focus', verifier);
+      window.removeEventListener('storage', verifier);
+    };
+  }, []);
+
   const CIBLE_ESSENTIEL = 5;
   const manque = useMemo(() => {
     if (!panelGenreData) return null;
     const eteint =
       Array.isArray(panelGenreData.labelsActuels) && panelGenreData.labelsActuels.length === 0;
     if (currentList === 'essentiel' && (panelGenreData.tracksEssentiel?.length ?? 0) < CIBLE_ESSENTIEL) {
-      return 'Ce genre manque de morceaux fondateurs. Si tu connais ce style, propose-en.';
+      /* Sur un genre incomplet, l'appel est plus direct : c'est la que la
+         contribution a le plus de valeur, et le visiteur voit le manque. */
+      return connecte
+        ? 'Ce genre manque de morceaux. Propose les tiens.'
+        : 'Ce genre manque de morceaux. Connecte-toi et propose les tiens.';
     }
     /* Un genre eteint n'a pas de sorties recentes, et ce n'est pas un manque :
        le lui reprocher serait une faute de lecture de la carte. */
     if (currentList === 'actuel' && panelActuel.length === 0 && !eteint) {
-      return 'Aucune sortie recente pour ce genre. Si tu en connais, propose-la.';
+      return connecte
+        ? 'Aucune sortie récente pour ce genre. Si tu en connais, propose-la.'
+        : 'Aucune sortie récente pour ce genre. Connecte-toi et propose-la.';
     }
     return null;
-  }, [panelGenreData, currentList, panelActuel.length]);
+  }, [panelGenreData, currentList, panelActuel.length, connecte]);
 
 
   /* Les données de sortie, MISES EN VALEUR : le label de disque compte
@@ -880,6 +900,16 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
               <p className="pcol-vote-erreur" role="alert">
                 {voteErreur}
               </p>
+            )}
+
+            {/* BANDEAU DE CONNEXION. Discret et permanent pour qui n'est pas
+                connecte : la contribution demande un compte, autant le dire
+                avant le clic plutot qu'au moment de le refuser.
+
+                Il ne bloque RIEN : consulter et ecouter restent libres, et
+                c'est un choix, pas un oubli. */}
+            {contributionsActives && !connecte && !manque && (
+              <p className="pcol-connexion">Connecte-toi pour voter et proposer des morceaux.</p>
             )}
 
             <ul className="pcol-list">

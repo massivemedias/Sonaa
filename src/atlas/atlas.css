@@ -756,3 +756,13 @@
   font-style: italic;
   color: rgba(255, 255, 255, 0.84);
 }
+
+/* BANDEAU DE CONNEXION. Une ligne, pas un encadre : il informe, il ne
+   reclame pas. Consulter et ecouter restent libres sans compte, et rien
+   dans ce bandeau ne doit laisser croire le contraire. */
+.pcol-connexion {
+  margin: 0 0 0.55rem;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.5);
+}
