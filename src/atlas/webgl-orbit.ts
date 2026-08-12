@@ -2955,6 +2955,28 @@ const OVERLAP_TOLERANCE = 1;
         if (readParent.children.some((k) => base + k === c.slot)) return 1;
         return 3 + slot.depth;
       }
+      /* VUE D'ENSEMBLE : LE NOM DE FAMILLE PASSE AVANT SON FONDATEUR.
+
+         Les deux étaient au même niveau, 0. Or ils désignent le MÊME POINT de
+         l'écran, le centre de la famille étant celui de son fondateur, et ils
+         portent le plus souvent le MÊME MOT, Disco, Techno, Trance. Deux noms
+         de même niveau qui se recouvrent cèdent tous les deux : ils
+         s'annulaient mutuellement.
+
+         Mesuré au premier chargement, 1280 px de large : QUATORZE noms de
+         familles candidats, ZÉRO posé, et pas davantage de fondateurs. Un
+         visiteur à qui l'écran d'accueil vient d'annoncer que « les 14
+         familles sont les continents de la carte » ne trouvait sur cette
+         carte que des noms de dérivés. À 390 px le défaut se voyait à moitié
+         seulement, le nom de famille y étant décalé sous la sphère, ce qui le
+         sortait parfois de la boîte du fondateur : douze familles sur
+         quatorze survivaient.
+
+         Le fondateur descend donc d'un cran. Quand les deux mots sont
+         identiques, on ne perd rien ; quand ils diffèrent, c'est le nom de
+         famille qui reste, et c'est le bon niveau de lecture pour une vue
+         d'ensemble. */
+      if (activeFamily < 0) return slot.depth === 0 ? 1 : 1 + slot.depth;
       return slot.depth === 0 ? 0 : 1 + slot.depth;
     };
     /* ================================================================

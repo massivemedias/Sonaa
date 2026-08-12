@@ -122,6 +122,12 @@ de ce qui a marche.
 
 ## 1. Où on en est
 
+**LE PROJET EST GELÉ depuis le 12 août 2026** (ADR-078), sur décision de Mika :
+plus de fonctionnalité, plus d'optimisation. Ce qui reste est de l'entretien et
+de la correction de défauts. Une session qui reprend ce document ne propose
+donc rien de neuf sans que Mika le demande.
+
+
 **Le site est en ligne, complet et publié sur `https://sonaa.ca`.** Ce n'est
 plus un prototype, plus une phase, plus un périmètre réduit. Ce qui reste est
 de l'affinage et de l'écriture.
@@ -186,7 +192,7 @@ clic dans le flou sort du mode.
 rappelle, elle montre un genre tiré au sort avant le premier clic, et aucune
 lecture ne démarre jamais seule.
 
-**76 ADR** dans `ARCHITECTURE.md`. Aucun point ouvert déclaré à la fin du
+**78 ADR** dans `ARCHITECTURE.md`. Aucun point ouvert déclaré à la fin du
 fichier.
 
 ---
@@ -296,20 +302,17 @@ genres, délibérément : une voix qui parle partout ne dit plus rien.
 (ADR-073) : il ne s'exécute que si les données ont bougé, et il retente une
 fois avant de conclure.
 
-**Un fichier mort à supprimer.** `supabase/game-tree.sql`, 241 lignes,
-généré par un script qui n'existe plus et visant une table qui n'existe pas.
-ADR-064 affirme que tout le mini-jeu a été retiré : c'est faux d'un fichier.
-Suppression à valider par Mika, puis corriger la phrase de l'ADR.
-
 **Aucune mesure instrumentée sur appareil réel.** Les verdicts tactiles de
 Mika ont été rendus sur un vrai téléphone et ont produit ADR-051, et la PWA a
 été vérifiée en production. Mais aucun relevé GPU n'a jamais été pris
 ailleurs que sur un M4 Max : toutes les valeurs de performance mobiles restent
 des extrapolations.
 
-**Le mode réduit et le détecteur de capacité** existent encore alors que le
-raymarching qui les justifiait a disparu. Conservés parce qu'ils ne coûtent
-rien, jamais réexaminés depuis.
+**Le mode réduit n'est PAS du code mort** (ADR-077). Sa justification
+d'origine a disparu avec le raymarching, son effet est intact : il plafonne le
+rapport de pixels à 1,5 au lieu de 2 sur téléphone, sur processeur à quatre
+coeurs et sur les GPU mobiles connus. Le retirer coûterait, précisément là où
+rien n'a jamais été mesuré.
 
 **Les points de Lighthouse qui manquent sont connus et assumés.** « Bonnes
 pratiques » perd 4 points sur un avertissement de cookie émis par l'iframe

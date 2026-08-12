@@ -1286,6 +1286,8 @@ Verifie a 320, 390, 430 en portrait et paysage, et 1280 en repere.
 genealogique couche : sur poste, familles de gauche a droite, une generation
 par colonne ; sur mobile, la meme chose pivotee, une generation par rangee.
 Positions deterministes au pixel pres, calculees par src/atlas/layout.ts
+(FICHIER SUPPRIME le 12 aout 2026 : la vue « 3D fixe » qu'il servait a ete
+retiree par ADR-060, et il n'etait plus importe par personne depuis)
 depuis le seul corpus. La camera ne fait plus que pan et zoom (zoom vers le
 curseur) ; champ de 14 degres, quasi orthographique : la perspective ne
 fausse jamais la lecture des tailles. Le Z ne sert qu'a la hierarchie : le
@@ -2360,6 +2362,18 @@ faisait du code que rien ne verifiait plus.
 **Decision.** Tout est retire : le code, les migrations, les controles, les
 scripts npm et les mentions dans la documentation.
 
+**CORRECTION, 12 aout 2026 : cette phrase etait fausse d'un fichier.**
+`supabase/game-tree.sql`, 241 lignes generees par un script qui n'existe plus,
+visant une table qui n'a jamais ete creee, a survecu au retrait pendant un
+jour. Il est supprime.
+
+Le detail vaut mieux qu'une correction silencieuse : cet ADR expliquait,
+paragraphe suivant, que du code mort laisse croire qu'il fonctionne et qu'une
+session future le prendrait pour une fonctionnalite en pause. Il a produit
+exactement ce qu'il decrivait, sur lui-meme. Un document qui declare une
+suppression complete doit etre verifie par une recherche, pas par le souvenir
+de ce qu'on a efface.
+
 **Pourquoi retirer plutot que laisser dormir.**
 
 Trois raisons, dans l'ordre de leur poids.
@@ -3184,6 +3198,101 @@ lecteur mesure **47 signes**, la colonne etant etroite par nature.
 italique, filet vertical de 2 px, signature « MIKA », aucun cadratin ni
 demi-cadratin. `check:tirets` couvre `src/data/corpus.json`, donc ces textes
 sont sous garde de CI comme le reste.
+
+---
+
+## ADR-077 : Menage avant gel, et ce qui n'est PAS du code mort
+
+**Statut** : accepte, 12 aout 2026.
+
+**Deux fichiers supprimes, tous deux orphelins verifies.**
+
+`supabase/game-tree.sql`, 241 lignes, generees par un script qui n'existe plus
+et visant une table qui n'a jamais ete creee. ADR-064 affirmait que tout le
+mini-jeu avait ete retire : c'etait faux d'un fichier. La phrase est corrigee
+sur place plutot qu'effacee.
+
+`src/atlas/layout.ts`, 305 lignes, la disposition fixe deterministe d'ADR-042.
+La vue qu'elle servait a ete supprimee par ADR-060 ; le fichier est reste,
+importe par personne. Verifie par recherche sur tout le depot avant retrait,
+et le build passe sans lui.
+
+**CE QUI N'EST PAS DU CODE MORT, et qui figurait pourtant sur la liste.**
+
+Le « mode reduit et le detecteur de capacite » etaient annonces comme
+superflus depuis l'abandon du raymarching. Ils ne le sont pas. `detectReduced`
+plafonne le rapport de pixels a 1,5 au lieu de 2 sur telephone, sur processeur
+a quatre coeurs et sur les GPU mobiles connus. C'est un quart de pixels en
+moins a rendre, et le rendu passe desormais par des passes de flou
+supplementaires.
+
+La justification d'origine a disparu, l'EFFET est intact, et il porte
+precisement sur les appareils ou aucune mesure n'a jamais ete prise. Le
+retirer serait un changement au cout inconnu sur mobile, la veille d'une
+publication. Ce qui est corrige, c'est la note qui le declarait superflu.
+
+**La lecon, et elle vaut au-dela de ce cas.** « Plus personne ne sait pourquoi
+c'est la » et « ca ne sert a rien » sont deux affirmations differentes. La
+premiere se verifie en lisant l'historique, la seconde en mesurant. Confondre
+les deux fait supprimer du code qui travaille.
+
+---
+
+## ADR-078 : La passe du premier visiteur, avant gel
+
+**Statut** : accepte, 12 aout 2026. **Le projet est gele apres cet ADR** : plus
+de fonctionnalite, plus d'optimisation.
+
+**Ce qui a ete verifie, et seulement cela** : ce que voit quelqu'un qui arrive
+pour la premiere fois. Profil de navigateur VIERGE, aucune cle de stockage
+posee d'avance, contrairement a tous les autres pilotes de mesure. C'est cette
+difference qui a fait apparaitre les deux defauts ci-dessous.
+
+**DEFAUT 1 : aucun nom de famille sur la carte, en desktop.**
+
+Les quatorze noms de familles etaient candidats, ZERO etait pose. Un visiteur
+a qui l'ecran d'accueil vient d'annoncer que « les 14 familles sont les
+continents de la carte » ne trouvait sur cette carte que des noms de derives.
+
+La cause : le nom de famille et son GENRE FONDATEUR etaient au meme niveau
+d'arbitrage, 0. Ils designent le meme point de l'ecran, le centre d'une
+famille etant celui de son fondateur, et portent le plus souvent le meme mot,
+Disco, Techno, Trance. Deux noms de meme niveau qui se recouvrent cedent tous
+les deux : ils s'annulaient mutuellement.
+
+A 390 px le defaut ne se voyait qu'a moitie, le nom de famille y etant decale
+sous la sphere, ce qui le sortait parfois de la boite du fondateur : douze
+familles sur quatorze survivaient. **C'est exactement le genre de defaut qu'une
+mesure a une seule largeur ne trouve pas.**
+
+Le fondateur descend d'un cran a la vue d'ensemble. Mesure apres correction,
+1280 px : **14 familles sur 14 posees**, et 43 noms de genres au lieu de 44.
+
+**DEFAUT 2 : la carte traversait l'ecran d'accueil.**
+
+A 0,86 d'opacite, les noms de la carte restaient parfaitement lisibles
+derriere le panneau de bienvenue : « TECHNO », « Nu-Disco » et « Chillwave » se
+lisaient au milieu des phrases de l'accroche, et la liste des quatorze
+familles se melangeait aux labels du fond. Opacite portee a 0,94 et flou du
+fond de 14 px. La meme raison avait deja fait cacher la legende d'aide pendant
+l'accueil ; le panneau lui-meme n'avait pas ete traite.
+
+**DEFAUT 3 : le lien partage decrivait la mauvaise image.**
+
+`og:image:alt` annoncait « le logotype SONAA, calligraphie, sur fond sombre »
+alors que l'image est une capture de l'atlas depuis ADR-066. C'est ce texte
+que lisent les lecteurs d'ecran sur les reseaux. Corrige.
+
+Le titre partage passe de « SONAA » a « SONAA, l'atlas des musiques
+electroniques ». Un mot invente suffit dans un onglet, ou le favicon et l'URL
+disent le reste ; dans une bulle iMessage ou une carte Instagram, c'est la
+ligne la plus lue et souvent la seule.
+
+**Verifie sur le domaine servi** : l'image repond 200, 1200 par 630, 185 701
+octets, et c'est bien la capture de l'atlas.
+
+**Console et reseau, profil vierge, deux largeurs** : aucune erreur, aucun
+avertissement, aucune requete en echec, aucun statut au-dessus de 400.
 
 ---
 
