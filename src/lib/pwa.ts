@@ -23,6 +23,47 @@ export async function appliquerLaMiseAJour(): Promise<void> {
   await appliquer?.(true);
 }
 
+/* SORTIE DE SECOURS : ?nocache=1
+
+   Le service worker sert une version en cache et n'installe la suivante
+   qu'apres confirmation. C'est le comportement voulu, mais il a un cout :
+   tant que personne ne clique sur la banniere, on regarde une vieille
+   version, et on peut juger une correction qu'on n'a jamais chargee.
+
+   Cette porte ouvre la version reelle sans passer par la banniere : elle
+   desinscrit le service worker, vide les caches, et recharge sur une URL
+   propre. A garder meme quand tout va bien : le jour ou l'on doute de ce
+   qu'on regarde, il faut pouvoir en sortir sans ouvrir les outils du
+   navigateur. */
+export async function purgerSiDemande(): Promise<boolean> {
+  if (typeof window === 'undefined') return false;
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('nocache') !== '1') return false;
+
+  try {
+    if ('serviceWorker' in navigator) {
+      const enregistres = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(enregistres.map((r) => r.unregister()));
+    }
+    if ('caches' in window) {
+      const cles = await caches.keys();
+      await Promise.all(cles.map((k) => caches.delete(k)));
+    }
+  } catch {
+    /* Si la purge echoue, on recharge quand meme : une page servie par un
+       cache recalcitrant vaut mieux qu'une page bloquee sur une erreur. */
+  }
+
+  /* On retire le parametre avant de recharger, sinon la purge se rejoue a
+     chaque visite et le mode hors ligne ne s'installe jamais. */
+  params.delete('nocache');
+  const reste = params.toString();
+  window.location.replace(
+    window.location.pathname + (reste ? '?' + reste : '') + window.location.hash
+  );
+  return true;
+}
+
 export function enregistrerLeServiceWorker(): void {
   /* En développement, aucun service worker : un cache qui survit aux
      rechargements pendant qu'on modifie le code fait perdre plus de temps
@@ -30,6 +71,13 @@ export function enregistrerLeServiceWorker(): void {
   if (import.meta.env.DEV) return;
 
   appliquer = registerSW({
+    /* On demande au service worker de verifier une mise a jour toutes les
+       dix minutes, en plus du controle au chargement. Sans cela, un onglet
+       laisse ouvert peut servir la meme version pendant des jours. */
+    onRegisteredSW(_url, r) {
+      if (!r) return;
+      window.setInterval(() => void r.update(), 10 * 60 * 1000);
+    },
     onNeedRefresh() {
       miseAJourPrete = true;
       for (const e of ecouteurs) e(true);

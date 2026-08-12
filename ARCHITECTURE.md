@@ -2385,6 +2385,68 @@ de ce qui a ete envisage.
 
 ---
 
+## ADR-065 : Le grain et la respiration sont supprimes
+
+**Statut** : accepte, 12 aout 2026.
+
+**Contexte.** Un scintillement a ete signale sept fois. Six corrections ont
+echoue, dont deux qui l'ont aggrave. Toutes cherchaient dans le calcul des
+couleurs. Le probleme etait ailleurs, et il a fallu construire un instrument
+de mesure pour le voir.
+
+**L'instrument.** Le corps de la boucle d'animation a ete separe de son
+declencheur. `requestAnimationFrame` s'arrete quand la fenetre passe en
+arriere-plan, ce qui rendait toute mesure impossible ; mais le GPU dessine
+quand on le lui demande. On deroule donc la scene image par image, temps
+simule, CAMERA FIGEE, et on lit le tampon avec `readPixels` entre chaque.
+Toute difference vient de la scene, jamais du point de vue.
+
+Deux versions de la mesure ont ete fausses avant d'etre justes. La premiere
+dessinait deux fois le MEME etat et rendait zero : un GPU est deterministe.
+La seconde comptait au-dessus d'un seuil de 24 niveaux, ce qui ne retenait
+que 2 pixels sur 3 millions et manquait l'essentiel.
+
+**Deux causes, mesurees.**
+
+LE GRAIN DU FOND. Anime, il faisait changer 2 138 150 pixels sur 3 024 000
+d'une image a l'autre, soit 71 % de l'ecran. Eteint : 391. Facteur 5470.
+Il avait ete ralenti de 24 images par seconde a 2, ce qui l'avait empire :
+un gresillement continu devient un clignotement. Sorti ensuite en passe
+separee avec test de profondeur, il s'est mis a se dessiner PAR-DESSUS les
+spheres : le quad etait pose a 0.999, et les spheres vues de loin sont plus
+loin que cela en profondeur normalisee.
+
+LA RESPIRATION. Elle faisait varier le rayon de chaque sphere de 2 %. Les
+spheres sont des impostors qui ECRIVENT la profondeur : quand deux d'entre
+elles se recouvrent a l'ecran et que leurs rayons changent sans cesse, celle
+qui gagne le test de profondeur change d'une image a l'autre, et le pixel
+bascule. Mesure : 4388 pixels avec un ecart de 410 niveaux, contre 18 pixels
+avec un ecart de 3 une fois coupee.
+
+**Decision.** Les deux sont supprimes.
+
+**Ce qu'on perd, et pourquoi c'est acceptable.** Le grain cassait les aplats
+du fond profond ; s'il bande un jour visiblement, la reponse sera un degrade
+mieux etale, pas un bruit ajoute par-dessus. La respiration donnait une
+lente pulsation a la carte ; le survol garde son agrandissement, qui est une
+reponse a une action et non un mouvement permanent.
+
+**Resultat mesure.** Ecart maximal entre deux images consecutives, camera
+immobile : 399 niveaux avant, 3 apres. Zero pixel instable cadre sur
+Trip-Hop. Un ecart de 3 niveaux sur quelques dizaines de pixels est la
+progression continue du flux lumineux des liens, qui est voulue.
+
+**La lecon de methode.** Six corrections ont ete faites sans mesure, sur des
+hypotheses plausibles, et deux ont aggrave le defaut. La septieme a commence
+par construire l'instrument. C'est l'ordre qu'il fallait suivre des le
+debut : quand on ne peut pas voir, on mesure ; tant qu'on n'a pas de chiffre,
+on ne corrige pas.
+
+Les crochets restent sous `window.__atlas.mesurerScintillement()` avec leurs
+interrupteurs par composante, pour que le prochain qui doute puisse compter.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle

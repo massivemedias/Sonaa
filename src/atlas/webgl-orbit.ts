@@ -7,7 +7,6 @@
    tiers = ligne droite), et le survol ne touche jamais aux labels. */
 
 import {
-  AdditiveBlending,
   BufferAttribute,
   Float32BufferAttribute,
   InstancedBufferAttribute,
@@ -40,8 +39,6 @@ import {
 
 import {
   backgroundFrag,
-  grainFrag,
-  grainVert,
   backgroundVert,
   linkFrag,
   linkVert,
@@ -355,35 +352,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   sphereMesh.renderOrder = 1;
   scene.add(sphereMesh);
 
-  /* LE GRAIN, dans la scene principale et APRES les spheres.
 
-     Il vivait dans le shader du fond, ou il transparaissait a travers les
-     spheres translucides : cellule etiree en largeur, donc lue en colonnes,
-     et regeneree vingt-quatre fois par seconde. Ici, le quad est pose a la
-     profondeur 0.999 et teste contre le tampon de profondeur que les spheres
-     viennent de remplir : il ne peut plus se dessiner derriere un objet.
-
-     renderOrder 3 le place apres les spheres (1) et les liens (2). */
-  const grainUniforms = {
-    uResolution: bgUniforms.uResolution,
-    uTime: bgUniforms.uTime,
-    uGrain: bgUniforms.uGrain
-  };
-  const grainMesh = new Mesh(
-    new PlaneGeometry(1, 1),
-    new ShaderMaterial({
-      vertexShader: grainVert,
-      fragmentShader: grainFrag,
-      uniforms: grainUniforms,
-      transparent: true,
-      blending: AdditiveBlending,
-      depthTest: true,
-      depthWrite: false
-    })
-  );
-  grainMesh.frustumCulled = false;
-  grainMesh.renderOrder = 3;
-  scene.add(grainMesh);
 
   // -------------------------------------------------------------- liens
 
@@ -925,7 +894,6 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   /* Drapeaux de DIAGNOSTIC seulement, tous vrais en usage normal. Ils
      permettent d'eteindre une composante pour mesurer sa part dans le
      scintillement, sans avoir a reconstruire le site a chaque essai. */
-  let breathOn = true;
   let repliesOn = true;
 
   const parentRadius = new Float32Array(sphereRadii.length);
@@ -939,7 +907,6 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
 
   /* ANIMATIONS SOBRES : respiration 2 %, phase par noeud ; survol +8 % en
      150 ms environ. Coupé par prefers-reduced-motion. */
-  const breathPhase = Float32Array.from({ length: TOTAL_GENRES }, (_, i) => (i * 2.399963) % 6.2832);
   const hoverAmount = new Float32Array(TOTAL_GENRES);
 
   const introBirth = (fi: number, now: number): number => {
@@ -2452,7 +2419,23 @@ const OVERLAP_TOLERANCE = 1;
       if (!reducedMotion && !introActive) {
         const targetHover = i === hovered ? 1 : 0;
         hoverAmount[i] = (hoverAmount[i] ?? 0) + (targetHover - (hoverAmount[i] ?? 0)) * 0.22;
-        const breath = breathOn ? 1 + 0.02 * Math.sin(now / 2300 + (breathPhase[i] ?? 0)) : 1;
+        /* LA RESPIRATION EST SUPPRIMEE. Voir ADR-065.
+
+           Elle faisait varier le rayon de chaque sphere de 2 %. Les spheres
+           sont des impostors qui ECRIVENT la profondeur : quand deux d'entre
+           elles se recouvrent a l'ecran et que leurs rayons changent sans
+           cesse, celle qui gagne le test de profondeur change d'une image a
+           l'autre, et le pixel bascule d'une couleur a l'autre.
+
+           MESURE, camera immobile, sur 3 024 000 pixels : respiration active,
+           4388 pixels basculent avec un ecart de 410 niveaux ; respiration
+           coupee, 18 pixels avec un ecart de 3. Un facteur 244 sur le nombre,
+           137 sur l'amplitude.
+
+           Une animation decorative de 2 % ne vaut pas cela. Le survol garde
+           son agrandissement, qui est une reponse a une action et non un
+           mouvement permanent. */
+        const breath = 1;
         sphereRadii[i] = (baseRadii[i] ?? 1) * breath * (1 + 0.08 * (hoverAmount[i] ?? 0));
       }
 
@@ -2631,8 +2614,6 @@ const OVERLAP_TOLERANCE = 1;
     composante: (nom: string, actif: boolean) => {
       if (nom === 'spheres') sphereMesh.visible = actif;
       else if (nom === 'liens') linkMesh.visible = actif;
-      else if (nom === 'grain') grainMesh.visible = actif;
-      else if (nom === 'respiration') breathOn = actif;
       else if (nom === 'repliees') repliesOn = actif;
       return { nom, actif };
     },

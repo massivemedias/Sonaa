@@ -334,74 +334,16 @@ void main() {
 }
 `;
 
-// ---------------------------------------------------------------- GRAIN
-
-/* LE GRAIN, EN PASSE SEPAREE ET APRES LES SPHERES.
-
-   Son role n'a pas change : casser les aplats du fond profond, qu'un degrade
-   pur fait bander sur huit bits. Trois choses ont change, et chacune repond a
-   une cause mesuree du scintillement.
-
-   ISOTROPE. Le « g.x *= 0.62 » etirait la cellule a 2,74 px de large pour
-   1,70 de haut, rapport 1,61 : un bruit plus large que haut se lit en
-   colonnes, et c'est le motif de code-barres qui a ete observe. La cellule
-   est desormais carree.
-
-   PRESQUE FIXE. Le motif etait regenere vingt-quatre fois par seconde, ce qui
-   est une animation, pas un artefact. A deux images par seconde, le grain
-   respire sans battre. Le rythme reste lie a uTime, lui-meme fige par
-   prefers-reduced-motion, donc la reduction des animations l'immobilise
-   completement.
-
-   ABSENT DERRIERE LES OBJETS. Le quad est pose a la profondeur 0.999, juste
-   devant le plan lointain : le test de profondeur le rejette partout ou une
-   sphere a deja ecrit. Le grain ne peut donc plus transparaitre a travers une
-   sphere translucide, ce qui reglait le cas des petites, rendues moins opaques
-   par la correction sous-pixel.
-
-   L'amplitude passe de 0,020 a 0,012 : le grain se voit moins et suffit
-   toujours a casser un aplat. */
-export const grainVert = `
-precision highp float;
-varying vec2 vUv;
-void main() {
-  vUv = uv;
-  // Directement en coordonnees ecran, sans matrices : la profondeur 0.999
-  // place le quad au fond, ou seules les zones vides le laissent passer.
-  gl_Position = vec4(position.xy * 2.0, 0.999, 1.0);
-}
-`;
-
-export const grainFrag = `
-precision highp float;
-varying vec2 vUv;
-uniform vec2 uResolution;
-uniform float uTime;
-uniform float uGrain;
-
-float hash21(vec2 p) {
-  return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453123);
-}
-
-void main() {
-  vec2 g = vUv * uResolution / 1.7;
-  /* LE GRAIN EST FIGE, et c'est la correction du scintillement.
-
-     MESURE, sur 3 024 000 pixels, camera immobile, en deroulant la scene
-     image par image : grain anime, 2 138 150 pixels changent, soit 71 % de
-     l'ecran. Grain eteint, 391. Un facteur 5470.
-
-     J'avais deja ralenti ce grain de 24 images par seconde a 2, croyant
-     calmer le battement. C'etait pire : a 24 images il se lisait comme un
-     gresillement continu, a 2 il devient un CLIGNOTEMENT, l'ecran entier
-     basculant deux fois par seconde.
-
-     Un grain n'a aucune raison d'etre anime. Son role est de casser les
-     aplats du fond profond, qu'un degrade sur huit bits fait bander : une
-     texture fixe le fait aussi bien, et ne bouge pas. */
-  float fine = hash21(floor(g));
-  // Additif et positif : il eclaircit legerement plutot que d'osciller,
-  // ce qui suffit a rompre un aplat sans creer de trous sombres.
-  gl_FragColor = vec4(vec3(fine * 0.012 * uGrain), 1.0);
-}
-`;
+// Le GRAIN a ete SUPPRIME. Voir ADR-065.
+//
+// Il servait a casser les aplats du fond profond. Il a coute sept tours de
+// debogage et cause, dans l'ordre : un gresillement a vingt-quatre images par
+// seconde, puis un clignotement quand je l'ai ralenti a deux, puis une
+// texture granuleuse POSEE SUR LES SPHERES quand je l'ai sorti en passe
+// separee. Ce dernier defaut vient de sa profondeur : le quad etait pose a
+// 0.999, et les spheres vues de loin sont PLUS LOIN que cela en profondeur
+// normalisee, si bien que le test de profondeur laissait le grain se
+// dessiner par-dessus elles.
+//
+// Le fond garde son degrade. S'il bande un jour visiblement, la reponse sera
+// un degrade mieux etale, pas un bruit ajoute par-dessus.
