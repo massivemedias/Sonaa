@@ -45,7 +45,16 @@ create table if not exists public.comments (
   -- un fil a la forme qu'il a.
   masque boolean not null default false,
   masque_at timestamptz,
-  masque_par uuid references auth.users(id) on delete set null
+  masque_par uuid references auth.users(id) on delete set null,
+
+  -- PSEUDONYME MATERIALISE A L'INSERTION, et c'est un correctif trouve par
+  -- les controles. La vue etant en security_invoker, elle lisait author_id
+  -- avec les droits de l'appelant : elle rendait donc 401 a un anonyme,
+  -- puisque author_id est justement la colonne fermee. Les deux exigences se
+  -- contredisaient. Stocker le pseudonyme supprime le conflit au lieu de
+  -- l'arbitrer, et author_id peut rester totalement ferme.
+  auteur text,
+  par_auteur_du_site boolean not null default false
 );
 
 create index if not exists comments_genre_idx
@@ -103,6 +112,27 @@ create table if not exists public.genre_comment_settings (
 
 comment on table public.genre_comment_settings is
   'Fermeture des commentaires genre par genre. La lecture reste toujours possible.';
+
+-- ------------------------------------------- l'auteur du site, a part
+
+-- ETRE L'AUTEUR DU SITE ET ETRE MODERATEUR SONT DEUX CHOSES DIFFERENTES.
+-- La premiere version derivait la distinction de la table moderators : tout
+-- moderateur nomme plus tard aurait alors herite d'une marque qui ne lui
+-- revient pas. Une table dediee separe le role editorial du role de police.
+create table if not exists public.site_authors (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  added_at timestamptz not null default now()
+);
+
+comment on table public.site_authors is
+  'Comptes marques comme auteurs du site. Distinct de moderators : etre auteur ne donne aucun droit de moderation, et etre moderateur ne donne pas cette marque.';
+
+alter table public.site_authors enable row level security;
+
+-- Personne n'a besoin de lire cette table directement : la vue publique en
+-- derive un booleen. On n'expose donc AUCUNE ligne, pas meme aux connectes.
+-- L'ajout se fait en SQL, comme pour les moderateurs.
+revoke all on public.site_authors from anon, authenticated;
 
 -- =====================================================================
 --  2. LES TRIGGERS : score, signalements, quotas, fermeture
@@ -253,6 +283,28 @@ drop trigger if exists comment_reports_quota on public.comment_reports;
 create trigger comment_reports_quota
   before insert on public.comment_reports
   for each row execute function public.quota_signalements();
+
+-- Le pseudonyme et la marque d'auteur sont figes a la publication : la vue
+-- n'a alors plus aucune raison de lire author_id.
+create or replace function public.marquer_auteur_commentaire()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  new.auteur := public.author_tag(new.author_id);
+  new.par_auteur_du_site := exists (
+    select 1 from public.site_authors a where a.user_id = new.author_id
+  );
+  return new;
+end;
+$$;
+
+drop trigger if exists comments_marquer_auteur on public.comments;
+create trigger comments_marquer_auteur
+  before insert on public.comments
+  for each row execute function public.marquer_auteur_commentaire();
 
 -- Le masquage laisse une trace : qui, et quand.
 create or replace function public.tracer_masquage()
@@ -414,7 +466,10 @@ create policy gcs_delete on public.genre_comment_settings
 -- c'est ainsi qu'un commentaire devient définitif une fois publié.
 
 revoke all on public.comments from anon, authenticated;
-grant select (id, genre_id, body, score, reports_count, masque, created_at)
+-- reports_count N'EST PAS ACCORDE : second defaut trouve par les controles.
+-- Il etait lisible sur la table alors que la vue l'excluait, ce qui laissait
+-- voir quels commentaires ont ete signales et invitait au pilonnage.
+grant select (id, genre_id, body, score, masque, created_at, auteur, par_auteur_du_site)
   on public.comments to anon, authenticated;
 grant insert (genre_id, author_id, body) on public.comments to authenticated;
 grant update (masque) on public.comments to authenticated;
@@ -443,6 +498,22 @@ grant insert (genre_id, ferme, ferme_par, raison),
 -- sous-jacente, elle ne l'esquive pas. Sans cette option, elle s'exécuterait
 -- avec les droits de son créateur et contournerait tout. La migration 0004
 -- avait ce défaut.
+-- La vue est en security_invoker, donc elle lit site_authors AVEC LES DROITS
+-- DE L'APPELANT, qui n'en a aucun : l'appel doit passer par une fonction
+-- security definer, sans quoi `par_auteur_du_site` vaudrait toujours faux.
+create or replace function public.est_auteur_du_site(uid uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select exists (select 1 from public.site_authors a where a.user_id = uid);
+$$;
+
+revoke all on function public.est_auteur_du_site(uuid) from public;
+grant execute on function public.est_auteur_du_site(uuid) to anon, authenticated;
+
 create or replace view public.comments_public
 with (security_invoker = on) as
   select
@@ -451,12 +522,10 @@ with (security_invoker = on) as
     -- Pseudonyme court, stable, non réversible : même fonction que pour les
     -- propositions, donc même pseudonyme d'un écran à l'autre.
     public.author_tag(c.author_id) as auteur,
-    -- On expose un booléen, pas une identité : « qui est modérateur » reste
-    -- privé, « ce message vient de l'auteur du site » est une information
-    -- utile au lecteur.
-    exists (
-      select 1 from public.moderators m where m.user_id = c.author_id
-    ) as par_auteur_du_site,
+    -- On expose un BOOLEEN, pas une identite. Et il vient de site_authors,
+    -- pas de moderators : un moderateur nomme plus tard ne doit pas heriter
+    -- de cette marque, ce sont deux roles distincts.
+    public.est_auteur_du_site(c.author_id) as par_auteur_du_site,
     case when c.masque then null else c.body end as body,
     c.masque,
     c.score,
@@ -475,7 +544,7 @@ with (security_invoker = on) as
   select
     c.id,
     c.genre_id,
-    public.author_tag(c.author_id) as auteur,
+    c.auteur,
     c.body,
     c.score,
     c.reports_count,
@@ -525,3 +594,16 @@ grant select on public.comments_moderation to authenticated;
 --        select * from comments_moderation;               -> zero ligne
 --  12. qui a signale reste invisible a l'auteur
 --        select * from comment_reports;   (comme auteur)  -> zero ligne
+--  13. la table des auteurs du site n'est lisible par personne
+--        select * from site_authors;                      -> doit ECHOUER
+--  14. mais la marque remonte quand meme dans la vue
+--        select par_auteur_du_site from comments_public;  -> doit REUSSIR
+--  15. reports_count n'est pas lisible sur la table non plus
+--        select reports_count from comments;              -> doit ECHOUER
+--
+-- RESULTAT DE LA PREMIERE EXECUTION, 11 aout 2026 : DEUX defauts trouves.
+--   - la vue publique rendait 401 : elle lisait author_id en
+--     security_invoker. Corrige en materialisant le pseudonyme.
+--   - reports_count etait lisible par anon sur la table alors que la vue
+--     l'excluait. Corrige par revoke.
+-- Les quinze controles passent apres correction.

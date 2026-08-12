@@ -394,3 +394,71 @@
   .prop-vote { width: 2.75rem; height: 2.75rem; font-size: 1rem; }
   .prop-votes { min-width: 2.75rem; }
 }
+
+/* LA FILE DE MODERATION DES COMMENTAIRES. */
+.mod-fermeture {
+  margin: 1.2rem 0;
+  padding: 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+}
+.mod-fermeture label {
+  display: block;
+  margin-block-end: 0.45rem;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.68);
+}
+.mod-fermeture-ligne {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.mod-fermeture-ligne input {
+  flex: 1 1 14rem;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.04);
+  color: inherit;
+  font: inherit;
+}
+.mod-liste {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+}
+.mod-item {
+  padding: 0.7rem 0;
+  border-block-start: 1px solid rgba(255, 255, 255, 0.1);
+}
+.mod-item-entete {
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+.mod-signalements {
+  color: rgba(255, 190, 120, 0.85);
+}
+.mod-masque {
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.mod-item-corps {
+  margin: 0.4rem 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.mod-motifs {
+  margin: 0.3rem 0;
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+.mod-item-actions {
+  display: flex;
+  gap: 0.5rem;
+}

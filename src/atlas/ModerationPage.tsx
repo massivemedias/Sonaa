@@ -12,6 +12,7 @@
    effectivement été fait, et c'est le seul qui signifie quelque chose pour
    un lecteur de l'atlas. */
 
+import { CommentsModeration } from './CommentsModeration.tsx';
 import { useMemo } from 'react';
 import { contributionsActives } from '../lib/supabase.ts';
 import { useFil } from '../lib/useFil.ts';
@@ -116,6 +117,11 @@ export function ModerationPage() {
             </ul>
           </>
         )}
+
+        {/* LES COMMENTAIRES SIGNALES. La vue reserve deja l'acces aux
+            moderateurs par sa clause where : un simple connecte obtient
+            zero ligne, l'interface n'a rien a proteger de plus. */}
+        {fil.moderateur && <CommentsModeration />}
       </div>
 
       <footer className="credits-foot">

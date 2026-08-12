@@ -25,6 +25,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FAMILIES, STRUCTURES, type Track } from './structures.ts';
 import { ProceduralCover } from './ProceduralCover.tsx';
+import { CommentsSection } from './CommentsSection.tsx';
 import { ContributeActions } from './ContributeActions.tsx';
 import { VolumeControl } from './VolumeControl.tsx';
 import { TrackVote } from './TrackVote.tsx';
@@ -1046,6 +1047,11 @@ export function PlayerLayer({ panelGenre, onClose, onReopen, onGoToGenre, onGoTo
                 )}
               </section>
             )}
+
+            {/* 3 bis. LA DISCUSSION, sous les infos du genre et avant les
+                filiations : on lit ce que d'autres en disent apres avoir vu
+                la fiche, pas avant d'avoir entendu un morceau. */}
+            <CommentsSection genreId={panelGenreData.id} couleurFamille="var(--family)" />
 
             {/* 4. LES FILIATIONS : elles survivent au déménagement de la
                 fiche. Un clic fait voler la caméra et remplace le contenu

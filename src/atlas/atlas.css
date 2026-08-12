@@ -766,3 +766,122 @@
   line-height: 1.4;
   color: rgba(255, 255, 255, 0.5);
 }
+
+/* LE FIL DE DISCUSSION. Il vit sous les infos du genre, replie par defaut :
+   une fiche sert d'abord a ecouter, le fil ne doit pas pousser les morceaux
+   hors de l'ecran. */
+.pcol-fil {
+  margin-block-start: 0.9rem;
+}
+.pcol-fil-corps {
+  margin-block-start: 0.7rem;
+}
+.pcol-fil-message {
+  margin: 0 0 0.6rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+.pcol-fil-vide {
+  margin: 0.3rem 0 0.8rem;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+.pcol-fil-saisie textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.92);
+  font: inherit;
+  font-size: 0.88rem;
+  resize: vertical;
+}
+.pcol-fil-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-block-start: 0.4rem;
+}
+.pcol-fil-compte {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.38);
+}
+.pcol-fil-liste {
+  list-style: none;
+  margin: 0.9rem 0 0;
+  padding: 0;
+}
+.pcol-fil-item {
+  padding: 0.55rem 0 0.55rem 0.7rem;
+  border-inline-start: 2px solid rgba(255, 255, 255, 0.1);
+}
+.pcol-fil-item + .pcol-fil-item {
+  margin-block-start: 0.35rem;
+}
+/* LE MESSAGE DE L'AUTEUR DU SITE. Un lisere dans la couleur de la famille et
+   une mention en petites capitales, rien de plus : la distinction doit se
+   voir sans crier, et elle ne vient PAS du statut de moderateur. */
+.pcol-fil-item[data-auteur] {
+  border-inline-start-width: 3px;
+  background: rgba(255, 255, 255, 0.025);
+}
+.pcol-fil-entete {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.pcol-fil-auteur {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.78);
+}
+.pcol-fil-marque {
+  font-size: 0.64rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--family, rgba(255, 255, 255, 0.5));
+}
+.pcol-fil-date {
+  margin-inline-start: auto;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.34);
+}
+.pcol-fil-texte {
+  margin: 0.3rem 0 0.4rem;
+  font-size: 0.87rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.86);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.pcol-fil-pied {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.pcol-fil-pied button {
+  padding: 0.1rem 0.35rem;
+  border: 0;
+  background: none;
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.pcol-fil-pied button:hover {
+  color: rgba(255, 255, 255, 0.85);
+}
+.pcol-fil-score {
+  min-width: 1.4em;
+  text-align: center;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+.pcol-fil-lien {
+  margin-inline-start: 0.5rem;
+  font-size: 0.72rem !important;
+  text-decoration: underline;
+}
