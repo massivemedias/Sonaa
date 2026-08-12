@@ -35,11 +35,12 @@ void main() {
   float d = distance(vUv, vec2(0.5, 0.5));
   vec3 base = mix(near, deep, smoothstep(0.05, 0.95, d));
 
-  vec2 g = vUv * uResolution / 1.7;
-  g.x *= 0.62;
-  float fine = hash21(floor(g) + floor(uTime * 24.0) * vec2(37.0, 17.0));
-  base += (fine - 0.5) * 0.020 * uGrain;
-
+  /* LE GRAIN A QUITTE CE SHADER. Il etait la cause mesuree du scintillement :
+     cellule de 2,74 px de large sur 1,70 de haut, donc lue en colonnes
+     verticales, et regeneree VINGT-QUATRE FOIS PAR SECONDE. Il transparaissait
+     a travers les spheres translucides, d'ou un code-barres battant sur les
+     petites. Il est desormais rendu en passe separee, apres les spheres et
+     sous test de profondeur. Voir grainVert et grainFrag. */
   gl_FragColor = vec4(base, 1.0);
 }
 `;
@@ -335,5 +336,63 @@ void main() {
   if (alpha < 0.004) discard;
 
   gl_FragColor = vec4(rgb, alpha);
+}
+`;
+
+// ---------------------------------------------------------------- GRAIN
+
+/* LE GRAIN, EN PASSE SEPAREE ET APRES LES SPHERES.
+
+   Son role n'a pas change : casser les aplats du fond profond, qu'un degrade
+   pur fait bander sur huit bits. Trois choses ont change, et chacune repond a
+   une cause mesuree du scintillement.
+
+   ISOTROPE. Le « g.x *= 0.62 » etirait la cellule a 2,74 px de large pour
+   1,70 de haut, rapport 1,61 : un bruit plus large que haut se lit en
+   colonnes, et c'est le motif de code-barres qui a ete observe. La cellule
+   est desormais carree.
+
+   PRESQUE FIXE. Le motif etait regenere vingt-quatre fois par seconde, ce qui
+   est une animation, pas un artefact. A deux images par seconde, le grain
+   respire sans battre. Le rythme reste lie a uTime, lui-meme fige par
+   prefers-reduced-motion, donc la reduction des animations l'immobilise
+   completement.
+
+   ABSENT DERRIERE LES OBJETS. Le quad est pose a la profondeur 0.999, juste
+   devant le plan lointain : le test de profondeur le rejette partout ou une
+   sphere a deja ecrit. Le grain ne peut donc plus transparaitre a travers une
+   sphere translucide, ce qui reglait le cas des petites, rendues moins opaques
+   par la correction sous-pixel.
+
+   L'amplitude passe de 0,020 a 0,012 : le grain se voit moins et suffit
+   toujours a casser un aplat. */
+export const grainVert = `
+precision highp float;
+varying vec2 vUv;
+void main() {
+  vUv = uv;
+  // Directement en coordonnees ecran, sans matrices : la profondeur 0.999
+  // place le quad au fond, ou seules les zones vides le laissent passer.
+  gl_Position = vec4(position.xy * 2.0, 0.999, 1.0);
+}
+`;
+
+export const grainFrag = `
+precision highp float;
+varying vec2 vUv;
+uniform vec2 uResolution;
+uniform float uTime;
+uniform float uGrain;
+
+float hash21(vec2 p) {
+  return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453123);
+}
+
+void main() {
+  vec2 g = vUv * uResolution / 1.7;
+  float fine = hash21(floor(g) + floor(uTime * 2.0) * vec2(37.0, 17.0));
+  // Additif et positif : il eclaircit legerement plutot que d'osciller,
+  // ce qui suffit a rompre un aplat sans creer de trous sombres.
+  gl_FragColor = vec4(vec3(fine * 0.012 * uGrain), 1.0);
 }
 `;

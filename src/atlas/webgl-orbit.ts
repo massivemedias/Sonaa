@@ -7,6 +7,7 @@
    tiers = ligne droite), et le survol ne touche jamais aux labels. */
 
 import {
+  AdditiveBlending,
   BufferAttribute,
   Float32BufferAttribute,
   InstancedBufferAttribute,
@@ -39,6 +40,8 @@ import {
 
 import {
   backgroundFrag,
+  grainFrag,
+  grainVert,
   backgroundVert,
   linkFrag,
   linkVert,
@@ -351,6 +354,36 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   sphereMesh.frustumCulled = false;
   sphereMesh.renderOrder = 1;
   scene.add(sphereMesh);
+
+  /* LE GRAIN, dans la scene principale et APRES les spheres.
+
+     Il vivait dans le shader du fond, ou il transparaissait a travers les
+     spheres translucides : cellule etiree en largeur, donc lue en colonnes,
+     et regeneree vingt-quatre fois par seconde. Ici, le quad est pose a la
+     profondeur 0.999 et teste contre le tampon de profondeur que les spheres
+     viennent de remplir : il ne peut plus se dessiner derriere un objet.
+
+     renderOrder 3 le place apres les spheres (1) et les liens (2). */
+  const grainUniforms = {
+    uResolution: bgUniforms.uResolution,
+    uTime: bgUniforms.uTime,
+    uGrain: bgUniforms.uGrain
+  };
+  const grainMesh = new Mesh(
+    new PlaneGeometry(1, 1),
+    new ShaderMaterial({
+      vertexShader: grainVert,
+      fragmentShader: grainFrag,
+      uniforms: grainUniforms,
+      transparent: true,
+      blending: AdditiveBlending,
+      depthTest: true,
+      depthWrite: false
+    })
+  );
+  grainMesh.frustumCulled = false;
+  grainMesh.renderOrder = 3;
+  scene.add(grainMesh);
 
   // -------------------------------------------------------------- liens
 
