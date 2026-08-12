@@ -41,7 +41,12 @@ const webgl = ENGINES.map((f) => readFileSync(`${ATLAS}/${f}`, 'utf8')).join('\n
    est volontairement naïve : les appels sont sur une ou plusieurs lignes, mais
    les arguments sont simples. Si la forme du code change au point de casser ce
    parseur, c'est le moment de re-regarder les labels de toute façon. */
-const callSites = [...webgl.matchAll(/\badd\(\s*([\s\S]{0,200}?)\)/g)];
+/* `\badd\(` attrapait AUSSI les methodes nommees add : `centre.clone().add(
+   vecteur(a, R))` etait lu comme un site d'appel de labels et le controle
+   accusait un label compose nomme « R ». Le point qui precede est
+   exclu explicitement : ce controle porte sur le helper local `add(...)` de
+   la passe de labels, pas sur Vector3.add. */
+const callSites = [...webgl.matchAll(/(?<![.\w])add\(\s*([\s\S]{0,200}?)\)/g)];
 // Plus d'ensembles (ADR-053) : familles et genres seulement, noms nus.
 const ALLOWED_TEXT = new Set(['slot.label', 'family.label']);
 
