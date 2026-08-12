@@ -2440,6 +2440,31 @@ const OVERLAP_TOLERANCE = 1;
         sphereRadii[i] = (baseRadii[i] ?? 1) * breath * (1 + 0.08 * (hoverAmount[i] ?? 0));
       }
 
+      /* GARDE INCONDITIONNELLE : UNE SPHERE DANS SON PARENT N'EST PAS PEINTE.
+
+         Le calcul de presence ci-dessus s'appuie sur la distance PARCOURUE
+         depuis la position repliee. C'est juste, mais indirect : il suppose
+         que le trajet, la marge et le progres sont tous corrects. Cette
+         garde-ci ne suppose rien. Elle regarde ou la sphere est MAINTENANT,
+         et si son centre tombe a l'interieur de son ancetre, elle n'est pas
+         peinte du tout.
+
+         Deux surfaces dont l'une est enfermee dans l'autre ne peuvent pas
+         etre departagees par le tampon de profondeur : cela donne un disque
+         rapporte au centre d'une sphere, avec son propre ombrage et son
+         propre anneau. C'est ce qui a ete signale, et cette garde le rend
+         impossible quel que soit le chemin de code emprunte. */
+      if (slot.depth >= 1 && slot.parent >= 0 && presence > 0) {
+        const pi = (familyOffset[slot.family] ?? 0) + slot.parent;
+        const parent = slotsData[pi];
+        if (parent) {
+          const dParent = slot.world.distanceTo(parent.world);
+          /* Le seuil est le rayon de l'ancetre : au-dela, les deux corps se
+             touchent au pire, ils ne s'enferment plus. */
+          if (dParent < (sphereRadii[pi] ?? 0)) presence = 0;
+        }
+      }
+
       sphereState[i * 4] = suspended ? presence * 0.35 : presence;
       sphereState[i * 4 + 1] = i === focusIndex ? 0.22 : 0;
       sphereState[i * 4 + 2] = ringOn;
@@ -2653,6 +2678,35 @@ const OVERLAP_TOLERANCE = 1;
       else if (nom === 'repliees') repliesOn = actif;
       else if (nom === 'flux') fluxOn = actif;
       return { nom, actif };
+    },
+
+    /* COMBIEN DE SPHERES SONT REELLEMENT DESSINEES, et lesquelles sont
+       repliees sur leur ancetre. Le compte d'instances soumises au GPU est
+       fixe, 218 : c'est la presence qui decide de ce qui est peint. Si une
+       sphere repliee a une presence non nulle, elle est peinte au centre
+       exact de son parent, et c'est la bille dans la bille. */
+    compteDessine: () => {
+      let dessinees = 0;
+      const repliesVisibles: { label: string; depth: number; presence: number; distanceAuParent: number }[] = [];
+      for (let i = 0; i < TOTAL_GENRES; i += 1) {
+        const p = sphereState[i * 4] ?? 0;
+        if (p > 0.01) dessinees += 1;
+        const slot = slotsData[i];
+        if (!slot || slot.depth < 2 || slot.parent < 0) continue;
+        const pi = (familyOffset[slot.family] ?? 0) + slot.parent;
+        const parent = slotsData[pi];
+        if (!parent) continue;
+        const d = slot.world.distanceTo(parent.world);
+        if (p > 0.01 && d < (sphereRadii[pi] ?? 1)) {
+          repliesVisibles.push({
+            label: slot.label,
+            depth: slot.depth,
+            presence: Math.round(p * 1000) / 1000,
+            distanceAuParent: Math.round(d * 1000) / 1000
+          });
+        }
+      }
+      return { instancesSoumises: TOTAL_GENRES, dessinees, repliesVisibles };
     },
 
     /* QUI EST VISIBLE, ET AU MEME ENDROIT QUE QUI.
