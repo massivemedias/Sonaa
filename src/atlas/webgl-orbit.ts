@@ -813,10 +813,43 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   const defocusDepart = new Float32Array(TOTAL_GENRES);
   let zoneStart = -1e9;
 
+  /* LA GÉNÉRATION, ET NON LE CHEMIN.
+
+     LE MODÈLE A CHANGÉ, ET C'EST LE CHANGEMENT LE PLUS PROFOND DU MODE FOCUS.
+
+     Avant : cliquer un dérivé descendait DANS SA BRANCHE. On entrait dans
+     Downtempo, on cliquait Trip-Hop, et il ne restait que Downtempo, Trip-Hop
+     et les deux dérivés de Trip-Hop. Tout le reste disparaissait. Ce que ça
+     produit a été décrit exactement : « perdu dans le vide ». On avait perdu
+     de vue les six autres dérivés de Downtempo, donc le seul repère qui
+     disait où l'on était.
+
+     Maintenant : cliquer OUVRE UNE GÉNÉRATION, et sélectionne un noeud
+     dedans. La racine de la vue ne bouge plus, ses dérivés restent en
+     couronne, et chacun d'eux déploie SES propres sous-genres autour de lui.
+     Le clic ne déplace pas le point de vue, il l'approfondit.
+
+     Trois variables portent ce modèle, et il faut les distinguer :
+
+       focusRacine    le genre au centre de la vue. Il ne change QUE lorsqu'on
+                      entre depuis l'extérieur, ou qu'on remonte.
+       focusGenerations  combien de générations sont dépliées sous lui. 1 au
+                      premier clic, 2 après un clic sur un dérivé, et ainsi
+                      de suite.
+       activeGenre    le noeud SÉLECTIONNÉ. Il vit dans la génération, il ne
+                      la commande pas. C'est lui qui porte le halo, le nom
+                      marqué et le contenu de la colonne.
+
+     Le nom `focusIndex` reste celui de la racine : le renommer partout aurait
+     touché quarante endroits pour un gain de vocabulaire. */
+  let focusGenerations = 1;
+  const zoneGeneration = new Int8Array(TOTAL_GENRES);
+
   const rebuildZone = (): void => {
     defocusDepart.set(defocus);
     zoneStart = performance.now();
     zone.fill(0);
+    zoneGeneration.fill(-1);
     zoneParent = -1;
     zoneActive = focusIndex >= 0 && focusDir === 1;
     if (!zoneActive) return;
@@ -826,25 +859,35 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       return;
     }
     zone[focusIndex] = 1;
+    zoneGeneration[focusIndex] = 0;
 
-    /* LES DÉRIVÉS DIRECTS, ET EUX SEULS.
-
-       La première version prenait tout le sous-arbre. Mesuré sur Detroit
-       Techno, qui est la racine de sa famille : la zone contenait les SEIZE
-       genres techno, c'est-à-dire la famille entière, et le mode focus ne
-       fermait plus rien du tout.
-
-       C'est aussi ce qui est cohérent avec le déploiement à un seul niveau
-       (ADR-056) : les générations plus profondes sont repliées sur leur
-       parent, invisibles, et de rayon nul à l'écran. Les compter comme
-       cibles donnait des écarts négatifs entre deux sphères confondues. */
+    /* TOUTE LA DESCENDANCE JUSQU'À LA GÉNÉRATION DÉPLIÉE, sans exception et
+       sans privilégier la branche cliquée. Parcours en largeur : c'est la
+       traduction directe de « une génération à la fois ». */
     const base = familyOffset[slot.family] ?? 0;
-    for (const local of slot.children) zone[base + local] = 1;
-    /* Le parent direct garde le fil : sans lui on ne sait plus d'où l'on
-       vient, et remonter demanderait de sortir du mode. */
+    let front = [focusIndex];
+    for (let g = 1; g <= focusGenerations; g += 1) {
+      const suivant: number[] = [];
+      for (const p of front) {
+        const ps = slotsData[p];
+        if (!ps) continue;
+        for (const local of ps.children) {
+          const e = base + local;
+          zone[e] = 1;
+          zoneGeneration[e] = g;
+          suivant.push(e);
+        }
+      }
+      front = suivant;
+      if (front.length === 0) break;
+    }
+
+    /* Le parent direct de la racine garde le fil : sans lui on ne sait plus
+       d'où l'on vient, et remonter demanderait de sortir du mode. */
     if (slot.parent >= 0) {
       zoneParent = base + slot.parent;
       zone[zoneParent] = 1;
+      zoneGeneration[zoneParent] = -2; // au-dessus de la racine
     }
   };
 
@@ -882,12 +925,93 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   const focusRight = new Vector3(1, 0, 0);
   const focusUp = new Vector3(0, 1, 0);
 
+  /* LA DISPOSITION D'ENTRÉE, RÉCURSIVE.
+
+     POURQUOI ON NE RÉUTILISE PAS LES POSITIONS DE LA VUE D'ENSEMBLE. Elles
+     sont calculées une fois pour toutes, au build, pour que la famille entière
+     tienne dans son volume. Vues de près, elles donnent exactement ce qui a
+     été signalé : des dérivés dispersés, certains projetés SUR leur parent
+     parce qu'ils sont derrière lui dans l'axe de la caméra, et des cibles de
+     quelques pixels.
+
+     CE QUE FAIT CELLE-CI. La racine au centre. Ses dérivés sur une couronne,
+     dans le PLAN DE LA CAMÉRA au moment du clic, donc aucun ne peut se cacher
+     derrière un autre. Puis, si une deuxième génération est dépliée, CHACUN de
+     ces dérivés porte à son tour sa petite couronne locale.
+
+     L'ORDRE DU CALCUL EST L'INVERSE DE L'ORDRE DE LECTURE, et c'est le point
+     qui rend la chose juste. On ne peut pas placer la couronne principale
+     avant de savoir quelle place occupe chaque sous-système : un dérivé qui
+     porte six sous-genres a besoin de bien plus d'espace autour de lui qu'une
+     feuille. On calcule donc d'abord, de bas en haut, LE RAYON OCCUPÉ par
+     chaque sous-arbre ; ensuite seulement on pose les positions, de haut en
+     bas, en écartant la couronne principale juste assez pour que deux
+     sous-systèmes voisins ne se touchent pas.
+
+     Un seul calcul dans l'autre sens, et les petites couronnes se
+     chevauchaient dès qu'un dérivé avait plus d'enfants que ses voisins. */
+
+  const enfantsDe = (i: number): number[] => {
+    const s = slotsData[i];
+    if (!s) return [];
+    const base = familyOffset[s.family] ?? 0;
+    return s.children.map((local) => base + local).filter((k) => slotsData[k]);
+  };
+
+  /* Rayon occupé par le sous-arbre de `i` quand il reste `restant`
+     générations à déplier sous lui. Purement géométrique, sans effet de
+     bord : c'est ce qui permet de l'appeler plusieurs fois sans surprise. */
+  const rayonOccupe = (i: number, restant: number): number => {
+    const r = baseRadii[i] ?? 1;
+    if (restant <= 0) return r;
+    const enfants = enfantsDe(i);
+    if (enfants.length === 0) return r;
+    let rMax = 0;
+    for (const e of enfants) rMax = Math.max(rMax, rayonOccupe(e, restant - 1));
+    return rayonLocal(r, rMax, enfants.length) + rMax;
+  };
+
+  /* LES SOUS-COURONNES S'OUVRENT VERS L'EXTÉRIEUR, ELLES NE FONT PAS LE TOUR.
+
+     Première version : chaque dérivé portait ses sous-genres sur un cercle
+     complet autour de lui. Mesuré sur Downtempo à deux générations, écart
+     minimal entre cibles 23 px, pour 44 visés. La raison est géométrique et
+     elle ne se corrige pas en poussant les facteurs : sept systèmes complets
+     sur un même cercle se disputent la corde qui les sépare, et la moitié de
+     chaque petite couronne pointe vers le centre, c'est-à-dire vers la zone
+     déjà occupée par la racine et par les liens.
+
+     En éventail vers l'extérieur, les sous-genres partent dans l'espace libre
+     qui entoure la couronne, où il y en a d'autant plus qu'on s'éloigne. La
+     même place à l'écran porte alors des cibles bien plus écartées.
+
+     Le tour complet revient quand il y a beaucoup d'enfants (au-delà de
+     quatre), parce qu'un éventail trop ouvert redevient un cercle. */
+  const ANGLE_EVENTAIL = (n: number): number => {
+    if (n <= 1) return 0;
+    if (n === 2) return Math.PI * 0.5;
+    if (n === 3) return Math.PI * 0.72;
+    if (n === 4) return Math.PI * 0.95;
+    return Math.PI * 2 * ((n - 1) / n);
+  };
+
+  const rayonLocal = (rParent: number, rEnfantMax: number, n: number): number => {
+    /* 2,75 et non 2,1 : mesuré sur Downtempo à deux générations, la paire la
+       plus serrée est un sous-genre et SON dérivé, pas deux voisins. 36 px
+       d'écart avec 2,1, sous les 44 visés. */
+    const parParent = (rParent + rEnfantMax) * 2.75;
+    /* Séparation entre voisins DE L'ÉVENTAIL : l'angle entre deux enfants
+       vaut l'ouverture divisée par le nombre d'intervalles, jamais le tour
+       complet divisé par le nombre d'enfants. */
+    const pas = n > 1 ? ANGLE_EVENTAIL(n) / (n - 1) : 0;
+    const parVoisins = pas > 0 ? (rEnfantMax * 2.4) / (2 * Math.sin(Math.min(Math.PI / 2, pas / 2))) : 0;
+    return Math.max(parParent, parVoisins);
+  };
+
   const buildFocusRing = (globalIndex: number): void => {
     focusOffsets.clear();
     const slot = slotsData[globalIndex];
     if (!slot) return;
-    const base = familyOffset[slot.family] ?? 0;
-    const enfants = slot.children.map((local) => base + local).filter((i) => slotsData[i]);
 
     /* Le plan de la caméra au moment du clic. L'orbite ne change pas pendant
        un vol : la direction de vue d'après le vol est celle d'avant. */
@@ -896,124 +1020,136 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     focusRight.copy(camRight);
     focusUp.copy(camUp);
 
-    const rParent = baseRadii[globalIndex] ?? 1;
-    let rEnfantMax = 0.5;
-    for (const e of enfants) rEnfantMax = Math.max(rEnfantMax, baseRadii[e] ?? 0.5);
-
-    /* ================================================================
-       LA GÉOMÉTRIE DU GROUPE, dans l'ordre où elle se décide.
-
-       1. UN RAYON UNIQUE R pour tout le monde, parent compris. Le parent
-          était auparavant écarté proportionnellement à SON rayon, et un
-          fondateur de famille est la plus grosse sphère de l'atlas : il
-          partait donc beaucoup plus loin que les dérivés, tirait le cadrage
-          à lui tout seul, et laissait la couronne minuscule au centre d'un
-          écran vide. Un seul rayon rend le groupe compact par construction.
-
-       2. DES ANGLES QUI DÉPENDENT DU NOMBRE DE DÉRIVÉS. Une couronne de un
-          ou deux points n'est pas une couronne, c'est une ligne, et posée en
-          diagonale avec le parent dans un coin elle donne exactement ce qui
-          a été signalé : le genre ouvert collé en haut à gauche et deux
-          points en diagonale.
-
-          0 dérivé  : le parent à gauche, à l'horizontale.
-          1 dérivé  : parent à gauche, dérivé à droite. Une ligne, mais une
-                      ligne HORIZONTALE et centrée, qui se lit.
-          2 dérivés : les deux dérivés de part et d'autre, le parent au-dessus.
-          3 et plus : couronne répartie sur 360 degrés, le parent glissé dans
-                      l'intervalle libre le plus proche du haut à gauche. */
-    const n = enfants.length;
-
-    /* LE RAYON DU PARENT COMPTE, ET C'EST LUI QUI DÉCIDE LE PLUS SOUVENT.
-
-       Il ne comptait pas : le rayon du cercle se calculait sur le genre
-       ouvert et ses dérivés. Or le parent est posé SUR ce cercle, et le
-       rayon d'une sphère grandit vers la racine de l'arbre. Mesuré sur Dub
-       Techno : son parent Detroit Techno, fondateur de la famille, occupait
-       tout le cadre pendant que le genre ouvert tenait dans quelques pixels
-       à côté, écart de moins 42 pixels, c'est-à-dire recouvrement franc.
-
-       Le voisin le plus gros, dérivé ou parent, fixe donc l'écartement. */
-    const rParentSphere = slot.parent >= 0 ? (baseRadii[base + slot.parent] ?? 1) : 0;
-    const rVoisinMax = Math.max(rEnfantMax, rParentSphere);
-
-    const rayonSansContact = (rParent + rVoisinMax) * 2.35;
-    const rayonEntreVoisins = n > 2 ? (rVoisinMax * 2.6) / (2 * Math.sin(Math.PI / n)) : 0;
-    const R = Math.max(rayonSansContact, rayonEntreVoisins);
-
-    const poser = (index: number, angle: number, rayon: number): void => {
-      focusOffsets.set(
-        index,
-        new Vector3(
-          (camRight.x * Math.cos(angle) + camUp.x * Math.sin(angle)) * rayon,
-          (camRight.y * Math.cos(angle) + camUp.y * Math.sin(angle)) * rayon,
-          (camRight.z * Math.cos(angle) + camUp.z * Math.sin(angle)) * rayon
-        )
+    const vecteur = (angle: number, rayon: number): Vector3 =>
+      new Vector3(
+        (camRight.x * Math.cos(angle) + camUp.x * Math.sin(angle)) * rayon,
+        (camRight.y * Math.cos(angle) + camUp.y * Math.sin(angle)) * rayon,
+        (camRight.z * Math.cos(angle) + camUp.z * Math.sin(angle)) * rayon
       );
-    };
-
-    const parentIndex = slot.parent >= 0 ? base + slot.parent : -1;
-
-    /* Ordre conservé : les dérivés sont rangés selon l'angle qu'ils
-       occupaient déjà à l'écran, puis répartis régulièrement. Sans cela, la
-       couronne rebattrait les cartes à chaque descente et un dérivé repéré à
-       droite se retrouverait à gauche. */
-    const avecAngle = enfants.map((i) => {
-      const s2 = slotsData[i];
-      const dx = (s2?.deployed.x ?? 0) - slot.deployed.x;
-      const dy = (s2?.deployed.y ?? 0) - slot.deployed.y;
-      const dz = (s2?.deployed.z ?? 0) - slot.deployed.z;
-      const u = camRight.x * dx + camRight.y * dy + camRight.z * dz;
-      const v = camUp.x * dx + camUp.y * dy + camUp.z * dz;
-      return { i, angle: Math.atan2(v, u) };
-    });
-    avecAngle.sort((a, b) => a.angle - b.angle);
 
     const DROITE = 0;
     const HAUT = Math.PI / 2;
     const GAUCHE = Math.PI;
 
+    /* Pose la descendance de `i`, dont la position est déjà connue, sur
+       `restant` générations. `sortant` est la direction qui s'éloigne de la
+       racine : la petite couronne locale commence de ce côté, pour que les
+       sous-genres d'un dérivé partent vers l'extérieur et non vers le centre
+       déjà occupé. */
+    const poserDescendance = (i: number, centre: Vector3, restant: number, sortant: number): void => {
+      if (restant <= 0) return;
+      const enfants = enfantsDe(i);
+      const n = enfants.length;
+      if (n === 0) return;
+
+      const r = baseRadii[i] ?? 1;
+      let rMax = 0;
+      for (const e of enfants) rMax = Math.max(rMax, rayonOccupe(e, restant - 1));
+      const R = rayonLocal(r, rMax, n);
+
+      /* Ordre conservé : les dérivés sont rangés selon l'angle qu'ils
+         occupaient déjà à l'écran. Sans cela, la couronne rebattrait les
+         cartes à chaque descente et un dérivé repéré à droite se retrouverait
+         à gauche. */
+      const s = slotsData[i];
+      const avecAngle = enfants.map((e) => {
+        const es = slotsData[e];
+        const dx = (es?.deployed.x ?? 0) - (s?.deployed.x ?? 0);
+        const dy = (es?.deployed.y ?? 0) - (s?.deployed.y ?? 0);
+        const dz = (es?.deployed.z ?? 0) - (s?.deployed.z ?? 0);
+        return {
+          e,
+          angle: Math.atan2(
+            camUp.x * dx + camUp.y * dy + camUp.z * dz,
+            camRight.x * dx + camRight.y * dy + camRight.z * dz
+          )
+        };
+      });
+      avecAngle.sort((a, b) => a.angle - b.angle);
+
+      /* L'éventail est CENTRÉ sur la direction sortante : le premier enfant
+         d'un dérivé situé à droite de la racine part vers la droite, pas vers
+         le centre. */
+      const ouverture = ANGLE_EVENTAIL(n);
+      avecAngle.forEach((k, idx) => {
+        const a = n === 1 ? sortant : sortant - ouverture / 2 + (idx / (n - 1)) * ouverture;
+        const pos = centre.clone().add(vecteur(a, R));
+        focusOffsets.set(k.e, pos);
+        poserDescendance(k.e, pos, restant - 1, a);
+      });
+    };
+
+    /* ---- 1. la racine et sa première couronne ---- */
+    const enfants = enfantsDe(globalIndex);
+    const n = enfants.length;
+    const rRacine = baseRadii[globalIndex] ?? 1;
+    const parentIndex = slot.parent >= 0 ? (familyOffset[slot.family] ?? 0) + slot.parent : -1;
+
+    /* La place que prend chaque dérivé, sous-systèmes compris. C'est ce
+       calcul qui manquait : la couronne principale s'écarte pour contenir les
+       petites couronnes, au lieu de les laisser se marcher dessus. */
+    let rMax = 0;
+    for (const e of enfants) rMax = Math.max(rMax, rayonOccupe(e, focusGenerations - 1));
+    const rParentSphere = parentIndex >= 0 ? (baseRadii[parentIndex] ?? 1) : 0;
+    const rVoisinMax = Math.max(rMax, rParentSphere);
+
+    const parParent = (rRacine + rVoisinMax) * (focusGenerations > 1 ? 1.55 : 2.35);
+    const parVoisins = n > 2 ? (rVoisinMax * 2.25) / (2 * Math.sin(Math.PI / n)) : 0;
+    const R = Math.max(parParent, parVoisins);
+
+    const avecAngle = enfants.map((e) => {
+      const es = slotsData[e];
+      const dx = (es?.deployed.x ?? 0) - slot.deployed.x;
+      const dy = (es?.deployed.y ?? 0) - slot.deployed.y;
+      const dz = (es?.deployed.z ?? 0) - slot.deployed.z;
+      return {
+        e,
+        angle: Math.atan2(
+          camUp.x * dx + camUp.y * dy + camUp.z * dz,
+          camRight.x * dx + camRight.y * dy + camRight.z * dz
+        )
+      };
+    });
+    avecAngle.sort((a, b) => a.angle - b.angle);
+
+    /* DES ANGLES QUI DÉPENDENT DU NOMBRE DE DÉRIVÉS. Une couronne de un ou
+       deux points n'est pas une couronne, c'est une ligne, et posée en
+       diagonale avec le parent dans un coin elle donne le genre ouvert collé
+       dans un angle et deux points en diagonale. */
     if (n === 0) {
-      if (parentIndex >= 0) poser(parentIndex, GAUCHE, R);
+      if (parentIndex >= 0) focusOffsets.set(parentIndex, vecteur(GAUCHE, Math.max(R, (rRacine + rParentSphere) * 2.35)));
     } else if (n === 1) {
       const e0 = avecAngle[0];
-      if (e0) poser(e0.i, DROITE, R);
-      if (parentIndex >= 0) poser(parentIndex, GAUCHE, R);
+      if (e0) {
+        const pos = vecteur(DROITE, R);
+        focusOffsets.set(e0.e, pos);
+        poserDescendance(e0.e, pos, focusGenerations - 1, DROITE);
+      }
+      if (parentIndex >= 0) focusOffsets.set(parentIndex, vecteur(GAUCHE, R));
     } else if (n === 2) {
       const [a, b] = avecAngle;
-      if (a) poser(a.i, GAUCHE, R);
-      if (b) poser(b.i, DROITE, R);
-      if (parentIndex >= 0) poser(parentIndex, HAUT, R);
+      if (a) {
+        const pos = vecteur(GAUCHE, R);
+        focusOffsets.set(a.e, pos);
+        poserDescendance(a.e, pos, focusGenerations - 1, GAUCHE);
+      }
+      if (b) {
+        const pos = vecteur(DROITE, R);
+        focusOffsets.set(b.e, pos);
+        poserDescendance(b.e, pos, focusGenerations - 1, DROITE);
+      }
+      if (parentIndex >= 0) focusOffsets.set(parentIndex, vecteur(HAUT, R));
     } else {
       /* Départ à midi, sens horaire : la couronne se lit comme un cadran. Le
          demi-pas de décalage libère l'intervalle où va le parent. */
       const biais = parentIndex >= 0 ? Math.PI / n : 0;
-      avecAngle.forEach((e, k) => poser(e.i, HAUT - (k / n) * Math.PI * 2 - biais, R));
-      if (parentIndex >= 0) poser(parentIndex, HAUT + Math.PI / n, R);
-    }
-
-    /* Générations plus profondes : elles gardent leur écart relatif à leur
-       parent, décalé sur la nouvelle position de celui-ci. Elles ne sont
-       visibles que si leur parent est sur le chemin ouvert (ADR-056), donc
-       ce cas est rare, mais il ne doit pas les renvoyer à l'ancienne place. */
-    for (let i = 0; i < TOTAL_GENRES; i += 1) {
-      const s = slotsData[i];
-      if (!s || s.family !== slot.family || focusOffsets.has(i)) continue;
-      if (!isDescendant(i, globalIndex) || i === globalIndex) continue;
-      if (s.parent >= 0 && base + s.parent === globalIndex) continue; // déjà sur la couronne
-      const pi = s.parent >= 0 ? base + s.parent : -1;
-      const parentOff = pi >= 0 ? focusOffsets.get(pi) : undefined;
-      if (!parentOff) continue;
-      const ps = slotsData[pi];
-      if (!ps) continue;
-      focusOffsets.set(
-        i,
-        new Vector3(
-          parentOff.x + (s.deployed.x - ps.deployed.x) * 1.6,
-          parentOff.y + (s.deployed.y - ps.deployed.y) * 1.6,
-          parentOff.z + (s.deployed.z - ps.deployed.z) * 1.6
-        )
-      );
+      avecAngle.forEach((k, idx) => {
+        const a = HAUT - (idx / n) * Math.PI * 2 - biais;
+        const pos = vecteur(a, R);
+        focusOffsets.set(k.e, pos);
+        poserDescendance(k.e, pos, focusGenerations - 1, a);
+      });
+      if (parentIndex >= 0) focusOffsets.set(parentIndex, vecteur(HAUT + Math.PI / n, R));
     }
   };
 
@@ -1058,7 +1194,13 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      Le canvas est déjà rétréci par la colonne (règle CSS sur
      data-player-open), donc « l'espace disponible » est exactement ce que
      mesure la caméra : rien à déduire ici. */
-  const OCCUPATION = 0.6;
+  /* L'ensemble occupe 60 % de la plus petite dimension quand une seule
+     génération est dépliée. Avec deux, il en occupe 78 % : la caméra recule
+     pour contenir la génération ouverte, mais reculer sans élargir la part de
+     l'écran rendrait chaque cible plus petite qu'avant, ce qui est le
+     contraire de ce qu'on cherche. */
+  const OCCUPATION_SIMPLE = 0.6;
+  const OCCUPATION_PROFONDE = 0.78;
 
   /* L'ÉTENDUE DU GROUPE, séparément en largeur et en hauteur.
 
@@ -1103,8 +1245,9 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   const focusFrameDistance = (largeur: number, hauteur: number): number => {
     const tan = Math.tan((FOV * Math.PI) / 360);
     const aspect = Math.max(0.2, camera.aspect);
-    const parLargeur = largeur / Math.max(0.001, 2 * OCCUPATION * tan * aspect);
-    const parHauteur = hauteur / Math.max(0.001, 2 * OCCUPATION * tan);
+    const occupation = focusGenerations > 1 ? OCCUPATION_PROFONDE : OCCUPATION_SIMPLE;
+    const parLargeur = largeur / Math.max(0.001, 2 * occupation * tan * aspect);
+    const parHauteur = hauteur / Math.max(0.001, 2 * occupation * tan);
     return clamp(Math.max(parLargeur, parHauteur), MIN_DISTANCE, MAX_DISTANCE);
   };
 
@@ -1697,6 +1840,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     activeGenre = -1;
     genrePath = [];
     focusIndex = -1;
+    focusGenerations = 1;
     focusDir = -1;
     focusStart = now;
     level = 'family';
@@ -1776,56 +1920,74 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     level = 'genre';
 
     /* ======================================================================
-       UN GENRE SANS DÉRIVÉS NE CHANGE PAS DE VUE.
+       LE CLIC OUVRE UNE GÉNÉRATION, PAS UN CHEMIN.
 
-       LE VOL DE CAMÉRA NE SERT QUE S'IL Y A QUELQUE CHOSE À RÉVÉLER. Sur une
-       feuille il n'y a rien : pas de couronne à déplier, rien de nouveau à
-       cadrer. Voler quand même produisait ce qui a été signalé, deux boules
-       perdues dans le vide, sans repère pour savoir d'où l'on venait.
+       Trois cas, et un seul d'entre eux déplace la racine de la vue.
 
-       On garde donc le contexte visuel du PARENT : la zone reste la sienne,
-       la caméra ne bouge pas, la sphère cliquée reçoit le halo de sélection,
-       et la colonne se remplit de ses morceaux. C'est tout ce qu'un genre
-       sans dérivé a à offrir, et le montrer autrement serait mentir sur ce
-       qu'il y a à voir.
+       1. LE NOEUD EST DÉJÀ DANS LA ZONE. C'est le cas courant : on a ouvert
+          Downtempo, on clique Trip-Hop. La racine NE BOUGE PAS. On déplie la
+          génération suivante EN ENTIER, c'est-à-dire les sous-genres de TOUS
+          les dérivés de Downtempo, chacun autour du sien, et Trip-Hop devient
+          simplement le noeud sélectionné.
 
-       Si la feuille est cliquée depuis ailleurs (la recherche, une autre
-       branche), son parent n'est pas encore la zone : on entre alors dans le
-       PARENT, ce qui met la feuille sous les yeux avec ses soeurs autour.
-       Dans les deux cas, le repère est le parent, jamais la feuille seule. */
-    if (slot.children.length === 0 && slot.parent >= 0) {
-      const parent = base + slot.parent;
-      if (focusIndex !== parent) {
-        focusIndex = parent;
-        focusDir = 1;
+          C'est le coeur du modèle. L'ancienne version descendait dans la
+          seule branche cliquée et faisait disparaître les six autres dérivés,
+          c'est-à-dire le seul repère qui disait où l'on se trouvait.
+
+       2. LE NOEUD EST HORS ZONE (recherche, autre famille, retour). Il
+          devient la racine d'une nouvelle vue, avec une génération dépliée.
+
+       3. LE NOEUD EST LE PARENT DE LA RACINE, affiché pour garder le fil :
+          cliquer dessus remonte, ce que fait goUp. */
+
+    const dansLaZone = zoneActive && zone[globalIndex] === 1;
+    const generationDuNoeud = dansLaZone ? (zoneGeneration[globalIndex] ?? -1) : -1;
+
+    if (dansLaZone && generationDuNoeud >= 0) {
+      /* Déplier la génération D'APRÈS celle du noeud cliqué. Cliquer un noeud
+         d'une génération déjà dépassée ne replie rien : on ne perd jamais ce
+         qui est à l'écran par un simple clic de sélection. */
+      const voulu = Math.max(focusGenerations, generationDuNoeud + 1);
+      if (voulu !== focusGenerations) {
+        focusGenerations = voulu;
         focusStart = now;
-        buildFocusRing(parent);
+        buildFocusRing(focusIndex);
         rebuildZone();
-        if (slotsData[parent]) {
-          frameLock = parent;
-          startFly(cibleDuFocus(parent), distanceDuFocus(parent), now);
-        }
+        /* LA CAMÉRA RECULE, ELLE NE SE RECENTRE PAS. Le centre reste la
+           racine ; seule la distance change, pour contenir la génération qui
+           vient de s'ouvrir. */
+        frameLock = focusIndex;
+        startFly(cibleDuFocus(focusIndex), distanceDuFocus(focusIndex), now);
       }
-      /* Déjà dans le parent : la caméra ne bouge pas d'un pixel. */
       emitNav();
       openPanel(slot.family, slot.local);
       return;
     }
 
-    focusIndex = globalIndex;
+    /* Hors zone : ce noeud devient la racine d'une nouvelle vue.
+
+       UNE FEUILLE NE DEVIENT JAMAIS RACINE. Elle n'a rien à déplier, et la
+       prendre pour centre donnait deux boules perdues dans le vide. On entre
+       dans son PARENT, ce qui la met sous les yeux avec ses soeurs autour, et
+       on la sélectionne. */
+    let racine = globalIndex;
+    if (slot.children.length === 0 && slot.parent >= 0) racine = base + slot.parent;
+
+    focusIndex = racine;
+    focusGenerations = 1;
     focusDir = 1;
     focusStart = now;
 
     /* ENTRER, c'est refaire la disposition et refermer la zone. Dans cet
        ordre : la zone se lit sur la couronne, pas l'inverse. */
-    buildFocusRing(globalIndex);
+    buildFocusRing(racine);
     rebuildZone();
 
-    /* On vise la position FINALE du genre, pas celle qu'il occupe au moment
-       du clic. Au clic il est encore en train de bouger, et viser une
-       position transitoire donnait un cadrage décalé de ce qui s'installe. */
-    frameLock = globalIndex;
-    startFly(cibleDuFocus(globalIndex), distanceDuFocus(globalIndex), now);
+    /* On vise la position FINALE, pas celle qu'occupe le genre au moment du
+       clic : au clic il est encore en train de bouger, et viser une position
+       transitoire donnait un cadrage décalé de ce qui s'installe. */
+    frameLock = racine;
+    startFly(cibleDuFocus(racine), distanceDuFocus(racine), now);
     emitNav();
     openPanel(slot.family, slot.local);
   };
@@ -1878,11 +2040,45 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   const goUp = (): void => {
     const now = performance.now();
 
-    /* PREMIER CAS : une feuille est sélectionnée à l'intérieur de la zone de
-       son parent. Remonter, c'est alors revenir au parent LUI-MÊME, sans
-       toucher ni à la zone ni à la caméra : on annule une sélection, on ne
-       change pas de lieu. Sans ce cas, Échap sautait par-dessus le parent et
-       remontait au grand-parent, ce qui faisait perdre un niveau. */
+    /* PREMIER CAS : UNE GÉNÉRATION EST DÉPLIÉE SOUS LA RACINE. Échap la
+       REPLIE, et ne remonte pas encore.
+
+       C'est la contrepartie exacte du clic : il ouvre une génération, Échap
+       la referme. Remonter directement à la racine aurait fait perdre d'un
+       coup tout ce qu'on venait d'ouvrir, alors que le geste demandé est
+       « un cran ». La sélection redescend sur le parent du noeud
+       sélectionné, qui est le noeud le plus profond encore visible. */
+    if (level === 'genre' && zoneActive && focusGenerations > 1) {
+      focusGenerations -= 1;
+      focusStart = now;
+      buildFocusRing(focusIndex);
+      rebuildZone();
+
+      /* La sélection remonte tant qu'elle n'est plus dans la zone. */
+      let sel = activeGenre;
+      let garde = 0;
+      while (sel >= 0 && zone[sel] !== 1 && garde < 8) {
+        const ss = slotsData[sel];
+        sel = ss && ss.parent >= 0 ? (familyOffset[ss.family] ?? 0) + ss.parent : focusIndex;
+        garde += 1;
+      }
+      activeGenre = sel >= 0 ? sel : focusIndex;
+      const as = slotsData[activeGenre];
+      if (as) {
+        genrePath = pathToGenre(as.family, as.local).map((l) => (familyOffset[as.family] ?? 0) + l);
+      }
+      frameLock = focusIndex;
+      startFly(cibleDuFocus(focusIndex), distanceDuFocus(focusIndex), now);
+      emitNav();
+      if (as) openPanel(as.family, as.local);
+      return;
+    }
+
+    /* DEUXIÈME CAS : un noeud de la première génération est sélectionné.
+       Remonter, c'est revenir à la racine ELLE-MÊME, sans toucher ni à la
+       zone ni à la caméra : on annule une sélection, on ne change pas de
+       lieu. Sans ce cas, Échap sautait par-dessus la racine et remontait au
+       grand-parent, ce qui faisait perdre un niveau. */
     if (level === 'genre' && focusIndex >= 0 && activeGenre !== focusIndex) {
       activeGenre = focusIndex;
       genrePath = genrePath.slice(0, -1);
@@ -1903,6 +2099,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       if (parent !== undefined) {
         activeGenre = parent;
         focusIndex = parent;
+        focusGenerations = 1;
         focusDir = 1;
         /* Remonter au parent, c'est y ENTRER : sa couronne est refaite et la
            zone se referme sur lui. Sans cela on remontait dans un mode focus
@@ -1920,6 +2117,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
 
       activeGenre = -1;
       focusIndex = -1;
+      focusGenerations = 1;
       level = 'family';
       rebuildZone();
       focusOffsets.clear();
@@ -1961,6 +2159,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     activeGenre = -1;
     genrePath = [];
     focusIndex = -1;
+    focusGenerations = 1;
     focusDir = -1;
     focusStart = now;
     level = 'atlas';
@@ -2269,6 +2468,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     activeGenre = -1;
     genrePath = [];
     focusIndex = -1;
+    focusGenerations = 1;
     focusDir = -1;
     focusStart = performance.now();
     level = 'atlas';
@@ -2610,6 +2810,26 @@ const OVERLAP_TOLERANCE = 1;
       const inSubtree = focusIndex >= 0 ? isDescendant(i, focusIndex) : false;
       const isPinned = i === focusIndex || inSubtree;
 
+      /* DENSITÉ : QUAND DEUX GÉNÉRATIONS SONT DÉPLIÉES, LES INTERMÉDIAIRES
+         PERDENT LEUR NOM.
+
+         Règle posée par Mika, et elle est juste : sur une famille peuplée,
+         une génération entière dépliée met à l'écran des dizaines de sphères,
+         et l'arbitrage de collision se met à masquer au hasard de la
+         géométrie. Plutôt que de laisser tomber des noms sans savoir
+         lesquels, on choisit CE QU'ON GARDE : le niveau le plus profond
+         déplié, qui est ce qu'on vient d'ouvrir, la racine de la vue, et le
+         noeud sélectionné.
+
+         Les intermédiaires restent parfaitement identifiables : ils sont au
+         centre de leur propre petite couronne, et leur nom revient dès qu'on
+         replie d'un cran. */
+      if (zoneActive && focusGenerations > 1 && zone[i] === 1) {
+        const g = zoneGeneration[i] ?? -1;
+        const garde = g === focusGenerations || g === 0 || i === activeGenre || i === zoneParent;
+        if (!garde) continue;
+      }
+
       /* Le label ne porte QUE le nom du genre.
 
          Il portait un suffixe compact, « · 3 » pour le nombre de dérivés et
@@ -2823,7 +3043,11 @@ const OVERLAP_TOLERANCE = 1;
         ls.el.textContent = entry.text;
         ls.el.dataset['major'] = entry.kind === 'family' ? '1' : '0';
         ls.el.dataset['kind'] = entry.kind;
-        ls.el.dataset['focus'] = entry.key === `g-${slotsData[focusIndex]?.label ?? ''}` ? '1' : '0';
+        /* Le nom marqué suit la SÉLECTION, pas la racine de la vue : c'est
+           le noeud qu'on vient de cliquer qu'il faut retrouver d'un coup
+           d'oeil parmi ceux de sa génération. */
+        ls.el.dataset['focus'] =
+          activeGenre >= 0 && entry.key === `g-${slotsData[activeGenre]?.label ?? ''}` ? '1' : '0';
       }
 
       /* LE FLOU DU TEXTE, en CSS. Écrit à chaque image et non au changement
@@ -3433,7 +3657,11 @@ const OVERLAP_TOLERANCE = 1;
          genre sans dérivés la caméra ne bouge plus et le centre de la zone
          reste le parent : si le halo suivait le cadrage, rien à l'écran ne
          dirait laquelle des sphères on vient d'ouvrir. */
-      sphereState[i * 4 + 1] = i === activeGenre ? 0.3 : i === focusIndex ? 0.16 : 0;
+      /* LE HALO MARQUE LA SÉLECTION D'ABORD, la racine de la vue ensuite.
+         Le noeud cliqué doit se distinguer de la génération qu'il vient
+         d'ouvrir, sans quoi rien à l'écran ne dit lequel des vingt on a
+         choisi. */
+      sphereState[i * 4 + 1] = i === activeGenre ? 0.42 : i === focusIndex ? 0.14 : 0;
       sphereState[i * 4 + 2] = ringOn;
       sphereState[i * 4 + 3] = labelled[i] ?? 0;
     }
@@ -3982,6 +4210,8 @@ const OVERLAP_TOLERANCE = 1;
         rayonPx: number;
         presence: number;
         profondeur: number;
+        generation: number;
+        nomme: boolean;
       }[] = [];
       let flouMin = 1;
       let flouMax = 0;
@@ -3995,7 +4225,9 @@ const OVERLAP_TOLERANCE = 1;
             y: Math.round(projected[i * 3 + 1] ?? 0),
             rayonPx: Math.round(rayonEcran(i)),
             presence: Math.round(presence * 100) / 100,
-            profondeur: slotsData[i]?.depth ?? -1
+            profondeur: slotsData[i]?.depth ?? -1,
+            generation: zoneGeneration[i] ?? -1,
+            nomme: (labelled[i] ?? 0) === 1
           });
         } else if (zoneActive && presence > 0.02) {
           flouMin = Math.min(flouMin, defocus[i] ?? 0);
@@ -4040,6 +4272,21 @@ const OVERLAP_TOLERANCE = 1;
           enAttente: pendingGenre
         },
         focus: focusIndex >= 0 ? (slotsData[focusIndex]?.label ?? '') : null,
+        racine: focusIndex >= 0 ? (slotsData[focusIndex]?.label ?? '') : null,
+        selection: activeGenre >= 0 ? (slotsData[activeGenre]?.label ?? '') : null,
+        generations: focusGenerations,
+        nommes: dedans.filter((d) => d.nomme).length,
+        parGeneration: (() => {
+          const c: Record<string, { total: number; nommes: number }> = {};
+          for (const d of dedans) {
+            const k = `g${d.generation}`;
+            const e = c[k] ?? { total: 0, nommes: 0 };
+            e.total += 1;
+            if (d.nomme) e.nommes += 1;
+            c[k] = e;
+          }
+          return c;
+        })(),
         parent: zoneParent >= 0 ? (slotsData[zoneParent]?.label ?? '') : null,
         cibles: dedans.length,
         membres: dedans,

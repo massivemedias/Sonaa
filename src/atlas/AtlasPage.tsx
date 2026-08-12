@@ -330,10 +330,18 @@ export function AtlasPage() {
     }
   }, [view, chooseView]);
 
-  /* L'ESPACE ouvre la recherche, la barre oblique reste en second raccourci.
-     Exception : quand le panneau tracks est ouvert, l'espace appartient au
-     lecteur, c'est lecture et pause partout ailleurs sur le web et ici aussi.
-     Échap referme, et c'est SearchOverlay qui s'en charge. */
+  /* LA BARRE OBLIQUE OUVRE LA RECHERCHE, ET ELLE SEULE.
+
+     L'espace le faisait aussi, sauf quand la colonne était ouverte : il
+     appartient alors au lecteur, comme partout ailleurs sur le web. Depuis
+     que la colonne est PERMANENTE (ADR-068), cette exception est devenue la
+     règle et l'espace n'ouvre donc plus jamais la recherche. La légende, elle,
+     a continué d'annoncer « Espace : chercher un genre » : elle promettait un
+     raccourci mort, et c'est en tentant de suivre ce chemin que le défaut a
+     été trouvé.
+
+     On garde l'espace au lecteur, qui est l'usage attendu, et la légende dit
+     désormais la barre oblique. */
   useEffect(() => {
     const onKey = (event: KeyboardEvent): void => {
       if (event.target instanceof HTMLInputElement) return;
@@ -584,7 +592,7 @@ export function AtlasPage() {
           {!legendCollapsed && (
             <>
               <ul className="legend-list legend-desktop">
-                <li><kbd>Espace</kbd><span>chercher un genre, un artiste, un label</span></li>
+                <li><kbd>/</kbd><span>chercher un genre, un artiste, un label</span></li>
                 <li><kbd>Clic</kbd><span>ouvrir un genre, ses tracks et ses dérivés</span></li>
                 <li><kbd>Molette</kbd><span>zoomer</span></li>
                 <li><kbd>Glisser</kbd><span>se déplacer</span></li>

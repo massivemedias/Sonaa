@@ -312,9 +312,19 @@
   gap: 0.45rem;
 }
 
-/* Noeud focalisé : graisse plus forte que ses dérivés. */
+/* NOEUD SÉLECTIONNÉ : le seul nom qui doit sauter aux yeux.
+
+   Le clic ouvre une génération entière, donc l'écran peut porter vingt noms
+   nets d'un coup. Sans marquage, rien ne dit lequel on vient de choisir ni
+   lequel la colonne est en train d'afficher. Graisse plus forte, et un
+   soupçon de halo lumineux qui reprend celui de la sphère. */
 .atlas-label[data-focus='1'] {
   font-weight: var(--weight-family);
+  letter-spacing: 0.02em;
+  text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.75),
+    0 0 6px rgba(0, 0, 0, 0.75),
+    0 0 14px rgba(255, 255, 255, 0.45);
 }
 
 /* --- Lecteur YouTube réel ------------------------------------------------

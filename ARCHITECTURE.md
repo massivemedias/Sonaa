@@ -2988,6 +2988,83 @@ d'un autre ; zero cible cliquable hors zone.
 
 ---
 
+## ADR-074 : Le clic ouvre une GENERATION, pas un chemin
+
+**Statut** : accepte, 12 aout 2026. **Revise ADR-067 et ADR-070.**
+
+**Contexte.** Le mode focus descendait dans la BRANCHE cliquee. On ouvrait
+Downtempo, on voyait ses sept derives en couronne, puis on cliquait Trip-Hop
+et il ne restait que Downtempo, Trip-Hop et les deux derives de Trip-Hop. Les
+six autres derives disparaissaient, c'est-a-dire le seul repere qui disait ou
+l'on se trouvait. Signale ainsi : « perdu dans le vide ».
+
+**Decision, demandee par Mika.** Le clic **ouvre une generation entiere** et
+**selectionne un noeud dedans**. Il ne deplace plus le point de vue, il
+l'approfondit.
+
+Apres un clic sur Trip-Hop depuis Downtempo : Downtempo reste au centre, ses
+sept derives restent en couronne, **chacun des sept deploie ses propres
+sous-genres** en petite couronne locale, et Trip-Hop porte le halo, le nom en
+gras et le contenu de la colonne.
+
+**Trois variables portent le modele, et il faut les distinguer.** La RACINE de
+la vue, qui ne change que lorsqu'on entre depuis l'exterieur ou qu'on remonte.
+Le nombre de GENERATIONS depliees sous elle. Et la SELECTION, qui vit dans la
+generation sans la commander.
+
+**La camera recule, elle ne se recentre pas.** Le centre reste la racine ;
+seule la distance change, pour contenir la generation qui vient de s'ouvrir.
+L'ensemble occupe 60 % de la plus petite dimension a une generation, 78 % a
+deux : reculer sans elargir la part de l'ecran rendrait chaque cible plus
+petite qu'avant, ce qui est le contraire du but.
+
+**Echap replie la derniere generation avant de remonter.** C'est la
+contrepartie exacte du clic. Remonter directement aurait fait perdre d'un coup
+tout ce qu'on venait d'ouvrir.
+
+**LES SOUS-COURONNES S'OUVRENT EN EVENTAIL VERS L'EXTERIEUR.** Premiere
+version : un cercle complet autour de chaque derive. Mesure sur Downtempo a
+deux generations, **ecart minimal entre cibles 23 px** pour 44 vises. La cause
+est geometrique et ne se corrige pas en poussant les facteurs : sept systemes
+complets sur un meme cercle se disputent la corde qui les separe, et la moitie
+de chaque petite couronne pointe vers le centre, deja occupe par la racine et
+les liens. En eventail, les sous-genres partent dans l'espace libre qui
+entoure la couronne, ou il y en a d'autant plus qu'on s'eloigne. Le tour
+complet revient au-dela de quatre enfants, un eventail trop ouvert redevenant
+un cercle.
+
+**Mesure, Downtempo puis clic sur Trip-Hop, par de vrais clics** : 12 cibles
+au lieu de 8, **ecart minimal 23 px en couronne complete, 36 px en eventail,
+50 px apres desserrage du couple parent-enfant**, au-dessus des 44 vises.
+
+**DENSITE : les intermediaires perdent leur nom.** Regle posee par Mika. A
+deux generations, seuls le niveau le plus profond, la racine et le noeud
+selectionne sont nommes. Mesure : **6 noms poses sur 12 cibles**, dont les
+4 sous-genres de la generation ouverte, tous poses. Sans cette regle,
+l'arbitrage de collision masquait au hasard de la geometrie. Ce qu'on perd est
+reel : sept spheres anonymes en couronne, identifiables par leur seule
+position, et leur nom ne revient qu'en repliant d'un cran.
+
+**Un defaut trouve en chemin, et il n'a rien a voir.** La barre d'espace
+n'ouvre plus la recherche depuis que la colonne est permanente : l'espace
+appartient alors toujours au lecteur. La legende, elle, continuait d'annoncer
+« Espace : chercher un genre », c'est-a-dire un raccourci mort. Elle dit
+desormais la barre oblique. Trouve en tentant d'emprunter ce chemin pour
+atteindre un genre non etiquete a la vue d'ensemble.
+
+**Et un defaut de l'instrument.** La sonde de disponibilite du pilote comptait
+les elements `.atlas-label` du DOM. Or le moteur cree sa reserve de
+quatre-vingt-seize elements AU DEMARRAGE et les gare hors ecran : le compte
+etait atteint avant le premier rendu. Elle passait a 390 px et echouait a 700,
+au hasard du temps de chargement, ce qui est la signature d'une course. Elle
+compte desormais les labels VISIBLES.
+
+**verify:visual, quatre largeurs, aucun echec.** Ecart minimal entre cibles
+64, 88, 105 et 151 px ; flou a 1,00 hors zone ; zero sphere nette hors zone ;
+zero nom pose sur la sphere d'un autre ; zero cible cliquable hors zone.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle

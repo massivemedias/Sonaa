@@ -163,9 +163,13 @@ crochets de mesure restent sous `window.__atlas.mesurerScintillement()`.
 **L'image de partage montre l'atlas** (ADR-066), plus le logotype seul. Elle
 se refait par `npm run capture:og`.
 
-**Mode focus** (ADR-067, révisé par ADR-069 et ADR-070). Entrer dans un genre
-ferme l'écran : le genre ouvert, ses dérivés directs et son parent direct
-restent nets et cliquables, tout le reste est **réellement défocalisé** par
+**Mode focus** (ADR-067, révisé par ADR-069, ADR-070 et ADR-074). Entrer dans
+un genre ferme l'écran. **Le clic ouvre une GÉNÉRATION, pas un chemin** : la
+racine de la vue reste au centre, ses dérivés restent en couronne, et chacun
+d'eux déploie ses propres sous-genres en éventail vers l'extérieur ; le noeud
+cliqué est simplement sélectionné. À deux générations, seuls le niveau le plus
+profond, la racine et la sélection sont nommés, et l'ensemble occupe 78 % de
+l'écran au lieu de 60. Ce qui est dans la zone reste net et cliquable, tout le reste est **réellement défocalisé** par
 cinq passes de gaussienne séparable au quart de résolution, textes DOM
 compris (16 px de flou CSS), et **ne répond plus au clic**. Mesuré : 12 fois
 moins d'inversions de gradient sur une ligne d'écran, à géométrie identique. Les dérivés sont redisposés en couronne dans le plan de la caméra à
@@ -180,7 +184,7 @@ clic dans le flou sort du mode.
 rappelle, elle montre un genre tiré au sort avant le premier clic, et aucune
 lecture ne démarre jamais seule.
 
-**73 ADR** dans `ARCHITECTURE.md`. Aucun point ouvert déclaré à la fin du
+**74 ADR** dans `ARCHITECTURE.md`. Aucun point ouvert déclaré à la fin du
 fichier.
 
 ---

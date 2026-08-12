@@ -129,8 +129,23 @@ const main = async () => {
     let pret = false;
     for (let i = 0; i < 120; i += 1) {
       await attendre(500);
+      /* LA SONDE COMPTE LES LABELS VISIBLES, jamais ceux du DOM.
+
+         Elle comptait `.atlas-label` tout court. Or le moteur crée sa réserve
+         de quatre-vingt-seize éléments AU DÉMARRAGE et les gare hors écran :
+         le compte était donc atteint avant le premier rendu, et la suite
+         cliquait dans le vide. Elle passait à 390 px et échouait à 700, au
+         hasard du temps de chargement, ce qui est la signature d'une course. */
       pret = await cdp.evaluer(
-        `Boolean(window.__atlas && window.__atlas.framing && document.querySelectorAll('.atlas-label').length > 4 && !window.__atlas.framing().introActive)`
+        `(() => {
+          const a = window.__atlas;
+          if (!a || !a.framing || a.framing().introActive) return false;
+          let vus = 0;
+          for (const e of document.querySelectorAll('.atlas-label')) {
+            if (e.getBoundingClientRect().left > -500 && Number(getComputedStyle(e).opacity) > 0.05) vus += 1;
+          }
+          return vus > 4;
+        })()`
       );
       if (pret) break;
     }
