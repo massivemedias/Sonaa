@@ -2686,6 +2686,106 @@ ou l'effet est rejoue.
 
 ---
 
+## ADR-069 : Le flou est une vraie passe de rendu, et ADR-019 est levee
+
+**Statut** : accepte, 12 aout 2026. **Annule et remplace la partie « pas de
+post-traitement » d'ADR-019 et le mecanisme decrit dans ADR-067.**
+
+**Le verdict.** « Tu as fait un disque diffus, attenue, a 18 pour cent
+d'opacite. Ce n'est pas un flou, c'est une attenuation. » C'est exact, et le
+raisonnement d'ADR-067 etait faux sur un point precis : une sphere hors mise
+au point n'est pas un disque uniforme, c'est une forme dont la lumiere
+S'ETALE SUR SES VOISINS. Aucun fragment ne peut faire cela, parce qu'un
+fragment ne connait que lui-meme. Il fallait melanger des pixels voisins,
+donc une passe.
+
+**La contrainte d'ADR-019 est levee explicitement par Mika.** Elle interdisait
+tout post-traitement pour tenir un nombre d'appels de dessin tres bas. Le
+rendu mesure 0,081 ms sur les 16,67 d'un budget a soixante images par
+seconde : la marge existe, et la depenser ici achete une sensation que rien
+d'autre ne donne.
+
+**Ce qui est fait.** Cinq etapes, et seulement quand le mode focus est actif :
+le hors-zone part dans une cible a demi-resolution, deux passes de gaussienne
+separable la floutent, le fond est peint net, la cible floutee est composee
+par-dessus, et la zone est peinte nette au-dessus de tout. Huit appels de
+dessin au lieu de trois, uniquement dans cet etat. Hors focus, le chemin
+d'avant, a l'identique.
+
+Demi-resolution pour deux raisons qui vont dans le meme sens : quatre fois
+moins de pixels a filtrer, et un rayon qui compte double une fois l'image
+reagrandie. Un flou n'a aucun detail a preserver, c'est le seul effet dont la
+basse resolution est un avantage.
+
+**LES TEXTES AUSSI, et c'est eux qui cassaient l'illusion.** Les noms sont du
+DOM projete : ils ne sont pas dans le canvas, aucune passe de rendu ne peut
+les atteindre. Une premiere version les faisait donc disparaitre. C'etait le
+defaut : un arriere-plan photographique GARDE ses mots, on ne peut simplement
+plus les lire. Ils restent, avec `filter: blur(3.5px)` en CSS et une
+transition de 400 ms, la meme que les spheres. Ils ne participent plus a
+l'arbitrage de collision entre eux, sans quoi la regle « deux noms de meme
+niveau se recouvrent, les deux cedent » vidait l'arriere-plan de son texte et
+ramenait le defaut qu'on corrige.
+
+**Trois pieges payes, tous invisibles a la lecture.**
+
+1. **Le melange.** Les fragments sortent prémultiplies par leur alpha dans la
+   cible, et le melange par defaut les multipliait UNE SECONDE FOIS. Tout ce
+   qui n'etait pas opaque disparaissait, c'est-a-dire tout un arriere-plan
+   attenue. Le materiau bascule en ONE / ONE_MINUS_SRC_ALPHA le temps de la
+   passe.
+2. **L'espace colorimetrique.** three convertit en sRGB en sortie d'ecran mais
+   pas en sortie de cible : le plan flou serait sorti en lineaire, donc
+   nettement plus sombre que le plan net, sans que rien ne le signale. Les
+   cibles sont declarees en sRGB, et les deux passes de filtre sont des
+   RawShaderMaterial, seul moyen d'empecher three d'ajouter une conversion
+   dans notre dos.
+3. **La luminosite.** Une gaussienne CONSERVE l'energie : elle etale la
+   lumiere d'une petite sphere sur cinquante pixels, ce qui la rend tres
+   sombre a surface egale. L'attenuation heritee d'ADR-067 s'ajoutait a cela
+   et eteignait l'arriere-plan. Elle passe de 60 a 25 % sur la presence et de
+   82 a 10 % sur l'opacite : ce qui recule est la NETTETE, pas la lumiere.
+
+**Mesure**, fenetre 1280 x 720, cadre sur Detroit Techno : 7 cibles nettes,
+ecart minimal 50 px, flou a 1,00 sur toutes les spheres hors zone, zero
+element net hors zone, 66 noms floutes.
+
+---
+
+## ADR-070 : Un genre sans derives ne deplace pas la camera
+
+**Statut** : accepte, 12 aout 2026. **Revise ADR-067.**
+
+**Le verdict.** « Quand je clique un sous-genre qui n'a pas de derives, la
+camera vole et je me retrouve devant deux boules perdues dans le vide, sans
+comprendre ou je suis. »
+
+**La regle.** Le vol de camera ne sert que s'il y a quelque chose a REVELER.
+Sur une feuille il n'y a rien : pas de couronne a deplier, rien de nouveau a
+cadrer. On garde donc le contexte visuel du PARENT. La zone reste la sienne,
+la camera ne bouge pas d'un pixel, la sphere cliquee recoit le halo de
+selection, la colonne se remplit de ses morceaux, le fil d'Ariane gagne son
+segment. Si la feuille est atteinte depuis ailleurs, la recherche ou une
+autre branche, on entre dans son PARENT, ce qui la met sous les yeux avec ses
+soeurs autour. Dans les deux cas le repere est le parent, jamais la feuille
+seule.
+
+**Le halo suit la SELECTION, plus le cadrage.** Sans ce changement, rien a
+l'ecran n'aurait dit laquelle des spheres on venait d'ouvrir, puisque le
+centre de la zone reste le parent.
+
+**Un recadrage cache annulait la regle.** La colonne demande un recadrage
+quand la zone visible change ; elle le demandait aussi a chaque changement de
+GENRE, parce qu'a l'epoque ouvrir un genre ouvrait la colonne. La colonne est
+permanente depuis ADR-068 : ouvrir un genre ne deplace plus rien. Mesure : le
+clic ne bougeait pas la camera, et ce recadrage la bougeait 90 ms plus tard.
+Il ne se declenche plus que sur un mouvement de la feuille mobile.
+
+**Verifie** : distance 177, azimut 0,55, elevation 0,20 avant le clic sur une
+feuille ; distance 177, azimut 0,55, elevation 0,20 apres. Identiques.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle

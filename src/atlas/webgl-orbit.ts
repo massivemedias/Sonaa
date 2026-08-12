@@ -8,18 +8,25 @@
 
 import {
   BufferAttribute,
+  CustomBlending,
   Float32BufferAttribute,
   InstancedBufferAttribute,
   InstancedBufferGeometry,
   Mesh,
+  NormalBlending,
+  OneFactor,
+  OneMinusSrcAlphaFactor,
   OrthographicCamera,
   PerspectiveCamera,
   PlaneGeometry,
   Scene,
+  RawShaderMaterial,
   ShaderMaterial,
+  SRGBColorSpace,
   Vector2,
   Vector3,
-  WebGLRenderer
+  WebGLRenderer,
+  WebGLRenderTarget
 } from 'three';
 
 import {
@@ -40,6 +47,9 @@ import {
 import {
   backgroundFrag,
   backgroundVert,
+  blitVert,
+  blurFrag,
+  compositeFrag,
   linkFrag,
   linkVert,
   sphereFrag,
@@ -176,6 +186,74 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     new ShaderMaterial({ vertexShader: backgroundVert, fragmentShader: backgroundFrag, uniforms: bgUniforms, depthTest: false, depthWrite: false })
   );
   bgScene.add(bgMesh);
+
+  // ------------------------------------------- flou de mise au point
+
+  /* DEUX CIBLES DE RENDU, à demi-résolution.
+
+     Demi-résolution pour deux raisons qui vont dans le même sens : quatre
+     fois moins de pixels à filtrer, et un rayon de flou qui compte double
+     une fois l'image réagrandie. Un flou n'a aucun détail à préserver, c'est
+     le seul effet dont la basse résolution est un avantage.
+
+     Elles sont créées à 1 x 1 et redimensionnées par resize() : au moment où
+     ces lignes s'exécutent, la taille réelle du canvas n'est pas connue. */
+  const rtFlouA = new WebGLRenderTarget(1, 1, { depthBuffer: true, stencilBuffer: false });
+  const rtFlouB = new WebGLRenderTarget(1, 1, { depthBuffer: false, stencilBuffer: false });
+  /* Les cibles sont déclarées en sRGB : three applique alors aux sphères et
+     aux liens la MÊME conversion de sortie que sur l'écran. Sans cela le plan
+     flou serait rendu en linéaire et composé tel quel, donc nettement plus
+     sombre que le plan net, pour une raison invisible à la lecture du code. */
+  rtFlouA.texture.colorSpace = SRGBColorSpace;
+  rtFlouB.texture.colorSpace = SRGBColorSpace;
+
+  const blurUniforms = {
+    uTexture: { value: rtFlouA.texture },
+    uDirection: { value: new Vector2(0, 0) },
+    uRayon: { value: 0 }
+  };
+  const blurScene = new Scene();
+  const blurMesh = new Mesh(
+    new PlaneGeometry(2, 2),
+    new RawShaderMaterial({
+      vertexShader: blitVert,
+      fragmentShader: blurFrag,
+      uniforms: blurUniforms,
+      depthTest: false,
+      depthWrite: false
+    })
+  );
+  blurScene.add(blurMesh);
+
+  const compositeUniforms = { uTexture: { value: rtFlouA.texture } };
+  const compositeScene = new Scene();
+  const compositeMesh = new Mesh(
+    new PlaneGeometry(2, 2),
+    new RawShaderMaterial({
+      vertexShader: blitVert,
+      fragmentShader: compositeFrag,
+      uniforms: compositeUniforms,
+      depthTest: false,
+      depthWrite: false,
+      transparent: true,
+      /* Mélange PRÉMULTIPLIÉ : la couleur a déjà été multipliée par l'alpha
+         avant le flou, sans quoi la gaussienne borde chaque forme de noir. */
+      blending: CustomBlending,
+      blendSrc: OneFactor,
+      blendDst: OneMinusSrcAlphaFactor,
+      blendSrcAlpha: OneFactor,
+      blendDstAlpha: OneMinusSrcAlphaFactor
+    })
+  );
+  compositeScene.add(compositeMesh);
+
+  /* Rayon courant, en pixels de la cible à demi-résolution. Il suit la même
+     rampe de 400 ms que le reste du mode focus : c'est la montée du flou. */
+  let rayonFlou = 0;
+  const RAYON_FLOU_MAX = 3.6;
+  /* Interrupteur de diagnostic, comme pour les autres composantes du rendu :
+     window.__atlas.composante('flou', false) rend la passe unique d'avant. */
+  let flouActif = true;
 
   // --------------------------------------------------------------- scène
 
@@ -341,7 +419,10 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     uLightDir: { value: new Vector3(0.42, 0.72, 0.55).normalize() },
     uPixelScale: { value: 0.001 },
     uFog: { value: new Vector2(190, 620) },
-    uFogColor: { value: fogColor }
+    uFogColor: { value: fogColor },
+    /* -1 : tout, 0 : la passe nette, 1 : la passe floue. Voir sphereVert. */
+    uPasse: { value: -1 },
+    uPremul: { value: 0 }
   };
 
   const sphereMaterial = new ShaderMaterial({
@@ -458,6 +539,12 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   linkGeometry.setAttribute('aColor0', new InstancedBufferAttribute(linkC0, 3));
   linkGeometry.setAttribute('aColor1', new InstancedBufferAttribute(linkC1, 3));
   linkGeometry.setAttribute('aMeta', linkMetaAttr);
+  /* Un lien part au flou dès que l'une de ses deux extrémités y part : un
+     trait net accroché à une forme floue se lit comme une erreur de rendu. */
+  const linkFlou = new Float32Array(LINK_COUNT);
+  const linkFlouAttr = new InstancedBufferAttribute(linkFlou, 1);
+  linkFlouAttr.setUsage(35048);
+  linkGeometry.setAttribute('aFlou', linkFlouAttr);
 
   const linkUniforms = {
     uCameraPos: { value: cameraPos },
@@ -466,7 +553,9 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     uWidthWorld: { value: 0.075 },
     uFog: { value: sphereUniforms.uFog.value },
     uFogColor: { value: fogColor },
-    uFlowTime: { value: 0 }
+    uFlowTime: { value: 0 },
+    uPasse: { value: -1 },
+    uPremul: { value: 0 }
   };
 
   const linkMaterial = new ShaderMaterial({
@@ -969,6 +1058,18 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
+
+    /* Les cibles du flou suivent la taille RÉELLE du tampon, densité de
+       pixels comprise, divisée par deux. Les calculer sur la taille CSS
+       aurait donné une image deux fois trop petite sur un écran à densité
+       double, donc un flou deux fois trop fort sans que rien ne le dise. */
+    const dpr = renderer.getPixelRatio();
+    const bw = Math.max(2, Math.floor((width * dpr) / 2));
+    const bh = Math.max(2, Math.floor((height * dpr) / 2));
+    if (rtFlouA.width !== bw || rtFlouA.height !== bh) {
+      rtFlouA.setSize(bw, bh);
+      rtFlouB.setSize(bw, bh);
+    }
 
     // Le cadrage de l'atlas dépend du format de la fenêtre : on le refait,
     // et le portrait fait pivoter l'atlas pour occuper la hauteur.
@@ -1508,6 +1609,54 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     genrePath = pathToGenre(slot.family, slot.local).map((local) => base + local);
     activeGenre = globalIndex;
     level = 'genre';
+
+    /* ======================================================================
+       UN GENRE SANS DÉRIVÉS NE CHANGE PAS DE VUE.
+
+       LE VOL DE CAMÉRA NE SERT QUE S'IL Y A QUELQUE CHOSE À RÉVÉLER. Sur une
+       feuille il n'y a rien : pas de couronne à déplier, rien de nouveau à
+       cadrer. Voler quand même produisait ce qui a été signalé, deux boules
+       perdues dans le vide, sans repère pour savoir d'où l'on venait.
+
+       On garde donc le contexte visuel du PARENT : la zone reste la sienne,
+       la caméra ne bouge pas, la sphère cliquée reçoit le halo de sélection,
+       et la colonne se remplit de ses morceaux. C'est tout ce qu'un genre
+       sans dérivé a à offrir, et le montrer autrement serait mentir sur ce
+       qu'il y a à voir.
+
+       Si la feuille est cliquée depuis ailleurs (la recherche, une autre
+       branche), son parent n'est pas encore la zone : on entre alors dans le
+       PARENT, ce qui met la feuille sous les yeux avec ses soeurs autour.
+       Dans les deux cas, le repère est le parent, jamais la feuille seule. */
+    if (slot.children.length === 0 && slot.parent >= 0) {
+      const parent = base + slot.parent;
+      if (focusIndex !== parent) {
+        focusIndex = parent;
+        focusDir = 1;
+        focusStart = now;
+        buildFocusRing(parent);
+        rebuildZone();
+        const ps = slotsData[parent];
+        if (ps) {
+          const pfc = familyCenters[ps.family];
+          frameLock = parent;
+          startFly(
+            new Vector3(
+              ps.deployed.x + (pfc?.x ?? 0),
+              ps.deployed.y + (pfc?.y ?? 0),
+              ps.deployed.z + (pfc?.z ?? 0)
+            ),
+            frameDistance(genreFrameRadius(parent) + 2.5),
+            now
+          );
+        }
+      }
+      /* Déjà dans le parent : la caméra ne bouge pas d'un pixel. */
+      emitNav();
+      openPanel(slot.family, slot.local);
+      return;
+    }
+
     focusIndex = globalIndex;
     focusDir = 1;
     focusStart = now;
@@ -1517,16 +1666,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     buildFocusRing(globalIndex);
     rebuildZone();
 
-    /* LA CAMÉRA VA TOUJOURS SUR LE GENRE OUVERT, dérivés ou pas.
-
-       Une feuille ne déclenchait aucun vol : elle « gardait le cadrage du
-       niveau où elle vivait ». C'était tenable tant que le reste de la carte
-       restait net et donnait le contexte. Ce n'est plus le cas : tout ce qui
-       n'est pas la zone est flou, donc ne pas voler laisse un écran vide
-       avec la sphère ouverte quelque part hors champ. Mesuré sur Hypnotic
-       Techno : le nom se retrouvait sous la colonne, au bord droit.
-
-       On vise la position FINALE du genre, pas celle qu'il occupe au moment
+    /* On vise la position FINALE du genre, pas celle qu'il occupe au moment
        du clic. Au clic il est encore en train de bouger, et viser une
        position transitoire donnait un cadrage décalé de ce qui s'installe. */
     frameLock = globalIndex;
@@ -1588,6 +1728,21 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
 
   const goUp = (): void => {
     const now = performance.now();
+
+    /* PREMIER CAS : une feuille est sélectionnée à l'intérieur de la zone de
+       son parent. Remonter, c'est alors revenir au parent LUI-MÊME, sans
+       toucher ni à la zone ni à la caméra : on annule une sélection, on ne
+       change pas de lieu. Sans ce cas, Échap sautait par-dessus le parent et
+       remontait au grand-parent, ce qui faisait perdre un niveau. */
+    if (level === 'genre' && focusIndex >= 0 && activeGenre !== focusIndex) {
+      activeGenre = focusIndex;
+      genrePath = genrePath.slice(0, -1);
+      emitNav();
+      const fs = slotsData[focusIndex];
+      if (fs) openPanel(fs.family, fs.local);
+      return;
+    }
+
     if (level === 'genre') {
       /* On remonte d'un cran dans le chemin, pas directement à la famille :
          Atlas > Bass > UK Garage > 2-step doit revenir sur UK Garage. */
@@ -2040,6 +2195,12 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     px: number;
     w: number;
     h: number;
+    /* HORS ZONE, EN MODE FOCUS : le nom reste affiché mais FLOUTÉ, comme la
+       sphère qu'il désigne. Les faire disparaître était la première version,
+       et c'est elle qui cassait l'illusion : un arrière-plan photographique
+       hors mise au point garde ses formes et ses mots, il ne les efface pas.
+       Ce qui doit disparaître, c'est la LISIBILITÉ, pas la présence. */
+    flou: boolean;
   }
 
   const candidates: Candidate[] = [];
@@ -2224,6 +2385,11 @@ const OVERLAP_TOLERANCE = 1;
       }
       fx = Math.min(Math.max(fx, 4), Math.max(4, width - 4 - w));
 
+      /* Un nom hors zone est un nom d'arrière-plan : il reste, il ne se lit
+         plus. Le flou est posé en CSS ; ici on ne fait que baisser son
+         intensité pour qu'il ne concurrence pas ce qui est net. */
+      const flou = zoneActive && !(slot >= 0 && zone[slot] === 1);
+
       candidates.push({
         key,
         text,
@@ -2233,10 +2399,11 @@ const OVERLAP_TOLERANCE = 1;
         kind,
         slot,
         pinned,
-        opacity: opacityScale,
+        opacity: flou ? opacityScale * 0.55 : opacityScale,
         px,
         w,
-        h: px * 1.45
+        h: px * 1.45,
+        flou
       });
     };
 
@@ -2251,11 +2418,6 @@ const OVERLAP_TOLERANCE = 1;
     FAMILIES.forEach((family, fi) => {
       // Intro : le nom apparaît à l'éclatement, environ 40 % du pop, et reste.
       if (introActive && introBirth(fi, performance.now()) < 0.4) return;
-      /* MODE FOCUS : plus aucun nom de famille. Ils désignent des régions
-         floues et inatteignables, et ce sont eux qu'on lisait en premier
-         dans la capture du défaut : BASS, AMBIENT, INDUSTRIAL, TRANCE,
-         écrits net par-dessus une carte où l'on était entré ailleurs. */
-      if (zoneActive) return;
       const isCurrent = fi === activeFamily;
       add(
         `f-${family.id}`,
@@ -2279,18 +2441,13 @@ const OVERLAP_TOLERANCE = 1;
          nommer écrirait un nom sur une sphère absente ET volerait la place
          d'un genre de la couronne (mesuré : Deep House posé sur la place
          de Garage House). */
-      /* MODE FOCUS : seule la zone active porte un nom. Un nom net sur une
-         sphère floue serait la contradiction la plus visible de l'écran, et
-         il désignerait une cible qui ne répond plus. */
-      if (zoneActive && zone[i] !== 1) continue;
-
       /* Le test de déploiement ne s'applique PAS aux membres de la zone :
          leur place est posée par la couronne d'entrée, ils ne sortent pas
          de leur parent et n'ont donc pas à attendre de l'avoir fait. Sans
          cette exception, un dérivé profond restait sans nom tant que le
          lissage de déploiement n'avait pas passé la moitié, ce qui dépend
          de la cadence d'images et pas de ce qu'on voit. */
-      if (!zoneActive && slot.depth >= 2 && (expandAmount[i] ?? 0) < 0.5) continue;
+      if (!(zoneActive && zone[i] === 1) && slot.depth >= 2 && (expandAmount[i] ?? 0) < 0.5) continue;
 
       const inSubtree = focusIndex >= 0 ? isDescendant(i, focusIndex) : false;
       const isPinned = i === focusIndex || inSubtree;
@@ -2347,7 +2504,11 @@ const OVERLAP_TOLERANCE = 1;
          3+  le reste de la famille, par profondeur
          20+ les autres familles, entrées dans le champ par le recul */
     const readParent = activeGenre >= 0 ? slotsData[activeGenre] : undefined;
+    const NIVEAU_FLOU = 60;
     const levelOf = (c: Candidate): number => {
+      /* Tout ce qui est flou passe en DERNIER, après le dernier niveau net :
+         un nom d'arrière-plan ne prend jamais la place d'un nom qu'on lit. */
+      if (c.flou) return NIVEAU_FLOU;
       const slot = slotsData[c.slot];
       if (c.kind === 'family') {
         return activeFamily >= 0 && c.key === `f-${FAMILIES[activeFamily]?.id}` ? 2 : 0;
@@ -2371,14 +2532,23 @@ const OVERLAP_TOLERANCE = 1;
       group.forEach((c, i) => {
         if (placed.some((other) => overlaps(c, other))) dead.add(i);
       });
-      for (let i = 0; i < group.length; i += 1) {
-        for (let j = i + 1; j < group.length; j += 1) {
-          if (dead.has(i) || dead.has(j)) continue;
-          const a = group[i];
-          const b = group[j];
-          if (a && b && overlaps(a, b)) {
-            dead.add(i);
-            dead.add(j);
+      /* LES NOMS FLOUS NE S'ANNULENT PAS ENTRE EUX. La règle « deux labels
+         de même niveau se recouvrent, les deux cèdent » existe pour qu'aucun
+         ne devienne illisible. Elle n'a pas d'objet ici : ils sont déjà
+         illisibles par construction, c'est le but. Appliquée quand même,
+         elle vidait l'arrière-plan de ses mots et ramenait le défaut qu'on
+         est en train de corriger. Ils cèdent toujours à un nom NET, jamais à
+         un autre nom flou. */
+      if (lvl < NIVEAU_FLOU) {
+        for (let i = 0; i < group.length; i += 1) {
+          for (let j = i + 1; j < group.length; j += 1) {
+            if (dead.has(i) || dead.has(j)) continue;
+            const a = group[i];
+            const b = group[j];
+            if (a && b && overlaps(a, b)) {
+              dead.add(i);
+              dead.add(j);
+            }
           }
         }
       }
@@ -2425,6 +2595,13 @@ const OVERLAP_TOLERANCE = 1;
         ls.el.dataset['kind'] = entry.kind;
         ls.el.dataset['focus'] = entry.key === `g-${slotsData[focusIndex]?.label ?? ''}` ? '1' : '0';
       }
+
+      /* LE FLOU DU TEXTE, en CSS. Écrit à chaque image et non au changement
+         de clé : un même emplacement passe de net à flou sans changer de nom
+         quand on entre dans un genre voisin. La transition de 400 ms est
+         déclarée dans la feuille, elle n'est pas rejouée ici. */
+      const marqueFlou = entry.flou ? '1' : '0';
+      if (ls.el.dataset['flou'] !== marqueFlou) ls.el.dataset['flou'] = marqueFlou;
 
       /* LE NOM EST UNE CIBLE DU TAP. Renseigné à chaque image, pas
          seulement au changement de clé : la boîte suit la caméra. */
@@ -2503,14 +2680,101 @@ const OVERLAP_TOLERANCE = 1;
   // --------------------------------------------------------------- rendu
 
 
+  /* LE RENDU, EN DEUX PLANS QUAND LE MODE FOCUS EST ACTIF.
+
+     1. Ce qui est hors zone part dans une cible à demi-résolution, en couleur
+        prémultipliée.
+     2. Deux passes de gaussienne séparable sur cette cible, horizontale puis
+        verticale.
+     3. Le fond, net, sur l'écran.
+     4. La cible floutée, composée par-dessus.
+     5. Ce qui est dans la zone, net, par-dessus tout.
+
+     Hors mode focus, rien de tout cela : une seule passe, comme avant, et le
+     coût est exactement celui d'hier. On ne paye l'effet que là où il sert.
+
+     La profondeur n'est PAS partagée entre les deux plans, et c'est voulu :
+     la zone est devant par définition, une sphère floue ne doit jamais
+     masquer une sphère nette même si elle est plus près de la caméra. C'est
+     la règle d'une mise au point photographique, pas celle d'un tampon de
+     profondeur. */
   const renderOnce = (bg: boolean): void => {
-    renderer.autoClear = true;
-    if (bg) {
-      renderer.render(bgScene, bgCamera);
-      renderer.autoClear = false;
-      renderer.clearDepth();
+    if (!flouActif || rayonFlou < 0.05) {
+      sphereUniforms.uPasse.value = -1;
+      linkUniforms.uPasse.value = -1;
+      sphereUniforms.uPremul.value = 0;
+      linkUniforms.uPremul.value = 0;
+      renderer.autoClear = true;
+      if (bg) {
+        renderer.render(bgScene, bgCamera);
+        renderer.autoClear = false;
+        renderer.clearDepth();
+      }
+      renderer.render(scene, camera);
+      renderer.autoClear = true;
+      return;
     }
+
+    /* MÉLANGE PRÉMULTIPLIÉ PENDANT CETTE PASSE, et c'était le défaut : les
+       fragments sortent déjà multipliés par leur alpha, et le mélange par
+       défaut les multipliait UNE SECONDE FOIS. Tout ce qui n'était pas
+       parfaitement opaque disparaissait donc dans la cible, ce qui, pour un
+       arrière-plan atténué, veut dire tout. */
+    for (const m of [sphereMaterial, linkMaterial]) {
+      m.blending = CustomBlending;
+      m.blendSrc = OneFactor;
+      m.blendDst = OneMinusSrcAlphaFactor;
+      m.blendSrcAlpha = OneFactor;
+      m.blendDstAlpha = OneMinusSrcAlphaFactor;
+    }
+
+    // 1. le hors-zone, prémultiplié, dans la cible.
+    sphereUniforms.uPasse.value = 1;
+    linkUniforms.uPasse.value = 1;
+    sphereUniforms.uPremul.value = 1;
+    linkUniforms.uPremul.value = 1;
+    renderer.setRenderTarget(rtFlouA);
+    renderer.autoClear = true;
+    renderer.setClearColor(0x000000, 0);
+    renderer.clear(true, true, false);
     renderer.render(scene, camera);
+
+    // 2. gaussienne séparable, aller-retour entre les deux cibles.
+    blurUniforms.uRayon.value = rayonFlou;
+    blurUniforms.uTexture.value = rtFlouA.texture;
+    blurUniforms.uDirection.value.set(1 / Math.max(1, rtFlouA.width), 0);
+    renderer.setRenderTarget(rtFlouB);
+    renderer.clear(true, false, false);
+    renderer.render(blurScene, bgCamera);
+
+    blurUniforms.uTexture.value = rtFlouB.texture;
+    blurUniforms.uDirection.value.set(0, 1 / Math.max(1, rtFlouA.height));
+    renderer.setRenderTarget(rtFlouA);
+    renderer.clear(true, false, false);
+    renderer.render(blurScene, bgCamera);
+
+    // 3. le fond, net.
+    renderer.setRenderTarget(null);
+    renderer.setClearColor(0x000000, 1);
+    renderer.autoClear = true;
+    renderer.render(bgScene, bgCamera);
+    renderer.autoClear = false;
+
+    // 4. le plan flou par-dessus le fond.
+    compositeUniforms.uTexture.value = rtFlouA.texture;
+    renderer.render(compositeScene, bgCamera);
+
+    // 5. la zone, nette, sur un tampon de profondeur vierge.
+    for (const m of [sphereMaterial, linkMaterial]) m.blending = NormalBlending;
+    renderer.clearDepth();
+    sphereUniforms.uPasse.value = 0;
+    linkUniforms.uPasse.value = 0;
+    sphereUniforms.uPremul.value = 0;
+    linkUniforms.uPremul.value = 0;
+    renderer.render(scene, camera);
+
+    sphereUniforms.uPasse.value = -1;
+    linkUniforms.uPasse.value = -1;
     renderer.autoClear = true;
   };
 
@@ -2690,6 +2954,11 @@ const OVERLAP_TOLERANCE = 1;
 
     const focusSlot = focusIndex >= 0 ? slotsData[focusIndex] : undefined;
     const focusBase = focusSlot ? focusSlot.deployed : null;
+    /* LE RAYON DU FLOU SUIT LE MAXIMUM DE DÉFOCALISATION, donc exactement la
+       même rampe de 400 ms. En sortie, quand la défocalisation retombe, le
+       rayon retombe avec elle : au moment où les instances repassent dans la
+       passe nette, le flou vaut déjà zéro et le basculement ne se voit pas. */
+    let flouMaxCourant = 0;
 
     for (let i = 0; i < TOTAL_GENRES; i += 1) {
       const slot = slotsData[i];
@@ -2830,11 +3099,13 @@ const OVERLAP_TOLERANCE = 1;
             (fc?.z ?? 0) + slot.compact.z + (slot.deployed.z - slot.compact.z) * 0.45
           );
           slot.world.lerp(recede, clamp(k, 0, 1));
-          /* 40 % et non 12 : le flou fait maintenant l'essentiel de
-             l'effacement, et les deux atténuations multipliées passaient sous
-             le seuil de rejet du shader, où une sphère apparaît et disparaît
-             selon l'arrondi. Une seule chose doit régler l'effacement. */
-          presence = 1 - clamp(k, 0, 1) * 0.6;
+          /* 75 % ET NON 40. Une gaussienne CONSERVE l'énergie : elle étale
+             la lumière d'une petite sphère sur cinquante pixels, ce qui la
+             rend très sombre à surface égale. Atténuer en plus revenait à
+             éteindre l'arrière-plan, et c'est ce qui a été mesuré à l'écran,
+             des taches à peine perceptibles. Ce qui recule est la NETTETÉ,
+             pas la lumière. */
+          presence = 1 - clamp(k, 0, 1) * 0.25;
           ringOn = 0;
         }
       } else if (level === 'family' && activeFamily >= 0) {
@@ -2848,7 +3119,7 @@ const OVERLAP_TOLERANCE = 1;
          focalisée, la seconde ne s'applique qu'au niveau famille. Elles
          passaient donc entre les deux et restaient nettes. */
       if (zoneActive && zone[i] !== 1 && slot.family !== (focusSlot?.family ?? -1)) {
-        presence *= 1 - 0.6 * (defocus[i] ?? 0);
+        presence *= 1 - 0.25 * (defocus[i] ?? 0);
         ringOn = 0;
       }
 
@@ -2920,11 +3191,19 @@ const OVERLAP_TOLERANCE = 1;
         }
       }
 
+      if ((defocus[i] ?? 0) > flouMaxCourant) flouMaxCourant = defocus[i] ?? 0;
+
       sphereState[i * 4] = suspended ? presence * 0.35 : presence;
-      sphereState[i * 4 + 1] = i === focusIndex ? 0.22 : 0;
+      /* LE HALO MARQUE CE QUI EST SÉLECTIONNÉ, pas ce qui est cadré. Sur un
+         genre sans dérivés la caméra ne bouge plus et le centre de la zone
+         reste le parent : si le halo suivait le cadrage, rien à l'écran ne
+         dirait laquelle des sphères on vient d'ouvrir. */
+      sphereState[i * 4 + 1] = i === activeGenre ? 0.3 : i === focusIndex ? 0.16 : 0;
       sphereState[i * 4 + 2] = ringOn;
       sphereState[i * 4 + 3] = labelled[i] ?? 0;
     }
+    rayonFlou = flouMaxCourant * RAYON_FLOU_MAX;
+
     sphereCenterAttr.needsUpdate = true;
     sphereStateAttr.needsUpdate = true;
     defocusAttr.needsUpdate = true;
@@ -2994,17 +3273,21 @@ const OVERLAP_TOLERANCE = 1;
              DEUX extrémités sont nettes. */
           const dansLaZone = zone[ref.a] === 1 && zone[ref.b] === 1;
           linkMeta[i * 3] = dansLaZone ? 1 : 0.12;
-          linkMeta[i * 3 + 1] = dansLaZone ? 1 : 0.06;
+          linkMeta[i * 3 + 1] = dansLaZone ? 1 : 0.45;
         } else if (zoneActive) {
           /* Lien d'une autre famille en mode focus : il s'efface avec elle.
              Un trait net reliant deux taches floues se lit comme une erreur
              de rendu, et ramène l'oeil exactement là où il n'a rien à faire. */
           linkMeta[i * 3] = 0.35;
-          linkMeta[i * 3 + 1] = 0.06;
+          linkMeta[i * 3 + 1] = 0.45;
         } else {
           linkMeta[i * 3] = 0.35;
           linkMeta[i * 3 + 1] = 1;
         }
+
+        /* Le lien part au flou dès qu'une de ses extrémités y part. */
+        linkFlou[i] =
+          (defocus[ref.a] ?? 0) > 0.02 || (defocus[ref.b] ?? 0) > 0.02 ? 1 : 0;
       } else {
         const ca = familyCenters[ref.familyA];
         const cb = familyCenters[ref.familyB];
@@ -3036,7 +3319,10 @@ const OVERLAP_TOLERANCE = 1;
         /* En mode focus, même les liens entre familles s'éteignent : ils
            partent de la zone nette et filent vers le flou, ce qui invite
            l'oeil à sortir de là où on vient d'entrer. */
-        linkMeta[i * 3 + 1] = zoneActive ? 0.04 : concerned ? 0.9 : 0.1;
+        linkMeta[i * 3 + 1] = zoneActive ? 0.25 : concerned ? 0.9 : 0.1;
+        /* Les liens entre familles relient deux régions floues : ils partent
+           au flou avec elles, sans exception. */
+        linkFlou[i] = zoneActive ? 1 : 0;
       }
     }
     // Contrôles au tiers : la Bézier dégénère en segment droit.
@@ -3059,6 +3345,7 @@ const OVERLAP_TOLERANCE = 1;
     linkCtrlAAttr.needsUpdate = true;
     linkCtrlBAttr.needsUpdate = true;
     linkMetaAttr.needsUpdate = true;
+    linkFlouAttr.needsUpdate = true;
 
     if (profiling) return;
 
@@ -3145,7 +3432,8 @@ const OVERLAP_TOLERANCE = 1;
        une composante a la fois et on remesure. Celle dont l'extinction met le
        compte a zero est la coupable. */
     composante: (nom: string, actif: boolean) => {
-      if (nom === 'spheres') sphereMesh.visible = actif;
+      if (nom === 'flou') flouActif = actif;
+      else if (nom === 'spheres') sphereMesh.visible = actif;
       else if (nom === 'liens') linkMesh.visible = actif;
       else if (nom === 'repliees') repliesOn = actif;
       else if (nom === 'flux') fluxOn = actif;
@@ -3593,6 +3881,11 @@ const OVERLAP_TOLERANCE = 1;
       linkGeometry.dispose();
       sphereMaterial.dispose();
       linkMaterial.dispose();
+      /* Les deux cibles du flou tiennent chacune un tampon de la taille de
+         l'écran : les oublier ici fuirait un écran de mémoire vidéo à chaque
+         changement de vue. */
+      rtFlouA.dispose();
+      rtFlouB.dispose();
       renderer.dispose();
     },
     runProfile,
@@ -3607,10 +3900,23 @@ const OVERLAP_TOLERANCE = 1;
        de descente (mesuré : 0 enfant de Drum and Bass nommé à 390 px). */
     frameCurrent: () => {
       const now = performance.now();
-      const g = activeGenre >= 0 ? slotsData[activeGenre] : undefined;
-      if (g && g.children.length > 0) {
-        frameLock = activeGenre;
-        startFly(g.world, frameDistance(genreFrameRadius(activeGenre) + 2.5), now);
+      /* LE NIVEAU COURANT EST CELUI DE LA ZONE, pas le genre sélectionné : sur
+         une feuille, le cadre est celui de son parent, et recadrer sur elle
+         reviendrait à faire ce que la règle interdit. */
+      const cadre = focusIndex >= 0 ? focusIndex : activeGenre;
+      const g = cadre >= 0 ? slotsData[cadre] : undefined;
+      if (g && (g.children.length > 0 || focusIndex >= 0)) {
+        frameLock = cadre;
+        const fc = familyCenters[g.family];
+        startFly(
+          new Vector3(
+            g.deployed.x + (fc?.x ?? 0),
+            g.deployed.y + (fc?.y ?? 0),
+            g.deployed.z + (fc?.z ?? 0)
+          ),
+          frameDistance(genreFrameRadius(cadre) + 2.5),
+          now
+        );
       } else if (activeFamily >= 0) {
         frameLock = -1;
         frameFamily(activeFamily, now);

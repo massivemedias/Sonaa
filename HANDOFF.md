@@ -113,18 +113,20 @@ crochets de mesure restent sous `window.__atlas.mesurerScintillement()`.
 **L'image de partage montre l'atlas** (ADR-066), plus le logotype seul. Elle
 se refait par `npm run capture:og`.
 
-**Mode focus** (ADR-067). Entrer dans un genre ferme l'écran : le genre
-ouvert, ses dérivés directs et son parent direct restent nets et cliquables,
-tout le reste sort de la mise au point, perd ses noms et **ne répond plus au
+**Mode focus** (ADR-067, révisé par ADR-069 et ADR-070). Entrer dans un genre
+ferme l'écran : le genre ouvert, ses dérivés directs et son parent direct
+restent nets et cliquables, tout le reste est **réellement défocalisé** par
+une passe de flou séparable, textes DOM compris, et **ne répond plus au
 clic**. Les dérivés sont redisposés en couronne dans le plan de la caméra à
-chaque descente. Échap remonte d'un cran, un second Échap ou un clic dans le
-flou sort du mode.
+chaque descente. **Un genre sans dérivés ne déplace pas la caméra** : on reste
+dans le contexte de son parent. Échap remonte d'un cran, un second Échap ou un
+clic dans le flou sort du mode.
 
 **La colonne du lecteur ne se ferme plus** (ADR-068). Elle se réduit, elle se
 rappelle, elle montre un genre tiré au sort avant le premier clic, et aucune
 lecture ne démarre jamais seule.
 
-**68 ADR** dans `ARCHITECTURE.md`. Aucun point ouvert déclaré à la fin du
+**70 ADR** dans `ARCHITECTURE.md`. Aucun point ouvert déclaré à la fin du
 fichier.
 
 ---
@@ -161,7 +163,7 @@ traversé le build.
 | Décision | Raison |
 |---|---|
 | Three.js, pas PixiJS ni regl | mesuré sur des bundles réels : three 167 K gzip, pixi 165 K, regl 47 K. Pixi ne pèse pas moins et son instanciation est moins bonne |
-| Halo dans le shader, aucun post-traitement | un bloom sélectif imposerait plusieurs cibles de rendu et casserait la contrainte de peu d'appels de dessin. ADR-019 |
+| Halo dans le shader, aucun post-traitement **sauf le flou de mise au point** | la règle tient toujours pour le halo (ADR-019). Elle a été levée une fois, explicitement, pour le mode focus : un flou demande de mélanger des pixels voisins, ce qu'aucun fragment ne peut faire. Huit appels de dessin au lieu de trois, et seulement dans cet état. ADR-069 |
 | Sphères en imposteurs billboard, normale analytique | pas de géométrie de sphère, pas d'asset, un seul appel de dessin |
 | Lambert plus liseré, aucune spéculaire | ni chrome, ni vernis, ni plastique |
 | Rubans de liens élargis en **espace monde** | l'élargissement en espace écran s'est révélé impossible à fiabiliser aux largeurs réalistes. Documenté comme piège |

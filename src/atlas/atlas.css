@@ -69,7 +69,7 @@
   text-shadow:
     0 1px 1px rgba(0, 0, 0, 0.7),
     0 0 6px rgba(0, 0, 0, 0.7);
-  transition: opacity 120ms linear;
+  transition: opacity 120ms linear, filter 400ms ease;
 
   /* AUCUN pointer-events ici, et c'est délibéré. Le nom EST une cible de
      tap, mais le test se fait dans le moteur, sur le canvas, pas par le
@@ -80,6 +80,29 @@
      glissement sur une bonne part de l'écran.
 
      Le ciblage des noms est dans webgl-orbit.ts, fonction nomTouche. */
+}
+
+/* HORS ZONE, EN MODE FOCUS : le nom est FLOUTÉ, pas effacé.
+
+   Il l'était : les noms hors zone disparaissaient purement et simplement.
+   C'est ce qui cassait l'illusion. Un arrière-plan hors mise au point garde
+   ses mots, on ne peut simplement plus les lire, et c'est cette persistance
+   qui donne la sensation d'être entré quelque part plutôt que d'avoir changé
+   d'écran.
+
+   Le flou du texte est le seul de la page qui ne passe pas par WebGL : les
+   noms sont du DOM projeté, ils ne sont pas dans le canvas et aucune passe
+   de rendu ne peut les atteindre. Un filtre CSS le fait en une ligne, et la
+   transition de 400 ms est la même que celle des sphères. */
+.atlas-label[data-flou='1'] {
+  filter: blur(3.5px);
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atlas-label {
+    transition: none;
+  }
 }
 
 /* Nom de famille : au-dessus des genres, jamais dessous, et plus gras. */

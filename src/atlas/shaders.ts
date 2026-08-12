@@ -45,6 +45,83 @@ void main() {
 }
 `;
 
+// ------------------------------------------------- FLOU DE MISE AU POINT
+
+/* UNE VRAIE PASSE DE FLOU, ET POURQUOI ELLE EXISTE MAINTENANT.
+ *
+ * ADR-019 avait refusé tout post-traitement pour tenir la contrainte de très
+ * peu d'appels de dessin. La contrainte a été levée explicitement : le rendu
+ * mesure 0,081 ms sur les 16,67 d'un budget à soixante images par seconde,
+ * la marge est là.
+ *
+ * Ce qui était fait avant, dans l'imposteur seul, n'était PAS un flou : un
+ * disque atténué reste un disque, avec un bord et une silhouette. Aucun
+ * étalement de la lumière d'un point sur ses voisins, donc aucune sensation
+ * de profondeur de champ. Il faut mélanger des pixels VOISINS, et cela ne se
+ * fait pas dans le fragment d'un objet qui ne connaît que lui-même.
+ *
+ * Gaussienne SÉPARABLE : une passe horizontale, une passe verticale, treize
+ * échantillons chacune au lieu de cent soixante-neuf. À demi-résolution, ce
+ * qui double encore le rayon apparent pour rien.
+ *
+ * L'alpha est PRÉMULTIPLIÉ dans la cible : flouter une couleur non
+ * prémultipliée mélange les couleurs des pixels transparents, ce qui borde
+ * chaque forme d'un halo sombre. C'est le piège classique de cet effet.
+ */
+
+/* RawShaderMaterial : aucun préfixe de three, donc aucune conversion d'espace
+   colorimétrique ajoutée dans notre dos. C'est indispensable ici, sinon
+   l'image passerait deux fois par l'encodage sRGB, une fois dans la cible et
+   une fois sur l'écran, et le plan flou n'aurait pas les mêmes couleurs que
+   le plan net. Les attributs et la précision sont donc déclarés à la main. */
+export const blitVert = `
+precision highp float;
+attribute vec3 position;
+attribute vec2 uv;
+varying vec2 vUv;
+void main() {
+  vUv = uv;
+  gl_Position = vec4(position.xy, 0.0, 1.0);
+}
+`;
+
+export const blurFrag = `
+precision highp float;
+varying vec2 vUv;
+uniform sampler2D uTexture;
+uniform vec2 uDirection; // (1/largeur, 0) ou (0, 1/hauteur), déjà multiplié par le rayon
+uniform float uRayon;    // 0 : aucun flou, la passe se contente de recopier
+
+void main() {
+  if (uRayon < 0.01) {
+    gl_FragColor = texture2D(uTexture, vUv);
+    return;
+  }
+  /* Poids d'une gaussienne d'écart-type ~ rayon/2, normalisés. */
+  float w[7];
+  w[0] = 0.1963; w[1] = 0.1747; w[2] = 0.1210; w[3] = 0.0656;
+  w[4] = 0.0277; w[5] = 0.0091; w[6] = 0.0023;
+
+  vec4 somme = texture2D(uTexture, vUv) * w[0];
+  for (int i = 1; i < 7; i += 1) {
+    vec2 d = uDirection * float(i) * uRayon;
+    somme += texture2D(uTexture, vUv + d) * w[i];
+    somme += texture2D(uTexture, vUv - d) * w[i];
+  }
+  gl_FragColor = somme;
+}
+`;
+
+export const compositeFrag = `
+precision highp float;
+varying vec2 vUv;
+uniform sampler2D uTexture;
+void main() {
+  /* Déjà prémultipliée : le mélange se fait en ONE / ONE_MINUS_SRC_ALPHA. */
+  gl_FragColor = texture2D(uTexture, vUv);
+}
+`;
+
 // -------------------------------------------------------------- SPHÈRES
 
 export const sphereVert = `
@@ -56,6 +133,11 @@ attribute float aExtinct; // 1 : genre éteint, plus aucun label ne le porte
 attribute float aDefocus; // 0 net, 1 hors de la zone active : flou de mise au point
 
 uniform vec3 uCameraPos;
+/* TRI PAR PASSE. -1 : tout. 0 : seulement ce qui est net. 1 : seulement ce
+   qui part au flou. Une instance qui n'appartient pas à la passe est
+   renvoyée derrière le plan de coupe : elle ne coûte alors qu'un sommet,
+   sans aucun fragment. */
+uniform float uPasse;
 
 varying vec2 vUv;
 varying vec3 vCenter;
@@ -67,6 +149,10 @@ varying float vExtinct;
 varying float vDefocus;
 
 void main() {
+  if (uPasse >= 0.0 && abs(step(0.02, aDefocus) - uPasse) > 0.5) {
+    gl_Position = vec4(0.0, 0.0, 2.0, 1.0);
+    return;
+  }
   vUv = uv;
   vCenter = aCenter;
   vRadius = aRadius;
@@ -107,6 +193,7 @@ uniform vec3 uLightDir;
 uniform float uPixelScale;
 uniform vec2 uFog;
 uniform vec3 uFogColor;
+uniform float uPremul;
 
 void main() {
   float presence = vState.x;
@@ -123,21 +210,14 @@ void main() {
   float pixelWorld = uPixelScale * vViewDepth;
   float aa = clamp(pixelWorld / max(vRadius, 0.001), 0.004, 0.5);
 
-  /* LE FLOU DE MISE AU POINT, DANS L'IMPOSTEUR.
+  /* LE BORD RESTE NET ICI, et c'est voulu.
 
-     Un flou franc demanderait normalement une passe de post-traitement, donc
-     plusieurs cibles de rendu : c'est exactement ce qu'ADR-019 a refusé, et
-     pour la même raison qu'alors, le nombre d'appels de dessin. Il n'y en a
-     pas besoin ici, parce qu'une sphère hors mise au point n'est pas une
-     sphère nette qu'on aurait floutée : c'est un DISQUE DIFFUS, sans bord ni
-     relief. On peut donc la dessiner directement telle qu'elle doit paraître.
-
-     Trois choses arrivent ensemble, et il faut les trois : le bord s'étale
-     très largement (aa passe de quelques millièmes à 0.62), le corps perd son
-     ombrage pour devenir un aplat, et l'opacité tombe. Une seule des trois ne
-     suffirait pas : un bord flou sur un corps encore modelé se lit comme une
-     sphère mal dessinée, pas comme une sphère hors du plan de netteté. */
-  aa = mix(aa, 0.62, vDefocus);
+     Une version précédente l'étalait dans l'imposteur pour simuler un flou.
+     Ce n'en était pas un : un disque atténué reste un disque, avec sa
+     silhouette, et rien de la lumière d'un point ne se répand sur ses
+     voisins. Le vrai flou est fait après, en passe séparée (voir blurFrag) :
+     cette sphère-ci est dessinée normalement, simplement dirigée vers la
+     cible qu'on va flouter. */
   float body = 1.0 - smoothstep(1.0 - aa, 1.0 + aa, r);
 
   /* Anneau indicateur. Il doit se remarquer quand on le cherche, pas encadrer
@@ -203,10 +283,11 @@ void main() {
   float couverture = clamp(rayonPx * rayonPx, 0.0, 1.0);
 
   float alpha = (body + ring * 0.35) * presence * couverture;
-  /* L'opacité tombe à 18 % : assez pour que la carte garde une profondeur
-     et qu'on voie qu'il y a un ailleurs, trop peu pour qu'on cherche à y
-     lire quoi que ce soit. */
-  alpha *= 1.0 - vDefocus * 0.82;
+  /* Hors zone, l'opacité ne bouge presque plus : un dixième. Elle tombait
+     aux quatre cinquièmes quand l'atténuation devait tenir lieu de flou.
+     Maintenant que le flou est réel et qu'il étale déjà la lumière, ce qui
+     recule est la NETTETÉ, pas la présence. */
+  alpha *= 1.0 - vDefocus * 0.1;
   if (alpha < 0.02) discard;
 
   // Normale analytique du disque : c'est une sphère sans géométrie de sphère.
@@ -270,7 +351,10 @@ void main() {
 
      Il corrigeait par ailleurs un defaut jamais constate. Une correction
      speculative qui cree un defaut reel doit partir. */
-  gl_FragColor = vec4(col, alpha);
+  /* PRÉMULTIPLICATION quand on dessine dans la cible à flouter. Sans elle,
+     la gaussienne mélange la couleur des pixels transparents, et chaque forme
+     se borde d'un halo sombre. Voir blurFrag. */
+  gl_FragColor = uPremul > 0.5 ? vec4(col * alpha, alpha) : vec4(col, alpha);
 }
 `;
 
@@ -295,11 +379,14 @@ attribute vec3 aCtrl1;
 attribute vec3 aColor0;
 attribute vec3 aColor1;
 attribute vec3 aMeta; // x: poids, y: présence, z: avancement du tracé
+attribute float aFlou; // 1 : le lien part dans la passe floue
 
 uniform vec3 uCameraPos;
 uniform float uPixelScale;
 uniform float uMinPixels;
 uniform float uWidthWorld;
+/* Même tri par passe que les sphères : voir sphereVert. */
+uniform float uPasse;
 
 varying float vT;
 varying float vSide;
@@ -310,6 +397,10 @@ varying float vHalfPx;
 varying float vViewDepth;
 
 void main() {
+  if (uPasse >= 0.0 && abs(aFlou - uPasse) > 0.5) {
+    gl_Position = vec4(0.0, 0.0, 2.0, 1.0);
+    return;
+  }
   vT = aT;
   vSide = aSide;
   vColor0 = aColor0;
@@ -364,6 +455,7 @@ varying float vViewDepth;
 uniform vec2 uFog;
 uniform vec3 uFogColor;
 uniform float uFlowTime;
+uniform float uPremul;
 
 void main() {
   // Le lien n'existe que jusqu'au front de propagation.
@@ -400,7 +492,7 @@ void main() {
   float alpha = edge * (0.5 + vMeta.x * 0.35) * vMeta.y * (1.0 - fog * 0.4);
   if (alpha < 0.004) discard;
 
-  gl_FragColor = vec4(rgb, alpha);
+  gl_FragColor = uPremul > 0.5 ? vec4(rgb * alpha, alpha) : vec4(rgb, alpha);
 }
 `;
 

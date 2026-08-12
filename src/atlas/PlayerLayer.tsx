@@ -165,12 +165,15 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
 
   /* L'ENTRÉE, une seule fois dans la vie du navigateur.
 
-     Au tout premier chargement la colonne se fait attendre cinq secondes,
-     puis glisse depuis la droite. Les cinq secondes ne sont pas un effet :
-     elles laissent voir la carte et l'intro, qui sont ce qu'on est venu
-     voir. Aux visites suivantes elle est là dès le départ, sans glissement,
-     parce qu'une animation d'arrivée qu'on rejoue à chaque fois devient une
-     attente. */
+     Elle arrive IMMÉDIATEMENT, en glissant depuis la droite en une seconde.
+     Une première version la faisait attendre cinq secondes pour laisser voir
+     la carte : le compte était juste, l'effet ne l'était pas. Cinq secondes
+     d'écran incomplet ne se lisent pas comme une mise en scène, elles se
+     lisent comme un chargement qui traîne, et la colonne arrivait alors que
+     l'oeil était déjà ailleurs.
+
+     Aux visites suivantes elle est là sans glissement : une animation
+     d'arrivée qu'on rejoue à chaque fois devient une attente. */
   const ENTREE_KEY = 'sonaa-colonne-vue';
   const dejaVue = (): boolean => {
     try {
@@ -188,17 +191,15 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
   useEffect(() => {
     if (entree !== 'attente') return;
     if (!demarrer) return; // l'écran d'accueil est encore là : on ne monte pas dessus.
-    const id = window.setTimeout(() => {
-      setEntree('glisse');
-      try {
-        localStorage.setItem(ENTREE_KEY, '1');
-      } catch {
-        /* sans écriture, l'entrée se rejouera : dégradé, jamais cassé. */
-      }
-      /* 600 ms de glissement, puis l'état se fige : garder la classe
-         d'animation ferait rejouer la transition au moindre re-rendu. */
-      window.setTimeout(() => setEntree('posee'), 600);
-    }, 5000);
+    setEntree('glisse');
+    try {
+      localStorage.setItem(ENTREE_KEY, '1');
+    } catch {
+      /* sans écriture, l'entrée se rejouera : dégradé, jamais cassé. */
+    }
+    /* Une seconde de glissement, puis l'état se fige : garder la classe
+       d'animation ferait rejouer la transition au moindre re-rendu. */
+    const id = window.setTimeout(() => setEntree('posee'), 1000);
     return () => window.clearTimeout(id);
   }, [entree, demarrer]);
   /* Erreur YouTube : vidéo retirée ou bloquée. Message honnête, passage à
@@ -439,12 +440,22 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
      s'ouvre ou que la feuille bouge. On recadre alors sur la FAMILLE du
      genre ouvert, après que l'observateur de taille du moteur a vu la
      nouvelle zone (deux frames). Le vol est celui du moteur, 850 ms. */
+  /* IL NE SE DÉCLENCHE PLUS SUR UN CHANGEMENT DE GENRE, seulement quand la
+     ZONE VISIBLE change vraiment, c'est-à-dire quand la feuille mobile
+     bouge. C'était le sens de ce recadrage depuis le début ; il se
+     déclenchait aussi sur le genre parce que, à l'époque, ouvrir un genre
+     ouvrait la colonne et changeait donc la zone visible.
+
+     La colonne est maintenant permanente : ouvrir un genre ne déplace plus
+     rien. Le laisser sur le genre annulait la règle du genre sans dérivés,
+     mesuré : le clic ne bougeait pas la caméra, et ce recadrage la bougeait
+     90 ms plus tard. */
   useEffect(() => {
-    if (!panelGenre) return;
-    if (narrow && sheetPos === 'full') return; // carte couverte, rien à cadrer
+    if (!narrow) return;
+    if (sheetPos === 'full') return; // carte couverte, rien à cadrer
     const id = window.setTimeout(() => onFrameCurrent(), 90);
     return () => window.clearTimeout(id);
-  }, [panelGenre, sheetPos, narrow, onFrameCurrent]);
+  }, [sheetPos, narrow, onFrameCurrent]);
 
   /* Le logotype ramène à l'accueil. Sur mobile la feuille redescend en barre
      pour rendre la carte entière ; sur poste de bureau la colonne ne bouge
