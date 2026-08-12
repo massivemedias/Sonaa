@@ -316,13 +316,20 @@ void main() {
   float head = smoothstep(reveal - 0.18, reveal, vT) * step(vT, reveal);
   rgb *= 0.72 + head * 0.9;
 
-  /* Flux lumineux LENT le long des liens du chemin actif (poids plein) :
-     une bande douce qui descend du parent vers l'enfant. Coupé quand
-     uFlowTime reste à zéro (prefers-reduced-motion). */
-  float onPath = step(0.95, vMeta.x);
-  float band = fract(vT - uFlowTime);
-  float flow = smoothstep(0.0, 0.12, band) * (1.0 - smoothstep(0.12, 0.3, band));
-  rgb *= 1.0 + onPath * flow * 0.55 * step(0.001, uFlowTime);
+  /* LE FLUX LUMINEUX EST SUPPRIME. Voir ADR-065.
+
+     Une bande claire descendait le long des liens du chemin actif. Mesure,
+     genre deploye et camera immobile, cadre sur Trip-Hop : 970 pixels
+     changeaient d'une image a l'autre avec le flux, ZERO sans lui.
+
+     Le mecanisme : la fonction fract fait revenir la bande a zero dun coup
+     quand elle atteint la fin du lien, et sur un lien vu de pres cette
+     discontinuite tombe chaque fois sur des pixels differents. Le resultat
+     se lit comme un grouillement le long des traits.
+
+     C'est la troisieme animation decorative retiree pour la meme raison, et
+     celle qui restait apres le grain et la respiration. Le chemin actif reste
+     signale par l'epaisseur et l'opacite du lien, qui ne bougent pas. */
 
   float fog = smoothstep(uFog.x, uFog.y, vViewDepth);
   rgb = mix(rgb, uFogColor, fog * 0.55);

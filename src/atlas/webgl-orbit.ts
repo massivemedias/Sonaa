@@ -895,6 +895,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      permettent d'eteindre une composante pour mesurer sa part dans le
      scintillement, sans avoir a reconstruire le site a chaque essai. */
   let repliesOn = true;
+  let fluxOn = true;
 
   const parentRadius = new Float32Array(sphereRadii.length);
   slotsData.forEach((slot, i) => {
@@ -2228,7 +2229,7 @@ const OVERLAP_TOLERANCE = 1;
 
     if (!reducedMotion) {
       bgUniforms.uTime.value = now / 1000;
-      linkUniforms.uFlowTime.value = (now / 7000) % 1;
+      linkUniforms.uFlowTime.value = fluxOn ? (now / 7000) % 1 : 0;
     }
 
     const friction = reducedMotion ? 0 : 0.9;
@@ -2615,6 +2616,7 @@ const OVERLAP_TOLERANCE = 1;
       if (nom === 'spheres') sphereMesh.visible = actif;
       else if (nom === 'liens') linkMesh.visible = actif;
       else if (nom === 'repliees') repliesOn = actif;
+      else if (nom === 'flux') fluxOn = actif;
       return { nom, actif };
     },
 

@@ -2423,7 +2423,26 @@ qui gagne le test de profondeur change d'une image a l'autre, et le pixel
 bascule. Mesure : 4388 pixels avec un ecart de 410 niveaux, contre 18 pixels
 avec un ecart de 3 une fois coupee.
 
-**Decision.** Les deux sont supprimes.
+**Une troisieme cause, trouvee apres coup, et c'etait la principale.**
+
+Les deux premieres mesures portaient sur la vue d'ensemble, camera immobile.
+Le defaut observe se produisait dans l'etat DEPLOYE, apres un clic sur un
+genre. Mesure dans la bonne situation, cadre sur Trip-Hop : 970 pixels
+changeaient d'une image a l'autre. Cadre sur Folktronica, meme distance :
+zero.
+
+La correlation semblait accuser les spheres repliees, Trip-Hop ayant deux
+descendants et Folktronica aucun. C'etait faux. En coupant toutes les spheres
+de profondeur 2 et plus, il restait 886 pixels ; en coupant les liens, il n'en
+restait AUCUN. Ce n'etaient pas les spheres filles, c'etaient LES LIENS qui y
+menent, et Folktronica n'en a pas.
+
+LE FLUX LUMINEUX DES LIENS. Une bande claire descendait le long des liens du
+chemin actif. La fonction fract la fait revenir a zero d'un coup en fin de
+lien, et sur un trait vu de pres cette discontinuite tombe chaque fois sur des
+pixels differents. Mesure : 970 pixels avec, zero sans.
+
+**Decision.** Les trois sont supprimes.
 
 **Ce qu'on perd, et pourquoi c'est acceptable.** Le grain cassait les aplats
 du fond profond ; s'il bande un jour visiblement, la reponse sera un degrade
@@ -2431,16 +2450,31 @@ mieux etale, pas un bruit ajoute par-dessus. La respiration donnait une
 lente pulsation a la carte ; le survol garde son agrandissement, qui est une
 reponse a une action et non un mouvement permanent.
 
-**Resultat mesure.** Ecart maximal entre deux images consecutives, camera
-immobile : 399 niveaux avant, 3 apres. Zero pixel instable cadre sur
-Trip-Hop. Un ecart de 3 niveaux sur quelques dizaines de pixels est la
-progression continue du flux lumineux des liens, qui est voulue.
+**Resultat mesure**, camera immobile, en local sans service worker :
 
-**La lecon de methode.** Six corrections ont ete faites sans mesure, sur des
-hypotheses plausibles, et deux ont aggrave le defaut. La septieme a commence
-par construire l'instrument. C'est l'ordre qu'il fallait suivre des le
-debut : quand on ne peut pas voir, on mesure ; tant qu'on n'a pas de chiffre,
-on ne corrige pas.
+| situation | avant | apres |
+| --- | --- | --- |
+| vue d'ensemble | 4193 px | 0 |
+| genre deploye | 970 px | 0 |
+| cadre sur Trip-Hop | 1382 px | 0 |
+| cadre sur Chill-Out | non mesure | 0 |
+| six autres familles | non mesure | 0 |
+
+Zero pixel instable partout, y compris dans l'etat deploye ou le defaut etait
+observe.
+
+**Les lecons de methode, il y en a deux.**
+
+MESURER AVANT DE CORRIGER. Six corrections ont ete faites sur des hypotheses
+plausibles, et deux ont aggrave le defaut. La septieme a commence par
+construire l'instrument.
+
+MESURER LA BONNE SITUATION. La septieme mesure etait juste et portait sur la
+mauvaise scene : la vue d'ensemble, alors que le defaut vivait dans l'etat
+deploye. Un instrument correct applique au mauvais endroit rend zero avec la
+meme assurance qu'un instrument casse. C'est l'information manquante, donnee
+au huitieme tour, qui a permis de conclure : « ca apparait quand je clique
+sur un genre ».
 
 Les crochets restent sous `window.__atlas.mesurerScintillement()` avec leurs
 interrupteurs par composante, pour que le prochain qui doute puisse compter.
