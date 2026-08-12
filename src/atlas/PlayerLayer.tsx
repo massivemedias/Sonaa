@@ -1104,7 +1104,14 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                         parle, et se distingue visuellement du factuel. */}
                     {panelGenreData.motDeLAuteur && (
                       <aside className="pcol-mot-auteur">
-                        <p>{panelGenreData.motDeLAuteur}</p>
+                        {/* Un paragraphe par bloc : le texte en compte
+                            quatre, et rendu d'un seul tenant il formait un
+                            mur de quatre-vingts mots dans une colonne de
+                            420 px. Même séparation que la page À propos, une
+                            ligne vide. */}
+                        {panelGenreData.motDeLAuteur.split('\n\n').map((para, i) => (
+                          <p key={i}>{para}</p>
+                        ))}
                         <p className="pcol-mot-signature">Mika</p>
                       </aside>
                     )}

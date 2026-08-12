@@ -14,9 +14,19 @@ const TRACKS = STRUCTURES.reduce(
   0
 );
 
-/* Le texte d'auteur, a la premiere personne. Vide tant que Mika ne l'a pas
-   ecrit. Les paragraphes se separent par une ligne vide. */
-const TEXTE_AUTEUR: string = '';
+/* LE TEXTE D'AUTEUR, à la première personne. Écrit par Mika, recopié tel
+   quel. Les paragraphes se séparent par une ligne vide.
+
+   Il dit POURQUOI le site existe, là où le reste de la page dit ce qu'il est
+   et comment il est fait. C'est la différence entre une notice et une voix,
+   et c'est pour cela qu'il est au « je » et qu'il n'est pas résumé. */
+const TEXTE_AUTEUR: string = `Je fais de la musique électronique depuis quinze ans, sous le nom de Maudite Machine, et je dirige VRSTL Records à Montréal. Autant dire que je passe mes journées à écouter des morceaux et à essayer de les ranger quelque part.
+
+Et je me trompais tout le temps. On me demandait dans quel style tel morceau allait, je répondais au feeling, et je découvrais trois mois plus tard que la moitié de la scène l'aurait rangé ailleurs. Les frontières entre les genres ne sont pas dans les morceaux, elles sont dans les têtes des gens qui en parlent, et ces gens ne sont jamais d'accord.
+
+SONAA est né de là. J'ai croisé les sources, les bases de données, les discussions de forums, les guides écrits par des gens de la scène, et j'en ai fait une carte. 218 genres, leurs filiations, et de quoi écouter ce dont on parle. Quand deux sources se contredisent, c'est écrit. Quand personne n'est d'accord, c'est écrit aussi.
+
+Ce n'est pas une vérité. C'est une lecture, faite avec le plus de rigueur possible, et ouverte à la correction. Si tu connais un genre mieux que moi, propose. C'est fait pour ça.`;
 
 export function AProposPage() {
   return (

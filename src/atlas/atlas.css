@@ -769,11 +769,16 @@
   border-inline-start: 2px solid rgba(255, 255, 255, 0.28);
 }
 .pcol-mot-auteur p {
-  margin: 0;
+  /* Quatre paragraphes dans une colonne de 420 px : sans écart entre eux, le
+     mot de l'auteur devient un pavé de deux cents mots. */
+  margin: 0 0 0.7rem;
   font-style: italic;
   font-size: 0.92rem;
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.82);
+}
+.pcol-mot-auteur p:last-of-type {
+  margin-block-end: 0;
 }
 .pcol-mot-signature {
   margin-block-start: 0.4rem !important;
@@ -784,17 +789,11 @@
   color: rgba(255, 255, 255, 0.45) !important;
 }
 
-/* LE TEXTE D'AUTEUR sur la page A propos. Ecrit au « je », il se distingue
-   du reste de la page, qui est a la troisieme personne. */
-.apropos-voix {
-  margin-block-start: 0.9rem;
-  padding-inline-start: 0.9rem;
-  border-inline-start: 2px solid rgba(255, 255, 255, 0.24);
-}
-.apropos-voix p {
-  font-style: italic;
-  color: rgba(255, 255, 255, 0.84);
-}
+/* LE TEXTE D'AUTEUR de la page À propos n'est plus stylé ici : ses règles
+   vivaient dans cette feuille, que la page À propos N'IMPORTE PAS. Elles
+   n'ont donc jamais rien fait. Le défaut est resté invisible tant que le bloc
+   était vide, ce qu'il a été pendant cinq mois. Elles sont dans credits.css,
+   la feuille que cette page charge vraiment. */
 
 /* BANDEAU DE CONNEXION. Une ligne, pas un encadre : il informe, il ne
    reclame pas. Consulter et ecouter restent libres sans compte, et rien

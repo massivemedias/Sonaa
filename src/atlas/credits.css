@@ -142,3 +142,32 @@
   color: var(--ink-primary);
   border-bottom-color: var(--ink-primary);
 }
+
+/* LE TEXTE D'AUTEUR, à la première personne, sous la ligne qui dit qui a fait
+   le site. Écrit au « je », il se distingue du reste de la page, qui est à la
+   troisième personne : filet vertical et italique, la même grammaire que le
+   mot de l'auteur sur une fiche de genre.
+
+   CES RÈGLES ÉTAIENT DANS atlas.css, que cette page n'importe pas : elles
+   n'ont jamais été appliquées. Personne ne pouvait s'en apercevoir, le bloc
+   étant resté vide depuis sa pose. */
+.apropos-voix {
+  margin-block-start: 0.9rem;
+  padding-inline-start: 0.9rem;
+  border-inline-start: 2px solid rgba(255, 255, 255, 0.24);
+  /* LONGUEUR DE LIGNE. La colonne de la page fait 38 rem, ce qui donnait 81
+     signes par ligne : au-dessus de la fourchette confortable, et l'oeil perd
+     la ligne suivante en revenant à la marge. 32 rem le ramènent à 68. */
+  max-inline-size: 32rem;
+}
+
+.apropos-voix p {
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.84);
+  /* Quatre paragraphes collés se lisent comme un seul. */
+  margin-block-end: 0.85rem;
+}
+
+.apropos-voix p:last-child {
+  margin-block-end: 0;
+}

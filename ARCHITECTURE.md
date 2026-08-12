@@ -3139,6 +3139,54 @@ decrit.
 
 ---
 
+## ADR-076 : Les quatre textes, et une feuille de style qui n'avait jamais servi
+
+**Statut** : accepte, 12 aout 2026.
+
+**Les trois emplacements de la voix sont remplis.** Ils avaient ete poses vides
+en aout 2026, avec la regle qui les justifie : la description dit ce que le
+genre EST et se veut verifiable, le mot de l'auteur porte un point de vue
+assume, a la premiere personne, et il est SIGNE a l'affichage pour qu'on ne
+les confonde pas.
+
+- L'accroche de l'ecran d'accueil, faite anterieurement.
+- `TEXTE_AUTEUR` sur la page A propos : quatre paragraphes.
+- `motDeLAuteur` sur `darkdisco`, `indiedance` et `progpsy`, quatre
+  paragraphes chacun, 999, 1066 et 1192 signes. Le champ reste ABSENT des
+  215 autres genres, deliberement.
+
+**Ecriture par corpus-store**, comme toute ecriture du corpus (ADR-044), par
+un script dedie qui declare ce qu'il possede. `check:writes` le verifie.
+
+**UNE SEULE RETOUCHE AUX TEXTES, declaree**, l'espace avant les deux-points :
+« vient de Beatportal: trop dystopique » devient « Beatportal : trop ». La
+typographie francaise la demande et tout le reste du site la met. Aucun mot
+n'est change, ajoute ni retire.
+
+**LE DEFAUT TROUVE EN VERIFIANT LE RENDU, et il etait la depuis la pose.** Les
+regles CSS du bloc d'auteur de la page A propos, `.apropos-voix`, vivaient
+dans `atlas.css` — que cette page N'IMPORTE PAS. Elles n'ont donc jamais rien
+fait. Mesure : `font-style: normal` et `border-left-width: 0px` la ou l'on
+attendait l'italique et le filet vertical.
+
+Personne ne pouvait s'en apercevoir : le bloc etait vide, et vide il ne
+s'affiche pas du tout. Un style mort sur un contenu absent ne se voit pas, et
+il attend le jour ou le contenu arrive. Les regles sont dans `credits.css`, la
+feuille que la page charge vraiment.
+
+**Longueur de ligne, mesuree.** Le texte d'auteur heritait de la colonne de la
+page, 38 rem, soit **81 signes par ligne**, au-dessus de la fourchette
+confortable : l'oeil perd la ligne suivante en revenant a la marge. Borne a
+32 rem, il tombe a **68 signes**. Le mot de l'auteur dans la colonne du
+lecteur mesure **47 signes**, la colonne etant etroite par nature.
+
+**Le rendu, verifie par de vrais clics** : quatre paragraphes de chaque cote,
+italique, filet vertical de 2 px, signature « MIKA », aucun cadratin ni
+demi-cadratin. `check:tirets` couvre `src/data/corpus.json`, donc ces textes
+sont sous garde de CI comme le reste.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle

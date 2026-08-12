@@ -186,7 +186,7 @@ clic dans le flou sort du mode.
 rappelle, elle montre un genre tiré au sort avant le premier clic, et aucune
 lecture ne démarre jamais seule.
 
-**75 ADR** dans `ARCHITECTURE.md`. Aucun point ouvert déclaré à la fin du
+**76 ADR** dans `ARCHITECTURE.md`. Aucun point ouvert déclaré à la fin du
 fichier.
 
 ---
@@ -287,24 +287,14 @@ Ne pas ressusciter sans raison neuve.
 
 ## 4. Ce qui reste ouvert
 
-**Les quatre textes de Mika.** Trois emplacements de voix ont été posés, un
-seul est rempli.
+**LES QUATRE TEXTES SONT ÉCRITS ET EN LIGNE** (ADR-076). L'accroche d'accueil,
+le texte d'auteur de la page À propos, et le mot de l'auteur sur `darkdisco`,
+`indiedance` et `progpsy`. Le champ `motDeLAuteur` reste absent des 215 autres
+genres, délibérément : une voix qui parle partout ne dit plus rien.
 
-1. L'accroche de l'écran d'accueil : **faite**, à la première personne, signée
-   Maudite Machine.
-2. `TEXTE_AUTEUR` dans `src/atlas/AProposPage.tsx` : **vide**. À la première
-   personne, sous la ligne qui dit qui a fait le site. Vide, le bloc ne
-   s'affiche pas du tout.
-3. `motDeLAuteur` dans `src/data/corpus.json` : **vide sur les trois genres où
-   il est posé**, `darkdisco`, `indiedance` et `progpsy`. Absent des 215
-   autres, délibérément : une voix qui parle partout ne dit plus rien.
-
-**`check:plafond` échoue, et c'est antérieur.** Les trois sondes de durée ne
-rendent plus rien : « LA DURÉE N'EST PLUS LUE ». Vérifié sur l'arbre remisé,
-sans aucune modification : l'échec est identique, il ne vient pas du travail
-en cours. Il bloque la CI et donc toute publication tant qu'il n'est pas
-réglé. `scrape()` dans `scripts/lib/match.ts` est à reprendre, ou la sonde à
-rendre tolérante à l'absence de réseau.
+**`check:plafond` ne bloque plus les publications sans rapport avec lui**
+(ADR-073) : il ne s'exécute que si les données ont bougé, et il retente une
+fois avant de conclure.
 
 **Un fichier mort à supprimer.** `supabase/game-tree.sql`, 241 lignes,
 généré par un script qui n'existe plus et visant une table qui n'existe pas.
