@@ -120,14 +120,17 @@ cinq passes de gaussienne séparable au quart de résolution, textes DOM
 compris (16 px de flou CSS), et **ne répond plus au clic**. Mesuré : 12 fois
 moins d'inversions de gradient sur une ligne d'écran, à géométrie identique. Les dérivés sont redisposés en couronne dans le plan de la caméra à
 chaque descente. **Un genre sans dérivés ne déplace pas la caméra** : on reste
-dans le contexte de son parent. Échap remonte d'un cran, un second Échap ou un
+dans le contexte de son parent. **Le focus s'arme à CHAQUE ouverture de
+genre, quel que soit le chemin**, y compris d'un seul clic depuis la vue
+d'ensemble (ADR-072). Un nom dont la sphère est cachée derrière une autre est
+masqué, jamais atténué. Échap remonte d'un cran, un second Échap ou un
 clic dans le flou sort du mode.
 
 **La colonne du lecteur ne se ferme plus** (ADR-068). Elle se réduit, elle se
 rappelle, elle montre un genre tiré au sort avant le premier clic, et aucune
 lecture ne démarre jamais seule.
 
-**71 ADR** dans `ARCHITECTURE.md`. Aucun point ouvert déclaré à la fin du
+**72 ADR** dans `ARCHITECTURE.md`. Aucun point ouvert déclaré à la fin du
 fichier.
 
 ---

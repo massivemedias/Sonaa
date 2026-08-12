@@ -2863,6 +2863,73 @@ Techno, un seul derive, ecart 117 px, groupe occupant 67 % de la largeur.
 
 ---
 
+## ADR-072 : Le focus s'active a chaque ouverture de genre, et un nom cache ne s'affiche pas
+
+**Statut** : accepte, 12 aout 2026. **Revise ADR-067 et ADR-068.**
+
+**Defaut 1 : le mode focus ne s'activait pas depuis la vue d'ensemble.**
+
+LA CONDITION EXACTE, telle qu'elle etait dans le code : le mode focus n'est
+arme que par `selectGenre`, et depuis le niveau atlas le clic appelait
+`selectFamily`. On ouvrait donc une famille, jamais un genre, et aucun flou ne
+pouvait apparaitre. Le defaut a traverse tous mes essais parce que j'y passais
+toujours par la famille avant de cliquer un genre : le chemin le plus court,
+celui qu'emprunte un visiteur, n'etait pas teste.
+
+Pire depuis ADR-068 : la colonne affiche le fondateur de la famille ouverte.
+L'ecran se contredisait donc lui-meme, la colonne annoncant un genre pendant
+que la carte restait au niveau famille, nette de bout en bout. C'est
+exactement ce que la capture signalee montrait : « Downtempo » dans la
+colonne, et BASS, TRANCE, HARDCORE parfaitement nets sur la carte.
+
+**Decision.** Depuis l'atlas, cliquer un genre entre DANS CE GENRE :
+`goToGenre` deploie la famille puis prend le focus quand elle est ouverte.
+Cliquer un nom de FAMILLE entre dans son fondateur, par le meme chemin en
+attente. Il n'existe plus un seul chemin qui ouvre un genre sans armer le
+mode focus.
+
+**Effet de bord corrige.** Le fondateur porte souvent le nom de sa famille :
+le fil d'Ariane affichait « Downtempo > Downtempo ». Le segment de genre est
+supprime quand il repete celui de la famille.
+
+**Defaut 2 : les noms traversaient les spheres.**
+
+Signale sur un cas precis : INDUSTRIAL et Coldwave ecrits en travers de la
+sphere Downtempo, EBM et Power Electronics sur son bord.
+
+**Aucun test d'occlusion n'existait dans le moteur.** Il n'a pas cesse de
+marcher : il n'avait jamais ete ecrit. Le rendu hybride (ADR-018) a toujours
+repose sur le fait que les noms tombent A COTE de leur sphere, ce qui suffit
+tant que la carte est plate a l'ecran et que rien ne passe devant. Le mode
+focus change cela : il rapproche fortement la camera, et tout l'arriere-plan
+vient alors se ranger derriere les quelques spheres de la zone.
+
+**Deux regles, dans cet ordre.** Le centre de la boite d'un nom tombe dans le
+disque d'une sphere PLUS PROCHE que son ancre : le nom est masque, et cela
+vaut a tous les niveaux. En mode focus, un nom FLOU pose sur une sphere de la
+ZONE est masque sans regarder la profondeur, la zone etant devant par
+definition. Masque et non attenue : un nom illisible pose sur une sphere
+reste une tache sur cette sphere.
+
+Rayons et distances sont calcules une fois par passe et non une fois par nom :
+le test est un double parcours de 96 noms par 218 spheres.
+
+**Le cadrage travaille sur une BOITE, plus sur un rayon.** Un rayon suppose un
+groupe centre sur le genre ouvert ; avec deux derives, le parent est au-dessus
+et rien n'est en dessous. Le cadrage reservait alors deux fois la hauteur
+utile et le groupe n'occupait que 35 % de la hauteur pour une cible de 60. On
+mesure les quatre bords dans le plan de la camera, le cadrage travaille sur la
+TAILLE de la boite et la camera vise son CENTRE. Sur une couronne complete le
+centre de la boite est le genre ouvert : les deux lectures coincident.
+
+**Verifie sur le cas signale**, par un VRAI clic depuis la vue d'ensemble et
+non par un appel d'API : mode focus actif, niveau genre, 66 noms floutes, 4
+noms nets qui sont exactement le genre ouvert, ses deux derives et son parent,
+zero sphere nette hors zone, et **zero nom pose sur une sphere nette**. Groupe
+occupant 57 % de la hauteur et 59 % de la largeur.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle

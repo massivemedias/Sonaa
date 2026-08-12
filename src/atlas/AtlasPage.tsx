@@ -503,6 +503,12 @@ export function AtlasPage() {
           }
           nav?.path.forEach((seg, i) => {
             const fi = nav.familyIndex;
+            /* LE FONDATEUR PORTE SOUVENT LE NOM DE SA FAMILLE : Downtempo,
+               Disco, Techno, Industrial. Depuis qu'ouvrir une famille entre
+               dans son fondateur, le chemin affichait « Downtempo ›
+               Downtempo », ce qui se lit comme un bug d'affichage. Le
+               segment de famille reste, il porte déjà le clic qui y ramène. */
+            if (i === 0 && seg.label === nav.familyLabel) return;
             segments.push({
               key: `g-${seg.index}`,
               label: seg.label,

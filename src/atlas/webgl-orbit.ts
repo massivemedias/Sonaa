@@ -1069,23 +1069,42 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      cadre sur celui qui contraint. Aucun cas particulier à écrire : la
      couronne ronde, la ligne et le T du cas à deux dérivés passent tous par
      la même formule. */
-  const focusGroupExtent = (): { rx: number; ry: number } => {
-    let rx = 0;
-    let ry = 0;
+  /* LA BOÎTE DU GROUPE, signée, et non un rayon.
+
+     Un rayon suppose un groupe centré sur le genre ouvert. Il ne l'est pas
+     toujours : avec deux dérivés, le parent est au-dessus et rien n'est en
+     dessous. Le cadrage réservait alors deux fois la hauteur utile et le
+     groupe n'occupait que la moitié de ce qui lui était promis, mesuré à
+     35 % de la hauteur pour une cible de 60.
+
+     On mesure donc les quatre bords dans le plan de la caméra, et le cadrage
+     travaille sur la TAILLE de la boîte pendant que la caméra vise son
+     CENTRE. Sur une couronne complète, le centre de la boîte est le genre
+     ouvert : les deux lectures coïncident, et rien ne change. */
+  const focusGroupBox = (index: number): { minX: number; maxX: number; minY: number; maxY: number } => {
+    const rFocus = baseRadii[index] ?? 1;
+    let minX = -rFocus;
+    let maxX = rFocus;
+    let minY = -rFocus;
+    let maxY = rFocus;
     for (const [i, off] of focusOffsets) {
       if (zone[i] !== 1) continue;
       const r = baseRadii[i] ?? 1;
-      rx = Math.max(rx, Math.abs(off.dot(focusRight)) + r);
-      ry = Math.max(ry, Math.abs(off.dot(focusUp)) + r);
+      const x = off.dot(focusRight);
+      const y = off.dot(focusUp);
+      minX = Math.min(minX, x - r);
+      maxX = Math.max(maxX, x + r);
+      minY = Math.min(minY, y - r);
+      maxY = Math.max(maxY, y + r);
     }
-    return { rx, ry };
+    return { minX, maxX, minY, maxY };
   };
 
-  const focusFrameDistance = (rx: number, ry: number): number => {
+  const focusFrameDistance = (largeur: number, hauteur: number): number => {
     const tan = Math.tan((FOV * Math.PI) / 360);
     const aspect = Math.max(0.2, camera.aspect);
-    const parLargeur = rx / Math.max(0.001, OCCUPATION * tan * aspect);
-    const parHauteur = ry / Math.max(0.001, OCCUPATION * tan);
+    const parLargeur = largeur / Math.max(0.001, 2 * OCCUPATION * tan * aspect);
+    const parHauteur = hauteur / Math.max(0.001, 2 * OCCUPATION * tan);
     return clamp(Math.max(parLargeur, parHauteur), MIN_DISTANCE, MAX_DISTANCE);
   };
 
@@ -1093,16 +1112,30 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      la calcule : le vol d'entrée, la remontée, le recadrage et le suivi
      continu l'appellent tous, et ne peuvent donc pas se contredire. */
   const distanceDuFocus = (index: number): number => {
-    if (index === focusIndex) {
-      const { rx, ry } = focusGroupExtent();
-      /* Le rayon de la sphère ouverte elle-même est un plancher : sur un
-         genre sans dérivé ni parent, le groupe se réduit à elle. */
-      const plancher = (baseRadii[index] ?? 1) * 2.2;
-      if (rx > 0 || ry > 0) {
-        return focusFrameDistance(Math.max(rx, plancher), Math.max(ry, plancher));
-      }
+    if (index === focusIndex && focusOffsets.size > 0) {
+      const b = focusGroupBox(index);
+      return focusFrameDistance(b.maxX - b.minX, b.maxY - b.minY);
     }
     return frameDistance(genreFrameRadius(index) + 2.5);
+  };
+
+  /* Le point que la caméra vise : le centre de la boîte du groupe, exprimé
+     en monde. Sur une couronne complète il tombe sur le genre ouvert. */
+  const cibleDuFocus = (index: number): Vector3 => {
+    const slot = slotsData[index];
+    const fc = slot ? familyCenters[slot.family] : undefined;
+    const base = new Vector3(
+      (slot?.deployed.x ?? 0) + (fc?.x ?? 0),
+      (slot?.deployed.y ?? 0) + (fc?.y ?? 0),
+      (slot?.deployed.z ?? 0) + (fc?.z ?? 0)
+    );
+    if (index !== focusIndex || focusOffsets.size === 0) return base;
+    const b = focusGroupBox(index);
+    const cx = (b.minX + b.maxX) / 2;
+    const cy = (b.minY + b.maxY) / 2;
+    return base
+      .addScaledVector(focusRight, cx)
+      .addScaledVector(focusUp, cy);
   };
 
   const setDeploy = (familyIndex: number, open: boolean, now: number): void => {
@@ -1687,9 +1720,20 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       const nb = structure?.genres.length ?? 0;
       for (let li = 0; li < nb; li += 1) {
         if (slotsData[base + li]?.depth === 0) {
-          onTracks(fi, li);
-          onPanel({ familyIndex: fi, genreLocal: li });
-          panelSlot = base + li;
+          /* ON ENTRE DANS LE FONDATEUR, on ne se contente pas de l'afficher.
+
+             La colonne annonçait le fondateur pendant que la carte restait au
+             niveau famille, sans focus et nette de bout en bout : l'écran
+             disait deux choses différentes au même moment. Ouvrir une
+             famille, c'est ouvrir son fondateur, et donc entrer en mode
+             focus sur lui comme n'importe quel autre genre.
+
+             En attente et non tout de suite : la famille doit d'abord se
+             déployer, sinon le fondateur est encore rangé dans l'amas
+             compact et la couronne se bâtirait sur des positions qui vont
+             changer. La boucle de rendu consomme la cible quand la
+             diffusion est faite. */
+          pendingGenre = base + li;
           break;
         }
       }
@@ -1757,19 +1801,9 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
         focusStart = now;
         buildFocusRing(parent);
         rebuildZone();
-        const ps = slotsData[parent];
-        if (ps) {
-          const pfc = familyCenters[ps.family];
+        if (slotsData[parent]) {
           frameLock = parent;
-          startFly(
-            new Vector3(
-              ps.deployed.x + (pfc?.x ?? 0),
-              ps.deployed.y + (pfc?.y ?? 0),
-              ps.deployed.z + (pfc?.z ?? 0)
-            ),
-            distanceDuFocus(parent),
-            now
-          );
+          startFly(cibleDuFocus(parent), distanceDuFocus(parent), now);
         }
       }
       /* Déjà dans le parent : la caméra ne bouge pas d'un pixel. */
@@ -1791,13 +1825,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
        du clic. Au clic il est encore en train de bouger, et viser une
        position transitoire donnait un cadrage décalé de ce qui s'installe. */
     frameLock = globalIndex;
-    const fc = familyCenters[slot.family];
-    const cible = new Vector3(
-      slot.deployed.x + (fc?.x ?? 0),
-      slot.deployed.y + (fc?.y ?? 0),
-      slot.deployed.z + (fc?.z ?? 0)
-    );
-    startFly(cible, distanceDuFocus(globalIndex), now);
+    startFly(cibleDuFocus(globalIndex), distanceDuFocus(globalIndex), now);
     emitNav();
     openPanel(slot.family, slot.local);
   };
@@ -1882,18 +1910,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
         buildFocusRing(parent);
         rebuildZone();
         const slot = slotsData[parent];
-        if (slot) {
-          const fc = familyCenters[slot.family];
-          startFly(
-            new Vector3(
-              slot.deployed.x + (fc?.x ?? 0),
-              slot.deployed.y + (fc?.y ?? 0),
-              slot.deployed.z + (fc?.z ?? 0)
-            ),
-            distanceDuFocus(parent),
-            now
-          );
-        }
+        if (slot) startFly(cibleDuFocus(parent), distanceDuFocus(parent), now);
         emitNav();
         /* Le panneau suit la carte : remonter d'un cran change le genre
            courant, donc le contenu de la colonne. */
@@ -2071,7 +2088,22 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
         const dansLaFamille =
           level === 'atlas' || activeFamily < 0 || vise.family === activeFamily;
         if (dansLaFamille) {
-          if (level === 'atlas') selectFamily(vise.family, now);
+          /* DEPUIS L'ATLAS, ON ENTRE DANS LE GENRE, PLUS DANS LA FAMILLE.
+
+             C'ÉTAIT LA CONDITION MANQUANTE. Le mode focus ne s'active que
+             dans selectGenre, et depuis la vue d'ensemble le clic appelait
+             selectFamily : on ouvrait donc une famille, jamais un genre, et
+             aucun flou ne pouvait apparaître. Le défaut ne se voyait pas
+             dans mes essais parce que j'y passais toujours par la famille
+             avant de cliquer un genre.
+
+             Pire, depuis que la colonne affiche le fondateur de la famille
+             ouverte, l'écran se contredisait : la colonne annonçait un genre
+             et la carte restait au niveau famille, nette de bout en bout.
+
+             goToGenre fait les deux dans l'ordre : la famille se déploie,
+             puis le genre visé prend le focus quand elle est ouverte. */
+          if (level === 'atlas') goToGenre(vise.family, vise.local);
           else selectGenre(nom.slot, now);
           return;
         }
@@ -2093,7 +2125,8 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       if (zoneActive) sortirDuFocus();
       else goUp();
     } else if (level === 'atlas') {
-      selectFamily(slot.family, now);
+      // Même règle que pour le nom : depuis l'atlas, on entre dans le genre.
+      goToGenre(slot.family, slot.local);
     } else {
       selectGenre(best, now);
     }
@@ -2265,6 +2298,10 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     w: number;
     h: number;
   }
+
+  /* Tampons du test d'occlusion, alloués une fois. */
+  const rayonsOcclusion = new Float32Array(TOTAL_GENRES);
+  const distancesOcclusion = new Float32Array(TOTAL_GENRES);
 
   const labelSlots: LabelSlot[] = [];
   for (let i = 0; i < LABEL_POOL; i += 1) {
@@ -2644,6 +2681,78 @@ const OVERLAP_TOLERANCE = 1;
       }
       return slot.depth === 0 ? 0 : 1 + slot.depth;
     };
+    /* ================================================================
+       OCCLUSION : UN NOM CACHÉ PAR UNE SPHÈRE NE S'AFFICHE PAS.
+
+       Les noms sont du DOM posé PAR-DESSUS le canvas. Le navigateur ne sait
+       rien de ce qu'il y a dessous : un nom dont la sphère est derrière une
+       autre sphère se dessine quand même, en plein milieu de celle de
+       devant. Signalé sur un cas précis : INDUSTRIAL et Coldwave écrits en
+       travers de la sphère Downtempo, EBM et Power Electronics sur son bord.
+
+       Aucun test de ce genre n'existait dans le moteur. Il n'a pas cessé de
+       marcher, il n'avait jamais été écrit : le rendu hybride (ADR-018) a
+       toujours reposé sur le fait que les noms tombent À CÔTÉ de leur
+       sphère, ce qui suffit tant que la carte est plate à l'écran et que
+       rien ne passe devant. Le mode focus change cela : il rapproche
+       fortement la caméra, et tout l'arrière-plan vient alors se ranger
+       derrière les quelques sphères de la zone.
+
+       DEUX RÈGLES, dans cet ordre.
+
+       1. Le centre de la boîte tombe dans le disque d'une sphère PLUS PROCHE
+          que l'ancre du nom : le nom est masqué. C'est de l'occlusion au
+          sens strict, et elle vaut à tous les niveaux, focus ou pas.
+
+       2. En mode focus, un nom FLOU par-dessus une sphère de la ZONE est
+          masqué sans regarder la profondeur. La zone est devant par
+          définition, c'est la règle du rendu (voir renderOnce) : un nom
+          d'arrière-plan écrit sur elle contredirait l'image.
+
+       Masqué et non atténué : un nom illisible posé sur une sphère reste une
+       tache sur cette sphère. */
+    /* Rayons et distances calculés UNE FOIS pour la passe, pas une fois par
+       nom : le test est un double parcours, 96 noms par 218 sphères, et
+       rayonEcran fait une racine carrée. Mesuré à la conception : recalculer
+       à l'intérieur coûtait quatre-vingt-seize fois le nécessaire, dans un
+       moteur dont le rendu tient en 0,081 ms. */
+    for (let i = 0; i < TOTAL_GENRES; i += 1) {
+      const presence = sphereState[i * 4] ?? 0;
+      const pz = projected[i * 3 + 2] ?? 2;
+      if (presence < 0.15 || pz > 1) {
+        rayonsOcclusion[i] = 0;
+        continue;
+      }
+      rayonsOcclusion[i] = rayonEcran(i);
+      distancesOcclusion[i] = camera.position.distanceTo(slotsData[i]?.world ?? camera.position);
+    }
+
+    const occulte = (c: Candidate): boolean => {
+      const cx = c.sx + c.w / 2;
+      const cy = c.sy + c.h / 2;
+      /* Profondeur de l'ancre du nom. Pour un nom de famille, l'ancre est le
+         centre de famille et n'a pas de sphère : sa profondeur est celle du
+         point projeté, déjà calculée dans c.depth. */
+      const profondeurAncre = c.depth;
+
+      for (let i = 0; i < TOTAL_GENRES; i += 1) {
+        if (i === c.slot) continue; // sa propre sphère ne le cache pas
+        const r = rayonsOcclusion[i] ?? 0;
+        if (r < 6) continue; // absente, derrière la caméra, ou trop petite
+        const dx = cx - (projected[i * 3] ?? 0);
+        const dy = cy - (projected[i * 3 + 1] ?? 0);
+        if (dx * dx + dy * dy > r * r) continue; // le nom n'est pas dessus
+
+        if (zoneActive && c.flou && zone[i] === 1) return true; // règle 2
+        if ((distancesOcclusion[i] ?? 1e9) < profondeurAncre - 0.001) return true; // règle 1
+      }
+      return false;
+    };
+    for (let k = candidates.length - 1; k >= 0; k -= 1) {
+      const c = candidates[k];
+      if (c && occulte(c)) candidates.splice(k, 1);
+    }
+
     const maxLevel = candidates.reduce((m, c) => Math.max(m, levelOf(c)), 0);
 
     for (let lvl = 0; lvl <= maxLevel; lvl += 1) {
@@ -3039,7 +3148,10 @@ const OVERLAP_TOLERANCE = 1;
     if (!flying) {
       const lock = frameLock >= 0 ? slotsData[frameLock] : undefined;
       if (lock) {
-        target.copy(lock.world);
+        /* Le centre du GROUPE, pas la sphère : sinon le suivi ramenait
+           lentement la caméra sur le genre ouvert et défaisait le centrage
+           calculé au moment du vol. */
+        target.copy(frameLock === focusIndex ? cibleDuFocus(frameLock) : lock.world);
         targetSmooth.lerp(target, reducedMotion ? 1 : 0.12);
         const want = distanceDuFocus(frameLock);
         distance += (want - distance) * (reducedMotion ? 1 : 0.1);
@@ -4083,16 +4195,7 @@ const OVERLAP_TOLERANCE = 1;
       const g = cadre >= 0 ? slotsData[cadre] : undefined;
       if (g && (g.children.length > 0 || focusIndex >= 0)) {
         frameLock = cadre;
-        const fc = familyCenters[g.family];
-        startFly(
-          new Vector3(
-            g.deployed.x + (fc?.x ?? 0),
-            g.deployed.y + (fc?.y ?? 0),
-            g.deployed.z + (fc?.z ?? 0)
-          ),
-          distanceDuFocus(cadre),
-          now
-        );
+        startFly(cibleDuFocus(cadre), distanceDuFocus(cadre), now);
       } else if (activeFamily >= 0) {
         frameLock = -1;
         frameFamily(activeFamily, now);
