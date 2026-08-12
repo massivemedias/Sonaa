@@ -918,6 +918,16 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   let introStart = 0;
   let introDone: (() => void) | null = null;
   const baseRadii = Float32Array.from(sphereRadii);
+
+  /* RAYON DE L'ANCETRE DIRECT, par slot. Il sert a decider quand un satellite
+     de satellite s'est assez ecarte pour etre montre sans chevaucher le corps
+     dont il sort. Calcule une fois : le parent d'un genre ne change pas. */
+  const parentRadius = new Float32Array(sphereRadii.length);
+  slotsData.forEach((slot, i) => {
+    const base = familyOffset[slot.family] ?? 0;
+    const idx = slot.parent >= 0 ? base + slot.parent : -1;
+    parentRadius[i] = idx >= 0 ? (sphereRadii[idx] ?? 1) : 1;
+  });
   /* Rayon de référence pour lier la taille des labels à celle des sphères. */
   const genreRadiusMax = Math.max(1e-3, ...Array.from(baseRadii));
 
@@ -2353,11 +2363,34 @@ const OVERLAP_TOLERANCE = 1;
         );
       }
 
-      /* Satellites de satellites : révélés au déploiement seulement. À l'état
-         compact ils sont repliés sur leur ancêtre de première génération ; les
-         afficher là ferait des sphères doubles. Ils surgissent avec la cascade,
-         chacun au rythme de sa propre génération. */
-      if (slot.depth >= 2) presence = clamp(p * 1.6 - 0.2, 0, 1);
+      /* SATELLITES DE SATELLITES : révélés SEULEMENT une fois écartés.
+
+         À l'état compact ils sont repliés EXACTEMENT sur leur ancêtre, à
+         distance mesurée 0.000 : 499 paires de sphères du corpus se
+         superposent ainsi. Deux surfaces confondues, le GPU ne peut pas
+         trancher laquelle est devant, et son arbitrage change à chaque
+         image. C'est le scintillement observé sur Trip-Hop et Chill-Out,
+         qui ont chacun deux dérivés, et son absence sur Folktronica et
+         Chillwave, qui n'en ont aucun.
+
+         Le seuil précédent, `p * 1.6 - 0.2`, faisait apparaître la sphère
+         dès 12,5 % du déploiement, alors qu'elle n'avait parcouru que 12,5 %
+         du chemin et restait donc quasi confondue avec son parent. Il y
+         avait forcément une fenêtre de superposition visible.
+
+         LE SEUIL EST DÉSORMAIS GÉOMÉTRIQUE. On calcule la distance que la
+         sphère a réellement parcourue, et on ne la montre qu'une fois
+         écartée d'au moins la somme des deux rayons : à ce moment-là, les
+         surfaces ne peuvent plus se couper. Une trajectoire courte apparaît
+         donc plus tard en proportion, ce qui est exactement ce qu'on veut. */
+      if (slot.depth >= 2) {
+        const trajet = slot.compact.distanceTo(slot.deployed);
+        const parcouru = trajet * Math.max(p, 0);
+        /* La marge à franchir : le rayon de la sphère plus celui de son
+           ancêtre. En dessous, les deux corps se chevauchent encore. */
+        const marge = (baseRadii[i] ?? 0.5) + (parentRadius[i] ?? 1);
+        presence = marge <= 0.001 ? clamp(p, 0, 1) : clamp((parcouru - marge) / marge, 0, 1);
+      }
 
       /* Anneaux uniquement sur le niveau actuellement navigable. Au niveau
          Atlas on ne descend pas encore dans les genres, donc aucun anneau :
