@@ -85,6 +85,11 @@ export interface AtlasApi {
       IDENTIQUE. Une scene stable doit rendre zero. Tout pixel instable est
       un papillotement mesurable. Voir webgl-orbit.ts. */
   composante?: (nom: string, actif: boolean) => { nom: string; actif: boolean };
+  spheresSuperposees?: () => {
+    a: string; b: string; depthA: number; depthB: number;
+    presenceA: number; presenceB: number; distance: number;
+    rayonA: number; rayonB: number;
+  }[];
   lignePixels?: (cx: number, cy: number, longueur: number, vertical?: boolean) => {
     x0: number; y0: number; largeur: number; hauteur: number;
     inversions: number; luminances: number[];

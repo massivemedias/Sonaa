@@ -2655,6 +2655,46 @@ const OVERLAP_TOLERANCE = 1;
       return { nom, actif };
     },
 
+    /* QUI EST VISIBLE, ET AU MEME ENDROIT QUE QUI.
+
+       On liste les spheres reellement dessinees, avec leur presence et leur
+       position, puis on cherche les paires dont les centres coincident. Une
+       paire visible a distance nulle, ce sont deux surfaces confondues : le
+       GPU ne peut pas trancher, et c'est la bille dans la bille. */
+    spheresSuperposees: () => {
+      const paires: {
+        a: string; b: string; depthA: number; depthB: number;
+        presenceA: number; presenceB: number; distance: number;
+        rayonA: number; rayonB: number;
+      }[] = [];
+      for (let i = 0; i < TOTAL_GENRES; i += 1) {
+        const pa = sphereState[i * 4] ?? 0;
+        if (pa <= 0.01) continue;
+        const sa = slotsData[i];
+        if (!sa) continue;
+        for (let j = i + 1; j < TOTAL_GENRES; j += 1) {
+          const pb = sphereState[j * 4] ?? 0;
+          if (pb <= 0.01) continue;
+          const sb = slotsData[j];
+          if (!sb || sb.family !== sa.family) continue;
+          const d = sa.world.distanceTo(sb.world);
+          const rmin = Math.min(sphereRadii[i] ?? 0, sphereRadii[j] ?? 0);
+          if (d < rmin) {
+            paires.push({
+              a: sa.label, b: sb.label,
+              depthA: sa.depth, depthB: sb.depth,
+              presenceA: Math.round(pa * 100) / 100,
+              presenceB: Math.round(pb * 100) / 100,
+              distance: Math.round(d * 1000) / 1000,
+              rayonA: Math.round((sphereRadii[i] ?? 0) * 100) / 100,
+              rayonB: Math.round((sphereRadii[j] ?? 0) * 100) / 100
+            });
+          }
+        }
+      }
+      return paires;
+    },
+
     /* ANALYSE SPATIALE D'UNE SEULE IMAGE.
 
        La mesure image-par-image rend zero quand le motif est FIXE : il n'y a

@@ -127,6 +127,35 @@ void main() {
   float ringW = max(aa * 0.9, 0.009);
   float ring = (smoothstep(1.185 - ringW, 1.185, r) - smoothstep(1.212, 1.212 + ringW, r)) * hasKids;
 
+  /* L'ANNEAU S'EFFACE QUAND IL DEVIENT PLUS FIN QU'UN PIXEL.
+
+     C'ETAIT LA CAUSE DU SCINTILLEMENT, cherchee pendant huit tours. L'anneau
+     occupe 0.027 unite de rayon, soit environ 2,7 % du diametre. Mesure a
+     l'ecran, genre deploye :
+
+       grosse sphere, rayon 110 px  ->  anneau de 2,98 px
+       moyenne,        rayon  27 px  ->  anneau de 0,72 px
+       petite,         rayon  12 px  ->  anneau de 0,32 px
+       tres petite,    rayon   5 px  ->  anneau de 0,15 px
+
+     Un trait de 0,15 pixel n'est pas dessinable : il apparait ou disparait
+     selon l'endroit ou tombe le centre de chaque pixel. Le resultat est un
+     cercle en pointilles irregulier, et comme les spheres s'alignent en
+     profondeur, on en voit plusieurs concentriques. C'est la « bille dans la
+     bille », et c'est un motif FIXE, ce qui explique qu'aucune mesure entre
+     deux images n'ait pu le voir.
+
+     Cela explique aussi la correlation restee longtemps inexpliquee : cet
+     anneau ne se dessine que si la sphere a des enfants. Folktronica n'en a
+     pas, Trip-Hop en a deux, et seul Trip-Hop montrait le motif.
+
+     La correction est le filtrage standard d'un motif sous-pixel : on efface
+     progressivement l'anneau quand son epaisseur passe sous deux pixels.
+     Il reste sur les spheres assez grandes pour le porter proprement, la ou
+     il sert vraiment a signaler qu'on peut descendre d'un niveau. */
+  float epaisseurPx = 0.027 * (vRadius / max(pixelWorld, 1e-6));
+  ring *= smoothstep(0.7, 2.0, epaisseurPx);
+
   /* PAPILLOTEMENT DES SPHERES SOUS-PIXEL.
 
      Les genres sont disposes sur des orbites concentriques, et la
