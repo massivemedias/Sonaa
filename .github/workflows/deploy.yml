@@ -70,6 +70,16 @@ jobs:
       - name: Controler le filtre de nature
         run: npm run check:nature
 
+      # Deux spheres exactement superposees font scintiller le rendu : le GPU
+      # ne peut pas trancher laquelle est devant et son arbitrage change a
+      # chaque image. En vue d'ensemble, 130 genres sont replies sur leur
+      # ancetre, ce qui fait 499 paires a distance nulle. Le repli est VOULU ;
+      # ce qui ne l'est pas, c'est de les montrer avant qu'elles se soient
+      # ecartees. Un seuil trop bas a coute six signalements et cinq
+      # corrections cherchees dans le shader. Voir scripts/check-superposition.ts
+      - name: Controler les superpositions de spheres
+        run: npm run check:superposition
+
       # Fait autorité sur les données : cycles, références mortes, orphelins,
       # doublons d'identifiants, couverture par genre. Voir ADR-005.
       - name: Valider les données
