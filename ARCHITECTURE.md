@@ -2930,6 +2930,64 @@ occupant 57 % de la hauteur et 59 % de la largeur.
 
 ---
 
+## ADR-073 : Le controle du plafond ne bloque plus que ce qui le concerne, et verify:visual passe par de vrais clics
+
+**Statut** : accepte, 12 aout 2026. **Revise ADR-048.**
+
+**Le controle du plafond.** Il interroge YouTube pour verifier que la duree
+d'une video est encore lisible, sans quoi le plafond de quinze minutes est
+inoperant. YouTube repond ou ne repond pas selon le moment et l'adresse
+appelante : il a fait echouer une publication qui ne touchait meme pas au
+corpus, et le meme controle rejoue dans la minute rendait trois durees sur
+trois.
+
+**Un controle qui bloque des publications sans rapport avec lui detruit la
+confiance dans toute la chaine.** On finit par le contourner, et le jour ou il
+a raison personne ne l'ecoute. Deux changements, decides par Mika :
+
+1. **Il ne s'execute que si les DONNEES ont bouge** : `src/data/`, le matcher,
+   les scripts d'import et de recuperation. Sur un declenchement manuel, ou si
+   la comparaison avec l'etat precedent est impossible, il s'execute quand
+   meme : en cas de doute on controle.
+2. **Une seconde tentative apres vingt secondes** avant de conclure. Ce qu'il
+   protege reste intact : il n'echoue que si AUCUNE sonde ne rend de duree,
+   deux fois de suite.
+
+**verify:visual devient un pilote, et il trouve.** ADR-048 avait refuse le
+navigateur headless en CI ; cette decision tient, ce script ne tourne pas en
+CI. Il automatise la marche a suivre manuelle, que personne ne faisait aux
+quatre largeurs : 390, 700, 1024 et 1440 px, avec a chaque fois **un vrai
+evenement de pointeur** dispatche sur le canvas, un seul clic depuis la vue
+d'ensemble.
+
+**Trois controles mentaient, et c'est ce que le premier passage a montre.**
+
+1. **Deux tests portaient sur des comportements supprimes.** La respiration
+   des spheres et le flux lumineux des liens ont ete retires par ADR-065,
+   mesures a l'appui, et leurs tests attendaient toujours une amplitude de
+   2 % et une bande qui se deplace. Ils rendaient « echec » sur une decision
+   prise. Retires.
+2. **L'ordre des tests faussait le resultat.** Le test de recouvrement fait
+   tourner l'orbite sur trente-six poses et laisse la camera sur la derniere ;
+   le test de focus, lance apres lui, mesurait une couronne vue de biais,
+   ecart minimal 5 px au lieu de 113. Le focus passe desormais en premier,
+   tant que la camera est encore la ou le clic l'a mise.
+3. **Le test de recouvrement comptait les noms FLOUS.** Ils sont exemptes de
+   l'arbitrage de collision par decision (ADR-069), etant illisibles par
+   construction. Il les comptait pourtant en faute.
+
+Et un quatrieme, dans le controle que je venais d'ecrire : il comptait « Disco
+sur Disco » comme un nom pose sur une sphere, alors que le nom du genre ouvert
+est pose SUR sa sphere par construction, le shader assombrissant meme la zone
+du texte pour qu'il tienne.
+
+**Resultat, quatre largeurs, aucun echec.** Ecart minimal entre cibles 64, 88,
+105 et 151 px selon la largeur, tous au-dessus des 44 px vises ; flou a 1,00
+hors zone partout ; zero sphere nette hors zone ; zero nom pose sur la sphere
+d'un autre ; zero cible cliquable hors zone.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle

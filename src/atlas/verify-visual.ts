@@ -24,7 +24,6 @@
 import {
   InstancedBufferAttribute,
   BufferAttribute,
-  Float32BufferAttribute,
   InstancedBufferGeometry,
   Mesh,
   PerspectiveCamera,
@@ -36,7 +35,7 @@ import {
   WebGLRenderer
 } from 'three';
 
-import { linkFrag, linkVert, sphereFrag, sphereVert } from './shaders.ts';
+import { sphereFrag, sphereVert } from './shaders.ts';
 
 interface AtlasHooks {
   sphereRadius: (i: number) => number;
@@ -175,36 +174,17 @@ const testMatite = (): MatiteResult => {
   };
 };
 
-// -------------------------------- 2a. respiration, 2b. survol (moteur vivant)
+/* LA RESPIRATION ET LE FLUX NE SONT PLUS TESTES : ILS N'EXISTENT PLUS.
 
-interface RespirationResult {
-  amplitudePct: number;
-  attenduPct: number;
-  verdict: 'ok' | 'echec' | 'coupe par prefers-reduced-motion';
-}
+   ADR-065 les a supprimes, mesures a l'appui : ils etaient la cause du
+   scintillement. Les tests, eux, sont restes en place et attendaient une
+   amplitude de 2 % et une bande lumineuse qui se deplace. Ils rendaient donc
+   « echec » sur deux comportements qu'on a retires expres.
 
-const testRespiration = async (): Promise<RespirationResult> => {
-  const a = atlas();
-  if (a.reducedMotion) return { amplitudePct: 0, attenduPct: 2, verdict: 'coupe par prefers-reduced-motion' };
-  a.setHovered(-1);
-  const i = 0;
-  const base = a.sphereBase(i) || 1;
-  /* La respiration a une période d'environ 14 s : une fenêtre courte ne
-     voit qu'une fraction de l'amplitude (première version du test : 2 s,
-     0,13 % mesuré, faux échec). 60 échantillons espacés de 140 ms couvrent
-     une demi-période. */
-  let min = Infinity;
-  let max = -Infinity;
-  for (let f = 0; f < 60; f += 1) {
-    await wait(140);
-    const r = a.sphereRadius(i);
-    min = Math.min(min, r);
-    max = Math.max(max, r);
-  }
-  const amplitude = ((max - min) / 2 / base) * 100;
-  const ok = amplitude >= 0.5 && Math.abs(amplitude - 2) <= 1.5;
-  return { amplitudePct: Math.round(amplitude * 100) / 100, attenduPct: 2, verdict: ok ? 'ok' : 'echec' };
-};
+   Un controle qui accuse une decision prise n'est pas un controle, c'est du
+   bruit qui apprend a ignorer les alertes. Ils partent.
+
+   ------------------------------------------------- 2. survol (moteur vivant) */
 
 interface SurvolResult {
   gainPct: number;
@@ -236,122 +216,6 @@ const testSurvol = async (): Promise<SurvolResult> => {
   const gain = ((after - before) / before) * 100;
   const ok = gain > 3 && Math.abs(gain - 8) <= 4;
   return { gainPct: Math.round(gain * 100) / 100, attenduPct: 8, verdict: ok ? 'ok' : 'echec' };
-};
-
-// ------------------------------------------ 2c. flux le long d'un lien
-
-interface FluxResult {
-  positionMax1: number;
-  positionMax2: number;
-  deplacementPx: number;
-  verdict: 'ok' | 'echec';
-}
-
-const testFlux = (): FluxResult => {
-  const W = 512;
-  const H = 64;
-  const canvas = document.createElement('canvas');
-  canvas.width = W;
-  canvas.height = H;
-  const renderer = new WebGLRenderer({ canvas, preserveDrawingBuffer: true, alpha: false });
-  renderer.setSize(W, H, false);
-  const scene = new Scene();
-  const camera = new PerspectiveCamera(40, W / H, 0.5, 100);
-  camera.position.set(0, 0, 10);
-  camera.lookAt(0, 0, 0);
-  camera.updateMatrixWorld();
-
-  const SEG = 32;
-  const count = (SEG + 1) * 2;
-  const pos = new Float32Array(count * 3);
-  const t = new Float32Array(count);
-  const side = new Float32Array(count);
-  const index: number[] = [];
-  for (let i = 0; i <= SEG; i += 1) {
-    const tt = i / SEG;
-    t[i * 2] = tt;
-    t[i * 2 + 1] = tt;
-    side[i * 2] = -1;
-    side[i * 2 + 1] = 1;
-    if (i < SEG) {
-      const a = i * 2;
-      index.push(a, a + 1, a + 2, a + 1, a + 3, a + 2);
-    }
-  }
-  const geo = new InstancedBufferGeometry();
-  geo.setAttribute('position', new Float32BufferAttribute(pos, 3));
-  geo.setAttribute('aT', new Float32BufferAttribute(t, 1));
-  geo.setAttribute('aSide', new Float32BufferAttribute(side, 1));
-  geo.setIndex(index);
-  geo.instanceCount = 1;
-  geo.setAttribute('aP0', new InstancedBufferAttribute(new Float32Array([-6, 0, 0]), 3));
-  geo.setAttribute('aP1', new InstancedBufferAttribute(new Float32Array([6, 0, 0]), 3));
-  geo.setAttribute('aCtrl0', new InstancedBufferAttribute(new Float32Array([-2, 0, 0]), 3));
-  geo.setAttribute('aCtrl1', new InstancedBufferAttribute(new Float32Array([2, 0, 0]), 3));
-  geo.setAttribute('aColor0', new InstancedBufferAttribute(new Float32Array([0.8, 0.8, 0.9]), 3));
-  geo.setAttribute('aColor1', new InstancedBufferAttribute(new Float32Array([0.8, 0.8, 0.9]), 3));
-  geo.setAttribute('aMeta', new InstancedBufferAttribute(new Float32Array([1, 1, 1]), 3));
-
-  const uniforms = {
-    uCameraPos: { value: camera.position },
-    uPixelScale: { value: (2 * Math.tan((40 * Math.PI) / 360)) / H },
-    uMinPixels: { value: 2 },
-    uWidthWorld: { value: 0.4 },
-    uFog: { value: new Vector2(1e5, 2e5) },
-    uFogColor: { value: new Vector3(0, 0, 0) },
-    uFlowTime: { value: 0.15 }
-  };
-  const mesh = new Mesh(
-    geo,
-    new ShaderMaterial({ vertexShader: linkVert, fragmentShader: linkFrag, uniforms, transparent: true })
-  );
-  mesh.frustumCulled = false;
-  scene.add(mesh);
-
-  /* La tête de propagation (fixe et brillante) masquait la bande du flux :
-     le max global ne bougeait pas et le test concluait à tort que l'effet
-     n'existe pas. On lit un profil de RÉFÉRENCE sans flux, et on cherche le
-     max de la DIFFÉRENCE : c'est la bande, rien qu'elle. */
-  const readRow = (): number[] => {
-    renderer.render(scene, camera);
-    const gl = renderer.getContext();
-    const px = new Uint8Array(W * 4);
-    gl.readPixels(0, Math.floor(H / 2), W, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
-    const row: number[] = [];
-    for (let x = 0; x < W; x += 1) {
-      const o = x * 4;
-      row.push((px[o] ?? 0) + (px[o + 1] ?? 0) + (px[o + 2] ?? 0));
-    }
-    return row;
-  };
-  const argmaxDiff = (row: number[], ref: number[]): number => {
-    let bestX = 0;
-    let best = -1;
-    for (let x = 0; x < W; x += 1) {
-      const d = (row[x] ?? 0) - (ref[x] ?? 0);
-      if (d > best) {
-        best = d;
-        bestX = x;
-      }
-    }
-    return bestX;
-  };
-
-  uniforms.uFlowTime.value = 0;
-  const ref = readRow();
-  uniforms.uFlowTime.value = 0.15;
-  const x1 = argmaxDiff(readRow(), ref);
-  uniforms.uFlowTime.value = 0.45;
-  const x2 = argmaxDiff(readRow(), ref);
-  renderer.dispose();
-
-  const deplacement = x2 - x1;
-  return {
-    positionMax1: x1,
-    positionMax2: x2,
-    deplacementPx: deplacement,
-    verdict: deplacement > 20 ? 'ok' : 'echec'
-  };
 };
 
 // --------------------------------------------------------- 3. intro
@@ -388,7 +252,13 @@ interface RecouvrementResult {
 const measureOverlaps = (): { paires: number; pirePx: number } => {
   const els = [...document.querySelectorAll('.atlas-label')].filter((e) => {
     const r = e.getBoundingClientRect();
-    return r.left > -500 && Number(getComputedStyle(e).opacity) > 0.05;
+    if (r.left <= -500 || Number(getComputedStyle(e).opacity) <= 0.05) return false;
+    /* LES NOMS FLOUS NE COMPTENT PAS. La regle « deux noms ne se recouvrent
+       jamais » protege la LISIBILITE. Un nom d'arriere-plan est illisible par
+       construction, c'est le but ; l'exempter de l'arbitrage etait une
+       decision (ADR-069), et ce controle le comptait pourtant en faute. Un
+       controle qui accuse une decision prise n'est pas un controle. */
+    return (e as HTMLElement).dataset['flou'] !== '1';
   });
   const boxes = els.map((e) => e.getBoundingClientRect());
   let paires = 0;
@@ -513,28 +383,146 @@ const testBoites = async (): Promise<BoitesResult> => {
   };
 };
 
+// ----------------------------------------------- 6. mode focus (ADR-072)
+
+/* CE QUE CE TEST VERIFIE, et pourquoi il ne peut pas s'armer tout seul.
+
+   Le mode focus doit etre DEJA actif quand ce test tourne : c'est le pilote
+   qui l'arme, par un VRAI clic sur la carte. Regle 3 des quatre regles de
+   verification, en tete de HANDOFF.md : piloter l'application par ses
+   fonctions internes ne prouve rien sur ce que vit quelqu'un, et c'est
+   exactement ainsi que le defaut « le flou ne s'applique pas depuis la vue
+   d'ensemble » a traverse toutes les verifications precedentes.
+
+   Sans focus arme, le test rend « non arme » et non « ok » : un test qui
+   passe parce qu'il n'a rien trouve a tester est un mensonge. */
+
+interface FocusResult {
+  zone: number;
+  ecartMinPx: number | null;
+  flouMin: number;
+  netsHorsZone: number;
+  nomsSurSphereNette: number;
+  detailNoms: string[];
+  ciblesHorsZone: number;
+  verdict: 'ok' | 'echec' | 'non arme, aucun genre ouvert';
+}
+
+const testFocus = (): FocusResult => {
+  const a = atlas() as unknown as {
+    zoneFocus?: () => {
+      actif: boolean;
+      cibles: number;
+      ecartMinPx: number | null;
+      membres: { label: string; x: number; y: number; rayonPx: number }[];
+      flouHorsZone: { min: number; max: number };
+      horsZonePasEncoreFloues: number;
+    };
+    cibleSous?: (x: number, y: number) => { sphere: string | null; dansLaZone: boolean | null };
+    info?: () => { size: [number, number] };
+  };
+  const vide: FocusResult = {
+    zone: 0,
+    ecartMinPx: null,
+    flouMin: 0,
+    netsHorsZone: 0,
+    nomsSurSphereNette: 0,
+    detailNoms: [],
+    ciblesHorsZone: 0,
+    verdict: 'non arme, aucun genre ouvert'
+  };
+  if (!a.zoneFocus || !a.cibleSous || !a.info) return vide;
+  const z = a.zoneFocus();
+  if (!z.actif) return vide;
+
+  /* Aucun nom pose sur la sphere D'UN AUTRE : c'est le defaut signale, des
+     noms ecrits en travers de la sphere ouverte.
+
+     SA PROPRE SPHERE NE COMPTE PAS, et c'est une correction de ce controle,
+     pas du produit : le nom du genre ouvert est pose SUR sa sphere par
+     construction, le shader assombrit meme la zone du texte pour qu'il tienne
+     (voir sphereFrag, uniforme labelled). Le premier jet comptait « Disco sur
+     Disco » comme une faute aux quatre largeurs. Un controle qui accuse un
+     comportement voulu apprend a ignorer les alertes. */
+  let nomsSurSphereNette = 0;
+  const detailNoms: string[] = [];
+  for (const el of document.querySelectorAll('.atlas-label')) {
+    const r = el.getBoundingClientRect();
+    if (r.left <= -500 || Number(getComputedStyle(el).opacity) <= 0.05) continue;
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
+    for (const m of z.membres) {
+      if (m.label === (el.textContent ?? '')) continue; // son propre nom
+      if (Math.hypot(cx - m.x, cy - m.y) < m.rayonPx) {
+        nomsSurSphereNette += 1;
+        detailNoms.push(
+          `${el.textContent ?? ''} [${(el as HTMLElement).dataset['flou'] === '1' ? 'flou' : 'net'}] sur ${m.label}`
+        );
+        break;
+      }
+    }
+  }
+
+  /* Aucune cible cliquable hors zone : on sonde la carte en grille plutot
+     que de faire confiance a la lecture du code. */
+  const [w, h] = a.info().size;
+  let ciblesHorsZone = 0;
+  for (let x = 10; x < w; x += 16) {
+    for (let y = 10; y < h; y += 16) {
+      const c = a.cibleSous(x, y);
+      if (c.sphere !== null && c.dansLaZone !== true) ciblesHorsZone += 1;
+    }
+  }
+
+  const ok =
+    z.cibles > 0 &&
+    z.flouHorsZone.min > 0.9 &&
+    z.horsZonePasEncoreFloues === 0 &&
+    nomsSurSphereNette === 0 &&
+    ciblesHorsZone === 0 &&
+    (z.ecartMinPx === null || z.ecartMinPx >= 44);
+
+  return {
+    zone: z.cibles,
+    ecartMinPx: z.ecartMinPx,
+    flouMin: z.flouHorsZone.min,
+    netsHorsZone: z.horsZonePasEncoreFloues,
+    nomsSurSphereNette,
+    detailNoms,
+    ciblesHorsZone,
+    verdict: ok ? 'ok' : 'echec'
+  };
+};
+
 // ------------------------------------------------------------- exécution
 
 export interface VisualReport {
   matite: MatiteResult;
-  respiration: RespirationResult;
   survol: SurvolResult;
-  flux: FluxResult;
   intro: IntroResult;
   recouvrement: RecouvrementResult;
   boites: BoitesResult;
+  focus: FocusResult;
 }
 
 export const runVisualVerification = async (): Promise<VisualReport> => {
+  /* L'ORDRE COMPTE, et il a deja menti une fois.
+
+     testRecouvrement fait tourner l'orbite sur trente-six poses et laisse la
+     camera sur la derniere. Lance apres lui, le test de focus mesurait donc
+     une couronne vue de biais, ecart minimal 5 px au lieu de 113, et rendait
+     « echec » sur un cadrage parfaitement correct.
+
+     Le focus passe donc EN PREMIER, tant que la camera est encore la ou le
+     clic l'a mise. Les tests qui deplacent la camera viennent apres. */
+  const focus = testFocus();
   const matite = testMatite();
-  const flux = testFlux();
-  const respiration = await testRespiration();
+  const boites = await testBoites();
   const survol = await testSurvol();
   const recouvrement = await testRecouvrement();
-  const boites = await testBoites();
   // L'intro en dernier : elle remet les rayons en scène.
   const intro = await testIntro();
-  return { matite, respiration, survol, flux, intro, recouvrement, boites };
+  return { matite, survol, intro, recouvrement, boites, focus };
 };
 
 /** Auto-exécution quand l'URL porte ?verify : JSON à l'écran et en console. */

@@ -20,6 +20,45 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Deux commits : il faut le precedent pour savoir ce qui a change.
+          fetch-depth: 2
+
+      # QUELS FICHIERS ONT CHANGE.
+      #
+      # Le controle du plafond anti-parution interroge YouTube, et YouTube
+      # repond ou ne repond pas selon le moment et l'adresse appelante. Il a
+      # fait echouer une publication qui ne touchait meme pas au corpus. Un
+      # controle qui bloque des publications sans rapport avec lui detruit la
+      # confiance dans toute la chaine : on finit par le contourner, et le
+      # jour ou il a raison personne ne l'ecoute.
+      #
+      # Il ne s'execute donc que si les DONNEES ou le matcher ont bouge,
+      # c'est-a-dire quand ce qu'il protege est reellement en jeu. Sur un
+      # declenchement manuel, ou si la comparaison est impossible, il
+      # s'execute : en cas de doute on controle.
+      - name: Reperer ce qui a change
+        id: change
+        run: |
+          if [ "${{ github.event_name }}" != "push" ]; then
+            echo "donnees=true" >> "$GITHUB_OUTPUT"
+            echo "Declenchement manuel : controle des donnees execute."
+            exit 0
+          fi
+          AVANT="${{ github.event.before }}"
+          if [ -z "$AVANT" ] || [ "$AVANT" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "$AVANT^{commit}" 2>/dev/null; then
+            echo "donnees=true" >> "$GITHUB_OUTPUT"
+            echo "Etat precedent introuvable : controle des donnees execute."
+            exit 0
+          fi
+          FICHIERS=$(git diff --name-only "$AVANT" "${{ github.sha }}")
+          echo "$FICHIERS"
+          if echo "$FICHIERS" | grep -qE '^(src/data/|scripts/lib/match\.ts|scripts/check-plafond\.ts|scripts/import-tracks\.ts|scripts/fetch-)'; then
+            echo "donnees=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "donnees=false" >> "$GITHUB_OUTPUT"
+            echo "Aucune donnee touchee : controle du plafond ignore."
+          fi
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -58,6 +97,7 @@ jobs:
       # d'album sont entrées ainsi. Ce contrôle vérifie la règle ET que la
       # durée arrive encore. Voir scripts/check-plafond.ts.
       - name: Contrôler le plafond anti-parution
+        if: steps.change.outputs.donnees == 'true'
         run: npm run check:plafond
 
       # Le matcher compare des mots : « Karlheinz Stockhausen explains Kontakte »

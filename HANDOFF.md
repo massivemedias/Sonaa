@@ -13,6 +13,56 @@ portent la commande qui les rend.
 
 ---
 
+## 0. Les quatre règles de vérification
+
+**Elles valent plus que les ADR.** Chacune a été payée par plusieurs tours
+perdus, et chacune produit le même genre de panne : une mesure juste, des
+chiffres cohérents, et un défaut bien réel que personne ne voit venir. Les
+lire avant de mesurer quoi que ce soit.
+
+### 1. Mesurer avant de corriger
+
+Le scintillement a reçu six corrections fondées sur des hypothèses plausibles.
+Deux l'ont aggravé. La septième a commencé par construire l'instrument, et
+elle a trouvé en un tour. Une hypothèse sur une cause de rendu ne vaut rien
+tant qu'un compte ne l'a pas confirmée. Voir ADR-065.
+
+### 2. Mesurer la BONNE situation
+
+La septième mesure du scintillement était juste et portait sur la vue
+d'ensemble, alors que le défaut vivait dans l'état déployé. Un instrument
+correct braqué au mauvais endroit rend zéro avec la même assurance qu'un
+instrument cassé. Il a fallu l'information manquante, « ça apparaît quand je
+clique sur un genre », pour conclure.
+
+### 3. Vérifier par de VRAIS événements de pointeur, sur le chemin le plus court
+
+**La plus coûteuse des quatre.** Le mode focus ne s'armait pas quand on ouvre
+un genre d'un seul clic depuis la vue d'ensemble. Mes vérifications
+appelaient les fonctions internes du moteur, et passaient toujours par la
+famille avant d'ouvrir un genre : deux raccourcis qui, ensemble, contournaient
+exactement le code défaillant. J'ai produit des chiffres justes sur une
+situation que personne ne rencontre, pendant que le défaut était visible du
+premier coup d'oeil sur l'écran de Mika.
+
+Donc, sans exception : **on simule de vrais événements de pointeur sur le
+canvas, et on emprunte le chemin le plus court qu'un visiteur emprunterait.**
+Piloter l'application par ses fonctions internes ne prouve rien sur ce que
+vit quelqu'un. `scripts` de capture : voir la mécanique CDP d'ADR-066, un
+clic se dispatche par `Input.dispatchMouseEvent`.
+
+### 4. Une page en arrière-plan ne rend AUCUNE image
+
+`requestAnimationFrame` y est suspendu, pas ralenti. Toutes les mesures
+automatisées lisaient un moteur à l'arrêt et rendaient des chiffres
+parfaitement cohérents entre eux. Trois fois j'ai conclu à une régression de
+rendu qui n'existait pas. Une capture d'écran force une image : **il en faut
+donc deux de suite**, la première montrant l'état précédent. Ce qui est réglé
+par le TEMPS arrive à l'heure, ce qui est lissé PAR IMAGE n'avance pas : les
+deux se désynchronisent et l'écart ressemble à un bug.
+
+---
+
 ## Regle permanente : le second bloc de rapport
 
 **A la fin de CHAQUE mission**, apres le rapport habituel, ajouter un SECOND
@@ -130,7 +180,7 @@ clic dans le flou sort du mode.
 rappelle, elle montre un genre tiré au sort avant le premier clic, et aucune
 lecture ne démarre jamais seule.
 
-**72 ADR** dans `ARCHITECTURE.md`. Aucun point ouvert déclaré à la fin du
+**73 ADR** dans `ARCHITECTURE.md`. Aucun point ouvert déclaré à la fin du
 fichier.
 
 ---
@@ -323,10 +373,9 @@ local.
 exemple dans une commande de contrôle. C'est arrivé une fois, un mot de passe
 s'est retrouvé dans `ARCHITECTURE.md` et n'a été rattrapé qu'avant le push.
 
-**Quand on ne peut pas voir, on mesure** (ADR-048), **et on mesure la bonne
-situation** (ADR-065). Six corrections du scintillement ont été faites sur des
-hypothèses plausibles, deux l'ont aggravé. La septième a construit
-l'instrument, et elle l'a d'abord braqué sur la mauvaise scène.
+**Les quatre règles de vérification sont en tête de ce document, section 0.**
+Elles ne sont pas un rappel de bonnes intentions : chacune vient d'un défaut
+livré. À relire avant de mesurer quoi que ce soit.
 
 ---
 
@@ -412,10 +461,11 @@ Un test « temps écoulé inférieur à la durée » ne suffit pas, il faut un d
 et une fin forcée, sinon la caméra n'atteint jamais sa destination sur une
 machine lente.
 
-**`verify:visual` n'est pas un outil de capture.** C'est un `echo` qui donne
-trois instructions : lancer le serveur, ouvrir `http://localhost:5173/?verify`,
-lire le JSON. Ses mesures tournent dans une page ouverte à la main. Pour une
-image, c'est `npm run capture:og` (ADR-066).
+**`verify:visual` est un pilote, il tourne seul.** `npm run verify:visual`
+lance Chrome en headless, passe aux quatre largeurs (390, 700, 1024, 1440 px)
+et arme le mode focus **par un vrai clic** sur le canvas à chaque fois. Il ne
+tourne pas en CI, la décision d'ADR-048 tient. Pour une image, c'est
+`npm run capture:og` (ADR-066).
 
 ---
 

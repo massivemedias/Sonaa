@@ -89,7 +89,23 @@ const SONDES: readonly { requete: string; minSec: number; maxSec: number }[] = [
   { requete: 'Kraftwerk Autobahn full', minSec: 120, maxSec: 3000 }
 ];
 
-if (!HORS_LIGNE) {
+/* UNE SECONDE TENTATIVE AVANT D'ACCUSER.
+
+   Ce contrôle a fait échouer une publication qui ne touchait pas au corpus :
+   les trois sondes n'avaient rien rendu sur le runner, et le même contrôle
+   rejoué dans la minute rendait trois durées sur trois. La cause n'était pas
+   l'extraction mais le transport, qui répond ou ne répond pas selon le moment
+   et l'adresse appelante.
+
+   Un contrôle qui bloque des publications sans rapport avec lui détruit la
+   confiance dans toute la chaîne : on finit par le contourner, et le jour où
+   il a raison personne ne l'écoute. On lui laisse donc une seconde chance,
+   après une pause, avant de conclure. Ce qu'il protège reste intact : il
+   n'échoue toujours que si AUCUNE sonde ne rend de durée, deux fois de
+   suite. */
+const dormir = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms));
+
+const sonder = async (): Promise<{ lues: number; detail: string[] }> => {
   let lues = 0;
   const detail: string[] = [];
   for (const s of SONDES) {
@@ -103,10 +119,22 @@ if (!HORS_LIGNE) {
       detail.push(`${s.requete.slice(0, 28)} : AUCUNE DURÉE`);
     }
   }
+  return { lues, detail };
+};
+
+if (!HORS_LIGNE) {
+  let { lues, detail } = await sonder();
+
+  if (lues === 0) {
+    console.log('Aucune durée au premier passage. Seconde tentative dans 20 s.');
+    await dormir(20000);
+    ({ lues, detail } = await sonder());
+  }
 
   if (lues === 0) {
     erreurs.push(
-      "LA DURÉE N'EST PLUS LUE. Aucune des trois sondes n'a rendu de durée : le " +
+      "LA DURÉE N'EST PLUS LUE. Aucune des trois sondes n'a rendu de durée, " +
+        'DEUX FOIS DE SUITE à vingt secondes d\'intervalle : le ' +
         'plafond de quinze minutes est donc inopérant, et des intégrales ' +
         "d'album vont entrer dans le corpus sans que rien ne le signale. " +
         'Réparer scrape() dans scripts/lib/match.ts avant tout import.\n    ' +
