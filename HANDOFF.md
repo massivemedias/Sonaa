@@ -116,8 +116,9 @@ se refait par `npm run capture:og`.
 **Mode focus** (ADR-067, révisé par ADR-069 et ADR-070). Entrer dans un genre
 ferme l'écran : le genre ouvert, ses dérivés directs et son parent direct
 restent nets et cliquables, tout le reste est **réellement défocalisé** par
-une passe de flou séparable, textes DOM compris, et **ne répond plus au
-clic**. Les dérivés sont redisposés en couronne dans le plan de la caméra à
+cinq passes de gaussienne séparable au quart de résolution, textes DOM
+compris (16 px de flou CSS), et **ne répond plus au clic**. Mesuré : 12 fois
+moins d'inversions de gradient sur une ligne d'écran, à géométrie identique. Les dérivés sont redisposés en couronne dans le plan de la caméra à
 chaque descente. **Un genre sans dérivés ne déplace pas la caméra** : on reste
 dans le contexte de son parent. Échap remonte d'un cran, un second Échap ou un
 clic dans le flou sort du mode.
@@ -126,7 +127,7 @@ clic dans le flou sort du mode.
 rappelle, elle montre un genre tiré au sort avant le premier clic, et aucune
 lecture ne démarre jamais seule.
 
-**70 ADR** dans `ARCHITECTURE.md`. Aucun point ouvert déclaré à la fin du
+**71 ADR** dans `ARCHITECTURE.md`. Aucun point ouvert déclaré à la fin du
 fichier.
 
 ---

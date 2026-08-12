@@ -2786,6 +2786,83 @@ feuille ; distance 177, azimut 0,55, elevation 0,20 apres. Identiques.
 
 ---
 
+## ADR-071 : Le flou monte au niveau trois, et le cadrage se calcule sur ce qu'on voit
+
+**Statut** : accepte, 12 aout 2026. **Revise ADR-069 et la couronne d'ADR-067.**
+
+**Le verdict, sur une echelle de trois.** « Net, legerement flou, completement
+illisible : tu es au niveau 2. Je veux le niveau 3, celui ou on distingue des
+formes et plus aucune lettre. »
+
+**Le flou se gagne en PASSES, pas en ecartement.** Ecarter les echantillons
+d'un noyau a treize prises finit par les espacer de plus d'un pixel de la
+cible : la gaussienne cesse alors de lisser et recopie des fantomes decales.
+On enchaine donc CINQ paires horizontale-verticale a 2,2 pixels d'ecart, sur
+une cible au QUART de resolution. Convoluer n gaussiennes d'ecart-type s en
+donne une d'ecart-type s multiplie par racine de n : environ trente-trois
+pixels d'ecran, sans aucun artefact. Le quart de resolution double encore le
+rayon apparent et divise le cout par quatre.
+
+**Un GAIN compense la conservation d'energie.** Une gaussienne etale la
+lumiere d'une petite sphere sur des milliers de pixels : a surface egale, la
+forme devient presque noire, et l'on ne distingue plus rien du tout, ce qui
+n'est pas le but. Le gain de 2,2 porte couleur ET couverture, donc il
+eclaircit sans delaver la teinte.
+
+**Les labels passent de 3,5 a 16 pixels de flou.** A 3,5 les mots se lisaient
+encore, ce qui etait exactement le defaut. Douze laissaient cinq inversions de
+gradient sur une ligne d'ecran, donc encore des bords.
+
+**LA MESURE, et l'instrument qu'elle a demande.** `lignePixels` rend la scene
+directement, sans les passes de flou : il mesure ce que le moteur dessine, pas
+ce que l'oeil voit. Un crochet `ligneEcran` passe desormais par tout le
+pipeline et compte les INVERSIONS DE SENS du gradient sur une ligne : une
+forme nette en produit a chaque bord, une forme floue presque plus.
+
+La comparaison se fait a GEOMETRIE IDENTIQUE, flou eteint puis allume, meme
+camera et memes objets. Une premiere version comparait l'etat sans focus a
+l'etat avec focus : deux scenes differentes, donc rien de concluant, et une
+mesure prise trop tot a meme compare un ecran vide.
+
+**Resultat** : 49 inversions nettes contre 4 floutees sur la meme ligne, soit
+un rapport de 12,25. La cible etait 5.
+
+**LE CADRAGE, qui etait le vrai defaut.** Le groupe occupait un cinquieme de
+l'ecran au lieu de le remplir. Deux causes, toutes deux trouvees a la mesure.
+
+1. **Le rayon de cadrage comptait l'invisible.** Les generations profondes
+   recoivent aussi un decalage, pour ne pas revenir a leur ancienne place si
+   elles se deploient. Elles sont repliees, invisibles, hors zone, et elles
+   etaient pourtant comptees : quinze decalages poses pour six derives
+   visibles, rayon 45 unites au lieu de 17, camera trois fois trop loin. Le
+   cadrage se calcule desormais sur CE QU'ON VOIT, jamais sur ce qui est
+   prevu.
+2. **Le rayon du parent ne comptait pas.** Le cercle se calculait sur le genre
+   ouvert et ses derives, alors que le parent est pose SUR ce cercle et que le
+   rayon d'une sphere grandit vers la racine. Mesure sur Dub Techno : son
+   parent, fondateur de la famille, occupait tout le cadre et l'ecart tombait
+   a moins 42 pixels, c'est-a-dire recouvrement franc.
+
+**La regle de cadrage est ecrite comme une PROPORTION.** L'ancien chemin
+empilait trois facteurs sans que personne ne sache ce qu'ils donnaient
+ensemble. Le groupe occupe desormais 60 % de la dimension qui contraint, et
+l'etendue est mesuree separement en largeur et en hauteur dans le plan de la
+camera : un groupe en ligne horizontale est cadre sur la largeur, une couronne
+ronde sur la plus petite dimension. Aucun cas particulier a ecrire.
+
+**Les angles dependent du nombre de derives**, parce qu'une couronne de un ou
+deux points n'est pas une couronne mais une ligne, et qu'en diagonale avec le
+parent dans un coin elle donne exactement ce qui a ete signale. Zero derive :
+parent a gauche. Un : parent a gauche, derive a droite. Deux : les deux
+derives de part et d'autre, parent au-dessus. Trois et plus : couronne sur
+360 degres, parent glisse dans l'intervalle libre.
+
+**Mesure finale**, fenetre 1280 x 720 : Detroit Techno et ses six derives,
+ecart minimal 113 px entre surfaces, groupe occupant 62 % de la hauteur ; Dub
+Techno, un seul derive, ecart 117 px, groupe occupant 67 % de la largeur.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle

@@ -116,9 +116,17 @@ export const compositeFrag = `
 precision highp float;
 varying vec2 vUv;
 uniform sampler2D uTexture;
+uniform float uGain;
 void main() {
-  /* Déjà prémultipliée : le mélange se fait en ONE / ONE_MINUS_SRC_ALPHA. */
-  gl_FragColor = texture2D(uTexture, vUv);
+  /* Déjà prémultipliée : le mélange se fait en ONE / ONE_MINUS_SRC_ALPHA.
+
+     LE GAIN COMPENSE LA CONSERVATION D'ÉNERGIE. Une gaussienne étale la
+     lumière d'une petite sphère sur des milliers de pixels : à surface
+     égale, la forme devient presque noire, et l'on ne distingue plus rien
+     du tout, ce qui n'est pas le but. On veut distinguer des FORMES et
+     aucune lettre. Le gain porte les deux composantes, couleur et
+     couverture, donc il éclaircit sans délaver la teinte. */
+  gl_FragColor = clamp(texture2D(uTexture, vUv) * uGain, 0.0, 1.0);
 }
 `;
 

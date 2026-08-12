@@ -95,7 +95,13 @@
    de rendu ne peut les atteindre. Un filtre CSS le fait en une ligne, et la
    transition de 400 ms est la même que celle des sphères. */
 .atlas-label[data-flou='1'] {
-  filter: blur(3.5px);
+  /* SEIZE PIXELS, et non trois et demi. À 3,5 px les mots restaient lisibles,
+     ce qui est exactement le défaut : un arrière-plan dont on lit encore les
+     noms n'est pas un arrière-plan, c'est une distraction. Douze pixels
+     laissaient encore cinq inversions de gradient sur une ligne d'écran, donc
+     encore des bords ; à seize il reste des taches claires à la place des
+     mots, ce qui donne la profondeur sans donner à lire. */
+  filter: blur(16px);
   z-index: 1;
 }
 

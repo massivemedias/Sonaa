@@ -225,7 +225,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   );
   blurScene.add(blurMesh);
 
-  const compositeUniforms = { uTexture: { value: rtFlouA.texture } };
+  const compositeUniforms = { uTexture: { value: rtFlouA.texture }, uGain: { value: 2.2 } };
   const compositeScene = new Scene();
   const compositeMesh = new Mesh(
     new PlaneGeometry(2, 2),
@@ -250,7 +250,20 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   /* Rayon courant, en pixels de la cible à demi-résolution. Il suit la même
      rampe de 400 ms que le reste du mode focus : c'est la montée du flou. */
   let rayonFlou = 0;
-  const RAYON_FLOU_MAX = 3.6;
+  /* LE FLOU SE GAGNE EN PASSES, PAS EN ÉCARTEMENT.
+
+     Écarter les échantillons d'un noyau à treize prises finit par les
+     espacer de plus d'un pixel de la cible : la gaussienne cesse alors de
+     lisser et se met à recopier des fantômes décalés. C'est un
+     sous-échantillonnage, et il se voit comme des doubles contours.
+
+     On enchaîne donc PLUSIEURS paires horizontale-verticale à écartement
+     modeste. Convoluer n gaussiennes d'écart-type s en donne une d'écart-type
+     s·racine(n) : cinq paires à 2,2 pixels de la cible au quart de
+     résolution valent environ trente-trois pixels d'écran, sans aucun
+     artefact. */
+  const RAYON_FLOU_MAX = 2.2;
+  const PASSES_FLOU = 5;
   /* Interrupteur de diagnostic, comme pour les autres composantes du rendu :
      window.__atlas.composante('flou', false) rend la passe unique d'avant. */
   let flouActif = true;
@@ -863,6 +876,11 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      couronne rebattrait les cartes à chaque descente et un dérivé qu'on
      venait de repérer à droite se retrouverait à gauche. */
   const focusOffsets = new Map<number, Vector3>();
+  /* Les axes du plan de la caméra au moment où la couronne a été bâtie. Le
+     cadrage mesure l'étendue du groupe DANS CE PLAN : c'est le seul repère
+     où « largeur » et « hauteur » veulent dire quelque chose. */
+  const focusRight = new Vector3(1, 0, 0);
+  const focusUp = new Vector3(0, 1, 0);
 
   const buildFocusRing = (globalIndex: number): void => {
     focusOffsets.clear();
@@ -875,84 +893,104 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
        un vol : la direction de vue d'après le vol est celle d'avant. */
     const camRight = new Vector3().setFromMatrixColumn(camera.matrixWorld, 0).normalize();
     const camUp = new Vector3().setFromMatrixColumn(camera.matrixWorld, 1).normalize();
+    focusRight.copy(camRight);
+    focusUp.copy(camUp);
 
     const rParent = baseRadii[globalIndex] ?? 1;
     let rEnfantMax = 0.5;
     for (const e of enfants) rEnfantMax = Math.max(rEnfantMax, baseRadii[e] ?? 0.5);
 
-    /* LE PARENT EST PLACÉ, LUI AUSSI.
+    /* ================================================================
+       LA GÉOMÉTRIE DU GROUPE, dans l'ordre où elle se décide.
 
-       Il ne l'était pas, et c'est ce que la mesure a trouvé : sur un genre
-       SANS dérivés, la couronne était vide, le parent restait soumis au recul
-       général, et les deux sphères de la zone se retrouvaient au même endroit
-       à l'écran, écart mesuré 0 pixel. Les deux noms se masquaient l'un
-       l'autre par la règle de chevauchement, et l'écran devenait vide.
+       1. UN RAYON UNIQUE R pour tout le monde, parent compris. Le parent
+          était auparavant écarté proportionnellement à SON rayon, et un
+          fondateur de famille est la plus grosse sphère de l'atlas : il
+          partait donc beaucoup plus loin que les dérivés, tirait le cadrage
+          à lui tout seul, et laissait la couronne minuscule au centre d'un
+          écran vide. Un seul rayon rend le groupe compact par construction.
 
-       Il va en haut à gauche, toujours : c'est d'où l'on vient. Une position
-       fixe se retient, une position calculée oblige à le chercher. */
-    const rParentDuFocus = slot.parent >= 0 ? (baseRadii[base + slot.parent] ?? 1) : 0;
-    const distanceParent = (rParent + rParentDuFocus) * 2.9 + rEnfantMax;
-    if (slot.parent >= 0) {
-      const ang = (135 * Math.PI) / 180;
+       2. DES ANGLES QUI DÉPENDENT DU NOMBRE DE DÉRIVÉS. Une couronne de un
+          ou deux points n'est pas une couronne, c'est une ligne, et posée en
+          diagonale avec le parent dans un coin elle donne exactement ce qui
+          a été signalé : le genre ouvert collé en haut à gauche et deux
+          points en diagonale.
+
+          0 dérivé  : le parent à gauche, à l'horizontale.
+          1 dérivé  : parent à gauche, dérivé à droite. Une ligne, mais une
+                      ligne HORIZONTALE et centrée, qui se lit.
+          2 dérivés : les deux dérivés de part et d'autre, le parent au-dessus.
+          3 et plus : couronne répartie sur 360 degrés, le parent glissé dans
+                      l'intervalle libre le plus proche du haut à gauche. */
+    const n = enfants.length;
+
+    /* LE RAYON DU PARENT COMPTE, ET C'EST LUI QUI DÉCIDE LE PLUS SOUVENT.
+
+       Il ne comptait pas : le rayon du cercle se calculait sur le genre
+       ouvert et ses dérivés. Or le parent est posé SUR ce cercle, et le
+       rayon d'une sphère grandit vers la racine de l'arbre. Mesuré sur Dub
+       Techno : son parent Detroit Techno, fondateur de la famille, occupait
+       tout le cadre pendant que le genre ouvert tenait dans quelques pixels
+       à côté, écart de moins 42 pixels, c'est-à-dire recouvrement franc.
+
+       Le voisin le plus gros, dérivé ou parent, fixe donc l'écartement. */
+    const rParentSphere = slot.parent >= 0 ? (baseRadii[base + slot.parent] ?? 1) : 0;
+    const rVoisinMax = Math.max(rEnfantMax, rParentSphere);
+
+    const rayonSansContact = (rParent + rVoisinMax) * 2.35;
+    const rayonEntreVoisins = n > 2 ? (rVoisinMax * 2.6) / (2 * Math.sin(Math.PI / n)) : 0;
+    const R = Math.max(rayonSansContact, rayonEntreVoisins);
+
+    const poser = (index: number, angle: number, rayon: number): void => {
       focusOffsets.set(
-        base + slot.parent,
+        index,
         new Vector3(
-          (camRight.x * Math.cos(ang) + camUp.x * Math.sin(ang)) * distanceParent,
-          (camRight.y * Math.cos(ang) + camUp.y * Math.sin(ang)) * distanceParent,
-          (camRight.z * Math.cos(ang) + camUp.z * Math.sin(ang)) * distanceParent
+          (camRight.x * Math.cos(angle) + camUp.x * Math.sin(angle)) * rayon,
+          (camRight.y * Math.cos(angle) + camUp.y * Math.sin(angle)) * rayon,
+          (camRight.z * Math.cos(angle) + camUp.z * Math.sin(angle)) * rayon
         )
       );
-    }
+    };
 
-    if (enfants.length === 0) return;
+    const parentIndex = slot.parent >= 0 ? base + slot.parent : -1;
 
-    const n = enfants.length;
-    /* Deux contraintes, on prend la plus exigeante : ne pas toucher le
-       parent, et ne pas se toucher entre voisins sur le cercle. */
-    const rayonHorsParent = (rParent + rEnfantMax) * 2.35;
-    const rayonEntreVoisins = n > 1 ? (rEnfantMax * 2.6) / (2 * Math.sin(Math.PI / n)) : 0;
-
-    /* LA TROISIÈME CONTRAINTE, TROUVÉE À LA MESURE.
-
-       Le cadrage recule pour contenir TOUT ce qui est posé, le parent
-       compris. Or le parent est écarté proportionnellement à SON rayon, et
-       un fondateur de famille est la plus grosse sphère de l'atlas : sur Dub
-       Techno, le parent Detroit Techno tirait le cadrage à 49 px de rayon
-       tandis que la couronne, calculée sur les petits rayons des dérivés,
-       restait minuscule. Écart mesuré entre le genre ouvert et son unique
-       dérivé : 27 px, sous la cible de 44.
-
-       La couronne se met donc à l'échelle de ce qui commande le cadrage.
-       C'est ce qui rend la garantie vraie dans tous les cas et pas seulement
-       quand les rayons se ressemblent. */
-    const R = Math.max(rayonHorsParent, rayonEntreVoisins, distanceParent * 0.75);
-
-    /* Angle actuel de chaque enfant dans le plan de la caméra, pour ranger
-       la couronne dans l'ordre où l'oeil les voit déjà. */
+    /* Ordre conservé : les dérivés sont rangés selon l'angle qu'ils
+       occupaient déjà à l'écran, puis répartis régulièrement. Sans cela, la
+       couronne rebattrait les cartes à chaque descente et un dérivé repéré à
+       droite se retrouverait à gauche. */
     const avecAngle = enfants.map((i) => {
-      const s = slotsData[i];
-      const dx = (s?.deployed.x ?? 0) - slot.deployed.x;
-      const dy = (s?.deployed.y ?? 0) - slot.deployed.y;
-      const dz = (s?.deployed.z ?? 0) - slot.deployed.z;
+      const s2 = slotsData[i];
+      const dx = (s2?.deployed.x ?? 0) - slot.deployed.x;
+      const dy = (s2?.deployed.y ?? 0) - slot.deployed.y;
+      const dz = (s2?.deployed.z ?? 0) - slot.deployed.z;
       const u = camRight.x * dx + camRight.y * dy + camRight.z * dz;
       const v = camUp.x * dx + camUp.y * dy + camUp.z * dz;
       return { i, angle: Math.atan2(v, u) };
     });
     avecAngle.sort((a, b) => a.angle - b.angle);
 
-    /* Départ à midi et sens horaire : la couronne se lit comme un cadran.
-       Le décalage d'un demi-pas quand le parent est là écarte le premier
-       enfant du coin où celui-ci vient d'être posé. */
-    const biais = slot.parent >= 0 ? Math.PI / n : 0;
-    avecAngle.forEach((e, k) => {
-      const a = Math.PI / 2 - (k / n) * Math.PI * 2 - biais;
-      const off = new Vector3(
-        camRight.x * Math.cos(a) * R + camUp.x * Math.sin(a) * R,
-        camRight.y * Math.cos(a) * R + camUp.y * Math.sin(a) * R,
-        camRight.z * Math.cos(a) * R + camUp.z * Math.sin(a) * R
-      );
-      focusOffsets.set(e.i, off);
-    });
+    const DROITE = 0;
+    const HAUT = Math.PI / 2;
+    const GAUCHE = Math.PI;
+
+    if (n === 0) {
+      if (parentIndex >= 0) poser(parentIndex, GAUCHE, R);
+    } else if (n === 1) {
+      const e0 = avecAngle[0];
+      if (e0) poser(e0.i, DROITE, R);
+      if (parentIndex >= 0) poser(parentIndex, GAUCHE, R);
+    } else if (n === 2) {
+      const [a, b] = avecAngle;
+      if (a) poser(a.i, GAUCHE, R);
+      if (b) poser(b.i, DROITE, R);
+      if (parentIndex >= 0) poser(parentIndex, HAUT, R);
+    } else {
+      /* Départ à midi, sens horaire : la couronne se lit comme un cadran. Le
+         demi-pas de décalage libère l'intervalle où va le parent. */
+      const biais = parentIndex >= 0 ? Math.PI / n : 0;
+      avecAngle.forEach((e, k) => poser(e.i, HAUT - (k / n) * Math.PI * 2 - biais, R));
+      if (parentIndex >= 0) poser(parentIndex, HAUT + Math.PI / n, R);
+    }
 
     /* Générations plus profondes : elles gardent leur écart relatif à leur
        parent, décalé sur la nouvelle position de celui-ci. Elles ne sont
@@ -984,8 +1022,87 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      disposition, ce qui est arrivé une fois avec les positions déployées. */
   const focusRingRadius = (): number => {
     let r = 0;
-    for (const [i, off] of focusOffsets) r = Math.max(r, off.length() + (baseRadii[i] ?? 1));
+    for (const [i, off] of focusOffsets) {
+      /* SEULEMENT CE QUI EST DANS LA ZONE, donc seulement ce qui est visible.
+
+         Les générations plus profondes reçoivent aussi un décalage, pour ne
+         pas revenir à leur ancienne place si elles se déploient. Elles sont
+         repliées sur leur parent, invisibles, hors zone, et elles étaient
+         pourtant comptées dans le rayon de cadrage.
+
+         Mesuré sur Detroit Techno : quinze décalages posés pour six dérivés
+         visibles, rayon de groupe 45 unités au lieu de 14, donc une caméra
+         trois fois trop loin et une couronne occupant un cinquième de
+         l'écran au lieu des trois cinquièmes voulus. Le cadrage doit se
+         calculer sur CE QU'ON VOIT, jamais sur ce qui est prévu. */
+      if (zone[i] !== 1) continue;
+      r = Math.max(r, off.length() + (baseRadii[i] ?? 1));
+    }
     return r;
+  };
+
+  /* LE CADRAGE DU MODE FOCUS, ÉCRIT COMME UNE PROPORTION ET NON COMME UNE
+     MARGE.
+
+     L'ancien chemin empilait trois facteurs sans que personne ne sache ce
+     qu'ils donnaient ensemble : 1,22 dans le rayon, 2,5 unités ajoutées, et
+     1,12 dans la distance. Résultat mesuré, le groupe occupait environ un
+     cinquième de l'écran au lieu de le remplir.
+
+     La règle est désormais directe : le groupe occupe OCCUPATION de la plus
+     petite dimension de l'espace disponible. Hauteur visible à la distance
+     d : 2·d·tan(fov/2). Largeur visible : la même fois le rapport de forme.
+     La plus petite des deux est donc 2·d·tan·min(1, aspect), et l'on veut
+     que le diamètre 2R en occupe la fraction voulue. D'où la distance.
+
+     Le canvas est déjà rétréci par la colonne (règle CSS sur
+     data-player-open), donc « l'espace disponible » est exactement ce que
+     mesure la caméra : rien à déduire ici. */
+  const OCCUPATION = 0.6;
+
+  /* L'ÉTENDUE DU GROUPE, séparément en largeur et en hauteur.
+
+     Un rayon unique suppose un groupe rond. Avec un seul dérivé, le groupe
+     est une LIGNE HORIZONTALE : cadré sur son rayon, il occupait la largeur
+     voulue mais laissait toute la hauteur vide, donc paraissait deux fois
+     trop petit. On mesure donc les deux axes du plan de la caméra et on
+     cadre sur celui qui contraint. Aucun cas particulier à écrire : la
+     couronne ronde, la ligne et le T du cas à deux dérivés passent tous par
+     la même formule. */
+  const focusGroupExtent = (): { rx: number; ry: number } => {
+    let rx = 0;
+    let ry = 0;
+    for (const [i, off] of focusOffsets) {
+      if (zone[i] !== 1) continue;
+      const r = baseRadii[i] ?? 1;
+      rx = Math.max(rx, Math.abs(off.dot(focusRight)) + r);
+      ry = Math.max(ry, Math.abs(off.dot(focusUp)) + r);
+    }
+    return { rx, ry };
+  };
+
+  const focusFrameDistance = (rx: number, ry: number): number => {
+    const tan = Math.tan((FOV * Math.PI) / 360);
+    const aspect = Math.max(0.2, camera.aspect);
+    const parLargeur = rx / Math.max(0.001, OCCUPATION * tan * aspect);
+    const parHauteur = ry / Math.max(0.001, OCCUPATION * tan);
+    return clamp(Math.max(parLargeur, parHauteur), MIN_DISTANCE, MAX_DISTANCE);
+  };
+
+  /* La distance visée pour le groupe actuellement focalisé. Un seul endroit
+     la calcule : le vol d'entrée, la remontée, le recadrage et le suivi
+     continu l'appellent tous, et ne peuvent donc pas se contredire. */
+  const distanceDuFocus = (index: number): number => {
+    if (index === focusIndex) {
+      const { rx, ry } = focusGroupExtent();
+      /* Le rayon de la sphère ouverte elle-même est un plancher : sur un
+         genre sans dérivé ni parent, le groupe se réduit à elle. */
+      const plancher = (baseRadii[index] ?? 1) * 2.2;
+      if (rx > 0 || ry > 0) {
+        return focusFrameDistance(Math.max(rx, plancher), Math.max(ry, plancher));
+      }
+    }
+    return frameDistance(genreFrameRadius(index) + 2.5);
   };
 
   const setDeploy = (familyIndex: number, open: boolean, now: number): void => {
@@ -1064,8 +1181,12 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
        aurait donné une image deux fois trop petite sur un écran à densité
        double, donc un flou deux fois trop fort sans que rien ne le dise. */
     const dpr = renderer.getPixelRatio();
-    const bw = Math.max(2, Math.floor((width * dpr) / 2));
-    const bh = Math.max(2, Math.floor((height * dpr) / 2));
+    /* QUART DE RÉSOLUTION, et non plus la moitié. Le rayon apparent double
+       encore une fois à l'agrandissement, et le filtre coûte quatre fois
+       moins cher. Un flou n'a aucun détail à préserver : c'est le seul effet
+       dont la basse résolution est un gain sur les deux tableaux. */
+    const bw = Math.max(2, Math.floor((width * dpr) / 4));
+    const bh = Math.max(2, Math.floor((height * dpr) / 4));
     if (rtFlouA.width !== bw || rtFlouA.height !== bh) {
       rtFlouA.setSize(bw, bh);
       rtFlouB.setSize(bw, bh);
@@ -1646,7 +1767,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
               ps.deployed.y + (pfc?.y ?? 0),
               ps.deployed.z + (pfc?.z ?? 0)
             ),
-            frameDistance(genreFrameRadius(parent) + 2.5),
+            distanceDuFocus(parent),
             now
           );
         }
@@ -1676,7 +1797,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       slot.deployed.y + (fc?.y ?? 0),
       slot.deployed.z + (fc?.z ?? 0)
     );
-    startFly(cible, frameDistance(genreFrameRadius(globalIndex) + 2.5), now);
+    startFly(cible, distanceDuFocus(globalIndex), now);
     emitNav();
     openPanel(slot.family, slot.local);
   };
@@ -1769,7 +1890,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
               slot.deployed.y + (fc?.y ?? 0),
               slot.deployed.z + (fc?.z ?? 0)
             ),
-            frameDistance(genreFrameRadius(parent)),
+            distanceDuFocus(parent),
             now
           );
         }
@@ -2739,19 +2860,21 @@ const OVERLAP_TOLERANCE = 1;
     renderer.clear(true, true, false);
     renderer.render(scene, camera);
 
-    // 2. gaussienne séparable, aller-retour entre les deux cibles.
+    // 2. gaussienne séparable, plusieurs paires en aller-retour.
     blurUniforms.uRayon.value = rayonFlou;
-    blurUniforms.uTexture.value = rtFlouA.texture;
-    blurUniforms.uDirection.value.set(1 / Math.max(1, rtFlouA.width), 0);
-    renderer.setRenderTarget(rtFlouB);
-    renderer.clear(true, false, false);
-    renderer.render(blurScene, bgCamera);
+    for (let passe = 0; passe < PASSES_FLOU; passe += 1) {
+      blurUniforms.uTexture.value = rtFlouA.texture;
+      blurUniforms.uDirection.value.set(1 / Math.max(1, rtFlouA.width), 0);
+      renderer.setRenderTarget(rtFlouB);
+      renderer.clear(true, false, false);
+      renderer.render(blurScene, bgCamera);
 
-    blurUniforms.uTexture.value = rtFlouB.texture;
-    blurUniforms.uDirection.value.set(0, 1 / Math.max(1, rtFlouA.height));
-    renderer.setRenderTarget(rtFlouA);
-    renderer.clear(true, false, false);
-    renderer.render(blurScene, bgCamera);
+      blurUniforms.uTexture.value = rtFlouB.texture;
+      blurUniforms.uDirection.value.set(0, 1 / Math.max(1, rtFlouA.height));
+      renderer.setRenderTarget(rtFlouA);
+      renderer.clear(true, false, false);
+      renderer.render(blurScene, bgCamera);
+    }
 
     // 3. le fond, net.
     renderer.setRenderTarget(null);
@@ -2918,7 +3041,7 @@ const OVERLAP_TOLERANCE = 1;
       if (lock) {
         target.copy(lock.world);
         targetSmooth.lerp(target, reducedMotion ? 1 : 0.12);
-        const want = frameDistance(genreFrameRadius(frameLock) + 2.5);
+        const want = distanceDuFocus(frameLock);
         distance += (want - distance) * (reducedMotion ? 1 : 0.1);
       } else if (panelSlot >= 0) {
         const slot = slotsData[panelSlot];
@@ -3796,6 +3919,11 @@ const OVERLAP_TOLERANCE = 1;
           genreActif: activeGenre,
           familleOuverte: openIndex,
           progresFamille: activeFamily >= 0 ? Math.round((familyProgress[activeFamily] ?? -1) * 100) / 100 : null,
+          rayonGroupe: Math.round(focusRingRadius() * 100) / 100,
+          offsetsPoses: focusOffsets.size,
+          distanceVoulue: focusIndex >= 0 ? Math.round(distanceDuFocus(focusIndex)) : null,
+          distanceReelle: Math.round(distance),
+          enVol: flying,
           sensDeploiement: activeFamily >= 0 ? (deployDir[activeFamily] ?? 0) : null,
           enAttente: pendingGenre
         },
@@ -3808,6 +3936,54 @@ const OVERLAP_TOLERANCE = 1;
         flouHorsZone: { min: Math.round(flouMin * 100) / 100, max: Math.round(flouMax * 100) / 100 },
         horsZonePasEncoreFloues: netsHorsZone,
         labelsAffiches: labelSlots.filter((l) => l.visible && l.opacity > 0.05).map((l) => l.el.textContent ?? '')
+      };
+    },
+
+    /* LA LIGNE TELLE QU'ELLE EST COMPOSÉE À L'ÉCRAN.
+
+       lignePixels rend la scène DIRECTEMENT, sans les passes de flou : il
+       mesure donc ce que le moteur dessine, pas ce que l'oeil voit. Pour
+       juger un flou, c'est l'image finale qu'il faut lire. Celle-ci passe
+       par renderOnce, donc par tout le pipeline, et compte les INVERSIONS DE
+       SENS du gradient : une forme nette en produit à chaque bord, une forme
+       floue n'en produit presque plus. Le rapport entre les deux états est
+       la mesure du flou. */
+    ligneEcran: (cy: number, longueur = 0) => {
+      renderOnce(true);
+      const gl2 = renderer.getContext();
+      const w = renderer.domElement.width;
+      const h = renderer.domElement.height;
+      const y = Math.max(0, Math.min(h - 1, Math.round(cy)));
+      const lw = longueur > 0 ? Math.min(longueur, w) : w;
+      const buf = new Uint8Array(lw * 4);
+      gl2.readPixels(0, y, lw, 1, gl2.RGBA, gl2.UNSIGNED_BYTE, buf);
+      const lum: number[] = [];
+      for (let i = 0; i < lw; i += 1) {
+        lum.push(
+          0.2126 * (buf[i * 4] ?? 0) + 0.7152 * (buf[i * 4 + 1] ?? 0) + 0.0722 * (buf[i * 4 + 2] ?? 0)
+        );
+      }
+      /* Seuil d'un niveau : sous cette valeur, la variation est du bruit de
+         quantification et non un bord. Sans lui, un dégradé parfaitement
+         lisse compterait des centaines d'inversions. */
+      let inversions = 0;
+      let sens = 0;
+      let precedent = lum[0] ?? 0;
+      for (let i = 1; i < lum.length; i += 1) {
+        const v = lum[i] ?? 0;
+        const d = v - precedent;
+        if (Math.abs(d) < 1) continue;
+        const sg = Math.sign(d);
+        if (sens !== 0 && sg !== sens) inversions += 1;
+        sens = sg;
+        precedent = v;
+      }
+      return {
+        y,
+        largeur: lw,
+        inversions,
+        min: Math.round(Math.min(...lum)),
+        max: Math.round(Math.max(...lum))
       };
     },
 
@@ -3914,7 +4090,7 @@ const OVERLAP_TOLERANCE = 1;
             g.deployed.y + (fc?.y ?? 0),
             g.deployed.z + (fc?.z ?? 0)
           ),
-          frameDistance(genreFrameRadius(cadre) + 2.5),
+          distanceDuFocus(cadre),
           now
         );
       } else if (activeFamily >= 0) {
