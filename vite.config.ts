@@ -46,7 +46,13 @@ export default defineConfig({
          liste parce qu'il est importé en JSON et donc déjà compilé DANS le
          bundle JavaScript — le précacher séparément le stockerait deux fois. */
       workbox: {
-        globPatterns: ['**/*.{js,css,html,woff2,ico}', 'brand/*.png', 'og.png'],
+        /* og.png N'EST PAS PRECACHEE, et ne doit pas l'être : l'image de
+           partage n'est jamais demandée par l'application, seulement par les
+           robots des réseaux sociaux, côté serveur. Elle pesait 39 Ko quand
+           elle était le disque de la marque ; c'est maintenant une capture de
+           l'atlas de 186 Ko, qu'il serait absurde de faire télécharger à
+           chaque visiteur pour un fichier qu'aucun d'eux n'ouvrira. */
+        globPatterns: ['**/*.{js,css,html,woff2,ico}', 'brand/*.png'],
         /* Les 1263 pochettes pèsent 39 Mo. Les précharger imposerait ce
            téléchargement à toute personne qui ouvre le site une fois, sur
            son forfait. Elles sont mises en cache à l'usage, ci-dessous. */

@@ -79,11 +79,12 @@ magick "$CIRCLE" -fill none -stroke "#f2f4f8" -strokewidth 100 \
 magick /tmp/sonaa-disque-filet.miff -resize 16x16 -strip "$B/favicon-dark-16.png"
 magick /tmp/sonaa-disque-filet.miff -resize 32x32 -strip "$B/favicon-dark-32.png"
 
-# Partage : le disque et son filet, centres sur le fond du site.
-magick -size 1200x630 xc:"$FOND" \
-  \( "$CIRCLE" -resize 470x470 \) -gravity center -composite \
-  -fill none -stroke "rgba(242,244,248,0.28)" -strokewidth 3 \
-  -draw "circle 600,315 600,80" -alpha off "public/og.png"
+# L'IMAGE DE PARTAGE N'EST PLUS ECRITE ICI. Elle l'a ete : le disque et son
+# filet, centres sur le fond du site. Elle disait qui publie, jamais ce qu'on
+# publie. C'est desormais une capture de l'atlas, produite par
+# scripts/capture-og.mjs (npm run capture:og), qui reste le SEUL ecrivain de
+# public/og.png. Deux scripts qui ecrivent le meme fichier, c'est une image
+# qui change selon celui qu'on a lance en dernier.
 
 rm -f /tmp/sonaa-disque-filet.miff /tmp/sonaa-48.png
 echo "Declinaisons regenerees depuis $LOGO et $CIRCLE."

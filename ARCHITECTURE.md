@@ -2481,6 +2481,78 @@ interrupteurs par composante, pour que le prochain qui doute puisse compter.
 
 ---
 
+## ADR-066 : L'image de partage montre l'atlas, capture par Chrome en headless
+
+**Statut** : accepte, 11 aout 2026.
+
+**Contexte.** L'image Open Graph etait le disque de la marque sur le fond du
+site, generee par `build-brand.sh`. Elle dit qui publie et jamais ce qu'on
+publie : quelqu'un qui voit passer le lien ne voit pas qu'il y a une carte
+derriere. Decision de Mika : montrer le produit. Le disque reste pour les
+favicons et les ecrans de lancement, ou il est a sa place.
+
+**Une erreur a corriger d'abord.** J'avais affirme que `verify:visual` savait
+rendre la scene hors navigateur. C'est faux : ce script est un `echo` qui
+donne trois instructions manuelles, ses mesures tournent DANS une page ouverte
+a la main, et ADR-048 a explicitement refuse d'embarquer un navigateur headless
+en CI. La capture demandait donc un moyen qui n'existait pas.
+
+**Decision.** `scripts/capture-og.mjs`, lance a la main par `npm run
+capture:og`, jamais par la CI : la decision d'ADR-048 n'est pas revenue
+dessus, elle porte sur ce qui tourne a chaque commit.
+
+Chrome est deja installe sur la machine. On le lance en headless avec son port
+de debogage et on lui parle en CDP sur le WebSocket natif de Node 22. **Aucune
+dependance ajoutee au projet** : ni puppeteer ni playwright, dont l'un ou
+l'autre aurait pese 200 Mo pour une image qu'on refait deux fois par an.
+
+**Ce qui est capture.** La vue d'ensemble a la pose par defaut du moteur,
+angles et distance lus dans `framing()` et non ecrits dans le script : on
+photographie le cadrage que voit un visiteur, pas un cadrage invente pour la
+photo. Trois cles de `localStorage` sont posees avant le premier script de la
+page, celles-la memes que l'application ecrit quand on a deja visite, pour que
+ni l'ecran d'accueil ni l'intro ne se jouent. Une feuille de style cache tout
+sauf le canvas et la couche de labels.
+
+**Pourquoi on photographie la PAGE et non le tampon WebGL.** Les noms sont du
+DOM projete (decision de rendu d'origine, jamais remise en cause) : ils
+n'existent pas dans le canvas. Une capture du tampon rendrait une carte de
+billes sans un seul nom, c'est-a-dire l'inverse de ce qu'on veut montrer.
+
+**La fenetre fait la moitie de l'image, a densite triple.** Les labels sont
+bornes en pixels d'ecran et tombent sur leur plancher de 9 px au niveau
+d'ensemble. Capturee dans une fenetre de 1200 px, l'image rendait ses noms a
+9 px ; une carte de partage s'affiche souvent a 500 px de large, ou 9 px
+deviennent 4. On capture donc 800 x 420 a densite 3, soit 2400 x 1260, reduit
+a 1200 x 630 : meme rapport de forme donc meme cadrage calcule par le moteur,
+et chaque nom occupe le double de l'image finale, 13,5 px au lieu de 9. Pas
+600 px de large : sous 768 l'application bascule dans ses regles mobiles, et
+l'image doit montrer la carte telle qu'on la voit sur un ecran.
+
+**Un seul ecrivain pour `public/og.png`.** Le bloc correspondant est retire de
+`build-brand.sh`, qui garde tout le reste de l'identite. Deux scripts qui
+ecrivent le meme fichier, c'est une image qui change selon celui qu'on a lance
+en dernier.
+
+**`og.png` sort du precache.** Elle y etait quand elle pesait 39 Ko. La
+capture en pese 186, et l'application ne la demande jamais : seuls les robots
+des reseaux sociaux la lisent, cote serveur. La faire telecharger a chaque
+visiteur pour un fichier qu'aucun d'eux n'ouvrira contredirait le raisonnement
+meme d'ADR-059 sur les pochettes et les ecrans de lancement.
+
+**Mesure.** 96 labels dans le DOM, 29 poses et visibles au cadrage par defaut,
+distance 325. Image finale 1200 x 630, 186 Ko. Deux executees de suite rendent
+le meme compte de labels : la pose etant fixee explicitement, la capture est
+reproductible.
+
+**Ce qu'il faut savoir avant de la refaire.** L'image montre les noms de
+GENRES, pas les quatorze noms de familles : au niveau d'ensemble le moteur ne
+pose aucun label de famille, les familles se lisent a la couleur. C'est l'etat
+reel du produit, et une image qui afficherait des noms de familles montrerait
+quelque chose que le site ne montre pas.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle

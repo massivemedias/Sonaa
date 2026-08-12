@@ -9,3 +9,6 @@ dist
 tracks-canon-report.md
 .env
 .actuel-state.json
+
+# Reglages locaux de session, pas du code du projet.
+.claude/

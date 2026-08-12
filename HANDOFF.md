@@ -6,6 +6,11 @@ débats déjà tranchés.
 
 À lire en entier avant la première action. À mettre à jour à chaque phase.
 
+**Dernière remise à l'état réel : 11 août 2026.** Le document avait menti sur
+sept points, dont le nombre de genres, la lecture des morceaux et la vue
+liste. Tout ce qui suit a été mesuré ce jour-là, pas recopié. Les chiffres
+portent la commande qui les rend.
+
 ---
 
 ## Regle permanente : le second bloc de rapport
@@ -67,49 +72,49 @@ de ce qui a marche.
 
 ## 1. Où on en est
 
-**Phase P0 terminée et en ligne.** Fondations, CI, déploiement GitHub Pages
-fonctionnel. Deux commits sur `main` après la recréation du dépôt.
+**Le site est en ligne, complet et publié sur `https://sonaa.ca`.** Ce n'est
+plus un prototype, plus une phase, plus un périmètre réduit. Ce qui reste est
+de l'affinage et de l'écriture.
 
-**Corpus etendu a 216 genres et 14 familles** par le comparatif de couverture
-de Mika, en quatre vagues : roots, breaks et bass, puis electro, hardcore,
-ambient, downtempo, puis complements. 148 genres restent sans morceaux, a
-remplir par tracks-canon.md. Voir ADR-037.
+**Le corpus est complet.** 14 familles, 218 genres, 1763 morceaux, **tous
+vérifiés** : aucun identifiant non vérifié ne subsiste. Chaque genre a au
+moins un morceau, 1197 dans l'onglet Essentiel et 566 dans l'onglet Actuel.
+40 filiations portent `confidence: "debated"`, 73 genres sont marqués `major`,
+et les 218 descriptions sont écrites. `npm run validate:data` rend « Corpus
+valide » et signale un seul genre sous la cible de trois morceaux, `psycore`,
+qui en a deux.
 
-**Phase P1 faite en v1.** `src/data/corpus.json` porte 60 genres reels sur six
-familles, valide par le schema Zod de `src/data/schema.ts` et par
-`npm run validate:data`. 178 identifiants YouTube verifies par oEmbed, sans cle.
-Le corpus est branche dans l'atlas 3D, et la vue morceaux lit reellement via
-l'iframe officielle. Sept familles, 68 genres, 190 morceaux verifies.
+**Deux vues, pas quatre** (ADR-060). **3D LIBRE** par défaut et **COLONNES**.
+La 3D fixe et la vue linéaire sont supprimées, code compris. Le sélecteur est
+une bascule qui nomme sa destination.
 
-**A relire par Mika :** `CORPUS.md`, les 68 filiations, dont 17 marquees
-`debated`. Dark disco, indie dance et psy-prog sont son terrain.
+**La lecture des morceaux est réelle**, par le lecteur officiel YouTube dans
+une iframe qui survit à la navigation. Le transport simulé n'existe plus.
 
-**Etat de l'interface :** fiche de genre au clic, recherche sur barre oblique
-avec 119 alias, ecran d'accueil montre une seule fois, rendu verifie sur 390 px.
+**La vue liste `#/index` lit le corpus réel.** Les données factices ont
+disparu du projet.
 
-**tracks-canon.md importe.** Les 105 lignes du canon Reddit sont passees : 91
-morceaux ajoutes, 279 verifies au total. Six refus legitimes, doublons
-inter-genres bloques et trois introuvables, detail dans tracks-canon-report.md.
+**Le site est installable et se consulte hors ligne** (ADR-059), vérifié en
+production sur sonaa.ca. Précache de 41 entrées, 2217 Ko : le code, les
+styles, la police, les icônes. Les 1263 pochettes (39 Mo) et les 26 écrans de
+lancement iOS (2,9 Mo) sont gardés à l'usage et non préchargés. YouTube et
+Supabase sont en `NetworkOnly`, et c'est une règle, pas un réglage.
 
-**Prochaine action de Mika :** completer tracks-canon.md pour les genres encore
-sous la cible, `npm run validate:data` les nomme du plus pauvre au plus riche.
-Les 148 genres des vagues 2 a 4 partent de zero morceau.
+**Les fils de discussion sont en place.** Commentaires par genre, réponses,
+votes, signalements et modération, sur Supabase, avec dix migrations
+appliquées. Les propositions de contribution vivent à côté, sur `#/propositions`.
 
-**Regle d'affichage des sources (ADR-038) :** aucune source documentaire
-particuliere n'est nommee dans l'interface, notes du corpus comprises. La page
-#/credits cite des categories. Les documents du depot, eux, nomment leurs
-sources : ils sont l'appareil critique, pas l'interface.
+**Le scintillement est résolu** (ADR-065), après sept signalements et six
+corrections ratées. Trois causes mesurées, toutes supprimées : le grain animé
+du fond, la respiration des sphères, et le flux lumineux des liens. Zéro pixel
+instable partout, y compris dans l'état déployé où le défaut vivait. Les
+crochets de mesure restent sous `window.__atlas.mesurerScintillement()`.
 
-**L'atlas EST le produit, il vit dans `src/atlas/`.** Le mot « prototype » est
-caduc : la direction est tranchée, c'est ce code qu'on regarde, qu'on navigue et
-qu'on écoute. La racine du site l'ouvre directement, il n'y a plus de page
-d'accueil P0 à traverser. Voir ADR-034.
+**L'image de partage montre l'atlas** (ADR-066), plus le logotype seul. Elle
+se refait par `npm run capture:og`.
 
-- `https://massivemedias.github.io/Sonaa/#/proto` l'espace 3D, 60 genres reels
-- `https://massivemedias.github.io/Sonaa/#/index` la vue liste accessible
-- `https://massivemedias.github.io/Sonaa/` la page d'accueil P0
-
-Ce qui reste à faire dessus est de l'affinage, pas un remplacement.
+**66 ADR** dans `ARCHITECTURE.md`. Aucun point ouvert déclaré à la fin du
+fichier.
 
 ---
 
@@ -119,7 +124,11 @@ Un atlas généalogique interactif des musiques électroniques. Un espace 3D
 habitable où chaque famille est une structure de sphères reliées par leur
 filiation, dans lequel on descend par niveaux jusqu'aux morceaux.
 
-100 % statique, aucun backend, aucune clé, GitHub Pages, base `/Sonaa/`.
+Site statique, publié par GitHub Actions sur GitHub Pages, servi sur le
+domaine **sonaa.ca**, base `/` et non plus `/Sonaa/`. Aucune clé au runtime.
+Deux variables publiques par conception, `VITE_SUPABASE_URL` et
+`VITE_SUPABASE_ANON_KEY`, et un contrôle de CI vérifie qu'aucun secret n'a
+traversé le build.
 
 ---
 
@@ -131,62 +140,55 @@ filiation, dans lequel on descend par niveaux jusqu'aux morceaux.
 |---|---|
 | Le projet vit dans `~/Dev/Sonaa`, jamais dans iCloud | iCloud avait déjà corrompu le `.git` : `git fsck` remontait des objets manquants |
 | Remote en SSH | un jeton en clair dans `.git/config` a été révoqué, plus jamais de jeton dans un remote |
-| React 19, contre le brief qui disait 18 | aucune dépendance à une lib de graphe tierce, donc aucun risque d'incompatibilité. Écart documenté ADR-012 |
+| React 19, contre le brief qui disait 18 | aucune dépendance à une lib de graphe tierce, donc aucun risque d'incompatibilité. ADR-012 |
 | Vite 5, avis esbuild accepté sans correctif | la faille ne touche que `vite dev`, jamais le site publié. ADR-017 |
 | Le dépôt a été supprimé et recréé vierge | l'ancien historique contenait un mot de passe en clair dans un dépôt public |
+| Supabase pour les contributions et les fils | seule partie non statique du projet, et elle est facultative : sans les deux variables, l'interface le dit et le reste fonctionne |
 
 ### Rendu
 
 | Décision | Raison |
 |---|---|
-| Three.js, pas PixiJS ni regl | mesuré sur des bundles réels : three 167 K gzip, pixi 165 K, regl 47 K. Pixi ne pèse pas moins et son instanciation est moins bonne. regl reste la sortie de secours budgétaire si on approche 420 K |
+| Three.js, pas PixiJS ni regl | mesuré sur des bundles réels : three 167 K gzip, pixi 165 K, regl 47 K. Pixi ne pèse pas moins et son instanciation est moins bonne |
 | Halo dans le shader, aucun post-traitement | un bloom sélectif imposerait plusieurs cibles de rendu et casserait la contrainte de peu d'appels de dessin. ADR-019 |
-| Sphères en imposteurs billboard, normale analytique | pas de géométrie de sphère, pas d'asset, un seul appel de dessin pour les 204 sphères |
+| Sphères en imposteurs billboard, normale analytique | pas de géométrie de sphère, pas d'asset, un seul appel de dessin |
 | Lambert plus liseré, aucune spéculaire | ni chrome, ni vernis, ni plastique |
 | Rubans de liens élargis en **espace monde** | l'élargissement en espace écran s'est révélé impossible à fiabiliser aux largeurs réalistes. Documenté comme piège |
-| Tout le texte en DOM projeté, jamais en WebGL | c'est la couche qui porte l'accessibilité, et le navigateur rastérise mieux que n'importe quel atlas de glyphes |
-| Labels : masquage du plus lointain en cas de collision, **jamais de décalage** | règle posée par Mika |
-| Aucune plaque sous les labels | deux ombres portées plus assombrissement local de la sphère dans le shader. **A déjà régressé une fois**, contrôler par `grep background` dans proto.css |
-| Séparation des familles garantie par deux relaxations, en volume et en projection | les centres écrits à la main se chevauchaient. ADR-028 |
-| Une seule famille déployée à la fois, aucun anneau au niveau Atlas | plusieurs familles ouvertes et 204 anneaux se lisaient comme un éparpillement. ADR-029 |
-| Liens entre familles à 10 % d'opacité, allumés au survol | ils traversaient l'écran en diagonale. ADR-029 |
-| Anneau discret sur les noeuds à dérivés | indice, pas cadre : tiers d'épaisseur, teinte de la famille, 35 % d'opacité max |
+| Tout le texte en DOM projeté, jamais en WebGL | c'est la couche qui porte l'accessibilité, et le navigateur rastérise mieux que n'importe quel atlas de glyphes. **Conséquence pratique** : une capture du tampon WebGL ne contient aucun nom, il faut photographier la page (ADR-066) |
+| Labels : masquage du plus lointain en cas de collision, **jamais de décalage** | règle posée par Mika. Seule exception documentée : les labels d'ensembles, supprimés depuis avec le niveau zéro |
+| Aucune plaque sous les labels | deux ombres portées plus assombrissement local de la sphère dans le shader. **A déjà régressé une fois**, contrôler par `grep background` dans les feuilles de l'atlas |
+| Une seule famille déployée à la fois, un seul niveau déployé à la fois | plusieurs familles ouvertes se lisaient comme un éparpillement. ADR-029, durci par ADR-056 |
+| **Aucun mouvement permanent dans la scène** | le grain, la respiration et le flux des liens ont été supprimés après mesure : ils produisaient du scintillement. Ne pas réintroduire d'animation continue sans mesurer avec `mesurerScintillement()`. ADR-065 |
 | Rayon de sphère indexé sur la profondeur | c'est ce qui rend la hiérarchie lisible sans cliquer |
-| Liens effilés du parent vers l'enfant | la direction de la filiation se lit sans flèche |
-| Disposition en couronnes | les enfants s'organisent autour de leur parent, jamais dans un tas commun |
-| Cadrage de l'atlas calculé sur l'étendue verticale **mesurée** | la sphère englobante est presque vide, deux familles excentrées en fixaient le rayon et la scène apparaissait deux fois trop petite |
+| Liens effilés du parent vers l'enfant, arrêtés à la surface des sphères | la direction de la filiation se lit sans flèche ; s'arrêter au centre passait sous la sphère |
+| Cadrage calculé sur l'étendue **mesurée** du nuage | la sphère englobante est presque vide, deux familles excentrées en fixaient le rayon |
 
 ### Navigation
 
-- Trois niveaux : atlas, famille, genre. Un quatrième écran pour les morceaux.
-- **Aucun changement de niveau sans vol de caméra**, 600 ms, easing doux, le
-  noeud atteint devient le centre d'orbite.
-- Molette et pincement zooment. Glissement tourne. Flèches tournent, `+` et `−`
-  zooment, `0` recentre, `Échap` remonte d'un cran.
-- Contrôles visibles en permanence en bas à droite. Cibles de 44 px sur mobile.
-- Fil d'Ariane permanent, chemin **recalculé depuis la racine** à chaque clic,
-  jamais accumulé depuis l'historique : il ne peut pas mentir.
-- Ligne d'aide au premier chargement, effacée à la première interaction,
-  mémorisée dans `localStorage`, ne revient plus.
-- La diffusion d'une famille est l'animation signature : cascade du fondateur
-  vers les dérivés le long des liens, 480 ms, 40 ms par niveau, easing à léger
-  dépassement. Fermeture inversée en 300 ms.
-- La descente sur un genre est la même grammaire un cran plus bas, 400 ms,
-  45 ms par génération. Tous les dérivés du noeud focalisé sont étiquetés, sans
-  filtre. Le reste de la famille recule à 12 % et perd ses labels.
+- Trois niveaux : atlas, famille, genre. Le niveau zéro des grands ensembles a
+  été supprimé (ADR-053).
+- **Aucun changement de niveau sans vol de caméra**, easing doux, le noeud
+  atteint devient le centre d'orbite.
+- **Le clic sur un genre ouvre directement ses morceaux**, la fiche vit dans
+  la colonne (ADR-046).
+- Suivi direct des gestes : le glissement tourne pendant le geste, l'inertie
+  n'existe qu'au relâchement, le pincement est ancré au milieu des doigts,
+  double tap pour zoomer (ADR-051).
+- Contrôles en haut à droite, trois ronds de 44 px, estompés après 3 s
+  d'inactivité et réveillés au moindre geste.
+- Fil d'Ariane permanent, chemin **recalculé depuis la racine** à chaque clic :
+  il ne peut pas mentir.
+- Le logotype ramène à la vue d'ensemble sans couper la lecture en cours.
 - `prefers-reduced-motion` remplace toute animation par une apparition directe.
 
 ### Typographie et couleur
 
-- **SF Pro Display partout**, pile
-  `-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif`.
-  Le trio Archivo, Literata, IBM Plex Mono est abandonné. Plus aucun mono, y
-  compris pour les BPM.
-- Hiérarchie par graisse : 600 familles en capitales interlettrées, 500 genres,
-  400 données.
-- Labels bornés : plancher 13 px sur poste de bureau, 15 px sur mobile, plafond
-  22 px. Les noms de familles au niveau Atlas descendent à 10 px et grandissent
-  quand on approche.
+- **Inter variable**, un seul woff2 servi depuis `public/fonts/`. La pile
+  SF Pro a été abandonnée : elle ne garantissait rien hors Apple.
+- Hiérarchie par graisse, pas par famille. Plus aucun mono, BPM compris.
+- Labels bornés : **plancher de 9 px** au niveau d'ensemble, réglage demandé
+  explicitement et gelé (ADR-058). Il coûte 8 points de SEO mobile à
+  Lighthouse, c'est assumé.
 - 14 teintes, chroma 0,13 à 0,18, luminosité 0,60 à 0,75, écart minimal de
   22 degrés, **rien entre 90 et 120 degrés**, la zone olive-kaki qui salit.
 - Contraste **mesuré** : blanc sur le fond 19,4:1, blanc sur une sphère claire
@@ -194,61 +196,56 @@ filiation, dans lequel on descend par niveaux jusqu'aux morceaux.
 
 ### Ce qui a été abandonné, et pourquoi
 
-Quatre concepts se sont succédé. Ne pas les ressusciter sans raison neuve.
+Ne pas ressusciter sans raison neuve.
 
-1. **La planche de relevé, temps en axe vertical, genre = segment de durée.**
-   Abandonné : le temps ne structure plus l'espace. L'année reste une donnée de
-   panneau, elle n'a plus de géométrie. Sections marquées CADUC dans DESIGN.md.
-2. **La 3D avec Y le temps, X la proximité, Z le BPM.** Abandonné avec le point
-   précédent. Mesuré et fonctionnel à l'époque : 0,165 ms au pire.
-3. **Les masses volumétriques par raymarching.** Abandonné pour deux raisons :
-   coût, 6,64 ms au pire soit 40 fois le rendu précédent et intenable sur
-   mobile, et rendu « brume » alors qu'on veut des corps construits.
-4. **L'archive de l'ancien agrégateur RSS dans `public/OLD/`.** Abandonnée,
-   l'agrégateur est mort. ADR-010 est marqué CADUC.
-
-Autre annulation : le `git mv` de l'ancien site vers `public/OLD/` décrit dans le
-brief était impossible, l'app chargeait du TypeScript JSX qu'aucun navigateur
-n'exécute.
+1. **La planche de relevé et la 3D à axe temporel.** Le temps ne structure
+   plus l'espace ; l'année est une donnée de panneau, sans géométrie.
+2. **Les masses volumétriques par raymarching.** 6,64 ms au pire, quarante
+   fois le rendu retenu, et un rendu « brume » alors qu'on veut des corps.
+3. **L'archive de l'ancien agrégateur RSS.** L'agrégateur est mort, ADR-010
+   est caduc.
+4. **Les grands ensembles et le niveau zéro** (ADR-053).
+5. **La 3D fixe et la vue linéaire** (ADR-060), avec `webgl.ts`, 1894 lignes.
+6. **Le mini-jeu de devinettes** (ADR-064), jamais terminé, jamais importé,
+   migrations jamais appliquées.
+7. **Le grain, la respiration et le flux des liens** (ADR-065).
 
 ---
 
 ## 4. Ce qui reste ouvert
 
-**structuralParent validé par Mika.** Le DAG est la vérité, l'arbre est une vue,
-désignation explicite genre par genre, greffes visibles au survol, liens entre
-familles dérivés. Documenté ADR-030, **pas encore codé** : le schéma P1 attend.
+**Les quatre textes de Mika.** Trois emplacements de voix ont été posés, un
+seul est rempli.
 
-**Labels au niveau famille.** 3 labels de genres visibles sur 6 candidats à
-l'angle par défaut. L'objectif fixé était 5. Padding réduit, tolérance de
-chevauchement de 4 px, cadrage resserré et suffixes compactés ont fait passer de
-2 à 3. Le blocage restant : les six labels de première génération partent tous
-vers la droite depuis des sphères distantes de 60 px. **Le seul levier efficace
-est de décaler un label du côté libre de sa sphère, ce que la règle « jamais de
-décalage » interdit.** Arbitrage attendu de Mika.
+1. L'accroche de l'écran d'accueil : **faite**, à la première personne, signée
+   Maudite Machine.
+2. `TEXTE_AUTEUR` dans `src/atlas/AProposPage.tsx` : **vide**. À la première
+   personne, sous la ligne qui dit qui a fait le site. Vide, le bloc ne
+   s'affiche pas du tout.
+3. `motDeLAuteur` dans `src/data/corpus.json` : **vide sur les trois genres où
+   il est posé**, `darkdisco`, `indiedance` et `progpsy`. Absent des 215
+   autres, délibérément : une voix qui parle partout ne dit plus rien.
 
-**Retours visuels de Mika jamais formulés.** Trois demandes de verdict sont
-restées en gabarit non rempli : sensation de navigation, lisibilité de la
-descente, rendu visuel après correction des plaques. À redemander.
+**Un fichier mort à supprimer.** `supabase/game-tree.sql`, 241 lignes,
+généré par un script qui n'existe plus et visant une table qui n'existe pas.
+ADR-064 affirme que tout le mini-jeu a été retiré : c'est faux d'un fichier.
+Suppression à valider par Mika, puis corriger la phrase de l'ADR.
 
-**Lecture réelle des morceaux.** Le transport de la vue morceaux est **simulé**
-et étiqueté comme tel. L'iframe YouTube se branche en P3 sur des identifiants
-vérifiés au build.
+**Aucune mesure instrumentée sur appareil réel.** Les verdicts tactiles de
+Mika ont été rendus sur un vrai téléphone et ont produit ADR-051, et la PWA a
+été vérifiée en production. Mais aucun relevé GPU n'a jamais été pris
+ailleurs que sur un M4 Max : toutes les valeurs de performance mobiles restent
+des extrapolations.
 
-**Mobile jamais mesuré sur appareil réel.** Toutes les estimations mobiles sont
-des extrapolations depuis un M4 Max. Le mode réduit et le détecteur de capacité
-existent mais sont devenus superflus depuis l'abandon du raymarching, conservés
-car sans coût.
+**Le mode réduit et le détecteur de capacité** existent encore alors que le
+raymarching qui les justifiait a disparu. Conservés parce qu'ils ne coûtent
+rien, jamais réexaminés depuis.
 
-**Polices.** SF Pro est une pile système, aucun woff2 n'est embarqué. À trancher
-en P6 si on veut garantir le rendu hors Apple.
-
-**Captures d'écran.** L'environnement de la session précédente avait un panneau
-navigateur à 0×0, ce qui rendait toute capture en fichier impossible. Mika
-regarde directement en ligne.
-
-**Vue liste `#/index`.** Elle existe et fonctionne, mais elle est branchée sur
-les données factices. Rebranché sur le corpus réel, cette note est caduque.
+**Les points de Lighthouse qui manquent sont connus et assumés.** « Bonnes
+pratiques » perd 4 points sur un avertissement de cookie émis par l'iframe
+YouTube elle-même, déjà servie depuis `youtube-nocookie.com` ; « SEO » mobile
+perd 8 points sur le plancher de 9 px des labels, qui est un réglage demandé.
+Les corriger reviendrait à défaire des décisions prises.
 
 ---
 
@@ -285,35 +282,8 @@ Règles du rapport : aucune valeur de secret, jamais, même partielle. Si une
 étape échoue, le statut est BLOQUÉ et « Action attendue de moi » contient la
 décision précise à prendre, pas une question ouverte.
 
-**Second bloc, pour Claude Desktop.** Après le bloc de rapport, ajouter un
-SECOND bloc séparé, destiné à être copié tel quel dans une conversation avec un
-Claude qui n'a **aucun** contexte du projet. Il doit être autosuffisant : pas de
-« comme on a dit », pas d'acronyme non expliqué, pas de renvoi à un fichier.
-Aucune valeur de secret, jamais, dans ce bloc non plus.
-
-```
-------------------------------------------------------------
-POUR CLAUDE DESKTOP - Étape <nom> - <date>
-
-Contexte du projet
-<3 lignes: ce qu'est SONAA, où on en est dans le plan de phases>
-
-Ce que je viens de faire
-<liste factuelle, une ligne par changement, avec les valeurs chiffrées>
-
-Ce que j'ai mesuré
-<les chiffres bruts: perf, comptages, tailles de bundle>
-
-Ce qui a cassé ou surpris
-<les régressions, les bugs trouvés, les limites atteintes>
-
-Ce qui reste ouvert
-<les arbitrages non tranchés, avec les options possibles>
-
-Ce que je propose de faire ensuite
-<une seule prochaine étape, précise>
-------------------------------------------------------------
-```
+**Second bloc, pour Claude Desktop.** Voir la règle permanente en tête de
+document. Autosuffisant, sans renvoi à un fichier, sans valeur de secret.
 
 **Commit et push à chaque étape validée.** Message conventionnel, une ligne de
 description claire. Après chaque push, donner **le lien du run GitHub Actions et
@@ -323,100 +293,89 @@ local.
 **Avant toute commande destructive, demander.**
 
 **Écriture française** : pas de tiret cadratin, virgule ou trait d'union simple.
+`npm run check:tirets` le vérifie en CI.
 
 **Ne jamais écrire une valeur de secret dans un document du dépôt**, pas même en
 exemple dans une commande de contrôle. C'est arrivé une fois, un mot de passe
 s'est retrouvé dans `ARCHITECTURE.md` et n'a été rattrapé qu'avant le push.
+
+**Quand on ne peut pas voir, on mesure** (ADR-048), **et on mesure la bonne
+situation** (ADR-065). Six corrections du scintillement ont été faites sur des
+hypothèses plausibles, deux l'ont aggravé. La septième a construit
+l'instrument, et elle l'a d'abord braqué sur la mauvaise scène.
 
 ---
 
 ## 6. Règles sur les données, elles priment sur tout
 
 **Les vrais noms avant le graphisme.** On ne juge pas une mise en page avec des
-noeuds nommés `disco-1` et `disco-2`. Le corpus passe donc avant toute nouvelle
-passe graphique. Fait : les vrais noms sont branchés.
+noeuds nommés `disco-1`. Fait depuis longtemps.
 
-**Mika ne délègue pas le corpus.** L'agent ne remplit pas les 60 genres seul.
-Il produit **un brouillon par lignée**, et Mika relit **chaque filiation** avant
-qu'elle entre dans le dépôt.
+**Mika ne délègue pas le corpus.** L'agent produit un brouillon par lignée,
+Mika relit chaque filiation avant qu'elle entre dans le dépôt.
 
 **Sur le dark disco, l'indie dance et le psy-prog, Mika est la source.** Ne rien
 inventer sur ces trois sujets, demander.
 
 **Filiation incertaine : `confidence: "debated"`**, avec la controverse
 expliquée dans les notes et une source. Une filiation musicale est une
-interprétation, pas un fait.
+interprétation, pas un fait. 40 genres portent la mention.
 
-**Aucun identifiant YouTube inventé, jamais.** Un identifiant non vérifié n'a
-pas le droit d'exister. `scripts/lib/match.ts` fait autorité sur le champ
-`verified`, et le build de production retire les morceaux non vérifiés. Un genre
-sans morceau vérifié affiche « Sélection en cours de vérification. »
+**Aucun identifiant YouTube inventé, jamais.** `scripts/lib/match.ts` fait
+autorité sur le champ `verified`, et le build de production retire les
+morceaux non vérifiés. Les 1763 morceaux du corpus sont tous vérifiés.
 
-**Aucune clé côté client.** `scripts/fetch-tracks.ts` lit `YOUTUBE_API_KEY` dans
-l'environnement, fourni par un secret GitHub Actions, et ne tourne qu'au build.
-`scripts/fetch-covers.ts` interroge l'API iTunes, sans clé. Les URLs sont figées
-dans le JSON. Au runtime, le seul appel tiers est l'iframe YouTube.
+**Un seul chemin d'écriture du corpus** (ADR-044), contrôlé en CI par
+`npm run check:writes`. Deux scripts qui écrivent le même fichier produisent
+un fichier qui dépend de l'ordre de lancement. La même règle vaut pour
+`public/og.png`, dont `capture-og.mjs` est désormais le seul écrivain.
 
----
+**Aucune clé côté client.** Les scripts qui demandent une clé la lisent dans
+l'environnement et ne tournent qu'au build ou à la main. Au runtime, les seuls
+appels tiers sont l'iframe YouTube et Supabase.
 
-## 7. La prochaine étape : P1
+**Les genres réservés ne sont pas cherchés automatiquement.** darkpsy, hitech,
+psycore, zenonesque, twilightpsy et neogoa : les nomenclatures de référence ne
+les connaissent pas, et les campagnes automatiques n'y produisaient que des
+refus ou, pire, des acceptations fautives.
 
-**Périmètre réduit à 60 genres sur six familles** : disco, house, techno,
-minimal, trance, psy. Complet et exact sur 60 vaut mieux qu'approximatif sur 180.
-Les huit autres familles arrivent après la v1, une par une.
-
-**Livrable immédiat, et rien d'autre : le schéma Zod et `validate-data`.**
-À montrer à Mika **avant** d'écrire le moindre genre.
-
-Le schéma doit porter :
-
-- `discogsStyles: string[]`, au moins une entrée, passerelle vers un classifieur
-  audio en v1.1
-- `rejects?: Edge[]`, le lien de rupture, un genre qui se définit contre un autre
-- un flag `major`
-- `bpm` **obligatoire**, avec une **règle documentée pour les tempos variables**
-  (à définir avec Mika : plage, valeur médiane, ou marqueur explicite)
-- **deux listes de morceaux** par genre, `tracksCurrent` et `tracksEssential`
-- **aucun champ année structurant**
-- **profondeur et position calculées depuis la filiation, jamais stockées**
-
-`validate-data` doit vérifier :
-
-- absence de cycle dans la filiation
-- toutes les références d'arêtes résolues
-- **trois niveaux minimum par famille**
-- **au moins un genre `major` par famille**
-
-Un schéma existe déjà dans `src/data/schema.ts`, écrit pour l'ancien modèle
-temporel. Il faut le reprendre : retirer `yearStart`, `yearPeak`, `yearEnd` et
-les contrôles de cohérence de dates, ajouter les deux listes de morceaux, rendre
-`bpm` obligatoire, et retirer tout ce qui stockait une position.
-
-`scripts/validate-data.ts` existe aussi et fonctionne, testé sur une fixture
-volontairement fautive : il attrape cycles, références mortes, orphelins et
-incohérences. Ses contrôles de dates sont à remplacer par les contrôles de
-profondeur et de `major`.
+**Aucune source documentaire n'est nommée dans l'interface** (ADR-038), notes
+du corpus comprises. La page `#/credits` cite des catégories. Les documents du
+dépôt, eux, nomment leurs sources : ils sont l'appareil critique, pas
+l'interface.
 
 ---
 
-## 7 bis. Dette documentaire réglée
+## 7. Repères techniques utiles
 
-DESIGN.md sections 3.3, 6 et 7 et les ADR 001, 002, 003 et 015 décrivaient
-l'ancien modèle temporel sans être marqués caducs. C'est corrigé : 3.3 et 7 sont
-réécrits sur l'état réel, 6 est marqué caduc, les quatre ADR portent une note.
-Un document qui mentait sur quatre points a été rendu exact.
+**Tailles réelles au build du 11 août 2026**, gzip :
 
----
+| Fichier | brut | gzip |
+|---|---|---|
+| structures (le corpus compilé) | 724,6 K | 207,0 K |
+| shaders et couche WebGL | 515,7 K | 131,6 K |
+| index | 200,8 K | 63,4 K |
+| supabase | 216,9 K | 57,2 K |
+| AtlasPage | 53,4 K | 17,4 K |
+| webgl-orbit | 32,2 K | 13,6 K |
 
-## 8. Repères techniques utiles
+Le corpus est le premier poste, loin devant le code. Il est importé en JSON et
+donc compilé dans le bundle : c'est pour cela qu'il n'est pas préchargé
+séparément.
 
-**Mesurer une performance GPU.** `gl.finish()` ne synchronise pas de façon fiable
-sous ANGLE/Metal, les temps relevés étaient absurdes avec des deltas négatifs.
-Utiliser `EXT_disjoint_timer_query_webgl2`, une requête `TIME_ELAPSED` encadrant
-150 à 200 rendus, médiane de 3 campagnes. Attendre le résultat avec
-`MessageChannel`, jamais `setTimeout` ni `requestAnimationFrame` : les deux sont
-bridés à 1 Hz dans un onglet en arrière-plan, ce qui rend aussi toute mesure par
-temps d'image inexploitable.
+**Mesurer une performance GPU.** `gl.finish()` ne synchronise pas de façon
+fiable sous ANGLE/Metal, les temps relevés étaient absurdes avec des deltas
+négatifs. Utiliser `EXT_disjoint_timer_query_webgl2`, une requête
+`TIME_ELAPSED` encadrant 150 à 200 rendus, médiane de 3 campagnes. Attendre le
+résultat avec `MessageChannel`, jamais `setTimeout` ni `requestAnimationFrame` :
+les deux sont bridés à 1 Hz dans un onglet en arrière-plan.
+
+**Mesurer un scintillement.** `window.__atlas.mesurerScintillement()`, avec
+`composante(nom, actif)` pour éteindre une composante à la fois. Deux pièges
+déjà payés : dessiner deux fois le même état rend zéro parce qu'un GPU est
+déterministe, et un seuil trop haut ne retient que quelques pixels sur trois
+millions. Et surtout : mesurer **la situation où le défaut se produit**, pas la
+vue d'ensemble par confort.
 
 **Pièges GLSL déjà payés**, détaillés dans `ARCHITECTURE.md` :
 `half` est un mot réservé, `fwidth` renvoie 0 dans le chemin GLSL 1.0 de three
@@ -429,30 +388,46 @@ Un test « temps écoulé inférieur à la durée » ne suffit pas, il faut un d
 et une fin forcée, sinon la caméra n'atteint jamais sa destination sur une
 machine lente.
 
-**Budget.** 420 Ko gzip pour le JS hors données, couche WebGL en import
-dynamique après le premier rendu. Actuellement : index 62 K, webgl 137 K,
-proto 4 K. Marge confortable.
-
-**Performance mesurée**, panneau morceaux ouvert : 0,081 ms sur les 16,67 ms
-d'un budget 60 images par seconde, 3 appels de dessin, 204 sphères, 204 liens.
+**`verify:visual` n'est pas un outil de capture.** C'est un `echo` qui donne
+trois instructions : lancer le serveur, ouvrir `http://localhost:5173/?verify`,
+lire le JSON. Ses mesures tournent dans une page ouverte à la main. Pour une
+image, c'est `npm run capture:og` (ADR-066).
 
 ---
 
-## 9. Cartographie des fichiers
+## 8. Cartographie des fichiers
 
 ```
+ARCHITECTURE.md    66 ADR, plus une section « pièges GLSL »
 DESIGN.md          direction artistique, sections CADUC conservées pour mémoire
-ARCHITECTURE.md    27 ADR, plus une section « pièges GLSL »
 HANDOFF.md         ce document
-src/app/           page d'accueil P0
+CORPUS.md          l'appareil critique du corpus, sources nommées
+ECHECS-SILENCIEUX.md  les verdicts rassurants qui ont menti, à relire avant
+                      d'écrire un rapport
+
+src/main.tsx       routeur en mode hash : atlas, index, credits, a-propos,
+                   propositions, moderation
+src/atlas/         TOUT le produit
+  AtlasPage.tsx      la page, l'état de navigation, le choix de vue
+  webgl-orbit.ts     LE moteur 3D, seul survivant, expose window.__atlas
+  ColumnsView.tsx    la vue Colonnes
+  PlayerLayer.tsx    le lecteur, la colonne, la fiche de genre
+  structures.ts      le corpus chargé et mis en forme pour le rendu
+  CommentsSection.tsx, ProposalCard.tsx, ContributeDialog.tsx  contributions
+  verify-visual.ts   les mesures, dans le navigateur, jamais en CI
+src/data/          corpus.json (218 genres) et schema.ts (Zod)
+src/lib/           supabase, auth, comments, proposals, pwa, config
 src/design/        tokens.css et base.css
-src/data/schema.ts schéma Zod, à reprendre pour P1
-src/proto/         PROTOTYPE JETABLE, à supprimer après validation
-scripts/           lib/match.ts   LE matcher, autorité sur « est-ce bien ce morceau »
-                   check-matcher  garde-fou du matcher, 10 cas réels, tourne en CI
-                   validate-data  intégrité du corpus et couverture par genre
-                   import-tracks  injection de tracks-canon.md, source humaine
-                   fetch-covers   pochettes iTunes puis téléchargement local
-                   fetch-tracks   onglet Actuel, demande YOUTUBE_API_KEY
-.github/workflows/ deploy.yml, fonctionnel
+
+scripts/lib/match.ts   LE matcher, autorité sur « est-ce bien ce morceau »
+scripts/validate-data  intégrité du corpus et couverture par genre
+scripts/import-tracks  injection d'une source humaine dans le corpus
+scripts/build-brand.sh identité : favicons, icônes, écrans de lancement iOS
+scripts/capture-og.mjs SEUL écrivain de public/og.png (Chrome headless, CDP)
+scripts/check-*        les garde-fous, tous lancés par la CI
+
+supabase/migrations/   dix migrations appliquées : propositions, votes,
+                       modération, votes de morceaux, commentaires
+.github/workflows/deploy.yml  huit contrôles, build, contrôle anti-secret,
+                              puis publication sur GitHub Pages
 ```

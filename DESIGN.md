@@ -189,15 +189,26 @@ la luminance maximale est déjà à 255 sans elle et la moyenne ne bouge que de
 | Application | icon-192, icon-512 | mot entier | 192, 512 |
 | Application, maskable | icon-maskable-512 | mot entier, marge 20 % | 512 |
 | Interface | sonaa-logo | mot entier | 44 px de haut, 34 sur mobile |
-| Partage | og.png | disque et son filet | 1200 par 630 |
+| Partage | og.png | **capture de l'atlas**, logotype en bas à gauche | 1200 par 630 |
+
+**L'image de partage montre le produit, pas la marque.** Elle a porté le disque
+et son filet ; le disque disait qui publie, jamais ce qu'on publie, et personne
+ne clique sur un logotype. C'est maintenant une capture réelle de la vue
+d'ensemble, prise par `npm run capture:og`, avec le logotype en signature dans
+le coin bas-gauche, seul endroit que le nuage de sphères ne visite pas. Aucun
+texte ajouté, aucun slogan : les noms de genres sont déjà dans l'image, et ce
+sont eux le sujet. Le disque reste partout ailleurs, favicons et écrans de
+lancement compris, où il est à sa place.
 
 **Le disque contre le fond du site : contraste mesuré 1,07 pour 1.** Le disque
 est noir pur, le fond du site est `#0a0c10` : posé dessus, il devient invisible
 et le lettrage semble flotter. Deux conséquences, l'une et l'autre mesurées et
 non supposées :
 
-- l'image de partage porte un **filet ivoire à 28 % d'opacité** sur le bord du
-  disque, seule façon qu'il se lise comme un disque ;
+- c'est ce qui a d'abord imposé un **filet ivoire à 28 % d'opacité** sur le
+  bord du disque dans l'image de partage, seule façon qu'il se lise comme un
+  disque. L'image de partage ne porte plus le disque du tout, mais le constat
+  vaut toujours partout où le disque est posé sur le fond du site ;
 - la variante de thème du favicon va dans le sens **sombre**, pas clair : un
   disque noir se détache parfaitement d'une barre d'onglets claire, et se perd
   dans une barre sombre. `favicon-dark-*` porte donc un filet clair, servi sous
