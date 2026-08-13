@@ -2089,6 +2089,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      pas recalculée à chaque image : c'est un objet de la scène, il doit
      grandir quand on avance, pas rester collé à l'écran. */
   const openPanel = (familyIndex: number, genreLocal: number): void => {
+    tracer('4. openPanel', (familyOffset[familyIndex] ?? 0) + genreLocal);
     const base = familyOffset[familyIndex] ?? 0;
     const globalIndex = base + genreLocal;
     const slot = slotsData[globalIndex];
@@ -2111,12 +2112,14 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      déploie son sous-arbre sur la carte EN MÊME TEMPS : ouvrir les tracks
      n'empêche jamais de descendre. */
   const selectGenre = (globalIndex: number, now: number): void => {
+    tracer('2. selectGenre recoit', globalIndex);
     const slot = slotsData[globalIndex];
     if (!slot) return;
 
     const base = familyOffset[slot.family] ?? 0;
     genrePath = pathToGenre(slot.family, slot.local).map((local) => base + local);
     activeGenre = globalIndex;
+    tracer('3. activeGenre', activeGenre);
     level = 'genre';
 
     /* ======================================================================
@@ -2150,6 +2153,17 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
          point c'est tout. LA CAMÉRA NE BOUGE PAS. C'est ce qui rend l'arbre
          explorable : on parcourt une lignée à la souris sans que le cadrage
          se dérobe à chaque clic. */
+      /* LE VERROU DE CADRAGE EST RELACHE. C'ETAIT LE DEUXIEME DECLENCHEUR.
+
+         Tant que frameLock designe un noeud, la boucle de rendu rapproche la
+         camera de son cadrage A CHAQUE IMAGE. Le vol d'entree termine, mais le
+         suivi, lui, ne s'arrete jamais : la cible et la distance voulues
+         dependent de l'etendue du groupe, qui change des qu'une selection
+         change quoi que ce soit. La carte derivait donc a chaque clic.
+
+         Une SELECTION ne cadre rien. Le verrou est relache ici, et la camera
+         reste exactement ou elle est. */
+      releaseFrameLock();
       emitNav();
       openPanel(slot.family, slot.local);
       return;
@@ -2569,6 +2583,16 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     return { slot: best, kind: 'genre', famille: slotsData[best]?.family ?? -1 };
   };
 
+  /* JOURNAL DE TRACE, du clic au panneau. Sert a repondre a une seule
+     question : entre quelles deux etapes la valeur change-t-elle. Sans lui on
+     ne peut que deviner, et quatre hypotheses successives se sont deja
+     revelees fausses sur ce defaut. */
+  const trace: string[] = [];
+  const tracer = (etape: string, index: number): void => {
+    trace.push(`${etape} : ${index >= 0 ? (slotsData[index]?.label ?? '?') : 'rien'} (${index})`);
+    if (trace.length > 40) trace.shift();
+  };
+
   const performTapAction = (px: number, py: number): void => {
     /* Le doigt couvre environ 9 mm, la souris un pixel. La tolérance suit le
        pointeur, elle ne suit pas la mode. */
@@ -2577,6 +2601,9 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
 
     /* LE NOM D'ABORD. C'est lui qu'on lit et qu'on vise ; la sphère est
        souvent plus petite que le mot qui la désigne. */
+    const cibleTracee = cibleAuPoint(px, py);
+    tracer('1. ciblage', cibleTracee && cibleTracee.kind === 'genre' ? cibleTracee.slot : -1);
+
     const nom = nomTouche(px, py, grossier ? 10 : 4);
     dernierTap = {
       px: Math.round(px),
@@ -4030,7 +4057,14 @@ const OVERLAP_TOLERANCE = 1;
       targetSmooth.lerpVectors(flyFrom, flyTo, k);
       distance = flyFromDist + (flyToDist - flyFromDist) * k;
       target.copy(targetSmooth);
-      if (k >= 1) flying = false;
+      if (k >= 1) {
+        flying = false;
+        /* LE VOL FINI, LE VERROU TOMBE. La camera est arrivee ou elle devait
+           arriver : la suivre encore n'ajoute rien et fait deriver la carte a
+           chaque changement d'etendue du groupe. Le cadrage est un GESTE, pas
+           un asservissement permanent. */
+        frameLock = -1;
+      }
     }
 
     /* Suivi continu quand un panneau est ouvert : la cible suit le CENTRE DE
@@ -4981,6 +5015,10 @@ const OVERLAP_TOLERANCE = 1;
        Rend la zone active, l'état de flou, et surtout LA PLUS COURTE
        DISTANCE ENTRE DEUX CIBLES À L'ÉCRAN : c'est le chiffre qui dit si la
        couronne d'entrée tient sa promesse de 44 px. */
+    /* Le journal du dernier clic, etape par etape. */
+    trace: () => trace.slice(),
+    viderTrace: () => { trace.length = 0; },
+
     zoneFocus: () => {
       const dedans: {
         slot: number;
@@ -4988,6 +5026,7 @@ const OVERLAP_TOLERANCE = 1;
         x: number;
         y: number;
         rayonPx: number;
+        rayonClicPx: number;
         presence: number;
         profondeur: number;
         generation: number;
@@ -5005,6 +5044,7 @@ const OVERLAP_TOLERANCE = 1;
             x: Math.round(projected[i * 3] ?? 0),
             y: Math.round(projected[i * 3 + 1] ?? 0),
             rayonPx: Math.round(rayonEcran(i)),
+            rayonClicPx: Math.round(rayonClic[i] ?? 0),
             presence: Math.round(presence * 100) / 100,
             profondeur: slotsData[i]?.depth ?? -1,
             generation: zoneGeneration[i] ?? -1,
