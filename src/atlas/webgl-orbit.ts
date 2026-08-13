@@ -1029,7 +1029,19 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     let rMax = 0.5;
     for (const i of sousArbre) rMax = Math.max(rMax, baseRadii[i] ?? 0.5);
     const rRacine = baseRadii[globalIndex] ?? 1;
-    const PAS = Math.max((rRacine + rMax) * 2.2, rMax * 4.4);
+    /* LE PAS DES ANNEAUX, RESSERRÉ SUR GRAND ÉCRAN.
+
+       Demande de Mika : les liens sont trop longs. Resserrer TOUT ne changerait
+       rien à l'écran, la caméra suivant l'échelle (ADR-075) ; ce qui change,
+       c'est le RAPPORT entre le pas radial et l'écartement angulaire. On réduit
+       donc le seul pas des anneaux, d'un quart : les branches lointaines
+       reviennent vers le centre, les liens raccourcissent d'autant, et l'écart
+       entre deux voisins d'un même anneau, lui, reste commandé par ESPACE_MIN.
+
+       Le mobile n'y touche pas : il déborde déjà du cadre (ADR-080) et sa
+       contrainte est le doigt, pas la longueur des liens. */
+    const SERRAGE = width >= 768 ? 0.75 : 1;
+    const PAS = Math.max((rRacine + rMax) * 2.2, rMax * 4.4) * SERRAGE;
 
     /* LE PARENT DE LA RACINE garde le fil : sans lui on ne sait plus d'où l'on
        vient. Il occupe une part du premier anneau comme s'il était un enfant
@@ -1504,7 +1516,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     // Un glissement horizontal franc au trackpad fait quand même tourner.
     if (!event.ctrlKey && Math.abs(event.deltaX) > Math.abs(event.deltaY) * 1.5) {
       dollyVel -= event.deltaY * k;
-      azVel -= event.deltaX * 0.0011;
+      if (!zoneActive) azVel -= event.deltaX * 0.0011;
     }
   };
 
@@ -1808,6 +1820,31 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
        restait allumé pendant toute l'orbite, sur une sphère qu'on n'avait
        pas choisie. */
     if (moved >= SEUIL_GLISSEMENT) eteindrePression();
+
+    /* DANS UN GENRE, LA VUE EST PLATE : on se déplace, on ne tourne pas.
+
+       La disposition de l'arbre est posée UNE FOIS dans le plan de la caméra,
+       à l'entrée. Faire pivoter la caméra ensuite l'aplatit en ligne et ruine
+       la lecture : je l'avais constaté en mesurant les recouvrements de noms,
+       où le test faisait tourner l'orbite dans le mode focus et rendait
+       « echec » sur une disposition parfaitement correcte.
+
+       Plutôt que d'interdire un geste sans rien offrir, le glissement DÉPLACE
+       la vue dans son plan. Zoom et déplacement, pas d'orbite, pas
+       d'élévation. */
+    if (zoneActive) {
+      const echelle = (2 * Math.tan((FOV * Math.PI) / 360) * distance) / Math.max(1, height);
+      const droite = new Vector3().setFromMatrixColumn(camera.matrixWorld, 0).normalize();
+      const haut = new Vector3().setFromMatrixColumn(camera.matrixWorld, 1).normalize();
+      target.addScaledVector(droite, -dx * echelle).addScaledVector(haut, dy * echelle);
+      targetSmooth.copy(target);
+      dragVX = 0;
+      dragVY = 0;
+      lastX = event.clientX;
+      lastY = event.clientY;
+      applyCamera();
+      return;
+    }
 
     /* SUIVI DIRECT : la rotation se fait pendant le geste, pas après. */
     azimuth -= dx * DRAG_K;
@@ -2448,10 +2485,11 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     if (introActive) { finishIntro(); return; }
     if (event.target instanceof HTMLInputElement) return;
     switch (event.key) {
-      case 'ArrowLeft': azVel -= 0.045; break;
-      case 'ArrowRight': azVel += 0.045; break;
-      case 'ArrowUp': elVel += 0.035; break;
-      case 'ArrowDown': elVel -= 0.035; break;
+      /* Dans un genre, les flèches ne tournent plus : la vue y est plate. */
+      case 'ArrowLeft': if (!zoneActive) azVel -= 0.045; break;
+      case 'ArrowRight': if (!zoneActive) azVel += 0.045; break;
+      case 'ArrowUp': if (!zoneActive) elVel += 0.035; break;
+      case 'ArrowDown': if (!zoneActive) elVel -= 0.035; break;
       case '+': case '=': dollyVel -= 5.5; break;
       case '-': case '_': dollyVel += 5.5; break;
       case '0': releaseFrameLock(); recenter(); break;
@@ -2494,6 +2532,13 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      une famille sélectionnée qu'on ne voyait plus. */
   const recenter = (): void => {
     cameraAtDefault = true;
+    /* LE CADRAGE D'ACCUEIL, A L'IDENTIQUE. La distance et la cible étaient
+       remises, PAS LES ANGLES : après avoir orbité, revenir à l'atlas rendait
+       la carte vue sous un autre angle qu'au premier chargement. Ce n'était
+       pas le même écran, et c'est ce que « revenir à la vue d'ensemble »
+       promet. */
+    azimuth = DEFAULT_AZIMUTH;
+    elevation = DEFAULT_ELEVATION;
     tapZoomPrev = null;
     pinchDist = 0;
     closePanel();
@@ -2746,10 +2791,14 @@ const OVERLAP_TOLERANCE = 1;
       const pxFocus = (() => {
         if (!zoneActive || slot < 0 || zone[slot] !== 1) return 0;
         const g = zoneGeneration[slot] ?? -1;
-        if (g === 0) return 22;
-        if (g === 1) return 16;
-        if (g === 2) return 13;
-        return 12;
+        /* Trois niveaux, remontés d'un cinquième sur grand écran : 22, 16 et
+           13 px devenaient 26, 19 et 16. Le plancher reste 12 px, et le mobile
+           garde les valeurs d'origine, jugées bonnes. */
+        const grand = width >= 768;
+        if (g === 0) return grand ? 26 : 22;
+        if (g === 1) return grand ? 19 : 16;
+        if (g === 2) return grand ? 16 : 13;
+        return grand ? 14 : 12;
       })();
       const pxCalcule =
         kind === 'genre'
@@ -4537,6 +4586,24 @@ const OVERLAP_TOLERANCE = 1;
           familleOuverte: openIndex,
           progresFamille: activeFamily >= 0 ? Math.round((familyProgress[activeFamily] ?? -1) * 100) / 100 : null,
           rayonGroupe: Math.round(focusRingRadius() * 100) / 100,
+        /* Longueur MOYENNE des liens de l'arbre, en pixels d'écran : c'est ce
+           que le resserrement des anneaux doit faire baisser. */
+        lienMoyenPx: (() => {
+          let somme = 0;
+          let n = 0;
+          for (const [i] of focusOffsets) {
+            const si = slotsData[i];
+            if (!si || zone[i] !== 1 || si.parent < 0) continue;
+            const pi = (familyOffset[si.family] ?? 0) + si.parent;
+            if (zone[pi] !== 1) continue;
+            somme += Math.hypot(
+              (projected[i * 3] ?? 0) - (projected[pi * 3] ?? 0),
+              (projected[i * 3 + 1] ?? 0) - (projected[pi * 3 + 1] ?? 0)
+            );
+            n += 1;
+          }
+          return n > 0 ? Math.round(somme / n) : 0;
+        })(),
 
         labelsMordus,
           offsetsPoses: focusOffsets.size,
@@ -4659,13 +4726,13 @@ const OVERLAP_TOLERANCE = 1;
     goUp,
     goToFamily: (familyIndex: number) => {
       if (familyIndex < 0) {
-        const now = performance.now();
-        if (activeFamily >= 0) setDeploy(activeFamily, false, now);
-        activeFamily = -1;
-        activeGenre = -1;
-        level = 'atlas';
-        startFly(atlasTarget, atlasDistance, now);
-        emitNav();
+        /* RETOUR A LA VUE D'ENSEMBLE : le cadrage du premier chargement, à
+           l'identique. Ce chemin remettait la distance et la cible mais
+           laissait les angles où l'orbite les avait mis, l'arbre ouvert dans
+           sa zone, et le mode focus armé. On passe donc par recenter, qui
+           remet tout, y compris les angles. */
+        sortirDuFocus();
+        recenter();
       } else {
         selectFamily(familyIndex, performance.now());
       }

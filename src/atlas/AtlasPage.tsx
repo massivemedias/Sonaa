@@ -443,6 +443,28 @@ export function AtlasPage() {
         <span className="brand-sweep" aria-hidden="true" />
       </button>
 
+      {/* LA FLÈCHE DE RETOUR, à gauche du fil d'Ariane, visible seulement
+          quand on est entré quelque part.
+
+          Le fil d'Ariane sait déjà remonter, mais il demande de viser le bon
+          segment et de comprendre qu'un segment est cliquable. Une flèche ne
+          demande rien : c'est le geste que tout le monde connaît, et elle
+          remonte d'un cran. */}
+      {mode === 'webgl' && (level !== 'atlas' || panelGenre) && (
+        <button className="crumb-retour" onClick={() => apiRef.current?.goUp()} aria-label="Remonter d'un niveau" title="Remonter d'un niveau">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15 5 L8 12 L15 19"
+            />
+          </svg>
+        </button>
+      )}
+
       {/* Fil d'Ariane permanent : on sait toujours où on est, et on remonte
           en un clic sur n'importe quel segment. */}
       <nav

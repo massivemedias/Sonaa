@@ -3440,6 +3440,67 @@ arbres denses : c'est un defaut, non corrige, et il est ici pour qu'on le sache.
 
 ---
 
+## ADR-081 : Vue plate dans un genre, retour au cadrage d'accueil, et un echec mesure
+
+**Statut** : accepte, 12 aout 2026.
+
+**LA VUE EST PLATE DANS UN GENRE.** L'arbre est pose UNE FOIS dans le plan de
+la camera, a l'entree. Faire pivoter la camera ensuite l'aplatit en ligne et
+ruine la lecture : je l'avais constate en mesurant les recouvrements de noms,
+ou le test faisait tourner l'orbite dans le mode focus et rendait « echec » sur
+une disposition parfaitement correcte.
+
+Plutot que d'interdire un geste sans rien offrir, le glissement DEPLACE la vue
+dans son plan. Zoom et deplacement, pas d'orbite, pas d'elevation ; les fleches
+et la molette laterale s'abstiennent aussi. Hors d'un genre, l'orbite est
+intacte.
+
+**LE RETOUR REND LE CADRAGE DU PREMIER CHARGEMENT, A L'IDENTIQUE.** Le chemin
+du logo remettait la distance et la cible mais laissait les ANGLES ou l'orbite
+les avait mis : apres avoir tourne, revenir a l'atlas montrait la carte sous un
+autre angle qu'a l'arrivee. Ce n'etait pas le meme ecran, et c'est ce que
+« revenir a la vue d'ensemble » promet. Les angles par defaut sont desormais
+remis, et le mode focus quitte avant.
+
+**UNE FLECHE DE RETOUR** parait a gauche du fil d'Ariane des qu'on est entre
+quelque part. Le fil sait deja remonter, mais il demande de viser le bon
+segment et de comprendre qu'un segment est cliquable ; une fleche ne demande
+rien. Cible de 44 px.
+
+**LES TROIS NIVEAUX DE TEXTE montent d'un cinquieme sur grand ecran** : 22, 16
+et 13 px deviennent 26, 19 et 16, plancher a 12. Le mobile garde ses valeurs,
+jugees bonnes.
+
+**CE QUI A ETE DEMANDE ET N'A PAS ETE OBTENU : raccourcir les liens.**
+
+Le pas des anneaux a bien ete reduit d'un quart sur grand ecran. Mesure sur
+Chicago House, 1280 px, par de vrais clics :
+
+| | ecart minimal entre cibles | longueur moyenne des liens |
+| --- | --- | --- |
+| avant | 41 px | 98 px |
+| apres | 53 px | 104 px |
+
+**Les liens ont ALLONGE de 6 %.** La raison est celle deja ecrite en ADR-075,
+et je ne l'avais pas vue s'appliquer ici : resserrer la disposition reduit son
+etendue, le cadrage rapproche la camera d'autant, et tout regrandit a l'ecran.
+Le pas radial a bien diminue dans le monde ; a l'ecran, l'agrandissement l'a
+plus que compense.
+
+Ce qui a ete gagne est reel et va dans le bon sens, l'ecart entre cibles passant
+de 41 a 53 px, soit 29 % de mieux, avec des textes plus grands. Mais la demande
+precise, des liens plus courts, n'est pas satisfaite, et il faut le dire plutot
+que de presenter le gain d'a cote comme la reponse.
+
+**Le seul levier qui resterait** est de changer le RAPPORT entre le pas radial
+et l'ecartement angulaire, c'est-a-dire d'etaler davantage les branches en
+angle. Elles occupent deja les 360 degres : il faudrait alors accepter que
+l'arbre ne soit plus centre sur sa racine, ou grossir les spheres pour que les
+liens paraissent plus courts a cote d'elles. Aucune des deux n'a ete faite
+sans arbitrage.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle

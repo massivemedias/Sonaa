@@ -203,6 +203,40 @@
   pointer-events: none;
 }
 
+/* LA FLÈCHE DE RETOUR. Même bande que le fil d'Ariane, à sa gauche, et le fil
+   se décale d'autant quand elle est là. Cible de 44 px, comme les contrôles. */
+.crumb-retour {
+  position: absolute;
+  top: calc(1rem - 0.6rem);
+  left: 0.6rem;
+  z-index: 7;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-secondary);
+  cursor: pointer;
+}
+
+.crumb-retour:hover,
+.crumb-retour:focus-visible {
+  color: var(--ink-primary);
+  background: oklch(1 0 0 / 0.08);
+}
+
+.crumb-retour svg {
+  width: 20px;
+  height: 20px;
+}
+
+.atlas-root:has(.crumb-retour) .crumbs {
+  left: 3.4rem;
+}
+
 /* Fil d'Ariane permanent. */
 .crumbs {
   position: absolute;
