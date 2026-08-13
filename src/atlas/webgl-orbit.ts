@@ -2593,28 +2593,40 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
          le logo un code a lui, et Echap un troisieme : trois retours qui ne
          rendaient pas le meme ecran. Ils appellent tous recenter, qui EST le
          cadrage d'accueil. */
-      /* ZONE MORTE : RATER DE PEU NE RENVOIE PLUS EN ARRIÈRE.
+      /* ═══════════════════════════════════════════════════════════════
+         DANS UN GENRE OUVERT, UN CLIC QUI NE TOUCHE RIEN NE FAIT RIEN.
 
-         Signalé, et c'est le pire des comportements : on vise une sphère, on
-         la manque de quelques pixels, et l'écran repart à l'accueil. Le geste
-         raté coûte alors tout ce qu'on avait ouvert, alors qu'il ne voulait
-         rien fermer.
+         RÈGLE POSÉE PAR MIKA, ET ELLE SUPPRIME UNE CLASSE ENTIÈRE DE DÉFAUTS.
 
-         On regarde donc s'il y a une sphère PROCHE, dans une couronne deux
-         fois plus large que la tolérance de clic. S'il y en a une, le clic
-         est simplement IGNORÉ : on ne sélectionne pas, parce qu'on n'est pas
-         sûr de la cible, et on ne referme pas, parce que ce n'était
-         manifestement pas l'intention. */
-      const presque = chercherCible(px, py, (grossier ? 44 : 26) * 2.2);
-      if (presque >= 0) {
-        dernierTap['decision'] = 'rate de peu : ignore';
+         Le clic dans le vide refermait le mode focus et ramenait à la vue
+         d'ensemble. C'était défendable en soi : le pendant naturel du second
+         Échap. Mais il s'appuyait sur une condition dont on ne peut pas
+         garantir la justesse à tous les coups, « le ciblage n'a rien trouvé »,
+         et quand le ciblage se trompe la sanction est maximale : on perd tout
+         ce qu'on avait ouvert, sans l'avoir demandé.
+
+         Signalé ainsi : cliquer une sphère dérivée ramenait à la vue
+         d'ensemble. Le ciblage rendait « rien » alors que le doigt était bien
+         sur une sphère, et le chemin du vide se déclenchait à la place.
+
+         Plutôt que de chasser indéfiniment les cas où le ciblage rate, on
+         retire à son échec tout pouvoir de destruction. Un ciblage qui se
+         trompe ne coûte alors plus rien : il ne se passe rien, on reclique.
+
+         REMONTER RESTE POSSIBLE, par trois chemins explicites et sans
+         ambiguïté : Échap, le logotype, et la flèche de retour. Trois gestes
+         dont aucun ne dépend d'un calcul de position.
+
+         La zone morte de tolérance qui précédait cette règle disparaît : elle
+         n'était qu'une atténuation du même problème, et une atténuation qui
+         laissait passer les cas au-delà de son rayon.
+         ═══════════════════════════════════════════════════════════════ */
+      if (zoneActive) {
+        dernierTap['decision'] = 'vide dans un genre : sans effet';
         return;
       }
-      dernierTap['decision'] = zoneActive ? 'vide en focus : retour accueil' : 'vide : remontee';
-      if (zoneActive) {
-        sortirDuFocus();
-        recenter();
-      } else goUp();
+      dernierTap['decision'] = 'vide : remontee';
+      goUp();
     } else if (level === 'atlas') {
       // Même règle que pour le nom : depuis l'atlas, on entre dans le genre.
       goToGenre(slot.family, slot.local);
