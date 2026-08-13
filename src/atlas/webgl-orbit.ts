@@ -2997,11 +2997,22 @@ const OVERLAP_TOLERANCE = 1;
         /* Trois niveaux, remontés d'un cinquième sur grand écran : 22, 16 et
            13 px devenaient 26, 19 et 16. Le plancher reste 12 px, et le mobile
            garde les valeurs d'origine, jugées bonnes. */
+        /* SOUS 500 PX, LES TAILLES SONT DIVISÉES PAR DEUX.
+
+           Sur un téléphone, « Musique concrète » à 22 px faisait deux fois la
+           largeur de sa sphère et s'écrivait par-dessus elle : le texte
+           dominait la carte au lieu de l'étiqueter. Le rapport doit
+           s'inverser, la sphère est l'objet, le nom son étiquette.
+
+           Le plancher de 12 px vaut pour le bureau ; il descend à 9 sur
+           téléphone, où la densité de pixels est trois fois supérieure et où
+           9 px de CSS valent 27 px physiques. */
         const grand = width >= 768;
-        if (g === 0) return grand ? 26 : 22;
-        if (g === 1) return grand ? 19 : 16;
-        if (g === 2) return grand ? 16 : 13;
-        return grand ? 14 : 12;
+        const etroit = width < 500;
+        if (g === 0) return grand ? 26 : etroit ? 12 : 22;
+        if (g === 1) return grand ? 19 : etroit ? 10 : 16;
+        if (g === 2) return grand ? 16 : etroit ? 9 : 13;
+        return grand ? 14 : etroit ? 9 : 12;
       })();
       const pxCalcule =
         kind === 'genre'
@@ -3058,8 +3069,22 @@ const OVERLAP_TOLERANCE = 1;
                s'en approche. */
             const rPx = ((baseRadii[slot] ?? 1) * halfH) / (Math.tan((FOV * Math.PI) / 360) * Math.max(1, depth));
             const push = rPx + px * 0.9;
-            fx = sx + vx * push - (vx < 0 ? w : 0) - (Math.abs(vx) < 0.35 ? w / 2 : 0);
-            fy = sy + vy * push;
+
+            /* SOUS 500 PX, LE NOM SE POSE SOUS SA SPHÈRE, jamais à côté.
+
+               Sur un écran étroit, un nom poussé vers la droite déborde du
+               cadre ou se pose sur la sphère voisine : il n'y a pas 100 px de
+               libre à droite d'un objet quand l'écran en fait 390. Sous la
+               sphère et centré, la place existe toujours, et la relation
+               entre le nom et l'objet se lit à la verticale, qui est le sens
+               de lecture d'une liste. */
+            if (width < 500) {
+              fx = sx - w / 2;
+              fy = sy + rayonEcran(slot) + px * 0.9;
+            } else {
+              fx = sx + vx * push - (vx < 0 ? w : 0) - (Math.abs(vx) < 0.35 ? w / 2 : 0);
+              fy = sy + vy * push;
+            }
           }
         }
       }
@@ -4162,7 +4187,14 @@ const OVERLAP_TOLERANCE = 1;
         const breath = 1;
         /* DOUZE POUR CENT au survol, et non huit : c'est le premier des
            quatre signes qui disent « ici, on peut cliquer ». */
-        sphereRadii[i] = (baseRadii[i] ?? 1) * breath * (1 + 0.12 * (hoverAmount[i] ?? 0));
+        /* LES SPHÈRES GROSSISSENT ENCORE SUR PETIT ÉCRAN. Le rapport entre
+           l'objet et son étiquette doit s'inverser : c'est la sphère qu'on
+           vise du doigt, et elle faisait deux pixels de rayon sur les
+           générations profondes. Le facteur porte aussi la zone cliquable,
+           qui se calcule sur ce rayon. */
+        const facteurEtroit = width < 500 ? 1.75 : 1;
+        sphereRadii[i] =
+          (baseRadii[i] ?? 1) * breath * facteurEtroit * (1 + 0.12 * (hoverAmount[i] ?? 0));
       }
 
       /* GARDE INCONDITIONNELLE : UNE SPHERE DANS SON PARENT N'EST PAS PEINTE.
