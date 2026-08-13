@@ -436,7 +436,7 @@ const testFocus = (): FocusResult => {
       actif: boolean;
       cibles: number;
       ecartMinPx: number | null;
-      membres: { label: string; x: number; y: number; rayonPx: number }[];
+      membres: { slot: number; label: string; x: number; y: number; rayonPx: number }[];
       flouHorsZone: { min: number; max: number };
       horsZonePasEncoreFloues: number;
     };
@@ -496,11 +496,27 @@ const testFocus = (): FocusResult => {
     const r = el.getBoundingClientRect();
     if (r.left <= -500 || Number(getComputedStyle(el).opacity) <= 0.05) continue;
     if ((el as HTMLElement).dataset['flou'] === '1') continue;
-    const sien = z.membres.find((m) => m.label === (el.textContent ?? ''));
+    /* APPARIEMENT PAR IDENTITE, jamais par texte. Le corpus contient des
+       homonymes, et un controle voisin s'y etait deja fait prendre : il
+       comparait alors un genre a la boite d'un AUTRE et inventait un ecart. */
+    const slot = Number((el as HTMLElement).dataset['slot'] ?? -1);
+    const sien = z.membres.find((m) => m.slot === slot);
     if (!sien) continue;
-    const cx = r.left + r.width / 2;
-    const cy = r.top + r.height / 2;
-    const auBord = Math.max(0, Math.hypot(cx - sien.x, cy - sien.y) - sien.rayonPx);
+    /* LA DISTANCE SE MESURE DU BORD DE LA SPHERE AU POINT LE PLUS PROCHE DE
+       LA BOITE, jamais a son centre.
+
+       Mesurer au centre penalise la LONGUEUR du nom : « Indie Dance » a
+       dix-neuf pixels fait cent pixels de large, son centre est donc a
+       cinquante pixels de son bord gauche, et le controle comptait cinquante
+       pixels d'eloignement pour un nom parfaitement colle a sa sphere. Ce
+       n'est pas ce que l'oeil fait : il rattache un nom a un objet quand leur
+       BORDS se touchent, quelle que soit la longueur du mot.
+
+       Premiere version, au centre : 53, 51, 59 et 64 px. Meme placement,
+       mesure au bord : voir ci-dessous. */
+    const px2 = Math.max(r.left, Math.min(sien.x, r.right));
+    const py2 = Math.max(r.top, Math.min(sien.y, r.bottom));
+    const auBord = Math.max(0, Math.hypot(px2 - sien.x, py2 - sien.y) - sien.rayonPx);
     if (auBord > nomLoinDeSaSpherePx) {
       nomLoinDeSaSpherePx = Math.round(auBord);
       nomLePlusLoin = `${el.textContent ?? ''} a ${Math.round(auBord)} px de sa sphere`;

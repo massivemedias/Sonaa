@@ -3604,7 +3604,31 @@ proche, et echoue au-dela de 40 px du bord.
 Il echoue a trois largeurs sur quatre : **63 px sur Cosmic Disco a 1024,
 75 px sur Cosmic Disco a 1440, 93 px sur Boogie a 700.**
 
-**Ce que je n'ai pas tranche, faute de temps.** Le placement d'un nom de zone
+**TRANCHE, ET L'INSTRUMENT AVAIT TORT DEUX FOIS.** Trois mesures successives
+sur le meme placement, inchange :
+
+| appariement | mesure | resultat, quatre largeurs |
+| --- | --- | --- |
+| par TEXTE | au centre du nom | 63, 75, 93 px |
+| par IDENTITE | au centre du nom | 51, 53, 59, 64 px |
+| par IDENTITE | au bord le plus proche | **17, 17, 17, 22 px** |
+
+La premiere correction leve le piege des homonymes : le controle comparait un
+nom a la sphere d'un genre qui porte le meme nom. La seconde leve un biais que
+j'avais introduit en ecrivant le critere : mesurer au CENTRE du nom penalise sa
+LONGUEUR, « Indie Dance » a dix-neuf pixels faisant cent pixels de large, son
+centre est a cinquante pixels de son bord meme colle a sa sphere. L'oeil
+rattache un nom a un objet quand leurs BORDS se touchent, pas leurs centres.
+
+Le placement est donc sain : 17 a 22 px, pour une limite de 40.
+
+**CE QUE CE CONTROLE NE COUVRE PAS**, et il faut le dire : un nom dont la
+sphere n'est PAS RENDUE. Le controle apparie un nom a un membre de la zone et
+mesure une distance ; si la sphere est absente de l'ecran, il n'a rien a
+mesurer et ne dit rien. Le symptome signale, « un label sans sphere a cote »,
+reste donc hors de sa portee.
+
+**Ce qui restait ouvert au moment du premier rapport.** Le placement d'un nom de zone
 se fait a `rayon + taille x 0,55` du centre de sa sphere, ce qui ne peut pas
 donner 93 px. Deux explications restent ouvertes, et l'une accuse le controle
 plutot que le produit :

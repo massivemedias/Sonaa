@@ -3453,6 +3453,12 @@ const OVERLAP_TOLERANCE = 1;
         /* Le nom marqué suit la SÉLECTION, pas la racine de la vue : c'est
            le noeud qu'on vient de cliquer qu'il faut retrouver d'un coup
            d'oeil parmi ceux de sa génération. */
+        /* L'INDEX DE LA SPHERE, pose sur le nom. Sans lui, tout controle qui
+           veut relier un nom a son objet doit passer par le TEXTE, et le
+           corpus contient des homonymes : c'est le piege deja paye sur le
+           controle des boites, ou un genre fondateur porte le meme nom que sa
+           famille. Une identite se compare, un texte se devine. */
+        ls.el.dataset['slot'] = String(entry.slot);
         ls.el.dataset['survol'] =
           hovered >= 0 && entry.slot === hovered ? '1' : '0';
         ls.el.dataset['focus'] =
@@ -4620,6 +4626,7 @@ const OVERLAP_TOLERANCE = 1;
        couronne d'entrée tient sa promesse de 44 px. */
     zoneFocus: () => {
       const dedans: {
+        slot: number;
         label: string;
         x: number;
         y: number;
@@ -4636,6 +4643,7 @@ const OVERLAP_TOLERANCE = 1;
         const presence = sphereState[i * 4] ?? 0;
         if (zoneActive && zone[i] === 1) {
           dedans.push({
+            slot: i,
             label: slotsData[i]?.label ?? '',
             x: Math.round(projected[i * 3] ?? 0),
             y: Math.round(projected[i * 3 + 1] ?? 0),

@@ -18,6 +18,46 @@ Trois questions posées à chaque script :
 
 ---
 
+## Les quatre motifs, et le quatrième est le plus récent
+
+Ils reviennent, et toujours déguisés. Les nommer est la seule défense.
+
+**1. Le verdict rassurant.** Un contrôle qui rend « rien à signaler » alors
+qu'il n'a pas reçu sa donnée d'entrée. Quarante-cinq intégrales d'album sont
+entrées ainsi.
+
+**2. L'instrument braqué au mauvais endroit.** Une mesure juste, sur une
+situation que personne ne rencontre. Le scintillement a été mesuré à zéro
+pendant qu'il était visible à l'écran, parce que la mesure portait sur la vue
+d'ensemble et le défaut sur l'état déployé.
+
+**3. L'appariement par le texte.** Deux objets portent le même nom, le contrôle
+compare l'un à la boîte de l'autre et invente un écart. Payé deux fois : sur le
+contrôle des boîtes de labels, puis, sans que la leçon serve, sur le contrôle
+de distance nom-sphère, qui accusait 93 px là où il y en avait 17.
+
+**4. DÉCOUPLER UNE GRANDEUR SANS LISTER SES APPELANTS.**
+
+Le dernier en date, et le plus coûteux à voir. Le rayon d'une sphère servait à
+trois choses à la fois : la dessiner, calculer la disposition, et calculer le
+cadrage. En le séparant en deux valeurs pour qu'un grossissement se voie
+enfin, j'ai mis à jour deux usages sur trois. Le troisième, les écarts
+minimaux entre voisins, a continué de travailler sur l'ancienne valeur : il
+autorisait donc **quarante pour cent de recouvrement, par construction**, et
+le défaut est apparu là où deux sphères étaient déjà proches.
+
+Rien n'a plante, rien n'a rendu de verdict faux. Le code était cohérent avec
+lui-même, simplement il ne parlait plus de la même grandeur d'un endroit à
+l'autre.
+
+**La règle : quand tu sépares une grandeur en deux, tu listes ses appelants
+AVANT de changer quoi que ce soit,** et tu décides pour chacun laquelle des
+deux valeurs il doit prendre. Un `grep` du nom de la variable est le minimum,
+et il prend une minute. Ce qui est en jeu n'est pas une panne, c'est une
+incohérence silencieuse entre deux moitiés d'un même calcul.
+
+---
+
 ## Corrigés dans cette passe
 
 ### `lib/match.ts`, `searchYouTube` — GRAVE
