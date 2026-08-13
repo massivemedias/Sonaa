@@ -27,6 +27,40 @@ interface Props {
   readonly filiationDebattue: boolean;
 }
 
+/* LE BROUILLON VENU DE LA RECHERCHE. Quand une recherche ne trouve rien, le
+   texte cherché est mis de côté : c'est presque toujours « artiste titre », et
+   le retaper serait absurde. On le pose dans le champ artiste, qui est le
+   premier, et la personne répartit.
+
+   Il est consommé une seule fois : une proposition suivante ne doit pas
+   hériter d'une recherche oubliée. */
+const brouillonDeLaRecherche = (
+  kind: ProposalKind,
+  genreId: string
+): {
+  brouillonInitial: {
+    kind: 'track';
+    genreId: string;
+    artist: string;
+    title: string;
+    url: string;
+    justification: string;
+  };
+} | null => {
+  if (kind !== 'track') return null;
+  let texte: string | null = null;
+  try {
+    texte = sessionStorage.getItem('sonaa-proposition-brouillon');
+    if (texte) sessionStorage.removeItem('sonaa-proposition-brouillon');
+  } catch {
+    /* Navigation privée : le formulaire part vide, ce qui reste mieux que rien. */
+  }
+  if (!texte) return null;
+  return {
+    brouillonInitial: { kind: 'track', genreId, artist: texte, title: '', url: '', justification: '' }
+  };
+};
+
 export function ContributeActions({ genreId, genreLabel, filiationDebattue }: Props) {
   const [ouverte, setOuverte] = useState<ProposalKind | null>(null);
   const [enAttente, setEnAttente] = useState(0);
@@ -80,6 +114,13 @@ export function ContributeActions({ genreId, genreLabel, filiationDebattue }: Pr
             kind={ouverte}
             genreId={genreId}
             genreLabel={genreLabel}
+            /* LE BROUILLON VENU DE LA RECHERCHE. Quand une recherche ne trouve
+               rien, le texte cherché est mis de côté : c'est presque toujours
+               « artiste titre », et le retaper serait absurde. On le pose dans
+               le champ artiste, qui est le premier, et la personne répartit.
+               Il est consommé une seule fois : une proposition suivante ne
+               doit pas hériter d'une recherche oubliée. */
+            {...(brouillonDeLaRecherche(ouverte, genreId) ?? {})}
             onClose={() => setOuverte(null)}
           />
         </Suspense>

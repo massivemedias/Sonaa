@@ -196,3 +196,140 @@
   font-size: 0.9375rem;
   font-weight: var(--weight-genre);
 }
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   UN RÉSULTAT DE MORCEAU : LE GENRE D'ABORD.
+
+   La hiérarchie de lecture suit la question qu'on vient poser. Titre et
+   artiste servent à reconnaître le morceau, en petit ; le genre est la
+   réponse, en grand et dans sa teinte de famille.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.search-hit-track {
+  display: grid;
+  gap: 0.3rem;
+  align-items: start;
+  padding-block: 0.7rem;
+}
+
+.search-track-tete {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  font-size: 0.8125rem;
+  color: var(--ink-secondary);
+}
+
+.search-track-titre {
+  color: var(--ink-primary);
+  font-weight: 500;
+}
+
+.search-track-artiste::before {
+  content: '· ';
+  color: var(--rule-strong);
+}
+
+.search-track-genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  align-items: baseline;
+}
+
+/* LE GENRE EN GRAND. C'est la seule chose de cette ligne qu'on lit de loin. */
+.search-track-genre {
+  display: inline-flex;
+  flex-direction: column;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.15;
+  cursor: pointer;
+}
+
+.search-track-genre:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.search-track-famille {
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+.search-track-charniere {
+  font-size: 0.6875rem;
+  color: var(--ink-secondary);
+  font-style: italic;
+}
+
+.search-track-sortie {
+  font-size: 0.6875rem;
+  color: var(--ink-secondary);
+}
+
+.search-track-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.15rem;
+}
+
+.search-track-bouton {
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  border: 1px solid var(--rule-hairline);
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  cursor: pointer;
+}
+
+.search-track-bouton:hover {
+  color: var(--ink-primary);
+  border-color: var(--rule-strong);
+}
+
+/* L'ÉTAT SANS RÉSULTAT, qui est le cas le plus fréquent. */
+.search-vide {
+  padding: 1.1rem 0.9rem;
+  display: grid;
+  gap: 0.45rem;
+  justify-items: start;
+}
+
+.search-vide-titre {
+  margin: 0;
+  color: var(--ink-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.search-vide-texte,
+.search-vide-aide {
+  margin: 0;
+  color: var(--ink-secondary);
+  font-size: 0.75rem;
+}
+
+.search-vide-aide {
+  font-size: 0.6875rem;
+  opacity: 0.8;
+}
+
+.search-vide-bouton {
+  margin-top: 0.2rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: #0a0c10;
+  background: #f2f4f8;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+}
