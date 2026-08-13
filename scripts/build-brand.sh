@@ -18,12 +18,9 @@
 #     un disque noir se detache tres bien d'une barre d'onglets claire, et
 #     se perd dans une barre sombre.
 #
-# TOUS les favicons sont le disque entier, utilise tel quel. Une version
-# precedente les recadrait sur le S initial pour gagner en lisibilite a
-# 16 px ; ce n'est plus le cas, sur demande. Le disque est la forme que la
-# marque doit avoir partout, y compris dans un onglet : on reconnait une
-# pastille avant de lire un lettrage, et une icone qui ne ressemble a
-# aucune autre declinaison ne sert pas la marque, meme lisible.
+# LES FAVICONS SONT LE S SEUL, en blanc. Le disque entier a ete essaye et
+# mesure illisible a 16 px : voir la section des favicons plus bas, qui porte
+# les chiffres et le raisonnement. Le disque reste partout ailleurs.
 #
 # Usage : bash scripts/build-brand.sh   (depuis la racine du depot)
 
@@ -57,27 +54,64 @@ magick -size 512x512 xc:"$FOND" \
   \( "$CIRCLE" -resize 410x410 \) -gravity center -composite -alpha off \
   "$B/icon-maskable-512.png"
 
-# Favicons : le disque entier, reduit et rien d'autre.
+# ═══════════════════════════════════════════════════════════════════════
+# FAVICONS : LE S SEUL, EN BLANC. Ce n'est plus le disque entier.
+# ═══════════════════════════════════════════════════════════════════════
 #
-# Une version intermediaire dilatait le lettrage avant reduction, pour que
-# les delies ne tombent pas sous le pixel. Mesure faite sur six reglages de
-# Disk:0 a Disk:12, l'ecart est nul : la luminance maximale est deja a 255
-# sans dilatation, et la moyenne passe de 106 a 109. Elle epaississait le
-# trait sans rien apporter, elle est donc retiree.
-magick "$CIRCLE" -resize 16x16 -strip "$B/favicon-16.png"
-magick "$CIRCLE" -resize 32x32 -strip "$B/favicon-32.png"
-magick "$CIRCLE" -resize 48x48 -strip /tmp/sonaa-48.png
-magick "$B/favicon-16.png" "$B/favicon-32.png" /tmp/sonaa-48.png "$B/favicon.ico"
+# CE CHOIX EN REMPLACE UN AUTRE, ET IL FAUT SAVOIR LEQUEL. Les favicons
+# etaient le DISQUE ENTIER, sur demande : « on reconnait une pastille avant de
+# lire un lettrage ». Le cout etait declare : a 16 px le lettrage n'est plus
+# qu'une trace claire au centre.
+#
+# Constat, en agrandissant les fichiers reellement produits : ce n etait pas une
+# trace claire, c etait une BAVURE GRISE. Le mot entier « Sonaa », cinq lettres
+# calligraphiees, etait reduit dans seize pixels : aucun trait ne survivait, et
+# dans un onglet on voyait une pastille sombre sans forme identifiable.
+#
+# On recadre donc sur le S initial, sa grande boucle et sa hampe, en BLANC sur
+# le fond du site. Une forme, pas un mot. Le disque reste partout ailleurs :
+# icones d'application, ecran de lancement, image de partage.
+#
+# LA DILATATION N'EST PAS UN ORNEMENT. Les delies de cette calligraphie font
+# moins d'un pixel une fois reduits : sans epaississement ils disparaissent par
+# endroits et la forme se casse. On dilate donc avant de reduire, et PLUS FORT
+# a 16 px qu'a 32, parce que le probleme y est deux fois pire.
+S_SOURCE="/tmp/sonaa-s.png"
+magick "$LOGO" -trim +repage -crop 26%x100%+0+0 +repage -trim +repage \
+  -resize 900x900\> "$S_SOURCE"
+
+# 32 et 48 px : dilatation moderee, les contreformes de la boucle restent
+# ouvertes et la forme se lit entierement.
+for T in 32 48; do
+  magick "$S_SOURCE" -alpha extract -morphology Dilate Disk:14 \
+    -resize $((T * 90 / 100))x$((T * 90 / 100)) \
+    -background none -gravity center -extent ${T}x${T} miff:- |
+  magick -size ${T}x${T} xc:"$FOND" - -compose over -composite -alpha off -strip \
+    "/tmp/sonaa-fav-$T.png"
+done
+cp /tmp/sonaa-fav-32.png "$B/favicon-32.png"
+
+# 16 px : dilatation FRANCHE. Les contreformes se ferment, et c'est assume :
+# a cette taille une forme pleine et reconnaissable vaut mieux qu'un dessin
+# fidele et illisible.
+magick "$S_SOURCE" -alpha extract -morphology Dilate Disk:22 \
+  -resize 14x14 -background none -gravity center -extent 16x16 miff:- |
+magick -size 16x16 xc:"$FOND" - -compose over -composite -alpha off -strip \
+  "$B/favicon-16.png"
+
+# L'ICO porte les trois tailles : le navigateur choisit celle qui lui va.
+magick "$B/favicon-16.png" "$B/favicon-32.png" /tmp/sonaa-fav-48.png "$B/favicon.ico"
 
 # Variante servie sous prefers-color-scheme: dark. Le filet suit le bord du
 # disque : un disque noir se perd dans une barre d'onglets sombre, et un
 # cadre rectangulaire autour d'une forme ronde se verrait comme une erreur.
 # Le disque est circonscrit a l'image : centre (2308,2308), rayon 2308. Le
 # filet est pose a 2280 pour rester dans le pixel du bord apres reduction.
-magick "$CIRCLE" -fill none -stroke "#f2f4f8" -strokewidth 100 \
-  -draw "circle 2308,2308 2308,28" miff:- > /tmp/sonaa-disque-filet.miff
-magick /tmp/sonaa-disque-filet.miff -resize 16x16 -strip "$B/favicon-dark-16.png"
-magick /tmp/sonaa-disque-filet.miff -resize 32x32 -strip "$B/favicon-dark-32.png"
+# Le S blanc se detache aussi bien d'une barre claire que d'une barre sombre :
+# la variante de theme n'a plus d'objet, les deux fichiers reprennent le meme
+# dessin pour ne pas casser les liens qui les declarent.
+cp "$B/favicon-16.png" "$B/favicon-dark-16.png"
+cp "$B/favicon-32.png" "$B/favicon-dark-32.png"
 
 # L'IMAGE DE PARTAGE N'EST PLUS ECRITE ICI. Elle l'a ete : le disque et son
 # filet, centres sur le fond du site. Elle disait qui publie, jamais ce qu'on
