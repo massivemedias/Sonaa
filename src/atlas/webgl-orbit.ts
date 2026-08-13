@@ -1976,6 +1976,11 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   };
 
   const projected = new Float32Array(TOTAL_GENRES * 3); // sx, sy, depth
+  /* Rayon de la zone CLIQUABLE, en pixels d'ecran, distinct du rayon visible.
+     Recalcule a chaque image dans la zone de focus, et garanti sans
+     chevauchement entre deux membres : c'est ce qui empeche une voisine de
+     voler un clic. */
+  const rayonClic = new Float32Array(TOTAL_GENRES);
   const scratch = new Vector3();
 
   /* Niveau unique : à l'ouverture on cadre la COURONNE (fondateur +
@@ -2417,10 +2422,17 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
 
          Le disque dessine seul quand la tolerance est nulle : c'est le
          premier des trois recours de cibleAuPoint. */
-      const sansLimite = zoneActive && zone[i] === 1 && toleranceMin > 0;
-      const zoneCible =
-        toleranceMin <= 0 ? rayonEcran(i) : Math.max(toleranceMin, rayonEcran(i) + 12, 40);
-      if (!sansLimite && d > zoneCible) continue;
+      const dansLaZone = zoneActive && zone[i] === 1 && toleranceMin > 0;
+      const zoneCible = dansLaZone
+        ? (rayonClic[i] ?? 0)
+        : toleranceMin <= 0
+          ? rayonEcran(i)
+          : Math.max(toleranceMin, rayonEcran(i) + 12, 40);
+      /* Dans la zone, la limite s'applique VRAIMENT : les zones ne se
+         chevauchant plus, un point interieur designe une seule sphere, sans
+         ambiguite. Le repli « le plus proche sans condition » vit dans
+         cibleAuPoint, apres cet essai. */
+      if (d > zoneCible) continue;
 
       /* 3. LE DÉPARTAGE. Devant gagne, SAUF dans l'arbre au doigt.
 
@@ -4377,6 +4389,55 @@ const OVERLAP_TOLERANCE = 1;
         sphereRadii[i] = (sphereRadii[i] ?? 1) * (voulu / rPx);
       }
       sphereRadiusAttr.needsUpdate = true;
+
+      /* ═══════════════════════════════════════════════════════════════════
+         AUCUNE ZONE CLIQUABLE N'EN CHEVAUCHE UNE AUTRE.
+
+         Le plancher de rayon a resolu un probleme et en a cree un autre : des
+         spheres de trois pixels devenues dix-huit, avec quarante pixels de
+         zone autour, se disputent les clics quand elles appartiennent a une
+         meme sous-branche serree. Mesure : quatre clics sur Detroit Techno
+         ouvraient tous « Schranz », leur voisin.
+
+         La regle posee par Mika evite d'avoir a choisir entre grosses cibles
+         et cibles justes : les zones RETRECISSENT jusqu'a se toucher sans se
+         chevaucher. Une zone de vingt pixels sans conflit vaut mieux qu'une
+         zone de quarante volee par une voisine.
+
+         Le rayon VISUEL ne bouge pas : les spheres gardent leurs dix-huit
+         pixels, c'est la zone de capture, invisible, qui s'adapte.
+
+         Deux passes suffisent : la premiere resout la quasi-totalite des
+         paires, la seconde rattrape les cascades ou un retrecissement en
+         provoque un autre. */
+      const membresZone: number[] = [];
+      for (let i = 0; i < TOTAL_GENRES; i += 1) {
+        if (zone[i] === 1 && (sphereState[i * 4] ?? 0) > 0.02) membresZone.push(i);
+      }
+      for (const i of membresZone) {
+        rayonClic[i] = Math.max(rayonEcran(i) + 12, 40);
+      }
+      for (let passe = 0; passe < 2; passe += 1) {
+        for (let a = 0; a < membresZone.length; a += 1) {
+          for (let b = a + 1; b < membresZone.length; b += 1) {
+            const ia = membresZone[a] ?? 0;
+            const ib = membresZone[b] ?? 0;
+            const d = Math.hypot(
+              (projected[ia * 3] ?? 0) - (projected[ib * 3] ?? 0),
+              (projected[ia * 3 + 1] ?? 0) - (projected[ib * 3 + 1] ?? 0)
+            );
+            const somme = (rayonClic[ia] ?? 0) + (rayonClic[ib] ?? 0);
+            if (somme <= d || somme <= 0) continue;
+            /* On retrecit les deux dans la meme proportion : reduire une
+               seule des deux avantagerait arbitrairement l'autre. Le
+               plancher est le rayon visible, une zone plus petite que la
+               sphere qu'elle represente n'aurait aucun sens. */
+            const facteur = d / somme;
+            rayonClic[ia] = Math.max(rayonEcran(ia), (rayonClic[ia] ?? 0) * facteur);
+            rayonClic[ib] = Math.max(rayonEcran(ib), (rayonClic[ib] ?? 0) * facteur);
+          }
+        }
+      }
     }
 
     sphereCenterAttr.needsUpdate = true;
@@ -5163,8 +5224,39 @@ const OVERLAP_TOLERANCE = 1;
           vole
         });
       }
+      /* CONTROLE : DEUX ZONES CLIQUABLES NE SE CHEVAUCHENT JAMAIS.
+
+         Il echoue si une seule paire se recouvre. C'est la garantie qui
+         empeche une voisine de voler un clic, et sans ce compte elle se
+         reperdrait a la premiere modification de la disposition. */
+      let pairesQuiSeChevauchent = 0;
+      let pireChevauchement: string | null = null;
+      const membres2: number[] = [];
+      for (let i = 0; i < TOTAL_GENRES; i += 1) {
+        if (zoneActive && zone[i] === 1 && (sphereState[i * 4] ?? 0) > 0.02) membres2.push(i);
+      }
+      for (let a = 0; a < membres2.length; a += 1) {
+        for (let b = a + 1; b < membres2.length; b += 1) {
+          const ia = membres2[a] ?? 0;
+          const ib = membres2[b] ?? 0;
+          const d = Math.hypot(
+            (projected[ia * 3] ?? 0) - (projected[ib * 3] ?? 0),
+            (projected[ia * 3 + 1] ?? 0) - (projected[ib * 3 + 1] ?? 0)
+          );
+          const somme = (rayonClic[ia] ?? 0) + (rayonClic[ib] ?? 0);
+          if (somme > d + 0.5) {
+            pairesQuiSeChevauchent += 1;
+            if (!pireChevauchement) {
+              pireChevauchement = `${slotsData[ia]?.label ?? '?'} et ${slotsData[ib]?.label ?? '?'} : centres a ${Math.round(d)} px, zones ${Math.round(rayonClic[ia] ?? 0)} et ${Math.round(rayonClic[ib] ?? 0)}`;
+            }
+          }
+        }
+      }
+
       const parfaites = rapport.filter((x) => x.surNeuf === 9).length;
       return {
+        pairesQuiSeChevauchent,
+        pireChevauchement,
         spheres: rapport.length,
         entierementCliquables: parfaites,
         tauxPct: rapport.length > 0 ? Math.round((parfaites / rapport.length) * 100) : 0,
