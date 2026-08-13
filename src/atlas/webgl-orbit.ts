@@ -3643,8 +3643,6 @@ const OVERLAP_TOLERANCE = 1;
            controle des boites, ou un genre fondateur porte le meme nom que sa
            famille. Une identite se compare, un texte se devine. */
         ls.el.dataset['slot'] = String(entry.slot);
-        ls.el.dataset['survol'] =
-          hovered >= 0 && entry.slot === hovered ? '1' : '0';
         ls.el.dataset['focus'] =
           activeGenre >= 0 && entry.key === `g-${slotsData[activeGenre]?.label ?? ''}` ? '1' : '0';
       }
@@ -3655,6 +3653,22 @@ const OVERLAP_TOLERANCE = 1;
          déclarée dans la feuille, elle n'est pas rejouée ici. */
       const marqueFlou = entry.flou ? '1' : '0';
       if (ls.el.dataset['flou'] !== marqueFlou) ls.el.dataset['flou'] = marqueFlou;
+
+      /* LE SURVOL SE POSE À CHAQUE IMAGE, PAS AU CHANGEMENT DE CLÉ.
+
+         C'ÉTAIT LE DÉFAUT. Cet attribut vivait dans le bloc « la clé a
+         changé », qui ne s'exécute que lorsqu'un emplacement de label change
+         de genre. Survoler une sphère ne change aucune clé : l'attribut
+         n'était donc JAMAIS mis à jour, et le nom ne réagissait pas. Mesuré :
+         le moteur connaissait la sphère survolée et le curseur devenait
+         pointeur, pendant que zéro label portait la marque.
+
+         Trois signes sur quatre marchaient, le quatrième était mort, et c'est
+         le seul qu'on regarde vraiment : on lit le nom, pas la boule. */
+      const estSurvole = hovered >= 0 && entry.slot === hovered;
+      if (ls.el.dataset['survol'] !== (estSurvole ? '1' : '0')) {
+        ls.el.dataset['survol'] = estSurvole ? '1' : '0';
+      }
 
       /* LE NOM EST UNE CIBLE DU TAP. Renseigné à chaque image, pas
          seulement au changement de clé : la boîte suit la caméra. */
@@ -4226,8 +4240,11 @@ const OVERLAP_TOLERANCE = 1;
            son agrandissement, qui est une reponse a une action et non un
            mouvement permanent. */
         const breath = 1;
-        /* DOUZE POUR CENT au survol, et non huit : c'est le premier des
-           quatre signes qui disent « ici, on peut cliquer ». */
+        /* VINGT POUR CENT au survol. Douze ne se voyaient pas sur une sphère
+           de vingt-cinq pixels : trois pixels de plus, personne ne les
+           remarque. C'est le premier des quatre signes qui disent « ici, on
+           peut cliquer », et un signe qu'on ne remarque pas n'est pas un
+           signe. */
         /* LES SPHÈRES GROSSISSENT ENCORE SUR PETIT ÉCRAN. Le rapport entre
            l'objet et son étiquette doit s'inverser : c'est la sphère qu'on
            vise du doigt, et elle faisait deux pixels de rayon sur les
@@ -4242,7 +4259,7 @@ const OVERLAP_TOLERANCE = 1;
            à la réduire : elle reste la plus grosse, sans écraser le reste. */
         const facteurEtroit = width < 500 ? (i === focusIndex ? 0.95 : 1.75) : 1;
         sphereRadii[i] =
-          (baseRadii[i] ?? 1) * breath * facteurEtroit * (1 + 0.12 * (hoverAmount[i] ?? 0));
+          (baseRadii[i] ?? 1) * breath * facteurEtroit * (1 + 0.2 * (hoverAmount[i] ?? 0));
       }
 
       /* GARDE INCONDITIONNELLE : UNE SPHERE DANS SON PARENT N'EST PAS PEINTE.
@@ -5035,6 +5052,11 @@ const OVERLAP_TOLERANCE = 1;
        95 % de son rayon apparent. Une sphère dont les neuf points répondent
        est entièrement cliquable ; en dessous, la part qui répond dit de
        combien la zone manque. */
+    /* Ce qui est survole, en clair. Sans ce crochet, verifier le survol
+       demandait de lire des pixels : on ne pouvait pas distinguer « rien n'est
+       survole » de « le survol est survole mais ne se voit pas ». */
+    survole: () => (hovered >= 0 ? (slotsData[hovered]?.label ?? '?') : 'aucune'),
+
     zonesCliquables: () => {
       const dirs: [number, number][] = [
         [1, 0], [-1, 0], [0, 1], [0, -1],

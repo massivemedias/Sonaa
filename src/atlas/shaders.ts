@@ -336,7 +336,15 @@ void main() {
   col = mix(col, vec3(grey), vExtinct * 0.64);
   col *= 1.0 - vExtinct * 0.04;
   // Anneau dans la teinte, à peine plus clair que le corps.
-  col = mix(col, clamp(vColor * mix(1.15, 1.9, survol), 0.0, 1.0), clamp(ring, 0.0, 1.0));
+  /* LE LISERÉ DE SURVOL EST BLANC, celui des dérivés reste dans la teinte.
+     Un anneau plus clair que la sphère se confond avec elle quand la sphère
+     est déjà claire ; le blanc franc se voit sur les quatorze teintes de
+     l'atlas sans exception. */
+  vec3 teinteAnneau = mix(clamp(vColor * 1.15, 0.0, 1.0), vec3(1.0), survol);
+  col = mix(col, teinteAnneau, clamp(ring, 0.0, 1.0));
+
+  /* Et la sphère survolée s'éclaircit franchement, sur toute sa surface. */
+  col = mix(col, clamp(col * 1.55 + 0.06, 0.0, 1.0), survol);
 
   /* Assombrissement local sous le texte. Le label est posé à droite du centre
      de la sphère : quand la sphère est étiquetée, on baisse légèrement sa
