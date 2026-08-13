@@ -410,6 +410,10 @@ export function AtlasPage() {
       <canvas
         ref={canvasRef}
         className="atlas-canvas"
+        /* Focalisable au clavier : la fermeture de la recherche lui rend la
+           main. tabIndex -1 le rend focalisable par programme sans l'ajouter
+           au parcours de tabulation, où un canvas n'a rien à faire. */
+        tabIndex={-1}
         data-active={mode === 'webgl'}
         data-suspended={false}
       />
@@ -636,7 +640,14 @@ export function AtlasPage() {
         <SearchOverlay
           onPick={goToGenre}
           onListen={openTracks}
-          onClose={() => setSearchOpen(false)}
+          onClose={() => {
+            setSearchOpen(false);
+            /* LE FOCUS REVIENT À LA CARTE. Sans cela il reste sur un élément
+               démonté, donc nulle part, et les raccourcis du moteur qui
+               ignorent les champs de saisie fonctionnent, mais pas ceux du
+               canvas. On rend la main à ce qu'on regarde. */
+            requestAnimationFrame(() => canvasRef.current?.focus());
+          }}
         />
       )}
 

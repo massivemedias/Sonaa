@@ -198,6 +198,24 @@ export function SearchOverlay({ onPick, onListen, onClose }: Props) {
     inputRef.current?.focus();
   }, []);
 
+  /* ÉCHAP FERME, DANS TOUS LES CAS.
+
+     Il ne fermait que si le focus se trouvait DANS la boîte : le gestionnaire
+     vivait sur elle. Un clic dans la zone sombre, un champ qui perd le focus,
+     et la touche ne répondait plus. On sort donc l'écoute sur la fenêtre :
+     tant que la recherche est montée, Échap la ferme, d'où que vienne la
+     frappe. */
+  useEffect(() => {
+    const surTouche = (event: KeyboardEvent): void => {
+      if (event.key !== 'Escape') return;
+      event.preventDefault();
+      if (drill) setDrill(null);
+      else onClose();
+    };
+    window.addEventListener('keydown', surTouche);
+    return () => window.removeEventListener('keydown', surTouche);
+  }, [drill, onClose]);
+
   useEffect(() => {
     setCursor(0);
   }, [query, drill]);
@@ -232,6 +250,14 @@ export function SearchOverlay({ onPick, onListen, onClose }: Props) {
     if (event.key === 'ArrowUp') {
       event.preventDefault();
       setCursor((c) => Math.max(0, c - 1));
+      return;
+    }
+    /* ESPACE SUR UN CHAMP VIDE REFERME. Sur un champ qui contient du texte,
+       il écrit une espace, ce qui est le comportement attendu de la touche et
+       ne se discute pas : la fermeture ne vaut que sur le vide. */
+    if (event.code === 'Space' && query.length === 0 && !drill) {
+      event.preventDefault();
+      onClose();
       return;
     }
     if (event.key === 'Enter') {
@@ -326,7 +352,19 @@ export function SearchOverlay({ onPick, onListen, onClose }: Props) {
   };
 
   return (
-    <div className="search" role="dialog" aria-modal="true" aria-label="Chercher">
+    <div
+      className="search"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Chercher"
+      /* UN CLIC EN DEHORS DE LA BOÎTE REFERME. Le test porte sur la CIBLE du
+         clic : si elle est le fond lui-même, le geste visait le vide. Un clic
+         dans la boîte remonte jusqu'ici par propagation, et il ne doit rien
+         fermer. */
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
       <div className="search-box" onKeyDown={onKeyDown}>
         {drill ? (
           <div className="search-drill-head">

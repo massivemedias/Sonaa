@@ -18,7 +18,7 @@ Trois questions posées à chaque script :
 
 ---
 
-## Les quatre motifs, et le quatrième est le plus récent
+## Les cinq motifs, et le cinquième est le plus retors
 
 Ils reviennent, et toujours déguisés. Les nommer est la seule défense.
 
@@ -38,7 +38,7 @@ de distance nom-sphère, qui accusait 93 px là où il y en avait 17.
 
 **4. DÉCOUPLER UNE GRANDEUR SANS LISTER SES APPELANTS.**
 
-Le dernier en date, et le plus coûteux à voir. Le rayon d'une sphère servait à
+Le plus coûteux à voir. Le rayon d'une sphère servait à
 trois choses à la fois : la dessiner, calculer la disposition, et calculer le
 cadrage. En le séparant en deux valeurs pour qu'un grossissement se voie
 enfin, j'ai mis à jour deux usages sur trois. Le troisième, les écarts
@@ -50,8 +50,33 @@ Rien n'a plante, rien n'a rendu de verdict faux. Le code était cohérent avec
 lui-même, simplement il ne parlait plus de la même grandeur d'un endroit à
 l'autre.
 
-**La règle : quand tu sépares une grandeur en deux, tu listes ses appelants
-AVANT de changer quoi que ce soit,** et tu décides pour chacun laquelle des
+**5. LA SONDE QUI S'INTERROGE ELLE-MÊME.**
+
+Le plus retors des cinq, parce que son chiffre est rassurant.
+
+Le survol et le clic désignaient parfois deux objets différents au même endroit
+de l'écran. J'ai fusionné les deux chemins en une seule fonction, puis écrit
+une sonde qui parcourt une grille de dix mille points et compare, pour chacun,
+ce que voit le survol et ce que voit le clic. Elle rend **zéro désaccord**.
+
+Ce zéro ne prouve rien. La sonde appelle la fonction commune DEUX FOIS : elle
+compare une valeur à elle-même. Elle rendrait zéro même si la fusion était
+fausse, même si la fonction se trompait sur toute la ligne. Elle ne mesure pas
+l'accord entre le survol et le clic, elle mesure que `x === x`.
+
+Elle garde une utilité, et c'est pour cela qu'elle reste : le jour où quelqu'un
+rouvrira un second chemin de ciblage, elle cessera de rendre zéro. C'est un
+garde-fou contre une régression future, pas une preuve de correction présente,
+et il faut écrire lequel des deux on tient.
+
+**La règle : une sonde doit interroger deux chemins qui peuvent DIVERGER.**
+Si les deux branches de la comparaison passent par le même code, le résultat
+est une tautologie. Avant d'écrire un contrôle, demander : « quel changement
+du produit ferait échouer cette mesure ? » Si la réponse est « aucun », la
+mesure ne dit rien.
+
+**La règle du motif 4 : quand tu sépares une grandeur en deux, tu listes ses
+appelants AVANT de changer quoi que ce soit,** et tu décides pour chacun laquelle des
 deux valeurs il doit prendre. Un `grep` du nom de la variable est le minimum,
 et il prend une minute. Ce qui est en jeu n'est pas une panne, c'est une
 incohérence silencieuse entre deux moitiés d'un même calcul.
