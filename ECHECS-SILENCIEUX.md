@@ -18,7 +18,7 @@ Trois questions posées à chaque script :
 
 ---
 
-## Les cinq motifs, et le cinquième est le plus retors
+## Les six motifs, et le sixième est celui qui a coûté le plus de tours
 
 Ils reviennent, et toujours déguisés. Les nommer est la seule défense.
 
@@ -68,6 +68,32 @@ Elle garde une utilité, et c'est pour cela qu'elle reste : le jour où quelqu'u
 rouvrira un second chemin de ciblage, elle cessera de rendre zéro. C'est un
 garde-fou contre une régression future, pas une preuve de correction présente,
 et il faut écrire lequel des deux on tient.
+
+**6. L'ASSERVISSEMENT PERMANENT PRIS POUR UN GESTE.**
+
+Celui qui m'a échappé le plus longtemps, six tours durant.
+
+La carte se déplaçait à chaque clic. J'ai cherché le vol de caméra dans le
+chemin de sélection, je ne l'y ai pas trouvé, et j'ai répondu que le point
+était réglé. Il ne l'était pas : le déplacement ne venait pas d'un vol mais
+d'un SUIVI, une boucle qui rapprochait la caméra du cadrage voulu à chaque
+image, indéfiniment, tant qu'un verrou désignait un noeud. Le vol d'entrée se
+terminait ; le suivi, lui, ne s'arrêtait jamais.
+
+Ce qui l'a rendu invisible : je cherchais un ÉVÉNEMENT, un appel qui bouge la
+caméra au moment du clic. Il n'y en avait pas. La cause était un ÉTAT, et un
+état ne se trouve pas en lisant le chemin d'un clic.
+
+**Le cadrage est un GESTE, pas un asservissement permanent.** Un recadrage a un
+début et une fin ; une fois arrivé, il rend la main. Toute boucle qui continue
+de corriger « vers ce qu'il faudrait » transforme chaque changement de données
+en mouvement de caméra, et l'utilisateur voit la carte dériver sans avoir rien
+demandé.
+
+La règle générale : quand quelque chose bouge sans qu'on l'ait demandé,
+chercher l'état qui se corrige en boucle avant de chercher l'événement qui
+déclenche. Et se demander, pour toute correction continue : quand s'arrête-
+t-elle ?
 
 **La règle : une sonde doit interroger deux chemins qui peuvent DIVERGER.**
 Si les deux branches de la comparaison passent par le même code, le résultat

@@ -3187,21 +3187,20 @@ const OVERLAP_TOLERANCE = 1;
             const rPx = ((baseRadii[slot] ?? 1) * halfH) / (Math.tan((FOV * Math.PI) / 360) * Math.max(1, depth));
             const push = rPx + px * 0.9;
 
-            /* SOUS 500 PX, LE NOM SE POSE SOUS SA SPHÈRE, jamais à côté.
+            /* LES NOMS RESTENT A DROITE, MEME SUR PETIT ECRAN.
 
-               Sur un écran étroit, un nom poussé vers la droite déborde du
-               cadre ou se pose sur la sphère voisine : il n'y a pas 100 px de
-               libre à droite d'un objet quand l'écran en fait 390. Sous la
-               sphère et centré, la place existe toujours, et la relation
-               entre le nom et l'objet se lit à la verticale, qui est le sens
-               de lecture d'une liste. */
-            if (width < 500) {
-              fx = sx - w / 2;
-              fy = sy + rayonEcran(slot) + px * 0.9;
-            } else {
-              fx = sx + vx * push - (vx < 0 ? w : 0) - (Math.abs(vx) < 0.35 ? w / 2 : 0);
-              fy = sy + vy * push;
-            }
+               Je les avais poses SOUS leur sphere, centres, en pensant qu'un
+               nom pousse vers la droite deborderait d'un ecran de 390 px.
+               Mesure : quatre chevauchements sur Breakbeat, la ou il n'y en
+               avait aucun. Sous la sphere et centres, deux noms voisins se
+               marchent dessus verticalement, et un arbre dense en empile
+               plusieurs sur la meme colonne. A droite, l'ecart angulaire des
+               spheres les separait de lui-meme.
+
+               Verdict de Mika : « remets-les a droite, tu avais raison, je me
+               suis trompe. » La regression est annulee. */
+            fx = sx + vx * push - (vx < 0 ? w : 0) - (Math.abs(vx) < 0.35 ? w / 2 : 0);
+            fy = sy + vy * push;
           }
         }
       }
