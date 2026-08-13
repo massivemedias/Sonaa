@@ -4212,25 +4212,22 @@ const OVERLAP_TOLERANCE = 1;
         targetSmooth.lerp(target, reducedMotion ? 1 : 0.12);
         const want = distanceDuFocus(frameLock);
         distance += (want - distance) * (reducedMotion ? 1 : 0.1);
-      } else if (panelSlot >= 0 && !zoneActive) {
-        /* PAS DANS UN GENRE OUVERT. Sixieme motif, deuxieme occurrence : ce
-           suivi ramene la cible sur le centre de la FAMILLE a chaque image
-           tant qu'un panneau est ouvert. Il datait du temps ou ouvrir un genre
-           montrait sa famille entiere. Dans un arbre deploye il combattait le
-           recentrage du cadrage, image par image, et le contenu restait
-           obstinement hors du cadre : 22 px sur Breakbeat, 141 sur UK Garage,
-           alors que les deux TIENNENT en taille dans l'espace disponible.
-
-           Deux corrections continues qui tirent la meme valeur en sens
-           contraire ne se voient pas dans le code : chacune est raisonnable
-           seule. */
-        const slot = slotsData[panelSlot];
-        const c = slot ? familyCenters[slot.family] : undefined;
-        if (c) {
-          target.set(c.x, c.y, c.z);
-          targetSmooth.lerp(target, reducedMotion ? 1 : 0.12);
-        }
       }
+      /* LE SECOND CORRECTEUR CONTINU EST RETIRE, pas seulement neutralise.
+
+         Il ramenait la cible sur le centre de la FAMILLE a chaque image tant
+         qu'un panneau etait ouvert, heritage du temps ou ouvrir un genre
+         montrait sa famille entiere. Je l'avais desactive dans le mode focus
+         par une condition ; il restait dans la boucle, pret a resservir.
+
+         Le garde-fou des corrections continues l'a signale malgre sa
+         condition, et il a raison : une correction continue qui dort dans la
+         boucle est une correction continue. Deux d'entre elles se tirent
+         dessus des que la condition qui les separe change, et la condition
+         change toujours un jour.
+
+         Avec la colonne ouverte en permanence et le mode focus comme etat
+         normal, il ne servait plus jamais. Il part. */
     }
 
     applyCamera();

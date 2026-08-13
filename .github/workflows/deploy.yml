@@ -96,6 +96,15 @@ jobs:
       - name: Contrôler les doublons CSS
         run: npm run check:css
 
+      # DEUX CORRECTIONS CONTINUES SUR LA CAMERA SE TIRENT DESSUS, chacune vers
+      # sa propre idee du bon cadrage, et la carte derive sans que personne ne
+      # l'ait demande. C'est arrive DEUX FOIS en deux jours, et le motif est
+      # invisible a la lecture : chaque correcteur, pris seul, est raisonnable.
+      # Seul un compte les attrape. Toute ecriture sur l'etat de camera dans la
+      # boucle de rendu doit desormais etre declaree, avec sa raison.
+      - name: Contrôler les corrections de caméra
+        run: npm run check:camera
+
       - name: Contrôler les tirets
         run: npm run check:tirets
 
