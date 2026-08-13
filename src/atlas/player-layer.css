@@ -612,16 +612,40 @@
   cursor: pointer;
   border-radius: 6px;
   transition: height 120ms linear;
+
+  /* ZONE DE SAISIE DE 44 PX, sans epaissir le trait. La barre fait quelques
+     pixels de haut, ce qui est juste pour l'oeil et intenable pour un doigt.
+     Le pseudo-element ci-dessous etend la surface sensible au-dessus et en
+     dessous sans rien changer a ce qu'on voit.
+
+     touch-action none : le geste horizontal appartient a la barre, il ne doit
+     pas devenir un defilement de la page. C'est la seule facon de tenir un
+     glissement au doigt. */
+  position: relative;
+  touch-action: none;
+  cursor: pointer;
+}
+
+/* Pendant la saisie, le curseur ne redevient pas une fleche en sortant. */
+.pcol-bar[data-saisie='true'] {
+  cursor: grabbing;
 }
 
 /* Zone cliquable élargie à 24 px : la souris ne rate plus la barre. */
+/* UNE SEULE ZONE DE SAISIE, ET ELLE FAIT 44 PX.
+
+   Il y avait DEUX regles `.pcol-bar::before` dans ce fichier, l'une a 44 px
+   posee pour le glissement au doigt, l'autre a 24 px plus bas, qui l'ecrasait
+   par ordre de cascade. Mesure : la zone rendait 24 px alors que le code en
+   annoncait 44. Deux regles pour un meme selecteur, c'est la version CSS du
+   septieme motif, deux sources de verite pour une meme valeur. */
 .pcol-bar::before {
   content: '';
   position: absolute;
   left: 0;
   right: 0;
   top: 50%;
-  height: 24px;
+  height: 44px;
   transform: translateY(-50%);
 }
 

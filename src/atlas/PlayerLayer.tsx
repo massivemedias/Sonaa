@@ -609,17 +609,71 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
     else p.playVideo();
   }, [playing, currentTrack]);
 
-  const seek = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
+  /* ═══════════════════════════════════════════════════════════════════════
+     LA BARRE SE SAISIT ET SE GLISSE, comme partout ailleurs.
+
+     Elle ne repondait qu'au clic : il fallait viser un point precis pour
+     sauter, et attraper la poignee pour la deplacer ne faisait rien. C'est le
+     geste que tout le monde connait, et son absence se remarque plus qu'elle
+     ne se raconte.
+
+     TROIS TEMPS, et c'est le deuxieme qui compte.
+       1. l'appui saisit, ou qu'il tombe sur la barre ;
+       2. le glissement deplace l'AFFICHAGE seulement, pas la lecture. Sauter
+          a chaque pixel parcouru ferait hoqueter le lecteur et saturerait
+          l'iframe de demandes ;
+       3. le relachement seul fait sauter la lecture.
+
+     setPointerCapture est ce qui permet au geste de survivre a la sortie de
+     la barre : sans lui, un pointeur qui derive de quelques pixels vers le
+     haut perd le suivi, et le morceau saute a l'endroit ou l'on a laisse le
+     bouton, pas a celui qu'on visait. */
+  const [saisie, setSaisie] = useState<number | null>(null);
+  const barreRef = useRef<HTMLDivElement>(null);
+
+  const ratioSousLePointeur = (clientX: number, el: HTMLElement): number => {
+    const rect = el.getBoundingClientRect();
+    return Math.min(1, Math.max(0, (clientX - rect.left) / Math.max(1, rect.width)));
+  };
+
+  const sauterA = useCallback(
+    (ratio: number) => {
       const p = playerRef.current;
       if (!p || duration <= 0) return;
-      const rect = event.currentTarget.getBoundingClientRect();
-      const ratio = Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width));
       p.seekTo(ratio * duration, true);
       setPosition(ratio * duration);
     },
     [duration]
   );
+
+  const onBarreDown = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+    if (duration <= 0) return;
+    event.preventDefault(); // sur mobile, empeche le defilement de la page
+    (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+    setSaisie(ratioSousLePointeur(event.clientX, event.currentTarget));
+  }, [duration]);
+
+  const onBarreMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+    if (saisie === null) return;
+    event.preventDefault();
+    /* La coordonnee verticale n'est jamais lue : sortir de la barre par le
+       haut ou par le bas ne change rien, seul le relachement termine. */
+    setSaisie(ratioSousLePointeur(event.clientX, event.currentTarget));
+  }, [saisie]);
+
+  const onBarreUp = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+    if (saisie === null) return;
+    const final = ratioSousLePointeur(event.clientX, event.currentTarget);
+    try {
+      (event.currentTarget as HTMLElement).releasePointerCapture(event.pointerId);
+    } catch {
+      /* deja relache */
+    }
+    setSaisie(null);
+    /* Un appui sans glissement passe par le meme chemin : le ratio final est
+       celui de l'appui, donc un clic simple saute directement. */
+    sauterA(final);
+  }, [saisie, sauterA]);
 
   /* Position de l'iframe : sur la fenêtre média de la colonne quand la
      lecture est ici et visible, sur la barre sinon. Mesure au montage, au
@@ -715,7 +769,12 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
 
   // --- rendu --------------------------------------------------------------
 
-  const progress = duration > 0 ? (position / duration) * 100 : 0;
+  /* Pendant la saisie, la barre et le temps suivent le POINTEUR ; sinon ils
+     suivent la lecture. C'est la seule difference entre les deux etats, et
+     elle tient en une ligne. */
+  const progress =
+    saisie !== null ? saisie * 100 : duration > 0 ? (position / duration) * 100 : 0;
+  const tempsAffiche = saisie !== null ? saisie * duration : position;
   const currentList: 'essentiel' | 'actuel' =
     tab === 'actuel' && panelActuel.length > 0 ? 'actuel' : 'essentiel';
 
@@ -943,10 +1002,15 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                   aucune existence au-dessus de ce seuil. */}
               <span className="pcol-saut" aria-hidden="true" />
 
-              <span className="pcol-time">{playingHere ? mmss(position) : '0:00'}</span>
+              <span className="pcol-time">{playingHere ? mmss(tempsAffiche) : '0:00'}</span>
               <div
+                ref={barreRef}
                 className="pcol-bar"
-                onClick={seek}
+                data-saisie={saisie !== null}
+                onPointerDown={onBarreDown}
+                onPointerMove={onBarreMove}
+                onPointerUp={onBarreUp}
+                onPointerCancel={onBarreUp}
                 role="slider"
                 tabIndex={0}
                 aria-label="Position dans la track"
@@ -1305,7 +1369,14 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
           </span>
 
           {notice && <span className="mini-notice">{notice}</span>}
-          <div className="mini-bar" onClick={seek} role="presentation">
+          <div
+            className="mini-bar"
+            onPointerDown={onBarreDown}
+            onPointerMove={onBarreMove}
+            onPointerUp={onBarreUp}
+            onPointerCancel={onBarreUp}
+            role="presentation"
+          >
             <div className="mini-bar-fill" style={{ width: `${progress}%` }} />
           </div>
 
