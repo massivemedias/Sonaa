@@ -2367,8 +2367,23 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       if (zoneActive && zone[i] !== 1) continue;
 
       const d = Math.hypot(px - (projected[i * 3] ?? 0), py - (projected[i * 3 + 1] ?? 0));
-      // 2. La cible : la sphère elle-même, jamais moins que le doigt.
-      if (d > Math.max(toleranceMin, rayonEcran(i))) continue;
+      /* 2. LA CIBLE EST PLUS GÉNÉREUSE QUE LA SPHÈRE.
+
+         Elle valait le plus grand du rayon apparent et de la tolérance du
+         pointeur. Sur les générations profondes, un dérivé fait DEUX PIXELS de
+         rayon : sa zone tombait alors à la tolérance seule, pendant que sa
+         voisine, dix fois plus grosse, en couvrait quarante. Mesuré sur
+         Breakbeat, sept sphères sur vingt-trois n'étaient atteignables par
+         AUCUN de leurs neuf points de sonde.
+
+         La zone vaut désormais le rayon PLUS douze pixels, et jamais moins de
+         vingt-deux de rayon total. Une sphère de deux pixels reste donc
+         visable, et une grosse garde une marge autour d'elle. */
+      /* Tolérance nulle : on demande le DISQUE DESSINÉ seul, sans marge.
+         C'est le premier des trois recours de cibleAuPoint. */
+      const zoneCible =
+        toleranceMin <= 0 ? rayonEcran(i) : Math.max(toleranceMin, rayonEcran(i) + 12, 22);
+      if (d > zoneCible) continue;
 
       /* 3. LE DÉPARTAGE. Devant gagne, SAUF dans l'arbre au doigt.
 
@@ -2377,14 +2392,27 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
             physique de 29 px. Départager par la profondeur y donnerait la
             sphère la plus proche de la caméra, qui n'est pas celle qu'on
             vise ; c'est LE PLUS PROCHE DU DOIGT qui gagne. */
-      if (zoneActive && zone[i] === 1 && width < 768) {
+      /* DANS L'ARBRE, C'EST LE PLUS PROCHE DU CURSEUR QUI GAGNE, à toutes les
+         largeurs.
+
+         C'ÉTAIT LA CAUSE PRINCIPALE. Le départage par la profondeur est juste
+         dans la vue d'ensemble, où des sphères se cachent réellement les unes
+         derrière les autres : ce qui est devant doit gagner. Dans un arbre
+         déployé, tout est dans un même plan face à la caméra, rien n'en cache
+         un autre, et « le plus proche de la caméra » désigne alors la plus
+         GROSSE sphère dont la zone englobe la petite qu'on visait.
+
+         Mesuré : Breakbeat Hardcore, Darkcore, Jungle, Ghetto Funk, Psybreaks
+         et Florida Breaks se faisaient tous voler leur clic par une voisine.
+         La règle ne valait que sous 768 px ; elle vaut partout. */
+      if (zoneActive && zone[i] === 1) {
         if (d < bestDistance) {
           bestDistance = d;
           best = i;
         }
         continue;
       }
-      if (bestDistance < Infinity) continue; // une cible tactile a déjà gagné
+      if (bestDistance < Infinity) continue; // une cible de l'arbre a déjà gagné
       if (profondeur < bestProfondeur) {
         bestProfondeur = profondeur;
         best = i;
@@ -2444,6 +2472,34 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      qu'il n'existe plus deux endroits où se tromper. */
   const cibleAuPoint = (px: number, py: number): { slot: number; kind: 'family' | 'genre'; famille: number } | null => {
     const grossier = window.matchMedia('(pointer: coarse)').matches;
+
+    /* ═══════════════════════════════════════════════════════════════════
+       L'ORDRE DES PRIORITÉS, ET C'ÉTAIT LA VRAIE CAUSE.
+
+       Le NOM était consulté en premier, avant toute sphère. C'est juste dans
+       la vue d'ensemble, où le mot est plus grand que la boule qu'il désigne
+       et où c'est lui qu'on vise. C'est faux dans un arbre déployé : les noms
+       y font 26 px de haut et cent de large, ils recouvrent les petites
+       sphères des générations profondes, et un clic posé EXACTEMENT sur une
+       sphère de deux pixels tombait dans la boîte du nom d'une voisine.
+
+       Mesuré sur Breakbeat : sept sphères sur vingt-trois n'étaient
+       atteignables par AUCUN de leurs neuf points de sonde, chacune volée par
+       une voisine. Élargir la zone des sphères n'y changeait rien, puisque le
+       nom gagnait avant qu'on l'atteigne.
+
+       LA RÈGLE EST DÉSORMAIS : CE QU'ON VOIT SOUS LE CURSEUR GAGNE.
+
+       1. Un point posé sur le DISQUE DESSINÉ d'une sphère désigne cette
+          sphère, sans discussion. C'est le cas le moins ambigu qui soit.
+       2. Sinon, un nom sous le curseur désigne ce qu'il nomme.
+       3. Sinon, la sphère la plus proche dans sa zone de tolérance.
+       ═══════════════════════════════════════════════════════════════════ */
+    const surLeDisque = chercherCible(px, py, 0);
+    if (surLeDisque >= 0) {
+      return { slot: surLeDisque, kind: 'genre', famille: slotsData[surLeDisque]?.family ?? -1 };
+    }
+
     const nom = nomTouche(px, py, grossier ? 10 : 4);
     if (nom) {
       if (nom.kind === 'family') return { slot: -1, kind: 'family', famille: nom.famille };
@@ -2451,6 +2507,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
         return { slot: nom.slot, kind: 'genre', famille: slotsData[nom.slot]?.family ?? -1 };
       }
     }
+
     const best = chercherCible(px, py, grossier ? 44 : 26);
     if (best < 0) return null;
     return { slot: best, kind: 'genre', famille: slotsData[best]?.family ?? -1 };
@@ -4882,6 +4939,68 @@ const OVERLAP_TOLERANCE = 1;
         inversions,
         min: Math.round(Math.min(...lum)),
         max: Math.round(Math.max(...lum))
+      };
+    },
+
+    /* LA ZONE CLIQUABLE DE CHAQUE SPHÈRE, SONDÉE SUR LA SPHÈRE ELLE-MÊME.
+
+       CE BANC-CI N'EST PAS TAUTOLOGIQUE, contrairement à accordSurvolClic qui
+       compare une fonction à elle-même et ne peut rendre que zéro. Ici on
+       n'interroge pas deux chemins : on pose des points À DES ENDROITS CONNUS,
+       sur le disque de chaque sphère, et on demande ce que le clic y
+       désignerait. Si un point posé sur une sphère ne la désigne pas, la
+       question « faut-il viser précisément » a sa réponse chiffrée.
+
+       Neuf points par sphère : son centre, puis huit directions à 60 % et à
+       95 % de son rayon apparent. Une sphère dont les neuf points répondent
+       est entièrement cliquable ; en dessous, la part qui répond dit de
+       combien la zone manque. */
+    zonesCliquables: () => {
+      const dirs: [number, number][] = [
+        [1, 0], [-1, 0], [0, 1], [0, -1],
+        [0.7, 0.7], [-0.7, 0.7], [0.7, -0.7], [-0.7, -0.7]
+      ];
+      const rapport: {
+        label: string;
+        generation: number;
+        rayonPx: number;
+        surNeuf: number;
+        vole: string | null;
+      }[] = [];
+      for (let i = 0; i < TOTAL_GENRES; i += 1) {
+        if (!zoneActive || zone[i] !== 1) continue;
+        if ((sphereState[i * 4] ?? 0) <= 0.02) continue;
+        const cx = projected[i * 3] ?? 0;
+        const cy = projected[i * 3 + 1] ?? 0;
+        const r = rayonEcran(i);
+        let bons = 0;
+        let vole: string | null = null;
+        const points: [number, number][] = [[cx, cy]];
+        for (const [dx, dy] of dirs) {
+          points.push([cx + dx * r * 0.6, cy + dy * r * 0.6]);
+        }
+        for (const [x, y] of points) {
+          const c = cibleAuPoint(x, y);
+          const slot = c && c.kind === 'genre' ? c.slot : -1;
+          if (slot === i) bons += 1;
+          else if (vole === null) {
+            vole = slot >= 0 ? (slotsData[slot]?.label ?? '?') : 'rien';
+          }
+        }
+        rapport.push({
+          label: slotsData[i]?.label ?? '',
+          generation: zoneGeneration[i] ?? -1,
+          rayonPx: Math.round(r),
+          surNeuf: bons,
+          vole
+        });
+      }
+      const parfaites = rapport.filter((x) => x.surNeuf === 9).length;
+      return {
+        spheres: rapport.length,
+        entierementCliquables: parfaites,
+        tauxPct: rapport.length > 0 ? Math.round((parfaites / rapport.length) * 100) : 0,
+        pires: rapport.filter((x) => x.surNeuf < 9).sort((a, b) => a.surNeuf - b.surNeuf).slice(0, 8)
       };
     },
 
