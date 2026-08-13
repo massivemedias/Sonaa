@@ -59,9 +59,39 @@ si un motif de clé secrète ou un JWT apparaît dans `dist/`.
 
 ## Nommer un modérateur
 
-Il n'y a pas d'interface pour cela, et il n'y en aura pas : c'est un acte
-délibéré, rare, et qui doit laisser une trace. La personne doit **s'être
-connectée au moins une fois** — c'est cette connexion qui crée son compte.
+**Les deux modérateurs du projet, sans hiérarchie entre eux :**
+`mauditemachine@gmail.com` et `massivemedias@gmail.com`. Le SQL prêt à jouer
+est dans `supabase/moderateurs.sql`, avec la vérification d'après connexion et
+la réparation en cas de dédoublement de compte.
+
+La personne doit **s'être connectée au moins une fois** — c'est cette connexion
+qui crée son compte, et la clé étrangère n'a rien à pointer avant.
+
+**Une interface de gestion existe désormais**, et cela revient sur une règle
+écrite ici même : « il n'y a pas d'interface pour cela, et il n'y en aura
+pas ». La table n'a toujours **aucune politique d'écriture** ; les ajouts et
+retraits passent par deux fonctions `security definer` réservées aux
+modérateurs. Ce qui a fait changer d'avis : passer par la console pour chaque
+nomination rendait l'acte si coûteux qu'on le remettait, et le projet a tourné
+des semaines avec un seul modérateur. Les garde-fous remplacent la friction :
+seul un modérateur nomme, personne ne se retire soi-même, il doit toujours en
+rester un, et chaque acte porte `added_by` et `added_at`.
+
+## Liaison des identités, et pourquoi elle ne casse rien
+
+Supabase lie automatiquement deux identités qui partagent une adresse, **à la
+condition que l'adresse soit vérifiée**. Ce n'est pas un réglage, c'est un
+comportement natif, et le refus sur une adresse non vérifiée est une protection
+contre la prise de compte par inscription anticipée.
+
+**Vérifié en base le 12 août 2026** : `mauditemachine@gmail.com`, créé par lien
+magique, porte `email_confirmed_at` rempli à la seconde de sa création. Le clic
+sur le lien magique vaut vérification. Ajouter Google sur cette adresse attache
+donc une seconde identité au **même** `user_id`, et le statut de modérateur,
+qui pend au `user_id`, ne bouge pas.
+
+Le réglage « Confirm email » du projet est désactivé : il concerne l'inscription
+par mot de passe, que ce site n'utilise pas.
 
 Dans l'éditeur SQL de la console Supabase :
 
