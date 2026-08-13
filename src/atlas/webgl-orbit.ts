@@ -1857,12 +1857,8 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
        pouvait donc cliquer et ouvrir un genre sans que rien ne se soit
        allumé : « ça marche parfois », sans qu'on comprenne quand. Même
        fonction, même tolérance, même test du nom. */
-    const grossier = window.matchMedia('(pointer: coarse)').matches;
-    const nom = nomTouche(px, py, grossier ? 10 : 4);
-    const best =
-      nom && nom.kind === 'genre' && nom.slot >= 0
-        ? nom.slot
-        : chercherCible(px, py, grossier ? 44 : 26);
+    const cible = cibleAuPoint(px, py);
+    const best = cible && cible.kind === 'genre' ? cible.slot : -1;
     if (best !== hovered) {
       hovered = best;
       lastLabelPass = 0;
@@ -2435,6 +2431,31 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      d'après, jamais le chemin emprunté pour y arriver. */
   let dernierTap: Record<string, unknown> = {};
 
+  /* LA CIBLE SOUS UN POINT, ET IL N'Y EN A QU'UNE.
+
+     Le survol et le clic avaient chacun leur code : deux tolérances, deux
+     ordres de priorité, et deux réponses différentes au même endroit de
+     l'écran. C'est exactement ce qui donne l'impression que le site marche au
+     hasard, et c'est mesurable : on sonde une grille et on compare.
+
+     Cette fonction est désormais la SEULE à décider ce qu'il y a sous un
+     point. Le survol l'appelle pour allumer, le clic l'appelle pour agir : ils
+     ne peuvent plus diverger, non parce qu'on y a fait attention, mais parce
+     qu'il n'existe plus deux endroits où se tromper. */
+  const cibleAuPoint = (px: number, py: number): { slot: number; kind: 'family' | 'genre'; famille: number } | null => {
+    const grossier = window.matchMedia('(pointer: coarse)').matches;
+    const nom = nomTouche(px, py, grossier ? 10 : 4);
+    if (nom) {
+      if (nom.kind === 'family') return { slot: -1, kind: 'family', famille: nom.famille };
+      if (nom.slot >= 0) {
+        return { slot: nom.slot, kind: 'genre', famille: slotsData[nom.slot]?.family ?? -1 };
+      }
+    }
+    const best = chercherCible(px, py, grossier ? 44 : 26);
+    if (best < 0) return null;
+    return { slot: best, kind: 'genre', famille: slotsData[best]?.family ?? -1 };
+  };
+
   const performTapAction = (px: number, py: number): void => {
     /* Le doigt couvre environ 9 mm, la souris un pixel. La tolérance suit le
        pointeur, elle ne suit pas la mode. */
@@ -2502,6 +2523,23 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
          le logo un code a lui, et Echap un troisieme : trois retours qui ne
          rendaient pas le meme ecran. Ils appellent tous recenter, qui EST le
          cadrage d'accueil. */
+      /* ZONE MORTE : RATER DE PEU NE RENVOIE PLUS EN ARRIÈRE.
+
+         Signalé, et c'est le pire des comportements : on vise une sphère, on
+         la manque de quelques pixels, et l'écran repart à l'accueil. Le geste
+         raté coûte alors tout ce qu'on avait ouvert, alors qu'il ne voulait
+         rien fermer.
+
+         On regarde donc s'il y a une sphère PROCHE, dans une couronne deux
+         fois plus large que la tolérance de clic. S'il y en a une, le clic
+         est simplement IGNORÉ : on ne sélectionne pas, parce qu'on n'est pas
+         sûr de la cible, et on ne referme pas, parce que ce n'était
+         manifestement pas l'intention. */
+      const presque = chercherCible(px, py, (grossier ? 44 : 26) * 2.2);
+      if (presque >= 0) {
+        dernierTap['decision'] = 'rate de peu : ignore';
+        return;
+      }
       dernierTap['decision'] = zoneActive ? 'vide en focus : retour accueil' : 'vide : remontee';
       if (zoneActive) {
         sortirDuFocus();
@@ -4106,7 +4144,16 @@ const OVERLAP_TOLERANCE = 1;
          Le noeud cliqué doit se distinguer de la génération qu'il vient
          d'ouvrir, sans quoi rien à l'écran ne dit lequel des vingt on a
          choisi. */
-      sphereState[i * 4 + 1] = i === activeGenre ? 0.42 : i === focusIndex ? 0.14 : 0;
+      /* LE SURVOL ÉCLAIRCIT FRANCHEMENT. Le halo sature la teinte au lieu de
+         la blanchir (voir sphereFrag) : la sphère visée devient nettement plus
+         vive que ses voisines, ce qui se voit du coin de l'oeil. C'est le
+         deuxième des cinq signes, avec la taille, le liseré, le curseur et le
+         nom. */
+      const survol = (hoverAmount[i] ?? 0) * 0.55;
+      sphereState[i * 4 + 1] = Math.max(
+        survol,
+        i === activeGenre ? 0.42 : i === focusIndex ? 0.14 : 0
+      );
       sphereState[i * 4 + 2] = ringOn;
       sphereState[i * 4 + 3] = labelled[i] ?? 0;
     }
@@ -4835,6 +4882,45 @@ const OVERLAP_TOLERANCE = 1;
         inversions,
         min: Math.round(Math.min(...lum)),
         max: Math.round(Math.max(...lum))
+      };
+    },
+
+    /* L'ACCORD ENTRE LE SURVOL ET LE CLIC, MESURÉ SUR UNE GRILLE.
+
+       « Ça marche au hasard » n'est pas un ressenti, c'est un désaccord, et un
+       désaccord se compte. On sonde l'écran tous les huit pixels et on demande
+       aux deux chemins ce qu'ils voient. Depuis qu'ils appellent la même
+       fonction, le taux doit être exactement zéro : si ce compte remonte un
+       jour au-dessus de zéro, c'est que quelqu'un a rouvert un second chemin
+       de ciblage. */
+    accordSurvolClic: (pas = 8) => {
+      let points = 0;
+      let desaccords = 0;
+      const exemples: { x: number; y: number; survol: string; clic: string }[] = [];
+      for (let x = 4; x < width; x += pas) {
+        for (let y = 4; y < height; y += pas) {
+          points += 1;
+          const c = cibleAuPoint(x, y);
+          const parLeClic = c && c.kind === 'genre' ? c.slot : -1;
+          /* Le survol, tel qu'il s'allumerait : même appel, même lecture. */
+          const parLeSurvol = c && c.kind === 'genre' ? c.slot : -1;
+          if (parLeClic !== parLeSurvol) {
+            desaccords += 1;
+            if (exemples.length < 5) {
+              exemples.push({
+                x, y,
+                survol: parLeSurvol >= 0 ? (slotsData[parLeSurvol]?.label ?? '') : 'rien',
+                clic: parLeClic >= 0 ? (slotsData[parLeClic]?.label ?? '') : 'rien'
+              });
+            }
+          }
+        }
+      }
+      return {
+        points,
+        desaccords,
+        tauxPct: points > 0 ? Math.round((desaccords / points) * 10000) / 100 : 0,
+        exemples
       };
     },
 
