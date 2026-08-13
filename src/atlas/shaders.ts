@@ -232,8 +232,14 @@ void main() {
      la sphère : trois fois plus fin qu'avant, dans la teinte de la famille et
      non en blanc, et plafonné à 35 pour cent d'opacité. */
   float hasKids = step(0.5, vState.z);
+  /* LE LISERÉ ÉPOUSE LA SPHÈRE.
+
+     Il flottait à 0,185 de rayon du bord, pour 0,027 d'épaisseur : de loin il
+     ne se rattachait plus à la boule qu'il entoure, il paraissait posé
+     autour. L'écart est divisé par trois, l'épaisseur par deux : il commence
+     à 1,062 et finit à 1,0755. */
   float ringW = max(aa * 0.9, 0.009);
-  float ring = (smoothstep(1.185 - ringW, 1.185, r) - smoothstep(1.212, 1.212 + ringW, r)) * hasKids;
+  float ring = (smoothstep(1.062 - ringW, 1.062, r) - smoothstep(1.0755, 1.0755 + ringW, r)) * hasKids;
 
   /* L'ANNEAU S'EFFACE QUAND IL DEVIENT PLUS FIN QU'UN PIXEL.
 
@@ -261,7 +267,7 @@ void main() {
      progressivement l'anneau quand son epaisseur passe sous deux pixels.
      Il reste sur les spheres assez grandes pour le porter proprement, la ou
      il sert vraiment a signaler qu'on peut descendre d'un niveau. */
-  float epaisseurPx = 0.027 * (vRadius / max(pixelWorld, 1e-6));
+  float epaisseurPx = 0.0135 * (vRadius / max(pixelWorld, 1e-6));
   ring *= smoothstep(0.7, 2.0, epaisseurPx);
 
   /* Hors mise au point, l'anneau n'existe plus du tout. Un trait fin est la

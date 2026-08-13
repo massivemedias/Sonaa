@@ -2486,6 +2486,13 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   const nomTouche = (px: number, py: number, marge: number): LabelSlot | null => {
     for (const ls of labelSlots) {
       if (!ls.visible || ls.opacity <= 0.05 || ls.w <= 0) continue;
+      /* UN NOM HORS ZONE NE DESIGNE RIEN.
+
+         chercherCible filtrait deja sur la zone ; ce test-ci ne le faisait
+         pas. Un nom d'arriere-plan, flou et large, pouvait donc capter un clic
+         pose sur une sphere de la zone et emmener ailleurs. C'est le dernier
+         chemin par lequel une voisine volait un clic. */
+      if (zoneActive && ls.kind === 'genre' && (ls.slot < 0 || zone[ls.slot] !== 1)) continue;
       /* Un nom hors zone ne capte rien non plus. En mode focus il n'y en a
          plus aucun d'affiché, mais le tableau des emplacements survit une
          image à la passe de placement : sans ce test, le tout premier clic
@@ -4288,11 +4295,10 @@ const OVERLAP_TOLERANCE = 1;
            son agrandissement, qui est une reponse a une action et non un
            mouvement permanent. */
         const breath = 1;
-        /* VINGT POUR CENT au survol. Douze ne se voyaient pas sur une sphère
-           de vingt-cinq pixels : trois pixels de plus, personne ne les
-           remarque. C'est le premier des quatre signes qui disent « ici, on
-           peut cliquer », et un signe qu'on ne remarque pas n'est pas un
-           signe. */
+        /* DIX POUR CENT au survol. Vingt sautait aux yeux, mais faisait
+           bouger la carte a chaque passage de souris : le liseré et
+           l'éclaircissement disent déjà où l'on est, le grossissement n'a
+           qu'à confirmer, discrètement. */
         /* LES SPHÈRES GROSSISSENT ENCORE SUR PETIT ÉCRAN. Le rapport entre
            l'objet et son étiquette doit s'inverser : c'est la sphère qu'on
            vise du doigt, et elle faisait deux pixels de rayon sur les
@@ -4307,7 +4313,7 @@ const OVERLAP_TOLERANCE = 1;
            à la réduire : elle reste la plus grosse, sans écraser le reste. */
         const facteurEtroit = width < 500 ? (i === focusIndex ? 0.95 : 1.75) : 1;
         sphereRadii[i] =
-          (baseRadii[i] ?? 1) * breath * facteurEtroit * (1 + 0.2 * (hoverAmount[i] ?? 0));
+          (baseRadii[i] ?? 1) * breath * facteurEtroit * (1 + 0.1 * (hoverAmount[i] ?? 0));
       }
 
       /* GARDE INCONDITIONNELLE : UNE SPHERE DANS SON PARENT N'EST PAS PEINTE.
