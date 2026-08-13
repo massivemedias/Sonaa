@@ -1154,7 +1154,17 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
            somme d'une telle suite converge, l'arbre le plus profond du corpus
            tient dans un rayon fini au lieu de croître linéairement. Mesuré sur
            Breakbeat, six niveaux, le plus profond du corpus. */
-        const pas = Math.max(PAS * Math.pow(0.82, profondeur), (rMax + rMax) * 1.5);
+        /* AU-DELA DU DEUXIEME ANNEAU, L'ECART EST DIVISE PAR DEUX A CHAQUE
+           GENERATION. La decroissance a 0,82 etait trop douce : le sixieme
+           anneau restait a plus de la moitie du premier, et l'arbre s'etalait
+           jusqu'a laisser le centre vide. En divisant par deux, la somme
+           converge vite et les generations lointaines reviennent vers leur
+           parent, ou elles se lisent comme sa descendance plutot que comme
+           des satellites perdus. */
+        const pas = Math.max(
+          profondeur <= 1 ? PAS : PAS * Math.pow(0.5, profondeur - 1),
+          (rMax + rMax) * 1.5
+        );
         poserBranche(e, curseur, curseur + largeur, profondeur + 1, rayon + pas);
         curseur += largeur;
       }
@@ -2394,9 +2404,23 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
          visable, et une grosse garde une marge autour d'elle. */
       /* Tolérance nulle : on demande le DISQUE DESSINÉ seul, sans marge.
          C'est le premier des trois recours de cibleAuPoint. */
+      /* DANS UN GENRE OUVERT, LA DISTANCE MAXIMALE N'EXISTE PLUS.
+
+         Tant qu'on est dans la zone, un clic DESIGNE toujours quelque chose :
+         le plus proche du curseur, sans condition. C'est ce qui rend le geste
+         impossible a rater, et c'est defendable parce que la zone ne contient
+         qu'une poignee d'objets, tous voulus par celui qui a ouvert le genre.
+
+         Ailleurs, la tolerance reste : au niveau de la vue d'ensemble, deux
+         cent dix-huit spheres se disputent l'ecran, et « le plus proche »
+         n'y veut plus rien dire.
+
+         Le disque dessine seul quand la tolerance est nulle : c'est le
+         premier des trois recours de cibleAuPoint. */
+      const sansLimite = zoneActive && zone[i] === 1 && toleranceMin > 0;
       const zoneCible =
-        toleranceMin <= 0 ? rayonEcran(i) : Math.max(toleranceMin, rayonEcran(i) + 12, 22);
-      if (d > zoneCible) continue;
+        toleranceMin <= 0 ? rayonEcran(i) : Math.max(toleranceMin, rayonEcran(i) + 12, 40);
+      if (!sansLimite && d > zoneCible) continue;
 
       /* 3. LE DÉPARTAGE. Devant gagne, SAUF dans l'arbre au doigt.
 
@@ -2521,7 +2545,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       }
     }
 
-    const best = chercherCible(px, py, grossier ? 44 : 26);
+    const best = chercherCible(px, py, grossier ? 44 : 40);
     if (best < 0) return null;
     return { slot: best, kind: 'genre', famille: slotsData[best]?.family ?? -1 };
   };
@@ -2581,7 +2605,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       return;
     }
 
-    const best = chercherCible(px, py, grossier ? 44 : 26);
+    const best = chercherCible(px, py, grossier ? 44 : 40);
     const slot = best >= 0 ? slotsData[best] : undefined;
     if (!slot) {
       /* Clic dans le vide. En mode focus, le vide est TOUT ce qui est flou,
@@ -4324,6 +4348,36 @@ const OVERLAP_TOLERANCE = 1;
       sphereState[i * 4 + 3] = labelled[i] ?? 0;
     }
     rayonFlou = flouMaxCourant * RAYON_FLOU_MAX;
+
+    /* ═══════════════════════════════════════════════════════════════════
+       PLANCHER ET PLAFOND DE RAYON, EN PIXELS D'ECRAN.
+
+       Les rayons sont des unites du monde : a l'ecran, une feuille de
+       troisieme generation tombait a trois pixels quand la racine en faisait
+       deux cents. Aucun reglage de disposition ne corrige cela, parce que le
+       probleme n'est pas la disposition mais l'ECART DE TAILLE lui-meme.
+
+       On le compresse donc apres coup, la ou il se voit : plancher de 18 px
+       de rayon, et plafond a 2,5 fois le plancher. La racine cesse d'ecraser
+       le reste, les feuilles cessent d'etre des points. La hierarchie se lit
+       encore, elle ne hurle plus.
+
+       Le rayon MONDE est corrige, pas seulement le rendu : la zone cliquable
+       et les liens se calculent dessus, ils suivent donc sans rien savoir. */
+    if (zoneActive) {
+      const PLANCHER_PX = 18;
+      const PLAFOND_PX = PLANCHER_PX * 2.5;
+      for (let i = 0; i < TOTAL_GENRES; i += 1) {
+        if (zone[i] !== 1) continue;
+        if ((sphereState[i * 4] ?? 0) <= 0.02) continue;
+        const rPx = rayonEcran(i);
+        if (rPx <= 0.01) continue;
+        const voulu = clamp(rPx, PLANCHER_PX, PLAFOND_PX);
+        if (Math.abs(voulu - rPx) < 0.5) continue;
+        sphereRadii[i] = (sphereRadii[i] ?? 1) * (voulu / rPx);
+      }
+      sphereRadiusAttr.needsUpdate = true;
+    }
 
     sphereCenterAttr.needsUpdate = true;
     sphereStateAttr.needsUpdate = true;
