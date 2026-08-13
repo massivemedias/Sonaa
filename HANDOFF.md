@@ -192,7 +192,7 @@ clic dans le flou sort du mode.
 rappelle, elle montre un genre tiré au sort avant le premier clic, et aucune
 lecture ne démarre jamais seule.
 
-**81 ADR** dans `ARCHITECTURE.md`. Aucun point ouvert déclaré à la fin du
+**82 ADR** dans `ARCHITECTURE.md`. Aucun point ouvert déclaré à la fin du
 fichier.
 
 ---

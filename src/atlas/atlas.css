@@ -206,9 +206,17 @@
 /* LA FLÈCHE DE RETOUR. Même bande que le fil d'Ariane, à sa gauche, et le fil
    se décale d'autant quand elle est là. Cible de 44 px, comme les contrôles. */
 .crumb-retour {
+  /* SUR LA LIGNE DU FIL D'ARIANE, JAMAIS SUR LA MARQUE.
+
+     Premiere position : coin haut gauche, a 0,6rem. Elle tombait exactement
+     sur le logotype, qui occupe ce coin depuis toujours. Elle vit desormais
+     au debut du fil d'Ariane, dont elle est l'equivalent d'un geste, et le
+     fil se decale d'autant. */
   position: absolute;
-  top: calc(1rem - 0.6rem);
-  left: 0.6rem;
+  /* Sous le logotype, qui descend a 57,6 px, et a gauche du fil, qui commence
+     a 67,2 px : aucune des deux boites ne la touche, verifie par mesure. */
+  top: 3.85rem;
+  left: 1rem;
   z-index: 7;
   width: 44px;
   height: 44px;
@@ -234,7 +242,7 @@
 }
 
 .atlas-root:has(.crumb-retour) .crumbs {
-  left: 3.4rem;
+  left: 4.2rem;
 }
 
 /* Fil d'Ariane permanent. */
@@ -421,7 +429,13 @@
   border: 0;
   cursor: pointer;
   line-height: 0;
-  opacity: 0.72;
+  /* LE LOGOTYPE S'AFFICHE EN BLANC PLEIN, JAMAIS ATTENUE.
+
+     Il portait ici une opacite de 0,72, et la page des credits une de 0,85 :
+     la marque etait donc grise a l'ecran alors que son fichier source est en
+     blanc casse a 251. Une opacite mise pour « ne pas dominer » finit par
+     salir la seule chose qui identifie le site. Si le logotype doit peser
+     moins, cela se regle par sa TAILLE, pas par sa couleur. */
   transition: opacity 140ms linear;
 }
 

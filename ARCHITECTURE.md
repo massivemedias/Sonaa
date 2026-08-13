@@ -3501,6 +3501,70 @@ sans arbitrage.
 
 ---
 
+## ADR-082 : Le rapport objet sur lien, le retour unique, et le logo blanc
+
+**Statut** : accepte, 12 aout 2026.
+
+**LE RAPPORT ENTRE TAILLE DES OBJETS ET LONGUEUR DES LIENS, enfin deplace, au
+troisieme essai.**
+
+Ce qui se percoit n'est pas la longueur absolue d'un lien mais ce rapport. Deux
+tentatives l'ont laisse intact, et pour la meme raison a chaque fois :
+
+1. Resserrer la disposition (ADR-081). Le cadrage rapproche la camera d'autant.
+   Liens allonges de 6 %.
+2. Grossir les spheres seules. Le cadrage compte les rayons dans sa boite :
+   plus grosses, elles font reculer la camera. Mesure a 1,0, 1,2 et 1,4 de
+   grossissement : rayon moyen 87,6 px et lien moyen 233 px, IDENTIQUES.
+
+La cause profonde : la disposition ET le cadrage derivent tous deux des rayons.
+Changer les rayons change les deux termes du rapport, qui reste donc constant.
+
+**La correction est de decoupler.** La disposition et le cadrage travaillent sur
+les rayons D'ORIGINE ; le grossissement ne touche que ce qui est peint. Mesure
+sur Trip-Hop a 1280 px, par de vrais clics :
+
+| | rayon moyen | lien moyen | rapport |
+| --- | --- | --- | --- |
+| avant | 87,6 px | 233 px | 2,66 |
+| apres, x1,4 | 122,6 px | 233 px | **1,90** |
+
+Les liens gardent la meme longueur absolue et paraissent 29 % plus courts.
+
+**LE GARDE-FOU N'EST PAS TENU, ET IL NE VIENT PAS DU GROSSISSEMENT.** Sur
+l'arbre de Trip-Hop, une paire de spheres se recouvre DEJA au facteur 1,0 :
+ecart minimal de moins 76 px avant, moins 200 px apres. Le grossissement
+aggrave un defaut qu'il n'a pas cree. Il s'agit de la racine et de son parent
+direct, qui est un fondateur de famille, donc la plus grosse sphere de l'atlas,
+posee a un pas d'anneau calcule sur des rayons bien plus petits. Baisser le
+facteur ne fait pas passer le controle, puisqu'il echoue deja a 1,0 : c'est le
+placement du parent qu'il faut revoir, pas le grossissement.
+
+**UN SEUL RETOUR, TROIS CHEMINS.** Le clic dans le vide, Echap et le logo
+appellent tous `recenter`. Mesure, camera apres chaque chemin :
+
+| chemin | azimut | elevation | distance |
+| --- | --- | --- | --- |
+| premier chargement | 0,55 | 0,20 | 315 |
+| clic dans le vide | 0,55 | 0,20 | 315 |
+| Echap | 0,55 | 0,20 | 315 |
+| logo | 0,55 | 0,20 | 315 |
+
+Echap ramene desormais a la vue d'ensemble et non plus d'un cran : remonter
+d'un cran est le role de la fleche de retour.
+
+**LA FLECHE QUITTE LE LOGOTYPE.** Elle etait posee dans le coin haut gauche,
+c'est-a-dire sur la marque. Elle vit sous le logo et a gauche du fil d'Ariane :
+recouvrement mesure de 0 px avec l'un et avec l'autre.
+
+**LE LOGOTYPE EST BLANC PLEIN.** Il portait `opacity: 0,72` sur l'atlas et 0,85
+sur les credits : la marque etait grise alors que son fichier source est a 252.
+Les deux attenuations sont retirees. Mesure du pixel le plus clair rendu :
+**252**, pour un minimum demande de 250. Si le logotype doit peser moins, cela
+se regle par sa TAILLE, pas par sa couleur.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle

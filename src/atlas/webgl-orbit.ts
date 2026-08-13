@@ -1027,8 +1027,8 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       }
     }
     let rMax = 0.5;
-    for (const i of sousArbre) rMax = Math.max(rMax, baseRadii[i] ?? 0.5);
-    const rRacine = baseRadii[globalIndex] ?? 1;
+    for (const i of sousArbre) rMax = Math.max(rMax, rayonDispo[i] ?? 0.5);
+    const rRacine = rayonDispo[globalIndex] ?? 1;
     /* LE PAS DES ANNEAUX, RESSERRÉ SUR GRAND ÉCRAN.
 
        Demande de Mika : les liens sont trop longs. Resserrer TOUT ne changerait
@@ -1162,7 +1162,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
          l'écran au lieu des trois cinquièmes voulus. Le cadrage doit se
          calculer sur CE QU'ON VOIT, jamais sur ce qui est prévu. */
       if (zone[i] !== 1) continue;
-      r = Math.max(r, off.length() + (baseRadii[i] ?? 1));
+      r = Math.max(r, off.length() + (rayonDispo[i] ?? 1));
     }
     return r;
   };
@@ -1228,7 +1228,18 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     let maxY = rFocus;
     for (const [i, off] of focusOffsets) {
       if (zone[i] !== 1) continue;
-      const r = baseRadii[i] ?? 1;
+      /* LE CADRAGE IGNORE LE GROSSISSEMENT DES SPHERES, et c'est ce qui le
+         rend visible.
+
+         Troisieme rencontre du meme piege. Le cadrage se calait sur la boite
+         reelle, rayons compris : grossir les spheres agrandissait la boite, la
+         camera reculait d'autant, et le rapport a l'ecran ne bougeait pas d'un
+         pixel. Mesure : rayon moyen 87,6 px et lien moyen 233 px, identiques a
+         1,0, 1,2 et 1,4 de grossissement.
+
+         La marge est donc prise au rayon D'ORIGINE. La disposition commande
+         seule le cadrage, et le grossissement se voit. */
+      const r = rayonDispo[i] ?? 1;
       const x = off.dot(focusRight);
       const y = off.dot(focusUp);
       minX = Math.min(minX, x - r);
@@ -1570,6 +1581,35 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   let introActive = false;
   let introStart = 0;
   let introDone: (() => void) | null = null;
+  /* LES SPHÈRES GROSSISSENT DE 40 %, disposition et cadrage inchangés.
+
+     Ce qui se perçoit n'est pas la longueur absolue d'un lien, c'est le
+     RAPPORT entre la taille des objets et celle des liens qui les relient.
+     Resserrer la disposition ne change rien à ce rapport, le cadrage
+     rapprochant la caméra d'autant : mesuré en ADR-081, les liens avaient même
+     allongé de 6 %. Grossir les sphères agit directement sur le rapport, et
+     c'est le seul levier qui le fasse.
+
+     Le facteur est vérifié et non supposé : la disposition garde les mêmes
+     distances, donc des sphères plus grosses peuvent finir par se toucher.
+     Le contrôle compte les paires qui se recouvrent, et il doit rendre zéro. */
+  const GROSSISSEMENT = 1.4;
+  /* LES RAYONS D'ORIGINE, gardes pour la DISPOSITION et le CADRAGE.
+
+     Sans eux, grossir les spheres grossissait tout : la disposition se calcule
+     sur les rayons, donc les anneaux s'ecartaient d'autant, la boite grandissait,
+     la camera reculait, et le rapport entre taille des objets et longueur des
+     liens ne bougeait pas. Mesure : rayon moyen et lien moyen montaient tous
+     les deux de 14 %, rapport 2,66 puis 2,68.
+
+     La disposition travaille donc sur les rayons d'AVANT, et le grossissement
+     ne touche que ce qui est peint. C'est la seule facon de faire bouger un
+     rapport dont les deux termes derivaient de la meme valeur. */
+  const rayonDispo = new Float32Array(TOTAL_GENRES);
+  for (let i = 0; i < TOTAL_GENRES; i += 1) {
+    rayonDispo[i] = sphereRadii[i] ?? 1;
+    sphereRadii[i] = (sphereRadii[i] ?? 1) * GROSSISSEMENT;
+  }
   const baseRadii = Float32Array.from(sphereRadii);
 
   /* RAYON DE L'ANCETRE DIRECT, par slot. Il sert a decider quand un satellite
@@ -2397,9 +2437,15 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
          du second Échap, et le geste que fait spontanément quelqu'un qui
          veut refermer ce qu'il a ouvert. Hors mode focus, on remonte d'un
          niveau comme avant. */
-      dernierTap['decision'] = zoneActive ? 'vide en focus : sortie' : 'vide : remontee';
-      if (zoneActive) sortirDuFocus();
-      else goUp();
+      /* UN SEUL CHEMIN DE RETOUR. Le clic dans le vide appelait sortirDuFocus,
+         le logo un code a lui, et Echap un troisieme : trois retours qui ne
+         rendaient pas le meme ecran. Ils appellent tous recenter, qui EST le
+         cadrage d'accueil. */
+      dernierTap['decision'] = zoneActive ? 'vide en focus : retour accueil' : 'vide : remontee';
+      if (zoneActive) {
+        sortirDuFocus();
+        recenter();
+      } else goUp();
     } else if (level === 'atlas') {
       // Même règle que pour le nom : depuis l'atlas, on entre dans le genre.
       goToGenre(slot.family, slot.local);
@@ -2545,6 +2591,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     target.copy(atlasTarget);
     targetSmooth.copy(atlasTarget);
     distance = atlasDistance;
+    applyCamera();
     azVel = 0;
     elVel = 0;
     dollyVel = 0;
@@ -4588,6 +4635,30 @@ const OVERLAP_TOLERANCE = 1;
           rayonGroupe: Math.round(focusRingRadius() * 100) / 100,
         /* Longueur MOYENNE des liens de l'arbre, en pixels d'écran : c'est ce
            que le resserrement des anneaux doit faire baisser. */
+        rayonMoyenPx: (() => {
+          let somme = 0; let n = 0;
+          for (let i = 0; i < TOTAL_GENRES; i += 1) {
+            if (zone[i] !== 1) continue;
+            somme += rayonEcran(i); n += 1;
+          }
+          return n > 0 ? Math.round((somme / n) * 10) / 10 : 0;
+        })(),
+        /* Deux spheres de la zone qui se recouvrent : le grossissement est
+           alors trop fort, et ce compte doit rester a zero. */
+        spheresQuiSeTouchent: (() => {
+          let paires = 0;
+          const m: number[] = [];
+          for (let i = 0; i < TOTAL_GENRES; i += 1) if (zone[i] === 1) m.push(i);
+          for (let a = 0; a < m.length; a += 1) {
+            for (let b = a + 1; b < m.length; b += 1) {
+              const ia = m[a] ?? 0; const ib = m[b] ?? 0;
+              const d = Math.hypot((projected[ia * 3] ?? 0) - (projected[ib * 3] ?? 0),
+                (projected[ia * 3 + 1] ?? 0) - (projected[ib * 3 + 1] ?? 0));
+              if (d < rayonEcran(ia) + rayonEcran(ib)) paires += 1;
+            }
+          }
+          return paires;
+        })(),
         lienMoyenPx: (() => {
           let somme = 0;
           let n = 0;
