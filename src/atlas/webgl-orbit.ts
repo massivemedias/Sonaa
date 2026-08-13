@@ -4034,7 +4034,19 @@ const OVERLAP_TOLERANCE = 1;
      « ce qu'une image fait » de « quand elle est demandee », on peut dérouler
      la scene a la main, image par image, temps simule, et lire les pixels
      entre chaque. Le GPU dessine quand on le lui demande. */
+  /* TRACE D'UNE SEULE IMAGE, pour repondre a une seule question : la distance
+     change-t-elle apres mon bloc de cadrage, et si non, la condition est-elle
+     remplie. Une image suffit, et un drapeau evite d'inonder la console. */
+  let traceDistanceDemandee = false;
+  const traceDistance: string[] = [];
+
   const avancer = (now: number): void => {
+    const traceIci = traceDistanceDemandee;
+    if (traceIci) {
+      traceDistanceDemandee = false;
+      traceDistance.length = 0;
+      traceDistance.push(`1. debut de boucle          distance = ${distance.toFixed(2)}`);
+    }
 
     if (!reducedMotion) {
       bgUniforms.uTime.value = now / 1000;
@@ -4094,6 +4106,12 @@ const OVERLAP_TOLERANCE = 1;
        jamais avancer. Une correction qui pousse dans un seul sens a un point
        fixe et l'atteint ; c'est la leçon de la boucle d'espacement, qui
        corrigeait dans les deux sens et a divergé jusqu'à sa borne. */
+    if (traceIci) {
+      traceDistance.push(`2. juste avant le bloc      distance = ${distance.toFixed(2)}`);
+      traceDistance.push(
+        `   condition : zoneActive=${zoneActive} flying=${flying} focusIndex=${focusIndex} frameLock=${frameLock}`
+      );
+    }
     if (zoneActive && !flying && focusIndex >= 0) {
       let minX = Infinity;
       let maxX = -Infinity;
@@ -4129,12 +4147,50 @@ const OVERLAP_TOLERANCE = 1;
           Math.max(0, -minY) + Math.max(0, maxY - height)
         );
         const facteur = Math.max((maxX - minX) / utileX, (maxY - minY) / utileY);
+        if (traceIci) {
+          traceDistance.push(
+            `   mesure : contenu ${Math.round(maxX - minX)}x${Math.round(maxY - minY)} pour utile ${Math.round(utileX)}x${Math.round(utileY)}, facteur ${facteur.toFixed(3)}, vus ${vus}`
+          );
+        }
+        /* ═══════════════════════════════════════════════════════════════
+           LE GROUPE TIENT, MAIS IL EST DECENTRE. C'ETAIT LE DEFAUT.
+
+           Le bloc ne comparait que des TAILLES : contenu 727 sur 806 de large,
+           facteur 0,99, donc « rien a corriger ». Et pourtant 451 pixels
+           sortaient du cadre, parce qu'un contenu plus petit que la place
+           disponible peut parfaitement en deborder s'il est pose de travers.
+
+           Comparer une taille ne dit rien d'une position. On recentre donc
+           AVANT de reculer : le decalage en pixels est converti en unites du
+           monde le long des axes de la camera, et applique a la cible. Reculer
+           n'est le bon geste que si le contenu est vraiment trop grand.
+
+           Le pas de 0,5 amortit : une correction seche ferait sursauter la
+           carte pendant que les positions bougent encore. */
+        const centreX = (minX + maxX) / 2;
+        const centreY = (minY + maxY) / 2;
+        const ecartX = centreX - width / 2;
+        const ecartY = centreY - height / 2;
+        if (debordement > 0 && (Math.abs(ecartX) > 2 || Math.abs(ecartY) > 2)) {
+          const mondeParPixel = (2 * Math.tan((FOV * Math.PI) / 360) * distance) / Math.max(1, height);
+          const droite = new Vector3().setFromMatrixColumn(camera.matrixWorld, 0).normalize();
+          const haut = new Vector3().setFromMatrixColumn(camera.matrixWorld, 1).normalize();
+          target
+            .addScaledVector(droite, ecartX * mondeParPixel * 0.5)
+            .addScaledVector(haut, -ecartY * mondeParPixel * 0.5);
+          targetSmooth.copy(target);
+          applyCamera();
+        }
+
         if (facteur > 1.02) {
           distance = clamp(distance * (1 + (facteur - 1) * 0.6), MIN_DISTANCE, MAX_DISTANCE);
           applyCamera();
         }
+      } else if (traceIci) {
+        traceDistance.push(`   AUCUNE MESURE : vus=${vus} minX fini=${Number.isFinite(minX)}`);
       }
     }
+    if (traceIci) traceDistance.push(`3. juste apres le bloc      distance = ${distance.toFixed(2)}`);
 
     /* Suivi continu quand un panneau est ouvert : la cible suit le CENTRE DE
        LA FAMILLE du genre ouvert, pas la sphère du genre (verdict : la carte
@@ -4710,6 +4766,7 @@ const OVERLAP_TOLERANCE = 1;
 
     consumePendingGenre(now);
     projectLabels(now);
+    if (traceIci) traceDistance.push(`4. fin de boucle            distance = ${distance.toFixed(2)}`);
     renderer.info.reset();
     renderOnce(true);
 
@@ -5086,6 +5143,8 @@ const OVERLAP_TOLERANCE = 1;
        couronne d'entrée tient sa promesse de 44 px. */
     /* Le journal du dernier clic, etape par etape. */
     trace: () => trace.slice(),
+    tracerDistance: () => { traceDistanceDemandee = true; },
+    lireTraceDistance: () => traceDistance.slice(),
     viderTrace: () => { trace.length = 0; },
 
     zoneFocus: () => {
