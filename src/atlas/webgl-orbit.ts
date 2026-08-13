@@ -1929,6 +1929,19 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
        Plutôt que d'interdire un geste sans rien offrir, le glissement DÉPLACE
        la vue dans son plan. Zoom et déplacement, pas d'orbite, pas
        d'élévation. */
+    /* SOUS 500 PX, LA CARTE NE SE DÉPLACE PAS DU TOUT.
+
+       Ni orbite ni glissement. Sur un téléphone, le doigt sert à VISER, et
+       chaque geste de déplacement était surtout une occasion de perdre le
+       cadrage soigneusement calculé, sans moyen évident de le retrouver. La
+       carte tient dans l'écran par construction : il n'y a rien à aller
+       chercher ailleurs. Le pincement reste, pour lire de plus près. */
+    if (width < 500) {
+      lastX = event.clientX;
+      lastY = event.clientY;
+      return;
+    }
+
     if (zoneActive) {
       const echelle = (2 * Math.tan((FOV * Math.PI) / 360) * distance) / Math.max(1, height);
       const droite = new Vector3().setFromMatrixColumn(camera.matrixWorld, 0).normalize();
@@ -2841,6 +2854,8 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     kind: 'family' | 'genre';
     /** Index global de la sphère, ou -1 pour un label de famille. */
     slot: number;
+    /** Nom entier, quand l'affiché est tronqué : sert à l'infobulle. */
+    complet: string;
     /** Jamais masqué par une collision. */
     pinned: boolean;
     opacity: number;
@@ -3022,8 +3037,28 @@ const OVERLAP_TOLERANCE = 1;
               ceilByWidth
             )
           : clamp(raw, isAtlasFamily ? 10 : labelRules.floorPx, LABEL_PX_CEILING);
+      /* LES NOMS LONGS SONT TRONQUÉS AU DERNIER ESPACE, SOUS 500 PX.
+
+         Compromis tranché par Mika : on ne touche pas aux noms courts, qui
+         sont la majorité, et on coupe les longs, qui sont les seuls à poser
+         problème. « Liquid Drum and Bass » devient « Liquid Drum… »,
+         « Breakbeat Hardcore » devient « Breakbeat… ».
+
+         La coupe tombe au dernier espace AVANT la limite : couper au milieu
+         d'un mot donne « Breakbeat Hardc… », qui se lit comme une faute
+         plutôt que comme une abréviation. Sans espace avant la limite, on
+         garde le nom entier : un seul mot long vaut mieux tronqué nulle part
+         que coupé n'importe où.
+
+         Le nom complet reste dans la colonne dès qu'on clique, et l'attribut
+         title le rend au survol prolongé. */
+      let affiche = text;
+      if (width < 500 && kind === 'genre' && text.length > 16) {
+        const coupe = text.lastIndexOf(' ', 16);
+        if (coupe > 6) affiche = text.slice(0, coupe) + '\u2026';
+      }
       const px = pxFocus > 0 ? pxFocus : pxCalcule;
-      const w = textWidth(text, px, kind);
+      const w = textWidth(affiche, px, kind);
 
       /* Écran étroit : le nom de famille passe DESSOUS la sphère et centré.
          Ce décalage vivait dans le CSS (translate -50% 1.35rem sur
@@ -3133,7 +3168,8 @@ const OVERLAP_TOLERANCE = 1;
 
       candidates.push({
         key,
-        text,
+        text: affiche,
+        complet: text,
         sx: fx,
         sy: fy,
         depth,
@@ -3591,6 +3627,11 @@ const OVERLAP_TOLERANCE = 1;
       if (ls.key !== entry.key) {
         ls.key = entry.key;
         ls.el.textContent = entry.text;
+        /* L'infobulle porte le nom entier quand l'affiché est tronqué, et
+           rien du tout sinon : une infobulle qui répète ce qu'on lit déjà
+           est du bruit. */
+        if (entry.complet !== entry.text) ls.el.title = entry.complet;
+        else ls.el.removeAttribute('title');
         ls.el.dataset['major'] = entry.kind === 'family' ? '1' : '0';
         ls.el.dataset['kind'] = entry.kind;
         /* Le nom marqué suit la SÉLECTION, pas la racine de la vue : c'est
@@ -4192,7 +4233,14 @@ const OVERLAP_TOLERANCE = 1;
            vise du doigt, et elle faisait deux pixels de rayon sur les
            générations profondes. Le facteur porte aussi la zone cliquable,
            qui se calcule sur ce rayon. */
-        const facteurEtroit = width < 500 ? 1.75 : 1;
+        /* LA SPHÈRE CENTRALE EST RÉDUITE SUR PETIT ÉCRAN.
+
+           Elle est la plus grosse de l'arbre par construction, et sur 390 px
+           elle mangeait la place de ses propres dérivés : on ouvrait un genre
+           pour voir sa descendance, et c'est lui qu'on voyait. Son nom ayant
+           déjà quitté la carte (il est dans le fil d'Ariane), rien ne se perd
+           à la réduire : elle reste la plus grosse, sans écraser le reste. */
+        const facteurEtroit = width < 500 ? (i === focusIndex ? 0.95 : 1.75) : 1;
         sphereRadii[i] =
           (baseRadii[i] ?? 1) * breath * facteurEtroit * (1 + 0.12 * (hoverAmount[i] ?? 0));
       }
