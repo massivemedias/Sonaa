@@ -293,6 +293,20 @@ Ne pas ressusciter sans raison neuve.
 
 ## 4. Ce qui reste ouvert
 
+**Un champ producteur dans le corpus, PISTE FUTURE, écartée pour l'instant.**
+Chercher « moroder feel love » ne trouve rien : « I Feel Love » est crédité à
+Donna Summer, et Moroder, qui l'a produit, n'apparaît sur aucune de ses
+entrées. Le remplir demanderait une campagne de données sur 1763 morceaux,
+avec ses risques d'erreur, pour un gain marginal : **le crédit officiel
+suffit** (verdict de Mika). À rouvrir seulement si la demande revient.
+
+**La recherche ne connaît pas les alias d'artistes, et il n'y en a pas.** Le
+corpus n'a aucun champ d'alias sur les morceaux : ses champs sont `youtubeId`,
+`artist`, `title`, `year`, `verified`, `cover`, `release`, `album`, `shared`,
+`dureeNonVerifiee`. Les alias qui existent sont ceux des GENRES, et ils sont
+cherchés. Les labels de disque le sont aussi, avec tolérance aux fautes :
+« R&S » rend 18 résultats, « warp recrds » en rend 8.
+
 **LES QUATRE TEXTES SONT ÉCRITS ET EN LIGNE** (ADR-076). L'accroche d'accueil,
 le texte d'auteur de la page À propos, et le mot de l'auteur sur `darkdisco`,
 `indiedance` et `progpsy`. Le champ `motDeLAuteur` reste absent des 215 autres
