@@ -419,6 +419,12 @@ interface FocusResult {
   flouMin: number;
   netsHorsZone: number;
   nomsSurSphereNette: number;
+  /* Distance maximale entre un nom et le BORD de la sphère qu'il désigne.
+     Au-delà de 40 px, on ne fait plus le rapprochement : le nom paraît
+     flotter dans le vide, et sur une capture il a même été attribué à la
+     sphère d'un autre noeud. */
+  nomLoinDeSaSpherePx: number;
+  nomLePlusLoin: string;
   detailNoms: string[];
   ciblesHorsZone: number;
   verdict: 'ok' | 'echec' | 'non arme, aucun genre ouvert';
@@ -443,6 +449,8 @@ const testFocus = (): FocusResult => {
     flouMin: 0,
     netsHorsZone: 0,
     nomsSurSphereNette: 0,
+    nomLoinDeSaSpherePx: 0,
+    nomLePlusLoin: '',
     detailNoms: [],
     ciblesHorsZone: 0,
     verdict: 'non arme, aucun genre ouvert'
@@ -479,6 +487,26 @@ const testFocus = (): FocusResult => {
     }
   }
 
+  /* CHAQUE NOM RESTE PRÈS DE SA SPHÈRE. On compare le nom au membre de la
+     zone qui PORTE ce nom, jamais au plus proche : c'est exactement l'erreur
+     qu'on cherche, un nom posé à côté de la sphère d'un autre. */
+  let nomLoinDeSaSpherePx = 0;
+  let nomLePlusLoin = '';
+  for (const el of document.querySelectorAll('.atlas-label')) {
+    const r = el.getBoundingClientRect();
+    if (r.left <= -500 || Number(getComputedStyle(el).opacity) <= 0.05) continue;
+    if ((el as HTMLElement).dataset['flou'] === '1') continue;
+    const sien = z.membres.find((m) => m.label === (el.textContent ?? ''));
+    if (!sien) continue;
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
+    const auBord = Math.max(0, Math.hypot(cx - sien.x, cy - sien.y) - sien.rayonPx);
+    if (auBord > nomLoinDeSaSpherePx) {
+      nomLoinDeSaSpherePx = Math.round(auBord);
+      nomLePlusLoin = `${el.textContent ?? ''} a ${Math.round(auBord)} px de sa sphere`;
+    }
+  }
+
   /* Aucune cible cliquable hors zone : on sonde la carte en grille plutot
      que de faire confiance a la lecture du code. */
   const [w, h] = a.info().size;
@@ -495,6 +523,7 @@ const testFocus = (): FocusResult => {
     z.flouHorsZone.min > 0.9 &&
     z.horsZonePasEncoreFloues === 0 &&
     nomsSurSphereNette === 0 &&
+    nomLoinDeSaSpherePx <= 40 &&
     ciblesHorsZone === 0 &&
     (z.ecartMinPx === null || z.ecartMinPx >= 44);
 
@@ -504,6 +533,8 @@ const testFocus = (): FocusResult => {
     flouMin: z.flouHorsZone.min,
     netsHorsZone: z.horsZonePasEncoreFloues,
     nomsSurSphereNette,
+    nomLoinDeSaSpherePx,
+    nomLePlusLoin,
     detailNoms,
     ciblesHorsZone,
     verdict: ok ? 'ok' : 'echec'

@@ -3565,6 +3565,62 @@ se regle par sa TAILLE, pas par sa couleur.
 
 ---
 
+## ADR-083 : L'ascendant sort de l'anneau, le survol se voit, et un controle qui echoue
+
+**Statut** : accepte, 12 aout 2026.
+
+**L'ASCENDANT N'EST PLUS UN VOISIN COMME LES AUTRES.** Il est souvent le
+fondateur de sa famille, donc la plus grosse sphere de l'atlas, et il etait
+pose sur le MEME anneau que des derives dix fois plus petits, dont le pas est
+calcule sur ces petits. Il debordait et se recouvrait avec la racine. Il est
+desormais decale vers l'exterieur proportionnellement a SON rayon. La solution
+par secteur angulaire elargi a ete ecartee : elle aurait resserre tous les
+autres pour un seul noeud.
+
+**Et les contraintes de non-contact portent enfin sur le rayon DESSINE.** La
+disposition travaille sur les rayons d'origine pour que le grossissement se
+voie (ADR-082) ; mais ce qui ne doit pas se toucher, ce sont les spheres telles
+qu'elles sont peintes, 40 % plus grosses. On autorisait donc 40 % de
+recouvrement. Le pas des anneaux, lui, garde le rayon d'origine : c'est lui qui
+commande la longueur des liens.
+
+**LE SURVOL SE VOIT, en quatre signes.** La sphere grossit de 12 % en 120 ms,
+un lisere franc s'allume dans la teinte de sa famille, son nom passe en pleine
+opacite et en graisse forte, et le curseur devient pointeur. Un seul de ces
+signes ne suffit pas : sur une carte de deux cents objets, on vise du regard
+avant de viser a la souris, et c'est le NOM qu'on lit.
+
+**LE SURVOL REPOND EXACTEMENT LA OU LE CLIC REPOND.** Il cherchait dans un
+rayon de 26 px quand le clic en accepte 44 au doigt, et il ignorait les NOMS,
+que le clic accepte comme cibles depuis longtemps. On pouvait donc ouvrir un
+genre sans que rien ne se soit allume : « ca marche parfois », sans qu'on
+comprenne quand.
+
+**UN CONTROLE NEUF, ET IL ECHOUE.** Signale sur une capture : un nom sans
+sphere a cote, un autre colle a la sphere d'un noeud different. Le controle
+compare chaque nom au membre de la zone qui PORTE ce nom, jamais au plus
+proche, et echoue au-dela de 40 px du bord.
+
+Il echoue a trois largeurs sur quatre : **63 px sur Cosmic Disco a 1024,
+75 px sur Cosmic Disco a 1440, 93 px sur Boogie a 700.**
+
+**Ce que je n'ai pas tranche, faute de temps.** Le placement d'un nom de zone
+se fait a `rayon + taille x 0,55` du centre de sa sphere, ce qui ne peut pas
+donner 93 px. Deux explications restent ouvertes, et l'une accuse le controle
+plutot que le produit :
+
+1. le produit ecarte reellement certains noms, par un chemin que je n'ai pas
+   trouve ;
+2. le controle apparie les noms PAR TEXTE, et deux genres homonymes existent
+   dans le corpus. C'est exactement le piege deja documente pour le controle
+   des boites, ou un genre fondateur porte le meme nom que sa famille et ou
+   l'appariement doit se faire au plus proche parmi les homonymes.
+
+La deuxieme se leve en une mesure : apparier par index de sphere et non par
+texte. Elle n'a pas ete faite.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle

@@ -290,7 +290,15 @@ void main() {
   float rayonPx = vRadius / max(pixelWorld, 1e-6);
   float couverture = clamp(rayonPx * rayonPx, 0.0, 1.0);
 
-  float alpha = (body + ring * 0.35) * presence * couverture;
+  /* L'ANNEAU DE SURVOL EST FRANC, celui des dérivés reste un indice.
+
+     Le survol est une réponse à un geste : il a le droit de se voir, et c'est
+     même son seul rôle, dire « ici, ça répondra au clic ». L'anneau permanent,
+     lui, ne doit pas encadrer la sphère (ADR-029). Le moteur écrit 2 dans le
+     canal des dérivés quand la sphère est survolée, 1 ou plus quand elle a des
+     dérivés : un seul canal porte les deux, sans attribut supplémentaire. */
+  float survol = step(1.5, vState.z);
+  float alpha = (body + ring * mix(0.35, 0.95, survol)) * presence * couverture;
   /* Hors zone, l'opacité ne bouge presque plus : un dixième. Elle tombait
      aux quatre cinquièmes quand l'atténuation devait tenir lieu de flou.
      Maintenant que le flou est réel et qu'il étale déjà la lumière, ce qui
@@ -328,7 +336,7 @@ void main() {
   col = mix(col, vec3(grey), vExtinct * 0.64);
   col *= 1.0 - vExtinct * 0.04;
   // Anneau dans la teinte, à peine plus clair que le corps.
-  col = mix(col, clamp(vColor * 1.15, 0.0, 1.0), clamp(ring, 0.0, 1.0));
+  col = mix(col, clamp(vColor * mix(1.15, 1.9, survol), 0.0, 1.0), clamp(ring, 0.0, 1.0));
 
   /* Assombrissement local sous le texte. Le label est posé à droite du centre
      de la sphère : quand la sphère est étiquetée, on baisse légèrement sa

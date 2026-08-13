@@ -354,6 +354,17 @@
   gap: 0.45rem;
 }
 
+/* NOM SURVOLÉ : pleine opacité et graisse forte.
+
+   Troisième des quatre signes qui disent « ici, on peut cliquer », avec
+   l'agrandissement de la sphère, son liseré et le curseur. Un seul d'entre eux
+   ne suffit pas : sur une carte de deux cents objets, on vise du regard avant
+   de viser à la souris, et c'est le NOM qu'on lit. */
+.atlas-label[data-survol='1'] {
+  opacity: 1 !important;
+  font-weight: var(--weight-family);
+}
+
 /* NOEUD SÉLECTIONNÉ : le seul nom qui doit sauter aux yeux.
 
    Le clic ouvre une génération entière, donc l'écran peut porter vingt noms

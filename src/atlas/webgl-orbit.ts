@@ -1085,7 +1085,16 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     /* L'ÉCART MINIMAL ENTRE DEUX VOISINS, en unités du monde. Un anneau n'est
        pas une distance, c'est un COMPROMIS entre la profondeur qu'il exprime
        et la place qu'il offre. */
-    const ESPACE_MIN = rMax * 2.6;
+    /* LES CONTRAINTES DE NON-CONTACT PORTENT SUR LE RAYON DESSINÉ.
+
+       La disposition travaille sur les rayons d'origine, pour que le
+       grossissement des sphères se voie (ADR-082). Mais ce qui doit ne pas se
+       toucher, ce sont les sphères TELLES QU'ELLES SONT PEINTES, 40 % plus
+       grosses. En gardant les rayons d'origine dans les écarts minimaux, on
+       autorisait un recouvrement de 40 % : mesuré à moins 200 px sur l'arbre
+       de Trip-Hop. Le pas des anneaux, lui, garde le rayon d'origine : c'est
+       lui qui commande la longueur des liens. */
+    const ESPACE_MIN = rMax * 2.6 * GROSSISSEMENT;
 
     const poserBranche = (
       index: number,
@@ -1137,8 +1146,23 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       curseur -= largeur;
     }
     if (parentIndex >= 0) {
+      /* L'ASCENDANT N'EST PAS UN VOISIN COMME LES AUTRES.
+
+         Il est souvent le fondateur de sa famille, donc la plus grosse sphère
+         de l'atlas, et il était posé sur le MÊME anneau que des dérivés dix
+         fois plus petits. Le pas de cet anneau est calculé sur les petits :
+         le gros débordait dessus, et se recouvrait avec la racine. C'était le
+         seul recouvrement mesuré, et il existait avant le grossissement.
+
+         Il est donc décalé vers l'extérieur PROPORTIONNELLEMENT À SON RAYON :
+         assez loin pour que sa surface ne touche ni la racine, ni ses voisins
+         d'anneau. La solution par secteur angulaire élargi a été écartée :
+         elle aurait resserré tous les autres pour un seul noeud. */
       const largeur = (Math.PI * 2 * partParent) / total;
-      poser(parentIndex, curseur - largeur / 2, PAS);
+      const rp = (rayonDispo[parentIndex] ?? 1) * GROSSISSEMENT;
+      const rr = (rayonDispo[globalIndex] ?? 1) * GROSSISSEMENT;
+      const rayonParent = Math.max(PAS, rr + rp * 1.35, rp * 2.1);
+      poser(parentIndex, curseur - largeur / 2, rayonParent);
     }
   };
 
@@ -1803,10 +1827,24 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     /* Le survol met en valeur ce que le clic sélectionnerait : les deux
        doivent désigner la même sphère, sinon on éclaire une boule et on en
        ouvre une autre. Même fonction, même portée, même départage. */
-    const best = chercherCible(px, py, 26);
+    /* LE SURVOL RÉPOND EXACTEMENT LÀ OÙ LE CLIC RÉPOND.
+
+       Il cherchait dans un rayon de 26 px quand le clic en accepte 44 au
+       doigt, et il ignorait les NOMS, que le clic accepte comme cibles. On
+       pouvait donc cliquer et ouvrir un genre sans que rien ne se soit
+       allumé : « ça marche parfois », sans qu'on comprenne quand. Même
+       fonction, même tolérance, même test du nom. */
+    const grossier = window.matchMedia('(pointer: coarse)').matches;
+    const nom = nomTouche(px, py, grossier ? 10 : 4);
+    const best =
+      nom && nom.kind === 'genre' && nom.slot >= 0
+        ? nom.slot
+        : chercherCible(px, py, grossier ? 44 : 26);
     if (best !== hovered) {
       hovered = best;
       lastLabelPass = 0;
+      /* Le curseur dit ce qui est cliquable avant même qu'on clique. */
+      canvas.style.cursor = best >= 0 ? 'pointer' : '';
     }
   };
 
@@ -3415,6 +3453,8 @@ const OVERLAP_TOLERANCE = 1;
         /* Le nom marqué suit la SÉLECTION, pas la racine de la vue : c'est
            le noeud qu'on vient de cliquer qu'il faut retrouver d'un coup
            d'oeil parmi ceux de sa génération. */
+        ls.el.dataset['survol'] =
+          hovered >= 0 && entry.slot === hovered ? '1' : '0';
         ls.el.dataset['focus'] =
           activeGenre >= 0 && entry.key === `g-${slotsData[activeGenre]?.label ?? ''}` ? '1' : '0';
       }
@@ -3868,6 +3908,11 @@ const OVERLAP_TOLERANCE = 1;
         slot.family === openIndex && (familyProgress[slot.family] ?? 0) > 0.5
           ? slot.children.length
           : 0;
+      /* LE LISERÉ DE SURVOL. Le même anneau que celui des noeuds à dérivés,
+         mais allumé sur la sphère visée, à dérivés ou non : c'est le signe
+         qui dit « celle-ci répondra au clic ». Sa teinte est celle de la
+         famille, jamais du blanc, pour ne pas trancher avec le reste. */
+      if (i === hovered) ringOn = 2;
 
       if (focusSlot && focusBase && slot.family === focusSlot.family) {
         const fc = familyCenters[slot.family];
@@ -3991,7 +4036,9 @@ const OVERLAP_TOLERANCE = 1;
            son agrandissement, qui est une reponse a une action et non un
            mouvement permanent. */
         const breath = 1;
-        sphereRadii[i] = (baseRadii[i] ?? 1) * breath * (1 + 0.08 * (hoverAmount[i] ?? 0));
+        /* DOUZE POUR CENT au survol, et non huit : c'est le premier des
+           quatre signes qui disent « ici, on peut cliquer ». */
+        sphereRadii[i] = (baseRadii[i] ?? 1) * breath * (1 + 0.12 * (hoverAmount[i] ?? 0));
       }
 
       /* GARDE INCONDITIONNELLE : UNE SPHERE DANS SON PARENT N'EST PAS PEINTE.
