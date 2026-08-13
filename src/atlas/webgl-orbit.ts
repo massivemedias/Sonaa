@@ -1052,10 +1052,21 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     const poids = new Map<number, number>();
     let total = 0;
     for (const e of enfantsRacine) {
-      const p = compterFeuilles(e, new Set<number>());
+      const p = Math.sqrt(compterFeuilles(e, new Set<number>()));
       poids.set(e, p);
       total += p;
     }
+    /* LEVIER 2 : LES SECTEURS SE RÉÉQUILIBRENT.
+
+       Le poids d'une branche était son nombre de FEUILLES. Une branche de
+       douze feuilles prenait donc douze fois le secteur d'une feuille seule,
+       et sur Breakbeat la lignée Drum and Bass emportait la moitié du cercle
+       pendant que le haut gauche restait vide.
+
+       La racine carrée du compte écrase cet écart sans l'annuler : une branche
+       quatre fois plus fournie reçoit deux fois plus d'angle, pas quatre. Les
+       petites branches cessent d'être écrasées contre le centre, et la grande
+       cesse de partir seule au loin. */
     const partParent = parentIndex >= 0 ? Math.max(1, Math.round(total / Math.max(1, enfantsRacine.length))) : 0;
     total += partParent;
     if (total <= 0) total = 1;
@@ -1124,7 +1135,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       if (enfants.length === 0 || profondeur >= 11) return;
       let poidsTotal = 0;
       const p = enfants.map((e) => {
-        const w = compterFeuilles(e, new Set<number>());
+        const w = Math.sqrt(compterFeuilles(e, new Set<number>()));
         poidsTotal += w;
         return { e, w };
       });
@@ -1132,7 +1143,19 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       let curseur = debut;
       for (const { e, w } of p) {
         const largeur = ((fin - debut) * w) / poidsTotal;
-        poserBranche(e, curseur, curseur + largeur, profondeur + 1, rayon + PAS);
+        /* LEVIER 1 : L'ESPACEMENT DÉCROIT AVEC LA PROFONDEUR.
+
+           Un pas constant écarte la sixième génération autant que la première.
+           Or plus on descend, plus les branches sont fines et nombreuses :
+           elles ont besoin d'espace ANGULAIRE, pas d'espace radial, et le pas
+           constant ne faisait qu'étirer l'arbre jusqu'à le faire déborder.
+
+           Chaque anneau vaut donc 0,82 du précédent, avec un plancher : la
+           somme d'une telle suite converge, l'arbre le plus profond du corpus
+           tient dans un rayon fini au lieu de croître linéairement. Mesuré sur
+           Breakbeat, six niveaux, le plus profond du corpus. */
+        const pas = Math.max(PAS * Math.pow(0.82, profondeur), (rMax + rMax) * 1.5);
+        poserBranche(e, curseur, curseur + largeur, profondeur + 1, rayon + pas);
         curseur += largeur;
       }
     };
