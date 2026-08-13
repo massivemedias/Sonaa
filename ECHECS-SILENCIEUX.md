@@ -18,6 +18,30 @@ Trois questions posées à chaque script :
 
 ---
 
+## LA RÈGLE QUI PRIME SUR TOUTES LES AUTRES
+
+**Ne jamais déclarer un comportement acquis sans l'avoir observé tourner.**
+
+Lire le code prouve qu'il EXISTE, pas qu'il S'EXÉCUTE. J'ai signalé deux fois
+comme terminé ce qui ne l'était pas, et les deux fois de la même façon : en
+lisant l'intention dans le code sans vérifier son exécution.
+
+La première : le retour visuel au survol. Le code qui l'applique au nom était
+bien écrit, mais placé dans une portion qui ne s'exécute que lorsqu'un
+emplacement de texte change de contenu. Survoler n'en change aucun : la ligne
+n'était jamais atteinte. Trois signalements ont été nécessaires.
+
+La seconde : « la caméra ne bouge pas au clic ». Le chemin de sélection ne
+volait effectivement pas, je l'avais lu et j'ai répondu que c'était réglé. Le
+mouvement venait d'ailleurs, d'une boucle qui corrigeait en continu.
+
+Cette règle et le sixième motif sont les deux faces du même défaut : chercher
+dans le texte du programme ce qui ne se voit qu'à l'exécution. Un crochet de
+diagnostic qui rend l'état réel du moteur tranche en une mesure ce que la
+lecture ne tranche jamais.
+
+---
+
 ## Les six motifs, et le sixième est celui qui a coûté le plus de tours
 
 Ils reviennent, et toujours déguisés. Les nommer est la seule défense.

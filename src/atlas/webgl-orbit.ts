@@ -2922,6 +2922,8 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   }[] = [];
   let labelsShown = 0;
   let labelsMordus = 0;
+  /* Somme des depassements du cadre, en pixels, sur les quatre bords. */
+  let debordement = 0;
 
 
   let genreLabelsShown = 0;
@@ -4066,6 +4068,74 @@ const OVERLAP_TOLERANCE = 1;
       }
     }
 
+    /* ═══════════════════════════════════════════════════════════════════
+       L'ARBRE TIENT DANS LE CADRE, LABELS COMPRIS, MESURÉ À L'ÉCRAN.
+
+       Le cadrage se calcule dans l'espace du MONDE : positions et rayons
+       d'origine. Deux choses lui échappent par construction, et aucune ne peut
+       y être ajoutée, parce qu'aucune n'existe dans cet espace.
+
+         1. LE RAYON RÉELLEMENT DESSINÉ. Grossissement de 40 %, plancher de
+            18 px : ce plancher est une quantité d'ÉCRAN, elle n'a pas
+            d'équivalent monde.
+         2. LA BOÎTE DU LABEL. Un nom fait jusqu'à 120 px de large et vit
+            entièrement en pixels. Le cadrage n'en savait rien : zéro pixel
+            prévu pour lui.
+
+       Une sphère au bord droit avec son nom à sa droite dépassait donc
+       forcément. Signalé sur Breakbeat : Darkstep et Neurofunk coupés par le
+       bord bas.
+
+       LA CORRECTION SE FAIT DONC APRÈS PROJECTION, là où les deux existent.
+       On mesure le rectangle réellement occupé, on le compare au cadre moins
+       5 % sur chaque bord, et on recule d'exactement le facteur qui manque.
+
+       ELLE NE PEUT PAS OSCILLER, et c'est voulu : elle ne fait que RECULER,
+       jamais avancer. Une correction qui pousse dans un seul sens a un point
+       fixe et l'atteint ; c'est la leçon de la boucle d'espacement, qui
+       corrigeait dans les deux sens et a divergé jusqu'à sa borne. */
+    if (zoneActive && !flying && focusIndex >= 0) {
+      let minX = Infinity;
+      let maxX = -Infinity;
+      let minY = Infinity;
+      let maxY = -Infinity;
+      let vus = 0;
+      for (let i = 0; i < TOTAL_GENRES; i += 1) {
+        if (zone[i] !== 1 || (sphereState[i * 4] ?? 0) <= 0.02) continue;
+        const r = rayonEcran(i);
+        const x = projected[i * 3] ?? 0;
+        const y = projected[i * 3 + 1] ?? 0;
+        minX = Math.min(minX, x - r);
+        maxX = Math.max(maxX, x + r);
+        minY = Math.min(minY, y - r);
+        maxY = Math.max(maxY, y + r);
+        vus += 1;
+      }
+      /* Les boîtes des noms, telles qu'elles sont posées. */
+      for (const ls of labelSlots) {
+        if (!ls.visible || ls.opacity <= 0.05 || ls.slot < 0) continue;
+        if (zone[ls.slot] !== 1) continue;
+        minX = Math.min(minX, ls.x);
+        maxX = Math.max(maxX, ls.x + ls.w);
+        minY = Math.min(minY, ls.y);
+        maxY = Math.max(maxY, ls.y + ls.h);
+      }
+
+      if (vus > 0 && Number.isFinite(minX)) {
+        const utileX = width * 0.9;
+        const utileY = height * 0.9;
+        debordement = Math.round(
+          Math.max(0, -minX) + Math.max(0, maxX - width) +
+          Math.max(0, -minY) + Math.max(0, maxY - height)
+        );
+        const facteur = Math.max((maxX - minX) / utileX, (maxY - minY) / utileY);
+        if (facteur > 1.02) {
+          distance = clamp(distance * (1 + (facteur - 1) * 0.6), MIN_DISTANCE, MAX_DISTANCE);
+          applyCamera();
+        }
+      }
+    }
+
     /* Suivi continu quand un panneau est ouvert : la cible suit le CENTRE DE
        LA FAMILLE du genre ouvert, pas la sphère du genre (verdict : la carte
        montre la famille entière, le genre y est marqué par son halo). Les
@@ -5128,6 +5198,7 @@ const OVERLAP_TOLERANCE = 1;
         })(),
 
         labelsMordus,
+        debordementPx: debordement,
           offsetsPoses: focusOffsets.size,
           distanceVoulue: focusIndex >= 0 ? Math.round(distanceDuFocus(focusIndex)) : null,
           distanceReelle: Math.round(distance),
