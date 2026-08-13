@@ -248,7 +248,6 @@
 /* Fil d'Ariane permanent. */
 .crumbs {
   position: absolute;
-  top: 1rem;
   left: 1.25rem;
   z-index: 6;
   display: flex;

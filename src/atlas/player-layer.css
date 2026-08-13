@@ -925,7 +925,6 @@
    est conservé. */
 
 .pcol-saut {
-  display: none;
 }
 
 .pcol-scroll {
@@ -1029,7 +1028,6 @@
   font-family: var(--font-ui);
   font-size: 0.95rem;
   font-weight: var(--weight-data);
-  color: var(--ink-primary);
   background: transparent;
   border: 0;
   padding: 0;

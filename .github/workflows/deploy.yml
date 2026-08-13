@@ -87,6 +87,15 @@ jobs:
       # Aucun tiret cadratin ni demi-cadratin, y compris dans les commentaires :
       # un « — » s'était glissé jusque dans l'interface, entre le nom d'artiste
       # et le titre sur la liste des propositions. Voir scripts/check-tirets.ts.
+      # DEUX SOURCES DE VERITE POUR UNE VALEUR : le motif qui revient le plus
+      # souvent dans ce projet, sous des formes differentes. En CSS il prend
+      # celle-ci : deux regles pour le meme selecteur, et c'est la derniere qui
+      # gagne, pas celle qu'on lit. La zone de saisie de la barre de lecture
+      # annoncait 44 px et en mesurait 24 pour cette raison. Cinq autres cas
+      # dormaient dans la feuille au premier passage du controle.
+      - name: Contrôler les doublons CSS
+        run: npm run check:css
+
       - name: Contrôler les tirets
         run: npm run check:tirets
 

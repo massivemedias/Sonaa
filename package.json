@@ -26,7 +26,8 @@
     "reparer:parutions": "node --experimental-strip-types --env-file=.env scripts/reparer-parutions.ts",
     "check:nature": "tsx scripts/check-nature.ts",
     "audit:titres": "node --experimental-strip-types --env-file=.env scripts/audit-titres.ts",
-    "check:superposition": "tsx scripts/check-superposition.ts"
+    "check:superposition": "tsx scripts/check-superposition.ts",
+    "check:css": "tsx scripts/check-css-doublons.ts"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^7.3.1",
