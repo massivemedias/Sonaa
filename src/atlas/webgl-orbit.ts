@@ -1249,10 +1249,48 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   /* La distance visée pour le groupe actuellement focalisé. Un seul endroit
      la calcule : le vol d'entrée, la remontée, le recadrage et le suivi
      continu l'appellent tous, et ne peuvent donc pas se contredire. */
+  /* SOUS 768 PX, L'ARBRE DÉBORDE PLUTÔT QUE DE SE COMPRIMER.
+
+     Arbitrage de Mika, et il tranche un vrai conflit. Sur les arbres denses,
+     tout contenir dans le cadre descend l'écart entre deux cibles à 29 px :
+     confortable à la souris, trop serré au doigt. Sur grand écran on garde
+     donc l'arbre entier, parce que voir toute la lignée d'un coup vaut plus
+     que du confort tactile inutile. Sous 768 px, où le doigt est le pointeur,
+     on garde l'écart et on laisse l'arbre sortir du cadre : on s'y déplace.
+
+     La distance qui garantit l'écart se calcule directement. Un écart de
+     `gapMonde` unités se projette sur `gapMonde · hauteur / (2·d·tan)`
+     pixels ; on veut au moins CIBLE_TACTILE, d'où la distance maximale. */
+  const CIBLE_TACTILE = 44;
+
+  const ecartMondeMinimal = (): number => {
+    let min = Infinity;
+    const membres: number[] = [];
+    for (const [i] of focusOffsets) if (zone[i] === 1) membres.push(i);
+    for (let a = 0; a < membres.length; a += 1) {
+      for (let b = a + 1; b < membres.length; b += 1) {
+        const ia = membres[a] ?? 0;
+        const ib = membres[b] ?? 0;
+        const oa = focusOffsets.get(ia);
+        const ob = focusOffsets.get(ib);
+        if (!oa || !ob) continue;
+        const d = oa.distanceTo(ob) - (baseRadii[ia] ?? 1) - (baseRadii[ib] ?? 1);
+        min = Math.min(min, d);
+      }
+    }
+    return Number.isFinite(min) ? Math.max(0.01, min) : Infinity;
+  };
+
   const distanceDuFocus = (index: number): number => {
     if (index === focusIndex && focusOffsets.size > 0) {
       const b = focusGroupBox(index);
-      return focusFrameDistance(b.maxX - b.minX, b.maxY - b.minY);
+      const pourTenir = focusFrameDistance(b.maxX - b.minX, b.maxY - b.minY);
+      if (width >= 768) return pourTenir;
+      const gap = ecartMondeMinimal();
+      if (!Number.isFinite(gap)) return pourTenir;
+      const tan = Math.tan((FOV * Math.PI) / 360);
+      const pourLeDoigt = (gap * height) / (2 * CIBLE_TACTILE * tan);
+      return clamp(Math.min(pourTenir, pourLeDoigt), MIN_DISTANCE, MAX_DISTANCE);
     }
     return frameDistance(genreFrameRadius(index) + 2.5);
   };
@@ -2178,6 +2216,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   const chercherCible = (px: number, py: number, toleranceMin: number): number => {
     let best = -1;
     let bestProfondeur = Infinity;
+    let bestDistance = Infinity;
 
     for (let i = 0; i < TOTAL_GENRES; i += 1) {
       const profondeur = projected[i * 3 + 2] ?? 2;
@@ -2197,7 +2236,21 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       // 2. La cible : la sphère elle-même, jamais moins que le doigt.
       if (d > Math.max(toleranceMin, rayonEcran(i))) continue;
 
-      // 3. Le départage : ce qui est devant gagne.
+      /* 3. LE DÉPARTAGE. Devant gagne, SAUF dans l'arbre au doigt.
+
+            Dans un arbre déployé sur petit écran, les zones de capture se
+            touchent volontairement : c'est ce qui rend cliquable un écart
+            physique de 29 px. Départager par la profondeur y donnerait la
+            sphère la plus proche de la caméra, qui n'est pas celle qu'on
+            vise ; c'est LE PLUS PROCHE DU DOIGT qui gagne. */
+      if (zoneActive && zone[i] === 1 && width < 768) {
+        if (d < bestDistance) {
+          bestDistance = d;
+          best = i;
+        }
+        continue;
+      }
+      if (bestDistance < Infinity) continue; // une cible tactile a déjà gagné
       if (profondeur < bestProfondeur) {
         bestProfondeur = profondeur;
         best = i;

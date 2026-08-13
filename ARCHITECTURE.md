@@ -3379,6 +3379,67 @@ est le pointeur.
 
 ---
 
+## ADR-080 : L'arbre deborde au doigt, et la sortie de secours etait muree
+
+**Statut** : accepte, 12 aout 2026. **Complete ADR-079. Retour au gel apres.**
+
+**LE BOUTON DE MISE A JOUR : mesure d'abord, correction ensuite.**
+
+Signale ainsi : « je clique, rien ne se passe », avec la consequence qui compte,
+« c'est peut-etre pour ca que j'ai juge plusieurs de tes corrections sur des
+versions perimees ».
+
+Un test de bout en bout a ete construit : deux versions REELLEMENT servies par
+un serveur local, un vrai clic sur le bouton, et la lecture d'un marqueur du
+HTML. L'etat du worker ne prouve rien ; seul le contenu compte.
+
+**La chaine fonctionne**, avant comme apres correction : worker en attente,
+banniere, clic, et le marqueur passe de v1 a v2 en moins d'une seconde. Le
+defaut signale n'a donc pas ete reproduit ici, et sa cause reste inconnue.
+
+Deux filets sont ajoutes, parce qu'un bouton de mise a jour qui echoue en
+silence est pire que pas de bouton : on parle NOUS-MEMES au worker en attente,
+en plus du message de la bibliotheque, et si la page est encore la trois
+secondes plus tard, on recharge de force.
+
+**ET LA VRAIE PANNE ETAIT AILLEURS : `?nocache=1` NE FAISAIT RIEN.** La
+fonction qui desinscrit le worker, vide les caches et recharge sur une URL
+propre etait ecrite, documentee, exportee, et **appelee nulle part**. La sortie
+de secours etait muree, et c'est tres probablement par la que des versions
+perimees ont ete jugees : c'est l'outil vers lequel on se tourne quand on doute
+de ce qu'on regarde. Verifie apres correction : URL nettoyee, plus de
+controleur, enregistrement neuf.
+
+**Une porte de secours ne se relit pas, elle s'essaie.** Celle-ci avait sa
+documentation, son commentaire d'intention et son test de lecture ; il lui
+manquait un appelant.
+
+**L'ARBRE DEBORDE SOUS 768 PX, arbitrage de Mika.** Sur grand ecran on garde
+l'arbre entier meme a 29 px entre cibles : a la souris c'est confortable, et
+voir toute la lignee d'un coup vaut plus que du confort tactile inutile. Sous
+768 px, ou le doigt est le pointeur, la camera s'arrete a la distance qui
+garantit 44 px et l'arbre sort du cadre ; on s'y deplace.
+
+La tolerance de clic s'elargit alors autour de chaque sphere, quitte a ce que
+les zones se touchent, et **le plus proche du doigt gagne** au lieu du plus
+proche de la camera : un ecart physique de 29 px reste atteignable si la zone
+de capture suit.
+
+**MESURE, mobile 390 px, par de vrais clics.**
+
+| arbre | spheres | noms | chevauchements | ecart min |
+| --- | --- | --- | --- | --- |
+| Chicago House | 24 | 22 | 2 | 44 px |
+| Breakbeat | 23 | 15 | 2 | 44 px |
+
+L'ecart vise est atteint exactement. **Ce qu'on perd est declare** : les noeuds
+sortis du cadre n'ont plus de nom, ce qui est la consequence directe du
+debordement et ne viole pas la regle « un genre VISIBLE est un genre nomme ».
+Restent deux paires de noms qui se mordent au bord du cadre sur chacun des deux
+arbres denses : c'est un defaut, non corrige, et il est ici pour qu'on le sache.
+
+---
+
 ## Points ouverts
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle

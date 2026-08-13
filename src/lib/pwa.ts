@@ -18,9 +18,48 @@ export function surMiseAJour(e: Ecouteur): () => void {
   return () => ecouteurs.delete(e);
 }
 
-/** Applique la version en attente et recharge. Déclenché par la bannière. */
+/** Applique la version en attente et recharge. Déclenché par la bannière.
+
+    TROIS CHEMINS, DU PLUS PROPRE AU PLUS BRUTAL, et le dernier aboutit
+    toujours.
+
+    Le chemin normal passe par la bibliothèque : elle demande au worker en
+    attente de prendre la main, et recharge quand il l'a prise. Il marche, il
+    est mesuré : sur deux versions réellement servies, le contenu passe de
+    l'une à l'autre en moins d'une seconde.
+
+    Mais il repose sur un événement du navigateur, `controllerchange`, et
+    signalé par Mika : « je clique, rien ne se passe ». Un bouton de mise à
+    jour qui échoue en silence est pire que pas de bouton du tout, parce qu'on
+    juge ensuite des corrections sur une version qu'on n'a jamais chargée.
+
+    On ajoute donc deux filets. D'abord on parle NOUS-MÊMES au worker en
+    attente : si l'événement de la bibliothèque ne part pas, le message, lui,
+    part. Ensuite, si la page est toujours là trois secondes plus tard, on
+    recharge de force. Une seconde de trop vaut mieux qu'une version périmée
+    qu'on croit à jour. */
 export async function appliquerLaMiseAJour(): Promise<void> {
-  await appliquer?.(true);
+  const filet = window.setTimeout(() => {
+    window.location.reload();
+  }, 3000);
+
+  /* Le message direct, en plus de celui de la bibliothèque : deux façons de
+     dire la même chose au même worker, et il suffit qu'une passe. */
+  try {
+    if ('serviceWorker' in navigator) {
+      const r = await navigator.serviceWorker.getRegistration();
+      r?.waiting?.postMessage({ type: 'SKIP_WAITING' });
+    }
+  } catch {
+    /* Sans registration accessible, le filet de trois secondes reste. */
+  }
+
+  try {
+    await appliquer?.(true);
+  } catch {
+    /* Idem : on ne laisse pas une exception annuler le rechargement. */
+  }
+  void filet; // annulé de fait par le rechargement, jamais par nous.
 }
 
 /* SORTIE DE SECOURS : ?nocache=1

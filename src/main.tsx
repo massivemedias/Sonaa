@@ -2,14 +2,30 @@ import { StrictMode, lazy, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import './design/tokens.css';
 import './design/base.css';
-import { compterLaVisite, enregistrerLeServiceWorker } from './lib/pwa.ts';
+import { compterLaVisite, enregistrerLeServiceWorker, purgerSiDemande } from './lib/pwa.ts';
 import { PwaLayer } from './atlas/PwaLayer.tsx';
 
-/* Le service worker et le compteur de visites démarrent avant React : le
-   premier doit prendre la main le plus tôt possible, le second doit compter
-   la visite même si le rendu échoue. */
-enregistrerLeServiceWorker();
+/* LA PURGE PASSE AVANT TOUT LE RESTE, ET ELLE N'ÉTAIT APPELÉE NULLE PART.
+
+   `?nocache=1` est la sortie de secours : elle désinscrit le service worker,
+   vide les caches et recharge sur une URL propre. Elle était écrite,
+   documentée, exportée, et jamais appelée : le paramètre ne faisait donc
+   strictement rien, alors qu'il annonçait le contraire. C'est exactement le
+   genre de porte de secours dont on ne s'aperçoit qu'elle est murée que le
+   jour où l'on en a besoin.
+
+   Elle s'exécute AVANT l'enregistrement du worker, sinon on réinstallerait
+   celui qu'on vient de retirer. Le chemin normal, lui, reste entièrement
+   synchrone : le worker doit prendre la main le plus tôt possible. */
 compterLaVisite();
+if (new URLSearchParams(window.location.search).get('nocache') === '1') {
+  /* La page va se recharger : on n'enregistre pas le worker qu'on vient de
+     retirer. Le reste de l'application démarre quand même, la purge peut
+     échouer et il vaut mieux une page vivante qu'un écran blanc. */
+  void purgerSiDemande();
+} else {
+  enregistrerLeServiceWorker();
+}
 
 /* L'atlas EST le produit. La racine du site l'ouvre directement, il n'y a plus
    de page d'accueil intermédiaire à traverser.
