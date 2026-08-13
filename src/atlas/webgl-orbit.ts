@@ -4182,7 +4182,13 @@ const OVERLAP_TOLERANCE = 1;
           applyCamera();
         }
 
-        if (facteur > 1.02) {
+        /* SEUIL A 1,00 ET NON 1,02. Les deux pour cent de tolerance etaient
+           une precaution contre les oscillations ; ils laissaient passer UK
+           Garage a 812 pixels de large pour 806 utiles, soit un facteur de
+           1,007, donc sous le seuil, donc aucune correction, donc la marge de
+           5 % jamais tenue. L'amortissement a 0,6 suffit a eviter le
+           tremblement, le seuil n'avait pas a s'en charger aussi. */
+        if (facteur > 1.0) {
           distance = clamp(distance * (1 + (facteur - 1) * 0.6), MIN_DISTANCE, MAX_DISTANCE);
           applyCamera();
         }
@@ -4206,7 +4212,18 @@ const OVERLAP_TOLERANCE = 1;
         targetSmooth.lerp(target, reducedMotion ? 1 : 0.12);
         const want = distanceDuFocus(frameLock);
         distance += (want - distance) * (reducedMotion ? 1 : 0.1);
-      } else if (panelSlot >= 0) {
+      } else if (panelSlot >= 0 && !zoneActive) {
+        /* PAS DANS UN GENRE OUVERT. Sixieme motif, deuxieme occurrence : ce
+           suivi ramene la cible sur le centre de la FAMILLE a chaque image
+           tant qu'un panneau est ouvert. Il datait du temps ou ouvrir un genre
+           montrait sa famille entiere. Dans un arbre deploye il combattait le
+           recentrage du cadrage, image par image, et le contenu restait
+           obstinement hors du cadre : 22 px sur Breakbeat, 141 sur UK Garage,
+           alors que les deux TIENNENT en taille dans l'espace disponible.
+
+           Deux corrections continues qui tirent la meme valeur en sens
+           contraire ne se voient pas dans le code : chacune est raisonnable
+           seule. */
         const slot = slotsData[panelSlot];
         const c = slot ? familyCenters[slot.family] : undefined;
         if (c) {
@@ -5143,6 +5160,20 @@ const OVERLAP_TOLERANCE = 1;
        couronne d'entrée tient sa promesse de 44 px. */
     /* Le journal du dernier clic, etape par etape. */
     trace: () => trace.slice(),
+    /* LA SEULE SOURCE DE VERITE POUR L'UNITE.
+
+       Les positions projetees vivent dans CE repere : `width` et `height`, la
+       taille du canvas en pixels CSS telle que le moteur la connait. Tout
+       script de mesure lit cette valeur, jamais une dimension recalculee
+       depuis le DOM ou depuis devicePixelRatio.
+
+       Pourquoi : le moteur plafonne son ratio de rendu a 1,5 en mode reduit,
+       donc `canvas.width / devicePixelRatio` rend 672 la ou le canvas fait 896
+       en pixels CSS. Deux composants qui mesurent la meme chose dans des
+       unites differentes, et c'est celui qui PRODUIT la valeur qui doit la
+       publier. */
+    dimensions: () => ({ largeur: width, hauteur: height }),
+
     tracerDistance: () => { traceDistanceDemandee = true; },
     lireTraceDistance: () => traceDistance.slice(),
     viderTrace: () => { trace.length = 0; },

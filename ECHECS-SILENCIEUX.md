@@ -42,7 +42,7 @@ lecture ne tranche jamais.
 
 ---
 
-## Les six motifs, et le sixième est celui qui a coûté le plus de tours
+## Les sept motifs, et les deux derniers sont les deux faces d'un même défaut
 
 Ils reviennent, et toujours déguisés. Les nommer est la seule défense.
 
@@ -92,6 +92,31 @@ Elle garde une utilité, et c'est pour cela qu'elle reste : le jour où quelqu'u
 rouvrira un second chemin de ciblage, elle cessera de rendre zéro. C'est un
 garde-fou contre une régression future, pas une preuve de correction présente,
 et il faut écrire lequel des deux on tient.
+
+**7. DEUX COMPOSANTS QUI MESURENT LA MEME CHOSE DANS DES UNITES DIFFERENTES.**
+
+Le plus recent, et il m'a fait accuser le produit deux tours de suite.
+
+Le moteur calcule les positions a l'ecran dans un repere : la taille du canvas
+en pixels CSS, telle qu'il la connait. Mon script de mesure, lui, recalculait
+cette taille depuis le DOM en divisant par `devicePixelRatio`. Or le moteur
+plafonne son propre ratio de rendu a 1,5 en mode reduit : les deux valeurs
+different d'un tiers, 672 contre 896.
+
+Aucun des deux n'avait tort dans son coin. Simplement ils ne parlaient pas de
+la meme chose, et rien ne le signalait : les nombres restaient plausibles, du
+meme ordre de grandeur, et la comparaison rendait un debordement de 451 pixels
+qui n'existait peut-etre pas.
+
+**La regle : celui qui PRODUIT une valeur publie l'unite dans laquelle elle
+vit, et tous les autres la lisent chez lui.** Une dimension recalculee ailleurs
+est une seconde source de verite, donc une occasion de divergence. Ici le
+moteur expose `dimensions()`, et les scripts n'ont plus le droit de deduire
+quoi que ce soit du DOM.
+
+Le signe qui aurait du alerter : deux mesures du meme objet dont le rapport est
+une constante ronde, ici exactement 1,333. Un vrai defaut donne des ecarts
+irreguliers ; un facteur constant est une conversion oubliee.
 
 **6. L'ASSERVISSEMENT PERMANENT PRIS POUR UN GESTE.**
 
