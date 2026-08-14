@@ -3108,10 +3108,14 @@ const OVERLAP_TOLERANCE = 1;
            9 px de CSS valent 27 px physiques. */
         const grand = width >= 768;
         const etroit = width < 500;
-        if (g === 0) return grand ? 26 : etroit ? 12 : 22;
-        if (g === 1) return grand ? 19 : etroit ? 10 : 16;
-        if (g === 2) return grand ? 16 : etroit ? 9 : 13;
-        return grand ? 14 : etroit ? 9 : 12;
+        /* Un cran plus bas encore sur petit ecran : « Progressive Breaks » et
+           « Nu Skool Breaks » se chevauchaient completement a 12 px. Les
+           valeurs de bureau sont bonnes, ce sont celles du telephone qui
+           etaient fausses. */
+        if (g === 0) return grand ? 26 : etroit ? 10 : 22;
+        if (g === 1) return grand ? 19 : etroit ? 9 : 16;
+        if (g === 2) return grand ? 16 : etroit ? 8 : 13;
+        return grand ? 14 : etroit ? 8 : 12;
       })();
       const pxCalcule =
         kind === 'genre'
@@ -4504,7 +4508,13 @@ const OVERLAP_TOLERANCE = 1;
            pour voir sa descendance, et c'est lui qu'on voyait. Son nom ayant
            déjà quitté la carte (il est dans le fil d'Ariane), rien ne se perd
            à la réduire : elle reste la plus grosse, sans écraser le reste. */
-        const facteurEtroit = width < 500 ? (i === focusIndex ? 0.95 : 1.75) : 1;
+        /* PLUS DE GROSSISSEMENT SUR PETIT ECRAN. Il valait 1,75 pour rendre
+           les derives visables ; depuis que la zone cliquable est garantie
+           independamment du dessin, il ne fait plus qu'encombrer, et c'est ce
+           qui a ete signale : des spheres si grosses qu'on ne voit plus toutes
+           les branches. La racine descend a 0,8, elle n'a plus a etre reperee
+           puisque son nom est dans le fil d'Ariane. */
+        const facteurEtroit = width < 500 ? (i === focusIndex ? 0.8 : 1) : 1;
         sphereRadii[i] =
           (baseRadii[i] ?? 1) * breath * facteurEtroit * (1 + 0.1 * (hoverAmount[i] ?? 0));
       }
@@ -4576,7 +4586,15 @@ const OVERLAP_TOLERANCE = 1;
        Le rayon MONDE est corrige, pas seulement le rendu : la zone cliquable
        et les liens se calculent dessus, ils suivent donc sans rien savoir. */
     if (zoneActive) {
-      const PLANCHER_PX = 18;
+      /* LE PLANCHER SUIT LA TAILLE DE L'ECRAN, il ne peut pas etre absolu.
+
+         Dix-huit pixels de rayon sur un ecran de 390 px, c'est une sphere qui
+         occupe un dixieme de la largeur : quinze d'entre elles ne tiennent
+         nulle part. Le plancher existe pour qu'une sphere reste visable au
+         doigt, et un doigt ne retrecit pas ; mais sur un petit ecran c'est la
+         ZONE CLIQUABLE qui porte cette garantie, pas le dessin. Le dessin peut
+         donc etre plus petit que la cible, et il le doit. */
+      const PLANCHER_PX = width < 500 ? 7 : 18;
       const PLAFOND_PX = PLANCHER_PX * 2.5;
       for (let i = 0; i < TOTAL_GENRES; i += 1) {
         if (zone[i] !== 1) continue;
