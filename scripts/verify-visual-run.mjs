@@ -194,6 +194,12 @@ const main = async () => {
     if (rapport.focus) {
       const f = rapport.focus;
       console.log(`  focus : ${f.zone} cibles, ecart ${f.ecartMinPx} px, flou min ${f.flouMin}, ${f.netsHorsZone} nettes hors zone, ${f.nomsSurSphereNette} noms sur sphere nette, ${f.ciblesHorsZone} cibles hors zone`);
+      if (rapport.cadre && rapport.cadre.debordementPx > 0)
+        console.log(`          cadre : ${rapport.cadre.debordementPx} px hors viewport` +
+          (rapport.cadre.pires.length ? ' (' + rapport.cadre.pires.join(', ') + ')' : ''));
+      if (rapport.cameraFixe && rapport.cameraFixe.deplacements > 0)
+        console.log(`          camera : ${rapport.cameraFixe.deplacements} clic(s) sur ${rapport.cameraFixe.clics} l'ont deplacee` +
+          (rapport.cameraFixe.detail.length ? ' | ' + rapport.cameraFixe.detail.join(' | ') : ''));
       if (f.nomLoinDeSaSpherePx > 0) console.log(`          nom le plus eloigne de sa sphere : ${f.nomLoinDeSaSpherePx} px${f.nomLePlusLoin ? ' (' + f.nomLePlusLoin + ')' : ''}`);
       if (f.detailNoms && f.detailNoms.length) console.log(`          ${f.detailNoms.join(' | ')}`);
     }

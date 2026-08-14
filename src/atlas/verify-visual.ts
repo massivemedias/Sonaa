@@ -557,6 +557,130 @@ const testFocus = (): FocusResult => {
   };
 };
 
+// ------------------ 7. la camera ne bouge pas sur un clic de selection
+
+/* GARDE-FOU : SELECTIONNER N'EST PAS CADRER.
+
+   Deux fois, la carte s'est deplacee a chaque clic sur un derive. La cause
+   etait un suivi continu, invisible a la lecture, et il a fallu six tours pour
+   la trouver. Ce controle la rend impossible a reintroduire sans qu'on le
+   sache : on releve la camera, on clique un membre de la zone, on la releve a
+   nouveau. Les trois valeurs doivent etre identiques.
+
+   Le controle statique check:camera attrape le motif dans le code ; celui-ci
+   attrape son EFFET, quelle que soit la forme qu'il prendrait. Les deux sont
+   utiles : l'un ne remplace pas l'autre. */
+
+interface CameraResult {
+  clics: number;
+  deplacements: number;
+  detail: string[];
+  verdict: 'ok' | 'echec' | 'non arme, aucun genre ouvert';
+}
+
+const testCameraFixe = async (): Promise<CameraResult> => {
+  const a = atlas() as unknown as {
+    zoneFocus?: () => { actif: boolean; membres: { label: string; x: number; y: number }[] };
+    framing: () => { azimuth: number; elevation: number; distance: number };
+  };
+  const vide: CameraResult = { clics: 0, deplacements: 0, detail: [], verdict: 'non arme, aucun genre ouvert' };
+  if (!a.zoneFocus) return vide;
+  const z = a.zoneFocus();
+  if (!z.actif || z.membres.length < 2) return vide;
+
+  const canvas = document.querySelector('canvas.atlas-canvas');
+  if (!canvas) return vide;
+
+  const releve = (): string => {
+    const f = a.framing();
+    return `${f.azimuth.toFixed(4)}|${f.elevation.toFixed(4)}|${f.distance.toFixed(2)}`;
+  };
+
+  let deplacements = 0;
+  const detail: string[] = [];
+  let clics = 0;
+
+  /* Trois membres suffisent : si un suivi continu existe, il se voit des le
+     premier clic. On evite d'en faire quinze pour ne pas allonger la suite. */
+  for (const m of z.membres.slice(0, 3)) {
+    const avant = releve();
+    const commun = { bubbles: true, clientX: m.x, clientY: m.y, pointerId: 1, isPrimary: true };
+    canvas.dispatchEvent(new PointerEvent('pointerdown', commun));
+    canvas.dispatchEvent(new PointerEvent('pointerup', commun));
+    clics += 1;
+    await wait(1400);
+    const apres = releve();
+    if (avant !== apres) {
+      deplacements += 1;
+      detail.push(`${m.label} : ${avant} devient ${apres}`);
+    }
+  }
+
+  return { clics, deplacements, detail, verdict: deplacements === 0 ? 'ok' : 'echec' };
+};
+
+// ------------------ 8. rien ne sort du cadre
+
+/* GARDE-FOU : AUCUN NOEUD VISIBLE NI SON NOM NE SORT DU VIEWPORT.
+
+   L'arbre debordait par le bas et par la droite, et le cadrage ne s'en
+   apercevait pas : il ne comparait que des TAILLES, jamais des POSITIONS. Un
+   groupe plus petit que la place disponible en deborde parfaitement s'il est
+   pose de travers.
+
+   LES DIMENSIONS VIENNENT DU MOTEUR, jamais du DOM ni de devicePixelRatio :
+   c'est celui qui produit les positions qui publie l'unite dans laquelle elles
+   vivent. Une dimension recalculee ailleurs est une seconde source de verite,
+   donc une occasion de divergence, et elle a deja rendu 672 la ou le canvas
+   fait 896. */
+
+interface CadreResult {
+  membres: number;
+  debordementPx: number;
+  pires: string[];
+  verdict: 'ok' | 'echec' | 'non arme, aucun genre ouvert';
+}
+
+const testCadre = (): CadreResult => {
+  const a = atlas() as unknown as {
+    zoneFocus?: () => { actif: boolean; membres: { label: string; x: number; y: number; rayonPx: number }[] };
+    dimensions?: () => { largeur: number; hauteur: number };
+  };
+  const vide: CadreResult = { membres: 0, debordementPx: 0, pires: [], verdict: 'non arme, aucun genre ouvert' };
+  if (!a.zoneFocus || !a.dimensions) return vide;
+  const z = a.zoneFocus();
+  if (!z.actif) return vide;
+  const { largeur, hauteur } = a.dimensions();
+
+  let debordement = 0;
+  const pires: string[] = [];
+
+  const compter = (nom: string, x0: number, y0: number, x1: number, y1: number): void => {
+    const sortie =
+      Math.max(0, -x0) + Math.max(0, x1 - largeur) + Math.max(0, -y0) + Math.max(0, y1 - hauteur);
+    if (sortie <= 0) return;
+    debordement += sortie;
+    if (pires.length < 6) pires.push(`${nom} sort de ${Math.round(sortie)} px`);
+  };
+
+  for (const m of z.membres) {
+    compter(m.label, m.x - m.rayonPx, m.y - m.rayonPx, m.x + m.rayonPx, m.y + m.rayonPx);
+  }
+  for (const el of document.querySelectorAll('.atlas-label')) {
+    const r = el.getBoundingClientRect();
+    if (r.left <= -500 || Number(getComputedStyle(el).opacity) <= 0.05) continue;
+    if ((el as HTMLElement).dataset['flou'] === '1') continue;
+    compter(`nom ${el.textContent ?? ''}`, r.left, r.top, r.right, r.bottom);
+  }
+
+  return {
+    membres: z.membres.length,
+    debordementPx: Math.round(debordement),
+    pires,
+    verdict: debordement === 0 ? 'ok' : 'echec'
+  };
+};
+
 // ------------------------------------------------------------- exécution
 
 export interface VisualReport {
@@ -566,6 +690,8 @@ export interface VisualReport {
   recouvrement: RecouvrementResult;
   boites: BoitesResult;
   focus: FocusResult;
+  cadre: CadreResult;
+  cameraFixe: CameraResult;
 }
 
 export const runVisualVerification = async (): Promise<VisualReport> => {
@@ -579,13 +705,16 @@ export const runVisualVerification = async (): Promise<VisualReport> => {
      Le focus passe donc EN PREMIER, tant que la camera est encore la ou le
      clic l'a mise. Les tests qui deplacent la camera viennent apres. */
   const focus = testFocus();
+  /* Le cadre AVANT tout ce qui bouge la camera, comme le focus. */
+  const cadre = testCadre();
+  const cameraFixe = await testCameraFixe();
   const matite = testMatite();
   const boites = await testBoites();
   const survol = await testSurvol();
   const recouvrement = await testRecouvrement();
   // L'intro en dernier : elle remet les rayons en scène.
   const intro = await testIntro();
-  return { matite, survol, intro, recouvrement, boites, focus };
+  return { matite, survol, intro, recouvrement, boites, focus, cadre, cameraFixe };
 };
 
 /** Auto-exécution quand l'URL porte ?verify : JSON à l'écran et en console. */
