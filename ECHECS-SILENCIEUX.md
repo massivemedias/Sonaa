@@ -529,3 +529,48 @@ distribution. **Il n'y avait aucun écart à expliquer.** J'ai passé deux écha
 à chercher la cause d'une dégradation de sept à neuf qui n'a jamais existé :
 deux tirages d'une grandeur bruitée, présentés comme deux mesures. C'est le
 coût réel de ce motif, et il est plus élevé que celui des trois précédents.
+
+## 12. Aucune mesure de ce projet ne s'annonce en valeur unique
+
+**La règle, posée par Mika.** On rapporte la MÉDIANE et la PLAGE sur cinq
+passages. Un chiffre isolé n'est jamais une référence, et il ne peut jamais
+prouver une amélioration ni une régression. Seul un déplacement HORS PLAGE le
+peut.
+
+C'est la généralisation du motif 11. Là, on retenait la mesure la plus
+flatteuse. Ici, on reconnaît que la question ne se pose même pas : la grandeur
+mesurée n'a pas de valeur, elle a une distribution. Un projet où le rendu, la
+caméra, le réseau et l'animation interviennent dans chaque mesure ne produit
+pas de nombres, il produit des tirages.
+
+**Ce que ça interdit concrètement.** Écrire « le compte est passé de sept à
+neuf ». Écrire « la correction fait tomber deux échecs ». Écrire « c'est
+stable maintenant ». Aucune de ces trois phrases n'est vérifiable à partir d'un
+passage, et j'ai écrit les trois cette semaine.
+
+**Ce que ça impose de dire à la place.** « Médiane 8, plage 8 à 10, sur cinq
+passages. » Et pour une amélioration : « la plage était 10 à 12, elle est
+maintenant 8 à 10, les deux ne se recouvrent pas. » Un recouvrement de plages
+n'est pas une preuve, c'est une coïncidence en attente d'être démentie.
+
+**Application rétroactive.** Toute mesure citée dans ce document ou dans un
+rapport est à relire sous cette règle. Celles qui reposent sur un passage
+unique ne prouvent rien et doivent être annoncées comme telles jusqu'à
+nouvelle mesure.
+
+## 13. Une suite qui varie sur du code identique contient des tests instables
+
+**Le raisonnement.** Si le compte va de huit à dix sans qu'une ligne ne change,
+ce ne sont pas tous les tests qui bougent : ce sont quelques-uns, toujours les
+mêmes, et les autres sont parfaitement stables. Chercher un huitième défaut
+dans le produit pendant que deux tests tirent à pile ou face est du travail
+perdu, et pire, du travail dont on ne saura jamais s'il a servi.
+
+**La règle.** Identifier les tests qui varient d'un passage à l'autre. Puis
+choisir explicitement, jamais implicitement : soit on les stabilise, en
+attendant l'état qu'ils supposent au lieu de l'espérer, soit on les MARQUE
+comme non déterministes pour qu'ils cessent de polluer le compte.
+
+Un test instable non marqué est pire qu'un test absent : il donne au compte une
+précision qu'il n'a pas, et il consomme l'attention qu'on devrait porter aux
+tests qui, eux, disent la vérité.
