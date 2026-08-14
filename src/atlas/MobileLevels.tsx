@@ -27,6 +27,10 @@ import './mobile-levels.css';
 interface Props {
   /** Ouvre la vue graphique du genre, avec sa fiche et ses tracks. */
   onOpen: (familyIndex: number, genreLocal: number) => void;
+  /** Ramene la carte au cadrage d'ensemble, pour la contemplation. */
+  onEnsemble: () => void;
+  /** Ouvre la recherche, chemin le plus court vers un genre. */
+  onChercher: () => void;
   /** Le genre reellement ouvert dans la page, quelle que soit la voie prise. */
   ouvert: { familyIndex: number; genreLocal: number } | null;
 }
@@ -64,7 +68,7 @@ const pharesOf = (familyIndex: number): string[] => {
 
 const teinte = (hue: number, l = 0.72, c = 0.15): string => `oklch(${l} ${c} ${hue})`;
 
-export function MobileLevels({ onOpen, ouvert }: Props) {
+export function MobileLevels({ onOpen, onEnsemble, onChercher, ouvert }: Props) {
   /* LE SEUIL EST 768 px, LE MÊME QUE CELUI DE LA LÉGENDE. Une seule frontière
      dans tout le projet : deux seuils différents pour « c'est un téléphone »
      est exactement le motif qui a coûté la semaine. */
@@ -84,6 +88,14 @@ export function MobileLevels({ onOpen, ouvert }: Props) {
   const [famille, setFamille] = useState<number | null>(null);
   const [genre, setGenre] = useState<number | null>(null);
 
+  /* LA VUE D'ENSEMBLE EN CONTEMPLATION, ET LE MOT EST LE BON.
+
+     Elle est belle et elle ne sert pas a naviguer : c'est exactement le
+     constat qui a fait construire cette navigation. On la garde donc
+     accessible, mais comme un objet qu'on regarde, avec un seul geste pour en
+     sortir et rien d'autre a l'ecran. */
+  const [contemplation, setContemplation] = useState(false);
+
   /* LA POSITION DE DEFILEMENT SURVIT A LA DESCENTE.
 
      C'est ce qui distingue une navigation d'un enchainement d'ecrans : revenir
@@ -92,7 +104,17 @@ export function MobileLevels({ onOpen, ouvert }: Props) {
      oblige a refaire trente rangees de defilement, et l'on cesse d'explorer. */
   const listeRef = useRef<HTMLUListElement | null>(null);
   const defilements = useRef<Map<string, number>>(new Map());
-  const cleNiveau = genre !== null ? 'genre' : famille !== null ? `f${famille}` : 'familles';
+  /* LA CONTEMPLATION FAIT PARTIE DE LA CLE, et l'oubli se voyait : en sortant
+     de la vue d'ensemble, la liste revenait en haut. La cle ne changeait pas,
+     donc la restitution ne se declenchait pas, alors que la liste avait bel et
+     bien ete demontee et remontee a zero. */
+  const cleNiveau = contemplation
+    ? 'ensemble'
+    : genre !== null
+      ? 'genre'
+      : famille !== null
+        ? `f${famille}`
+        : 'familles';
 
   const memoriser = (): void => {
     if (listeRef.current) defilements.current.set(cleNiveau, listeRef.current.scrollTop);
@@ -109,17 +131,61 @@ export function MobileLevels({ onOpen, ouvert }: Props) {
      le fil d'Ariane, appellent TOUS `remonter`. Quatre implementations d'un
      meme geste finissent par diverger, c'est le motif des grandeurs ecrites
      deux fois applique a du comportement. */
+  /* UN SEUL CHEMIN, ET CETTE FOIS POUR DE BON.
+
+     J'avais ecrit que les quatre retours appellent la meme fonction, et je ne
+     l'avais applique qu'a moitie : la fleche changeait l'etat SANS depiler
+     l'historique. Les deux se desynchronisaient, et le bouton du navigateur,
+     arrivant sur une pile qui contenait une entree de trop, remontait de deux
+     niveaux d'un coup. Depuis la vue graphique il ramenait aux familles au
+     lieu des genres.
+
+     Regression trouvee en rejouant l'etape precedente apres avoir touche a
+     celle-ci, ce qui est tout l'interet de rejouer. Desormais l'historique est
+     la SEULE source : remonter depile, et c'est le depilement qui change
+     l'etat. Une seule ecriture, donc rien a desynchroniser. */
+  const empilees = useRef(0);
+
+  /* LE NIVEAU COURANT EST LU DANS DES REFERENCES, PAS DANS UNE FERMETURE.
+
+     L'ecouteur du bouton retour est enregistre une fois par rendu ; s'il lit
+     l'etat capture au moment de son enregistrement, il peut remonter d'un
+     niveau qui n'est plus le niveau courant, et il remonte alors de deux crans
+     d'un coup. Symptome observe : depuis la vue graphique, le bouton du
+     navigateur ramenait aux familles au lieu des genres.
+
+     Les mises a jour fonctionnelles suppriment la question : chacune lit la
+     valeur au moment ou elle s'applique, pas au moment ou elle a ete ecrite. */
+  const monterDUnCran = (): void => {
+    let traite = false;
+    setContemplation((c) => {
+      if (c) traite = true;
+      return false;
+    });
+    setGenre((g) => {
+      if (traite) return g;
+      if (g !== null) { traite = true; return null; }
+      return g;
+    });
+    setFamille((f) => (traite ? f : null));
+  };
+
   const descendre = (vers: { famille: number; genre?: number }): void => {
     memoriser();
     if (vers.genre === undefined) setFamille(vers.famille);
     else setGenre(vers.genre);
+    empilees.current += 1;
     window.history.pushState({ sonaaNiveau: vers.genre === undefined ? 'genres' : 'genre' }, '');
   };
 
   const remonter = (): void => {
     memoriser();
-    if (genre !== null) setGenre(null);
-    else if (famille !== null) setFamille(null);
+    if (empilees.current > 0) {
+      /* Le depilement declenche popstate, qui fera le changement d'etat. */
+      window.history.back();
+      return;
+    }
+    monterDUnCran();
   };
 
   /* LE BOUTON RETOUR DU NAVIGATEUR FAIT LA MEME CHOSE QUE LA FLECHE.
@@ -130,15 +196,16 @@ export function MobileLevels({ onOpen, ouvert }: Props) {
      l'on remonte quand elle est depilee. */
   useEffect(() => {
     const auRetour = (): void => {
-      if (genre !== null) setGenre(null);
-      else if (famille !== null) setFamille(null);
+      memoriser();
+      if (empilees.current > 0) empilees.current -= 1;
+      monterDUnCran();
     };
     window.addEventListener('popstate', auRetour);
     return () => window.removeEventListener('popstate', auRetour);
-  }, [famille, genre]);
+  }, [famille, genre, contemplation]);
 
   useEffect(() => {
-    if (famille === null && genre === null) return undefined;
+    if (famille === null && genre === null && !contemplation) return undefined;
     const auClavier = (e: KeyboardEvent): void => {
       if (e.key === 'Escape') remonter();
     };
@@ -188,10 +255,25 @@ export function MobileLevels({ onOpen, ouvert }: Props) {
   const rows = famille !== null ? rowsOf(famille) : [];
   const genreOuvert =
     famille !== null && genre !== null ? STRUCTURES[famille]?.genres[genre] : undefined;
-  const niveau = genre !== null ? 'genre' : famille === null ? 'familles' : 'genres';
+  const niveau = contemplation
+    ? 'ensemble'
+    : genre !== null
+      ? 'genre'
+      : famille === null
+        ? 'familles'
+        : 'genres';
 
   return (
     <div className="mn" data-niveau={niveau}>
+      {niveau === 'ensemble' ? (
+        <nav className="mn-ariane" aria-label="Chemin">
+          <button className="mn-retour" onClick={remonter} aria-label="Revenir a la navigation">
+            <span aria-hidden="true">←</span>
+          </button>
+          <button className="mn-crumb" onClick={remonter}>Revenir a la navigation</button>
+          <span className="mn-note">vue d&apos;ensemble, en contemplation</span>
+        </nav>
+      ) : (
       <nav className="mn-ariane" aria-label="Chemin">
         {niveau !== 'familles' && (
           <button
@@ -204,7 +286,15 @@ export function MobileLevels({ onOpen, ouvert }: Props) {
         )}
         <button
           className="mn-crumb"
-          onClick={() => { memoriser(); setGenre(null); setFamille(null); }}
+          onClick={() => {
+            memoriser();
+            /* Sauter deux niveaux depile deux entrees : le fil d'Ariane ne
+               peut pas se permettre de laisser l'historique derriere lui. */
+            const sauts = Math.min(empilees.current, (genre !== null ? 1 : 0) + (famille !== null ? 1 : 0));
+            if (sauts > 0) { empilees.current -= sauts; window.history.go(-sauts); }
+            setGenre(null);
+            setFamille(null);
+          }}
           data-current={niveau === 'familles'}
           disabled={niveau === 'familles'}
         >
@@ -217,7 +307,7 @@ export function MobileLevels({ onOpen, ouvert }: Props) {
                 c'est ce qui fait un fil d'Ariane et non un simple titre. */}
             <button
               className="mn-crumb"
-              onClick={() => { memoriser(); setGenre(null); }}
+              onClick={() => { memoriser(); if (genre !== null) remonter(); }}
               data-current={niveau === 'genres'}
               disabled={niveau === 'genres'}
             >
@@ -231,9 +321,40 @@ export function MobileLevels({ onOpen, ouvert }: Props) {
             <span className="mn-crumb" data-current="true">{genreOuvert.label}</span>
           </>
         )}
-      </nav>
+        {/* LA LOUPE VIT DANS LE BANDEAU, et il a fallu l'y mettre.
 
-      {niveau === 'genre' ? null : famille === null ? (
+            Celle de la page est en haut a droite, sous ma couche : au niveau
+            des familles cette couche est opaque, donc la loupe etait
+            invisible ET intouchable. Or la recherche est le chemin le plus
+            court vers un genre et ne doit jamais disparaitre. Trouve au
+            doigt : le bouton existait, il ne recevait rien. */}
+        <button
+          className="mn-loupe"
+          onClick={onChercher}
+          aria-label="Chercher un genre, un artiste, un label"
+        >
+          <span aria-hidden="true">⌕</span>
+        </button>
+      </nav>
+      )}
+
+      {niveau === 'familles' && (
+        <button
+          className="mn-ensemble"
+          onClick={() => {
+            memoriser();
+            setContemplation(true);
+            onEnsemble();
+            empilees.current += 1;
+            window.history.pushState({ sonaaNiveau: 'ensemble' }, '');
+          }}
+        >
+          Voir l&apos;atlas en entier
+          <span className="mn-ensemble-note">218 genres, 14 familles, a regarder</span>
+        </button>
+      )}
+
+      {niveau === 'ensemble' || niveau === 'genre' ? null : famille === null ? (
         <ul className="mn-liste" ref={listeRef}>
           {familles.map((fi) => {
             const fam = FAMILIES[fi];

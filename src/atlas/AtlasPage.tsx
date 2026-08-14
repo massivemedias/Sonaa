@@ -431,7 +431,8 @@ export function AtlasPage() {
           la fait s'effacer pour decouvrir la vue graphique qui, elle,
           fonctionne sur telephone. Le composant se retire lui-meme au-dela du
           seuil, la page n'a pas a le savoir. */}
-      {mode === 'webgl' && <MobileLevels onOpen={openTracks} ouvert={panelGenre} />}
+      {mode === 'webgl' && <MobileLevels onOpen={openTracks} onEnsemble={() => apiRef.current?.goToFamily(-1)}
+          onChercher={() => setSearchOpen(true)} ouvert={panelGenre} />}
 
       {mode !== 'webgl' && mode !== 'dom' && <Fallback notice={reason} />}
 

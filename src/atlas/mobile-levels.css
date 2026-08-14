@@ -12,7 +12,21 @@
 
 .mn {
   position: absolute;
-  inset: 0;
+  /* LA NAVIGATION S'ARRETE OU COMMENCE LA FEUILLE DU LECTEUR.
+
+     DEFAUT TROUVE AU DOIGT : le bouton vers la vue d'ensemble, place en bas de
+     la liste, ne repondait pas. Il etait dessine, visible sur la capture, et
+     parfaitement intouchable : la feuille du lecteur occupe le bas de l'ecran
+     et passait par-dessus. Toute la fin de la liste des genres etait dans le
+     meme cas, sur les familles nombreuses.
+
+     Aucune capture ne montre cela et aucune relecture non plus. C'est le
+     troisieme defaut de ce chantier que seule l'execution revele, et les trois
+     sont de la meme famille : quelque chose d'invisible pose au-dessus de
+     quelque chose de visible.
+
+     La borne lit la MEME valeur nommee que la feuille elle-meme. */
+  inset: 0 0 var(--feuille-bar-h, 64px) 0;
   /* HUIT, ET NON SIX. La fleche de retour de l'application vit en 7, au meme
      endroit de l'ecran que la mienne. Ma couche est opaque, donc elle la
      cachait a l'oeil, mais l'ordre d'empilement la laissait ATTRAPER LE TAP :
@@ -23,6 +37,22 @@
   flex-direction: column;
   background: var(--fond, oklch(0.16 0.012 250));
   overflow: hidden;
+}
+
+/* La feuille a trois positions, la navigation suit les trois. */
+.atlas-root[data-sheet-pos='half'] .mn {
+  bottom: var(--feuille-h);
+}
+
+.atlas-root[data-sheet-pos='full'] .mn {
+  bottom: var(--feuille-h-haute);
+}
+
+/* Au niveau du genre et en contemplation, la navigation n'est qu'un bandeau
+   en haut : elle n'a plus de bas a borner. */
+.mn[data-niveau='genre'],
+.mn[data-niveau='ensemble'] {
+  bottom: auto;
 }
 
 /* --- Le fil d'Ariane ------------------------------------------------------ */
@@ -194,4 +224,83 @@
 
 .mn-crumb[disabled] {
   cursor: default;
+}
+
+/* --- LA VUE D'ENSEMBLE, EN CONTEMPLATION ----------------------------------
+
+   Elle est belle et elle ne sait pas naviguer : c'est le constat qui a fait
+   construire cette navigation. On la garde donc accessible, mais comme un
+   objet qu'on regarde. Meme bandeau qu'au niveau du genre, meme geste de
+   retour, et rien d'autre a l'ecran. */
+
+.mn[data-niveau='ensemble'] {
+  inset: 0 0 auto 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+.mn[data-niveau='ensemble'] .mn-ariane {
+  pointer-events: auto;
+  background: color-mix(in oklab, var(--fond, oklch(0.16 0.012 250)) 88%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+.mn-note {
+  margin-left: auto;
+  padding-left: 0.6rem;
+  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.68rem;
+}
+
+/* Le bouton vit SOUS la liste des familles et non au-dessus : ce qu'on vient
+   chercher sur un telephone, ce sont les familles. La contemplation est une
+   sortie offerte, pas une invitation a s'egarer. */
+.mn-ensemble {
+  flex: none;
+  order: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-height: 56px;
+  margin: 0 0.7rem 0.9rem;
+  padding: 0.6rem 0.9rem;
+  text-align: left;
+  background: transparent;
+  border: 1px dashed var(--rule-strong, oklch(0.4 0.01 250));
+  border-radius: 6px;
+  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.mn-ensemble-note {
+  font-size: 0.68rem;
+  opacity: 0.8;
+}
+
+.mn-liste {
+  order: 1;
+}
+
+/* La loupe ferme le bandeau a droite. Quarante-quatre pixels de zone comme
+   toute cible tactile de ce projet, et une position qui ne bouge pas d'un
+   niveau a l'autre : on doit pouvoir la viser sans la chercher. */
+.mn-loupe {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-left: auto;
+  margin-right: -0.55rem;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: var(--ink-primary, oklch(0.92 0.01 250));
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
 }

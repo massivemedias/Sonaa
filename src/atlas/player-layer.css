@@ -797,7 +797,7 @@
   }
 
   .pcol[data-sheet='bar'] {
-    height: 64px;
+    height: var(--feuille-bar-h);
   }
   .pcol[data-sheet='bar'] .pcol-scroll {
     display: none;

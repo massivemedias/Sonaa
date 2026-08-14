@@ -11,6 +11,7 @@
      devient le mode ecoute, ou les cinq pistes tiennent. La carte n'est donc
      jamais mangee par defaut, et elle reste visible meme en ecoute. */
   --mn-bande-h: 3rem;
+  --feuille-bar-h: 64px;
   --feuille-h: 40dvh;
   --feuille-h-haute: 75dvh;
   --ariane-h: 3.4rem;
