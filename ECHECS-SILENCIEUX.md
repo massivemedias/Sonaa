@@ -42,6 +42,41 @@ lecture ne tranche jamais.
 
 ---
 
+## Quatre contrôles statiques à écrire, et le défaut que chacun aurait attrapé
+
+Sans navigateur, sans exécution, sans mise en scène. Les deux qui existent déjà
+(doublons CSS, corrections continues sur la caméra) ont chacun trouvé quelque
+chose dès leur premier passage. Ces quatre-là sont écrits ici pour qu'ils
+existent ailleurs que dans une intention.
+
+**1. Une même constante définie dans deux fichiers avec des valeurs
+différentes.** `44`, la cible tactile, vit dans le moteur et dans deux feuilles
+de style ; `768`, le seuil du mobile, dans le moteur et quatre media queries.
+Les deux ont divergé au moins une fois. Le contrôle relève les littéraux
+numériques répétés portant le même nom de constante ou le même commentaire, et
+signale les valeurs qui ne s'accordent pas.
+
+**2. Une valeur écrite et jamais lue.** `focusGenerations` a survécu plusieurs
+tours après que le modèle soit passé à l'arbre entier : elle était encore
+assignée partout, et plus personne ne la consultait. Une variable qu'on
+entretient sans la lire coûte une lecture à chaque personne qui passe.
+
+**3. Une fonction exportée et appelée nulle part.** `purgerSiDemande` était
+écrite, documentée, exportée, et jamais appelée : `?nocache=1` n'a rien fait
+pendant des semaines, alors que le fichier expliquait longuement à quoi elle
+servait. C'est probablement par cette porte murée que des corrections ont été
+jugées sur des versions jamais chargées.
+
+**4. Une écriture placée dans une branche qui ne s'exécute pas dans le cas
+visé.** Le plus difficile des quatre à détecter, et le plus rentable : c'est le
+défaut du survol. `data-survol` était posé dans le bloc « la clé a changé », que
+survoler ne déclenche jamais. Trois tours perdus, et deux affirmations fausses
+de ma part. Une heuristique praticable : repérer les attributs ou propriétés
+dont le nom évoque un état d'interaction, et vérifier qu'ils sont écrits hors
+de tout bloc conditionnel qui les rendrait inatteignables.
+
+---
+
 ## Les sept motifs, et les deux derniers sont les deux faces d'un même défaut
 
 Ils reviennent, et toujours déguisés. Les nommer est la seule défense.

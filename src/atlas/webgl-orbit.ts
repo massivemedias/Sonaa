@@ -4561,11 +4561,24 @@ const OVERLAP_TOLERANCE = 1;
       for (let i = 0; i < TOTAL_GENRES; i += 1) {
         if (zone[i] !== 1) continue;
         if ((sphereState[i * 4] ?? 0) <= 0.02) continue;
-        const rPx = rayonEcran(i);
+        /* LE SURVOL S'APPLIQUE APRES LES BORNES, JAMAIS AVANT.
+
+           C'ETAIT UN VRAI DEFAUT, revele par la suite de controles. Ce bloc
+           s'execute APRES la boucle qui calcule les rayons, survol compris, et
+           il REECRIT sphereRadii. Il ecrasait donc l'agrandissement de survol :
+           dans un genre ouvert, survoler une sphere ne la grossissait plus du
+           tout, alors que le lisere et l'eclaircissement, eux, repondaient.
+           Trois signes sur quatre, encore une fois, et le quatrieme mort.
+
+           Meme motif que les doublons CSS : deux ecritures sur la meme valeur,
+           et c'est la derniere qui gagne. On borne donc le rayon NU, puis on
+           reapplique le facteur de survol par-dessus. L'ordre est desormais
+           explicite au lieu d'etre subi. */
+        const facteurSurvol = 1 + 0.2 * (hoverAmount[i] ?? 0);
+        const rPx = rayonEcran(i) / facteurSurvol;
         if (rPx <= 0.01) continue;
         const voulu = clamp(rPx, PLANCHER_PX, PLAFOND_PX);
-        if (Math.abs(voulu - rPx) < 0.5) continue;
-        sphereRadii[i] = (sphereRadii[i] ?? 1) * (voulu / rPx);
+        sphereRadii[i] = (sphereRadii[i] ?? 1) * ((voulu * facteurSurvol) / (rPx * facteurSurvol));
       }
       sphereRadiusAttr.needsUpdate = true;
 
