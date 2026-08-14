@@ -4112,7 +4112,27 @@ const OVERLAP_TOLERANCE = 1;
         `   condition : zoneActive=${zoneActive} flying=${flying} focusIndex=${focusIndex} frameLock=${frameLock}`
       );
     }
-    if (zoneActive && !flying && focusIndex >= 0) {
+    /* ═══════════════════════════════════════════════════════════════════
+       LE CADRAGE SE FIGE DES QUE LA ZONE EST POSEE.
+
+       Il corrigeait a CHAQUE image, indefiniment. Selectionner un noeud change
+       legerement l'etendue du groupe, le bloc corrigeait, et la camera bougeait
+       sur un simple clic de selection. Mesure : distance 186,87 vers 180,98 a
+       390 px, soit 3 %, et l'azimut jamais touche, ce qui designait ce bloc
+       sans ambiguite.
+
+       C'est le meme motif que celui deja paye deux fois : un cadrage est un
+       GESTE, pas un asservissement permanent. Je l'avais ecrit, puis je l'ai
+       reintroduit sous une autre forme en corrigeant le debordement.
+
+       Il ne s'exerce donc que pendant les deux secondes qui suivent un
+       changement de ZONE, le temps que les positions se posent. Passe ce
+       delai, le cadre est ce qu'il est : plus rien ne le retouche, et une
+       selection ne peut plus rien deplacer. */
+    const CADRAGE_MS = 2000;
+    const cadrageOuvert = now - zoneStart < CADRAGE_MS;
+
+    if (zoneActive && !flying && focusIndex >= 0 && cadrageOuvert) {
       let minX = Infinity;
       let maxX = -Infinity;
       let minY = Infinity;

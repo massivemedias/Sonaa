@@ -602,7 +602,12 @@ const testCameraFixe = async (): Promise<CameraResult> => {
 
   /* Trois membres suffisent : si un suivi continu existe, il se voit des le
      premier clic. On evite d'en faire quinze pour ne pas allonger la suite. */
-  for (const m of z.membres.slice(0, 3)) {
+  /* LES DERIVES SEULEMENT, JAMAIS LA RACINE. Cliquer la racine peut
+     legitimement rouvrir la zone, donc refaire le cadrage, donc deplacer la
+     camera : ce n'est pas une selection, c'est une entree. Le controle
+     accusait le produit sur un geste qui a le droit de bouger la vue. */
+  const derives = z.membres.filter((m) => (m as { generation?: number }).generation !== 0);
+  for (const m of derives.slice(0, 3)) {
     const avant = releve();
     const commun = { bubbles: true, clientX: m.x, clientY: m.y, pointerId: 1, isPrimary: true };
     canvas.dispatchEvent(new PointerEvent('pointerdown', commun));
