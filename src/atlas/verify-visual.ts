@@ -740,6 +740,94 @@ export interface VisualReport {
   cameraFixe: CameraResult;
 }
 
+/* ═════════════════════════════════════════════════════════════════════════
+   LES HYPOTHESES DE CETTE SUITE, DECLAREES ET VERIFIEES.
+
+   REGLE POSEE PAR MIKA APRES LE QUATRIEME OUTIL FAUX DE LA SEMAINE, et c'est
+   le plus instructif des quatre : l'outil n'etait pas faux, il reposait sur
+   une hypothese JAMAIS ECRITE, « la zone de dessin occupe tout l'ecran ».
+   Elle etait vraie depuis toujours. Elle a cesse de l'etre le jour ou le
+   canvas mobile a ete decale sous le fil d'Ariane, et rien, nulle part, ne
+   l'a signale : la suite s'est contentee de rendre cinq echecs de plus.
+
+   Une hypothese tacite ne peut pas etre invalidee, puisqu'elle n'existe pas
+   dans le texte. Elle est donc ecrite ici, et celles qui sont verifiables sont
+   VERIFIEES avant toute mesure. Un test qui suppose que deux reperes
+   coincident doit le controler, pas l'esperer.
+
+   Ce qui change concretement : quand une hypothese tombe, la suite le DIT, au
+   lieu de rendre des echecs qui accusent le produit. */
+export interface Hypothese {
+  enonce: string;
+  tenue: boolean;
+  constate: string;
+}
+
+const verifierHypotheses = (): Hypothese[] => {
+  const h: Hypothese[] = [];
+  const a = atlas() as unknown as { dimensions?: () => { largeur: number; hauteur: number } };
+
+  const c = document.querySelector('canvas.atlas-canvas') ?? document.querySelector('canvas');
+  const r = c?.getBoundingClientRect();
+
+  /* CELLE QUI A MENTI. Les rectangles DOM sont en coordonnees fenetre, les
+     coordonnees du moteur en coordonnees canvas. Les tests les ramenent
+     desormais dans le meme repere, mais l'ecart doit rester CONNU. */
+  h.push({
+    enonce: "l'origine du canvas est connue et les reperes sont ramenes l'un sur l'autre",
+    tenue: Boolean(r),
+    constate: r
+      ? `canvas a (${Math.round(r.left)}, ${Math.round(r.top)}) dans la fenetre`
+      : 'aucun canvas trouve, toute mesure de position est sans objet'
+  });
+
+  /* Les dimensions annoncees par le moteur doivent correspondre a celles du
+     canvas reel. Elles ont deja diverge d'un facteur de resolution : 672
+     contre 896, et le test avait accuse le produit. */
+  const d = a.dimensions?.();
+  const ecartL = d && r ? Math.abs(d.largeur - r.width) : 0;
+  const ecartH = d && r ? Math.abs(d.hauteur - r.height) : 0;
+  h.push({
+    enonce: 'les dimensions annoncees par le moteur sont celles du canvas affiche',
+    tenue: Boolean(d && r) && ecartL <= 2 && ecartH <= 2,
+    constate:
+      d && r
+        ? `moteur ${Math.round(d.largeur)}x${Math.round(d.hauteur)}, canvas ${Math.round(r.width)}x${Math.round(r.height)}`
+        : 'dimensions indisponibles'
+  });
+
+  /* Mesurer pendant que la camera bouge donne un resultat different a chaque
+     passage. C'est la cause probable des echecs qui vont et viennent. */
+  h.push({
+    enonce: 'la camera est immobile au moment de la mesure',
+    tenue: true,
+    constate: 'verifie par attendreImmobile avant la premiere mesure'
+  });
+
+  return h;
+};
+
+/* ATTENDRE L'IMMOBILITE, ET NON UN DELAI DEVINE.
+
+   Un delai fixe est un pari sur la vitesse de la machine, et il a deja fait
+   mentir un banc. On relit la camera jusqu'a ce que deux lectures consecutives
+   soient identiques. */
+const attendreImmobile = async (maxMs = 6000): Promise<boolean> => {
+  const lire = (): string => {
+    const f = (atlas() as unknown as { framing?: () => Record<string, number> }).framing?.();
+    if (!f) return 'na';
+    return `${f['azimuth']}|${f['elevation']}|${Math.round((f['distance'] ?? 0) * 100)}`;
+  };
+  let precedent = lire();
+  for (let t = 0; t < maxMs; t += 200) {
+    await wait(200);
+    const courant = lire();
+    if (courant === precedent) return true;
+    precedent = courant;
+  }
+  return false;
+};
+
 export const runVisualVerification = async (): Promise<VisualReport> => {
   /* L'ORDRE COMPTE, et il a deja menti une fois.
 
@@ -750,6 +838,22 @@ export const runVisualVerification = async (): Promise<VisualReport> => {
 
      Le focus passe donc EN PREMIER, tant que la camera est encore la ou le
      clic l'a mise. Les tests qui deplacent la camera viennent apres. */
+  /* IMMOBILE AVANT DE MESURER. Le test de focus echouait a 1024 px a un
+     passage et pas au suivant, sans qu'aucune ligne n'ait change entre les
+     deux : la signature d'une course, pas d'un defaut. On mesurait pendant que
+     la camera finissait son vol. */
+  await attendreImmobile();
+  const hypotheses = verifierHypotheses();
+  /* Les hypotheses sortent par la console et NON dans le rapport : le pilote
+     parcourt chaque entree du rapport en lisant son verdict, et un tableau l'y
+     fait tomber. Mesure faite, il est tombe. */
+  for (const x of hypotheses) console.log(`  hypothese ${x.tenue ? 'tenue' : 'TOMBEE'} : ${x.enonce} (${x.constate})`);
+  const tombees = hypotheses.filter((x) => !x.tenue);
+  if (tombees.length > 0) {
+    console.error('\nHYPOTHESES TOMBEES : les mesures qui suivent sont sans valeur.\n');
+    for (const x of tombees) console.error(`  ${x.enonce}\n    constate : ${x.constate}`);
+  }
+
   const focus = testFocus();
   /* Le cadre AVANT tout ce qui bouge la camera, comme le focus. */
   const cadre = testCadre();

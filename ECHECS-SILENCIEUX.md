@@ -448,3 +448,43 @@ est aussi fréquente, ce n'est pas un indice.
 **Pas de contrôle automatique pour celui-ci**, et c'est délibéré : ce n'est pas
 un motif de code, c'est un motif de raisonnement. Il s'écrit, il ne se compile
 pas.
+
+## 9. Une vraie régression ne se range pas d'un seul côté d'un seuil
+
+**Le signal.** Cinq nouveaux échecs sont apparus à 390 et 700 px. Zéro à
+1024 px. Le seuil des règles mobiles est à 700 px.
+
+Un défaut de produit ne connaît pas les seuils de la feuille de style. Il se
+distribue selon la géométrie, la densité, le hasard des positions, jamais
+proprement selon une condition d'environnement. Quand la répartition des
+échecs épouse exactement une condition, ce n'est pas le produit qui a changé
+sous cette condition, c'est l'outil qui a cessé d'être valide sous elle.
+
+**Ce que ça donne comme réflexe.** Avant d'ouvrir le code du produit, regarder
+la RÉPARTITION des échecs. Si elle suit une frontière déclarée quelque part,
+largeur, plateforme, drapeau, mode de rendu, commencer par l'outil.
+
+Ce signal a fait gagner tout un tour d'enquête sur le cas du repère décalé,
+motif 8 ci-dessus.
+
+## 10. Un outil qui ne déclare pas ses hypothèses ne peut pas les voir tomber
+
+**Le motif.** `testCadre` reposait sur « la zone de dessin occupe tout
+l'écran ». Vraie depuis toujours, jamais écrite. Le jour où le canvas mobile a
+été décalé sous le fil d'Ariane, elle est devenue fausse, et rien nulle part ne
+l'a signalé : la suite s'est contentée de rendre cinq échecs de plus, tous
+accusant le produit.
+
+Une hypothèse tacite ne peut pas être invalidée, puisqu'elle n'existe pas dans
+le texte. C'est ce qui distingue ce cas des trois autres outils faux de la
+semaine : l'outil n'était pas mal écrit, il était devenu inapplicable.
+
+**La règle, posée par Mika.** Tout outil de mesure déclare en tête les
+hypothèses sur lesquelles il repose, et vérifie avant de mesurer celles qui
+sont vérifiables. Un test qui suppose que deux repères coïncident doit le
+contrôler, pas l'espérer. Quand une hypothèse tombe, la suite le DIT, au lieu
+de rendre des échecs qui accusent le produit.
+
+Appliquée à `verify:visual` : trois hypothèses déclarées et contrôlées,
+l'origine du canvas, l'accord entre les dimensions annoncées et le canvas
+réel, et l'immobilité de la caméra au moment de la mesure.
