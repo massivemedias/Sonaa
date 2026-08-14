@@ -513,3 +513,19 @@ pas, parce que le lecteur ne sait pas ce qu'un écart de un veut dire.
 **Signe qu'on vient de commettre la faute.** On corrige quelque chose, le compte
 ne bouge pas, et l'on se surprend à relancer « pour voir ». C'est le moment
 exact où l'on choisit un chiffre au lieu de le mesurer.
+
+**La mesure qui a tranché.** Cinq passages sur du code strictement identique :
+
+```
+8, 10, 8, 9, 8   ->   mediane 8, etendue 8 a 10
+```
+
+Le sept que j'avais annoncé comme référence est **sous l'étendue entière**. Ce
+n'était donc pas seulement le plus flatteur des passages observés, c'était une
+valeur qu'aucun des cinq passages n'a reproduite.
+
+Et le « neuf » que j'y opposais est un tirage ordinaire de cette même
+distribution. **Il n'y avait aucun écart à expliquer.** J'ai passé deux échanges
+à chercher la cause d'une dégradation de sept à neuf qui n'a jamais existé :
+deux tirages d'une grandeur bruitée, présentés comme deux mesures. C'est le
+coût réel de ce motif, et il est plus élevé que celui des trois précédents.
