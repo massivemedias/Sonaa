@@ -1332,7 +1332,6 @@
   .pcol[data-sheet='half'] .pcol-head,
   .pcol[data-sheet='full'] .pcol-head {
     grid-row: 1;
-    margin-bottom: 0.25rem;
   }
 
   .pcol[data-sheet='half'] .pcol-media,
@@ -1433,10 +1432,6 @@
     margin-top: 0.4rem;
   }
 
-  .pcol-row {
-    padding-top: 0.3rem;
-    padding-bottom: 0.3rem;
-  }
 }
 
 /* --- Reprendre la hauteur au-dessus de la liste, plutot que grandir encore ---
@@ -1452,11 +1447,6 @@
    vignettes de la liste passent de 40 a 32 px et les rangees se resserrent. */
 
 @media (max-width: 700px) {
-  .pcol[data-sheet='half'] .pcol-head,
-  .pcol[data-sheet='full'] .pcol-head {
-    margin-bottom: 0;
-  }
-
   .pcol-genre-title {
     font-size: 1rem;
     line-height: 1.15;
