@@ -29,6 +29,10 @@
 
 .mn-ariane {
   flex: none;
+  /* La hauteur de la bande est une valeur NOMMEE : les commandes de la page se
+     decalent dessous, et elles doivent lire le meme nombre. */
+  min-height: var(--mn-bande-h, 3rem);
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -153,4 +157,41 @@
 .mn-carte[data-profondeur='3'] {
   width: auto;
   align-self: stretch;
+}
+
+/* --- AU NIVEAU DU GENRE, LA NAVIGATION S'EFFACE ---------------------------
+
+   Elle ne garde que son fil d'Ariane, en bandeau, et rend tout le reste de
+   l'ecran a la vue graphique qui vit dessous. C'est le point delicat de cette
+   etape : le contexte doit rester VISIBLE, sinon on ne sait plus d'ou l'on
+   vient, mais il ne doit rien couvrir, sinon on ne voit plus ce qu'on est
+   venu chercher. Un bandeau resout les deux. */
+
+.mn[data-niveau='genre'] {
+  inset: 0 0 auto 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+.mn[data-niveau='genre'] .mn-ariane {
+  pointer-events: auto;
+  background: color-mix(in oklab, var(--fond, oklch(0.16 0.012 250)) 88%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+/* Le fil d'Ariane peut porter trois niveaux et des noms longs. Il defile
+   lateralement plutot que de passer a la ligne : une deuxieme ligne
+   deplacerait la carte a chaque genre au nom long. */
+.mn-ariane {
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+
+.mn-ariane::-webkit-scrollbar {
+  display: none;
+}
+
+.mn-crumb[disabled] {
+  cursor: default;
 }

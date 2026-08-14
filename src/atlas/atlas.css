@@ -10,6 +10,7 @@
      le transport et une ou deux pistes. Tiree vers le haut elle passe a 75 % et
      devient le mode ecoute, ou les cinq pistes tiennent. La carte n'est donc
      jamais mangee par defaut, et elle reste visible meme en ecoute. */
+  --mn-bande-h: 3rem;
   --feuille-h: 40dvh;
   --feuille-h-haute: 75dvh;
   --ariane-h: 3.4rem;
@@ -1049,5 +1050,35 @@
 @media (max-width: 768px) {
   .legend {
     display: none;
+  }
+}
+
+/* LE FIL D'ARIANE DE LA VUE 3D DISPARAIT SOUS 768 px.
+
+   La navigation par niveaux porte le sien, a trois niveaux, et deux fils
+   d'Ariane sur le meme ecran ne sont pas une redondance inoffensive : celui
+   de la 3D vit en z-index 7 avec sa fleche, au meme endroit exactement, et il
+   ATTRAPE LE TAP destine a l'autre. C'est le defaut trouve au doigt a l'etape
+   precedente ; on le supprime a la source plutot que de se battre avec
+   l'ordre d'empilement. */
+@media (max-width: 768px) {
+  .crumbs,
+  .crumb-retour {
+    display: none;
+  }
+
+  /* LES COMMANDES DESCENDENT SOUS LA BANDE DU FIL D'ARIANE.
+
+     Zoom, recentrage et loupe vivent en haut a droite, exactement la ou passe
+     desormais le fil d'Ariane de la navigation par niveaux. Elles etaient donc
+     a moitie derriere lui : visibles en bas, coupees en haut, et la loupe est
+     le chemin le plus court vers un genre, on ne la laisse pas a moitie
+     cachee.
+
+     Le decalage vaut la hauteur de la bande, lue dans la MEME valeur nommee
+     que la bande elle-meme. Deux ecritures d'un meme nombre finissent toujours
+     par diverger, et cette semaine en a fait la demonstration. */
+  .controls {
+    top: calc(var(--mn-bande-h) + 14px + env(safe-area-inset-top, 0px));
   }
 }
