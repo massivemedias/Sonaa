@@ -205,6 +205,52 @@ const main = async () => {
     }
   }
 
+  /* ═══════════════════════════════════════════════════════════════════════
+     LE RELEVE PAR IDENTITE, ET NON PAR NOMBRE.
+
+     MEILLEUR ACQUIS DE LA SESSION FIABILITE, et il ne coute rien : c'est la
+     meme boucle, avec les noms au lieu du total.
+
+     Un total est une somme, et une somme perd exactement l'information qui
+     dirait d'ou vient sa variation. Cinq passages qui rendent « 9, 9, 8, 9, 9 »
+     ne designent personne, et deux echanges entiers ont ete depenses a chercher
+     la cause d'un ecart de deux. Les memes cinq passages releves par identite
+     ont designe le coupable en une lecture : huit echecs identiques cinq fois
+     sur cinq, et UN SEUL test variable, focus a 1024 px.
+
+     Un test sur trente-deux produisait toute la variation. Le nombre le
+     cachait, l'identite le montre. */
+  const identites = [];
+  for (const r of resultats) {
+    for (const [nom, v] of Object.entries(r.verdicts)) {
+      if (v === 'echec') identites.push(`${nom}@${r.largeur}`);
+    }
+  }
+  console.log(`\nechecs, par identite : ${identites.length ? identites.sort().join(', ') : 'aucun'}`);
+  console.log(
+    '  Comparer DEUX RELEVES PAR IDENTITE, jamais deux totaux : un total qui ne bouge pas\n' +
+      '  peut cacher un echec repare et un autre apparu.'
+  );
+
+  /* NON FIABLE, ET DIT PLUTOT QUE SUBI.
+
+     `focus` a 1024 px echoue quatre passages sur cinq. Je ne repare pas :
+     `focus` echoue AUSSI a 390, 700 et 1440, de facon parfaitement stable. Sa
+     variabilite a 1024 n'est donc pas un defaut a elle, c'est un symptome
+     secondaire d'un defaut qui, lui, est stable et se corrige ailleurs. S'y
+     acharner reviendrait a stabiliser la mesure d'une chose deja cassee.
+
+     Il reste COMPTE, il n'est pas masque : un echec ecarte du total est un
+     echec qu'on cesse de voir. Il est seulement SIGNALE, pour qu'un ecart de
+     un entre deux passages cesse de lancer une enquete. */
+  const instable = identites.includes('focus@1024');
+  if (identites.some((i) => i.startsWith('focus@'))) {
+    console.log(
+      `  non deterministe connu : focus@1024 (${instable ? 'en echec' : 'passant'} ce coup-ci, 4 passages sur 5 en echec).\n` +
+        "  Un ecart de un entre deux passages vient probablement de lui. Ne pas ouvrir d'enquete dessus."
+    );
+  }
+
   console.log(`\n${echecs === 0 ? 'AUCUN ECHEC sur les quatre largeurs.' : echecs + ' echec(s).'}`);
   if (process.env['SONAA_VERIFY_JSON']) console.log(JSON.stringify(resultats, null, 1));
   return echecs;

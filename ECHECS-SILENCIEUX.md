@@ -594,6 +594,17 @@ net que prévu : **un test sur trente-deux** produisait à lui seul toute la
 variation qui a fait dérailler deux échanges d'enquête. On a cherché la cause
 d'un écart de deux sur un total, alors qu'un seul test valait zéro ou un.
 
+**Et le relevé s'est corrigé lui-même au premier usage.** Branché dans le
+pilote, son tout premier passage a rendu sept échecs, en nommant lesquels :
+`cadre@700` avait disparu de la liste, en plus de `focus@1024`. Il y a donc
+**deux** tests non déterministes, pas un, et ma conclusion « un seul test
+varie » était elle-même tirée d'un échantillon trop court.
+
+C'est le motif qui s'applique à sa propre découverte : cinq passages suffisent
+à voir qu'il y a du bruit, pas à en dresser la liste complète. Le relevé par
+identité ne supprime pas ce besoin, il le rend visible, ce qui est déjà tout
+ce qu'on lui demande.
+
 Ce que ça vaut comme méthode : relever l'IDENTITÉ des échecs et pas leur
 NOMBRE. Le nombre est une somme, et une somme perd l'information qui permet de
 savoir d'où vient sa variation. Cinq passages qui rendent « 9, 9, 8, 9, 9 » ne
