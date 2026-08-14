@@ -803,8 +803,14 @@
     display: none;
   }
 
+  /* MI-HAUTEUR VALAIT 42 % DE L'ECRAN, ET C'ETAIT MESURABLEMENT TROP PEU.
+
+     A 42 % il reste 354 px : l'en-tete, la rangee vignette-titre-artiste et le
+     transport en consomment la totalite, et la liste des titres commence sous
+     le bord. Zero titre visible, mesure aux trois largeurs. La consigne est
+     d'en voir au moins cinq, ce qui reclame environ 220 px de liste en plus. */
   .pcol[data-sheet='half'] {
-    height: 42dvh;
+    height: 70dvh;
   }
 
   .pcol[data-sheet='full'] {
@@ -1284,4 +1290,230 @@
   /* Cibles tactiles, comme partout ailleurs sur le site. */
   .tvote { width: 2.4rem; }
   .tvote-b { width: 2.2rem; height: 1.9rem; font-size: 0.8rem; }
+}
+
+/* --- Le lecteur du telephone, redispose ---------------------------------------
+
+   CE QUI CLOCHAIT : la pochette occupait la moitie de l'ecran. En dessous
+   venaient le titre, l'artiste, le transport, puis les infos du genre
+   deployees sur plusieurs ecrans. La LISTE DES TITRES, qui est la seule chose
+   qu'on vient chercher, arrivait apres tout cela : elle n'etait jamais
+   visible. Un lecteur de musique ou l'on ne voit aucun titre a ecouter.
+
+   CE QUI CHANGE : la pochette devient une vignette carree de 56 px a gauche,
+   le titre et l'artiste s'installent a sa droite, le transport passe dessous,
+   et la liste recupere tout ce qui reste. Les infos du genre sont repliees.
+
+   GRILLE ET NON ORDRE DE DOCUMENT : la vignette, le titre et l'artiste sont
+   trois freres dans le balisage, pas un bloc. Une grille a deux colonnes les
+   rassemble en une rangee sans deplacer un seul element dans le code, donc
+   sans changer l'ordre de lecture pour un lecteur d'ecran. Tout le reste
+   traverse les deux colonnes et s'empile a la suite. */
+
+@media (max-width: 700px) {
+  .pcol[data-sheet='half'] .pcol-scroll,
+  .pcol[data-sheet='full'] .pcol-scroll {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
+    column-gap: 0.6rem;
+    row-gap: 0.15rem;
+    align-content: start;
+    padding-top: 0.2rem;
+  }
+
+  /* Par defaut tout occupe la largeur entiere. Seuls les trois elements de la
+     rangee d'en-tete sont places explicitement. */
+  .pcol[data-sheet='half'] .pcol-scroll > *,
+  .pcol[data-sheet='full'] .pcol-scroll > * {
+    grid-column: 1 / -1;
+    min-width: 0;
+  }
+
+  .pcol[data-sheet='half'] .pcol-head,
+  .pcol[data-sheet='full'] .pcol-head {
+    grid-row: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  .pcol[data-sheet='half'] .pcol-media,
+  .pcol[data-sheet='full'] .pcol-media {
+    grid-column: 1;
+    grid-row: 2 / span 2;
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    max-width: 56px;
+    margin: 0;
+    align-self: start;
+    overflow: hidden;
+    border-radius: 6px;
+    position: relative;
+  }
+
+  .pcol[data-sheet='half'] .pcol-title,
+  .pcol[data-sheet='full'] .pcol-title {
+    grid-column: 2;
+    grid-row: 2;
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.2;
+    /* UNE SEULE LIGNE, comme demande : un titre de trois lignes repousse
+       l'artiste hors de la vignette et casse la rangee. */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .pcol[data-sheet='half'] .pcol-artist,
+  .pcol[data-sheet='full'] .pcol-artist {
+    grid-column: 2;
+    grid-row: 3;
+    margin: 0;
+    font-size: 0.78rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* La vignette porte le lecteur YouTube. Il remplit son cadre de 56 px, et
+     la tape le fait passer en grand. */
+  .pcol-media iframe,
+  .pcol-media .pcol-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .pcol-media-tap {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text-strong, #fff);
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .pcol[data-sheet='half'] .pcol-media[data-agrandie='true'],
+  .pcol[data-sheet='full'] .pcol-media[data-agrandie='true'] {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .pcol-media[data-agrandie='true'] .pcol-media-tap {
+    inset: 0 0 auto auto;
+    width: 44px;
+    height: 44px;
+    background: color-mix(in oklab, black 55%, transparent);
+    border-radius: 0 6px 0 6px;
+  }
+
+  /* Ce qui volait de la hauteur a la liste sans rien apporter au telephone. */
+  .pcol[data-sheet='half'] .pcol-imprint,
+  .pcol[data-sheet='half'] .pcol-release {
+    display: none;
+  }
+
+  .pcol-transport {
+    margin-top: 0.5rem;
+  }
+
+  /* LA LISTE PREND LE RESTE. Elle etait limitee en hauteur et defilait dans
+     sa propre boite, ce qui la reduisait a deux titres au milieu de la page. */
+  .pcol-list {
+    max-height: none;
+    overflow: visible;
+    margin-top: 0.4rem;
+  }
+
+  .pcol-row {
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+  }
+}
+
+/* --- Reprendre la hauteur au-dessus de la liste, plutot que grandir encore ---
+
+   MESURE A 390 px, feuille a mi-hauteur : en-tete 51 px, rangee
+   vignette-titre-artiste 56, transport 102, onglets 25, invite de connexion
+   18, poignee 24. Deux cent soixante-seize pixels avant le premier titre, sur
+   557 disponibles : il reste 271 px de liste pour des rangees de 55, soit
+   quatre rangees et demie, et trois seulement entierement visibles.
+
+   Agrandir encore la feuille reviendrait a manger l'atlas pour compenser du
+   remplissage. On reprend donc les pixels la ou ils ne servent a rien : les
+   vignettes de la liste passent de 40 a 32 px et les rangees se resserrent. */
+
+@media (max-width: 700px) {
+  .pcol[data-sheet='half'] .pcol-head,
+  .pcol[data-sheet='full'] .pcol-head {
+    margin-bottom: 0;
+  }
+
+  .pcol-genre-title {
+    font-size: 1rem;
+    line-height: 1.15;
+    margin: 0;
+  }
+
+  .pcol-genre-line {
+    font-size: 0.7rem;
+    margin: 0.1rem 0 0;
+  }
+
+  .pcol-row {
+    padding-top: 0.22rem;
+    padding-bottom: 0.22rem;
+    gap: 0.5rem;
+  }
+
+  .pcol-row-cover {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+  }
+
+  .pcol-tabs {
+    margin: 0.3rem 0 0;
+  }
+}
+
+/* Les rangees de la liste faisaient 52 px, mais la liste 366 pour cinq
+   d'entre elles : soit 73 px de pas reel. La difference etait dans la marge de
+   chaque element, invisible tant qu'on ne mesure que le bouton. */
+@media (max-width: 700px) {
+  .pcol-li {
+    margin: 0;
+  }
+  .pcol-li + .pcol-li {
+    margin-top: 2px;
+  }
+  .pcol-transport {
+    row-gap: 0.3rem;
+  }
+}
+
+/* CE QUI FAISAIT 73 px PAR TITRE ALORS QUE LA RANGEE EN FAIT 52 : le bloc de
+   vote, une colonne de deux boutons et d'un score, plus haut que la rangee
+   qu'il accompagne. Invisible tant qu'on mesure le bouton de la rangee et non
+   l'element de liste qui le contient.
+
+   Il se resserre sur telephone. Ses cibles tactiles y perdent, et c'est un
+   arbitrage assume : la consigne est de voir cinq titres sans defiler, et
+   voter sur un titre qu'on ne voit pas ne veut rien dire. */
+@media (max-width: 700px) {
+  .tvote {
+    gap: 0;
+    width: 1.7rem;
+  }
+  .tvote-b {
+    height: 1.15rem;
+  }
 }

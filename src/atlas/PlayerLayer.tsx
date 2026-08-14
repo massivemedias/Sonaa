@@ -147,7 +147,23 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
   const [volume, setVolume] = useState(80);
   const [apiFailed, setApiFailed] = useState(false);
   const [tab, setTab] = useState<'essentiel' | 'actuel'>('essentiel');
-  const [infoOpen, setInfoOpen] = useState(true);
+  /* LES INFOS DU GENRE SONT REPLIEES SUR TELEPHONE, ouvertes ailleurs.
+
+     Elles font plusieurs ecrans de haut. Sur un telephone elles repoussaient
+     la liste des titres si loin qu'elle n'existait plus : le lecteur montrait
+     une pochette geante, un paragraphe, et rien a ecouter. */
+  const [infoOpen, setInfoOpen] = useState(
+    () => !(typeof window !== 'undefined' && window.matchMedia('(max-width: 700px)').matches)
+  );
+
+  /* LA VIDEO NE S'AGRANDIT QUE SI ON LA DEMANDE.
+
+     Le lecteur YouTube vit dans le meme bloc que la pochette. Sur telephone ce
+     bloc occupait la moitie de la hauteur pour montrer une image que personne
+     ne regarde pendant qu'il ecoute. Il reste donc une vignette, et il ne
+     s'ouvre en grand que sur une tape. Le drapeau retombe quand le titre
+     change : on ne veut pas qu'un morceau suivant herite d'un ecran de video. */
+  const [videoAgrandie, setVideoAgrandie] = useState(false);
   /* LA FEUILLE MOBILE ARRIVE EN BARRE, pas à mi-hauteur. Sur un téléphone la
      carte a besoin de toute la place, et une feuille à mi-hauteur au premier
      chargement cache la moitié de ce qu'on vient d'ouvrir le site pour voir.
@@ -396,6 +412,13 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
     playback?.genreLocal === panelGenre?.genreLocal;
 
   const shownInPanel: Track | undefined = playingHere ? currentTrack : panelTracks[0];
+
+  /* Le drapeau de la video retombe des que le titre change ou que la lecture
+     s'arrete. Sans cela, un morceau suivant heriterait d'un ecran de video que
+     personne n'a demande. */
+  useEffect(() => {
+    setVideoAgrandie(false);
+  }, [shownInPanel?.id, playingHere]);
 
   /* La colonne signale sa présence à la coquille : la carte se recadre par
      CSS (marge droite en desktop, zone haute en mobile selon la position de
@@ -926,7 +949,16 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
               </p>
             </header>
 
-            <div className="pcol-media" ref={mediaRef}>
+            <div className="pcol-media" ref={mediaRef} data-agrandie={videoAgrandie}>
+              {playingHere && (
+                <button
+                  className="pcol-media-tap"
+                  onClick={() => setVideoAgrandie((v) => !v)}
+                  aria-label={videoAgrandie ? 'Reduire la video' : 'Agrandir la video'}
+                >
+                  <span aria-hidden="true">{videoAgrandie ? '\u00d7' : ''}</span>
+                </button>
+              )}
               {!playingHere && shownInPanel && (
                 shownInPanel.cover ? (
                   <img
