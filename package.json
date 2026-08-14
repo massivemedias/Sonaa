@@ -29,7 +29,8 @@
     "check:superposition": "tsx scripts/check-superposition.ts",
     "check:css": "tsx scripts/check-css-doublons.ts",
     "check:camera": "tsx scripts/check-camera.ts",
-    "check:ecritures": "tsx scripts/check-ecritures.ts"
+    "check:ecritures": "tsx scripts/check-ecritures.ts",
+    "check:exports": "tsx scripts/check-exports.ts"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^7.3.1",
