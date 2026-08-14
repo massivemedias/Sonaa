@@ -1036,3 +1036,18 @@
   font-size: 0.72rem !important;
   text-decoration: underline;
 }
+
+/* LA LÉGENDE N'A AUCUN SENS SUR UN TÉLÉPHONE, et elle y prenait de la place.
+
+   Elle liste la barre oblique, la molette et Échap. Il n'y a ni clavier ni
+   molette sur un téléphone : c'est un aide-mémoire pour des gestes qui
+   n'existent pas, posé sur la seule zone qui manque, la carte.
+
+   Retirée, pas repliée. Une version réduite aurait gardé le défaut en plus
+   petit, et un accordéon aurait ajouté un geste pour découvrir qu'il n'y a
+   rien à y apprendre. */
+@media (max-width: 768px) {
+  .legend {
+    display: none;
+  }
+}

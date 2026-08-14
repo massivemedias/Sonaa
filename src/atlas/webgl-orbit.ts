@@ -1939,24 +1939,49 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
        Plutôt que d'interdire un geste sans rien offrir, le glissement DÉPLACE
        la vue dans son plan. Zoom et déplacement, pas d'orbite, pas
        d'élévation. */
-    /* SOUS 500 PX, LA CARTE NE SE DÉPLACE PAS DU TOUT.
+    /* LE DÉPLACEMENT AU DOIGT EST RÉTABLI, MAIS BORNÉ.
 
-       Ni orbite ni glissement. Sur un téléphone, le doigt sert à VISER, et
-       chaque geste de déplacement était surtout une occasion de perdre le
-       cadrage soigneusement calculé, sans moyen évident de le retrouver. La
-       carte tient dans l'écran par construction : il n'y a rien à aller
-       chercher ailleurs. Le pincement reste, pour lire de plus près. */
-    if (width < 500) {
-      lastX = event.clientX;
-      lastY = event.clientY;
-      return;
-    }
+       Il avait été coupé net sous 500 px : sur un téléphone le doigt sert à
+       viser, et chaque geste était une occasion de perdre le cadrage sans
+       moyen évident de le retrouver. C'était trop strict. Depuis, l'arbre
+       entier tient dans l'écran par construction, donc le déplacement ne sert
+       plus à ALLER CHERCHER quelque chose, il sert au confort. Ce qui change
+       le raisonnement : il n'y a plus de raison de l'interdire, seulement de
+       l'empêcher de mener nulle part.
+
+       D'où la borne, calculée plus bas : on ne peut pas s'éloigner du centre
+       de l'arbre de plus de la moitié de sa diagonale. Au-delà on ne verrait
+       plus ce qu'on est venu voir, et c'est exactement la situation dont on ne
+       savait pas revenir.
+
+       Le seuil de dix pixels qui distingue un tap d'un glissement existait
+       déjà, SEUIL_GLISSEMENT : viser reste prioritaire sur déplacer. */
 
     if (zoneActive) {
       const echelle = (2 * Math.tan((FOV * Math.PI) / 360) * distance) / Math.max(1, height);
       const droite = new Vector3().setFromMatrixColumn(camera.matrixWorld, 0).normalize();
       const haut = new Vector3().setFromMatrixColumn(camera.matrixWorld, 1).normalize();
       target.addScaledVector(droite, -dx * echelle).addScaledVector(haut, dy * echelle);
+
+      /* LA COURSE EST BORNÉE À LA MOITIÉ DE LA DIAGONALE DE L'ARBRE.
+
+         Le rayon de l'arbre est la plus grande distance entre son centre et
+         l'un de ses membres ; la diagonale en vaut le double, donc la borne
+         est le rayon lui-même. Sans elle, un glissement continu emmène la
+         caméra dans le vide, et rien à l'écran n'indique dans quelle
+         direction revenir. */
+      const ancre = cibleDuFocus(focusIndex >= 0 ? focusIndex : activeGenre);
+      let rayonArbre = 0;
+      for (const [i, off] of focusOffsets) {
+        if (zone[i] !== 1) continue;
+        rayonArbre = Math.max(rayonArbre, off.length());
+      }
+      const course = Math.max(rayonArbre, 1);
+      const ecart = target.clone().sub(ancre);
+      if (ecart.length() > course) {
+        target.copy(ancre).addScaledVector(ecart.normalize(), course);
+      }
+
       targetSmooth.copy(target);
       dragVX = 0;
       dragVY = 0;
