@@ -105,6 +105,16 @@ jobs:
       - name: Contrôler les corrections de caméra
         run: npm run check:camera
 
+      # LE SEUL MOTIF DE CE PROJET QUI RESISTE A LA DOCUMENTATION : deux
+      # endroits ecrivent la meme valeur, le dernier gagne, et rien ne le
+      # signale parce que chaque ligne est correcte prise seule. Ce qui est
+      # faux n'est dans aucune des deux, il est dans leur ORDRE, et l'ordre ne
+      # s'ecrit nulle part. Trois occurrences en une session, la regle etant
+      # deja ecrite avant la deuxieme. Ce controle oblige a DECLARER l'ordre,
+      # donc a se demander lequel doit gagner, donc a voir le conflit.
+      - name: Contrôler les écritures concurrentes
+        run: npm run check:ecritures
+
       - name: Contrôler les tirets
         run: npm run check:tirets
 

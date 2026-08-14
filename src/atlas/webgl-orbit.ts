@@ -4606,6 +4606,10 @@ const OVERLAP_TOLERANCE = 1;
       for (let i = 0; i < TOTAL_GENRES; i += 1) {
         if (zone[i] === 1 && (sphereState[i * 4] ?? 0) > 0.02) membresZone.push(i);
       }
+      /* PREMIER ECRIVAIN : la valeur voulue, genereuse. Le retrecissement
+         ci-dessous s'applique APRES et peut seulement la reduire, jamais
+         l'augmenter. L'ordre est declare parce qu'il compte : inverse, les
+         zones se chevaucheraient de nouveau. */
       for (const i of membresZone) {
         rayonClic[i] = Math.max(rayonEcran(i) + 12, 40);
       }
@@ -4687,6 +4691,10 @@ const OVERLAP_TOLERANCE = 1;
           linkP0.set([a.world.x, a.world.y, a.world.z], i * 3);
           linkP1.set([a.world.x, a.world.y, a.world.z], i * 3);
         }
+        /* ORDRE EXPLICITE : cette ecriture appartient a la branche des liens
+           INTERNES a une famille. Les deux autres ecritures de cette case
+           vivent dans la branche des liens ENTRE familles, qui est exclusive
+           de celle-ci. Aucune ne s'ecrase, elles ne se rencontrent jamais. */
         linkMeta[i * 3 + 2] = clamp(genreProgress(b, now), 0, 1);
 
         /* Les liens du sous-arbre focalisé passent au premier plan et
@@ -4701,6 +4709,8 @@ const OVERLAP_TOLERANCE = 1;
              DEUX extrémités sont nettes. */
           const dansLaZone = zone[ref.a] === 1 && zone[ref.b] === 1;
           linkMeta[i * 3] = dansLaZone ? 1 : 0.12;
+          /* ORDRE EXPLICITE : branche des liens INTERNES a une famille,
+             exclusive des deux autres ecritures de cette case. */
           linkMeta[i * 3 + 1] = dansLaZone ? 1 : 0.45;
         } else if (zoneActive) {
           /* Lien d'une autre famille en mode focus : il s'efface avec elle.
@@ -4722,18 +4732,29 @@ const OVERLAP_TOLERANCE = 1;
         if (!ca || !cb) continue;
         linkP0.set([ca.x, ca.y, ca.z], i * 3);
         linkP1.set([cb.x, cb.y, cb.z], i * 3);
+        /* ORDRE EXPLICITE : branche des liens ENTRE familles, valeur par
+           defaut. L'intro, plus bas, s'applique APRES et la remplace pendant
+           la naissance des familles seulement. */
         linkMeta[i * 3 + 2] = 1;
 
         /* Les liens entre familles traversaient tout l'écran en diagonale et
            brouillaient la lecture. Ils sont désormais quasi invisibles par
            défaut, et ne s'allument que si l'une de leurs deux extrémités est
            la famille sélectionnée ou celle du noeud survolé. */
+        /* Ces trois ecritures sont EXCLUSIVES : intro, puis liens entre
+           familles, puis liens internes. Une seule s'execute par lien et par
+           image. L'ordre est declare pour que le controle des ecritures
+           concurrentes n'ait pas a le deviner, et pour qu'on sache, si une
+           quatrieme apparait, qu'elle doit rester exclusive elle aussi. */
         if (introActive) {
           /* Le lien se trace depuis la famille d'origine vers la naissante,
              comme une propagation : l'avancement suit la naissance de la
              famille d'arrivée. */
           const bornA = introBirth(ref.familyA, now);
           const bornB = introBirth(ref.familyB, now);
+          /* ORDRE EXPLICITE : pendant l'intro seulement. Elle s'applique
+             APRES la valeur par defaut des liens entre familles, et la
+             remplace le temps de la naissance. */
           linkMeta[i * 3 + 1] = bornA > 0.5 ? 0.55 : 0;
           linkMeta[i * 3 + 2] = clamp(bornB * 1.4, 0, 1);
           continue;
