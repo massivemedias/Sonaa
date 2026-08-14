@@ -813,8 +813,11 @@
     height: var(--feuille-h, 70dvh);
   }
 
+  /* TIREE VERS LE HAUT, ET NON PLEIN ECRAN : a 100 % la carte disparaissait,
+     et l'on perdait le fil de l'endroit ou l'on se trouve. 75 % suffisent aux
+     cinq pistes, mesure faite, et laissent la carte respirer au-dessus. */
   .pcol[data-sheet='full'] {
-    height: 100dvh;
+    height: var(--feuille-h-haute, 75dvh);
   }
 
   .pcol-handle {
@@ -828,13 +831,21 @@
     touch-action: none;
   }
 
+  /* LA POIGNEE DOIT INVITER. Quatre pixels d'une teinte de filet se lisaient
+     comme une bordure, pas comme une prise : rien ne disait que la feuille
+     monte. Elle s'epaissit, s'eclaircit et s'elargit. */
   .pcol-handle span {
     display: block;
-    width: 42px;
-    height: 4px;
+    width: 56px;
+    height: 6px;
     margin: 0 auto;
-    border-radius: 2px;
-    background: var(--rule-strong, oklch(0.4 0.01 250));
+    border-radius: 3px;
+    background: var(--ink-secondary, oklch(0.62 0.01 250));
+    opacity: 0.85;
+  }
+
+  .pcol[data-sheet='half'] .pcol-handle span {
+    box-shadow: 0 0 0 6px transparent;
   }
 
   .pcol-scroll {

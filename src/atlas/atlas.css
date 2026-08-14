@@ -4,7 +4,14 @@
    de l'ecran, la carte cadree comme si elle en faisait 42. Une valeur nommee
    ne peut pas diverger d'elle-meme. */
 :root {
-  --feuille-h: 70dvh;
+  /* L'ARBITRAGE EST RENDU : EN POSITION PAR DEFAUT, LA CARTE GAGNE.
+
+     La feuille prend 40 % et donne un apercu, la vignette, le titre, l'artiste,
+     le transport et une ou deux pistes. Tiree vers le haut elle passe a 75 % et
+     devient le mode ecoute, ou les cinq pistes tiennent. La carte n'est donc
+     jamais mangee par defaut, et elle reste visible meme en ecoute. */
+  --feuille-h: 40dvh;
+  --feuille-h-haute: 75dvh;
   --ariane-h: 3.4rem;
 }
 
@@ -697,7 +704,23 @@
        au lieu de s'etirer entre `top` et `bottom`. Je l'ai lu et j'ai quand
        meme ecrit `auto` : mesure faite, la carte occupait toujours 0..844,
        c'est-a-dire l'ecran entier, feuille comprise. */
-    height: calc(100dvh - var(--feuille-h, 70dvh) - var(--ariane-h, 3.4rem));
+    height: calc(100dvh - var(--feuille-h, 40dvh) - var(--ariane-h, 3.4rem));
+  }
+
+  /* A 430 px le fil d'Ariane tient sur une ligne plus haute, et deux noms
+     mordaient encore dessus : la bande etait mesuree sur la largeur la plus
+     etroite. Elle s'elargit avec l'ecran. */
+  @media (min-width: 400px) {
+    :root {
+      --ariane-h: 4.2rem;
+    }
+  }
+
+  .atlas-root[data-sheet-pos='full'] .atlas-canvas,
+  .atlas-root[data-sheet-pos='full'] .atlas-labels {
+    top: var(--ariane-h, 3.4rem);
+    bottom: var(--feuille-h-haute, 75dvh);
+    height: calc(100dvh - var(--feuille-h-haute, 75dvh) - var(--ariane-h, 3.4rem));
   }
 }
 
