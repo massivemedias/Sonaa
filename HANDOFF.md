@@ -518,3 +518,53 @@ supabase/migrations/   dix migrations appliquées : propositions, votes,
 .github/workflows/deploy.yml  huit contrôles, build, contrôle anti-secret,
                               puis publication sur GitHub Pages
 ```
+
+## Dette assumée, session fiabilité close
+
+Deux points ont été laissés délibérément, et l'on n'y revient pas.
+
+**1. L'échec résiduel du banc de clics.** Sur Detroit Techno, quatorze dérivés
+sur quinze ouvrent la bonne fiche. Peak Time Techno ouvre la racine.
+
+Ce qui est établi, et qui vaut plus que le défaut lui-même : **la visée n'est
+pas en cause**. Une sonde interroge le moteur sur ce qui se trouve sous le
+centre exact de chaque sphère, sans cliquer, et elle répond juste quinze fois
+sur quinze, Peak Time Techno compris. Le défaut est donc en aval, dans la
+chaîne qui ouvre la fiche à partir d'une cible correctement désignée. C'est un
+périmètre étroit pour qui reprendra.
+
+Ne pas repartir de la signature « tous au rayon minimal » : elle est vraie des
+quinze dérivés et ne distingue rien. Voir le motif 8.
+
+**2. Les deux contrôles statiques non écrits.** Une constante définie deux fois
+avec des valeurs différentes dans un même fichier, et une valeur écrite puis
+jamais lue. Ils étaient listés en 3 et 4 dans l'ordre de valeur.
+
+Sept contrôles couvrent les motifs de la semaine, et c'est assez. La règle
+tient toujours : pas de nouveau contrôle sans défaut réel qui le justifie.
+
+**Ce qui est acquis et qu'il faut garder.** Les sept contrôles branchés en CI,
+le relevé par identité dans `verify:visual`, et les règles de mesure des motifs
+11 à 13 : médiane et plage sur cinq passages, jamais une valeur seule, et
+l'identité des échecs plutôt que leur nombre.
+
+## Prochain et dernier chantier : la navigation sur téléphone
+
+Cinq étapes, dans cet ordre, chacune vérifiée en fonctionnement avant la
+suivante.
+
+1. Le niveau des familles. Quatorze cartes de 72 px minimum, couleur de
+   famille, compte de genres, deux ou trois genres phares en aperçu. Mesurer
+   la hauteur des cartes et le nombre de familles visibles sans défiler, à
+   320, 390 et 430 px.
+2. Le niveau des genres, le fil d'Ariane et la flèche de retour.
+3. La bascule vers la vue graphique du genre, et Échap qui ramène aux genres
+   de sa famille. Point délicat : c'est là que le contexte doit être conservé.
+4. Le bouton vers la vue 3D d'ensemble, en contemplation, avec un retour clair.
+5. La recherche, qui ne change pas : elle mène déjà directement à la vue
+   graphique du genre.
+
+Seuil mobile : **768 px**, le même que celui de la légende. Une seule frontière.
+
+Point de départ : `ColumnsView.tsx`, qui porte déjà les quatorze familles en
+cartes sans WebGL. L'étape 1 est une reprise de cette vue, pas un écran neuf.
