@@ -810,14 +810,14 @@
      le bord. Zero titre visible, mesure aux trois largeurs. La consigne est
      d'en voir au moins cinq, ce qui reclame environ 220 px de liste en plus. */
   .pcol[data-sheet='half'] {
-    height: var(--feuille-h, 70dvh);
+    height: var(--feuille-h);
   }
 
   /* TIREE VERS LE HAUT, ET NON PLEIN ECRAN : a 100 % la carte disparaissait,
      et l'on perdait le fil de l'endroit ou l'on se trouve. 75 % suffisent aux
      cinq pistes, mesure faite, et laissent la carte respirer au-dessus. */
   .pcol[data-sheet='full'] {
-    height: var(--feuille-h-haute, 75dvh);
+    height: var(--feuille-h-haute);
   }
 
   .pcol-handle {
@@ -852,8 +852,10 @@
     padding: 0 1rem 0.8rem;
   }
 
+  /* L'ancienne pochette centree a 60 % de la largeur : remplacee par la
+     vignette de 56 px de la refonte, elle ne servait plus qu'a coincider par
+     hasard avec une autre valeur du meme nombre ailleurs. */
   .pcol-media {
-    max-width: min(60vw, 30dvh);
     margin: 0 auto;
   }
 
@@ -1516,5 +1518,15 @@
   }
   .tvote-b {
     height: 1.15rem;
+  }
+}
+
+/* EN MODE ECOUTE, L'EN-TETE DU GENRE EST UNE REDONDANCE COUTEUSE. Le fil
+   d'Ariane le nomme deja en haut de l'ecran, et ces quarante pixels valaient
+   exactement la rangee de titre qui manquait : quatre titres visibles a 320 et
+   390 px au lieu des cinq demandes. */
+@media (max-width: 700px) {
+  .pcol[data-sheet='full'] .pcol-head {
+    display: none;
   }
 }

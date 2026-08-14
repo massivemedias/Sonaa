@@ -697,14 +697,14 @@
      probleme dispararait sans qu'aucun placement de nom ait a le connaitre. */
   .atlas-root[data-sheet-pos='half'] .atlas-canvas,
   .atlas-root[data-sheet-pos='half'] .atlas-labels {
-    top: var(--ariane-h, 3.4rem);
-    bottom: var(--feuille-h, 70dvh);
+    top: var(--ariane-h);
+    bottom: var(--feuille-h);
     /* HAUTEUR EXPLICITE, et le commentaire d'origine le disait deja : un canvas
        est un element REMPLACE, `height: auto` retombe sur sa taille intrinseque
        au lieu de s'etirer entre `top` et `bottom`. Je l'ai lu et j'ai quand
        meme ecrit `auto` : mesure faite, la carte occupait toujours 0..844,
        c'est-a-dire l'ecran entier, feuille comprise. */
-    height: calc(100dvh - var(--feuille-h, 40dvh) - var(--ariane-h, 3.4rem));
+    height: calc(100dvh - var(--feuille-h) - var(--ariane-h));
   }
 
   /* A 430 px le fil d'Ariane tient sur une ligne plus haute, et deux noms
@@ -718,9 +718,9 @@
 
   .atlas-root[data-sheet-pos='full'] .atlas-canvas,
   .atlas-root[data-sheet-pos='full'] .atlas-labels {
-    top: var(--ariane-h, 3.4rem);
-    bottom: var(--feuille-h-haute, 75dvh);
-    height: calc(100dvh - var(--feuille-h-haute, 75dvh) - var(--ariane-h, 3.4rem));
+    top: var(--ariane-h);
+    bottom: var(--feuille-h-haute);
+    height: calc(100dvh - var(--feuille-h-haute) - var(--ariane-h));
   }
 }
 

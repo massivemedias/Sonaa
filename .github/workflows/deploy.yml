@@ -124,6 +124,15 @@ jobs:
       - name: Contrôler les recadrages sans fin
         run: npm run check:cadrage
 
+      # LA MEME GRANDEUR ECRITE DANS DEUX FICHIERS. Le controle des doublons CSS
+      # ne voyait que deux declarations de la meme propriete dans la meme regle.
+      # La hauteur de la feuille mobile, elle, valait 42 dans un fichier et 70
+      # dans l'autre : chaque fichier etait coherent avec lui-meme, et un tiers
+      # de la carte vivait derriere la feuille. Aucun des defauts visibles ne
+      # ressemblait a sa cause.
+      - name: Contrôler les grandeurs écrites deux fois
+        run: npm run check:constantes
+
       - name: Contrôler les tirets
         run: npm run check:tirets
 
