@@ -519,6 +519,30 @@ supabase/migrations/   dix migrations appliquées : propositions, votes,
                               puis publication sur GitHub Pages
 ```
 
+## Règle permanente : dire en tête de rapport ce qui n'est pas publié
+
+**Tout rapport commence par l'état de publication.** S'il existe des commits
+non poussés, la première ligne le dit, avec leur nombre et le dernier commit
+publié.
+
+**Pourquoi.** C'est arrivé deux fois dans la même semaine. Douze commits sont
+restés en local pendant que Mika testait le site en ligne : il décrivait
+fidèlement une version d'avant mon travail, je répondais sur une version qu'il
+ne pouvait pas voir, et deux échanges entiers ont porté sur un écart qui
+n'existait que parce que nous ne regardions pas le même code.
+
+Le coût n'est pas le retard, c'est que **tout ce qu'il observe pendant ce
+temps est invalidé**, y compris ses jugements les plus utiles. Un retour
+d'usage sur une version périmée n'est pas un retour d'usage, et il est
+impossible de s'en apercevoir de l'intérieur.
+
+**Ce n'est pas une autorisation de pousser.** Publier reste une décision de
+Mika. La règle porte sur le fait de DIRE, pas sur le fait de faire.
+
+C'est le motif des mesures appliqué à la conversation : un chiffre pris sur un
+autre code ne se compare pas, et une observation prise sur une autre version
+non plus.
+
 ## Dette assumée, session fiabilité close
 
 Deux points ont été laissés délibérément, et l'on n'y revient pas.
