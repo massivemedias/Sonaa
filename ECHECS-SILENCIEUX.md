@@ -488,3 +488,28 @@ de rendre des échecs qui accusent le produit.
 Appliquée à `verify:visual` : trois hypothèses déclarées et contrôlées,
 l'origine du canvas, l'accord entre les dimensions annoncées et le canvas
 réel, et l'immobilité de la caméra au moment de la mesure.
+
+## 11. Une référence se prend sur plusieurs passages, et c'est la médiane
+
+**Le motif.** J'ai rapporté « sept échecs » comme référence d'avant le chantier
+mobile. Sept était le meilleur des passages observés, pas le chiffre habituel.
+Toute comparaison ultérieure partait donc d'un point trop bas, et une suite
+parfaitement stable ressemblait à une dégradation.
+
+Le biais est naturel et il n'a pas besoin de mauvaise foi : la mesure la plus
+favorable est celle qui ressemble le plus au résultat qu'on espérait, donc
+c'est celle qu'on retient sans y penser, et on retient le nombre sans retenir
+qu'il y en avait d'autres.
+
+**La règle, posée par Mika.** Une référence se prend sur plusieurs passages,
+jamais sur un seul, et l'on retient la MÉDIANE, pas la meilleure. La médiane et
+non la moyenne : un passage aberrant, un serveur qui meurt, un vol de caméra
+interrompu, déplace une moyenne et laisse une médiane intacte.
+
+**Corollaire.** Quand on annonce une référence, annoncer aussi l'étendue. « Neuf,
+sur cinq passages allant de huit à onze » se compare ; « neuf » ne se compare
+pas, parce que le lecteur ne sait pas ce qu'un écart de un veut dire.
+
+**Signe qu'on vient de commettre la faute.** On corrige quelque chose, le compte
+ne bouge pas, et l'on se surprend à relancer « pour voir ». C'est le moment
+exact où l'on choisit un chiffre au lieu de le mesurer.

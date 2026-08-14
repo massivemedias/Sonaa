@@ -139,7 +139,34 @@ const main = async () => {
     await immobile();
   };
 
+  /* LES HYPOTHESES DE CE BANC, DECLAREES ET VERIFIEES.
+
+     Regle posee apres le quatrieme outil faux de la semaine : un outil qui ne
+     declare pas ses hypotheses ne peut pas les voir tomber. Celles-ci sont
+     verifiables, donc elles sont verifiees ici et non esperees. */
   await ouvrirRacine();
+  const hyp = await cdp.ev(`(()=>{
+    const z = window.__atlas.zoneFocus();
+    const c = document.querySelector('canvas');
+    const r = c && c.getBoundingClientRect();
+    const d = window.__atlas.dimensions ? window.__atlas.dimensions() : null;
+    return [
+      { e: 'un genre est ouvert et sa zone est armee', t: Boolean(z && z.actif), c: z ? (z.racine || 'sans racine') : 'zoneFocus indisponible' },
+      { e: 'les coordonnees de la zone sont dans le repere du canvas, origine connue',
+        t: Boolean(r), c: r ? 'canvas a (' + Math.round(r.left) + ', ' + Math.round(r.top) + ')' : 'aucun canvas' },
+      { e: 'les dimensions annoncees par le moteur sont celles du canvas affiche',
+        t: Boolean(d && r) && Math.abs(d.largeur - r.width) <= 2 && Math.abs(d.hauteur - r.height) <= 2,
+        c: d && r ? 'moteur ' + Math.round(d.largeur) + 'x' + Math.round(d.hauteur) + ', canvas ' + Math.round(r.width) + 'x' + Math.round(r.height) : 'indisponible' },
+      { e: 'la colonne du lecteur est presente, elle deduit la zone utile',
+        t: Boolean(document.querySelector('.pcol')), c: document.querySelector('.pcol') ? 'presente' : 'absente' }
+    ];})()`);
+  for (const x of hyp) console.log(`  hypothese ${x.t ? 'tenue ' : 'TOMBEE'} : ${x.e}  (${x.c})`);
+  const tombees = hyp.filter((x) => !x.t);
+  if (tombees.length > 0) {
+    console.error('\nHYPOTHESES TOMBEES : les mesures qui suivent sont sans valeur.');
+    return tombees.length;
+  }
+
   const racine = await cdp.ev(`window.__atlas.zoneFocus().racine`);
   const noms = await cdp.ev(`window.__atlas.zoneFocus().membres.filter(m=>m.generation>=1).map(m=>m.label)`);
   console.log(`racine « ${racine} », ${noms.length} derives`);

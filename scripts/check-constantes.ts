@@ -46,6 +46,15 @@ const parcourir = (dossier: string): void => {
 };
 parcourir(`${RACINE}src`);
 
+
+/* HYPOTHESE : le parcours a trouve des fichiers a lire.
+
+   Regle posee apres le quatrieme outil faux de la semaine : un controle qui
+   ne trouve rien a lire rend un vert parfait, indistinguable d'un controle
+   qui a tout lu et n'a rien trouve. C'est le pire des faux verts, parce
+   qu'il survit a la suppression de ce qu'il devait surveiller. */
+if (fichiers.length === 0) { console.error('GRANDEURS : HYPOTHESE TOMBEE, aucun fichier parcouru.'); process.exit(1); }
+
 const court = (f: string): string => f.replace(RACINE, '');
 
 /* --- Versant CSS : les découpes d'écran en clair --------------------------- */
