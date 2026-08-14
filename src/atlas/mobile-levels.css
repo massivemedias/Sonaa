@@ -1,0 +1,156 @@
+/* LA NAVIGATION PAR NIVEAUX, SUR TÉLÉPHONE.
+
+   Une carte par famille, puis une carte par genre. Rien d'autre à l'écran :
+   c'est ce qui remplace la vue d'ensemble en trois dimensions sous 768 px,
+   où elle ne fonctionne pas.
+
+   LA HAUTEUR DE CARTE EST UNE GARANTIE, PAS UN STYLE. Soixante-douze pixels
+   minimum, posés en `min-height` et non en `height` : un nom long qui passe à
+   la ligne doit AGRANDIR la carte, jamais la faire déborder. C'est la
+   différence entre une contrainte qui tient et une contrainte qui casse au
+   premier cas limite. */
+
+.mn {
+  position: absolute;
+  inset: 0;
+  /* HUIT, ET NON SIX. La fleche de retour de l'application vit en 7, au meme
+     endroit de l'ecran que la mienne. Ma couche est opaque, donc elle la
+     cachait a l'oeil, mais l'ordre d'empilement la laissait ATTRAPER LE TAP :
+     on tapait une fleche qu'on ne voyait pas. Trouve au doigt, pas a la
+     lecture, le rendu etait parfaitement correct. */
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  background: var(--fond, oklch(0.16 0.012 250));
+  overflow: hidden;
+}
+
+/* --- Le fil d'Ariane ------------------------------------------------------ */
+
+.mn-ariane {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 0.9rem;
+  border-bottom: 1px solid var(--rule-hairline, oklch(0.3 0.01 250));
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+/* LA FLÈCHE DE RETOUR FAIT 44 px, comme toute cible tactile de ce projet.
+   Elle est visuellement plus petite, c'est sa ZONE qui est grande : un doigt
+   ne vise pas un glyphe, il vise une surface. */
+.mn-retour {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-left: -0.55rem;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: var(--ink-primary, oklch(0.92 0.01 250));
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.mn-crumb {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  font: inherit;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.mn-crumb[data-current='true'] {
+  color: var(--ink-primary, oklch(0.92 0.01 250));
+  cursor: default;
+}
+
+.mn-sep {
+  color: var(--ink-secondary, oklch(0.66 0.01 250));
+}
+
+/* --- Les cartes ----------------------------------------------------------- */
+
+.mn-liste {
+  flex: 1;
+  list-style: none;
+  margin: 0;
+  padding: 0.6rem 0.7rem 2rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mn-liste > li + li {
+  margin-top: 0.5rem;
+}
+
+.mn-carte {
+  /* LA GARANTIE. min-height et non height : le contenu peut la grandir. */
+  min-height: 72px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.15rem;
+  padding: 0.7rem 0.9rem 0.7rem 1.1rem;
+  text-align: left;
+  background: color-mix(in oklab, var(--famille) 10%, transparent);
+  /* La couleur de famille en filet à gauche : elle identifie sans crier, et
+     elle survit au mode sombre comme au mode clair puisqu'elle est la teinte
+     elle-meme et non un fond teinté. */
+  border: 0;
+  border-left: 4px solid var(--famille);
+  border-radius: 6px;
+  color: var(--ink-primary, oklch(0.92 0.01 250));
+  font-family: var(--font-ui);
+  cursor: pointer;
+}
+
+.mn-carte:active {
+  background: color-mix(in oklab, var(--famille) 20%, transparent);
+}
+
+.mn-carte-titre {
+  font-size: 1rem;
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+.mn-carte-compte {
+  font-size: 0.72rem;
+  color: var(--ink-secondary, oklch(0.66 0.01 250));
+}
+
+/* Les genres phares : ils donnent la couleur de la famille en mots, et c'est
+   ce qui distingue cette liste d'un menu. On les tronque plutôt que de les
+   laisser passer à la ligne, la carte doit rester lisible d'un coup d'oeil. */
+.mn-carte-phares {
+  font-size: 0.72rem;
+  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  opacity: 0.85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* LA FILIATION SE VOIT DANS LA DESCENTE, par le décalage. C'est ce que la
+   navigation par niveaux perd par rapport au graphique, et c'est ce qu'on lui
+   rend ici, à peu de frais. Bornée à trois crans : au-delà, la largeur
+   restante pour un nom devient le vrai problème. */
+.mn-carte[data-profondeur='1'] { margin-left: 0.75rem; }
+.mn-carte[data-profondeur='2'] { margin-left: 1.5rem; }
+.mn-carte[data-profondeur='3'] { margin-left: 2.25rem; }
+
+.mn-carte[data-profondeur='1'],
+.mn-carte[data-profondeur='2'],
+.mn-carte[data-profondeur='3'] {
+  width: auto;
+  align-self: stretch;
+}

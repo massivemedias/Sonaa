@@ -16,6 +16,7 @@ import { PlayerLayer } from './PlayerLayer.tsx';
 import { SearchOverlay } from './SearchOverlay.tsx';
 import { Welcome } from './Welcome.tsx';
 import { ColumnsView } from './ColumnsView.tsx';
+import { MobileLevels } from './MobileLevels.tsx';
 import type { NavState, PanelState, AtlasApi, AtlasStats } from './atlas-api.ts';
 import './atlas.css';
 import './welcome.css';
@@ -422,6 +423,15 @@ export function AtlasPage() {
       {mode === 'dom' && (
         <ColumnsView onOpen={openTracks} />
       )}
+
+      {/* LA NAVIGATION PAR NIVEAUX REMPLACE LA VUE D'ENSEMBLE SOUS 768 px.
+
+          Elle se monte PAR-DESSUS le canvas plutot qu'a sa place : le moteur
+          continue de vivre, ses cadrages restent calcules, et ouvrir un genre
+          la fait s'effacer pour decouvrir la vue graphique qui, elle,
+          fonctionne sur telephone. Le composant se retire lui-meme au-dela du
+          seuil, la page n'a pas a le savoir. */}
+      {mode === 'webgl' && <MobileLevels onOpen={openTracks} />}
 
       {mode !== 'webgl' && mode !== 'dom' && <Fallback notice={reason} />}
 
