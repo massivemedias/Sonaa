@@ -1,3 +1,13 @@
+/* LA HAUTEUR DE LA FEUILLE MOBILE ET LA BANDE DU FIL D'ARIANE, une seule fois.
+
+   Elles etaient ecrites en deux endroits qui ont diverge : la feuille a 70 %
+   de l'ecran, la carte cadree comme si elle en faisait 42. Une valeur nommee
+   ne peut pas diverger d'elle-meme. */
+:root {
+  --feuille-h: 70dvh;
+  --ariane-h: 3.4rem;
+}
+
 /* Feuille du prototype d'espace habitable. JETABLE.
    CSS global volontairement : la couche WebGL crée les labels en impératif et
    a besoin de noms de classes stables. */
@@ -662,10 +672,32 @@
   /* canvas est un élément REMPLACÉ : height auto retombe sur la taille
      intrinsèque au lieu de s'étirer entre top et bottom (même piège que la
      largeur en desktop). Hauteur EXPLICITE. */
+  /* LA HAUTEUR DE LA FEUILLE ETAIT ECRITE ICI ET LA-BAS, ET ELLES ONT DIVERGE.
+
+     Cette regle disait 42dvh, la feuille elle-meme en fait 70 depuis la
+     refonte du lecteur. La carte s'etendait donc vingt-huit pour cent de la
+     hauteur DERRIERE la feuille : elle se cadrait sur une zone dont le bas
+     etait cache, ce qui pousse tout le contenu vers le haut, fait ecrire les
+     noms par-dessus la sphere centrale et sortir les branches du cadre. Tout
+     ce qui a ete signale sur cette capture vient de la.
+
+     Une seule valeur desormais, `--feuille-h`, lue par la feuille ET par la
+     carte. Deux ecritures d'un meme nombre finissent toujours par diverger.
+
+     ET LE FIL D'ARIANE CESSE D'ETRE DU VIDE. Il occupait le haut de l'ecran
+     sans que la carte le sache, donc les noms s'ecrivaient dessus. On retire
+     sa bande du haut de la zone : le cadrage se fait sur ce qui reste, et le
+     probleme dispararait sans qu'aucun placement de nom ait a le connaitre. */
   .atlas-root[data-sheet-pos='half'] .atlas-canvas,
   .atlas-root[data-sheet-pos='half'] .atlas-labels {
-    bottom: 42dvh;
-    height: 58dvh;
+    top: var(--ariane-h, 3.4rem);
+    bottom: var(--feuille-h, 70dvh);
+    /* HAUTEUR EXPLICITE, et le commentaire d'origine le disait deja : un canvas
+       est un element REMPLACE, `height: auto` retombe sur sa taille intrinseque
+       au lieu de s'etirer entre `top` et `bottom`. Je l'ai lu et j'ai quand
+       meme ecrit `auto` : mesure faite, la carte occupait toujours 0..844,
+       c'est-a-dire l'ecran entier, feuille comprise. */
+    height: calc(100dvh - var(--feuille-h, 70dvh) - var(--ariane-h, 3.4rem));
   }
 }
 

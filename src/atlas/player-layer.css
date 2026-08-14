@@ -810,7 +810,7 @@
      le bord. Zero titre visible, mesure aux trois largeurs. La consigne est
      d'en voir au moins cinq, ce qui reclame environ 220 px de liste en plus. */
   .pcol[data-sheet='half'] {
-    height: 70dvh;
+    height: var(--feuille-h, 70dvh);
   }
 
   .pcol[data-sheet='full'] {
