@@ -574,3 +574,28 @@ comme non déterministes pour qu'ils cessent de polluer le compte.
 Un test instable non marqué est pire qu'un test absent : il donne au compte une
 précision qu'il n'a pas, et il consomme l'attention qu'on devrait porter aux
 tests qui, eux, disent la vérité.
+
+**Le relevé, cinq passages sur code identique, par test et par largeur.**
+
+| largeur | test | passages en échec |
+|---|---|---|
+| 390 | survol, focus, cadre | 5 sur 5 |
+| 700 | focus, cadre, cameraFixe | 5 sur 5 |
+| 1024 | focus | **4 sur 5** |
+| 1440 | survol, focus | 5 sur 5 |
+
+**Un seul test varie : `focus` à 1024 px.** Les huit autres échecs sont d'une
+régularité parfaite, cinq fois sur cinq, à la même largeur, sous le même nom.
+La suite n'est donc pas « globalement bruitée » : elle est stable à huit
+échecs, plus une pièce jetée en l'air.
+
+C'est exactement ce que le motif prédisait, et le rapport de force est plus
+net que prévu : **un test sur trente-deux** produisait à lui seul toute la
+variation qui a fait dérailler deux échanges d'enquête. On a cherché la cause
+d'un écart de deux sur un total, alors qu'un seul test valait zéro ou un.
+
+Ce que ça vaut comme méthode : relever l'IDENTITÉ des échecs et pas leur
+NOMBRE. Le nombre est une somme, et une somme perd l'information qui permet de
+savoir d'où vient sa variation. Cinq passages qui rendent « 9, 9, 8, 9, 9 » ne
+disent rien ; les mêmes cinq passages détaillés par test désignent le coupable
+en une lecture.
