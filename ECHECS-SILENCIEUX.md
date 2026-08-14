@@ -409,3 +409,42 @@ main sans verdict doit compter comme un echec, jamais comme un silence
 rassurant , c'est le premier motif de ce document, applique aux taches de
 fond.
 
+
+## 8. Examiner les échecs sans examiner les réussites
+
+**Le motif.** On tient trois cas qui ratent, on cherche ce qu'ils ont en
+commun, on trouve une propriété partagée, et on croit tenir un indice. Sauf
+qu'on ne l'a jamais cherchée chez les cas qui réussissent.
+
+**Ce qu'il a coûté.** Trois échecs du banc partageaient une signature : tous
+ouvraient la racine, et tous avaient exactement le rayon minimal, 18 px. Deux
+tours d'enquête ont été bâtis là-dessus, dont une hypothèse détaillée sur une
+zone cliquable calculée avant le plancher de taille. Mesure faite sur la
+population entière :
+
+```
+par rayon : {"r=18": {"total": 15, "rates": 0}}
+```
+
+Les **quinze** dérivés ont ce rayon, pas seulement les trois échecs. À ce
+niveau de zoom, tous les nœuds sont au plancher. La signature ne distinguait
+rien, elle décrivait la population.
+
+**Pourquoi on ne le voit pas.** Un indice tiré des seuls échecs est toujours
+vrai des échecs, par construction. Il ne devient une information qu'une fois
+confronté aux réussites. Sans ce second relevé, on ne mesure pas une cause, on
+mesure une coïncidence, et l'enquête part avec confiance dans la mauvaise
+direction.
+
+**C'est le pendant logique du motif des outils faux.** Là, l'instrument mesurait
+autre chose que ce qu'on croyait. Ici, l'instrument est juste, mais on ne l'a
+pointé que sur la moitié du problème. Dans les deux cas, la conclusion est
+solide en apparence et sans rapport avec le réel.
+
+**La règle.** Toute propriété présentée comme la signature d'un défaut doit être
+mesurée sur les cas qui réussissent AVANT d'orienter la recherche. Si elle y
+est aussi fréquente, ce n'est pas un indice.
+
+**Pas de contrôle automatique pour celui-ci**, et c'est délibéré : ce n'est pas
+un motif de code, c'est un motif de raisonnement. Il s'écrit, il ne se compile
+pas.

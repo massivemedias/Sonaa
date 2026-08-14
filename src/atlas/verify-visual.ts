@@ -347,6 +347,33 @@ interface BoitesResult {
   verdict: 'ok' | 'echec' | 'labelSnapshot indisponible (vue DOM ?)';
 }
 
+/* L'ORIGINE DU CANVAS N'EST PLUS CELLE DE LA FENETRE.
+
+   QUATRIEME FAUTE D'INSTRUMENT DE LA SEMAINE, et la plus instructive : elle
+   n'a rien casse, elle a seulement commence a MENTIR le jour ou une hypothese
+   silencieuse a cesse d'etre vraie.
+
+   Les tests lisent les noms avec getBoundingClientRect, donc en coordonnees
+   FENETRE, et les comparent aux dimensions du CANVAS. Tant que le canvas
+   remplissait l'ecran, les deux systemes coincidaient et personne ne pouvait
+   voir qu'il y en avait deux. Depuis que le canvas mobile commence sous le fil
+   d'Ariane et s'arrete au-dessus de la feuille du lecteur, ils different de
+   cinquante-quatre pixels en haut et de plusieurs centaines en bas : un nom
+   parfaitement place se met alors a « sortir du cadre » aux yeux du test.
+
+   C'est exactement ce qui a fait passer la suite de sept a douze echecs. Les
+   cinq nouveaux sont a 390 et 700 px, c'est-a-dire sous le seuil ou le canvas
+   est decale, et il n'y en a AUCUN a 1024 px, ou il ne l'est pas. Le produit
+   n'a rien perdu, l'instrument a cesse d'etre valide.
+
+   On ramene donc les rectangles DOM dans le repere du canvas. */
+const repereCanvas = (): { x: number; y: number } => {
+  const c = document.querySelector('canvas.atlas-canvas') ?? document.querySelector('canvas');
+  if (!c) return { x: 0, y: 0 };
+  const r = c.getBoundingClientRect();
+  return { x: r.left, y: r.top };
+};
+
 const testBoites = async (): Promise<BoitesResult> => {
   const a = atlas();
   if (!a.labelSnapshot) {
@@ -360,6 +387,7 @@ const testBoites = async (): Promise<BoitesResult> => {
   }
   await wait(900);
   const snap = a.labelSnapshot();
+  const origineB = repereCanvas();
   let labels = 0;
   let pireEcart = 0;
   let sousEstimes = 0;
@@ -376,7 +404,13 @@ const testBoites = async (): Promise<BoitesResult> => {
     let best = candidats[0];
     let bestEcart = Infinity;
     for (const s of candidats) {
-      const ecart = Math.max(Math.abs(r.left - s.sx), Math.abs(r.top - s.sy));
+      /* MEME REPERE DES DEUX COTES. L'instantane du moteur est en coordonnees
+         CANVAS, le rectangle DOM en coordonnees FENETRE. Ils coincidaient tant
+         que le canvas remplissait l'ecran. */
+      const ecart = Math.max(
+        Math.abs(r.left - origineB.x - s.sx),
+        Math.abs(r.top - origineB.y - s.sy)
+      );
       if (ecart < bestEcart) {
         bestEcart = ecart;
         best = s;
@@ -671,11 +705,18 @@ const testCadre = (): CadreResult => {
   for (const m of z.membres) {
     compter(m.label, m.x - m.rayonPx, m.y - m.rayonPx, m.x + m.rayonPx, m.y + m.rayonPx);
   }
+  const origine = repereCanvas();
   for (const el of document.querySelectorAll('.atlas-label')) {
     const r = el.getBoundingClientRect();
     if (r.left <= -500 || Number(getComputedStyle(el).opacity) <= 0.05) continue;
     if ((el as HTMLElement).dataset['flou'] === '1') continue;
-    compter(`nom ${el.textContent ?? ''}`, r.left, r.top, r.right, r.bottom);
+    compter(
+      `nom ${el.textContent ?? ''}`,
+      r.left - origine.x,
+      r.top - origine.y,
+      r.right - origine.x,
+      r.bottom - origine.y
+    );
   }
 
   return {
