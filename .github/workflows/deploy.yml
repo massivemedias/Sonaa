@@ -115,6 +115,15 @@ jobs:
       - name: Contrôler les écritures concurrentes
         run: npm run check:ecritures
 
+      # UNE REGLE VIOLEE DEUX FOIS PAR CELUI QUI L'A ECRITE N'EST PAS UNE REGLE,
+      # c'est un souhait. « Le cadrage est un geste, pas un asservissement
+      # permanent » a ete ecrit apres six tours de recherche, puis reintroduit
+      # trois jours plus tard en corrigeant autre chose. Le controle exige
+      # desormais que tout recadrage declare QUAND IL S'ARRETE : un temps
+      # ecoule, une constante en millisecondes, ou un drapeau a un coup.
+      - name: Contrôler les recadrages sans fin
+        run: npm run check:cadrage
+
       - name: Contrôler les tirets
         run: npm run check:tirets
 
