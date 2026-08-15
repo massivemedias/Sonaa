@@ -697,11 +697,13 @@ export function AtlasPage() {
             </button>
           );
         })()}
+        <a className="foot-view" href="#/chronologie" title="Frise chronologique des genres">
+          Chronologie
+        </a>
         <span className="foot-sep" aria-hidden="true">·</span>
         <a className="credits-link" href="#/a-propos">À propos</a>
         <a className="credits-link" href="#/credits">Crédits</a>
         <a className="credits-link" href="#/index">Index</a>
-        <a className="credits-link" href="#/chronologie">Chronologie</a>
       </span>
 
       {/* Le HUD « Mesures » est retiré (verdict : on s'en fout). Le système

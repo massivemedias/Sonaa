@@ -339,19 +339,25 @@ export function MobileLevels({ onOpen, onEnsemble, onChercher, ouvert }: Props) 
       )}
 
       {niveau === 'familles' && (
-        <button
-          className="mn-ensemble"
-          onClick={() => {
-            memoriser();
-            setContemplation(true);
-            onEnsemble();
-            empilees.current += 1;
-            window.history.pushState({ sonaaNiveau: 'ensemble' }, '');
-          }}
-        >
-          Voir l&apos;atlas en entier
-          <span className="mn-ensemble-note">218 genres, 14 familles, a regarder</span>
-        </button>
+        <>
+          <button
+            className="mn-ensemble"
+            onClick={() => {
+              memoriser();
+              setContemplation(true);
+              onEnsemble();
+              empilees.current += 1;
+              window.history.pushState({ sonaaNiveau: 'ensemble' }, '');
+            }}
+          >
+            Voir l&apos;atlas en entier
+            <span className="mn-ensemble-note">218 genres, 14 familles, a regarder</span>
+          </button>
+          <a className="mn-ensemble" href="#/chronologie">
+            Chaîne chronologique
+            <span className="mn-ensemble-note">les genres dans le temps, par famille</span>
+          </a>
+        </>
       )}
 
       {niveau === 'ensemble' || niveau === 'genre' ? null : famille === null ? (

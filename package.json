@@ -33,7 +33,8 @@
     "check:exports": "tsx scripts/check-exports.ts",
     "check:cadrage": "tsx scripts/check-cadrage.ts",
     "banc:clics": "node scripts/banc-clics.mjs",
-    "check:constantes": "tsx scripts/check-constantes.ts"
+    "check:constantes": "tsx scripts/check-constantes.ts",
+    "check:deps": "tsx scripts/check-deps.ts"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^7.3.1",
