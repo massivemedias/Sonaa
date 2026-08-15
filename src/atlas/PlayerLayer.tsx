@@ -708,7 +708,10 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
       if (!wrap || !slot) return;
 
       const media = mediaRef.current;
-      const mediaVisible = media && panelGenre && playingHere && !(narrow && sheetPos === 'bar');
+      /* LA VIDEO NE S'AFFICHE QUE SI L'UTILISATEUR LA DEMANDE.
+         Par défaut la pochette reste visible. La vidéo ne prend sa place
+         que quand videoAgrandie est true (tap sur la pochette). */
+      const mediaVisible = media && panelGenre && playingHere && videoAgrandie && !(narrow && sheetPos === 'bar');
       if (mediaVisible && media) {
         const rect = media.getBoundingClientRect();
         wrap.style.opacity = '1';
@@ -743,7 +746,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
       window.removeEventListener('resize', place);
       observer?.disconnect();
     };
-  }, [panelGenre, playingHere, playback, narrow, sheetPos]);
+  }, [panelGenre, playingHere, playback, narrow, sheetPos, videoAgrandie]);
 
   // --- clavier ------------------------------------------------------------
 
@@ -950,16 +953,19 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
             </header>
 
             <div className="pcol-media" ref={mediaRef} data-agrandie={videoAgrandie}>
+              {/* Bouton pour ouvrir/fermer la vid\u00e9o pendant la lecture */}
               {playingHere && (
                 <button
                   className="pcol-media-tap"
                   onClick={() => setVideoAgrandie((v) => !v)}
-                  aria-label={videoAgrandie ? 'Reduire la video' : 'Agrandir la video'}
+                  aria-label={videoAgrandie ? 'R\u00e9duire la vid\u00e9o' : 'Voir la vid\u00e9o'}
                 >
-                  <span aria-hidden="true">{videoAgrandie ? '\u00d7' : ''}</span>
+                  <span aria-hidden="true">{videoAgrandie ? '\u00d7' : '\u25b6'}</span>
                 </button>
               )}
-              {!playingHere && shownInPanel && (
+              {/* LA POCHETTE S'AFFICHE TOUJOURS, sauf si la vidéo est agrandie.
+                  Un tap sur la pochette pendant la lecture ouvre la vidéo. */}
+              {shownInPanel && (!playingHere || !videoAgrandie) && (
                 shownInPanel.cover ? (
                   <img
                     className="pcol-cover"

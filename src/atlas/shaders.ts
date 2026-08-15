@@ -349,8 +349,9 @@ void main() {
   vec3 teinteAnneau = mix(clamp(vColor * 1.15, 0.0, 1.0), vec3(1.0), survol);
   col = mix(col, teinteAnneau, clamp(ring, 0.0, 1.0));
 
-  /* Et la sphère survolée s'éclaircit franchement, sur toute sa surface. */
-  col = mix(col, clamp(col * 1.55 + 0.06, 0.0, 1.0), survol);
+  /* Et la sphère survolée s'éclaircit, sur toute sa surface.
+     Éclaircissement réduit de moitié : 1.275 au lieu de 1.55. */
+  col = mix(col, clamp(col * 1.275 + 0.03, 0.0, 1.0), survol);
 
   /* Assombrissement local sous le texte. Le label est posé à droite du centre
      de la sphère : quand la sphère est étiquetée, on baisse légèrement sa
