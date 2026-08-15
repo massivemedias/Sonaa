@@ -59,13 +59,17 @@ const ModerationPage = lazy(() =>
   import('./atlas/ModerationPage.tsx').then((module) => ({ default: module.ModerationPage }))
 );
 
+const ChronologyView = lazy(() =>
+  import('./atlas/ChronologyView.tsx').then((module) => ({ default: module.ChronologyView }))
+);
+
 const rootElement = document.getElementById('root');
 
 if (!rootElement) {
   throw new Error('Élément racine introuvable.');
 }
 
-type Route = 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'atlas';
+type Route = 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'atlas';
 
 const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/index')) return 'index';
@@ -73,6 +77,7 @@ const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/a-propos')) return 'apropos';
   if (window.location.hash.startsWith('#/propositions')) return 'propositions';
   if (window.location.hash.startsWith('#/moderation')) return 'moderation';
+  if (window.location.hash.startsWith('#/chronologie')) return 'chronologie';
   return 'atlas';
 };
 const route = routeOf();
@@ -102,6 +107,11 @@ createRoot(rootElement).render(
         <PropositionsPage />
       ) : route === 'moderation' ? (
         <ModerationPage />
+      ) : route === 'chronologie' ? (
+        <ChronologyView onOpen={() => {
+          window.location.hash = '';
+          window.location.reload();
+        }} />
       ) : (
         <AtlasPage />
       )}

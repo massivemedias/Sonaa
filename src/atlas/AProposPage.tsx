@@ -116,6 +116,13 @@ export function AProposPage() {
             contestés portent la mention « filiation débattue ». Le détail est aux{' '}
             <a href="#/credits">crédits</a>.
           </p>
+          <p>
+            <strong>Dates de la chronologie :</strong> les années affichées dans la{' '}
+            <a href="#/chronologie">vue chronologique</a> sont déduites de la track la plus ancienne
+            de chaque genre dans le corpus. Elles ne sont pas des dates de naissance exactes, mais
+            des repères fiables à environ deux ans près. C&apos;est pourquoi elles s&apos;affichent
+            avec la mention « vers ».
+          </p>
         </section>
 
         <section aria-labelledby="apropos-contribuer">
@@ -139,6 +146,7 @@ export function AProposPage() {
         <a href="#/credits">Crédits</a>
         <a href="#/propositions">Propositions</a>
         <a href="#/index">Vue liste</a>
+        <a href="#/chronologie">Chronologie</a>
       </footer>
     </main>
   );

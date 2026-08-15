@@ -701,6 +701,7 @@ export function AtlasPage() {
         <a className="credits-link" href="#/a-propos">À propos</a>
         <a className="credits-link" href="#/credits">Crédits</a>
         <a className="credits-link" href="#/index">Index</a>
+        <a className="credits-link" href="#/chronologie">Chronologie</a>
       </span>
 
       {/* Le HUD « Mesures » est retiré (verdict : on s'en fout). Le système
