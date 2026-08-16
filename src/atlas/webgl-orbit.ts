@@ -3180,9 +3180,10 @@ const OVERLAP_TOLERANCE = 1;
         const coupe = text.lastIndexOf(' ', 16);
         if (coupe > 6) affiche = text.slice(0, coupe) + '\u2026';
       }
-      /* ESSAI PLAQUES : détermination avant calcul de taille. */
+      /* ESSAI PLAQUES : sous-styles uniquement (depth >= 2). */
       const slotFamily = slot >= 0 ? slotsData[slot]?.family : -1;
-      const isPlaque = plaquesActif && kind === 'genre' && slotFamily === breaksIndex;
+      const slotDepth = slot >= 0 ? slotsData[slot]?.depth ?? 0 : 0;
+      const isPlaque = plaquesActif && kind === 'genre' && slotFamily === breaksIndex && slotDepth >= 2;
       const isCentral = isPlaque && zoneActive && slot === focusIndex;
 
       /* Pour les plaques : taille fixe (13px central, 11px dérivés), et padding inclus. */
@@ -4605,8 +4606,8 @@ const OVERLAP_TOLERANCE = 1;
 
       if ((defocus[i] ?? 0) > flouMaxCourant) flouMaxCourant = defocus[i] ?? 0;
 
-      /* ESSAI PLAQUES : masquer les sphères des genres Breaks. */
-      if (plaquesActif && slot.family === breaksIndex) presence = 0;
+      /* ESSAI PLAQUES : masquer les sphères des SOUS-STYLES Breaks (depth >= 2). */
+      if (plaquesActif && slot.family === breaksIndex && slot.depth >= 2) presence = 0;
 
       sphereState[i * 4] = suspended ? presence * 0.35 : presence;
       /* LE HALO MARQUE CE QUI EST SÉLECTIONNÉ, pas ce qui est cadré. Sur un

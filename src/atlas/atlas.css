@@ -166,6 +166,20 @@
   font-size: 11px !important;
 }
 
+/* Plaques : taille réduite sur mobile */
+@media (max-width: 600px) {
+  .atlas-label[data-plaque='1'] {
+    padding: 2px 5px;
+    border-radius: 8px;
+  }
+  .atlas-label[data-plaque='1'][data-central='1'] {
+    font-size: 11px !important;
+  }
+  .atlas-label[data-plaque='1'][data-central='0'] {
+    font-size: 9px !important;
+  }
+}
+
 /* --- Repli --------------------------------------------------------------- */
 
 .atlas-fallback {
