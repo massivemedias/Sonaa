@@ -146,6 +146,26 @@
   letter-spacing: 0.01em;
 }
 
+/* PLAQUES : essai visuel, famille Breakbeat uniquement, ?plaques=1.
+   Rectangle arrondi, fond noir 85%, liseré coloré, texte blanc 600. */
+.atlas-label[data-plaque='1'] {
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid oklch(0.72 0.15 var(--plaque-hue, 284));
+  border-radius: 10px;
+  padding: 3px 6px;
+  text-shadow: none;
+  font-weight: 600;
+  color: #fff;
+}
+
+.atlas-label[data-plaque='1'][data-central='1'] {
+  font-size: 13px !important;
+}
+
+.atlas-label[data-plaque='1'][data-central='0'] {
+  font-size: 11px !important;
+}
+
 /* --- Repli --------------------------------------------------------------- */
 
 .atlas-fallback {

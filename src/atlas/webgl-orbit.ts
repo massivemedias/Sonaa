@@ -137,6 +137,12 @@ const backOut = (t: number): number => {
 export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   const { canvas, labelLayer, onStats, onNavigate, onTracks, onPanel, onContextLost } =
     handles;
+
+  /* ESSAI PLAQUES : ?plaques=1 active le style plaque pour Breakbeat. */
+  const plaquesActif = new URLSearchParams(window.location.search).get('plaques') === '1';
+  const breaksIndex = FAMILIES.findIndex((f) => f.id === 'breaks');
+  const breaksHue = FAMILIES[breaksIndex]?.hue ?? 284;
+
   /* Vrai une fois la caméra et les cibles construites : le resize d'init ne
      peut pas encore mesurer, il repasse une fois le moteur debout. */
   let engineReady = false;
@@ -2986,6 +2992,10 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     ancreR: number;
     /** Génération dans la zone : 0 la racine, 1 ses dérivés, 2 la suivante. */
     generation: number;
+    /** Essai plaques : ce label a le style plaque (Breakbeat, ?plaques=1). */
+    isPlaque: boolean;
+    /** Pour les plaques : 1 si genre central, 0 sinon. */
+    isCentral: boolean;
   }
 
   const candidates: Candidate[] = [];
@@ -3170,8 +3180,16 @@ const OVERLAP_TOLERANCE = 1;
         const coupe = text.lastIndexOf(' ', 16);
         if (coupe > 6) affiche = text.slice(0, coupe) + '\u2026';
       }
-      const px = pxFocus > 0 ? pxFocus : pxCalcule;
-      const w = textWidth(affiche, px, kind);
+      /* ESSAI PLAQUES : détermination avant calcul de taille. */
+      const slotFamily = slot >= 0 ? slotsData[slot]?.family : -1;
+      const isPlaque = plaquesActif && kind === 'genre' && slotFamily === breaksIndex;
+      const isCentral = isPlaque && zoneActive && slot === focusIndex;
+
+      /* Pour les plaques : taille fixe (13px central, 11px dérivés), et padding inclus. */
+      const pxPlaque = isPlaque ? (isCentral ? 13 : 11) : 0;
+      const px = isPlaque ? pxPlaque : (pxFocus > 0 ? pxFocus : pxCalcule);
+      const wTexte = textWidth(affiche, px, kind);
+      const w = isPlaque ? wTexte + 12 : wTexte;
 
       /* Écran étroit : le nom de famille passe DESSOUS la sphère et centré.
          Ce décalage vivait dans le CSS (translate -50% 1.35rem sur
@@ -3182,6 +3200,7 @@ const OVERLAP_TOLERANCE = 1;
          boîte rendue, par construction. Même seuil que le gabarit mobile. */
       let fx = sx;
       let fy = sy;
+
       /* LABELS DE GENRES POSÉS VERS L'EXTÉRIEUR DE LEUR ANNEAU (ADR-056) :
          centrés sur la sphère, les huit noms d'une couronne se battaient au
          centre contre le fondateur et six sur huit tombaient (mesuré). En
@@ -3216,22 +3235,29 @@ const OVERLAP_TOLERANCE = 1;
                ce qui referme le mode focus. Un nom ne bouge plus quand on
                s'en approche. */
             const rPx = ((baseRadii[slot] ?? 1) * halfH) / (Math.tan((FOV * Math.PI) / 360) * Math.max(1, depth));
-            const push = rPx + px * 0.9;
 
-            /* LES NOMS RESTENT A DROITE, MEME SUR PETIT ECRAN.
+            if (isPlaque) {
+              /* PLAQUES : centrées SOUS la sphère, à 4 px du bord. */
+              fx = sx - w / 2;
+              fy = sy + rPx + 4;
+            } else {
+              const push = rPx + px * 0.9;
 
-               Je les avais poses SOUS leur sphere, centres, en pensant qu'un
-               nom pousse vers la droite deborderait d'un ecran de 390 px.
-               Mesure : quatre chevauchements sur Breakbeat, la ou il n'y en
-               avait aucun. Sous la sphere et centres, deux noms voisins se
-               marchent dessus verticalement, et un arbre dense en empile
-               plusieurs sur la meme colonne. A droite, l'ecart angulaire des
-               spheres les separait de lui-meme.
+              /* LES NOMS RESTENT A DROITE, MEME SUR PETIT ECRAN.
 
-               Verdict de Mika : « remets-les a droite, tu avais raison, je me
-               suis trompe. » La regression est annulee. */
-            fx = sx + vx * push - (vx < 0 ? w : 0) - (Math.abs(vx) < 0.35 ? w / 2 : 0);
-            fy = sy + vy * push;
+                 Je les avais poses SOUS leur sphere, centres, en pensant qu'un
+                 nom pousse vers la droite deborderait d'un ecran de 390 px.
+                 Mesure : quatre chevauchements sur Breakbeat, la ou il n'y en
+                 avait aucun. Sous la sphere et centres, deux noms voisins se
+                 marchent dessus verticalement, et un arbre dense en empile
+                 plusieurs sur la meme colonne. A droite, l'ecart angulaire des
+                 spheres les separait de lui-meme.
+
+                 Verdict de Mika : « remets-les a droite, tu avais raison, je me
+                 suis trompe. » La regression est annulee. */
+              fx = sx + vx * push - (vx < 0 ? w : 0) - (Math.abs(vx) < 0.35 ? w / 2 : 0);
+              fy = sy + vy * push;
+            }
           }
         }
       }
@@ -3291,14 +3317,16 @@ const OVERLAP_TOLERANCE = 1;
         opacity: flou ? opacityScale * 0.55 : opacityScale,
         px,
         w,
-        h: px * 1.45,
+        h: isPlaque ? (isCentral ? 13 : 11) * 1.45 + 6 : px * 1.45,
         ancreX: sx,
         ancreY: sy,
         /* Rayon de BASE lui aussi : la recherche de position ne doit pas
            déplacer un nom parce que la souris s'en approche. */
         ancreR: slot >= 0 ? rayonEcranBase(slot) : 0,
         generation: slot >= 0 && zoneActive ? (zoneGeneration[slot] ?? -1) : -1,
-        flou
+        flou,
+        isPlaque,
+        isCentral
       });
     };
 
@@ -3757,6 +3785,12 @@ const OVERLAP_TOLERANCE = 1;
         ls.el.dataset['slot'] = String(entry.slot);
         ls.el.dataset['focus'] =
           activeGenre >= 0 && entry.key === `g-${slotsData[activeGenre]?.label ?? ''}` ? '1' : '0';
+        /* ESSAI PLAQUES : attribut et variable CSS pour la couleur. */
+        ls.el.dataset['plaque'] = entry.isPlaque ? '1' : '0';
+        ls.el.dataset['central'] = entry.isCentral ? '1' : '0';
+        if (entry.isPlaque) {
+          ls.el.style.setProperty('--plaque-hue', String(breaksHue));
+        }
       }
 
       /* LE FLOU DU TEXTE, en CSS. Écrit à chaque image et non au changement
