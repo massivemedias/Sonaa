@@ -146,8 +146,17 @@
   letter-spacing: 0.01em;
 }
 
-/* PLAQUES : essai visuel, famille Breakbeat uniquement, ?plaques=1.
-   Rectangle arrondi, fond noir 85%, liseré coloré, texte blanc 600. */
+/* LES PLAQUES, RENDU NORMAL DES NOMS DE GENRE SUR LES QUATORZE FAMILLES.
+
+   Rectangle arrondi, fond noir a 85 %, lisere a la teinte de la famille, texte
+   blanc. Le lisere est pose a la clarte 0,72 : c'est la valeur qui garde un
+   contraste lisible sur un fond noir POUR LES QUATORZE teintes, y compris les
+   bleus profonds ou une teinte plus sombre disparaitrait.
+
+   LE BORD NE BOUGE PAS AU SURVOL. Le lisere passe de 1 a 2 px, et le
+   remplissage compense d'autant : sans cela la plaque grandit de deux pixels
+   sous le curseur et la ligne de texte se decale, ce qui se voit et ce qui
+   agace. */
 .atlas-label[data-plaque='1'] {
   background: rgba(0, 0, 0, 0.85);
   border: 1px solid oklch(0.72 0.15 var(--plaque-hue, 284));
@@ -155,9 +164,16 @@
   padding: 3px 6px;
   text-shadow: none;
   font-weight: 600;
-  color: #fff;
+  color: oklch(0.94 0.005 250);
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease;
 }
 
+/* LES MEMES NOMBRES QUE LE MOTEUR. Il calcule la boite d'encombrement avec
+   ces tailles ; si le style en applique d'autres, la boite mesuree n'est pas
+   la boite dessinee et l'anti-chevauchement travaille sur une fiction. */
 .atlas-label[data-plaque='1'][data-central='1'] {
   font-size: 13px !important;
 }
@@ -166,10 +182,37 @@
   font-size: 11px !important;
 }
 
-/* Plaques : hover = fond plein couleur du style */
-.atlas-label[data-plaque='1']:hover {
-  background: oklch(0.45 0.15 var(--plaque-hue, 284));
-  border-color: oklch(0.65 0.18 var(--plaque-hue, 284));
+@media (max-width: 499px) {
+  .atlas-label[data-plaque='1'][data-central='1'] {
+    font-size: 10px !important;
+  }
+
+  .atlas-label[data-plaque='1'][data-central='0'] {
+    font-size: 8px !important;
+  }
+
+  .atlas-label[data-plaque='1'] {
+    padding: 2px 4px;
+    border-radius: 8px;
+  }
+}
+
+/* SURVOLER L'UNE ALLUME L'AUTRE.
+
+   `:hover` ne repond qu'au curseur pose sur la plaque elle-meme. Or le moteur
+   pose `data-survol` sur le nom des qu'il vise SA SPHERE, par son test de
+   collision sur le canvas. Les deux selecteurs ensemble font que la paire
+   s'allume quel que soit celui des deux qu'on approche, ce qui est la regle
+   demandee, et il n'y a qu'une declaration de style pour les deux cas.
+
+   Le fond passe de 85 a 95 %, le lisere de 1 a 2 px, le texte au blanc pur. */
+.atlas-label[data-plaque='1']:hover,
+.atlas-label[data-plaque='1'][data-survol='1'] {
+  background: rgba(0, 0, 0, 0.95);
+  border-width: 2px;
+  border-color: oklch(0.82 0.18 var(--plaque-hue, 284));
+  padding: 2px 5px;
+  color: #fff;
   cursor: pointer;
 }
 

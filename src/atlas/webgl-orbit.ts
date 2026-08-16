@@ -138,10 +138,14 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   const { canvas, labelLayer, onStats, onNavigate, onTracks, onPanel, onContextLost } =
     handles;
 
-  /* ESSAI PLAQUES : ?plaques=1 active le style plaque pour Breakbeat. */
-  const plaquesActif = new URLSearchParams(window.location.search).get('plaques') === '1';
   const breaksIndex = FAMILIES.findIndex((f) => f.id === 'breaks');
   const breaksHue = FAMILIES[breaksIndex]?.hue ?? 284;
+
+  /* DIX POUR CENT, ECRIT UNE SEULE FOIS. La sphere grossit de ce facteur au
+     survol, et le bloc qui reconstitue le rayon nu doit diviser par le meme :
+     deux nombres differents pour une seule grandeur, c'est le motif qui a
+     coute la semaine. */
+  const SURVOL_CROISSANCE = 0.1;
 
   /* Vrai une fois la caméra et les cibles construites : le resize d'init ne
      peut pas encore mesurer, il repasse une fois le moteur debout. */
@@ -3182,18 +3186,37 @@ const OVERLAP_TOLERANCE = 1;
         const coupe = text.lastIndexOf(' ', 16);
         if (coupe > 6) affiche = text.slice(0, coupe) + '\u2026';
       }
-      /* ESSAI PLAQUES : tous les enfants du genre focalisé deviennent des plaques. */
-      const slotFamilyId = slot >= 0 ? slotsData[slot]?.familyId : '';
+      /* LES PLAQUES SONT LE RENDU NORMAL DES NOMS DE GENRE, SUR LES QUATORZE
+         FAMILLES. Le drapeau ?plaques=1 et la condition sur la famille breaks
+         etaient un essai ; l'essai est concluant, donc il cesse d'etre un
+         essai. Il ne reste que trois conditions, et elles disent exactement ce
+         qu'une plaque est : un nom DE GENRE, DANS la zone active, ENFANT du
+         genre focalise. Un drapeau qu'on oublie d'activer est une
+         fonctionnalite qui n'existe pas. */
       const slotInZone = slot >= 0 && zone[slot] === 1;
       const isChildOfFocus = slotInZone && slot !== focusIndex;
-      const isPlaque = plaquesActif && kind === 'genre' && slotFamilyId === 'breaks' && isChildOfFocus;
+      const isPlaque = kind === 'genre' && isChildOfFocus;
       const isCentral = isPlaque && zoneActive && slot === focusIndex;
 
-      /* Pour les plaques : taille fixe (13px central, 11px dérivés), et padding inclus. */
-      const pxPlaque = isPlaque ? (isCentral ? 13 : 11) : 0;
+      /* LA PLAQUE SUIT L'ECRAN, comme tout le reste.
+
+         Sa taille etait fixe, 13 et 11 px, heritee de l'essai qui ne visait
+         qu'une famille sur un ecran de bureau. Sur 390 px de large, la lignee
+         la plus dense du corpus, les vingt-deux derives de Breakbeat, donnait
+         quatre chevauchements : Big Beat sur Ghetto Funk, Nu Skool Breaks sur
+         Progressive Breaks, Jungle sur Drumstep, Neurofunk sur Darkstep.
+
+         Les valeurs de bureau sont bonnes, ce sont celles du telephone qui
+         etaient fausses, et c'est le meme constat que pour les spheres et les
+         textes deux chantiers plus tot : une valeur absolue posee sur un seul
+         ecran ne survit pas au deuxieme. */
+      const etroitPlaque = width < 500;
+      const pxPlaque = isPlaque ? (isCentral ? (etroitPlaque ? 10 : 13) : (etroitPlaque ? 8 : 11)) : 0;
       const px = isPlaque ? pxPlaque : (pxFocus > 0 ? pxFocus : pxCalcule);
       const wTexte = textWidth(affiche, px, kind);
-      const w = isPlaque ? wTexte + 12 : wTexte;
+      /* Le remplissage retrecit avec le texte : garder douze pixels autour
+         d'un texte de huit rendrait la plaque plus large que son nom. */
+      const w = isPlaque ? wTexte + (etroitPlaque ? 8 : 12) : wTexte;
 
       /* Écran étroit : le nom de famille passe DESSOUS la sphère et centré.
          Ce décalage vivait dans le CSS (translate -50% 1.35rem sur
@@ -3630,9 +3653,27 @@ const OVERLAP_TOLERANCE = 1;
         : PALIERS.map((_, i) => i);
       for (const pi of paliersIdx) {
         const facteur = PALIERS[pi] ?? 1;
-        const px = Math.max(12, pxVoulu * facteur);
-        const w = textWidth(c.text, px, c.kind);
-        const h = px * 1.45;
+        /* LE PLANCHER SUIT L'ECRAN, ET LA BOITE COMPTE LE REMPLISSAGE.
+
+           Deux ecarts entre ce que ce solveur calcule et ce qui est dessine,
+           et il ne pouvait donc pas resoudre le probleme qu'on lui posait.
+
+           Le plancher valait douze pixels en dur, alors qu'une plaque est
+           dessinee a huit sur un ecran etroit : le solveur refusait de
+           descendre sous une taille que le rendu, lui, employait deja.
+
+           Et la largeur ignorait le remplissage de la plaque, six pixels de
+           chaque cote : chaque boite etait donc annoncee plus etroite qu'elle,
+           et deux plaques declarees disjointes se touchaient a l'ecran.
+
+           C'est le motif des grandeurs ecrites deux fois, sous sa forme la plus
+           couteuse : non pas deux valeurs qui divergent, mais un calcul et un
+           rendu qui ne parlent pas du meme objet. */
+        const plancherTexte = width < 500 ? 8 : 12;
+        const px = Math.max(plancherTexte, pxVoulu * facteur);
+        const remplissage = c.isPlaque ? (width < 500 ? 8 : 12) : 0;
+        const w = textWidth(c.text, px, c.kind) + remplissage;
+        const h = px * 1.45 + (c.isPlaque ? 6 : 0);
         const ordreDirs = memoire && pi === memoire.palier
           ? [memoire.dir, ...directions.map((_, i) => i).filter((i) => i !== memoire.dir)]
           : directions.map((_, i) => i);
@@ -3789,11 +3830,15 @@ const OVERLAP_TOLERANCE = 1;
         ls.el.dataset['slot'] = String(entry.slot);
         ls.el.dataset['focus'] =
           activeGenre >= 0 && entry.key === `g-${slotsData[activeGenre]?.label ?? ''}` ? '1' : '0';
-        /* ESSAI PLAQUES : attribut et variable CSS pour la couleur. */
+        /* LA TEINTE EST CELLE DE LA FAMILLE DU GENRE, et non plus celle de
+           breaks en dur : les plaques valent maintenant pour les quatorze. Le
+           lisere doit donc contraster sur quatorze couleurs, pas sur une. */
         ls.el.dataset['plaque'] = entry.isPlaque ? '1' : '0';
         ls.el.dataset['central'] = entry.isCentral ? '1' : '0';
         if (entry.isPlaque) {
-          ls.el.style.setProperty('--plaque-hue', String(breaksHue));
+          const fam = entry.slot >= 0 ? slotsData[entry.slot]?.family : undefined;
+          const hue = fam !== undefined ? (FAMILIES[fam]?.hue ?? breaksHue) : breaksHue;
+          ls.el.style.setProperty('--plaque-hue', String(hue));
         }
       }
 
@@ -4579,7 +4624,7 @@ const OVERLAP_TOLERANCE = 1;
            puisque son nom est dans le fil d'Ariane. */
         const facteurEtroit = width < 500 ? (i === focusIndex ? 0.8 : 1) : 1;
         sphereRadii[i] =
-          (baseRadii[i] ?? 1) * breath * facteurEtroit * (1 + 0.1 * (hoverAmount[i] ?? 0));
+          (baseRadii[i] ?? 1) * breath * facteurEtroit * (1 + SURVOL_CROISSANCE * (hoverAmount[i] ?? 0));
       }
 
       /* GARDE INCONDITIONNELLE : UNE SPHERE DANS SON PARENT N'EST PAS PEINTE.
@@ -4609,10 +4654,13 @@ const OVERLAP_TOLERANCE = 1;
 
       if ((defocus[i] ?? 0) > flouMaxCourant) flouMaxCourant = defocus[i] ?? 0;
 
-      /* ESSAI PLAQUES : masquer les sphères des enfants du genre focalisé (Breaks).
-         Ils sont remplacés par des plaques. */
-      const isChildInZone = zone[i] === 1 && i !== focusIndex;
-      if (plaquesActif && slot.familyId === 'breaks' && isChildInZone) presence = 0;
+      /* LA SPHERE RESTE, ET LA PLAQUE VIENT DESSOUS.
+
+         L'essai les effacait, `presence = 0`, en considerant que la plaque les
+         remplacait. Elle ne les remplace pas : la sphere porte la COULEUR de
+         famille et la TAILLE, c'est-a-dire l'information principale, et la
+         plaque ne porte qu'un nom. Effacer la sphere, c'est garder l'etiquette
+         et jeter ce qu'elle etiquette. */
 
       sphereState[i * 4] = suspended ? presence * 0.35 : presence;
       /* LE HALO MARQUE CE QUI EST SÉLECTIONNÉ, pas ce qui est cadré. Sur un
@@ -4680,7 +4728,12 @@ const OVERLAP_TOLERANCE = 1;
            et c'est la derniere qui gagne. On borne donc le rayon NU, puis on
            reapplique le facteur de survol par-dessus. L'ordre est desormais
            explicite au lieu d'etre subi. */
-        const facteurSurvol = 1 + 0.2 * (hoverAmount[i] ?? 0);
+        /* LE MEME NOMBRE QUE LA CROISSANCE, et il ne l'etait pas : la
+           croissance vaut 1 + 0,1 et ce bloc divisait par 1 + 0,2. Le rayon nu
+           reconstitue etait donc faux des qu'une sphere etait survolee, et le
+           bornage s'appliquait a une valeur qui n'existait pas. Motif des
+           grandeurs ecrites deux fois, trouve en relisant pour autre chose. */
+        const facteurSurvol = 1 + SURVOL_CROISSANCE * (hoverAmount[i] ?? 0);
         const rPx = rayonEcran(i) / facteurSurvol;
         if (rPx <= 0.01) continue;
         const voulu = clamp(rPx, PLANCHER_PX, PLAFOND_PX);
