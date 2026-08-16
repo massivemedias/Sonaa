@@ -4749,6 +4749,8 @@ const OVERLAP_TOLERANCE = 1;
         const rPx = rayonEcran(i) / facteurSurvol;
         if (rPx <= 0.01) continue;
         const voulu = clamp(rPx, PLANCHER_PX, PLAFOND_PX);
+        /* ORDRE EXPLICITE : cette ecriture s'applique APRES celle de la boucle
+           des rayons, et c'est elle qui gagne. */
         sphereRadii[i] = (sphereRadii[i] ?? 1) * ((voulu * facteurSurvol) / (rPx * facteurSurvol));
       }
       sphereRadiusAttr.needsUpdate = true;
