@@ -3180,11 +3180,11 @@ const OVERLAP_TOLERANCE = 1;
         const coupe = text.lastIndexOf(' ', 16);
         if (coupe > 6) affiche = text.slice(0, coupe) + '\u2026';
       }
-      /* ESSAI PLAQUES : sous-styles (depth >= 2) visibles seulement quand on
-         est entré dans un genre (zoneActive). À l'accueil, ils sont cachés. */
+      /* ESSAI PLAQUES : sous-styles (depth >= 2) en plaque quand dans la zone active. */
       const slotFamily = slot >= 0 ? slotsData[slot]?.family : -1;
       const slotDepth = slot >= 0 ? slotsData[slot]?.depth ?? 0 : 0;
-      const isPlaque = plaquesActif && kind === 'genre' && slotFamily === breaksIndex && slotDepth >= 2 && zoneActive;
+      const slotInZone = slot >= 0 && zone[slot] === 1;
+      const isPlaque = plaquesActif && kind === 'genre' && slotFamily === breaksIndex && slotDepth >= 2 && slotInZone;
       const isCentral = isPlaque && zoneActive && slot === focusIndex;
 
       /* Pour les plaques : taille fixe (13px central, 11px dérivés), et padding inclus. */
@@ -4607,7 +4607,8 @@ const OVERLAP_TOLERANCE = 1;
 
       if ((defocus[i] ?? 0) > flouMaxCourant) flouMaxCourant = defocus[i] ?? 0;
 
-      /* ESSAI PLAQUES : masquer les sphères des SOUS-STYLES Breaks (depth >= 2). */
+      /* ESSAI PLAQUES : masquer les sphères des SOUS-STYLES Breaks (depth >= 2).
+         À l'accueil ils sont invisibles ; en zone ils sont remplacés par des plaques. */
       if (plaquesActif && slot.family === breaksIndex && slot.depth >= 2) presence = 0;
 
       sphereState[i * 4] = suspended ? presence * 0.35 : presence;
