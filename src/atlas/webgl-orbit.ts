@@ -4605,6 +4605,9 @@ const OVERLAP_TOLERANCE = 1;
 
       if ((defocus[i] ?? 0) > flouMaxCourant) flouMaxCourant = defocus[i] ?? 0;
 
+      /* ESSAI PLAQUES : masquer les sphères des genres Breaks. */
+      if (plaquesActif && slot.family === breaksIndex) presence = 0;
+
       sphereState[i * 4] = suspended ? presence * 0.35 : presence;
       /* LE HALO MARQUE CE QUI EST SÉLECTIONNÉ, pas ce qui est cadré. Sur un
          genre sans dérivés la caméra ne bouge plus et le centre de la zone
