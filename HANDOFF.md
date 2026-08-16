@@ -519,6 +519,49 @@ supabase/migrations/   dix migrations appliquées : propositions, votes,
                               puis publication sur GitHub Pages
 ```
 
+## Réflexe d'ouverture de session : chercher le travail hors de la branche
+
+**Avant tout travail, deux lignes :**
+
+```bash
+git log --oneline --all --not main
+git fsck --lost-found 2>/dev/null | grep "dangling commit"
+```
+
+La première montre le travail qui vit sur une autre référence, la seconde celui
+qui ne vit sur aucune. **Signaler ce qu'elles rendent avant de commencer.**
+
+**Pourquoi.** Onze commits, dont une fonctionnalité entière et deux jours de
+travail, ont existé au-dessus de `main` sans y être rattachés, faits dans une
+session parallèle. Pendant ce temps j'ai répondu « rien en attente » en toute
+bonne foi, parce que je ne regardais que `main`, et Mika a testé en ligne un
+code qui ne contenait pas le travail dont nous parlions. La conversation a
+porté sur un écart qui n'existait que là.
+
+C'est la faille de la règle précédente : elle vérifie ce qui n'est pas PUBLIÉ,
+pas ce qui n'est pas RATTACHÉ. Deux sessions sur le même dépôt peuvent chacune
+se croire à jour.
+
+**Le réflexe a payé à son premier emploi**, en trouvant un commit qui refaisait
+un travail déjà livré. Le coût de la vérification est deux commandes ; le coût
+de son absence a été plusieurs heures d'essais sur du code inexistant.
+
+## Règle permanente : relancer les contrôles après CHAQUE correction
+
+Un contrôle a bloqué une publication, à juste titre. J'ai corrigé, republié, et
+**il échouait encore** : ma correction ne portait pas au bon endroit, et je ne
+l'avais pas su parce que je ne l'avais pas relancé.
+
+**Un contrôle qu'on ne relance pas ne sert qu'une fois.** Il devient un
+détecteur à usage unique, et sa deuxième valeur, confirmer que le remède a agi,
+est précisément celle qu'on perd. Corriger sans revérifier, c'est faire
+confiance à sa propre lecture, et c'est exactement ce que le contrôle existe
+pour ne pas avoir à faire.
+
+La séquence est donc : **contrôle rouge, correction, contrôle relancé, et
+seulement ensuite publication.** Sans exception, y compris pour une correction
+d'une ligne, surtout pour une correction d'une ligne.
+
 ## Règle permanente : dire en tête de rapport ce qui n'est pas publié
 
 **Tout rapport commence par l'état de publication.** S'il existe des commits

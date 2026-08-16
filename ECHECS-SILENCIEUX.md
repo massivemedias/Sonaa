@@ -610,3 +610,43 @@ NOMBRE. Le nombre est une somme, et une somme perd l'information qui permet de
 savoir d'où vient sa variation. Cinq passages qui rendent « 9, 9, 8, 9, 9 » ne
 disent rien ; les mêmes cinq passages détaillés par test désignent le coupable
 en une lecture.
+
+## 14. Un contrôle qu'on ne relance pas ne sert qu'une fois
+
+**Le motif.** Un contrôle bloque la publication. On corrige. On republie. Le
+contrôle échouait encore, parce que la correction ne portait pas au bon
+endroit, et on ne l'a pas su faute de l'avoir relancé.
+
+C'est arrivé sur `check:ecritures` : la déclaration d'ordre avait bien été
+réécrite, mais hors de la fenêtre de quatorze lignes que le contrôle lit. La
+correction était juste dans l'intention et fausse dans le placement, ce qu'une
+relance disait en deux secondes.
+
+**Ce qu'on perd.** Un contrôle a deux valeurs : détecter, et confirmer que le
+remède a agi. Sans relance, la seconde disparaît, et c'est précisément celle
+dont on a besoin au moment où l'on est le plus pressé.
+
+**La règle.** Contrôle rouge, correction, **contrôle relancé**, publication.
+Sans exception, y compris pour une correction d'une ligne, surtout pour une
+correction d'une ligne : c'est là qu'on se croit assez sûr pour sauter l'étape.
+
+## 15. Le travail peut exister sans être rattaché à quoi que ce soit
+
+**Le motif.** On vérifie ce qui n'est pas PUBLIÉ. On ne vérifie pas ce qui
+n'est pas RATTACHÉ. Onze commits, dont une fonctionnalité entière, ont vécu
+au-dessus de `main` sans appartenir à aucune branche, faits dans une session
+parallèle sur le même dépôt.
+
+Pendant ce temps, « rien en attente » était vrai de `main` et faux du dépôt.
+Les essais portaient sur un code qui ne contenait pas le travail dont il était
+question, et la conversation a tourné autour d'un écart qui n'existait que là.
+
+**Le réflexe, deux lignes en ouverture de session :**
+
+```bash
+git log --oneline --all --not main
+git fsck --lost-found 2>/dev/null | grep "dangling commit"
+```
+
+**Il a payé à son premier emploi**, en trouvant un commit qui refaisait un
+travail déjà livré et vérifié.

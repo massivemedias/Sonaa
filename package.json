@@ -34,7 +34,8 @@
     "check:cadrage": "tsx scripts/check-cadrage.ts",
     "banc:clics": "node scripts/banc-clics.mjs",
     "check:constantes": "tsx scripts/check-constantes.ts",
-    "check:deps": "tsx scripts/check-deps.ts"
+    "check:deps": "tsx scripts/check-deps.ts",
+    "check:orphelins": "git log --oneline --all --not main && git fsck --lost-found 2>/dev/null | grep 'dangling commit' || echo 'Orphelins : rien hors de main.'"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^7.3.1",
