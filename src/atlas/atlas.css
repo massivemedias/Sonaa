@@ -1175,3 +1175,4 @@
     top: calc(var(--mn-bande-h) + 14px + env(safe-area-inset-top, 0px));
   }
 }
+
