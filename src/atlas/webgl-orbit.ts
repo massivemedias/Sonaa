@@ -717,6 +717,19 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   let flyStart = -1e9;
   let flying = false;
   const FLY_MS = 850;
+  /* LE RETOUR A L'ACCUEIL EST UN DEZOOM COURT, pas un saut. Quatre cents
+     millisecondes : assez pour que l'oeil suive le mouvement et comprenne
+     qu'il RECULE, trop peu pour qu'on attende. */
+  const RETOUR_MS = 400;
+  let flyMs = FLY_MS;
+  /* Le vol ordinaire ne touche pas aux angles ; le retour a l'accueil, si,
+     puisque le cadrage d'accueil a une orientation precise et qu'y revenir
+     apres avoir orbite doit rendre LE MEME ECRAN. */
+  let flyAngles = false;
+  let flyFromAz = 0;
+  let flyToAz = 0;
+  let flyFromEl = 0;
+  let flyToEl = 0;
 
   // Sortie douce cubique : part vite, se pose lentement, aucun rebond.
   const easeInOut = (t: number): number => 1 - Math.pow(1 - t, 3);
@@ -735,9 +748,26 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     return clamp(Math.max(byHeight, byWidth), MIN_DISTANCE, MAX_DISTANCE);
   };
 
-  const startFly = (to: Vector3, dist: number, now: number): void => {
+  const startFly = (
+    to: Vector3,
+    dist: number,
+    now: number,
+    options?: { ms?: number; az?: number; el?: number }
+  ): void => {
     cameraAtDefault = false;
+    flyMs = options?.ms ?? FLY_MS;
+    flyAngles = options?.az !== undefined && options?.el !== undefined;
+    if (flyAngles) {
+      flyFromAz = azimuth;
+      flyToAz = options?.az ?? azimuth;
+      flyFromEl = elevation;
+      flyToEl = options?.el ?? elevation;
+    }
     if (reducedMotion) {
+      if (flyAngles) {
+        azimuth = flyToAz;
+        elevation = flyToEl;
+      }
       targetSmooth.copy(to);
       target.copy(to);
       distance = dist;
@@ -2278,79 +2308,24 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     selectGenre(target, now);
   };
 
+  /* REMONTER, C'EST REVENIR A LA VUE D'ENSEMBLE. UN SEUL COMPORTEMENT.
+
+     Ce qui existait : un escalier. Echap remontait d'un cran DANS l'arbre, la
+     selection passant au parent sans que la camera bouge, puis d'un cran
+     encore, et seulement au bout sortait du genre. Chaque cran laissait donc
+     la camera zoomee sur une sphere, et l'on se retrouvait « quelque part »
+     sans vue d'ensemble, en devant appuyer plusieurs fois pour savoir ou.
+
+     Ce que Mika demande, et c'est plus simple : revenir, c'est revenir a
+     l'accueil. Les quatre chemins, la fleche, Echap, le logo et le bouton du
+     navigateur, rendent le MEME ecran que le premier chargement du site,
+     angles compris, apres un dezoom de quatre cents millisecondes.
+
+     CE QUE CELA SUPPRIME, et il faut le dire : le pas a pas dans l'arbre. On
+     ne remonte plus de genre en genre, on sort. C'est le prix du choix, et
+     c'est un choix, pas un oubli. */
   const goUp = (): void => {
-    const now = performance.now();
-
-    /* PREMIER CAS : UN NOEUD DE L'ARBRE EST SÉLECTIONNÉ, plus profond que la
-       racine. Échap remonte d'un cran DANS L'ARBRE : la sélection passe au
-       parent, et rien d'autre ne bouge. Ni la disposition, ni la caméra, ni
-       la zone : tout l'arbre est affiché, remonter n'est qu'un déplacement de
-       la sélection. */
-    if (level === 'genre' && zoneActive && activeGenre >= 0 && activeGenre !== focusIndex) {
-      const as = slotsData[activeGenre];
-      const parent = as && as.parent >= 0 ? (familyOffset[as.family] ?? 0) + as.parent : focusIndex;
-      activeGenre = zone[parent] === 1 ? parent : focusIndex;
-      const ns = slotsData[activeGenre];
-      if (ns) {
-        genrePath = pathToGenre(ns.family, ns.local).map((l) => (familyOffset[ns.family] ?? 0) + l);
-        emitNav();
-        openPanel(ns.family, ns.local);
-      }
-      return;
-    }
-
-    /* DEUXIÈME CAS : la RACINE de l'arbre est sélectionnée. Il n'y a plus rien
-       à remonter dedans, on quitte l'arbre et on remonte d'un niveau. */
-
-    if (level === 'genre') {
-      /* On remonte d'un cran dans le chemin, pas directement à la famille :
-         Atlas > Bass > UK Garage > 2-step doit revenir sur UK Garage. */
-      genrePath = genrePath.slice(0, -1);
-      const parent = genrePath[genrePath.length - 1];
-      focusDir = -1;
-      focusStart = now;
-
-      if (parent !== undefined) {
-        activeGenre = parent;
-        focusIndex = parent;
-            focusDir = 1;
-        /* Remonter au parent, c'est y ENTRER : sa couronne est refaite et la
-           zone se referme sur lui. Sans cela on remontait dans un mode focus
-           dont la zone désignait encore l'enfant qu'on venait de quitter. */
-        buildFocusRing(parent);
-        rebuildZone();
-        const slot = slotsData[parent];
-        if (slot) startFly(cibleDuFocus(parent), distanceDuFocus(parent), now);
-        emitNav();
-        /* Le panneau suit la carte : remonter d'un cran change le genre
-           courant, donc le contenu de la colonne. */
-        if (slot) openPanel(slot.family, slot.local);
-        return;
-      }
-
-      activeGenre = -1;
-      focusIndex = -1;
-        level = 'family';
-      rebuildZone();
-      focusOffsets.clear();
-      const c = activeFamily >= 0 ? familyCenters[activeFamily] : undefined;
-      const dc = STRUCTURES[activeFamily]?.deployedCenter ?? [0, 0, 0];
-      if (c) startFly(new Vector3(c.x + dc[0], c.y + dc[1], c.z + dc[2]), frameDistance(familyFrameRadius(activeFamily)), now);
-    } else if (level === 'family') {
-      if (activeFamily >= 0) setDeploy(activeFamily, false, now);
-      activeFamily = -1;
-      activeGenre = -1;
-      genrePath = [];
-      focusIndex = -1;
-      focusDir = -1;
-      focusStart = now;
-      level = 'atlas';
-      rebuildZone();
-      focusOffsets.clear();
-      startFly(atlasTarget, atlasDistance, now);
-      cameraAtDefault = true;
-    }
-    emitNav();
+    recenter();
   };
 
   /* SORTIR DU MODE, d'un coup : second Échap, ou clic dans le flou.
@@ -2871,15 +2846,24 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
        la carte vue sous un autre angle qu'au premier chargement. Ce n'était
        pas le même écran, et c'est ce que « revenir à la vue d'ensemble »
        promet. */
-    azimuth = DEFAULT_AZIMUTH;
-    elevation = DEFAULT_ELEVATION;
     tapZoomPrev = null;
     pinchDist = 0;
     closePanel();
+    /* LE DEZOOM EST ANIME, ET C'EST TOUT CE QUI CHANGE ICI.
+
+       L'etat de navigation est remis IMMEDIATEMENT, plus bas : c'est le
+       contenu, il ne s'anime pas. Seule la CAMERA voyage, en quatre cents
+       millisecondes, angles compris, jusqu'au cadrage d'accueil exact.
+
+       Avant, `applyCamera()` posait la camera d'un coup : on se retrouvait a
+       la vue d'ensemble sans avoir vu qu'on reculait, ce qui ressemble a un
+       changement de page plutot qu'a un retour. */
     target.copy(atlasTarget);
-    targetSmooth.copy(atlasTarget);
-    distance = atlasDistance;
-    applyCamera();
+    startFly(atlasTarget, atlasDistance, performance.now(), {
+      ms: RETOUR_MS,
+      az: DEFAULT_AZIMUTH,
+      el: DEFAULT_ELEVATION
+    });
     azVel = 0;
     elVel = 0;
     dollyVel = 0;
@@ -2893,6 +2877,10 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     level = 'atlas';
     rebuildZone();
     focusOffsets.clear();
+    /* APRES le vol, sinon startFly l'a remis a faux : c'est le cadrage
+       d'accueil qui est vise, donc la camera y sera par defaut. Ordre
+       declare, il s'applique APRES startFly. */
+    cameraAtDefault = true;
     emitNav();
   };
 
@@ -3194,8 +3182,22 @@ const OVERLAP_TOLERANCE = 1;
          genre focalise. Un drapeau qu'on oublie d'activer est une
          fonctionnalite qui n'existe pas. */
       const slotInZone = slot >= 0 && zone[slot] === 1;
-      const isChildOfFocus = slotInZone && slot !== focusIndex;
-      const isPlaque = kind === 'genre' && isChildOfFocus;
+      /* DANS LA ZONE ACTIVE, AUCUN LABEL NU NE SUBSISTE.
+
+         La condition excluait le genre focalise lui-meme, qui gardait donc un
+         label nu au milieu des plaques de ses derives : deux traitements
+         graphiques pour une meme famille d'objets, sur le meme ecran, sans
+         qu'aucune regle ne dise pourquoi. Le nu ne signifiait rien, il
+         restait juste la.
+
+         La zone est desormais homogene : ce qui y est nomme porte une plaque,
+         le genre ouvert compris, et ce qui est hors zone reste floute et sans
+         plaque comme avant. La distinction graphique porte donc exactement la
+         distinction de sens, dedans ou dehors, au lieu d'en porter une
+         troisieme qui n'existait pas. */
+      const isPlaque = kind === 'genre' && slotInZone;
+      /* Le genre ouvert garde sa plaque plus grande : la hierarchie passe par
+         la TAILLE et non plus par la presence ou l'absence de plaque. */
       const isCentral = isPlaque && zoneActive && slot === focusIndex;
 
       /* LA PLAQUE SUIT L'ECRAN, comme tout le reste.
@@ -4178,7 +4180,11 @@ const OVERLAP_TOLERANCE = 1;
        l'intervalle : sinon, sur une machine lente ou un onglet en arrière-plan,
        la caméra n'atteint jamais sa destination. */
     if (flying) {
-      const k = easeInOut(clamp((now - flyStart) / FLY_MS, 0, 1));
+      const k = easeInOut(clamp((now - flyStart) / flyMs, 0, 1));
+      if (flyAngles) {
+        azimuth = flyFromAz + (flyToAz - flyFromAz) * k;
+        elevation = flyFromEl + (flyToEl - flyFromEl) * k;
+      }
       targetSmooth.lerpVectors(flyFrom, flyTo, k);
       distance = flyFromDist + (flyToDist - flyFromDist) * k;
       target.copy(targetSmooth);

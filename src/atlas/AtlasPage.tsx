@@ -180,6 +180,47 @@ export function AtlasPage() {
   // Le HUD est retiré : les statistiques du moteur n'ont plus de lecteur.
   const onStats = useCallback((_next: AtlasStats) => {}, []);
   const onNavigate = useCallback((next: NavState) => setNav(next), []);
+
+  /* LE BOUTON RETOUR DU NAVIGATEUR, SUR ORDINATEUR AUSSI.
+
+     MESURE FAITE, ET C'EST ELLE QUI A REVELE LE MANQUE : les trois autres
+     retours rendaient exactement le cadrage d'accueil, le quatrieme faisait
+     QUITTER LE SITE. La raison n'est pas dans le retour, elle est dans
+     l'aller : ouvrir un genre n'empilait aucune entree d'historique. Il n'y
+     avait donc rien a depiler, et le bouton remontait a la page precedente du
+     navigateur, c'est-a-dire ailleurs.
+
+     La navigation par niveaux du telephone empile deja les siennes ; ce bloc
+     fait la meme chose au-dessus du seuil, et lui laisse la main en dessous
+     pour qu'une entree ne soit pas empilee deux fois.
+
+     Une entree par ENTREE dans un genre, pas une par changement d'etat : sans
+     cela, ouvrir un genre a trois niveaux de profondeur demanderait trois
+     appuis pour ressortir, et le retour cesserait d'etre un retour. */
+  const empileeDesktop = useRef(false);
+  useEffect(() => {
+    if (window.matchMedia('(max-width: 768px)').matches) return;
+    const dansUnGenre = nav?.level === 'genre';
+    if (dansUnGenre && !empileeDesktop.current) {
+      empileeDesktop.current = true;
+      window.history.pushState({ sonaaGenre: true }, '');
+    } else if (!dansUnGenre) {
+      empileeDesktop.current = false;
+    }
+  }, [nav?.level]);
+
+  useEffect(() => {
+    const auRetour = (): void => {
+      if (window.matchMedia('(max-width: 768px)').matches) return;
+      if (!empileeDesktop.current) return;
+      empileeDesktop.current = false;
+      /* LE MEME CHEMIN QUE LES TROIS AUTRES : `recenter` EST le cadrage
+         d'accueil, et il est anime. */
+      apiRef.current?.recenter();
+    };
+    window.addEventListener('popstate', auRetour);
+    return () => window.removeEventListener('popstate', auRetour);
+  }, []);
   const onTracks = useCallback(
     (familyIndex: number, genreLocal: number) => setPanelGenre({ familyIndex, genreLocal }),
     []
@@ -314,7 +355,14 @@ export function AtlasPage() {
      feuille passe en barre discrète au lieu de se fermer ; c'est le
      PlayerLayer qui tranche, via l'événement sonaa:home. */
   const backToAtlas = useCallback(() => {
-    apiRef.current?.goToFamily(-1);
+    /* LE LOGO PASSE PAR LE MEME CHEMIN QUE LES TROIS AUTRES RETOURS.
+
+       Il appelait goToFamily(-1), qui replie les familles mais ne remet ni
+       l'orientation ni la distance : on revenait a l'atlas vu sous l'angle ou
+       l'on se trouvait, ce qui n'est pas le meme ecran que le premier
+       chargement. `recenter` EST le cadrage d'accueil, et il est desormais
+       anime. Un seul chemin, un seul resultat. */
+    apiRef.current?.recenter();
     window.dispatchEvent(new CustomEvent('sonaa:home'));
   }, []);
 
