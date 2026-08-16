@@ -4728,7 +4728,19 @@ const OVERLAP_TOLERANCE = 1;
            et c'est la derniere qui gagne. On borne donc le rayon NU, puis on
            reapplique le facteur de survol par-dessus. L'ordre est desormais
            explicite au lieu d'etre subi. */
-        /* LE MEME NOMBRE QUE LA CROISSANCE, et il ne l'etait pas : la
+        /* CE BLOC S'APPLIQUE APRES la boucle qui calcule les rayons, survol
+           compris, et il REECRIT sphereRadii. L'ordre est declare parce qu'il
+           compte : c'est lui qui gagne, et il doit donc retirer le survol,
+           borner le rayon nu, puis le reappliquer. Inverse, le bornage
+           ecraserait l'agrandissement de survol, ce qui est deja arrive.
+
+           J'avais efface cette declaration en reecrivant le commentaire pour
+           parler d'autre chose, et le controle des ecritures concurrentes a
+           fait echouer la publication. C'est exactement son emploi : la regle
+           ne tient pas parce qu'on l'a comprise, elle tient parce qu'une
+           machine refuse de publier sans elle.
+
+           LE MEME NOMBRE QUE LA CROISSANCE, et il ne l'etait pas : la
            croissance vaut 1 + 0,1 et ce bloc divisait par 1 + 0,2. Le rayon nu
            reconstitue etait donc faux des qu'une sphere etait survolee, et le
            bornage s'appliquait a une valeur qui n'existait pas. Motif des
