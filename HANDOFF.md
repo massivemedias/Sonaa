@@ -586,6 +586,24 @@ C'est le motif des mesures appliqué à la conversation : un chiffre pris sur un
 autre code ne se compare pas, et une observation prise sur une autre version
 non plus.
 
+## Abandonné volontairement : une seconde implémentation des plaques
+
+`51403c5` « Généralise les plaques à toutes les familles », session parallèle,
+16 août 2026. Il faisait le même travail que celui qui est en production, dans
+une autre implémentation, et il n'a jamais été vérifié en fonctionnement.
+
+**Abandonné sur décision de Mika**, et sa branche
+`claude/check-app-status-01H3QrBXLzaoFc4cruoVJ4mX` supprimée pour qu'il ne
+resurgisse pas. La raison vaut d'être gardée : deux implémentations du même
+comportement finissent toujours par diverger, et l'on ne sait plus laquelle
+décrit ce que fait le produit. Une seule, vérifiée, vaut mieux que deux dont la
+meilleure est inconnue.
+
+Le hachage est écrit ici plutôt que perdu : tant que le ramasse-miettes de git
+n'est pas passé, `git show 51403c5` le rend encore lisible. Ce n'est pas une
+invitation à y revenir, c'est le minimum pour qu'un abandon reste un choix et
+non un effacement.
+
 ## Dette assumée, session fiabilité close
 
 Deux points ont été laissés délibérément, et l'on n'y revient pas.
