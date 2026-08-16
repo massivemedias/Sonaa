@@ -3182,11 +3182,11 @@ const OVERLAP_TOLERANCE = 1;
         const coupe = text.lastIndexOf(' ', 16);
         if (coupe > 6) affiche = text.slice(0, coupe) + '\u2026';
       }
-      /* ESSAI PLAQUES : sous-styles (depth >= 2) en plaque quand dans la zone active. */
+      /* ESSAI PLAQUES : tous les enfants du genre focalisé deviennent des plaques. */
       const slotFamilyId = slot >= 0 ? slotsData[slot]?.familyId : '';
-      const slotDepth = slot >= 0 ? slotsData[slot]?.depth ?? 0 : 0;
       const slotInZone = slot >= 0 && zone[slot] === 1;
-      const isPlaque = plaquesActif && kind === 'genre' && slotFamilyId === 'breaks' && slotDepth >= 2 && slotInZone;
+      const isChildOfFocus = slotInZone && slot !== focusIndex;
+      const isPlaque = plaquesActif && kind === 'genre' && slotFamilyId === 'breaks' && isChildOfFocus;
       const isCentral = isPlaque && zoneActive && slot === focusIndex;
 
       /* Pour les plaques : taille fixe (13px central, 11px dérivés), et padding inclus. */
@@ -4609,9 +4609,10 @@ const OVERLAP_TOLERANCE = 1;
 
       if ((defocus[i] ?? 0) > flouMaxCourant) flouMaxCourant = defocus[i] ?? 0;
 
-      /* ESSAI PLAQUES : masquer les sphères des SOUS-STYLES Breaks (depth >= 2).
-         À l'accueil ils sont invisibles ; en zone ils sont remplacés par des plaques. */
-      if (plaquesActif && slot.familyId === 'breaks' && slot.depth >= 2) presence = 0;
+      /* ESSAI PLAQUES : masquer les sphères des enfants du genre focalisé (Breaks).
+         Ils sont remplacés par des plaques. */
+      const isChildInZone = zone[i] === 1 && i !== focusIndex;
+      if (plaquesActif && slot.familyId === 'breaks' && isChildInZone) presence = 0;
 
       sphereState[i * 4] = suspended ? presence * 0.35 : presence;
       /* LE HALO MARQUE CE QUI EST SÉLECTIONNÉ, pas ce qui est cadré. Sur un
