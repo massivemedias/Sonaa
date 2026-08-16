@@ -166,6 +166,21 @@
   font-size: 11px !important;
 }
 
+/* Plaques : hover = fond plein couleur du style */
+.atlas-label[data-plaque='1']:hover {
+  background: oklch(0.45 0.15 var(--plaque-hue, 284));
+  border-color: oklch(0.65 0.18 var(--plaque-hue, 284));
+  cursor: pointer;
+}
+
+/* Plaques : focus/sélectionné = couleur plus vive */
+.atlas-label[data-plaque='1'][data-focus='1'] {
+  background: oklch(0.55 0.2 var(--plaque-hue, 284));
+  border-color: oklch(0.75 0.22 var(--plaque-hue, 284));
+  border-width: 2px;
+  padding: 2px 5px;
+}
+
 /* Plaques : taille réduite sur mobile */
 @media (max-width: 600px) {
   .atlas-label[data-plaque='1'] {

@@ -3180,10 +3180,11 @@ const OVERLAP_TOLERANCE = 1;
         const coupe = text.lastIndexOf(' ', 16);
         if (coupe > 6) affiche = text.slice(0, coupe) + '\u2026';
       }
-      /* ESSAI PLAQUES : sous-styles uniquement (depth >= 2). */
+      /* ESSAI PLAQUES : sous-styles (depth >= 2) visibles seulement quand on
+         est entré dans un genre (zoneActive). À l'accueil, ils sont cachés. */
       const slotFamily = slot >= 0 ? slotsData[slot]?.family : -1;
       const slotDepth = slot >= 0 ? slotsData[slot]?.depth ?? 0 : 0;
-      const isPlaque = plaquesActif && kind === 'genre' && slotFamily === breaksIndex && slotDepth >= 2;
+      const isPlaque = plaquesActif && kind === 'genre' && slotFamily === breaksIndex && slotDepth >= 2 && zoneActive;
       const isCentral = isPlaque && zoneActive && slot === focusIndex;
 
       /* Pour les plaques : taille fixe (13px central, 11px dérivés), et padding inclus. */
