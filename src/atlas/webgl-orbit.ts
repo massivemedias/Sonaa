@@ -334,6 +334,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
 
   interface Slot {
     family: number;
+    familyId: string;
     local: number;
     parent: number;
     major: boolean;
@@ -371,6 +372,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
 
         slotsData.push({
           family: fi,
+          familyId: family.id,
           local: li,
           depth: genre.depth,
           label: genre.label,
@@ -3181,10 +3183,10 @@ const OVERLAP_TOLERANCE = 1;
         if (coupe > 6) affiche = text.slice(0, coupe) + '\u2026';
       }
       /* ESSAI PLAQUES : sous-styles (depth >= 2) en plaque quand dans la zone active. */
-      const slotFamily = slot >= 0 ? slotsData[slot]?.family : -1;
+      const slotFamilyId = slot >= 0 ? slotsData[slot]?.familyId : '';
       const slotDepth = slot >= 0 ? slotsData[slot]?.depth ?? 0 : 0;
       const slotInZone = slot >= 0 && zone[slot] === 1;
-      const isPlaque = plaquesActif && kind === 'genre' && slotFamily === breaksIndex && slotDepth >= 2 && slotInZone;
+      const isPlaque = plaquesActif && kind === 'genre' && slotFamilyId === 'breaks' && slotDepth >= 2 && slotInZone;
       const isCentral = isPlaque && zoneActive && slot === focusIndex;
 
       /* Pour les plaques : taille fixe (13px central, 11px dérivés), et padding inclus. */
@@ -4609,7 +4611,7 @@ const OVERLAP_TOLERANCE = 1;
 
       /* ESSAI PLAQUES : masquer les sphères des SOUS-STYLES Breaks (depth >= 2).
          À l'accueil ils sont invisibles ; en zone ils sont remplacés par des plaques. */
-      if (plaquesActif && slot.family === breaksIndex && slot.depth >= 2) presence = 0;
+      if (plaquesActif && slot.familyId === 'breaks' && slot.depth >= 2) presence = 0;
 
       sphereState[i * 4] = suspended ? presence * 0.35 : presence;
       /* LE HALO MARQUE CE QUI EST SÉLECTIONNÉ, pas ce qui est cadré. Sur un
