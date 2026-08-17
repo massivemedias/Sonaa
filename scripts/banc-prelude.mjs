@@ -24,6 +24,44 @@
  * des le premier rendu.
  */
 
+/* ENTRE CHAQUE MESURE D'UNE SERIE, ET PAS SEULEMENT AU DEBUT.
+
+   SIXIEME MORT DU SERVEUR, et celle-la a coute une session entiere plus une
+   fausse alerte. Le preambule etait verifie une fois, au demarrage du banc ;
+   le serveur est mort ENSUITE, au milieu d'une bissection de sept points. Les
+   premiers points ont repondu, les suivants ont rendu zero, et la serie avait
+   exactement l'allure d'une regression trouvee.
+
+   `serieValide` s'intercale entre deux points d'une serie. Elle ne mesure
+   rien : elle refuse que la serie continue si la page a disparu, parce qu'un
+   point mesure sur un serveur mort n'invalide pas que lui, il invalide la
+   COMPARAISON, donc toute la serie. */
+export const serieValide = async ({ lire, marqueur, url, arreter, point }) => {
+  if (!(await serveurRepond(url))) {
+    console.error(
+      `\nLE SERVEUR EST MORT PENDANT LA SERIE, au point « ${point} ».\n` +
+        "  LA SERIE ENTIERE EST INVALIDE, y compris les points deja mesures : ce qui\n" +
+        "  compte dans une serie est la COMPARAISON, et elle n'a plus de sens des qu'un\n" +
+        '  seul point vient d\'un autre environnement.\n\n' +
+        '  Relancer le serveur, puis relancer la serie DEPUIS LE DEBUT.\n'
+    );
+    arreter(2);
+    return false;
+  }
+  const vu = await lire(`Boolean(document.querySelector(${JSON.stringify(marqueur)}))`).catch(
+    () => false
+  );
+  if (!vu) {
+    console.error(
+      `\nLA PAGE A DISPARU PENDANT LA SERIE, au point « ${point} ».\n` +
+        '  Meme conclusion : la serie entiere est invalide, on la reprend au debut.\n'
+    );
+    arreter(2);
+    return false;
+  }
+  return true;
+};
+
 /** Le serveur de developpement repond-il ? */
 export const serveurRepond = async (url = 'http://localhost:5173/') => {
   try {

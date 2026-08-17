@@ -715,3 +715,40 @@ point ne vaut rien si l'on ne sait pas lequel a été pris sur un serveur vivant
 **Le signe qui aurait dû alerter.** Une bissection qui accuse un commit dont le
 diff ne touche à rien de rendu. Quand la cause désignée n'a aucun mécanisme
 plausible, ce n'est pas la cause.
+
+## 18. Une série qui dégrade se rejoue dans l'ordre inverse
+
+**La règle, posée par Mika.** Une extinction de serveur et une vraie régression
+ont la même signature : les premiers essais réussissent, les suivants échouent.
+Toute série qui présente cette forme doit être **rejouée dans l'ordre inverse**
+avant qu'on en conclue quoi que ce soit.
+
+**Ce que le test décide.** Si le résultat s'inverse aussi, c'est
+l'environnement. Si les mêmes points échouent quel que soit l'ordre, c'est le
+code. Le coût est un second passage, ce qui est dérisoire face à une session
+perdue et une fausse alerte.
+
+**Pourquoi c'est plus fort qu'une simple prudence.** Le test ne demande pas de
+se méfier, ce qui ne s'applique jamais au bon moment ; il transforme une
+intuition en expérience réfutable. Une bissection est un raisonnement sur un
+ordre, et l'ordre est justement ce qu'un processus mourant contamine.
+
+## 19. Une cause sans mécanisme plausible n'est pas la cause
+
+**La règle, posée par Mika.** Avant d'accuser un commit, vérifier qu'il touche
+quelque chose qui pourrait produire le symptôme observé. Huit lignes d'import
+et trois propriétés exposées ne peuvent pas éteindre un rendu.
+
+**Le cas.** La bissection désignait `fbd4b25`. Son diff sur le moteur : un
+import et trois propriétés ajoutées à un objet de diagnostic. Rien qui filtre,
+rien qui positionne, rien qui dessine. J'avais ce diff sous les yeux, je l'ai
+même affiché dans un rapport, et j'ai continué.
+
+**Ce qui s'est vraiment passé, et c'est la leçon.** J'ai fait confiance à la
+MESURE contre le RAISONNEMENT. C'est l'inverse exact de l'erreur habituelle de
+ce projet, où l'on croyait le raisonnement contre la mesure. Les deux
+symétriques ont la même racine : renoncer à confronter les deux.
+
+**La question à poser, en une phrase.** « Par quel chemin ce changement
+produirait-il ce symptôme ? » Si l'on ne sait pas y répondre, on n'a pas trouvé
+la cause, on a trouvé une corrélation.
