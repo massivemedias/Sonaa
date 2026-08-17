@@ -670,3 +670,48 @@ git fsck --lost-found 2>/dev/null | grep "dangling commit"
 
 **Il a payé à son premier emploi**, en trouvant un commit qui refaisait un
 travail déjà livré et vérifié.
+
+## 16. On ne pousse pas avant d'avoir LU la sortie des contrôles
+
+**La règle.** Lancer un contrôle ne suffit pas : il faut lire ce qu'il rend,
+avant de publier. C'est le pendant du motif 14, et les deux échouent de la même
+façon : l'étape est faite, son résultat n'est pas regardé.
+
+**Le cas.** J'ai enchaîné dans une seule commande la mesure, la compilation, le
+commit et le push. La mesure annonçait sept échecs. Je ne les ai vus qu'après
+avoir publié, en relisant la sortie.
+
+**Ce qui rend la faute facile.** Chaîner les commandes est efficace et donne le
+sentiment d'une séquence maîtrisée. Mais un enchaînement ne s'interrompt pas
+sur un résultat qu'on n'examine pas : le `&&` teste un code de sortie, pas un
+compte d'échecs imprimé au milieu du flot.
+
+**La conséquence pratique.** La mesure et la publication ne vivent pas dans la
+même commande. On mesure, on lit, puis on décide.
+
+## 17. Un serveur qui meurt en cours de banc invalide toute la série
+
+**Le cas, et il a coûté un échange entier.** J'ai rapporté une régression de la
+vue d'ensemble, quatorze sphères tombées à deux. J'ai bissecté sept commits,
+désigné un coupable, éliminé quatre hypothèses par la mesure, et rédigé un
+rapport d'alerte.
+
+**Rien de tout cela n'existait.** Le serveur de développement était mort en
+cours de route. Relancé, la vue rend quatorze sphères et quatorze noms, sans
+une erreur de console. La bissection ne mesurait pas des commits, elle mesurait
+l'agonie d'un processus.
+
+**Ce qui rend ce cas pire que le précédent.** Au motif 10, un banc mesurait une
+page absente et rendait zéro. Ici, la série entière est fausse *et cohérente* :
+les premiers essais passent, les suivants échouent, et cela ressemble
+exactement au signal qu'on cherche, un point de bascule net. La forme d'une
+bissection réussie est indistinguable de celle d'un serveur qui s'éteint.
+
+**La règle.** Le préambule ne suffit pas s'il n'est vérifié qu'au DÉBUT. Une
+série de mesures doit revérifier la page entre chaque point, et déclarer la
+série entière invalide si elle disparaît en cours de route. Un résultat par
+point ne vaut rien si l'on ne sait pas lequel a été pris sur un serveur vivant.
+
+**Le signe qui aurait dû alerter.** Une bissection qui accuse un commit dont le
+diff ne touche à rien de rendu. Quand la cause désignée n'a aucun mécanisme
+plausible, ce n'est pas la cause.
