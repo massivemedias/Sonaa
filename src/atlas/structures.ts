@@ -233,6 +233,9 @@ export interface Genre {
   readonly chroma: number;
   /** Étiqueté par défaut quand la famille est déployée. */
   readonly major: boolean;
+  /* La date d'origine DOCUMENTEE, saisie a la main, quand la deduction par le
+     plus ancien enregistrement se trompe. Voir le schema du corpus. */
+  readonly yearStart?: number;
   /** Milieu de l'intervalle, pour l'affichage. L'intervalle est la donnée. */
   /** Milieu de l'intervalle, ou 0 quand le genre n'a pas de tempo. */
   readonly bpm: number;
@@ -408,6 +411,7 @@ export const buildStructure = (familyIndex: number): Structure => {
       lightness: founder ? 0.75 : 0.72 - depth * 0.04 + (entry.major ? 0.04 : 0),
       chroma: founder ? 0.175 : entry.major ? 0.165 : 0.14,
       major: entry.major,
+      ...(entry.yearStart !== undefined ? { yearStart: entry.yearStart } : {}),
       bpm: Math.round((lo + hi) / 2),
       bpmRange: entry.bpm ? [lo, hi] : null,
       confidence: entry.confidence,

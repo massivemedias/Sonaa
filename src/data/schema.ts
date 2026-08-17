@@ -123,6 +123,26 @@ export const genreSchema = z.strictObject({
      reste vide, et l'interface écrit « rattaché à » et non « vient de ». */
   structuralOnly: z.boolean().optional(),
   parents: z.array(parentSchema),
+  /* LA DATE D'ORIGINE DOCUMENTEE, saisie a la main.
+
+     POURQUOI ELLE EXISTE. La date etait DEDUITE du plus ancien enregistrement
+     du genre dans le corpus. Cette methode s'effondre aux deux bouts, et la
+     mesure sur les vingt genres les plus anciens l'a montre dans les DEUX sens.
+
+     Trop tard : la musique concrete naissait en 1963 au lieu de 1948, faute
+     d'un enregistrement de 1948 dans le corpus. La deduction ne peut pas
+     trouver ce qui n'y est pas.
+
+     Trop tot, et personne ne l'attendait : le breakbeat naissait en 1969 parce
+     que son morceau de reference est « Amen, Brother », c'est-a-dire le break
+     lui-meme. Un ancetre samplE pris pour un acte de naissance.
+
+     LA REGLE, POSEE PAR MIKA : un genre nait quand la SCENE le produit, pas
+     quand son materiau existe. Elle vaut partout dans le corpus.
+
+     Absent, on garde la deduction et l'interface ecrit « vers ». Present, il
+     prime, et l'annee s'affiche sans reserve. */
+  yearStart: z.number().int().min(1900).max(2030).optional(),
   confidence,
   /* Intervalle, pas une valeur : un genre à tempo variable est la règle.
 

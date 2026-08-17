@@ -436,26 +436,39 @@
   padding: 0;
 }
 
-/* L'AXE AU CENTRE, a la frontiere exacte entre le haut et le bas. */
+/* L'AXE EST L'OBJET LE PLUS VISIBLE DE LA VUE, et il ne l'etait pas.
+
+   C'etait un filet d'un pixel a un quart d'opacite : la ligne du temps, qui
+   donne son sens a tout le reste, se voyait moins que la moindre case. On ne
+   lisait donc pas une chronologie, on lisait un nuage de rectangles.
+
+   Trois pixels pleins, opaques, et des graduations marquees par un trait qui
+   traverse au lieu d'un filet lateral. */
 .chrono-epoque-axe {
   position: absolute;
   left: 0;
   right: 0;
   top: var(--haut);
-  height: 1px;
-  background: oklch(1 0 0 / 0.25);
+  height: 3px;
+  background: var(--ink-primary, oklch(0.92 0.01 250));
+  opacity: 0.9;
 }
 
+/* LA GRADUATION TRAVERSE L'AXE, elle ne le longe pas : un trait de vingt
+   pixels a cheval sur la ligne se lit comme une marque de regle. L'annee est
+   posee dessous, en chiffres lisibles et non en mention discrete. */
 .chrono-epoque-graduation {
   position: absolute;
-  top: calc(var(--haut) + 6px);
+  top: calc(var(--haut) - 8px);
   left: var(--x);
-  padding-left: 4px;
-  border-left: 1px solid oklch(1 0 0 / 0.3);
-  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  padding-top: 22px;
+  padding-left: 6px;
+  border-left: 2px solid var(--ink-primary, oklch(0.92 0.01 250));
+  color: var(--ink-primary, oklch(0.92 0.01 250));
   font-family: var(--font-ui);
-  font-size: 0.7rem;
-  line-height: 1.6;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
 }
 
 .chrono-epoque-groupe {

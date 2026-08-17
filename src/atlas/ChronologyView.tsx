@@ -23,8 +23,14 @@ const MARGE_DECENNIE_PX = 10;
 /* LA VUE PAR EPOQUE. Chaque nombre est ecrit une seule fois et lu par le
    placement ET par le style, via des variables CSS : deux ecritures d'une meme
    grandeur finissent toujours par diverger. */
-const AN_DEBUT = 1960;
-const DECENNIES = [1960, 1970, 1980, 1990, 2000, 2010, 2020];
+/* L'AXE COMMENCE AU COMMENCEMENT, 1948, et non a 1960.
+
+   Il partait de 1960 parce que la deduction ne trouvait rien avant. Depuis que
+   les dates saisies font remonter la musique concrete et l'electroacoustique a
+   1948, les plus anciens genres tombaient en x NEGATIF, c'est-a-dire hors
+   ecran a gauche : la vue commencait douze ans apres son sujet. */
+const AN_DEBUT = 1948;
+const DECENNIES = [1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020];
 const PX_PAR_AN = 26;
 const LARGEUR_CASE = 128;
 /* L'ecart minimal entre deux cases d'un meme couloir : la largeur d'une case
@@ -34,6 +40,8 @@ const COULOIR_PX = 40;
 
 interface GenreWithYear extends Genre {
   yearDeduced: number;
+  /** Vrai si la date vient de `yearStart` et non d'une deduction. */
+  dateSure: boolean;
   hasGraft: boolean;
   graftFamilies: number[];
 }
@@ -64,7 +72,18 @@ export function ChronologyView({ onOpen }: Props) {
       structure.genres.forEach((genre) => {
         const allTracks = [...(genre.tracksEssentiel || []), ...(genre.tracksActuel || [])];
         const years = allTracks.map(t => t.year).filter((y): y is number => y !== null && y !== undefined);
-        const yearDeduced = years.length > 0 ? Math.min(...years) : 1990;
+        /* LA DATE SAISIE PRIME SUR LA DEDUITE.
+
+           La deduction se trompe dans les deux sens, et c'est mesure : trop
+           tard sur les fondateurs, dont le corpus n'a pas les enregistrements
+           d'origine ; trop tot sur les genres batis sur un materiau ancien,
+           ou le morceau de reference est un ancetre samplE et non un acte de
+           naissance. Une date saisie a la main n'a pas ces deux travers.
+
+           Absente, on garde la deduction ET l'on ecrit « vers » : le lecteur
+           doit savoir laquelle des deux il lit. */
+        const yearDeduced = genre.yearStart ?? (years.length > 0 ? Math.min(...years) : 1990);
+        const dateSure = genre.yearStart !== undefined;
 
         const graftFamilies = (genre.externalParents || [])
           .map(p => p.family)
@@ -73,6 +92,7 @@ export function ChronologyView({ onOpen }: Props) {
         genres.push({
           ...genre,
           yearDeduced,
+          dateSure,
           hasGraft: graftFamilies.length > 0,
           graftFamilies
         });
@@ -368,7 +388,9 @@ export function ChronologyView({ onOpen }: Props) {
                 <span className="chrono-epoque-trait" aria-hidden="true" />
                 <button className="chrono-epoque-case" onClick={() => onOpen(fi, gl)}>
                   <span className="chrono-epoque-nom">{g.label}</span>
-                  <span className="chrono-epoque-an">{g.yearDeduced}</span>
+                  <span className="chrono-epoque-an">
+                    {g.dateSure ? g.yearDeduced : `vers ${g.yearDeduced}`}
+                  </span>
                 </button>
               </div>
             );
