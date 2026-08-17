@@ -619,6 +619,18 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   /* Sur mobile les noms de familles sont centrés SOUS la sphère : la
      demi-largeur d'un nom suffit. 120 px de chaque côté mangeaient 61 % d'un
      écran de 390 px et l'atlas devenait minuscule. */
+  /* DECLAREE AVANT `atlasDistanceFor`, ET CE N'EST PAS UN DETAIL DE STYLE.
+
+     Elle vivait deux cents lignes plus bas, avec les autres reglages. Or
+     `atlasDistanceFor` est APPELEE des l'initialisation du module, avant que
+     cette ligne ne soit atteinte : la page tombait sur « Cannot access
+     FAMILLE_SEULE before initialization » et l'atlas ne se construisait pas.
+
+     Trouve en lisant la console du navigateur, apres que la sonde a signale
+     que `window.__atlas` n'existait pas. Le compilateur ne dit rien de cette
+     faute : elle est legale a la lecture et fausse a l'execution. */
+  const FAMILLE_SEULE = 2.2;
+
   let analyticDiag: { byHeight: number; byWidth: number } | null = null;
   const LABEL_PAD_X = 70;
   /* 48 et non 96 : un label pend d'environ 30 px sous sa sphère. 96 px pris
@@ -626,8 +638,22 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      la moitié de l'écran à la scène. */
   const LABEL_PAD_Y = 48;
 
+  /* LA PART D'ECRAN QUE L'ATLAS OCCUPE, ET C'EST LE SEUL LEVIER QUI LA CHANGE.
+
+     Mesure a 1280 px, colonne du lecteur deduite : 0,80 rend 60 %, 0,88 rend
+     65 %, 0,92 rend 68 %, 1,02 rend 72 % et 1,06 rend 75 %. La relation est
+     droite, six dixiemes de point d'occupation par centieme de remplissage.
+
+     Le facteur depasse 1 et le plafond aussi : ce n'est pas une aberration,
+     c'est que la marge des noms est deja retiree juste a cote, et qu'elle
+     l'etait deux fois. La vue d'ensemble ne montrant plus que quatorze noms
+     courts au lieu d'une cinquantaine, la reserve d'origine etait devenue
+     trop large pour ce qu'elle protege.
+
+     C'est ce reglage, et lui seul, qui deplace l'occupation : grossir les
+     spheres n'y change rien, la camera recule d'autant. Mesure trois fois. */
   const effectiveFill = (px: number, pad: number): number =>
-    clamp(0.92 * (1 - (2 * pad) / Math.max(240, px)), 0.4, 0.92);
+    clamp(1.06 * (1 - (2 * pad) / Math.max(240, px)), 0.4, 1.15);
 
   const atlasDistanceFor = (aspect: number, widthPx = 1200, heightPx = 800): number => {
     const az = DEFAULT_AZIMUTH;
@@ -649,7 +675,34 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       const dx = c.x - ATLAS_CENTER[0];
       const dy = c.y - ATLAS_CENTER[1];
       const dz = c.z - ATLAS_CENTER[2];
-      const r = STRUCTURES[i]?.compactRadius ?? 6;
+      /* LE RAYON DE LA SPHERE, PAS CELUI DE L'AMAS REPLIE.
+
+         VOILA D'OU VENAIT LE VIDE, et ce n'etait pas un reglage de zoom.
+         `compactRadius` mesure l'encombrement de la famille AVEC tous ses
+         genres replies dessus. Le cadrage reservait donc de la place a des
+         objets qui ne sont plus dessines depuis que la vue d'ensemble ne
+         montre que les quatorze : il cadrait des fantomes.
+
+         On mesure desormais ce qui est reellement a l'ecran, la sphere de
+         famille a sa taille d'affichage, grossissement compris. La valeur qui
+         change n'est pas la distance, c'est ce qu'on lui demande de contenir.
+
+         Un quart en plus pour les noms, qui pendent sous les spheres et font
+         partie de ce qu'il faut garder dans le cadre. */
+      /* LE CADRAGE NE LIT PAS LE GROSSISSEMENT, ET C'EST TOUT L'INTERET.
+
+         Premiere version : la marge valait le rayon GROSSI. L'occupation
+         restait alors bloquee a 68 % quelle que soit la valeur du
+         grossissement, 2,2 comme 3,0, parce que grossir les spheres faisait
+         reculer la camera d'autant. C'est l'invariance deja mesuree sur
+         l'arbre : agrandir une disposition ne change rien a ce qu'on voit,
+         seule la part d'ecran qu'on lui accorde le change.
+
+         Le cadrage mesure donc l'ecart entre les CENTRES des familles, plus
+         une marge fixe pour la sphere de base et son nom. Le grossissement
+         n'agit plus que sur le dessin, ce qui est exactement ce qu'on lui
+         demande : des spheres plus grosses dans le meme cadre. */
+      const r = (STRUCTURES[i]?.genres[0]?.radius ?? 1) * 1.15;
       halfV = Math.max(halfV, Math.abs(dx * upX + dy * upY + dz * upZ) + r);
       halfH = Math.max(halfH, Math.abs(dx * rightX + dz * rightZ) + r);
     });
@@ -2324,8 +2377,90 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      CE QUE CELA SUPPRIME, et il faut le dire : le pas a pas dans l'arbre. On
      ne remonte plus de genre en genre, on sort. C'est le prix du choix, et
      c'est un choix, pas un oubli. */
+  /* ECHAP REMONTE D'UN NIVEAU, IL NE FAIT PAS SORTIR.
+
+     J'avais remplace tout ce corps par un simple `recenter()`, en lisant
+     « les quatre chemins rendent la vue d'ensemble » comme si les quatre
+     gestes avaient le meme sens. Ils ne l'ont pas : depuis un sous-sous-genre,
+     Echap faisait remonter tout en haut d'un coup, ce qui oblige a refaire
+     toute la descente pour regarder le voisin.
+
+     Le partage est celui de Mika, et il est plus juste : Echap et la fleche
+     REMONTENT D'UN CRAN, le logo et le bouton d'ensemble RAMENENT A L'ACCUEIL.
+     Un geste de retour et un geste de sortie sont deux choses. */
   const goUp = (): void => {
-    recenter();
+    const now = performance.now();
+
+    /* PREMIER CAS : UN NOEUD DE L'ARBRE EST SÉLECTIONNÉ, plus profond que la
+       racine. Échap remonte d'un cran DANS L'ARBRE : la sélection passe au
+       parent, et rien d'autre ne bouge. Ni la disposition, ni la caméra, ni
+       la zone : tout l'arbre est affiché, remonter n'est qu'un déplacement de
+       la sélection. */
+    if (level === 'genre' && zoneActive && activeGenre >= 0 && activeGenre !== focusIndex) {
+      const as = slotsData[activeGenre];
+      const parent = as && as.parent >= 0 ? (familyOffset[as.family] ?? 0) + as.parent : focusIndex;
+      activeGenre = zone[parent] === 1 ? parent : focusIndex;
+      const ns = slotsData[activeGenre];
+      if (ns) {
+        genrePath = pathToGenre(ns.family, ns.local).map((l) => (familyOffset[ns.family] ?? 0) + l);
+        emitNav();
+        openPanel(ns.family, ns.local);
+      }
+      return;
+    }
+
+    /* DEUXIÈME CAS : la RACINE de l'arbre est sélectionnée. Il n'y a plus rien
+       à remonter dedans, on quitte l'arbre et on remonte d'un niveau. */
+
+    if (level === 'genre') {
+      /* On remonte d'un cran dans le chemin, pas directement à la famille :
+         Atlas > Bass > UK Garage > 2-step doit revenir sur UK Garage. */
+      genrePath = genrePath.slice(0, -1);
+      const parent = genrePath[genrePath.length - 1];
+      focusDir = -1;
+      focusStart = now;
+
+      if (parent !== undefined) {
+        activeGenre = parent;
+        focusIndex = parent;
+            focusDir = 1;
+        /* Remonter au parent, c'est y ENTRER : sa couronne est refaite et la
+           zone se referme sur lui. Sans cela on remontait dans un mode focus
+           dont la zone désignait encore l'enfant qu'on venait de quitter. */
+        buildFocusRing(parent);
+        rebuildZone();
+        const slot = slotsData[parent];
+        if (slot) startFly(cibleDuFocus(parent), distanceDuFocus(parent), now);
+        emitNav();
+        /* Le panneau suit la carte : remonter d'un cran change le genre
+           courant, donc le contenu de la colonne. */
+        if (slot) openPanel(slot.family, slot.local);
+        return;
+      }
+
+      activeGenre = -1;
+      focusIndex = -1;
+        level = 'family';
+      rebuildZone();
+      focusOffsets.clear();
+      const c = activeFamily >= 0 ? familyCenters[activeFamily] : undefined;
+      const dc = STRUCTURES[activeFamily]?.deployedCenter ?? [0, 0, 0];
+      if (c) startFly(new Vector3(c.x + dc[0], c.y + dc[1], c.z + dc[2]), frameDistance(familyFrameRadius(activeFamily)), now);
+    } else if (level === 'family') {
+      if (activeFamily >= 0) setDeploy(activeFamily, false, now);
+      activeFamily = -1;
+      activeGenre = -1;
+      genrePath = [];
+      focusIndex = -1;
+      focusDir = -1;
+      focusStart = now;
+      level = 'atlas';
+      rebuildZone();
+      focusOffsets.clear();
+      startFly(atlasTarget, atlasDistance, now);
+      cameraAtDefault = true;
+    }
+    emitNav();
   };
 
   /* SORTIR DU MODE, d'un coup : second Échap, ou clic dans le flou.
@@ -4523,6 +4658,20 @@ const OVERLAP_TOLERANCE = 1;
          `openIndex` cesse alors d'etre negatif, ce qui reouvre la porte. */
       if (level === 'atlas' && openIndex < 0 && slot.depth >= 1 && !introActive) {
         presence = 0;
+      }
+
+      /* LES QUATORZE SONT SEULES, ELLES PEUVENT DONC ETRE PLUS GROSSES.
+
+         Leur taille etait celle d'un fondateur parmi ses enfants : juste tant
+         que les enfants etaient la, trop petite depuis qu'ils ont disparu. Ce
+         n'est pas une preference d'echelle, c'est la meme grandeur relue dans
+         un contexte qui a change. */
+      if (level === 'atlas' && openIndex < 0 && slot.depth === 0 && !introActive) {
+        /* ORDRE EXPLICITE : ce grossissement s'applique APRES le calcul du
+           rayon de base, et AVANT le bornage en pixels plus bas, qui reste le
+           dernier a ecrire. Trois ecritures sur cette valeur maintenant, donc
+           l'ordre ne peut plus se deduire, il se declare. */
+        sphereRadii[i] = (sphereRadii[i] ?? 1) * FAMILLE_SEULE;
       }
 
       /* Anneaux uniquement sur le niveau actuellement navigable. Au niveau
