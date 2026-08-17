@@ -540,3 +540,88 @@
   color: var(--ink-secondary, oklch(0.66 0.01 250));
   font-size: 9px;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   LA MEME VUE, TOURNEE D'UN QUART DE TOUR, SUR TELEPHONE.
+
+   L'axe devient vertical, on commence en 1948 en haut et l'on defile vers
+   aujourd'hui : c'est le geste du pouce, et il est continu sur toute
+   l'histoire. Les cases vont a gauche et a droite au lieu d'aller en haut et
+   en bas.
+
+   Les variables ne changent pas de NOM, elles changent d'AXE. `--largeur` est
+   la longueur de l'axe, `--haut` et `--bas` sont les deux cotes. Les nommer
+   ainsi permettait deja de les tourner : c'est ce qui evite d'avoir deux
+   geometries a maintenir en parallele, avec le risque qu'elles divergent. */
+
+.chrono-epoque[data-orientation='verticale'] {
+  overflow-x: hidden;
+  overflow-y: auto;
+  touch-action: pan-y;
+}
+
+.chrono-epoque[data-orientation='verticale'] .chrono-epoque-piste {
+  width: 100%;
+  height: var(--largeur);
+}
+
+/* L'axe : vertical, epais, au centre exact des deux cotes. */
+.chrono-epoque[data-orientation='verticale'] .chrono-epoque-axe {
+  top: 0;
+  bottom: 0;
+  left: var(--haut);
+  right: auto;
+  width: 3px;
+  height: auto;
+}
+
+/* La graduation traverse l'axe horizontalement, l'annee posee a sa droite. */
+.chrono-epoque[data-orientation='verticale'] .chrono-epoque-graduation {
+  top: var(--x);
+  left: calc(var(--haut) - 10px);
+  padding: 0 0 0 26px;
+  border-left: 0;
+  border-top: 2px solid var(--ink-primary, oklch(0.92 0.01 250));
+}
+
+.chrono-epoque[data-orientation='verticale'] .chrono-epoque-groupe {
+  top: var(--x);
+  left: auto;
+  width: auto;
+}
+
+.chrono-epoque[data-orientation='verticale'] .chrono-epoque-groupe[data-cote='haut'] {
+  right: calc(100% - var(--haut));
+  bottom: auto;
+  padding-bottom: 0;
+  padding-right: var(--d);
+}
+
+.chrono-epoque[data-orientation='verticale'] .chrono-epoque-groupe[data-cote='bas'] {
+  left: var(--haut);
+  top: var(--x);
+  padding-top: 0;
+  padding-left: var(--d);
+}
+
+/* Le trait de rappel devient horizontal : meme role, meme longueur, autre axe. */
+.chrono-epoque[data-orientation='verticale'] .chrono-epoque-trait {
+  top: 50%;
+  width: var(--d);
+  height: 1px;
+}
+
+.chrono-epoque[data-orientation='verticale'] .chrono-epoque-groupe[data-cote='haut'] .chrono-epoque-trait {
+  left: auto;
+  right: 0;
+  bottom: auto;
+}
+
+.chrono-epoque[data-orientation='verticale'] .chrono-epoque-groupe[data-cote='bas'] .chrono-epoque-trait {
+  left: 0;
+  top: 50%;
+}
+
+.chrono-epoque[data-orientation='verticale'] .chrono-epoque-case {
+  width: 120px;
+}

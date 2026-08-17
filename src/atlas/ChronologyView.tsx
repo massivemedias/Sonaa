@@ -38,6 +38,22 @@ const LARGEUR_CASE = 128;
 const ECART_CASE = LARGEUR_CASE + 8;
 const COULOIR_PX = 40;
 
+/* LA MEME GEOMETRIE, TOURNEE D'UN QUART DE TOUR.
+
+   Sur telephone, l'axe est VERTICAL : on commence en 1948 en haut et l'on
+   defile vers aujourd'hui, ce qui est le geste naturel du pouce. Les cases
+   vont a gauche et a droite au lieu d'aller en haut et en bas.
+
+   Le calcul de placement ne change pas d'un mot : il raisonne en « position le
+   long de l'axe » et « distance a l'axe », deux notions qui n'ont pas
+   d'orientation. Seules changent les constantes, parce qu'une case est large
+   de 128 et haute de 34 : ce qui doit s'ecarter n'est pas la meme dimension.
+   C'est la difference entre une geometrie parametree et deux geometries. */
+const HAUTEUR_CASE = 34;
+const ECART_CASE_V = HAUTEUR_CASE + 6;
+const PX_PAR_AN_V = 11;
+const COULOIR_PX_V = 132;
+
 interface GenreWithYear extends Genre {
   yearDeduced: number;
   /** Vrai si la date vient de `yearStart` et non d'une deduction. */
@@ -314,10 +330,12 @@ export function ChronologyView({ onOpen }: Props) {
       .filter((e) => (showMajorsOnly ? e.g.major : true))
       .sort((a, b) => a.g.yearDeduced - b.g.yearDeduced);
 
+    const parAn = narrow ? PX_PAR_AN_V : PX_PAR_AN;
+    const ecart = narrow ? ECART_CASE_V : ECART_CASE;
     const couloirs: { haut: number[][]; bas: number[][] } = { haut: [], bas: [] };
     const poses = tous.map((e, i) => {
-      const x = (e.g.yearDeduced - AN_DEBUT) * PX_PAR_AN;
-      const largeur = LARGEUR_CASE;
+      const x = (e.g.yearDeduced - AN_DEBUT) * parAn;
+      const largeur = narrow ? HAUTEUR_CASE : LARGEUR_CASE;
       const cote: 'haut' | 'bas' = i % 2 === 0 ? 'haut' : 'bas';
       const pile = couloirs[cote];
       let couloir = 0;
@@ -327,7 +345,7 @@ export function ChronologyView({ onOpen }: Props) {
         /* `occupe` porte la borne droite du dernier pose dans ce couloir : les
            cases arrivant triees par date, il suffit de comparer a elle. */
         const derniere = occupe.length > 0 ? (occupe[occupe.length - 1] ?? -1e9) : -1e9;
-        if (x >= derniere + ECART_CASE) {
+        if (x >= derniere + ecart) {
           occupe.push(x + largeur);
           break;
         }
@@ -340,17 +358,21 @@ export function ChronologyView({ onOpen }: Props) {
       haut: couloirs.haut.length,
       bas: couloirs.bas.length
     };
-    const largeurTotale = poses.reduce((m, p) => Math.max(m, p.x + LARGEUR_CASE), 0) + 80;
+    const largeurTotale =
+      poses.reduce((m, p) => Math.max(m, p.x + (narrow ? HAUTEUR_CASE : LARGEUR_CASE)), 0) + 80;
     return { poses, profondeur, largeurTotale };
-  }, [genresByFamily, showMajorsOnly]);
+  }, [genresByFamily, showMajorsOnly, narrow]);
 
   const renderEpoque = () => {
     const { poses, profondeur, largeurTotale } = placementEpoque;
-    const hautPx = profondeur.haut * COULOIR_PX + 40;
-    const basPx = profondeur.bas * COULOIR_PX + 40;
+    const couloir = narrow ? COULOIR_PX_V : COULOIR_PX;
+    const parAn = narrow ? PX_PAR_AN_V : PX_PAR_AN;
+    const hautPx = profondeur.haut * couloir + 40;
+    const basPx = profondeur.bas * couloir + 40;
     return (
       <div
         className="chrono-epoque"
+        data-orientation={narrow ? 'verticale' : 'horizontale'}
         style={{
           '--largeur': `${largeurTotale}px`,
           '--haut': `${hautPx}px`,
@@ -363,14 +385,14 @@ export function ChronologyView({ onOpen }: Props) {
             <span
               key={d}
               className="chrono-epoque-graduation"
-              style={{ '--x': `${(d - AN_DEBUT) * PX_PAR_AN}px` } as React.CSSProperties}
+              style={{ '--x': `${(d - AN_DEBUT) * parAn}px` } as React.CSSProperties}
             >
               {d}
             </span>
           ))}
-          {poses.map(({ g, fi, gl, x, cote, couloir }) => {
+          {poses.map(({ g, fi, gl, x, cote, couloir: couloirIdx }) => {
             const family = FAMILIES[fi];
-            const distance = (couloir + 1) * COULOIR_PX;
+            const distance = (couloirIdx + 1) * (narrow ? COULOIR_PX_V : COULOIR_PX);
             return (
               <div
                 key={g.id}
