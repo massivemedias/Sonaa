@@ -1,3 +1,137 @@
+# ═══════════════════════════════════════════════════════════════════════
+# POINT FINAL, 16 août 2026. Projet clos.
+# ═══════════════════════════════════════════════════════════════════════
+
+Ce bloc est écrit pour quelqu'un qui arrive dans six mois et ne doit rien
+redécouvrir. Il est en tête volontairement : c'est ce qu'il faut lire d'abord.
+
+## A. L'état exact du produit
+
+Publié sur https://sonaa.ca, GitHub Pages, déploiement automatique à chaque
+poussée sur `main`. 100 % statique, React 19 + Vite 5 + three.js.
+
+**Sur ordinateur, au-dessus de 768 px.** Vue d'ensemble : les quatorze familles
+seules, une sphère et un nom chacune, occupant 75 % de l'espace disponible,
+colonne du lecteur déduite. Cliquer une famille déploie ses genres. Cliquer un
+genre ouvre son arbre : le genre au centre, ses dérivés autour, chacun avec une
+plaque sous sa sphère. Échap et la flèche remontent d'un cran, le logo et le
+bouton d'ensemble ramènent à l'accueil par un dézoom de 400 ms. La colonne du
+lecteur est permanente à droite.
+
+**Sur téléphone, sous 768 px.** La vue d'ensemble en trois dimensions n'est pas
+utilisée pour naviguer : elle échoue, et c'est mesuré. À la place, une
+navigation par niveaux, quatorze cartes de familles puis les genres, en cartes
+de 72 px minimum avec fil d'Ariane et flèche de retour. Toucher un genre
+bascule sur sa vue graphique, qui fonctionne à cette largeur. La recherche
+mène directement à un genre sans passer par les niveaux. Un bouton ouvre la vue
+d'ensemble en contemplation. La feuille du lecteur occupe 40 % de l'écran en
+position par défaut, 75 % tirée vers le haut.
+
+**Seuil unique : 768 px.** Une seule frontière dans tout le projet. Deux seuils
+différents pour « c'est un téléphone » est le motif qui a coûté le plus cher.
+
+## B. Les cinq dettes, et ce qui est établi sur chacune
+
+**1. L'échec résiduel du banc de clics.** Sur Detroit Techno, quatorze dérivés
+sur quinze ouvrent la bonne fiche ; Peak Time Techno ouvre la racine.
+
+*Établi, et c'est l'essentiel :* la **visée n'est pas en cause**. Une sonde
+interroge le moteur sur ce qui se trouve sous le centre exact de chaque sphère,
+sans cliquer : elle répond juste quinze fois sur quinze, Peak Time Techno
+compris. Le défaut est **en aval**, dans la chaîne qui ouvre la fiche à partir
+d'une cible correctement désignée. Périmètre étroit pour qui reprendra.
+
+*Piège à éviter :* ne pas repartir de la signature « tous au rayon minimal ».
+Elle est vraie des quinze dérivés, pas seulement des trois échecs d'alors, et
+elle ne distingue rien. Voir le motif 8.
+
+**2. Deux contrôles statiques non écrits.** Une constante définie deux fois
+avec des valeurs différentes dans un même fichier, et une valeur écrite puis
+jamais lue. Ils étaient listés en 3 et 4 par ordre de valeur. La règle tient
+toujours : pas de nouveau contrôle sans défaut réel qui le justifie.
+
+**3. `verify:visual` rend entre 8 et 10 échecs** sur la vue 3D de bureau.
+Référence honnête : médiane 8, plage 8 à 10 sur cinq passages. Deux tests sont
+non déterministes et signalés comme tels par le pilote, `focus@1024` et
+`cadre@700` : un écart de un entre deux passages vient probablement d'eux et ne
+doit pas lancer d'enquête.
+
+**4. Quatre superpositions de plaques sur Breakbeat à 390 px.** Vingt-deux
+dérivés, la lignée la plus dense du corpus. Deux pistes ont été mesurées et
+**aucune ne fonctionne** : la troncature des noms à douze caractères donne des
+plages entièrement recouvrantes avec l'état actuel, et la réduction à 10 px est
+déjà dépassée puisque les plaques mobiles sont à 8. Limite géométrique assumée.
+
+**5. `51403c5`, seconde implémentation des plaques**, session parallèle,
+abandonnée volontairement, branche supprimée. Deux implémentations d'un même
+comportement finissent par diverger et l'on ne sait plus laquelle décrit le
+produit. Le hachage est conservé ici pour qu'un abandon reste un choix et non
+un effacement ; `git show 51403c5` le rend lisible tant que le ramasse-miettes
+n'est pas passé.
+
+## C. Les sept contrôles, et ce que chacun protège
+
+Cinq sont branchés en intégration continue et bloquent la publication.
+
+| commande | ce qu'il empêche de revenir |
+|---|---|
+| `npm run check:css` | une propriété déclarée deux fois avec des valeurs différentes dans la même règle |
+| `npm run check:camera` | un correcteur de caméra continu, non borné, qui fait dériver la carte à chaque geste |
+| `npm run check:ecritures` | deux écritures sur une même valeur sans ordre déclaré, motif le plus fréquent du projet |
+| `npm run check:cadrage` | un recadrage sans fin déclarée : un geste a un début, une fin et une durée |
+| `npm run check:constantes` | une découpe d'écran ou une constante nommée écrite dans deux fichiers |
+
+Deux ne sont pas branchés, et délibérément.
+
+| commande | pourquoi il n'est pas branché |
+|---|---|
+| `npm run check:exports` | neuf signalements non triés ; brancher sans trier ferait échouer la publication sur des cas incertains, et un garde-fou qui crie à tort se fait désactiver |
+| `npm run check:orphelins` | ce n'est pas un contrôle mais un réflexe d'ouverture de session : il rapporte, il ne juge pas |
+
+**Le contrôle qui a le mieux servi** est `check:ecritures` : il a refusé deux
+publications, dont une fois en attrapant une règle que j'avais écrite moi-même
+trois jours plus tôt et violée sans m'en apercevoir. Une règle ne tient pas
+parce qu'on l'a comprise, elle tient parce qu'une machine refuse de publier
+sans elle.
+
+## D. Les motifs d'échec silencieux
+
+Ils sont dans `ECHECS-SILENCIEUX.md`. **Quinze au total**, et non quatorze :
+les sept premiers sont décrits en prose dans la section « Les sept motifs », les
+huit suivants sont numérotés 8 à 15. Résumé des huit derniers, qui sont ceux de
+cette semaine :
+
+- **8.** Examiner les échecs sans examiner les réussites produit des indices qui
+  ne distinguent rien.
+- **9.** Une vraie régression ne se range pas d'un seul côté d'un seuil : si la
+  répartition suit une frontière déclarée quelque part, regarder l'outil.
+- **10.** Un outil qui ne déclare pas ses hypothèses ne peut pas les voir tomber.
+- **11.** Une référence se prend sur plusieurs passages, et l'on retient la
+  médiane, jamais la meilleure.
+- **12.** Aucune mesure de ce projet ne s'annonce en valeur unique : médiane et
+  plage. Seul un déplacement hors plage prouve quelque chose.
+- **13.** Une suite qui varie sur du code identique contient des tests
+  instables, toujours les mêmes. Les nommer, puis les réparer ou les marquer.
+- **14.** Un contrôle qu'on ne relance pas ne sert qu'une fois.
+- **15.** Le travail peut exister sans être rattaché à quoi que ce soit.
+
+**Le motif qui manque à cette liste et qui les domine tous** : *quelque chose
+d'invisible posé au-dessus de quelque chose de visible*. Il est revenu cinq
+fois cette semaine, il est indétectable à la relecture comme à la capture
+d'écran, et il ne se trouve qu'en exécutant. La sonde qui le débusque tient en
+dix lignes : échantillonner une grille et demander au navigateur quel élément
+recevrait le clic en chaque point. Elle mérite d'être écrite au dépôt le jour où
+un sixième cas apparaîtra.
+
+## E. Les règles de travail, en cinq lignes
+
+1. Ne jamais déclarer un comportement acquis sans l'avoir vu s'exécuter.
+2. Vérifier l'instrument avant d'accuser le produit.
+3. Médiane et plage sur cinq passages, jamais un chiffre seul.
+4. Dire en tête de rapport ce qui n'est pas publié.
+5. Réparer vers l'avant, jamais rembobiner ; nommer la correction fautive.
+
+
 # SONAA, reprise de session
 
 Document de continuité. Écrit pour qu'une session Claude Code ouverte depuis
