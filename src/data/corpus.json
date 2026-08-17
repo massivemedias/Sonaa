@@ -989,7 +989,8 @@
         "Ken Laszlo",
         "Sandy Marton",
         "P. Lion"
-      ]
+      ],
+      "yearStart": 1982
     },
     {
       "id": "spacesynth",
@@ -12601,7 +12602,8 @@
         "Phase Fatale",
         "Kontravoid",
         "Sydney Valette"
-      ]
+      ],
+      "yearStart": 2015
     },
     {
       "id": "coldwave",
@@ -13148,7 +13150,10 @@
               "country": "Germany",
               "year": 1957,
               "format": "Vinyl, LP, 10\""
-            }
+            },
+            "shared": [
+              "elektronischemusik"
+            ]
           },
           {
             "youtubeId": "nbdmzSeFy_Y",
@@ -13168,7 +13173,10 @@
               "year": 1962,
               "format": "Vinyl, LP"
             },
-            "dureeNonVerifiee": true
+            "dureeNonVerifiee": true,
+            "shared": [
+              "elektronischemusik"
+            ]
           },
           {
             "youtubeId": "XsOyxFybxPY",
@@ -16377,7 +16385,8 @@
         "London Elektricity",
         "Lenzman",
         "Netsky (débuts)"
-      ]
+      ],
+      "yearStart": 1996
     },
     {
       "id": "jumpup",
@@ -38124,7 +38133,35 @@
         "Musique electronique de Cologne"
       ],
       "tracks": {
-        "essentiel": [],
+        "essentiel": [
+          {
+            "youtubeId": "PHLHCQhjtlA",
+            "artist": "Karlheinz Stockhausen",
+            "title": "Studie I",
+            "year": 1953,
+            "verified": true
+          },
+          {
+            "youtubeId": "nffOJXcJCDg",
+            "artist": "Karlheinz Stockhausen",
+            "title": "Gesang der Jünglinge",
+            "year": 1956,
+            "verified": true,
+            "shared": [
+              "electroacoustic"
+            ]
+          },
+          {
+            "youtubeId": "nbdmzSeFy_Y",
+            "artist": "Karlheinz Stockhausen",
+            "title": "Kontakte",
+            "year": 1960,
+            "verified": true,
+            "shared": [
+              "electroacoustic"
+            ]
+          }
+        ],
         "actuel": []
       },
       "description": "Cologne, 1951. Trois ans apres Paris, la radio ouest-allemande ouvre un studio qui prend le contre-pied exact de la musique concrete : la ou Schaeffer enregistre le monde et le decoupe, Herbert Eimert et Karlheinz Stockhausen refusent tout son preexistant et fabriquent chaque timbre a partir de generateurs de frequences. Les deux ecoles se sont longtemps opposees avant de se rejoindre.\n\nStockhausen y compose Studie I en 1953, entierement en sons sinusoidaux, puis Gesang der Junglinge en 1955-1956, qui reconcilie les deux approches en melant voix enregistree et synthese, et passe pour la premiere oeuvre de musique electronique spatialisee.\n\nSa descendance est double et elle est enorme : Kraftwerk, forme a Dusseldorf a une heure de Cologne, transmet cet heritage a la techno de Detroit ; et la recherche sur la texture pure irrigue l'ambient.",

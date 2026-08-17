@@ -57,7 +57,7 @@ export const trackSchema = z.strictObject({
   youtubeId: z.string().regex(/^[A-Za-z0-9_-]{11}$/),
   artist: z.string().min(1),
   title: z.string().min(1),
-  year: z.number().int().min(1960).max(2030).nullable(),
+  year: z.number().int().min(1948).max(2030).nullable(),
   /** Toujours vrai. Un identifiant non vérifié n'a pas le droit d'exister. */
   verified: z.literal(true),
   /* La vidéo dépasse le plafond de quinze minutes ET aucune base publique ne

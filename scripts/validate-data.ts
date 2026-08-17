@@ -130,6 +130,46 @@ if (!parsed.success) {
   );
 }
 
+/* ═══════════════════════════════════════════════════════════════════════
+   UN GENRE NE PEUT PAS NAITRE AVANT SON PARENT.
+
+   C'est une impossibilite LOGIQUE et non une invraisemblance : si un genre
+   descend d'un autre, il ne peut pas lui preexister. Elle merite donc un
+   controle et non un coup d'oeil.
+
+   POURQUOI SEULEMENT ENTRE DATES SAISIES, et c'est le point important.
+
+   Compare sur les dates DEDUITES, la regle rend cinquante-huit violations, et
+   presque toutes sont du bruit : « Florida Breaks 1987 avant Breakbeat 1988 »
+   ne dit rien d'autre que le plus ancien morceau de l'un precede d'un an le
+   plus ancien morceau de l'autre. La deduction n'affirme pas une date de
+   naissance, elle rapporte un enregistrement.
+
+   Une date SAISIE, elle, est une affirmation. Deux affirmations qui se
+   contredisent sont une faute, et c'est cela qu'on attrape. Un controle qui
+   crie cinquante-huit fois sur du bruit se fait desactiver dans la semaine :
+   c'est le reproche deja fait au plafond anti-parution, et il vaut ici. */
+const genresLus = parsed.success ? parsed.data.genres : [];
+const parId = new Map(genresLus.map((g) => [g.id, g]));
+for (const g of genresLus) {
+  if (g.yearStart === undefined) continue;
+  const parents = new Set((g.parents ?? []).map((p) => p.id));
+  /* Le parent STRUCTUREL ne compte que s'il est une vraie filiation :
+     `structuralOnly` declare justement les rattachements de convention, comme
+     le funk sous la musique concrete, ou aucune descendance n'est affirmee. */
+  if (g.structuralParent && !g.structuralOnly) parents.add(g.structuralParent);
+  for (const pid of parents) {
+    const pg = parId.get(pid);
+    if (!pg || pg.yearStart === undefined) continue;
+    if (g.yearStart < pg.yearStart) {
+      errors.push(
+        `${g.id} nait en ${g.yearStart}, avant son parent ${pg.id} (${pg.yearStart}) : ` +
+          'un genre ne peut pas preceder celui dont il descend.'
+      );
+    }
+  }
+}
+
 for (const w of warnings) console.warn(`AVERTISSEMENT ${w}`);
 for (const e of errors) console.error(`ERREUR ${e}`);
 
