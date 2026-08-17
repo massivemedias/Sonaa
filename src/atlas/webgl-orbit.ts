@@ -355,6 +355,8 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
        porteur chromatique d'un derive, elle doit voyager avec le slot. */
     lightness: number;
     chroma: number;
+    /** L'annee retenue, saisie ou deduite. Elle range les derives. */
+    annee: number;
   }
 
   const slotsData: Slot[] = [];
@@ -389,6 +391,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
           bpm: genre.bpm,
           lightness: genre.lightness,
           chroma: genre.chroma,
+          annee: genre.annee,
           children: genre.children,
           parent: genre.parent,
           major: genre.major,
@@ -1174,24 +1177,29 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     total += partParent;
     if (total <= 0) total = 1;
 
-    /* Ordre conservé : les branches sont rangées selon l'angle qu'elles
-       occupaient déjà à l'écran. Sans cela, la disposition rebattrait les
-       cartes à chaque descente et un dérivé repéré à droite se retrouverait à
-       gauche. */
-    const avecAngle = enfantsRacine.map((e) => {
-      const es = slotsData[e];
-      const dx = (es?.deployed.x ?? 0) - slot.deployed.x;
-      const dy = (es?.deployed.y ?? 0) - slot.deployed.y;
-      const dz = (es?.deployed.z ?? 0) - slot.deployed.z;
-      return {
-        e,
-        angle: Math.atan2(
-          camUp.x * dx + camUp.y * dy + camUp.z * dz,
-          camRight.x * dx + camRight.y * dy + camRight.z * dz
-        )
-      };
-    });
-    avecAngle.sort((a, b) => a.angle - b.angle);
+    /* ═══════════════════════════════════════════════════════════════════
+       LES DERIVES SONT RANGES PAR DATE, DU PLUS ANCIEN AU PLUS RECENT.
+
+       Ils l'etaient par l'angle qu'ils occupaient deja a l'ecran, ce qui
+       gardait la disposition stable d'une descente a l'autre mais ne disait
+       RIEN. Ranger par date ajoute une lecture entiere : en tournant autour du
+       parent, on voit l'ordre d'apparition.
+
+       La date est celle du corpus, `annee`, saisie a la main quand elle existe
+       et deduite du plus ancien enregistrement sinon. A date egale, l'ordre
+       alphabetique tranche : sans lui, deux genres de la meme annee
+       changeraient de place d'un chargement a l'autre, et la stabilite qu'on
+       avait est ce qu'on perdrait en echange. */
+    const avecAngle = [...enfantsRacine]
+      .sort((a, b) => {
+        const sa = slotsData[a];
+        const sb = slotsData[b];
+        const da = sa?.annee ?? 1990;
+        const db = sb?.annee ?? 1990;
+        if (da !== db) return da - db;
+        return (sa?.label ?? '').localeCompare(sb?.label ?? '', 'fr');
+      })
+      .map((e) => ({ e, angle: 0 }));
 
     /* Descente récursive : chaque noeud reçoit un secteur [debut, fin] et le
        partage entre ses enfants au prorata de leurs feuilles. Il se pose
@@ -5672,6 +5680,7 @@ const OVERLAP_TOLERANCE = 1;
         presence: number;
         profondeur: number;
         generation: number;
+        annee: number;
         nomme: boolean;
       }[] = [];
       let flouMin = 1;
@@ -5683,6 +5692,7 @@ const OVERLAP_TOLERANCE = 1;
           dedans.push({
             slot: i,
             label: slotsData[i]?.label ?? '',
+            annee: slotsData[i]?.annee ?? 0,
             x: Math.round(projected[i * 3] ?? 0),
             y: Math.round(projected[i * 3 + 1] ?? 0),
             rayonPx: Math.round(rayonEcran(i)),

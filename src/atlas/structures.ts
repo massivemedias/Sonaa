@@ -236,6 +236,11 @@ export interface Genre {
   /* La date d'origine DOCUMENTEE, saisie a la main, quand la deduction par le
      plus ancien enregistrement se trompe. Voir le schema du corpus. */
   readonly yearStart?: number;
+  /* L'ANNEE RETENUE : la date saisie si elle existe, la plus ancienne des
+     dates de morceaux sinon. Calculee une fois ici plutot que par chaque vue :
+     deux calculs d'une meme grandeur finiraient par diverger, et l'atlas et la
+     chronologie doivent ranger les genres dans le MEME ordre. */
+  readonly annee: number;
   /** Milieu de l'intervalle, pour l'affichage. L'intervalle est la donnée. */
   /** Milieu de l'intervalle, ou 0 quand le genre n'a pas de tempo. */
   readonly bpm: number;
@@ -431,6 +436,13 @@ export const buildStructure = (familyIndex: number): Structure => {
           family: familyIndexOf(pp.family),
           label: FAMILIES[familyIndexOf(pp.family)]?.label ?? pp.family
         })),
+      annee: (() => {
+        if (entry.yearStart !== undefined) return entry.yearStart;
+        const ys = [...entry.tracks.essentiel, ...entry.tracks.actuel]
+          .map((t) => t.year)
+          .filter((y): y is number => typeof y === 'number');
+        return ys.length > 0 ? Math.min(...ys) : 1990;
+      })(),
       tracksEssentiel: toTracks(entry.tracks.essentiel),
       tracksActuel: toTracks(entry.tracks.actuel),
       children: [],
