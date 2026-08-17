@@ -6,6 +6,7 @@
    retirée (le lecteur est une colonne DOM), liens en Bézier (contrôles au
    tiers = ligne droite), et le survol ne touche jamais aux labels. */
 
+import { repereCanvas, versCanvas, centreVersCanvas } from './repere-canvas.ts';
 import {
   BufferAttribute,
   CustomBlending,
@@ -5993,6 +5994,13 @@ const OVERLAP_TOLERANCE = 1;
 
     /* Ce que le clic ferait à cet endroit, SANS le faire. Sert à prouver
        qu'aucune zone floue ne capte un clic, sans simuler d'événements. */
+    /* LA CONVERSION FENETRE VERS CANVAS, exposee ici et definie ailleurs, une
+       seule fois. Toute sonde qui mesure un rectangle DOM doit passer par elle
+       plutot que de la refaire : c'est le seul moyen qu'elle ne diverge pas,
+       puisque les sondes vivent hors du depot. Voir repere-canvas.ts. */
+    repereCanvas,
+    versCanvas,
+    centreVersCanvas,
     cibleSous: (px: number, py: number) => {
       const nom = nomTouche(px, py, 4);
       const sphere = chercherCible(px, py, 26);

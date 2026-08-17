@@ -1,3 +1,4 @@
+import { repereCanvas } from './repere-canvas.ts';
 /* VÉRIFICATION VISUELLE PAR LA MACHINE (ADR-048).
 
    Principe : quand on ne peut pas voir, on MESURE. Quatre contrôles :
@@ -367,12 +368,9 @@ interface BoitesResult {
    n'a rien perdu, l'instrument a cesse d'etre valide.
 
    On ramene donc les rectangles DOM dans le repere du canvas. */
-const repereCanvas = (): { x: number; y: number } => {
-  const c = document.querySelector('canvas.atlas-canvas') ?? document.querySelector('canvas');
-  if (!c) return { x: 0, y: 0 };
-  const r = c.getBoundingClientRect();
-  return { x: r.left, y: r.top };
-};
+/* PLUS DE COPIE LOCALE. Elle vivait ici, une autre dans chaque sonde, et
+   c'est cette dispersion qui a produit trois faux echecs. Une seule
+   definition, importee, et les sondes exterieures la demandent au moteur. */
 
 const testBoites = async (): Promise<BoitesResult> => {
   const a = atlas();
@@ -767,8 +765,11 @@ const verifierHypotheses = (): Hypothese[] => {
   const h: Hypothese[] = [];
   const a = atlas() as unknown as { dimensions?: () => { largeur: number; hauteur: number } };
 
-  const c = document.querySelector('canvas.atlas-canvas') ?? document.querySelector('canvas');
-  const r = c?.getBoundingClientRect();
+  /* PAR LE HELPER, comme tout le monde. Cette verification d'hypothese
+     refaisait elle-meme la conversion qu'elle est censee garantir, ce qui est
+     l'ironie complete : le controle vient de l'attraper. */
+  const o = repereCanvas();
+  const r = o.largeur > 0 ? o : null;
 
   /* CELLE QUI A MENTI. Les rectangles DOM sont en coordonnees fenetre, les
      coordonnees du moteur en coordonnees canvas. Les tests les ramenent
@@ -777,7 +778,7 @@ const verifierHypotheses = (): Hypothese[] => {
     enonce: "l'origine du canvas est connue et les reperes sont ramenes l'un sur l'autre",
     tenue: Boolean(r),
     constate: r
-      ? `canvas a (${Math.round(r.left)}, ${Math.round(r.top)}) dans la fenetre`
+      ? `canvas a (${Math.round(r.x)}, ${Math.round(r.y)}) dans la fenetre`
       : 'aucun canvas trouve, toute mesure de position est sans objet'
   });
 
@@ -785,14 +786,14 @@ const verifierHypotheses = (): Hypothese[] => {
      canvas reel. Elles ont deja diverge d'un facteur de resolution : 672
      contre 896, et le test avait accuse le produit. */
   const d = a.dimensions?.();
-  const ecartL = d && r ? Math.abs(d.largeur - r.width) : 0;
-  const ecartH = d && r ? Math.abs(d.hauteur - r.height) : 0;
+  const ecartL = d && r ? Math.abs(d.largeur - r.largeur) : 0;
+  const ecartH = d && r ? Math.abs(d.hauteur - r.hauteur) : 0;
   h.push({
     enonce: 'les dimensions annoncees par le moteur sont celles du canvas affiche',
     tenue: Boolean(d && r) && ecartL <= 2 && ecartH <= 2,
     constate:
       d && r
-        ? `moteur ${Math.round(d.largeur)}x${Math.round(d.hauteur)}, canvas ${Math.round(r.width)}x${Math.round(r.height)}`
+        ? `moteur ${Math.round(d.largeur)}x${Math.round(d.hauteur)}, canvas ${Math.round(r.largeur)}x${Math.round(r.hauteur)}`
         : 'dimensions indisponibles'
   });
 

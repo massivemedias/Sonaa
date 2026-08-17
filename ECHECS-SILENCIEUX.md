@@ -479,6 +479,26 @@ Une hypothèse tacite ne peut pas être invalidée, puisqu'elle n'existe pas dan
 le texte. C'est ce qui distingue ce cas des trois autres outils faux de la
 semaine : l'outil n'était pas mal écrit, il était devenu inapplicable.
 
+**Troisième occurrence, et la règle qui en sort.** Le même décalage de repère a
+faussé trois instruments : `testCadre`, `testBoites`, puis la sonde des plaques
+qui a rendu « 0 sur 16 cliquables » à 390 px sur un produit parfaitement
+correct. Chaque fois la conversion était refaite sur place, un peu différemment.
+
+Une règle qu'on réapplique à la main est une règle qu'on oubliera. Elle est
+donc définie **une seule fois**, dans `src/atlas/repere-canvas.ts`, et exposée
+par le moteur sous `window.__atlas.repereCanvas` : les sondes extérieures, qui
+vivent hors du dépôt et disparaissent entre deux sessions, n'ont pas d'autre
+moyen de l'obtenir que de la demander. C'est ce qui distingue une convention
+d'une contrainte. `check:constantes` refuse toute nouvelle copie.
+
+**Et le contrôle lui-même a dû être corrigé deux fois, dans les deux sens.**
+D'abord trop étroit : testé sur un fichier écrit exprès, il rendait vert, parce
+qu'il exigeait les deux marqueurs sans point-virgule entre eux, ce qui exclut le
+cas normal en deux instructions. C'est le faux vert, le pire résultat possible
+pour un garde-fou. Puis trop large : il accusait un fichier qui interroge
+légitimement le canvas sans jamais mesurer sa boîte. **On ne branche pas un
+contrôle sans l'avoir vu refuser quelque chose ET accepter le dépôt.**
+
 **La règle, posée par Mika.** Tout outil de mesure déclare en tête les
 hypothèses sur lesquelles il repose, et vérifie avant de mesurer celles qui
 sont vérifiables. Un test qui suppose que deux repères coïncident doit le

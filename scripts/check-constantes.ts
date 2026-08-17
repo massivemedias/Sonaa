@@ -135,6 +135,52 @@ for (const [nom, parFichier] of constantes) {
   });
 }
 
+/* --- LA CONVERSION FENETRE VERS CANVAS NE SE REFAIT PAS A LA MAIN ----------
+
+   Troisieme occurrence du meme defaut avant qu'il soit centralise : chaque
+   instrument refaisait la conversion a sa maniere, et le decalage revenait
+   ailleurs. Une regle qu'on reapplique a la main est une regle qu'on oubliera.
+
+   Le controle est volontairement etroit : il ne signale que les fichiers qui
+   lisent l'origine d'un CANVAS pour s'en servir de repere, pas tout usage de
+   getBoundingClientRect, qui est legitime partout ailleurs. Un controle bavard
+   se fait desactiver. */
+/* DEUX MARQUEURS DANS LE MEME FICHIER, et non un motif d'une seule expression.
+
+   Premiere version : une expression exigeant les deux a moins de cent vingt
+   caracteres SANS point-virgule entre eux. Elle n'attrapait donc rien des que
+   la conversion tenait en deux instructions, ce qui est le cas normal. Teste
+   sur un fichier d'essai ecrit expres, elle a rendu vert.
+
+   C'est le pire des resultats pour un controle, et il porte un nom dans ce
+   projet : le faux vert. On ne branche pas un garde-fou sans avoir vu qu'il
+   refuse quelque chose. */
+/* Deuxieme correction, dans l'autre sens : deux marqueurs n'importe ou dans le
+   fichier accusaient verify-visual, qui interroge LEGITIMEMENT le canvas pour y
+   envoyer des evenements sans jamais mesurer sa boite. Un controle qui crie a
+   tort se fait desactiver, et c'est le reproche deja fait au plafond.
+
+   Le motif vise est precis : une variable tiree d'une requete sur le canvas,
+   dont on mesure ensuite la boite. C'est cela, et cela seul, qui refait la
+   conversion. */
+const CANVAS_MESURE = new RegExp(
+  String.raw`(?:const|let|var)\s+(\w+)\s*=[^;]*querySelector\(['"\`]canvas[\s\S]{0,200}?\b\1\??\.getBoundingClientRect` +
+    String.raw`|querySelector\(['"\`]canvas[^)]*\)\s*\??\.getBoundingClientRect`
+);
+
+for (const fichier of fichiers) {
+  if (fichier.endsWith('repere-canvas.ts')) continue; // la definition elle-meme
+  const sansCommentaires = readFileSync(fichier, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+  if (!CANVAS_MESURE.test(sansCommentaires)) continue;
+  fautes.push({
+    quoi: 'la conversion fenetre vers canvas est refaite a la main',
+    ou: [court(fichier)],
+    pourquoi:
+      "Elle est definie une seule fois dans src/atlas/repere-canvas.ts, et exposee par le\n" +
+      '  moteur sous window.__atlas.repereCanvas pour les sondes exterieures. L\'appeler.'
+  });
+}
+
 if (fautes.length > 0) {
   console.error(`\nGRANDEURS EN DOUBLE : ${fautes.length} cas.\n`);
   for (const faute of fautes) {
