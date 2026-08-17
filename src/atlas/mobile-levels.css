@@ -116,24 +116,25 @@
   flex: 1;
   list-style: none;
   margin: 0;
-  padding: 0.6rem 0.7rem 2rem;
+  /* DOUZE PIXELS DE CHAQUE COTE, quelle que soit la profondeur. */
+  padding: 8px 12px 2rem;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
 .mn-liste > li + li {
-  margin-top: 0.5rem;
+  margin-top: 4px;
 }
 
 .mn-carte {
   /* LA GARANTIE. min-height et non height : le contenu peut la grandir. */
-  min-height: 72px;
+  min-height: 56px;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 0.15rem;
-  padding: 0.7rem 0.9rem 0.7rem 1.1rem;
+  gap: 2px;
+  padding: 8px 10px 8px 12px;
   text-align: left;
   background: color-mix(in oklab, var(--famille) 10%, transparent);
   /* La couleur de famille en filet à gauche : elle identifie sans crier, et
@@ -152,13 +153,13 @@
 }
 
 .mn-carte-titre {
-  font-size: 1rem;
+  font-size: 15px;
   line-height: 1.2;
   font-weight: 500;
 }
 
 .mn-carte-compte {
-  font-size: 0.72rem;
+  font-size: 11px;
   color: var(--ink-secondary, oklch(0.66 0.01 250));
 }
 
@@ -174,20 +175,29 @@
   text-overflow: ellipsis;
 }
 
-/* LA FILIATION SE VOIT DANS LA DESCENTE, par le décalage. C'est ce que la
-   navigation par niveaux perd par rapport au graphique, et c'est ce qu'on lui
-   rend ici, à peu de frais. Bornée à trois crans : au-delà, la largeur
-   restante pour un nom devient le vrai problème. */
-.mn-carte[data-profondeur='1'] { margin-left: 0.75rem; }
-.mn-carte[data-profondeur='2'] { margin-left: 1.5rem; }
-.mn-carte[data-profondeur='3'] { margin-left: 2.25rem; }
+/* LA PROFONDEUR NE RETRECIT PLUS LA RANGEE.
 
-.mn-carte[data-profondeur='1'],
-.mn-carte[data-profondeur='2'],
-.mn-carte[data-profondeur='3'] {
-  width: auto;
-  align-self: stretch;
-}
+   Elle se lisait par un decalage du BLOC : chaque niveau poussait la rangee
+   vers la droite et lui prenait sa largeur. Sur quatre niveaux, Disco, Euro
+   Disco, Hi-NRG, Spacesynth, c'est un tiers de l'ecran perdu en escalier, et
+   c'est la largeur qui manque le plus sur un telephone.
+
+   Elle se lit desormais par DEUX signes qui ne coutent aucune largeur : un
+   lisere vertical plus epais et plus clair a mesure qu'on descend, et une
+   indentation du TEXTE seul, huit pixels par niveau. La rangee, elle, occupe
+   toujours toute la largeur disponible. */
+.mn-carte[data-profondeur='1'] { border-left-width: 6px; }
+.mn-carte[data-profondeur='2'] { border-left-width: 8px; }
+.mn-carte[data-profondeur='3'] { border-left-width: 10px; }
+
+.mn-carte[data-profondeur='1'] { border-left-color: color-mix(in oklab, var(--famille) 80%, white); }
+.mn-carte[data-profondeur='2'] { border-left-color: color-mix(in oklab, var(--famille) 60%, white); }
+.mn-carte[data-profondeur='3'] { border-left-color: color-mix(in oklab, var(--famille) 45%, white); }
+
+/* Le TEXTE seulement, jamais le bloc. */
+.mn-carte[data-profondeur='1'] > * { margin-left: 8px; }
+.mn-carte[data-profondeur='2'] > * { margin-left: 16px; }
+.mn-carte[data-profondeur='3'] > * { margin-left: 24px; }
 
 /* --- AU NIVEAU DU GENRE, LA NAVIGATION S'EFFACE ---------------------------
 

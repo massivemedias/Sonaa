@@ -398,17 +398,25 @@ export function MobileLevels({ onOpen, onEnsemble, onChercher, ouvert }: Props) 
                 }}
               >
                 <span className="mn-carte-titre">{genre.label}</span>
+                {/* UNE SEULE LIGNE D'INFORMATION, et non deux.
+
+                    Deux lignes plus un titre forcaient la rangee au-dela de
+                    cent pixels : on ne voyait plus que cinq genres a la fois et
+                    l'on passait son temps a defiler. Tout tient sur une ligne,
+                    separe par des points medians. */}
                 <span className="mn-carte-compte">
-                  {genre.bpmRange ? `${genre.bpmRange[0]}-${genre.bpmRange[1]} BPM` : 'sans tempo type'}
-                  {genre.tracksEssentiel.length + genre.tracksActuel.length > 0
-                    ? ` · ${genre.tracksEssentiel.length + genre.tracksActuel.length} tracks`
-                    : ''}
+                  {[
+                    genre.bpmRange ? `${genre.bpmRange[0]}-${genre.bpmRange[1]} BPM` : null,
+                    genre.tracksEssentiel.length + genre.tracksActuel.length > 0
+                      ? `${genre.tracksEssentiel.length + genre.tracksActuel.length} tracks`
+                      : null,
+                    genre.children.length > 0
+                      ? `${genre.children.length} dérivé${genre.children.length > 1 ? 's' : ''}`
+                      : null
+                  ]
+                    .filter(Boolean)
+                    .join(' · ')}
                 </span>
-                {genre.children.length > 0 && (
-                  <span className="mn-carte-phares">
-                    {genre.children.length} dérivé{genre.children.length > 1 ? 's' : ''}
-                  </span>
-                )}
               </button>
             </li>
           ))}
