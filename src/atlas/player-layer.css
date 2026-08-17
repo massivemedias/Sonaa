@@ -796,8 +796,24 @@
     animation: none;
   }
 
+  /* ═══════════════════════════════════════════════════════════════════
+     LE LECTEUR ARRIVE PAR LA DROITE, IL NE MONTE PLUS DU BAS.
+
+     La feuille du bas prenait 40 % de l'ecran en position par defaut et
+     coupait l'accordeon en deux. Un panneau lateral laisse la bande gauche
+     visible : on garde le fil de l'endroit ou l'on se trouve pendant qu'on
+     ecoute, ce qu'une feuille qui recouvre ne permet pas.
+
+     Deux etats seulement, et c'est ce qui rend le geste lisible : ferme, le
+     mini lecteur en bas ; ouvert, le panneau a 90 %. Les trois positions de
+     la feuille etaient une nuance que personne ne demandait. */
   .pcol[data-sheet='bar'] {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
     height: var(--feuille-bar-h);
+    width: 100vw;
   }
   .pcol[data-sheet='bar'] .pcol-scroll {
     display: none;
@@ -809,15 +825,24 @@
      transport en consomment la totalite, et la liste des titres commence sous
      le bord. Zero titre visible, mesure aux trois largeurs. La consigne est
      d'en voir au moins cinq, ce qui reclame environ 220 px de liste en plus. */
-  .pcol[data-sheet='half'] {
-    height: var(--feuille-h);
-  }
+  /* LE PANNEAU, 90 % DE LA LARGEUR, ARRIVANT PAR LA DROITE.
 
-  /* TIREE VERS LE HAUT, ET NON PLEIN ECRAN : a 100 % la carte disparaissait,
-     et l'on perdait le fil de l'endroit ou l'on se trouve. 75 % suffisent aux
-     cinq pistes, mesure faite, et laissent la carte respirer au-dessus. */
+     La feuille du bas coupait l'accordeon en deux et prenait toute la largeur.
+     Un panneau lateral laisse la bande gauche lisible : on garde le fil de
+     l'endroit ou l'on se trouve pendant qu'on ecoute. Les deux anciennes
+     positions, mi-hauteur et tiree, deviennent un seul etat OUVERT : la
+     nuance entre elles n'avait plus d'objet des lors que le panneau ne
+     dispute plus la hauteur a la carte. */
+  .pcol[data-sheet='half'],
   .pcol[data-sheet='full'] {
-    height: var(--feuille-h-haute);
+    top: 0;
+    bottom: 0;
+    left: auto;
+    right: 0;
+    width: 90vw;
+    height: 100dvh;
+    border-left: 1px solid var(--rule-hairline, oklch(0.3 0.01 250));
+    box-shadow: -12px 0 32px rgba(0, 0, 0, 0.45);
   }
 
   .pcol-handle {
@@ -1529,4 +1554,129 @@
   .pcol[data-sheet='full'] .pcol-head {
     display: none;
   }
+}
+
+
+/* --- LE MINI LECTEUR, panneau ferme --------------------------------------
+
+   Cinquante-six pixels, la meme valeur nommee que la barre : `--feuille-bar-h`
+   est lue par la barre ET par la navigation qui s'arrete au-dessus d'elle. */
+
+.pcol-mini {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+  padding: 0 10px;
+  touch-action: pan-y;
+}
+
+/* La barre de progression sur le DESSUS, deux pixels : elle informe sans
+   occuper, et sa place en haut evite qu'un doigt pose sur le bord de l'ecran
+   la prenne pour une cible. */
+.pcol-mini-progres {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--rule-hairline, oklch(0.3 0.01 250));
+}
+
+.pcol-mini-progres span {
+  display: block;
+  height: 100%;
+  background: var(--family, oklch(0.72 0.15 250));
+}
+
+.pcol-mini-ouvrir {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+
+.pcol-mini-vignette {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+/* Titre et artiste sur UNE ligne chacun, tronques : deux lignes qui passent a
+   la ligne feraient grandir la barre, dont la hauteur est une garantie lue
+   ailleurs. */
+.pcol-mini-texte {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.pcol-mini-titre,
+.pcol-mini-artiste {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.pcol-mini-titre {
+  font-size: 13px;
+  color: var(--ink-primary, oklch(0.92 0.01 250));
+}
+
+.pcol-mini-artiste {
+  font-size: 11px;
+  color: var(--ink-secondary, oklch(0.66 0.01 250));
+}
+
+.pcol-mini-transport {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.pcol-mini-transport button {
+  width: 40px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: var(--ink-primary, oklch(0.92 0.01 250));
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.pcol-mini-transport button:disabled {
+  opacity: 0.35;
+}
+
+/* LA FLECHE DE FERMETURE, en haut a gauche du panneau, 44 px de zone. */
+.pcol-fermer {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: var(--ink-primary, oklch(0.92 0.01 250));
+  font-size: 1.2rem;
+  cursor: pointer;
+  touch-action: pan-y;
 }

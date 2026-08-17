@@ -769,22 +769,30 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
 
   // --- feuille mobile : glissement vertical entre les trois positions ------
 
+  /* LE PANNEAU SE FERME VERS LA DROITE, il ne descend plus.
+
+     Le geste suivait la geometrie precedente, une feuille qui montait et
+     descendait par le bas. Le lecteur arrive maintenant PAR LA DROITE : le
+     geste qui le renvoie est donc horizontal, dans la direction d'ou il vient.
+     Un panneau lateral qu'on ferme en glissant vers le bas serait un geste
+     appris contre l'intuition. */
   const onHandleDown = useCallback((event: React.PointerEvent) => {
-    dragStart.current = { y: event.clientY, pos: sheetPos };
+    dragStart.current = { y: event.clientX, pos: sheetPos };
     (event.target as HTMLElement).setPointerCapture(event.pointerId);
   }, [sheetPos]);
 
   const onHandleMove = useCallback((event: React.PointerEvent) => {
     const start = dragStart.current;
     if (!start) return;
-    const dy = event.clientY - start.y;
-    const order: SheetPos[] = ['bar', 'half', 'full'];
-    const idx = order.indexOf(start.pos);
-    if (dy < -70 && idx < 2) {
-      setSheetPos(order[idx + 1] ?? 'full');
+    /* `y` porte desormais un x : le champ garde son nom pour ne pas toucher au
+       reste, mais le geste est horizontal. Soixante-dix pixels vers la droite
+       referment, la meme distance que l'ancien seuil vertical. */
+    const dx = event.clientX - start.y;
+    if (dx > 70 && start.pos !== 'bar') {
+      setSheetPos('bar');
       dragStart.current = null;
-    } else if (dy > 70 && idx > 0) {
-      setSheetPos(order[idx - 1] ?? 'bar');
+    } else if (dx < -70 && start.pos === 'bar') {
+      setSheetPos('half');
       dragStart.current = null;
     }
   }, []);
@@ -897,6 +905,17 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
           className="pcol"
           data-sheet={narrow ? sheetPos : undefined}
           data-entree={entree}
+          /* LE GESTE APPARTIENT AU PANNEAU, PAS A LA FLECHE.
+
+             Il n'etait pose que sur la fleche : a 320 px, ou le panneau
+             commence six pixels avant elle, un glissement parti du bord ne la
+             touchait pas et ne fermait rien. Mesure : trois passages sur trois
+             en echec a 320, aucun a 390. Un geste offert sur une cible de
+             quarante-quatre pixels n'est pas un geste, c'est un bouton
+             deguise. */
+          onPointerDown={narrow ? onHandleDown : undefined}
+          onPointerMove={narrow ? onHandleMove : undefined}
+          onPointerUp={narrow ? onHandleUp : undefined}
           role="complementary"
           aria-label={`Lecteur, genre ${panelGenreData.label}`}
           style={{ ['--family' as string]: `oklch(0.72 0.15 ${panelFamily.hue})` }}
@@ -917,18 +936,77 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
             />
           )}
 
-          {/* Poignée de la feuille mobile. */}
-          {narrow && (
+          {/* LA FLECHE DE FERMETURE, en haut a gauche du panneau. Le glissement
+              vers la droite fait la meme chose : deux chemins pour un geste,
+              parce qu'un panneau qui ne se ferme QUE par un glissement laisse
+              sans issue qui ne devine pas le geste. */}
+          {narrow && sheetPos !== 'bar' && (
             <button
-              className="pcol-handle"
+              className="pcol-fermer"
               onPointerDown={onHandleDown}
               onPointerMove={onHandleMove}
               onPointerUp={onHandleUp}
-              onClick={() => setSheetPos(sheetPos === 'bar' ? 'half' : sheetPos === 'half' ? 'full' : 'half')}
-              aria-label="Déplacer la feuille du lecteur"
+              onClick={() => setSheetPos('bar')}
+              aria-label="Fermer le lecteur"
             >
-              <span aria-hidden="true" />
+              <span aria-hidden="true">→</span>
             </button>
+          )}
+
+          {/* LE MINI LECTEUR : panneau ferme, la lecture reste a portee.
+
+              Il ne remplace pas le panneau, il en garde la trace. Sans lui,
+              fermer le lecteur pour naviguer donnerait le sentiment d'avoir
+              arrete la musique, alors qu'elle continue : l'ecran mentirait sur
+              l'etat reel. */}
+          {narrow && sheetPos === 'bar' && (
+            <div
+              className="pcol-mini"
+              onPointerDown={onHandleDown}
+              onPointerMove={onHandleMove}
+              onPointerUp={onHandleUp}
+            >
+              <div className="pcol-mini-progres" aria-hidden="true">
+                <span style={{ width: `${progress}%` }} />
+              </div>
+              <button
+                className="pcol-mini-ouvrir"
+                onClick={() => setSheetPos('half')}
+                aria-label="Ouvrir le lecteur"
+              >
+                {shownInPanel?.cover ? (
+                  <img className="pcol-mini-vignette" src={shownInPanel.cover} alt="" draggable={false} />
+                ) : (
+                  <span className="pcol-mini-vignette pcol-cover-generated">
+                    {shownInPanel && (
+                      <ProceduralCover
+                        artist={shownInPanel.artist}
+                        title={shownInPanel.title}
+                        hue={panelFamily.hue}
+                      />
+                    )}
+                  </span>
+                )}
+                <span className="pcol-mini-texte">
+                  <span className="pcol-mini-titre">{shownInPanel?.title ?? panelGenreData.label}</span>
+                  <span className="pcol-mini-artiste">{shownInPanel?.artist ?? ''}</span>
+                </span>
+              </button>
+              <div className="pcol-mini-transport">
+                <button onClick={() => step(-1)} disabled={!playingHere} aria-label="Précédente">⏮</button>
+                <button
+                  onClick={() =>
+                    playingHere
+                      ? toggle()
+                      : play(panelGenre.familyIndex, panelGenre.genreLocal, 0, currentList)
+                  }
+                  aria-label={playing && playingHere ? 'Pause' : 'Lecture'}
+                >
+                  {playing && playingHere ? '❚❚' : '▶'}
+                </button>
+                <button onClick={() => step(1)} disabled={!playingHere} aria-label="Suivante">⏭</button>
+              </div>
+            </div>
           )}
 
           <div className="pcol-scroll">

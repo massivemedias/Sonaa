@@ -39,13 +39,16 @@
   overflow: hidden;
 }
 
-/* La feuille a trois positions, la navigation suit les trois. */
-.atlas-root[data-sheet-pos='half'] .mn {
-  bottom: var(--feuille-h);
-}
+/* LE LECTEUR EST LATERAL : il ne coupe plus la navigation en hauteur.
 
+   Elle s'arretait au-dessus de la feuille du bas, qui prenait 40 % de l'ecran.
+   Un panneau lateral la recouvre partiellement en largeur et la laisse
+   entiere en hauteur, ce qui est tout l'interet du changement : la bande
+   gauche reste lisible pendant l'ecoute. La borne du bas reste celle du mini
+   lecteur, toujours present. */
+.atlas-root[data-sheet-pos='half'] .mn,
 .atlas-root[data-sheet-pos='full'] .mn {
-  bottom: var(--feuille-h-haute);
+  bottom: var(--feuille-bar-h);
 }
 
 /* Au niveau du genre et en contemplation, la navigation n'est qu'un bandeau
