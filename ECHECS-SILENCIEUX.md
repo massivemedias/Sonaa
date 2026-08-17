@@ -1,3 +1,51 @@
+# LES ÉCHECS SILENCIEUX
+
+## Ce que ce fichier raconte, en une phrase
+
+**Les dix-neuf motifs qui suivent sont dix-neuf variantes d'une seule faute :
+ne pas confronter la mesure et le raisonnement.**
+
+Cette phrase n'était pas là au début. Elle est apparue après coup, en
+formulant le motif 19, et elle réorganise tout ce qui précède.
+
+### La faute a deux faces, et j'ai commis les deux
+
+**Croire le raisonnement contre la mesure.** C'est la face la plus fréquente
+ici. Le code est lu, il paraît juste, on en conclut qu'il fonctionne. On
+déclare un comportement acquis sans l'avoir vu s'exécuter. On corrige, on
+republie sans relancer le contrôle. On annonce « c'est stable maintenant »
+après un passage. Les motifs 1 à 7, 10, 14 et 16 sont de cette famille.
+
+**Croire la mesure contre le raisonnement.** Plus rare, et plus coûteuse quand
+elle arrive. Une bissection désigne un commit dont le diff ne touche à rien de
+rendu, et l'on accuse quand même. Un banc rend zéro et l'on cherche le défaut
+au lieu de vérifier que la page existait. Les motifs 8, 9, 17 et 19 sont de
+cette famille.
+
+Les deux se ressemblent peu et se corrigent de la même façon : **poser la
+question qui relie les deux.** Pour un raisonnement, « qu'est-ce qui prouve que
+cela s'exécute ». Pour une mesure, « par quel chemin cette cause produirait-elle
+ce symptôme ».
+
+### Ce qui rend ces fautes invisibles
+
+Aucune ne produit d'erreur. Le code compile, la page s'affiche, le banc rend un
+nombre bien formé. **Ce qui manque n'est jamais dans ce qu'on regarde**, c'est
+une absence ailleurs : une ligne d'appel qui n'existe pas, une hypothèse jamais
+écrite, un serveur qui a cessé de répondre entre deux points d'une série.
+
+On ne remarque pas une absence. C'est pour cela que la plupart de ces motifs
+ont donné un contrôle automatique : une machine, elle, remarque qu'une chose
+n'est pas là.
+
+### Comment lire la suite
+
+Chaque motif porte le cas réel qui l'a produit, avec ses chiffres. Ils sont
+gardés parce qu'un motif sans son coût se lit comme une bonne intention, et une
+bonne intention ne change rien à la façon de travailler.
+
+---
+
 # Les opérations qui peuvent échouer sans le dire
 
 Revue demandée après deux incidents de même nature : la commande d'ajout de
