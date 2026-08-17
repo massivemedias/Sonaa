@@ -349,6 +349,11 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     compact: Vector3;
     deployed: Vector3;
     world: Vector3;
+    /* LA COULEUR EXACTE DU GENRE. Elle servait deja au rendu des spheres,
+       lue directement dans STRUCTURES ; depuis que la plaque est le seul
+       porteur chromatique d'un derive, elle doit voyager avec le slot. */
+    lightness: number;
+    chroma: number;
   }
 
   const slotsData: Slot[] = [];
@@ -381,6 +386,8 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
           depth: genre.depth,
           label: genre.label,
           bpm: genre.bpm,
+          lightness: genre.lightness,
+          chroma: genre.chroma,
           children: genre.children,
           parent: genre.parent,
           major: genre.major,
@@ -2659,6 +2666,15 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      Ici tout continue de passer par le canvas : orbite, pincement et
      glissement sont intacts, et le nom devient une cible parmi les
      autres. */
+  /* LA PLAQUE EST LA SEULE CIBLE D'UN DERIVE, sa boite plus huit pixels.
+
+     Depuis que les derives n'ont plus de sphere, `chercherCible` n'a plus rien
+     a trouver pour eux : leur presence est nulle, donc le filtre de presence
+     les ecarte, ce qui est voulu. Toute la cible passe donc par ce chemin-ci,
+     et sa marge doit etre celle qu'on annonce et non celle qu'on herite du
+     survol. Huit pixels autour de la boite, garantis. */
+  const MARGE_PLAQUE = 8;
+
   const nomTouche = (px: number, py: number, marge: number): LabelSlot | null => {
     for (const ls of labelSlots) {
       if (!ls.visible || ls.opacity <= 0.05 || ls.w <= 0) continue;
@@ -2674,11 +2690,12 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
          image à la passe de placement : sans ce test, le tout premier clic
          après l'entrée pouvait encore viser un nom qui venait de partir. */
       if (zoneActive && (ls.kind === 'family' || ls.slot < 0 || zone[ls.slot] !== 1)) continue;
+      const m = ls.plaque ? Math.max(marge, MARGE_PLAQUE) : marge;
       if (
-        px >= ls.x - marge &&
-        px <= ls.x + ls.w + marge &&
-        py >= ls.y - marge &&
-        py <= ls.y + ls.h + marge
+        px >= ls.x - m &&
+        px <= ls.x + ls.w + m &&
+        py >= ls.y - m &&
+        py <= ls.y + ls.h + m
       ) {
         return ls;
       }
@@ -3038,6 +3055,9 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
 
   interface LabelSlot {
     el: HTMLSpanElement;
+    /* Une plaque a sa propre marge de clic : c'est la seule cible d'un derive
+       depuis que sa sphere a disparu. */
+    plaque: boolean;
     key: string;
     x: number;
     y: number;
@@ -3072,7 +3092,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     labelLayer.appendChild(el);
     labelSlots.push({
       el, key: '', x: -9999, y: -9999, px: 14, opacity: 0, visible: false,
-      slot: -1, kind: 'genre', famille: -1, w: 0, h: 0
+      plaque: false, slot: -1, kind: 'genre', famille: -1, w: 0, h: 0
     });
   }
 
@@ -3382,7 +3402,13 @@ const OVERLAP_TOLERANCE = 1;
       const wTexte = textWidth(affiche, px, kind);
       /* Le remplissage retrecit avec le texte : garder douze pixels autour
          d'un texte de huit rendrait la plaque plus large que son nom. */
-      const w = isPlaque ? wTexte + (etroitPlaque ? 8 : 12) : wTexte;
+      /* LA PASTILLE EST DANS LA BOITE, donc dans la largeur mesuree : huit
+         pixels de rond plus quatre d'ecart. Une pastille dessinee et non
+         comptee ferait deborder la plaque de douze pixels a droite, et
+         l'anti-chevauchement travaillerait sur une boite plus etroite que la
+         boite rendue. C'est le motif deja rencontre sur le remplissage. */
+      const pastille = isPlaque ? 12 : 0;
+      const w = isPlaque ? wTexte + (etroitPlaque ? 8 : 12) + pastille : wTexte;
 
       /* Écran étroit : le nom de famille passe DESSOUS la sphère et centré.
          Ce décalage vivait dans le CSS (translate -50% 1.35rem sur
@@ -3394,13 +3420,26 @@ const OVERLAP_TOLERANCE = 1;
       let fx = sx;
       let fy = sy;
 
+      /* LA PLAQUE D'UN DERIVE PREND LA PLACE EXACTE DU NOEUD. Centree, et
+         remontee d'une demi-hauteur de texte pour que le point du noeud tombe
+         au milieu de la boite et non sur sa ligne de base. */
+      const plaqueCentree = isPlaque && slot !== focusIndex;
+      if (plaqueCentree) {
+        fx = sx - w / 2;
+        fy = sy - px * 0.72;
+      }
+
       /* LABELS DE GENRES POSÉS VERS L'EXTÉRIEUR DE LEUR ANNEAU (ADR-056) :
          centrés sur la sphère, les huit noms d'une couronne se battaient au
          centre contre le fondateur et six sur huit tombaient (mesuré). En
          les repoussant radialement depuis le centre de leur système, leur
          écart angulaire les sépare de lui-même. Le décalage vaut le rayon
          projeté de la sphère plus une demi-boîte. */
-      if (kind === 'genre' && slot >= 0) {
+      /* Le decalage radial existait pour ecarter un nom de SA SPHERE, qui
+         occupait la position du noeud. La sphere d'un derive n'existe plus :
+         la plaque prend sa place, et les liens, qui aboutissent au noeud,
+         arrivent donc sous elle au lieu de pointer un vide a cote. */
+      if (kind === 'genre' && slot >= 0 && !plaqueCentree) {
         const parentSlot = slotsData[slot];
         const anchor = parentSlot ? familyCenters[parentSlot.family] : undefined;
         if (anchor) {
@@ -4002,9 +4041,18 @@ const OVERLAP_TOLERANCE = 1;
         ls.el.dataset['plaque'] = entry.isPlaque ? '1' : '0';
         ls.el.dataset['central'] = entry.isCentral ? '1' : '0';
         if (entry.isPlaque) {
-          const fam = entry.slot >= 0 ? slotsData[entry.slot]?.family : undefined;
-          const hue = fam !== undefined ? (FAMILIES[fam]?.hue ?? breaksHue) : breaksHue;
+          /* LA COULEUR EXACTE DU GENRE, ET NON CELLE DE SA FAMILLE.
+
+             Depuis que la sphere du derive a disparu, la plaque est le SEUL
+             porteur de l'information chromatique. La reduire a la teinte de
+             famille ferait perdre ce que la sphere disait : la clarte et la
+             saturation varient d'un genre a l'autre dans une meme famille, et
+             c'est ce qui distinguait un fondateur d'un satellite profond. */
+          const sd = entry.slot >= 0 ? slotsData[entry.slot] : undefined;
+          const hue = sd ? (FAMILIES[sd.family]?.hue ?? breaksHue) : breaksHue;
           ls.el.style.setProperty('--plaque-hue', String(hue));
+          ls.el.style.setProperty('--plaque-l', String(sd?.lightness ?? 0.72));
+          ls.el.style.setProperty('--plaque-c', String(sd?.chroma ?? 0.15));
         }
       }
 
@@ -4035,6 +4083,9 @@ const OVERLAP_TOLERANCE = 1;
          seulement au changement de clé : la boîte suit la caméra. */
       ls.slot = entry.slot;
       ls.kind = entry.kind;
+      /* Tenu a jour a chaque passe : la marge de clic d'une plaque en depend,
+         et une valeur figee au montage vaudrait pour la mauvaise image. */
+      ls.plaque = entry.isPlaque;
       ls.famille =
         entry.kind === 'family'
           ? FAMILIES.findIndex((f) => f.label === entry.text)
@@ -4863,7 +4914,25 @@ const OVERLAP_TOLERANCE = 1;
 
       if ((defocus[i] ?? 0) > flouMaxCourant) flouMaxCourant = defocus[i] ?? 0;
 
-      /* LA SPHERE RESTE, ET LA PLAQUE VIENT DESSOUS.
+      /* DANS UN GENRE OUVERT, LES DERIVES N'ONT PLUS DE SPHERE.
+
+         Une sphere ET une plaque cote a cote disent deux fois la meme chose et
+         encombrent : sur UK Garage, Wonky, Riddim, Brostep, Trap, Future Bass
+         et Jersey Club etaient tous doubles. La plaque suffit, a condition
+         qu'elle porte ce que la sphere portait, c'est-a-dire la COULEUR : d'ou
+         le lisere a la teinte exacte du genre et la pastille dans la plaque.
+
+         LA SPHERE DU GENRE CENTRAL RESTE. Elle porte la couleur et le poids de
+         la famille, c'est le repere autour duquel tout se lit. Sans elle, la
+         couronne n'aurait plus de centre visible.
+
+         Ordre declare : cette ecriture s'applique APRES le calcul du rayon et
+         AVANT le bornage en pixels, comme les deux autres du meme bloc. */
+      if (zoneActive && zone[i] === 1 && i !== focusIndex && !introActive) {
+        presence = 0;
+      }
+
+      /* LA SPHERE DU CENTRE RESTE, ET LA PLAQUE VIENT DESSOUS.
 
          L'essai les effacait, `presence = 0`, en considerant que la plaque les
          remplacait. Elle ne les remplace pas : la sphere porte la COULEUR de

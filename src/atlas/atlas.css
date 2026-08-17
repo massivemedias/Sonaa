@@ -159,9 +159,20 @@
    agace. */
 .atlas-label[data-plaque='1'] {
   background: rgba(0, 0, 0, 0.85);
-  border: 1px solid oklch(0.72 0.15 var(--plaque-hue, 284));
+  /* LE LISERE PORTE LA COULEUR EXACTE DU GENRE, et non plus une clarte fixe
+     sur la teinte de sa famille. Depuis que le derive n'a plus de sphere, la
+     plaque est le seul porteur chromatique : reduire tous les genres d'une
+     famille a une meme couleur ferait perdre ce que la sphere disait. */
+  border: 1px solid oklch(var(--plaque-l, 0.72) var(--plaque-c, 0.15) var(--plaque-hue, 284));
   border-radius: 10px;
   padding: 3px 6px;
+  /* LA PASTILLE, huit pixels de rond a gauche du texte, DANS la boite. Sa
+     largeur est comptee par le moteur : une pastille dessinee et non comptee
+     ferait deborder la plaque et l'anti-chevauchement travaillerait sur une
+     boite plus etroite que la boite rendue. */
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   text-shadow: none;
   font-weight: 600;
   color: oklch(0.94 0.005 250);
@@ -197,6 +208,15 @@
   }
 }
 
+.atlas-label[data-plaque='1']::before {
+  content: '';
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: oklch(var(--plaque-l, 0.72) var(--plaque-c, 0.15) var(--plaque-hue, 284));
+}
+
 /* SURVOLER L'UNE ALLUME L'AUTRE.
 
    `:hover` ne repond qu'au curseur pose sur la plaque elle-meme. Or le moteur
@@ -210,10 +230,22 @@
 .atlas-label[data-plaque='1'][data-survol='1'] {
   background: rgba(0, 0, 0, 0.95);
   border-width: 2px;
-  border-color: oklch(0.82 0.18 var(--plaque-hue, 284));
+  border-color: oklch(calc(var(--plaque-l, 0.72) + 0.12) var(--plaque-c, 0.15) var(--plaque-hue, 284));
   padding: 2px 5px;
   color: #fff;
+  /* CINQ POUR CENT, et la boite ne bouge pas de place : la transformation est
+     visuelle, elle ne touche pas a la geometrie que l'anti-chevauchement a
+     resolue. Grandir la boite elle-meme deplacerait ses voisines au survol. */
+  transform: scale(1.05);
   cursor: pointer;
+}
+
+.atlas-label[data-plaque='1'] {
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease,
+    transform 120ms ease;
 }
 
 /* Plaques : focus/sélectionné = couleur plus vive */
