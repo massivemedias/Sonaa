@@ -14,6 +14,12 @@ import { useCallback, useMemo, useState } from 'react';
 import { FAMILIES, STRUCTURES, type Genre } from './structures.ts';
 import './chronology.css';
 
+/* LA HAUTEUR D'UN CRAN, ecrite une seule fois : la carte, la case de decennie
+   et le trait de filiation la lisent tous les trois. Trois ecritures d'un meme
+   nombre finiraient par diverger, et ce projet en a fait la demonstration. */
+const CRAN_PX = 44;
+const MARGE_DECENNIE_PX = 10;
+
 interface GenreWithYear extends Genre {
   yearDeduced: number;
   hasGraft: boolean;
@@ -76,27 +82,81 @@ export function ChronologyView({ onOpen }: Props) {
     const minDecade = decades[0] || 1960;
     const maxDecade = decades[decades.length - 1] || 2020;
 
+    /* ═══════════════════════════════════════════════════════════════════
+       UNE DECENNIE EST HAUTE COMME SA COLONNE LA PLUS CHARGEE.
+
+       LE DEFAUT : chaque carte etait posee a la position de son ANNEE dans la
+       decennie, et rien d'autre. Deux genres nes a deux ans d'intervalle se
+       retrouvaient donc l'un sur l'autre, et le plus recent masquait le plus
+       ancien : « Disco » sous « Hi-NRG », « Chicago House » sous « Deep
+       House », « Musique concrete » a cheval sur « Funk » et « Krautrock ».
+       Ce n'etait pas un reglage trop serre, c'etait l'absence de toute notion
+       d'empilement : le recouvrement etait garanti par construction.
+
+       LA REGLE : dans sa case de decennie, chaque carte occupe un CRAN, et
+       les crans se suivent. La hauteur de la case vaut donc le nombre de
+       crans de la colonne la plus chargee de cette decennie, toutes familles
+       confondues, puisque les cases sont alignees horizontalement. Une
+       decennie saturee allonge la colonne et l'on defile, ce qui est le prix
+       assume : mieux vaut defiler que ne pas pouvoir lire.
+
+       ON PASSE DONC DES POURCENTAGES AUX PIXELS. Une hauteur en pourcentage
+       ne peut pas exprimer « autant de crans qu'il en faut » : elle dit une
+       part d'un total, et le total est justement ce qu'on ne connait qu'apres
+       avoir compte. */
+    const parDecennieEtFamille: Record<number, number> = {};
+    genresByFamily.forEach((genres) => {
+      const parDecennie: Record<number, number> = {};
+      genres.forEach((g) => {
+        const d = Math.floor(g.yearDeduced / 10) * 10;
+        parDecennie[d] = (parDecennie[d] || 0) + 1;
+      });
+      Object.entries(parDecennie).forEach(([d, n]) => {
+        const k = Number(d);
+        parDecennieEtFamille[k] = Math.max(parDecennieEtFamille[k] ?? 0, n);
+      });
+    });
+
     const positions: Record<number, { start: number; height: number }> = {};
     let cumulative = 0;
-    const totalSqrt = decades.reduce((sum, d) => sum + Math.sqrt(counts[d] || 1), 0);
 
     for (let d = minDecade; d <= maxDecade; d += 10) {
-      const count = counts[d] || 1;
-      const height = Math.sqrt(count) / totalSqrt;
+      const crans = Math.max(1, parDecennieEtFamille[d] ?? 1);
+      const height = crans * CRAN_PX + MARGE_DECENNIE_PX;
       positions[d] = { start: cumulative, height };
       cumulative += height;
     }
 
-    return { positions, minDecade, maxDecade };
+    return { positions, minDecade, maxDecade, hauteurTotale: cumulative };
   }, [genresByFamily]);
 
-  const getYPosition = useCallback((year: number): number => {
+  /* LE CRAN D'UNE CARTE DANS SA DECENNIE, et non sa position dans l'annee.
+
+     L'ordre a l'interieur de la case reste chronologique : on trie par annee,
+     donc la lecture de haut en bas suit toujours le temps. Ce qu'on perd est
+     la position exacte a l'annee pres, ce qui ne se lisait de toute facon pas
+     quand deux cartes se recouvraient. */
+  const getYPosition = useCallback((year: number, cran = 0): number => {
     const decade = Math.floor(year / 10) * 10;
     const pos = decadeScale.positions[decade];
     if (!pos) return 0;
-    const withinDecade = (year - decade) / 10;
-    return (pos.start + pos.height * withinDecade) * 100;
+    return pos.start + MARGE_DECENNIE_PX / 2 + cran * CRAN_PX;
   }, [decadeScale]);
+
+  /* Le cran de chaque genre, calcule PAR COLONNE : deux familles peuvent
+     occuper le meme cran de la meme decennie, elles ne se croisent jamais. */
+  const cransParFamille = useCallback((genres: GenreWithYear[]) => {
+    const compteur: Record<number, number> = {};
+    const crans = new Map<string, number>();
+    [...genres]
+      .sort((a, b) => a.yearDeduced - b.yearDeduced)
+      .forEach((g) => {
+        const d = Math.floor(g.yearDeduced / 10) * 10;
+        crans.set(g.id, compteur[d] ?? 0);
+        compteur[d] = (compteur[d] ?? 0) + 1;
+      });
+    return crans;
+  }, []);
 
   const formatYear = (year: number): string => {
     const fiveYear = Math.floor(year / 5) * 5;
@@ -112,16 +172,16 @@ export function ChronologyView({ onOpen }: Props) {
     return genres.filter(g => g.major);
   }, [showMajorsOnly]);
 
-  const renderGenre = (genre: GenreWithYear, familyIndex: number, genreLocal: number) => {
+  const renderGenre = (genre: GenreWithYear, familyIndex: number, genreLocal: number, cran = 0) => {
     const family = FAMILIES[familyIndex];
-    const yPos = getYPosition(genre.yearDeduced);
+    const yPos = getYPosition(genre.yearDeduced, cran);
 
     return (
       <button
         key={genre.id}
         className="chrono-genre"
         style={{
-          '--y': `${yPos}%`,
+          '--y': `${yPos}px`,
           '--hue': family?.hue ?? 0
         } as React.CSSProperties}
         onClick={() => onOpen(familyIndex, genreLocal)}
@@ -149,32 +209,39 @@ export function ChronologyView({ onOpen }: Props) {
     const family = FAMILIES[familyIndex];
 
     return (
-      <div className="chrono-timeline" style={{ '--hue': family?.hue ?? 0 } as React.CSSProperties}>
+      <div
+        className="chrono-timeline"
+        style={{ '--hue': family?.hue ?? 0, '--h-totale': `${decadeScale.hauteurTotale}px` } as React.CSSProperties}
+      >
         <div className="chrono-axis">
           {Object.entries(decadeScale.positions).map(([decade, pos]) => (
             <div
               key={decade}
               className="chrono-decade"
-              style={{ '--start': `${pos.start * 100}%`, '--h': `${pos.height * 100}%` } as React.CSSProperties}
+              style={{ '--start': `${pos.start}px`, '--h': `${pos.height}px` } as React.CSSProperties}
             >
               <span className="chrono-decade-label">{decade}s</span>
             </div>
           ))}
         </div>
         <div className="chrono-genres">
-          {genres.map((genre) => {
-            const genreLocal = (genresByFamily[familyIndex] || []).findIndex(g => g.id === genre.id);
-            return renderGenre(genre, familyIndex, genreLocal);
-          })}
+          {(() => {
+            const crans = cransParFamille(genres);
+            return genres.map((genre) => {
+              const genreLocal = (genresByFamily[familyIndex] || []).findIndex(g => g.id === genre.id);
+              return renderGenre(genre, familyIndex, genreLocal, crans.get(genre.id) ?? 0);
+            });
+          })()}
           {genres.length > 1 && genres.map((genre, i) => {
             if (genre.parent < 0) return null;
             const parentGenre = (genresByFamily[familyIndex] || [])[genre.parent];
             if (!parentGenre) return null;
-            const y1 = getYPosition(parentGenre.yearDeduced);
-            const y2 = getYPosition(genre.yearDeduced);
+            const crans = cransParFamille(genres);
+            const y1 = getYPosition(parentGenre.yearDeduced, crans.get(parentGenre.id) ?? 0);
+            const y2 = getYPosition(genre.yearDeduced, crans.get(genre.id) ?? 0);
             return (
               <svg key={`line-${i}`} className="chrono-line" preserveAspectRatio="none">
-                <line x1="50%" y1={`${y1}%`} x2="50%" y2={`${y2}%`} />
+                <line x1="50%" y1={`${y1}px`} x2="50%" y2={`${y2}px`} />
               </svg>
             );
           })}
