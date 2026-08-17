@@ -800,3 +800,38 @@ symétriques ont la même racine : renoncer à confronter les deux.
 **La question à poser, en une phrase.** « Par quel chemin ce changement
 produirait-il ce symptôme ? » Si l'on ne sait pas y répondre, on n'a pas trouvé
 la cause, on a trouvé une corrélation.
+
+## 20. Une recherche par nom ne prouve jamais une absence
+
+**La règle, posée par Mika.** Avant de conclure qu'une chose n'existe pas,
+vérifier que la recherche pouvait la trouver. Une recherche par NOM échoue dès
+que le nom diffère, et l'absence de résultat n'est pas une preuve d'absence.
+
+**Chercher par USAGE plutôt que par nom** : qui appelle quoi, quel état est lu
+où. Un module peut porter n'importe quel nom, il ne peut pas être utilisé sans
+laisser de traces d'appel.
+
+**Le cas.** J'ai affirmé « aucun état de session partagé n'existe » après avoir
+cherché `getSession` et `onAuthStateChange`. La recherche a bien trouvé des
+appels dispersés, et j'en ai conclu qu'aucun état central n'existait. Or
+`useSession.ts` était là, avec son état de module, son abonnement et sa
+distinction entre « on ne sait pas encore » et « déconnecté ». Deux composants
+s'en servaient déjà.
+
+Une recherche de `useSession` l'aurait trouvé. Une recherche de « qui importe
+quoi depuis `lib/` » aussi. J'ai cherché les mots que j'aurais employés, moi.
+
+**LA FAUTE QUI A SUIVI, et elle découle de la première.** J'ai écrit
+`useSession.ts` sans vérifier qu'il existait, écrasant du code en service.
+C'est le compilateur qui m'a arrêté, pas ma prudence : trois erreurs de type
+sur des propriétés que l'ancien fichier exposait et que le mien n'avait pas.
+
+**Deux réflexes, et le second devrait être automatique.**
+Chercher par usage avant de conclure à une absence.
+Vérifier qu'un fichier n'existe pas avant de l'écrire.
+
+**Ce que ce motif ajoute aux dix-neuf autres.** Il complète la face « croire la
+mesure contre le raisonnement » : ici la mesure était honnête, elle répondait
+juste à une autre question que celle que je croyais poser. Une recherche
+répond toujours exactement à ce qu'on lui demande, jamais à ce qu'on veut
+savoir.

@@ -145,6 +145,54 @@ export function nettoyerUrlDeRetour(): void {
   window.history.replaceState(null, '', propre);
 }
 
+/* LA CONNEXION PAR GOOGLE, QUI N'AVAIT JAMAIS ETE APPELEE.
+
+   Le fournisseur est configure cote Supabase depuis le debut, verifie a la
+   main dans la console. Cote site, aucun appel : la fonctionnalite existait
+   a moitie, et la moitie qui manquait est la seule que le visiteur voit.
+   C'est le motif de l'absence qu'on ne remarque pas, sous sa forme la plus
+   couteuse, une porte d'entree entiere.
+
+   TROIS DIFFERENCES AVEC LE LIEN MAGIQUE, et elles comptent toutes.
+
+   Pas de quota. Le lien magique est limite a deux envois par heure POUR LE
+   PROJET ENTIER, ce qui commande tout le reste de ce fichier. Google n'a pas
+   cette contrainte : c'est donc le chemin a proposer EN PREMIER, non par gout
+   mais parce que l'autre est une ressource rare.
+
+   Pas de retour differe. Le lien magique quitte le site, passe par une boite
+   mail, et revient plus tard. Google revient tout de suite. L'intention est
+   quand meme mise de cote AVANT le depart : la redirection est un depart, et
+   ce qui n'est pas ecrit avant ne survit pas.
+
+   Le retour vise l'endroit exact ou l'on etait, fragment compris. Sans le
+   `hash`, on reviendrait a l'accueil apres s'etre connecte depuis un genre
+   ouvert, ce qui est precisement ce qu'on veut eviter. */
+export async function connexionGoogle(intention?: Intention): Promise<ResultatEnvoi> {
+  const client = supabase;
+  if (!client) return { ok: false, limiteAtteinte: false, message: 'Service indisponible.' };
+
+  if (intention) memoriserIntention(intention);
+
+  const { error } = await client.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: window.location.origin + window.location.pathname + window.location.hash
+    }
+  });
+
+  if (error) {
+    /* SI LE FOURNISSEUR N'EST PAS ACTIVE, Supabase le dit explicitement. On
+       relaie le message plutot que de l'aplatir : « une erreur est survenue »
+       ferait chercher au mauvais endroit, alors que la cause est une case a
+       cocher dans la console. */
+    return { ok: false, limiteAtteinte: false, message: error.message };
+  }
+
+  /* On ne revient jamais ici en pratique : la redirection a eu lieu. */
+  return { ok: true };
+}
+
 export async function seDeconnecter(): Promise<void> {
   await supabase?.auth.signOut();
 }
