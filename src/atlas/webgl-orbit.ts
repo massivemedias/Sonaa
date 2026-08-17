@@ -2420,6 +2420,21 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
          aucun sens. */
       if (zoneActive && zone[i] !== 1) continue;
 
+      /* 1 ter. CE QUI N'EST PAS DESSINE NE SE CLIQUE PAS.
+
+         DEFAUT REVELE PAR LA MESURE, et c'est le motif qui a coute le plus
+         cher tout au long de ce projet : quelque chose d'invisible pose
+         au-dessus de quelque chose de visible. En effacant les genres de la
+         vue d'ensemble je n'avais efface que leur DESSIN ; leur cible, elle,
+         repondait toujours. Quatre-vingt-dix spheres restaient atteignables
+         pour quatorze dessinees, donc un clic dans le vide pouvait ouvrir un
+         genre qu'on ne voyait pas.
+
+         La presence est desormais la seule autorite : elle dit ce qui existe
+         a l'ecran, et le ciblage la lit au lieu de raisonner sur des
+         positions qui, elles, ont toujours une valeur. */
+      if ((sphereState[i * 4] ?? 0) <= 0.02) continue;
+
       const d = Math.hypot(px - (projected[i * 3] ?? 0), py - (projected[i * 3 + 1] ?? 0));
       /* 2. LA CIBLE EST PLUS GÉNÉREUSE QUE LA SPHÈRE.
 
@@ -3051,6 +3066,20 @@ const OVERLAP_TOLERANCE = 1;
       opacityScale: number,
       slot = -1
     ): void => {
+      /* LA VUE D'ENSEMBLE N'A QUE DES NOMS DE FAMILLE.
+
+         La regle posee plus bas sur la PRESENCE efface bien les spheres des
+         genres, mais les labels ne se construisent pas a partir d'elle : ils
+         sont fabriques ici, a partir des donnees, et ils survivaient donc a la
+         disparition de ce qu'ils designaient. Cinquante-six noms restaient
+         affiches pour quatorze spheres, ce qui est pire que l'encombrement de
+         depart puisque les noms ne pointaient plus rien.
+
+         Trouve par la mesure et non par la lecture : la premiere correction
+         semblait complete, elle ne l'etait qu'a moitie. C'est le motif des
+         deux ecritures d'une meme intention, ici un affichage decrit a deux
+         endroits qui ne se parlent pas. */
+      if (kind === 'genre' && level === 'atlas' && openIndex < 0 && !introActive) return;
       scratch.copy(world).project(camera);
       if (scratch.z > 1) return;
       const sx = scratch.x * halfW + halfW;
@@ -4469,6 +4498,31 @@ const OVERLAP_TOLERANCE = 1;
            ancêtre. En dessous, les deux corps se chevauchent encore. */
         const marge = (baseRadii[i] ?? 0.5) + (parentRadius[i] ?? 1);
         presence = marge <= 0.001 ? clamp(p, 0, 1) : clamp((parcouru - marge) / marge, 0, 1);
+      }
+
+      /* ═══════════════════════════════════════════════════════════════════
+         LA VUE D'ENSEMBLE EST UNE CARTE DES CONTINENTS, PAS DES VILLES.
+
+         Elle montrait les quatorze familles ET une trentaine de genres avec
+         leurs noms, Euro Techno, Neo Goa, Miami Bass, Skweee, Coldwave,
+         Makina et les autres. Ce n'etait pas un reglage trop genereux, c'etait
+         une absence de regle : rien ne disait que le premier ecran a un
+         VOCABULAIRE a lui. Les fondateurs et leurs enfants directs etaient
+         presents par defaut, et l'on voyait donc deux niveaux de lecture
+         melanges, dont un qu'on ne peut de toute facon pas explorer d'ici.
+
+         La regle est desormais explicite : tant qu'aucune famille n'est
+         ouverte, SEULS LES QUATORZE FONDATEURS existent. Un fondateur est la
+         profondeur zero de sa famille, il y en a exactement un par famille.
+
+         Ce que cela libere n'est pas seulement de la place a l'ecran : c'est
+         la possibilite de lire l'atlas d'un coup d'oeil, ce qu'une carte doit
+         permettre avant toute chose.
+
+         Le clic sur une famille ne change pas : ses genres apparaissent, et
+         `openIndex` cesse alors d'etre negatif, ce qui reouvre la porte. */
+      if (level === 'atlas' && openIndex < 0 && slot.depth >= 1 && !introActive) {
+        presence = 0;
       }
 
       /* Anneaux uniquement sur le niveau actuellement navigable. Au niveau
