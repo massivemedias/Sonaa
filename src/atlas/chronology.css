@@ -382,3 +382,148 @@
 .chrono-root[data-narrow="false"] .chrono-accordion {
   display: none;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   LA VUE PAR EPOQUE : un seul axe, des cases de part et d'autre.
+
+   Ce qu'elle montre et que quatorze colonnes ne peuvent pas montrer : la
+   DENSITE reelle par epoque. Les annees 90 s'y voient d'un coup d'oeil, parce
+   que tout y est aligne sur la meme graduation.
+   Ce qu'elle perd : le regroupement par famille. Assume, les deux vues sont
+   complementaires et le selecteur les garde toutes les deux. */
+
+.chrono-selecteur {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--rule-hairline, oklch(0.3 0.01 250));
+  border-radius: 8px;
+}
+
+.chrono-selecteur button {
+  min-height: 36px;
+  padding: 0 0.8rem;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.chrono-selecteur button[aria-selected='true'] {
+  background: oklch(1 0 0 / 0.08);
+  color: var(--ink-primary, oklch(0.92 0.01 250));
+}
+
+/* LE DEFILEMENT EST HORIZONTAL, et il n'y a que lui : `touch-action` le
+   declare explicitement pour qu'un doigt pose n'importe ou fasse glisser le
+   temps, sans que le navigateur hesite entre deux axes. C'est ce qui rend le
+   geste franc sur telephone. */
+.chrono-epoque {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch;
+}
+
+.chrono-epoque-piste {
+  position: relative;
+  width: var(--largeur);
+  height: calc(var(--haut) + var(--bas));
+  padding: 0;
+}
+
+/* L'AXE AU CENTRE, a la frontiere exacte entre le haut et le bas. */
+.chrono-epoque-axe {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--haut);
+  height: 1px;
+  background: oklch(1 0 0 / 0.25);
+}
+
+.chrono-epoque-graduation {
+  position: absolute;
+  top: calc(var(--haut) + 6px);
+  left: var(--x);
+  padding-left: 4px;
+  border-left: 1px solid oklch(1 0 0 / 0.3);
+  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  line-height: 1.6;
+}
+
+.chrono-epoque-groupe {
+  position: absolute;
+  left: var(--x);
+  width: 128px;
+}
+
+/* Le groupe est ancre sur l'axe et pousse vers le haut ou vers le bas de sa
+   distance de couloir : une seule variable dit tout le placement vertical. */
+.chrono-epoque-groupe[data-cote='haut'] {
+  bottom: calc(100% - var(--haut));
+  padding-bottom: var(--d);
+}
+
+.chrono-epoque-groupe[data-cote='bas'] {
+  top: var(--haut);
+  padding-top: var(--d);
+}
+
+/* LE TRAIT DE RAPPEL, qui relie la case a sa date exacte sur l'axe. Sans lui,
+   une case descendue de trois couloirs ne dirait plus a quelle annee elle
+   appartient, et la vue perdrait sa raison d'etre. */
+.chrono-epoque-trait {
+  position: absolute;
+  left: 0;
+  width: 1px;
+  height: var(--d);
+  background: oklch(0.7 0.15 var(--hue) / 0.5);
+}
+
+.chrono-epoque-groupe[data-cote='haut'] .chrono-epoque-trait {
+  bottom: 0;
+}
+
+.chrono-epoque-groupe[data-cote='bas'] .chrono-epoque-trait {
+  top: 0;
+}
+
+.chrono-epoque-case {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  width: 100%;
+  height: 34px;
+  box-sizing: border-box;
+  padding: 4px 6px;
+  overflow: hidden;
+  background: oklch(0.22 0.02 var(--hue));
+  border: 1px solid oklch(0.5 0.1 var(--hue) / 0.3);
+  border-left: 3px solid oklch(0.7 0.15 var(--hue));
+  border-radius: 4px;
+  color: var(--ink-primary, oklch(0.92 0.01 250));
+  font-family: var(--font-ui);
+  text-align: left;
+  cursor: pointer;
+}
+
+.chrono-epoque-nom {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 11px;
+}
+
+.chrono-epoque-an {
+  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  font-size: 9px;
+}

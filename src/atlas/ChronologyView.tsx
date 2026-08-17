@@ -20,6 +20,18 @@ import './chronology.css';
 const CRAN_PX = 44;
 const MARGE_DECENNIE_PX = 10;
 
+/* LA VUE PAR EPOQUE. Chaque nombre est ecrit une seule fois et lu par le
+   placement ET par le style, via des variables CSS : deux ecritures d'une meme
+   grandeur finissent toujours par diverger. */
+const AN_DEBUT = 1960;
+const DECENNIES = [1960, 1970, 1980, 1990, 2000, 2010, 2020];
+const PX_PAR_AN = 26;
+const LARGEUR_CASE = 128;
+/* L'ecart minimal entre deux cases d'un meme couloir : la largeur d'une case
+   plus une respiration. En dessous, elles se toucheraient. */
+const ECART_CASE = LARGEUR_CASE + 8;
+const COULOIR_PX = 40;
+
 interface GenreWithYear extends Genre {
   yearDeduced: number;
   hasGraft: boolean;
@@ -33,6 +45,14 @@ interface Props {
 export function ChronologyView({ onOpen }: Props) {
   const [openFamily, setOpenFamily] = useState<number | null>(null);
   const [showMajorsOnly, setShowMajorsOnly] = useState(false);
+  /* DEUX VUES COMPLEMENTAIRES, ET ON GARDE LES DEUX.
+
+     « Par famille » regroupe : on lit la filiation d'un courant. « Par epoque »
+     aligne tout sur un seul axe : on lit la DENSITE reelle, et l'on voit que
+     les annees 90 explosent, ce que quatorze colonnes separees ne peuvent pas
+     montrer. Chacune perd ce que l'autre gagne, d'ou le selecteur plutot qu'un
+     remplacement. */
+  const [vue, setVue] = useState<'familles' | 'epoque'>('familles');
   const narrow = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
 
   const genresByFamily = useMemo(() => {
@@ -250,8 +270,116 @@ export function ChronologyView({ onOpen }: Props) {
     );
   };
 
+  /* ═══════════════════════════════════════════════════════════════════════
+     LA VUE PAR EPOQUE : un axe, et des cases de part et d'autre.
+
+     LE PLACEMENT EST LE TOUT DU PROBLEME. Deux cent dix-huit genres sur
+     soixante ans, avec des annees 90 qui en portent quatre-vingt-seize : les
+     poser a leur date sans plus reviendrait a refaire le defaut qu'on vient de
+     corriger dans l'autre vue, en pire.
+
+     TROIS REGLES, dans cet ordre.
+
+     1. L'alternance haut/bas divise la densite par deux, et c'est gratuit.
+     2. De chaque cote, les cases se rangent en COULOIRS : on descend d'un
+        couloir tant que la place a la date voulue est prise. Le premier
+        couloir libre gagne, donc une case n'est jamais posee sur une autre.
+     3. La position horizontale reste EXACTE, a la date. C'est ce qui fait la
+        valeur de cette vue : deplacer une case en x mentirait sur la
+        chronologie, alors que la descendre d'un couloir ne coute qu'un trait
+        de rappel un peu plus long. */
+  const placementEpoque = useMemo(() => {
+    const tous = genresByFamily
+      .flatMap((genres, fi) => genres.map((g, gl) => ({ g, fi, gl })))
+      .filter((e) => (showMajorsOnly ? e.g.major : true))
+      .sort((a, b) => a.g.yearDeduced - b.g.yearDeduced);
+
+    const couloirs: { haut: number[][]; bas: number[][] } = { haut: [], bas: [] };
+    const poses = tous.map((e, i) => {
+      const x = (e.g.yearDeduced - AN_DEBUT) * PX_PAR_AN;
+      const largeur = LARGEUR_CASE;
+      const cote: 'haut' | 'bas' = i % 2 === 0 ? 'haut' : 'bas';
+      const pile = couloirs[cote];
+      let couloir = 0;
+      for (;;) {
+        if (!pile[couloir]) pile[couloir] = [];
+        const occupe = pile[couloir] as number[];
+        /* `occupe` porte la borne droite du dernier pose dans ce couloir : les
+           cases arrivant triees par date, il suffit de comparer a elle. */
+        const derniere = occupe.length > 0 ? (occupe[occupe.length - 1] ?? -1e9) : -1e9;
+        if (x >= derniere + ECART_CASE) {
+          occupe.push(x + largeur);
+          break;
+        }
+        couloir += 1;
+      }
+      return { ...e, x, cote, couloir };
+    });
+
+    const profondeur = {
+      haut: couloirs.haut.length,
+      bas: couloirs.bas.length
+    };
+    const largeurTotale = poses.reduce((m, p) => Math.max(m, p.x + LARGEUR_CASE), 0) + 80;
+    return { poses, profondeur, largeurTotale };
+  }, [genresByFamily, showMajorsOnly]);
+
+  const renderEpoque = () => {
+    const { poses, profondeur, largeurTotale } = placementEpoque;
+    const hautPx = profondeur.haut * COULOIR_PX + 40;
+    const basPx = profondeur.bas * COULOIR_PX + 40;
+    return (
+      <div
+        className="chrono-epoque"
+        style={{
+          '--largeur': `${largeurTotale}px`,
+          '--haut': `${hautPx}px`,
+          '--bas': `${basPx}px`
+        } as React.CSSProperties}
+      >
+        <div className="chrono-epoque-piste">
+          <div className="chrono-epoque-axe" aria-hidden="true" />
+          {DECENNIES.map((d) => (
+            <span
+              key={d}
+              className="chrono-epoque-graduation"
+              style={{ '--x': `${(d - AN_DEBUT) * PX_PAR_AN}px` } as React.CSSProperties}
+            >
+              {d}
+            </span>
+          ))}
+          {poses.map(({ g, fi, gl, x, cote, couloir }) => {
+            const family = FAMILIES[fi];
+            const distance = (couloir + 1) * COULOIR_PX;
+            return (
+              <div
+                key={g.id}
+                className="chrono-epoque-groupe"
+                data-cote={cote}
+                style={{
+                  '--x': `${x}px`,
+                  '--d': `${distance}px`,
+                  '--hue': family?.hue ?? 0
+                } as React.CSSProperties}
+              >
+                {/* LE TRAIT DE RAPPEL relie la case a SA date sur l'axe : sans
+                    lui, une case descendue de trois couloirs ne dirait plus a
+                    quelle annee elle appartient. */}
+                <span className="chrono-epoque-trait" aria-hidden="true" />
+                <button className="chrono-epoque-case" onClick={() => onOpen(fi, gl)}>
+                  <span className="chrono-epoque-nom">{g.label}</span>
+                  <span className="chrono-epoque-an">{g.yearDeduced}</span>
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <div className="chrono-root" data-narrow={narrow}>
+    <div className="chrono-root" data-narrow={narrow} data-vue={vue}>
       <header className="chrono-header">
         <h1 className="chrono-title">Chaîne chronologique</h1>
         <p className="chrono-legend">
@@ -260,6 +388,24 @@ export function ChronologyView({ onOpen }: Props) {
             Une pastille signale un parent d'une autre famille
           </span>
         </p>
+        {/* LE SELECTEUR, en tete : le filtre des principaux vit a cote et
+            s'applique aux DEUX vues, puisqu'il est lu par les deux calculs. */}
+        <div className="chrono-selecteur" role="tablist" aria-label="Mode d'affichage">
+          <button
+            role="tab"
+            aria-selected={vue === 'familles'}
+            onClick={() => setVue('familles')}
+          >
+            Par famille
+          </button>
+          <button
+            role="tab"
+            aria-selected={vue === 'epoque'}
+            onClick={() => setVue('epoque')}
+          >
+            Par époque
+          </button>
+        </div>
         <label className="chrono-filter">
           <input
             type="checkbox"
@@ -270,7 +416,7 @@ export function ChronologyView({ onOpen }: Props) {
         </label>
       </header>
 
-      {narrow ? (
+      {vue === 'epoque' ? renderEpoque() : narrow ? (
         <div className="chrono-accordion">
           {FAMILIES.map((family, i) => {
             const genres = filteredGenres(genresByFamily[i] || []);
