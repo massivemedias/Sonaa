@@ -222,11 +222,6 @@
 
    L'ordre est pose ici et non dans le composant : la structure du HTML reste
    celle du sens, titre puis appartenance, et seule la presentation change. */
-.search-hit-track {
-  display: flex;
-  flex-direction: column;
-}
-
 .search-track-genres {
   order: 1;
 }
