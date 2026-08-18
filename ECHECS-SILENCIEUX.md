@@ -864,3 +864,35 @@ qui suit l'échelle, le solveur qui replace les étiquettes, la caméra qui suit
 l'occupation. Chaque fois qu'une correction reste sans effet, la première
 hypothèse doit être qu'un régulateur l'annule, avant de conclure que la
 correction est mauvaise.
+
+---
+
+## 21. Conclure sur une sortie tronquée
+
+**Trois fois dans une seule session**, et la troisième a produit un chiffre faux
+livré dans un rapport : « quatre fonctions orphelines » alors qu'il y en avait
+**vingt-cinq**. J'avais lu `| tail -12` et conclu sur les douze dernières
+lignes comme si elles étaient la sortie.
+
+Les deux autres du même jour : `$?` lu **après un tube**, qui rend le code de
+`tail` et non celui de la commande, donc quatre contrôles déclarés verts sans
+l'avoir été ; et un décompte des points d'appel fait sous **un seul des deux
+noms** de la même chose, qui a annoncé neuf fichiers concernés là où il y en
+avait vingt et un.
+
+**Le motif commun.** Une sortie tronquée, filtrée ou partielle ne se distingue
+pas d'une sortie complète : elle a le même format, le même air de vérité, et
+rien n'y dit qu'il manque quelque chose. C'est exactement le faux vert du
+préambule des bancs, appliqué à la lecture plutôt qu'à la mesure.
+
+**La règle.** Avant de conclure d'un affichage :
+
+1. **compter** ce qu'il annonce, et vérifier que le nombre lu correspond. Une
+   sortie qui dit « 25 cas » et dont j'ai lu 8 lignes n'est pas lue ;
+2. ne jamais lire `$?` derrière un tube. Capturer la sortie d'abord, tester le
+   code ensuite ;
+3. avant de conclure à l'**absence** de quelque chose, vérifier que la
+   recherche pouvait le trouver, sous tous ses noms.
+
+**Ce que ça a coûté.** Un chiffre faux dans un rapport destiné à décider d'un
+travail, et une consigne prise sur ce chiffre faux.
