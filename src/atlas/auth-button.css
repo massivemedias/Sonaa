@@ -1,0 +1,242 @@
+/* LE POINT D'ENTRÉE DU COMPTE. Bouton, menu, panneau.
+
+   LA POSITION SUIT LE FORMAT, et c'est la seule chose qui change entre les
+   deux : en haut à droite sur un écran large, dans la barre du bas sur un
+   téléphone, où le haut appartient déjà au fil d'Ariane. Le seuil est 768 px,
+   celui de tout le projet. */
+
+.authb {
+  position: fixed;
+  top: calc(14px + env(safe-area-inset-top, 0px));
+  /* A GAUCHE DE LA COLONNE DU LECTEUR, ET NON DANS SON DOS.
+
+     DEFAUT TROUVE AU DOIGT, le meme que trois fois deja : le bouton etait pose
+     a quatorze pixels du bord droit, c'est-a-dire DANS la colonne du lecteur,
+     qui occupe toute la hauteur a droite et vit en z-index 12. Il etait dessine,
+     visible sur la capture, et le clic ne l'atteignait pas. La preuve est que
+     l'evenement contextuel, lui, ouvrait bien le panneau : l'etat repondait,
+     seul le clic etait intercepte.
+
+     On le decale donc de la LARGEUR de la colonne, en lisant la meme valeur
+     nommee qu'elle. Deux ecritures d'un meme nombre finissent par diverger. */
+  right: calc(var(--player-w, 0px) + 14px + env(safe-area-inset-right, 0px));
+  /* AU-DESSUS DE LA NAVIGATION PAR NIVEAUX, qui vit en 8, et de la colonne du
+     lecteur, qui vit en 12. Une porte d'entree que quelque chose recouvre est
+     une porte fermee. */
+  z-index: 14;
+  font-family: var(--font-ui);
+}
+
+/* La place réservée pendant qu'on ne sait pas encore : elle évite que le reste
+   de l'interface saute quand le bouton apparaît. */
+.authb-attente {
+  width: 120px;
+  height: 36px;
+}
+
+.authb-bouton {
+  min-height: 36px;
+  padding: 0 0.9rem;
+  background: color-mix(in oklab, var(--fond, oklch(0.16 0.012 250)) 82%, transparent);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--rule-strong, oklch(0.4 0.01 250));
+  border-radius: 18px;
+  color: var(--ink-primary, oklch(0.92 0.01 250));
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.authb-bouton:hover {
+  border-color: var(--ink-secondary, oklch(0.66 0.01 250));
+}
+
+.authb-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 190px;
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  background: var(--fond, oklch(0.16 0.012 250));
+  border: 1px solid var(--rule-strong, oklch(0.4 0.01 250));
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+.authb-menu a,
+.authb-menu button {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 0.7rem;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  color: var(--ink-primary, oklch(0.92 0.01 250));
+  font: inherit;
+  font-size: 0.85rem;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.authb-menu a:hover,
+.authb-menu button:hover {
+  background: oklch(1 0 0 / 0.07);
+}
+
+/* --- LE PANNEAU ---------------------------------------------------------- */
+
+.authb-voile {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+}
+
+.authb-panneau {
+  position: relative;
+  width: min(26rem, 100%);
+  max-height: 90dvh;
+  overflow-y: auto;
+  padding: 1.4rem 1.3rem 1.1rem;
+  background: var(--fond, oklch(0.16 0.012 250));
+  border: 1px solid var(--rule-strong, oklch(0.4 0.01 250));
+  border-radius: 14px;
+  color: var(--ink-primary, oklch(0.92 0.01 250));
+}
+
+.authb-fermer {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: 0;
+  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.authb-panneau h2 {
+  margin: 0 0 0.3rem;
+  font-size: 1.1rem;
+}
+
+.authb-usage {
+  margin: 0 0 1rem;
+  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  font-size: 0.88rem;
+}
+
+/* GROS ET EN PREMIER. Ce n'est pas une préférence esthétique : le lien par
+   courriel est plafonné pour le site entier, Google ne l'est pas. Le chemin
+   sans limite doit être le plus visible. */
+.authb-google {
+  width: 100%;
+  min-height: 48px;
+  background: oklch(0.95 0.005 250);
+  border: 0;
+  border-radius: 8px;
+  color: oklch(0.2 0.01 250);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.authb-ou {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1rem 0;
+  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  font-size: 0.75rem;
+}
+
+.authb-ou::before,
+.authb-ou::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule-hairline, oklch(0.3 0.01 250));
+}
+
+.authb-panneau form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.authb-panneau label {
+  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  font-size: 0.78rem;
+}
+
+.authb-panneau input {
+  min-height: 44px;
+  padding: 0 0.7rem;
+  background: oklch(1 0 0 / 0.05);
+  border: 1px solid var(--rule-strong, oklch(0.4 0.01 250));
+  border-radius: 8px;
+  color: var(--ink-primary, oklch(0.92 0.01 250));
+  font: inherit;
+}
+
+.authb-panneau form button {
+  min-height: 44px;
+  background: transparent;
+  border: 1px solid var(--ink-secondary, oklch(0.66 0.01 250));
+  border-radius: 8px;
+  color: var(--ink-primary, oklch(0.92 0.01 250));
+  font: inherit;
+  cursor: pointer;
+}
+
+.authb-parti,
+.authb-message {
+  margin: 0.8rem 0 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.authb-message {
+  color: oklch(0.78 0.13 40);
+}
+
+.authb-donnees {
+  margin: 1.1rem 0 0;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--rule-hairline, oklch(0.3 0.01 250));
+  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+
+/* SUR TÉLÉPHONE, LE BOUTON DESCEND. Le haut de l'écran appartient au fil
+   d'Ariane de la navigation par niveaux, et deux éléments au même endroit,
+   c'est le défaut qui a déjà coûté un tap fantôme à ce projet. */
+@media (max-width: 768px) {
+  .authb {
+    top: auto;
+    /* Sur telephone la colonne devient une barre en bas : plus rien a deduire
+       a droite, le bouton se recentre. */
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: calc(var(--feuille-bar-h, 56px) + 8px);
+  }
+
+  .authb-menu {
+    top: auto;
+    bottom: calc(100% + 6px);
+    right: 50%;
+    transform: translateX(50%);
+  }
+}

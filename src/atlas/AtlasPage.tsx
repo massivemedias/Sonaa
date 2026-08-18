@@ -17,6 +17,7 @@ import { SearchOverlay } from './SearchOverlay.tsx';
 import { Welcome } from './Welcome.tsx';
 import { ColumnsView } from './ColumnsView.tsx';
 import { MobileLevels } from './MobileLevels.tsx';
+import { AuthButton } from './AuthButton.tsx';
 import type { NavState, PanelState, AtlasApi, AtlasStats } from './atlas-api.ts';
 import './atlas.css';
 import './welcome.css';
@@ -479,6 +480,11 @@ export function AtlasPage() {
           la fait s'effacer pour decouvrir la vue graphique qui, elle,
           fonctionne sur telephone. Le composant se retire lui-meme au-dela du
           seuil, la page n'a pas a le savoir. */}
+      {/* LE POINT D'ENTREE DU COMPTE, permanent et hors de la carte : il ne
+          depend d'aucun mode d'affichage, parce qu'on doit pouvoir se
+          connecter depuis n'importe ou. */}
+      <AuthButton />
+
       {mode === 'webgl' && <MobileLevels onOpen={openTracks} onEnsemble={() => apiRef.current?.goToFamily(-1)}
           onChercher={() => setSearchOpen(true)} ouvert={panelGenre} />}
 

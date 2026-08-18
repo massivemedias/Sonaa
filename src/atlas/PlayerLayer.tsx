@@ -1189,8 +1189,16 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
 
                 Il ne bloque RIEN : consulter et ecouter restent libres, et
                 c'est un choix, pas un oubli. */}
+            {/* UN VRAI BOUTON, ET NON UNE PHRASE. Le texte disait quoi faire
+                sans offrir de le faire : il fallait deviner qu'aucune porte
+                n'existait. Le bouton ouvre le panneau la ou l'on est. */}
             {contributionsActives && !connecte && !manque && (
-              <p className="pcol-connexion">Connecte-toi pour voter et proposer des morceaux.</p>
+              <button
+                className="pcol-connexion"
+                onClick={() => window.dispatchEvent(new CustomEvent('sonaa:connexion'))}
+              >
+                Se connecter pour voter et proposer des morceaux
+              </button>
             )}
 
             <ul className="pcol-list">

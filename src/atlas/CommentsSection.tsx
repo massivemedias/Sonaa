@@ -74,7 +74,7 @@ export function CommentsSection({ genreId, couleurFamille }: Props) {
     }
     setMessage(
       r.raison === 'connexion'
-        ? 'Connecte-toi pour participer.'
+        ? 'Se connecter pour participer.'
         : r.raison === 'quota'
           ? 'Tu as atteint dix messages pour aujourd’hui.'
           : r.raison === 'ferme'
@@ -153,7 +153,12 @@ export function CommentsSection({ genreId, couleurFamille }: Props) {
               </div>
             </div>
           ) : (
-            <p className="pcol-fil-vide">Connecte-toi pour participer à la discussion.</p>
+            <button
+              className="pcol-fil-vide"
+              onClick={() => window.dispatchEvent(new CustomEvent('sonaa:connexion'))}
+            >
+              Se connecter pour participer à la discussion
+            </button>
           )}
 
           {charge && fil.length === 0 && (
