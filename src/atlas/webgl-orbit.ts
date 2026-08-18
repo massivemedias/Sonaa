@@ -812,6 +812,53 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     return clamp(Math.max(byHeight, byWidth), MIN_DISTANCE, MAX_DISTANCE);
   };
 
+  /* UN POINT DE L'ECRAN, RAMENE DANS LE MONDE.
+
+     Les liens sont traces en 3D, entre deux points du monde. Les plaques, elles,
+     sont placees en PIXELS par le solveur d'anti-chevauchement, qui les deplace
+     apres les avoir centrees sur leur noeud. Les deux vivaient donc dans des
+     espaces differents, et le lien aboutissait au noeud pendant que la plaque
+     etait ailleurs : jusqu'a 400 px d'ecart mesures sur Downtempo.
+
+     Plutot que de sortir les liens de la 3D, ce qui serait un changement de
+     nature, on ramene la position FINALE de la plaque dans le monde. Le plan
+     choisi est celui qui passe par le noeud et fait face a la camera : sur ce
+     plan, un pixel d'ecran correspond a un point du monde et un seul, et la
+     conversion est exacte.
+
+     C'est la meme idee que le helper de repere fenetre-canvas du motif 10 : le
+     defaut ne venait pas d'un mauvais calcul mais de deux espaces qu'on
+     comparait sans les ramener l'un sur l'autre. */
+  const versLeMonde = (sx: number, sy: number, reference: Vector3): Vector3 => {
+    scratch.copy(reference).project(camera);
+    const ndcX = (sx / Math.max(1, width)) * 2 - 1;
+    const ndcY = -((sy / Math.max(1, height)) * 2 - 1);
+    /* La profondeur du noeud est conservee : seule la position dans le plan
+       change, jamais l'eloignement. Sans cela le lien plongerait ou reculerait. */
+    return new Vector3(ndcX, ndcY, scratch.z).unproject(camera);
+  };
+
+  /* LE POINT D'ACCROCHE SUR LE BORD D'UNE PLAQUE, celui qui fait face au
+     parent. Un lien qui s'arrete au CENTRE disparait sous la plaque et le
+     raccord ne se voit pas ; au bord, il se lit. */
+  const bordDePlaque = (
+    boite: { sx: number; sy: number; w: number; h: number },
+    versX: number,
+    versY: number
+  ): { x: number; y: number } => {
+    const cx = boite.sx + boite.w / 2;
+    const cy = boite.sy + boite.h / 2;
+    const dx = versX - cx;
+    const dy = versY - cy;
+    if (dx === 0 && dy === 0) return { x: cx, y: cy };
+    /* On cherche l'intersection du segment centre-parent avec le rectangle :
+       le facteur le plus contraignant des deux axes donne le bord touche. */
+    const kx = dx !== 0 ? boite.w / 2 / Math.abs(dx) : Infinity;
+    const ky = dy !== 0 ? boite.h / 2 / Math.abs(dy) : Infinity;
+    const k = Math.min(kx, ky);
+    return { x: cx + dx * k, y: cy + dy * k };
+  };
+
   const startFly = (
     to: Vector3,
     dist: number,
@@ -3117,6 +3164,10 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   let lastPlacedSnapshot: {
     key: string;
     text: string;
+    /* Le slot et le statut de plaque voyagent avec la boite : les liens en ont
+       besoin pour retrouver a quel noeud une position finale appartient. */
+    slot: number;
+    plaque: boolean;
     sx: number;
     sy: number;
     w: number;
@@ -3997,6 +4048,11 @@ const OVERLAP_TOLERANCE = 1;
     lastPlacedSnapshot = placed.map((c) => ({
       key: c.key,
       text: c.text,
+      /* LE SLOT ET LE STATUT DE PLAQUE VOYAGENT AVEC LA BOITE : sans eux, les
+         liens ne peuvent pas retrouver a quel noeud une position finale
+         appartient, et c'est tout l'objet de ce releve. */
+      slot: c.slot,
+      plaque: c.isPlaque,
       sx: c.sx,
       sy: c.sy,
       w: c.w,
@@ -5151,6 +5207,52 @@ const OVERLAP_TOLERANCE = 1;
           linkP0.set([a.world.x, a.world.y, a.world.z], i * 3);
           linkP1.set([a.world.x, a.world.y, a.world.z], i * 3);
         }
+        /* DANS LA ZONE, LE LIEN VISE LA PLAQUE ET NON LE NOEUD.
+
+           Le solveur d'anti-chevauchement a deplace la plaque apres l'avoir
+           centree : sa position finale est la seule que l'oeil voit, et c'est
+           donc la seule que le lien doit rejoindre. Le zero recouvrement reste
+           prioritaire, le lien s'adapte.
+
+           ORDRE DECLARE : cette ecriture s'applique APRES celle qui pose les
+           extremites sur les spheres, quelques lignes plus haut, et la
+           remplace pour les seuls membres de la zone. */
+        if (zoneActive && zone[ref.a] === 1 && zone[ref.b] === 1) {
+          const boiteB = lastPlacedSnapshot.find(
+            (c) => c.slot === ref.b && c.plaque
+          );
+          const boiteA = lastPlacedSnapshot.find(
+            (c) => c.slot === ref.a && c.plaque
+          );
+          if (boiteB) {
+            /* Le parent, en pixels : sa plaque si elle existe, sa sphere sinon. */
+            scratch.copy(a.world).project(camera);
+            const ax = boiteA
+              ? boiteA.sx + boiteA.w / 2
+              : scratch.x * (width / 2) + width / 2;
+            const ay = boiteA
+              ? boiteA.sy + boiteA.h / 2
+              : -scratch.y * (height / 2) + height / 2;
+            const bord = bordDePlaque(boiteB, ax, ay);
+            const p = versLeMonde(bord.x, bord.y, b.world);
+            linkP1.set([p.x, p.y, p.z], i * 3);
+          }
+          if (boiteA) {
+            const cible = boiteB
+              ? { x: boiteB.sx + boiteB.w / 2, y: boiteB.sy + boiteB.h / 2 }
+              : (() => {
+                  scratch.copy(b.world).project(camera);
+                  return {
+                    x: scratch.x * (width / 2) + width / 2,
+                    y: -scratch.y * (height / 2) + height / 2
+                  };
+                })();
+            const bordA = bordDePlaque(boiteA, cible.x, cible.y);
+            const pa = versLeMonde(bordA.x, bordA.y, a.world);
+            linkP0.set([pa.x, pa.y, pa.z], i * 3);
+          }
+        }
+
         /* ORDRE EXPLICITE : cette ecriture appartient a la branche des liens
            INTERNES a une famille. Les deux autres ecritures de cette case
            vivent dans la branche des liens ENTRE familles, qui est exclusive
@@ -6011,6 +6113,23 @@ const OVERLAP_TOLERANCE = 1;
     repereCanvas,
     versCanvas,
     centreVersCanvas,
+    /* DIAGNOSTIC : l'extremite ECRAN de chaque lien de la zone, pour mesurer
+       l'ecart avec le bord de la plaque qu'il doit rejoindre. */
+    tracerLiens: () => {
+      const out: { nom: string; x1: number; y1: number }[] = [];
+      for (let i = 0; i < LINK_COUNT; i += 1) {
+        const ref = linkRefs[i];
+        if (!ref || ref.a === undefined || ref.b === undefined) continue;
+        if (!(zoneActive && zone[ref.a] === 1 && zone[ref.b] === 1)) continue;
+        scratch.set(linkP1[i * 3] ?? 0, linkP1[i * 3 + 1] ?? 0, linkP1[i * 3 + 2] ?? 0).project(camera);
+        out.push({
+          nom: slotsData[ref.b]?.label ?? '',
+          x1: scratch.x * (width / 2) + width / 2,
+          y1: -scratch.y * (height / 2) + height / 2
+        });
+      }
+      return out;
+    },
     cibleSous: (px: number, py: number) => {
       const nom = nomTouche(px, py, 4);
       const sphere = chercherCible(px, py, 26);
