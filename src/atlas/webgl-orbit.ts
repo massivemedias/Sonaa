@@ -1086,6 +1086,27 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      couronne rebattrait les cartes à chaque descente et un dérivé qu'on
      venait de repérer à droite se retrouverait à gauche. */
   const focusOffsets = new Map<number, Vector3>();
+
+  /* LE FACTEUR D'AGRANDISSEMENT DES PLAQUES, CHERCHE UNE FOIS PAR LIGNEE.
+
+     Une estimation tiree du nombre de membres se trompait : Chicago House
+     tient a vingt-quatre plaques la ou Breakbeat deborde a vingt-trois. Ce qui
+     compte est l'encombrement reel, et il ne se devine pas.
+
+     On le CHERCHE donc, par paliers de cinq pour cent, et l'on s'arrete au
+     dernier palier sans recouvrement. J'avais ecarte cette voie en croyant
+     qu'il faudrait recommencer a chaque image ; c'est faux, et Mika l'a vu :
+     la disposition d'une lignee est calculee UNE FOIS a l'ouverture du genre
+     et ne bouge plus. Le facteur trouve est donc fige, et rien ne peut
+     vibrer ensuite.
+
+     La recherche dure quelques images apres l'ouverture, le temps que la
+     camera se pose : elle monte tant que rien ne se touche, redescend au
+     premier contact, et se verrouille. */
+  const facteurParLignee = new Map<number, { facteur: number; fige: boolean; monte: boolean }>();
+  const FACTEUR_MIN = 0.8;
+  const FACTEUR_MAX = 1.3;
+  const PALIER_FACTEUR = 0.05;
   /* Les axes du plan de la caméra au moment où la couronne a été bâtie. Le
      cadrage mesure l'étendue du groupe DANS CE PLAN : c'est le seul repère
      où « largeur » et « hauteur » veulent dire quelque chose. */
@@ -3509,16 +3530,12 @@ const OVERLAP_TOLERANCE = 1;
          Les paliers sont calibres sur les mesures : a 23 membres, quinze pour
          cent est le maximum qui tient ; en dessous, la place se libere vite. */
       const etroitPlaque = width < 500;
-      const membresZone = zoneActive ? zone.reduce((n, v) => n + (v === 1 ? 1 : 0), 0) : 0;
-      /* LE NOMBRE DE MEMBRES N'EST PAS LE BON PREDICTEUR, la mesure l'a dit :
-         Chicago House tient a vingt-quatre membres la ou Breakbeat deborde a
-         vingt-trois. Ce qui compte n'est pas le compte mais l'ENCOMBREMENT,
-         c'est-a-dire le nombre de plaques rapporte a la place disponible dans
-         la couronne. Faute de mesurer cela sans iterer par image, le dernier
-         palier reste prudent : au-dela de vingt membres, on ne grossit
-         presque pas. Les lignees aerees, elles, montent a trente pour cent. */
+      /* Le facteur est CHERCHE une fois par lignee, plus haut, et seulement lu
+         ici. Aucune estimation : la mesure decide. */
       const facteurPlaque =
-        membresZone <= 12 ? 1.3 : membresZone <= 16 ? 1.25 : membresZone <= 20 ? 1.2 : 1.05;
+        zoneActive && focusIndex >= 0
+          ? (facteurParLignee.get(focusIndex)?.facteur ?? 1)
+          : 1;
       /* La base est la taille d'avant tout agrandissement, 13 et 11 : le
          facteur s'applique dessus, une seule fois, et non sur une valeur deja
          majoree. Deux majorations composees seraient invisibles a la lecture
@@ -3537,12 +3554,21 @@ const OVERLAP_TOLERANCE = 1;
       /* La pastille suit la plaque, sinon elle deviendrait un detail : onze
          pixels de rond plus cinq d'ecart. Le remplissage prend cinquante pour
          cent, douze devient dix-huit. */
-      /* La pastille et le remplissage suivent le meme facteur : une plaque
-         agrandie dont le remplissage reste fixe parait serree. */
-      const pastille = isPlaque ? Math.round(12 * facteurPlaque) : 0;
-      const w = isPlaque
-        ? wTexte + Math.round((etroitPlaque ? 8 : 12) * facteurPlaque) + pastille
-        : wTexte;
+      /* LE REMPLISSAGE EST CELUI DU CSS, AU PIXEL PRES, ET NON UNE VALEUR
+         PROPORTIONNELLE.
+
+         Je l'avais fait suivre le facteur, par souci d'harmonie ; le CSS, lui,
+         le dessine fixe. Des que le facteur passait sous un, le moteur mesurait
+         donc une boite PLUS ETROITE que la boite rendue, et le solveur declarait
+         libres des positions qui se touchaient a l'ecran. C'est le motif des
+         deux ecritures d'une meme grandeur, sous sa forme la plus sournoise :
+         non pas deux valeurs differentes, mais une valeur fixe d'un cote et
+         variable de l'autre.
+
+         Sept pixels de chaque cote plus deux de bordure, quatorze ; dix sur
+         petit ecran. Les memes nombres que la feuille de style. */
+      const pastille = isPlaque ? (etroitPlaque ? 14 : 16) : 0;
+      const w = isPlaque ? wTexte + (etroitPlaque ? 10 : 14) + pastille : wTexte;
 
       /* Écran étroit : le nom de famille passe DESSOUS la sphère et centré.
          Ce décalage vivait dans le CSS (translate -50% 1.35rem sur
@@ -4143,6 +4169,47 @@ const OVERLAP_TOLERANCE = 1;
     /* Ce que la passe a dû laisser se mordre, pour la mesure. Aucun asservis-
        sement derrière : voir plus haut, écarter la couronne ne change rien à
        l'écart en pixels. */
+    /* LA RECHERCHE DU FACTEUR, une fois par lignee et jamais ensuite.
+
+       Elle lit le nombre de recouvrements que la passe vient de mesurer, et
+       ajuste d'un palier. Elle se verrouille des qu'elle a trouve la frontiere,
+       c'est-a-dire des qu'un palier de plus produit un contact.
+
+       ZERO RECOUVREMENT EST LA GARANTIE, pas l'agrandissement : si une lignee
+       n'y arrive pas meme a cent pour cent, elle descend en dessous. */
+    if (zoneActive && focusIndex >= 0) {
+      const etat = facteurParLignee.get(focusIndex) ?? {
+        facteur: 1,
+        fige: false,
+        monte: true
+      };
+      if (!etat.fige) {
+        if (chevauchementsZone > 0) {
+          /* Un contact : on recule d'un palier et l'on verrouille. Le palier
+             precedent etait propre, celui-ci ne l'est pas, la frontiere est
+             donc trouvee. Sauf si l'on n'est jamais monte : il faut alors
+             continuer a descendre jusqu'a ce que ce soit propre. */
+          etat.facteur = Math.max(FACTEUR_MIN, etat.facteur - PALIER_FACTEUR);
+          if (etat.monte && etat.facteur < 1 - 0.001) {
+            /* On descend sous cent pour cent : la lignee est trop dense, on
+               continue a chercher vers le bas au lieu de figer trop tot. */
+            etat.monte = false;
+          } else if (etat.monte) {
+            etat.fige = true;
+          } else if (etat.facteur <= FACTEUR_MIN + 0.001) {
+            /* Plancher atteint : on fige meme si ce n'est pas propre, plutot
+               que de retrecir indefiniment. Le cas est signale par la mesure. */
+            etat.fige = true;
+          }
+        } else if (etat.monte && etat.facteur < FACTEUR_MAX - 0.001) {
+          etat.facteur = Math.min(FACTEUR_MAX, etat.facteur + PALIER_FACTEUR);
+        } else {
+          etat.fige = true;
+        }
+        facteurParLignee.set(focusIndex, etat);
+      }
+    }
+
     labelsMordus = zoneActive ? chevauchementsZone : 0;
 
     labelsShown = placed.length;
