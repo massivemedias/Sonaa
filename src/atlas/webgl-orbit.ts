@@ -1103,7 +1103,31 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      La recherche dure quelques images apres l'ouverture, le temps que la
      camera se pose : elle monte tant que rien ne se touche, redescend au
      premier contact, et se verrouille. */
-  const facteurParLignee = new Map<number, { facteur: number; fige: boolean; monte: boolean }>();
+  const facteurParLignee = new Map<
+    number,
+    { facteur: number; fige: boolean; monte: boolean; ecarts: number; residuel: number }
+  >();
+  /* LES COORDONNEES POLAIRES DE CHAQUE NOEUD DANS SA COURONNE, gardees pour
+     pouvoir les RETOUCHER. Sans elles, l'offset dans le monde ne se laisse pas
+     ecarter proprement : on ne saurait pas dans quelle direction est « plus
+     loin du centre » ni « un peu plus loin sur le cercle ». */
+  const focusPolaire = new Map<number, { angle: number; rayon: number }>();
+  const ECARTS_MAX = 24;
+
+  /* REPOSER UN NOEUD, depuis l'exterieur de la construction de la couronne.
+     `focusRight` et `focusUp` gardent le plan dans lequel la couronne a ete
+     posee : on y reste, sinon un ecartement ferait aussi pivoter la lignee. */
+  const poserFocus = (index: number, angle: number, rayon: number): void => {
+    focusPolaire.set(index, { angle, rayon });
+    focusOffsets.set(
+      index,
+      new Vector3(
+        (focusRight.x * Math.cos(angle) + focusUp.x * Math.sin(angle)) * rayon,
+        (focusRight.y * Math.cos(angle) + focusUp.y * Math.sin(angle)) * rayon,
+        (focusRight.z * Math.cos(angle) + focusUp.z * Math.sin(angle)) * rayon
+      )
+    );
+  };
   const FACTEUR_MIN = 0.8;
   const FACTEUR_MAX = 1.3;
   const PALIER_FACTEUR = 0.05;
@@ -1174,6 +1198,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     focusUp.copy(camUp);
 
     const poser = (index: number, angle: number, rayon: number): void => {
+      focusPolaire.set(index, { angle, rayon });
       focusOffsets.set(
         index,
         new Vector3(
@@ -4181,26 +4206,73 @@ const OVERLAP_TOLERANCE = 1;
       const etat = facteurParLignee.get(focusIndex) ?? {
         facteur: 1,
         fige: false,
-        monte: true
+        monte: true,
+        ecarts: 0,
+        residuel: 0
       };
       if (!etat.fige) {
-        if (chevauchementsZone > 0) {
-          /* Un contact : on recule d'un palier et l'on verrouille. Le palier
-             precedent etait propre, celui-ci ne l'est pas, la frontiere est
-             donc trouvee. Sauf si l'on n'est jamais monte : il faut alors
-             continuer a descendre jusqu'a ce que ce soit propre. */
-          etat.facteur = Math.max(FACTEUR_MIN, etat.facteur - PALIER_FACTEUR);
-          if (etat.monte && etat.facteur < 1 - 0.001) {
-            /* On descend sous cent pour cent : la lignee est trop dense, on
-               continue a chercher vers le bas au lieu de figer trop tot. */
-            etat.monte = false;
-          } else if (etat.monte) {
+        /* QUAND LA TAILLE NE SUFFIT PLUS, ON ECARTE LES NOEUDS.
+
+           Le resultat negatif de la passe precedente disait exactement cela :
+           deux lignees descendaient jusqu'au plancher de taille et se
+           touchaient encore. La taille des plaques n'etait donc PAS la cause
+           chez elles, leurs noeuds sont trop proches.
+
+           On les ecarte alors angulairement, par petits pas, en alternant le
+           sens pour que la couronne ne derive pas d'un cote. Si l'ecart
+           angulaire ne suffit pas, on decale radialement, l'un vers
+           l'interieur et l'autre vers l'exterieur : la position radiale ne
+           porte pas de sens dans cette disposition, contrairement a la
+           chronologie ou elle en porterait, donc ce decalage ne coute aucune
+           information.
+
+           L'ORDRE HORAIRE EST PRESERVE : les pas angulaires sont plus petits
+           que la moitie de l'ecart entre deux voisins, donc deux noeuds ne
+           peuvent pas se croiser. L'ordre chronologique reste lisible.
+
+           PLAFOND D'ITERATIONS, et l'on dit le reste plutot que de boucler. */
+        if (chevauchementsZone > 0 && etat.facteur <= FACTEUR_MIN + 0.001) {
+          if (etat.ecarts < ECARTS_MAX) {
+            etat.ecarts += 1;
+            const membres: number[] = [];
+            for (const [i] of focusPolaire) if (zone[i] === 1 && i !== focusIndex) membres.push(i);
+            membres.sort(
+              (a, b) => (focusPolaire.get(a)?.angle ?? 0) - (focusPolaire.get(b)?.angle ?? 0)
+            );
+            for (let k = 0; k < membres.length; k += 1) {
+              const idx = membres[k] ?? 0;
+              const pol = focusPolaire.get(idx);
+              if (!pol) continue;
+              const voisin = membres[(k + 1) % membres.length] ?? idx;
+              const polV = focusPolaire.get(voisin);
+              const ecartAngulaire = polV
+                ? Math.abs(polV.angle - pol.angle) || (Math.PI * 2) / membres.length
+                : (Math.PI * 2) / membres.length;
+              /* Un dixieme de l'ecart au voisin : assez pour desserrer, trop
+                 peu pour croiser. */
+              const pas = Math.min(ecartAngulaire * 0.1, 0.05);
+              const sens = k % 2 === 0 ? 1 : -1;
+              const rayonNeuf = pol.rayon * (1 + (k % 2 === 0 ? 0.02 : -0.02));
+              poserFocus(idx, pol.angle + pas * sens, rayonNeuf);
+            }
+          } else {
             etat.fige = true;
-          } else if (etat.facteur <= FACTEUR_MIN + 0.001) {
-            /* Plancher atteint : on fige meme si ce n'est pas propre, plutot
-               que de retrecir indefiniment. Le cas est signale par la mesure. */
-            etat.fige = true;
+            etat.residuel = chevauchementsZone;
           }
+        } else if (chevauchementsZone > 0) {
+          /* UN CONTACT : ON RECULE, ET L'ON NE FIGE PAS ENCORE.
+
+             Je figeais des le premier contact, en supposant que le palier
+             precedent etait propre. Mais la mesure lue est celle du palier
+             COURANT : reculer d'un cran puis verrouiller sans revoir le
+             resultat, c'est figer sur un etat qu'on n'a pas verifie. Chicago
+             House restait ainsi avec un recouvrement.
+
+             On recule donc, on sort du mode montant, et l'on attend l'image
+             suivante pour constater. Propre, on fige ; encore en contact, on
+             recule a nouveau. */
+          etat.facteur = Math.max(FACTEUR_MIN, etat.facteur - PALIER_FACTEUR);
+          etat.monte = false;
         } else if (etat.monte && etat.facteur < FACTEUR_MAX - 0.001) {
           etat.facteur = Math.min(FACTEUR_MAX, etat.facteur + PALIER_FACTEUR);
         } else {
