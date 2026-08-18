@@ -67,6 +67,12 @@ import { normalise, resolveTrack, sleep, tauxEchecReseau, reseau, type Resolutio
 } from './lib/match.ts';
 import { transaction, type AnyCorpus } from './lib/corpus-store.ts';
 
+/* LES MEMES BORNES QUE LE SCHEMA DU CORPUS, et pas des bornes de plus.
+   Le schema accepte 1948, l'annee de la musique concrete. Un outil qui
+   accepte moins que ce que le schema permet jette des donnees valides. */
+const ANNEE_MIN = 1948;
+const ANNEE_MAX = 2030;
+
 const CORPUS = fileURLToPath(new URL('../src/data/corpus.json', import.meta.url));
 /* --file= permet une source alternative, par exemple un canon des fondateurs
    propose par la machine et distinct du fichier de Mika. */
@@ -209,14 +215,35 @@ const parseCanon = (text: string): { rows: CanonRow[]; problems: string[] } => {
       return;
     }
 
+    /* LE PLANCHER ETAIT A 1960, ET IL JETAIT EN SILENCE.
+
+       DEFAUT TROUVE SUR UN CHARGEMENT REEL : sept morceaux du studio de
+       Cologne charges, SIX arrives sans date. Le seul qui l'a gardee etait de
+       1960. Tout ce qui precedait tombait a `null` sans un mot, et le rapport
+       de chargement annoncait sept succes.
+
+       C'est le faux vert du projet, applique aux dates : une operation qui
+       echoue sans le dire. Et le plancher visait exactement ce que SONAA a de
+       plus precieux, ses racines. La musique concrete est de 1948.
+
+       Le plancher lit desormais la MEME borne que le schema du corpus, et un
+       nombre hors borne est SIGNALE au lieu d'etre efface : une date fausse
+       doit se voir, une date jetee ne se voit jamais. */
     const yearRaw = at('annee', 'année', 'year');
     const yearNum = Number.parseInt(yearRaw, 10);
+    if (yearRaw.trim() !== '' && !(Number.isFinite(yearNum) && yearNum >= ANNEE_MIN && yearNum <= ANNEE_MAX)) {
+      problems.push(
+        `ligne ${lineNo} : annee « ${yearRaw.trim()} » hors des bornes ${ANNEE_MIN}-${ANNEE_MAX}, ` +
+          `elle serait perdue en silence`
+      );
+      return;
+    }
 
     rows.push({
       genreId: which,
       artist,
       title,
-      year: Number.isFinite(yearNum) && yearNum >= 1960 && yearNum <= 2100 ? yearNum : null,
+      year: Number.isFinite(yearNum) ? yearNum : null,
       /* PAS normalise() ici : c'est la moulinette de matching musical, qui
          translittère les umlauts (ue devient u) et transformait « actuel »
          en « actul », le rôle ne valait alors JAMAIS 'actuel' et tout

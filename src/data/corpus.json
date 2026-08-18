@@ -13285,6 +13285,14 @@
           "role": "canon"
         },
         {
+          "youtubeId": "JLDbBqHCslw",
+          "artist": "Edgard Varese",
+          "title": "Poeme Electronique",
+          "year": 1958,
+          "verified": true,
+          "role": "canon"
+        },
+        {
           "youtubeId": "nbdmzSeFy_Y",
           "artist": "Karlheinz Stockhausen",
           "title": "Kontakte",
@@ -13334,14 +13342,6 @@
             "year": 1997,
             "format": "CD, Compilation, Stereo"
           },
-          "role": "canon"
-        },
-        {
-          "youtubeId": "JLDbBqHCslw",
-          "artist": "Edgard Varese",
-          "title": "Poeme Electronique",
-          "year": null,
-          "verified": true,
           "role": "canon"
         }
       ],
