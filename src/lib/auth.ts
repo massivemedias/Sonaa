@@ -111,12 +111,23 @@ export async function envoyerLienMagique(email: string): Promise<ResultatEnvoi> 
       ? `Un lien vient déjà d'être demandé pour cette adresse. Patientez ` +
         `${delaiEnFrancais(secondes)} avant d'en redemander un, pensez à regarder ` +
         `dans les indésirables, le premier est peut-être déjà arrivé.`
-      : `Le service d'envoi de courriels de SONAA est momentanément saturé. Ce n'est pas ` +
-        `votre faute : le site entier ne peut expédier qu'un petit nombre de liens de ` +
-        `connexion par heure, et le quota vient d'être atteint. Réessayez dans ` +
-        `${secondes > 0 ? delaiEnFrancais(secondes) : 'une dizaine de minutes'}. Si vous vous ` +
-        `êtes déjà connecté sur cet appareil, votre session est peut-être encore valable : ` +
-        `rechargez la page avant de redemander un lien.`;
+      /* LA SORTIE AVANT L'EXCUSE.
+
+         Le message expliquait bien la situation, et il laissait la personne
+         devant une porte fermée avec un delai. Or il existe une autre porte,
+         sans quota, immediate, et elle etait mentionnee nulle part : Google.
+
+         L'ordre des phrases compte donc. Ce qu'on peut FAIRE tout de suite
+         vient en premier ; l'explication et le delai viennent apres, pour qui
+         tient a l'autre chemin. Un message d'erreur qui commence par une
+         excuse fait lire une excuse ; commencer par une issue fait agir. */
+      : `Trop de liens de connexion ont été envoyés depuis SONAA dans la dernière ` +
+        `heure. Deux solutions : connectez-vous avec Google, c'est immédiat et sans ` +
+        `limite, ou réessayez le lien par courriel dans ` +
+        `${secondes > 0 ? delaiEnFrancais(secondes) : 'une heure'}. ` +
+        `Ce n'est pas votre faute, le quota est celui du site entier. Et si vous vous ` +
+        `êtes déjà connecté sur cet appareil, votre session est peut-être encore ` +
+        `valable : rechargez la page avant de redemander un lien.`;
 
     return { ok: false, limiteAtteinte: true, message };
   }
