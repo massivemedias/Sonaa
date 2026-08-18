@@ -1193,6 +1193,30 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
 
        Le mobile n'y touche pas : il déborde déjà du cadre (ADR-080) et sa
        contrainte est le doigt, pas la longueur des liens. */
+    /* UN TIERS DE MOINS, et ce n'est pas le meme levier que l'occupation.
+
+       Mesure ADR-075 : agrandir ou reduire TOUTE la disposition ne change rien
+       a l'ecran, la camera suivant l'echelle. Ce qui change ici est le RAPPORT
+       entre la longueur des liens et la taille des plaques : les plaques sont
+       dessinees en pixels fixes, elles ne suivent pas l'echelle du monde.
+       Resserrer les anneaux raccourcit donc les liens SANS retrecir les
+       plaques, et c'est exactement le rapport que Mika demande de baisser.
+
+       CE RAISONNEMENT EST FAUX, ET LA MESURE L'A DIT. Passe a 0,5, le rapport
+       MONTE de 1,68 a 1,83 sur Hardcore Techno et l'ecart minimal tombe de 115
+       a 83 px. La raison est celle deja mesuree en ADR-075 et que j'ai cru
+       contourner : resserrer le monde fait AVANCER la camera d'autant, donc
+       les liens gardent leur longueur en pixels. Les plaques ne rapetissent
+       pas, mais les liens ne raccourcissent pas non plus, et la disposition
+       plus serree rapproche seulement les cibles.
+
+       LE VRAI LEVIER EST L'INVERSE : reculer la camera. Les liens rapetissent
+       en pixels, les plaques gardent leur taille fixe, le rapport baisse. Mais
+       reculer, c'est aussi laisser plus de vide autour de l'arbre, ce qui est
+       l'autre reproche. Les deux demandes se contredisent, et c'est une
+       decision de produit, pas un reglage.
+
+       On garde donc la valeur mesuree comme la meilleure des deux. */
     const SERRAGE = width >= 768 ? 0.75 : 1;
     const PAS = Math.max((rRacine + rMax) * 2.2, rMax * 4.4) * SERRAGE;
 
@@ -3489,6 +3513,20 @@ const OVERLAP_TOLERANCE = 1;
         fy = sy - px * 0.72;
       }
 
+      /* LA PLAQUE DU GENRE CENTRAL EST COLLEE SOUS SA SPHERE.
+
+         Elle passait par le decalage radial, concu pour ecarter un nom de sa
+         sphere quand huit noms se disputent le centre d'une couronne. Le genre
+         central n'est pas dans cette situation : il est SEUL au milieu, et le
+         decalage l'envoyait flotter a 130 px de la seule sphere encore
+         dessinee. On la pose donc juste dessous, a quatre pixels du bord,
+         comme n'importe quelle etiquette collee a son objet. */
+      if (isCentral) {
+        const rayon = slot >= 0 ? rayonEcran(slot) : 0;
+        fx = sx - w / 2;
+        fy = sy + rayon + 4;
+      }
+
       /* LABELS DE GENRES POSÉS VERS L'EXTÉRIEUR DE LEUR ANNEAU (ADR-056) :
          centrés sur la sphère, les huit noms d'une couronne se battaient au
          centre contre le fondateur et six sur huit tombaient (mesuré). En
@@ -3499,7 +3537,7 @@ const OVERLAP_TOLERANCE = 1;
          occupait la position du noeud. La sphere d'un derive n'existe plus :
          la plaque prend sa place, et les liens, qui aboutissent au noeud,
          arrivent donc sous elle au lieu de pointer un vide a cote. */
-      if (kind === 'genre' && slot >= 0 && !plaqueCentree) {
+      if (kind === 'genre' && slot >= 0 && !plaqueCentree && !isCentral) {
         const parentSlot = slotsData[slot];
         const anchor = parentSlot ? familyCenters[parentSlot.family] : undefined;
         if (anchor) {
@@ -6116,16 +6154,34 @@ const OVERLAP_TOLERANCE = 1;
     /* DIAGNOSTIC : l'extremite ECRAN de chaque lien de la zone, pour mesurer
        l'ecart avec le bord de la plaque qu'il doit rejoindre. */
     tracerLiens: () => {
-      const out: { nom: string; x1: number; y1: number }[] = [];
+      const out: {
+        nom: string;
+        parent: string;
+        x1: number;
+        y1: number;
+        x0: number;
+        y0: number;
+      }[] = [];
       for (let i = 0; i < LINK_COUNT; i += 1) {
         const ref = linkRefs[i];
         if (!ref || ref.a === undefined || ref.b === undefined) continue;
-        if (!(zoneActive && zone[ref.a] === 1 && zone[ref.b] === 1)) continue;
+        /* TOUS LES LIENS VISIBLES, et non les seuls que la correction touche :
+           filtrer ici sur la meme condition que le correctif rendait la mesure
+           aveugle a ce qu'il ne corrige pas. C'est le motif 8. */
+        if ((linkMeta[i * 3 + 1] ?? 0) < 0.5) continue;
         scratch.set(linkP1[i * 3] ?? 0, linkP1[i * 3 + 1] ?? 0, linkP1[i * 3 + 2] ?? 0).project(camera);
+        const x1 = scratch.x * (width / 2) + width / 2;
+        const y1 = -scratch.y * (height / 2) + height / 2;
+        /* LE DEPART AUSSI, et non la seule arrivee : ne mesurer qu'une
+           extremite laisse l'autre libre de deriver sans que rien ne le dise. */
+        scratch.set(linkP0[i * 3] ?? 0, linkP0[i * 3 + 1] ?? 0, linkP0[i * 3 + 2] ?? 0).project(camera);
         out.push({
           nom: slotsData[ref.b]?.label ?? '',
-          x1: scratch.x * (width / 2) + width / 2,
-          y1: -scratch.y * (height / 2) + height / 2
+          parent: slotsData[ref.a]?.label ?? '',
+          x1,
+          y1,
+          x0: scratch.x * (width / 2) + width / 2,
+          y0: -scratch.y * (height / 2) + height / 2
         });
       }
       return out;
