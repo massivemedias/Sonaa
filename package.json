@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "node scripts/verifier-secrets.mjs && tsc --noEmit && vite build",
     "preview": "vite preview",
     "validate:data": "tsx scripts/validate-data.ts",
     "fetch:tracks": "tsx scripts/fetch-tracks.ts",
