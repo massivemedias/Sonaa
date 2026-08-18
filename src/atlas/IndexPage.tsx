@@ -97,7 +97,7 @@ export function IndexPage() {
                               ? `${genre.bpmRange[0]}-${genre.bpmRange[1]}`
                               : '·'}
                           </td>
-                          <td className="index-mono">{genre.tracksEssentiel.length + genre.tracksActuel.length}</td>
+                          <td className="index-mono">{genre.tracks.length}</td>
                         </tr>
                       ))}
                     </tbody>

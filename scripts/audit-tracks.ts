@@ -33,7 +33,7 @@ interface Track {
 }
 interface Genre {
   id: string;
-  tracks: { essentiel: Track[]; actuel: Track[] };
+  tracks: Track[];
 }
 interface Corpus {
   version: number;
@@ -78,7 +78,7 @@ let removed = 0;
 let unreachable = 0;
 
 for (const genre of corpus.genres) {
-  for (const list of [genre.tracks.essentiel, genre.tracks.actuel]) {
+  for (const list of [genre.tracks]) {
     for (let i = list.length - 1; i >= 0; i -= 1) {
       const track = list[i];
       if (!track) continue;
@@ -120,7 +120,7 @@ for (const genre of corpus.genres) {
 if (!DRY) {
   transaction((fresh) => {
     for (const genre of fresh.genres) {
-      for (const list of [genre.tracks.essentiel, genre.tracks.actuel]) {
+      for (const list of [genre.tracks]) {
         for (let i = list.length - 1; i >= 0; i -= 1) {
           const t = list[i];
           if (!t) continue;

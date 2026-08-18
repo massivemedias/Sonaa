@@ -43,8 +43,6 @@ export interface Playback {
   familyIndex: number;
   genreLocal: number;
   trackIndex: number;
-  /** Liste d'où vient la track : l'enchaînement reste dans celle-là. */
-  list: 'essentiel' | 'actuel';
 }
 
 interface Props {
@@ -146,7 +144,6 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(80);
   const [apiFailed, setApiFailed] = useState(false);
-  const [tab, setTab] = useState<'essentiel' | 'actuel'>('essentiel');
   /* LES INFOS DU GENRE SONT REPLIEES SUR TELEPHONE, ouvertes ailleurs.
 
      Elles font plusieurs ecrans de haut. Sur un telephone elles repoussaient
@@ -289,23 +286,18 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
   const genreOf = (familyIndex: number, genreLocal: number) =>
     STRUCTURES[familyIndex]?.genres[genreLocal];
 
-  const panelActuel: Track[] = useMemo(() => {
-    if (!panelGenre) return [];
-    return genreOf(panelGenre.familyIndex, panelGenre.genreLocal)?.tracksActuel ?? [];
-  }, [panelGenre]);
-
   const panelTracks: Track[] = useMemo(() => {
     if (!panelGenre) return [];
     const g = genreOf(panelGenre.familyIndex, panelGenre.genreLocal);
     if (!g) return [];
-    return tab === 'actuel' && g.tracksActuel.length > 0 ? g.tracksActuel : g.tracksEssentiel;
-  }, [panelGenre, tab]);
+    return g.tracks;
+  }, [panelGenre]);
 
   const playedTracks: Track[] = useMemo(() => {
     if (!playback) return [];
     const g = genreOf(playback.familyIndex, playback.genreLocal);
     if (!g) return [];
-    return playback.list === 'actuel' ? g.tracksActuel : g.tracksEssentiel;
+    return g.tracks;
   }, [playback]);
 
   /* ---- VOTE SUR LES TRACKS -------------------------------------------- */
@@ -507,8 +499,8 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
   // --- lecteur ------------------------------------------------------------
 
   const play = useCallback(
-    (familyIndex: number, genreLocal: number, trackIndex: number, list: 'essentiel' | 'actuel') => {
-      setPlayback({ familyIndex, genreLocal, trackIndex, list });
+    (familyIndex: number, genreLocal: number, trackIndex: number) => {
+      setPlayback({ familyIndex, genreLocal, trackIndex });
     },
     []
   );
@@ -517,7 +509,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
     setPlayback((p) => {
       if (!p) return p;
       const g = STRUCTURES[p.familyIndex]?.genres[p.genreLocal];
-      const list = (p.list === 'actuel' ? g?.tracksActuel : g?.tracksEssentiel) ?? [];
+      const list = g?.tracks ?? [];
       if (list.length === 0) return p;
       return { ...p, trackIndex: (p.trackIndex + delta + list.length) % list.length };
     });
@@ -821,8 +813,6 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
   const progress =
     saisie !== null ? saisie * 100 : duration > 0 ? (position / duration) * 100 : 0;
   const tempsAffiche = saisie !== null ? saisie * duration : position;
-  const currentList: 'essentiel' | 'actuel' =
-    tab === 'actuel' && panelActuel.length > 0 ? 'actuel' : 'essentiel';
 
   /* CE QUI MANQUE A CE GENRE, ET POURQUOI ON LE DIT.
 
@@ -848,27 +838,25 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
     };
   }, []);
 
-  const CIBLE_ESSENTIEL = 5;
+  /* CINQ MORCEAUX, LE MEME SEUIL QU'AVANT LA FUSION DES LISTES.
+
+     Il y avait deux messages, un par onglet : « manque de fondateurs » et
+     « aucune sortie recente ». Le second disparait avec les onglets, et
+     surtout il disait quelque chose de faux depuis le debut : un genre eteint
+     n'a pas de sorties recentes, ce n'est pas un trou. Il fallait donc une
+     exception pour ne pas lui reprocher d'etre mort.
+
+     Un seul compte, une seule phrase, plus d'exception a maintenir. */
+  const CIBLE = 5;
   const manque = useMemo(() => {
     if (!panelGenreData) return null;
-    const eteint =
-      Array.isArray(panelGenreData.labelsActuels) && panelGenreData.labelsActuels.length === 0;
-    if (currentList === 'essentiel' && (panelGenreData.tracksEssentiel?.length ?? 0) < CIBLE_ESSENTIEL) {
-      /* Sur un genre incomplet, l'appel est plus direct : c'est la que la
-         contribution a le plus de valeur, et le visiteur voit le manque. */
-      return connecte
-        ? 'Ce genre manque de morceaux. Propose les tiens.'
-        : 'Ce genre manque de morceaux. Connecte-toi et propose les tiens.';
-    }
-    /* Un genre eteint n'a pas de sorties recentes, et ce n'est pas un manque :
-       le lui reprocher serait une faute de lecture de la carte. */
-    if (currentList === 'actuel' && panelActuel.length === 0 && !eteint) {
-      return connecte
-        ? 'Aucune sortie récente pour ce genre. Si tu en connais, propose-la.'
-        : 'Aucune sortie récente pour ce genre. Connecte-toi et propose-la.';
-    }
-    return null;
-  }, [panelGenreData, currentList, panelActuel.length, connecte]);
+    if (panelGenreData.tracks.length >= CIBLE) return null;
+    /* Sur un genre incomplet, l'appel est plus direct : c'est la que la
+       contribution a le plus de valeur, et le visiteur voit le manque. */
+    return connecte
+      ? 'Ce genre manque de morceaux. Propose les tiens.'
+      : 'Ce genre manque de morceaux. Connecte-toi et propose les tiens.';
+  }, [panelGenreData, connecte]);
 
 
   /* Les données de sortie, MISES EN VALEUR : le label de disque compte
@@ -1010,7 +998,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                   onClick={() =>
                     playingHere
                       ? toggle()
-                      : play(panelGenre.familyIndex, panelGenre.genreLocal, 0, currentList)
+                      : play(panelGenre.familyIndex, panelGenre.genreLocal, 0)
                   }
                   aria-label={playing && playingHere ? 'Pause' : 'Lecture'}
                 >
@@ -1076,7 +1064,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
               {!playingHere && shownInPanel && (
                 <button
                   className="pcol-bigplay"
-                  onClick={() => play(panelGenre.familyIndex, panelGenre.genreLocal, 0, currentList)}
+                  onClick={() => play(panelGenre.familyIndex, panelGenre.genreLocal, 0)}
                   aria-label={`Lire ${shownInPanel.title}`}
                 >
                   ▶
@@ -1116,7 +1104,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                 onClick={() =>
                   playingHere
                     ? toggle()
-                    : play(panelGenre.familyIndex, panelGenre.genreLocal, 0, currentList)
+                    : play(panelGenre.familyIndex, panelGenre.genreLocal, 0)
                 }
                 aria-label={playing && playingHere ? 'Pause' : 'Lecture'}
               >
@@ -1164,25 +1152,6 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
               )}
             </div>
 
-
-            {panelActuel.length > 0 && (
-              <div className="pcol-tabs" role="tablist" aria-label="Sélection de tracks">
-                <button
-                  role="tab"
-                  aria-selected={currentList === 'essentiel'}
-                  onClick={() => setTab('essentiel')}
-                >
-                  Essentiel
-                </button>
-                <button
-                  role="tab"
-                  aria-selected={currentList === 'actuel'}
-                  onClick={() => setTab('actuel')}
-                >
-                  Actuel
-                </button>
-              </div>
-            )}
 
             {/* La liste verticale : AUCUNE ligne muette. Chaque track affiche
                 titre, artiste, année, label et catalogue quand ils existent.
@@ -1235,7 +1204,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                       className="pcol-row"
                       data-active={active}
                       onClick={() =>
-                        play(panelGenre.familyIndex, panelGenre.genreLocal, indexOrigine, currentList)
+                        play(panelGenre.familyIndex, panelGenre.genreLocal, indexOrigine)
                       }
                       aria-label={`Lire ${track.title} de ${track.artist}`}
                     >
@@ -1252,7 +1221,20 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                         )}
                       </span>
                       <span className="pcol-row-text">
-                        <strong>{track.title}</strong>
+                        <strong>
+                          {track.title}
+                          {/* LE ROLE SE LIT SUR LE MORCEAU, PAS SUR UN ONGLET.
+                              Un mot court plutot qu'une pastille de couleur :
+                              la colonne porte deja la teinte de la famille, et
+                              une seconde couleur y dirait autre chose sans que
+                              rien ne dise quoi. Absent sur la majorite des
+                              morceaux, ce qui est l'etat normal. */}
+                          {track.role && (
+                            <span className="pcol-row-role" data-role={track.role}>
+                              {track.role === 'origine' ? 'origine' : 'canon'}
+                            </span>
+                          )}
+                        </strong>
                         <span>{track.artist}</span>
                         {meta.length > 0 && (
                           <span className="pcol-row-meta">{meta.join(' · ')}</span>
@@ -1266,6 +1248,16 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                 );
               })}
             </ul>
+
+            {/* LA LEGENDE N'APPARAIT QUE SI LES SIGNES SONT LA. Sur un genre
+                dont aucun morceau ne porte de role, elle expliquerait des
+                marques absentes, ce qui est du bruit. */}
+            {panelTracks.some((t) => t.role) && (
+              <p className="pcol-legende">
+                <strong>origine</strong> le morceau qui fonde le genre ·{' '}
+                <strong>canon</strong> une référence établie
+              </p>
+            )}
 
             {manque && contributionsActives && (
               <div className="pcol-manque">
@@ -1416,7 +1408,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
               )}
 
               {(() => {
-                const shared = [...panelGenreData.tracksEssentiel, ...panelGenreData.tracksActuel].filter(
+                const shared = panelGenreData.tracks.filter(
                   (t) => t.sharedWith.length > 0
                 );
                 if (shared.length === 0) return null;

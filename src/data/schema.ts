@@ -96,6 +96,21 @@ export const trackSchema = z.strictObject({
   /* Tonalité RELEVÉE (GetSongKey), jamais déduite d'une analyse ni inventée.
      Absente le plus souvent : le champ ne s'affiche que quand il existe. */
   key: z.string().optional(),
+  /* LE ROLE DE LA TRACK DANS SON GENRE. Un ROLE, jamais une date : « origine »
+     ne veut pas dire « la plus ancienne », et c'est tout l'objet du champ.
+
+     `origine` : le morceau qui fonde le genre. Au plus un par genre, et il ne
+     se deduit d'aucune regle. Aucun classement automatique ne peut savoir que
+     « Cinq etudes de bruits » fonde la musique concrete, il faut le savoir.
+     Absent sur la quasi-totalite du corpus, et c'est l'etat normal : Mika le
+     renseigne au fil du temps, les visiteurs peuvent le proposer.
+
+     `canon` : une reference etablie du genre, toutes epoques confondues.
+
+     Absent : une sortie parmi d'autres. Ce n'est pas un defaut de saisie, la
+     plupart des tracks n'ont pas de role particulier. */
+  role: z.enum(['origine', 'canon']).optional(),
+
   /* Morceau CHARNIÈRE : il appartient à plusieurs genres, et c'est une
      information, pas une anomalie. « Acperience 1 » est à la fois de l'acid
      techno et de l'acid trance, c'est précisément ce qui le rend intéressant.
@@ -196,25 +211,28 @@ export const familySchema = z.strictObject({
   hue: z.number().min(0).max(360)
 });
 
-/* Deux listes par genre, comme prévu depuis le départ (ADR-026).
+/* UNE SEULE LISTE PAR GENRE, ET UN ATTRIBUT DE ROLE (aout 2026).
 
-   `essentiel` : les fondateurs du genre, toutes époques. C'est ce qu'on sait
-   remplir sans clé, par recherche puis vérification oEmbed.
+   IL Y EN AVAIT DEUX, `essentiel` et `actuel`, et la separation etait fausse.
+   Elle melangeait deux questions qui n'ont rien a voir : l'importance d'un
+   morceau dans son genre, et sa date de sortie. Une reference de 2024 n'avait
+   pas de place, un morceau fondateur passait pour une nouveaute.
 
-   `actuel` : les sorties récentes triées par écoutes. Cela demande la YouTube
-   Data API, donc une clé, donc un secret d'intégration continue. La liste
-   existe dès maintenant et reste vide : l'onglet ne s'affiche que si elle
-   contient quelque chose, ce qui évite de promettre une vue morte. */
-export const trackListsSchema = z.strictObject({
-  essentiel: z.array(trackSchema),
-  actuel: z.array(trackSchema)
-});
+   La distinction utile est un ROLE porte par la track, pas une liste qui la
+   contient : `origine` pour le morceau fondateur, `canon` pour une reference
+   etablie, rien pour les autres. Un morceau peut ainsi etre a la fois recent
+   et canonique, ce que deux listes rendaient impossible a dire.
+
+   L'ORDRE EST CHRONOLOGIQUE, annees inconnues en fin de liste. Il raconte le
+   genre dans le sens ou il s'est fait, et le role se lit par un signe et non
+   par une position. */
+export const trackListSchema = z.array(trackSchema);
 
 export const corpusSchema = z
   .strictObject({
     version: z.literal(1),
     families: z.array(familySchema).length(FAMILY_IDS.length),
-    genres: z.array(genreSchema.extend({ tracks: trackListsSchema })).min(1)
+    genres: z.array(genreSchema.extend({ tracks: trackListSchema })).min(1)
   })
   .check((ctx) => {
     const doc = ctx.value;
@@ -285,6 +303,22 @@ export const corpusSchema = z
     };
     for (const g of doc.genres) resolve(g.id, new Set());
 
+    /* AU PLUS UNE ORIGINE PAR GENRE. Le role dit « le morceau qui a fonde ce
+       genre » : au pluriel il ne veut plus rien dire, et deux origines sont
+       toujours une saisie faite deux fois plutot qu'une decision. La regle est
+       ici et non dans un script, pour qu'elle vaille aussi sur ce qu'un
+       visiteur proposera. */
+    for (const [i, g] of doc.genres.entries()) {
+      const origines = g.tracks.filter((t) => t.role === 'origine');
+      if (origines.length > 1) {
+        fail(
+          `${g.id} a ${origines.length} morceaux d'origine, il en faut au plus un : ` +
+            origines.map((t) => `${t.artist} - ${t.title}`).join(', '),
+          ['genres', i, 'tracks']
+        );
+      }
+    }
+
     /* Un identifiant de vidéo n'apparaît qu'une fois par genre, et s'il
        apparaît dans plusieurs genres, le partage doit être DÉCLARÉ des deux
        côtés par `shared`. Un morceau charnière est une fonctionnalité ; un
@@ -292,7 +326,7 @@ export const corpusSchema = z
        pour un morceau, et reste une erreur. */
     const claims = new Map<string, { genre: string; shared: Set<string> }[]>();
     for (const g of doc.genres) {
-      for (const t of [...g.tracks.essentiel, ...g.tracks.actuel]) {
+      for (const t of g.tracks) {
         const list = claims.get(t.youtubeId) ?? [];
         list.push({ genre: g.id, shared: new Set(t.shared ?? []) });
         claims.set(t.youtubeId, list);

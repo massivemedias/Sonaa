@@ -80,12 +80,12 @@ function FamilyBlock({
             {genre.bpmRange && (
               <span className="tv-bpm">{genre.bpmRange[0]}-{genre.bpmRange[1]}</span>
             )}
-            {genre.tracksEssentiel.length + genre.tracksActuel.length > 0 && (
+            {genre.tracks.length > 0 && (
               <button
                 className="tv-listen"
                 onClick={() => onOpen(familyIndex, local)}
                 aria-label={`Écouter ${genre.label}`}
-                title={`${genre.tracksEssentiel.length + genre.tracksActuel.length} tracks`}
+                title={`${genre.tracks.length} tracks`}
               >
                 ▶
               </button>

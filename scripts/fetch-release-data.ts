@@ -69,7 +69,7 @@ interface Track {
   release?: Release;
 }
 interface Corpus {
-  genres: { id: string; tracks: { essentiel: Track[]; actuel: Track[] } }[];
+  genres: { id: string; tracks: Track[] }[];
 }
 
 if (!TOKEN) {
@@ -192,7 +192,7 @@ const corpus = JSON.parse(readFileSync(CORPUS, 'utf8')) as Corpus;
 const queue: Track[] = [];
 const seen = new Set<string>();
 for (const genre of corpus.genres) {
-  for (const list of [genre.tracks.essentiel, genre.tracks.actuel]) {
+  for (const list of [genre.tracks]) {
     for (const track of list) {
       if (track.release || seen.has(track.youtubeId)) continue;
       seen.add(track.youtubeId);

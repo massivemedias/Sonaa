@@ -144,7 +144,7 @@ interface Genre {
   label: string;
   family: string;
   labelsActuels?: string[] | null;
-  tracks: { essentiel: Track[]; actuel: Track[] };
+  tracks: Track[];
 }
 
 const corpus = JSON.parse(readFileSync(CORPUS, 'utf8')) as { genres: Genre[] };
@@ -157,12 +157,19 @@ const estEteint = (g: Genre): boolean =>
    de tracks déjà réunies est le meilleur indicateur disponible de
    l'importance d'un genre : c'est le travail éditorial déjà fait qui le
    dit, pas un classement inventé. À égalité, celui qui manque le plus. */
+/* CE QUE CE SCRIPT REMPLIT, depuis la fusion des deux listes : les morceaux
+   SANS ROLE, c'est-a-dire les sorties ordinaires. C'etait exactement le
+   contenu de l'ancienne liste `actuel`, le compte est donc inchange. Il ne
+   touche jamais aux morceaux d'origine ni aux canons, qui sont un choix
+   editorial et non une recolte. */
+const sansRole = (g: Genre): number => g.tracks.filter((t) => !t.role).length;
+
 const aTraiter = corpus.genres
-  .filter((g) => !estEteint(g) && g.tracks.actuel.length < CIBLE)
+  .filter((g) => !estEteint(g) && sansRole(g) < CIBLE)
   .filter((g) => !etat.faits.includes(g.id))
   .sort((a, b) => {
-    const poids = (g: Genre) => g.tracks.essentiel.length + g.tracks.actuel.length;
-    return poids(b) - poids(a) || a.tracks.actuel.length - b.tracks.actuel.length;
+    const poids = (g: Genre) => g.tracks.length;
+    return poids(b) - poids(a) || sansRole(a) - sansRole(b);
   });
 
 /* ------------------------------------------------------- Discogs, gratuit */
@@ -391,7 +398,7 @@ async function metaDesVideos(ids: readonly string[]): Promise<Map<string, Meta>>
 
 const dejaDansLeCorpus = new Set<string>();
 for (const g of corpus.genres) {
-  for (const t of [...g.tracks.essentiel, ...g.tracks.actuel]) dejaDansLeCorpus.add(t.youtubeId);
+  for (const t of g.tracks) dejaDansLeCorpus.add(t.youtubeId);
 }
 
 console.log(
@@ -407,7 +414,7 @@ const bruit: { id: string; famille: string; retenus: number; marginaux: number; 
   [];
 
 for (const genre of aTraiter) {
-  const manque = CIBLE - genre.tracks.actuel.length;
+  const manque = CIBLE - sansRole(genre);
   const bruts = await candidatsDiscogs(genre.label);
 
   /* Style absent de l'oeuvre : bruit certain, refuse. Le reste passe, les
@@ -475,11 +482,11 @@ for (const genre of aTraiter) {
       const g = (frais.genres as unknown as Genre[]).find((x) => x.id === genre.id);
       if (!g) return;
       const presents = new Set(
-        [...g.tracks.essentiel, ...g.tracks.actuel].map((t) => t.youtubeId)
+        g.tracks.map((t) => t.youtubeId)
       );
       for (const r of retenus) {
         if (presents.has(r.id)) continue;
-        g.tracks.actuel.push({
+        g.tracks.push({
           youtubeId: r.id,
           artist: r.c.artist,
           title: r.c.title,

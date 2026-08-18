@@ -57,18 +57,16 @@ interface Track {
 interface Genre {
   id: string;
   family: string;
-  tracks: { essentiel: Track[]; actuel: Track[] };
+  tracks: Track[];
 }
 
 const corpus = JSON.parse(readFileSync(`${RACINE}src/data/corpus.json`, 'utf8')) as {
   genres: Genre[];
 };
 
-const entrees: { genre: string; famille: string; champ: string; t: Track }[] = [];
+const entrees: { genre: string; famille: string; t: Track }[] = [];
 for (const g of corpus.genres) {
-  for (const champ of ['essentiel', 'actuel'] as const) {
-    for (const t of g.tracks[champ]) entrees.push({ genre: g.id, famille: g.family, champ, t });
-  }
+  for (const t of g.tracks) entrees.push({ genre: g.id, famille: g.family, t });
 }
 
 /* ------------------------------------------------------- classification
@@ -103,7 +101,6 @@ const mention = (titre: string, re: RegExp): boolean => {
 interface Suspect {
   genre: string;
   famille: string;
-  champ: string;
   artiste: string;
   titre: string;
   reel: string;
@@ -184,7 +181,6 @@ for (let i = 0; i < entrees.length; i += 50) {
     suspects.push({
       genre: e.genre,
       famille: e.famille,
-      champ: e.champ,
       artiste: e.t.artist,
       titre: e.t.title,
       reel,
@@ -256,7 +252,7 @@ writeFileSync(
       .map(
         (s) =>
           `### ${s.gravite.toUpperCase()} , ${s.nature}\n\n` +
-          `- genre : ${s.genre} (${s.famille}, onglet ${s.champ})\n` +
+          `- genre : ${s.genre} (${s.famille})\n` +
           `- annonce : ${s.artiste} , ${s.titre}\n` +
           `- joue : ${s.reel}\n` +
           `- mots en trop : ${s.surplus}\n`

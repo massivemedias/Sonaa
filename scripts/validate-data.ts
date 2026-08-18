@@ -76,7 +76,7 @@ if (!parsed.success) {
     }
 
     const ids = new Set<string>();
-    for (const t of [...g.tracks.essentiel, ...g.tracks.actuel]) {
+    for (const t of g.tracks) {
       if (ids.has(t.youtubeId)) errors.push(`${g.id} : identifiant YouTube en double, ${t.youtubeId}`);
       ids.add(t.youtubeId);
     }
@@ -89,9 +89,10 @@ if (!parsed.success) {
     return `${f} ${n}`;
   }).join(', ');
   const countOf = (g: (typeof doc.genres)[number]): number =>
-    g.tracks.essentiel.length + g.tracks.actuel.length;
+    g.tracks.length;
   const tracks = doc.genres.reduce((n, g) => n + countOf(g), 0);
-  const actuel = doc.genres.reduce((n, g) => n + g.tracks.actuel.length, 0);
+  const origine = doc.genres.reduce((n, g) => n + g.tracks.filter((t) => t.role === 'origine').length, 0);
+  const canon = doc.genres.reduce((n, g) => n + g.tracks.filter((t) => t.role === 'canon').length, 0);
   const debated = doc.genres.filter((g) => g.confidence === 'debated').length;
   const grafts = doc.genres.reduce(
     (n, g) => n + g.parents.filter((p) => p.family !== g.family).length,
@@ -100,7 +101,7 @@ if (!parsed.success) {
 
   console.log(`Corpus : ${doc.genres.length} genres (${perFamily})`);
   console.log(
-    `Morceaux vérifiés : ${tracks} dont ${actuel} en onglet Actuel | ` +
+    `Morceaux vérifiés : ${tracks} dont ${origine} d'origine et ${canon} canon | ` +
       `filiations débattues : ${debated} | greffes : ${grafts}`
   );
 
@@ -112,14 +113,14 @@ if (!parsed.success) {
 
   console.log('');
   console.log(`Couverture par genre, du plus faible au plus fort (cible ${CIBLE}) :`);
-  console.log('  genre                famille      ess.  act.  total');
+  console.log('  genre                famille      orig  can.  total');
   for (const g of ranked) {
     const total = countOf(g);
     const flag = total === 0 ? ' VIDE' : total < CIBLE ? ' à compléter' : '';
     console.log(
       `  ${g.id.padEnd(20)} ${g.family.padEnd(12)} ` +
-        `${String(g.tracks.essentiel.length).padStart(4)}  ` +
-        `${String(g.tracks.actuel.length).padStart(4)}  ` +
+        `${String(g.tracks.filter((t) => t.role === 'origine').length).padStart(4)}  ` +
+        `${String(g.tracks.filter((t) => t.role === 'canon').length).padStart(4)}  ` +
         `${String(total).padStart(5)}${flag}`
     );
   }

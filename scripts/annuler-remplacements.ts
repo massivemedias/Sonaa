@@ -58,7 +58,7 @@ interface Track {
 }
 interface Genre {
   id: string;
-  tracks: { essentiel: Track[]; actuel: Track[] };
+  tracks: Track[];
 }
 
 const CIBLES =
@@ -90,8 +90,8 @@ transaction((frais) => {
   for (const [nouveau, ancien] of remplacements) {
     let trouve = false;
     for (const g of frais.genres as unknown as Genre[]) {
-      for (const champ of ['essentiel', 'actuel'] as const) {
-        const t = g.tracks[champ].find((x) => x.youtubeId === nouveau);
+      {
+        const t = g.tracks.find((x) => x.youtubeId === nouveau);
         if (t) {
           t.youtubeId = ancien;
           trouve = true;

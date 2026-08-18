@@ -104,6 +104,8 @@ interface Track {
   title: string;
   year: number | null;
   verified: true;
+  /** Le ROLE dans le genre, jamais une date. Absent sur la plupart. */
+  role?: 'origine' | 'canon';
   album?: string;
   cover?: { url: string; source: 'deezer' | 'itunes' | 'youtube'; local: string };
   shared?: string[];
@@ -112,7 +114,7 @@ interface Genre {
   id: string;
   label: string;
   aliases?: string[];
-  tracks: { essentiel: Track[]; actuel: Track[] };
+  tracks: Track[];
 }
 interface Corpus {
   version: number;
@@ -280,7 +282,7 @@ let added = 0;
 /* Journal des écritures, rejoué sur le corpus FRAIS à la fin : le script
    tourne longtemps, et écrire son instantané de départ écraserait ce qu'une
    autre passe a posé entre-temps (c'est arrivé deux fois). */
-const additions: { genreId: string; list: 'essentiel' | 'actuel'; track: Track }[] = [];
+const additions: { genreId: string; track: Track }[] = [];
 const linkIds = new Set<string>();
 let skippedExisting = 0;
 let unknownGenre = 0;
@@ -298,7 +300,7 @@ for (const row of rows) {
   // Les deux listes comptent pour le dédoublonnage : un morceau déjà vérifié
   // n'est pas rejoué, quel que soit l'onglet où il se trouve.
   const present = new Set(
-    [...genre.tracks.essentiel, ...genre.tracks.actuel].map((t) => key(t.artist, t.title))
+    genre.tracks.map((t) => key(t.artist, t.title))
   );
   if (present.has(key(row.artist, row.title))) {
     skippedExisting += 1;
@@ -353,7 +355,7 @@ for (const row of rows) {
      compilations ou des mixes pris pour un morceau sinon. Le partage se
      déclare, il ne se tolère pas en silence. */
   const holders = corpus.genres.filter((g) =>
-    [...g.tracks.essentiel, ...g.tracks.actuel].some((t) => t.youtubeId === hit.videoId)
+    g.tracks.some((t) => t.youtubeId === hit.videoId)
   );
   const declared = new Set(
     row.sharedWith.map((name) => resolveGenre(name)?.id).filter((x): x is string => Boolean(x))
@@ -384,7 +386,7 @@ for (const row of rows) {
   if (holders.length > 0) {
     track.shared = holders.map((h) => h.id);
     for (const holder of holders) {
-      for (const t of [...holder.tracks.essentiel, ...holder.tracks.actuel]) {
+      for (const t of holder.tracks) {
         if (t.youtubeId !== hit.videoId) continue;
         const set = new Set([...(t.shared ?? []), genre.id, ...holders.map((h) => h.id)]);
         set.delete(holder.id);
@@ -395,9 +397,21 @@ for (const row of rows) {
     console.log(`  charnière avec ${holders.map((h) => h.id).join(', ')}`);
   }
 
-  const list = row.role === 'actuel' ? genre.tracks.actuel : genre.tracks.essentiel;
-  list.push(track);
-  additions.push({ genreId: genre.id, list: row.role === 'actuel' ? 'actuel' : 'essentiel', track });
+  /* LA COLONNE `role` DU FICHIER DESIGNAIT UNE LISTE, elle designe desormais
+     un ATTRIBUT. Le vocabulaire des fichiers deja ecrits est conserve pour
+     qu'ils restent importables : `essentiel` pose le role `canon`, `actuel`
+     n'en pose aucun. Les deux nouveaux mots sont acceptes tels quels.
+
+     `origine` n'est PAS refuse ici, mais il ne franchira la validation que
+     s'il est seul dans son genre : c'est la regle du schema, et elle vaut
+     aussi pour ce qu'un import apporte. */
+  const role =
+    row.role === 'origine' ? 'origine'
+    : row.role === 'canon' || row.role === 'essentiel' ? 'canon'
+    : undefined;
+  if (role) track.role = role;
+  genre.tracks.push(track);
+  additions.push({ genreId: genre.id, track });
   added += 1;
   console.log(
     `  ok     ${row.genreId.padEnd(20)} ${row.artist} - ${row.title}  ` +
@@ -415,18 +429,18 @@ if (!DRY && added > 0) {
     for (const op of additions) {
       const g = fresh.genres.find((x) => x.id === op.genreId);
       if (!g) continue;
-      const already = [...g.tracks.essentiel, ...g.tracks.actuel].some(
+      const already = g.tracks.some(
         (t) => key(String(t['artist'] ?? ''), String(t['title'] ?? '')) === key(op.track.artist, op.track.title)
       );
       if (already) continue;
-      g.tracks[op.list].push(op.track as unknown as (typeof g.tracks.essentiel)[number]);
+      g.tracks.push(op.track as unknown as (typeof g.tracks)[number]);
     }
     for (const videoId of linkIds) {
       const holding = fresh.genres.filter((g) =>
-        [...g.tracks.essentiel, ...g.tracks.actuel].some((t) => t.youtubeId === videoId)
+        g.tracks.some((t) => t.youtubeId === videoId)
       );
       for (const holder of holding) {
-        for (const t of [...holder.tracks.essentiel, ...holder.tracks.actuel]) {
+        for (const t of holder.tracks) {
           if (t.youtubeId !== videoId) continue;
           const others = holding.map((h) => h.id).filter((id) => id !== holder.id).sort();
           if (others.length > 0) t['shared'] = others;
@@ -468,7 +482,7 @@ if (reseau.requetes > 0 && tauxEchec > 0.25) {
 /* Un fichier partiel est la norme. On rappelle donc ce qui manque encore, pour
    que la prochaine passe sache quoi viser sans relire tout le corpus. */
 const CIBLE = 3;
-const count = (g: Genre): number => g.tracks.essentiel.length + g.tracks.actuel.length;
+const count = (g: Genre): number => g.tracks.length;
 const touched = new Set(rows.map((r) => resolveGenre(r.genreId)?.id).filter(Boolean));
 const remaining = corpus.genres
   .filter((g) => count(g) < CIBLE)

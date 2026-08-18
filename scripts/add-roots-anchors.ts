@@ -58,7 +58,7 @@ const ANCHORS: GenreEntry[] = [
       'Eric B. & Rakim',
       'Public Enemy'
     ],
-    tracks: { essentiel: [], actuel: [] }
+    tracks: []
   },
   {
     id: 'reggae',
@@ -92,7 +92,7 @@ const ANCHORS: GenreEntry[] = [
       'Junior Murvin',
       'Burning Spear'
     ],
-    tracks: { essentiel: [], actuel: [] }
+    tracks: []
   }
 ];
 

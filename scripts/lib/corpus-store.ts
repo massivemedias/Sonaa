@@ -36,7 +36,7 @@ interface AnyTrack {
 }
 interface AnyGenre {
   id: string;
-  tracks: { essentiel: AnyTrack[]; actuel: AnyTrack[] };
+  tracks: AnyTrack[];
   [k: string]: unknown;
 }
 export interface AnyCorpus {
@@ -71,7 +71,7 @@ export const patchTracks = (
   const disk = readCorpus();
   const touches = new Set<string>();
   for (const genre of disk.genres) {
-    for (const track of [...genre.tracks.essentiel, ...genre.tracks.actuel]) {
+    for (const track of genre.tracks) {
       const patch = patches.get(track.youtubeId);
       if (!patch) continue;
       let modifie = false;

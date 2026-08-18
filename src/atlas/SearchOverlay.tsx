@@ -85,7 +85,7 @@ const buildIndex = (): Index => {
         major: genre.major
       });
 
-      for (const t of [...genre.tracksEssentiel, ...genre.tracksActuel]) {
+      for (const t of genre.tracks) {
         const entry: TrackEntry = {
           familyIndex,
           genreLocal,

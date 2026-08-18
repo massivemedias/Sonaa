@@ -10,7 +10,7 @@ import './credits.css';
 
 const GENRES = STRUCTURES.reduce((n, s) => n + s.genres.length, 0);
 const TRACKS = STRUCTURES.reduce(
-  (n, s) => n + s.genres.reduce((m, g) => m + g.tracksEssentiel.length + g.tracksActuel.length, 0),
+  (n, s) => n + s.genres.reduce((m, g) => m + g.tracks.length, 0),
   0
 );
 

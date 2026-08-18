@@ -399,30 +399,49 @@
   color: var(--ink-secondary);
 }
 
-/* --- Onglets et liste ------------------------------------------------------ */
+/* --- La liste --------------------------------------------------------------
 
-.pcol-tabs {
-  display: flex;
-  gap: 0.35rem;
-  margin-top: 0.8rem;
-}
+   IL Y AVAIT DEUX ONGLETS, Essentiel et Actuel, et leur style vivait ici. Les
+   deux listes sont fusionnees : ce qui distingue un morceau est desormais son
+   ROLE, porte par le morceau et non par l'onglet qui le contient. */
 
-.pcol-tabs button {
+/* LE SIGNE DE ROLE, POSE SUR LE TITRE.
+
+   Discret par construction : c'est une annotation, pas une categorie. Il ne
+   prend pas de ligne, il ne prend pas de couleur propre, et il disparait
+   completement sur les morceaux sans role, qui sont la majorite.
+
+   `origine` se distingue de `canon` par le poids et la teinte de famille, pas
+   par une couleur de plus : il n'y a qu'un morceau d'origine par genre, et il
+   n'a pas besoin de crier pour se trouver. */
+.pcol-row-role {
+  display: inline-block;
+  margin-left: 0.45rem;
+  padding: 0.05rem 0.3rem;
+  border: 1px solid var(--rule-hairline);
+  border-radius: 2px;
   font-family: var(--font-ui);
-  font-size: 0.6875rem;
+  font-size: 0.5625rem;
   font-weight: var(--weight-data);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-secondary);
-  background: transparent;
-  border: 1px solid var(--rule-hairline);
-  padding: 0.28rem 0.6rem;
-  cursor: pointer;
+  vertical-align: middle;
 }
 
-.pcol-tabs button[aria-selected='true'] {
+.pcol-row-role[data-role='origine'] {
   color: var(--ink-primary);
   border-color: var(--family);
+}
+
+/* La legende, une seule fois sous la liste et seulement si un role y figure :
+   une legende qui explique des signes absents est du bruit. */
+.pcol-legende {
+  margin: 0.5rem 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.625rem;
+  line-height: 1.5;
+  color: var(--ink-secondary);
 }
 
 .pcol-list {
@@ -1506,10 +1525,6 @@
     width: 32px;
     height: 32px;
     min-width: 32px;
-  }
-
-  .pcol-tabs {
-    margin: 0.3rem 0 0;
   }
 }
 

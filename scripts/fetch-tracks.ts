@@ -15,8 +15,9 @@
    d'intégrabilité, parce qu'une vidéo trouvée par l'API peut très bien refuser
    l'iframe, et qu'une recherche par mot-clé rapporte beaucoup de bruit.
 
-   Rien n'est jamais écrasé : on ajoute à `tracks.actuel` ce qui n'y est pas
-   déjà, et on ne touche jamais à `tracks.essentiel`. */
+   Rien n'est jamais écrasé : on ajoute à `tracks` ce qui n'y est pas déjà,
+   SANS ROLE. Les rôles `origine` et `canon` relèvent d'un choix éditorial,
+   jamais d'une récolte, et ce script ne les pose ni ne les retire. */
 
 import { readFileSync } from 'node:fs';
 
@@ -58,7 +59,7 @@ interface Genre {
   id: string;
   label: string;
   family: string;
-  tracks: { essentiel: Track[]; actuel: Track[] };
+  tracks: Track[];
 }
 interface Corpus { version: number; families: unknown[]; genres: Genre[] }
 
@@ -111,10 +112,10 @@ for (const genre of corpus.genres) {
   if (ONLY && !ONLY.has(genre.id) && !ONLY.has(genre.family)) continue;
 
   const known = new Set(
-    [...genre.tracks.essentiel, ...genre.tracks.actuel].map((t) => t.youtubeId)
+    genre.tracks.map((t) => t.youtubeId)
   );
   const knownPairs = new Set(
-    [...genre.tracks.essentiel, ...genre.tracks.actuel].map(
+    genre.tracks.map(
       (t) => `${normalise(t.artist)}|${normalise(t.title)}`
     )
   );
@@ -173,7 +174,7 @@ for (const genre of corpus.genres) {
   }
 
   if (found.length === 0) empty.push(genre.id);
-  genre.tracks.actuel.push(...found);
+  genre.tracks.push(...found);
   actuelAdditions.push({ genreId: genre.id, tracks: found });
   added += found.length;
   console.log(`  ${genre.id.padEnd(20)} ${found.length} sortie(s) récente(s) retenue(s)`);
@@ -186,15 +187,15 @@ if (!DRY && added > 0) {
       const g = fresh.genres.find((x) => x.id === op.genreId);
       if (!g) continue;
       const knownIds = new Set(
-        [...g.tracks.essentiel, ...g.tracks.actuel].map((t) => t.youtubeId)
+        g.tracks.map((t) => t.youtubeId)
       );
       for (const track of op.tracks) {
         if (knownIds.has(track.youtubeId)) continue;
-        g.tracks.actuel.push(track as unknown as (typeof g.tracks.actuel)[number]);
+        g.tracks.push(track as unknown as (typeof g.tracks)[number]);
       }
     }
   });
-  console.log(`\n${added} morceaux ajoutés à l'onglet Actuel sur ${examined} candidats examinés.`);
+  console.log(`\n${added} morceaux ajoutés sans rôle sur ${examined} candidats examinés.`);
 } else {
   console.log(`\n${DRY ? 'Essai à blanc. ' : ''}${added} morceaux retenus, corpus inchangé.`);
 }

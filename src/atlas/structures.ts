@@ -277,10 +277,10 @@ export interface Genre {
   readonly redaction: 'brouillon' | null;
   /** Ascendances hors famille, déjà résolues. */
   readonly externalParents: { readonly family: number; readonly label: string }[];
-  /** Fondateurs du genre, toutes époques. Rempli sans clé, par oEmbed. */
-  readonly tracksEssentiel: Track[];
-  /** Sorties récentes. Demande la YouTube Data API, donc vide pour l'instant. */
-  readonly tracksActuel: Track[];
+  /* LES MORCEAUX DU GENRE, EN UNE SEULE LISTE, dans l'ordre chronologique.
+     Il y en avait deux, séparées par la date de sortie ; ce qui distingue
+     vraiment un morceau est son ROLE, et le rôle est porté par le morceau. */
+  readonly tracks: Track[];
   /** Enfants directs dans l'arbre de filiation, remplis après construction. */
   children: number[];
   /** Position déployée, relative au centre de famille. */
@@ -313,6 +313,10 @@ export interface Track {
   readonly cover: string;
   /** Identifiant vérifié par oEmbed au build. Jamais inventé (ADR-006). */
   readonly youtubeId: string;
+  /* Le ROLE du morceau dans son genre, jamais sa date. `origine` pour celui
+     qui fonde le genre, `canon` pour une référence établie, `null` pour les
+     autres, qui sont la majorité. */
+  readonly role: 'origine' | 'canon' | null;
   /** Morceau charnière : les AUTRES genres qui le revendiquent, résolus. */
   readonly sharedWith: readonly { familyIndex: number; genreLocal: number; label: string }[];
 }
@@ -359,7 +363,7 @@ const DEPTH_RADIUS = [4.6, 1.35, 0.5, 0.28];
    la construction de toutes les familles, car un partage peut traverser. */
 const trackShared: { track: { sharedWith: Track['sharedWith'] }; ids: string[] }[] = [];
 
-const toTracks = (list: CorpusGenre['tracks']['essentiel']): Track[] =>
+const toTracks = (list: CorpusGenre['tracks']): Track[] =>
   list.map((t) => {
     const track = {
       id: t.youtubeId,
@@ -369,6 +373,7 @@ const toTracks = (list: CorpusGenre['tracks']['essentiel']): Track[] =>
       album: t.album ?? null,
       release: t.release ?? null,
       key: t.key ?? null,
+      role: t.role ?? null,
       /* `import.meta.env` n'existe que sous Vite. Le repli à vide rend ce
          module chargeable par un script Node, ce dont les contrôles de CI
          ont besoin pour vérifier les règles du jeu sans navigateur. En
@@ -438,13 +443,12 @@ export const buildStructure = (familyIndex: number): Structure => {
         })),
       annee: (() => {
         if (entry.yearStart !== undefined) return entry.yearStart;
-        const ys = [...entry.tracks.essentiel, ...entry.tracks.actuel]
+        const ys = entry.tracks
           .map((t) => t.year)
           .filter((y): y is number => typeof y === 'number');
         return ys.length > 0 ? Math.min(...ys) : 1990;
       })(),
-      tracksEssentiel: toTracks(entry.tracks.essentiel),
-      tracksActuel: toTracks(entry.tracks.actuel),
+      tracks: toTracks(entry.tracks),
       children: [],
       deployed: [0, 0, 0],
       compact: [0, 0, 0]

@@ -88,7 +88,7 @@ interface Track {
 }
 interface Genre {
   id: string;
-  tracks: { essentiel: Track[]; actuel: Track[] };
+  tracks: Track[];
 }
 
 const fichier = process.argv.find((a) => a.startsWith('--cibles='))?.slice(9);
@@ -111,7 +111,7 @@ const corpus = JSON.parse(readFileSync(`${RACINE}src/data/corpus.json`, 'utf8'))
 };
 const pris = new Set<string>();
 for (const g of corpus.genres) {
-  for (const t of [...g.tracks.essentiel, ...g.tracks.actuel]) pris.add(t.youtubeId);
+  for (const t of g.tracks) pris.add(t.youtubeId);
 }
 
 /* --------------------------------------------- la duree canonique, Discogs */
@@ -278,7 +278,7 @@ for (const cible of cibles) {
     if (!DRY) {
       transaction((frais) => {
         const g = (frais.genres as unknown as Genre[]).find((x) => x.id === cible.genre);
-        const t = g?.tracks[cible.champ].find((x) => x.youtubeId === cible.id);
+        const t = g?.tracks.find((x) => x.youtubeId === cible.id);
         if (t) t.youtubeId = remplacant;
       });
     }

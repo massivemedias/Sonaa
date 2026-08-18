@@ -86,7 +86,7 @@ export function ChronologyView({ onOpen }: Props) {
       const genres: GenreWithYear[] = [];
 
       structure.genres.forEach((genre) => {
-        const allTracks = [...(genre.tracksEssentiel || []), ...(genre.tracksActuel || [])];
+        const allTracks = genre.tracks;
         const years = allTracks.map(t => t.year).filter((y): y is number => y !== null && y !== undefined);
         /* LA DATE SAISIE PRIME SUR LA DEDUITE.
 

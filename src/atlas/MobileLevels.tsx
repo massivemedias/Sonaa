@@ -407,8 +407,8 @@ export function MobileLevels({ onOpen, onEnsemble, onChercher, ouvert }: Props) 
                 <span className="mn-carte-compte">
                   {[
                     genre.bpmRange ? `${genre.bpmRange[0]}-${genre.bpmRange[1]} BPM` : null,
-                    genre.tracksEssentiel.length + genre.tracksActuel.length > 0
-                      ? `${genre.tracksEssentiel.length + genre.tracksActuel.length} tracks`
+                    genre.tracks.length > 0
+                      ? `${genre.tracks.length} tracks`
                       : null,
                     genre.children.length > 0
                       ? `${genre.children.length} dérivé${genre.children.length > 1 ? 's' : ''}`

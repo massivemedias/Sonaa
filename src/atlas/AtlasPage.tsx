@@ -102,7 +102,7 @@ const genreDAccueil = (): { familyIndex: number; genreLocal: number } => {
   const candidats: { familyIndex: number; genreLocal: number }[] = [];
   STRUCTURES.forEach((structure, fi) => {
     structure.genres.forEach((genre, gi) => {
-      const n = genre.tracksEssentiel.length + genre.tracksActuel.length;
+      const n = genre.tracks.length;
       if (n >= SEUIL_ACCUEIL) candidats.push({ familyIndex: fi, genreLocal: gi });
     });
   });

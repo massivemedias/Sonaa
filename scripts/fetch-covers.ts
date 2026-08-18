@@ -67,7 +67,7 @@ interface Track {
 interface Genre {
   id: string;
   label: string;
-  tracks: { essentiel: Track[]; actuel: Track[] };
+  tracks: Track[];
 }
 interface Corpus { version: number; families: unknown[]; genres: Genre[] }
 
@@ -235,7 +235,7 @@ let failures = 0;
 
 for (const genre of corpus.genres) {
   if (COVERS_ONLY) break;
-  for (const track of [...genre.tracks.essentiel, ...genre.tracks.actuel]) {
+  for (const track of genre.tracks) {
     const hasRealCover = track.cover?.source === 'itunes' || track.cover?.source === 'deezer';
     if (!FORCE && hasRealCover) {
       kept += 1;
@@ -322,7 +322,7 @@ let already = 0;
 let missing = 0;
 
 for (const genre of corpus.genres) {
-  for (const track of [...genre.tracks.essentiel, ...genre.tracks.actuel]) {
+  for (const track of genre.tracks) {
     /* Un morceau sans pochette retenue prend le repli vignette, même en
        --covers-only : sinon les morceaux ajoutés après la dernière recherche
        iTunes resteraient sans image du tout. */
@@ -384,7 +384,7 @@ for (const genre of corpus.genres) {
 }
 
 for (const genre of corpus.genres) {
-  for (const track of [...genre.tracks.essentiel, ...genre.tracks.actuel]) {
+  for (const track of genre.tracks) {
     remember(track);
   }
 }
@@ -399,7 +399,7 @@ console.log(
     '-gravity center -extent 400x400 -quality 78 -strip "$f"; done'
 );
 
-const total = corpus.genres.reduce((n, g) => n + g.tracks.essentiel.length + g.tracks.actuel.length, 0);
+const total = corpus.genres.reduce((n, g) => n + g.tracks.length, 0);
 console.log(
   `\n${total} morceaux : ${deezer} pochettes Deezer, ${itunes} iTunes, ${fallback} replis vignette YouTube, ` +
     `${kept} conservées, ${failures} appels en échec.`
