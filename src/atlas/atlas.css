@@ -182,30 +182,12 @@
     color 120ms ease;
 }
 
-/* LES MEMES NOMBRES QUE LE MOTEUR. Il calcule la boite d'encombrement avec
-   ces tailles ; si le style en applique d'autres, la boite mesuree n'est pas
-   la boite dessinee et l'anti-chevauchement travaille sur une fiction. */
-.atlas-label[data-plaque='1'][data-central='1'] {
-  font-size: 15px !important;
-}
-
-.atlas-label[data-plaque='1'][data-central='0'] {
-  /* LE MEME NOMBRE QUE LE MOTEUR. Il calcule la boite d'encombrement avec 12 ;
-     dessiner a 13 ferait travailler l'anti-chevauchement sur une boite plus
-     petite que la boite rendue, et les recouvrements reapparaitraient sans
-     qu'aucune mesure ne les explique. */
-  font-size: 12px !important;
-}
+/* LA TAILLE N'EST PLUS ICI. Elle est posee par le moteur, en style en ligne,
+   parce qu'elle varie desormais par lignee selon sa densite. La fixer aussi en
+   CSS ferait deux ecritures d'une meme grandeur, et c'est le motif qui a coute
+   le plus cher a ce projet. */
 
 @media (max-width: 499px) {
-  .atlas-label[data-plaque='1'][data-central='1'] {
-    font-size: 13px !important;
-  }
-
-  .atlas-label[data-plaque='1'][data-central='0'] {
-    font-size: 10px !important;
-  }
-
   .atlas-label[data-plaque='1'] {
     padding: 3px 6px;
     border-radius: 9px;
@@ -260,17 +242,13 @@
   padding: 2px 5px;
 }
 
-/* Plaques : taille réduite sur mobile */
+/* Plaques sur mobile : seul le remplissage se resserre. La TAILLE vient du
+   moteur, qui connait deja la largeur d'ecran et la densite de la lignee.
+   La fixer ici aussi ferait la meme grandeur ecrite a deux endroits. */
 @media (max-width: 600px) {
   .atlas-label[data-plaque='1'] {
     padding: 2px 5px;
     border-radius: 8px;
-  }
-  .atlas-label[data-plaque='1'][data-central='1'] {
-    font-size: 11px !important;
-  }
-  .atlas-label[data-plaque='1'][data-central='0'] {
-    font-size: 9px !important;
   }
 }
 

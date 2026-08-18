@@ -835,3 +835,32 @@ mesure contre le raisonnement » : ici la mesure était honnête, elle répondai
 juste à une autre question que celle que je croyais poser. Une recherche
 répond toujours exactement à ce qu'on lui demande, jamais à ce qu'on veut
 savoir.
+
+## 21. Une grandeur compensée n'est pas un levier
+
+**La règle.** Quand un mécanisme automatique compense une grandeur, agir sur
+elle ne produit rien. Il faut chercher celle qui vit dans une **unité que ce
+mécanisme n'atteint pas**.
+
+**Le cas, et il a coûté deux tentatives.** Les liens paraissaient trop longs
+par rapport aux plaques. J'ai réduit la disposition : le cadrage rapproche la
+caméra d'autant, les liens gardent leur longueur en pixels, rien ne change.
+J'ai recommencé plus fort : le rapport a **empiré**, et les cibles se sont
+rapprochées.
+
+La sortie est venue de Mika : le rapport a deux termes, et le second, la taille
+des plaques, est exprimé en **pixels fixes**. Le cadrage travaille en unités de
+monde ; il ne peut pas l'atteindre. Grossir les plaques a donc fonctionné du
+premier coup, là où réduire les liens avait échoué deux fois.
+
+**La question à poser.** Non pas « comment réduire cette grandeur », mais
+**« quel mécanisme la surveille, et quelle grandeur voisine échappe à ce
+mécanisme »**. Un système qui s'auto-corrige a toujours une prise, elle est
+simplement ailleurs que là où le symptôme se voit.
+
+**Ce que ça généralise.** Toute boucle d'asservissement rend inutile l'action
+sur la variable qu'elle régule. Ce projet en contient plusieurs : le cadrage
+qui suit l'échelle, le solveur qui replace les étiquettes, la caméra qui suit
+l'occupation. Chaque fois qu'une correction reste sans effet, la première
+hypothèse doit être qu'un régulateur l'annule, avant de conclure que la
+correction est mauvaise.

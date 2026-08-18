@@ -3495,8 +3495,36 @@ const OVERLAP_TOLERANCE = 1;
          plaques occupent plus de surface. Les deux reproches tombent ensemble.
 
          Trente pour cent de texte en plus : 13 devient 17, 11 devient 14. */
+      /* CHAQUE LIGNEE GROSSIT AUTANT QUE SA DENSITE LE PERMET.
+
+         Un seul facteur pour tout le corpus se regle sur le pire cas : la
+         lignee la plus dense, vingt-trois membres, plafonnait les deux cent
+         dix-huit autres genres a quinze pour cent alors qu'une couronne de
+         huit peut monter a trente sans se toucher. Brider tout le monde pour
+         un cas est le mauvais arbitrage.
+
+         Le facteur suit donc le nombre de membres de la zone, et il est
+         DETERMINISTE : une mesure par image, avec repli si ca deborde, ferait
+         changer la taille des plaques a chaque frame et l'ecran frissonnerait.
+         Les paliers sont calibres sur les mesures : a 23 membres, quinze pour
+         cent est le maximum qui tient ; en dessous, la place se libere vite. */
       const etroitPlaque = width < 500;
-      const pxPlaque = isPlaque ? (isCentral ? (etroitPlaque ? 11 : 15) : (etroitPlaque ? 9 : 12)) : 0;
+      const membresZone = zoneActive ? zone.reduce((n, v) => n + (v === 1 ? 1 : 0), 0) : 0;
+      /* LE NOMBRE DE MEMBRES N'EST PAS LE BON PREDICTEUR, la mesure l'a dit :
+         Chicago House tient a vingt-quatre membres la ou Breakbeat deborde a
+         vingt-trois. Ce qui compte n'est pas le compte mais l'ENCOMBREMENT,
+         c'est-a-dire le nombre de plaques rapporte a la place disponible dans
+         la couronne. Faute de mesurer cela sans iterer par image, le dernier
+         palier reste prudent : au-dela de vingt membres, on ne grossit
+         presque pas. Les lignees aerees, elles, montent a trente pour cent. */
+      const facteurPlaque =
+        membresZone <= 12 ? 1.3 : membresZone <= 16 ? 1.25 : membresZone <= 20 ? 1.2 : 1.05;
+      /* La base est la taille d'avant tout agrandissement, 13 et 11 : le
+         facteur s'applique dessus, une seule fois, et non sur une valeur deja
+         majoree. Deux majorations composees seraient invisibles a la lecture
+         et fausses au rendu. */
+      const basePlaque = isCentral ? (etroitPlaque ? 10 : 13) : (etroitPlaque ? 8 : 11);
+      const pxPlaque = isPlaque ? Math.round(basePlaque * facteurPlaque) : 0;
       const px = isPlaque ? pxPlaque : (pxFocus > 0 ? pxFocus : pxCalcule);
       const wTexte = textWidth(affiche, px, kind);
       /* Le remplissage retrecit avec le texte : garder douze pixels autour
@@ -3509,8 +3537,12 @@ const OVERLAP_TOLERANCE = 1;
       /* La pastille suit la plaque, sinon elle deviendrait un detail : onze
          pixels de rond plus cinq d'ecart. Le remplissage prend cinquante pour
          cent, douze devient dix-huit. */
-      const pastille = isPlaque ? 14 : 0;
-      const w = isPlaque ? wTexte + (etroitPlaque ? 9 : 14) + pastille : wTexte;
+      /* La pastille et le remplissage suivent le meme facteur : une plaque
+         agrandie dont le remplissage reste fixe parait serree. */
+      const pastille = isPlaque ? Math.round(12 * facteurPlaque) : 0;
+      const w = isPlaque
+        ? wTexte + Math.round((etroitPlaque ? 8 : 12) * facteurPlaque) + pastille
+        : wTexte;
 
       /* Écran étroit : le nom de famille passe DESSOUS la sphère et centré.
          Ce décalage vivait dans le CSS (translate -50% 1.35rem sur
@@ -4187,6 +4219,12 @@ const OVERLAP_TOLERANCE = 1;
           const hue = sd ? (FAMILIES[sd.family]?.hue ?? breaksHue) : breaksHue;
           ls.el.style.setProperty('--plaque-hue', String(hue));
           ls.el.style.setProperty('--plaque-l', String(sd?.lightness ?? 0.72));
+          /* LA TAILLE EST POSEE ICI, ou elle est calculee. Le CSS la fixait en
+             `!important` par niveau, ce qui faisait deux ecritures d'une meme
+             grandeur : le moteur mesurait une boite et le style en dessinait
+             une autre. Depuis que le facteur varie par lignee, une valeur
+             ecrite en dur ne peut plus suivre. */
+          ls.el.style.fontSize = `${entry.px}px`;
           ls.el.style.setProperty('--plaque-c', String(sd?.chroma ?? 0.15));
         }
       }
