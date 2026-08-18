@@ -397,6 +397,18 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
   );
 
   const currentTrack = playback ? playedTracks[playback.trackIndex] : undefined;
+
+  /* LE LECTEUR ANNONCE S'IL A QUELQUE CHOSE EN MAIN.
+
+     La page en a besoin pour arbitrer la barre d'espace, et elle n'a aucun
+     moyen de le savoir : l'etat de lecture vit ici. Plutot que de lui donner
+     un second acces a cet etat, ce qui ferait deux sources d'une meme verite,
+     le lecteur EMET et la page ECOUTE. Une ecriture, une lecture. */
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent('sonaa:lecture', { detail: { actif: Boolean(currentTrack) } })
+    );
+  }, [currentTrack]);
   const playedTracksRef = useRef(0);
   playedTracksRef.current = playedTracks.length;
 

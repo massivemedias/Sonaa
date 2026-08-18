@@ -392,23 +392,62 @@ export function AtlasPage() {
 
      On garde l'espace au lecteur, qui est l'usage attendu, et la légende dit
      désormais la barre oblique. */
+  /* L'ETAT DE LECTURE, RECU DU LECTEUR et non redemande a Supabase ou au
+     moteur : une seule source, celle qui sait. */
+  const [lectureActive, setLectureActive] = useState(false);
+  useEffect(() => {
+    const suivre = (e: Event): void => {
+      setLectureActive(Boolean((e as CustomEvent).detail?.actif));
+    };
+    window.addEventListener('sonaa:lecture', suivre);
+    return () => window.removeEventListener('sonaa:lecture', suivre);
+  }, []);
+
   useEffect(() => {
     const onKey = (event: KeyboardEvent): void => {
-      if (event.target instanceof HTMLInputElement) return;
+      /* LA SAISIE PASSE AVANT TOUT RACCOURCI.
+
+         Le test ne portait que sur `HTMLInputElement`, ce qui laissait passer
+         une zone de texte et un bloc editable : la barre d'espace y aurait
+         declenche un raccourci au lieu d'ecrire. Dans un champ, espace ecrit
+         un espace, sans exception. */
+      const cible = event.target;
+      if (
+        cible instanceof HTMLInputElement ||
+        cible instanceof HTMLTextAreaElement ||
+        (cible instanceof HTMLElement && cible.isContentEditable)
+      ) {
+        return;
+      }
       if (searchOpen) return;
-      /* L'ESPACE APPARTIENT AU LECTEUR, désormais toujours. Il ouvrait la
-         recherche tant qu'aucune colonne n'était ouverte ; la colonne est
-         maintenant toujours ouverte, et l'espace est lecture-pause partout
-         ailleurs sur le web. La barre oblique reste le raccourci de
-         recherche, et la légende le dit. */
+
+      /* LA BARRE OBLIQUE OUVRE TOUJOURS LA RECHERCHE, dans les deux cas. */
       if (event.key === '/') {
+        event.preventDefault();
+        setSearchOpen(true);
+        return;
+      }
+
+      /* L'ESPACE APPARTIENT AU LECTEUR QUAND IL A QUELQUE CHOSE EN MAIN.
+
+         L'espace avait ete rendu au lecteur en entier, et le raisonnement
+         etait juste : partout sur le web, espace est lecture-pause. Mais il
+         ignorait un fait, que seul l'usage revele : le reflexe d'ouvrir la
+         recherche avec espace survit, et il ne rencontre rien quand aucun
+         morceau ne joue.
+
+         Le partage suit donc ce que le lecteur FAIT, et non ce qu'il est :
+         quelque chose est charge, l'espace lui revient ; rien n'est charge, il
+         n'a pas d'usage a lui et ouvre la recherche. Aucun des deux gestes ne
+         perd, parce qu'ils ne se rencontrent jamais. */
+      if (event.key === ' ' && !lectureActive) {
         event.preventDefault();
         setSearchOpen(true);
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [searchOpen]);
+  }, [searchOpen, lectureActive]);
 
   const goToGenre = useCallback((familyIndex: number, genreLocal: number) => {
     if (!apiRef.current) {
@@ -684,6 +723,14 @@ export function AtlasPage() {
             <>
               <ul className="legend-list legend-desktop">
                 <li><kbd>/</kbd><span>chercher un genre, un artiste, un label</span></li>
+                {/* LA LEGENDE DIT L'ETAT, elle ne recite pas une regle. Annoncer
+                    « Espace : chercher » pendant qu'un morceau joue promettrait
+                    un raccourci qui fait autre chose, et c'est exactement le
+                    defaut qui avait fait retirer l'espace. */}
+                <li>
+                  <kbd>Espace</kbd>
+                  <span>{lectureActive ? 'lecture ou pause' : 'chercher'}</span>
+                </li>
                 <li><kbd>Clic</kbd><span>ouvrir un genre, ses tracks et ses dérivés</span></li>
                 <li><kbd>Molette</kbd><span>zoomer</span></li>
                 <li><kbd>Glisser</kbd><span>se déplacer</span></li>

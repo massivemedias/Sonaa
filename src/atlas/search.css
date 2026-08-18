@@ -213,7 +213,26 @@
   padding-block: 0.7rem;
 }
 
+/* LE GENRE PASSE AU-DESSUS DU TITRE.
+
+   Il etait deja gros et a la couleur de sa famille, 17 px contre 13, mais pose
+   SOUS le titre : on lisait donc un morceau, puis son style, alors que la
+   recherche de ce site sert d'abord a repondre « c'est quoi, ce truc ». Le
+   style est la reponse, il vient en premier.
+
+   L'ordre est pose ici et non dans le composant : la structure du HTML reste
+   celle du sens, titre puis appartenance, et seule la presentation change. */
+.search-hit-track {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-track-genres {
+  order: 1;
+}
+
 .search-track-tete {
+  order: 2;
   display: flex;
   align-items: baseline;
   gap: 0.5rem;
