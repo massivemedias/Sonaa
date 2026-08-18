@@ -25,7 +25,7 @@ interface Props {
 const ACCROCHE: readonly string[] = [
   "Je ne savais jamais dans quel style ranger un morceau.",
   "On me posait la question, je n'avais pas de réponse claire.",
-  "J'ai fait cette carte pour ça. 218 genres, leurs filiations, et de quoi les écouter."
+  "J'ai fait cette carte pour ça. 219 genres, leurs filiations, et de quoi les écouter."
 ];
 const SIGNATURE = 'Maudite Machine';
 

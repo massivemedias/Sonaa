@@ -351,7 +351,7 @@ export function MobileLevels({ onOpen, onEnsemble, onChercher, ouvert }: Props) 
             }}
           >
             Voir l&apos;atlas en entier
-            <span className="mn-ensemble-note">218 genres, 14 familles, a regarder</span>
+            <span className="mn-ensemble-note">219 genres, 14 familles, a regarder</span>
           </button>
           <a className="mn-ensemble" href="#/chronologie">
             Chaîne chronologique

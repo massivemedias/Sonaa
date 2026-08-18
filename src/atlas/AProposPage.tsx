@@ -24,7 +24,7 @@ const TEXTE_AUTEUR: string = `Je fais de la musique électronique depuis quinze 
 
 Et je me trompais tout le temps. On me demandait dans quel style tel morceau allait, je répondais au feeling, et je découvrais trois mois plus tard que la moitié de la scène l'aurait rangé ailleurs. Les frontières entre les genres ne sont pas dans les morceaux, elles sont dans les têtes des gens qui en parlent, et ces gens ne sont jamais d'accord.
 
-SONAA est né de là. J'ai croisé les sources, les bases de données, les discussions de forums, les guides écrits par des gens de la scène, et j'en ai fait une carte. 218 genres, leurs filiations, et de quoi écouter ce dont on parle. Quand deux sources se contredisent, c'est écrit. Quand personne n'est d'accord, c'est écrit aussi.
+SONAA est né de là. J'ai croisé les sources, les bases de données, les discussions de forums, les guides écrits par des gens de la scène, et j'en ai fait une carte. 219 genres, leurs filiations, et de quoi écouter ce dont on parle. Quand deux sources se contredisent, c'est écrit. Quand personne n'est d'accord, c'est écrit aussi.
 
 Ce n'est pas une vérité. C'est une lecture, faite avec le plus de rigueur possible, et ouverte à la correction. Si tu connais un genre mieux que moi, propose. C'est fait pour ça.`;
 
