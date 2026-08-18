@@ -3480,8 +3480,23 @@ const OVERLAP_TOLERANCE = 1;
          etaient fausses, et c'est le meme constat que pour les spheres et les
          textes deux chantiers plus tot : une valeur absolue posee sur un seul
          ecran ne survit pas au deuxieme. */
+      /* LES PLAQUES GROSSISSENT, ET C'EST LE SEUL LEVIER QUE RIEN N'ANNULE.
+
+         Le rapport percu est longueur de lien sur taille de plaque. Reduire le
+         numerateur echoue : le cadrage rapproche la camera d'autant, mesure
+         deux fois. Augmenter le denominateur, en revanche, ne rencontre aucun
+         mecanisme compensateur, parce que les plaques sont dessinees en pixels
+         fixes et ne suivent pas l'echelle du monde.
+
+         C'est le meme principe que pour les spheres : separer la taille
+         AFFICHEE de la taille de DISPOSITION. La disposition ne bouge pas, la
+         camera non plus, seul l'objet grossit. Les liens gardent leur longueur
+         absolue et paraissent plus courts, et le vide se remplit puisque les
+         plaques occupent plus de surface. Les deux reproches tombent ensemble.
+
+         Trente pour cent de texte en plus : 13 devient 17, 11 devient 14. */
       const etroitPlaque = width < 500;
-      const pxPlaque = isPlaque ? (isCentral ? (etroitPlaque ? 10 : 13) : (etroitPlaque ? 8 : 11)) : 0;
+      const pxPlaque = isPlaque ? (isCentral ? (etroitPlaque ? 11 : 15) : (etroitPlaque ? 9 : 12)) : 0;
       const px = isPlaque ? pxPlaque : (pxFocus > 0 ? pxFocus : pxCalcule);
       const wTexte = textWidth(affiche, px, kind);
       /* Le remplissage retrecit avec le texte : garder douze pixels autour
@@ -3491,8 +3506,11 @@ const OVERLAP_TOLERANCE = 1;
          comptee ferait deborder la plaque de douze pixels a droite, et
          l'anti-chevauchement travaillerait sur une boite plus etroite que la
          boite rendue. C'est le motif deja rencontre sur le remplissage. */
-      const pastille = isPlaque ? 12 : 0;
-      const w = isPlaque ? wTexte + (etroitPlaque ? 8 : 12) + pastille : wTexte;
+      /* La pastille suit la plaque, sinon elle deviendrait un detail : onze
+         pixels de rond plus cinq d'ecart. Le remplissage prend cinquante pour
+         cent, douze devient dix-huit. */
+      const pastille = isPlaque ? 14 : 0;
+      const w = isPlaque ? wTexte + (etroitPlaque ? 9 : 14) + pastille : wTexte;
 
       /* Écran étroit : le nom de famille passe DESSOUS la sphère et centré.
          Ce décalage vivait dans le CSS (translate -50% 1.35rem sur
@@ -3941,6 +3959,20 @@ const OVERLAP_TOLERANCE = 1;
        On réessaie donc d'abord la position d'avant. Elle ne cède que si elle
        est réellement occupée, et le nom reste alors là où l'oeil l'a laissé. */
     const poserSansMasquer = (c: Candidate): void => {
+      /* LA PLAQUE DU GENRE CENTRAL NE PASSE PAS PAR LE SOLVEUR.
+
+         Il existe pour departager des voisins qui se disputent la place. Le
+         genre central n'a personne a eviter : il est seul au milieu, et les
+         derives sont a plusieurs dizaines de pixels. Le faire passer par la
+         recherche des huit directions l'envoyait a 129 px de sa propre sphere,
+         mesure a l'appui, pour resoudre un conflit qui n'existait pas.
+
+         On la pose donc telle qu'elle a ete calculee, collee sous sa sphere,
+         et on la declare occupee pour que les autres l'evitent, elle. */
+      if (c.isCentral) {
+        placed.push(c);
+        return;
+      }
       const rayon = Math.max(c.ancreR, 4);
       const directions: [number, number][] = [
         [1, 0], [-1, 0], [0, -1], [0, 1],

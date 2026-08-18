@@ -164,15 +164,15 @@
      plaque est le seul porteur chromatique : reduire tous les genres d'une
      famille a une meme couleur ferait perdre ce que la sphere disait. */
   border: 1px solid oklch(var(--plaque-l, 0.72) var(--plaque-c, 0.15) var(--plaque-hue, 284));
-  border-radius: 10px;
-  padding: 3px 6px;
+  border-radius: 12px;
+  padding: 4px 7px;
   /* LA PASTILLE, huit pixels de rond a gauche du texte, DANS la boite. Sa
      largeur est comptee par le moteur : une pastille dessinee et non comptee
      ferait deborder la plaque et l'anti-chevauchement travaillerait sur une
      boite plus etroite que la boite rendue. */
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   text-shadow: none;
   font-weight: 600;
   color: oklch(0.94 0.005 250);
@@ -186,33 +186,37 @@
    ces tailles ; si le style en applique d'autres, la boite mesuree n'est pas
    la boite dessinee et l'anti-chevauchement travaille sur une fiction. */
 .atlas-label[data-plaque='1'][data-central='1'] {
-  font-size: 13px !important;
+  font-size: 15px !important;
 }
 
 .atlas-label[data-plaque='1'][data-central='0'] {
-  font-size: 11px !important;
+  /* LE MEME NOMBRE QUE LE MOTEUR. Il calcule la boite d'encombrement avec 12 ;
+     dessiner a 13 ferait travailler l'anti-chevauchement sur une boite plus
+     petite que la boite rendue, et les recouvrements reapparaitraient sans
+     qu'aucune mesure ne les explique. */
+  font-size: 12px !important;
 }
 
 @media (max-width: 499px) {
   .atlas-label[data-plaque='1'][data-central='1'] {
-    font-size: 10px !important;
+    font-size: 13px !important;
   }
 
   .atlas-label[data-plaque='1'][data-central='0'] {
-    font-size: 8px !important;
+    font-size: 10px !important;
   }
 
   .atlas-label[data-plaque='1'] {
-    padding: 2px 4px;
-    border-radius: 8px;
+    padding: 3px 6px;
+    border-radius: 9px;
   }
 }
 
 .atlas-label[data-plaque='1']::before {
   content: '';
   flex: none;
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: oklch(var(--plaque-l, 0.72) var(--plaque-c, 0.15) var(--plaque-hue, 284));
 }
