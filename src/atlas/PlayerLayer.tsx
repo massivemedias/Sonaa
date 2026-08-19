@@ -447,20 +447,26 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
     };
   }, [reduite, entree, narrow, sheetPos]);
 
-  /* OUVRIR un genre monte la feuille à mi-hauteur, l'arrivée ne le fait pas.
+  /* OUVRIR UN GENRE DONNE LE MINI LECTEUR, PAS LA FEUILLE OUVERTE.
 
-     Le garde compare la VALEUR précédente, il ne compte pas les rendus. Une
-     première version marquait « premier rendu vu » dans une référence : en
-     développement, React monte, démonte et remonte les effets, la marque
-     survivait au démontage, et la feuille s'ouvrait à mi-hauteur dès le
-     chargement sur mobile, mesuré à 390 px. Comparer la valeur est vrai quel
-     que soit le nombre de fois où l'effet est rejoué. */
+     Elle s'ouvrait a mi-hauteur, et c'etait faux deux fois. D'abord parce que
+     Mika demande explicitement une barre de 64 px au clic sur un genre, la
+     feuille ne s'ouvrant qu'a la fleche. Ensuite et surtout parce que cet
+     effet se rejoue a CHAQUE changement de genre : naviguer d'un genre a un
+     autre rouvrait la feuille par-dessus la carte, mesure. On navigue pour
+     voir la carte ; la lui reprendre a chaque pas est le contraire du but.
+
+     Le garde compare la VALEUR precedente, il ne compte pas les rendus. Une
+     premiere version marquait « premier rendu vu » dans une reference : en
+     developpement React monte, demonte et remonte les effets, la marque
+     survivait au demontage. Comparer la valeur est vrai quel que soit le
+     nombre de fois ou l'effet est rejoue. */
   const dernierGenre = useRef(panelGenre);
   useEffect(() => {
     if (dernierGenre.current === panelGenre) return;
     dernierGenre.current = panelGenre;
     setReduite(false); // ouvrir un genre rappelle une colonne réduite.
-    if (narrow) setSheetPos('half');
+    if (narrow) setSheetPos('bar');
   }, [panelGenre, narrow]);
 
   /* VUE DÉDOUBLÉE : la zone visible de la carte change quand la colonne
@@ -781,17 +787,18 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
      Un panneau lateral qu'on ferme en glissant vers le bas serait un geste
      appris contre l'intuition. */
   const onHandleDown = useCallback((event: React.PointerEvent) => {
-    dragStart.current = { y: event.clientX, pos: sheetPos };
+    dragStart.current = { y: event.clientY, pos: sheetPos };
     (event.target as HTMLElement).setPointerCapture(event.pointerId);
   }, [sheetPos]);
 
   const onHandleMove = useCallback((event: React.PointerEvent) => {
     const start = dragStart.current;
     if (!start) return;
-    /* `y` porte desormais un x : le champ garde son nom pour ne pas toucher au
-       reste, mais le geste est horizontal. Soixante-dix pixels vers la droite
-       referment, la meme distance que l'ancien seuil vertical. */
-    const dx = event.clientX - start.y;
+    /* LE GESTE SUIT LA FEUILLE. Elle revient du bas, il redevient vertical :
+       vers le bas on referme, vers le haut on ouvre. Un panneau lateral se
+       fermait vers la droite, et garder ce geste sur une feuille du bas
+       serait un geste appris contre l'intuition. */
+    const dx = event.clientY - start.y;
     if (dx > 70 && start.pos !== 'bar') {
       setSheetPos('bar');
       dragStart.current = null;
@@ -949,7 +956,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
               onClick={() => setSheetPos('bar')}
               aria-label="Fermer le lecteur"
             >
-              <span aria-hidden="true">→</span>
+              <span aria-hidden="true">↓</span>
             </button>
           )}
 
@@ -1006,6 +1013,15 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                 </button>
                 <button onClick={() => step(1)} disabled={!playingHere} aria-label="Suivante">⏭</button>
               </div>
+              {/* LA FLECHE, DERNIERE ET A DROITE. Le glissement vers le haut
+                  ouvre aussi, mais il faut le deviner : la fleche le dit. */}
+              <button
+                className="pcol-mini-fleche"
+                onClick={() => setSheetPos('half')}
+                aria-label="Ouvrir le lecteur"
+              >
+                <span aria-hidden="true">↑</span>
+              </button>
             </div>
           )}
 

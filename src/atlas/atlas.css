@@ -11,9 +11,19 @@
      devient le mode ecoute, ou les cinq pistes tiennent. La carte n'est donc
      jamais mangee par defaut, et elle reste visible meme en ecoute. */
   --mn-bande-h: 3rem;
+  /* LA BARRE RESTE A CINQUANTE-SIX. Elle avait ete portee a 64 dans une
+     version precedente ; la consigne est le plus MINIMAL possible, et 56
+     laisse encore 44 px de cible tactile une fois les marges prises, ce qui
+     est le seuil a ne pas franchir. On ne descend pas plus bas, on ne monte
+     pas non plus. */
   --feuille-bar-h: 56px;
-  --feuille-h: 40dvh;
-  --feuille-h-haute: 75dvh;
+  /* SOIXANTE-CINQ POUR CENT AU LECTEUR, TRENTE-CINQ A LA CARTE.
+
+     La carte reduite ne sert plus a naviguer quand le lecteur est ouvert, elle
+     sert de REPERE : on doit savoir ou l'on est en ecoutant. Trente-cinq pour
+     cent suffisent a cela et ne suffiraient pas a naviguer, ce qui est la
+     bonne repartition. */
+  --feuille-h: 65dvh;
   --ariane-h: 3.4rem;
 }
 
@@ -824,11 +834,15 @@
     }
   }
 
+  /* DEUX ETATS SEULEMENT : le mini lecteur, et le lecteur ouvert. La
+     troisieme position n'existe plus, et `full` se comporte donc exactement
+     comme `half`. Une hauteur nommee de plus etait une grandeur de plus a
+     faire diverger, et elle a deja diverge une fois dans ce fichier. */
   .atlas-root[data-sheet-pos='full'] .atlas-canvas,
   .atlas-root[data-sheet-pos='full'] .atlas-labels {
     top: var(--ariane-h);
-    bottom: var(--feuille-h-haute);
-    height: calc(100dvh - var(--feuille-h-haute) - var(--ariane-h));
+    bottom: var(--feuille-h);
+    height: calc(100dvh - var(--feuille-h) - var(--ariane-h));
   }
 }
 

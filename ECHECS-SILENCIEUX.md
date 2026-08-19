@@ -1,5 +1,38 @@
 # LES ÉCHECS SILENCIEUX
 
+> ## Une sonde ne mesure pas le produit, elle mesure sa propre idée du produit.
+>
+> Son sélecteur, son repère, sa conversion, sa séquence d'événements : chacune
+> de ces idées peut être fausse indépendamment du produit. La capture d'écran,
+> elle, ne suppose rien.
+>
+> **Sur ce projet, six sondes ont contredit un oeil. Les six avaient tort.**
+>
+> 1. La sonde des plaques : « 0 sur 16 cliquables » à 390 px, sur un produit
+>    correct. Elle refaisait à la main la conversion fenêtre vers canvas.
+> 2. `testCadre` : cinq débordements imaginaires, tous sous le seuil mobile,
+>    aucun au-dessus. Même cause.
+> 3. Une sonde de recherche : sélecteur CSS invalide, `querySelector` levait,
+>    le `null` se lisait comme « absent ».
+> 4. Une sonde de règles CSS : liste vide **quand l'affichage marchait comme
+>    quand il échouait**. Elle ne distinguait rien.
+> 5. Deux sondes de navigation : échec annoncé, alors que la capture montrait
+>    le fil d'Ariane à trois niveaux et le bon genre ouvert.
+> 6. Une sonde de gestes fabriqués : elle naviguait une passe sur deux. **Un
+>    instrument intermittent est pire qu'un instrument cassé**, il fonde la
+>    confiance par intermittence.
+>
+> ### La règle, en dur
+>
+> **Tout ce qui passe par un geste se vérifie par un événement RÉEL du
+> navigateur. Jamais par un événement fabriqué.** Les gestes simulés sont
+> interdits pour la vérification, quel que soit le confort qu'ils offrent.
+>
+> Ils restent permis pour PILOTER un scénario ; ils ne peuvent jamais en
+> constituer la preuve.
+
+---
+
 ## Ce que ce fichier raconte, en une phrase
 
 **Les dix-neuf motifs qui suivent sont dix-neuf variantes d'une seule faute :
@@ -896,3 +929,163 @@ préambule des bancs, appliqué à la lecture plutôt qu'à la mesure.
 
 **Ce que ça a coûté.** Un chiffre faux dans un rapport destiné à décider d'un
 travail, et une consigne prise sur ce chiffre faux.
+
+---
+
+## 22. Une valeur refusée est signalée, jamais effacée
+
+**Règle posée par Mika**, après le plancher à 1960 de l'outil de chargement :
+
+> Toute validation qui rejette quelque chose doit le dire, avec la ligne
+> concernée. Une valeur hors plage est refusée, elle n'est jamais ramenée à
+> `null`, à zéro ou à une valeur par défaut en silence.
+
+**Ce qui l'a motivée.** Sept morceaux du studio de Cologne chargés, six arrivés
+sans date. La ligne qui lisait l'année exigeait 1960 au minimum et ramenait
+tout le reste à `null`. Le rapport annonçait sept réussites.
+
+**Pourquoi c'est pire qu'un plantage.** Un rejet bruyant se corrige dans la
+minute. Un rejet muet produit une donnée qui a l'air complète : le morceau est
+là, vérifié, avec son identifiant, et seule la date manque. Rien ne distingue
+« ce morceau n'a pas de date connue » de « on lui en a pris une ».
+
+**Ce qui l'a rendu presque invisible.** Une autre passe remplissait ensuite une
+année de parution depuis Discogs. Sur 1773 morceaux, **un seul** restait sans
+date affichable. Le défaut abîmait les données depuis des mois et un second
+traitement le réparait derrière, sans que personne sache qu'il y avait quelque
+chose à réparer. **Un défaut masqué par une réparation fortuite survit
+indéfiniment.**
+
+**La forme correcte**, celle qui est maintenant dans l'outil :
+
+```ts
+if (brut.trim() !== '' && !(Number.isFinite(n) && n >= MIN && n <= MAX)) {
+  problems.push(`ligne ${lineNo} : annee « ${brut} » hors des bornes, elle serait perdue en silence`);
+  return;
+}
+```
+
+**Et les bornes viennent du schéma**, pas d'un nombre écrit sur place. Un outil
+qui accepte moins que ce que le schéma permet jette des données valides, et
+c'est le motif des deux sources de vérité appliqué aux plages de valeurs.
+
+**Reste à faire :** le balayage des autres endroits où une donnée hors plage
+est jetée sans avertissement. Non fait.
+
+
+---
+
+## 23. Un test qui attend ne peut pas distinguer lent de cassé
+
+**Règle posée par Mika**, après une session entière égarée par un délai fixe :
+
+> N'utilise jamais de délai fixe. Attends la fin réelle de l'animation, par
+> `transitionend`, ou par lecture de la valeur jusqu'à ce qu'elle soit stable
+> sur trois lectures consécutives, avec un délai maximal qui **échoue
+> bruyamment** plutôt que de mesurer quand même.
+
+**Et l'extension de la règle d'écriture des tests** :
+
+> Avant d'écrire un test, demande-toi quel changement du produit le ferait
+> échouer, **et aussi quel état du produit il confondrait avec un autre**.
+
+**Ce que ça a coûté.** Une sonde attendait deux secondes puis mesurait la
+hauteur d'un panneau. Elle ne pouvait pas distinguer « pas encore ouvert » de
+« ne s'ouvrira jamais ». Elle a rendu une fois la bonne valeur et vingt fois
+la mauvaise, et j'en ai tiré : un défaut inexistant de deux sources de vérité,
+une frontière de largeur d'écran qui n'existe pas, et un chiffre faux livré
+dans un rapport puis retiré.
+
+**Ce que l'instrument correct a trouvé en une passe.** La hauteur ne se
+stabilisait jamais : une transition sur `height` restait `running`
+indéfiniment, parce que la cible est exprimée en unités de fenêtre et se
+réévalue en continu. La transition ne converge pas, elle **poursuit**. Et une
+transition en cours tient la valeur animée : elle bat la règle CSS **et le
+style en ligne**, ce qui rendait le défaut incompréhensible tant qu'on
+cherchait dans la cascade.
+
+**Deux corollaires, chacun payé.**
+
+1. **Une transition vers une valeur en `dvh` n'est pas une animation.** La
+   hauteur change d'un coup, ou elle ne change pas.
+2. **Retirer une règle n'est pas la désactiver.** Supprimer
+   `transition: height ...` a fait retomber la propriété sur `all`, qui inclut
+   la hauteur : la correction a empiré le défaut. Il fallait écrire
+   `transition: none`.
+
+---
+
+## 24. Quand une sonde et un oeil se contredisent, la sonde a tort
+
+**Constat de Mika, verifie a chaque occurrence de ce projet :** chaque fois
+qu'une sonde et une capture d'ecran se sont contredites, **c'est la sonde qui
+avait tort**. Sans exception.
+
+**Le releve.**
+
+- La sonde des plaques rendait « 0 sur 16 cliquables » a 390 px sur un produit
+  parfaitement correct. Elle refaisait a la main la conversion fenetre vers
+  canvas.
+- `testCadre` comptait cinq debordements imaginaires, tous sous le seuil
+  mobile. Meme cause.
+- Une sonde de recherche utilisait un selecteur CSS invalide : `querySelector`
+  levait, le resultat valait `null`, et `null` se lisait comme « absent ».
+- Une sonde de regles CSS rendait une liste vide **aussi bien quand
+  l'affichage fonctionnait que quand il echouait**. Elle ne distinguait rien.
+- Deux sondes de navigation ont annonce un echec du produit. La capture
+  montrait le fil d'Ariane a trois niveaux et le lecteur ouvert sur le bon
+  genre. Le produit marchait, la sonde comparait mal.
+- Une sonde d'evenements synthetiques marche une fois sur deux : le moteur
+  ecoute une sequence de pointeur que des evenements fabriques ne reproduisent
+  pas fidelement. **Un instrument intermittent est pire qu'un instrument
+  casse**, parce qu'il rend parfois la bonne reponse et fonde la confiance.
+
+**Pourquoi c'est structurel.** Une sonde ne mesure pas le produit, elle mesure
+**sa propre idee du produit** : son selecteur, son repere, sa conversion, sa
+sequence d'evenements. Chacune de ces idees peut etre fausse independamment du
+produit. La capture, elle, ne suppose rien.
+
+**La regle.**
+
+1. Quand une sonde annonce un echec, **regarder avant de conclure**. Une
+   capture coute quelques secondes, une fausse piste coute une session.
+2. Pour tout ce qui passe par le geste, l'instrument de reference est le clic
+   REEL du navigateur, pas un evenement fabrique.
+3. Une sonde qui n'a jamais ete vue rendre les deux reponses, succes et echec,
+   sur des etats connus, n'est pas un instrument : c'est une opinion.
+
+---
+
+## 25. Retirer le style d'un élément ne le retire pas, ça le déshabille
+
+**Vu à l'écran, jamais à la relecture.** En refondant la navigation du
+téléphone, j'ai supprimé la règle de mise en forme du bouton de contemplation,
+devenu inutile. L'élément, lui, était toujours rendu. Il s'est donc affiché
+**nu** : texte brut, pleine largeur, par-dessus la carte, avec un second bouton
+dans le même cas. La relecture du code montrait une règle propre.
+
+**C'est une variante du motif le plus fréquent de ce projet** : un élément
+présent que rien ne signale. Ici il n'était pas invisible, il était
+méconnaissable, ce qui revient au même pour qui cherche la cause d'un
+affichage cassé.
+
+**Trois formes du même défaut, toutes rencontrées ici :**
+
+1. Un élément **invisible qui intercepte** : le bouton de connexion dessiné
+   dans la colonne du lecteur, la flèche de retour de l'application sous celle
+   de la navigation, la fin de liste sous la feuille du lecteur.
+2. Un élément **présent sans style**, celui-ci.
+3. Une règle **retirée qui retombe sur un défaut** : supprimer
+   `transition: height` a fait retomber la propriété sur `all`, qui inclut la
+   hauteur, et a donc **aggravé** le défaut qu'elle devait corriger (motif 23).
+
+**La règle.** Supprimer une déclaration n'est jamais neutre. Il faut décider
+laquelle des trois on veut :
+
+- retirer l'**élément**, dans le composant ;
+- le **cacher** explicitement, `display: none` ;
+- **neutraliser** la propriété par sa valeur explicite, `transition: none`.
+
+Et quand on cache, **nommer ce qui reste** plutôt qu'énumérer ce qu'on cache :
+`.mn > *:not(.mn-ariane)` survit au prochain ajout, une liste d'exclusions
+laissera le prochain enfant apparaître nu.

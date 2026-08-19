@@ -811,7 +811,26 @@
     right: 0;
     width: 100vw;
     border-left: 0;
-    transition: height 260ms var(--motion-ease, ease);
+    /* PAS DE TRANSITION SUR `height`, ET C'EST LA CAUSE DU DEFAUT.
+
+       MESURE : la feuille restait a 64 px alors que la regle lui donnait
+       65 % de l'ecran. La regle s'appliquait pourtant, ses autres proprietes
+       etaient bien la. Meme une hauteur posee EN LIGNE ne prenait pas.
+
+       Une transition en cours tient la valeur animee et bat tout, y compris
+       le style en ligne. Or celle-ci ne se terminait jamais : `playState`
+       restait « running » indefiniment, parce que la hauteur cible est
+       exprimee en unites de fenetre et se reevalue en continu. La transition
+       repartait donc sans cesse vers une cible qui bougeait.
+
+       CE QUE CA APPREND : une transition vers une valeur en `dvh` n'est pas
+       une animation, c'est une poursuite. La hauteur change d'un coup.
+
+       ET ON L'ECRIT EXPLICITEMENT. Premiere correction : retirer la ligne.
+       Elle a EMPIRE le defaut, parce que sans declaration la propriete
+       retombe sur `all`, qui inclut la hauteur. Retirer une regle n'est pas
+       la desactiver. */
+    transition: none;
     animation: none;
   }
 
@@ -844,24 +863,43 @@
      transport en consomment la totalite, et la liste des titres commence sous
      le bord. Zero titre visible, mesure aux trois largeurs. La consigne est
      d'en voir au moins cinq, ce qui reclame environ 220 px de liste en plus. */
-  /* LE PANNEAU, 90 % DE LA LARGEUR, ARRIVANT PAR LA DROITE.
+  /* LA FEUILLE DU BAS, ET LA CARTE RESTE VISIBLE AU-DESSUS.
 
-     La feuille du bas coupait l'accordeon en deux et prenait toute la largeur.
-     Un panneau lateral laisse la bande gauche lisible : on garde le fil de
-     l'endroit ou l'on se trouve pendant qu'on ecoute. Les deux anciennes
-     positions, mi-hauteur et tiree, deviennent un seul etat OUVERT : la
-     nuance entre elles n'avait plus d'objet des lors que le panneau ne
-     dispute plus la hauteur a la carte. */
+     Elle avait ete remplacee par un panneau lateral parce qu'a 42 % de
+     l'ecran il ne restait AUCUN titre visible : l'en-tete, la grande pochette
+     et le transport mangeaient la totalite. Le panneau lateral reglait le
+     symptome en cessant de disputer la hauteur, au prix de la carte, qui
+     disparaissait entierement.
+
+     Elle revient avec l'arbitrage de Mika : la carte garde le tiers du haut et
+     sert de REPERE, pas de navigation. Ce qui rend cela possible n'est pas la
+     hauteur, c'est l'ALLEGEMENT. Pas d'en-tete, la vignette reste une vignette,
+     titre et artiste sur la ligne de la vignette, transport sur une ligne
+     compacte. Tout le reste va a la liste.
+
+     L'objectif n'est pas un pourcentage, c'est CINQ TITRES visibles sans
+     defiler, aux trois largeurs. */
   .pcol[data-sheet='half'],
   .pcol[data-sheet='full'] {
-    top: 0;
+    top: auto;
     bottom: 0;
-    left: auto;
+    left: 0;
     right: 0;
-    width: 90vw;
-    height: 100dvh;
-    border-left: 1px solid var(--rule-hairline, oklch(0.3 0.01 250));
-    box-shadow: -12px 0 32px rgba(0, 0, 0, 0.45);
+    width: 100vw;
+    height: var(--feuille-h);
+    border-left: 0;
+    border-top: 1px solid var(--rule-hairline, oklch(0.3 0.01 250));
+    box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  /* L'ALLEGEMENT, ET C'EST LUI QUI FAIT TENIR LES CINQ TITRES.
+
+     L'en-tete disparait : le fil d'Ariane, juste au-dessus de la carte, dit
+     deja ou l'on est. Deux fois la meme information, dont une qui coute
+     cinquante pixels de liste. */
+  .pcol[data-sheet='half'] .pcol-head,
+  .pcol[data-sheet='full'] .pcol-head {
+    display: none;
   }
 
   .pcol-handle {
@@ -1619,6 +1657,9 @@
   cursor: pointer;
 }
 
+/* QUARANTE DANS UNE BARRE DE CINQUANTE-SIX : la pochette reste une VIGNETTE.
+   Elle avait ete portee a 48 ; la consigne est le plus minimal possible, et
+   une pochette qui remplit la barre la fait lire comme un lecteur ouvert. */
 .pcol-mini-vignette {
   flex: none;
   width: 40px;
@@ -1653,6 +1694,24 @@
 .pcol-mini-artiste {
   font-size: 11px;
   color: var(--ink-secondary, oklch(0.66 0.01 250));
+}
+
+/* LA FLECHE VERS LE HAUT, A DROITE, ET C'EST LE SEUL SIGNE QUI DIT QUE LA
+   BARRE S'OUVRE. Le glissement existe aussi, mais un panneau qui ne s'ouvre
+   QUE par un geste devine laisse sans issue qui ne le devine pas. */
+.pcol-mini-fleche {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
 }
 
 .pcol-mini-transport {
