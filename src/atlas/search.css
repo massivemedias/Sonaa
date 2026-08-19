@@ -206,11 +206,18 @@
    réponse, en grand et dans sa teinte de famille.
    ───────────────────────────────────────────────────────────────────────── */
 
+/* LA LIGNE D'UN MORCEAU SE LIT, ELLE NE MENE PAS AILLEURS.
+
+   Le curseur le dit, parce qu'un curseur en main promet un depart. La ligne
+   porte deja sa reponse, le genre, et les deux sorties possibles sont NOMMEES
+   a l'interieur : le nom du genre mene a la carte, le bouton mene au lecteur.
+   Ce qui reste de la ligne est du texte a lire. */
 .search-hit-track {
   display: grid;
   gap: 0.3rem;
   align-items: start;
   padding-block: 0.7rem;
+  cursor: default;
 }
 
 /* LE GENRE PASSE AU-DESSUS DU TITRE.
@@ -226,6 +233,16 @@
   order: 1;
 }
 
+/* L'ORDRE SE DECLARE EN ENTIER, OU PAS DU TOUT.
+
+   DEFAUT VU A L'ECRAN : seuls deux des cinq elements portaient un ordre. Les
+   trois autres restaient a zero, donc PASSAIENT DEVANT, et la ligne se lisait
+   a l'envers : la note, la parution et les boutons d'abord, le titre du
+   morceau en dernier. Chaque regle etait pourtant correcte prise seule.
+
+   C'est le meme piege que la transition retiree qui retombe sur `all` : une
+   valeur par defaut n'est pas une absence de valeur. Des qu'on ordonne, on
+   ordonne TOUT. */
 .search-track-tete {
   order: 2;
   display: flex;
@@ -345,4 +362,19 @@
   border-radius: 999px;
   padding: 0.45rem 0.9rem;
   cursor: pointer;
+}
+
+/* La suite de l'ordre, posee sur les trois elements qui n'en avaient pas.
+   Le genre repond, le titre confirme, le desaccord se dit, la parution
+   situe, et les sorties viennent en dernier parce qu'on lit avant d'agir. */
+.search-track-charniere {
+  order: 3;
+}
+
+.search-track-sortie {
+  order: 4;
+}
+
+.search-track-actions {
+  order: 5;
 }

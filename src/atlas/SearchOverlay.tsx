@@ -344,8 +344,23 @@ export function SearchOverlay({ onPick, onListen, onClose }: Props) {
       return;
     }
     if (item.type === 'track') {
-      onListen(item.entry.familyIndex, item.entry.genreLocal);
-      onClose();
+      /* LA LIGNE D'UN MORCEAU NE MENE NULLE PART, ET C'EST VOULU.
+
+         DEMANDE DE MIKA : « quand les gens cherchent une track, que ca dise
+         c'est quoi le style, sans lancer la musique. Comme une enorme banque
+         mais que du texte. »
+
+         Avant, cliquer la ligne ouvrait le lecteur ET fermait la recherche.
+         La musique ne partait pas, l'autoplay est a zero, mais on perdait ses
+         resultats au premier clic : impossible de consulter une liste, de
+         comparer deux morceaux, de remonter. Pour une banque de donnees, le
+         geste le plus courant est de LIRE, pas de partir.
+
+         La reponse cherchee, le genre, est deja ecrite sur la ligne. Il n'y a
+         donc rien a ouvrir pour l'obtenir. Ceux qui veulent ecouter ont un
+         bouton « Ecouter » explicite, et ceux qui veulent voir le genre sur la
+         carte ont le nom du genre, cliquable. Deux sorties nommees valent
+         mieux qu'une sortie involontaire. */
       return;
     }
     setDrill({ type: item.type, key: item.key, name: item.name });
