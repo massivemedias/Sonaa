@@ -311,6 +311,17 @@ export interface Track {
       Vide quand aucune image n'existe : l'interface en dessine une, dérivée du
       nom de l'artiste et du titre, sans graine à stocker. */
   readonly cover: string;
+  /* D'OU VIENT L'IMAGE, et ce n'est pas un detail d'archivage.
+
+     Une pochette venue de YouTube est une VIGNETTE DE VIDEO : format large,
+     souvent le triangle rouge de lecture incruste dessus. Posee dans un cadre
+     carre de quarante pixels, elle donne une image rognee avec un bouton
+     Play dessine dedans, sous le vrai bouton Play du lecteur. Vu sur capture
+     iPhone, et ce n'est pas une pochette de disque.
+
+     L'interface peut donc choisir de ne pas s'en servir la ou elle veut une
+     vraie pochette. Elle ne peut pas le faire si la provenance est perdue. */
+  readonly coverSource: 'deezer' | 'itunes' | 'youtube' | null;
   /** Identifiant vérifié par oEmbed au build. Jamais inventé (ADR-006). */
   readonly youtubeId: string;
   /* Le ROLE du morceau dans son genre, jamais sa date. `origine` pour celui
@@ -379,6 +390,7 @@ const toTracks = (list: CorpusGenre['tracks']): Track[] =>
          ont besoin pour vérifier les règles du jeu sans navigateur. En
          production la valeur est toujours là, le repli ne sert jamais. */
       cover: t.cover ? `${import.meta.env?.BASE_URL ?? ''}${t.cover.local}` : '',
+      coverSource: t.cover ? t.cover.source : null,
       youtubeId: t.youtubeId,
       sharedWith: [] as { familyIndex: number; genreLocal: number; label: string }[]
     };

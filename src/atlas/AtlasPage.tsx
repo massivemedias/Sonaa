@@ -9,9 +9,9 @@ import {
   faMagnifyingGlass,
   faMagnifyingGlassPlus,
   faMagnifyingGlassMinus,
-  faCrosshairs,
-  type IconDefinition
+  faCrosshairs
 } from '@fortawesome/free-solid-svg-icons';
+import { FaIcon } from './FaIcon.tsx';
 import { PlayerLayer } from './PlayerLayer.tsx';
 import { SearchOverlay } from './SearchOverlay.tsx';
 import { Welcome } from './Welcome.tsx';
@@ -111,18 +111,6 @@ const genreDAccueil = (): { familyIndex: number; genreLocal: number } => {
      corpus publié, il existe dans un corpus en cours d'écriture. */
   return candidats[Math.floor(Math.random() * candidats.length)] ?? { familyIndex: 0, genreLocal: 0 };
 };
-
-/* SVG inline depuis les données d'icône : pas de fontawesome-svg-core, pas
-   de police, pas de CDN. Le glyphe hérite de currentColor (noir sur le rond
-   blanc), taille optique ~40 % du diamètre via la CSS. */
-function FaIcon({ icon }: { icon: IconDefinition }) {
-  const [w, h, , , path] = icon.icon;
-  return (
-    <svg viewBox={`0 0 ${w} ${h}`} className="fa-icon" aria-hidden="true" focusable="false">
-      <path fill="currentColor" d={Array.isArray(path) ? path.join(' ') : path} />
-    </svg>
-  );
-}
 
 function Fallback({ notice }: { notice: string }) {
   return (

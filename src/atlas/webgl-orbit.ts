@@ -2834,6 +2834,23 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      d'après, jamais le chemin emprunté pour y arriver. */
   let dernierTap: Record<string, unknown> = {};
 
+  /* LE JOURNAL DES DECISIONS DE TOUCHER, GARDE EN PRODUCTION.
+
+     POURQUOI IL EXISTE. Six sondes exterieures ont, sur ce projet, contredit
+     ce que montrait l'ecran, et les six avaient tort : elles refaisaient a la
+     main un reperage, un selecteur ou une sequence d'evenements, et mesuraient
+     donc leur propre idee du produit. Un toucher qui « ne fait rien » a dix
+     causes possibles et aucune sonde exterieure ne peut les distinguer.
+
+     Le moteur, lui, SAIT ce qu'il a decide et pourquoi. Il le dit ici, sur les
+     vingt derniers touchers, avec le point vise, le niveau, ce qui a ete
+     touche et la decision prise. Cela vaut mieux que n'importe quelle sonde,
+     et ca ne coute qu'un tableau borne.
+
+     GARDE EN PRODUCTION, deliberement : un defaut de toucher se signale depuis
+     un telephone reel, pas depuis un poste de developpement. */
+  const journalTaps: Record<string, unknown>[] = [];
+
   /* LA CIBLE SOUS UN POINT, ET IL N'Y EN A QU'UNE.
 
      Le survol et le clic avaient chacun leur code : deux tolérances, deux
@@ -2911,6 +2928,10 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
 
     const nom = nomTouche(px, py, grossier ? 10 : 4);
     dernierTap = {
+      /* La decision est posee plus bas et MUTE cet objet. Le journal garde la
+         meme reference, il voit donc la decision sans qu'on ait a l'y
+         reporter. Un report a la main serait un endroit de plus a oublier. */
+      decision: 'aucune, le toucher n a rien declenche',
       px: Math.round(px),
       py: Math.round(py),
       nom: nom ? (nom.el.textContent ?? '') : null,
@@ -2919,6 +2940,8 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
       familleActive: activeFamily,
       zoneActive
     };
+    journalTaps.push(dernierTap);
+    if (journalTaps.length > 20) journalTaps.shift();
     if (nom) {
       if (nom.kind === 'family') {
         if (level === 'atlas' && nom.famille >= 0) selectFamily(nom.famille, now);
@@ -6357,6 +6380,8 @@ const OVERLAP_TOLERANCE = 1;
        seule fois. Toute sonde qui mesure un rectangle DOM doit passer par elle
        plutot que de la refaire : c'est le seul moyen qu'elle ne diverge pas,
        puisque les sondes vivent hors du depot. Voir repere-canvas.ts. */
+    /** Les vingt derniers touchers et ce que le moteur en a fait. */
+    journalTaps: () => journalTaps,
     repereCanvas,
     versCanvas,
     centreVersCanvas,

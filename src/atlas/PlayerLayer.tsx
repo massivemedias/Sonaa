@@ -37,6 +37,15 @@ import {
   sessionProbable,
   voterTrack
 } from '../lib/track-votes.ts';
+import {
+  faBackwardStep,
+  faForwardStep,
+  faPlay,
+  faPause,
+  faChevronUp,
+  faChevronDown
+} from '@fortawesome/free-solid-svg-icons';
+import { FaIcon } from './FaIcon.tsx';
 import './player-layer.css';
 
 export interface Playback {
@@ -956,7 +965,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
               onClick={() => setSheetPos('bar')}
               aria-label="Fermer le lecteur"
             >
-              <span aria-hidden="true">↓</span>
+              <FaIcon icon={faChevronDown} className="pcol-mini-glyphe" />
             </button>
           )}
 
@@ -981,7 +990,12 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                 onClick={() => setSheetPos('half')}
                 aria-label="Ouvrir le lecteur"
               >
-                {shownInPanel?.cover ? (
+                {/* UNE VIGNETTE DE VIDEO N'EST PAS UNE POCHETTE. Celles qui
+                    viennent de YouTube portent le triangle rouge de lecture
+                    incruste, et rognees en carre elles affichent un bouton
+                    Play dessine juste au-dessus du vrai. La couverture
+                    generee, elle, est carree et propre. */}
+                {shownInPanel?.cover && shownInPanel.coverSource !== 'youtube' ? (
                   <img className="pcol-mini-vignette" src={shownInPanel.cover} alt="" draggable={false} />
                 ) : (
                   <span className="pcol-mini-vignette pcol-cover-generated">
@@ -999,8 +1013,18 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                   <span className="pcol-mini-artiste">{shownInPanel?.artist ?? ''}</span>
                 </span>
               </button>
+              {/* LE TRANSPORT EN ICONES, ET C'EST UNE QUESTION DE COHERENCE.
+
+                  Il etait dessine avec des CARACTERES de police : trois
+                  glyphes de graisses differentes, mal alignes verticalement,
+                  sans rapport avec les icones du reste de l'ecran. Sur un
+                  telephone ce sont les trois boutons les plus utilises du
+                  site. Ils viennent desormais du meme jeu que la loupe et la
+                  cible de la carte. */}
               <div className="pcol-mini-transport">
-                <button onClick={() => step(-1)} disabled={!playingHere} aria-label="Précédente">⏮</button>
+                <button onClick={() => step(-1)} disabled={!playingHere} aria-label="Précédente">
+                  <FaIcon icon={faBackwardStep} className="pcol-mini-glyphe" />
+                </button>
                 <button
                   onClick={() =>
                     playingHere
@@ -1009,18 +1033,26 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                   }
                   aria-label={playing && playingHere ? 'Pause' : 'Lecture'}
                 >
-                  {playing && playingHere ? '❚❚' : '▶'}
+                  <FaIcon
+                    icon={playing && playingHere ? faPause : faPlay}
+                    className="pcol-mini-glyphe"
+                  />
                 </button>
-                <button onClick={() => step(1)} disabled={!playingHere} aria-label="Suivante">⏭</button>
+                <button onClick={() => step(1)} disabled={!playingHere} aria-label="Suivante">
+                  <FaIcon icon={faForwardStep} className="pcol-mini-glyphe" />
+                </button>
               </div>
-              {/* LA FLECHE, DERNIERE ET A DROITE. Le glissement vers le haut
-                  ouvre aussi, mais il faut le deviner : la fleche le dit. */}
+              {/* LA FLECHE EST LE SEUL MOYEN DE DECOUVRIR QUE LE LECTEUR
+                  S'AGRANDIT, donc elle doit se voir. Elle etait un chevron
+                  gris et fin, invisible sur la capture. Blanche, epaisse, dans
+                  un rond de 44 px. Le glissement vers le haut fait la meme
+                  chose, mais il faut le deviner ; la fleche, elle, se lit. */}
               <button
                 className="pcol-mini-fleche"
                 onClick={() => setSheetPos('half')}
                 aria-label="Ouvrir le lecteur"
               >
-                <span aria-hidden="true">↑</span>
+                <FaIcon icon={faChevronUp} className="pcol-mini-glyphe" />
               </button>
             </div>
           )}

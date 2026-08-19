@@ -5,6 +5,12 @@
    téléphone, où le haut appartient déjà au fil d'Ariane. Le seuil est 768 px,
    celui de tout le projet. */
 
+:root {
+  /* La largeur maximale du bouton de compte sur telephone. Nommee ici, lue
+     par le fil d'Ariane qui doit lui laisser la place. */
+  --authb-l: 96px;
+}
+
 .authb {
   position: fixed;
   top: calc(14px + env(safe-area-inset-top, 0px));
@@ -223,20 +229,47 @@
    d'Ariane de la navigation par niveaux, et deux éléments au même endroit,
    c'est le défaut qui a déjà coûté un tap fantôme à ce projet. */
 @media (max-width: 768px) {
+  /* LE COMPTE VIT DANS L'EN-TETE, PAS AU MILIEU DE L'ECRAN.
+
+     DEFAUT VU SUR CAPTURE IPHONE : pose au-dessus du mini lecteur et centre,
+     il FLOTTAIT au milieu du bas de l'ecran, sans rien autour, par-dessus la
+     carte. Un bouton qui n'appartient a aucune barre a l'air d'un accident,
+     et celui-la masquait la carte a l'endroit ou l'on vient de toucher.
+
+     Il rejoint donc le seul endroit qui accueille deja des commandes sur
+     telephone, l'en-tete, a droite. Le fil d'Ariane lui reserve sa place par
+     une marge, plutot que de le laisser recouvrir la loupe. */
   .authb {
-    top: auto;
-    /* Sur telephone la colonne devient une barre en bas : plus rien a deduire
-       a droite, le bouton se recentre. */
-    right: auto;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: calc(var(--feuille-bar-h, 56px) + 8px);
+    top: calc(8px + env(safe-area-inset-top, 0px));
+    right: calc(8px + env(safe-area-inset-right, 0px));
+    left: auto;
+    bottom: auto;
+    transform: none;
   }
 
   .authb-menu {
-    top: auto;
-    bottom: calc(100% + 6px);
-    right: 50%;
-    transform: translateX(50%);
+    top: calc(100% + 6px);
+    bottom: auto;
+    right: 0;
+    transform: none;
+  }
+
+  /* LE BOUTON DEVIENT COMPACT dans l'en-tete : la barre du haut porte deja la
+     fleche de retour, le fil d'Ariane et la loupe, et un libelle entier y
+     pousserait le fil hors de l'ecran. */
+  /* LARGEUR BORNEE, ET C'EST CE QUI REND LA PLACE RESERVEE CALCULABLE.
+
+     Le fil d'Ariane doit s'arreter avant ce bouton, sinon la loupe passe
+     dessous. Il ne peut le faire que si la largeur du bouton est CONNUE : un
+     libelle libre, « Se connecter » aujourd'hui, un nom de compte demain,
+     rendrait la reserve fausse le jour ou le texte s'allonge. On borne donc,
+     et la reserve du fil lit la meme grandeur nommee. */
+  .authb-bouton {
+    max-width: var(--authb-l);
+    padding: 0 0.55rem;
+    font-size: 0.7rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }

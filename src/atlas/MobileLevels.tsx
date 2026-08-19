@@ -271,7 +271,6 @@ export function MobileLevels({ onOpen, onEnsemble, onChercher, ouvert }: Props) 
             <span aria-hidden="true">←</span>
           </button>
           <button className="mn-crumb" onClick={remonter}>Revenir a la navigation</button>
-          <span className="mn-note">vue d&apos;ensemble, en contemplation</span>
         </nav>
       ) : (
       <nav className="mn-ariane" aria-label="Chemin">
@@ -328,15 +327,28 @@ export function MobileLevels({ onOpen, onEnsemble, onChercher, ouvert }: Props) 
             invisible ET intouchable. Or la recherche est le chemin le plus
             court vers un genre et ne doit jamais disparaitre. Trouve au
             doigt : le bouton existait, il ne recevait rien. */}
-        <button
-          className="mn-loupe"
-          onClick={onChercher}
-          aria-label="Chercher un genre, un artiste, un label"
-        >
-          <span aria-hidden="true">⌕</span>
-        </button>
       </nav>
       )}
+
+      {/* LA LOUPE VIT HORS DU FIL D'ARIANE, ET C'EST UNE CONTRAINTE DE MISE EN
+          PAGE, PAS UN CHOIX DE STRUCTURE.
+
+          Elle etait dedans, poussee a droite par une marge automatique. Deux
+          defauts en decoulaient, tous deux mesures a 320 px. Le fil DEFILE des
+          qu'il porte trois niveaux, et une marge automatique ne pousse plus
+          rien quand le contenu deborde : la loupe suivait le texte au lieu de
+          rester au bord. Et le fil porte un flou d'arriere-plan, qui fait de
+          lui un bloc conteneur : la reposer en absolu la calait sur le fil,
+          pas sur l'ecran.
+
+          Soeur du fil, elle se pose enfin par rapport a la couche. */}
+      <button
+        className="mn-loupe"
+        onClick={onChercher}
+        aria-label="Chercher un genre, un artiste, un label"
+      >
+        <span aria-hidden="true">⌕</span>
+      </button>
 
       {niveau === 'familles' && (
         <>

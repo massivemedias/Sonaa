@@ -1696,9 +1696,18 @@
   color: var(--ink-secondary, oklch(0.66 0.01 250));
 }
 
-/* LA FLECHE VERS LE HAUT, A DROITE, ET C'EST LE SEUL SIGNE QUI DIT QUE LA
-   BARRE S'OUVRE. Le glissement existe aussi, mais un panneau qui ne s'ouvre
-   QUE par un geste devine laisse sans issue qui ne le devine pas. */
+/* LA FLECHE VERS LE HAUT : LE SEUL SIGNE QUI DIT QUE LA BARRE S'AGRANDIT.
+
+   Elle etait un chevron gris et fin, et sur la capture iPhone on ne la voyait
+   tout simplement pas. Or c'est la seule porte : le glissement vers le haut
+   fait la meme chose, mais personne ne devine un geste qu'aucun signe
+   n'annonce. Une porte invisible est une porte fermee, et c'est le motif le
+   plus frequent de ce projet.
+
+   Elle est donc BLANCHE, pleine, dans un rond de 44 px qui la detache du fond
+   sombre de la barre. Quarante-quatre est la cible tactile du projet, et ici
+   le rond est aussi ce qui la rend visible : un glyphe seul se perd, un
+   disque clair ne se perd pas. */
 .pcol-mini-fleche {
   flex: none;
   display: grid;
@@ -1706,12 +1715,30 @@
   width: 44px;
   height: 44px;
   padding: 0;
-  background: transparent;
+  background: oklch(0.98 0 0);
   border: 0;
-  color: var(--ink-secondary, oklch(0.66 0.01 250));
-  font-size: 1rem;
-  line-height: 1;
+  border-radius: 50%;
+  color: oklch(0.18 0.01 250);
   cursor: pointer;
+}
+
+/* Le glyphe occupe 40 % du disque, la meme proportion optique que les boutons
+   ronds de la carte : c'est ce qui les fait lire comme une meme famille. */
+.pcol-mini-fleche .pcol-mini-glyphe {
+  width: 18px;
+  height: 18px;
+}
+
+/* LES TROIS COMMANDES DE TRANSPORT, MEME TAILLE ET MEME ALIGNEMENT.
+
+   Elles etaient des caracteres de police : chacun avec sa propre hauteur
+   d'oeil et sa propre ligne de base, donc trois glyphes qui ne s'alignaient
+   pas entre eux. Un SVG pose dans une grille centree n'a pas ce probleme, sa
+   boite EST son dessin. */
+.pcol-mini-glyphe {
+  display: block;
+  width: 20px;
+  height: 20px;
 }
 
 .pcol-mini-transport {
@@ -1721,14 +1748,16 @@
   gap: 2px;
 }
 
+/* LA GRILLE CENTREE FAIT L'ALIGNEMENT, plus la ligne de base d'une police. */
 .pcol-mini-transport button {
+  display: grid;
+  place-items: center;
   width: 40px;
   height: 44px;
   padding: 0;
   background: transparent;
   border: 0;
   color: var(--ink-primary, oklch(0.92 0.01 250));
-  font-size: 15px;
   cursor: pointer;
 }
 

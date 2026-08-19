@@ -69,8 +69,35 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.7rem 0.9rem;
-  border-bottom: 1px solid var(--rule-hairline, oklch(0.3 0.01 250));
+  /* LA ZONE SURE DU HAUT, ET C'EST IOS QUI L'IMPOSE.
+
+     DEFAUT VU SUR CAPTURE IPHONE : le fil d'Ariane passait SOUS la barre
+     d'etat, l'heure du systeme se superposait au texte. La barre d'etat n'est
+     pas un decor, c'est une zone reservee dont la hauteur varie d'un modele a
+     l'autre, et seule `env()` la connait. Une valeur en dur serait fausse sur
+     la moitie des telephones.
+
+     La place a DROITE est reservee au point d'entree du compte, qui remonte
+     dans l'en-tete : sans elle, il recouvrirait la loupe. */
+  padding: calc(0.7rem + env(safe-area-inset-top, 0px)) 0.9rem 0.7rem;
+  /* UNE MARGE, PAS UN REMPLISSAGE, et la nuance EST le defaut.
+
+     Le fil defile horizontalement, et `overflow` decoupe a la boite de
+     REMPLISSAGE : un `padding-right` reserve donc de la place au defilement
+     mais n'empeche pas le texte de PEINDRE dessus. Mesure a 320 px, la ou le
+     fil porte trois niveaux : « EURO DISCO » passait sous la loupe et sous le
+     bouton de compte, alors que la reserve etait bien la.
+
+     Une marge arrete la BOITE elle-meme. Le texte ne peut plus l'atteindre.
+
+     Elle lit la meme grandeur nommee que le bouton de compte, plus la loupe
+     et les ecarts. Deux ecritures d'un meme nombre finissent par diverger. */
+  margin-right: calc(var(--authb-l, 96px) + 44px + 24px + env(safe-area-inset-right, 0px));
+  /* PAS DE FILET SOUS LE FIL. Il courait sur toute la largeur quand le fil la
+     prenait toute ; depuis que le fil s'arrete avant la loupe, le filet
+     s'arretait avec lui et laissait un trait a moitie tire au milieu de
+     l'ecran. Une separation qui ne separe qu'une moitie ne separe rien. Le
+     fond et le flou de la bande suffisent a la detacher de la carte. */
   font-family: var(--font-ui);
   font-size: 0.75rem;
   letter-spacing: 0.04em;
@@ -216,6 +243,11 @@
   pointer-events: none;
 }
 
+.mn[data-niveau='genre'] .mn-loupe,
+.mn[data-niveau='ensemble'] .mn-loupe {
+  pointer-events: auto;
+}
+
 .mn[data-niveau='genre'] .mn-ariane {
   pointer-events: auto;
   background: color-mix(in oklab, var(--fond, oklch(0.16 0.012 250)) 88%, transparent);
@@ -301,14 +333,26 @@
 /* La loupe ferme le bandeau a droite. Quarante-quatre pixels de zone comme
    toute cible tactile de ce projet, et une position qui ne bouge pas d'un
    niveau a l'autre : on doit pouvoir la viser sans la chercher. */
+/* LA LOUPE SORT DU DEFILEMENT DU FIL D'ARIANE.
+
+   DEFAUT MESURE A 320 px : le fil deborde des qu'il porte trois niveaux, et
+   la loupe, qui vivait DEDANS, suivait le contenu au lieu de rester au bord.
+   Elle glissait donc sous le bouton de compte. La marge automatique ne pousse
+   plus rien des que le contenu deborde : elle n'a plus d'espace a distribuer.
+
+   Elle est donc posee, comme le bouton de compte, en dehors du flux. Sa
+   position lit la MEME grandeur nommee que lui : les deux ne peuvent pas se
+   rapprocher sans qu'on le decide. */
 .mn-loupe {
+  position: absolute;
+  top: calc(6px + env(safe-area-inset-top, 0px));
+  right: calc(var(--authb-l, 96px) + 16px + env(safe-area-inset-right, 0px));
+  z-index: 14;
   flex: none;
   display: grid;
   place-items: center;
   width: 44px;
   height: 44px;
-  margin-left: auto;
-  margin-right: -0.55rem;
   padding: 0;
   background: transparent;
   border: 0;
