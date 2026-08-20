@@ -1,109 +1,54 @@
 # ═══════════════════════════════════════════════════════════════════════
-# POINT FINAL, 17 août 2026. Projet clos.
+# SONAA. Point d'entrée courant, 20 août 2026.
 # ═══════════════════════════════════════════════════════════════════════
 
-**Avant toute publication : `npm run publier`.** Elle lance les neuf contrôles,
+**Le document de reprise est `docs/reports/2026-08-20-cloture-mobile.md`.**
+Il contient l'état mesuré du produit, les sept dettes avec la raison de
+chacune, les dix contrôles de la barrière, les motifs d'échec et les règles de
+travail. Il est écrit pour quelqu'un qui arrive dans six mois et ne doit rien
+redécouvrir. **Le lire avant tout le reste de ce fichier**, qui est un
+historique de sessions accumulé et contient des états périmés.
+
+Le journal complet des défauts est `ECHECS-SILENCIEUX.md`, vingt-cinq motifs,
+avec en tête la leçon qui les résume.
+
+## Les trois gestes d'ouverture de session
+
+1. `npm run check:orphelins` : révèle le travail vivant hors de `main`. Onze
+   commits ont déjà vécu ainsi.
+2. Lire `docs/reports/2026-08-20-cloture-mobile.md`, section 2, les dettes.
+3. Si le sujet touche au téléphone : le premier geste est de **toucher une
+   famille sur la carte, sur un vrai téléphone**, puis de lire
+   `window.__atlas.journalTaps()`. C'est la seule dette dont la vérification
+   n'a jamais pu être faite ici.
+
+## La règle de publication
+
+**`npm run publier`, jamais autre chose.** Elle enchaîne les dix contrôles,
 REFUSE en code non nul si l'un échoue ou si le dépôt n'est pas propre, et ne
-pousse que si tout passe. Ne jamais pousser à la main : un verdict qu'on peut
-ignorer finira par être ignoré, et c'est arrivé.
+pousse que si tout passe. Un verdict qu'on peut ignorer finira par être
+ignoré, et c'est arrivé.
 
-**En ouverture de session : `npm run check:orphelins`.** Deux lignes qui
-révèlent le travail vivant hors de `main`. Onze commits ont déjà vécu ainsi.
+## La leçon qui vaut pour tout le reste
 
-## A. L'état du produit
+Une sonde ne mesure pas le produit, elle mesure sa propre idée du produit.
+Onze fois sur ce projet, une sonde a contredit une capture d'écran, et les
+onze fois la sonde avait tort. **La douzième fois, c'est la capture qui
+trompait.** La règle n'est donc pas « l'oeil gagne » : c'est que **quand les
+deux se contredisent, on cherche laquelle des deux mesures est fausse, et on
+ne conclut pas avant de le savoir.** Une règle sans exception finit appliquée
+mécaniquement, ce qui est une autre façon de ne plus confronter les deux.
 
-219 genres, 14 familles, publié sur https://sonaa.ca, GitHub Pages, déploiement
-automatique à chaque poussée sur `main`. React 19, Vite 5, three.js, 100 %
-statique.
+## Dernier état publié
 
-**Sur ordinateur.** Vue d'ensemble : les quatorze familles seules, 75 % de
-l'espace. Un genre ouvert : sa sphère au centre, ses dérivés en plaques sans
-sphère, rangés par date dans le sens horaire, couleur exacte du genre sur
-chaque plaque. Échap et la flèche remontent d'un cran, le logo et le bouton
-d'ensemble ramènent à l'accueil par un dézoom de 400 ms. Colonne du lecteur
-permanente à droite.
+`5982c0e`, 20 août 2026. 219 genres, 14 familles, 1783 morceaux vérifiés,
+zéro morceau sans date affichable. Dépôt propre.
 
-**Sur téléphone, sous 768 px.** Navigation par niveaux en rangées de 56 px à
-largeur constante, onze visibles sans défiler. Le lecteur arrive par la droite
-sur 90 %, se ferme au glissement, et laisse une barre de 56 px avec vignette,
-titre, transport et progression. La vue graphique d'un genre fonctionne à cette
-largeur, la vue d'ensemble non : c'est la raison d'être de cette navigation.
+---
 
-**La chronologie**, deux vues au choix : par famille, quatorze colonnes ; par
-époque, un axe unique de 1948 à 2020. Zéro recouvrement dans les deux, mesuré.
-Le filtre des genres principaux s'applique aux deux.
-
-**Les comptes.** Connexion par Google ou par lien courriel, jamais de mot de
-passe. Pseudonyme public non réversible, adresse jamais affichée. Bouton
-permanent, menu, et boutons contextuels partout où une action exige un compte.
-
-## B. Les dettes, et ce qui est établi sur chacune
-
-**1. L'échec résiduel du banc de clics.** Peak Time Techno ouvre la racine.
-*Établi :* la visée est juste 15 fois sur 15, sonde à l'appui. Le défaut est en
-aval, dans l'ouverture de la fiche. *Piège :* ne pas repartir de la signature
-« tous au rayon minimal », vraie des quinze dérivés. Voir motif 8.
-
-**2. Deux contrôles statiques non écrits.** Constante définie deux fois dans un
-même fichier ; valeur écrite jamais lue.
-
-**3. `check:css` ne voit pas tous les doublons.** Découvert en testant la
-barrière de publication dans les deux sens : un `display` déclaré deux fois dans
-une règle ajoutée en fin de fichier n'est pas signalé. La barrière fonctionne,
-c'est le contrôle qu'elle appelle qui a une limite.
-
-**4. `verify:visual` rend entre 8 et 10 échecs** sur la vue 3D de bureau.
-Médiane 8. Deux tests non déterministes signalés, `focus@1024` et `cadre@700`.
-
-**5. Quatre superpositions de plaques sur Breakbeat à 390 px.** Vingt-deux
-dérivés, la lignée la plus dense. Deux pistes mesurées, aucune ne fonctionne.
-Limite géométrique assumée.
-
-**6. Les liens ne rejoignent pas les plaques.** Écart médian 64 px. *Établi :*
-le solveur anti-chevauchement déplace la plaque après son centrage, et le lien,
-tracé en 3D, aboutit au nœud. Sortir le tracé de la 3D est un changement de
-nature.
-
-**7. `51403c5`, seconde implémentation des plaques**, abandonnée, branche
-supprimée, hachage conservé pour que l'abandon reste un choix.
-
-## C. Les contrôles
-
-**Neuf dans la barrière de publication** : compilation, corpus, css, camera,
-cadrage, constantes, ecritures, tirets, construction.
-
-| commande | ce qu'il empêche de revenir |
-|---|---|
-| `check:css` | une propriété déclarée deux fois avec des valeurs différentes |
-| `check:camera` | un correcteur de caméra continu et non borné |
-| `check:ecritures` | deux écritures sur une même valeur sans ordre déclaré |
-| `check:cadrage` | un recadrage sans fin déclarée |
-| `check:constantes` | une grandeur écrite dans deux fichiers, et la conversion de repère refaite à la main |
-| `validate:data` | un genre né avant son parent, entre dates saisies |
-
-**Hors barrière, délibérément** : `check:exports`, neuf signalements non triés ;
-`check:orphelins`, qui rapporte et ne juge pas.
-
-**Le préambule des bancs**, `scripts/banc-prelude.mjs` : `exigerLaPage` avant
-toute mesure, `serieValide` entre chaque point d'une série. Six morts du serveur,
-dont une a coûté une session entière et une fausse alerte.
-
-## D. Les motifs
-
-Vingt, dans `ECHECS-SILENCIEUX.md`, avec en tête la phrase qui les résume :
-**vingt variantes d'une seule faute, ne pas confronter la mesure et le
-raisonnement.** La faute a deux faces, et le fichier dit laquelle chaque motif
-illustre.
-
-## E. Les règles de travail
-
-1. Ne jamais déclarer un comportement acquis sans l'avoir vu s'exécuter.
-2. Vérifier l'instrument avant d'accuser le produit.
-3. Médiane et plage sur cinq passages, jamais un chiffre seul.
-4. Dire en tête de rapport ce qui n'est pas publié.
-5. Réparer vers l'avant, jamais rembobiner.
-6. Avant de conclure à une absence, vérifier que la recherche pouvait la trouver.
-7. Publier par `npm run publier`, jamais à la main.
+# ═══════════════════════════════════════════════════════════════════════
+# CE QUI SUIT EST UN HISTORIQUE DE SESSIONS. Il contient des états périmés.
+# ═══════════════════════════════════════════════════════════════════════
 
 ---
 
