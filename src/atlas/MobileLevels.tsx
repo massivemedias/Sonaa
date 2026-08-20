@@ -33,6 +33,21 @@ interface Props {
   onChercher: () => void;
   /** Le genre reellement ouvert dans la page, quelle que soit la voie prise. */
   ouvert: { familyIndex: number; genreLocal: number } | null;
+  /* CE QUE LA CARTE MONTRE, tel que le moteur le publie.
+
+     EN CONTEMPLATION, LE FIL NE SUIVAIT PAS. Toucher le nom d'une famille sur
+     la vue d'ensemble entre bien dans cette famille, le moteur fait son
+     travail. Mais l'en-tete continuait d'annoncer « Revenir a la navigation »
+     pendant que la carte montrait les genres d'une famille : l'ecran se
+     contredisait, et sur un telephone c'est le seul repere disponible.
+
+     La cause est structurelle et vaut d'etre nommee : ce composant tenait sa
+     propre idee du niveau courant, alimentee par SES boutons. Un chemin qui ne
+     passe pas par eux, ici le toucher sur la carte, lui restait invisible.
+     Deux sources de verite pour une seule realite, le motif du projet.
+
+     Il lit desormais l'etat du moteur, qui est vrai quel que soit le chemin. */
+  nav: { level: 'atlas' | 'family' | 'genre'; familyLabel: string; genreLabel: string } | null;
 }
 
 const familyIndexOf = (id: string): number => FAMILIES.findIndex((f) => f.id === id);
@@ -68,7 +83,7 @@ const pharesOf = (familyIndex: number): string[] => {
 
 const teinte = (hue: number, l = 0.72, c = 0.15): string => `oklch(${l} ${c} ${hue})`;
 
-export function MobileLevels({ onOpen, onEnsemble, onChercher, ouvert }: Props) {
+export function MobileLevels({ onOpen, onEnsemble, onChercher, ouvert, nav }: Props) {
   /* LE SEUIL EST 768 px, LE MÊME QUE CELUI DE LA LÉGENDE. Une seule frontière
      dans tout le projet : deux seuils différents pour « c'est un téléphone »
      est exactement le motif qui a coûté la semaine. */
@@ -270,7 +285,20 @@ export function MobileLevels({ onOpen, onEnsemble, onChercher, ouvert }: Props) 
           <button className="mn-retour" onClick={remonter} aria-label="Revenir a la navigation">
             <span aria-hidden="true">←</span>
           </button>
-          <button className="mn-crumb" onClick={remonter}>Revenir a la navigation</button>
+          {/* LE FIL DIT CE QUE LA CARTE MONTRE, et il le tient du moteur.
+              Toucher une famille sur la vue d'ensemble y entre : l'en-tete
+              doit le dire, sinon il ment sur l'endroit ou l'on se trouve. */}
+          <button className="mn-crumb" onClick={remonter}>
+            {nav && nav.level !== 'atlas' && nav.familyLabel ? 'Vue d\u2019ensemble' : 'Revenir a la navigation'}
+          </button>
+          {nav && nav.level !== 'atlas' && nav.familyLabel && (
+            <>
+              <span className="mn-sep" aria-hidden="true">›</span>
+              <span className="mn-crumb" data-current="true">
+                {nav.level === 'genre' && nav.genreLabel ? nav.genreLabel : nav.familyLabel}
+              </span>
+            </>
+          )}
         </nav>
       ) : (
       <nav className="mn-ariane" aria-label="Chemin">

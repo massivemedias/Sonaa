@@ -512,7 +512,7 @@ export function AtlasPage() {
           connecter depuis n'importe ou. */}
       <AuthButton />
 
-      {mode === 'webgl' && <MobileLevels onOpen={openTracks} onEnsemble={() => apiRef.current?.goToFamily(-1)}
+      {mode === 'webgl' && <MobileLevels nav={nav} onOpen={openTracks} onEnsemble={() => apiRef.current?.goToFamily(-1)}
           onChercher={() => setSearchOpen(true)} ouvert={panelGenre} />}
 
       {mode !== 'webgl' && mode !== 'dom' && <Fallback notice={reason} />}
