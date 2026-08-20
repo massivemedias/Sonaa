@@ -1,0 +1,172 @@
+/* LA CARTE DE CHALEUR. Des rectangles imbriques, la taille dit le poids
+   genealogique, la couleur dit la famille.
+
+   TOUT TIENT SUR UN ECRAN : aucune de ces regles ne produit de defilement,
+   c'est la raison d'etre de la vue. */
+
+.hm {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--fond, oklch(0.16 0.012 250));
+  font-family: var(--font-ui);
+}
+
+/* --- Le fil d'Ariane, meme grammaire que les autres vues ------------------ */
+
+.hm-fil {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 3rem;
+  box-sizing: border-box;
+  /* La zone sure du haut : sur telephone la barre d'etat mange le haut de
+     l'ecran, et sa hauteur varie d'un modele a l'autre. */
+  padding: calc(0.6rem + env(safe-area-inset-top, 0px)) 0.9rem 0.6rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  overflow: hidden;
+}
+
+/* Le meme rond blanc que partout ailleurs sur telephone : deux commandes qui
+   font le meme geste doivent se ressembler. */
+.hm-retour {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: oklch(0.98 0 0);
+  border: 0;
+  border-radius: 50%;
+  color: oklch(0.18 0.01 250);
+  cursor: pointer;
+}
+
+.hm-retour svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+.hm-crumb {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  font: inherit;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.hm-crumb[data-current='true'] {
+  color: var(--ink-primary, oklch(0.92 0.01 250));
+  cursor: default;
+}
+
+.hm-sep {
+  flex: none;
+  padding: 0 0.15rem;
+  color: var(--ink-secondary, oklch(0.66 0.01 250));
+}
+
+/* --- Le cadre pave -------------------------------------------------------- */
+
+/* IL PREND TOUTE LA PLACE QUI RESTE, et c'est lui qui est MESURE par le
+   composant. Lire la fenetre donnerait un pavage qui deborde sous le fil
+   d'Ariane, defaut deja paye deux fois sur la vue 3D. */
+.hm-cadre {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin: 0 6px calc(6px + env(safe-area-inset-bottom, 0px));
+  overflow: hidden;
+}
+
+.hm-pave {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  padding: 2px;
+  box-sizing: border-box;
+  /* LA COULEUR DIT LA FAMILLE, comme partout dans le produit. La teinte est
+     posee en ligne par le composant, la clarte et la saturation sont ici :
+     une seule ecriture de la palette. */
+  background: oklch(0.42 0.11 var(--hm-hue, 250));
+  border: 1px solid var(--fond, oklch(0.16 0.012 250));
+  border-radius: 3px;
+  color: oklch(0.98 0.01 var(--hm-hue, 250));
+  font-family: var(--font-ui);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+/* Les paves de genre, poses DANS le bloc de leur famille au premier niveau :
+   plus clairs, pour qu'on lise le bloc de famille derriere eux. */
+.hm-pave-sous {
+  background: oklch(0.52 0.13 var(--hm-hue, 250));
+  border-width: 1px;
+}
+
+.hm-pave:hover,
+.hm-pave:focus-visible {
+  background: oklch(0.62 0.16 var(--hm-hue, 250));
+  outline: none;
+}
+
+/* LE NOM NE SE MASQUE JAMAIS, IL SE TRONQUE.
+
+   Sa taille suit le rectangle, avec un plancher de 11 px pose par le
+   composant. Sous ce plancher un nom cesse d'etre lisible, mais un pave muet
+   ne dit pas qu'il existe : on garde donc ses premieres lettres et des points
+   de suspension, et l'infobulle porte le reste. Masquer serait plus propre a
+   l'oeil et mensonger. */
+.hm-nom {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: var(--hm-nom, 12px);
+  line-height: 1.1;
+  font-weight: 500;
+  text-align: center;
+  text-shadow: 0 1px 2px oklch(0.12 0.02 250 / 0.7);
+  pointer-events: none;
+}
+
+/* --- L'infobulle ---------------------------------------------------------- */
+
+/* Elle se pose EN BAS et au centre, jamais sous le doigt : une bulle qui suit
+   le pointeur est illisible au toucher, ou elle vit exactement sous la main
+   qui vient de la declencher. */
+.hm-bulle {
+  position: fixed;
+  left: 50%;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  max-width: min(92vw, 420px);
+  padding: 0.5rem 0.8rem;
+  background: color-mix(in oklab, var(--fond, oklch(0.16 0.012 250)) 92%, transparent);
+  border: 1px solid var(--rule-hairline, oklch(0.3 0.01 250));
+  border-radius: 8px;
+  color: var(--ink-primary, oklch(0.92 0.01 250));
+  font-size: 0.78rem;
+  line-height: 1.35;
+  pointer-events: none;
+  backdrop-filter: blur(6px);
+}
+
+.hm-bulle span {
+  color: var(--ink-secondary, oklch(0.66 0.01 250));
+}

@@ -758,10 +758,27 @@
 .foot-links {
   position: absolute;
   left: 1.25rem;
-  bottom: 1rem;
+  /* LE PIED PASSE AU-DESSUS DE LA BARRE DU LECTEUR SUR TELEPHONE.
+
+     DEFAUT MESURE en ajoutant la troisieme vue : le pied vivait a 516 px du
+     haut quand la barre commence a 512. Il etait donc DERRIERE elle, donc
+     illisible et intouchable, et c'etait deja vrai avant la carte de chaleur.
+     Le selecteur de vues, qui est le seul chemin vers la chronologie et la
+     carte, n'existait tout simplement pas au doigt.
+
+     La borne lit la MEME valeur nommee que la barre elle-meme : deux
+     ecritures d'un meme nombre finissent par diverger. Sur ordinateur la
+     variable vaut zero et rien ne bouge. */
+  bottom: calc(1rem + var(--pied-decalage, 0px));
   z-index: 6;
   display: flex;
   gap: 0.9rem;
+}
+
+@media (max-width: 700px) {
+  :root {
+    --pied-decalage: var(--feuille-bar-h, 56px);
+  }
 }
 
 .foot-links .credits-link {

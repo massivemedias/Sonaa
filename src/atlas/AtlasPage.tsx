@@ -789,6 +789,16 @@ export function AtlasPage() {
         <a className="foot-view" href="#/chronologie" title="Frise chronologique des genres">
           Chronologie
         </a>
+        {/* TROISIEME VUE. Elle vit sur une route comme la chronologie, et non
+            dans le bascule a deux etats du selecteur : trois vues ne tiennent
+            pas dans un bouton qui dit « passer a l'autre ». */}
+        {/* UN SEUL MOT, et le pied de page l'impose. « Carte de chaleur »
+            passait a la ligne et se coupait derriere la barre du lecteur : la
+            rangee porte deja deux autres vues et quatre liens. Le titre
+            explique, l'etiquette designe. */}
+        <a className="foot-view" href="#/heatmap" title="Carte de chaleur : la taille dit la descendance d'un genre">
+          Chaleur
+        </a>
         <span className="foot-sep" aria-hidden="true">·</span>
         <a className="credits-link" href="#/a-propos">À propos</a>
         <a className="credits-link" href="#/credits">Crédits</a>

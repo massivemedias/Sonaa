@@ -63,13 +63,20 @@ const ChronologyView = lazy(() =>
   import('./atlas/ChronologyView.tsx').then((module) => ({ default: module.ChronologyView }))
 );
 
+/* CHARGEE A LA DEMANDE, comme la chronologie : la carte de chaleur embarque
+   son pavage et sa feuille de style, et personne qui ouvre l'atlas ne doit
+   les payer. */
+const HeatmapView = lazy(() =>
+  import('./atlas/HeatmapView.tsx').then((module) => ({ default: module.HeatmapView }))
+);
+
 const rootElement = document.getElementById('root');
 
 if (!rootElement) {
   throw new Error('Élément racine introuvable.');
 }
 
-type Route = 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'atlas';
+type Route = 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'atlas';
 
 const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/index')) return 'index';
@@ -78,6 +85,7 @@ const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/propositions')) return 'propositions';
   if (window.location.hash.startsWith('#/moderation')) return 'moderation';
   if (window.location.hash.startsWith('#/chronologie')) return 'chronologie';
+  if (window.location.hash.startsWith('#/heatmap')) return 'heatmap';
   return 'atlas';
 };
 const route = routeOf();
@@ -109,6 +117,15 @@ createRoot(rootElement).render(
         <ModerationPage />
       ) : route === 'chronologie' ? (
         <ChronologyView onOpen={() => {
+          window.location.hash = '';
+          window.location.reload();
+        }} />
+      ) : route === 'heatmap' ? (
+        /* MEME CHEMIN DE SORTIE QUE LA CHRONOLOGIE : ouvrir un genre depuis
+           une vue secondaire ramene a l'atlas, qui est le seul ecran capable
+           d'afficher une fiche. Le rechargement est volontaire, il evite de
+           faire cohabiter deux moteurs de rendu. */
+        <HeatmapView onOpen={() => {
           window.location.hash = '';
           window.location.reload();
         }} />
