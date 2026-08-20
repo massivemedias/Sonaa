@@ -857,6 +857,22 @@
     display: none;
   }
 
+  /* LE CHEVRON « REDUIRE » N'EXISTE PAS SUR TELEPHONE, et il s'y dessinait
+     quand meme.
+
+     DEFAUT VU SUR CAPTURE IPHONE. Il appartient au lecteur en COLONNE, sur
+     ordinateur, ou il replie la colonne vers la droite. Il est pose en absolu
+     en haut a droite de `.pcol`. Or au niveau barre, `.pcol` EST la barre :
+     son coin haut droit tombe donc exactement sur la fleche d'ouverture,
+     mesure a 32 px par-dessus les 44 px de la fleche.
+
+     C'est le motif le plus frequent de ce projet, un element present que rien
+     ne signale : il ne servait a rien, il ne se voyait pas comme un bouton,
+     et il interceptait le seul geste qui ouvre le lecteur. */
+  .pcol-close {
+    display: none;
+  }
+
   /* MI-HAUTEUR VALAIT 42 % DE L'ECRAN, ET C'ETAIT MESURABLEMENT TROP PEU.
 
      A 42 % il reste 354 px : l'en-tete, la rangee vignette-titre-artiste et le
@@ -1615,13 +1631,26 @@
    Cinquante-six pixels, la meme valeur nommee que la barre : `--feuille-bar-h`
    est lue par la barre ET par la navigation qui s'arrete au-dessus d'elle. */
 
+/* LA BARRE EST OPAQUE, ET CE N'ETAIT PAS LE CAS.
+
+   DEFAUT VU SUR CAPTURE IPHONE : « un texte fantome apparait derriere ». Elle
+   n'avait AUCUN fond, `rgba(0, 0, 0, 0)` mesure, et les noms de genres de la
+   carte se peignaient donc au travers. Mesure : l'etiquette « Techno » tombait
+   exactement dans la bande.
+
+   Le fond du lecteur existait sur `.pcol`, mais au niveau barre cet element
+   n'a plus de fond visible : c'est `.pcol-mini` qui occupe la bande, et
+   personne ne le lui avait donne. Un element transparent pose sur une carte
+   n'est pas discret, il est illisible. */
 .pcol-mini {
   position: relative;
   display: flex;
   align-items: center;
   gap: 8px;
   height: 100%;
-  padding: 0 10px;
+  /* DOUZE A GAUCHE, comme demande : la vignette ne colle plus au bord. */
+  padding: 0 10px 0 12px;
+  background: var(--fond, oklch(0.16 0.012 250));
   touch-action: pan-y;
 }
 
@@ -1657,13 +1686,13 @@
   cursor: pointer;
 }
 
-/* QUARANTE DANS UNE BARRE DE CINQUANTE-SIX : la pochette reste une VIGNETTE.
-   Elle avait ete portee a 48 ; la consigne est le plus minimal possible, et
-   une pochette qui remplit la barre la fait lire comme un lecteur ouvert. */
+/* QUARANTE-HUIT, LA TAILLE DEMANDEE. Dans une barre de 56 elle laisse quatre
+   pixels de part et d'autre : la pochette se lit enfin comme une pochette et
+   non comme une icone, sans que la bande grandisse. */
 .pcol-mini-vignette {
   flex: none;
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   border-radius: 4px;
   object-fit: cover;
   overflow: hidden;
@@ -1672,7 +1701,14 @@
 /* Titre et artiste sur UNE ligne chacun, tronques : deux lignes qui passent a
    la ligne feraient grandir la barre, dont la hauteur est une garantie lue
    ailleurs. */
+/* LE TEXTE PREND TOUTE LA PLACE QUI RESTE.
+
+   Il n'en prenait que 92 px sur les 130 disponibles, mesure : sans `flex: 1`
+   il se dimensionnait sur son contenu reduit au minimum, et le titre etait
+   tronque bien avant le bord. Le titre coupe n'etait donc pas un manque de
+   place, c'etait une place non reclamee. */
 .pcol-mini-texte {
+  flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;

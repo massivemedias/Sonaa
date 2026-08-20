@@ -813,6 +813,32 @@
      sans que la carte le sache, donc les noms s'ecrivaient dessus. On retire
      sa bande du haut de la zone : le cadrage se fait sur ce qui reste, et le
      probleme dispararait sans qu'aucun placement de nom ait a le connaitre. */
+  /* LA MEME REGLE POUR LA BARRE, ET ELLE MANQUAIT.
+
+     DEFAUT SIGNALE SUR CAPTURE IPHONE : « l'arbre n'occupe pas l'ecran, le
+     tiers haut est vide sous le fil d'Ariane, le tiers bas est vide au-dessus
+     du lecteur ». La cause est exactement celle deja corrigee pour le lecteur
+     OUVERT, mais jamais appliquee au lecteur FERME.
+
+     Le canvas occupait toute la hauteur, 0 a 844 mesure, alors que la bande
+     reellement visible va du bas du fil d'Ariane au haut de la barre. Le
+     moteur cadrait donc sur une zone dont le haut et le bas sont couverts :
+     l'arbre debordait de 24 px SOUS la barre, mesure, et le cadrage devait
+     reculer pour tout faire tenir dans une zone plus grande que celle qu'on
+     voit.
+
+     Le canvas coincide desormais avec la zone utile. Le moteur n'a rien a
+     savoir des deux bandes : il cadre sur ce qu'il occupe, et ce qu'il occupe
+     est ce qu'on voit. C'est le meme raisonnement que le repere fenetre vers
+     canvas, une seule definition de l'espace plutot qu'une correction
+     appliquee a la main par chaque calcul. */
+  .atlas-root[data-sheet-pos='bar'] .atlas-canvas,
+  .atlas-root[data-sheet-pos='bar'] .atlas-labels {
+    top: var(--ariane-h);
+    bottom: var(--feuille-bar-h);
+    height: calc(100dvh - var(--feuille-bar-h) - var(--ariane-h));
+  }
+
   .atlas-root[data-sheet-pos='half'] .atlas-canvas,
   .atlas-root[data-sheet-pos='half'] .atlas-labels {
     top: var(--ariane-h);

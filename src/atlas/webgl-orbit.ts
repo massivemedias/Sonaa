@@ -805,10 +805,46 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
   /* Le cadrage tient dans les DEUX axes. Le champ de vision de la caméra est
      vertical : en fenêtre plus haute que large, une sphère cadrée sur la
      hauteur déborde des côtés. Même correction que le cadrage de l'atlas. */
+  /* LA MARGE DE CADRAGE, NOMMEE, ET RAMENEE DE 12 A 5 POUR CENT.
+
+     DEFAUT SIGNALE SUR CAPTURE IPHONE : « l'arbre tient dans le tiers
+     central ». Mesure a 390 x 844, dans la famille Roots : l'arbre occupait
+     84 % de la largeur et 61 % de la hauteur utile, avec 131 px perdus en haut
+     et 152 en bas.
+
+     L'HYPOTHESE DE MIKA ETAIT QUE LE CADRAGE RESERVAIT LA PLACE DU LECTEUR
+     OUVERT. Verifie : non. Le moteur ne lit nulle part la hauteur de la
+     feuille, il ne reserve rien. La cause est double et purement geometrique.
+
+     D'abord cette marge de 12 %, qui bornait le remplissage horizontal a
+     environ 84 %. Elle passe a 5 %, la valeur demandee.
+
+     Ensuite, et c'est la limite honnete : sur un ecran en portrait, c'est la
+     LARGEUR qui commande. `Math.max` prend la plus grande des deux distances,
+     et avec un rapport d'ecran de 0,46 la contrainte de largeur vaut plus du
+     double de celle de hauteur. Un groupe plus large que haut, ce qui est le
+     cas de toutes les familles deployees, ne peut donc pas remplir la hauteur
+     sans deborder lateralement. Mesure : remplir 90 % de la hauteur
+     demanderait d'agrandir de 48 %, ce qui ferait sortir 94 px de chaque
+     cote.
+
+     La hauteur ne se remplira donc jamais entierement, et ce n'est pas un
+     defaut a corriger mais une forme a accepter. Ce qui se corrige est la
+     marge.
+
+     ELLE NE CHANGE QUE SUR TELEPHONE. Mika a demande une correction mobile et
+     de ne pas toucher a l'ordinateur ; une constante partagee aurait resserre
+     les deux. Le critere est le FORMAT et non une largeur en pixels : un
+     ecran plus haut que large est un telephone tenu droit, c'est-a-dire
+     exactement le cas ou la largeur commande et ou les 12 % coutent le plus.
+     Sur un ecran plus large que haut, rien ne bouge. */
+  const margeCadrage = (): number => (camera.aspect < 1 ? 1.05 : 1.12);
+
   const frameDistance = (radius: number): number => {
     const tan = Math.tan((FOV * Math.PI) / 360);
-    const byHeight = (radius * 1.12) / tan;
-    const byWidth = (radius * 1.12) / (tan * Math.max(0.2, camera.aspect));
+    const marge = margeCadrage();
+    const byHeight = (radius * marge) / tan;
+    const byWidth = (radius * marge) / (tan * Math.max(0.2, camera.aspect));
     return clamp(Math.max(byHeight, byWidth), MIN_DISTANCE, MAX_DISTANCE);
   };
 
