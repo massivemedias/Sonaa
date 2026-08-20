@@ -17,13 +17,17 @@
      est le seuil a ne pas franchir. On ne descend pas plus bas, on ne monte
      pas non plus. */
   --feuille-bar-h: 56px;
-  /* SOIXANTE-CINQ POUR CENT AU LECTEUR, TRENTE-CINQ A LA CARTE.
+  /* LA MOITIE CHACUN, ET LA CARTE REPREND LE HAUT.
 
-     La carte reduite ne sert plus a naviguer quand le lecteur est ouvert, elle
-     sert de REPERE : on doit savoir ou l'on est en ecoutant. Trente-cinq pour
-     cent suffisent a cela et ne suffiraient pas a naviguer, ce qui est la
-     bonne repartition. */
-  --feuille-h: 65dvh;
+     Le lecteur prenait les deux tiers. Arbitrage de Mika : c'est la carte
+     qu'on vient voir, elle recupere la moitie haute. Trois morceaux visibles
+     suffisent, on defile pour les autres.
+
+     Ce qui rend la moitie tenable n'est pas la hauteur, c'est l'ALLEGEMENT
+     qui l'accompagne : transport et barre de progression sur une seule ligne,
+     grande vignette supprimee, lignes de liste resserrees. Sans cela, moitie
+     d'ecran voudrait dire un seul morceau visible. */
+  --feuille-h: 50dvh;
   --ariane-h: 3.4rem;
 }
 

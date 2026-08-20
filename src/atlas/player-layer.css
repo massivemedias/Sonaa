@@ -918,6 +918,68 @@
     display: none;
   }
 
+  /* LA GRANDE VIGNETTE DISPARAIT : elle repete la premiere ligne de la liste.
+
+     Elle occupait une largeur entiere en carre, soit pres de trois morceaux
+     de liste, pour montrer une pochette que la rangee du morceau en cours
+     montre deja. Une redondance qui coute trois lignes n'est pas une
+     redondance, c'est un choix contre le contenu. */
+  .pcol[data-sheet='half'] .pcol-media,
+  .pcol[data-sheet='full'] .pcol-media {
+    display: none;
+  }
+
+  /* TRANSPORT ET PROGRESSION SUR UNE SEULE LIGNE.
+
+     Un saut force les renvoyait sur deux rangees sous 430 px, ce qui coutait
+     une ligne de liste entiere. Il avait ete pose quand la feuille etait plus
+     haute et que les temps s'ecrasaient ; a la moitie de l'ecran, une ligne
+     de liste vaut plus que deux chiffres de duree confortables. */
+  .pcol[data-sheet='half'] .pcol-saut,
+  .pcol[data-sheet='full'] .pcol-saut {
+    display: none;
+  }
+
+  /* ET LA RANGEE NE SE COUPE PLUS. Masquer le saut ne suffisait pas : la
+     rangee restait autorisee a passer a la ligne, et la duree de fin tombait
+     seule au-dessous, ce qui coute exactement la ligne qu'on voulait rendre a
+     la liste. C'est la barre de progression qui cede la largeur, elle est la
+     seule dont la taille n'a pas de sens propre. */
+  .pcol[data-sheet='half'] .pcol-transport,
+  .pcol[data-sheet='full'] .pcol-transport {
+    flex-wrap: nowrap;
+    row-gap: 0;
+  }
+
+  .pcol[data-sheet='half'] .pcol-bar,
+  .pcol[data-sheet='full'] .pcol-bar {
+    flex: 1 1 40px;
+    min-width: 40px;
+  }
+
+  /* LE BANDEAU D'INVITATION A SE CONNECTER SORT DE LA FEUILLE.
+
+     Quarante-deux pixels, soit presque une ligne de liste, pour un appel qui
+     est DEJA present plus bas dans la meme feuille, sous « Contribuer ». Sur
+     un ecran de 568 px c'est exactement ce qui separait deux morceaux
+     visibles de trois. Une invitation repetee deux fois dans le meme panneau
+     ne convainc pas deux fois, elle coute deux fois. */
+  .pcol[data-sheet='half'] .pcol-connexion,
+  .pcol[data-sheet='full'] .pcol-connexion {
+    display: none;
+  }
+
+  /* Les rangees se resserrent : c'est ce qui fait tenir le troisieme morceau. */
+  .pcol[data-sheet='half'] .pcol-li + .pcol-li,
+  .pcol[data-sheet='full'] .pcol-li + .pcol-li {
+    margin-top: 0;
+  }
+
+  .pcol[data-sheet='half'] .pcol-list,
+  .pcol[data-sheet='full'] .pcol-list {
+    margin-top: 0.3rem;
+  }
+
   .pcol-handle {
     display: block;
     flex: none;

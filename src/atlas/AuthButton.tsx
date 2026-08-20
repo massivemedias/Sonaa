@@ -155,12 +155,20 @@ export function AuthButton() {
       {connecte ? (
         <>
           <button
-            className="authb-bouton"
+            className="authb-bouton authb-compte"
             onClick={() => setMenu((m) => !m)}
             aria-expanded={menu}
             aria-haspopup="menu"
           >
-            {nomAffiche(session) ?? pseudo ?? '…'}
+            {/* SUR TELEPHONE, L'INITIALE SEULE ; AILLEURS, LE NOM ENTIER.
+
+                Un nom coupe au milieu, « maudite... », n'est ni un nom ni une
+                icone. Une initiale est un signe COMPLET, et le nom entier
+                reste dans le menu, ou la place ne manque pas. */}
+            <span className="authb-entier">{nomAffiche(session) ?? pseudo ?? '…'}</span>
+            <span className="authb-initiale" aria-hidden="true">
+              {(nomAffiche(session) ?? pseudo ?? '?').slice(0, 1)}
+            </span>
           </button>
           {menu && (
             <div className="authb-menu" role="menu">

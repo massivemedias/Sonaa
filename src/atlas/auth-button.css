@@ -8,13 +8,25 @@
 :root {
   /* La largeur maximale du bouton de compte sur telephone. Nommee ici, lue
      par le fil d'Ariane qui doit lui laisser la place. */
-  /* SOIXANTE-SEIZE, ET CHAQUE PIXEL RENDU VA AU FIL D'ARIANE.
+  /* QUARANTE-QUATRE : UN ROND AVEC L'INITIALE, PLUS UN NOM COUPE.
 
-     Le bouton de compte et le chemin de navigation se disputent la meme barre.
-     A 96 px il ne restait que 170 px au fil, et le nom du genre ouvert etait
-     coupe. Le prenom, lui, se tronque sans dommage : on se reconnait sur ses
-     premieres lettres. */
-  --authb-l: 76px;
+     « maudite... » ne sert a rien. Un nom tronque au milieu n'est ni un nom
+     ni une icone, c'est un accident qui occupe la place des deux. J'avais
+     reduit la largeur en croyant menager le fil d'Ariane, ce qui n'a fait que
+     deplacer la troncature du chemin vers le prenom.
+
+     L'initiale, elle, est complete : c'est un signe entier, pas un morceau de
+     mot. Le nom entier vit dans le menu, ou la place ne manque pas. Et les
+     trente-deux pixels rendus vont au chemin de navigation. */
+  /* LA RESERVE COUVRE LE CAS LE PLUS LARGE, pas le cas courant.
+
+     DEFAUT ATTRAPE PAR LA MESURE : reservee a 88 px alors que « Se connecter »
+     en fait 108, la loupe passait SOUS le bouton. Une reserve calculee sur un
+     seul des deux etats du bouton n'est pas une reserve.
+
+     Connecte, le bouton n'est qu'un rond de 44 et la place rendue va au fil
+     d'Ariane, qui n'en a plus besoin depuis qu'il fusionne ses segments. */
+  --authb-l: 112px;
 }
 
 .authb {
@@ -44,6 +56,10 @@
 .authb-attente {
   width: 120px;
   height: 36px;
+}
+
+.authb-initiale {
+  display: none;
 }
 
 .authb-bouton {
@@ -270,12 +286,31 @@
      libelle libre, « Se connecter » aujourd'hui, un nom de compte demain,
      rendrait la reserve fausse le jour ou le texte s'allonge. On borne donc,
      et la reserve du fil lit la meme grandeur nommee. */
-  .authb-bouton {
-    max-width: var(--authb-l);
-    padding: 0 0.55rem;
-    font-size: 0.7rem;
+  /* LE ROND NE VAUT QUE POUR LE COMPTE CONNECTE.
+
+     DEFAUT ATTRAPE PAR LA MESURE, pas par l'oeil : la regle visait tous les
+     boutons de cette couche, donc « Se connecter » se retrouvait enferme dans
+     un rond de 44 px, illisible. Une initiale tient dans un rond, une
+     invitation non. */
+  .authb-compte {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    min-height: 0;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 0.95rem;
+    font-weight: var(--weight-data);
+    text-transform: uppercase;
     overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  }
+
+  .authb-compte .authb-entier {
+    display: none;
+  }
+
+  .authb-compte .authb-initiale {
+    display: block;
   }
 }

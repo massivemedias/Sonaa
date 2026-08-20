@@ -368,33 +368,65 @@ export function MobileLevels({ onOpen, onEnsemble, onChercher, ouvert, nav, onRe
         >
           <FaIcon icon={faChevronLeft} />
         </button>
-        <button
-          className="mn-crumb"
-          onClick={() => {
-            memoriser();
-            /* Sauter deux niveaux depile deux entrees : le fil d'Ariane ne
-               peut pas se permettre de laisser l'historique derriere lui. */
-            const sauts = Math.min(empilees.current, (genre !== null ? 1 : 0) + (famille !== null ? 1 : 0));
-            if (sauts > 0) { empilees.current -= sauts; window.history.go(-sauts); }
-            setGenre(null);
-            setFamille(null);
-          }}
-        >
-          Familles
-        </button>
-        {famille !== null && (
+        {/* ENTIERS, OU UN SEUL POINT DE SUSPENSION. JAMAIS DEUX LETTRES.
+
+            DEFAUT VU SUR CAPTURE IPHONE : « FAM... > B... > DUBSTEP ». Serres
+            par la mise en page, les segments intermediaires tombaient a deux
+            caracteres suivis de points. Ce n'est plus un mot, ce n'est pas
+            encore un signe : c'est du bruit qui occupe la place des deux.
+
+            Des qu'un genre est ouvert, les deux segments qui precedent
+            fusionnent donc en UN point de suspension, entier et touchable, qui
+            remonte aux familles. Le chemin complet reste dans son etiquette
+            d'accessibilite. Au niveau des genres, ou il n'y a que deux
+            segments, ils s'affichent tels quels. */}
+        {genreOuvert ? (
+          <button
+            className="mn-crumb mn-crumb-elide"
+            onClick={() => {
+              memoriser();
+              const sauts = Math.min(empilees.current, (genre !== null ? 1 : 0) + (famille !== null ? 1 : 0));
+              if (sauts > 0) { empilees.current -= sauts; window.history.go(-sauts); }
+              setGenre(null);
+              setFamille(null);
+            }}
+            aria-label={`Familles, ${f?.label ?? ''}`}
+            title={`Familles › ${f?.label ?? ''}`}
+          >
+            …
+          </button>
+        ) : (
           <>
-            <span className="mn-sep" aria-hidden="true">›</span>
-            {/* LE NIVEAU INTERMEDIAIRE RESTE CLIQUABLE depuis la vue graphique :
-                c'est ce qui fait un fil d'Ariane et non un simple titre. */}
             <button
               className="mn-crumb"
-              onClick={() => { memoriser(); if (genre !== null) remonter(); }}
-              data-current={niveau === 'genres'}
-              disabled={niveau === 'genres'}
+              onClick={() => {
+                memoriser();
+                /* Sauter deux niveaux depile deux entrees : le fil d'Ariane ne
+                   peut pas se permettre de laisser l'historique derriere lui. */
+                const sauts = Math.min(empilees.current, (genre !== null ? 1 : 0) + (famille !== null ? 1 : 0));
+                if (sauts > 0) { empilees.current -= sauts; window.history.go(-sauts); }
+                setGenre(null);
+                setFamille(null);
+              }}
             >
-              {f?.label}
+              Familles
             </button>
+            {famille !== null && (
+              <>
+                <span className="mn-sep" aria-hidden="true">›</span>
+                {/* LE NIVEAU INTERMEDIAIRE RESTE CLIQUABLE depuis la vue
+                    graphique : c'est ce qui fait un fil d'Ariane et non un
+                    simple titre. */}
+                <button
+                  className="mn-crumb"
+                  onClick={() => { memoriser(); if (genre !== null) remonter(); }}
+                  data-current={niveau === 'genres'}
+                  disabled={niveau === 'genres'}
+                >
+                  {f?.label}
+                </button>
+              </>
+            )}
           </>
         )}
         {genreOuvert && (
