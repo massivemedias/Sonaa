@@ -6,7 +6,7 @@
 > de ces idées peut être fausse indépendamment du produit. La capture d'écran,
 > elle, ne suppose rien.
 >
-> **Sur ce projet, six sondes ont contredit un oeil. Les six avaient tort.**
+> **Sur ce projet, ONZE sondes ont contredit un oeil. Les onze avaient tort.**
 >
 > 1. La sonde des plaques : « 0 sur 16 cliquables » à 390 px, sur un produit
 >    correct. Elle refaisait à la main la conversion fenêtre vers canvas.

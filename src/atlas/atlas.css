@@ -832,10 +832,33 @@
      est ce qu'on voit. C'est le meme raisonnement que le repere fenetre vers
      canvas, une seule definition de l'espace plutot qu'une correction
      appliquee a la main par chaque calcul. */
+  /* LE VIDE SE REPARTIT EN HAUT ET EN BAS, IL NE S'ENTASSE PLUS EN HAUT.
+
+     MESURE A 390 x 844 : 102 px de vide au-dessus de l'arbre contre 32
+     au-dessous, et l'ecart reel approche 36 px une fois les spheres comptees,
+     qui se dessinent AU-DESSUS de leurs noms.
+
+     LA CAUSE. Les noms pendent SOUS les spheres. La masse visible descend donc
+     plus bas que le nuage de spheres, alors que le cadrage, lui, centre le
+     nuage de spheres : il ignore la bande de texte qui prolonge l'arbre vers
+     le bas. Le vide se retrouve entierement en haut.
+
+     LA CORRECTION. La zone de dessin remonte de la moitie de l'ecart, ce qui
+     ramene le centre visuel au milieu de la bande. Elle garde exactement la
+     meme HAUTEUR : on la deplace, on ne la retaille pas, donc le remplissage
+     ne change pas. La valeur est une fraction de la bande et non un nombre de
+     pixels, pour valoir sur les trois formats.
+
+     Mika l'a bien dit : un vide reparti egalement se voit moins qu'un vide
+     massif d'un seul cote. */
+  :root {
+    --decalage-noms: calc((100dvh - var(--feuille-bar-h) - var(--ariane-h)) * 0.025);
+  }
+
   .atlas-root[data-sheet-pos='bar'] .atlas-canvas,
   .atlas-root[data-sheet-pos='bar'] .atlas-labels {
-    top: var(--ariane-h);
-    bottom: var(--feuille-bar-h);
+    top: calc(var(--ariane-h) - var(--decalage-noms));
+    bottom: calc(var(--feuille-bar-h) + var(--decalage-noms));
     height: calc(100dvh - var(--feuille-bar-h) - var(--ariane-h));
   }
 
