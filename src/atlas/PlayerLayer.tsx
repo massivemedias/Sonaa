@@ -734,6 +734,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
       if (mediaVisible && media) {
         const rect = media.getBoundingClientRect();
         wrap.style.opacity = '1';
+        wrap.style.zIndex = '16';
         wrap.style.pointerEvents = 'auto';
         slot.style.width = `${rect.width}px`;
         slot.style.height = `${rect.height}px`;
@@ -741,11 +742,26 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
         return;
       }
       if (playback) {
+        /* L'IFRAME GAREE PASSE DERRIERE LA BARRE, ET NON DEVANT.
+
+           DEFAUT SIGNALE : « en mobile il y a toujours un lecteur youtube qui
+           s'ouvre avec meme la video ». Elle etait garee a 78 x 44 en bas a
+           gauche, en opacite 1 et en `z-index` 16, c'est-a-dire PAR-DESSUS le
+           mini lecteur, a l'endroit exact de la pochette. Ce n'etait pas un
+           lecteur qui s'ouvrait, c'etait celui-la qu'on n'avait jamais cache.
+
+           On ne peut pas la masquer vraiment : une iframe en `display: none`
+           ou en opacite nulle se fait suspendre par le navigateur, et la
+           lecture s'arrete. Elle reste donc rendue, mais RANGEE DERRIERE : le
+           fond de la barre est opaque depuis sa correction, il la couvre
+           entierement. Et elle se cale a l'interieur de la bande plutot que de
+           la depasser de six pixels par le haut. */
         wrap.style.opacity = '1';
+        wrap.style.zIndex = '1';
         wrap.style.pointerEvents = 'none';
         slot.style.width = '78px';
         slot.style.height = '44px';
-        slot.style.transform = 'translate3d(18px, calc(100dvh - 62px), 0)';
+        slot.style.transform = 'translate3d(18px, calc(100dvh - 52px), 0)';
         return;
       }
       wrap.style.opacity = '0';
@@ -1145,8 +1161,15 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
             )}
 
               {/* 2. Le transport, sous l'identité de la track (hiérarchie du clic direct). */}
+            {/* LES MEMES ICONES QUE DANS LA BARRE, et c'etait le dernier
+                endroit ou trainaient des caracteres de police. Le lecteur
+                ouvert gardait « precedent » et « suivant » en glyphes bruts,
+                de graisses differentes et mal alignes, juste a cote d'icones
+                dessinees. */}
             <div className="pcol-transport">
-              <button onClick={() => step(-1)} disabled={!playingHere} aria-label="Précédente">⏮</button>
+              <button onClick={() => step(-1)} disabled={!playingHere} aria-label="Précédente">
+                <FaIcon icon={faBackwardStep} className="pcol-glyphe" />
+              </button>
               <button
                 className="pcol-main"
                 onClick={() =>
@@ -1156,9 +1179,11 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                 }
                 aria-label={playing && playingHere ? 'Pause' : 'Lecture'}
               >
-                {playing && playingHere ? '❚❚' : '▶'}
+                <FaIcon icon={playing && playingHere ? faPause : faPlay} className="pcol-glyphe" />
               </button>
-              <button onClick={() => step(1)} disabled={!playingHere} aria-label="Suivante">⏭</button>
+              <button onClick={() => step(1)} disabled={!playingHere} aria-label="Suivante">
+                <FaIcon icon={faForwardStep} className="pcol-glyphe" />
+              </button>
 
               {/* Sous 380 px, rien ne tient sur une seule rangée sans écraser
                   les temps à zéro. Ce saut vide renvoie temps, barre et temps
@@ -1187,6 +1212,17 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
               <span className="pcol-time">{playingHere ? mmss(duration) : '0:00'}</span>
 
               <VolumeControl volume={volume} onChange={setVolume} />
+              {/* LE LIEN VERS YOUTUBE RESTE, MAIS PAS SUR TELEPHONE.
+
+                  Sur la feuille mobile il occupait une largeur fixe au milieu
+                  des commandes, et c'est la barre de progression qui payait :
+                  elle tombait a une quarantaine de pixels, impossible a viser
+                  pour deplacer la tete de lecture. Un lien de sortie ne vaut
+                  pas la commande la plus utilisee du lecteur.
+
+                  Sur ordinateur la place ne manque pas et il ne coute rien :
+                  il y reste. La feuille de style le masque sous 700 px, la
+                  fonction n'est pas retiree du produit. */}
               {shownInPanel && (
                 <a
                   className="pcol-youtube"

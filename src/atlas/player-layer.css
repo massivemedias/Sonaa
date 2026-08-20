@@ -949,12 +949,53 @@
   .pcol[data-sheet='full'] .pcol-transport {
     flex-wrap: nowrap;
     row-gap: 0;
+    /* LA PLACE DU BOUTON DE REDUCTION, QUI EST POSE PAR-DESSUS.
+
+       DEFAUT VU A L'ECRAN : le rond blanc vit en absolu en haut a gauche du
+       panneau, et la rangee de transport commence au meme endroit. Le bouton
+       « precedente » disparaissait donc dessous, invisible et intouchable.
+       C'est le motif le plus frequent de ce projet, un element pose sur un
+       autre sans que rien ne le signale.
+
+       Quarante-quatre pixels de bouton plus douze d'ecart. Et une reserve a
+       droite, sans laquelle la duree de fin sortait du cadre. */
+    padding-left: 56px;
+    padding-right: 6px;
   }
 
+  /* LA BARRE DE PROGRESSION REPREND LA PLACE RENDUE.
+
+     DEFAUT SIGNALE : « pour avancer la tete de lecture dans une track c'est
+     vraiment tres petit ». Elle etait tombee a une quarantaine de pixels,
+     coincee entre le bouton de lecture, le volume et un lien de sortie. Le
+     lien est parti, le bouton a maigri de huit pixels, et tout va ici.
+
+     Seize pixels de haut au lieu de douze, et une largeur minimale de cent
+     vingt : c'est la commande la plus fine du lecteur, elle doit etre la plus
+     grande. */
   .pcol[data-sheet='half'] .pcol-bar,
   .pcol[data-sheet='full'] .pcol-bar {
-    flex: 1 1 40px;
-    min-width: 40px;
+    flex: 1 1 80px;
+    min-width: 80px;
+    height: 16px;
+    border-radius: 8px;
+  }
+
+  /* LE REGLAGE DE VOLUME SORT DE LA RANGEE SUR TELEPHONE.
+
+     MESURE : la rangee demandait 414 px pour 358 disponibles, et la duree de
+     fin sortait du cadre. Le volume en prenait 44, plus son ecart.
+
+     Sur un telephone, le volume se regle avec les boutons de l'appareil, et
+     personne ne cherche un curseur a l'ecran pour cela. Ce n'est pas une
+     fonction perdue, c'est une fonction rendue au systeme, et la place va a
+     la seule commande que le systeme n'offre pas : la position dans le
+     morceau. */
+  .pcol[data-sheet='half'] .pcol-vol,
+  .pcol[data-sheet='full'] .pcol-vol,
+  .pcol[data-sheet='half'] .pcol-youtube,
+  .pcol[data-sheet='full'] .pcol-youtube {
+    display: none;
   }
 
   /* LE BANDEAU D'INVITATION A SE CONNECTER SORT DE LA FEUILLE.
@@ -1028,8 +1069,14 @@
   }
 
   /* 48 px au doigt, toujours parfaitement rond. */
+  /* LE BOUTON DE LECTURE RETRECIT POUR QUE LA BARRE GROSSISSE.
+
+     Il faisait 48 px dans une rangee qui doit aussi porter deux temps et une
+     barre de progression. Rendu a 40, il reste tres au-dessus de la cible
+     tactile confortable, et les huit pixels vont a la seule commande qui
+     demandait de la precision. */
   .pcol-main {
-    width: 48px;
+    width: 40px;
     height: 48px;
     min-width: 48px;
     max-width: 48px;
@@ -1839,6 +1886,20 @@
   height: 20px;
 }
 
+/* Les icones du lecteur OUVERT. Blanches par heritage de la couleur du
+   bouton, et posees dans une grille centree : leur boite EST leur dessin,
+   donc elles s'alignent sans dependre d'une ligne de base. */
+.pcol-glyphe {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.pcol-main .pcol-glyphe {
+  width: 17px;
+  height: 17px;
+}
+
 .pcol-mini-transport {
   flex: none;
   display: flex;
@@ -1864,6 +1925,15 @@
 }
 
 /* LA FLECHE DE FERMETURE, en haut a gauche du panneau, 44 px de zone. */
+/* LE MEME BOUTON QUE CELUI QUI OUVRE, ET DU MEME COTE.
+
+   Un rond blanc plein avec un chevron noir ouvre le lecteur depuis la barre.
+   Celui qui le referme etait, lui, un chevron clair sur fond transparent :
+   deux commandes qui font le meme geste dans les deux sens, dessinees
+   differemment. On ouvre avec un objet et on referme avec un autre.
+
+   Meme rond, meme diametre, meme glyphe noir. Seul le sens du chevron change,
+   ce qui est exactement ce qui doit changer. */
 .pcol-fermer {
   position: absolute;
   top: 6px;
@@ -1874,10 +1944,52 @@
   width: 44px;
   height: 44px;
   padding: 0;
-  background: transparent;
+  background: oklch(0.98 0 0);
   border: 0;
-  color: var(--ink-primary, oklch(0.92 0.01 250));
-  font-size: 1.2rem;
+  border-radius: 50%;
+  color: oklch(0.18 0.01 250);
   cursor: pointer;
   touch-action: pan-y;
+}
+
+.pcol-fermer svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+
+
+/* --- LE CAS DES ECRANS TRES ETROITS, 360 px ET MOINS -----------------------
+
+   MESURE A 320 x 568 : la rangee de transport demande 354 px pour 288
+   disponibles, soit 66 de trop, et la duree de fin sortait du cadre.
+
+   ARBITRAGE. La duree TOTALE est deja ecrite sur la ligne du morceau dans la
+   liste, juste en dessous ; le temps ECOULE, lui, n'existe nulle part
+   ailleurs. On retire donc celle qui se lit deux fois, pas celle qui ne se lit
+   qu'ici. Et les boutons perdent quatre pixels, ce qui les laisse tres
+   au-dessus de la cible tactile. */
+@media (max-width: 360px) {
+  .pcol[data-sheet='half'] .pcol-time:last-of-type,
+  .pcol[data-sheet='full'] .pcol-time:last-of-type {
+    display: none;
+  }
+
+  .pcol[data-sheet='half'] .pcol-transport > button,
+  .pcol[data-sheet='full'] .pcol-transport > button {
+    width: 38px;
+    min-width: 38px;
+    max-width: 38px;
+  }
+
+  .pcol[data-sheet='half'] .pcol-bar,
+  .pcol[data-sheet='full'] .pcol-bar {
+    flex: 1 1 60px;
+    min-width: 60px;
+  }
+
+  .pcol[data-sheet='half'] .pcol-transport,
+  .pcol[data-sheet='full'] .pcol-transport {
+    padding-right: 4px;
+  }
 }
