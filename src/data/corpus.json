@@ -16829,6 +16829,30 @@
           "year": 2004,
           "verified": true,
           "role": "canon"
+        },
+        {
+          "youtubeId": "ifLiucWHOA8",
+          "artist": "Seba & Paradox",
+          "title": "Move On",
+          "year": 2005,
+          "verified": true,
+          "role": "canon"
+        },
+        {
+          "youtubeId": "q9-n8umv-9I",
+          "artist": "Fanu",
+          "title": "Siren Song",
+          "year": 2005,
+          "verified": true,
+          "role": "canon"
+        },
+        {
+          "youtubeId": "PvHV4Yp4Yds",
+          "artist": "dgoHn",
+          "title": "Rhythmic Movement Disorder",
+          "year": 2007,
+          "verified": true,
+          "role": "canon"
         }
       ],
       "description": "Le culte du break poussé à l'extrême : des batteries entières recomposées frappe par frappe, polyrythmies vivantes, hommage permanent aux batteurs de studio des années 1970. Paradox en est le gardien du temple, Photek l'a précédé en esthète. Scène minuscule et obstinée, essentielle à qui veut comprendre jusqu'où va l'art du break.",
@@ -18621,6 +18645,22 @@
         "Psychedelic Breaks"
       ],
       "tracks": [
+        {
+          "youtubeId": "RSed73JkblM",
+          "artist": "Hedflux",
+          "title": "Nonstop",
+          "year": 2008,
+          "verified": true,
+          "role": "canon"
+        },
+        {
+          "youtubeId": "tD-RyKqWoZk",
+          "artist": "Neurodriver",
+          "title": "Sidewinder",
+          "year": 2009,
+          "verified": true,
+          "role": "canon"
+        },
         {
           "youtubeId": "qCmZ_0pOtr8",
           "artist": "Abdomen Burst",
@@ -35502,6 +35542,46 @@
           "artist": "Dan Andrei",
           "title": "Vino",
           "year": 2011,
+          "verified": true,
+          "role": "canon"
+        },
+        {
+          "youtubeId": "y878a3hRT00",
+          "artist": "Rhadoo",
+          "title": "Arhiva",
+          "year": 2012,
+          "verified": true,
+          "role": "canon"
+        },
+        {
+          "youtubeId": "6fC2-VFuLtI",
+          "artist": "Priku",
+          "title": "Bobohalma",
+          "year": 2012,
+          "verified": true,
+          "role": "canon"
+        },
+        {
+          "youtubeId": "R_oCU3SoeO0",
+          "artist": "Cristi Cons",
+          "title": "Glassdance",
+          "year": 2013,
+          "verified": true,
+          "role": "canon"
+        },
+        {
+          "youtubeId": "qOVc_vvjOfQ",
+          "artist": "Raresh",
+          "title": "Vivaltu",
+          "year": 2014,
+          "verified": true,
+          "role": "canon"
+        },
+        {
+          "youtubeId": "AdJZuJZjDKs",
+          "artist": "Barac",
+          "title": "Verniana",
+          "year": 2015,
           "verified": true,
           "role": "canon"
         },
