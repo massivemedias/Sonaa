@@ -36,7 +36,8 @@
     "check:constantes": "tsx scripts/check-constantes.ts",
     "check:deps": "tsx scripts/check-deps.ts",
     "check:orphelins": "git log --oneline --all --not main && git fsck --lost-found 2>/dev/null | grep 'dangling commit' || echo 'Orphelins : rien hors de main.'",
-    "publier": "node scripts/publier.mjs"
+    "publier": "node scripts/publier.mjs",
+    "fetch:vues": "node --experimental-strip-types --env-file=.env scripts/fetch-vues.ts"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^7.3.1",

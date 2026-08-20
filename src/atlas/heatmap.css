@@ -77,6 +77,56 @@
   color: var(--ink-secondary, oklch(0.66 0.01 250));
 }
 
+/* --- Le curseur et sa methode --------------------------------------------- */
+
+.hm-reglage {
+  flex: none;
+  padding: 0 0.9rem 0.4rem;
+}
+
+.hm-curseur {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-secondary, oklch(0.66 0.01 250));
+}
+
+/* Les deux bouts ne se serrent pas : ce sont eux qui disent ce que le curseur
+   dose, et un curseur sans ses bornes ne dose rien de nommable. */
+.hm-bout {
+  flex: none;
+}
+
+.hm-curseur input {
+  flex: 1;
+  min-width: 0;
+  height: 16px;
+  accent-color: oklch(0.72 0.16 250);
+  cursor: pointer;
+}
+
+/* LA PHRASE DE METHODE. Discrete, jamais masquee : elle dit que la taille
+   exprime un RANG et non un rapport, et sans elle la carte laisserait croire
+   qu'un pave deux fois plus grand est deux fois plus ecoute. */
+.hm-methode {
+  margin: 0.3rem 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.625rem;
+  line-height: 1.4;
+  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  opacity: 0.85;
+}
+
+.hm-methode-seule {
+  flex: none;
+  padding: 0 0.9rem 0.4rem;
+  margin: 0;
+}
+
 /* --- Le cadre pave -------------------------------------------------------- */
 
 /* IL PREND TOUTE LA PLACE QUI RESTE, et c'est lui qui est MESURE par le

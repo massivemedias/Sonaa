@@ -45,9 +45,22 @@
    influence a saute les frontieres de famille. */
 
 import corpus from '../data/corpus.json' with { type: 'json' };
+import vuesBrutes from '../data/vues.json' with { type: 'json' };
 import type { Corpus } from '../data/schema.ts';
 
 const CORPUS = corpus as unknown as Corpus;
+/* PAR `unknown`, ET C'EST LA RETOMBEE QUI L'EXIGE.
+
+   Un transtypage direct fait promettre au compilateur une forme que le
+   FICHIER ne garantit pas. Teste en vidant le fichier de vues pour verifier
+   la retombee : la construction a echoue, `releve: null` n'etant pas
+   compatible avec `string`. Autrement dit, le chemin de secours cassait le
+   build au lieu de fonctionner, ce qui est le contraire d'un chemin de
+   secours.
+
+   On passe donc par `unknown` et on verifie a l'execution. Le fichier est une
+   donnee, pas un contrat. */
+const VUES = vuesBrutes as unknown as { releve?: unknown; genres?: unknown };
 
 /* ── L'arbre structurel : un parent au plus, celui qui positionne ────────── */
 
@@ -115,3 +128,81 @@ const TABLE = new Map<string, PoidsGenre>(
 /** Les trois comptes d'un genre. Jamais nul : un genre inconnu pese 1. */
 export const poidsDe = (id: string): PoidsGenre =>
   TABLE.get(id) ?? { poids: 1, derivesDirects: 0, descendance: 0 };
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   LA POPULARITE, ET POURQUOI ELLE EST UN RANG ET NON UNE VALEUR
+   ═══════════════════════════════════════════════════════════════════════
+
+   La mesure est la MEDIANE des vues des morceaux du genre, relevee par
+   `npm run fetch:vues`. Le choix de la mediane est explique dans ce script :
+   une somme mesure surtout le morceau viral, et elle est biaisee par le
+   nombre de morceaux choisis, qui est une decision editoriale.
+
+   MAIS LA MEDIANE BRUTE NE PEUT PAS DIMENSIONNER. Mesure : un rapport de
+   222 235 entre Synth-pop, mediane 154 millions, et Skweee, mediane 463. Sur
+   quatorze paves de famille a 320 px, la mediane brute donne un plus petit
+   pave de 27 px de cote, sur lequel aucun nom ne tient.
+
+   ON CONVERTIT DONC EN RANG, de 1 a 12. Mesure : 78 px pour le plus petit
+   pave, c'est-a-dire exactement l'equilibre du poids genealogique, qui donne
+   77.
+
+   C'EST UN CHOIX EDITORIAL ET IL DOIT SE DIRE. Ecraser un facteur deux cent
+   mille en douze crans n'est pas une mise a l'echelle, c'est une decision.
+   La vue l'ecrit sous son curseur, en toutes lettres. Un site qui dit ses
+   methodes partout doit dire celle-la aussi.
+
+   LE RANG EST CALCULE ICI ET PAS DANS LA VUE, contrairement a ce que
+   j'envisageais : deux vues qui le referaient chacune a leur maniere, c'est
+   le motif des deux sources de verite, et ce projet l'a paye assez souvent. */
+
+const CRANS = 12;
+
+/* LA RETOMBEE, ET ELLE EST SILENCIEUSE POUR LE CALCUL, PAS POUR L'OEIL.
+
+   Si le fichier de vues manque, est vide, ou ne couvre pas assez de genres
+   pour qu'un classement ait un sens, la popularite n'existe pas et tout doit
+   retomber sur le poids genealogique. Le seuil est aux deux tiers du corpus :
+   classer 219 genres sur une mesure qui n'en couvre que trente donnerait un
+   rang faux pour tous les autres, ce qui est pire que pas de rang du tout.
+
+   La vue lit `populariteDisponible` et le dit discretement. Une donnee absente
+   qui ne se signale pas est une donnee inventee. */
+const MESURES: Record<string, number> =
+  VUES.genres !== null && typeof VUES.genres === 'object' ? (VUES.genres as Record<string, number>) : {};
+const COUVERTS = Object.keys(MESURES).length;
+export const populariteDisponible = COUVERTS >= Math.floor(CORPUS.genres.length * 0.66);
+export const releveDu = typeof VUES.releve === 'string' ? VUES.releve : null;
+
+const RANGS = new Map<string, number>();
+if (populariteDisponible) {
+  const tries = CORPUS.genres
+    .map((g) => ({ id: g.id, v: MESURES[g.id] ?? 0 }))
+    .sort((a, b) => a.v - b.v);
+  const dernier = Math.max(1, tries.length - 1);
+  tries.forEach((x, i) => RANGS.set(x.id, 1 + ((CRANS - 1) * i) / dernier));
+}
+
+/* Le rang de popularite, de 1 a 12. Vaut 1 quand la mesure manque.
+
+   PAS EXPORTE : il ne sert qu'a `poidsCompose`, juste en dessous. Le controle
+   des exports orphelins l'a signale, et il avait raison : une fonction
+   publiee que personne n'appelle du dehors a l'air d'une porte alors que
+   c'est un mur. */
+const rangPopularite = (id: string): number => RANGS.get(id) ?? 1;
+
+/* LE POIDS COMPOSE : `t` a zero donne la genealogie, `t` a un donne la
+   popularite, et entre les deux une moyenne geometrique.
+
+   GEOMETRIQUE ET NON ARITHMETIQUE, parce que les deux echelles n'ont pas la
+   meme unite : une moyenne arithmetique laisserait le plus grand des deux
+   ecraser l'autre des que `t` s'ecarte un peu de zero, et le curseur
+   basculerait d'un coup au lieu de glisser. */
+export const poidsCompose = (id: string, t: number): number => {
+  const g = poidsDe(id).poids;
+  if (t <= 0 || !populariteDisponible) return g;
+  const p = rangPopularite(id);
+  if (t >= 1) return p;
+  return Math.pow(g, 1 - t) * Math.pow(p, t);
+};

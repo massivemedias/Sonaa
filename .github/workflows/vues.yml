@@ -1,0 +1,52 @@
+# LE RELEVE QUOTIDIEN DES VUES, POUR LA CARTE DE CHALEUR.
+#
+# POURQUOI UNE TACHE PLANIFIEE ET PAS UN APPEL AU CHARGEMENT. Le site est
+# 100 % statique et n'appelle aucun service pour s'afficher : y ajouter une
+# requete YouTube au chargement exposerait la cle, ralentirait la premiere
+# image et rendrait la carte dependante d'un tiers a chaque visite. La mesure
+# est donc relevee ici, une fois par jour, et COMMITEE comme une donnee.
+#
+# LE COUT EST NEGLIGEABLE : 36 appels d'une unite sur un quota de 10 000 par
+# jour, soit 0,36 % du quota quotidien.
+#
+# SI LA CLE EXPIRE OU SI L'APPEL ECHOUE, le script sort en erreur SANS ecrire :
+# un fichier partiel donnerait des rangs faux sur une partie du corpus, et rien
+# ne le dirait. Le fichier precedent reste donc en place, et la carte continue
+# de fonctionner avec une mesure datee. Si le fichier venait a manquer
+# entierement, la vue retombe d'elle-meme sur le poids genealogique et l'ecrit.
+
+name: Relevé des vues
+
+on:
+  schedule:
+    # Tous les jours a 4 h UTC, soit minuit a Montreal en heure d'ete.
+    - cron: '0 4 * * *'
+  # Declenchable a la main depuis l'onglet Actions, pour ne pas attendre.
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  relever:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Relever les vues
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: node --experimental-strip-types scripts/fetch-vues.ts
+      - name: Commiter si la mesure a change
+        run: |
+          if git diff --quiet -- src/data/vues.json; then
+            echo "Aucun changement de mesure, rien a commiter."
+            exit 0
+          fi
+          git config user.name "sonaa-releve"
+          git config user.email "noreply@sonaa.ca"
+          git add src/data/vues.json
+          git commit -m "Releve quotidien des vues"
+          git push
