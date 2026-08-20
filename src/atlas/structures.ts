@@ -400,7 +400,7 @@ const toTracks = (list: CorpusGenre['tracks']): Track[] =>
     return track;
   });
 
-export const buildStructure = (familyIndex: number): Structure => {
+const buildStructure = (familyIndex: number): Structure => {
   const family = FAMILIES[familyIndex];
   if (!family)
     return { genres: [], links: [], deployedRadius: 1, crownRadius: 1, compactRadius: 1, deployedCenter: [0, 0, 0] };
@@ -744,10 +744,6 @@ export const STRUCTURES: readonly Structure[] = FAMILIES.map((_, i) => buildStru
       .filter((x): x is NonNullable<typeof x> => Boolean(x));
   }
 }
-
-/** Seuil d'entrée : franchi en avançant, la structure se déploie. */
-export const enterDistance = (familyIndex: number): number =>
-  (STRUCTURES[familyIndex]?.compactRadius ?? 6) * 4.2;
 
 /* SÉPARATION DES FAMILLES.
 

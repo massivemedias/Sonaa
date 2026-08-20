@@ -147,23 +147,6 @@ if (typeof window !== 'undefined') {
   window.addEventListener('offline', dire);
 }
 
-/** `navigator.onLine` ment volontiers : il dit vrai dès qu'une interface
-    réseau existe, même derrière un portail captif ou un tunnel mort. Pour
-    les décisions qui comptent, proposer une track, voter, on vérifie. */
-export async function reseauVraimentJoignable(): Promise<boolean> {
-  if (!navigator.onLine) return false;
-  try {
-    await fetch(`${import.meta.env.BASE_URL}brand/favicon-16.png`, {
-      method: 'HEAD',
-      cache: 'no-store',
-      signal: AbortSignal.timeout(3000),
-    });
-    return true;
-  } catch {
-    return false;
-  }
-}
-
 /* ------------------------------------------------------- nombre de visites */
 
 const CLE_VISITES = 'sonaa-visites';

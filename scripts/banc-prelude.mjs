@@ -62,8 +62,8 @@ export const serieValide = async ({ lire, marqueur, url, arreter, point }) => {
   return true;
 };
 
-/** Le serveur de developpement repond-il ? */
-export const serveurRepond = async (url = 'http://localhost:5173/') => {
+/** Le serveur de developpement repond-il ? Interne au prelude. */
+const serveurRepond = async (url = 'http://localhost:5173/') => {
   try {
     const r = await fetch(url, { method: 'GET' });
     return r.ok;

@@ -44,7 +44,7 @@ export interface AnyCorpus {
   [k: string]: unknown;
 }
 
-export const readCorpus = (): AnyCorpus =>
+const readCorpus = (): AnyCorpus =>
   JSON.parse(readFileSync(CORPUS, 'utf8')) as AnyCorpus;
 
 const write = (corpus: AnyCorpus): void => {

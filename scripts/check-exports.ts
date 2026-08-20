@@ -59,6 +59,11 @@ if (fichiers.length === 0) { console.error('EXPORTS : HYPOTHESE TOMBEE, aucune s
 
 parcourir(`${RACINE}scripts`);
 
+/* Le code sans ses commentaires. Un nom cite dans une explication n'est pas
+   un usage, et ce controle lui-meme en cite plusieurs. */
+const sansCommentaires = (t: string): string =>
+  t.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/(^|[^:])\/\/[^\n]*/g, '$1 ');
+
 const sources = new Map<string, string>();
 for (const f of fichiers) sources.set(f, readFileSync(f, 'utf8'));
 
@@ -95,9 +100,45 @@ for (const [fichier, texte] of sources) {
     let utilisee = false;
     for (const [autre, contenu] of sources) {
       if (autre === fichier) continue;
-      const appel = new RegExp(`\\b${nom}\\s*\\(`);
-      const importe = new RegExp(`\\b${nom}\\b[^\\n]*from`);
-      if (appel.test(contenu) || importe.test(contenu)) {
+      /* QUATRE FORMES D'USAGE, ET LE CONTROLE N'EN VOYAIT QUE DEUX.
+
+         IL ACCUSAIT A TORT, ce qui est le pire etat d'un garde-fou : rouge en
+         permanence, donc ignore, donc inutile. Vingt-cinq noms signales dont
+         au moins un parfaitement utilise.
+
+         `initAtlasOrbit` est appele ainsi :
+
+             import('./webgl-orbit.ts').then((m) => m.initAtlasOrbit)
+
+         Pas de parenthese accolee au nom, pas de `from` sur la ligne : les
+         deux motifs d'origine le manquaient tous les deux. C'est la forme
+         normale d'un import dynamique, pas une exception.
+
+         S'ajoutent donc l'ACCES PAR MEMBRE, qui couvre aussi bien l'import
+         dynamique que le passage par un objet d'API, et l'usage en position
+         de TYPE, ou le nom sert sans etre appele. */
+      /* ON CHERCHE LE NOM, PAS UNE FORME D'APPEL.
+
+         Enumerer les formes etait la mauvaise idee, et elle a produit un
+         controle rouge en permanence, donc ignore. Les formes manquantes
+         etaient toutes legitimes et courantes :
+
+           import('./webgl-orbit.ts').then((m) => m.initAtlasOrbit)   membre
+           import {                                                  import
+             backgroundVert,                                         sur
+           } from './shaders.ts';                                    plusieurs
+                                                                     lignes
+           new ShaderMaterial({ vertexShader: backgroundVert })       valeur
+
+         La question utile n'est pas « sous quelle forme est-il appele » mais
+         « ce nom apparait-il ailleurs dans le code ». Un nom qu'on ne trouve
+         nulle part hors de son fichier n'est utilise nulle part, quelle que
+         soit la syntaxe qu'on aurait pu imaginer.
+
+         LES COMMENTAIRES SONT RETIRES AVANT LA RECHERCHE. Sans cela, ce
+         fichier de controle se disculperait lui-meme : il cite des noms de
+         fonctions dans ses propres explications. */
+      if (new RegExp(`\\b${nom}\\b`).test(sansCommentaires(contenu))) {
         utilisee = true;
         break;
       }

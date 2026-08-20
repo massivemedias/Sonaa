@@ -136,21 +136,3 @@ export interface TriableParVote {
   readonly youtubeId: string;
 }
 
-/** Trie une liste de tracks par score décroissant, l'ordre d'origine
-    départageant les ex aequo.
-
-    L'ORDRE D'ORIGINE EST LE DÉPARTAGE, et ce n'est pas un détail : sans
-    votes, la liste reste exactement celle du corpus, dans l'ordre voulu par
-    son auteur. Le vote déplace ce qui a été jugé, jamais ce qui ne l'a pas
-    été. Le tri est STABLE, donc deux tracks à zéro ne permutent pas d'un
-    rendu à l'autre. */
-export function trierParVote<T extends TriableParVote>(
-  tracks: readonly T[],
-  scores: Map<string, number>
-): T[] {
-  if (scores.size === 0) return [...tracks];
-  return tracks
-    .map((track, rang) => ({ track, rang, score: scores.get(track.youtubeId) ?? 0 }))
-    .sort((a, b) => b.score - a.score || a.rang - b.rang)
-    .map((x) => x.track);
-}

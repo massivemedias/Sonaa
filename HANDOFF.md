@@ -893,3 +893,49 @@ Seuil mobile : **768 px**, le même que celui de la légende. Une seule frontiè
 
 Point de départ : `ColumnsView.tsx`, qui porte déjà les quatorze familles en
 cartes sans WebGL. L'étape 1 est une reprise de cette vue, pas un écran neuf.
+
+
+---
+
+## DETTE ASSUMÉE À LA CLÔTURE
+
+Décidée par Mika, documentée ici pour qu'on n'y revienne pas. Ce ne sont pas
+des oublis : ce sont des choix.
+
+**Psybreaks reste à 6 morceaux sur 10.** Discogs ne connaît pas le style, et
+interrogé par artiste il ignore Kalimist, Tetrameth et Zen Baboon. Il n'existe
+donc pas de source vérifiable pour les quatre derniers, et une entrée inventée
+serait pire qu'un trou. Acceptable en l'état.
+
+**Les quatre genres psy sont remplis par Mika.** Psycore 2, Hi-Tech 3,
+Twilight Psy 3, Psytech 4. C'est son terrain, il est la source. Ne pas
+deviner.
+
+**Le rôle `origine` n'est posé que sur un morceau du corpus**, Trans-Europe
+Express pour le Proto-Techno. Les 218 autres genres l'ont vide, et c'est
+l'état normal : aucune règle ne peut savoir qu'une pièce fonde un genre, il
+faut le savoir. Mika le remplira au fil du temps, et les visiteurs peuvent le
+proposer.
+
+**Treize scripts recopient à la main la forme des données** au lieu de la lire
+du schéma. Ils sont corrects aujourd'hui ; chaque changement de forme devra
+être répercuté treize fois. C'est le motif des deux sources de vérité, connu
+et laissé.
+
+**Le balayage des autres rejets silencieux n'a pas été fait.** La règle est
+écrite, motif 22 : une valeur refusée est signalée, jamais effacée. Le seul cas
+trouvé, le plancher à 1960 de l'outil de chargement, est corrigé. Les autres
+endroits éventuels n'ont pas été cherchés.
+
+**Deux recouvrements de plaques anciens**, Chicago House et Breakbeat, n'ont
+pas été reconfirmés depuis les travaux d'écartement des noeuds. Ils sont
+peut-être déjà réglés.
+
+**L'ordre horaire des dérivés n'a jamais été revérifié par la mesure** après le
+passage au tri par date.
+
+**L'instrument de vérification des gestes sur la carte est mort** dans cet
+environnement : le clic réel expire et les événements fabriqués ne pilotent pas
+le moteur. La seule prise fiable est `window.__atlas.journalTaps()`, en
+production, qui dit ce que le moteur a visé et décidé sur les vingt derniers
+touchers. À utiliser depuis un téléphone réel.

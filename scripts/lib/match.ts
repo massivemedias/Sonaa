@@ -180,7 +180,7 @@ const ROMAINS: Record<string, number> = {
 };
 
 /** Numero d'ordre en fin de titre, ou null s'il n'y en a pas. */
-export const numeroDOrdre = (title: string): number | null => {
+const numeroDOrdre = (title: string): number | null => {
   const m = NUMERO_FINAL.exec(title.trim());
   const brut = m?.[1]?.toLowerCase();
   if (!brut) return null;

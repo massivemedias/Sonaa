@@ -361,3 +361,41 @@
   line-height: 1;
   cursor: pointer;
 }
+
+/* --- LA CARTE REPREND LA MAIN, LES LISTES S'EFFACENT ----------------------
+
+   Les listes ne sont pas supprimees, elles cessent de COUVRIR : la couche
+   devient un bandeau transparent qui ne garde que le fil d'Ariane, et le
+   canvas vit dessous en recevant les touchers.
+
+   POURQUOI GARDER LE COMPOSANT : il porte le fil d'Ariane, la loupe,
+   l'historique du navigateur et les quatre chemins de retour. Le retirer les
+   emporterait tous.
+
+   LA REGLE NOMME CE QUI RESTE, PAS CE QU'ELLE CACHE. Enumerer les enfants a
+   masquer laisserait le prochain ajout apparaitre NU, et c'est exactement ce
+   qui est arrive au bouton de contemplation : sa regle de style avait ete
+   retiree sans que l'element le soit, et il s'est affiche sans habillage
+   par-dessus la carte. Retirer le style d'un element ne le retire pas. */
+.mn[data-niveau='familles'],
+.mn[data-niveau='genres'] {
+  inset: 0 0 auto 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+.mn[data-niveau='familles'] .mn-ariane,
+.mn[data-niveau='genres'] .mn-ariane {
+  pointer-events: auto;
+  background: color-mix(in oklab, var(--fond, oklch(0.16 0.012 250)) 88%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+.mn[data-niveau='familles'] .mn-loupe,
+.mn[data-niveau='genres'] .mn-loupe {
+  pointer-events: auto;
+}
+
+.mn > *:not(.mn-ariane):not(.mn-loupe) {
+  display: none;
+}

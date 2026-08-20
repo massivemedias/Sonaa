@@ -135,19 +135,6 @@ export async function listerPropositions(options?: {
   return (data ?? []) as Proposition[];
 }
 
-/** Nombre de propositions en attente, pour le compteur de la fiche. */
-export async function compterEnAttente(genreId?: string): Promise<number> {
-  if (!supabase) return 0;
-  let q = supabase
-    .from('proposals_public')
-    .select('id', { count: 'exact', head: true })
-    .eq('status', 'pending');
-  if (genreId) q = q.eq('genre_id', genreId);
-  const { count, error } = await q;
-  if (error) return 0; // Un compteur absent ne doit jamais casser une fiche.
-  return count ?? 0;
-}
-
 /** Les votes de la personne connectée, pour colorer les boutons. */
 export async function mesVotes(propositionIds: string[]): Promise<Map<string, number>> {
   const resultat = new Map<string, number>();

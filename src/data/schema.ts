@@ -46,13 +46,13 @@ const genreId = z.string().regex(/^[a-z0-9]+$/, 'identifiant en minuscules sans 
 /** `debated` quand deux sources se contredisent. La note dit laquelle a été suivie. */
 export const confidence = z.enum(['established', 'debated']);
 
-export const parentSchema = z.strictObject({
+const parentSchema = z.strictObject({
   id: genreId,
   family: familyId,
   confidence
 });
 
-export const trackSchema = z.strictObject({
+const trackSchema = z.strictObject({
   /** 11 caractères, l'identifiant public d'une vidéo YouTube. */
   youtubeId: z.string().regex(/^[A-Za-z0-9_-]{11}$/),
   artist: z.string().min(1),
@@ -120,7 +120,7 @@ export const trackSchema = z.strictObject({
   shared: z.array(genreId).optional()
 });
 
-export const genreSchema = z.strictObject({
+const genreSchema = z.strictObject({
   id: genreId,
   label: z.string().min(1),
   family: familyId,
@@ -205,7 +205,7 @@ export const genreSchema = z.strictObject({
   motDeLAuteur: z.string().optional()
 });
 
-export const familySchema = z.strictObject({
+const familySchema = z.strictObject({
   id: familyId,
   label: z.string().min(1),
   hue: z.number().min(0).max(360)
@@ -226,7 +226,7 @@ export const familySchema = z.strictObject({
    L'ORDRE EST CHRONOLOGIQUE, annees inconnues en fin de liste. Il raconte le
    genre dans le sens ou il s'est fait, et le role se lit par un signe et non
    par une position. */
-export const trackListSchema = z.array(trackSchema);
+const trackListSchema = z.array(trackSchema);
 
 export const corpusSchema = z
   .strictObject({

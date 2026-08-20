@@ -48,6 +48,8 @@ interface Props {
 
      Il lit desormais l'etat du moteur, qui est vrai quel que soit le chemin. */
   nav: { level: 'atlas' | 'family' | 'genre'; familyLabel: string; genreLabel: string } | null;
+  /** Remonte d'un cran DANS LA CARTE, puisque c'est elle qui navigue. */
+  onRemonterCarte: () => void;
 }
 
 const familyIndexOf = (id: string): number => FAMILIES.findIndex((f) => f.id === id);
@@ -83,7 +85,7 @@ const pharesOf = (familyIndex: number): string[] => {
 
 const teinte = (hue: number, l = 0.72, c = 0.15): string => `oklch(${l} ${c} ${hue})`;
 
-export function MobileLevels({ onOpen, onEnsemble, onChercher, ouvert, nav }: Props) {
+export function MobileLevels({ onOpen, onEnsemble, onChercher, ouvert, nav, onRemonterCarte }: Props) {
   /* LE SEUIL EST 768 px, LE MÊME QUE CELUI DE LA LÉGENDE. Une seule frontière
      dans tout le projet : deux seuils différents pour « c'est un téléphone »
      est exactement le motif qui a coûté la semaine. */
@@ -280,37 +282,58 @@ export function MobileLevels({ onOpen, onEnsemble, onChercher, ouvert, nav }: Pr
 
   return (
     <div className="mn" data-niveau={niveau}>
-      {niveau === 'ensemble' ? (
+      {/* LA CARTE NAVIGUE, LA COUCHE N'EST PLUS QU'UN FIL D'ARIANE.
+
+          Elle portait des listes qui la recouvraient, construites quand la vue
+          en trois dimensions ne savait pas naviguer sur telephone : spheres
+          trop petites, etiquettes superposees, branches hors cadre. Ce constat
+          etait juste, il a cesse de l'etre. Les plaques ont remplace les
+          etiquettes, la vue d'ensemble tient aux quatorze familles, les noeuds
+          s'ecartent quand la taille ne suffit plus.
+
+          Le fil se lit donc dans le MOTEUR et non dans l'etat de ce composant.
+          C'est la correction de fond : ce composant tenait sa propre idee du
+          niveau courant, alimentee par SES boutons, et un chemin qui ne passe
+          pas par eux, ici le toucher sur la carte, lui restait invisible. */}
+      {niveau === 'ensemble' || niveau === 'familles' ? (
         <nav className="mn-ariane" aria-label="Chemin">
-          <button className="mn-retour" onClick={remonter} aria-label="Revenir a la navigation">
-            <span aria-hidden="true">←</span>
-          </button>
-          {/* LE FIL DIT CE QUE LA CARTE MONTRE, et il le tient du moteur.
-              Toucher une famille sur la vue d'ensemble y entre : l'en-tete
-              doit le dire, sinon il ment sur l'endroit ou l'on se trouve. */}
-          <button className="mn-crumb" onClick={remonter}>
-            {nav && nav.level !== 'atlas' && nav.familyLabel ? 'Vue d\u2019ensemble' : 'Revenir a la navigation'}
+          {nav && nav.level !== 'atlas' && (
+            <button className="mn-retour" onClick={onRemonterCarte} aria-label="Remonter d'un niveau">
+              <span aria-hidden="true">←</span>
+            </button>
+          )}
+          {niveau === 'ensemble' && (
+            <button className="mn-retour" onClick={remonter} aria-label="Revenir a la navigation">
+              <span aria-hidden="true">←</span>
+            </button>
+          )}
+          <button className="mn-crumb" onClick={onRemonterCarte} disabled={!nav || nav.level === 'atlas'}>
+            Familles
           </button>
           {nav && nav.level !== 'atlas' && nav.familyLabel && (
             <>
               <span className="mn-sep" aria-hidden="true">›</span>
-              <span className="mn-crumb" data-current="true">
-                {nav.level === 'genre' && nav.genreLabel ? nav.genreLabel : nav.familyLabel}
-              </span>
+              <span className="mn-crumb" data-current={nav.level === 'family'}>{nav.familyLabel}</span>
+            </>
+          )}
+          {nav && nav.level === 'genre' && nav.genreLabel && (
+            <>
+              <span className="mn-sep" aria-hidden="true">›</span>
+              <span className="mn-crumb" data-current="true">{nav.genreLabel}</span>
             </>
           )}
         </nav>
       ) : (
       <nav className="mn-ariane" aria-label="Chemin">
-        {niveau !== 'familles' && (
-          <button
-            className="mn-retour"
-            onClick={remonter}
-            aria-label={niveau === 'genre' ? `Revenir aux genres de ${f?.label}` : 'Revenir aux familles'}
-          >
-            <span aria-hidden="true">←</span>
-          </button>
-        )}
+        {/* Ce bandeau ne sert plus qu'aux niveaux « genres » et « genre » :
+            le niveau des familles est passe au fil pilote par le moteur. */}
+        <button
+          className="mn-retour"
+          onClick={remonter}
+          aria-label={niveau === 'genre' ? `Revenir aux genres de ${f?.label}` : 'Revenir aux familles'}
+        >
+          <span aria-hidden="true">←</span>
+        </button>
         <button
           className="mn-crumb"
           onClick={() => {
@@ -322,8 +345,6 @@ export function MobileLevels({ onOpen, onEnsemble, onChercher, ouvert, nav }: Pr
             setGenre(null);
             setFamille(null);
           }}
-          data-current={niveau === 'familles'}
-          disabled={niveau === 'familles'}
         >
           Familles
         </button>

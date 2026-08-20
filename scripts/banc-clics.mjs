@@ -22,6 +22,14 @@
  */
 
 import { spawn } from 'node:child_process';
+/* LE PRELUDE, ENFIN BRANCHE. Il a ete ecrit apres quatre morts du serveur de
+   developpement, documente sur quarante lignes, exporte, et jamais appele :
+   c'est exactement le defaut qu'il decrit, applique a lui-meme.
+
+   Ce banc avait sa propre attente, cent vingt essais d'une demi-seconde, mais
+   elle ne CRIAIT PAS : au bout du compte elle passait a la suite et mesurait
+   sur une page absente. Un zero rendu la ressemble a une mesure. */
+import { exigerLaPage, serieValide } from './banc-prelude.mjs';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -94,6 +102,13 @@ const main = async () => {
     source: `try{localStorage.setItem('sonaa-welcome-seen','1');localStorage.setItem('sonaa-intro-seen','1');localStorage.setItem('sonaa-colonne-vue','1');}catch(e){}`
   });
   await cdp.envoyer('Page.navigate', { url: 'http://localhost:5173/' });
+  /* AVANT TOUTE MESURE : la page est-elle la ? S'arrete BRUYAMMENT sinon. */
+  await exigerLaPage({
+    lire: (e) => cdp.ev(e),
+    marqueur: 'canvas.atlas-canvas',
+    url: 'http://localhost:5173/',
+    arreter: (c) => finir(c)
+  });
   for (let i = 0; i < 120; i += 1) {
     await attendre(500);
     if (await cdp.ev(`Boolean(window.__atlas && window.__atlas.framing && !window.__atlas.framing().introActive)`)) break;
@@ -175,6 +190,11 @@ const main = async () => {
   const rates = [];
 
   for (const nom of noms) {
+    /* ENTRE CHAQUE POINT DE LA SERIE, et pas seulement au debut : un serveur
+       mort au milieu donne une serie qui a l'allure d'une regression trouvee.
+       Ce qui compte dans une serie est la COMPARAISON, et elle n'a plus de
+       sens des qu'un seul point vient d'un autre environnement. */
+    if (!(await serieValide({ lire: (e) => cdp.ev(e), marqueur: 'canvas.atlas-canvas', url: 'http://localhost:5173/', arreter: (c) => finir(c), point: nom }))) return;
     /* ÉTAT PROPRE : on rouvre la racine avant chaque mesure. Sans cela, le
        clic precedent a pu deplier une generation, et la mesure suivante porte
        sur un arbre different de celui qu'on croit mesurer. */
