@@ -8,7 +8,13 @@
 :root {
   /* La largeur maximale du bouton de compte sur telephone. Nommee ici, lue
      par le fil d'Ariane qui doit lui laisser la place. */
-  --authb-l: 96px;
+  /* SOIXANTE-SEIZE, ET CHAQUE PIXEL RENDU VA AU FIL D'ARIANE.
+
+     Le bouton de compte et le chemin de navigation se disputent la meme barre.
+     A 96 px il ne restait que 170 px au fil, et le nom du genre ouvert etait
+     coupe. Le prenom, lui, se tronque sans dommage : on se reconnait sur ses
+     premieres lettres. */
+  --authb-l: 76px;
 }
 
 .authb {

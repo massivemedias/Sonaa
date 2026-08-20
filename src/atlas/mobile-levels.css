@@ -92,7 +92,13 @@
 
      Elle lit la meme grandeur nommee que le bouton de compte, plus la loupe
      et les ecarts. Deux ecritures d'un meme nombre finissent par diverger. */
-  margin-right: calc(var(--authb-l, 96px) + 44px + 24px + env(safe-area-inset-right, 0px));
+  /* DOUZE PIXELS FRANCS AVANT LA LOUPE, en plus de la loupe et du compte. */
+  margin-right: calc(var(--authb-l, 96px) + 44px + 36px + env(safe-area-inset-right, 0px));
+  /* IL NE DEFILE PLUS, IL TRONQUE. Le defilement lateral laissait le dernier
+     segment coupe en plein milieu d'un mot, « DOWNT » pour Downtempo, sans
+     aucune marque disant qu'il manquait quelque chose. Un texte coupe net se
+     lit comme un texte complet. */
+  overflow: hidden;
   /* PAS DE FILET SOUS LE FIL. Il courait sur toute la largeur quand le fil la
      prenait toute ; depuis que le fil s'arrete avant la loupe, le filet
      s'arretait avec lui et laissait un trait a moitie tire au milieu de
@@ -106,22 +112,50 @@
 /* LA FLÈCHE DE RETOUR FAIT 44 px, comme toute cible tactile de ce projet.
    Elle est visuellement plus petite, c'est sa ZONE qui est grande : un doigt
    ne vise pas un glyphe, il vise une surface. */
+/* LE MEME TRAITEMENT QUE LA FLECHE DU LECTEUR, et c'est une demande de
+   coherence : un rond blanc plein, un chevron noir epais dedans, 44 px.
+
+   La fleche fine et grise se perdait sur la carte exactement comme s'y
+   perdait le chevron d'ouverture avant sa correction. Deux commandes de
+   navigation qui font le meme genre de geste doivent se ressembler, sinon
+   c'est a chaque fois un nouvel objet a apprendre. */
 .mn-retour {
+  flex: none;
   display: grid;
   place-items: center;
   width: 44px;
   height: 44px;
-  margin-left: -0.55rem;
+  margin-left: 0;
   padding: 0;
-  background: transparent;
+  background: oklch(0.98 0 0);
   border: 0;
-  color: var(--ink-primary, oklch(0.92 0.01 250));
-  font-size: 1.15rem;
-  line-height: 1;
+  border-radius: 50%;
+  color: oklch(0.18 0.01 250);
   cursor: pointer;
 }
 
+.mn-retour svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+
+/* CE QUI SE TRONQUE, CE SONT LES SEGMENTS DU CHEMIN, PAS LA DESTINATION.
+
+   DEFAUT VU SUR CAPTURE IPHONE : « FAMILLES > DOWNTEMPO > DOWNT ». Le nom du
+   genre ouvert, c'est-a-dire la seule information qu'on est venu chercher,
+   etait celui qui disparaissait. Le chemin pour y arriver, lui, restait
+   entier.
+
+   L'ordre de sacrifice est donc inverse : les intermediaires se serrent
+   vingt fois plus vite que le dernier. Et tous portent des points de
+   suspension, pour qu'une troncature se voie toujours. */
 .mn-crumb {
+  min-width: 0;
+  flex: 0 100 auto;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   padding: 0;
   background: transparent;
   border: 0;
@@ -131,9 +165,30 @@
   cursor: pointer;
 }
 
+/* LA DESTINATION SE SERRE EN DERNIER, et jamais en dessous de six caracteres
+   suivis de points de suspension : au-dela ce n'est plus un nom, c'est une
+   initiale. */
+/* ONZE CARACTERES AVANT DE CEDER : c'est la longueur des noms de genres les
+   plus courants du corpus, et le dernier segment est le seul qui compte. */
 .mn-crumb[data-current='true'] {
+  flex: 0 1 auto;
+  min-width: 11ch;
   color: var(--ink-primary, oklch(0.92 0.01 250));
   cursor: default;
+}
+
+/* Le point de suspension qui remplace un segment ne se serre pas et ne se
+   tronque pas : il fait trois pixels et il EST deja la troncature. */
+.mn-crumb-elide {
+  flex: none;
+  min-width: 0;
+  cursor: default;
+}
+
+/* Les chevrons de separation ne se serrent pas : ils font deux pixels et leur
+   disparition rendrait le chemin illisible. */
+.mn-sep {
+  flex: none;
 }
 
 .mn-sep {

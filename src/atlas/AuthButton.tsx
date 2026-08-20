@@ -28,6 +28,38 @@ import './auth-button.css';
    retour. On capture donc le fragment complet, qui porte le genre ouvert. */
 const iciMeme = (): string => window.location.hash || '#/';
 
+/* LE NOM QU'ON SE VOIT A SOI-MEME, ET LUI SEUL.
+
+   DEFAUT SIGNALE SUR CAPTURE IPHONE : le bouton affichait « d78765f0 », c'est
+   a dire le PSEUDONYME HACHE. Il est parfait pour signer une proposition
+   publique, il ne dit rien a la personne qui vient de se connecter : personne
+   ne se reconnait dans une empreinte.
+
+   TROIS SOURCES, DANS CET ORDRE. Google fournit le prenom dans les metadonnees
+   du compte, c'est la meilleure. Sinon le premier mot du nom complet, quand
+   seul celui-la est fourni. Sinon, pour une connexion par lien magique ou rien
+   n'est fourni, la partie de l'adresse avant l'arobase.
+
+   LA LIMITE EST LA PARTIE IMPORTANTE. Ce nom ne sert QU'AU BOUTON ET AU MENU
+   DE LA PERSONNE ELLE-MEME. Il ne part nulle part, il n'est stocke nulle part,
+   il n'entre dans aucune proposition ni aucun commentaire : ailleurs, le
+   pseudonyme hache reste la seule identite visible, exactement comme avant.
+   C'est ce qui distingue « se reconnaitre » de « se faire reconnaitre ». */
+const nomAffiche = (session: { user?: { email?: string; user_metadata?: Record<string, unknown> } } | null): string | null => {
+  const u = session?.user;
+  if (!u) return null;
+  const m = u.user_metadata ?? {};
+  const mot = (v: unknown): string | null => {
+    if (typeof v !== 'string') return null;
+    const t = v.trim();
+    return t === '' ? null : (t.split(/\s+/)[0] ?? null);
+  };
+  const prenom = mot(m['given_name']) ?? mot(m['first_name']) ?? mot(m['full_name']) ?? mot(m['name']);
+  if (prenom) return prenom;
+  const avantArobase = typeof u.email === 'string' ? u.email.split('@')[0] : null;
+  return avantArobase && avantArobase !== '' ? avantArobase : null;
+};
+
 export function AuthButton() {
   const { session, chargement } = useSession();
   const [ouvert, setOuvert] = useState(false);
@@ -128,7 +160,7 @@ export function AuthButton() {
             aria-expanded={menu}
             aria-haspopup="menu"
           >
-            {pseudo ?? '…'}
+            {nomAffiche(session) ?? pseudo ?? '…'}
           </button>
           {menu && (
             <div className="authb-menu" role="menu">

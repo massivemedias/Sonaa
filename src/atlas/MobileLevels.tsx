@@ -21,6 +21,8 @@
    écran : mêmes données, même ordre généalogique en profondeur d'abord. */
 
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { FaIcon } from './FaIcon.tsx';
 import { FAMILIES, FAMILY_RING_IDS, STRUCTURES, type Genre } from './structures.ts';
 import './mobile-levels.css';
 
@@ -299,21 +301,53 @@ export function MobileLevels({ onOpen, onEnsemble, onChercher, ouvert, nav, onRe
         <nav className="mn-ariane" aria-label="Chemin">
           {nav && nav.level !== 'atlas' && (
             <button className="mn-retour" onClick={onRemonterCarte} aria-label="Remonter d'un niveau">
-              <span aria-hidden="true">←</span>
+              <FaIcon icon={faChevronLeft} />
             </button>
           )}
           {niveau === 'ensemble' && (
             <button className="mn-retour" onClick={remonter} aria-label="Revenir a la navigation">
-              <span aria-hidden="true">←</span>
+              <FaIcon icon={faChevronLeft} />
             </button>
           )}
-          <button className="mn-crumb" onClick={onRemonterCarte} disabled={!nav || nav.level === 'atlas'}>
-            Familles
-          </button>
+          {/* DANS UN GENRE, LE CHEMIN ENTIER TIENT EN UN SEUL SIGNE.
+
+              Mesure a 390 px : la barre laisse 170 px au fil, et trois
+              segments n'y tiennent pas. Reduits, ils donnaient « F... > ... >
+              DOWNTEM... », c'est a dire trois troncatures dont celle du nom
+              qu'on est venu lire.
+
+              La racine et la famille fusionnent donc en UN point de
+              suspension, ce qui rend au genre ouvert toute la largeur. La
+              fleche blanche a gauche fait deja le retour, et le point de
+              suspension reste touchable pour remonter. */}
+          {nav && nav.level === 'genre' ? (
+            <button className="mn-crumb mn-crumb-elide" onClick={onRemonterCarte} aria-label="Remonter aux familles">
+              …
+            </button>
+          ) : (
+            <button className="mn-crumb" onClick={onRemonterCarte} disabled={!nav || nav.level === 'atlas'}>
+              Familles
+            </button>
+          )}
           {nav && nav.level !== 'atlas' && nav.familyLabel && (
             <>
               <span className="mn-sep" aria-hidden="true">›</span>
-              <span className="mn-crumb" data-current={nav.level === 'family'}>{nav.familyLabel}</span>
+              {/* LE SEGMENT DU MILIEU S'EFFACE, IL NE SE RETRECIT PAS.
+
+                  DEFAUT VU SUR CAPTURE IPHONE : « F > D. > DOWNTEM... ». En
+                  laissant la mise en page serrer les segments, les
+                  intermediaires tombaient a une lettre, ce qui n'apprend rien,
+                  ET la destination restait coupee quand meme. On perdait des
+                  deux cotes.
+
+                  Quand on est DANS un genre, le nom de sa famille n'est plus
+                  l'information utile : ce qu'on veut lire est le genre ouvert.
+                  Le segment du milieu devient donc un point de suspension
+                  franc, ce qui rend toute sa largeur au dernier. Le nom reste
+                  disponible au toucher et pour un lecteur d'ecran. */}
+              {nav.level === 'genre' ? null : (
+                <span className="mn-crumb" data-current="true">{nav.familyLabel}</span>
+              )}
             </>
           )}
           {nav && nav.level === 'genre' && nav.genreLabel && (
@@ -332,7 +366,7 @@ export function MobileLevels({ onOpen, onEnsemble, onChercher, ouvert, nav, onRe
           onClick={remonter}
           aria-label={niveau === 'genre' ? `Revenir aux genres de ${f?.label}` : 'Revenir aux familles'}
         >
-          <span aria-hidden="true">←</span>
+          <FaIcon icon={faChevronLeft} />
         </button>
         <button
           className="mn-crumb"
