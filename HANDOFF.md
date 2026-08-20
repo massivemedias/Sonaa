@@ -2,47 +2,54 @@
 # SONAA. Point d'entrée courant, 20 août 2026.
 # ═══════════════════════════════════════════════════════════════════════
 
-**Le document de reprise est `docs/reports/2026-08-20-cloture-mobile.md`.**
-Il contient l'état mesuré du produit, les sept dettes avec la raison de
-chacune, les dix contrôles de la barrière, les motifs d'échec et les règles de
+**Le document de reprise est
+`docs/reports/2026-08-20-cloture-heatmap.md`.** Il contient l'état mesuré du
+produit et de ses TROIS vues, les sept dettes avec la raison de chacune, les
+dix contrôles de la barrière, les motifs d'échec et les neuf règles de
 travail. Il est écrit pour quelqu'un qui arrive dans six mois et ne doit rien
 redécouvrir. **Le lire avant tout le reste de ce fichier**, qui est un
 historique de sessions accumulé et contient des états périmés.
 
-Le journal complet des défauts est `ECHECS-SILENCIEUX.md`, vingt-cinq motifs,
-avec en tête la leçon qui les résume.
+Le journal complet des défauts est `ECHECS-SILENCIEUX.md`, vingt-six motifs.
 
 ## Les trois gestes d'ouverture de session
 
-1. `npm run check:orphelins` : révèle le travail vivant hors de `main`. Onze
-   commits ont déjà vécu ainsi.
-2. Lire `docs/reports/2026-08-20-cloture-mobile.md`, section 2, les dettes.
-3. Si le sujet touche au téléphone : le premier geste est de **toucher une
-   famille sur la carte, sur un vrai téléphone**, puis de lire
-   `window.__atlas.journalTaps()`. C'est la seule dette dont la vérification
-   n'a jamais pu être faite ici.
+1. `npm run check:orphelins` : le travail vivant hors de `main`. Onze commits
+   ont déjà vécu ainsi.
+2. Lire la section 2 du rapport de reprise, les dettes.
+3. Si le sujet touche au téléphone : **toucher une famille sur la carte, sur
+   un vrai téléphone**, puis lire `window.__atlas.journalTaps()`. C'est la
+   seule dette dont la vérification n'a jamais pu être faite ici.
 
 ## La règle de publication
 
-**`npm run publier`, jamais autre chose.** Elle enchaîne les dix contrôles,
-REFUSE en code non nul si l'un échoue ou si le dépôt n'est pas propre, et ne
-pousse que si tout passe. Un verdict qu'on peut ignorer finira par être
-ignoré, et c'est arrivé.
+**`npm run publier`, jamais autre chose.** Dix contrôles, refus en code non
+nul si l'un échoue ou si le dépôt n'est pas propre. Elle a refusé quatre fois
+pendant la dernière session, quatre fois à raison.
 
-## La leçon qui vaut pour tout le reste
+## Les deux leçons qui valent pour tout le reste
 
-Une sonde ne mesure pas le produit, elle mesure sa propre idée du produit.
-Onze fois sur ce projet, une sonde a contredit une capture d'écran, et les
-onze fois la sonde avait tort. **La douzième fois, c'est la capture qui
-trompait.** La règle n'est donc pas « l'oeil gagne » : c'est que **quand les
-deux se contredisent, on cherche laquelle des deux mesures est fausse, et on
-ne conclut pas avant de le savoir.** Une règle sans exception finit appliquée
-mécaniquement, ce qui est une autre façon de ne plus confronter les deux.
+**Une sonde ne mesure pas le produit, elle mesure sa propre idée du produit.**
+Onze fois une sonde a contredit une capture, et onze fois la sonde avait tort.
+La douzième, c'est la capture qui trompait. La règle n'est donc pas « l'oeil
+gagne » : c'est que **quand les deux se contredisent, on cherche laquelle des
+deux mesures est fausse, et on ne conclut pas avant de le savoir.**
+
+**Un chemin de secours jamais déclenché n'est pas un chemin de secours.** Le
+repli de la carte de chaleur était écrit, commenté, et cassait la construction
+du site quand on le déclenchait vraiment. Quatre chemins ont été éprouvés en
+cassant ce qu'ils protègent, deux ne l'ont pas été et le rapport le dit.
+
+## Le relevé quotidien des écoutes
+
+`.github/workflows/vues.yml`, 4 h UTC. **Il exige un secret de dépôt nommé
+`YOUTUBE_API_KEY`.** Sans lui, la tâche échoue sans rien écrire et la carte
+continue avec la dernière mesure datée.
 
 ## Dernier état publié
 
-`5982c0e`, 20 août 2026. 219 genres, 14 familles, 1783 morceaux vérifiés,
-zéro morceau sans date affichable. Dépôt propre.
+219 genres, 14 familles, 1783 morceaux vérifiés, zéro sans date, zéro mort.
+Trois vues : carte 3D, chronologie, carte de chaleur.
 
 ---
 

@@ -1089,3 +1089,47 @@ laquelle des trois on veut :
 Et quand on cache, **nommer ce qui reste** plutôt qu'énumérer ce qu'on cache :
 `.mn > *:not(.mn-ariane)` survit au prochain ajout, une liste d'exclusions
 laissera le prochain enfant apparaître nu.
+
+
+---
+
+## 26. Un chemin de secours jamais déclenché n'est pas un chemin de secours
+
+**Règle posée par Mika**, après la carte de chaleur :
+
+> Teste-les tous une fois, en cassant volontairement ce qu'ils protègent.
+
+**Ce qui l'a motivée.** La carte de chaleur retombe sur le poids généalogique
+quand la mesure d'écoute manque. Le chemin était écrit, commenté, et je l'ai
+déclenché **en vidant le fichier de mesures**. La construction du site a
+échoué : le transtypage promettait au compilateur une forme que le fichier ne
+garantit pas, et `releve: null` n'est pas un `string`.
+
+**Le chemin prévu pour survivre à une panne cassait le produit au lieu de le
+sauver.** Il n'aurait été découvert que le jour où la clé aurait expiré,
+c'est-à-dire au pire moment, et il aurait transformé une donnée manquante en
+site mort.
+
+**Pourquoi ces chemins pourrissent plus vite que le reste.** Ils ne sont
+jamais empruntés. Le code normal est exercé à chaque visite et casse
+bruyamment ; le code de secours dort des mois, suit les refactorisations sans
+jamais être exécuté, et n'est reveillé que par l'incident qu'il devait
+absorber. **Un filet qu'on n'a jamais fait tomber dedans n'est pas un filet,
+c'est une décoration.**
+
+**Ce qui a été éprouvé à la clôture**, en cassant pour de vrai :
+
+| chemin | comment il a été cassé | résultat |
+|---|---|---|
+| carte de chaleur sans mesure d'écoute | fichier de vues vidé | **cassait le build**, corrigé, puis vérifié : curseur retiré, carte entière à 74 px, message affiché |
+| contexte WebGL perdu | `WEBGL_lose_context.loseContext()` | bascule sur le repli, message et lien vers l'index |
+| repère du canvas sans canvas | élément retiré du DOM puis remis | rend l'origine, aucune exception |
+| pochette absente | constaté sur les 549 morceaux sans image | couverture générée, dessinée en SVG |
+
+**Non éprouvés, et je le dis plutôt que de le laisser croire :** le mode sans
+Supabase, qui dépend de variables de construction, et le bandeau hors ligne.
+
+**La règle.** Tout chemin de secours doit être déclenché au moins une fois, à
+la main, en supprimant réellement ce dont il protège l'absence. Un commentaire
+qui décrit un repli n'est pas une preuve que le repli fonctionne : c'est une
+preuve qu'on y a pensé.
