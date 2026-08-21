@@ -25,6 +25,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FAMILIES, STRUCTURES, type Track } from './structures.ts';
 import { ProceduralCover } from './ProceduralCover.tsx';
+import { poidsDe, ecouteDe, releveReach, releveVues, SEUIL_REACH } from './poids.ts';
 import { CommentsSection } from './CommentsSection.tsx';
 import { ContributeActions } from './ContributeActions.tsx';
 import { VolumeControl } from './VolumeControl.tsx';
@@ -1369,6 +1370,53 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                 </button>
                 {infoOpen && (
                   <div className="pcol-info-body">
+                    {/* CE QUE CE GENRE PESE, EN TROIS CHIFFRES QUI DISENT
+                        TROIS CHOSES DIFFERENTES, ET AUCUN NE DEFORME LA CARTE.
+
+                        La DESCENDANCE vient du corpus, elle ne depend d'aucun
+                        service. Les deux autres sont des mesures d'ecoute
+                        ecartees de la geometrie apres mesure, et gardees ici
+                        parce qu'une donnee biaisee pour dimensionner reste
+                        lisible comme information. Chacune porte sa DATE : sans
+                        elle, un chiffre d'audience se lit comme du temps reel
+                        alors qu'il a l'age de son releve. */}
+                    {(() => {
+                      const q = poidsDe(panelGenreData.id);
+                      const e = ecouteDe(panelGenreData.id);
+                      const nb = (n: number): string => n.toLocaleString('fr-FR');
+                      return (
+                        <ul className="pcol-poids">
+                          <li>
+                            <strong>{nb(q.derivesDirects)}</strong> dérivé{q.derivesDirects > 1 ? 's' : ''} direct
+                            {q.derivesDirects > 1 ? 's' : ''}
+                            {q.descendance !== q.derivesDirects && (
+                              <>, <strong>{nb(q.descendance)}</strong> genre{q.descendance > 1 ? 's' : ''} en descendent au total</>
+                            )}
+                          </li>
+                          {e.reach > 0 && (
+                            <li>
+                              {e.reach >= SEUIL_REACH ? (
+                                <>connu de <strong>{nb(e.reach)}</strong> auditeurs sur Last.fm</>
+                              ) : (
+                                /* SOUS CENT AUDITEURS, ON N'ECRIT PAS LE
+                                   CHIFFRE : trente-sept genres sont dans ce
+                                   cas, et donner l'autorite d'un releve a
+                                   vingt-quatre personnes serait un mensonge
+                                   poli. */
+                                <>peu documenté sur Last.fm</>
+                              )}
+                              {releveReach && <span className="pcol-poids-date"> · relevé du {releveReach}</span>}
+                            </li>
+                          )}
+                          {e.vues > 0 && (
+                            <li>
+                              médiane de <strong>{nb(e.vues)}</strong> vues par morceau sur YouTube
+                              {releveVues && <span className="pcol-poids-date"> · relevé du {releveVues}</span>}
+                            </li>
+                          )}
+                        </ul>
+                      );
+                    })()}
                     {panelGenreData.redaction === 'brouillon' && (
                       <p className="pcol-draft">fiche en brouillon, à relire</p>
                     )}

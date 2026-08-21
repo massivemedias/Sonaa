@@ -46,6 +46,7 @@
 
 import corpus from '../data/corpus.json' with { type: 'json' };
 import vuesBrutes from '../data/vues.json' with { type: 'json' };
+import lastfmBrutes from '../data/lastfm.json' with { type: 'json' };
 import type { Corpus } from '../data/schema.ts';
 
 const CORPUS = corpus as unknown as Corpus;
@@ -61,6 +62,7 @@ const CORPUS = corpus as unknown as Corpus;
    On passe donc par `unknown` et on verifie a l'execution. Le fichier est une
    donnee, pas un contrat. */
 const VUES = vuesBrutes as unknown as { releve?: unknown; genres?: unknown };
+const LASTFM = lastfmBrutes as unknown as { releve?: unknown; genres?: unknown };
 
 /* ── L'arbre structurel : un parent au plus, celui qui positionne ────────── */
 
@@ -131,78 +133,74 @@ export const poidsDe = (id: string): PoidsGenre =>
 
 
 /* ═══════════════════════════════════════════════════════════════════════
-   LA POPULARITE, ET POURQUOI ELLE EST UN RANG ET NON UNE VALEUR
+   LA POPULARITE NE DIMENSIONNE PLUS RIEN. ELLE S'AFFICHE, ET C'EST TOUT.
    ═══════════════════════════════════════════════════════════════════════
 
-   La mesure est la MEDIANE des vues des morceaux du genre, relevee par
-   `npm run fetch:vues`. Le choix de la mediane est explique dans ce script :
-   une somme mesure surtout le morceau viral, et elle est biaisee par le
-   nombre de morceaux choisis, qui est une decision editoriale.
+   DEUX SOURCES ONT ETE MESUREES ET TOUTES DEUX ECARTEES DE LA GEOMETRIE.
 
-   MAIS LA MEDIANE BRUTE NE PEUT PAS DIMENSIONNER. Mesure : un rapport de
-   222 235 entre Synth-pop, mediane 154 millions, et Skweee, mediane 463. Sur
-   quatorze paves de famille a 320 px, la mediane brute donne un plus petit
-   pave de 27 px de cote, sur lequel aucun nom ne tient.
+   LAST.FM, `tag.getInfo`, champ `reach`, le nombre d'utilisateurs DISTINCTS
+   ayant pose le tag. Couverture excellente : 219 genres sur 219, dont 216 sur
+   le nom exact. Et pourtant inutilisable pour dimensionner :
 
-   ON CONVERTIT DONC EN RANG, de 1 a 12. Mesure : 78 px pour le plus petit
-   pave, c'est-a-dire exactement l'equilibre du poids genealogique, qui donne
-   77.
+     il mesure la GENERALITE DU MOT, pas la notoriete du genre. Les vingt-six
+     termes parapluies du corpus, Ambient, Trance, Funk, Reggae, pesent en
+     moyenne 43 126 contre 2 879 pour les cent quatre-vingt-treize termes
+     specifiques. Facteur QUINZE sur les moyennes, QUARANTE-TROIS sur les
+     medianes. Seize des vingt plus hauts reach sont des parapluies alors
+     qu'ils ne sont que 12 % du corpus ;
 
-   C'EST UN CHOIX EDITORIAL ET IL DOIT SE DIRE. Ecraser un facteur deux cent
-   mille en douze crans n'est pas une mise a l'echelle, c'est une decision.
-   La vue l'ecrit sous son curseur, en toutes lettres. Un site qui dit ses
-   methodes partout doit dire celle-la aussi.
+     normaliser DANS chaque famille, ce qui met les genres au meme niveau de
+     precision, ramene la surrepresentation de 15 a 2,5. La piste etait bonne.
+     Elle meurt sur autre chose : TRENTE-SEPT genres sur 219 ont moins de cent
+     utilisateurs distincts, quinze en ont moins de trente, et huit des seize
+     genres techno sont sous ce seuil. Cinq familles sur quatorze ont leurs
+     deuxieme et troisieme indiscernables a moins de 10 %. Dans la famille
+     techno, Ambient Techno, Dub Techno et Detroit Techno tiennent en trois
+     pour cent : ce n'est pas un classement, c'est de l'arrondi ;
 
-   LE RANG EST CALCULE ICI ET PAS DANS LA VUE, contrairement a ce que
-   j'envisageais : deux vues qui le referaient chacune a leur maniere, c'est
-   le motif des deux sources de verite, et ce projet l'a paye assez souvent. */
+     et les noms de familles sont des HOMONYMES, verifie dans les definitions
+     de Last.fm lui-meme : `hardcore` y designe d'abord le hardcore punk,
+     `roots` le reggae roots, `bass` « la basse, la voix de basse, plusieurs
+     choses ».
 
-const CRANS = 12;
+   YOUTUBE, mediane des vues des morceaux du genre. Elle mesure la popularite
+   DES MORCEAUX CHOISIS, pas celle du genre. La mediane corrige le biais du
+   nombre de morceaux retenus, correlation qui tombe de 0,38 a 0,14, mais elle
+   ne corrige pas celui du choix lui-meme.
 
-/* LA RETOMBEE, ET ELLE EST SILENCIEUSE POUR LE CALCUL, PAS POUR L'OEIL.
+   LES DEUX NE SE CONFIRMENT PAS : correlation des logarithmes de 0,27.
 
-   Si le fichier de vues manque, est vide, ou ne couvre pas assez de genres
-   pour qu'un classement ait un sens, la popularite n'existe pas et tout doit
-   retomber sur le poids genealogique. Le seuil est aux deux tiers du corpus :
-   classer 219 genres sur une mesure qui n'en couvre que trente donnerait un
-   rang faux pour tous les autres, ce qui est pire que pas de rang du tout.
+   CONCLUSION, ET ELLE EST LA RAISON D'ETRE DE CE BLOC : aucune source publique
+   ne mesure la notoriete d'un genre PRECIS. La carte dimensionne donc par la
+   descendance, seule grandeur qui vienne du corpus lui-meme et ne depende
+   d'aucun service. Les deux mesures d'ecoute restent affichees sur la fiche du
+   genre, en clair et datees, parce qu'une donnee biaisee pour dimensionner
+   peut rester lisible comme information. */
 
-   La vue lit `populariteDisponible` et le dit discretement. Une donnee absente
-   qui ne se signale pas est une donnee inventee. */
-const MESURES: Record<string, number> =
+const MESURES_VUES: Record<string, number> =
   VUES.genres !== null && typeof VUES.genres === 'object' ? (VUES.genres as Record<string, number>) : {};
-const COUVERTS = Object.keys(MESURES).length;
-export const populariteDisponible = COUVERTS >= Math.floor(CORPUS.genres.length * 0.66);
-export const releveDu = typeof VUES.releve === 'string' ? VUES.releve : null;
+const MESURES_REACH: Record<string, number> =
+  LASTFM.genres !== null && typeof LASTFM.genres === 'object' ? (LASTFM.genres as Record<string, number>) : {};
 
-const RANGS = new Map<string, number>();
-if (populariteDisponible) {
-  const tries = CORPUS.genres
-    .map((g) => ({ id: g.id, v: MESURES[g.id] ?? 0 }))
-    .sort((a, b) => a.v - b.v);
-  const dernier = Math.max(1, tries.length - 1);
-  tries.forEach((x, i) => RANGS.set(x.id, 1 + ((CRANS - 1) * i) / dernier));
+export const releveVues = typeof VUES.releve === 'string' ? VUES.releve : null;
+export const releveReach = typeof LASTFM.releve === 'string' ? LASTFM.releve : null;
+
+/* SOUS CENT AUDITEURS DISTINCTS, ON N'ECRIT PAS LE CHIFFRE.
+
+   Trente-sept genres sont dans ce cas. Ecrire « connu de 24 auditeurs »
+   donnerait a vingt-quatre personnes l'autorite d'un releve, alors que c'est
+   du bruit. On dit donc que la source est pauvre sur ce genre, ce qui est
+   l'information vraie. */
+export const SEUIL_REACH = 100;
+
+export interface Ecoute {
+  /** Utilisateurs distincts ayant tague ce genre sur Last.fm. 0 si inconnu. */
+  readonly reach: number;
+  /** Mediane des vues YouTube des morceaux du genre. 0 si inconnue. */
+  readonly vues: number;
 }
 
-/* Le rang de popularite, de 1 a 12. Vaut 1 quand la mesure manque.
-
-   PAS EXPORTE : il ne sert qu'a `poidsCompose`, juste en dessous. Le controle
-   des exports orphelins l'a signale, et il avait raison : une fonction
-   publiee que personne n'appelle du dehors a l'air d'une porte alors que
-   c'est un mur. */
-const rangPopularite = (id: string): number => RANGS.get(id) ?? 1;
-
-/* LE POIDS COMPOSE : `t` a zero donne la genealogie, `t` a un donne la
-   popularite, et entre les deux une moyenne geometrique.
-
-   GEOMETRIQUE ET NON ARITHMETIQUE, parce que les deux echelles n'ont pas la
-   meme unite : une moyenne arithmetique laisserait le plus grand des deux
-   ecraser l'autre des que `t` s'ecarte un peu de zero, et le curseur
-   basculerait d'un coup au lieu de glisser. */
-export const poidsCompose = (id: string, t: number): number => {
-  const g = poidsDe(id).poids;
-  if (t <= 0 || !populariteDisponible) return g;
-  const p = rangPopularite(id);
-  if (t >= 1) return p;
-  return Math.pow(g, 1 - t) * Math.pow(p, t);
-};
+export const ecouteDe = (id: string): Ecoute => ({
+  reach: MESURES_REACH[id] ?? 0,
+  vues: MESURES_VUES[id] ?? 0
+});

@@ -123,6 +123,35 @@ export function AProposPage() {
             des repères fiables à environ deux ans près. C&apos;est pourquoi elles s&apos;affichent
             avec la mention « vers ».
           </p>
+          <p>
+            <strong>Pourquoi la carte de chaleur mesure la descendance :</strong> parce
+            qu&apos;aucune source publique ne mesure la notoriété d&apos;un genre précis. Nous
+            avons testé les deux qui existent, et publions ce qu&apos;elles donnent.
+          </p>
+          <p>
+            Last.fm connaît nos {GENRES} genres, mais son indicateur mesure la généralité du mot
+            et non la notoriété du genre : les vingt-six termes parapluies du corpus, «&nbsp;ambient
+            », «&nbsp;trance&nbsp;», «&nbsp;funk&nbsp;», pèsent en médiane quarante-trois fois
+            plus que les cent quatre-vingt-treize termes précis. Seize des vingt valeurs les plus
+            hautes sont des parapluies, alors qu&apos;ils ne sont que douze pour cent du corpus.
+            Normaliser à l&apos;intérieur de chaque famille ramène l&apos;écart de quinze à deux
+            et demi, mais trente-sept genres y ont moins de cent auditeurs, ce qui n&apos;est plus
+            une mesure. Et les noms de nos familles y sont des homonymes : «&nbsp;hardcore&nbsp;»
+            y désigne d&apos;abord le hardcore punk, «&nbsp;roots&nbsp;» le reggae roots.
+          </p>
+          <p>
+            YouTube donne la médiane des vues des tracks d&apos;un genre. Elle mesure la
+            popularité des tracks que nous avons choisies, pas celle du genre. Les deux sources ne
+            se confirment pas l&apos;une l&apos;autre.
+          </p>
+          <p>
+            La taille des blocs vient donc de la <strong>descendance généalogique</strong> :
+            combien de genres descendent d&apos;un genre. C&apos;est la seule grandeur qui vienne
+            du corpus lui-même, qui ne dépende d&apos;aucun service tiers, et qui ne puisse pas
+            disparaître. Les deux mesures d&apos;écoute restent affichées sur la fiche de chaque
+            genre, avec leur date : une donnée trop biaisée pour dimensionner reste lisible comme
+            information.
+          </p>
         </section>
 
         <section aria-labelledby="apropos-contribuer">

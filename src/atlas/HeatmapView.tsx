@@ -23,7 +23,7 @@
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { FAMILIES, STRUCTURES, type Genre } from './structures.ts';
-import { poidsDe, poidsCompose, populariteDisponible, releveDu } from './poids.ts';
+import { poidsDe } from './poids.ts';
 import { squarifier, type Pave } from './treemap.ts';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FaIcon } from './FaIcon.tsx';
@@ -45,10 +45,13 @@ const genreDe = (c: Cible): Genre | null =>
 /* LE POIDS D'UNE FAMILLE EST LA SOMME DES POIDS DE SES MEMBRES, et non le
    poids de son fondateur : une famille large et plate compte autant qu'une
    famille etroite et profonde, ce qui est le sens de « importance ». */
-const poidsFamille = (familyIndex: number, t: number): number => {
+/* LE POIDS D'UNE FAMILLE EST LA SOMME DES POIDS DE SES MEMBRES, et non le
+   poids de son fondateur : une famille large et plate compte autant qu'une
+   famille etroite et profonde, ce qui est le sens de « importance ». */
+const poidsFamille = (familyIndex: number): number => {
   const s = STRUCTURES[familyIndex];
   if (!s) return 1;
-  return s.genres.reduce((n, g) => n + poidsCompose(g.id, t), 0);
+  return s.genres.reduce((n, g) => n + poidsDe(g.id).poids, 0);
 };
 
 /* LA TAILLE DU NOM SUIT LE RECTANGLE, avec un plancher a 11 px.
@@ -70,10 +73,6 @@ export function HeatmapView({ onOpen }: Props) {
   const [chemin, setChemin] = useState<{ familyIndex: number; genreLocal: number }[]>([]);
   const [boite, setBoite] = useState({ w: 0, h: 0 });
   const [survole, setSurvole] = useState<Cible | null>(null);
-  /* LE CURSEUR : 0 la genealogie, 1 la popularite. Il part a ZERO, ce qui est
-     la carte que Mika a validee, et la popularite est une bascule volontaire
-     et non un defaut impose. */
-  const [melange, setMelange] = useState(0);
   const cadre = useRef<HTMLDivElement | null>(null);
 
   /* LA MESURE VIENT DU DOM, PAS DE LA FENETRE. La vue vit sous un fil
@@ -107,10 +106,20 @@ export function HeatmapView({ onOpen }: Props) {
     return g.children.map((local) => ({ kind: 'genre', familyIndex: courant.familyIndex, genreLocal: local }) as Cible);
   }, [courant]);
 
+  /* LA TAILLE EST LE POIDS GENEALOGIQUE, ET RIEN D'AUTRE.
+
+     Un curseur a existe ici, qui dosait entre descendance et popularite. Il
+     est retire : les deux sources d'ecoute mesurees, Last.fm et YouTube, se
+     sont revelees inaptes a dimensionner, chacune pour une raison distincte
+     documentee dans `poids.ts`. Elles restent affichees sur la fiche du genre,
+     ou elles informent sans deformer.
+
+     La descendance est la seule grandeur qui vienne du corpus lui-meme et ne
+     depende d'aucun service tiers. */
   const poidsCible = useCallback(
     (c: Cible): number =>
-      c.kind === 'famille' ? poidsFamille(c.familyIndex, melange) : poidsCompose(genreDe(c)?.id ?? '', melange),
-    [melange]
+      c.kind === 'famille' ? poidsFamille(c.familyIndex) : poidsDe(genreDe(c)?.id ?? '').poids,
+    []
   );
 
   const paves = useMemo<Pave<Cible>[]>(
@@ -260,44 +269,6 @@ export function HeatmapView({ onOpen }: Props) {
           </span>
         ))}
       </nav>
-
-      {/* LE CURSEUR ET SA METHODE.
-
-          LA PHRASE SOUS LE CURSEUR N'EST PAS UNE PRECAUTION, C'EST LA MESURE.
-          Entre le genre le plus ecoute et le moins ecoute, l'ecart reel est de
-          deux cent vingt-deux mille. La carte en montre douze crans. Ecrire
-          « popularite » sans dire cela laisserait croire qu'un pave deux fois
-          plus grand est deux fois plus ecoute, ce qui est faux d'un facteur
-          enorme. Ce site dit ses methodes partout. */}
-      {populariteDisponible && (
-        <div className="hm-reglage">
-          <label className="hm-curseur">
-            <span className="hm-bout">Descendance</span>
-            <input
-              type="range"
-              min={0}
-              max={100}
-              step={5}
-              value={Math.round(melange * 100)}
-              onChange={(e) => setMelange(Number(e.target.value) / 100)}
-              aria-label="Doser entre descendance et popularité"
-            />
-            <span className="hm-bout">Popularité</span>
-          </label>
-          <p className="hm-methode">
-            La taille exprime un rang, pas un rapport. Entre le plus écouté et le moins écouté,
-            l&apos;écart réel est de plusieurs centaines de milliers.
-            {releveDu && <> Relevé du {releveDu}.</>}
-          </p>
-        </div>
-      )}
-      {!populariteDisponible && (
-        /* LA RETOMBEE SE DIT. Une carte qui bascule silencieusement sur une
-           autre mesure ment sur ce qu'elle montre. */
-        <p className="hm-methode hm-methode-seule">
-          Taille par descendance généalogique. La mesure d&apos;écoute n&apos;est pas disponible.
-        </p>
-      )}
 
       <div className="hm-cadre" ref={cadre}>
         {paves.map((p) => rendre(p, false))}
