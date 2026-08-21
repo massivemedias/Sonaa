@@ -75,6 +75,108 @@ export function HeatmapView({ onOpen }: Props) {
   const [survole, setSurvole] = useState<Cible | null>(null);
   const cadre = useRef<HTMLDivElement | null>(null);
 
+  /* ═══ LE ZOOM ═══════════════════════════════════════════════════════════
+     Molette sur ordinateur, pincement a deux doigts sur telephone.
+
+     Il est la CONDITION pour que les sous-styles soient affichables : sans
+     lui, un pave de trente pixels ne porte aucun nom, et la vue devait se
+     limiter aux quatorze familles. Avec lui, on montre tout et l'on approche
+     ce qu'on veut lire.
+
+     LE ZOOM EST UNE TRANSFORMATION, PAS UN RE-PAVAGE. Recalculer le treemap a
+     chaque cran de molette redistribuerait les rectangles a chaque geste :
+     l'oeil perdrait ce qu'il suivait, et ce serait un autre dessin a chaque
+     fois, pas le meme vu de plus pres. */
+  const [vue, setVue] = useState({ k: 1, x: 0, y: 0 });
+  const ZOOM_MIN = 1;
+  const ZOOM_MAX = 8;
+
+  /* On borne le deplacement pour qu'on ne puisse pas pousser la carte hors du
+     cadre et se retrouver devant du vide sans savoir comment revenir. */
+  const borner = useCallback((k: number, x: number, y: number, l: number, h: number) => {
+    const marge = 0;
+    const maxX = Math.max(marge, (k - 1) * l);
+    const maxY = Math.max(marge, (k - 1) * h);
+    return { k, x: Math.min(0, Math.max(-maxX, x)), y: Math.min(0, Math.max(-maxY, y)) };
+  }, []);
+
+  /* Zoomer AUTOUR D'UN POINT, et non autour du coin : sinon la molette
+     emmene ailleurs que la ou le curseur pointe, et l'on passe son temps a
+     rattraper la carte. */
+  const zoomerVers = useCallback(
+    (facteur: number, px: number, py: number) => {
+      setVue((v) => {
+        const el = cadre.current;
+        if (!el) return v;
+        const r = el.getBoundingClientRect();
+        const k2 = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, v.k * facteur));
+        if (k2 === v.k) return v;
+        const cx = px - r.left;
+        const cy = py - r.top;
+        const ratio = k2 / v.k;
+        return borner(k2, cx - (cx - v.x) * ratio, cy - (cy - v.y) * ratio, r.width, r.height);
+      });
+    },
+    [borner]
+  );
+
+  useEffect(() => {
+    const el = cadre.current;
+    if (!el) return undefined;
+
+    /* `passive: false` est indispensable : sans lui `preventDefault` est
+       ignore et la molette fait defiler la PAGE derriere la carte. */
+    const molette = (e: WheelEvent): void => {
+      e.preventDefault();
+      zoomerVers(e.deltaY < 0 ? 1.18 : 1 / 1.18, e.clientX, e.clientY);
+    };
+    el.addEventListener('wheel', molette, { passive: false });
+
+    /* LE PINCEMENT. Deux doigts suivis par leur identifiant : suivre « le
+       premier et le dernier » casse des qu'un doigt se leve et se repose. */
+    const doigts = new Map<number, { x: number; y: number }>();
+    let ecart = 0;
+    const bas = (e: PointerEvent): void => {
+      if (e.pointerType !== 'touch') return;
+      doigts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (doigts.size === 2) {
+        const [a, b] = [...doigts.values()];
+        if (a && b) ecart = Math.hypot(a.x - b.x, a.y - b.y);
+      }
+    };
+    const bouge = (e: PointerEvent): void => {
+      if (!doigts.has(e.pointerId)) return;
+      doigts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (doigts.size !== 2) return;
+      e.preventDefault();
+      const [a, b] = [...doigts.values()];
+      if (!a || !b) return;
+      const d = Math.hypot(a.x - b.x, a.y - b.y);
+      if (ecart > 0 && d > 0) zoomerVers(d / ecart, (a.x + b.x) / 2, (a.y + b.y) / 2);
+      ecart = d;
+    };
+    const haut = (e: PointerEvent): void => {
+      doigts.delete(e.pointerId);
+      if (doigts.size < 2) ecart = 0;
+    };
+    el.addEventListener('pointerdown', bas);
+    el.addEventListener('pointermove', bouge, { passive: false });
+    el.addEventListener('pointerup', haut);
+    el.addEventListener('pointercancel', haut);
+
+    return () => {
+      el.removeEventListener('wheel', molette);
+      el.removeEventListener('pointerdown', bas);
+      el.removeEventListener('pointermove', bouge);
+      el.removeEventListener('pointerup', haut);
+      el.removeEventListener('pointercancel', haut);
+    };
+  }, [zoomerVers]);
+
+  /* Changer de niveau remet le zoom a plat : rester zoome sur les coordonnees
+     du niveau precedent montrerait un coin arbitraire du nouveau. */
+  useEffect(() => setVue({ k: 1, x: 0, y: 0 }), [chemin]);
+
   /* LA MESURE VIENT DU DOM, PAS DE LA FENETRE. La vue vit sous un fil
      d'Ariane et au-dessus d'un lecteur dont les hauteurs changent : lire
      `innerHeight` donnerait un pavage qui deborde des deux cotes. */
@@ -145,39 +247,24 @@ export function HeatmapView({ onOpen }: Props) {
       const locFondateur = s.genres.indexOf(fondateur);
       enfants.unshift({ kind: 'genre', familyIndex: fi, genreLocal: locFondateur });
 
-      /* ON NE SUBDIVISE QUE SI LES MORCEAUX PEUVENT PORTER UN NOM.
+      /* ON SUBDIVISE TOUJOURS, DEPUIS QUE LA VUE SAIT ZOOMER.
 
-         MESURE A 320 x 568 : quatorze familles subdivisees donnent 103 paves
-         pour 158 000 px de cadre, soit 39 px de cote en moyenne, et le plus
-         petit tombait a 13 x 21. Un nom n'y tient pas, meme au plancher.
+         La regle qui suit bornait la subdivision a ce qui restait lisible sans
+         zoom : sur telephone aucune famille ne s'ouvrait, et la carte
+         n'affichait que quatorze blocs. Mika veut voir les sous-styles.
 
-         La regle n'est donc pas « toujours subdiviser » mais « subdiviser
-         quand ca reste lisible ». Sur un grand ecran toutes les familles
-         s'ouvrent, sur un petit certaines restent entieres et se lisent au
-         clic. La consigne est tenue la ou elle peut l'etre, et rien n'est
-         affiche a une taille ou il ne se lit pas.
+         Le compromis n'a plus lieu d'etre : ce qui ne se lit pas a l'echelle 1
+         se lit en zoomant, et le nom reste dans l'infobulle. On garde un
+         plancher minuscule, deux pixels, pour ne pas produire de rectangles
+         d'aire nulle que le pavage ne saurait pas placer.
 
-         ET LE TEST PORTE SUR LE PLUS PETIT PAVE REELLEMENT PRODUIT, pas sur
-         une moyenne. Premiere version : une moyenne, qui laissait passer des
-         paves de 21 x 16 dans une famille dont le fondateur pesait vingt fois
-         ses feuilles. Une moyenne ne dit rien de la queue de distribution, et
-         c'est exactement la queue qui pose probleme ici. On pave donc pour de
-         vrai, puis on regarde le pire. */
+         ANCIENNE REGLE, conservee en commentaire parce qu'elle redeviendrait
+         juste si le zoom disparaissait : le plus petit pave devait faire au
+         moins 34 px de cote et 2200 px d'aire. */
       const essai = squarifier(enfants, poidsCible, p.x, p.y, p.w, p.h);
       if (essai.length === 0) continue;
       const pire = essai.reduce((mn, q) => (q.w * q.h < mn.w * mn.h ? q : mn));
-      /* LE SEUIL EST CELUI D'UN NOM, PAS D'UNE CIBLE TACTILE.
-
-         Premiere valeur : 22 px de cote et 900 px d'aire, c'est-a-dire un
-         carre de 30. Mesure a 390 x 844 : elle laissait passer un pave de
-         30 x 32 portant « Florida Breaks » tronque a deux lettres. Un pave
-         cliquable n'est pas un pave lisible, et cette vue existe pour etre
-         lue.
-
-         Trente-quatre pixels de cote minimum et 2200 d'aire, soit un carre de
-         47 : c'est la place qu'il faut pour quelques caracteres au plancher de
-         11 px sans que le mot disparaisse. */
-      if (Math.min(pire.w, pire.h) < 34 || pire.w * pire.h < 2200) continue;
+      if (Math.min(pire.w, pire.h) < 2) continue;
 
       m.set(fi, essai);
     }
@@ -254,11 +341,31 @@ export function HeatmapView({ onOpen }: Props) {
   return (
     <div className="hm">
       <nav className="hm-fil" aria-label="Chemin">
-        {chemin.length > 0 && (
-          <button className="hm-retour" onClick={() => setChemin((p) => p.slice(0, -1))} aria-label="Remonter d'un niveau">
-            <FaIcon icon={faChevronLeft} />
-          </button>
-        )}
+        {/* LA FLECHE EST TOUJOURS LA, ET C'EST UNE QUESTION DE SORTIE.
+
+            Elle n'apparaissait qu'une fois descendu d'un niveau. Au premier
+            niveau, cette vue etait donc un cul-de-sac : plein ecran, aucun
+            defilement, et rien pour revenir a l'atlas. Une vue sans sortie
+            visible est une vue dont on sort en fermant l'onglet.
+
+            Au premier niveau elle ramene a la carte, plus bas elle remonte
+            d'un cran. Meme objet, meme place, deux destinations selon l'endroit
+            ou l'on se trouve : c'est ce que fait un bouton retour. */}
+        <button
+          className="hm-retour"
+          onClick={() => {
+            if (chemin.length > 0) setChemin((p) => p.slice(0, -1));
+            else window.location.hash = '';
+          }}
+          aria-label={chemin.length > 0 ? "Remonter d'un niveau" : "Revenir à l'atlas"}
+        >
+          <FaIcon icon={faChevronLeft} />
+        </button>
+        {/* LE LOGO EST PRESENT PARTOUT AILLEURS DANS LE PRODUIT, il manquait
+            ici seul. Il ramene a l'atlas, comme sur toutes les autres pages. */}
+        <a className="hm-logo" href="#/" aria-label="SONAA, revenir à l'atlas">
+          <img src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`} alt="SONAA" draggable={false} />
+        </a>
         <button className="hm-crumb" onClick={() => setChemin([])} disabled={chemin.length === 0}>
           Familles
         </button>
@@ -271,8 +378,20 @@ export function HeatmapView({ onOpen }: Props) {
       </nav>
 
       <div className="hm-cadre" ref={cadre}>
-        {paves.map((p) => rendre(p, false))}
-        {[...sousPaves.values()].flat().map((p) => rendre(p, true))}
+        {/* La transformation porte sur un calque unique : les rectangles ne
+            sont pas recalcules, ils sont vus de plus pres. */}
+        <div
+          className="hm-calque"
+          style={{ transform: `translate(${vue.x}px, ${vue.y}px) scale(${vue.k})` }}
+        >
+          {paves.map((p) => rendre(p, false))}
+          {[...sousPaves.values()].flat().map((p) => rendre(p, true))}
+        </div>
+        {vue.k > 1.01 && (
+          <button className="hm-zoom-reset" onClick={() => setVue({ k: 1, x: 0, y: 0 })}>
+            {vue.k.toFixed(1)}× · tout voir
+          </button>
+        )}
       </div>
 
       {survole && (

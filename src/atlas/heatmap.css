@@ -32,6 +32,19 @@
 
 /* Le meme rond blanc que partout ailleurs sur telephone : deux commandes qui
    font le meme geste doivent se ressembler. */
+/* LE LOGO, present partout ailleurs dans le produit et absent d'ici seul. */
+.hm-logo {
+  flex: none;
+  display: block;
+  height: 26px;
+}
+
+.hm-logo img {
+  display: block;
+  height: 100%;
+  width: auto;
+}
+
 .hm-retour {
   flex: none;
   display: grid;
@@ -138,6 +151,42 @@
   min-height: 0;
   margin: 0 6px calc(6px + env(safe-area-inset-bottom, 0px));
   overflow: hidden;
+  /* LE PINCEMENT APPARTIENT A LA CARTE, PAS AU NAVIGATEUR. Sans cela, deux
+     doigts declenchent le zoom de la page entiere et la carte ne recoit
+     rien. */
+  touch-action: none;
+}
+
+/* LE CALQUE QUI SE TRANSFORME. Les rectangles vivent dedans en coordonnees
+   fixes : zoomer les rapproche, ca ne les repave pas. Un re-pavage a chaque
+   cran redistribuerait les blocs et l'oeil perdrait ce qu'il suivait.
+
+   L'ORIGINE EST EN HAUT A GAUCHE, comme les coordonnees que produit le
+   pavage. Avec l'origine par defaut, au centre, le calcul du point de zoom
+   serait decale de la moitie du cadre. */
+.hm-calque {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+/* Le retour a l'echelle 1, visible seulement quand on est zoome : il dit le
+   facteur courant ET offre la sortie. Un zoom sans retour est un piege. */
+.hm-zoom-reset {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 3;
+  padding: 0.35rem 0.6rem;
+  background: oklch(0.98 0 0);
+  border: 0;
+  border-radius: 999px;
+  color: oklch(0.18 0.01 250);
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: var(--weight-data);
+  cursor: pointer;
 }
 
 .hm-pave {
