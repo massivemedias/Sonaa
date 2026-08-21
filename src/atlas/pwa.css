@@ -49,7 +49,26 @@
    « Envoyer la proposition ». Un bandeau qui rend un formulaire inutilisable
    est pire que pas de bandeau, il attendra la fermeture, et le message
    qu'il porte n'est jamais urgent au point de valoir ça. */
-body:has(.contrib-fond) .pwa-bandeau {
+/* LE BANDEAU S'EFFACE DEVANT UN CONTENU QUI OCCUPE TOUT L'ECRAN.
+
+   Il le faisait deja devant la fenetre de contribution. Il doit le faire aussi
+   devant la CARTE DE CHALEUR, et le defaut etait grave : mesure sur le site en
+   ligne, le bandeau fait 138 px, vit en z-index 70, et RECOUVRAIT QUATRE
+   FAMILLES sur quatorze, Roots, Ambient, Downtempo et Electro. Un quart de la
+   carte etait invisible.
+
+   Cette vue n'a pas de defilement, c'est sa raison d'etre : ce qui est
+   recouvert n'est pas repoussé plus bas, il est PERDU. Ailleurs le bandeau
+   passe sur une carte en trois dimensions ou sur une frise qui defile, ou le
+   recouvrement est seulement genant.
+
+   MA SONDE N'AVAIT RIEN VU : elle comparait le bas des paves au bas de leur
+   cadre, et de ce point de vue tout allait bien, zero debordement. Elle
+   ignorait qu'une couche etait posee par-dessus. La capture, elle, montrait
+   quatre familles coupees. Douzieme fois qu'une sonde de ce projet mesure sa
+   propre idee du produit au lieu du produit. */
+body:has(.contrib-fond) .pwa-bandeau,
+body:has(.hm) .pwa-bandeau {
   display: none;
 }
 
