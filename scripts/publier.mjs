@@ -34,6 +34,16 @@ const CONTROLES = [
   ['exports', 'npm run check:exports --silent'],
   ['ecritures', 'npm run check:ecritures --silent'],
   ['tirets', 'npm run check:tirets --silent'],
+  /* VENU DU DEPLOIEMENT, ou il ne pouvait pas passer : il sonde YouTube et
+     YouTube bloque les adresses de centre de donnees. Il a bloque un commit
+     valide, le site a servi l'ancien bundle, et rien ne l'a dit.
+     Ici il fonctionne : trois sondes sur trois, en quelques secondes.
+
+     ET SON ARRIVEE CORRIGE UN ECART PLUS GRAVE : cette barriere lancait dix
+     controles quand le deploiement en lancait douze. Deux listes pour une
+     seule notion de « pret a publier », c'est le motif des deux sources de
+     verite, et il m'a coute exactement ce qu'il coute toujours. */
+  ['plafond', 'npm run check:plafond --silent'],
   ['construction', 'npm run build --silent']
 ];
 

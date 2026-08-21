@@ -142,9 +142,21 @@ jobs:
       # rend « rien à signaler » au lieu d'alerter. Quarante-cinq intégrales
       # d'album sont entrées ainsi. Ce contrôle vérifie la règle ET que la
       # durée arrive encore. Voir scripts/check-plafond.ts.
-      - name: Contrôler le plafond anti-parution
-        if: steps.change.outputs.donnees == 'true'
-        run: npm run check:plafond
+      # CE CONTROLE A ETE DEPLACE DANS LA BARRIERE LOCALE, `npm run publier`.
+      #
+      # IL NE PEUT PAS PASSER ICI, ET C'EST STRUCTUREL : il sonde YouTube, et
+      # YouTube bloque les adresses de centre de donnees. Mesure du 21 aout :
+      # zero duree rendue sur trois sondes, DEUX FOIS de suite a vingt secondes
+      # d'intervalle, depuis le runner. Les memes trois sondes rendent leurs
+      # durees en cinq secondes depuis une machine ordinaire.
+      #
+      # Il a bloque le deploiement d'un commit parfaitement valide, et le site
+      # a servi l'ancien bundle pendant des heures sans que rien ne le dise.
+      # UN CONTROLE QUI NE PEUT JAMAIS PASSER DANS UN ENVIRONNEMENT N'Y EST PAS
+      # UN GARDE-FOU, C'EST UN MUR.
+      #
+      # Il garde tout son sens la ou le scraping fonctionne, c'est-a-dire avant
+      # un import, donc dans la barriere locale.
 
       # Le matcher compare des mots : « Karlheinz Stockhausen explains Kontakte »
       # contient l'artiste et le titre, passe le seuil de similarite, le plafond
