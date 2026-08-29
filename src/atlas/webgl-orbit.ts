@@ -113,7 +113,7 @@ const CHROME_BOTTOM = 36;
 /* Plancher abaissé de 11 à 9 px (verdict : les labels dominaient la carte
    et forçaient le masquage). */
 const DESKTOP = { maxLabels: 96, floorPx: 9 };
-const MOBILE = { maxLabels: 44, floorPx: 9 };
+const MOBILE = { maxLabels: 44, floorPx: 15 };
 
 
 /* La diffusion. Rapide et énergique : c'est l'animation signature. */
@@ -1605,7 +1605,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      La distance qui garantit l'écart se calcule directement. Un écart de
      `gapMonde` unités se projette sur `gapMonde · hauteur / (2·d·tan)`
      pixels ; on veut au moins CIBLE_TACTILE, d'où la distance maximale. */
-  const CIBLE_TACTILE = 44;
+  const CIBLE_TACTILE = 64;
 
   const ecartMondeMinimal = (): number => {
     let min = Infinity;
@@ -2400,6 +2400,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
      fiche flottante : la colonne s'ouvre, prête à jouer. Un genre à dérivés
      déploie son sous-arbre sur la carte EN MÊME TEMPS : ouvrir les tracks
      n'empêche jamais de descendre. */
+  let forcerRacine = false;
   const selectGenre = (globalIndex: number, now: number): void => {
     tracer('2. selectGenre recoit', globalIndex);
     const slot = slotsData[globalIndex];
@@ -2434,8 +2435,10 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
 
     const dansLaZone = zoneActive && zone[globalIndex] === 1;
     const generationDuNoeud = dansLaZone ? (zoneGeneration[globalIndex] ?? -1) : -1;
+    const resterDansLarbre = !forcerRacine && dansLaZone && generationDuNoeud >= 0;
+    forcerRacine = false;
 
-    if (dansLaZone && generationDuNoeud >= 0) {
+    if (resterDansLarbre) {
       /* CLIQUER UN NOEUD DE L'ARBRE NE REDÉPLOIE RIEN : tout est déjà là.
 
          Il met le noeud en évidence et remplit la colonne de ses morceaux, un
@@ -2504,7 +2507,8 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     frameLock = -1;
   };
 
-  const goToGenre = (familyIndex: number, genreLocal: number): void => {
+  const goToGenre = (familyIndex: number, genreLocal: number, commeRacine = false): void => {
+    if (commeRacine) forcerRacine = true;
     const now = performance.now();
     const base = familyOffset[familyIndex] ?? 0;
     const target = base + genreLocal;
@@ -3281,8 +3285,7 @@ export const initAtlasOrbit = (handles: AtlasHandles): AtlasApi => {
     });
   }
 
-  const touch = window.matchMedia('(pointer: coarse), (max-width: 767px)').matches;
-  const labelRules = touch ? MOBILE : DESKTOP;
+  let labelRules = MOBILE;
 
   let labelCpuAccum = 0;
   let labelCpuFrames = 0;
@@ -3392,6 +3395,7 @@ const OVERLAP_TOLERANCE = 1;
   const projectLabels = (now: number): void => {
     if (now - lastLabelPass < 33) return;
     lastLabelPass = now;
+    labelRules = width < 768 ? MOBILE : DESKTOP;
     const start = performance.now();
 
     candidates.length = 0;
@@ -3510,14 +3514,10 @@ const OVERLAP_TOLERANCE = 1;
            9 px de CSS valent 27 px physiques. */
         const grand = width >= 768;
         const etroit = width < 500;
-        /* Un cran plus bas encore sur petit ecran : « Progressive Breaks » et
-           « Nu Skool Breaks » se chevauchaient completement a 12 px. Les
-           valeurs de bureau sont bonnes, ce sont celles du telephone qui
-           etaient fausses. */
-        if (g === 0) return grand ? 26 : etroit ? 10 : 22;
-        if (g === 1) return grand ? 19 : etroit ? 9 : 16;
-        if (g === 2) return grand ? 16 : etroit ? 8 : 13;
-        return grand ? 14 : etroit ? 8 : 12;
+        if (g === 0) return grand ? 26 : etroit ? 18 : 22;
+        if (g === 1) return grand ? 19 : etroit ? 15 : 16;
+        if (g === 2) return grand ? 16 : etroit ? 14 : 13;
+        return grand ? 14 : etroit ? 13 : 12;
       })();
       const pxCalcule =
         kind === 'genre'
@@ -3543,8 +3543,8 @@ const OVERLAP_TOLERANCE = 1;
          Le nom complet reste dans la colonne dès qu'on clique, et l'attribut
          title le rend au survol prolongé. */
       let affiche = text;
-      if (width < 500 && kind === 'genre' && text.length > 16) {
-        const coupe = text.lastIndexOf(' ', 16);
+      if (width < 500 && kind === 'genre' && text.length > 20) {
+        const coupe = text.lastIndexOf(' ', 20);
         if (coupe > 6) affiche = text.slice(0, coupe) + '\u2026';
       }
       /* LES PLAQUES SONT LE RENDU NORMAL DES NOMS DE GENRE, SUR LES QUATORZE
@@ -3620,11 +3620,13 @@ const OVERLAP_TOLERANCE = 1;
         zoneActive && focusIndex >= 0
           ? (facteurParLignee.get(focusIndex)?.facteur ?? 1)
           : 1;
-      /* La base est la taille d'avant tout agrandissement, 13 et 11 : le
-         facteur s'applique dessus, une seule fois, et non sur une valeur deja
-         majoree. Deux majorations composees seraient invisibles a la lecture
-         et fausses au rendu. */
-      const basePlaque = isCentral ? (etroitPlaque ? 10 : 13) : (etroitPlaque ? 8 : 11);
+      /* SUR TELEPHONE, LA BASE ETAIT PLUS PETITE QUE SUR BUREAU.
+
+         Huit et dix pixels pour un nom de sous-style : on le voyait, on ne
+         le lisait pas. La plaque est le seul levier que le cadrage n'annule
+         pas : on part d'une taille de lecture, le facteur de lignee peut
+         encore reculer sur un arbre dense. Bureau inchange. */
+      const basePlaque = isCentral ? (etroitPlaque ? 18 : 13) : (etroitPlaque ? 15 : 11);
       const pxPlaque = isPlaque ? Math.round(basePlaque * facteurPlaque) : 0;
       const px = isPlaque ? pxPlaque : (pxFocus > 0 ? pxFocus : pxCalcule);
       const wTexte = textWidth(affiche, px, kind);
@@ -3652,7 +3654,7 @@ const OVERLAP_TOLERANCE = 1;
          Sept pixels de chaque cote plus deux de bordure, quatorze ; dix sur
          petit ecran. Les memes nombres que la feuille de style. */
       const pastille = isPlaque ? (etroitPlaque ? 14 : 16) : 0;
-      const w = isPlaque ? wTexte + (etroitPlaque ? 10 : 14) + pastille : wTexte;
+      const w = isPlaque ? wTexte + (etroitPlaque ? 16 : 14) + pastille : wTexte;
 
       /* Écran étroit : le nom de famille passe DESSOUS la sphère et centré.
          Ce décalage vivait dans le CSS (translate -50% 1.35rem sur
@@ -4146,9 +4148,9 @@ const OVERLAP_TOLERANCE = 1;
            C'est le motif des grandeurs ecrites deux fois, sous sa forme la plus
            couteuse : non pas deux valeurs qui divergent, mais un calcul et un
            rendu qui ne parlent pas du meme objet. */
-        const plancherTexte = width < 500 ? 8 : 12;
+        const plancherTexte = 12;
         const px = Math.max(plancherTexte, pxVoulu * facteur);
-        const remplissage = c.isPlaque ? (width < 500 ? 8 : 12) : 0;
+        const remplissage = c.isPlaque ? (width < 500 ? 16 : 12) : 0;
         const w = textWidth(c.text, px, c.kind) + remplissage;
         const h = px * 1.45 + (c.isPlaque ? 6 : 0);
         const ordreDirs = memoire && pi === memoire.palier
@@ -5247,13 +5249,13 @@ const OVERLAP_TOLERANCE = 1;
            pour voir sa descendance, et c'est lui qu'on voyait. Son nom ayant
            déjà quitté la carte (il est dans le fil d'Ariane), rien ne se perd
            à la réduire : elle reste la plus grosse, sans écraser le reste. */
-        /* PLUS DE GROSSISSEMENT SUR PETIT ECRAN. Il valait 1,75 pour rendre
-           les derives visables ; depuis que la zone cliquable est garantie
-           independamment du dessin, il ne fait plus qu'encombrer, et c'est ce
-           qui a ete signale : des spheres si grosses qu'on ne voit plus toutes
-           les branches. La racine descend a 0,8, elle n'a plus a etre reperee
-           puisque son nom est dans le fil d'Ariane. */
-        const facteurEtroit = width < 500 ? (i === focusIndex ? 0.8 : 1) : 1;
+        /* SUR TELEPHONE, LES DERIVES GROSSISSENT, LA RACINE RESTE DISCRETE.
+
+           Les spheres tombaient a sept pixels de rayon : on les voyait comme
+           des points, pas comme des planetes. Quinze pour cent de plus sur
+           les derives, plancher a douze pixels, et la racine a 0,9 pour ne
+           pas manger ses enfants. La zone cliquable reste independante. */
+        const facteurEtroit = width < 500 ? (i === focusIndex ? 0.9 : 1.15) : 1;
         sphereRadii[i] =
           (baseRadii[i] ?? 1) * breath * facteurEtroit * (1 + SURVOL_CROISSANCE * (hoverAmount[i] ?? 0));
       }
@@ -5353,13 +5355,11 @@ const OVERLAP_TOLERANCE = 1;
     if (zoneActive) {
       /* LE PLANCHER SUIT LA TAILLE DE L'ECRAN, il ne peut pas etre absolu.
 
-         Dix-huit pixels de rayon sur un ecran de 390 px, c'est une sphere qui
-         occupe un dixieme de la largeur : quinze d'entre elles ne tiennent
-         nulle part. Le plancher existe pour qu'une sphere reste visable au
-         doigt, et un doigt ne retrecit pas ; mais sur un petit ecran c'est la
-         ZONE CLIQUABLE qui porte cette garantie, pas le dessin. Le dessin peut
-         donc etre plus petit que la cible, et il le doit. */
-      const PLANCHER_PX = width < 500 ? 7 : 18;
+         Douze pixels de rayon : assez pour lire une planete, pas assez pour
+         qu'une couronne dense mange l'ecran. La zone cliquable reste plus
+         large que le dessin. Le cadrage laisse deborder plutot que de
+         comprimer sous le seuil tactile. */
+      const PLANCHER_PX = width < 500 ? 12 : 18;
       const PLAFOND_PX = PLANCHER_PX * 2.5;
       for (let i = 0; i < TOTAL_GENRES; i += 1) {
         if (zone[i] !== 1) continue;

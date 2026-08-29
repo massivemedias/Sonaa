@@ -10,6 +10,8 @@
 
 import { useMemo } from 'react';
 import { FAMILIES, FAMILY_LINKS, STRUCTURES } from './structures.ts';
+import { SiteNav } from './SiteNav.tsx';
+import { ouvrirDansAtlas } from './ouvrir-genre.ts';
 import './index-view.css';
 
 export function IndexPage() {
@@ -45,14 +47,12 @@ export function IndexPage() {
           Navigation hiérarchique des {FAMILIES.length} familles et de leurs {total} genres. Même
           contenu et mêmes liens que l&apos;espace, sans la matière.
         </p>
-        <p className="index-mono">
-          <a href="#/">Ouvrir l&apos;atlas 3D</a> · <a href="#/credits">Crédits</a>
-        </p>
+        <SiteNav variant="page" />
       </header>
 
       <main id="familles">
         <ol className="index-families">
-          {families.map(({ mass, genres, parents, children }) => (
+          {families.map(({ mass, genres, parents, children }, familyIndex) => (
             <li key={mass.id}>
               <details>
                 <summary>
@@ -89,9 +89,17 @@ export function IndexPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {genres.map((genre) => (
+                      {genres.map((genre, genreLocal) => (
                         <tr key={genre.id}>
-                          <th scope="row">{genre.label}</th>
+                          <th scope="row">
+                            <button
+                              type="button"
+                              className="index-genre-lien"
+                              onClick={() => ouvrirDansAtlas(familyIndex, genreLocal)}
+                            >
+                              {genre.label}
+                            </button>
+                          </th>
                           <td className="index-mono">
                             {genre.bpmRange
                               ? `${genre.bpmRange[0]}-${genre.bpmRange[1]}`
@@ -110,9 +118,7 @@ export function IndexPage() {
       </main>
 
       <footer className="index-foot">
-        <p className="index-mono">
-          Données factices, prototype. Le corpus réel arrive en P1.
-        </p>
+        <SiteNav variant="page" />
       </footer>
     </div>
   );

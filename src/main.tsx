@@ -1,9 +1,11 @@
-import { StrictMode, lazy, Suspense } from 'react';
+import { StrictMode, lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './design/tokens.css';
 import './design/base.css';
 import { compterLaVisite, enregistrerLeServiceWorker, purgerSiDemande } from './lib/pwa.ts';
 import { PwaLayer } from './atlas/PwaLayer.tsx';
+import { AuthButton } from './atlas/AuthButton.tsx';
+import { ouvrirDansAtlas } from './atlas/ouvrir-genre.ts';
 
 /* LA PURGE PASSE AVANT TOUT LE RESTE, ET ELLE N'ÉTAIT APPELÉE NULLE PART.
 
@@ -70,13 +72,19 @@ const HeatmapView = lazy(() =>
   import('./atlas/HeatmapView.tsx').then((module) => ({ default: module.HeatmapView }))
 );
 
+/* L'ARBRE, quatrieme vue : l'atlas entier en accordeon deploye. Meme regle
+   que les deux precedentes, chargee a la demande. */
+const AccordeonView = lazy(() =>
+  import('./atlas/AccordeonView.tsx').then((module) => ({ default: module.AccordeonView }))
+);
+
 const rootElement = document.getElementById('root');
 
 if (!rootElement) {
   throw new Error('Élément racine introuvable.');
 }
 
-type Route = 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'atlas';
+type Route = 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'atlas';
 
 const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/index')) return 'index';
@@ -86,56 +94,70 @@ const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/moderation')) return 'moderation';
   if (window.location.hash.startsWith('#/chronologie')) return 'chronologie';
   if (window.location.hash.startsWith('#/heatmap')) return 'heatmap';
+  if (window.location.hash.startsWith('#/arbre')) return 'arbre';
   return 'atlas';
 };
-const route = routeOf();
 
-/* Un changement de route recharge la page. C'est brutal mais honnête : le
-   contexte WebGL et le lecteur YouTube ne se démontent pas proprement, et une
-   navigation entre l'atlas et la vue liste est rare. */
-let lastRoute = routeOf();
-window.addEventListener('hashchange', () => {
-  const next = routeOf();
-  if (next !== lastRoute) {
-    lastRoute = next;
-    window.location.reload();
-  }
-});
+const estAtlas = (r: Route): boolean => r === 'atlas';
 
-createRoot(rootElement).render(
-  <StrictMode>
-    <Suspense fallback={null}>
-      {route === 'index' ? (
-        <IndexPage />
-      ) : route === 'credits' ? (
-        <CreditsPage />
-      ) : route === 'apropos' ? (
-        <AProposPage />
-      ) : route === 'propositions' ? (
-        <PropositionsPage />
-      ) : route === 'moderation' ? (
-        <ModerationPage />
-      ) : route === 'chronologie' ? (
-        <ChronologyView onOpen={() => {
-          window.location.hash = '';
-          window.location.reload();
-        }} />
-      ) : route === 'heatmap' ? (
-        /* MEME CHEMIN DE SORTIE QUE LA CHRONOLOGIE : ouvrir un genre depuis
-           une vue secondaire ramene a l'atlas, qui est le seul ecran capable
-           d'afficher une fiche. Le rechargement est volontaire, il evite de
-           faire cohabiter deux moteurs de rendu. */
-        <HeatmapView onOpen={() => {
-          window.location.hash = '';
-          window.location.reload();
-        }} />
-      ) : (
-        <AtlasPage />
-      )}
-    </Suspense>
-    {/* Hors du Suspense : un bandeau « hors ligne » doit pouvoir s'afficher
-        même si le chunk de la page en cours n'a pas pu être chargé. */}
-    <PwaLayer />
-  </StrictMode>
-);
+/* Un changement qui TRAVERSE l'atlas recharge la page. C'est brutal mais
+   honnête : le contexte WebGL et le lecteur YouTube ne se démontent pas
+   proprement.
+
+   Entre deux vues SANS WebGL, plus de rechargement : chronologie → index →
+   crédits était un flash blanc à chaque clic, pour rien. */
+function App() {
+  const [route, setRoute] = useState<Route>(routeOf);
+  const routeRef = useRef(route);
+  routeRef.current = route;
+
+  useEffect(() => {
+    const auChangement = (): void => {
+      const next = routeOf();
+      const actuelle = routeRef.current;
+      if (next === actuelle) return;
+      if (estAtlas(next) !== estAtlas(actuelle)) {
+        window.location.reload();
+        return;
+      }
+      setRoute(next);
+    };
+    window.addEventListener('hashchange', auChangement);
+    return () => window.removeEventListener('hashchange', auChangement);
+  }, []);
+
+  return (
+    <StrictMode>
+      <Suspense fallback={null}>
+        {route === 'index' ? (
+          <IndexPage />
+        ) : route === 'credits' ? (
+          <CreditsPage />
+        ) : route === 'apropos' ? (
+          <AProposPage />
+        ) : route === 'propositions' ? (
+          <PropositionsPage />
+        ) : route === 'moderation' ? (
+          <ModerationPage />
+        ) : route === 'chronologie' ? (
+          <ChronologyView onOpen={ouvrirDansAtlas} />
+        ) : route === 'heatmap' ? (
+          <HeatmapView onOpen={ouvrirDansAtlas} />
+        ) : route === 'arbre' ? (
+          <AccordeonView onOpen={ouvrirDansAtlas} />
+        ) : (
+          <AtlasPage />
+        )}
+      </Suspense>
+      {/* Hors de toute page : on doit pouvoir se connecter depuis n'importe
+          quelle vue, pas seulement depuis l'atlas. */}
+      <AuthButton />
+      {/* Hors du Suspense : un bandeau « hors ligne » doit pouvoir s'afficher
+          même si le chunk de la page en cours n'a pas pu être chargé. */}
+      <PwaLayer />
+    </StrictMode>
+  );
+}
+
+createRoot(rootElement).render(<App />);
 /* Force rebuild 1786862135 */

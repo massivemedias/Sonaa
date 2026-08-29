@@ -1,0 +1,70 @@
+/* Navigation du site. Deux variantes, une grammaire.
+
+   overlay : vit dans le chrome existant (pied de l'atlas, tête des vues).
+   page    : pied des pages document, à la place des liens ad hoc. */
+
+.sitenav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 0.9rem;
+  font-family: var(--font-ui);
+}
+
+.sitenav-groupe {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 0.9rem;
+}
+
+.sitenav-sep {
+  color: var(--ink-secondary);
+  opacity: 0.5;
+}
+
+.sitenav-lien {
+  font-size: 0.6875rem;
+  font-weight: var(--weight-data);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  text-decoration: none;
+  background: transparent;
+  border: 0;
+  padding: 0.2rem 0;
+  cursor: pointer;
+}
+
+.sitenav-lien:hover,
+.sitenav-lien:focus-visible {
+  color: var(--ink-primary);
+}
+
+.sitenav-lien:focus-visible {
+  outline: 2px solid var(--ink-primary);
+  outline-offset: 3px;
+}
+
+.sitenav-lien[data-current='true'],
+.sitenav-lien[aria-current='page'] {
+  color: var(--ink-primary);
+}
+
+/* Pied de page document : un peu plus lisible, filet au-dessus déjà fourni
+   par .credits-foot / .index-foot. */
+.sitenav-page .sitenav-lien {
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  border-bottom: 1px solid transparent;
+}
+
+.sitenav-page .sitenav-lien:hover,
+.sitenav-page .sitenav-lien:focus-visible {
+  border-bottom-color: var(--ink-primary);
+}
+
+.sitenav-page .sitenav-lien[aria-current='page'] {
+  border-bottom-color: var(--rule-strong);
+}

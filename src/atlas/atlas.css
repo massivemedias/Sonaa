@@ -203,8 +203,8 @@
 
 @media (max-width: 499px) {
   .atlas-label[data-plaque='1'] {
-    padding: 3px 6px;
-    border-radius: 9px;
+    padding: 5px 8px;
+    border-radius: 10px;
   }
 }
 
@@ -261,8 +261,14 @@
    La fixer ici aussi ferait la meme grandeur ecrite a deux endroits. */
 @media (max-width: 600px) {
   .atlas-label[data-plaque='1'] {
-    padding: 2px 5px;
-    border-radius: 8px;
+    padding: 5px 8px;
+    border-radius: 10px;
+  }
+
+  .atlas-label[data-plaque='1']:hover,
+  .atlas-label[data-plaque='1'][data-survol='1'],
+  .atlas-label[data-plaque='1'][data-focus='1'] {
+    padding: 4px 7px;
   }
 }
 
@@ -758,6 +764,7 @@
 .foot-links {
   position: absolute;
   left: 1.25rem;
+  right: 1.25rem;
   /* LE PIED PASSE AU-DESSUS DE LA BARRE DU LECTEUR SUR TELEPHONE.
 
      DEFAUT MESURE en ajoutant la troisieme vue : le pied vivait a 516 px du
@@ -771,8 +778,6 @@
      variable vaut zero et rien ne bouge. */
   bottom: calc(1rem + var(--pied-decalage, 0px));
   z-index: 6;
-  display: flex;
-  gap: 0.9rem;
 }
 
 @media (max-width: 700px) {
@@ -1009,16 +1014,10 @@
   }
 }
 
-/* La loupe des contrôles : écran tactile seulement, Espace suffit au
-   clavier. */
+/* La loupe est le chemin court vers 219 genres : elle reste visible
+   partout, pas seulement au doigt. `/` continue de l'ouvrir au clavier. */
 .controls-search {
-  display: none !important;
-}
-
-@media (pointer: coarse), (max-width: 700px) {
-  .controls-search {
-    display: grid !important;
-  }
+  display: grid;
 }
 
 /* MORCEAU CONTESTE. Le tri le fait deja descendre en bas de liste ; ceci le

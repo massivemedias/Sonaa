@@ -27,6 +27,7 @@ import { poidsDe } from './poids.ts';
 import { squarifier, type Pave } from './treemap.ts';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FaIcon } from './FaIcon.tsx';
+import { SiteNav } from './SiteNav.tsx';
 import './heatmap.css';
 
 interface Props {
@@ -340,6 +341,7 @@ export function HeatmapView({ onOpen }: Props) {
 
   return (
     <div className="hm">
+      <div className="hm-chrome">
       <nav className="hm-fil" aria-label="Chemin">
         {/* LA FLECHE EST TOUJOURS LA, ET C'EST UNE QUESTION DE SORTIE.
 
@@ -376,6 +378,8 @@ export function HeatmapView({ onOpen }: Props) {
           </span>
         ))}
       </nav>
+      <SiteNav variant="overlay" />
+      </div>
 
       <div className="hm-cadre" ref={cadre}>
         {/* La transformation porte sur un calque unique : les rectangles ne

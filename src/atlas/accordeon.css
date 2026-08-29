@@ -1,0 +1,256 @@
+/* L'ARBRE : l'atlas entier en accordeon deploye.
+
+   Contrairement a la carte de chaleur, qui doit tenir sur un ecran sans
+   defilement, cette vue est FAITE pour defiler. C'est son interet : on suit
+   une famille du fondateur aux feuilles sans jamais perdre le fil, parce que
+   l'indentation le tient a notre place. */
+
+.ac {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  background: oklch(0.16 0.012 260);
+  color: oklch(0.94 0.005 260);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* ----- EN-TETE ----- */
+
+/* Le meme chrome que la carte de chaleur : le fil, puis la navigation du
+   site. La reserve a droite laisse passer le bouton de compte, qui est fixe
+   en haut a droite et recouvrirait le champ de recherche sans elle. */
+.ac-chrome {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid oklch(1 0 0 / 0.08);
+  padding-right: calc(var(--authb-l, 112px) + 0.6rem);
+}
+.ac-chrome .sitenav {
+  padding: 0 0.9rem 0.4rem;
+}
+
+.ac-fil {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  box-sizing: border-box;
+  padding: calc(0.6rem + env(safe-area-inset-top, 0px)) 0.9rem 0.5rem;
+}
+.ac-retour {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: oklch(0.98 0 0);
+  border: 0;
+  border-radius: 50%;
+  color: oklch(0.18 0.01 250);
+  cursor: pointer;
+  text-decoration: none;
+}
+.ac-retour svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+.ac-logo {
+  flex: none;
+  display: block;
+  height: 26px;
+}
+.ac-logo img {
+  display: block;
+  height: 100%;
+  width: auto;
+}
+.ac-titre {
+  flex: none;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: oklch(0.72 0.01 260);
+}
+.ac-filtre {
+  flex: 1 1 auto;
+  min-width: 0;
+  box-sizing: border-box;
+  height: 34px;
+  padding: 0 0.7rem;
+  border: 1px solid oklch(1 0 0 / 0.14);
+  border-radius: 17px;
+  background: oklch(0.22 0.012 260);
+  color: inherit;
+  font: inherit;
+  font-size: 0.85rem;
+  /* PLAFONNE SUR GRAND ECRAN : un champ de 950 px pour un mot de dix
+     lettres. Il occupe toute la largeur seulement quand elle manque. */
+  max-width: 22rem;
+}
+.ac-filtre::placeholder {
+  color: oklch(0.6 0.01 260);
+}
+
+/* SUR TELEPHONE le titre disparait avant le champ de recherche : le mot
+   « L'arbre » est deja dans le fil d'Ariane d'ou l'on vient, alors que le
+   champ, lui, n'existe nulle part ailleurs. */
+@media (max-width: 520px) {
+  .ac-titre {
+    display: none;
+  }
+}
+
+/* ----- CORPS ----- */
+
+.ac-corps {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 0.9rem calc(3rem + env(safe-area-inset-bottom, 0px));
+}
+/* LE BANDEAU D'INSTALLATION est fixe en bas et flotte au-dessus de tout.
+   Ici rien n'est perdu, la vue defile, mais sans cette reserve les dernieres
+   lignes resteraient inatteignables sous lui. */
+body:has(.pwa-bandeau) .ac-corps {
+  padding-bottom: calc(9rem + env(safe-area-inset-bottom, 0px));
+}
+.ac-compte {
+  margin: 0.8rem 0 0;
+  font-size: 0.78rem;
+  color: oklch(0.68 0.01 260);
+}
+
+.ac-famille {
+  margin: 1.4rem 0 0;
+}
+.ac-famille-titre {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.35rem;
+  /* L'en-tete de famille reste visible pendant qu'on descend dans ses
+     genres : sans lui, quinze niveaux plus bas, on ne sait plus dans quelle
+     famille on se trouve. */
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 0.45rem 0;
+  background: oklch(0.16 0.012 260);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.ac-pastille {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: oklch(0.7 0.15 var(--ac-hue));
+}
+.ac-compte-famille {
+  margin-left: auto;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: oklch(0.62 0.01 260);
+}
+
+.ac-liste {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ac-ligne {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  /* LE DECALAGE EST PLAFONNE : au dela du sixieme niveau, un pas complet
+     pousserait les noms hors de l'ecran sur un telephone de 320 px. Le pas
+     retrecit au lieu de disparaitre, la hierarchie reste donc lisible. */
+  padding-left: calc(min(var(--ac-niveau), 6) * 0.85rem + max(var(--ac-niveau) - 6, 0) * 0.3rem);
+  position: relative;
+}
+/* Le trait vertical qui relie un enfant a son parent. Il part du bord gauche
+   du decalage, pas du bord de l'ecran : c'est ce qui rend l'imbrication
+   lisible sans avoir a compter les espaces. */
+.ac-ligne::before {
+  content: '';
+  position: absolute;
+  left: calc(min(var(--ac-niveau), 6) * 0.85rem + max(var(--ac-niveau) - 6, 0) * 0.3rem - 0.42rem);
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: oklch(0.7 0.15 var(--ac-hue) / 0.25);
+}
+.ac-ligne[style*='--ac-niveau: 0']::before {
+  display: none;
+}
+
+.ac-plier {
+  flex: none;
+  width: 22px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: oklch(0.72 0.01 260);
+  /* Le triangle U+25BE est petit par construction : sous 0.8rem il se lit
+     comme un tiret, et le repli devient invisible. */
+  font-size: 0.82rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.ac-plier-vide {
+  cursor: default;
+}
+.ac-nom {
+  flex: 0 1 auto;
+  min-width: 0;
+  padding: 0.32rem 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 0.88rem;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ac-nom:hover,
+.ac-nom:focus-visible {
+  color: oklch(0.85 0.14 var(--ac-hue));
+}
+.ac-poids {
+  flex: none;
+  margin-left: 0.45rem;
+  padding: 0 0.4rem;
+  border-radius: 8px;
+  background: oklch(0.7 0.15 var(--ac-hue) / 0.16);
+  color: oklch(0.78 0.06 var(--ac-hue));
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+/* LES FONDATEURS RESSORTENT : ce sont les quatorze points d'entree de
+   l'arbre, et sans marquage ils se confondent avec leurs enfants directs. */
+.ac-ligne[style*='--ac-niveau: 0'] .ac-nom {
+  font-weight: 600;
+  font-size: 0.93rem;
+}
+
+@media (min-width: 900px) {
+  .ac-corps {
+    padding-left: max(0.9rem, calc((100vw - 900px) / 2));
+    padding-right: max(0.9rem, calc((100vw - 900px) / 2));
+  }
+}

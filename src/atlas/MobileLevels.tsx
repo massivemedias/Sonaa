@@ -29,6 +29,8 @@ import './mobile-levels.css';
 interface Props {
   /** Ouvre la vue graphique du genre, avec sa fiche et ses tracks. */
   onOpen: (familyIndex: number, genreLocal: number) => void;
+  /** Cadre la famille sur la carte pendant qu'on lit sa liste. */
+  onFamille: (familyIndex: number) => void;
   /** Ramene la carte au cadrage d'ensemble, pour la contemplation. */
   onEnsemble: () => void;
   /** Ouvre la recherche, chemin le plus court vers un genre. */
@@ -87,7 +89,7 @@ const pharesOf = (familyIndex: number): string[] => {
 
 const teinte = (hue: number, l = 0.72, c = 0.15): string => `oklch(${l} ${c} ${hue})`;
 
-export function MobileLevels({ onOpen, onEnsemble, onChercher, ouvert, nav, onRemonterCarte }: Props) {
+export function MobileLevels({ onOpen, onFamille, onEnsemble, onChercher, ouvert, nav, onRemonterCarte }: Props) {
   /* LE SEUIL EST 768 px, LE MÊME QUE CELUI DE LA LÉGENDE. Une seule frontière
      dans tout le projet : deux seuils différents pour « c'est un téléphone »
      est exactement le motif qui a coûté la semaine. */
@@ -499,7 +501,10 @@ export function MobileLevels({ onOpen, onEnsemble, onChercher, ouvert, nav, onRe
                 <button
                   className="mn-carte"
                   style={{ ['--famille' as string]: teinte(fam.hue) }}
-                  onClick={() => descendre({ famille: fi })}
+                  onClick={() => {
+                    descendre({ famille: fi });
+                    onFamille(fi);
+                  }}
                 >
                   <span className="mn-carte-titre">{fam.label}</span>
                   <span className="mn-carte-compte">{n} genres</span>

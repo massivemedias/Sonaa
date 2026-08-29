@@ -9,6 +9,7 @@
    pas une. */
 
 import { FAMILIES, STRUCTURES } from './structures.ts';
+import { SiteNav } from './SiteNav.tsx';
 import './credits.css';
 
 const TOTAL = STRUCTURES.reduce((n, s) => n + s.genres.length, 0);
@@ -171,8 +172,7 @@ export function CreditsPage() {
       </div>
 
       <footer className="credits-foot">
-        <a href="#/">Revenir à l&apos;atlas</a>
-        <a href="#/index">Vue liste</a>
+        <SiteNav variant="page" />
         <button
           className="credits-replay"
           onClick={() => {

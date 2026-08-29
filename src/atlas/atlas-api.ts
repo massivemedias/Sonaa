@@ -76,8 +76,11 @@ export interface AtlasApi {
   pan: (dx: number, dy: number) => void;
   goUp: () => void;
   goToFamily: (familyIndex: number) => void;
-  /** Vol vers un genre nommé, depuis la recherche ou la fiche. */
-  goToGenre: (familyIndex: number, genreLocal: number) => void;
+  /** Vol vers un genre nommé, depuis la recherche ou la fiche.
+      `commeRacine` : en faire le centre de la vue, même s'il est déjà dans
+      l'arbre ouvert. Sur téléphone, un tap dans la liste doit cadrer CE
+      sous-style, pas seulement l'allumer dans la couronne du parent. */
+  goToGenre: (familyIndex: number, genreLocal: number, commeRacine?: boolean) => void;
   setSuspended: (suspended: boolean) => void;
   openPanel: (familyIndex: number, genreLocal: number) => void;
   closePanel: () => void;

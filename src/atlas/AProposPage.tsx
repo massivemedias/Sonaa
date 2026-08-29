@@ -6,6 +6,7 @@
    vrais quand le corpus grandira. */
 
 import { FAMILIES, STRUCTURES } from './structures.ts';
+import { SiteNav } from './SiteNav.tsx';
 import './credits.css';
 
 const GENRES = STRUCTURES.reduce((n, s) => n + s.genres.length, 0);
@@ -124,6 +125,13 @@ export function AProposPage() {
             avec la mention « vers ».
           </p>
           <p>
+            <strong>L&apos;arbre :</strong> la vue <a href="#/arbre">arbre</a> présente les
+            quatorze familles et leurs {GENRES} genres imbriqués, déjà dépliés, dans le même ordre
+            que la carte. Elle n&apos;ajoute aucune donnée : elle donne la même filiation sous
+            forme de texte, où l&apos;on retrouve un nom plus vite que dans un graphe. Le nombre
+            affiché à droite d&apos;un genre est son nombre de dérivés directs.
+          </p>
+          <p>
             <strong>Pourquoi la carte de chaleur mesure la descendance :</strong> parce
             qu&apos;aucune source publique ne mesure la notoriété d&apos;un genre précis. Nous
             avons testé les deux qui existent, et publions ce qu&apos;elles donnent.
@@ -171,11 +179,7 @@ export function AProposPage() {
       </div>
 
       <footer className="credits-foot">
-        <a href="#/">Revenir à l&apos;atlas</a>
-        <a href="#/credits">Crédits</a>
-        <a href="#/propositions">Propositions</a>
-        <a href="#/index">Vue liste</a>
-        <a href="#/chronologie">Chronologie</a>
+        <SiteNav variant="page" />
       </footer>
     </main>
   );

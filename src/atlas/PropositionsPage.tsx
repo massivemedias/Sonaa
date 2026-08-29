@@ -12,6 +12,7 @@ import { reprendreIntention, seDeconnecter } from '../lib/auth.ts';
 import { useFil } from '../lib/useFil.ts';
 import { ContributeDialog } from './ContributeDialog.tsx';
 import { LABEL_DE_GENRE, ProposalCard } from './ProposalCard.tsx';
+import { SiteNav } from './SiteNav.tsx';
 import './credits.css';
 import './contribute.css';
 
@@ -178,9 +179,7 @@ export function PropositionsPage() {
       </div>
 
       <footer className="credits-foot">
-        <a href="#/">Revenir à l&apos;atlas</a>
-        <a href="#/a-propos">À propos</a>
-        <a href="#/credits">Crédits</a>
+        <SiteNav variant="page" />
       </footer>
 
       {reprise && (

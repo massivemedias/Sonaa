@@ -18,7 +18,29 @@
   max-width: 1400px;
   margin: 0 auto 1.5rem;
   padding-bottom: 1rem;
+  padding-right: calc(var(--authb-l, 112px) + 0.5rem);
   border-bottom: 1px solid oklch(1 0 0 / 0.1);
+}
+
+.chrono-chrome {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.chrono-logo {
+  flex: none;
+  display: block;
+  height: 28px;
+  line-height: 0;
+}
+
+.chrono-logo img {
+  display: block;
+  height: 100%;
+  width: auto;
 }
 
 .chrono-title {
@@ -77,11 +99,13 @@
   align-items: center;
   gap: 0.75rem;
   width: 100%;
-  padding: 0.875rem 1rem;
+  min-height: 56px;
+  padding: 0.95rem 1rem;
   background: transparent;
   border: none;
   color: inherit;
   font: inherit;
+  font-size: 1.125rem;
   font-weight: 500;
   cursor: pointer;
   text-align: left;
@@ -116,8 +140,82 @@
 }
 
 .chrono-family-body {
-  padding: 1rem;
-  min-height: 400px;
+  padding: 0.4rem 0.6rem 0.8rem;
+}
+
+/* LA LISTE TACTILE D'UNE FAMILLE. Une rangee = un genre, assez haute pour
+   le pouce, assez grande pour se lire. Le retrait dit la generation. */
+.chrono-liste,
+.chrono-liste-genres {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.chrono-liste-bloc + .chrono-liste-bloc {
+  margin-top: 0.7rem;
+}
+
+.chrono-liste-decennie {
+  margin: 0 0 0.25rem;
+  padding: 0 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: oklch(1 0 0 / 0.45);
+}
+
+.chrono-liste-genre {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 52px;
+  padding: 0.65rem 0.6rem 0.65rem var(--retrait, 8px);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid oklch(1 0 0 / 0.06);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.chrono-liste-genre[data-major='true'] .chrono-liste-nom {
+  font-weight: 650;
+}
+
+.chrono-liste-nom {
+  flex: 1;
+  min-width: 0;
+  font-size: 1.0625rem;
+  line-height: 1.25;
+  color: oklch(0.95 0.02 var(--hue));
+}
+
+.chrono-liste-genre .chrono-graft {
+  position: static;
+}
+
+.chrono-liste-mixte {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.chrono-liste-genre[data-mixte='true']::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: oklch(0.7 0.15 var(--hue));
+  flex-shrink: 0;
+}
+
+.chrono-liste-an {
+  flex: none;
+  font-size: 0.8125rem;
+  color: oklch(1 0 0 / 0.5);
 }
 
 /* --- COLONNES DESKTOP --- */
@@ -311,8 +409,30 @@
     padding: 0.75rem;
   }
 
+  .chrono-header {
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.75rem;
+    padding-right: calc(var(--authb-l, 112px) + 0.25rem);
+  }
+
+  .chrono-chrome {
+    gap: 0.45rem 0.7rem;
+    margin-bottom: 0.6rem;
+  }
+
   .chrono-title {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .chrono-legend {
+    font-size: 0.75rem;
+    margin-bottom: 0.45rem;
+  }
+
+  .chrono-filter {
+    font-size: 0.875rem;
+    min-height: 44px;
   }
 
   .chrono-columns {
@@ -401,14 +521,14 @@
 }
 
 .chrono-selecteur button {
-  min-height: 36px;
-  padding: 0 0.8rem;
+  min-height: 44px;
+  padding: 0 0.9rem;
   background: transparent;
   border: 0;
   border-radius: 6px;
   color: var(--ink-secondary, oklch(0.66 0.01 250));
   font-family: var(--font-ui);
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   cursor: pointer;
 }
 
@@ -623,5 +743,15 @@
 }
 
 .chrono-epoque[data-orientation='verticale'] .chrono-epoque-case {
-  width: 120px;
+  width: 156px;
+  height: 52px;
+  padding: 7px 10px;
+}
+
+.chrono-epoque[data-orientation='verticale'] .chrono-epoque-nom {
+  font-size: 15px;
+}
+
+.chrono-epoque[data-orientation='verticale'] .chrono-epoque-an {
+  font-size: 12px;
 }

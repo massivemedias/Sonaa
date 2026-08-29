@@ -23,6 +23,14 @@
   color: var(--ink-primary);
 }
 
+.index-head {
+  padding-right: calc(var(--authb-l, 112px) + 0.5rem);
+}
+
+.index-head .sitenav {
+  margin: 0.9rem 0 0;
+}
+
 .index-head h1 {
   font-family: var(--font-ui);
   font-size: clamp(1.75rem, 5vw, 2.75rem);
@@ -121,6 +129,31 @@
   padding: 0.35rem 0.6rem 0.35rem 0;
   border-bottom: 1px solid var(--rule-hairline);
   font-weight: 400;
+}
+
+.index-genre-lien {
+  font: inherit;
+  font-weight: 500;
+  color: var(--ink-primary);
+  background: transparent;
+  border: 0;
+  padding: 0.55rem 0;
+  min-height: 44px;
+  cursor: pointer;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--rule-strong);
+}
+
+.index-genre-lien:hover,
+.index-genre-lien:focus-visible {
+  text-decoration-color: var(--ink-primary);
+}
+
+.index-genre-lien:focus-visible {
+  outline: 2px solid var(--ink-primary);
+  outline-offset: 3px;
 }
 
 .index-genres thead th {

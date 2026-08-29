@@ -17,7 +17,8 @@ import { SearchOverlay } from './SearchOverlay.tsx';
 import { Welcome } from './Welcome.tsx';
 import { ColumnsView } from './ColumnsView.tsx';
 import { MobileLevels } from './MobileLevels.tsx';
-import { AuthButton } from './AuthButton.tsx';
+import { SiteNav } from './SiteNav.tsx';
+import { consommerOuverture } from './ouvrir-genre.ts';
 import type { NavState, PanelState, AtlasApi, AtlasStats } from './atlas-api.ts';
 import './atlas.css';
 import './welcome.css';
@@ -42,6 +43,10 @@ const VIEWS: { id: ViewId; label: string; hint: string }[] = [
    « fixe » retombe sur la 3D libre, qui montre la même chose autrement ;
    « lineaire » retombe sur les colonnes, qui sont l'autre vue en DOM. */
 const REMPLACEMENTS: Record<string, ViewId> = { fixe: 'libre', lineaire: 'colonnes' };
+
+/* Une ouverture demandée par une autre vue, consommée une seule fois par
+   chargement. StrictMode remonte le composant ; un ref ne survivrait pas. */
+let ouvertureAppliquee = false;
 
 const readView = (): ViewId | null => {
   let raw: string | null = null;
@@ -280,6 +285,27 @@ export function AtlasPage() {
     };
   }, [view, onStats, onNavigate, onTracks, onPanel]);
 
+  /* CIBLE VENUE D'AILLEURS. L'index, la chronologie et la chaleur écrivent
+     le genre visé avant de recharger l'atlas. On l'ouvre une fois le moteur
+     (ou la vue colonnes) prêt, jamais avant : goToGenre sans API ne ferait
+     que remplir la colonne, la carte resterait à l'accueil.
+
+     Le drapeau est au module, pas dans un ref : StrictMode démonte et
+     remonte, et un ref reviendrait à false en emportant la clé déjà lue. */
+  useEffect(() => {
+    if (ouvertureAppliquee) return;
+    if (mode !== 'webgl' && mode !== 'dom') return;
+    const cible = consommerOuverture();
+    if (!cible) return;
+    if (!STRUCTURES[cible.familyIndex]?.genres[cible.genreLocal]) return;
+    ouvertureAppliquee = true;
+    setPanelGenre(cible);
+    if (mode === 'webgl') {
+      apiRef.current?.goToGenre(cible.familyIndex, cible.genreLocal);
+      apiRef.current?.openPanel(cible.familyIndex, cible.genreLocal);
+    }
+  }, [mode]);
+
   const chooseView = useCallback((next: ViewId) => {
     localStorage.setItem(VIEW_KEY, next);
     setMode('attente');
@@ -458,6 +484,21 @@ export function AtlasPage() {
     apiRef.current.openPanel(familyIndex, genreLocal);
   }, []);
 
+  /* SUR TELEPHONE, UN TAP SUR UN SOUS-STYLE DOIT FAIRE VOLER LA CARTE.
+
+     La liste se retire pour decouvrir la vue graphique. Si l'on n'ouvre que
+     le lecteur, la camera reste a l'ensemble : des planetes de neuf pixels,
+     sans plaques, c'est exactement ce qui a ete signale. goToGenre cadre la
+     lignee, openTracks pose le lecteur. */
+  const ouvrirGenreMobile = useCallback((familyIndex: number, genreLocal: number) => {
+    if (!apiRef.current) {
+      setPanelGenre({ familyIndex, genreLocal });
+      return;
+    }
+    apiRef.current.goToGenre(familyIndex, genreLocal, true);
+    apiRef.current.openPanel(familyIndex, genreLocal);
+  }, []);
+
   const reopenPanel = useCallback((familyIndex: number, genreLocal: number) => {
     apiRef.current?.openPanel(familyIndex, genreLocal);
   }, []);
@@ -507,12 +548,7 @@ export function AtlasPage() {
           la fait s'effacer pour decouvrir la vue graphique qui, elle,
           fonctionne sur telephone. Le composant se retire lui-meme au-dela du
           seuil, la page n'a pas a le savoir. */}
-      {/* LE POINT D'ENTREE DU COMPTE, permanent et hors de la carte : il ne
-          depend d'aucun mode d'affichage, parce qu'on doit pouvoir se
-          connecter depuis n'importe ou. */}
-      <AuthButton />
-
-      {mode === 'webgl' && <MobileLevels nav={nav} onRemonterCarte={() => apiRef.current?.goUp()} onOpen={openTracks} onEnsemble={() => apiRef.current?.goToFamily(-1)}
+      {mode === 'webgl' && <MobileLevels nav={nav} onRemonterCarte={() => apiRef.current?.goUp()} onOpen={ouvrirGenreMobile} onFamille={(fi) => apiRef.current?.goToFamily(fi)} onEnsemble={() => apiRef.current?.goToFamily(-1)}
           onChercher={() => setSearchOpen(true)} ouvert={panelGenre} />}
 
       {mode !== 'webgl' && mode !== 'dom' && <Fallback notice={reason} />}
@@ -545,8 +581,13 @@ export function AtlasPage() {
           Le fil d'Ariane sait déjà remonter, mais il demande de viser le bon
           segment et de comprendre qu'un segment est cliquable. Une flèche ne
           demande rien : c'est le geste que tout le monde connaît, et elle
-          remonte d'un cran. */}
-      {mode === 'webgl' && (level !== 'atlas' || panelGenre) && (
+          ramène d'un cran.
+
+          PLUS QUAND ON EST À L'ATLAS. La colonne est toujours ouverte sur un
+          genre d'accueil, donc `panelGenre` n'est jamais nul : s'en servir
+          comme condition laissait la flèche « remonter d'un niveau » alors
+          qu'il n'y avait nulle part où remonter. */}
+      {mode === 'webgl' && level !== 'atlas' && (
         <button className="crumb-retour" onClick={() => apiRef.current?.goUp()} aria-label="Remonter d'un niveau" title="Remonter d'un niveau">
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path
@@ -663,14 +704,21 @@ export function AtlasPage() {
         })()}
       </nav>
 
-      {/* Trois contrôles, haut droit : zoom avant, zoom arrière, recentrer.
-          Icônes Font Awesome Free (CC BY 4.0) intégrées au bundle en SVG
-          inline via free-solid-svg-icons : aucun appel tiers au runtime.
-          Recentrer = crosshairs et non house : la maison ferait doublon
-          avec le logotype, qui est déjà le retour à l'accueil. Estompage
-          après 3 s d'inactivité (data-idle). */}
+      {/* Quatre contrôles, haut droit : chercher d'abord, puis zoom et
+          recentrer. La loupe était cachée hors tactile, alors que 219 genres
+          ne se trouvent pas au clic dans un nuage. `/` reste, il n'est plus
+          le seul chemin. Recentrer = crosshairs et non house : la maison
+          ferait doublon avec le logotype. Estompage après 3 s (data-idle). */}
       {mode === 'webgl' && (
         <div ref={controlsRef} className="controls" aria-label="Contrôles de navigation">
+          <button
+            className="controls-search"
+            onClick={() => setSearchOpen(true)}
+            aria-label="Chercher un genre, un artiste, un label"
+            title="Chercher (/)"
+          >
+            <FaIcon icon={faMagnifyingGlass} />
+          </button>
           <button onClick={() => apiRef.current?.zoom(1)} aria-label="Zoom avant" title="Zoom avant (+)">
             <FaIcon icon={faMagnifyingGlassPlus} />
           </button>
@@ -680,13 +728,15 @@ export function AtlasPage() {
           <button onClick={() => apiRef.current?.recenter()} aria-label="Recentrer" title="Recentrer (0)">
             <FaIcon icon={faCrosshairs} />
           </button>
-          {/* La loupe n'existe qu'à l'écran tactile : au clavier, Espace
-              suffit. Sans elle, la légende mobile mentirait. */}
+        </div>
+      )}
+      {mode === 'dom' && (
+        <div className="controls" aria-label="Contrôles de navigation">
           <button
             className="controls-search"
             onClick={() => setSearchOpen(true)}
             aria-label="Chercher un genre, un artiste, un label"
-            title="Chercher"
+            title="Chercher (/)"
           >
             <FaIcon icon={faMagnifyingGlass} />
           </button>
@@ -765,44 +815,26 @@ export function AtlasPage() {
         onFrameCurrent={() => apiRef.current?.frameCurrent()}
       />
 
-      {/* Pied de page discret, présent dans TOUTES les vues : crédits, index
-          ET le changement de vue, qui n'a plus de barre permanente. */}
+      {/* Pied de page : le MODE d'abord (ce n'est pas une destination), puis
+          la navigation du site, la même que sur toutes les autres pages. */}
       <span className="foot-links">
-        {/* BASCULE et non liste depuis qu'il ne reste que deux vues : deux
-            entrées côte à côte obligeaient à comparer deux teintes de gris
-            pour savoir laquelle était active. Un bouton unique qui nomme sa
-            DESTINATION dit à la fois où l'on est et où l'on va. */}
-        {(() => {
-          const autre = VIEWS.find((v) => v.id !== view);
-          if (!autre) return null;
-          return (
-            <button
-              className="foot-view"
-              onClick={() => chooseView(autre.id)}
-              title={autre.hint}
-              aria-label={`Passer à la vue ${autre.label}`}
-            >
-              Vue {autre.label}
-            </button>
-          );
-        })()}
-        <a className="foot-view" href="#/chronologie" title="Frise chronologique des genres">
-          Chronologie
-        </a>
-        {/* TROISIEME VUE. Elle vit sur une route comme la chronologie, et non
-            dans le bascule a deux etats du selecteur : trois vues ne tiennent
-            pas dans un bouton qui dit « passer a l'autre ». */}
-        {/* UN SEUL MOT, et le pied de page l'impose. « Carte de chaleur »
-            passait a la ligne et se coupait derriere la barre du lecteur : la
-            rangee porte deja deux autres vues et quatre liens. Le titre
-            explique, l'etiquette designe. */}
-        <a className="foot-view" href="#/heatmap" title="Carte de chaleur : la taille dit la descendance d'un genre">
-          Chaleur
-        </a>
-        <span className="foot-sep" aria-hidden="true">·</span>
-        <a className="credits-link" href="#/a-propos">À propos</a>
-        <a className="credits-link" href="#/credits">Crédits</a>
-        <a className="credits-link" href="#/index">Index</a>
+        <SiteNav
+          variant="overlay"
+          extra={(() => {
+            const autre = VIEWS.find((v) => v.id !== view);
+            if (!autre) return null;
+            return (
+              <button
+                className="foot-view"
+                onClick={() => chooseView(autre.id)}
+                title={autre.hint}
+                aria-label={`Passer à la vue ${autre.label}`}
+              >
+                Vue {autre.label}
+              </button>
+            );
+          })()}
+        />
       </span>
 
       {/* Le HUD « Mesures » est retiré (verdict : on s'en fout). Le système

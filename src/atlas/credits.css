@@ -29,6 +29,19 @@
   margin: 0 auto;
 }
 
+.credits-head {
+  padding-right: calc(var(--authb-l, 112px) + 0.5rem);
+}
+
+.credits-foot {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.credits-foot .sitenav {
+  flex: 1 1 16rem;
+}
+
 .credits-head img {
   height: 48px;
   width: auto;

@@ -10,8 +10,9 @@
    La filiation montre le parent direct seulement. Les greffes inter-familles
    sont signalées par une pastille colorée, pas un trait qui traverse l'écran. */
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FAMILIES, STRUCTURES, type Genre } from './structures.ts';
+import { SiteNav } from './SiteNav.tsx';
 import './chronology.css';
 
 /* LA HAUTEUR D'UN CRAN, ecrite une seule fois : la carte, la case de decennie
@@ -49,10 +50,16 @@ const COULOIR_PX = 40;
    d'orientation. Seules changent les constantes, parce qu'une case est large
    de 128 et haute de 34 : ce qui doit s'ecarter n'est pas la meme dimension.
    C'est la difference entre une geometrie parametree et deux geometries. */
-const HAUTEUR_CASE = 34;
-const ECART_CASE_V = HAUTEUR_CASE + 6;
-const PX_PAR_AN_V = 11;
-const COULOIR_PX_V = 132;
+/* SUR TELEPHONE, LA CASE EST UNE CIBLE, PAS UN TIMBRE.
+
+   Trente-quatre pixels de haut et onze de texte : illisible et intouchable.
+   Quarante-huit ne suffisait pas encore : cinquante-deux, c'est le seuil
+   tactile avec une ligne de lecture. L'axe s'allonge d'autant : on defile
+   plus, on vise juste. */
+const HAUTEUR_CASE = 52;
+const ECART_CASE_V = HAUTEUR_CASE + 10;
+const PX_PAR_AN_V = 16;
+const COULOIR_PX_V = 176;
 
 interface GenreWithYear extends Genre {
   yearDeduced: number;
@@ -67,7 +74,15 @@ interface Props {
 }
 
 export function ChronologyView({ onOpen }: Props) {
-  const [openFamily, setOpenFamily] = useState<number | null>(null);
+  /* Premiere famille ouverte d'office sur telephone : quatorze accordéons
+     fermés, c'est un écran vide. Sur grand écran on n'en a pas besoin,
+     les quatorze colonnes sont déjà là. */
+  const [narrow, setNarrow] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
+  );
+  const [openFamily, setOpenFamily] = useState<number | null>(() =>
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches ? 0 : null
+  );
   const [showMajorsOnly, setShowMajorsOnly] = useState(false);
   /* DEUX VUES COMPLEMENTAIRES, ET ON GARDE LES DEUX.
 
@@ -77,7 +92,13 @@ export function ChronologyView({ onOpen }: Props) {
      montrer. Chacune perd ce que l'autre gagne, d'ou le selecteur plutot qu'un
      remplacement. */
   const [vue, setVue] = useState<'familles' | 'epoque'>('familles');
-  const narrow = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    const suivre = (): void => setNarrow(mq.matches);
+    mq.addEventListener('change', suivre);
+    return () => mq.removeEventListener('change', suivre);
+  }, []);
 
   const genresByFamily = useMemo(() => {
     const result: GenreWithYear[][] = [];
@@ -227,6 +248,122 @@ export function ChronologyView({ onOpen }: Props) {
     if (!showMajorsOnly) return genres;
     return genres.filter(g => g.major);
   }, [showMajorsOnly]);
+
+  /* LISTE TACTILE, PAS LA FRISE DESKTOP RETRECIE.
+
+     L'accordeon rejouait le rendu en colonnes : cartes de 40 px, texte a
+     12 px, positionnement absolu. Sur 390 px c'est illisible et intouchable.
+     Ici, une rangee par genre, 52 px, 17 px de nom, l'annee a droite, la
+     profondeur en retrait. On lit une famille du pouce, on n'essaie pas de
+     viser un timbre. */
+  const renderListeMobile = (familyIndex: number) => {
+    const family = FAMILIES[familyIndex];
+    const genres = filteredGenres(genresByFamily[familyIndex] || []);
+    const parDecennie = new Map<number, { genre: GenreWithYear; local: number }[]>();
+    genres.forEach((genre) => {
+      const d = Math.floor(genre.yearDeduced / 10) * 10;
+      const local = (genresByFamily[familyIndex] || []).findIndex((g) => g.id === genre.id);
+      const pile = parDecennie.get(d) ?? [];
+      pile.push({ genre, local });
+      parDecennie.set(d, pile);
+    });
+    const decennies = [...parDecennie.keys()].sort((a, b) => a - b);
+
+    return (
+      <ol className="chrono-liste" style={{ '--hue': family?.hue ?? 0 } as React.CSSProperties}>
+        {decennies.map((d) => (
+          <li key={d} className="chrono-liste-bloc">
+            <h3 className="chrono-liste-decennie">{d}s</h3>
+            <ul className="chrono-liste-genres">
+              {(parDecennie.get(d) ?? []).map(({ genre, local }) => (
+                <li key={genre.id}>
+                  <button
+                    type="button"
+                    className="chrono-liste-genre"
+                    data-major={genre.major}
+                    style={{ '--retrait': `${8 + genre.depth * 14}px` } as React.CSSProperties}
+                    onClick={() => onOpen(familyIndex, local)}
+                  >
+                    <span className="chrono-liste-nom">{genre.label}</span>
+                    <span className="chrono-liste-an">
+                      {genre.dateSure ? genre.yearDeduced : formatYear(genre.yearDeduced)}
+                    </span>
+                    {genre.hasGraft && (
+                      <span className="chrono-graft" title="Parent d'une autre famille">
+                        {genre.graftFamilies.map((fi) => (
+                          <span
+                            key={fi}
+                            className="chrono-graft-dot"
+                            style={{ '--graft-hue': FAMILIES[fi]?.hue ?? 0 } as React.CSSProperties}
+                          />
+                        ))}
+                      </span>
+                    )}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ol>
+    );
+  };
+
+  /* PAR EPOQUE SUR TELEPHONE : une liste, pas une geometrie.
+
+     La frise verticale posait l'axe a plusieurs milliers de pixels hors
+     cadre (overflow-x coupe) : on voyait un ecran vide. Deux cent dix-neuf
+     cases ne tiennent pas en couloirs sur 390 px. On lit le temps de haut
+     en bas, une rangee par genre, la pastille dit la famille. */
+  const renderListeEpoqueMobile = () => {
+    const tous = genresByFamily
+      .flatMap((genres, fi) =>
+        filteredGenres(genres).map((genre) => ({
+          genre,
+          fi,
+          local: (genresByFamily[fi] || []).findIndex((g) => g.id === genre.id)
+        }))
+      )
+      .sort((a, b) => a.genre.yearDeduced - b.genre.yearDeduced);
+    const parDecennie = new Map<number, typeof tous>();
+    tous.forEach((e) => {
+      const d = Math.floor(e.genre.yearDeduced / 10) * 10;
+      const pile = parDecennie.get(d) ?? [];
+      pile.push(e);
+      parDecennie.set(d, pile);
+    });
+    const decennies = [...parDecennie.keys()].sort((a, b) => a - b);
+
+    return (
+      <ol className="chrono-liste chrono-liste-mixte">
+        {decennies.map((d) => (
+          <li key={d} className="chrono-liste-bloc">
+            <h3 className="chrono-liste-decennie">{d}s</h3>
+            <ul className="chrono-liste-genres">
+              {(parDecennie.get(d) ?? []).map(({ genre, fi, local }) => (
+                <li key={genre.id}>
+                  <button
+                    type="button"
+                    className="chrono-liste-genre"
+                    data-major={genre.major}
+                    data-mixte="true"
+                    style={{ '--hue': FAMILIES[fi]?.hue ?? 0 } as React.CSSProperties}
+                    onClick={() => onOpen(fi, local)}
+                    title={FAMILIES[fi]?.label}
+                  >
+                    <span className="chrono-liste-nom">{genre.label}</span>
+                    <span className="chrono-liste-an">
+                      {genre.dateSure ? genre.yearDeduced : formatYear(genre.yearDeduced)}
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ol>
+    );
+  };
 
   const renderGenre = (genre: GenreWithYear, familyIndex: number, genreLocal: number, cran = 0) => {
     const family = FAMILIES[familyIndex];
@@ -425,6 +562,16 @@ export function ChronologyView({ onOpen }: Props) {
   return (
     <div className="chrono-root" data-narrow={narrow} data-vue={vue}>
       <header className="chrono-header">
+        <div className="chrono-chrome">
+          <a href="#/" className="chrono-logo" aria-label="SONAA, revenir à l'atlas">
+            <img
+              src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`}
+              alt="SONAA"
+              draggable={false}
+            />
+          </a>
+          <SiteNav variant="overlay" />
+        </div>
         <h1 className="chrono-title">Chaîne chronologique</h1>
         <p className="chrono-legend">
           <span className="chrono-legend-graft">
@@ -460,7 +607,7 @@ export function ChronologyView({ onOpen }: Props) {
         </label>
       </header>
 
-      {vue === 'epoque' ? renderEpoque() : narrow ? (
+      {vue === 'epoque' ? (narrow ? renderListeEpoqueMobile() : renderEpoque()) : narrow ? (
         <div className="chrono-accordion">
           {FAMILIES.map((family, i) => {
             const genres = filteredGenres(genresByFamily[i] || []);
@@ -480,7 +627,7 @@ export function ChronologyView({ onOpen }: Props) {
                 </button>
                 {isOpen && (
                   <div className="chrono-family-body">
-                    {renderTimeline(i)}
+                    {renderListeMobile(i)}
                   </div>
                 )}
               </div>

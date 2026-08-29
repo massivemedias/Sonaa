@@ -106,7 +106,7 @@
 }
 
 .welcome-go {
-  align-self: flex-start;
+  align-self: center;
   font-family: var(--font-ui);
   font-size: 0.875rem;
   font-weight: 500;

@@ -17,6 +17,7 @@ import { useMemo } from 'react';
 import { contributionsActives } from '../lib/supabase.ts';
 import { useFil } from '../lib/useFil.ts';
 import { ProposalCard } from './ProposalCard.tsx';
+import { SiteNav } from './SiteNav.tsx';
 import './credits.css';
 import './contribute.css';
 
@@ -125,9 +126,7 @@ export function ModerationPage() {
       </div>
 
       <footer className="credits-foot">
-        <a href="#/">Revenir à l&apos;atlas</a>
-        <a href="#/propositions">Toutes les propositions</a>
-        <a href="#/credits">Crédits</a>
+        <SiteNav variant="page" />
       </footer>
     </main>
   );
