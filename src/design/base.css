@@ -57,6 +57,18 @@ textarea {
   letter-spacing: inherit;
 }
 
+/* CE QUI SE LIT EN CONTINU prend le serrage du texte, pas celui des titres.
+   Les titres restent hors de cette liste : ils gardent le serrage general. */
+p,
+li,
+dd,
+blockquote,
+figcaption,
+label,
+td {
+  letter-spacing: var(--serrage-texte);
+}
+
 h1,
 h2,
 h3,

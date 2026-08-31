@@ -38,6 +38,17 @@
      deux valeurs qui n'ont plus de raison d'etre differentes finiraient par
      diverger pour rien. */
   --serrage: -1px;
+  /* LE TEXTE COURANT, UN PIXEL PLUS LARGE QUE LE RESTE.
+
+     Constate par Mika sur le mot de l'auteur : a -1px, un paragraphe entier
+     est trop serre. Un titre de deux mots supporte un serrage qu'une colonne
+     de dix lignes ne supporte pas, parce que l'oeil y saute de mot en mot et
+     a besoin des blancs pour savoir ou finit chacun. C'est la meme raison qui
+     fait qu'un titre de journal est plus serre que son article.
+
+     Les titres, les vignettes et les boutons gardent -1px, qui est le dessin
+     demande. Ce qui se LIT en continu passe a zero. */
+  --serrage-texte: 0px;
 
   /* LA LISTE DE RESULTATS D'UNE RECHERCHE. Deux vues decoupent le meme ecran
      de la meme facon, l'ancienne recherche et Parcourir. La grandeur est
