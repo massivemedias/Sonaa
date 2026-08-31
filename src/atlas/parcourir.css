@@ -80,7 +80,7 @@
   flex: 1 1 auto;
   min-width: 0;
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 0.925rem;
   font-weight: 700;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -103,7 +103,7 @@
   background: oklch(0.24 0.01 260);
   color: inherit;
   font: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
 }
 .pv-resultats {
   margin: 0.5rem 0 0;
@@ -129,7 +129,7 @@
 }
 .pv-resultat-nom {
   flex: 1 1 auto;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 550;
 }
 .pv-resultat-famille {
@@ -143,7 +143,7 @@
 .pv-resultat-vide {
   padding: 1rem 0.2rem;
   color: oklch(0.68 0.01 260);
-  font-size: 0.9rem;
+  font-size: 0.775rem;
 }
 
 /* --- Corps ---------------------------------------------------------------- */
@@ -181,17 +181,26 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-intro {
   margin: 0.9rem 0 0.7rem;
   color: oklch(0.7 0.01 260);
-  font-size: 0.9rem;
+  font-size: 0.775rem;
 }
 
 /* --- Les rectangles ------------------------------------------------------- */
 
 .pv-grille {
   display: grid;
-  /* DEUX COLONNES SUR TELEPHONE, jamais trois : a trois, le nom d'un genre
-     comme « Progressive Breakbeat » ne tient plus et se fait couper. */
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.6rem;
+  /* UNE SEULE COLONNE, des bannieres larges.
+
+     MESURE SUR LA MAQUETTE : la plaque fait 425 par 133, la carte interieure
+     402 par 112, soit un rapport de trois et demi pour un. A deux colonnes ce
+     rapport est impossible, il faudrait des tuiles de cinquante pixels de
+     haut. La forme demandee impose donc la colonne unique.
+
+     CE QU'ON GAGNE : le nom tient sur une ligne, meme « Neue Deutsche
+     Haerte », et la cible du doigt fait toute la largeur. CE QU'ON PERD : on
+     voit sept familles a l'ecran au lieu de douze, donc on defile davantage.
+     C'est le prix de la forme. */
+  grid-template-columns: 1fr;
+  gap: 0.55rem;
 }
 /* LA VIGNETTE : UN CADRE DANS UN CADRE.
 
@@ -216,9 +225,13 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-tuile {
   position: relative;
   display: flex;
-  min-height: 118px;
+  /* La hauteur est FIXE, pas deduite d'un rapport : a rapport constant, une
+     banniere de mille pixels de large ferait trois cents pixels de haut sur
+     un ecran d'ordinateur. On garde la hauteur de la maquette, la largeur
+     suit l'ecran. */
+  min-height: 116px;
   /* La marge de la plaque exterieure. */
-  padding: 4px;
+  padding: 5px;
   border: 0;
   border-radius: 26px;
   background: oklch(0.21 0.006 260);
@@ -271,9 +284,33 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-tuile:active {
   transform: scale(0.98);
 }
-.pv-tuile:hover .pv-tuile-carte,
+/* LE SURVOL, aux couleurs demandees : #FFC400 pour la carte, #3C3C3C pour le
+   texte.
+
+   IL NE S'APPLIQUE QU'AUX POINTEURS PRECIS. Sur un ecran tactile il n'y a pas
+   de survol : le navigateur le simule au toucher, et la couleur reste ensuite
+   collee a la derniere tuile touchee jusqu'au toucher suivant. On aurait une
+   tuile jaune en permanence, sans rapport avec ce que fait l'utilisateur. */
+@media (hover: hover) and (pointer: fine) {
+  .pv-tuile:hover .pv-tuile-carte {
+    background: #ffc400;
+  }
+  .pv-tuile:hover .pv-tuile-nom {
+    color: #3c3c3c;
+  }
+  .pv-tuile:hover .pv-tuile-detail {
+    color: #3c3c3c;
+    opacity: 0.72;
+  }
+}
+/* LE FOCUS CLAVIER GARDE CETTE COULEUR sur tous les appareils : c'est une
+   position, pas un survol, et elle doit se voir. */
 .pv-tuile:focus-visible .pv-tuile-carte {
-  background: linear-gradient(180deg, oklch(0.38 0.004 260), oklch(0.35 0.004 260));
+  background: #ffc400;
+}
+.pv-tuile:focus-visible .pv-tuile-nom,
+.pv-tuile:focus-visible .pv-tuile-detail {
+  color: #3c3c3c;
 }
 .pv-tuile-nom {
   /* GOOGLE SANS N'EST PAS DISTRIBUEE PUBLIQUEMENT : ni Google Fonts ni aucun
@@ -286,7 +323,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      comprimer par defaut, et deux pixels suffisent a rendre un nom faux. */
   flex: none;
   font-family: inherit;
-  font-size: 1.4375rem;
+  font-size: 1.3125rem;
   font-weight: 700;
   line-height: 1.08;
   /* LE NOM NE SE FAIT JAMAIS COUPER : c'est la seule information de la tuile.
@@ -296,7 +333,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-tuile-detail {
   flex: none;
   font-family: inherit;
-  font-size: 0.9375rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   line-height: 1.25;
   /* Le compte se lit SOUS le nom, en retrait, jamais a sa hauteur : c'est ce
@@ -307,7 +344,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   min-height: 96px;
 }
 .pv-tuile-genre .pv-tuile-nom {
-  font-size: 1.1875rem;
+  font-size: 1.0625rem;
 }
 
 /* --- La page d'un genre --------------------------------------------------- */
@@ -382,7 +419,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   border-radius: 10px;
   background: oklch(0.45 0.1 85 / 0.2);
   color: oklch(0.86 0.06 85);
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   line-height: 1.5;
 }
 .pv-brouillon-marque {
@@ -401,7 +438,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 }
 .pv-article-titre {
   margin: 0 0 0.6rem;
-  font-size: 1.1875rem;
+  font-size: 1.0625rem;
   font-weight: 700;
   line-height: 1.25;
   color: oklch(0.97 0.004 260);
@@ -409,7 +446,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-article-section p {
   margin: 0 0 0.85rem;
   color: oklch(0.86 0.008 260);
-  font-size: 1rem;
+  font-size: 0.875rem;
   line-height: 1.68;
 }
 .pv-article-section p:last-child {
@@ -452,7 +489,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   margin-top: 0.55rem;
 }
 .pv-photo-nom {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
 }
 /* LE CREDIT EST UN LIEN VERS LA PAGE SOURCE, et non une mention decorative :
@@ -498,7 +535,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   border-radius: 8px;
   background: oklch(0.62 0.14 var(--pv-hue) / 0.18);
   color: oklch(0.88 0.05 var(--pv-hue));
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
 }
 .pv-mot-titre {
   display: block;
@@ -530,7 +567,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-hero-nom {
   font-family: inherit;
   margin: 0.6rem 0 0.3rem;
-  font-size: 1.75rem;
+  font-size: 1.625rem;
   font-weight: 700;
   line-height: 1.1;
 }
@@ -539,7 +576,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   flex-wrap: wrap;
   gap: 0.5rem;
   margin: 0 0 1rem;
-  font-size: 0.82rem;
+  font-size: 0.75rem;
   color: oklch(0.97 0 0 / 0.78);
 }
 .pv-hero-faits span + span::before {
@@ -559,7 +596,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   color: oklch(0.14 0.01 250);
   font: inherit;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 700;
   cursor: pointer;
 }
@@ -572,7 +609,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 }
 .pv-hero-vide {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.775rem;
   color: oklch(0.97 0 0 / 0.75);
 }
 
@@ -582,7 +619,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   border-radius: 10px;
   background: oklch(0.45 0.13 55 / 0.28);
   color: oklch(0.93 0.05 70);
-  font-size: 0.88rem;
+  font-size: 0.755rem;
 }
 
 /* --- Les morceaux --------------------------------------------------------- */
@@ -651,7 +688,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   gap: 0.15rem;
 }
 .pv-piste-titre {
-  font-size: 0.95rem;
+  font-size: 0.825rem;
   font-weight: 550;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -661,7 +698,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   color: oklch(0.82 0.15 150);
 }
 .pv-piste-artiste {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: oklch(0.68 0.01 260);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -677,7 +714,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   /* UN CHAPEAU DE MAGAZINE, pas une note de bas de page : c'est le texte
      qu'on vient lire, il a droit au corps le plus grand de la page apres le
      titre. */
-  font-size: 1.0625rem;
+  font-size: 0.9375rem;
   line-height: 1.66;
 }
 .pv-faits {
@@ -692,7 +729,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   display: flex;
   gap: 0.55rem;
   align-items: baseline;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   line-height: 1.45;
 }
 .pv-fait-cle {
@@ -712,14 +749,14 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   border-radius: 0 10px 10px 0;
   background: oklch(1 0 0 / 0.04);
   color: oklch(0.88 0.008 260);
-  font-size: 0.95rem;
+  font-size: 0.825rem;
   line-height: 1.6;
 }
 .pv-mot-signe {
   display: block;
   margin-top: 0.5rem;
   color: oklch(0.62 0.01 260);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
 /* L'aveu de langue : le corpus est en francais et ne sera pas traduit par
    une machine. On le dit une fois, en tete de la description. */
@@ -729,12 +766,12 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   border-radius: 8px;
   background: oklch(1 0 0 / 0.05);
   color: oklch(0.68 0.01 260);
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
 }
 .pv-titre-liste {
   margin: 1.6rem 0 0.2rem;
   font-family: inherit;
-  font-size: 1.0625rem;
+  font-size: 0.9375rem;
   font-weight: 700;
 }
 
@@ -863,7 +900,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   gap: 0.1rem;
 }
 .pv-barre-titre {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -929,23 +966,23 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
     padding-right: max(0.75rem, calc((100vw - 1000px) / 2));
   }
   .pv-grille {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 0.85rem;
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
   }
   .pv-tuile {
-    min-height: 168px;
-    border-radius: 34px;
+    min-height: 128px;
+    border-radius: 30px;
     padding: 6px;
   }
   .pv-tuile-carte {
-    border-radius: 28px;
-    padding: 1.4rem 1.6rem;
+    border-radius: 24px;
+    padding: 1.4rem 1.8rem;
   }
   .pv-tuile-nom {
-    font-size: 1.75rem;
+    font-size: 1.625rem;
   }
   .pv-tuile-detail {
-    font-size: 1rem;
+    font-size: 0.875rem;
   }
   .pv-hero {
     margin-left: 0;
@@ -956,7 +993,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
     padding: 2rem 2rem 2.2rem;
   }
   .pv-description {
-    font-size: 1.1875rem;
+    font-size: 1.0625rem;
   }
   /* SUR GRAND ECRAN LA COLONNE DE TEXTE SE BRIDE. Au dela d'environ
      soixante-quinze signes par ligne, l'oeil perd le debut de la ligne
@@ -967,13 +1004,13 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
     max-width: 68ch;
   }
   .pv-article-titre {
-    font-size: 1.4375rem;
+    font-size: 1.3125rem;
   }
   .pv-photo {
     max-width: 34rem;
   }
   .pv-hero-nom {
-    font-size: 2.4rem;
+    font-size: 2.275rem;
   }
   .pv-barre {
     padding-left: max(0.75rem, calc((100vw - 1000px) / 2));
