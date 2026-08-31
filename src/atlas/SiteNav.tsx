@@ -13,6 +13,7 @@
    s'informe). L'état actif est un attribut, pas une couleur seule. */
 
 import { useEffect, useState, type ReactNode } from 'react';
+import { t } from '../langue/langue.ts';
 import './site-nav.css';
 
 type SiteCourant =
@@ -40,13 +41,13 @@ type SiteCourant =
    demandaient de choisir avant de savoir, et le choix se payait sur
    telephone, ou le menu tenait trois lignes. */
 const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
-  { href: '#/parcourir', id: 'parcourir', label: 'Parcourir' },
-  { href: '#/index', id: 'index', label: 'Index' }
+  { href: '#/parcourir', id: 'parcourir', label: t.parcourir },
+  { href: '#/index', id: 'index', label: t.index }
 ];
 
 const PAGES: readonly { href: string; id: SiteCourant; label: string }[] = [
-  { href: '#/a-propos', id: 'apropos', label: 'À propos' },
-  { href: '#/credits', id: 'credits', label: 'Crédits' }
+  { href: '#/a-propos', id: 'apropos', label: t.aPropos },
+  { href: '#/credits', id: 'credits', label: t.credits }
 ];
 
 function courantOf(hash: string): SiteCourant {
@@ -96,7 +97,7 @@ export function SiteNav({ variant, extra }: Props) {
   };
 
   return (
-    <nav className={`sitenav sitenav-${variant}`} aria-label="Navigation du site">
+    <nav className={`sitenav sitenav-${variant}`} aria-label={t.navigationDuSite}>
       {extra}
       {extra ? (
         <span className="sitenav-sep" aria-hidden="true">

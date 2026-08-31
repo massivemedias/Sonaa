@@ -207,11 +207,15 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      non colle au bas. Une vignette dont le nom flotte au milieu se lit d'un
      coup d'oeil ; colle en bas, l'oeil doit d'abord trouver le bord. */
   justify-content: center;
-  gap: 0.15rem;
+  /* LES DEUX LIGNES SE TOUCHENT PRESQUE, comme sur la seconde maquette : le
+     nom et son compte forment un seul bloc, pas deux informations posees
+     l'une au-dessus de l'autre. L'ecart vient de l'interligne, pas d'une
+     marge, sinon le bloc se descelle des que le nom passe a deux lignes. */
+  gap: 0;
   min-height: 104px;
-  padding: 0.85rem 1rem;
+  padding: 0.9rem 1.05rem;
   border: 0;
-  border-radius: 16px;
+  border-radius: 20px;
   /* A PLAT, sans degrade : le degrade fabriquait une profondeur qui ne dit
      rien. La couleur porte la famille, c'est tout ce qu'on lui demande. */
   background: oklch(0.58 0.19 var(--pv-hue));
@@ -235,9 +239,9 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      comprimer par defaut, et deux pixels suffisent a rendre un nom faux. */
   flex: none;
   font-family: var(--pv-police);
-  font-size: 1.25rem;
+  font-size: 1.375rem;
   font-weight: 700;
-  line-height: 1.15;
+  line-height: 1.1;
   /* DEMANDE : -4px. Mesure a l'ecran : a 17 px de corps, -4px vaut -0,235 em
      et les lettres se chevauchent, « Disco » se lit « Dsco ». C'est un
      reglage de gros titre applique a une vignette. On garde donc la meme
@@ -251,17 +255,19 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-tuile-detail {
   flex: none;
   font-family: var(--pv-police);
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
   /* Le compte se lit SOUS le nom, en retrait, jamais a sa hauteur : c'est ce
      retrait qui fait que l'oeil attrape le nom en premier. */
-  opacity: 0.72;
+  opacity: 0.78;
 }
 .pv-tuile-genre {
   min-height: 96px;
 }
 .pv-tuile-genre .pv-tuile-nom {
-  font-size: 1.125rem;
+  font-size: 1.1875rem;
 }
 
 /* --- La page d'un genre --------------------------------------------------- */
@@ -438,10 +444,70 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 }
 
 .pv-description {
-  margin: 1.4rem 0 0;
-  color: oklch(0.78 0.01 260);
-  font-size: 0.92rem;
+  /* ELLE MONTE AU-DESSUS DES MORCEAUX. Posee tout en bas, il fallait passer
+     douze lignes de liste pour savoir ce qu'on ecoutait. C'est pourtant la
+     reponse a la question qui amene ici : c'est quoi, ce style ? */
+  margin: 1.1rem 0 0;
+  color: oklch(0.86 0.008 260);
+  font-size: 1rem;
+  line-height: 1.62;
+}
+.pv-faits {
+  /* Une liste de definitions porte des marges par defaut qui cassent la
+     grille : on les remet a zero ici plutot que dans une regle globale. */
+  padding: 0;
+  margin: 1.1rem 0 0;
+  display: grid;
+  gap: 0.55rem;
+}
+.pv-fait {
+  display: flex;
+  gap: 0.55rem;
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+.pv-fait-cle {
+  flex: none;
+  min-width: 5.2rem;
+  color: oklch(0.62 0.01 260);
+}
+.pv-fait-val {
+  margin: 0;
+  color: oklch(0.82 0.008 260);
+}
+.pv-mot {
+  margin: 1.1rem 0 0;
+  /* blockquote porte une indentation par defaut. */
+  padding: 0.85rem 1rem;
+  border-left: 3px solid oklch(0.62 0.14 var(--pv-hue));
+  border-radius: 0 10px 10px 0;
+  background: oklch(1 0 0 / 0.04);
+  color: oklch(0.88 0.008 260);
+  font-size: 0.95rem;
   line-height: 1.6;
+}
+.pv-mot-signe {
+  display: block;
+  margin-top: 0.5rem;
+  color: oklch(0.62 0.01 260);
+  font-size: 0.8rem;
+}
+/* L'aveu de langue : le corpus est en francais et ne sera pas traduit par
+   une machine. On le dit une fois, en tete de la description. */
+.pv-langue {
+  margin: 1.1rem 0 0;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  background: oklch(1 0 0 / 0.05);
+  color: oklch(0.68 0.01 260);
+  font-size: 0.8125rem;
+}
+.pv-titre-liste {
+  margin: 1.6rem 0 0.2rem;
+  font-family: var(--pv-police);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .pv-sr {
@@ -586,11 +652,15 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
     gap: 0.85rem;
   }
   .pv-tuile {
-    min-height: 132px;
-    border-radius: 18px;
+    min-height: 138px;
+    border-radius: 24px;
+    padding: 1.1rem 1.35rem;
   }
   .pv-tuile-nom {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
+  }
+  .pv-tuile-detail {
+    font-size: 1rem;
   }
   .pv-hero {
     margin-left: 0;

@@ -29,6 +29,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Track } from '../atlas/structures.ts';
+import { t } from '../langue/langue.ts';
 
 type YTPlayer = {
   loadVideoById: (id: string) => void;
@@ -244,8 +245,8 @@ export function useLecteur({ precharger }: Options) {
           etat: 'erreur',
           message:
             e instanceof Error && e.message.includes('bloque')
-              ? "Le lecteur YouTube est bloque par une extension du navigateur."
-              : "Le lecteur YouTube n'a pas pu se charger."
+              ? t.lecteurBloque
+              : t.lecteurIndisponible
         }));
       });
 
@@ -300,12 +301,12 @@ export function useLecteur({ precharger }: Options) {
   const surErreur = useCallback((code: number) => {
     const raison =
       code === 100
-        ? 'a ete retiree de YouTube'
+        ? t.erreurRetiree
         : code === 101 || code === 150
-          ? "n'est pas autorisee hors de YouTube"
+          ? t.erreurNonAutorisee
           : code === 2
-            ? 'a un identifiant invalide'
-            : 'est illisible';
+            ? t.erreurIdentifiant
+            : t.erreurIllisible;
 
     annulerMinuteurs();
     erreursDeSuite.current += 1;
@@ -316,14 +317,14 @@ export function useLecteur({ precharger }: Options) {
       setLecture((l) => ({
         ...l,
         etat: 'erreur',
-        message: `Cette piste ${raison}. Aucune piste de cette liste n'est lisible.`
+        message: `${t.cettePiste} ${raison}. ${t.aucuneLisible}`
       }));
       return;
     }
     setLecture((l) => ({
       ...l,
       etat: 'erreur',
-      message: `Cette piste ${raison}. Passage a la suivante.`
+      message: `${t.cettePiste} ${raison}. ${t.passageSuivant}`
     }));
     suiteMinuteur.current = window.setTimeout(() => {
       suiteMinuteur.current = null;
@@ -348,7 +349,7 @@ export function useLecteur({ precharger }: Options) {
           listeId,
           position: 0,
           duree: 0,
-          message: "Cette piste n'a pas de video associee."
+          message: t.sansVideo
         });
         return;
       }
@@ -377,7 +378,7 @@ export function useLecteur({ precharger }: Options) {
         if (etatYt === 1 || etatYt === 3) return;
         setLecture((l) =>
           l.etat === 'chargement'
-            ? { ...l, etat: 'bloque', message: 'Appuyez encore pour lancer le son.' }
+            ? { ...l, etat: 'bloque', message: t.appuyezEncore }
             : l
         );
       }, 2600);
@@ -412,7 +413,7 @@ export function useLecteur({ precharger }: Options) {
             if (s === 1 || s === 3) return;
             setLecture((l) =>
               l.etat === 'chargement'
-                ? { ...l, etat: 'bloque', message: 'Appuyez encore pour lancer le son.' }
+                ? { ...l, etat: 'bloque', message: t.appuyezEncore }
                 : l
             );
           }, 2600);
@@ -447,7 +448,7 @@ export function useLecteur({ precharger }: Options) {
       if (s === 1 || s === 3) return;
       setLecture((l) =>
         l.etat === 'chargement'
-          ? { ...l, etat: 'bloque', message: 'Appuyez encore pour lancer le son.' }
+          ? { ...l, etat: 'bloque', message: t.appuyezEncore }
           : l
       );
     }, 2600);

@@ -19,6 +19,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSession } from '../lib/useSession.ts';
 import { connexionGoogle, envoyerLienMagique, memoriserIntention, seDeconnecter } from '../lib/auth.ts';
 import { monPseudonyme, suisJeModerateur } from '../lib/proposals.ts';
+import { t } from '../langue/langue.ts';
 import './auth-button.css';
 
 /* L'ENDROIT EXACT QUITTÉ, capturé AVANT tout départ.
@@ -193,7 +194,7 @@ export function AuthButton() {
         </>
       ) : (
         <button className="authb-bouton" onClick={() => setOuvert(true)}>
-          Se connecter
+          {t.seConnecter}
         </button>
       )}
 
@@ -205,34 +206,29 @@ export function AuthButton() {
             className="authb-panneau"
             role="dialog"
             aria-modal="true"
-            aria-label="Connexion"
+            aria-label={t.connexion}
             onClick={(e) => e.stopPropagation()}
           >
-            <button className="authb-fermer" onClick={() => setOuvert(false)} aria-label="Fermer">
+            <button className="authb-fermer" onClick={() => setOuvert(false)} aria-label={t.fermer}>
               ×
             </button>
-            <h2>Connexion</h2>
-            <p className="authb-usage">
-              Connecte-toi pour proposer des morceaux, voter et commenter.
-            </p>
+            <h2>{t.connexion}</h2>
+            <p className="authb-usage">{t.usageConnexion}</p>
 
             {/* GOOGLE EN PREMIER, ET C'EST DE L'ARITHMÉTIQUE : le lien par
                 courriel est plafonné à cent envois par jour pour le site
                 entier. Google n'a pas cette limite. */}
             <button className="authb-google" onClick={() => void parGoogle()}>
-              Continuer avec Google
+              {t.continuerGoogle}
             </button>
 
-            <div className="authb-ou"><span>ou</span></div>
+            <div className="authb-ou"><span>{t.ou}</span></div>
 
             {envoi === 'parti' ? (
-              <p className="authb-parti">
-                Un lien de connexion vient de partir. Ouvre-le depuis ce navigateur,
-                tu reviendras exactement ici.
-              </p>
+              <p className="authb-parti">{t.lienParti}</p>
             ) : (
               <form onSubmit={(e) => void parCourriel(e)}>
-                <label htmlFor="authb-email">Ton adresse</label>
+                <label htmlFor="authb-email">{t.tonAdresse}</label>
                 <input
                   id="authb-email"
                   type="email"
@@ -243,7 +239,7 @@ export function AuthButton() {
                   required
                 />
                 <button type="submit" disabled={envoi === 'envoi'}>
-                  {envoi === 'envoi' ? 'Envoi…' : 'Recevoir un lien'}
+                  {envoi === 'envoi' ? t.envoiEnCours : t.recevoirLien}
                 </button>
               </form>
             )}
@@ -252,11 +248,7 @@ export function AuthButton() {
 
             {/* LA LIGNE SUR LES DONNÉES EST UNE PROMESSE, pas une mention
                 légale : elle dit ce que le site fait, et le site le tient. */}
-            <p className="authb-donnees">
-              Aucun mot de passe, jamais. Ton pseudonyme public est calculé de façon
-              non réversible : ton adresse n'est affichée nulle part, ni pour toi ni
-              pour les autres.
-            </p>
+            <p className="authb-donnees">{t.promesseDonnees}</p>
           </div>
         </div>
       )}

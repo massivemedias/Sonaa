@@ -38,6 +38,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FaIcon } from './FaIcon.tsx';
 import { SiteNav } from './SiteNav.tsx';
+import { t } from '../langue/langue.ts';
 import './parcourir.css';
 
 /* --- L'adresse ------------------------------------------------------------ */
@@ -139,21 +140,21 @@ export function ParcourirView() {
   const enTete = (
     <header className="pv-tete">
       {niveau.k === 'familles' ? (
-        <a className="pv-logo" href="#/" aria-label="SONAA, revenir à l'atlas">
+        <a className="pv-logo" href="#/" aria-label={t.retourAtlas}>
           <img src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`} alt="SONAA" draggable={false} />
         </a>
       ) : (
         <button
           className="pv-retour"
           onClick={() => aller(niveau.k === 'genre' ? { k: 'famille', fi: niveau.fi } : { k: 'familles' })}
-          aria-label="Revenir"
+          aria-label={t.revenir}
         >
           <FaIcon icon={faChevronLeft} />
         </button>
       )}
 
       <h1 className="pv-tete-titre">
-        {niveau.k === 'familles' ? 'Parcourir' : niveau.k === 'famille' ? familleCourante?.label : genreCourant?.label}
+        {niveau.k === 'familles' ? t.parcourir : niveau.k === 'famille' ? familleCourante?.label : genreCourant?.label}
       </h1>
 
       <button
@@ -162,7 +163,7 @@ export function ParcourirView() {
           setChercheOuvert((v) => !v);
           setRecherche('');
         }}
-        aria-label={chercheOuvert ? 'Fermer la recherche' : 'Chercher un genre'}
+        aria-label={chercheOuvert ? t.fermerRecherche : t.chercherUnGenre}
       >
         <FaIcon icon={chercheOuvert ? faXmark : faMagnifyingGlass} />
       </button>
@@ -177,12 +178,12 @@ export function ParcourirView() {
         autoFocus
         value={recherche}
         onChange={(e) => setRecherche(e.target.value)}
-        placeholder="Nom d'un genre"
-        aria-label="Chercher un genre"
+        placeholder={t.nomDunGenre}
+        aria-label={t.chercherUnGenre}
       />
       {recherche.trim().length >= 2 && (
         <ul className="pv-resultats">
-          {resultats.length === 0 && <li className="pv-resultat-vide">Aucun genre de ce nom.</li>}
+          {resultats.length === 0 && <li className="pv-resultat-vide">{t.aucunGenreDeCeNom}</li>}
           {resultats.map(({ fi, gl, g }) => (
             <li key={g.id}>
               <button
@@ -214,7 +215,7 @@ export function ParcourirView() {
         {niveau.k === 'familles' && (
           <>
             <p className="pv-intro">
-              219 genres, 14 familles. Appuyez sur une famille.
+              {t.accroche(TOUS.length, FAMILIES.length)}
             </p>
             <div className="pv-grille">
               {FAMILIES.map((f, fi) => (
@@ -225,7 +226,7 @@ export function ParcourirView() {
                   onClick={() => aller({ k: 'famille', fi })}
                 >
                   <span className="pv-tuile-nom">{f.label}</span>
-                  <span className="pv-tuile-detail">{f.count} genres</span>
+                  <span className="pv-tuile-detail">{t.nGenres(f.count)}</span>
                 </button>
               ))}
             </div>
@@ -237,7 +238,7 @@ export function ParcourirView() {
 
         {niveau.k === 'famille' && familleCourante && (
           <>
-            <p className="pv-intro">{familleCourante.count} genres. Appuyez pour ouvrir.</p>
+            <p className="pv-intro">{t.genresAppuyez(familleCourante.count)}</p>
             <div className="pv-grille">
               {(STRUCTURES[niveau.fi]?.genres ?? []).map((g, gl) => {
                 const p = poidsDe(g.id);
@@ -251,7 +252,7 @@ export function ParcourirView() {
                     <span className="pv-tuile-nom">{g.label}</span>
                     <span className="pv-tuile-detail">
                       {g.annee > 0 ? g.annee : ''}
-                      {p.derivesDirects > 0 ? ` · ${p.derivesDirects} dérivés` : ''}
+                      {p.derivesDirects > 0 ? ` · ${t.nDerives(p.derivesDirects)}` : ''}
                     </span>
                   </button>
                 );
@@ -314,8 +315,8 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
         <h2 className="pv-hero-nom">{genre.label}</h2>
         <p className="pv-hero-faits">
           {genre.annee > 0 && <span>{genre.annee}</span>}
-          {genre.bpmRange && <span>{genre.bpmRange[0]} à {genre.bpmRange[1]} BPM</span>}
-          <span>{tracks.length} morceau{tracks.length > 1 ? 'x' : ''}</span>
+          {genre.bpmRange && <span>{t.bpm(genre.bpmRange[0], genre.bpmRange[1])}</span>}
+          <span>{t.nMorceaux(tracks.length)}</span>
         </p>
 
         {/* LE GROS BOUTON N'EXISTE QUE S'IL Y A QUELQUE CHOSE A JOUER. Rendu
@@ -327,10 +328,10 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
             onClick={() => (cetteListe ? basculer() : jouer(tracks, 0, genre.id))}
           >
             <FaIcon icon={lecture.etat === 'joue' && cetteListe ? faPause : faPlay} />
-            <span>{lecture.etat === 'joue' && cetteListe ? 'Pause' : 'Écouter'}</span>
+            <span>{lecture.etat === 'joue' && cetteListe ? t.pause : t.ecouter}</span>
           </button>
         ) : (
-          <p className="pv-hero-vide">Aucun morceau n&apos;est encore renseigné pour ce genre.</p>
+          <p className="pv-hero-vide">{t.aucunMorceau}</p>
         )}
       </section>
 
@@ -343,19 +344,59 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
         </p>
       )}
 
+      {/* CE QUE LE GENRE EST, AVANT CE QU'ON PEUT EN ECOUTER.
+
+          La description etait tout en bas, apres la liste : il fallait passer
+          douze morceaux pour lire la reponse a la question qui amene ici.
+          Elle passe devant, avec les faits qui la completent. */}
+      {t.texteEnFrancais && <p className="pv-langue">{t.texteEnFrancais}</p>}
+      {genre.description && <p className="pv-description">{genre.description}</p>}
+
+      {genre.motDeLAuteur && (
+        <blockquote className="pv-mot">
+          {genre.motDeLAuteur}
+          <span className="pv-mot-signe">Mika</span>
+        </blockquote>
+      )}
+
+      <dl className="pv-faits">
+        {genre.machines.length > 0 && (
+          <div className="pv-fait">
+            <dt className="pv-fait-cle">{t.machines}</dt>
+            <dd className="pv-fait-val">{genre.machines.join(', ')}</dd>
+          </div>
+        )}
+        {genre.labelsHistoriques.length > 0 && (
+          <div className="pv-fait">
+            <dt className="pv-fait-cle">{t.labels}</dt>
+            <dd className="pv-fait-val">{genre.labelsHistoriques.join(', ')}</dd>
+          </div>
+        )}
+        {genre.artistesCles.length > 0 && (
+          <div className="pv-fait">
+            <dt className="pv-fait-cle">{t.artistes}</dt>
+            <dd className="pv-fait-val">{genre.artistesCles.join(', ')}</dd>
+          </div>
+        )}
+      </dl>
+
+      {tracks.length > 0 && (
+        <h3 className="pv-titre-liste">{t.nMorceaux(tracks.length)}</h3>
+      )}
+
       {tracks.length > 0 && (
         <ol className="pv-pistes">
-          {tracks.map((t, i) => {
+          {tracks.map((tr, i) => {
             const active = cetteListe && lecture.index === i;
             return (
-              <li key={t.id}>
+              <li key={tr.id}>
                 <button
                   className="pv-piste"
                   data-active={active}
                   onClick={() => (active ? basculer() : jouer(tracks, i, genre.id))}
                 >
                   <span className="pv-piste-image">
-                    <Pochette track={t} hue={famille.hue} taille={48} />
+                    <Pochette track={tr} hue={famille.hue} taille={48} />
                     {active && (
                       <span className="pv-piste-etat" aria-hidden="true">
                         <FaIcon icon={lecture.etat === 'joue' ? faPause : faPlay} />
@@ -363,11 +404,11 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
                     )}
                   </span>
                   <span className="pv-piste-texte">
-                    <span className="pv-piste-titre">{t.title}</span>
+                    <span className="pv-piste-titre">{tr.title}</span>
                     <span className="pv-piste-artiste">
-                      {t.artist}
-                      {t.year ? ` · ${t.year}` : ''}
-                      {t.role === 'origine' ? ' · origine' : ''}
+                      {tr.artist}
+                      {tr.year ? ` · ${tr.year}` : ''}
+                      {tr.role === 'origine' ? ` · ${t.origine}` : ''}
                     </span>
                   </span>
                 </button>
@@ -377,9 +418,7 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
         </ol>
       )}
 
-      {genre.description && <p className="pv-description">{genre.description}</p>}
-
-      {enCours && <p className="pv-sr" role="status">Lecture en cours</p>}
+      {enCours && <p className="pv-sr" role="status">{t.lectureEnCours}</p>}
     </>
   );
 }
@@ -415,24 +454,24 @@ function BarreLecture({ piste, hue, genreLabel, lecture, basculer, deplacer, ouv
                 Un bouton qui n'a pas encore obtenu le son doit le montrer, pas
                 afficher une pause qui n'a pas eu lieu. */}
             {lecture.etat === 'chargement'
-              ? 'Chargement…'
+              ? t.chargement
               : lecture.etat === 'bloque'
-                ? 'Appuyez encore pour le son'
+                ? t.appuyezEncoreCourt
                 : lecture.etat === 'erreur'
-                  ? 'Piste illisible'
+                  ? t.pisteIllisible
                   : `${piste.artist} · ${genreLabel}`}
           </span>
         </span>
       </button>
 
       <div className="pv-barre-transport">
-        <button onClick={() => deplacer(-1)} aria-label="Morceau précédent">
+        <button onClick={() => deplacer(-1)} aria-label={t.morceauPrecedent}>
           <FaIcon icon={faBackwardStep} />
         </button>
-        <button className="pv-barre-play" onClick={basculer} aria-label={joue ? 'Pause' : 'Lecture'}>
+        <button className="pv-barre-play" onClick={basculer} aria-label={joue ? t.pause : t.lecture}>
           <FaIcon icon={joue ? faPause : faPlay} />
         </button>
-        <button onClick={() => deplacer(1)} aria-label="Morceau suivant">
+        <button onClick={() => deplacer(1)} aria-label={t.morceauSuivant}>
           <FaIcon icon={faForwardStep} />
         </button>
       </div>

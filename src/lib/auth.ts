@@ -19,6 +19,7 @@
    le code non. C'est pour cela que la limite n'est écrite nulle part ici en
    dur, on relaie le délai que le serveur renvoie. */
 
+import { t } from '../langue/langue.ts';
 import { supabase } from './supabase.ts';
 
 const CLE_INTENTION = 'sonaa-intention-contribution';
@@ -232,9 +233,7 @@ export async function connexionGoogle(intention?: Intention): Promise<ResultatEn
       try {
         const corps = (await sonde.json()) as { msg?: string };
         if (typeof corps.msg === 'string' && corps.msg.includes('OAuth')) {
-          message =
-            'La connexion Google n’est pas encore configurée sur ce site. ' +
-            'Utilisez votre courriel ci-dessous.';
+          message = t.googleNonConfiguree;
         }
       } catch {
         /* Reponse illisible : le message general suffit, il dit quoi faire. */
