@@ -202,7 +202,33 @@ const genreSchema = z.strictObject({
 
      Optionnel et vide presque partout, deliberement : une voix qui parle sur
      les 218 genres ne dit plus rien. */
-  motDeLAuteur: z.string().optional()
+  motDeLAuteur: z.string().optional(),
+
+  /* L'ARTICLE LONG, en sections titrees.
+
+     `description` est un chapeau : trois a cinq phrases qui disent ce qu'est
+     le genre. `article` est ce qu'on vient LIRE quand on veut savoir
+     comment ce son se fabrique, d'ou il vient et ou il mene. Les deux
+     coexistent parce qu'ils ne servent pas au meme moment : le chapeau se lit
+     en passant, l'article se lit assis.
+
+     LE MARQUEUR `redaction: 'brouillon'` VAUT POUR LUI AUSSI, et c'est la
+     seule facon honnete de publier un texte que la machine a ecrit. Un
+     article non relu par Mika porte la marque et l'affiche ; il ne se fait
+     pas passer pour sa prose. La marque se retire a la relecture, pas avant.
+
+     Minimum de 400 caracteres par section : en dessous, ce n'est pas une
+     section d'article, c'est une ligne de fiche technique, et elle a deja sa
+     place ailleurs. */
+  article: z
+    .array(
+      z.object({
+        titre: z.string().min(3),
+        texte: z.string().min(400)
+      })
+    )
+    .min(2)
+    .optional()
 });
 
 const familySchema = z.strictObject({

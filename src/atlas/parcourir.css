@@ -316,6 +316,55 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
     );
 }
 
+/* --- L'article long --- */
+
+.pv-article {
+  margin: 2rem 0 0;
+}
+.pv-brouillon {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0 0 1.6rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+  background: oklch(0.45 0.1 85 / 0.2);
+  color: oklch(0.86 0.06 85);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+.pv-brouillon-marque {
+  flex: none;
+  padding: 0.1rem 0.5rem;
+  border-radius: 6px;
+  background: oklch(0.7 0.14 85);
+  color: oklch(0.18 0.02 85);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.pv-article-section + .pv-article-section {
+  margin-top: 1.9rem;
+}
+.pv-article-titre {
+  margin: 0 0 0.6rem;
+  font-size: 1.1875rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: oklch(0.97 0.004 260);
+}
+.pv-article-section p {
+  margin: 0 0 0.85rem;
+  color: oklch(0.86 0.008 260);
+  font-size: 1rem;
+  line-height: 1.68;
+}
+.pv-article-section p:last-child {
+  margin-bottom: 0;
+}
+
 /* --- La photo d'une machine --- */
 
 .pv-photo {
@@ -838,6 +887,17 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   }
   .pv-description {
     font-size: 1.1875rem;
+  }
+  /* SUR GRAND ECRAN LA COLONNE DE TEXTE SE BRIDE. Au dela d'environ
+     soixante-quinze signes par ligne, l'oeil perd le debut de la ligne
+     suivante et doit revenir en arriere. Un article de mille mots pose sur
+     mille pixels de large ne se lit pas. */
+  .pv-article-section p,
+  .pv-description {
+    max-width: 68ch;
+  }
+  .pv-article-titre {
+    font-size: 1.4375rem;
   }
   .pv-hero-nom {
     font-size: 2.4rem;

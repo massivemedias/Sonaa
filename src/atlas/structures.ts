@@ -270,6 +270,9 @@ export interface Genre {
      Vide ou absent sur la quasi-totalite des genres, et c'est voulu : une
      voix qui parle partout ne dit plus rien. */
   readonly motDeLAuteur: string | null;
+  /* L'ARTICLE LONG, en sections titrees. Vide sur la quasi-totalite des
+     genres aujourd'hui : on n'affiche rien plutot qu'un gabarit. */
+  readonly article: readonly { readonly titre: string; readonly texte: string }[];
   readonly machines: readonly string[];
   readonly labelsHistoriques: readonly string[];
   readonly labelsActuels: readonly string[] | null;
@@ -442,6 +445,7 @@ const buildStructure = (familyIndex: number): Structure => {
       aliases: entry.aliases ?? [],
       description: entry.description ?? null,
       motDeLAuteur: entry.motDeLAuteur ?? null,
+      article: entry.article ?? [],
       machines: entry.machines ?? [],
       labelsHistoriques: entry.labelsHistoriques ?? [],
       labelsActuels: entry.labelsActuels ?? null,

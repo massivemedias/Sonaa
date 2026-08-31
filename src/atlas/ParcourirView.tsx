@@ -514,6 +514,34 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
       {t.texteEnFrancais && <p className="pv-langue">{t.texteEnFrancais}</p>}
       {genre.description && <p className="pv-description">{genre.description}</p>}
 
+      {/* L'ARTICLE LONG, quand il existe.
+
+          IL PORTE SA MARQUE QUAND IL EST UN BROUILLON, et ce n'est pas une
+          precaution decorative : un texte ecrit par la machine ne doit pas se
+          faire passer pour la prose de Mika. La marque se retire a la
+          relecture, pas avant. C'est le mecanisme que le corpus prevoyait
+          deja, on ne fait que l'afficher. */}
+      {genre.article.length > 0 && (
+        <article className="pv-article">
+          {genre.redaction === 'brouillon' && (
+            <p className="pv-brouillon">
+              <span className="pv-brouillon-marque">{t.brouillon}</span>
+              {t.brouillonExplique}
+            </p>
+          )}
+          {genre.article.map((section) => (
+            <section className="pv-article-section" key={section.titre}>
+              <h3 className="pv-article-titre">{section.titre}</h3>
+              {/* Les paragraphes sont separes par une ligne vide dans la
+                  donnee : on ne stocke pas de balises dans le corpus. */}
+              {section.texte.split('\n\n').map((para, i) => (
+                <p key={String(i)}>{para}</p>
+              ))}
+            </section>
+          ))}
+        </article>
+      )}
+
       {genre.motDeLAuteur && (
         <blockquote className="pv-mot" style={{ '--pv-hue': famille.hue } as React.CSSProperties}>
           <span className="pv-mot-titre">{t.motDeLAuteur}</span>
