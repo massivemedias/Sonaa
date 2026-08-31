@@ -132,7 +132,20 @@
      Inter, auto-hébergée en police variable : mêmes formes sur toutes les
      plateformes, là où SF Pro n'existait que chez Apple. Graisses de la
      charte : 700 familles, 600 genres, 500 tracks, 400 données. */
-  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  /* `--font-ui` NE REDEFINIT PLUS RIEN, ELLE POINTE SUR `--police`.
+
+     DEFAUT SIGNALE par Mika sur le bouton de compte, qui n'etait pas dans la
+     meme police que le reste : `--font-ui` valait « Inter » et ne connaissait
+     pas Larsseit. Or cinquante-cinq regles reparties dans quatorze fichiers
+     s'en servent, du lecteur a la carte de chaleur en passant par la
+     recherche et le pied de page. Tout cela rendait en Inter pendant que
+     `body` rendait en Larsseit, et cela ne se voyait que sur les machines ou
+     Larsseit est installee, c'est-a-dire celle de Mika.
+
+     ON NE REMPLACE PAS LES CINQUANTE-CINQ APPELS. Deux noms pour une seule
+     police, c'est deux sources de verite, et la prochaine police en changerait
+     une sur deux. L'ancien nom reste, il delegue au nouveau. */
+  --font-ui: var(--police);
   --weight-family: 700;
   --weight-genre: 600;
   --weight-track: 500;

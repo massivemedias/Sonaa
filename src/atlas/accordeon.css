@@ -13,7 +13,7 @@
   flex-direction: column;
   background: oklch(0.16 0.012 260);
   color: oklch(0.94 0.005 260);
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--police);
 }
 
 /* ----- EN-TETE ----- */

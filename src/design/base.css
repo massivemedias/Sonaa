@@ -54,6 +54,17 @@ button,
 input,
 select,
 textarea {
+  /* LA POLICE NE S'HERITE PAS DAVANTAGE QUE LE SERRAGE.
+
+     Deuxieme fois que ce meme oubli se manifeste. La feuille par defaut des
+     navigateurs impose sa propre police aux controles de formulaire : le
+     bouton de compte s'affichait en Arial pendant que toute la page etait en
+     Larsseit, et c'est ce que Mika a vu. Le serrage avait ete rattrape ici il
+     y a peu ; la police ne l'avait pas ete, parce qu'on avait corrige le
+     symptome constate et pas la famille de symptomes.
+
+     Les deux voyagent ensemble, elles sont donc reglees ensemble. */
+  font-family: inherit;
   letter-spacing: inherit;
 }
 
