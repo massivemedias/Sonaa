@@ -57,10 +57,13 @@ export function consommerOuverture(): CibleGenre | null {
 export function ouvrirDansAtlas(familyIndex: number, genreLocal: number): void {
   memoriserOuverture({ familyIndex, genreLocal });
   const hash = window.location.hash;
-  const dejaAtlas = hash === '' || hash === '#' || hash === '#/';
+  /* LA CARTE VIT DESORMAIS SUR #/carte, la racine menant a Parcourir. Viser
+     la racine ici enverrait vers Parcourir en croyant ouvrir la carte, et le
+     genre memorise ne serait jamais consomme. */
+  const dejaAtlas = hash.startsWith('#/carte');
   if (dejaAtlas) {
     window.location.reload();
     return;
   }
-  window.location.hash = '#/';
+  window.location.hash = '#/carte';
 }

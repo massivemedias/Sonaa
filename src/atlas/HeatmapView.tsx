@@ -359,13 +359,13 @@ export function HeatmapView({ onOpen }: Props) {
             if (chemin.length > 0) setChemin((p) => p.slice(0, -1));
             else window.location.hash = '';
           }}
-          aria-label={chemin.length > 0 ? "Remonter d'un niveau" : "Revenir à l'atlas"}
+          aria-label={chemin.length > 0 ? "Remonter d'un niveau" : "Revenir à l'accueil"}
         >
           <FaIcon icon={faChevronLeft} />
         </button>
         {/* LE LOGO EST PRESENT PARTOUT AILLEURS DANS LE PRODUIT, il manquait
             ici seul. Il ramene a l'atlas, comme sur toutes les autres pages. */}
-        <a className="hm-logo" href="#/" aria-label="SONAA, revenir à l'atlas">
+        <a className="hm-logo" href="#/" aria-label="SONAA, revenir à l'accueil">
           <img src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`} alt="SONAA" draggable={false} />
         </a>
         <button className="hm-crumb" onClick={() => setChemin([])} disabled={chemin.length === 0}>

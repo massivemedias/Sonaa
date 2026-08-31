@@ -120,10 +120,10 @@ export function AccordeonView({ onOpen }: Props) {
     <div className="ac">
       <div className="ac-chrome">
       <nav className="ac-fil" aria-label="Chemin">
-        <a className="ac-retour" href="#/" aria-label="Revenir à l'atlas">
+        <a className="ac-retour" href="#/" aria-label="Revenir à l'accueil">
           <FaIcon icon={faChevronLeft} />
         </a>
-        <a className="ac-logo" href="#/" aria-label="SONAA, revenir à l'atlas">
+        <a className="ac-logo" href="#/" aria-label="SONAA, revenir à l'accueil">
           <img src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`} alt="SONAA" draggable={false} />
         </a>
         <span className="ac-titre">L&apos;arbre</span>

@@ -43,7 +43,7 @@ export function ModerationPage() {
         </header>
         <div className="credits-body">
           <p>
-            Non disponible sur cette version du site. <a href="#/">Revenir à l&apos;atlas</a>.
+            Non disponible sur cette version du site. <a href="#/">Revenir à l&apos;accueil</a>.
           </p>
         </div>
       </main>
@@ -57,7 +57,7 @@ export function ModerationPage() {
       </a>
 
       <header className="credits-head">
-        <a href="#/" aria-label="SONAA, revenir à l'atlas">
+        <a href="#/" aria-label="SONAA, revenir à l'accueil">
           <img
             src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`}
             alt="SONAA"

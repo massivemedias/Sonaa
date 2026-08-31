@@ -103,7 +103,17 @@ const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/heatmap')) return 'heatmap';
   if (window.location.hash.startsWith('#/arbre')) return 'arbre';
   if (window.location.hash.startsWith('#/parcourir')) return 'parcourir';
-  return 'atlas';
+  /* LA CARTE EN TROIS DIMENSIONS A SON PROPRE CHEMIN, #/carte.
+
+     Elle occupait la racine, et c'est ce qui faisait tomber Mika sur elle a
+     chaque ouverture, en vue colonnes puisque ce mode est memorise. Elle
+     n'est plus dans le menu depuis qu'il l'en a retiree ; la laisser en page
+     d'accueil revenait a proposer, comme premier ecran, la seule vue que le
+     menu ne mentionne pas. */
+  if (window.location.hash.startsWith('#/carte')) return 'atlas';
+  /* LA RACINE MENE A PARCOURIR. C'est la vue faite pour le doigt, celle que
+     le menu met en premier, et celle qu'on veut voir en arrivant. */
+  return 'parcourir';
 };
 
 const estAtlas = (r: Route): boolean => r === 'atlas';

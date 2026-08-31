@@ -60,7 +60,8 @@ function courantOf(hash: string): SiteCourant {
   if (hash.startsWith('#/heatmap')) return 'heatmap';
   if (hash.startsWith('#/arbre')) return 'arbre';
   if (hash.startsWith('#/parcourir')) return 'parcourir';
-  if (hash === '' || hash === '#' || hash.startsWith('#/')) return 'atlas';
+  if (hash.startsWith('#/carte')) return 'atlas';
+  if (hash === '' || hash === '#' || hash.startsWith('#/')) return 'parcourir';
   return 'autre';
 }
 

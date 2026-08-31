@@ -563,7 +563,7 @@ export function ChronologyView({ onOpen }: Props) {
     <div className="chrono-root" data-narrow={narrow} data-vue={vue}>
       <header className="chrono-header">
         <div className="chrono-chrome">
-          <a href="#/" className="chrono-logo" aria-label="SONAA, revenir à l'atlas">
+          <a href="#/" className="chrono-logo" aria-label="SONAA, revenir à l'accueil">
             <img
               src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`}
               alt="SONAA"

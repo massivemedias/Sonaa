@@ -69,7 +69,7 @@ export function PropositionsPage() {
         <div className="credits-body">
           <p>
             Les propositions ne sont pas disponibles sur cette version du site. L&apos;atlas,
-            lui, fonctionne entièrement. <a href="#/">Revenir à l&apos;atlas</a>.
+            lui, fonctionne entièrement. <a href="#/">Revenir à l&apos;accueil</a>.
           </p>
         </div>
       </main>
@@ -83,7 +83,7 @@ export function PropositionsPage() {
       </a>
 
       <header className="credits-head">
-        <a href="#/" aria-label="SONAA, revenir à l'atlas">
+        <a href="#/" aria-label="SONAA, revenir à l'accueil">
           <img
             src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`}
             alt="SONAA"
