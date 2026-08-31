@@ -9,22 +9,17 @@
    AUCUN TEXTE SOUS 13 px. Les noms de genres sont a 17 px, parce qu'ils sont
    la seule chose qu'on vient lire. */
 
-/* LA PILE TYPOGRAPHIQUE, ecrite UNE fois et lue partout.
-
-   Google Sans n'est diffusee par aucun service public : ni Google Fonts, ni
-   un autre. Elle est donc demandee en premier, elle sort chez qui l'a
-   installee, et la suite prend le relais ailleurs. Aucun appel tiers n'est
-   ajoute pour autant. Pour que tout le monde la voie il faudrait heberger
-   les fichiers dans le depot, ce qui demande la licence. */
+/* LA POLICE N'EST PLUS NOMMEE ICI. Elle vit dans les jetons du site et
+   descend par heritage depuis body : cette vue n'a aucune raison d'avoir sa
+   typographie a elle, et deux definitions finiraient par diverger. */
 .pv {
-  --pv-police: 'Google Sans', 'Google Sans Text', 'Product Sans', 'Inter', system-ui, sans-serif;
   position: fixed;
   inset: 0;
   display: flex;
   flex-direction: column;
   background: oklch(0.14 0.008 260);
   color: oklch(0.97 0.003 260);
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: inherit;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -81,8 +76,11 @@
   width: auto;
 }
 .pv-tete-titre {
-  font-family: var(--pv-police);
-  letter-spacing: -0.02em;
+  font-family: inherit;
+  /* PAS LE SERRAGE DE TITRE ICI. Ce libelle fait 16,8 px : -3px y vaut
+     -0,18 em et « Detroit Techno » se lit « DetroitTechno ». Constate a
+     l'ecran apres l'avoir pose. Il prend donc le serrage du texte courant,
+     comme tout ce qui n'a pas une taille d'affichage. */
   flex: 1 1 auto;
   min-width: 0;
   margin: 0;
@@ -212,10 +210,12 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      l'une au-dessus de l'autre. L'ecart vient de l'interligne, pas d'une
      marge, sinon le bloc se descelle des que le nom passe a deux lignes. */
   gap: 0;
-  min-height: 104px;
-  padding: 0.9rem 1.05rem;
+  min-height: 112px;
+  padding: 1rem 1.15rem;
   border: 0;
-  border-radius: 20px;
+  /* PLUS ROND, comme la maquette : le rayon y vaut environ un septieme de la
+     hauteur de la tuile, pas un vingtieme. */
+  border-radius: 26px;
   /* A PLAT, sans degrade : le degrade fabriquait une profondeur qui ne dit
      rien. La couleur porte la famille, c'est tout ce qu'on lui demande. */
   background: oklch(0.58 0.19 var(--pv-hue));
@@ -238,27 +238,25 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      manquants coupaient la troisieme ligne. Un element flex se laisse
      comprimer par defaut, et deux pixels suffisent a rendre un nom faux. */
   flex: none;
-  font-family: var(--pv-police);
-  font-size: 1.375rem;
+  font-family: inherit;
+  font-size: 1.4375rem;
   font-weight: 700;
-  line-height: 1.1;
-  /* DEMANDE : -4px. Mesure a l'ecran : a 17 px de corps, -4px vaut -0,235 em
-     et les lettres se chevauchent, « Disco » se lit « Dsco ». C'est un
-     reglage de gros titre applique a une vignette. On garde donc la meme
-     valeur lue en POURCENTAGE, -4 %, qui est le serrage voulu et reste
-     lisible. La capture des deux etats est au rapport. */
-  letter-spacing: -0.04em;
+  line-height: 1.08;
+  /* LE SERRAGE DE TITRE, la valeur demandee, a la taille ou elle tient. Le
+     commentaire precedent parlait encore de -4px et d'une valeur en
+     pourcentage : les deux ont ete remplaces, et un commentaire qui decrit
+     une regle disparue est pire qu'aucun commentaire. */
+  letter-spacing: var(--serrage-titre);
   /* LE NOM NE SE FAIT JAMAIS COUPER : c'est la seule information de la tuile.
      Il passe a la ligne, et la tuile grandit si elle doit. */
   overflow-wrap: anywhere;
 }
 .pv-tuile-detail {
   flex: none;
-  font-family: var(--pv-police);
+  font-family: inherit;
   font-size: 0.9375rem;
   font-weight: 500;
   line-height: 1.25;
-  letter-spacing: -0.02em;
   /* Le compte se lit SOUS le nom, en retrait, jamais a sa hauteur : c'est ce
      retrait qui fait que l'oeil attrape le nom en premier. */
   opacity: 0.78;
@@ -300,13 +298,12 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   cursor: pointer;
 }
 .pv-hero-nom {
-  font-family: var(--pv-police);
+  font-family: inherit;
   margin: 0.6rem 0 0.3rem;
   font-size: 1.75rem;
   font-weight: 700;
   line-height: 1.1;
-  /* Le meme serrage que les vignettes : a 28 px il porte mieux qu'a 17. */
-  letter-spacing: -0.04em;
+  letter-spacing: var(--serrage-titre);
 }
 .pv-hero-faits {
   display: flex;
@@ -332,7 +329,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   background: oklch(0.98 0 0);
   color: oklch(0.14 0.01 250);
   font: inherit;
-  font-family: var(--pv-police);
+  font-family: inherit;
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -504,7 +501,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 }
 .pv-titre-liste {
   margin: 1.6rem 0 0.2rem;
-  font-family: var(--pv-police);
+  font-family: inherit;
   font-size: 1.0625rem;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -701,9 +698,9 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
     gap: 0.85rem;
   }
   .pv-tuile {
-    min-height: 138px;
-    border-radius: 24px;
-    padding: 1.1rem 1.35rem;
+    min-height: 150px;
+    border-radius: 32px;
+    padding: 1.25rem 1.6rem;
   }
   .pv-tuile-nom {
     font-size: 1.75rem;

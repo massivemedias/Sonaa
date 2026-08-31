@@ -14,11 +14,25 @@ body,
   height: 100%;
 }
 
+/* LA POLICE ET LE SERRAGE DESCENDENT PAR HERITAGE, depuis la racine.
+
+   C'est ce qui rend le « partout » demande par Mika litteralement vrai : une
+   regle posee ici atteint les pages, les vues, le lecteur et les etiquettes
+   de la carte, sans qu'aucun autre fichier n'ait a la repeter. Une valeur
+   repetee finit toujours par diverger.
+
+   POUR BRANCHER LARSSEIT quand les fichiers sous licence seront la : les
+   poser dans public/fonts/ en woff2, puis ajouter ici trois regles de
+   declaration de fonte, une par graisse, 400, 500 et 700, chacune avec
+   font-display valant swap. On ne les ecrit PAS d'avance : une declaration
+   qui pointe sur un fichier absent produit une requete en echec a chaque
+   chargement, sur chaque page, et n'affiche rien de plus. */
 body {
   margin: 0;
   background-color: var(--surface-plate);
   color: var(--ink-primary);
-  font-family: var(--font-ui);
+  font-family: var(--police);
+  letter-spacing: var(--serrage);
   line-height: var(--leading-reading);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -35,3 +49,4 @@ p {
   outline: 2px solid var(--ink-primary);
   outline-offset: 3px;
 }
+

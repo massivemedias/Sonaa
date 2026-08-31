@@ -35,13 +35,15 @@
 .sitenav-lien {
   display: inline-flex;
   align-items: center;
-  min-height: 44px;
-  padding: 0 0.95rem;
+  min-height: 46px;
+  padding: 0 1.1rem;
   border: 1px solid var(--rule-soft, oklch(0.5 0.01 260 / 0.35));
-  border-radius: 22px;
+  /* LA MEME RONDEUR QUE LES VIGNETTES : un bouton et une tuile sont la meme
+     chose ici, on appuie dessus et on descend d'un cran. Deux rondeurs
+     differentes feraient croire a deux natures. */
+  border-radius: 23px;
   background: transparent;
   color: var(--ink-secondary);
-  font-family: 'Google Sans', 'Google Sans Text', 'Product Sans', 'Inter', system-ui, sans-serif;
   font-size: 0.9375rem;
   font-weight: 600;
   letter-spacing: -0.01em;

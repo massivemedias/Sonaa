@@ -6,6 +6,41 @@
    luminosité ou une durée encode une donnée, ou n'a pas sa place. */
 
 :root {
+  /* LA POLICE DU SITE, nommee une fois ici et lue partout.
+
+     LARSSEIT N'EST PAS DIFFUSEE PUBLIQUEMENT. C'est une fonte commerciale de
+     Type Dynamic : aucun service ne la sert, et aucun appareil ne l'embarque.
+     Elle sort donc chez qui l'a installee, et nulle part ailleurs. Pour que
+     TOUT LE MONDE la voie il faut poser les fichiers sous licence dans
+     public/fonts/ et decommenter le bloc @font-face de base.css.
+
+     On ne declare PAS ce bloc tant que les fichiers manquent : un @font-face
+     qui pointe sur un fichier absent produit une requete en echec a chaque
+     chargement de page, sur toutes les pages, pour rien.
+
+     La pile de repli est choisie pour sa parente de dessin : Larsseit est une
+     grotesque geometrique, Inter tient la meme largeur d'oeil. */
+  --police: 'Larsseit', 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* LE SERRAGE. Mika demande -3px partout ou il y a du texte.
+
+     CE QUE LA MESURE A MONTRE, capture a l'appui. -3px est une valeur
+     ABSOLUE, pas une proportion. Sur la maquette, ou le titre fait 54 px,
+     elle vaut -0,055 em : un serrage de gros titre parfaitement normal.
+     Appliquee telle quelle a un paragraphe de 16 px, elle vaut -0,19 em, et
+     le mot « electronique » perd 39 pour cent de sa largeur : « Detroit,
+     milieu des annees 1980 » se lit « Detroitmilieudesannees1980 ». Le meme
+     reglage donne deux resultats opposes selon la taille a laquelle il tombe.
+
+     ON GARDE DONC L'INTENTION, PAS LE NOMBRE. Les titres recoivent -3px, la
+     valeur demandee, aux tailles ou elle a ete dessinee. Le texte courant
+     recoit la meme serre OPTIQUE, -0,055 em, qui est ce que -3px vaut a la
+     taille de la maquette. L'oeil voit la meme tension partout, ce qui est
+     la demande ; les mots restent separes, ce qui est la condition pour
+     qu'on les lise. */
+  --serrage-titre: -3px;
+  --serrage: -0.055em;
+
   /* LA LISTE DE RESULTATS D'UNE RECHERCHE. Deux vues decoupent le meme ecran
      de la meme facon, l'ancienne recherche et Parcourir. La grandeur est
      nommee une fois, ICI et pas dans atlas.css : cette feuille-la n'est
