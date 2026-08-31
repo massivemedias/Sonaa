@@ -22,7 +22,7 @@
    lieu de quitter le site. C'est le geste le plus utilise du systeme, et il
    n'est gratuit que si l'on s'y branche. */
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FAMILIES, STRUCTURES, type Genre, type Track } from './structures.ts';
 import { poidsDe } from './poids.ts';
 import { ProceduralCover } from './ProceduralCover.tsx';
@@ -62,6 +62,11 @@ const adresseDe = (n: Niveau): string =>
   n.k === 'familles' ? '#/parcourir' : n.k === 'famille' ? `#/parcourir/${n.fi}` : `#/parcourir/${n.fi}/${n.gl}`;
 
 /* --- Petits outils -------------------------------------------------------- */
+
+/* DIX SECONDES. Cinq, la valeur de Spotify, oblige a repeter l'appui pour
+   retrouver une intro ; trente fait manquer le passage cherche. Dix est le
+   pas qui demande le moins de corrections. */
+const SAUT = 10;
 
 const mmss = (s: number): string => {
   if (!Number.isFinite(s) || s <= 0) return '0:00';
@@ -114,7 +119,60 @@ export function ParcourirView() {
      ce qui permet au premier playVideo() de partir du geste, et donc au son
      d'etre autorise. Construit au premier appui, il devenait pret une seconde
      trop tard et le navigateur refusait. */
-  const { lecture, jouer, basculer, deplacer } = useLecteur({ precharger: niveau.k === 'genre' });
+  const { lecture, jouer, basculer, deplacer, chercher } = useLecteur({ precharger: niveau.k === 'genre' });
+
+  /* LE CLAVIER, SUR LE MODELE DE SPOTIFY.
+
+     Espace joue et met en pause, les fleches deplacent DANS le morceau, et
+     les memes fleches avec Majuscule changent de morceau. Le geste le plus
+     frequent est le deplacement dans le titre, il recoit donc la touche la
+     plus simple.
+
+     ON APPELLE preventDefault DES QU'ON TRAITE LA TOUCHE. Sans cela la
+     fleche garde son role par defaut, qui fait defiler la page ou reculer
+     dans l'historique selon le contexte : c'est exactement le mélange que
+     Mika a constate, une fleche qui ramene en arriere au lieu de servir au
+     lecteur.
+
+     RIEN NE SE DECLENCHE PENDANT UNE SAISIE. Le champ de recherche a besoin
+     de ses fleches et de sa barre d'espace, et un lecteur qui se met en
+     pause parce qu'on tape un espace est le genre de defaut qu'on ne
+     soupconne jamais. */
+  useEffect(() => {
+    const auClavier = (e: KeyboardEvent): void => {
+      const cible = e.target;
+      if (
+        cible instanceof HTMLInputElement ||
+        cible instanceof HTMLTextAreaElement ||
+        (cible instanceof HTMLElement && cible.isContentEditable)
+      ) {
+        return;
+      }
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      /* Sans piste en cours, on ne prend pas les touches : elles doivent
+         rester au navigateur, qui fait defiler. */
+      if (lecture.listeId === null) return;
+
+      if (e.code === 'Space') {
+        e.preventDefault();
+        basculer();
+        return;
+      }
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        if (e.shiftKey) deplacer(-1);
+        else chercher(Math.max(0, lecture.position - SAUT));
+        return;
+      }
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        if (e.shiftKey) deplacer(1);
+        else chercher(lecture.position + SAUT);
+      }
+    };
+    window.addEventListener('keydown', auClavier);
+    return () => window.removeEventListener('keydown', auClavier);
+  }, [basculer, deplacer, chercher, lecture.position, lecture.listeId]);
 
   const genreCourant = niveau.k === 'genre' ? STRUCTURES[niveau.fi]?.genres[niveau.gl] : undefined;
   const familleCourante = niveau.k === 'familles' ? undefined : FAMILIES[niveau.fi];
@@ -282,6 +340,7 @@ export function ParcourirView() {
           lecture={lecture}
           basculer={basculer}
           deplacer={deplacer}
+          chercher={chercher}
           ouvrir={() => aller({ k: 'genre', fi: listeJouee.fi, gl: listeJouee.gl })}
         />
       )}
@@ -432,19 +491,98 @@ interface BarreProps {
   lecture: ReturnType<typeof useLecteur>['lecture'];
   basculer: () => void;
   deplacer: (n: number) => void;
+  chercher: (secondes: number) => void;
   ouvrir: () => void;
 }
 
-function BarreLecture({ piste, hue, genreLabel, lecture, basculer, deplacer, ouvrir }: BarreProps) {
-  const avance = lecture.duree > 0 ? Math.min(100, (lecture.position / lecture.duree) * 100) : 0;
+function BarreLecture({ piste, hue, genreLabel, lecture, basculer, deplacer, chercher, ouvrir }: BarreProps) {
+  /* CE QU'ON MONTRE PENDANT QU'ON TIRE n'est pas ce que le lecteur joue.
+
+     Sans cet etat, la poignee revient sous le doigt a chaque rafraichissement
+     de position, et l'on croit que la barre resiste. On affiche donc la
+     position TIREE tant que le doigt est pose, et la position reelle apres. */
+  const [tire, setTire] = useState<number | null>(null);
+  const piste_ref = useRef<HTMLDivElement | null>(null);
+
+  const position = tire ?? lecture.position;
+  const avance = lecture.duree > 0 ? Math.min(100, Math.max(0, (position / lecture.duree) * 100)) : 0;
   const joue = lecture.etat === 'joue';
+
+  const secondesDe = (clientX: number): number => {
+    const el = piste_ref.current;
+    if (!el || lecture.duree <= 0) return 0;
+    const b = el.getBoundingClientRect();
+    const f = Math.min(1, Math.max(0, (clientX - b.left) / b.width));
+    return f * lecture.duree;
+  };
 
   return (
     <div className="pv-barre">
-      <div className="pv-barre-progres" aria-hidden="true">
-        <span style={{ width: `${avance}%` }} />
+      {/* LA RANGEE DE DEFILEMENT, QU'ON ATTRAPE AU DOIGT. La ligne visible
+          fait 4 px, mais la zone qui recoit le geste fait toute la hauteur de
+          la rangee : viser une ligne de quatre pixels au pouce est
+          impossible, et c'est pour cela que l'ancienne barre n'etait qu'un
+          temoin. */}
+      <div className="pv-scrub">
+        <span className="pv-scrub-temps">{mmss(position)}</span>
+        <div
+          ref={piste_ref}
+          className="pv-scrub-piste"
+          role="slider"
+          tabIndex={0}
+          aria-label={t.positionDansLeMorceau}
+          aria-valuemin={0}
+          aria-valuemax={Math.round(lecture.duree)}
+          aria-valuenow={Math.round(position)}
+          aria-valuetext={mmss(position)}
+          onPointerDown={(e) => {
+            if (lecture.duree <= 0) return;
+            /* LA CAPTURE PEUT ETRE REFUSEE, et ce n'est pas une raison
+               d'abandonner le glissement. Elle echoue quand le pointeur
+               n'est plus actif au moment ou on la demande, ce qui arrive
+               quand le doigt part tres vite. Sans ce garde, l'exception
+               remontait avant setTire et la barre ne bougeait pas du tout :
+               un echec de confort devenait un echec de fonction. */
+            try {
+              e.currentTarget.setPointerCapture(e.pointerId);
+            } catch {
+              /* On suit alors le pointeur sans capture, ce qui marche tant
+                 qu'il reste au-dessus de la barre. */
+            }
+            setTire(secondesDe(e.clientX));
+          }}
+          onPointerMove={(e) => {
+            if (tire === null) return;
+            setTire(secondesDe(e.clientX));
+          }}
+          onPointerUp={(e) => {
+            if (tire === null) return;
+            const s = secondesDe(e.clientX);
+            setTire(null);
+            chercher(s);
+          }}
+          onPointerCancel={() => setTire(null)}
+          onKeyDown={(e) => {
+            if (lecture.duree <= 0) return;
+            if (e.key === 'ArrowLeft') {
+              e.preventDefault();
+              chercher(Math.max(0, lecture.position - SAUT));
+            }
+            if (e.key === 'ArrowRight') {
+              e.preventDefault();
+              chercher(Math.min(lecture.duree, lecture.position + SAUT));
+            }
+          }}
+        >
+          <span className="pv-scrub-fond">
+            <span className="pv-scrub-fait" style={{ width: `${avance}%` }} />
+          </span>
+          <span className="pv-scrub-poignee" style={{ left: `${avance}%` }} />
+        </div>
+        <span className="pv-scrub-temps">{lecture.duree > 0 ? mmss(lecture.duree) : '--:--'}</span>
       </div>
 
+      <div className="pv-barre-bas">
       <button className="pv-barre-ouvrir" onClick={ouvrir}>
         <Pochette track={piste} hue={hue} taille={44} />
         <span className="pv-barre-texte">
@@ -476,7 +614,7 @@ function BarreLecture({ piste, hue, genreLabel, lecture, basculer, deplacer, ouv
         </button>
       </div>
 
-      <span className="pv-barre-temps">{mmss(lecture.position)}</span>
+      </div>
     </div>
   );
 }

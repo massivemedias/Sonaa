@@ -470,20 +470,56 @@ export function useLecteur({ precharger }: Options) {
   }, [chargerPiste]);
 
   const chercher = useCallback((secondes: number) => {
-    playerRef.current?.seekTo(secondes, true);
+    const p = playerRef.current;
+    if (!p || !pretRef.current) return;
+    const cible = Math.max(0, secondes);
+    p.seekTo(cible, true);
+    /* ON AFFICHE LA POSITION DEMANDEE TOUT DE SUITE, et ce n'est pas le
+       mensonge que le reste de ce fichier combat.
+
+       La difference est nette : dire « ca joue » sans que YouTube l'ait
+       confirme est une AFFIRMATION sur un etat qu'on ne controle pas ; dire
+       « on est a 0:37 » apres avoir ordonne d'y aller est le compte rendu
+       d'un ordre qui a ete donne. Le releve periodique corrigera des que la
+       lecture reprend.
+
+       DEFAUT QUE CELA REPARE : on tirait jusqu'a 0:37, on relachait, et la
+       barre revenait a 0:00, parce que la position n'etait suivie qu'en
+       lecture. Le geste semblait n'avoir servi a rien. */
+    setLecture((l) => ({ ...l, position: cible }));
   }, []);
 
   /* --- La progression ----------------------------------------------------- */
 
+  /* LA DUREE SE LIT DES QUE LA VIDEO EST CHARGEE, pas seulement pendant la
+     lecture.
+
+     Defaut constate : en pause, ou apres un demarrage refuse par le
+     navigateur, la barre affichait « --:-- » et refusait qu'on la tire. La
+     video etait pourtant chargee et sa duree connue. On ne pouvait donc pas
+     se placer dans un morceau avant de le lancer, ce qui est exactement le
+     geste qu'on fait quand on veut entendre un passage precis.
+
+     LA POSITION, elle, ne se rafraichit qu'en lecture : la relire en pause
+     ferait sauter la poignee sous le doigt pendant qu'on la tire. */
   useEffect(() => {
-    if (lecture.etat !== 'joue') return;
-    const id = window.setInterval(() => {
+    if (lecture.listeId === null) return;
+    const relever = (): void => {
       const p = playerRef.current;
-      if (!p) return;
-      setLecture((l) => ({ ...l, position: p.getCurrentTime(), duree: p.getDuration() }));
-    }, 500);
+      if (!p || !pretRef.current) return;
+      const d = p.getDuration();
+      const enLecture = p.getPlayerState() === 1;
+      setLecture((l) => {
+        const duree = Number.isFinite(d) && d > 0 ? d : l.duree;
+        const position = enLecture ? p.getCurrentTime() : l.position;
+        if (duree === l.duree && position === l.position) return l;
+        return { ...l, duree, position };
+      });
+    };
+    relever();
+    const id = window.setInterval(relever, 500);
     return () => window.clearInterval(id);
-  }, [lecture.etat]);
+  }, [lecture.listeId, lecture.index]);
 
   return { lecture, jouer, basculer, deplacer, chercher };
 }

@@ -165,7 +165,7 @@
 /* La barre de lecture flotte au-dessus du defilement : on lui reserve sa
    hauteur plus la zone sure, sinon les dernieres lignes sont inatteignables. */
 .pv[data-joue='true'] .pv-corps {
-  padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(116px + env(safe-area-inset-bottom, 0px));
 }
 /* LE BANDEAU D'INSTALLATION flotte en bas, par-dessus tout. Ici rien n'est
    perdu puisque la vue defile, mais sans reserve les dernieres tuiles
@@ -526,28 +526,84 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   right: 0;
   bottom: 0;
   z-index: 60;
+  /* DEUX RANGEES : le defilement au-dessus, le transport en dessous. La
+     barre grandit de trente pixels, et c'est le prix d'une position qu'on
+     peut ATTRAPER plutot que seulement regarder. */
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  flex-direction: column;
+  gap: 0.1rem;
   box-sizing: border-box;
-  padding: 0.4rem 0.6rem calc(0.4rem + env(safe-area-inset-bottom, 0px));
+  padding: 0.25rem 0.6rem calc(0.4rem + env(safe-area-inset-bottom, 0px));
   /* FOND OPAQUE : sur un fond translucide le texte de la page defile en
      transparence sous les titres et les rend illisibles. */
   background: oklch(0.2 0.012 260);
   border-top: 1px solid oklch(1 0 0 / 0.08);
 }
-.pv-barre-progres {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: oklch(1 0 0 / 0.12);
+.pv-barre-bas {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
-.pv-barre-progres span {
+
+/* --- La rangee de defilement --- */
+
+.pv-scrub {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.pv-scrub-temps {
+  flex: none;
+  min-width: 2.4rem;
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  color: oklch(0.66 0.01 260);
+}
+.pv-scrub-temps:last-child {
+  text-align: right;
+}
+.pv-scrub-piste {
+  position: relative;
+  flex: 1 1 auto;
+  /* LA ZONE QUI RECOIT LE GESTE fait 28 px de haut pour une ligne visible de
+     4 px. On ne vise pas une ligne de quatre pixels au pouce ; c'est
+     precisement pourquoi l'ancienne barre n'etait qu'un temoin. */
+  height: 28px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  /* Le geste appartient a la barre, pas au defilement de la page : sans
+     cela, tirer horizontalement fait glisser la vue sous le doigt. */
+  touch-action: none;
+}
+.pv-scrub-fond {
+  display: block;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: oklch(1 0 0 / 0.16);
+  overflow: hidden;
+}
+.pv-scrub-fait {
   display: block;
   height: 100%;
   background: oklch(0.82 0.15 150);
+}
+.pv-scrub-poignee {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  border-radius: 50%;
+  background: oklch(0.98 0 0);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.pv-scrub-piste:focus-visible {
+  outline: 2px solid oklch(0.82 0.15 150);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 .pv-barre-ouvrir {
   display: flex;
@@ -622,18 +678,11 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   width: 15px;
   height: 15px;
 }
-.pv-barre-temps {
-  flex: none;
-  min-width: 34px;
-  font-size: 0.72rem;
-  font-variant-numeric: tabular-nums;
-  color: oklch(0.66 0.01 260);
-}
-
-/* SOUS 360 px le temps s'efface : c'est la seule information de la barre dont
-   on peut se passer, et sans elle les trois boutons gardent leurs 44 px. */
+/* SOUS 360 px la duree totale s'efface : elle est la seule information de la
+   rangee dont on peut se passer, et sans elle la piste de defilement garde
+   une longueur ou l'on vise encore quelque chose. */
 @media (max-width: 360px) {
-  .pv-barre-temps {
+  .pv-scrub-temps:last-child {
     display: none;
   }
 }

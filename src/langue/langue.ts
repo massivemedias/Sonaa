@@ -92,6 +92,9 @@ interface Dictionnaire {
   readonly artistes: string;
   readonly aPropSujet: string;
   readonly cettePiste: string;
+  readonly positionDansLeMorceau: string;
+  readonly reculer: string;
+  readonly avancer: string;
   readonly seConnecter: string;
   readonly connexion: string;
   readonly fermer: string;
@@ -153,6 +156,9 @@ const FR: Dictionnaire = {
   artistes: 'Artistes',
   aPropSujet: 'Le genre',
   cettePiste: 'Cette piste',
+  positionDansLeMorceau: 'Position dans le morceau',
+  reculer: 'Reculer de 10 secondes',
+  avancer: 'Avancer de 10 secondes',
   seConnecter: 'Se connecter',
   connexion: 'Connexion',
   fermer: 'Fermer',
@@ -217,6 +223,9 @@ const EN: Dictionnaire = {
   artistes: 'Artists',
   aPropSujet: 'The genre',
   cettePiste: 'This track',
+  positionDansLeMorceau: 'Position in track',
+  reculer: 'Back 10 seconds',
+  avancer: 'Forward 10 seconds',
   seConnecter: 'Sign in',
   connexion: 'Sign in',
   fermer: 'Close',
