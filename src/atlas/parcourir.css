@@ -461,8 +461,8 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-article-section p {
   margin: 0 0 0.85rem;
   color: oklch(0.86 0.008 260);
-  font-size: 0.875rem;
-  line-height: 1.68;
+  font-size: var(--texte);
+  line-height: 1.7;
 }
 .pv-article-section p:last-child {
   margin-bottom: 0;
@@ -726,11 +726,13 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      reponse a la question qui amene ici : c'est quoi, ce style ? */
   margin: 1.2rem 0 0;
   color: oklch(0.9 0.006 260);
-  /* UN CHAPEAU DE MAGAZINE, pas une note de bas de page : c'est le texte
-     qu'on vient lire, il a droit au corps le plus grand de la page apres le
-     titre. */
-  font-size: 0.9375rem;
-  line-height: 1.66;
+  /* LE CHAPEAU ET L'ARTICLE PARTAGENT LA MEME TAILLE, celle du texte
+      courant. Le chapeau etait plus gros que l'article, ce qui se defend dans
+      un magazine ou il tient trois lignes ; ici il en tient huit et l'ecart
+      ne servait plus qu'a faire deux blocs de corps differents dans la meme
+      colonne. */
+  font-size: var(--texte);
+  line-height: 1.7;
 }
 .pv-faits {
   /* Une liste de definitions porte des marges par defaut qui cassent la
@@ -764,8 +766,8 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   border-radius: 0 10px 10px 0;
   background: oklch(1 0 0 / 0.04);
   color: oklch(0.88 0.008 260);
-  font-size: 0.825rem;
-  line-height: 1.6;
+  font-size: var(--texte);
+  line-height: 1.7;
 }
 .pv-mot-signe {
   display: block;
@@ -1008,9 +1010,6 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   }
   .pv-hero-texte {
     padding: 2rem 2rem 2.2rem;
-  }
-  .pv-description {
-    font-size: 1.0625rem;
   }
   /* SUR GRAND ECRAN LA COLONNE DE TEXTE SE BRIDE. Au dela d'environ
      soixante-quinze signes par ligne, l'oeil perd le debut de la ligne

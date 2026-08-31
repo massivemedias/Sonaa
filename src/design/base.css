@@ -68,6 +68,12 @@ textarea {
   letter-spacing: inherit;
 }
 
+@media (min-width: 700px) {
+  :root {
+    --texte: 13px;
+  }
+}
+
 /* CE QUI SE LIT EN CONTINU prend le serrage du texte, pas celui des titres.
    Les titres restent hors de cette liste : ils gardent le serrage general. */
 p,

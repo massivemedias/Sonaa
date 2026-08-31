@@ -53,6 +53,20 @@
      le texte cesse d'etre resserre pour etre respire. */
   --serrage-texte: 0.1px;
 
+  /* LA TAILLE DU TEXTE COURANT, demandee par Mika devant la fiche Electro
+     House : 12 px sur telephone, 13 px sur ordinateur.
+
+     C'EST PLUS PETIT QUE L'USAGE, et il faut le dire une fois : les guides
+     d'accessibilite placent le confort de lecture prolongee vers 16 px, et
+     douze est la limite basse a partir de laquelle un texte long se lit
+     lentement. Le choix est assume ici, il est celui de l'auteur, et il est
+     ecrit a un seul endroit pour pouvoir etre repris d'un geste.
+
+     L'ORDINATEUR A UN PIXEL DE PLUS et non l'inverse, ce qui surprend. La
+     raison tient a la distance : on tient un telephone a trente centimetres
+     et un ecran a soixante. */
+  --texte: 12px;
+
   /* LA LISTE DE RESULTATS D'UNE RECHERCHE. Deux vues decoupent le meme ecran
      de la meme facon, l'ancienne recherche et Parcourir. La grandeur est
      nommee une fois, ICI et pas dans atlas.css : cette feuille-la n'est
