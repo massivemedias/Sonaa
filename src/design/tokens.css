@@ -47,8 +47,11 @@
      fait qu'un titre de journal est plus serre que son article.
 
      Les titres, les vignettes et les boutons gardent -1px, qui est le dessin
-     demande. Ce qui se LIT en continu passe a zero. */
-  --serrage-texte: 0px;
+     demande. Ce qui se LIT en continu passe en positif : un ECARTEMENT, et
+     non plus un serrage attenue. La valeur est petite, un dixieme de pixel,
+     mais elle change de signe, et c'est le changement de signe qui compte :
+     le texte cesse d'etre resserre pour etre respire. */
+  --serrage-texte: 0.1px;
 
   /* LA LISTE DE RESULTATS D'UNE RECHERCHE. Deux vues decoupent le meme ecran
      de la meme facon, l'ancienne recherche et Parcourir. La grandeur est
