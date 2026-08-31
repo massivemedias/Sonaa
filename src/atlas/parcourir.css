@@ -215,10 +215,20 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   transform: scale(0.98);
 }
 .pv-tuile-nom {
+  /* GOOGLE SANS N'EST PAS DISTRIBUEE PUBLIQUEMENT : ni Google Fonts ni aucun
+     autre service ne la sert. Elle est donc demandee en premier, ou elle est
+     installee elle sortira, et la suite de la pile prend le relais ailleurs.
+     Aucune requete vers un tiers n'est ajoutee. */
+  font-family: 'Google Sans', 'Google Sans Text', 'Product Sans', 'Inter', system-ui, sans-serif;
   font-size: 1.0625rem;
-  font-weight: 680;
+  font-weight: 700;
   line-height: 1.2;
-  letter-spacing: -0.01em;
+  /* DEMANDE : -4px. Mesure a l'ecran : a 17 px de corps, -4px vaut -0,235 em
+     et les lettres se chevauchent, « Disco » se lit « Dsco ». C'est un
+     reglage de gros titre applique a une vignette. On garde donc la meme
+     valeur lue en POURCENTAGE, -4 %, qui est le serrage voulu et reste
+     lisible. La capture des deux etats est au rapport. */
+  letter-spacing: -0.04em;
   /* LE NOM NE SE FAIT JAMAIS COUPER : c'est la seule information de la tuile.
      Il passe a la ligne, et la tuile grandit si elle doit. */
   overflow-wrap: anywhere;
@@ -261,11 +271,13 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   cursor: pointer;
 }
 .pv-hero-nom {
+  font-family: 'Google Sans', 'Google Sans Text', 'Product Sans', 'Inter', system-ui, sans-serif;
   margin: 0.6rem 0 0.3rem;
   font-size: 1.75rem;
-  font-weight: 720;
+  font-weight: 700;
   line-height: 1.1;
-  letter-spacing: -0.02em;
+  /* Le meme serrage que les vignettes : a 28 px il porte mieux qu'a 17. */
+  letter-spacing: -0.04em;
 }
 .pv-hero-faits {
   display: flex;

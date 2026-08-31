@@ -185,22 +185,70 @@ export async function connexionGoogle(intention?: Intention): Promise<ResultatEn
 
   if (intention) memoriserIntention(intention);
 
-  const { error } = await client.auth.signInWithOAuth({
+  /* ON NE PART PLUS EN AVEUGLE, ET VOICI POURQUOI.
+
+     Constate sur capture : le bouton envoyait sur une page blanche affichant
+     {"code":400,"error_code":"validation_failed","msg":"Unsupported provider:
+     missing OAuth secret"}. Du JSON brut, sans retour possible, pour une
+     personne qui voulait juste se connecter.
+
+     LE CODE DE CE FICHIER CROYAIT POURTANT GERER LE CAS : il relayait
+     `error.message` en commentant qu'une case a cocher manquait dans la
+     console. Mais `signInWithOAuth` ne fait pas de requete, il fait une
+     NAVIGATION. Le 400 arrive donc dans la barre d'adresse, pas dans une
+     variable, et ce `if (error)` n'a jamais pu se declencher. Une gestion
+     d'erreur qui ne s'execute sur aucun chemin reel n'est pas une gestion
+     d'erreur.
+
+     On demande donc l'adresse SANS partir, on la sonde, et on ne part que si
+     elle repond. Le serveur autorise la lecture de sa reponse depuis notre
+     origine, verifie en-tetes en main : le pre-vol peut donc lire l'echec au
+     lieu de le subir. */
+  const { data, error } = await client.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: window.location.origin + window.location.pathname + window.location.hash
+      redirectTo: window.location.origin + window.location.pathname + window.location.hash,
+      skipBrowserRedirect: true
     }
   });
 
-  if (error) {
-    /* SI LE FOURNISSEUR N'EST PAS ACTIVE, Supabase le dit explicitement. On
-       relaie le message plutot que de l'aplatir : « une erreur est survenue »
-       ferait chercher au mauvais endroit, alors que la cause est une case a
-       cocher dans la console. */
-    return { ok: false, limiteAtteinte: false, message: error.message };
+  if (error) return { ok: false, limiteAtteinte: false, message: error.message };
+  if (!data?.url) {
+    return {
+      ok: false,
+      limiteAtteinte: false,
+      message: 'La connexion Google est indisponible. Utilisez votre courriel.'
+    };
   }
 
-  /* On ne revient jamais ici en pratique : la redirection a eu lieu. */
+  try {
+    /* `redirect: 'manual'` : quand tout va bien le serveur repond une
+       redirection vers Google, que le navigateur nous rend opaque. C'est
+       precisement le signal qu'on cherche, et il se distingue sans ambiguite
+       d'un 400 lisible. */
+    const sonde = await fetch(data.url, { method: 'GET', redirect: 'manual', credentials: 'omit' });
+    if (sonde.type !== 'opaqueredirect' && sonde.status >= 400) {
+      let message = 'La connexion Google n’est pas disponible. Utilisez votre courriel ci-dessous.';
+      try {
+        const corps = (await sonde.json()) as { msg?: string };
+        if (typeof corps.msg === 'string' && corps.msg.includes('OAuth')) {
+          message =
+            'La connexion Google n’est pas encore configurée sur ce site. ' +
+            'Utilisez votre courriel ci-dessous.';
+        }
+      } catch {
+        /* Reponse illisible : le message general suffit, il dit quoi faire. */
+      }
+      return { ok: false, limiteAtteinte: false, message };
+    }
+  } catch {
+    /* PANNE DE RESEAU PENDANT LA SONDE : on laisse partir quand meme. La
+       sonde est une precaution, pas une porte. La transformer en condition
+       d'acces ferait qu'un reseau capricieux empecherait une connexion qui
+       aurait marche. */
+  }
+
+  window.location.assign(data.url);
   return { ok: true };
 }
 
