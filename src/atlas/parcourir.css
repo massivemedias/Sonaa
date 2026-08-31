@@ -262,13 +262,100 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 /* --- La page d'un genre --------------------------------------------------- */
 
 .pv-hero {
+  position: relative;
   margin: 0.75rem -0.75rem 0;
-  padding: 1.1rem 0.9rem 1.2rem;
   background: linear-gradient(
     170deg,
     oklch(0.46 0.15 var(--pv-hue)),
     oklch(0.14 0.008 260) 92%
   );
+  overflow: hidden;
+}
+.pv-hero-texte {
+  position: relative;
+  z-index: 1;
+  padding: 1.1rem 0.9rem 1.2rem;
+}
+
+/* --- Le bandeau d'images --------------------------------------------------- */
+
+.pv-mosaique {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+/* Deux ou trois pochettes seulement : on remplit la largeur plutot que de
+   laisser un quart de vide, qui se lit comme une image manquante. */
+.pv-mosaique[data-n='2'] {
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+}
+.pv-mosaique[data-n='3'] {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr;
+}
+.pv-mosaique img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* LE VOILE FAIT TOUT LE TRAVAIL DE LISIBILITE. Sans lui, un nom blanc pose
+   sur quatre pochettes de valeurs differentes est illisible sur au moins
+   l'une des quatre, et on ne peut pas savoir laquelle d'avance. */
+.pv-mosaique-voile {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      170deg,
+      oklch(0.34 0.13 var(--pv-hue) / 0.86),
+      oklch(0.14 0.008 260 / 0.97) 88%
+    );
+}
+
+/* --- La fiche technique ---------------------------------------------------- */
+
+.pv-fiche {
+  margin: 1.4rem 0 0;
+  padding: 1rem 1.05rem 1.1rem;
+  border: 1px solid oklch(1 0 0 / 0.09);
+  border-radius: 18px;
+  background: oklch(1 0 0 / 0.03);
+}
+.pv-fiche-titre {
+  margin: 0 0 0.85rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: oklch(0.66 0.01 260);
+}
+.pv-machines {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  /* Elles etaient etirees sur toute la largeur de la cellule et se lisaient
+     comme des lignes separees. Une pastille prend la largeur de son mot. */
+  align-items: flex-start;
+}
+.pv-machine {
+  padding: 0.2rem 0.55rem;
+  border-radius: 8px;
+  background: oklch(0.62 0.14 var(--pv-hue) / 0.18);
+  color: oklch(0.88 0.05 var(--pv-hue));
+  font-size: 0.8125rem;
+}
+.pv-mot-titre {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: oklch(0.62 0.14 var(--pv-hue));
 }
 .pv-hero-famille {
   /* 44 px COMME LES AUTRES : ce n'est pas une etiquette, c'est un raccourci
@@ -433,10 +520,13 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   /* ELLE MONTE AU-DESSUS DES MORCEAUX. Posee tout en bas, il fallait passer
      douze lignes de liste pour savoir ce qu'on ecoutait. C'est pourtant la
      reponse a la question qui amene ici : c'est quoi, ce style ? */
-  margin: 1.1rem 0 0;
-  color: oklch(0.86 0.008 260);
-  font-size: 1rem;
-  line-height: 1.62;
+  margin: 1.2rem 0 0;
+  color: oklch(0.9 0.006 260);
+  /* UN CHAPEAU DE MAGAZINE, pas une note de bas de page : c'est le texte
+     qu'on vient lire, il a droit au corps le plus grand de la page apres le
+     titre. */
+  font-size: 1.0625rem;
+  line-height: 1.66;
 }
 .pv-faits {
   /* Une liste de definitions porte des marges par defaut qui cassent la
@@ -449,6 +539,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-fait {
   display: flex;
   gap: 0.55rem;
+  align-items: baseline;
   font-size: 0.875rem;
   line-height: 1.45;
 }
@@ -699,7 +790,13 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   .pv-hero {
     margin-left: 0;
     margin-right: 0;
-    border-radius: 14px;
+    border-radius: 20px;
+  }
+  .pv-hero-texte {
+    padding: 2rem 2rem 2.2rem;
+  }
+  .pv-description {
+    font-size: 1.1875rem;
   }
   .pv-hero-nom {
     font-size: 2.4rem;

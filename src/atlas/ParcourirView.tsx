@@ -98,6 +98,40 @@ function Pochette({ track, hue, taille }: { track: Track; hue: number; taille: n
   );
 }
 
+/* LE BANDEAU D'IMAGES D'UN GENRE, fait de ses propres pochettes.
+
+   D'OU VIENNENT LES IMAGES, puisque la question se pose : de nulle part
+   ailleurs que du site. Les 1263 pochettes sont deja telechargees et servies
+   par le depot ; aucune n'est allee chercher chez un tiers au moment de
+   l'affichage, et aucune photo de machine n'a ete prise quelque part, ce qui
+   serait un probleme de droits qu'on ne veut pas.
+
+   LES VIGNETTES DE VIDEO SONT ECARTEES. Une pochette venue de YouTube est
+   une capture de video, souvent avec le triangle rouge incruste ; posee dans
+   une mosaique elle se remarque immediatement. On prend les vraies, et s'il
+   n'y en a pas assez la mosaique ne s'affiche pas du tout plutot que de se
+   completer avec du faux.
+
+   CINQ GENRES SUR 219 N'ONT AUCUNE VRAIE POCHETTE. Ils auront un bandeau de
+   couleur pleine, ce qui est un etat correct et non un trou. */
+function BandeauImages({ tracks, hue }: { tracks: readonly Track[]; hue: number }) {
+  const images = tracks
+    .filter((t) => t.cover && t.coverSource !== 'youtube')
+    .slice(0, 4)
+    .map((t) => t.cover);
+
+  if (images.length < 2) return null;
+
+  return (
+    <div className="pv-mosaique" aria-hidden="true" data-n={images.length}>
+      {images.map((src, i) => (
+        <img key={src + String(i)} src={src} alt="" draggable={false} loading="lazy" />
+      ))}
+      <span className="pv-mosaique-voile" style={{ '--pv-hue': hue } as React.CSSProperties} />
+    </div>
+  );
+}
+
 /* --- La vue --------------------------------------------------------------- */
 
 export function ParcourirView() {
@@ -362,12 +396,15 @@ interface PageGenreProps {
 
 function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: PageGenreProps) {
   const tracks = genre.tracks;
+  const derives = poidsDe(genre.id).descendance;
   const cetteListe = lecture.listeId === genre.id;
   const enCours = cetteListe && (lecture.etat === 'joue' || lecture.etat === 'chargement');
 
   return (
     <>
       <section className="pv-hero" style={{ '--pv-hue': famille.hue } as React.CSSProperties}>
+        <BandeauImages tracks={tracks} hue={famille.hue} />
+        <div className="pv-hero-texte">
         <button className="pv-hero-famille" onClick={allerFamille}>
           {famille.label}
         </button>
@@ -392,6 +429,7 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
         ) : (
           <p className="pv-hero-vide">{t.aucunMorceau}</p>
         )}
+        </div>
       </section>
 
       {/* CE QUI ECHOUE SE DIT, ET SE DIT ICI, dans le flux de la page. Dans
@@ -412,32 +450,66 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
       {genre.description && <p className="pv-description">{genre.description}</p>}
 
       {genre.motDeLAuteur && (
-        <blockquote className="pv-mot">
+        <blockquote className="pv-mot" style={{ '--pv-hue': famille.hue } as React.CSSProperties}>
+          <span className="pv-mot-titre">{t.motDeLAuteur}</span>
           {genre.motDeLAuteur}
           <span className="pv-mot-signe">Mika</span>
         </blockquote>
       )}
 
-      <dl className="pv-faits">
-        {genre.machines.length > 0 && (
-          <div className="pv-fait">
-            <dt className="pv-fait-cle">{t.machines}</dt>
-            <dd className="pv-fait-val">{genre.machines.join(', ')}</dd>
-          </div>
-        )}
-        {genre.labelsHistoriques.length > 0 && (
-          <div className="pv-fait">
-            <dt className="pv-fait-cle">{t.labels}</dt>
-            <dd className="pv-fait-val">{genre.labelsHistoriques.join(', ')}</dd>
-          </div>
-        )}
-        {genre.artistesCles.length > 0 && (
-          <div className="pv-fait">
-            <dt className="pv-fait-cle">{t.artistes}</dt>
-            <dd className="pv-fait-val">{genre.artistesCles.join(', ')}</dd>
-          </div>
-        )}
-      </dl>
+      {/* LA FICHE TECHNIQUE. Elle ne dit rien que le corpus ne sache deja :
+          tempo, date, machines, labels, artistes, descendance. C'est le
+          minimum pour repondre a « comment ca se fabrique », et chaque valeur
+          est tracable jusqu'a la donnee, sans un mot invente. */}
+      <section className="pv-fiche" style={{ '--pv-hue': famille.hue } as React.CSSProperties}>
+        <h3 className="pv-fiche-titre">{t.ficheTechnique}</h3>
+        <dl className="pv-faits">
+          {genre.bpmRange && (
+            <div className="pv-fait">
+              <dt className="pv-fait-cle">{t.tempo}</dt>
+              <dd className="pv-fait-val">{t.bpm(genre.bpmRange[0], genre.bpmRange[1])}</dd>
+            </div>
+          )}
+          {genre.annee > 0 && (
+            <div className="pv-fait">
+              <dt className="pv-fait-cle">{t.apparition}</dt>
+              <dd className="pv-fait-val">
+                {genre.yearStart ? genre.annee : `${t.vers} ${genre.annee}`}
+              </dd>
+            </div>
+          )}
+          {genre.machines.length > 0 && (
+            <div className="pv-fait">
+              <dt className="pv-fait-cle">{t.machines}</dt>
+              <dd className="pv-fait-val">
+                <span className="pv-machines">
+                  {genre.machines.map((m) => (
+                    <span className="pv-machine" key={m}>{m}</span>
+                  ))}
+                </span>
+              </dd>
+            </div>
+          )}
+          {genre.labelsHistoriques.length > 0 && (
+            <div className="pv-fait">
+              <dt className="pv-fait-cle">{t.labels}</dt>
+              <dd className="pv-fait-val">{genre.labelsHistoriques.join(', ')}</dd>
+            </div>
+          )}
+          {genre.artistesCles.length > 0 && (
+            <div className="pv-fait">
+              <dt className="pv-fait-cle">{t.artistes}</dt>
+              <dd className="pv-fait-val">{genre.artistesCles.join(', ')}</dd>
+            </div>
+          )}
+          {derives > 0 && (
+            <div className="pv-fait">
+              <dt className="pv-fait-cle">{t.descendance}</dt>
+              <dd className="pv-fait-val">{t.nGenresDerives(derives)}</dd>
+            </div>
+          )}
+        </dl>
+      </section>
 
       {tracks.length > 0 && (
         <h3 className="pv-titre-liste">{t.nMorceaux(tracks.length)}</h3>

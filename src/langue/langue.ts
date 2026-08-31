@@ -92,6 +92,13 @@ interface Dictionnaire {
   readonly artistes: string;
   readonly aPropSujet: string;
   readonly cettePiste: string;
+  readonly ficheTechnique: string;
+  readonly tempo: string;
+  readonly apparition: string;
+  readonly descendance: string;
+  readonly nGenresDerives: (n: number) => string;
+  readonly vers: string;
+  readonly motDeLAuteur: string;
   readonly positionDansLeMorceau: string;
   readonly reculer: string;
   readonly avancer: string;
@@ -156,6 +163,13 @@ const FR: Dictionnaire = {
   artistes: 'Artistes',
   aPropSujet: 'Le genre',
   cettePiste: 'Cette piste',
+  ficheTechnique: 'Fiche technique',
+  tempo: 'Tempo',
+  apparition: 'Apparition',
+  descendance: 'Descendance',
+  nGenresDerives: (n) => `${n} genre${n > 1 ? 's' : ''}`,
+  vers: 'vers',
+  motDeLAuteur: 'Le mot de Mika',
   positionDansLeMorceau: 'Position dans le morceau',
   reculer: 'Reculer de 10 secondes',
   avancer: 'Avancer de 10 secondes',
@@ -223,6 +237,13 @@ const EN: Dictionnaire = {
   artistes: 'Artists',
   aPropSujet: 'The genre',
   cettePiste: 'This track',
+  ficheTechnique: 'Fact sheet',
+  tempo: 'Tempo',
+  apparition: 'Emerged',
+  descendance: 'Offshoots',
+  nGenresDerives: (n) => `${n} genre${n > 1 ? 's' : ''}`,
+  vers: 'circa',
+  motDeLAuteur: 'A word from Mika',
   positionDansLeMorceau: 'Position in track',
   reculer: 'Back 10 seconds',
   avancer: 'Forward 10 seconds',
