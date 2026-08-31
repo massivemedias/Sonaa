@@ -199,7 +199,18 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      Haerte », et la cible du doigt fait toute la largeur. CE QU'ON PERD : on
      voit sept familles a l'ecran au lieu de douze, donc on defile davantage.
      C'est le prix de la forme. */
-  grid-template-columns: 1fr;
+  /* LA COLONNE EST DEDUITE DE LA LARGEUR DE TUILE, pas fixee en nombre.
+
+     MESURE SUR LA MAQUETTE : des tuiles de 335 par 102, soit un rapport de
+     3,3 pour 1, disposees en cinq colonnes sur deux mille pixels. Fixer
+     « cinq colonnes » donnerait cinq colonnes de soixante-dix pixels sur un
+     telephone. On fixe donc la LARGEUR MINIMALE d'une tuile, et le navigateur
+     en met autant qu'il peut : une seule sur un telephone, ou la tuile
+     redevient la banniere pleine largeur, jusqu'a cinq sur un grand ecran.
+
+     `min(100%, 19rem)` et non `19rem` seul : sous 304 px de large, une valeur
+     fixe deborderait de la grille au lieu de se replier. */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
   gap: 0.55rem;
 }
 /* LA VIGNETTE : UN CADRE DANS UN CADRE.
@@ -229,7 +240,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      banniere de mille pixels de large ferait trois cents pixels de haut sur
      un ecran d'ordinateur. On garde la hauteur de la maquette, la largeur
      suit l'ecran. */
-  min-height: 116px;
+  min-height: 104px;
   /* La marge de la plaque exterieure. */
   padding: 5px;
   border: 0;
@@ -249,13 +260,17 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  /* LE BLOC DE TEXTE EST CENTRE DANS LES DEUX SENS, et ses lignes restent
-     calees a gauche l'une sur l'autre. C'est le point le plus specifique de
-     la maquette : le titre et le compte partagent la meme marge gauche, et
-     l'ensemble flotte au milieu de la carte au lieu d'etre pousse contre un
-     bord. */
+  /* CENTRE EN HAUTEUR, CALE A GAUCHE EN LARGEUR.
+
+     La premiere maquette ne permettait pas de trancher : elle ne montrait
+     qu'un seul nom, long, qui remplissait presque la tuile, et centre ou
+     aligne a gauche donnaient la meme image a quelques pixels pres. La
+     grille, elle, tranche : avec des noms de « Psy » a « Neue Deutsche
+     Haerte », un centrage rend la colonne illisible, chaque nom commencant a
+     un endroit different. Aligne a gauche, les quatorze noms forment un bord
+     net qu'on descend d'un coup d'oeil. */
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   /* Les deux lignes forment un seul bloc : l'ecart vient de l'interligne, pas
      d'une marge, sinon le bloc se descelle des que le nom passe a deux
      lignes. */
@@ -959,24 +974,26 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 /* --- Ecrans larges -------------------------------------------------------- */
 
 @media (min-width: 700px) {
+  /* 1500 px et non 1000 : a mille, la grille ne tient que trois colonnes, la
+     maquette en montre cinq. La colonne de TEXTE, elle, reste bornee a 68
+     signes plus bas : c'est la grille qui s'elargit, pas la lecture. */
   .pv-corps,
   .pv-tete,
   .pv-chercher {
-    padding-left: max(0.75rem, calc((100vw - 1000px) / 2));
-    padding-right: max(0.75rem, calc((100vw - 1000px) / 2));
+    padding-left: max(0.75rem, calc((100vw - 1500px) / 2));
+    padding-right: max(0.75rem, calc((100vw - 1500px) / 2));
   }
   .pv-grille {
-    grid-template-columns: 1fr;
     gap: 0.7rem;
   }
   .pv-tuile {
-    min-height: 128px;
-    border-radius: 30px;
-    padding: 6px;
+    min-height: 112px;
+    border-radius: 26px;
+    padding: 5px;
   }
   .pv-tuile-carte {
-    border-radius: 24px;
-    padding: 1.4rem 1.8rem;
+    border-radius: 22px;
+    padding: 1.1rem 1.5rem;
   }
   .pv-tuile-nom {
     font-size: 1.625rem;
@@ -1013,10 +1030,10 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
     font-size: 2.275rem;
   }
   .pv-barre {
-    padding-left: max(0.75rem, calc((100vw - 1000px) / 2));
-    padding-right: max(0.75rem, calc((100vw - 1000px) / 2));
+    padding-left: max(0.75rem, calc((100vw - 1500px) / 2));
+    padding-right: max(0.75rem, calc((100vw - 1500px) / 2));
   }
   .pv-tete {
-    padding-right: max(calc(var(--authb-l, 112px) + 0.6rem), calc((100vw - 1000px) / 2));
+    padding-right: max(calc(var(--authb-l, 112px) + 0.6rem), calc((100vw - 1500px) / 2));
   }
 }
