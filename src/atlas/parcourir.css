@@ -193,36 +193,87 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.6rem;
 }
+/* LA VIGNETTE : UN CADRE DANS UN CADRE.
+
+   MESURE SUR LA MAQUETTE, en proportions et non en pixels, parce que la
+   maquette est une banniere large et que la grille en fait des tuiles a deux
+   colonnes : la plaque exterieure prend environ 2,4 pour cent de sa largeur
+   en marge autour de la carte interieure, et les deux rayons valent environ
+   treize a quatorze pour cent de la hauteur.
+
+   POURQUOI DEUX CADRES ET PAS UN. Le cadre exterieur est a peine plus clair
+   que le fond de page, l'interieur nettement plus clair : ce n'est pas un
+   liseré, c'est une epaisseur. La tuile a l'air d'un objet pose sur la page
+   plutot que d'une zone coloriee dedans, et la cible du doigt devient
+   evidente sans qu'aucun trait ne la dessine.
+
+   ELLE EST NEUTRE, comme la maquette. La teinte de famille ne sert plus ici.
+   Elle reste partout ailleurs : le bandeau d'un genre, les pastilles de
+   machines, la carte de chaleur, la chronologie et la carte en trois
+   dimensions. Ce qui se perd est la reconnaissance d'une famille a sa couleur
+   dans cette grille ; ce qui se gagne est une grille ou le NOM est la seule
+   chose qui parle. */
 .pv-tuile {
   position: relative;
   display: flex;
-  flex-direction: column;
-  /* LE BLOC DE TEXTE EST CENTRE DANS LA HAUTEUR, comme sur la maquette, et
-     non colle au bas. Une vignette dont le nom flotte au milieu se lit d'un
-     coup d'oeil ; colle en bas, l'oeil doit d'abord trouver le bord. */
-  justify-content: center;
-  /* LES DEUX LIGNES SE TOUCHENT PRESQUE, comme sur la seconde maquette : le
-     nom et son compte forment un seul bloc, pas deux informations posees
-     l'une au-dessus de l'autre. L'ecart vient de l'interligne, pas d'une
-     marge, sinon le bloc se descelle des que le nom passe a deux lignes. */
-  gap: 0;
-  min-height: 112px;
-  padding: 1rem 1.15rem;
+  min-height: 118px;
+  /* La marge de la plaque exterieure. */
+  padding: 4px;
   border: 0;
-  /* PLUS ROND, comme la maquette : le rayon y vaut environ un septieme de la
-     hauteur de la tuile, pas un vingtieme. */
   border-radius: 26px;
-  /* A PLAT, sans degrade : le degrade fabriquait une profondeur qui ne dit
-     rien. La couleur porte la famille, c'est tout ce qu'on lui demande. */
-  background: oklch(0.58 0.19 var(--pv-hue));
+  background: oklch(0.21 0.006 260);
   color: oklch(0.99 0 0);
   font: inherit;
   text-align: left;
   cursor: pointer;
-  overflow: hidden;
 }
+
+/* LA CARTE INTERIEURE porte le texte et la couleur claire. Elle est un
+   element a elle et non un pseudo-element : le texte doit vivre DEDANS, pas
+   par-dessus. */
+.pv-tuile-carte {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  /* LE BLOC DE TEXTE EST CENTRE DANS LES DEUX SENS, et ses lignes restent
+     calees a gauche l'une sur l'autre. C'est le point le plus specifique de
+     la maquette : le titre et le compte partagent la meme marge gauche, et
+     l'ensemble flotte au milieu de la carte au lieu d'etre pousse contre un
+     bord. */
+  justify-content: center;
+  align-items: center;
+  /* Les deux lignes forment un seul bloc : l'ecart vient de l'interligne, pas
+     d'une marge, sinon le bloc se descelle des que le nom passe a deux
+     lignes. */
+  gap: 0;
+  box-sizing: border-box;
+  padding: 0.9rem 1rem;
+  border-radius: 22px;
+  /* Un degrade a peine perceptible, comme sur la maquette : la carte est un
+     peu plus claire en haut. Assez pour donner une matiere, pas assez pour
+     faire un effet. */
+  background: linear-gradient(
+    180deg,
+    oklch(0.34 0.004 260),
+    oklch(0.31 0.004 260)
+  );
+}
+/* Le bloc lui-meme : centre par le parent, aligne a gauche a l'interieur. */
+.pv-tuile-bloc {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+  max-width: 100%;
+}
+
 .pv-tuile:active {
   transform: scale(0.98);
+}
+.pv-tuile:hover .pv-tuile-carte,
+.pv-tuile:focus-visible .pv-tuile-carte {
+  background: linear-gradient(180deg, oklch(0.38 0.004 260), oklch(0.35 0.004 260));
 }
 .pv-tuile-nom {
   /* GOOGLE SANS N'EST PAS DISTRIBUEE PUBLIQUEMENT : ni Google Fonts ni aucun
@@ -867,9 +918,13 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
     gap: 0.85rem;
   }
   .pv-tuile {
-    min-height: 150px;
-    border-radius: 32px;
-    padding: 1.25rem 1.6rem;
+    min-height: 168px;
+    border-radius: 34px;
+    padding: 6px;
+  }
+  .pv-tuile-carte {
+    border-radius: 28px;
+    padding: 1.4rem 1.6rem;
   }
   .pv-tuile-nom {
     font-size: 1.75rem;

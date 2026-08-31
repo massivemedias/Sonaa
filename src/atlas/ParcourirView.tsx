@@ -376,14 +376,13 @@ export function ParcourirView() {
             </p>
             <div className="pv-grille">
               {FAMILIES.map((f, fi) => (
-                <button
-                  key={f.id}
-                  className="pv-tuile"
-                  style={{ '--pv-hue': f.hue } as React.CSSProperties}
-                  onClick={() => aller({ k: 'famille', fi })}
-                >
-                  <span className="pv-tuile-nom">{f.label}</span>
-                  <span className="pv-tuile-detail">{t.nGenres(f.count)}</span>
+                <button key={f.id} className="pv-tuile" onClick={() => aller({ k: 'famille', fi })}>
+                  <span className="pv-tuile-carte">
+                    <span className="pv-tuile-bloc">
+                      <span className="pv-tuile-nom">{f.label}</span>
+                      <span className="pv-tuile-detail">{t.nGenres(f.count)}</span>
+                    </span>
+                  </span>
                 </button>
               ))}
             </div>
@@ -403,13 +402,16 @@ export function ParcourirView() {
                   <button
                     key={g.id}
                     className="pv-tuile pv-tuile-genre"
-                    style={{ '--pv-hue': familleCourante.hue } as React.CSSProperties}
                     onClick={() => aller({ k: 'genre', fi: niveau.fi, gl })}
                   >
-                    <span className="pv-tuile-nom">{g.label}</span>
-                    <span className="pv-tuile-detail">
-                      {g.annee > 0 ? g.annee : ''}
-                      {p.derivesDirects > 0 ? ` · ${t.nDerives(p.derivesDirects)}` : ''}
+                    <span className="pv-tuile-carte">
+                      <span className="pv-tuile-bloc">
+                        <span className="pv-tuile-nom">{g.label}</span>
+                        <span className="pv-tuile-detail">
+                          {g.annee > 0 ? g.annee : ''}
+                          {p.derivesDirects > 0 ? ` · ${t.nDerives(p.derivesDirects)}` : ''}
+                        </span>
+                      </span>
                     </span>
                   </button>
                 );
