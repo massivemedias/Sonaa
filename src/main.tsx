@@ -78,13 +78,20 @@ const AccordeonView = lazy(() =>
   import('./atlas/AccordeonView.tsx').then((module) => ({ default: module.AccordeonView }))
 );
 
+/* PARCOURIR : la presentation refaite au doigt, en rectangles nommes. Elle
+   embarque son propre moteur de lecture, donc elle se charge a la demande
+   comme les autres vues secondaires. */
+const ParcourirView = lazy(() =>
+  import('./atlas/ParcourirView.tsx').then((module) => ({ default: module.ParcourirView }))
+);
+
 const rootElement = document.getElementById('root');
 
 if (!rootElement) {
   throw new Error('Élément racine introuvable.');
 }
 
-type Route = 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'atlas';
+type Route = 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'parcourir' | 'atlas';
 
 const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/index')) return 'index';
@@ -95,6 +102,7 @@ const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/chronologie')) return 'chronologie';
   if (window.location.hash.startsWith('#/heatmap')) return 'heatmap';
   if (window.location.hash.startsWith('#/arbre')) return 'arbre';
+  if (window.location.hash.startsWith('#/parcourir')) return 'parcourir';
   return 'atlas';
 };
 
@@ -145,6 +153,8 @@ function App() {
           <HeatmapView onOpen={ouvrirDansAtlas} />
         ) : route === 'arbre' ? (
           <AccordeonView onOpen={ouvrirDansAtlas} />
+        ) : route === 'parcourir' ? (
+          <ParcourirView />
         ) : (
           <AtlasPage />
         )}

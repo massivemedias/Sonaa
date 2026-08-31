@@ -42,7 +42,7 @@
   list-style: none;
   margin: 0;
   padding: 0.3rem 0;
-  max-height: 46vh;
+  max-height: var(--resultats-h);
   overflow-y: auto;
 }
 

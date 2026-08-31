@@ -17,6 +17,7 @@ import './site-nav.css';
 
 type SiteCourant =
   | 'atlas'
+  | 'parcourir'
   | 'chronologie'
   | 'heatmap'
   | 'arbre'
@@ -28,7 +29,8 @@ type SiteCourant =
   | 'autre';
 
 const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
-  { href: '#/', id: 'atlas', label: 'Atlas' },
+  { href: '#/parcourir', id: 'parcourir', label: 'Parcourir' },
+  { href: '#/', id: 'atlas', label: 'Carte 3D' },
   { href: '#/chronologie', id: 'chronologie', label: 'Chronologie' },
   { href: '#/heatmap', id: 'heatmap', label: 'Chaleur' },
   { href: '#/arbre', id: 'arbre', label: 'Arbre' },
@@ -49,6 +51,7 @@ function courantOf(hash: string): SiteCourant {
   if (hash.startsWith('#/chronologie')) return 'chronologie';
   if (hash.startsWith('#/heatmap')) return 'heatmap';
   if (hash.startsWith('#/arbre')) return 'arbre';
+  if (hash.startsWith('#/parcourir')) return 'parcourir';
   if (hash === '' || hash === '#' || hash.startsWith('#/')) return 'atlas';
   return 'autre';
 }
