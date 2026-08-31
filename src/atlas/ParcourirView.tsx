@@ -27,6 +27,7 @@ import { FAMILIES, STRUCTURES, type Genre, type Track } from './structures.ts';
 import { poidsDe } from './poids.ts';
 import { ProceduralCover } from './ProceduralCover.tsx';
 import { useLecteur } from '../lecture/useLecteur.ts';
+import MACHINES from '../data/machines.json';
 import {
   faChevronLeft,
   faPlay,
@@ -132,6 +133,55 @@ function BandeauImages({ tracks, hue }: { tracks: readonly Track[]; hue: number 
   );
 }
 
+/* LA PHOTO D'UNE MACHINE, prise sur Wikimedia Commons et servie par le depot.
+
+   LA LICENCE EST LA CONDITION, pas un detail administratif. Chaque fichier
+   n'a ete retenu que si Commons declare une licence libre lisible, et
+   l'auteur est affiche sous l'image parce que c'est ce que la licence
+   demande. Une photo bien creditee peut etre publiee ; une photo dont on
+   ignore le droit ne le peut pas, meme si elle est belle.
+
+   Le corpus ecrit « Roland TR-909 adoucie » : le qualificatif dit comment la
+   machine sert dans ce genre, il n'appartient pas au modele. On retrouve donc
+   la photo par le modele contenu dans la chaine. */
+interface FicheMachine {
+  readonly machine: string;
+  readonly fichier: string;
+  readonly auteur: string;
+  readonly licence: string;
+  readonly source: string;
+}
+const CATALOGUE = MACHINES as Record<string, FicheMachine>;
+const CLES = Object.keys(CATALOGUE);
+const sansPonct = (x: string): string => x.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+function photoDe(machines: readonly string[]): FicheMachine | null {
+  for (const brut of machines) {
+    const cle = CLES.find((k) => sansPonct(brut).includes(sansPonct(k)));
+    if (cle) return CATALOGUE[cle] ?? null;
+  }
+  return null;
+}
+
+function PhotoMachine({ machines }: { machines: readonly string[] }) {
+  const f = photoDe(machines);
+  /* PAS DE CADRE VIDE quand il n'y a pas de photo : 147 genres sur 219 sont
+     dans ce cas aujourd'hui, et un rectangle gris repete 147 fois se lit
+     comme une panne, pas comme une absence. */
+  if (!f) return null;
+  return (
+    <figure className="pv-photo">
+      <img src={`${import.meta.env.BASE_URL}${f.fichier}`} alt={f.machine} loading="lazy" />
+      <figcaption className="pv-photo-legende">
+        <span className="pv-photo-nom">{f.machine}</span>
+        <a className="pv-photo-credit" href={f.source} target="_blank" rel="noreferrer noopener">
+          {f.auteur} · {f.licence} · Wikimedia Commons
+        </a>
+      </figcaption>
+    </figure>
+  );
+}
+
 /* --- La vue --------------------------------------------------------------- */
 
 export function ParcourirView() {
@@ -207,6 +257,21 @@ export function ParcourirView() {
     window.addEventListener('keydown', auClavier);
     return () => window.removeEventListener('keydown', auClavier);
   }, [basculer, deplacer, chercher, lecture.position, lecture.listeId]);
+
+  /* ON REMONTE EN HAUT A CHAQUE CHANGEMENT DE NIVEAU.
+
+     DEFAUT SIGNALE PAR MIKA, « je ne vois pas le texte » : le conteneur de
+     defilement gardait sa position d'un genre a l'autre. En arrivant depuis
+     une page ou l'on avait descendu, on atterrissait au milieu du suivant,
+     sous la description, directement sur la fiche technique. Le texte etait
+     bien la, on ne le voyait jamais.
+
+     C'est le genre de defaut qu'une capture ne montre pas : chaque ecran est
+     correct, c'est le PASSAGE de l'un a l'autre qui ne l'est pas. */
+  const corps = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    corps.current?.scrollTo({ top: 0 });
+  }, [niveau.k, niveau.k === 'famille' || niveau.k === 'genre' ? niveau.fi : -1, niveau.k === 'genre' ? niveau.gl : -1]);
 
   const genreCourant = niveau.k === 'genre' ? STRUCTURES[niveau.fi]?.genres[niveau.gl] : undefined;
   const familleCourante = niveau.k === 'familles' ? undefined : FAMILIES[niveau.fi];
@@ -303,7 +368,7 @@ export function ParcourirView() {
       {enTete}
       {barreRecherche}
 
-      <main className="pv-corps">
+      <main className="pv-corps" ref={corps}>
         {niveau.k === 'familles' && (
           <>
             <p className="pv-intro">
@@ -456,6 +521,8 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           <span className="pv-mot-signe">Mika</span>
         </blockquote>
       )}
+
+      <PhotoMachine machines={genre.machines} />
 
       {/* LA FICHE TECHNIQUE. Elle ne dit rien que le corpus ne sache deja :
           tempo, date, machines, labels, artistes, descendance. C'est le

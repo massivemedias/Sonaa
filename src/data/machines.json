@@ -1,0 +1,312 @@
+{
+  "Roland TR-909": {
+    "machine": "Roland TR-909",
+    "fichier": "machines/roland-tr-909.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Roland_TR-909.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "auteur non indique",
+    "licence": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_TR-909.jpg",
+    "largeur": 901,
+    "hauteur": 533
+  },
+  "Roland TR-808": {
+    "machine": "Roland TR-808",
+    "fichier": "machines/roland-tr-808.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Roland_TR-808_%26_909.jpg/1280px-Roland_TR-808_%26_909.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Brandon Daniel",
+    "licence": "CC BY-SA 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_TR-808_%26_909.jpg",
+    "largeur": 2592,
+    "hauteur": 3872
+  },
+  "LinnDrum": {
+    "machine": "LinnDrum",
+    "fichier": "machines/linndrum.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/LinnDrum_digital_drum_machine_brochure_page_4.jpg/1280px-LinnDrum_digital_drum_machine_brochure_page_4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Linn Electronics. Successor: Forat Electronics - Bruce Forat, president",
+    "licence": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:LinnDrum_digital_drum_machine_brochure_page_4.jpg",
+    "largeur": 2414,
+    "hauteur": 3225
+  },
+  "Roland TB-303": {
+    "machine": "Roland TB-303",
+    "fichier": "machines/roland-tb-303.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Roland_TB-303_%40_nordcafe_Teknisca_Museet.jpg/1280px-Roland_TB-303_%40_nordcafe_Teknisca_Museet.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "possan",
+    "licence": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_TB-303_@_nordcafe_Teknisca_Museet.jpg",
+    "largeur": 1660,
+    "hauteur": 2500
+  },
+  "Yamaha DX7": {
+    "machine": "Yamaha DX7",
+    "fichier": "machines/yamaha-dx7.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/YAMAHA_DX7.jpg/1280px-YAMAHA_DX7.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Finnianhughes101",
+    "licence": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:YAMAHA_DX7.jpg",
+    "largeur": 1535,
+    "hauteur": 521
+  },
+  "Rhodes": {
+    "machine": "Rhodes",
+    "fichier": "machines/rhodes.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Centaur_mosa%C3%AFc_return_hunting_hare_Rhodes.jpg/1280px-Centaur_mosa%C3%AFc_return_hunting_hare_Rhodes.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Jebulon",
+    "licence": "CC0",
+    "source": "https://commons.wikimedia.org/wiki/File:Centaur_mosa%C3%AFc_return_hunting_hare_Rhodes.jpg",
+    "largeur": 3192,
+    "hauteur": 3056
+  },
+  "Akai S950": {
+    "machine": "Akai S950",
+    "fichier": "machines/akai-s950.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/2/25/Akai_S950_fully_expanded_by_Michelle_Weston.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "Michelle Fequiere-Weston",
+    "licence": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Akai_S950_fully_expanded_by_Michelle_Weston.jpg",
+    "largeur": 640,
+    "hauteur": 480
+  },
+  "Roland Juno-60": {
+    "machine": "Roland Juno-60",
+    "fichier": "machines/roland-juno-60.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Roland_Juno-60.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "Taavo_from_Stockholm_and_Ivana_Helsinki.jpg : Ville Hyvönen from helsinki / tallinn, Finland derivative work: Shoulder-synth ( talk )",
+    "licence": "CC BY-SA 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_Juno-60.jpg",
+    "largeur": 1200,
+    "hauteur": 440
+  },
+  "Roland Juno-106": {
+    "machine": "Roland Juno-106",
+    "fichier": "machines/roland-juno-106.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/7/78/Roland-Juno-106.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "Iainf 06:01, 18 June 2006 (UTC)",
+    "licence": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland-Juno-106.jpg",
+    "largeur": 1252,
+    "hauteur": 400
+  },
+  "Korg Poly-61": {
+    "machine": "Korg Poly-61",
+    "fichier": "machines/korg-poly-61.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Korg_Poly-61_%28SN_107508%29_logo_%26_arpeggiator.jpg/1280px-Korg_Poly-61_%28SN_107508%29_logo_%26_arpeggiator.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "John R. Southern",
+    "licence": "CC BY-SA 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Korg_Poly-61_(SN_107508)_logo_%26_arpeggiator.jpg",
+    "largeur": 2816,
+    "hauteur": 2112
+  },
+  "Roland TR-707": {
+    "machine": "Roland TR-707",
+    "fichier": "machines/roland-tr-707.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Roland_TR-707.jpg/1280px-Roland_TR-707.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Speculos",
+    "licence": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_TR-707.jpg",
+    "largeur": 1483,
+    "hauteur": 943
+  },
+  "Clavinet": {
+    "machine": "Clavinet",
+    "fichier": "machines/clavinet.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/8/86/Clavinet_c.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "auteur non indique",
+    "licence": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Clavinet_c.jpg",
+    "largeur": 720,
+    "hauteur": 240
+  },
+  "Akai S1000": {
+    "machine": "Akai S1000",
+    "fichier": "machines/akai-s1000.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/6/6f/AKAI_S1000.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "Effects_rack,_pete,_NYC.jpg : Patrick Woodward derivative work: Shoulder-synth ( talk )",
+    "licence": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:AKAI_S1000.jpg",
+    "largeur": 466,
+    "hauteur": 155
+  },
+  "Emulator": {
+    "machine": "Emulator",
+    "fichier": "machines/emulator.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/c/ca/Floppy_hardware_emulator_front.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "Blackvisionit",
+    "licence": "CC0",
+    "source": "https://commons.wikimedia.org/wiki/File:Floppy_hardware_emulator_front.jpg",
+    "largeur": 456,
+    "hauteur": 217
+  },
+  "Minimoog": {
+    "machine": "Minimoog",
+    "fichier": "machines/minimoog.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Minimoog_voyager.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": ". Original uploader was Kimi95 at it.wikipedia",
+    "licence": "CC BY 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Minimoog_voyager.jpg",
+    "largeur": 439,
+    "hauteur": 298
+  },
+  "Fairlight": {
+    "machine": "Fairlight",
+    "fichier": "machines/fairlight.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Fairlight_New_South_Wales_Australia.jpg/1280px-Fairlight_New_South_Wales_Australia.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Трансаэро",
+    "licence": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Fairlight_New_South_Wales_Australia.jpg",
+    "largeur": 3426,
+    "hauteur": 2284
+  },
+  "Roland JP-8000": {
+    "machine": "Roland JP-8000",
+    "fichier": "machines/roland-jp-8000.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/9/99/Roland_JP-8000.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "投稿者（ Eurotuber ）",
+    "licence": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_JP-8000.jpg",
+    "largeur": 824,
+    "hauteur": 408
+  },
+  "Oberheim OB-8": {
+    "machine": "Oberheim OB-8",
+    "fichier": "machines/oberheim-ob-8.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/6/63/Oberheim_OB-8_%28lowres%2C_rear%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "Max_trefan.jpg : Lololo987 derivative work: Clusternote ( talk )",
+    "licence": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Oberheim_OB-8_(lowres,_rear).jpg",
+    "largeur": 798,
+    "hauteur": 331
+  },
+  "Roland JX-8P": {
+    "machine": "Roland JX-8P",
+    "fichier": "machines/roland-jx-8p.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Roland_JX-8P_Small.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "François Warnet",
+    "licence": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_JX-8P_Small.jpg",
+    "largeur": 400,
+    "hauteur": 162
+  },
+  "Roland TR-8": {
+    "machine": "Roland TR-8",
+    "fichier": "machines/roland-tr-8.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Roland_TR-808_%28large%29.jpg/1280px-Roland_TR-808_%28large%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Roland_TR-808_&_909.jpg : Brandon Daniel derivative work: Clusternote ( talk )",
+    "licence": "CC BY-SA 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_TR-808_(large).jpg",
+    "largeur": 2356,
+    "hauteur": 1375
+  },
+  "Akai MPC2000": {
+    "machine": "Akai MPC2000",
+    "fichier": "machines/akai-mpc2000.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Akai_MPC2000.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "Original uploader was Alkivar",
+    "licence": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Akai_MPC2000.jpg",
+    "largeur": 1253,
+    "hauteur": 934
+  },
+  "Korg Poly-800": {
+    "machine": "Korg Poly-800",
+    "fichier": "machines/korg-poly-800.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Korg_poly800.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "No machine-readable author provided. Fataltourist~commonswiki assumed (based on copyright claims).",
+    "licence": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Korg_poly800.jpg",
+    "largeur": 780,
+    "hauteur": 554
+  },
+  "Akai S900": {
+    "machine": "Akai S900",
+    "fichier": "machines/akai-s900.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/AKAI_S900.jpg/1280px-AKAI_S900.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Shawn_Rudiman's_Studio_-_sampler_rack.jpg : Angie Schwendemann derivative work: Shoulder-synth ( talk )",
+    "licence": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:AKAI_S900.jpg",
+    "largeur": 1993,
+    "hauteur": 547
+  },
+  "Mellotron": {
+    "machine": "Mellotron",
+    "fichier": "machines/mellotron.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Mellotron.jpg/1280px-Mellotron.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Buzz Andersen from San Francisco, California, United States",
+    "licence": "CC BY-SA 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Mellotron.jpg",
+    "largeur": 2332,
+    "hauteur": 3504
+  },
+  "ARP 2600": {
+    "machine": "ARP 2600",
+    "fichier": "machines/arp-2600.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Steve_Fisk%27s_ARP_2600.jpg/1280px-Steve_Fisk%27s_ARP_2600.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Joe Mabel",
+    "licence": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Steve_Fisk%27s_ARP_2600.jpg",
+    "largeur": 3264,
+    "hauteur": 2448
+  },
+  "Yamaha CS-80": {
+    "machine": "Yamaha CS-80",
+    "fichier": "machines/yamaha-cs-80.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Yamaha_CS-80.jpg/1280px-Yamaha_CS-80.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Csaba Zvekan. Original uploader was Csabi911 at en.wikipedia",
+    "licence": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Yamaha_CS-80.jpg",
+    "largeur": 1673,
+    "hauteur": 852
+  },
+  "Akai S3000": {
+    "machine": "Akai S3000",
+    "fichier": "machines/akai-s3000.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/b/bd/NeXT_cube_%26_Akai_S3000XL.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "akorbeti",
+    "licence": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:NeXT_cube_%26_Akai_S3000XL.jpg",
+    "largeur": 1024,
+    "hauteur": 685
+  },
+  "Akai S2000": {
+    "machine": "Akai S2000",
+    "fichier": "machines/akai-s2000.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/3/34/AKAI_S2000.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "emilyaugust",
+    "licence": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:AKAI_S2000.jpg",
+    "largeur": 753,
+    "hauteur": 167
+  },
+  "Moog Sub-37": {
+    "machine": "Moog Sub-37",
+    "fichier": "machines/moog-sub-37.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Moog_Sub_37_-_rightpanel_-_2014_NAMM_Show.jpg/1280px-Moog_Sub_37_-_rightpanel_-_2014_NAMM_Show.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Brandon Daniel from USA",
+    "licence": "CC BY-SA 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Moog_Sub_37_-_rightpanel_-_2014_NAMM_Show.jpg",
+    "largeur": 4928,
+    "hauteur": 3280
+  },
+  "Korg MS-20": {
+    "machine": "Korg MS-20",
+    "fichier": "machines/korg-ms-20.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Korg_MS-20.jpg/1280px-Korg_MS-20.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Zinnmann",
+    "licence": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Korg_MS-20.jpg",
+    "largeur": 2838,
+    "hauteur": 1688
+  },
+  "Roland TR-606": {
+    "machine": "Roland TR-606",
+    "fichier": "machines/roland-tr-606.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/7/78/Roland_TR-606.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "Midas Wouters",
+    "licence": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_TR-606.jpg",
+    "largeur": 1123,
+    "hauteur": 556
+  }
+}

@@ -316,6 +316,43 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
     );
 }
 
+/* --- La photo d'une machine --- */
+
+.pv-photo {
+  margin: 1.4rem 0 0;
+  padding: 0;
+}
+.pv-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  background: oklch(0.22 0.01 260);
+}
+.pv-photo-legende {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.6rem;
+  margin-top: 0.55rem;
+}
+.pv-photo-nom {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+/* LE CREDIT EST UN LIEN VERS LA PAGE SOURCE, et non une mention decorative :
+   c'est ce que les licences par attribution demandent, et c'est aussi ce qui
+   permet a quelqu'un de verifier. */
+.pv-photo-credit {
+  font-size: 0.75rem;
+  color: oklch(0.62 0.01 260);
+  text-decoration: none;
+}
+.pv-photo-credit:hover {
+  color: oklch(0.8 0.01 260);
+  text-decoration: underline;
+}
+
 /* --- La fiche technique ---------------------------------------------------- */
 
 .pv-fiche {
