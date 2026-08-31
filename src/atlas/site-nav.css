@@ -18,27 +18,42 @@
   gap: 0.55rem 0.9rem;
 }
 
+/* LE POINT DE SEPARATION DISPARAIT. Il separait deux groupes de mots ; entre
+   deux groupes de BOUTONS il ne separe plus rien et se lit comme un debris,
+   d'autant qu'au retour a la ligne il se retrouve seul en bout de rangee.
+   Constate a l'ecran. */
 .sitenav-sep {
-  color: var(--ink-secondary);
-  opacity: 0.5;
+  display: none;
 }
 
+/* DE VRAIS BOUTONS, plus des mots en petites capitales.
+
+   Ils faisaient 11 px, en majuscules, sans surface : au doigt on visait un
+   trait de texte de dix pixels de haut. Maintenant qu'il n'en reste que
+   quatre, ils peuvent prendre la place qu'une cible tactile demande, soit
+   44 px de haut, comme tout le reste de ce site. */
 .sitenav-lien {
-  font-size: 0.6875rem;
-  font-weight: var(--weight-data);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--ink-secondary);
-  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 0.95rem;
+  border: 1px solid var(--rule-soft, oklch(0.5 0.01 260 / 0.35));
+  border-radius: 22px;
   background: transparent;
-  border: 0;
-  padding: 0.2rem 0;
+  color: var(--ink-secondary);
+  font-family: 'Google Sans', 'Google Sans Text', 'Product Sans', 'Inter', system-ui, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  text-decoration: none;
   cursor: pointer;
 }
 
 .sitenav-lien:hover,
 .sitenav-lien:focus-visible {
   color: var(--ink-primary);
+  border-color: var(--ink-primary);
 }
 
 .sitenav-lien:focus-visible {
@@ -48,23 +63,15 @@
 
 .sitenav-lien[data-current='true'],
 .sitenav-lien[aria-current='page'] {
-  color: var(--ink-primary);
+  /* L'ETAT ACTIF SE VOIT SANS COMPARER : un bouton plein, pas une nuance de
+     gris qu'il faut mettre a cote d'un autre pour distinguer. */
+  background: var(--ink-primary);
+  color: var(--surface-1, oklch(0.16 0.012 260));
+  border-color: var(--ink-primary);
 }
 
 /* Pied de page document : un peu plus lisible, filet au-dessus déjà fourni
    par .credits-foot / .index-foot. */
 .sitenav-page .sitenav-lien {
-  font-size: 0.8125rem;
-  letter-spacing: 0.04em;
-  text-transform: none;
-  border-bottom: 1px solid transparent;
-}
-
-.sitenav-page .sitenav-lien:hover,
-.sitenav-page .sitenav-lien:focus-visible {
-  border-bottom-color: var(--ink-primary);
-}
-
-.sitenav-page .sitenav-lien[aria-current='page'] {
-  border-bottom-color: var(--rule-strong);
+  font-size: 0.9375rem;
 }

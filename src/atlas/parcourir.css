@@ -9,7 +9,15 @@
    AUCUN TEXTE SOUS 13 px. Les noms de genres sont a 17 px, parce qu'ils sont
    la seule chose qu'on vient lire. */
 
+/* LA PILE TYPOGRAPHIQUE, ecrite UNE fois et lue partout.
+
+   Google Sans n'est diffusee par aucun service public : ni Google Fonts, ni
+   un autre. Elle est donc demandee en premier, elle sort chez qui l'a
+   installee, et la suite prend le relais ailleurs. Aucun appel tiers n'est
+   ajoute pour autant. Pour que tout le monde la voie il faudrait heberger
+   les fichiers dans le depot, ce qui demande la licence. */
 .pv {
+  --pv-police: 'Google Sans', 'Google Sans Text', 'Product Sans', 'Inter', system-ui, sans-serif;
   position: fixed;
   inset: 0;
   display: flex;
@@ -73,12 +81,13 @@
   width: auto;
 }
 .pv-tete-titre {
+  font-family: var(--pv-police);
+  letter-spacing: -0.02em;
   flex: 1 1 auto;
   min-width: 0;
   margin: 0;
   font-size: 1.05rem;
-  font-weight: 650;
-  letter-spacing: -0.01em;
+  font-weight: 700;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -194,17 +203,18 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  gap: 0.25rem;
-  min-height: 92px;
-  padding: 0.75rem;
+  /* LE BLOC DE TEXTE EST CENTRE DANS LA HAUTEUR, comme sur la maquette, et
+     non colle au bas. Une vignette dont le nom flotte au milieu se lit d'un
+     coup d'oeil ; colle en bas, l'oeil doit d'abord trouver le bord. */
+  justify-content: center;
+  gap: 0.15rem;
+  min-height: 104px;
+  padding: 0.85rem 1rem;
   border: 0;
-  border-radius: 12px;
-  background: linear-gradient(
-    145deg,
-    oklch(0.52 0.16 var(--pv-hue)),
-    oklch(0.34 0.11 var(--pv-hue))
-  );
+  border-radius: 16px;
+  /* A PLAT, sans degrade : le degrade fabriquait une profondeur qui ne dit
+     rien. La couleur porte la famille, c'est tout ce qu'on lui demande. */
+  background: oklch(0.58 0.19 var(--pv-hue));
   color: oklch(0.99 0 0);
   font: inherit;
   text-align: left;
@@ -219,10 +229,15 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      autre service ne la sert. Elle est donc demandee en premier, ou elle est
      installee elle sortira, et la suite de la pile prend le relais ailleurs.
      Aucune requete vers un tiers n'est ajoutee. */
-  font-family: 'Google Sans', 'Google Sans Text', 'Product Sans', 'Inter', system-ui, sans-serif;
-  font-size: 1.0625rem;
+  /* IL NE RETRECIT PAS. Mesure a 320 px sur « Neue Deutsche Haerte » : le
+     nom demandait 61 px, la boite lui en donnait 59, et les deux pixels
+     manquants coupaient la troisieme ligne. Un element flex se laisse
+     comprimer par defaut, et deux pixels suffisent a rendre un nom faux. */
+  flex: none;
+  font-family: var(--pv-police);
+  font-size: 1.25rem;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.15;
   /* DEMANDE : -4px. Mesure a l'ecran : a 17 px de corps, -4px vaut -0,235 em
      et les lettres se chevauchent, « Disco » se lit « Dsco ». C'est un
      reglage de gros titre applique a une vignette. On garde donc la meme
@@ -234,11 +249,19 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   overflow-wrap: anywhere;
 }
 .pv-tuile-detail {
-  font-size: 0.75rem;
-  opacity: 0.82;
+  flex: none;
+  font-family: var(--pv-police);
+  font-size: 0.875rem;
+  font-weight: 500;
+  /* Le compte se lit SOUS le nom, en retrait, jamais a sa hauteur : c'est ce
+     retrait qui fait que l'oeil attrape le nom en premier. */
+  opacity: 0.72;
 }
 .pv-tuile-genre {
-  min-height: 84px;
+  min-height: 96px;
+}
+.pv-tuile-genre .pv-tuile-nom {
+  font-size: 1.125rem;
 }
 
 /* --- La page d'un genre --------------------------------------------------- */
@@ -271,7 +294,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   cursor: pointer;
 }
 .pv-hero-nom {
-  font-family: 'Google Sans', 'Google Sans Text', 'Product Sans', 'Inter', system-ui, sans-serif;
+  font-family: var(--pv-police);
   margin: 0.6rem 0 0.3rem;
   font-size: 1.75rem;
   font-weight: 700;
@@ -303,8 +326,10 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   background: oklch(0.98 0 0);
   color: oklch(0.14 0.01 250);
   font: inherit;
+  font-family: var(--pv-police);
   font-size: 1rem;
-  font-weight: 650;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   cursor: pointer;
 }
 .pv-hero-play svg {
@@ -561,7 +586,11 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
     gap: 0.85rem;
   }
   .pv-tuile {
-    min-height: 118px;
+    min-height: 132px;
+    border-radius: 18px;
+  }
+  .pv-tuile-nom {
+    font-size: 1.5rem;
   }
   .pv-hero {
     margin-left: 0;

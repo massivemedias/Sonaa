@@ -28,12 +28,19 @@ type SiteCourant =
   | 'moderation'
   | 'autre';
 
+/* LE MENU NE PORTE PLUS QUE DEUX VUES.
+
+   La carte en trois dimensions, la chronologie, la carte de chaleur et
+   l'arbre en sont retires sur demande de Mika. Ils ne sont pas SUPPRIMES :
+   leurs adresses repondent toujours, les fichiers sont intacts, et un lien
+   suffit a les faire revenir. Ce qui change est ce que le site PROPOSE, et
+   ce qu'il propose maintenant tient en une porte d'entree.
+
+   POURQUOI CE N'EST PAS UNE PERTE : cinq facons de regarder le meme corpus
+   demandaient de choisir avant de savoir, et le choix se payait sur
+   telephone, ou le menu tenait trois lignes. */
 const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
   { href: '#/parcourir', id: 'parcourir', label: 'Parcourir' },
-  { href: '#/', id: 'atlas', label: 'Carte 3D' },
-  { href: '#/chronologie', id: 'chronologie', label: 'Chronologie' },
-  { href: '#/heatmap', id: 'heatmap', label: 'Chaleur' },
-  { href: '#/arbre', id: 'arbre', label: 'Arbre' },
   { href: '#/index', id: 'index', label: 'Index' }
 ];
 
