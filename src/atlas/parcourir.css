@@ -77,10 +77,6 @@
 }
 .pv-tete-titre {
   font-family: inherit;
-  /* PAS LE SERRAGE DE TITRE ICI. Ce libelle fait 16,8 px : -3px y vaut
-     -0,18 em et « Detroit Techno » se lit « DetroitTechno ». Constate a
-     l'ecran apres l'avoir pose. Il prend donc le serrage du texte courant,
-     comme tout ce qui n'a pas une taille d'affichage. */
   flex: 1 1 auto;
   min-width: 0;
   margin: 0;
@@ -242,11 +238,6 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   font-size: 1.4375rem;
   font-weight: 700;
   line-height: 1.08;
-  /* LE SERRAGE DE TITRE, la valeur demandee, a la taille ou elle tient. Le
-     commentaire precedent parlait encore de -4px et d'une valeur en
-     pourcentage : les deux ont ete remplaces, et un commentaire qui decrit
-     une regle disparue est pire qu'aucun commentaire. */
-  letter-spacing: var(--serrage-titre);
   /* LE NOM NE SE FAIT JAMAIS COUPER : c'est la seule information de la tuile.
      Il passe a la ligne, et la tuile grandit si elle doit. */
   overflow-wrap: anywhere;
@@ -303,7 +294,6 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   font-size: 1.75rem;
   font-weight: 700;
   line-height: 1.1;
-  letter-spacing: var(--serrage-titre);
 }
 .pv-hero-faits {
   display: flex;
@@ -332,7 +322,6 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   font-family: inherit;
   font-size: 1rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
   cursor: pointer;
 }
 .pv-hero-play svg {
@@ -504,7 +493,6 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   font-family: inherit;
   font-size: 1.0625rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
 }
 
 .pv-sr {

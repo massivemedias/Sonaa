@@ -38,6 +38,25 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* LES CHAMPS ET LES BOUTONS NE RECOIVENT PAS L'HERITAGE, et il faut le leur
+   imposer.
+
+   DEFAUT CONSTATE : body portait bien le serrage, et le titre d'une vignette
+   le rendait « normal ». La feuille de style par defaut des navigateurs remet
+   letter-spacing a zero sur les controles de formulaire, bouton compris.
+   Or presque toute cette interface est faite de boutons : les vignettes, les
+   entrees du menu, le transport, chaque ligne de morceau. Le « partout »
+   demande s'arretait donc a la porte de ce qui compte.
+
+   font: inherit ne suffit pas : la forme courte des polices ne transporte
+   pas le serrage. */
+button,
+input,
+select,
+textarea {
+  letter-spacing: inherit;
+}
+
 h1,
 h2,
 h3,

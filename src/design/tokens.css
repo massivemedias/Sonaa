@@ -22,24 +22,22 @@
      grotesque geometrique, Inter tient la meme largeur d'oeil. */
   --police: 'Larsseit', 'Inter', system-ui, -apple-system, sans-serif;
 
-  /* LE SERRAGE. Mika demande -3px partout ou il y a du texte.
+  /* LE SERRAGE : -1px, UNE seule valeur, partout.
 
-     CE QUE LA MESURE A MONTRE, capture a l'appui. -3px est une valeur
-     ABSOLUE, pas une proportion. Sur la maquette, ou le titre fait 54 px,
-     elle vaut -0,055 em : un serrage de gros titre parfaitement normal.
-     Appliquee telle quelle a un paragraphe de 16 px, elle vaut -0,19 em, et
-     le mot « electronique » perd 39 pour cent de sa largeur : « Detroit,
-     milieu des annees 1980 » se lit « Detroitmilieudesannees1980 ». Le meme
-     reglage donne deux resultats opposes selon la taille a laquelle il tombe.
+     Les essais precedents ont pose -4px, puis -3px. La mesure a montre a
+     chaque fois le meme piege : une valeur absolue produit des effets
+     opposes selon la taille du texte ou elle tombe. A -3px, le mot
+     « electronique » perdait 39 pour cent de sa largeur dans un paragraphe
+     de 16 px, et « Detroit, milieu des annees 1980 » se lisait
+     « Detroitmilieudesannees1980 ».
 
-     ON GARDE DONC L'INTENTION, PAS LE NOMBRE. Les titres recoivent -3px, la
-     valeur demandee, aux tailles ou elle a ete dessinee. Le texte courant
-     recoit la meme serre OPTIQUE, -0,055 em, qui est ce que -3px vaut a la
-     taille de la maquette. L'oeil voit la meme tension partout, ce qui est
-     la demande ; les mots restent separes, ce qui est la condition pour
-     qu'on les lise. */
-  --serrage-titre: -3px;
-  --serrage: -0.055em;
+     -1px echappe au piege, et c'est pour cela qu'une seule valeur suffit
+     desormais : de -0,043 em sur un titre de 23 px a -0,078 em sur du texte
+     de 12,8 px, l'ecart reste dans la plage ou un serrage se voit sans que
+     les mots se touchent. Le couple titre / texte courant a donc disparu :
+     deux valeurs qui n'ont plus de raison d'etre differentes finiraient par
+     diverger pour rien. */
+  --serrage: -1px;
 
   /* LA LISTE DE RESULTATS D'UNE RECHERCHE. Deux vues decoupent le meme ecran
      de la meme facon, l'ancienne recherche et Parcourir. La grandeur est
