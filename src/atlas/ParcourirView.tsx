@@ -736,7 +736,19 @@ function BarreLecture({ piste, hue, genreLabel, lecture, basculer, deplacer, che
                 ? t.appuyezEncoreCourt
                 : lecture.etat === 'erreur'
                   ? t.pisteIllisible
-                  : `${piste.artist} · ${genreLabel}`}
+                  : (
+                      /* PAS DE GABARIT QUI COMPOSE UN POINT MEDIAN AVEC UN
+                         NOM : c'est la regle que check:labels fait respecter,
+                         parce qu'un suffixe colle a un nom a deja ete pris
+                         pour un identifiant technique reste d'un jeu de
+                         donnees factice. Le separateur est un element a lui,
+                         le nom reste nu. */
+                      <>
+                        {piste.artist}
+                        <span className="pv-sep" aria-hidden="true" />
+                        {genreLabel}
+                      </>
+                    )}
           </span>
         </span>
       </button>

@@ -754,6 +754,10 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+/* Le separateur de la barre du bas, dessine et non ecrit dans le texte. */
+.pv-sep::before {
+  content: ' · ';
+}
 .pv-barre-sous {
   font-size: 0.75rem;
   color: oklch(0.7 0.01 260);

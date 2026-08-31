@@ -18,6 +18,8 @@
  */
 
 import { execSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 
 const CONTROLES = [
   ['compilation', 'npx tsc --noEmit'],
@@ -44,8 +46,74 @@ const CONTROLES = [
      seule notion de « pret a publier », c'est le motif des deux sources de
      verite, et il m'a coute exactement ce qu'il coute toujours. */
   ['plafond', 'npm run check:plafond --silent'],
+  /* LES CINQ QUI MANQUAIENT, ET CE N'EST PAS UNE OMISSION SANS SUITE.
+
+     Le deploiement lancait matcher, labels, writes, nature et superposition ;
+     cette barriere ne les lancait pas. Elle a donc autorise une publication
+     que le deploiement a refusee : quinze commits pousses, le site restant
+     sur l'ancienne version, et rien pour le dire sur le moment.
+
+     C'est le MEME defaut qu'en aout, quand le plafond vivait cote deploiement
+     et pas ici. On avait alors ecrit, dans ce fichier meme, que deux listes
+     pour une seule notion de « pret a publier » etaient le motif des deux
+     sources de verite. La lecon avait ete tiree dans un sens et pas dans
+     l'autre : on avait rapatrie le controle manquant sans verifier qu'il
+     etait le seul.
+
+     LA REGLE MAINTENANT : cette liste doit contenir TOUT ce que le
+     deploiement lance. Un controle ajoute a .github/workflows/deploy.yml et
+     pas ici rouvre exactement la meme porte. */
+  ['matcher', 'npm run check:matcher --silent'],
+  ['labels', 'npm run check:labels --silent'],
+  ['writes', 'npm run check:writes --silent'],
+  ['nature', 'npm run check:nature --silent'],
+  ['superposition', 'npm run check:superposition --silent'],
   ['construction', 'npm run build --silent']
 ];
+
+/* LA BARRIERE VERIFIE QU'ELLE COUVRE LE DEPLOIEMENT, et elle le fait toute
+   seule.
+
+   Rapatrier les cinq controles manquants a la main reglait le cas du jour,
+   pas la cause : rien n'empechait le prochain controle ajoute au deploiement
+   d'etre absent d'ici, et c'est deja arrive deux fois. Une comparaison faite
+   par un humain une fois est une comparaison qui derive.
+
+   On lit donc le fichier de deploiement au moment de publier, et on REFUSE
+   si l'une de ses etapes n'a pas d'equivalent dans cette liste. La divergence
+   devient impossible a introduire sans que la publication s'arrete dessus. */
+const DEPLOIEMENT = fileURLToPath(new URL('../.github/workflows/deploy.yml', import.meta.url));
+
+function verifierCouverture() {
+  let yml;
+  try {
+    yml = readFileSync(DEPLOIEMENT, 'utf8');
+  } catch {
+    /* Pas de fichier de deploiement : rien a couvrir, on continue. */
+    return;
+  }
+  const attendus = [...yml.matchAll(/run:\s*npm run ([a-z:]+)/g)]
+    .map((m) => m[1])
+    .filter((x) => x !== 'build');
+  const lances = CONTROLES.map(([, cmd]) => {
+    const m = cmd.match(/npm run ([a-z:]+)/);
+    return m ? m[1] : null;
+  }).filter(Boolean);
+  const manquants = [...new Set(attendus.filter((x) => !lances.includes(x)))];
+  if (manquants.length > 0) {
+    console.error(
+      'PUBLICATION REFUSEE : le deploiement lance des controles que cette\n' +
+        "barriere ignore. Elle autoriserait donc une publication que le\n" +
+        'deploiement refusera, et le site resterait sur son ancienne version\n' +
+        'sans que rien ne le dise.\n\n' +
+        manquants.map((c) => `  ${c}`).join('\n') +
+        '\n\n  Les ajouter a CONTROLES, dans ce fichier.\n'
+    );
+    process.exit(1);
+  }
+}
+
+verifierCouverture();
 
 const echecs = [];
 
