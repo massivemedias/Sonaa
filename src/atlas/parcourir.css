@@ -422,10 +422,25 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   margin: 1.4rem 0 0;
   padding: 0;
 }
+/* LE CADRE EST FIXE, L'IMAGE S'Y ADAPTE.
+
+   DEFAUT CONSTATE : sans hauteur imposee, une photo prenait toute la largeur
+   de la colonne et sa hauteur suivait ses propres proportions. Or les 31
+   photos vont de 598 par 900 pour la TB-303 a des panoramiques deux fois plus
+   larges que hautes : cinq d'entre elles sont en portrait, et a pleine
+   largeur elles depassaient la hauteur de l'ecran. On tombait sur une photo
+   d'avant-bras en plein cadre avant d'avoir vu le texte.
+
+   Un rapport de trois sur deux, et l'image est recadree dedans plutot que de
+   commander la mise en page. La largeur est bornee sur grand ecran : une
+   photo de synthetiseur large de mille pixels n'apprend rien de plus qu'une
+   large de cinq cents. */
 .pv-photo img {
   display: block;
   width: 100%;
-  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  object-position: center;
   border-radius: 16px;
   background: oklch(0.22 0.01 260);
 }
@@ -953,6 +968,9 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   }
   .pv-article-titre {
     font-size: 1.4375rem;
+  }
+  .pv-photo {
+    max-width: 34rem;
   }
   .pv-hero-nom {
     font-size: 2.4rem;
