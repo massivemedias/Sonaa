@@ -4,72 +4,100 @@
     {
       "id": "disco",
       "label": "Disco",
-      "hue": 15
+      "hue": 15,
+      "description": "Tout part de là. Le disco est la seule famille de cette carte qui précède la machine : un orchestre, une section rythmique, des cordes, et un batteur qui tient un quatre temps régulier pendant sept minutes parce que le DJ le lui demande. Ce battement continu est l'invention dont tout le reste descend. À partir de 1979 et du rejet violent du disco aux États-Unis, la musique ne disparaît pas, elle change de nom et de continent : l'Italie en fait l'Italo, l'Allemagne le Hi-NRG, et Chicago la house. Les quatorze genres réunis ici couvrent 1975 à aujourd'hui, du disco d'orchestre au nu-disco qui rejoue la même chose avec des synthétiseurs.",
+      "redaction": "brouillon"
     },
     {
       "id": "house",
       "label": "House",
-      "hue": 350
+      "hue": 350,
+      "description": "La plus grande famille de la carte, vingt-quatre genres, et la plus difficile à définir précisément pour cette raison même. Ce qui les réunit tient en peu de choses : un quatre temps entre 118 et 130, un charleston ouvert sur les contretemps, et l'idée que le morceau est un outil de mixage autant qu'une chanson. Tout commence à Chicago au début des années 1980, quand les DJ du Warehouse prolongent le disco avec des boîtes à rythmes. Ensuite chaque ville ajoute la sienne : New York la voix, Detroit la mélancolie, Londres le garage, l'Afrique du Sud le tempo lent. C'est la famille qui a le plus voyagé, et celle dont le nom sert aujourd'hui à désigner à peu près n'importe quoi.",
+      "redaction": "brouillon"
     },
     {
       "id": "techno",
       "label": "Techno",
-      "hue": 218
+      "hue": 218,
+      "description": "Seize genres qui partagent une même rigueur : la machine ne joue pas d'un être humain, elle joue d'elle-même. Née à Detroit vers 1981 dans les mains de trois lycéens qui écoutaient Kraftwerk et Parliament sur la même radio, la techno se distingue de la house par ce qu'elle refuse plutôt que par ce qu'elle ajoute : moins de voix, moins de piano, moins de disco. Elle traverse l'Atlantique en 1988 et l'Europe la durcit, de Berlin à Rotterdam. Les genres de cette famille vont du plus mélodique, la techno de Detroit, au plus dépouillé, jusqu'aux vitesses extrêmes du schranz. Le mot est devenu si large qu'il désigne parfois toute la musique électronique ; ici il garde son sens strict.",
+      "redaction": "brouillon"
     },
     {
       "id": "minimal",
       "label": "Minimal",
-      "hue": 196
+      "hue": 196,
+      "description": "Onze genres bâtis sur une soustraction. La minimal ne cherche pas à remplir un morceau mais à voir combien on peut en retirer avant qu'il cesse de fonctionner. Une boucle courte, une variation minuscule toutes les seize mesures, et le temps fait le reste. Elle naît autour de 1994 chez Robert Hood à Detroit, puis passe en Allemagne où Cologne et le label Kompakt la rendent presque clinique, avec les clics et les craquements comme matière. Elle se croise ensuite avec la house pour donner la tech house, qui deviendra le format le plus joué en club dans les années 2010. C'est la famille la plus austère de la carte, et paradoxalement celle qui a produit le plus grand succès commercial.",
+      "redaction": "brouillon"
     },
     {
       "id": "trance",
       "label": "Trance",
-      "hue": 262
+      "hue": 262,
+      "description": "Quatorze genres qui partagent une même mécanique émotionnelle : une montée, une rupture, un retour. Là où la techno refuse la mélodie, la trance en fait son sujet. Elle apparaît vers 1990 à Francfort et à Berlin, croise l'acide de Chicago et l'arpège du séquenceur, puis codifie sa forme au point qu'elle devient reconnaissable en huit mesures. Les Pays-Bas et la Grande-Bretagne l'emmènent dans les stades à la fin des années 1990, ce qui lui vaut à la fois son public le plus large et le plus grand mépris de la critique. Les genres réunis ici vont de la trance de club de 1993 aux formes récentes qui reprennent tout depuis le début.",
+      "redaction": "brouillon"
     },
     {
       "id": "psy",
       "label": "Psy",
-      "hue": 240
+      "hue": 240,
+      "description": "Seize genres nés d'un lieu plutôt que d'une ville : les plages de Goa, en Inde, où des voyageurs européens font tourner des bandes toute la nuit à partir de la fin des années 1980. La psytrance se distingue de la trance européenne par sa basse, jouée en croches continues et roulantes, et par une conception du morceau comme un trajet de huit minutes sans refrain. Israël en devient le second foyer au milieu des années 1990. La famille se divise ensuite selon la lumière : le full-on pour le lever du jour, le dark et le forest pour la nuit, et des vitesses qui montent jusqu'à des territoires que peu de gens fréquentent. C'est la famille la plus autonome de la carte, avec ses propres labels, ses propres festivals et son propre public.",
+      "redaction": "brouillon"
     },
     {
       "id": "industrial",
       "label": "Industrial",
-      "hue": 60
+      "hue": 60,
+      "description": "Quatorze genres qui ont en commun de considérer le bruit comme de la musique, et l'usine comme un instrument. L'industriel naît vers 1976, avant presque tout le reste de cette carte, dans une démarche qui tient autant de l'art que du disque : bandes magnétiques trafiquées, boîtes à rythmes primitives, voix traitées jusqu'à l'illisible. Il devient dansant en Belgique au début des années 1980 avec l'EBM et la new beat, et c'est ce passage qui compte pour cette carte : il ouvre une voie directe entre l'avant-garde et le club. La famille se prolonge ensuite vers la coldwave, la darkwave et les formes électroniques les plus dures, jusqu'à recroiser la techno.",
+      "redaction": "brouillon"
     },
     {
       "id": "roots",
       "label": "Roots",
-      "hue": 38
+      "hue": 38,
+      "description": "Les racines, et c'est le nom exact. Quatorze genres qui précèdent la musique de danse électronique et la rendent possible. Tout commence à Paris en 1948 avec la musique concrète de Pierre Schaeffer, qui pose un principe simple et considérable : un son enregistré est une matière qu'on peut couper, retourner, boucler. Le magnétophone devient un instrument. Suivent l'électroacoustique des studios de Cologne et de Milan, puis le krautrock et la kosmische musik allemande des années 1970, qui remplacent la structure de la chanson par la répétition. Aucun de ces genres ne se danse. Tous se retrouvent dans ce qui se danse aujourd'hui.",
+      "redaction": "brouillon"
     },
     {
       "id": "breaks",
       "label": "Breaks",
-      "hue": 284
+      "hue": 284,
+      "description": "Vingt-trois genres, la deuxième plus grande famille, tous fondés sur un refus du quatre temps régulier. Le principe est un vol : quelques secondes de batterie prises sur un disque de funk, mises en boucle, accélérées. Deux mesures enregistrées en 1969 par les Winstons, le fameux amen break, ont produit plus de musique que la plupart des instruments. La famille explose en Grande-Bretagne au début des années 1990, quand les rave hardcore accélèrent ces boucles jusqu'à la jungle, puis les organisent en drum and bass. Elle se divise ensuite selon l'humeur : le jazz, l'obscurité, la précision chirurgicale du neurofunk. C'est la famille la plus britannique de la carte.",
+      "redaction": "brouillon"
     },
     {
       "id": "bass",
       "label": "Bass",
-      "hue": 306
+      "hue": 306,
+      "description": "Dix-neuf genres réunis par une idée qui n'est ni le rythme ni la mélodie mais la BASSE, considérée comme le sujet du morceau plutôt que son socle. Tout part du garage londonien du milieu des années 1990, qui prend la house de New York, la découpe et la fait boiter. Le 2-step supprime le temps fort, le dubstep descend d'une octave et vide le milieu, puis la scène se fracture : la version américaine hurle, la version britannique chuchote. Ces genres sont les plus jeunes de la carte et les plus rapides à muter, souvent en moins de trois ans. Aucun ne se comprend sans un caisson de basse capable de descendre à quarante hertz.",
+      "redaction": "brouillon"
     },
     {
       "id": "electro",
       "label": "Electro",
-      "hue": 82
+      "hue": 82,
+      "description": "Onze genres qui ont en commun une boîte à rythmes, la Roland TR-808, et une idée venue de Kraftwerk : la voix passe par une machine avant d'arriver à l'oreille. L'electro naît à New York en 1982 avec Planet Rock, croisement direct entre le funk et l'électronique allemande, et se répand aussitôt : Miami en fait une affaire de sous-graves et de voitures, Detroit en tire la techno, New York la freestyle et ses voix latines. C'est la famille la plus courte de la carte en nombre de genres, et l'une des plus fertiles : deux autres familles entières descendent de ce qui s'est joué ici entre 1982 et 1985.",
+      "redaction": "brouillon"
     },
     {
       "id": "hardcore",
       "label": "Hardcore",
-      "hue": 146
+      "hue": 146,
+      "description": "Dix-neuf genres organisés autour d'un seul geste : saturer une grosse caisse jusqu'à ce qu'elle devienne une note. La famille naît vers 1990 quand les rave néerlandaises et britanniques accélèrent la techno au-delà de ce qu'elle supporte. Le gabber de Rotterdam en donne la forme la plus connue, la caisse distordue et réenregistrée jusqu'à saturation, puis les tempos montent, de 160 à 200, puis au-delà. C'est la famille la plus mal comprise de la carte, souvent réduite à une caricature de vitesse, alors que ses branches divergent complètement : le hardstyle est lent et mélodique, le frenchcore roule, le speedcore va là où la grosse caisse cesse d'être audible comme rythme.",
+      "redaction": "brouillon"
     },
     {
       "id": "ambient",
       "label": "Ambient",
-      "hue": 168
+      "hue": 168,
+      "description": "Douze genres pour une définition posée par Brian Eno en 1978 : une musique qu'on doit pouvoir ignorer aussi bien qu'écouter. C'est la seule famille de la carte qui ne s'adresse pas au corps. Elle descend directement des racines, du magnétophone et de la boucle longue, et se divise selon ce qu'elle cherche : l'apaisement pour l'ambient et la new age, l'inquiétude pour le dark ambient et l'isolationnisme, la texture pure pour le drone et le lowercase. Elle croise ensuite la musique de danse et lui prend son matériel sans lui prendre son tempo, ce qui donne l'IDM et les formes accidentées qui l'entourent.",
+      "redaction": "brouillon"
     },
     {
       "id": "downtempo",
       "label": "Downtempo",
-      "hue": 124
+      "hue": 124,
+      "description": "Douze genres définis par une soustraction simple : on garde tout, on ralentit. Entre 80 et 110 battements, ce qui est trop lent pour danser et trop rythmé pour être de l'ambient. La famille se forme dans les salles de repos des rave britanniques au tournant des années 1990, d'où le nom de chill-out, puis Bristol lui donne sa forme la plus dense avec le trip-hop, la basse dub et la mélancolie. Elle se prolonge dans les compilations de bar des années 2000, puis renaît sur internet avec le lo-fi hip hop, écouté aujourd'hui par des gens qui n'en connaissent ni le nom ni l'origine.",
+      "redaction": "brouillon"
     }
   ],
   "genres": [

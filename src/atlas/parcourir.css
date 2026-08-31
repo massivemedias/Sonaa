@@ -184,6 +184,15 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   font-size: 0.775rem;
 }
 
+/* Le texte d'une famille respire un peu plus que celui d'un genre : il ouvre
+   la page au lieu de suivre un bandeau. */
+.pv-description-famille {
+  margin-top: 1rem;
+}
+.pv-description-famille + .pv-intro {
+  margin-top: 1.4rem;
+}
+
 /* --- Les rectangles ------------------------------------------------------- */
 
 .pv-grille {

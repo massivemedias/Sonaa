@@ -39,10 +39,14 @@ type SiteCourant =
 
    POURQUOI CE N'EST PAS UNE PERTE : cinq facons de regarder le meme corpus
    demandaient de choisir avant de savoir, et le choix se payait sur
-   telephone, ou le menu tenait trois lignes. */
+   telephone, ou le menu tenait trois lignes.
+
+   L'INDEX SORT A SON TOUR. Il listait les 219 genres a plat, ce que Parcourir
+   fait desormais mieux : par famille, avec un texte, une photo et les
+   morceaux. Deux portes vers la meme piece, dont l'une est plus etroite.
+   L'adresse #/index repond toujours, la page n'est pas supprimee. */
 const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
-  { href: '#/parcourir', id: 'parcourir', label: t.parcourir },
-  { href: '#/index', id: 'index', label: t.index }
+  { href: '#/parcourir', id: 'parcourir', label: t.parcourir }
 ];
 
 const PAGES: readonly { href: string; id: SiteCourant; label: string }[] = [

@@ -18,6 +18,10 @@ export interface Family {
   readonly center: readonly [number, number, number];
   readonly hue: number;
   readonly count: number;
+  /* Ce qui reunit les genres de la famille. `null` tant que le texte n'est
+     pas ecrit : on n'affiche rien plutot qu'un gabarit. */
+  readonly description: string | null;
+  readonly redaction: 'brouillon' | null;
 }
 
 export interface FamilyLink {
@@ -192,7 +196,9 @@ export const FAMILIES: readonly Family[] = CORPUS.families.map((f) => ({
   label: f.label,
   center: CENTERS[f.id] ?? [0, 0, 0],
   hue: f.hue,
-  count: CORPUS.genres.filter((g) => g.family === f.id).length
+  count: CORPUS.genres.filter((g) => g.family === f.id).length,
+  description: f.description ?? null,
+  redaction: f.redaction ?? null
 }));
 
 const familyIndexOf = (id: string): number => FAMILIES.findIndex((f) => f.id === id);

@@ -234,7 +234,18 @@ const genreSchema = z.strictObject({
 const familySchema = z.strictObject({
   id: familyId,
   label: z.string().min(1),
-  hue: z.number().min(0).max(360)
+  hue: z.number().min(0).max(360),
+  /* LE TEXTE D'UNE FAMILLE, distinct de celui d'un genre.
+
+     Un genre repond a « qu'est-ce que c'est » ; une famille repond a « qu'
+     est-ce qui reunit ces vingt-quatre genres et pourquoi ils sont ensemble ».
+     Sans lui, la page d'une famille n'etait qu'une grille : on savait combien
+     de genres, jamais ce qu'ils avaient en commun.
+
+     Meme regle que pour les genres : `redaction: 'brouillon'` marque un texte
+     ecrit par la machine et non encore relu, et la marque s'affiche. */
+  description: z.string().min(120).optional(),
+  redaction: z.enum(['brouillon']).optional()
 });
 
 /* UNE SEULE LISTE PAR GENRE, ET UN ATTRIBUT DE ROLE (aout 2026).
