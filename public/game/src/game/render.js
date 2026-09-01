@@ -3,7 +3,7 @@
 // =====================================================================
 import { toScreen, Camera } from '../core/iso.js';
 import { drawGround, drawBuilding, drawProp, castBuildingShadow } from '../world/architecture.js';
-import { INK, rrect, setTime, alpha, noisePattern, castBlob } from '../core/art.js';
+import { INK, rrect, setTime, alpha, noisePattern, castBlob, setLight, lightPool, LIGHT } from '../core/art.js';
 
 export class Renderer {
   constructor(canvas, city) {
@@ -89,6 +89,7 @@ export class Renderer {
     const { ctx } = this;
     const night = game.isNight;
     setTime(t);
+    setLight(game.hour);
     this.background(t, game);
 
     // caméra suit le joueur
@@ -98,15 +99,29 @@ export class Renderer {
 
     drawGround(ctx, this.city, this.cam);
 
+    // flaques de lumière au sol quand le jour baisse
+    const dark = 1 - LIGHT.amb;
+    if (dark > 0.15) {
+      for (const p of this.city.props) {
+        if (p.type === 'lamp') lightPool(ctx, p.x, p.y, 2.6, '255,205,120', dark * 0.95, p.z || 0);
+      }
+      for (const b of this.city.buildings) {
+        if (!game.unlocked(b)) continue;
+        const fx = b.x + b.w / 2 + 0.4, fy = b.y + b.d / 2 + 0.4;
+        const col = b.id === 'club' ? '255,90,180' : b.id === 'promo' ? '120,190,255' : '255,200,140';
+        lightPool(ctx, fx, fy, Math.max(b.w, b.d) * 0.95, col, dark * 0.55);
+      }
+    }
+
     // passe d'ombres portées : tout le monde projette au sol avant d'être dessiné
     for (const b of this.city.buildings) castBuildingShadow(ctx, b, game.unlocked(b));
     for (const p of this.city.props) {
       const H = { tree: 2.4, lamp: 2.2, statue: 1.9, plant: 0.9, crates: 0.7,
                   bench: 0.5, truck: 1.4, arch: 2.2, ruin: 1.3 }[p.type] || 0.8;
-      castBlob(ctx, p.x, p.y, 0.34, H, 0.2, p.z || 0);
+      castBlob(ctx, p.x, p.y, 0.34, H, null, p.z || 0);
     }
-    castBlob(ctx, player.x, player.y, 0.3, 1.4, 0.22, this.city.elev(player.x, player.y));
-    if (life) for (const w of life.walkers) castBlob(ctx, w.x, w.y, 0.24, 1.1, 0.16, this.city.elev(w.x, w.y));
+    castBlob(ctx, player.x, player.y, 0.3, 1.4, null, this.city.elev(player.x, player.y));
+    if (life) for (const w of life.walkers) castBlob(ctx, w.x, w.y, 0.24, 1.1, null, this.city.elev(w.x, w.y));
 
     // entités triées par profondeur
     const ents = [];

@@ -5,7 +5,8 @@ import { toScreen } from '../core/iso.js';
 import {
   INK, box, slab, poly, gableRoof, face, awning, signboard, windowRow, doorway,
   plant, tree, acUnit, lantern, crate, flag, shade, shadow, rrect, line2, roundPoly, tileCube,
-  smoke, alpha, hsl, castBox, castBlob, pillar, arch, time as artTime, FW, FH
+  smoke, alpha, hsl, castBox, castBlob, pillar, arch, lightPool, contact,
+  LIGHT, lit, dim, time as artTime, FW, FH
 } from '../core/art.js';
 import { VOID, PAVE, ROAD, TURF, PLAZA, TILE_Z } from './city.js';
 
@@ -81,7 +82,8 @@ export function drawGround(ctx, city, cam) {
 }
 
 // un cube de sol : silhouette, deux flancs saturés, dessus pâle arrondi
-export function drawCube(ctx, x, y, z, top, side) {
+export function drawCube(ctx, x, y, z, top0, side0) {
+  const top = lit(top0, 0.8), side = dim(side0, 0.7);
   const a = x + INSET, b = y + INSET, w = 1 - INSET * 2;
   const A = P(a, b, z), B = P(a + w, b, z), C = P(a + w, b + w, z), D = P(a, b + w, z);
   const Br = P(a + w, b, z - CUBE_H), Cr = P(a + w, b + w, z - CUBE_H), Dr = P(a, b + w, z - CUBE_H);
@@ -89,7 +91,8 @@ export function drawCube(ctx, x, y, z, top, side) {
   roundPoly(ctx, [B, C, Cr, Br], 3, lgrad(ctx, B, Br, hsl(side, 0.05, 0.03), hsl(side, -0.15, 0.07)));
   roundPoly(ctx, [D, C, Cr, Dr], 3, lgrad(ctx, D, Dr, hsl(side, -0.03, 0.05), hsl(side, -0.20, 0.08)));
   roundPoly(ctx, [A, B, C, D], 6, lgrad(ctx, A, C, hsl(top, 0.06, -0.04), hsl(top, -0.05, 0.02)));
-  ctx.strokeStyle = alpha(hsl(top, 0.16, 0), 0.55); ctx.lineWidth = 1.4; ctx.lineCap = 'round';
+  ctx.strokeStyle = alpha(mix2(hsl(top, 0.16, 0), LIGHT.sun, 0.4), 0.25 + 0.35 * LIGHT.amb);
+  ctx.lineWidth = 1.4; ctx.lineCap = 'round';
   ctx.beginPath(); ctx.moveTo(D.x, D.y); ctx.lineTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.stroke();
 }
 
@@ -133,6 +136,13 @@ function plinth(ctx, ex, ey, dir, z) {
   ctx.quadraticCurveTo(m.x, m.y + 30, b2.x, b2.y - 5);
   ctx.closePath();
   ctx.fillStyle = hsl(SOIL_BOT, k - 0.04, 0); ctx.fill();
+}
+
+function mix2(a, b, t) {
+  const pa = [parseInt(a.slice(1, 3), 16), parseInt(a.slice(3, 5), 16), parseInt(a.slice(5, 7), 16)];
+  const pb = [parseInt(b.slice(1, 3), 16), parseInt(b.slice(3, 5), 16), parseInt(b.slice(5, 7), 16)];
+  const c = i => Math.round(pa[i] + (pb[i] - pa[i]) * t).toString(16).padStart(2, '0');
+  return '#' + c(0) + c(1) + c(2);
 }
 
 function lgrad(ctx, a, b, c0, c1) {
@@ -427,7 +437,7 @@ function buildingHeight(b) {
 }
 
 export function drawBuilding(ctx, b, env) {
-  shadow(ctx, b.x + b.w / 2, b.y + b.d / 2, Math.max(b.w, b.d) * 0.42, 0, 0.22);
+  contact(ctx, b.x + b.w / 2, b.y + b.d / 2, Math.max(b.w, b.d) * 0.62, 0, 0.3);
   if (!env.unlocked) { construction(ctx, b); return; }
   (STYLES[b.style] || STYLES.shop)(ctx, b, env);
 }

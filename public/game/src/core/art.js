@@ -7,11 +7,60 @@ import { toScreen, HW, HH, HU } from './iso.js';
 export const INK = 'rgba(28,10,46,0.55)';
 export const OUT = 1;
 
-// Soleil chaud venant du haut-gauche, ombres froides — la clé du look TUNIC.
-export const SUN = '#ffe6b0';
-export const SHADE_TINT = '#3b4f96';
-// direction de l'ombre portée, en unités monde par unité de hauteur
-export const SUN_DX = 0.62, SUN_DY = 0.86;
+// ---------------------------------------------------------------- lumière
+// Un seul objet décrit l'éclairage de la scène. Il change avec l'heure :
+// couleur du soleil, couleur de l'ombre, direction et longueur des ombres
+// portées. Les valeurs sont quantifiées par paliers pour que le cache de
+// dégradés ne soit pas jeté à chaque image.
+export const LIGHT = {
+  sun: '#ffe6b0', shade: '#3b4f96',
+  dx: 0.5, dy: 0.75,        // direction de l'ombre par unité de hauteur
+  shadowA: 0.28,            // opacité des ombres portées
+  warm: 0.16, cool: 0.13,   // dosage du chaud sur les faces éclairées / du froid à l'ombre
+  amb: 1,                   // 1 = plein jour, 0 = nuit noire
+  key: 'midi',
+};
+
+// heures clés : [heure, soleil, ombre, dx, dy, opacité, chaud, froid, ambiance]
+const PHASES = [
+  [0,  '#8fa6ff', '#232c62', 0.30, 0.50, 0.08, 0.05, 0.26, 0.10],
+  [5,  '#9fb6ff', '#28306a', 0.34, 0.55, 0.10, 0.06, 0.24, 0.18],
+  [7,  '#ffc98a', '#4a4b9e', 0.95, 0.62, 0.22, 0.20, 0.16, 0.62],
+  [10, '#ffe3ad', '#43539b', 0.72, 0.72, 0.27, 0.15, 0.13, 0.92],
+  [13, '#fff2d2', '#4a5da8', 0.40, 0.58, 0.30, 0.12, 0.11, 1.00],
+  [16, '#ffdca0', '#45509c', 0.42, 0.92, 0.28, 0.17, 0.13, 0.88],
+  [19, '#ffb27a', '#4b3f8f', 0.26, 1.15, 0.20, 0.22, 0.18, 0.50],
+  [21, '#9aa8f5', '#252d66', 0.30, 0.60, 0.10, 0.07, 0.25, 0.16],
+  [24, '#8fa6ff', '#232c62', 0.30, 0.50, 0.08, 0.05, 0.26, 0.10],
+];
+
+const q = (v, step) => Math.round(v / step) * step;
+function qcol(hex) {   // on arrondit chaque canal pour limiter le nombre de palettes
+  const [r, g, b] = hex2rgb(hex);
+  return rgb2hex(q(r, 12), q(g, 12), q(b, 12));
+}
+
+export function setLight(hour) {
+  const h = ((hour % 24) + 24) % 24;
+  let i = 0;
+  while (i < PHASES.length - 2 && PHASES[i + 1][0] <= h) i++;
+  const a = PHASES[i], b = PHASES[i + 1];
+  const t = q((h - a[0]) / (b[0] - a[0] || 1), 0.2);   // 5 paliers entre deux phases
+  const lerpN = (x, y) => x + (y - x) * t;
+  LIGHT.sun = qcol(mix(a[1], b[1], t));
+  LIGHT.shade = qcol(mix(a[2], b[2], t));
+  LIGHT.dx = lerpN(a[3], b[3]);
+  LIGHT.dy = lerpN(a[4], b[4]);
+  LIGHT.shadowA = lerpN(a[5], b[5]);
+  LIGHT.warm = lerpN(a[6], b[6]);
+  LIGHT.cool = lerpN(a[7], b[7]);
+  LIGHT.amb = lerpN(a[8], b[8]);
+  LIGHT.key = i + ':' + t.toFixed(1);
+}
+
+// teinte une couleur selon qu'elle prend la lumière ou qu'elle est à l'ombre
+export function lit(color, k = 1) { return mix(color, LIGHT.sun, LIGHT.warm * k); }
+export function dim(color, k = 1) { return mix(color, LIGHT.shade, LIGHT.cool * k); }
 
 // ---------------------------------------------------------------- temps
 let T = 0;
@@ -116,19 +165,19 @@ const P = (x, y, z) => toScreen(x, y, z);
 // ------------------------------------------------------------ volume
 // Boîte isométrique éclairée depuis le haut-gauche, avec occlusion au sol.
 export function box(ctx, x, y, z, w, d, h, color, o = {}) {
-  const topA = o.top || mix(hsl(color, 0.14, -0.04), SUN, 0.16);
-  const topB = mix(hsl(topA, -0.05, 0.01), SUN, 0.05);
-  const rightA = o.right || mix(hsl(color, 0.04, 0.02), SUN, 0.07);
-  const rightB = mix(hsl(rightA, -0.14, 0.04), SHADE_TINT, 0.10);
-  const leftA = o.left || mix(hsl(color, -0.08, 0.03), SHADE_TINT, 0.13);
-  const leftB = mix(hsl(leftA, -0.13, 0.03), SHADE_TINT, 0.20);
+  const topA = o.top || lit(hsl(color, 0.14 * LIGHT.amb - 0.02, -0.04), 1);
+  const topB = lit(hsl(topA, -0.05, 0.01), 0.35);
+  const rightA = o.right || lit(hsl(color, 0.04 * LIGHT.amb, 0.02), 0.45);
+  const rightB = dim(hsl(rightA, -0.14, 0.04), 0.8);
+  const leftA = o.left || dim(hsl(color, -0.08, 0.03), 1);
+  const leftB = dim(hsl(leftA, -0.13, 0.03), 1.6);
   const r = o.round ?? 5;
 
   const A = P(x, y, z + h), B = P(x + w, y, z + h), C = P(x + w, y + d, z + h), D = P(x, y + d, z + h);
   const Br = P(x + w, y, z), Cr = P(x + w, y + d, z), Dr = P(x, y + d, z);
 
   // silhouette adoucie : sert de liseré sombre autour du volume
-  if (r > 0) roundPoly(ctx, [A, B, Br, Cr, Dr, D], r + 1.4, o.rim || mix(hsl(color, -0.20, 0.03), SHADE_TINT, 0.2));
+  if (r > 0) roundPoly(ctx, [A, B, Br, Cr, Dr, D], r + 1.4, o.rim || dim(hsl(color, -0.20, 0.03), 1.6));
 
   // face gauche (y max)
   poly(ctx, [D, C, Cr, Dr], lin(ctx, D.x, D.y, Dr.x, Dr.y, [[0, leftA], [1, leftB]]));
@@ -140,7 +189,8 @@ export function box(ctx, x, y, z, w, d, h, color, o = {}) {
 
   // arête de lumière sur les crêtes tournées vers la lumière
   if (o.rim !== null) {
-    ctx.strokeStyle = alpha(mix(shade(color, 0.6), SUN, 0.5), 0.55); ctx.lineWidth = 1.3; ctx.lineCap = 'round';
+    ctx.strokeStyle = alpha(mix(shade(color, 0.55), LIGHT.sun, 0.6), 0.3 + 0.35 * LIGHT.amb);
+    ctx.lineWidth = 1.3; ctx.lineCap = 'round';
     ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.moveTo(A.x, A.y); ctx.lineTo(D.x, D.y);
     ctx.stroke();
   }
@@ -233,6 +283,21 @@ export function rrect(ctx, x, y, w, h, r, fill, stroke = null, lw = 1.4) {
 }
 
 // --------------------------------------------------------------- ombres
+// petite flaque sombre au contact du sol : ce qui « pose » vraiment un objet
+export function contact(ctx, x, y, rx, z = 0, a = 0.3) {
+  const p = P(x, y, z);
+  const R = rx * HW;
+  ctx.save();
+  ctx.translate(p.x, p.y); ctx.scale(1, 0.5);
+  const g = ctx.createRadialGradient(0, 0, 1, 0, 0, R);
+  g.addColorStop(0, `rgba(24,14,48,${a})`);
+  g.addColorStop(0.45, `rgba(24,14,48,${a * 0.42})`);
+  g.addColorStop(1, 'rgba(24,14,48,0)');
+  ctx.fillStyle = g;
+  ctx.beginPath(); ctx.arc(0, 0, R, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+}
+
 export function shadow(ctx, x, y, rx, z = 0, a = 0.3) {
   const p = P(x, y, z);
   const R = rx * HW * 1.15;
@@ -536,8 +601,10 @@ function softPoly(ctx, pts, a, color = '#2b3160') {
 }
 
 // projette l'empreinte d'un volume au sol, dans la direction du soleil
-export function castBox(ctx, x, y, w, d, h, a = 0.26, zBase = 0) {
-  const ox = h * SUN_DX, oy = h * SUN_DY;
+export function castBox(ctx, x, y, w, d, h, a = null, zBase = 0) {
+  a = a === null ? LIGHT.shadowA : a * (LIGHT.shadowA / 0.26);
+  if (a < 0.02) return;
+  const ox = h * LIGHT.dx, oy = h * LIGHT.dy;
   softPoly(ctx, [
     P(x, y, zBase), P(x + w, y, zBase),
     P(x + w + ox, y + oy, zBase), P(x + w + ox, y + d + oy, zBase),
@@ -546,8 +613,10 @@ export function castBox(ctx, x, y, w, d, h, a = 0.26, zBase = 0) {
 }
 
 // ombre allongée d'un petit objet (arbre, personnage, lampadaire)
-export function castBlob(ctx, x, y, r, h, a = 0.24, zBase = 0) {
-  const ox = h * SUN_DX * 0.5, oy = h * SUN_DY * 0.5;
+export function castBlob(ctx, x, y, r, h, a = null, zBase = 0) {
+  a = a === null ? LIGHT.shadowA * 0.9 : a * (LIGHT.shadowA / 0.26);
+  if (a < 0.02) return;
+  const ox = h * LIGHT.dx * 0.5, oy = h * LIGHT.dy * 0.5;
   const p0 = P(x, y, zBase), p1 = P(x + ox * 2, y + oy * 2, zBase);
   ctx.save();
   ctx.strokeStyle = '#2b3160'; ctx.lineCap = 'round';
@@ -556,6 +625,23 @@ export function castBlob(ctx, x, y, r, h, a = 0.24, zBase = 0) {
     ctx.lineWidth = r * HW * k;
     ctx.beginPath(); ctx.moveTo(p0.x, p0.y); ctx.lineTo(p1.x, p1.y); ctx.stroke();
   }
+  ctx.restore();
+}
+
+// flaque de lumière projetée au sol par une source ponctuelle
+export function lightPool(ctx, x, y, r, color = '255,205,120', strength = 0.5, z = 0) {
+  if (strength <= 0.01) return;
+  const p = P(x, y, z);
+  const R = r * HW;
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  ctx.translate(p.x, p.y); ctx.scale(1, 0.5);
+  const g = ctx.createRadialGradient(0, 0, 1, 0, 0, R);
+  g.addColorStop(0, `rgba(${color},${0.34 * strength})`);
+  g.addColorStop(0.5, `rgba(${color},${0.13 * strength})`);
+  g.addColorStop(1, `rgba(${color},0)`);
+  ctx.fillStyle = g;
+  ctx.beginPath(); ctx.arc(0, 0, R, 0, Math.PI * 2); ctx.fill();
   ctx.restore();
 }
 
