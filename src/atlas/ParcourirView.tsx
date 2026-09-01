@@ -427,15 +427,7 @@ export function ParcourirView() {
                 pas. Un genre repond a « qu'est-ce que c'est », une famille
                 repond a « qu'est-ce qui reunit ces vingt-quatre-la ». */}
             {familleCourante.description && (
-              <>
-                {familleCourante.redaction === 'brouillon' && (
-                  <p className="pv-brouillon">
-                    <span className="pv-brouillon-marque">{t.brouillon}</span>
-                    {t.brouillonExplique}
-                  </p>
-                )}
-                <p className="pv-description pv-description-famille">{familleCourante.description}</p>
-              </>
+              <p className="pv-description pv-description-famille">{familleCourante.description}</p>
             )}
           </>
         )}
@@ -631,12 +623,6 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           deja, on ne fait que l'afficher. */}
       {genre.article.length > 0 && (
         <article className="pv-article">
-          {genre.redaction === 'brouillon' && (
-            <p className="pv-brouillon">
-              <span className="pv-brouillon-marque">{t.brouillon}</span>
-              {t.brouillonExplique}
-            </p>
-          )}
           {genre.article.map((section) => (
             <section className="pv-article-section" key={section.titre}>
               <h3 className="pv-article-titre">{section.titre}</h3>

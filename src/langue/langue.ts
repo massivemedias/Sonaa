@@ -99,8 +99,6 @@ interface Dictionnaire {
   readonly nGenresDerives: (n: number) => string;
   readonly vers: string;
   readonly motDeLAuteur: string;
-  readonly brouillon: string;
-  readonly brouillonExplique: string;
   readonly positionDansLeMorceau: string;
   readonly reculer: string;
   readonly avancer: string;
@@ -172,9 +170,6 @@ const FR: Dictionnaire = {
   nGenresDerives: (n) => `${n} genre${n > 1 ? 's' : ''}`,
   vers: 'vers',
   motDeLAuteur: 'Le mot de Mika',
-  brouillon: 'Brouillon',
-  brouillonExplique:
-    "Cet article a été écrit par la machine à partir de sources publiques, et n'a pas encore été relu par Mika.",
   positionDansLeMorceau: 'Position dans le morceau',
   reculer: 'Reculer de 10 secondes',
   avancer: 'Avancer de 10 secondes',
@@ -249,9 +244,6 @@ const EN: Dictionnaire = {
   nGenresDerives: (n) => `${n} genre${n > 1 ? 's' : ''}`,
   vers: 'circa',
   motDeLAuteur: 'A word from Mika',
-  brouillon: 'Draft',
-  brouillonExplique:
-    'This article was machine-written from public sources and has not yet been reviewed by Mika.',
   positionDansLeMorceau: 'Position in track',
   reculer: 'Back 10 seconds',
   avancer: 'Forward 10 seconds',
