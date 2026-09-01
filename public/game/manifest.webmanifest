@@ -1,0 +1,15 @@
+{
+  "name": "SONAA — Label Tycoon",
+  "short_name": "SONAA",
+  "description": "De la chambre au major : un simulateur de label de musique électronique en vue isométrique.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "background_color": "#0a1330",
+  "theme_color": "#0a1330",
+  "icons": [
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
