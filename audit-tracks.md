@@ -33,26 +33,37 @@ RIEN N'A ETE CHARGE.
 
 ---
 
-## Italo Disco  (Disco, 18 morceaux)
+## Italo Disco  (Disco, 24 morceaux)
 
-11 artistes en commun, 8 titres deja presents sur 50.
+15 artistes en commun, 14 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
 | 1 | Pino D'Angiò | Ma quale idea |
-| 5 | Savage | Only You |
-| 7 | Savage | Don't Cry Tonight |
-| 8 | Den Harrow | Future Brain |
-| 9 | The Flirts | Passion |
-| 10 | Valerie Dore | The Night |
-| 11 | Kano | Another Life |
-| 12 | Gazebo | Masterpiece |
 | 14 | Grant Miller | Colder Than Ice |
 | 15 | Scotch | Disco Band |
+| 16 | Silver Pozzoli | Around My Dream |
+| 17 | Valerie Dore | Get Closer |
+| 18 | Sally Shapiro | Hold Me So Tight |
+| 19 | La Bionda | I Wanna Be Your Lover |
+| 21 | Max Him | Lady Fantasy |
+| 22 | Sandy Marton | People from Ibiza |
+| 24 | Baby's Gang | Challenger |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 5 | Savage | Only You | Synth-pop |
+| 23 | Koto | Visitors | Spacesynth |
 
 ## Drumfunk  (Breaks, 7 morceaux)
 
 7 artistes en commun, 1 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -71,10 +82,11 @@ RIEN N'A ETE CHARGE.
 
 7 artistes en commun, 2 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
 | 1 | Kobaryo | Bookmaker |
-| 2 | Crossbreed | Breathe |
 | 3 | Barion | Ustal |
 | 4 | Kobaryo | Evolution Canceler |
 | 5 | The Outside Agency & Switch Technique | Senseless Society |
@@ -83,10 +95,19 @@ RIEN N'A ETE CHARGE.
 | 8 | Counterstrike ft The Panacea & Robyn Chaos | Thunderstatement |
 | 9 | Machine Girl | Dread Architect (Doormouse Remix) |
 | 10 | Gancher & Ruin | the Seer |
+| 11 | Lil Texas | My DJ |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 2 | Crossbreed | Breathe | Electroclash, Orchestral Trance |
 
 ## Acid House  (House, 16 morceaux)
 
 9 artistes en commun, 7 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -99,28 +120,48 @@ RIEN N'A ETE CHARGE.
 | 11 | 808 State | Cobra Bora |
 | 12 | 808 State | San Francisco |
 | 14 | Lords of Acid | Lover |
-| 15 | 808 State | Sunrise |
+| 16 | S'Express | Superfly Guy |
 
-## Acid Trance  (Trance, 11 morceaux)
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
 
-6 artistes en commun, 2 titres deja presents sur 50.
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 15 | 808 State | Sunrise | Psydub |
+| 17 | Mr. Fingers | Can You Feel It | Deep House |
+| 35 | S'Express | Theme from S'Express | UK House |
+| 47 | Hardfloor | Acperience 1 | Acid Techno, Acid Trance |
+
+## Uplifting Trance  (Trance, 10 morceaux)
+
+7 artistes en commun, 4 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
-| 1 | Hardfloor | Trancescript |
-| 2 | Union Jack | Cactus |
-| 3 | Union Jack | Red Herring |
-| 4 | Emmanuel Top | Acid Phase |
-| 5 | Armin van Buuren | Ping Pong |
-| 6 | The Shamen | Phorever Dub |
-| 7 | Art of Trance | Octopus |
-| 8 | cubicidal | acid rain |
-| 9 | alphatech_5 | Let Acid Surrounds You[hardcore 5.1 CD 3] |
-| 10 | Voodoo & Serano | Blood Is Pumpin' (Original Edit) |
+| 1 | Ninajirachi | Infohazard |
+| 2 | Ram | RAMsterdam (Jorn van Deynhoven Remix) |
+| 4 | Porter Robinson | Something Comforting |
+| 6 | Bring Me the Horizon | nihilist blues (feat. Grimes) |
+| 7 | Zedd | Spectrum (feat. Matthew Koma) |
+| 9 | Above & Beyond | World On Fire |
+| 10 | Super8 & Tab | Irufushi |
+| 11 | Oliver Smith | Nimbus |
+| 12 | Andy Blueman | Neverland (Original Mix) |
+| 13 | Afternova | Serenity (Andy Blueman Remix) |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 8 | Veracocha | Carte Blanche | Trance |
+| 41 | Andy Blueman | Sea Tides (Original Mix) | Orchestral Trance |
 
 ## Braindance  (Ambient, 5 morceaux)
 
 5 artistes en commun, 0 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -139,6 +180,8 @@ RIEN N'A ETE CHARGE.
 
 6 artistes en commun, 2 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
 | 2 | LE SSERAFIM | Smart |
@@ -152,43 +195,73 @@ RIEN N'A ETE CHARGE.
 | 10 | Doechii | ROCKET |
 | 11 | Rema | Bounce |
 
-## Chicago House  (House, 10 morceaux)
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
 
-8 artistes en commun, 7 titres deja presents sur 50.
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 16 | Drake | Overdrive | Tech Trance |
+
+## Chicago House  (House, 13 morceaux)
+
+10 artistes en commun, 11 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
-| 2 | Mr. Fingers | Can You Feel It |
-| 3 | Paul Johnson | Hear the Music |
-| 5 | Adonis | No Way Back |
-| 7 | Mr. Fingers | Mystery Of Love |
 | 8 | Kanye West | Fade |
-| 9 | Frankie Knuckles | Baby Wants To Ride |
 | 10 | Azari & III | Hungry for the Power |
-| 11 | Phuture | Acid Tracks |
 | 12 | Phuture | Your Only Friend |
 | 13 | Magdalena Bay | Sky2Fall |
+| 14 | Mr. Fingers | Washing Machine |
+| 15 | Joe Smooth | Promised Land |
+| 16 | Azealia Banks | Escapades |
+| 17 | Azari & III | Into the Night |
+| 19 | Azari & III | Manic |
+| 20 | Azari & III | Indigo |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 2 | Mr. Fingers | Can You Feel It | Deep House |
+| 5 | Adonis | No Way Back | Acid House |
+| 11 | Phuture | Acid Tracks | Acid House |
+| 18 | Sleezy D | I've Lost Control | Acid House |
+| 21 | Fast Eddie | Acid Thunder | Acid House |
+| 24 | Chip E. | Time To Jack | Acid House |
 
 ## Coldwave  (Industrial, 11 morceaux)
 
 6 artistes en commun, 3 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
 | 1 | Artemas | i like the way you kiss me |
 | 2 | Chemlab | Pyromance |
 | 3 | Allie X | Weird World |
-| 4 | Mareux | The Perfect Girl |
 | 6 | Lebanon Hanover | Die World |
 | 7 | Chemlab | Jesus Christ Porno Star |
 | 8 | Boy Harsher | LA |
 | 9 | Poppy | crystallized |
 | 10 | Allie X | Staying Power |
 | 11 | Chemlab | Electric Molecular |
+| 12 | The Soft Moon | Breathe The Fire |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 4 | Mareux | The Perfect Girl | Darkwave |
+| 46 | Martin Dupont | Just Because | Minimal Wave |
 
 ## Neurofunk  (Breaks, 7 morceaux)
 
 6 artistes en commun, 3 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -203,9 +276,17 @@ RIEN N'A ETE CHARGE.
 | 10 | Spor | Aztec |
 | 11 | Spor | Supernova |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 30 | Konflict | Messiah | Techstep, Darkstep |
+
 ## Illbient  (Ambient, 6 morceaux)
 
 5 artistes en commun, 1 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -224,6 +305,8 @@ RIEN N'A ETE CHARGE.
 
 6 artistes en commun, 3 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
 | 1 | Amaarae | S.M.O. |
@@ -235,17 +318,24 @@ RIEN N'A ETE CHARGE.
 | 9 | linlin | DON'T STOP |
 | 10 | Citizen boy | Tribute to DSB |
 | 11 | Kelela | DJ LAG_ONANON_127 BPM |
-| 12 | 070 Shake | Microdosing |
+| 13 | BXKS | SING4ME |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 12 | 070 Shake | Microdosing | Jersey Club |
 
 ## Darkwave  (Industrial, 10 morceaux)
 
 6 artistes en commun, 3 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
 | 2 | She Wants Revenge | Tear You Apart |
 | 3 | MGMT | Little Dark Age |
-| 4 | She Wants Revenge | Your Love |
 | 6 | London After Midnight | Sacrifice |
 | 7 | She Wants Revenge | Sister |
 | 8 | She Wants Revenge | These Things |
@@ -253,44 +343,78 @@ RIEN N'A ETE CHARGE.
 | 10 | She Past Away | Ritüel |
 | 11 | London After Midnight | Kiss |
 | 12 | London After Midnight | Spider and the Fly |
+| 13 | Clan of Xymox | Medusa |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 4 | She Wants Revenge | Your Love | Chicago House |
+| 17 | Mr.Kitty | After Dark | UK Funky |
+
+## Detroit Techno  (Techno, 14 morceaux)
+
+9 artistes en commun, 10 titres deja presents sur 50.
+
+Absents du corpus entier :
+
+| rang | artiste | titre |
+|---|---|---|
+| 4 | Carl Craig | Televised Green Smoke |
+| 5 | Carl Craig | Dreamland |
+| 6 | Galaxy 2 Galaxy | Jupiter Jazz |
+| 11 | Model 500 | Starlight |
+| 12 | Kenny Larkin | Soul Man |
+| 13 | Kenny Larkin | Q |
+| 14 | Derrick May | The Dance |
+| 15 | Galaxy 2 Galaxy | Sometimes I Feel Like |
+| 16 | Derrick May | Daymares, It Is What It Is |
+| 17 | Infiniti | Game One |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 18 | Drexciya | Wavejumper | Detroit Electro |
+| 24 | Paperclip People | Throw | Tech House |
+| 33 | Galaxy 2 Galaxy | Transition | Techno Bass |
+| 48 | Robert Hood | Museum | Minimal Techno |
 
 ## Progressive Trance  (Trance, 10 morceaux)
 
 4 artistes en commun, 0 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
 | 1 | FKA twigs | Eusexua |
-| 2 | Three Drives | Greece 2000 |
-| 3 | Cosmic Gate | Exploration of Space |
-| 4 | Sasha | Xpander |
 | 5 | FKA twigs | Keep It, Hold It |
-| 6 | System F | Out of the Blue |
 | 7 | FKA twigs | Room of Fools |
-| 8 | Veracocha | Carte Blanche |
 | 9 | Sasha | Magnetic North |
 | 10 | Above & Beyond | Tri-State |
+| 11 | Holden & Thompson | Nothing (93 Returning Mix) |
+| 12 | Armin van Buuren | Orbion |
+| 13 | Notaker | From Dust & Ashes |
+| 15 | Alpha 9 | Come Home |
+| 16 | Notaker | The Longest Night |
 
-## Uplifting Trance  (Trance, 8 morceaux)
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
 
-4 artistes en commun, 0 titres deja presents sur 50.
-
-| rang | artiste | titre |
-|---|---|---|
-| 1 | Ninajirachi | Infohazard |
-| 2 | Ram | RAMsterdam (Jorn van Deynhoven Remix) |
-| 3 | Gaia | Tuvan |
-| 4 | Porter Robinson | Something Comforting |
-| 5 | Armin van Buuren | Coming Home |
-| 6 | Bring Me the Horizon | nihilist blues (feat. Grimes) |
-| 7 | Zedd | Spectrum (feat. Matthew Koma) |
-| 8 | Veracocha | Carte Blanche |
-| 9 | Above & Beyond | World On Fire |
-| 10 | Super8 & Tab | Irufushi |
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 2 | Three Drives | Greece 2000 | Anthem Trance |
+| 3 | Cosmic Gate | Exploration of Space | Hard Trance, Anthem Trance |
+| 4 | Sasha | Xpander | Progressive House |
+| 6 | System F | Out of the Blue | Uplifting Trance |
+| 8 | Veracocha | Carte Blanche | Trance |
+| 14 | Gouryella | Gouryella | Uplifting Trance, Anthem Trance |
 
 ## Breakcore  (Breaks, 10 morceaux)
 
 5 artistes en commun, 2 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -305,9 +429,17 @@ RIEN N'A ETE CHARGE.
 | 11 | Igorrr | Tout Petit Moineau |
 | 12 | Venetian Snares | Öngyilkos vasárnap |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 35 | Caroline Polachek | Coma | Rhythmic Noise |
+
 ## Jersey Club  (Bass, 9 morceaux)
 
 6 artistes en commun, 4 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -322,9 +454,17 @@ RIEN N'A ETE CHARGE.
 | 11 | Drake | Sticky |
 | 12 | FKA twigs | Wild And Alone (feat. PinkPantheress) |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 49 | MEOVV | BURNING UP | Hard House |
+
 ## Detroit Electro  (Electro, 6 morceaux)
 
 4 artistes en commun, 0 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -339,9 +479,18 @@ RIEN N'A ETE CHARGE.
 | 9 | Drexciya | Sea Snake |
 | 10 | Drexciya | Birth of New Life |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 18 | Cybotron | Clear | Detroit Techno |
+| 37 | Model 500 | No UFO's (Vocal) | Detroit Techno |
+
 ## Nu Style Gabber  (Hardcore, 5 morceaux)
 
 4 artistes en commun, 0 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -360,6 +509,8 @@ RIEN N'A ETE CHARGE.
 
 5 artistes en commun, 2 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
 | 1 | Charli xcx | B2b |
@@ -373,9 +524,48 @@ RIEN N'A ETE CHARGE.
 | 9 | And One | Playing Dead |
 | 11 | Icon of Coil | Shelter |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 21 | VNV Nation | Space & Time | Tech Trance |
+| 36 | VNV Nation | Gratitude | Trance |
+| 38 | VNV Nation | Rubicon | Trance |
+
+## Acid Trance  (Trance, 14 morceaux)
+
+6 artistes en commun, 5 titres deja presents sur 50.
+
+Absents du corpus entier :
+
+| rang | artiste | titre |
+|---|---|---|
+| 3 | Union Jack | Red Herring |
+| 6 | The Shamen | Phorever Dub |
+| 9 | alphatech_5 | Let Acid Surrounds You[hardcore 5.1 CD 3] |
+| 10 | Voodoo & Serano | Blood Is Pumpin' (Original Edit) |
+| 11 | Emmanuel Top | Fusion |
+| 12 | Carl P. & Cris | Acid Test |
+| 13 | AWeX | It's Our Future |
+| 14 | Rayspark Industries | Dune |
+| 15 | Kai Tracid | Trance & Acid |
+| 16 | Underworld | Spoonman - Remastered |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 4 | Emmanuel Top | Acid Phase | Acid Techno |
+| 5 | Armin van Buuren | Ping Pong | Minimal Tech |
+| 8 | cubicidal | acid rain | Drumfunk |
+| 20 | Emmanuel Top | Acid Phase (Kai Tracid Remix) | Acid Techno |
+| 26 | Emmanuel Top | Acid Phase (original club mix) | Acid Techno |
+
 ## Space Music  (Roots, 7 morceaux)
 
 4 artistes en commun, 1 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -390,14 +580,21 @@ RIEN N'A ETE CHARGE.
 | 10 | AFX | Laricheard |
 | 11 | Tangerine Dream | Nebulous Dawn |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 33 | Stellardrone | Eternity (Reprise) | Italo Disco |
+
 ## Synth-pop  (Roots, 11 morceaux)
 
 4 artistes en commun, 1 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
 | 1 | Madison Beer | bad enough |
-| 2 | Justin Bieber | Ghost |
 | 3 | The Weeknd | Less Than Zero |
 | 4 | The Weeknd | Best Friends |
 | 5 | Ari Abdul | Babydoll |
@@ -406,44 +603,50 @@ RIEN N'A ETE CHARGE.
 | 8 | Soft Cell | Forever The Same |
 | 9 | Birdy | Paradise Calling |
 | 10 | Harry Styles | Ready, Steady, Go! |
+| 11 | Dario G | Sunchyme |
 
-## Breakbeat Hardcore  (Breaks, 8 morceaux)
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
 
-4 artistes en commun, 1 titres deja presents sur 50.
-
-| rang | artiste | titre |
-|---|---|---|
-| 1 | clipping. | Change the Channel |
-| 2 | The Prodigy | Music Reach (1,2,3,4) |
-| 3 | femtanyl | magfest |
-| 4 | The Prodigy | Everybody In The Place - 155 and rising |
-| 5 | Evian Christ | Xkyrgios |
-| 6 | Acen | The Life and Crimes Of A Ruffneck |
-| 7 | SL2 | DJs Take Control |
-| 8 | King Gizzard & The Lizard Wizard | Level 5 |
-| 9 | Krome & Time | This Sound is for the Underground |
-| 10 | Andy C | Visions |
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 2 | Justin Bieber | Ghost | J-Core, Juke |
+| 18 | Marshall Masters | I Like It Loud | Hard Trance |
 
 ## Jungle  (Breaks, 10 morceaux)
 
 4 artistes en commun, 1 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
-| 1 | Origin Unknown | Valley of the Shadows |
 | 2 | PinkPantheress | Noises |
-| 3 | Goldie | Inner City Life |
 | 4 | Pendulum | Tarantula |
 | 5 | David Bowie | Little Wonder |
-| 6 | Ganja Kru | Super Sharp Shooter |
-| 7 | Roni Size | Brown Paper Bag |
 | 8 | Deep Blue | The Helicopter Tune |
 | 9 | Omni Trio | Renegade Snares |
-| 10 | LTJ Bukem | Music |
+| 11 | Goldie | Timeless |
+| 12 | PinkPantheress | Noticed I Cried |
+| 13 | Splash | Babylon |
+| 15 | LTJ Bukem | Atlantis (I Need You) |
+| 16 | Aphex Twin | Omgyjya-Switch7 |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 1 | Origin Unknown | Valley of the Shadows | Darkcore |
+| 3 | Goldie | Inner City Life | Drum and Bass |
+| 6 | Ganja Kru | Super Sharp Shooter | Jump-Up |
+| 7 | Roni Size | Brown Paper Bag | Drum and Bass |
+| 10 | LTJ Bukem | Music | Liquid Drum and Bass |
+| 14 | Goldie | Angel | Trip-Hop, Ambient House |
 
 ## Techstep  (Breaks, 6 morceaux)
 
 5 artistes en commun, 3 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -458,15 +661,24 @@ RIEN N'A ETE CHARGE.
 | 10 | Dom & Roland | Spirit Train |
 | 11 | Black Sun Empire | Breach |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 14 | Noisia | Stigma | Neurofunk |
+| 15 | Dom & Roland | Time | Disco Dub |
+| 48 | Bad Company UK | The Nine | Darkstep |
+
 ## Broken Beat  (Breaks, 10 morceaux)
 
 4 artistes en commun, 1 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
 | 1 | Kendrick Lamar | United in Grief |
 | 2 | Carly Rae Jepsen | Put It to Rest |
-| 3 | Tyla | RIGHT NOW |
 | 4 | Agent K | Feed the Cat |
 | 5 | Clara Hill | Here |
 | 6 | 4hero | Third Stream |
@@ -474,10 +686,21 @@ RIEN N'A ETE CHARGE.
 | 8 | 4hero | Look Inside |
 | 9 | Bugz in the Attic | Mwela, Mwe |
 | 10 | Agent K | Ladies |
+| 11 | Agent K | Hands |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 3 | Tyla | RIGHT NOW | Progressive Breaks |
+| 29 | Dego & Kaidi Tatham | Come With Me | Vocal Trance |
+| 50 | DJ Rels | Waves | Zenonesque |
 
 ## Grime  (Bass, 11 morceaux)
 
 5 artistes en commun, 3 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -492,15 +715,22 @@ RIEN N'A ETE CHARGE.
 | 11 | Dizzee Rascal | Sittin' Here |
 | 12 | Dizzee Rascal | Jus' a Rascal |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 20 | Skrillex | Rumble | Dubstep, Jumpstyle |
+
 ## Electro Funk  (Electro, 7 morceaux)
 
 5 artistes en commun, 3 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
 | 1 | Metronomy | My Heart Rate Rapid |
 | 2 | deadmau5 | Pomegranate |
-| 3 | Zapp & Roger | More Bounce to the Ounce |
 | 4 | Hashim | Al-Naafiysh |
 | 5 | Electric Wire Hustle | Thank You Steve |
 | 6 | The Jacksons | Wondering Who |
@@ -508,10 +738,21 @@ RIEN N'A ETE CHARGE.
 | 8 | Dax Riders | Real Fonky Time |
 | 9 | Tiga | Sunglasses At Night |
 | 10 | Wax Tailor | There Is Danger |
+| 11 | TWICE | Fake & True |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 3 | Zapp & Roger | More Bounce to the Ounce | Synth-Funk |
+| 22 | Basskraft | Trans-Europe Express | Proto-Techno |
+| 39 | Calvin Harris | Stay with Me (with Justin Timberlake, Halsey & Pharrell) | Nu-Disco |
 
 ## Gabber  (Hardcore, 10 morceaux)
 
 4 artistes en commun, 1 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -526,9 +767,22 @@ RIEN N'A ETE CHARGE.
 | 9 | 3 Steps Ahead | In The Name Of Love |
 | 10 | 50% of the Dreamteam | The Thundertheme |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 12 | Neophyte | Army of Hardcore | Nu Style Gabber |
+| 16 | Moby | Thousand | Speedcore |
+| 32 | Angerfist | Raise Your Fist | Nu Style Gabber |
+| 33 | Evil Activities | Nobody Said It Was Easy | Nu Style Gabber |
+| 34 | Joost | Europapa | Happy Hardcore |
+| 45 | Psylocke | Pump It | Ghetto House |
+
 ## Doomcore  (Hardcore, 10 morceaux)
 
 4 artistes en commun, 1 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -547,6 +801,8 @@ RIEN N'A ETE CHARGE.
 
 4 artistes en commun, 1 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
 | 1 | Venetian Snares | Eurocore MVP |
@@ -560,9 +816,18 @@ RIEN N'A ETE CHARGE.
 | 9 | Renard | Pyramid Head is the World's Greatest Lover |
 | 10 | Bong-Ra | Murder You |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 14 | Renard | Trauma | Darkstep |
+| 44 | FFF | Junglist | Ragga Jungle |
+
 ## IDM  (Ambient, 10 morceaux)
 
 4 artistes en commun, 1 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -572,14 +837,25 @@ RIEN N'A ETE CHARGE.
 | 4 | Aphex Twin | Vordhosbn |
 | 5 | Aphex Twin | Fingerbib |
 | 6 | Autechre | Eutow |
-| 7 | Aphex Twin | Xtal |
 | 8 | Aphex Twin | 4 |
 | 9 | Aphex Twin | Green Calx |
 | 11 | Aphex Twin | Pulsewidth |
+| 12 | Aphex Twin | minipops 67 [120.2][source field mix] |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 7 | Aphex Twin | Xtal | Ambient Techno |
+| 20 | Com Truise | Brokendate | Chillwave |
+| 35 | Aphex Twin | Girl/Boy Song | Drill and Bass |
+| 45 | µ-Ziq | Hasty Boom Alert | Drill and Bass, Braindance |
 
 ## Downtempo  (Downtempo, 9 morceaux)
 
 5 artistes en commun, 3 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -590,47 +866,54 @@ RIEN N'A ETE CHARGE.
 | 5 | Bonobo | Kong |
 | 6 | Bonobo | Cirrus |
 | 7 | Caroline Polachek | Door |
-| 8 | Massive Attack | Teardrop |
-| 9 | Zero 7 | In the Waiting Line |
 | 10 | Massive Attack | Black Milk |
+| 11 | Addison Rae | Headphones On |
+| 12 | Madonna | Drowned World / Substitute for Love |
 
-## Trip-Hop  (Downtempo, 10 morceaux)
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
 
-6 artistes en commun, 5 titres deja presents sur 50.
-
-| rang | artiste | titre |
-|---|---|---|
-| 1 | Massive Attack | Angel |
-| 3 | Massive Attack | Teardrop |
-| 4 | Massive Attack | Risingson |
-| 5 | Portishead | Sour Times |
-| 6 | Massive Attack | Black Milk |
-| 7 | Massive Attack | Inertia Creeps |
-| 8 | Massive Attack | Dissolved Girl |
-| 9 | Portishead | Roads |
-| 10 | Portishead | Mysterons |
-| 11 | Portishead | All Mine |
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 8 | Massive Attack | Teardrop | Bristol Sound |
+| 9 | Zero 7 | In the Waiting Line | Chill-Out |
+| 23 | Steve Lacy | The Feeling | Melodic Techno |
+| 38 | Tosca | Suzuki | Lounge |
+| 39 | Air | La femme d'argent | Chill-Out |
 
 ## Bass House  (House, 6 morceaux)
 
 4 artistes en commun, 1 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
 | 1 | Ninajirachi | Fuck My Computer |
 | 2 | Tokyo Machine | PLAY |
 | 3 | Tokyo Machine | EPIC |
-| 4 | Habstrakt | Show Me |
 | 5 | FWLR | Hot |
 | 6 | Skrillex | Leave Me Like This |
 | 7 | Habstrakt | The One |
-| 8 | Knock2 | dashstar* |
 | 9 | Billlie | flipp!ng a coin |
 | 10 | bbno$ | IT BOY |
+| 12 | Topi | Backup |
+| 13 | Topi | Swapping Things |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 4 | Habstrakt | Show Me | Latin Freestyle |
+| 8 | Knock2 | dashstar* | Trap |
+| 11 | Knock2 | dashstar* - VIP | Trap |
+| 27 | Godlands | TELL ME | Bassline |
+| 47 | Tokyo Machine | STEREO | Gabber |
 
 ## Rhythmic Noise  (Industrial, 10 morceaux)
 
 4 artistes en commun, 1 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -645,14 +928,21 @@ RIEN N'A ETE CHARGE.
 | 10 | Imminent Starvation | Arles |
 | 11 | Unter Null | Visceral, Venom of My Being |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 41 | Terrorfakt | Zero (Synth Etik Remix) | Crossbreed |
+
 ## Aggrotech  (Industrial, 6 morceaux)
 
 4 artistes en commun, 1 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
 | 1 | KMFDM | Krank |
-| 2 | God Module | Inside Out |
 | 3 | FGFC820 | Killing Fields |
 | 4 | God Module | Still So Strange |
 | 5 | Grendel | Soilbleed (V.3) |
@@ -661,27 +951,19 @@ RIEN N'A ETE CHARGE.
 | 8 | Combichrist | God Wrapped in Plastic |
 | 9 | Hocico | Fed Up |
 | 10 | FGFC820 | Society |
+| 11 | Unter Null | Your Nightmare |
 
-## French House  (House, 13 morceaux)
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
 
-4 artistes en commun, 2 titres deja presents sur 50.
-
-| rang | artiste | titre |
-|---|---|---|
-| 1 | ADÉLA | KGB |
-| 2 | Charli xcx | Talk talk |
-| 3 | Madonna | Danceteria |
-| 4 | Stardust | Music Sounds Better With You |
-| 5 | Kavinsky | Blizzard |
-| 6 | Carly Rae Jepsen | Psychedelic Switch |
-| 8 | Lady Gaga | RUNWAY |
-| 9 | Daft Punk | Revolution 909 |
-| 10 | Kavinsky | Prelude |
-| 11 | The Supermen Lovers | Starlight |
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 2 | God Module | Inside Out | Coldwave |
 
 ## Vocal Trance  (Trance, 8 morceaux)
 
 3 artistes en commun, 0 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -689,16 +971,29 @@ RIEN N'A ETE CHARGE.
 | 2 | FKA twigs | Room of Fools |
 | 3 | DJ Encore | I See Right Through To You |
 | 4 | Motorcycle | As the Rush Comes |
-| 5 | Lasgo | Something |
 | 6 | Armin van Buuren feat. Sharon den Adel | In And Out Of Love |
-| 7 | DJ Sammy | Heaven |
 | 8 | ATB | Ecstasy |
 | 9 | ATB | You're Not Alone |
 | 10 | Armin van Buuren | Not Giving Up on Love |
+| 11 | Dash Berlin | Till The Sky Falls Down |
+| 12 | Yuri Kane | Right Back |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 5 | Lasgo | Something | Euro Trance |
+| 7 | DJ Sammy | Heaven | Euro Trance |
+| 24 | System F | Cry | Anthem Trance |
+| 28 | Above & Beyond | Alone Tonight | Orchestral Trance |
+| 43 | ATB | Renegade | Nu-Italo |
+| 45 | Above & Beyond | Home | Uplifting Trance, UK Bass, Euro Trance |
 
 ## Electro-Industrial  (Industrial, 7 morceaux)
 
 3 artistes en commun, 0 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -713,9 +1008,18 @@ RIEN N'A ETE CHARGE.
 | 9 | Front Line Assembly | Final Impact |
 | 10 | Slayyyter | OLD TECHNOLOGY |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 18 | Yeat | Breathe | Electroclash, Orchestral Trance |
+| 35 | HEALTH | Isn’t Everyone | Industrial Rock |
+
 ## Neue Deutsche Haerte  (Industrial, 9 morceaux)
 
 3 artistes en commun, 0 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -734,6 +1038,8 @@ RIEN N'A ETE CHARGE.
 
 5 artistes en commun, 4 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
 | 1 | Radiohead | Ful Stop |
@@ -742,14 +1048,23 @@ RIEN N'A ETE CHARGE.
 | 6 | Can | Mushroom |
 | 7 | NEU! | ISI |
 | 8 | Can | Paperhouse |
-| 9 | NEU! | Hero |
 | 10 | Can | Bel Air |
 | 11 | Faust | Jennifer |
 | 12 | Can | One More Night |
+| 13 | Can | Halleluhwah |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 9 | NEU! | Hero | Suomisaundi |
+| 35 | Ashra | Sunrain | Space Music |
 
 ## Proto-Techno  (Roots, 6 morceaux)
 
 3 artistes en commun, 0 titres deja presents sur 24.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -764,9 +1079,17 @@ RIEN N'A ETE CHARGE.
 | 9 | E=Motion | Sea Explorer |
 | 10 | Technotronic | Wave |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 20 | Cybotron | Techno City (Club Mix) | Detroit Techno |
+
 ## Dub  (Roots, 10 morceaux)
 
 4 artistes en commun, 2 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -781,9 +1104,37 @@ RIEN N'A ETE CHARGE.
 | 9 | Rhythm & Sound | King In My Empire |
 | 10 | Augustus Pablo | Keep on Dubbing |
 
+## Breakbeat Hardcore  (Breaks, 10 morceaux)
+
+4 artistes en commun, 2 titres deja presents sur 50.
+
+Absents du corpus entier :
+
+| rang | artiste | titre |
+|---|---|---|
+| 1 | clipping. | Change the Channel |
+| 2 | The Prodigy | Music Reach (1,2,3,4) |
+| 3 | femtanyl | magfest |
+| 4 | The Prodigy | Everybody In The Place - 155 and rising |
+| 5 | Evian Christ | Xkyrgios |
+| 6 | Acen | The Life and Crimes Of A Ruffneck |
+| 8 | King Gizzard & The Lizard Wizard | Level 5 |
+| 9 | Krome & Time | This Sound is for the Underground |
+| 10 | Andy C | Visions |
+| 11 | goreshit | ron |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 16 | Burial | Dreamfear | Breakbeat Garage |
+| 41 | 4hero | Mr Kirk's Nightmare | Darkcore |
+
 ## UK Funky  (Bass, 10 morceaux)
 
 3 artistes en commun, 0 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -792,15 +1143,27 @@ RIEN N'A ETE CHARGE.
 | 3 | Bonobo | Kerala |
 | 4 | Disclosure | Tenderly |
 | 5 | Kelela | Waitin |
-| 6 | Disclosure | Intro |
 | 7 | Azealia Banks | Idle Delilah |
 | 8 | IVE | WAVE |
 | 9 | SBTRKT | Pharaohs |
 | 10 | PinkPantheress | Do you miss me? |
+| 11 | Katy B | Why You Always Here |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 6 | Disclosure | Intro | French House |
+| 14 | James Blake | Tell Me | Bassline |
+| 26 | Jamie xx | Far Nearer | Future Garage |
+| 43 | Jacques Greene | Afterglow | Progressive Trance |
+| 45 | SBTRKT | Wildfire | Future Garage |
 
 ## Freestyle  (Electro, 6 morceaux)
 
 5 artistes en commun, 4 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -815,9 +1178,20 @@ RIEN N'A ETE CHARGE.
 | 12 | Stevie B | In My Eyes |
 | 13 | Jessie Ware | Soul Control |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 16 | The Cover Girls | Show Me | Latin Freestyle |
+| 21 | Sweet Sensation | Hooked On You | Latin Freestyle |
+| 25 | Exposé | Point Of No Return | Latin Freestyle |
+| 46 | Nu Shooz | Point of No Return | Latin Freestyle |
+
 ## UK Hardcore  (Hardcore, 7 morceaux)
 
 4 artistes en commun, 2 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -832,9 +1206,19 @@ RIEN N'A ETE CHARGE.
 | 9 | Stonebank | The Pressure |
 | 10 | S3RL | Feel The Melody |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 22 | ALLDAY PROJECT | ONE MORE TIME | French House |
+| 48 | Charly Lownoise & Mental Theo | Stars | Deep House |
+| 50 | t+pazolite | HYPER4ID | J-Core |
+
 ## J-Core  (Hardcore, 11 morceaux)
 
 4 artistes en commun, 2 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -849,26 +1233,11 @@ RIEN N'A ETE CHARGE.
 | 11 | t+pazolite | Call me it. (500 Tortures) |
 | 12 | DJ Sharpnel | SAMURAI HARDBEAT |
 
-## Hardstyle  (Hardcore, 12 morceaux)
-
-6 artistes en commun, 6 titres deja presents sur 50.
-
-| rang | artiste | titre |
-|---|---|---|
-| 2 | D-Block & S-te-Fan | Music Made Addict |
-| 4 | Headhunterz | The Power Of The Mind (Qlimax Anthem 2007) |
-| 5 | Jane Remover | TURN UP OR DIE |
-| 6 | Technoboy | Ti Sento |
-| 7 | Frontliner | Spacer |
-| 8 | LE SSERAFIM | CELEBRATION |
-| 9 | Jane Remover | Professional Vengeance |
-| 11 | Rocket Rese | MISS MY CHOPPA |
-| 12 | Headhunterz | The Sacrifice |
-| 13 | Headhunterz | Rock Civilization |
-
 ## New Age  (Ambient, 10 morceaux)
 
 4 artistes en commun, 2 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -887,6 +1256,8 @@ RIEN N'A ETE CHARGE.
 
 4 artistes en commun, 2 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
 | 1 | Parov Stelar | Libella Swing |
@@ -900,26 +1271,48 @@ RIEN N'A ETE CHARGE.
 | 9 | Duran y Garcia | Heavy Piano |
 | 10 | Belleruche | Anything You Want (Not That) |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 22 | Skalpel | Together | Grime, Future House |
+| 37 | The Cinematic Orchestra | Evolution | Bleep Techno |
+
 ## Soulful House  (House, 6 morceaux)
 
 4 artistes en commun, 2 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
 | 1 | Kerri Chandler | On My Way |
 | 2 | Dennis Ferrer | How Do I Let Go |
-| 3 | Kings of Tomorrow | Finally |
 | 4 | Shaun Escoffery | Days Like This |
 | 5 | Alison Crockett | Crossroads (DJ Spinna Remix) |
 | 6 | Barbara Tucker | Beautiful People (Underground Network Mix) |
-| 7 | Paul Johnson | Hear the Music |
-| 8 | Black Coffee | Turn Me On |
 | 9 | Soulsearcher | Can't Get Enough |
 | 10 | Shaun Escoffery | Days Like This (DJ Spinna And Ticklah Remix) |
+| 11 | Moodymann | I'm Doing Fine |
+| 12 | Dennis Ferrer | Church Lady |
+| 13 | Mood II Swing | Do It Your Way |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 3 | Kings of Tomorrow | Finally | Progressive House |
+| 7 | Paul Johnson | Hear the Music | Chicago House |
+| 8 | Black Coffee | Turn Me On | Future House |
+| 16 | Ananda Project | Fireworks | Nu-Disco |
+| 18 | Kenny Bobien | Reality (DF's Scandalized Mix) | Speedcore |
+| 38 | Masters at Work | I Can't Get No Sleep | Garage House |
 
 ## Lo-Fi House  (House, 8 morceaux)
 
 3 artistes en commun, 0 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -934,9 +1327,17 @@ RIEN N'A ETE CHARGE.
 | 9 | Jitwam | whereyougonnago? |
 | 10 | DJ Sabrina The Teenage DJ | This Is For The Lovers |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 26 | zensei ゼンセー | magic | Disco |
+
 ## Melodic Techno  (Techno, 8 morceaux)
 
 3 artistes en commun, 0 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -951,9 +1352,19 @@ RIEN N'A ETE CHARGE.
 | 9 | Rivo | Last Night (Korolova Remix) |
 | 10 | Kasablanca | Hold Me Close |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 14 | RÜFÜS DU SOL | Pressure | Trap |
+| 24 | Anyma | Hypnotized (feat. Ellie Goulding) | Nu-Disco, Peak Time Techno |
+| 25 | Anyma | Save Me | UK Hardcore |
+
 ## Minimal Wave  (Minimal, 6 morceaux)
 
 4 artistes en commun, 2 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -968,9 +1379,17 @@ RIEN N'A ETE CHARGE.
 | 11 | Young Marble Giants | Brand - New - Life |
 | 12 | Lucki | Alternative Outro |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 17 | Martin Dupont | Inside Out | Coldwave |
+
 ## Power Electronics  (Industrial, 9 morceaux)
 
 4 artistes en commun, 2 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -985,9 +1404,46 @@ RIEN N'A ETE CHARGE.
 | 10 | Genocide Organ | Stalins Orgeln |
 | 11 | Genocide Organ | Come Orgasm |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 21 | Whitehouse | Mindphaser | Electro-Industrial, Kosmische Musik |
+| 35 | Propergol | Renegade | Nu-Italo |
+
+## French House  (House, 14 morceaux)
+
+4 artistes en commun, 3 titres deja presents sur 50.
+
+Absents du corpus entier :
+
+| rang | artiste | titre |
+|---|---|---|
+| 1 | ADÉLA | KGB |
+| 2 | Charli xcx | Talk talk |
+| 3 | Madonna | Danceteria |
+| 5 | Kavinsky | Blizzard |
+| 6 | Carly Rae Jepsen | Psychedelic Switch |
+| 8 | Lady Gaga | RUNWAY |
+| 10 | Kavinsky | Prelude |
+| 11 | The Supermen Lovers | Starlight |
+| 12 | Dua Lipa | Illusion |
+| 13 | Kavinsky | Protovision |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 4 | Stardust | Music Sounds Better With You | Disco House |
+| 19 | Jessie Ware | Freak Me Now | Hi-NRG |
+| 40 | Louis La Roche | Love | Deep House, Progressive Trance |
+| 49 | Stardust | Music Sounds Better With You (radio edit) | Disco House |
+
 ## Acid Techno  (Techno, 7 morceaux)
 
 3 artistes en commun, 1 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1002,9 +1458,19 @@ RIEN N'A ETE CHARGE.
 | 10 | Hardfloor | Lost in the Silver Box |
 | 11 | Sophie | XTC Acid |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 12 | Joey Beltram | Energy Flash | Belgian Techno |
+| 26 | Amelie Lens | Stay With Me | Nu-Disco |
+| 33 | Emmanuel Top | Turkish Bazar | Acid Trance |
+
 ## Tech Trance  (Trance, 11 morceaux)
 
 3 artistes en commun, 1 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1019,26 +1485,19 @@ RIEN N'A ETE CHARGE.
 | 9 | I Hate Models | Two Steps From Heaven |
 | 10 | Stephen J. Kroos | Sadistick |
 
-## Goa Trance  (Psy, 15 morceaux)
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
 
-5 artistes en commun, 5 titres deja presents sur 50.
-
-| rang | artiste | titre |
-|---|---|---|
-| 1 | Juno Reactor | 10,000 Miles |
-| 2 | Juno Reactor | Mona Lisa Overdrive |
-| 3 | The Muses Rapt | Spiritual Healing |
-| 5 | Astral Projection | Nilaya |
-| 6 | Juno Reactor | Children Of The Night |
-| 7 | Pleiadians | Alcyone |
-| 8 | Astral Projection | Let There Be Light |
-| 9 | Juno Reactor | God Is God |
-| 10 | Astrix | Deep Jungle Walk |
-| 11 | Doof | Let's Turn On |
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 11 | Armin van Buuren | Ping Pong | Minimal Tech |
+| 45 | Simon Patterson | Bulldozer | Gqom |
+| 46 | Ferry Corsten | Feel It | Acid Techno, Tech House, UK Funky |
 
 ## Kosmische Musik  (Roots, 6 morceaux)
 
 3 artistes en commun, 1 titres deja presents sur 30.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1049,13 +1508,22 @@ RIEN N'A ETE CHARGE.
 | 5 | Tangerine Dream | Ricochet, Part One |
 | 6 | Tangerine Dream | Ricochet, Part Two |
 | 7 | The Cosmic Jokers | Intergalactic Nightclub |
-| 8 | lukas_utc | Intro |
 | 9 | Shane Fahey | Scatter Floor For Food |
 | 10 | Holy Fuck | The Pulse |
+| 11 | Harmonia | Sehr kosmisch |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 8 | lukas_utc | Intro | French House |
+| 12 | Cluster | Watussi | Krautrock |
 
 ## Philly Soul  (Roots, 7 morceaux)
 
 5 artistes en commun, 5 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1064,20 +1532,28 @@ RIEN N'A ETE CHARGE.
 | 5 | The O'Jays | Now That We Found Love |
 | 6 | The O'Jays | Stairway to Heaven |
 | 7 | The Stylistics | Betcha By Golly, Wow |
-| 9 | Bruno Mars | Skate |
 | 10 | Teddy Pendergrass | The More I Get, the More I Want |
 | 11 | Lou Rawls | Lady Love |
 | 12 | Harold Melvin & The Blue Notes | Wake up Everybody |
 | 13 | MFSB | My Mood |
+| 14 | Harold Melvin & The Blue Notes | Bad Luck |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 9 | Bruno Mars | Skate | Boogie |
+| 17 | Teddy Pendergrass | Come Go with Me | Freestyle |
+| 22 | MFSB | Love Is the Message | Garage House |
 
 ## Drum and Bass  (Breaks, 7 morceaux)
 
 3 artistes en commun, 1 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
-| 1 | Pendulum | Witchcraft |
-| 2 | PinkPantheress | Passion |
 | 3 | Pendulum | Propane Nightmares |
 | 4 | Pendulum | Crush |
 | 5 | Pendulum | Hold Your Colour |
@@ -1086,10 +1562,25 @@ RIEN N'A ETE CHARGE.
 | 8 | Pendulum | Tarantula |
 | 9 | Fred again.. | leavemealone |
 | 10 | NewJeans | Super Shy |
+| 11 | Kenya Grace | Strangers |
+| 12 | Tinie Tempah | Pass Out |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 1 | Pendulum | Witchcraft | Nitzhonot |
+| 2 | PinkPantheress | Passion | Italo Disco, Florida Breaks |
+| 19 | Origin Unknown | Valley of the Shadows | Darkcore |
+| 20 | Chase & Status | Time | Disco Dub |
+| 23 | PinkPantheress | Break It Off | 2-Step |
+| 38 | Pendulum | The Vulture | Drumstep |
 
 ## Jump-Up  (Breaks, 8 morceaux)
 
 3 artistes en commun, 1 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1104,9 +1595,17 @@ RIEN N'A ETE CHARGE.
 | 9 | Devilman | Drum And Bass Father |
 | 10 | Koven | The Outlines |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 35 | Drumsound & Simon "Bassline" Smith | Can You Feel It | Deep House |
+
 ## Drill and Bass  (Breaks, 7 morceaux)
 
 3 artistes en commun, 1 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1114,22 +1613,28 @@ RIEN N'A ETE CHARGE.
 | 2 | Sweet Trip | Tekka |
 | 3 | Aphex Twin | Cock/Ver10 |
 | 4 | Aphex Twin | Come to Daddy - Pappy mix |
-| 5 | Slayyyter | Alone |
 | 6 | Aphex Twin | 4 |
 | 7 | Aphex Twin | Yellow Calx |
 | 9 | Arca | Castration |
 | 10 | Arca | Rip the Slit |
 | 11 | Aphex Twin | T69 Collapse |
+| 12 | Lucy Bedroque | I Am, She Is, We Are |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 5 | Slayyyter | Alone | Minimal Techno |
+| 29 | goreshit | burn this moment into the retina of my eye | Breakcore |
 
 ## Dubstep  (Bass, 9 morceaux)
 
 3 artistes en commun, 1 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
-| 1 | Skrillex | Scary Monsters and Nice Sprites |
-| 2 | Knife Party | Bonfire |
-| 3 | Burial | Archangel |
 | 4 | Skrillex | Kill EVERYBODY |
 | 5 | Skrillex | Bangarang (feat. Sirah) |
 | 6 | Skrillex | First of the Year (Equinox) |
@@ -1137,10 +1642,26 @@ RIEN N'A ETE CHARGE.
 | 8 | Skrillex | Make It Bun Dem |
 | 9 | Taylor Swift | I Knew You Were Trouble. |
 | 10 | Burial | Ghost Hardware |
+| 11 | Knife Party | Centipede |
+| 12 | Burial | Near Dark |
+| 13 | Squarepusher | My Red Hot Car |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 1 | Skrillex | Scary Monsters and Nice Sprites | Brostep |
+| 2 | Knife Party | Bonfire | Drumstep |
+| 3 | Burial | Archangel | Future Garage |
+| 18 | Burial | Untitled | Hard Techno |
+| 21 | Mr. Oizo | Flat Beat (Radio Edit) | Fidget House |
+| 45 | Flux Pavilion | Bass Cannon | Brostep |
 
 ## Future Garage  (Bass, 8 morceaux)
 
 4 artistes en commun, 3 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1155,9 +1676,17 @@ RIEN N'A ETE CHARGE.
 | 9 | James Blake | Life Round Here |
 | 11 | Ekcle | Clandestine |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 19 | Disclosure | Intro | French House |
+
 ## Baltimore Club  (Bass, 11 morceaux)
 
 4 artistes en commun, 3 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1172,9 +1701,19 @@ RIEN N'A ETE CHARGE.
 | 10 | Rebecca Black | Sugar Water Cyanide |
 | 11 | Ashnikko | Trinkets |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 27 | Bree Runway | THAT GIRL | Boogie |
+| 28 | PinkPantheress | Boy's a liar Pt. 2 | Jersey Club |
+| 40 | Arlo Parks | Heaven | Euro Trance |
+
 ## Miami Bass  (Electro, 12 morceaux)
 
 4 artistes en commun, 3 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1193,6 +1732,8 @@ RIEN N'A ETE CHARGE.
 
 3 artistes en commun, 1 titres deja presents sur 23.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
 | 1 | Tinashe | Too Easy |
@@ -1206,13 +1747,20 @@ RIEN N'A ETE CHARGE.
 | 9 | DJ Assault | Asses Jiglin |
 | 10 | Black Milk | Detroit's New Dance Show |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 21 | AUX 88 | Intro | French House |
+
 ## Latin Freestyle  (Electro, 6 morceaux)
 
 4 artistes en commun, 3 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
-| 1 | Stevie B | Spring Love |
 | 2 | Lil Suzy | Promise Me |
 | 3 | Lil Suzy | Memories |
 | 4 | Stevie B | Funky Melody |
@@ -1222,10 +1770,19 @@ RIEN N'A ETE CHARGE.
 | 8 | Noel | Silent Morning |
 | 9 | Lil Suzy | Now And Forever |
 | 10 | Cynthia | Change On Me |
+| 11 | Noel | Like A Child |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 1 | Stevie B | Spring Love | Freestyle |
 
 ## Skweee  (Electro, 6 morceaux)
 
 3 artistes en commun, 1 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1240,9 +1797,18 @@ RIEN N'A ETE CHARGE.
 | 10 | Beem | ducker |
 | 11 | Uday | Crack Crack Crack |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 26 | Little Simz | Speed | Digital Hardcore |
+| 32 | Ransta Congregation | Gravity | Minimal Techno, Twilight Psy |
+
 ## Terrorcore  (Hardcore, 7 morceaux)
 
 3 artistes en commun, 1 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1257,9 +1823,17 @@ RIEN N'A ETE CHARGE.
 | 9 | Noisekick | Fuck that Motherfucker |
 | 10 | bakeroner | 214 (Rottencore Remix) |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 25 | Jack Lucifer | 96 Knights (To the Death Mix) | Doomcore |
+
 ## Frenchcore  (Hardcore, 7 morceaux)
 
 3 artistes en commun, 1 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1274,14 +1848,22 @@ RIEN N'A ETE CHARGE.
 | 9 | Androgyn Network | Hard sensation |
 | 10 | Androgyn Network | Dead sally |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 34 | t+pazolite | HYPER4ID | J-Core |
+| 35 | Laur | Total Destruction | Raggacore |
+
 ## Happy Hardcore  (Hardcore, 10 morceaux)
 
 4 artistes en commun, 3 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
 | 1 | Party Animals | Have You Ever Been Mellow |
-| 2 | Dune | Hardcore Vibes |
 | 4 | S3RL | Pretty Rave Girl |
 | 5 | Blümchen | Herz an Herz |
 | 6 | Technohead | I Wanna Be A Hippy |
@@ -1290,10 +1872,50 @@ RIEN N'A ETE CHARGE.
 | 9 | Scooter | Last Minute |
 | 10 | Blümchen | Nur geträumt |
 | 11 | Tokyo Ghetto Pussy | I Kiss Your Lips |
+| 12 | goreshit | loli fantasy |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 2 | Dune | Hardcore Vibes | Gabber |
+| 13 | Scooter | Endless Summer | Glitch |
+| 27 | Scooter | Maria (I Like It Loud) | Latin Freestyle |
+| 30 | DJ Paul Elstak | Luv U More | Gabber |
+| 36 | Scooter | Weekend! | Latin House |
+| 42 | Blümchen | Intro (Herz an Herz) | French House |
+
+## Hardstyle  (Hardcore, 16 morceaux)
+
+8 artistes en commun, 11 titres deja presents sur 50.
+
+Absents du corpus entier :
+
+| rang | artiste | titre |
+|---|---|---|
+| 5 | Jane Remover | TURN UP OR DIE |
+| 8 | LE SSERAFIM | CELEBRATION |
+| 9 | Jane Remover | Professional Vengeance |
+| 11 | Rocket Rese | MISS MY CHOPPA |
+| 12 | Headhunterz | The Sacrifice |
+| 13 | Headhunterz | Rock Civilization |
+| 15 | Noisecontrollers | Revolution Is Here |
+| 16 | Frontliner | Warphole |
+| 17 | Scooter | J'Adore Hardcore |
+| 18 | Dutch Master | Recalled To Life |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 14 | Scope DJ | Lockdown | Brostep |
+| 20 | D-Block & S-te-Fan | Kingdom | UK Bass |
 
 ## Jumpstyle  (Hardcore, 6 morceaux)
 
 4 artistes en commun, 3 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1302,15 +1924,24 @@ RIEN N'A ETE CHARGE.
 | 5 | Charli xcx | visions |
 | 7 | Scooter | The Sound Above My Hair |
 | 8 | Italobrothers | Stamp On The Ground (Radio Edit) |
-| 9 | Scope DJ | Lockdown |
 | 10 | Lucy Bedroque | Speakers Never Learn |
 | 11 | Mr. Polska | POLSKA JUMPSTYLE |
 | 12 | Patrick Jumpen | The Secret |
 | 13 | Scooter | State Of Mind |
+| 14 | Scooter | And No Matches |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 9 | Scope DJ | Lockdown | Brostep |
+| 26 | Headhunterz | The Power Of The Mind | Hardstyle |
 
 ## Lento Violento  (Hardcore, 10 morceaux)
 
 4 artistes en commun, 3 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1329,6 +1960,8 @@ RIEN N'A ETE CHARGE.
 
 3 artistes en commun, 1 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
 | 1 | Depressive Silence | Dreams |
@@ -1346,6 +1979,8 @@ RIEN N'A ETE CHARGE.
 
 4 artistes en commun, 3 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
 | 1 | Sweet Trip | Tekka |
@@ -1359,9 +1994,18 @@ RIEN N'A ETE CHARGE.
 | 10 | The Glitch Mob | Bad Wings |
 | 11 | Aphex Twin | Peek 824545201 |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 29 | Autechre | 777 | Funk |
+| 33 | Autechre | Gantz Graf | IDM |
+
 ## Afro House  (House, 9 morceaux)
 
 3 artistes en commun, 1 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1376,9 +2020,20 @@ RIEN N'A ETE CHARGE.
 | 10 | Rivo | In And Out Of Love |
 | 11 | HUGEL & SOLTO (FR) | Jamaican (Bam Bam) |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 27 | Sudan Archives | Escape | Florida Breaks |
+| 41 | Tinlicker & Helsloot | Because You Move Me (Jan Oberlaender Extended Remix) | Progressive Trance |
+| 42 | Tinlicker & Helsloot | Because You Move Me (Jan Oberlaender Remix) | Progressive Trance |
+| 50 | Ahadadream | TAKA | Tribal House |
+
 ## Ghetto House  (House, 10 morceaux)
 
 3 artistes en commun, 1 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1397,6 +2052,8 @@ RIEN N'A ETE CHARGE.
 
 3 artistes en commun, 1 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
 | 1 | bye2 | Onionfriends2004 |
@@ -1410,9 +2067,17 @@ RIEN N'A ETE CHARGE.
 | 9 | DJ Earl | Hit Da Bootz |
 | 10 | fakemink | Loser Monologue |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 28 | Traxman | The Comeback | Footwork |
+
 ## Hi-NRG  (Disco, 6 morceaux)
 
 3 artistes en commun, 2 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1427,9 +2092,18 @@ RIEN N'A ETE CHARGE.
 | 9 | Slayyyter | Out of Time |
 | 11 | Dead or Alive | Big Daddy Of The Rhythm |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 12 | Lime | Your Love | Chicago House |
+| 19 | Sylvester | You Make Me Feel (Mighty Real) | Disco |
+
 ## Spacesynth  (Disco, 5 morceaux)
 
 3 artistes en commun, 2 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1444,9 +2118,19 @@ RIEN N'A ETE CHARGE.
 | 9 | kodak cameo | Caesar's Palace |
 | 10 | Laserdance | Power Run |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 19 | Lazerhawk | Overdrive | Tech Trance |
+| 28 | Koto | Time | Disco Dub |
+| 34 | Laserdance | Fear (remix) | Italo Disco |
+
 ## Garage House  (House, 13 morceaux)
 
 3 artistes en commun, 2 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1461,9 +2145,18 @@ RIEN N'A ETE CHARGE.
 | 9 | Fred again.. | Billie (Loving Arms) |
 | 10 | Disclosure | Voices (feat. Sasha Keable) |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 11 | RIIZE | Impossible | Downtempo |
+| 13 | Jamie xx | Baddy On The Floor | UK House |
+
 ## Drumstep  (Breaks, 5 morceaux)
 
 3 artistes en commun, 2 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1471,33 +2164,56 @@ RIEN N'A ETE CHARGE.
 | 2 | Different Heaven | My Heart |
 | 3 | Braken | To the Stars |
 | 4 | The Living Tombstone | I Can't Fix You |
-| 5 | Skrillex | Scary Monsters and Nice Sprites (Dirtyphonics Remix) |
 | 6 | Netsky | Come Alive |
 | 8 | Knife Party | Internet Friends |
 | 9 | Noisestorm | Breakdown VIP |
 | 10 | Skrillex | First of the Year (Equinox) |
 | 11 | Pegboard Nerds | 20k |
+| 12 | Porter Robinson | Spitfire (Kill the Noise Remix) |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 5 | Skrillex | Scary Monsters and Nice Sprites (Dirtyphonics Remix) | Brostep |
+| 33 | Skrillex | Scary Monsters and Nice Sprites (The Juggernaut Remix) | Brostep |
+| 49 | Tut Tut Child | Breathe | Electroclash, Orchestral Trance |
 
 ## Speed Garage  (Bass, 11 morceaux)
 
 4 artistes en commun, 4 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
 | 1 | PinkPantheress | Girl Like Me |
 | 2 | PinkPantheress | Tonight |
-| 3 | Double 99 | Ripgroove |
 | 4 | Fred again.. | Delilah (Pull Me Out Of This) |
 | 5 | John Summit | ALL THE TIME |
 | 6 | HYO | YES |
 | 7 | Jorja Smith | The Way I Love You |
 | 8 | Tiffany Day | PRETTY4U |
-| 9 | Double 99 | Ripgroove (original mix) |
-| 10 | Bad Computer | Breathe |
+| 12 | PinkPantheress | Tonight + JADE |
+| 14 | Burial | Temple Sleeper |
+| 16 | FiFi Zhang | WHERE U R (angel with no feathers) |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 3 | Double 99 | Ripgroove | UK Garage |
+| 9 | Double 99 | Ripgroove (original mix) | UK Garage |
+| 10 | Bad Computer | Breathe | Electroclash, Orchestral Trance |
+| 18 | Atura | LIKE THIS | Breakbeat Garage |
+| 32 | PinkPantheress | Stars | Deep House |
+| 38 | Darby | Everything | Darkstep |
 
 ## Deconstructed Club  (Bass, 10 morceaux)
 
 4 artistes en commun, 4 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1516,6 +2232,8 @@ RIEN N'A ETE CHARGE.
 
 4 artistes en commun, 4 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
 | 1 | Slayyyter | BEAT UP CHANEL$ |
@@ -1533,6 +2251,8 @@ RIEN N'A ETE CHARGE.
 
 3 artistes en commun, 2 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
 | 1 | Sewerslvt | Slvtcrvsher |
@@ -1546,9 +2266,17 @@ RIEN N'A ETE CHARGE.
 | 9 | Exodia | 825 hp |
 | 10 | Machine Girl | Ginger Claps |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 29 | Machine Girl | Blood Magic | Digital Hardcore |
+
 ## Dubstyle  (Hardcore, 5 morceaux)
 
 3 artistes en commun, 2 titres deja presents sur 47.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1563,9 +2291,19 @@ RIEN N'A ETE CHARGE.
 | 10 | Labores Somnium | I'm The Boss (Drum & Knuckles Mix) |
 | 11 | Frontliner | Symbols |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 21 | Obsidia | Evolution | Bleep Techno |
+| 27 | Pavelow vs. The Pitcher | What You Say | Progressive House |
+| 29 | Pherato | Believe - Original Mix | Tribal House |
+
 ## Lowercase  (Ambient, 6 morceaux)
 
 3 artistes en commun, 2 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1580,9 +2318,17 @@ RIEN N'A ETE CHARGE.
 | 10 | Biosphere | City Wakes Up |
 | 11 | Jana Winderen | The Wanderer |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 24 | Headaches | I | Krautrock |
+
 ## Bristol Sound  (Downtempo, 5 morceaux)
 
 3 artistes en commun, 2 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1594,12 +2340,21 @@ RIEN N'A ETE CHARGE.
 | 7 | Roni Size | It's A Jazz Thing |
 | 8 | Portishead | Western Eyes |
 | 9 | Tricky | Aftermath - Version 1 |
-| 10 | Portishead | Only You (NYC) |
 | 11 | Propa Tingz | Last Request (feat Phil Le Blanc) |
+| 12 | Portishead | Elysium |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 10 | Portishead | Only You (NYC) | Synth-pop |
+| 47 | Roni Size | Brown Paper Bag - Original | Drum and Bass |
 
 ## Psybient  (Downtempo, 7 morceaux)
 
 3 artistes en commun, 2 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1614,9 +2369,17 @@ RIEN N'A ETE CHARGE.
 | 11 | Carbon Based Lifeforms | MOS 6581 |
 | 12 | Cell | Hanging Masses |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 41 | E-Mantra | Silence | Trance, Lento Violento, Anthem Trance |
+
 ## Chillwave  (Downtempo, 11 morceaux)
 
 4 artistes en commun, 4 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1631,9 +2394,17 @@ RIEN N'A ETE CHARGE.
 | 11 | Lorde | David |
 | 12 | Magdalena Bay | True Blue Interlude |
 
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 15 | DyE | Fantasy | Chicago House |
+
 ## Folktronica  (Downtempo, 8 morceaux)
 
 3 artistes en commun, 2 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1652,39 +2423,63 @@ RIEN N'A ETE CHARGE.
 
 3 artistes en commun, 3 titres deja presents sur 50.
 
+Absents du corpus entier :
+
 | rang | artiste | titre |
 |---|---|---|
 | 1 | f(x) | 4 Walls |
 | 2 | Addison Rae | Aquamarine |
 | 3 | Disclosure | Latch (feat. Sam Smith) |
-| 4 | Madonna | I Feel So Free |
 | 5 | Disclosure | Help Me Lose My Mind (feat. London Grammar) |
 | 6 | Kanye West | Fade |
 | 8 | Billie Eilish | CHIHIRO |
 | 9 | Madonna | One Step Away |
 | 10 | Ariana Grande | Be Alright |
 | 11 | Tame Impala | End of Summer |
+| 12 | Lost Frequencies | Are You With Me |
 
-## Detroit Techno  (Techno, 9 morceaux)
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
 
-4 artistes en commun, 5 titres deja presents sur 50.
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 4 | Madonna | I Feel So Free | Acid House |
+| 34 | Luomo | Tessio | Microhouse |
+| 42 | Fred again.. | Marea (We’ve Lost Dancing) | UK House |
+| 43 | Drake | Overdrive | Tech Trance |
+| 48 | Jessie Ware | Running (Disclosure remix) | Minimal Techno |
+| 50 | Gaelle | Love U More | Balearic Trance |
+
+## Goa Trance  (Psy, 19 morceaux)
+
+6 artistes en commun, 9 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
-| 1 | Jeff Mills | The Bells |
-| 3 | Galaxy 2 Galaxy | Hi-Tech Jazz |
-| 4 | Carl Craig | Televised Green Smoke |
-| 5 | Carl Craig | Dreamland |
-| 6 | Galaxy 2 Galaxy | Jupiter Jazz |
-| 8 | The Aztec Mystic | Jaguar |
-| 9 | Carl Craig | At Les |
-| 10 | Kenny Larkin | Tedra |
-| 11 | Model 500 | Starlight |
-| 12 | Kenny Larkin | Soul Man |
+| 1 | Juno Reactor | 10,000 Miles |
+| 2 | Juno Reactor | Mona Lisa Overdrive |
+| 6 | Juno Reactor | Children Of The Night |
+| 8 | Astral Projection | Let There Be Light |
+| 11 | Doof | Let's Turn On |
+| 12 | Juno Reactor | High Energy Protons |
+| 13 | Juno Reactor | Masters Of The Universe |
+| 14 | Astral Projection | Dancing Galaxy |
+| 15 | Hallucinogen | Dark Magus |
+| 16 | Juno Reactor | Contact |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 10 | Astrix | Deep Jungle Walk | Morning Full-On |
+| 28 | Juno Reactor | Mars | Fidget House |
 
 ## Psychedelic Trance  (Psy, 11 morceaux)
 
 3 artistes en commun, 3 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1699,26 +2494,19 @@ RIEN N'A ETE CHARGE.
 | 10 | Infected Mushroom | Never Ever Land |
 | 11 | Paranormal Attack | The Pill |
 
-## Big Beat  (Breaks, 7 morceaux)
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
 
-4 artistes en commun, 5 titres deja presents sur 50.
-
-| rang | artiste | titre |
-|---|---|---|
-| 1 | Fatboy Slim | Right Here, Right Now |
-| 2 | The Prodigy | Diesel Power |
-| 3 | Fatboy Slim | Weapon Of Choice |
-| 4 | The Prodigy | Serial Thrilla |
-| 6 | The Prodigy | Mindfields |
-| 7 | Twenty One Pilots | Overcompensate |
-| 8 | Fatboy Slim | Praise You |
-| 9 | The Prodigy | Invaders Must Die |
-| 10 | The Crystal Method | Born Too Slow |
-| 12 | The Chemical Brothers | Go |
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 14 | GMS | Juice | Full-On, Morning Full-On |
+| 33 | 1200 Micrograms | LSD | Goa Trance |
+| 43 | Infected Mushroom | Bust A Move | Morning Full-On |
 
 ## Drone  (Ambient, 9 morceaux)
 
 3 artistes en commun, 3 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1728,14 +2516,69 @@ RIEN N'A ETE CHARGE.
 | 4 | Boris | Farewell |
 | 5 | Have a Nice Life | Bloodhail |
 | 6 | Boris | Introduction |
-| 7 | Boris | Blackout |
 | 8 | Boris | My Machine |
 | 9 | Ethel Cain | Perverts |
 | 10 | BTS | No. 29 |
+| 11 | The Angelic Process | Million Year Summer |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 7 | Boris | Blackout | Neurofunk |
+
+## Trip-Hop  (Downtempo, 14 morceaux)
+
+6 artistes en commun, 9 titres deja presents sur 50.
+
+Absents du corpus entier :
+
+| rang | artiste | titre |
+|---|---|---|
+| 6 | Massive Attack | Black Milk |
+| 8 | Massive Attack | Dissolved Girl |
+| 10 | Portishead | Mysterons |
+| 11 | Portishead | All Mine |
+| 12 | Portishead | Strangers |
+| 14 | Portishead | Wandering Star |
+| 15 | Portishead | It Could Be Sweet |
+| 17 | Portishead | The Rip |
+| 18 | Massive Attack | Man Next Door |
+| 19 | Portishead | Numb |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 3 | Massive Attack | Teardrop | Bristol Sound |
+| 5 | Portishead | Sour Times | Bristol Sound |
+| 20 | Massive Attack | Safe From Harm | Dub |
+| 37 | Portishead | Only You | Synth-pop |
+
+## Big Beat  (Breaks, 10 morceaux)
+
+4 artistes en commun, 8 titres deja presents sur 50.
+
+Absents du corpus entier :
+
+| rang | artiste | titre |
+|---|---|---|
+| 3 | Fatboy Slim | Weapon Of Choice |
+| 4 | The Prodigy | Serial Thrilla |
+| 6 | The Prodigy | Mindfields |
+| 7 | Twenty One Pilots | Overcompensate |
+| 9 | The Prodigy | Invaders Must Die |
+| 10 | The Crystal Method | Born Too Slow |
+| 12 | The Chemical Brothers | Go |
+| 14 | The Chemical Brothers | Let Forever Be |
+| 15 | Fatboy Slim | Love Island |
+| 16 | The Chemical Brothers | Setting Sun |
 
 ## Digital Hardcore  (Hardcore, 10 morceaux)
 
 3 artistes en commun, 6 titres deja presents sur 50.
+
+Absents du corpus entier :
 
 | rang | artiste | titre |
 |---|---|---|
@@ -1749,6 +2592,13 @@ RIEN N'A ETE CHARGE.
 | 10 | Machine Girl | MCHNGRL VS WLFGRL |
 | 11 | Atari Teenage Riot | Sick to Death |
 | 12 | Atari Teenage Riot | Blood in My Eyes |
+
+Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer.
+
+| rang | artiste | titre | range sous |
+|---|---|---|---|
+| 33 | GFOTY | Poison | Psychedelic Trance, Coldwave, UK Garage |
+| 39 | Atari Teenage Riot | By Any Means Necessary | EBM |
 
 ---
 

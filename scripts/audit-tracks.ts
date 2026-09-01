@@ -101,6 +101,33 @@ async function classement(etiquette: string): Promise<{ artist: string; name: st
   return liste;
 }
 
+/* OU VIT CHAQUE MORCEAU DANS TOUT LE CORPUS, et pas seulement dans le genre
+   examine.
+
+   DEFAUT TROUVE EN VOULANT CHARGER LE RESULTAT DE CE SCRIPT. Le rapport
+   annoncait « French House sans Music Sounds Better With You ». Le morceau
+   est dans le corpus depuis toujours, sous Disco House. Idem pour « Can You
+   Feel It » sous Deep House, « No Way Back » sous Acid House, « Acid Phase »
+   sous Acid Techno, « Carte Blanche » sous Trance. Cinq trous annonces, cinq
+   morceaux qui existaient.
+
+   La cause est que le controle comparait la liste d'un genre a son seul
+   classement. Or un morceau range chez le voisin n'est pas un manque, c'est
+   au mieux un PARTAGE a declarer, ce qui est une decision editoriale et non
+   un ajout. Confondre les deux fait proposer d'ajouter ce qu'on possede.
+
+   Le rapport distingue donc maintenant les deux cas. */
+const ailleurs = new Map<string, string[]>();
+for (const g of corpus.genres) {
+  for (const t of g.tracks) {
+    const k = norm(t.title);
+    if (!k) continue;
+    const l = ailleurs.get(k) ?? [];
+    if (!l.includes(g.label)) l.push(g.label);
+    ailleurs.set(k, l);
+  }
+}
+
 const familles = new Map(corpus.families.map((f) => [f.id, f.label]));
 
 interface Bilan {
@@ -109,6 +136,7 @@ interface Bilan {
   readonly artistesCommuns: number;
   readonly titresCommuns: number;
   readonly absents: { artist: string; name: string; rang: number }[];
+  readonly chezLeVoisin: { artist: string; name: string; rang: number; genres: string[] }[];
 }
 
 const bilans: Bilan[] = [];
@@ -159,12 +187,16 @@ for (const g of cibles) {
   ).size;
   const titresCommuns = top.filter((x) => nosTitres.has(norm(x.name))).length;
 
-  const absents = top
+  const candidats = top
     .map((x, i) => ({ ...x, rang: i + 1 }))
-    .filter((x) => !nosTitres.has(norm(x.name)))
-    .slice(0, 10);
+    .filter((x) => !nosTitres.has(norm(x.name)));
+  const absents = candidats.filter((x) => !ailleurs.has(norm(x.name))).slice(0, 10);
+  const chezLeVoisin = candidats
+    .filter((x) => ailleurs.has(norm(x.name)))
+    .slice(0, 6)
+    .map((x) => ({ ...x, genres: ailleurs.get(norm(x.name)) ?? [] }));
 
-  bilans.push({ genre: g, top, artistesCommuns, titresCommuns, absents });
+  bilans.push({ genre: g, top, artistesCommuns, titresCommuns, absents, chezLeVoisin });
 }
 
 /* On range par ce qui merite d'etre lu en premier : l'etiquette est sur le
@@ -222,10 +254,25 @@ for (const b of surSujet) {
     `${b.artistesCommuns} artistes en commun, ${b.titresCommuns} titres deja presents sur ${b.top.length}.`
   );
   lignes.push('');
-  lignes.push('| rang | artiste | titre |');
-  lignes.push('|---|---|---|');
-  for (const x of b.absents) lignes.push(`| ${x.rang} | ${x.artist} | ${x.name} |`);
-  lignes.push('');
+  if (b.absents.length > 0) {
+    lignes.push('Absents du corpus entier :');
+    lignes.push('');
+    lignes.push('| rang | artiste | titre |');
+    lignes.push('|---|---|---|');
+    for (const x of b.absents) lignes.push(`| ${x.rang} | ${x.artist} | ${x.name} |`);
+    lignes.push('');
+  }
+  if (b.chezLeVoisin.length > 0) {
+    lignes.push(
+      "Presents ailleurs dans le corpus : ce ne sont pas des manques, c'est au plus un partage a declarer."
+    );
+    lignes.push('');
+    lignes.push('| rang | artiste | titre | range sous |');
+    lignes.push('|---|---|---|---|');
+    for (const x of b.chezLeVoisin)
+      lignes.push(`| ${x.rang} | ${x.artist} | ${x.name} | ${x.genres.join(', ')} |`);
+    lignes.push('');
+  }
 }
 
 if (horsSujet.length > 0) {
