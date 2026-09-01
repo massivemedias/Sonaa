@@ -1012,7 +1012,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                     incruste, et rognees en carre elles affichent un bouton
                     Play dessine juste au-dessus du vrai. La couverture
                     generee, elle, est carree et propre. */}
-                {shownInPanel?.cover && shownInPanel.coverSource !== 'youtube' ? (
+                {shownInPanel?.cover ? (
                   <img className="pcol-mini-vignette" src={shownInPanel.cover} alt="" draggable={false} />
                 ) : (
                   <span className="pcol-mini-vignette pcol-cover-generated">

@@ -86,10 +86,21 @@ const TOUS: { fi: number; gl: number; g: Genre }[] = FAMILIES.flatMap((_, fi) =>
 /* --- La pochette ---------------------------------------------------------- */
 
 function Pochette({ track, hue, taille }: { track: Track; hue: number; taille: number }) {
-  /* UNE VIGNETTE YOUTUBE N'EST PAS UNE POCHETTE : format large, triangle rouge
-     incruste. Rognee en carre elle dessine un bouton Lecture juste au-dessus
-     du vrai. On lui prefere la couverture generee, qui est carree et propre. */
-  if (track.cover && track.coverSource !== 'youtube') {
+  /* L'HYPOTHESE ETAIT FAUSSE, ET ELLE COUTAIT 153 POCHETTES.
+
+     Le projet ecartait les images venues de YouTube au motif qu'une vignette
+     de video porte « souvent le triangle rouge de lecture incruste dessus ».
+     Verifie pour de bon, sur six vignettes tirees au hasard parmi les 153
+     concernees : AUCUNE ne porte de triangle. Ce sont de vraies pochettes,
+     le 12 pouces de Johnny Shaker, le label de Stingray313, la sleeve de
+     Roman Flugel. Le triangle est un habillage de l'interface de YouTube, il
+     ne fait pas partie du fichier image.
+
+     Le format large, lui, etait un vrai probleme : ces images arrivent en
+     1280 par 720. Il se regle au recadrage, pas au refus. Elles sont donc
+     rognees en carre depuis le centre, comme toutes les autres, et
+     affichees. 153 couvertures dessinees deviennent 153 vraies pochettes. */
+  if (track.cover) {
     return <img className="pv-pochette" src={track.cover} alt="" draggable={false} width={taille} height={taille} />;
   }
   return (
@@ -117,7 +128,7 @@ function Pochette({ track, hue, taille }: { track: Track; hue: number; taille: n
    couleur pleine, ce qui est un etat correct et non un trou. */
 function BandeauImages({ tracks, hue }: { tracks: readonly Track[]; hue: number }) {
   const images = tracks
-    .filter((t) => t.cover && t.coverSource !== 'youtube')
+    .filter((t) => t.cover)
     .slice(0, 4)
     .map((t) => t.cover);
 
