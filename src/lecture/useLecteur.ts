@@ -363,6 +363,23 @@ export function useLecteur({ precharger }: Options) {
         message: null
       });
 
+      /* CE QUE LE SYSTEME AFFICHERA. Sans cela, le centre de controle de macOS
+         montre « sonaa.ca » et un carre vide ; avec, il montre le morceau et
+         sa pochette. La pochette est celle que le site sert deja, donc aucun
+         appel supplementaire. */
+      const ms = navigator.mediaSession;
+      if (ms && typeof MediaMetadata === 'function') {
+        const art = piste.cover
+          ? [{ src: new URL(piste.cover, window.location.href).href, sizes: '512x512', type: 'image/jpeg' }]
+          : [];
+        ms.metadata = new MediaMetadata({
+          title: piste.title,
+          artist: piste.artist,
+          album: 'SONAA',
+          artwork: art
+        });
+      }
+
       const p = playerRef.current;
       if (!p || !pretRef.current) return; /* onReady reprendra la demande. */
 
@@ -520,6 +537,83 @@ export function useLecteur({ precharger }: Options) {
     const id = window.setInterval(relever, 500);
     return () => window.clearInterval(id);
   }, [lecture.listeId, lecture.index]);
+
+  /* --- LES TOUCHES MULTIMEDIA DU CLAVIER --------------------------------- */
+
+  /* CE QUI FAIT MARCHER LES TOUCHES DU MACBOOK, et pourquoi ce n'est pas un
+     ecouteur de clavier.
+
+     Les touches lecture, precedent et suivant d'un Mac ne produisent AUCUN
+     evenement clavier dans la page : le systeme les intercepte avant. Un
+     addEventListener('keydown') ne les verra jamais, quel que soit le code
+     qu'on y cherche. Elles passent par une autre porte, la session
+     multimedia, que le navigateur expose au systeme.
+
+     ON DECLARE DONC CE QU'ON SAIT FAIRE, et le systeme appelle. Au passage,
+     la meme declaration alimente l'ecran de verrouillage, le centre de
+     controle, et les commandes des ecouteurs Bluetooth : c'est la meme
+     mecanique.
+
+     LA METADONNEE N'EST PAS DECORATIVE. Sans titre ni pochette, macOS affiche
+     « sonaa.ca » et une page blanche dans son centre de controle. Avec, il
+     affiche le morceau. On la tient donc a jour a chaque changement de piste. */
+  useEffect(() => {
+    const ms = navigator.mediaSession;
+    if (!ms) return;
+
+    const poser = (
+      action: MediaSessionAction,
+      h: MediaSessionActionHandler | null
+    ): void => {
+      try {
+        ms.setActionHandler(action, h);
+      } catch {
+        /* Une action que ce navigateur ne connait pas leve : on l'ignore
+           plutot que de perdre les autres, qui sont peut-etre supportees. */
+      }
+    };
+
+    poser('play', () => basculer());
+    poser('pause', () => basculer());
+    poser('previoustrack', () => deplacer(-1));
+    poser('nexttrack', () => deplacer(1));
+    poser('seekbackward', (d) => chercher(Math.max(0, lectureRef.current.position - (d.seekOffset ?? 10))));
+    poser('seekforward', (d) => chercher(lectureRef.current.position + (d.seekOffset ?? 10)));
+    poser('seekto', (d) => {
+      if (typeof d.seekTime === 'number') chercher(d.seekTime);
+    });
+    poser('stop', () => {
+      playerRef.current?.pauseVideo();
+    });
+
+    return () => {
+      for (const a of [
+        'play',
+        'pause',
+        'previoustrack',
+        'nexttrack',
+        'seekbackward',
+        'seekforward',
+        'seekto',
+        'stop'
+      ] as MediaSessionAction[]) {
+        poser(a, null);
+      }
+    };
+  }, [basculer, deplacer, chercher]);
+
+  /* L'etat courant, lisible par les rappels du systeme sans les recreer a
+     chaque seconde : les reattacher a chaque changement de position ferait
+     huit ecritures par seconde dans la session multimedia. */
+  const lectureRef = useRef(lecture);
+  lectureRef.current = lecture;
+
+  useEffect(() => {
+    const ms = navigator.mediaSession;
+    if (!ms) return;
+    ms.playbackState =
+      lecture.etat === 'joue' ? 'playing' : lecture.etat === 'inactif' ? 'none' : 'paused';
+  }, [lecture.etat]);
 
   return { lecture, jouer, basculer, deplacer, chercher };
 }

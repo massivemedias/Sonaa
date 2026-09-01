@@ -552,17 +552,21 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           La description etait tout en bas, apres la liste : il fallait passer
           douze morceaux pour lire la reponse a la question qui amene ici.
           Elle passe devant, avec les faits qui la completent. */}
-      {/* LES MORCEAUX D'ABORD, LE TEXTE ENSUITE.
 
-          Constate par Mika : il fallait defiler longtemps avant d'atteindre
-          le lecteur. La page suivait l'ordre d'une encyclopedie, description
-          puis photo puis fiche puis article puis musique, alors qu'on arrive
-          ici pour ECOUTER. Six cents signes et une photo separaient
-          l'utilisateur de ce qu'il etait venu chercher.
+      {t.texteEnFrancais && <p className="pv-langue">{t.texteEnFrancais}</p>}
+      {genre.description && <p className="pv-description">{genre.description}</p>}
 
-          La liste remonte donc sous l'en-tete, et tout ce qui se lit passe
-          dessous. Qui vient pour la musique l'a sous la main, qui vient pour
-          le texte defile : c'est le bon sens de l'echange. */}
+      {/* LA DESCRIPTION AVANT LA LISTE, LE RESTE APRES.
+
+          Elle etait passee SOUS la liste parce qu'on defilait trop longtemps
+          avant d'atteindre le lecteur. Le probleme etait reel, mais il ne
+          venait pas de sa position : il venait de sa TAILLE. Le corps est
+          descendu a 12 px depuis, et le chapeau tient en trois lignes. Il
+          reprend donc sa place naturelle, qui est d'ouvrir la page, sans
+          repousser la musique hors de l'ecran.
+
+          Ce qui reste dessous est ce qui est LONG : la photo, la fiche
+          technique et l'article. */}
       {tracks.length > 0 && (
         <h3 className="pv-titre-liste">{t.nMorceaux(tracks.length)}</h3>
       )}
@@ -610,9 +614,6 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           })}
         </ol>
       )}
-
-      {t.texteEnFrancais && <p className="pv-langue">{t.texteEnFrancais}</p>}
-      {genre.description && <p className="pv-description">{genre.description}</p>}
 
       {/* L'ARTICLE LONG, quand il existe.
 

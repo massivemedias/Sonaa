@@ -194,7 +194,26 @@ const match = (
     }
   }
 
-  return best ? { url: best.url, album: best.album } : null;
+  return best ? { url: best.url, album: proprete(best.album) } : null;
+};
+
+/* CE QUI ENTRE DANS LE CORPUS PREND SA TYPOGRAPHIE, et ce n'est pas un
+   detail de style : le controle des tirets porte aussi sur les donnees, et il
+   a bloque une publication entiere sur deux titres d'album venus de Deezer.
+   Sans cette normalisation, chaque recolte de pochettes reintroduira le
+   probleme et la barriere refusera a nouveau.
+
+   ET IL REFUSE LES PHRASES. Deezer a servi un article de banque de sons
+   intitule « Coastal Haze - A soft, washed-out synth pad that feels like
+   watching the morning fog roll in over a calm ocean », parce que « washed
+   out » figurait dans cette DESCRIPTION et que l'artiste cherche s'appelle
+   Washed Out. La pochette telechargee n'avait aucun rapport avec le morceau.
+   Un titre d'album de plus de cent-vingt signes qui se termine par un point
+   n'est pas un titre : c'est une phrase, et la correspondance est fausse. */
+const proprete = (titre: string): string => {
+  const t = titre.replace(/\s*[\u2013\u2014]\s*/g, ' - ').trim();
+  if (t.length > 120 && /[.!?]$/.test(t)) return '';
+  return t;
 };
 
 const corpus = JSON.parse(readFileSync(CORPUS, 'utf8')) as Corpus;
