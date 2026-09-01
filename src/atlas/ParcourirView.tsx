@@ -490,6 +490,12 @@ function meilleurIndex(tracks: readonly Track[]): number {
   return 0;
 }
 
+/** L'annee a montrer : la sortie originale si elle est connue, sinon la date
+    de capture. Meme regle que le reste du site. */
+function anneeDe(t: Track): number | null {
+  return t.release?.year ?? t.year;
+}
+
 /* --- La page d'un genre --------------------------------------------------- */
 
 interface PageGenreProps {
@@ -592,7 +598,17 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
                     <span className="pv-piste-titre">{tr.title}</span>
                     <span className="pv-piste-artiste">
                       {tr.artist}
-                      {tr.year ? ` · ${tr.year}` : ''}
+                      {/* L'ANNEE AFFICHEE EST CELLE DE LA SORTIE ORIGINALE
+                          QUAND ON LA CONNAIT.
+
+                          `year` est la date capturee au premier passage,
+                          `release.year` celle relevee sur Discogs par
+                          correspondance exigeante. La regle du projet, deja
+                          appliquee dans l'ancien lecteur, est de preferer la
+                          seconde. Cette vue ne lisait que la premiere : 502
+                          morceaux dates dans le corpus s'affichaient sans
+                          date, dont six des vingt de Detroit Techno. */}
+                      {anneeDe(tr) ? ` · ${anneeDe(tr)}` : ''}
                       {tr.role === 'origine' ? ` · ${t.origine}` : ''}
                     </span>
                   </span>

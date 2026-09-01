@@ -465,6 +465,18 @@ const buildStructure = (familyIndex: number): Structure => {
         })),
       annee: (() => {
         if (entry.yearStart !== undefined) return entry.yearStart;
+        /* ON LIT `year` ET NON `release.year`, ET C'EST DELIBERE.
+
+           `release.year` est la sortie ORIGINALE du morceau, relevee sur
+           Discogs. Elle est juste pour dater un morceau, et fausse pour dater
+           un GENRE : il suffit qu'une liste contienne un titre reedite ou
+           repris pour que le genre remonte de dix ans. Mesure faite avant de
+           renoncer : 70 genres sur 195 changeraient d'annee, et Bassline
+           passerait de 2001 a 1988, alors que c'est une scene des annees
+           2000.
+
+           L'annee d'un genre reste donc sur la date de capture, et la date de
+           sortie originale ne sert qu'a l'affichage d'un morceau. */
         const ys = entry.tracks
           .map((t) => t.year)
           .filter((y): y is number => typeof y === 'number');
