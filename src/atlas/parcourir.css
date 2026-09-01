@@ -219,7 +219,20 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 
      `min(100%, 19rem)` et non `19rem` seul : sous 304 px de large, une valeur
      fixe deborderait de la grille au lieu de se replier. */
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+  /* DEUX COLONNES SUR TELEPHONE, la largeur decide au-dela.
+
+     LE FORMAT BANNIERE NE SURVIT PAS A DEUX COLONNES SUR UN TELEPHONE, et
+     c'est un choix a assumer plutot qu'un effet de bord : a 178 px de large,
+     une tuile de 104 px de haut n'est plus dans le rapport 3,3 pour 1 de la
+     maquette mais dans 1,7. Les noms longs y repassent sur deux lignes.
+
+     CE QU'ON GAGNE, et c'est la demande : douze familles a l'ecran au lieu de
+     six. Sur une liste de 219 genres, diviser le defilement par deux compte
+     plus que tenir un rapport.
+
+     Au-dessus de 700 px le rapport revient tout seul, parce que la largeur
+     minimale de 19 rem redonne des tuiles larges. */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.55rem;
 }
 /* LA VIGNETTE : UN CADRE DANS UN CADRE.
@@ -249,7 +262,10 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      banniere de mille pixels de large ferait trois cents pixels de haut sur
      un ecran d'ordinateur. On garde la hauteur de la maquette, la largeur
      suit l'ecran. */
-  min-height: 104px;
+  /* 112 px sur telephone : de quoi loger un nom sur DEUX lignes plus son
+     compte, puisque deux colonnes coupent la largeur en deux. Au-dela de
+     700 px la tuile redevient une banniere et 112 suffit toujours. */
+  min-height: 112px;
   /* La marge de la plaque exterieure. */
   padding: 5px;
   border: 0;
@@ -364,9 +380,12 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      retrait qui fait que l'oeil attrape le nom en premier. */
   opacity: 0.78;
 }
-.pv-tuile-genre {
-  min-height: 96px;
-}
+/* PAS DE HAUTEUR A PART POUR LES TUILES DE GENRE. Elles gardaient 96 px, un
+   reste de la version a deux colonnes d'avant les bannieres, et se
+   retrouvaient plus basses que celles des familles sans qu'aucune raison ne
+   le demande : deux niveaux de la meme grille, deux hauteurs. Seul le CORPS
+   du nom reste plus petit, parce qu'un nom de genre est plus long qu'un nom
+   de famille. */
 .pv-tuile-genre .pv-tuile-nom {
   font-size: 1.0625rem;
 }
@@ -995,6 +1014,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
     padding-right: max(0.75rem, calc((100vw - 1500px) / 2));
   }
   .pv-grille {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
     gap: 0.7rem;
   }
   .pv-tuile {
