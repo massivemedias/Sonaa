@@ -394,21 +394,6 @@ export function ParcourirView() {
 
         {niveau.k === 'famille' && familleCourante && (
           <>
-            {/* LE TEXTE DE LA FAMILLE. Un genre repond a « qu'est-ce que
-                c'est », une famille repond a « qu'est-ce qui reunit ces
-                vingt-quatre genres ». Sans lui, cette page n'etait qu'une
-                grille : on savait combien, jamais pourquoi ensemble. */}
-            {familleCourante.description && (
-              <>
-                {familleCourante.redaction === 'brouillon' && (
-                  <p className="pv-brouillon">
-                    <span className="pv-brouillon-marque">{t.brouillon}</span>
-                    {t.brouillonExplique}
-                  </p>
-                )}
-                <p className="pv-description pv-description-famille">{familleCourante.description}</p>
-              </>
-            )}
             <p className="pv-intro">{t.genresAppuyez(familleCourante.count)}</p>
             <div className="pv-grille">
               {(STRUCTURES[niveau.fi]?.genres ?? []).map((g, gl) => {
@@ -432,6 +417,26 @@ export function ParcourirView() {
                 );
               })}
             </div>
+            {/* LE TEXTE DE LA FAMILLE, SOUS LA GRILLE ET JAMAIS AU-DESSUS.
+
+                Il l'ouvrait, et c'etait une erreur de hierarchie : on arrive
+                sur cette page pour choisir un genre, pas pour lire six cents
+                signes. Poser le texte en tete obligeait a le franchir a
+                chaque visite, y compris la centieme. Sous la grille, il est
+                la pour qui le cherche et invisible pour qui ne le cherche
+                pas. Un genre repond a « qu'est-ce que c'est », une famille
+                repond a « qu'est-ce qui reunit ces vingt-quatre-la ». */}
+            {familleCourante.description && (
+              <>
+                {familleCourante.redaction === 'brouillon' && (
+                  <p className="pv-brouillon">
+                    <span className="pv-brouillon-marque">{t.brouillon}</span>
+                    {t.brouillonExplique}
+                  </p>
+                )}
+                <p className="pv-description pv-description-famille">{familleCourante.description}</p>
+              </>
+            )}
           </>
         )}
 

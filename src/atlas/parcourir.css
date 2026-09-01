@@ -1004,17 +1004,20 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 /* --- Ecrans larges -------------------------------------------------------- */
 
 @media (min-width: 700px) {
-  /* 1500 px et non 1000 : a mille, la grille ne tient que trois colonnes, la
-     maquette en montre cinq. La colonne de TEXTE, elle, reste bornee a 68
-     signes plus bas : c'est la grille qui s'elargit, pas la lecture. */
+  /* 1400 px, la largeur demandee. La grille y tient CINQ colonnes, ce qui
+     commande la largeur minimale d'une tuile plus bas : a 19 rem elle n'en
+     tenait que quatre. */
   .pv-corps,
   .pv-tete,
   .pv-chercher {
-    padding-left: max(0.75rem, calc((100vw - 1500px) / 2));
-    padding-right: max(0.75rem, calc((100vw - 1500px) / 2));
+    padding-left: max(0.75rem, calc((100vw - 1400px) / 2));
+    padding-right: max(0.75rem, calc((100vw - 1400px) / 2));
   }
   .pv-grille {
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+    /* 16 rem et non 19 : a 1400 px de large avec 0,7 rem de gouttiere, une
+       tuile de 19 rem n'en laisse tenir que quatre. Seize en laisse tenir
+       cinq, ce qui est le compte demande. */
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
     gap: 0.7rem;
   }
   .pv-tuile {
@@ -1040,13 +1043,39 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   .pv-hero-texte {
     padding: 2rem 2rem 2.2rem;
   }
-  /* SUR GRAND ECRAN LA COLONNE DE TEXTE SE BRIDE. Au dela d'environ
-     soixante-quinze signes par ligne, l'oeil perd le debut de la ligne
-     suivante et doit revenir en arriere. Un article de mille mots pose sur
-     mille pixels de large ne se lit pas. */
+  /* LE TEXTE PREND TOUTE LA LARGEUR, MAIS EN DEUX COLONNES.
+
+     La demande etait « plus d'espace ». Un paragraphe de 13 px etale sur
+     1400 px ferait deux cent quinze signes par ligne : au dela d'environ
+     soixante-quinze, l'oeil perd le debut de la ligne suivante et doit
+     revenir en arriere. Elargir la ligne aurait donc rendu le texte plus
+     grand ET moins lisible.
+
+     Deux colonnes resolvent les deux : la page est occupee sur toute sa
+     largeur, et chaque ligne reste dans la plage ou l'on lit sans effort.
+     C'est la reponse du journal au meme probleme, et elle a cent ans. */
   .pv-article-section p,
   .pv-description {
-    max-width: 68ch;
+    max-width: none;
+  }
+  /* ON FIXE LA LARGEUR D'UNE COLONNE, PAS LEUR NOMBRE.
+
+     Premiere version : deux colonnes. Mesure sur la fiche House a 1400 px :
+     114 signes par ligne, c'est-a-dire a peine mieux qu'une colonne unique et
+     toujours au-dessus des soixante-quinze ou l'oeil suit sans effort. Deux
+     colonnes de 676 px ne resolvent rien, elles deplacent le probleme.
+
+     Avec une LARGEUR de 27 rem, le navigateur en met autant qu'il peut : trois
+     a 1400 px, soit 435 px et 74 signes par ligne, deux vers 900, une seule
+     en dessous. Le nombre s'ajuste, la ligne ne bouge plus. */
+  .pv-description,
+  .pv-article-section {
+    column-width: 27rem;
+    column-gap: 3rem;
+  }
+  /* Le titre d'une section ne se coupe jamais entre deux colonnes. */
+  .pv-article-titre {
+    column-span: all;
   }
   .pv-article-titre {
     font-size: 1.3125rem;
@@ -1058,10 +1087,10 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
     font-size: 2.275rem;
   }
   .pv-barre {
-    padding-left: max(0.75rem, calc((100vw - 1500px) / 2));
-    padding-right: max(0.75rem, calc((100vw - 1500px) / 2));
+    padding-left: max(0.75rem, calc((100vw - 1400px) / 2));
+    padding-right: max(0.75rem, calc((100vw - 1400px) / 2));
   }
   .pv-tete {
-    padding-right: max(calc(var(--authb-l, 112px) + 0.6rem), calc((100vw - 1500px) / 2));
+    padding-right: max(calc(var(--authb-l, 112px) + 0.6rem), calc((100vw - 1400px) / 2));
   }
 }
