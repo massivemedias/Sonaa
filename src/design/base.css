@@ -74,6 +74,22 @@ textarea {
   }
 }
 
+/* LE TEXTE D'INTERFACE prend son propre serrage : boutons, champs, onglets,
+   et les etiquettes courtes. Ce sont des mots isoles a petite taille, pas des
+   phrases : ils ont besoin d'air la ou un titre a besoin de compacite.
+
+   LES TITRES RESTENT HORS DE CETTE REGLE, volontairement. Le nom d'un genre a
+   36 px et les noms de vignettes sont le dessin demande sur les maquettes ;
+   les desserrer de deux pixels d'un coup les changerait visiblement. */
+button,
+input,
+select,
+textarea,
+summary,
+[role='tab'] {
+  letter-spacing: var(--serrage-ui);
+}
+
 /* CE QUI SE LIT EN CONTINU prend le serrage du texte, pas celui des titres.
    Les titres restent hors de cette liste : ils gardent le serrage general. */
 p,

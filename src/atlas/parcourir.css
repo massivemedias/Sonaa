@@ -792,7 +792,10 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   font-size: 0.75rem;
   line-height: 1.45;
 }
+/* « Tempo », « Machines », « Labels » : des mots isoles a 12 px, le cas type
+   ou un serrage negatif colle les lettres. */
 .pv-fait-cle {
+  letter-spacing: var(--serrage-ui);
   flex: none;
   min-width: 5.2rem;
   color: oklch(0.62 0.01 260);
@@ -829,6 +832,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   font-size: 0.75rem;
 }
 .pv-titre-liste {
+  letter-spacing: var(--serrage-ui);
   margin: 1.6rem 0 0.2rem;
   font-family: inherit;
   font-size: 0.9375rem;

@@ -53,6 +53,18 @@
      le texte cesse d'etre resserre pour etre respire. */
   --serrage-texte: 0.1px;
 
+  /* LE TEXTE D'INTERFACE : boutons, etiquettes, onglets, comptes.
+
+     Il n'est ni du texte courant ni un titre. Un titre de 36 px supporte un
+     serrage negatif, il en a meme besoin. Une etiquette de 12 px comme
+     « Tempo » ou un bouton comme « Mettre a jour » n'ont ni la taille ni la
+     longueur pour l'absorber : a -1px les mots se collent, « Mettre a jour »
+     se lit « Mettreajour ». Constate sur capture par Mika.
+
+     UN PIXEL POSITIF, donc, et non zero : ces textes sont courts et souvent
+     en gras, ce qui resserre deja optiquement. */
+  --serrage-ui: 1px;
+
   /* LA TAILLE DU TEXTE COURANT, demandee par Mika devant la fiche Electro
      House : 12 px sur telephone, 13 px sur ordinateur.
 
