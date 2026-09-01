@@ -3778,7 +3778,25 @@
           "texte": "En 1988 le son traverse l'Atlantique et change de sens. À Chicago l'acide est une texture parmi d'autres dans une scène house déjà installée, portée par Trax, DJ International et Westside. En Angleterre il devient le drapeau d'un mouvement entier : le Second Summer of Love, les fêtes en entrepôt, le smiley jaune. Le mot y prend une couleur que Chicago ne lui donnait pas, au point que la presse britannique en fait une affaire de société et que le Parlement légifère sur les rassemblements.\n\nCe déplacement laisse une trace durable dans la carte : l'acid house britannique et celle de Chicago portent le même nom sans désigner tout à fait la même musique. Les descendances divergent aussitôt. La 303 part vers l'acid techno et la trance à Berlin et Francfort, vers le hardcore britannique, et revient à chaque décennie depuis. Peu de machines auront défini un genre aussi complètement, et aucune ne l'aura fait par accident à ce point : une basse d'accompagnement ratée, sauvée par des gens qui ne savaient pas s'en servir."
         }
       ],
-      "redaction": "brouillon"
+      "redaction": "brouillon",
+      "tuto": [
+        {
+          "titre": "Le tempo et la boîte",
+          "texte": "Entre 118 et 130, 125 étant le centre de gravité. La rythmique doit être pauvre, parce que toute l'attention ira ailleurs : une TR-808 ou une TR-909, grosse caisse sur les quatre temps sans variation, un charleston ouvert sur les contretemps, un clap sur le deux et le quatre. Rien de plus. Si vous vous surprenez à écrire un fill, vous êtes déjà en train de faire autre chose."
+        },
+        {
+          "titre": "La séquence de 303, et pourquoi elle est courte",
+          "texte": "Seize pas, une seule octave, en général cinq à huit notes réellement jouées sur les seize. Le reste est du silence, et le silence compte autant que les notes : c'est lui qui laisse entendre la queue du filtre.\n\nDeux fonctions font tout le travail et il faut comprendre ce qu'elles font vraiment. Le GLISSEMENT lie deux notes sans rupture de hauteur, ce qui produit le mouvement liquide caractéristique. L'ACCENT ne change pas seulement le volume : il augmente aussi la résonance et la modulation d'enveloppe sur cette note-là. Une note accentuée sonne donc plus fort, plus ouverte et plus mordante en même temps. Placer les accents, c'est la moitié du travail ; en mettre partout revient à n'en mettre nulle part."
+        },
+        {
+          "titre": "Le geste, qui est le vrai instrument",
+          "texte": "Lancez la boucle et laissez-la tourner. Ouvrez lentement la fréquence de coupure sur huit ou seize mesures, montez la résonance jusqu'au point où le filtre commence à siffler tout seul, raccourcissez la décroissance pour que chaque note claque au lieu de traîner. Puis refermez.\n\nC'est une trajectoire, pas un réglage. À l'époque rien de cela ne s'automatisait : c'était joué à deux mains, en direct, et cela s'entend. C'est aussi le piège des émulations d'aujourd'hui, qui reproduisent parfaitement le filtre mais pas le geste. Une séquence de 303 posée sans mouvement de boutons sonne comme une basse quelconque. Enregistrez vos mouvements en automation si vous voulez, mais jouez-les d'abord."
+        },
+        {
+          "titre": "La chaîne qui suit, et l'ordre compte",
+          "texte": "Une saturation ou une distorsion AVANT l'égaliseur, jamais après : saturer un signal déjà égalisé ramène les fréquences qu'on venait d'enlever. Coupez le bas vers 85 Hz pour laisser la place à la grosse caisse, creusez les médiums, relevez les extrêmes.\n\nUn retard en croche pointée passé en coupe-bas ajoute du mouvement sans épaissir. Une réverbération à ressort courte, puis une plus longue dont on roule les basses en dessous de 400 Hz, pour que l'acide ait une place sans noyer le rythme.\n\nHardfloor a poussé cette saturation jusqu'à en faire un genre à part entière avec « Acperience » en 1992 : c'est la même chaîne, avec le curseur beaucoup plus loin."
+        }
+      ]
     },
     {
       "id": "garagehouse",
@@ -7025,7 +7043,25 @@
           "texte": "On rattache souvent ce son à la désindustrialisation de Detroit, et il faut le faire avec précaution : les trois fondateurs sont des banlieusards de classe moyenne, pas des ouvriers licenciés, et ils l'ont dit plus d'une fois. La ville n'est pas la cause directe de cette musique.\n\nElle en est le décor, et le décor compte. Une ville qui se vide laisse des bâtiments vides, donc des lieux où jouer, et une électricité bon marché. Elle laisse surtout une idée du futur qui a échoué, ce qui est exactement le sujet de Cybotron puis, plus tard, d'Underground Resistance. La deuxième génération radicalise dans deux directions opposées : Carl Craig vers l'abstraction et le jazz, Jeff Mills et Robert Hood vers le dépouillement et la vitesse. Le minimal de Robert Hood sort de là. Et la filiation Detroit reste, aujourd'hui encore, la conscience du genre entier : c'est la référence qu'on invoque quand on veut dire qu'une techno a perdu quelque chose."
         }
       ],
-      "redaction": "brouillon"
+      "redaction": "brouillon",
+      "tuto": [
+        {
+          "titre": "Le tempo, et une chose que personne ne dit",
+          "texte": "Entre 120 et 125, plus lent que ce qu'on imagine. Et surtout : du swing, entre 55 et 60 pour cent là où 50 est le timing droit. C'est le détail qui sépare une techno de Detroit d'une techno européenne, et c'est celui qu'on oublie en premier. Sans lui, le morceau est juste rigide."
+        },
+        {
+          "titre": "La rythmique, et le principe qui la gouverne",
+          "texte": "Une TR-909, et rien d'autre. Grosse caisse sur les quatre temps, sans aucune variation. Caisse claire descendue d'un ou deux demi-tons avec les aigus roulés, puis saturée franchement, comme on surchargeait l'entrée d'une console analogique jusqu'à ce qu'elle casse.\n\nLe rimshot descendu d'un ou deux demi-tons, avec un rien de réverbération réintégrée dans le sample lui-même pour qu'elle fasse partie de sa décroissance. Règle importante : il ne tombe JAMAIS sur le même temps que la grosse caisse, il lui répond.\n\nDeux charlestons fermés, l'un très sec et brillant qui perce le mixage, l'autre plus doux avec une attaque lente et une décroissance plus longue. Un charleston ouvert sur chaque contretemps.\n\nET AUCUNE VARIATION DE VÉLOCITÉ. Le mouvement ne vient pas des accents, il vient du dialogue entre les parties. C'est contre-intuitif et c'est pourtant la clé."
+        },
+        {
+          "titre": "Les accords, qui sont le sujet",
+          "texte": "La rythmique ne bouge pas, donc toute la tension est harmonique. Des nappes et des cordes synthétiques en mineur, avec une septième ou une neuvième, jouées sur un Prophet-5, un Poly-800, un DX7 ou un Ensoniq. Attaque lente, jamais percussive.\n\nOn les fait entrer et sortir au filtre plutôt que de les couper net : c'est cette lenteur posée sur une rythmique inflexible qui produit l'effet du genre, une musique de danse qui a l'air de regretter quelque chose.\n\nSur la basse, méfiez-vous des règles générales. « Strings of Life », le morceau le plus repris du catalogue, n'a pas une seule note de basse sur ses sept minutes et demie. Rien qu'une 909, des accords plaqués en si mineur et des cordes."
+        },
+        {
+          "titre": "Le mixage, et ce qu'il faut refuser",
+          "texte": "Peu de couches. Un morceau de Detroit tient rarement plus de six ou sept pistes, et c'est un principe, pas une limite de matériel. Beaucoup de réverbération sur les nappes, presque aucune sur la rythmique : c'est ce contraste qui creuse l'espace.\n\nLa tentation, aujourd'hui, est d'ajouter. Une nappe de plus, une percussion de plus, un effet de plus. Chaque ajout rapproche d'une techno générique et éloigne de Detroit. Si vous hésitez entre ajouter et retirer, retirez."
+        }
+      ]
     },
     {
       "id": "bleeptechno",

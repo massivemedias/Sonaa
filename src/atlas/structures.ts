@@ -279,6 +279,9 @@ export interface Genre {
   /* L'ARTICLE LONG, en sections titrees. Vide sur la quasi-totalite des
      genres aujourd'hui : on n'affiche rien plutot qu'un gabarit. */
   readonly article: readonly { readonly titre: string; readonly texte: string }[];
+  /* Le tuto de fabrication. Vide sur la plupart des genres : on n'affiche
+     rien plutot qu'un gabarit. */
+  readonly tuto: readonly { readonly titre: string; readonly texte: string }[];
   readonly machines: readonly string[];
   readonly labelsHistoriques: readonly string[];
   readonly labelsActuels: readonly string[] | null;
@@ -452,6 +455,7 @@ const buildStructure = (familyIndex: number): Structure => {
       description: entry.description ?? null,
       motDeLAuteur: entry.motDeLAuteur ?? null,
       article: entry.article ?? [],
+      tuto: entry.tuto ?? [],
       machines: entry.machines ?? [],
       labelsHistoriques: entry.labelsHistoriques ?? [],
       labelsActuels: entry.labelsActuels ?? null,

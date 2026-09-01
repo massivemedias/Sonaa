@@ -447,10 +447,49 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
     );
 }
 
+/* --- Les deux lectures : histoire et fabrication --- */
+
+.pv-onglets {
+  display: flex;
+  gap: 0.5rem;
+  margin: 2rem 0 0;
+}
+.pv-onglet {
+  display: inline-flex;
+  align-items: center;
+  /* La meme cible que partout ailleurs sur ce site. */
+  min-height: 44px;
+  padding: 0 1.1rem;
+  border: 1px solid oklch(1 0 0 / 0.16);
+  border-radius: 22px;
+  background: transparent;
+  color: oklch(0.72 0.01 260);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+/* L'ETAT ACTIF EST UN BOUTON PLEIN, pas une nuance de gris : la meme
+   grammaire que le menu du site, pour qu'on n'ait pas a comparer deux
+   boutons entre eux pour savoir ou l'on est. */
+.pv-onglet[aria-selected='true'] {
+  background: oklch(0.97 0 0);
+  border-color: oklch(0.97 0 0);
+  color: oklch(0.16 0.01 260);
+}
+.pv-onglet:hover:not([aria-selected='true']) {
+  border-color: oklch(1 0 0 / 0.34);
+  color: oklch(0.9 0.01 260);
+}
+
 /* --- L'article long --- */
 
 .pv-article {
   margin: 2rem 0 0;
+}
+/* Colle aux onglets quand ils sont la : c'est le meme bloc. */
+.pv-onglets + .pv-article {
+  margin-top: 1.2rem;
 }
 .pv-article-section + .pv-article-section {
   margin-top: 1.9rem;

@@ -228,6 +228,30 @@ const genreSchema = z.strictObject({
       })
     )
     .min(2)
+    .optional(),
+
+  /* LE TUTO DE FABRICATION, distinct de l'article.
+
+     L'article raconte D'OU VIENT un son : la ville, les gens, les labels, la
+     date. Le tuto dit COMMENT ON LE FAIT : le tempo, les machines, l'ordre
+     des gestes, ce qui rate quand on s'y prend mal. Deux lectures
+     differentes, pour deux moments differents. Melanger les deux donne un
+     texte que ni le curieux ni le producteur ne lit jusqu'au bout.
+
+     Sections plus courtes que celles de l'article : 200 signes suffisent pour
+     une etape de fabrication, alors qu'une section d'histoire qui n'atteint
+     pas 400 n'est qu'une ligne de fiche technique.
+
+     Meme regle de brouillon : un tuto ecrit par la machine porte la marque
+     jusqu'a relecture. */
+  tuto: z
+    .array(
+      z.object({
+        titre: z.string().min(3),
+        texte: z.string().min(200)
+      })
+    )
+    .min(2)
     .optional()
 });
 

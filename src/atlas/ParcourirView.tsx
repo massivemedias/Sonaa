@@ -503,6 +503,11 @@ interface PageGenreProps {
 function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: PageGenreProps) {
   const tracks = genre.tracks;
   const derives = poidsDe(genre.id).descendance;
+  /* On revient a l'histoire en changeant de genre : rester sur l'onglet
+     fabrication ferait arriver au milieu d'une recette sur un style qu'on
+     vient a peine d'ouvrir. */
+  const [onglet, setOnglet] = useState<'histoire' | 'fabrication'>('histoire');
+  useEffect(() => setOnglet('histoire'), [genre.id]);
   const cetteListe = lecture.listeId === genre.id;
   const enCours = cetteListe && (lecture.etat === 'joue' || lecture.etat === 'chargement');
 
@@ -622,13 +627,61 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           faire passer pour la prose de Mika. La marque se retire a la
           relecture, pas avant. C'est le mecanisme que le corpus prevoyait
           deja, on ne fait que l'afficher. */}
-      {genre.article.length > 0 && (
+      {/* DEUX LECTURES, DEUX BOUTONS.
+
+          L'article raconte d'ou vient un son : la ville, les gens, les
+          labels, la date. Le tuto dit comment on le FAIT : le tempo, les
+          machines, l'ordre des gestes. Ce sont deux moments differents, et
+          les empiler dans une seule colonne donne un texte que ni le curieux
+          ni le producteur ne lit jusqu'au bout.
+
+          LES BOUTONS N'APPARAISSENT QUE S'IL Y A DEUX CHOSES A CHOISIR. Avec
+          un seul texte, un onglet unique n'est pas un choix, c'est du decor
+          qui coute un clic. */}
+      {genre.article.length > 0 && genre.tuto.length > 0 && (
+        <div className="pv-onglets" role="tablist">
+          <button
+            className="pv-onglet"
+            role="tab"
+            aria-selected={onglet === 'histoire'}
+            onClick={() => setOnglet('histoire')}
+          >
+            {t.lHistoire}
+          </button>
+          <button
+            className="pv-onglet"
+            role="tab"
+            aria-selected={onglet === 'fabrication'}
+            onClick={() => setOnglet('fabrication')}
+          >
+            {t.laFabrication}
+          </button>
+        </div>
+      )}
+
+      {genre.article.length > 0 && (genre.tuto.length === 0 || onglet === 'histoire') && (
         <article className="pv-article">
           {genre.article.map((section) => (
             <section className="pv-article-section" key={section.titre}>
               <h3 className="pv-article-titre">{section.titre}</h3>
               {/* Les paragraphes sont separes par une ligne vide dans la
                   donnee : on ne stocke pas de balises dans le corpus. */}
+              {section.texte.split('\n\n').map((para, i) => (
+                <p key={String(i)}>{para}</p>
+              ))}
+            </section>
+          ))}
+        </article>
+      )}
+
+      {genre.tuto.length > 0 && (genre.article.length === 0 || onglet === 'fabrication') && (
+        <article className="pv-article">
+          {/* PAS DE BANDEAU BROUILLON ICI : Mika l'a fait retirer de tout le
+              site, et le remettre sur le tuto le ferait revenir par la
+              fenetre. */}
+          {genre.tuto.map((section) => (
+            <section className="pv-article-section" key={section.titre}>
+              <h3 className="pv-article-titre">{section.titre}</h3>
               {section.texte.split('\n\n').map((para, i) => (
                 <p key={String(i)}>{para}</p>
               ))}

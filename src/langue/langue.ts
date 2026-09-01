@@ -92,6 +92,8 @@ interface Dictionnaire {
   readonly artistes: string;
   readonly aPropSujet: string;
   readonly cettePiste: string;
+  readonly lHistoire: string;
+  readonly laFabrication: string;
   readonly ficheTechnique: string;
   readonly tempo: string;
   readonly apparition: string;
@@ -163,6 +165,8 @@ const FR: Dictionnaire = {
   artistes: 'Artistes',
   aPropSujet: 'Le genre',
   cettePiste: 'Cette piste',
+  lHistoire: 'L\u2019histoire',
+  laFabrication: 'La fabrication',
   ficheTechnique: 'Fiche technique',
   tempo: 'Tempo',
   apparition: 'Apparition',
@@ -237,6 +241,8 @@ const EN: Dictionnaire = {
   artistes: 'Artists',
   aPropSujet: 'The genre',
   cettePiste: 'This track',
+  lHistoire: 'The story',
+  laFabrication: 'How it is made',
   ficheTechnique: 'Fact sheet',
   tempo: 'Tempo',
   apparition: 'Emerged',
