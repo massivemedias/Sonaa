@@ -333,7 +333,7 @@ export interface Track {
 
      L'interface peut donc choisir de ne pas s'en servir la ou elle veut une
      vraie pochette. Elle ne peut pas le faire si la provenance est perdue. */
-  readonly coverSource: 'deezer' | 'itunes' | 'youtube' | null;
+  readonly coverSource: 'deezer' | 'itunes' | 'youtube' | 'discogs' | null;
   /** Identifiant vérifié par oEmbed au build. Jamais inventé (ADR-006). */
   readonly youtubeId: string;
   /* Le ROLE du morceau dans son genre, jamais sa date. `origine` pour celui

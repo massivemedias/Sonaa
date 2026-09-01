@@ -1073,28 +1073,19 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      Deux colonnes resolvent les deux : la page est occupee sur toute sa
      largeur, et chaque ligne reste dans la plage ou l'on lit sans effort.
      C'est la reponse du journal au meme probleme, et elle a cent ans. */
+  /* UNE SEULE COLONNE, ET UNE LARGEUR BORNEE.
+
+     Les colonnes multiples etaient une reponse a « plus d'espace » : elles
+     occupaient la largeur sans allonger la ligne. Vues a l'ecran, elles
+     hachent la lecture d'un texte de six cents signes, qui n'est pas assez
+     long pour justifier de sauter d'une colonne a l'autre. Le procede vaut
+     pour un article de journal, pas pour un chapeau.
+
+     On revient donc a une colonne, bornee a 68 signes, qui est la largeur ou
+     l'oeil trouve seul le debut de la ligne suivante. */
   .pv-article-section p,
   .pv-description {
-    max-width: none;
-  }
-  /* ON FIXE LA LARGEUR D'UNE COLONNE, PAS LEUR NOMBRE.
-
-     Premiere version : deux colonnes. Mesure sur la fiche House a 1400 px :
-     114 signes par ligne, c'est-a-dire a peine mieux qu'une colonne unique et
-     toujours au-dessus des soixante-quinze ou l'oeil suit sans effort. Deux
-     colonnes de 676 px ne resolvent rien, elles deplacent le probleme.
-
-     Avec une LARGEUR de 27 rem, le navigateur en met autant qu'il peut : trois
-     a 1400 px, soit 435 px et 74 signes par ligne, deux vers 900, une seule
-     en dessous. Le nombre s'ajuste, la ligne ne bouge plus. */
-  .pv-description,
-  .pv-article-section {
-    column-width: 27rem;
-    column-gap: 3rem;
-  }
-  /* Le titre d'une section ne se coupe jamais entre deux colonnes. */
-  .pv-article-titre {
-    column-span: all;
+    max-width: 68ch;
   }
   .pv-article-titre {
     font-size: 1.3125rem;

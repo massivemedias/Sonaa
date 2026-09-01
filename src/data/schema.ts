@@ -74,7 +74,13 @@ const trackSchema = z.strictObject({
   cover: z
     .strictObject({
       url: z.string().url(),
-      source: z.enum(['deezer', 'itunes', 'youtube']),
+      /* DISCOGS EST UNE TROISIEME SOURCE, arrivee apres Deezer et iTunes.
+         Ces deux-la couvrent le catalogue commercial ; Discogs est une base
+         de PRESSAGES, donc la ou vivent les 12 pouces de niche que cet atlas
+         collectionne. La provenance reste enregistree parce que
+         l'interface s'en sert : une vignette YouTube est une capture video et
+         non une pochette, elle est donc ecartee a l'affichage. */
+      source: z.enum(['deezer', 'itunes', 'youtube', 'discogs']),
       local: z.string().startsWith('covers/')
     })
     .optional(),

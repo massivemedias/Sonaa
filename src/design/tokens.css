@@ -77,7 +77,10 @@
      L'ORDINATEUR A UN PIXEL DE PLUS et non l'inverse, ce qui surprend. La
      raison tient a la distance : on tient un telephone a trente centimetres
      et un ecran a soixante. */
-  --texte: 12px;
+  /* REMONTE apres essai a l'ecran : 12 et 13 px, demandes puis vus, etaient
+     trop petits pour du texte suivi. On revient dans la plage ou une colonne
+     se lit sans effort, sans retourner aux 17 px du debut. */
+  --texte: 14px;
 
   /* LA LISTE DE RESULTATS D'UNE RECHERCHE. Deux vues decoupent le meme ecran
      de la meme facon, l'ancienne recherche et Parcourir. La grandeur est
