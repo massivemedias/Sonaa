@@ -469,6 +469,27 @@ export function ParcourirView() {
   );
 }
 
+/* LA MEILLEURE PISTE D'UN GENRE, et non la plus ancienne.
+
+   Le bouton d'ecoute lancait l'index 0, c'est-a-dire le premier de la liste,
+   qui est triee par date : on tombait donc sur le morceau le plus vieux du
+   genre, parfois une curiosite historique de 1981 dont la production a
+   quarante ans. Ce n'est pas ce qu'on veut entendre quand on decouvre un
+   style.
+
+   LE CORPUS SAIT DEJA REPONDRE. Chaque morceau porte un role : `origine` pour
+   celui qui fonde le genre, `canon` pour une reference etablie. On prend donc
+   l'origine si elle existe, la premiere reference sinon, et la premiere piste
+   en dernier recours. Aucun jugement invente : la hierarchie est dans la
+   donnee, il suffisait de la lire. */
+function meilleurIndex(tracks: readonly Track[]): number {
+  const origine = tracks.findIndex((t) => t.role === 'origine');
+  if (origine >= 0) return origine;
+  const canon = tracks.findIndex((t) => t.role === 'canon');
+  if (canon >= 0) return canon;
+  return 0;
+}
+
 /* --- La page d'un genre --------------------------------------------------- */
 
 interface PageGenreProps {
@@ -508,7 +529,7 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
         {tracks.length > 0 ? (
           <button
             className="pv-hero-play"
-            onClick={() => (cetteListe ? basculer() : jouer(tracks, 0, genre.id))}
+            onClick={() => (cetteListe ? basculer() : jouer(tracks, meilleurIndex(tracks), genre.id))}
           >
             <FaIcon icon={lecture.etat === 'joue' && cetteListe ? faPause : faPlay} />
             <span>{lecture.etat === 'joue' && cetteListe ? t.pause : t.ecouter}</span>
@@ -533,6 +554,55 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           La description etait tout en bas, apres la liste : il fallait passer
           douze morceaux pour lire la reponse a la question qui amene ici.
           Elle passe devant, avec les faits qui la completent. */}
+      {/* LES MORCEAUX D'ABORD, LE TEXTE ENSUITE.
+
+          Constate par Mika : il fallait defiler longtemps avant d'atteindre
+          le lecteur. La page suivait l'ordre d'une encyclopedie, description
+          puis photo puis fiche puis article puis musique, alors qu'on arrive
+          ici pour ECOUTER. Six cents signes et une photo separaient
+          l'utilisateur de ce qu'il etait venu chercher.
+
+          La liste remonte donc sous l'en-tete, et tout ce qui se lit passe
+          dessous. Qui vient pour la musique l'a sous la main, qui vient pour
+          le texte defile : c'est le bon sens de l'echange. */}
+      {tracks.length > 0 && (
+        <h3 className="pv-titre-liste">{t.nMorceaux(tracks.length)}</h3>
+      )}
+
+      {tracks.length > 0 && (
+        <ol className="pv-pistes">
+          {tracks.map((tr, i) => {
+            const active = cetteListe && lecture.index === i;
+            return (
+              <li key={tr.id}>
+                <button
+                  className="pv-piste"
+                  data-active={active}
+                  onClick={() => (active ? basculer() : jouer(tracks, i, genre.id))}
+                >
+                  <span className="pv-piste-image">
+                    <Pochette track={tr} hue={famille.hue} taille={48} />
+                    {active && (
+                      <span className="pv-piste-etat" aria-hidden="true">
+                        <FaIcon icon={lecture.etat === 'joue' ? faPause : faPlay} />
+                      </span>
+                    )}
+                  </span>
+                  <span className="pv-piste-texte">
+                    <span className="pv-piste-titre">{tr.title}</span>
+                    <span className="pv-piste-artiste">
+                      {tr.artist}
+                      {tr.year ? ` · ${tr.year}` : ''}
+                      {tr.role === 'origine' ? ` · ${t.origine}` : ''}
+                    </span>
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ol>
+      )}
+
       {t.texteEnFrancais && <p className="pv-langue">{t.texteEnFrancais}</p>}
       {genre.description && <p className="pv-description">{genre.description}</p>}
 
@@ -628,43 +698,6 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
         </dl>
       </section>
 
-      {tracks.length > 0 && (
-        <h3 className="pv-titre-liste">{t.nMorceaux(tracks.length)}</h3>
-      )}
-
-      {tracks.length > 0 && (
-        <ol className="pv-pistes">
-          {tracks.map((tr, i) => {
-            const active = cetteListe && lecture.index === i;
-            return (
-              <li key={tr.id}>
-                <button
-                  className="pv-piste"
-                  data-active={active}
-                  onClick={() => (active ? basculer() : jouer(tracks, i, genre.id))}
-                >
-                  <span className="pv-piste-image">
-                    <Pochette track={tr} hue={famille.hue} taille={48} />
-                    {active && (
-                      <span className="pv-piste-etat" aria-hidden="true">
-                        <FaIcon icon={lecture.etat === 'joue' ? faPause : faPlay} />
-                      </span>
-                    )}
-                  </span>
-                  <span className="pv-piste-texte">
-                    <span className="pv-piste-titre">{tr.title}</span>
-                    <span className="pv-piste-artiste">
-                      {tr.artist}
-                      {tr.year ? ` · ${tr.year}` : ''}
-                      {tr.role === 'origine' ? ` · ${t.origine}` : ''}
-                    </span>
-                  </span>
-                </button>
-              </li>
-            );
-          })}
-        </ol>
-      )}
 
       {enCours && <p className="pv-sr" role="status">{t.lectureEnCours}</p>}
     </>
