@@ -71,17 +71,21 @@
   border-radius: 18px;
   color: var(--ink-primary, oklch(0.92 0.01 250));
   font-size: 0.82rem;
-  /* DEUX PIXELS DE PLUS QUE LE RESTE DU SITE, demande par Mika sur ce bouton.
+  /* UN PIXEL DE PLUS QUE LE RESTE DU SITE, apres deux passes de reglage.
 
-     Il heritait de -1px comme tout le reste, ce qui va pour une etiquette de
-     deux syllabes mais pas pour « mauditemachine » : quatorze lettres sans
-     espace, ou le serrage general fait se toucher les jambages et transforme
-     un nom en bloc. Un mot d'un seul tenant a besoin de l'ecart que les
-     espaces donnent ailleurs.
+     Le bouton heritait de -1px comme tout le reste, ce qui va pour une
+     etiquette de deux syllabes mais pas pour « mauditemachine » : quatorze
+     lettres sans un espace, ou le serrage general fait se toucher les
+     jambages et transforme un nom en bloc. Un mot d'un seul tenant a besoin
+     de l'ecart que les espaces donnent ailleurs.
 
-     Ecrit en absolu et non en `calc(var(--serrage) + 2px)` : la valeur
-     generale peut encore bouger, et ce bouton ne doit pas la suivre. */
-  letter-spacing: 1px;
+     Pose a +2, puis ramene a +1 : a deux, les lettres se detachaient au point
+     que le nom se lisait comme un sigle. Zero est le point ou il redevient un
+     mot sans redevenir un bloc.
+
+     Ecrit en absolu et non en `calc(var(--serrage) + 1px)` : la valeur
+     generale peut encore bouger, ce bouton ne doit pas la suivre. */
+  letter-spacing: 0;
   cursor: pointer;
 }
 
