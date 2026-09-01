@@ -1195,6 +1195,41 @@
       "format": "Vinyl, 12\", 45 RPM"
      },
      "role": "canon"
+    },
+    {
+     "youtubeId": "5R5X_M_7zZk",
+     "artist": "Koto",
+     "title": "Jabdah",
+     "year": 1986,
+     "verified": true
+    },
+    {
+     "youtubeId": "ld8rExlZpHs",
+     "artist": "Laserdance",
+     "title": "Goody's Return",
+     "year": 1987,
+     "verified": true
+    },
+    {
+     "youtubeId": "QQp9g6drUTM",
+     "artist": "Proxyon",
+     "title": "Space Hopper",
+     "year": 1988,
+     "verified": true
+    },
+    {
+     "youtubeId": "NvyzI8g4NUc",
+     "artist": "Hypnosis",
+     "title": "Pulstar",
+     "year": 1983,
+     "verified": true
+    },
+    {
+     "youtubeId": "T_Xjss0PX9g",
+     "artist": "Cyber People",
+     "title": "Void Vision",
+     "year": 1985,
+     "verified": true
     }
    ],
    "aliases": [
@@ -5973,6 +6008,13 @@
      "year": 2003,
      "verified": true,
      "role": "canon"
+    },
+    {
+     "youtubeId": "B84Kd5i7vic",
+     "artist": "Chris Liebing",
+     "title": "The Real Schranz",
+     "year": 1999,
+     "verified": true
     }
    ],
    "aliases": [
@@ -12477,6 +12519,48 @@
       "format": "CD, Maxi-Single, Stereo"
      },
      "role": "canon"
+    },
+    {
+     "youtubeId": "aV69I6-2G0o",
+     "artist": "Confetti's",
+     "title": "The Sound Of C",
+     "year": 1988,
+     "verified": true
+    },
+    {
+     "youtubeId": "vmDAB-xv8c8",
+     "artist": "Zsa Zsa La Boum",
+     "title": "Something Scary",
+     "year": 1987,
+     "verified": true
+    },
+    {
+     "youtubeId": "QrD7bhPg4-A",
+     "artist": "Erotic Dissidents",
+     "title": "Move Your Ass And Feel The Beat",
+     "year": 1987,
+     "verified": true
+    },
+    {
+     "youtubeId": "K64SQFa8hHk",
+     "artist": "Lords Of Acid",
+     "title": "I Sit On Acid",
+     "year": 1988,
+     "verified": true
+    },
+    {
+     "youtubeId": "rGDeK0SBOzs",
+     "artist": "Amnesia",
+     "title": "Ibiza",
+     "year": 1988,
+     "verified": true
+    },
+    {
+     "youtubeId": "XAhl3YrZSCk",
+     "artist": "Snowy Red",
+     "title": "Euroshima (Wardance)",
+     "year": 1982,
+     "verified": true
     }
    ],
    "aliases": [
@@ -13376,7 +13460,10 @@
       "year": 1957,
       "format": "Vinyl, LP, Promo"
      },
-     "role": "canon"
+     "role": "canon",
+     "shared": [
+      "electroacoustic"
+     ]
     },
     {
      "youtubeId": "N9pOq8u6-bA",
@@ -13396,7 +13483,10 @@
       "year": 1958,
       "format": "Vinyl, LP, Compilation"
      },
-     "role": "canon"
+     "role": "canon",
+     "shared": [
+      "electroacoustic"
+     ]
     },
     {
      "youtubeId": "dud4D6PeHqQ",
@@ -13585,6 +13675,40 @@
       "format": "CD, Compilation, Stereo"
      },
      "role": "canon"
+    },
+    {
+     "youtubeId": "N9pOq8u6-bA",
+     "artist": "Pierre Schaeffer",
+     "title": "Etude Aux Chemins De Fer",
+     "year": 1948,
+     "verified": true,
+     "shared": [
+      "musiqueconcrete"
+     ]
+    },
+    {
+     "youtubeId": "-HBMvmJQzcY",
+     "artist": "Pierre Schaeffer & Pierre Henry",
+     "title": "Symphonie Pour Un Homme Seul",
+     "year": 1950,
+     "verified": true,
+     "shared": [
+      "musiqueconcrete"
+     ]
+    },
+    {
+     "youtubeId": "-uIvzVgk16c",
+     "artist": "Luciano Berio",
+     "title": "Thema (Omaggio A Joyce)",
+     "year": 1958,
+     "verified": true
+    },
+    {
+     "youtubeId": "Sk86s3v-iLA",
+     "artist": "Bernard Parmegiani",
+     "title": "De Natura Sonorum",
+     "year": 1975,
+     "verified": true
     }
    ],
    "description": "La formalisation académique de l'expérimentation sonore : studios institutionnels de Cologne à Bruxelles, synthèse et bande, spatialisation, partitions de sons. Stockhausen y invente des mondes, Xenakis y applique les mathématiques. C'est le laboratoire théorique dont la musique électronique populaire a hérité les outils sans toujours connaître les noms.",
@@ -14795,7 +14919,10 @@
       "local": "covers/wbCrYBWh62Y.jpg"
      },
      "album": "King Tubbys Meets Rockers Uptown",
-     "role": "canon"
+     "role": "canon",
+     "shared": [
+      "reggae"
+     ]
     },
     {
      "youtubeId": "I3mTbw1p-v8",
@@ -15407,6 +15534,51 @@
       "format": "Vinyl, LP, Album"
      },
      "role": "canon"
+    },
+    {
+     "youtubeId": "0wSXTN2EfRo",
+     "artist": "Desmond Dekker & The Aces",
+     "title": "Israelites",
+     "year": 1968,
+     "verified": true
+    },
+    {
+     "youtubeId": "UE3qYbB_7-E",
+     "artist": "The Abyssinians",
+     "title": "Satta Massagana",
+     "year": 1969,
+     "verified": true
+    },
+    {
+     "youtubeId": "wbCrYBWh62Y",
+     "artist": "Augustus Pablo",
+     "title": "King Tubby Meets Rockers Uptown",
+     "year": 1976,
+     "verified": true,
+     "shared": [
+      "dub"
+     ]
+    },
+    {
+     "youtubeId": "A3PjURr7lb4",
+     "artist": "Culture",
+     "title": "Two Sevens Clash",
+     "year": 1977,
+     "verified": true
+    },
+    {
+     "youtubeId": "PvheubKIJz8",
+     "artist": "Gregory Isaacs",
+     "title": "Night Nurse",
+     "year": 1982,
+     "verified": true
+    },
+    {
+     "youtubeId": "mFTxmDy74LI",
+     "artist": "The Congos",
+     "title": "Fisherman",
+     "year": 1977,
+     "verified": true
     }
    ],
    "yearStart": 1968
@@ -16007,7 +16179,10 @@
       "year": 1994,
       "format": "CD, Single, Promo"
      },
-     "role": "canon"
+     "role": "canon",
+     "shared": [
+      "raggajungle"
+     ]
     },
     {
      "youtubeId": "7Fm2V20gZhM",
@@ -16027,7 +16202,10 @@
       "year": 1994,
       "format": "CD, Single"
      },
-     "role": "canon"
+     "role": "canon",
+     "shared": [
+      "raggajungle"
+     ]
     },
     {
      "youtubeId": "GGU7Hq9sj_c",
@@ -16222,7 +16400,10 @@
       "year": 1997,
       "format": "CD, Album"
      },
-     "role": "canon"
+     "role": "canon",
+     "shared": [
+      "bristolsound"
+     ]
     },
     {
      "youtubeId": "CK9xc0P9EfU",
@@ -17357,6 +17538,40 @@
       "format": "CDr, Album"
      },
      "role": "canon"
+    },
+    {
+     "youtubeId": "3QMiCBJ7yRM",
+     "artist": "Shy FX & UK Apache",
+     "title": "Original Nuttah",
+     "year": 1994,
+     "verified": true,
+     "shared": [
+      "jungle"
+     ]
+    },
+    {
+     "youtubeId": "7Fm2V20gZhM",
+     "artist": "M-Beat feat. General Levy",
+     "title": "Incredible",
+     "year": 1994,
+     "verified": true,
+     "shared": [
+      "jungle"
+     ]
+    },
+    {
+     "youtubeId": "VlgHgCwzgOA",
+     "artist": "Remarc",
+     "title": "R.I.P.",
+     "year": 1995,
+     "verified": true
+    },
+    {
+     "youtubeId": "5-s32ESIR-4",
+     "artist": "Deekline",
+     "title": "I Don't Smoke",
+     "year": 1999,
+     "verified": true
     }
    ],
    "description": "La jungle au micro : voix dancehall et reggae, basses de sound system, culture jamaïcaine de Londres assumée en première ligne. 1994-1996 en âge d'or, avec Congo Natty en gardien de la flamme depuis. C'est la jungle la plus directement héritière du dub, et la plus festive.",
@@ -18253,6 +18468,34 @@
      "year": 2003,
      "verified": true,
      "role": "canon"
+    },
+    {
+     "youtubeId": "ZuAA6pBOTPE",
+     "artist": "Krafty Kuts",
+     "title": "Bass Phenomenon",
+     "year": 2003,
+     "verified": true
+    },
+    {
+     "youtubeId": "4QfM4IuulA0",
+     "artist": "Meat Katie",
+     "title": "The Tension",
+     "year": 2009,
+     "verified": true
+    },
+    {
+     "youtubeId": "zaeJ3qJByiE",
+     "artist": "General Midi",
+     "title": "When I Rock",
+     "year": 2004,
+     "verified": true
+    },
+    {
+     "youtubeId": "WHG3vxBAdhU",
+     "artist": "Koma & Bones",
+     "title": "Slalom",
+     "year": 2001,
+     "verified": true
     }
    ],
    "description": "Le breakbeat repris en main à la fin des années 1990 : tempo house, basses electro tendues, production précise, ni la nostalgie rave ni la lourdeur big beat. Adam Freeland et Rennie Pilgrem en codifient le son, la scène tient les clubs anglais et australiens jusqu'au milieu des années 2000. Sa basse synthétique annonce le dubstep mélodique et l'electro-house.",
@@ -18560,6 +18803,27 @@
      "year": 2000,
      "verified": true,
      "role": "canon"
+    },
+    {
+     "youtubeId": "b7Rqs_8wf70",
+     "artist": "DJ Icey",
+     "title": "Generate",
+     "year": 1998,
+     "verified": true
+    },
+    {
+     "youtubeId": "V9HnILLWQhQ",
+     "artist": "Rabbit In The Moon",
+     "title": "Floori.D.A.",
+     "year": 1993,
+     "verified": true
+    },
+    {
+     "youtubeId": "kpHMNV7lLkI",
+     "artist": "Dynamix II",
+     "title": "Techno Bass",
+     "year": 1993,
+     "verified": true
     }
    ],
    "description": "La Floride des années 1990 : l'electro de Miami croisée aux raves, breaks funky à 130-140, basses 808 rondes, euphorie de plage. Orlando et Tampa en font une culture régionale complète, DJ Icey en héros local. Peu exportée mais durable chez elle, c'est l'école américaine du breakbeat de club.",
@@ -22813,6 +23077,41 @@
      "year": 1988,
      "verified": true,
      "role": "canon"
+    },
+    {
+     "youtubeId": "tpGZPzCcQ9c",
+     "artist": "Uncle Jamm's Army",
+     "title": "Dial-A-Freak",
+     "year": 1983,
+     "verified": true
+    },
+    {
+     "youtubeId": "T_O9VJA_rJA",
+     "artist": "The Unknown DJ",
+     "title": "Basstronic",
+     "year": 1984,
+     "verified": true
+    },
+    {
+     "youtubeId": "yfeVYNEFzOY",
+     "artist": "Egyptian Lover",
+     "title": "Girls",
+     "year": 1984,
+     "verified": true
+    },
+    {
+     "youtubeId": "FrjWsqrVO5Q",
+     "artist": "World Class Wreckin' Cru",
+     "title": "Juice",
+     "year": 1985,
+     "verified": true
+    },
+    {
+     "youtubeId": "Qf6avddadF8",
+     "artist": "L.A. Dream Team",
+     "title": "The Dream Team Is In The House",
+     "year": 1985,
+     "verified": true
     }
    ],
    "description": "La côte Ouest s'empare de l'electro-funk au milieu des années 1980 : 808 sèche, vocodeurs, rap primesautier, culture des block parties de Los Angeles. Egyptian Lover et le World Class Wreckin' Cru (avec un jeune Dr. Dre) en sont les vedettes. C'est la préhistoire électronique du rap californien, avant que le G-funk ne change de machines.",
@@ -28247,6 +28546,41 @@
       "format": "CD, Album"
      },
      "role": "canon"
+    },
+    {
+     "youtubeId": "uFFDa5NITVU",
+     "artist": "Zoviet France",
+     "title": "Daisy Gun",
+     "year": 1994,
+     "verified": true
+    },
+    {
+     "youtubeId": "KiTG0YyX7mQ",
+     "artist": "Techno Animal",
+     "title": "Self Strangulation",
+     "year": 1994,
+     "verified": true
+    },
+    {
+     "youtubeId": "wXeewk8Jfns",
+     "artist": "Paul Schutze",
+     "title": "Hallucinations",
+     "year": 1994,
+     "verified": true
+    },
+    {
+     "youtubeId": "tt4Nop7uydI",
+     "artist": "Labradford",
+     "title": "Air Lubricated Free Axis Trainer",
+     "year": 1994,
+     "verified": true
+    },
+    {
+     "youtubeId": "KCK9T0OulqU",
+     "artist": "Thomas Koner",
+     "title": "Kanon",
+     "year": 1994,
+     "verified": true
     }
    ],
    "description": "L'étiquette britannique de 1994, forgée autour d'une compilation Virgin : l'ambient hostile des marges du metal, de l'indus et du dub, drones gelés, espaces vides, refus du confort new age. Thomas Köner et Lull (Mick Harris) en sont les pôles. Le mot a peu survécu, la sensibilité a essaimé dans tout l'ambient sombre actuel.",
@@ -29600,6 +29934,34 @@
       "format": "Betacam SP, Advance, PAL"
      },
      "role": "canon"
+    },
+    {
+     "youtubeId": "TZ827lkktYs",
+     "artist": "Aphex Twin",
+     "title": "Come To Daddy",
+     "year": 1997,
+     "verified": true
+    },
+    {
+     "youtubeId": "ebmvQAEQ-ws",
+     "artist": "µ-Ziq",
+     "title": "Lunatic Harness",
+     "year": 1997,
+     "verified": true
+    },
+    {
+     "youtubeId": "ERV7P6A-lP4",
+     "artist": "Bogdan Raczynski",
+     "title": "Death To The Natives",
+     "year": 1998,
+     "verified": true
+    },
+    {
+     "youtubeId": "SqjZUyUtqYs",
+     "artist": "Squarepusher",
+     "title": "My Red Hot Car",
+     "year": 2001,
+     "verified": true
     }
    ],
    "description": "Le contre-nom inventé par Rephlex, le label d'Aphex Twin et Grant Wilson-Claridge, pour rire de l'étiquette IDM : la musique qui fait danser le cerveau. Acid tordu, electro farceuse, mélodies naïves et breaks savants, l'esprit maison plus qu'un style strict. Le terme a survécu au label et désigne aujourd'hui toute la lignée acid-IDM joueuse.",
@@ -30091,7 +30453,10 @@
       "year": 1991,
       "format": "Vinyl, LP, Album"
      },
-     "role": "canon"
+     "role": "canon",
+     "shared": [
+      "bristolsound"
+     ]
     },
     {
      "youtubeId": "4qQyUi4zfDs",
@@ -30111,7 +30476,10 @@
       "year": 1993,
       "format": "Cassette, Single Sided, Advance"
      },
-     "role": "canon"
+     "role": "canon",
+     "shared": [
+      "bristolsound"
+     ]
     },
     {
      "youtubeId": "25y3cMC9i94",
@@ -30131,7 +30499,10 @@
       "year": 1993,
       "format": "Vinyl, 12\", 33 ⅓ RPM"
      },
-     "role": "canon"
+     "role": "canon",
+     "shared": [
+      "bristolsound"
+     ]
     },
     {
      "youtubeId": "2eBZqmL8ehg",
@@ -30360,6 +30731,53 @@
       "format": "Vinyl, LP, Compilation"
      },
      "role": "canon"
+    },
+    {
+     "youtubeId": "V9Iv9eReMug",
+     "artist": "Smith & Mighty",
+     "title": "Anyone (Who Had A Heart)",
+     "year": 1988,
+     "verified": true
+    },
+    {
+     "youtubeId": "ZWmrfgj0MZI",
+     "artist": "Massive Attack",
+     "title": "Unfinished Sympathy",
+     "year": 1991,
+     "verified": true,
+     "shared": [
+      "triphop"
+     ]
+    },
+    {
+     "youtubeId": "25y3cMC9i94",
+     "artist": "Tricky",
+     "title": "Aftermath",
+     "year": 1994,
+     "verified": true,
+     "shared": [
+      "triphop"
+     ]
+    },
+    {
+     "youtubeId": "4qQyUi4zfDs",
+     "artist": "Portishead",
+     "title": "Glory Box",
+     "year": 1994,
+     "verified": true,
+     "shared": [
+      "triphop"
+     ]
+    },
+    {
+     "youtubeId": "cwI0gbGEyuI",
+     "artist": "Roni Size & Reprazent",
+     "title": "Brown Paper Bag",
+     "year": 1997,
+     "verified": true,
+     "shared": [
+      "drumandbass"
+     ]
     }
    ],
    "description": "La racine locale du trip-hop : le collectif Wild Bunch dans les années 1980, sound systems, dub, punk et soul dans la même ville portuaire. Smith & Mighty en posent les premières traductions discographiques, Massive Attack en sortira. Ce noeud documente la scène-mère, celle d'avant le mot trip-hop, quand Bristol inventait sa lenteur.",

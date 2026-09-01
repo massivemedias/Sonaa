@@ -1,110 +1,141 @@
-# Lot 3 : les trous trouves par la passe sur les 219 listes
+# Propositions d'ajouts, lot 1
 
-Choix fait a la main dans le classement Last.fm, genre par genre. Le
-classement a servi a TROUVER, pas a decider : Charli xcx sort premiere en
-french house et LE SSERAFIM en hardstyle, ce sont des etiquettes posees par
-des auditeurs, pas des morceaux du genre. On garde ce qui appartient
-reellement au genre et on jette le reste.
+Huit genres parmi les vingt-deux qui n'ont que cinq morceaux. Rien n'est
+charge : ce fichier est une PROPOSITION, a valider ligne par ligne.
 
-Colonne `role` vide : l'origine releve du jugement de Mika.
+La colonne `role` est laissee VIDE partout. Le role `origine` releve du
+jugement de Mika, pas d'une regle : aucune source ne peut decider a sa place
+quel disque fonde un genre. Les candidats sont listes a part, en prose.
 
-CINQ LIGNES ONT ETE RETIREES DE CE LOT parce qu'elles n'etaient pas des
-manques. Stardust « Music Sounds Better With You » est dans Disco House,
-Mr. Fingers « Can You Feel It » dans Deep House, Adonis « No Way Back » dans
-Acid House, Emmanuel Top « Acid Phase » dans Acid Techno, Veracocha « Carte
-Blanche » dans Trance. Les ajouter au genre voisin serait declarer un
-PARTAGE, ce qui est une decision editoriale et non un ajout. A trancher a
-part.
+Les identifiants de video ne figurent pas ici et ne figureront jamais : le
+script cherche lui-meme et verifie. Une ligne qu'il ne retrouve pas est
+rejetee et reportee, elle n'est pas approximee.
 
-## `frenchhouse`
+## `newbeat`
 
-| artiste | titre | annee | role | partage |
-|---|---|---|---|---|
-| Daft Punk | Revolution 909 | 1997 |  |  |
+| artiste | titre | annee | role |
+|---|---|---|---|
+| Confetti's | The Sound Of C | 1988 |  |
+| Zsa Zsa La Boum | Something Scary | 1987 |  |
+| Erotic Dissidents | Move Your Ass And Feel The Beat | 1987 |  |
+| Lords Of Acid | I Sit On Acid | 1988 |  |
+| Amnesia | Ibiza | 1988 |  |
+| Snowy Red | Euroshima (Wardance) | 1982 |  |
 
-## `chicagohouse`
-
-| artiste | titre | annee | role | partage |
-|---|---|---|---|---|
-| Frankie Knuckles | Baby Wants To Ride | 1987 |  |  |
-| Mr. Fingers | Mystery Of Love | 1985 |  |  |
-| Paul Johnson | Hear The Music | 1999 |  |  |
-
-## `detroittechno`
+## `bristolsound`
 
 | artiste | titre | annee | role | partage |
 |---|---|---|---|---|
-| Jeff Mills | The Bells | 1997 |  |  |
-| Galaxy 2 Galaxy | Hi-Tech Jazz | 1993 |  |  |
-| Carl Craig | At Les | 1997 |  |  |
-| Kenny Larkin | Tedra | 1995 |  |  |
-| The Aztec Mystic | Jaguar | 1999 |  |  |
+| Smith & Mighty | Anyone (Who Had A Heart) | 1988 |  |  |
+| Massive Attack | Unfinished Sympathy | 1991 |  | triphop |
+| Tricky | Aftermath | 1994 |  | triphop |
+| Portishead | Glory Box | 1994 |  | triphop |
+| Roni Size & Reprazent | Brown Paper Bag | 1997 |  | drumandbass |
 
-## `goatrance`
+## `braindance`
 
-| artiste | titre | annee | role | partage |
-|---|---|---|---|---|
-| Astral Projection | Nilaya | 1996 |  |  |
-| Juno Reactor | God Is God | 1997 |  |  |
-| Pleiadians | Alcyone | 1997 |  |  |
-| The Muses Rapt | Spiritual Healing | 1993 |  |  |
+| artiste | titre | annee | role |
+|---|---|---|---|
+| Aphex Twin | Come To Daddy | 1997 |  |
+| µ-Ziq | Lunatic Harness | 1997 |  |
+| Bogdan Raczynski | Death To The Natives | 1998 |  |
+| Squarepusher | My Red Hot Car | 2001 |  |
 
-## `hardstyle`
+## `schranz`
 
-| artiste | titre | annee | role | partage |
-|---|---|---|---|---|
-| Headhunterz | The Power Of The Mind | 2007 |  |  |
-| Technoboy | Ti Sento | 2007 |  |  |
-| D-Block & S-te-Fan | Music Made Addict | 2011 |  |  |
-| Frontliner | Spacer | 2010 |  |  |
+| artiste | titre | annee | role |
+|---|---|---|---|
+| Chris Liebing | The Real Schranz | 1999 |  |
 
-## `italodisco`
+## `reggae`
 
 | artiste | titre | annee | role | partage |
 |---|---|---|---|---|
-| Savage | Don't Cry Tonight | 1983 |  |  |
-| Den Harrow | Future Brain | 1985 |  |  |
-| Valerie Dore | The Night | 1984 |  |  |
-| Kano | Another Life | 1983 |  |  |
-| Gazebo | Masterpiece | 1983 |  |  |
-| The Flirts | Passion | 1982 |  |  |
+| Desmond Dekker & The Aces | Israelites | 1968 |  |  |
+| The Abyssinians | Satta Massagana | 1969 |  |  |
+| Augustus Pablo | King Tubby Meets Rockers Uptown | 1976 |  | dub |
+| Culture | Two Sevens Clash | 1977 |  |  |
+| Gregory Isaacs | Night Nurse | 1982 |  |  |
+| The Congos | Fisherman | 1977 |  |  |
 
-## `acidtrance`
-
-| artiste | titre | annee | role | partage |
-|---|---|---|---|---|
-| Hardfloor | Trancescript | 1993 |  |  |
-| Union Jack | Cactus | 1994 |  |  |
-| Art Of Trance | Octopus | 1995 |  |  |
-
-## `breakbeathardcore`
+## `electroacoustic`
 
 | artiste | titre | annee | role | partage |
 |---|---|---|---|---|
-| The Prodigy | Everybody In The Place | 1991 |  |  |
-| Acen | Trip II The Moon | 1992 |  |  |
-| SL2 | DJs Take Control | 1991 |  |  |
+| Pierre Schaeffer | Etude Aux Chemins De Fer | 1948 |  | musiqueconcrete |
+| Pierre Schaeffer & Pierre Henry | Symphonie Pour Un Homme Seul | 1950 |  | musiqueconcrete |
+| Luciano Berio | Thema (Omaggio A Joyce) | 1958 |  |  |
+| Bernard Parmegiani | De Natura Sonorum | 1975 |  |  |
 
-## `bigbeat`
+## `electrohop`
 
-| artiste | titre | annee | role | partage |
-|---|---|---|---|---|
-| Fatboy Slim | Right Here Right Now | 1998 |  |  |
-| Fatboy Slim | Praise You | 1998 |  |  |
-| The Prodigy | Diesel Power | 1997 |  |  |
+| artiste | titre | annee | role |
+|---|---|---|---|
+| Uncle Jamm's Army | Dial-A-Freak | 1983 |  |
+| The Unknown DJ | Basstronic | 1984 |  |
+| Egyptian Lover | Girls | 1984 |  |
+| World Class Wreckin' Cru | Juice | 1985 |  |
+| L.A. Dream Team | The Dream Team Is In The House | 1985 |  |
 
-## `triphop`
-
-| artiste | titre | annee | role | partage |
-|---|---|---|---|---|
-| Massive Attack | Angel | 1998 |  |  |
-| Massive Attack | Risingson | 1997 |  |  |
-| Massive Attack | Inertia Creeps | 1998 |  |  |
-| Portishead | Roads | 1994 |  |  |
-
-## `upliftingtrance`
+## `raggajungle`
 
 | artiste | titre | annee | role | partage |
 |---|---|---|---|---|
-| Gaia | Tuvan | 2009 |  |  |
-| Armin van Buuren | Coming Home | 2010 |  |  |
+| Shy FX & UK Apache | Original Nuttah | 1994 |  | jungle |
+| M-Beat feat. General Levy | Incredible | 1994 |  | jungle |
+| Remarc | R.I.P. | 1995 |  |  |
+| Deekline | I Don't Smoke | 1999 |  |  |
+# Propositions d'ajouts, lot 2
+
+Quatre genres de plus, parmi les vingt-deux a cinq morceaux. Rien n'est
+charge. Colonne `role` vide partout : l'origine releve du jugement de Mika.
+
+SIX LIGNES ONT ETE CORRIGEES PAR LE REFUS LUI-MEME. Le rapport de rejet
+donne ce que YouTube proposait, et les chaines officielles des artistes y
+disent le vrai titre : Meat Katie c'est « The Tension » et non « Sensitive »,
+General Midi « When I Rock » et non « Rock Star », Koma & Bones « Slalom »,
+Rabbit In The Moon « Floori.D.A. » et non « Floret ». Quatre lignes venaient
+de ma memoire et etaient fausses. Quatre autres ont ete retirees faute de
+source : Rennie Pilgrem, Elite Force, DJ Icey « Ninety », Baby Anne, Rygar,
+et Final « Hide », pour lequel aucun candidat n'est meme apparu.
+
+## `nuskoolbreaks`
+
+| artiste | titre | annee | role | partage |
+|---|---|---|---|---|
+| Krafty Kuts | Bass Phenomenon | 2003 |  |  |
+| Meat Katie | The Tension | 2009 |  |  |
+| General Midi | When I Rock | 2004 |  |  |
+| Koma & Bones | Slalom | 2001 |  |  |
+
+## `isolationism`
+
+Liste tiree de la compilation qui a nomme le genre, Ambient 4: Isolationism,
+Virgin 1994, compilee par Kevin Martin. Les morceaux deja presents dans le
+corpus, Scorn, Main, Lull, ne sont pas repris.
+
+| artiste | titre | annee | role | partage |
+|---|---|---|---|---|
+| Zoviet France | Daisy Gun | 1994 |  |  |
+| Techno Animal | Self Strangulation | 1994 |  |  |
+| Paul Schutze | Hallucinations | 1994 |  |  |
+| Labradford | Air Lubricated Free Axis Trainer | 1994 |  |  |
+| Thomas Koner | Kanon | 1994 |  |  |
+
+## `floridabreaks`
+
+| artiste | titre | annee | role | partage |
+|---|---|---|---|---|
+| DJ Icey | Generate | 1998 |  |  |
+| Rabbit In The Moon | Floori.D.A. | 1993 |  |  |
+| Dynamix II | Techno Bass | 1993 |  |  |
+
+## `spacesynth`
+
+| artiste | titre | annee | role | partage |
+|---|---|---|---|---|
+| Koto | Jabdah | 1986 |  |  |
+| Laserdance | Goody's Return | 1987 |  |  |
+| Proxyon | Space Hopper | 1988 |  |  |
+| Hypnosis | Pulstar | 1983 |  |  |
+| Cyber People | Void Vision | 1985 |  |  |
