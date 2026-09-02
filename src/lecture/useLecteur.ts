@@ -538,6 +538,86 @@ export function useLecteur({ precharger }: Options) {
     return () => window.clearInterval(id);
   }, [lecture.listeId, lecture.index]);
 
+  /* L'etat courant, lisible par les rappels du systeme sans les recreer a
+     chaque seconde : les reattacher a chaque changement de position ferait
+     huit ecritures par seconde dans la session multimedia. */
+  const lectureRef = useRef(lecture);
+  lectureRef.current = lecture;
+
+  /* --- REPRENDRE LA SESSION MULTIMEDIA A L'IFRAME ------------------------- */
+
+  /* POURQUOI LES TOUCHES DU MAC NE MARCHAIENT PAS, ET CE QUE CE SILENCE COUTE.
+
+     Declarer les commandes ne suffisait pas, et Mika l'a constate : les
+     touches restaient sans effet. La raison est que le son ne sort pas de
+     notre page mais d'une iframe YouTube, qui declare SA propre session
+     multimedia. Le systeme envoie donc la touche a YouTube, qui ne connait ni
+     notre liste ni notre morceau suivant, et il ne se passe rien.
+
+     ON REPREND LA SESSION avec un element audio silencieux joue par la page
+     elle-meme. C'est un procede connu et un peu brutal, mais il n'y a pas
+     d'autre porte : la propriete de la session appartient a qui joue du son,
+     et il faut donc jouer du son.
+
+     LE SILENCE EST UN VRAI FICHIER, une seconde de rien en WAV, pose en ligne
+     dans le code plutot que servi : quelques centaines d'octets valent mieux
+     qu'une requete reseau qui peut echouer.
+
+     IL NE DEMARRE QU'AVEC LA LECTURE et s'arrete avec elle. Le laisser tourner
+     en permanence ferait apparaitre SONAA dans le centre de controle du Mac
+     alors que rien ne joue, ce qui est pire que le defaut qu'on repare. */
+  const silence = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    if (lecture.listeId === null) {
+      silence.current?.pause();
+      return;
+    }
+    if (!silence.current) {
+      /* Une seconde de silence, 8 kHz mono : l'entete WAV suivi de zeros. */
+      const octets = 8000;
+      const buf = new Uint8Array(44 + octets);
+      const vue = new DataView(buf.buffer);
+      const txt = (o: number, t: string): void => {
+        for (let i = 0; i < t.length; i += 1) vue.setUint8(o + i, t.charCodeAt(i));
+      };
+      txt(0, 'RIFF');
+      vue.setUint32(4, 36 + octets, true);
+      txt(8, 'WAVEfmt ');
+      vue.setUint32(16, 16, true);
+      vue.setUint16(20, 1, true);
+      vue.setUint16(22, 1, true);
+      vue.setUint32(24, 8000, true);
+      vue.setUint32(28, 8000, true);
+      vue.setUint16(32, 1, true);
+      vue.setUint16(34, 8, true);
+      txt(36, 'data');
+      vue.setUint32(40, octets, true);
+      buf.fill(128, 44);
+      const a = new Audio(URL.createObjectURL(new Blob([buf], { type: 'audio/wav' })));
+      a.loop = true;
+      a.volume = 0;
+      /* ATTACHE AU DOCUMENT, alors qu'un element audio detache jouerait tout
+         aussi bien. La raison n'est pas technique, elle est de verification :
+         detache, il est invisible a l'inspection et on ne peut pas dire s'il
+         joue. Ma premiere sonde a d'ailleurs conclu « aucun audio » alors que
+         le code etait bon. Ce qu'on ne peut pas observer, on ne peut pas le
+         corriger. */
+      a.setAttribute('data-role', 'silence-session');
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      silence.current = a;
+    }
+    void silence.current.play().catch(() => {
+      /* Refuse faute de geste : la lecture YouTube vient d'un appui, donc le
+         geste existe. Si le navigateur refuse quand meme, on perd les touches
+         mais rien d'autre. */
+    });
+    return () => {
+      silence.current?.pause();
+    };
+  }, [lecture.listeId]);
+
   /* --- LES TOUCHES MULTIMEDIA DU CLAVIER --------------------------------- */
 
   /* CE QUI FAIT MARCHER LES TOUCHES DU MACBOOK, et pourquoi ce n'est pas un
@@ -601,12 +681,6 @@ export function useLecteur({ precharger }: Options) {
       }
     };
   }, [basculer, deplacer, chercher]);
-
-  /* L'etat courant, lisible par les rappels du systeme sans les recreer a
-     chaque seconde : les reattacher a chaque changement de position ferait
-     huit ecritures par seconde dans la session multimedia. */
-  const lectureRef = useRef(lecture);
-  lectureRef.current = lecture;
 
   useEffect(() => {
     const ms = navigator.mediaSession;

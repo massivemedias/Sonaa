@@ -13,3 +13,6 @@ tracks-canon-report.md
 # Reglages locaux de session, pas du code du projet.
 .claude/
 .audit-tracks-cache.json
+
+# Copie locale des cours et references de Mika. 2,3 Go, hors du depot.
+_prof/

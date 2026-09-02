@@ -151,6 +151,30 @@ export function AuthButton() {
      chargement, devant quelqu'un qui EST connecté. */
   if (chargement) return <div className="authb authb-attente" aria-hidden="true" />;
 
+  /* LA RESERVE SUIT LA LARGEUR REELLE DU BOUTON.
+
+     DEFAUT CONSTATE PAR MIKA : la loupe de recherche touchait presque le nom
+     de compte. La cause est une constante : `--authb-l` valait 112 px en dur,
+     alors que le bouton connecte fait 128 px avec « mauditemachine ». La
+     reserve etait donc plus etroite que ce qu'elle devait reserver.
+
+     Une constante ne peut pas couvrir un nom de longueur variable : « Sign
+     in » et un pseudonyme de quatorze lettres n'ont pas la meme largeur, et
+     la police n'est pas la meme selon qu'elle est installee ou remplacee. On
+     MESURE donc, et on republie la valeur a chaque changement de taille. */
+  useEffect(() => {
+    const el = boite.current;
+    if (!el) return;
+    const publier = (): void => {
+      const l = Math.ceil(el.getBoundingClientRect().width);
+      if (l > 0) document.documentElement.style.setProperty('--authb-l', `${l}px`);
+    };
+    publier();
+    const obs = new ResizeObserver(publier);
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [connecte]);
+
   return (
     <div className="authb" ref={boite}>
       {connecte ? (
