@@ -151,28 +151,52 @@ export function AuthButton() {
      chargement, devant quelqu'un qui EST connecté. */
   if (chargement) return <div className="authb authb-attente" aria-hidden="true" />;
 
-  /* LA RESERVE SUIT LA LARGEUR REELLE DU BOUTON.
+  /* LA RESERVE EST UNE POSITION MESUREE, PLUS UNE LARGEUR RECONSTRUITE.
 
-     DEFAUT CONSTATE PAR MIKA : la loupe de recherche touchait presque le nom
-     de compte. La cause est une constante : `--authb-l` valait 112 px en dur,
-     alors que le bouton connecte fait 128 px avec « mauditemachine ». La
-     reserve etait donc plus etroite que ce qu'elle devait reserver.
+     TROISIEME FOIS QUE MIKA SIGNALE LA MEME CHOSE, la loupe collee au nom de
+     compte, et les deux premieres corrections traitaient un symptome.
 
-     Une constante ne peut pas couvrir un nom de longueur variable : « Sign
-     in » et un pseudonyme de quatorze lettres n'ont pas la meme largeur, et
-     la police n'est pas la meme selon qu'elle est installee ou remplacee. On
-     MESURE donc, et on republie la valeur a chaque changement de taille. */
+     D'abord `--authb-l` valait 112 px en dur alors que le bouton connecte en
+     fait 128 : on a mesure la largeur. Le defaut est revenu, a trois pixels
+     cette fois, et la mesure explique pourquoi.
+
+     LE BOUTON N'OCCUPE PAS SEULEMENT SA LARGEUR. Il est en position fixe avec
+     son propre decalage a droite, quatorze pixels plus la colonne du lecteur
+     et la marge de securite de l'ecran. Publier sa largeur obligeait chaque
+     feuille de style a RECONSTRUIRE sa position en ajoutant une marge
+     devinee, `largeur + 0.6rem`. Cette marge devinee etait plus petite que le
+     decalage reel du bouton : la reserve tombait donc a l'interieur de lui, et
+     il ne restait que trois pixels.
+
+     ON PUBLIE DONC LA DISTANCE ENTRE LE BORD DROIT DE LA PAGE ET LE BORD
+     GAUCHE DU BOUTON. Ce seul nombre contient deja la largeur, le decalage,
+     la colonne du lecteur et la marge de securite, sans qu'aucune feuille
+     n'ait a les additionner. `reserve + 0.6rem` redevient ce que ca dit :
+     un espace de 0,6 rem entre la loupe et le bouton.
+
+     clientWidth ET NON innerWidth : innerWidth compte la barre de defilement,
+     que la mise en page ne voit pas. Six pixels d'ecart, soit deux fois le
+     defaut qu'on repare.
+
+     ON ECOUTE AUSSI LE REDIMENSIONNEMENT DE LA FENETRE : le bouton peut garder
+     exactement la meme taille pendant que son bord gauche se deplace, et un
+     observateur de taille ne se declenche alors jamais. */
   useEffect(() => {
     const el = boite.current;
     if (!el) return;
     const publier = (): void => {
-      const l = Math.ceil(el.getBoundingClientRect().width);
-      if (l > 0) document.documentElement.style.setProperty('--authb-l', `${l}px`);
+      const gauche = el.getBoundingClientRect().left;
+      const reserve = Math.ceil(document.documentElement.clientWidth - gauche);
+      if (reserve > 0) document.documentElement.style.setProperty('--authb-reserve', `${reserve}px`);
     };
     publier();
     const obs = new ResizeObserver(publier);
     obs.observe(el);
-    return () => obs.disconnect();
+    window.addEventListener('resize', publier);
+    return () => {
+      obs.disconnect();
+      window.removeEventListener('resize', publier);
+    };
   }, [connecte]);
 
   return (

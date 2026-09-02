@@ -20,7 +20,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.15rem 0.8rem;
-  padding-right: calc(var(--authb-l, 112px) + 0.6rem);
+  padding-right: calc(var(--authb-reserve, 126px) + 0.6rem);
 }
 
 .hm-chrome .sitenav {

@@ -30,7 +30,7 @@
 }
 
 .credits-head {
-  padding-right: calc(var(--authb-l, 112px) + 0.5rem);
+  padding-right: calc(var(--authb-reserve, 126px) + 0.5rem);
 }
 
 .credits-foot {

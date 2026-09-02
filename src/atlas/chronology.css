@@ -18,7 +18,7 @@
   max-width: 1400px;
   margin: 0 auto 1.5rem;
   padding-bottom: 1rem;
-  padding-right: calc(var(--authb-l, 112px) + 0.5rem);
+  padding-right: calc(var(--authb-reserve, 126px) + 0.5rem);
   border-bottom: 1px solid oklch(1 0 0 / 0.1);
 }
 
@@ -412,7 +412,7 @@
   .chrono-header {
     margin-bottom: 0.9rem;
     padding-bottom: 0.75rem;
-    padding-right: calc(var(--authb-l, 112px) + 0.25rem);
+    padding-right: calc(var(--authb-reserve, 126px) + 0.25rem);
   }
 
   .chrono-chrome {

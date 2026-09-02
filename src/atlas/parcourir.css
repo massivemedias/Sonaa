@@ -33,10 +33,34 @@
   box-sizing: border-box;
   min-height: 56px;
   padding: calc(0.5rem + env(safe-area-inset-top, 0px)) 0.75rem 0.5rem;
-  /* LA RESERVE POUR LE BOUTON DE COMPTE, qui est fixe en haut a droite et
-     hors de cette vue. Sans elle, la loupe se range exactement dessous et
-     devient intouchable : constate a l'ecran, pas deduit. */
-  padding-right: calc(var(--authb-l, 112px) + 0.6rem);
+  /* LA LOUPE EST ANCREE, ELLE N'EST PLUS POUSSEE.
+
+     TROIS SIGNALEMENTS POUR LE MEME DEFAUT, et les deux premieres corrections
+     l'ont rendu plus rare sans le rendre impossible. Le mecanisme etait une
+     RESERVE : une marge a droite de l'en-tete, assez large pour que le flux
+     depose la loupe avant le bouton de compte. Mesure de ce mecanisme, sur un
+     ecran de 309 px, en imposant des reserves croissantes :
+
+       reserve  51 px -> ecart 10 px
+       reserve  75 px -> ecart 10 px
+       reserve 133 px -> ecart 10 px   (« mauditemachine »)
+       reserve 178 px -> ecart -9 px
+       reserve 223 px -> ecart -54 px
+
+     Au-dela d'environ 150 px, l'en-tete ne peut plus se comprimer : le logo,
+     le titre et la loupe ont une largeur plancher, la marge deborde, et la
+     loupe repasse SOUS le bouton. Une reserve ne protege donc que tant qu'il
+     reste de la place a lui prendre, ce qui n'est pas une protection.
+
+     L'ancrage, lui, ne depend pas de la place disponible : la loupe est posee
+     en absolu a `reserve + 0.6rem` du bord droit, c'est-a-dire a 0,6 rem du
+     bord gauche du bouton de compte, quelle que soit la longueur du
+     pseudonyme. Le chevauchement devient impossible par construction au lieu
+     d'etre evite par calcul.
+
+     La marge a droite reste, pour que le TITRE ne coule pas sous la loupe. */
+  position: relative;
+  padding-right: calc(var(--authb-reserve, 126px) + 0.6rem + 44px);
   background: oklch(0.14 0.008 260);
   border-bottom: 1px solid oklch(1 0 0 / 0.07);
 }
@@ -57,7 +81,11 @@
   color: oklch(0.16 0.01 250);
 }
 .pv-chercher-bouton {
-  margin-left: auto;
+  /* Ancree au bord droit et non portee par le flux : voir .pv-tete. */
+  position: absolute;
+  right: calc(var(--authb-reserve, 126px) + 0.6rem);
+  top: 50%;
+  transform: translateY(-50%);
   background: oklch(1 0 0 / 0.08);
   color: inherit;
 }
@@ -1188,7 +1216,20 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
     padding-left: max(0.75rem, calc((100vw - 1400px) / 2));
     padding-right: max(0.75rem, calc((100vw - 1400px) / 2));
   }
+  /* SUR GRAND ECRAN LA LOUPE OBEIT A DEUX CONTRAINTES, PAS UNE.
+
+     Mesure a 2000 px : la grille de tuiles s'arretait a 1700, bord droit de
+     la colonne de 1400, et la loupe flottait a 1909, deux cents pixels plus
+     loin, seule dans la marge a cote du bouton de compte. Ancrer sur le
+     bouton suffit a ne pas le chevaucher, mais pas a rester dans la page.
+
+     Le plus grand des deux ecarts satisfait les deux : reste a 0,6 rem du
+     bouton de compte quand l'ecran est etroit, et rejoint le bord de la
+     colonne quand l'ecran est large. */
+  .pv-chercher-bouton {
+    right: max(calc(var(--authb-reserve, 126px) + 0.6rem), calc((100vw - 1400px) / 2));
+  }
   .pv-tete {
-    padding-right: max(calc(var(--authb-l, 112px) + 0.6rem), calc((100vw - 1400px) / 2));
+    padding-right: max(calc(var(--authb-reserve, 126px) + 0.6rem + 44px), calc((100vw - 1400px) / 2 + 44px));
   }
 }

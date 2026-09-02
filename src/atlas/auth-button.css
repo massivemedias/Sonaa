@@ -18,15 +18,18 @@
      L'initiale, elle, est complete : c'est un signe entier, pas un morceau de
      mot. Le nom entier vit dans le menu, ou la place ne manque pas. Et les
      trente-deux pixels rendus vont au chemin de navigation. */
-  /* LA RESERVE COUVRE LE CAS LE PLUS LARGE, pas le cas courant.
+  /* LA VALEUR DE DEPART, LE TEMPS QUE LA MESURE ARRIVE.
 
-     DEFAUT ATTRAPE PAR LA MESURE : reservee a 88 px alors que « Se connecter »
-     en fait 108, la loupe passait SOUS le bouton. Une reserve calculee sur un
-     seul des deux etats du bouton n'est pas une reserve.
+     Ce n'est PAS une largeur de bouton mais la distance entre le bord droit
+     de la page et le bord gauche du bouton : elle contient donc aussi le
+     decalage de quatorze pixels et la marge de securite de l'ecran. Elle est
+     remplacee par la mesure reelle des le premier rendu de AuthButton, et ne
+     sert qu'a eviter que la loupe saute pendant ce court instant.
 
-     Connecte, le bouton n'est qu'un rond de 44 et la place rendue va au fil
-     d'Ariane, qui n'en a plus besoin depuis qu'il fusionne ses segments. */
-  --authb-l: 112px;
+     Elle couvre le cas le plus large des deux etats, « Se connecter » et non
+     le rond de 44 : une reserve calculee sur un seul etat n'est pas une
+     reserve. */
+  --authb-reserve: 126px;
 }
 
 .authb {
@@ -71,21 +74,28 @@
   border-radius: 18px;
   color: var(--ink-primary, oklch(0.92 0.01 250));
   font-size: 0.82rem;
-  /* UN PIXEL DE PLUS QUE LE RESTE DU SITE, apres deux passes de reglage.
-
-     Le bouton heritait de -1px comme tout le reste, ce qui va pour une
-     etiquette de deux syllabes mais pas pour « mauditemachine » : quatorze
-     lettres sans un espace, ou le serrage general fait se toucher les
-     jambages et transforme un nom en bloc. Un mot d'un seul tenant a besoin
-     de l'ecart que les espaces donnent ailleurs.
-
-     Pose a +2, puis ramene a +1 : a deux, les lettres se detachaient au point
-     que le nom se lisait comme un sigle. Zero est le point ou il redevient un
-     mot sans redevenir un bloc.
-
-     Ecrit en absolu et non en `calc(var(--serrage) + 1px)` : la valeur
-     generale peut encore bouger, ce bouton ne doit pas la suivre. */
+  /* Ce bouton a porte une exception de serrage, le temps ou la valeur
+     generale etait de -1px et collait les jambages de « mauditemachine ».
+     A -0,3 px l'exception n'a plus d'objet : il suit le jeton commun. */
   letter-spacing: var(--serrage);
+
+  /* LE NOM NE PEUT PAS MANGER L'EN-TETE.
+
+     DERNIER VERROU DE LA MEME AFFAIRE. La loupe est desormais ancree a
+     0,6 rem du bord gauche de ce bouton, donc elle ne le chevauche plus quelle
+     que soit sa largeur. Mais rien n'empechait ce bouton de grandir sans fin :
+     mesure sur un ecran de 360 px, un pseudonyme de vingt-deux caracteres
+     occupait 215 px, soit soixante pour cent de la largeur, et l'en-tete
+     n'avait plus de place pour le reste.
+
+     La coupure vaut mieux que l'envahissement : on lit « massivemedias-mon... »
+     et le site reste utilisable. La borne suit la largeur de l'ecran plutot
+     que d'etre un nombre fixe, pour ne pas couper sur grand ecran ce qui y
+     tient sans peine. */
+  max-width: min(220px, 42vw);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   cursor: pointer;
 }
 

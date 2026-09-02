@@ -93,7 +93,7 @@
      Elle lit la meme grandeur nommee que le bouton de compte, plus la loupe
      et les ecarts. Deux ecritures d'un meme nombre finissent par diverger. */
   /* DOUZE PIXELS FRANCS AVANT LA LOUPE, en plus de la loupe et du compte. */
-  margin-right: calc(var(--authb-l, 96px) + 44px + 36px + env(safe-area-inset-right, 0px));
+  margin-right: calc(var(--authb-reserve, 110px) + 44px + 36px + env(safe-area-inset-right, 0px));
   /* IL NE DEFILE PLUS, IL TRONQUE. Le defilement lateral laissait le dernier
      segment coupe en plein milieu d'un mot, « DOWNT » pour Downtempo, sans
      aucune marque disant qu'il manquait quelque chose. Un texte coupe net se
@@ -401,7 +401,7 @@
 .mn-loupe {
   position: absolute;
   top: calc(6px + env(safe-area-inset-top, 0px));
-  right: calc(var(--authb-l, 96px) + 16px + env(safe-area-inset-right, 0px));
+  right: calc(var(--authb-reserve, 110px) + 16px + env(safe-area-inset-right, 0px));
   z-index: 14;
   flex: none;
   display: grid;
