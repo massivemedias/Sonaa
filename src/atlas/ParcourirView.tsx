@@ -27,7 +27,6 @@ import { FAMILIES, STRUCTURES, type Genre, type Track } from './structures.ts';
 import { poidsDe } from './poids.ts';
 import { ProceduralCover } from './ProceduralCover.tsx';
 import { useLecteur } from '../lecture/useLecteur.ts';
-import MACHINES from '../data/machines.json';
 import {
   faChevronLeft,
   faPlay,
@@ -141,55 +140,6 @@ function BandeauImages({ tracks, hue }: { tracks: readonly Track[]; hue: number 
       ))}
       <span className="pv-mosaique-voile" style={{ '--pv-hue': hue } as React.CSSProperties} />
     </div>
-  );
-}
-
-/* LA PHOTO D'UNE MACHINE, prise sur Wikimedia Commons et servie par le depot.
-
-   LA LICENCE EST LA CONDITION, pas un detail administratif. Chaque fichier
-   n'a ete retenu que si Commons declare une licence libre lisible, et
-   l'auteur est affiche sous l'image parce que c'est ce que la licence
-   demande. Une photo bien creditee peut etre publiee ; une photo dont on
-   ignore le droit ne le peut pas, meme si elle est belle.
-
-   Le corpus ecrit « Roland TR-909 adoucie » : le qualificatif dit comment la
-   machine sert dans ce genre, il n'appartient pas au modele. On retrouve donc
-   la photo par le modele contenu dans la chaine. */
-interface FicheMachine {
-  readonly machine: string;
-  readonly fichier: string;
-  readonly auteur: string;
-  readonly licence: string;
-  readonly source: string;
-}
-const CATALOGUE = MACHINES as Record<string, FicheMachine>;
-const CLES = Object.keys(CATALOGUE);
-const sansPonct = (x: string): string => x.toLowerCase().replace(/[^a-z0-9]/g, '');
-
-function photoDe(machines: readonly string[]): FicheMachine | null {
-  for (const brut of machines) {
-    const cle = CLES.find((k) => sansPonct(brut).includes(sansPonct(k)));
-    if (cle) return CATALOGUE[cle] ?? null;
-  }
-  return null;
-}
-
-function PhotoMachine({ machines }: { machines: readonly string[] }) {
-  const f = photoDe(machines);
-  /* PAS DE CADRE VIDE quand il n'y a pas de photo : 147 genres sur 219 sont
-     dans ce cas aujourd'hui, et un rectangle gris repete 147 fois se lit
-     comme une panne, pas comme une absence. */
-  if (!f) return null;
-  return (
-    <figure className="pv-photo">
-      <img src={`${import.meta.env.BASE_URL}${f.fichier}`} alt={f.machine} loading="lazy" />
-      <figcaption className="pv-photo-legende">
-        <span className="pv-photo-nom">{f.machine}</span>
-        <a className="pv-photo-credit" href={f.source} target="_blank" rel="noreferrer noopener">
-          {f.auteur} · {f.licence} · Wikimedia Commons
-        </a>
-      </figcaption>
-    </figure>
   );
 }
 
@@ -575,15 +525,17 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           est tracable jusqu'a la donnee, sans un mot invente. */}
       <section className="pv-fiche" style={{ '--pv-hue': famille.hue } as React.CSSProperties}>
         <h3 className="pv-fiche-titre">{t.ficheTechnique}</h3>
-        {/* LA PHOTO DE MACHINE REJOINT LA FICHE.
+        {/* PLUS DE PHOTO DE MACHINE ICI, NI AILLEURS.
 
-            Elle etait posee tout en bas, apres la liste des morceaux, large
-            de 544 px et haute de 360 : la derniere chose de la page, sans
-            rien autour qui explique pourquoi une TR-909 est la. Elle
-            illustre pourtant UNE LIGNE PRECISE de cette fiche, celle qui
-            enumere les machines du genre. Elle se met donc a cote de cette
-            ligne, a la taille d'une illustration et non d'une affiche. */}
-        <div className="pv-fiche-corps">
+            Elle avait ete descendue en bas de page, puis remontee dans cette
+            fiche a cote de la ligne qu'elle illustre. Les deux placements
+            repondaient a la mauvaise question. Le verdict de Mika est net :
+            elle ne sert a rien. Une photo generique de TR-909, la meme pour
+            tous les genres qui la citent, n'apprend rien que la ligne
+            « Machines » ne dise deja, et elle occupe la place d'un contenu
+            qui, lui, manque. Les 31 fichiers et le script qui les a
+            rassembles restent au depot : c'est le rendu qui s'arrete, pas la
+            collecte, et rien n'est detruit si l'usage revient. */}
         <dl className="pv-faits">
           {genre.bpmRange && (
             <div className="pv-fait">
@@ -611,6 +563,24 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
               </dd>
             </div>
           )}
+          {/* LE SON, SOUS LES MACHINES. Le champ portait les deux, sous la
+              seule etiquette « Machines » : « Distorsion en chaine » et
+              « Filtres en mouvement permanent » n'en sont pas. Ces phrases
+              disent comment le son se fabrique, ce qui est la deuxieme
+              question du producteur, pas la premiere. Elles ont donc leur
+              ligne au lieu de mentir sur celle d'a cote. */}
+          {genre.sonorites.length > 0 && (
+            <div className="pv-fait">
+              <dt className="pv-fait-cle">{t.sonorites}</dt>
+              <dd className="pv-fait-val">
+                <span className="pv-machines">
+                  {genre.sonorites.map((x) => (
+                    <span className="pv-machine pv-son" key={x}>{x}</span>
+                  ))}
+                </span>
+              </dd>
+            </div>
+          )}
           {genre.labelsHistoriques.length > 0 && (
             <div className="pv-fait">
               <dt className="pv-fait-cle">{t.labels}</dt>
@@ -630,8 +600,6 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
             </div>
           )}
         </dl>
-        <PhotoMachine machines={genre.machines} />
-        </div>
       </section>
 
       {t.texteEnFrancais && <p className="pv-langue">{t.texteEnFrancais}</p>}

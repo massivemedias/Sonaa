@@ -519,72 +519,6 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   margin-bottom: 0;
 }
 
-/* --- La photo d'une machine --- */
-
-/* LA FICHE SUR DEUX COLONNES QUAND IL Y A UNE PHOTO : les faits a gauche,
-   l'illustration a droite. Sans photo, la grille n'a qu'une colonne et rien
-   ne bouge. */
-.pv-fiche-corps {
-  display: grid;
-  gap: 1rem;
-  align-items: start;
-}
-@media (min-width: 700px) {
-  .pv-fiche-corps:has(.pv-photo) {
-    grid-template-columns: minmax(0, 1fr) 14rem;
-    gap: 1.4rem;
-  }
-}
-.pv-photo {
-  margin: 0;
-  padding: 0;
-}
-/* LE CADRE EST FIXE, L'IMAGE S'Y ADAPTE.
-
-   DEFAUT CONSTATE : sans hauteur imposee, une photo prenait toute la largeur
-   de la colonne et sa hauteur suivait ses propres proportions. Or les 31
-   photos vont de 598 par 900 pour la TB-303 a des panoramiques deux fois plus
-   larges que hautes : cinq d'entre elles sont en portrait, et a pleine
-   largeur elles depassaient la hauteur de l'ecran. On tombait sur une photo
-   d'avant-bras en plein cadre avant d'avoir vu le texte.
-
-   Un rapport de trois sur deux, et l'image est recadree dedans plutot que de
-   commander la mise en page. La largeur est bornee sur grand ecran : une
-   photo de synthetiseur large de mille pixels n'apprend rien de plus qu'une
-   large de cinq cents. */
-.pv-photo img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 3 / 2;
-  object-fit: cover;
-  object-position: center;
-  border-radius: 16px;
-  background: oklch(0.22 0.01 260);
-}
-.pv-photo-legende {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.2rem 0.6rem;
-  margin-top: 0.55rem;
-}
-.pv-photo-nom {
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-/* LE CREDIT EST UN LIEN VERS LA PAGE SOURCE, et non une mention decorative :
-   c'est ce que les licences par attribution demandent, et c'est aussi ce qui
-   permet a quelqu'un de verifier. */
-.pv-photo-credit {
-  font-size: 0.75rem;
-  color: oklch(0.62 0.01 260);
-  text-decoration: none;
-}
-.pv-photo-credit:hover {
-  color: oklch(0.8 0.01 260);
-  text-decoration: underline;
-}
-
 /* --- La fiche technique ---------------------------------------------------- */
 
 .pv-fiche {
@@ -616,6 +550,16 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   background: oklch(0.62 0.14 var(--pv-hue) / 0.18);
   color: oklch(0.88 0.05 var(--pv-hue));
   font-size: 0.75rem;
+}
+/* LE SON SE DISTINGUE DES MACHINES A L'OEIL. Deux lignes de pastilles
+   identiques se liraient comme une seule liste coupee en deux, et on
+   retomberait dans la confusion qu'on vient de defaire : la machine est un
+   objet qu'on achete, le son est une maniere de s'en servir. Le contour sans
+   fond dit cette difference sans ajouter un mot. */
+.pv-son {
+  background: none;
+  border: 1px solid oklch(0.62 0.14 var(--pv-hue) / 0.35);
+  color: oklch(0.78 0.02 260);
 }
 .pv-mot-titre {
   display: block;

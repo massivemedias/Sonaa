@@ -88,6 +88,7 @@ interface Dictionnaire {
      sont en francais et ne seront pas traduits par une machine. */
   readonly texteEnFrancais: string | null;
   readonly machines: string;
+  readonly sonorites: string;
   readonly labels: string;
   readonly artistes: string;
   readonly aPropSujet: string;
@@ -161,6 +162,7 @@ const FR: Dictionnaire = {
   chemin: 'Chemin',
   texteEnFrancais: null,
   machines: 'Machines',
+  sonorites: 'Le son',
   labels: 'Labels',
   artistes: 'Artistes',
   aPropSujet: 'Le genre',
@@ -237,6 +239,7 @@ const EN: Dictionnaire = {
   chemin: 'Path',
   texteEnFrancais: 'Genre texts are written in French and are not machine translated.',
   machines: 'Machines',
+  sonorites: 'Sound',
   labels: 'Labels',
   artistes: 'Artists',
   aPropSujet: 'The genre',

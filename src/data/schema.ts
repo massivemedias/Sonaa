@@ -195,7 +195,17 @@ const genreSchema = z.strictObject({
      `redaction: 'brouillon'` : fiche écrite par la machine sur un terrain
      réservé à Mika, à relire avant d'en retirer la marque. */
   description: z.string().min(80).optional(),
+  /* DEUX CHAMPS, PARCE QUE C'ETAIENT DEUX CHOSES.
+
+     `machines` ne portait pas que des machines : sur 827 entrees, 640
+     decrivaient un son ou un geste. « Distorsion en chaine » et « Filtres en
+     mouvement permanent » s'affichaient sous l'etiquette « Machines », ce qui
+     etait faux et se voyait. `machines` ne garde donc que du materiel nomme,
+     marque et modele quand ils sont connus. `sonorites` recoit les phrases,
+     qui repondent a l'autre question, celle du producteur : comment ce son se
+     fabrique. */
   machines: z.array(z.string().min(2)).optional(),
+  sonorites: z.array(z.string().min(2)).optional(),
   labelsHistoriques: z.array(z.string().min(2)).optional(),
   labelsActuels: z.array(z.string()).optional(),
   artistesCles: z.array(z.string().min(2)).optional(),

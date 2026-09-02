@@ -283,6 +283,7 @@ export interface Genre {
      rien plutot qu'un gabarit. */
   readonly tuto: readonly { readonly titre: string; readonly texte: string }[];
   readonly machines: readonly string[];
+  readonly sonorites: readonly string[];
   readonly labelsHistoriques: readonly string[];
   readonly labelsActuels: readonly string[] | null;
   readonly artistesCles: readonly string[];
@@ -457,6 +458,7 @@ const buildStructure = (familyIndex: number): Structure => {
       article: entry.article ?? [],
       tuto: entry.tuto ?? [],
       machines: entry.machines ?? [],
+      sonorites: entry.sonorites ?? [],
       labelsHistoriques: entry.labelsHistoriques ?? [],
       labelsActuels: entry.labelsActuels ?? null,
       artistesCles: entry.artistesCles ?? [],
