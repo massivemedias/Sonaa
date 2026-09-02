@@ -163,6 +163,10 @@ interface Dictionnaire {
   readonly retirerLaPochette: string;
   readonly pochetteCompressee: (avant: string, apres: string) => string;
   readonly fermerLImage: string;
+  readonly modifier: string;
+  readonly annuler: string;
+  readonly titreRequis: string;
+  readonly changementsNonEnregistres: string;
   readonly retirerLeStyle: (nom: string) => string;
   readonly lesArtistes: string;
   readonly nSets: (n: number) => string;
@@ -329,6 +333,10 @@ const FR: Dictionnaire = {
   retirerLaPochette: 'Retirer la pochette',
   pochetteCompressee: (avant, apres) => `Pochette prête : ${avant} → ${apres}`,
   fermerLImage: 'Fermer l’image',
+  modifier: 'Modifier',
+  annuler: 'Annuler',
+  titreRequis: 'Il faut un titre.',
+  changementsNonEnregistres: 'Modifications non enregistrées',
   retirerLeStyle: (nom) => `Retirer ${nom}`,
   lesArtistes: 'Artistes',
   nSets: (n) => (n <= 1 ? `${n} set` : `${n} sets`),
@@ -494,6 +502,10 @@ const EN: Dictionnaire = {
   retirerLaPochette: 'Remove artwork',
   pochetteCompressee: (avant, apres) => `Artwork ready: ${avant} → ${apres}`,
   fermerLImage: 'Close image',
+  modifier: 'Edit',
+  annuler: 'Cancel',
+  titreRequis: 'A title is required.',
+  changementsNonEnregistres: 'Unsaved changes',
   retirerLeStyle: (nom) => `Remove ${nom}`,
   lesArtistes: 'Artists',
   nSets: (n) => (n <= 1 ? `${n} set` : `${n} sets`),

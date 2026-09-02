@@ -45,6 +45,7 @@ import {
 import { LecteurSet } from './LecteurSet.tsx';
 import { ZoneDepot } from './ZoneDepot.tsx';
 import { ChoixStyles } from './ChoixStyles.tsx';
+import { ModifierSet } from './ModifierSet.tsx';
 import { SiteNav } from './SiteNav.tsx';
 
 import { t } from '../langue/langue.ts';
@@ -76,6 +77,7 @@ export function ProfilPage() {
   const [etape, setEtape] = useState<Etape>('repos');
   const [messageDepot, setMessageDepot] = useState<string | null>(null);
   const [avancement, setAvancement] = useState<number | null>(null);
+  const [enModif, setEnModif] = useState<string | null>(null);
   const [genres, setGenres] = useState<string[]>([]);
   const [pochette, setPochette] = useState<{ fichier: File; apercu: string; avant: number } | null>(null);
 
@@ -365,6 +367,7 @@ export function ProfilPage() {
         <h2>{t.deposerUnSet}</h2>
         <p className="sp-aide">{t.limitesDepot(mo(TAILLE_MAX))}</p>
 
+        <div className="sp-formulaire">
         <ZoneDepot accept={FORMATS_AUDIO} onFichier={(f) => choisirFichier(f)} disabled={occupe}>
           <p className="zd-titre">{fichier ? fichier.name : t.deposerLeFichier}</p>
           <p className="zd-aide">
@@ -453,6 +456,7 @@ export function ProfilPage() {
                 ? t.etapeLigne
                 : t.deposer}
         </button>
+        </div>
         {messageDepot && <p className="sp-message">{messageDepot}</p>}
       </section>
 
@@ -481,6 +485,9 @@ export function ProfilPage() {
                     </div>
                   </div>
                   <div className="sp-item-actions">
+                    <button onClick={() => setEnModif(enModif === s.id ? null : s.id)}>
+                      {enModif === s.id ? t.annuler : t.modifier}
+                    </button>
                     <button
                       onClick={() => {
                         void basculerPublication(s.id, !s.publie).then(recharger);
@@ -499,7 +506,18 @@ export function ProfilPage() {
                     </button>
                   </div>
                 </div>
-                <LecteurSet set={s} compact />
+                {enModif === s.id ? (
+                  <ModifierSet
+                    set={s}
+                    onFini={() => {
+                      setEnModif(null);
+                      void recharger();
+                    }}
+                    onAnnuler={() => setEnModif(null)}
+                  />
+                ) : (
+                  <LecteurSet set={s} compact />
+                )}
               </li>
             ))}
           </ul>

@@ -859,6 +859,30 @@ export async function setsDunGenre(genreId: string): Promise<SetDJ[]> {
   return (data as SetDJ[] | null) ?? [];
 }
 
+/** Modifie un set deja depose : titre, description, styles, pochette.
+
+    LA POCHETTE PRECEDENTE EST EFFACEE APRES, jamais avant. Si l'ecriture de
+    la ligne echouait entre les deux, on aurait un set dont l'image n'existe
+    plus, et rien dans l'interface pour le reparer. Dans l'autre sens le pire
+    cas est un fichier orphelin : une facture, pas une panne. */
+export async function modifierSet(
+  id: string,
+  champs: {
+    titre: string;
+    description?: string | null;
+    genre_ids?: string[] | null;
+    cover_path?: string | null;
+  },
+  ancienneCover?: string | null
+): Promise<void> {
+  if (!supabase) throw new Error('base indisponible');
+  const { error } = await supabase.from('dj_sets').update(champs).eq('id', id);
+  if (error) throw new Error(error.message);
+  if (ancienneCover && ancienneCover !== champs.cover_path) {
+    await supabase.storage.from('covers').remove([ancienneCover]);
+  }
+}
+
 export async function basculerPublication(id: string, publie: boolean): Promise<void> {
   if (!supabase) throw new Error('base indisponible');
   const { error } = await supabase.from('dj_sets').update({ publie }).eq('id', id);

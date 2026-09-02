@@ -81,9 +81,16 @@
   pointer-events: none;
 }
 
+/* Le meme intervalle que le formulaire de depot : deux blocs de champs sur le
+   meme ecran qui ne respirent pas pareil se remarquent, meme sans savoir
+   pourquoi. */
 .sp-champs {
   display: grid;
-  gap: 0.8rem;
+  gap: 1.4rem;
+  justify-items: start;
+}
+.sp-champs > .sp-label {
+  width: 100%;
 }
 .sp-label {
   display: grid;
@@ -689,4 +696,52 @@
   font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
+}
+
+/* --- Le rythme vertical d'un formulaire ----------------------------------- */
+
+/* LES CHAMPS ETAIENT COLLES, ET C'ETAIT VISIBLE. Une etiquette posee juste
+   au-dessus de son champ, puis le champ suivant sans respiration : on ne
+   distingue plus a quoi appartient quel libelle. La grille donne un intervalle
+   unique entre les champs, et l'ecart etiquette-champ reste plus petit, ce qui
+   suffit a les grouper a l'oeil sans une seule ligne de separation. */
+.sp-formulaire {
+  display: grid;
+  gap: 1.4rem;
+  margin-top: 1.1rem;
+  justify-items: start;
+}
+.sp-formulaire > * {
+  width: 100%;
+  margin: 0;
+}
+.sp-formulaire .sp-action,
+.sp-formulaire .sp-lien {
+  width: auto;
+}
+/* Les zones de depot ne s'etirent pas sur toute la largeur d'un grand ecran :
+   une cible de mille pixels de large pour une pochette carree serait absurde. */
+.sp-formulaire .zd-pochette {
+  width: 16rem;
+}
+
+/* --- La modification d'un set --------------------------------------------- */
+
+.sp-modif {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid oklch(1 0 0 / 0.1);
+}
+.sp-modif-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+}
+/* L'AVERTISSEMENT EST A COTE DU BOUTON, pas en haut du formulaire. C'est au
+   moment ou l'on cherche comment valider qu'on a besoin de savoir qu'il reste
+   quelque chose a valider. */
+.sp-modif-actions .sp-aide {
+  margin: 0;
+  color: oklch(0.78 0.12 85);
 }
