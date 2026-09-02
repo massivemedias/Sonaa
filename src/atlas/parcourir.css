@@ -353,6 +353,13 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   color: #3c3c3c;
 }
 .pv-tuile-nom {
+  /* LE NOM D'UN GENRE EST UN TITRE, PAS UNE ETIQUETTE D'INTERFACE.
+
+     Il vit dans un bouton, il heritait donc du serrage d'interface pose
+     a +1px pour les boutons du menu et du bandeau. Mais « Broken Techno »
+     sur une vignette est du texte d'affichage : il se serre comme les
+     autres titres du site. */
+  letter-spacing: -1px;
   /* GOOGLE SANS N'EST PAS DISTRIBUEE PUBLIQUEMENT : ni Google Fonts ni aucun
      autre service ne la sert. Elle est donc demandee en premier, ou elle est
      installee elle sortira, et la suite de la pile prend le relais ailleurs.
@@ -371,6 +378,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   overflow-wrap: anywhere;
 }
 .pv-tuile-detail {
+  letter-spacing: -1px;
   flex: none;
   font-family: inherit;
   font-size: 0.8125rem;
@@ -746,6 +754,10 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   gap: 0.15rem;
 }
 .pv-piste-titre {
+  /* Un titre de morceau se serre comme un titre. La ligne est courte et
+     souvent longue en signes : « We Don't Need No Music » gagne a etre
+     compacte. */
+  letter-spacing: -1px;
   font-size: 0.825rem;
   font-weight: 550;
   overflow: hidden;
@@ -756,6 +768,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   color: oklch(0.82 0.15 150);
 }
 .pv-piste-artiste {
+  letter-spacing: -1px;
   font-size: 0.75rem;
   color: oklch(0.68 0.01 260);
   overflow: hidden;
