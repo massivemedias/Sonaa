@@ -1,0 +1,389 @@
+/* Route #/profil : qui je suis, et ce que je depose.
+
+   CE LIEN ETAIT MORT. Le menu du compte proposait « Profil » depuis
+   longtemps et pointait vers #/profil, une route que main.tsx ne connaissait
+   pas : le clic ramenait sur la carte, sans un mot. La page manquait, pas le
+   lien.
+
+   ELLE FAIT DEUX CHOSES, ET C'EST VOULU QU'ELLES SOIENT SUR LE MEME ECRAN.
+   L'identite publique (un nom, une photo) et le depot d'un set sont
+   inseparables : un set sans nom d'artiste s'affiche « sans nom » sur la
+   page publique, ce qui se voit et se repare tout de suite si les deux
+   formulaires se touchent. */
+
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { contributionsActives, supabase } from '../lib/supabase.ts';
+import {
+  AVATAR_MAX,
+  FORMATS_AUDIO,
+  FORMATS_IMAGE,
+  TAILLE_MAX,
+  basculerPublication,
+  calculerOnde,
+  creerSet,
+  deposerAudio,
+  deposerAvatar,
+  enregistrerArtiste,
+  mesSets,
+  mesurerDuree,
+  mmss,
+  monArtiste,
+  supprimerSet,
+  urlAvatar,
+  type Artiste,
+  type SetDJ,
+} from '../lib/sets.ts';
+import { LecteurSet } from './LecteurSet.tsx';
+import { SiteNav } from './SiteNav.tsx';
+import { t } from '../langue/langue.ts';
+import './credits.css';
+import './sets.css';
+
+const mo = (o: number): string => `${(o / (1024 * 1024)).toFixed(1)} ${t.uniteMo}`;
+
+type Etape = 'repos' | 'onde' | 'envoi' | 'ligne';
+
+export function ProfilPage() {
+  const [pret, setPret] = useState(false);
+  const [connecte, setConnecte] = useState(false);
+  const [artiste, setArtiste] = useState<Artiste | null>(null);
+  const [nom, setNom] = useState('');
+  const [bio, setBio] = useState('');
+  const [avatarPath, setAvatarPath] = useState<string | null>(null);
+  const [messageProfil, setMessageProfil] = useState<string | null>(null);
+
+  const [sets, setSets] = useState<SetDJ[]>([]);
+  const [fichier, setFichier] = useState<File | null>(null);
+  const [titre, setTitre] = useState('');
+  const [description, setDescription] = useState('');
+  const [etape, setEtape] = useState<Etape>('repos');
+  const [messageDepot, setMessageDepot] = useState<string | null>(null);
+  const champFichier = useRef<HTMLInputElement | null>(null);
+
+  const recharger = useCallback(async () => {
+    setSets(await mesSets());
+  }, []);
+
+  useEffect(() => {
+    let vivant = true;
+    void (async () => {
+      if (!supabase) {
+        if (vivant) setPret(true);
+        return;
+      }
+      const { data } = await supabase.auth.getUser();
+      if (!vivant) return;
+      const ok = Boolean(data.user);
+      setConnecte(ok);
+      if (ok) {
+        const a = await monArtiste();
+        if (!vivant) return;
+        setArtiste(a);
+        setNom(a?.nom ?? '');
+        setBio(a?.bio ?? '');
+        setAvatarPath(a?.avatar_path ?? null);
+        await recharger();
+      }
+      if (vivant) setPret(true);
+    })();
+    return () => {
+      vivant = false;
+    };
+  }, [recharger]);
+
+  const enregistrerProfil = async (): Promise<void> => {
+    setMessageProfil(null);
+    const propre = nom.trim();
+    if (propre.length < 1) {
+      setMessageProfil(t.nomRequis);
+      return;
+    }
+    try {
+      await enregistrerArtiste({
+        nom: propre,
+        bio: bio.trim() || null,
+        avatar_path: avatarPath,
+      });
+      setArtiste({ user_id: '', nom: propre, bio: bio.trim() || null, avatar_path: avatarPath });
+      setMessageProfil(t.profilEnregistre);
+    } catch (e) {
+      setMessageProfil(e instanceof Error ? e.message : String(e));
+    }
+  };
+
+  const changerAvatar = async (f: File): Promise<void> => {
+    setMessageProfil(null);
+    if (!FORMATS_IMAGE.includes(f.type)) {
+      setMessageProfil(t.formatImageRefuse);
+      return;
+    }
+    if (f.size > AVATAR_MAX) {
+      setMessageProfil(t.imageTropLourde(mo(f.size)));
+      return;
+    }
+    try {
+      const chemin = await deposerAvatar(f);
+      setAvatarPath(chemin);
+      /* On enregistre TOUT DE SUITE plutot que d'attendre le bouton : la
+         photo est deja partie sur le serveur, laisser la ligne en retard
+         creerait un fichier que rien ne designe si la page se ferme ici. */
+      await enregistrerArtiste({ nom: nom.trim() || t.artisteSansNom, bio: bio.trim() || null, avatar_path: chemin });
+      setMessageProfil(t.photoEnregistree);
+    } catch (e) {
+      setMessageProfil(e instanceof Error ? e.message : String(e));
+    }
+  };
+
+  const choisirFichier = (f: File | null): void => {
+    setMessageDepot(null);
+    if (!f) {
+      setFichier(null);
+      return;
+    }
+    if (!FORMATS_AUDIO.includes(f.type)) {
+      setFichier(null);
+      setMessageDepot(t.formatAudioRefuse);
+      return;
+    }
+    /* LA TAILLE SE DIT AVANT L'ENVOI, ET AVEC SON CHIFFRE. Laisser partir
+       120 Mo pour recevoir un refus du serveur, c'est faire attendre
+       plusieurs minutes pour rien sur une connexion lente. */
+    if (f.size > TAILLE_MAX) {
+      setFichier(null);
+      setMessageDepot(t.audioTropLourd(mo(f.size), mo(TAILLE_MAX)));
+      return;
+    }
+    setFichier(f);
+    if (!titre.trim()) setTitre(f.name.replace(/\.[^.]+$/, '').slice(0, 120));
+  };
+
+  const deposer = async (): Promise<void> => {
+    if (!fichier || !titre.trim()) return;
+    setMessageDepot(null);
+    try {
+      /* L'ordre : dessin, fichier, ligne. Le dessin d'abord parce qu'il se
+         fait sur le fichier local et qu'il ne coute rien au reseau ; s'il
+         echoue on continue sans lui. */
+      setEtape('onde');
+      const [onde, duree] = await Promise.all([calculerOnde(fichier), mesurerDuree(fichier)]);
+
+      setEtape('envoi');
+      const chemin = await deposerAudio(fichier);
+
+      setEtape('ligne');
+      await creerSet({
+        titre: titre.trim(),
+        description: description.trim() || null,
+        audio_path: chemin,
+        duree_s: duree,
+        taille_o: fichier.size,
+        onde,
+        publie: false,
+      });
+
+      setFichier(null);
+      setTitre('');
+      setDescription('');
+      if (champFichier.current) champFichier.current.value = '';
+      setMessageDepot(t.setDepose);
+      await recharger();
+    } catch (e) {
+      setMessageDepot(e instanceof Error ? e.message : String(e));
+    } finally {
+      setEtape('repos');
+    }
+  };
+
+  if (!contributionsActives) {
+    return (
+      <main className="credits sets-page">
+        <SiteNav variant="page" />
+        <h1>{t.monProfil}</h1>
+        <p>{t.baseIndisponible}</p>
+      </main>
+    );
+  }
+
+  if (!pret) {
+    return (
+      <main className="credits sets-page">
+        <SiteNav variant="page" />
+        <h1>{t.monProfil}</h1>
+        <p>{t.chargement}</p>
+      </main>
+    );
+  }
+
+  if (!connecte) {
+    return (
+      <main className="credits sets-page">
+        <SiteNav variant="page" />
+        <h1>{t.monProfil}</h1>
+        <p>{t.connexionRequiseProfil}</p>
+      </main>
+    );
+  }
+
+  const occupe = etape !== 'repos';
+
+  return (
+    <main className="credits sets-page">
+      <SiteNav variant="page" />
+      <h1>{t.monProfil}</h1>
+
+      {/* ── L'identite publique ── */}
+      <section className="sets-bloc">
+        <h2>{t.identitePublique}</h2>
+        <div className="sp-identite">
+          <div className="sp-avatar">
+            {urlAvatar(avatarPath) ? (
+              <img src={urlAvatar(avatarPath) ?? ''} alt="" />
+            ) : (
+              <span className="sp-avatar-vide" aria-hidden="true">
+                {(nom.trim()[0] ?? '?').toUpperCase()}
+              </span>
+            )}
+            <label className="sp-avatar-bouton">
+              {t.changerLaPhoto}
+              <input
+                type="file"
+                accept={FORMATS_IMAGE.join(',')}
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) void changerAvatar(f);
+                }}
+              />
+            </label>
+            <p className="sp-aide">{t.photoLimite}</p>
+          </div>
+
+          <div className="sp-champs">
+            <label className="sp-label">
+              {t.nomDArtiste}
+              <input
+                type="text"
+                maxLength={60}
+                value={nom}
+                onChange={(e) => setNom(e.target.value)}
+                placeholder={t.nomDArtistePlaceholder}
+              />
+            </label>
+            <label className="sp-label">
+              {t.presentation}
+              <textarea
+                maxLength={600}
+                rows={3}
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+              />
+            </label>
+            <button className="sp-action" onClick={() => void enregistrerProfil()}>
+              {artiste ? t.enregistrer : t.creerMonProfil}
+            </button>
+            {messageProfil && <p className="sp-message">{messageProfil}</p>}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Deposer ── */}
+      <section className="sets-bloc">
+        <h2>{t.deposerUnSet}</h2>
+        <p className="sp-aide">{t.limitesDepot(mo(TAILLE_MAX))}</p>
+
+        <label className="sp-label">
+          {t.fichierAudio}
+          <input
+            ref={champFichier}
+            type="file"
+            accept={FORMATS_AUDIO.join(',')}
+            onChange={(e) => choisirFichier(e.target.files?.[0] ?? null)}
+          />
+        </label>
+        {fichier && (
+          <p className="sp-aide">
+            {fichier.name} · {mo(fichier.size)}
+          </p>
+        )}
+
+        <label className="sp-label">
+          {t.titreDuSet}
+          <input
+            type="text"
+            maxLength={120}
+            value={titre}
+            onChange={(e) => setTitre(e.target.value)}
+          />
+        </label>
+        <label className="sp-label">
+          {t.descriptionFacultative}
+          <textarea
+            maxLength={2000}
+            rows={3}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </label>
+
+        <button
+          className="sp-action"
+          disabled={!fichier || !titre.trim() || occupe}
+          onClick={() => void deposer()}
+        >
+          {etape === 'onde'
+            ? t.etapeOnde
+            : etape === 'envoi'
+              ? t.etapeEnvoi
+              : etape === 'ligne'
+                ? t.etapeLigne
+                : t.deposer}
+        </button>
+        {messageDepot && <p className="sp-message">{messageDepot}</p>}
+      </section>
+
+      {/* ── Mes sets ── */}
+      <section className="sets-bloc">
+        <h2>{t.mesSets(sets.length)}</h2>
+        {sets.length === 0 ? (
+          <p className="sp-aide">{t.aucunSetDepose}</p>
+        ) : (
+          <ul className="sp-liste">
+            {sets.map((s) => (
+              <li key={s.id} className="sp-item">
+                <div className="sp-item-tete">
+                  <div>
+                    <h3>{s.titre}</h3>
+                    <p className="sp-aide">
+                      {s.duree_s ? mmss(s.duree_s) : t.dureeInconnue}
+                      {' · '}
+                      {s.publie ? t.publie : t.brouillon}
+                      {s.publie ? ` · ${t.nEcoutes(s.ecoutes)}` : ''}
+                    </p>
+                  </div>
+                  <div className="sp-item-actions">
+                    <button
+                      onClick={() => {
+                        void basculerPublication(s.id, !s.publie).then(recharger);
+                      }}
+                    >
+                      {s.publie ? t.depublier : t.publier}
+                    </button>
+                    <button
+                      className="sp-danger"
+                      onClick={() => {
+                        if (!window.confirm(t.confirmerSuppression(s.titre))) return;
+                        void supprimerSet(s.id, s.audio_path).then(recharger);
+                      }}
+                    >
+                      {t.supprimer}
+                    </button>
+                  </div>
+                </div>
+                <LecteurSet set={s} compact />
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    </main>
+  );
+}

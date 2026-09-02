@@ -19,6 +19,7 @@ import './site-nav.css';
 type SiteCourant =
   | 'atlas'
   | 'parcourir'
+  | 'sets'
   | 'chronologie'
   | 'heatmap'
   | 'arbre'
@@ -46,7 +47,12 @@ type SiteCourant =
    morceaux. Deux portes vers la meme piece, dont l'une est plus etroite.
    L'adresse #/index repond toujours, la page n'est pas supprimee. */
 const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
-  { href: '#/parcourir', id: 'parcourir', label: t.parcourir }
+  { href: '#/parcourir', id: 'parcourir', label: t.parcourir },
+  /* LES SETS SONT UNE DESTINATION, PAS UN REGLAGE DE COMPTE. On peut les
+     ecouter sans compte et sans en deposer un seul : les cacher derriere le
+     menu du profil les rendrait invisibles a exactement les gens a qui ils
+     s'adressent. */
+  { href: '#/sets', id: 'sets', label: t.lesSets }
 ];
 
 const PAGES: readonly { href: string; id: SiteCourant; label: string }[] = [
@@ -63,6 +69,7 @@ function courantOf(hash: string): SiteCourant {
   if (hash.startsWith('#/chronologie')) return 'chronologie';
   if (hash.startsWith('#/heatmap')) return 'heatmap';
   if (hash.startsWith('#/arbre')) return 'arbre';
+  if (hash.startsWith('#/sets')) return 'sets';
   if (hash.startsWith('#/parcourir')) return 'parcourir';
   if (hash.startsWith('#/carte')) return 'atlas';
   if (hash === '' || hash === '#' || hash.startsWith('#/')) return 'parcourir';

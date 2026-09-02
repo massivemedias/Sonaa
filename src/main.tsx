@@ -85,13 +85,21 @@ const ParcourirView = lazy(() =>
   import('./atlas/ParcourirView.tsx').then((module) => ({ default: module.ParcourirView }))
 );
 
+const ProfilPage = lazy(() =>
+  import('./atlas/ProfilPage.tsx').then((module) => ({ default: module.ProfilPage }))
+);
+
+const SetsPage = lazy(() =>
+  import('./atlas/SetsPage.tsx').then((module) => ({ default: module.SetsPage }))
+);
+
 const rootElement = document.getElementById('root');
 
 if (!rootElement) {
   throw new Error('Élément racine introuvable.');
 }
 
-type Route = 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'parcourir' | 'atlas';
+type Route = 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'parcourir' | 'profil' | 'sets' | 'atlas';
 
 const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/index')) return 'index';
@@ -103,6 +111,10 @@ const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/heatmap')) return 'heatmap';
   if (window.location.hash.startsWith('#/arbre')) return 'arbre';
   if (window.location.hash.startsWith('#/parcourir')) return 'parcourir';
+  /* #/profil existait dans le menu du compte depuis longtemps et ne menait
+     nulle part : la route manquait, le clic retombait sur la carte. */
+  if (window.location.hash.startsWith('#/profil')) return 'profil';
+  if (window.location.hash.startsWith('#/sets')) return 'sets';
   /* LA CARTE EN TROIS DIMENSIONS A SON PROPRE CHEMIN, #/carte.
 
      Elle occupait la racine, et c'est ce qui faisait tomber Mika sur elle a
@@ -163,6 +175,10 @@ function App() {
           <HeatmapView onOpen={ouvrirDansAtlas} />
         ) : route === 'arbre' ? (
           <AccordeonView onOpen={ouvrirDansAtlas} />
+        ) : route === 'profil' ? (
+          <ProfilPage />
+        ) : route === 'sets' ? (
+          <SetsPage />
         ) : route === 'parcourir' ? (
           <ParcourirView />
         ) : (

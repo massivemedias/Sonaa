@@ -127,6 +127,57 @@ interface Dictionnaire {
   readonly lecteurBloque: string;
   readonly lecteurIndisponible: string;
   readonly googleNonConfiguree: string;
+
+  /* ── Les sets DJ ── */
+  readonly lesSets: string;
+  readonly monProfil: string;
+  readonly baseIndisponible: string;
+  readonly connexionRequiseProfil: string;
+  readonly identitePublique: string;
+  readonly changerLaPhoto: string;
+  readonly photoLimite: string;
+  readonly nomDArtiste: string;
+  readonly nomDArtistePlaceholder: string;
+  readonly presentation: string;
+  readonly enregistrer: string;
+  readonly creerMonProfil: string;
+  readonly nomRequis: string;
+  readonly profilEnregistre: string;
+  readonly photoEnregistree: string;
+  readonly artisteSansNom: string;
+  readonly formatImageRefuse: string;
+  readonly imageTropLourde: (taille: string) => string;
+  readonly deposerUnSet: string;
+  readonly limitesDepot: (max: string) => string;
+  readonly fichierAudio: string;
+  readonly titreDuSet: string;
+  readonly descriptionFacultative: string;
+  readonly deposer: string;
+  readonly etapeOnde: string;
+  readonly etapeEnvoi: string;
+  readonly etapeLigne: string;
+  readonly formatAudioRefuse: string;
+  readonly audioTropLourd: (taille: string, max: string) => string;
+  readonly setDepose: string;
+  readonly mesSets: (n: number) => string;
+  readonly aucunSetDepose: string;
+  readonly aucunSetPublie: string;
+  readonly dureeInconnue: string;
+  readonly publie: string;
+  readonly brouillon: string;
+  readonly nEcoutes: (n: number) => string;
+  readonly publier: string;
+  readonly depublier: string;
+  readonly supprimer: string;
+  readonly confirmerSuppression: (titre: string) => string;
+  readonly setIntrouvable: string;
+  readonly retourAuxSets: string;
+  readonly setIllisible: string;
+  readonly avancerDansLeSet: string;
+  /** Unite de taille de fichier. « Mo » en francais, « MB » en anglais : le
+      chiffre etait bon mais l'unite restait francaise dans l'interface
+      anglaise, ce qui se lit comme une faute de frappe. */
+  readonly uniteMo: string;
 }
 
 const FR: Dictionnaire = {
@@ -203,7 +254,56 @@ const FR: Dictionnaire = {
   lecteurBloque: 'Le lecteur YouTube est bloqué par une extension du navigateur.',
   lecteurIndisponible: "Le lecteur YouTube n'a pas pu se charger.",
   googleNonConfiguree:
-    'La connexion Google n’est pas encore configurée sur ce site. Utilisez votre courriel ci-dessous.'
+    'La connexion Google n’est pas encore configurée sur ce site. Utilisez votre courriel ci-dessous.',
+
+  lesSets: 'Les sets',
+  monProfil: 'Mon profil',
+  baseIndisponible: "Le dépôt de sets n'est pas actif sur cette version du site.",
+  connexionRequiseProfil: 'Connectez-vous pour créer votre profil et déposer un set.',
+  identitePublique: 'Mon identité publique',
+  changerLaPhoto: 'Changer la photo',
+  photoLimite: 'JPEG, PNG ou WebP, 2 Mo au plus.',
+  nomDArtiste: 'Nom d’artiste',
+  nomDArtistePlaceholder: 'Le nom qui s’affichera sous vos sets',
+  presentation: 'Présentation',
+  enregistrer: 'Enregistrer',
+  creerMonProfil: 'Créer mon profil',
+  nomRequis: 'Il faut un nom pour signer un set.',
+  profilEnregistre: 'Profil enregistré.',
+  photoEnregistree: 'Photo enregistrée.',
+  artisteSansNom: 'Sans nom',
+  formatImageRefuse: 'Format refusé. JPEG, PNG ou WebP seulement.',
+  imageTropLourde: (taille) => `Image de ${taille} : la limite est de 2 Mo.`,
+  deposerUnSet: 'Déposer un set',
+  limitesDepot: (max) =>
+    `MP3, M4A, OGG ou WAV, ${max} au plus, ce qui fait environ 52 minutes en 128 kbps. Le set arrive en brouillon : vous seul le voyez tant que vous ne l’avez pas publié.`,
+  fichierAudio: 'Fichier audio',
+  titreDuSet: 'Titre',
+  descriptionFacultative: 'Description, si vous voulez',
+  deposer: 'Déposer',
+  etapeOnde: 'Lecture de la forme d’onde…',
+  etapeEnvoi: 'Envoi du fichier…',
+  etapeLigne: 'Enregistrement…',
+  formatAudioRefuse: 'Format refusé. MP3, M4A, AAC, OGG ou WAV seulement.',
+  audioTropLourd: (taille, max) =>
+    `Fichier de ${taille} : la limite est de ${max}. Réencodez en 128 kbps, ou coupez le set en deux.`,
+  setDepose: 'Set déposé, en brouillon. Publiez-le quand vous voulez.',
+  mesSets: (n) => (n === 0 ? 'Mes sets' : n === 1 ? '1 set déposé' : `${n} sets déposés`),
+  aucunSetDepose: 'Rien de déposé pour l’instant.',
+  aucunSetPublie: 'Aucun set publié pour l’instant.',
+  dureeInconnue: 'Durée inconnue',
+  publie: 'Publié',
+  brouillon: 'Brouillon',
+  nEcoutes: (n) => (n <= 1 ? `${n} écoute` : `${n} écoutes`),
+  publier: 'Publier',
+  depublier: 'Dépublier',
+  supprimer: 'Supprimer',
+  confirmerSuppression: (titre) => `Supprimer « ${titre} » et son fichier, définitivement ?`,
+  setIntrouvable: 'Ce set n’existe pas, ou n’est plus publié.',
+  retourAuxSets: 'Revenir aux sets',
+  setIllisible: 'Le fichier n’a pas pu être lu.',
+  avancerDansLeSet: 'Avancer dans le set',
+  uniteMo: 'Mo'
 };
 
 const EN: Dictionnaire = {
@@ -280,7 +380,56 @@ const EN: Dictionnaire = {
   lecteurBloque: 'The YouTube player is blocked by a browser extension.',
   lecteurIndisponible: 'The YouTube player could not load.',
   googleNonConfiguree:
-    'Google sign-in is not configured on this site yet. Use your email below.'
+    'Google sign-in is not configured on this site yet. Use your email below.',
+
+  lesSets: 'Sets',
+  monProfil: 'My profile',
+  baseIndisponible: 'Set uploads are not enabled on this build of the site.',
+  connexionRequiseProfil: 'Sign in to create your profile and upload a set.',
+  identitePublique: 'My public identity',
+  changerLaPhoto: 'Change photo',
+  photoLimite: 'JPEG, PNG or WebP, 2 MB max.',
+  nomDArtiste: 'Artist name',
+  nomDArtistePlaceholder: 'The name shown under your sets',
+  presentation: 'About you',
+  enregistrer: 'Save',
+  creerMonProfil: 'Create my profile',
+  nomRequis: 'A set needs a name to sign it.',
+  profilEnregistre: 'Profile saved.',
+  photoEnregistree: 'Photo saved.',
+  artisteSansNom: 'Unnamed',
+  formatImageRefuse: 'Format refused. JPEG, PNG or WebP only.',
+  imageTropLourde: (taille) => `Image is ${taille}: the limit is 2 MB.`,
+  deposerUnSet: 'Upload a set',
+  limitesDepot: (max) =>
+    `MP3, M4A, OGG or WAV, ${max} max, which is about 52 minutes at 128 kbps. The set arrives as a draft: only you can see it until you publish it.`,
+  fichierAudio: 'Audio file',
+  titreDuSet: 'Title',
+  descriptionFacultative: 'Description, if you like',
+  deposer: 'Upload',
+  etapeOnde: 'Reading the waveform…',
+  etapeEnvoi: 'Uploading…',
+  etapeLigne: 'Saving…',
+  formatAudioRefuse: 'Format refused. MP3, M4A, AAC, OGG or WAV only.',
+  audioTropLourd: (taille, max) =>
+    `File is ${taille}: the limit is ${max}. Re-encode at 128 kbps, or split the set in two.`,
+  setDepose: 'Set uploaded as a draft. Publish it whenever you want.',
+  mesSets: (n) => (n === 0 ? 'My sets' : n === 1 ? '1 set uploaded' : `${n} sets uploaded`),
+  aucunSetDepose: 'Nothing uploaded yet.',
+  aucunSetPublie: 'No published sets yet.',
+  dureeInconnue: 'Unknown length',
+  publie: 'Published',
+  brouillon: 'Draft',
+  nEcoutes: (n) => (n <= 1 ? `${n} play` : `${n} plays`),
+  publier: 'Publish',
+  depublier: 'Unpublish',
+  supprimer: 'Delete',
+  confirmerSuppression: (titre) => `Delete “${titre}” and its file, permanently?`,
+  setIntrouvable: 'This set does not exist, or is no longer published.',
+  retourAuxSets: 'Back to sets',
+  setIllisible: 'The file could not be played.',
+  avancerDansLeSet: 'Seek in the set',
+  uniteMo: 'MB'
 };
 
 export const t: Dictionnaire = langue === 'en' ? EN : FR;
