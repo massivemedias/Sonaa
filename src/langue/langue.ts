@@ -152,8 +152,17 @@ interface Dictionnaire {
   readonly fichierAudio: string;
   readonly titreDuSet: string;
   readonly genresDuSet: (n: number) => string;
-  readonly ajouterUnStyle: string;
-  readonly genresAuMaximum: string;
+  readonly choisirLesStyles: string;
+  readonly changerLesStyles: string;
+  readonly fermerLesStyles: string;
+  readonly chercherUnStyle: string;
+  readonly aucunStyleTrouve: string;
+  readonly pochette: string;
+  readonly deposerUnePochette: string;
+  readonly pochetteAide: string;
+  readonly retirerLaPochette: string;
+  readonly pochetteCompressee: (avant: string, apres: string) => string;
+  readonly fermerLImage: string;
   readonly retirerLeStyle: (nom: string) => string;
   readonly lesArtistes: string;
   readonly nSets: (n: number) => string;
@@ -309,8 +318,17 @@ const FR: Dictionnaire = {
   fichierAudio: 'Fichier audio',
   titreDuSet: 'Titre',
   genresDuSet: (n) => `Styles, pour le ranger dans l’atlas (${n} au plus)`,
-  ajouterUnStyle: 'Ajouter un style…',
-  genresAuMaximum: 'Cinq styles, c’est le maximum',
+  choisirLesStyles: 'Choisir des styles',
+  changerLesStyles: 'Changer les styles',
+  fermerLesStyles: 'Fermer',
+  chercherUnStyle: 'Chercher un style…',
+  aucunStyleTrouve: 'Aucun style ne correspond.',
+  pochette: 'Pochette',
+  deposerUnePochette: 'Glissez une image, ou cliquez',
+  pochetteAide: 'N’importe quelle taille : elle est recompressée ici avant l’envoi.',
+  retirerLaPochette: 'Retirer la pochette',
+  pochetteCompressee: (avant, apres) => `Pochette prête : ${avant} → ${apres}`,
+  fermerLImage: 'Fermer l’image',
   retirerLeStyle: (nom) => `Retirer ${nom}`,
   lesArtistes: 'Artistes',
   nSets: (n) => (n <= 1 ? `${n} set` : `${n} sets`),
@@ -465,8 +483,17 @@ const EN: Dictionnaire = {
   fichierAudio: 'Audio file',
   titreDuSet: 'Title',
   genresDuSet: (n) => `Styles, to file it in the atlas (${n} max)`,
-  ajouterUnStyle: 'Add a style…',
-  genresAuMaximum: 'Five styles is the maximum',
+  choisirLesStyles: 'Choose styles',
+  changerLesStyles: 'Change styles',
+  fermerLesStyles: 'Close',
+  chercherUnStyle: 'Search a style…',
+  aucunStyleTrouve: 'No style matches.',
+  pochette: 'Artwork',
+  deposerUnePochette: 'Drag an image, or click',
+  pochetteAide: 'Any size: it is recompressed here before upload.',
+  retirerLaPochette: 'Remove artwork',
+  pochetteCompressee: (avant, apres) => `Artwork ready: ${avant} → ${apres}`,
+  fermerLImage: 'Close image',
   retirerLeStyle: (nom) => `Remove ${nom}`,
   lesArtistes: 'Artists',
   nSets: (n) => (n <= 1 ? `${n} set` : `${n} sets`),

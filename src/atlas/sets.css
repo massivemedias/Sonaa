@@ -505,3 +505,188 @@
   font-size: 1rem;
   line-height: 1;
 }
+
+/* --- Le choix des styles -------------------------------------------------- */
+
+.cs {
+  margin-top: 0.2rem;
+}
+.cs-titre {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.cs-compte {
+  font-variant-numeric: tabular-nums;
+  color: oklch(0.55 0.01 260);
+}
+.cs-ouvrir {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid oklch(1 0 0 / 0.18);
+  border-radius: 999px;
+  background: none;
+  color: oklch(0.88 0.008 260);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+.cs-ouvrir:hover {
+  border-color: oklch(1 0 0 / 0.34);
+}
+
+.cs-panneau {
+  margin-top: 0.7rem;
+  padding: 0.9rem;
+  border: 1px solid oklch(1 0 0 / 0.12);
+  border-radius: 14px;
+  background: oklch(0.16 0.008 260);
+}
+.cs-recherche {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid oklch(1 0 0 / 0.14);
+  border-radius: 10px;
+  background: oklch(0.12 0.006 260);
+  color: oklch(0.92 0.006 260);
+  font-family: inherit;
+  font-size: 0.9375rem;
+}
+/* LE PANNEAU A UNE HAUTEUR BORNEE ET DEFILE DEDANS. Sans cette borne, 219
+   styles poussent le bouton d'envoi a deux ecrans plus bas et on ne sait plus
+   qu'il existe. */
+.cs-familles {
+  margin-top: 0.8rem;
+  max-height: 42vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.cs-famille {
+  margin: 0.9rem 0 0.35rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: oklch(0.6 0.01 260);
+  text-transform: uppercase;
+}
+.cs-famille:first-child {
+  margin-top: 0;
+}
+.cs-genres {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.cs-genres button {
+  padding: 0.28rem 0.6rem;
+  border: 1px solid oklch(1 0 0 / 0.14);
+  border-radius: 999px;
+  background: none;
+  color: oklch(0.85 0.008 260);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+.cs-genres button:hover:not(:disabled) {
+  border-color: oklch(1 0 0 / 0.34);
+}
+.cs-genres button[data-pris='true'] {
+  background: oklch(0.78 0.17 85);
+  border-color: oklch(0.78 0.17 85);
+  color: oklch(0.2 0.02 85);
+  font-weight: 700;
+}
+.cs-genres button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* --- La pochette ---------------------------------------------------------- */
+
+.zd-pochette {
+  max-width: 16rem;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  padding: 0.8rem;
+}
+.zd-apercu {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.sp-lien {
+  margin-top: 0.4rem;
+  padding: 0;
+  border: none;
+  background: none;
+  color: oklch(0.7 0.09 25);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.sp-pochette {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+/* La vignette qui s'agrandit est un bouton : elle doit se voir cliquable. */
+.sp-vignette-ouvrable {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: zoom-in;
+  line-height: 0;
+}
+.sp-vignette-ouvrable:hover img {
+  outline: 2px solid oklch(0.78 0.17 85);
+  outline-offset: 2px;
+}
+
+/* --- L'image en grand ----------------------------------------------------- */
+
+.loupe {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  /* MARGE EN REM ET NON EN PROPORTION D'ECRAN. La premiere version prenait
+     5vw, ce qui redisait une grandeur deja nommee ailleurs dans le projet, et
+     le controle des constantes l'a refuse. Il a raison : ce n'est pas une
+     decoupe d'ecran qu'on veut ici, c'est un simple retrait autour de
+     l'image, et le haut est plus grand pour laisser passer le bouton de
+     fermeture. */
+  padding: 4rem 1.25rem 1.5rem;
+  background: oklch(0 0 0 / 0.88);
+  cursor: zoom-out;
+}
+.loupe img {
+  max-width: 100%;
+  max-height: 90vh;
+  border-radius: 10px;
+  cursor: default;
+}
+.loupe-fermer {
+  position: absolute;
+  top: max(1rem, env(safe-area-inset-top, 0px));
+  right: 1rem;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: oklch(1 0 0 / 0.12);
+  color: oklch(0.97 0 0);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}

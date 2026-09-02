@@ -26,7 +26,10 @@ import {
   TAILLE_MAX,
   basculerPublication,
   calculerOnde,
+  compresserPochette,
   creerSet,
+  deposerPochette,
+  urlPochette,
   deposerAudio,
   deposerAvatar,
   enregistrerArtiste,
@@ -41,15 +44,9 @@ import {
 } from '../lib/sets.ts';
 import { LecteurSet } from './LecteurSet.tsx';
 import { ZoneDepot } from './ZoneDepot.tsx';
+import { ChoixStyles } from './ChoixStyles.tsx';
 import { SiteNav } from './SiteNav.tsx';
-import { FAMILIES, STRUCTURES } from './structures.ts';
 
-/* Le libelle d'un genre a partir de son identifiant. Construit une fois :
-   la pastille en a besoin a chaque rendu, et parcourir 219 genres a chaque
-   fois pour retrouver un nom serait du travail refait pour rien. */
-const LABEL_DE_GENRE: Record<string, string> = Object.fromEntries(
-  FAMILIES.flatMap((_, fi) => (STRUCTURES[fi]?.genres ?? []).map((g) => [g.id, g.label]))
-);
 import { t } from '../langue/langue.ts';
 import './credits.css';
 import './sets.css';
@@ -80,6 +77,7 @@ export function ProfilPage() {
   const [messageDepot, setMessageDepot] = useState<string | null>(null);
   const [avancement, setAvancement] = useState<number | null>(null);
   const [genres, setGenres] = useState<string[]>([]);
+  const [pochette, setPochette] = useState<{ fichier: File; apercu: string; avant: number } | null>(null);
 
   const recharger = useCallback(async () => {
     setSets(await mesSets());
@@ -201,6 +199,30 @@ export function ProfilPage() {
     if (!titre.trim()) setTitre(f.name.replace(/\.[^.]+$/, '').slice(0, 120));
   };
 
+  /* LA POCHETTE EST COMPRESSEE AU MOMENT DU CHOIX, PAS A L'ENVOI.
+
+     Une image de quarante megaoctets met deux secondes a se reduire. Faites
+     au moment du depot, ces deux secondes s'ajoutent a l'attente du fichier
+     audio et paraissent une panne ; faites au choix, elles se passent pendant
+     qu'on tape le titre. On en profite pour montrer tout de suite le resultat,
+     ce qui est aussi la seule facon de verifier que la compression n'a pas
+     abime l'image. */
+  const choisirPochette = async (f: File): Promise<void> => {
+    setMessageDepot(null);
+    if (!f.type.startsWith('image/')) {
+      setMessageDepot(t.formatImageRefuse);
+      return;
+    }
+    try {
+      const petite = await compresserPochette(f);
+      if (pochette) URL.revokeObjectURL(pochette.apercu);
+      setPochette({ fichier: petite, apercu: URL.createObjectURL(petite), avant: f.size });
+      setMessageDepot(t.pochetteCompressee(mo(f.size), mo(petite.size)));
+    } catch {
+      setMessageDepot(t.formatImageRefuse);
+    }
+  };
+
   const deposer = async (): Promise<void> => {
     if (!fichier || !titre.trim()) return;
     setMessageDepot(null);
@@ -218,7 +240,9 @@ export function ProfilPage() {
       );
 
       setEtape('ligne');
+      const cover = pochette ? await deposerPochette(pochette.fichier) : null;
       await creerSet({
+        cover_path: cover,
         titre: titre.trim(),
         description: description.trim() || null,
         genre_ids: genres.length > 0 ? genres : null,
@@ -233,6 +257,8 @@ export function ProfilPage() {
       setTitre('');
       setDescription('');
       setGenres([]);
+      if (pochette) URL.revokeObjectURL(pochette.apercu);
+      setPochette(null);
       setMessageDepot(t.setDepose);
       await recharger();
     } catch (e) {
@@ -369,63 +395,38 @@ export function ProfilPage() {
             navigateur y cherche deja au clavier, et sur telephone il ouvre la
             roue du systeme, qui se manipule mieux que tout ce qu'on
             dessinerait. */}
-        {/* PLUSIEURS STYLES, ET ON LES AJOUTE UN PAR UN.
-
-            Un `select multiple` natif est le pire des deux mondes : il faut
-            tenir une touche pour choisir le second, il n'affiche que trois
-            lignes sur un ecran etroit, et sur telephone il ne s'ouvre pas en
-            roue. On garde donc une liste deroulante ordinaire, qui ajoute au
-            choix, et les styles retenus s'affichent en pastilles qu'on retire
-            d'un clic. Ce qui a ete choisi reste visible, ce qu'un select
-            multiple ne fait pas non plus.
-
-            Les styles deja pris disparaissent de la liste : proposer un choix
-            sans effet est une invitation a un clic mort. */}
-        <label className="sp-label">
-          {t.genresDuSet(GENRES_MAX)}
-          <select
-            value=""
-            disabled={genres.length >= GENRES_MAX}
-            onChange={(e) => {
-              const v = e.target.value;
-              if (v && !genres.includes(v)) setGenres([...genres, v]);
+        {/* LA POCHETTE. Meme zone de depot que le fichier audio : glisser une
+            image dessus la remplace, cliquer ouvre le selecteur. */}
+        <p className="sp-label">{t.pochette}</p>
+        <ZoneDepot
+          className="zd-pochette"
+          accept={FORMATS_IMAGE}
+          onFichier={(f) => void choisirPochette(f)}
+          disabled={occupe}
+        >
+          {pochette ? (
+            <img className="zd-apercu" src={pochette.apercu} alt="" />
+          ) : (
+            <>
+              <p className="zd-titre">{t.deposerUnePochette}</p>
+              <p className="zd-aide">{t.pochetteAide}</p>
+            </>
+          )}
+        </ZoneDepot>
+        {pochette && (
+          <button
+            type="button"
+            className="sp-lien"
+            onClick={() => {
+              URL.revokeObjectURL(pochette.apercu);
+              setPochette(null);
             }}
           >
-            <option value="">
-              {genres.length >= GENRES_MAX ? t.genresAuMaximum : t.ajouterUnStyle}
-            </option>
-            {FAMILIES.map((f, fi) => {
-              const restants = (STRUCTURES[fi]?.genres ?? []).filter((g) => !genres.includes(g.id));
-              if (restants.length === 0) return null;
-              return (
-                <optgroup label={f.label} key={f.id}>
-                  {restants.map((g) => (
-                    <option value={g.id} key={g.id}>
-                      {g.label}
-                    </option>
-                  ))}
-                </optgroup>
-              );
-            })}
-          </select>
-        </label>
-
-        {genres.length > 0 && (
-          <ul className="sp-styles">
-            {genres.map((id) => (
-              <li key={id}>
-                <button
-                  type="button"
-                  onClick={() => setGenres(genres.filter((x) => x !== id))}
-                  aria-label={t.retirerLeStyle(LABEL_DE_GENRE[id] ?? id)}
-                >
-                  {LABEL_DE_GENRE[id] ?? id}
-                  <span aria-hidden="true">×</span>
-                </button>
-              </li>
-            ))}
-          </ul>
+            {t.retirerLaPochette}
+          </button>
         )}
+
+        <ChoixStyles choisis={genres} onChange={setGenres} max={GENRES_MAX} />
 
         <label className="sp-label">
           {t.descriptionFacultative}
@@ -465,7 +466,11 @@ export function ProfilPage() {
             {sets.map((s) => (
               <li key={s.id} className="sp-item">
                 <div className="sp-item-tete">
-                  <div>
+                  <div className="sp-item-titre">
+                    {urlPochette(s.cover_path) && (
+                      <img className="sp-pochette" src={urlPochette(s.cover_path) ?? ''} alt="" />
+                    )}
+                    <div>
                     <h3>{s.titre}</h3>
                     <p className="sp-aide">
                       {s.duree_s ? mmss(s.duree_s) : t.dureeInconnue}
@@ -473,6 +478,7 @@ export function ProfilPage() {
                       {s.publie ? t.publie : t.brouillon}
                       {s.publie ? ` · ${t.nEcoutes(s.ecoutes)}` : ''}
                     </p>
+                    </div>
                   </div>
                   <div className="sp-item-actions">
                     <button

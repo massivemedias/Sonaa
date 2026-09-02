@@ -19,10 +19,12 @@ import {
   unArtiste,
   unSetPublic,
   urlAvatar,
+  urlPochette,
   type ArtistePublic,
   type SetDJ,
 } from '../lib/sets.ts';
 import { LecteurSet } from './LecteurSet.tsx';
+import { Loupe } from './Loupe.tsx';
 import { SiteNav } from './SiteNav.tsx';
 import { t } from '../langue/langue.ts';
 import './credits.css';
@@ -248,12 +250,39 @@ export function ListeUnSet({ set, sansArtiste }: { set: SetDJ; sansArtiste?: boo
   );
 }
 
+/* LA POCHETTE D'ABORD, LE PORTRAIT ENSUITE.
+
+   Un set a une pochette : c'est elle qu'on cherche des yeux dans une liste.
+   Faute de pochette on retombe sur le portrait de l'artiste, qui vaut mieux
+   qu'un carre vide, et faute des deux sur l'initiale.
+
+   SEULE LA POCHETTE S'AGRANDIT. Un portrait de profil n'a rien a montrer en
+   grand, et rendre cliquable une image qui ne reagit pas serait pire que de
+   ne rien rendre cliquable. */
 function Vignette({ set }: { set: SetDJ }) {
-  const url = urlAvatar(set.artiste_avatar);
+  const [grande, setGrande] = useState(false);
+  const pochette = urlPochette(set.cover_path);
+  const portrait = urlAvatar(set.artiste_avatar);
+
+  if (pochette) {
+    return (
+      <>
+        <button
+          className="sp-vignette sp-vignette-ouvrable"
+          onClick={() => setGrande(true)}
+          aria-label={set.titre}
+        >
+          <img src={pochette} alt="" loading="lazy" />
+        </button>
+        {grande && <Loupe url={pochette} legende={set.titre} onFermer={() => setGrande(false)} />}
+      </>
+    );
+  }
+
   return (
     <span className="sp-vignette">
-      {url ? (
-        <img src={url} alt="" loading="lazy" />
+      {portrait ? (
+        <img src={portrait} alt="" loading="lazy" />
       ) : (
         <span className="sp-avatar-vide" aria-hidden="true">
           {(set.artiste_nom?.trim()[0] ?? '?').toUpperCase()}

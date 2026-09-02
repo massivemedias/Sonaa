@@ -137,6 +137,7 @@ export interface SetDJ {
   readonly titre: string;
   readonly description: string | null;
   readonly audio_path: string;
+  readonly cover_path: string | null;
   readonly duree_s: number | null;
   readonly onde: string | null;
   readonly ecoutes: number;
@@ -182,6 +183,10 @@ export function urlAudio(chemin: string): string {
 
 export function urlAvatar(chemin: string | null | undefined): string | null {
   return chemin ? `${base}/storage/v1/object/public/avatars/${chemin}` : null;
+}
+
+export function urlPochette(chemin: string | null | undefined): string | null {
+  return chemin ? `${base}/storage/v1/object/public/covers/${chemin}` : null;
 }
 
 /* --- La forme d'onde ------------------------------------------------------ */
@@ -531,6 +536,155 @@ const TYPE_PAR_EXTENSION: Record<string, string> = {
 };
 
 /** Ce que l'envoi rapporte a l'appelant pendant qu'il dure. */
+/* --- La pochette ---------------------------------------------------------- */
+
+/** Cote maximal de la pochette enregistree. Une pochette s'affiche a 300 px
+    dans une liste et remplit au plus la moitie d'un ecran quand on l'ouvre :
+    1200 px couvre les deux avec de la marge sur un ecran a haute densite, et
+    ne coute qu'environ 200 ko en WebP. */
+export const COTE_POCHETTE = 1200;
+
+/** Recompresse une image, quelle que soit sa taille de depart.
+
+    ON NE REFUSE JAMAIS SUR LA TAILLE D'ENTREE. Un master de pochette fait
+    couramment 40 Mo en TIFF, et Mika a demande qu'un fichier de deux
+    gigaoctets passe quand meme. Ce qui compte est ce qui SORT.
+
+    `createImageBitmap` avec `resizeWidth` fait le travail au bon endroit :
+    le redimensionnement est demande AU DECODEUR, donc l'image complete n'est
+    jamais construite en memoire. Decoder puis reduire aurait bati une image
+    de plusieurs centaines de megaoctets avant de la jeter.
+
+    Le WebP a 0,86 est le point ou l'artefact cesse de se voir sur un aplat
+    de couleur, ce qui est le cas difficile d'une pochette de disque. */
+export async function compresserPochette(fichier: File): Promise<File> {
+  const taille = await dimensionsImage(fichier);
+  const bitmap = await creerBitmap(fichier, taille);
+
+  const cote = Math.max(bitmap.width, bitmap.height);
+  const echelle = cote > COTE_POCHETTE ? COTE_POCHETTE / cote : 1;
+  const l = Math.max(1, Math.round(bitmap.width * echelle));
+  const h = Math.max(1, Math.round(bitmap.height * echelle));
+
+  const toile = document.createElement('canvas');
+  toile.width = l;
+  toile.height = h;
+  const ctx = toile.getContext('2d');
+  if (!ctx) throw new Error('image illisible');
+  ctx.drawImage(bitmap, 0, 0, l, h);
+  bitmap.close();
+
+  const blob = await new Promise<Blob | null>((res) => toile.toBlob(res, 'image/webp', 0.86));
+  if (!blob) throw new Error('compression impossible');
+  return new File([blob], 'cover.webp', { type: 'image/webp' });
+}
+
+/** Les dimensions lues dans l'en-tete, sans decoder l'image.
+
+    DEUX DEFAUTS MESURES SUR LA PREMIERE VERSION, qui demandait au decodeur
+    une largeur de 1200 sans savoir ce qu'il avait sous la main :
+
+      une pochette de 200 px etait AGRANDIE a 1200, plus floue et plus lourde
+      qu'a l'arrivee, 2 ko devenus 3 ;
+
+      une image en hauteur, disons 800 sur 4000, voyait sa LARGEUR portee a
+      1200, donc sa hauteur a 6000. On agrandissait en croyant reduire.
+
+    Les deux viennent de la meme cause : on ne peut pas cadrer ce qu'on n'a
+    pas mesure. L'en-tete tient dans les premiers kilo-octets des trois
+    formats acceptes, et le lire coute une lecture de 64 ko la ou decoder
+    coutait 256 Mo sur une image de 8000 par 8000. */
+async function dimensionsImage(fichier: File): Promise<{ l: number; h: number } | null> {
+  try {
+    const vue = new DataView(await fichier.slice(0, 65536).arrayBuffer());
+
+    // PNG : la largeur et la hauteur vivent dans le bloc IHDR, toujours en tete.
+    if (vue.byteLength > 24 && vue.getUint32(0, false) === 0x89504e47) {
+      return { l: vue.getUint32(16, false), h: vue.getUint32(20, false) };
+    }
+
+    // JPEG : il faut parcourir les marqueurs jusqu'au debut de trame.
+    if (vue.byteLength > 4 && vue.getUint16(0, false) === 0xffd8) {
+      let i = 2;
+      while (i + 9 < vue.byteLength) {
+        if (vue.getUint8(i) !== 0xff) {
+          i += 1;
+          continue;
+        }
+        const marqueur = vue.getUint8(i + 1);
+        /* Les marqueurs de debut de trame portent les dimensions. On ecarte
+           0xC4, 0xC8 et 0xCC, qui sont des tables et non des trames. */
+        const estTrame =
+          marqueur >= 0xc0 && marqueur <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marqueur);
+        if (estTrame) return { h: vue.getUint16(i + 5, false), l: vue.getUint16(i + 7, false) };
+        i += 2 + vue.getUint16(i + 2, false);
+      }
+      return null;
+    }
+
+    // WebP : trois variantes de bloc, et chacune range ses dimensions ailleurs.
+    if (vue.byteLength > 30 && vue.getUint32(0, false) === 0x52494646 && vue.getUint32(8, false) === 0x57454250) {
+      const bloc = vue.getUint32(12, false);
+      if (bloc === 0x56503858) {
+        // VP8X : deux entiers de 24 bits, moins un.
+        const l = 1 + (vue.getUint8(24) | (vue.getUint8(25) << 8) | (vue.getUint8(26) << 16));
+        const h = 1 + (vue.getUint8(27) | (vue.getUint8(28) << 8) | (vue.getUint8(29) << 16));
+        return { l, h };
+      }
+      if (bloc === 0x5650384c) {
+        const b = vue.getUint32(21, true);
+        return { l: 1 + (b & 0x3fff), h: 1 + ((b >> 14) & 0x3fff) };
+      }
+      if (bloc === 0x56503820) {
+        return { l: vue.getUint16(26, true) & 0x3fff, h: vue.getUint16(28, true) & 0x3fff };
+      }
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+async function creerBitmap(
+  fichier: File,
+  taille: { l: number; h: number } | null
+): Promise<ImageBitmap> {
+  /* SANS DIMENSIONS CONNUES, ON NE REDIMENSIONNE PAS. Un format inattendu
+     vaut mieux decode tel quel puis reduit a la toile : c'est plus lourd,
+     mais c'est juste, et le cadrage se fait de toute facon plus loin. */
+  if (!taille) return createImageBitmap(fichier);
+
+  const cote = Math.max(taille.l, taille.h);
+  if (cote <= COTE_POCHETTE) return createImageBitmap(fichier);
+
+  /* LE COTE LE PLUS LONG COMMANDE, jamais la largeur seule : une image en
+     hauteur cadree sur sa largeur grandit au lieu de retrecir. */
+  const echelle = COTE_POCHETTE / cote;
+  try {
+    return await createImageBitmap(fichier, {
+      resizeWidth: Math.max(1, Math.round(taille.l * echelle)),
+      resizeHeight: Math.max(1, Math.round(taille.h * echelle)),
+      resizeQuality: 'high',
+    });
+  } catch {
+    return createImageBitmap(fichier);
+  }
+}
+
+/** Depose la pochette deja compressee et rend son chemin. */
+export async function deposerPochette(fichier: File): Promise<string> {
+  if (!supabase) throw new Error('base indisponible');
+  const { data } = await supabase.auth.getSession();
+  const id = data.session?.user?.id;
+  if (!id) throw new Error('non connecte');
+  const chemin = `${id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.webp`;
+  const { error } = await supabase.storage
+    .from('covers')
+    .upload(chemin, fichier, { contentType: 'image/webp', upsert: false });
+  if (error) throw new Error(error.message);
+  return chemin;
+}
+
 export interface Avancement {
   readonly envoye: number;
   readonly total: number;
@@ -610,6 +764,7 @@ export async function creerSet(champs: {
   titre: string;
   description?: string | null;
   audio_path: string;
+  cover_path?: string | null;
   duree_s?: number | null;
   taille_o?: number | null;
   onde?: string | null;
@@ -634,7 +789,7 @@ export async function mesSets(): Promise<SetDJ[]> {
   if (!id) return [];
   const { data } = await supabase
     .from('dj_sets')
-    .select('id, titre, description, audio_path, duree_s, onde, ecoutes, created_at, user_id, genre_ids, publie')
+    .select('id, titre, description, audio_path, cover_path, duree_s, onde, ecoutes, created_at, user_id, genre_ids, publie')
     .eq('user_id', id)
     .order('created_at', { ascending: false });
   return (data as SetDJ[] | null) ?? [];
