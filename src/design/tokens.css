@@ -22,41 +22,43 @@
      grotesque geometrique, Inter tient la meme largeur d'oeil. */
   --police: 'Larsseit', 'Inter', system-ui, -apple-system, sans-serif;
 
-  /* LE SERRAGE : -1px, UNE seule valeur, partout.
+  /* LE SERRAGE : -0,3 px, UNE seule valeur, pour tout le site.
 
-     Les essais precedents ont pose -4px, puis -3px. La mesure a montre a
-     chaque fois le meme piege : une valeur absolue produit des effets
-     opposes selon la taille du texte ou elle tombe. A -3px, le mot
-     « electronique » perdait 39 pour cent de sa largeur dans un paragraphe
-     de 16 px, et « Detroit, milieu des annees 1980 » se lisait
-     « Detroitmilieudesannees1980 ».
+     L'HISTOIRE DE CE JETON EN DIT PLUS QUE SA VALEUR. Il a porte -4px, puis
+     -3px, puis -1px, puis zero avec deux jetons compagnons a zero aussi. A
+     chaque passe, la valeur changeait a un endroit et une poignee de regles
+     locales lui echappaient, si bien que le site finissait toujours avec
+     deux serrages differents. La derniere fois, un texte de famille est
+     reste sur une regle que je n'avais pas mesuree.
 
-     -1px echappe au piege, et c'est pour cela qu'une seule valeur suffit
-     desormais : de -0,043 em sur un titre de 23 px a -0,078 em sur du texte
-     de 12,8 px, l'ecart reste dans la plage ou un serrage se voit sans que
-     les mots se touchent. Le couple titre / texte courant a donc disparu :
-     deux valeurs qui n'ont plus de raison d'etre differentes finiraient par
-     diverger pour rien. */
-  --serrage: -1px;
-  /* PLUS AUCUN ECARTEMENT NULLE PART, C'EST LA DEMANDE.
+     LA LECON EST STRUCTURELLE, PAS TYPOGRAPHIQUE : le probleme n'etait
+     jamais la valeur, c'etait le nombre d'endroits qui la portaient. Les
+     soixante-cinq declarations du projet pointent donc toutes ici, y compris
+     celles qui valaient zero. Zero etait le resultat de la passe precedente,
+     pas une intention locale : le laisser aurait reconstitue le meme defaut a
+     l'identique.
 
-     Ces deux jetons portaient un ecartement POSITIF : un dixieme de pixel sur
-     le texte courant, un pixel plein sur l'interface. Chacun avait sa raison,
-     ecrite ici et defendue : un paragraphe de dix lignes a besoin de blancs
-     entre les mots, et « Mettre a jour » a -1px se lit « Mettreajour ».
+     POURQUOI -0,3 px TIENT SANS EXCEPTION. C'est un serrage qui reste dans
+     la meme plage utile a toutes les tailles du site : -0,013 em sur un
+     titre de 23 px, -0,023 em sur du texte de 13 px. Les valeurs plus
+     fortes deja essayees se payaient sur les petits corps, ou « Mettre a
+     jour » finissait par se lire « Mettreajour ». A trois dixiemes de pixel,
+     le texte se resserre sans qu'aucun mot ne se touche, ce qui est
+     precisement ce qui permet de n'avoir qu'un seul reglage.
 
-     Mika a tranche autrement, et la demande est generale : aucun ecartement,
-     nulle part sur le site. Les deux jetons passent donc a zero et les 54
-     regles qui ecartaient les lettres dans les treize feuilles de style
-     passent a zero avec eux. Le resserrement de -1px reste, lui : il a ete
-     demande trois fois, explicitement, sur les noms de genres et de morceaux.
+     LA PROCHAINE VALEUR SE CHANGE SUR CETTE LIGNE, ET NULLE PART AILLEURS. */
+  --serrage: -0.3px;
 
-     Les jetons ne sont pas supprimes. Ils restent comme point unique de
-     reglage : si le probleme de « Mettreajour » revient, il se corrigera ici
-     et pas dans cinquante-quatre endroits. */
-  --serrage-texte: 0;
+  /* LES DEUX JETONS COMPAGNONS SUBSISTENT MAIS NE DECIDENT PLUS RIEN.
 
-  --serrage-ui: 0;
+     Ils ont porte un ecartement propre au texte courant et un autre a
+     l'interface, chacun defendu par une raison mesuree. La demande est
+     maintenant une valeur unique pour tout : ils delegent donc, au lieu
+     d'etre supprimes. Les garder coute une ligne et laisse la porte ouverte
+     si un cas particulier revient ; les supprimer obligerait a retoucher les
+     regles qui les nomment. */
+  --serrage-texte: var(--serrage);
+  --serrage-ui: var(--serrage);
 
   /* LA TAILLE DU TEXTE COURANT, demandee par Mika devant la fiche Electro
      House : 12 px sur telephone, 13 px sur ordinateur.
@@ -174,7 +176,7 @@
   --weight-data: 400;
 
   /* Mis a zero avec tout le reste : plus aucun ecartement sur le site. */
-  --tracking-family: 0;
+  --tracking-family: var(--serrage);
   --tracking-display: 0.18em;
   --leading-reading: 1.65;
 

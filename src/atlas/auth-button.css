@@ -85,7 +85,7 @@
 
      Ecrit en absolu et non en `calc(var(--serrage) + 1px)` : la valeur
      generale peut encore bouger, ce bouton ne doit pas la suivre. */
-  letter-spacing: 0;
+  letter-spacing: var(--serrage);
   cursor: pointer;
 }
 

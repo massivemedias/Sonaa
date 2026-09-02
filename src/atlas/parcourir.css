@@ -359,7 +359,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      a +1px pour les boutons du menu et du bandeau. Mais « Broken Techno »
      sur une vignette est du texte d'affichage : il se serre comme les
      autres titres du site. */
-  letter-spacing: -1px;
+  letter-spacing: var(--serrage);
   /* GOOGLE SANS N'EST PAS DISTRIBUEE PUBLIQUEMENT : ni Google Fonts ni aucun
      autre service ne la sert. Elle est donc demandee en premier, ou elle est
      installee elle sortira, et la suite de la pile prend le relais ailleurs.
@@ -378,7 +378,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   overflow-wrap: anywhere;
 }
 .pv-tuile-detail {
-  letter-spacing: -1px;
+  letter-spacing: var(--serrage);
   flex: none;
   font-family: inherit;
   font-size: 0.8125rem;
@@ -582,7 +582,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   margin: 0 0 0.85rem;
   font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0;
+  letter-spacing: var(--serrage);
   text-transform: uppercase;
   color: oklch(0.66 0.01 260);
 }
@@ -616,7 +616,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   margin-bottom: 0.5rem;
   font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0;
+  letter-spacing: var(--serrage);
   text-transform: uppercase;
   color: oklch(0.62 0.14 var(--pv-hue));
 }
@@ -634,7 +634,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   color: oklch(0.99 0 0);
   font: inherit;
   font-size: 0.72rem;
-  letter-spacing: 0;
+  letter-spacing: var(--serrage);
   text-transform: uppercase;
   cursor: pointer;
 }
@@ -765,7 +765,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   /* Un titre de morceau se serre comme un titre. La ligne est courte et
      souvent longue en signes : « We Don't Need No Music » gagne a etre
      compacte. */
-  letter-spacing: -1px;
+  letter-spacing: var(--serrage);
   font-size: 0.825rem;
   font-weight: 550;
   overflow: hidden;
@@ -776,7 +776,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   color: oklch(0.82 0.15 150);
 }
 .pv-piste-artiste {
-  letter-spacing: -1px;
+  letter-spacing: var(--serrage);
   font-size: 0.75rem;
   color: oklch(0.68 0.01 260);
   overflow: hidden;

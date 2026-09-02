@@ -284,7 +284,7 @@
   font-size: 0.6875rem;
   font-weight: var(--weight-data);
   color: var(--ink-secondary);
-  letter-spacing: 0;
+  letter-spacing: var(--serrage);
   text-transform: uppercase;
 }
 
@@ -301,7 +301,7 @@
 .pcol-imprint strong {
   font-weight: var(--weight-genre);
   color: var(--ink-primary);
-  letter-spacing: 0;
+  letter-spacing: var(--serrage);
 }
 
 .pcol-catno {
@@ -338,7 +338,7 @@
   font-family: var(--font-ui);
   font-size: 0.6875rem;
   font-weight: var(--weight-family);
-  letter-spacing: 0;
+  letter-spacing: var(--serrage);
   text-transform: uppercase;
   color: var(--ink-secondary);
 }
@@ -356,7 +356,7 @@
 .pcol-draft {
   margin: 0 0 0.5rem;
   font-size: 0.65625rem;
-  letter-spacing: 0;
+  letter-spacing: var(--serrage);
   text-transform: uppercase;
   color: oklch(0.75 0.12 80);
 }
@@ -375,7 +375,7 @@
   margin: 0.55rem 0 0.15rem;
   font-size: 0.625rem;
   font-weight: var(--weight-data);
-  letter-spacing: 0;
+  letter-spacing: var(--serrage);
   text-transform: uppercase;
   color: var(--ink-secondary);
 }
@@ -423,7 +423,7 @@
   font-family: var(--font-ui);
   font-size: 0.5625rem;
   font-weight: var(--weight-data);
-  letter-spacing: 0;
+  letter-spacing: var(--serrage);
   text-transform: uppercase;
   color: var(--ink-secondary);
   vertical-align: middle;
@@ -1336,7 +1336,7 @@
   margin: 0;
   font-size: 1.4rem;
   font-weight: var(--weight-family);
-  letter-spacing: 0;
+  letter-spacing: var(--serrage);
   line-height: 1.15;
 }
 
@@ -1352,7 +1352,7 @@
   color: var(--family);
   font-size: 0.75rem;
   font-weight: var(--weight-family);
-  letter-spacing: 0;
+  letter-spacing: var(--serrage);
   text-transform: uppercase;
 }
 
@@ -1365,7 +1365,7 @@
 
 .pcol-badge {
   font-size: 0.625rem;
-  letter-spacing: 0;
+  letter-spacing: var(--serrage);
   text-transform: uppercase;
   color: var(--ink-secondary);
   border: 1px solid var(--rule-hairline);
@@ -1400,7 +1400,7 @@
   margin: 0.6rem 0 0.15rem;
   font-size: 0.625rem;
   font-weight: var(--weight-data);
-  letter-spacing: 0;
+  letter-spacing: var(--serrage);
   text-transform: uppercase;
   color: var(--ink-secondary);
 }

@@ -33,7 +33,7 @@
   margin: 0 0 0.5rem;
   font-size: 0.9375rem;
   font-weight: var(--weight-family);
-  letter-spacing: 0;
+  letter-spacing: var(--serrage);
   text-transform: uppercase;
   color: var(--family);
 }
@@ -79,7 +79,7 @@
   font-family: var(--font-ui);
   font-size: 0.8125rem;
   font-weight: var(--weight-genre);
-  letter-spacing: 0;
+  letter-spacing: var(--serrage);
   color: var(--ink-primary);
   text-align: left;
   white-space: nowrap;

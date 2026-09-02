@@ -82,7 +82,7 @@ body:has(.hm) .pwa-bandeau {
 .pwa-bouton-principal {
   /* Serres comme les titres et non comme le menu : ce sont deux mots pleins,
      pas une etiquette isolee. */
-  letter-spacing: -1px;
+  letter-spacing: var(--serrage);
   padding: 0.4rem 0.75rem;
   font-family: inherit;
   font-size: 0.78rem;

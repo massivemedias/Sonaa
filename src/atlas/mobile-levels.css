@@ -106,7 +106,7 @@
      fond et le flou de la bande suffisent a la detacher de la carte. */
   font-family: var(--font-ui);
   font-size: 0.75rem;
-  letter-spacing: 0;
+  letter-spacing: var(--serrage);
 }
 
 /* LA FLÈCHE DE RETOUR FAIT 44 px, comme toute cible tactile de ce projet.
@@ -350,7 +350,7 @@
   padding-left: 0.6rem;
   color: var(--ink-secondary, oklch(0.66 0.01 250));
   text-transform: none;
-  letter-spacing: 0;
+  letter-spacing: var(--serrage);
   font-size: 0.68rem;
 }
 
