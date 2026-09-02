@@ -73,9 +73,19 @@ export function SetsPage() {
 
 /* --- Les artistes --------------------------------------------------------- */
 
+/* COMBIEN D'ARTISTES ON MONTRE AVANT DE DEMANDER.
+
+   Aujourd'hui ils sont deux. A cent, une grille complete ferait defiler
+   plusieurs ecrans avant d'atteindre les derniers sets, qui sont pourtant ce
+   qu'on vient ecouter. Dix-huit tiennent en trois rangees sur un ordinateur
+   et six sur un telephone, ce qui laisse le reste de la page visible sans
+   couper l'acces aux autres. */
+const ARTISTES_VISIBLES = 18;
+
 function ListeDesArtistes() {
   const [artistes, setArtistes] = useState<ArtistePublic[] | null>(null);
   const [derniers, setDerniers] = useState<SetDJ[]>([]);
+  const [tous, setTous] = useState(false);
 
   useEffect(() => {
     let vivant = true;
@@ -103,15 +113,18 @@ function ListeDesArtistes() {
   return (
     <main className="credits sets-page">
       <SiteNav variant="page" />
-      <h1>{t.lesArtistes}</h1>
+      <h1>{t.lesSons}</h1>
+
+      <h2 className="sp-sous-titre sp-sous-titre-premier">{t.lesArtistes}</h2>
 
       {artistes === null ? (
         <p className="sp-aide">{t.chargement}</p>
       ) : artistes.length === 0 ? (
         <p className="sp-aide">{t.aucunArtiste}</p>
       ) : (
+        <>
         <ul className="sp-artistes">
-          {artistes.map((a) => (
+          {(tous ? artistes : artistes.slice(0, ARTISTES_VISIBLES)).map((a) => (
             <li key={a.user_id}>
               <a className="sp-carte-artiste" href={`#/sets/a/${a.user_id}`}>
                 <Portrait nom={a.nom} chemin={a.avatar_path} />
@@ -123,6 +136,12 @@ function ListeDesArtistes() {
             </li>
           ))}
         </ul>
+        {!tous && artistes.length > ARTISTES_VISIBLES && (
+          <button className="sp-lien" onClick={() => setTous(true)}>
+            {t.voirTousLesArtistes(artistes.length)}
+          </button>
+        )}
+        </>
       )}
 
       {/* UNE GRILLE DE VISAGES NE S'ECOUTE PAS. Sans cette section, la page

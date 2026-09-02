@@ -169,6 +169,8 @@ interface Dictionnaire {
   readonly changementsNonEnregistres: string;
   readonly retirerLeStyle: (nom: string) => string;
   readonly lesArtistes: string;
+  readonly lesSons: string;
+  readonly voirTousLesArtistes: (n: number) => string;
   readonly nSets: (n: number) => string;
   readonly aucunArtiste: string;
   readonly setsDeLaCommunaute: string;
@@ -339,6 +341,8 @@ const FR: Dictionnaire = {
   changementsNonEnregistres: 'Modifications non enregistrées',
   retirerLeStyle: (nom) => `Retirer ${nom}`,
   lesArtistes: 'Artistes',
+  lesSons: 'Sons',
+  voirTousLesArtistes: (n) => `Voir les ${n} artistes`,
   nSets: (n) => (n <= 1 ? `${n} set` : `${n} sets`),
   aucunArtiste: 'Personne n’a encore publié de set.',
   setsDeLaCommunaute: 'Sets déposés dans ce style',
@@ -508,6 +512,8 @@ const EN: Dictionnaire = {
   changementsNonEnregistres: 'Unsaved changes',
   retirerLeStyle: (nom) => `Remove ${nom}`,
   lesArtistes: 'Artists',
+  lesSons: 'Sounds',
+  voirTousLesArtistes: (n) => `See all ${n} artists`,
   nSets: (n) => (n <= 1 ? `${n} set` : `${n} sets`),
   aucunArtiste: 'Nobody has published a set yet.',
   setsDeLaCommunaute: 'Sets uploaded in this style',

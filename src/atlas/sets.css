@@ -472,6 +472,9 @@
   color: inherit;
 }
 
+.sp-sous-titre-premier {
+  margin-top: 1.4rem;
+}
 .sp-sous-titre {
   margin: 2.2rem 0 0.6rem;
   font-size: 1.0625rem;

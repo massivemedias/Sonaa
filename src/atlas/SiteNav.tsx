@@ -56,7 +56,12 @@ const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
      ecouter sans compte et sans en deposer un seul : les cacher derriere le
      menu du profil les rendrait invisibles a exactement les gens a qui ils
      s'adressent. */
-  { href: '#/sets', id: 'sets', label: t.lesArtistes }
+  /* « ARTISTES » NOMMAIT LES GENS, PAS CE QU'ON VIENT CHERCHER. Le jour ou
+     ils seront cent, le mot decrira une liste de noms alors qu'on vient
+     ecouter. « Sons » repond a « Styles » comme une porte repond a l'autre :
+     d'un cote l'histoire des genres, de l'autre ce qui se depose aujourd'hui.
+     La page garde ses artistes, en section nommee. */
+  { href: '#/sets', id: 'sets', label: t.lesSons }
 ];
 
 const PAGES: readonly { href: string; id: SiteCourant; label: string }[] = [

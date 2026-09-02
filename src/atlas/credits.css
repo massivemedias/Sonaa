@@ -29,6 +29,13 @@
   margin: 0 auto;
 }
 
+/* La navigation partage la colonne des autres blocs, et se detache du titre
+   qui la suit. */
+.credits > .sitenav {
+  max-width: 38rem;
+  margin: 0 auto 2rem;
+}
+
 .credits-head {
   padding-right: calc(var(--authb-reserve, 126px) + 0.5rem);
 }

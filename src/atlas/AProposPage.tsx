@@ -36,6 +36,16 @@ export function AProposPage() {
         Aller au contenu
       </a>
 
+      {/* LA NAVIGATION EST EN TETE, PLUS EN PIED.
+
+          Elle vivait en bas des pages document, heritage du temps ou c'etait
+          une ligne de liens discrete. Depuis qu'elle est faite de vrais
+          boutons, la laisser en bas oblige a parcourir toute la page pour
+          changer d'endroit, et sur les pages longues on ne sait meme pas
+          qu'elle existe. Les pages de sets la portaient deja en tete : c'est
+          la meme navigation, elle doit se trouver au meme endroit partout. */}
+      <SiteNav variant="page" />
+
       <header className="credits-head">
         <a href="#/" aria-label="SONAA, revenir à l'accueil">
           <img
@@ -179,7 +189,6 @@ export function AProposPage() {
       </div>
 
       <footer className="credits-foot">
-        <SiteNav variant="page" />
       </footer>
     </main>
   );
