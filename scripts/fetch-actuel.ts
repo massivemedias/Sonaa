@@ -219,6 +219,69 @@ const memeStyle = (a: string, b: string): boolean => {
     bruit. Style absent, l'entree est refusee, c'est du bruit certain. */
 const RANG_SAIN = 2;
 
+/* ------------------------------------- LA SECONDE PORTE : L'ARTISTE EXISTE-T-IL
+                                          DANS LE MONDE DE LA MUSIQUE ELECTRONIQUE ?
+
+   POURQUOI ELLE MANQUAIT. Le rang Discogs repond a « ce disque emprunte a
+   quoi ». Il a laisse entrer, mesure sur le corpus livre : Ariana Grande et
+   Bebe Rexha en Garage House, Beyonce et Lil Pump en Miami Bass, NewJeans en
+   club de Jersey et de Baltimore, Bad Bunny, Taylor Swift, Cara Delevingne,
+   Doechii, Jorja Smith, Carly Rae Jepsen. Trente-cinq morceaux qu'il a fallu
+   retirer a la main. Discogs ne mentait pas : « Yes, And? » EMPRUNTE bien au
+   garage house. Mais le site pose l'autre question, « qu'est-ce que je dois
+   ecouter pour comprendre ce style », et ce ne sont pas les memes disques.
+
+   CE QUE LA PORTE DEMANDE. Que les auditeurs, quelque part, aient associe cet
+   artiste a de la musique electronique. Pas a CE genre precis, ce serait trop
+   dur : simplement au monde ou ce genre habite.
+
+   ELLE SE TROMPE DANS UN SENS SEULEMENT, ET C'EST VOULU. Un artiste peut
+   porter un nom deja pris : notre Interpol parait sur Highgrade Records, label
+   de techno minimale de Berlin, mais Last.fm ne connait que le groupe de New
+   York. Cette porte l'aurait refuse. Refuser a tort coute un candidat, le
+   genre en prend un autre au tour suivant. Accepter a tort met de la k-pop
+   dans un genre de club, et il faut un audit d'une demi-heure pour la
+   retrouver. Le cout n'est pas symetrique, la porte penche donc du cote du
+   refus.
+
+   SANS CLE LAST.FM ELLE NE S'OUVRE PAS EN SILENCE : elle se declare fermee au
+   demarrage, et la passe continue sans elle, en le disant. */
+const MONDE_ELECTRONIQUE =
+  /electronic|techno|house|trance|drum and bass|drum n bass|dnb|dubstep|idm|ambient|breakbeat|breaks|electro|edm|dance|disco|industrial|downtempo|garage|jungle|hardcore|bass|club|acid|minimal|glitch|chillout|trip.?hop|synth|ebm|rave|gabber|footwork|grime|dub|leftfield|big beat|italo|balearic|goa|hardstyle|freestyle|new beat|vaporwave|lo-?fi|krautrock|musique concrete|contemporary classical|avant-?garde/i;
+
+const LASTFM = process.env['LASTFM_API_KEY'] ?? lireEnv('LASTFM_API_KEY');
+const tagsConnus = new Map<string, string[]>();
+
+async function estDuMonde(artiste: string, genreLabel: string, famille: string): Promise<boolean> {
+  if (!LASTFM) return true; // porte fermee, annoncee au demarrage
+  const cle = artiste.toLowerCase();
+  let tags = tagsConnus.get(cle);
+  if (!tags) {
+    try {
+      const r = await fetch(
+        'https://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=' +
+          encodeURIComponent(artiste) +
+          `&autocorrect=1&api_key=${LASTFM}&format=json`
+      );
+      const j = (await r.json()) as { toptags?: { tag?: { name: string; count: number }[] } };
+      tags = (j.toptags?.tag ?? []).filter((t) => t.count >= 10).map((t) => t.name);
+    } catch {
+      tags = [];
+    }
+    tagsConnus.set(cle, tags);
+    await sleep(210);
+  }
+  /* AUCUNE ETIQUETTE N'EST PAS UN MOTIF DE REFUS. « All », « spotify »,
+     « under 2000 listeners » : Last.fm ne sait rien de cet artiste. Ne rien
+     savoir ne prouve rien, et refuser sur cette base viderait les niches. */
+  if (tags.length === 0) return true;
+  const tout = tags.join(' ');
+  if (MONDE_ELECTRONIQUE.test(tout)) return true;
+  const mot = (x: string) => new RegExp(x.replace(/[^a-z0-9]+/gi, '.?'), 'i');
+  return mot(genreLabel).test(tout) || mot(famille).test(tout);
+}
+
+
 const anneeMin = new Date().getFullYear() - ANNEES_RECENTES;
 
 /** Sorties récentes d'un style, formats courts, les plus possédées d'abord.
@@ -406,6 +469,15 @@ console.log(
     `Budget de la passe : ${BUDGET} unités, ${etat.unitesConsommees} déjà consommées aujourd'hui.\n`
 );
 
+/* LA PORTE DIT SI ELLE EST OUVERTE. Sans cle Last.fm elle laisse tout passer,
+   et une passe muette ferait croire qu'elle a filtre. */
+console.log(
+  LASTFM
+    ? 'Seconde porte active : un artiste sans aucune etiquette electronique est refuse.'
+    : 'ATTENTION : pas de LASTFM_API_KEY. La seconde porte est FERMEE, rien ne ' +
+        'sera filtre sur l\'artiste et de la pop peut entrer dans les genres.'
+);
+
 let genresCouverts = 0;
 let ajouts = 0;
 
@@ -439,6 +511,10 @@ for (const genre of aTraiter) {
      par vues de quoi choisir sans multiplier les requêtes. */
   const resolus: { c: Candidat; id: string }[] = [];
   let reeditions = 0;
+  /* ON RETIENT LES NOMS ET PAS SEULEMENT LE COMPTE. Une porte qui dit
+     « un refus » sans dire qui ne se verifie pas : c'est exactement comme ca
+     qu'un faux refus passe inapercu pendant des mois. */
+  const horsMonde: string[] = [];
   for (const c of candidats.slice(0, manque * 6)) {
     if (resolus.length >= manque * 3) break;
     const annee = await anneeDeLOeuvre(c);
@@ -447,6 +523,10 @@ for (const genre of aTraiter) {
       continue; // pressage recent d'une oeuvre ancienne
     }
     c.annee = annee;
+    if (!(await estDuMonde(c.artist, genre.label, genre.family))) {
+      horsMonde.push(c.artist);
+      continue;
+    }
     const { hit } = await resolveTrack(c.artist, c.title);
     if (hit && !dejaDansLeCorpus.has(hit.videoId)) {
       resolus.push({ c, id: hit.videoId });
@@ -521,9 +601,14 @@ for (const genre of aTraiter) {
     }
   }
 
+  if (horsMonde.length > 0) {
+    console.log(`      refuses par la seconde porte : ${horsMonde.join(', ')}`);
+  }
+
   console.log(
     `  ${genre.id.padEnd(20)} +${retenus.length} actuel ` +
       `(${candidats.length} candidats, ${reeditions} rééditions écartées, ` +
+      `${horsMonde.length} hors du monde électronique, ` +
       `${resolus.length} résolus, ${etat.unitesConsommees} unités)`
   );
 }
