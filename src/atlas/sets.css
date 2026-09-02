@@ -227,6 +227,17 @@
   margin-top: 0.9rem;
 }
 
+/* ROND BLANC, TRIANGLE PETIT.
+
+   Le rond etait jaune et le triangle occupait presque tout : ca en faisait le
+   point le plus criard de la page, devant le titre du set. Le blanc est deja
+   la couleur des deux autres boutons de lecture du site, celui de la fiche de
+   genre et celui de la barre du bas ; trois boutons qui font la meme chose
+   n'ont aucune raison de ne pas se ressembler.
+
+   Le triangle descend a un tiers du diametre. Une icone qui remplit son rond
+   se lit comme un bouton presse, pas comme un bouton a presser : il lui faut
+   de la marge pour redevenir un signe. */
 .ls-bouton {
   flex: none;
   width: 3rem;
@@ -235,15 +246,15 @@
   place-items: center;
   border: none;
   border-radius: 50%;
-  background: oklch(0.78 0.17 85);
-  color: oklch(0.2 0.02 85);
-  font-size: 1rem;
+  background: oklch(0.98 0 0);
+  color: oklch(0.14 0.01 250);
+  font-size: 0.875rem;
   cursor: pointer;
 }
 .ls-compact .ls-bouton {
   width: 2.25rem;
   height: 2.25rem;
-  font-size: 0.8125rem;
+  font-size: 0.6875rem;
 }
 
 .ls-corps {
