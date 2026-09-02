@@ -86,7 +86,7 @@
 
 .search-family {
   margin-left: auto;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   text-transform: uppercase;
   flex: none;
 }
@@ -144,7 +144,7 @@
   margin: 0.55rem 0 0.2rem;
   font-size: 0.625rem;
   font-weight: var(--weight-family);
-  letter-spacing: 0.1em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--ink-secondary);
 }
@@ -161,7 +161,7 @@
 .search-genre-chip {
   margin-left: auto;
   font-size: 0.65625rem;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   color: var(--ink-primary);
   border: 1px solid var(--rule-hairline);
   padding: 0.12rem 0.45rem;
@@ -288,7 +288,7 @@
 .search-track-famille {
   font-size: 0.625rem;
   font-weight: 500;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--ink-secondary);
 }
@@ -312,7 +312,7 @@
 
 .search-track-bouton {
   font-size: 0.6875rem;
-  letter-spacing: 0.05em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--ink-secondary);
   border: 1px solid var(--rule-hairline);
@@ -355,7 +355,7 @@
 .search-vide-bouton {
   margin-top: 0.2rem;
   font-size: 0.75rem;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   color: #0a0c10;
   background: #f2f4f8;
   border: 0;

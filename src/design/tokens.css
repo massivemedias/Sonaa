@@ -38,32 +38,25 @@
      deux valeurs qui n'ont plus de raison d'etre differentes finiraient par
      diverger pour rien. */
   --serrage: -1px;
-  /* LE TEXTE COURANT, UN PIXEL PLUS LARGE QUE LE RESTE.
+  /* PLUS AUCUN ECARTEMENT NULLE PART, C'EST LA DEMANDE.
 
-     Constate par Mika sur le mot de l'auteur : a -1px, un paragraphe entier
-     est trop serre. Un titre de deux mots supporte un serrage qu'une colonne
-     de dix lignes ne supporte pas, parce que l'oeil y saute de mot en mot et
-     a besoin des blancs pour savoir ou finit chacun. C'est la meme raison qui
-     fait qu'un titre de journal est plus serre que son article.
+     Ces deux jetons portaient un ecartement POSITIF : un dixieme de pixel sur
+     le texte courant, un pixel plein sur l'interface. Chacun avait sa raison,
+     ecrite ici et defendue : un paragraphe de dix lignes a besoin de blancs
+     entre les mots, et « Mettre a jour » a -1px se lit « Mettreajour ».
 
-     Les titres, les vignettes et les boutons gardent -1px, qui est le dessin
-     demande. Ce qui se LIT en continu passe en positif : un ECARTEMENT, et
-     non plus un serrage attenue. La valeur est petite, un dixieme de pixel,
-     mais elle change de signe, et c'est le changement de signe qui compte :
-     le texte cesse d'etre resserre pour etre respire. */
-  --serrage-texte: 0.1px;
+     Mika a tranche autrement, et la demande est generale : aucun ecartement,
+     nulle part sur le site. Les deux jetons passent donc a zero et les 54
+     regles qui ecartaient les lettres dans les treize feuilles de style
+     passent a zero avec eux. Le resserrement de -1px reste, lui : il a ete
+     demande trois fois, explicitement, sur les noms de genres et de morceaux.
 
-  /* LE TEXTE D'INTERFACE : boutons, etiquettes, onglets, comptes.
+     Les jetons ne sont pas supprimes. Ils restent comme point unique de
+     reglage : si le probleme de « Mettreajour » revient, il se corrigera ici
+     et pas dans cinquante-quatre endroits. */
+  --serrage-texte: 0;
 
-     Il n'est ni du texte courant ni un titre. Un titre de 36 px supporte un
-     serrage negatif, il en a meme besoin. Une etiquette de 12 px comme
-     « Tempo » ou un bouton comme « Mettre a jour » n'ont ni la taille ni la
-     longueur pour l'absorber : a -1px les mots se collent, « Mettre a jour »
-     se lit « Mettreajour ». Constate sur capture par Mika.
-
-     UN PIXEL POSITIF, donc, et non zero : ces textes sont courts et souvent
-     en gras, ce qui resserre deja optiquement. */
-  --serrage-ui: 1px;
+  --serrage-ui: 0;
 
   /* LA TAILLE DU TEXTE COURANT, demandee par Mika devant la fiche Electro
      House : 12 px sur telephone, 13 px sur ordinateur.
@@ -180,7 +173,8 @@
   --weight-track: 500;
   --weight-data: 400;
 
-  --tracking-family: 0.14em;  /* majuscules des familles, interlettrage ouvert */
+  /* Mis a zero avec tout le reste : plus aucun ecartement sur le site. */
+  --tracking-family: 0;
   --tracking-display: 0.18em;
   --leading-reading: 1.65;
 

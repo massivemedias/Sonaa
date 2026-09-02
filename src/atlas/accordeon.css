@@ -73,7 +73,7 @@
 .ac-titre {
   flex: none;
   font-size: 0.75rem;
-  letter-spacing: 0.06em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: oklch(0.72 0.01 260);
 }
@@ -146,7 +146,7 @@ body:has(.pwa-bandeau) .ac-corps {
   background: oklch(0.16 0.012 260);
   font-size: 0.95rem;
   font-weight: 600;
-  letter-spacing: 0.01em;
+  letter-spacing: 0;
 }
 .ac-pastille {
   flex: none;

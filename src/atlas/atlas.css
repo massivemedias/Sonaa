@@ -94,7 +94,7 @@
   white-space: nowrap;
   font-family: var(--font-ui);
   font-weight: var(--weight-genre);
-  letter-spacing: 0.01em;
+  letter-spacing: 0;
   color: #fff;
   /* AUCUNE plaque, aucun fond, aucune bordure. Le contraste vient de deux
      ombres portées et de l'assombrissement local de la sphère fait en shader.
@@ -157,7 +157,7 @@
   /* Inter 600, capitale initiale : les majuscules intégrales sont réservées
      aux noms du niveau le plus haut. Montserrat est retirée. */
   font-weight: var(--weight-genre);
-  letter-spacing: 0.01em;
+  letter-spacing: 0;
 }
 
 /* LES PLAQUES, RENDU NORMAL DES NOMS DE GENRE SUR LES QUATORZE FAMILLES.
@@ -289,7 +289,7 @@
 .atlas-fallback-notice {
   font-family: var(--font-ui);
   font-size: 0.6875rem;
-  letter-spacing: 0.05em;
+  letter-spacing: 0;
   color: var(--ink-secondary);
 }
 
@@ -405,7 +405,7 @@
 .crumb {
   font-family: var(--font-ui);
   font-size: 0.75rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--ink-secondary);
   background: transparent;
@@ -517,7 +517,7 @@
    soupçon de halo lumineux qui reprend celui de la sphère. */
 .atlas-label[data-focus='1'] {
   font-weight: var(--weight-family);
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
   text-shadow:
     0 1px 1px rgba(0, 0, 0, 0.75),
     0 0 6px rgba(0, 0, 0, 0.75),
@@ -565,7 +565,7 @@
   }
   .crumb {
     font-size: 0.625rem;
-    letter-spacing: 0.05em;
+    letter-spacing: 0;
   }
 }
 
@@ -737,7 +737,7 @@
   z-index: 6;
   font-family: var(--font-ui);
   font-size: 0.6875rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--ink-secondary);
   text-decoration: none;
@@ -794,7 +794,7 @@
   font-family: var(--font-ui);
   font-size: 0.6875rem;
   font-weight: var(--weight-data);
-  letter-spacing: 0.06em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--ink-tertiary, var(--ink-secondary));
   background: transparent;
@@ -959,7 +959,7 @@
   cursor: pointer;
   font-family: var(--font-ui);
   font-size: 0.5938rem;
-  letter-spacing: 0.1em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--ink-secondary);
 }
@@ -1088,7 +1088,7 @@
   margin-block-start: 0.4rem !important;
   font-style: normal !important;
   font-size: 0.78rem !important;
-  letter-spacing: 0.06em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.45) !important;
 }
@@ -1183,7 +1183,7 @@
 }
 .pcol-fil-marque {
   font-size: 0.64rem;
-  letter-spacing: 0.07em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--family, rgba(255, 255, 255, 0.5));
 }

@@ -582,7 +582,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   margin: 0 0 0.85rem;
   font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: oklch(0.66 0.01 260);
 }
@@ -616,7 +616,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   margin-bottom: 0.5rem;
   font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: oklch(0.62 0.14 var(--pv-hue));
 }
@@ -634,7 +634,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   color: oklch(0.99 0 0);
   font: inherit;
   font-size: 0.72rem;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   text-transform: uppercase;
   cursor: pointer;
 }
