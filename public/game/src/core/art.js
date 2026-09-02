@@ -278,6 +278,39 @@ export function line2(ctx, a, b, color, lw = 1) {
   ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.lineCap = 'butt'; ctx.stroke();
 }
 
+
+// ------------------------------------------------- rectangle sur une face
+// Au lieu de cisailler le contexte (ce qui fait lisser chaque pixel), on
+// calcule le parallelogramme et on le remplit ligne par ligne : bords nets.
+export function faceRect(ctx, ox, oy, oz, side, x, y, w, h, color) {
+  const O = P(ox, oy, oz);
+  const k = side === 'left' ? 0.5 : -0.5;
+  const pt = (px2, py2) => ({ x: O.x + px2, y: O.y + py2 + px2 * k });
+  poly(ctx, [pt(x, y), pt(x + w, y), pt(x + w, y + h), pt(x, y + h)], color);
+}
+
+// ------------------------------------------------------------ panneau
+// Une enseigne lisible se dessine face a la camera, jamais en perspective :
+// sinon les lettres sont cisaillees et redeviennent floues.
+export function billboard(ctx, wx, wy, wz, text, o = {}) {
+  const bg = o.bg || '#f6f0dc';
+  const fg = o.fg || '#2b2136';
+  const border = o.border || '#2b2136';
+  const sc = o.scale || 1;
+  const tw = textWidth(text, sc, 1);
+  const w = tw + 6, h = 5 * sc + 6;
+  const p = P(wx, wy, wz);
+  const x = Math.round(p.x - w / 2), y = Math.round(p.y - h);
+  if (o.post) {
+    px(ctx, Math.round(p.x) - 1, y + h, 2, Math.round(o.post * HU), '#6b4426');
+  }
+  px(ctx, x, y, w, h, border);
+  px(ctx, x + 1, y + 1, w - 2, h - 2, bg);
+  if (o.accent) px(ctx, x + 1, y + 1, w - 2, 1, o.accent);
+  pxText(ctx, text, x + 3, y + 3, fg, sc, 1);
+  return { x, y, w, h };
+}
+
 // ------------------------------------------------- dessin sur une face
 export function face(ctx, x, y, z, side, fn) {
   const p = toScreen(x, y, z);
@@ -481,22 +514,19 @@ export function signboard(ctx, x, y, z, side, wUnits, hUnits, text, bg = '#f0e6d
 }
 
 export function windowRow(ctx, x, y, z, side, wUnits, hUnits, n, glass = '#9ad9e8', frame = '#f0e6d2') {
-  face(ctx, x, y, z, side, c => {
-    const w = wUnits * FW, h = hUnits * FH, gap = w / n;
-    for (let i = 0; i < n; i++) {
-      const ww = gap * 0.62, xx = i * gap + (gap - ww) / 2;
-      px(c, xx, 0, ww, h, frame);
-      px(c, xx + 1, 1, ww - 2, h - 2, glass);
-      px(c, xx + 1, 1, Math.max(1, (ww - 2) / 2), Math.max(1, (h - 2) / 2), shade(glass, 0.3));
-    }
-  });
+  const w = wUnits * FW, h = hUnits * FH, gap = w / n;
+  for (let i = 0; i < n; i++) {
+    const ww = Math.round(gap * 0.62), xx = Math.round(i * gap + (gap - ww) / 2);
+    faceRect(ctx, x, y, z, side, xx, 0, ww, h, frame);
+    faceRect(ctx, x, y, z, side, xx + 1, 1, ww - 2, h - 2, glass);
+    faceRect(ctx, x, y, z, side, xx + 1, 1, Math.max(1, (ww - 2) / 2), Math.max(1, (h - 2) / 2), shade(glass, 0.3));
+  }
 }
+
 export function doorway(ctx, x, y, z, side, wUnits, hUnits, color = '#8f5f34') {
-  face(ctx, x, y, z, side, c => {
-    const w = R(wUnits * FW), h = R(hUnits * FH);
-    px(c, 0, 0, w, h, shade(color, 0.15));
-    px(c, 1, 1, w - 2, h - 1, shade(color, -0.35));
-    px(c, 1, 1, w - 2, 1, shade(color, -0.1));
-    px(c, w - 4, R(h * 0.5), 2, 2, '#ffd76a');
-  });
+  const w = Math.round(wUnits * FW), h = Math.round(hUnits * FH);
+  faceRect(ctx, x, y, z, side, 0, 0, w, h, shade(color, 0.15));
+  faceRect(ctx, x, y, z, side, 1, 1, w - 2, h - 1, shade(color, -0.35));
+  faceRect(ctx, x, y, z, side, 1, 1, w - 2, 1, shade(color, -0.1));
+  faceRect(ctx, x, y, z, side, w - 4, Math.round(h * 0.5), 2, 2, '#ffd76a');
 }

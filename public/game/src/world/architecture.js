@@ -6,6 +6,7 @@ import {
   box, slab, poly, gableRoof, face, signboard, windowRow, doorway, shadow, castBox,
   tree, bush, rock, flower, grassTuft, crate, px, shade, mix, alpha, line2,
   lantern, smoke, time as artTime, LIGHT, FW, FH, isoTileSprite, pxEllipse, pxText, textWidth,
+  billboard, faceRect,
 } from '../core/art.js';
 import { VOID, GRASS, PATH, LUSH, CLEARING, FOREST } from './city.js';
 
@@ -122,8 +123,9 @@ const STYLES = {
     const L = span(b);
     doorway(ctx, ...fp(b, L / 2 - 0.28, 0.82), 'left', 0.56, 0.82, '#6b4426');
     windowRow(ctx, ...fp(b, 0.22, 0.92), 'left', 0.42, 0.34, 1, env.night ? '#ffd76a' : '#9ad9e8');
-    // enseigne suspendue sous l'avancee du toit
-    signboard(ctx, ...fp(b, 0.12, wallH + roofH * 0.42), 'left', L - 0.24, 0.34, b.sign, '#f0e6d2', '#3a2d4a');
+    // enseigne face camera : c'est la seule facon d'avoir des lettres nettes
+    billboard(ctx, b.x + b.w / 2, b.y + b.d / 2, wallH + roofH + 0.55, b.sign,
+      { bg: '#f6f0dc', fg: '#2b2136', accent: b.roof, post: 0.34, scale: 1 });
     // un bac de disques dehors
     crate(ctx, b.x + b.w + 0.12, b.y + b.d - 0.55, 0, 0.45, '#b3773c');
     px(ctx, P(b.x + b.w + 0.34, b.y + b.d - 0.33, 0.46).x - 3, P(b.x + b.w + 0.34, b.y + b.d - 0.33, 0.46).y - 2, 6, 2, '#2b2136');
@@ -137,7 +139,8 @@ const STYLES = {
     const L = span(b);
     doorway(ctx, ...fp(b, L / 2 - 0.32, 0.95), 'left', 0.64, 0.95, '#6b4426');
     windowRow(ctx, ...fp(b, 0.28, 1.06), 'left', L - 1.5, 0.44, Math.max(1, R(L - 1.5)), env.night ? '#ffd76a' : '#9ad9e8');
-    signboard(ctx, ...fp(b, 0.14, wallH + roofH * 0.5), 'left', L - 0.28, 0.36, b.sign, '#f0e6d2', '#3a2d4a');
+    billboard(ctx, b.x + b.w / 2, b.y + b.d / 2, wallH + roofH + 0.6, b.sign,
+      { bg: '#f6f0dc', fg: '#2b2136', accent: b.roof, post: 0.34, scale: 1 });
     if (b.chimney) {
       box(ctx, b.x + b.w - 0.75, b.y + 0.35, wallH + roofH * 0.55, 0.32, 0.32, 0.45, '#9a6a4a');
       smoke(ctx, b.x + b.w - 0.6, b.y + 0.5, wallH + roofH * 0.55 + 0.5, b.x);
@@ -156,17 +159,12 @@ const STYLES = {
     box(ctx, b.x - 0.08, b.y - 0.08, wallH, b.w + 0.16, b.d + 0.16, 0.16, shade(b.roof, -0.1), { line: '#1a1526' });
     const L = span(b);
     doorway(ctx, ...fp(b, L / 2 - 0.34, 1.0), 'left', 0.68, 1.0, '#1a1526');
-    // enseigne au neon qui clignote
+    // enseigne au neon, face camera pour rester lisible
     const on = Math.sin(artTime() * 3.4) > -0.75;
-    face(ctx, ...fp(b, 0.2, wallH + 0.4), 'left', c => {
-      const w = R((L - 0.4) * FW), h = R(0.36 * FH);
-      px(c, 0, 0, w, h, '#241b33');
-      c.strokeStyle = on ? '#ff5cb4' : '#5c2a48'; c.lineWidth = 1;
-      c.strokeRect(0.5, 0.5, w - 1, h - 1);
-      c.fillStyle = on ? '#ffa8d8' : '#6b3a58';
-      c.font = `${Math.max(6, R(h * 0.62))}px "Pixelify Sans", monospace`;
-      c.textAlign = 'center'; c.textBaseline = 'middle';
-      c.fillText(b.sign, R(w / 2), R(h / 2));
+    billboard(ctx, b.x + b.w / 2, b.y + b.d / 2, wallH + 0.85, b.sign, {
+      bg: '#241b33', fg: on ? '#ffa8d8' : '#6b3a58',
+      border: on ? '#ff5cb4' : '#5c2a48', accent: on ? '#ff5cb4' : '#4a2440',
+      post: 0.3, scale: 1,
     });
     // enceintes
     box(ctx, b.x + 0.15, b.y + b.d + 0.1, 0, 0.4, 0.4, 0.8, '#2b2340', { line: '#191327' });
@@ -185,7 +183,8 @@ const STYLES = {
       c.strokeStyle = '#8f9aa8'; c.lineWidth = 1;
       for (let i = 1; i < 5; i++) { c.beginPath(); c.moveTo(1, R(h * i / 5)); c.lineTo(w - 1, R(h * i / 5)); c.stroke(); }
     });
-    signboard(ctx, ...fp(b, 0.16, wallH + 0.5), 'left', L - 0.32, 0.36, b.sign, '#f0e6d2', '#3a2d4a');
+    billboard(ctx, b.x + b.w / 2, b.y + b.d / 2, wallH + 1.05, b.sign,
+      { bg: '#f6f0dc', fg: '#2b2136', accent: b.roof, post: 0.34, scale: 1 });
     crate(ctx, b.x + b.w + 0.15, b.y + b.d - 0.6, 0, 0.5, '#b3773c');
     crate(ctx, b.x + b.w + 0.15, b.y + b.d - 0.6, 0.4, 0.42, '#c9924e');
   },
@@ -204,7 +203,8 @@ const STYLES = {
     box(ctx, b.x + 1.1, b.y + 1.1, z, b.w - 2.2, b.d - 2.2, 0.5, b.roof, { line: '#7a6329' });
     gableRoof(ctx, b.x + 1.1, b.y + 1.1, z + 0.5, b.w - 2.2, b.d - 2.2, 0.5, '#8f5fc9', 'x', 0.2);
     doorway(ctx, b.x + b.w / 2 - 0.4, b.y + b.d, 0.9, 'left', 0.8, 0.9, '#6b5420');
-    signboard(ctx, b.x + 0.3, b.y + b.d, 1.35, 'left', b.w - 0.6, 0.4, b.sign, '#e8c86a', '#3a2d0a');
+    billboard(ctx, b.x + b.w / 2, b.y + b.d / 2, z + 1.5, b.sign,
+      { bg: '#e8c86a', fg: '#3a2d0a', accent: '#fff0b8', scale: 2 });
   },
 };
 
@@ -217,7 +217,8 @@ function construction(ctx, b) {
   }
   box(ctx, b.x + 0.3, b.y + 0.3, 0, b.w - 0.6, b.d - 0.6, 0.45, '#9a7b55', { line: '#6b5238' });
   crate(ctx, b.x + b.w - 0.8, b.y + b.d - 0.8, 0, 0.45, '#b3773c');
-  signboard(ctx, b.x + 0.15, b.y + b.d, 1.1, 'left', Math.max(1, b.w - 0.3), 0.34, 'BIENTOT', '#2b2136', '#e8c86a');
+  billboard(ctx, b.x + b.w / 2, b.y + b.d / 2, 1.15, 'BIENTOT',
+    { bg: '#2b2136', fg: '#e8c86a', accent: '#4a4258', scale: 1 });
 }
 
 export function drawBuilding(ctx, b, env) {
