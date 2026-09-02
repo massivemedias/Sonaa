@@ -15,7 +15,7 @@
 }
 
 .tv-body {
-  max-width: 1240px;
+  max-width: var(--largeur-page);
   margin: 0 auto 2.4rem;
 }
 

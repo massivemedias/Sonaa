@@ -3,8 +3,16 @@
    La forme d'onde est la seule piece qui demande vraiment du soin ici. Le
    reste emprunte la mise en page des pages document (credits.css). */
 
+/* LA MEME LARGEUR QUE LE RESTE DU SITE, ET CENTREE.
+
+   Elle etait bornee a 900 px, valeur choisie pour du texte suivi. Mais ces
+   pages ne portent pas du texte suivi : elles portent une grille de portraits
+   et des formes d'onde, qui gagnent a s'etaler. Ce qui se lit vraiment ici,
+   la presentation d'un artiste et la description d'un set, garde sa propre
+   mesure plus bas. */
 .sets-page {
-  max-width: 900px;
+  max-width: var(--largeur-page);
+  margin-inline: auto;
 }
 
 .sets-bloc {
@@ -448,4 +456,39 @@
   margin: 2.2rem 0 0.6rem;
   font-size: 1.0625rem;
   font-weight: 700;
+}
+
+/* --- Les styles choisis --------------------------------------------------- */
+
+.sp-styles {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+/* La pastille EST le bouton qui la retire. Une croix separee a cote d'une
+   etiquette double le nombre de cibles pour une seule intention, et sur
+   telephone les deux se touchent. */
+.sp-styles button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid oklch(1 0 0 / 0.16);
+  border-radius: 999px;
+  background: oklch(1 0 0 / 0.05);
+  color: oklch(0.88 0.008 260);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+.sp-styles button:hover {
+  border-color: oklch(0.75 0.13 25 / 0.6);
+  color: oklch(0.8 0.1 25);
+}
+.sp-styles span {
+  font-size: 1rem;
+  line-height: 1;
 }

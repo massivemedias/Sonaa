@@ -60,6 +60,18 @@
   --serrage-texte: var(--serrage);
   --serrage-ui: var(--serrage);
 
+  /* LA LARGEUR DE LA PAGE, ecrite une seule fois.
+
+     Elle valait 1400 px, repartie dans huit regles et deux feuilles. Mika
+     l'a trouvee trop large et a nomme sa reference : SoundCloud, dont la
+     colonne de contenu fait 1240 px. C'est aussi la valeur que portait deja
+     la vue en colonnes de ce site, ce qui veut dire que le projet hesitait
+     entre deux largeurs sans le savoir.
+
+     Le jeton existe pour la meme raison que celui du serrage : une valeur
+     ecrite a huit endroits finit par n'etre changee qu'a sept. */
+  --largeur-page: 1240px;
+
   /* LA TAILLE DU TEXTE COURANT, demandee par Mika devant la fiche Electro
      House : 12 px sur telephone, 13 px sur ordinateur.
 

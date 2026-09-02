@@ -17,6 +17,7 @@ import {
   AVATAR_MAX,
   FORMATS_AUDIO,
   FORMATS_IMAGE,
+  GENRES_MAX,
   MO_PAR_MINUTE_FLAC,
   MO_PAR_MINUTE_WAV,
   estAudioAccepte,
@@ -42,6 +43,13 @@ import { LecteurSet } from './LecteurSet.tsx';
 import { ZoneDepot } from './ZoneDepot.tsx';
 import { SiteNav } from './SiteNav.tsx';
 import { FAMILIES, STRUCTURES } from './structures.ts';
+
+/* Le libelle d'un genre a partir de son identifiant. Construit une fois :
+   la pastille en a besoin a chaque rendu, et parcourir 219 genres a chaque
+   fois pour retrouver un nom serait du travail refait pour rien. */
+const LABEL_DE_GENRE: Record<string, string> = Object.fromEntries(
+  FAMILIES.flatMap((_, fi) => (STRUCTURES[fi]?.genres ?? []).map((g) => [g.id, g.label]))
+);
 import { t } from '../langue/langue.ts';
 import './credits.css';
 import './sets.css';
@@ -71,7 +79,7 @@ export function ProfilPage() {
   const [etape, setEtape] = useState<Etape>('repos');
   const [messageDepot, setMessageDepot] = useState<string | null>(null);
   const [avancement, setAvancement] = useState<number | null>(null);
-  const [genreId, setGenreId] = useState('');
+  const [genres, setGenres] = useState<string[]>([]);
 
   const recharger = useCallback(async () => {
     setSets(await mesSets());
@@ -213,7 +221,7 @@ export function ProfilPage() {
       await creerSet({
         titre: titre.trim(),
         description: description.trim() || null,
-        genre_id: genreId || null,
+        genre_ids: genres.length > 0 ? genres : null,
         audio_path: chemin,
         duree_s: duree,
         taille_o: fichier.size,
@@ -224,7 +232,7 @@ export function ProfilPage() {
       setFichier(null);
       setTitre('');
       setDescription('');
-      setGenreId('');
+      setGenres([]);
       setMessageDepot(t.setDepose);
       await recharger();
     } catch (e) {
@@ -361,21 +369,63 @@ export function ProfilPage() {
             navigateur y cherche deja au clavier, et sur telephone il ouvre la
             roue du systeme, qui se manipule mieux que tout ce qu'on
             dessinerait. */}
+        {/* PLUSIEURS STYLES, ET ON LES AJOUTE UN PAR UN.
+
+            Un `select multiple` natif est le pire des deux mondes : il faut
+            tenir une touche pour choisir le second, il n'affiche que trois
+            lignes sur un ecran etroit, et sur telephone il ne s'ouvre pas en
+            roue. On garde donc une liste deroulante ordinaire, qui ajoute au
+            choix, et les styles retenus s'affichent en pastilles qu'on retire
+            d'un clic. Ce qui a ete choisi reste visible, ce qu'un select
+            multiple ne fait pas non plus.
+
+            Les styles deja pris disparaissent de la liste : proposer un choix
+            sans effet est une invitation a un clic mort. */}
         <label className="sp-label">
-          {t.genreDuSet}
-          <select value={genreId} onChange={(e) => setGenreId(e.target.value)}>
-            <option value="">{t.aucunGenre}</option>
-            {FAMILIES.map((f, fi) => (
-              <optgroup label={f.label} key={f.id}>
-                {(STRUCTURES[fi]?.genres ?? []).map((g) => (
-                  <option value={g.id} key={g.id}>
-                    {g.label}
-                  </option>
-                ))}
-              </optgroup>
-            ))}
+          {t.genresDuSet(GENRES_MAX)}
+          <select
+            value=""
+            disabled={genres.length >= GENRES_MAX}
+            onChange={(e) => {
+              const v = e.target.value;
+              if (v && !genres.includes(v)) setGenres([...genres, v]);
+            }}
+          >
+            <option value="">
+              {genres.length >= GENRES_MAX ? t.genresAuMaximum : t.ajouterUnStyle}
+            </option>
+            {FAMILIES.map((f, fi) => {
+              const restants = (STRUCTURES[fi]?.genres ?? []).filter((g) => !genres.includes(g.id));
+              if (restants.length === 0) return null;
+              return (
+                <optgroup label={f.label} key={f.id}>
+                  {restants.map((g) => (
+                    <option value={g.id} key={g.id}>
+                      {g.label}
+                    </option>
+                  ))}
+                </optgroup>
+              );
+            })}
           </select>
         </label>
+
+        {genres.length > 0 && (
+          <ul className="sp-styles">
+            {genres.map((id) => (
+              <li key={id}>
+                <button
+                  type="button"
+                  onClick={() => setGenres(genres.filter((x) => x !== id))}
+                  aria-label={t.retirerLeStyle(LABEL_DE_GENRE[id] ?? id)}
+                >
+                  {LABEL_DE_GENRE[id] ?? id}
+                  <span aria-hidden="true">×</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
 
         <label className="sp-label">
           {t.descriptionFacultative}

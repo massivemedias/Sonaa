@@ -1078,8 +1078,8 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   .pv-corps,
   .pv-tete,
   .pv-chercher {
-    padding-left: max(0.75rem, calc((100vw - 1400px) / 2));
-    padding-right: max(0.75rem, calc((100vw - 1400px) / 2));
+    padding-left: max(0.75rem, calc((100vw - var(--largeur-page)) / 2));
+    padding-right: max(0.75rem, calc((100vw - var(--largeur-page)) / 2));
   }
   .pv-grille {
     /* 16 rem et non 19 : a 1400 px de large avec 0,7 rem de gouttiere, une
@@ -1213,8 +1213,8 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
     font-size: 2.275rem;
   }
   .pv-barre {
-    padding-left: max(0.75rem, calc((100vw - 1400px) / 2));
-    padding-right: max(0.75rem, calc((100vw - 1400px) / 2));
+    padding-left: max(0.75rem, calc((100vw - var(--largeur-page)) / 2));
+    padding-right: max(0.75rem, calc((100vw - var(--largeur-page)) / 2));
   }
   /* SUR GRAND ECRAN LA LOUPE OBEIT A DEUX CONTRAINTES, PAS UNE.
 
@@ -1227,10 +1227,10 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      bouton de compte quand l'ecran est etroit, et rejoint le bord de la
      colonne quand l'ecran est large. */
   .pv-chercher-bouton {
-    right: max(calc(var(--authb-reserve, 126px) + 0.6rem), calc((100vw - 1400px) / 2));
+    right: max(calc(var(--authb-reserve, 126px) + 0.6rem), calc((100vw - var(--largeur-page)) / 2));
   }
   .pv-tete {
-    padding-right: max(calc(var(--authb-reserve, 126px) + 0.6rem + 44px), calc((100vw - 1400px) / 2 + 44px));
+    padding-right: max(calc(var(--authb-reserve, 126px) + 0.6rem + 44px), calc((100vw - var(--largeur-page)) / 2 + 44px));
   }
 }
 

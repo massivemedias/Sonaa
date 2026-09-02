@@ -15,7 +15,7 @@
 }
 
 .chrono-header {
-  max-width: 1400px;
+  max-width: var(--largeur-page);
   margin: 0 auto 1.5rem;
   padding-bottom: 1rem;
   padding-right: calc(var(--authb-reserve, 126px) + 0.5rem);
@@ -389,7 +389,7 @@
 /* --- FOOTER --- */
 
 .chrono-footer {
-  max-width: 1400px;
+  max-width: var(--largeur-page);
   margin: 2rem auto 0;
   padding-top: 1rem;
   border-top: 1px solid oklch(1 0 0 / 0.1);

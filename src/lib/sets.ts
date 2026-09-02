@@ -128,6 +128,10 @@ export const FORMATS_IMAGE = ['image/jpeg', 'image/png', 'image/webp'];
     environ 1,1 ko par set. */
 export const BARRES = 800;
 
+/** Nombre de styles qu'un set peut revendiquer. Au-dela, il apparaitrait
+    partout et ne dirait rien nulle part. */
+export const GENRES_MAX = 5;
+
 export interface SetDJ {
   readonly id: string;
   readonly titre: string;
@@ -138,7 +142,7 @@ export interface SetDJ {
   readonly ecoutes: number;
   readonly created_at: string;
   readonly user_id: string;
-  readonly genre_id: string | null;
+  readonly genre_ids: string[] | null;
   readonly publie?: boolean;
   readonly artiste_nom?: string | null;
   readonly artiste_avatar?: string | null;
@@ -609,7 +613,7 @@ export async function creerSet(champs: {
   duree_s?: number | null;
   taille_o?: number | null;
   onde?: string | null;
-  genre_id?: string | null;
+  genre_ids?: string[] | null;
   publie: boolean;
 }): Promise<string> {
   if (!supabase) throw new Error('base indisponible');
@@ -630,7 +634,7 @@ export async function mesSets(): Promise<SetDJ[]> {
   if (!id) return [];
   const { data } = await supabase
     .from('dj_sets')
-    .select('id, titre, description, audio_path, duree_s, onde, ecoutes, created_at, user_id, genre_id, publie')
+    .select('id, titre, description, audio_path, duree_s, onde, ecoutes, created_at, user_id, genre_ids, publie')
     .eq('user_id', id)
     .order('created_at', { ascending: false });
   return (data as SetDJ[] | null) ?? [];
@@ -683,14 +687,18 @@ export async function setsDunArtiste(userId: string): Promise<SetDJ[]> {
   return (data as SetDJ[] | null) ?? [];
 }
 
-/** Les sets deposes sous un genre du corpus. Sert la section « communaute »
-    de la page d'un genre. */
+/** Les sets qui declarent ce genre parmi les leurs. Sert la section
+    « communaute » de la page d'un genre.
+
+    `contains` et non `eq` : la colonne est un tableau depuis qu'un set peut
+    revendiquer plusieurs styles, et un mix qui passe de l'indie dance au dub
+    techno doit apparaitre sur les deux fiches. */
 export async function setsDunGenre(genreId: string): Promise<SetDJ[]> {
   if (!supabase) return [];
   const { data } = await supabase
     .from('sets_publics')
     .select('*')
-    .eq('genre_id', genreId)
+    .contains('genre_ids', [genreId])
     .order('created_at', { ascending: false })
     .limit(20);
   return (data as SetDJ[] | null) ?? [];

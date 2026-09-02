@@ -151,8 +151,10 @@ interface Dictionnaire {
   readonly limitesDepot: (max: string) => string;
   readonly fichierAudio: string;
   readonly titreDuSet: string;
-  readonly genreDuSet: string;
-  readonly aucunGenre: string;
+  readonly genresDuSet: (n: number) => string;
+  readonly ajouterUnStyle: string;
+  readonly genresAuMaximum: string;
+  readonly retirerLeStyle: (nom: string) => string;
   readonly lesArtistes: string;
   readonly nSets: (n: number) => string;
   readonly aucunArtiste: string;
@@ -306,8 +308,10 @@ const FR: Dictionnaire = {
     `Le set arrive en brouillon, vous seul le voyez tant que vous ne l’avez pas publié.`,
   fichierAudio: 'Fichier audio',
   titreDuSet: 'Titre',
-  genreDuSet: 'Style, pour le ranger dans l’atlas',
-  aucunGenre: 'Aucun style',
+  genresDuSet: (n) => `Styles, pour le ranger dans l’atlas (${n} au plus)`,
+  ajouterUnStyle: 'Ajouter un style…',
+  genresAuMaximum: 'Cinq styles, c’est le maximum',
+  retirerLeStyle: (nom) => `Retirer ${nom}`,
   lesArtistes: 'Artistes',
   nSets: (n) => (n <= 1 ? `${n} set` : `${n} sets`),
   aucunArtiste: 'Personne n’a encore publié de set.',
@@ -460,8 +464,10 @@ const EN: Dictionnaire = {
     `The set arrives as a draft, only you can see it until you publish it.`,
   fichierAudio: 'Audio file',
   titreDuSet: 'Title',
-  genreDuSet: 'Style, to file it in the atlas',
-  aucunGenre: 'No style',
+  genresDuSet: (n) => `Styles, to file it in the atlas (${n} max)`,
+  ajouterUnStyle: 'Add a style…',
+  genresAuMaximum: 'Five styles is the maximum',
+  retirerLeStyle: (nom) => `Remove ${nom}`,
   lesArtistes: 'Artists',
   nSets: (n) => (n <= 1 ? `${n} set` : `${n} sets`),
   aucunArtiste: 'Nobody has published a set yet.',
