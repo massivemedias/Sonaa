@@ -515,6 +515,56 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   font-size: var(--texte);
   line-height: 1.7;
 }
+/* --- Les petites photos dans l'article ------------------------------------
+
+   LE JOURNAL PLUTOT QUE LA GALERIE. Une photo posee entre deux paragraphes,
+   pleine largeur, coupe la lecture en deux et fait defiler davantage. Un
+   journal ne fait pas ca : il met l'image PETITE et sur le cote, le texte
+   l'habille, et l'oeil recoit les deux d'un seul coup. Trois cents pixels
+   suffisent a reconnaitre une TB-303 ; au-dela on n'apprend plus rien et on
+   perd la colonne.
+
+   ELLE FLOTTE A DROITE, ET TOUJOURS DU MEME COTE. L'alternance gauche-droite
+   parait vivante sur une maquette et devient illisible sur une page reelle :
+   les blocs de texte n'ont pas la meme longueur, les images se rattrapent et
+   se chevauchent. Un seul cote, une seule colonne de respiration. */
+.pv-illu {
+  margin: 0.2rem 0 0.9rem;
+  padding: 0;
+}
+.pv-illu img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 10px;
+  background: oklch(0.22 0.01 260);
+}
+.pv-illu figcaption {
+  margin-top: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  line-height: 1.35;
+}
+.pv-illu-nom {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: oklch(0.86 0.008 260);
+}
+/* LE CREDIT EST UN LIEN VERS LA PAGE SOURCE, et non une mention decorative :
+   c'est ce que les licences par attribution demandent, et c'est ce qui permet
+   a quelqu'un de verifier. */
+.pv-illu-credit {
+  font-size: 0.6875rem;
+  color: oklch(0.58 0.01 260);
+  text-decoration: none;
+}
+.pv-illu-credit:hover {
+  color: oklch(0.78 0.01 260);
+  text-decoration: underline;
+}
+
 .pv-article-section p:last-child {
   margin-bottom: 0;
 }
@@ -1053,8 +1103,33 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
     font-size: 1.0625rem;
     line-height: 1.65;
   }
-  .pv-article-section p {
-    max-width: 68ch;
+  /* LA BORNE EST SUR LA SECTION, PAS SUR LE PARAGRAPHE.
+
+     Elle etait sur le paragraphe, et l'image flottante s'en moquait : elle se
+     collait au bord droit de la section, large de 1400 px, pendant que le
+     texte s'arretait a 640. Une photo separee de son texte par sept cents
+     pixels de vide n'illustre plus rien.
+
+     Bornee sur la section, la boite entiere fait la largeur du texte PLUS
+     celle de l'image, et le flottant retombe contre la colonne. 58 rem, soit
+     928 px : 640 de texte, 240 d'image, le reste de gouttiere. */
+  .pv-article-section {
+    max-width: 58rem;
+  }
+  /* SUR MOBILE L'IMAGE RESTE PLEINE LARGEUR : habiller un texte autour d'une
+     photo dans une colonne de 350 px laisserait des lignes de quatre mots.
+     Le flottement ne commence qu'ici, ou la colonne peut perdre 15 rem et
+     rester lisible. */
+  .pv-illu {
+    float: right;
+    width: 15rem;
+    margin: 0.3rem 0 0.8rem 1.6rem;
+  }
+  /* La section suivante ne demarre jamais a cote d'une photo de la
+     precedente : un titre pousse contre une image d'un autre sujet se lit
+     comme sa legende. */
+  .pv-article-section {
+    clear: both;
   }
 
   /* LA LISTE, ELLE, RESTE EN DEUX COLONNES : vingt morceaux en colonne

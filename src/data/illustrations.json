@@ -1,0 +1,52 @@
+{
+ "hacienda": {
+  "legende": "L'Hacienda, Manchester",
+  "fichier": "articles/hacienda.webp",
+  "distant": "https://upload.wikimedia.org/wikipedia/commons/9/96/The_Hacienda_Nightclub_Manchester_Floor_Sign.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+  "auteur": "a_marga",
+  "licence": "CC BY-SA 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:The_Hacienda_Nightclub_Manchester_Floor_Sign.jpg",
+  "largeur": 800,
+  "hauteur": 600
+ },
+ "packard-detroit": {
+  "legende": "L'usine Packard abandonnee, Detroit",
+  "fichier": "articles/packard-detroit.webp",
+  "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Abandoned_Packard_Automobile_Factory_Detroit_200.jpg/1280px-Abandoned_Packard_Automobile_Factory_Detroit_200.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "auteur": "Albert duce",
+  "licence": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Abandoned_Packard_Automobile_Factory_Detroit_200.jpg",
+  "largeur": 5250,
+  "hauteur": 3633
+ },
+ "detroit-skyline": {
+  "legende": "Detroit",
+  "fichier": "articles/detroit-skyline.webp",
+  "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/Skyline_of_Detroit%2C_Michigan_from_S_2014-12-07.jpg/1280px-Skyline_of_Detroit%2C_Michigan_from_S_2014-12-07.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "auteur": "Crisco 1492",
+  "licence": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Skyline_of_Detroit,_Michigan_from_S_2014-12-07.jpg",
+  "largeur": 17418,
+  "hauteur": 3476
+ },
+ "maxi-45": {
+  "legende": "Un maxi 45 tours",
+  "fichier": "articles/maxi-45.webp",
+  "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/12in-Vinyl-LP-Record-Angle.jpg/1280px-12in-Vinyl-LP-Record-Angle.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "auteur": "Evan-Amos",
+  "licence": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:12in-Vinyl-LP-Record-Angle.jpg",
+  "largeur": 4000,
+  "hauteur": 4000
+ },
+ "tb-303-panneau": {
+  "legende": "Le panneau de la TB-303",
+  "fichier": "articles/tb-303-panneau.webp",
+  "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Roland_TB-303_Panel.jpg/1280px-Roland_TB-303_Panel.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "auteur": "Steve Sims",
+  "licence": "CC0",
+  "source": "https://commons.wikimedia.org/wiki/File:Roland_TB-303_Panel.jpg",
+  "largeur": 1656,
+  "hauteur": 814
+ }
+}

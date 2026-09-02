@@ -236,11 +236,19 @@ const genreSchema = z.strictObject({
      Minimum de 400 caracteres par section : en dessous, ce n'est pas une
      section d'article, c'est une ligne de fiche technique, et elle a deja sa
      place ailleurs. */
+  /* `image` : la CLE d'une illustration, pas un chemin ni une adresse. Elle
+     se resout dans src/data/machines.json ou src/data/illustrations.json,
+     deux catalogues qui portent le fichier local, l'auteur, la licence et la
+     page source. Le corpus reste editorial et ne connait aucun fichier : si
+     une photo est remplacee ou retiree pour un probleme de droit, on touche
+     le catalogue et pas les 219 fiches. Une cle qui ne resout pas n'affiche
+     rien, elle ne casse pas la page. */
   article: z
     .array(
       z.object({
         titre: z.string().min(3),
-        texte: z.string().min(400)
+        texte: z.string().min(400),
+        image: z.string().min(2).optional()
       })
     )
     .min(2)

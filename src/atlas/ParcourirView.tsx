@@ -27,6 +27,8 @@ import { FAMILIES, STRUCTURES, type Genre, type Track } from './structures.ts';
 import { poidsDe } from './poids.ts';
 import { ProceduralCover } from './ProceduralCover.tsx';
 import { useLecteur } from '../lecture/useLecteur.ts';
+import MACHINES from '../data/machines.json';
+import ILLUSTRATIONS from '../data/illustrations.json';
 import {
   faChevronLeft,
   faPlay,
@@ -357,7 +359,7 @@ export function ParcourirView() {
           <>
             <p className="pv-intro">{t.genresAppuyez(familleCourante.count)}</p>
             <div className="pv-grille">
-              {(STRUCTURES[niveau.fi]?.genres ?? []).map((g, gl) => {
+              {ordreParDate(STRUCTURES[niveau.fi]?.genres ?? []).map(({ g, gl }) => {
                 const p = poidsDe(g.id);
                 return (
                   <button
@@ -447,6 +449,80 @@ function meilleurIndex(tracks: readonly Track[]): number {
     de capture. Meme regle que le reste du site. */
 function anneeDe(t: Track): number | null {
   return t.release?.year ?? t.year;
+}
+
+/* --- Les illustrations d'article ------------------------------------------- */
+
+/* UNE PHOTO DANS UN ARTICLE, PAS UNE PHOTO SUR UNE FICHE.
+
+   La meme TR-909 avait ete posee en bas d'une page de genre, large de 544 px,
+   sans rien autour qui explique pourquoi elle etait la. Elle ne servait a
+   rien, et elle a ete retiree. Elle revient ici parce que le contexte a
+   change : dans un article qui raconte comment cette machine a fabrique un
+   son, une photo de la machine EST l'information. Le meme fichier, la meme
+   licence, une utilite qui apparait.
+
+   LES DEUX CATALOGUES SE LISENT COMME UN SEUL. machines.json porte les 31
+   photos deja verifiees ; illustrations.json recoit ce qui n'est pas une
+   machine, une ville, une pochette, une salle. Meme forme, meme exigence de
+   licence, une seule table de resolution.
+
+   UNE CLE INCONNUE N'AFFICHE RIEN. Un article dont l'illustration a ete
+   retiree pour un doute sur les droits doit rester lisible : l'absence est un
+   trou dans la mise en page, pas une page cassee. */
+interface Illustration {
+  readonly fichier: string;
+  readonly auteur: string;
+  readonly licence: string;
+  readonly source: string;
+  readonly machine?: string;
+  readonly legende?: string;
+}
+const CATALOGUE_IMAGES: Record<string, Illustration> = {
+  ...(MACHINES as Record<string, Illustration>),
+  ...(ILLUSTRATIONS as Record<string, Illustration>),
+};
+
+function FigureArticle({ cle }: { cle: string }) {
+  const f = CATALOGUE_IMAGES[cle];
+  if (!f) return null;
+  return (
+    <figure className="pv-illu">
+      <img src={`${import.meta.env.BASE_URL}${f.fichier}`} alt={f.legende ?? f.machine ?? cle} loading="lazy" />
+      <figcaption>
+        <span className="pv-illu-nom">{f.legende ?? f.machine ?? cle}</span>
+        <a className="pv-illu-credit" href={f.source} target="_blank" rel="noreferrer noopener">
+          {f.auteur} · {f.licence}
+        </a>
+      </figcaption>
+    </figure>
+  );
+}
+
+/* LES TUILES SE RANGENT PAR DATE D'APPARITION.
+
+   L'ordre precedent etait celui du fichier de structure, qui suit la filiation
+   et non le calendrier : dans Trance, Acid Trance 1992 arrivait avant Balearic
+   Trance 1991, et German Trance 1992 se retrouvait douzieme, apres Orchestral
+   Trance 2002. Une grille de quatorze cases ou les dates montent puis
+   redescendent ne se lit pas, alors qu'elle porte deja l'annee sous chaque nom.
+
+   L'INDEX D'ORIGINE VOYAGE AVEC LA TUILE. L'adresse d'un genre est sa position
+   dans le tableau de structure : trier le tableau lui-meme ferait pointer les
+   liens deja partages sur un autre genre. On trie donc l'AFFICHAGE en gardant
+   `gl`, et un lien envoye hier ouvre encore la meme page.
+
+   Les genres sans date connue passent en fin plutot qu'en tete, ou un zero les
+   aurait mis. A date egale, l'ordre du fichier tranche, ce qui garde la
+   filiation lisible entre freres de la meme annee. */
+function ordreParDate(genres: readonly Genre[]): { g: Genre; gl: number }[] {
+  return genres
+    .map((g, gl) => ({ g, gl }))
+    .sort((a, b) => {
+      const ya = a.g.annee > 0 ? a.g.annee : Number.MAX_SAFE_INTEGER;
+      const yb = b.g.annee > 0 ? b.g.annee : Number.MAX_SAFE_INTEGER;
+      return ya - yb || a.gl - b.gl;
+    });
 }
 
 /* --- La page d'un genre --------------------------------------------------- */
@@ -708,6 +784,11 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           {genre.article.map((section) => (
             <section className="pv-article-section" key={section.titre}>
               <h3 className="pv-article-titre">{section.titre}</h3>
+              {/* LA PHOTO EST POSEE AVANT LE TEXTE dans le flux, parce qu'elle
+                  flotte : un element flottant n'est habille que par ce qui le
+                  SUIT. Place apres le premier paragraphe, il laisserait un
+                  blanc au-dessus de lui et le texte ne remonterait jamais. */}
+              {section.image && <FigureArticle cle={section.image} />}
               {/* Les paragraphes sont separes par une ligne vide dans la
                   donnee : on ne stocke pas de balises dans le corpus. */}
               {section.texte.split('\n\n').map((para, i) => (

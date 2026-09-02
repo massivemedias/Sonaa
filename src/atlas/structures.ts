@@ -278,7 +278,11 @@ export interface Genre {
   readonly motDeLAuteur: string | null;
   /* L'ARTICLE LONG, en sections titrees. Vide sur la quasi-totalite des
      genres aujourd'hui : on n'affiche rien plutot qu'un gabarit. */
-  readonly article: readonly { readonly titre: string; readonly texte: string }[];
+  readonly article: readonly {
+    readonly titre: string;
+    readonly texte: string;
+    readonly image?: string | undefined;
+  }[];
   /* Le tuto de fabrication. Vide sur la plupart des genres : on n'affiche
      rien plutot qu'un gabarit. */
   readonly tuto: readonly { readonly titre: string; readonly texte: string }[];
