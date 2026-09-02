@@ -256,13 +256,26 @@
   border-radius: 50%;
   background: oklch(0.98 0 0);
   color: oklch(0.14 0.01 250);
-  font-size: 0.875rem;
   cursor: pointer;
+}
+
+/* LE TRIANGLE EST DIMENSIONNE EN PIXELS, PAS EN TAILLE DE POLICE.
+
+   Il ne l'etait pas, et c'est pour cela que les deux reglages precedents
+   n'ont rien change : le glyphe est un SVG en ligne sans largeur declaree,
+   il prenait donc 24 px quoi qu'on ecrive sur `font-size`. Mesure a chaque
+   fois : 24 px pour un rond de 36, soit les deux tiers.
+
+   Vingt pixels, comme demande, et c'est le reste du site qui a raison : la
+   barre du bas et la fiche de genre dimensionnent deja leurs icones en
+   pixels, pas en em. */
+.ls-bouton svg {
+  width: 20px;
+  height: 20px;
 }
 .ls-compact .ls-bouton {
   width: 2.25rem;
   height: 2.25rem;
-  font-size: 0.6875rem;
 }
 
 .ls-corps {
