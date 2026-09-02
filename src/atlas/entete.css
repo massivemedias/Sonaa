@@ -1,0 +1,46 @@
+/* La barre du haut des pages document. Elle reprend les mesures de .pv-tete :
+   meme hauteur, meme fond, meme filet, meme alignement de colonne. Deux
+   barres qui font la meme chose a deux pixels pres se remarquent. */
+
+.entete-site {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem 1rem;
+  box-sizing: border-box;
+  min-height: 56px;
+  padding: calc(0.5rem + env(safe-area-inset-top, 0px)) var(--marge-page) 0.5rem;
+  background: oklch(0.14 0.008 260);
+  border-bottom: 1px solid oklch(1 0 0 / 0.07);
+  /* LE BOUTON DE COMPTE EST FIXE EN HAUT A DROITE, hors de ce flux. La meme
+     reserve que dans Parcourir l'empeche de recouvrir le dernier lien. */
+  padding-right: calc(var(--authb-reserve, 126px) + 0.6rem);
+}
+
+/* Le contenu s'aligne sur la colonne du texte, comme dans Parcourir. */
+@media (min-width: 700px) {
+  .entete-site {
+    padding-left: max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2));
+    padding-right: max(
+      calc(var(--authb-reserve, 126px) + 0.6rem),
+      calc((100vw - var(--largeur-page)) / 2)
+    );
+  }
+}
+
+.entete-logo {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+}
+.entete-logo img {
+  height: 26px;
+  width: auto;
+  display: block;
+}
+
+/* Les pages document commencent sous la barre, plus a trois centimetres du
+   haut : c'est la barre qui donne maintenant le retrait. */
+.entete-site + .credits {
+  padding-top: 1.6rem;
+}

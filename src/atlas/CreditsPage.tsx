@@ -9,7 +9,7 @@
    pas une. */
 
 import { FAMILIES, STRUCTURES } from './structures.ts';
-import { SiteNav } from './SiteNav.tsx';
+import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import './credits.css';
 
@@ -17,29 +17,18 @@ const TOTAL = STRUCTURES.reduce((n, s) => n + s.genres.length, 0);
 
 export function CreditsPage() {
   return (
-    <main className="credits">
+    <>
+      <EnTeteSite />
+      <main className="credits">
       <a className="credits-skip" href="#credits-content">
         Aller au contenu
       </a>
 
-      {/* LA NAVIGATION EST EN TETE, PLUS EN PIED.
-
-          Elle vivait en bas des pages document, heritage du temps ou c'etait
-          une ligne de liens discrete. Depuis qu'elle est faite de vrais
-          boutons, la laisser en bas oblige a parcourir toute la page pour
-          changer d'endroit, et sur les pages longues on ne sait meme pas
-          qu'elle existe. Les pages de sets la portaient deja en tete : c'est
-          la meme navigation, elle doit se trouver au meme endroit partout. */}
-      <SiteNav variant="page" />
 
       <header className="credits-head">
-        <a href="#/" aria-label="SONAA, revenir à l'accueil">
-          <img
-            src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`}
-            alt="SONAA"
-            draggable={false}
-          />
-        </a>
+        {/* PLUS DE LOGO ICI : la barre du haut en porte un, et deux logos a
+            quarante pixels l'un de l'autre ne disent pas deux fois le nom du
+            site, ils disent qu'on a oublie d'en retirer un. */}
         <h1>Crédits</h1>
         <p className="credits-lede">
           {/* « sans hiérarchie de dette » a été retiré : la page en établit
@@ -197,5 +186,6 @@ export function CreditsPage() {
         </button>
       </footer>
     </main>
+    </>
   );
 }

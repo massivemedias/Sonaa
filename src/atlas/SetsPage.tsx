@@ -25,7 +25,7 @@ import {
 } from '../lib/sets.ts';
 import { LecteurSet } from './LecteurSet.tsx';
 import { Loupe } from './Loupe.tsx';
-import { SiteNav } from './SiteNav.tsx';
+import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import { t } from '../langue/langue.ts';
 import './credits.css';
@@ -103,18 +103,21 @@ function ListeDesArtistes() {
 
   if (!contributionsActives) {
     return (
+      <>
+      <EnTeteSite />
       <main className="credits sets-page">
-        <SiteNav variant="page" />
         <h1>{t.lesArtistes}</h1>
         <p>{t.baseIndisponible}</p>
         <PiedDePage />
       </main>
+    </>
     );
   }
 
   return (
-    <main className="credits sets-page">
-      <SiteNav variant="page" />
+    <>
+      <EnTeteSite />
+      <main className="credits sets-page">
       <h1>{t.lesSons}</h1>
 
       <h2 className="sp-sous-titre sp-sous-titre-premier">{t.lesArtistes}</h2>
@@ -162,6 +165,7 @@ function ListeDesArtistes() {
       )}
       <PiedDePage />
     </main>
+    </>
   );
 }
 
@@ -195,29 +199,34 @@ function PageDUnArtiste({ compte }: { compte: string }) {
 
   if (artiste === null) {
     return (
+      <>
+      <EnTeteSite />
       <main className="credits sets-page">
-        <SiteNav variant="page" />
         <p className="sp-aide">{t.chargement}</p>
         <PiedDePage />
       </main>
+    </>
     );
   }
 
   if (artiste === 'introuvable') {
     return (
+      <>
+      <EnTeteSite />
       <main className="credits sets-page">
-        <SiteNav variant="page" />
         <h1>{t.artisteIntrouvable}</h1>
         <p className="sp-aide">
           <a href="#/sets">{t.retourAuxArtistes}</a>
         </p>
       </main>
+    </>
     );
   }
 
   return (
-    <main className="credits sets-page">
-      <SiteNav variant="page" />
+    <>
+      <EnTeteSite />
+      <main className="credits sets-page">
       <p className="sp-fil">
         <a href="#/sets">{t.lesArtistes}</a>
       </p>
@@ -241,6 +250,7 @@ function PageDUnArtiste({ compte }: { compte: string }) {
       </ul>
       <PiedDePage />
     </main>
+    </>
   );
 }
 
@@ -333,29 +343,34 @@ function PageDUnSet({ id }: { id: string }) {
 
   if (set === null) {
     return (
+      <>
+      <EnTeteSite />
       <main className="credits sets-page">
-        <SiteNav variant="page" />
         <p className="sp-aide">{t.chargement}</p>
         <PiedDePage />
       </main>
+    </>
     );
   }
 
   if (set === 'introuvable') {
     return (
+      <>
+      <EnTeteSite />
       <main className="credits sets-page">
-        <SiteNav variant="page" />
         <h1>{t.setIntrouvable}</h1>
         <p className="sp-aide">
           <a href="#/sets">{t.retourAuxSets}</a>
         </p>
       </main>
+    </>
     );
   }
 
   return (
-    <main className="credits sets-page">
-      <SiteNav variant="page" />
+    <>
+      <EnTeteSite />
+      <main className="credits sets-page">
       <p className="sp-fil">
         <a href="#/sets">{t.lesSets}</a>
       </p>
@@ -377,5 +392,6 @@ function PageDUnSet({ id }: { id: string }) {
       {set.description && <p className="sp-description">{set.description}</p>}
       <PiedDePage />
     </main>
+    </>
   );
 }

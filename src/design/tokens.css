@@ -72,6 +72,19 @@
      ecrite a huit endroits finit par n'etre changee qu'a sept. */
   --largeur-page: 1240px;
 
+  /* LE RETRAIT LATERAL MINIMAL, sur ecran etroit.
+
+     Il valait 0,75 rem dans Parcourir et 1,5 rem sur les pages document. A
+     1280 px les deux formules donnaient 20 et 24 px : le logo de la barre du
+     haut se decalait de quatre pixels selon la page, ce qui est exactement le
+     genre d'ecart qu'on ne nomme pas mais qu'on sent en naviguant.
+
+     Une seule valeur, lue des deux cotes, comme pour la largeur et le
+     serrage. Un rem : la moitie de l'ancien retrait des pages de texte, le
+     tiers de plus que celui de Parcourir, et assez pour que du texte ne
+     touche pas le bord sur un telephone. */
+  --marge-page: 1rem;
+
   /* LA TAILLE DU TEXTE COURANT, demandee par Mika devant la fiche Electro
      House : 12 px sur telephone, 13 px sur ordinateur.
 

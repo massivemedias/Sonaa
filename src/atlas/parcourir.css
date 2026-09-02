@@ -39,7 +39,7 @@
   gap: 0.3rem 1rem;
   box-sizing: border-box;
   min-height: 56px;
-  padding: calc(0.5rem + env(safe-area-inset-top, 0px)) 0.75rem 0.5rem;
+  padding: calc(0.5rem + env(safe-area-inset-top, 0px)) var(--marge-page) 0.5rem;
   /* LA LOUPE EST ANCREE, ELLE N'EST PLUS POUSSEE.
 
      TROIS SIGNALEMENTS POUR LE MEME DEFAUT, et les deux premieres corrections
@@ -1091,8 +1091,8 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   .pv-corps,
   .pv-tete,
   .pv-chercher {
-    padding-left: max(0.75rem, calc((100vw - var(--largeur-page)) / 2));
-    padding-right: max(0.75rem, calc((100vw - var(--largeur-page)) / 2));
+    padding-left: max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2));
+    padding-right: max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2));
   }
   .pv-grille {
     /* 16 rem et non 19 : a 1400 px de large avec 0,7 rem de gouttiere, une
@@ -1226,8 +1226,8 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
     font-size: 2.275rem;
   }
   .pv-barre {
-    padding-left: max(0.75rem, calc((100vw - var(--largeur-page)) / 2));
-    padding-right: max(0.75rem, calc((100vw - var(--largeur-page)) / 2));
+    padding-left: max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2));
+    padding-right: max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2));
   }
   /* SUR GRAND ECRAN LA LOUPE OBEIT A DEUX CONTRAINTES, PAS UNE.
 

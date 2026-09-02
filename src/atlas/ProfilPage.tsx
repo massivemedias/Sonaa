@@ -48,7 +48,7 @@ import { LecteurSet } from './LecteurSet.tsx';
 import { ZoneDepot } from './ZoneDepot.tsx';
 import { ChoixStyles } from './ChoixStyles.tsx';
 import { ModifierSet } from './ModifierSet.tsx';
-import { SiteNav } from './SiteNav.tsx';
+import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 
 import { t } from '../langue/langue.ts';
@@ -279,42 +279,49 @@ export function ProfilPage() {
 
   if (!contributionsActives) {
     return (
+      <>
+      <EnTeteSite />
       <main className="credits sets-page">
-        <SiteNav variant="page" />
         <h1>{t.monProfil}</h1>
         <p>{t.baseIndisponible}</p>
         <PiedDePage />
       </main>
+    </>
     );
   }
 
   if (!pret) {
     return (
+      <>
+      <EnTeteSite />
       <main className="credits sets-page">
-        <SiteNav variant="page" />
         <h1>{t.monProfil}</h1>
         <p>{t.chargement}</p>
         <PiedDePage />
       </main>
+    </>
     );
   }
 
   if (!connecte) {
     return (
+      <>
+      <EnTeteSite />
       <main className="credits sets-page">
-        <SiteNav variant="page" />
         <h1>{t.monProfil}</h1>
         <p>{t.connexionRequiseProfil}</p>
         <PiedDePage />
       </main>
+    </>
     );
   }
 
   const occupe = etape !== 'repos';
 
   return (
-    <main className="credits sets-page">
-      <SiteNav variant="page" />
+    <>
+      <EnTeteSite />
+      <main className="credits sets-page">
       <h1>{t.monProfil}</h1>
 
       {/* ── L'identite publique ── */}
@@ -545,5 +552,6 @@ export function ProfilPage() {
       </section>
       <PiedDePage />
     </main>
+    </>
   );
 }

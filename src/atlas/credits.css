@@ -12,9 +12,15 @@
    La borne remonte donc sur le conteneur, une fois, pour toutes les pages. */
 .credits {
   min-height: 100vh;
-  max-width: calc(var(--largeur-page) + 3rem);
-  margin-inline: auto;
-  padding: 3rem 1.5rem 4rem;
+  /* LA MEME FORMULE QUE PARCOURIR, au pixel pres. Le conteneur borne et
+     centre qui etait ici donnait 24 px de retrait la ou Parcourir en donnait
+     20 : quatre pixels d'ecart sur le logo selon la page. La colonne est
+     desormais dessinee par le retrait, comme dans l'autre monde, et les deux
+     lisent le meme jeton. */
+  padding-left: max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2));
+  padding-right: max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2));
+  padding-top: 3rem;
+  padding-bottom: 4rem;
   font-family: var(--font-ui);
   color: var(--ink-primary);
   background: oklch(0.16 0.012 250);
@@ -34,24 +40,23 @@
   padding: 0.4rem 0.8rem;
 }
 
+/* LA COLONNE DE LECTURE COMMENCE OU COMMENCE LE LOGO.
+
+   Elle etait centree dans la page : sous une barre alignee a gauche, le texte
+   demarrait trois cent seize pixels plus loin, et les pages de sons, elles,
+   demarraient a vingt. Trois alignements pour un seul site.
+
+   La mesure de lecture est conservee, c'est sa POSITION qui change. */
 .credits-head,
 .credits-body,
 .credits-foot {
   max-width: 38rem;
-  margin: 0 auto;
+  margin: 0;
 }
 
-/* LA NAVIGATION PREND LA LARGEUR DE LA PAGE, PAS CELLE DU TEXTE.
-
-   Elle etait bornee a la colonne de lecture, 38 rem, alors que les pages de
-   sons s'etendent sur 1240 px. D'une page a l'autre le menu changeait donc de
-   place et de largeur, et c'est exactement ce que Mika a decrit : « on dirait
-   que le site change de taille a chaque page ». Le texte, lui, garde sa
-   mesure de lecture : c'est le menu qui doit etre au meme endroit partout,
-   pas les paragraphes qui doivent s'etaler. */
-.credits > .sitenav {
-  margin: 0 0 2rem;
-}
+/* Le menu vit desormais dans la barre du haut (EnTeteSite), hors de `main`,
+   pour qu'elle couvre toute la largeur pendant que son contenu s'aligne sur
+   la colonne. Il n'y a plus de navigation a placer ici. */
 
 .credits-head {
   padding-right: calc(var(--authb-reserve, 126px) + 0.5rem);
