@@ -458,6 +458,28 @@ async function moi(): Promise<string | null> {
   return data.user?.id ?? null;
 }
 
+/** Ce qu'un compte occupe, et ce a quoi il a droit. `plafond` a null veut
+    dire sans limite. */
+export interface Stockage {
+  readonly utilise: number;
+  readonly plafond: number | null;
+}
+
+export async function monStockage(): Promise<Stockage | null> {
+  if (!supabase) return null;
+  const { data } = await supabase.auth.getUser();
+  const id = data.user?.id;
+  if (!id) return null;
+  const [u, p] = await Promise.all([
+    supabase.rpc('stockage_utilise', { compte: id }),
+    supabase.rpc('quota_octets', { compte: id }),
+  ]);
+  return {
+    utilise: Number(u.data ?? 0),
+    plafond: p.data === null || p.data === undefined ? null : Number(p.data),
+  };
+}
+
 export async function monArtiste(): Promise<Artiste | null> {
   if (!supabase) return null;
   const id = await moi();

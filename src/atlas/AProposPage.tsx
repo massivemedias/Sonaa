@@ -7,6 +7,7 @@
 
 import { FAMILIES, STRUCTURES } from './structures.ts';
 import { SiteNav } from './SiteNav.tsx';
+import { PiedDePage } from './PiedDePage.tsx';
 import './credits.css';
 
 const GENRES = STRUCTURES.reduce((n, s) => n + s.genres.length, 0);
@@ -187,6 +188,8 @@ export function AProposPage() {
           </p>
         </section>
       </div>
+
+      <PiedDePage />
 
       <footer className="credits-foot">
       </footer>

@@ -10,6 +10,7 @@
 
 import { FAMILIES, STRUCTURES } from './structures.ts';
 import { SiteNav } from './SiteNav.tsx';
+import { PiedDePage } from './PiedDePage.tsx';
 import './credits.css';
 
 const TOTAL = STRUCTURES.reduce((n, s) => n + s.genres.length, 0);
@@ -180,6 +181,8 @@ export function CreditsPage() {
           </p>
         </section>
       </div>
+
+      <PiedDePage />
 
       <footer className="credits-foot">
         <button

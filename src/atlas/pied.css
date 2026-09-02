@@ -1,0 +1,47 @@
+/* Le pied de page, sur toutes les pages document. */
+
+.pied {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid oklch(1 0 0 / 0.09);
+}
+
+/* AUTANT DE COLONNES QUE LA LARGEUR EN PERMET, sans point de rupture ecrit :
+   quatre sur un ordinateur, deux sur une tablette, une sur un telephone. Un
+   pied de page est exactement le genre d'endroit ou une grille automatique
+   evite trois media queries qui divergeront. */
+.pied-colonnes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+  gap: 1.6rem 2rem;
+}
+
+.pied-colonne h2 {
+  margin: 0 0 0.6rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: oklch(0.58 0.01 260);
+}
+.pied-colonne ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+.pied-colonne a {
+  color: oklch(0.82 0.008 260);
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+.pied-colonne a:hover {
+  color: oklch(0.97 0 0);
+  text-decoration: underline;
+}
+
+.pied-mot {
+  margin: 2rem 0 0;
+  color: oklch(0.5 0.01 260);
+  font-size: 0.8125rem;
+}

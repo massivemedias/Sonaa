@@ -261,6 +261,16 @@ export function ParcourirView() {
 
   const enTete = (
     <header className="pv-tete">
+      {/* LA NAVIGATION EST DANS L'EN-TETE, SUR TOUTES LES ROUTES.
+
+          Elle vivait tout en bas de la premiere page de Parcourir, et nulle
+          part ailleurs dans cette vue : depuis une fiche de genre, il fallait
+          remonter deux niveaux pour retrouver le menu. Mika l'a dit
+          autrement, « le menu en haut en tout temps ».
+
+          Elle est posee ici plutot que dans une barre globale parce que cette
+          vue est un `position: fixed; inset: 0` : une barre au-dessus d'elle
+          serait recouverte. */}
       {niveau.k === 'familles' ? (
         <a className="pv-logo" href="#/" aria-label={t.retourAtlas}>
           <img src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`} alt="SONAA" draggable={false} />
@@ -289,6 +299,8 @@ export function ParcourirView() {
       >
         <FaIcon icon={chercheOuvert ? faXmark : faMagnifyingGlass} />
       </button>
+    
+      <SiteNav variant="overlay" />
     </header>
   );
 
@@ -350,9 +362,6 @@ export function ParcourirView() {
                   </span>
                 </button>
               ))}
-            </div>
-            <div className="pv-sortie">
-              <SiteNav variant="overlay" />
             </div>
           </>
         )}

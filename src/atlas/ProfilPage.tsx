@@ -37,9 +37,11 @@ import {
   mesurerDuree,
   mmss,
   monArtiste,
+  monStockage,
   supprimerSet,
   urlAvatar,
   type Artiste,
+  type Stockage,
   type SetDJ,
 } from '../lib/sets.ts';
 import { LecteurSet } from './LecteurSet.tsx';
@@ -47,6 +49,7 @@ import { ZoneDepot } from './ZoneDepot.tsx';
 import { ChoixStyles } from './ChoixStyles.tsx';
 import { ModifierSet } from './ModifierSet.tsx';
 import { SiteNav } from './SiteNav.tsx';
+import { PiedDePage } from './PiedDePage.tsx';
 
 import { t } from '../langue/langue.ts';
 import './credits.css';
@@ -78,11 +81,14 @@ export function ProfilPage() {
   const [messageDepot, setMessageDepot] = useState<string | null>(null);
   const [avancement, setAvancement] = useState<number | null>(null);
   const [enModif, setEnModif] = useState<string | null>(null);
+  const [stockage, setStockage] = useState<Stockage | null>(null);
   const [genres, setGenres] = useState<string[]>([]);
   const [pochette, setPochette] = useState<{ fichier: File; apercu: string; avant: number } | null>(null);
 
   const recharger = useCallback(async () => {
-    setSets(await mesSets());
+    const [liste, place] = await Promise.all([mesSets(), monStockage()]);
+    setSets(liste);
+    setStockage(place);
   }, []);
 
   useEffect(() => {
@@ -277,6 +283,7 @@ export function ProfilPage() {
         <SiteNav variant="page" />
         <h1>{t.monProfil}</h1>
         <p>{t.baseIndisponible}</p>
+        <PiedDePage />
       </main>
     );
   }
@@ -287,6 +294,7 @@ export function ProfilPage() {
         <SiteNav variant="page" />
         <h1>{t.monProfil}</h1>
         <p>{t.chargement}</p>
+        <PiedDePage />
       </main>
     );
   }
@@ -297,6 +305,7 @@ export function ProfilPage() {
         <SiteNav variant="page" />
         <h1>{t.monProfil}</h1>
         <p>{t.connexionRequiseProfil}</p>
+        <PiedDePage />
       </main>
     );
   }
@@ -366,6 +375,17 @@ export function ProfilPage() {
       <section className="sets-bloc">
         <h2>{t.deposerUnSet}</h2>
         <p className="sp-aide">{t.limitesDepot(mo(TAILLE_MAX))}</p>
+        {/* LA PLACE RESTANTE SE DIT AVANT, PAS APRES UN REFUS. Quelqu'un qui
+            depose un fichier d'un gigaoctet met plusieurs minutes a
+            l'envoyer : apprendre a la fin qu'il n'y avait pas la place est le
+            genre de chose qui fait fermer l'onglet. */}
+        {stockage && (
+          <p className="sp-aide">
+            {stockage.plafond === null
+              ? t.stockageSansLimite(mo(stockage.utilise))
+              : t.stockageUtilise(mo(stockage.utilise), mo(stockage.plafond))}
+          </p>
+        )}
 
         <div className="sp-formulaire">
         <ZoneDepot accept={FORMATS_AUDIO} onFichier={(f) => choisirFichier(f)} disabled={occupe}>
@@ -523,6 +543,7 @@ export function ProfilPage() {
           </ul>
         )}
       </section>
+      <PiedDePage />
     </main>
   );
 }

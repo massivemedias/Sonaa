@@ -27,9 +27,15 @@
 
 .pv-tete {
   flex: none;
-  display: flex;
+  /* DEUX RANGEES : le contexte en haut, le menu en dessous.
+
+     La grille plutot qu'un flex qui passe a la ligne : la loupe est ancree en
+     absolu sur la premiere rangee, et un retour a la ligne du flux l'aurait
+     laissee flotter au milieu de la seconde. */
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem 0.6rem;
   box-sizing: border-box;
   min-height: 56px;
   padding: calc(0.5rem + env(safe-area-inset-top, 0px)) 0.75rem 0.5rem;
@@ -64,6 +70,10 @@
   background: oklch(0.14 0.008 260);
   border-bottom: 1px solid oklch(1 0 0 / 0.07);
 }
+/* La navigation occupe toute la seconde rangee. */
+.pv-tete > .sitenav {
+  grid-column: 1 / -1;
+}
 .pv-retour,
 .pv-chercher-bouton {
   flex: none;
@@ -84,8 +94,12 @@
   /* Ancree au bord droit et non portee par le flux : voir .pv-tete. */
   position: absolute;
   right: calc(var(--authb-reserve, 126px) + 0.6rem);
-  top: 50%;
-  transform: translateY(-50%);
+  /* ALIGNEE SUR LA PREMIERE RANGEE, PAS SUR LE CENTRE DE L'EN-TETE.
+     Depuis que la navigation occupe une seconde rangee, un centrage vertical
+     posait la loupe entre les deux, dix-neuf pixels sous le bouton de retour
+     avec lequel elle forme pourtant une paire. Elle prend donc le meme
+     retrait haut que lui. */
+  top: calc(0.5rem + env(safe-area-inset-top, 0px));
   background: oklch(1 0 0 / 0.08);
   color: inherit;
 }
@@ -201,11 +215,6 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 
 /* La sortie vers les autres vues, en pied de la premiere page seulement : on
    ne la repete pas a chaque niveau, ou elle deviendrait du decor. */
-.pv-sortie {
-  margin: 2rem 0 0;
-  padding-top: 1.2rem;
-  border-top: 1px solid oklch(1 0 0 / 0.08);
-}
 .pv-intro {
   margin: 0.9rem 0 0.7rem;
   color: oklch(0.7 0.01 260);

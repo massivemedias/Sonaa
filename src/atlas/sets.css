@@ -10,9 +10,10 @@
    et des formes d'onde, qui gagnent a s'etaler. Ce qui se lit vraiment ici,
    la presentation d'un artiste et la description d'un set, garde sa propre
    mesure plus bas. */
+/* La borne de largeur vit sur `.credits`, partagee par toutes les pages
+   document. Ce fichier n'en pose plus : deux bornes finiraient par diverger. */
 .sets-page {
-  max-width: var(--largeur-page);
-  margin-inline: auto;
+  width: 100%;
 }
 
 .sets-bloc {

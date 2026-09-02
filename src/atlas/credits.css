@@ -1,7 +1,19 @@
 /* Crédits. Même typographie que le reste, une colonne, rien qui brille. */
 
+/* TOUTES LES PAGES DOCUMENT PARTAGENT LA MEME COLONNE.
+
+   Elles ne la partageaient pas : les pages de sons bornaient leur `main` a la
+   largeur de page, les pages de texte laissaient le leur pleine largeur et
+   bornaient chaque bloc. Resultat mesure a 1280 px : le menu commencait a
+   44 px d'un cote et a 24 px de l'autre. Vingt pixels, invisibles quand on
+   regarde une page, evidents quand on passe de l'une a l'autre, et c'est
+   exactement ce que Mika a decrit.
+
+   La borne remonte donc sur le conteneur, une fois, pour toutes les pages. */
 .credits {
   min-height: 100vh;
+  max-width: calc(var(--largeur-page) + 3rem);
+  margin-inline: auto;
   padding: 3rem 1.5rem 4rem;
   font-family: var(--font-ui);
   color: var(--ink-primary);
@@ -29,11 +41,16 @@
   margin: 0 auto;
 }
 
-/* La navigation partage la colonne des autres blocs, et se detache du titre
-   qui la suit. */
+/* LA NAVIGATION PREND LA LARGEUR DE LA PAGE, PAS CELLE DU TEXTE.
+
+   Elle etait bornee a la colonne de lecture, 38 rem, alors que les pages de
+   sons s'etendent sur 1240 px. D'une page a l'autre le menu changeait donc de
+   place et de largeur, et c'est exactement ce que Mika a decrit : « on dirait
+   que le site change de taille a chaque page ». Le texte, lui, garde sa
+   mesure de lecture : c'est le menu qui doit etre au meme endroit partout,
+   pas les paragraphes qui doivent s'etaler. */
 .credits > .sitenav {
-  max-width: 38rem;
-  margin: 0 auto 2rem;
+  margin: 0 0 2rem;
 }
 
 .credits-head {

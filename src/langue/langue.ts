@@ -170,6 +170,20 @@ interface Dictionnaire {
   readonly retirerLeStyle: (nom: string) => string;
   readonly lesArtistes: string;
   readonly lesSons: string;
+  readonly piedParcourir: string;
+  readonly piedAutresVues: string;
+  readonly piedParticiper: string;
+  readonly piedLeProjet: string;
+  readonly piedIndex: string;
+  readonly piedCarte: string;
+  readonly piedArbre: string;
+  readonly piedChronologie: string;
+  readonly piedChaleur: string;
+  readonly piedPropositions: string;
+  readonly piedCode: string;
+  readonly piedMot: string;
+  readonly stockageUtilise: (u: string, max: string) => string;
+  readonly stockageSansLimite: (u: string) => string;
   readonly voirTousLesArtistes: (n: number) => string;
   readonly nSets: (n: number) => string;
   readonly aucunArtiste: string;
@@ -342,6 +356,22 @@ const FR: Dictionnaire = {
   retirerLeStyle: (nom) => `Retirer ${nom}`,
   lesArtistes: 'Artistes',
   lesSons: 'Sons',
+  piedParcourir: 'Parcourir',
+  piedAutresVues: 'Autres vues',
+  piedParticiper: 'Participer',
+  piedLeProjet: 'Le projet',
+  piedIndex: 'Index des 219 genres',
+  piedCarte: 'Carte en trois dimensions',
+  piedArbre: 'Arbre déployé',
+  piedChronologie: 'Chronologie',
+  piedChaleur: 'Carte de chaleur',
+  piedPropositions: 'Propositions du public',
+  piedCode: 'Le code, sur GitHub',
+  piedMot:
+    'SONAA, un atlas généalogique des musiques électroniques. 219 genres, 14 familles, ' +
+    'écrit et vérifié à la main.',
+  stockageUtilise: (u, max) => `${u} utilisés sur ${max}.`,
+  stockageSansLimite: (u) => `${u} déposés, sans limite sur ce compte.`,
   voirTousLesArtistes: (n) => `Voir les ${n} artistes`,
   nSets: (n) => (n <= 1 ? `${n} set` : `${n} sets`),
   aucunArtiste: 'Personne n’a encore publié de set.',
@@ -513,6 +543,22 @@ const EN: Dictionnaire = {
   retirerLeStyle: (nom) => `Remove ${nom}`,
   lesArtistes: 'Artists',
   lesSons: 'Sounds',
+  piedParcourir: 'Browse',
+  piedAutresVues: 'Other views',
+  piedParticiper: 'Take part',
+  piedLeProjet: 'The project',
+  piedIndex: 'Index of all 219 genres',
+  piedCarte: 'Three-dimensional map',
+  piedArbre: 'Expanded tree',
+  piedChronologie: 'Timeline',
+  piedChaleur: 'Heat map',
+  piedPropositions: 'Public proposals',
+  piedCode: 'The code, on GitHub',
+  piedMot:
+    'SONAA, a genealogical atlas of electronic music. 219 genres, 14 families, ' +
+    'written and checked by hand.',
+  stockageUtilise: (u, max) => `${u} used of ${max}.`,
+  stockageSansLimite: (u) => `${u} uploaded, no limit on this account.`,
   voirTousLesArtistes: (n) => `See all ${n} artists`,
   nSets: (n) => (n <= 1 ? `${n} set` : `${n} sets`),
   aucunArtiste: 'Nobody has published a set yet.',

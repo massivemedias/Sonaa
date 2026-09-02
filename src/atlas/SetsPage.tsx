@@ -26,6 +26,7 @@ import {
 import { LecteurSet } from './LecteurSet.tsx';
 import { Loupe } from './Loupe.tsx';
 import { SiteNav } from './SiteNav.tsx';
+import { PiedDePage } from './PiedDePage.tsx';
 import { t } from '../langue/langue.ts';
 import './credits.css';
 import './sets.css';
@@ -106,6 +107,7 @@ function ListeDesArtistes() {
         <SiteNav variant="page" />
         <h1>{t.lesArtistes}</h1>
         <p>{t.baseIndisponible}</p>
+        <PiedDePage />
       </main>
     );
   }
@@ -158,6 +160,7 @@ function ListeDesArtistes() {
           </ul>
         </>
       )}
+      <PiedDePage />
     </main>
   );
 }
@@ -195,6 +198,7 @@ function PageDUnArtiste({ compte }: { compte: string }) {
       <main className="credits sets-page">
         <SiteNav variant="page" />
         <p className="sp-aide">{t.chargement}</p>
+        <PiedDePage />
       </main>
     );
   }
@@ -235,6 +239,7 @@ function PageDUnArtiste({ compte }: { compte: string }) {
           <ListeUnSet set={s} key={s.id} sansArtiste />
         ))}
       </ul>
+      <PiedDePage />
     </main>
   );
 }
@@ -331,6 +336,7 @@ function PageDUnSet({ id }: { id: string }) {
       <main className="credits sets-page">
         <SiteNav variant="page" />
         <p className="sp-aide">{t.chargement}</p>
+        <PiedDePage />
       </main>
     );
   }
@@ -369,6 +375,7 @@ function PageDUnSet({ id }: { id: string }) {
       <LecteurSet set={set} />
 
       {set.description && <p className="sp-description">{set.description}</p>}
+      <PiedDePage />
     </main>
   );
 }
