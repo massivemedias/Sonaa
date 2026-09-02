@@ -289,8 +289,8 @@ const FR: Dictionnaire = {
   imageTropLourde: (taille) => `Image de ${taille} : la limite est de 2 Mo.`,
   deposerUnSet: 'Déposer un set',
   limitesDepot: (max) =>
-    `FLAC, WAV, MP3, M4A ou OGG, ${max} au plus par fichier, soit environ trois heures ` +
-    `de FLAC sans perte. Aucun fichier n’est réencodé : ce que vous déposez est ` +
+    `FLAC, WAV, MP3, M4A ou OGG, ${max} au plus par fichier, soit environ six heures ` +
+    `de FLAC sans perte ou deux heures de WAV. Aucun fichier n’est réencodé : ce que vous déposez est ` +
     `exactement ce qui sera joué, octet pour octet. ` +
     `Le set arrive en brouillon, vous seul le voyez tant que vous ne l’avez pas publié.`,
   fichierAudio: 'Fichier audio',
@@ -433,7 +433,7 @@ const EN: Dictionnaire = {
   imageTropLourde: (taille) => `Image is ${taille}: the limit is 2 MB.`,
   deposerUnSet: 'Upload a set',
   limitesDepot: (max) =>
-    `FLAC, WAV, MP3, M4A or OGG, ${max} max per file, about three hours of lossless FLAC. ` +
+    `FLAC, WAV, MP3, M4A or OGG, ${max} max per file, about six hours of lossless FLAC or two hours of WAV. ` +
     `No file is re-encoded: what you upload is exactly what plays, byte for byte. ` +
     `The set arrives as a draft, only you can see it until you publish it.`,
   fichierAudio: 'Audio file',

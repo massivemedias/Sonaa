@@ -43,10 +43,12 @@ import { supabase } from './supabase.ts';
    heure. Ce qui reste borne, c'est le total gratuit, 10 Go. A 1 Go par set
    cela fait dix sets, a 400 Mo une vingtaine.
 
-   On borne donc a 1 Go par fichier, ce qui couvre 90 minutes de WAV ou plus
-   de trois heures de FLAC, et laisse le compte lisible. Au-dela il ne s'agit
-   plus d'un probleme technique mais d'une facture, et cela se decide. */
-export const TAILLE_MAX = 1024 * 1024 * 1024;
+   Bornee a 2 Go par fichier : Mika a bute sur 1,2 Go des le premier vrai set,
+   et un WAV de trois heures pese autant. Au-dela de 10 Go de total, R2 facture
+   1,5 cent par gigaoctet et par mois, soit une quinzaine de cents pour dix
+   sets de plus. Le plafond n'est donc plus la pour proteger une facture mais
+   pour attraper le fichier depose par erreur. */
+export const TAILLE_MAX = 2 * 1024 * 1024 * 1024;
 
 /** Taille d'une tranche d'envoi. Sous les 100 Mo que Cloudflare accepte par
     requete, avec de la marge pour les entetes. */
@@ -185,7 +187,162 @@ export function urlAvatar(chemin: string | null | undefined): string | null {
     Si le decodage echoue malgre tout, la fonction rend null et le depot
     continue. Un set sans dessin reste un set ecoutable ; refuser le depot
     parce que le dessin a rate serait perdre le fichier pour l'illustration. */
+/* AU-DELA DE CETTE TAILLE, LE DECODAGE COMPLET EST TROP LOURD.
+
+   `decodeAudioData` exige le fichier ENTIER en memoire avant de commencer :
+   un WAV de 1,2 Go occupe 1,2 Go rien qu'a la lecture, avant meme le tampon
+   decode. C'est au-dela de ce qu'un onglet supporte, et l'onglet ne rend pas
+   une erreur, il meurt.
+
+   Les WAV echappent a cette limite par le chemin ci-dessous, qui les lit par
+   tranches. Les autres formats sont compresses, donc bien plus petits a
+   taille de musique egale : 400 Mo de FLAC font deja deux heures. */
+const PLAFOND_DECODAGE = 400 * 1024 * 1024;
+
+/* --- La forme d'onde d'un WAV, sans jamais le charger en entier ----------- */
+
+interface EnTeteWav {
+  readonly canaux: number;
+  readonly bits: number;
+  readonly flottant: boolean;
+  readonly debut: number;
+  readonly longueur: number;
+}
+
+/** Lit l'en-tete RIFF. Rend null si ce n'est pas un WAV lisible. */
+async function enTeteWav(fichier: File): Promise<EnTeteWav | null> {
+  try {
+    /* Les en-tetes tiennent dans les premiers kilo-octets. On ne lit que
+       cela : c'est tout l'interet de la manoeuvre. */
+    const vue = new DataView(await fichier.slice(0, 65536).arrayBuffer());
+    if (vue.getUint32(0, false) !== 0x52494646) return null; // « RIFF »
+    if (vue.getUint32(8, false) !== 0x57415645) return null; // « WAVE »
+
+    let i = 12;
+    let canaux = 0;
+    let bits = 0;
+    let format = 0;
+    while (i + 8 <= vue.byteLength) {
+      const nom = vue.getUint32(i, false);
+      const taille = vue.getUint32(i + 4, true);
+      if (nom === 0x666d7420) {
+        format = vue.getUint16(i + 8, true);
+        canaux = vue.getUint16(i + 10, true);
+        bits = vue.getUint16(i + 22, true);
+        /* Le format etendu range le vrai format plus loin. Sans cela, un WAV
+           32 bits flottant exporte par un sequenceur passait pour du PCM
+           entier et rendait une forme d'onde en bruit. */
+        if (format === 0xfffe && i + 26 <= vue.byteLength) {
+          format = vue.getUint16(i + 32, true);
+        }
+      } else if (nom === 0x64617461) {
+        if (!canaux || !bits) return null;
+        return {
+          canaux,
+          bits,
+          flottant: format === 3,
+          debut: i + 8,
+          longueur: Math.min(taille, fichier.size - (i + 8)),
+        };
+      }
+      i += 8 + taille + (taille % 2);
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+/** Enveloppe d'un WAV, lue par tranches de 8 Mo. Memoire bornee quelle que
+    soit la taille du fichier. */
+async function ondeDunWav(fichier: File, t: EnTeteWav): Promise<Uint8Array | null> {
+  const octetsParEch = t.bits / 8;
+  const cadre = octetsParEch * t.canaux;
+  if (cadre <= 0) return null;
+  const cadres = Math.floor(t.longueur / cadre);
+  if (cadres < BARRES) return null;
+  const parBarre = Math.floor(cadres / BARRES);
+
+  const pics = new Uint8Array(BARRES);
+  const TRANCHE_LECTURE = 8 * 1024 * 1024;
+
+  let barre = 0;
+  let somme = 0;
+  let compte = 0;
+  let position = t.debut;
+  const fin = t.debut + cadres * cadre;
+
+  /* Un reste peut rester a cheval sur deux tranches : on le garde et on le
+     recolle, sinon un echantillon sur deux millions serait mal lu, ce qui ne
+     se verrait pas mais serait faux. */
+  let reste = new Uint8Array(0);
+
+  while (position < fin && barre < BARRES) {
+    const bout = Math.min(position + TRANCHE_LECTURE, fin);
+    const brut = new Uint8Array(await fichier.slice(position, bout).arrayBuffer());
+    position = bout;
+
+    const bloc = reste.length > 0 ? new Uint8Array(reste.length + brut.length) : brut;
+    if (reste.length > 0) {
+      bloc.set(reste, 0);
+      bloc.set(brut, reste.length);
+    }
+    const utilisables = Math.floor(bloc.length / cadre);
+    reste = bloc.slice(utilisables * cadre);
+
+    const vue = new DataView(bloc.buffer, bloc.byteOffset, utilisables * cadre);
+    for (let c = 0; c < utilisables && barre < BARRES; c += 1) {
+      const o = c * cadre;
+      let v = 0;
+      if (t.flottant && t.bits === 32) v = vue.getFloat32(o, true);
+      else if (t.bits === 16) v = vue.getInt16(o, true) / 32768;
+      else if (t.bits === 24) {
+        const a = vue.getUint8(o);
+        const b = vue.getUint8(o + 1);
+        const d = vue.getInt8(o + 2);
+        v = ((d << 16) | (b << 8) | a) / 8388608;
+      } else if (t.bits === 32) v = vue.getInt32(o, true) / 2147483648;
+      else if (t.bits === 8) v = (vue.getUint8(o) - 128) / 128;
+
+      somme += v * v;
+      compte += 1;
+      if (compte >= parBarre) {
+        pics[barre] = Math.min(255, Math.round(Math.sqrt(somme / compte) * 255));
+        barre += 1;
+        somme = 0;
+        compte = 0;
+      }
+    }
+  }
+
+  let maximum = 0;
+  for (const x of pics) if (x > maximum) maximum = x;
+  if (maximum === 0) return null;
+  for (let i = 0; i < BARRES; i += 1) pics[i] = Math.round(((pics[i] ?? 0) / maximum) * 255);
+  return pics;
+}
+
+const encoder = (pics: Uint8Array): string => {
+  let binaire = '';
+  for (const o of pics) binaire += String.fromCharCode(o);
+  return btoa(binaire);
+};
+
 export async function calculerOnde(fichier: File): Promise<string | null> {
+  /* LE WAV D'ABORD, PARCE QUE C'EST LUI QUI EST ENORME. Un WAV est du PCM
+     brut : on n'a rien a decoder, seulement a lire. On le parcourt donc par
+     tranches de 8 Mo, ce qui rend la memoire independante de la duree. */
+  if (estSansPerte(fichier.name) && extensionDe(fichier.name) === 'wav') {
+    const t = await enTeteWav(fichier);
+    if (t) {
+      const pics = await ondeDunWav(fichier, t);
+      if (pics) return encoder(pics);
+    }
+    /* En-tete illisible : on retombe sur le decodage, si la taille le permet. */
+  }
+
+  if (fichier.size > PLAFOND_DECODAGE) return null;
+
   try {
     const octets = await fichier.arrayBuffer();
     const Ctx: typeof OfflineAudioContext =
@@ -229,9 +386,7 @@ export async function calculerOnde(fichier: File): Promise<string | null> {
       }
     }
 
-    let binaire = '';
-    for (const o of pics) binaire += String.fromCharCode(o);
-    return btoa(binaire);
+    return encoder(pics);
   } catch {
     return null;
   }
