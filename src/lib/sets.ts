@@ -138,9 +138,21 @@ export interface SetDJ {
   readonly ecoutes: number;
   readonly created_at: string;
   readonly user_id: string;
+  readonly genre_id: string | null;
   readonly publie?: boolean;
   readonly artiste_nom?: string | null;
   readonly artiste_avatar?: string | null;
+}
+
+/** Un artiste tel que la page publique le montre : il a au moins un set. */
+export interface ArtistePublic {
+  readonly user_id: string;
+  readonly nom: string;
+  readonly avatar_path: string | null;
+  readonly bio: string | null;
+  readonly n_sets: number;
+  readonly ecoutes: number;
+  readonly dernier_set: string;
 }
 
 export interface Artiste {
@@ -597,6 +609,7 @@ export async function creerSet(champs: {
   duree_s?: number | null;
   taille_o?: number | null;
   onde?: string | null;
+  genre_id?: string | null;
   publie: boolean;
 }): Promise<string> {
   if (!supabase) throw new Error('base indisponible');
@@ -617,7 +630,7 @@ export async function mesSets(): Promise<SetDJ[]> {
   if (!id) return [];
   const { data } = await supabase
     .from('dj_sets')
-    .select('id, titre, description, audio_path, duree_s, onde, ecoutes, created_at, user_id, publie')
+    .select('id, titre, description, audio_path, duree_s, onde, ecoutes, created_at, user_id, genre_id, publie')
     .eq('user_id', id)
     .order('created_at', { ascending: false });
   return (data as SetDJ[] | null) ?? [];
@@ -637,6 +650,50 @@ export async function unSetPublic(id: string): Promise<SetDJ | null> {
   if (!supabase) return null;
   const { data } = await supabase.from('sets_publics').select('*').eq('id', id).maybeSingle();
   return (data as SetDJ | null) ?? null;
+}
+
+/** Les artistes qui ont au moins un set publie. */
+export async function artistesPublics(): Promise<ArtistePublic[]> {
+  if (!supabase) return [];
+  const { data } = await supabase
+    .from('artistes_publics')
+    .select('*')
+    .order('dernier_set', { ascending: false })
+    .limit(200);
+  return (data as ArtistePublic[] | null) ?? [];
+}
+
+export async function unArtiste(userId: string): Promise<ArtistePublic | null> {
+  if (!supabase) return null;
+  const { data } = await supabase
+    .from('artistes_publics')
+    .select('*')
+    .eq('user_id', userId)
+    .maybeSingle();
+  return (data as ArtistePublic | null) ?? null;
+}
+
+export async function setsDunArtiste(userId: string): Promise<SetDJ[]> {
+  if (!supabase) return [];
+  const { data } = await supabase
+    .from('sets_publics')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false });
+  return (data as SetDJ[] | null) ?? [];
+}
+
+/** Les sets deposes sous un genre du corpus. Sert la section « communaute »
+    de la page d'un genre. */
+export async function setsDunGenre(genreId: string): Promise<SetDJ[]> {
+  if (!supabase) return [];
+  const { data } = await supabase
+    .from('sets_publics')
+    .select('*')
+    .eq('genre_id', genreId)
+    .order('created_at', { ascending: false })
+    .limit(20);
+  return (data as SetDJ[] | null) ?? [];
 }
 
 export async function basculerPublication(id: string, publie: boolean): Promise<void> {

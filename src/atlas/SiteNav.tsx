@@ -47,12 +47,16 @@ type SiteCourant =
    morceaux. Deux portes vers la meme piece, dont l'une est plus etroite.
    L'adresse #/index repond toujours, la page n'est pas supprimee. */
 const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
-  { href: '#/parcourir', id: 'parcourir', label: t.parcourir },
+  /* DEUX PORTES VERS LE MEME CORPUS, ET ELLES SE NOMMENT PAR CE QU'ON Y
+     TROUVE. « Parcourir » decrivait un geste, pas une destination : on ne
+     sait pas ce qu'on va parcourir avant d'avoir clique. « Styles » et
+     « Artistes » disent l'un et l'autre ce qu'il y a derriere. */
+  { href: '#/parcourir', id: 'parcourir', label: t.lesStyles },
   /* LES SETS SONT UNE DESTINATION, PAS UN REGLAGE DE COMPTE. On peut les
      ecouter sans compte et sans en deposer un seul : les cacher derriere le
      menu du profil les rendrait invisibles a exactement les gens a qui ils
      s'adressent. */
-  { href: '#/sets', id: 'sets', label: t.lesSets }
+  { href: '#/sets', id: 'sets', label: t.lesArtistes }
 ];
 
 const PAGES: readonly { href: string; id: SiteCourant; label: string }[] = [

@@ -41,6 +41,8 @@ import {
 import { FaIcon } from './FaIcon.tsx';
 import { SiteNav } from './SiteNav.tsx';
 import { t } from '../langue/langue.ts';
+import { setsDunGenre, type SetDJ } from '../lib/sets.ts';
+import { contributionsActives } from '../lib/config.ts';
 import './parcourir.css';
 
 /* --- L'adresse ------------------------------------------------------------ */
@@ -823,8 +825,58 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
         </blockquote>
       )}
 
+      {/* CE QUE LA COMMUNAUTE A DEPOSE DANS CE STYLE.
+
+          SOUS les morceaux et dans sa propre section, jamais melange. La
+          liste du dessus est une selection : elle dit ce qu'il faut avoir
+          entendu pour comprendre le genre, et elle a ete pesee. Celle-ci dit
+          ce que des gens y posent aujourd'hui. Les confondre ferait perdre a
+          la premiere ce qui fait sa valeur. */}
+      <SetsDuGenre genreId={genre.id} />
+
       {enCours && <p className="pv-sr" role="status">{t.lectureEnCours}</p>}
     </>
+  );
+}
+
+/* --- Les sets deposes dans ce genre --------------------------------------- */
+
+function SetsDuGenre({ genreId }: { genreId: string }) {
+  const [sets, setSets] = useState<SetDJ[]>([]);
+
+  useEffect(() => {
+    if (!contributionsActives) return;
+    let vivant = true;
+    void setsDunGenre(genreId).then((s) => {
+      if (vivant) setSets(s);
+    });
+    return () => {
+      vivant = false;
+    };
+  }, [genreId]);
+
+  /* RIEN DU TOUT PLUTOT QU'UNE SECTION VIDE. Sur 219 genres, la plupart
+     n'auront aucun set pendant longtemps : un titre suivi de « aucun set »
+     repete deux cents fois se lit comme une panne, pas comme une invitation. */
+  if (sets.length === 0) return null;
+
+  return (
+    <section className="pv-communaute">
+      <h3 className="pv-titre-liste">{t.setsDeLaCommunaute}</h3>
+      <ul className="pv-sets">
+        {sets.map((s) => (
+          <li key={s.id}>
+            <a className="pv-set" href={`#/sets/${s.id}`}>
+              <span className="pv-set-titre">{s.titre}</span>
+              <span className="pv-set-detail">
+                {s.artiste_nom ?? t.artisteSansNom}
+                {s.duree_s ? ` · ${mmss(s.duree_s)}` : ''}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
 

@@ -41,6 +41,7 @@ import {
 import { LecteurSet } from './LecteurSet.tsx';
 import { ZoneDepot } from './ZoneDepot.tsx';
 import { SiteNav } from './SiteNav.tsx';
+import { FAMILIES, STRUCTURES } from './structures.ts';
 import { t } from '../langue/langue.ts';
 import './credits.css';
 import './sets.css';
@@ -70,6 +71,7 @@ export function ProfilPage() {
   const [etape, setEtape] = useState<Etape>('repos');
   const [messageDepot, setMessageDepot] = useState<string | null>(null);
   const [avancement, setAvancement] = useState<number | null>(null);
+  const [genreId, setGenreId] = useState('');
 
   const recharger = useCallback(async () => {
     setSets(await mesSets());
@@ -211,6 +213,7 @@ export function ProfilPage() {
       await creerSet({
         titre: titre.trim(),
         description: description.trim() || null,
+        genre_id: genreId || null,
         audio_path: chemin,
         duree_s: duree,
         taille_o: fichier.size,
@@ -221,6 +224,7 @@ export function ProfilPage() {
       setFichier(null);
       setTitre('');
       setDescription('');
+      setGenreId('');
       setMessageDepot(t.setDepose);
       await recharger();
     } catch (e) {
@@ -345,6 +349,34 @@ export function ProfilPage() {
             onChange={(e) => setTitre(e.target.value)}
           />
         </label>
+        {/* LE GENRE EST CE QUI RELIE LES DEUX MOITIES DU SITE.
+
+            Un set sans genre reste un fichier de plus dans une liste. Le meme
+            set range sous « Dub Techno » apparait sur la page du genre, sous
+            les morceaux qui l'ont fait. Aucune plateforme generaliste ne peut
+            faire cela, parce qu'aucune ne porte les 219 fiches.
+
+            Une liste deroulante native et non un champ de recherche : 219
+            entrees groupees par famille tiennent dans un selecteur, le
+            navigateur y cherche deja au clavier, et sur telephone il ouvre la
+            roue du systeme, qui se manipule mieux que tout ce qu'on
+            dessinerait. */}
+        <label className="sp-label">
+          {t.genreDuSet}
+          <select value={genreId} onChange={(e) => setGenreId(e.target.value)}>
+            <option value="">{t.aucunGenre}</option>
+            {FAMILIES.map((f, fi) => (
+              <optgroup label={f.label} key={f.id}>
+                {(STRUCTURES[fi]?.genres ?? []).map((g) => (
+                  <option value={g.id} key={g.id}>
+                    {g.label}
+                  </option>
+                ))}
+              </optgroup>
+            ))}
+          </select>
+        </label>
+
         <label className="sp-label">
           {t.descriptionFacultative}
           <textarea

@@ -1233,3 +1233,37 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
     padding-right: max(calc(var(--authb-reserve, 126px) + 0.6rem + 44px), calc((100vw - 1400px) / 2 + 44px));
   }
 }
+
+/* --- Les sets deposes dans un genre --------------------------------------- */
+
+.pv-communaute {
+  margin-top: 1.8rem;
+}
+.pv-sets {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+.pv-set {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid oklch(1 0 0 / 0.09);
+  border-radius: 12px;
+  background: oklch(1 0 0 / 0.02);
+  color: inherit;
+  text-decoration: none;
+}
+.pv-set:hover {
+  border-color: oklch(0.78 0.17 85 / 0.5);
+}
+.pv-set-titre {
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+.pv-set-detail {
+  font-size: 0.75rem;
+  color: oklch(0.62 0.01 260);
+}

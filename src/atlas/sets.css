@@ -375,3 +375,66 @@
 .zd-avatar.zd-survol .zd-avatar-voile {
   opacity: 1;
 }
+
+/* --- Les artistes --------------------------------------------------------- */
+
+/* Des cartes et non une liste : un artiste se reconnait a sa photo avant son
+   nom, et une grille en montre huit d'un coup la ou une liste en montre trois. */
+.sp-artistes {
+  list-style: none;
+  margin: 1.4rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr));
+  gap: 1.2rem 1rem;
+}
+.sp-carte-artiste {
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  text-align: center;
+  color: inherit;
+  text-decoration: none;
+}
+.sp-carte-nom {
+  font-weight: 700;
+  font-size: 0.9375rem;
+}
+.sp-carte-artiste:hover .sp-carte-nom {
+  text-decoration: underline;
+}
+
+.sp-portrait {
+  width: 6.5rem;
+  height: 6.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  font-size: 2rem;
+}
+
+.sp-tete-artiste {
+  display: flex;
+  gap: 1.1rem;
+  align-items: center;
+  margin: 0.5rem 0 1.2rem;
+}
+.sp-tete-artiste h1 {
+  margin: 0;
+}
+.sp-tete-artiste .sp-portrait {
+  width: 5rem;
+  height: 5rem;
+  font-size: 1.7rem;
+  flex: none;
+}
+
+.sp-item-titre a,
+.sp-aide a {
+  color: inherit;
+}
+
+.sp-sous-titre {
+  margin: 2.2rem 0 0.6rem;
+  font-size: 1.0625rem;
+  font-weight: 700;
+}

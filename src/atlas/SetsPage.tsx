@@ -11,45 +11,78 @@
 
 import { useEffect, useState } from 'react';
 import { contributionsActives } from '../lib/supabase.ts';
-import { mmss, setsPublics, unSetPublic, urlAvatar, type SetDJ } from '../lib/sets.ts';
+import {
+  artistesPublics,
+  mmss,
+  setsPublics,
+  setsDunArtiste,
+  unArtiste,
+  unSetPublic,
+  urlAvatar,
+  type ArtistePublic,
+  type SetDJ,
+} from '../lib/sets.ts';
 import { LecteurSet } from './LecteurSet.tsx';
 import { SiteNav } from './SiteNav.tsx';
 import { t } from '../langue/langue.ts';
 import './credits.css';
 import './sets.css';
 
-/** L'identifiant demande dans l'adresse : #/sets/<uuid>, ou null pour la liste. */
-function idDeLAdresse(): string | null {
-  const m = window.location.hash.match(/^#\/sets\/([0-9a-f-]{36})/i);
-  return m?.[1] ?? null;
+/* TROIS ECRANS SOUS UNE SEULE ROUTE.
+
+   #/sets            la liste des artistes qui ont depose
+   #/sets/a/<compte> tout ce qu'un artiste a publie
+   #/sets/<uuid>     un set, avec son grand lecteur
+
+   Pourquoi l'entree n'est plus la liste des sets mais celle des ARTISTES :
+   une liste de fichiers tries par date ne dit pas qui fait quoi. Ce qu'on
+   cherche en arrivant, c'est quelqu'un, et ensuite ce qu'il a pose. */
+type Ecran =
+  | { readonly k: 'artistes' }
+  | { readonly k: 'artiste'; readonly compte: string }
+  | { readonly k: 'set'; readonly id: string };
+
+function ecranDeLAdresse(): Ecran {
+  const h = window.location.hash;
+  const artiste = h.match(/^#\/sets\/a\/([0-9a-f-]{36})/i);
+  if (artiste?.[1]) return { k: 'artiste', compte: artiste[1] };
+  const set = h.match(/^#\/sets\/([0-9a-f-]{36})/i);
+  if (set?.[1]) return { k: 'set', id: set[1] };
+  return { k: 'artistes' };
 }
 
 export function SetsPage() {
-  const [id, setId] = useState<string | null>(idDeLAdresse);
+  const [ecran, setEcran] = useState<Ecran>(ecranDeLAdresse);
 
-  /* Le routeur de main.tsx ne recharge que si la ROUTE change. Passer de la
-     liste a un set ne change que la suite du fragment : sans cet ecouteur,
+  /* Le routeur de main.tsx ne recharge que si la ROUTE change. Passer d'un
+     artiste a un set ne change que la suite du fragment : sans cet ecouteur,
      l'adresse changerait et l'ecran resterait le meme, ce qui se lit comme
      un clic mort. Le meme piege est documente dans PropositionsPage. */
   useEffect(() => {
-    const auChangement = (): void => setId(idDeLAdresse());
+    const auChangement = (): void => setEcran(ecranDeLAdresse());
     window.addEventListener('hashchange', auChangement);
     return () => window.removeEventListener('hashchange', auChangement);
   }, []);
 
-  return id ? <PageDUnSet id={id} /> : <ListeDesSets />;
+  if (ecran.k === 'set') return <PageDUnSet id={ecran.id} />;
+  if (ecran.k === 'artiste') return <PageDUnArtiste compte={ecran.compte} />;
+  return <ListeDesArtistes />;
 }
 
-/* --- La liste ------------------------------------------------------------- */
+/* --- Les artistes --------------------------------------------------------- */
 
-function ListeDesSets() {
-  const [sets, setSets] = useState<SetDJ[] | null>(null);
+function ListeDesArtistes() {
+  const [artistes, setArtistes] = useState<ArtistePublic[] | null>(null);
+  const [derniers, setDerniers] = useState<SetDJ[]>([]);
 
   useEffect(() => {
     let vivant = true;
-    void setsPublics().then((s) => {
-      if (vivant) setSets(s);
-    });
+    void (async () => {
+      const [a, s] = await Promise.all([artistesPublics(), setsPublics()]);
+      if (!vivant) return;
+      setArtistes(a);
+      setDerniers(s.slice(0, 12));
+    })();
     return () => {
       vivant = false;
     };
@@ -59,7 +92,7 @@ function ListeDesSets() {
     return (
       <main className="credits sets-page">
         <SiteNav variant="page" />
-        <h1>{t.lesSets}</h1>
+        <h1>{t.lesArtistes}</h1>
         <p>{t.baseIndisponible}</p>
       </main>
     );
@@ -68,37 +101,150 @@ function ListeDesSets() {
   return (
     <main className="credits sets-page">
       <SiteNav variant="page" />
-      <h1>{t.lesSets}</h1>
+      <h1>{t.lesArtistes}</h1>
 
-      {sets === null ? (
+      {artistes === null ? (
         <p className="sp-aide">{t.chargement}</p>
-      ) : sets.length === 0 ? (
-        <p className="sp-aide">{t.aucunSetPublie}</p>
+      ) : artistes.length === 0 ? (
+        <p className="sp-aide">{t.aucunArtiste}</p>
       ) : (
-        <ul className="sp-liste">
-          {sets.map((s) => (
-            <li key={s.id} className="sp-item">
-              <div className="sp-item-tete">
-                <div className="sp-item-titre">
-                  <Vignette set={s} />
-                  <div>
-                    <h3>
-                      <a href={`#/sets/${s.id}`}>{s.titre}</a>
-                    </h3>
-                    <p className="sp-aide">
-                      {s.artiste_nom ?? t.artisteSansNom}
-                      {s.duree_s ? ` · ${mmss(s.duree_s)}` : ''}
-                      {` · ${t.nEcoutes(s.ecoutes)}`}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <LecteurSet set={s} compact />
+        <ul className="sp-artistes">
+          {artistes.map((a) => (
+            <li key={a.user_id}>
+              <a className="sp-carte-artiste" href={`#/sets/a/${a.user_id}`}>
+                <Portrait nom={a.nom} chemin={a.avatar_path} />
+                <span className="sp-carte-nom">{a.nom}</span>
+                <span className="sp-aide">
+                  {t.nSets(a.n_sets)} · {t.nEcoutes(a.ecoutes)}
+                </span>
+              </a>
             </li>
           ))}
         </ul>
       )}
+
+      {/* UNE GRILLE DE VISAGES NE S'ECOUTE PAS. Sans cette section, la page
+          d'entree du monde des artistes ne contient aucun son : il faudrait
+          cliquer deux fois pour entendre quoi que ce soit. Les douze derniers
+          sets donnent une raison de rester. */}
+      {derniers.length > 0 && (
+        <>
+          <h2 className="sp-sous-titre">{t.derniersSets}</h2>
+          <ul className="sp-liste">
+            {derniers.map((s) => (
+              <ListeUnSet set={s} key={s.id} />
+            ))}
+          </ul>
+        </>
+      )}
     </main>
+  );
+}
+
+function Portrait({ nom, chemin }: { nom: string; chemin: string | null }) {
+  const url = urlAvatar(chemin);
+  return url ? (
+    <img className="sp-portrait" src={url} alt="" loading="lazy" />
+  ) : (
+    <span className="sp-portrait sp-avatar-vide" aria-hidden="true">
+      {(nom.trim()[0] ?? '?').toUpperCase()}
+    </span>
+  );
+}
+
+function PageDUnArtiste({ compte }: { compte: string }) {
+  const [artiste, setArtiste] = useState<ArtistePublic | null | 'introuvable'>(null);
+  const [sets, setSets] = useState<SetDJ[]>([]);
+
+  useEffect(() => {
+    let vivant = true;
+    void (async () => {
+      const a = await unArtiste(compte);
+      if (!vivant) return;
+      setArtiste(a ?? 'introuvable');
+      if (a) setSets(await setsDunArtiste(compte));
+    })();
+    return () => {
+      vivant = false;
+    };
+  }, [compte]);
+
+  if (artiste === null) {
+    return (
+      <main className="credits sets-page">
+        <SiteNav variant="page" />
+        <p className="sp-aide">{t.chargement}</p>
+      </main>
+    );
+  }
+
+  if (artiste === 'introuvable') {
+    return (
+      <main className="credits sets-page">
+        <SiteNav variant="page" />
+        <h1>{t.artisteIntrouvable}</h1>
+        <p className="sp-aide">
+          <a href="#/sets">{t.retourAuxArtistes}</a>
+        </p>
+      </main>
+    );
+  }
+
+  return (
+    <main className="credits sets-page">
+      <SiteNav variant="page" />
+      <p className="sp-fil">
+        <a href="#/sets">{t.lesArtistes}</a>
+      </p>
+
+      <header className="sp-tete-artiste">
+        <Portrait nom={artiste.nom} chemin={artiste.avatar_path} />
+        <div>
+          <h1>{artiste.nom}</h1>
+          <p className="sp-aide">
+            {t.nSets(artiste.n_sets)} · {t.nEcoutes(artiste.ecoutes)}
+          </p>
+        </div>
+      </header>
+
+      {artiste.bio && <p className="sp-description">{artiste.bio}</p>}
+
+      <ul className="sp-liste">
+        {sets.map((s) => (
+          <ListeUnSet set={s} key={s.id} sansArtiste />
+        ))}
+      </ul>
+    </main>
+  );
+}
+
+/* --- Une ligne de set, partagee par toutes les listes --------------------- */
+
+export function ListeUnSet({ set, sansArtiste }: { set: SetDJ; sansArtiste?: boolean }) {
+  return (
+    <li className="sp-item">
+      <div className="sp-item-tete">
+        <div className="sp-item-titre">
+          <Vignette set={set} />
+          <div>
+            <h3>
+              <a href={`#/sets/${set.id}`}>{set.titre}</a>
+            </h3>
+            <p className="sp-aide">
+              {!sansArtiste && (
+                <>
+                  <a href={`#/sets/a/${set.user_id}`}>{set.artiste_nom ?? t.artisteSansNom}</a>
+                  {' · '}
+                </>
+              )}
+              {set.duree_s ? `${mmss(set.duree_s)} · ` : ''}
+              {t.nEcoutes(set.ecoutes)}
+            </p>
+          </div>
+        </div>
+      </div>
+      <LecteurSet set={set} compact />
+    </li>
   );
 }
 
@@ -165,7 +311,7 @@ function PageDUnSet({ id }: { id: string }) {
         <div>
           <h1>{set.titre}</h1>
           <p className="sp-aide">
-            {set.artiste_nom ?? t.artisteSansNom}
+            <a href={`#/sets/a/${set.user_id}`}>{set.artiste_nom ?? t.artisteSansNom}</a>
             {set.duree_s ? ` · ${mmss(set.duree_s)}` : ''}
             {` · ${t.nEcoutes(set.ecoutes)}`}
           </p>

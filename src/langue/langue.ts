@@ -151,6 +151,17 @@ interface Dictionnaire {
   readonly limitesDepot: (max: string) => string;
   readonly fichierAudio: string;
   readonly titreDuSet: string;
+  readonly genreDuSet: string;
+  readonly aucunGenre: string;
+  readonly lesArtistes: string;
+  readonly nSets: (n: number) => string;
+  readonly aucunArtiste: string;
+  readonly setsDeLaCommunaute: string;
+  readonly voirLArtiste: string;
+  readonly artisteIntrouvable: string;
+  readonly retourAuxArtistes: string;
+  readonly lesStyles: string;
+  readonly derniersSets: string;
   readonly descriptionFacultative: string;
   readonly deposer: string;
   readonly etapeOnde: string;
@@ -295,6 +306,17 @@ const FR: Dictionnaire = {
     `Le set arrive en brouillon, vous seul le voyez tant que vous ne l’avez pas publié.`,
   fichierAudio: 'Fichier audio',
   titreDuSet: 'Titre',
+  genreDuSet: 'Style, pour le ranger dans l’atlas',
+  aucunGenre: 'Aucun style',
+  lesArtistes: 'Artistes',
+  nSets: (n) => (n <= 1 ? `${n} set` : `${n} sets`),
+  aucunArtiste: 'Personne n’a encore publié de set.',
+  setsDeLaCommunaute: 'Sets déposés dans ce style',
+  voirLArtiste: 'Voir tous ses sets',
+  artisteIntrouvable: 'Cet artiste n’a pas de set publié.',
+  retourAuxArtistes: 'Revenir aux artistes',
+  lesStyles: 'Styles',
+  derniersSets: 'Derniers sets',
   descriptionFacultative: 'Description, si vous voulez',
   deposer: 'Déposer',
   etapeOnde: 'Lecture de la forme d’onde…',
@@ -438,6 +460,17 @@ const EN: Dictionnaire = {
     `The set arrives as a draft, only you can see it until you publish it.`,
   fichierAudio: 'Audio file',
   titreDuSet: 'Title',
+  genreDuSet: 'Style, to file it in the atlas',
+  aucunGenre: 'No style',
+  lesArtistes: 'Artists',
+  nSets: (n) => (n <= 1 ? `${n} set` : `${n} sets`),
+  aucunArtiste: 'Nobody has published a set yet.',
+  setsDeLaCommunaute: 'Sets uploaded in this style',
+  voirLArtiste: 'See all their sets',
+  artisteIntrouvable: 'This artist has no published set.',
+  retourAuxArtistes: 'Back to artists',
+  lesStyles: 'Styles',
+  derniersSets: 'Latest sets',
   descriptionFacultative: 'Description, if you like',
   deposer: 'Upload',
   etapeOnde: 'Reading the waveform…',
