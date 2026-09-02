@@ -5,7 +5,7 @@ import { toScreen } from '../core/iso.js';
 import {
   box, slab, poly, gableRoof, face, signboard, windowRow, doorway, shadow, castBox,
   tree, bush, rock, flower, grassTuft, crate, px, shade, mix, alpha, line2,
-  lantern, smoke, time as artTime, LIGHT, FW, FH,
+  lantern, smoke, time as artTime, LIGHT, FW, FH, isoTileSprite, pxEllipse, pxText, textWidth,
 } from '../core/art.js';
 import { VOID, GRASS, PATH, LUSH, CLEARING, FOREST } from './city.js';
 
@@ -71,7 +71,8 @@ export function drawGround(ctx, city, cam) {
       const n = vnoise(x / 3.2, y / 3.2, t === PATH ? 3 : 1);
       const shadeIdx = n > 0.62 ? 2 : n < 0.4 ? 0 : 1;
       const A = P(x, y, 0), B = P(x + 1, y, 0), C = P(x + 1, y + 1, 0), D = P(x, y + 1, 0);
-      poly(ctx, [A, B, C, D], pal[shadeIdx]);
+      // tuile pre-rendue : bords en escalier, aucun lissage, et c'est rapide
+      ctx.drawImage(isoTileSprite(pal[shadeIdx]), Math.round(A.x) - 16, Math.round(A.y));
 
       // bord de sentier : un lisere plus sombre cote herbe
       if (t === PATH) {

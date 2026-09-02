@@ -9,16 +9,15 @@ const P = (x, y, z) => toScreen(x, y, z);
 const rnd = (a, b) => a + Math.random() * (b - a);
 const pick = a => a[Math.random() * a.length | 0];
 
-const SHIRTS = ['#e8734f', '#f0b56a', '#6c9fd6', '#c96f9e', '#5ec4a9', '#8f5fc9', '#e5556f'];
-const PANTS = ['#3f2a5e', '#4a3a63', '#2f5b52', '#5a4030'];
-const SKINS = ['#f0c088', '#e0ab7d', '#c98d63', '#8d5a3c', '#f7d9bb'];
-const HAIRS = ['#4a2f63', '#2b1a1a', '#7a4a2a', '#d8d0c0', '#b03a6a'];
+// la meme espece que le heros, dans d'autres couleurs
+const BODIES = ['#f2cf4c', '#e88f4a', '#e8709a', '#7fb8f0', '#b98fe8', '#8fe0a8', '#f0a8c0'];
+const SHORTS = ['#4a86d9', '#d9564a', '#4ac9a8', '#e8a93a', '#8f5fc9'];
 
 class Walker {
   constructor(city) {
     this.city = city;
-    this.skin = pick(SKINS); this.shirt = pick(SHIRTS);
-    this.pants = pick(PANTS); this.hair = pick(HAIRS);
+    this.body = pick(BODIES);
+    this.shorts = pick(SHORTS);
     this.speed = rnd(1.0, 1.8);
     this.anim = Math.random() * 10;
     this.flip = 1; this.back = false; this.moving = true;
@@ -67,36 +66,50 @@ class Walker {
 export function drawMiniPerson(ctx, wx, wy, o, z = 0) {
   const p = P(wx, wy, z);
   const bx = Math.round(p.x), by = Math.round(p.y);
-  shadow(ctx, wx, wy, 0.26, z, 0.26);
+  shadow(ctx, wx, wy, 0.28, z, 0.28);
+
   const f = o.moving ? (Math.floor(o.anim * 1.4) % 4) : 0;
-  const legL = [0, 1, 0, -1][f], legR = [0, -1, 0, 1][f];
-  const bob = o.moving ? [0, -1, 0, -1][f] : 0;
+  const hop = o.moving ? [0, -2, 0, -1][f] : 0;
+  const flop = o.moving ? [0, 1, 1, 0][f] : 0;
+  const footL = [0, 1, 0, -1][f], footR = [0, -1, 0, 1][f];
   const fl = o.flip;
+  const B = o.body, BD = shade(o.body, -0.26), BL = shade(o.body, 0.26);
+  const S = o.shorts, SD = shade(o.shorts, -0.24);
+
   const parts = [];
   const R = (x, y, w, h, c) => parts.push({ x, y, w, h, c });
+  R(-4, -3 + footL, 3, 3, '#2b2136');
+  R(1, -3 + footR, 3, 3, '#2b2136');
+  R(-5, -8 + hop, 10, 5, S);
+  R(2, -8 + hop, 3, 5, SD);
 
-  R(-3, -6 + legL, 2, 4, o.pants);
-  R(1, -6 + legR, 2, 4, shade(o.pants, -0.15));
-  R(-4, -2 + legL, 3, 2, '#e8e0cf');
-  R(1, -2 + legR, 3, 2, '#e8e0cf');
-  R(-4, -13 + bob, 8, 8, o.shirt);
-  R(-4, -13 + bob, 2, 8, shade(o.shirt, 0.18));
-  R(2, -13 + bob, 2, 8, shade(o.shirt, -0.2));
-  R(-6, -12 + bob, 2, 5, shade(o.shirt, 0.1));
-  R(4, -12 + bob, 2, 5, shade(o.shirt, -0.22));
-  R(-5, -21 + bob, 10, 8, o.skin);
-  R(2, -21 + bob, 3, 8, shade(o.skin, -0.14));
-  R(-5, -23 + bob, 10, 3, o.hair);
-  R(-5, -23 + bob, 3, 2, shade(o.hair, 0.22));
+  const top = -19 + hop;
+  R(-3, top, 6, 1, B);
+  R(-5, top + 1, 10, 1, B);
+  R(-6, top + 2, 12, 7, B);
+  R(-5, top + 9, 10, 1, B);
+  R(-3, top + 10, 6, 1, B);
+  R(-6, top + 2, 3, 7, BL);
+  R(3, top + 2, 3, 7, BD);
+  R(-5, top + 9, 10, 1, BD);
+  R(-9, top + 3 + flop, 3, 3, B);
+  R(-10, top + 6 + flop, 2, 3, BD);
+  R(6, top + 3 - flop, 3, 3, B);
+  R(8, top + 6 - flop, 2, 3, BD);
+  R(-1, top - 3, 1, 3, BD);
+  R(-2, top - 5, 3, 2, BL);
 
   for (const q of parts) px(ctx, bx + (fl > 0 ? q.x : -q.x - q.w) - 1, by + q.y - 1, q.w + 2, q.h + 2, INK);
   for (const q of parts) px(ctx, bx + (fl > 0 ? q.x : -q.x - q.w), by + q.y, q.w, q.h, q.c);
 
   if (!o.back) {
     const ex = fl > 0 ? 0 : -1;
-    px(ctx, bx - 3 + ex, by - 18 + bob, 1, 2, '#2b2136');
-    px(ctx, bx + 2 + ex, by - 18 + bob, 1, 2, '#2b2136');
-    px(ctx, bx - 1 + ex, by - 15 + bob, 2, 1, '#a8654a');
+    const ey = by + top + 4;
+    px(ctx, bx - 4 + ex, ey, 3, 3, '#ffffff');
+    px(ctx, bx + 2 + ex, ey, 3, 3, '#ffffff');
+    px(ctx, bx - 3 + ex, ey + 1, 2, 2, INK);
+    px(ctx, bx + 3 + ex, ey + 1, 2, 2, INK);
+    px(ctx, bx - 1 + ex, ey + 5, 2, 1, INK);
   }
 }
 

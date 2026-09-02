@@ -7,7 +7,7 @@
 // =====================================================================
 import { toScreen, Camera } from '../core/iso.js';
 import { drawGround, drawBuilding, drawProp, castBuildingShadow } from '../world/architecture.js';
-import { setTime, setLight, LIGHT, px, alpha } from '../core/art.js';
+import { setTime, setLight, LIGHT, px, alpha, pxText, textWidth } from '../core/art.js';
 
 export class Renderer {
   constructor(canvas, city) {
@@ -113,18 +113,16 @@ export class Renderer {
   marker(ctx, b, t, unlocked, near) {
     const p = toScreen(b.door.x + .5, b.door.y + .5, 0);
     const label = (unlocked ? '' : '! ') + b.name;
-    ctx.font = '8px "Pixelify Sans", monospace';
-    const w = Math.ceil(ctx.measureText(label).width) + 8;
+    const tw = textWidth(label, 1, 1);
+    const w = tw + 6;
     const bob = Math.round(Math.sin(t * 3) * 2);
     const x = Math.round(p.x - w / 2), y = Math.round(p.y) - 30 + bob;
     const bg = near ? '#f6f0dc' : '#2b2136';
     const fg = near ? '#2b2136' : '#f6f0dc';
-    px(ctx, x, y, w, 12, '#151022');
-    px(ctx, x + 1, y + 1, w - 2, 10, bg);
-    px(ctx, x + w / 2 - 2, y + 12, 4, 2, '#151022');
-    px(ctx, x + w / 2 - 1, y + 14, 2, 1, '#151022');
-    ctx.fillStyle = fg;
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText(label, Math.round(x + w / 2), y + 6);
+    px(ctx, x, y, w, 11, '#151022');
+    px(ctx, x + 1, y + 1, w - 2, 9, bg);
+    px(ctx, x + Math.round(w / 2) - 2, y + 11, 4, 1, '#151022');
+    px(ctx, x + Math.round(w / 2) - 1, y + 12, 2, 1, '#151022');
+    pxText(ctx, label, x + 3, y + 3, fg, 1, 1);
   }
 }

@@ -14,10 +14,10 @@ export class Player {
     this.flip = 1;              // 1 = regarde vers la droite de l'écran
     this.back = false;          // de dos
     this.moving = false;
-    this.skin = '#f3c9a2';
-    this.shirt = '#4fbf9f';
-    this.pants = '#3f2a5e';
-    this.hair = '#41265e';
+    this.body = '#6fd8b0';       // la creature du joueur
+    this.bodyD = '#48ab88';
+    this.shorts = '#4a86d9';
+    this.cup = '#ff5cb4';
     this.jacket = '#3f8f7d';      // le blouson, plus sombre que le t-shirt
     this.tee = '#f4ede0';
     this.blink = 0;               // minuteur de clignement
@@ -81,95 +81,97 @@ export class Player {
   draw(ctx, t, city) {
     const p = toScreen(this.x, this.y, 0);
     const bx = Math.round(p.x), by = Math.round(p.y);
-    shadow(ctx, this.x, this.y, 0.34, 0, 0.3);
+    shadow(ctx, this.x, this.y, 0.32, 0, 0.32);
 
-    // cycle de marche : quatre poses, comme dans un jeu 16 bits
     const f = this.moving ? (Math.floor(this.anim * 1.6) % 4) : 0;
-    const legL = [0, 1, 0, -1][f];       // decalage vertical des jambes
-    const legR = [0, -1, 0, 1][f];
-    const bob = this.moving ? [0, -1, 0, -1][f] : (Math.sin(t * 2) > 0.6 ? -1 : 0);
-    const arm = [0, -1, 0, 1][f];
-    const fl = this.flip;                // 1 = tourne vers la droite
+    const hop = this.moving ? [0, -2, 0, -1][f] : (Math.sin(t * 2.2) > 0.5 ? -1 : 0);
+    const flop = this.moving ? [0, 1, 1, 0][f] : (Math.sin(t * 1.5) > 0 ? 1 : 0);
+    const footL = [0, 1, 0, -1][f], footR = [0, -1, 0, 1][f];
+    const fl = this.flip;
 
-    const SKIN = '#f0c088', SKIN_D = '#d19a63';
-    const HAIR = '#4a2f63', HAIR_L = '#63407f';
-    const COAT = '#3fa88f', COAT_L = '#54c0a4', COAT_D = '#2b7d68';
-    const PANT = '#3c3350', PANT_D = '#2b2440';
-    const SHOE = '#e8e0cf', BAG = '#d97b4a', BAG_D = '#b35f34';
-    const CUP = '#ff5cb4', CUP_D = '#c93a86';
+    const B = this.body, BD = this.bodyD, BL = '#a6f2d5';
+    const S = this.shorts, SD = '#356aad';
+    const CUP = this.cup;
 
     const parts = [];
     const R = (x, y, w, h, c) => parts.push({ x, y, w, h, c });
 
-    // --- jambes et chaussures
-    R(-4, -7 + legL, 3, 5, PANT);
-    R(1, -7 + legR, 3, 5, PANT_D);
-    R(-5, -2 + legL, 4, 2, SHOE);
-    R(1, -2 + legR, 4, 2, SHOE);
+    // pieds
+    R(-4, -3 + footL, 4, 3, '#2b2136');
+    R(1, -3 + footR, 4, 3, '#2b2136');
+    // culotte
+    R(-5, -8 + hop, 10, 5, S);
+    R(2, -8 + hop, 3, 5, SD);
+    R(-5, -8 + hop, 10, 1, '#8fb8e8');
 
-    // --- corps : blouson ouvert sur un t-shirt clair
-    R(-5, -15 + bob, 10, 9, COAT);
-    R(-5, -15 + bob, 3, 9, COAT_L);        // cote eclaire
-    R(3, -15 + bob, 2, 9, COAT_D);         // cote a l'ombre
-    R(-1, -14 + bob, 2, 6, '#f0e6d2');     // t-shirt
-    R(-1, -11 + bob, 1, 1, '#ffd76a');     // tirette
+    // corps : une pile de rangees de largeurs differentes, donc arrondi
+    const top = -20 + hop;
+    R(-3, top, 6, 1, B);
+    R(-5, top + 1, 10, 1, B);
+    R(-6, top + 2, 12, 2, B);
+    R(-7, top + 4, 14, 6, B);
+    R(-6, top + 10, 12, 1, B);
+    R(-4, top + 11, 8, 1, B);
+    // modele : clair a gauche, sombre a droite
+    R(-6, top + 2, 3, 8, BL);
+    R(-7, top + 4, 2, 6, BL);
+    R(4, top + 3, 2, 7, BD);
+    R(-5, top + 10, 10, 1, BD);
 
-    // --- bras
-    R(-7, -14 + bob + arm, 2, 6, COAT_L);
-    R(5, -14 + bob - arm, 2, 6, COAT_D);
-    R(-7, -8 + bob + arm, 2, 2, SKIN);
-    R(5, -8 + bob - arm, 2, 2, SKIN);
+    // grandes oreilles tombantes, en trois segments qui s'affinent
+    R(-10, top + 3 + flop, 3, 3, B);
+    R(-11, top + 6 + flop, 3, 3, BD);
+    R(-11, top + 9 + flop, 2, 2, BD);
+    R(7, top + 3 - flop, 3, 3, B);
+    R(8, top + 6 - flop, 3, 3, BD);
+    R(9, top + 9 - flop, 2, 2, BD);
 
-    // --- sacoche de disques, du cote oppose au regard
-    R(-9, -11 + bob, 4, 5, BAG);
-    R(-9, -11 + bob, 4, 1, BAG_D);
-    R(-8, -13 + bob, 2, 2, '#2b2136');     // le disque qui depasse
-    R(-5, -14 + bob, 5, 1, BAG_D);         // bandouliere
+    // antenne
+    R(-1, top - 3, 1, 3, BD);
+    R(-2, top - 5, 3, 2, BL);
 
-    // --- tete
-    R(-6, -24 + bob, 12, 10, SKIN);
-    R(3, -24 + bob, 3, 10, SKIN_D);
-    R(-6, -26 + bob, 12, 4, HAIR);         // cheveux
-    R(-6, -26 + bob, 4, 3, HAIR_L);
-    R(-6, -23 + bob, 2, 3, HAIR);          // meche sur la tempe
-    R(4, -23 + bob, 2, 3, HAIR);
+    // sacoche de disques
+    R(-11, -14 + hop, 4, 5, '#d97b4a');
+    R(-11, -14 + hop, 4, 1, '#a85c33');
+    R(-10, -16 + hop, 2, 2, '#2b2136');
+    R(-7, -17 + hop, 5, 1, '#a85c33');
 
-    // --- casque
-    R(-8, -25 + bob, 2, 2, '#2b2136');     // arceau
-    R(-6, -27 + bob, 12, 1, '#2b2136');
-    R(6, -25 + bob, 2, 2, '#2b2136');
-    R(-9, -23 + bob, 3, 6, CUP);           // ecouteurs
-    R(-9, -23 + bob, 1, 6, '#ffa8d8');
-    R(6, -23 + bob, 3, 6, CUP_D);
-
-    // 1) passe de contour : chaque element grossi d'un pixel
     for (const q of parts) px(ctx, bx + (fl > 0 ? q.x : -q.x - q.w) - 1, by + q.y - 1, q.w + 2, q.h + 2, INK);
-    // 2) passe de couleur
     for (const q of parts) px(ctx, bx + (fl > 0 ? q.x : -q.x - q.w), by + q.y, q.w, q.h, q.c);
 
-    // --- visage, dessine par-dessus (rien si de dos)
-    if (!this.back) {
-      const ex = fl > 0 ? 0 : -1;
-      const eyeY = by - 20 + bob;
-      const blink = this.blink > 0;
-      if (blink) {
-        px(ctx, bx - 4 + ex, eyeY + 1, 2, 1, '#2b2136');
-        px(ctx, bx + 2 + ex, eyeY + 1, 2, 1, '#2b2136');
-      } else {
-        px(ctx, bx - 4 + ex, eyeY, 2, 3, '#ffffff');
-        px(ctx, bx + 2 + ex, eyeY, 2, 3, '#ffffff');
-        px(ctx, bx - 3 + ex, eyeY + 1, 1, 2, '#2b2136');
-        px(ctx, bx + 3 + ex, eyeY + 1, 1, 2, '#2b2136');
-      }
-      px(ctx, bx - 5 + ex, eyeY + 4, 2, 1, '#e8927f');   // joues
-      px(ctx, bx + 3 + ex, eyeY + 4, 2, 1, '#e8927f');
-      px(ctx, bx - 1 + ex, eyeY + 5, 2, 1, '#a8654a');   // bouche
+    // casque : arceau puis coussinets sur les oreilles
+    const cy = top + 2;
+    px(ctx, bx - 7, cy - 3, 14, 2, INK);
+    px(ctx, bx - 6, cy - 3, 12, 1, '#5a5270');
+    for (const sx of [-10, 7]) {
+      px(ctx, bx + sx - 1, cy, 5, 7, INK);
+      px(ctx, bx + sx, cy + 1, 3, 5, sx < 0 ? CUP : '#c93a86');
+      px(ctx, bx + sx, cy + 1, 1, 5, '#ffa8d8');
     }
 
-    // --- poussiere quand il marche
+    // visage
+    if (!this.back) {
+      const ex = fl > 0 ? 0 : -1;
+      const ey = by + top + 5;
+      if (this.blink > 0) {
+        px(ctx, bx - 4 + ex, ey + 1, 3, 1, INK);
+        px(ctx, bx + 2 + ex, ey + 1, 3, 1, INK);
+      } else {
+        px(ctx, bx - 4 + ex, ey, 3, 4, '#ffffff');
+        px(ctx, bx + 2 + ex, ey, 3, 4, '#ffffff');
+        px(ctx, bx - 3 + ex, ey + 1, 2, 2, INK);
+        px(ctx, bx + 3 + ex, ey + 1, 2, 2, INK);
+        px(ctx, bx - 3 + ex, ey + 1, 1, 1, '#ffffff');
+        px(ctx, bx + 3 + ex, ey + 1, 1, 1, '#ffffff');
+      }
+      px(ctx, bx - 6 + ex, ey + 5, 2, 1, '#ff9ec4');
+      px(ctx, bx + 4 + ex, ey + 5, 2, 1, '#ff9ec4');
+      px(ctx, bx - 1 + ex, ey + 6, 2, 1, '#2b2136');
+    }
+
     if (this.moving && f % 2 === 1) {
-      px(ctx, bx - fl * 7, by - 1, 2, 1, '#d9cfa8');
-      px(ctx, bx - fl * 9, by - 2, 1, 1, '#d9cfa8');
+      px(ctx, bx - fl * 8, by - 1, 2, 1, '#d9cfa8');
+      px(ctx, bx - fl * 10, by - 2, 1, 1, '#d9cfa8');
     }
   }
 }

@@ -77,8 +77,8 @@ export class City {
       this.tiles[this.idx(x, y)] = border ? FOREST : GRASS;
     }
     // sentiers de terre dans les couloirs entre les rangees
-    const cols = [6, 7, 11, 12, 16, 17, 21, 22];
-    const rows = [6, 7, 11, 12, 16, 17, 22];
+    const cols = [6, 11, 16, 21];
+    const rows = [6, 11, 16, 22];
     for (let y = 2; y <= H - 3; y++) for (const x of cols) this.tiles[this.idx(x, y)] = PATH;
     for (let x = 2; x <= W - 3; x++) for (const y of rows) this.tiles[this.idx(x, y)] = PATH;
     // la place centrale, tassee

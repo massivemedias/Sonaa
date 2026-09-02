@@ -76,18 +76,124 @@ export function setLight(hour) {
 export function lit(c) { return c; }
 export function dim(c) { return c; }
 
+
+// ------------------------------------------------------- police bitmap
+// Le texte du canvas etait la derniere source de flou : une police
+// vectorielle dessinee petit puis agrandie, ca bave. Celle-ci est une
+// grille de 3x5 pixels allumes ou eteints. Rien a lisser.
+const GLYPHS = {
+  A:[2,5,7,5,5], B:[6,5,6,5,6], C:[3,4,4,4,3], D:[6,5,5,5,6], E:[7,4,6,4,7],
+  F:[7,4,6,4,4], G:[3,4,5,5,3], H:[5,5,7,5,5], I:[7,2,2,2,7], J:[1,1,1,5,2],
+  K:[5,5,6,5,5], L:[4,4,4,4,7], M:[5,7,7,5,5], N:[5,7,7,7,5], O:[2,5,5,5,2],
+  P:[6,5,6,4,4], Q:[2,5,5,7,3], R:[6,5,6,5,5], S:[3,4,2,1,6], T:[7,2,2,2,2],
+  U:[5,5,5,5,7], V:[5,5,5,5,2], W:[5,5,7,7,5], X:[5,5,2,5,5], Y:[5,5,2,2,2],
+  Z:[7,1,2,4,7],
+  0:[7,5,5,5,7], 1:[2,6,2,2,7], 2:[6,1,2,4,7], 3:[6,1,6,1,6], 4:[5,5,7,1,1],
+  5:[7,4,6,1,6], 6:[3,4,7,5,7], 7:[7,1,2,2,2], 8:[7,5,7,5,7], 9:[7,5,7,1,6],
+  ' ':[0,0,0,0,0], '!':[2,2,2,0,2], '-':[0,0,7,0,0], '.':[0,0,0,0,2],
+  "'":[2,2,0,0,0], ':':[0,2,0,2,0], '&':[6,4,6,5,7], '?':[6,1,2,0,2],
+  '/':[1,1,2,4,4], '+':[0,2,7,2,0], '$':[3,6,3,6,2], '%':[5,1,2,4,5],
+};
+const ACCENTS = { 'É':'E','È':'E','Ê':'E','À':'A','Â':'A','Ô':'O','Û':'U','Ù':'U','Ç':'C','Î':'I','Ï':'I' };
+
+export function textWidth(str, scale = 1, sp = 1) {
+  return (str.length * (3 + sp) - sp) * scale;
+}
+
+// dessine du texte pixel : chaque point allume est un carre plein
+export function pxText(ctx, str, x, y, color, scale = 1, sp = 1) {
+  const S = Math.max(1, Math.round(scale));
+  let cx = Math.round(x);
+  const cy = Math.round(y);
+  ctx.fillStyle = color;
+  for (const raw of String(str).toUpperCase()) {
+    const ch = ACCENTS[raw] || raw;
+    const g = GLYPHS[ch];
+    if (g) {
+      for (let r = 0; r < 5; r++) {
+        const row = g[r];
+        for (let c = 0; c < 3; c++) {
+          if (row & (4 >> c)) ctx.fillRect(cx + c * S, cy + r * S, S, S);
+        }
+      }
+    }
+    cx += (3 + sp) * S;
+  }
+  return cx - Math.round(x);
+}
+
 // ----------------------------------------------------------- primitives
 const P = (x, y, z) => toScreen(x, y, z);
 const R = Math.round;
 
+// Remplissage par balayage de lignes entieres : aucune diagonale lissee,
+// chaque bord tombe pile sur un pixel. C'est ce qui enleve le flou.
 export function poly(ctx, pts, fill, stroke = null, lw = 1) {
-  ctx.beginPath();
-  ctx.moveTo(R(pts[0].x), R(pts[0].y));
-  for (let i = 1; i < pts.length; i++) ctx.lineTo(R(pts[i].x), R(pts[i].y));
-  ctx.closePath();
-  if (fill) { ctx.fillStyle = fill; ctx.fill(); }
-  if (stroke) { ctx.lineWidth = lw; ctx.lineJoin = 'miter'; ctx.strokeStyle = stroke; ctx.stroke(); }
+  if (fill) {
+    let ymin = Infinity, ymax = -Infinity;
+    for (const p of pts) { if (p.y < ymin) ymin = p.y; if (p.y > ymax) ymax = p.y; }
+    const y0 = Math.round(ymin), y1 = Math.round(ymax);
+    if (y1 - y0 > 4000) return;
+    ctx.fillStyle = fill;
+    const n = pts.length;
+    for (let y = y0; y < y1; y++) {
+      const sy = y + 0.5;
+      let xmin = Infinity, xmax = -Infinity;
+      for (let i = 0; i < n; i++) {
+        const a = pts[i], b = pts[(i + 1) % n];
+        if ((a.y <= sy && b.y > sy) || (b.y <= sy && a.y > sy)) {
+          const x = a.x + (sy - a.y) / (b.y - a.y) * (b.x - a.x);
+          if (x < xmin) xmin = x;
+          if (x > xmax) xmax = x;
+        }
+      }
+      if (xmin === Infinity) continue;
+      const xa = Math.round(xmin), xb = Math.round(xmax);
+      if (xb > xa) ctx.fillRect(xa, y, xb - xa, 1);
+    }
+  }
+  if (stroke) {
+    ctx.beginPath();
+    ctx.moveTo(Math.round(pts[0].x), Math.round(pts[0].y));
+    for (let i = 1; i < pts.length; i++) ctx.lineTo(Math.round(pts[i].x), Math.round(pts[i].y));
+    ctx.closePath();
+    ctx.lineWidth = lw; ctx.lineJoin = 'miter'; ctx.strokeStyle = stroke; ctx.stroke();
+  }
 }
+
+// ellipse en escalier : des lignes pleines, jamais de bord adouci
+export function pxEllipse(ctx, cx, cy, rx, ry, color) {
+  const X = Math.round(cx), Y = Math.round(cy);
+  const RX = Math.max(1, Math.round(rx)), RY = Math.max(1, Math.round(ry));
+  ctx.fillStyle = color;
+  for (let dy = -RY; dy <= RY; dy++) {
+    const w = Math.round(RX * Math.sqrt(Math.max(0, 1 - (dy * dy) / (RY * RY))));
+    if (w <= 0) continue;
+    ctx.fillRect(X - w, Y + dy, w * 2, 1);
+  }
+}
+
+// tuile isometrique pre-rendue : dessinee une fois par couleur, puis recopiee
+const tileCache = new Map();
+export function isoTileSprite(color, w = HW * 2, h = HH * 2) {
+  const key = color + ':' + w + 'x' + h;
+  let c = tileCache.get(key);
+  if (c) return c;
+  c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  const g = c.getContext('2d');
+  g.fillStyle = color;
+  const hw = w / 2, hh = h / 2;
+  for (let y = 0; y < h; y++) {
+    const dy = Math.abs(y + 0.5 - hh);
+    const half = Math.round((1 - dy / hh) * hw);
+    if (half > 0) g.fillRect(hw - half, y, half * 2, 1);
+  }
+  if (tileCache.size > 200) tileCache.clear();
+  tileCache.set(key, c);
+  return c;
+}
+
 export function roundPoly(ctx, pts, r, fill) { poly(ctx, pts, fill); }
 
 // rectangle cale sur la grille de pixels
@@ -190,10 +296,7 @@ export function shadow(ctx, x, y, rx, z = 0, a = 0.3) {
   const p = P(x, y, z);
   ctx.save();
   ctx.globalAlpha = Math.min(1, a + 0.12);
-  ctx.fillStyle = '#1d2b1a';
-  ctx.beginPath();
-  ctx.ellipse(R(p.x), R(p.y), Math.max(2, R(rx * HW)), Math.max(1, R(rx * HW * 0.5)), 0, 0, Math.PI * 2);
-  ctx.fill();
+  pxEllipse(ctx, p.x, p.y, Math.max(2, rx * HW), Math.max(1, rx * HW * 0.5), '#1d2b1a');
   ctx.restore();
 }
 export const contact = shadow;
@@ -216,10 +319,7 @@ export function lightPool(ctx, x, y, r, color = '255,205,120', strength = 0.5, z
   const p = P(x, y, z);
   ctx.save();
   ctx.globalAlpha = strength * 0.3;
-  ctx.fillStyle = `rgb(${color})`;
-  ctx.beginPath();
-  ctx.ellipse(R(p.x), R(p.y), R(r * HW), R(r * HW * 0.5), 0, 0, Math.PI * 2);
-  ctx.fill();
+  pxEllipse(ctx, p.x, p.y, r * HW, r * HW * 0.5, `rgb(${color})`);
   ctx.restore();
 }
 export function noisePattern() { return null; }
@@ -239,16 +339,11 @@ export function tree(ctx, x, y, z, s = 1, seed = 0, leaf = '#3f8a3a') {
   const blobs = [
     [0, -19, 9], [-6, -14, 6], [6, -14, 6], [-3, -25, 6], [4, -24, 5],
   ];
-  for (const [dx, dy, r] of blobs) {
-    ctx.fillStyle = dark;
-    ctx.beginPath(); ctx.ellipse(bx + (dx + sway) * s, by + dy * s, r * s, r * 0.85 * s, 0, 0, Math.PI * 2); ctx.fill();
-  }
-  for (const [dx, dy, r] of blobs) {
-    ctx.fillStyle = leaf;
-    ctx.beginPath(); ctx.ellipse(bx + (dx + sway) * s, by + (dy - 1.5) * s, (r - 1.5) * s, (r - 1.5) * 0.85 * s, 0, 0, Math.PI * 2); ctx.fill();
-  }
-  ctx.fillStyle = light;
-  ctx.beginPath(); ctx.ellipse(bx + (-2 + sway) * s, by - 23 * s, 4 * s, 3 * s, 0, 0, Math.PI * 2); ctx.fill();
+  for (const [dx, dy, r] of blobs)
+    pxEllipse(ctx, bx + (dx + sway) * s, by + dy * s, r * s, r * 0.85 * s, dark);
+  for (const [dx, dy, r] of blobs)
+    pxEllipse(ctx, bx + (dx + sway) * s, by + (dy - 1.5) * s, (r - 1.5) * s, (r - 1.5) * 0.85 * s, leaf);
+  pxEllipse(ctx, bx + (-2 + sway) * s, by - 23 * s, 4 * s, 3 * s, light);
 }
 
 export function bush(ctx, x, y, z, s = 1, seed = 0, leaf = '#3f8a3a') {
@@ -257,13 +352,10 @@ export function bush(ctx, x, y, z, s = 1, seed = 0, leaf = '#3f8a3a') {
   const bx = R(p.x), by = R(p.y);
   const dark = shade(leaf, -0.24), light = shade(leaf, 0.2);
   for (const [dx, dy, r] of [[-4, -3, 5], [4, -3, 5], [0, -6, 6]]) {
-    ctx.fillStyle = dark;
-    ctx.beginPath(); ctx.ellipse(bx + dx * s, by + dy * s, r * s, r * 0.8 * s, 0, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = leaf;
-    ctx.beginPath(); ctx.ellipse(bx + dx * s, by + (dy - 1.5) * s, (r - 1.5) * s, (r - 1.5) * 0.8 * s, 0, 0, Math.PI * 2); ctx.fill();
+    pxEllipse(ctx, bx + dx * s, by + dy * s, r * s, r * 0.8 * s, dark);
+    pxEllipse(ctx, bx + dx * s, by + (dy - 1.5) * s, (r - 1.5) * s, (r - 1.5) * 0.8 * s, leaf);
   }
-  ctx.fillStyle = light;
-  ctx.beginPath(); ctx.ellipse(bx - 1 * s, by - 8 * s, 2.5 * s, 1.5 * s, 0, 0, Math.PI * 2); ctx.fill();
+  pxEllipse(ctx, bx - 1 * s, by - 8 * s, 2.5 * s, 1.5 * s, light);
 }
 
 export function rock(ctx, x, y, z, s = 1, seed = 0) {
@@ -375,17 +467,19 @@ export function awning(ctx, x, y, z, w, d, a = '#f0e6d2', b = '#4fbf9f', dir = '
 }
 export function signboard(ctx, x, y, z, side, wUnits, hUnits, text, bg = '#f0e6d2', fg = '#3a2d4a') {
   face(ctx, x, y, z, side, c => {
-    const w = R(wUnits * FW), h = R(hUnits * FH);
+    const w = Math.round(wUnits * FW), h = Math.round(hUnits * FH);
     px(c, 0, 0, w, h, bg);
     px(c, 0, 0, w, 1, shade(bg, 0.3));
     px(c, 0, h - 1, w, 1, shade(bg, -0.3));
-    c.fillStyle = fg;
-    c.textAlign = 'center'; c.textBaseline = 'middle';
-    const size = Math.max(5, Math.min(h * 0.62, w / (text.length * 0.62)));
-    c.font = `${Math.round(size)}px "Pixelify Sans", monospace`;
-    c.fillText(text, R(w / 2), R(h / 2));
+    // on reduit le texte jusqu'a ce qu'il tienne, sans jamais l'etirer
+    let sc = 2, sp = 1;
+    while (sc > 1 && textWidth(text, sc, sp) > w - 4) sc--;
+    let str = text;
+    while (textWidth(str, sc, sp) > w - 3 && str.length > 1) str = str.slice(0, -1);
+    pxText(c, str, (w - textWidth(str, sc, sp)) / 2, (h - 5 * sc) / 2, fg, sc, sp);
   });
 }
+
 export function windowRow(ctx, x, y, z, side, wUnits, hUnits, n, glass = '#9ad9e8', frame = '#f0e6d2') {
   face(ctx, x, y, z, side, c => {
     const w = wUnits * FW, h = hUnits * FH, gap = w / n;
