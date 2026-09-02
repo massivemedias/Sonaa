@@ -1103,6 +1103,32 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
     font-size: 1.0625rem;
     line-height: 1.65;
   }
+
+  /* LE TEXTE DE FAMILLE N'EST PAS UN CHAPEAU DE GENRE, ET LA MEME REGLE NE
+     PEUT PAS SERVIR AUX DEUX.
+
+     MON ERREUR, EXACTEMENT. Les descriptions de genre font 354 signes en
+     mediane : coupees en deux colonnes de 660 px elles donnaient deux lignes
+     par colonne, un fragment interrompu a droite de l'ecran. Je les ai
+     ramenees sur une colonne bornee a la mesure de lecture, et c'etait juste.
+     Mais la classe portait AUSSI le texte de famille, qui fait de 583 a 739
+     signes, et il a retreci avec eux : une colonne a gauche, la moitie droite
+     vide. J'ai repare un defaut en en recreant un autre, sur un texte que je
+     n'avais pas mesure.
+
+     A 640 signes, deux colonnes de 660 px donnent trois a quatre lignes
+     chacune. C'est un paragraphe, pas un fragment, et la page est occupee sur
+     toute sa largeur, ce qui etait la demande.
+
+     PAS DE BORNE DE HAUTEUR ICI. Une boite multi-colonnes a hauteur bridee ne
+     tronque pas : elle fabrique des colonnes supplementaires qui debordent
+     vers la droite, hors de l'ecran, sans barre de defilement pour les
+     atteindre. Le nombre de colonnes suffit a tenir la hauteur. */
+  .pv-description-famille {
+    columns: 2;
+    column-gap: 3rem;
+    max-width: none;
+  }
   /* LA BORNE EST SUR LA SECTION, PAS SUR LE PARAGRAPHE.
 
      Elle etait sur le paragraphe, et l'image flottante s'en moquait : elle se
