@@ -187,6 +187,23 @@ export function AProposPage() {
             il ne la prend pas.
           </p>
         </section>
+
+        {/* LES CREDITS SE REJOIGNENT D'ICI, PLUS DEPUIS LE MENU.
+
+            Cinq entrees dans une barre qui doit tenir sur une seule rangee
+            avec le logo et un titre, c'etait une de trop, et « Credits » est
+            celle qu'on ouvre une fois. Elle garde sa page entiere, avec ses
+            sept sections : c'est le chemin pour y aller qui change, pas le
+            contenu. Le pied de page y mene aussi. */}
+        <section>
+          <h2 id="apropos-credits">Les crédits</h2>
+          <p>
+            Ce qui a servi à construire cet atlas, ce dont il procède et les outils qui le
+            font tenir sont réunis sur <a href="#/credits">la page des crédits</a> : les
+            sources des filiations, les technologies, les services, et les quatorze familles
+            avec leur définition.
+          </p>
+        </section>
       </div>
 
       <PiedDePage />

@@ -7,7 +7,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.55rem 0.9rem;
+  gap: 0.2rem 1.3rem;
   font-family: var(--font-ui);
 }
 
@@ -15,7 +15,7 @@
   display: inline-flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.55rem 0.9rem;
+  gap: 0.2rem 1.3rem;
 }
 
 /* LE POINT DE SEPARATION DISPARAIT. Il separait deux groupes de mots ; entre
@@ -32,16 +32,21 @@
    trait de texte de dix pixels de haut. Maintenant qu'il n'en reste que
    quatre, ils peuvent prendre la place qu'une cible tactile demande, soit
    44 px de haut, comme tout le reste de ce site. */
+/* DES MOTS, PLUS DES PASTILLES.
+
+   Ils avaient un contour et une rondeur, pour qu'on sache ou appuyer quand
+   ils etaient a 11 px en petites capitales. A 15 px et sur une seule rangee
+   avec le logo, ces contours dessinent quatre boites autour de quatre mots et
+   font peser la ligne plus que le titre qu'elle surmonte.
+
+   LA SURFACE TACTILE RESTE. Le contour disparait, pas les 46 px de haut : la
+   cible se garde, c'est son dessin qui s'efface. */
 .sitenav-lien {
   display: inline-flex;
   align-items: center;
   min-height: 46px;
-  padding: 0 1.1rem;
-  border: 1px solid var(--rule-soft, oklch(0.5 0.01 260 / 0.35));
-  /* LA MEME RONDEUR QUE LES VIGNETTES : un bouton et une tuile sont la meme
-     chose ici, on appuie dessus et on descend d'un cran. Deux rondeurs
-     differentes feraient croire a deux natures. */
-  border-radius: 23px;
+  padding: 0 0.15rem;
+  border: none;
   background: transparent;
   color: var(--ink-secondary);
   font-size: 0.9375rem;
@@ -54,21 +59,21 @@
 .sitenav-lien:hover,
 .sitenav-lien:focus-visible {
   color: var(--ink-primary);
-  border-color: var(--ink-primary);
 }
 
 .sitenav-lien:focus-visible {
   outline: 2px solid var(--ink-primary);
   outline-offset: 3px;
+  border-radius: 6px;
 }
 
+/* L'ETAT ACTIF SE VOIT SANS COMPARER. Le fond plein disparait avec le
+   contour ; il est remplace par la pleine couleur du texte, qui suffit des
+   lors que les autres sont en gris, et le poids ne bouge pas pour que la
+   ligne ne se deplace pas quand on change de page. */
 .sitenav-lien[data-current='true'],
 .sitenav-lien[aria-current='page'] {
-  /* L'ETAT ACTIF SE VOIT SANS COMPARER : un bouton plein, pas une nuance de
-     gris qu'il faut mettre a cote d'un autre pour distinguer. */
-  background: var(--ink-primary);
-  color: var(--surface-1, oklch(0.16 0.012 260));
-  border-color: var(--ink-primary);
+  color: var(--ink-primary);
 }
 
 /* Pied de page document : un peu plus lisible, filet au-dessus déjà fourni

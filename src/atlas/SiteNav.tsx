@@ -64,14 +64,19 @@ const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
   { href: '#/sets', id: 'sets', label: t.lesSons }
 ];
 
+/* QUATRE ENTREES, PLUS CINQ. Le menu tient desormais sur la meme rangee que
+   le logo et le titre d'une page : chaque mot de plus y coute directement.
+   « Credits » est la page qu'on ouvre une fois ; elle se rejoint depuis
+   « A propos », qui la nomme, et depuis le pied de page. Elle garde son
+   adresse et ses sept sections. */
 const PAGES: readonly { href: string; id: SiteCourant; label: string }[] = [
-  { href: '#/a-propos', id: 'apropos', label: t.aPropos },
-  { href: '#/credits', id: 'credits', label: t.credits }
+  { href: '#/a-propos', id: 'apropos', label: t.aPropos }
 ];
 
 function courantOf(hash: string): SiteCourant {
   if (hash.startsWith('#/index')) return 'index';
-  if (hash.startsWith('#/credits')) return 'credits';
+  /* La page des credits allume « A propos », d'ou l'on y arrive. */
+  if (hash.startsWith('#/credits')) return 'apropos';
   if (hash.startsWith('#/a-propos')) return 'apropos';
   if (hash.startsWith('#/propositions')) return 'propositions';
   if (hash.startsWith('#/moderation')) return 'moderation';

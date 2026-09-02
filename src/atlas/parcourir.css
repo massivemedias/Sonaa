@@ -27,15 +27,16 @@
 
 .pv-tete {
   flex: none;
-  /* DEUX RANGEES : le contexte en haut, le menu en dessous.
+  /* UNE SEULE RANGEE : le logo, le titre, puis le menu, alignes.
 
-     La grille plutot qu'un flex qui passe a la ligne : la loupe est ancree en
-     absolu sur la premiere rangee, et un retour a la ligne du flux l'aurait
-     laissee flotter au milieu de la seconde. */
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+     Ils etaient sur deux rangees, ce qui doublait la hauteur de l'en-tete
+     pour quatre mots. Un flex qui passe a la ligne le fait tenir sur une
+     rangee des qu'il y a la place, et n'en prend une seconde que sur les
+     ecrans etroits, ou c'est de toute facon inevitable. */
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem 0.6rem;
+  gap: 0.3rem 1rem;
   box-sizing: border-box;
   min-height: 56px;
   padding: calc(0.5rem + env(safe-area-inset-top, 0px)) 0.75rem 0.5rem;
@@ -70,9 +71,10 @@
   background: oklch(0.14 0.008 260);
   border-bottom: 1px solid oklch(1 0 0 / 0.07);
 }
-/* La navigation occupe toute la seconde rangee. */
+/* Le menu ne s'etire pas et ne se comprime pas : c'est le titre qui cede la
+   place quand elle manque, parce qu'il peut se couper et pas lui. */
 .pv-tete > .sitenav {
-  grid-column: 1 / -1;
+  flex: none;
 }
 .pv-retour,
 .pv-chercher-bouton {
@@ -119,7 +121,9 @@
 }
 .pv-tete-titre {
   font-family: inherit;
-  flex: 1 1 auto;
+  /* Le titre cede la place au menu quand elle manque : il peut se couper avec
+     des points de suspension, le menu non. */
+  flex: 0 1 auto;
   min-width: 0;
   margin: 0;
   font-size: 0.925rem;
