@@ -1,0 +1,20 @@
+name = "sonaa-sets"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+
+# LE SEUL ROLE DE CE WORKER : etre la serrure devant R2.
+#
+# R2 n'a pas de notion de « qui est connecte ». Sans passerelle il faudrait
+# donner au navigateur une cle d'ecriture, ce qui reviendrait a publier la cle
+# du dépôt. Le Worker verifie donc le jeton Supabase, refuse tout ce qui sort
+# du dossier de son porteur, et laisse passer le reste.
+[[r2_buckets]]
+binding = "SETS"
+bucket_name = "sonaa-sets"
+
+[vars]
+# L'adresse du projet Supabase sert a aller chercher les cles publiques qui
+# signent les jetons. Aucun secret ici : ce sont des cles PUBLIQUES, et c'est
+# tout l'interet de la signature asymetrique.
+SUPABASE_URL = "https://pqgapyfqkjzvwkulxnhv.supabase.co"
+ORIGINES = "https://sonaa.ca,http://localhost:5173,http://localhost:4173"
