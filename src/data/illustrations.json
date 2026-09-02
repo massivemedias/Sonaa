@@ -48,5 +48,45 @@
   "source": "https://commons.wikimedia.org/wiki/File:Roland_TB-303_Panel.jpg",
   "largeur": 1656,
   "hauteur": 814
+ },
+ "schaeffer": {
+  "legende": "Pierre Schaeffer, 1960",
+  "fichier": "articles/schaeffer.webp",
+  "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Pierre_Schaeffer_%281960%29.jpg/1280px-Pierre_Schaeffer_%281960%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "auteur": "Marquis",
+  "licence": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Pierre_Schaeffer_(1960).jpg",
+  "largeur": 1582,
+  "hauteur": 2075
+ },
+ "anjuna": {
+  "legende": "La plage d'Anjuna, Goa",
+  "fichier": "articles/anjuna.webp",
+  "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Anjuna_Beach_25012016.jpg/1280px-Anjuna_Beach_25012016.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "auteur": "Nikhilb239",
+  "licence": "CC BY 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Anjuna_Beach_25012016.jpg",
+  "largeur": 6000,
+  "hauteur": 4000
+ },
+ "kraftwerk-1975": {
+  "legende": "Kraftwerk, 1975",
+  "fichier": "articles/kraftwerk-1975.webp",
+  "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4a/Kraftwerk_1975.jpg/1280px-Kraftwerk_1975.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "auteur": "Maurice Seymour Studio - New York",
+  "licence": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Kraftwerk_1975.jpg",
+  "largeur": 1680,
+  "hauteur": 1841
+ },
+ "sound-system": {
+  "legende": "Un sound system",
+  "fichier": "articles/sound-system.webp",
+  "distant": "https://upload.wikimedia.org/wikipedia/commons/d/df/Metromedia_sound_system.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+  "auteur": "Haldain James",
+  "licence": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Metromedia_sound_system.jpg",
+  "largeur": 640,
+  "hauteur": 640
  }
 }

@@ -35,6 +35,10 @@ const DEMANDES: { cle: string; fichier: string; legende: string }[] = [
   { cle: 'detroit-skyline', fichier: 'File:Skyline of Detroit, Michigan from S 2014-12-07.jpg', legende: 'Detroit' },
   { cle: 'maxi-45', fichier: 'File:12in-Vinyl-LP-Record-Angle.jpg', legende: 'Un maxi 45 tours' },
   { cle: 'tb-303-panneau', fichier: 'File:Roland TB-303 Panel.jpg', legende: 'Le panneau de la TB-303' },
+  { cle: 'schaeffer', fichier: 'File:Pierre Schaeffer (1960).jpg', legende: 'Pierre Schaeffer, 1960' },
+  { cle: 'anjuna', fichier: 'File:Anjuna Beach 25012016.jpg', legende: 'La plage d\'Anjuna, Goa' },
+  { cle: 'kraftwerk-1975', fichier: 'File:Kraftwerk 1975.jpg', legende: 'Kraftwerk, 1975' },
+  { cle: 'sound-system', fichier: 'File:Metromedia sound system.jpg', legende: 'Un sound system' },
 ];
 
 const LIBRES = [
