@@ -11,12 +11,17 @@
    page publique, ce qui se voit et se repare tout de suite si les deux
    formulaires se touchent. */
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { contributionsActives, supabase } from '../lib/supabase.ts';
 import {
   AVATAR_MAX,
   FORMATS_AUDIO,
   FORMATS_IMAGE,
+  MO_PAR_MINUTE_FLAC,
+  MO_PAR_MINUTE_WAV,
+  estAudioAccepte,
+  estSansPerte,
+  estSansPerteIllisible,
   TAILLE_MAX,
   basculerPublication,
   calculerOnde,
@@ -34,6 +39,7 @@ import {
   type SetDJ,
 } from '../lib/sets.ts';
 import { LecteurSet } from './LecteurSet.tsx';
+import { ZoneDepot } from './ZoneDepot.tsx';
 import { SiteNav } from './SiteNav.tsx';
 import { t } from '../langue/langue.ts';
 import './credits.css';
@@ -58,7 +64,6 @@ export function ProfilPage() {
   const [description, setDescription] = useState('');
   const [etape, setEtape] = useState<Etape>('repos');
   const [messageDepot, setMessageDepot] = useState<string | null>(null);
-  const champFichier = useRef<HTMLInputElement | null>(null);
 
   const recharger = useCallback(async () => {
     setSets(await mesSets());
@@ -140,17 +145,40 @@ export function ProfilPage() {
       setFichier(null);
       return;
     }
-    if (!FORMATS_AUDIO.includes(f.type)) {
+    /* L'EXTENSION DECIDE, PAS LE TYPE DECLARE. Chrome rend une chaine vide
+       pour un FLAC et pour un AIFF, Firefox rend « application/octet-stream ».
+       Filtrer sur le type aurait refuse un master parfaitement valide. */
+    if (estSansPerteIllisible(f.name)) {
+      setFichier(null);
+      setMessageDepot(t.aiffRefuse);
+      return;
+    }
+    if (!estAudioAccepte(f.name)) {
       setFichier(null);
       setMessageDepot(t.formatAudioRefuse);
       return;
     }
     /* LA TAILLE SE DIT AVANT L'ENVOI, ET AVEC SON CHIFFRE. Laisser partir
        120 Mo pour recevoir un refus du serveur, c'est faire attendre
-       plusieurs minutes pour rien sur une connexion lente. */
+       plusieurs minutes pour rien sur une connexion lente.
+
+       ET POUR UN FICHIER SANS PERTE, ON DIT AUSSI COMBIEN DE MINUTES
+       TIENDRAIENT. « 50 Mo maximum » ne veut rien dire quand on tient un WAV
+       d'une heure ; « cinq minutes de WAV tiennent, votre fichier en fait
+       soixante » se comprend tout de suite. */
     if (f.size > TAILLE_MAX) {
       setFichier(null);
-      setMessageDepot(t.audioTropLourd(mo(f.size), mo(TAILLE_MAX)));
+      const plafond = TAILLE_MAX / (1024 * 1024);
+      setMessageDepot(
+        estSansPerte(f.name)
+          ? t.sansPerteTropLourd(
+              mo(f.size),
+              mo(TAILLE_MAX),
+              Math.floor(plafond / MO_PAR_MINUTE_WAV),
+              Math.floor(plafond / MO_PAR_MINUTE_FLAC)
+            )
+          : t.audioTropLourd(mo(f.size), mo(TAILLE_MAX))
+      );
       return;
     }
     setFichier(f);
@@ -184,7 +212,6 @@ export function ProfilPage() {
       setFichier(null);
       setTitre('');
       setDescription('');
-      if (champFichier.current) champFichier.current.value = '';
       setMessageDepot(t.setDepose);
       await recharger();
     } catch (e) {
@@ -236,24 +263,24 @@ export function ProfilPage() {
         <h2>{t.identitePublique}</h2>
         <div className="sp-identite">
           <div className="sp-avatar">
-            {urlAvatar(avatarPath) ? (
-              <img src={urlAvatar(avatarPath) ?? ''} alt="" />
-            ) : (
-              <span className="sp-avatar-vide" aria-hidden="true">
-                {(nom.trim()[0] ?? '?').toUpperCase()}
-              </span>
-            )}
-            <label className="sp-avatar-bouton">
-              {t.changerLaPhoto}
-              <input
-                type="file"
-                accept={FORMATS_IMAGE.join(',')}
-                onChange={(e) => {
-                  const f = e.target.files?.[0];
-                  if (f) void changerAvatar(f);
-                }}
-              />
-            </label>
+            {/* LA PHOTO EST ELLE-MEME LA ZONE DE DEPOT. Un cadre en pointilles
+                a cote d'un portrait aurait double la cible sans rien clarifier :
+                on lache sur la photo qu'on remplace. Le clic marche toujours,
+                le clavier aussi. */}
+            <ZoneDepot
+              className="zd-avatar"
+              accept={FORMATS_IMAGE}
+              onFichier={(f) => void changerAvatar(f)}
+            >
+              {urlAvatar(avatarPath) ? (
+                <img src={urlAvatar(avatarPath) ?? ''} alt="" />
+              ) : (
+                <span className="sp-avatar-vide" aria-hidden="true">
+                  {(nom.trim()[0] ?? '?').toUpperCase()}
+                </span>
+              )}
+              <span className="zd-avatar-voile">{t.deposerOuCliquer}</span>
+            </ZoneDepot>
             <p className="sp-aide">{t.photoLimite}</p>
           </div>
 
@@ -290,20 +317,14 @@ export function ProfilPage() {
         <h2>{t.deposerUnSet}</h2>
         <p className="sp-aide">{t.limitesDepot(mo(TAILLE_MAX))}</p>
 
-        <label className="sp-label">
-          {t.fichierAudio}
-          <input
-            ref={champFichier}
-            type="file"
-            accept={FORMATS_AUDIO.join(',')}
-            onChange={(e) => choisirFichier(e.target.files?.[0] ?? null)}
-          />
-        </label>
-        {fichier && (
-          <p className="sp-aide">
-            {fichier.name} · {mo(fichier.size)}
+        <ZoneDepot accept={FORMATS_AUDIO} onFichier={(f) => choisirFichier(f)} disabled={occupe}>
+          <p className="zd-titre">{fichier ? fichier.name : t.deposerLeFichier}</p>
+          <p className="zd-aide">
+            {fichier
+              ? `${mo(fichier.size)}${estSansPerte(fichier.name) ? ` · ${t.sansPerte}` : ''}`
+              : t.formatsAcceptes}
           </p>
-        )}
+        </ZoneDepot>
 
         <label className="sp-label">
           {t.titreDuSet}

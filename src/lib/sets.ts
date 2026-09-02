@@ -33,16 +33,68 @@ import { supabase } from './supabase.ts';
 export const TAILLE_MAX = 50 * 1024 * 1024;
 export const AVATAR_MAX = 2 * 1024 * 1024;
 
-/** Formats que le bucket accepte. Une liste plus large ici que la-bas
-    donnerait un refus serveur incomprehensible cote formulaire. */
+/* LES FORMATS, ET POURQUOI ON VERIFIE L'EXTENSION ET NON LE TYPE DECLARE.
+
+   Le navigateur ne sait pas toujours nommer un fichier sans perte. Mesure :
+   Chrome rend une chaine VIDE pour un FLAC et pour un AIFF, Firefox rend
+   « application/octet-stream ». Refuser sur le type declare aurait donc
+   refuse des fichiers parfaitement valides, avec un message incomprehensible
+   pour qui vient de glisser son master.
+
+   L'extension, elle, est toujours la. C'est donc elle qui decide, et le
+   bucket accepte les types generiques pour ne pas refuser derriere. */
+/* AIFF ET ALAC SONT ECARTES, ET C'EST MESURE, PAS SUPPOSE.
+
+   `canPlayType` interroge dans ce navigateur : « probably » pour FLAC,
+   « maybe » pour WAV, CHAINE VIDE pour AIFF. Chromium et Firefox ne lisent
+   pas l'AIFF, et l'ALAC n'est lu que par Safari.
+
+   Les accepter aurait produit des sets MUETS pour la plupart des auditeurs,
+   sans qu'aucun message n'apparaisse : le depot reussit, la page s'affiche,
+   et il ne se passe rien quand on appuie sur lecture. Un refus au moment du
+   choix, avec le chemin de sortie, vaut mieux qu'un fichier en ligne qui ne
+   joue nulle part. Le FLAC est sans perte lui aussi, plus petit, et lu
+   partout : la conversion ne coute rien et ne perd rien. */
+export const EXTENSIONS_SANS_PERTE = ['flac', 'wav'] as const;
+export const EXTENSIONS_SANS_PERTE_ILLISIBLES = ['aif', 'aiff', 'alac'] as const;
+export const EXTENSIONS_AVEC_PERTE = ['mp3', 'm4a', 'aac', 'ogg', 'oga', 'opus'] as const;
+export const EXTENSIONS_AUDIO = [...EXTENSIONS_SANS_PERTE, ...EXTENSIONS_AVEC_PERTE];
+
+/** Ce que le champ de fichier propose. Les types ET les extensions : sur les
+    formats sans perte, le type seul ne suffit a aucun navigateur. */
 export const FORMATS_AUDIO = [
-  'audio/mpeg',
-  'audio/mp4',
-  'audio/aac',
-  'audio/ogg',
-  'audio/wav',
-  'audio/x-m4a',
+  'audio/*',
+  ...EXTENSIONS_AUDIO.map((e) => `.${e}`),
 ];
+
+const extensionDe = (nom: string): string =>
+  (nom.split('.').pop() ?? '').toLowerCase();
+
+export const estSansPerte = (nom: string): boolean =>
+  (EXTENSIONS_SANS_PERTE as readonly string[]).includes(extensionDe(nom));
+
+export const estAudioAccepte = (nom: string): boolean =>
+  EXTENSIONS_AUDIO.includes(extensionDe(nom) as (typeof EXTENSIONS_AUDIO)[number]);
+
+/** Sans perte, mais qu'aucun navigateur courant ne lit. On le dit au lieu de
+    laisser deposer un fichier qui restera silencieux. */
+export const estSansPerteIllisible = (nom: string): boolean =>
+  (EXTENSIONS_SANS_PERTE_ILLISIBLES as readonly string[]).includes(extensionDe(nom));
+
+/* CE QU'UN FICHIER SANS PERTE PESE VRAIMENT, mesure et non estime.
+
+   Encodage d'une minute de signal a 44,1 kHz 16 bits stereo, avec ffmpeg :
+
+     WAV et AIFF, non compresses         10,09 Mo par minute, toujours
+     FLAC sur un signal tonal             3,02 Mo par minute   (cas favorable)
+     FLAC sur un master bruite            3,87 Mo par minute
+     FLAC sur du stereo decorrele         9,87 Mo par minute   (pire cas)
+
+   La musique de club reelle tombe entre les deux extremes, autour de 5 a
+   6 Mo par minute. Ces nombres servent a DIRE a l'avance combien de minutes
+   tiennent, plutot qu'a laisser quelqu'un attendre un envoi qui sera refuse. */
+export const MO_PAR_MINUTE_WAV = 10.09;
+export const MO_PAR_MINUTE_FLAC = 5.5;
 export const FORMATS_IMAGE = ['image/jpeg', 'image/png', 'image/webp'];
 
 /** Nombre de barres de la forme d'onde. 800 barres a 2 px tiennent dans
@@ -253,6 +305,31 @@ export interface Progres {
   readonly total: number;
 }
 
+/* LE TYPE SERVI EST DEDUIT DE L'EXTENSION, JAMAIS RECOPIE DU NAVIGATEUR.
+
+   PIEGE QUI AURAIT CASSE LA LECTURE SANS RIEN CASSER AU DEPOT. Chrome rend
+   une chaine vide pour un FLAC, Firefox « application/octet-stream ». En
+   recopiant ce type sur l'objet, le fichier aurait ete SERVI en
+   octet-stream, et une balise audio refuse de lire ce qu'on ne lui annonce
+   pas comme de l'audio. Le depot aurait reussi, le set aurait ete muet, et
+   la cause serait restee invisible cote formulaire.
+
+   On nomme donc le type nous-memes, a partir de l'extension, qui est la
+   seule chose fiable ici. */
+const TYPE_PAR_EXTENSION: Record<string, string> = {
+  mp3: 'audio/mpeg',
+  m4a: 'audio/mp4',
+  aac: 'audio/aac',
+  ogg: 'audio/ogg',
+  oga: 'audio/ogg',
+  opus: 'audio/ogg',
+  wav: 'audio/wav',
+  flac: 'audio/flac',
+  aif: 'audio/aiff',
+  aiff: 'audio/aiff',
+  alac: 'audio/mp4',
+};
+
 /** Depose le fichier audio. Rend le chemin dans le bucket. */
 export async function deposerAudio(fichier: File): Promise<string> {
   if (!supabase) throw new Error('base indisponible');
@@ -265,9 +342,23 @@ export async function deposerAudio(fichier: File): Promise<string> {
      avec un message obscur. On garde l'extension et rien d'autre. */
   const ext = (fichier.name.split('.').pop() ?? 'mp3').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 5);
   const chemin = `${id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext || 'mp3'}`;
+  /* ON REEMBALLE LE FICHIER, ON NE SE CONTENTE PAS DE L'OPTION.
+
+     MESURE QUI A CORRIGE MA PREMIERE VERSION. J'avais passe le bon type dans
+     l'option `contentType`, et l'objet s'est quand meme enregistre en
+     `application/octet-stream` : verifie sur l'en-tete rendu par le stockage.
+     La raison est que le client envoie un Blob dans un formulaire multipart,
+     et que le serveur lit le type porte par LA PARTIE, c'est-a-dire celui du
+     fichier lui-meme. Pour un FLAC, Chrome ne met rien.
+
+     Le depot aurait donc reussi et le set aurait ete MUET, sans qu'aucun
+     message n'apparaisse nulle part. On reconstruit le fichier avec son type,
+     ce qui est la seule facon d'etre sur de ce qui sera servi. */
+  const type = TYPE_PAR_EXTENSION[ext] ?? (fichier.type || 'audio/mpeg');
+  const aEnvoyer = fichier.type === type ? fichier : new File([fichier], fichier.name, { type });
   const { error } = await supabase.storage
     .from('sets')
-    .upload(chemin, fichier, { contentType: fichier.type, upsert: false });
+    .upload(chemin, aEnvoyer, { contentType: type, upsert: false });
   if (error) throw new Error(error.message);
   return chemin;
 }

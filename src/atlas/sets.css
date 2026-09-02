@@ -287,3 +287,91 @@
   color: oklch(0.75 0.13 25);
   font-size: 0.8125rem;
 }
+
+/* --- La zone de glisser-deposer ----------------------------------------- */
+
+/* Le champ de fichier natif reste dans le document, atteignable au clavier,
+   mais invisible : c'est le libelle qui l'enveloppe qui fait la surface.
+   `display: none` l'aurait sorti de l'ordre de tabulation. */
+.zd input[type='file'] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.zd {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  border: 1px dashed oklch(1 0 0 / 0.18);
+  border-radius: 14px;
+  padding: 1rem;
+  text-align: center;
+  transition: border-color 120ms ease, background-color 120ms ease;
+}
+.zd:hover,
+.zd:focus-within {
+  border-color: oklch(1 0 0 / 0.32);
+}
+/* LE SURVOL SE VOIT FRANCHEMENT. Une bordure a peine plus claire ne dit pas
+   « lachez ici » : quand on tient un fichier au bout du curseur, on cherche
+   une cible, pas une nuance. */
+.zd-survol {
+  border-color: oklch(0.78 0.17 85);
+  border-style: solid;
+  background: oklch(0.78 0.17 85 / 0.08);
+}
+.zd-inactif {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.zd-titre {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+.zd-aide {
+  margin: 0.3rem 0 0;
+  color: oklch(0.62 0.01 260);
+  font-size: 0.8125rem;
+}
+
+/* La zone de l'avatar est ronde et porte l'image elle-meme : pas de cadre en
+   pointilles autour d'un visage. */
+.zd-avatar {
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  width: 8rem;
+  height: 8rem;
+}
+.zd-avatar:hover,
+.zd-avatar:focus-within {
+  border: none;
+}
+.zd-avatar.zd-survol {
+  border: 2px solid oklch(0.78 0.17 85);
+  background: none;
+}
+/* Le voile n'apparait qu'au survol du curseur ou pendant un glisser : une
+   photo de profil doit se voir, pas etre a moitie cachee en permanence. */
+.zd-avatar-voile {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: oklch(0 0 0 / 0.55);
+  color: oklch(0.95 0 0);
+  font-size: 0.75rem;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+.zd-avatar:hover .zd-avatar-voile,
+.zd-avatar:focus-within .zd-avatar-voile,
+.zd-avatar.zd-survol .zd-avatar-voile {
+  opacity: 1;
+}
