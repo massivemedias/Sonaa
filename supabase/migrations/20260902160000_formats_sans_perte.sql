@@ -55,3 +55,11 @@ set allowed_mime_types = array[
   'application/octet-stream', ''
 ]
 where id = 'sets';
+
+-- ─────────────────────────────────────────────────────────────────────────
+-- SUITE, LE MEME JOUR : LES FICHIERS ONT DEMENAGE SUR CLOUDFLARE R2
+-- ─────────────────────────────────────────────────────────────────────────
+--
+-- Voir la migration 0015. Le bucket `sets` de Supabase n'est plus alimente ;
+-- il reste en place pour les objets deja deposes, que `urlAudio` sait encore
+-- servir grace au prefixe « supabase: ».

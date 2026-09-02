@@ -1,26 +1,35 @@
 /* DEPOSER UN SET, ET LE RENDRE ECOUTABLE.
 
-   ═══ CE QUE LE PLAN GRATUIT AUTORISE, MESURE AVANT D'ECRIRE ═══
+   ═══ LES SETS SONT SUR CLOUDFLARE R2, PLUS SUR SUPABASE ═══
 
-   L'organisation Supabase est en plan gratuit et aucun bucket n'existait :
-   le stockage n'avait jamais servi sur ce projet. Trois plafonds durs :
+   Supabase gardait le stockage des fichiers, et son plan gratuit refusait
+   tout objet au-dessus de 50 Mo. Mesure faite a l'epoque : le bucket porte a
+   500 Mo, un envoi de 60 Mo refuse quand meme avec 413. Ce n'etait pas un
+   reglage, et un set d'une heure sans perte pese 300 a 600 Mo. La demande
+   etait « aucune perte » : il fallait donc changer d'hebergement, pas
+   reencoder.
 
-     50 Mo par fichier   -> environ 52 minutes en 128 kbps, 35 en 192 kbps
-     1 Go au total       -> une vingtaine de sets
-     5 Go de sortie/mois -> environ 100 ecoutes completes par mois
+   R2 n'a pas de plafond utile par objet, offre 10 Go gratuits, et surtout ne
+   facture PAS la sortie. Le vrai mur precedent n'etait pas la taille mais les
+   5 Go de sortie mensuels, soit une centaine d'ecoutes. Il n'existe plus.
 
-   Ces nombres ne sont pas une opinion, ils commandent l'interface : le
-   formulaire dit la limite AVANT le choix du fichier, et refuse le fichier
-   trop lourd en donnant sa taille reelle plutot qu'un « erreur ».
+   Ce qui reste sur Supabase : les comptes, les lignes de sets, et les photos
+   de profil, qui font 2 Mo et n'ont aucune raison de demenager.
+
+   ═══ POURQUOI L'ENVOI EST DECOUPE ═══
+
+   Le plan Cloudflare gratuit refuse toute requete dont le corps depasse
+   100 Mo. Verifie : 151 Mo d'un seul tenant renvoient 413, avant meme
+   d'atteindre le Worker. Le fichier part donc en tranches de 40 Mo que R2
+   assemble. Verifie de bout en bout sur un WAV de 151 Mo : quatre tranches,
+   assemblage a l'octet pres, et l'empreinte du fichier recupere est
+   identique a celle du fichier envoye.
 
    ═══ POURQUOI TOUT PASSE PAR CE SEUL FICHIER ═══
 
-   Le plafond de sortie est le vrai mur : 5 Go par mois, c'est cent ecoutes.
-   Le jour ou il faudra en servir mille, l'hebergement du fichier changera
-   (Cloudflare R2 offre 10 Go et une sortie gratuite). Rien d'autre ne doit
-   changer ce jour-la. Les pages ne connaissent donc ni bucket, ni URL de
-   stockage : elles appellent `urlAudio` et `deposerAudio`, et ces deux
-   fonctions sont les seules a savoir ou vivent les octets.
+   Un jour Mika voudra servir ses sets depuis sa propre machine et son propre
+   disque. Ce jour-la, seules les fonctions de ce fichier changeront : les
+   pages ne connaissent ni bucket, ni Worker, ni URL de stockage.
 
    ═══ LA FORME D'ONDE, ET LE PIEGE DE MEMOIRE ═══
 
@@ -28,9 +37,23 @@
 
 import { supabase } from './supabase.ts';
 
-/** Plafond du plan gratuit, en octets. Ecrit AUSSI dans le bucket : celui-ci
-    est la garde serveur, celui-la sert a le dire avant l'envoi. */
-export const TAILLE_MAX = 50 * 1024 * 1024;
+/* LE PLAFOND N'EST PLUS TECHNIQUE, IL EST BUDGETAIRE.
+
+   R2 accepte des objets jusqu'a 5 To : plus rien n'empeche un set d'une
+   heure. Ce qui reste borne, c'est le total gratuit, 10 Go. A 1 Go par set
+   cela fait dix sets, a 400 Mo une vingtaine.
+
+   On borne donc a 1 Go par fichier, ce qui couvre 90 minutes de WAV ou plus
+   de trois heures de FLAC, et laisse le compte lisible. Au-dela il ne s'agit
+   plus d'un probleme technique mais d'une facture, et cela se decide. */
+export const TAILLE_MAX = 1024 * 1024 * 1024;
+
+/** Taille d'une tranche d'envoi. Sous les 100 Mo que Cloudflare accepte par
+    requete, avec de la marge pour les entetes. */
+export const TRANCHE = 40 * 1024 * 1024;
+
+/** L'adresse de la passerelle. Le seul endroit du site qui la connaisse. */
+const PASSERELLE = 'https://sonaa-sets.massivemedias.workers.dev';
 export const AVATAR_MAX = 2 * 1024 * 1024;
 
 /* LES FORMATS, ET POURQUOI ON VERIFIE L'EXTENSION ET NON LE TYPE DECLARE.
@@ -130,7 +153,13 @@ export interface Artiste {
 const base = (import.meta.env.VITE_SUPABASE_URL ?? '').replace(/\/$/, '');
 
 export function urlAudio(chemin: string): string {
-  return `${base}/storage/v1/object/public/sets/${chemin}`;
+  /* Les chemins deposes avant la bascule vivent encore sur Supabase. On les
+     reconnait a leur presence dans l'ancien stockage, ce qu'on ne peut pas
+     savoir ici : on prefixe donc les nouveaux, et `urlAudio` lit le prefixe.
+     Sans cela, basculer aurait rendu muets les sets deja en ligne. */
+  return chemin.startsWith('supabase:')
+    ? `${base}/storage/v1/object/public/sets/${chemin.slice(9)}`
+    : `${PASSERELLE}/${chemin}`;
 }
 
 export function urlAvatar(chemin: string | null | undefined): string | null {
@@ -330,37 +359,80 @@ const TYPE_PAR_EXTENSION: Record<string, string> = {
   alac: 'audio/mp4',
 };
 
-/** Depose le fichier audio. Rend le chemin dans le bucket. */
-export async function deposerAudio(fichier: File): Promise<string> {
+/** Ce que l'envoi rapporte a l'appelant pendant qu'il dure. */
+export interface Avancement {
+  readonly envoye: number;
+  readonly total: number;
+}
+
+/** Depose le fichier audio sur R2, en tranches, et rend son chemin.
+
+    L'ENVOI SE RACONTE PENDANT QU'IL DURE. Un set de 400 Mo prend plusieurs
+    minutes sur une connexion domestique. Sans progression, on ne distingue
+    pas un envoi lent d'un envoi bloque, et on recharge la page au milieu. */
+export async function deposerAudio(
+  fichier: File,
+  surAvancement?: (a: Avancement) => void
+): Promise<string> {
   if (!supabase) throw new Error('base indisponible');
-  const id = await moi();
-  if (!id) throw new Error('non connecte');
+  const { data } = await supabase.auth.getSession();
+  const jeton = data.session?.access_token;
+  const id = data.session?.user?.id;
+  if (!jeton || !id) throw new Error('non connecte');
   if (fichier.size > TAILLE_MAX) throw new Error('fichier trop lourd');
-  /* Le nom d'origine peut contenir n'importe quoi : accents, espaces,
-     barres obliques. Une barre oblique creerait un sous-dossier et ferait
-     sortir le chemin du dossier du compte, ce que la politique refuserait
-     avec un message obscur. On garde l'extension et rien d'autre. */
-  const ext = (fichier.name.split('.').pop() ?? 'mp3').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 5);
-  const chemin = `${id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext || 'mp3'}`;
-  /* ON REEMBALLE LE FICHIER, ON NE SE CONTENTE PAS DE L'OPTION.
 
-     MESURE QUI A CORRIGE MA PREMIERE VERSION. J'avais passe le bon type dans
-     l'option `contentType`, et l'objet s'est quand meme enregistre en
-     `application/octet-stream` : verifie sur l'en-tete rendu par le stockage.
-     La raison est que le client envoie un Blob dans un formulaire multipart,
-     et que le serveur lit le type porte par LA PARTIE, c'est-a-dire celui du
-     fichier lui-meme. Pour un FLAC, Chrome ne met rien.
-
-     Le depot aurait donc reussi et le set aurait ete MUET, sans qu'aucun
-     message n'apparaisse nulle part. On reconstruit le fichier avec son type,
-     ce qui est la seule facon d'etre sur de ce qui sera servi. */
+  /* Le nom d'origine peut contenir n'importe quoi : accents, espaces, barres
+     obliques. Une barre obliques ferait sortir la cle du dossier du compte,
+     ce que la passerelle refuserait. On garde l'extension et rien d'autre. */
+  const ext = extensionDe(fichier.name).replace(/[^a-z0-9]/g, '').slice(0, 5) || 'mp3';
   const type = TYPE_PAR_EXTENSION[ext] ?? (fichier.type || 'audio/mpeg');
-  const aEnvoyer = fichier.type === type ? fichier : new File([fichier], fichier.name, { type });
-  const { error } = await supabase.storage
-    .from('sets')
-    .upload(chemin, aEnvoyer, { contentType: type, upsert: false });
-  if (error) throw new Error(error.message);
-  return chemin;
+  const cle = `${id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+
+  const entetes = { Authorization: `Bearer ${jeton}`, 'Content-Type': 'application/json' };
+
+  const debut = await fetch(`${PASSERELLE}/api/creer`, {
+    method: 'POST',
+    headers: entetes,
+    body: JSON.stringify({ cle, type }),
+  });
+  if (!debut.ok) throw new Error(`la passerelle refuse l'envoi (${debut.status})`);
+  const { envoi } = (await debut.json()) as { envoi: string };
+
+  const parties: { partNumber: number; etag: string }[] = [];
+  let envoye = 0;
+  try {
+    const total = Math.ceil(fichier.size / TRANCHE);
+    for (let n = 1; n <= total; n += 1) {
+      const tranche = fichier.slice((n - 1) * TRANCHE, n * TRANCHE);
+      const r = await fetch(
+        `${PASSERELLE}/api/partie?cle=${encodeURIComponent(cle)}&envoi=${encodeURIComponent(envoi)}&numero=${n}`,
+        { method: 'PUT', headers: { Authorization: `Bearer ${jeton}` }, body: tranche }
+      );
+      if (!r.ok) throw new Error(`tranche ${n} refusee (${r.status})`);
+      parties.push((await r.json()) as { partNumber: number; etag: string });
+      envoye += tranche.size;
+      surAvancement?.({ envoye, total: fichier.size });
+    }
+
+    const fin = await fetch(`${PASSERELLE}/api/finir`, {
+      method: 'POST',
+      headers: entetes,
+      body: JSON.stringify({ cle, envoi, parties }),
+    });
+    if (!fin.ok) throw new Error(`assemblage refuse (${fin.status})`);
+    return cle;
+  } catch (e) {
+    /* ON ABANDONNE L'ENVOI AVANT DE RELANCER L'ERREUR. Les tranches deja
+       deposees d'un envoi jamais termine restent facturees comme du stockage
+       tant que personne ne les efface, et rien dans l'interface ne les
+       montre : ce sont des octets invisibles qu'on paie. */
+    await fetch(`${PASSERELLE}/api/annuler`, {
+      method: 'POST',
+      headers: entetes,
+      body: JSON.stringify({ cle, envoi }),
+    }).catch(() => undefined);
+    throw e;
+  }
 }
 
 export async function creerSet(champs: {
@@ -429,7 +501,17 @@ export async function supprimerSet(id: string, chemin: string): Promise<void> {
   if (!supabase) throw new Error('base indisponible');
   const { error } = await supabase.from('dj_sets').delete().eq('id', id);
   if (error) throw new Error(error.message);
-  await supabase.storage.from('sets').remove([chemin]);
+  if (chemin.startsWith('supabase:')) {
+    await supabase.storage.from('sets').remove([chemin.slice(9)]);
+    return;
+  }
+  const { data } = await supabase.auth.getSession();
+  const jeton = data.session?.access_token;
+  if (!jeton) return;
+  await fetch(`${PASSERELLE}/${chemin}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${jeton}` },
+  }).catch(() => undefined);
 }
 
 /** Compte une ecoute. Silencieux : un compteur qui echoue n'est pas une

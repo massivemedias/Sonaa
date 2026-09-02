@@ -45,7 +45,12 @@ import { t } from '../langue/langue.ts';
 import './credits.css';
 import './sets.css';
 
-const mo = (o: number): string => `${(o / (1024 * 1024)).toFixed(1)} ${t.uniteMo}`;
+/* « 1024,0 Mo » est une facon de compter, pas une facon de lire. Au-dela du
+   millier on passe au gigaoctet, comme le fait n'importe quel systeme. */
+const mo = (o: number): string => {
+  const m = o / (1024 * 1024);
+  return m >= 1000 ? `${(m / 1024).toFixed(m / 1024 < 10 ? 1 : 0)} ${t.uniteGo}` : `${m.toFixed(1)} ${t.uniteMo}`;
+};
 
 type Etape = 'repos' | 'onde' | 'envoi' | 'ligne';
 
@@ -64,6 +69,7 @@ export function ProfilPage() {
   const [description, setDescription] = useState('');
   const [etape, setEtape] = useState<Etape>('repos');
   const [messageDepot, setMessageDepot] = useState<string | null>(null);
+  const [avancement, setAvancement] = useState<number | null>(null);
 
   const recharger = useCallback(async () => {
     setSets(await mesSets());
@@ -196,7 +202,10 @@ export function ProfilPage() {
       const [onde, duree] = await Promise.all([calculerOnde(fichier), mesurerDuree(fichier)]);
 
       setEtape('envoi');
-      const chemin = await deposerAudio(fichier);
+      setAvancement(0);
+      const chemin = await deposerAudio(fichier, (a) =>
+        setAvancement(Math.round((a.envoye / a.total) * 100))
+      );
 
       setEtape('ligne');
       await creerSet({
@@ -218,6 +227,7 @@ export function ProfilPage() {
       setMessageDepot(e instanceof Error ? e.message : String(e));
     } finally {
       setEtape('repos');
+      setAvancement(null);
     }
   };
 
@@ -353,7 +363,9 @@ export function ProfilPage() {
           {etape === 'onde'
             ? t.etapeOnde
             : etape === 'envoi'
-              ? t.etapeEnvoi
+              ? avancement === null
+                ? t.etapeEnvoi
+                : t.etapeEnvoiPourcent(avancement)
               : etape === 'ligne'
                 ? t.etapeLigne
                 : t.deposer}

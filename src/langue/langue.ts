@@ -155,6 +155,7 @@ interface Dictionnaire {
   readonly deposer: string;
   readonly etapeOnde: string;
   readonly etapeEnvoi: string;
+  readonly etapeEnvoiPourcent: (n: number) => string;
   readonly etapeLigne: string;
   readonly formatAudioRefuse: string;
   readonly audioTropLourd: (taille: string, max: string) => string;
@@ -178,6 +179,7 @@ interface Dictionnaire {
       chiffre etait bon mais l'unite restait francaise dans l'interface
       anglaise, ce qui se lit comme une faute de frappe. */
   readonly uniteMo: string;
+  readonly uniteGo: string;
   readonly deposerOuCliquer: string;
   readonly deposerLeFichier: string;
   readonly formatsAcceptes: string;
@@ -287,9 +289,9 @@ const FR: Dictionnaire = {
   imageTropLourde: (taille) => `Image de ${taille} : la limite est de 2 Mo.`,
   deposerUnSet: 'Déposer un set',
   limitesDepot: (max) =>
-    `${max} au plus par fichier, et c’est l’hébergement qui l’impose, pas un réglage. ` +
-    `Cela fait environ 52 minutes en MP3 320, 9 minutes de FLAC ou 5 minutes de WAV. ` +
-    `Aucun fichier n’est réencodé : ce que vous déposez est ce qui sera joué. ` +
+    `FLAC, WAV, MP3, M4A ou OGG, ${max} au plus par fichier, soit environ trois heures ` +
+    `de FLAC sans perte. Aucun fichier n’est réencodé : ce que vous déposez est ` +
+    `exactement ce qui sera joué, octet pour octet. ` +
     `Le set arrive en brouillon, vous seul le voyez tant que vous ne l’avez pas publié.`,
   fichierAudio: 'Fichier audio',
   titreDuSet: 'Titre',
@@ -297,6 +299,7 @@ const FR: Dictionnaire = {
   deposer: 'Déposer',
   etapeOnde: 'Lecture de la forme d’onde…',
   etapeEnvoi: 'Envoi du fichier…',
+  etapeEnvoiPourcent: (n) => `Envoi… ${n} %`,
   etapeLigne: 'Enregistrement…',
   formatAudioRefuse: 'Format refusé. MP3, M4A, AAC, OGG ou WAV seulement.',
   audioTropLourd: (taille, max) =>
@@ -318,6 +321,7 @@ const FR: Dictionnaire = {
   setIllisible: 'Le fichier n’a pas pu être lu.',
   avancerDansLeSet: 'Avancer dans le set',
   uniteMo: 'Mo',
+  uniteGo: 'Go',
   deposerOuCliquer: 'Déposer ou cliquer',
   deposerLeFichier: 'Glissez votre set ici, ou cliquez',
   formatsAcceptes: 'FLAC ou WAV sans perte, ou MP3, M4A, OGG',
@@ -327,11 +331,10 @@ const FR: Dictionnaire = {
     'presque tout le monde. Exportez en FLAC, qui est sans perte lui aussi, plus léger, ' +
     'et lu partout.',
   sansPerteTropLourd: (taille, max, minutesWav, minutesFlac) =>
-    `Fichier de ${taille}, et la limite est de ${max}. Ce n'est pas un réglage : ` +
-    `l'hébergement refuse tout objet au-dessus, mesuré. Dans ${max} tiennent environ ` +
-    `${minutesWav} minutes de WAV ou ${minutesFlac} minutes de FLAC. Un set d'une heure ` +
-    `sans perte pèse entre 300 et 600 Mo : il faudra changer d'hébergement de fichiers, ` +
-    `pas réencoder.`
+    `Fichier de ${taille}, et la limite est de ${max}. Cela couvre environ ` +
+    `${minutesWav} minutes de WAV ou ${minutesFlac} minutes de FLAC. Au-delà, ` +
+    `c'est le total de stockage gratuit qui se remplit : exportez en FLAC, ` +
+    `sans perte et deux fois plus léger.`
 };
 
 const EN: Dictionnaire = {
@@ -430,9 +433,8 @@ const EN: Dictionnaire = {
   imageTropLourde: (taille) => `Image is ${taille}: the limit is 2 MB.`,
   deposerUnSet: 'Upload a set',
   limitesDepot: (max) =>
-    `${max} max per file, imposed by the host, not a setting. ` +
-    `That is about 52 minutes of MP3 320, 9 minutes of FLAC or 5 minutes of WAV. ` +
-    `No file is re-encoded: what you upload is what plays. ` +
+    `FLAC, WAV, MP3, M4A or OGG, ${max} max per file, about three hours of lossless FLAC. ` +
+    `No file is re-encoded: what you upload is exactly what plays, byte for byte. ` +
     `The set arrives as a draft, only you can see it until you publish it.`,
   fichierAudio: 'Audio file',
   titreDuSet: 'Title',
@@ -440,6 +442,7 @@ const EN: Dictionnaire = {
   deposer: 'Upload',
   etapeOnde: 'Reading the waveform…',
   etapeEnvoi: 'Uploading…',
+  etapeEnvoiPourcent: (n) => `Uploading… ${n}%`,
   etapeLigne: 'Saving…',
   formatAudioRefuse: 'Format refused. MP3, M4A, AAC, OGG or WAV only.',
   audioTropLourd: (taille, max) =>
@@ -461,6 +464,7 @@ const EN: Dictionnaire = {
   setIllisible: 'The file could not be played.',
   avancerDansLeSet: 'Seek in the set',
   uniteMo: 'MB',
+  uniteGo: 'GB',
   deposerOuCliquer: 'Drop or click',
   deposerLeFichier: 'Drag your set here, or click',
   formatsAcceptes: 'FLAC or WAV lossless, or MP3, M4A, OGG',
@@ -469,10 +473,9 @@ const EN: Dictionnaire = {
     'AIFF and ALAC play in neither Chrome nor Firefox: the set would be silent for ' +
     'almost everyone. Export to FLAC, which is lossless too, smaller, and plays everywhere.',
   sansPerteTropLourd: (taille, max, minutesWav, minutesFlac) =>
-    `File is ${taille}, and the limit is ${max}. This is not a setting: ` +
-    `the host refuses any object above it, measured. ${max} holds about ` +
-    `${minutesWav} minutes of WAV or ${minutesFlac} minutes of FLAC. A one-hour lossless ` +
-    `set weighs 300 to 600 MB: this needs a different file host, not re-encoding.`
+    `File is ${taille}, and the limit is ${max}. That covers about ` +
+    `${minutesWav} minutes of WAV or ${minutesFlac} minutes of FLAC. Beyond that ` +
+    `it is the free storage total that fills up: export to FLAC, lossless and half the size.`
 };
 
 export const t: Dictionnaire = langue === 'en' ? EN : FR;

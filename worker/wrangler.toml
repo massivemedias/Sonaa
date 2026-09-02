@@ -2,6 +2,12 @@ name = "sonaa-sets"
 main = "src/index.ts"
 compatibility_date = "2026-09-01"
 
+# LE COMPTE EST ECRIT, PAS DEVINE. Le poste porte deux comptes Cloudflare, et
+# wrangler continuait de viser l'ancien apres une reconnexion : « Authentication
+# error » sur un compte ou le jeton n'a plus rien a faire. Ecrire le compte ici
+# supprime la question.
+account_id = "48c0f0149933a7f0e3a24479e33c69d3"
+
 # LE SEUL ROLE DE CE WORKER : etre la serrure devant R2.
 #
 # R2 n'a pas de notion de « qui est connecte ». Sans passerelle il faudrait

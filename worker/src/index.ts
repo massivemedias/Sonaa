@@ -171,7 +171,14 @@ export default {
       h.set('accept-ranges', 'bytes');
       h.set('cache-control', 'public, max-age=31536000, immutable');
 
-      if (objet.range && 'offset' in objet.range) {
+      /* LE 206 NE SE REND QUE SI LE CLIENT A DEMANDE UNE PLAGE.
+
+         DEFAUT MESURE : R2 remplit `range` meme sur une lecture entiere, et
+         la premiere version rendait donc 206 a une requete qui n'en
+         demandait pas. Un lecteur qui recoit un contenu partiel qu'il n'a
+         pas demande a le droit de le refuser. On regarde donc l'entete
+         d'ARRIVEE, seule source de la question posee. */
+      if (plage && objet.range && 'offset' in objet.range) {
         const debut = objet.range.offset ?? 0;
         const longueur = objet.range.length ?? objet.size - debut;
         h.set('content-range', `bytes ${debut}-${debut + longueur - 1}/${objet.size}`);
