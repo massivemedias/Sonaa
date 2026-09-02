@@ -8,9 +8,9 @@ import { Game, newState } from './game/state.js';
 import { Input } from './core/input.js';
 import { UI } from './ui/ui.js';
 import { Music } from './audio/music.js';
-import { drawBuilding, drawProp, drawCube } from './world/architecture.js';
+import { drawBuilding, drawProp } from './world/architecture.js';
 import { Life } from './world/life.js';
-import { setTime, slab, poly, shade, tree, plant, shadow } from './core/art.js';
+import { setTime, setLight, poly, shade, tree, bush, rock, px } from './core/art.js';
 import { toScreen } from './core/iso.js';
 
 const $ = s => document.querySelector(s);
@@ -151,59 +151,70 @@ function loop(now) {
 requestAnimationFrame(loop);
 
 // -------------------------------------------------------- écran d'accueil
+// Meme principe que le jeu : on dessine petit, puis on agrandit au pixel pres.
 const tCanvas = document.createElement('canvas');
 $('#title-art').appendChild(tCanvas);
 const tctx = tCanvas.getContext('2d');
-const demoBuilding = {
-  id: 'demo', name: 'Vinyl Cave', sign: 'VINYL CAVE', kind: 'records',
-  x: 0.55, y: 0.5, w: 4, d: 3, door: { x: 1, y: 3 }, tier: 0,
-  style: 'shop', hue: '#d97a63', roof: '#4fbf9f',
+const tBuf = document.createElement('canvas');
+const tbc = tBuf.getContext('2d');
+const demoHut = {
+  id: 'demo', name: 'Bunker Techno', sign: 'TECHNO', kind: 'records',
+  x: 1.6, y: 1.2, w: 2, d: 2, door: { x: 1, y: 3 }, tier: 0,
+  hut: true, roof: '#4a5b8c', wall: '#c98c4e',
 };
+
 function titleFrame(time) {
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
   const r = $('#title-art').getBoundingClientRect();
   if (!r.width) return;
-  if (tCanvas.width !== Math.round(r.width * dpr)) {
-    tCanvas.width = Math.round(r.width * dpr);
-    tCanvas.height = Math.round(r.height * dpr);
-  }
+  const k = 3;
+  const bw = Math.round(r.width / k), bh = Math.round(r.height / k);
+  if (tBuf.width !== bw) { tBuf.width = bw; tBuf.height = bh; }
+  if (tCanvas.width !== bw * k) { tCanvas.width = bw * k; tCanvas.height = bh * k; }
   setTime(time);
-  const w = tCanvas.width, h = tCanvas.height;
-  tctx.setTransform(1, 0, 0, 1, 0, 0);
-  tctx.clearRect(0, 0, w, h);
-  const zoom = Math.min(w / (10 * 64), h / (10 * 32)) * 1.42;
-  const bob = Math.sin(time * 1.1) * 5;
-  tctx.setTransform(zoom, 0, 0, zoom, w / 2 + 34 * zoom, h * 0.40 + bob);
+  setLight(13);
 
-  // socle flottant 6x5
-  const W = 6, D = 5, TH = 1.9;
+  tbc.setTransform(1, 0, 0, 1, 0, 0);
+  tbc.clearRect(0, 0, bw, bh);
+  const bob = Math.round(Math.sin(time * 1.1) * 2);
+  tbc.setTransform(1, 0, 0, 1, Math.round(bw / 2), Math.round(bh * 0.34) + bob);
+
+  // petit ilot 5x4
+  const W = 5, D = 4, TH = 26;
   const P2 = (x, y, z) => toScreen(x, y, z);
-  const GRASS = [[0, 3], [1, 4], [4, 0], [5, 3], [2, 4], [5, 4]];
+  const GRASS_TOP = ['#4e8f35', '#5a9e3e', '#6aad48'];
   for (let y = 0; y < D; y++) for (let x = 0; x < W; x++) {
-    const g = GRASS.some(([gx, gy]) => gx === x && gy === y);
-    const top = g ? ((x + y) % 2 ? '#96e46f' : '#8bdb64') : ((x + y) % 2 ? '#f7ecd2' : '#f1e4c4');
-    drawCube(tctx, x, y, g ? 0.18 : 0, top, g ? '#b57b42' : '#dda765');
+    const c = GRASS_TOP[(x * 3 + y * 5) % 3];
+    poly(tbc, [P2(x, y, 0), P2(x + 1, y, 0), P2(x + 1, y + 1, 0), P2(x, y + 1, 0)], c);
   }
-  // flancs du socle
-  poly(tctx, [P2(W, 0, -0.3), P2(W, D, -0.3), P2(W, D, -TH), P2(W, 0, -TH)],
-    lg(tctx, P2(W, 0, -0.3), P2(W, 0, -TH), '#d99a54', '#5b3a52'));
-  poly(tctx, [P2(0, D, -0.3), P2(W, D, -0.3), P2(W, D, -TH), P2(0, D, -TH)],
-    lg(tctx, P2(0, D, -0.3), P2(0, D, -TH), '#c78c4c', '#4e3247'));
-  const tip = P2(W, D, -TH);
-  tctx.beginPath();
-  tctx.moveTo(tip.x - 26, tip.y - 6); tctx.quadraticCurveTo(tip.x, tip.y + 34, tip.x + 26, tip.y - 6);
-  tctx.closePath(); tctx.fillStyle = '#5b3a52'; tctx.fill();
+  // flancs de terre
+  for (let y = 0; y < D; y++) {
+    const a = P2(W, y, 0), b = P2(W, y + 1, 0);
+    poly(tbc, [a, b, { x: b.x, y: b.y + TH }, { x: a.x, y: a.y + TH }], '#a3814f');
+    poly(tbc, [a, b, { x: b.x, y: b.y + 3 }, { x: a.x, y: a.y + 3 }], '#7a5f39');
+  }
+  for (let x = 0; x < W; x++) {
+    const a = P2(x, D, 0), b = P2(x + 1, D, 0);
+    poly(tbc, [a, b, { x: b.x, y: b.y + TH }, { x: a.x, y: a.y + TH }], '#8f7044');
+    poly(tbc, [a, b, { x: b.x, y: b.y + 3 }, { x: a.x, y: a.y + 3 }], '#6b5232');
+  }
+  const tip = P2(W, D, 0);
+  tbc.fillStyle = '#5c4630';
+  tbc.beginPath();
+  tbc.moveTo(tip.x - 14, tip.y + TH - 4);
+  tbc.lineTo(tip.x, tip.y + TH + 12);
+  tbc.lineTo(tip.x + 14, tip.y + TH - 4);
+  tbc.closePath(); tbc.fill();
 
-  drawProp(tctx, { type: 'crates', x: 5.3, y: 0.7 }, { t: time, night: false });
-  drawBuilding(tctx, demoBuilding, { t: time, night: false, unlocked: true });
-  tree(tctx, 5.3, 3.1, 0, 0.9, 1.4);
-  plant(tctx, 0.7, 4.3, 0, 0.85, '#9b6bd6', '#e08a72', 2.2);
-  drawProp(tctx, { type: 'bench', x: 2.6, y: 4.4 }, { t: time, night: false });
-}
-function lg(ctx, a, b, c0, c1) {
-  const g = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
-  g.addColorStop(0, c0); g.addColorStop(1, c1);
-  return g;
+  drawBuilding(tbc, demoHut, { t: time, night: false, unlocked: true });
+  tree(tbc, 4.3, 1.4, 0, 0.95, 1.4);
+  bush(tbc, 0.6, 3.3, 0, 0.9, 2.2);
+  rock(tbc, 4.4, 3.4, 0, 0.8, 3.1);
+  drawProp(tbc, { type: 'crates', x: 0.7, y: 1.5, z: 0 }, { t: time, night: false });
+
+  tctx.setTransform(1, 0, 0, 1, 0, 0);
+  tctx.imageSmoothingEnabled = false;
+  tctx.clearRect(0, 0, tCanvas.width, tCanvas.height);
+  tctx.drawImage(tBuf, 0, 0, bw * k, bh * k);
 }
 
 // poignée de debug
@@ -221,11 +232,15 @@ window.__sonaa = {
   },
   tapWorld(wx, wy) { input.fireTap(...screenOf(wx, wy)); },
 };
+// monde -> pixel CSS, l'inverse exact de cam.unproject (utile pour les tests)
 function screenOf(wx, wy) {
   const cam = renderer.cam;
-  const o = { x: (cam.x - cam.y) * 32, y: (cam.x + cam.y) * 16 };
-  const p = { x: (wx - wy) * 32, y: (wx + wy) * 16 };
-  return [(p.x - o.x) * cam.zoom + cam.w / 2, (p.y - o.y) * cam.zoom + cam.h / 2];
+  const o = toScreen(cam.x, cam.y, 0);
+  const p = toScreen(wx, wy, 0);
+  return [
+    ((p.x - o.x) * cam.zoom + cam.w / 2) * cam.k,
+    ((p.y - o.y) * cam.zoom + cam.h / 2) * cam.k,
+  ];
 }
 
 // pause de la musique quand l'onglet est caché

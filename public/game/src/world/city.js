@@ -1,36 +1,54 @@
 // =====================================================================
-//  LA VILLE — un îlot flottant, façon diorama
+//  LA CLAIRIERE
+//  ---------------------------------------------------------------
+//  Une trouee dans la foret, quadrillee de sentiers de terre. Les
+//  cabanes de disquaire sont dispersees autour de la place centrale,
+//  une par style musical.
 // =====================================================================
-export const VOID = 0, PAVE = 1, ROAD = 2, TURF = 3, PLAZA = 4;
-// relief : le gazon est surélevé, la rue légèrement creusée
-export const TILE_Z = { [PAVE]: 0, [ROAD]: -0.09, [TURF]: 0.07, [PLAZA]: 0.015, [VOID]: 0 };
-export const W = 22, H = 22;
+export const VOID = 0, GRASS = 1, PATH = 2, LUSH = 3, CLEARING = 4, FOREST = 5;
+export const TILE_Z = { [GRASS]: 0, [PATH]: 0, [LUSH]: 0, [CLEARING]: 0, [FOREST]: 0, [VOID]: 0 };
+export const W = 28, H = 26;
 
+// une cabane par style : le stock du bac depend du genre
 export const BUILDINGS = [
-  { id:'home',    name:'Ton appart',        sign:'CHEZ TOI',      kind:'home',
-    x:1,  y:1,  w:3, d:3, door:{x:2,y:4},  tier:0, style:'house',  hue:'#e08a72', roof:'#4fbf9f' },
-  { id:'bar',     name:'Le Sous-Sol',       sign:'LE SOUS-SOL',   kind:'bar',
-    x:5,  y:1,  w:4, d:3, door:{x:6,y:4},  tier:0, style:'shop',   hue:'#8f5fc9', roof:'#3fa98c' },
-  { id:'snack',   name:'Casse-croûte Marquette', sign:'SNACK',    kind:'snack',
-    x:1,  y:5,  w:3, d:3, door:{x:4,y:6},  tier:0, style:'shop',   hue:'#f0b56a', roof:'#e0705c', face:'right' },
-  { id:'records', name:'Vinyl Cave',        sign:'VINYL CAVE',    kind:'records',
-    x:13, y:1,  w:4, d:3, door:{x:14,y:4}, tier:0, style:'shop',   hue:'#d97a63', roof:'#4fbf9f', van:true },
-  { id:'promo',   name:'Radio Machine',     sign:'RADIO',         kind:'promo',
-    x:13, y:5,  w:3, d:3, door:{x:16,y:6}, tier:0, style:'tower2', hue:'#6c9fd6', roof:'#e0705c', face:'right', antenna:true },
-  { id:'gear',    name:'Massive Machines',  sign:'SYNTHS',        kind:'gear',
-    x:17, y:5,  w:4, d:3, door:{x:18,y:8}, tier:0, style:'shop',   hue:'#5ec4a9', roof:'#8f5fc9' },
-  { id:'club',    name:'Le Bunker',         sign:'BUNKER',        kind:'club',
-    x:1,  y:13, w:4, d:4, door:{x:2,y:17}, tier:0, style:'club',   hue:'#4a3a63', roof:'#2f2545' },
-  { id:'studio',  name:'Studio Sonaa',      sign:'STUDIO',        kind:'studio',
-    x:6,  y:13, w:3, d:3, door:{x:7,y:16}, tier:2, style:'shop',   hue:'#c96f9e', roof:'#4fbf9f' },
-  { id:'press',   name:'Pressage & Distro', sign:'PRESSAGE',      kind:'press',
-    x:1,  y:18, w:4, d:3, door:{x:5,y:19}, tier:1, style:'ware',   hue:'#7a8fb0', roof:'#e0705c', face:'right' },
-  { id:'label',   name:'Bureau du label',   sign:'SONAA REC.',    kind:'label',
-    x:13, y:13, w:4, d:4, door:{x:14,y:17}, tier:3, style:'tower2',hue:'#e08a72', roof:'#4fbf9f' },
-  { id:'store',   name:'Ta boutique',       sign:'SONAA SHOP',    kind:'store',
-    x:18, y:13, w:3, d:3, door:{x:19,y:16}, tier:5, style:'shop',  hue:'#4fbf9f', roof:'#e0705c' },
-  { id:'major',   name:'Tour Major',        sign:'MAJOR',         kind:'major',
-    x:14, y:18, w:5, d:4, door:{x:19,y:19}, tier:6, style:'tower', hue:'#b8c6e0', roof:'#8f5fc9', face:'right' },
+  // rangee nord : les disquaires
+  { id:'d_techno',  name:'Bunker Techno',   sign:'TECHNO',  kind:'records', genre:'Techno',
+    x:3,  y:3,  w:2, d:2, door:{x:3,y:5},   tier:0, hut:true, roof:'#4a5b8c', wall:'#c98c4e' },
+  { id:'d_house',   name:'Deep House Club', sign:'HOUSE',   kind:'records', genre:'Deep House',
+    x:8,  y:3,  w:2, d:2, door:{x:8,y:5},   tier:0, hut:true, roof:'#d97b4a', wall:'#d9a05e' },
+  { id:'d_electro', name:'Circuit Electro', sign:'ELECTRO', kind:'records', genre:'Electro',
+    x:13, y:3,  w:2, d:2, door:{x:13,y:5},  tier:0, hut:true, roof:'#5fb8cf', wall:'#c98c4e' },
+  { id:'d_acid',    name:'Acid Shack',      sign:'ACID',    kind:'records', genre:'Acid',
+    x:18, y:3,  w:2, d:2, door:{x:18,y:5},  tier:0, hut:true, roof:'#c4cf4a', wall:'#d9a05e' },
+  { id:'d_idm',     name:'IDM Cabane',      sign:'IDM',     kind:'records', genre:'IDM',
+    x:23, y:3,  w:2, d:2, door:{x:23,y:5},  tier:0, hut:true, roof:'#9a6fbf', wall:'#c98c4e' },
+  // deuxieme rangee
+  { id:'promo',   name:'Radio Machine',     sign:'RADIO',   kind:'promo',
+    x:3,  y:8,  w:3, d:3, door:{x:4,y:11},  tier:0, roof:'#6c9fd6', wall:'#c98c4e', antenna:true },
+  { id:'home',    name:'Ta cabane',         sign:'CHEZ TOI',kind:'home',
+    x:8,  y:8,  w:3, d:3, door:{x:9,y:11},  tier:0, roof:'#5fa87f', wall:'#d9a05e', chimney:true },
+  { id:'bar',     name:'Le Sous-Sol',       sign:'BAR',     kind:'bar',
+    x:18, y:8,  w:3, d:3, door:{x:19,y:11}, tier:0, roof:'#8f5fc9', wall:'#c98c4e' },
+  { id:'gear',    name:'Massive Machines',  sign:'SYNTHS',  kind:'gear',
+    x:23, y:8,  w:3, d:3, door:{x:24,y:11}, tier:0, roof:'#4fbf9f', wall:'#d9a05e' },
+  // troisieme rangee
+  { id:'snack',   name:'Casse-croute',      sign:'SNACK',   kind:'snack',
+    x:3,  y:13, w:3, d:3, door:{x:4,y:16},  tier:0, roof:'#e0705c', wall:'#e8b96a' },
+  { id:'studio',  name:'Studio Sonaa',      sign:'STUDIO',  kind:'studio',
+    x:8,  y:13, w:3, d:3, door:{x:9,y:16},  tier:2, roof:'#c96f9e', wall:'#c98c4e' },
+  { id:'label',   name:'Bureau du label',   sign:'SONAA',   kind:'label',
+    x:13, y:13, w:3, d:3, door:{x:14,y:16}, tier:3, roof:'#e08a72', wall:'#d9a05e', antenna:true },
+  { id:'press',   name:'Pressage',          sign:'PRESSAGE',kind:'press',
+    x:18, y:13, w:3, d:3, door:{x:19,y:16}, tier:1, roof:'#7a8fb0', wall:'#c98c4e', big:true },
+  { id:'store',   name:'Ta boutique',       sign:'SHOP',    kind:'store',
+    x:23, y:13, w:3, d:3, door:{x:24,y:16}, tier:5, roof:'#4fbf9f', wall:'#e8b96a' },
+  // rangee sud
+  { id:'club',    name:'Le Bunker',         sign:'BUNKER',  kind:'club',
+    x:3,  y:18, w:3, d:3, door:{x:4,y:21},  tier:0, roof:'#3a3350', wall:'#4a4260', club:true },
+  { id:'d_ambient', name:'Cabane Ambient',  sign:'AMBIENT', kind:'records', genre:'Ambient',
+    x:8,  y:18, w:2, d:2, door:{x:8,y:20},  tier:0, hut:true, roof:'#7fc6a1', wall:'#d9a05e' },
+  { id:'major',   name:'Tour Major',        sign:'MAJOR',   kind:'major',
+    x:13, y:18, w:4, d:4, door:{x:14,y:22}, tier:6, roof:'#c9a24a', wall:'#b3bcc2', tower:true },
 ];
 
 export class City {
@@ -44,85 +62,61 @@ export class City {
   idx(x, y) { return y * W + x; }
   inb(x, y) { return x >= 0 && y >= 0 && x < W && y < H; }
   tile(x, y) { return this.inb(x, y) ? this.tiles[this.idx(x, y)] : VOID; }
-  elev(x, y) { const t = this.tile(x | 0, y | 0); return TILE_Z[t] ?? 0; }
+  elev() { return 0; }
   isWalkable(x, y) {
     x |= 0; y |= 0;
     if (!this.inb(x, y)) return false;
-    return this.tiles[this.idx(x, y)] !== VOID && !this.blocked[this.idx(x, y)];
+    const t = this.tiles[this.idx(x, y)];
+    return t !== VOID && t !== FOREST && !this.blocked[this.idx(x, y)];
   }
+
   build() {
-    // forme de l'îlot : rectangle aux coins coupés
+    // herbe partout, foret sur le pourtour
     for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
-      const cut = (x + y < 3) || (x - y > W - 4) || (y - x > H - 4) || (x + y > W + H - 5);
-      this.tiles[this.idx(x, y)] = cut ? VOID : PAVE;
+      const border = x < 2 || y < 2 || x > W - 3 || y > H - 3;
+      this.tiles[this.idx(x, y)] = border ? FOREST : GRASS;
     }
-    // routes en croix
-    for (let i = 0; i < W; i++) {
-      for (const r of [10, 11]) {
-        if (this.tile(i, r) !== VOID) this.tiles[this.idx(i, r)] = ROAD;
-        if (this.tile(r, i) !== VOID) this.tiles[this.idx(r, i)] = ROAD;
-      }
-    }
-    // place centrale
-    for (let y = 9; y <= 12; y++) for (let x = 9; x <= 12; x++)
-      if (this.tile(x, y) !== VOID) this.tiles[this.idx(x, y)] = PLAZA;
-    // parcs et parterres
-    const parks = [
-      [6, 6, 3, 3], [17, 1, 4, 3], [1, 8, 3, 2], [17, 9, 4, 2],
-      [6, 17, 3, 3], [12, 6, 2, 2], [8, 12, 2, 2],
-    ];
-    for (const [px, py, pw, ph] of parks)
-      for (let y = py; y < py + ph; y++) for (let x = px; x < px + pw; x++)
-        if (this.tile(x, y) === PAVE) this.tiles[this.idx(x, y)] = TURF;
-    // quelques touffes éparses, motif déterministe
-    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++)
-      if (this.tile(x, y) === PAVE && ((x * 7 + y * 13) % 19) < 2)
-        this.tiles[this.idx(x, y)] = TURF;
-    // parvis de pierre autour de chaque bâtiment, avec de l'herbe qui repasse
-    for (const b of this.buildings)
-      for (let y = b.y - 1; y <= b.y + b.d; y++) for (let x = b.x - 1; x <= b.x + b.w; x++) {
-        if (!this.inb(x, y) || this.tiles[this.idx(x, y)] !== PAVE) continue;
-        const corner = (x < b.x || x >= b.x + b.w) && (y < b.y || y >= b.y + b.d);
-        if (corner && ((x * 5 + y * 11) % 3)) continue;      // les coins restent verts
-        this.tiles[this.idx(x, y)] = PLAZA;
-      }
+    // sentiers de terre dans les couloirs entre les rangees
+    const cols = [6, 7, 11, 12, 16, 17, 21, 22];
+    const rows = [6, 7, 11, 12, 16, 17, 22];
+    for (let y = 2; y <= H - 3; y++) for (const x of cols) this.tiles[this.idx(x, y)] = PATH;
+    for (let x = 2; x <= W - 3; x++) for (const y of rows) this.tiles[this.idx(x, y)] = PATH;
+    // la place centrale, tassee
+    for (let y = 8; y <= 10; y++) for (let x = 13; x <= 15; x++) this.tiles[this.idx(x, y)] = CLEARING;
+    // touffes d'herbe haute
+    for (const [x, y] of [[2,2],[3,2],[2,3],[25,2],[25,3],[2,22],[3,23],[25,22],[24,23],[20,6],[7,17],[24,17],[11,22]])
+      if (this.tile(x, y) === GRASS) this.tiles[this.idx(x, y)] = LUSH;
 
     // bâtiments -> obstacles
     for (const b of this.buildings)
       for (let y = b.y; y < b.y + b.d; y++) for (let x = b.x; x < b.x + b.w; x++)
-        if (this.inb(x, y)) { this.blocked[this.idx(x, y)] = 1; this.tiles[this.idx(x, y)] = PAVE; }
-    // props bloquants
+        if (this.inb(x, y)) { this.blocked[this.idx(x, y)] = 1; this.tiles[this.idx(x, y)] = GRASS; }
+
     this.props = [
-      { type:'statue',  x:8.5,  y:8.5 },
-      { type:'lamp',    x:9.5,  y:8.5 },
-      { type:'lamp',    x:12.5, y:13.5 },
-      { type:'lamp',    x:4.5,  y:9.5 },
-      { type:'lamp',    x:17.5, y:12.5 },
-      { type:'bench',   x:9.2,  y:12.6 },
-      { type:'bench',   x:12.6, y:9.2 },
-      { type:'plant',   x:4.5,  y:4.5 }, { type:'plant', x:16.5, y:4.5 },
-      { type:'plant',   x:5.5,  y:5.5 }, { type:'plant', x:17.5, y:17.5 },
-      { type:'plant',   x:5.5,  y:17.5 },{ type:'plant', x:12.5, y:17.5 },
-      { type:'crates',  x:16.6, y:8.5 }, { type:'crates', x:8.5, y:16.6 },
-      { type:'truck',   x:13.1, y:8.1 },
-      { type:'tree',    x:9.4,  y:6.4, s:1.05 },
-      { type:'tree',    x:6.4,  y:9.4, s:0.95 },
-      { type:'tree',    x:14.4, y:12.4, s:1.1 },
-      { type:'tree',    x:12.4, y:15.4, s:0.9 },
-      { type:'tree',    x:16.4, y:16.4, s:1.0 },
-      { type:'tree',    x:2.4,  y:9.4,  s:1.15 },
-      { type:'tree',    x:19.4, y:7.4,  s:1.05 },
-      { type:'arch',    x:7.3,  y:12.3 },
-      { type:'ruin',    x:12.4, y:5.4 },
-      { type:'ruin',    x:4.4,  y:12.4 },
-      { type:'ruin',    x:17.4, y:11.4 },
-      { type:'bench',   x:12.6, y:8.4 },
-      { type:'plant',   x:9.4,  y:13.4 },
-      { type:'plant',   x:13.4, y:9.4 },
-      { type:'lamp',    x:8.5,  y:14.5 },
+      { type:'totem',  x:14.5, y:9.5 },
+      { type:'lamp',   x:12.5, y:7.5 }, { type:'lamp', x:16.5, y:11.5 },
+      { type:'lamp',   x:6.5,  y:11.5 }, { type:'lamp', x:21.5, y:16.5 },
+      { type:'bench',  x:12.6, y:9.5 }, { type:'bench', x:16.4, y:9.5 },
+      { type:'truck',  x:16.4, y:6.6 },
+      { type:'crates', x:6.6,  y:5.4 }, { type:'crates', x:21.5, y:5.4 },
+      { type:'crates', x:16.5, y:12.4 },
     ];
-    for (const pr of this.props) pr.z = this.elev(pr.x, pr.y);
-    this.blocked[this.idx(8, 8)] = 1; // socle de la statue
+    // arbres, buissons, rochers : la foret et quelques touches dans la clairiere
+    const rnd = mulberry(1337);
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      if (this.tile(x, y) !== FOREST) continue;
+      const r = rnd();
+      if (r < 0.55) this.props.push({ type:'tree', x: x + 0.2 + rnd() * 0.6, y: y + 0.2 + rnd() * 0.6, s: 0.85 + rnd() * 0.35 });
+      else if (r < 0.8) this.props.push({ type:'bush', x: x + 0.3 + rnd() * 0.4, y: y + 0.3 + rnd() * 0.4, s: 0.8 + rnd() * 0.4 });
+      else this.props.push({ type:'rock', x: x + 0.3 + rnd() * 0.4, y: y + 0.3 + rnd() * 0.4, s: 0.7 + rnd() * 0.5 });
+    }
+    for (const [x, y, t] of [[7.5,9.5,'bush'],[12.4,5.5,'rock'],[21.6,9.5,'bush'],
+                             [7.4,20.5,'rock'],[22.5,20.5,'bush'],[11.5,16.5,'bush'],
+                             [17.5,20.5,'rock'],[6.5,15.4,'bush']])
+      this.props.push({ type:t, x, y, s: 0.9 });
+
+    for (const pr of this.props) pr.z = 0;
+    this.blocked[this.idx(14, 9)] = 1;      // socle du totem
   }
 
   // --- A* ---
@@ -184,4 +178,14 @@ export class City {
     }
     return best;
   }
+}
+
+// générateur déterministe : la forêt est toujours la même
+function mulberry(a) {
+  return function () {
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
 }

@@ -15,54 +15,65 @@ const pick = arr => arr[Math.random() * arr.length | 0];
 // Un bac : on fouille disque par disque, on choisit. Renouvelé chaque jour.
 const QUEST_REC = 'rq1';
 
-export function crateOf(game) {
+export function crateOf(game, b) {
   const s = game.s;
-  if (s.dig && s.dig.day === s.day) return s.dig;
+  const key = (b && b.id) || 'any';
+  const genre = b && b.genre;
+  s.digs = s.digs || {};
+  const cur = s.digs[key];
+  if (cur && cur.day === s.day) return cur;
+
   const owned = new Set(s.collection);
-  const pool = RECORDS.filter(r => !owned.has(r.id) && r.id !== QUEST_REC);
-  // mélange
-  for (let i = pool.length - 1; i > 0; i--) {
-    const j = Math.random() * (i + 1) | 0;
-    [pool[i], pool[j]] = [pool[j], pool[i]];
+  const free = RECORDS.filter(r => !owned.has(r.id) && r.id !== QUEST_REC);
+  const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  // la cabane est specialisee dans son genre, avec quelques intrus au fond du bac
+  let pool;
+  if (genre) {
+    const mine = shuffle(free.filter(r => r.genre === genre));
+    const others = shuffle(free.filter(r => r.genre !== genre));
+    pool = mine.concat(others.slice(0, Math.max(0, 10 - mine.length)));
+  } else {
+    pool = shuffle(free.slice());
   }
-  const deck = pool.slice(0, 14).map(r => ({
+  const deck = pool.slice(0, 12).map(r => ({
     id: r.id,
     price: Math.max(4, Math.round(r.price * (Math.random() < 0.18 ? rnd(0.35, 0.62) : rnd(0.82, 1.25)))),
     deal: false,
   }));
   deck.forEach(e => { const r = recordById(e.id); e.deal = e.price < r.price * 0.7; });
-  // le disque de la quête est glissé dans le bac tant qu'on ne l'a pas
-  if (!owned.has(QUEST_REC)) {
-    const qr = recordById(QUEST_REC);
+
+  // le disque de la quete dort dans le bac du genre qui lui correspond
+  const qr = recordById(QUEST_REC);
+  if (!owned.has(QUEST_REC) && (!genre || (qr && qr.genre === genre))) {
     const at = Math.min(deck.length, 3 + (Math.random() * 4 | 0));
     deck.splice(at, 0, { id: QUEST_REC, price: qr.price, deal: false, quest: true });
   }
-  s.dig = { day: s.day, deck, i: 0, bought: [] };
-  return s.dig;
+  s.digs[key] = { day: s.day, deck, i: 0, bought: [] };
+  return s.digs[key];
 }
 
-export function currentCard(game) {
-  const c = crateOf(game);
+export function currentCard(game, b) {
+  const c = crateOf(game, b);
   return c.i < c.deck.length ? c.deck[c.i] : null;
 }
 
-export function digDeeper(game) {
-  const c = crateOf(game);
+export function digDeeper(game, b) {
+  const c = crateOf(game, b);
   if (c.i >= c.deck.length - 1) { c.i = c.deck.length; game.advance(6); game.emit('change'); return null; }
   c.i++;
   game.advance(6);
   game.need('energy', -0.6);
   game.quest.onDig();
   game.emit('change');
-  return currentCard(game);
+  return currentCard(game, b);
 }
 
-export function buyRecord(game, entry) {
+export function buyRecord(game, entry, b) {
   if (!entry) return false;
   const r = recordById(entry.id);
   if (!game.spend(entry.price, 'disques')) return false;
   game.s.collection.push(r.id);
-  const c = crateOf(game);
+  const c = crateOf(game, b);
   c.deck = c.deck.filter(e => e.id !== entry.id);
   if (c.i >= c.deck.length) c.i = Math.max(0, c.deck.length - 1);
   game.s.stats.digs++;
@@ -86,8 +97,8 @@ export function sellRecord(game, id) {
 }
 
 // compat : ancien nom utilisé par le simulateur d'équilibrage
-export function digStock(game) {
-  const c = crateOf(game);
+export function digStock(game, b) {
+  const c = crateOf(game, b);
   return c.deck.slice(c.i, c.i + 6);
 }
 

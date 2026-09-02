@@ -238,3 +238,64 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block}
 .eq i{width:2.5px;background:currentColor;border-radius:2px;animation:eqb .7s ease-in-out infinite}
 .eq i:nth-child(2){animation-delay:.15s} .eq i:nth-child(3){animation-delay:.3s}
 @keyframes eqb{0%,100%{height:3px}50%{height:11px}}
+
+
+/* =====================================================================
+   PASSAGE EN PIXEL
+   Bords francs, ombres dures et decalees, aucun flou : l'interface doit
+   avoir l'air d'appartenir au meme jeu que le decor.
+   ===================================================================== */
+:root{ --radius:0; --ink:#1c1528; }
+*{ font-family:"Pixelify Sans","Courier New",monospace !important; }
+body{ font-family:"Pixelify Sans","Courier New",monospace; letter-spacing:.2px }
+canvas#stage{ image-rendering:pixelated; image-rendering:crisp-edges }
+
+/* plus aucun arrondi ni flou */
+.chip,.need,.nbar,.toast,.sheet,.row,.btn,.pill,.round-btn,.big-btn,.close-btn,
+.stat,.fin-chart,.tier-bar,.meter,.quest,.sleeve,.cov,.title-card,.fin-day i,.nbar i,.meter i{
+  border-radius:0 !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+}
+.overlay{ backdrop-filter:none; background:rgba(12,8,22,.72) }
+
+/* ombres dures, decalees de deux pixels */
+.chip,.need{ border:2px solid var(--ink); box-shadow:2px 2px 0 rgba(0,0,0,.55); background:#2a2039 }
+.toast{ border:2px solid var(--ink); box-shadow:3px 3px 0 rgba(0,0,0,.5); background:#2a2039 }
+.quest{ border:2px solid var(--ink); box-shadow:3px 3px 0 rgba(0,0,0,.5); background:#2a2039 }
+.sheet{ border:3px solid var(--ink); box-shadow:0 -4px 0 rgba(0,0,0,.4); background:#2e2340 }
+.row{ border:2px solid #1c1528; background:#382c4e; box-shadow:2px 2px 0 rgba(0,0,0,.35) }
+.stat{ border:2px solid #1c1528; background:#382c4e }
+.btn,.big-btn,.round-btn,.close-btn{
+  border:2px solid var(--ink); box-shadow:3px 3px 0 rgba(0,0,0,.5);
+  text-shadow:none; font-weight:600;
+}
+.btn:active,.big-btn:active,.round-btn:active{ transform:translate(2px,2px); box-shadow:1px 1px 0 rgba(0,0,0,.5) }
+.pill{ border:2px solid var(--ink); box-shadow:2px 2px 0 rgba(0,0,0,.4) }
+
+/* aplats : on remplace les degrades */
+.btn{ background:#4fbf9f; color:#0d2b23 }
+.btn.pink{ background:#ff5cb4; color:#2b0016 }
+.btn.gold{ background:#e8c86a; color:#3a2d0a }
+.btn.ghost{ background:#4a3c66; color:#f0e6d2 }
+.big-btn{ background:#4fbf9f; color:#0d2b23 }
+.big-btn.ghost{ background:#7a5fb8; color:#fff }
+.round-btn{ background:#4a3c66; color:#f0e6d2 }
+.round-btn.action{ background:#4fbf9f; color:#0d2b23; animation:none }
+.pill.on{ background:#8f5fc9; color:#fff }
+.tier-bar,.meter,.nbar{ border:2px solid var(--ink); background:#241b33 }
+.tier-bar i,.meter i{ background:#4fbf9f }
+.fin-day .inc{ background:#4fbf9f } .fin-day .exp{ background:#ff5cb4 }
+
+/* titres */
+.logo{ font-size:56px; letter-spacing:2px; background:none; -webkit-text-fill-color:#8fe8c8;
+  color:#8fe8c8; filter:drop-shadow(3px 3px 0 #1c1528) }
+.logo-sub{ color:#c9b8e8 }
+.sheet-head h2{ font-size:20px; color:#8fe8c8 }
+.row h3{ font-size:14px } .row p{ font-size:11.5px }
+.note{ font-size:12.5px; line-height:1.5 }
+.section-title{ letter-spacing:1px }
+
+/* la pochette garde ses coins francs */
+.sleeve{ border:2px solid var(--ink); box-shadow:3px 3px 0 rgba(0,0,0,.45) }
+.sleeve img,.cov{ image-rendering:auto }

@@ -4,21 +4,21 @@
 export const STEPS = [
   {
     id: 'go_shop',
-    goal: 'Va au Vinyl Cave chercher ton premier disque',
-    hint: 'Le disquaire est au nord-est de la place.',
-    target: 'records',
+    goal: 'Va au Bunker Techno chercher ton premier disque',
+    hint: 'La cabane techno est en haut a gauche de la clairiere.',
+    target: 'd_techno',
   },
   {
     id: 'dig',
     goal: 'Fouille les bacs — écoute, compare, choisis',
     hint: 'Chaque disque fouillé prend quelques minutes. Prends ton temps.',
-    target: 'records',
+    target: 'd_techno',
   },
   {
     id: 'find_garnier',
     goal: 'Trouve « I Was in Ecstasy » de Laurent Garnier (F Communications)',
-    hint: 'Il est quelque part dans le bac. Continue de fouiller.',
-    target: 'records',
+    hint: 'Il est quelque part dans le bac techno. Continue de fouiller.',
+    target: 'd_techno',
   },
   {
     id: 'listen',

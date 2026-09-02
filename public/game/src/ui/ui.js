@@ -116,7 +116,8 @@ export class UI {
       case 'close': this.close(); break;
       case 'tab': this.temp.tab = arg; this.render(); break;
 
-      case 'buyRec': A_.buyRecord(g, g.s.digStock.find(e => e.id === arg)); break;
+      case 'buyRec': { const bd = this.current && this.current.building;
+        A_.buyRecord(g, A_.digStock(g, bd).find(e => e.id === arg), bd); break; }
       case 'sellRec': A_.sellRecord(g, arg); break;
       case 'eat': A_.consume(g, FOOD.find(f => f.id === arg)); break;
       case 'drink': A_.consume(g, DRINKS.find(d => d.id === arg)); break;
@@ -128,8 +129,9 @@ export class UI {
         if (r && r.revelation) { this.revelation(r.record); return; }
         break;
       }
-      case 'dig': A_.digDeeper(g); break;
-      case 'buyCard': A_.buyRecord(g, A_.currentCard(g)); break;
+      case 'dig': A_.digDeeper(g, this.current && this.current.building); break;
+      case 'buyCard': { const bd = this.current && this.current.building;
+        A_.buyRecord(g, A_.currentCard(g, bd), bd); break; }
       case 'produce': A_.produce(g); break;
       case 'gear': A_.buyGear(g, gearById(arg)); break;
       case 'campaign': A_.launchCampaign(g, CAMPAIGNS.find(c => c.id === arg)); break;
@@ -383,8 +385,8 @@ const PANELS = {
       <button class="pill ${tab === 'coll' ? 'on' : ''}" data-act="tab" data-arg="coll">ma collection (${g.s.collection.length})</button>
     </div>`;
     if (tab === 'bac') {
-      const c = A.crateOf(g);
-      const card = A.currentCard(g);
+      const c = A.crateOf(g, ui.current && ui.current.building);
+      const card = A.currentCard(g, ui.current && ui.current.building);
       if (!card) {
         html += note('Tu as fouillé tout le bac. Le disquaire te fait un clin d’œil : « Reviens demain, j’ai des arrivages. »');
       } else {
@@ -436,7 +438,12 @@ const PANELS = {
         });
       }).join('') : note('Rien encore. Fouille le bac.');
     }
-    return { title: 'Vinyl Cave', sub: 'Crate digging', html };
+    const b = ui.current && ui.current.building;
+    return {
+      title: (b && b.name) || 'Disquaire',
+      sub: b && b.genre ? `Bac ${b.genre}` : 'Fouille de bacs',
+      html,
+    };
   },
 
   gear(ui, g) {
@@ -599,7 +606,7 @@ const PANELS = {
         btn: i >= 0 ? 'Retirer' : 'Ajouter', act: 'pickRec', arg: id,
         btnCls: i >= 0 ? 'ghost' : '',
       });
-    }).join('') : note('Pas un seul disque. Va au Vinyl Cave d’abord.');
+    }).join('') : note('Pas un seul disque. Passe voir une cabane de disquaire.');
     html += `<button class="btn wide pink" data-act="playShow" ${set.length < 1 ? 'disabled' : ''}>
       Jouer le set (5 h)${set.length < 4 ? ' — ' + set.length + '/4' : ''}</button>`;
     html += `<button class="btn wide ghost" data-act="gig" data-arg="">Changer de salle</button>`;
