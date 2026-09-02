@@ -575,6 +575,15 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           est tracable jusqu'a la donnee, sans un mot invente. */}
       <section className="pv-fiche" style={{ '--pv-hue': famille.hue } as React.CSSProperties}>
         <h3 className="pv-fiche-titre">{t.ficheTechnique}</h3>
+        {/* LA PHOTO DE MACHINE REJOINT LA FICHE.
+
+            Elle etait posee tout en bas, apres la liste des morceaux, large
+            de 544 px et haute de 360 : la derniere chose de la page, sans
+            rien autour qui explique pourquoi une TR-909 est la. Elle
+            illustre pourtant UNE LIGNE PRECISE de cette fiche, celle qui
+            enumere les machines du genre. Elle se met donc a cote de cette
+            ligne, a la taille d'une illustration et non d'une affiche. */}
+        <div className="pv-fiche-corps">
         <dl className="pv-faits">
           {genre.bpmRange && (
             <div className="pv-fait">
@@ -621,6 +630,8 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
             </div>
           )}
         </dl>
+        <PhotoMachine machines={genre.machines} />
+        </div>
       </section>
 
       {t.texteEnFrancais && <p className="pv-langue">{t.texteEnFrancais}</p>}
@@ -762,10 +773,6 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           <span className="pv-mot-signe">Mika</span>
         </blockquote>
       )}
-
-      <PhotoMachine machines={genre.machines} />
-
-
 
       {enCours && <p className="pv-sr" role="status">{t.lectureEnCours}</p>}
     </>

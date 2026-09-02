@@ -521,8 +521,22 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 
 /* --- La photo d'une machine --- */
 
+/* LA FICHE SUR DEUX COLONNES QUAND IL Y A UNE PHOTO : les faits a gauche,
+   l'illustration a droite. Sans photo, la grille n'a qu'une colonne et rien
+   ne bouge. */
+.pv-fiche-corps {
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+}
+@media (min-width: 700px) {
+  .pv-fiche-corps:has(.pv-photo) {
+    grid-template-columns: minmax(0, 1fr) 14rem;
+    gap: 1.4rem;
+  }
+}
 .pv-photo {
-  margin: 1.4rem 0 0;
+  margin: 0;
   padding: 0;
 }
 /* LE CADRE EST FIXE, L'IMAGE S'Y ADAPTE.
@@ -1075,46 +1089,44 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   .pv-hero-texte {
     padding: 2rem 2rem 2.2rem;
   }
-  /* LE TEXTE PREND TOUTE LA LARGEUR, MAIS EN DEUX COLONNES.
+  /* LA DESCRIPTION RESTE SUR UNE COLONNE.
 
-     La demande etait « plus d'espace ». Un paragraphe de 13 px etale sur
-     1400 px ferait deux cent quinze signes par ligne : au dela d'environ
-     soixante-quinze, l'oeil perd le debut de la ligne suivante et doit
-     revenir en arriere. Elargir la ligne aurait donc rendu le texte plus
-     grand ET moins lisible.
+     ELLE ETAIT SUR DEUX, ET C'ETAIT UNE ERREUR DE MA PART. J'avais decoupe
+     en colonnes pour occuper la largeur, comme le fait un journal. Mais un
+     journal coupe en colonnes des textes de plusieurs milliers de signes.
+     Les descriptions du corpus font 354 signes en mediane, et 209 des 219
+     restent sous 500. A 1400 px, deux colonnes de 660 px donnent DEUX LIGNES
+     PAR COLONNE : la phrase s'interrompt au milieu a droite de l'ecran et
+     reprend en haut a gauche de la colonne suivante. On lit un fragment,
+     pas un paragraphe.
 
-     Deux colonnes resolvent les deux : la page est occupee sur toute sa
-     largeur, et chaque ligne reste dans la plage ou l'on lit sans effort.
-     C'est la reponse du journal au meme probleme, et elle a cent ans. */
-  /* DEUX COLONNES SUR ORDINATEUR, ET DEUX SEULEMENT.
-
-     Trois avaient ete essayees : elles hachaient un texte de six cents
-     signes, trop court pour justifier deux sauts de colonne. Une seule
-     laissait la moitie droite vide sur un ecran large. Deux occupent la
-     place sans decouper la lecture, et chaque colonne garde une ligne dans
-     la plage lisible.
-
-     LA HAUTEUR EST BORNEE A 1000 px, comme demande. Sur un texte de cette
-     longueur la borne ne mord jamais : elle protege le cas ou une
-     description longue pousserait la liste hors de l'ecran. */
+     Une colonne unique bornee a la mesure de lecture est la bonne reponse a
+     un texte court. La moitie droite reste vide, et c'est normal : un
+     chapeau n'a pas a remplir un ecran de 1400 px, il a a se lire d'un
+     trait. Le texte grandit un peu pour tenir ce role de tete de page. */
   .pv-description {
-    columns: 2;
-    column-gap: 3rem;
-    max-height: 1000px;
-    max-width: none;
+    max-width: 62ch;
+    font-size: 1.0625rem;
+    line-height: 1.65;
   }
   .pv-article-section p {
     max-width: 68ch;
   }
 
-  /* LA LISTE AUSSI EN DEUX COLONNES. Vingt morceaux en colonne unique font
-     1200 px de haut : on defile longtemps pour voir la fin d'un genre. En
-     deux colonnes, la meme liste tient en 600 px, sous la borne demandee.
-     L'ordre de lecture reste juste, le flux descend puis passe a droite. */
+  /* LA LISTE, ELLE, RESTE EN DEUX COLONNES : vingt morceaux en colonne
+     unique font 1200 px de haut, et une ligne de morceau se lit d'un coup
+     d'oeil, sans mesure de lecture a respecter.
+
+     LA BORNE DE HAUTEUR EST RETIREE. Une boite multi-colonnes dont la
+     hauteur est bridee ne tronque pas : elle FABRIQUE DES COLONNES
+     SUPPLEMENTAIRES qui debordent vers la droite, hors de l'ecran, sans
+     barre de defilement pour les atteindre. Italo Disco et ses trente
+     morceaux mesurent 912 px : quatre-vingt-huit pixels sous la falaise.
+     Un morceau de plus, une ligne un peu plus haute, et la fin de la liste
+     devenait invisible. La borne ne protegeait rien, elle armait un piege. */
   .pv-pistes {
     columns: 2;
     column-gap: 2.5rem;
-    max-height: 1000px;
   }
   /* Une ligne ne se coupe jamais entre deux colonnes : une pochette d'un
      cote et son titre de l'autre serait pire que du defilement. */
@@ -1123,9 +1135,6 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   }
   .pv-article-titre {
     font-size: 1.3125rem;
-  }
-  .pv-photo {
-    max-width: 34rem;
   }
   .pv-hero-nom {
     font-size: 2.275rem;
