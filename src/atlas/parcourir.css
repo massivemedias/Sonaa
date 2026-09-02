@@ -1073,19 +1073,40 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      Deux colonnes resolvent les deux : la page est occupee sur toute sa
      largeur, et chaque ligne reste dans la plage ou l'on lit sans effort.
      C'est la reponse du journal au meme probleme, et elle a cent ans. */
-  /* UNE SEULE COLONNE, ET UNE LARGEUR BORNEE.
+  /* DEUX COLONNES SUR ORDINATEUR, ET DEUX SEULEMENT.
 
-     Les colonnes multiples etaient une reponse a « plus d'espace » : elles
-     occupaient la largeur sans allonger la ligne. Vues a l'ecran, elles
-     hachent la lecture d'un texte de six cents signes, qui n'est pas assez
-     long pour justifier de sauter d'une colonne a l'autre. Le procede vaut
-     pour un article de journal, pas pour un chapeau.
+     Trois avaient ete essayees : elles hachaient un texte de six cents
+     signes, trop court pour justifier deux sauts de colonne. Une seule
+     laissait la moitie droite vide sur un ecran large. Deux occupent la
+     place sans decouper la lecture, et chaque colonne garde une ligne dans
+     la plage lisible.
 
-     On revient donc a une colonne, bornee a 68 signes, qui est la largeur ou
-     l'oeil trouve seul le debut de la ligne suivante. */
-  .pv-article-section p,
+     LA HAUTEUR EST BORNEE A 1000 px, comme demande. Sur un texte de cette
+     longueur la borne ne mord jamais : elle protege le cas ou une
+     description longue pousserait la liste hors de l'ecran. */
   .pv-description {
+    columns: 2;
+    column-gap: 3rem;
+    max-height: 1000px;
+    max-width: none;
+  }
+  .pv-article-section p {
     max-width: 68ch;
+  }
+
+  /* LA LISTE AUSSI EN DEUX COLONNES. Vingt morceaux en colonne unique font
+     1200 px de haut : on defile longtemps pour voir la fin d'un genre. En
+     deux colonnes, la meme liste tient en 600 px, sous la borne demandee.
+     L'ordre de lecture reste juste, le flux descend puis passe a droite. */
+  .pv-pistes {
+    columns: 2;
+    column-gap: 2.5rem;
+    max-height: 1000px;
+  }
+  /* Une ligne ne se coupe jamais entre deux colonnes : une pochette d'un
+     cote et son titre de l'autre serait pire que du defilement. */
+  .pv-pistes li {
+    break-inside: avoid;
   }
   .pv-article-titre {
     font-size: 1.3125rem;

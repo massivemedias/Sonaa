@@ -569,6 +569,60 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           douze morceaux pour lire la reponse a la question qui amene ici.
           Elle passe devant, avec les faits qui la completent. */}
 
+      {/* LA FICHE TECHNIQUE. Elle ne dit rien que le corpus ne sache deja :
+          tempo, date, machines, labels, artistes, descendance. C'est le
+          minimum pour repondre a « comment ca se fabrique », et chaque valeur
+          est tracable jusqu'a la donnee, sans un mot invente. */}
+      <section className="pv-fiche" style={{ '--pv-hue': famille.hue } as React.CSSProperties}>
+        <h3 className="pv-fiche-titre">{t.ficheTechnique}</h3>
+        <dl className="pv-faits">
+          {genre.bpmRange && (
+            <div className="pv-fait">
+              <dt className="pv-fait-cle">{t.tempo}</dt>
+              <dd className="pv-fait-val">{t.bpm(genre.bpmRange[0], genre.bpmRange[1])}</dd>
+            </div>
+          )}
+          {genre.annee > 0 && (
+            <div className="pv-fait">
+              <dt className="pv-fait-cle">{t.apparition}</dt>
+              <dd className="pv-fait-val">
+                {genre.yearStart ? genre.annee : `${t.vers} ${genre.annee}`}
+              </dd>
+            </div>
+          )}
+          {genre.machines.length > 0 && (
+            <div className="pv-fait">
+              <dt className="pv-fait-cle">{t.machines}</dt>
+              <dd className="pv-fait-val">
+                <span className="pv-machines">
+                  {genre.machines.map((m) => (
+                    <span className="pv-machine" key={m}>{m}</span>
+                  ))}
+                </span>
+              </dd>
+            </div>
+          )}
+          {genre.labelsHistoriques.length > 0 && (
+            <div className="pv-fait">
+              <dt className="pv-fait-cle">{t.labels}</dt>
+              <dd className="pv-fait-val">{genre.labelsHistoriques.join(', ')}</dd>
+            </div>
+          )}
+          {genre.artistesCles.length > 0 && (
+            <div className="pv-fait">
+              <dt className="pv-fait-cle">{t.artistes}</dt>
+              <dd className="pv-fait-val">{genre.artistesCles.join(', ')}</dd>
+            </div>
+          )}
+          {derives > 0 && (
+            <div className="pv-fait">
+              <dt className="pv-fait-cle">{t.descendance}</dt>
+              <dd className="pv-fait-val">{t.nGenresDerives(derives)}</dd>
+            </div>
+          )}
+        </dl>
+      </section>
+
       {t.texteEnFrancais && <p className="pv-langue">{t.texteEnFrancais}</p>}
       {genre.description && <p className="pv-description">{genre.description}</p>}
 
@@ -711,59 +765,6 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
 
       <PhotoMachine machines={genre.machines} />
 
-      {/* LA FICHE TECHNIQUE. Elle ne dit rien que le corpus ne sache deja :
-          tempo, date, machines, labels, artistes, descendance. C'est le
-          minimum pour repondre a « comment ca se fabrique », et chaque valeur
-          est tracable jusqu'a la donnee, sans un mot invente. */}
-      <section className="pv-fiche" style={{ '--pv-hue': famille.hue } as React.CSSProperties}>
-        <h3 className="pv-fiche-titre">{t.ficheTechnique}</h3>
-        <dl className="pv-faits">
-          {genre.bpmRange && (
-            <div className="pv-fait">
-              <dt className="pv-fait-cle">{t.tempo}</dt>
-              <dd className="pv-fait-val">{t.bpm(genre.bpmRange[0], genre.bpmRange[1])}</dd>
-            </div>
-          )}
-          {genre.annee > 0 && (
-            <div className="pv-fait">
-              <dt className="pv-fait-cle">{t.apparition}</dt>
-              <dd className="pv-fait-val">
-                {genre.yearStart ? genre.annee : `${t.vers} ${genre.annee}`}
-              </dd>
-            </div>
-          )}
-          {genre.machines.length > 0 && (
-            <div className="pv-fait">
-              <dt className="pv-fait-cle">{t.machines}</dt>
-              <dd className="pv-fait-val">
-                <span className="pv-machines">
-                  {genre.machines.map((m) => (
-                    <span className="pv-machine" key={m}>{m}</span>
-                  ))}
-                </span>
-              </dd>
-            </div>
-          )}
-          {genre.labelsHistoriques.length > 0 && (
-            <div className="pv-fait">
-              <dt className="pv-fait-cle">{t.labels}</dt>
-              <dd className="pv-fait-val">{genre.labelsHistoriques.join(', ')}</dd>
-            </div>
-          )}
-          {genre.artistesCles.length > 0 && (
-            <div className="pv-fait">
-              <dt className="pv-fait-cle">{t.artistes}</dt>
-              <dd className="pv-fait-val">{genre.artistesCles.join(', ')}</dd>
-            </div>
-          )}
-          {derives > 0 && (
-            <div className="pv-fait">
-              <dt className="pv-fait-cle">{t.descendance}</dt>
-              <dd className="pv-fait-val">{t.nGenresDerives(derives)}</dd>
-            </div>
-          )}
-        </dl>
-      </section>
 
 
       {enCours && <p className="pv-sr" role="status">{t.lectureEnCours}</p>}
