@@ -146,12 +146,20 @@ export function AuthButton() {
     [email]
   );
 
-  /* TANT QU'ON NE SAIT PAS, ON N'AFFIRME RIEN. Afficher « Se connecter »
-     pendant la reprise de session ferait clignoter le bouton à chaque
-     chargement, devant quelqu'un qui EST connecté. */
-  if (chargement) return <div className="authb authb-attente" aria-hidden="true" />;
+  /* CET EFFET EST DECLARE AVANT LE RETOUR ANTICIPE, ET IL LE FAUT.
 
-  /* LA RESERVE EST UNE POSITION MESUREE, PLUS UNE LARGEUR RECONSTRUITE.
+     DEFAUT REEL, TROUVE PAR UNE ERREUR DE CONSOLE : il vivait apres, ce qui
+     veut dire que React voyait seize crochets pendant la reprise de session
+     et dix-sept une fois la session connue. « Rendered more hooks than during
+     the previous render », et toute la vue Parcourir disparaissait, page
+     blanche. Le defaut ne se declenchait que sur un certain enchainement de
+     rendus, ce qui explique qu'il ait survecu plusieurs passes.
+
+     La regle n'a pas d'exception : aucun crochet apres un `return`
+     conditionnel. L'effet sort tot quand la boite n'est pas encore la, ce qui
+     est le comportement voulu et ne coute rien.
+
+     LA RESERVE EST UNE POSITION MESUREE, PLUS UNE LARGEUR RECONSTRUITE.
 
      TROISIEME FOIS QUE MIKA SIGNALE LA MEME CHOSE, la loupe collee au nom de
      compte, et les deux premieres corrections traitaient un symptome.
@@ -198,6 +206,12 @@ export function AuthButton() {
       window.removeEventListener('resize', publier);
     };
   }, [connecte]);
+
+  /* TANT QU'ON NE SAIT PAS, ON N'AFFIRME RIEN. Afficher « Se connecter »
+     pendant la reprise de session ferait clignoter le bouton à chaque
+     chargement, devant quelqu'un qui EST connecté. */
+  if (chargement) return <div className="authb authb-attente" aria-hidden="true" />;
+
 
   return (
     <div className="authb" ref={boite}>

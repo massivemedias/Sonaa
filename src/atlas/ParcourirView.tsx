@@ -285,9 +285,18 @@ export function ParcourirView() {
         </button>
       )}
 
-      <h1 className="pv-tete-titre">
-        {niveau.k === 'familles' ? t.parcourir : niveau.k === 'famille' ? familleCourante?.label : genreCourant?.label}
-      </h1>
+      {/* PAS DE TITRE SUR LA PREMIERE PAGE.
+
+          Il disait « Parcourir » a cote d'un menu ou « Styles » est deja
+          allume : deux mots pour la meme information, et celui du menu est le
+          plus precis des deux. Aux niveaux suivants le titre porte le nom de
+          la famille ou du genre, qui ne se lit nulle part ailleurs dans
+          l'en-tete : il reste. */}
+      {niveau.k !== 'familles' && (
+        <h1 className="pv-tete-titre">
+          {niveau.k === 'famille' ? familleCourante?.label : genreCourant?.label}
+        </h1>
+      )}
 
       <button
         className="pv-chercher-bouton"
