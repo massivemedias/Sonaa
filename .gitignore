@@ -16,3 +16,8 @@ tracks-canon-report.md
 
 # Copie locale des cours et references de Mika. 2,3 Go, hors du depot.
 _prof/
+.audit-coherence-cache.json
+# Le rapport de coherence est en cours d'ecriture pendant une passe : il est
+# ignore par defaut et ajoute a la main avec `git add -f` quand il est complet,
+# pour qu'une passe en cours ne bloque jamais une publication.
+audit-coherence.md
