@@ -251,15 +251,16 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block}
 /* Jersey 15 pour le texte : vraies minuscules, accents complets, compact.
    Silkscreen pour les chiffres : c'est la seule qui rend 1058 illisible
    impossible a confondre avec 1098. */
+/* Teste sur les vraies chaines : a 14 px, aucune police pixel n'est lisible
+   en francais. Jersey 15 est condensee, donc etroite, donc illisible petit.
+   Le texte courant passe donc a Nunito, dessinee pour etre lue en petit.
+   L'anticrenelage revient : il ne concerne que le texte HTML, le canvas du
+   jeu a son propre rendu pixel ecrit a la main et reste net. */
 *{
-  font-family:"Jersey 15","Courier New",monospace !important;
-  /* une police pixel lissee est une police floue : on coupe l'anticrenelage */
-  -webkit-font-smoothing:none !important;
-  -moz-osx-font-smoothing:unset !important;
-  font-smooth:never !important;
-  text-rendering:optimizeSpeed !important;
+  font-family:"Nunito","Helvetica Neue",Arial,sans-serif !important;
+  -webkit-font-smoothing:antialiased;
 }
-body{ font-family:"Jersey 15","Courier New",monospace; letter-spacing:0 }
+body{ font-family:"Nunito","Helvetica Neue",Arial,sans-serif; letter-spacing:0 }
 canvas#stage{ image-rendering:pixelated; image-rendering:crisp-edges }
 
 /* plus aucun arrondi ni flou */
@@ -328,3 +329,20 @@ canvas#stage{ image-rendering:pixelated; image-rendering:crisp-edges }
 .chip-clock{font-size:14px}
 .need .nval{font-size:11px}
 .stat b{font-size:17px}
+
+/* ---------- ou le pixel reste ---------- */
+/* Assez grand pour etre net, et c'est lui qui porte l'identite du jeu. */
+.sheet-head h2, .tier-name, .quest-txt b, .logo, .big-btn, .section-title{
+  font-family:"Jersey 15","Courier New",monospace !important;
+  letter-spacing:.5px;
+}
+.quest-txt b{font-size:19px;line-height:1.3}
+.sheet-head h2{font-size:26px}
+.big-btn{font-size:22px}
+
+/* ---------- le petit texte, enfin lisible ---------- */
+.quest-txt span{font-size:15px;font-weight:600;line-height:1.45;color:#e4dcf5}
+.row p, .note, .sheet-head p{font-size:14px;font-weight:600;line-height:1.45}
+.row h3{font-size:15px;font-weight:800}
+.btn{font-size:14px;font-weight:800}
+.row .tag, .pill{font-size:12px;font-weight:800}

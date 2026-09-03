@@ -2,6 +2,7 @@
 //  SONAA — point d'entrée
 // =====================================================================
 import { City } from './world/city.js';
+import { passantProche } from './world/life.js';
 import { Renderer } from './game/render.js';
 import { Player } from './game/player.js';
 import { Game, newState } from './game/state.js';
@@ -70,8 +71,26 @@ $('#quest').addEventListener('click', () => {
 
 // ------------------------------------------------------------- bouton action
 let nearBuilding = null;
+let nearPnj = null;          // le passant a portee de voix
 const actionBtn = $('#btn-action'), actionLabel = $('#btn-action-label');
-actionBtn.addEventListener('click', () => { if (nearBuilding) openBuilding(nearBuilding); });
+
+// Le bouton fait la chose la plus proche : parler a quelqu'un passe avant
+// d'entrer quelque part, parce qu'on le croise en chemin.
+function agir() {
+  if (nearPnj) { ui.ouvrirDialogue(nearPnj.identite); return; }
+  if (nearBuilding) openBuilding(nearBuilding);
+}
+actionBtn.addEventListener('click', agir);
+
+// la barre espace fait la meme chose au clavier
+window.addEventListener('keydown', e => {
+  if (e.code !== 'Space' && e.key !== ' ') return;
+  const cible = e.target;
+  if (cible && /^(INPUT|TEXTAREA|BUTTON|SELECT)$/.test(cible.tagName)) return;
+  e.preventDefault();
+  if (ui.isOpen) return;
+  agir();
+});
 $('#btn-menu').addEventListener('click', () => ui.open('menu'));
 $('#btn-map').addEventListener('click', () => ui.open('map'));
 $('#btn-fin').addEventListener('click', () => ui.open('finance'));
@@ -138,12 +157,22 @@ function loop(now) {
 
     checkArrival();
 
+    // quelqu'un a portee de voix ?
+    const p = passantProche(life, player.x, player.y, 1.5);
+    if (p !== nearPnj) {
+      nearPnj = p;
+      if (p) {
+        actionBtn.classList.remove('hidden');
+        actionLabel.textContent = 'Parler — ' + p.identite.nom;
+      }
+    }
+
     // détection de porte
     const b = city.nearestDoor(player.x, player.y, 1.4);
     if (b !== nearBuilding) {
       nearBuilding = b;
-      actionBtn.classList.toggle('hidden', !b);
-      if (b) actionLabel.textContent = game.unlocked(b) ? 'Entrer — ' + b.name : 'Fermé';
+      actionBtn.classList.toggle('hidden', !b && !nearPnj);
+      if (b && !nearPnj) actionLabel.textContent = game.unlocked(b) ? 'Entrer — ' + b.name : 'Fermé';
     }
   } else {
     titleFrame(t);

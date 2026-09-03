@@ -1,12 +1,15 @@
 // =====================================================================
 //  LA VIE DE LA CLAIRIERE — passants et oiseaux
+//  Chaque passant porte une identite : on peut lui parler.
 //  Tout en pixel, a l'echelle de la tuile 32x16.
 // =====================================================================
 import { toScreen } from '../core/iso.js';
+import { toutLeMonde } from '../game/dialogue.js';
 import { shadow, px, shade, INK, time as artTime } from '../core/art.js';
 
 const P = (x, y, z) => toScreen(x, y, z);
 const rnd = (a, b) => a + Math.random() * (b - a);
+const melange = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [b[i], b[j]] = [b[j], b[i]]; } return b; };
 const pick = a => a[Math.random() * a.length | 0];
 
 // la meme espece que le heros, dans d'autres couleurs
@@ -14,8 +17,9 @@ const BODIES = ['#f2cf4c', '#e88f4a', '#e8709a', '#7fb8f0', '#b98fe8', '#8fe0a8'
 const SHORTS = ['#4a86d9', '#d9564a', '#4ac9a8', '#e8a93a', '#8f5fc9'];
 
 class Walker {
-  constructor(city) {
+  constructor(city, identite) {
     this.city = city;
+    this.identite = identite || null;   // qui est cette personne
     this.body = pick(BODIES);
     this.shorts = pick(SHORTS);
     this.speed = rnd(1.0, 1.8);
@@ -141,7 +145,9 @@ class Bird {
 export class Life {
   constructor(city) {
     this.city = city;
-    this.walkers = Array.from({ length: 8 }, () => new Walker(city));
+    // chaque passant est quelqu'un : un rival ou un habitant du quartier
+    const cast = melange(toutLeMonde()).slice(0, 8);
+    this.walkers = cast.map(p => new Walker(city, p));
     this.birds = Array.from({ length: 4 }, (_, i) => new Bird(i));
   }
   update(dt) {
@@ -156,4 +162,16 @@ export class Life {
     const club = city.buildings.find(b => b.id === 'club');
     const bar = city.buildings.find(b => b.id === 'bar');
   }
+}
+
+// le passant a portee de voix, s'il y en a un
+export function passantProche(life, x, y, portee = 1.5) {
+  if (!life) return null;
+  let best = null, bd = portee;
+  for (const w of life.walkers) {
+    if (!w.identite) continue;
+    const d = Math.hypot(w.x - x, w.y - y);
+    if (d < bd) { bd = d; best = w; }
+  }
+  return best;
 }

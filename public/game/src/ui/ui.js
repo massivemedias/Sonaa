@@ -9,6 +9,7 @@ import { money, big } from '../game/state.js';
 import * as A from '../game/actions.js';
 import * as COV from '../data/covers.js';
 import { RIVALS } from '../game/rivals.js';
+import { conversation } from '../game/dialogue.js';
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -83,6 +84,18 @@ export class UI {
   }
 
   // ---------------------------------------------------------- panneaux
+  // On croise quelqu'un et on lui parle. Une vraie conversation par
+  // personne et par jour : au-dela, elle repond poliment sans rien donner.
+  ouvrirDialogue(pnj) {
+    const g = this.game;
+    const dejaVu = (g.s.parle || {})[pnj.id] === g.s.day;
+    if (!dejaVu) (g.s.parle || (g.s.parle = {}))[pnj.id] = g.s.day;
+    // open() remet temp a zero : on le remplit donc apres, puis on redessine
+    this.open('dialogue');
+    this.temp = { pnj, noeud: null, dejaVu };
+    this.render();
+  }
+
   open(kind, building) {
     if (this.game.quest) this.game.quest.onEnter(kind);
     this.current = { kind, building };
@@ -129,6 +142,17 @@ export class UI {
       case 'network': A_.network(g); break;
       case 'oddjob': A_.oddJob(g); break;
       case 'reparer': g.reparer(arg); break;
+      case 'choix': {
+        const c = (this.temp.conv && this.temp.conv.choix) || [];
+        const pris = c[parseInt(arg, 10)];
+        if (pris && pris.suite) {
+          let extra = null;
+          if (pris.suite.effet) extra = pris.suite.effet(g);
+          this.temp.noeud = { texte: pris.suite.texte, extra };
+          this.render();
+        }
+        break;
+      }
       case 'work': { const j = JOBS.find(x => x.id === arg); if (j) A_.workShift(g, j); break; }
       case 'sleep': g.sleep(); this.close(); break;
       case 'listen': {
@@ -776,6 +800,39 @@ const PANELS = {
       });
     }
     return { title: 'Finances', sub: TIERS[g.tier].name, html };
+  },
+
+  dialogue(ui, g) {
+    const pnj = ui.temp.pnj;
+    if (!pnj) return { title: '…', sub: '', html: '' };
+    const conv = conversation(g, pnj);
+    ui.temp.conv = conv;
+
+    // deja parle aujourd'hui : il repond, mais sans rien donner
+    if (ui.temp.dejaVu && !ui.temp.noeud) {
+      return {
+        title: conv.titre, sub: conv.sousTitre,
+        html: note('« On s’est déjà parlé aujourd’hui. Repasse demain. »') +
+          `<button class="btn wide ghost" data-act="close">Le laisser tranquille</button>`,
+      };
+    }
+
+    // une reponse a ete choisie : on l'affiche
+    if (ui.temp.noeud) {
+      let html = `<div class="row"><div class="grow"><p style="font-size:15px;color:var(--texte,#e2e7f7)">
+        ${esc(ui.temp.noeud.texte)}</p></div></div>`;
+      if (ui.temp.noeud.extra) html += note(`<b>${esc(ui.temp.noeud.extra)}</b>`);
+      html += `<button class="btn wide" data-act="close">Se quitter là-dessus</button>`;
+      return { title: conv.titre, sub: conv.sousTitre, html };
+    }
+
+    // l'ouverture, et ce qu'on peut repondre
+    let html = `<div class="row"><div class="grow"><p style="font-size:15px;color:var(--texte,#e2e7f7)">
+      ${esc(conv.texte)}</p></div></div>`;
+    html += title('Répondre');
+    html += conv.choix.map((c, i) =>
+      `<button class="btn wide ghost" data-act="choix" data-arg="${i}">${esc(c.label)}</button>`).join('');
+    return { title: conv.titre, sub: conv.sousTitre, html };
   },
 
   scene(ui, g) {
