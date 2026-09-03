@@ -16,12 +16,12 @@ export const big = n => n >= 1e6 ? (n / 1e6).toFixed(1).replace('.0', '') + ' M'
 export function newState() {
   return {
     v: 1, day: 1, minutes: 8 * 60,
-    cash: 260,
+    cash: 45,
     needs: { energy: 90, food: 80, drink: 75, social: 62 },
     fans: 0, hype: 2, skill: 4, insp: 40, cred: 0,
     collection: [], gear: ['g01'], tracks: [], releases: [], roster: [], campaigns: [],
     dig: null, quest: { step: 0, digs: 0, seen: false },
-    stats: { shows: 0, tracks: 0, sold: 0, digs: 0, days: 1 },
+    stats: { shows: 0, tracks: 0, sold: 0, digs: 0, days: 1, shifts: 0 },
     seenTier: 0, ended: false, storeLevel: 0,
     // couche financière
     finance: { price: 1, marketing: 0, debt: 0 },
@@ -172,7 +172,11 @@ export class Game {
 
     // charges fixes et dette
     const t = this.tier;
-    L.rent = 25 + t * 260 + s.roster.length * 90;
+    // Le loyer ne doit pas grimper avant que le label ne rapporte. Aux deux
+    // premiers paliers on vit encore de petits boulots : une charge indexee
+    // sur le palier condamnait le joueur a la faillite des l'achat des
+    // platines. Elle ne mord qu'a partir du palier 2.
+    L.rent = 25 + Math.max(0, t - 1) * 240 + s.roster.length * 90;
     if (this.fin.debt > 0) {
       L.interest = this.fin.debt * 0.005;
       this.fin.debt += L.interest;
@@ -223,6 +227,16 @@ export class Game {
     if (t >= TIERS.length - 1) return 1;
     const a = TIERS[t].need, b = TIERS[t + 1].need;
     return clamp((this.empire - a) / (b - a), 0, 1);
+  }
+  // Le materiel conditionne ce qu'on a le droit de faire : on ne mixe pas
+  // sans casque ni platines, on ne produit pas sans machine.
+  get canDJ() { return this.s.gear.includes('gd1') && this.s.gear.includes('gd2'); }
+  get canProduce() { return this.s.gear.some(id => ['g02', 'g04', 'g05', 'g06'].includes(id)); }
+  get manqueDJ() {
+    const m = [];
+    if (!this.s.gear.includes('gd1')) m.push('un casque de DJ');
+    if (!this.s.gear.includes('gd2')) m.push('des platines');
+    return m;
   }
   get gearQuality() { return this.s.gear.reduce((a, g) => a + (gearById(g)?.quality || 0), 0); }
   get gearSpeed() { return this.s.gear.reduce((a, g) => a + (gearById(g)?.speed || 0), 0); }

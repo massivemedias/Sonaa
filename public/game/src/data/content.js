@@ -88,8 +88,17 @@ export const ARTISTS = [
 // ---------------------------------------------------------------------
 // MATÉRIEL — bonus de production
 // ---------------------------------------------------------------------
+// kind : 'life' = vie quotidienne, 'dj' = indispensable pour mixer,
+//         'studio' = indispensable pour produire
 export const GEAR = [
-  { id:'g01', name:'Casque cassé',      price:0,     tier:0, quality:0,  speed:0,   desc:'Une oreille sur deux. On fait avec.' },
+  { id:'g00', name:'Vélo d’occasion',   price:110,   tier:0, quality:0,  speed:0,   kind:'life',
+    desc:'Cadre tordu, mais il roule. Ouvre la livraison.' },
+  { id:'g01', name:'Casque cassé',      price:0,     tier:0, quality:0,  speed:0,   kind:'life',
+    desc:'Une oreille sur deux. On fait avec.' },
+  { id:'gd1', name:'Casque de DJ',      price:190,   tier:0, quality:2,  speed:0,   kind:'dj',
+    desc:'Le premier vrai achat. On entend enfin le calage.' },
+  { id:'gd2', name:'Deux platines + table', price:1150, tier:0, quality:4, speed:0, kind:'dj',
+    desc:'D’occasion, une cellule qui saute. Mais ce sont des platines.' },
   { id:'g02', name:'Laptop + Ableton',  price:900,   tier:0, quality:8,  speed:0.1, desc:'La base. Enfin un vrai DAW.' },
   { id:'g03', name:'Moniteurs 5"',      price:1200,  tier:0, quality:7,  speed:0,   desc:'Tu entends enfin tes basses.' },
   { id:'g04', name:'TR-909 (clone)',    price:1800,  tier:1, quality:9,  speed:0.1, desc:'Le kick qui a fait Détroit.' },
@@ -141,6 +150,23 @@ export const TIERS = [
   { id:4, name:'Label établi',      need:420000,   blurb:'Distribution, bookings, vrai bureau.' },
   { id:5, name:'Groupe indépendant',need:2600000,  blurb:'Magasin, studio, tourneur maison.' },
   { id:6, name:'MAJOR',             need:6000000,  blurb:'La tour de verre. La fin du voyage.' },
+];
+
+// ---------------------------------------------------------------------
+// LES PETITS BOULOTS — avant la musique, il faut payer le loyer
+// need : ce qu'il faut avoir fait ou possede pour y avoir droit
+// ---------------------------------------------------------------------
+export const JOBS = [
+  { id:'j1', place:'snack', name:'Plongeur',            pay:55,  hours:5, energy:26, need:null,
+    desc:'Les mains dans l’eau grasse, cinq heures. Personne ne te parle.' },
+  { id:'j2', place:'snack', name:'Livreur à vélo',      pay:105, hours:5, energy:34, need:{ gear:'g00' },
+    desc:'Payé à la course. Il te faut un vélo.' },
+  { id:'j3', place:'snack', name:'Commis de cuisine',   pay:165, hours:6, energy:30, need:{ shifts:6 },
+    desc:'Tu sais enfin tenir un service sans tout brûler.' },
+  { id:'j4', place:'bar',   name:'Barman au Sous-Sol',  pay:230, hours:6, energy:28, need:{ shifts:14 },
+    desc:'Tu vois passer tous les DJ de la ville. Et tu écoutes.' },
+  { id:'j5', place:'records', name:'Vendeur au disquaire', pay:200, hours:5, energy:20, need:{ records:8 },
+    desc:'Payé pour ranger des bacs. Et pour écouter toute la journée.' },
 ];
 
 export const FOOD = [

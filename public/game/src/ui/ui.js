@@ -2,7 +2,7 @@
 //  INTERFACE — HUD, panneaux, mini-jeu de set
 // =====================================================================
 import {
-  RECORDS, ARTISTS, GEAR, CAMPAIGNS, GIGS, FOOD, DRINKS, TIERS,
+  RECORDS, ARTISTS, GEAR, CAMPAIGNS, GIGS, FOOD, DRINKS, TIERS, JOBS,
   recordById, artistById, gearById
 } from '../data/content.js';
 import { money, big } from '../game/state.js';
@@ -125,6 +125,7 @@ export class UI {
       case 'drink': A_.consume(g, DRINKS.find(d => d.id === arg)); break;
       case 'network': A_.network(g); break;
       case 'oddjob': A_.oddJob(g); break;
+      case 'work': { const j = JOBS.find(x => x.id === arg); if (j) A_.workShift(g, j); break; }
       case 'sleep': g.sleep(); this.close(); break;
       case 'listen': {
         const r = A_.listenRecords(g, arg || null);
@@ -300,6 +301,23 @@ const DESCR = {
   major:'La fin du jeu',
 };
 
+// Les petits boulots, presentes la ou on les trouve. C'est la seule source
+// d'argent tant qu'on ne sait pas encore jouer.
+function blocTravail(g, place) {
+  const liste = A.jobsFor(g, place);
+  if (!liste.length) return '';
+  let html = title('Travailler');
+  html += liste.map(j => row({
+    title: j.name,
+    sub: j.ok ? `${j.desc} · ${j.hours} h · ${money(j.pay)}` : `Verrouillé : ${j.pourquoi}`,
+    tag: j.ok ? null : 'bloqué',
+    btn: j.ok ? money(j.pay) : '—', act: 'work', arg: j.id,
+    disabled: !j.ok || g.s.needs.energy < 18,
+  })).join('');
+  if (g.s.needs.energy < 18) html += note('Tu es trop crevé pour prendre un quart. Va dormir.');
+  return html;
+}
+
 const PANELS = {
   home(ui, g) {
     const s = g.s;
@@ -358,7 +376,8 @@ const PANELS = {
       title: f.name, sub: `${f.desc} · +${f.food} faim`, btn: money(f.price), act: 'eat', arg: f.id,
       disabled: g.s.cash < f.price,
     })).join('');
-    return { title: 'Casse-croûte', sub: 'Manger, boire, survivre', html };
+    html += blocTravail(g, 'snack');
+    return { title: 'Casse-croûte', sub: 'Manger, boire, travailler', html };
   },
 
   bar(ui, g) {
@@ -372,6 +391,7 @@ const PANELS = {
       title: 'Faire le tour de la place', sub: '1 h 30 · 25 $ · rencontres au hasard',
       btn: 'Y aller', act: 'network', btnCls: 'pink', disabled: g.s.cash < 25,
     });
+    html += blocTravail(g, 'bar');
     html += title('Dépanner');
     html += row({
       title: 'Laver les verres', sub: '3 h · paie tout de suite, tue l’énergie',
@@ -441,6 +461,7 @@ const PANELS = {
       }).join('') : note('Rien encore. Fouille le bac.');
     }
     const b = ui.current && ui.current.building;
+    html += blocTravail(g, 'records');
     return {
       title: (b && b.name) || 'Disquaire',
       sub: b && b.genre ? `Bac ${b.genre}` : 'Fouille de bacs',

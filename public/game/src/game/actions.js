@@ -2,7 +2,7 @@
 //  ACTIONS DE JEU — la logique derrière chaque bouton
 // =====================================================================
 import {
-  RECORDS, ARTISTS, GEAR, CAMPAIGNS, GIGS, FOOD, DRINKS,
+  RECORDS, ARTISTS, GEAR, CAMPAIGNS, GIGS, FOOD, DRINKS, JOBS,
   recordById, artistById, gearById
 } from '../data/content.js';
 import { money, randomTitle } from './state.js';
@@ -141,9 +141,48 @@ export function oddJob(game) {
   game.toast(`Trois heures à laver des verres : ${money(pay)}.`, '');
 }
 
+// ------------------------------------------------------------ TRAVAILLER
+// Au debut, c'est la seule facon de gagner de l'argent. Un quart de travail
+// coute des heures et de l'energie, et rapporte peu : c'est le point de
+// depart de toute la progression.
+export function jobsFor(game, place) {
+  return JOBS.filter(j => j.place === place).map(j => {
+    let ok = true, pourquoi = null;
+    if (j.need && j.need.gear && !game.s.gear.includes(j.need.gear)) {
+      ok = false; pourquoi = 'il te faut ' + (GEAR.find(g => g.id === j.need.gear) || {}).name;
+    }
+    if (j.need && j.need.shifts && game.s.stats.shifts < j.need.shifts) {
+      ok = false; pourquoi = `${j.need.shifts} quarts d'experience`;
+    }
+    if (j.need && j.need.records && game.s.collection.length < j.need.records) {
+      ok = false; pourquoi = `${j.need.records} disques dans ta collection`;
+    }
+    return { ...j, ok, pourquoi };
+  });
+}
+
+export function workShift(game, job) {
+  const s = game.s;
+  if (s.needs.energy < 18) { game.toast('Trop crevé pour prendre un quart.', 'bad'); return false; }
+  const fatigue = s.needs.energy < 40 ? 0.82 : 1;      // fatigue, on bacle, on gagne moins
+  const paie = Math.round(job.pay * fatigue);
+  game.earn(paie, 'other');
+  game.need('energy', -job.energy);
+  game.need('food', -12); game.need('drink', -14);
+  s.stats.shifts++;
+  game.advance(job.hours * 60);
+  game.quest.onWork();
+  game.toast(`${job.name} : ${money(paie)} pour ${job.hours} h.`, 'good');
+  return true;
+}
+
 // ---------------------------------------------------------------- STUDIO
 export function produce(game, hours = 4) {
   const s = game.s;
+  if (!game.canProduce) {
+    game.toast('Il te faut au moins une machine pour produire.', 'bad');
+    return null;
+  }
   if (s.needs.energy < 12) { game.toast('Trop crevé pour produire.', 'bad'); return null; }
   const q = game.productionQuality() + rnd(-11, 11);
   const t = {
@@ -183,7 +222,7 @@ export function buyGear(game, g) {
   if (!game.spend(g.price, 'matos')) return;
   game.s.gear.push(g.id);
   game.advance(40);
-  game.quest.onGear();
+  game.quest.onGear(g.id);
   game.toast(`${g.name} installé au studio.`, 'gold');
 }
 
@@ -260,6 +299,10 @@ export function crowdWants(gig) {
 }
 export function playShow(game, gig, setIds) {
   const s = game.s;
+  if (!game.canDJ) {
+    game.toast('Pour jouer, il te faut ' + game.manqueDJ.join(' et ') + '.', 'bad');
+    return null;
+  }
   const want = crowdWants(gig);
   let score = 0, prevBpm = null;
   want.forEach((_, i) => {
