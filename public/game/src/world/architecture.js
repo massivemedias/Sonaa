@@ -34,11 +34,11 @@ function vnoise(x, y, s = 0) {
 }
 
 // ------------------------------------------------------------ palettes
-const GREEN = ['#4e8f35', '#5a9e3e', '#6aad48'];
-const GREEN_LUSH = ['#3f7a2c', '#4a8a33', '#57993c'];
-const DIRT = ['#a3814f', '#b08b57', '#997747'];
-const CLEAR_COL = ['#b9a06a', '#c2aa74', '#ae9762'];
-const FOREST_FLOOR = ['#2f6124', '#356b29', '#2a5820'];
+const GREEN = ['#5cc23f', '#68cf49', '#74d955'];
+const GREEN_LUSH = ['#3fa32b', '#4ab034', '#56bd3e'];
+const DIRT = ['#d4b273', '#dfbd7e', '#c9a668'];
+const CLEAR_COL = ['#7ec95a', '#8ad465', '#72bd50'];
+const FOREST_FLOOR = ['#2b7a1f', '#328526', '#256e1a'];
 
 function tilePalette(t) {
   switch (t) {
@@ -122,8 +122,6 @@ const STYLES = {
     doorway(ctx, ...fp(b, L / 2 - 0.28, 0.82), 'left', 0.56, 0.82, '#6b4426');
     windowRow(ctx, ...fp(b, 0.22, 0.92), 'left', 0.42, 0.34, 1, env.night ? '#ffd76a' : '#9ad9e8');
     // enseigne face camera : c'est la seule facon d'avoir des lettres nettes
-    billboard(ctx, b.x + b.w / 2, b.y + b.d / 2, wallH + roofH + 0.55, b.sign,
-      { bg: '#f6f0dc', fg: '#2b2136', accent: b.roof, post: 0.34, scale: 2 });
     // un bac de disques dehors
     crate(ctx, b.x + b.w + 0.12, b.y + b.d - 0.55, 0, 0.45, '#b3773c');
     px(ctx, P(b.x + b.w + 0.34, b.y + b.d - 0.33, 0.46).x - 3, P(b.x + b.w + 0.34, b.y + b.d - 0.33, 0.46).y - 2, 6, 2, '#2b2136');
@@ -137,8 +135,6 @@ const STYLES = {
     const L = span(b);
     doorway(ctx, ...fp(b, L / 2 - 0.32, 0.95), 'left', 0.64, 0.95, '#6b4426');
     windowRow(ctx, ...fp(b, 0.28, 1.06), 'left', L - 1.5, 0.44, Math.max(1, R(L - 1.5)), env.night ? '#ffd76a' : '#9ad9e8');
-    billboard(ctx, b.x + b.w / 2, b.y + b.d / 2, wallH + roofH + 0.6, b.sign,
-      { bg: '#f6f0dc', fg: '#2b2136', accent: b.roof, post: 0.34, scale: 2 });
     if (b.chimney) {
       box(ctx, b.x + b.w - 0.75, b.y + 0.35, wallH + roofH * 0.55, 0.32, 0.32, 0.45, '#9a6a4a');
       smoke(ctx, b.x + b.w - 0.6, b.y + 0.5, wallH + roofH * 0.55 + 0.5, b.x);
@@ -159,11 +155,6 @@ const STYLES = {
     doorway(ctx, ...fp(b, L / 2 - 0.34, 1.0), 'left', 0.68, 1.0, '#1a1526');
     // enseigne au neon, face camera pour rester lisible
     const on = Math.sin(artTime() * 3.4) > -0.75;
-    billboard(ctx, b.x + b.w / 2, b.y + b.d / 2, wallH + 0.85, b.sign, {
-      bg: '#241b33', fg: on ? '#ffa8d8' : '#6b3a58',
-      border: on ? '#ff5cb4' : '#5c2a48', accent: on ? '#ff5cb4' : '#4a2440',
-      post: 0.3, scale: 2,
-    });
     // enceintes
     box(ctx, b.x + 0.15, b.y + b.d + 0.1, 0, 0.4, 0.4, 0.8, '#2b2340', { line: '#191327' });
     box(ctx, b.x + b.w - 0.55, b.y + b.d + 0.1, 0, 0.4, 0.4, 0.8, '#2b2340', { line: '#191327' });
@@ -180,8 +171,6 @@ const STYLES = {
     faceRect(ctx, porte[0], porte[1], porte[2], 'left', 0, 0, pw, ph, '#cfd8e4');
     for (let i = 1; i < 5; i++)
       faceRect(ctx, porte[0], porte[1], porte[2], 'left', 1, R(ph * i / 5), pw - 2, 1, '#8f9aa8');
-    billboard(ctx, b.x + b.w / 2, b.y + b.d / 2, wallH + 1.05, b.sign,
-      { bg: '#f6f0dc', fg: '#2b2136', accent: b.roof, post: 0.34, scale: 2 });
     crate(ctx, b.x + b.w + 0.15, b.y + b.d - 0.6, 0, 0.5, '#b3773c');
     crate(ctx, b.x + b.w + 0.15, b.y + b.d - 0.6, 0.4, 0.42, '#c9924e');
   },
@@ -200,22 +189,20 @@ const STYLES = {
     box(ctx, b.x + 1.1, b.y + 1.1, z, b.w - 2.2, b.d - 2.2, 0.5, b.roof, { line: '#7a6329' });
     gableRoof(ctx, b.x + 1.1, b.y + 1.1, z + 0.5, b.w - 2.2, b.d - 2.2, 0.5, '#8f5fc9', 'x', 0.2);
     doorway(ctx, b.x + b.w / 2 - 0.4, b.y + b.d, 0.9, 'left', 0.8, 0.9, '#6b5420');
-    billboard(ctx, b.x + b.w / 2, b.y + b.d / 2, z + 1.5, b.sign,
-      { bg: '#e8c86a', fg: '#3a2d0a', accent: '#fff0b8', scale: 2 });
   },
 };
 
-// chantier : un bâtiment pas encore débloqué
+// Terrain pas encore debloque : une clairiere qui respire, pas un chantier.
+// Un rectangle de terre battue avec une pancarte, c'est une verrue dans un
+// village ; de l'herbe et quelques buissons, ca ressemble a un endroit ou
+// quelque chose poussera.
 function construction(ctx, b) {
-  slab(ctx, b.x, b.y, 0.02, b.w, b.d, '#8a6b45');
-  for (let i = 0; i < 4; i++) {
-    const t = i / 3;
-    box(ctx, b.x + 0.1 + t * (b.w - 0.3), b.y + b.d - 0.14, 0, 0.1, 0.1, 0.75, '#e8c86a', { line: '#8a6b2a' });
-  }
-  box(ctx, b.x + 0.3, b.y + 0.3, 0, b.w - 0.6, b.d - 0.6, 0.45, '#9a7b55', { line: '#6b5238' });
-  crate(ctx, b.x + b.w - 0.8, b.y + b.d - 0.8, 0, 0.45, '#b3773c');
-  billboard(ctx, b.x + b.w / 2, b.y + b.d / 2, 1.15, 'BIENTOT',
-    { bg: '#2b2136', fg: '#e8c86a', accent: '#4a4258', scale: 2 });
+  const cx = b.x + b.w / 2, cy = b.y + b.d / 2;
+  const g = Math.round(b.x * 7 + b.y * 3);
+  bush(ctx, b.x + 0.55, b.y + b.d - 0.5, 0, 0.85, g);
+  bush(ctx, b.x + b.w - 0.5, b.y + 0.6, 0, 0.7, g + 2);
+  rock(ctx, cx + 0.3, cy + 0.2, 0, 0.7, g + 5);
+  bush(ctx, cx - 0.4, cy - 0.35, 0, 0.6, g + 8);
 }
 
 // Un batiment ne bouge jamais : on le dessine une fois dans son propre
