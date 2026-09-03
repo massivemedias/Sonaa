@@ -113,18 +113,19 @@ export function PropositionsPage() {
 
         {fil.connecte && (
           <p className="prop-meta">
-            {/* LE NOM D'ABORD, LE PSEUDONYME ENSUITE. Se voir designe par un
-                haché de huit caractères sur son propre site n'aide personne à
-                se reconnaître. Mais le pseudonyme reste dit, en second : c'est
-                lui qui figure sur chaque proposition publique, et le cacher
-                rendrait sa propre signature illisible dans la liste. */}
+            {/* LE NOM SEUL QUAND IL Y EN A UN. Le pseudonyme y figurait
+                aussi, en second, pour qu'on reconnaisse sa signature dans la
+                liste ; Mika l'a trouvé laid et il a raison, une ligne
+                d'identité qui dit deux fois qui on est ne dit plus rien. Les
+                propositions qu'on a déposées portent déjà « votre
+                proposition », ce qui suffit à les reconnaître. Le pseudonyme
+                ne reste dit que faute de nom de profil. */}
             Connecté
-            {fil.nom ? ` en tant que ${fil.nom}` : ''}
-            {fil.pseudonyme
-              ? fil.nom
-                ? `, publiquement ${fil.pseudonyme}`
-                : ` sous le pseudonyme ${fil.pseudonyme}`
-              : ''}
+            {fil.nom
+              ? ` en tant que ${fil.nom}`
+              : fil.pseudonyme
+                ? ` sous le pseudonyme ${fil.pseudonyme}`
+                : ''}
             {fil.moderateur ? ', modérateur' : ''}.{' '}
             {fil.moderateur && <a href="#/moderation">File de modération</a>}{' '}
             <button
