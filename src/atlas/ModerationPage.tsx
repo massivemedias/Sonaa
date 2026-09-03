@@ -17,7 +17,8 @@ import { useMemo } from 'react';
 import { contributionsActives } from '../lib/supabase.ts';
 import { useFil } from '../lib/useFil.ts';
 import { ProposalCard } from './ProposalCard.tsx';
-import { SiteNav } from './SiteNav.tsx';
+import { EnTeteSite } from './EnTeteSite.tsx';
+import { PiedDePage } from './PiedDePage.tsx';
 import './credits.css';
 import './contribute.css';
 
@@ -37,33 +38,33 @@ export function ModerationPage() {
 
   if (!contributionsActives) {
     return (
-      <main className="credits">
-        <header className="credits-head">
-          <h1>Modération</h1>
-        </header>
-        <div className="credits-body">
-          <p>
-            Non disponible sur cette version du site. <a href="#/">Revenir à l&apos;accueil</a>.
-          </p>
-        </div>
-      </main>
+      <>
+        <EnTeteSite />
+        <main className="credits">
+          <header className="credits-head">
+            <h1>Modération</h1>
+          </header>
+          <div className="credits-body">
+            <p>
+              Non disponible sur cette version du site. <a href="#/">Revenir à l&apos;accueil</a>.
+            </p>
+          </div>
+        </main>
+        <PiedDePage />
+      </>
     );
   }
 
   return (
-    <main className="credits">
+    <>
+      <EnTeteSite />
+      <main className="credits">
       <a className="credits-skip" href="#moderation-contenu">
         Aller au contenu
       </a>
 
       <header className="credits-head">
-        <a href="#/" aria-label="SONAA, revenir à l'accueil">
-          <img
-            src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`}
-            alt="SONAA"
-            draggable={false}
-          />
-        </a>
+        {/* PLUS DE LOGO ICI : la barre du haut en porte un. */}
         <h1>Modération</h1>
       </header>
 
@@ -124,10 +125,8 @@ export function ModerationPage() {
             zero ligne, l'interface n'a rien a proteger de plus. */}
         {fil.moderateur && <CommentsModeration />}
       </div>
-
-      <footer className="credits-foot">
-        <SiteNav variant="page" />
-      </footer>
-    </main>
+      </main>
+      <PiedDePage />
+    </>
   );
 }

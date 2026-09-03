@@ -240,7 +240,13 @@ export function AuthButton() {
                 Mes propositions
               </a>
               {moderateur && (
-                <a href="#/admin" role="menuitem" onClick={() => setMenu(false)}>Modération</a>
+                /* #/admin n'a jamais existe : la route s'appelle #/moderation
+                   depuis le premier jour, et ce lien retombait donc sur la
+                   page d'accueil. Meme panne que #/profil avant lui, au meme
+                   endroit. */
+                <a href="#/moderation" role="menuitem" onClick={() => setMenu(false)}>
+                  Modération
+                </a>
               )}
               <button
                 role="menuitem"
