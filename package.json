@@ -41,7 +41,8 @@
     "check:genresra": "tsx scripts/check-genres-ra.ts",
     "check:accents": "tsx scripts/check-accents.ts",
     "seed:villes": "tsx scripts/seed-villes.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "favicon": "sh scripts/refaire-favicon.sh"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^7.3.1",

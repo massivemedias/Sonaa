@@ -14,18 +14,33 @@
     <!-- Identité. Les chemins sont relatifs : le site est servi sous /Sonaa/ et
          aucune URL absolue vers le domaine n'est écrite en dur, sauf dans les
          métadonnées Open Graph, dont la spécification l'exige. -->
-    <!-- Icônes : toutes issues de SonaaLogoCircle.png, le logo rond, jamais
-         redessinées, et toutes le disque ENTIER, favicons compris. À 16
-         pixels le lettrage n'est plus qu'une trace claire au centre, c'est
-         assumé : c'est le disque qui identifie, et une icône d'onglet qui
-         ne ressemblerait à aucune autre déclinaison ne servirait pas la
-         marque, même lisible.
+    <!-- Icônes. Deux familles, et la différence est assumée.
 
-         La variante de thème va dans le sens SOMBRE et non clair : le
-         disque est noir, donc il se détache très bien d'une barre claire,
-         mais se fond dans une barre sombre (contraste mesuré 1,07:1 contre
-         le fond du site). La variante sombre porte donc un filet clair,
-         posé sur le bord du disque. -->
+         LES GRANDES (apple-touch, 192, 512, masquable) portent le disque
+         noir et le lettrage entier : à cette taille il est parfaitement
+         lisible, et iOS comme Android appliquent de toute façon leur propre
+         masque.
+
+         CELLE DE L'ONGLET a été refaite le 3 septembre 2026, parce qu'elle
+         ne montrait plus rien. Elle reprenait le disque entier, donc le
+         lettrage réduit à une virgule claire qui ressemblait à une croche.
+         L'ancien commentaire disait « c'est le disque qui identifie » : à
+         l'usage, non, dans un onglet on ne voit ni disque ni lettrage.
+
+         Deux corrections, mesurées : un carré à coins arrondis au lieu du
+         disque, qui rend au mot large et court le tiers de place que le
+         cercle lui prenait ; et un épaississement du trait avant réduction,
+         ce que font les fondeurs pour les petits corps. À 32 et 48 pixels on
+         lit « Sonaa ». À 16 il reste dense, et c'est la physique d'un script
+         de cinq lettres dans sept pixels de hauteur : on garde le même
+         dessin plutôt qu'un second signe pour les seuls écrans non retina,
+         parce qu'une icône qui change de forme selon la machine est pire
+         qu'une icône dense. Voir scripts/refaire-favicon.sh.
+
+         La variante de thème va dans le sens SOMBRE et non clair : la tuile
+         est presque noire, donc elle se détache très bien d'une barre
+         claire, mais se fond dans une barre sombre. La variante sombre porte
+         donc un filet clair sur son bord. -->
     <link rel="icon" href="brand/favicon.ico" sizes="48x48" />
     <link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="brand/favicon-16.png" />
