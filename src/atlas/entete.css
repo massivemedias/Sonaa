@@ -2,7 +2,23 @@
    meme hauteur, meme fond, meme filet, meme alignement de colonne. Deux
    barres qui font la meme chose a deux pixels pres se remarquent. */
 
+/* ELLE RESTE EN HAUT, QUOI QU'IL ARRIVE.
+
+   Parcourir tient dans un cadre fixe avec son propre defilement : sa barre
+   n'a jamais bouge. Les pages document, elles, font defiler le document
+   entier, et leur barre partait donc vers le haut des la premiere molette.
+   Deux comportements pour la meme barre, selon la page ou l'on se trouve.
+
+   `sticky` suffit ici, et c'est justement pourquoi elle est POSEE HORS DE
+   `main` : un element ne colle qu'a l'interieur de son conteneur de
+   defilement, et depuis l'interieur d'une colonne bornee elle aurait cesse
+   de coller au bas de cette colonne. */
 .entete-site {
+  position: sticky;
+  top: 0;
+  /* Sous le bouton de compte (14) et sous le lecteur (10 chez les pages
+     document), au-dessus de tout le reste du texte. */
+  z-index: 12;
   display: flex;
   flex-wrap: wrap;
   align-items: center;

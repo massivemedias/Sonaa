@@ -8,10 +8,22 @@
   box-sizing: border-box;
 }
 
+/* HAUTEUR PLANCHER, PAS HAUTEUR PLAFOND.
+
+   `height: 100%` bornait #root a la hauteur de l'ecran pendant que son
+   contenu en faisait vingt-deux mille pixels et debordait. Tant que rien ne
+   collait, cela ne se voyait pas. Des que la barre du haut est passee en
+   `sticky`, le defaut est devenu visible : un element colle a l'interieur de
+   la boite de son parent, et ce parent s'arretait a sept cent vingt pixels.
+   La barre tenait donc le premier ecran, puis partait avec la page.
+
+   `min-height` garde ce que la regle voulait, une page qui remplit l'ecran
+   meme quand elle est courte, et lui retire ce qu'elle imposait sans le
+   dire. */
 html,
 body,
 #root {
-  height: 100%;
+  min-height: 100%;
 }
 
 /* LA POLICE ET LE SERRAGE DESCENDENT PAR HERITAGE, depuis la racine.
