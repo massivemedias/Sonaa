@@ -99,7 +99,9 @@ export function sellRecord(game, id) {
 // compat : ancien nom utilisé par le simulateur d'équilibrage
 export function digStock(game, b) {
   const c = crateOf(game, b);
-  return c.deck.slice(c.i, c.i + 6);
+  const sc = game.scene;
+  // un disque rafle le matin par un rival a disparu du bac
+  return c.deck.slice(c.i, c.i + 6).filter(e => !(sc && sc.disqueEstRafle(e.id)));
 }
 
 // ---------------------------------------------------------------- BOUFFE
@@ -184,6 +186,15 @@ export function produce(game, hours = 4) {
     return null;
   }
   if (s.needs.energy < 12) { game.toast('Trop crevé pour produire.', 'bad'); return null; }
+  const machines = ['g02', 'g04', 'g05', 'g06'].filter(id => s.gear.includes(id));
+  const grille = game.panne(machines);
+  if (grille) {
+    game.abime(grille.id, 3);
+    game.need('energy', -12);
+    game.advance(120);
+    game.toast(`${grille.name} plante en pleine session. Le morceau est perdu.`, 'bad');
+    return null;
+  }
   const q = game.productionQuality() + rnd(-11, 11);
   const t = {
     id: 'tr' + Math.random().toString(36).slice(2, 7),
@@ -191,6 +202,7 @@ export function produce(game, hours = 4) {
     quality: Math.round(clamp(q, 5, 100)),
     day: s.day,
   };
+  for (const id of machines) game.abime(id, 1.8);
   s.tracks.push(t);
   game.quest.onProduce();
   s.stats.tracks++;
@@ -263,6 +275,10 @@ export function pressTrack(game, track, opt, artistId = null) {
 // -------------------------------------------------------------- LE LABEL
 export function signArtist(game, a) {
   if (game.s.roster.some(m => m.artistId === a.id)) return;
+  if (game.scene && game.scene.artisteEstPris(a.id)) {
+    game.toast(`${a.name} a déjà signé ailleurs.`, 'bad');
+    return;
+  }
   if (game.tier < a.tier) { game.toast(`${a.name} ne te répondra même pas.`, 'bad'); return; }
   if (!game.spend(a.advance, 'signature')) return;
   game.s.roster.push({ artistId: a.id, signedDay: game.s.day, morale: 72, nextReleaseDay: game.s.day + 8 });
@@ -290,7 +306,18 @@ export function dropArtist(game, m) {
 
 // ---------------------------------------------------------------- SHOWS
 export function gigList(game) {
-  return GIGS.map(g => ({ ...g, ok: game.s.hype >= g.minHype }));
+  const sc = game.scene;
+  return GIGS.map(g => {
+    const resident = sc ? sc.residentDe(g.id) : null;
+    const part = sc ? sc.malusDeSalle(g.id) : 1;
+    return {
+      ...g,
+      ok: game.s.hype >= g.minHype,
+      resident,                       // le rival qui tient la salle
+      part,                           // 1 = plein cachet, 0.6 = il garde sa part
+      fee: Math.round(g.fee * part),
+    };
+  });
 }
 export function crowdWants(gig) {
   // courbe d'énergie demandée par la salle
@@ -301,6 +328,15 @@ export function playShow(game, gig, setIds) {
   const s = game.s;
   if (!game.canDJ) {
     game.toast('Pour jouer, il te faut ' + game.manqueDJ.join(' et ') + '.', 'bad');
+    return null;
+  }
+  // le materiel peut lacher juste avant de monter en cabine
+  const casse = game.panne(['gd2', 'gd1']);
+  if (casse) {
+    game.abime('gd2', 4);
+    game.need('energy', -10);
+    game.advance(90);
+    game.toast(`${casse.name} lâche avant le set. Soirée annulée, il faut réviser.`, 'bad');
     return null;
   }
   const want = crowdWants(gig);
@@ -316,7 +352,9 @@ export function playShow(game, gig, setIds) {
   const maxScore = 4 * 20 + 4 * 7.5 + 3 * 6;
   let pct = clamp(score / maxScore, 0, 1);
   pct = clamp(pct * (1 - game.moodPenalty / 160) + s.skill / 400, 0, 1.1);
-  const fee = Math.round(gig.fee * (0.6 + pct * 0.7));
+  const sc = game.scene;
+  const part = sc ? sc.malusDeSalle(gig.id) : 1;
+  const fee = Math.round(gig.fee * part * (0.6 + pct * 0.7));
   const fans = Math.round(gig.cap * gig.fansMul * 0.16 * pct);
   const hype = gig.fansMul * 5 * pct + 2;
   game.earn(fee, 'gigs');
@@ -330,9 +368,19 @@ export function playShow(game, gig, setIds) {
   game.advance(5 * 60);
   const verdict = pct > .85 ? 'Set monumental.' : pct > .6 ? 'Bon set, la salle a suivi.'
     : pct > .35 ? 'Set correct, sans plus.' : 'Le dancefloor s’est vidé.';
+  // un set qui tient la salle peut arracher la residence au rival
+  if (sc) {
+    const battu = sc.tenteReprise(gig.id, pct);
+    if (battu) game.toast(`Tu prends la résidence de ${battu.name}. Le patron a changé d'avis.`, 'gold');
+  }
+  // une revision toutes les vingt-cinq soirees environ : assez pour peser
+  // sur le budget, pas assez pour transformer le jeu en atelier
+  game.abime('gd2', 1.6 + gig.energy / 30);
+  game.abime('gd1', 0.8);
   game.quest.onShow();
   game.toast(`${verdict} ${money(fee)} · +${fans} fans`, pct > .6 ? 'gold' : pct > .35 ? 'good' : 'bad');
-  return { pct, fee, fans, verdict };
+  const butin = butinDeSet(game, gig, pct);
+  return { pct, fee, fans, verdict, butin };
 }
 
 // -------------------------------------------------------------- BOUTIQUE
@@ -345,4 +393,67 @@ export function upgradeStore(game) {
   game.advance(180);
   game.quest.onStore();
   game.toast(`Boutique niveau ${game.s.storeLevel}.`, 'gold');
+}
+
+// =====================================================================
+//  LE BUTIN — ce qu'on ramasse en sortant de cabine
+//  ---------------------------------------------------------------
+//  Un tirage pondere : plus le set a bien marche, plus la table penche
+//  vers le haut. C'est la recompense variable, celle qui donne envie de
+//  rejouer un set meme quand on n'a pas besoin de l'argent.
+// =====================================================================
+export const RARETES = {
+  commun:  { nom: 'commun',  couleur: '#9aa3c4' },
+  rare:    { nom: 'rare',    couleur: '#7fe3c0' },
+  culte:   { nom: 'culte',   couleur: '#e8c86a' },
+  graal:   { nom: 'graal',   couleur: '#ff5cb4' },
+};
+
+// poids : [commun, rare, culte, graal] selon la reussite du set
+function tableDuSoir(pct) {
+  if (pct > 0.85) return ['commun', 'rare', 'rare', 'culte', 'culte', 'graal'];
+  if (pct > 0.6)  return ['commun', 'commun', 'rare', 'rare', 'culte'];
+  if (pct > 0.35) return ['commun', 'commun', 'commun', 'rare'];
+  return ['commun', 'commun', 'commun'];
+}
+
+export function butinDeSet(game, gig, pct) {
+  const rarete = pick(tableDuSoir(pct));
+  const s = game.s;
+  const lots = {
+    commun: [
+      () => { const p = Math.round(gig.fee * rnd(0.04, 0.1)); game.earn(p, 'other');
+              return { txt: `Pourboires ramassés au bar : ${money(p)}`, rarete }; },
+      () => { game.need('social', 10); return { txt: 'Un verre offert par le patron', rarete }; },
+      () => { game.need('drink', 14); return { txt: 'De l’eau et un moment au calme', rarete }; },
+    ],
+    rare: [
+      () => { s.hype += 3; s.cred += 1;
+              return { txt: 'Un habitué te demande ta playlist. Tu la lui écris.', rarete }; },
+      () => { const p = Math.round(gig.fee * rnd(0.12, 0.22)); game.earn(p, 'other');
+              return { txt: `Le patron rallonge le cachet : ${money(p)}`, rarete }; },
+      () => { s.insp = Math.min(100, s.insp + 18);
+              return { txt: 'Tu repars avec une idée de basse dans la tête', rarete }; },
+    ],
+    culte: [
+      () => { s.hype += 8; s.cred += 2;
+              return { txt: 'Un booker était dans la salle. Il a pris ton numéro.', rarete }; },
+      () => { const libres = RECORDS.filter(r => !s.collection.includes(r.id) && r.rarity >= 4);
+              if (!libres.length) { s.hype += 6; return { txt: 'Rien à ramasser, mais la salle en parle encore', rarete }; }
+              const d = pick(libres); s.collection.push(d.id);
+              return { txt: `Un inconnu te glisse un vinyle : ${d.artist} — ${d.title}`, rarete }; },
+    ],
+    graal: [
+      () => { const libres = RECORDS.filter(r => !s.collection.includes(r.id) && r.rarity === 5);
+              if (libres.length) { const d = pick(libres); s.collection.push(d.id); s.hype += 6;
+                return { txt: `Le disquaire te réserve son plus rare : ${d.artist} — ${d.title}`, rarete }; }
+              s.hype += 14; return { txt: 'La salle t’a réclamé trois rappels', rarete }; },
+      () => { s.hype += 12; s.cred += 3; s.skill += 1.5;
+              return { txt: 'Un producteur t’explique son chaînage de compression, au bar, sur une serviette', rarete }; },
+    ],
+  };
+  const res = pick(lots[rarete])();
+  game.toast(`Butin ${RARETES[rarete].nom} · ${res.txt}`,
+    rarete === 'graal' ? 'gold' : rarete === 'culte' ? 'gold' : 'good');
+  return res;
 }

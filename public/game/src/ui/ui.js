@@ -8,6 +8,7 @@ import {
 import { money, big } from '../game/state.js';
 import * as A from '../game/actions.js';
 import * as COV from '../data/covers.js';
+import { RIVALS } from '../game/rivals.js';
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -127,6 +128,7 @@ export class UI {
       case 'drink': A_.consume(g, DRINKS.find(d => d.id === arg)); break;
       case 'network': A_.network(g); break;
       case 'oddjob': A_.oddJob(g); break;
+      case 'reparer': g.reparer(arg); break;
       case 'work': { const j = JOBS.find(x => x.id === arg); if (j) A_.workShift(g, j); break; }
       case 'sleep': g.sleep(); this.close(); break;
       case 'listen': {
@@ -486,6 +488,22 @@ const PANELS = {
         disabled: owned || locked || g.s.cash < x.price,
       });
     }).join('');
+    const possede = g.s.gear.filter(id => g.usure(id) > 0);
+    if (possede.length) {
+      html += title('Atelier · état du matériel');
+      html += note('Tout s’abîme à l’usage. Passé 55 %, la qualité baisse. Passé 90 %, ça peut lâcher en pleine soirée.');
+      html += possede.map(id => {
+        const it = gearById(id); if (!it) return '';
+        const u = Math.round(g.usure(id));
+        const cout = g.coutReparation(id);
+        return `<div class="row"><div class="grow">
+          <h3>${esc(it.name)} <span class="tag">${u} % d’usure</span></h3>
+          <p>${u >= 90 ? 'En bout de course : risque de panne' : u > 55 ? 'Fatigué, il pénalise déjà' : 'Encore bon'}</p>
+          <div class="meter"><i style="width:${u}%"></i></div></div>
+          <button class="btn ${u > 55 ? 'gold' : 'ghost'}" data-act="reparer" data-arg="${id}"
+            ${g.s.cash < cout ? 'disabled' : ''}>${money(cout)}</button></div>`;
+      }).join('');
+    }
     return { title: 'Massive Machines', sub: `Qualité studio : ${Math.round(g.productionQuality())}/100`, html };
   },
 
@@ -569,7 +587,9 @@ const PANELS = {
     }
     if (tab === 'signer') {
       html += note('Plus ton label est gros, plus les gros noms répondent au téléphone.');
-      html += ARTISTS.filter(a => !g.s.roster.some(m => m.artistId === a.id)).map(a => row({
+      html += ARTISTS.filter(a => !g.s.roster.some(m => m.artistId === a.id)).map(a => g.scene.artisteEstPris(a.id) ? row({
+        title: a.name, sub: 'Déjà signé par un rival. Trop tard.', tag: 'pris', disabled: true,
+      }) : row({
         title: a.name, sub: `${a.bio} · qualité ${a.quality} · ${big(a.reach)} d’audience`,
         tag: g.tier < a.tier ? `palier ${a.tier}` : a.genre,
         btn: money(a.advance), act: 'sign', arg: a.id,
@@ -599,6 +619,15 @@ const PANELS = {
         <div class="stat"><b>+${big(r.fans)}</b><span>fans</span></div>
         <div class="stat"><b>${g.s.stats.shows}</b><span>shows</span></div></div>`;
       html += note(esc(r.verdict));
+      if (r.butin) {
+        const rr = A.RARETES[r.butin.rarete] || A.RARETES.commun;
+        html += title('Butin de la soirée');
+        html += `<div class="row" style="border-color:${rr.couleur}">
+          <div class="grow">
+            <h3 style="color:${rr.couleur}">${esc(rr.nom.toUpperCase())}</h3>
+            <p style="color:var(--texte,#e2e7f7)">${esc(r.butin.txt)}</p>
+          </div></div>`;
+      }
       html += `<button class="btn wide ghost" data-act="clearResult">Autre set</button>`;
       return { title: 'Le Bunker', sub: 'Après le set', html };
     }
@@ -607,7 +636,10 @@ const PANELS = {
     if (!gig) {
       html += note('Choisis une date. Les grosses salles demandent de la hype.');
       html += A.gigList(g).map(x => row({
-        title: x.name, sub: `${big(x.cap)} personnes · cachet jusqu’à ${money(x.fee)}`,
+        title: x.name,
+        sub: x.resident
+          ? `${big(x.cap)} personnes · ${x.resident.name} tient la résidence, il garde sa part · jusqu’à ${money(x.fee)}`
+          : `${big(x.cap)} personnes · cachet jusqu’à ${money(x.fee)}`,
         tag: x.ok ? null : `hype ${x.minHype}`,
         btn: 'Jouer', act: 'gig', arg: x.id, disabled: !x.ok || g.s.needs.energy < 15,
       })).join('');
@@ -744,6 +776,51 @@ const PANELS = {
       });
     }
     return { title: 'Finances', sub: TIERS[g.tier].name, html };
+  },
+
+  scene(ui, g) {
+    const sc = g.scene;
+    const cl = sc.classement();
+    const max = Math.max(1, cl[0].hype);
+    let html = note(`Six autres essaient de faire exactement ce que tu fais. Ils montent tout seuls,
+      raflent les disques rares avant l'ouverture, signent les artistes que tu laisses traîner et
+      tiennent les résidences des clubs. Tu es <b>${sc.maPlace}<sup>e</sup></b> de la scène.`);
+
+    html += title('Classement à la hype');
+    html += cl.map((x, i) => `<div class="row" style="${x.moi ? 'border-color:var(--or,#e8c86a)' : ''}">
+      <div class="grow">
+        <h3>${i + 1}. ${esc(x.nom)}${x.moi ? ' <span class="tag">toi</span>' : ''}</h3>
+        <p>${esc(x.genre)} · hype ${Math.round(x.hype)}</p>
+        <div class="meter"><i style="width:${Math.round(x.hype / max * 100)}%"></i></div>
+      </div></div>`).join('');
+
+    const res = Object.entries(sc.s.residences);
+    if (res.length) {
+      html += title('Résidences tenues');
+      html += res.map(([salle, rid]) => {
+        const r = sc.s.hype[rid] !== undefined ? RIVALS.find(v => v.id === rid) : null;
+        const gig = GIGS.find(x => x.id === salle);
+        if (!r || !gig) return '';
+        const jePeux = g.s.hype >= sc.hypeDe(r.id);
+        return row({
+          title: gig.name, sub: `${r.name} la tient · ${jePeux ? 'tu peux la lui prendre avec un bon set' : 'il te manque de la hype'}`,
+          tag: jePeux ? 'à ta portée' : `hype ${Math.round(sc.hypeDe(r.id))}`,
+        });
+      }).join('');
+    }
+
+    if (sc.s.journal.length) {
+      html += title('Ce qu’ils ont fait');
+      html += sc.s.journal.slice(0, 8).map(e =>
+        `<div class="row"><div class="grow"><p>J${e.jour} · ${esc(e.txt)}</p></div></div>`).join('');
+    }
+
+    html += title('Qui est qui');
+    html += RIVALS.map(r => row({
+      title: r.name, sub: r.bio,
+      tag: { bacs: 'rafle les bacs', clubs: 'tient les clubs', signe: 'signe vite', presse: 'la presse' }[r.trait],
+    })).join('');
+    return { title: 'La scène', sub: `${sc.maPlace}e sur ${cl.length}`, html };
   },
 
   etat(ui, g) {

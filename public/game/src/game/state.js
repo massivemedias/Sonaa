@@ -3,6 +3,7 @@
 // =====================================================================
 import { RECORDS, ARTISTS, GEAR, TIERS, CAMPAIGNS, recordById, artistById, gearById } from '../data/content.js';
 import { Quest } from './quest.js';
+import { Scene } from './rivals.js';
 
 export const SAVE_KEY = 'sonaa.save.v1';
 export const MIN_PER_SEC = 2.5;      // minutes de jeu par seconde réelle
@@ -23,6 +24,8 @@ export function newState() {
     dig: null, quest: { step: 0, digs: 0, seen: false },
     stats: { shows: 0, tracks: 0, sold: 0, digs: 0, days: 1, shifts: 0 },
     seenTier: 0, ended: false, storeLevel: 0,
+    // usure du materiel : 0 = neuf, 100 = hors service
+    wear: {},
     // couche financière
     finance: { price: 1, marketing: 0, debt: 0 },
     history: [],
@@ -36,6 +39,7 @@ export class Game {
     this.listeners = { toast: [], change: [], end: [] };
     this.acc = 0;
     this.quest = new Quest(this);
+    this.scene = new Scene(this);
   }
   on(ev, fn) { (this.listeners[ev] ||= []).push(fn); return this; }
   emit(ev, ...a) { for (const f of (this.listeners[ev] || [])) f(...a); }
@@ -82,6 +86,19 @@ export class Game {
   endOfDay() {
     const s = this.s;
     s.day++; s.stats.days++;
+    // la scene bouge d'abord : les rivaux raflent avant que le joueur
+    // n'ouvre les bacs du jour
+    if (this.scene) {
+      this.scene.jour({
+        // ce qui est visible dans les bacs de toutes les cabanes ce jour-la
+        stockDuJour: Object.values(s.digs || {}).flatMap(c =>
+          (c.deck || []).slice(c.i, c.i + 6).map(e => {
+            const r = recordById(e.id);
+            return { id: e.id, titre: r ? `${r.artist} — ${r.title}` : e.id, rarete: r ? r.rarity : 1 };
+          })),
+        artistesLibres: ARTISTS.filter(a => !s.roster.some(m2 => m2.artistId === a.id)),
+      });
+    }
     const L = { sales: 0, digital: 0, store: 0, gigs: 0, other: 0,
                 rent: 0, advances: 0, marketing: 0, interest: 0, pressing: 0 };
     const today = s.today || {};
@@ -238,6 +255,49 @@ export class Game {
     if (!this.s.gear.includes('gd2')) m.push('des platines');
     return m;
   }
+  // ------------------------------------------------------------- usure
+  // Le materiel s'abime a l'usage. Passe 55 %, il penalise ; passe 90 %,
+  // il peut lacher au mauvais moment. C'est une fuite d'argent permanente,
+  // et la raison pour laquelle on ne peut pas juste accumuler.
+  usure(id) { return (this.s.wear && this.s.wear[id]) || 0; }
+  abime(id, combien) {
+    if (!this.s.gear.includes(id)) return;
+    const w = this.s.wear || (this.s.wear = {});
+    w[id] = clamp((w[id] || 0) + combien, 0, 100);
+    if (w[id] >= 90) this.toast(`${(gearById(id) || {}).name} est en bout de course.`, 'bad');
+  }
+  reparer(id) {
+    const g = gearById(id);
+    if (!g) return false;
+    const cout = Math.max(20, Math.round(g.price * 0.18));
+    if (!this.spend(cout, 'matos')) return false;
+    (this.s.wear || (this.s.wear = {}))[id] = 0;
+    this.advance(90);
+    this.toast(`${g.name} révisé pour ${money(cout)}.`, 'good');
+    return true;
+  }
+  coutReparation(id) {
+    const g = gearById(id);
+    return g ? Math.max(20, Math.round(g.price * 0.18)) : 0;
+  }
+  // penalite globale liee a l'etat du materiel
+  get penaliteUsure() {
+    let p = 0;
+    for (const id of this.s.gear) {
+      const u = this.usure(id);
+      if (u > 55) p += (u - 55) * 0.22;
+    }
+    return p;
+  }
+  // un materiel a bout peut lacher : renvoie l'objet qui casse, ou null
+  panne(ids) {
+    for (const id of ids) {
+      const u = this.usure(id);
+      if (u >= 90 && Math.random() < (u - 88) * 0.06) return gearById(id);
+    }
+    return null;
+  }
+
   get gearQuality() { return this.s.gear.reduce((a, g) => a + (gearById(g)?.quality || 0), 0); }
   get gearSpeed() { return this.s.gear.reduce((a, g) => a + (gearById(g)?.speed || 0), 0); }
   get diggingBonus() {
@@ -261,7 +321,7 @@ export class Game {
   productionQuality() {
     const s = this.s;
     return clamp(16 + s.skill * 1.5 + this.gearQuality * 1.15 + s.insp * 0.32
-      + this.diggingBonus * 0.7 - this.moodPenalty, 5, 100);
+      + this.diggingBonus * 0.7 - this.moodPenalty - this.penaliteUsure, 5, 100);
   }
 
   // -------------------------------------------------------- utilitaires

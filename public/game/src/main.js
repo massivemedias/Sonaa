@@ -76,6 +76,7 @@ $('#btn-menu').addEventListener('click', () => ui.open('menu'));
 $('#btn-map').addEventListener('click', () => ui.open('map'));
 $('#btn-fin').addEventListener('click', () => ui.open('finance'));
 $('#needs').addEventListener('click', () => ui.open('etat'));
+$('#btn-scene').addEventListener('click', () => ui.open('scene'));
 
 // arrivé à destination : on entre tout seul
 function checkArrival() {
