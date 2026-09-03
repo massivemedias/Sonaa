@@ -1,5 +1,5 @@
 // =====================================================================
-//  LA VIE DE LA CLAIRIERE — passants, oiseaux, notes de musique
+//  LA VIE DE LA CLAIRIERE — passants et oiseaux
 //  Tout en pixel, a l'echelle de la tuile 32x16.
 // =====================================================================
 import { toScreen } from '../core/iso.js';
@@ -137,16 +137,6 @@ class Bird {
 }
 
 // petites notes qui montent au-dessus du club et du bar
-function musicNotes(ctx, x, y, z, seed, color) {
-  for (let i = 0; i < 3; i++) {
-    const t = ((artTime() * 0.4 + i * 0.33 + seed) % 1);
-    const p = P(x, y, z + t * 1.6);
-    const dx = Math.round(Math.sin(t * 6 + seed * 9) * 4);
-    if (t > 0.85) continue;
-    px(ctx, p.x + dx, p.y, 2, 2, color);
-    px(ctx, p.x + dx + 2, p.y - 3, 1, 3, color);
-  }
-}
 
 export class Life {
   constructor(city) {
@@ -165,7 +155,5 @@ export class Life {
     for (const b of this.birds) b.draw(ctx);
     const club = city.buildings.find(b => b.id === 'club');
     const bar = city.buildings.find(b => b.id === 'bar');
-    if (club) musicNotes(ctx, club.x + club.w / 2, club.y + club.d + 0.2, 1.8, 0.1, '#ff8ecb');
-    if (bar) musicNotes(ctx, bar.x + bar.w / 2, bar.y + bar.d + 0.2, 2.0, 0.6, '#8fe8c8');
   }
 }

@@ -144,11 +144,13 @@ export class Player {
     for (const q of parts) px(ctx, bx + (fl > 0 ? q.x : -q.x - q.w) - 1, by + q.y - 1, q.w + 2, q.h + 2, INK);
     for (const q of parts) px(ctx, bx + (fl > 0 ? q.x : -q.x - q.w), by + q.y, q.w, q.h, q.c);
 
-    // casque : arceau puis coussinets sur les oreilles
-    const casqueY = ty + 3;
-    px(ctx, bx - 7, casqueY - 4, 14, 2, INK);
-    px(ctx, bx - 6, casqueY - 4, 12, 1, '#5a5270');
-    for (const sx of [-10, 7]) {
+    // Casque : arceau puis coussinets. Le "by +" est indispensable, ty n'est
+    // qu'un decalage relatif au personnage. Sans lui le casque se dessinait
+    // pres de l'origine du monde, et flottait tout seul dans le ciel.
+    const casqueY = by + ty + 3;
+    px(ctx, bx - 8, casqueY - 4, 16, 2, INK);
+    px(ctx, bx - 7, casqueY - 4, 14, 1, '#5a5270');
+    for (const sx of [-9, 6]) {
       px(ctx, bx + sx - 1, casqueY, 5, 7, INK);
       px(ctx, bx + sx, casqueY + 1, 3, 5, sx < 0 ? CUP : '#c93a86');
       px(ctx, bx + sx, casqueY + 1, 1, 5, '#ffa8d8');

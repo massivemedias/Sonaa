@@ -18,8 +18,14 @@ export class Camera {
   constructor() { this.x = 0; this.y = 0; this.zoom = 1; this.w = 0; this.h = 0; this.k = 1; }
   apply(ctx, dpr) {
     const o = toScreen(this.x, this.y, 0);
-    ctx.setTransform(dpr * this.zoom, 0, 0, dpr * this.zoom,
-      dpr * (this.w / 2 - o.x * this.zoom), dpr * (this.h / 2 - o.y * this.zoom));
+    // La camera suit le joueur en douceur, donc sa position est fractionnaire.
+    // Si on laisse ce demi pixel dans la transformation, chaque forme dessinee
+    // sur un pixel entier retombe entre deux pixels d'ecran et le canvas la
+    // lisse : c'est le flou qui n'apparait qu'en mouvement. On cale donc le
+    // decalage sur des pixels entiers du tampon.
+    const tx = Math.round(this.w / 2 - o.x * this.zoom);
+    const ty = Math.round(this.h / 2 - o.y * this.zoom);
+    ctx.setTransform(dpr * this.zoom, 0, 0, dpr * this.zoom, dpr * tx, dpr * ty);
   }
   // px écran (CSS) -> monde (sol). k = facteur d'agrandissement du tampon.
   unproject(px, py) {
