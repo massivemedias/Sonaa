@@ -137,7 +137,11 @@ if (!HORS_LIGNE) {
         'DEUX FOIS DE SUITE à vingt secondes d\'intervalle : le ' +
         'plafond de quinze minutes est donc inopérant, et des intégrales ' +
         "d'album vont entrer dans le corpus sans que rien ne le signale. " +
-        'Réparer scrape() dans scripts/lib/match.ts avant tout import.\n    ' +
+        'Deux chemins peuvent avoir lâché, et ils se réparent différemment : ' +
+        "l'API officielle (YOUTUBE_API_KEY absente, quota du jour épuisé, clé " +
+        'révoquée) et, derrière elle, la lecture de la page publique ' +
+        '(scrape() dans scripts/lib/match.ts). Vérifier la clé avant de ' +
+        "toucher à l'expression régulière.\n    " +
         detail.join('\n    ')
     );
   } else {

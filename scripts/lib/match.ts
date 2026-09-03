@@ -14,6 +14,8 @@
 
    La règle est donc : LE TITRE ET L'ARTISTE doivent tenir tous les deux. */
 
+
+import { readFileSync } from 'node:fs';
 /** Seuils. Le titre est plus discriminant que l'artiste, il est exigé plus haut. */
 export const TITLE_THRESHOLD = 0.6;
 export const ARTIST_THRESHOLD = 0.34;
@@ -475,9 +477,115 @@ export const reseau = { requetes: 0, echecs: 0 };
 export const tauxEchecReseau = (): number =>
   reseau.requetes === 0 ? 0 : reseau.echecs / reseau.requetes;
 
+/* ═══ LA VOIE OFFICIELLE, ET POURQUOI ELLE PASSE DEVANT ═══
+
+   YouTube a cesse de servir ses pages de resultats a cette machine : boucle
+   de redirection vers leur page de consentement, quatre tentatives, aucune
+   page exploitable. Le controle du plafond a donc refuse toute publication,
+   et il avait raison : sans duree lue, la regle des quinze minutes ne mord
+   plus et des integrales d'album entreraient sans un mot.
+
+   L'API officielle repond, elle, et rend la duree en clair. Deux appels :
+   `search` pour les identifiants, `videos` pour les durees. C'est la source
+   que YouTube publie pour cet usage, avec une cle, un quota affiche et des
+   conditions ecrites, au lieu d'une page qu'on lit par-dessus l'epaule.
+
+   ELLE NE REMPLACE PAS LE GRATTAGE, ELLE PASSE DEVANT. Le quota gratuit est
+   de dix mille unites par jour et une recherche en coute cent : cent
+   recherches, pas une de plus. Une campagne d'import en demande davantage.
+   Quand le quota est epuise, ou quand la cle manque, on retombe sur la page
+   publique, qui repondra peut-etre. Les deux chemins rendent la meme forme,
+   et l'appelant ne sait pas lequel a servi. */
+/* LA CLE VIENT DE L'ENVIRONNEMENT OU DU FICHIER, comme partout ailleurs
+   dans ce depot. `tsx` ne charge pas `.env` tout seul, et une cle qu'on
+   croit posee alors qu'elle est vide retombe silencieusement sur le grattage,
+   c'est-a-dire sur la panne qu'on vient de corriger. */
+const lireEnv = (nom: string): string => {
+  if (process.env[nom]) return process.env[nom] as string;
+  try {
+    const brut = readFileSync(new URL('../../.env', import.meta.url), 'utf8');
+    const ligne = brut.split('\n').find((l) => l.startsWith(`${nom}=`));
+    return ligne ? ligne.slice(nom.length + 1).trim() : '';
+  } catch {
+    return '';
+  }
+};
+
+const CLE_YT = lireEnv('YOUTUBE_API_KEY');
+
+/** « PT4M13S » vers 253. Rend null sur une forme inattendue plutot que zero :
+    une duree fausse est pire qu'une duree absente, puisque la regle la
+    croirait. */
+const dureeIso = (iso: string): number | null => {
+  const m = /^P(?:([0-9]+)D)?T(?:([0-9]+)H)?(?:([0-9]+)M)?(?:([0-9]+)S)?$/.exec(iso);
+  if (!m) return null;
+  const [, j, h, mn, sec] = m;
+  const total =
+    Number(j ?? 0) * 86400 + Number(h ?? 0) * 3600 + Number(mn ?? 0) * 60 + Number(sec ?? 0);
+  return Number.isFinite(total) && total > 0 ? total : null;
+};
+
+/* Compte ce que l'API a coute et pourquoi elle a cesse de servir. NON
+   EXPORTE : rien au-dehors ne l'interroge, et une valeur exportee que
+   personne ne lit a l'air de servir. Le jour ou un script d'import voudra
+   dire « quota epuise, resultats partiels », il l'exportera avec son
+   appelant. */
+const quotaYoutube = { recherches: 0, epuise: false };
+
+const chercherParApi = async (query: string, limit: number): Promise<SearchHit[] | null> => {
+  if (!CLE_YT || quotaYoutube.epuise) return null;
+  try {
+    const r = await fetch(
+      'https://www.googleapis.com/youtube/v3/search?part=snippet&type=video' +
+        `&maxResults=${Math.min(limit, 10)}&q=${encodeURIComponent(query)}&key=${CLE_YT}`
+    );
+    const j = (await r.json()) as {
+      items?: { id?: { videoId?: string } }[];
+      error?: { message?: string; errors?: { reason?: string }[] };
+    };
+    if (j.error) {
+      /* `quotaExceeded` n'est pas une panne : c'est la fin de la journee. On
+         cesse d'appeler pour ne pas payer cent unites a chaque refus. */
+      const raison = j.error.errors?.[0]?.reason ?? '';
+      if (raison === 'quotaExceeded' || raison === 'dailyLimitExceeded') {
+        quotaYoutube.epuise = true;
+      }
+      return null;
+    }
+    quotaYoutube.recherches += 1;
+    const ids = (j.items ?? [])
+      .map((i) => i.id?.videoId)
+      .filter((x): x is string => typeof x === 'string');
+    if (ids.length === 0) return [];
+
+    const v = await fetch(
+      'https://www.googleapis.com/youtube/v3/videos?part=contentDetails' +
+        `&id=${ids.join(',')}&key=${CLE_YT}`
+    );
+    const vj = (await v.json()) as {
+      items?: { id?: string; contentDetails?: { duration?: string } }[];
+      error?: unknown;
+    };
+    if (vj.error) return null;
+    const duree = new Map<string, number | null>();
+    for (const it of vj.items ?? []) {
+      if (it.id) duree.set(it.id, it.contentDetails?.duration ? dureeIso(it.contentDetails.duration) : null);
+    }
+    /* On garde l'ordre de la recherche : c'est celui de la pertinence. */
+    return ids.slice(0, limit).map((id) => ({ id, seconds: duree.get(id) ?? null }));
+  } catch {
+    return null;
+  }
+};
+
 export const searchYouTube = async (query: string, limit = 4): Promise<SearchHit[]> => {
   reseau.requetes += 1;
   const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+
+  /* L'API d'abord. `null` veut dire « elle n'a pas pu repondre », et non
+     « elle n'a rien trouve » : un tableau vide est une reponse, on la rend. */
+  const parApi = await chercherParApi(query, limit);
+  if (parApi !== null) return parApi;
 
   for (let attempt = 0; attempt < 4; attempt += 1) {
     await pace();
