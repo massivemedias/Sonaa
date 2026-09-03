@@ -248,15 +248,18 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block}
    avoir l'air d'appartenir au meme jeu que le decor.
    ===================================================================== */
 :root{ --radius:0; --ink:#1c1528; }
+/* Jersey 15 pour le texte : vraies minuscules, accents complets, compact.
+   Silkscreen pour les chiffres : c'est la seule qui rend 1058 illisible
+   impossible a confondre avec 1098. */
 *{
-  font-family:"Pixelify Sans","Courier New",monospace !important;
+  font-family:"Jersey 15","Courier New",monospace !important;
   /* une police pixel lissee est une police floue : on coupe l'anticrenelage */
   -webkit-font-smoothing:none !important;
   -moz-osx-font-smoothing:unset !important;
   font-smooth:never !important;
   text-rendering:optimizeSpeed !important;
 }
-body{ font-family:"Pixelify Sans","Courier New",monospace; letter-spacing:0 }
+body{ font-family:"Jersey 15","Courier New",monospace; letter-spacing:0 }
 canvas#stage{ image-rendering:pixelated; image-rendering:crisp-edges }
 
 /* plus aucun arrondi ni flou */
@@ -312,3 +315,16 @@ canvas#stage{ image-rendering:pixelated; image-rendering:crisp-edges }
 .quest-count{margin-left:auto;align-self:flex-start;font-size:14px;font-weight:700;
   color:var(--gold);background:rgba(0,0,0,.3);border:1px solid rgba(232,200,106,.35);
   border-radius:4px;padding:2px 5px;letter-spacing:1px;flex:0 0 auto}
+
+/* ---------- les chiffres ---------- */
+/* Partout ou un nombre doit se lire sans hesitation : argent, jauges,
+   horloge, tableau financier. Silkscreen est large mais sans ambiguite. */
+.chip, .need .nval, .quest-count, .stat b, .pnl td:last-child, td.val, .fin-legend{
+  font-family:"Silkscreen","Courier New",monospace !important;
+  font-variant-numeric:tabular-nums;
+}
+.chip{font-size:14px;letter-spacing:0}
+.chip .ico{font-family:system-ui,"Apple Color Emoji",sans-serif !important;font-size:16px}
+.chip-clock{font-size:14px}
+.need .nval{font-size:11px}
+.stat b{font-size:17px}
