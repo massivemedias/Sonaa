@@ -1,5 +1,5 @@
 // =====================================================================
-//  INTERFACE — HUD, panneaux, mini-jeu de set
+//  INTERFACE · HUD, panneaux, mini-jeu de set
 // =====================================================================
 import {
   RECORDS, ARTISTS, GEAR, CAMPAIGNS, GIGS, FOOD, DRINKS, TIERS, JOBS,
@@ -80,7 +80,7 @@ export class UI {
   }
 
   tierUp(t) {
-    this.toast(`Nouveau palier : ${t.name} — ${t.blurb}`, 'gold');
+    this.toast(`Nouveau palier : ${t.name} · ${t.blurb}`, 'gold');
   }
 
   // ---------------------------------------------------------- panneaux
@@ -227,7 +227,7 @@ export class UI {
     this.current = { kind: 'reveal' };
     this.sheet.classList.remove('hidden');
     this.titleEl.textContent = 'Neuf minutes';
-    this.subEl.textContent = `${r.artist} — ${r.title}`;
+    this.subEl.textContent = `${r.artist} · ${r.title}`;
     this.body.innerHTML = `
       <div class="reveal">
         <div class="big-disc"></div>
@@ -341,7 +341,7 @@ function blocTravail(g, place) {
     title: j.name,
     sub: j.ok ? `${j.desc} · ${j.hours} h · ${money(j.pay)}` : `Verrouillé : ${j.pourquoi}`,
     tag: j.ok ? null : 'bloqué',
-    btn: j.ok ? money(j.pay) : '—', act: 'work', arg: j.id,
+    btn: j.ok ? money(j.pay) : '-', act: 'work', arg: j.id,
     disabled: !j.ok || g.s.needs.energy < 18,
   })).join('');
   if (g.s.needs.energy < 18) html += note('Tu es trop crevé pour prendre un quart. Va dormir.');
@@ -573,7 +573,7 @@ const PANELS = {
         btn: 'Sortir', act: 'pressPick', arg: x.id,
       })).join('') : note('Aucun track prêt. Direction le studio.');
     } else {
-      html = note(`<b>${esc(t.name)}</b> — qualité ${t.quality}. Choisis le tirage :`);
+      html = note(`<b>${esc(t.name)}</b> · qualité ${t.quality}. Choisis le tirage :`);
       html += A.PRESS_OPTIONS.map(o => row({
         title: o.name, sub: `${o.desc}${o.copies ? ` · prix de vente ${o.price} $` : ''}`,
         btn: money(o.cost), act: 'press', arg: o.id, disabled: g.s.cash < o.cost,
@@ -584,7 +584,7 @@ const PANELS = {
     html += g.s.releases.length ? g.s.releases.slice(-6).reverse().map(r => {
       const a = r.artistId ? artistById(r.artistId) : null;
       return row({
-        title: `${a ? a.name + ' — ' : ''}${r.title}`,
+        title: `${a ? a.name + ' · ' : ''}${r.title}`,
         sub: `qualité ${r.quality} · vendus ${big(r.sold)}${r.digital ? ' · numérique' : ` · stock ${big(r.stock)}`}`,
       });
     }).join('') : note('Catalogue vide.');
@@ -624,7 +624,7 @@ const PANELS = {
       html += g.s.releases.length ? g.s.releases.slice().reverse().map(r => {
         const a = r.artistId ? artistById(r.artistId) : null;
         return row({
-          title: `${a ? a.name + ' — ' : ''}${r.title}`,
+          title: `${a ? a.name + ' · ' : ''}${r.title}`,
           sub: `J${r.day} · qualité ${r.quality} · ${big(r.sold)} vendus`,
         });
       }).join('') : note('Catalogue vide.');
@@ -673,18 +673,18 @@ const PANELS = {
     // 3) construction du set
     const want = A.crowdWants(gig);
     const set = ui.temp.set || [];
-    html += note(`<b>${esc(gig.name)}</b> — la salle veut une montée :
+    html += note(`<b>${esc(gig.name)}</b> · la salle veut une montée :
       ${want.map(w => '▮'.repeat(w)).join(' → ')}.<br>Choisis 4 disques dans l’ordre.`);
     html += `<div class="pill-row">${[0, 1, 2, 3].map(i => {
       const id = set[i];
       const r = id ? recordById(id) : null;
-      return `<span class="pill ${r ? 'on' : ''}">${i + 1}. ${r ? esc(r.title) : '—'}</span>`;
+      return `<span class="pill ${r ? 'on' : ''}">${i + 1}. ${r ? esc(r.title) : '-'}</span>`;
     }).join('')}</div>`;
     html += g.s.collection.length ? g.s.collection.map(id => {
       const r = recordById(id);
       const i = set.indexOf(id);
       return row({
-        title: `${r.artist} — ${r.title}`,
+        title: `${r.artist} · ${r.title}`,
         sub: `${r.bpm} BPM · énergie ${'▮'.repeat(r.energy)}`,
         tag: i >= 0 ? `#${i + 1}` : null,
         btn: i >= 0 ? 'Retirer' : 'Ajouter', act: 'pickRec', arg: id,
@@ -692,7 +692,7 @@ const PANELS = {
       });
     }).join('') : note('Pas un seul disque. Passe voir une cabane de disquaire.');
     html += `<button class="btn wide pink" data-act="playShow" ${set.length < 1 ? 'disabled' : ''}>
-      Jouer le set (5 h)${set.length < 4 ? ' — ' + set.length + '/4' : ''}</button>`;
+      Jouer le set (5 h)${set.length < 4 ? ' · ' + set.length + '/4' : ''}</button>`;
     html += `<button class="btn wide ghost" data-act="gig" data-arg="">Changer de salle</button>`;
     return { title: 'Le Bunker', sub: gig.name, html };
   },
@@ -750,7 +750,7 @@ const PANELS = {
     if (last) {
       const L = last.L;
       const line = (lbl, v, cls) => v > 0.5 ? `<tr><td class="${cls}">${lbl}</td><td class="${cls}">${money(v)}</td></tr>` : '';
-      html += title(`Compte de résultat — jour ${last.day}`);
+      html += title(`Compte de résultat · jour ${last.day}`);
       html += `<table class="pnl">
         ${line('Ventes physiques', L.sales, 'in')}
         ${line('Numérique', L.digital, 'in')}
@@ -883,7 +883,7 @@ const PANELS = {
   etat(ui, g) {
     const n = g.s.needs;
     const ligne = (ico, nom, v, role, quand) => `<div class="row"><div class="grow">
-      <h3>${ico} ${nom} — ${Math.round(v)} %</h3>
+      <h3>${ico} ${nom} · ${Math.round(v)} %</h3>
       <p>${role}</p>
       <div class="meter"><i style="width:${Math.round(v)}%"></i></div>
       <p style="margin-top:6px">${quand}</p></div></div>`;
@@ -910,8 +910,8 @@ const PANELS = {
   },
 
   menu(ui, g) {
-    let html = note('Sonaa — un simulateur de label électronique. Tout se sauvegarde tout seul.');
-    html += row({ title: 'Musique de fond', sub: 'Boucle techno générée en direct — coupée par défaut, seuls les disques jouent',
+    let html = note('Sonaa · un simulateur de label électronique. Tout se sauvegarde tout seul.');
+    html += row({ title: 'Musique de fond', sub: 'Boucle techno générée en direct · coupée par défaut, seuls les disques jouent',
       btn: ui.hooks.musicOn && ui.hooks.musicOn() ? 'Couper' : 'Jouer', act: 'music' });
     html += row({ title: 'Sauvegarder', sub: 'Forcer une sauvegarde', btn: 'Sauver', act: 'save', btnCls: 'ghost' });
     html += row({ title: 'Nouvelle partie', sub: 'Efface la progression', btn: 'Recommencer', act: 'newgame', btnCls: 'pink' });

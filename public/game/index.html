@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0a1330">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>SONAA — Label Tycoon</title>
+<title>SONAA · Label Tycoon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Silkscreen:wght@400;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
@@ -18,6 +18,19 @@
 <body>
 
 <canvas id="stage"></canvas>
+
+<!-- ===== Retour vers l'atlas =====
+     Le jeu occupe l'ecran entier : reproduire la barre du site aurait coute
+     une bande de cinquante pixels sur un telephone, en travers du canevas, et
+     la typographie du site jure avec le pixel art. Une fleche suffit, et
+     Mika l'a lui-meme proposee comme solution de rechange.
+
+     Elle vit HORS du HUD, qui reste cache tant qu'aucune partie n'est
+     lancee : la sortie doit exister des l'ecran titre, c'est meme la qu'on
+     s'apercoit qu'on s'est trompe de porte. -->
+<a id="retour-atlas" class="retour-atlas" href="/#/parcourir" aria-label="Retour a SONAA">
+  <span aria-hidden="true">&lt;</span> Sonaa
+</a>
 
 <!-- ===== HUD ===== -->
 <div id="hud" class="hud hidden">
@@ -79,7 +92,7 @@
 <div id="title" class="title-screen">
   <div class="title-card">
     <div class="logo">SONAA</div>
-    <div class="logo-sub">de la chambre au major — un simulateur de label</div>
+    <div class="logo-sub">de la chambre au major · un simulateur de label</div>
     <div class="title-art" id="title-art"></div>
     <button class="big-btn" id="btn-new">Nouvelle partie</button>
     <button class="big-btn ghost hidden" id="btn-continue">Continuer</button>

@@ -1,5 +1,5 @@
 // =====================================================================
-//  LA SCÈNE — les rivaux
+//  LA SCÈNE · les rivaux
 //  ---------------------------------------------------------------
 //  L'ennemi d'une carriere musicale n'attaque pas : il prend la place.
 //  Ces six-la vivent leur vie sans le joueur. Ils montent tout seuls,
@@ -54,7 +54,7 @@ export class Scene {
     const liste = RIVALS.map(r => ({
       id: r.id, nom: r.name, genre: r.genre, hype: this.hypeDe(r.id), moi: false,
     }));
-    liste.push({ id: 'moi', nom: 'Toi', genre: '—', hype: this.game.s.hype, moi: true });
+    liste.push({ id: 'moi', nom: 'Toi', genre: '-', hype: this.game.s.hype, moi: true });
     liste.sort((a, b) => b.hype - a.hype);
     return liste;
   }

@@ -38,7 +38,7 @@ export default defineConfig({
       /* « prompt » et non « autoUpdate » : une mise à jour appliquée dans le
          dos remplace le code sous les pieds de quelqu'un qui est en train de
          lire une fiche, et peut interrompre une écoute. On propose, on
-         n'impose pas — voir UpdateBanner.tsx. */
+         n'impose pas · voir UpdateBanner.tsx. */
       registerType: 'prompt',
       injectRegister: null, // l'enregistrement est fait à la main dans pwa.ts
       manifestFilename: 'manifest.webmanifest',
@@ -67,7 +67,7 @@ export default defineConfig({
       /* Ce qui doit être là AVANT la première coupure réseau : le code, les
          styles, la police, les icônes. Le corpus n'apparaît pas dans cette
          liste parce qu'il est importé en JSON et donc déjà compilé DANS le
-         bundle JavaScript — le précacher séparément le stockerait deux fois. */
+         bundle JavaScript · le précacher séparément le stockerait deux fois. */
       workbox: {
         /* og.png N'EST PAS PRECACHEE, et ne doit pas l'être : l'image de
            partage n'est jamais demandée par l'application, seulement par les
@@ -90,7 +90,7 @@ export default defineConfig({
         runtimeCaching: [
           {
             /* Pochettes : une fois vue, toujours disponible. CacheFirst car
-               une pochette ne change jamais — si elle change, c'est un
+               une pochette ne change jamais · si elle change, c'est un
                nouveau fichier. Plafond à 400 entrées pour ne pas remplir le
                disque de quelqu'un qui parcourt tout l'atlas. */
             urlPattern: ({ url }) => url.pathname.startsWith('/covers/'),

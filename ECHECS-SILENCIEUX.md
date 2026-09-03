@@ -276,7 +276,7 @@ incohérence silencieuse entre deux moitiés d'un même calcul.
 
 ## Corrigés dans cette passe
 
-### `lib/match.ts`, `searchYouTube` — GRAVE
+### `lib/match.ts`, `searchYouTube` · GRAVE
 
 Rendait un tableau vide dans deux cas que rien ne distinguait : la requête
 ne donne vraiment rien, ou quatre tentatives ont été refusées. L'appelant
@@ -289,7 +289,7 @@ aurait conclu que le fichier de candidats était mauvais.
 **Corrigé** : compteur `reseau.requetes` / `reseau.echecs`, exposé par
 `tauxEchecReseau()`.
 
-### `import-tracks.ts` — GRAVE, même cause
+### `import-tracks.ts` · GRAVE, même cause
 
 Le rapport final ne pouvait pas distinguer un lot douteux d'un réseau
 tombé.
@@ -298,7 +298,7 @@ tombé.
 conclure et sort en erreur, en disant que les « non résolus » ne veulent
 rien dire.
 
-### `lib/corpus-store.ts`, `patchTracks` — GRAVE
+### `lib/corpus-store.ts`, `patchTracks` · GRAVE
 
 Un correctif visant une track retirée du corpus entre-temps ne trouvait
 aucune cible et disparaissait sans un mot. `fetch-covers` pouvait annoncer
@@ -306,10 +306,10 @@ cinquante pochettes posées en n'en ayant écrit que vingt. C'est le module
 central d'écriture : son silence se propage à tous ses appelants.
 
 **Corrigé** : rend `{ appliques, orphelins }` et prévient sur la sortie
-d'erreur. Les orphelins ne sont pas une faute — le corpus bouge, c'est la
-raison d'être du module — ils doivent seulement être vus.
+d'erreur. Les orphelins ne sont pas une faute · le corpus bouge, c'est la
+raison d'être du module · ils doivent seulement être vus.
 
-### `audit-durees.ts` — GRAVE, et c'est le script d'audit lui-même
+### `audit-durees.ts` · GRAVE, et c'est le script d'audit lui-même
 
 Annonçait « aucune parution complète détectée » aussi bien quand il n'y en
 avait pas que quand il n'avait rien pu mesurer. Le script écrit pour
@@ -318,7 +318,7 @@ traquer le défaut en était atteint.
 **Corrigé** : sous 50 % de tracks réellement mesurées, il sort en erreur et
 renvoie vers `check:plafond`.
 
-### `lib/match.ts`, le plafond — GRAVE, corrigé précédemment
+### `lib/match.ts`, le plafond · GRAVE, corrigé précédemment
 
 Documenté dans le commit du garde-fou. `check:plafond` vérifie désormais la
 règle ET que la durée arrive encore, en CI.
@@ -372,9 +372,9 @@ Un contrôle doit pouvoir échouer de deux façons distinctes : **la chose
 vérifiée est fausse**, et **je n'ai pas pu vérifier**. Confondre les deux
 transforme une panne en satisfecit.
 
-Quand un contrôle dépend d'une donnée qu'il ne produit pas lui-même —
+Quand un contrôle dépend d'une donnée qu'il ne produit pas lui-même -
 une durée extraite d'une page, une réponse réseau, une ligne à mettre à
-jour — il doit vérifier que cette donnée est bien arrivée, et le dire quand
+jour · il doit vérifier que cette donnée est bien arrivée, et le dire quand
 elle manque.
 
 ---

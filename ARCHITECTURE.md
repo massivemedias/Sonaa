@@ -1668,7 +1668,7 @@ iOS.
    ajoutés ; manifest : `start_url` et `scope` absolus `/Sonaa/`,
    `background_color` aligné sur `#0a0c10`. Les `env(safe-area-inset-*)`
    étaient déjà posés sur les contrôles, le sélecteur de vues et la feuille
-   du lecteur — vérifiés, pas retouchés.
+   du lecteur · vérifiés, pas retouchés.
 
 ---
 
@@ -1789,7 +1789,7 @@ sonaa-logo.png, aucun redessin, aucune interprétation.
 1. **Des pixels du logo, rien d'autre.** Découpe de sonaa-logo.png
    (11104×4808) : boîte 0,0 à 3710,4808, puis gommage des SEULS fragments
    étrangers entrés dans la boîte (flanc gauche du o, pointe du parafe
-   final du mot) — de l'effacement, jamais un tracé. Le trait de liaison
+   final du mot) · de l'effacement, jamais un tracé. Le trait de liaison
    vers le o et l'attaque haute sont coupés au bord : c'est la découpe.
    Glyphe teinté ivoire (#f2f4f8) par recoloration du masque, formes
    intactes, sur carré opaque #0a0c10, S à 80 % de la hauteur.
@@ -1878,7 +1878,7 @@ AUCUNE AUTRE FAMILLE NON ÉLECTRONIQUE NE SERA AJOUTÉE : acté.
    la population du sous-arbre, deux rangs quand la couronne dépasse sept
    (majeurs dedans, angles décalés d'un demi-pas). Les GÉNÉRATIONS
    S'ÉTIRENT VERS L'EXTÉRIEUR : les enfants d'un noeud en orbite occupent
-   l'arc qui tourne le dos au centre — sans ça, les lignées profondes
+   l'arc qui tourne le dos au centre · sans ça, les lignées profondes
    s'enroulaient en grappe (mesuré : 4 genres de Breaks nommés sur 23).
    La caméra recule seule (cadrage mesuré) et les voisines s'écartent
    seules (poussée indexée sur le rayon déployé mesuré, lerp doux).
@@ -1897,7 +1897,7 @@ AUCUNE AUTRE FAMILLE NON ÉLECTRONIQUE NE SERA AJOUTÉE : acté.
    cadrage famille. Aucune police ≥ 9 px ni étalement raisonnable ne
    résout ça sans casser la lecture d'appartenance. Pistes tranchables :
    lignes de rappel en éventail (le nom s'éloigne, un trait le relie),
-   ou accepter que la colonne — qui nomme déjà 100 % des genres — est la
+   ou accepter que la colonne · qui nomme déjà 100 % des genres · est la
    liste exhaustive, la carte étant le paysage.
 
 ---
@@ -1918,7 +1918,7 @@ la règle.
    fiche. Cliquer un genre à dérivés descend d'un cran : ses enfants se
    déploient, la génération du dessus se resserre et s'estompe (grammaire
    de focus existante). Un genre SUR le chemin ouvert reste toujours
-   déployé — sans cette exception, le genre cliqué disparaissait quand il
+   déployé · sans cette exception, le genre cliqué disparaissait quand il
    vivait en profondeur 2.
 
 2. **Le cadrage suit le niveau, pas l'arbre.** Nouveau `crownRadius`
@@ -1937,7 +1937,7 @@ la règle.
    partis en haut à droite, elles mangeaient une demi-couronne à 390 px.
 
 4. **Chiffres mesurés, enfants directs nommés.**
-   1280 px, colonne ouverte : **House 9/9, Breaks 6/6 — 100 %**.
+   1280 px, colonne ouverte : **House 9/9, Breaks 6/6 · 100 %**.
    390 px, feuille à mi-hauteur : House 6/9, Breaks 3/6 (contre 3/9 et 2/6
    avant les labels radiaux). LA DESCENTE D'UN CRAN N'EST PAS ENCORE
    FONCTIONNELLE : sur Drum and Bass, 0 enfant sur 6 nommé, le vol de
@@ -1956,7 +1956,7 @@ la règle.
 1. **Le vol de descente gagne toujours.** Le suivi de cible ne s'applique
    QUE hors vol, et il reprend la NOUVELLE cible : un verrou nomme le
    niveau courant, la caméra converge vers son cadrage RECALCULÉ à chaque
-   image (auto-correctif, puisque les enfants s'écartent après le clic — un
+   image (auto-correctif, puisque les enfants s'écartent après le clic · un
    cadrage figé au moment du clic collait la caméra au genre). Toute
    interaction lâche le verrou : la main de l'usager passe avant la
    machine. Mesuré : la distance converge bien vers la valeur voulue.
@@ -1965,7 +1965,7 @@ la règle.
    mesurées, la première gagne :
    - piste A (42 dvh, carte 58 dvh) : Breaks 3 → 4 sur 6, House 6 sur 9 ;
    - piste B (cadrage plus large à 390 px) : Breaks 4 sur 6 mais House
-     RECULE à 4 sur 9 — les labels butent au plancher de 9 px et ne
+     RECULE à 4 sur 9 · les labels butent au plancher de 9 px et ne
      rétrécissent plus, donc élargir le cadrage ne fait qu'augmenter les
      chevauchements. Piste B abandonnée, le plancher de 9 px tient.
 
@@ -1974,7 +1974,7 @@ la règle.
    le verrou fonctionne (distance convergente, vérifié), le rayon de
    cadrage est correct (5,79 unités mesurées, enfants à 3,98), les enfants
    sont dans le champ, et le genre ouvert reste candidat même exempté du
-   seuil d'expansion et promu au niveau 0 d'arbitrage — DEUX correctifs
+   seuil d'expansion et promu au niveau 0 d'arbitrage · DEUX correctifs
    tentés puis RETIRÉS faute de preuve. La cause est donc en amont de
    l'arbitrage, dans la candidature ou la projection des labels d'un genre
    de profondeur 4. À reprendre en instrumentant le pipeline de labels pas
@@ -2040,7 +2040,7 @@ afficher une filiation déjà téléchargée fait attendre pour rien.
 **Décision.** `vite-plugin-pwa` en mode `generateSW`, avec quatre règles.
 
 **1. Ce qui est préchargé, et ce qui ne l'est pas.** Le précache contient le
-shell : 41 entrées, 2,2 Mo — code, styles, police, icônes, manifest. Le
+shell : 41 entrées, 2,2 Mo · code, styles, police, icônes, manifest. Le
 corpus n'y figure pas séparément parce qu'il est importé en JSON et donc
 déjà compilé dans le bundle JavaScript ; le précacher l'aurait stocké deux
 fois. Les **1263 pochettes pèsent 39 Mo** : les précharger imposerait ce
@@ -2064,7 +2064,7 @@ quelqu'un qui lit une fiche, et peut interrompre une écoute.
 
 **4. L'invite d'installation ne se pose qu'une fois.** Deuxième visite au
 plus tôt, jamais si l'application est déjà installée, et **un refus est
-définitif** — c'est la réapparition à chaque visite qui rend ces invites
+définitif** · c'est la réapparition à chaque visite qui rend ces invites
 détestées. Sur iOS, aucun événement d'installation n'existe : on explique le
 geste (Partager, puis « Sur l'écran d'accueil »), c'est tout ce qui est
 possible, et c'est mieux que se taire.
@@ -2087,7 +2087,7 @@ Les points manquants sont connus et assumés : « Bonnes pratiques » perd 4
 points sur un avertissement de cookie émis par l'iframe YouTube elle-même,
 déjà servie depuis `youtube-nocookie.com` ; « SEO » mobile perd 8 points sur
 « 39,85 % de texte lisible », qui est le **plancher de 9 px des labels de
-l'atlas** — un réglage demandé explicitement et dont le rendu est gelé
+l'atlas** · un réglage demandé explicitement et dont le rendu est gelé
 (ADR-058). Le corriger reviendrait à défaire une décision prise.
 
 ---
@@ -3179,7 +3179,7 @@ n'est change, ajoute ni retire.
 
 **LE DEFAUT TROUVE EN VERIFIANT LE RENDU, et il etait la depuis la pose.** Les
 regles CSS du bloc d'auteur de la page A propos, `.apropos-voix`, vivaient
-dans `atlas.css` — que cette page N'IMPORTE PAS. Elles n'ont donc jamais rien
+dans `atlas.css` · que cette page N'IMPORTE PAS. Elles n'ont donc jamais rien
 fait. Mesure : `font-style: normal` et `border-left-width: 0px` la ou l'on
 attendait l'italique et le filet vertical.
 

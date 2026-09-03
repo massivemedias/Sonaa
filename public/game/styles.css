@@ -25,8 +25,21 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block}
 .hidden{display:none !important}
 
 /* ---------- HUD ---------- */
+/* ---------- retour vers l'atlas ----------
+   Au-dessus de tout, ecran titre compris : c'est une sortie, elle ne doit
+   jamais etre couverte. Le HUD lui laisse sa place en decalant sa premiere
+   rangee, sinon la pastille d'argent se posait dessus. */
+.retour-atlas{position:fixed;top:calc(var(--safe-t) + 8px);left:8px;z-index:40;
+  display:flex;align-items:center;gap:5px;
+  padding:7px 11px;font-size:15px;font-weight:800;line-height:1;
+  color:var(--mint);text-decoration:none;
+  background:rgba(32,13,51,.88);border:2px solid var(--ink);
+  box-shadow:2px 2px 0 rgba(0,0,0,.5)}
+.retour-atlas:active{transform:translate(2px,2px);box-shadow:0 0 0 rgba(0,0,0,.5)}
+
 .hud{position:fixed;top:calc(var(--safe-t) + 8px);left:8px;right:8px;pointer-events:none;z-index:5}
-.hud-top{display:flex;gap:6px;flex-wrap:wrap}
+/* La rangee de pastilles commence apres la fleche de sortie. */
+.hud-top{display:flex;gap:6px;flex-wrap:wrap;padding-left:92px}
 .chip{display:flex;align-items:center;gap:5px;background:rgba(32,13,51,.82);
   border:2px solid var(--ink);box-shadow:0 3px 0 rgba(0,0,0,.35);
   border-radius:999px;padding:7px 13px;font-weight:800;font-size:17px;line-height:1;

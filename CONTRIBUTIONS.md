@@ -42,8 +42,8 @@ Ce qui protège les données, ce sont les politiques RLS, vérifiées au banc
 avant mise en service :
 
 - un anonyme lit les propositions non refusées, et rien d'autre ;
-- il ne peut pas lire `author_id` — le droit est accordé colonne par colonne,
-  cette colonne exclue — et les propositions sont signées d'un **pseudonyme**
+- il ne peut pas lire `author_id` · le droit est accordé colonne par colonne,
+  cette colonne exclue · et les propositions sont signées d'un **pseudonyme**
   dérivé par hachage salé (`author_tag`) ;
 - il ne peut ni écrire, ni voter ;
 - un connecté ne peut proposer que pour lui-même, ne peut pas s'auto-accepter,
@@ -64,7 +64,7 @@ si un motif de clé secrète ou un JWT apparaît dans `dist/`.
 est dans `supabase/moderateurs.sql`, avec la vérification d'après connexion et
 la réparation en cas de dédoublement de compte.
 
-La personne doit **s'être connectée au moins une fois** — c'est cette connexion
+La personne doit **s'être connectée au moins une fois** · c'est cette connexion
 qui crée son compte, et la clé étrangère n'a rien à pointer avant.
 
 **Une interface de gestion existe désormais**, et cela revient sur une règle
@@ -116,7 +116,7 @@ end $$;
 
 **Pourquoi ce détour plutôt qu'un simple `insert … select`.** Un
 `insert into … select … where email = …` n'insère rien quand le compte
-n'existe pas encore — et ne lève **aucune erreur**. La console affiche
+n'existe pas encore · et ne lève **aucune erreur**. La console affiche
 « Success », alors que rien n'a été fait. Le cas s'est produit : la commande
 a été lancée avant la première connexion, elle a paru réussir, et personne
 n'était modérateur. Le bloc ci-dessus échoue bruyamment à la place.

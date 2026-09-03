@@ -21,3 +21,5 @@ _prof/
 # ignore par defaut et ajoute a la main avec `git add -f` quand il est complet,
 # pour qu'une passe en cours ne bloque jamais une publication.
 audit-coherence.md
+audit-lecture.md
+audit-decalage.md

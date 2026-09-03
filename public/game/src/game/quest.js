@@ -1,5 +1,5 @@
 // =====================================================================
-//  QUÊTES — la colonne vertébrale du jeu
+//  QUÊTES · la colonne vertébrale du jeu
 //  Du premier disque fouillé jusqu'à la tour du major. Chaque étape dit
 //  quoi faire, où aller, et récompense quand elle tombe.
 // =====================================================================
@@ -38,7 +38,7 @@ export const STEPS = [
   },
   {
     id: 'dig',
-    goal: 'Fouille les bacs — écoute, compare, choisis',
+    goal: 'Fouille les bacs · écoute, compare, choisis',
     hint: 'Chaque disque fouillé prend quelques minutes. Prends ton temps.',
     target: 'd_techno',
   },

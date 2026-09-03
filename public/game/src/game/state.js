@@ -94,7 +94,7 @@ export class Game {
         stockDuJour: Object.values(s.digs || {}).flatMap(c =>
           (c.deck || []).slice(c.i, c.i + 6).map(e => {
             const r = recordById(e.id);
-            return { id: e.id, titre: r ? `${r.artist} — ${r.title}` : e.id, rarete: r ? r.rarity : 1 };
+            return { id: e.id, titre: r ? `${r.artist} · ${r.title}` : e.id, rarete: r ? r.rarity : 1 };
           })),
         artistesLibres: ARTISTS.filter(a => !s.roster.some(m2 => m2.artistId === a.id)),
       });
@@ -212,7 +212,7 @@ export class Game {
     if (s.history.length > 45) s.history.shift();
     s.today = { gigs: 0, sales: 0, digital: 0, store: 0, other: 0 };
 
-    this.toast(`Jour ${s.day} — ${money(income)} de recettes, ${money(expense)} de dépenses`,
+    this.toast(`Jour ${s.day} · ${money(income)} de recettes, ${money(expense)} de dépenses`,
       income >= expense ? 'good' : 'bad');
     for (const l of lines) this.toast(l, 'gold');
 

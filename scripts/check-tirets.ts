@@ -22,9 +22,39 @@ import { fileURLToPath } from 'node:url';
 
 const RACINE = fileURLToPath(new URL('..', import.meta.url));
 
-const ZONES = ['src', 'scripts', 'index.html'];
-const EXTENSIONS = /\.(ts|tsx|css|html|json)$/;
-const IGNORES = /node_modules|[/\\]dist[/\\]|\.git/;
+/* TROIS ZONES NE SUFFISAIENT PAS, ET LE JEU L'A PROUVE.
+
+   Le controle ne regardait que `src`, `scripts` et `index.html`. Le jeu vit
+   dans `public/game/`, avec son propre index, ses propres scripts et son
+   propre texte : il etait donc hors de portee, et son sous-titre annoncait
+   « de la chambre au major (cadratin) un simulateur de label » sur le
+   premier ecran que voit un joueur. Mika l'a vu la ou le controle ne
+   regardait pas.
+
+   « TOTALEMENT », a-t-il dit. On prend donc le depot entier, moins ce qui ne
+   nous appartient pas : les dependances, la construction, les rapports
+   engendres par les scripts d'audit, et `_prof`, une documentation importee
+   telle quelle dont la typographie n'est pas la notre. Tout le reste est de
+   notre main et doit s'y plier, y compris les fichiers de configuration et
+   les messages des workflows. */
+const ZONES = ['.'];
+const EXTENSIONS = /\.(ts|tsx|js|mjs|css|html|json|md|yml|sh|webmanifest)$/;
+/* L'EXCLUSION SE FAIT PAR SEGMENT, PAS PAR EXPRESSION SUR LE CHEMIN. Un
+   premier jet ecrivait `[/\\]_prof`, ce qui ne rattrapait pas `_prof` a la
+   racine, faute de barre devant : cinq mille signalements dans une
+   documentation importee. Comparer les segments un a un ne se trompe pas de
+   place. */
+const DOSSIERS_HORS = new Set([
+  'node_modules', 'dist', '.git', '.github_cache',
+  /* Documentation importee telle quelle : sa typographie n'est pas la notre. */
+  '_prof',
+  /* Images et polices : rien a lire dedans. */
+  'covers', 'images', 'machines', 'articles', 'fonts', 'splash', 'assets', 'brand',
+]);
+/* Les rapports engendres par les scripts d'audit se refont a chaque passe :
+   ils portent la typographie de leur generateur, qui, lui, est controle. */
+const FICHIERS_HORS = (nom: string): boolean =>
+  /^audit-.*\.md$/.test(nom) || /cache/.test(nom) || nom === 'package-lock.json';
 
 /** Titres et noms d'artistes où le tiret est dans l'œuvre elle-même. Vide,
     et destiné à le rester : à ne remplir qu'avec une référence précise. */
@@ -47,8 +77,8 @@ function fichiers(chemin: string): string[] {
   }
   if (!info.isDirectory()) return EXTENSIONS.test(chemin) ? [chemin] : [];
   return readdirSync(complet).flatMap((e) => {
-    const sous = join(chemin, e);
-    return IGNORES.test(sous) ? [] : fichiers(sous);
+    if (DOSSIERS_HORS.has(e) || FICHIERS_HORS(e)) return [];
+    return fichiers(join(chemin, e));
   });
 }
 

@@ -1,5 +1,5 @@
 // =====================================================================
-//  ENTRÉES — stick virtuel + tap pour se déplacer + pinch zoom
+//  ENTRÉES · stick virtuel + tap pour se déplacer + pinch zoom
 // =====================================================================
 export class Input {
   /* `renderer` et non plus `cam` seule : le zoom n'est plus une propriete de

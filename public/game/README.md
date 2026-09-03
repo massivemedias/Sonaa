@@ -1,4 +1,4 @@
-# SONAA — Label Tycoon
+# SONAA · Label Tycoon
 
 Jeu de gestion / tamagotchi en **vue isométrique**, jouable au doigt sur mobile.
 Tu commences avec 260 $, un casque cassé et un 3½ sur Marquette. Tu finis (ou pas)
@@ -14,7 +14,7 @@ Destination de prod prévue : `https://sonaa.ca/game`
 cd game && python3 -m http.server 8000
 ```
 
-Puis ouvrir `http://localhost:8000`. **Un serveur est obligatoire** (modules ES) —
+Puis ouvrir `http://localhost:8000`. **Un serveur est obligatoire** (modules ES) -
 ouvrir `index.html` en `file://` ne marchera pas.
 
 ## Déployer
@@ -27,7 +27,7 @@ Il suffit de copier le contenu de `game/` dans le dossier `/game` du site.
   avec `/game` comme chemin de base (tous les chemins internes sont **relatifs**,
   donc ça marche à n'importe quelle profondeur d'URL)
 - Une seule ressource externe : la police Google Fonts (Baloo 2). Si tu veux du
-  100 % offline, retire le `<link>` dans `index.html` — la police de repli reste correcte.
+  100 % offline, retire le `<link>` dans `index.html` · la police de repli reste correcte.
 
 ## Direction artistique
 
@@ -38,7 +38,7 @@ avec un mini-moteur iso 2:1, sans aucune image.
 - **Le sol** est une grille de cubes (`drawCube`) espacés de 5 %, avec un joint
   sombre, deux flancs en dégradé saturé et un dessus arrondi avec arête de
   lumière. Trois niveaux : le gazon est surélevé, la rue est creusée, le
-  trottoir est au milieu — ça crée du relief sans rien coder de plus.
+  trottoir est au milieu · ça crée du relief sans rien coder de plus.
 - **La lumière** est traitée façon TUNIC : un soleil chaud en haut à gauche
   (`SUN`) réchauffe les faces éclairées, une teinte froide (`SHADE_TINT`)
   refroidit les faces à l'ombre. Le dessus est éclairci et désaturé, les flancs
@@ -54,7 +54,7 @@ avec un mini-moteur iso 2:1, sans aucune image.
   de cubes. Trois niveaux très rapprochés donnent juste ce qu'il faut de relief.
 - Le sol est **de l'herbe** par défaut, avec des parvis de pierre autour des
   bâtiments (mélangés à de l'herbe aux angles), des chemins de pierre creusés,
-  et quelques **ruines** — un arceau de pierre et des colonnes brisées.
+  et quelques **ruines** · un arceau de pierre et des colonnes brisées.
 - Fleurs et cailloux sont semés sur les tuiles par une fonction de hachage
   déterministe : le motif ne bouge pas d'une partie à l'autre.
 - Un grain léger est appliqué sur toute l'image en fin de rendu.
@@ -102,7 +102,7 @@ Bouton 📊 dans le HUD. C'est le tableau de bord du label :
 - **Budget marketing quotidien** : de 0 à 6 000 $ par jour, débloqué par palier,
   qui achète un filet de hype et de fans tous les matins.
 - **Emprunts** : 2 000 / 10 000 / 50 000 $, 5 % de frais de dossier et 0,5 %
-  d'intérêts par jour. La dette est déduite de la valeur du label — s'endetter
+  d'intérêts par jour. La dette est déduite de la valeur du label · s'endetter
   pour signer un gros artiste est un pari, pas un cadeau.
 
 Tout est enregistré jour par jour dans `s.history` (45 jours glissants), ce qui
@@ -124,8 +124,8 @@ cache dans le navigateur pour un mois.
 
 La correspondance est **stricte** : un résultat n'est accepté que si l'artiste
 *et* le titre collent. Sans ça on récupérait un autre disque du même artiste, ce
-qui est pire que pas de pochette. Quand rien ne colle — beaucoup de 12" techno
-des années 90 ne sont pas au catalogue — le jeu retombe sur la pochette générée
+qui est pire que pas de pochette. Quand rien ne colle · beaucoup de 12" techno
+des années 90 ne sont pas au catalogue · le jeu retombe sur la pochette générée
 procéduralement, qui reste jolie. Environ trois quarts des disques trouvent leur
 pochette et leur extrait.
 
@@ -142,13 +142,13 @@ de cette API. À revérifier si le jeu devient commercial.
 Le jeu commence par une histoire courte, guidée par un bandeau d'objectif et une
 flèche dorée plantée au-dessus du lieu à rejoindre :
 
-1. **Va au Vinyl Cave** — le disquaire.
-2. **Fouille les bacs** — un disque à la fois, pochette en gros, prix, BPM,
+1. **Va au Vinyl Cave** · le disquaire.
+2. **Fouille les bacs** · un disque à la fois, pochette en gros, prix, BPM,
    énergie, rareté. Tu choisis : acheter ou continuer de fouiller (chaque
    fouille coûte quelques minutes de jeu).
-3. **Trouve « I Was in Ecstasy » de Laurent Garnier (F Communications)** — il est
+3. **Trouve « I Was in Ecstasy » de Laurent Garnier (F Communications)** · il est
    glissé quelque part dans le bac, toujours présent tant que tu ne l'as pas.
-4. **Rentre chez toi et pose-le sur la platine** — scène de découverte,
+4. **Rentre chez toi et pose-le sur la platine** · scène de découverte,
    inspiration au maximum, +2,5 de skill. C'est là que la carrière commence.
 
 Ensuite le jeu de gestion s'ouvre normalement. La quête vit dans
@@ -185,17 +185,17 @@ game/
 
 ## Boucle de jeu
 
-1. **Vinyl Cave** — fouiller le bac disque par disque (renouvelé chaque jour, trouvailles à -50 %)
-2. **Le Bunker** — jouer un set : tu choisis 4 disques, la salle veut une montée d'énergie
+1. **Vinyl Cave** · fouiller le bac disque par disque (renouvelé chaque jour, trouvailles à -50 %)
+2. **Le Bunker** · jouer un set : tu choisis 4 disques, la salle veut une montée d'énergie
    précise, le score dépend du match d'énergie + de la continuité de BPM + de ta forme
-3. **Studio** (chez toi puis en vrai) — produire des tracks ; la qualité dépend du skill,
+3. **Studio** (chez toi puis en vrai) · produire des tracks ; la qualité dépend du skill,
    du matos, de l'inspiration, de la diversité de ta collection et de ton état physique
-4. **Pressage & Distro** — presser (numérique / 300 / 1 000 / 5 000 copies) → ventes quotidiennes
-5. **Radio Machine** — campagnes de promo (hype + fans étalés sur plusieurs jours)
-6. **Massive Machines** — matos (909, 303, Juno, modulaire, console, mastering)
-7. **Bureau du label** — signer des artistes, gérer le moral, ils sortent des disques tout seuls
-8. **Sonaa Shop** — ta boutique de disques, revenus passifs
-9. **Tour Major** — fin du jeu
+4. **Pressage & Distro** · presser (numérique / 300 / 1 000 / 5 000 copies) → ventes quotidiennes
+5. **Radio Machine** · campagnes de promo (hype + fans étalés sur plusieurs jours)
+6. **Massive Machines** · matos (909, 303, Juno, modulaire, console, mastering)
+7. **Bureau du label** · signer des artistes, gérer le moral, ils sortent des disques tout seuls
+8. **Sonaa Shop** · ta boutique de disques, revenus passifs
+9. **Tour Major** · fin du jeu
 
 Entre tout ça : manger, boire, dormir, réseauter au bar (rencontres aléatoires :
 promoteur, journaliste, producteur…). Les besoins bas font chuter la qualité des prods

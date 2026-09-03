@@ -1,5 +1,5 @@
 // =====================================================================
-//  LA VIE DE LA CLAIRIERE — passants et oiseaux
+//  LA VIE DE LA CLAIRIERE · passants et oiseaux
 //  Chaque passant porte une identite : on peut lui parler.
 //  Tout en pixel, a l'echelle de la tuile 32x16.
 // =====================================================================

@@ -1,5 +1,5 @@
 // =====================================================================
-//  CONTENU DU JEU — artistes, disques, matos, campagnes
+//  CONTENU DU JEU · artistes, disques, matos, campagnes
 //  ---------------------------------------------------------------
 //  NOTE JURIDIQUE : tous les noms réels sont regroupés ICI. Pour une
 //  version commerciale, remplace simplement ce fichier par des noms
@@ -10,7 +10,7 @@
 export const GENRES = ['Techno', 'Deep House', 'Electro', 'IDM', 'Acid', 'Ambient', 'Breakbeat', 'Minimal'];
 
 // ---------------------------------------------------------------------
-// DISQUES — le crate digging. energy 1..5, rarity 1..5
+// DISQUES · le crate digging. energy 1..5, rarity 1..5
 // ---------------------------------------------------------------------
 export const RECORDS = [
   { id:'r01', artist:'Jeff Mills',        title:'The Bells',              label:'Purpose Maker', year:1997, genre:'Techno',     bpm:135, energy:5, rarity:4, price:48 },
@@ -64,7 +64,7 @@ export const RECORDS = [
 ];
 
 // ---------------------------------------------------------------------
-// ARTISTES SIGNABLES — tier = niveau de label requis pour les approcher
+// ARTISTES SIGNABLES · tier = niveau de label requis pour les approcher
 // ---------------------------------------------------------------------
 export const ARTISTS = [
   { id:'a01', name:'Lil Modular',    real:false, genre:'Techno',     tier:1, advance:400,   fee:0.35, quality:42, reach:900,     bio:'Voisin du 3e. Fait des jams sur un Volca dans sa cuisine.' },
@@ -86,7 +86,7 @@ export const ARTISTS = [
 ];
 
 // ---------------------------------------------------------------------
-// MATÉRIEL — bonus de production
+// MATÉRIEL · bonus de production
 // ---------------------------------------------------------------------
 // kind : 'life' = vie quotidienne, 'dj' = indispensable pour mixer,
 //         'studio' = indispensable pour produire
@@ -126,7 +126,7 @@ export const CAMPAIGNS = [
 ];
 
 // ---------------------------------------------------------------------
-// SHOWS — débloqués par la hype
+// SHOWS · débloqués par la hype
 // ---------------------------------------------------------------------
 export const GIGS = [
   { id:'v01', name:'Warm-up au Sous-Sol', minHype:0,   fee:110,     cap:60,      fansMul:1.0, energy:22 },
@@ -136,7 +136,7 @@ export const GIGS = [
   { id:'v05', name:'Warehouse Berlin',    minHype:100, fee:7000,   cap:5000,    fansMul:2.1, energy:40 },
   { id:'v06', name:'Festival Piknic',     minHype:160, fee:18000,  cap:15000,   fansMul:2.6, energy:45 },
   { id:'v07', name:'Main stage Dekmantel',minHype:250, fee:52000,  cap:40000,   fansMul:3.2, energy:50 },
-  { id:'v08', name:'Stade — closing set', minHype:400, fee:180000, cap:120000,  fansMul:4.0, energy:60 },
+  { id:'v08', name:'Stade · closing set', minHype:400, fee:180000, cap:120000,  fansMul:4.0, energy:60 },
 ];
 
 // ---------------------------------------------------------------------
@@ -153,7 +153,7 @@ export const TIERS = [
 ];
 
 // ---------------------------------------------------------------------
-// LES PETITS BOULOTS — avant la musique, il faut payer le loyer
+// LES PETITS BOULOTS · avant la musique, il faut payer le loyer
 // need : ce qu'il faut avoir fait ou possede pour y avoir droit
 // ---------------------------------------------------------------------
 export const JOBS = [

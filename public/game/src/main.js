@@ -1,5 +1,5 @@
 // =====================================================================
-//  SONAA — point d'entrée
+//  SONAA · point d'entrée
 // =====================================================================
 import { City } from './world/city.js';
 import { passantProche } from './world/life.js';
@@ -163,7 +163,7 @@ function loop(now) {
       nearPnj = p;
       if (p) {
         actionBtn.classList.remove('hidden');
-        actionLabel.textContent = 'Parler — ' + p.identite.nom;
+        actionLabel.textContent = 'Parler · ' + p.identite.nom;
       }
     }
 
@@ -172,7 +172,7 @@ function loop(now) {
     if (b !== nearBuilding) {
       nearBuilding = b;
       actionBtn.classList.toggle('hidden', !b && !nearPnj);
-      if (b && !nearPnj) actionLabel.textContent = game.unlocked(b) ? 'Entrer — ' + b.name : 'Fermé';
+      if (b && !nearPnj) actionLabel.textContent = game.unlocked(b) ? 'Entrer · ' + b.name : 'Fermé';
     }
   } else {
     titleFrame(t);

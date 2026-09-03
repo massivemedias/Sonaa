@@ -237,8 +237,8 @@ produirait des centaines de points de contrôle à corriger à la main. Le choix
 retenu est le **masque en dégradé respectant la transparence** : une colonne
 brillante balaie horizontalement, masquée par le logotype lui-même, si bien que
 la lumière n'existe que sur les pixels du glyphe et semble suivre le trait.
-Le nouveau logotype est le cas favorable pour ce mécanisme — fond entièrement
-transparent, lettres opaques — et l'effet fonctionne sans modification. Il
+Le nouveau logotype est le cas favorable pour ce mécanisme · fond entièrement
+transparent, lettres opaques · et l'effet fonctionne sans modification. Il
 s'arrête quand l'onglet est en arrière-plan et disparaît sous
 `prefers-reduced-motion`.
 

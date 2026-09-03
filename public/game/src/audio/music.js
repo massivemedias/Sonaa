@@ -1,5 +1,5 @@
 // =====================================================================
-//  MUSIQUE PROCÉDURALE — 123 BPM, fa# mineur. Kick / hats / basse / nappe
+//  MUSIQUE PROCÉDURALE · 123 BPM, fa# mineur. Kick / hats / basse / nappe
 // =====================================================================
 const BPM = 123;
 const F_SHARP = 46.25; // F#1

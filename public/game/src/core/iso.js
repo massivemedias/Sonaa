@@ -1,4 +1,4 @@
-// Maths isométriques 2:1 — 1 tuile = 64x32 px, 1 unité de hauteur = 32 px
+// Maths isométriques 2:1 · 1 tuile = 64x32 px, 1 unité de hauteur = 32 px
 // Une tuile fait 32x16 pixels dans le tampon basse resolution, et une
 // unite de hauteur vaut 16 pixels : tout est dessine au pixel pres.
 export const HW = 16, HH = 8, HU = 16;

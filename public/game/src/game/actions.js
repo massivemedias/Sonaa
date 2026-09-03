@@ -1,5 +1,5 @@
 // =====================================================================
-//  ACTIONS DE JEU — la logique derrière chaque bouton
+//  ACTIONS DE JEU · la logique derrière chaque bouton
 // =====================================================================
 import {
   RECORDS, ARTISTS, GEAR, CAMPAIGNS, GIGS, FOOD, DRINKS, JOBS,
@@ -80,7 +80,7 @@ export function buyRecord(game, entry, b) {
   game.s.insp = clamp(game.s.insp + 4 + r.rarity, 0, 100);
   game.advance(10);
   game.quest.onBuy(r.id);
-  game.toast(`${r.artist} — ${r.title} : dans le sac.`, 'good');
+  game.toast(`${r.artist} · ${r.title} : dans le sac.`, 'good');
   return true;
 }
 
@@ -113,7 +113,7 @@ export function consume(game, item) {
   if (item.social) game.need('social', item.social);
   if (item.hype) game.s.hype += item.hype;
   game.advance(item.social ? 45 : 25);
-  game.toast(`${item.name} — ça fait du bien.`, 'good');
+  game.toast(`${item.name} · ça fait du bien.`, 'good');
   return true;
 }
 
@@ -210,7 +210,7 @@ export function produce(game, hours = 4) {
   s.insp = clamp(s.insp - 22, 0, 100);
   game.need('energy', -18); game.need('food', -8); game.need('drink', -10);
   game.advance(Math.max(120, (hours * 60) * (1 - clamp(game.gearSpeed, 0, .6))));
-  game.toast(`« ${t.name} » bouclé — qualité ${t.quality}.`, t.quality > 65 ? 'gold' : 'good');
+  game.toast(`« ${t.name} » bouclé · qualité ${t.quality}.`, t.quality > 65 ? 'gold' : 'good');
   return t;
 }
 
@@ -223,7 +223,7 @@ export function listenRecords(game, id = null) {
   game.need('social', 4); game.need('energy', -4);
   game.advance(75);
   const revelation = game.quest.onListen(r.id);
-  if (!revelation) game.toast(`Tu réécoutes ${r.artist} — ${r.title}. Inspiration +.`, 'good');
+  if (!revelation) game.toast(`Tu réécoutes ${r.artist} · ${r.title}. Inspiration +.`, 'good');
   return { record: r, revelation };
 }
 
@@ -396,7 +396,7 @@ export function upgradeStore(game) {
 }
 
 // =====================================================================
-//  LE BUTIN — ce qu'on ramasse en sortant de cabine
+//  LE BUTIN · ce qu'on ramasse en sortant de cabine
 //  ---------------------------------------------------------------
 //  Un tirage pondere : plus le set a bien marche, plus la table penche
 //  vers le haut. C'est la recompense variable, celle qui donne envie de
@@ -441,12 +441,12 @@ export function butinDeSet(game, gig, pct) {
       () => { const libres = RECORDS.filter(r => !s.collection.includes(r.id) && r.rarity >= 4);
               if (!libres.length) { s.hype += 6; return { txt: 'Rien à ramasser, mais la salle en parle encore', rarete }; }
               const d = pick(libres); s.collection.push(d.id);
-              return { txt: `Un inconnu te glisse un vinyle : ${d.artist} — ${d.title}`, rarete }; },
+              return { txt: `Un inconnu te glisse un vinyle : ${d.artist} · ${d.title}`, rarete }; },
     ],
     graal: [
       () => { const libres = RECORDS.filter(r => !s.collection.includes(r.id) && r.rarity === 5);
               if (libres.length) { const d = pick(libres); s.collection.push(d.id); s.hype += 6;
-                return { txt: `Le disquaire te réserve son plus rare : ${d.artist} — ${d.title}`, rarete }; }
+                return { txt: `Le disquaire te réserve son plus rare : ${d.artist} · ${d.title}`, rarete }; }
               s.hype += 14; return { txt: 'La salle t’a réclamé trois rappels', rarete }; },
       () => { s.hype += 12; s.cred += 3; s.skill += 1.5;
               return { txt: 'Un producteur t’explique son chaînage de compression, au bar, sur une serviette', rarete }; },

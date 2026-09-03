@@ -85,7 +85,7 @@ jobs:
         run: npm run check:writes
 
       # Aucun tiret cadratin ni demi-cadratin, y compris dans les commentaires :
-      # un « — » s'était glissé jusque dans l'interface, entre le nom d'artiste
+      # un « · » s'était glissé jusque dans l'interface, entre le nom d'artiste
       # et le titre sur la liste des propositions. Voir scripts/check-tirets.ts.
       # DEUX SOURCES DE VERITE POUR UNE VALEUR : le motif qui revient le plus
       # souvent dans ce projet, sous des formes differentes. En CSS il prend
@@ -208,7 +208,7 @@ jobs:
       # publiques : la clé est la clé « publishable » de Supabase, faite pour
       # vivre dans un bundle, et ce sont les politiques RLS qui protègent les
       # données. Si elles manquent, le build réussit quand même et le site
-      # se déploie sans la contribution — c'est le contrat de lib/supabase.ts.
+      # se déploie sans la contribution · c'est le contrat de lib/supabase.ts.
       - name: Build
         run: npm run build
         env:
@@ -217,7 +217,7 @@ jobs:
 
       # SONAA embarque désormais une clé publique, et une seule. Ce contrôle
       # sépare les deux cas : les motifs de secrets tiers restent interdits,
-      # et surtout AUCUNE clé de service Supabase ne doit atteindre dist/ —
+      # et surtout AUCUNE clé de service Supabase ne doit atteindre dist/ -
       # celle-là contourne toutes les politiques RLS. Référence : ADR-011.
       - name: Vérifier qu'aucun secret n'a traversé le build
         run: |

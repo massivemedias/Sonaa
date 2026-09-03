@@ -10,7 +10,7 @@ reprise, elle est proposée ici au format ci-dessous, avec le badge brouillon
 posé dans le corpus, et le badge ne se lève que sur validation explicite,
 fiche par fiche.
 
-    ## Nom du genre (identifiant) — X-Y BPM
+    ## Nom du genre (identifiant) · X-Y BPM
 
     Description en un paragraphe.
 
