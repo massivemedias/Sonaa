@@ -193,6 +193,7 @@ interface Dictionnaire {
   readonly retourAuxArtistes: string;
   readonly lesStyles: string;
   readonly leCalendrier: string;
+  readonly leJeu: string;
   readonly derniersSets: string;
   readonly descriptionFacultative: string;
   readonly deposer: string;
@@ -382,6 +383,7 @@ const FR: Dictionnaire = {
   retourAuxArtistes: 'Revenir aux artistes',
   lesStyles: 'Styles',
   leCalendrier: 'Calendrier',
+  leJeu: 'Jeu',
   derniersSets: 'Derniers sets',
   descriptionFacultative: 'Description, si vous voulez',
   deposer: 'Déposer',
@@ -570,6 +572,7 @@ const EN: Dictionnaire = {
   retourAuxArtistes: 'Back to artists',
   lesStyles: 'Styles',
   leCalendrier: 'Calendar',
+  leJeu: 'Game',
   derniersSets: 'Latest sets',
   descriptionFacultative: 'Description, if you like',
   deposer: 'Upload',

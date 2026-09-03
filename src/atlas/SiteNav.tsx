@@ -78,6 +78,26 @@ const PAGES: readonly { href: string; id: SiteCourant; label: string }[] = [
   { href: '#/a-propos', id: 'apropos', label: t.aPropos }
 ];
 
+/* ═══ LE JEU N'EST PAS UNE ROUTE, C'EST UNE ADRESSE ═══
+ *
+ * SONAA Label Tycoon vit dans public/game/, en page a part : son propre
+ * index.html, ses propres polices, son propre canevas plein ecran. Ce n'est
+ * pas un caprice d'organisation, c'est ce qui lui permet d'exister sans
+ * charger l'atlas, et a l'atlas d'exister sans charger un moteur de jeu.
+ *
+ * Le lien pointe donc sur « /game/ » et non sur un « #/ » : on QUITTE
+ * l'application d'une page pour une autre page du meme site. Deux
+ * consequences assumees.
+ *
+ * D'abord `courantOf` ne le reconnaitra jamais, et n'a pas a le faire : quand
+ * on est dans le jeu, ce menu n'est pas rendu du tout.
+ *
+ * Ensuite il ne porte pas `target="_blank"`. Une nouvelle fenetre se justifie
+ * quand on veut garder sa place ; ici on va jouer, on ne consulte pas une
+ * reference a cote. Le bouton retour ramene a l'atlas, ce qui est le geste
+ * attendu. */
+const JEU = { href: '/game/', label: t.leJeu };
+
 function courantOf(hash: string): SiteCourant {
   if (hash.startsWith('#/index')) return 'index';
   /* La page des credits allume « A propos », d'ou l'on y arrive. */
@@ -144,6 +164,11 @@ export function SiteNav({ variant, extra }: Props) {
       </span>
       <span className="sitenav-groupe">
         {PAGES.map(lien)}
+        {/* Le jeu ferme la rangee : c'est la seule entree qui quitte
+            l'application, elle n'a rien a faire au milieu des autres. */}
+        <a className="sitenav-lien" href={JEU.href}>
+          {JEU.label}
+        </a>
       </span>
     </nav>
   );

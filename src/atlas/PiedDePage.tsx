@@ -33,6 +33,11 @@ export function PiedDePage() {
       liens: [
         { href: '#/parcourir', label: t.lesStyles },
         { href: '#/sets', label: t.lesSons },
+        /* LE CALENDRIER MANQUAIT ICI depuis qu'il existe : il est dans la
+           barre du haut, donc dans le menu, mais le pied ne le nommait pas.
+           Un pied de page qui ne liste pas une porte principale envoie
+           chercher ailleurs ce qui est juste au-dessus. */
+        { href: '#/calendrier', label: t.leCalendrier },
         { href: '#/index', label: t.piedIndex },
       ],
     },
@@ -57,6 +62,10 @@ export function PiedDePage() {
       liens: [
         { href: '#/a-propos', label: t.aPropos },
         { href: '#/credits', label: t.credits },
+        /* Le jeu quitte l'application mais reste sur le site : ce n'est pas
+           un lien externe, il ne porte donc pas la marque des liens qui
+           partent ailleurs. */
+        { href: '/game/', label: t.leJeu },
         {
           href: 'https://github.com/massivemedias/Sonaa',
           label: t.piedCode,

@@ -11,6 +11,29 @@ export default defineConfig({
   base: '/',
   plugins: [
     react(),
+    /* LE JEU S'OUVRE AUSSI EN DEVELOPPEMENT.
+     *
+     * SONAA Label Tycoon vit dans public/game/, en page a part. GitHub Pages
+     * sert l'index d'un dossier tout seul : « /game/ » ouvre le jeu en
+     * production. Le serveur de developpement, lui, ne resout pas l'index
+     * d'un sous-dossier de public/ et laisse la demande filer vers le
+     * repli de l'application d'une page : « /game/ » y rendait l'atlas.
+     *
+     * Mesure : en developpement, /game/ rend « SONAA » et /game/index.html
+     * rend « SONAA - Label Tycoon » ; en production les deux rendent le jeu.
+     * Un lien du menu qui marche en ligne et pas en local est exactement le
+     * genre d'ecart qui fait chercher un defaut la ou il n'y en a pas.
+     *
+     * Trois lignes de reecriture suffisent a aligner les deux. */
+    {
+      name: 'sonaa-index-du-jeu',
+      configureServer(serveur) {
+        serveur.middlewares.use((req, _res, next) => {
+          if (req.url === '/game' || req.url === '/game/') req.url = '/game/index.html';
+          next();
+        });
+      },
+    },
     VitePWA({
       /* « prompt » et non « autoUpdate » : une mise à jour appliquée dans le
          dos remplace le code sous les pieds de quelqu'un qui est en train de
