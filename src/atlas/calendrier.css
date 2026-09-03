@@ -165,6 +165,35 @@
   color: var(--ink-secondary);
 }
 
+/* Le choix de date vit dans la meme rangee que les trois vues, mais il ne
+   leur ressemble pas : c'est une liste, pas un etat en cours. */
+.cal-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--ink-secondary);
+  font-size: 0.9rem;
+}
+
+.cal-date-mot {
+  white-space: nowrap;
+}
+
+.cal-date select {
+  background: var(--surface-margin);
+  color: var(--ink-primary);
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 999px;
+  padding: 0.35rem 0.6rem;
+  font: inherit;
+  max-width: 14rem;
+}
+
+.cal-date select:focus-visible {
+  outline: 2px solid var(--ink-primary);
+  outline-offset: 1px;
+}
+
 /* --- Ce qui se joue ------------------------------------------------------ */
 
 .cal-total {
@@ -189,10 +218,42 @@
   padding-bottom: 0.4rem;
 }
 
+/* ═══ LA COLONNE UNIQUE, ET CE QUI LA CAUSAIT VRAIMENT ═══
+
+   « Sur une seule colonne ca fait bizarre », et c'etait juste : l'agenda
+   s'affichait sur six cents pixels au milieu d'une page qui en fait mille
+   deux cent quarante. Le coupable n'etait pas la liste mais `.credits-body`,
+   qui borne TOUTES les pages document a 38 rem. Cette mesure est la bonne
+   pour de la prose, ou l'oeil se perd au-dela de soixante-quinze signes par
+   ligne ; elle n'a aucun sens pour une grille d'affiches, qui n'est pas de
+   la prose et ne se lit pas ligne a ligne.
+
+   On rend donc sa largeur a la page, et on la reprend explicitement pour les
+   blocs de texte qui restent du texte. L'inverse, borner la grille en
+   laissant le corps libre, aurait fait diverger le calendrier des autres
+   pages sur tout le reste. */
+.cal .credits-body {
+  max-width: none;
+}
+
+.cal .credits-lede,
+.cal .cal-note,
+.cal .cal-total,
+.cal .cal-panne {
+  max-width: 38rem;
+}
+
 .cal-liste {
   list-style: none;
   margin: 0;
   padding: 0;
+  /* Des cartes de 300 px au minimum, autant par rangee que la page en
+     porte. `auto-fill` et non `auto-fit` : avec deux soirees un soir de
+     semaine, `auto-fit` les etirerait sur toute la largeur et une seule
+     soiree ferait une carte de mille deux cents pixels. */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 0.4rem 1.8rem;
 }
 
 .cal-soiree {

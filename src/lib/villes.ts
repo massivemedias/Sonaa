@@ -17,6 +17,7 @@
 
 import { supabase } from './supabase.ts';
 import type { Ville } from './ville-active.ts';
+import { estSansFuseau, heureAuMur } from './fenetre-agenda.ts';
 
 export type { Ville } from './ville-active.ts';
 
@@ -121,6 +122,16 @@ export async function enregistrerVilleDattache(villeId: string | null): Promise<
  *  l'evenement : c'est la seule lecture qui ait un sens pour quelqu'un qui
  *  regarde ou il ira. */
 export function heureLocale(iso: string, fuseau: string): string | null {
+  /* UNE HEURE DEJA LOCALE NE SE CONVERTIT PAS, ET C'EST LE DEFAUT QU'ON
+     VIENT DE CORRIGER. Resident Advisor rend « 2026-09-13T22:00:00.000 »,
+     sans Z : c'est 22 h A LA SALLE. `new Date` la lisait comme 22 h chez le
+     visiteur, puis on la convertissait vers le fuseau du lieu : une soiree
+     berlinoise de 22 h s'affichait « 04 h 00 » depuis Montreal. Mesure faite
+     a l'ecran avant correction.
+
+     On lit donc l'heure au mur, telle qu'elle est ecrite. La conversion ne
+     sert qu'aux horodatages qui portent vraiment un fuseau. */
+  if (estSansFuseau(iso)) return heureAuMur(iso);
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return null;
   try {
@@ -140,7 +151,10 @@ export function heureLocale(iso: string, fuseau: string): string | null {
     ville consultee n'est pas celle ou l'on est : sinon elle repete une
     evidence a chaque ligne. */
 export function sigleFuseau(iso: string, fuseau: string): string | null {
-  const d = new Date(iso);
+  /* L'heure affichee est celle de la salle : le sigle doit donc etre celui du
+     LIEU, quel que soit l'instant. On prend un instant quelconque du bon jour
+     pour que l'heure d'ete soit juste, et c'est tout ce dont Intl a besoin. */
+  const d = estSansFuseau(iso) ? new Date(`${iso.slice(0, 10)}T12:00:00Z`) : new Date(iso);
   if (Number.isNaN(d.getTime())) return null;
   try {
     const parties = new Intl.DateTimeFormat('fr-CA', {

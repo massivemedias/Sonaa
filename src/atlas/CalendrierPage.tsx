@@ -58,12 +58,17 @@ import {
   agenda,
   noterStyles,
   ouJeSuis,
-  prochainsJours,
   stylesSuivis,
   traduire,
   STYLES_MAX,
   type Soiree,
 } from '../lib/agenda.ts';
+import {
+  cleDuJour,
+  fenetreDe,
+  joursProposes,
+  type Vue,
+} from '../lib/fenetre-agenda.ts';
 import './credits.css';
 import './calendrier.css';
 
@@ -74,24 +79,50 @@ FAMILIES.forEach((f, i) => {
   for (const g of STRUCTURES[i]?.genres ?? []) FAMILLE_DE_GENRE.set(g.id, f.id);
 });
 
-const FENETRES: readonly { jours: number; label: string }[] = [
-  { jours: 7, label: 'Cette semaine' },
-  { jours: 30, label: 'Ce mois' },
-  { jours: 90, label: 'Trois mois' },
+/* LES TROIS QUESTIONS QU'ON SE POSE VRAIMENT.
+
+   « Cette semaine, ce mois, trois mois » repondaient a une question que
+   personne ne pose. On veut savoir ce qu'il y a CE SOIR, ce qu'il y a EN FIN
+   DE SEMAINE, et sinon on cherche une date. Le reste vient apres, en vrac,
+   pour qui a le temps de flaner.
+
+   Le choix de date n'est pas un quatrieme bouton : c'est une liste
+   deroulante a cote, parce qu'elle porte soixante entrees et qu'une rangee
+   de soixante boutons n'est pas une rangee. */
+const VUES: readonly { cle: Vue; label: string }[] = [
+  { cle: 'aujourdhui', label: "Aujourd'hui" },
+  { cle: 'weekend', label: 'Fin de semaine' },
+  { cle: 'suite', label: 'Les jours suivants' },
 ];
 
 /* Le jour se lit AUSSI dans le fuseau du lieu : une soiree berlinoise du
    samedi a 1 h du matin est un vendredi soir a Montreal, et la ranger sous
-   vendredi tromperait celui qui prepare son week-end a Berlin. */
+   vendredi tromperait celui qui prepare son week-end a Berlin.
+
+   DEUX FORMES ENTRENT ICI, ET LES CONFONDRE DECALE D'UN JOUR. Un horodatage
+   complet, « 2026-09-12T23:00:00Z », qu'il faut lire dans le fuseau du lieu.
+   Et une date nue, « 2026-09-12 », qui vient du choix de date et ne designe
+   aucun instant : `new Date` la lit comme minuit UTC, soit le 11 a 20 h a
+   Montreal. Defaut constate a l'ecran, le compteur annoncait « vendredi 11 »
+   au-dessus d'une liste intitulee « samedi 12 ».
+
+   Une date nue est donc construite composante par composante et formatee
+   SANS fuseau : elle est deja locale, lui en appliquer un la redecalerait. */
+const DATE_NUE = /^(\d{4})-(\d{2})-(\d{2})$/;
+
 function jour(iso: string, fuseau: string): string {
-  const d = new Date(iso);
+  const nue = DATE_NUE.exec(iso);
+  const d = nue
+    ? new Date(Number(nue[1]), Number(nue[2]) - 1, Number(nue[3]))
+    : new Date(iso);
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    ...(nue ? {} : { timeZone: fuseau }),
+  };
   try {
-    return new Intl.DateTimeFormat('fr-CA', {
-      weekday: 'long',
-      day: 'numeric',
-      month: 'long',
-      timeZone: fuseau,
-    }).format(d);
+    return new Intl.DateTimeFormat('fr-CA', options).format(d);
   } catch {
     return new Intl.DateTimeFormat('fr-CA', {
       weekday: 'long',
@@ -111,7 +142,8 @@ export function CalendrierPage() {
 
   const [styles, setStyles] = useState<string[]>(() => stylesSuivis());
   const [styleActif, setStyleActif] = useState<string | null>(null);
-  const [fenetre, setFenetre] = useState(7);
+  const [vue, setVue] = useState<Vue>('aujourdhui');
+  const [dateChoisie, setDateChoisie] = useState<string | null>(null);
 
   const [soirees, setSoirees] = useState<Soiree[] | null>(null);
   const [total, setTotal] = useState(0);
@@ -170,7 +202,7 @@ export function CalendrierPage() {
     if (zoneRa == null) return;
     setChargement(true);
     setPanne(false);
-    const { du, au } = prochainsJours(fenetre);
+    const { du, au } = fenetreDe(vue, dateChoisie, new Date());
     void agenda({
       zone: zoneRa,
       du,
@@ -186,7 +218,7 @@ export function CalendrierPage() {
       }
       setChargement(false);
     });
-  }, [zoneRa, fenetre, traduction]);
+  }, [zoneRa, vue, dateChoisie, traduction]);
 
   useEffect(charger, [charger]);
 
@@ -228,6 +260,18 @@ export function CalendrierPage() {
   /* Le nom local quand c'est une deduction, le notre sinon. Cloudflare rend
      « Montréal », notre table aussi ; RA ecrivait « Montreal ». */
   const villeMontree = provenance === 'deduite' && nomDeduit ? nomDeduit : (ville?.name ?? null);
+
+  /* La phrase du compteur nomme la tranche regardee. « 77 soirees a
+     Montreal » ne disait pas sur quoi : ce soir, ce week-end, ou d'ici trois
+     mois. Trois nombres tres differents sous la meme phrase. */
+  const quand =
+    vue === 'aujourdhui'
+      ? "aujourd'hui"
+      : vue === 'weekend'
+        ? 'en fin de semaine'
+        : vue === 'date' && dateChoisie
+          ? `le ${jour(dateChoisie, ville?.timezone ?? 'America/Toronto')}`
+          : 'dans les jours qui viennent';
 
   const enAttente = !prete && villes.length === 0;
 
@@ -273,15 +317,46 @@ export function CalendrierPage() {
 
             {ville && (
               <div className="cal-fenetres">
-                {FENETRES.map((f) => (
+                {VUES.map((v) => (
                   <button
-                    key={f.jours}
-                    className={`cal-onglet${fenetre === f.jours ? ' cal-onglet-actif' : ''}`}
-                    onClick={() => setFenetre(f.jours)}
+                    key={v.cle}
+                    className={`cal-onglet${vue === v.cle ? ' cal-onglet-actif' : ''}`}
+                    onClick={() => {
+                      setVue(v.cle);
+                      setDateChoisie(null);
+                    }}
                   >
-                    {f.label}
+                    {v.label}
                   </button>
                 ))}
+
+                {/* LE CHOIX DE DATE EST UNE LISTE, PAS UN BOUTON DE PLUS.
+                    Choisir une date parmi soixante ne se fait pas dans une
+                    rangee ; et choisir une date EST une vue, donc la liste
+                    bascule la vue en meme temps qu'elle pose le jour. */}
+                <label className="cal-date">
+                  <span className="cal-date-mot">Un jour</span>
+                  <select
+                    value={vue === 'date' && dateChoisie ? dateChoisie : ''}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      if (!v) {
+                        setVue('aujourdhui');
+                        setDateChoisie(null);
+                      } else {
+                        setDateChoisie(v);
+                        setVue('date');
+                      }
+                    }}
+                  >
+                    <option value="">Choisir…</option>
+                    {joursProposes(new Date()).map((d) => (
+                      <option key={cleDuJour(d)} value={cleDuJour(d)}>
+                        {jour(cleDuJour(d), fuseau)}
+                      </option>
+                    ))}
+                  </select>
+                </label>
               </div>
             )}
           </div>
@@ -381,14 +456,14 @@ export function CalendrierPage() {
                 <p className="cal-attente">Lecture de l&apos;agenda…</p>
               ) : parJour.length === 0 ? (
                 <p className="cal-note">
-                  Rien d&apos;annoncé à {ville.name} sur cette période
-                  {traduction?.valeur ? ` en ${traduction.valeur}` : ''}. Élargissez la période, ou
-                  changez de style.
+                  Rien d&apos;annoncé {quand} à {ville.name}
+                  {traduction?.valeur ? ` en ${traduction.valeur}` : ''}. Regardez les jours
+                  suivants, ou changez de style.
                 </p>
               ) : (
                 <>
                   <p className="cal-total">
-                    {total} soirée{total > 1 ? 's' : ''} à {ville.name}
+                    {total} soirée{total > 1 ? 's' : ''} {quand} à {ville.name}
                     {soirees && total > soirees.length ? `, les ${soirees.length} premières` : ''}.
                   </p>
                   {parJour.map(([date, liste]) => (

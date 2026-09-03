@@ -9,6 +9,7 @@
    que la page ait un sens des la premiere seconde. */
 
 import { correspondance } from '../data/ra-genres.ts';
+import { sansFuseau } from './fenetre-agenda.ts';
 
 const PASSERELLE = 'https://sonaa-sets.massivemedias.workers.dev';
 
@@ -69,10 +70,14 @@ export async function agenda(opts: {
   au: Date;
   genre?: string | undefined;
 }): Promise<{ soirees: Soiree[]; total: number } | null> {
+  /* SANS FUSEAU, et c'est la correction qui remet l'agenda sur le bon jour.
+     Resident Advisor compare a des dates nues : lui envoyer un instant UTC
+     decalait la tranche du decalage horaire, et demander le samedi 12
+     ramenait le dimanche 13. Voir sansFuseau(). */
   const p = new URLSearchParams({
     zone: String(opts.zone),
-    du: opts.du.toISOString(),
-    au: opts.au.toISOString(),
+    du: sansFuseau(opts.du),
+    au: sansFuseau(opts.au),
   });
   if (opts.genre) p.set('genre', opts.genre);
   try {
@@ -130,15 +135,4 @@ export interface Traduction {
 
 export function traduire(genreId: string, familleId: string): Traduction {
   return correspondance(genreId, familleId);
-}
-
-/** Le samedi qui vient inclus : un agenda de soirees se lit par week-ends,
-    et une semaine qui s'arrete le vendredi coupe la nuit la plus chargée. */
-export function prochainsJours(nombre: number): { du: Date; au: Date } {
-  const du = new Date();
-  du.setHours(0, 0, 0, 0);
-  const au = new Date(du);
-  au.setDate(au.getDate() + nombre);
-  au.setHours(23, 59, 59, 999);
-  return { du, au };
 }
