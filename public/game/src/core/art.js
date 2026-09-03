@@ -153,11 +153,27 @@ export function poly(ctx, pts, fill, stroke = null, lw = 1) {
     }
   }
   if (stroke) {
-    ctx.beginPath();
-    ctx.moveTo(Math.round(pts[0].x), Math.round(pts[0].y));
-    for (let i = 1; i < pts.length; i++) ctx.lineTo(Math.round(pts[i].x), Math.round(pts[i].y));
-    ctx.closePath();
-    ctx.lineWidth = lw; ctx.lineJoin = 'miter'; ctx.strokeStyle = stroke; ctx.stroke();
+    for (let i = 0; i < pts.length; i++) {
+      const a = pts[i], b = pts[(i + 1) % pts.length];
+      pxLine(ctx, a.x, a.y, b.x, b.y, stroke);
+    }
+  }
+}
+
+// trait trace pixel par pixel : le canvas n'a plus son mot a dire
+export function pxLine(ctx, x0, y0, x1, y1, color) {
+  let x = Math.round(x0), y = Math.round(y0);
+  const X = Math.round(x1), Y = Math.round(y1);
+  const dx = Math.abs(X - x), dy = -Math.abs(Y - y);
+  const sx = x < X ? 1 : -1, sy = y < Y ? 1 : -1;
+  let err = dx + dy, garde = 0;
+  ctx.fillStyle = color;
+  while (garde++ < 4000) {
+    ctx.fillRect(x, y, 1, 1);
+    if (x === X && y === Y) break;
+    const e2 = 2 * err;
+    if (e2 >= dy) { err += dy; x += sx; }
+    if (e2 <= dx) { err += dx; y += sy; }
   }
 }
 
@@ -221,13 +237,12 @@ export function box(ctx, x, y, z, w, d, h, color, o = {}) {
   poly(ctx, [B, C, Cr, Br], right);
   if (h !== 0 || o.forceTop !== false) poly(ctx, [A, B, C, D], top);
   if (line) {
-    ctx.strokeStyle = line; ctx.lineWidth = 1; ctx.lineJoin = 'miter';
-    ctx.beginPath();
-    ctx.moveTo(R(A.x), R(A.y)); ctx.lineTo(R(B.x), R(B.y)); ctx.lineTo(R(Br.x), R(Br.y));
-    ctx.lineTo(R(Cr.x), R(Cr.y)); ctx.lineTo(R(Dr.x), R(Dr.y)); ctx.lineTo(R(D.x), R(D.y));
-    ctx.closePath(); ctx.stroke();
-    // arete interne entre les deux faces visibles
-    ctx.beginPath(); ctx.moveTo(R(C.x), R(C.y)); ctx.lineTo(R(Cr.x), R(Cr.y)); ctx.stroke();
+    const sil = [A, B, Br, Cr, Dr, D];
+    for (let i = 0; i < sil.length; i++) {
+      const a = sil[i], b = sil[(i + 1) % sil.length];
+      pxLine(ctx, a.x, a.y, b.x, b.y, line);
+    }
+    pxLine(ctx, C.x, C.y, Cr.x, Cr.y, line);   // arete entre les deux faces visibles
   }
 }
 
@@ -264,18 +279,16 @@ export function gableRoof(ctx, x, y, z, w, d, h, color, axis = 'x', ov = 0.18) {
   }
 }
 function tiles(ctx, q, color, rows) {
-  ctx.strokeStyle = color; ctx.lineWidth = 1;
   for (let i = 1; i < rows; i++) {
     const t = i / rows;
     const a = { x: q[0].x + (q[3].x - q[0].x) * t, y: q[0].y + (q[3].y - q[0].y) * t };
     const b = { x: q[1].x + (q[2].x - q[1].x) * t, y: q[1].y + (q[2].y - q[1].y) * t };
-    ctx.beginPath(); ctx.moveTo(R(a.x), R(a.y)); ctx.lineTo(R(b.x), R(b.y)); ctx.stroke();
+    pxLine(ctx, a.x, a.y, b.x, b.y, color);
   }
 }
 
-export function line2(ctx, a, b, color, lw = 1) {
-  ctx.beginPath(); ctx.moveTo(R(a.x), R(a.y)); ctx.lineTo(R(b.x), R(b.y));
-  ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.lineCap = 'butt'; ctx.stroke();
+export function line2(ctx, a, b, color) {
+  pxLine(ctx, a.x, a.y, b.x, b.y, color);
 }
 
 
@@ -418,11 +431,12 @@ export function rock(ctx, x, y, z, s = 1, seed = 0) {
   ctx.lineTo(bx + 7 * s, by - 1 * s);
   ctx.lineTo(bx + 1 * s, by - 1 * s);
   ctx.closePath(); ctx.fill();
-  ctx.strokeStyle = line; ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(bx - 8 * s, by - 1 * s); ctx.lineTo(bx - 5 * s, by - 9 * s);
-  ctx.lineTo(bx + 1 * s, by - 11 * s); ctx.lineTo(bx + 7 * s, by - 6 * s);
-  ctx.lineTo(bx + 7 * s, by - 1 * s); ctx.closePath(); ctx.stroke();
+  const cont = [[bx - 8 * s, by - 1 * s], [bx - 5 * s, by - 9 * s], [bx + 1 * s, by - 11 * s],
+                [bx + 7 * s, by - 6 * s], [bx + 7 * s, by - 1 * s]];
+  for (let i = 0; i < cont.length; i++) {
+    const a = cont[i], b = cont[(i + 1) % cont.length];
+    pxLine(ctx, a[0], a[1], b[0], b[1], line);
+  }
 }
 
 export function flower(ctx, x, y, z, color = '#e8d44a') {

@@ -1,7 +1,7 @@
 // =====================================================================
 //  DECOR PIXEL : sol de clairiere, cabanes, accessoires
 // =====================================================================
-import { toScreen } from '../core/iso.js';
+import { toScreen, HW, HH, HU } from '../core/iso.js';
 import {
   box, slab, poly, gableRoof, face, signboard, windowRow, doorway, shadow, castBox,
   tree, bush, rock, flower, grassTuft, crate, px, shade, mix, alpha, line2,
@@ -105,13 +105,11 @@ function hutBody(ctx, b, wallH, roofH) {
   const wall = b.wall || '#c98c4e';
   box(ctx, b.x, b.y, 0, b.w, b.d, wallH, wall, { line: shade(wall, -0.55) });
   // planches verticales sur la facade
-  face(ctx, b.x, b.y + b.d, wallH, 'left', c => {
-    c.strokeStyle = alpha(shade(wall, -0.4), 0.5); c.lineWidth = 1;
-    for (let i = 1; i < b.w * 3; i++) {
-      const xx = R(i * (b.w * FW) / (b.w * 3));
-      c.beginPath(); c.moveTo(xx, 0); c.lineTo(xx, R(wallH * FH)); c.stroke();
-    }
-  });
+  const plancheCol = alpha(shade(wall, -0.4), 0.5);
+  for (let i = 1; i < b.w * 3; i++) {
+    const xx = R(i * (b.w * FW) / (b.w * 3));
+    faceRect(ctx, b.x, b.y + b.d, wallH, 'left', xx, 0, 1, R(wallH * FH), plancheCol);
+  }
   gableRoof(ctx, b.x, b.y, wallH, b.w, b.d, roofH, b.roof || '#4a5b8c', 'x', 0.22);
 }
 
@@ -125,7 +123,7 @@ const STYLES = {
     windowRow(ctx, ...fp(b, 0.22, 0.92), 'left', 0.42, 0.34, 1, env.night ? '#ffd76a' : '#9ad9e8');
     // enseigne face camera : c'est la seule facon d'avoir des lettres nettes
     billboard(ctx, b.x + b.w / 2, b.y + b.d / 2, wallH + roofH + 0.55, b.sign,
-      { bg: '#f6f0dc', fg: '#2b2136', accent: b.roof, post: 0.34, scale: 1 });
+      { bg: '#f6f0dc', fg: '#2b2136', accent: b.roof, post: 0.34, scale: 2 });
     // un bac de disques dehors
     crate(ctx, b.x + b.w + 0.12, b.y + b.d - 0.55, 0, 0.45, '#b3773c');
     px(ctx, P(b.x + b.w + 0.34, b.y + b.d - 0.33, 0.46).x - 3, P(b.x + b.w + 0.34, b.y + b.d - 0.33, 0.46).y - 2, 6, 2, '#2b2136');
@@ -140,7 +138,7 @@ const STYLES = {
     doorway(ctx, ...fp(b, L / 2 - 0.32, 0.95), 'left', 0.64, 0.95, '#6b4426');
     windowRow(ctx, ...fp(b, 0.28, 1.06), 'left', L - 1.5, 0.44, Math.max(1, R(L - 1.5)), env.night ? '#ffd76a' : '#9ad9e8');
     billboard(ctx, b.x + b.w / 2, b.y + b.d / 2, wallH + roofH + 0.6, b.sign,
-      { bg: '#f6f0dc', fg: '#2b2136', accent: b.roof, post: 0.34, scale: 1 });
+      { bg: '#f6f0dc', fg: '#2b2136', accent: b.roof, post: 0.34, scale: 2 });
     if (b.chimney) {
       box(ctx, b.x + b.w - 0.75, b.y + 0.35, wallH + roofH * 0.55, 0.32, 0.32, 0.45, '#9a6a4a');
       smoke(ctx, b.x + b.w - 0.6, b.y + 0.5, wallH + roofH * 0.55 + 0.5, b.x);
@@ -164,7 +162,7 @@ const STYLES = {
     billboard(ctx, b.x + b.w / 2, b.y + b.d / 2, wallH + 0.85, b.sign, {
       bg: '#241b33', fg: on ? '#ffa8d8' : '#6b3a58',
       border: on ? '#ff5cb4' : '#5c2a48', accent: on ? '#ff5cb4' : '#4a2440',
-      post: 0.3, scale: 1,
+      post: 0.3, scale: 2,
     });
     // enceintes
     box(ctx, b.x + 0.15, b.y + b.d + 0.1, 0, 0.4, 0.4, 0.8, '#2b2340', { line: '#191327' });
@@ -177,14 +175,13 @@ const STYLES = {
     box(ctx, b.x, b.y, 0, b.w, b.d, wallH, b.wall, { line: shade(b.wall, -0.55) });
     gableRoof(ctx, b.x, b.y, wallH, b.w, b.d, 0.45, b.roof, 'x', 0.25);
     const L = span(b);
-    face(ctx, ...fp(b, L / 2 - 0.7, 1.1), 'left', c => {
-      const w = R(1.4 * FW), h = R(1.1 * FH);
-      px(c, 0, 0, w, h, '#cfd8e4');
-      c.strokeStyle = '#8f9aa8'; c.lineWidth = 1;
-      for (let i = 1; i < 5; i++) { c.beginPath(); c.moveTo(1, R(h * i / 5)); c.lineTo(w - 1, R(h * i / 5)); c.stroke(); }
-    });
+    const porte = fp(b, L / 2 - 0.7, 1.1);
+    const pw = R(1.4 * FW), ph = R(1.1 * FH);
+    faceRect(ctx, porte[0], porte[1], porte[2], 'left', 0, 0, pw, ph, '#cfd8e4');
+    for (let i = 1; i < 5; i++)
+      faceRect(ctx, porte[0], porte[1], porte[2], 'left', 1, R(ph * i / 5), pw - 2, 1, '#8f9aa8');
     billboard(ctx, b.x + b.w / 2, b.y + b.d / 2, wallH + 1.05, b.sign,
-      { bg: '#f6f0dc', fg: '#2b2136', accent: b.roof, post: 0.34, scale: 1 });
+      { bg: '#f6f0dc', fg: '#2b2136', accent: b.roof, post: 0.34, scale: 2 });
     crate(ctx, b.x + b.w + 0.15, b.y + b.d - 0.6, 0, 0.5, '#b3773c');
     crate(ctx, b.x + b.w + 0.15, b.y + b.d - 0.6, 0.4, 0.42, '#c9924e');
   },
@@ -218,22 +215,84 @@ function construction(ctx, b) {
   box(ctx, b.x + 0.3, b.y + 0.3, 0, b.w - 0.6, b.d - 0.6, 0.45, '#9a7b55', { line: '#6b5238' });
   crate(ctx, b.x + b.w - 0.8, b.y + b.d - 0.8, 0, 0.45, '#b3773c');
   billboard(ctx, b.x + b.w / 2, b.y + b.d / 2, 1.15, 'BIENTOT',
-    { bg: '#2b2136', fg: '#e8c86a', accent: '#4a4258', scale: 1 });
+    { bg: '#2b2136', fg: '#e8c86a', accent: '#4a4258', scale: 2 });
+}
+
+// Un batiment ne bouge jamais : on le dessine une fois dans son propre
+// tampon, puis on recopie l'image. On ne redessine que si la lumiere change
+// de palier, ou si le neon du club clignote.
+const HAUTEURS = { hut: 3.2, house: 3.8, big: 5.2, tower: 9, club: 3.2, chantier: 1.6 };
+const cacheBatiments = new Map();
+
+function styleDe(b) {
+  return b.hut ? 'hut' : b.club ? 'club' : b.big ? 'big' : b.tower ? 'tower' : 'house';
+}
+
+function rendreSprite(b, env, style, cle) {
+  const H = (HAUTEURS[style] || 3.5) + 1.8;      // + l'enseigne au-dessus du toit
+  const marge = 108;
+  const ancre = toScreen(b.x, b.y, 0);
+  const gauche = Math.ceil(b.d * HW) + marge;
+  const haut = Math.ceil(H * HU) + 12;
+  const w = gauche + Math.ceil(b.w * HW) + marge;
+  const h = haut + Math.ceil((b.w + b.d) * HH) + 28;
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  const g = c.getContext('2d');
+  g.imageSmoothingEnabled = false;
+  const dx = Math.floor(ancre.x) - gauche, dy = Math.floor(ancre.y) - haut;
+  g.setTransform(1, 0, 0, 1, -dx, -dy);
+  if (style === 'chantier') construction(g, b); else STYLES[style](g, b, env);
+  return { canvas: c, dx, dy, cle };
 }
 
 export function drawBuilding(ctx, b, env) {
-  if (!env.unlocked) { construction(ctx, b); return; }
-  const style = b.hut ? 'hut' : b.club ? 'club' : b.big ? 'big' : b.tower ? 'tower' : 'house';
-  STYLES[style](ctx, b, env);
+  const style = env.unlocked ? styleDe(b) : 'chantier';
+  const neon = b.club ? (Math.sin(artTime() * 3.4) > -0.75 ? 1 : 0) : 0;
+  const cle = style + '|' + LIGHT.key + '|' + neon;
+  let sp = cacheBatiments.get(b.id);
+  if (!sp || sp.cle !== cle) {
+    sp = rendreSprite(b, env, style, cle);
+    cacheBatiments.set(b.id, sp);
+  }
+  ctx.drawImage(sp.canvas, sp.dx, sp.dy);
 }
 
 // ------------------------------------------------------------- decors
+// Meme principe que les batiments : un arbre ne bouge pas, on le dessine
+// une fois par variante et on recopie l'image ensuite.
+const cacheDecors = new Map();
+const AX = 56, AY = 88, DW = 112, DH = 116;   // ancre et taille du tampon
+
 export function drawProp(ctx, pr, env) {
-  const { x, y } = pr, s = pr.s || 1;
+  const s = pr.s || 1;
+  const graine = Math.round(pr.type === 'tree' ? pr.x * 3 + pr.y
+    : pr.type === 'bush' ? pr.x * 5 + pr.y
+    : pr.x + pr.y * 3);
+  const cle = pr.type + '|' + s.toFixed(2) + '|' + graine + '|' + LIGHT.key + '|' + (env && env.night ? 1 : 0);
+  let sp = cacheDecors.get(cle);
+  if (!sp) {
+    const c = document.createElement('canvas');
+    c.width = DW; c.height = DH;
+    const g = c.getContext('2d');
+    g.imageSmoothingEnabled = false;
+    const ancre = toScreen(pr.x, pr.y, 0);
+    g.setTransform(1, 0, 0, 1, AX - Math.floor(ancre.x), AY - Math.floor(ancre.y));
+    dessinerDecor(g, pr, s, graine, env);
+    sp = { canvas: c };
+    if (cacheDecors.size > 400) cacheDecors.clear();
+    cacheDecors.set(cle, sp);
+  }
+  const p = toScreen(pr.x, pr.y, 0);
+  ctx.drawImage(sp.canvas, Math.floor(p.x) - AX, Math.floor(p.y) - AY);
+}
+
+function dessinerDecor(ctx, pr, s, graine, env) {
+  const { x, y } = pr;
   switch (pr.type) {
-    case 'tree': tree(ctx, x, y, 0, s, x * 3 + y); break;
-    case 'bush': bush(ctx, x, y, 0, s, x * 5 + y); break;
-    case 'rock': rock(ctx, x, y, 0, s, x + y * 3); break;
+    case 'tree': tree(ctx, x, y, 0, s, graine); break;
+    case 'bush': bush(ctx, x, y, 0, s, graine); break;
+    case 'rock': rock(ctx, x, y, 0, s, graine); break;
 
     case 'totem': {   // un 33 tours plante sur un socle de pierre
       shadow(ctx, x, y, 0.75, 0, 0.36);
@@ -241,12 +300,13 @@ export function drawProp(ctx, pr, env) {
       box(ctx, x - 0.38, y - 0.38, 0.28, 0.76, 0.76, 0.34, '#bdb09c', { line: '#7a7063' });
       const p = P(x, y, 0.62);
       const bx = R(p.x), by = R(p.y);
-      ctx.fillStyle = '#241b33';
-      ctx.beginPath(); ctx.ellipse(bx, by - 13, 11, 11, 0, 0, Math.PI * 2); ctx.fill();
-      ctx.strokeStyle = '#3d3350'; ctx.lineWidth = 1;
-      for (let r = 4; r < 11; r += 3) { ctx.beginPath(); ctx.ellipse(bx, by - 13, r, r, 0, 0, Math.PI * 2); ctx.stroke(); }
-      ctx.fillStyle = '#ff5cb4';
-      ctx.beginPath(); ctx.ellipse(bx, by - 13, 3, 3, 0, 0, Math.PI * 2); ctx.fill();
+      // disque et sillons : des anneaux pleins emboites, aucun contour adouci
+      pxEllipse(ctx, bx, by - 13, 11, 11, '#241b33');
+      for (let r = 10; r >= 4; r -= 3) {
+        pxEllipse(ctx, bx, by - 13, r, r, '#3d3350');
+        pxEllipse(ctx, bx, by - 13, r - 1, r - 1, '#241b33');
+      }
+      pxEllipse(ctx, bx, by - 13, 3, 3, '#ff5cb4');
       px(ctx, bx - 1, by - 15, 1, 1, '#ffa8d8');
       break;
     }
@@ -254,7 +314,7 @@ export function drawProp(ctx, pr, env) {
       shadow(ctx, x, y, 0.22, 0, 0.28);
       box(ctx, x - 0.06, y - 0.06, 0, 0.12, 0.12, 1.7, '#6b5a48', { line: '#3f342a' });
       const p = P(x, y, 1.7);
-      const on = env.night;
+      const on = env && env.night;
       px(ctx, p.x - 3, p.y - 6, 6, 5, on ? '#ffd76a' : '#c9c2b0');
       px(ctx, p.x - 2, p.y - 5, 4, 3, on ? '#fff0b8' : '#e8e2d2');
       px(ctx, p.x - 4, p.y - 8, 8, 2, '#4a3f33');
