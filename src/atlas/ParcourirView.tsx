@@ -271,11 +271,24 @@ export function ParcourirView() {
           Elle est posee ici plutot que dans une barre globale parce que cette
           vue est un `position: fixed; inset: 0` : une barre au-dessus d'elle
           serait recouverte. */}
-      {niveau.k === 'familles' ? (
-        <a className="pv-logo" href="#/" aria-label={t.retourAtlas}>
-          <img src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`} alt="SONAA" draggable={false} />
-        </a>
-      ) : (
+      {/* LE LOGO NE DISPARAIT PLUS EN DESCENDANT.
+
+          Il n'etait la qu'au premier niveau : des qu'on ouvrait une famille,
+          le bouton de retour prenait sa place, et le nom du site quittait
+          l'ecran pour tout le reste de la visite. Toutes les autres pages du
+          site le portent, celle-ci doit le porter aussi.
+
+          IL PASSE DEVANT LE BOUTON DE RETOUR, pas derriere. Il est le seul
+          element qui ne bouge jamais : le mettre en premier lui donne la meme
+          abscisse sur les cinq routes, ce qui est precisement le travail
+          d'alignement fait juste avant. Le retour, lui, apparait et
+          disparait ; s'il etait devant, le logo sauterait de quarante-quatre
+          pixels a chaque descente. */}
+      <a className="pv-logo" href="#/parcourir" aria-label={t.retourAtlas}>
+        <img src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`} alt="SONAA" draggable={false} />
+      </a>
+
+      {niveau.k !== 'familles' && (
         <button
           className="pv-retour"
           onClick={() => aller(niveau.k === 'genre' ? { k: 'famille', fi: niveau.fi } : { k: 'familles' })}
