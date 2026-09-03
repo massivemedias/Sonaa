@@ -49,6 +49,13 @@ import { ZoneDepot } from './ZoneDepot.tsx';
 import { ChoixStyles } from './ChoixStyles.tsx';
 import { ModifierSet } from './ModifierSet.tsx';
 import { EnTeteSite } from './EnTeteSite.tsx';
+import { SelecteurVille } from './SelecteurVille.tsx';
+import {
+  enregistrerVilleDattache,
+  toutesLesVilles,
+  villeDattache,
+} from '../lib/villes.ts';
+import type { Ville } from '../lib/ville-active.ts';
 import { PiedDePage } from './PiedDePage.tsx';
 
 import { t } from '../langue/langue.ts';
@@ -72,6 +79,14 @@ export function ProfilPage() {
   const [bio, setBio] = useState('');
   const [avatarPath, setAvatarPath] = useState<string | null>(null);
   const [messageProfil, setMessageProfil] = useState<string | null>(null);
+
+  /* LA VILLE D'ATTACHE. C'est le SEUL endroit du site qui l'ecrit en base.
+     Le calendrier, lui, ne touche qu'au stockage local et a l'adresse :
+     regarder ce qui se joue a Berlin un mardi soir ne doit pas rendre
+     quelqu'un berlinois dans son profil. */
+  const [villes, setVilles] = useState<Ville[]>([]);
+  const [villeAttache, setVilleAttache] = useState<Ville | null>(null);
+  const [messageVille, setMessageVille] = useState<string | null>(null);
 
   const [sets, setSets] = useState<SetDJ[]>([]);
   const [fichier, setFichier] = useState<File | null>(null);
@@ -109,6 +124,10 @@ export function ProfilPage() {
         setNom(a?.nom ?? '');
         setBio(a?.bio ?? '');
         setAvatarPath(a?.avatar_path ?? null);
+        const [liste, idAttache] = await Promise.all([toutesLesVilles(), villeDattache()]);
+        if (!vivant) return;
+        setVilles(liste);
+        setVilleAttache(liste.find((v) => v.id === idAttache) ?? null);
         await recharger();
       }
       if (vivant) setPret(true);
@@ -318,6 +337,33 @@ export function ProfilPage() {
 
   const occupe = etape !== 'repos';
 
+  /* CHOISIR SA VILLE ICI ECRIT EN BASE, et rien d'autre au monde ne le fait.
+     La confirmation est ecrite : une donnee personnelle qui change sans un
+     mot laisse quelqu'un se demander si ca a pris. */
+  const choisirVilleDattache = (v: Ville) => {
+    setVilleAttache(v);
+    setMessageVille(null);
+    void enregistrerVilleDattache(v.id)
+      .then(() => setMessageVille(`Ville d'attache enregistrée : ${v.name}.`))
+      .catch((e: unknown) => {
+        setVilleAttache(null);
+        setMessageVille(e instanceof Error ? e.message : 'Enregistrement impossible.');
+      });
+  };
+
+  /* L'EFFACEMENT EST UN BOUTON, PAS UNE DEMANDE PAR COURRIEL. Une ville est
+     un renseignement personnel : elle doit pouvoir etre retiree par la
+     personne elle-meme, tout de suite, sans passer par personne. */
+  const effacerVilleDattache = () => {
+    setVilleAttache(null);
+    setMessageVille(null);
+    void enregistrerVilleDattache(null)
+      .then(() => setMessageVille('Ville retirée de votre profil.'))
+      .catch((e: unknown) =>
+        setMessageVille(e instanceof Error ? e.message : 'Effacement impossible.')
+      );
+  };
+
   return (
     <>
       <EnTeteSite />
@@ -380,6 +426,38 @@ export function ProfilPage() {
             {messageProfil && <p className="sp-message">{messageProfil}</p>}
           </div>
         </div>
+      </section>
+
+      {/* ── La ville d'attache ── */}
+      <section className="sets-bloc">
+        <h2>Votre ville</h2>
+        <p className="sp-aide">
+          Elle sert à ouvrir le calendrier sur les bonnes soirées, sur tous vos appareils. Elle
+          n&apos;est montrée à personne. Vous pouvez la changer ou la retirer quand vous voulez.
+        </p>
+        <SelecteurVille
+          villes={villes}
+          choisie={villeAttache}
+          onChoisir={choisirVilleDattache}
+          etiquette="Ville d'attache"
+          enDessous={
+            <div className="sp-ville-pied">
+              {villeAttache ? (
+                <>
+                  <span className="sp-aide">
+                    Actuellement : <strong>{villeAttache.name}</strong>
+                  </span>
+                  <button className="sp-action sp-action-sobre" onClick={effacerVilleDattache}>
+                    Retirer ma ville
+                  </button>
+                </>
+              ) : (
+                <span className="sp-aide">Aucune ville enregistrée.</span>
+              )}
+            </div>
+          }
+        />
+        {messageVille && <p className="sp-message">{messageVille}</p>}
       </section>
 
       {/* ── Deposer ── */}

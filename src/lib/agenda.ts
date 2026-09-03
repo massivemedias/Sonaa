@@ -49,16 +49,12 @@ export async function ouJeSuis(): Promise<OuJeSuis> {
   }
 }
 
-/** Les 639 villes que RA couvre, pour qui veut regarder ailleurs. */
-export async function zones(): Promise<Zone[]> {
-  try {
-    const r = await fetch(`${PASSERELLE}/api/zones`);
-    if (!r.ok) return [];
-    return (await r.json()) as Zone[];
-  } catch {
-    return [];
-  }
-}
+/* LA LISTE DES 639 ZONES DE RA N'EST PLUS LUE PAR LA PAGE. Le choix de ville
+   se fait maintenant dans notre referentiel, qui porte le fuseau, les
+   coordonnees et la population ; une zone RA n'est plus qu'une colonne de ce
+   referentiel. La route `/api/zones` du Worker reste en place : elle sert a
+   retrouver l'identifiant de zone d'une ville qu'on ajoute, et elle ne coute
+   rien tant que personne ne l'appelle. */
 
 /* LA PANNE EST UNE VALEUR, PAS UNE EXCEPTION.
 
@@ -91,7 +87,6 @@ export async function agenda(opts: {
 /* --- Les styles suivis --------------------------------------------------- */
 
 const CLE_STYLES = 'sonaa.calendrier.styles';
-const CLE_ZONE = 'sonaa.calendrier.zone';
 
 /** Au plus cinq styles, comme pour les sets : au-dela le filtre ne filtre
     plus rien, et la page redevient l'agenda complet de la ville. */
@@ -118,25 +113,13 @@ export function noterStyles(ids: string[]): void {
   }
 }
 
-export function zoneChoisie(): Zone | null {
-  try {
-    const brut = localStorage.getItem(CLE_ZONE);
-    if (!brut) return null;
-    const z = JSON.parse(brut) as Zone;
-    return typeof z?.id === 'number' && typeof z?.nom === 'string' ? z : null;
-  } catch {
-    return null;
-  }
-}
+/* LA VILLE NE SE GARDE PLUS ICI. Elle vivait sous forme de zone Resident
+   Advisor, dans `sonaa.calendrier.zone` ; elle vit maintenant comme un slug
+   de notre referentiel, dans `sonaa.calendar.city`, avec le reste de ce qui
+   concerne les villes. Voir src/lib/villes.ts.
 
-export function noterZone(z: Zone | null): void {
-  try {
-    if (z) localStorage.setItem(CLE_ZONE, JSON.stringify(z));
-    else localStorage.removeItem(CLE_ZONE);
-  } catch {
-    /* Voir ci-dessus. */
-  }
-}
+   L'ancienne cle n'est pas nettoyee : quelques octets oublies dans un
+   navigateur ne valent pas le code qui irait les chercher. */
 
 /* --- Des styles aux mots que RA comprend --------------------------------- */
 

@@ -1,0 +1,79 @@
+/* LE SELECTEUR DE VILLE. Les memes jetons que partout : aucune couleur
+   litterale, aucune mesure inventee. */
+
+.sv {
+  position: relative;
+  max-width: 30rem;
+}
+
+.sv-etiquette {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: var(--serrage);
+  color: var(--ink-secondary);
+}
+
+.sv-champ {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--surface-margin);
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 8px;
+  padding: 0.55rem 0.75rem;
+  color: var(--ink-primary);
+  font: inherit;
+}
+
+.sv-champ:focus-visible {
+  outline: 2px solid var(--ink-primary);
+  outline-offset: 1px;
+}
+
+/* LA LISTE FLOTTE AU-DESSUS DU RESTE. Poser les resultats dans le flux
+   ferait sauter tout ce qui suit a chaque frappe, et la ligne qu'on visait
+   se deroberait sous le curseur. */
+.sv-liste {
+  position: absolute;
+  z-index: 20;
+  left: 0;
+  right: 0;
+  margin: 0.25rem 0 0;
+  padding: 0.25rem;
+  list-style: none;
+  max-height: 16rem;
+  overflow-y: auto;
+  background: var(--surface-raised);
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 8px;
+}
+
+.sv-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.4rem 0.55rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* LE SURLIGNAGE EST LE MEME AU CLAVIER ET A LA SOURIS. Deux apparences pour
+   un seul etat, c'est la porte ouverte a « je ne sais plus laquelle est
+   selectionnee » : la classe est posee par les fleches comme par le survol. */
+.sv-option-surlignee {
+  background: oklch(1 0 0 / 0.08);
+}
+
+.sv-situation {
+  color: var(--ink-secondary);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.sv-rien {
+  margin: 0.4rem 0 0;
+  color: var(--ink-secondary);
+  font-size: 0.9rem;
+}

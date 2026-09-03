@@ -94,6 +94,20 @@ function sansCommentaires(src: string): string {
      restent justes, ce qui est tout l'interet d'un message d'erreur. */
   let s = src.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '));
   s = s.replace(/^([ \t]*)\/\/.*$/gm, (_m, i: string) => i);
+  /* LES ENTITES HTML PORTENT UN POINT-VIRGULE, ET IL FAISAIT TAIRE LE
+     CONTROLE.
+
+     TROISIEME MESURE, ET LA PLUS INSTRUCTIVE. Une faute posee expres dans la
+     page A propos n'a pas ete trouvee. Cause : le texte contenait
+     « l&apos;effacer », donc un point-virgule, donc le fragment etait rejete
+     comme du code par le filtre de ponctuation. Or presque toute phrase
+     francaise du site porte une apostrophe ecrite ainsi. Le controle etait
+     donc aveugle exactement la ou il devait voir.
+
+     On remplace chaque entite par des lettres de meme longueur : le
+     point-virgule disparait, les numeros de ligne restent justes, et le
+     texte autour reste intact. */
+  s = s.replace(/&[a-zA-Z]{2,8};/g, (m) => 'e'.repeat(m.length));
   return s;
 }
 
@@ -149,6 +163,12 @@ function estDuTexte(t: string): boolean {
      Un acces a une propriete, un accent grave, un operateur logique : rien
      de tout cela n'apparait dans une phrase qu'on lit. */
   if (/[A-Za-z_$][\w$]*\.[A-Za-z_$]|`|&&|\?\?|=>/.test(nu)) return false;
+  /* ET DU CODE SANS PONCTUATION RESTE DU CODE. « export interface Entrees »
+     n'a ni point, ni parenthese, ni accent grave : c'est un mot-cle qui le
+     trahit, pas sa forme. */
+  if (/\b(export|import|interface|const|let|function|return|type|readonly|extends)\b/.test(nu)) {
+    return false;
+  }
   if (ANGLAIS.test(nu)) return false;
   /* Au moins trois mots : une phrase, pas une etiquette technique. */
   return nu.split(/\s+/).filter((w) => w.length >= 2).length >= 3;
@@ -171,6 +191,11 @@ function fichiers(racine: string): string[] {
     const chemin = join(racine, nom);
     if (statSync(chemin).isDirectory()) {
       sortie.push(...fichiers(chemin));
+    } else if (/\.test\.tsx?$/.test(nom)) {
+      /* LES TESTS NE SONT PAS DU TEXTE AFFICHE. Leurs intitules decrivent une
+         regle pour qui lit le rapport, ils ne vont dans aucune page. Les y
+         soumettre revenait a exiger des accents dans des commentaires. */
+      continue;
     } else if (nom.endsWith('.tsx')) {
       sortie.push(chemin);
     } else if (nom.endsWith('.ts') && !nom.endsWith('.d.ts')) {

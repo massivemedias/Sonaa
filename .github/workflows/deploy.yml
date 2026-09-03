@@ -192,6 +192,13 @@ jobs:
       - name: Controler les accents du texte affiche
         run: npm run check:accents
 
+      # Les tests unitaires : l'ordre de priorite de la ville, le clavier du
+      # selecteur, la cloison entre regarder une ville et la declarer. Ce qui
+      # se decrit par une table de cas se verifie ici ; le reste se mesure
+      # dans un vrai navigateur.
+      - name: Tests unitaires
+        run: npm test
+
       # Fait autorité sur les données : cycles, références mortes, orphelins,
       # doublons d'identifiants, couverture par genre. Voir ADR-005.
       - name: Valider les données

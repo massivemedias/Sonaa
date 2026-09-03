@@ -91,6 +91,10 @@
   color: var(--surface-plate);
 }
 
+.cal-choix-ville {
+  margin: 1.2rem 0 1.6rem;
+}
+
 /* --- Le choix de ville --------------------------------------------------- */
 
 .cal-villes {

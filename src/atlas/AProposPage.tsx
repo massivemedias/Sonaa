@@ -177,6 +177,46 @@ export function AProposPage() {
           </p>
         </section>
 
+        {/* CE QUE LE SITE SAIT DE VOUS.
+
+            Cette section existe parce que la ville est un renseignement
+            personnel des qu'elle est rattachee a un compte. Elle dit trois
+            choses, et ce sont les trois qui comptent : a quoi la donnee sert,
+            combien de temps elle reste, et par quel geste on la retire. Une
+            politique qui explique tout sauf comment effacer n'est pas une
+            politique, c'est une notice. */}
+        <section aria-labelledby="apropos-vieprivee">
+          <h2 id="apropos-vieprivee">Ce que SONAA garde de vous</h2>
+          <p>
+            <strong>Sans compte, rien n&apos;est conservé sur nos serveurs.</strong> Les styles
+            que vous suivez et la ville affichée par le calendrier restent dans votre navigateur,
+            sur cette machine, et disparaissent si vous effacez les données du site.
+          </p>
+          <p>
+            <strong>La ville.</strong> Le calendrier a besoin de savoir où regarder. Il la devine
+            à partir de votre connexion, ce qui donne la ville, jamais une adresse précise, et il
+            ne l&apos;écrit nulle part : c&apos;est une proposition pour remplir le premier écran,
+            que le moindre geste remplace. Si vous choisissez une ville dans le calendrier, elle
+            reste sur cette machine. Si vous l&apos;enregistrez dans{' '}
+            <a href="#/profil">votre profil</a>, elle est conservée dans la base, rattachée à
+            votre compte, pour ouvrir le calendrier au bon endroit sur tous vos appareils. Elle
+            n&apos;est montrée à personne d&apos;autre et ne sert à rien d&apos;autre.
+          </p>
+          <p>
+            <strong>Combien de temps, et comment l&apos;effacer.</strong> Jusqu&apos;à ce que vous
+            la changiez, ou jusqu&apos;à la suppression de votre compte. Le bouton{' '}
+            <em>Retirer ma ville</em> dans votre profil l&apos;efface immédiatement, sans avoir à
+            demander quoi que ce soit à qui que ce soit.
+          </p>
+          <p>
+            <strong>Le reste.</strong> Un compte porte une adresse de courriel, qui sert à vous
+            connecter et à rien d&apos;autre, et un pseudonyme calculé de façon non réversible :
+            c&apos;est lui qui signe vos propositions publiques, votre adresse n&apos;y figure
+            jamais. Les sets que vous déposez sont publics si vous les publiez, et vous seul
+            pouvez les supprimer.
+          </p>
+        </section>
+
         {/* LES CREDITS SE REJOIGNENT D'ICI, PLUS DEPUIS LE MENU.
 
             Cinq entrees dans une barre qui doit tenir sur une seule rangee

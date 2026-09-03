@@ -761,3 +761,26 @@
   margin: 0;
   color: oklch(0.78 0.12 85);
 }
+
+/* LE PIED DU SELECTEUR DE VILLE, dans le profil : ce qui est enregistre, et
+   de quoi le retirer. Le bouton sobre n'appelle pas au clic comme le fait
+   « Enregistrer » : retirer sa ville est un droit, pas une action qu'on
+   pousse a faire. */
+.sp-ville-pied {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.7rem;
+}
+
+.sp-action-sobre {
+  background: none;
+  border: var(--rule-width) solid var(--rule-hairline);
+  color: var(--ink-secondary);
+}
+
+.sp-action-sobre:hover {
+  color: var(--ink-primary);
+  border-color: var(--ink-primary);
+}
