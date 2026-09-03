@@ -14,10 +14,10 @@ export class Player {
     this.flip = 1;              // 1 = regarde vers la droite de l'écran
     this.back = false;          // de dos
     this.moving = false;
-    this.body = '#6fd8b0';       // la creature du joueur
-    this.bodyD = '#48ab88';
+    this.body = '#f2b33d';       // la creature du joueur, jaune orange
+    this.bodyD = '#c98a22';
     this.shorts = '#4a86d9';
-    this.cup = '#ff5cb4';
+    
     this.jacket = '#3f8f7d';      // le blouson, plus sombre que le t-shirt
     this.tee = '#f4ede0';
     this.blink = 0;               // minuteur de clignement
@@ -89,9 +89,8 @@ export class Player {
     const footL = [0, 1, 0, -1][f], footR = [0, -1, 0, 1][f];
     const fl = this.flip;
 
-    const B = this.body, BD = this.bodyD, BL = '#a6f2d5';
+    const B = this.body, BD = this.bodyD, BL = '#ffd98a';
     const S = this.shorts, SD = '#356aad';
-    const CUP = this.cup;
 
     const parts = [];
     const R = (x, y, w, h, c) => parts.push({ x, y, w, h, c });
@@ -143,18 +142,6 @@ export class Player {
 
     for (const q of parts) px(ctx, bx + (fl > 0 ? q.x : -q.x - q.w) - 1, by + q.y - 1, q.w + 2, q.h + 2, INK);
     for (const q of parts) px(ctx, bx + (fl > 0 ? q.x : -q.x - q.w), by + q.y, q.w, q.h, q.c);
-
-    // Casque : arceau puis coussinets. Le "by +" est indispensable, ty n'est
-    // qu'un decalage relatif au personnage. Sans lui le casque se dessinait
-    // pres de l'origine du monde, et flottait tout seul dans le ciel.
-    const casqueY = by + ty + 3;
-    px(ctx, bx - 8, casqueY - 4, 16, 2, INK);
-    px(ctx, bx - 7, casqueY - 4, 14, 1, '#5a5270');
-    for (const sx of [-9, 6]) {
-      px(ctx, bx + sx - 1, casqueY, 5, 7, INK);
-      px(ctx, bx + sx, casqueY + 1, 3, 5, sx < 0 ? CUP : '#c93a86');
-      px(ctx, bx + sx, casqueY + 1, 1, 5, '#ffa8d8');
-    }
 
     // visage
     if (!this.back) {
