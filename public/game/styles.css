@@ -37,7 +37,7 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block}
 .chip-hype{color:var(--teal)}
 .chip-clock{color:var(--mint-2);margin-left:auto}
 .hud-tier{margin-top:7px;max-width:230px}
-.tier-name{font-size:12px;font-weight:800;letter-spacing:.4px;color:var(--mint);
+.tier-name{font-size:12px;font-weight:800;letter-spacing:1px;color:var(--mint);
   text-shadow:0 2px 0 rgba(0,0,0,.5)}
 .tier-bar{height:7px;border-radius:99px;background:rgba(32,13,51,.8);border:2px solid var(--ink);overflow:hidden;margin-top:3px}
 .tier-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--pink));transition:width .5s}
@@ -91,7 +91,7 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block}
 @keyframes slideup{from{transform:translateY(60px);opacity:.4}to{transform:none;opacity:1}}
 .sheet-head{display:flex;align-items:flex-start;gap:10px;padding:16px 16px 8px}
 .sheet-head h2{margin:0;font-size:21px;font-weight:800;color:var(--mint)}
-.sheet-head p{margin:2px 0 0;font-size:12.5px;color:#c6a9e8;font-weight:600}
+.sheet-head p{margin:2px 0 0;font-size:12px;color:#c6a9e8;font-weight:600}
 .close-btn{margin-left:auto;width:38px;height:38px;flex:0 0 auto;border-radius:50%;
   border:2px solid var(--ink);background:#4a2470;color:var(--cream);font-size:16px;font-weight:800}
 .sheet-body{padding:4px 14px 18px;overflow-y:auto;-webkit-overflow-scrolling:touch}
@@ -100,8 +100,8 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block}
 .row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.05);
   border:2px solid rgba(32,13,51,.7);border-radius:16px;padding:10px 12px;margin-bottom:8px}
 .row .grow{flex:1;min-width:0}
-.row h3{margin:0;font-size:14.5px;font-weight:800;color:var(--cream)}
-.row p{margin:1px 0 0;font-size:11.5px;color:#c6a9e8;font-weight:600;
+.row h3{margin:0;font-size:14px;font-weight:800;color:var(--cream)}
+.row p{margin:1px 0 0;font-size:12px;color:#c6a9e8;font-weight:600;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .row .tag{font-size:10px;font-weight:800;padding:2px 7px;border-radius:99px;
   background:rgba(79,191,159,.2);color:var(--teal);border:1px solid rgba(79,191,159,.4)}
@@ -117,11 +117,11 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block}
 .btn.wide{width:100%;text-align:center;margin-top:6px;font-size:15px;padding:13px}
 .section-title{font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:#a98ccd;
   font-weight:800;margin:14px 2px 8px}
-.note{font-size:12.5px;color:#c6a9e8;font-weight:600;line-height:1.45;margin:2px 2px 10px}
+.note{font-size:12px;color:#c6a9e8;font-weight:600;line-height:1.45;margin:2px 2px 10px}
 .stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:10px}
 .stat{background:rgba(255,255,255,.05);border:2px solid rgba(32,13,51,.7);border-radius:14px;padding:9px 11px}
 .stat b{display:block;font-size:18px;color:var(--mint)}
-.stat span{font-size:11px;color:#c6a9e8;font-weight:700;text-transform:uppercase;letter-spacing:.6px}
+.stat span{font-size:11px;color:#c6a9e8;font-weight:700;text-transform:uppercase;letter-spacing:1px}
 .pill-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
 .pill{font-size:11px;font-weight:800;padding:5px 10px;border-radius:99px;
   border:2px solid var(--ink);background:rgba(255,255,255,.07)}
@@ -136,7 +136,7 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block}
 .logo{font-size:64px;font-weight:800;letter-spacing:4px;line-height:.95;
   background:linear-gradient(180deg,#fff,var(--teal));-webkit-background-clip:text;background-clip:text;
   color:transparent;filter:drop-shadow(0 5px 0 rgba(32,13,51,.9))}
-.logo-sub{font-size:13px;font-weight:700;color:#c6a9e8;margin-top:2px;letter-spacing:.6px}
+.logo-sub{font-size:13px;font-weight:700;color:#c6a9e8;margin-top:2px;letter-spacing:1px}
 .title-art{width:100%;aspect-ratio:1.25;margin:6px 0 10px}
 .title-art canvas{width:100%;height:100%}
 .big-btn{display:block;width:100%;margin:8px 0;padding:15px;font-family:inherit;font-size:18px;font-weight:800;
@@ -167,7 +167,7 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block}
 
 /* ---------- bac à disques ---------- */
 .crate{display:flex;flex-direction:column;align-items:center;gap:10px;padding:6px 0 2px}
-.crate-count{font-size:11.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#a98ccd}
+.crate-count{font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#a98ccd}
 .sleeve-wrap{position:relative;width:min(74vw,260px);aspect-ratio:1;perspective:800px}
 .sleeve{position:absolute;inset:0;border-radius:8px;overflow:hidden;
   box-shadow:0 12px 0 rgba(0,0,0,.35), 0 0 0 2px rgba(20,6,36,.7) inset;
@@ -183,7 +183,7 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block}
   background:repeating-radial-gradient(circle,rgba(255,255,255,.05) 0 1px,transparent 1px 4px)}
 @keyframes spin{to{transform:translateY(-50%) rotate(360deg)}}
 .sleeve .art{position:absolute;inset:0;padding:14px;display:flex;flex-direction:column;justify-content:space-between}
-.sleeve .lbl{font-size:9.5px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;opacity:.85}
+.sleeve .lbl{font-size:10px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;opacity:.85}
 .sleeve .ttl{font-size:19px;font-weight:800;line-height:1.05;text-shadow:0 2px 0 rgba(0,0,0,.25)}
 .sleeve .art-mark{position:absolute;left:-10%;bottom:-18%;width:70%;aspect-ratio:1;border-radius:50%;
   background:rgba(255,255,255,.14)}
@@ -214,8 +214,8 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block}
 .pnl td{padding:4px 2px;border-bottom:1px solid rgba(255,255,255,.07)}
 .pnl td:last-child{text-align:right;font-variant-numeric:tabular-nums}
 .pnl .in{color:var(--teal)} .pnl .out{color:var(--pink)}
-.pnl .tot td{border-top:2px solid rgba(255,255,255,.18);border-bottom:none;padding-top:7px;font-size:14.5px}
-.runway{font-size:12.5px;font-weight:700;color:#c6a9e8;margin:0 2px 10px}
+.pnl .tot td{border-top:2px solid rgba(255,255,255,.18);border-bottom:none;padding-top:7px;font-size:14px}
+.runway{font-size:12px;font-weight:700;color:#c6a9e8;margin:0 2px 10px}
 .runway b{color:var(--gold)}
 
 /* ---------- pochettes réelles ---------- */
@@ -246,8 +246,15 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block}
    avoir l'air d'appartenir au meme jeu que le decor.
    ===================================================================== */
 :root{ --radius:0; --ink:#1c1528; }
-*{ font-family:"Pixelify Sans","Courier New",monospace !important; }
-body{ font-family:"Pixelify Sans","Courier New",monospace; letter-spacing:.2px }
+*{
+  font-family:"Pixelify Sans","Courier New",monospace !important;
+  /* une police pixel lissee est une police floue : on coupe l'anticrenelage */
+  -webkit-font-smoothing:none !important;
+  -moz-osx-font-smoothing:unset !important;
+  font-smooth:never !important;
+  text-rendering:optimizeSpeed !important;
+}
+body{ font-family:"Pixelify Sans","Courier New",monospace; letter-spacing:0 }
 canvas#stage{ image-rendering:pixelated; image-rendering:crisp-edges }
 
 /* plus aucun arrondi ni flou */
@@ -292,8 +299,8 @@ canvas#stage{ image-rendering:pixelated; image-rendering:crisp-edges }
   color:#8fe8c8; filter:drop-shadow(3px 3px 0 #1c1528) }
 .logo-sub{ color:#c9b8e8 }
 .sheet-head h2{ font-size:20px; color:#8fe8c8 }
-.row h3{ font-size:14px } .row p{ font-size:11.5px }
-.note{ font-size:12.5px; line-height:1.5 }
+.row h3{ font-size:14px } .row p{ font-size:12px }
+.note{ font-size:12px; line-height:1.5 }
 .section-title{ letter-spacing:1px }
 
 /* la pochette garde ses coins francs */
@@ -302,4 +309,4 @@ canvas#stage{ image-rendering:pixelated; image-rendering:crisp-edges }
 
 .quest-count{margin-left:auto;align-self:flex-start;font-size:10px;font-weight:700;
   color:var(--gold);background:rgba(0,0,0,.3);border:1px solid rgba(232,200,106,.35);
-  border-radius:4px;padding:2px 5px;letter-spacing:.5px;flex:0 0 auto}
+  border-radius:4px;padding:2px 5px;letter-spacing:1px;flex:0 0 auto}

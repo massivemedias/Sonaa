@@ -15,7 +15,8 @@ export class Renderer {
     this.ctx = canvas.getContext('2d');
     this.city = city;
     this.cam = new Camera();
-    this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // un facteur entier, sinon chaque pixel du jeu tombe a cheval sur deux pixels d'ecran
+    this.dpr = Math.max(1, Math.min(2, Math.round(window.devicePixelRatio || 1)));
     // tampon basse resolution
     this.buf = document.createElement('canvas');
     this.bctx = this.buf.getContext('2d');
