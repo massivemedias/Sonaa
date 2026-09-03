@@ -253,26 +253,59 @@
      soiree ferait une carte de mille deux cents pixels. */
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 0.4rem 1.8rem;
+  gap: 0.4rem 1.6rem;
+  /* Les cartes d'une meme rangee commencent en haut : sans cela, une carte
+     courte se centrerait sur la hauteur de sa voisine et les affiches ne
+     seraient plus alignees. */
+  align-items: start;
 }
 
+/* ═══ LA CARTE, ET L'AFFICHE EN GRAND ═══
+
+   L'affiche faisait soixante-douze pixels de cote, avec ce commentaire :
+   « elle sert a reconnaitre une soiree d'un coup d'oeil, pas a etre
+   regardee ». C'etait vrai d'une liste etroite en une colonne. Ca ne l'est
+   plus d'une grille : a soixante-douze pixels, un flyer de 1080 par 1350
+   n'est plus qu'une tache de couleur, alors que c'est LUI qui donne envie
+   d'aller quelque part. Resident Advisor le montre en grand, et c'est ce qui
+   fait fonctionner leur page.
+
+   L'affiche passe donc en tete de carte, sur toute sa largeur, dans un
+   rapport 16/10. Les flyers sont presque tous en 4/5, format Instagram :
+   `cover` les recadre par le milieu, ce qui garde le visuel et coupe les
+   mentions legales du bas, que personne ne lit a cette taille.
+
+   CE QUE CELA COUTE, ET QU'IL FAUT DIRE. RA sert les originaux, un a deux
+   megaoctets chacun, et ignore tout parametre de redimensionnement : mesure
+   faite sur `?w=600`, `?width=600` et `?image_process=`, les trois rendent
+   1080 par 1350. Le chargement differe est donc la seule economie
+   disponible. */
 .cal-soiree {
   display: flex;
-  gap: 0.9rem;
-  padding: 0.7rem 0;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.5rem 0 1.4rem;
+  align-items: stretch;
 }
 
-/* L'AFFICHE RESTE PETITE. Elle sert a reconnaitre une soiree d'un coup
-   d'oeil, pas a etre regardee : une vignette de soixante-douze pixels tient
-   sur une ligne de texte et ne transforme pas l'agenda en galerie. */
 .cal-affiche {
-  width: 72px;
-  height: 72px;
-  flex: 0 0 72px;
+  width: 100%;
+  aspect-ratio: 16 / 10;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 10px;
   background: var(--surface-margin);
+  display: block;
+}
+
+/* SANS AFFICHE, LA CARTE GARDE SA PLACE. Une soiree qui n'en a pas
+   remonterait son texte au niveau des images voisines, et la rangee
+   ressemblerait a un accident de mise en page. */
+.cal-soiree-sans-affiche {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 10px;
+  background: var(--surface-margin);
+  border: var(--rule-width) solid var(--rule-hairline);
 }
 
 .cal-texte {
@@ -294,7 +327,9 @@
   color: inherit;
   text-decoration: none;
   border-bottom: 0;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 1.02rem;
+  line-height: 1.3;
 }
 
 .cal-soiree .cal-titre:hover {
@@ -305,8 +340,17 @@
 .cal-lieu,
 .cal-artistes {
   margin: 0.15rem 0 0;
-  color: var(--ink-secondary);
   font-size: 0.92rem;
+}
+
+/* Les noms passent en premier et un peu plus clairs : c'est la ligne qu'on
+   lit apres le titre. La salle recule d'un cran. */
+.cal-artistes {
+  color: oklch(0.78 0.008 260);
+}
+
+.cal-lieu {
+  color: var(--ink-secondary);
 }
 
 /* Les genres annonces par la soiree passent apres le lieu et les noms : ils
@@ -319,12 +363,6 @@
 }
 
 @media (max-width: 560px) {
-  .cal-affiche {
-    width: 56px;
-    height: 56px;
-    flex-basis: 56px;
-  }
-
   .cal-villes-liste {
     max-height: 260px;
   }

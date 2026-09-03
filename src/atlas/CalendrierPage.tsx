@@ -484,14 +484,22 @@ export function CalendrierPage() {
                           const sigle = ailleurs && s.debut ? sigleFuseau(s.debut, fuseau) : null;
                           return (
                             <li key={s.id} className="cal-soiree">
-                              {s.affiche && (
+                              {s.affiche ? (
                                 <img
                                   className="cal-affiche"
                                   src={s.affiche}
                                   alt=""
+                                  /* CHARGEMENT DIFFERE, ET C'EST LA SEULE
+                                     ECONOMIE POSSIBLE : RA sert ses
+                                     originaux, un a deux megaoctets piece,
+                                     et ignore tout parametre de
+                                     redimensionnement. */
                                   loading="lazy"
+                                  decoding="async"
                                   draggable={false}
                                 />
+                              ) : (
+                                <div className="cal-soiree-sans-affiche" aria-hidden="true" />
                               )}
                               <div className="cal-texte">
                                 <a
@@ -502,13 +510,17 @@ export function CalendrierPage() {
                                 >
                                   {s.titre}
                                 </a>
+                                {/* LES NOMS AVANT LE LIEU. C'est le line-up
+                                    qu'on cherche des yeux en parcourant une
+                                    grille, la salle ne vient qu'ensuite, quand
+                                    on a decide que la soiree l'interessait. */}
+                                {s.artistes.length > 0 && (
+                                  <p className="cal-artistes">{s.artistes.slice(0, 6).join(', ')}</p>
+                                )}
                                 <p className="cal-lieu">
                                   {s.lieu ?? 'Lieu non annoncé'}
                                   {h ? ` · ${h}${sigle ? ` ${sigle}` : ''}` : ''}
                                 </p>
-                                {s.artistes.length > 0 && (
-                                  <p className="cal-artistes">{s.artistes.slice(0, 6).join(', ')}</p>
-                                )}
                                 {s.genres.length > 0 && (
                                   <p className="cal-genres">{s.genres.join(' · ')}</p>
                                 )}
