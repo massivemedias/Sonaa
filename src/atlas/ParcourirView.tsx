@@ -40,6 +40,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FaIcon } from './FaIcon.tsx';
 import { SiteNav } from './SiteNav.tsx';
+import { PiedDePage } from './PiedDePage.tsx';
 import { t } from '../langue/langue.ts';
 import { setsDunGenre, type SetDJ } from '../lib/sets.ts';
 import { contributionsActives } from '../lib/config.ts';
@@ -459,6 +460,17 @@ export function ParcourirView() {
             allerFamille={() => aller({ k: 'famille', fi: niveau.fi })}
           />
         )}
+
+        {/* LE PIED DE PAGE MANQUAIT ICI, ET SEULEMENT ICI.
+
+            Il avait ete pose sur les pages document et pas sur celle-ci, qui
+            est pourtant la page d'accueil : douze liens vers les autres vues
+            existaient partout sauf a l'endroit d'ou tout le monde part.
+
+            Il vit DANS le corps defilant et non apres lui : cette vue est un
+            `position: fixed; inset: 0` dont seul `.pv-corps` defile. Pose
+            dehors, il serait reste colle sous l'ecran, invisible. */}
+        <PiedDePage />
       </main>
 
       {pisteJouee && listeJouee && (
