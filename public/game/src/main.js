@@ -75,6 +75,7 @@ actionBtn.addEventListener('click', () => { if (nearBuilding) openBuilding(nearB
 $('#btn-menu').addEventListener('click', () => ui.open('menu'));
 $('#btn-map').addEventListener('click', () => ui.open('map'));
 $('#btn-fin').addEventListener('click', () => ui.open('finance'));
+$('#needs').addEventListener('click', () => ui.open('etat'));
 
 // arrivé à destination : on entre tout seul
 function checkArrival() {

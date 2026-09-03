@@ -50,6 +50,8 @@ export class UI {
     document.querySelectorAll('.need').forEach(el => {
       const v = s.needs[el.dataset.need];
       el.querySelector('i').style.width = v + '%';
+      const val = el.querySelector('.nval');
+      if (val) val.textContent = Math.round(v) + '%';
       el.classList.toggle('low', v < 25);
       el.classList.toggle('mid', v >= 25 && v < 55);
     });
@@ -271,7 +273,9 @@ function listenRow(r) {
 function discRow(ui, r, opts) {
   const info = ui.needCover(r);
   const on = COV.playing() === r.id;
-  const art = info && info.thumb ? `style="background-image:url('${info.thumb}')"` : '';
+  const pixT = info && info.art ? COV.pixelFor(r, info, 32, () => ui.render()) : null;
+  const art = info && (pixT || info.thumb)
+    ? `style="background-image:url('${pixT || info.thumb}')"` : '';
   return `<div class="row">
     <div class="cov ${info && info.thumb ? '' : 'empty'} ${info && info.preview ? 'play' : ''}"
       ${art} data-act="preview" data-arg="${r.id}"></div>
@@ -416,8 +420,9 @@ const PANELS = {
         const info = ui.needCover(r);
         const hue = hashHue(r.id);
         const c1 = `hsl(${hue} 62% 46%)`, c2 = `hsl(${(hue + 42) % 360} 58% 26%)`;
+        const pix = info && info.art ? COV.pixelFor(r, info, 56, () => this.render()) : null;
         const bg = info && info.art
-          ? `background-image:url("${info.art}")`
+          ? `background-image:url("${pix || info.art}")`
           : `background:linear-gradient(150deg,${c1},${c2})`;
         html += `<div class="crate">
           <div class="crate-count">disque ${c.i + 1} / ${c.deck.length} du bac</div>
@@ -739,6 +744,35 @@ const PANELS = {
       });
     }
     return { title: 'Finances', sub: TIERS[g.tier].name, html };
+  },
+
+  etat(ui, g) {
+    const n = g.s.needs;
+    const ligne = (ico, nom, v, role, quand) => `<div class="row"><div class="grow">
+      <h3>${ico} ${nom} — ${Math.round(v)} %</h3>
+      <p>${role}</p>
+      <div class="meter"><i style="width:${Math.round(v)}%"></i></div>
+      <p style="margin-top:6px">${quand}</p></div></div>`;
+
+    let html = note('Ces quatre jauges baissent avec le temps qui passe. Elles ne te tuent pas, mais elles rabotent tout ce que tu fais.');
+    html += ligne('⚡', 'Énergie', n.energy,
+      'La plus importante. Sans elle, plus de quart de travail, plus de set, plus de session studio.',
+      'Se recharge en dormant chez toi. Un café en dépanne.');
+    html += ligne('🍜', 'Faim', n.food,
+      'En dessous de 30 %, la qualité de tes productions et la réaction du public chutent.',
+      'Se remplit au casse-croûte.');
+    html += ligne('🥤', 'Soif', n.drink,
+      'Même effet que la faim, et elle descend plus vite. Jouer un set assèche.',
+      'Une bouteille d’eau coûte 2 $.');
+    html += ligne('🫂', 'Social', n.social,
+      'Le moral. Bas, il pénalise tes prods ; entretenu, il t’ouvre des rencontres au bar.',
+      'Se remonte en buvant un verre et en réseautant au Sous-Sol.');
+
+    html += title('Les trois compteurs du haut');
+    html += row({ title: '💰 Argent', sub: 'Tout part de là : matériel, disques, pressage, avances aux artistes.' });
+    html += row({ title: '🫀 Fans', sub: 'Ils achètent tes sorties tous les jours. Gagnés en jouant et en faisant de la promo.' });
+    html += row({ title: '🔥 Hype', sub: 'Ta cote du moment. Elle ouvre les grosses salles et fait vendre. Elle retombe de 7 % par jour si tu ne fais rien.' });
+    return { title: 'Ton état', sub: 'À quoi servent les jauges', html };
   },
 
   menu(ui, g) {

@@ -13,7 +13,7 @@ export const W = 28, H = 26;
 export const BUILDINGS = [
   // rangee nord : les disquaires
   { id:'d_techno',  name:'Bunker Techno',   sign:'TECHNO',  kind:'records', genre:'Techno',
-    x:3,  y:3,  w:2, d:2, door:{x:3,y:5},   tier:0, hut:true, roof:'#4a5b8c', wall:'#c98c4e' },
+    x:3,  y:3,  w:2, d:2, door:{x:3,y:5},   tier:0, bunker:true, roof:'#4a5b8c', wall:'#8f8a94', antenna:true },
   { id:'d_house',   name:'Deep House Club', sign:'HOUSE',   kind:'records', genre:'Deep House',
     x:8,  y:3,  w:2, d:2, door:{x:8,y:5},   tier:0, hut:true, roof:'#d97b4a', wall:'#d9a05e' },
   { id:'d_electro', name:'Circuit Electro', sign:'ELECTRO', kind:'records', genre:'Electro',
@@ -24,7 +24,7 @@ export const BUILDINGS = [
     x:23, y:3,  w:2, d:2, door:{x:23,y:5},  tier:0, hut:true, roof:'#9a6fbf', wall:'#c98c4e' },
   // deuxieme rangee
   { id:'promo',   name:'Radio Machine',     sign:'RADIO',   kind:'promo',
-    x:3,  y:8,  w:3, d:3, door:{x:4,y:11},  tier:0, roof:'#6c9fd6', wall:'#c98c4e', antenna:true },
+    x:3,  y:8,  w:3, d:3, door:{x:4,y:11},  tier:0, immeuble:true, etages:3, roof:'#6c9fd6', wall:'#b9c4d8', antenna:true },
   { id:'home',    name:'Ta cabane',         sign:'CHEZ TOI',kind:'home',
     x:8,  y:8,  w:3, d:3, door:{x:9,y:11},  tier:0, roof:'#5fa87f', wall:'#d9a05e', chimney:true },
   { id:'bar',     name:'Le Sous-Sol',       sign:'BAR',     kind:'bar',
@@ -37,7 +37,7 @@ export const BUILDINGS = [
   { id:'studio',  name:'Studio Sonaa',      sign:'STUDIO',  kind:'studio',
     x:8,  y:13, w:3, d:3, door:{x:9,y:16},  tier:2, roof:'#c96f9e', wall:'#c98c4e' },
   { id:'label',   name:'Bureau du label',   sign:'SONAA',   kind:'label',
-    x:13, y:13, w:3, d:3, door:{x:14,y:16}, tier:3, roof:'#e08a72', wall:'#d9a05e', antenna:true },
+    x:13, y:13, w:3, d:3, door:{x:14,y:16}, tier:3, immeuble:true, etages:4, roof:'#e08a72', wall:'#d9a05e', antenna:true },
   { id:'press',   name:'Pressage',          sign:'PRESSAGE',kind:'press',
     x:18, y:13, w:3, d:3, door:{x:19,y:16}, tier:1, roof:'#7a8fb0', wall:'#c98c4e', big:true },
   { id:'store',   name:'Ta boutique',       sign:'SHOP',    kind:'store',

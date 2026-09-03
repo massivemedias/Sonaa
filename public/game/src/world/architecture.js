@@ -207,6 +207,98 @@ const STYLES = {
   },
 
   // entrepot de pressage
+
+  // ---------------------------------------------------- le bunker
+  // Beton brut, pas de toit en pente, une porte blindee et des aerations.
+  // C'est le contraire de la cabane : anguleux, ferme, un peu inquietant.
+  bunker(ctx, b, env) {
+    const beton = b.wall || '#8f8a94', wallH = 1.35;
+    // socle plus large, comme une dalle coulee
+    box(ctx, b.x - 0.12, b.y - 0.12, 0, b.w + 0.24, b.d + 0.24, 0.22, shade(beton, -0.3),
+      { line: shade(beton, -0.6) });
+    box(ctx, b.x, b.y, 0.22, b.w, b.d, wallH, beton, { line: shade(beton, -0.55) });
+    // acrotere : le muret qui depasse en haut, signature du toit plat
+    box(ctx, b.x - 0.1, b.y - 0.1, wallH + 0.22, b.w + 0.2, b.d + 0.2, 0.22,
+      shade(beton, 0.08), { line: shade(beton, -0.55) });
+    box(ctx, b.x + 0.12, b.y + 0.12, wallH + 0.22, b.w - 0.24, b.d - 0.24, 0.1,
+      shade(beton, -0.22), { line: null });
+
+    const L = span(b), z = 0.22;
+    // porte blindee, encastree
+    faceRect(ctx, ...fp(b, L / 2 - 0.42, z + 1.0), 'left', 0, 0, R(0.84 * FW), R(1.0 * FH), shade(beton, -0.42));
+    doorway(ctx, ...fp(b, L / 2 - 0.34, z + 0.92), 'left', 0.68, 0.92, '#4a4652');
+    // deux grilles d'aeration
+    for (const u of [0.3, L - 0.62]) {
+      const o = fp(b, u, z + 1.16);
+      faceRect(ctx, o[0], o[1], o[2], 'left', 0, 0, R(0.32 * FW), R(0.26 * FH), shade(beton, -0.35));
+      for (let i = 0; i < 3; i++)
+        faceRect(ctx, o[0], o[1], o[2], 'left', 1, 1 + i * 2, R(0.32 * FW) - 2, 1, shade(beton, 0.2));
+    }
+    // bande lumineuse au-dessus de la porte
+    const allume = env.night || Math.sin(artTime() * 2.2) > -0.4;
+    faceRect(ctx, ...fp(b, L / 2 - 0.5, z + 1.12), 'left', 0, 0, R(1.0 * FW), 2,
+      allume ? '#ff5cb4' : '#7a2a58');
+    // cheminee d'extraction sur le toit
+    const zt = wallH + 0.44;
+    box(ctx, b.x + b.w - 0.7, b.y + 0.28, zt, 0.34, 0.34, 0.5, '#6f6a75', { line: '#3f3b46' });
+    box(ctx, b.x + b.w - 0.78, b.y + 0.2, zt + 0.5, 0.5, 0.5, 0.12, '#5a5661', { line: '#3f3b46' });
+    if (b.antenna) {
+      box(ctx, b.x + 0.4, b.y + 0.4, zt, 0.08, 0.08, 1.1, '#cfcad4', { line: '#4a4652' });
+      const p = P(b.x + 0.44, b.y + 0.44, zt + 1.15);
+      px(ctx, R(p.x) - 1, R(p.y) - 1, 2, 2, Math.sin(artTime() * 4) > 0 ? '#ff3ea5' : '#7a2a58');
+    }
+  },
+
+  // -------------------------------------------------- l'immeuble
+  // Plusieurs etages empiles avec de legers retraits, des balcons sur la
+  // facade et un toit encombre : chateau d'eau, antenne, climatiseurs.
+  immeuble(ctx, b, env) {
+    const mur = b.wall || '#c9a06a';
+    const etages = b.etages || 3;
+    const hE = 1.0;
+    let z = 0;
+    for (let i = 0; i < etages; i++) {
+      const r = i * 0.1;
+      const x = b.x + r, y = b.y + r, w = b.w - r * 2, d = b.d - r * 2;
+      const teinte = i % 2 ? shade(mur, 0.06) : mur;
+      box(ctx, x, y, z, w, d, hE, teinte, { line: shade(mur, -0.55) });
+      // bandeau entre les etages
+      box(ctx, x - 0.06, y - 0.06, z + hE, w + 0.12, d + 0.12, 0.12,
+        shade(b.roof || '#8f5fc9', -0.1), { line: shade(mur, -0.55) });
+      // fenetres, et un balcon un etage sur deux
+      const sub = { x, y, w, d };
+      const nF = Math.max(2, R(span(sub) - 0.7));
+      windowRow(ctx, ...fp(sub, 0.34, z + hE - 0.22), 'left', span(sub) - 0.68, 0.4, nF,
+        env.night ? '#ffd76a' : '#9ad9e8');
+      if (i % 2 === 1) {
+        box(ctx, x + 0.18, y + d, z + 0.12, w - 0.36, 0.3, 0.07, shade(mur, -0.2),
+          { line: shade(mur, -0.55) });
+        for (let k = 0; k <= 3; k++)
+          box(ctx, x + 0.2 + k * (w - 0.4) / 3, y + d + 0.22, z + 0.19, 0.06, 0.06, 0.28,
+            '#e8e0cf', { line: shade(mur, -0.5) });
+      }
+      z += hE + 0.12;
+    }
+    // rez : la porte
+    doorway(ctx, ...fp(b, span(b) / 2 - 0.34, 0.92), 'left', 0.68, 0.92, '#6b4426');
+    // toit encombre
+    box(ctx, b.x + 0.3, b.y + 0.3, z, b.w - 0.6, b.d - 0.6, 0.1, shade(mur, -0.28),
+      { line: shade(mur, -0.55) });
+    // chateau d'eau sur pieds
+    const cx = b.x + b.w - 0.85, cy2 = b.y + 0.35;
+    for (const [ox, oy] of [[0, 0], [0.4, 0], [0, 0.4], [0.4, 0.4]])
+      box(ctx, cx + ox, cy2 + oy, z + 0.1, 0.08, 0.08, 0.3, '#6b5a48', { line: '#3f342a' });
+    box(ctx, cx - 0.06, cy2 - 0.06, z + 0.4, 0.6, 0.6, 0.45, '#a8724a', { line: '#5c3a24' });
+    box(ctx, cx - 0.1, cy2 - 0.1, z + 0.85, 0.68, 0.68, 0.1, '#8a5a38', { line: '#5c3a24' });
+    // climatiseurs
+    box(ctx, b.x + 0.35, b.y + b.d - 0.8, z + 0.1, 0.4, 0.4, 0.25, '#cfcad4', { line: '#5a5661' });
+    if (b.antenna) {
+      box(ctx, b.x + 0.5, b.y + 0.5, z + 0.1, 0.07, 0.07, 1.2, '#e8e0cf', { line: '#4a4652' });
+      const p = P(b.x + 0.53, b.y + 0.53, z + 1.35);
+      px(ctx, R(p.x) - 1, R(p.y) - 1, 2, 2, Math.sin(artTime() * 4) > 0 ? '#ff3ea5' : '#7a2a58');
+    }
+  },
+
   big(ctx, b, env) {
     const wallH = 1.5;
     box(ctx, b.x, b.y, 0, b.w, b.d, wallH, b.wall, { line: shade(b.wall, -0.55) });
@@ -254,11 +346,13 @@ function construction(ctx, b) {
 // Un batiment ne bouge jamais : on le dessine une fois dans son propre
 // tampon, puis on recopie l'image. On ne redessine que si la lumiere change
 // de palier, ou si le neon du club clignote.
-const HAUTEURS = { hut: 3.2, house: 3.8, big: 5.2, tower: 9, club: 3.2, chantier: 1.6 };
+const HAUTEURS = { hut: 3.2, house: 3.8, big: 5.2, tower: 9, club: 3.2, chantier: 1.6,
+  bunker: 3.4, immeuble: 6.4 };
 const cacheBatiments = new Map();
 
 function styleDe(b) {
-  return b.hut ? 'hut' : b.club ? 'club' : b.big ? 'big' : b.tower ? 'tower' : 'house';
+  return b.bunker ? 'bunker' : b.immeuble ? 'immeuble' : b.hut ? 'hut'
+    : b.club ? 'club' : b.big ? 'big' : b.tower ? 'tower' : 'house';
 }
 
 function rendreSprite(b, env, style, cle) {

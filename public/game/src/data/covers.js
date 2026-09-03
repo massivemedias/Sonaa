@@ -183,3 +183,62 @@ export function stopPreview() {
   currentId = null;
   emit();
 }
+
+// ------------------------------------------------------- pochettes pixel
+// Les vraies pochettes viennent de l'API publique d'Apple. Telles quelles
+// elles jurent avec le reste du jeu : photos lisses au milieu du pixel art.
+// On les redessine donc en basse resolution, sans lissage, puis le CSS les
+// reagrandit en gros pixels. Rien n'est stocke : on transforme a l'affichage.
+const pixelCache = new Map();
+
+export function pixelArt(url, taille = 48) {
+  if (!url) return Promise.resolve(null);
+  const cle = url + '|' + taille;
+  if (pixelCache.has(cle)) return pixelCache.get(cle);
+
+  const p = new Promise(resolve => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    const abandon = () => resolve(url);          // en cas d'echec, l'image d'origine
+    img.onerror = abandon;
+    img.onload = () => {
+      try {
+        const c = document.createElement('canvas');
+        c.width = c.height = taille;
+        const g = c.getContext('2d');
+        g.imageSmoothingEnabled = false;
+        g.drawImage(img, 0, 0, taille, taille);
+        // on ramene la palette a des paliers : moins de teintes, plus franc
+        const d = g.getImageData(0, 0, taille, taille);
+        const a = d.data;
+        for (let i = 0; i < a.length; i += 4) {
+          a[i] = Math.round(a[i] / 24) * 24;
+          a[i + 1] = Math.round(a[i + 1] / 24) * 24;
+          a[i + 2] = Math.round(a[i + 2] / 24) * 24;
+        }
+        g.putImageData(d, 0, 0);
+        resolve(c.toDataURL());
+      } catch (e) {
+        abandon();      // canvas teinte par le CORS : on garde l'originale
+      }
+    };
+    img.src = url;
+  });
+  pixelCache.set(cle, p);
+  return p;
+}
+
+// Version synchrone pour l'interface : renvoie la pochette pixel si elle est
+// prete, sinon lance le calcul et previent quand c'est fait.
+const pixelParDisque = new Map();
+export function pixelFor(rec, entry, taille, quandPret) {
+  if (!entry || !entry.art) return null;
+  const cle = rec.id + '|' + taille;
+  if (pixelParDisque.has(cle)) return pixelParDisque.get(cle);
+  pixelParDisque.set(cle, null);                 // evite de relancer en boucle
+  pixelArt(entry.art, taille).then(u => {
+    pixelParDisque.set(cle, u);
+    if (quandPret) quandPret();
+  });
+  return null;
+}

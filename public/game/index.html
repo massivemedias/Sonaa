@@ -31,21 +31,21 @@
     <div class="tier-name" id="hud-tier">Bedroom DJ</div>
     <div class="tier-bar"><i id="hud-tier-fill"></i></div>
   </div>
-  <div class="needs">
-    <div class="need" data-need="energy"><span>⚡</span><div class="nbar"><i></i></div></div>
-    <div class="need" data-need="food"><span>🍜</span><div class="nbar"><i></i></div></div>
-    <div class="need" data-need="drink"><span>🥤</span><div class="nbar"><i></i></div></div>
-    <div class="need" data-need="social"><span>🫂</span><div class="nbar"><i></i></div></div>
+  <div class="needs" id="needs" title="Touche pour savoir a quoi servent ces jauges">
+    <div class="need" data-need="energy"><span>⚡</span><div class="nbar"><i></i></div><span class="nval"></span></div>
+    <div class="need" data-need="food"><span>🍜</span><div class="nbar"><i></i></div><span class="nval"></span></div>
+    <div class="need" data-need="drink"><span>🥤</span><div class="nbar"><i></i></div><span class="nval"></span></div>
+    <div class="need" data-need="social"><span>🫂</span><div class="nbar"><i></i></div><span class="nval"></span></div>
+  </div>
+<div id="quest" class="quest hidden">
+    <div class="quest-inner">
+      <span class="quest-ico">🎯</span>
+      <span class="quest-txt"><b id="quest-goal"></b><span id="quest-hint"></span></span>
+      <span class="quest-count" id="quest-count"></span>
+    </div>
   </div>
 </div>
 
-<div id="quest" class="quest hidden">
-  <div class="quest-inner">
-    <span class="quest-ico">🎯</span>
-    <span class="quest-txt"><b id="quest-goal"></b><span id="quest-hint"></span></span>
-    <span class="quest-count" id="quest-count"></span>
-  </div>
-</div>
 
 <div id="toasts" class="toasts"></div>
 

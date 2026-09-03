@@ -29,28 +29,30 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block}
 .hud-top{display:flex;gap:6px;flex-wrap:wrap}
 .chip{display:flex;align-items:center;gap:5px;background:rgba(32,13,51,.82);
   border:2px solid var(--ink);box-shadow:0 3px 0 rgba(0,0,0,.35);
-  border-radius:999px;padding:5px 11px;font-weight:800;font-size:13px;line-height:1;
+  border-radius:999px;padding:7px 13px;font-weight:800;font-size:17px;line-height:1;
   backdrop-filter:blur(6px)}
-.chip .ico{font-size:13px}
+.chip .ico{font-size:17px}
 .chip-cash{color:var(--gold)}
 .chip-fans{color:var(--pink)}
 .chip-hype{color:var(--teal)}
-.chip-clock{color:var(--mint-2);margin-left:auto}
+.chip-clock{color:var(--mint-2);margin-left:auto;font-size:18px}
+.chip-clock .ico{font-size:16px}
 .hud-tier{margin-top:7px;max-width:230px}
 .tier-name{font-size:14px;font-weight:800;letter-spacing:1px;color:var(--mint);
   text-shadow:0 2px 0 rgba(0,0,0,.5)}
 .tier-bar{height:7px;border-radius:99px;background:rgba(32,13,51,.8);border:2px solid var(--ink);overflow:hidden;margin-top:3px}
 .tier-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--pink));transition:width .5s}
-.needs{margin-top:7px;display:flex;gap:5px;flex-wrap:nowrap;max-width:260px}
-.need{display:flex;align-items:center;gap:3px;background:rgba(32,13,51,.75);border:2px solid var(--ink);
-  border-radius:99px;padding:3px 6px 3px 4px;font-size:12px}
-.nbar{width:26px;height:6px;border-radius:99px;background:#3a1d55;overflow:hidden}
+.needs{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;max-width:236px;pointer-events:auto;cursor:pointer}
+.need{display:flex;align-items:center;gap:5px;background:rgba(32,13,51,.82);border:2px solid var(--ink);
+  border-radius:99px;padding:4px 9px 4px 6px;font-size:15px;box-shadow:0 3px 0 rgba(0,0,0,.3)}
+.need .nval{font-size:12px;font-weight:800;color:var(--mint-2);min-width:20px;text-align:right}
+.nbar{width:34px;height:9px;border-radius:99px;background:#3a1d55;overflow:hidden}
 .nbar i{display:block;height:100%;width:100%;background:var(--teal);transition:width .4s,background .4s}
 .need.low .nbar i{background:var(--pink)}
 .need.mid .nbar i{background:var(--gold)}
 
 /* ---------- toasts ---------- */
-.toasts{position:fixed;left:50%;transform:translateX(-50%);top:calc(var(--safe-t) + 108px);
+.toasts{position:fixed;left:50%;transform:translateX(-50%);top:calc(var(--safe-t) + 300px);
   z-index:8;display:flex;flex-direction:column;gap:6px;align-items:center;pointer-events:none;width:92%}
 .toast{background:rgba(32,13,51,.94);border:2px solid var(--ink);border-radius:14px;
   padding:8px 14px;font-size:13px;font-weight:700;box-shadow:0 4px 0 rgba(0,0,0,.35);
@@ -153,7 +155,7 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block}
 }
 
 /* ---------- objectif ---------- */
-.quest{position:fixed;left:8px;right:8px;top:calc(var(--safe-t) + 118px);z-index:4;pointer-events:none;
+.quest{position:static;margin-top:10px;max-width:420px;z-index:4;pointer-events:auto;
   display:flex;justify-content:center}
 .quest-inner{display:flex;align-items:center;gap:10px;max-width:400px;
   background:linear-gradient(180deg,rgba(58,26,86,.94),rgba(36,15,56,.94));
@@ -305,7 +307,7 @@ canvas#stage{ image-rendering:pixelated; image-rendering:crisp-edges }
 
 /* la pochette garde ses coins francs */
 .sleeve{ border:2px solid var(--ink); box-shadow:3px 3px 0 rgba(0,0,0,.45) }
-.sleeve img,.cov{ image-rendering:auto }
+.sleeve,.sleeve img,.cov{ image-rendering:pixelated }
 
 .quest-count{margin-left:auto;align-self:flex-start;font-size:14px;font-weight:700;
   color:var(--gold);background:rgba(0,0,0,.3);border:1px solid rgba(232,200,106,.35);
