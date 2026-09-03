@@ -1165,10 +1165,18 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      tronque pas : elle fabrique des colonnes supplementaires qui debordent
      vers la droite, hors de l'ecran, sans barre de defilement pour les
      atteindre. Le nombre de colonnes suffit a tenir la hauteur. */
+  /* PLUS DE DEUX COLONNES. Je les avais posees pour occuper la largeur, et
+     elles la remplissent en effet, mais un texte de six cents signes coupe en
+     deux ne se lit pas comme un journal : il se lit comme un paragraphe qu'on
+     a scie. Le journal met en colonnes des milliers de signes, avec un filet,
+     une accroche et des intertitres ; a cette longueur la colonne n'apporte
+     que la coupure.
+
+     Le texte revient donc sur une colonne unique a la mesure de lecture, et
+     c'est le CONTENU qui doit grandir, pas la mise en page qui doit le
+     diluer. */
   .pv-description-famille {
-    columns: 2;
-    column-gap: 3rem;
-    max-width: none;
+    max-width: 68ch;
   }
   /* LA BORNE EST SUR LA SECTION, PAS SUR LE PARAGRAPHE.
 
@@ -1279,4 +1287,10 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-set-detail {
   font-size: 0.75rem;
   color: oklch(0.62 0.01 260);
+}
+
+/* L'article d'une famille prend la meme mesure de lecture que le reste : ce
+   qui doit grandir est le texte, pas la largeur de la colonne. */
+.pv-article-famille {
+  margin-top: 2rem;
 }

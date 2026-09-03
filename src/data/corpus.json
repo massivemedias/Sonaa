@@ -6,28 +6,92 @@
    "label": "Disco",
    "hue": 15,
    "description": "Tout part de là. Le disco est la seule famille de cette carte qui précède la machine : un orchestre, une section rythmique, des cordes, et un batteur qui tient un quatre temps régulier pendant sept minutes parce que le DJ le lui demande. Ce battement continu est l'invention dont tout le reste descend. À partir de 1979 et du rejet violent du disco aux États-Unis, la musique ne disparaît pas, elle change de nom et de continent : l'Italie en fait l'Italo, l'Allemagne le Hi-NRG, et Chicago la house. Les quatorze genres réunis ici couvrent 1975 à aujourd'hui, du disco d'orchestre au nu-disco qui rejoue la même chose avec des synthétiseurs.",
-   "redaction": "brouillon"
+   "redaction": "brouillon",
+   "article": [
+    {
+     "titre": "Un appartement de Broadway, la Saint-Valentin 1970",
+     "image": "studio-54",
+     "texte": "Le disco ne commence pas dans une discothèque mais chez quelqu'un. Le 14 février 1970, David Mancuso ouvre son appartement de Broadway à une fête privée qu'il appelle Love Saves the Day. Pas de licence d'alcool, pas de portier, une invitation et une sono d'audiophile montée pour la fidélité plutôt que pour le volume. Le lieu prend le nom de The Loft.\n\nCe qui s'y invente n'est pas un style de musique, c'est une façon de la faire écouter. Mancuso ne mixe pas au sens où on l'entend aujourd'hui : il fait jouer des disques entiers, choisis, sur un système qui rend le grave et l'aigu que la radio coupe. Le public est mélangé, noir et blanc, homosexuel et hétérosexuel, à une époque où les clubs de New York ne le sont pas. Cette assemblée-là est le premier fait du disco, avant la première note."
+    },
+    {
+     "titre": "Le maxi 45 tours, inventé par nécessité",
+     "image": "maxi-45",
+     "texte": "Un 45 tours classique tient trois minutes et sature dans les graves : le sillon doit être serré pour faire entrer la musique sur un petit disque. En gravant un seul morceau sur un disque de douze pouces, le sillon s'écarte, le grave passe, et le morceau peut durer huit minutes au lieu de trois.\n\nWest End Records, à New York, est l'un des labels qui installent ce format au tournant des années 1970. Le maxi 45 tours n'est pas une commodité de fabrication : c'est ce qui rend possible le long développement, la partie instrumentale étirée, le passage où le chant disparaît et où il ne reste que la rythmique. Sans ce disque-là, la moitié de ce que la piste de danse a inventé ensuite n'aurait eu nulle part où tenir."
+    },
+    {
+     "titre": "La réaction, et ce qu'elle a raté",
+     "texte": "Le 12 juillet 1979, entre deux matchs de baseball au Comiskey Park de Chicago, une caisse de disques disco est dynamitée devant le public. La Disco Demolition Night est présentée comme une blague de radio ; elle se termine en émeute et le second match est annulé. L'industrie retire le mot disco de ses pochettes en quelques mois.\n\nLa musique, elle, ne disparaît pas : elle change de nom et de continent. L'Italie en fait l'italo, l'Allemagne le Hi-NRG, et Chicago, où l'on venait de faire sauter les disques, en fait la house. Les quatorze genres réunis dans cette famille couvrent 1975 à aujourd'hui, du disco d'orchestre au nu-disco qui rejoue la même chose avec des synthétiseurs."
+    }
+   ]
   },
   {
    "id": "house",
    "label": "House",
    "hue": 350,
    "description": "La plus grande famille de la carte, vingt-quatre genres, et la plus difficile à définir précisément pour cette raison même. Ce qui les réunit tient en peu de choses : un quatre temps entre 118 et 130, un charleston ouvert sur les contretemps, et l'idée que le morceau est un outil de mixage autant qu'une chanson. Tout commence à Chicago au début des années 1980, quand les DJ du Warehouse prolongent le disco avec des boîtes à rythmes. Ensuite chaque ville ajoute la sienne : New York la voix, Detroit la mélancolie, Londres le garage, l'Afrique du Sud le tempo lent. C'est la famille qui a le plus voyagé, et celle dont le nom sert aujourd'hui à désigner à peu près n'importe quoi.",
-   "redaction": "brouillon"
+   "redaction": "brouillon",
+   "article": [
+    {
+     "titre": "Un entrepôt, un DJ de New York, et un mot qui reste",
+     "image": "hacienda",
+     "texte": "En 1977, un club de Chicago ouvre dans un ancien entrepôt de la rue Jefferson et fait venir un DJ de New York, Frankie Knuckles, formé au Continental Baths et proche de la scène du Loft. Le club s'appelle le Warehouse. Il joue du disco de Philadelphie, de la soul, du Salsoul, et quand les disques manquent il les rallonge lui-même avec une boîte à rythmes et un magnétophone.\n\nLe mot house vient de là : les disquaires de Chicago rangent sous l'étiquette house music les disques qu'on entend au Warehouse. C'est un nom de lieu devenu un nom de genre, ce qui arrive rarement et dit tout de la manière dont ce style est né : par une pratique de piste, pas par un projet de studio."
+    },
+    {
+     "titre": "Ce que la machine a changé",
+     "image": "tr-909",
+     "texte": "Le disco se jouait avec un orchestre. La house se fait avec ce qu'on trouve d'occasion : une Roland TR-808 ou TR-909 que les magasins bradent parce qu'elles ne sonnent pas comme de vraies batteries, un clavier bon marché, un enregistreur quatre pistes.\n\nCette contrainte fait le son. La grosse caisse tombe sur les quatre temps parce que c'est ce que la boîte fait le mieux, le charleston répond entre les temps, et la basse est une ligne bouclée plutôt qu'un bassiste. On and On de Jesse Saunders, en 1984, est généralement tenu pour le premier disque de house édité : il tient sur ce matériel-là et il coûte presque rien à fabriquer. C'est ce qui ouvre la porte à des centaines de gens qui n'auraient jamais payé un studio."
+    },
+    {
+     "titre": "L'Angleterre s'en empare",
+     "texte": "À Chicago la house reste une affaire locale. C'est l'Angleterre qui en fait un phénomène de masse : Love Can't Turn Around de Farley Jackmaster Funk entre dans les classements britanniques en 1986, Jack Your Body de Steve Silk Hurley y arrive premier en janvier 1987.\n\nManchester bascule ensuite. L'Haçienda, ouverte par Factory Records et New Order, devient à partir de 1988 le centre d'une scène qui mêle house de Chicago, acid et culture de club anglaise. La famille house rassemble aujourd'hui vingt-quatre genres, du Chicago originel à l'amapiano sud-africain : ce qui les tient ensemble n'est pas un tempo mais une grosse caisse sur chaque temps et une façon de faire durer."
+    }
+   ]
   },
   {
    "id": "techno",
    "label": "Techno",
    "hue": 218,
    "description": "Seize genres qui partagent une même rigueur : la machine ne joue pas d'un être humain, elle joue d'elle-même. Née à Detroit vers 1981 dans les mains de trois lycéens qui écoutaient Kraftwerk et Parliament sur la même radio, la techno se distingue de la house par ce qu'elle refuse plutôt que par ce qu'elle ajoute : moins de voix, moins de piano, moins de disco. Elle traverse l'Atlantique en 1988 et l'Europe la durcit, de Berlin à Rotterdam. Les genres de cette famille vont du plus mélodique, la techno de Detroit, au plus dépouillé, jusqu'aux vitesses extrêmes du schranz. Le mot est devenu si large qu'il désigne parfois toute la musique électronique ; ici il garde son sens strict.",
-   "redaction": "brouillon"
+   "redaction": "brouillon",
+   "article": [
+    {
+     "titre": "Trois lycéens du Michigan",
+     "image": "detroit-skyline",
+     "texte": "La techno naît à Belleville, une banlieue au sud-ouest de Detroit, entre trois camarades de lycée : Juan Atkins, Derrick May et Kevin Saunderson. Ils écoutent une émission de radio nocturne, The Electrifying Mojo, qui passe Kraftwerk, Parliament, Prince et les B-52's dans la même heure sans expliquer pourquoi.\n\nCe mélange est la matrice. Atkins enregistre avec Rick Davis sous le nom Cybotron dès 1981, et Clear en 1983 porte déjà tout : la machine, le funk, et une froideur qui n'est pas de l'indifférence. Le mot techno vient d'un texte d'Alvin Toffler, Techno Rebels, que le groupe lit et retient."
+    },
+    {
+     "titre": "Une ville qui se vide",
+     "image": "packard-detroit",
+     "texte": "Detroit perd la moitié de sa population entre 1950 et 1990. Les usines automobiles ferment, l'usine Packard est abandonnée dès 1958 et pourrit sur place pendant soixante ans. C'est le décor, et il n'est pas décoratif : la techno de Detroit se fabrique dans une ville où l'industrie a disparu en laissant ses bâtiments.\n\nLes disques le disent sans le dire. Ils sont mécaniques et mélancoliques à la fois, faits de machines dans une ville que les machines ont quittée. Strings of Life de Rhythim Is Rhythim, en 1987, est un morceau de piano joué par un séquenceur : personne ne le touche, et il est bouleversant."
+    },
+    {
+     "titre": "Berlin, le mur, et le coffre d'une banque",
+     "image": "tresor",
+     "texte": "La techno de Detroit se vend mal aux États-Unis et trouve son public en Europe. À Berlin, la chute du mur en 1989 libère des bâtiments vides des deux côtés : le Tresor ouvre en 1991 dans la chambre forte d'un grand magasin désaffecté, sous la Leipziger Strasse.\n\nLe label du même nom édite les producteurs de Detroit en Allemagne et fait le pont entre les deux villes. C'est de là que vient la techno telle qu'on l'entend aujourd'hui en club : plus dure, plus longue, plus linéaire que celle du Michigan. Les seize genres de cette famille vont de la Detroit d'origine à la hard techno actuelle, en passant par le dub techno de Basic Channel et l'industrielle de Birmingham."
+    }
+   ]
   },
   {
    "id": "minimal",
    "label": "Minimal",
    "hue": 196,
    "description": "Onze genres bâtis sur une soustraction. La minimal ne cherche pas à remplir un morceau mais à voir combien on peut en retirer avant qu'il cesse de fonctionner. Une boucle courte, une variation minuscule toutes les seize mesures, et le temps fait le reste. Elle naît autour de 1994 chez Robert Hood à Detroit, puis passe en Allemagne où Cologne et le label Kompakt la rendent presque clinique, avec les clics et les craquements comme matière. Elle se croise ensuite avec la house pour donner la tech house, qui deviendra le format le plus joué en club dans les années 2010. C'est la famille la plus austère de la carte, et paradoxalement celle qui a produit le plus grand succès commercial.",
-   "redaction": "brouillon"
+   "redaction": "brouillon",
+   "article": [
+    {
+     "titre": "Retirer, plutôt qu'ajouter",
+     "texte": "La minimale ne cherche pas à remplir un morceau : elle regarde combien on peut en retirer avant qu'il cesse de fonctionner. Une boucle courte, une variation minuscule toutes les seize mesures, et le temps fait le reste.\n\nElle naît à Detroit au milieu des années 1990, chez Robert Hood et Daniel Bell, en réaction à l'excès des raves. Minimal Nation, l'album que Hood publie en 1994, en est le document fondateur : il n'y a presque rien dedans, et c'est le sujet. La question qu'il pose est celle de toute la famille, et elle est plus radicale qu'elle n'en a l'air : à partir de quel moment un motif répété cesse-t-il d'être de la musique."
+    },
+    {
+     "titre": "Cologne, et le disquaire devenu label",
+     "image": "berghain",
+     "texte": "En 1993, un disquaire de techno ouvre à Cologne sous le nom de Delirium. Wolfgang Voigt, son frère Reinhard, Jörg Burger et Jürgen Paape le tiennent, bientôt rejoints par Michael Mayer. En 1998 ils réunissent leurs labels, le magasin, la distribution et l'organisation de soirées sous un seul nom : Kompakt.\n\nCe que Cologne ajoute à la minimale de Detroit, c'est une clarté presque clinique et une mélancolie assumée. La rythmique se réduit encore, mais un accord de synthétiseur tenu suffit à rendre un morceau chaleureux. Avec Perlon à Francfort et M-nus de Richie Hawtin, ces labels installent au début des années 2000 ce que toute l'Europe appellera simplement la minimale."
+    },
+    {
+     "titre": "Le clic comme matière",
+     "texte": "La dernière pièce est venue de l'erreur numérique. À la fin des années 1990, des producteurs se mettent à utiliser comme percussions ce que le matériel produit quand il rate : le clic d'un lecteur de disque compact qui saute, le craquement d'un vinyle, l'artefact d'un compresseur poussé trop loin.\n\nLa compilation Clicks & Cuts, publiée par Mille Plateaux en 2000, donne un nom à cette pratique. Croisée avec la house, elle produit la microhouse de Ricardo Villalobos et d'Akufen, faite de fragments de voix hachées et de silences. La tech house, qui en descend directement, deviendra le format le plus joué en club dans les années 2010 : c'est la famille la plus austère de la carte, et paradoxalement celle qui a produit le plus grand succès commercial."
+    }
+   ]
   },
   {
    "id": "trance",

@@ -425,6 +425,26 @@ export function ParcourirView() {
             {familleCourante.description && (
               <p className="pv-description pv-description-famille">{familleCourante.description}</p>
             )}
+
+            {/* L'ARTICLE DE LA FAMILLE, sous la description qui l'annonce.
+
+                Meme rendu que celui d'un genre, volontairement : c'est la
+                meme chose, un texte long en sections avec ses illustrations
+                creditees. Deux rendus pour la meme donnee finiraient par
+                diverger. */}
+            {familleCourante.article.length > 0 && (
+              <article className="pv-article pv-article-famille">
+                {familleCourante.article.map((section) => (
+                  <section className="pv-article-section" key={section.titre}>
+                    <h3 className="pv-article-titre">{section.titre}</h3>
+                    {section.image && <FigureArticle cle={section.image} />}
+                    {section.texte.split('\n\n').map((para, i) => (
+                      <p key={String(i)}>{para}</p>
+                    ))}
+                  </section>
+                ))}
+              </article>
+            )}
           </>
         )}
 

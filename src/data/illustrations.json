@@ -88,5 +88,45 @@
   "source": "https://commons.wikimedia.org/wiki/File:Metromedia_sound_system.jpg",
   "largeur": 640,
   "hauteur": 640
+ },
+ "studio-54": {
+  "legende": "Studio 54, New York",
+  "fichier": "articles/studio-54.webp",
+  "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3f/Studio_54_New_York_City_Entrance.jpg/1280px-Studio_54_New_York_City_Entrance.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "auteur": "David Goehring",
+  "licence": "CC BY 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Studio_54_New_York_City_Entrance.jpg",
+  "largeur": 1912,
+  "hauteur": 2875
+ },
+ "tresor": {
+  "legende": "Le Tresor, Berlin",
+  "fichier": "articles/tresor.webp",
+  "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/Tresor_Berlin_2008.jpg/1280px-Tresor_Berlin_2008.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "auteur": "Boca Dorada",
+  "licence": "CC BY-SA 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Tresor_Berlin_2008.jpg",
+  "largeur": 1468,
+  "hauteur": 1200
+ },
+ "tr-909": {
+  "legende": "La Roland TR-909",
+  "fichier": "articles/tr-909.webp",
+  "distant": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Roland_TR-909.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+  "auteur": "auteur non indique",
+  "licence": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Roland_TR-909.jpg",
+  "largeur": 901,
+  "hauteur": 533
+ },
+ "berghain": {
+  "legende": "Le Berghain, Berlin",
+  "fichier": "articles/berghain.webp",
+  "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/Berghain_Berlin_Facade.jpg/1280px-Berghain_Berlin_Facade.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "auteur": "Jane Mejdahl",
+  "licence": "CC BY-SA 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Berghain_Berlin_Facade.jpg",
+  "largeur": 2048,
+  "hauteur": 1536
  }
 }

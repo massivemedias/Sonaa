@@ -39,6 +39,16 @@ const DEMANDES: { cle: string; fichier: string; legende: string }[] = [
   { cle: 'anjuna', fichier: 'File:Anjuna Beach 25012016.jpg', legende: 'La plage d\'Anjuna, Goa' },
   { cle: 'kraftwerk-1975', fichier: 'File:Kraftwerk 1975.jpg', legende: 'Kraftwerk, 1975' },
   { cle: 'sound-system', fichier: 'File:Metromedia sound system.jpg', legende: 'Un sound system' },
+
+  /* LES TITRES NE SONT PLUS DEVINES. Ce harvester exige un titre EXACT, et
+     les inventer faisait echouer une demande sur deux. Ceux-ci viennent d'une
+     interrogation de l'API de recherche de Commons, filtree sur les licences
+     libres et sur une largeur minimale : on choisit dans ce qui existe
+     vraiment, plutot que d'esperer qu'un nom devine juste. */
+  { cle: 'studio-54', fichier: 'File:Studio 54 New York City Entrance.jpg', legende: 'Studio 54, New York' },
+  { cle: 'tresor', fichier: 'File:Tresor Berlin 2008.jpg', legende: 'Le Tresor, Berlin' },
+  { cle: 'tr-909', fichier: 'File:Roland TR-909.jpg', legende: 'La Roland TR-909' },
+  { cle: 'berghain', fichier: 'File:Berghain Berlin Facade.jpg', legende: 'Le Berghain, Berlin' },
 ];
 
 const LIBRES = [

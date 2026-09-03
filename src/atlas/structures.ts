@@ -21,6 +21,13 @@ export interface Family {
   /* Ce qui reunit les genres de la famille. `null` tant que le texte n'est
      pas ecrit : on n'affiche rien plutot qu'un gabarit. */
   readonly description: string | null;
+  /* L'article long d'une famille, meme forme que celui d'un genre. Vide tant
+     qu'il n'est pas ecrit : on n'affiche rien plutot qu'un gabarit. */
+  readonly article: readonly {
+    readonly titre: string;
+    readonly texte: string;
+    readonly image?: string | undefined;
+  }[];
   readonly redaction: 'brouillon' | null;
 }
 
@@ -198,6 +205,7 @@ export const FAMILIES: readonly Family[] = CORPUS.families.map((f) => ({
   hue: f.hue,
   count: CORPUS.genres.filter((g) => g.family === f.id).length,
   description: f.description ?? null,
+  article: f.article ?? [],
   redaction: f.redaction ?? null
 }));
 

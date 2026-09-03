@@ -293,6 +293,29 @@ const familySchema = z.strictObject({
      Meme regle que pour les genres : `redaction: 'brouillon'` marque un texte
      ecrit par la machine et non encore relu, et la marque s'affiche. */
   description: z.string().min(120).optional(),
+
+  /* L'ARTICLE D'UNE FAMILLE, meme forme que celui d'un genre.
+
+     La description repond en six lignes a « qu'est-ce qui reunit ces genres ».
+     Mika a demande davantage : « je pensais que les textes allaient etre plus
+     fournis, avec plus de choses comme un article de journal, des images, des
+     photos, meme des schemas ». Six lignes ne portent pas cela ; un article
+     en sections, avec ses illustrations creditees, oui.
+
+     Meme structure que pour les genres, volontairement : deux structures
+     differentes pour la meme chose finiraient par diverger, et le rendu est
+     deja ecrit. */
+  article: z
+    .array(
+      z.object({
+        titre: z.string().min(3),
+        texte: z.string().min(400),
+        image: z.string().min(2).optional()
+      })
+    )
+    .min(2)
+    .optional(),
+
   redaction: z.enum(['brouillon']).optional()
 });
 
