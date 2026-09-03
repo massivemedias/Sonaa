@@ -271,5 +271,31 @@
   "population": 11904961,
   "ra_area_id": 400,
   "wikidata": "Q174"
+ },
+ {
+  "slug": "montpellier-fr",
+  "name": "Montpellier",
+  "name_ascii": "Montpellier",
+  "admin_region": "Occitanie",
+  "country_code": "FR",
+  "latitude": 43.610919,
+  "longitude": 3.877231,
+  "timezone": "Europe/Paris",
+  "population": 310240,
+  "ra_area_id": 339,
+  "wikidata": "Q6441"
+ },
+ {
+  "slug": "toulouse-fr",
+  "name": "Toulouse",
+  "name_ascii": "Toulouse",
+  "admin_region": "Occitanie",
+  "country_code": "FR",
+  "latitude": 43.604444,
+  "longitude": 1.443333,
+  "timezone": "Europe/Paris",
+  "population": 514819,
+  "ra_area_id": 618,
+  "wikidata": "Q7880"
  }
 ]
