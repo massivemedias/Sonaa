@@ -41,6 +41,7 @@ import {
 import { FaIcon } from './FaIcon.tsx';
 import { SiteNav } from './SiteNav.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
+import { ContributeActions } from './ContributeActions.tsx';
 import { t } from '../langue/langue.ts';
 import { setsDunGenre, type SetDJ } from '../lib/sets.ts';
 import { contributionsActives } from '../lib/config.ts';
@@ -886,6 +887,32 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           {genre.motDeLAuteur}
           <span className="pv-mot-signe">Mika</span>
         </blockquote>
+      )}
+
+      {/* CONTRIBUER, SOUS LA LISTE ET NULLE PART AILLEURS.
+
+          TOUT CECI EXISTAIT DEJA et n'etait branche que sur l'ancienne vue en
+          trois dimensions : une table de propositions, un formulaire, des
+          votes, une page de moderation. Depuis que Parcourir est la page
+          d'accueil, ce mecanisme etait devenu inatteignable. Il n'y avait rien
+          a inventer, il y avait a rebrancher.
+
+          SOUS LA LISTE, ET PAS DANS L'EN-TETE NI DANS LE PROFIL. C'est en
+          finissant de lire les morceaux d'un genre qu'on se dit « il en manque
+          un » ou « celle-la n'a rien a faire ici ». Un bouton dans la barre du
+          haut poserait la question avant qu'on ait vu la liste ; un bouton
+          dans le profil la poserait une fois qu'on l'a oubliee.
+
+          LE DERNIER MOT RESTE A MIKA. Les votes classent les propositions, ils
+          ne modifient pas le corpus : une proposition acceptee est reportee a
+          la main, avec ses sources. C'est ecrit dans la page A propos et cela
+          ne change pas ici. */}
+      {tracks.length > 0 && (
+        <ContributeActions
+          genreId={genre.id}
+          genreLabel={genre.label}
+          filiationDebattue={genre.confidence === 'debated'}
+        />
       )}
 
       {/* CE QUE LA COMMUNAUTE A DEPOSE DANS CE STYLE.

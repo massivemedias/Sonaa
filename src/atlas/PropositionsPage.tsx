@@ -12,7 +12,8 @@ import { reprendreIntention, seDeconnecter } from '../lib/auth.ts';
 import { useFil } from '../lib/useFil.ts';
 import { ContributeDialog } from './ContributeDialog.tsx';
 import { LABEL_DE_GENRE, ProposalCard } from './ProposalCard.tsx';
-import { SiteNav } from './SiteNav.tsx';
+import { EnTeteSite } from './EnTeteSite.tsx';
+import { PiedDePage } from './PiedDePage.tsx';
 import './credits.css';
 import './contribute.css';
 
@@ -62,7 +63,9 @@ export function PropositionsPage() {
 
   if (!contributionsActives) {
     return (
-      <main className="credits">
+      <>
+        <EnTeteSite />
+        <main className="credits">
         <header className="credits-head">
           <h1>Propositions</h1>
         </header>
@@ -72,24 +75,24 @@ export function PropositionsPage() {
             lui, fonctionne entièrement. <a href="#/">Revenir à l&apos;accueil</a>.
           </p>
         </div>
-      </main>
+        </main>
+        <PiedDePage />
+      </>
     );
   }
 
   return (
-    <main className="credits">
+    <>
+      <EnTeteSite />
+      <main className="credits">
       <a className="credits-skip" href="#propositions-contenu">
         Aller au contenu
       </a>
 
       <header className="credits-head">
-        <a href="#/" aria-label="SONAA, revenir à l'accueil">
-          <img
-            src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`}
-            alt="SONAA"
-            draggable={false}
-          />
-        </a>
+        {/* PLUS DE LOGO ICI : la barre du haut en porte un. Meme raison
+            qu'aux credits, deux logos a quarante pixels ne disent pas deux
+            fois le nom du site. */}
         <h1>Propositions</h1>
       </header>
 
@@ -178,9 +181,6 @@ export function PropositionsPage() {
         )}
       </div>
 
-      <footer className="credits-foot">
-        <SiteNav variant="page" />
-      </footer>
 
       {reprise && (
         <ContributeDialog
@@ -192,6 +192,8 @@ export function PropositionsPage() {
           onEnvoye={fil.recharger}
         />
       )}
-    </main>
+      </main>
+      <PiedDePage />
+    </>
   );
 }
