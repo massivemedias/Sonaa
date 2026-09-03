@@ -33,6 +33,9 @@
    politiques. Sa seule question est « ce jeton est-il valide, et ce chemin
    commence-t-il par l'identifiant qu'il porte ». */
 
+import { ZONES } from './zones.ts';
+import { soirees } from './agenda.ts';
+
 interface Env {
   readonly SETS: R2Bucket;
   readonly SUPABASE_URL: string;
@@ -142,6 +145,39 @@ async function qui(req: Request, env: Env): Promise<string | null> {
   }
 }
 
+/* La forme de la reponse de l'agenda. A incrementer des qu'elle change. */
+const FORME_REPONSE = 2;
+
+/* --- Ou se trouve le visiteur -------------------------------------------- */
+
+/* Le nom que Cloudflare donne a une ville et celui que RA lui donne ne sont
+   pas toujours le meme mot : « Montréal » contre « Montreal », « Köln »
+   contre « Cologne ». On compare donc sans accents et sans casse, et on
+   n'accepte le rapprochement que DANS LE MEME PAYS : il existe un Paris au
+   Texas, et proposer ses soirees a quelqu'un qui est en France serait pire
+   que ne rien proposer du tout. */
+function nu(s: string): string {
+  return s
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z]/g, '');
+}
+
+function zoneLaPlusProche(ville: string, pays: string): { id: number; nom: string; pays: string } | null {
+  const v = nu(ville);
+  const p = pays.toUpperCase();
+  const memePays = ZONES.filter(([, , c]) => c.toUpperCase() === p);
+  const exact = memePays.find(([, nom]) => nu(nom) === v);
+  if (exact) return { id: exact[0], nom: exact[1], pays: exact[2] };
+  /* A defaut du nom exact, une zone qui contient le nom de la ville ou
+     l'inverse : « New York City » contre « New York ». Rien de plus flou que
+     cela, parce qu'au-dela on inventerait. */
+  const proche = memePays.find(([, nom]) => nu(nom).includes(v) || v.includes(nu(nom)));
+  if (proche) return { id: proche[0], nom: proche[1], pays: proche[2] };
+  return null;
+}
+
 /* --- Le service ----------------------------------------------------------- */
 
 export default {
@@ -151,6 +187,92 @@ export default {
 
     if (req.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: entetes(req, env) });
+    }
+
+    /* ═══ L'AGENDA. Deux routes publiques, sans jeton. ═══
+
+       Elles sont ici, avant le mur d'authentification, parce que la question
+       « qu'est-ce qui se joue ce week-end » n'appartient a personne. */
+
+    /* OU SUIS-JE. Cloudflare le sait deja : la requete porte sa propre
+       origine. Aucune fenetre de permission, aucun service tiers, aucune
+       cle. La ville est ensuite rapprochee de la liste de RA, parce qu'une
+       ville sans zone RA ne sert a rien pour la suite. */
+    if (req.method === 'GET' && chemin === 'api/ou') {
+      const cf = (req as Request & { cf?: Record<string, unknown> }).cf ?? {};
+      const ville = typeof cf['city'] === 'string' ? cf['city'] : null;
+      const pays = typeof cf['country'] === 'string' ? cf['country'] : null;
+      const zone = ville && pays ? zoneLaPlusProche(ville, pays) : null;
+      return new Response(
+        JSON.stringify({ ville, pays, zone }),
+        { headers: entetes(req, env, { 'content-type': 'application/json', 'cache-control': 'no-store' }) }
+      );
+    }
+
+    /* LA LISTE DES VILLES, pour qui n'est pas la ou son adresse le dit. */
+    if (req.method === 'GET' && chemin === 'api/zones') {
+      return new Response(
+        JSON.stringify(ZONES.map(([id, nom, pays]) => ({ id, nom, pays }))),
+        { headers: entetes(req, env, { 'content-type': 'application/json', 'cache-control': 'public, max-age=86400' }) }
+      );
+    }
+
+    /* CE QUI SE JOUE. Relaye chez RA, garde une heure.
+
+       LE CACHE N'EST PAS UN CONFORT, C'EST UNE POLITESSE. Sans lui, chaque
+       ouverture de la page frapperait leur serveur ; avec lui, une ville
+       consultee cent fois dans l'heure ne leur coute qu'une requete. */
+    if (req.method === 'GET' && chemin === 'api/agenda') {
+      const zone = Number(url.searchParams.get('zone'));
+      const du = url.searchParams.get('du');
+      const au = url.searchParams.get('au');
+      if (!Number.isInteger(zone) || zone <= 0 || !du || !au) {
+        return refus(req, env, 400, 'zone, du et au sont obligatoires');
+      }
+
+      const cache = caches.default;
+      /* LA CLE DE CACHE PORTE LA VERSION DU CODE.
+
+         DEFAUT MESURE : la lecture de l'affiche a ete corrigee, le Worker
+         redeploye, et la page a continue une heure entiere a montrer des
+         soirees sans affiche. Rien n'etait casse ; le cache servait
+         simplement des reponses fabriquees par la version d'avant. Une
+         correction invisible pendant une heure ressemble exactement a une
+         correction qui n'a pas marche, et c'est ainsi qu'on va chercher un
+         defaut la ou il n'y en a plus.
+
+         Changer ce nombre a chaque fois que la FORME de la reponse change
+         suffit : les anciennes entrees deviennent inatteignables et
+         expirent toutes seules. */
+      const cle = new Request(`${url.toString()}&v=${FORME_REPONSE}`, { method: 'GET' });
+      const garde = await cache.match(cle);
+      if (garde) {
+        const h = entetes(req, env, { 'content-type': 'application/json' });
+        h.set('x-cache', 'garde');
+        return new Response(garde.body, { headers: h });
+      }
+
+      const genre = url.searchParams.get('genre');
+      const resultat = await soirees({
+        zone,
+        du,
+        au,
+        ...(genre ? { genre } : {}),
+        page: Number(url.searchParams.get('page')) || 1,
+      });
+      /* 502 ET PAS UNE LISTE VIDE. Une ville sans soiree et une source
+         tombee doivent se lire differemment a l'ecran, sans quoi la page
+         ment tranquillement le jour ou RA ferme la porte. */
+      if (!resultat) return refus(req, env, 502, 'Resident Advisor ne repond pas');
+
+      const corps = JSON.stringify(resultat);
+      const aGarder = new Response(corps, {
+        headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=3600' },
+      });
+      await cache.put(cle, aGarder.clone());
+      const h = entetes(req, env, { 'content-type': 'application/json' });
+      h.set('x-cache', 'frais');
+      return new Response(corps, { headers: h });
     }
 
     /* LECTURE PUBLIQUE. Un set publie s'ecoute sans compte, comme sur

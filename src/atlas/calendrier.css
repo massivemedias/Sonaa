@@ -1,0 +1,266 @@
+/* LE CALENDRIER.
+
+   La page reprend la colonne et la typographie des pages document : c'est la
+   meme famille, elle n'a aucune raison d'avoir sa propre largeur. Ce qui lui
+   est propre tient en trois choses : la barre du haut (ou l'on est, quelle
+   periode), le choix des styles, et la liste par soirs. */
+
+.cal-barre {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: 0.9rem;
+  border-bottom: var(--rule-width) solid var(--rule-hairline);
+}
+
+.cal-ou {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.cal-ou strong {
+  font-size: 1.05rem;
+}
+
+.cal-note,
+.cal-attente {
+  color: var(--ink-secondary);
+}
+
+.cal-pays {
+  color: var(--ink-secondary);
+  font-size: 0.85em;
+}
+
+/* Un bouton qui se lit comme un lien : il ne navigue pas, mais il n'a pas
+   plus de poids qu'un lien dans la phrase ou il se trouve. */
+.cal-lien {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.cal-lien:hover {
+  color: var(--ink-primary);
+}
+
+.cal-fenetres,
+.cal-onglets-styles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.cal-onglet {
+  background: none;
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  color: var(--ink-secondary);
+  font: inherit;
+  cursor: pointer;
+}
+
+.cal-onglet:hover {
+  color: var(--ink-primary);
+}
+
+.cal-onglet-actif {
+  color: var(--surface-plate);
+  background: var(--ink-primary);
+  border-color: var(--ink-primary);
+}
+
+/* LE SURVOL NE DOIT PAS EFFACER L'ONGLET ACTIF.
+
+   DEFAUT MESURE : `.cal-onglet:hover` pese deux crans, `.cal-onglet-actif`
+   un seul. Passer la souris sur l'onglet en cours lui donnait donc le texte
+   clair du survol SUR SON FOND CLAIR : couleur et fond a la meme valeur,
+   oklch(0.93 0.008 250) des deux cotes, texte invisible. Vu a l'ecran,
+   confirme en lisant les styles calcules. */
+.cal-onglet-actif:hover {
+  color: var(--surface-plate);
+}
+
+/* --- Le choix de ville --------------------------------------------------- */
+
+.cal-villes {
+  margin-top: 0.9rem;
+}
+
+.cal-recherche {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--surface-margin);
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 8px;
+  padding: 0.55rem 0.75rem;
+  color: inherit;
+  font: inherit;
+}
+
+.cal-villes-liste {
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  display: grid;
+  /* Trois colonnes sur grand ecran, une sur telephone : six cent trente-neuf
+     villes en une seule colonne feraient defiler la page pendant une minute. */
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 0.15rem 1rem;
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+.cal-ville {
+  background: none;
+  border: 0;
+  padding: 0.3rem 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+}
+
+.cal-ville:hover {
+  color: var(--ink-primary);
+}
+
+.cal-ville-active {
+  font-weight: 600;
+}
+
+/* --- Les styles suivis --------------------------------------------------- */
+
+.cal-styles {
+  margin: 1.6rem 0;
+}
+
+.cal-styles-tete {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
+}
+
+.cal-styles-tete h2 {
+  margin: 0;
+  font-size: 1rem;
+  letter-spacing: var(--serrage, -0.3px);
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+/* --- Ce qui se joue ------------------------------------------------------ */
+
+.cal-total {
+  color: var(--ink-secondary);
+  margin: 1.4rem 0 0.4rem;
+}
+
+.cal-panne {
+  /* Le meme rouge que les erreurs de contribution : une source tombee est
+     une panne, pas une nuance de gris. */
+  color: oklch(0.88 0.09 25);
+  border-left: 2px solid oklch(0.62 0.14 25);
+  padding-left: 0.8rem;
+}
+
+.cal-jour h3 {
+  margin: 1.8rem 0 0.7rem;
+  font-size: 0.95rem;
+  text-transform: capitalize;
+  color: var(--ink-secondary);
+  border-bottom: var(--rule-width) solid var(--rule-hairline);
+  padding-bottom: 0.4rem;
+}
+
+.cal-liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cal-soiree {
+  display: flex;
+  gap: 0.9rem;
+  padding: 0.7rem 0;
+  align-items: flex-start;
+}
+
+/* L'AFFICHE RESTE PETITE. Elle sert a reconnaitre une soiree d'un coup
+   d'oeil, pas a etre regardee : une vignette de soixante-douze pixels tient
+   sur une ligne de texte et ne transforme pas l'agenda en galerie. */
+.cal-affiche {
+  width: 72px;
+  height: 72px;
+  flex: 0 0 72px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: var(--surface-margin);
+}
+
+.cal-texte {
+  min-width: 0;
+}
+
+/* LE FILET DES LIENS DE PROSE N'A RIEN A FAIRE SOUS UN TITRE DE BLOC.
+
+   `.credits-body a` souligne d'un filet tous les liens de la page, ce qui
+   est juste au milieu d'un paragraphe. Ici le lien est le titre d'une
+   soiree, il occupe sa ligne entiere, et le filet traversait la carte de
+   part en part comme un separateur qu'on aurait oublie. Vu sur telephone,
+   ou le titre passe a deux lignes et le trait coupe la carte en deux. */
+/* LA CLASSE SEULE NE SUFFIT PAS : `.credits-body a` pese un cran de plus
+   qu'elle, et gagnait. Mesure apres la premiere correction, le filet etait
+   toujours la. On qualifie donc par le conteneur, comme la regle d'en face. */
+.cal-soiree .cal-titre {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 0;
+  font-weight: 500;
+}
+
+.cal-soiree .cal-titre:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.cal-lieu,
+.cal-artistes {
+  margin: 0.15rem 0 0;
+  color: var(--ink-secondary);
+  font-size: 0.92rem;
+}
+
+/* Les genres annonces par la soiree passent apres le lieu et les noms : ils
+   confirment, ils n'informent pas. */
+.cal-genres {
+  margin: 0.15rem 0 0;
+  color: var(--ink-secondary);
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+@media (max-width: 560px) {
+  .cal-affiche {
+    width: 56px;
+    height: 56px;
+    flex-basis: 56px;
+  }
+
+  .cal-villes-liste {
+    max-height: 260px;
+  }
+}

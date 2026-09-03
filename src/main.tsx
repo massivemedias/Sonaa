@@ -93,13 +93,20 @@ const SetsPage = lazy(() =>
   import('./atlas/SetsPage.tsx').then((module) => ({ default: module.SetsPage }))
 );
 
+/* LE CALENDRIER EST CHARGE A LA DEMANDE, comme les autres pages. Il tire la
+   liste des styles et parle a la passerelle : rien de tout cela n'a de raison
+   de peser sur qui vient seulement lire l'atlas. */
+const CalendrierPage = lazy(() =>
+  import('./atlas/CalendrierPage.tsx').then((module) => ({ default: module.CalendrierPage }))
+);
+
 const rootElement = document.getElementById('root');
 
 if (!rootElement) {
   throw new Error('Élément racine introuvable.');
 }
 
-type Route = 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'parcourir' | 'profil' | 'sets' | 'atlas';
+type Route = 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'parcourir' | 'profil' | 'sets' | 'calendrier' | 'atlas';
 
 const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/index')) return 'index';
@@ -114,6 +121,7 @@ const routeOf = (): Route => {
   /* #/profil existait dans le menu du compte depuis longtemps et ne menait
      nulle part : la route manquait, le clic retombait sur la carte. */
   if (window.location.hash.startsWith('#/profil')) return 'profil';
+  if (window.location.hash.startsWith('#/calendrier')) return 'calendrier';
   if (window.location.hash.startsWith('#/sets')) return 'sets';
   /* LA CARTE EN TROIS DIMENSIONS A SON PROPRE CHEMIN, #/carte.
 
@@ -179,6 +187,8 @@ function App() {
           <ProfilPage />
         ) : route === 'sets' ? (
           <SetsPage />
+        ) : route === 'calendrier' ? (
+          <CalendrierPage />
         ) : route === 'parcourir' ? (
           <ParcourirView />
         ) : (

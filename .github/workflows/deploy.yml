@@ -178,6 +178,13 @@ jobs:
       - name: Controler les superpositions de spheres
         run: npm run check:superposition
 
+      # Les correspondances vers Resident Advisor sont ecrites a la main. Une
+      # exception qui vise un genre que RA ne filtre pas ne casse rien : elle
+      # rend une page vide, qui ressemble a une ville sans soirees. Voir
+      # scripts/check-genres-ra.ts
+      - name: Controler les correspondances de genres RA
+        run: npm run check:genresra
+
       # Fait autorité sur les données : cycles, références mortes, orphelins,
       # doublons d'identifiants, couverture par genre. Voir ADR-005.
       - name: Valider les données

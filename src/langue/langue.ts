@@ -192,6 +192,7 @@ interface Dictionnaire {
   readonly artisteIntrouvable: string;
   readonly retourAuxArtistes: string;
   readonly lesStyles: string;
+  readonly leCalendrier: string;
   readonly derniersSets: string;
   readonly descriptionFacultative: string;
   readonly deposer: string;
@@ -380,6 +381,7 @@ const FR: Dictionnaire = {
   artisteIntrouvable: 'Cet artiste n’a pas de set publié.',
   retourAuxArtistes: 'Revenir aux artistes',
   lesStyles: 'Styles',
+  leCalendrier: 'Calendrier',
   derniersSets: 'Derniers sets',
   descriptionFacultative: 'Description, si vous voulez',
   deposer: 'Déposer',
@@ -567,6 +569,7 @@ const EN: Dictionnaire = {
   artisteIntrouvable: 'This artist has no published set.',
   retourAuxArtistes: 'Back to artists',
   lesStyles: 'Styles',
+  leCalendrier: 'Calendar',
   derniersSets: 'Latest sets',
   descriptionFacultative: 'Description, if you like',
   deposer: 'Upload',

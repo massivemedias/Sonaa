@@ -68,6 +68,7 @@ const CONTROLES = [
   ['writes', 'npm run check:writes --silent'],
   ['nature', 'npm run check:nature --silent'],
   ['superposition', 'npm run check:superposition --silent'],
+  ['genres RA', 'npm run check:genresra --silent'],
   ['construction', 'npm run build --silent']
 ];
 

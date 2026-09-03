@@ -28,6 +28,7 @@ type SiteCourant =
   | 'credits'
   | 'propositions'
   | 'moderation'
+  | 'calendrier'
   | 'autre';
 
 /* LE MENU NE PORTE PLUS QUE DEUX VUES.
@@ -61,7 +62,11 @@ const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
      ecouter. « Sons » repond a « Styles » comme une porte repond a l'autre :
      d'un cote l'histoire des genres, de l'autre ce qui se depose aujourd'hui.
      La page garde ses artistes, en section nommee. */
-  { href: '#/sets', id: 'sets', label: t.lesSons }
+  { href: '#/sets', id: 'sets', label: t.lesSons },
+  /* LE CALENDRIER EST UNE VUE, PAS UNE PAGE. On y lit ce qui se joue, comme
+     on lit les styles et les sons ailleurs : c'est la troisieme porte sur le
+     meme sujet, et elle regarde vers ce soir plutot que vers 1988. */
+  { href: '#/calendrier', id: 'calendrier', label: t.leCalendrier }
 ];
 
 /* QUATRE ENTREES, PLUS CINQ. Le menu tient desormais sur la meme rangee que
@@ -83,6 +88,7 @@ function courantOf(hash: string): SiteCourant {
   if (hash.startsWith('#/chronologie')) return 'chronologie';
   if (hash.startsWith('#/heatmap')) return 'heatmap';
   if (hash.startsWith('#/arbre')) return 'arbre';
+  if (hash.startsWith('#/calendrier')) return 'calendrier';
   if (hash.startsWith('#/sets')) return 'sets';
   if (hash.startsWith('#/parcourir')) return 'parcourir';
   if (hash.startsWith('#/carte')) return 'atlas';

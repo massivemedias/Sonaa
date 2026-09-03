@@ -39,9 +39,14 @@ interface Props {
   readonly choisis: readonly string[];
   readonly onChange: (ids: string[]) => void;
   readonly max: number;
+  /* LE TITRE EST FOURNI QUAND LA PHRASE PAR DEFAUT NE VEUT RIEN DIRE.
+     « Styles, pour le ranger dans l'atlas » parle d'un set qu'on depose ;
+     dans le calendrier il n'y a rien a ranger, seulement des styles a
+     suivre. Un composant partage doit pouvoir se taire sur le contexte. */
+  readonly titre?: string;
 }
 
-export function ChoixStyles({ choisis, onChange, max }: Props) {
+export function ChoixStyles({ choisis, onChange, max, titre }: Props) {
   const [ouvert, setOuvert] = useState(false);
   const [filtre, setFiltre] = useState('');
   const plein = choisis.length >= max;
@@ -66,7 +71,7 @@ export function ChoixStyles({ choisis, onChange, max }: Props) {
   return (
     <div className="cs">
       <p className="sp-label cs-titre">
-        {t.genresDuSet(max)}
+        {titre ?? t.genresDuSet(max)}
         <span className="cs-compte">
           {choisis.length} / {max}
         </span>
