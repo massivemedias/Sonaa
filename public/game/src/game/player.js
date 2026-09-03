@@ -95,64 +95,69 @@ export class Player {
 
     const parts = [];
     const R = (x, y, w, h, c) => parts.push({ x, y, w, h, c });
+    const NOIR = '#2b2136';
 
-    // pieds
-    R(-4, -3 + footL, 4, 3, '#2b2136');
-    R(1, -3 + footR, 4, 3, '#2b2136');
+    // ---- pieds : surtout pas la couleur du contour, sinon pied et contour
+    //      fusionnent en un pave noir illisible sous la creature
+    const PIED = '#6a5f7d', PIED_D = '#4e4560';
+    R(-5, -3 + footL, 4, 3, PIED);
+    R(-5, -1 + footL, 4, 1, PIED_D);
+    R(1, -3 + footR, 4, 3, PIED);
+    R(1, -1 + footR, 4, 1, PIED_D);
+
+    // ---- petit corps, sous la tete
+    const cy = -10 + hop;
+    R(-5, cy, 10, 7, B);
+    R(-5, cy, 10, 1, BL);
+    R(3, cy, 2, 7, BD);
     // culotte
-    R(-5, -8 + hop, 10, 5, S);
-    R(2, -8 + hop, 3, 5, SD);
-    R(-5, -8 + hop, 10, 1, '#8fb8e8');
+    R(-5, cy + 3, 10, 4, S);
+    R(3, cy + 3, 2, 4, SD);
+    R(-5, cy + 3, 10, 1, '#8fb8e8');
 
-    // corps : une pile de rangees de largeurs differentes, donc arrondi
-    const top = -20 + hop;
-    R(-3, top, 6, 1, B);
-    R(-5, top + 1, 10, 1, B);
-    R(-6, top + 2, 12, 2, B);
-    R(-7, top + 4, 14, 6, B);
-    R(-6, top + 10, 12, 1, B);
-    R(-4, top + 11, 8, 1, B);
-    // modele : clair a gauche, sombre a droite
-    R(-6, top + 2, 3, 8, BL);
-    R(-7, top + 4, 2, 6, BL);
-    R(4, top + 3, 2, 7, BD);
-    R(-5, top + 10, 10, 1, BD);
+    // ---- grosse tete : c'est elle qui porte tout le caractere
+    const ty = -22 + hop;
+    R(-4, ty, 8, 1, B);
+    R(-6, ty + 1, 12, 1, B);
+    R(-7, ty + 2, 14, 8, B);
+    R(-6, ty + 10, 12, 1, B);
+    R(-4, ty + 11, 8, 1, B);
+    // modele : la lumiere vient de la gauche
+    R(-7, ty + 2, 3, 8, BL);
+    R(4, ty + 2, 3, 8, BD);
 
-    // grandes oreilles tombantes, en trois segments qui s'affinent
-    R(-10, top + 3 + flop, 3, 3, B);
-    R(-11, top + 6 + flop, 3, 3, BD);
-    R(-11, top + 9 + flop, 2, 2, BD);
-    R(7, top + 3 - flop, 3, 3, B);
-    R(8, top + 6 - flop, 3, 3, BD);
-    R(9, top + 9 - flop, 2, 2, BD);
+    // ---- oreilles tombantes, de chaque cote de la tete
+    R(-11, ty + 3 + flop, 4, 4, B);
+    R(-12, ty + 7 + flop, 3, 3, BD);
+    R(7, ty + 3 - flop, 4, 4, B);
+    R(9, ty + 7 - flop, 3, 3, BD);
 
-    // antenne
-    R(-1, top - 3, 1, 3, BD);
-    R(-2, top - 5, 3, 2, BL);
+    // ---- antenne
+    R(-1, ty - 4, 2, 4, BD);
+    R(-2, ty - 6, 4, 2, BL);
 
-    // sacoche de disques
-    R(-11, -14 + hop, 4, 5, '#d97b4a');
-    R(-11, -14 + hop, 4, 1, '#a85c33');
-    R(-10, -16 + hop, 2, 2, '#2b2136');
-    R(-7, -17 + hop, 5, 1, '#a85c33');
+    // ---- sacoche de disques
+    R(-11, cy - 2, 5, 6, '#d97b4a');
+    R(-11, cy - 2, 5, 1, '#a85c33');
+    R(-10, cy - 4, 3, 2, NOIR);
 
     for (const q of parts) px(ctx, bx + (fl > 0 ? q.x : -q.x - q.w) - 1, by + q.y - 1, q.w + 2, q.h + 2, INK);
     for (const q of parts) px(ctx, bx + (fl > 0 ? q.x : -q.x - q.w), by + q.y, q.w, q.h, q.c);
 
     // casque : arceau puis coussinets sur les oreilles
-    const cy = top + 2;
-    px(ctx, bx - 7, cy - 3, 14, 2, INK);
-    px(ctx, bx - 6, cy - 3, 12, 1, '#5a5270');
+    const casqueY = ty + 3;
+    px(ctx, bx - 7, casqueY - 4, 14, 2, INK);
+    px(ctx, bx - 6, casqueY - 4, 12, 1, '#5a5270');
     for (const sx of [-10, 7]) {
-      px(ctx, bx + sx - 1, cy, 5, 7, INK);
-      px(ctx, bx + sx, cy + 1, 3, 5, sx < 0 ? CUP : '#c93a86');
-      px(ctx, bx + sx, cy + 1, 1, 5, '#ffa8d8');
+      px(ctx, bx + sx - 1, casqueY, 5, 7, INK);
+      px(ctx, bx + sx, casqueY + 1, 3, 5, sx < 0 ? CUP : '#c93a86');
+      px(ctx, bx + sx, casqueY + 1, 1, 5, '#ffa8d8');
     }
 
     // visage
     if (!this.back) {
       const ex = fl > 0 ? 0 : -1;
-      const ey = by + top + 5;
+      const ey = by + ty + 4;
       if (this.blink > 0) {
         px(ctx, bx - 4 + ex, ey + 1, 3, 1, INK);
         px(ctx, bx + 2 + ex, ey + 1, 3, 1, INK);
