@@ -154,7 +154,7 @@ export function ModifierSet({ set, onFini, onAnnuler }: Props) {
         {t.descriptionFacultative}
         <textarea
           maxLength={2000}
-          rows={3}
+          rows={5}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />

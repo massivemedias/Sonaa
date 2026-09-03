@@ -110,8 +110,20 @@
   font-family: inherit;
   font-size: 0.9375rem;
 }
+/* DEUX PIXELS DE PLUS ENTRE LES LIGNES, comme demande.
+
+   MESURE DU DEPART : la zone faisait 63 px pour trois lignes, moins 16 de
+   retrait et 2 de bordure, soit 15 px par ligne pour un texte de 15 px. Un
+   interligne de 1,0 exactement, ce que le navigateur appelle « normal » avec
+   cette police et qui colle les jambages d'une ligne aux accents de la
+   suivante. C'est visible sur une biographie de six lignes.
+
+   `calc(1em + 2px)` et non 17 px : le texte fait 15 px sur ordinateur et 14
+   sur telephone, une valeur absolue serait juste d'un cote et fausse de
+   l'autre. */
 .sp-label textarea {
   resize: vertical;
+  line-height: calc(1em + 2px);
 }
 
 .sp-action {

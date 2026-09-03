@@ -363,9 +363,13 @@ export function ProfilPage() {
             </label>
             <label className="sp-label">
               {t.presentation}
+              {/* SIX LIGNES ET NON TROIS. La biographie de Mika en fait sept :
+                  a trois lignes on ecrivait dans une meurtriere, en relisant
+                  par un tiers a la fois. Six montrent presque tout d'un coup,
+                  et la zone reste redimensionnable pour le reste. */}
               <textarea
                 maxLength={600}
-                rows={3}
+                rows={6}
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
               />
@@ -462,7 +466,7 @@ export function ProfilPage() {
           {t.descriptionFacultative}
           <textarea
             maxLength={2000}
-            rows={3}
+            rows={5}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
