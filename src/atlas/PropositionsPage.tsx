@@ -113,7 +113,18 @@ export function PropositionsPage() {
 
         {fil.connecte && (
           <p className="prop-meta">
-            Connecté{fil.pseudonyme ? ` sous le pseudonyme ${fil.pseudonyme}` : ''}
+            {/* LE NOM D'ABORD, LE PSEUDONYME ENSUITE. Se voir designe par un
+                haché de huit caractères sur son propre site n'aide personne à
+                se reconnaître. Mais le pseudonyme reste dit, en second : c'est
+                lui qui figure sur chaque proposition publique, et le cacher
+                rendrait sa propre signature illisible dans la liste. */}
+            Connecté
+            {fil.nom ? ` en tant que ${fil.nom}` : ''}
+            {fil.pseudonyme
+              ? fil.nom
+                ? `, publiquement ${fil.pseudonyme}`
+                : ` sous le pseudonyme ${fil.pseudonyme}`
+              : ''}
             {fil.moderateur ? ', modérateur' : ''}.{' '}
             {fil.moderateur && <a href="#/moderation">File de modération</a>}{' '}
             <button

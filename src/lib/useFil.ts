@@ -16,12 +16,18 @@ import {
   type Proposition,
   type ProposalStatus,
 } from './proposals.ts';
+import { monArtiste } from './sets.ts';
 import { useSession } from './useSession.ts';
 
 export interface Fil {
   readonly propositions: Proposition[];
   readonly votes: Map<string, number>;
   readonly pseudonyme: string | null;
+  /* Le nom d'artiste, quand la personne s'en est donne un dans son profil.
+     Le pseudonyme reste ce que le public voit sur chaque proposition ; ce
+     nom-ci ne sert qu'a se reconnaitre soi-meme, et il n'est jamais envoye
+     avec une proposition. */
+  readonly nom: string | null;
   readonly moderateur: boolean;
   readonly connecte: boolean;
   readonly chargement: boolean;
@@ -40,6 +46,7 @@ export function useFil(options: {
   const [propositions, setPropositions] = useState<Proposition[]>([]);
   const [votes, setVotes] = useState<Map<string, number>>(new Map());
   const [pseudonyme, setPseudonyme] = useState<string | null>(null);
+  const [nom, setNom] = useState<string | null>(null);
   const [moderateur, setModerateur] = useState(false);
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState<string | null>(null);
@@ -72,11 +79,15 @@ export function useFil(options: {
   useEffect(() => {
     if (!session) {
       setPseudonyme(null);
+      setNom(null);
       setModerateur(false);
       return;
     }
     void monPseudonyme().then(setPseudonyme);
     void suisJeModerateur().then(setModerateur);
+    /* Le profil peut ne pas exister : personne n'est oblige de se donner un
+       nom pour proposer une track. On retombe alors sur le pseudonyme. */
+    void monArtiste().then((a) => setNom(a?.nom ?? null));
   }, [session]);
 
   /* Vote optimiste : l'écran bouge au clic, l'écriture suit, et l'état
@@ -130,6 +141,7 @@ export function useFil(options: {
     propositions,
     votes,
     pseudonyme,
+    nom,
     moderateur,
     connecte: session !== null,
     chargement,
