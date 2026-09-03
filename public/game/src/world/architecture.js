@@ -6,7 +6,7 @@ import {
   box, slab, poly, gableRoof, face, signboard, windowRow, doorway, shadow, castBox,
   tree, bush, rock, flower, grassTuft, crate, px, shade, mix, alpha, line2,
   lantern, smoke, time as artTime, LIGHT, FW, FH, isoTileSprite, pxEllipse, pxText, textWidth,
-  billboard, faceRect,
+  billboard, faceRect, outlineCanvas,
 } from '../core/art.js';
 import { VOID, GRASS, PATH, LUSH, CLEARING, FOREST } from './city.js';
 
@@ -113,18 +113,63 @@ function hutBody(ctx, b, wallH, roofH) {
   gableRoof(ctx, b.x, b.y, wallH, b.w, b.d, roofH, b.roof || '#4a5b8c', 'x', 0.22);
 }
 
+
+// ---------------------------------------------- ce qui distingue un metier
+// Toutes les cabanes partageaient la meme silhouette : seul le toit changeait
+// de couleur. Chaque metier a maintenant son element propre, visible de loin.
+function appentis(ctx, b, colToit) {
+  const x = b.x + b.w, y = b.y + b.d - 1.05;
+  box(ctx, x, y, 0, 0.75, 0.9, 0.72, '#b3854f', { line: '#5c4128' });
+  box(ctx, x - 0.08, y - 0.08, 0.72, 0.91, 1.06, 0.16, colToit, { line: shade(colToit, -0.5) });
+}
+
+function perron(ctx, b, wallH) {
+  const x0 = b.x + 0.3, w = b.w - 0.6;
+  box(ctx, x0, b.y + b.d, 0, w, 0.55, 0.16, '#b3854f', { line: '#5c4128' });
+  for (const px2 of [x0 + 0.04, x0 + w - 0.14]) {
+    box(ctx, px2, b.y + b.d + 0.4, 0.16, 0.1, 0.1, wallH - 0.2, '#c9a06a', { line: '#5c4128' });
+    box(ctx, px2, b.y + b.d + 0.4, 0.62, 0.1, 0.1, 0.06, '#e8d4a8', { line: '#5c4128' });
+  }
+}
+
+function signature(ctx, b, wallH, roofH, env) {
+  switch (b.kind) {
+    case 'records':   // des bacs a disques devant la porte
+      crate(ctx, b.x + b.w + 0.12, b.y + b.d - 0.6, 0, 0.46, '#b3773c');
+      crate(ctx, b.x + b.w + 0.12, b.y + b.d - 0.6, 0.42, 0.38, '#c9924e');
+      crate(ctx, b.x + b.w + 0.1, b.y + b.d + 0.05, 0, 0.4, '#a06a34');
+      break;
+    case 'bar':       // deux lanternes et un tonneau
+      lantern(ctx, b.x + 0.28, b.y + b.d + 0.12, wallH - 0.15, '#ffc857');
+      lantern(ctx, b.x + b.w - 0.28, b.y + b.d + 0.12, wallH - 0.15, '#ffc857');
+      box(ctx, b.x + b.w + 0.1, b.y + b.d - 0.5, 0, 0.42, 0.42, 0.5, '#9a6a3c', { line: '#4a3018' });
+      box(ctx, b.x + b.w + 0.06, b.y + b.d - 0.54, 0.5, 0.5, 0.5, 0.07, '#c9924e', { line: '#4a3018' });
+      break;
+    case 'snack':     // un comptoir et un tabouret
+      box(ctx, b.x + 0.35, b.y + b.d + 0.05, 0, b.w - 0.7, 0.3, 0.62, '#c9924e', { line: '#5c4128' });
+      box(ctx, b.x + 0.28, b.y + b.d - 0.02, 0.62, b.w - 0.56, 0.42, 0.09, '#f0e6d2', { line: '#5c4128' });
+      box(ctx, b.x + b.w - 0.5, b.y + b.d + 0.55, 0, 0.24, 0.24, 0.38, '#8a6a45', { line: '#4a3524' });
+      break;
+    case 'gear':      // un appentis colle au flanc
+      appentis(ctx, b, b.roof || '#4fbf9f');
+      break;
+    case 'home':      // un perron avec ses deux poteaux
+      perron(ctx, b, wallH);
+      break;
+  }
+}
+
 const STYLES = {
   // petite cabane de disquaire
   hut(ctx, b, env) {
-    const wallH = 1.05, roofH = 0.6;
+    // la pente du toit varie d'une cabane a l'autre : sinon elles sont clonees
+    const pente = 0.52 + ((Math.round(b.x * 3 + b.y) % 3) * 0.13);
+    const wallH = 1.05, roofH = pente;
     hutBody(ctx, b, wallH, roofH);
     const L = span(b);
     doorway(ctx, ...fp(b, L / 2 - 0.28, 0.82), 'left', 0.56, 0.82, '#6b4426');
     windowRow(ctx, ...fp(b, 0.22, 0.92), 'left', 0.42, 0.34, 1, env.night ? '#ffd76a' : '#9ad9e8');
-    // enseigne face camera : c'est la seule facon d'avoir des lettres nettes
-    // un bac de disques dehors
-    crate(ctx, b.x + b.w + 0.12, b.y + b.d - 0.55, 0, 0.45, '#b3773c');
-    px(ctx, P(b.x + b.w + 0.34, b.y + b.d - 0.33, 0.46).x - 3, P(b.x + b.w + 0.34, b.y + b.d - 0.33, 0.46).y - 2, 6, 2, '#2b2136');
+    signature(ctx, b, wallH, roofH, env);
     if (env.night) lantern(ctx, b.x + 0.18, b.y + b.d + 0.05, wallH + 0.1, '#ffc857');
   },
 
@@ -135,6 +180,7 @@ const STYLES = {
     const L = span(b);
     doorway(ctx, ...fp(b, L / 2 - 0.32, 0.95), 'left', 0.64, 0.95, '#6b4426');
     windowRow(ctx, ...fp(b, 0.28, 1.06), 'left', L - 1.5, 0.44, Math.max(1, R(L - 1.5)), env.night ? '#ffd76a' : '#9ad9e8');
+    signature(ctx, b, wallH, roofH, env);
     if (b.chimney) {
       box(ctx, b.x + b.w - 0.75, b.y + 0.35, wallH + roofH * 0.55, 0.32, 0.32, 0.45, '#9a6a4a');
       smoke(ctx, b.x + b.w - 0.6, b.y + 0.5, wallH + roofH * 0.55 + 0.5, b.x);
@@ -230,6 +276,7 @@ function rendreSprite(b, env, style, cle) {
   const dx = Math.floor(ancre.x) - gauche, dy = Math.floor(ancre.y) - haut;
   g.setTransform(1, 0, 0, 1, -dx, -dy);
   if (style === 'chantier') construction(g, b); else STYLES[style](g, b, env);
+  outlineCanvas(c, '#2a1d33');
   return { canvas: c, dx, dy, cle };
 }
 
@@ -266,6 +313,7 @@ export function drawProp(ctx, pr, env) {
     const ancre = toScreen(pr.x, pr.y, 0);
     g.setTransform(1, 0, 0, 1, AX - Math.floor(ancre.x), AY - Math.floor(ancre.y));
     dessinerDecor(g, pr, s, graine, env);
+    outlineCanvas(c, '#2a1d33');
     sp = { canvas: c };
     if (cacheDecors.size > 400) cacheDecors.clear();
     cacheDecors.set(cle, sp);

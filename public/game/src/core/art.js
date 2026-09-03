@@ -544,3 +544,35 @@ export function doorway(ctx, x, y, z, side, wUnits, hUnits, color = '#8f5f34') {
   faceRect(ctx, x, y, z, side, 1, 1, w - 2, 1, shade(color, -0.1));
   faceRect(ctx, x, y, z, side, w - 4, Math.round(h * 0.5), 2, 2, '#ffd76a');
 }
+
+// ---------------------------------------------------------------- contour
+// Le trait sombre autour de chaque objet, c'est ce qui fait lire une image
+// comme du pixel art plutot que comme un rendu 3D fade. On le deduit de la
+// transparence du sprite : tout pixel vide qui touche un pixel plein devient
+// un pixel de contour. Calcule une seule fois, a la mise en cache.
+export function outlineCanvas(canvas, color = '#2a1d33', epaisseur = 1) {
+  const g = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  if (!w || !h) return canvas;
+  const [cr, cg, cb] = hex2rgb(color);
+  for (let passe = 0; passe < epaisseur; passe++) {
+    const src = g.getImageData(0, 0, w, h);
+    const a = src.data;
+    const sortie = g.createImageData(w, h);
+    const b = sortie.data;
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        const i = (y * w + x) * 4;
+        if (a[i + 3] > 8) { b[i] = a[i]; b[i + 1] = a[i + 1]; b[i + 2] = a[i + 2]; b[i + 3] = a[i + 3]; continue; }
+        let voisin = false;
+        if (x > 0 && a[i - 4 + 3] > 8) voisin = true;
+        else if (x < w - 1 && a[i + 4 + 3] > 8) voisin = true;
+        else if (y > 0 && a[i - w * 4 + 3] > 8) voisin = true;
+        else if (y < h - 1 && a[i + w * 4 + 3] > 8) voisin = true;
+        if (voisin) { b[i] = cr; b[i + 1] = cg; b[i + 2] = cb; b[i + 3] = 255; }
+      }
+    }
+    g.putImageData(sortie, 0, 0);
+  }
+  return canvas;
+}
