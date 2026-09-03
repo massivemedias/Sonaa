@@ -79,6 +79,17 @@ function heure(iso: string | null): string | null {
 
 export function CalendrierPage() {
   const [zone, setZone] = useState<Zone | null>(null);
+  /* LE NOM QU'ON AFFICHE N'EST PAS TOUJOURS CELUI QU'ON INTERROGE.
+
+     Resident Advisor ecrit ses villes en anglais et sans accent : Montreal,
+     Cologne, Zurich. Cloudflare, lui, rend le nom local : Montréal, Köln,
+     Zürich. On interroge donc avec le nom de RA et on ECRIT celui d'ici,
+     parce que la ligne du haut dit ou l'on est, et qu'on n'est pas a
+     « Montreal ».
+
+     Quand la ville a ete choisie a la main, il n'y a plus de nom local a
+     preferer : c'est celui de la liste qui s'affiche, puisque c'est celui
+     qu'on a designe. */
   const [villeDeduite, setVilleDeduite] = useState<string | null>(null);
   const [cherchee, setCherchee] = useState(false);
   const [styles, setStyles] = useState<string[]>(() => stylesSuivis());
@@ -156,6 +167,10 @@ export function CalendrierPage() {
 
   const choisirVille = (z: Zone) => {
     setZone(z);
+    /* On efface le nom local : il decrivait la ville d'ou l'on se connecte,
+       pas celle qu'on vient de designer. Le garder afficherait « Montréal »
+       au-dessus de l'agenda de Berlin. */
+    setVilleDeduite(null);
     noterZone(z);
     setOuvrirVilles(false);
     setFiltreVille('');
@@ -192,7 +207,7 @@ export function CalendrierPage() {
         <header className="credits-head">
           <h1>Calendrier</h1>
           <p className="credits-lede">
-            Ce qui se joue pres de vous, dans les styles que vous suivez. Les soirees viennent de
+            Ce qui se joue près de vous, dans les styles que vous suivez. Les soirées viennent de
             Resident Advisor ; chaque titre y renvoie.
           </p>
         </header>
@@ -202,14 +217,9 @@ export function CalendrierPage() {
           <div className="cal-barre">
             <div className="cal-ou">
               {!cherchee ? (
-                <span className="cal-attente">On cherche ou vous etes…</span>
+                <span className="cal-attente">On cherche où vous êtes…</span>
               ) : zone ? (
-                <>
-                  <strong>{zone.nom}</strong>
-                  {villeDeduite && villeDeduite !== zone.nom && (
-                    <span className="cal-note"> (deduit de {villeDeduite})</span>
-                  )}
-                </>
+                <strong>{villeDeduite ?? zone.nom}</strong>
               ) : (
                 <span className="cal-note">
                   {villeDeduite
@@ -241,7 +251,7 @@ export function CalendrierPage() {
               <input
                 className="cal-recherche"
                 type="search"
-                placeholder="Berlin, Montreal, Tokyo, ou un code pays (CA, DE…)"
+                placeholder="Berlin, Montréal, Tokyo, ou un code pays (CA, DE…)"
                 value={filtreVille}
                 onChange={(e) => setFiltreVille(e.target.value)}
                 autoFocus
@@ -277,7 +287,7 @@ export function CalendrierPage() {
             {styles.length === 0 ? (
               <p className="cal-note">
                 Aucun style suivi : la page montre tout ce qui se joue en ville. Choisissez-en
-                jusqu&apos;a {STYLES_MAX} pour ne voir que ce qui vous concerne.
+                jusqu&apos;à {STYLES_MAX} pour ne voir que ce qui vous concerne.
               </p>
             ) : (
               <div className="cal-onglets-styles">
@@ -314,13 +324,13 @@ export function CalendrierPage() {
             {traduction?.elargi && styleInterroge && (
               <p className="cal-note">
                 Resident Advisor ne distingue pas{' '}
-                <strong>{LABEL_DE_GENRE[styleInterroge] ?? styleInterroge}</strong> : la
-                recherche a ete elargie a « {traduction.valeur} ».
+                <strong>{LABEL_DE_GENRE[styleInterroge] ?? styleInterroge}</strong>  : la
+                recherche a été élargie à « {traduction.valeur} ».
               </p>
             )}
             {traduction && traduction.valeur === null && styleInterroge && (
               <p className="cal-note">
-                Aucun equivalent de{' '}
+                Aucun équivalent de{' '}
                 <strong>{LABEL_DE_GENRE[styleInterroge] ?? styleInterroge}</strong> chez
                 Resident Advisor : voici tout ce qui se joue en ville.
               </p>
@@ -330,22 +340,22 @@ export function CalendrierPage() {
           {/* ═══ CE QUI SE JOUE ═══ */}
           {!zone ? null : panne ? (
             <p className="cal-panne">
-              Resident Advisor ne repond pas. Ce n&apos;est pas une ville sans soirees : c&apos;est
-              la source qui est muette. <button className="cal-lien" onClick={charger}>Reessayer</button>
+              Resident Advisor ne répond pas. Ce n&apos;est pas une ville sans soirées : c&apos;est
+              la source qui est muette. <button className="cal-lien" onClick={charger}>Réessayer</button>
             </p>
           ) : chargement ? (
             <p className="cal-attente">Lecture de l&apos;agenda…</p>
           ) : parJour.length === 0 ? (
             <p className="cal-note">
-              Rien d&apos;annonce a {zone.nom} sur cette periode
-              {traduction?.valeur ? ` en ${traduction.valeur}` : ''}. Elargissez la periode, ou
+              Rien d&apos;annoncé à {villeDeduite ?? zone.nom} sur cette période
+              {traduction?.valeur ? ` en ${traduction.valeur}` : ''}. Élargissez la période, ou
               changez de style.
             </p>
           ) : (
             <>
               <p className="cal-total">
-                {total} soiree{total > 1 ? 's' : ''} a {zone.nom}
-                {soirees && total > soirees.length ? `, les ${soirees.length} premieres` : ''}.
+                {total} soirée{total > 1 ? 's' : ''} à {villeDeduite ?? zone.nom}
+                {soirees && total > soirees.length ? `, les ${soirees.length} premières` : ''}.
               </p>
               {parJour.map(([date, liste]) => (
                 <section key={date} className="cal-jour">
@@ -367,7 +377,7 @@ export function CalendrierPage() {
                             {s.titre}
                           </a>
                           <p className="cal-lieu">
-                            {s.lieu ?? 'Lieu non annonce'}
+                            {s.lieu ?? 'Lieu non annoncé'}
                             {heure(s.debut) ? ` · ${heure(s.debut)}` : ''}
                           </p>
                           {s.artistes.length > 0 && (

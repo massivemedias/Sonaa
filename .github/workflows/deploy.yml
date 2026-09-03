@@ -185,6 +185,13 @@ jobs:
       - name: Controler les correspondances de genres RA
         run: npm run check:genresra
 
+      # Trois fois du francais sans accents est parti en production, et la
+      # troisieme c'est Mika qui l'a vu. Les commentaires de ce depot
+      # s'ecrivent sans accents ; le texte affiche, jamais. Voir
+      # scripts/check-accents.ts
+      - name: Controler les accents du texte affiche
+        run: npm run check:accents
+
       # Fait autorité sur les données : cycles, références mortes, orphelins,
       # doublons d'identifiants, couverture par genre. Voir ADR-005.
       - name: Valider les données

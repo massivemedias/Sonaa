@@ -69,6 +69,7 @@ const CONTROLES = [
   ['nature', 'npm run check:nature --silent'],
   ['superposition', 'npm run check:superposition --silent'],
   ['genres RA', 'npm run check:genresra --silent'],
+  ['accents', 'npm run check:accents --silent'],
   ['construction', 'npm run build --silent']
 ];
 
