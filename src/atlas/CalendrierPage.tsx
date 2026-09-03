@@ -40,7 +40,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
-import { ChoixStyles, LABEL_DE_GENRE } from './ChoixStyles.tsx';
+import { ChoixStyles, EST_FAMILLE, LABEL_DE_STYLE } from './ChoixStyles.tsx';
 import { SelecteurVille } from './SelecteurVille.tsx';
 import { FAMILIES, STRUCTURES } from './structures.ts';
 import { resoudreVille, situer, type Ville } from '../lib/ville-active.ts';
@@ -193,7 +193,11 @@ export function CalendrierPage() {
   const styleInterroge = styleActif ?? styles[0] ?? null;
   const traduction = useMemo(() => {
     if (!styleInterroge) return null;
-    return traduire(styleInterroge, FAMILLE_DE_GENRE.get(styleInterroge) ?? '');
+    /* UNE FAMILLE EST SA PROPRE FAMILLE. Le calendrier ne propose plus que
+       les quatorze, mais un choix garde d'avant peut encore etre un genre :
+       les deux formes passent ici, et `FAMILLE_DE_GENRE` ne connait que la
+       seconde. */
+    return traduire(styleInterroge, FAMILLE_DE_GENRE.get(styleInterroge) ?? styleInterroge);
   }, [styleInterroge]);
 
   const zoneRa = ville?.ra_area_id ?? null;
@@ -408,7 +412,7 @@ export function CalendrierPage() {
                         }`}
                         onClick={() => setStyleActif(id)}
                       >
-                        {LABEL_DE_GENRE[id] ?? id}
+                        {LABEL_DE_STYLE[id] ?? id}
                       </button>
                     ))}
                   </div>
@@ -419,21 +423,26 @@ export function CalendrierPage() {
                     choisis={styles}
                     onChange={changerStyles}
                     max={STYLES_MAX}
+                    famillesSeulement
                     titre={`Les styles que vous suivez (${STYLES_MAX} au plus)`}
                   />
                 )}
 
-                {traduction?.elargi && styleInterroge && (
+                {/* « ELARGIE » NE SE DIT QUE D'UN GENRE. Choisir Techno et
+                    s'entendre repondre que la recherche a ete elargie a
+                    « techno » serait absurde : elle n'a rien elargi du tout,
+                    c'est ce qu'on a demande. */}
+                {traduction?.elargi && styleInterroge && !EST_FAMILLE.has(styleInterroge) && (
                   <p className="cal-note">
                     Resident Advisor ne distingue pas{' '}
-                    <strong>{LABEL_DE_GENRE[styleInterroge] ?? styleInterroge}</strong> : la
+                    <strong>{LABEL_DE_STYLE[styleInterroge] ?? styleInterroge}</strong> : la
                     recherche a été élargie à « {traduction.valeur} ».
                   </p>
                 )}
                 {traduction && traduction.valeur === null && styleInterroge && (
                   <p className="cal-note">
                     Aucun équivalent de{' '}
-                    <strong>{LABEL_DE_GENRE[styleInterroge] ?? styleInterroge}</strong> chez
+                    <strong>{LABEL_DE_STYLE[styleInterroge] ?? styleInterroge}</strong> chez
                     Resident Advisor : voici tout ce qui se joue en ville.
                   </p>
                 )}

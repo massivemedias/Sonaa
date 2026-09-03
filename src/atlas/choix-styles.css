@@ -1,0 +1,144 @@
+/* LE CHOIX DES STYLES : LES REGLES VIVENT AVEC LEUR COMPOSANT.
+
+   ELLES ETAIENT DANS sets.css, ET LE PANNEAU ETAIT NU SUR LE CALENDRIER.
+   Defaut constate a la mesure : sur la page du calendrier, `.cs-genres`
+   calculait `display: block` alors que la regle dit `flex`. La regle
+   n'arrivait pas jusque-la, tout simplement : sets.css n'est charge que par
+   le profil et la page des sons, et le calendrier ne l'importe pas. Les
+   quatorze familles s'empilaient donc une par ligne au lieu de former une
+   rangee, et rien dans le code ne le disait.
+
+   Une feuille rattachee a un composant part avec lui. C'est la seule facon
+   qu'un composant partage soit vraiment partageable. */
+
+.sp-styles {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+/* La pastille EST le bouton qui la retire. Une croix separee a cote d'une
+   etiquette double le nombre de cibles pour une seule intention, et sur
+   telephone les deux se touchent. */
+.sp-styles button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid oklch(1 0 0 / 0.16);
+  border-radius: 999px;
+  background: oklch(1 0 0 / 0.05);
+  color: oklch(0.88 0.008 260);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+.sp-styles button:hover {
+  border-color: oklch(0.75 0.13 25 / 0.6);
+  color: oklch(0.8 0.1 25);
+}
+.sp-styles span {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* --- Le choix des styles -------------------------------------------------- */
+
+.cs {
+  margin-top: 0.2rem;
+}
+.cs-titre {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.cs-compte {
+  font-variant-numeric: tabular-nums;
+  color: oklch(0.55 0.01 260);
+}
+.cs-ouvrir {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid oklch(1 0 0 / 0.18);
+  border-radius: 999px;
+  background: none;
+  color: oklch(0.88 0.008 260);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+.cs-ouvrir:hover {
+  border-color: oklch(1 0 0 / 0.34);
+}
+
+.cs-panneau {
+  margin-top: 0.7rem;
+  padding: 0.9rem;
+  border: 1px solid oklch(1 0 0 / 0.12);
+  border-radius: 14px;
+  background: oklch(0.16 0.008 260);
+}
+.cs-recherche {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid oklch(1 0 0 / 0.14);
+  border-radius: 10px;
+  background: oklch(0.12 0.006 260);
+  color: oklch(0.92 0.006 260);
+  font-family: inherit;
+  font-size: 0.9375rem;
+}
+/* LE PANNEAU A UNE HAUTEUR BORNEE ET DEFILE DEDANS. Sans cette borne, 219
+   styles poussent le bouton d'envoi a deux ecrans plus bas et on ne sait plus
+   qu'il existe. */
+.cs-familles {
+  margin-top: 0.8rem;
+  max-height: 42vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.cs-famille {
+  margin: 0.9rem 0 0.35rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: oklch(0.6 0.01 260);
+  text-transform: uppercase;
+}
+.cs-famille:first-child {
+  margin-top: 0;
+}
+.cs-genres {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.cs-genres button {
+  padding: 0.28rem 0.6rem;
+  border: 1px solid oklch(1 0 0 / 0.14);
+  border-radius: 999px;
+  background: none;
+  color: oklch(0.85 0.008 260);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+.cs-genres button:hover:not(:disabled) {
+  border-color: oklch(1 0 0 / 0.34);
+}
+.cs-genres button[data-pris='true'] {
+  background: oklch(0.78 0.17 85);
+  border-color: oklch(0.78 0.17 85);
+  color: oklch(0.2 0.02 85);
+  font-weight: 700;
+}
+.cs-genres button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}

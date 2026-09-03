@@ -17,6 +17,7 @@
 import { useMemo, useState } from 'react';
 import { FAMILIES, STRUCTURES } from './structures.ts';
 import { t } from '../langue/langue.ts';
+import './choix-styles.css';
 
 const sansAccent = (s: string): string =>
   s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
@@ -35,6 +36,37 @@ export const LABEL_DE_GENRE: Record<string, string> = Object.fromEntries(
   TOUS.map((g) => [g.id, g.label])
 );
 
+/* ═══ LES QUATORZE FAMILLES, QUAND LE DETAIL N'AIDE PAS ═══
+
+   Deux cent dix-neuf genres est la bonne granularite pour ETIQUETER un set :
+   on sait ce qu'on a joue, et « dub techno » n'est pas « techno ». C'est la
+   mauvaise granularite pour SUIVRE une ville : personne ne veut choisir
+   entre euro disco, italo disco et space disco pour savoir s'il sort ce
+   soir, et Resident Advisor ne fait de toute facon pas ces distinctions, il
+   les elargit toutes a la famille. La liste etait donc longue ET sans effet.
+
+   Le meme composant sert aux deux, avec un cran de detail en moins d'un
+   cote. */
+const FAMILLES = FAMILIES.map((f) => ({
+  id: f.id,
+  label: f.label,
+  famille: '',
+  cherche: sansAccent(f.label),
+}));
+
+/** Les identifiants qui designent une famille et non un genre. Trois d'entre
+    eux, `disco`, `trance` et `industrial`, existent AUSSI comme genres, avec
+    le meme libelle et la meme correspondance chez Resident Advisor : la
+    collision est sans consequence, mais elle merite d'etre dite. */
+export const EST_FAMILLE = new Set(FAMILIES.map((f) => f.id));
+
+/** Les libelles des genres ET des familles. Les genres d'abord : la ou un
+    identifiant existe des deux cotes, le libelle est identique. */
+export const LABEL_DE_STYLE: Record<string, string> = {
+  ...Object.fromEntries(FAMILLES.map((f) => [f.id, f.label])),
+  ...LABEL_DE_GENRE,
+};
+
 interface Props {
   readonly choisis: readonly string[];
   readonly onChange: (ids: string[]) => void;
@@ -44,16 +76,20 @@ interface Props {
      dans le calendrier il n'y a rien a ranger, seulement des styles a
      suivre. Un composant partage doit pouvoir se taire sur le contexte. */
   readonly titre?: string;
+  /* NE PROPOSER QUE LES QUATORZE FAMILLES. Le calendrier s'en sert : voir
+     FAMILLES ci-dessus pour la raison. */
+  readonly famillesSeulement?: boolean;
 }
 
-export function ChoixStyles({ choisis, onChange, max, titre }: Props) {
+export function ChoixStyles({ choisis, onChange, max, titre, famillesSeulement }: Props) {
   const [ouvert, setOuvert] = useState(false);
   const [filtre, setFiltre] = useState('');
   const plein = choisis.length >= max;
 
   const parFamille = useMemo(() => {
+    const source = famillesSeulement ? FAMILLES : TOUS;
     const q = sansAccent(filtre.trim());
-    const gardes = q ? TOUS.filter((g) => g.cherche.includes(q)) : TOUS;
+    const gardes = q ? source.filter((g) => g.cherche.includes(q)) : source;
     const groupes = new Map<string, typeof TOUS>();
     for (const g of gardes) {
       const l = groupes.get(g.famille) ?? [];
@@ -61,7 +97,7 @@ export function ChoixStyles({ choisis, onChange, max, titre }: Props) {
       groupes.set(g.famille, l);
     }
     return [...groupes.entries()];
-  }, [filtre]);
+  }, [filtre, famillesSeulement]);
 
   const basculer = (id: string): void => {
     if (choisis.includes(id)) onChange(choisis.filter((x) => x !== id));
@@ -87,9 +123,9 @@ export function ChoixStyles({ choisis, onChange, max, titre }: Props) {
               <button
                 type="button"
                 onClick={() => basculer(id)}
-                aria-label={t.retirerLeStyle(LABEL_DE_GENRE[id] ?? id)}
+                aria-label={t.retirerLeStyle(LABEL_DE_STYLE[id] ?? id)}
               >
-                {LABEL_DE_GENRE[id] ?? id}
+                {LABEL_DE_STYLE[id] ?? id}
                 <span aria-hidden="true">×</span>
               </button>
             </li>
@@ -103,13 +139,18 @@ export function ChoixStyles({ choisis, onChange, max, titre }: Props) {
 
       {ouvert && (
         <div className="cs-panneau">
-          <input
-            type="search"
-            className="cs-recherche"
-            placeholder={t.chercherUnStyle}
-            value={filtre}
-            onChange={(e) => setFiltre(e.target.value)}
-          />
+          {/* PAS DE CHAMP DE RECHERCHE SUR QUATORZE ENTREES. Elles tiennent
+              toutes a l'ecran : chercher parmi ce qu'on voit deja est un
+              geste de plus pour rien. */}
+          {!famillesSeulement && (
+            <input
+              type="search"
+              className="cs-recherche"
+              placeholder={t.chercherUnStyle}
+              value={filtre}
+              onChange={(e) => setFiltre(e.target.value)}
+            />
+          )}
 
           {parFamille.length === 0 ? (
             <p className="sp-aide">{t.aucunStyleTrouve}</p>
@@ -117,7 +158,7 @@ export function ChoixStyles({ choisis, onChange, max, titre }: Props) {
             <div className="cs-familles">
               {parFamille.map(([famille, genres]) => (
                 <section key={famille}>
-                  <h4 className="cs-famille">{famille}</h4>
+                  {famille && <h4 className="cs-famille">{famille}</h4>}
                   <ul className="cs-genres">
                     {genres.map((g) => {
                       const pris = choisis.includes(g.id);
