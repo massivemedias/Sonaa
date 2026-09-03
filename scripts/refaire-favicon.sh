@@ -1,46 +1,49 @@
 #!/bin/sh
-# LE FAVICON DE L'ONGLET, REFAIT A PARTIR DU LOGO.
+# LE FAVICON DE L'ONGLET : LE S DE SONAA, DECOUPE DANS LE LOGO.
 #
 # Usage : npm run favicon
 #
-# ═══ CE QU'IL Y AVAIT, ET POURQUOI CA NE MARCHAIT PAS ═══
+# ═══ DEUX TENTATIVES, ET CE QUE LA SECONDE A APPRIS ═══
 #
-# Les icones venaient toutes du logo rond, disque ENTIER, favicons compris.
-# A seize pixels le lettrage n'etait plus qu'une trace claire, et c'etait
-# assume : « c'est le disque qui identifie ». A l'usage, non. Dans un onglet
-# on ne voit ni disque ni lettrage : on voit une virgule blanche qui ressemble
-# a une croche, et Mika l'a dit sans detour, ca ne reflete pas le logo.
+# Au depart, les icones venaient toutes du logo rond, disque ENTIER, favicons
+# compris. A seize pixels le lettrage n'etait plus qu'une virgule claire qui
+# ressemblait a une croche. Premiere correction : un carre a coins arrondis au
+# lieu du cercle, et le mot entier epaissi. On lisait « Sonaa » a trente-deux
+# pixels, ce qui etait deja mieux, mais Mika a mis le doigt sur ce qui restait
+# faux : le mot est LARGE ET COURT, donc dans une tuile carree il occupe une
+# bande au milieu et laisse le haut et le bas vides. Trop petit.
 #
-# Deux causes, mesurees plutot que supposees.
+# LE S, LUI, EST PLUS HAUT QUE LARGE. Il epouse la tuile au lieu de flotter
+# dedans. A trente-deux pixels il fait vingt-neuf pixels de haut au lieu de
+# sept : quatre fois plus de matiere pour le meme carre. Et c'est une lettre
+# du logo, pas un dessin nouveau.
 #
-#   1. LE DISQUE MANGE LES COINS. Le lettrage est large et court ; inscrit
-#      dans un cercle il perd un bon tiers de sa taille pour rien. Un carre
-#      a coins arrondis lui rend cette place.
+# ═══ LA DECOUPE, ET POURQUOI ELLE N'EST PAS UN SIMPLE RECADRAGE ═══
 #
-#   2. LE FILET NE SURVIT PAS A LA REDUCTION. Le logo est un script en trait
-#      fin. Reduit a trente-deux pixels sans rien faire, il devient un gris
-#      sale. Les fondeurs de caracteres connaissent le remede depuis
-#      toujours : aux petits corps, on epaissit. Un pixel d'epaississement
-#      sur une reduction intermediaire suffit, et deux commencent a souder
-#      les lettres entre elles. Compare a trois epaisseurs, retenu : un.
+# Le S de ce script ne s'arrete pas net : sa barre traversante file vers la
+# droite et rejoint le « o ». Couper a la verticale donnait soit un « d »,
+# quand on coupait avant la boucle du haut, soit un morceau de « o » colle au
+# bord, quand on coupait apres.
 #
-# ═══ CE QUI RESTE VRAI, ET QU'IL FAUT DIRE ═══
+# On coupe donc en DEUX temps : une verticale a 530 pixels, qui garde la
+# boucle du haut, puis un effacement du coin en bas a droite, ou trainait le
+# bas du « o ». Les composantes connexes ne servent a rien ici, la barre
+# traversante relie le S au « o » : c'est une seule forme au sens du pixel,
+# deux lettres au sens de la lecture.
 #
-# A SEIZE PIXELS, LE MOT NE PASSE PAS. Essaye a quatre epaisseurs, de un a
-# quarante sur l'original : c'est un gris sale a chaque fois. Ce n'est pas un
-# defaut de fabrication, c'est la physique d'un script de cinq lettres dans
-# seize pixels. On garde quand meme LE MEME dessin a toutes les tailles,
-# plutot qu'un second signe pour les seuls ecrans non retina : une icone
-# d'onglet qui change de forme selon la machine est pire qu'une icone dense.
-# Les navigateurs modernes prennent le trente-deux ou le quarante-huit, ce
-# qui est ce que tout le monde voit en pratique.
+# ═══ L'EPAISSISSEMENT ═══
+#
+# Le logo est un script en trait fin. Reduit sans rien faire, il devient un
+# gris sale. Les fondeurs epaississent aux petits corps depuis toujours. Un
+# pixel de dilatation sur une reduction intermediaire suffit ; deux soudent
+# les boucles entre elles. Compare a trois epaisseurs, retenu : un.
 #
 # ═══ LES GRANDES ICONES NE SONT PAS TOUCHEES ═══
 #
 # apple-touch-icon, icon-192, icon-512 et la version masquable gardent le
-# disque et le lettrage entier : a cette taille il est parfaitement lisible,
-# et iOS comme Android y appliquent leur propre masque. Le probleme etait
-# celui de l'onglet, la correction reste dans l'onglet.
+# disque et le mot entier : a cette taille il est parfaitement lisible, et iOS
+# comme Android y appliquent leur propre masque. Le probleme etait celui de
+# l'onglet, la correction reste dans l'onglet.
 
 set -eu
 
@@ -55,18 +58,17 @@ if ! command -v magick > /dev/null 2>&1; then
   exit 1
 fi
 
-# Le fond du site, pour que l'icone appartienne visiblement au meme objet.
 FOND='#0a0c10'
-# Le filet de la variante sombre : le fond de l'icone est presque noir, donc
-# invisible sur une barre d'onglets sombre. Un liset clair sur le bord suffit
-# a la detacher, et c'est ce que faisait deja l'ancienne version.
+# Le filet de la variante sombre : la tuile est presque noire, donc invisible
+# sur une barre d'onglets sombre. Un liseré clair sur le bord la detache.
 FILET='#8b8f98'
 
-# ── 1. Le lettrage, epaissi une fois pour toutes ──────────────────────────
-# On reduit AVANT d'epaissir : un disque de 1 pixel sur une image de 320 de
-# large equivaut a un disque de 6 sur l'original, et coute mille fois moins.
-magick "$LOGO" -alpha extract -trim +repage -resize 320x "$TEMPO/mot.png"
-magick "$TEMPO/mot.png" -morphology Dilate Disk:1 -trim +repage "$TEMPO/mot-gras.png"
+# ── 1. Le S, isole ────────────────────────────────────────────────────────
+magick "$LOGO" -alpha extract \
+  -crop 530x783+0+0 +repage \
+  -fill black -draw 'rectangle 430,640 530,783' \
+  -trim +repage -resize x300 "$TEMPO/s.png"
+magick "$TEMPO/s.png" -morphology Dilate Disk:1 -trim +repage "$TEMPO/s-gras.png"
 
 # ── 2. Le fond, carre a coins arrondis ────────────────────────────────────
 # Dessine grand puis reduit : c'est ce qui donne des coins lisses. Le rayon
@@ -87,13 +89,14 @@ carre() { # $1 = taille, $2 = couleur de filet ou vide
 # ── 3. Une icone ──────────────────────────────────────────────────────────
 icone() { # $1 = taille, $2 = fichier, $3 = couleur de filet ou vide
   taille=$1
-  # Le lettrage occupe 94 % de la largeur : les coins arrondis laissent la
-  # place, et le mot n'a aucune raison de flotter au milieu d'une marge.
-  largeur=$(( taille * 94 / 100 ))
+  # LA LETTRE SE CALE SUR LA HAUTEUR, pas sur la largeur : c'est tout
+  # l'interet du S. 94 % laisse juste ce qu'il faut pour que les coins
+  # arrondis ne rognent pas la boucle du bas.
+  hauteur=$(( taille * 94 / 100 ))
   carre "$taille" "$3"
-  magick "$TEMPO/mot-gras.png" -resize "${largeur}x" "$TEMPO/m.png"
+  magick "$TEMPO/s-gras.png" -resize "x${hauteur}" "$TEMPO/g.png"
   magick "$TEMPO/fond.png" \
-    \( "$TEMPO/m.png" -background none -alpha copy -fill white -colorize 100 \) \
+    \( "$TEMPO/g.png" -background none -alpha copy -fill white -colorize 100 \) \
     -gravity center -composite -strip "$2"
 }
 
@@ -102,15 +105,14 @@ icone 32 "$SORTIE/favicon-32.png" ''
 icone 48 "$TEMPO/48.png" ''
 icone 16 "$SORTIE/favicon-dark-16.png" "$FILET"
 icone 32 "$SORTIE/favicon-dark-32.png" "$FILET"
-icone 48 "$TEMPO/48-dark.png" "$FILET"
 
 # ── 4. Le .ico, trois tailles dans un fichier ─────────────────────────────
 # Il sert aux vieux navigateurs et a Windows, qui choisit selon le contexte.
 magick "$SORTIE/favicon-16.png" "$SORTIE/favicon-32.png" "$TEMPO/48.png" \
   "$SORTIE/favicon.ico"
 
-echo "Favicon refait a partir de $LOGO :"
+echo "Favicon refait a partir du S de $LOGO :"
 for f in favicon-16 favicon-32 favicon-dark-16 favicon-dark-32; do
-  printf '  %-18s %s\n' "$f.png" "$(magick identify -format '%wx%h, %B octets' "$SORTIE/$f.png")"
+  printf '  %-20s %s\n' "$f.png" "$(magick identify -format '%wx%h, %B octets' "$SORTIE/$f.png")"
 done
-printf '  %-18s %s\n' 'favicon.ico' "$(magick identify -format '%wx%h ' "$SORTIE/favicon.ico")"
+printf '  %-20s %s\n' 'favicon.ico' "$(magick identify -format '%wx%h ' "$SORTIE/favicon.ico")"

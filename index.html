@@ -21,21 +21,27 @@
          lisible, et iOS comme Android appliquent de toute façon leur propre
          masque.
 
-         CELLE DE L'ONGLET a été refaite le 3 septembre 2026, parce qu'elle
-         ne montrait plus rien. Elle reprenait le disque entier, donc le
-         lettrage réduit à une virgule claire qui ressemblait à une croche.
-         L'ancien commentaire disait « c'est le disque qui identifie » : à
-         l'usage, non, dans un onglet on ne voit ni disque ni lettrage.
+         CELLE DE L'ONGLET porte LE S SEUL, découpé dans le logo. Elle a été
+         reprise deux fois le 3 septembre 2026, et la deuxième fois pour une
+         raison qui vaut d'être écrite.
 
-         Deux corrections, mesurées : un carré à coins arrondis au lieu du
-         disque, qui rend au mot large et court le tiers de place que le
-         cercle lui prenait ; et un épaississement du trait avant réduction,
-         ce que font les fondeurs pour les petits corps. À 32 et 48 pixels on
-         lit « Sonaa ». À 16 il reste dense, et c'est la physique d'un script
-         de cinq lettres dans sept pixels de hauteur : on garde le même
-         dessin plutôt qu'un second signe pour les seuls écrans non retina,
-         parce qu'une icône qui change de forme selon la machine est pire
-         qu'une icône dense. Voir scripts/refaire-favicon.sh.
+         Elle reprenait d'abord le disque entier, donc le lettrage réduit à
+         une virgule claire qui ressemblait à une croche. Premier remède : un
+         carré à coins arrondis, et le mot entier épaissi. On lisait
+         « Sonaa », mais Mika a nommé ce qui restait faux : le mot est LARGE
+         ET COURT, donc dans un carré il occupe une bande au milieu et laisse
+         le haut et le bas vides. Trop petit.
+
+         Le S, lui, est plus haut que large : il épouse la tuile au lieu de
+         flotter dedans. À 32 pixels il en fait 29 de haut au lieu de 7,
+         quatre fois plus de matière pour le même carré, et c'est une lettre
+         du logo, pas un dessin nouveau. Le trait est épaissi avant
+         réduction, ce que font les fondeurs pour les petits corps.
+
+         Voir scripts/refaire-favicon.sh, qui explique aussi pourquoi la
+         découpe se fait en deux temps : la barre traversante du S rejoint le
+         « o », c'est une seule forme au sens du pixel et deux lettres au
+         sens de la lecture.
 
          La variante de thème va dans le sens SOMBRE et non clair : la tuile
          est presque noire, donc elle se détache très bien d'une barre
