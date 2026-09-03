@@ -153,6 +153,7 @@ export function produce(game, hours = 4) {
     day: s.day,
   };
   s.tracks.push(t);
+  game.quest.onProduce();
   s.stats.tracks++;
   s.skill += 0.45;
   s.insp = clamp(s.insp - 22, 0, 100);
@@ -182,6 +183,7 @@ export function buyGear(game, g) {
   if (!game.spend(g.price, 'matos')) return;
   game.s.gear.push(g.id);
   game.advance(40);
+  game.quest.onGear();
   game.toast(`${g.name} installé au studio.`, 'gold');
 }
 
@@ -192,6 +194,7 @@ export function launchCampaign(game, c) {
   if (!game.spend(c.price, 'promo')) return;
   game.s.campaigns.push({ id: c.id, left: c.days });
   game.advance(60);
+  game.quest.onCampaign();
   game.toast(`Campagne « ${c.name} » lancée.`, 'gold');
 }
 
@@ -214,6 +217,7 @@ export function pressTrack(game, track, opt, artistId = null) {
   game.s.tracks = game.s.tracks.filter(t => t.id !== track.id);
   game.s.hype += 4 + track.quality / 14;
   game.advance(120);
+  game.quest.onPress();
   game.toast(`« ${rel.title} » est en route chez les disquaires.`, 'gold');
 }
 
@@ -226,6 +230,7 @@ export function signArtist(game, a) {
   game.s.hype += 8 + a.quality / 12;
   game.s.fans += Math.round(a.reach * 0.02);
   game.advance(120);
+  game.quest.onSign();
   game.toast(`${a.name} signe chez toi. C’est officiel.`, 'gold');
 }
 export function boostMorale(game, m) {
@@ -282,6 +287,7 @@ export function playShow(game, gig, setIds) {
   game.advance(5 * 60);
   const verdict = pct > .85 ? 'Set monumental.' : pct > .6 ? 'Bon set, la salle a suivi.'
     : pct > .35 ? 'Set correct, sans plus.' : 'Le dancefloor s’est vidé.';
+  game.quest.onShow();
   game.toast(`${verdict} ${money(fee)} · +${fans} fans`, pct > .6 ? 'gold' : pct > .35 ? 'good' : 'bad');
   return { pct, fee, fans, verdict };
 }
@@ -294,5 +300,6 @@ export function upgradeStore(game) {
   if (!game.spend(cost, 'signature')) return;
   game.s.storeLevel++;
   game.advance(180);
+  game.quest.onStore();
   game.toast(`Boutique niveau ${game.s.storeLevel}.`, 'gold');
 }

@@ -299,3 +299,7 @@ canvas#stage{ image-rendering:pixelated; image-rendering:crisp-edges }
 /* la pochette garde ses coins francs */
 .sleeve{ border:2px solid var(--ink); box-shadow:3px 3px 0 rgba(0,0,0,.45) }
 .sleeve img,.cov{ image-rendering:auto }
+
+.quest-count{margin-left:auto;align-self:flex-start;font-size:10px;font-weight:700;
+  color:var(--gold);background:rgba(0,0,0,.3);border:1px solid rgba(232,200,106,.35);
+  border-radius:4px;padding:2px 5px;letter-spacing:.5px;flex:0 0 auto}

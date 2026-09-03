@@ -60,6 +60,8 @@ export class UI {
       banner.classList.remove('hidden');
       $('#quest-goal').textContent = st.goal;
       $('#quest-hint').textContent = st.hint || '';
+      const ct = $('#quest-count');
+      if (ct) ct.textContent = Math.min(q.index + 1, q.total) + '/' + q.total;
     } else banner.classList.add('hidden');
 
     if (this.current) this.render();

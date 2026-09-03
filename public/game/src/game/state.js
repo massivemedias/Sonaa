@@ -195,7 +195,11 @@ export class Game {
       income >= expense ? 'good' : 'bad');
     for (const l of lines) this.toast(l, 'gold');
 
-    if (this.tier > s.seenTier) { s.seenTier = this.tier; this.emit('tierup', TIERS[this.tier]); }
+    if (this.tier > s.seenTier) {
+      s.seenTier = this.tier;
+      if (this.quest) this.quest.onTier(this.tier);
+      this.emit('tierup', TIERS[this.tier]);
+    }
     if (this.tier >= 6 && !s.ended) { s.ended = true; this.emit('end'); }
     this.save();
   }
