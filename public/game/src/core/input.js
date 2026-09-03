@@ -2,10 +2,14 @@
 //  ENTRÉES — stick virtuel + tap pour se déplacer + pinch zoom
 // =====================================================================
 export class Input {
-  constructor(stickEl, knobEl, canvas, cam) {
+  /* `renderer` et non plus `cam` seule : le zoom n'est plus une propriete de
+     la camera mais le facteur d'agrandissement du tampon, et c'est le
+     renderer qui le detient. Voir render.js, zoomer(). */
+  constructor(stickEl, knobEl, canvas, renderer) {
     this.stick = { x: 0, y: 0 };
     this.tapHandlers = [];
-    this.cam = cam;
+    this.renderer = renderer;
+    this.cam = renderer.cam;
     this.radius = 46;
     this._id = null;
     this._origin = null;
@@ -54,16 +58,22 @@ export class Input {
     let downAt = null, downT = 0, pinch = null;
     canvas.addEventListener('touchstart', e => {
       if (e.touches.length === 2) {
-        pinch = { d: dist(e.touches[0], e.touches[1]), z: cam.zoom };
+        pinch = { d: dist(e.touches[0], e.touches[1]) };
       } else if (e.touches.length === 1) {
         downAt = { x: e.touches[0].clientX, y: e.touches[0].clientY }; downT = performance.now();
       }
     }, { passive: true });
+    /* LE PINCEMENT AVANCE PAR CRANS, puisque le zoom est entier. On attend
+       que les doigts se soient ecartes ou rapproches d'une moitie avant de
+       changer de cran, sinon un tremblement de la main ferait clignoter la
+       ville entre deux tailles. Chaque cran franchi redevient la reference,
+       ce qui permet d'enchainer sans relever les doigts. */
     canvas.addEventListener('touchmove', e => {
-      if (pinch && e.touches.length === 2) {
-        const d = dist(e.touches[0], e.touches[1]);
-        cam.zoom = Math.max(0.5, Math.min(2.4, pinch.z * d / pinch.d));
-      }
+      if (!pinch || e.touches.length !== 2) return;
+      const d = dist(e.touches[0], e.touches[1]);
+      const r = d / pinch.d;
+      if (r > 1.5) { this.renderer.zoomer(+1); pinch.d = d; }
+      else if (r < 0.67) { this.renderer.zoomer(-1); pinch.d = d; }
     }, { passive: true });
     canvas.addEventListener('touchend', e => {
       if (pinch) { if (e.touches.length < 2) pinch = null; return; }
@@ -74,8 +84,15 @@ export class Input {
       downAt = null;
     });
     canvas.addEventListener('click', e => this.fireTap(e.clientX, e.clientY));
+    /* LA MOLETTE AUSSI AVANCE PAR CRANS. Elle envoyait autrefois des
+       fractions, ce qui n'a plus de sens : il n'y a que quatre ou cinq
+       tailles possibles. On amortit, sinon un seul geste sur un pave tactile
+       traverse toute l'echelle d'un coup. */
+    let roule = 0;
     canvas.addEventListener('wheel', e => {
-      cam.zoom = Math.max(0.5, Math.min(2.4, cam.zoom * (e.deltaY > 0 ? 0.93 : 1.075)));
+      roule += e.deltaY;
+      if (roule > 120) { this.renderer.zoomer(-1); roule = 0; }
+      else if (roule < -120) { this.renderer.zoomer(+1); roule = 0; }
     }, { passive: true });
 
     // clavier (desktop)

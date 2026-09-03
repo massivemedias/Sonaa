@@ -27,10 +27,39 @@ export class Renderer {
     window.addEventListener('resize', () => this.resize());
   }
 
+  /* ZOOMER, C'EST CHANGER LE FACTEUR D'AGRANDISSEMENT, PAS L'ECHELLE DU
+     DESSIN.
+
+     L'ancien zoom multipliait la transformation a l'interieur du tampon
+     basse resolution. Le monde y etait deja dessine a un tiers de la taille
+     de l'ecran ; le multiplier par 0,5 le ramenait a un sixieme, puis on
+     agrandissait le tout : d'ou l'escalier grossier des que l'on dezoomait.
+
+     Ici le monde est TOUJOURS dessine a un pixel de tampon pour un pixel de
+     tampon. Ce qui change, c'est de combien on agrandit ce tampon pour
+     remplir l'ecran, et ce facteur est entier. A 2, chaque pixel du jeu
+     occupe deux pixels d'ecran : les sprites sont petits et fins, on voit
+     beaucoup de ville. A 5, ils sont gros et l'on voit un carrefour. Dans
+     les deux cas l'image est nette, parce qu'un pixel du tampon ne tombe
+     jamais a cheval sur deux pixels d'ecran. */
+  bornesK() {
+    const w = window.innerWidth, h = window.innerHeight;
+    /* Le facteur naturel de cet ecran, celui d'avant : 2 sur telephone,
+       3 des que la fenetre depasse neuf cents pixels. */
+    const auto = Math.max(2, Math.min(3, Math.round(Math.min(w, h) / 300)));
+    /* On s'autorise un cran en dessous et deux au-dessus. En dessous de 2,
+       le tampon approche la resolution de l'ecran et le jeu cesse d'etre un
+       jeu en pixels ; au-dela de 6 on ne voit plus qu'une porte. */
+    return { auto, min: Math.max(2, auto - 1), max: Math.min(6, auto + 2) };
+  }
+
   resize() {
     const w = window.innerWidth, h = window.innerHeight;
-    // facteur d'agrandissement entier : 3 sur telephone, 4 sur grand ecran
-    const k = Math.max(2, Math.min(3, Math.round(Math.min(w, h) / 300)));
+    const b = this.bornesK();
+    /* Le choix de la personne est conserve d'un redimensionnement a l'autre,
+       ramene dans les bornes du nouvel ecran : faire pivoter son telephone ne
+       doit pas rendre son reglage. */
+    const k = Math.max(b.min, Math.min(b.max, this.k ?? b.auto));
     this.k = k;
     this.buf.width = Math.ceil(w / k);
     this.buf.height = Math.ceil(h / k);
@@ -39,10 +68,20 @@ export class Renderer {
     this.cam.w = this.buf.width;
     this.cam.h = this.buf.height;
     this.cam.k = k;
-    // le monde est deja dessine a l'echelle du tampon : pas de zoom
-    this.cam.zoom = 1;
     this.bctx.imageSmoothingEnabled = false;
     this.ctx.imageSmoothingEnabled = false;
+  }
+
+  /** Un cran de zoom. `sens` vaut +1 pour se rapprocher, -1 pour s'eloigner.
+      Rend vrai si quelque chose a change, ce qui evite de redessiner pour
+      rien quand on est deja au bout. */
+  zoomer(sens) {
+    const b = this.bornesK();
+    const vise = Math.max(b.min, Math.min(b.max, this.k + (sens > 0 ? 1 : -1)));
+    if (vise === this.k) return false;
+    this.k = vise;
+    this.resize();
+    return true;
   }
 
   frame(game, player, t, life) {

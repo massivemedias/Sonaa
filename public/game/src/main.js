@@ -47,7 +47,7 @@ function walkTo(b) {
   }
 }
 
-const input = new Input($('#stick'), $('#stick-knob'), canvas, renderer.cam);
+const input = new Input($('#stick'), $('#stick-knob'), canvas, renderer);
 input.onTap((px, py) => {
   if (ui.isOpen) return;
   const w = renderer.cam.unproject(px, py);
@@ -269,8 +269,8 @@ function screenOf(wx, wy) {
   const o = toScreen(cam.x, cam.y, 0);
   const p = toScreen(wx, wy, 0);
   return [
-    ((p.x - o.x) * cam.zoom + cam.w / 2) * cam.k,
-    ((p.y - o.y) * cam.zoom + cam.h / 2) * cam.k,
+    (p.x - o.x + cam.w / 2) * cam.k,
+    (p.y - o.y + cam.h / 2) * cam.k,
   ];
 }
 

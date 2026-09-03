@@ -154,13 +154,27 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block}
   .overlay{align-items:center}
 }
 
-/* ---------- objectif ---------- */
+/* ---------- objectif ----------
+
+   UN SEUL CADRE, ET IL ETAIT DOUBLE.
+
+   Deux boites portaient chacune sa bordure : `.quest`, le conteneur de mise
+   en page, en avait recu une dans la passe pixel art plus bas, et
+   `.quest-inner` gardait la sienne, doree et arrondie. Elles ne pouvaient pas
+   se superposer : l'exterieure est large de 420 pixels et l'interieure de
+   400, l'une a les coins carres et l'autre un rayon de seize. On voyait donc
+   un liseré sombre a coins droits, puis un cadre dore a coins ronds decale
+   vers l'interieur, et l'ensemble avait l'air mal decoupe. C'est ce que Mika
+   a vu.
+
+   Le cadre vit maintenant sur `.quest-inner`, celle des deux qui epouse le
+   texte. `.quest` redevient ce qu'elle n'aurait jamais du cesser d'etre : un
+   conteneur qui centre, sans peinture. */
 .quest{position:static;margin-top:10px;max-width:420px;z-index:4;pointer-events:auto;
   display:flex;justify-content:center}
 .quest-inner{display:flex;align-items:center;gap:10px;max-width:400px;
   background:linear-gradient(180deg,rgba(58,26,86,.94),rgba(36,15,56,.94));
-  border:2px solid rgba(255,200,87,.55);border-radius:16px;padding:8px 13px;
-  box-shadow:0 5px 0 rgba(0,0,0,.35);backdrop-filter:blur(6px);
+  padding:8px 13px;
   animation:questIn .5s cubic-bezier(.2,.9,.3,1.3)}
 @keyframes questIn{from{transform:translateY(-14px) scale(.92);opacity:0}to{transform:none;opacity:1}}
 .quest-ico{font-size:19px;filter:drop-shadow(0 2px 0 rgba(0,0,0,.4))}
@@ -265,7 +279,8 @@ canvas#stage{ image-rendering:pixelated; image-rendering:crisp-edges }
 
 /* plus aucun arrondi ni flou */
 .chip,.need,.nbar,.toast,.sheet,.row,.btn,.pill,.round-btn,.big-btn,.close-btn,
-.stat,.fin-chart,.tier-bar,.meter,.quest,.sleeve,.cov,.title-card,.fin-day i,.nbar i,.meter i{
+.stat,.fin-chart,.tier-bar,.meter,.quest,.quest-inner,.sleeve,.cov,.title-card,
+.fin-day i,.nbar i,.meter i{
   border-radius:0 !important;
   backdrop-filter:none !important;
   -webkit-backdrop-filter:none !important;
@@ -275,7 +290,15 @@ canvas#stage{ image-rendering:pixelated; image-rendering:crisp-edges }
 /* ombres dures, decalees de deux pixels */
 .chip,.need{ border:2px solid var(--ink); box-shadow:2px 2px 0 rgba(0,0,0,.55); background:#2a2039 }
 .toast{ border:2px solid var(--ink); box-shadow:3px 3px 0 rgba(0,0,0,.5); background:#2a2039 }
-.quest{ border:2px solid var(--ink); box-shadow:3px 3px 0 rgba(0,0,0,.5); background:#2a2039 }
+/* LE CADRE EST SUR LA BOITE INTERIEURE, celle qui epouse le texte, et il
+   n'y en a qu'un. La bordure doree dit « objectif » ; le liseré sombre,
+   dessous, la detache du decor comme partout ailleurs dans le jeu. */
+.quest{ border:0; box-shadow:none; background:none }
+.quest-inner{
+  border:2px solid var(--gold);
+  box-shadow:0 0 0 2px var(--ink), 3px 3px 0 rgba(0,0,0,.5);
+  background:#2a2039;
+}
 .sheet{ border:3px solid var(--ink); box-shadow:0 -4px 0 rgba(0,0,0,.4); background:#2e2340 }
 .row{ border:2px solid #1c1528; background:#382c4e; box-shadow:2px 2px 0 rgba(0,0,0,.35) }
 .stat{ border:2px solid #1c1528; background:#382c4e }
