@@ -98,19 +98,18 @@
   <div class="title-card">
     <div class="logo">SONAA</div>
     <div class="logo-sub">de la chambre au major · un simulateur de label</div>
-    <!-- LA DATE DE LA COPIE QUI TOURNE, PAS CELLE DU DERNIER DEPLOIEMENT.
+    <!-- LA LIGNE DE VERSION N'EST PAS ICI, ET C'EST VOULU : main.js la cree.
 
-         Deux fois de suite, Mika a juge une correction sur une version qui ne
-         la contenait pas, et deux fois il a fallu la moitie d'un echange pour
-         etablir que le fichier en ligne etait juste et que sa copie ne
-         l'etait pas. Ce n'est pas une question qu'on doit se poser : la
-         reponse doit etre a l'ecran.
+         Elle y etait. Mais index.html est justement le fichier dont on doute
+         quand on doute de sa version, et il a sa propre entree de cache : une
+         ligne posee ici n'apparait que si CE fichier est frais, ce qui est la
+         chose meme qu'elle est censee nous apprendre. Mesure faite sur
+         sonaa.ca : les modules etaient a jour, /game/ ne l'etait pas, et la
+         ligne restait invisible alors que le jeu, lui, etait le bon.
 
-         Elle vient de l'en-tete Last-Modified de main.js, demande par le jeu
-         sur lui-meme. Rien a incrementer a la main, donc rien qui puisse
-         mentir : si un cache sert un vieux fichier, c'est la date du vieux
-         fichier qui s'affiche, ce qui est exactement ce qu'on veut savoir. -->
-    <div class="logo-ver" id="version"></div>
+         Creee par main.js, elle suit le sort du code qu'elle date. Et si
+         main.js est vieux, elle ne s'affiche pas du tout : une absence est
+         encore un signal, un chiffre faux n'en serait pas un. -->
     <div class="title-art" id="title-art"></div>
     <button class="big-btn" id="btn-new">Nouvelle partie</button>
     <button class="big-btn ghost hidden" id="btn-continue">Continuer</button>

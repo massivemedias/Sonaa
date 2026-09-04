@@ -155,9 +155,15 @@ function startGame(state, fresh) {
     if (!lm) return;
     const d = new Date(lm);
     if (isNaN(d)) return;
-    $('#version').textContent = 'version du ' + d.toLocaleString('fr-CA', {
+    const sous = $('.logo-sub');
+    if (!sous) return;
+    const el = document.createElement('div');
+    el.className = 'logo-ver';
+    el.id = 'version';
+    el.textContent = 'version du ' + d.toLocaleString('fr-CA', {
       day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit',
     });
+    sous.insertAdjacentElement('afterend', el);
   } catch (e) { /* hors ligne : l'ecran titre se passe tres bien de la date */ }
 })();
 
