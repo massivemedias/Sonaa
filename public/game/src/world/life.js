@@ -36,7 +36,7 @@ class Walker {
       const x = Math.random() * this.city.w | 0, y = Math.random() * this.city.h | 0;
       if (this.city.isWalkable(x, y)) return { x: x + 0.5, y: y + 0.5 };
     }
-    return { x: 14.5, y: 9.5 };
+    return { x: 21.5, y: 16.5 };
   }
   retarget() {
     const t = this.randomSpot();

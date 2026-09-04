@@ -414,9 +414,39 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   font-size: 1.3125rem;
   font-weight: 700;
   line-height: 1.08;
-  /* LE NOM NE SE FAIT JAMAIS COUPER : c'est la seule information de la tuile.
-     Il passe a la ligne, et la tuile grandit si elle doit. */
-  overflow-wrap: anywhere;
+  /* LE NOM PASSE A LA LIGNE, MAIS PAS N'IMPORTE OU.
+
+     Il portait `overflow-wrap: anywhere`, qui coupe un mot a la lettre pres :
+     « Electroacoustique » rendait « Electroacoustiqu » puis un « e » seul sur
+     la ligne suivante. Une lettre orpheline se lit comme une faute
+     d'affichage, pas comme un retour a la ligne.
+
+     `hyphens: auto` coupe aux syllabes et pose un trait d'union : la page est
+     en francais, le navigateur a le dictionnaire. `break-word` reste en
+     dernier recours, pour un mot qu'aucune cesure ne sauverait ; il ne
+     s'applique qu'a un mot seul sur sa ligne, jamais pour gagner deux pixels
+     comme `anywhere` le faisait. */
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+/* UN NOM TRES LONG RETRECIT PLUTOT QUE DE SE COUPER.
+
+   MESURE : sur un telephone de 393 px, la grille a deux colonnes laisse
+   environ 120 px de texte utile. « Electroacoustique » demande 136 px a
+   17 px de corps : il depasse de seize pixels, et seize pixels suffisent a
+   renvoyer une lettre a la ligne. A 14 px il en demande 113 et tient.
+
+   Le seuil porte sur le MOT LE PLUS LONG, pas sur la longueur du nom :
+   « Neue Deutsche Haerte » fait vingt signes et se coupe tres bien aux
+   espaces ; « Electroacoustique » en fait dix-sept d'un seul tenant et ne
+   se coupe nulle part. C'est le mot insecable qui decide. */
+.pv-tuile-nom[data-long='1'] {
+  font-size: 0.9375rem;
+}
+.pv-tuile-genre .pv-tuile-nom[data-long='1'] {
+  font-size: 0.875rem;
 }
 .pv-tuile-detail {
   letter-spacing: var(--serrage);

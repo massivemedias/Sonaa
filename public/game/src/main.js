@@ -1,7 +1,7 @@
 // =====================================================================
 //  SONAA · point d'entrée
 // =====================================================================
-import { City } from './world/city.js';
+import { City, START } from './world/city.js';
 import { passantProche } from './world/life.js';
 import { Renderer } from './game/render.js';
 import { Player } from './game/player.js';
@@ -24,7 +24,7 @@ const life = new Life(city);
 let musicWasOn = false;
 
 let game = new Game(newState());
-let player = new Player(11.5, 8.5);
+let player = new Player(START.x, START.y);
 
 const ui = new UI(game, {
   goto: id => walkTo(city.buildings.find(x => x.id === id)),
@@ -113,7 +113,7 @@ function openBuilding(b) {
 // --------------------------------------------------------------- démarrage
 function startGame(state, fresh) {
   game = new Game(state);
-  player = new Player(11.5, 8.5);
+  player = new Player(START.x, START.y);
   ui.game = game;
   game.on('toast', (m, k) => ui.toast(m, k));
   game.on('change', () => ui.hud());
@@ -131,7 +131,7 @@ function startGame(state, fresh) {
   goal = null;
   if (fresh) {
     game.toast('Tape sur un bâtiment pour t’y rendre et y entrer.', 'gold');
-    setTimeout(() => game.toast('Objectif : le Vinyl Cave, au nord-est.', 'gold'), 2200);
+    setTimeout(() => game.toast('Chaque batiment porte son nom sur son enseigne.', 'gold'), 2200);
   }
 }
 
@@ -189,7 +189,11 @@ const tctx = tCanvas.getContext('2d');
 const tBuf = document.createElement('canvas');
 const tbc = tBuf.getContext('2d');
 const demoHut = {
-  id: 'demo', name: 'Bunker Techno', sign: 'TECHNO', kind: 'records',
+  /* PAS D'ENSEIGNE ICI. Le diorama du titre est une composition, pas une
+     rue : le cageot du premier plan passe devant le panneau et en mange le
+     milieu. Les enseignes servent a se reperer dans la clairiere ; sur
+     l'ecran titre il n'y a nulle part ou aller. */
+  id: 'demo', name: 'Bunker Techno', sign: null, kind: 'records',
   x: 1.6, y: 1.2, w: 2, d: 2, door: { x: 1, y: 3 }, tier: 0,
   hut: true, roof: '#4a5b8c', wall: '#c98c4e',
 };

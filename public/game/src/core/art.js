@@ -50,6 +50,23 @@ export const LIGHT = {
   dx: 0.45, dy: 0.7, shadowA: 0.3,
   warm: 0, cool: 0, amb: 1,
   tint: null, tintA: 0,
+  /* `key` EST LA CLE DES CACHES D'IMAGES, et elle avait disparu.
+
+     Les batiments et les decors sont dessines une fois puis recopies ; leur
+     cache est indexe par cette cle. Elle n'etait plus posee nulle part :
+     `LIGHT.key` valait `undefined` a toute heure, la cle ne changeait donc
+     jamais, et l'ombre d'un arbre gardait a trois heures du matin l'opacite
+     qu'elle avait a midi. Personne ne l'avait vu parce que le voile de
+     couleur pose en fin de rendu masque l'ecart.
+
+     ELLE EST GROSSIERE, ET C'EST VOULU. Changer de cle jette tout le cache :
+     les deux cents decors visibles se redessinent dans la meme image, ce qui
+     coute environ cent soixante millisecondes. Sur les quatre paliers
+     d'ambiance on traverse une frontiere six fois par journee de jeu, soit
+     un a-coup toutes les deux minutes environ. Sur trente-deux paliers, ce
+     serait un a-coup toutes les trente secondes. Le degrade fin, lui, ne
+     coute rien : il est dans le voile. */
+  key: '3',
 };
 const PHASES = [
   [0,  '#2a3a7a', 0.42, 0.10],
@@ -72,6 +89,7 @@ export function setLight(hour) {
   LIGHT.tintA = a[2] + (b[2] - a[2]) * t;
   LIGHT.amb = a[3] + (b[3] - a[3]) * t;
   LIGHT.shadowA = 0.12 + LIGHT.amb * 0.2;
+  LIGHT.key = String(Math.round(LIGHT.amb * 3));
 }
 export function lit(c) { return c; }
 export function dim(c) { return c; }

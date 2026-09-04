@@ -83,6 +83,17 @@ const mmss = (s: number): string => {
 const sansAccent = (s: string): string =>
   s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
+/** Le nom porte-t-il un mot qu'aucune espace ne peut couper ?
+
+    C'est le MOT LE PLUS LONG qui decide, pas la longueur du nom. « Neue
+    Deutsche Haerte » fait vingt signes et se replie tout seul aux espaces ;
+    « Electroacoustique » en fait dix-sept d'un seul tenant et deborde de la
+    tuile. Au-dela de douze signes sans espace, le nom prend un corps plus
+    petit (voir parcourir.css). Le tiret compte comme une coupure : le
+    navigateur y va a la ligne. */
+const motLong = (nom: string): '1' | undefined =>
+  Math.max(...nom.split(/[\s\u2010-\u2015-]+/).map((m) => m.length)) > 12 ? '1' : undefined;
+
 /** Tous les genres a plat, une fois pour toutes : la recherche les balaie. */
 const TOUS: { fi: number; gl: number; g: Genre }[] = FAMILIES.flatMap((_, fi) =>
   (STRUCTURES[fi]?.genres ?? []).map((g, gl) => ({ fi, gl, g }))
@@ -380,7 +391,7 @@ export function ParcourirView() {
                 <button key={f.id} className="pv-tuile" onClick={() => aller({ k: 'famille', fi })}>
                   <span className="pv-tuile-carte">
                     <span className="pv-tuile-bloc">
-                      <span className="pv-tuile-nom">{f.label}</span>
+                      <span className="pv-tuile-nom" data-long={motLong(f.label)}>{f.label}</span>
                       <span className="pv-tuile-detail">{t.nGenres(f.count)}</span>
                     </span>
                   </span>
@@ -404,7 +415,7 @@ export function ParcourirView() {
                   >
                     <span className="pv-tuile-carte">
                       <span className="pv-tuile-bloc">
-                        <span className="pv-tuile-nom">{g.label}</span>
+                        <span className="pv-tuile-nom" data-long={motLong(g.label)}>{g.label}</span>
                         <span className="pv-tuile-detail">
                           {g.annee > 0 ? g.annee : ''}
                           {p.derivesDirects > 0 ? ` · ${t.nDerives(p.derivesDirects)}` : ''}

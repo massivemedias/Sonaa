@@ -113,8 +113,16 @@ export class Renderer {
     const ents = [];
     for (const b of this.city.buildings)
       ents.push({ k: b.x + b.w / 2 + b.y + b.d / 2, draw: () => drawBuilding(ctx, b, { t, night: game.isNight, unlocked: game.unlocked(b) }) });
-    for (const p of this.city.props)
+    /* ON NE TRIE NI NE DESSINE CE QUI EST HORS DU CHAMP. La clairiere porte
+       pres de six cents decors et la camera en voit rarement le tiers :
+       chacun coutait un drawImage de 112 sur 116 pixels, soit sept millions
+       de pixels recopies par image pour en afficher deux. La marge de trois
+       tuiles couvre un arbre haut dont le tronc est encore hors cadre. */
+    const vue = this.champ();
+    for (const p of this.city.props) {
+      if (p.x < vue.x0 || p.x > vue.x1 || p.y < vue.y0 || p.y > vue.y1) continue;
       ents.push({ k: p.x + p.y, draw: () => drawProp(ctx, p, { t, night: game.isNight }) });
+    }
     if (life) for (const e of life.entities(ctx)) ents.push(e);
     ents.push({ k: player.x + player.y, draw: () => player.draw(ctx, t, this.city) });
     ents.sort((a, b) => a.k - b.k);
@@ -147,6 +155,18 @@ export class Renderer {
     c.imageSmoothingEnabled = false;
     c.clearRect(0, 0, this.canvas.width, this.canvas.height);
     c.drawImage(this.buf, 0, 0, W * this.k * this.dpr, H * this.k * this.dpr);
+  }
+
+  /** Les bornes du monde visible, en tuiles, avec une marge. */
+  champ() {
+    const c = this.cam;
+    let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+    for (const [sx, sy] of [[0, 0], [c.w * c.k, 0], [0, c.h * c.k], [c.w * c.k, c.h * c.k]]) {
+      const w = c.unproject(sx, sy);
+      x0 = Math.min(x0, w.x); x1 = Math.max(x1, w.x);
+      y0 = Math.min(y0, w.y); y1 = Math.max(y1, w.y);
+    }
+    return { x0: x0 - 3, x1: x1 + 3, y0: y0 - 3, y1: y1 + 4 };
   }
 
   // petite bulle facon jeu 16 bits au-dessus de la porte
