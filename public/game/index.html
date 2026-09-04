@@ -146,6 +146,29 @@
       var ks = await caches.keys();
       await Promise.all(ks.map(function (k) { return caches.delete(k); }));
     }
+
+    /* ET LE CACHE HTTP ORDINAIRE, QUI EST CELUI QU'ON OUBLIE.
+
+       Cette porte ne vidait que le service worker et l'API caches. Il en
+       reste un troisieme, celui du navigateur : GitHub Pages sert le jeu
+       avec max-age=600, donc pendant dix minutes apres un deploiement le
+       navigateur ressert ses propres copies sans meme demander au serveur.
+       Mesure faite : les fichiers en ligne portaient la nouvelle police,
+       la page chargee non, et ?nocache=1 n'y changeait rien.
+
+       On redemande donc chaque fichier avec `cache: 'reload'`, ce qui force
+       la revalidation et remplace l'entree du cache. La liste des fichiers
+       n'est pas ecrite ici : on la lit dans les ressources que la page
+       courante a reellement chargees, donc elle ne peut pas se perimer
+       quand le jeu gagne un module. */
+    var memeOrigine = function (u) { try { return new URL(u).origin === location.origin; } catch (e) { return false; } };
+    var liste = performance.getEntriesByType('resource')
+      .map(function (e) { return e.name; })
+      .filter(function (u) { return memeOrigine(u) && /\.(js|css|html)(\?|$)/.test(u); });
+    liste.push(location.origin + location.pathname);
+    await Promise.all(liste.map(function (u) {
+      return fetch(u, { cache: 'reload' }).catch(function () {});
+    }));
   } catch (e) {
     /* Une purge qui echoue ne doit pas laisser la page bloquee : on recharge
        quand meme, quitte a retomber sur le cache. */
