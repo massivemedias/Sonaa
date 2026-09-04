@@ -3,10 +3,10 @@
 // =====================================================================
 import { toScreen, HW, HH, HU } from '../core/iso.js';
 import {
-  box, slab, poly, gableRoof, face, signboard, windowRow, doorway, shadow, castBox,
+  box, slab, poly, gableRoof, face, windowRow, doorway, shadow, castBox,
   tree, bush, rock, flower, grassTuft, crate, px, shade, mix, alpha, line2,
-  lantern, smoke, time as artTime, LIGHT, FW, FH, isoTileSprite, pxEllipse, pxText, textWidth,
-  billboard, faceRect, outlineCanvas,
+  lantern, smoke, time as artTime, LIGHT, FW, FH, isoTileSprite, pxEllipse,
+  faceRect, outlineCanvas,
 } from '../core/art.js';
 import { VOID, GRASS, PATH, LUSH, CLEARING, FOREST, WATER, SAND, emprise } from './city.js';
 
@@ -280,34 +280,25 @@ function signature(ctx, b, wallH, roofH, env) {
 /* ================================================================
    L'ENSEIGNE · le nom sur la facade
    ---------------------------------------------------------------
-   `signboard` existait dans art.js, avec sa reduction automatique et son
-   centrage, et n'a jamais ete appelee : aucun batiment ne portait son nom.
-   On ne l'appelle pas davantage aujourd'hui, et c'est deliberé : elle
-   dessine dans le plan de la facade, donc dans le cisaillement isometrique,
-   et les lettres y bavent, c'est exactement le flou dont Mika ne voulait
-   plus. `billboard` peint un rectangle face a la camera, chaque lettre sur
-   des pixels entiers.
+   ELLE N'EST PLUS PEINTE ICI, et c'est tout l'objet du changement.
 
-   L'echelle est 2, jamais 1. La police fait trois pixels de large : a
-   l'echelle 1 un O et un U ne se distinguent pas, et une enseigne qu'il
-   faut dechiffrer ne sert a rien.
+   Elle l'etait, avec une police que j'avais dessinee a la main : une grille
+   de trois pixels sur cinq, une case allumee ou eteinte. C'etait le seul
+   moyen d'ecrire net dans le tampon basse resolution, ou une lettre fait six
+   pixels de haut avant d'etre agrandie. Mais trois pixels de large, c'est
+   moins que ce qu'il faut pour distinguer un O d'un U, et cela ne pourra
+   jamais porter d'accent : « CASSE-CROUTE » y perdait le sien.
 
-   La nuit, le panneau s'allume au lieu de s'assombrir : c'est ainsi qu'on
-   repere un commerce ouvert, et cela evite que la clairiere devienne
-   illisible des dix-neuf heures. La cle du cache porte la nuit, sinon le
-   panneau resterait eteint jusqu'au prochain changement de lumiere.
+   Le texte vit maintenant dans un calque au-dessus du monde, a la definition
+   de l'ecran, ou Nunito se dessine comme partout ailleurs. Voir render.js,
+   calqueDuTexte(). Ce module ne garde que la GEOMETRIE : ou le panneau se
+   pose, et de combien son mat descend.
+
+   CE QU'ON PERD : le panneau etait dans l'image du batiment, donc un
+   batiment devant le cachait. Au-dessus, il ne l'est plus. Les enseignes
+   flottant au-dessus des toits, le cas est rare, et une etiquette toujours
+   lisible vaut mieux qu'une etiquette a moitie cachee.
    ================================================================ */
-/* LA HAUTEUR, ET LE MAT.
-
-   Le panneau ne peut pas descendre sur la facade : il est centre en
-   largeur, et la porte l'est aussi, donc il la couvrirait. Il est centre
-   parce que c'est ce qui le rend lisible d'un coup d'oeil. Il vit donc
-   au-dessus du toit.
-
-   Pose la, sans rien, il flotte : on lit une etiquette de carte, pas une
-   enseigne. Un mat de quelques pixels descend du panneau dans le toit et
-   suffit a le planter. Sur les batiments hauts (immeuble, tour, bunker)
-   le panneau tombe deja contre le mur : pas de mat, il serait absurde. */
 const ENSEIGNE = {
   hut:      { z: 1.16, mat: 0.5 },
   house:    { z: 1.42, mat: 0.55 },
@@ -318,28 +309,12 @@ const ENSEIGNE = {
   tower:    { z: 1.3,  mat: 0 },
 };
 
-function enseigne(ctx, b, style, env) {
-  if (!b.sign) return;
+/** Ou poser le panneau d'un batiment, en coordonnees du monde.
+    Rend null si le batiment n'a pas de nom a montrer. */
+export function poseEnseigne(b, style) {
+  if (!b.sign || style === 'chantier') return null;
   const e = ENSEIGNE[style] || { z: 1.3, mat: 0 };
-  const nuit = !!(env && env.night);
-  const cx = b.x + b.w / 2, cy = b.y + b.d + 0.02;
-  if (style === 'club') {
-    // au neon : fond sombre, lettres roses, et il clignote avec le reste
-    const on = env.neon !== 0;
-    billboard(ctx, cx, cy, e.z, b.sign, {
-      scale: 2, bg: '#241b33', fg: on ? '#ff5cb4' : '#7a2a58',
-      border: on ? '#ff5cb4' : '#3d2b44', post: e.mat,
-    });
-    return;
-  }
-  billboard(ctx, cx, cy, e.z, b.sign, {
-    scale: 2,
-    bg: nuit ? '#ffdc8a' : '#f6f0dc',
-    fg: '#2b2136',
-    border: '#2b2136',
-    accent: b.roof || '#c9924e',
-    post: e.mat,
-  });
+  return { x: b.x + b.w / 2, y: b.y + b.d + 0.02, z: e.z, mat: e.mat };
 }
 
 const STYLES = {
@@ -586,7 +561,7 @@ const HAUTEURS = { hut: 3.2, house: 3.8, big: 5.2, tower: 9, club: 3.2, chantier
   bunker: 3.4, immeuble: 6.4 };
 const cacheBatiments = new Map();
 
-function styleDe(b) {
+export function styleDe(b) {
   return b.bunker ? 'bunker' : b.immeuble ? 'immeuble' : b.hut ? 'hut'
     : b.club ? 'club' : b.big ? 'big' : b.tower ? 'tower' : 'house';
 }
@@ -605,7 +580,6 @@ function corpsEtAiles(g, b, env, style) {
   for (const a of arriere) aile(g, b, a, env);
   STYLES[style](g, b, env);
   for (const a of avant) aile(g, b, a, env);
-  enseigne(g, b, style, env);
 }
 
 function rendreSprite(b, env, style, cle) {

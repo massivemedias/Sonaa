@@ -19,7 +19,7 @@
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0;height:100%;overflow:hidden;background:var(--void);
-  font-family:"Baloo 2","Trebuchet MS",system-ui,sans-serif;color:var(--cream);
+  font-family:"Nunito","Helvetica Neue",Arial,sans-serif;color:var(--cream);
   overscroll-behavior:none;touch-action:none;user-select:none;-webkit-user-select:none}
 canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block}
 .hidden{display:none !important}
@@ -275,14 +275,22 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block}
    avoir l'air d'appartenir au meme jeu que le decor.
    ===================================================================== */
 :root{ --radius:0; --ink:#1c1528; }
-/* Jersey 15 pour le texte : vraies minuscules, accents complets, compact.
-   Silkscreen pour les chiffres : c'est la seule qui rend 1058 illisible
-   impossible a confondre avec 1098. */
-/* Teste sur les vraies chaines : a 14 px, aucune police pixel n'est lisible
-   en francais. Jersey 15 est condensee, donc etroite, donc illisible petit.
-   Le texte courant passe donc a Nunito, dessinee pour etre lue en petit.
-   L'anticrenelage revient : il ne concerne que le texte HTML, le canvas du
-   jeu a son propre rendu pixel ecrit a la main et reste net. */
+/* UNE SEULE POLICE, PARTOUT, Y COMPRIS SUR LES PANNEAUX DU JEU.
+
+   Il y en avait trois : Nunito pour le texte courant, Jersey 15 pour les
+   titres, Silkscreen pour les chiffres — et, dans le canvas, une quatrieme
+   qui n'etait meme pas une police mais une grille de 3 par 5 pixels ecrite a
+   la main. Quatre alphabets pour un jeu dont toute l'exigence est qu'on lise
+   ce qui y est ecrit.
+
+   Nunito est dessinee pour etre lue en petit, ce qu'aucune des trois autres
+   n'est. La hierarchie ne repose plus sur le changement de famille mais sur
+   la graisse et le corps, ce qui est la facon normale de la faire.
+
+   Le canvas suit : voir render.js, calqueDuTexte(). Les enseignes ne sont
+   plus peintes dans le tampon basse resolution mais par-dessus, a la
+   definition de l'ecran — c'est ce qui permet d'y mettre une vraie police
+   sans qu'elle devienne un pate de pixels. */
 *{
   font-family:"Nunito","Helvetica Neue",Arial,sans-serif !important;
   -webkit-font-smoothing:antialiased;
@@ -337,8 +345,13 @@ canvas#stage{ image-rendering:pixelated; image-rendering:crisp-edges }
 .fin-day .inc{ background:#4fbf9f } .fin-day .exp{ background:#ff5cb4 }
 
 /* titres */
-.logo{ font-size:56px; letter-spacing:2px; background:none; -webkit-text-fill-color:#8fe8c8;
-  color:#8fe8c8; filter:drop-shadow(3px 3px 0 #1c1528) }
+/* LE LOGO PASSE AUSSI EN NUNITO, ce qui est la demande, et c'est la seule
+   perte assumee de ce changement : une police d'affichage sur un titre de
+   jeu porte une identite qu'une police de texte ne portera pas. Le corps
+   descend de 56 a 44 px pour garder la meme largeur, la graisse monte a 900,
+   et l'ombre dure reste : c'est elle, maintenant, qui fait l'ecran titre. */
+.logo{ font-size:44px; font-weight:900; letter-spacing:1px; background:none;
+  -webkit-text-fill-color:#8fe8c8; color:#8fe8c8; filter:drop-shadow(3px 3px 0 #1c1528) }
 .logo-sub{ color:#c9b8e8 }
 .sheet-head h2{ font-size:20px; color:#8fe8c8 }
 .row h3{ font-size:14px } .row p{ font-size:14px }
@@ -354,27 +367,43 @@ canvas#stage{ image-rendering:pixelated; image-rendering:crisp-edges }
   border-radius:4px;padding:2px 5px;letter-spacing:1px;flex:0 0 auto}
 
 /* ---------- les chiffres ---------- */
-/* Partout ou un nombre doit se lire sans hesitation : argent, jauges,
-   horloge, tableau financier. Silkscreen est large mais sans ambiguite. */
+/* Ils etaient en Silkscreen, une police pixel. Elle est sans ambiguite, mais
+   elle est LARGE : « 1 058 $ » y prend une place folle, et il fallait la
+   descendre a 14 px pour qu'elle tienne dans la pastille, taille a laquelle
+   une police pixel redevient difficile. Nunito en graisse 800 dit la meme
+   chose en moins de place et se lit plus vite.
+   `tabular-nums` reste, et c'est lui qui compte vraiment : il donne a tous
+   les chiffres la meme chasse, donc une somme qui change ne fait plus danser
+   ce qui l'entoure. */
 .chip, .need .nval, .quest-count, .stat b, .pnl td:last-child, td.val, .fin-legend{
-  font-family:"Silkscreen","Courier New",monospace !important;
   font-variant-numeric:tabular-nums;
+  font-weight:800;
+  letter-spacing:.2px;
 }
-.chip{font-size:14px;letter-spacing:0}
+.chip{font-size:15px}
+/* LA SEULE EXCEPTION DU FICHIER, et elle n'en est pas vraiment une : Nunito
+   ne contient pas d'emoji. Sans cette ligne, le systeme irait chercher le
+   caractere ailleurs de toute facon, mais dans une police choisie au hasard
+   de la pile — autant nommer celle qu'on veut. */
 .chip .ico{font-family:system-ui,"Apple Color Emoji",sans-serif !important;font-size:16px}
-.chip-clock{font-size:14px}
-.need .nval{font-size:11px}
-.stat b{font-size:17px}
+.chip-clock{font-size:15px}
+.need .nval{font-size:12px}
+.stat b{font-size:18px}
 
-/* ---------- ou le pixel reste ---------- */
-/* Assez grand pour etre net, et c'est lui qui porte l'identite du jeu. */
+/* ---------- les titres ---------- */
+/* Jersey 15 les portait. LES CORPS SONT TOUS REVUS A LA BAISSE, et ce n'est
+   pas un detail de gout : Jersey 15 est une police condensee et haute, dont
+   la hauteur d'oeil est petite devant le corps. A corps egal, Nunito est
+   nettement plus grosse. Reprendre 26 px pour un titre de fiche aurait donne
+   un titre enorme. Les valeurs ci-dessous sont celles qui rendent la MEME
+   taille apparente qu'avant. */
 .sheet-head h2, .tier-name, .quest-txt b, .logo, .big-btn, .section-title{
-  font-family:"Jersey 15","Courier New",monospace !important;
-  letter-spacing:.5px;
+  font-weight:800;
+  letter-spacing:.2px;
 }
-.quest-txt b{font-size:19px;line-height:1.3}
-.sheet-head h2{font-size:26px}
-.big-btn{font-size:22px}
+.quest-txt b{font-size:16px;line-height:1.3}
+.sheet-head h2{font-size:21px}
+.big-btn{font-size:18px;font-weight:800}
 
 /* ---------- le petit texte, enfin lisible ---------- */
 .quest-txt span{font-size:15px;font-weight:600;line-height:1.45;color:#e4dcf5}

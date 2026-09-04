@@ -95,50 +95,26 @@ export function lit(c) { return c; }
 export function dim(c) { return c; }
 
 
-// ------------------------------------------------------- police bitmap
-// Le texte du canvas etait la derniere source de flou : une police
-// vectorielle dessinee petit puis agrandie, ca bave. Celle-ci est une
-// grille de 3x5 pixels allumes ou eteints. Rien a lisser.
-const GLYPHS = {
-  A:[2,5,7,5,5], B:[6,5,6,5,6], C:[3,4,4,4,3], D:[6,5,5,5,6], E:[7,4,6,4,7],
-  F:[7,4,6,4,4], G:[3,4,5,5,3], H:[5,5,7,5,5], I:[7,2,2,2,7], J:[1,1,1,5,2],
-  K:[5,5,6,5,5], L:[4,4,4,4,7], M:[5,7,7,5,5], N:[5,7,7,7,5], O:[2,5,5,5,2],
-  P:[6,5,6,4,4], Q:[2,5,5,7,3], R:[6,5,6,5,5], S:[3,4,2,1,6], T:[7,2,2,2,2],
-  U:[5,5,5,5,7], V:[5,5,5,5,2], W:[5,5,7,7,5], X:[5,5,2,5,5], Y:[5,5,2,2,2],
-  Z:[7,1,2,4,7],
-  0:[7,5,5,5,7], 1:[2,6,2,2,7], 2:[6,1,2,4,7], 3:[6,1,6,1,6], 4:[5,5,7,1,1],
-  5:[7,4,6,1,6], 6:[3,4,7,5,7], 7:[7,1,2,2,2], 8:[7,5,7,5,7], 9:[7,5,7,1,6],
-  ' ':[0,0,0,0,0], '!':[2,2,2,0,2], '-':[0,0,7,0,0], '.':[0,0,0,0,2],
-  "'":[2,2,0,0,0], ':':[0,2,0,2,0], '&':[6,4,6,5,7], '?':[6,1,2,0,2],
-  '/':[1,1,2,4,4], '+':[0,2,7,2,0], '$':[3,6,3,6,2], '%':[5,1,2,4,5],
-};
-const ACCENTS = { 'É':'E','È':'E','Ê':'E','À':'A','Â':'A','Ô':'O','Û':'U','Ù':'U','Ç':'C','Î':'I','Ï':'I' };
+/* LA POLICE BITMAP A ETE RETIREE.
 
-export function textWidth(str, scale = 1, sp = 1) {
-  return (str.length * (3 + sp) - sp) * scale;
-}
+   Il y en avait une ici : une grille de trois pixels sur cinq, une case
+   allumee ou eteinte, vingt-six lettres et dix chiffres dessines a la main.
+   Elle existait pour une seule raison : dans le tampon basse resolution, une
+   lettre fait six pixels de haut avant d'etre agrandie, et aucune vraie
+   police ne survit a ce traitement.
 
-// dessine du texte pixel : chaque point allume est un carre plein
-export function pxText(ctx, str, x, y, color, scale = 1, sp = 1) {
-  const S = Math.max(1, Math.round(scale));
-  let cx = Math.round(x);
-  const cy = Math.round(y);
-  ctx.fillStyle = color;
-  for (const raw of String(str).toUpperCase()) {
-    const ch = ACCENTS[raw] || raw;
-    const g = GLYPHS[ch];
-    if (g) {
-      for (let r = 0; r < 5; r++) {
-        const row = g[r];
-        for (let c = 0; c < 3; c++) {
-          if (row & (4 >> c)) ctx.fillRect(cx + c * S, cy + r * S, S, S);
-        }
-      }
-    }
-    cx += (3 + sp) * S;
-  }
-  return cx - Math.round(x);
-}
+   Elle avait deux defauts qu'on ne pouvait pas corriger. Trois pixels de
+   large ne suffisent pas a distinguer un O d'un U, ce qui obligeait a tout
+   ecrire au double, donc en majuscules et en peu de mots. Et une grille de
+   cinq lignes ne porte aucun accent : « CASSE-CROUTE » perdait le sien,
+   « TA CABANE » passait, « ELECTRO » aussi, mais rien de ce qui aurait eu
+   besoin d'un e accentue.
+
+   Le texte du monde est passe dans un calque au-dessus du rendu, a la
+   definition de l'ecran, ou Nunito se dessine normalement — voir render.js,
+   calqueDuTexte(). Plus rien ici n'ecrit de lettres, et les fonctions qui le
+   faisaient (pxText, textWidth, billboard, signboard) sont parties avec la
+   grille plutot que de rester en place « au cas ou ». */
 
 // ----------------------------------------------------------- primitives
 const P = (x, y, z) => toScreen(x, y, z);
@@ -318,28 +294,6 @@ export function faceRect(ctx, ox, oy, oz, side, x, y, w, h, color) {
   const k = side === 'left' ? 0.5 : -0.5;
   const pt = (px2, py2) => ({ x: O.x + px2, y: O.y + py2 + px2 * k });
   poly(ctx, [pt(x, y), pt(x + w, y), pt(x + w, y + h), pt(x, y + h)], color);
-}
-
-// ------------------------------------------------------------ panneau
-// Une enseigne lisible se dessine face a la camera, jamais en perspective :
-// sinon les lettres sont cisaillees et redeviennent floues.
-export function billboard(ctx, wx, wy, wz, text, o = {}) {
-  const bg = o.bg || '#f6f0dc';
-  const fg = o.fg || '#2b2136';
-  const border = o.border || '#2b2136';
-  const sc = o.scale || 1;
-  const tw = textWidth(text, sc, 1);
-  const w = tw + 6, h = 5 * sc + 6;
-  const p = P(wx, wy, wz);
-  const x = Math.round(p.x - w / 2), y = Math.round(p.y - h);
-  if (o.post) {
-    px(ctx, Math.round(p.x) - 1, y + h, 2, Math.round(o.post * HU), '#6b4426');
-  }
-  px(ctx, x, y, w, h, border);
-  px(ctx, x + 1, y + 1, w - 2, h - 2, bg);
-  if (o.accent) px(ctx, x + 1, y + 1, w - 2, 1, o.accent);
-  pxText(ctx, text, x + 3, y + 3, fg, sc, 1);
-  return { x, y, w, h };
 }
 
 // ------------------------------------------------- dessin sur une face
@@ -530,21 +484,6 @@ export function awning(ctx, x, y, z, w, d, a = '#f0e6d2', b = '#4fbf9f', dir = '
   ctx.restore();
   poly(ctx, q, null, shade(b, -0.45));
 }
-export function signboard(ctx, x, y, z, side, wUnits, hUnits, text, bg = '#f0e6d2', fg = '#3a2d4a') {
-  face(ctx, x, y, z, side, c => {
-    const w = Math.round(wUnits * FW), h = Math.round(hUnits * FH);
-    px(c, 0, 0, w, h, bg);
-    px(c, 0, 0, w, 1, shade(bg, 0.3));
-    px(c, 0, h - 1, w, 1, shade(bg, -0.3));
-    // on reduit le texte jusqu'a ce qu'il tienne, sans jamais l'etirer
-    let sc = 2, sp = 1;
-    while (sc > 1 && textWidth(text, sc, sp) > w - 4) sc--;
-    let str = text;
-    while (textWidth(str, sc, sp) > w - 3 && str.length > 1) str = str.slice(0, -1);
-    pxText(c, str, (w - textWidth(str, sc, sp)) / 2, (h - 5 * sc) / 2, fg, sc, sp);
-  });
-}
-
 export function windowRow(ctx, x, y, z, side, wUnits, hUnits, n, glass = '#9ad9e8', frame = '#f0e6d2') {
   const w = wUnits * FW, h = hUnits * FH, gap = w / n;
   for (let i = 0; i < n; i++) {

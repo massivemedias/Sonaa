@@ -6,8 +6,12 @@
 //  carres et nets, comme dans un jeu de l'epoque 16 bits.
 // =====================================================================
 import { toScreen, Camera } from '../core/iso.js';
-import { drawGround, drawBuilding, drawProp, castBuildingShadow } from '../world/architecture.js';
-import { setTime, setLight, LIGHT, px, alpha, pxText, textWidth } from '../core/art.js';
+import { drawGround, drawBuilding, drawProp, castBuildingShadow, poseEnseigne, styleDe } from '../world/architecture.js';
+import { setTime, setLight, LIGHT, px, alpha, time as artTime } from '../core/art.js';
+
+/* La meme pile que le HTML : le jeu n'a plus qu'une police. Le repli est
+   nomme explicitement car un canvas ne connait pas la cascade CSS. */
+const POLICE = '"Nunito","Helvetica Neue",Arial,sans-serif';
 
 export class Renderer {
   constructor(canvas, city) {
@@ -130,14 +134,6 @@ export class Renderer {
 
     if (life) life.drawAbove(ctx, this.city, game.isNight);
 
-    // ---- marqueur de porte
-    let best = null, bd = 3.2;
-    for (const b of this.city.buildings) {
-      const d = Math.hypot(player.x - (b.door.x + .5), player.y - (b.door.y + .5));
-      if (d < bd) { bd = d; best = b; }
-    }
-    if (best) this.marker(ctx, best, t, game.unlocked(best), bd < 1.4);
-
     // ---- teinte du moment, en aplat
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     if (LIGHT.tintA > 0.02) {
@@ -155,6 +151,142 @@ export class Renderer {
     c.imageSmoothingEnabled = false;
     c.clearRect(0, 0, this.canvas.width, this.canvas.height);
     c.drawImage(this.buf, 0, 0, W * this.k * this.dpr, H * this.k * this.dpr);
+
+    // ---- et par-dessus, le texte, a la definition de l'ecran
+    this.calqueDuTexte(c, game, player, t);
+  }
+
+  /* ================================================================
+     LE CALQUE DU TEXTE
+     ---------------------------------------------------------------
+     Tout ce qui est ECRIT dans le monde se peint ici, apres
+     l'agrandissement, donc a la definition reelle de l'ecran et non a
+     celle du tampon. C'est la seule facon d'y mettre une vraie police.
+
+     POURQUOI PAS DANS LE TAMPON. Le monde est dessine dans une image trois
+     fois plus petite que l'ecran, puis agrandie sans lissage. Une lettre y
+     ferait six pixels de haut avant d'etre triplee : Nunito rendue a six
+     pixels puis agrandie au plus proche voisin ne donne pas une lettre,
+     elle donne trois taches. C'est precisement pour cela que le texte du
+     canvas etait une police bitmap dessinee a la main — le seul alphabet
+     qui survive a ce traitement, au prix de trois pixels de large par
+     lettre et d'aucun accent possible.
+
+     Ici, une lettre fait trente pixels d'ecran et se dessine comme dans une
+     page. Le monde reste du pixel art net ; le texte redevient du texte.
+     Les deux calques ne se melangent pas, et c'est ce qui permet aux deux
+     d'etre justes en meme temps.
+
+     TOUT EST EN PIXELS CSS : on pose la transformation a dpr, et l'on
+     multiplie les coordonnees du tampon par k. Le decalage de la camera
+     vient de cam.offset(), le meme que celui du monde, arrondi au pixel
+     entier du tampon — sinon l'enseigne glisserait sur son toit des que
+     la camera bouge. */
+  calqueDuTexte(c, game, player, t) {
+    const k = this.k, dpr = this.dpr, cam = this.cam;
+    const { tx, ty } = cam.offset();
+    c.setTransform(dpr, 0, 0, dpr, 0, 0);
+    c.imageSmoothingEnabled = true;
+    c.textBaseline = 'top';
+    // monde -> pixel CSS
+    const proj = (wx, wy, wz) => {
+      const p = toScreen(wx, wy, wz);
+      return { x: (p.x + tx) * k, y: (p.y + ty) * k };
+    };
+    const vue = this.champ();
+
+    // ---- les enseignes des batiments
+    for (const b of this.city.buildings) {
+      if (b.x + b.w < vue.x0 || b.x > vue.x1 || b.y + b.d < vue.y0 || b.y > vue.y1) continue;
+      const unlocked = game.unlocked(b);
+      const pose = poseEnseigne(b, unlocked ? styleDe(b) : 'chantier');
+      if (!pose) continue;
+      const p = proj(pose.x, pose.y, pose.z);
+      const neon = b.club;
+      const on = neon ? Math.sin(artTime() * 3.4) > -0.75 : true;
+      this.panneau(c, p.x, p.y, b.sign, k, {
+        mat: pose.mat,
+        bg: neon ? '#241b33' : (game.isNight ? '#ffdc8a' : '#f6f0dc'),
+        fg: neon ? (on ? '#ff5cb4' : '#7a2a58') : '#2b2136',
+        bord: neon ? (on ? '#ff5cb4' : '#3d2b44') : '#2b2136',
+        accent: neon ? null : (b.roof || '#c9924e'),
+      });
+    }
+
+    // ---- la bulle au-dessus de la porte la plus proche
+    let best = null, bd = 3.2;
+    for (const b of this.city.buildings) {
+      const d = Math.hypot(player.x - (b.door.x + .5), player.y - (b.door.y + .5));
+      if (d < bd) { bd = d; best = b; }
+    }
+    if (best) {
+      const unlocked = game.unlocked(best);
+      const pres = bd < 1.4;
+      const p = proj(best.door.x + .5, best.door.y + .5, 0);
+      const bob = Math.sin(t * 3) * 2;
+      this.bulle(c, p.x, p.y - 30 * (k / 3) + bob, (unlocked ? '' : '! ') + best.name, k, pres);
+    }
+    c.setTransform(1, 0, 0, 1, 0, 0);
+  }
+
+  /* Un panneau : le cadre, la bande de couleur du toit, le nom, le mat.
+     Le corps suit le facteur d'agrandissement, donc l'enseigne garde la
+     meme taille apparente que le batiment a tous les niveaux de zoom. */
+  panneau(c, cx, cy, texte, k, o) {
+    /* LE CORPS, MESURE PLUTOT QUE CHOISI. L'ancienne police bitmap donnait
+       des capitales de cinq pixels de tampon, doublees, soit dix pixels de
+       tampon de haut. La hauteur de capitale de Nunito vaut environ 0,71 du
+       corps : pour retrouver la meme taille apparente il faut donc un corps
+       d'a peu pres quatorze pixels de tampon. On en prend onze — Nunito se
+       lit mieux a hauteur egale, et le panneau reste plus etroit que
+       l'ancien, ce qui evite qu'il deborde des petites cabanes. */
+    const corps = Math.round(10 * k);
+    const bord = Math.max(1, Math.round(k / 2));
+    c.font = `800 ${corps}px ${POLICE}`;
+    const tw = c.measureText(texte).width;
+    const w = Math.round(tw + 6 * k), h = Math.round(corps + 4 * k);
+    const x = Math.round(cx - w / 2), y = Math.round(cy - h);
+    if (o.mat) {
+      const mw = Math.max(2, Math.round(k * 0.8));
+      c.fillStyle = '#6b4426';
+      c.fillRect(Math.round(cx - mw / 2), y + h, mw, Math.round(o.mat * 16 * k));
+    }
+    c.fillStyle = o.bord;
+    c.fillRect(x, y, w, h);
+    c.fillStyle = o.bg;
+    c.fillRect(x + bord, y + bord, w - bord * 2, h - bord * 2);
+    if (o.accent) {
+      c.fillStyle = o.accent;
+      c.fillRect(x + bord, y + bord, w - bord * 2, Math.max(1, Math.round(k * 0.7)));
+    }
+    c.fillStyle = o.fg;
+    c.textAlign = 'center';
+    c.fillText(texte, Math.round(cx), y + Math.round(h / 2 - corps * 0.62));
+    c.textAlign = 'left';
+  }
+
+  /* La bulle de porte : meme fabrique, plus un ergot en dessous qui la
+     rattache a l'entree. C'est l'ergot qui dit DE QUELLE porte on parle. */
+  bulle(c, cx, cy, texte, k, pres) {
+    const corps = Math.round(8 * k);
+    const bord = Math.max(1, Math.round(k / 2));
+    c.font = `700 ${corps}px ${POLICE}`;
+    const tw = c.measureText(texte).width;
+    const w = Math.round(tw + 5 * k), h = Math.round(corps + 3.5 * k);
+    const x = Math.round(cx - w / 2), y = Math.round(cy - h);
+    const bg = pres ? '#f6f0dc' : '#2b2136';
+    const fg = pres ? '#2b2136' : '#f6f0dc';
+    c.fillStyle = '#151022';
+    c.fillRect(x, y, w, h);
+    c.fillStyle = bg;
+    c.fillRect(x + bord, y + bord, w - bord * 2, h - bord * 2);
+    c.fillStyle = '#151022';
+    const e = Math.round(k * 1.4);
+    c.fillRect(Math.round(cx - e / 2), y + h, e, Math.round(k * 1.2));
+    c.fillStyle = fg;
+    c.textAlign = 'center';
+    c.fillText(texte, Math.round(cx), y + Math.round(h / 2 - corps * 0.62));
+    c.textAlign = 'left';
   }
 
   /** Les bornes du monde visible, en tuiles, avec une marge. */
@@ -169,20 +301,4 @@ export class Renderer {
     return { x0: x0 - 3, x1: x1 + 3, y0: y0 - 3, y1: y1 + 4 };
   }
 
-  // petite bulle facon jeu 16 bits au-dessus de la porte
-  marker(ctx, b, t, unlocked, near) {
-    const p = toScreen(b.door.x + .5, b.door.y + .5, 0);
-    const label = (unlocked ? '' : '! ') + b.name;
-    const tw = textWidth(label, 1, 1);
-    const w = tw + 6;
-    const bob = Math.round(Math.sin(t * 3) * 2);
-    const x = Math.round(p.x - w / 2), y = Math.round(p.y) - 30 + bob;
-    const bg = near ? '#f6f0dc' : '#2b2136';
-    const fg = near ? '#2b2136' : '#f6f0dc';
-    px(ctx, x, y, w, 11, '#151022');
-    px(ctx, x + 1, y + 1, w - 2, 9, bg);
-    px(ctx, x + Math.round(w / 2) - 2, y + 11, 4, 1, '#151022');
-    px(ctx, x + Math.round(w / 2) - 1, y + 12, 2, 1, '#151022');
-    pxText(ctx, label, x + 3, y + 3, fg, 1, 1);
-  }
 }

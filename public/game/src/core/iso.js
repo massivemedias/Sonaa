@@ -33,6 +33,14 @@ export const lerp = (a, b, t) => a + (b - a) * t;
 // =====================================================================
 export class Camera {
   constructor() { this.x = 0; this.y = 0; this.w = 0; this.h = 0; this.k = 1; }
+  /* Le decalage de la camera, en pixels ENTIERS du tampon. Le rendu du monde
+     s'en sert, et le calque de texte par-dessus s'en sert aussi : il faut que
+     les deux calculent exactement le meme, sinon une enseigne flotte d'un
+     demi-pixel au-dessus de son toit des que la camera bouge. */
+  offset() {
+    const o = toScreen(this.x, this.y, 0);
+    return { tx: Math.round(this.w / 2 - o.x), ty: Math.round(this.h / 2 - o.y) };
+  }
   apply(ctx, dpr) {
     const o = toScreen(this.x, this.y, 0);
     // La camera suit le joueur en douceur, donc sa position est fractionnaire.
