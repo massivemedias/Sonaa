@@ -206,9 +206,9 @@ export class Renderer {
       const on = neon ? Math.sin(artTime() * 3.4) > -0.75 : true;
       this.panneau(c, p.x, p.y, b.sign, k, {
         mat: pose.mat,
-        bg: neon ? '#241b33' : (game.isNight ? '#ffdc8a' : '#f6f0dc'),
-        fg: neon ? (on ? '#ff5cb4' : '#7a2a58') : '#2b2136',
-        bord: neon ? (on ? '#ff5cb4' : '#3d2b44') : '#2b2136',
+        bg: neon ? '#241b33' : (game.isNight ? '#f5cf7d' : '#efe0bd'),
+        fg: neon ? (on ? '#ff5cb4' : '#7a2a58') : '#3a2a1c',
+        bord: neon ? (on ? '#ff5cb4' : '#3d2b44') : '#4a3324',
         accent: neon ? null : (b.roof || '#c9924e'),
       });
     }
@@ -233,46 +233,59 @@ export class Renderer {
      Le corps suit le facteur d'agrandissement, donc l'enseigne garde la
      meme taille apparente que le batiment a tous les niveaux de zoom. */
   panneau(c, cx, cy, texte, k, o) {
-    /* LE CORPS, MESURE PLUTOT QUE CHOISI. L'ancienne police bitmap donnait
-       des capitales de cinq pixels de tampon, doublees, soit dix pixels de
-       tampon de haut. La hauteur de capitale de Nunito vaut environ 0,71 du
-       corps : pour retrouver la meme taille apparente il faut donc un corps
-       d'a peu pres quatorze pixels de tampon. On en prend onze : Nunito se
-       lit mieux a hauteur egale, et le panneau reste plus etroit que
-       l'ancien, ce qui evite qu'il deborde des petites cabanes. */
-    const corps = Math.round(10 * k);
-    const bord = Math.max(1, Math.round(k / 2));
+    /* TROIS CHOSES CLOCHAIENT, ET C'EST LA TAILLE QUI CREVAIT LES YEUX.
+
+       1. LE CORPS SUIVAIT LE ZOOM AU MULTIPLE PRES. A k = 2 le panneau
+       faisait vingt pixels et paraissait juste ; a k = 5 il en faisait
+       cinquante et devenait une pancarte plus large que la maison. Un nom de
+       lieu n'a pas besoin de grandir autant que le lieu : il doit rester
+       lisible, pas devenir le sujet. Le corps croit donc moins vite que le
+       zoom, cale sur ce qui marchait a k = 2.
+
+       2. LE FOND ETAIT BLANC. Sur une clairiere qui n'a pas un seul blanc,
+       cinq rectangles blancs sont cinq trous dans l'image, et l'oeil ne voit
+       plus qu'eux. Le fond passe a un creme chaud, la bordure a un brun
+       fonce, et une ombre dure d'un pixel decale le pose sur le decor au
+       lieu de le coller dessus.
+
+       3. IL FLOTTAIT. Il etait pose au-dessus du faite, relie par un mat
+       qu'on ne voyait pas. Il descend sur la ligne d'egout, la ou une
+       enseigne se cloue vraiment, et mord donc le bas du toit : c'est ce
+       chevauchement qui le rattache au batiment. */
+    const corps = Math.round(20 * Math.pow(k / 2, 0.55));
+    const bord = Math.max(1, Math.round(k * 0.4));
     c.font = `800 ${corps}px ${POLICE}`;
     const tw = c.measureText(texte).width;
-    const w = Math.round(tw + 6 * k), h = Math.round(corps + 4 * k);
+    const pad = Math.round(corps * 0.34);
+    const w = Math.round(tw + pad * 2), h = Math.round(corps * 1.34);
     const x = Math.round(cx - w / 2), y = Math.round(cy - h);
-    if (o.mat) {
-      const mw = Math.max(2, Math.round(k * 0.8));
-      c.fillStyle = '#6b4426';
-      c.fillRect(Math.round(cx - mw / 2), y + h, mw, Math.round(o.mat * 16 * k));
-    }
+    const ombre = Math.max(1, Math.round(k * 0.5));
+    c.fillStyle = 'rgba(20,12,30,.42)';
+    c.fillRect(x + ombre, y + ombre, w, h);
     c.fillStyle = o.bord;
     c.fillRect(x, y, w, h);
     c.fillStyle = o.bg;
     c.fillRect(x + bord, y + bord, w - bord * 2, h - bord * 2);
     if (o.accent) {
+      // un filet de la couleur du toit : le panneau appartient a CE batiment
       c.fillStyle = o.accent;
-      c.fillRect(x + bord, y + bord, w - bord * 2, Math.max(1, Math.round(k * 0.7)));
+      c.fillRect(x + bord, y + h - bord - Math.max(1, Math.round(k * 0.5)),
+        w - bord * 2, Math.max(1, Math.round(k * 0.5)));
     }
     c.fillStyle = o.fg;
     c.textAlign = 'center';
-    c.fillText(texte, Math.round(cx), y + Math.round(h / 2 - corps * 0.62));
+    c.fillText(texte, Math.round(cx), y + Math.round(h / 2 - corps * 0.6));
     c.textAlign = 'left';
   }
 
   /* La bulle de porte : meme fabrique, plus un ergot en dessous qui la
      rattache a l'entree. C'est l'ergot qui dit DE QUELLE porte on parle. */
   bulle(c, cx, cy, texte, k, pres) {
-    const corps = Math.round(8 * k);
-    const bord = Math.max(1, Math.round(k / 2));
+    const corps = Math.round(16 * Math.pow(k / 2, 0.55));
+    const bord = Math.max(1, Math.round(k * 0.4));
     c.font = `700 ${corps}px ${POLICE}`;
     const tw = c.measureText(texte).width;
-    const w = Math.round(tw + 5 * k), h = Math.round(corps + 3.5 * k);
+    const w = Math.round(tw + corps * 0.6), h = Math.round(corps * 1.4);
     const x = Math.round(cx - w / 2), y = Math.round(cy - h);
     const bg = pres ? '#f6f0dc' : '#2b2136';
     const fg = pres ? '#2b2136' : '#f6f0dc';

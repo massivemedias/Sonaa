@@ -34,11 +34,21 @@ function vnoise(x, y, s = 0) {
 }
 
 // ------------------------------------------------------------ palettes
-const GREEN = ['#5cc23f', '#68cf49', '#74d955'];
-const GREEN_LUSH = ['#3fa32b', '#4ab034', '#56bd3e'];
-const DIRT = ['#d4b273', '#dfbd7e', '#c9a668'];
-const CLEAR_COL = ['#7ec95a', '#8ad465', '#72bd50'];
-const FOREST_FLOOR = ['#2b7a1f', '#328526', '#256e1a'];
+/* LES TROIS NUANCES SE RESSERRENT, PARCE QU'ELLES FAISAIENT UN DAMIER.
+
+   Chaque tuile prend une seule couleur plate, tiree d'un bruit doux. Avec
+   des nuances ecartees de vingt pour cent, deux tuiles voisines pouvaient
+   sauter d'un vert a l'autre, et une pelouse en isometrie devenait un
+   echiquier : c'est ce qu'on voyait, et c'est laid.
+
+   L'ecart tombe a cinq ou six pour cent. La variation reste, elle empeche
+   l'aplat mort, mais elle ne dessine plus de cases. Meme raison pour la
+   terre, dont les routes larges donnaient le meme effet en plus clair. */
+const GREEN = ['#5cbf42', '#62c548', '#68cb4e'];
+const GREEN_LUSH = ['#44a530', '#4aab36', '#50b13c'];
+const DIRT = ['#cfae74', '#d5b47a', '#c9a86e'];
+const CLEAR_COL = ['#7ec95a', '#84cf60', '#78c354'];
+const FOREST_FLOOR = ['#2b7a1f', '#307f24', '#26751a'];
 const EAU = ['#2f6ea8', '#3a7fbd', '#28608f'];
 const SABLE = ['#d8c48c', '#e2d09a', '#cbb67e'];
 
@@ -299,12 +309,20 @@ function signature(ctx, b, wallH, roofH, env) {
    flottant au-dessus des toits, le cas est rare, et une etiquette toujours
    lisible vaut mieux qu'une etiquette a moitie cachee.
    ================================================================ */
+/* LA HAUTEUR EST CELLE DE LA LIGNE D'EGOUT, pas celle du faite.
+
+   Les panneaux etaient poses au-dessus du toit, relies par un mat qu'on ne
+   voyait pas : ils flottaient, et l'oeil lisait cinq etiquettes de carte
+   plutot que cinq enseignes. Chaque valeur ci-dessous est la hauteur du MUR
+   du style correspondant, celle ou le toit commence. Le panneau y mord donc
+   le bas de la toiture, exactement comme une enseigne clouee sur un pignon,
+   et ce chevauchement suffit a le rattacher au batiment. */
 const ENSEIGNE = {
-  hut:      { z: 1.16, mat: 0.5 },
-  house:    { z: 1.42, mat: 0.55 },
-  club:     { z: 1.58, mat: 0.4 },
-  big:      { z: 1.66, mat: 0.45 },
-  bunker:   { z: 1.86, mat: 0.4 },
+  hut:      { z: 1.05, mat: 0 },
+  house:    { z: 1.25, mat: 0 },
+  club:     { z: 1.53, mat: 0 },
+  big:      { z: 1.5,  mat: 0 },
+  bunker:   { z: 1.57, mat: 0 },
   immeuble: { z: 1.28, mat: 0 },
   tower:    { z: 1.3,  mat: 0 },
 };
