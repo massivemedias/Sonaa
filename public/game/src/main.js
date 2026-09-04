@@ -135,6 +135,32 @@ function startGame(state, fresh) {
   }
 }
 
+/* LA DATE DE LA COPIE QUI TOURNE. Voir le commentaire dans index.html : elle
+   vient de l'en-tete du fichier lui-meme, jamais d'une constante a tenir a
+   jour. Si la requete echoue, on n'ecrit rien : une date fausse serait pire
+   que pas de date. */
+(async () => {
+  try {
+    /* LE CACHE PAR DEFAUT, SURTOUT PAS `no-store`, et c'est tout l'interet.
+
+       `no-store` irait demander la date au serveur. Elle serait donc
+       toujours celle du dernier deploiement, y compris pendant qu'on joue
+       une copie vieille de deux jours servie par un cache : l'indicateur
+       dirait exactement le contraire de ce qu'on lui demande. Avec les
+       regles normales, la reponse vient d'ou vient le module lui-meme,
+       cache HTTP ou service worker compris, et sa date est celle de la copie
+       qui tourne. C'est cette date-la qui sert a quelque chose. */
+    const r = await fetch('src/main.js', { method: 'HEAD' });
+    const lm = r.headers.get('last-modified');
+    if (!lm) return;
+    const d = new Date(lm);
+    if (isNaN(d)) return;
+    $('#version').textContent = 'version du ' + d.toLocaleString('fr-CA', {
+      day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit',
+    });
+  } catch (e) { /* hors ligne : l'ecran titre se passe tres bien de la date */ }
+})();
+
 const saved = Game.load();
 if (saved) $('#btn-continue').classList.remove('hidden');
 $('#btn-new').addEventListener('click', () => startGame(newState(), true));

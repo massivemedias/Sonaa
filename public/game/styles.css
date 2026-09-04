@@ -411,3 +411,10 @@ canvas#stage{ image-rendering:pixelated; image-rendering:crisp-edges }
 .row h3{font-size:15px;font-weight:800}
 .btn{font-size:14px;font-weight:800}
 .row .tag, .pill{font-size:12px;font-weight:800}
+
+/* La date de la copie qui tourne. Assez lisible pour etre lue quand on la
+   cherche, assez discrete pour ne pas peser sur l'ecran titre. */
+.logo-ver{
+  margin-top:6px; font-size:11px; font-weight:600; letter-spacing:.3px;
+  color:#7d6ea3; text-align:center;
+}

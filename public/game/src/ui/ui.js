@@ -446,7 +446,13 @@ const PANELS = {
         const info = ui.needCover(r);
         const hue = hashHue(r.id);
         const c1 = `hsl(${hue} 62% 46%)`, c2 = `hsl(${(hue + 42) % 360} 58% 26%)`;
-        const pix = info && info.art ? COV.pixelFor(r, info, 56, () => this.render()) : null;
+        /* `ui.render`, PAS `this.render`. Ces panneaux sont les methodes d'un
+           objet litteral : `this` y designe la table des panneaux, qui n'a
+           pas de render. Le rappel jetait donc une exception au moment ou la
+           pochette pixelisee etait prete, et le panneau ne se redessinait
+           jamais : on restait sur la pochette lisse ou sur le degrade, c'est
+           a dire precisement ce que la pixelisation devait remplacer. */
+        const pix = info && info.art ? COV.pixelFor(r, info, 56, () => ui.render()) : null;
         const bg = info && info.art
           ? `background-image:url("${pix || info.art}")`
           : `background:linear-gradient(150deg,${c1},${c2})`;
