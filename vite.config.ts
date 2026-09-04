@@ -79,15 +79,48 @@ export default defineConfig({
         /* Les 1263 pochettes pèsent 39 Mo. Les précharger imposerait ce
            téléchargement à toute personne qui ouvre le site une fois, sur
            son forfait. Elles sont mises en cache à l'usage, ci-dessous. */
-        globIgnores: ['**/covers/**', '**/node_modules/**'],
+        /* LE JEU N'EST PAS PRECACHE, ET C'EST UNE CORRECTION.
+
+           Il l'etait : les vingt fichiers de game/ figuraient dans le
+           manifeste du service worker. Consequence, quelqu'un qui a deja
+           ouvert sonaa.ca recevait le jeu depuis le cache, pas depuis le
+           serveur, et n'en voyait la version suivante qu'apres avoir accepte
+           la banniere de mise a jour. Or cette banniere vit dans
+           l'application React ; /game/ est une page a part, sans banniere et
+           sans la sortie ?nocache=1. Le jeu pouvait donc rester indefiniment
+           en arriere, et une correction deployee etait jugee sur une copie
+           qui ne la contenait pas.
+
+           Il est desormais servi par le reseau, avec le cache pour seul
+           filet hors ligne : voir la regle NetworkFirst plus bas. */
+        globIgnores: ['**/covers/**', '**/node_modules/**', '**/game/**'],
         navigateFallback: 'index.html',
-        navigateFallbackDenylist: [/^\/covers\//],
+        /* /game/ est une page autonome, pas une route de l'application :
+           lui repondre index.html afficherait le site a la place du jeu. */
+        navigateFallbackDenylist: [/^\/covers\//, /^\/game\//],
         cleanupOutdatedCaches: true,
         /* Le chunk des structures pèse 680 Ko : au-dessus du défaut, et il
            n'est pas question de le laisser hors du cache, c'est le corpus. */
         maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
 
         runtimeCaching: [
+          {
+            /* LE JEU : le reseau d'abord, le cache pour seul filet.
+
+               NetworkFirst et non CacheFirst parce que le jeu change
+               plusieurs fois par jour et qu'une version en retard d'une
+               journee ne se voit pas : on croit regarder la derniere. La
+               reponse du reseau est gardee, donc le jeu reste jouable hors
+               ligne ; simplement, des qu'il y a du reseau, c'est la version
+               deployee qui gagne. */
+            urlPattern: ({ url }) => url.pathname.startsWith('/game/'),
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'sonaa-jeu',
+              expiration: { maxEntries: 60, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
           {
             /* Pochettes : une fois vue, toujours disponible. CacheFirst car
                une pochette ne change jamais · si elle change, c'est un

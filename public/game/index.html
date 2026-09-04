@@ -100,6 +100,44 @@
   </div>
 </div>
 
+<!-- SORTIE DE SECOURS · /game/?nocache=1
+
+     Le site est une application installable, donc un service worker. Il a
+     longtemps precache le jeu avec le reste, et sa politique de mise a jour
+     est « on propose, on n'impose pas » : la nouvelle version attend qu'on
+     accepte une banniere. Cette banniere vit dans l'application React. Ici,
+     il n'y en a pas. Quelqu'un qui n'ouvre que /game/ pouvait donc rester
+     indefiniment sur une vieille copie, et juger une correction sur une
+     version qui ne la contenait pas.
+
+     Le jeu est desormais servi par le reseau (voir vite.config.ts), ce qui
+     supprime la cause. Cette porte reste, pour deux raisons : elle debloque
+     les copies deja installees avant la correction, et le jour ou l'on doute
+     de ce qu'on regarde il faut pouvoir en sortir sans ouvrir les outils du
+     navigateur. -->
+<script>
+(async function () {
+  var p = new URLSearchParams(location.search);
+  if (p.get('nocache') !== '1') return;
+  try {
+    if ('serviceWorker' in navigator) {
+      var rs = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(rs.map(function (r) { return r.unregister(); }));
+    }
+    if ('caches' in window) {
+      var ks = await caches.keys();
+      await Promise.all(ks.map(function (k) { return caches.delete(k); }));
+    }
+  } catch (e) {
+    /* Une purge qui echoue ne doit pas laisser la page bloquee : on recharge
+       quand meme, quitte a retomber sur le cache. */
+  }
+  p.delete('nocache');
+  var reste = p.toString();
+  location.replace(location.pathname + (reste ? '?' + reste : '') + location.hash);
+})();
+</script>
+
 <script type="module" src="src/main.js"></script>
 </body>
 </html>
