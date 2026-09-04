@@ -278,7 +278,7 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block}
 /* UNE SEULE POLICE, PARTOUT, Y COMPRIS SUR LES PANNEAUX DU JEU.
 
    Il y en avait trois : Nunito pour le texte courant, Jersey 15 pour les
-   titres, Silkscreen pour les chiffres — et, dans le canvas, une quatrieme
+   titres, Silkscreen pour les chiffres, et, dans le canvas, une quatrieme
    qui n'etait meme pas une police mais une grille de 3 par 5 pixels ecrite a
    la main. Quatre alphabets pour un jeu dont toute l'exigence est qu'on lise
    ce qui y est ecrit.
@@ -289,7 +289,7 @@ canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block}
 
    Le canvas suit : voir render.js, calqueDuTexte(). Les enseignes ne sont
    plus peintes dans le tampon basse resolution mais par-dessus, a la
-   definition de l'ecran — c'est ce qui permet d'y mettre une vraie police
+   definition de l'ecran : c'est ce qui permet d'y mettre une vraie police
    sans qu'elle devienne un pate de pixels. */
 *{
   font-family:"Nunito","Helvetica Neue",Arial,sans-serif !important;
@@ -384,7 +384,7 @@ canvas#stage{ image-rendering:pixelated; image-rendering:crisp-edges }
 /* LA SEULE EXCEPTION DU FICHIER, et elle n'en est pas vraiment une : Nunito
    ne contient pas d'emoji. Sans cette ligne, le systeme irait chercher le
    caractere ailleurs de toute facon, mais dans une police choisie au hasard
-   de la pile — autant nommer celle qu'on veut. */
+   de la pile, autant nommer celle qu'on veut. */
 .chip .ico{font-family:system-ui,"Apple Color Emoji",sans-serif !important;font-size:16px}
 .chip-clock{font-size:15px}
 .need .nval{font-size:12px}

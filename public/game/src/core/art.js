@@ -111,7 +111,7 @@ export function dim(c) { return c; }
    besoin d'un e accentue.
 
    Le texte du monde est passe dans un calque au-dessus du rendu, a la
-   definition de l'ecran, ou Nunito se dessine normalement — voir render.js,
+   definition de l'ecran, ou Nunito se dessine normalement : voir render.js,
    calqueDuTexte(). Plus rien ici n'ecrit de lettres, et les fonctions qui le
    faisaient (pxText, textWidth, billboard, signboard) sont parties avec la
    grille plutot que de rester en place « au cas ou ». */

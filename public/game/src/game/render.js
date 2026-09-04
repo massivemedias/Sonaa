@@ -168,7 +168,7 @@ export class Renderer {
      ferait six pixels de haut avant d'etre triplee : Nunito rendue a six
      pixels puis agrandie au plus proche voisin ne donne pas une lettre,
      elle donne trois taches. C'est precisement pour cela que le texte du
-     canvas etait une police bitmap dessinee a la main — le seul alphabet
+     canvas etait une police bitmap dessinee a la main, le seul alphabet
      qui survive a ce traitement, au prix de trois pixels de large par
      lettre et d'aucun accent possible.
 
@@ -180,7 +180,7 @@ export class Renderer {
      TOUT EST EN PIXELS CSS : on pose la transformation a dpr, et l'on
      multiplie les coordonnees du tampon par k. Le decalage de la camera
      vient de cam.offset(), le meme que celui du monde, arrondi au pixel
-     entier du tampon — sinon l'enseigne glisserait sur son toit des que
+     entier du tampon, sinon l'enseigne glisserait sur son toit des que
      la camera bouge. */
   calqueDuTexte(c, game, player, t) {
     const k = this.k, dpr = this.dpr, cam = this.cam;
@@ -237,7 +237,7 @@ export class Renderer {
        des capitales de cinq pixels de tampon, doublees, soit dix pixels de
        tampon de haut. La hauteur de capitale de Nunito vaut environ 0,71 du
        corps : pour retrouver la meme taille apparente il faut donc un corps
-       d'a peu pres quatorze pixels de tampon. On en prend onze — Nunito se
+       d'a peu pres quatorze pixels de tampon. On en prend onze : Nunito se
        lit mieux a hauteur egale, et le panneau reste plus etroit que
        l'ancien, ce qui evite qu'il deborde des petites cabanes. */
     const corps = Math.round(10 * k);
