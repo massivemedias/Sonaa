@@ -156,10 +156,22 @@
        la page chargee non, et ?nocache=1 n'y changeait rien.
 
        On redemande donc chaque fichier avec `cache: 'reload'`, ce qui force
-       la revalidation et remplace l'entree du cache. La liste des fichiers
-       n'est pas ecrite ici : on la lit dans les ressources que la page
-       courante a reellement chargees, donc elle ne peut pas se perimer
-       quand le jeu gagne un module. */
+       la revalidation et remplace l'entree.
+
+       ON ATTEND `load` D'ABORD, et c'est tout le sel de cette version. Le
+       premier jet balayait `performance.getEntriesByType('resource')` tout
+       de suite. Mais ce script est en tete de page : a cet instant le jeu
+       n'a rien charge, la liste tient en deux feuilles de style, et pas un
+       seul module n'etait rafraichi. Mesure : la porte tournait, la page
+       revenait, et la ligne de version affichait toujours 14 h 13 pendant
+       que le serveur etait a 14 h 19.
+
+       Apres `load`, la liste contient exactement ce que le jeu a demande.
+       Elle n'est donc jamais ecrite a la main et ne se perime pas quand le
+       jeu gagne un module. */
+    if (document.readyState !== 'complete') {
+      await new Promise(function (r) { addEventListener('load', r, { once: true }); });
+    }
     var memeOrigine = function (u) { try { return new URL(u).origin === location.origin; } catch (e) { return false; } };
     var liste = performance.getEntriesByType('resource')
       .map(function (e) { return e.name; })
