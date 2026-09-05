@@ -22,9 +22,13 @@ import * as THREE from 'three';
 import { GLTFLoader } from './vendor/three/GLTFLoader.js';
 import { GRASS, PATH, LUSH, CLEARING, FOREST, WATER, SAND } from '../src/world/city.js';
 
+/* PLUS VIF, PARCE QUE LA 3D MANGE LA COULEUR. En pixel art, la teinte que
+   l'on pose est celle que l'on voit. Ici chaque face est multipliee par sa
+   lumiere : un vert deja sombre devient boueux des que le soleil baisse. On
+   remonte donc la saturation d'un cran a la source. */
 const COULEUR = {
-  [GRASS]: 0x6cc24a, [LUSH]: 0x4da537, [CLEARING]: 0x8ad46a,
-  [PATH]: 0xbfa678, [SAND]: 0xe0cd96, [WATER]: 0x3f86c4, [FOREST]: 0x2f7a28,
+  [GRASS]: 0x7ad34f, [LUSH]: 0x57bd3c, [CLEARING]: 0x9ae06f,
+  [PATH]: 0xd2b17c, [SAND]: 0xf0dda4, [WATER]: 0x3f9ad8, [FOREST]: 0x3a9130,
 };
 
 const MODELE = {
@@ -93,11 +97,13 @@ export class Ville {
     o.left = -26; o.right = 26; o.top = 26; o.bottom = -26; o.near = 1; o.far = 120;
     s.shadow.bias = -0.0012;
     sc.add(s, s.target);
-    sc.fog = new THREE.Fog(0x9fd4ef, 40, 86);
+    // le brouillard commence apres la clairiere et efface la ville au loin
+    sc.fog = new THREE.Fog(0x9fd4ef, 34, 135);
     sc.background = new THREE.Color(0x9fd4ef);
 
     this.poserLeSol();
-    this.heros = this.figurine(0xf2b33d, 0x4a86d9);
+    this.poserLaVille();
+    this.heros = this.bonhomme({ corps: 0xf2b33d, culotte: 0x4a86d9, sacoche: true, casque: true });
     sc.add(this.heros);
     await this.poserLeBati();
 
@@ -137,22 +143,187 @@ export class Ville {
     }
   }
 
-  /* Une creature faite de primitives : aucun des deux paquets ne contient
-     de personnage, et en fabriquer un ici coute dix lignes. */
-  figurine(corps, culotte) {
+  /* LA GRANDE VILLE, AUTOUR.
+
+     « Eventuellement dans une grande ville. » Refaire le plan en quartier
+     dense reviendrait a jeter city.js, l'economie et les quetes qui s'y
+     accrochent. On garde donc la clairiere telle quelle et on la POSE DANS
+     une ville : une couronne de tours derriere les arbres, de plus en plus
+     hautes vers l'exterieur, avec le brouillard qui les efface au loin.
+
+     Elles ne sont ni cliquables ni atteignables, et c'est assume : ce sont
+     un decor de fond, comme les collines peintes derriere un plateau. Ce
+     qu'elles changent est considerable pour ce qu'elles coutent : la
+     clairiere cesse d'etre un ilot flottant dans le vide et devient un
+     morceau de quartier qu'on a laisse en herbe.
+
+     TOUT EST INSTANCIE. Deux cents tours en objets separes, ce sont deux
+     cents dessins ; en une seule geometrie instanciee, un seul. Elles ne
+     projettent pas d'ombre : au-dela de la lisiere, personne ne peut voir ou
+     elle tomberait, et le calcul serait paye pour rien. */
+  poserLaVille() {
+    const c = this.city;
+    const TEINTES = [0x8e9bb3, 0xa8907c, 0x7f93a8, 0xb0a08c, 0x6f7f96, 0x9d8f9f, 0xc0a48e];
+    const bloc = new THREE.BoxGeometry(1, 1, 1);
+    const groupes = TEINTES.map(t => ({
+      teinte: t,
+      corps: [],
+    }));
+    const bruit = (x, y, g) => {
+      let h = Math.imul(x | 0, 374761393) ^ Math.imul(y | 0, 668265263) ^ Math.imul(g, 2246822519);
+      h = Math.imul(h ^ h >>> 13, 1274126177);
+      return ((h ^ h >>> 16) >>> 0) / 4294967296;
+    };
+    const d = new THREE.Object3D();
+    // six anneaux de plus en plus hauts, poses au-dela de la foret
+    for (let anneau = 0; anneau < 7; anneau++) {
+      /* LA PREMIERE COURONNE COMMENCE A QUATORZE TUILES DU BORD, pas a
+         quatre. A quatre, une tour se posait juste derriere les arbres et
+         entrait dans le champ de la camera : on avait un immeuble de bureaux
+         plante au bout du pre, ce qui est exactement ce qu'un decor de fond
+         ne doit pas faire. Il faut que la foret reste seule au premier plan
+         et que la ville ne se lise qu'a l'horizon. */
+      const marge = 14 + anneau * 6;
+      const hMin = 4 + anneau * 3, hMax = hMin + 5 + anneau * 3.5;
+      const x0 = -marge, x1 = c.w + marge, y0 = -marge, y1 = c.h + marge;
+      const pas = 3.6 + anneau * 0.9;
+      for (let x = x0; x <= x1; x += pas) for (let y = y0; y <= y1; y += pas) {
+        const dedans = x > -11 && x < c.w + 11 && y > -11 && y < c.h + 11;
+        if (dedans) continue;
+        const r = bruit(x * 13, y * 7, anneau);
+        if (r < 0.42) continue;
+        const h = hMin + r * (hMax - hMin);
+        const l = 1.9 + bruit(x, y, anneau + 40) * 1.7;
+        const p = bruit(x, y, anneau + 90) * 1.6 - 0.8;
+        const q = bruit(x, y, anneau + 130) * 1.6 - 0.8;
+        const gr = groupes[(bruit(x, y, anneau + 7) * groupes.length) | 0];
+        d.position.set(x + p, h / 2 - 0.2, y + q);
+        d.scale.set(l, h, l * (0.8 + bruit(x, y, 5) * 0.5));
+        d.rotation.y = ((bruit(x, y, 11) * 4) | 0) * Math.PI / 2;
+        d.updateMatrix();
+        gr.corps.push(d.matrix.clone());
+      }
+    }
+    for (const gr of groupes) {
+      if (!gr.corps.length) continue;
+      const maille = new THREE.InstancedMesh(bloc,
+        new THREE.MeshLambertMaterial({ color: gr.teinte }), gr.corps.length);
+      gr.corps.forEach((m, i) => maille.setMatrixAt(i, m));
+      maille.castShadow = false; maille.receiveShadow = false;
+      maille.frustumCulled = false;
+      this.scene.add(maille);
+    }
+    // un sol qui va jusqu'a l'horizon, sinon on voit le vide sous les tours
+    const assise = new THREE.Mesh(new THREE.PlaneGeometry(400, 400),
+      new THREE.MeshLambertMaterial({ color: 0x6b6f78 }));
+    assise.rotation.x = -Math.PI / 2;
+    assise.position.set(c.w / 2, -0.45, c.h / 2);
+    assise.receiveShadow = false;
+    this.scene.add(assise);
+  }
+
+  /* LE BONHOMME.
+
+     C'etait une capsule, une sphere et un cylindre : de loin, un pion. La
+     creature de la version pixel avait une tete enorme, des yeux qui
+     clignaient, des oreilles tombantes et une sacoche de disques, et c'est
+     tout ce qu'on regardait. Il fallait la retrouver, pas la remplacer par
+     un mannequin de vitrine.
+
+     Aucun des deux paquets ne contient de personnage : tout est construit
+     ici. Une quinzaine de primitives, et surtout DES MEMBRES SEPARES, parce
+     que c'est le balancement des bras et des jambes qui fait qu'un bonhomme
+     marche au lieu de glisser. Les proportions sont celles du pixel : la
+     tete fait presque la moitie de la hauteur.
+
+     Les yeux sont deux points sombres poses sur l'avant du crane. Sans eux
+     on ne sait pas ou le personnage regarde, et c'est la premiere chose que
+     l'oeil cherche sur une silhouette. */
+  bonhomme({ corps, culotte, casque = false, sacoche = false }) {
     const g = new THREE.Group();
-    const mc = new THREE.MeshLambertMaterial({ color: corps });
-    const tronc = new THREE.Mesh(new THREE.CapsuleGeometry(0.15, 0.16, 4, 10), mc);
+    const M = c => new THREE.MeshLambertMaterial({ color: c });
+    const mc = M(corps), mp = M(culotte), sombre = M(0x2b2136);
+
+    const jambes = [];
+    for (const cx of [-0.09, 0.09]) {
+      const j = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.2, 0.12), mp);
+      j.position.set(cx, 0.1, 0);
+      j.castShadow = true;
+      jambes.push(j); g.add(j);
+    }
+    const pieds = [];
+    for (const cx of [-0.09, 0.09]) {
+      const p = new THREE.Mesh(new THREE.BoxGeometry(0.13, 0.07, 0.18), sombre);
+      p.position.set(cx, 0.035, 0.03);
+      pieds.push(p); g.add(p);
+    }
+
+    const tronc = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.24, 0.2), mc);
     tronc.position.y = 0.32; tronc.castShadow = true;
-    const tete = new THREE.Mesh(new THREE.SphereGeometry(0.21, 14, 10), mc);
-    tete.position.y = 0.66; tete.castShadow = true;
-    const bas = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.12, 0.2, 10),
-      new THREE.MeshLambertMaterial({ color: culotte }));
-    bas.position.y = 0.12; bas.castShadow = true;
-    g.add(tronc, tete, bas);
-    g.userData.tete = tete;
+    g.add(tronc);
+
+    const bras = [];
+    for (const cx of [-0.19, 0.19]) {
+      const b = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.22, 0.09), mc);
+      b.position.set(cx, 0.31, 0);
+      b.castShadow = true;
+      bras.push(b); g.add(b);
+    }
+
+    // LA TETE, presque la moitie de la hauteur, comme dans la version pixel
+    const tete = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.34, 0.34), mc);
+    tete.position.y = 0.62; tete.castShadow = true;
+    g.add(tete);
+    // les oreilles tombantes, la signature de la creature
+    for (const cx of [-0.24, 0.24]) {
+      const o = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.16, 0.12), M(corps));
+      o.position.set(cx, 0.6, 0);
+      o.castShadow = true;
+      g.add(o);
+    }
+    // les yeux : deux points sombres, et l'on sait ou il regarde
+    for (const cx of [-0.09, 0.09]) {
+      const y = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.08, 0.02), sombre);
+      y.position.set(cx, 0.63, 0.175);
+      g.add(y);
+    }
+    if (casque) {
+      const arceau = new THREE.Mesh(new THREE.TorusGeometry(0.21, 0.03, 6, 12, Math.PI), sombre);
+      arceau.position.y = 0.76; arceau.rotation.y = Math.PI / 2;
+      g.add(arceau);
+      for (const cx of [-0.21, 0.21]) {
+        const c = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.13, 0.13), sombre);
+        c.position.set(cx, 0.65, 0);
+        g.add(c);
+      }
+    }
+    if (sacoche) {
+      const sac = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.18, 0.22), M(0xd97b4a));
+      sac.position.set(-0.21, 0.3, 0.02); sac.castShadow = true;
+      g.add(sac);
+    }
+    g.userData = { jambes, bras, pieds, tronc, tete, phase: Math.random() * 6 };
     return g;
   }
+
+  /* LE PAS. Les jambes tournent autour de la hanche, les bras a contretemps,
+     et le corps monte de deux centimetres a chaque appui. Trois lignes, et
+     la difference entre marcher et glisser sur le sol. */
+  animer(f, marche, t) {
+    const u = f.userData;
+    if (!u || !u.jambes) return;
+    const a = marche ? Math.sin(t * 9 + u.phase) : 0;
+    u.jambes[0].rotation.x = a * 0.7;
+    u.jambes[1].rotation.x = -a * 0.7;
+    u.pieds[0].position.z = 0.03 + a * 0.1;
+    u.pieds[1].position.z = 0.03 - a * 0.1;
+    u.bras[0].rotation.x = -a * 0.6;
+    u.bras[1].rotation.x = a * 0.6;
+    f.position.y = marche ? Math.abs(Math.sin(t * 9 + u.phase)) * 0.045 : 0;
+  }
+
+  // compatibilite : l'ancien nom, garde le temps que tout soit converti
+  figurine(corps, culotte) { return this.bonhomme({ corps, culotte }); }
 
   async poserLeBati() {
     const L = new GLTFLoader();
@@ -213,6 +384,47 @@ export class Ville {
       l.position.set(club.x + club.w / 2, 1.7, club.y + club.d + 0.9);
       this.scene.add(l);
       this.neon = l;
+    }
+
+    /* LA COULEUR VIENT DU JEU, PAS DES MODELES.
+
+       city.js donne depuis toujours une couleur de toit a chaque batiment :
+       le bleu du bunker techno, l'orange de la deep house, le cyan de
+       l'electro, le violet du bar. En pixel art c'etait ce qui permettait de
+       les reconnaitre a vingt metres. Les modeles KayKit et Kenney, eux,
+       sont livres dans deux teintes de brique et une de beton, et la
+       clairiere avait perdu son code couleur.
+
+       On le remet par un AUVENT au-dessus de chaque porte et un bandeau sur
+       le toit, tous deux a la couleur du batiment. C'est plus juste que de
+       teinter le modele entier, qui virerait au bonbon, et ca met la couleur
+       la ou l'oeil la cherche : a l'entree. */
+    for (const b of this.city.buildings) {
+      const teinte = new THREE.Color(b.roof || '#c9924e');
+      const m = new THREE.MeshLambertMaterial({ color: teinte });
+      const g = new THREE.Group();
+
+      const auvent = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.1, 0.62), m);
+      auvent.position.set(b.door.x + 0.5, 1.28, b.y + b.d + 0.24);
+      auvent.rotation.x = -0.22;
+      auvent.castShadow = true;
+      g.add(auvent);
+      for (const dx of [-0.66, 0.66]) {
+        const p = new THREE.Mesh(new THREE.BoxGeometry(0.06, 1.2, 0.06),
+          new THREE.MeshLambertMaterial({ color: 0x4a3324 }));
+        p.position.set(b.door.x + 0.5 + dx, 0.6, b.y + b.d + 0.5);
+        p.castShadow = true;
+        g.add(p);
+      }
+      // un bandeau au pied du batiment : la couleur se lit aussi de loin
+      const bande = new THREE.Mesh(new THREE.BoxGeometry(b.w + 0.08, 0.14, b.d + 0.08), m);
+      bande.position.set(b.x + b.w / 2, 0.07, b.y + b.d / 2);
+      bande.receiveShadow = true;
+      g.add(bande);
+
+      this.scene.add(g);
+      const p = this.batiments.get(b.id);
+      if (p) p.couleur = g;
     }
 
     /* PAS DE FENETRES ALLUMEES, ET C'EST UN CONSTAT, PAS UN OUBLI.
@@ -343,22 +555,32 @@ export class Ville {
       if (!p) continue;
       const ouvert = game.unlocked(b);
       if (p.modele) p.modele.visible = ouvert;
+      if (p.couleur) p.couleur.visible = ouvert;
       p.chantier.visible = !ouvert;
     }
   }
 
   majPassants(life) {
     if (!life) return;
+    const CULOTTES = [0x4a86d9, 0xd9564a, 0x4ac9a8, 0xe8a93a, 0x8f5fc9, 0x2f6ea8];
     while (this.passants.length < life.walkers.length) {
       const i = this.passants.length;
-      const f = this.figurine(CORPS[i % CORPS.length], 0x4a3c66);
+      const f = this.bonhomme({
+        corps: CORPS[i % CORPS.length],
+        culotte: CULOTTES[(i * 3) % CULOTTES.length],
+        casque: i % 3 === 0, sacoche: i % 4 === 1,
+      });
       this.scene.add(f);
       this.passants.push(f);
     }
+    const t = performance.now() / 1000;
     life.walkers.forEach((w, i) => {
       const f = this.passants[i];
-      f.position.set(w.x, 0, w.y);
-      f.rotation.y = Math.atan2(w.flip > 0 ? 1 : -1, w.back ? -1 : 1);
+      const dx = w.x - (f.userData.px ?? w.x), dy = w.y - (f.userData.py ?? w.y);
+      f.position.x = w.x; f.position.z = w.y;
+      if (Math.abs(dx) + Math.abs(dy) > 1e-4) f.rotation.y = Math.atan2(dx, dy);
+      this.animer(f, w.moving, t);
+      f.userData.px = w.x; f.userData.py = w.y;
     });
   }
 
@@ -425,8 +647,9 @@ export class Ville {
   }
 
   majHeros(p) {
-    this.heros.position.set(p.x, p.moving ? Math.abs(Math.sin(performance.now() / 110)) * 0.08 : 0, p.y);
+    this.heros.position.x = p.x; this.heros.position.z = p.y;
     if (p.vx || p.vy) this.heros.rotation.y = Math.atan2(p.vx, p.vy);
+    this.animer(this.heros, p.moving, performance.now() / 1000);
   }
 
   zoomer(sens) {
