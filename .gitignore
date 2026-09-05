@@ -28,3 +28,4 @@ audit-decalage.md
 # textures 4K dont le jeu n'expedie qu'une petite part. Ce qui part en ligne
 # est copie dans public/game/v3/assets/, avec le fichier de licence a cote.
 assets-source/
+public/_essai/
