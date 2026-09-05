@@ -62,10 +62,8 @@ export function PiedDePage() {
       liens: [
         { href: '#/a-propos', label: t.aPropos },
         { href: '#/credits', label: t.credits },
-        /* Le jeu quitte l'application mais reste sur le site : ce n'est pas
-           un lien externe, il ne porte donc pas la marque des liens qui
-           partent ailleurs. */
-        { href: '/game/', label: t.leJeu },
+        /* Le jeu ne figure plus ici non plus, meme raison que dans la barre
+           de navigation : il reste en ligne, il n'est plus annonce. */
         {
           href: 'https://github.com/massivemedias/Sonaa',
           label: t.piedCode,

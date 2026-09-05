@@ -78,25 +78,20 @@ const PAGES: readonly { href: string; id: SiteCourant; label: string }[] = [
   { href: '#/a-propos', id: 'apropos', label: t.aPropos }
 ];
 
-/* ═══ LE JEU N'EST PAS UNE ROUTE, C'EST UNE ADRESSE ═══
+/* ═══ LE JEU N'EST PLUS DANS LE MENU ═══
  *
- * SONAA Label Tycoon vit dans public/game/, en page a part : son propre
- * index.html, ses propres polices, son propre canevas plein ecran. Ce n'est
- * pas un caprice d'organisation, c'est ce qui lui permet d'exister sans
- * charger l'atlas, et a l'atlas d'exister sans charger un moteur de jeu.
+ * Il y a ete, en fin de rangee, avec cette particularite d'etre la seule
+ * entree qui QUITTE l'application pour une autre page du meme site.
  *
- * Le lien pointe donc sur « /game/ » et non sur un « #/ » : on QUITTE
- * l'application d'une page pour une autre page du meme site. Deux
- * consequences assumees.
+ * Il en sort a la demande de Mika. Ce n'est pas une suppression : le jeu
+ * vit toujours dans public/game/ et repond toujours a sonaa.ca/game/. Il
+ * n'est simplement plus annonce depuis l'atlas, le temps que son graphisme
+ * soit a la hauteur du reste du site. Remettre le lien tient en une ligne
+ * ici et une dans le pied de page.
  *
- * D'abord `courantOf` ne le reconnaitra jamais, et n'a pas a le faire : quand
- * on est dans le jeu, ce menu n'est pas rendu du tout.
- *
- * Ensuite il ne porte pas `target="_blank"`. Une nouvelle fenetre se justifie
- * quand on veut garder sa place ; ici on va jouer, on ne consulte pas une
- * reference a cote. Le bouton retour ramene a l'atlas, ce qui est le geste
- * attendu. */
-const JEU = { href: '/game/', label: t.leJeu };
+ * Rien d'autre n'a bouge : `courantOf` ne l'a jamais reconnu, puisqu'une
+ * adresse n'est pas une route, et le menu n'est de toute facon pas rendu
+ * quand on est dans le jeu. */
 
 function courantOf(hash: string): SiteCourant {
   if (hash.startsWith('#/index')) return 'index';
@@ -164,11 +159,6 @@ export function SiteNav({ variant, extra }: Props) {
       </span>
       <span className="sitenav-groupe">
         {PAGES.map(lien)}
-        {/* Le jeu ferme la rangee : c'est la seule entree qui quitte
-            l'application, elle n'a rien a faire au milieu des autres. */}
-        <a className="sitenav-lien" href={JEU.href}>
-          {JEU.label}
-        </a>
       </span>
     </nav>
   );
