@@ -55,7 +55,13 @@ const FAUTES = [
   'numero', 'numeros',
   'systeme', 'systemes',
   'probleme', 'problemes',
-  'annonce', 'annoncee', 'annonces',
+  /* « annonce » et « annonces » sont ABSENTS de cette liste, et c'est
+     delibere : ce sont aussi le verbe et le nom, qui s'ecrivent sans accent.
+     « Resident Advisor annonce » est juste. Un controle qui signale du
+     francais correct finit par etre ignore, et le jour ou il a raison
+     personne ne le lit. Seule la forme au participe reste, elle n'est pas
+     ambigue. */
+  'annoncee',
   'melange', 'melangee',
   'separe', 'separee',
   'entiere', 'entieres',
