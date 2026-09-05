@@ -7,7 +7,7 @@
 //
 //  ELLE NE DECIDE DE RIEN. Le jeu vit dans main.js : c'est lui qui tient
 //  le joueur, l'heure, les passants et l'interface, et qui appelle ici
-//  pour dire ou tout se trouve. La ville sait afficher, rien d'autre —
+//  pour dire ou tout se trouve. La ville sait afficher, rien d'autre :
 //  c'est ce qui a permis de la poser sous une logique ecrite pour un
 //  canvas 2D sans y toucher.
 //
