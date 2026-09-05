@@ -1,0 +1,28 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>SONAA · v3 (Three.js)</title>
+<link rel="icon" href="../assets/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;height:100%;overflow:hidden;background:#9fd4ef;
+    font-family:"Nunito","Helvetica Neue",Arial,sans-serif;color:#2b2136}
+  #ville canvas{display:block}
+  .note{position:fixed;left:12px;top:12px;z-index:5;background:#241b33e6;color:#f0e6d2;
+    padding:9px 12px;font-size:12px;font-weight:700;line-height:1.5;max-width:300px;border-radius:8px}
+  .note b{color:#8fe8c8} .note a{color:#ffc857}
+  .note small{font-weight:600;opacity:.75;display:block;margin-top:5px}
+</style>
+<div id="ville"></div>
+<div class="note">
+  <b>v3 · Three.js, 3D temps réel</b><br>
+  Même ville, même plan, mêmes 17 bâtiments. Flèches ou ZQSD.
+  <small>Modèles KayKit (Kay Lousberg) et City Kit Suburban (Kenney), les deux en CC0.</small>
+  <a href="../">← canvas</a> · <a href="../v2/">Phaser</a>
+</div>
+<script type="importmap">
+{ "imports": { "three": "./vendor/three/three.module.min.js" } }
+</script>
+<script type="module">
+  import { Ville } from './ville.js';
+  new Ville(document.getElementById('ville'));
+</script>

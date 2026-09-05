@@ -23,3 +23,8 @@ _prof/
 audit-coherence.md
 audit-lecture.md
 audit-decalage.md
+
+# Les paquets d'assets tels que telecharges : 90 Mo de .blend, .fbx et de
+# textures 4K dont le jeu n'expedie qu'une petite part. Ce qui part en ligne
+# est copie dans public/game/v3/assets/, avec le fichier de licence a cote.
+assets-source/
