@@ -53,8 +53,7 @@
   color: var(--ink-primary);
 }
 
-.cal-fenetres,
-.cal-onglets-styles {
+.cal-fenetres {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
@@ -144,26 +143,11 @@
   font-weight: 600;
 }
 
-/* --- Les styles suivis --------------------------------------------------- */
-
-.cal-styles {
-  margin: 1.6rem 0;
-}
-
-.cal-styles-tete {
-  display: flex;
-  align-items: baseline;
-  gap: 1rem;
-  margin-bottom: 0.6rem;
-}
-
-.cal-styles-tete h2 {
-  margin: 0;
-  font-size: 1rem;
-  letter-spacing: var(--serrage, -0.3px);
-  text-transform: uppercase;
-  color: var(--ink-secondary);
-}
+/* LES REGLES DE L'ANCIENNE SECTION « VOS STYLES » SONT PARTIES AVEC ELLE.
+   `.cal-styles`, `.cal-styles-tete` et son titre ne servaient plus a rien
+   depuis que le reglage a rejoint la barre. Du CSS qui ne s'applique a
+   aucun element ne fait pas de mal, il fait perdre du temps : on le lit en
+   cherchant pourquoi quelque chose ne bouge pas. */
 
 /* Le choix de date vit dans la meme rangee que les trois vues, mais il ne
    leur ressemble pas : c'est une liste, pas un etat en cours. */
@@ -509,4 +493,24 @@
   letter-spacing: var(--serrage);
   color: var(--ink-secondary);
   vertical-align: 0.08em;
+}
+
+/* --- Les styles, dans la barre des reglages ------------------------------ */
+
+/* LE BOUTON PORTE L'ETAT, ET REMPLACE UN PARAGRAPHE. « Tous les styles »
+   quand rien n'est suivi disait en trois mots ce que quatre lignes de prose
+   expliquaient sous un titre « Vos styles » que Mika ne lisait pas. */
+.cal-styles-bouton {
+  font-weight: 500;
+}
+
+/* Une pastille de style se distingue d'une vue : elle bascule un filtre,
+   elle ne change pas la tranche de temps. Le trait la separe des trois
+   boutons de vue sans qu'il faille l'ecrire. */
+.cal-style-pastille {
+  border-style: dashed;
+}
+
+.cal-styles-panneau {
+  margin: 0.9rem 0 0.2rem;
 }

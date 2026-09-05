@@ -467,9 +467,67 @@ export function CalendrierPage() {
                     ))}
                   </select>
                 </label>
+
+                {/* ═══ LES STYLES REJOIGNENT LA BARRE ═══
+                 *
+                 * Ils vivaient plus bas, sous un titre « Vos styles » et un
+                 * paragraphe qui expliquait ce que veut dire n'en suivre
+                 * aucun. Mika s'en moque, et il a raison : ce paragraphe
+                 * occupait quatre lignes pour dire ce que le bouton dit
+                 * deja, et il repoussait l'agenda sous la ligne de
+                 * flottaison.
+                 *
+                 * Ici, le reglage est a cote des autres reglages. Le bouton
+                 * porte l'etat en clair, « Tous les styles » ou le nom de
+                 * celui qui filtre, ce qui remplace le paragraphe : on lit
+                 * ce qui se passe au lieu de se le faire raconter.
+                 *
+                 * Les styles suivis restent des pastilles, mais apres le
+                 * bouton et dans la meme rangee : ils servent a BASCULER
+                 * entre eux, ce qui est un geste de reglage, pas une
+                 * section de la page. */}
+                <button
+                  className={`cal-onglet cal-styles-bouton${
+                    ouvrirStyles ? ' cal-onglet-actif' : ''
+                  }`}
+                  onClick={() => setOuvrirStyles((v) => !v)}
+                  aria-expanded={ouvrirStyles}
+                >
+                  {ouvrirStyles
+                    ? 'Fermer'
+                    : styles.length === 0
+                      ? 'Tous les styles'
+                      : `Styles (${styles.length})`}
+                </button>
+
+                {styles.map((id) => (
+                  <button
+                    key={id}
+                    className={`cal-onglet cal-style-pastille${
+                      (styleActif ?? styles[0]) === id ? ' cal-onglet-actif' : ''
+                    }`}
+                    onClick={() => setStyleActif(id)}
+                  >
+                    {LABEL_DE_STYLE[id] ?? id}
+                  </button>
+                ))}
               </div>
             )}
           </div>
+
+          {/* Le panneau de choix se deploie sous la barre, pleine largeur :
+              trente familles ne tiennent pas dans une rangee. */}
+          {ville && ouvrirStyles && (
+            <div className="cal-styles-panneau">
+              <ChoixStyles
+                choisis={styles}
+                onChange={changerStyles}
+                max={STYLES_MAX}
+                famillesSeulement
+                nu
+              />
+            </div>
+          )}
 
           {ville && (
             <div className="cal-chercher">
@@ -516,45 +574,7 @@ export function CalendrierPage() {
 
           {ville && (
             <>
-              <section className="cal-styles">
-                <div className="cal-styles-tete">
-                  <h2>Vos styles</h2>
-                  <button className="cal-lien" onClick={() => setOuvrirStyles((v) => !v)}>
-                    {ouvrirStyles ? 'Fermer' : styles.length > 0 ? 'Modifier' : 'En choisir'}
-                  </button>
-                </div>
-
-                {styles.length === 0 ? (
-                  <p className="cal-note">
-                    Aucun style suivi : la page montre tout ce qui se joue en ville. Choisissez-en
-                    jusqu&apos;à {STYLES_MAX} pour ne voir que ce qui vous concerne.
-                  </p>
-                ) : (
-                  <div className="cal-onglets-styles">
-                    {styles.map((id) => (
-                      <button
-                        key={id}
-                        className={`cal-onglet${
-                          (styleActif ?? styles[0]) === id ? ' cal-onglet-actif' : ''
-                        }`}
-                        onClick={() => setStyleActif(id)}
-                      >
-                        {LABEL_DE_STYLE[id] ?? id}
-                      </button>
-                    ))}
-                  </div>
-                )}
-
-                {ouvrirStyles && (
-                  <ChoixStyles
-                    choisis={styles}
-                    onChange={changerStyles}
-                    max={STYLES_MAX}
-                    famillesSeulement
-                    titre={`Les styles que vous suivez (${STYLES_MAX} au plus)`}
-                  />
-                )}
-
+              <>
                 {/* « ELARGIE » NE SE DIT QUE D'UN GENRE. Choisir Techno et
                     s'entendre repondre que la recherche a ete elargie a
                     « techno » serait absurde : elle n'a rien elargi du tout,
@@ -573,7 +593,7 @@ export function CalendrierPage() {
                     Resident Advisor : voici tout ce qui se joue en ville.
                   </p>
                 )}
-              </section>
+              </>
 
               {zoneRa == null ? (
                 <p className="cal-note">

@@ -79,10 +79,17 @@ interface Props {
   /* NE PROPOSER QUE LES QUATORZE FAMILLES. Le calendrier s'en sert : voir
      FAMILLES ci-dessus pour la raison. */
   readonly famillesSeulement?: boolean;
+  /* SANS SON PROPRE CHROME. Quand l'appelant porte deja l'etat, le titre,
+     les pastilles et le bouton d'ouverture, les repeter ici donne trois
+     facons de lire la meme chose et deux facons de fermer. Le calendrier est
+     dans ce cas depuis que le reglage a rejoint la barre du haut : il ne
+     reste alors que la recherche et la grille. Le profil, lui, garde le
+     chrome, parce que la rien d'autre ne le porte. */
+  readonly nu?: boolean;
 }
 
-export function ChoixStyles({ choisis, onChange, max, titre, famillesSeulement }: Props) {
-  const [ouvert, setOuvert] = useState(false);
+export function ChoixStyles({ choisis, onChange, max, titre, famillesSeulement, nu }: Props) {
+  const [ouvert, setOuvert] = useState(nu ?? false);
   const [filtre, setFiltre] = useState('');
   const plein = choisis.length >= max;
 
@@ -106,17 +113,19 @@ export function ChoixStyles({ choisis, onChange, max, titre, famillesSeulement }
 
   return (
     <div className="cs">
-      <p className="sp-label cs-titre">
-        {titre ?? t.genresDuSet(max)}
-        <span className="cs-compte">
-          {choisis.length} / {max}
-        </span>
-      </p>
+      {!nu && (
+        <p className="sp-label cs-titre">
+          {titre ?? t.genresDuSet(max)}
+          <span className="cs-compte">
+            {choisis.length} / {max}
+          </span>
+        </p>
+      )}
 
       {/* CE QUI EST CHOISI RESTE VISIBLE, panneau ouvert ou ferme. C'est la
           reponse a « qu'est-ce que j'ai deja mis », qu'un select ne donnait
           jamais. */}
-      {choisis.length > 0 && (
+      {!nu && choisis.length > 0 && (
         <ul className="sp-styles">
           {choisis.map((id) => (
             <li key={id}>
@@ -133,9 +142,15 @@ export function ChoixStyles({ choisis, onChange, max, titre, famillesSeulement }
         </ul>
       )}
 
-      <button type="button" className="cs-ouvrir" onClick={() => setOuvert(!ouvert)}>
-        {ouvert ? t.fermerLesStyles : choisis.length > 0 ? t.changerLesStyles : t.choisirLesStyles}
-      </button>
+      {!nu && (
+        <button type="button" className="cs-ouvrir" onClick={() => setOuvert(!ouvert)}>
+          {ouvert
+            ? t.fermerLesStyles
+            : choisis.length > 0
+              ? t.changerLesStyles
+              : t.choisirLesStyles}
+        </button>
+      )}
 
       {ouvert && (
         <div className="cs-panneau">
