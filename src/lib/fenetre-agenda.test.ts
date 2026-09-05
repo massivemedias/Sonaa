@@ -114,6 +114,24 @@ describe('fenetreDe : la suite', () => {
   });
 });
 
+describe('fenetreDe : la recherche', () => {
+  /* LA DIFFERENCE AVEC « LA SUITE » TIENT A UN JOUR, ET ELLE COMPTE.
+     Chercher une salle a 19 h un samedi pour voir quand y aller doit montrer
+     ce soir. Defaut constate a l'ecran : la recherche « stereo » rendait 27
+     dates a partir du lendemain, en sautant la soiree du soir meme. */
+  it('commence aujourd hui, contrairement a la suite', () => {
+    const r = fenetreDe('recherche', null, JEUDI);
+    const suite = fenetreDe('suite', null, JEUDI);
+    expect(jour(r.du)).toBe('2026-09-03');
+    expect(jour(suite.du)).toBe('2026-09-04');
+  });
+
+  it('couvre la meme duree que la suite', () => {
+    const r = fenetreDe('recherche', null, JEUDI);
+    expect(jour(r.au)).toBe('2026-12-02');
+  });
+});
+
 describe('joursProposes', () => {
   it('commence demain, puisque aujourd hui a son bouton', () => {
     const j = joursProposes(JEUDI, 3);

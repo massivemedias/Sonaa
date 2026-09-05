@@ -25,7 +25,7 @@
  * seule facon de tester du code de dates sans le croire sur parole.
  */
 
-export type Vue = 'aujourdhui' | 'weekend' | 'suite' | 'date';
+export type Vue = 'aujourdhui' | 'weekend' | 'suite' | 'date' | 'recherche';
 
 export interface Fenetre {
   readonly du: Date;
@@ -87,10 +87,14 @@ export function fenetreDe(vue: Vue, date: string | null, maintenant: Date): Fene
     }
   }
 
-  /* « La suite » : tout ce qui vient, en vrac. Elle commence DEMAIN, parce
-     que ce qui se joue ce soir a deja son bouton, et qu'une liste « le
-     reste » qui repete le premier ecran n'est pas le reste. */
-  return { du: AU_MATIN(plusDeJours(aujourdhui, 1)), au: AU_SOIR(plusDeJours(aujourdhui, 90)) };
+  /* LA RECHERCHE COMMENCE AUJOURD'HUI, PAS DEMAIN, et la nuance n'est pas
+     theorique : chercher une salle a 19 h un samedi pour voir quand y aller
+     doit montrer CE SOIR d'abord. « La suite », elle, commence demain, parce
+     que ce qui se joue ce soir a deja son bouton et qu'une liste « le reste »
+     qui repete le premier ecran n'est pas le reste. Meme duree, depart
+     different, et c'est tout ce qui les separe. */
+  const depart = vue === 'recherche' ? aujourdhui : plusDeJours(aujourdhui, 1);
+  return { du: AU_MATIN(depart), au: AU_SOIR(plusDeJours(aujourdhui, 90)) };
 }
 
 /** Les jours proposes dans le choix de date, a partir de demain : aujourd'hui

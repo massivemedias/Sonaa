@@ -393,3 +393,11 @@
   outline: 2px solid var(--ink-primary);
   outline-offset: 1px;
 }
+
+/* PENDANT UNE RECHERCHE, LES VUES SONT SUSPENDUES, PAS SUPPRIMEES. Chercher
+   une salle porte sur les trois prochains mois : « Aujourd'hui » ne veut plus
+   rien dire tant qu'un terme est saisi. On les eteint plutot que de les
+   cacher, pour qu'on voie qu'elles reviendront. */
+.cal-suspendu {
+  opacity: 0.4;
+}

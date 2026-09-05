@@ -144,6 +144,9 @@ export function CalendrierPage() {
   const [styleActif, setStyleActif] = useState<string | null>(null);
   const [vue, setVue] = useState<Vue>('aujourdhui');
   const [recherche, setRecherche] = useState('');
+  /* Le terme qui declenche VRAIMENT une requete, en retard sur la frappe :
+     sans cela, taper « stereo » lancerait six recherches sur trois mois. */
+  const [rechercheRetardee, setRechercheRetardee] = useState('');
   const [dateChoisie, setDateChoisie] = useState<string | null>(null);
 
   const [soirees, setSoirees] = useState<Soiree[] | null>(null);
@@ -152,6 +155,11 @@ export function CalendrierPage() {
   const [panne, setPanne] = useState(false);
   const [ouvrirStyles, setOuvrirStyles] = useState(false);
   const [ouvrirVilles, setOuvrirVilles] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setRechercheRetardee(recherche.trim()), 350);
+    return () => clearTimeout(t);
+  }, [recherche]);
 
   /* Le slug du lien est lu UNE FOIS, au montage : il decrit l'intention de
      celui qui a ouvert le lien, pas l'etat courant de la page, que chaque
@@ -203,16 +211,31 @@ export function CalendrierPage() {
 
   const zoneRa = ville?.ra_area_id ?? null;
 
+  /* ═══ CHERCHER SORT DE LA FENETRE COURANTE ═══
+   *
+   * Chercher « Stereo » en regardant « Aujourd'hui » ne devait pas rendre les
+   * soirees de ce soir au Stereo : on cherche une salle pour savoir QUAND on
+   * pourra y aller. Des qu'un terme est saisi, la fenetre devient donc les
+   * trois prochains mois, et la passerelle tourne ses pages pour les rendre
+   * toutes, pas les quarante premieres.
+   *
+   * Les boutons de vue restent affiches et redeviennent actifs des qu'on
+   * efface le terme : la recherche ne les remplace pas, elle les suspend. */
+  const enRecherche = rechercheRetardee !== '';
+
   const charger = useCallback(() => {
     if (zoneRa == null) return;
     setChargement(true);
     setPanne(false);
-    const { du, au } = fenetreDe(vue, dateChoisie, new Date());
+    const { du, au } = enRecherche
+      ? fenetreDe('recherche', null, new Date())
+      : fenetreDe(vue, dateChoisie, new Date());
     void agenda({
       zone: zoneRa,
       du,
       au,
       ...(traduction?.valeur ? { genre: traduction.valeur } : {}),
+      ...(enRecherche ? { pages: 8 } : {}),
     }).then((r) => {
       if (!r) {
         setPanne(true);
@@ -223,7 +246,7 @@ export function CalendrierPage() {
       }
       setChargement(false);
     });
-  }, [zoneRa, vue, dateChoisie, traduction]);
+  }, [zoneRa, vue, dateChoisie, traduction, enRecherche]);
 
   useEffect(charger, [charger]);
 
@@ -261,14 +284,14 @@ export function CalendrierPage() {
     x.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
   const filtrees = useMemo(() => {
-    const q = sansAccent(recherche.trim());
+    const q = sansAccent(rechercheRetardee);
     if (!q) return soirees;
     return (soirees ?? []).filter((s) =>
       sansAccent(
         [s.titre, s.lieu ?? '', s.artistes.join(' '), s.genres.join(' ')].join(' ')
       ).includes(q)
     );
-  }, [soirees, recherche]);
+  }, [soirees, rechercheRetardee]);
 
   const parJour = useMemo(() => {
     const m = new Map<string, Soiree[]>();
@@ -351,7 +374,9 @@ export function CalendrierPage() {
                 {VUES.map((v) => (
                   <button
                     key={v.cle}
-                    className={`cal-onglet${vue === v.cle ? ' cal-onglet-actif' : ''}`}
+                    className={`cal-onglet${vue === v.cle && !enRecherche ? ' cal-onglet-actif' : ''}${
+                      enRecherche ? ' cal-suspendu' : ''
+                    }`}
                     onClick={() => {
                       setVue(v.cle);
                       setDateChoisie(null);
@@ -365,7 +390,7 @@ export function CalendrierPage() {
                     Choisir une date parmi soixante ne se fait pas dans une
                     rangee ; et choisir une date EST une vue, donc la liste
                     bascule la vue en meme temps qu'elle pose le jour. */}
-                <label className="cal-date">
+                <label className={`cal-date${enRecherche ? ' cal-suspendu' : ''}`}>
                   <span className="cal-date-mot">Un jour</span>
                   <select
                     value={vue === 'date' && dateChoisie ? dateChoisie : ''}
@@ -403,9 +428,12 @@ export function CalendrierPage() {
                 aria-label="Chercher dans les soirées affichées"
               />
               {recherche.trim() !== '' && (
-                <button className="cal-lien" onClick={() => setRecherche('')}>
-                  Effacer
-                </button>
+                <>
+                  <span className="cal-note">sur les trois prochains mois</span>
+                  <button className="cal-lien" onClick={() => setRecherche('')}>
+                    Effacer
+                  </button>
+                </>
               )}
             </div>
           )}
@@ -510,10 +538,10 @@ export function CalendrierPage() {
                 <p className="cal-attente">Lecture de l&apos;agenda…</p>
               ) : parJour.length === 0 ? (
                 <p className="cal-note">
-                  {recherche.trim() !== '' ? (
+                  {enRecherche ? (
                     <>
-                      Rien qui corresponde à « {recherche.trim()} » parmi les soirées que
-                      Resident Advisor annonce {quand} à {ville.name}.{' '}
+                      Rien qui corresponde à « {rechercheRetardee} » parmi les soirées que
+                      Resident Advisor annonce à {ville.name} sur les trois prochains mois.{' '}
                       <strong>Ils ne couvrent pas tout</strong> : une soirée qui passe de la
                       techno sans se dire soirée techno peut leur échapper.
                     </>
@@ -528,10 +556,8 @@ export function CalendrierPage() {
               ) : (
                 <>
                   <p className="cal-total">
-                    {recherche.trim() !== '' && filtrees
-                      ? `${filtrees.length} soirée${filtrees.length > 1 ? 's' : ''} sur ${
-                          soirees?.length ?? 0
-                        } correspondent à « ${recherche.trim()} ».`
+                    {enRecherche && filtrees
+                      ? `${filtrees.length} soirée${filtrees.length > 1 ? 's' : ''} pour « ${rechercheRetardee} » à ${ville.name}, sur les trois prochains mois.`
                       : `${total} soirée${total > 1 ? 's' : ''} ${quand} à ${ville.name}${
                           soirees && total > soirees.length
                             ? `, les ${soirees.length} premières`

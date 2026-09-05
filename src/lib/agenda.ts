@@ -69,6 +69,10 @@ export async function agenda(opts: {
   du: Date;
   au: Date;
   genre?: string | undefined;
+  /* Demande a la passerelle de tourner les pages. Resident Advisor en rend
+     quarante a la fois : c'est assez pour un soir, pas pour « toutes les
+     dates de cette salle ». Absent, le comportement ne change pas. */
+  pages?: number | undefined;
 }): Promise<{ soirees: Soiree[]; total: number } | null> {
   /* SANS FUSEAU, et c'est la correction qui remet l'agenda sur le bon jour.
      Resident Advisor compare a des dates nues : lui envoyer un instant UTC
@@ -80,6 +84,7 @@ export async function agenda(opts: {
     au: sansFuseau(opts.au),
   });
   if (opts.genre) p.set('genre', opts.genre);
+  if (opts.pages && opts.pages > 1) p.set('pages', String(opts.pages));
   try {
     const r = await fetch(`${PASSERELLE}/api/agenda?${p.toString()}`);
     if (!r.ok) return null;

@@ -34,7 +34,7 @@
    commence-t-il par l'identifiant qu'il porte ». */
 
 import { ZONES } from './zones.ts';
-import { soirees } from './agenda.ts';
+import { soirees, toutesLesSoirees } from './agenda.ts';
 
 interface Env {
   readonly SETS: R2Bucket;
@@ -253,13 +253,20 @@ export default {
       }
 
       const genre = url.searchParams.get('genre');
-      const resultat = await soirees({
-        zone,
-        du,
-        au,
-        ...(genre ? { genre } : {}),
-        page: Number(url.searchParams.get('page')) || 1,
-      });
+      /* `pages` demande de tourner les pages cote passerelle. Il sert a la
+         recherche, qui veut toutes les dates d'une salle et non les quarante
+         premieres. Sans lui, le comportement ne change pas d'un pouce. */
+      const pages = Number(url.searchParams.get('pages')) || 1;
+      const resultat =
+        pages > 1
+          ? await toutesLesSoirees({ zone, du, au, ...(genre ? { genre } : {}), pages })
+          : await soirees({
+              zone,
+              du,
+              au,
+              ...(genre ? { genre } : {}),
+              page: Number(url.searchParams.get('page')) || 1,
+            });
       /* 502 ET PAS UNE LISTE VIDE. Une ville sans soiree et une source
          tombee doivent se lire differemment a l'ecran, sans quoi la page
          ment tranquillement le jour ou RA ferme la porte. */

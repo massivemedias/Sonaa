@@ -170,3 +170,52 @@ export async function soirees(opts: {
     total: liste.totalResults ?? liste.data.length,
   };
 }
+
+/* ═══ CHERCHER UNE SALLE DEMANDE DE DEPASSER LA PREMIERE PAGE ═══
+ *
+ * Resident Advisor rend quarante soirees a la fois. Tant qu'on affichait une
+ * soiree, une fin de semaine ou un jour, quarante suffisaient largement.
+ * Chercher « Stereo » et vouloir TOUTES ses dates a venir est une autre
+ * demande : sur trois mois, Montreal annonce plusieurs centaines de soirees,
+ * et les quarante premieres couvrent une semaine.
+ *
+ * On tourne donc les pages ici plutot que dans le navigateur. Trois raisons.
+ * Le Worker est plus pres de RA que le telephone de qui cherche. Le resultat
+ * entier se met en cache d'un bloc, sous la meme cle, donc la deuxieme
+ * recherche ne coute rien. Et la politesse se regle a un seul endroit :
+ * sequentiel, jamais en parallele, avec un plafond.
+ *
+ * LE PLAFOND EST UNE DECISION, PAS UNE PRUDENCE VAGUE. Huit pages, soit
+ * trois cent vingt soirees. Au-dela, on ferait peser sur RA une charge que
+ * notre usage ne justifie pas, et personne ne lit trois cents lignes. Quand
+ * le plafond mord, `total` dit toujours la verite : la page peut annoncer
+ * qu'elle ne montre pas tout, ce qui vaut mieux que de le taire. */
+export const PAGES_MAX = 8;
+
+export async function toutesLesSoirees(opts: {
+  zone: number;
+  du: string;
+  au: string;
+  genre?: string | undefined;
+  pages: number;
+}): Promise<{ soirees: Soiree[]; total: number } | null> {
+  const plafond = Math.max(1, Math.min(PAGES_MAX, opts.pages));
+  const tout: Soiree[] = [];
+  let total = 0;
+
+  for (let page = 1; page <= plafond; page += 1) {
+    const bloc = await soirees({ ...opts, page });
+    /* UNE PAGE QUI TOMBE N'EST PAS « PLUS DE RESULTATS ». Si la premiere
+       echoue, on rend null, la page affichera « la source est muette ». Si
+       c'est une suivante, on garde ce qu'on a : mieux vaut une liste
+       incomplete qu'aucune, et `total` dira qu'elle est incomplete. */
+    if (!bloc) return page === 1 ? null : { soirees: tout, total };
+    total = bloc.total;
+    tout.push(...bloc.soirees);
+    if (tout.length >= total || bloc.soirees.length === 0) break;
+    /* Un souffle entre deux pages. Ce n'est pas une precaution decorative :
+       c'est ce qui separe un lecteur d'un aspirateur. */
+    await new Promise((r) => setTimeout(r, 250));
+  }
+  return { soirees: tout, total };
+}
