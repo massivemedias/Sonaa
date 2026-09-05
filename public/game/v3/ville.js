@@ -3,35 +3,28 @@
 //  ---------------------------------------------------------------
 //  Meme ville, meme plan, memes dix-sept batiments : city.js n'a pas
 //  bouge d'une ligne. Ce qui change, c'est qu'on ne dessine plus, on
-//  eclaire. La difference entre les deux versions est entierement la :
-//  un mur plat le reste tant qu'aucune lumiere ne tombe dessus.
+//  eclaire.
 //
-//  LES ASSETS SONT EN CC0, les deux, licence lue dans les fichiers
-//  livres avec les paquets et recopiee a cote des modeles :
+//  ELLE NE DECIDE DE RIEN. Le jeu vit dans main.js : c'est lui qui tient
+//  le joueur, l'heure, les passants et l'interface, et qui appelle ici
+//  pour dire ou tout se trouve. La ville sait afficher, rien d'autre —
+//  c'est ce qui a permis de la poser sous une logique ecrite pour un
+//  canvas 2D sans y toucher.
+//
+//  LES ASSETS SONT EN CC0, les deux, licence lue dans les fichiers livres
+//  avec les paquets et recopiee a cote des modeles :
 //    - KayKit City Builder Bits, Kay Lousberg
 //    - City Kit Suburban, Kenney
-//  Ni credit obligatoire, ni restriction d'usage. Le pack voxel de
-//  monogon, lui, est en CC BY-ND : il n'est pas ici, et il n'y sera pas
-//  tant que son auteur n'aura pas repondu sur la conversion de format.
+//  Le pack voxel de monogon est en CC BY-ND : il n'est pas ici, et il n'y
+//  sera pas tant que son auteur n'aura pas repondu sur la conversion.
 // =====================================================================
 import * as THREE from 'three';
 import { GLTFLoader } from './vendor/three/GLTFLoader.js';
-import { City, START, GRASS, PATH, LUSH, CLEARING, FOREST, WATER, SAND } from '../src/world/city.js';
-
-/* Une tuile du jeu vaut une unite de monde. Les modeles n'ont aucune
-   raison d'etre a cette echelle : on mesure leur boite au chargement et
-   on les met a la taille de leur emprise. C'est plus sur que de coder en
-   dur une echelle par paquet, qui casserait au premier modele ajoute. */
-const TUILE = 1;
+import { GRASS, PATH, LUSH, CLEARING, FOREST, WATER, SAND } from '../src/world/city.js';
 
 const COULEUR = {
-  [GRASS]:    0x6cc24a,
-  [LUSH]:     0x4da537,
-  [CLEARING]: 0x8ad46a,
-  [PATH]:     0xbfa678,
-  [SAND]:     0xe0cd96,
-  [WATER]:    0x3f86c4,
-  [FOREST]:   0x2f7a28,
+  [GRASS]: 0x6cc24a, [LUSH]: 0x4da537, [CLEARING]: 0x8ad46a,
+  [PATH]: 0xbfa678, [SAND]: 0xe0cd96, [WATER]: 0x3f86c4, [FOREST]: 0x2f7a28,
 };
 
 const MODELE = {
@@ -46,66 +39,75 @@ const MODELE = {
   major:     'kaykit/building_A',
 };
 
+const CORPS = [0xf2cf4c, 0xe88f4a, 0xe8709a, 0x7fb8f0, 0xb98fe8, 0x8fe0a8];
+
+/* LES HEURES ET LEUR LUMIERE. Six paliers, et l'on interpole entre eux :
+   c'est le meme decoupage que la version canvas, transpose de teintes plates
+   a des couleurs de lampe. Le ciel, le soleil et le brouillard bougent
+   ensemble, sans quoi on obtient un coucher de soleil sous un ciel de midi. */
+const PALIERS = [
+  { h: 0,  ciel: 0x121a33, sol: 0x1b2545, dir: 0x6f86c9, i: 0.35, amb: 0.55 },
+  { h: 6,  ciel: 0x6f7fae, sol: 0x4a5570, dir: 0xffb27a, i: 1.1,  amb: 1.1 },
+  { h: 9,  ciel: 0x9fd4ef, sol: 0x6b7a52, dir: 0xfff3d8, i: 2.3,  amb: 2.1 },
+  { h: 15, ciel: 0xa8dcf2, sol: 0x6b7a52, dir: 0xfff6e2, i: 2.4,  amb: 2.2 },
+  { h: 19, ciel: 0xe8a06a, sol: 0x6b5a52, dir: 0xffb066, i: 1.5,  amb: 1.4 },
+  { h: 22, ciel: 0x1d2647, sol: 0x1f2a4a, dir: 0x7a90d6, i: 0.5,  amb: 0.7 },
+];
+
 export class Ville {
-  constructor(hote) {
-    this.city = new City();
-    this.pos = { x: START.x, y: START.y };
-    this.vit = { x: 0, y: 0 };
-    this.touches = {};
-    this.montrer(hote);
+  constructor(hote, city) {
+    this.hote = hote;
+    this.city = city;
+    this.pret = false;
+    this.batiments = new Map();   // id -> { modele, chantier }
+    this.passants = [];
+    /* ONZE MONTRAIT LE QUARTIER, PAS LA RUE : le heros y etait un point
+       jaune de six pixels. A neuf, on le voit marcher, et l'on distingue
+       encore les quatre batiments voisins. */
+    this.d = 9;
   }
 
-  async montrer(hote) {
+  async demarrer() {
     const sc = this.scene = new THREE.Scene();
-    sc.background = new THREE.Color(0x9fd4ef);
-    sc.fog = new THREE.Fog(0x9fd4ef, 46, 92);
-
     const r = this.rendu = new THREE.WebGLRenderer({ antialias: true });
     r.setPixelRatio(Math.min(2, devicePixelRatio));
     r.setSize(innerWidth, innerHeight);
     r.shadowMap.enabled = true;
     r.shadowMap.type = THREE.PCFSoftShadowMap;
     r.outputColorSpace = THREE.SRGBColorSpace;
-    hote.appendChild(r.domElement);
+    this.hote.appendChild(r.domElement);
 
-    /* LA CAMERA ORTHOGRAPHIQUE, ET C'EST ELLE QUI FAIT LE GENRE.
-       Une camera en perspective donnerait une maquette vue de pres ; une
-       orthographique donne le jouet pose sur la table, qui est exactement
-       le regard de ces jeux-la. */
-    /* QUINZE MONTRAIT LA CARTE, PAS LA VILLE. A cette ouverture on voyait
-       la clairiere entiere et le personnage etait un point jaune : c'est un
-       plan de situation, pas un jeu. A dix on est dans la rue. */
-    this.d = 10;
+    /* LA CAMERA ORTHOGRAPHIQUE, ET C'EST ELLE QUI FAIT LE GENRE. Une
+       perspective donnerait une maquette vue de pres ; l'orthographique
+       donne le jouet pose sur la table. */
     const a = innerWidth / innerHeight;
-    const cam = this.cam = new THREE.OrthographicCamera(-this.d * a, this.d * a, this.d, -this.d, -200, 400);
-    cam.position.set(24, 26, 24);
+    this.cam = new THREE.OrthographicCamera(-this.d * a, this.d * a, this.d, -this.d, -300, 500);
+    this.cam.position.set(22, 24, 22);
 
-    sc.add(new THREE.HemisphereLight(0xdfefff, 0x6b7a52, 2.1));
+    this.ambiante = new THREE.HemisphereLight(0xdfefff, 0x6b7a52, 2.1);
+    sc.add(this.ambiante);
     const s = this.soleil = new THREE.DirectionalLight(0xfff3d8, 2.3);
-    s.position.set(28, 44, 16);
     s.castShadow = true;
     s.shadow.mapSize.set(2048, 2048);
     const o = s.shadow.camera;
-    o.left = -34; o.right = 34; o.top = 34; o.bottom = -34; o.near = 1; o.far = 140;
+    o.left = -26; o.right = 26; o.top = 26; o.bottom = -26; o.near = 1; o.far = 120;
     s.shadow.bias = -0.0012;
     sc.add(s, s.target);
+    sc.fog = new THREE.Fog(0x9fd4ef, 40, 86);
+    sc.background = new THREE.Color(0x9fd4ef);
 
     this.poserLeSol();
-    this.poserLeHeros();
+    this.heros = this.figurine(0xf2b33d, 0x4a86d9);
+    sc.add(this.heros);
     await this.poserLeBati();
 
     addEventListener('resize', () => this.redimensionner());
-    addEventListener('keydown', e => { this.touches[e.key.toLowerCase()] = true; });
-    addEventListener('keyup', e => { this.touches[e.key.toLowerCase()] = false; });
-    this.horloge = new THREE.Clock();
-    r.setAnimationLoop(() => this.image());
-    hote.dataset.pret = '1';
+    this.pret = true;
   }
 
-  /* LE SOL : UN MAILLAGE INSTANCIE PAR TYPE DE TUILE.
-     Mille six cent trente-quatre tuiles font mille six cent trente-quatre
-     objets si on les pose une par une, et la carte graphique les dessine
-     un par un. Instanciees par type, il en reste sept appels. */
+  /* LE SOL : UN MAILLAGE INSTANCIE PAR TYPE DE TUILE. Mille six cent
+     trente-quatre tuiles posees une a une font autant d'objets a dessiner ;
+     groupees par type, il en reste sept. */
   poserLeSol() {
     const c = this.city;
     const parType = new Map();
@@ -114,16 +116,14 @@ export class Ville {
       if (!parType.has(t)) parType.set(t, []);
       parType.get(t).push([x, y]);
     }
-    const g = new THREE.BoxGeometry(TUILE, 0.4, TUILE);
+    const g = new THREE.BoxGeometry(1, 0.4, 1);
     for (const [t, liste] of parType) {
-      const creux = t === WATER;
       const m = new THREE.MeshLambertMaterial({ color: COULEUR[t] ?? 0x6cc24a });
       const maille = new THREE.InstancedMesh(g, m, liste.length);
       maille.receiveShadow = true;
-      maille.castShadow = false;
       const d = new THREE.Object3D();
       liste.forEach(([x, y], i) => {
-        d.position.set(x + 0.5, creux ? -0.32 : -0.2, y + 0.5);
+        d.position.set(x + 0.5, t === WATER ? -0.34 : -0.2, y + 0.5);
         d.updateMatrix();
         maille.setMatrixAt(i, d.matrix);
       });
@@ -131,81 +131,159 @@ export class Ville {
     }
   }
 
-  /* Une petite creature jaune orange, faite de primitives : le pack ne
-     contient aucun personnage, et en fabriquer un ici coute six lignes. */
-  poserLeHeros() {
-    const h = this.heros = new THREE.Group();
-    const corps = new THREE.Mesh(
-      new THREE.CapsuleGeometry(0.16, 0.2, 4, 12),
-      new THREE.MeshLambertMaterial({ color: 0xf2b33d }));
-    corps.position.y = 0.34; corps.castShadow = true;
-    const tete = new THREE.Mesh(
-      new THREE.SphereGeometry(0.22, 16, 12),
-      new THREE.MeshLambertMaterial({ color: 0xf2b33d }));
-    tete.position.y = 0.72; tete.castShadow = true;
-    const sac = new THREE.Mesh(
-      new THREE.BoxGeometry(0.14, 0.2, 0.26),
-      new THREE.MeshLambertMaterial({ color: 0xd97b4a }));
-    sac.position.set(-0.2, 0.4, 0); sac.castShadow = true;
-    h.add(corps, tete, sac);
-    this.scene.add(h);
+  /* Une creature faite de primitives : aucun des deux paquets ne contient
+     de personnage, et en fabriquer un ici coute dix lignes. */
+  figurine(corps, culotte) {
+    const g = new THREE.Group();
+    const mc = new THREE.MeshLambertMaterial({ color: corps });
+    const tronc = new THREE.Mesh(new THREE.CapsuleGeometry(0.15, 0.16, 4, 10), mc);
+    tronc.position.y = 0.32; tronc.castShadow = true;
+    const tete = new THREE.Mesh(new THREE.SphereGeometry(0.21, 14, 10), mc);
+    tete.position.y = 0.66; tete.castShadow = true;
+    const bas = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.12, 0.2, 10),
+      new THREE.MeshLambertMaterial({ color: culotte }));
+    bas.position.y = 0.12; bas.castShadow = true;
+    g.add(tronc, tete, bas);
+    g.userData.tete = tete;
+    return g;
   }
 
   async poserLeBati() {
     const L = new GLTFLoader();
+    const cache = new Map();
     const charger = nom => new Promise((ok, ko) => {
       const ext = nom.startsWith('kenney/') ? '.glb' : '.gltf';
       L.load(`./assets/${nom}${ext}`, g => ok(g.scene), undefined, ko);
     });
-    const cache = new Map();
     const prendre = async nom => {
       if (!cache.has(nom)) cache.set(nom, await charger(nom));
       return cache.get(nom).clone(true);
     };
-    const ombrer = o => o.traverse(n => {
-      if (n.isMesh) { n.castShadow = true; n.receiveShadow = true; }
-    });
-    /* On met le modele a la taille de son emprise au sol. Sa hauteur suit
-       la meme echelle : un batiment qu'on ecrase pour le faire entrer dans
-       sa case n'a plus l'air d'un batiment. */
-    const caler = (o, largeur, profondeur) => {
+    const ombrer = o => o.traverse(n => { if (n.isMesh) { n.castShadow = true; n.receiveShadow = true; } });
+    /* On met le modele a la taille de son emprise au sol, sans jamais
+       l'ecraser : un batiment aplati pour entrer dans sa case n'a plus
+       l'air d'un batiment. L'echelle se deduit donc du modele lui-meme, ce
+       qui tiendra au premier paquet ajoute. */
+    const caler = (o, larg, prof) => {
       const b = new THREE.Box3().setFromObject(o);
       const t = b.getSize(new THREE.Vector3());
-      const k = Math.min(largeur / (t.x || 1), profondeur / (t.z || 1));
-      o.scale.setScalar(k);
-      const b2 = new THREE.Box3().setFromObject(o);
-      o.position.y -= b2.min.y;
-      return k;
+      o.scale.setScalar(Math.min(larg / (t.x || 1), prof / (t.z || 1)));
+      o.position.y -= new THREE.Box3().setFromObject(o).min.y;
     };
+    this.caler = caler; this.ombrer = ombrer;
 
     for (const b of this.city.buildings) {
       const nom = MODELE[b.id];
-      if (!nom) continue;
-      try {
-        const o = await prendre(nom);
-        caler(o, b.w * 0.92, b.d * 0.92);
-        o.position.x += b.x + b.w / 2;
-        o.position.z += b.y + b.d / 2;
-        ombrer(o);
-        this.scene.add(o);
-      } catch (e) { console.warn('modele absent', nom, e); }
+      const paire = { modele: null, chantier: this.chantier(b) };
+      this.scene.add(paire.chantier);
+      if (nom) {
+        try {
+          const o = await prendre(nom);
+          caler(o, b.w * 0.92, b.d * 0.92);
+          o.position.x += b.x + b.w / 2;
+          o.position.z += b.y + b.d / 2;
+          ombrer(o);
+          o.visible = false;
+          this.scene.add(o);
+          paire.modele = o;
+        } catch (e) { console.warn('modele absent', nom); }
+      }
+      this.batiments.set(b.id, paire);
     }
 
-    // arbres, buissons, lampadaires et bancs
     const decors = { tree: 'kenney/tree_large', bush: 'kaykit/bush', lamp: 'kaykit/streetlight', bench: 'kaykit/bench' };
+    this.lampes = [];
     for (const pr of this.city.props) {
       const nom = decors[pr.type];
       if (!nom) continue;
       try {
         const o = await prendre(nom);
-        const t = pr.type === 'tree' ? 1.5 * (pr.s || 1) : pr.type === 'lamp' ? 1.1 : 0.8;
+        const t = pr.type === 'tree' ? 1.5 * (pr.s || 1) : pr.type === 'lamp' ? 1.15 : 0.8;
         caler(o, t, t);
         o.position.x += pr.x; o.position.z += pr.y;
         o.rotation.y = ((pr.x * 7 + pr.y * 13) % 4) * Math.PI / 2;
         ombrer(o);
         this.scene.add(o);
-      } catch (e) { /* un decor manquant ne doit pas arreter la ville */ }
+        if (pr.type === 'lamp') this.lampes.push(o);
+      } catch (e) { /* un decor manquant n'arrete pas la ville */ }
     }
+  }
+
+  /* TERRAIN PAS ENCORE DEBLOQUE : de l'herbe et trois buissons, pas un
+     chantier. Un rectangle de terre battue avec une pancarte est une verrue
+     dans un village ; de l'herbe ressemble a un endroit ou quelque chose
+     poussera. Meme parti pris que la version canvas. */
+  chantier(b) {
+    const g = new THREE.Group();
+    const m = new THREE.MeshLambertMaterial({ color: 0x4da537 });
+    for (let i = 0; i < 4; i++) {
+      const r = 0.2 + ((b.x * 7 + b.y * 3 + i * 5) % 5) * 0.05;
+      const s = new THREE.Mesh(new THREE.SphereGeometry(r, 8, 6), m);
+      s.position.set(b.x + 0.6 + (i % 2) * (b.w - 1.2), r * 0.7, b.y + 0.6 + Math.floor(i / 2) * (b.d - 1.2));
+      s.castShadow = true; s.receiveShadow = true;
+      g.add(s);
+    }
+    return g;
+  }
+
+  // ----------------------------------------------------------- mises a jour
+  majBatiments(game) {
+    for (const b of this.city.buildings) {
+      const p = this.batiments.get(b.id);
+      if (!p) continue;
+      const ouvert = game.unlocked(b);
+      if (p.modele) p.modele.visible = ouvert;
+      p.chantier.visible = !ouvert;
+    }
+  }
+
+  majPassants(life) {
+    if (!life) return;
+    while (this.passants.length < life.walkers.length) {
+      const i = this.passants.length;
+      const f = this.figurine(CORPS[i % CORPS.length], 0x4a3c66);
+      this.scene.add(f);
+      this.passants.push(f);
+    }
+    life.walkers.forEach((w, i) => {
+      const f = this.passants[i];
+      f.position.set(w.x, 0, w.y);
+      f.rotation.y = Math.atan2(w.flip > 0 ? 1 : -1, w.back ? -1 : 1);
+    });
+  }
+
+  majLumiere(heure) {
+    let a = PALIERS[0], b = PALIERS[PALIERS.length - 1];
+    for (let i = 0; i < PALIERS.length - 1; i++) {
+      if (heure >= PALIERS[i].h && heure <= PALIERS[i + 1].h) { a = PALIERS[i]; b = PALIERS[i + 1]; break; }
+    }
+    const t = b.h === a.h ? 0 : (heure - a.h) / (b.h - a.h);
+    const mel = (x, y) => new THREE.Color(x).lerp(new THREE.Color(y), t);
+    const ciel = mel(a.ciel, b.ciel);
+    this.scene.background = ciel;
+    this.scene.fog.color = ciel;
+    this.ambiante.color = mel(a.ciel, b.ciel);
+    this.ambiante.groundColor = mel(a.sol, b.sol);
+    this.ambiante.intensity = a.amb + (b.amb - a.amb) * t;
+    this.soleil.color = mel(a.dir, b.dir);
+    this.soleil.intensity = a.i + (b.i - a.i) * t;
+    const nuit = heure < 6.5 || heure > 19.5;
+    for (const l of this.lampes) l.traverse(n => {
+      if (n.isMesh && n.material) {
+        n.material.emissive = new THREE.Color(nuit ? 0xffd76a : 0x000000);
+        n.material.emissiveIntensity = nuit ? 0.9 : 0;
+      }
+    });
+  }
+
+  majHeros(p) {
+    this.heros.position.set(p.x, p.moving ? Math.abs(Math.sin(performance.now() / 110)) * 0.08 : 0, p.y);
+    if (p.vx || p.vy) this.heros.rotation.y = Math.atan2(p.vx, p.vy);
+  }
+
+  zoomer(sens) {
+    this.d = Math.max(6, Math.min(20, this.d + (sens > 0 ? -2 : 2)));
+    this.redimensionner();
   }
 
   redimensionner() {
@@ -216,36 +294,30 @@ export class Ville {
     this.rendu.setSize(innerWidth, innerHeight);
   }
 
-  image() {
-    const dt = Math.min(0.05, this.horloge.getDelta());
-    const t = this.touches;
-    let dx = 0, dz = 0;
-    if (t.arrowleft || t.a || t.q) dx -= 1;
-    if (t.arrowright || t.d) dx += 1;
-    if (t.arrowup || t.w || t.z) dz -= 1;
-    if (t.arrowdown || t.s) dz += 1;
-    /* Les touches sont en repere ecran, la ville en repere monde, et la
-       camera est tournee de quarante-cinq degres entre les deux : sans
-       cette rotation, « en haut » enverrait le personnage en diagonale. */
-    const c = Math.SQRT1_2;
-    let vx = (dx + dz) * c, vz = (dz - dx) * c;
-    const m = Math.hypot(vx, vz);
-    if (m > 0) {
-      vx /= m; vz /= m;
-      const pas = 5.2 * dt;
-      const nx = this.pos.x + vx * pas, ny = this.pos.y + vz * pas;
-      if (this.city.isWalkable(nx, this.pos.y)) this.pos.x = nx;
-      if (this.city.isWalkable(this.pos.x, ny)) this.pos.y = ny;
-      this.heros.rotation.y = Math.atan2(vx, vz);
-    }
-    const bob = m > 0 ? Math.abs(Math.sin(performance.now() / 110)) * 0.09 : 0;
-    this.heros.position.set(this.pos.x, bob, this.pos.y);
+  /* DU PIXEL D'ECRAN VERS LA TUILE. C'est l'equivalent exact de
+     cam.unproject() de la version canvas : on tire un rayon depuis le point
+     touche et on regarde ou il coupe le sol. */
+  versLeMonde(px, py) {
+    const r = new THREE.Raycaster();
+    r.setFromCamera(new THREE.Vector2((px / innerWidth) * 2 - 1, -(py / innerHeight) * 2 + 1), this.cam);
+    const p = new THREE.Vector3();
+    r.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), p);
+    return { x: p.x, y: p.z };
+  }
 
-    const cible = new THREE.Vector3(this.pos.x, 0, this.pos.y);
-    this.cam.position.lerp(cible.clone().add(new THREE.Vector3(22, 24, 22)), 0.12);
-    this.cam.lookAt(cible);
-    this.soleil.position.copy(cible).add(new THREE.Vector3(24, 40, 12));
-    this.soleil.target.position.copy(cible);
+  /** Le point d'ecran, en pixels CSS, d'un point du monde. Sert aux
+      etiquettes : elles vivent dans le DOM, donc en Nunito net. */
+  versLEcran(x, y, z = 0) {
+    const v = new THREE.Vector3(x, z, y).project(this.cam);
+    return { x: (v.x * 0.5 + 0.5) * innerWidth, y: (-v.y * 0.5 + 0.5) * innerHeight, devant: v.z < 1 };
+  }
+
+  image(cible) {
+    const c = new THREE.Vector3(cible.x, 0, cible.y);
+    this.cam.position.lerp(c.clone().add(new THREE.Vector3(20, 22, 20)), 0.14);
+    this.cam.lookAt(c);
+    this.soleil.position.copy(c).add(new THREE.Vector3(20, 34, 10));
+    this.soleil.target.position.copy(c);
     this.soleil.target.updateMatrixWorld();
     this.rendu.render(this.scene, this.cam);
   }

@@ -418,3 +418,18 @@ canvas#stage{ image-rendering:pixelated; image-rendering:crisp-edges }
   margin-top:6px; font-size:11px; font-weight:600; letter-spacing:.3px;
   color:#7d6ea3; text-align:center;
 }
+
+/* ---------- les etiquettes de la version 3D ---------- */
+/* Elles vivent dans le DOM et non dans la scene : un panneau colle sur un
+   batiment tourne avec lui et devient illisible de trois quarts, et un
+   panneau face camera demanderait une texture par nom, refaite a chaque
+   changement de zoom. Projetees depuis le monde et posees ici, elles
+   restent en Nunito net a toutes les distances. */
+.etiquettes{position:fixed;inset:0;pointer-events:none;z-index:3;display:none}
+.etiquettes.on{display:block}
+.etiq{position:absolute;top:0;left:0;white-space:nowrap;
+  font-weight:800;font-size:13px;letter-spacing:.2px;color:#3a2a1c;
+  background:#efe0bd;border:2px solid #4a3324;border-radius:3px;
+  padding:2px 7px;box-shadow:2px 2px 0 rgba(20,12,30,.35);
+  transition:opacity .18s linear}
+.etiq-porte{background:#2b2136;color:#f6f0dc;border-color:#151022;font-size:12px;display:none}
