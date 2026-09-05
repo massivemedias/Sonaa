@@ -1,950 +1,579 @@
 // =====================================================================
-//  INTERFACE · HUD, panneaux, mini-jeu de set
+//  L'INTERFACE · le HUD, les panneaux, et tout ce qui fait « ding »
+//  ---------------------------------------------------------------
+//  L'interface lit l'etat et appelle les actions du Jeu. Elle ne calcule
+//  rien. Ce qu'elle fait de plus, c'est le plaisir : les pieces qui
+//  volent vers le porte-monnaie, les chiffres qui montent, les niveaux
+//  qui eclatent a l'ecran.
 // =====================================================================
-import {
-  RECORDS, ARTISTS, GEAR, CAMPAIGNS, GIGS, FOOD, DRINKS, TIERS, JOBS,
-  recordById, artistById, gearById
-} from '../data/content.js';
-import { money, big } from '../game/state.js';
-import * as A from '../game/actions.js';
-import * as COV from '../data/covers.js';
-import { RIVALS } from '../game/rivals.js';
-import { conversation } from '../game/dialogue.js';
+import { DISQUES, FAMILLES, familleParId, disqueParId, genreParId } from '../data/catalogue.js';
+import { MATERIEL, VIE, BOULOTS, NOURRITURE, SALLES, CAMPAGNES, LABEL, DISQUAIRES, PALIERS, salleParId, xpPour, titrePour, materielParId } from '../data/monde.js';
+import { argent, court, artisteQuelconque } from '../game/etat.js';
+import { dessinerStudio } from '../world/dessin.js';
 
-const $ = s => document.querySelector(s);
-const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const $ = (s) => document.querySelector(s);
+const el = (html) => { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstElementChild; };
+const echappe = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const couleurFamille = (id) => { const f = familleParId(id); return f ? `hsl(${f.hue} 70% 48%)` : '#8a7a90'; };
+const nomFamille = (id) => familleParId(id)?.label || id;
+const etoiles = (n) => '★'.repeat(n) + '☆'.repeat(5 - n);
+const pointsEnergie = (n) => `<span class="energie-pts">${[1, 2, 3, 4, 5].map((i) => `<i class="${i <= n ? 'on' : ''}"></i>`).join('')}</span>`;
+const srcPochette = (d) => d.cover ? '../' + d.cover : null;
 
 export class UI {
-  constructor(game, hooks = {}) {
-    this.game = game;
-    this.hooks = hooks;
-    this.sheet = $('#overlay');
-    this.body = $('#sheet-body');
-    this.titleEl = $('#sheet-title');
-    this.subEl = $('#sheet-sub');
-    this.current = null;
-    this.temp = {};
-
-    $('#sheet-close').addEventListener('click', () => this.close());
-    this.sheet.addEventListener('click', e => { if (e.target === this.sheet) this.close(); });
-    this.body.addEventListener('click', e => {
-      const el = e.target.closest('[data-act]');
-      if (!el) return;
-      this.dispatch(el.dataset.act, el.dataset.arg);
-    });
-
-    COV.onAudio(() => { if (this.current) this.render(); });
-    game.on('toast', (m, k) => this.toast(m, k));
-    game.on('change', () => this.hud());
-    game.on('tierup', t => this.tierUp(t));
-    game.on('end', () => this.ending());
+  constructor(jeu, crochets) {
+    this.jeu = jeu; this.crochets = crochets;
+    this.panneau = null; this.batiment = null; this.onglet = null;
+    this.cashAffiche = 0;
+    this.selection = [];
+    $('#feuille-fermer').addEventListener('click', () => this.fermer());
+    $('#voile').addEventListener('click', (e) => { if (e.target === $('#voile')) this.fermer(); });
+    $('#quete').addEventListener('click', () => { const c = this.jeu.etape.cible; if (c) { this.fermer(); this.crochets.allerA(c); } });
+    $('#annonce-ok').addEventListener('click', () => this.fermerAnnonce());
+    $('#hud-badge').addEventListener('click', () => this.ouvrir('niveau'));
+    $('#hud-cash-pilule').addEventListener('click', () => this.ouvrir('bilan'));
+    for (const b of document.querySelectorAll('.barre [data-panneau]')) b.addEventListener('click', () => this.ouvrir(b.dataset.panneau));
+    for (const b of document.querySelectorAll('.barre [data-va]')) b.addEventListener('click', () => { this.fermer(); this.crochets.allerA(b.dataset.va); });
+    $('#btn-action').addEventListener('click', () => { if (this.porte) this.crochets.entrer(this.porte); });
+    $('#feuille-corps').addEventListener('click', (e) => this.clic(e));
+    $('#feuille-onglets').addEventListener('click', (e) => { const o = e.target.closest('[data-onglet]'); if (o) { this.onglet = o.dataset.onglet; this.rendre(); } });
+    window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && this.estOuvert) this.fermer(); });
+    this.fileAnnonces = [];
   }
-
-  // ------------------------------------------------------------- HUD
-  hud() {
-    const g = this.game, s = g.s;
-    $('#hud-cash').textContent = money(s.cash);
-    $('#hud-fans').textContent = big(s.fans);
-    $('#hud-hype').textContent = Math.round(s.hype);
-    $('#hud-clock').textContent = g.clock;
-    $('#hud-tier').textContent = TIERS[g.tier].name;
-    $('#hud-tier-fill').style.width = (g.tierProgress * 100).toFixed(1) + '%';
-    document.querySelectorAll('.need').forEach(el => {
-      const v = s.needs[el.dataset.need];
-      el.querySelector('i').style.width = v + '%';
-      const val = el.querySelector('.nval');
-      if (val) val.textContent = Math.round(v) + '%';
-      el.classList.toggle('low', v < 25);
-      el.classList.toggle('mid', v >= 25 && v < 55);
-    });
-    // objectif courant
-    const q = g.quest, st = q.step;
-    const banner = $('#quest');
-    if (st && st.id !== 'done') {
-      banner.classList.remove('hidden');
-      $('#quest-goal').textContent = st.goal;
-      $('#quest-hint').textContent = st.hint || '';
-      const ct = $('#quest-count');
-      if (ct) ct.textContent = Math.min(q.index + 1, q.total) + '/' + q.total;
-    } else banner.classList.add('hidden');
-
-    if (this.current) this.render();
-  }
-
-  toast(msg, kind = '') {
-    const el = document.createElement('div');
-    el.className = 'toast ' + kind;
-    el.textContent = msg;
-    $('#toasts').appendChild(el);
-    setTimeout(() => el.remove(), 3000);
-  }
-
-  tierUp(t) {
-    this.toast(`Nouveau palier : ${t.name} · ${t.blurb}`, 'gold');
-  }
-
-  // ---------------------------------------------------------- panneaux
-  // On croise quelqu'un et on lui parle. Une vraie conversation par
-  // personne et par jour : au-dela, elle repond poliment sans rien donner.
-  ouvrirDialogue(pnj) {
-    const g = this.game;
-    const dejaVu = (g.s.parle || {})[pnj.id] === g.s.day;
-    if (!dejaVu) (g.s.parle || (g.s.parle = {}))[pnj.id] = g.s.day;
-    // open() remet temp a zero : on le remplit donc apres, puis on redessine
-    this.open('dialogue');
-    this.temp = { pnj, noeud: null, dejaVu };
-    this.render();
-  }
-
-  open(kind, building) {
-    if (this.game.quest) this.game.quest.onEnter(kind);
-    this.current = { kind, building };
-    this.temp = {};
-    this.sheet.classList.remove('hidden');
-    this.render();
-  }
-  close() {
-    if (COV.playing()) { COV.stopPreview(); if (this.hooks.duck) this.hooks.duck(false); }
-    this.current = null;
-    this.sheet.classList.add('hidden');
-  }
-  get isOpen() { return !!this.current; }
-
-  needCover(rec) {
-    const info = COV.cover(rec);
-    if (info || COV.isMissed(rec) || COV.isPending(rec)) return info;
-    COV.fetchCover(rec).then(() => { if (this.current) this.render(); });
-    return null;
-  }
-
-  render() {
-    const { kind, building } = this.current;
-    const p = PANELS[kind] ? PANELS[kind](this, this.game) : { title: '???', sub: '', html: '' };
-    this.titleEl.textContent = p.title || (building && building.name) || '';
-    this.subEl.textContent = p.sub || '';
-    const y = this.body.scrollTop;
-    this.body.innerHTML = p.html;
-    this.body.scrollTop = y;
-  }
-
-  dispatch(act, arg) {
-    const g = this.game;
-    const A_ = A;
-    switch (act) {
-      case 'close': this.close(); break;
-      case 'tab': this.temp.tab = arg; this.render(); break;
-
-      case 'buyRec': { const bd = this.current && this.current.building;
-        A_.buyRecord(g, A_.digStock(g, bd).find(e => e.id === arg), bd); break; }
-      case 'sellRec': A_.sellRecord(g, arg); break;
-      case 'eat': A_.consume(g, FOOD.find(f => f.id === arg)); break;
-      case 'drink': A_.consume(g, DRINKS.find(d => d.id === arg)); break;
-      case 'network': A_.network(g); break;
-      case 'oddjob': A_.oddJob(g); break;
-      case 'reparer': g.reparer(arg); break;
-      case 'choix': {
-        const c = (this.temp.conv && this.temp.conv.choix) || [];
-        const pris = c[parseInt(arg, 10)];
-        if (pris && pris.suite) {
-          let extra = null;
-          if (pris.suite.effet) extra = pris.suite.effet(g);
-          this.temp.noeud = { texte: pris.suite.texte, extra };
-          this.render();
-        }
-        break;
-      }
-      case 'work': { const j = JOBS.find(x => x.id === arg); if (j) A_.workShift(g, j); break; }
-      case 'sleep': g.sleep(); this.close(); break;
-      case 'listen': {
-        const r = A_.listenRecords(g, arg || null);
-        if (r && r.revelation) { this.revelation(r.record); return; }
-        break;
-      }
-      case 'dig': A_.digDeeper(g, this.current && this.current.building); break;
-      case 'buyCard': { const bd = this.current && this.current.building;
-        A_.buyRecord(g, A_.currentCard(g, bd), bd); break; }
-      case 'produce': A_.produce(g); break;
-      case 'gear': A_.buyGear(g, gearById(arg)); break;
-      case 'campaign': A_.launchCampaign(g, CAMPAIGNS.find(c => c.id === arg)); break;
-      case 'sign': A_.signArtist(g, artistById(arg)); break;
-      case 'boost': A_.boostMorale(g, g.s.roster.find(m => m.artistId === arg)); break;
-      case 'drop': A_.dropArtist(g, g.s.roster.find(m => m.artistId === arg)); break;
-      case 'store': A_.upgradeStore(g); break;
-      case 'price': g.fin.price = parseFloat(arg); this.toast('Prix de vente ajusté.', ''); break;
-      case 'mkt': g.fin.marketing = parseFloat(arg); this.toast('Budget marketing mis à jour.', ''); break;
-      case 'borrow': g.borrow(parseFloat(arg)); break;
-      case 'repay': g.repay(arg === 'all' ? g.fin.debt : g.s.cash * 0.25); break;
-      case 'save': g.save(); this.toast('Partie sauvegardée.', 'good'); break;
-
-      case 'pressPick': this.temp.track = arg; this.render(); break;
-      case 'press': {
-        const t = g.s.tracks.find(x => x.id === this.temp.track);
-        const o = A_.PRESS_OPTIONS.find(x => x.id === arg);
-        if (t && o) { A_.pressTrack(g, t, o); this.temp.track = null; }
-        break;
-      }
-      case 'gig': this.temp.gig = arg; this.temp.set = []; this.render(); break;
-      case 'pickRec': {
-        const set = this.temp.set || (this.temp.set = []);
-        const i = set.indexOf(arg);
-        if (i >= 0) set.splice(i, 1); else if (set.length < 4) set.push(arg);
-        this.render(); break;
-      }
-      case 'playShow': {
-        const gig = GIGS.find(x => x.id === this.temp.gig);
-        const r = A_.playShow(g, gig, this.temp.set);
-        this.temp.result = r; this.temp.gig = null; this.render();
-        break;
-      }
-      case 'endgame': this.ending(); break;
-      case 'preview': {
-        const r = recordById(arg);
-        const info = COV.cover(r);
-        if (!info || !info.preview) { this.toast('Pas d’extrait disponible pour celui-là.', 'bad'); break; }
-        const started = COV.togglePreview(r, info);
-        if (this.hooks.duck) this.hooks.duck(started);
-        this.render();
-        break;
-      }
-      case 'youtube': {
-        const r = recordById(arg);
-        window.open(COV.youtubeLink(r), '_blank', 'noopener');
-        break;
-      }
-      case 'clearResult': this.temp.result = null; this.temp.gig = null; this.temp.set = []; this.render(); break;
-      case 'goto': this.hooks.goto && this.hooks.goto(arg); this.close(); break;
-      case 'music': this.hooks.music && this.hooks.music(); this.render(); break;
-      case 'newgame': if (confirm('Recommencer une partie ? La sauvegarde actuelle sera perdue.')) this.hooks.newGame && this.hooks.newGame(); break;
-    }
-    g.save();
+  brancher(jeu) {
+    this.jeu = jeu;
+    jeu.on('toast', (m, k) => this.toast(m, k));
+    jeu.on('change', () => this.hud());
+    jeu.on('gain', (n, source) => this.gain(n, source));
+    jeu.on('niveau', (n, titre) => this.annonce({ ico: '⭐', sur: 'NIVEAU', gros: String(n), titre, texte: PALIERS[n] ? `Débloqué : ${PALIERS[n]}` : 'Continue comme ça.' }));
+    jeu.on('quete', (suivante, finie) => { this.toast(`Objectif atteint : ${finie.but}`, 'or'); this.flottant(`+${finie.xp} xp`, 'xp'); });
+    jeu.on('materiel', (m) => { this.toast(`${m.icone} ${m.nom} installé chez toi.`, 'bon'); });
+    jeu.on('disque', (d) => this.flottant(`+ ${d.title}`, 'xp'));
+    jeu.on('label', (p) => this.annonce({ ico: '🏷️', sur: 'TON LABEL', gros: p.nom, titre: '', texte: p.desc }));
+    jeu.on('signature', (a) => this.annonce({ ico: '✍️', sur: 'SIGNATURE', gros: a.name, titre: nomFamille(a.family), texte: a.bio || `${a.tracks} morceaux dans l’atlas SONAA. Sa première sortie arrive dans quelques jours.` }));
+    jeu.on('jour', (rapport, force) => this.rapportJour(rapport, force));
+    this.cashAffiche = jeu.s.cash;
     this.hud();
   }
+  get estOuvert() { return !$('#voile').classList.contains('cache') || !$('#annonce').classList.contains('cache'); }
 
-  revelation(r) {
-    const g = this.game;
-    g.s.insp = 100; g.s.skill += 2.5; g.s.hype += 3;
-    g.need('social', 8);
-    this.current = { kind: 'reveal' };
-    this.sheet.classList.remove('hidden');
-    this.titleEl.textContent = 'Neuf minutes';
-    this.subEl.textContent = `${r.artist} · ${r.title}`;
-    this.body.innerHTML = `
-      <div class="reveal">
-        <div class="big-disc"></div>
-        <p class="who">${esc(r.label)} · ${r.year}</p>
-        <p>Tu poses le diamant. Un souffle, puis une boîte à rythmes qui ne s’excuse
-        de rien. Ça monte pendant deux minutes sans rien donner, et quand la nappe
-        arrive enfin tu comprends que ce n’était pas de la musique de fond.</p>
-        <p>Tu réécoutes la face B. Puis encore la face A. Il est trois heures.
-        Quelque chose vient de s’ouvrir et ça ne se refermera plus.</p>
-        <p class="who">Inspiration au maximum · skill +2.5</p>
-      </div>
-      <button class="btn wide gold" data-act="close">Et maintenant ?</button>`;
-    g.toast('Tu viens de découvrir la techno. Va falloir en faire quelque chose.', 'gold');
-    g.save();
+  // ---------------------------------------------------------------- HUD
+  hud() {
+    const j = this.jeu, s = j.s;
+    $('#hud-niveau').textContent = s.niveau;
+    $('#hud-titre').textContent = j.titre;
+    const p = j.progresNiveau;
+    $('#hud-xp').style.width = (p * 100) + '%';
+    $('#hud-anneau').style.strokeDashoffset = String(119.4 * (1 - p));
+    $('#hud-xp-texte').textContent = `${Math.round(s.xp)} / ${xpPour(s.niveau)} xp`;
+    if (!this.enVol) { $('#hud-cash').textContent = argent(s.cash); this.cashAffiche = s.cash; }
+    $('#hud-hype').textContent = Math.round(s.hype);
+    $('#hud-fans').textContent = court(s.fans);
+    $('#hud-jour').textContent = `Jour ${s.jour}`;
+    $('#hud-horloge').textContent = j.horloge;
+    const e = $('#hud-energie'); e.style.width = s.energie + '%'; e.classList.toggle('bas', s.energie < 30);
+    const et = j.etape;
+    $('#quete-but').textContent = et.but; $('#quete-aide').textContent = et.aide;
+    $('#pastille-dates').classList.toggle('cache', !(j.dateCeSoir || s.offres.some((o) => !o.prise && j.kitComplet)));
+    $('#serie').classList.toggle('cache', s.serie < 2); $('#serie-n').textContent = s.serie;
+  }
+  boutonAction(porte) {
+    this.porte = porte;
+    const b = $('#btn-action');
+    if (!porte) { $('#btn-action-ico').textContent = '🏠'; $('#btn-action-txt').textContent = 'Studio'; b.classList.remove('ferme'); this.porte = null; b.onclick = null; return; }
+    const ouvert = this.jeu.ouvert(porte);
+    $('#btn-action-ico').textContent = ouvert ? '🚪' : '🚧';
+    $('#btn-action-txt').textContent = ouvert ? porte.nom : `Niv. ${porte.niveau}`;
+    b.classList.toggle('ferme', !ouvert);
+  }
+  toast(msg, genre = '') {
+    const t = el(`<div class="toast ${genre}">${echappe(msg)}</div>`);
+    $('#toasts').appendChild(t);
+    setTimeout(() => t.remove(), 3000);
+    while ($('#toasts').children.length > 4) $('#toasts').firstChild.remove();
   }
 
-  ending() {
-    const g = this.game, s = g.s;
-    this.current = { kind: 'ending' };
-    this.sheet.classList.remove('hidden');
-    this.titleEl.textContent = 'La tour de verre';
-    this.subEl.textContent = 'Fin du voyage';
-    this.body.innerHTML = `
-      <p class="note">Tu signes le bail du 41e étage. Le hall sent le café à 6 $ et le contrat
-      de distribution mondiale. Quelque part sous tes pieds, un gamin dépose une cassette
-      dans une boîte aux lettres.</p>
-      <div class="stat-grid">
-        <div class="stat"><b>${money(s.cash)}</b><span>en banque</span></div>
-        <div class="stat"><b>${big(s.fans)}</b><span>fans</span></div>
-        <div class="stat"><b>${s.roster.length}</b><span>artistes</span></div>
-        <div class="stat"><b>${s.releases.length}</b><span>sorties</span></div>
-        <div class="stat"><b>${s.stats.shows}</b><span>shows joués</span></div>
-        <div class="stat"><b>${s.collection.length}</b><span>disques</span></div>
-        <div class="stat"><b>${s.stats.days}</b><span>jours</span></div>
-        <div class="stat"><b>${big(s.stats.sold)}</b><span>disques vendus</span></div>
-      </div>
-      <button class="btn wide gold" data-act="close">Continuer à régner</button>`;
+  // -------------------------------------------------------------- juice
+  gain(n, source) {
+    const dep = this.crochets.heros();
+    const cible = $('#hud-cash-pilule').getBoundingClientRect();
+    const nb = Math.min(12, 2 + Math.round(Math.sqrt(n) / 2));
+    this.enVol = true;
+    const depart = this.estOuvert ? { x: window.innerWidth / 2, y: window.innerHeight * 0.55 } : dep;
+    this.flottant(`+${argent(n)}`, '', depart);
+    for (let i = 0; i < nb; i++) {
+      const c = el('<div class="piece"></div>');
+      $('#pieces').appendChild(c);
+      const x0 = depart.x + (Math.random() - 0.5) * 60, y0 = depart.y + (Math.random() - 0.5) * 30;
+      const x1 = cible.left + cible.width * 0.3, y1 = cible.top + cible.height / 2;
+      const anim = c.animate([
+        { transform: `translate(${x0}px, ${y0}px) scale(0.4)`, opacity: 0 },
+        { transform: `translate(${x0}px, ${y0 - 40}px) scale(1.1)`, opacity: 1, offset: 0.25 },
+        { transform: `translate(${x1}px, ${y1}px) scale(0.7)`, opacity: 1 },
+      ], { duration: 650 + i * 50, delay: i * 40, easing: 'cubic-bezier(0.4, 0, 0.6, 1)', fill: 'forwards' });
+      anim.onfinish = () => { c.remove(); $('#hud-cash-pilule').classList.remove('pop'); void $('#hud-cash-pilule').offsetWidth; $('#hud-cash-pilule').classList.add('pop'); };
+    }
+    // le compteur monte en meme temps que les pieces arrivent
+    const de = this.cashAffiche, a = this.jeu.s.cash, t0 = performance.now(), duree = 700 + nb * 45;
+    const pas = (t) => {
+      const k = Math.min(1, (t - t0) / duree);
+      $('#hud-cash').textContent = argent(de + (a - de) * k);
+      if (k < 1) requestAnimationFrame(pas); else { this.enVol = false; this.cashAffiche = a; this.hud(); }
+    };
+    requestAnimationFrame(pas);
+  }
+  flottant(txt, classe = '', pos = null) {
+    const p = pos || (this.estOuvert ? { x: window.innerWidth / 2, y: window.innerHeight * 0.45 } : this.crochets.heros());
+    const f = el(`<div class="flottant ${classe}">${echappe(txt)}</div>`);
+    f.style.left = p.x + 'px'; f.style.top = (p.y - 20) + 'px';
+    $('#flottants').appendChild(f);
+    setTimeout(() => f.remove(), 1100);
+  }
+  annonce(a) {
+    if (!$('#annonce').classList.contains('cache')) { this.fileAnnonces.push(a); return; }
+    $('#annonce-ico').textContent = a.ico; $('#annonce-sur').textContent = a.sur; $('#annonce-gros').textContent = a.gros;
+    $('#annonce-titre').textContent = a.titre; $('#annonce-texte').textContent = a.texte;
+    $('#annonce').classList.remove('cache');
+    if (this.crochets.scene()) this.crochets.scene().celebrer();
+  }
+  rapportJour(r, force) { this.ouvrir('jour', null, { ...r, force }); }
+  fermerAnnonce() {
+    $('#annonce').classList.add('cache');
+    const suivante = this.fileAnnonces.shift();
+    if (suivante) setTimeout(() => this.annonce(suivante), 120);
+  }
+
+  // ------------------------------------------------------------ feuille
+  ouvrir(kind, batiment = null, extra = null) {
+    this.panneau = kind; this.batiment = batiment; this.extra = extra;
+    if (kind !== this.dernierKind) this.onglet = null;
+    this.dernierKind = kind;
+    $('#voile').classList.remove('cache');
+    this.rendre();
+  }
+  fermer() {
+    $('#voile').classList.add('cache');
+    this.panneau = null; this.arreterStudio();
+    this.jeu.sauver();
+  }
+  entete(titre, sous) { $('#feuille-titre').textContent = titre; $('#feuille-sous').textContent = sous || ''; }
+  onglets(liste) {
+    const o = $('#feuille-onglets');
+    if (!liste) { o.classList.add('cache'); o.innerHTML = ''; return null; }
+    if (!this.onglet || !liste.some((x) => x.id === this.onglet)) this.onglet = liste[0].id;
+    o.classList.remove('cache');
+    o.innerHTML = liste.map((x) => `<button class="onglet ${x.id === this.onglet ? 'actif' : ''}" data-onglet="${x.id}">${x.nom}</button>`).join('');
+    return this.onglet;
+  }
+  rendre() {
+    if (!this.panneau) return;
+    this.arreterStudio();
+    const corps = $('#feuille-corps');
+    corps.scrollTop = 0;
+    const fn = PANNEAUX[this.panneau];
+    if (!fn) { this.entete(this.panneau, ''); corps.innerHTML = ''; return; }
+    corps.innerHTML = fn(this, this.jeu, this.batiment) || '';
+    if (this.panneau === 'home' && this.onglet === 'studio') this.lancerStudio();
+  }
+  lancerStudio() {
+    const c = $('#studio-canvas'); if (!c) return;
+    const g = c.getContext('2d');
+    const boucle = (t) => {
+      if (!this.panneau || !document.body.contains(c)) return;
+      const r = c.getBoundingClientRect();
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      if (c.width !== Math.round(r.width * dpr)) { c.width = Math.round(r.width * dpr); c.height = Math.round(r.height * dpr); }
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      dessinerStudio(g, r.width, r.height, this.jeu.s.materiel, t / 1000);
+      this.animStudio = requestAnimationFrame(boucle);
+    };
+    this.animStudio = requestAnimationFrame(boucle);
+  }
+  arreterStudio() { if (this.animStudio) cancelAnimationFrame(this.animStudio); this.animStudio = 0; }
+
+  // ------------------------------------------------------------- actions
+  clic(e) {
+    const b = e.target.closest('[data-act]');
+    if (!b) return;
+    const act = b.dataset.act, arg = b.dataset.arg;
+    const j = this.jeu;
+    const ok = this.agir(act, arg, b);
+    if (ok !== 'garde') this.rendre();
+  }
+  agir(act, arg, b) {
+    const j = this.jeu, s = j.s;
+    switch (act) {
+      case 'travailler': { const r = j.travailler(arg); if (r) this.flottant(`+${argent(r.paie + r.pourboire)}`); return; }
+      case 'manger': j.manger(arg); return;
+      case 'materiel': if (j.acheterMateriel(arg)) { this.flottant(`- ${argent(materielParId(arg).prix)}`, 'rouge'); } return;
+      case 'vie': j.acheterVie(arg); return;
+      case 'disque': {
+        const d = disqueParId(arg);
+        if (j.acheterDisque(arg)) { this.flottant(`- ${argent(j.prixDisque(d))}`, 'rouge'); if (b) { b.classList.add('choisie'); b.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.12)' }, { transform: 'scale(0)' }], { duration: 380, easing: 'ease-in' }); } }
+        return;
+      }
+      case 'fouiller': j.fouiller(arg); return;
+      case 'accepter': j.accepterDate(arg); return;
+      case 'jouer': this.selection = []; this.ouvrir('set', null, arg); return 'garde';
+      case 'choisir': {
+        const i = this.selection.indexOf(arg);
+        if (i >= 0) this.selection.splice(i, 1); else if (this.selection.length < 4) this.selection.push(arg);
+        return;
+      }
+      case 'lancer-set': {
+        const r = j.jouerSet(this.extra, this.selection);
+        if (r) { this.ouvrir('resultat', null, r); if (r.score >= 0.7 && this.crochets.scene()) this.crochets.scene().celebrer(); }
+        return 'garde';
+      }
+      case 'campagne': j.lancerCampagne(arg); return;
+      case 'produire': { const m = j.produire(); if (m) this.toast(`« ${m.titre} » est né. Qualité ${m.qualite}.`, 'or'); return; }
+      case 'sortir': j.sortirMorceau(arg); return;
+      case 'label': j.ameliorerLabel(); return;
+      case 'signer': j.signer(arg); return;
+      case 'dormir': { this.fermer(); j.dormir(); return 'garde'; }
+      case 'aller': this.fermer(); this.crochets.allerA(arg); return 'garde';
+      case 'ouvrir': this.onglet = null; this.ouvrir(arg, null, this.extra); return 'garde';
+      case 'onglet': this.onglet = arg; return;
+      case 'nouvelle': if (confirm('Effacer la partie et recommencer ?')) { this.fermer(); this.crochets.nouvellePartie(); } return 'garde';
+      case 'fermer': this.fermer(); return 'garde';
+      case 'vendre': j.vendreDisque(arg); return;
+    }
   }
 }
 
-// ---------------------------------------------------------------------
-// helpers de rendu
-// ---------------------------------------------------------------------
-function row(opts) {
-  const { title, sub, tag, btn, act, arg, disabled, cls = '' } = opts;
-  return `<div class="row ${cls}${disabled ? ' locked' : ''}">
-    <div class="grow"><h3>${esc(title)}${tag ? ` <span class="tag">${esc(tag)}</span>` : ''}</h3>
-    ${sub ? `<p>${esc(sub)}</p>` : ''}</div>
-    ${btn ? `<button class="btn ${opts.btnCls || ''}" data-act="${act}" data-arg="${arg ?? ''}"
-      ${disabled ? 'disabled' : ''}>${esc(btn)}</button>` : ''}
-  </div>`;
+// =====================================================================
+//  LES PANNEAUX · un par lieu, plus les ecrans transverses
+// =====================================================================
+function ligne({ ico, img, titre, sous, tags, bouton, classe = '' }) {
+  return `<div class="carte ${classe}"><div class="ligne">
+    <div class="ico">${img ? `<img src="${img}" alt="" loading="lazy">` : ico || ''}</div>
+    <div class="txt"><b>${echappe(titre)}</b>${sous ? `<span>${sous}</span>` : ''}${tags ? `<div class="tags">${tags}</div>` : ''}</div>
+    ${bouton || ''}</div></div>`;
 }
-const title = t => `<div class="section-title">${esc(t)}</div>`;
-const EQ = '<span class="eq"><i></i><i></i><i></i></span>';
+const bouton = (txt, act, arg, classe = '', small = '') => `<button class="bouton ${classe}" data-act="${act}" data-arg="${arg ?? ''}">${txt}${small ? `<small>${small}</small>` : ''}</button>`;
+const gris = (txt, small = '') => `<button class="bouton gris" disabled>${txt}${small ? `<small>${small}</small>` : ''}</button>`;
+const tagFam = (id) => `<span class="tag fam" style="background:${couleurFamille(id)}">${echappe(nomFamille(id))}</span>`;
 
-// boutons d'écoute sous une pochette
-function listenRow(r) {
-  const info = COV.cover(r);
-  const on = COV.playing() === r.id;
-  const canPlay = info && info.preview;
-  return `<div class="listen-row">
-    <button class="btn ${on ? 'playing' : 'ghost'}" data-act="preview" data-arg="${r.id}"
-      ${canPlay ? '' : 'disabled'}>${on ? EQ + 'Arrêter' : '▶ Extrait 30 s'}</button>
-    <button class="btn ghost" data-act="youtube" data-arg="${r.id}">YouTube ↗</button>
-  </div>`;
+function blocBoulots(ui, j, lieu) {
+  const s = j.s;
+  return j.boulotsDisponibles(lieu).map((b) => {
+    let raison = '';
+    if (!b.ok) {
+      const n = b.besoin;
+      raison = n.vie ? `Il te faut : ${VIE.find((v) => v.id === n.vie).nom}` : n.quarts ? `Après ${n.quarts} quarts (${s.stats.quarts})` : n.niveau ? `Niveau ${n.niveau}` : n.disques ? `${n.disques} disques dans ta collection` : '';
+    }
+    const fatigue = s.energie < b.energie;
+    return ligne({
+      ico: b.icone, titre: b.nom, sous: b.ok ? `${b.heures} h · ${b.energie} d’énergie · ${echappe(b.desc)}` : raison,
+      bouton: b.ok ? (fatigue ? gris('Fatigué', 'mange ou dors') : bouton(`+${argent(b.paie)}`, 'travailler', b.id, '', `${b.heures} h`)) : gris('🔒'),
+      classe: b.ok ? '' : 'verrou',
+    });
+  }).join('');
 }
-
-// ligne de disque avec vignette cliquable pour écouter
-function discRow(ui, r, opts) {
-  const info = ui.needCover(r);
-  const on = COV.playing() === r.id;
-  const pixT = info && info.art ? COV.pixelFor(r, info, 32, () => ui.render()) : null;
-  const art = info && (pixT || info.thumb)
-    ? `style="background-image:url('${pixT || info.thumb}')"` : '';
-  return `<div class="row">
-    <div class="cov ${info && info.thumb ? '' : 'empty'} ${info && info.preview ? 'play' : ''}"
-      ${art} data-act="preview" data-arg="${r.id}"></div>
-    <div class="grow">
-      <h3>${esc(r.title)}${r.quest ? ' <span class="tag">culte</span>' : ''}</h3>
-      <p>${on ? EQ : ''}${esc(r.artist)} · ${esc(r.label)} · ${r.bpm} BPM · ${'●'.repeat(r.energy)}</p>
-    </div>
-    <button class="btn ${opts.btnCls || ''}" data-act="${opts.act}" data-arg="${opts.arg}"
-      ${opts.disabled ? 'disabled' : ''}>${esc(opts.btn)}</button>
-  </div>`;
+function blocNourriture(j) {
+  return `<div class="titre-section">Manger</div><div class="grille">` + NOURRITURE.filter((n) => !n.lieu).map((n) =>
+    `<button class="carte" data-act="manger" data-arg="${n.id}" style="text-align:left;margin:0"><div class="ligne"><div class="ico">${n.icone}</div><div class="txt"><b>${n.nom}</b><span>+${n.energie} ⚡ · ${argent(n.prix)}</span></div></div></button>`).join('') + '</div>';
 }
-function hashHue(id) {
-  let h = 0;
-  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) % 360;
+function carteDate(ui, j, o, agenda = false) {
+  const s = j.s, salle = salleParId(o.salle);
+  const quand = o.soir === s.jour ? 'Ce soir' : o.soir === s.jour + 1 ? 'Demain' : `Jour ${o.soir}`;
+  let btn;
+  if (agenda) btn = o.soir === s.jour ? bouton('Jouer !', 'jouer', o.id, 'rose') : gris(quand);
+  else if (o.prise) btn = gris('Pris');
+  else if (!j.kitComplet) btn = gris('🔒', 'kit DJ');
+  else if (s.hype < o.hypeMin) btn = gris('🔒', `${o.hypeMin} hype`);
+  else btn = bouton('Accepter', 'accepter', o.id, 'jaune');
+  return ligne({
+    ico: agenda ? '🎧' : '📅', titre: `${salle.nom} · ${argent(o.cachet)}`, sous: `${quand} · ${salle.jauge.toLocaleString('fr-CA')} personnes · veut du ${nomFamille(o.famille)}`,
+    tags: tagFam(o.famille), bouton: btn, classe: agenda ? 'rose' : '',
+  });
+}
+function blocDates(ui, j) {
+  const s = j.s;
+  let h = '';
+  const ce = j.dateCeSoir, dem = j.dateDemain;
+  if (ce || dem) { h += `<div class="titre-section">Ton agenda</div>`; if (ce) h += carteDate(ui, j, ce, true); if (dem) h += carteDate(ui, j, dem, true); }
+  h += `<div class="titre-section">Le tableau des dates</div>`;
+  if (!j.kitComplet) h += `<div class="note">Personne ne booke un DJ sans platines. Complète ton kit chez Massive Machines.</div>`;
+  h += s.offres.map((o) => carteDate(ui, j, o)).join('') || '<div class="note">Rien aujourd’hui. Reviens demain, ou fais monter ta hype.</div>';
+  h += `<div class="note">Le tableau change chaque matin. Une date acceptée et pas jouée coûte de la hype.</div>`;
   return h;
 }
-const note = t => `<p class="note">${t}</p>`;
 
-// ---------------------------------------------------------------------
-// PANNEAUX
-// ---------------------------------------------------------------------
-const DESCR = {
-  home:'Dormir, écouter, produire', bar:'Boire, réseauter', snack:'Manger et boire',
-  records:'Acheter et revendre des disques', gear:'Machines et studio',
-  promo:'Campagnes de promo', studio:'Production sérieuse', press:'Presser tes sorties',
-  label:'Signer et gérer tes artistes', club:'Jouer des shows', store:'Ta boutique de disques',
-  major:'La fin du jeu',
-};
-
-// Les petits boulots, presentes la ou on les trouve. C'est la seule source
-// d'argent tant qu'on ne sait pas encore jouer.
-function blocTravail(g, place) {
-  const liste = A.jobsFor(g, place);
-  if (!liste.length) return '';
-  let html = title('Travailler');
-  html += liste.map(j => row({
-    title: j.name,
-    sub: j.ok ? `${j.desc} · ${j.hours} h · ${money(j.pay)}` : `Verrouillé : ${j.pourquoi}`,
-    tag: j.ok ? null : 'bloqué',
-    btn: j.ok ? money(j.pay) : '-', act: 'work', arg: j.id,
-    disabled: !j.ok || g.s.needs.energy < 18,
-  })).join('');
-  if (g.s.needs.energy < 18) html += note('Tu es trop crevé pour prendre un quart. Va dormir.');
-  return html;
-}
-
-const PANELS = {
-  home(ui, g) {
-    const s = g.s;
-    const tab = ui.temp.tab || 'vie';
-    const tabs = ['vie', 'studio', 'stats'];
-    let html = `<div class="pill-row">${tabs.map(t =>
-      `<button class="pill ${tab === t ? 'on' : ''}" data-act="tab" data-arg="${t}">${t}</button>`).join('')}</div>`;
-    if (tab === 'vie') {
-      html += note('Ton 3½ sur Marquette. Un matelas, une table, des disques partout.');
-      html += row({ title: 'Dormir', sub: 'Récupère l’énergie jusqu’au matin', btn: 'Dormir', act: 'sleep' });
-      html += row({ title: 'Écouter au hasard', sub: `Inspiration +  ·  ${s.collection.length} disques`, btn: '1h15', act: 'listen', disabled: !s.collection.length });
+const PANNEAUX = {
+  // ------------------------------------------------------------- chez toi
+  home(ui, j) {
+    const s = j.s;
+    ui.entete('Chez toi', j.kitComplet ? 'Le studio' : 'La chambre. Pour l’instant.');
+    const o = ui.onglets([{ id: 'studio', nom: '🎛️ Studio' }, { id: 'dates', nom: '📅 Dates' }, { id: 'prod', nom: '🎵 Produire' }, { id: 'dormir', nom: '😴 Dormir' }]);
+    if (o === 'studio') {
+      const p = j.prochainePiece;
+      const n = MATERIEL.filter((m) => s.materiel.includes(m.id)).length;
+      let h = `<div class="studio-vue"><canvas id="studio-canvas"></canvas><div class="studio-compte">${n} / ${MATERIEL.length} pièces</div></div>`;
+      if (p) h += ligne({ ico: p.icone, titre: `Prochaine pièce : ${p.nom}`, sous: `${argent(p.prix)} · ${echappe(p.desc)}`, bouton: s.cash >= p.prix ? bouton('Y aller', 'aller', 'gear', 'jaune') : gris(argent(p.prix), `il manque ${argent(p.prix - s.cash)}`), classe: 'or' });
+      else h += `<div class="carte or"><b>Le studio est complet.</b> Il ne reste qu’à en faire quelque chose.</div>`;
+      h += `<div class="chiffres"><div class="chiffre"><b>${Math.round(j.talent)}</b><span>talent</span></div><div class="chiffre"><b>${s.collection.length}</b><span>disques</span></div><div class="chiffre"><b>${Math.round(j.qualiteProd)}</b><span>qualité prod</span></div></div>`;
       if (s.collection.length) {
-        html += title('Ta platine');
-        html += s.collection.map(id => {
-          const r = recordById(id);
-          return discRow(ui, r, {
-            btn: 'Poser sur la platine', act: 'listen', arg: id,
-            btnCls: r.quest ? 'gold' : 'ghost',
-          });
-        }).join('');
+        h += `<div class="titre-section">Ta collection</div><div class="pochettes">` + s.collection.slice().reverse().slice(0, 24).map((id) => { const d = disqueParId(id); return d ? pochette(d, {}) : ''; }).join('') + '</div>';
+        if (s.collection.length > 24) h += `<div class="note">et ${s.collection.length - 24} autres.</div>`;
       }
-      html += row({ title: 'Sauvegarder', sub: 'La partie se sauve aussi toute seule', btn: 'Sauver', act: 'save', btnCls: 'ghost' });
+      return h;
     }
-    if (tab === 'studio') {
-      const q = Math.round(g.productionQuality());
-      html += note(`Coin studio : <b>qualité estimée ${q}/100</b>. Inspiration ${Math.round(s.insp)}%.
-        Matos : ${s.gear.map(id => esc(gearById(id)?.name || '')).join(', ')}.`);
-      html += row({ title: 'Produire un track', sub: '≈4 h · consomme énergie et inspiration', btn: 'Produire', act: 'produce', disabled: s.needs.energy < 12 });
-      html += title('Tracks non sortis');
-      html += s.tracks.length
-        ? s.tracks.map(t => row({ title: t.name, sub: `qualité ${t.quality} · fait le jour ${t.day}`, tag: 'démo' })).join('')
-        : note('Aucun track en attente. Va au pressage une fois que tu en as.');
-    }
-    if (tab === 'stats') {
-      html += `<div class="stat-grid">
-        <div class="stat"><b>${money(s.cash)}</b><span>liquide</span></div>
-        <div class="stat"><b>${big(g.empire)}</b><span>valeur du label</span></div>
-        <div class="stat"><b>${big(s.fans)}</b><span>fans</span></div>
-        <div class="stat"><b>${Math.round(s.hype)}</b><span>hype</span></div>
-        <div class="stat"><b>${s.skill.toFixed(1)}</b><span>skill</span></div>
-        <div class="stat"><b>${s.collection.length}</b><span>disques</span></div>
-        <div class="stat"><b>${s.roster.length}</b><span>artistes</span></div>
-        <div class="stat"><b>${s.stats.shows}</b><span>shows</span></div>
-      </div>`;
-      const next = TIERS[Math.min(TIERS.length - 1, g.tier + 1)];
-      html += note(`Palier actuel : <b>${esc(TIERS[g.tier].name)}</b>. Prochain : <b>${esc(next.name)}</b>
-        (${big(next.need)} de valeur).`);
-      html += `<div class="meter"><i style="width:${(g.tierProgress * 100).toFixed(1)}%"></i></div>`;
-    }
-    return { title: 'Chez toi', sub: g.clock, html };
-  },
-
-  snack(ui, g) {
-    let html = note('Le comptoir sent la friture et le café brûlé. Parfait.');
-    html += FOOD.map(f => row({
-      title: f.name, sub: `${f.desc} · +${f.food} faim`, btn: money(f.price), act: 'eat', arg: f.id,
-      disabled: g.s.cash < f.price,
-    })).join('');
-    html += blocTravail(g, 'snack');
-    return { title: 'Casse-croûte', sub: 'Manger, boire, travailler', html };
-  },
-
-  bar(ui, g) {
-    let html = note('Sous-sol, néons roses, table de mix dans le coin. C’est ici que ça se décide.');
-    html += DRINKS.map(d => row({
-      title: d.name, sub: `+${d.social} social`, btn: money(d.price), act: 'drink', arg: d.id,
-      disabled: g.s.cash < d.price,
-    })).join('');
-    html += title('Réseauter');
-    html += row({
-      title: 'Faire le tour de la place', sub: '1 h 30 · 25 $ · rencontres au hasard',
-      btn: 'Y aller', act: 'network', btnCls: 'pink', disabled: g.s.cash < 25,
-    });
-    html += blocTravail(g, 'bar');
-    html += title('Dépanner');
-    html += row({
-      title: 'Laver les verres', sub: '3 h · paie tout de suite, tue l’énergie',
-      btn: '≈50 $', act: 'oddjob', btnCls: 'ghost', disabled: g.s.needs.energy < 16,
-    });
-    return { title: 'Le Sous-Sol', sub: `Social ${Math.round(g.s.needs.social)}%`, html };
-  },
-
-  records(ui, g) {
-    const tab = ui.temp.tab || 'bac';
-    let html = `<div class="pill-row">
-      <button class="pill ${tab === 'bac' ? 'on' : ''}" data-act="tab" data-arg="bac">le bac</button>
-      <button class="pill ${tab === 'coll' ? 'on' : ''}" data-act="tab" data-arg="coll">ma collection (${g.s.collection.length})</button>
-    </div>`;
-    if (tab === 'bac') {
-      const c = A.crateOf(g, ui.current && ui.current.building);
-      const card = A.currentCard(g, ui.current && ui.current.building);
-      if (!card) {
-        html += note('Tu as fouillé tout le bac. Le disquaire te fait un clin d’œil : « Reviens demain, j’ai des arrivages. »');
-      } else {
-        const r = recordById(card.id);
-        const info = ui.needCover(r);
-        const hue = hashHue(r.id);
-        const c1 = `hsl(${hue} 62% 46%)`, c2 = `hsl(${(hue + 42) % 360} 58% 26%)`;
-        /* `ui.render`, PAS `this.render`. Ces panneaux sont les methodes d'un
-           objet litteral : `this` y designe la table des panneaux, qui n'a
-           pas de render. Le rappel jetait donc une exception au moment ou la
-           pochette pixelisee etait prete, et le panneau ne se redessinait
-           jamais : on restait sur la pochette lisse ou sur le degrade, c'est
-           a dire precisement ce que la pixelisation devait remplacer. */
-        const pix = info && info.art ? COV.pixelFor(r, info, 56, () => ui.render()) : null;
-        const bg = info && info.art
-          ? `background-image:url("${pix || info.art}")`
-          : `background:linear-gradient(150deg,${c1},${c2})`;
-        html += `<div class="crate">
-          <div class="crate-count">disque ${c.i + 1} / ${c.deck.length} du bac</div>
-          <div class="sleeve-wrap">
-            <div class="sleeve ${card.quest ? 'quest' : ''} ${info && info.art ? 'has-art' : ''}" style="${bg}">
-              <div class="disc"></div>
-              ${info && info.art ? '' : '<div class="art-mark"></div>'}
-              <div class="art">
-                <div class="lbl">${esc(r.label)} · ${r.year}</div>
-                <div>
-                  <div class="ttl">${esc(r.title)}</div>
-                  <div class="lbl" style="margin-top:4px">${esc(r.artist)}</div>
-                </div>
-              </div>
-              ${!info && COV.isPending(r) ? '<div class="loading">pochette…</div>' : ''}
-            </div>
-          </div>
-          <div class="crate-meta">
-            <span class="pill">${esc(r.genre)}</span>
-            <span class="pill">${r.bpm} BPM</span>
-            <span class="pill">énergie <b class="energy-dots">${'●'.repeat(r.energy)}</b></span>
-            <span class="pill">${'★'.repeat(r.rarity)}</span>
-            ${card.deal ? '<span class="pill on">trouvaille</span>' : ''}
-          </div>
-          ${listenRow(r)}
-          ${r.note ? note('<i>' + esc(r.note) + '</i>') : ''}
-          <div class="crate-actions">
-            <button class="btn ghost" data-act="dig">Suivant →</button>
-            <button class="btn" data-act="buyCard" ${g.s.cash < card.price ? 'disabled' : ''}>Acheter ${money(card.price)}</button>
-          </div>
-        </div>`;
-        if (card.quest && g.quest.is('find_garnier'))
-          html += note('Tes doigts s’arrêtent. La pochette est usée, le logo <b>F Communications</b> imprimé au dos. Tu ne sais pas encore pourquoi, mais c’est celui-là.');
+    if (o === 'dates') return blocDates(ui, j);
+    if (o === 'prod') {
+      if (!j.peutProduire) return `<div class="carte verrou"><b>Il te faut un laptop.</b><br><span class="note">Chez Massive Machines, après les moniteurs.</span></div>` + bouton('Aller chez Massive Machines', 'aller', 'gear', 'jaune large');
+      let h = `<div class="carte or"><div class="ligne"><div class="ico">💻</div><div class="txt"><b>Produire un morceau</b><span>6 h · 30 ⚡ · qualité attendue ${Math.round(j.qualiteProd)}</span></div>${s.energie >= 30 ? bouton('Produire', 'produire', '', 'rose') : gris('Fatigué')}</div></div>`;
+      if (s.morceaux.length) {
+        h += `<div class="titre-section">Tes morceaux</div>` + s.morceaux.slice().reverse().map((m) => ligne({ ico: m.sorti ? '📀' : '🎚️', titre: m.titre, sous: `Qualité ${m.qualite}${m.sorti ? ` · ${m.ventes} ventes` : ' · pas encore sorti'}`, bouton: m.sorti ? gris('En ligne') : bouton('Sortir', 'sortir', m.id, 'jaune') })).join('');
       }
-    } else {
-      html += g.s.collection.length ? g.s.collection.map(id => {
-        const r = recordById(id);
-        return discRow(ui, r, {
-          btn: 'Revendre', act: 'sellRec', arg: id, btnCls: 'ghost', disabled: !!r.quest,
-        });
-      }).join('') : note('Rien encore. Fouille le bac.');
+      return h;
     }
-    const b = ui.current && ui.current.building;
-    html += blocTravail(g, 'records');
-    return {
-      title: (b && b.name) || 'Disquaire',
-      sub: b && b.genre ? `Bac ${b.genre}` : 'Fouille de bacs',
-      html,
-    };
+    if (o === 'dormir') {
+      const a = s.aujourdhui;
+      let h = `<div class="chiffres"><div class="chiffre"><b>${argent(a.recettes)}</b><span>gagné aujourd’hui</span></div><div class="chiffre"><b>${argent(a.depenses)}</b><span>dépensé</span></div><div class="chiffre"><b>${j.horloge}</b><span>il est</span></div></div>`;
+      if (j.dateCeSoir) h += `<div class="carte rose"><b>Tu joues ce soir !</b> Si tu dors maintenant, tu rates la date.</div>`;
+      h += `<div class="note">Dormir termine la journée : les ventes tombent, le loyer part, les campagnes travaillent, un nouveau tableau de dates arrive.</div>`;
+      h += bouton('Dormir jusqu’à demain', 'dormir', '', 'bleu large');
+      return h;
+    }
+  },
+  dates(ui, j) { ui.entete('Les dates', 'Où tu joues, et pour combien'); ui.onglets(null); return blocDates(ui, j); },
+
+  // ------------------------------------------------------------ boulots
+  snack(ui, j) {
+    ui.entete('Casse-croûte', 'Les petits boulots, et de quoi manger');
+    ui.onglets(null);
+    return `<div class="titre-section">Travailler</div>` + blocBoulots(ui, j, 'snack') + blocNourriture(j);
+  },
+  bar(ui, j) {
+    const s = j.s;
+    ui.entete('Le Sous-Sol', 'Un bar, une cave, des débutants qui jouent');
+    ui.onglets(null);
+    let h = '';
+    const ce = j.dateCeSoir;
+    if (ce && salleParId(ce.salle).lieu === 'bar') h += carteDate(ui, j, ce, true);
+    h += `<div class="titre-section">Travailler</div>` + blocBoulots(ui, j, 'bar');
+    h += `<div class="titre-section">Boire un verre</div>` + ligne({ ico: '🍺', titre: 'Une bière avec les habitués', sous: 'Des rumeurs, un peu de hype, 9 $', bouton: s.cash >= 9 ? bouton('9 $', 'manger', 'biere') : gris('9 $') });
+    h += `<div class="note">Les dates se prennent chez toi, sur le tableau.</div>` + bouton('Voir les dates', 'ouvrir', 'dates', 'jaune large');
+    return h;
+  },
+  club(ui, j) {
+    ui.entete('Le Bunker', 'Le club de la ville');
+    ui.onglets(null);
+    const ce = j.dateCeSoir;
+    let h = '';
+    if (ce && salleParId(ce.salle).lieu === 'club') h += carteDate(ui, j, ce, true);
+    else h += `<div class="carte"><b>Rien pour toi ce soir.</b><span class="note">Le Bunker et le Warehouse passent par le tableau des dates. Plus tu as de hype, plus les cachets montent.</span></div>`;
+    const tenant = j.s.scene.residences.bunker;
+    if (tenant) h += `<div class="note">Résidence tenue par un rival : le cachet est amputé tant que ta hype est en dessous de la sienne.</div>`;
+    h += bouton('Voir les dates', 'ouvrir', 'dates', 'jaune large');
+    return h;
+  },
+  parc(ui, j) {
+    ui.entete('Scène du parc', 'Piknic le dimanche, le festival l’été');
+    ui.onglets(null);
+    const ce = j.dateCeSoir;
+    let h = '';
+    if (ce && salleParId(ce.salle).lieu === 'parc') h += carteDate(ui, j, ce, true);
+    else h += `<div class="carte"><b>La scène est vide.</b><span class="note">Les dates du parc arrivent sur le tableau à partir du niveau 9, le festival à partir du 16.</span></div>`;
+    h += bouton('Voir les dates', 'ouvrir', 'dates', 'jaune large');
+    return h;
+  },
+  major(ui, j) {
+    ui.entete('La Tour', 'Le stade, le closing set');
+    ui.onglets(null);
+    const ce = j.dateCeSoir;
+    let h = '';
+    if (ce && salleParId(ce.salle).lieu === 'stade') h += carteDate(ui, j, ce, true);
+    else h += `<div class="carte or"><b>Tout en haut.</b><span class="note">Le stade se joue sur le tableau des dates, au niveau 22. Cent mille personnes.</span></div>`;
+    h += bouton('Voir les dates', 'ouvrir', 'dates', 'jaune large');
+    return h;
   },
 
-  gear(ui, g) {
-    let html = note('Vitrines pleines de machines. Chaque achat améliore la qualité de tes prods.');
-    html += GEAR.filter(x => x.price > 0).map(x => {
-      const owned = g.s.gear.includes(x.id);
-      const locked = g.tier < x.tier;
-      return row({
-        title: x.name, sub: `${x.desc} · qualité +${x.quality}`,
-        tag: owned ? 'possédé' : locked ? `palier ${x.tier}` : null,
-        btn: owned ? '✓' : money(x.price), act: 'gear', arg: x.id,
-        disabled: owned || locked || g.s.cash < x.price,
-      });
+  // ------------------------------------------------------------ materiel
+  gear(ui, j) {
+    const s = j.s;
+    ui.entete('Massive Machines', 'Le matériel, pièce par pièce, dans l’ordre');
+    const o = ui.onglets([{ id: 'studio', nom: '🎛️ Studio' }, { id: 'vie', nom: '🚲 Vie' }]);
+    if (o === 'vie') return VIE.map((v) => ligne({ ico: v.icone, titre: v.nom, sous: `${argent(v.prix)} · ${echappe(v.desc)}`, bouton: s.vie.includes(v.id) ? gris('✓') : s.cash >= v.prix ? bouton(argent(v.prix), 'vie', v.id) : gris(argent(v.prix)) })).join('');
+    let h = '';
+    let suivantVu = false;
+    for (const m of MATERIEL) {
+      const a = s.materiel.includes(m.id);
+      const suivant = !a && !suivantVu; if (suivant) suivantVu = true;
+      let btn;
+      if (a) btn = gris('✓ Installé');
+      else if (suivant) btn = s.cash >= m.prix ? bouton(argent(m.prix), 'materiel', m.id, '', 'Acheter') : gris(argent(m.prix), `manque ${argent(m.prix - s.cash)}`);
+      else btn = gris(argent(m.prix), '🔒 après');
+      h += ligne({ ico: m.icone, titre: m.nom, sous: echappe(m.desc), tags: m.role === 'dj' ? '<span class="tag">kit DJ</span>' : m.role === 'prod' ? '<span class="tag">production</span>' : '', bouton: btn, classe: a ? 'verrou' : suivant ? 'or' : '' });
+    }
+    return h;
+  },
+
+  // ---------------------------------------------------------- disquaires
+  disquaire(ui, j, b) {
+    const s = j.s;
+    const dq = DISQUAIRES.find((d) => d.id === b.id);
+    ui.entete(dq.nom, dq.familles.map(nomFamille).join(' · ') + ' · les disques de l’atlas SONAA');
+    const o = ui.onglets([{ id: 'bac', nom: '📦 Le bac' }, { id: 'boulot', nom: '💼 Travailler' }]);
+    if (o === 'boulot') return blocBoulots(ui, j, 'disquaire');
+    const bac = j.bac(b.id);
+    let h = `<div class="note">Tape une pochette pour l’acheter. ${s.cash < 9 ? 'Tu es à sec.' : `Tu as ${argent(s.cash)}.`}</div>`;
+    h += `<div class="pochettes">` + bac.map((d) => pochette(d, { prix: j.prixDisque(d), act: s.cash >= j.prixDisque(d) ? 'disque' : null })).join('') + '</div>';
+    h += bouton('Fouiller encore (30 min)', 'fouiller', b.id, 'jaune large');
+    return h;
+  },
+
+  // ---------------------------------------------------------------- promo
+  promo(ui, j) {
+    const s = j.s;
+    ui.entete('Radio Machine', 'Faire parler de toi');
+    ui.onglets(null);
+    let h = '';
+    if (s.campagnes.length) h += `<div class="titre-section">En cours</div>` + s.campagnes.map((c) => { const d = CAMPAGNES.find((x) => x.id === c.id); return ligne({ ico: d.icone, titre: d.nom, sous: `Encore ${c.reste} jour${c.reste > 1 ? 's' : ''}`, bouton: gris('⏳'), classe: 'cyan' }); }).join('');
+    h += `<div class="titre-section">Lancer une campagne</div>`;
+    h += CAMPAGNES.map((c) => {
+      const ok = s.niveau >= c.niveau, cours = s.campagnes.some((x) => x.id === c.id);
+      return ligne({ ico: c.icone, titre: c.nom, sous: ok ? `+${c.hype} hype · +${court(c.fans)} fans sur ${c.jours} jours · ${echappe(c.desc)}` : `Niveau ${c.niveau}`, bouton: !ok ? gris('🔒') : cours ? gris('En cours') : s.cash >= c.prix ? bouton(argent(c.prix), 'campagne', c.id, 'bleu') : gris(argent(c.prix)), classe: ok ? '' : 'verrou' });
     }).join('');
-    const possede = g.s.gear.filter(id => g.usure(id) > 0);
-    if (possede.length) {
-      html += title('Atelier · état du matériel');
-      html += note('Tout s’abîme à l’usage. Passé 55 %, la qualité baisse. Passé 90 %, ça peut lâcher en pleine soirée.');
-      html += possede.map(id => {
-        const it = gearById(id); if (!it) return '';
-        const u = Math.round(g.usure(id));
-        const cout = g.coutReparation(id);
-        return `<div class="row"><div class="grow">
-          <h3>${esc(it.name)} <span class="tag">${u} % d’usure</span></h3>
-          <p>${u >= 90 ? 'En bout de course : risque de panne' : u > 55 ? 'Fatigué, il pénalise déjà' : 'Encore bon'}</p>
-          <div class="meter"><i style="width:${u}%"></i></div></div>
-          <button class="btn ${u > 55 ? 'gold' : 'ghost'}" data-act="reparer" data-arg="${id}"
-            ${g.s.cash < cout ? 'disabled' : ''}>${money(cout)}</button></div>`;
-      }).join('');
+    return h;
+  },
+
+  // ---------------------------------------------------------------- label
+  label(ui, j) {
+    const s = j.s;
+    const p = j.palierLabel, pn = j.prochainPalierLabel;
+    ui.entete(p ? p.nom : 'Bureau du label', p ? `${s.roster.length} / ${p.artistes} artistes signés` : 'Un nom, un logo, un catalogue');
+    if (!p) {
+      ui.onglets(null);
+      return `<div class="carte or"><div class="ligne"><div class="ico">🏷️</div><div class="txt"><b>Ouvrir ton label</b><span>${argent(pn.prix)} · niveau 8 · ${echappe(pn.desc)}</span></div>${s.niveau >= 8 && s.cash >= pn.prix ? bouton('Ouvrir', 'label', '', 'rose') : gris(argent(pn.prix), s.niveau < 8 ? 'niveau 8' : `manque ${argent(pn.prix - s.cash)}`)}</div></div>
+        <div class="note">Un label signe des artistes. Ils sortent des disques tout seuls, et l’argent tombe chaque nuit, que tu joues ou non. Les premiers sont ceux de la scène locale ; les grands noms de l’atlas viennent quand le label grossit.</div>`;
     }
-    return { title: 'Massive Machines', sub: `Qualité studio : ${Math.round(g.productionQuality())}/100`, html };
-  },
-
-  promo(ui, g) {
-    let html = note('Studio radio, murs en mousse, un vieux micro. On fabrique la hype ici.');
-    if (g.s.campaigns.length) {
-      html += title('En cours');
-      html += g.s.campaigns.map(c => {
-        const d = CAMPAIGNS.find(x => x.id === c.id);
-        return row({ title: d.name, sub: `${c.left} jour(s) restant(s)`, tag: 'actif' });
-      }).join('');
+    const o = ui.onglets([{ id: 'roster', nom: '👥 Tes artistes' }, { id: 'signer', nom: '✍️ Signer' }, { id: 'sorties', nom: '📀 Sorties' }]);
+    if (o === 'roster') {
+      let h = s.roster.length ? s.roster.map((r) => { const a = artisteQuelconque(r.artisteId); return ligne({ ico: a.real ? '🌍' : '🏘️', titre: a.name, sous: `${nomFamille(a.family)} · moral ${Math.round(r.moral)} % · prochaine sortie jour ${r.prochaineSortie}`, tags: tagFam(a.family) + (a.real ? '<span class="tag rare">atlas</span>' : '') }); }).join('') : `<div class="note">Personne encore. Va signer quelqu’un.</div>`;
+      if (pn) h += `<div class="titre-section">Agrandir le label</div>` + ligne({ ico: '🏢', titre: pn.nom, sous: `${argent(pn.prix)} · ${pn.artistes} artistes · ${echappe(pn.desc)}`, bouton: s.cash >= pn.prix ? bouton('Agrandir', 'label', '', 'rose') : gris(argent(pn.prix)), classe: 'or' });
+      return h;
     }
-    html += title('Campagnes');
-    html += CAMPAIGNS.map(c => row({
-      title: c.name, sub: `${c.desc} · +${c.hype} hype · +${big(c.fans)} fans sur ${c.days} j`,
-      tag: g.tier < c.tier ? `palier ${c.tier}` : null,
-      btn: money(c.price), act: 'campaign', arg: c.id,
-      disabled: g.tier < c.tier || g.s.cash < c.price || g.s.campaigns.length >= 2,
-    })).join('');
-    return { title: 'Radio Machine', sub: `Hype ${Math.round(g.s.hype)}`, html };
-  },
-
-  studio(ui, g) {
-    const q = Math.round(g.productionQuality());
-    let html = note(`Vrai studio, vraie acoustique. Qualité estimée <b>${q}/100</b>,
-      inspiration ${Math.round(g.s.insp)}%.`);
-    html += row({ title: 'Session de production', sub: '≈4 h · énergie et inspiration', btn: 'Produire', act: 'produce', disabled: g.s.needs.energy < 12 });
-    html += row({ title: 'Écouter des références', sub: 'Inspiration +', btn: '1h15', act: 'listen', btnCls: 'ghost', disabled: !g.s.collection.length });
-    html += title('Tracks en attente');
-    html += g.s.tracks.length ? g.s.tracks.map(t => row({
-      title: t.name, sub: `qualité ${t.quality}`, tag: 'démo',
-    })).join('') : note('Rien en boîte.');
-    return { title: 'Studio Sonaa', sub: 'Production', html };
-  },
-
-  press(ui, g) {
-    let html;
-    const t = g.s.tracks.find(x => x.id === ui.temp.track);
-    if (!t) {
-      html = note('Usine de pressage et distributeur. Choisis un track à sortir.');
-      html += g.s.tracks.length ? g.s.tracks.map(x => row({
-        title: x.name, sub: `qualité ${x.quality} · fait le jour ${x.day}`,
-        btn: 'Sortir', act: 'pressPick', arg: x.id,
-      })).join('') : note('Aucun track prêt. Direction le studio.');
-    } else {
-      html = note(`<b>${esc(t.name)}</b> · qualité ${t.quality}. Choisis le tirage :`);
-      html += A.PRESS_OPTIONS.map(o => row({
-        title: o.name, sub: `${o.desc}${o.copies ? ` · prix de vente ${o.price} $` : ''}`,
-        btn: money(o.cost), act: 'press', arg: o.id, disabled: g.s.cash < o.cost,
+    if (o === 'signer') {
+      const liste = j.artistesSignables();
+      const plein = s.roster.length >= p.artistes;
+      let h = plein ? `<div class="carte rose"><b>Ton label est plein.</b> Agrandis-le pour signer encore.</div>` : '';
+      h += `<div class="note">Les artistes de l’atlas ouvrent avec la taille du label : palier ${s.label.niveau} → jusqu’au tier ${1 + s.label.niveau}.</div>`;
+      h += liste.slice(0, 40).map((a) => ligne({
+        ico: a.real ? '🌍' : '🏘️', titre: a.name, sous: a.bio ? echappe(a.bio) : `${a.tracks} morceaux dans l’atlas${a.depuis ? ` · depuis ${a.depuis}` : ''} · qualité ${a.quality} · ${court(a.reach)} fans`,
+        tags: tagFam(a.family) + `<span class="tag">tier ${a.tier}</span>` + (a.pris ? '<span class="tag rare">signé ailleurs</span>' : ''),
+        bouton: a.pris ? gris('Pris') : plein ? gris('Plein') : s.cash >= a.advance ? bouton(argent(a.advance), 'signer', a.id, 'rose', 'avance') : gris(argent(a.advance)),
+        classe: a.pris ? 'verrou' : '',
       })).join('');
-      html += `<button class="btn wide ghost" data-act="pressPick" data-arg="">Retour</button>`;
+      return h;
     }
-    html += title('Catalogue');
-    html += g.s.releases.length ? g.s.releases.slice(-6).reverse().map(r => {
-      const a = r.artistId ? artistById(r.artistId) : null;
-      return row({
-        title: `${a ? a.name + ' · ' : ''}${r.title}`,
-        sub: `qualité ${r.quality} · vendus ${big(r.sold)}${r.digital ? ' · numérique' : ` · stock ${big(r.stock)}`}`,
-      });
-    }).join('') : note('Catalogue vide.');
-    return { title: 'Pressage & Distro', sub: `${g.s.releases.length} sorties`, html };
+    if (o === 'sorties') return s.sorties.length ? s.sorties.slice().reverse().map((r) => { const a = artisteQuelconque(r.artisteId); return ligne({ ico: '📀', titre: `${a.name} · ${r.titre}`, sous: `Jour ${r.jour} · qualité ${r.qualite} · ${r.ventes} ventes` }); }).join('') : `<div class="note">Rien de sorti encore. Chaque artiste sort un disque tous les dix à vingt jours.</div>`;
   },
 
-  label(ui, g) {
-    const tab = ui.temp.tab || 'roster';
-    let html = `<div class="pill-row">
-      <button class="pill ${tab === 'roster' ? 'on' : ''}" data-act="tab" data-arg="roster">roster (${g.s.roster.length})</button>
-      <button class="pill ${tab === 'signer' ? 'on' : ''}" data-act="tab" data-arg="signer">signer</button>
-      <button class="pill ${tab === 'cat' ? 'on' : ''}" data-act="tab" data-arg="cat">catalogue</button>
-    </div>`;
-    if (tab === 'roster') {
-      html += g.s.roster.length ? g.s.roster.map(m => {
-        const a = artistById(m.artistId);
-        return `<div class="row"><div class="grow">
-          <h3>${esc(a.name)} <span class="tag">${esc(a.genre)}</span></h3>
-          <p>moral ${Math.round(m.morale)}% · prochaine sortie J${m.nextReleaseDay}</p>
-          <div class="meter"><i style="width:${m.morale}%"></i></div></div>
-          <button class="btn" data-act="boost" data-arg="${a.id}">Booster</button>
-          <button class="btn ghost" data-act="drop" data-arg="${a.id}">✕</button></div>`;
-      }).join('') : note('Aucun artiste signé. Va en chercher dans l’onglet « signer ».');
-    }
-    if (tab === 'signer') {
-      html += note('Plus ton label est gros, plus les gros noms répondent au téléphone.');
-      html += ARTISTS.filter(a => !g.s.roster.some(m => m.artistId === a.id)).map(a => g.scene.artisteEstPris(a.id) ? row({
-        title: a.name, sub: 'Déjà signé par un rival. Trop tard.', tag: 'pris', disabled: true,
-      }) : row({
-        title: a.name, sub: `${a.bio} · qualité ${a.quality} · ${big(a.reach)} d’audience`,
-        tag: g.tier < a.tier ? `palier ${a.tier}` : a.genre,
-        btn: money(a.advance), act: 'sign', arg: a.id,
-        disabled: g.tier < a.tier || g.s.cash < a.advance,
-      })).join('');
-    }
-    if (tab === 'cat') {
-      html += g.s.releases.length ? g.s.releases.slice().reverse().map(r => {
-        const a = r.artistId ? artistById(r.artistId) : null;
-        return row({
-          title: `${a ? a.name + ' · ' : ''}${r.title}`,
-          sub: `J${r.day} · qualité ${r.quality} · ${big(r.sold)} vendus`,
-        });
-      }).join('') : note('Catalogue vide.');
-    }
-    return { title: 'Sonaa Records', sub: TIERS[g.tier].name, html };
+  // ------------------------------------------------------------ le set
+  set(ui, j) {
+    const s = j.s;
+    const date = s.agenda.find((a) => a.id === ui.extra);
+    if (!date) { ui.fermer(); return ''; }
+    const salle = salleParId(date.salle);
+    ui.entete(`Ce soir : ${salle.nom}`, `Cachet ${argent(date.cachet)} · la salle veut du ${nomFamille(date.famille)}`);
+    ui.onglets(null);
+    const sel = ui.selection;
+    const ev = sel.length === 4 ? j.evaluerSet(date, sel) : null;
+    let h = `<div class="carte rose"><b>Choisis quatre disques, dans l’ordre.</b><span class="note" style="margin:2px 0 0">La salle attend cette montée d’énergie :</span><div class="courbe">${salle.courbe.map((e) => `<i style="height:${e * 20}%"></i>`).join('')}</div>
+      <div class="note" style="margin:0">Même famille, énergie qui colle, tempos qui s’enchaînent : c’est ça qui fait danser.</div></div>`;
+    if (ev) {
+      h += `<div class="carte or"><b>Le set tient ${Math.round(ev.score * 100)} %</b>
+        <div class="note" style="margin:4px 0 0">Famille ${Math.round(ev.famille * 100)} % · énergie ${Math.round(ev.energie * 100)} % · enchaînements ${Math.round(ev.tempo * 100)} %</div>
+        <div class="jauge"><i class="${ev.score >= 0.7 ? '' : ev.score >= 0.45 ? 'jaune' : 'rose'}" style="width:${ev.score * 100}%"></i></div>
+        ${bouton('Jouer le set !', 'lancer-set', '', 'rose large')}</div>`;
+    } else h += `<div class="note">${4 - sel.length} disque${4 - sel.length > 1 ? 's' : ''} à choisir.</div>`;
+    const coll = s.collection.map(disqueParId).filter(Boolean).sort((a, b) => (b.family === date.famille) - (a.family === date.famille) || a.bpm - b.bpm);
+    h += `<div class="pochettes">` + coll.map((d) => pochette(d, { act: 'choisir', num: sel.indexOf(d.id) + 1, choisie: sel.includes(d.id) })).join('') + '</div>';
+    if (coll.length < 4) h += `<div class="carte rose"><b>Il te faut au moins quatre disques.</b></div>`;
+    return h;
+  },
+  resultat(ui, j) {
+    const r = ui.extra;
+    const note = r.score >= 0.85 ? 'Ils ont hurlé.' : r.score >= 0.7 ? 'La salle a dansé jusqu’au bout.' : r.score >= 0.45 ? 'Correct. Quelques départs au bar.' : 'Le dancefloor s’est vidé. Ça arrive.';
+    ui.entete(`${etoiles(Math.max(1, Math.round(r.score * 5)))}`, note);
+    ui.onglets(null);
+    let h = `<div class="chiffres"><div class="chiffre"><b>+${argent(r.cachet + r.bonusSerie)}</b><span>cachet</span></div><div class="chiffre"><b>+${court(r.fans)}</b><span>fans</span></div><div class="chiffre"><b>+${r.hype}</b><span>hype</span></div></div>`;
+    h += `<div class="carte"><div class="note" style="margin:0">Famille ${Math.round(r.famille * 100)} % · énergie ${Math.round(r.energie * 100)} % · enchaînements ${Math.round(r.tempo * 100)} % · talent ${Math.round(r.talent * 100)} %</div></div>`;
+    if (r.bonusSerie) h += `<div class="carte or"><b>🔥 Série de ${r.serie} bons sets : +${argent(r.bonusSerie)}</b></div>`;
+    if (r.reprise) h += `<div class="carte cyan"><b>Tu prends la résidence de ${echappe(r.reprise.name)} !</b></div>`;
+    h += `<div class="note">+${r.xp} xp. Il est tard : rentre dormir, ou va boire un verre.</div>`;
+    h += bouton('Continuer', 'fermer', '', 'large');
+    return h;
   },
 
-  club(ui, g) {
-    // 1) résultat du dernier set
-    let html = '';
-    if (ui.temp.result) {
-      const r = ui.temp.result;
-      html += `<div class="stat-grid">
-        <div class="stat"><b>${Math.round(r.pct * 100)}%</b><span>réaction</span></div>
-        <div class="stat"><b>${money(r.fee)}</b><span>cachet</span></div>
-        <div class="stat"><b>+${big(r.fans)}</b><span>fans</span></div>
-        <div class="stat"><b>${g.s.stats.shows}</b><span>shows</span></div></div>`;
-      html += note(esc(r.verdict));
-      if (r.butin) {
-        const rr = A.RARETES[r.butin.rarete] || A.RARETES.commun;
-        html += title('Butin de la soirée');
-        html += `<div class="row" style="border-color:${rr.couleur}">
-          <div class="grow">
-            <h3 style="color:${rr.couleur}">${esc(rr.nom.toUpperCase())}</h3>
-            <p style="color:var(--texte,#e2e7f7)">${esc(r.butin.txt)}</p>
-          </div></div>`;
-      }
-      html += `<button class="btn wide ghost" data-act="clearResult">Autre set</button>`;
-      return { title: 'Le Bunker', sub: 'Après le set', html };
-    }
-    // 2) choix de la salle
-    const gig = GIGS.find(x => x.id === ui.temp.gig);
-    if (!gig) {
-      html += note('Choisis une date. Les grosses salles demandent de la hype.');
-      html += A.gigList(g).map(x => row({
-        title: x.name,
-        sub: x.resident
-          ? `${big(x.cap)} personnes · ${x.resident.name} tient la résidence, il garde sa part · jusqu’à ${money(x.fee)}`
-          : `${big(x.cap)} personnes · cachet jusqu’à ${money(x.fee)}`,
-        tag: x.ok ? null : `hype ${x.minHype}`,
-        btn: 'Jouer', act: 'gig', arg: x.id, disabled: !x.ok || g.s.needs.energy < 15,
-      })).join('');
-      if (g.s.needs.energy < 15) html += note('Tu es trop crevé pour jouer. Va dormir.');
-      return { title: 'Le Bunker', sub: `Hype ${Math.round(g.s.hype)}`, html };
-    }
-    // 3) construction du set
-    const want = A.crowdWants(gig);
-    const set = ui.temp.set || [];
-    html += note(`<b>${esc(gig.name)}</b> · la salle veut une montée :
-      ${want.map(w => '▮'.repeat(w)).join(' → ')}.<br>Choisis 4 disques dans l’ordre.`);
-    html += `<div class="pill-row">${[0, 1, 2, 3].map(i => {
-      const id = set[i];
-      const r = id ? recordById(id) : null;
-      return `<span class="pill ${r ? 'on' : ''}">${i + 1}. ${r ? esc(r.title) : '-'}</span>`;
-    }).join('')}</div>`;
-    html += g.s.collection.length ? g.s.collection.map(id => {
-      const r = recordById(id);
-      const i = set.indexOf(id);
-      return row({
-        title: `${r.artist} · ${r.title}`,
-        sub: `${r.bpm} BPM · énergie ${'▮'.repeat(r.energy)}`,
-        tag: i >= 0 ? `#${i + 1}` : null,
-        btn: i >= 0 ? 'Retirer' : 'Ajouter', act: 'pickRec', arg: id,
-        btnCls: i >= 0 ? 'ghost' : '',
-      });
-    }).join('') : note('Pas un seul disque. Passe voir une cabane de disquaire.');
-    html += `<button class="btn wide pink" data-act="playShow" ${set.length < 1 ? 'disabled' : ''}>
-      Jouer le set (5 h)${set.length < 4 ? ' · ' + set.length + '/4' : ''}</button>`;
-    html += `<button class="btn wide ghost" data-act="gig" data-arg="">Changer de salle</button>`;
-    return { title: 'Le Bunker', sub: gig.name, html };
+  // -------------------------------------------------------- transverses
+  verrou(ui, j, b) {
+    ui.entete(b.nom, `En chantier · ouvre au niveau ${b.niveau}`);
+    ui.onglets(null);
+    const dq = DISQUAIRES.find((d) => d.id === b.id);
+    return `<div class="carte or"><b>🚧 Niveau ${b.niveau}</b><span class="note" style="margin:4px 0 0">${dq ? `Un disquaire ${dq.familles.map(nomFamille).join(' et ')}.` : b.kind === 'club' ? 'Le club de la ville, et ses cachets.' : b.kind === 'label' ? 'Ton label : des artistes qui rapportent sans que tu joues.' : b.kind === 'parc' ? 'Les grandes scènes de plein air.' : 'Le sommet.'}</span></div>
+      <div class="note">Tu es niveau ${j.s.niveau}. Travaille, achète, joue : tout donne de l’expérience.</div>`;
   },
-
-  store(ui, g) {
-    const lvl = g.s.storeLevel;
-    const cost = [45000, 120000, 400000][lvl];
-    let html = note(`Ta boutique de disques. Revenus passifs chaque jour, et une vitrine
-      pour tes sorties. Niveau actuel : <b>${lvl}</b>.`);
-    html += row({
-      title: lvl === 0 ? 'Ouvrir la boutique' : `Agrandir (niveau ${lvl + 1})`,
-      sub: cost ? `Revenus quotidiens en hausse` : 'Boutique au maximum',
-      btn: cost ? money(cost) : '✓', act: 'store', disabled: !cost || g.s.cash < cost,
-    });
-    return { title: 'Sonaa Shop', sub: 'Boutique', html };
+  niveau(ui, j) {
+    const s = j.s;
+    ui.entete(`Niveau ${s.niveau} · ${j.titre}`, `${Math.round(s.xp)} / ${xpPour(s.niveau)} xp`);
+    ui.onglets(null);
+    let h = `<div class="jauge"><i class="jaune" style="width:${j.progresNiveau * 100}%"></i></div><div class="titre-section">Ce qui arrive</div>`;
+    h += Object.entries(PALIERS).filter(([n]) => +n > s.niveau).slice(0, 6).map(([n, t]) => ligne({ ico: '🔒', titre: `Niveau ${n}`, sous: echappe(t) })).join('');
+    return h;
   },
-
-  major(ui, g) {
-    return {
-      title: 'Tour Major', sub: 'Le sommet',
-      html: note('Les portes s’ouvrent. Le hall fait trois étages de haut.') +
-        `<button class="btn wide gold" data-act="endgame">Entrer</button>`,
-    };
+  bilan(ui, j) {
+    const s = j.s;
+    ui.entete('Le bilan', `Jour ${s.jour} · ${j.titre}`);
+    const o = ui.onglets([{ id: 'compte', nom: '💰 Compte' }, { id: 'scene', nom: '🎧 La scène' }]);
+    if (o === 'scene') {
+      const cl = j.classement();
+      let h = `<div class="note">La hype décide qui joue où. Tu es ${j.maPlace}e sur ${cl.length}.</div>`;
+      h += cl.map((c, i) => ligne({ ico: c.moi ? '🫵' : ['🥇', '🥈', '🥉'][i] || '🎧', titre: c.nom, sous: c.famille ? nomFamille(c.famille) : 'toi', bouton: `<b>${Math.round(c.hype)}</b>`, classe: c.moi ? 'or' : '' })).join('');
+      if (s.scene.journal.length) h += `<div class="titre-section">Le journal de la scène</div>` + s.scene.journal.slice(0, 8).map((e) => `<div class="note">J${e.jour} · ${echappe(e.txt)}</div>`).join('');
+      return h;
+    }
+    let h = `<div class="chiffres"><div class="chiffre"><b>${argent(s.cash)}</b><span>en poche</span></div><div class="chiffre"><b>${argent(j.valeur)}</b><span>ta valeur</span></div><div class="chiffre"><b>${court(s.fans)}</b><span>fans</span></div></div>`;
+    h += `<div class="chiffres"><div class="chiffre"><b>${s.stats.sets}</b><span>sets joués</span></div><div class="chiffre"><b>${s.collection.length}</b><span>disques</span></div><div class="chiffre"><b>${s.stats.ventes}</b><span>ventes</span></div></div>`;
+    if (s.historique.length) {
+      h += `<div class="titre-section">Les derniers jours</div>`;
+      const max = Math.max(1, ...s.historique.map((x) => Math.max(x.recettes, x.depenses)));
+      h += `<div class="carte">` + s.historique.slice(-8).map((x) => `<div class="note" style="margin:2px 0"><b>J${x.jour}</b> · +${argent(x.recettes)} · -${argent(x.depenses)}<div class="jauge" style="height:6px"><i style="width:${x.recettes / max * 100}%"></i></div></div>`).join('') + '</div>';
+    }
+    return h;
   },
-
-  finance(ui, g) {
-    const s = g.s, f = g.fin;
-    const hist = (s.history || []).slice(-14);
-    const last = hist[hist.length - 1];
-    const max = Math.max(1, ...hist.map(h => Math.max(h.income, h.expense)));
-    const avg7 = hist.slice(-7);
-    const netAvg = avg7.length ? avg7.reduce((a, h) => a + h.income - h.expense, 0) / avg7.length : 0;
-    const runway = netAvg >= 0 ? '∞' : Math.max(0, Math.floor(s.cash / -netAvg)) + ' j';
-
-    let html = `<div class="stat-grid">
-      <div class="stat"><b>${money(s.cash)}</b><span>trésorerie</span></div>
-      <div class="stat"><b>${money(f.debt)}</b><span>dette</span></div>
-      <div class="stat"><b>${netAvg >= 0 ? '+' : ''}${money(netAvg)}</b><span>résultat / jour</span></div>
-      <div class="stat"><b>${runway}</b><span>autonomie</span></div>
-    </div>`;
-
-    if (hist.length) {
-      html += `<div class="fin-chart">${hist.map(h => `
-        <div class="fin-day" title="J${h.day}">
-          <i class="inc" style="height:${(h.income / max * 100).toFixed(0)}%"></i>
-          <i class="exp" style="height:${(h.expense / max * 100).toFixed(0)}%"></i>
-        </div>`).join('')}</div>
-      <div class="fin-legend"><span><b style="background:#4fbf9f"></b>recettes</span>
-        <span><b style="background:#ff3ea5"></b>dépenses</span>
-        <span>14 derniers jours</span></div>`;
-    } else {
-      html += note('Aucun exercice clos. Reviens après une nuit de sommeil.');
-    }
-
-    if (last) {
-      const L = last.L;
-      const line = (lbl, v, cls) => v > 0.5 ? `<tr><td class="${cls}">${lbl}</td><td class="${cls}">${money(v)}</td></tr>` : '';
-      html += title(`Compte de résultat · jour ${last.day}`);
-      html += `<table class="pnl">
-        ${line('Ventes physiques', L.sales, 'in')}
-        ${line('Numérique', L.digital, 'in')}
-        ${line('Boutique', L.store, 'in')}
-        ${line('Cachets de shows', L.gigs, 'in')}
-        ${line('Divers', L.other, 'in')}
-        ${line('Loyer et charges', L.rent, 'out')}
-        ${line('Marketing', L.marketing, 'out')}
-        ${line('Intérêts', L.interest, 'out')}
-        ${line('Pressage', L.pressing, 'out')}
-        ${line('Matériel', L.gear, 'out')}
-        ${line('Avances artistes', L.signing, 'out')}
-        ${line('Promo', L.promo, 'out')}
-        ${line('Disques achetés', L.digs, 'out')}
-        ${line('Vie quotidienne', L.living, 'out')}
-        <tr class="tot"><td>Résultat</td><td class="${last.income - last.expense >= 0 ? 'in' : 'out'}">
-          ${last.income - last.expense >= 0 ? '+' : ''}${money(last.income - last.expense)}</td></tr>
-      </table>`;
-    }
-
-    html += title('Politique de prix');
-    html += note(`Baisser le prix vend plus d'exemplaires et gagne des fans ; le monter
-      améliore la marge mais freine les ventes. Actuel : <b>${(f.price * 100).toFixed(0)} %</b>
-      du prix conseillé, demande <b>${(g.demandFactor * 100).toFixed(0)} %</b>.`);
-    html += `<div class="pill-row">${[0.7, 0.85, 1, 1.15, 1.35].map(v =>
-      `<button class="pill ${Math.abs(f.price - v) < .01 ? 'on' : ''}" data-act="price" data-arg="${v}">${(v * 100) | 0} %</button>`).join('')}</div>`;
-
-    html += title('Budget marketing quotidien');
-    html += note('Un filet de hype et de fans tous les jours, tant que la caisse suit.');
-    html += `<div class="pill-row">${[0, 50, 250, 1200, 6000].map(v =>
-      `<button class="pill ${f.marketing === v ? 'on' : ''}" data-act="mkt" data-arg="${v}"
-        ${g.tier < (v > 1000 ? 3 : v > 200 ? 1 : 0) ? 'disabled' : ''}>${v ? money(v) : 'aucun'}</button>`).join('')}</div>`;
-
-    html += title('Financement');
-    if (f.debt > 0) {
-      html += note(`Dette : <b>${money(f.debt)}</b> · intérêts 0,5 % par jour (${money(f.debt * 0.005)} / jour).`);
-      html += row({ title: 'Rembourser 25 % de la caisse', sub: money(s.cash * 0.25), btn: 'Payer', act: 'repay', arg: 'part', disabled: s.cash < 50 });
-      html += row({ title: 'Solder la dette', sub: money(f.debt), btn: 'Solder', act: 'repay', arg: 'all', disabled: s.cash < f.debt });
-    }
-    for (const n of [2000, 10000, 50000]) {
-      const need = n > 20000 ? 3 : n > 5000 ? 1 : 0;
-      html += row({
-        title: `Emprunter ${money(n)}`, sub: `5 % de frais · ${money(n * 1.05 * 0.005)} d'intérêts par jour`,
-        tag: g.tier < need ? `palier ${need}` : null,
-        btn: 'Signer', act: 'borrow', arg: n, btnCls: 'gold',
-        disabled: g.tier < need || f.debt > n * 2,
-      });
-    }
-    return { title: 'Finances', sub: TIERS[g.tier].name, html };
+  jour(ui, j) {
+    const r = ui.extra;
+    ui.entete(`Jour ${r.jour + 1}`, r.force ? 'Tu t’es écroulé à 3 h. La nuit est passée.' : 'Une nouvelle journée');
+    ui.onglets(null);
+    let h = `<div class="chiffres"><div class="chiffre"><b>+${argent(r.recettes)}</b><span>rentré cette nuit</span></div><div class="chiffre"><b>-${argent(r.depenses)}</b><span>parti cette nuit</span></div><div class="chiffre"><b>${j.s.offres.length}</b><span>dates au tableau</span></div></div>`;
+    h += r.lignes.map((l) => `<div class="note" style="margin:3px 0">${l.n > 0 ? '💰' : l.n < 0 ? '📤' : '📣'} ${echappe(l.txt)}${l.n ? ` · <b>${l.n > 0 ? '+' : ''}${argent(l.n)}</b>` : ''}</div>`).join('') || '<div class="note">Une nuit calme.</div>';
+    h += bouton('C’est parti', 'fermer', '', 'large');
+    return h;
   },
-
-  dialogue(ui, g) {
-    const pnj = ui.temp.pnj;
-    if (!pnj) return { title: '…', sub: '', html: '' };
-    const conv = conversation(g, pnj);
-    ui.temp.conv = conv;
-
-    // deja parle aujourd'hui : il repond, mais sans rien donner
-    if (ui.temp.dejaVu && !ui.temp.noeud) {
-      return {
-        title: conv.titre, sub: conv.sousTitre,
-        html: note('« On s’est déjà parlé aujourd’hui. Repasse demain. »') +
-          `<button class="btn wide ghost" data-act="close">Le laisser tranquille</button>`,
-      };
-    }
-
-    // une reponse a ete choisie : on l'affiche
-    if (ui.temp.noeud) {
-      let html = `<div class="row"><div class="grow"><p style="font-size:15px;color:var(--texte,#e2e7f7)">
-        ${esc(ui.temp.noeud.texte)}</p></div></div>`;
-      if (ui.temp.noeud.extra) html += note(`<b>${esc(ui.temp.noeud.extra)}</b>`);
-      html += `<button class="btn wide" data-act="close">Se quitter là-dessus</button>`;
-      return { title: conv.titre, sub: conv.sousTitre, html };
-    }
-
-    // l'ouverture, et ce qu'on peut repondre
-    let html = `<div class="row"><div class="grow"><p style="font-size:15px;color:var(--texte,#e2e7f7)">
-      ${esc(conv.texte)}</p></div></div>`;
-    html += title('Répondre');
-    html += conv.choix.map((c, i) =>
-      `<button class="btn wide ghost" data-act="choix" data-arg="${i}">${esc(c.label)}</button>`).join('');
-    return { title: conv.titre, sub: conv.sousTitre, html };
-  },
-
-  scene(ui, g) {
-    const sc = g.scene;
-    const cl = sc.classement();
-    const max = Math.max(1, cl[0].hype);
-    let html = note(`Six autres essaient de faire exactement ce que tu fais. Ils montent tout seuls,
-      raflent les disques rares avant l'ouverture, signent les artistes que tu laisses traîner et
-      tiennent les résidences des clubs. Tu es <b>${sc.maPlace}<sup>e</sup></b> de la scène.`);
-
-    html += title('Classement à la hype');
-    html += cl.map((x, i) => `<div class="row" style="${x.moi ? 'border-color:var(--or,#e8c86a)' : ''}">
-      <div class="grow">
-        <h3>${i + 1}. ${esc(x.nom)}${x.moi ? ' <span class="tag">toi</span>' : ''}</h3>
-        <p>${esc(x.genre)} · hype ${Math.round(x.hype)}</p>
-        <div class="meter"><i style="width:${Math.round(x.hype / max * 100)}%"></i></div>
-      </div></div>`).join('');
-
-    const res = Object.entries(sc.s.residences);
-    if (res.length) {
-      html += title('Résidences tenues');
-      html += res.map(([salle, rid]) => {
-        const r = sc.s.hype[rid] !== undefined ? RIVALS.find(v => v.id === rid) : null;
-        const gig = GIGS.find(x => x.id === salle);
-        if (!r || !gig) return '';
-        const jePeux = g.s.hype >= sc.hypeDe(r.id);
-        return row({
-          title: gig.name, sub: `${r.name} la tient · ${jePeux ? 'tu peux la lui prendre avec un bon set' : 'il te manque de la hype'}`,
-          tag: jePeux ? 'à ta portée' : `hype ${Math.round(sc.hypeDe(r.id))}`,
-        });
-      }).join('');
-    }
-
-    if (sc.s.journal.length) {
-      html += title('Ce qu’ils ont fait');
-      html += sc.s.journal.slice(0, 8).map(e =>
-        `<div class="row"><div class="grow"><p>J${e.jour} · ${esc(e.txt)}</p></div></div>`).join('');
-    }
-
-    html += title('Qui est qui');
-    html += RIVALS.map(r => row({
-      title: r.name, sub: r.bio,
-      tag: { bacs: 'rafle les bacs', clubs: 'tient les clubs', signe: 'signe vite', presse: 'la presse' }[r.trait],
-    })).join('');
-    return { title: 'La scène', sub: `${sc.maPlace}e sur ${cl.length}`, html };
-  },
-
-  etat(ui, g) {
-    const n = g.s.needs;
-    const ligne = (ico, nom, v, role, quand) => `<div class="row"><div class="grow">
-      <h3>${ico} ${nom} · ${Math.round(v)} %</h3>
-      <p>${role}</p>
-      <div class="meter"><i style="width:${Math.round(v)}%"></i></div>
-      <p style="margin-top:6px">${quand}</p></div></div>`;
-
-    let html = note('Ces quatre jauges baissent avec le temps qui passe. Elles ne te tuent pas, mais elles rabotent tout ce que tu fais.');
-    html += ligne('⚡', 'Énergie', n.energy,
-      'La plus importante. Sans elle, plus de quart de travail, plus de set, plus de session studio.',
-      'Se recharge en dormant chez toi. Un café en dépanne.');
-    html += ligne('🍜', 'Faim', n.food,
-      'En dessous de 30 %, la qualité de tes productions et la réaction du public chutent.',
-      'Se remplit au casse-croûte.');
-    html += ligne('🥤', 'Soif', n.drink,
-      'Même effet que la faim, et elle descend plus vite. Jouer un set assèche.',
-      'Une bouteille d’eau coûte 2 $.');
-    html += ligne('🫂', 'Social', n.social,
-      'Le moral. Bas, il pénalise tes prods ; entretenu, il t’ouvre des rencontres au bar.',
-      'Se remonte en buvant un verre et en réseautant au Sous-Sol.');
-
-    html += title('Les trois compteurs du haut');
-    html += row({ title: '💰 Argent', sub: 'Tout part de là : matériel, disques, pressage, avances aux artistes.' });
-    html += row({ title: '🫀 Fans', sub: 'Ils achètent tes sorties tous les jours. Gagnés en jouant et en faisant de la promo.' });
-    html += row({ title: '🔥 Hype', sub: 'Ta cote du moment. Elle ouvre les grosses salles et fait vendre. Elle retombe de 7 % par jour si tu ne fais rien.' });
-    return { title: 'Ton état', sub: 'À quoi servent les jauges', html };
-  },
-
-  menu(ui, g) {
-    let html = note('Sonaa · un simulateur de label électronique. Tout se sauvegarde tout seul.');
-    html += row({ title: 'Musique de fond', sub: 'Boucle techno générée en direct · coupée par défaut, seuls les disques jouent',
-      btn: ui.hooks.musicOn && ui.hooks.musicOn() ? 'Couper' : 'Jouer', act: 'music' });
-    html += row({ title: 'Sauvegarder', sub: 'Forcer une sauvegarde', btn: 'Sauver', act: 'save', btnCls: 'ghost' });
-    html += row({ title: 'Nouvelle partie', sub: 'Efface la progression', btn: 'Recommencer', act: 'newgame', btnCls: 'pink' });
-    html += title('Comment on gagne');
-    html += note(`Achète des disques → joue des sets → gagne de la hype et des fans →
-      produis tes tracks → presse-les → lance des campagnes → signe des artistes →
-      ouvre ta boutique → rachète le monde. Sept paliers, du 3½ à la tour du major.`);
-    return { title: 'Menu', sub: TIERS[g.tier].name, html };
-  },
-
-  map(ui, g) {
-    const list = ui.hooks.buildings ? ui.hooks.buildings() : [];
-    let html = note('Tape un lieu pour t’y rendre automatiquement.');
-    html += list.map(b => row({
-      title: b.name, sub: DESCR[b.kind] || '',
-      tag: g.unlocked(b) ? null : `palier ${b.tier}`,
-      btn: 'Y aller', act: 'goto', arg: b.id, btnCls: 'ghost',
-    })).join('');
-    return { title: 'La ville', sub: 'Déplacement rapide', html };
-  },
-
-  locked(ui, g) {
-    const b = ui.current.building;
-    return {
-      title: b.name, sub: 'Fermé',
-      html: note(`Chantier en cours. Il te faut le palier <b>${esc(TIERS[b.tier].name)}</b>
-        (${big(TIERS[b.tier].need)} de valeur de label) pour ouvrir ça.`),
-    };
+  menu(ui, j) {
+    ui.entete('Menu', 'SONAA · DJ Tycoon');
+    ui.onglets(null);
+    return `<div class="carte"><b>Comment jouer</b><div class="note" style="margin:4px 0 0">Tape sur un lieu pour t’y rendre. Travaille au casse-croûte, achète ton matériel dans l’ordre chez Massive Machines, remplis tes bacs chez les disquaires, accepte des dates sur le tableau chez toi, joue des sets qui montent en énergie. La hype fait monter les cachets. Au niveau 8, ouvre ton label et signe les artistes de l’atlas.</div></div>
+      <div class="carte"><b>Les disques</b><div class="note" style="margin:4px 0 0">Ce sont les ${DISQUES.length} morceaux de l’atlas SONAA, dans leurs ${FAMILLES.length} familles. Les pochettes sont les vraies.</div></div>
+      <a class="bouton bleu large" style="display:block;text-decoration:none;color:#fff" href="/#/parcourir">Ouvrir l’atlas SONAA</a>
+      ${bouton('Recommencer une partie', 'nouvelle', '', 'gris large')}`;
   },
 };
+
+/* UNE POCHETTE : la vraie image de l'atlas, la famille en liseret de
+   couleur, la rarete en etoiles, l'energie en points. */
+function pochette(d, o) {
+  const src = srcPochette(d);
+  const genre = genreParId(d.genre);
+  return `<button class="pochette ${o.choisie ? 'choisie' : ''}" ${o.act ? `data-act="${o.act}" data-arg="${d.id}"` : 'disabled'} title="${echappe(d.artist)} · ${echappe(d.title)}">
+    ${src ? `<img src="${src}" alt="" loading="lazy">` : '<canvas></canvas>'}
+    <div class="fam" style="background:${couleurFamille(d.family)}"></div>
+    <div class="etoiles">${etoiles(d.rarity)}</div>
+    ${o.prix != null ? `<div class="prix">${argent(o.prix)}</div>` : ''}
+    ${o.num ? `<div class="num">${o.num}</div>` : ''}
+    <div class="infos"><b>${echappe(d.title)}</b><span>${echappe(d.artist)}${d.year ? ' · ' + d.year : ''}</span><span>${echappe(genre?.label || d.genre)} · ${d.bpm} bpm ${pointsEnergie(d.energy)}</span></div>
+  </button>`;
+}

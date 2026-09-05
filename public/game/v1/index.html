@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0a1330">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>SONAA · Label Tycoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- UNE SEULE FAMILLE, NUNITO, ET RIEN D'AUTRE. Jersey 15 pour les titres et
+     Silkscreen pour les chiffres sont parties : trois familles pour un jeu
+     dont la seule exigence est qu'on lise ce qui y est ecrit, c'etait deux de
+     trop. Les graisses vont de 400 a 900 parce que la hierarchie repose
+     maintenant sur la graisse et le corps, plus sur le changement de police. -->
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="icon" href="assets/icon-192.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<canvas id="stage"></canvas>
+
+<!-- ===== Retour vers l'atlas =====
+     Le jeu occupe l'ecran entier : reproduire la barre du site aurait coute
+     une bande de cinquante pixels sur un telephone, en travers du canevas, et
+     la typographie du site jure avec le pixel art. Une fleche suffit, et
+     Mika l'a lui-meme proposee comme solution de rechange.
+
+     Elle vit HORS du HUD, qui reste cache tant qu'aucune partie n'est
+     lancee : la sortie doit exister des l'ecran titre, c'est meme la qu'on
+     s'apercoit qu'on s'est trompe de porte. -->
+<a id="retour-atlas" class="retour-atlas" href="/#/parcourir" aria-label="Retour a SONAA">
+  <span aria-hidden="true">&lt;</span> Sonaa
+</a>
+
+<!-- ===== HUD ===== -->
+<div id="hud" class="hud hidden">
+  <div class="hud-top">
+    <div class="chip chip-cash"><span class="ico">💰</span><span id="hud-cash">0 $</span></div>
+    <div class="chip chip-fans"><span class="ico">🫀</span><span id="hud-fans">0</span></div>
+    <div class="chip chip-hype"><span class="ico">🔥</span><span id="hud-hype">0</span></div>
+    <div class="chip chip-clock"><span class="ico">🕓</span><span id="hud-clock">J1 08:00</span></div>
+  </div>
+  <div class="hud-tier">
+    <div class="tier-name" id="hud-tier">Bedroom DJ</div>
+    <div class="tier-bar"><i id="hud-tier-fill"></i></div>
+  </div>
+  <div class="needs" id="needs" title="Touche pour savoir a quoi servent ces jauges">
+    <div class="need" data-need="energy"><span>⚡</span><div class="nbar"><i></i></div><span class="nval"></span></div>
+    <div class="need" data-need="food"><span>🍜</span><div class="nbar"><i></i></div><span class="nval"></span></div>
+    <div class="need" data-need="drink"><span>🥤</span><div class="nbar"><i></i></div><span class="nval"></span></div>
+    <div class="need" data-need="social"><span>🫂</span><div class="nbar"><i></i></div><span class="nval"></span></div>
+  </div>
+<div id="quest" class="quest hidden">
+    <div class="quest-inner">
+      <span class="quest-ico">🎯</span>
+      <span class="quest-txt"><b id="quest-goal"></b><span id="quest-hint"></span></span>
+      <span class="quest-count" id="quest-count"></span>
+    </div>
+  </div>
+</div>
+
+
+<div id="toasts" class="toasts"></div>
+
+<!-- ===== Controls ===== -->
+<div id="controls" class="controls hidden">
+  <div id="stick" class="stick"><i id="stick-knob"></i></div>
+  <div class="right-controls">
+    <button id="btn-menu" class="round-btn small" aria-label="Menu">☰</button>
+    <button id="btn-map" class="round-btn small" aria-label="Carte">🗺️</button>
+    <button id="btn-fin" class="round-btn small" aria-label="Finances">📊</button>
+    <button id="btn-scene" class="round-btn small" aria-label="La scene">🎧</button>
+    <button id="btn-action" class="round-btn action hidden"><span id="btn-action-label">Entrer</span></button>
+  </div>
+</div>
+
+<!-- ===== Panel / modal ===== -->
+<div id="overlay" class="overlay hidden">
+  <div class="sheet" id="sheet">
+    <div class="sheet-head">
+      <div>
+        <h2 id="sheet-title">Titre</h2>
+        <p id="sheet-sub">Sous-titre</p>
+      </div>
+      <button id="sheet-close" class="close-btn">✕</button>
+    </div>
+    <div class="sheet-body" id="sheet-body"></div>
+  </div>
+</div>
+
+<!-- ===== Title screen ===== -->
+<div id="title" class="title-screen">
+  <div class="title-card">
+    <div class="logo">SONAA</div>
+    <div class="logo-sub">de la chambre au major · un simulateur de label</div>
+    <!-- LA LIGNE DE VERSION N'EST PAS ICI, ET C'EST VOULU : main.js la cree.
+
+         Elle y etait. Mais index.html est justement le fichier dont on doute
+         quand on doute de sa version, et il a sa propre entree de cache : une
+         ligne posee ici n'apparait que si CE fichier est frais, ce qui est la
+         chose meme qu'elle est censee nous apprendre. Mesure faite sur
+         sonaa.ca : les modules etaient a jour, /game/ ne l'etait pas, et la
+         ligne restait invisible alors que le jeu, lui, etait le bon.
+
+         Creee par main.js, elle suit le sort du code qu'elle date. Et si
+         main.js est vieux, elle ne s'affiche pas du tout : une absence est
+         encore un signal, un chiffre faux n'en serait pas un. -->
+    <div class="title-art" id="title-art"></div>
+    <button class="big-btn" id="btn-new">Nouvelle partie</button>
+    <button class="big-btn ghost hidden" id="btn-continue">Continuer</button>
+    <p class="title-hint">Se joue au doigt. Déplace-toi avec le stick, entre dans les bâtiments, achète des disques, produis, joue, signe des artistes.</p>
+  </div>
+</div>
+
+<!-- SORTIE DE SECOURS · /game/?nocache=1
+
+     Le site est une application installable, donc un service worker. Il a
+     longtemps precache le jeu avec le reste, et sa politique de mise a jour
+     est « on propose, on n'impose pas » : la nouvelle version attend qu'on
+     accepte une banniere. Cette banniere vit dans l'application React. Ici,
+     il n'y en a pas. Quelqu'un qui n'ouvre que /game/ pouvait donc rester
+     indefiniment sur une vieille copie, et juger une correction sur une
+     version qui ne la contenait pas.
+
+     Le jeu est desormais servi par le reseau (voir vite.config.ts), ce qui
+     supprime la cause. Cette porte reste, pour deux raisons : elle debloque
+     les copies deja installees avant la correction, et le jour ou l'on doute
+     de ce qu'on regarde il faut pouvoir en sortir sans ouvrir les outils du
+     navigateur. -->
+<script>
+(async function () {
+  var p = new URLSearchParams(location.search);
+  if (p.get('nocache') !== '1') return;
+  try {
+    if ('serviceWorker' in navigator) {
+      var rs = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(rs.map(function (r) { return r.unregister(); }));
+    }
+    if ('caches' in window) {
+      var ks = await caches.keys();
+      await Promise.all(ks.map(function (k) { return caches.delete(k); }));
+    }
+
+    /* ET LE CACHE HTTP ORDINAIRE, QUI EST CELUI QU'ON OUBLIE.
+
+       Cette porte ne vidait que le service worker et l'API caches. Il en
+       reste un troisieme, celui du navigateur : GitHub Pages sert le jeu
+       avec max-age=600, donc pendant dix minutes apres un deploiement le
+       navigateur ressert ses propres copies sans meme demander au serveur.
+       Mesure faite : les fichiers en ligne portaient la nouvelle police,
+       la page chargee non, et ?nocache=1 n'y changeait rien.
+
+       On redemande donc chaque fichier avec `cache: 'reload'`, ce qui force
+       la revalidation et remplace l'entree.
+
+       ON ATTEND `load` D'ABORD, et c'est tout le sel de cette version. Le
+       premier jet balayait `performance.getEntriesByType('resource')` tout
+       de suite. Mais ce script est en tete de page : a cet instant le jeu
+       n'a rien charge, la liste tient en deux feuilles de style, et pas un
+       seul module n'etait rafraichi. Mesure : la porte tournait, la page
+       revenait, et la ligne de version affichait toujours 14 h 13 pendant
+       que le serveur etait a 14 h 19.
+
+       Apres `load`, la liste contient exactement ce que le jeu a demande.
+       Elle n'est donc jamais ecrite a la main et ne se perime pas quand le
+       jeu gagne un module. */
+    if (document.readyState !== 'complete') {
+      await new Promise(function (r) { addEventListener('load', r, { once: true }); });
+    }
+    var memeOrigine = function (u) { try { return new URL(u).origin === location.origin; } catch (e) { return false; } };
+    var liste = performance.getEntriesByType('resource')
+      .map(function (e) { return e.name; })
+      .filter(function (u) { return memeOrigine(u) && /\.(js|css|html)(\?|$)/.test(u); });
+    liste.push(location.origin + location.pathname);
+    await Promise.all(liste.map(function (u) {
+      return fetch(u, { cache: 'reload' }).catch(function () {});
+    }));
+  } catch (e) {
+    /* Une purge qui echoue ne doit pas laisser la page bloquee : on recharge
+       quand meme, quitte a retomber sur le cache. */
+  }
+  p.delete('nocache');
+  var reste = p.toString();
+  location.replace(location.pathname + (reste ? '?' + reste : '') + location.hash);
+})();
+</script>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
