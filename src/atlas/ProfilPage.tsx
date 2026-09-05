@@ -50,12 +50,14 @@ import { ChoixStyles } from './ChoixStyles.tsx';
 import { ModifierSet } from './ModifierSet.tsx';
 import { EnTeteSite } from './EnTeteSite.tsx';
 import { SelecteurVille } from './SelecteurVille.tsx';
+import { SoireesAdmin } from './SoireesAdmin.tsx';
 import {
   enregistrerVilleDattache,
   toutesLesVilles,
   villeDattache,
 } from '../lib/villes.ts';
 import type { Ville } from '../lib/ville-active.ts';
+import { suisJeModerateur } from '../lib/proposals.ts';
 import { PiedDePage } from './PiedDePage.tsx';
 
 import { t } from '../langue/langue.ts';
@@ -87,6 +89,10 @@ export function ProfilPage() {
   const [villes, setVilles] = useState<Ville[]>([]);
   const [villeAttache, setVilleAttache] = useState<Ville | null>(null);
   const [messageVille, setMessageVille] = useState<string | null>(null);
+  /* Le panneau des soirees ne s'affiche que pour les moderateurs. Ce n'est
+     pas ce qui protege l'ecriture, la base s'en charge : c'est pour ne pas
+     montrer un formulaire qui refuserait de servir. */
+  const [moderateur, setModerateur] = useState(false);
 
   const [sets, setSets] = useState<SetDJ[]>([]);
   const [fichier, setFichier] = useState<File | null>(null);
@@ -124,7 +130,12 @@ export function ProfilPage() {
         setNom(a?.nom ?? '');
         setBio(a?.bio ?? '');
         setAvatarPath(a?.avatar_path ?? null);
-        const [liste, idAttache] = await Promise.all([toutesLesVilles(), villeDattache()]);
+        const [liste, idAttache, estModo] = await Promise.all([
+          toutesLesVilles(),
+          villeDattache(),
+          suisJeModerateur(),
+        ]);
+        if (vivant) setModerateur(estModo);
         if (!vivant) return;
         setVilles(liste);
         setVilleAttache(liste.find((v) => v.id === idAttache) ?? null);
@@ -459,6 +470,8 @@ export function ProfilPage() {
         />
         {messageVille && <p className="sp-message">{messageVille}</p>}
       </section>
+
+      {moderateur && <SoireesAdmin />}
 
       {/* ── Deposer ── */}
       <section className="sets-bloc">

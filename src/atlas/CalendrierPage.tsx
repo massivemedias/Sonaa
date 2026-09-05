@@ -54,6 +54,7 @@ import {
   villeDeSession,
   villeDuLien,
 } from '../lib/villes.ts';
+import { soireesManuelles, type SoireeManuelle } from '../lib/soirees-manuelles.ts';
 import {
   agenda,
   noterStyles,
@@ -249,23 +250,57 @@ export function CalendrierPage() {
     const { du, au } = enRecherche
       ? fenetreDe('recherche', null, new Date())
       : fenetreDe(vue, dateChoisie, new Date());
-    void agenda({
+    const deRa = agenda({
       zone: zoneRa,
       du,
       au,
       ...(traduction?.valeur ? { genre: traduction.valeur } : {}),
       ...(enRecherche ? { pages: 8 } : {}),
-    }).then((r) => {
+    });
+
+    /* ═══ DEUX SOURCES, UNE SEULE LISTE ═══
+     *
+     * Resident Advisor et les soirees ajoutees a la main sont demandees en
+     * parallele, et fusionnees par date. Elles ne partagent aucun sort : si
+     * RA tombe, la page le dit et montre quand meme ce qu'on a saisi ; si
+     * notre base tombe, RA continue. Faire dependre l'une de l'autre
+     * reviendrait a ce qu'une panne chez nous efface une source qui, elle,
+     * repond.
+     *
+     * L'ordre du tri est la date, pas la source : personne ne cherche « les
+     * soirees de Resident Advisor », on cherche ce qui se joue mardi. */
+    const laMain = ville
+      ? soireesManuelles(ville.id, du, au)
+      : Promise.resolve([] as SoireeManuelle[]);
+
+    void Promise.all([deRa, laMain]).then(([r, mains]) => {
+      const ajoutees: Soiree[] = mains.map((m) => ({
+        id: `main:${m.id}`,
+        titre: m.titre,
+        date: m.debut,
+        debut: m.debut,
+        lieu: m.lieu,
+        artistes: m.artistes,
+        genres: m.genres,
+        affiche: m.affiche,
+        lien: m.lien ?? '',
+        interesses: 0,
+        origine: 'main',
+      }));
+
       if (!r) {
         setPanne(true);
-        setSoirees(null);
+        /* Meme sans RA, ce qu'on a saisi reste affichable. */
+        setSoirees(ajoutees.length > 0 ? ajoutees : null);
+        setTotal(ajoutees.length);
       } else {
-        setSoirees(r.soirees);
-        setTotal(r.total);
+        const tout = [...r.soirees, ...ajoutees].sort((a, b) => a.date.localeCompare(b.date));
+        setSoirees(tout);
+        setTotal(r.total + ajoutees.length);
       }
       setChargement(false);
     });
-  }, [zoneRa, vue, dateChoisie, traduction, enRecherche]);
+  }, [zoneRa, vue, dateChoisie, traduction, enRecherche, ville]);
 
   useEffect(charger, [charger]);
 
@@ -633,7 +668,18 @@ export function CalendrierPage() {
                                   {s.artistes.slice(0, 5).join(', ')}
                                 </span>
                               )}
-                              <span className="cal-lieu">{s.lieu ?? 'Lieu non annoncé'}</span>
+                              <span className="cal-lieu">
+                                {/* Le marqueur vit dans LES DEUX gabarits.
+                                    Il n'etait que dans les cartes, et la
+                                    recherche, qui affiche un horaire
+                                    compact, ne le montrait pas : une soiree
+                                    ajoutee a la main y passait pour une
+                                    soiree de Resident Advisor. */}
+                                {s.origine === 'main' && (
+                                  <span className="cal-origine">ajoutée à la main</span>
+                                )}
+                                {s.lieu ?? 'Lieu non annoncé'}
+                              </span>
                             </span>
                           </li>
                         );
@@ -683,6 +729,17 @@ export function CalendrierPage() {
                                   <p className="cal-artistes">{s.artistes.slice(0, 6).join(', ')}</p>
                                 )}
                                 <p className="cal-lieu">
+                                  {/* LA PROVENANCE SE DIT, ET SEULEMENT
+                                      QUAND ELLE APPREND QUELQUE CHOSE.
+                                      Resident Advisor est deja nomme en tete
+                                      de page ; le repeter sur chaque ligne
+                                      serait du bruit. Une soiree ajoutee a
+                                      la main, elle, ne vient pas de la, et
+                                      celui qui la lit doit pouvoir le
+                                      savoir. */}
+                                  {s.origine === 'main' && (
+                                    <span className="cal-origine">ajoutée à la main</span>
+                                  )}
                                   {s.lieu ?? 'Lieu non annoncé'}
                                   {h ? ` · ${h}${sigle ? ` ${sigle}` : ''}` : ''}
                                 </p>

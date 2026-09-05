@@ -175,6 +175,11 @@ function estDuTexte(t: string): boolean {
   if (/\b(export|import|interface|const|let|function|return|type|readonly|extends)\b/.test(nu)) {
     return false;
   }
+  /* UNE LISTE DE COLONNES N'EST PAS UNE PHRASE. « id, ville_id, titre, debut,
+     lieu, source_ref, publiee » a des virgules, des espaces et des mots : tout
+     ce qu'il faut pour passer pour du francais. Le trait de soulignement le
+     trahit, aucun mot francais n'en porte. */
+  if (/[a-z]_[a-z]/.test(nu)) return false;
   if (ANGLAIS.test(nu)) return false;
   /* Au moins trois mots : une phrase, pas une etiquette technique. */
   return nu.split(/\s+/).filter((w) => w.length >= 2).length >= 3;

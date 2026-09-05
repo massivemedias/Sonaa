@@ -495,3 +495,18 @@
     height: 36px;
   }
 }
+
+/* La provenance d'une soiree qui ne vient pas de Resident Advisor. Discrete :
+   elle informe, elle ne se vante pas. */
+.cal-origine {
+  display: inline-block;
+  margin-right: 0.45rem;
+  padding: 0.05rem 0.4rem;
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: var(--serrage);
+  color: var(--ink-secondary);
+  vertical-align: 0.08em;
+}

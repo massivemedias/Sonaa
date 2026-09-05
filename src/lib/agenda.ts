@@ -24,6 +24,12 @@ export interface Soiree {
   readonly affiche: string | null;
   readonly lien: string;
   readonly interesses: number;
+  /* D'OU ELLE VIENT. Absent veut dire Resident Advisor, qui a longtemps ete
+     la seule source. Une soiree ajoutee a la main porte « main », et
+     l'affichage le dit : quelqu'un qui lit un agenda a le droit de savoir
+     qui le lui annonce, surtout quand deux sources ne disent pas la meme
+     chose. */
+  readonly origine?: 'ra' | 'main';
 }
 
 export interface Zone {
