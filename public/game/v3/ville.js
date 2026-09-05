@@ -101,7 +101,13 @@ export class Ville {
     sc.add(this.heros);
     await this.poserLeBati();
 
+    /* UN ResizeObserver SUR LE CONTENEUR, PAS SEULEMENT L'EVENEMENT DE
+       FENETRE. Le panneau d'apercu, une barre d'outils qui apparait, un
+       clavier logiciel qui monte : tout cela change la taille utile sans
+       toujours declencher `resize`. On observe donc la boite elle-meme. */
     addEventListener('resize', () => this.redimensionner());
+    new ResizeObserver(() => this.redimensionner()).observe(this.hote);
+    this.redimensionner();
     this.pret = true;
   }
 
@@ -429,19 +435,23 @@ export class Ville {
   }
 
   redimensionner() {
-    const a = innerWidth / innerHeight;
+    const r = this.hote.getBoundingClientRect();
+    const w = Math.max(1, Math.round(r.width)), h = Math.max(1, Math.round(r.height));
+    const a = w / h;
     this.cam.left = -this.d * a; this.cam.right = this.d * a;
     this.cam.top = this.d; this.cam.bottom = -this.d;
     this.cam.updateProjectionMatrix();
-    this.rendu.setSize(innerWidth, innerHeight);
+    this.rendu.setSize(w, h);
+    this.taille = { w, h };
   }
 
   /* DU PIXEL D'ECRAN VERS LA TUILE. C'est l'equivalent exact de
      cam.unproject() de la version canvas : on tire un rayon depuis le point
      touche et on regarde ou il coupe le sol. */
   versLeMonde(px, py) {
+    const t = this.taille || { w: innerWidth, h: innerHeight };
     const r = new THREE.Raycaster();
-    r.setFromCamera(new THREE.Vector2((px / innerWidth) * 2 - 1, -(py / innerHeight) * 2 + 1), this.cam);
+    r.setFromCamera(new THREE.Vector2((px / t.w) * 2 - 1, -(py / t.h) * 2 + 1), this.cam);
     const p = new THREE.Vector3();
     r.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), p);
     return { x: p.x, y: p.z };
@@ -450,8 +460,9 @@ export class Ville {
   /** Le point d'ecran, en pixels CSS, d'un point du monde. Sert aux
       etiquettes : elles vivent dans le DOM, donc en Nunito net. */
   versLEcran(x, y, z = 0) {
+    const t = this.taille || { w: innerWidth, h: innerHeight };
     const v = new THREE.Vector3(x, z, y).project(this.cam);
-    return { x: (v.x * 0.5 + 0.5) * innerWidth, y: (-v.y * 0.5 + 0.5) * innerHeight, devant: v.z < 1 };
+    return { x: (v.x * 0.5 + 0.5) * t.w, y: (-v.y * 0.5 + 0.5) * t.h, devant: v.z < 1 };
   }
 
   image(cible) {

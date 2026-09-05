@@ -433,3 +433,12 @@ canvas#stage{ image-rendering:pixelated; image-rendering:crisp-edges }
   padding:2px 7px;box-shadow:2px 2px 0 rgba(20,12,30,.35);
   transition:opacity .18s linear}
 .etiq-porte{background:#2b2136;color:#f6f0dc;border-color:#151022;font-size:12px;display:none}
+
+/* ---------- le conteneur de la version 3D ---------- */
+/* LA FEUILLE DU JEU NE CONNAISSAIT QUE canvas#stage. En 3D le canevas est
+   cree par Three.js dans #ville, qui n'avait donc aucun style : il prenait
+   la hauteur de son contenu et le rendu se tassait dans un coin des que la
+   fenetre ne faisait pas exactement la taille qu'elle avait au chargement.
+   Vu en ligne, pas en local, parce qu'en local la fenetre ne bougeait pas. */
+#ville{position:fixed;inset:0;z-index:0}
+#ville canvas{display:block}
