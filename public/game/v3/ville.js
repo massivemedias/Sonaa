@@ -209,22 +209,108 @@ export class Ville {
       this.neon = l;
     }
 
-    const decors = { tree: 'kenney/tree_large', bush: 'kaykit/bush', lamp: 'kaykit/streetlight', bench: 'kaykit/bench' };
+    /* PAS DE FENETRES ALLUMEES, ET C'EST UN CONSTAT, PAS UN OUBLI.
+
+       Un batiment KayKit est UN maillage avec UN materiau : la fenetre n'est
+       pas une piece separee qu'on pourrait rendre emissive, c'est une zone
+       de l'atlas. Il faudrait deviner laquelle, et l'atlas est une palette
+       de degrades ou le bleu des vitres sert aussi ailleurs. Une lumiere
+       posee au juge sur une voiture ou une enseigne serait pire que pas de
+       lumiere du tout. La nuit tient donc sur les lampadaires et le neon,
+       qui eux sont exacts. */
+
+    const decors = {
+      tree: 'kenney/tree_large', bush: 'kaykit/bush',
+      lamp: 'kaykit/streetlight', bench: 'kaykit/bench',
+      crates: 'kaykit/box_A', truck: 'kaykit/car_stationwagon',
+    };
+    const TAILLE = { tree: 1.5, lamp: 1.15, bench: 0.8, bush: 0.8, crates: 0.62, truck: 1.6 };
     this.lampes = [];
     for (const pr of this.city.props) {
+      if (pr.type === 'rock') { this.scene.add(this.caillou(pr)); continue; }
+      if (pr.type === 'totem') { this.scene.add(this.totem(pr)); continue; }
       const nom = decors[pr.type];
       if (!nom) continue;
       try {
         const o = await prendre(nom);
-        const t = pr.type === 'tree' ? 1.5 * (pr.s || 1) : pr.type === 'lamp' ? 1.15 : 0.8;
+        const t = (TAILLE[pr.type] || 0.8) * (pr.type === 'tree' ? (pr.s || 1) : 1);
         caler(o, t, t);
         o.position.x += pr.x; o.position.z += pr.y;
         o.rotation.y = ((pr.x * 7 + pr.y * 13) % 4) * Math.PI / 2;
         ombrer(o);
         this.scene.add(o);
         if (pr.type === 'lamp') this.lampes.push(o);
+        // un second cageot pose de travers : deux boites alignees font un
+        // decor de catalogue, deux boites de guingois font un bac a disques
+        if (pr.type === 'crates') {
+          const b2 = await prendre('kaykit/box_B');
+          caler(b2, 0.5, 0.5);
+          b2.position.set(pr.x + 0.42, b2.position.y, pr.y + 0.16);
+          b2.rotation.y = 0.6;
+          ombrer(b2);
+          this.scene.add(b2);
+        }
       } catch (e) { /* un decor manquant n'arrete pas la ville */ }
     }
+
+    // une benne derriere le club et une derriere le bar : ce sont les deux
+    // seuls endroits de la clairiere ou l'on sort des poubelles la nuit
+    for (const id of ['club', 'bar']) {
+      const b = this.city.buildings.find(x => x.id === id);
+      if (!b) continue;
+      try {
+        const o = await prendre('kaykit/dumpster');
+        caler(o, 0.9, 0.9);
+        o.position.x += b.x + b.w + 0.1; o.position.z += b.y + b.d - 0.6;
+        ombrer(o); this.scene.add(o);
+      } catch (e) { /* rien */ }
+    }
+    // le chateau d'eau du pressage, qui lui donne sa silhouette d'usine
+    const press = this.city.buildings.find(x => x.id === 'press');
+    if (press) {
+      try {
+        const o = await prendre('kaykit/watertower');
+        caler(o, 1.4, 1.4);
+        o.position.x += press.x + press.w - 0.7; o.position.z += press.y - 0.5;
+        ombrer(o); this.scene.add(o);
+      } catch (e) { /* rien */ }
+    }
+  }
+
+  /* Aucun des deux paquets n'a de rocher. Un icosaedre a facettes plates,
+     ecrase et tourne au hasard de sa position, en fait un tres correct. */
+  caillou(pr) {
+    const g = new THREE.Mesh(
+      new THREE.IcosahedronGeometry(0.3 * (pr.s || 1), 0),
+      new THREE.MeshLambertMaterial({ color: 0x8d8f88, flatShading: true }));
+    g.position.set(pr.x, 0.1, pr.y);
+    g.scale.y = 0.7;
+    g.rotation.set(pr.x % 1, pr.y % 1, (pr.x + pr.y) % 1);
+    g.castShadow = true; g.receiveShadow = true;
+    return g;
+  }
+
+  /* LE TOTEM DE LA PLACE : un 33 tours plante sur un socle. C'est le seul
+     objet du jeu qui dise de quoi il est question, et aucun paquet de ville
+     ne contient de disque. Trois primitives suffisent. */
+  totem(pr) {
+    const g = new THREE.Group();
+    const socle = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.3, 1.1),
+      new THREE.MeshLambertMaterial({ color: 0xa89a86 }));
+    socle.position.y = 0.15;
+    const fut = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.35, 0.7),
+      new THREE.MeshLambertMaterial({ color: 0xbdb09c }));
+    fut.position.y = 0.47;
+    const disque = new THREE.Mesh(new THREE.CylinderGeometry(0.62, 0.62, 0.06, 28),
+      new THREE.MeshLambertMaterial({ color: 0x241b33 }));
+    disque.position.y = 1.28; disque.rotation.x = Math.PI / 2;
+    const pastille = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.07, 20),
+      new THREE.MeshLambertMaterial({ color: 0xff5cb4 }));
+    pastille.position.y = 1.28; pastille.rotation.x = Math.PI / 2;
+    for (const m of [socle, fut, disque, pastille]) { m.castShadow = true; m.receiveShadow = true; }
+    g.add(socle, fut, disque, pastille);
+    g.position.set(pr.x, 0, pr.y);
+    return g;
   }
 
   /* TERRAIN PAS ENCORE DEBLOQUE : de l'herbe et trois buissons, pas un
