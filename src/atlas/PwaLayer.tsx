@@ -9,7 +9,7 @@
    L'ordre est une priorité, pas un empilement : trois bandeaux superposés
    sur un téléphone, c'est l'atlas qui disparaît. */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   appliquerLaMiseAJour,
   dejaInstallee,
@@ -31,11 +31,45 @@ interface EvenementInstallation extends Event {
 export function PwaLayer() {
   const [enLigne, setEnLigne] = useState(true);
   const [majPrete, setMajPrete] = useState(false);
+  /* « Plus tard » veut dire plus tard, pas jamais. Voir REPOUSSER_MS. */
+  const repousse = useRef<number | null>(null);
   const [invite, setInvite] = useState<'non' | 'navigateur' | 'ios'>('non');
   const [evenement, setEvenement] = useState<EvenementInstallation | null>(null);
 
   useEffect(() => surEtatDuReseau(setEnLigne), []);
   useEffect(() => surMiseAJour(setMajPrete), []);
+
+  /* ═══ « PLUS TARD » NE DOIT PAS VOULOIR DIRE « JAMAIS » ═══
+   *
+   * Le bouton posait simplement `majPrete` a faux, et la banniere ne
+   * revenait plus : `onNeedRefresh` ne se declenche qu'une fois par version.
+   * Quelqu'un qui repousse une fois reste donc sur son ancienne version tant
+   * qu'il ne recharge pas la page, ce qui peut durer des jours sur un onglet
+   * laisse ouvert.
+   *
+   * CE N'EST PAS UN DEFAUT THEORIQUE. Mika a signale que la recherche ne
+   * rendait qu'un resultat pour « daome » alors qu'il y en a douze. Le code
+   * etait juste et deploye : son navigateur servait la version d'avant. On a
+   * cherche un defaut qui n'existait plus.
+   *
+   * On garde le principe qui a fait choisir `prompt` plutot que
+   * `autoUpdate` : on ne remplace pas le code sous les pieds de quelqu'un
+   * qui lit une fiche ou ecoute un set. Mais on redemande au bout d'une
+   * demi-heure. */
+  const REPOUSSER_MS = 30 * 60 * 1000;
+
+  const repousser = (): void => {
+    setMajPrete(false);
+    if (repousse.current !== null) window.clearTimeout(repousse.current);
+    repousse.current = window.setTimeout(() => setMajPrete(true), REPOUSSER_MS);
+  };
+
+  useEffect(
+    () => () => {
+      if (repousse.current !== null) window.clearTimeout(repousse.current);
+    },
+    []
+  );
 
   /* L'invite d'installation. Conditions cumulatives : deuxième visite au
      moins, pas déjà installée, pas déjà refusée. */
@@ -94,7 +128,7 @@ export function PwaLayer() {
           <button className="pwa-bouton-principal" onClick={() => void appliquerLaMiseAJour()}>
             Mettre à jour
           </button>
-          <button className="pwa-bouton" onClick={() => setMajPrete(false)}>
+          <button className="pwa-bouton" onClick={repousser}>
             Plus tard
           </button>
         </span>
