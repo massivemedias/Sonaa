@@ -143,6 +143,7 @@ export function CalendrierPage() {
   const [styles, setStyles] = useState<string[]>(() => stylesSuivis());
   const [styleActif, setStyleActif] = useState<string | null>(null);
   const [vue, setVue] = useState<Vue>('aujourdhui');
+  const [recherche, setRecherche] = useState('');
   const [dateChoisie, setDateChoisie] = useState<string | null>(null);
 
   const [soirees, setSoirees] = useState<Soiree[] | null>(null);
@@ -243,16 +244,42 @@ export function CalendrierPage() {
     if (styleActif && !ids.includes(styleActif)) setStyleActif(null);
   };
 
+  /* LA RECHERCHE PORTE SUR CE QUI EST AFFICHE, ET SUR RIEN D'AUTRE.
+
+     Elle filtre les soirees deja chargees : le titre, la salle, les artistes
+     et les genres annonces. Elle n'interroge pas Resident Advisor, parce
+     qu'il n'y a rien de plus a lui demander sur une journee donnee, il rend
+     tout ce qu'il annonce.
+
+     CE QU'ELLE NE PEUT PAS FAIRE, ET IL FAUT QUE CELA SE VOIE. Chercher
+     « Bain Mathieu » un soir ou il s'y joue de la techno ne rendra rien, non
+     pas parce que la recherche est mauvaise, mais parce que Resident Advisor
+     ne couvre pas cette soiree. Le message de resultat vide dit donc d'ou
+     vient la liste : une recherche muette qui laisse croire que l'evenement
+     n'existe pas serait pire que pas de recherche du tout. */
+  const sansAccent = (x: string): string =>
+    x.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+  const filtrees = useMemo(() => {
+    const q = sansAccent(recherche.trim());
+    if (!q) return soirees;
+    return (soirees ?? []).filter((s) =>
+      sansAccent(
+        [s.titre, s.lieu ?? '', s.artistes.join(' '), s.genres.join(' ')].join(' ')
+      ).includes(q)
+    );
+  }, [soirees, recherche]);
+
   const parJour = useMemo(() => {
     const m = new Map<string, Soiree[]>();
-    for (const s of soirees ?? []) {
+    for (const s of filtrees ?? []) {
       const cle = s.date.slice(0, 10);
       const deja = m.get(cle);
       if (deja) deja.push(s);
       else m.set(cle, [s]);
     }
     return [...m.entries()];
-  }, [soirees]);
+  }, [filtrees]);
 
   const fuseau = ville?.timezone ?? 'America/Toronto';
 
@@ -365,6 +392,24 @@ export function CalendrierPage() {
             )}
           </div>
 
+          {ville && (
+            <div className="cal-chercher">
+              <input
+                type="search"
+                className="cal-chercher-champ"
+                placeholder="Chercher une salle, un artiste, une soirée"
+                value={recherche}
+                onChange={(e) => setRecherche(e.target.value)}
+                aria-label="Chercher dans les soirées affichées"
+              />
+              {recherche.trim() !== '' && (
+                <button className="cal-lien" onClick={() => setRecherche('')}>
+                  Effacer
+                </button>
+              )}
+            </div>
+          )}
+
           {/* L'ETAT VIDE MET LE SELECTEUR EN AVANT, il ne s'excuse pas dans un
               coin : tant qu'aucune ville n'est choisie, c'est la seule chose a
               faire sur cette page. */}
@@ -465,15 +510,33 @@ export function CalendrierPage() {
                 <p className="cal-attente">Lecture de l&apos;agenda…</p>
               ) : parJour.length === 0 ? (
                 <p className="cal-note">
-                  Rien d&apos;annoncé {quand} à {ville.name}
-                  {traduction?.valeur ? ` en ${traduction.valeur}` : ''}. Regardez les jours
-                  suivants, ou changez de style.
+                  {recherche.trim() !== '' ? (
+                    <>
+                      Rien qui corresponde à « {recherche.trim()} » parmi les soirées que
+                      Resident Advisor annonce {quand} à {ville.name}.{' '}
+                      <strong>Ils ne couvrent pas tout</strong> : une soirée qui passe de la
+                      techno sans se dire soirée techno peut leur échapper.
+                    </>
+                  ) : (
+                    <>
+                      Rien d&apos;annoncé {quand} à {ville.name}
+                      {traduction?.valeur ? ` en ${traduction.valeur}` : ''}. Regardez les jours
+                      suivants, ou changez de style.
+                    </>
+                  )}
                 </p>
               ) : (
                 <>
                   <p className="cal-total">
-                    {total} soirée{total > 1 ? 's' : ''} {quand} à {ville.name}
-                    {soirees && total > soirees.length ? `, les ${soirees.length} premières` : ''}.
+                    {recherche.trim() !== '' && filtrees
+                      ? `${filtrees.length} soirée${filtrees.length > 1 ? 's' : ''} sur ${
+                          soirees?.length ?? 0
+                        } correspondent à « ${recherche.trim()} ».`
+                      : `${total} soirée${total > 1 ? 's' : ''} ${quand} à ${ville.name}${
+                          soirees && total > soirees.length
+                            ? `, les ${soirees.length} premières`
+                            : ''
+                        }.`}
                   </p>
                   {parJour.map(([date, liste]) => (
                     <section key={date} className="cal-jour">

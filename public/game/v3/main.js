@@ -184,22 +184,43 @@ function startGame(state, fresh) {
   if (fresh) game.toast('Tape sur un bâtiment pour t’y rendre et y entrer.', 'gold');
 }
 
+/* LA DATE DE LA COPIE QUI TOURNE.
+
+   ELLE REGARDE PLUSIEURS FICHIERS, ET C'EST UNE CORRECTION. Elle ne lisait
+   que main.js. Deux deploiements de suite n'ont touche ni main.js ni rien
+   qu'il contienne : la date est restee figee pendant que le jeu changeait,
+   et l'indicateur ecrit precisement pour dire quelle version tourne ne le
+   disait plus. On prend donc la plus recente d'une poignee de fichiers, un
+   par couche : le point d'entree, le rendu, la feuille de style.
+
+   Le cache par defaut, surtout pas `no-store` : la reponse doit venir d'ou
+   vient le code lui-meme, cache HTTP ou service worker compris, sinon on
+   afficherait la date du serveur pendant qu'on joue une vieille copie. */
+async function dater(fichiers) {
+  let plus = null;
+  for (const f of fichiers) {
+    try {
+      const r = await fetch(f, { method: 'HEAD' });
+      const lm = r.headers.get('last-modified');
+      if (!lm) continue;
+      const d = new Date(lm);
+      if (!isNaN(d) && (!plus || d > plus)) plus = d;
+    } catch (e) { /* un fichier injoignable n'empeche pas de dater les autres */ }
+  }
+  return plus;
+}
+
 (async () => {
-  try {
-    const r = await fetch('./main.js', { method: 'HEAD' });
-    const lm = r.headers.get('last-modified');
-    if (!lm) return;
-    const d = new Date(lm);
-    if (isNaN(d)) return;
-    const sous = $('.logo-sub');
-    if (!sous) return;
-    const el = document.createElement('div');
-    el.className = 'logo-ver';
-    el.textContent = '3D · version du ' + d.toLocaleString('fr-CA', {
-      day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit',
-    });
-    sous.insertAdjacentElement('afterend', el);
-  } catch (e) { /* hors ligne : l'ecran titre se passe de la date */ }
+  const d = await dater(['./main.js', './ville.js', '../styles.css']);
+  if (!d) return;
+  const sous = document.querySelector('.logo-sub');
+  if (!sous) return;
+  const el = document.createElement('div');
+  el.className = 'logo-ver';
+  el.textContent = '3D · version du ' + d.toLocaleString('fr-CA', {
+    day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit',
+  });
+  sous.insertAdjacentElement('afterend', el);
 })();
 
 const saved = Game.load();

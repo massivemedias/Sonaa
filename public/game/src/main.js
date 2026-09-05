@@ -135,36 +135,44 @@ function startGame(state, fresh) {
   }
 }
 
-/* LA DATE DE LA COPIE QUI TOURNE. Voir le commentaire dans index.html : elle
-   vient de l'en-tete du fichier lui-meme, jamais d'une constante a tenir a
-   jour. Si la requete echoue, on n'ecrit rien : une date fausse serait pire
-   que pas de date. */
-(async () => {
-  try {
-    /* LE CACHE PAR DEFAUT, SURTOUT PAS `no-store`, et c'est tout l'interet.
+/* LA DATE DE LA COPIE QUI TOURNE.
 
-       `no-store` irait demander la date au serveur. Elle serait donc
-       toujours celle du dernier deploiement, y compris pendant qu'on joue
-       une copie vieille de deux jours servie par un cache : l'indicateur
-       dirait exactement le contraire de ce qu'on lui demande. Avec les
-       regles normales, la reponse vient d'ou vient le module lui-meme,
-       cache HTTP ou service worker compris, et sa date est celle de la copie
-       qui tourne. C'est cette date-la qui sert a quelque chose. */
-    const r = await fetch('src/main.js', { method: 'HEAD' });
-    const lm = r.headers.get('last-modified');
-    if (!lm) return;
-    const d = new Date(lm);
-    if (isNaN(d)) return;
-    const sous = $('.logo-sub');
-    if (!sous) return;
-    const el = document.createElement('div');
-    el.className = 'logo-ver';
-    el.id = 'version';
-    el.textContent = 'version du ' + d.toLocaleString('fr-CA', {
-      day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit',
-    });
-    sous.insertAdjacentElement('afterend', el);
-  } catch (e) { /* hors ligne : l'ecran titre se passe tres bien de la date */ }
+   ELLE REGARDE PLUSIEURS FICHIERS, ET C'EST UNE CORRECTION. Elle ne lisait
+   que main.js. Deux deploiements de suite n'ont touche ni main.js ni rien
+   qu'il contienne : la date est restee figee pendant que le jeu changeait,
+   et l'indicateur ecrit precisement pour dire quelle version tourne ne le
+   disait plus. On prend donc la plus recente d'une poignee de fichiers, un
+   par couche : le point d'entree, le rendu, la feuille de style.
+
+   Le cache par defaut, surtout pas `no-store` : la reponse doit venir d'ou
+   vient le code lui-meme, cache HTTP ou service worker compris, sinon on
+   afficherait la date du serveur pendant qu'on joue une vieille copie. */
+async function dater(fichiers) {
+  let plus = null;
+  for (const f of fichiers) {
+    try {
+      const r = await fetch(f, { method: 'HEAD' });
+      const lm = r.headers.get('last-modified');
+      if (!lm) continue;
+      const d = new Date(lm);
+      if (!isNaN(d) && (!plus || d > plus)) plus = d;
+    } catch (e) { /* un fichier injoignable n'empeche pas de dater les autres */ }
+  }
+  return plus;
+}
+
+(async () => {
+  const d = await dater(['src/main.js', 'src/game/render.js', 'src/world/architecture.js', 'styles.css']);
+  if (!d) return;
+  const sous = $('.logo-sub');
+  if (!sous) return;
+  const el = document.createElement('div');
+  el.className = 'logo-ver';
+  el.id = 'version';
+  el.textContent = 'version du ' + d.toLocaleString('fr-CA', {
+    day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit',
+  });
+  sous.insertAdjacentElement('afterend', el);
 })();
 
 const saved = Game.load();

@@ -367,3 +367,29 @@
     max-height: 260px;
   }
 }
+
+/* --- Chercher dans les soirees affichees --------------------------------- */
+
+.cal-chercher {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 0.9rem 0 0.2rem;
+}
+
+.cal-chercher-champ {
+  flex: 1 1 auto;
+  max-width: 26rem;
+  box-sizing: border-box;
+  background: var(--surface-margin);
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
+  color: var(--ink-primary);
+  font: inherit;
+}
+
+.cal-chercher-champ:focus-visible {
+  outline: 2px solid var(--ink-primary);
+  outline-offset: 1px;
+}
