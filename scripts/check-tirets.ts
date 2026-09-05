@@ -48,6 +48,12 @@ const DOSSIERS_HORS = new Set([
   'node_modules', 'dist', '.git', '.github_cache',
   /* Documentation importee telle quelle : sa typographie n'est pas la notre. */
   '_prof',
+  /* BIBLIOTHEQUES TIERCES. Three.js et ses chargeurs portent des cadratins
+     dans leurs propres commentaires. Les corriger reviendrait a modifier le
+     source d'une bibliotheque pour une regle de typographie francaise, et a
+     refaire la correction a chaque mise a jour. Ce dossier n'est pas de
+     notre main. */
+  'vendor',
   /* Images et polices : rien a lire dedans. */
   'covers', 'images', 'machines', 'articles', 'fonts', 'splash', 'assets', 'brand',
 ]);

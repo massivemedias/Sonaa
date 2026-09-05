@@ -132,6 +132,25 @@ function jour(iso: string, fuseau: string): string {
   }
 }
 
+/* La date dans une ligne d'horaire : « sam. 5 sept. ». On coupe le nom du
+   jour et le mois parce qu'ils se repetent a chaque ligne et qu'on les lit du
+   coin de l'oeil, pas en entier. */
+function jourCourt(iso: string, fuseau: string): string {
+  const nue = DATE_NUE.exec(iso);
+  const d = nue ? new Date(Number(nue[1]), Number(nue[2]) - 1, Number(nue[3])) : new Date(iso);
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+    ...(nue ? {} : { timeZone: fuseau }),
+  };
+  try {
+    return new Intl.DateTimeFormat('fr-CA', options).format(d);
+  } catch {
+    return new Intl.DateTimeFormat('fr-CA', { weekday: 'short', day: 'numeric', month: 'short' }).format(d);
+  }
+}
+
 export function CalendrierPage() {
   const [villes, setVilles] = useState<Ville[]>([]);
   const [slugSession, setSlugSession] = useState<string | null>(null);
@@ -564,7 +583,64 @@ export function CalendrierPage() {
                             : ''
                         }.`}
                   </p>
-                  {parJour.map(([date, liste]) => (
+                  {/* ═══ UNE RECHERCHE NE SE RANGE PAS COMME UNE JOURNEE ═══
+                   *
+                   * Groupees par jour, les douze dates du Salon Daome
+                   * donnaient douze titres de jour portant chacun UNE carte,
+                   * dans une grille de trois colonnes : deux tiers de vide a
+                   * chaque rangee, et un titre de section pour une seule
+                   * ligne. Le groupement par jour suppose plusieurs soirees
+                   * par jour ; une recherche de salle donne l'inverse, une
+                   * soiree par jour sur des semaines.
+                   *
+                   * En recherche, la date passe donc DANS la ligne, et les
+                   * lignes s'enchainent comme un horaire. Rien ne se perd :
+                   * on lit la meme chose, en un tiers de la hauteur. */}
+                  {enRecherche ? (
+                    <ul className="cal-horaire">
+                      {(filtrees ?? []).map((s) => {
+                        const h = s.debut ? heureLocale(s.debut, fuseau) : null;
+                        const sigle = ailleurs && s.debut ? sigleFuseau(s.debut, fuseau) : null;
+                        return (
+                          <li key={s.id} className="cal-ligne">
+                            <span className="cal-ligne-quand">
+                              <span className="cal-ligne-jour">{jourCourt(s.date, fuseau)}</span>
+                              {h && (
+                                <span className="cal-ligne-heure">
+                                  {h}
+                                  {sigle ? ` ${sigle}` : ''}
+                                </span>
+                              )}
+                            </span>
+                            {s.affiche ? (
+                              <img
+                                className="cal-ligne-affiche"
+                                src={s.affiche}
+                                alt=""
+                                loading="lazy"
+                                decoding="async"
+                                draggable={false}
+                              />
+                            ) : (
+                              <div className="cal-ligne-affiche" aria-hidden="true" />
+                            )}
+                            <span className="cal-ligne-texte">
+                              <a className="cal-titre" href={s.lien} target="_blank" rel="noreferrer">
+                                {s.titre}
+                              </a>
+                              {s.artistes.length > 0 && (
+                                <span className="cal-artistes">
+                                  {s.artistes.slice(0, 5).join(', ')}
+                                </span>
+                              )}
+                              <span className="cal-lieu">{s.lieu ?? 'Lieu non annoncé'}</span>
+                            </span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  ) : (
+                    parJour.map(([date, liste]) => (
                     <section key={date} className="cal-jour">
                       <h3>{jour(date, fuseau)}</h3>
                       <ul className="cal-liste">
@@ -619,7 +695,8 @@ export function CalendrierPage() {
                         })}
                       </ul>
                     </section>
-                  ))}
+                    ))
+                  )}
                 </>
               )}
             </>

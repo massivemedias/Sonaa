@@ -401,3 +401,97 @@
 .cal-suspendu {
   opacity: 0.4;
 }
+
+/* --- L'horaire, en mode recherche ---------------------------------------
+   Une soiree par ligne, la date dedans. Deux colonnes des qu'il y a la
+   place : les lignes sont courtes, une seule colonne laisserait la moitie
+   de la page vide, ce qui etait deja le reproche fait a la grille. */
+.cal-horaire {
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(23rem, 1fr));
+  gap: 0 2.4rem;
+}
+
+.cal-ligne {
+  display: grid;
+  grid-template-columns: 5.4rem 44px 1fr;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.5rem 0;
+  border-top: var(--rule-width) solid var(--rule-hairline);
+}
+
+/* LA DATE EST LA PREMIERE COLONNE, ET ELLE EST FIXE. Alignees, les dates se
+   lisent en descendant la liste sans que l'oeil ait a les chercher ; en
+   largeur libre, chaque ligne les aurait decalees. */
+.cal-ligne-quand {
+  display: flex;
+  flex-direction: column;
+  color: var(--ink-secondary);
+  font-size: 0.85rem;
+  line-height: 1.3;
+}
+
+.cal-ligne-jour {
+  color: var(--ink-primary);
+  text-transform: capitalize;
+}
+
+.cal-ligne-heure {
+  font-variant-numeric: tabular-nums;
+}
+
+.cal-ligne-affiche {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 4px;
+  background: var(--surface-margin);
+}
+
+.cal-ligne-texte {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Les trois lignes de texte se coupent au lieu de pousser la colonne : une
+   ligne d'horaire qui grandit casse l'alignement de toutes les autres. */
+.cal-ligne-texte > * {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cal-ligne .cal-titre {
+  font-weight: 500;
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 0;
+}
+
+.cal-ligne .cal-titre:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.cal-ligne .cal-artistes,
+.cal-ligne .cal-lieu {
+  font-size: 0.85rem;
+  color: var(--ink-secondary);
+}
+
+@media (max-width: 560px) {
+  .cal-ligne {
+    grid-template-columns: 4.6rem 36px 1fr;
+    gap: 0.6rem;
+  }
+  .cal-ligne-affiche {
+    width: 36px;
+    height: 36px;
+  }
+}
