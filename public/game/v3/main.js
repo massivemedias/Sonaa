@@ -243,6 +243,7 @@ function boucle(now) {
     ville.majHeros(player);
     ville.majPassants(life);
     ville.majLumiere(game.hour);
+    ville.majHalos(player.x, player.y);
     majEtiquettes();
   }
   ville.image(enJeu ? player : { x: city.w / 2, y: city.h / 2 });

@@ -191,6 +191,24 @@ export class Ville {
       this.batiments.set(b.id, paire);
     }
 
+    /* LE NEON DU CLUB. Les deux paquets sont des villes de jour : aucun n'a
+       d'enseigne lumineuse. Une plaque emissive posee sur la facade et une
+       lumiere rose au-dessus de la porte suffisent, et c'est la seule chose
+       de toute la clairiere qui dise qu'on y joue de la musique la nuit. */
+    const club = this.city.buildings.find(b => b.club);
+    if (club) {
+      const plaque = new THREE.Mesh(
+        new THREE.BoxGeometry(club.w * 0.5, 0.42, 0.12),
+        new THREE.MeshStandardMaterial({ color: 0x2a1030, emissive: 0xff5cb4, emissiveIntensity: 0 }));
+      plaque.position.set(club.x + club.w / 2, 1.85, club.y + club.d + 0.06);
+      this.scene.add(plaque);
+      this.neonMur = plaque;
+      const l = new THREE.PointLight(0xff5cb4, 0, 9, 2);
+      l.position.set(club.x + club.w / 2, 1.7, club.y + club.d + 0.9);
+      this.scene.add(l);
+      this.neon = l;
+    }
+
     const decors = { tree: 'kenney/tree_large', bush: 'kaykit/bush', lamp: 'kaykit/streetlight', bench: 'kaykit/bench' };
     this.lampes = [];
     for (const pr of this.city.props) {
@@ -273,6 +291,44 @@ export class Ville {
         n.material.emissive = new THREE.Color(nuit ? 0xffd76a : 0x000000);
         n.material.emissiveIntensity = nuit ? 0.9 : 0;
       }
+    });
+    this.nuit = nuit;
+    if (this.neon) {
+      /* Le neon du club ne s'allume pas a heure fixe : un club ouvre le
+         soir. Il bat aussi, legerement, parce qu'un tube qui ne bat pas
+         n'est pas un tube. */
+      const bat = 0.75 + Math.sin(performance.now() / 260) * 0.25;
+      this.neon.intensity = nuit ? 9 * bat : 0;
+      this.neonMur.material.emissiveIntensity = nuit ? 1.4 * bat : 0;
+    }
+  }
+
+  /* LES HALOS SUIVENT LE JOUEUR, ILS NE SONT PAS POSES SUR LES LAMPES.
+
+     Il y a vingt lampadaires dans la clairiere. Vingt lumieres ponctuelles
+     allumees en meme temps, c'est vingt fois le calcul d'eclairage par
+     fragment, et le telephone rend les armes. On en garde SIX, et a chaque
+     image on les donne aux six lampes les plus proches : celles qu'on voit.
+     Les autres n'eclairent rien, et personne ne peut s'en apercevoir
+     puisqu'elles sont hors du champ. */
+  majHalos(x, y) {
+    if (!this.halos) {
+      this.halos = Array.from({ length: 6 }, () => {
+        const l = new THREE.PointLight(0xffd08a, 0, 7.5, 2);
+        this.scene.add(l);
+        return l;
+      });
+    }
+    if (!this.nuit) { for (const h of this.halos) h.intensity = 0; return; }
+    const proches = this.lampes
+      .map(l => ({ l, d: (l.position.x - x) ** 2 + (l.position.z - y) ** 2 }))
+      .sort((a, b) => a.d - b.d)
+      .slice(0, this.halos.length);
+    this.halos.forEach((h, i) => {
+      const p = proches[i];
+      if (!p) { h.intensity = 0; return; }
+      h.position.set(p.l.position.x, 1.9, p.l.position.z);
+      h.intensity = 6;
     });
   }
 
