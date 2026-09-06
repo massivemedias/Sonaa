@@ -1168,45 +1168,34 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      Une colonne unique bornee a la mesure de lecture est la bonne reponse a
      un texte court. La moitie droite reste vide, et c'est normal : un
      chapeau n'a pas a remplir un ecran de 1400 px, il a a se lire d'un
-     trait. Le texte grandit un peu pour tenir ce role de tete de page. */
+     trait. Le texte grandit un peu pour tenir ce role de tete de page.
+
+     L'INTERLIGNE VIENT DE L'ECRAN, PAS DU BAREME. Reglee dans le navigateur
+     par Mika, elle passe de 1,65 a 1,45. A cette taille et sur 62 signes,
+     1,65 ecartait les lignes au point que le paragraphe se lisait comme une
+     suite de lignes voisines ; 1,45 le rassemble en bloc. */
   .pv-description {
     max-width: 62ch;
     font-size: 1.0625rem;
-    line-height: 1.65;
+    line-height: 1.45;
   }
 
   /* LE TEXTE DE FAMILLE N'EST PAS UN CHAPEAU DE GENRE, ET LA MEME REGLE NE
      PEUT PAS SERVIR AUX DEUX.
 
-     MON ERREUR, EXACTEMENT. Les descriptions de genre font 354 signes en
-     mediane : coupees en deux colonnes de 660 px elles donnaient deux lignes
-     par colonne, un fragment interrompu a droite de l'ecran. Je les ai
-     ramenees sur une colonne bornee a la mesure de lecture, et c'etait juste.
-     Mais la classe portait AUSSI le texte de famille, qui fait de 583 a 739
-     signes, et il a retreci avec eux : une colonne a gauche, la moitie droite
-     vide. J'ai repare un defaut en en recreant un autre, sur un texte que je
-     n'avais pas mesure.
+     Les descriptions de genre font 354 signes en mediane, et 62 signes de
+     mesure leur vont. Le texte de famille fait de 583 a 739 signes et ouvre
+     la page : borne a la meme mesure, il s'arretait a mi-largeur sous un
+     titre qui, lui, va au bord.
 
-     A 640 signes, deux colonnes de 660 px donnent trois a quatre lignes
-     chacune. C'est un paragraphe, pas un fragment, et la page est occupee sur
-     toute sa largeur, ce qui etait la demande.
-
-     PAS DE BORNE DE HAUTEUR ICI. Une boite multi-colonnes a hauteur bridee ne
-     tronque pas : elle fabrique des colonnes supplementaires qui debordent
-     vers la droite, hors de l'ecran, sans barre de defilement pour les
-     atteindre. Le nombre de colonnes suffit a tenir la hauteur. */
-  /* PLUS DE DEUX COLONNES. Je les avais posees pour occuper la largeur, et
-     elles la remplissent en effet, mais un texte de six cents signes coupe en
-     deux ne se lit pas comme un journal : il se lit comme un paragraphe qu'on
-     a scie. Le journal met en colonnes des milliers de signes, avec un filet,
-     une accroche et des intertitres ; a cette longueur la colonne n'apporte
-     que la coupure.
-
-     Le texte revient donc sur une colonne unique a la mesure de lecture, et
-     c'est le CONTENU qui doit grandir, pas la mise en page qui doit le
-     diluer. */
+     120 SIGNES, CE N'EST PLUS UNE MESURE DE LECTURE, ET C'EST VOULU. Regle
+     dans le navigateur par Mika. A 1240 px de page la borne ne mord presque
+     plus : le paragraphe suit la largeur du contenu, comme le titre et la
+     grille au-dessous. Un texte d'ouverture qui s'interrompt a mi-chemin
+     pendant que tout le reste va au bord ne se lit pas comme une
+     introduction, il se lit comme une colonne oubliee. */
   .pv-description-famille {
-    max-width: 68ch;
+    max-width: 120ch;
   }
   /* LA BORNE EST SUR LA SECTION, PAS SUR LE PARAGRAPHE.
 
