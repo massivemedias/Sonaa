@@ -54,11 +54,26 @@ export function PropositionsPage() {
 
   /* La reprise se lit une seule fois au montage : reprendreIntention()
      efface ce qu'elle rend, pour qu'un rechargement ne rouvre pas la modale
-     indéfiniment. */
+     indéfiniment.
+
+     LE CHAMP `route` ETAIT ECRIT PARTOUT ET LU NULLE PART, et c'est ce qui
+     rendait fausse la promesse « tu reviendras exactement ici ». Le lien
+     magique ramène toujours sur #/propositions, parce que c'est la seule
+     route qui survit au rechargement ; charge à cette page de rendre la
+     personne à l'endroit qu'elle a quitté. Un brouillon à rouvrir passe
+     d'abord : il vit ici, et le rouvrir EST le retour. */
   useEffect(() => {
     const intention = reprendreIntention();
-    const b = intention?.brouillon as Brouillon | undefined;
-    if (b && typeof b === 'object' && 'kind' in b) setReprise(b);
+    if (!intention) return;
+    const b = intention.brouillon as Brouillon | undefined;
+    if (b && typeof b === 'object' && 'kind' in b) {
+      setReprise(b);
+      return;
+    }
+    const route = intention.route;
+    if (route.startsWith('#/') && !route.startsWith('#/propositions')) {
+      window.location.hash = route;
+    }
   }, []);
 
   if (!contributionsActives) {

@@ -17,7 +17,14 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSession } from '../lib/useSession.ts';
-import { connexionGoogle, envoyerLienMagique, memoriserIntention, seDeconnecter } from '../lib/auth.ts';
+import {
+  EVENEMENT_RETOUR,
+  connexionGoogle,
+  envoyerLienMagique,
+  lireRetourDeConnexion,
+  memoriserIntention,
+  seDeconnecter
+} from '../lib/auth.ts';
 import { monPseudonyme, suisJeModerateur } from '../lib/proposals.ts';
 import { t } from '../langue/langue.ts';
 import './auth-button.css';
@@ -108,6 +115,32 @@ export function AuthButton() {
     const demande = (): void => setOuvert(true);
     window.addEventListener('sonaa:connexion', demande);
     return () => window.removeEventListener('sonaa:connexion', demande);
+  }, []);
+
+  /* L'ECHEC DE CONNEXION S'AFFICHE ICI, ET NULLE PART AILLEURS.
+
+     Le panneau est le seul endroit qui porte a la fois la phrase et le moyen
+     de recommencer. Un bandeau ailleurs dans la page dirait ce qui s'est passe
+     sans donner de suite ; ici, la personne lit « ce lien a expire » et le
+     champ pour en redemander un est juste dessous.
+
+     DEUX CHEMINS, PARCE QUE L'ORDRE N'EST PAS GARANTI. Ce composant peut se
+     monter avant ou apres la reprise de session, qui nettoie l'adresse. On
+     lit donc au montage, ET on ecoute : le premier des deux qui trouve
+     l'echec le rend, le second trouve un cache et ne le rejoue pas. */
+  useEffect(() => {
+    const montrer = (phrase: string): void => {
+      setMessage(phrase);
+      setOuvert(true);
+    };
+    const auMontage = lireRetourDeConnexion();
+    if (auMontage) montrer(auMontage);
+    const plusTard = (e: Event): void => {
+      const phrase = (e as CustomEvent<string>).detail;
+      if (typeof phrase === 'string' && phrase !== '') montrer(phrase);
+    };
+    window.addEventListener(EVENEMENT_RETOUR, plusTard);
+    return () => window.removeEventListener(EVENEMENT_RETOUR, plusTard);
   }, []);
 
   useEffect(() => {

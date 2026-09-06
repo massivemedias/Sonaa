@@ -24,28 +24,42 @@ import { supabase } from './supabase.ts';
 
 const CLE_INTENTION = 'sonaa-intention-contribution';
 
-/** Ce qu'on était en train de faire quand la connexion s'est imposée. */
+/** Ce qu'on était en train de faire quand la connexion s'est imposée.
+
+    `quand` est posé par `memoriserIntention`, jamais par l'appelant : c'est
+    lui qui permet de ne pas rejouer une intention abandonnée. */
 export interface Intention {
   readonly route: string;
   readonly brouillon?: unknown;
+  readonly quand?: number;
 }
+
+/** Au-delà de ce délai, une intention n'est plus une intention, c'est un
+    souvenir. Une heure, comme la durée de vie d'un lien de connexion : passé
+    ce point la personne a renoncé, et la ramener quelque part qu'elle a
+    quitté il y a deux jours serait une surprise, pas un service. */
+const DUREE_INTENTION = 60 * 60 * 1000;
 
 export function memoriserIntention(intention: Intention): void {
   try {
-    localStorage.setItem(CLE_INTENTION, JSON.stringify(intention));
+    localStorage.setItem(CLE_INTENTION, JSON.stringify({ ...intention, quand: Date.now() }));
   } catch {
     /* Navigation privée, stockage plein : on continue sans reprise. Perdre
        la reprise est regrettable, empêcher la connexion serait pire. */
   }
 }
 
-/** Lit l'intention mise de côté et l'efface. Rejouable une seule fois. */
+/** Lit l'intention mise de côté et l'efface. Rejouable une seule fois, et
+    seulement si elle est encore fraîche. */
 export function reprendreIntention(): Intention | null {
   try {
     const brut = localStorage.getItem(CLE_INTENTION);
     if (!brut) return null;
     localStorage.removeItem(CLE_INTENTION);
-    return JSON.parse(brut) as Intention;
+    const intention = JSON.parse(brut) as Intention;
+    const quand = typeof intention.quand === 'number' ? intention.quand : 0;
+    if (quand === 0 || Date.now() - quand > DUREE_INTENTION) return null;
+    return intention;
   } catch {
     return null;
   }
@@ -142,16 +156,119 @@ function delaiEnFrancais(secondes: number): string {
   return minutes === 1 ? 'une minute' : `${minutes} minutes`;
 }
 
+/* ═══ QUAND LA CONNEXION ECHOUE, SUPABASE REPOND DANS LE FRAGMENT ═══
+
+   DEFAUT MESURE LE 6 SEPTEMBRE 2026, sur l'adresse exacte que Supabase
+   renvoie pour un lien perime :
+
+     https://sonaa.ca/#error=access_denied&error_code=otp_expired
+       &error_description=Email+link+is+invalid+or+has+expired
+
+   On arrivait sur la grille des familles, deconnecte, SANS UN MOT. Le code de
+   nettoyage ne lisait que `window.location.search` ; le fragment lui etait
+   invisible. Et le routeur ne reconnait pas « #error=... », donc il retombait
+   sur sa vue par defaut. La personne voyait une page normale et croyait avoir
+   rate son clic.
+
+   CE N'EST PAS UN CAS RARE. Un lien magique ne vaut qu'une fois et il expire.
+   Les antivirus de messagerie et les apercus de boite mail suivent les liens
+   AVANT que la personne ne clique, ce qui consomme le jeton. Elle clique
+   ensuite sur un lien deja brule. C'est le mode d'echec le plus courant de ce
+   moyen de connexion, et c'etait celui qu'on ne disait pas.
+
+   DEUX FORMES A LIRE, PAS UNE. Supabase remplace parfois la route entiere
+   (« #error=... ») et la garde parfois (« #/propositions?error=... »). On
+   traite les deux, plus le cas ou l'erreur arrive dans la requete. */
+
+const CLES_DECHEC = ['error', 'error_code', 'error_description'] as const;
+
+/** Le code d'echec porte par une adresse de retour, ou null. Fonction pure :
+    elle prend les deux morceaux d'adresse au lieu de lire l'horloge du
+    navigateur, ce qui est la seule facon de la verifier. */
+export function echecDansLAdresse(recherche: string, fragment: string): string | null {
+  const dans = (brut: string): URLSearchParams | null => {
+    const net = brut.replace(/^[#?]/, '');
+    if (net === '') return null;
+    const point = net.indexOf('?');
+    if (point >= 0) return new URLSearchParams(net.slice(point + 1));
+    /* Un fragment qui commence par « / » est une route, pas des parametres. */
+    return net.startsWith('/') ? null : new URLSearchParams(net);
+  };
+  for (const source of [dans(recherche), dans(fragment)]) {
+    if (!source) continue;
+    const code = source.get('error_code') ?? source.get('error');
+    if (code) return code;
+  }
+  return null;
+}
+
+/** La phrase a montrer pour un code d'echec. On ne relaie pas
+    `error_description` : elle est en anglais et decrit le protocole, pas la
+    situation. */
+export function phraseDeLEchec(code: string): string {
+  if (code === 'otp_expired') return t.lienPerime;
+  if (code === 'access_denied') return t.connexionRefusee;
+  return t.connexionEchouee;
+}
+
+/** L'evenement qui porte l'echec jusqu'au panneau de connexion, pour le cas
+    ou le nettoyage arrive apres que le bouton se soit monte. */
+export const EVENEMENT_RETOUR = 'sonaa:retour-connexion';
+
+let phraseDeRetour: string | null = null;
+let retourDejaLu = false;
+
+/** Lit l'echec dans l'adresse, l'efface, et le rend. Idempotente : appelable
+    par le bouton au montage ET par la reprise de session, dans n'importe quel
+    ordre, sans que la personne voie le message deux fois ni zero fois. */
+export function lireRetourDeConnexion(): string | null {
+  if (retourDejaLu) return phraseDeRetour;
+  retourDejaLu = true;
+
+  const code = echecDansLAdresse(window.location.search, window.location.hash);
+  if (!code) return null;
+
+  phraseDeRetour = phraseDeLEchec(code);
+  effacerLesTracesDechec();
+  window.dispatchEvent(new CustomEvent(EVENEMENT_RETOUR, { detail: phraseDeRetour }));
+  return phraseDeRetour;
+}
+
+function effacerLesTracesDechec(): void {
+  const params = new URLSearchParams(window.location.search);
+  for (const c of CLES_DECHEC) params.delete(c);
+
+  /* Le fragment : on garde la route s'il y en avait une, on le vide sinon.
+     Laisser « #error=... » ferait qu'un rechargement rejoue le message pour
+     une connexion qui n'est plus en cours. */
+  const brut = window.location.hash.replace(/^#/, '');
+  const point = brut.indexOf('?');
+  let fragment = window.location.hash;
+  if (point >= 0) fragment = `#${brut.slice(0, point)}`;
+  else if (brut !== '' && !brut.startsWith('/')) fragment = '';
+
+  const reste = params.toString();
+  window.history.replaceState(
+    null,
+    '',
+    window.location.pathname + (reste ? `?${reste}` : '') + fragment
+  );
+}
+
 /** Nettoie l'URL des paramètres laissés par le retour de connexion.
 
     supabase-js lit `?code=` au démarrage puis n'en a plus besoin. Le laisser
     traîner ferait qu'un rechargement ou un partage de l'adresse rejouerait
-    un code déjà consommé, avec une erreur à la clé. */
+    un code déjà consommé, avec une erreur à la clé.
+
+    ON LIT L'ECHEC AVANT D'EFFACER QUOI QUE CE SOIT : cette fonction s'appelle
+    depuis la reprise de session, qui peut arriver avant le montage du bouton
+    de connexion. Effacer sans lire, c'est ce qui rendait l'echec muet. */
 export function nettoyerUrlDeRetour(): void {
+  lireRetourDeConnexion();
   const params = new URLSearchParams(window.location.search);
-  const parasites = ['code', 'error', 'error_description', 'error_code'];
-  if (!parasites.some((p) => params.has(p))) return;
-  for (const p of parasites) params.delete(p);
+  if (!params.has('code')) return;
+  params.delete('code');
   const reste = params.toString();
   const propre = window.location.pathname + (reste ? `?${reste}` : '') + window.location.hash;
   window.history.replaceState(null, '', propre);

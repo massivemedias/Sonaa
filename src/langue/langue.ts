@@ -127,6 +127,9 @@ interface Dictionnaire {
   readonly lecteurBloque: string;
   readonly lecteurIndisponible: string;
   readonly googleNonConfiguree: string;
+  readonly lienPerime: string;
+  readonly connexionRefusee: string;
+  readonly connexionEchouee: string;
 
   /* ── Les sets DJ ── */
   readonly lesSets: string;
@@ -312,6 +315,13 @@ const FR: Dictionnaire = {
   lecteurIndisponible: "Le lecteur YouTube n'a pas pu se charger.",
   googleNonConfiguree:
     'La connexion Google n’est pas encore configurée sur ce site. Utilisez votre courriel ci-dessous.',
+  lienPerime:
+    'Ce lien de connexion a expiré ou a déjà servi. C’est fréquent : un lien ne vaut qu’une fois, ' +
+    'et certains services de courriel l’ouvrent avant vous pour le vérifier. Demandez-en un autre ci-dessous.',
+  connexionRefusee:
+    'La connexion a été refusée avant d’aboutir. Rien n’a été enregistré. Vous pouvez recommencer ci-dessous.',
+  connexionEchouee:
+    'La connexion n’a pas abouti. Rien n’a été enregistré. Vous pouvez recommencer ci-dessous.',
 
   lesSets: 'Les sets',
   monProfil: 'Mon profil',
@@ -502,6 +512,13 @@ const EN: Dictionnaire = {
   lecteurIndisponible: 'The YouTube player could not load.',
   googleNonConfiguree:
     'Google sign-in is not configured on this site yet. Use your email below.',
+  lienPerime:
+    'This sign-in link has expired or has already been used. That is common: a link is good once, ' +
+    'and some mail services open it before you do in order to check it. Ask for another one below.',
+  connexionRefusee:
+    'Sign-in was refused before it completed. Nothing was saved. You can try again below.',
+  connexionEchouee:
+    'Sign-in did not complete. Nothing was saved. You can try again below.',
 
   lesSets: 'Sets',
   monProfil: 'My profile',
