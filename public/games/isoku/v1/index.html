@@ -25,7 +25,6 @@
   --peer:#d9e4ff; --peer-given:#b9c6e6; --same:#ffe9b8; --same-given:#e6cf98; --bad:#ffd0d8; --bad-given:#e9aeb9;
   --cell:36px; --pad:8px; --cgap:2px; --bgap:6px; --td:16px;
   --tilt:58deg; --spin:-45deg; --scale:1;
-  --lift:1px; --pz:0deg; --px:0deg; --py:0deg; --sy:0%; --th:7px; --by:0px; --bz:5px;
   --font-d:'Fredoka',system-ui,sans-serif; --font-b:'Nunito',system-ui,sans-serif;
 }
 *{box-sizing:border-box}
@@ -41,9 +40,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 
 /* ---------- top bar ---------- */
 .top{display:flex;align-items:center;gap:8px;padding:10px 12px 4px}
-.brandwrap{display:flex;align-items:baseline;gap:6px;margin-right:auto}
-.vtag{border:0;background:var(--surface);color:var(--muted);font:800 10px/1 var(--font-b);padding:4px 6px;border-radius:6px;letter-spacing:.3px}
-.brand{font:700 26px/1 var(--font-d);letter-spacing:.5px;
+.brand{font:700 26px/1 var(--font-d);letter-spacing:.5px;margin-right:auto;
   background:linear-gradient(180deg,#fff 0%,#cfd6f5 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .chip{display:inline-flex;align-items:center;gap:5px;height:32px;padding:0 10px;border-radius:10px;border:1px solid var(--line);
   background:var(--surface);font:700 13px var(--font-b);font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -101,26 +98,13 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .cell.selected .face.top{box-shadow:inset 0 0 0 3px var(--accent)}
 .cell.bad.selected .face.top{box-shadow:inset 0 0 0 3px var(--err)}
 
-.piece{position:absolute;inset:6%;transform-style:preserve-3d;pointer-events:none;
-  transform:translateZ(calc(var(--d) + var(--lift))) rotateZ(var(--pz)) rotateX(var(--px)) rotateY(var(--py)) translateY(var(--sy));
-  transition:transform .55s cubic-bezier(.4,0,.2,1)}
-.lev{position:absolute;inset:0;transform-style:preserve-3d}
-.lay{position:absolute;inset:0;display:grid;place-items:center}
-.lay svg{width:100%;height:100%;display:block}
-.lay.k0 svg{filter:drop-shadow(0 1px 0 rgba(0,0,0,.18))}
-.lay.k1{transform:translateZ(calc(var(--th) * -.2));filter:brightness(.66)}
-.lay.k2{transform:translateZ(calc(var(--th) * -.4));filter:brightness(.6)}
-.lay.k3{transform:translateZ(calc(var(--th) * -.6));filter:brightness(.55)}
-.lay.k4{transform:translateZ(calc(var(--th) * -.8));filter:brightness(.5)}
-.lay.k5{transform:translateZ(calc(var(--th) * -1));filter:brightness(.45)}
-.cell.given .lay{opacity:.88}
-.cell.given .lay svg{filter:saturate(.6)}
-.lay .em{font-size:calc(var(--cell) * .6);line-height:1}
-.lay .num{font:600 calc(var(--cell) * .64)/1 var(--font-d);color:#2b3157}
-.cell.given .lay .num{color:#5a6280}
-@keyframes bob{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,var(--by),var(--bz))}}
-.lev-on .cell:not(.empty) .lev{animation:bob 2.2s ease-in-out infinite alternate;animation-delay:calc(var(--i) * -170ms)}
-.lev-on .cell:not(.empty) .face.top::after{content:"";position:absolute;inset:16%;border-radius:50%;background:radial-gradient(closest-side,rgba(20,25,60,.38),rgba(20,25,60,0))}
+.sym{width:86%;height:86%;display:grid;place-items:center;pointer-events:none}
+.sym svg{width:100%;height:100%;display:block;filter:drop-shadow(0 1px 0 rgba(0,0,0,.18))}
+.cell.given .sym svg{filter:saturate(.7) drop-shadow(0 1px 0 rgba(0,0,0,.12));opacity:.9}
+.sym .em{font-size:calc(var(--cell) * .58);line-height:1}
+.sym .num{font:600 calc(var(--cell) * .62)/1 var(--font-d);color:#2b3157}
+.cell.given .sym .em{filter:saturate(.6);opacity:.8}
+.cell.given .sym .num{color:#5a6280}
 .notes{position:absolute;inset:2px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);pointer-events:none}
 .notes span{display:grid;place-items:center}
 .notes svg{width:80%;height:80%;opacity:.9}
@@ -131,7 +115,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .board.win .cell{animation:pop .9s cubic-bezier(.3,1.4,.5,1) both;animation-delay:calc(var(--i) * 45ms)}
 @keyframes shake{0%,100%{transform:translateZ(var(--z,0px))}25%{transform:translateZ(var(--z,0px)) translateX(-3px)}75%{transform:translateZ(var(--z,0px)) translateX(3px)}}
 .cell.shake{animation:shake .25s ease}
-@media (prefers-reduced-motion:reduce){.board,.cell,.piece{transition:none}.board.win .cell,.cell.shake,.lev-on .cell:not(.empty) .lev{animation:none}}
+@media (prefers-reduced-motion:reduce){.board,.cell{transition:none}.board.win .cell,.cell.shake{animation:none}}
 
 /* ---------- tools ---------- */
 .tools{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:6px 12px 0}
@@ -185,15 +169,6 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .sets{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
 .sets button{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 9px;font:800 11px var(--font-b);color:var(--muted)}
 .sets button[aria-pressed="true"]{color:var(--text);border-color:var(--accent)}
-.vers{display:grid;gap:8px;max-height:52dvh;overflow-y:auto}
-.ver{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
-.ver.now{border-color:var(--accent)}
-.ver header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
-.ver b{font:600 17px var(--font-d)}
-.ver time{color:var(--muted);font-size:12px;font-weight:700}
-.ver ul{margin:0;padding-left:18px;color:var(--text);font-size:13px;line-height:1.5}
-.ver a{display:inline-block;margin-top:8px;color:var(--accent);font-weight:800;font-size:12px;text-decoration:none}
-.ver .now-tag{font:800 10px var(--font-b);letter-spacing:.4px;text-transform:uppercase;color:var(--accent)}
 .btn{border:0;border-radius:12px;padding:13px 18px;font:600 16px var(--font-d);background:var(--accent);color:var(--accent-ink);width:100%}
 .btn.ghost{background:var(--surface);color:var(--text);border:1px solid var(--line)}
 .btn+.btn{margin-top:8px}
@@ -237,7 +212,7 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 
 <div class="app">
   <header class="top">
-    <div class="brandwrap"><div class="brand">Isoku</div><button class="vtag" id="vtagBtn" aria-label="Historique des versions">v2</button></div>
+    <div class="brand">Isoku</div>
     <button class="chip" id="diffBtn" aria-label="Changer de difficulté">Moyen</button>
     <button class="chip timer" id="timerBtn" aria-label="Mettre en pause">00:00</button>
     <div class="chip mist" id="mistChip" title="Erreurs">✕ 0</div>
@@ -289,23 +264,10 @@ button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
     <div class="handle"></div>
     <h2>Réglages</h2>
     <div class="row"><div><label>Symboles</label><small>Le jeu de pièces sur le plateau</small></div><div class="sets" id="sets"></div></div>
-    <div class="row"><div><label>Pièces</label><small>Couchées sur la tuile, ou debout face à vous</small></div><div class="sets" id="orientSet"><button data-v="flat">À plat</button><button data-v="up">Debout</button></div></div>
-    <div class="row"><div><label>Volume</label><small>Découpe pleine, ou épaisseur en 3D</small></div><div class="sets" id="volSet"><button data-v="flat">Plein</button><button data-v="3d">3D</button></div></div>
-    <div class="row"><div><label for="tLev">Lévitation</label><small>Les pièces flottent au-dessus des tuiles</small></div><button class="toggle" id="tLev" role="switch" aria-checked="true"></button></div>
     <div class="row"><div><label for="tErr">Signaler les erreurs</label><small>Une pièce mal placée devient rouge</small></div><button class="toggle" id="tErr" role="switch" aria-checked="true"></button></div>
     <div class="row"><div><label for="tHap">Vibrations</label><small>Retour haptique au placement</small></div><button class="toggle" id="tHap" role="switch" aria-checked="true"></button></div>
     <div class="row"><div><label for="tSame">Surligner les pièces identiques</label><small>Quand une pièce est sélectionnée</small></div><button class="toggle" id="tSame" role="switch" aria-checked="true"></button></div>
-    <div class="row"><div><label>Version</label><small id="verSmall"></small></div><div class="sets"><button id="verBtn">Historique</button></div></div>
     <div style="margin-top:14px"><button class="btn ghost" id="restartBtn">Recommencer cette grille</button></div>
-  </div>
-</div>
-
-<div class="scrim" id="verSheet">
-  <div class="sheet">
-    <div class="handle"></div>
-    <h2>Versions</h2>
-    <p>Chaque version reste en ligne à sa propre adresse. On peut revenir en arrière, ou comparer.</p>
-    <div class="vers" id="vers"></div>
   </div>
 </div>
 
@@ -333,16 +295,6 @@ const SETS={
   nature:{name:'Nature',kind:'emoji',g:['🍄','🌵','🍓','🐸','🌙','⭐','🔥','💧','🍀']},
   digits:{name:'Chiffres',kind:'text',g:['1','2','3','4','5','6','7','8','9']}
 };
-const VERSION='v2';
-const VERSIONS=[
-  {v:'v2',date:'6 septembre 2026',notes:['Pièces à plat ou debout face à la caméra','Découpe pleine ou épaisseur 3D','Lévitation des pièces au-dessus des tuiles, avec ombre portée','Historique des versions, chaque version gardée en ligne']},
-  {v:'v1',date:'6 septembre 2026',notes:['Plateau 3D avec trois vues : iso, incliné, plat','Neuf solides à la place des chiffres, jeux Studio, Nature et Chiffres','Grilles générées sur place avec solution unique, quatre niveaux','Notes, annuler, indices, chrono, erreurs signalées, sauvegarde automatique']}
-];
-function pieceHTML(v){
-  const K=settings.volume==='3d'?6:1;let h='';
-  for(let k=K-1;k>=0;k--)h+='<span class="lay k'+k+'">'+symHTML(v)+'</span>';
-  return h;
-}
 function symHTML(v){
   const s=SETS[settings.set]||SETS.solids; const g=s.g[v-1];
   if(s.kind==='svg') return '<svg viewBox="0 0 64 64"><use href="#'+g+'"/></svg>';
@@ -353,7 +305,7 @@ function symName(v){const s=SETS[settings.set]||SETS.solids;return s.kind==='svg
 
 /* ---------------- settings & persistence ---------------- */
 const SKEY='isoku.settings.v1', GKEY='isoku.game.v1';
-let settings={set:'solids',view:'iso',showErr:true,haptics:true,same:true,orient:'up',volume:'3d',lev:true};
+let settings={set:'solids',view:'iso',showErr:true,haptics:true,same:true};
 try{Object.assign(settings,JSON.parse(localStorage.getItem(SKEY)||'{}'));}catch(e){}
 function saveSettings(){try{localStorage.setItem(SKEY,JSON.stringify(settings));}catch(e){}}
 
@@ -434,7 +386,7 @@ const board=$('#board');const cells=[];
     for(let k=0;k<9;k++){
       const r=((b/3)|0)*3+((k/3)|0), c=(b%3)*3+(k%3), i=r*9+c;
       const el=document.createElement('button');el.className='cell empty';el.dataset.i=i;el.style.setProperty('--i',r+c);
-      el.innerHTML='<span class="face top"><span class="notes"></span></span><span class="piece"><span class="lev"></span></span><span class="face f"></span><span class="face b"></span><span class="face l"></span><span class="face r"></span>';
+      el.innerHTML='<span class="face top"><span class="sym"></span><span class="notes"></span></span><span class="face f"></span><span class="face b"></span><span class="face l"></span><span class="face r"></span>';
       el.addEventListener('click',()=>onCell(i));
       cells[i]=el;boxes[b].appendChild(el);
     }
@@ -443,10 +395,10 @@ const board=$('#board');const cells=[];
 const rendered=new Array(81).fill('');
 function renderCell(i,force){
   const el=cells[i],v=G.board[i],given=G.puzzle[i]!==0,n=G.notes[i];
-  const key=settings.set+'|'+settings.volume+'|'+v+'|'+(v?0:n);
+  const key=settings.set+'|'+v+'|'+(v?0:n);
   if(force||rendered[i]!==key){
     rendered[i]=key;
-    el.querySelector('.lev').innerHTML=v?pieceHTML(v):'';
+    el.querySelector('.sym').innerHTML=v?symHTML(v):'';
     let nh='';if(!v&&n){for(let d=1;d<=9;d++)nh+='<span>'+((n>>d)&1?symHTML(d):'')+'</span>';}
     el.querySelector('.notes').innerHTML=nh;
   }
@@ -579,16 +531,6 @@ function layout(){
   else{tilt=0;spin=0;scale=Math.min(1,W/S);h=S*scale+24;}
   root.style.setProperty('--scale',scale);root.style.setProperty('--tilt',tilt+'deg');root.style.setProperty('--spin',spin+'deg');
   stage.style.height=Math.round(h)+'px';
-  applyPieces(tilt,spin);
-}
-function applyPieces(tilt,spin){
-  const standing=settings.orient==='up'&&tilt>0;
-  const v=(k,val)=>root.style.setProperty(k,val);
-  v('--pz',standing?(-spin)+'deg':'0deg');v('--px',standing?(-tilt)+'deg':'0deg');
-  v('--py',standing&&settings.volume==='3d'?'-16deg':'0deg');v('--sy',standing?'-44%':'0%');
-  v('--lift',settings.lev?(standing?'7px':'12px'):'1px');
-  v('--by',standing?'-5px':'0px');v('--bz',standing?'0px':'5px');
-  document.querySelector('.app').classList.toggle('lev-on',!!settings.lev);
 }
 function setView(v){settings.view=v;saveSettings();document.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===v)));layout();}
 document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
@@ -623,18 +565,6 @@ document.querySelectorAll('.scrim').forEach(s=>s.addEventListener('click',e=>{if
     b.addEventListener('click',()=>{settings.set=k;saveSettings();s.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));if(G){renderAll(true);}});
     s.appendChild(b);});
   function tog(id,key,after){const t=$(id);t.setAttribute('aria-checked',String(settings[key]));t.addEventListener('click',()=>{settings[key]=!settings[key];t.setAttribute('aria-checked',String(settings[key]));saveSettings();if(after)after();});}
-  function seg(id,key,after){const box=$(id);const bs=box.querySelectorAll('button');const paint=()=>bs.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===settings[key])));paint();
-    bs.forEach(b=>b.addEventListener('click',()=>{settings[key]=b.dataset.v;saveSettings();paint();if(after)after();}));}
-  seg('#orientSet','orient',layout);
-  seg('#volSet','volume',()=>{layout();if(G)renderAll(true);});
-  tog('#tLev','lev',layout);
-  $('#verSmall').textContent=VERSION+' · '+VERSIONS[0].date;
-  const vs=$('#vers');
-  VERSIONS.forEach(x=>{const d=document.createElement('article');d.className='ver'+(x.v===VERSION?' now':'');
-    d.innerHTML='<header><b>'+x.v+'</b>'+(x.v===VERSION?'<span class="now-tag">Cette version</span>':'<time>'+x.date+'</time>')+'</header><ul>'+x.notes.map(n=>'<li>'+n+'</li>').join('')+'</ul>'+(x.v===VERSION?'':'<a href="https://sonaa.ca/games/isoku/'+x.v+'/">Ouvrir '+x.v+'</a>');
-    vs.appendChild(d);});
-  $('#verBtn').addEventListener('click',()=>{$('#setSheet').classList.remove('open');$('#verSheet').classList.add('open');});
-  $('#vtagBtn').addEventListener('click',()=>openSheet('#verSheet'));
   tog('#tErr','showErr',()=>G&&(renderHighlights(),renderPalette()));
   tog('#tHap','haptics');
   tog('#tSame','same',()=>G&&renderHighlights());
