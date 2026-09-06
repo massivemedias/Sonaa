@@ -3,7 +3,7 @@
 .pied {
   margin-top: 4rem;
   padding-top: 2rem;
-  border-top: 1px solid oklch(1 0 0 / 0.09);
+  border-top: 1px solid var(--voile-09);
 }
 
 /* AUTANT DE COLONNES QUE LA LARGEUR EN PERMET, sans point de rupture ecrit :
@@ -21,7 +21,7 @@
   font-size: 0.6875rem;
   font-weight: 700;
   text-transform: uppercase;
-  color: oklch(0.58 0.01 260);
+  color: var(--encre-tierce);
 }
 .pied-colonne ul {
   list-style: none;
@@ -31,17 +31,17 @@
   gap: 0.45rem;
 }
 .pied-colonne a {
-  color: oklch(0.82 0.008 260);
+  color: var(--encre-forte);
   font-size: 0.875rem;
   text-decoration: none;
 }
 .pied-colonne a:hover {
-  color: oklch(0.97 0 0);
+  color: var(--encre-vive);
   text-decoration: underline;
 }
 
 .pied-mot {
   margin: 2rem 0 0;
-  color: oklch(0.5 0.01 260);
+  color: var(--encre-effacee);
   font-size: 0.8125rem;
 }

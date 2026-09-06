@@ -35,7 +35,7 @@
   z-index: 8;
   display: flex;
   flex-direction: column;
-  background: var(--fond, oklch(0.16 0.012 250));
+  background: var(--fond, var(--plaque));
   overflow: hidden;
 }
 
@@ -127,10 +127,10 @@
   height: 44px;
   margin-left: 0;
   padding: 0;
-  background: oklch(0.98 0 0);
+  background: var(--encre-vive-2);
   border: 0;
   border-radius: 50%;
-  color: oklch(0.18 0.01 250);
+  color: var(--plaque-3);
   cursor: pointer;
 }
 
@@ -159,7 +159,7 @@
   padding: 0;
   background: transparent;
   border: 0;
-  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  color: var(--ink-secondary, var(--encre-douce));
   font: inherit;
   text-transform: uppercase;
   cursor: pointer;
@@ -173,7 +173,7 @@
 .mn-crumb[data-current='true'] {
   flex: 0 1 auto;
   min-width: 11ch;
-  color: var(--ink-primary, oklch(0.92 0.01 250));
+  color: var(--ink-primary, var(--encre-2));
   cursor: default;
 }
 
@@ -192,7 +192,7 @@
 }
 
 .mn-sep {
-  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  color: var(--ink-secondary, var(--encre-douce));
 }
 
 /* --- Les cartes ----------------------------------------------------------- */
@@ -228,7 +228,7 @@
   border: 0;
   border-left: 4px solid var(--famille);
   border-radius: 6px;
-  color: var(--ink-primary, oklch(0.92 0.01 250));
+  color: var(--ink-primary, var(--encre-2));
   font-family: var(--font-ui);
   cursor: pointer;
 }
@@ -245,7 +245,7 @@
 
 .mn-carte-compte {
   font-size: 11px;
-  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  color: var(--ink-secondary, var(--encre-douce));
 }
 
 /* Les genres phares : ils donnent la couleur de la famille en mots, et c'est
@@ -253,7 +253,7 @@
    laisser passer à la ligne, la carte doit rester lisible d'un coup d'oeil. */
 .mn-carte-phares {
   font-size: 0.72rem;
-  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  color: var(--ink-secondary, var(--encre-douce));
   opacity: 0.85;
   white-space: nowrap;
   overflow: hidden;
@@ -305,7 +305,7 @@
 
 .mn[data-niveau='genre'] .mn-ariane {
   pointer-events: auto;
-  background: color-mix(in oklab, var(--fond, oklch(0.16 0.012 250)) 88%, transparent);
+  background: color-mix(in oklab, var(--fond, var(--plaque)) 88%, transparent);
   backdrop-filter: blur(6px);
 }
 
@@ -341,14 +341,14 @@
 
 .mn[data-niveau='ensemble'] .mn-ariane {
   pointer-events: auto;
-  background: color-mix(in oklab, var(--fond, oklch(0.16 0.012 250)) 88%, transparent);
+  background: color-mix(in oklab, var(--fond, var(--plaque)) 88%, transparent);
   backdrop-filter: blur(6px);
 }
 
 .mn-note {
   margin-left: auto;
   padding-left: 0.6rem;
-  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  color: var(--ink-secondary, var(--encre-douce));
   text-transform: none;
   letter-spacing: var(--serrage);
   font-size: 0.68rem;
@@ -368,9 +368,9 @@
   padding: 0.6rem 0.9rem;
   text-align: left;
   background: transparent;
-  border: 1px dashed var(--rule-strong, oklch(0.4 0.01 250));
+  border: 1px dashed var(--rule-strong, var(--filet-fort));
   border-radius: 6px;
-  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  color: var(--ink-secondary, var(--encre-douce));
   font-family: var(--font-ui);
   font-size: 0.82rem;
   cursor: pointer;
@@ -411,7 +411,7 @@
   padding: 0;
   background: transparent;
   border: 0;
-  color: var(--ink-primary, oklch(0.92 0.01 250));
+  color: var(--ink-primary, var(--encre-2));
   font-size: 1.35rem;
   line-height: 1;
   cursor: pointer;
@@ -442,7 +442,7 @@
 .mn[data-niveau='familles'] .mn-ariane,
 .mn[data-niveau='genres'] .mn-ariane {
   pointer-events: auto;
-  background: color-mix(in oklab, var(--fond, oklch(0.16 0.012 250)) 88%, transparent);
+  background: color-mix(in oklab, var(--fond, var(--plaque)) 88%, transparent);
   backdrop-filter: blur(6px);
 }
 

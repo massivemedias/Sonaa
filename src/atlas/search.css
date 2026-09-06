@@ -9,7 +9,7 @@
   justify-content: center;
   align-items: flex-start;
   padding: 12vh 1rem 1rem;
-  background: oklch(0.08 0.01 250 / 0.55);
+  background: var(--rideau-55);
   font-family: var(--font-ui);
 }
 
@@ -17,7 +17,7 @@
   width: min(32rem, 100%);
   display: flex;
   flex-direction: column;
-  background: oklch(0.12 0.012 250 / 0.98);
+  background: var(--panneau-98);
   border: 1px solid var(--rule-hairline);
 }
 
@@ -62,7 +62,7 @@
 }
 
 .search-hit[data-active='true'] {
-  background: oklch(0.18 0.015 250);
+  background: var(--plaque-3);
 }
 
 .search-dot {

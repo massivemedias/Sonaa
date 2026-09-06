@@ -1,3 +1,18 @@
+/* ═══ CE QUI EST POSE SUR LA SCENE NE SUIT PAS LE THEME ═══
+
+   La carte en trois dimensions rend sur un canevas NOIR, dans les deux
+   themes : ce n'est pas une page, c'est une scene, et son fond est une
+   decision de mise en scene et non de lumiere d'interface.
+
+   Les encres posees dessus restent donc fixes. Le passage aux jetons les
+   avait converties comme le reste, et le theme clair les avait rendues
+   noires SUR DU NOIR : les etiquettes de genres disparaissaient. Meme defaut
+   sur la tuile jaune de Parcourir, ou le texte gris fonce etait devenu blanc
+   sur jaune, et sur la fente video du lecteur, qui est noire par nature.
+
+   LA REGLE TIENT EN UNE PHRASE : une encre posee sur une surface qui ne
+   change pas de theme ne change pas de theme non plus. */
+
 /* LA HAUTEUR DE LA FEUILLE MOBILE ET LA BANDE DU FIL D'ARIANE, une seule fois.
 
    Elles etaient ecrites en deux endroits qui ont diverge : la feuille a 70 %
@@ -43,7 +58,7 @@
   height: 100dvh;
   width: 100vw;
   overflow: hidden;
-  background: oklch(0.16 0.012 250);
+  background: var(--plaque);
 }
 
 .atlas-canvas {
@@ -100,8 +115,8 @@
      ombres portées et de l'assombrissement local de la sphère fait en shader.
      Cette règle a déjà régressé une fois : ne pas la réintroduire. */
   text-shadow:
-    0 1px 1px rgba(0, 0, 0, 0.7),
-    0 0 6px rgba(0, 0, 0, 0.7);
+    0 1px 1px var(--rideau-7),
+    0 0 6px var(--rideau-7);
   transition: opacity 120ms linear, filter 400ms ease;
 
   /* AUCUN pointer-events ici, et c'est délibéré. Le nom EST une cible de
@@ -172,7 +187,7 @@
    sous le curseur et la ligne de texte se decale, ce qui se voit et ce qui
    agace. */
 .atlas-label[data-plaque='1'] {
-  background: rgba(0, 0, 0, 0.85);
+  background: var(--rideau-85);
   /* LE LISERE PORTE LA COULEUR EXACTE DU GENRE, et non plus une clarte fixe
      sur la teinte de sa famille. Depuis que le derive n'a plus de sphere, la
      plaque est le seul porteur chromatique : reduire tous les genres d'une
@@ -189,7 +204,7 @@
   gap: 5px;
   text-shadow: none;
   font-weight: 600;
-  color: oklch(0.94 0.005 250);
+  color: var(--encre-4);
   transition:
     background-color 120ms ease,
     border-color 120ms ease,
@@ -228,7 +243,7 @@
    Le fond passe de 85 a 95 %, le lisere de 1 a 2 px, le texte au blanc pur. */
 .atlas-label[data-plaque='1']:hover,
 .atlas-label[data-plaque='1'][data-survol='1'] {
-  background: rgba(0, 0, 0, 0.95);
+  background: var(--rideau-95);
   border-width: 2px;
   border-color: oklch(calc(var(--plaque-l, 0.72) + 0.12) var(--plaque-c, 0.15) var(--plaque-hue, 284));
   padding: 2px 5px;
@@ -325,7 +340,7 @@
   width: 0.55rem;
   height: 0.55rem;
   border-radius: 50%;
-  background: oklch(0.74 0.088 var(--h));
+  background: oklch(var(--lt-74) 0.088 var(--h));
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -378,7 +393,7 @@
 .crumb-retour:hover,
 .crumb-retour:focus-visible {
   color: var(--ink-primary);
-  background: oklch(1 0 0 / 0.08);
+  background: var(--voile-08);
 }
 
 .crumb-retour svg {
@@ -453,7 +468,7 @@
   color: #0a0c10;
   background: #f2f4f8;
   border: 0;
-  box-shadow: 0 2px 10px oklch(0 0 0 / 0.35);
+  box-shadow: 0 2px 10px var(--rideau-35);
   cursor: pointer;
 }
 
@@ -519,9 +534,9 @@
   font-weight: var(--weight-family);
   letter-spacing: var(--serrage);
   text-shadow:
-    0 1px 1px rgba(0, 0, 0, 0.75),
-    0 0 6px rgba(0, 0, 0, 0.75),
-    0 0 14px rgba(255, 255, 255, 0.45);
+    0 1px 1px var(--rideau-75),
+    0 0 6px var(--rideau-75),
+    0 0 14px var(--voile-45);
 }
 
 /* --- Lecteur YouTube réel ------------------------------------------------
@@ -629,7 +644,7 @@
     100deg,
     transparent 0%,
     transparent 44%,
-    rgba(255, 255, 255, 0.35) 48.5%,
+    var(--voile-35) 48.5%,
     #ffffff 50%,
     transparent 51.5%,
     transparent 100%
@@ -933,7 +948,7 @@
   flex-direction: column;
   gap: 0.15rem;
   padding: 0.55rem 0.7rem;
-  background: oklch(0.08 0.01 250 / 0.55);
+  background: var(--rideau-55);
   border-radius: 4px;
   font-family: var(--font-ui);
   /* Pleine opacité 8 s, puis 25 %. Jamais zéro : c'est un aide-mémoire,
@@ -1052,15 +1067,15 @@
 .pcol-manque {
   margin-block-start: 1rem;
   padding: 0.85rem 0.9rem;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid var(--voile-14);
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--voile-03);
 }
 .pcol-manque p {
   margin: 0 0 0.6rem;
   font-size: 0.88rem;
   line-height: 1.45;
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--voile-72);
 }
 
 /* LE MOT DE L'AUTEUR. Il doit se lire comme une voix, pas comme une donnee
@@ -1070,7 +1085,7 @@
 .pcol-mot-auteur {
   margin: 0.9rem 0 0;
   padding: 0.1rem 0 0.1rem 0.85rem;
-  border-inline-start: 2px solid rgba(255, 255, 255, 0.28);
+  border-inline-start: 2px solid var(--voile-28);
 }
 .pcol-mot-auteur p {
   /* Quatre paragraphes dans une colonne de 420 px : sans écart entre eux, le
@@ -1079,7 +1094,7 @@
   font-style: italic;
   font-size: 0.92rem;
   line-height: 1.55;
-  color: rgba(255, 255, 255, 0.82);
+  color: var(--voile-82);
 }
 .pcol-mot-auteur p:last-of-type {
   margin-block-end: 0;
@@ -1090,7 +1105,7 @@
   font-size: 0.78rem !important;
   letter-spacing: var(--serrage);
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45) !important;
+  color: var(--voile-45) !important;
 }
 
 /* LE TEXTE D'AUTEUR de la page À propos n'est plus stylé ici : ses règles
@@ -1106,7 +1121,7 @@
   margin: 0 0 0.55rem;
   font-size: 0.8rem;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--voile-5);
 }
 
 /* LE FIL DE DISCUSSION. Il vit sous les infos du genre, replie par defaut :
@@ -1121,21 +1136,21 @@
 .pcol-fil-message {
   margin: 0 0 0.6rem;
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--voile-7);
 }
 .pcol-fil-vide {
   margin: 0.3rem 0 0.8rem;
   font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--voile-45);
 }
 .pcol-fil-saisie textarea {
   width: 100%;
   box-sizing: border-box;
   padding: 0.55rem 0.65rem;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid var(--voile-16);
   border-radius: 5px;
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.92);
+  background: var(--voile-04);
+  color: var(--voile-92);
   font: inherit;
   font-size: 0.88rem;
   resize: vertical;
@@ -1149,7 +1164,7 @@
 }
 .pcol-fil-compte {
   font-size: 0.72rem;
-  color: rgba(255, 255, 255, 0.38);
+  color: var(--voile-38);
 }
 .pcol-fil-liste {
   list-style: none;
@@ -1158,7 +1173,7 @@
 }
 .pcol-fil-item {
   padding: 0.55rem 0 0.55rem 0.7rem;
-  border-inline-start: 2px solid rgba(255, 255, 255, 0.1);
+  border-inline-start: 2px solid var(--voile-1);
 }
 .pcol-fil-item + .pcol-fil-item {
   margin-block-start: 0.35rem;
@@ -1168,7 +1183,7 @@
    voir sans crier, et elle ne vient PAS du statut de moderateur. */
 .pcol-fil-item[data-auteur] {
   border-inline-start-width: 3px;
-  background: rgba(255, 255, 255, 0.025);
+  background: var(--voile-025);
 }
 .pcol-fil-entete {
   display: flex;
@@ -1179,24 +1194,24 @@
 .pcol-fil-auteur {
   font-size: 0.78rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.78);
+  color: var(--voile-78);
 }
 .pcol-fil-marque {
   font-size: 0.64rem;
   letter-spacing: var(--serrage);
   text-transform: uppercase;
-  color: var(--family, rgba(255, 255, 255, 0.5));
+  color: var(--family, var(--voile-5));
 }
 .pcol-fil-date {
   margin-inline-start: auto;
   font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.34);
+  color: var(--voile-34);
 }
 .pcol-fil-texte {
   margin: 0.3rem 0 0.4rem;
   font-size: 0.87rem;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.86);
+  color: var(--voile-86);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
@@ -1209,18 +1224,18 @@
   padding: 0.1rem 0.35rem;
   border: 0;
   background: none;
-  color: rgba(255, 255, 255, 0.42);
+  color: var(--voile-42);
   font-size: 0.8rem;
   cursor: pointer;
 }
 .pcol-fil-pied button:hover {
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--voile-85);
 }
 .pcol-fil-score {
   min-width: 1.4em;
   text-align: center;
   font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--voile-6);
 }
 .pcol-fil-lien {
   margin-inline-start: 0.5rem;

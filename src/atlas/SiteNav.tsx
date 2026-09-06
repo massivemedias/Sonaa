@@ -15,6 +15,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { t } from '../langue/langue.ts';
 import { ChoixLangue } from './ChoixLangue.tsx';
+import { ChoixTheme } from './ChoixTheme.tsx';
 import './site-nav.css';
 
 type SiteCourant =
@@ -170,6 +171,7 @@ export function SiteNav({ variant, extra }: Props) {
         ·
       </span>
       <ChoixLangue />
+      <ChoixTheme />
     </nav>
   );
 }

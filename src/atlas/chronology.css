@@ -6,7 +6,7 @@
 .chrono-root {
   position: fixed;
   inset: 0;
-  background: var(--bg, oklch(0.14 0.012 250));
+  background: var(--bg, var(--fond));
   color: var(--ink-primary, #e6edf3);
   overflow-y: auto;
   overflow-x: hidden;
@@ -19,7 +19,7 @@
   margin: 0 auto 1.5rem;
   padding-bottom: 1rem;
   padding-right: calc(var(--authb-reserve, 126px) + 0.5rem);
-  border-bottom: 1px solid oklch(1 0 0 / 0.1);
+  border-bottom: 1px solid var(--voile-1);
 }
 
 .chrono-chrome {
@@ -52,7 +52,7 @@
 
 .chrono-legend {
   font-size: 0.8125rem;
-  color: oklch(1 0 0 / 0.6);
+  color: var(--voile-6);
   margin: 0 0 0.75rem;
   display: flex;
   align-items: center;
@@ -70,12 +70,12 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.8125rem;
-  color: oklch(1 0 0 / 0.7);
+  color: var(--voile-7);
   cursor: pointer;
 }
 
 .chrono-filter input {
-  accent-color: oklch(0.7 0.15 220);
+  accent-color: oklch(var(--lt-70) 0.15 220);
 }
 
 /* --- ACCORDÉON MOBILE --- */
@@ -89,7 +89,7 @@
 }
 
 .chrono-family {
-  background: oklch(0.18 0.01 250);
+  background: var(--plaque-3);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -116,7 +116,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: oklch(0.7 0.15 var(--hue));
+  background: oklch(var(--lt-70) 0.15 var(--hue));
   flex-shrink: 0;
 }
 
@@ -126,17 +126,17 @@
 
 .chrono-family-count {
   font-size: 0.75rem;
-  color: oklch(1 0 0 / 0.5);
+  color: var(--voile-5);
   font-weight: 400;
 }
 
 .chrono-family-chevron {
   font-size: 0.875rem;
-  color: oklch(1 0 0 / 0.4);
+  color: var(--voile-4);
 }
 
 .chrono-family[data-open="true"] .chrono-family-header {
-  border-bottom: 1px solid oklch(1 0 0 / 0.08);
+  border-bottom: 1px solid var(--voile-08);
 }
 
 .chrono-family-body {
@@ -163,7 +163,7 @@
   font-weight: 600;
   letter-spacing: var(--serrage);
   text-transform: uppercase;
-  color: oklch(1 0 0 / 0.45);
+  color: var(--voile-45);
 }
 
 .chrono-liste-genre {
@@ -175,7 +175,7 @@
   padding: 0.65rem 0.6rem 0.65rem var(--retrait, 8px);
   background: transparent;
   border: 0;
-  border-bottom: 1px solid oklch(1 0 0 / 0.06);
+  border-bottom: 1px solid var(--voile-06);
   color: inherit;
   font: inherit;
   text-align: left;
@@ -208,14 +208,14 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: oklch(0.7 0.15 var(--hue));
+  background: oklch(var(--lt-70) 0.15 var(--hue));
   flex-shrink: 0;
 }
 
 .chrono-liste-an {
   flex: none;
   font-size: 0.8125rem;
-  color: oklch(1 0 0 / 0.5);
+  color: var(--voile-5);
 }
 
 /* --- COLONNES DESKTOP --- */
@@ -230,7 +230,7 @@
 }
 
 .chrono-column {
-  background: oklch(0.16 0.01 250);
+  background: var(--plaque);
   border-radius: 6px;
   overflow: hidden;
   display: flex;
@@ -245,9 +245,9 @@
   text-transform: uppercase;
   letter-spacing: var(--serrage);
   text-align: center;
-  background: oklch(0.7 0.12 var(--hue) / 0.15);
-  color: oklch(0.85 0.1 var(--hue));
-  border-bottom: 2px solid oklch(0.7 0.15 var(--hue));
+  background: oklch(var(--lt-70) 0.12 var(--hue) / 0.15);
+  color: oklch(var(--lt-85) 0.1 var(--hue));
+  border-bottom: 2px solid oklch(var(--lt-70) 0.15 var(--hue));
 }
 
 /* --- TIMELINE --- */
@@ -271,7 +271,7 @@
   right: 0;
   top: var(--start);
   height: var(--h);
-  border-top: 1px solid oklch(1 0 0 / 0.06);
+  border-top: 1px solid var(--voile-06);
 }
 
 .chrono-decade-label {
@@ -279,7 +279,7 @@
   top: 2px;
   left: 4px;
   font-size: 0.5625rem;
-  color: oklch(1 0 0 / 0.3);
+  color: var(--voile-3);
   font-weight: 500;
 }
 
@@ -306,7 +306,7 @@
 }
 
 .chrono-line line {
-  stroke: oklch(0.7 0.1 var(--hue) / 0.3);
+  stroke: oklch(var(--lt-70) 0.1 var(--hue) / 0.3);
   stroke-width: 1;
 }
 
@@ -332,8 +332,8 @@
   gap: 2px;
   padding: 0.375rem 0.5rem;
   background: oklch(0.22 0.02 var(--hue));
-  border: 1px solid oklch(0.5 0.1 var(--hue) / 0.3);
-  border-left: 3px solid oklch(0.7 0.15 var(--hue));
+  border: 1px solid oklch(var(--lt-50) 0.1 var(--hue) / 0.3);
+  border-left: 3px solid oklch(var(--lt-70) 0.15 var(--hue));
   border-radius: 4px;
   color: inherit;
   font: inherit;
@@ -343,12 +343,12 @@
 }
 
 .chrono-genre:hover {
-  background: oklch(0.28 0.03 var(--hue));
-  border-color: oklch(0.6 0.12 var(--hue) / 0.5);
+  background: oklch(var(--lt-28) 0.03 var(--hue));
+  border-color: oklch(var(--lt-60) 0.12 var(--hue) / 0.5);
 }
 
 .chrono-genre[data-major="true"] {
-  background: oklch(0.26 0.04 var(--hue));
+  background: oklch(var(--lt-26) 0.04 var(--hue));
   border-left-width: 4px;
 }
 
@@ -365,7 +365,7 @@
 
 .chrono-genre-year {
   font-size: 0.625rem;
-  color: oklch(1 0 0 / 0.5);
+  color: var(--voile-5);
 }
 
 /* --- PASTILLE DE GREFFE --- */
@@ -382,8 +382,8 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: oklch(0.65 0.15 var(--graft-hue));
-  border: 1px solid oklch(0.3 0.05 var(--graft-hue));
+  background: oklch(var(--lt-65) 0.15 var(--graft-hue));
+  border: 1px solid oklch(var(--lt-30) 0.05 var(--graft-hue));
 }
 
 /* --- FOOTER --- */
@@ -392,12 +392,12 @@
   max-width: var(--largeur-page);
   margin: 2rem auto 0;
   padding-top: 1rem;
-  border-top: 1px solid oklch(1 0 0 / 0.1);
+  border-top: 1px solid var(--voile-1);
 }
 
 .chrono-footer p {
   font-size: 0.75rem;
-  color: oklch(1 0 0 / 0.5);
+  color: var(--voile-5);
   margin: 0;
   font-style: italic;
 }
@@ -474,7 +474,7 @@
     height: auto;
     border: none;
     padding: 0.2rem 0.5rem;
-    background: oklch(1 0 0 / 0.05);
+    background: var(--voile-05);
     border-radius: 3px;
   }
 
@@ -516,7 +516,7 @@
   display: inline-flex;
   gap: 2px;
   padding: 2px;
-  border: 1px solid var(--rule-hairline, oklch(0.3 0.01 250));
+  border: 1px solid var(--rule-hairline, var(--filet));
   border-radius: 8px;
 }
 
@@ -526,15 +526,15 @@
   background: transparent;
   border: 0;
   border-radius: 6px;
-  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  color: var(--ink-secondary, var(--encre-douce));
   font-family: var(--font-ui);
   font-size: 0.875rem;
   cursor: pointer;
 }
 
 .chrono-selecteur button[aria-selected='true'] {
-  background: oklch(1 0 0 / 0.08);
-  color: var(--ink-primary, oklch(0.92 0.01 250));
+  background: var(--voile-08);
+  color: var(--ink-primary, var(--encre-2));
 }
 
 /* LE DEFILEMENT EST HORIZONTAL, et il n'y a que lui : `touch-action` le
@@ -570,7 +570,7 @@
   right: 0;
   top: var(--haut);
   height: 3px;
-  background: var(--ink-primary, oklch(0.92 0.01 250));
+  background: var(--ink-primary, var(--encre-2));
   opacity: 0.9;
 }
 
@@ -583,8 +583,8 @@
   left: var(--x);
   padding-top: 22px;
   padding-left: 6px;
-  border-left: 2px solid var(--ink-primary, oklch(0.92 0.01 250));
-  color: var(--ink-primary, oklch(0.92 0.01 250));
+  border-left: 2px solid var(--ink-primary, var(--encre-2));
+  color: var(--ink-primary, var(--encre-2));
   font-family: var(--font-ui);
   font-size: 0.85rem;
   font-weight: 500;
@@ -617,7 +617,7 @@
   left: 0;
   width: 1px;
   height: var(--d);
-  background: oklch(0.7 0.15 var(--hue) / 0.5);
+  background: oklch(var(--lt-70) 0.15 var(--hue) / 0.5);
 }
 
 .chrono-epoque-groupe[data-cote='haut'] .chrono-epoque-trait {
@@ -639,10 +639,10 @@
   padding: 4px 6px;
   overflow: hidden;
   background: oklch(0.22 0.02 var(--hue));
-  border: 1px solid oklch(0.5 0.1 var(--hue) / 0.3);
-  border-left: 3px solid oklch(0.7 0.15 var(--hue));
+  border: 1px solid oklch(var(--lt-50) 0.1 var(--hue) / 0.3);
+  border-left: 3px solid oklch(var(--lt-70) 0.15 var(--hue));
   border-radius: 4px;
-  color: var(--ink-primary, oklch(0.92 0.01 250));
+  color: var(--ink-primary, var(--encre-2));
   font-family: var(--font-ui);
   text-align: left;
   cursor: pointer;
@@ -657,7 +657,7 @@
 }
 
 .chrono-epoque-an {
-  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  color: var(--ink-secondary, var(--encre-douce));
   font-size: 9px;
 }
 
@@ -701,7 +701,7 @@
   left: calc(var(--haut) - 10px);
   padding: 0 0 0 26px;
   border-left: 0;
-  border-top: 2px solid var(--ink-primary, oklch(0.92 0.01 250));
+  border-top: 2px solid var(--ink-primary, var(--encre-2));
 }
 
 .chrono-epoque[data-orientation='verticale'] .chrono-epoque-groupe {

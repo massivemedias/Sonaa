@@ -111,20 +111,199 @@
      disparaissait sans un mot. Constate a l'ecran, pas deduit. */
   --resultats-h: 46vh;
 
-  /* ---------------------------------------------------------------
-     SURFACES ET FILETS
-     Graphite froid légèrement désaturé. Pas de noir pur.
-     --------------------------------------------------------------- */
-  --surface-plate: oklch(0.17 0.012 250);   /* le fond de la planche */
-  --surface-margin: oklch(0.14 0.010 250);  /* marges, colonne de temps, dock */
-  --surface-raised: oklch(0.21 0.014 250);  /* bloc d'annotation, modales */
+  /* ═══════════════════════════════════════════════════════════════
+     L'ECHELLE DES GRIS, ET POURQUOI ELLE EXISTE
 
-  --rule-hairline: oklch(0.30 0.010 250);   /* grille, filets, cadre */
-  --rule-strong: oklch(0.42 0.012 250);     /* graduations de décennie */
+     LE THEME CLAIR ETAIT IMPOSSIBLE AVANT CE BLOC, et pas par manque de
+     volonte : quatre cent trente-six couleurs etaient ecrites en dur dans
+     vingt-deux feuilles. Les jetons de surface ci-dessous existaient deja,
+     mais presque personne ne s'en servait. Un systeme de jetons que le code
+     contourne n'est pas un systeme, c'est une intention.
+
+     LES VALEURS N'ONT PAS BOUGE. Chaque clarte rencontree dans le depot a
+     recu son jeton, a l'identique : le theme sombre rend exactement ce qu'il
+     rendait avant. Les sous-numeros (--plaque-2, --encre-3) ne sont pas de
+     la decoration, ils gardent des ecarts de deux centiemes qu'un rabattement
+     aurait effaces, et avec eux la difference entre une carte et son filet.
+
+     ═══ LE THEME CLAIR N'EST PAS UNE INVERSION ═══
+
+     Les FILETS et l'ENCRE s'inversent : ce qui etait clair sur fond sombre
+     devient sombre sur fond clair. Les SURFACES, elles, ne s'inversent PAS.
+     Dans les deux themes, une surface surelevee est plus lumineuse que le
+     fond, parce que c'est ainsi qu'on lit le relief : inverser aurait donne
+     des cartes plus grises que la page qui les porte, ce qui les enfonce au
+     lieu de les lever.
+
+     L'ECART SE COMPRIME AUSSI. Un meme ecart de clarte se lit plus fort en
+     sombre sur clair qu'en clair sur sombre : les voiles blancs deviennent
+     des voiles noirs a deux tiers de leur opacite, sans quoi chaque
+     separateur deviendrait un trait.
+
+     Trois controles d'ordre tournent a la generation : surfaces croissantes,
+     encre et filets decroissants, et aucun filet plus clair que la surface la
+     plus sombre. Une echelle qui se croise fait disparaitre un bord sans
+     qu'aucune regle ne soit fausse.
+     ═══════════════════════════════════════════════════════════════ */
+
+  --creux: oklch(0.07 0.01 255);
+  --creux-2: oklch(0.08 0.01 255);
+  --creux-3: oklch(0.12 0.01 255);
+  --fond: oklch(0.14 0.01 255);
+  --plaque: oklch(0.16 0.012 255);
+  --plaque-2: oklch(0.17 0.012 255);
+  --plaque-3: oklch(0.18 0.012 255);
+  --leve: oklch(0.2 0.014 255);
+  --leve-2: oklch(0.21 0.014 255);
+  --leve-3: oklch(0.22 0.014 255);
+  --leve-4: oklch(0.24 0.014 255);
+  --filet-fantome: oklch(0.26 0.01 255);
+  --filet-fantome-2: oklch(0.28 0.01 255);
+  --filet: oklch(0.3 0.01 255);
+  --filet-2: oklch(0.31 0.01 255);
+  --filet-3: oklch(0.34 0.01 255);
+  --filet-fort: oklch(0.4 0.012 255);
+  --filet-fort-2: oklch(0.42 0.012 255);
+  --encre-effacee: oklch(0.5 0.01 255);
+  --encre-effacee-2: oklch(0.52 0.01 255);
+  --encre-effacee-3: oklch(0.55 0.01 255);
+  --encre-tierce: oklch(0.58 0.01 255);
+  --encre-tierce-2: oklch(0.6 0.01 255);
+  --encre-tierce-3: oklch(0.62 0.01 255);
+  --encre-douce: oklch(0.66 0.01 255);
+  --encre-douce-2: oklch(0.68 0.01 255);
+  --encre-douce-3: oklch(0.7 0.01 255);
+  --encre-moyenne: oklch(0.72 0.01 255);
+  --encre-moyenne-2: oklch(0.75 0.01 255);
+  --encre-moyenne-3: oklch(0.78 0.01 255);
+  --encre-forte: oklch(0.82 0.008 255);
+  --encre-forte-2: oklch(0.85 0.008 255);
+  --encre-forte-3: oklch(0.86 0.008 255);
+  --encre-forte-4: oklch(0.88 0.008 255);
+  --encre: oklch(0.9 0.008 255);
+  --encre-2: oklch(0.92 0.008 255);
+  --encre-3: oklch(0.93 0.008 255);
+  --encre-4: oklch(0.94 0.008 255);
+  --encre-5: oklch(0.95 0.008 255);
+  --encre-vive: oklch(0.97 0.004 255);
+  --encre-vive-2: oklch(0.98 0.004 255);
+  --encre-vive-3: oklch(0.99 0.004 255);
+
+  --voile-02: oklch(1 0 0 / 0.02);
+  --voile-025: oklch(1 0 0 / 0.025);
+  --voile-03: oklch(1 0 0 / 0.03);
+  --voile-04: oklch(1 0 0 / 0.04);
+  --voile-05: oklch(1 0 0 / 0.05);
+  --voile-06: oklch(1 0 0 / 0.06);
+  --voile-07: oklch(1 0 0 / 0.07);
+  --voile-08: oklch(1 0 0 / 0.08);
+  --voile-09: oklch(1 0 0 / 0.09);
+  --voile-1: oklch(1 0 0 / 0.1);
+  --voile-12: oklch(1 0 0 / 0.12);
+  --voile-14: oklch(1 0 0 / 0.14);
+  --voile-16: oklch(1 0 0 / 0.16);
+  --voile-18: oklch(1 0 0 / 0.18);
+  --voile-24: oklch(1 0 0 / 0.24);
+  --voile-28: oklch(1 0 0 / 0.28);
+  --voile-3: oklch(1 0 0 / 0.3);
+  --voile-32: oklch(1 0 0 / 0.32);
+  --voile-34: oklch(1 0 0 / 0.34);
+  --voile-35: oklch(1 0 0 / 0.35);
+  --voile-38: oklch(1 0 0 / 0.38);
+  --voile-4: oklch(1 0 0 / 0.4);
+  --voile-42: oklch(1 0 0 / 0.42);
+  --voile-45: oklch(1 0 0 / 0.45);
+  --voile-5: oklch(1 0 0 / 0.5);
+  --voile-6: oklch(1 0 0 / 0.6);
+  --voile-68: oklch(1 0 0 / 0.68);
+  --voile-7: oklch(1 0 0 / 0.7);
+  --voile-72: oklch(1 0 0 / 0.72);
+  --voile-75: oklch(1 0 0 / 0.75);
+  --voile-78: oklch(1 0 0 / 0.78);
+  --voile-82: oklch(1 0 0 / 0.82);
+  --voile-84: oklch(1 0 0 / 0.84);
+  --voile-85: oklch(1 0 0 / 0.85);
+  --voile-86: oklch(1 0 0 / 0.86);
+  --voile-92: oklch(1 0 0 / 0.92);
+
+  --rideau-35: oklch(0.0 0 0 / 0.35);
+  --rideau-45: oklch(0.05 0 0 / 0.45);
+  --rideau-5: oklch(0.0 0 0 / 0.5);
+  --rideau-55: oklch(0.0 0 0 / 0.55);
+  --rideau-6: oklch(0.12 0 0 / 0.6);
+  --rideau-66: oklch(0.1 0 0 / 0.66);
+  --rideau-7: oklch(0.12 0 0 / 0.7);
+  --rideau-72: oklch(0.08 0 0 / 0.72);
+  --rideau-75: oklch(0.0 0 0 / 0.75);
+  --rideau-8: oklch(0.16 0 0 / 0.8);
+  --rideau-85: oklch(0.0 0 0 / 0.85);
+  --rideau-95: oklch(0.0 0 0 / 0.95);
+
+  --panneau-88: oklch(0.0 0.008 255 / 0.88);
+  --panneau-9: oklch(0.07 0.008 255 / 0.9);
+  --panneau-94: oklch(0.08 0.008 255 / 0.94);
+  --panneau-96: oklch(0.12 0.008 255 / 0.96);
+  --panneau-97: oklch(0.1 0.008 255 / 0.97);
+  --panneau-98: oklch(0.12 0.008 255 / 0.98);
+
+  /* ---------------------------------------------------------------
+     LES ANCIENS NOMS DE ROLE DELEGUENT.
+     Ils sont nommes dans une centaine de regles ; les remplacer aurait
+     touche autant de lignes pour aucun gain. Ils pointent desormais sur
+     l'echelle, donc ils suivent le theme sans le savoir.
+     --------------------------------------------------------------- */
+  /* ═══ LA CLARTE DES COULEURS TEINTEES, A PART DES GRIS ═══
+
+     Les teintes de famille, les accents et les etats ne peuvent pas suivre
+     l'echelle des gris : une couleur porte une TEINTE qui doit rester la
+     meme dans les deux themes, et seule sa clarte doit tourner. Un vert de
+     validation qui devient rouge en changeant de theme n'est plus un vert de
+     validation.
+
+     On ne remplace donc que la clarte, par un jeton, et on laisse la teinte
+     et le chroma ou ils sont : `oklch(var(--lt-78) 0.17 85)` reste le jaune
+     de SONAA dans les deux themes, plus lumineux sur fond sombre, plus dense
+     sur fond clair. Le miroir est `1.16 moins la clarte`, borne pour ne
+     jamais depasser ni le noir ni le blanc utiles. */
+  --lt-26: 0.26;
+  --lt-28: 0.28;
+  --lt-30: 0.3;
+  --lt-34: 0.34;
+  --lt-40: 0.4;
+  --lt-45: 0.45;
+  --lt-46: 0.46;
+  --lt-50: 0.5;
+  --lt-60: 0.6;
+  --lt-62: 0.62;
+  --lt-65: 0.65;
+  --lt-70: 0.7;
+  --lt-72: 0.72;
+  --lt-74: 0.74;
+  --lt-75: 0.75;
+  --lt-78: 0.78;
+  --lt-80: 0.8;
+  --lt-82: 0.82;
+  --lt-84: 0.84;
+  --lt-85: 0.85;
+  --lt-88: 0.88;
+  --lt-93: 0.93;
+
+  --surface-plate: var(--plaque-2);
+  --surface-margin: var(--fond);
+  --surface-raised: var(--leve-2);
+
+  --rule-hairline: var(--filet);
+  --rule-strong: var(--filet-fort-2);
   --rule-width: 1px;
 
-  --ink-primary: oklch(0.93 0.008 250);     /* texte de lecture, ratio AAA */
-  --ink-secondary: oklch(0.68 0.010 250);   /* données mono, légendes */
+  --ink-primary: var(--encre-3);
+  --ink-secondary: var(--encre-douce-2);
+
+  /* CE QUE LE NAVIGATEUR DOIT SAVOIR, et qu'aucune de nos regles ne lui dit :
+     la couleur des barres de defilement, des champs natifs et des menus
+     deroulants du systeme. Sans cette ligne, une page claire garde des menus
+     noirs. */
+  color-scheme: dark;
 
   /* ---------------------------------------------------------------
      FAMILLES
@@ -214,6 +393,310 @@
   --motion-zoom: 300ms;
   --motion-ease: cubic-bezier(0.4, 0, 0.2, 1);
   --propagation-per-year: 40ms;  /* durée d'un segment, par année franchie */
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LE THEME CLAIR
+
+   Il ne redefinit QUE l'echelle des gris et les accents. Tout le reste,
+   les polices, les mesures, les durees, les teintes de famille, est commun
+   aux deux : un theme est une lumiere, pas une autre identite.
+
+   L'ATTRIBUT EST SUR `html` ET NON SUR `body`. C'est ce qui permet a la
+   couleur d'etre posee avant le premier rendu, par un fragment de script
+   dans index.html, et donc de ne pas faire clignoter la page en blanc au
+   chargement de qui a choisi le sombre, ni l'inverse.
+   ═══════════════════════════════════════════════════════════════ */
+:root[data-theme='clair'] {
+  --creux: oklch(0.955 0.01 255);
+  --creux-2: oklch(0.961 0.01 255);
+  --creux-3: oklch(0.967 0.01 255);
+  --fond: oklch(0.972 0.01 255);
+  --plaque: oklch(0.984 0.012 255);
+  --plaque-2: oklch(0.988 0.012 255);
+  --plaque-3: oklch(0.992 0.012 255);
+  --leve: oklch(0.997 0.014 255);
+  --leve-2: oklch(0.998 0.014 255);
+  --leve-3: oklch(0.999 0.014 255);
+  --leve-4: oklch(1.0 0.014 255);
+  --filet-fantome: oklch(0.945 0.01 255);
+  --filet-fantome-2: oklch(0.93 0.01 255);
+  --filet: oklch(0.905 0.01 255);
+  --filet-2: oklch(0.89 0.01 255);
+  --filet-3: oklch(0.875 0.01 255);
+  --filet-fort: oklch(0.84 0.012 255);
+  --filet-fort-2: oklch(0.82 0.012 255);
+  --encre-effacee: oklch(0.7 0.01 255);
+  --encre-effacee-2: oklch(0.675 0.01 255);
+  --encre-effacee-3: oklch(0.65 0.01 255);
+  --encre-tierce: oklch(0.6 0.01 255);
+  --encre-tierce-2: oklch(0.578 0.01 255);
+  --encre-tierce-3: oklch(0.556 0.01 255);
+  --encre-douce: oklch(0.52 0.01 255);
+  --encre-douce-2: oklch(0.498 0.01 255);
+  --encre-douce-3: oklch(0.476 0.01 255);
+  --encre-moyenne: oklch(0.43 0.01 255);
+  --encre-moyenne-2: oklch(0.408 0.01 255);
+  --encre-moyenne-3: oklch(0.386 0.01 255);
+  --encre-forte: oklch(0.33 0.008 255);
+  --encre-forte-2: oklch(0.308 0.008 255);
+  --encre-forte-3: oklch(0.286 0.008 255);
+  --encre-forte-4: oklch(0.264 0.008 255);
+  --encre: oklch(0.225 0.008 255);
+  --encre-2: oklch(0.213 0.008 255);
+  --encre-3: oklch(0.201 0.008 255);
+  --encre-4: oklch(0.189 0.008 255);
+  --encre-5: oklch(0.177 0.008 255);
+  --encre-vive: oklch(0.15 0.004 255);
+  --encre-vive-2: oklch(0.135 0.004 255);
+  --encre-vive-3: oklch(0.12 0.004 255);
+
+  --voile-02: oklch(0.18 0.008 255 / 0.013);
+  --voile-025: oklch(0.18 0.008 255 / 0.017);
+  --voile-03: oklch(0.18 0.008 255 / 0.02);
+  --voile-04: oklch(0.18 0.008 255 / 0.026);
+  --voile-05: oklch(0.18 0.008 255 / 0.033);
+  --voile-06: oklch(0.18 0.008 255 / 0.04);
+  --voile-07: oklch(0.18 0.008 255 / 0.046);
+  --voile-08: oklch(0.18 0.008 255 / 0.053);
+  --voile-09: oklch(0.18 0.008 255 / 0.059);
+  --voile-1: oklch(0.18 0.008 255 / 0.066);
+  --voile-12: oklch(0.18 0.008 255 / 0.079);
+  --voile-14: oklch(0.18 0.008 255 / 0.092);
+  --voile-16: oklch(0.18 0.008 255 / 0.106);
+  --voile-18: oklch(0.18 0.008 255 / 0.119);
+  --voile-24: oklch(0.18 0.008 255 / 0.158);
+  --voile-28: oklch(0.18 0.008 255 / 0.185);
+  --voile-3: oklch(0.18 0.008 255 / 0.198);
+  --voile-32: oklch(0.18 0.008 255 / 0.211);
+  --voile-34: oklch(0.18 0.008 255 / 0.224);
+  --voile-35: oklch(0.18 0.008 255 / 0.231);
+  --voile-38: oklch(0.18 0.008 255 / 0.251);
+  --voile-4: oklch(0.18 0.008 255 / 0.264);
+  --voile-42: oklch(0.18 0.008 255 / 0.277);
+  --voile-45: oklch(0.18 0.008 255 / 0.297);
+  --voile-5: oklch(0.18 0.008 255 / 0.33);
+  --voile-6: oklch(0.18 0.008 255 / 0.396);
+  --voile-68: oklch(0.18 0.008 255 / 0.449);
+  --voile-7: oklch(0.18 0.008 255 / 0.462);
+  --voile-72: oklch(0.18 0.008 255 / 0.475);
+  --voile-75: oklch(0.18 0.008 255 / 0.495);
+  --voile-78: oklch(0.18 0.008 255 / 0.515);
+  --voile-82: oklch(0.18 0.008 255 / 0.541);
+  --voile-84: oklch(0.18 0.008 255 / 0.554);
+  --voile-85: oklch(0.18 0.008 255 / 0.561);
+  --voile-86: oklch(0.18 0.008 255 / 0.568);
+  --voile-92: oklch(0.18 0.008 255 / 0.607);
+
+  --rideau-35: oklch(0.2 0.01 255 / 0.252);
+  --rideau-45: oklch(0.2 0.01 255 / 0.324);
+  --rideau-5: oklch(0.2 0.01 255 / 0.36);
+  --rideau-55: oklch(0.2 0.01 255 / 0.396);
+  --rideau-6: oklch(0.2 0.01 255 / 0.432);
+  --rideau-66: oklch(0.2 0.01 255 / 0.475);
+  --rideau-7: oklch(0.2 0.01 255 / 0.504);
+  --rideau-72: oklch(0.2 0.01 255 / 0.518);
+  --rideau-75: oklch(0.2 0.01 255 / 0.54);
+  --rideau-8: oklch(0.2 0.01 255 / 0.576);
+  --rideau-85: oklch(0.2 0.01 255 / 0.612);
+  --rideau-95: oklch(0.2 0.01 255 / 0.684);
+
+  --panneau-88: oklch(0.995 0.004 255 / 0.88);
+  --panneau-9: oklch(0.995 0.004 255 / 0.9);
+  --panneau-94: oklch(0.995 0.004 255 / 0.94);
+  --panneau-96: oklch(0.995 0.004 255 / 0.96);
+  --panneau-97: oklch(0.995 0.004 255 / 0.97);
+  --panneau-98: oklch(0.995 0.004 255 / 0.98);
+
+  --lt-26: 0.9;
+  --lt-28: 0.88;
+  --lt-30: 0.86;
+  --lt-34: 0.82;
+  --lt-40: 0.76;
+  --lt-45: 0.71;
+  --lt-46: 0.7;
+  --lt-50: 0.66;
+  --lt-60: 0.56;
+  --lt-62: 0.54;
+  --lt-65: 0.51;
+  --lt-70: 0.46;
+  --lt-72: 0.44;
+  --lt-74: 0.42;
+  --lt-75: 0.41;
+  --lt-78: 0.38;
+  --lt-80: 0.36;
+  --lt-82: 0.34;
+  --lt-84: 0.32;
+  --lt-85: 0.31;
+  --lt-88: 0.3;
+  --lt-93: 0.3;
+
+  color-scheme: light;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   LA CARTE EN TROIS DIMENSIONS RESTE SOMBRE, DANS LES DEUX THEMES.
+
+   Ce n'est pas un oubli, c'est le seul choix qui tienne. Son canevas rend un
+   ciel NOIR, en WebGL, avec des spheres qui tirent leur lisibilite de ce
+   fond ; le theme d'interface ne l'atteint pas et ne doit pas l'atteindre.
+   Vu a l'ecran avant correction : le chrome clair encadrait un vide noir, et
+   le logo, inverse pour les pages claires, disparaissait dans ce vide.
+
+   On redeclare donc l'echelle sombre SUR le conteneur de la carte. Les
+   variables cascadent : tout ce qui est dedans redevient sombre sans qu'une
+   seule regle de atlas.css ait a savoir qu'un theme existe.
+   ═══════════════════════════════════════════════════════════════ */
+:root[data-theme='clair'] .atlas-root {
+  --creux: oklch(0.07 0.01 255);
+  --creux-2: oklch(0.08 0.01 255);
+  --creux-3: oklch(0.12 0.01 255);
+  --fond: oklch(0.14 0.01 255);
+  --plaque: oklch(0.16 0.012 255);
+  --plaque-2: oklch(0.17 0.012 255);
+  --plaque-3: oklch(0.18 0.012 255);
+  --leve: oklch(0.2 0.014 255);
+  --leve-2: oklch(0.21 0.014 255);
+  --leve-3: oklch(0.22 0.014 255);
+  --leve-4: oklch(0.24 0.014 255);
+  --filet-fantome: oklch(0.26 0.01 255);
+  --filet-fantome-2: oklch(0.28 0.01 255);
+  --filet: oklch(0.3 0.01 255);
+  --filet-2: oklch(0.31 0.01 255);
+  --filet-3: oklch(0.34 0.01 255);
+  --filet-fort: oklch(0.4 0.012 255);
+  --filet-fort-2: oklch(0.42 0.012 255);
+  --encre-effacee: oklch(0.5 0.01 255);
+  --encre-effacee-2: oklch(0.52 0.01 255);
+  --encre-effacee-3: oklch(0.55 0.01 255);
+  --encre-tierce: oklch(0.58 0.01 255);
+  --encre-tierce-2: oklch(0.6 0.01 255);
+  --encre-tierce-3: oklch(0.62 0.01 255);
+  --encre-douce: oklch(0.66 0.01 255);
+  --encre-douce-2: oklch(0.68 0.01 255);
+  --encre-douce-3: oklch(0.7 0.01 255);
+  --encre-moyenne: oklch(0.72 0.01 255);
+  --encre-moyenne-2: oklch(0.75 0.01 255);
+  --encre-moyenne-3: oklch(0.78 0.01 255);
+  --encre-forte: oklch(0.82 0.008 255);
+  --encre-forte-2: oklch(0.85 0.008 255);
+  --encre-forte-3: oklch(0.86 0.008 255);
+  --encre-forte-4: oklch(0.88 0.008 255);
+  --encre: oklch(0.9 0.008 255);
+  --encre-2: oklch(0.92 0.008 255);
+  --encre-3: oklch(0.93 0.008 255);
+  --encre-4: oklch(0.94 0.008 255);
+  --encre-5: oklch(0.95 0.008 255);
+  --encre-vive: oklch(0.97 0.004 255);
+  --encre-vive-2: oklch(0.98 0.004 255);
+  --encre-vive-3: oklch(0.99 0.004 255);
+
+  --voile-02: oklch(1 0 0 / 0.02);
+  --voile-025: oklch(1 0 0 / 0.025);
+  --voile-03: oklch(1 0 0 / 0.03);
+  --voile-04: oklch(1 0 0 / 0.04);
+  --voile-05: oklch(1 0 0 / 0.05);
+  --voile-06: oklch(1 0 0 / 0.06);
+  --voile-07: oklch(1 0 0 / 0.07);
+  --voile-08: oklch(1 0 0 / 0.08);
+  --voile-09: oklch(1 0 0 / 0.09);
+  --voile-1: oklch(1 0 0 / 0.1);
+  --voile-12: oklch(1 0 0 / 0.12);
+  --voile-14: oklch(1 0 0 / 0.14);
+  --voile-16: oklch(1 0 0 / 0.16);
+  --voile-18: oklch(1 0 0 / 0.18);
+  --voile-24: oklch(1 0 0 / 0.24);
+  --voile-28: oklch(1 0 0 / 0.28);
+  --voile-3: oklch(1 0 0 / 0.3);
+  --voile-32: oklch(1 0 0 / 0.32);
+  --voile-34: oklch(1 0 0 / 0.34);
+  --voile-35: oklch(1 0 0 / 0.35);
+  --voile-38: oklch(1 0 0 / 0.38);
+  --voile-4: oklch(1 0 0 / 0.4);
+  --voile-42: oklch(1 0 0 / 0.42);
+  --voile-45: oklch(1 0 0 / 0.45);
+  --voile-5: oklch(1 0 0 / 0.5);
+  --voile-6: oklch(1 0 0 / 0.6);
+  --voile-68: oklch(1 0 0 / 0.68);
+  --voile-7: oklch(1 0 0 / 0.7);
+  --voile-72: oklch(1 0 0 / 0.72);
+  --voile-75: oklch(1 0 0 / 0.75);
+  --voile-78: oklch(1 0 0 / 0.78);
+  --voile-82: oklch(1 0 0 / 0.82);
+  --voile-84: oklch(1 0 0 / 0.84);
+  --voile-85: oklch(1 0 0 / 0.85);
+  --voile-86: oklch(1 0 0 / 0.86);
+  --voile-92: oklch(1 0 0 / 0.92);
+
+  --rideau-35: oklch(0.0 0 0 / 0.35);
+  --rideau-45: oklch(0.05 0 0 / 0.45);
+  --rideau-5: oklch(0.0 0 0 / 0.5);
+  --rideau-55: oklch(0.0 0 0 / 0.55);
+  --rideau-6: oklch(0.12 0 0 / 0.6);
+  --rideau-66: oklch(0.1 0 0 / 0.66);
+  --rideau-7: oklch(0.12 0 0 / 0.7);
+  --rideau-72: oklch(0.08 0 0 / 0.72);
+  --rideau-75: oklch(0.0 0 0 / 0.75);
+  --rideau-8: oklch(0.16 0 0 / 0.8);
+  --rideau-85: oklch(0.0 0 0 / 0.85);
+  --rideau-95: oklch(0.0 0 0 / 0.95);
+
+  --panneau-88: oklch(0.0 0.008 255 / 0.88);
+  --panneau-9: oklch(0.07 0.008 255 / 0.9);
+  --panneau-94: oklch(0.08 0.008 255 / 0.94);
+  --panneau-96: oklch(0.12 0.008 255 / 0.96);
+  --panneau-97: oklch(0.1 0.008 255 / 0.97);
+  --panneau-98: oklch(0.12 0.008 255 / 0.98);
+
+  --lt-26: 0.26;
+  --lt-28: 0.28;
+  --lt-30: 0.3;
+  --lt-34: 0.34;
+  --lt-40: 0.4;
+  --lt-45: 0.45;
+  --lt-46: 0.46;
+  --lt-50: 0.5;
+  --lt-60: 0.6;
+  --lt-62: 0.62;
+  --lt-65: 0.65;
+  --lt-70: 0.7;
+  --lt-72: 0.72;
+  --lt-74: 0.74;
+  --lt-75: 0.75;
+  --lt-78: 0.78;
+  --lt-80: 0.8;
+  --lt-82: 0.82;
+  --lt-84: 0.84;
+  --lt-85: 0.85;
+  --lt-88: 0.88;
+  --lt-93: 0.93;
+
+  /* LES ALIAS SE REDECLARENT ICI, ET C'EST INDISPENSABLE.
+
+     PIEGE VU A L'ECRAN : l'echelle etait bien redevenue sombre a l'interieur
+     de la carte, `--encre-3` y valait 0.93, et le titre du panneau s'affichait
+     pourtant en noir sur noir. La raison tient a une regle de CSS qu'on
+     oublie : une variable qui en cite une autre est resolue LA OU ELLE EST
+     DECLAREE, pas la ou elle est employee. `--ink-primary: var(--encre-3)`
+     etant declare sur `:root`, il capturait la valeur claire une fois pour
+     toutes et la faisait descendre dejà calculee.
+
+     Les redeclarer ici les force a se resoudre ici. C'est la meme
+     indirection qu'ailleurs dans le fichier, mais elle doit etre repetee a
+     chaque endroit ou l'echelle change. */
+  --surface-plate: var(--plaque-2);
+  --surface-margin: var(--fond);
+  --surface-raised: var(--leve-2);
+  --rule-hairline: var(--filet);
+  --rule-strong: var(--filet-fort-2);
+  --ink-primary: var(--encre-3);
+  --ink-secondary: var(--encre-douce-2);
+}
+
+/* Et le logo y reprend sa forme d'origine : il est blanc, sur du noir. */
+:root[data-theme='clair'] .atlas-root img[src$='sonaa-logo.png'] {
+  filter: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

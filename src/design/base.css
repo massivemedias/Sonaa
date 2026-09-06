@@ -126,3 +126,22 @@ p {
   outline-offset: 3px;
 }
 
+
+/* ═══ LE LOGO EST UNE IMAGE BLANCHE, DONC INVISIBLE SUR FOND CLAIR ═══
+
+   Constate a l'ecran des le premier essai du theme clair : la barre du haut
+   paraissait commencer par un vide. Le fichier `brand/sonaa-logo.png` est un
+   lettrage blanc sur transparent, dessine pour le fond sombre ; sur une page
+   presque blanche il ne reste rien a voir.
+
+   ON L'INVERSE PLUTOT QUE D'EN FABRIQUER UN SECOND. Deux fichiers, ce serait
+   deux verites : le jour ou le logo change, l'un des deux resterait en
+   arriere, et ce serait celui qu'on regarde le moins. `invert(1)` sur un
+   lettrage neutre rend exactement le meme dessin en noir, et il suit
+   automatiquement toute retouche du fichier d'origine.
+
+   Le leger retrait de luminosite evite le noir pur, qui sonnerait plus dur
+   que le reste de l'encre de la page. */
+:root[data-theme='clair'] img[src$='sonaa-logo.png'] {
+  filter: invert(1) brightness(0.82);
+}

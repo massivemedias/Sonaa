@@ -8,7 +8,34 @@
       name="description"
       content="Atlas généalogique des musiques électroniques. 218 genres, 14 familles, écoute par le lecteur officiel YouTube."
     />
-    <meta name="color-scheme" content="dark" />
+    <meta name="color-scheme" content="dark light" />
+
+    <!-- LE THEME EST POSE AVANT LA PREMIERE PEINTURE, ET C'EST TOUT L'INTERET
+         DE CE FRAGMENT. Pose plus tard, au montage de React, la page rendrait
+         d'abord en sombre puis basculerait : un eclair noir a chaque
+         chargement, pour qui a choisi le clair. Quatre lignes en ligne valent
+         mieux qu'un defaut qu'on ne peut pas rattraper apres coup.
+
+         Il ne lit rien d'autre que son propre reglage, il n'ecrit rien, et il
+         echoue en silence : sans stockage accessible, on suit le systeme, ce
+         qui est deja la bonne reponse par defaut. -->
+    <script>
+      (function () {
+        try {
+          var choisi = localStorage.getItem('sonaa-theme');
+          var clair =
+            choisi === 'clair' ||
+            (choisi === null && window.matchMedia('(prefers-color-scheme: light)').matches);
+          if (clair) {
+            document.documentElement.setAttribute('data-theme', 'clair');
+            var m = document.querySelector('meta[name="theme-color"]');
+            if (m) m.setAttribute('content', '#f7f6f5');
+          }
+        } catch (e) {
+          /* Navigation privee ou stockage refuse : le theme sombre reste. */
+        }
+      })();
+    </script>
     <meta name="theme-color" content="#0a0c10" />
 
     <!-- Identité. Les chemins sont relatifs : le site est servi sous /Sonaa/ et

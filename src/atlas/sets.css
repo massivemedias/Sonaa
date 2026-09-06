@@ -19,9 +19,9 @@
 .sets-bloc {
   margin: 2rem 0 0;
   padding: 1.2rem 1.3rem 1.4rem;
-  border: 1px solid oklch(1 0 0 / 0.09);
+  border: 1px solid var(--voile-09);
   border-radius: 18px;
-  background: oklch(1 0 0 / 0.03);
+  background: var(--voile-03);
 }
 .sets-bloc h2 {
   margin: 0 0 0.9rem;
@@ -60,15 +60,15 @@
 .sp-avatar-vide {
   display: grid;
   place-items: center;
-  background: oklch(0.3 0.02 260);
-  color: oklch(0.75 0.02 260);
+  background: var(--filet);
+  color: var(--encre-moyenne-2);
   font-size: 2.4rem;
   font-weight: 700;
 }
 .sp-avatar-bouton {
   cursor: pointer;
   padding: 0.35rem 0.8rem;
-  border: 1px solid oklch(1 0 0 / 0.18);
+  border: 1px solid var(--voile-18);
   border-radius: 999px;
   font-size: 0.8125rem;
 }
@@ -97,16 +97,16 @@
   display: grid;
   gap: 0.3rem;
   font-size: 0.8125rem;
-  color: oklch(0.68 0.01 260);
+  color: var(--encre-douce-2);
 }
 .sp-label input[type='text'],
 .sp-label textarea,
 .sp-label input[type='file'] {
   padding: 0.5rem 0.7rem;
-  border: 1px solid oklch(1 0 0 / 0.14);
+  border: 1px solid var(--voile-14);
   border-radius: 10px;
-  background: oklch(0.18 0.008 260);
-  color: oklch(0.92 0.006 260);
+  background: var(--plaque-3);
+  color: var(--encre-2);
   font-family: inherit;
   font-size: 0.9375rem;
 }
@@ -131,8 +131,8 @@
   padding: 0.55rem 1.1rem;
   border: none;
   border-radius: 999px;
-  background: oklch(0.78 0.17 85);
-  color: oklch(0.2 0.02 85);
+  background: oklch(var(--lt-78) 0.17 85);
+  color: var(--leve);
   font-weight: 700;
   cursor: pointer;
 }
@@ -143,13 +143,13 @@
 
 .sp-aide {
   margin: 0.35rem 0 0;
-  color: oklch(0.62 0.01 260);
+  color: var(--encre-tierce-3);
   font-size: 0.8125rem;
 }
 .sp-message {
   margin: 0.6rem 0 0;
   font-size: 0.875rem;
-  color: oklch(0.85 0.02 85);
+  color: var(--encre-forte-2);
 }
 
 /* --- Les listes --------------------------------------------------------- */
@@ -163,9 +163,9 @@
 }
 .sp-item {
   padding: 0.9rem 1rem 1rem;
-  border: 1px solid oklch(1 0 0 / 0.08);
+  border: 1px solid var(--voile-08);
   border-radius: 14px;
-  background: oklch(1 0 0 / 0.02);
+  background: var(--voile-02);
 }
 .sp-item-tete {
   display: flex;
@@ -197,17 +197,17 @@
 }
 .sp-item-actions button {
   padding: 0.3rem 0.7rem;
-  border: 1px solid oklch(1 0 0 / 0.16);
+  border: 1px solid var(--voile-16);
   border-radius: 999px;
   background: none;
-  color: oklch(0.85 0.008 260);
+  color: var(--encre-forte-2);
   font-family: inherit;
   font-size: 0.8125rem;
   cursor: pointer;
 }
 .sp-danger {
-  border-color: oklch(0.5 0.13 25 / 0.5) !important;
-  color: oklch(0.75 0.13 25) !important;
+  border-color: oklch(var(--lt-50) 0.13 25 / 0.5) !important;
+  color: oklch(var(--lt-75) 0.13 25) !important;
 }
 
 .sp-vignette img,
@@ -274,8 +274,8 @@
   place-items: center;
   border: none;
   border-radius: 50%;
-  background: oklch(0.98 0 0);
-  color: oklch(0.14 0.01 250);
+  background: var(--encre-vive-2);
+  color: var(--fond);
   cursor: pointer;
 }
 
@@ -320,7 +320,7 @@
   height: 44px;
 }
 .ls-onde:focus-visible {
-  outline: 2px solid oklch(0.78 0.17 85);
+  outline: 2px solid oklch(var(--lt-78) 0.17 85);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -329,14 +329,14 @@
   display: flex;
   justify-content: space-between;
   margin: 0.15rem 0 0;
-  color: oklch(0.6 0.01 260);
+  color: var(--encre-tierce-2);
   font-size: 0.75rem;
   font-variant-numeric: tabular-nums;
 }
 
 .ls-erreur {
   margin: 0;
-  color: oklch(0.75 0.13 25);
+  color: oklch(var(--lt-75) 0.13 25);
   font-size: 0.8125rem;
 }
 
@@ -357,7 +357,7 @@
   display: block;
   position: relative;
   cursor: pointer;
-  border: 1px dashed oklch(1 0 0 / 0.18);
+  border: 1px dashed var(--voile-18);
   border-radius: 14px;
   padding: 1rem;
   text-align: center;
@@ -365,15 +365,15 @@
 }
 .zd:hover,
 .zd:focus-within {
-  border-color: oklch(1 0 0 / 0.32);
+  border-color: var(--voile-32);
 }
 /* LE SURVOL SE VOIT FRANCHEMENT. Une bordure a peine plus claire ne dit pas
    « lachez ici » : quand on tient un fichier au bout du curseur, on cherche
    une cible, pas une nuance. */
 .zd-survol {
-  border-color: oklch(0.78 0.17 85);
+  border-color: oklch(var(--lt-78) 0.17 85);
   border-style: solid;
-  background: oklch(0.78 0.17 85 / 0.08);
+  background: oklch(var(--lt-78) 0.17 85 / 0.08);
 }
 .zd-inactif {
   cursor: default;
@@ -387,7 +387,7 @@
 }
 .zd-aide {
   margin: 0.3rem 0 0;
-  color: oklch(0.62 0.01 260);
+  color: var(--encre-tierce-3);
   font-size: 0.8125rem;
 }
 
@@ -405,7 +405,7 @@
   border: none;
 }
 .zd-avatar.zd-survol {
-  border: 2px solid oklch(0.78 0.17 85);
+  border: 2px solid oklch(var(--lt-78) 0.17 85);
   background: none;
 }
 /* Le voile n'apparait qu'au survol du curseur ou pendant un glisser : une
@@ -416,8 +416,8 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: oklch(0 0 0 / 0.55);
-  color: oklch(0.95 0 0);
+  background: var(--rideau-55);
+  color: var(--encre-5);
   font-size: 0.75rem;
   opacity: 0;
   transition: opacity 120ms ease;
@@ -516,7 +516,7 @@
   padding: 0;
   border: none;
   background: none;
-  color: oklch(0.7 0.09 25);
+  color: oklch(var(--lt-70) 0.09 25);
   font-family: inherit;
   font-size: 0.8125rem;
   text-decoration: underline;
@@ -539,7 +539,7 @@
   line-height: 0;
 }
 .sp-vignette-ouvrable:hover img {
-  outline: 2px solid oklch(0.78 0.17 85);
+  outline: 2px solid oklch(var(--lt-78) 0.17 85);
   outline-offset: 2px;
 }
 
@@ -558,7 +558,7 @@
      l'image, et le haut est plus grand pour laisser passer le bouton de
      fermeture. */
   padding: 4rem 1.25rem 1.5rem;
-  background: oklch(0 0 0 / 0.88);
+  background: var(--panneau-88);
   cursor: zoom-out;
 }
 .loupe img {
@@ -575,8 +575,8 @@
   height: 40px;
   border: none;
   border-radius: 50%;
-  background: oklch(1 0 0 / 0.12);
-  color: oklch(0.97 0 0);
+  background: var(--voile-12);
+  color: var(--encre-vive);
   font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
@@ -614,7 +614,7 @@
 .sp-modif {
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid oklch(1 0 0 / 0.1);
+  border-top: 1px solid var(--voile-1);
 }
 .sp-modif-actions {
   display: flex;
@@ -627,7 +627,7 @@
    quelque chose a valider. */
 .sp-modif-actions .sp-aide {
   margin: 0;
-  color: oklch(0.78 0.12 85);
+  color: oklch(var(--lt-78) 0.12 85);
 }
 
 /* LE PIED DU SELECTEUR DE VILLE, dans le profil : ce qui est enregistre, et

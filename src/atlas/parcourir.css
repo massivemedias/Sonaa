@@ -17,8 +17,8 @@
   inset: 0;
   display: flex;
   flex-direction: column;
-  background: oklch(0.14 0.008 260);
-  color: oklch(0.97 0.003 260);
+  background: var(--fond);
+  color: var(--encre-vive);
   font-family: inherit;
   -webkit-tap-highlight-color: transparent;
 }
@@ -68,8 +68,8 @@
      La marge a droite reste, pour que le TITRE ne coule pas sous la loupe. */
   position: relative;
   padding-right: calc(var(--authb-reserve, 126px) + 0.6rem + 44px);
-  background: oklch(0.14 0.008 260);
-  border-bottom: 1px solid oklch(1 0 0 / 0.07);
+  background: var(--fond);
+  border-bottom: 1px solid var(--voile-07);
 }
 /* Le menu ne s'etire pas et ne se comprime pas : c'est le titre qui cede la
    place quand elle manque, parce qu'il peut se couper et pas lui. */
@@ -89,8 +89,8 @@
   cursor: pointer;
 }
 .pv-retour {
-  background: oklch(0.98 0 0);
-  color: oklch(0.16 0.01 250);
+  background: var(--encre-vive-2);
+  color: var(--plaque);
 }
 .pv-chercher-bouton {
   /* Ancree au bord droit et non portee par le flux : voir .pv-tete. */
@@ -102,7 +102,7 @@
      avec lequel elle forme pourtant une paire. Elle prend donc le meme
      retrait haut que lui. */
   top: calc(0.5rem + env(safe-area-inset-top, 0px));
-  background: oklch(1 0 0 / 0.08);
+  background: var(--voile-08);
   color: inherit;
 }
 .pv-retour svg,
@@ -146,7 +146,7 @@
   padding: 0 0.9rem;
   border: 0;
   border-radius: 23px;
-  background: oklch(0.24 0.01 260);
+  background: var(--leve-4);
   color: inherit;
   font: inherit;
   font-size: 0.875rem;
@@ -166,7 +166,7 @@
   min-height: 52px;
   padding: 0.5rem 0.2rem;
   border: 0;
-  border-bottom: 1px solid oklch(1 0 0 / 0.06);
+  border-bottom: 1px solid var(--voile-06);
   background: none;
   color: inherit;
   font: inherit;
@@ -182,13 +182,13 @@
   flex: none;
   padding: 0.15rem 0.5rem;
   border-radius: 10px;
-  background: oklch(0.62 0.14 var(--pv-hue) / 0.22);
-  color: oklch(0.84 0.1 var(--pv-hue));
+  background: oklch(var(--lt-62) 0.14 var(--pv-hue) / 0.22);
+  color: oklch(var(--lt-84) 0.1 var(--pv-hue));
   font-size: 0.72rem;
 }
 .pv-resultat-vide {
   padding: 1rem 0.2rem;
-  color: oklch(0.68 0.01 260);
+  color: var(--encre-douce-2);
   font-size: 0.775rem;
 }
 
@@ -221,7 +221,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
    ne la repete pas a chaque niveau, ou elle deviendrait du decor. */
 .pv-intro {
   margin: 0.9rem 0 0.7rem;
-  color: oklch(0.7 0.01 260);
+  color: var(--encre-douce-3);
   font-size: 0.775rem;
 }
 
@@ -311,8 +311,8 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   padding: 5px;
   border: 0;
   border-radius: 26px;
-  background: oklch(0.21 0.006 260);
-  color: oklch(0.99 0 0);
+  background: var(--leve-2);
+  color: var(--encre-vive-3);
   font: inherit;
   text-align: left;
   cursor: pointer;
@@ -349,8 +349,8 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      faire un effet. */
   background: linear-gradient(
     180deg,
-    oklch(0.34 0.004 260),
-    oklch(0.31 0.004 260)
+    var(--filet-3),
+    var(--filet-2)
   );
 }
 /* Le bloc lui-meme : centre par le parent, aligne a gauche a l'interieur. */
@@ -476,8 +476,8 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   margin: 0.75rem -0.75rem 0;
   background: linear-gradient(
     170deg,
-    oklch(0.46 0.15 var(--pv-hue)),
-    oklch(0.14 0.008 260) 92%
+    oklch(var(--lt-46) 0.15 var(--pv-hue)),
+    var(--fond) 92%
   );
   overflow: hidden;
 }
@@ -521,8 +521,8 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   background:
     linear-gradient(
       170deg,
-      oklch(0.34 0.13 var(--pv-hue) / 0.86),
-      oklch(0.14 0.008 260 / 0.97) 88%
+      oklch(var(--lt-34) 0.13 var(--pv-hue) / 0.86),
+      var(--panneau-97) 88%
     );
 }
 
@@ -539,10 +539,10 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   /* La meme cible que partout ailleurs sur ce site. */
   min-height: 44px;
   padding: 0 1.1rem;
-  border: 1px solid oklch(1 0 0 / 0.16);
+  border: 1px solid var(--voile-16);
   border-radius: 22px;
   background: transparent;
-  color: oklch(0.72 0.01 260);
+  color: var(--encre-moyenne);
   font: inherit;
   font-size: 0.8125rem;
   font-weight: 600;
@@ -552,13 +552,13 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
    grammaire que le menu du site, pour qu'on n'ait pas a comparer deux
    boutons entre eux pour savoir ou l'on est. */
 .pv-onglet[aria-selected='true'] {
-  background: oklch(0.97 0 0);
-  border-color: oklch(0.97 0 0);
-  color: oklch(0.16 0.01 260);
+  background: var(--encre-vive);
+  border-color: var(--encre-vive);
+  color: var(--plaque);
 }
 .pv-onglet:hover:not([aria-selected='true']) {
-  border-color: oklch(1 0 0 / 0.34);
-  color: oklch(0.9 0.01 260);
+  border-color: var(--voile-34);
+  color: var(--encre);
 }
 
 /* --- L'article long --- */
@@ -578,11 +578,11 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   font-size: 1.0625rem;
   font-weight: 700;
   line-height: 1.25;
-  color: oklch(0.97 0.004 260);
+  color: var(--encre-vive);
 }
 .pv-article-section p {
   margin: 0 0 0.85rem;
-  color: oklch(0.86 0.008 260);
+  color: var(--encre-forte-3);
   font-size: var(--texte);
   line-height: 1.7;
 }
@@ -609,7 +609,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   aspect-ratio: 4 / 3;
   object-fit: cover;
   border-radius: 10px;
-  background: oklch(0.22 0.01 260);
+  background: var(--leve-3);
 }
 .pv-illu figcaption {
   margin-top: 0.4rem;
@@ -621,18 +621,18 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-illu-nom {
   font-size: 0.6875rem;
   font-weight: 600;
-  color: oklch(0.86 0.008 260);
+  color: var(--encre-forte-3);
 }
 /* LE CREDIT EST UN LIEN VERS LA PAGE SOURCE, et non une mention decorative :
    c'est ce que les licences par attribution demandent, et c'est ce qui permet
    a quelqu'un de verifier. */
 .pv-illu-credit {
   font-size: 0.6875rem;
-  color: oklch(0.58 0.01 260);
+  color: var(--encre-tierce);
   text-decoration: none;
 }
 .pv-illu-credit:hover {
-  color: oklch(0.78 0.01 260);
+  color: var(--encre-moyenne-3);
   text-decoration: underline;
 }
 
@@ -645,9 +645,9 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-fiche {
   margin: 1.4rem 0 0;
   padding: 1rem 1.05rem 1.1rem;
-  border: 1px solid oklch(1 0 0 / 0.09);
+  border: 1px solid var(--voile-09);
   border-radius: 18px;
-  background: oklch(1 0 0 / 0.03);
+  background: var(--voile-03);
 }
 .pv-fiche-titre {
   margin: 0 0 0.85rem;
@@ -655,7 +655,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   font-weight: 700;
   letter-spacing: var(--serrage);
   text-transform: uppercase;
-  color: oklch(0.66 0.01 260);
+  color: var(--encre-douce);
 }
 .pv-machines {
   display: flex;
@@ -668,8 +668,8 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-machine {
   padding: 0.2rem 0.55rem;
   border-radius: 8px;
-  background: oklch(0.62 0.14 var(--pv-hue) / 0.18);
-  color: oklch(0.88 0.05 var(--pv-hue));
+  background: oklch(var(--lt-62) 0.14 var(--pv-hue) / 0.18);
+  color: oklch(var(--lt-88) 0.05 var(--pv-hue));
   font-size: 0.75rem;
 }
 /* LE SON SE DISTINGUE DES MACHINES A L'OEIL. Deux lignes de pastilles
@@ -679,8 +679,8 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
    fond dit cette difference sans ajouter un mot. */
 .pv-son {
   background: none;
-  border: 1px solid oklch(0.62 0.14 var(--pv-hue) / 0.35);
-  color: oklch(0.78 0.02 260);
+  border: 1px solid oklch(var(--lt-62) 0.14 var(--pv-hue) / 0.35);
+  color: var(--encre-moyenne-3);
 }
 .pv-mot-titre {
   display: block;
@@ -689,7 +689,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   font-weight: 700;
   letter-spacing: var(--serrage);
   text-transform: uppercase;
-  color: oklch(0.62 0.14 var(--pv-hue));
+  color: oklch(var(--lt-62) 0.14 var(--pv-hue));
 }
 .pv-hero-famille {
   /* 44 px COMME LES AUTRES : ce n'est pas une etiquette, c'est un raccourci
@@ -701,8 +701,8 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   padding: 0 0.85rem;
   border: 0;
   border-radius: 11px;
-  background: oklch(1 0 0 / 0.18);
-  color: oklch(0.99 0 0);
+  background: var(--voile-18);
+  color: var(--encre-vive-3);
   font: inherit;
   font-size: 0.72rem;
   letter-spacing: var(--serrage);
@@ -722,7 +722,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   gap: 0.5rem;
   margin: 0 0 1rem;
   font-size: 0.75rem;
-  color: oklch(0.97 0 0 / 0.78);
+  color: var(--voile-78);
 }
 .pv-hero-faits span + span::before {
   content: '· ';
@@ -737,8 +737,8 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   padding: 0 1.5rem;
   border: 0;
   border-radius: 26px;
-  background: oklch(0.98 0 0);
-  color: oklch(0.14 0.01 250);
+  background: var(--encre-vive-2);
+  color: var(--fond);
   font: inherit;
   font-family: inherit;
   font-size: 0.875rem;
@@ -755,15 +755,15 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-hero-vide {
   margin: 0;
   font-size: 0.775rem;
-  color: oklch(0.97 0 0 / 0.75);
+  color: var(--voile-75);
 }
 
 .pv-alerte {
   margin: 0.8rem 0 0;
   padding: 0.7rem 0.85rem;
   border-radius: 10px;
-  background: oklch(0.45 0.13 55 / 0.28);
-  color: oklch(0.93 0.05 70);
+  background: oklch(var(--lt-45) 0.13 55 / 0.28);
+  color: oklch(var(--lt-93) 0.05 70);
   font-size: 0.755rem;
 }
 
@@ -790,7 +790,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   cursor: pointer;
 }
 .pv-piste:active {
-  background: oklch(1 0 0 / 0.05);
+  background: var(--voile-05);
 }
 .pv-piste-image {
   position: relative;
@@ -799,7 +799,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   height: 48px;
   border-radius: 6px;
   overflow: hidden;
-  background: oklch(0.24 0.01 260);
+  background: var(--leve-4);
 }
 .pv-pochette,
 .pv-pochette-generee {
@@ -818,8 +818,8 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   inset: 0;
   display: grid;
   place-items: center;
-  background: oklch(0 0 0 / 0.55);
-  color: oklch(0.99 0 0);
+  background: var(--rideau-55);
+  color: var(--encre-vive-3);
 }
 .pv-piste-etat svg {
   width: 14px;
@@ -844,12 +844,12 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   white-space: nowrap;
 }
 .pv-piste[data-active='true'] .pv-piste-titre {
-  color: oklch(0.82 0.15 150);
+  color: oklch(var(--lt-82) 0.15 150);
 }
 .pv-piste-artiste {
   letter-spacing: var(--serrage);
   font-size: 0.75rem;
-  color: oklch(0.68 0.01 260);
+  color: var(--encre-douce-2);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -860,7 +860,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      douze lignes de liste pour savoir ce qu'on ecoutait. C'est pourtant la
      reponse a la question qui amene ici : c'est quoi, ce style ? */
   margin: 1.2rem 0 0;
-  color: oklch(0.9 0.006 260);
+  color: var(--encre);
   /* LE CHAPEAU ET L'ARTICLE PARTAGENT LA MEME TAILLE, celle du texte
       courant. Le chapeau etait plus gros que l'article, ce qui se defend dans
       un magazine ou il tient trois lignes ; ici il en tient huit et l'ecart
@@ -890,27 +890,27 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   letter-spacing: var(--serrage-ui);
   flex: none;
   min-width: 5.2rem;
-  color: oklch(0.62 0.01 260);
+  color: var(--encre-tierce-3);
 }
 .pv-fait-val {
   margin: 0;
-  color: oklch(0.82 0.008 260);
+  color: var(--encre-forte);
 }
 .pv-mot {
   margin: 1.1rem 0 0;
   /* blockquote porte une indentation par defaut. */
   padding: 0.85rem 1rem;
-  border-left: 3px solid oklch(0.62 0.14 var(--pv-hue));
+  border-left: 3px solid oklch(var(--lt-62) 0.14 var(--pv-hue));
   border-radius: 0 10px 10px 0;
-  background: oklch(1 0 0 / 0.04);
-  color: oklch(0.88 0.008 260);
+  background: var(--voile-04);
+  color: var(--encre-forte-4);
   font-size: var(--texte);
   line-height: 1.7;
 }
 .pv-mot-signe {
   display: block;
   margin-top: 0.5rem;
-  color: oklch(0.62 0.01 260);
+  color: var(--encre-tierce-3);
   font-size: 0.75rem;
 }
 /* L'aveu de langue : le corpus est en francais et ne sera pas traduit par
@@ -919,8 +919,8 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   margin: 1.1rem 0 0;
   padding: 0.5rem 0.75rem;
   border-radius: 8px;
-  background: oklch(1 0 0 / 0.05);
-  color: oklch(0.68 0.01 260);
+  background: var(--voile-05);
+  color: var(--encre-douce-2);
   font-size: 0.75rem;
 }
 .pv-titre-liste {
@@ -957,8 +957,8 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   padding: 0.25rem 0.6rem calc(0.4rem + env(safe-area-inset-bottom, 0px));
   /* FOND OPAQUE : sur un fond translucide le texte de la page defile en
      transparence sous les titres et les rend illisibles. */
-  background: oklch(0.2 0.012 260);
-  border-top: 1px solid oklch(1 0 0 / 0.08);
+  background: var(--leve);
+  border-top: 1px solid var(--voile-08);
 }
 .pv-barre-bas {
   display: flex;
@@ -978,7 +978,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   min-width: 2.4rem;
   font-size: 0.6875rem;
   font-variant-numeric: tabular-nums;
-  color: oklch(0.66 0.01 260);
+  color: var(--encre-douce);
 }
 .pv-scrub-temps:last-child {
   text-align: right;
@@ -1002,13 +1002,13 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   width: 100%;
   height: 4px;
   border-radius: 2px;
-  background: oklch(1 0 0 / 0.16);
+  background: var(--voile-16);
   overflow: hidden;
 }
 .pv-scrub-fait {
   display: block;
   height: 100%;
-  background: oklch(0.82 0.15 150);
+  background: oklch(var(--lt-82) 0.15 150);
 }
 .pv-scrub-poignee {
   position: absolute;
@@ -1017,12 +1017,12 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   height: 12px;
   margin-left: -6px;
   border-radius: 50%;
-  background: oklch(0.98 0 0);
+  background: var(--encre-vive-2);
   transform: translateY(-50%);
   pointer-events: none;
 }
 .pv-scrub-piste:focus-visible {
-  outline: 2px solid oklch(0.82 0.15 150);
+  outline: 2px solid oklch(var(--lt-82) 0.15 150);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -1068,7 +1068,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 }
 .pv-barre-sous {
   font-size: 0.75rem;
-  color: oklch(0.7 0.01 260);
+  color: var(--encre-douce-3);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1095,8 +1095,8 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   height: 16px;
 }
 .pv-barre-play {
-  background: oklch(0.98 0 0) !important;
-  color: oklch(0.14 0.01 250) !important;
+  background: var(--encre-vive-2) !important;
+  color: var(--fond) !important;
   border-radius: 50%;
 }
 .pv-barre-play svg {
@@ -1290,14 +1290,14 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   display: grid;
   gap: 0.15rem;
   padding: 0.55rem 0.75rem;
-  border: 1px solid oklch(1 0 0 / 0.09);
+  border: 1px solid var(--voile-09);
   border-radius: 12px;
-  background: oklch(1 0 0 / 0.02);
+  background: var(--voile-02);
   color: inherit;
   text-decoration: none;
 }
 .pv-set:hover {
-  border-color: oklch(0.78 0.17 85 / 0.5);
+  border-color: oklch(var(--lt-78) 0.17 85 / 0.5);
 }
 .pv-set-titre {
   font-size: 0.9375rem;
@@ -1305,7 +1305,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 }
 .pv-set-detail {
   font-size: 0.75rem;
-  color: oklch(0.62 0.01 260);
+  color: var(--encre-tierce-3);
 }
 
 /* L'article d'une famille prend la meme mesure de lecture que le reste : ce

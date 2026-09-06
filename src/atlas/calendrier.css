@@ -84,7 +84,7 @@
    DEFAUT MESURE : `.cal-onglet:hover` pese deux crans, `.cal-onglet-actif`
    un seul. Passer la souris sur l'onglet en cours lui donnait donc le texte
    clair du survol SUR SON FOND CLAIR : couleur et fond a la meme valeur,
-   oklch(0.93 0.008 250) des deux cotes, texte invisible. Vu a l'ecran,
+   var(--encre-3) des deux cotes, texte invisible. Vu a l'ecran,
    confirme en lisant les styles calcules. */
 .cal-onglet-actif:hover {
   color: var(--surface-plate);
@@ -188,8 +188,8 @@
 .cal-panne {
   /* Le meme rouge que les erreurs de contribution : une source tombee est
      une panne, pas une nuance de gris. */
-  color: oklch(0.88 0.09 25);
-  border-left: 2px solid oklch(0.62 0.14 25);
+  color: oklch(var(--lt-88) 0.09 25);
+  border-left: 2px solid oklch(var(--lt-62) 0.14 25);
   padding-left: 0.8rem;
 }
 
@@ -330,7 +330,7 @@
 /* Les noms passent en premier et un peu plus clairs : c'est la ligne qu'on
    lit apres le titre. La salle recule d'un cran. */
 .cal-artistes {
-  color: oklch(0.78 0.008 260);
+  color: var(--encre-moyenne-3);
 }
 
 .cal-lieu {

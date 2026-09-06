@@ -9,7 +9,7 @@
   inset: 0;
   display: flex;
   flex-direction: column;
-  background: var(--fond, oklch(0.16 0.012 250));
+  background: var(--fond, var(--plaque));
   font-family: var(--font-ui);
 }
 
@@ -66,10 +66,10 @@
   width: 40px;
   height: 40px;
   padding: 0;
-  background: oklch(0.98 0 0);
+  background: var(--encre-vive-2);
   border: 0;
   border-radius: 50%;
-  color: oklch(0.18 0.01 250);
+  color: var(--plaque-3);
   cursor: pointer;
 }
 
@@ -87,21 +87,21 @@
   padding: 0;
   background: transparent;
   border: 0;
-  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  color: var(--ink-secondary, var(--encre-douce));
   font: inherit;
   text-transform: uppercase;
   cursor: pointer;
 }
 
 .hm-crumb[data-current='true'] {
-  color: var(--ink-primary, oklch(0.92 0.01 250));
+  color: var(--ink-primary, var(--encre-2));
   cursor: default;
 }
 
 .hm-sep {
   flex: none;
   padding: 0 0.15rem;
-  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  color: var(--ink-secondary, var(--encre-douce));
 }
 
 /* --- Le curseur et sa methode --------------------------------------------- */
@@ -119,7 +119,7 @@
   font-size: 0.6875rem;
   letter-spacing: var(--serrage);
   text-transform: uppercase;
-  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  color: var(--ink-secondary, var(--encre-douce));
 }
 
 /* Les deux bouts ne se serrent pas : ce sont eux qui disent ce que le curseur
@@ -132,7 +132,7 @@
   flex: 1;
   min-width: 0;
   height: 16px;
-  accent-color: oklch(0.72 0.16 250);
+  accent-color: oklch(var(--lt-72) 0.16 250);
   cursor: pointer;
 }
 
@@ -144,7 +144,7 @@
   font-family: var(--font-ui);
   font-size: 0.625rem;
   line-height: 1.4;
-  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  color: var(--ink-secondary, var(--encre-douce));
   opacity: 0.85;
 }
 
@@ -193,10 +193,10 @@
   bottom: 8px;
   z-index: 3;
   padding: 0.35rem 0.6rem;
-  background: oklch(0.98 0 0);
+  background: var(--encre-vive-2);
   border: 0;
   border-radius: 999px;
-  color: oklch(0.18 0.01 250);
+  color: var(--plaque-3);
   font-family: var(--font-ui);
   font-size: 0.68rem;
   font-weight: var(--weight-data);
@@ -213,7 +213,7 @@
      posee en ligne par le composant, la clarte et la saturation sont ici :
      une seule ecriture de la palette. */
   background: oklch(0.42 0.11 var(--hm-hue, 250));
-  border: 1px solid var(--fond, oklch(0.16 0.012 250));
+  border: 1px solid var(--fond, var(--plaque));
   border-radius: 3px;
   color: oklch(0.98 0.01 var(--hm-hue, 250));
   font-family: var(--font-ui);
@@ -250,7 +250,7 @@
   line-height: 1.1;
   font-weight: 500;
   text-align: center;
-  text-shadow: 0 1px 2px oklch(0.12 0.02 250 / 0.7);
+  text-shadow: 0 1px 2px var(--rideau-7);
   pointer-events: none;
 }
 
@@ -270,10 +270,10 @@
   gap: 0.1rem;
   max-width: min(92vw, 420px);
   padding: 0.5rem 0.8rem;
-  background: color-mix(in oklab, var(--fond, oklch(0.16 0.012 250)) 92%, transparent);
-  border: 1px solid var(--rule-hairline, oklch(0.3 0.01 250));
+  background: color-mix(in oklab, var(--fond, var(--plaque)) 92%, transparent);
+  border: 1px solid var(--rule-hairline, var(--filet));
   border-radius: 8px;
-  color: var(--ink-primary, oklch(0.92 0.01 250));
+  color: var(--ink-primary, var(--encre-2));
   font-size: 0.78rem;
   line-height: 1.35;
   pointer-events: none;
@@ -281,5 +281,5 @@
 }
 
 .hm-bulle span {
-  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  color: var(--ink-secondary, var(--encre-douce));
 }

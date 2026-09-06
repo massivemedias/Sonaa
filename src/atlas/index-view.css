@@ -92,7 +92,7 @@
   width: 0.7rem;
   height: 0.7rem;
   border-radius: 50%;
-  background: oklch(0.74 0.088 var(--h));
+  background: oklch(var(--lt-74) 0.088 var(--h));
   flex: none;
 }
 

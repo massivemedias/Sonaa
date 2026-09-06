@@ -24,7 +24,7 @@
 .tv-family {
   border: 1px solid var(--rule-hairline);
   border-top: 2px solid var(--family);
-  background: oklch(0.1 0.012 250 / 0.55);
+  background: var(--rideau-55);
   padding: 0.8rem 0.9rem 0.9rem;
   break-inside: avoid;
 }

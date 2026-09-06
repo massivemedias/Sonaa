@@ -68,11 +68,11 @@
 .authb-bouton {
   min-height: 36px;
   padding: 0 0.9rem;
-  background: color-mix(in oklab, var(--fond, oklch(0.16 0.012 250)) 82%, transparent);
+  background: color-mix(in oklab, var(--fond, var(--plaque)) 82%, transparent);
   backdrop-filter: blur(6px);
-  border: 1px solid var(--rule-strong, oklch(0.4 0.01 250));
+  border: 1px solid var(--rule-strong, var(--filet-fort));
   border-radius: 18px;
-  color: var(--ink-primary, oklch(0.92 0.01 250));
+  color: var(--ink-primary, var(--encre-2));
   font-size: 0.82rem;
   /* Ce bouton a porte une exception de serrage, le temps ou la valeur
      generale etait de -1px et collait les jambages de « mauditemachine ».
@@ -100,7 +100,7 @@
 }
 
 .authb-bouton:hover {
-  border-color: var(--ink-secondary, oklch(0.66 0.01 250));
+  border-color: var(--ink-secondary, var(--encre-douce));
 }
 
 .authb-menu {
@@ -111,10 +111,10 @@
   display: flex;
   flex-direction: column;
   padding: 4px;
-  background: var(--fond, oklch(0.16 0.012 250));
-  border: 1px solid var(--rule-strong, oklch(0.4 0.01 250));
+  background: var(--fond, var(--plaque));
+  border: 1px solid var(--rule-strong, var(--filet-fort));
   border-radius: 10px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 12px 32px var(--rideau-45);
 }
 
 .authb-menu a,
@@ -126,7 +126,7 @@
   background: transparent;
   border: 0;
   border-radius: 6px;
-  color: var(--ink-primary, oklch(0.92 0.01 250));
+  color: var(--ink-primary, var(--encre-2));
   font: inherit;
   font-size: 0.85rem;
   text-align: left;
@@ -136,7 +136,7 @@
 
 .authb-menu a:hover,
 .authb-menu button:hover {
-  background: oklch(1 0 0 / 0.07);
+  background: var(--voile-07);
 }
 
 /* --- LE PANNEAU ---------------------------------------------------------- */
@@ -148,7 +148,7 @@
   display: grid;
   place-items: center;
   padding: 1rem;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--rideau-6);
   backdrop-filter: blur(3px);
 }
 
@@ -158,10 +158,10 @@
   max-height: 90dvh;
   overflow-y: auto;
   padding: 1.4rem 1.3rem 1.1rem;
-  background: var(--fond, oklch(0.16 0.012 250));
-  border: 1px solid var(--rule-strong, oklch(0.4 0.01 250));
+  background: var(--fond, var(--plaque));
+  border: 1px solid var(--rule-strong, var(--filet-fort));
   border-radius: 14px;
-  color: var(--ink-primary, oklch(0.92 0.01 250));
+  color: var(--ink-primary, var(--encre-2));
 }
 
 .authb-fermer {
@@ -172,7 +172,7 @@
   height: 44px;
   background: transparent;
   border: 0;
-  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  color: var(--ink-secondary, var(--encre-douce));
   font-size: 1.4rem;
   cursor: pointer;
 }
@@ -184,7 +184,7 @@
 
 .authb-usage {
   margin: 0 0 1rem;
-  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  color: var(--ink-secondary, var(--encre-douce));
   font-size: 0.88rem;
 }
 
@@ -194,10 +194,10 @@
 .authb-google {
   width: 100%;
   min-height: 48px;
-  background: oklch(0.95 0.005 250);
+  background: var(--encre-5);
   border: 0;
   border-radius: 8px;
-  color: oklch(0.2 0.01 250);
+  color: var(--leve);
   font-family: inherit;
   font-size: 0.95rem;
   font-weight: 500;
@@ -209,7 +209,7 @@
   align-items: center;
   gap: 0.6rem;
   margin: 1rem 0;
-  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  color: var(--ink-secondary, var(--encre-douce));
   font-size: 0.75rem;
 }
 
@@ -218,7 +218,7 @@
   content: '';
   flex: 1;
   height: 1px;
-  background: var(--rule-hairline, oklch(0.3 0.01 250));
+  background: var(--rule-hairline, var(--filet));
 }
 
 .authb-panneau form {
@@ -228,26 +228,26 @@
 }
 
 .authb-panneau label {
-  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  color: var(--ink-secondary, var(--encre-douce));
   font-size: 0.78rem;
 }
 
 .authb-panneau input {
   min-height: 44px;
   padding: 0 0.7rem;
-  background: oklch(1 0 0 / 0.05);
-  border: 1px solid var(--rule-strong, oklch(0.4 0.01 250));
+  background: var(--voile-05);
+  border: 1px solid var(--rule-strong, var(--filet-fort));
   border-radius: 8px;
-  color: var(--ink-primary, oklch(0.92 0.01 250));
+  color: var(--ink-primary, var(--encre-2));
   font: inherit;
 }
 
 .authb-panneau form button {
   min-height: 44px;
   background: transparent;
-  border: 1px solid var(--ink-secondary, oklch(0.66 0.01 250));
+  border: 1px solid var(--ink-secondary, var(--encre-douce));
   border-radius: 8px;
-  color: var(--ink-primary, oklch(0.92 0.01 250));
+  color: var(--ink-primary, var(--encre-2));
   font: inherit;
   cursor: pointer;
 }
@@ -260,14 +260,14 @@
 }
 
 .authb-message {
-  color: oklch(0.78 0.13 40);
+  color: oklch(var(--lt-78) 0.13 40);
 }
 
 .authb-donnees {
   margin: 1.1rem 0 0;
   padding-top: 0.8rem;
-  border-top: 1px solid var(--rule-hairline, oklch(0.3 0.01 250));
-  color: var(--ink-secondary, oklch(0.66 0.01 250));
+  border-top: 1px solid var(--rule-hairline, var(--filet));
+  color: var(--ink-secondary, var(--encre-douce));
   font-size: 0.74rem;
   line-height: 1.5;
 }

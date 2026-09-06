@@ -13,7 +13,7 @@
   display: grid;
   place-items: center;
   padding: 4dvh 1rem;
-  background: oklch(0.08 0.01 250 / 0.72);
+  background: var(--rideau-72);
   backdrop-filter: blur(3px);
 }
 
@@ -27,7 +27,7 @@
   border-radius: 4px;
   font-family: var(--font-ui);
   color: var(--ink-primary);
-  box-shadow: 0 1.5rem 3rem oklch(0.05 0.01 250 / 0.5);
+  box-shadow: 0 1.5rem 3rem var(--rideau-5);
 }
 
 .contrib-tete {
@@ -106,7 +106,7 @@
 
 .contrib-champ input::placeholder,
 .contrib-champ textarea::placeholder {
-  color: oklch(0.52 0.01 250);
+  color: var(--encre-effacee-2);
 }
 
 .contrib-note {
@@ -127,9 +127,9 @@
   padding: 0.55rem 0.7rem;
   font-size: 0.8rem;
   line-height: 1.5;
-  color: oklch(0.88 0.09 25);
-  background: oklch(0.28 0.06 25 / 0.35);
-  border-left: 2px solid oklch(0.62 0.14 25);
+  color: oklch(var(--lt-88) 0.09 25);
+  background: oklch(var(--lt-28) 0.06 25 / 0.35);
+  border-left: 2px solid oklch(var(--lt-62) 0.14 25);
   border-radius: 2px;
 }
 
@@ -162,7 +162,7 @@
 }
 
 .contrib-primaire {
-  color: oklch(0.14 0.01 250);
+  color: var(--fond);
   background: var(--ink-primary);
   border-color: var(--ink-primary);
 }
@@ -285,7 +285,7 @@
 .prop-vote-actif {
   color: var(--ink-primary);
   border-color: var(--ink-secondary);
-  background: oklch(0.28 0.012 250);
+  background: var(--filet-fantome-2);
 }
 
 .prop-score {
@@ -323,9 +323,9 @@
   color: var(--ink-secondary);
 }
 
-.prop-etat-accepted { color: oklch(0.82 0.10 150); border-color: oklch(0.45 0.07 150); }
-.prop-etat-merged   { color: oklch(0.82 0.09 200); border-color: oklch(0.45 0.06 200); }
-.prop-etat-rejected { color: oklch(0.80 0.09 25);  border-color: oklch(0.45 0.07 25); }
+.prop-etat-accepted { color: oklch(var(--lt-82) 0.10 150); border-color: oklch(var(--lt-45) 0.07 150); }
+.prop-etat-merged   { color: oklch(var(--lt-82) 0.09 200); border-color: oklch(var(--lt-45) 0.06 200); }
+.prop-etat-rejected { color: oklch(var(--lt-80) 0.09 25);  border-color: oklch(var(--lt-45) 0.07 25); }
 
 .prop-mienne {
   margin-left: 0.4rem;
@@ -399,14 +399,14 @@
 .mod-fermeture {
   margin: 1.2rem 0;
   padding: 0.8rem;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--voile-12);
   border-radius: 6px;
 }
 .mod-fermeture label {
   display: block;
   margin-block-end: 0.45rem;
   font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.68);
+  color: var(--voile-68);
 }
 .mod-fermeture-ligne {
   display: flex;
@@ -416,9 +416,9 @@
 .mod-fermeture-ligne input {
   flex: 1 1 14rem;
   padding: 0.4rem 0.55rem;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid var(--voile-16);
   border-radius: 5px;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--voile-04);
   color: inherit;
   font: inherit;
 }
@@ -429,20 +429,20 @@
 }
 .mod-item {
   padding: 0.7rem 0;
-  border-block-start: 1px solid rgba(255, 255, 255, 0.1);
+  border-block-start: 1px solid var(--voile-1);
 }
 .mod-item-entete {
   display: flex;
   gap: 0.7rem;
   flex-wrap: wrap;
   font-size: 0.76rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--voile-5);
 }
 .mod-signalements {
   color: rgba(255, 190, 120, 0.85);
 }
 .mod-masque {
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--voile-4);
   text-transform: uppercase;
   letter-spacing: var(--serrage);
 }
@@ -456,7 +456,7 @@
 .mod-motifs {
   margin: 0.3rem 0;
   font-size: 0.76rem;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--voile-45);
 }
 .mod-item-actions {
   display: flex;

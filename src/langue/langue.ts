@@ -143,6 +143,8 @@ interface Dictionnaire {
   readonly index: string;
   readonly navigationDuSite: string;
   readonly choixDeLangue: string;
+  readonly passerAuClair: string;
+  readonly passerAuSombre: string;
   readonly enFrancais: string;
   readonly enAnglais: string;
   readonly chemin: string;
@@ -333,6 +335,8 @@ const FR: Dictionnaire = {
   index: 'Index',
   navigationDuSite: 'Navigation du site',
   choixDeLangue: 'Langue de l’interface',
+  passerAuClair: 'Passer au thème clair',
+  passerAuSombre: 'Passer au thème sombre',
   enFrancais: 'Afficher l’interface en français',
   enAnglais: 'Afficher l’interface en anglais',
   chemin: 'Chemin',
@@ -533,6 +537,8 @@ const EN: Dictionnaire = {
   index: 'Index',
   navigationDuSite: 'Site navigation',
   choixDeLangue: 'Interface language',
+  passerAuClair: 'Switch to the light theme',
+  passerAuSombre: 'Switch to the dark theme',
   enFrancais: 'Show the interface in French',
   enAnglais: 'Show the interface in English',
   chemin: 'Path',

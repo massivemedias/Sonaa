@@ -1,0 +1,31 @@
+/* LE BOUTON DE THEME. Meme discretion que le selecteur de langue a cote : un
+   reglage ne crie pas. Il est carre parce qu'il porte un dessin et non un
+   mot, et sa surface de clic depasse le dessin, sinon il faudrait viser. */
+
+.choixtheme {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.55rem;
+  height: 1.55rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-secondary);
+  cursor: pointer;
+  opacity: 0.62;
+  transition: opacity 140ms var(--motion-ease), color 140ms var(--motion-ease),
+    background-color 140ms var(--motion-ease);
+}
+
+.choixtheme:hover,
+.choixtheme:focus-visible {
+  opacity: 1;
+  color: var(--ink-primary);
+  background-color: var(--voile-06);
+}
+
+.choixtheme svg {
+  display: block;
+}

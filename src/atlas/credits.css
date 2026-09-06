@@ -23,7 +23,7 @@
   padding-bottom: 4rem;
   font-family: var(--font-ui);
   color: var(--ink-primary);
-  background: oklch(0.16 0.012 250);
+  background: var(--plaque);
 }
 
 .credits-skip {
@@ -36,7 +36,7 @@
   top: 1rem;
   z-index: 10;
   background: var(--ink-primary);
-  color: oklch(0.14 0.01 250);
+  color: var(--fond);
   padding: 0.4rem 0.8rem;
 }
 
@@ -195,7 +195,7 @@
 .apropos-voix {
   margin-block-start: 0.9rem;
   padding-inline-start: 0.9rem;
-  border-inline-start: 2px solid rgba(255, 255, 255, 0.24);
+  border-inline-start: 2px solid var(--voile-24);
   /* LONGUEUR DE LIGNE. La colonne de la page fait 38 rem, ce qui donnait 81
      signes par ligne : au-dessus de la fourchette confortable, et l'oeil perd
      la ligne suivante en revenant à la marge. 32 rem le ramènent à 68. */
@@ -204,7 +204,7 @@
 
 .apropos-voix p {
   font-style: italic;
-  color: rgba(255, 255, 255, 0.84);
+  color: var(--voile-84);
   /* Quatre paragraphes collés se lisent comme un seul. */
   margin-block-end: 0.85rem;
 }

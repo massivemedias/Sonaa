@@ -11,8 +11,8 @@
   z-index: 40;
   display: flex;
   flex-direction: column;
-  background: oklch(0.16 0.012 260);
-  color: oklch(0.94 0.005 260);
+  background: var(--plaque);
+  color: var(--encre-4);
   font-family: var(--police);
 }
 
@@ -25,7 +25,7 @@
   flex: none;
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid oklch(1 0 0 / 0.08);
+  border-bottom: 1px solid var(--voile-08);
   padding-right: calc(var(--authb-reserve, 126px) + 0.6rem);
 }
 .ac-chrome .sitenav {
@@ -48,10 +48,10 @@
   width: 40px;
   height: 40px;
   padding: 0;
-  background: oklch(0.98 0 0);
+  background: var(--encre-vive-2);
   border: 0;
   border-radius: 50%;
-  color: oklch(0.18 0.01 250);
+  color: var(--plaque-3);
   cursor: pointer;
   text-decoration: none;
 }
@@ -75,7 +75,7 @@
   font-size: 0.75rem;
   letter-spacing: var(--serrage);
   text-transform: uppercase;
-  color: oklch(0.72 0.01 260);
+  color: var(--encre-moyenne);
 }
 .ac-filtre {
   flex: 1 1 auto;
@@ -83,9 +83,9 @@
   box-sizing: border-box;
   height: 34px;
   padding: 0 0.7rem;
-  border: 1px solid oklch(1 0 0 / 0.14);
+  border: 1px solid var(--voile-14);
   border-radius: 17px;
-  background: oklch(0.22 0.012 260);
+  background: var(--leve-3);
   color: inherit;
   font: inherit;
   font-size: 0.85rem;
@@ -94,7 +94,7 @@
   max-width: 22rem;
 }
 .ac-filtre::placeholder {
-  color: oklch(0.6 0.01 260);
+  color: var(--encre-tierce-2);
 }
 
 /* SUR TELEPHONE le titre disparait avant le champ de recherche : le mot
@@ -125,7 +125,7 @@ body:has(.pwa-bandeau) .ac-corps {
 .ac-compte {
   margin: 0.8rem 0 0;
   font-size: 0.78rem;
-  color: oklch(0.68 0.01 260);
+  color: var(--encre-douce-2);
 }
 
 .ac-famille {
@@ -143,7 +143,7 @@ body:has(.pwa-bandeau) .ac-corps {
   top: 0;
   z-index: 1;
   padding: 0.45rem 0;
-  background: oklch(0.16 0.012 260);
+  background: var(--plaque);
   font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: var(--serrage);
@@ -153,13 +153,13 @@ body:has(.pwa-bandeau) .ac-corps {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: oklch(0.7 0.15 var(--ac-hue));
+  background: oklch(var(--lt-70) 0.15 var(--ac-hue));
 }
 .ac-compte-famille {
   margin-left: auto;
   font-size: 0.72rem;
   font-weight: 400;
-  color: oklch(0.62 0.01 260);
+  color: var(--encre-tierce-3);
 }
 
 .ac-liste {
@@ -188,7 +188,7 @@ body:has(.pwa-bandeau) .ac-corps {
   top: 0;
   bottom: 0;
   width: 1px;
-  background: oklch(0.7 0.15 var(--ac-hue) / 0.25);
+  background: oklch(var(--lt-70) 0.15 var(--ac-hue) / 0.25);
 }
 .ac-ligne[style*='--ac-niveau: 0']::before {
   display: none;
@@ -201,7 +201,7 @@ body:has(.pwa-bandeau) .ac-corps {
   padding: 0;
   border: 0;
   background: none;
-  color: oklch(0.72 0.01 260);
+  color: var(--encre-moyenne);
   /* Le triangle U+25BE est petit par construction : sous 0.8rem il se lit
      comme un tiret, et le repli devient invisible. */
   font-size: 0.82rem;
@@ -228,15 +228,15 @@ body:has(.pwa-bandeau) .ac-corps {
 }
 .ac-nom:hover,
 .ac-nom:focus-visible {
-  color: oklch(0.85 0.14 var(--ac-hue));
+  color: oklch(var(--lt-85) 0.14 var(--ac-hue));
 }
 .ac-poids {
   flex: none;
   margin-left: 0.45rem;
   padding: 0 0.4rem;
   border-radius: 8px;
-  background: oklch(0.7 0.15 var(--ac-hue) / 0.16);
-  color: oklch(0.78 0.06 var(--ac-hue));
+  background: oklch(var(--lt-70) 0.15 var(--ac-hue) / 0.16);
+  color: oklch(var(--lt-78) 0.06 var(--ac-hue));
   font-size: 0.68rem;
   line-height: 1.5;
 }

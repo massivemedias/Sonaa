@@ -21,7 +21,7 @@
   background: var(--surface-raised);
   border: var(--rule-width) solid var(--rule-hairline);
   border-radius: 4px;
-  box-shadow: 0 0.75rem 2rem oklch(0.05 0.01 250 / 0.45);
+  box-shadow: 0 0.75rem 2rem var(--rideau-45);
 
   font-family: var(--font-ui);
   font-size: 0.82rem;
@@ -41,7 +41,7 @@
 /* Réseau absent : le seul cas où le bandeau doit se remarquer tout de suite,
    parce qu'il explique une panne que la personne est en train de constater. */
 .pwa-bandeau-alerte {
-  border-left: 2px solid oklch(0.62 0.13 65);
+  border-left: 2px solid oklch(var(--lt-62) 0.13 65);
 }
 
 /* Une modale ouverte a la priorité. Constaté à la capture : le bandeau se
@@ -105,7 +105,7 @@ body:has(.hm) .pwa-bandeau {
 }
 
 .pwa-bouton-principal {
-  color: oklch(0.14 0.01 250);
+  color: var(--fond);
   background: var(--ink-primary);
   border-color: var(--ink-primary);
 }
