@@ -37,7 +37,37 @@ export type Langue = 'fr' | 'en';
    On parcourt quand meme la liste entiere : un navigateur regle sur
    allemand puis francais recevra du francais, ce qui est bien sa preference
    parmi celles qu'on sait servir. */
-export const langue: Langue = (() => {
+/* ═══ LE CHOIX DE LA PERSONNE PASSE AVANT CELUI DE SON NAVIGATEUR ═══
+ *
+ * La detection reste, et elle reste en premiere position pour qui n'a rien
+ * demande : c'est la meilleure supposition possible sans rien exiger. Mais
+ * une supposition ne doit jamais l'emporter sur une decision. Quelqu'un qui
+ * lit le francais depuis un ordinateur regle en anglais, au bureau, sur une
+ * machine partagee, avait jusqu'ici le site en anglais et aucun moyen de le
+ * dire.
+ *
+ * ON RECHARGE LA PAGE APRES LE CHOIX, ET C'EST ASSUME. Le dictionnaire est lu
+ * au moment ou chaque module s'evalue : les libelles du menu, les groupes de
+ * la navigation, les etiquettes du lecteur sont figes a l'import. Les rendre
+ * reactifs demanderait de faire passer la langue par un contexte React et de
+ * retoucher une centaine d'appels a `t`, pour un geste qu'on fait une fois
+ * dans une visite. Un rechargement est honnete : il garantit qu'AUCUN
+ * fragment ne reste dans l'ancienne langue, ce qu'une bascule partielle ne
+ * garantit pas. L'adresse porte la route, donc on revient au meme endroit. */
+
+const CLE_LANGUE = 'sonaa-langue';
+
+function langueRangee(): Langue | null {
+  try {
+    const brut = localStorage.getItem(CLE_LANGUE);
+    return brut === 'fr' || brut === 'en' ? brut : null;
+  } catch {
+    /* Navigation privee, stockage refuse : on retombe sur la detection. */
+    return null;
+  }
+}
+
+function langueDuNavigateur(): Langue {
   const liste =
     typeof navigator !== 'undefined' && Array.isArray(navigator.languages) && navigator.languages.length > 0
       ? navigator.languages
@@ -50,7 +80,36 @@ export const langue: Langue = (() => {
   /* Ni francais ni anglais : l'anglais porte plus loin comme langue de
      relais, et le corpus reste en francais de toute facon. */
   return 'en';
-})();
+}
+
+export const langue: Langue = langueRangee() ?? langueDuNavigateur();
+
+/** Vrai quand la langue vient d'un choix explicite et non de la detection.
+    Le selecteur s'en sert pour ne pas allumer un bouton que personne n'a
+    presse : tant que rien n'est choisi, aucune des deux langues n'est
+    « la sienne », meme si l'une des deux est affichee. */
+export const langueEstChoisie: boolean = langueRangee() !== null;
+
+/** Range le choix et recharge. Ne fait rien si c'est deja la langue en cours
+    ET qu'elle avait ete choisie : recharger pour rien ferait clignoter la
+    page sans rien changer. */
+export function choisirLangue(voulue: Langue): void {
+  if (voulue === langue && langueEstChoisie) return;
+  try {
+    localStorage.setItem(CLE_LANGUE, voulue);
+  } catch {
+    /* Sans stockage, le choix ne survivra pas au rechargement. On recharge
+       quand meme : la page repartira sur la detection, ce qui est visible et
+       donc comprehensible, alors qu'un bouton sans effet ne l'est pas. */
+  }
+  window.location.reload();
+}
+
+/* L'ATTRIBUT `lang` DE LA PAGE SUIT, et ce n'est pas une politesse. Il
+   commande la coupure des mots, les guillemets des correcteurs, et surtout ce
+   qu'un lecteur d'ecran prononce : un texte francais lu par une voix anglaise
+   est litteralement incomprehensible. */
+if (typeof document !== 'undefined') document.documentElement.lang = langue;
 
 interface Dictionnaire {
   readonly parcourir: string;
@@ -83,6 +142,9 @@ interface Dictionnaire {
   readonly credits: string;
   readonly index: string;
   readonly navigationDuSite: string;
+  readonly choixDeLangue: string;
+  readonly enFrancais: string;
+  readonly enAnglais: string;
   readonly chemin: string;
   /* Le seul endroit ou l'interface avoue une limite : les textes de genres
      sont en francais et ne seront pas traduits par une machine. */
@@ -270,6 +332,9 @@ const FR: Dictionnaire = {
   credits: 'Crédits',
   index: 'Index',
   navigationDuSite: 'Navigation du site',
+  choixDeLangue: 'Langue de l’interface',
+  enFrancais: 'Afficher l’interface en français',
+  enAnglais: 'Afficher l’interface en anglais',
   chemin: 'Chemin',
   texteEnFrancais: null,
   machines: 'Machines',
@@ -467,6 +532,9 @@ const EN: Dictionnaire = {
   credits: 'Credits',
   index: 'Index',
   navigationDuSite: 'Site navigation',
+  choixDeLangue: 'Interface language',
+  enFrancais: 'Show the interface in French',
+  enAnglais: 'Show the interface in English',
   chemin: 'Path',
   texteEnFrancais: 'Genre texts are written in French and are not machine translated.',
   machines: 'Machines',

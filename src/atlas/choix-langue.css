@@ -1,0 +1,65 @@
+/* LE SELECTEUR DE LANGUE. Il vit dans la barre du haut, apres les pages, et
+   il doit s'y faire oublier : c'est un reglage, pas une destination. Il est
+   donc plus petit et plus pale que les liens qui l'entourent, et il ne
+   s'eclaire qu'au survol et sur le choix actif. */
+
+.choixlangue {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  margin-left: 0.1rem;
+}
+
+.choixlangue-bouton {
+  padding: 0.1rem 0.18rem;
+  border: 0;
+  background: none;
+  color: var(--ink-secondary);
+  font-size: 0.68rem;
+  font-weight: var(--weight-data);
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0.62;
+  transition: opacity 140ms var(--motion-ease), color 140ms var(--motion-ease);
+}
+
+.choixlangue-bouton:hover,
+.choixlangue-bouton:focus-visible {
+  opacity: 1;
+  color: var(--ink-primary);
+}
+
+/* LE CHOIX ACTIF SE DIT PAR DEUX SIGNAUX, PAS UN. La couleur seule ne se voit
+   pas de tout le monde : le poids de trait double le message, et la ligne
+   dessous le triple. Trois signaux pour deux lettres n'est pas de trop quand
+   les deux lettres se ressemblent autant. */
+.choixlangue-bouton[data-actif='true'] {
+  opacity: 1;
+  color: var(--ink-primary);
+  font-weight: var(--weight-genre);
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: var(--rule-width);
+}
+
+/* Le trait qui separe les deux codes. Il ne se lit pas, il se voit : c'est
+   pour cela qu'il est un element vide et non un caractere. */
+.choixlangue-barre {
+  width: var(--rule-width);
+  height: 0.62em;
+  background: var(--rule-hairline);
+}
+
+/* SUR TELEPHONE, LE SELECTEUR RESTE. Il est la premiere chose qu'on cherche
+   quand le site s'ouvre dans la mauvaise langue, et c'est justement sur un
+   telephone en voyage que cela arrive. On lui retire sa marge, pas sa
+   presence. */
+@media (max-width: 700px) {
+  .choixlangue {
+    margin-left: 0;
+  }
+  .choixlangue-bouton {
+    font-size: 0.66rem;
+  }
+}
