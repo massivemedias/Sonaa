@@ -514,3 +514,155 @@
 .cal-styles-panneau {
   margin: 0.9rem 0 0.2rem;
 }
+
+/* ═══ QUATRE COLONNES SUR ORDINATEUR ═══
+
+   La grille etait en `auto-fill` avec un minimum de 23 rem : a 1240 px de
+   page cela donnait trois colonnes et un reste de 130 px perdu a droite.
+   Quatre colonnes demandees par Mika, et elles tiennent : 1240 moins trois
+   gouttieres de 1,1 rem fait 287 px par carte, assez pour une affiche 16/9 et
+   deux lignes de titre.
+
+   La regle est explicite et non calculee : `auto-fill` decide seul du nombre
+   de colonnes, et « quatre » etait une demande, pas une consequence. */
+@media (min-width: 1100px) {
+  .cal-liste {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ═══ LA CARTE S'OUVRE, ELLE N'EMMENE PLUS AILLEURS ═══ */
+
+/* La pochette est un bouton : il faut lui retirer tout ce qu'un navigateur
+   met sur un bouton, et lui laisser exactement la surface de l'image. */
+.cal-ouvre {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+}
+.cal-ouvre:focus-visible {
+  outline: var(--rule-width) solid var(--ink-secondary);
+  outline-offset: 3px;
+}
+
+/* Le titre garde son dessin de lien : c'est ce qu'on clique, et il doit le
+   dire. Seule sa nature change. */
+.cal-titre-bouton {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* ═══ LE PANNEAU DEPLIE ═══
+
+   Il occupe TOUTE la largeur de la grille et non la colonne de sa carte.
+   Dans une colonne de 287 px, six cents signes de description font quarante
+   lignes et repoussent la grille de deux ecrans. Sur la largeur entiere, le
+   meme texte en fait six.
+
+   `grid-column: 1 / -1` sur un enfant de la carte ne suffirait pas : c'est la
+   carte qui est dans la grille. Le panneau sort donc du flux de la carte par
+   `position: static` et une regle sur la carte elle-meme, ci-dessous. */
+.cal-soiree:has(.cal-fiche) {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 22rem) minmax(0, 1fr);
+  grid-template-areas:
+    'affiche fiche'
+    'texte   fiche';
+  gap: 0 1.4rem;
+  align-items: start;
+}
+.cal-soiree:has(.cal-fiche) .cal-ouvre {
+  grid-area: affiche;
+}
+.cal-soiree:has(.cal-fiche) .cal-texte {
+  grid-area: texte;
+}
+.cal-fiche {
+  grid-area: fiche;
+  min-width: 0;
+}
+
+@media (max-width: 760px) {
+  .cal-soiree:has(.cal-fiche) {
+    grid-template-columns: 1fr;
+    grid-template-areas: 'affiche' 'texte' 'fiche';
+  }
+}
+
+.cal-fiche-faits {
+  margin: 0 0 1rem;
+  display: grid;
+  gap: 0.55rem;
+}
+.cal-fiche-faits div {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  gap: 0.6rem;
+  align-items: baseline;
+}
+.cal-fiche-faits dt {
+  margin: 0;
+  color: var(--ink-secondary);
+  font-size: 0.72rem;
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+}
+.cal-fiche-faits dd {
+  margin: 0;
+  color: var(--ink-primary);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+.cal-fiche-adresse {
+  display: block;
+  color: var(--ink-secondary);
+  font-size: 0.76rem;
+}
+
+.cal-fiche-texte h4 {
+  margin: 0 0 0.4rem;
+  color: var(--ink-secondary);
+  font-size: 0.72rem;
+  font-weight: var(--weight-data);
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+}
+/* LE TEXTE DE L'ORGANISATEUR GARDE SES RETOURS A LA LIGNE. Il est ecrit pour
+   etre lu en paragraphes courts, souvent avec une ligne par artiste ; tout
+   coller ferait un bloc illisible. */
+.cal-fiche-texte p {
+  margin: 0;
+  max-width: 74ch;
+  color: var(--ink-primary);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.cal-fiche-vide {
+  margin: 0 0 0.8rem;
+  max-width: 60ch;
+  color: var(--ink-secondary);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.cal-fiche-lien {
+  display: inline-block;
+  margin-top: 0.9rem;
+  color: var(--ink-primary);
+  font-size: 0.78rem;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}

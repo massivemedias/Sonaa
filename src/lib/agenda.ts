@@ -34,6 +34,14 @@ export interface Soiree {
      portent une, parce qu'un agenda qui melange des sources doit dire
      laquelle, sinon il donne a toutes le credit de la mieux tenue. */
   readonly origine?: 'ra' | 'main' | 'shotgun';
+  /* LE DETAIL, quand la source le donne. Resident Advisor n'en fournit
+     aucun : ces champs restent vides pour lui, et le panneau depliant le dit
+     au lieu de faire semblant. */
+  readonly description?: string | null;
+  readonly fin?: string | null;
+  readonly adresse?: string | null;
+  readonly prix?: string | null;
+  readonly organisateur?: string | null;
 }
 
 export interface Zone {

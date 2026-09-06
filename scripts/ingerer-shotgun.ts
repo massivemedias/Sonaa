@@ -90,6 +90,15 @@ interface Fiche {
   readonly artistes: readonly string[];
   readonly genres: readonly string[];
   readonly affiche: string | null;
+  /* CE QUI ETAIT LU PUIS JETE. Le JSON-LD porte tout cela depuis le debut ;
+     l'adaptateur en gardait le quart, et le calendrier ne pouvait donc que
+     renvoyer chez la source pour le reste. Une page qui possede l'information
+     et envoie quand meme ailleurs fait perdre deux clics pour rien. */
+  readonly description: string | null;
+  readonly fin: string | null;
+  readonly adresse: string | null;
+  readonly prix: string | null;
+  readonly organisateur: string | null;
 }
 
 /* ── Les reglages de la ligne de commande ─────────────────────────────── */
@@ -234,8 +243,53 @@ async function lireLaFiche(
   const debut = typeof brut['startDate'] === 'string' ? brut['startDate'] : '';
   if (!nom || !debut) return null;
 
-  const lieuBrut = brut['location'] as { name?: unknown } | undefined;
+  const lieuBrut = brut['location'] as
+    | { name?: unknown; address?: { streetAddress?: unknown } }
+    | undefined;
   const lieu = typeof lieuBrut?.name === 'string' ? lieuBrut.name.trim() : null;
+  const rue = lieuBrut?.address?.streetAddress;
+  const adresse = typeof rue === 'string' && rue.trim() !== '' ? rue.trim() : null;
+
+  const description =
+    typeof brut['description'] === 'string' && brut['description'].trim() !== ''
+      ? brut['description'].trim()
+      : null;
+  const fin = typeof brut['endDate'] === 'string' ? brut['endDate'] : null;
+
+  const orga = brut['organizer'] as { name?: unknown } | Array<{ name?: unknown }> | undefined;
+  const premierOrga = Array.isArray(orga) ? orga[0] : orga;
+  const organisateur =
+    typeof premierOrga?.name === 'string' && premierOrga.name.trim() !== ''
+      ? premierOrga.name.trim()
+      : null;
+
+  /* LE PRIX EST UNE FOURCHETTE, PAS UN NOMBRE. Une fiche porte plusieurs
+     offres, « Tarif promo » puis « Premiere phase » puis la suite, et
+     n'annoncer que la premiere ferait mentir la page des que la promo est
+     epuisee. On rend le plus bas et le plus haut, et « Gratuit » quand tout
+     est a zero. */
+  const offres = brut['offers'];
+  const montants = (Array.isArray(offres) ? offres : offres ? [offres] : [])
+    .map((o) => (o as { price?: unknown }).price)
+    .map((n) => (typeof n === 'number' ? n : Number(n)))
+    .filter((n) => Number.isFinite(n));
+  const devise =
+    (Array.isArray(offres) ? offres[0] : offres) &&
+    typeof ((Array.isArray(offres) ? offres[0] : offres) as { priceCurrency?: unknown })
+      .priceCurrency === 'string'
+      ? ((Array.isArray(offres) ? offres[0] : offres) as { priceCurrency: string }).priceCurrency
+      : 'EUR';
+  const symbole = devise === 'EUR' ? ' €' : devise === 'CAD' ? ' $' : ` ${devise}`;
+  const bas = montants.length ? Math.min(...montants) : null;
+  const haut = montants.length ? Math.max(...montants) : null;
+  const prix =
+    bas === null || haut === null
+      ? null
+      : bas === 0 && haut === 0
+        ? 'Gratuit'
+        : bas === haut
+          ? `${bas}${symbole}`
+          : `${bas} a ${haut}${symbole}`;
 
   const scene = brut['performer'];
   const artistes = (Array.isArray(scene) ? scene : scene ? [scene] : [])
@@ -247,7 +301,10 @@ async function lireLaFiche(
   const affiche =
     typeof image === 'string' ? image : Array.isArray(image) && typeof image[0] === 'string' ? image[0] : null;
 
-  return { ref, lien, titre: nom, debut, lieu, artistes, genres, affiche };
+  return {
+    ref, lien, titre: nom, debut, lieu, artistes, genres, affiche,
+    description, fin, adresse, prix, organisateur,
+  };
 }
 
 /* ── L'ecriture ───────────────────────────────────────────────────────── */
@@ -283,6 +340,11 @@ async function verser(villeId: string, fiches: readonly Fiche[]): Promise<number
     source: 'shotgun',
     source_ref: f.ref,
     publiee: true,
+    description: f.description,
+    fin: f.fin,
+    adresse: f.adresse,
+    prix: f.prix,
+    organisateur: f.organisateur,
   }));
 
   const r = await fetch(`${URL_BASE}/rest/v1/soirees_manuelles?on_conflict=source,source_ref`, {

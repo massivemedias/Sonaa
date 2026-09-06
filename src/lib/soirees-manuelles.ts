@@ -46,6 +46,13 @@ export interface SoireeManuelle {
   readonly source_ref: string | null;
   readonly note: string | null;
   readonly publiee: boolean;
+  /* CE QUE LA SOURCE DIT, ET QU'ON GARDE MAINTENANT. Le calendrier n'avait
+     que de quoi renvoyer ailleurs ; il a de quoi repondre sur place. */
+  readonly description: string | null;
+  readonly fin: string | null;
+  readonly adresse: string | null;
+  readonly prix: string | null;
+  readonly organisateur: string | null;
 }
 
 /** Ce qu'on envoie pour creer ou modifier. L'identifiant et la date de
@@ -65,8 +72,12 @@ export interface Brouillon {
   publiee?: boolean;
 }
 
+/* UNE SEULE CHAINE, SANS CONCATENATION. Coupee en deux avec un `+`, elle
+   cesse d'etre un litteral, et le typage de supabase-js, qui lit la liste des
+   colonnes DANS le texte, retombe sur un type d'erreur. Le compilateur l'a
+   dit tout de suite ; la ligne est longue, et c'est le prix. */
 const CHAMPS =
-  'id, ville_id, titre, debut, lieu, artistes, genres, lien, affiche, source, source_ref, note, publiee';
+  'id, ville_id, titre, debut, lieu, artistes, genres, lien, affiche, source, source_ref, note, publiee, description, fin, adresse, prix, organisateur';
 
 /** Les soirees d'une ville sur une tranche. Rend un tableau vide quand la
     base est indisponible : le calendrier doit continuer a montrer Resident

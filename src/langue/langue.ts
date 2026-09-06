@@ -145,6 +145,17 @@ interface Dictionnaire {
   readonly choixDeLangue: string;
   readonly passerAuClair: string;
   readonly passerAuSombre: string;
+  readonly voirLaFiche: string;
+  readonly replierLaFiche: string;
+  readonly plateau: string;
+  readonly ouLibelle: string;
+  readonly quandLibelle: string;
+  readonly combien: string;
+  readonly organisePar: string;
+  readonly lAnnonce: string;
+  readonly pasDeDetailIci: string;
+  readonly ouvrirChezLaSource: string;
+  readonly jusqua: string;
   readonly echap: string;
   readonly moderationMenu: string;
   readonly deconnexion: string;
@@ -505,6 +516,17 @@ const FR: Dictionnaire = {
   choixDeLangue: 'Langue de l’interface',
   passerAuClair: 'Passer au thème clair',
   passerAuSombre: 'Passer au thème sombre',
+  voirLaFiche: "Voir la fiche complète",
+  replierLaFiche: "Replier",
+  plateau: "Plateau",
+  ouLibelle: "Où",
+  quandLibelle: "Quand",
+  combien: "Combien",
+  organisePar: "Organisé par",
+  lAnnonce: "L’annonce",
+  pasDeDetailIci: "Resident Advisor ne donne pas le détail de cette soirée à SONAA. Ce qui est ci-dessus est tout ce qu’il annonce.",
+  ouvrirChezLaSource: "Ouvrir chez la source",
+  jusqua: "jusqu’à",
   echap: "Échap",
   moderationMenu: "Modération",
   deconnexion: "Déconnexion",
@@ -869,6 +891,17 @@ const EN: Dictionnaire = {
   choixDeLangue: 'Interface language',
   passerAuClair: 'Switch to the light theme',
   passerAuSombre: 'Switch to the dark theme',
+  voirLaFiche: "See the full listing",
+  replierLaFiche: "Collapse",
+  plateau: "Line-up",
+  ouLibelle: "Where",
+  quandLibelle: "When",
+  combien: "How much",
+  organisePar: "Organised by",
+  lAnnonce: "The announcement",
+  pasDeDetailIci: "Resident Advisor does not give SONAA the detail of this night. What is above is everything it announces.",
+  ouvrirChezLaSource: "Open at the source",
+  jusqua: "until",
   echap: "Esc",
   moderationMenu: "Moderation",
   deconnexion: "Sign out",

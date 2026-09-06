@@ -169,6 +169,91 @@ function jourCourt(iso: string, fuseau: string): string {
   }
 }
 
+
+/* ═══ LA FICHE DEPLIEE, SOUS LA CARTE ═══
+ *
+ * Elle montre ce que la source annonce, sur place : le plateau entier et non
+ * les six premiers, l'adresse et non le seul nom de salle, l'horaire de bout
+ * en bout, le prix, et le texte de l'organisateur tel qu'il l'a ecrit.
+ *
+ * CE QU'ELLE NE FAIT PAS, ET C'EST DELIBERE. Elle n'invente rien quand la
+ * source ne donne rien. Resident Advisor ne fournit pas de description a
+ * SONAA : pour ses soirees, le panneau dit qu'il n'y a rien de plus a
+ * montrer, au lieu de laisser un blanc qu'on lirait comme un defaut.
+ *
+ * LE TEXTE DE L'ORGANISATEUR EST RENDU EN TEXTE, pas en HTML. Il vient d'un
+ * tiers, il contient des emoji, des retours a la ligne et parfois des balises
+ * ; le poser dans le DOM tel quel serait une porte d'injection ouverte sur
+ * une page publique. `white-space: pre-line` rend les retours a la ligne, et
+ * c'est tout ce dont il a besoin.
+ */
+function FicheSoiree({ soiree, fuseau }: { soiree: Soiree; fuseau: string }) {
+  const debut = soiree.debut ? heureLocale(soiree.debut, fuseau) : null;
+  const fin = soiree.fin ? heureLocale(soiree.fin, fuseau) : null;
+  const rien =
+    !soiree.description && !soiree.adresse && !soiree.prix && soiree.artistes.length === 0;
+
+  return (
+    <div className="cal-fiche" id={`detail-${soiree.id}`}>
+      <dl className="cal-fiche-faits">
+        {soiree.artistes.length > 0 && (
+          <div>
+            <dt>{t.plateau}</dt>
+            <dd>{soiree.artistes.join(' · ')}</dd>
+          </div>
+        )}
+        {(soiree.lieu || soiree.adresse) && (
+          <div>
+            <dt>{t.ouLibelle}</dt>
+            <dd>
+              {soiree.lieu}
+              {soiree.adresse && soiree.adresse !== soiree.lieu && (
+                <span className="cal-fiche-adresse">{soiree.adresse}</span>
+              )}
+            </dd>
+          </div>
+        )}
+        {debut && (
+          <div>
+            <dt>{t.quandLibelle}</dt>
+            <dd>
+              {debut}
+              {fin ? ` ${t.jusqua} ${fin}` : ''}
+            </dd>
+          </div>
+        )}
+        {soiree.prix && (
+          <div>
+            <dt>{t.combien}</dt>
+            <dd>{soiree.prix}</dd>
+          </div>
+        )}
+        {soiree.organisateur && (
+          <div>
+            <dt>{t.organisePar}</dt>
+            <dd>{soiree.organisateur}</dd>
+          </div>
+        )}
+      </dl>
+
+      {soiree.description && (
+        <div className="cal-fiche-texte">
+          <h4>{t.lAnnonce}</h4>
+          <p>{soiree.description}</p>
+        </div>
+      )}
+
+      {rien && <p className="cal-fiche-vide">{t.pasDeDetailIci}</p>}
+
+      {soiree.lien && (
+        <a className="cal-fiche-lien" href={soiree.lien} target="_blank" rel="noreferrer">
+          {t.ouvrirChezLaSource}
+        </a>
+      )}
+    </div>
+  );
+}
+
 export function CalendrierPage() {
   const [villes, setVilles] = useState<Ville[]>([]);
   const [slugSession, setSlugSession] = useState<string | null>(null);
@@ -187,6 +272,11 @@ export function CalendrierPage() {
   const [dateChoisie, setDateChoisie] = useState<string | null>(null);
 
   const [soirees, setSoirees] = useState<Soiree[] | null>(null);
+  /* UNE SEULE A LA FOIS, ET C'EST UN CHOIX. Plusieurs panneaux ouverts dans
+     une grille de quatre colonnes poussent les cartes suivantes de plusieurs
+     ecrans, et on perd l'endroit ou l'on etait. Ouvrir la suivante ferme la
+     precedente : la page ne s'allonge jamais de plus d'un panneau. */
+  const [depliee, setDepliee] = useState<string | null>(null);
   const [total, setTotal] = useState(0);
   const [chargement, setChargement] = useState(false);
   const [panne, setPanne] = useState(false);
@@ -309,6 +399,11 @@ export function CalendrierPage() {
            depuis qu'un adaptateur y verse, et le champ `source` le dit
            depuis le debut ; il suffisait de le lire. */
         origine: m.source === 'shotgun' ? 'shotgun' : 'main',
+        description: m.description,
+        fin: m.fin,
+        adresse: m.adresse,
+        prix: m.prix,
+        organisateur: m.organisateur,
       }));
 
       if (!r) {
@@ -736,32 +831,53 @@ export function CalendrierPage() {
                           const sigle = ailleurs && s.debut ? sigleFuseau(s.debut, fuseau) : null;
                           return (
                             <li key={s.id} className="cal-soiree">
-                              {s.affiche ? (
-                                <img
-                                  className="cal-affiche"
-                                  src={s.affiche}
-                                  alt=""
-                                  /* CHARGEMENT DIFFERE, ET C'EST LA SEULE
-                                     ECONOMIE POSSIBLE : RA sert ses
-                                     originaux, un a deux megaoctets piece,
-                                     et ignore tout parametre de
-                                     redimensionnement. */
-                                  loading="lazy"
-                                  decoding="async"
-                                  draggable={false}
-                                />
-                              ) : (
-                                <div className="cal-soiree-sans-affiche" aria-hidden="true" />
-                              )}
+                              {/* LA CARTE ENTIERE OUVRE LA FICHE, POCHETTE COMPRISE.
+                                  Elle etait un lien vers un autre site : on
+                                  cliquait sur un titre et on quittait SONAA
+                                  pour lire ce que SONAA avait deja en base.
+                                  La pochette, elle, n'etait cliquable nulle
+                                  part, ce qui est le premier endroit ou l'on
+                                  clique dans une grille d'affiches.
+
+                                  C'est un bouton et non un lien : il n'emmene
+                                  nulle part, il deplie. Un lien qui ne
+                                  navigue pas ment a la barre d'etat, au clic
+                                  du milieu et au clavier. */}
+                              <button
+                                type="button"
+                                className="cal-ouvre"
+                                onClick={() => setDepliee((v) => (v === s.id ? null : s.id))}
+                                aria-expanded={depliee === s.id}
+                                aria-controls={`detail-${s.id}`}
+                              >
+                                {s.affiche ? (
+                                  <img
+                                    className="cal-affiche"
+                                    src={s.affiche}
+                                    alt=""
+                                    /* CHARGEMENT DIFFERE, ET C'EST LA SEULE
+                                       ECONOMIE POSSIBLE : RA sert ses
+                                       originaux, un a deux megaoctets piece,
+                                       et ignore tout parametre de
+                                       redimensionnement. */
+                                    loading="lazy"
+                                    decoding="async"
+                                    draggable={false}
+                                  />
+                                ) : (
+                                  <div className="cal-soiree-sans-affiche" aria-hidden="true" />
+                                )}
+                              </button>
                               <div className="cal-texte">
-                                <a
-                                  className="cal-titre"
-                                  href={s.lien}
-                                  target="_blank"
-                                  rel="noreferrer"
+                                <button
+                                  type="button"
+                                  className="cal-titre cal-titre-bouton"
+                                  onClick={() => setDepliee((v) => (v === s.id ? null : s.id))}
+                                  aria-expanded={depliee === s.id}
+                                  aria-controls={`detail-${s.id}`}
                                 >
                                   {s.titre}
-                                </a>
+                                </button>
                                 {/* LES NOMS AVANT LE LIEU. C'est le line-up
                                     qu'on cherche des yeux en parcourant une
                                     grille, la salle ne vient qu'ensuite, quand
@@ -788,6 +904,7 @@ export function CalendrierPage() {
                                   <p className="cal-genres">{s.genres.join(' · ')}</p>
                                 )}
                               </div>
+                              {depliee === s.id && <FicheSoiree soiree={s} fuseau={fuseau} />}
                             </li>
                           );
                         })}
