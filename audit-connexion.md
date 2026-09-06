@@ -1,5 +1,10 @@
 # Audit de la connexion des utilisateurs
 
+> **État au 6 septembre 2026, 17 h.** Les points 2, 3 et 4 sont corrigés et en
+> ligne (`2f84a4f`), le point 6 est corrigé en base, et une fuite trouvée en
+> cours de route est bouchée (voir « Ce qui a été corrigé » en fin de
+> document). Les points 1 et 7 attendent la console Supabase, donc toi.
+
 Fait le 6 septembre 2026 sur `sonaa.ca` en production et sur le projet Supabase
 `pqgapyfqkjzvwkulxnhv`. Chaque constat ci-dessous a été mesuré, jamais déduit :
 les sondes HTTP, les requêtes SQL et les clics réels sont indiqués à chaque fois.
@@ -191,3 +196,68 @@ de mon propre chef.
 Deux façons de trancher : regarder Authentication > Emails dans Supabase pour
 voir si un SMTP est configuré, ou me dire de demander un lien à une adresse test
 et de regarder ce qui revient.
+
+
+---
+
+## Ce qui a été corrigé, et comment ça a été vérifié
+
+### En base, par deux migrations
+
+`droits_manquants_sous_les_politiques`, puis `droits_par_colonne_et_masquage_reel`.
+
+- **Les droits qui manquaient sous les politiques.** `comments`,
+  `comment_votes`, `comment_reports` et `genre_comment_settings` reçoivent les
+  droits d'écriture que leurs politiques RLS attendaient depuis le début.
+  Accordés **par colonne**, comme le reste du schéma : une personne connectée
+  peut poser `body`, pas `score` ni `reports_count`. La première migration les
+  avait donnés sur la table entière, ce qui était trop large ; la seconde les
+  a resserrés.
+- **Parcours complet rejoué en base** sous l'identité d'un compte connecté :
+  publier, voter, signaler, masquer, régler un genre, lire la file de
+  modération. Six sur six passent. Les lignes d'essai ont été effacées, la
+  base est revenue à zéro commentaire.
+- **Le journal de modération n'est plus écrivable depuis le navigateur.**
+  Écriture forgée tentée après coup : refusée, `42501`.
+- **Les vues ne sont plus des portes d'écriture**, et les onze fonctions de
+  déclencheur ne sont plus des points d'appel publics. Vérifié :
+  `POST /rest/v1/rpc/touch_profile` rend maintenant `404`.
+
+### Une fuite trouvée en chemin, et bouchée
+
+Le masquage d'un commentaire masquait la vue, pas le texte. Mesuré : un
+commentaire masqué, lu par un visiteur anonyme sur
+`/rest/v1/comments?select=id,body,masque`, rendait **son texte en clair**. La
+vue `comments_public` remplaçait bien le corps par `NULL`, mais elle était
+`security_invoker`, donc le visiteur devait pouvoir lire `body` lui-même pour
+que la vue le lise à sa place, et il le pouvait. Le détour par la vue était
+donc facultatif.
+
+`body` a été retiré au navigateur et la vue passée en `security_invoker = off`.
+Vérifié après coup : la table rend `401`, la vue rend `body: null` avec
+`masque: true`, donc l'écriteau « commentaire masqué » tient toujours.
+
+### Dans le site, commit `2f84a4f`
+
+- **Un lien périmé le dit maintenant.** `echecDansLAdresse()` lit l'échec dans
+  le fragment comme dans la requête, `lireRetourDeConnexion()` l'efface et le
+  fait remonter, et le panneau de connexion s'ouvre tout seul avec la phrase
+  et le champ pour redemander un lien. Vérifié dans un navigateur sur
+  l'adresse exacte que Supabase renvoie : le panneau s'ouvre, la barre
+  d'adresse est propre, le message est là.
+- **Les deux chemins ont été déclenchés**, celui du bouton qui lit au montage
+  et celui de la reprise de session qui lit en nettoyant. Un chemin de secours
+  jamais emprunté n'est pas un chemin.
+- **La reprise ramène où l'on était.** `intention.route` est enfin relu.
+  Vérifié dans un navigateur : une intention posée sur `#/calendrier` renvoie
+  bien au calendrier depuis `#/propositions`, et une intention vieille de deux
+  heures ne renvoie plus nulle part.
+- **15 tests** dans `src/lib/auth.test.ts`, 70 au total dans le dépôt.
+
+### Ce qui reste, et qui ne dépend que de la console
+
+1. Le secret client Google (point 1).
+2. Le service d'envoi de courriels (point 7).
+
+Tant que ces deux-là ne sont pas faits, les corrections ci-dessus sont des
+portes en état de marche derrière une entrée fermée à clé.
