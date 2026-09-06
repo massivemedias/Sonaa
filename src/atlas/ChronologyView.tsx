@@ -14,6 +14,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FAMILIES, STRUCTURES, type Genre } from './structures.ts';
 import { SiteNav } from './SiteNav.tsx';
 import './chronology.css';
+import { t } from '../langue/langue.ts';
 
 /* LA HAUTEUR D'UN CRAN, ecrite une seule fois : la carte, la case de decennie
    et le trait de filiation la lisent tous les trois. Trois ecritures d'un meme
@@ -289,7 +290,7 @@ export function ChronologyView({ onOpen }: Props) {
                       {genre.dateSure ? genre.yearDeduced : formatYear(genre.yearDeduced)}
                     </span>
                     {genre.hasGraft && (
-                      <span className="chrono-graft" title="Parent d'une autre famille">
+                      <span className="chrono-graft" title={t.parentAutreFamille}>
                         {genre.graftFamilies.map((fi) => (
                           <span
                             key={fi}
@@ -383,7 +384,7 @@ export function ChronologyView({ onOpen }: Props) {
         <span className="chrono-genre-label">{genre.label}</span>
         <span className="chrono-genre-year">{formatYear(genre.yearDeduced)}</span>
         {genre.hasGraft && (
-          <span className="chrono-graft" title="Parent d'une autre famille">
+          <span className="chrono-graft" title={t.parentAutreFamille}>
             {genre.graftFamilies.map(fi => (
               <span
                 key={fi}
@@ -563,7 +564,7 @@ export function ChronologyView({ onOpen }: Props) {
     <div className="chrono-root" data-narrow={narrow} data-vue={vue}>
       <header className="chrono-header">
         <div className="chrono-chrome">
-          <a href="#/" className="chrono-logo" aria-label="SONAA, revenir à l'accueil">
+          <a href="#/" className="chrono-logo" aria-label={t.sonaaRevenirAccueil}>
             <img
               src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`}
               alt="SONAA"
@@ -572,11 +573,11 @@ export function ChronologyView({ onOpen }: Props) {
           </a>
           <SiteNav variant="overlay" />
         </div>
-        <h1 className="chrono-title">Chaîne chronologique</h1>
+        <h1 className="chrono-title">{t.chaineChronologique}</h1>
         <p className="chrono-legend">
           <span className="chrono-legend-graft">
             <span className="chrono-graft-dot" style={{ '--graft-hue': 280 } as React.CSSProperties} />
-            Une pastille signale un parent d'une autre famille
+            {t.pastilleParentAutreFamille}
           </span>
         </p>
         {/* LE SELECTEUR, en tete : le filtre des principaux vit a cote et
@@ -587,14 +588,14 @@ export function ChronologyView({ onOpen }: Props) {
             aria-selected={vue === 'familles'}
             onClick={() => setVue('familles')}
           >
-            Par famille
+            {t.parFamille}
           </button>
           <button
             role="tab"
             aria-selected={vue === 'epoque'}
             onClick={() => setVue('epoque')}
           >
-            Par époque
+            {t.parEpoque}
           </button>
         </div>
         <label className="chrono-filter">

@@ -435,6 +435,21 @@ export function ParcourirView() {
                 la pour qui le cherche et invisible pour qui ne le cherche
                 pas. Un genre repond a « qu'est-ce que c'est », une famille
                 repond a « qu'est-ce qui reunit ces vingt-quatre-la ». */}
+            {/* L'AVIS SUR LA LANGUE MANQUAIT ICI, ET C'EST CE QUE MIKA A VU.
+
+                La fiche d'un genre le porte depuis le debut : « les textes de
+                genres sont ecrits en francais et ne sont pas traduits par une
+                machine ». La page d'une famille porte le meme genre de texte,
+                d'auteur, plus long meme, et n'annoncait rien. Quelqu'un qui
+                bascule en anglais y trouvait six cents signes de francais sans
+                explication, et pouvait raisonnablement croire a une traduction
+                oubliee plutot qu'a une decision.
+
+                Ce n'est pas une excuse, c'est une information : le corpus
+                restera en francais, et le dire est la moindre des choses. */}
+            {t.texteEnFrancais && familleCourante.description && (
+              <p className="pv-langue">{t.texteEnFrancais}</p>
+            )}
             {familleCourante.description && (
               <p className="pv-description pv-description-famille">{familleCourante.description}</p>
             )}

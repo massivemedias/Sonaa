@@ -22,6 +22,7 @@ import {
 } from '../lib/comments.ts';
 import { contributionsActives } from '../lib/config.ts';
 import { sessionProbable } from '../lib/track-votes.ts';
+import { t } from '../langue/langue.ts';
 
 interface Props {
   genreId: string;
@@ -133,15 +134,15 @@ export function CommentsSection({ genreId, couleurFamille }: Props) {
               visiteur non connecte, ni sur un fil ferme. Proposer un champ
               qui sera refuse est une petite malhonnetete d'interface. */}
           {ferme ? (
-            <p className="pcol-fil-vide">Les commentaires sont fermés sur ce genre.</p>
+            <p className="pcol-fil-vide">{t.commentairesFermes}</p>
           ) : connecte ? (
             <div className="pcol-fil-saisie">
               <textarea
                 value={texte}
                 onChange={(e) => setTexte(e.target.value.slice(0, LONGUEUR_MAX))}
-                placeholder="Ce que tu sais de ce genre, ce que tu écoutes."
+                placeholder={t.placeholderCommentaire}
                 rows={3}
-                aria-label="Écrire un message"
+                aria-label={t.ecrireUnMessage}
               />
               <div className="pcol-fil-actions">
                 <span className="pcol-fil-compte">
@@ -157,12 +158,12 @@ export function CommentsSection({ genreId, couleurFamille }: Props) {
               className="pcol-fil-vide"
               onClick={() => window.dispatchEvent(new CustomEvent('sonaa:connexion'))}
             >
-              Se connecter pour participer à la discussion
+              {t.seConnecterDiscussion}
             </button>
           )}
 
           {charge && fil.length === 0 && (
-            <p className="pcol-fil-vide">Personne n&apos;a encore écrit sur ce genre.</p>
+            <p className="pcol-fil-vide">{t.personneNaEcrit}</p>
           )}
 
           <ul className="pcol-fil-liste">
@@ -191,7 +192,7 @@ export function CommentsSection({ genreId, couleurFamille }: Props) {
                     un fil se lit plus mal qu'une mention franche. */}
                 <p className="pcol-fil-texte">
                   {c.masque || c.body === null ? (
-                    <em>Message retiré par la modération.</em>
+                    <em>{t.messageRetire}</em>
                   ) : (
                     c.body
                   )}
@@ -202,7 +203,7 @@ export function CommentsSection({ genreId, couleurFamille }: Props) {
                     ▲
                   </button>
                   <span className="pcol-fil-score">{c.score}</span>
-                  <button onClick={() => void voter(c.id, -1)} aria-label="Désapprouver">
+                  <button onClick={() => void voter(c.id, -1)} aria-label={t.desapprouver}>
                     ▼
                   </button>
                   {connecte && (

@@ -11,6 +11,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { FAMILIES, STRUCTURES } from './structures.ts';
 import './search.css';
+import { t } from '../langue/langue.ts';
 
 interface Props {
   onPick: (familyIndex: number, genreLocal: number) => void;
@@ -508,7 +509,7 @@ export function SearchOverlay({ onPick, onListen, onClose }: Props) {
                 onClose();
               }}
             >
-              Écouter
+              {t.ecouterCourt}
             </span>
             <span
               className="search-track-bouton"
@@ -520,7 +521,7 @@ export function SearchOverlay({ onPick, onListen, onClose }: Props) {
                 onClose();
               }}
             >
-              Voir sur la carte
+              {t.voirSurLaCarte}
             </span>
           </span>
         </button>
@@ -561,7 +562,7 @@ export function SearchOverlay({ onPick, onListen, onClose }: Props) {
       <div className="search-box" onKeyDown={onKeyDown}>
         {drill ? (
           <div className="search-drill-head">
-            <button className="search-back" onClick={() => setDrill(null)} aria-label="Revenir à la recherche">
+            <button className="search-back" onClick={() => setDrill(null)} aria-label={t.revenirRecherche}>
               ‹
             </button>
             <span className="search-drill-name">{drill.name}</span>
@@ -574,7 +575,7 @@ export function SearchOverlay({ onPick, onListen, onClose }: Props) {
             type="search"
             value={query}
             placeholder="Genre, artiste, track ou label"
-            aria-label="Chercher un genre, un artiste, un track ou un label"
+            aria-label={t.chercherGenreArtisteTrackLabel}
             autoComplete="off"
             spellCheck={false}
             onChange={(e) => setQuery(e.target.value)}
@@ -595,9 +596,9 @@ export function SearchOverlay({ onPick, onListen, onClose }: Props) {
               genre, la proposition sera déjà remplie. */}
           {items.length === 0 && query.trim().length > 0 && (
             <li className="search-vide">
-              <p className="search-vide-titre">Ce morceau n&apos;est pas encore dans l&apos;atlas.</p>
+              <p className="search-vide-titre">{t.morceauPasDansAtlas}</p>
               <p className="search-vide-texte">
-                Tu sais dans quel genre il va&nbsp;? Propose-le, on le relira.
+                {t.tuSaisDansQuelGenre}
               </p>
               <button
                 className="search-vide-bouton"
@@ -611,15 +612,15 @@ export function SearchOverlay({ onPick, onListen, onClose }: Props) {
                   setQuery('');
                 }}
               >
-                Choisir le genre et proposer
+                {t.choisirGenreEtProposer}
               </button>
               <p className="search-vide-aide">
-                Cherche le genre ci-dessus, ouvre-le, puis « Proposer une track ».
+                {t.chercheLeGenreCiDessus}
               </p>
             </li>
           )}
           {items.length === 0 && query.trim().length === 0 && (
-            <li className="search-empty">Rien ne correspond.</li>
+            <li className="search-empty">{t.rienNeCorrespond}</li>
           )}
           {drill
             ? items.map((item, i) => <li key={i}>{row(item, i)}</li>)

@@ -22,6 +22,7 @@ import { consommerOuverture } from './ouvrir-genre.ts';
 import type { NavState, PanelState, AtlasApi, AtlasStats } from './atlas-api.ts';
 import './atlas.css';
 import './welcome.css';
+import { t } from '../langue/langue.ts';
 
 type Mode = 'attente' | 'webgl' | 'dom' | 'repli';
 
@@ -122,7 +123,7 @@ function Fallback({ notice }: { notice: string }) {
     <div className="atlas-fallback">
       <p className="atlas-fallback-notice">{notice}</p>
       <p className="atlas-fallback-notice">
-        <a href="#/index">Ouvrir l&apos;index, navigation complète des familles et des genres</a>
+        <a href="#/index">{t.ouvrirIndex}</a>
       </p>
     </div>
   );
@@ -564,8 +565,8 @@ export function AtlasPage() {
       <button
         className="brand"
         onClick={backToAtlas}
-        aria-label="SONAA, revenir à la vue Atlas"
-        title="Revenir à l'Atlas"
+        aria-label={t.sonaaRevenirAtlas}
+        title={t.revenirAtlasCourt}
       >
         <img src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`} alt="SONAA" draggable={false} />
         {/* Le balayage lumineux. Le PNG n'a pas de tracé vectoriel : c'est un
@@ -588,7 +589,7 @@ export function AtlasPage() {
           comme condition laissait la flèche « remonter d'un niveau » alors
           qu'il n'y avait nulle part où remonter. */}
       {mode === 'webgl' && level !== 'atlas' && (
-        <button className="crumb-retour" onClick={() => apiRef.current?.goUp()} aria-label="Remonter d'un niveau" title="Remonter d'un niveau">
+        <button className="crumb-retour" onClick={() => apiRef.current?.goUp()} aria-label={t.remonterNiveau} title={t.remonterNiveau}>
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path
               fill="none"
@@ -620,7 +621,7 @@ export function AtlasPage() {
               <button
                 className="crumb-ellipsis"
                 onClick={() => setCrumbsExpanded(true)}
-                aria-label="Déployer le chemin complet"
+                aria-label={t.deployerChemin}
               >
                 ‹ …
               </button>
@@ -631,7 +632,7 @@ export function AtlasPage() {
               <button
                 className="crumb-ellipsis"
                 onClick={() => setCrumbsExpanded(false)}
-                aria-label="Replier le chemin"
+                aria-label={t.replierChemin}
               >
                 ×
               </button>
@@ -710,11 +711,11 @@ export function AtlasPage() {
           le seul chemin. Recentrer = crosshairs et non house : la maison
           ferait doublon avec le logotype. Estompage après 3 s (data-idle). */}
       {mode === 'webgl' && (
-        <div ref={controlsRef} className="controls" aria-label="Contrôles de navigation">
+        <div ref={controlsRef} className="controls" aria-label={t.controlesNavigation}>
           <button
             className="controls-search"
             onClick={() => setSearchOpen(true)}
-            aria-label="Chercher un genre, un artiste, un label"
+            aria-label={t.chercherGenreArtisteLabel}
             title="Chercher (/)"
           >
             <FaIcon icon={faMagnifyingGlass} />
@@ -722,7 +723,7 @@ export function AtlasPage() {
           <button onClick={() => apiRef.current?.zoom(1)} aria-label="Zoom avant" title="Zoom avant (+)">
             <FaIcon icon={faMagnifyingGlassPlus} />
           </button>
-          <button onClick={() => apiRef.current?.zoom(-1)} aria-label="Zoom arrière" title="Zoom arrière (-)">
+          <button onClick={() => apiRef.current?.zoom(-1)} aria-label={t.zoomArriere} title={t.zoomArriereTouche}>
             <FaIcon icon={faMagnifyingGlassMinus} />
           </button>
           <button onClick={() => apiRef.current?.recenter()} aria-label="Recentrer" title="Recentrer (0)">
@@ -731,11 +732,11 @@ export function AtlasPage() {
         </div>
       )}
       {mode === 'dom' && (
-        <div className="controls" aria-label="Contrôles de navigation">
+        <div className="controls" aria-label={t.controlesNavigation}>
           <button
             className="controls-search"
             onClick={() => setSearchOpen(true)}
-            aria-label="Chercher un genre, un artiste, un label"
+            aria-label={t.chercherGenreArtisteLabel}
             title="Chercher (/)"
           >
             <FaIcon icon={faMagnifyingGlass} />
@@ -760,7 +761,7 @@ export function AtlasPage() {
           {!legendCollapsed && (
             <>
               <ul className="legend-list legend-desktop">
-                <li><kbd>/</kbd><span>chercher un genre, un artiste, un label</span></li>
+                <li><kbd>/</kbd><span>{t.aideChercher}</span></li>
                 {/* LA LEGENDE DIT L'ETAT, elle ne recite pas une regle. Annoncer
                     « Espace : chercher » pendant qu'un morceau joue promettrait
                     un raccourci qui fait autre chose, et c'est exactement le
@@ -769,16 +770,16 @@ export function AtlasPage() {
                   <kbd>Espace</kbd>
                   <span>{lectureActive ? 'lecture ou pause' : 'chercher'}</span>
                 </li>
-                <li><kbd>Clic</kbd><span>ouvrir un genre, ses tracks et ses dérivés</span></li>
+                <li><kbd>Clic</kbd><span>{t.aideOuvrirGenre}</span></li>
                 <li><kbd>Molette</kbd><span>zoomer</span></li>
-                <li><kbd>Glisser</kbd><span>se déplacer</span></li>
-                <li><kbd>Échap</kbd><span>remonter d&apos;un niveau</span></li>
-                <li><kbd>0</kbd><span>revenir à la vue d&apos;ensemble</span></li>
+                <li><kbd>Glisser</kbd><span>{t.aideSeDeplacer}</span></li>
+                <li><kbd>{t.echap}</kbd><span>{t.aideRemonter}</span></li>
+                <li><kbd>0</kbd><span>{t.aideVueEnsemble}</span></li>
               </ul>
               <ul className="legend-list legend-mobile">
-                <li><kbd>Toucher</kbd><span>ouvrir un genre et ses dérivés</span></li>
+                <li><kbd>Toucher</kbd><span>{t.aideOuvrirDerives}</span></li>
                 <li><kbd>Pincer</kbd><span>zoomer</span></li>
-                <li><kbd>Glisser</kbd><span>se déplacer</span></li>
+                <li><kbd>Glisser</kbd><span>{t.aideSeDeplacer}</span></li>
                 <li><kbd>Loupe</kbd><span>chercher</span></li>
               </ul>
             </>

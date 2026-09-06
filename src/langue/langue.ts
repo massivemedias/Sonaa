@@ -145,6 +145,174 @@ interface Dictionnaire {
   readonly choixDeLangue: string;
   readonly passerAuClair: string;
   readonly passerAuSombre: string;
+  readonly echap: string;
+  readonly moderationMenu: string;
+  readonly deconnexion: string;
+  readonly reessayer: string;
+  readonly pastilleParentAutreFamille: string;
+  readonly parFamille: string;
+  readonly parEpoque: string;
+  readonly aucunCommentaireSignale: string;
+  readonly seConnecterDiscussion: string;
+  readonly proposerUneTrack: string;
+  readonly signalerUneCorrection: string;
+  readonly lienConnexionPartiVers: string;
+  readonly allerListeFamilles: string;
+  readonly chaineChronologiqueCourt: string;
+  readonly nonDisponibleSurCetteVersion: string;
+  readonly elleAjouteLesDecisions: string;
+  readonly lecteurPasCharge: string;
+  readonly seConnecterPourVoter: string;
+  readonly referenceEtablie: string;
+  readonly medianeDe: string;
+  readonly sourceIndiquee: string;
+  readonly reporteeDansLeCorpus: string;
+  readonly filtreSur: string;
+  readonly seDeconnecter: string;
+  readonly mettreAJour: string;
+  readonly plusTard: string;
+  readonly ecouterCourt: string;
+  readonly voirSurLaCarte: string;
+  readonly tuSaisDansQuelGenre: string;
+  readonly choisirGenreEtProposer: string;
+  readonly chercheLeGenreCiDessus: string;
+  readonly artistesSepares: string;
+  readonly stylesSepares: string;
+  readonly aujourdhuiOnglet: string;
+  readonly finDeSemaineOnglet: string;
+  readonly joursSuivantsOnglet: string;
+  readonly quandAujourdhui: string;
+  readonly quandWeekend: string;
+  readonly quandSuite: string;
+  readonly ledeCalendrier: string;
+  readonly changerDeVille: string;
+  readonly fermerCourt: string;
+  readonly tousLesStyles: string;
+  readonly lectureAgenda: string;
+  readonly lieuNonAnnonce: string;
+  readonly ajouteeALaMain: string;
+  readonly choisirTiret: string;
+  /** « 4 soirées aujourd’hui à Montréal. » Le pluriel n'est pas le meme
+      dans les deux langues, la phrase est donc construite ici. */
+  readonly compteurSoirees: (n: number, quand: string, ville: string, reste: string) => string;
+  readonly compteurRecherche: (n: number, quoi: string, ville: string) => string;
+  readonly lesNpremieres: (n: number) => string;
+  readonly styleAvecNombre: (n: number) => string;
+
+  /* ═══ L'INTERFACE, TRADUITE POUR DE VRAI ═══
+     Mika a teste en anglais et a vu ce qui restait en francais. Ces cent huit
+     libelles etaient ecrits en dur dans vingt-trois composants : le selecteur
+     de langue les traversait sans les voir. Ils passent tous par ici
+     maintenant, ce qui rend le controle de type utile : il devient impossible
+     d'en ajouter un dans une seule langue. */
+  readonly revenirAccueil: string;
+  readonly sonaaRevenirAccueil: string;
+  readonly chercherUnGenreCourt: string;
+  readonly chercherGenreArbre: string;
+  readonly sonaaRevenirAtlas: string;
+  readonly revenirAtlasCourt: string;
+  readonly remonterNiveau: string;
+  readonly deployerChemin: string;
+  readonly replierChemin: string;
+  readonly controlesNavigation: string;
+  readonly chercherGenreArtisteLabel: string;
+  readonly zoomArriere: string;
+  readonly zoomArriereTouche: string;
+  readonly ouvrirIndex: string;
+  readonly aideChercher: string;
+  readonly aideOuvrirGenre: string;
+  readonly aideSeDeplacer: string;
+  readonly aideRemonter: string;
+  readonly aideVueEnsemble: string;
+  readonly aideOuvrirDerives: string;
+  readonly chercherSalleArtisteSoiree: string;
+  readonly chercherDansAffichees: string;
+  readonly unInstant: string;
+  readonly choisissezVille: string;
+  readonly unJour: string;
+  readonly surTroisMois: string;
+  readonly votreProfil: string;
+  readonly ilsNeCouvrentPasTout: string;
+  readonly parentAutreFamille: string;
+  readonly chaineChronologique: string;
+  readonly ouvrirTracksEtFiche: string;
+  readonly filiationDebattue: string;
+  readonly identifiantDuGenre: string;
+  readonly commentairesSignales: string;
+  readonly fermerRouvrirCommentaires: string;
+  readonly lectureDeLaFile: string;
+  readonly masqueCourt: string;
+  readonly placeholderCommentaire: string;
+  readonly ecrireUnMessage: string;
+  readonly desapprouver: string;
+  readonly commentairesFermes: string;
+  readonly personneNaEcrit: string;
+  readonly messageRetire: string;
+  readonly aSoutenirOuContester: string;
+  readonly nomSurLaSortie: string;
+  readonly surQuoiVousAppuyez: string;
+  readonly lesPropositionsEnAttente: string;
+  readonly ceQuiDoitChanger: string;
+  readonly ceQuiDevraitEtreEcrit: string;
+  readonly leGenreDontIlDescend: string;
+  readonly choisirUnGenre: string;
+  readonly votreAdresse: string;
+  readonly neeDe: string;
+  readonly aDonne: string;
+  readonly revenirNavigation: string;
+  readonly genresDansLeTemps: string;
+  readonly moderation: string;
+  readonly revenirAccueilTexte: string;
+  readonly lesPropositions: string;
+  readonly laPageDesPropositions: string;
+  readonly accepterNePublieRien: string;
+  readonly laFileEstVide: string;
+  readonly rouvrirLecteur: string;
+  readonly reglerLargeurColonne: string;
+  readonly fermerLecteur: string;
+  readonly ouvrirLecteur: string;
+  readonly precedente: string;
+  readonly positionDansLaTrack: string;
+  readonly ouvrirSurYoutube: string;
+  readonly reduireLecteur: string;
+  readonly rouvrirColonneGenre: string;
+  readonly arreter: string;
+  readonly filiationDebattueMinuscule: string;
+  readonly ficheARelire: string;
+  readonly auditeursLastfm: string;
+  readonly peuDocumenteLastfm: string;
+  readonly ficheEnBrouillon: string;
+  readonly sansLabelFondateur: string;
+  readonly aucunNeProduitPlus: string;
+  readonly artistesCles: string;
+  readonly conventionArbre: string;
+  readonly rienUneFeuille: string;
+  readonly charnieres: string;
+  readonly aussiRevendiquee: string;
+  readonly aussiAppele: string;
+  readonly votreVille: string;
+  readonly aucuneVilleEnregistree: string;
+  readonly soutenirProposition: string;
+  readonly contesterProposition: string;
+  readonly noteModerationFacultative: string;
+  readonly noteModeration: string;
+  readonly votreProposition: string;
+  readonly proposeLe: string;
+  readonly propositionAccepteeNentrePas: string;
+  readonly voirTousLesGenres: string;
+  readonly fileDeModeration: string;
+  readonly lectureDesPropositions: string;
+  readonly nouvelleVersionPrete: string;
+  readonly installerSonaa: string;
+  readonly surEcranAccueil: string;
+  readonly revenirRecherche: string;
+  readonly chercherGenreArtisteTrackLabel: string;
+  readonly morceauPasDansAtlas: string;
+  readonly rienNeCorrespond: string;
+  readonly soireesAjouteesMain: string;
+  readonly lesQuatorzeFamilles: string;
+  readonly choisirLaVue: string;
+  readonly cliquezUneVue: string;
   readonly enFrancais: string;
   readonly enAnglais: string;
   readonly chemin: string;
@@ -337,6 +505,168 @@ const FR: Dictionnaire = {
   choixDeLangue: 'Langue de l’interface',
   passerAuClair: 'Passer au thème clair',
   passerAuSombre: 'Passer au thème sombre',
+  echap: "Échap",
+  moderationMenu: "Modération",
+  deconnexion: "Déconnexion",
+  reessayer: "Réessayer",
+  pastilleParentAutreFamille: "Une pastille signale un parent d'une autre famille",
+  parFamille: "Par famille",
+  parEpoque: "Par époque",
+  aucunCommentaireSignale: "Aucun commentaire signalé. La file ne montre que les messages signalés ou masqués.",
+  seConnecterDiscussion: "Se connecter pour participer à la discussion",
+  proposerUneTrack: "Proposer une track",
+  signalerUneCorrection: "Signaler une correction",
+  lienConnexionPartiVers: "Un lien de connexion vient de partir vers",
+  allerListeFamilles: "Aller à la liste des familles",
+  chaineChronologiqueCourt: "Chaîne chronologique",
+  nonDisponibleSurCetteVersion: "Non disponible sur cette version du site.",
+  elleAjouteLesDecisions: ", elle ajoute les décisions.",
+  lecteurPasCharge: "Le lecteur YouTube n’a pas pu se charger. La pochette reste affichée.",
+  seConnecterPourVoter: "Se connecter pour voter et proposer des morceaux",
+  referenceEtablie: "une référence établie",
+  medianeDe: "médiane de",
+  sourceIndiquee: "source indiquée",
+  reporteeDansLeCorpus: "Reportée dans le corpus",
+  filtreSur: "Filtré sur",
+  seDeconnecter: "Se déconnecter",
+  mettreAJour: "Mettre à jour",
+  plusTard: "Plus tard",
+  ecouterCourt: "Écouter",
+  voirSurLaCarte: "Voir sur la carte",
+  tuSaisDansQuelGenre: "Tu sais dans quel genre il va ? Propose-le, on le relira.",
+  choisirGenreEtProposer: "Choisir le genre et proposer",
+  chercheLeGenreCiDessus: "Cherche le genre ci-dessus, ouvre-le, puis « Proposer une track ».",
+  artistesSepares: "Artistes, séparés par des virgules",
+  stylesSepares: "Styles, séparés par des virgules",
+  aujourdhuiOnglet: "Aujourd’hui",
+  finDeSemaineOnglet: "Fin de semaine",
+  joursSuivantsOnglet: "Les jours suivants",
+  quandAujourdhui: "aujourd’hui",
+  quandWeekend: "en fin de semaine",
+  quandSuite: "dans les jours qui viennent",
+  ledeCalendrier: "Ce qui se joue dans votre ville, dans les styles que vous suivez. Les soirées viennent de Resident Advisor, de Shotgun et de saisies à la main ; chaque titre renvoie à sa source, et la pastille dit laquelle.",
+  changerDeVille: "Changer de ville",
+  fermerCourt: "Fermer",
+  tousLesStyles: "Tous les styles",
+  lectureAgenda: "Lecture de l’agenda…",
+  lieuNonAnnonce: "Lieu non annoncé",
+  ajouteeALaMain: "ajoutée à la main",
+  choisirTiret: "Choisir…",
+  compteurSoirees: (n, quand, ville, reste) =>
+    `${n} soirée${n > 1 ? 's' : ''} ${quand} à ${ville}${reste}.`,
+  compteurRecherche: (n, quoi, ville) =>
+    `${n} soirée${n > 1 ? 's' : ''} pour « ${quoi} » à ${ville}, sur les trois prochains mois.`,
+  lesNpremieres: (n) => `, les ${n} premières`,
+  styleAvecNombre: (n) => `Styles (${n})`,
+
+  revenirAccueil: "Revenir à l’accueil",
+  sonaaRevenirAccueil: "SONAA, revenir à l’accueil",
+  chercherUnGenreCourt: "Chercher un genre",
+  chercherGenreArbre: "Chercher un genre dans l’arbre",
+  sonaaRevenirAtlas: "SONAA, revenir à la vue Atlas",
+  revenirAtlasCourt: "Revenir à l’Atlas",
+  remonterNiveau: "Remonter d’un niveau",
+  deployerChemin: "Déployer le chemin complet",
+  replierChemin: "Replier le chemin",
+  controlesNavigation: "Contrôles de navigation",
+  chercherGenreArtisteLabel: "Chercher un genre, un artiste, un label",
+  zoomArriere: "Zoom arrière",
+  zoomArriereTouche: "Zoom arrière (-)",
+  ouvrirIndex: "Ouvrir l’index, navigation complète des familles et des genres",
+  aideChercher: "chercher un genre, un artiste, un label",
+  aideOuvrirGenre: "ouvrir un genre, ses tracks et ses dérivés",
+  aideSeDeplacer: "se déplacer",
+  aideRemonter: "remonter d’un niveau",
+  aideVueEnsemble: "revenir à la vue d’ensemble",
+  aideOuvrirDerives: "ouvrir un genre et ses dérivés",
+  chercherSalleArtisteSoiree: "Chercher une salle, un artiste, une soirée",
+  chercherDansAffichees: "Chercher dans les soirées affichées",
+  unInstant: "Un instant…",
+  choisissezVille: "Choisissez une ville.",
+  unJour: "Un jour",
+  surTroisMois: "sur les trois prochains mois",
+  votreProfil: "votre profil",
+  ilsNeCouvrentPasTout: "Ils ne couvrent pas tout",
+  parentAutreFamille: "Parent d’une autre famille",
+  chaineChronologique: "Chaîne chronologique",
+  ouvrirTracksEtFiche: "Ouvrir les tracks et la fiche du genre",
+  filiationDebattue: "Filiation débattue",
+  identifiantDuGenre: "identifiant du genre, par exemple dubtechno",
+  commentairesSignales: "Commentaires signalés",
+  fermerRouvrirCommentaires: "Fermer ou rouvrir les commentaires d’un genre",
+  lectureDeLaFile: "Lecture de la file…",
+  masqueCourt: "masqué",
+  placeholderCommentaire: "Ce que tu sais de ce genre, ce que tu écoutes.",
+  ecrireUnMessage: "Écrire un message",
+  desapprouver: "Désapprouver",
+  commentairesFermes: "Les commentaires sont fermés sur ce genre.",
+  personneNaEcrit: "Personne n’a encore écrit sur ce genre.",
+  messageRetire: "Message retiré par la modération.",
+  aSoutenirOuContester: "à soutenir ou contester",
+  nomSurLaSortie: "Nom tel qu’il figure sur la sortie",
+  surQuoiVousAppuyez: "Sur quoi vous appuyez-vous ? Une pochette, une interview, une date de sortie, une écoute.",
+  lesPropositionsEnAttente: "les propositions en attente",
+  ceQuiDoitChanger: "Ce qui doit changer",
+  ceQuiDevraitEtreEcrit: "Ce qui devrait être écrit",
+  leGenreDontIlDescend: "Le genre dont il descend, selon vous",
+  choisirUnGenre: "Choisir un genre…",
+  votreAdresse: "Votre adresse",
+  neeDe: "Née de",
+  aDonne: "A donné",
+  revenirNavigation: "Revenir a la navigation",
+  genresDansLeTemps: "les genres dans le temps, par famille",
+  moderation: "Modération",
+  revenirAccueilTexte: "Revenir à l’accueil",
+  lesPropositions: "les propositions",
+  laPageDesPropositions: "la page des propositions",
+  accepterNePublieRien: "Accepter ne publie rien",
+  laFileEstVide: "La file est vide.",
+  rouvrirLecteur: "Rouvrir le lecteur",
+  reglerLargeurColonne: "Régler la largeur de la colonne, flèches gauche et droite",
+  fermerLecteur: "Fermer le lecteur",
+  ouvrirLecteur: "Ouvrir le lecteur",
+  precedente: "Précédente",
+  positionDansLaTrack: "Position dans la track",
+  ouvrirSurYoutube: "Ouvrir sur YouTube",
+  reduireLecteur: "Réduire le lecteur",
+  rouvrirColonneGenre: "Rouvrir la colonne du genre",
+  arreter: "Arrêter",
+  filiationDebattueMinuscule: "filiation débattue",
+  ficheARelire: "fiche à relire",
+  auditeursLastfm: "auditeurs sur Last.fm",
+  peuDocumenteLastfm: "peu documenté sur Last.fm",
+  ficheEnBrouillon: "fiche en brouillon, à relire",
+  sansLabelFondateur: "sans label fondateur identifié",
+  aucunNeProduitPlus: "aucun, le genre ne produit plus",
+  artistesCles: "Artistes clés",
+  conventionArbre: "par convention d’arbre, ce n’est pas une filiation",
+  rienUneFeuille: "rien, c’est une feuille",
+  charnieres: "Charnières",
+  aussiRevendiquee: "aussi revendiquée par",
+  aussiAppele: "Aussi appelé",
+  votreVille: "Votre ville",
+  aucuneVilleEnregistree: "Aucune ville enregistrée.",
+  soutenirProposition: "Soutenir cette proposition",
+  contesterProposition: "Contester cette proposition",
+  noteModerationFacultative: "Note de modération, facultative",
+  noteModeration: "Note de modération",
+  votreProposition: "votre proposition",
+  proposeLe: "Proposé :",
+  propositionAccepteeNentrePas: "Une proposition acceptée n’entre pas d’elle-même dans l’atlas",
+  voirTousLesGenres: "Voir tous les genres",
+  fileDeModeration: "File de modération",
+  lectureDesPropositions: "Lecture des propositions…",
+  nouvelleVersionPrete: "Une nouvelle version de l’atlas est prête.",
+  installerSonaa: "Installer SONAA pour l’ouvrir hors ligne, sans barre de navigateur.",
+  surEcranAccueil: "Sur l’écran d’accueil",
+  revenirRecherche: "Revenir à la recherche",
+  chercherGenreArtisteTrackLabel: "Chercher un genre, un artiste, un track ou un label",
+  morceauPasDansAtlas: "Ce morceau n’est pas encore dans l’atlas.",
+  rienNeCorrespond: "Rien ne correspond.",
+  soireesAjouteesMain: "Soirées ajoutées à la main",
+  lesQuatorzeFamilles: "Les quatorze familles",
+  choisirLaVue: "Choisir la vue",
+  cliquezUneVue: "Cliquez une vue pour entrer dans la carte :",
   enFrancais: 'Afficher l’interface en français',
   enAnglais: 'Afficher l’interface en anglais',
   chemin: 'Chemin',
@@ -539,10 +869,173 @@ const EN: Dictionnaire = {
   choixDeLangue: 'Interface language',
   passerAuClair: 'Switch to the light theme',
   passerAuSombre: 'Switch to the dark theme',
+  echap: "Esc",
+  moderationMenu: "Moderation",
+  deconnexion: "Sign out",
+  reessayer: "Try again",
+  pastilleParentAutreFamille: "A dot marks a parent from another family",
+  parFamille: "By family",
+  parEpoque: "By era",
+  aucunCommentaireSignale: "No reported comment. The queue only shows messages that were reported or hidden.",
+  seConnecterDiscussion: "Sign in to join the discussion",
+  proposerUneTrack: "Suggest a track",
+  signalerUneCorrection: "Report a correction",
+  lienConnexionPartiVers: "A sign-in link has just been sent to",
+  allerListeFamilles: "Go to the list of families",
+  chaineChronologiqueCourt: "Chronological chain",
+  nonDisponibleSurCetteVersion: "Not available on this build of the site.",
+  elleAjouteLesDecisions: ", it adds the decisions.",
+  lecteurPasCharge: "The YouTube player could not load. The sleeve stays on screen.",
+  seConnecterPourVoter: "Sign in to vote and suggest tracks",
+  referenceEtablie: "an established reference",
+  medianeDe: "median of",
+  sourceIndiquee: "source given",
+  reporteeDansLeCorpus: "Carried into the corpus",
+  filtreSur: "Filtered on",
+  seDeconnecter: "Sign out",
+  mettreAJour: "Update",
+  plusTard: "Later",
+  ecouterCourt: "Listen",
+  voirSurLaCarte: "See on the map",
+  tuSaisDansQuelGenre: "Do you know which genre it belongs to? Suggest it, we will review it.",
+  choisirGenreEtProposer: "Pick the genre and suggest",
+  chercheLeGenreCiDessus: "Find the genre above, open it, then use “Suggest a track”.",
+  artistesSepares: "Artists, separated by commas",
+  stylesSepares: "Styles, separated by commas",
+  aujourdhuiOnglet: "Today",
+  finDeSemaineOnglet: "This weekend",
+  joursSuivantsOnglet: "The days ahead",
+  quandAujourdhui: "today",
+  quandWeekend: "this weekend",
+  quandSuite: "in the days ahead",
+  ledeCalendrier: "What is on in your city, in the styles you follow. Nights come from Resident Advisor, from Shotgun and from entries made by hand; every title links back to its source, and the badge says which one.",
+  changerDeVille: "Change city",
+  fermerCourt: "Close",
+  tousLesStyles: "Every style",
+  lectureAgenda: "Loading the listings…",
+  lieuNonAnnonce: "Venue not announced",
+  ajouteeALaMain: "added by hand",
+  choisirTiret: "Pick…",
+  compteurSoirees: (n, quand, ville, reste) =>
+    `${n} night${n > 1 ? 's' : ''} ${quand} in ${ville}${reste}.`,
+  compteurRecherche: (n, quoi, ville) =>
+    `${n} night${n > 1 ? 's' : ''} for “${quoi}” in ${ville}, over the next three months.`,
+  lesNpremieres: (n) => `, the first ${n}`,
+  styleAvecNombre: (n) => `Styles (${n})`,
+
+  revenirAccueil: "Back to the home page",
+  sonaaRevenirAccueil: "SONAA, back to the home page",
+  chercherUnGenreCourt: "Search a genre",
+  chercherGenreArbre: "Search a genre in the tree",
+  sonaaRevenirAtlas: "SONAA, back to the Atlas view",
+  revenirAtlasCourt: "Back to the Atlas",
+  remonterNiveau: "Up one level",
+  deployerChemin: "Show the full path",
+  replierChemin: "Collapse the path",
+  controlesNavigation: "Navigation controls",
+  chercherGenreArtisteLabel: "Search a genre, an artist, a label",
+  zoomArriere: "Zoom out",
+  zoomArriereTouche: "Zoom out (-)",
+  ouvrirIndex: "Open the index, full navigation of families and genres",
+  aideChercher: "search a genre, an artist, a label",
+  aideOuvrirGenre: "open a genre, its tracks and its offshoots",
+  aideSeDeplacer: "move around",
+  aideRemonter: "up one level",
+  aideVueEnsemble: "back to the overview",
+  aideOuvrirDerives: "open a genre and its offshoots",
+  chercherSalleArtisteSoiree: "Search a venue, an artist, a night",
+  chercherDansAffichees: "Search within the nights shown",
+  unInstant: "One moment…",
+  choisissezVille: "Pick a city.",
+  unJour: "A day",
+  surTroisMois: "over the next three months",
+  votreProfil: "your profile",
+  ilsNeCouvrentPasTout: "They do not cover everything",
+  parentAutreFamille: "Parent from another family",
+  chaineChronologique: "Chronological chain",
+  ouvrirTracksEtFiche: "Open the tracks and the genre page",
+  filiationDebattue: "Disputed lineage",
+  identifiantDuGenre: "genre identifier, for example dubtechno",
+  commentairesSignales: "Reported comments",
+  fermerRouvrirCommentaires: "Close or reopen comments on a genre",
+  lectureDeLaFile: "Loading the queue…",
+  masqueCourt: "hidden",
+  placeholderCommentaire: "What you know about this genre, what you listen to.",
+  ecrireUnMessage: "Write a message",
+  desapprouver: "Downvote",
+  commentairesFermes: "Comments are closed on this genre.",
+  personneNaEcrit: "Nobody has written about this genre yet.",
+  messageRetire: "Message removed by moderation.",
+  aSoutenirOuContester: "to support or dispute",
+  nomSurLaSortie: "Name as it appears on the release",
+  surQuoiVousAppuyez: "What are you basing this on? A sleeve, an interview, a release date, a listen.",
+  lesPropositionsEnAttente: "the pending proposals",
+  ceQuiDoitChanger: "What should change",
+  ceQuiDevraitEtreEcrit: "What it should say",
+  leGenreDontIlDescend: "The genre it comes from, in your view",
+  choisirUnGenre: "Pick a genre…",
+  votreAdresse: "Your email",
+  neeDe: "Born from",
+  aDonne: "Led to",
+  revenirNavigation: "Back to navigation",
+  genresDansLeTemps: "genres over time, by family",
+  moderation: "Moderation",
+  revenirAccueilTexte: "Back to the home page",
+  lesPropositions: "the proposals",
+  laPageDesPropositions: "the proposals page",
+  accepterNePublieRien: "Accepting publishes nothing",
+  laFileEstVide: "The queue is empty.",
+  rouvrirLecteur: "Reopen the player",
+  reglerLargeurColonne: "Adjust the column width, left and right arrows",
+  fermerLecteur: "Close the player",
+  ouvrirLecteur: "Open the player",
+  precedente: "Previous",
+  positionDansLaTrack: "Position in the track",
+  ouvrirSurYoutube: "Open on YouTube",
+  reduireLecteur: "Shrink the player",
+  rouvrirColonneGenre: "Reopen the genre column",
+  arreter: "Stop",
+  filiationDebattueMinuscule: "disputed lineage",
+  ficheARelire: "page to review",
+  auditeursLastfm: "listeners on Last.fm",
+  peuDocumenteLastfm: "thinly documented on Last.fm",
+  ficheEnBrouillon: "draft page, to review",
+  sansLabelFondateur: "no founding label identified",
+  aucunNeProduitPlus: "none, the genre is no longer active",
+  artistesCles: "Key artists",
+  conventionArbre: "a tree convention, not a lineage",
+  rienUneFeuille: "nothing, it is a leaf",
+  charnieres: "Turning points",
+  aussiRevendiquee: "also claimed by",
+  aussiAppele: "Also called",
+  votreVille: "Your city",
+  aucuneVilleEnregistree: "No city saved.",
+  soutenirProposition: "Support this proposal",
+  contesterProposition: "Dispute this proposal",
+  noteModerationFacultative: "Moderation note, optional",
+  noteModeration: "Moderation note",
+  votreProposition: "your proposal",
+  proposeLe: "Proposed:",
+  propositionAccepteeNentrePas: "An accepted proposal does not enter the atlas by itself",
+  voirTousLesGenres: "See every genre",
+  fileDeModeration: "Moderation queue",
+  lectureDesPropositions: "Loading proposals…",
+  nouvelleVersionPrete: "A new version of the atlas is ready.",
+  installerSonaa: "Install SONAA to open it offline, without a browser bar.",
+  surEcranAccueil: "On the home screen",
+  revenirRecherche: "Back to the search",
+  chercherGenreArtisteTrackLabel: "Search a genre, an artist, a track or a label",
+  morceauPasDansAtlas: "This track is not in the atlas yet.",
+  rienNeCorrespond: "Nothing matches.",
+  soireesAjouteesMain: "Nights added by hand",
+  lesQuatorzeFamilles: "The fourteen families",
+  choisirLaVue: "Pick the view",
+  cliquezUneVue: "Click a view to enter the map:",
   enFrancais: 'Show the interface in French',
   enAnglais: 'Show the interface in English',
   chemin: 'Path',
-  texteEnFrancais: 'Genre texts are written in French and are not machine translated.',
+  texteEnFrancais:
+    'The texts of this atlas are written in French and are not machine translated. The interface is in English.',
   machines: 'Machines',
   sonorites: 'Sound',
   labels: 'Labels',

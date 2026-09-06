@@ -15,6 +15,7 @@ import { contributionsActives } from '../lib/config.ts';
 import { compterEnAttenteLeger } from '../lib/compte.ts';
 import type { ProposalKind } from '../lib/proposals.ts';
 import './contribute.css';
+import { t } from '../langue/langue.ts';
 
 const ContributeDialog = lazy(() =>
   import('./ContributeDialog.tsx').then((m) => ({ default: m.ContributeDialog }))
@@ -87,10 +88,10 @@ export function ContributeActions({ genreId, genreLabel, filiationDebattue }: Pr
       <h4>Contribuer</h4>
       <div className="contrib-actions-liste">
         <button className="contrib-bouton" onClick={() => setOuverte('track')}>
-          Proposer une track
+          {t.proposerUneTrack}
         </button>
         <button className="contrib-bouton" onClick={() => setOuverte('genre_edit')}>
-          Signaler une correction
+          {t.signalerUneCorrection}
         </button>
         {filiationDebattue && (
           <button className="contrib-bouton" onClick={() => setOuverte('filiation')}>
@@ -104,7 +105,7 @@ export function ContributeActions({ genreId, genreLabel, filiationDebattue }: Pr
           {enAttente === 1
             ? '1 proposition en attente sur ce genre, '
             : `${enAttente} propositions en attente sur ce genre, `}
-          <a href={`#/propositions?genre=${genreId}`}>à soutenir ou contester</a>.
+          <a href={`#/propositions?genre=${genreId}`}>{t.aSoutenirOuContester}</a>.
         </span>
       )}
 

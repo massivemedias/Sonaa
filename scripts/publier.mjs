@@ -70,6 +70,10 @@ const CONTROLES = [
   ['superposition', 'npm run check:superposition --silent'],
   ['genres RA', 'npm run check:genresra --silent'],
   ['accents', 'npm run check:accents --silent'],
+  /* LA LANGUE : aucun libelle francais rendu hors du dictionnaire. Il est
+     entre dans la liste le jour ou Mika a bascule le site en anglais et
+     trouve du francais partout, alors que le selecteur, lui, fonctionnait. */
+  ['langue', 'npm run check:langue --silent'],
   ['tests', 'npm test --silent'],
   ['construction', 'npm run build --silent']
 ];

@@ -20,6 +20,7 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FaIcon } from './FaIcon.tsx';
 import { SiteNav } from './SiteNav.tsx';
 import './accordeon.css';
+import { t } from '../langue/langue.ts';
 
 interface Props {
   /** Ouvre la fiche du genre, comme les autres vues secondaires. */
@@ -120,10 +121,10 @@ export function AccordeonView({ onOpen }: Props) {
     <div className="ac">
       <div className="ac-chrome">
       <nav className="ac-fil" aria-label="Chemin">
-        <a className="ac-retour" href="#/" aria-label="Revenir à l'accueil">
+        <a className="ac-retour" href="#/" aria-label={t.revenirAccueil}>
           <FaIcon icon={faChevronLeft} />
         </a>
-        <a className="ac-logo" href="#/" aria-label="SONAA, revenir à l'accueil">
+        <a className="ac-logo" href="#/" aria-label={t.sonaaRevenirAccueil}>
           <img src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`} alt="SONAA" draggable={false} />
         </a>
         <span className="ac-titre">L&apos;arbre</span>
@@ -132,8 +133,8 @@ export function AccordeonView({ onOpen }: Props) {
           type="search"
           value={filtre}
           onChange={(e) => setFiltre(e.target.value)}
-          placeholder="Chercher un genre"
-          aria-label="Chercher un genre dans l'arbre"
+          placeholder={t.chercherUnGenreCourt}
+          aria-label={t.chercherGenreArbre}
         />
       </nav>
       <SiteNav variant="overlay" />

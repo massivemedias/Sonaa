@@ -29,6 +29,7 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FaIcon } from './FaIcon.tsx';
 import { SiteNav } from './SiteNav.tsx';
 import './heatmap.css';
+import { t } from '../langue/langue.ts';
 
 interface Props {
   /** Ouvre la fiche du genre, comme les autres vues. */
@@ -365,7 +366,7 @@ export function HeatmapView({ onOpen }: Props) {
         </button>
         {/* LE LOGO EST PRESENT PARTOUT AILLEURS DANS LE PRODUIT, il manquait
             ici seul. Il ramene a l'atlas, comme sur toutes les autres pages. */}
-        <a className="hm-logo" href="#/" aria-label="SONAA, revenir à l'accueil">
+        <a className="hm-logo" href="#/" aria-label={t.sonaaRevenirAccueil}>
           <img src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`} alt="SONAA" draggable={false} />
         </a>
         <button className="hm-crumb" onClick={() => setChemin([])} disabled={chemin.length === 0}>

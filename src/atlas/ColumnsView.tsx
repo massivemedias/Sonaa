@@ -14,6 +14,7 @@
 import { useMemo } from 'react';
 import { FAMILIES, FAMILY_RING_IDS, STRUCTURES, type Genre } from './structures.ts';
 import './columns-view.css';
+import { t } from '../langue/langue.ts';
 
 interface Props {
   /** Le clic ouvre directement la colonne de tracks du genre. */
@@ -70,12 +71,12 @@ function FamilyBlock({
             <button
               className="tv-name"
               onClick={() => onOpen(familyIndex, local)}
-              title="Ouvrir les tracks et la fiche du genre"
+              title={t.ouvrirTracksEtFiche}
             >
               {genre.label}
             </button>
             {genre.confidence === 'debated' && (
-              <span className="tv-debated" title="Filiation débattue">?</span>
+              <span className="tv-debated" title={t.filiationDebattue}>?</span>
             )}
             {genre.bpmRange && (
               <span className="tv-bpm">{genre.bpmRange[0]}-{genre.bpmRange[1]}</span>

@@ -16,6 +16,7 @@ import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import './credits.css';
 import './contribute.css';
+import { t } from '../langue/langue.ts';
 
 type Filtre = ProposalStatus | 'toutes';
 
@@ -87,7 +88,7 @@ export function PropositionsPage() {
         <div className="credits-body">
           <p>
             Les propositions ne sont pas disponibles sur cette version du site. L&apos;atlas,
-            lui, fonctionne entièrement. <a href="#/">Revenir à l&apos;accueil</a>.
+            lui, fonctionne entièrement. <a href="#/">{t.revenirAccueilTexte}</a>.
           </p>
         </div>
         </main>
@@ -115,14 +116,14 @@ export function PropositionsPage() {
         <p>
           Ce que le public propose d&apos;ajouter ou de corriger. Chacun peut soutenir ou
           contester ; le score oriente la décision, il ne la prend pas.{' '}
-          <strong>Une proposition acceptée n&apos;entre pas d&apos;elle-même dans l&apos;atlas</strong> :
+          <strong>{t.propositionAccepteeNentrePas}</strong> :
           elle est reportée à la main dans le corpus, avec ses sources, comme tout le reste.
         </p>
 
         {genreFiltre && (
           <p>
-            Filtré sur <strong>{LABEL_DE_GENRE.get(genreFiltre) ?? genreFiltre}</strong>.{' '}
-            <a href="#/propositions">Voir tous les genres</a>.
+            {t.filtreSur} <strong>{LABEL_DE_GENRE.get(genreFiltre) ?? genreFiltre}</strong>.{' '}
+            <a href="#/propositions">{t.voirTousLesGenres}</a>.
           </p>
         )}
 
@@ -142,14 +143,14 @@ export function PropositionsPage() {
                 ? ` sous le pseudonyme ${fil.pseudonyme}`
                 : ''}
             {fil.moderateur ? ', modérateur' : ''}.{' '}
-            {fil.moderateur && <a href="#/moderation">File de modération</a>}{' '}
+            {fil.moderateur && <a href="#/moderation">{t.fileDeModeration}</a>}{' '}
             <button
               className="contrib-bouton"
               onClick={() => {
                 void seDeconnecter();
               }}
             >
-              Se déconnecter
+              {t.seDeconnecter}
             </button>
           </p>
         )}
@@ -174,7 +175,7 @@ export function PropositionsPage() {
         )}
 
         {fil.chargement ? (
-          <p className="prop-vide">Lecture des propositions…</p>
+          <p className="prop-vide">{t.lectureDesPropositions}</p>
         ) : fil.propositions.length === 0 ? (
           <p className="prop-vide">
             {filtre === 'pending'

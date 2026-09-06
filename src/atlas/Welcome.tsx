@@ -6,6 +6,7 @@
 
 import { FAMILIES } from './structures.ts';
 import type { ViewId } from './AtlasPage.tsx';
+import { t } from '../langue/langue.ts';
 
 interface Props {
   views: { id: ViewId; label: string; hint: string }[];
@@ -57,7 +58,7 @@ export function Welcome({ views, current, onDismiss }: Props) {
           <p className="welcome-signature">{SIGNATURE}</p>
         </div>
 
-        <ul className="welcome-families" aria-label="Les quatorze familles">
+        <ul className="welcome-families" aria-label={t.lesQuatorzeFamilles}>
           {FAMILIES.map((f) => (
             <li key={f.id}>
               <span
@@ -70,8 +71,8 @@ export function Welcome({ views, current, onDismiss }: Props) {
           ))}
         </ul>
 
-        <p className="welcome-choose">Cliquez une vue pour entrer dans la carte :</p>
-        <div className="welcome-views" role="group" aria-label="Choisir la vue">
+        <p className="welcome-choose">{t.cliquezUneVue}</p>
+        <div className="welcome-views" role="group" aria-label={t.choisirLaVue}>
           {views.map((v) => (
             <button
               key={v.id}

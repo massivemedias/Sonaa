@@ -21,6 +21,7 @@ import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import './credits.css';
 import './contribute.css';
+import { t } from '../langue/langue.ts';
 
 export function ModerationPage() {
   const fil = useFil({ statut: 'pending' });
@@ -42,11 +43,11 @@ export function ModerationPage() {
         <EnTeteSite />
         <main className="credits">
           <header className="credits-head">
-            <h1>Modération</h1>
+            <h1>{t.moderation}</h1>
           </header>
           <div className="credits-body">
             <p>
-              Non disponible sur cette version du site. <a href="#/">Revenir à l&apos;accueil</a>.
+              {t.nonDisponibleSurCetteVersion} <a href="#/">{t.revenirAccueilTexte}</a>.
             </p>
           </div>
         </main>
@@ -65,24 +66,24 @@ export function ModerationPage() {
 
       <header className="credits-head">
         {/* PLUS DE LOGO ICI : la barre du haut en porte un. */}
-        <h1>Modération</h1>
+        <h1>{t.moderation}</h1>
       </header>
 
       <div id="moderation-contenu" className="credits-body">
         {!fil.connecte ? (
           <p className="prop-vide">
             Cette page demande une connexion. Elle ne montre rien de plus que{' '}
-            <a href="#/propositions">les propositions</a>, elle ajoute les décisions.
+            <a href="#/propositions">{t.lesPropositions}</a>{t.elleAjouteLesDecisions}
           </p>
         ) : !fil.moderateur ? (
           <p className="prop-vide">
             Votre compte n&apos;est pas modérateur. La file ci-dessous est de toute façon
-            publique : elle est visible sur <a href="#/propositions">la page des propositions</a>.
+            publique : elle est visible sur <a href="#/propositions">{t.laPageDesPropositions}</a>.
           </p>
         ) : (
           <p>
             Les propositions en attente, la plus soutenue en tête.{' '}
-            <strong>Accepter ne publie rien</strong> : le corpus se modifie par commit, avec ses
+            <strong>{t.accepterNePublieRien}</strong> : le corpus se modifie par commit, avec ses
             sources. Marquez « reportée dans le corpus » une fois le travail réellement fait.
           </p>
         )}
@@ -94,9 +95,9 @@ export function ModerationPage() {
         )}
 
         {fil.chargement ? (
-          <p className="prop-vide">Lecture de la file…</p>
+          <p className="prop-vide">{t.lectureDeLaFile}</p>
         ) : file.length === 0 ? (
-          <p className="prop-vide">La file est vide.</p>
+          <p className="prop-vide">{t.laFileEstVide}</p>
         ) : (
           <>
             <p className="prop-meta">

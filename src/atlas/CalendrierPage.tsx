@@ -72,6 +72,14 @@ import {
 } from '../lib/fenetre-agenda.ts';
 import './credits.css';
 import './calendrier.css';
+import { langue, t } from '../langue/langue.ts';
+
+/* LES DATES SUIVENT LA LANGUE, ET C'EST LA MOITIE DU TRAVAIL DE TRADUCTION.
+   Une interface anglaise qui titre « Dimanche 6 Septembre » au-dessus de ses
+   cartes n'est pas traduite, elle est bilingue par accident. Le format
+   canadien est garde des deux cotes : jour avant mois, ce qui est aussi ce
+   que lit un anglophone d'ici. */
+const LOCALE = langue === 'fr' ? 'fr-CA' : 'en-CA';
 
 /* La famille d'un genre, pour pouvoir elargir a elle quand RA ne connait pas
    le style precis. Calculee une fois : STRUCTURES ne bouge pas. */
@@ -85,7 +93,7 @@ FAMILIES.forEach((f, i) => {
    une mention de qualite. Resident Advisor n'en a pas parce qu'il est le fond
    de la liste ; nommer le fond revient a le repeter trois cents fois. */
 const NOM_DE_SOURCE: Record<'main' | 'shotgun', string> = {
-  main: 'ajoutée à la main',
+  main: t.ajouteeALaMain,
   shotgun: 'Shotgun',
 };
 
@@ -100,9 +108,9 @@ const NOM_DE_SOURCE: Record<'main' | 'shotgun', string> = {
    deroulante a cote, parce qu'elle porte soixante entrees et qu'une rangee
    de soixante boutons n'est pas une rangee. */
 const VUES: readonly { cle: Vue; label: string }[] = [
-  { cle: 'aujourdhui', label: "Aujourd'hui" },
-  { cle: 'weekend', label: 'Fin de semaine' },
-  { cle: 'suite', label: 'Les jours suivants' },
+  { cle: 'aujourdhui', label: t.aujourdhuiOnglet },
+  { cle: 'weekend', label: t.finDeSemaineOnglet },
+  { cle: 'suite', label: t.joursSuivantsOnglet },
 ];
 
 /* Le jour se lit AUSSI dans le fuseau du lieu : une soiree berlinoise du
@@ -132,9 +140,9 @@ function jour(iso: string, fuseau: string): string {
     ...(nue ? {} : { timeZone: fuseau }),
   };
   try {
-    return new Intl.DateTimeFormat('fr-CA', options).format(d);
+    return new Intl.DateTimeFormat(LOCALE, options).format(d);
   } catch {
-    return new Intl.DateTimeFormat('fr-CA', {
+    return new Intl.DateTimeFormat(LOCALE, {
       weekday: 'long',
       day: 'numeric',
       month: 'long',
@@ -155,9 +163,9 @@ function jourCourt(iso: string, fuseau: string): string {
     ...(nue ? {} : { timeZone: fuseau }),
   };
   try {
-    return new Intl.DateTimeFormat('fr-CA', options).format(d);
+    return new Intl.DateTimeFormat(LOCALE, options).format(d);
   } catch {
-    return new Intl.DateTimeFormat('fr-CA', { weekday: 'short', day: 'numeric', month: 'short' }).format(d);
+    return new Intl.DateTimeFormat(LOCALE, { weekday: 'short', day: 'numeric', month: 'short' }).format(d);
   }
 }
 
@@ -389,12 +397,12 @@ export function CalendrierPage() {
      mois. Trois nombres tres differents sous la meme phrase. */
   const quand =
     vue === 'aujourdhui'
-      ? "aujourd'hui"
+      ? t.quandAujourdhui
       : vue === 'weekend'
-        ? 'en fin de semaine'
+        ? t.quandWeekend
         : vue === 'date' && dateChoisie
-          ? `le ${jour(dateChoisie, ville?.timezone ?? 'America/Toronto')}`
-          : 'dans les jours qui viennent';
+          ? `${langue === 'fr' ? 'le ' : 'on '}${jour(dateChoisie, ville?.timezone ?? 'America/Toronto')}`
+          : t.quandSuite;
 
   const enAttente = !prete && villes.length === 0;
 
@@ -407,26 +415,22 @@ export function CalendrierPage() {
         </a>
 
         <header className="credits-head">
-          <h1>Calendrier</h1>
-          <p className="credits-lede">
-            Ce qui se joue dans votre ville, dans les styles que vous suivez. Les soirées viennent
-            de Resident Advisor, de Shotgun et de saisies à la main ; chaque titre renvoie à sa
-            source, et la pastille dit laquelle.
-          </p>
+          <h1>{t.leCalendrier}</h1>
+          <p className="credits-lede">{t.ledeCalendrier}</p>
         </header>
 
         <div id="calendrier-contenu" className="credits-body">
           <div className="cal-barre">
             <div className="cal-ou">
               {enAttente ? (
-                <span className="cal-attente">Un instant…</span>
+                <span className="cal-attente">{t.unInstant}</span>
               ) : ville ? (
                 <>
                   <strong>{villeMontree}</strong>
                   <span className="cal-note">{situer(ville)}</span>
                 </>
               ) : (
-                <span className="cal-note">Choisissez une ville.</span>
+                <span className="cal-note">{t.choisissezVille}</span>
               )}
               {ville && (
                 <button
@@ -434,7 +438,7 @@ export function CalendrierPage() {
                   onClick={() => setOuvrirVilles((v) => !v)}
                   aria-expanded={ouvrirVilles}
                 >
-                  {ouvrirVilles ? 'Fermer' : 'Changer de ville'}
+                  {ouvrirVilles ? t.fermerCourt : t.changerDeVille}
                 </button>
               )}
             </div>
@@ -461,7 +465,7 @@ export function CalendrierPage() {
                     rangee ; et choisir une date EST une vue, donc la liste
                     bascule la vue en meme temps qu'elle pose le jour. */}
                 <label className={`cal-date${enRecherche ? ' cal-suspendu' : ''}`}>
-                  <span className="cal-date-mot">Un jour</span>
+                  <span className="cal-date-mot">{t.unJour}</span>
                   <select
                     value={vue === 'date' && dateChoisie ? dateChoisie : ''}
                     onChange={(e) => {
@@ -475,7 +479,7 @@ export function CalendrierPage() {
                       }
                     }}
                   >
-                    <option value="">Choisir…</option>
+                    <option value="">{t.choisirTiret}</option>
                     {joursProposes(new Date()).map((d) => (
                       <option key={cleDuJour(d)} value={cleDuJour(d)}>
                         {jour(cleDuJour(d), fuseau)}
@@ -510,10 +514,10 @@ export function CalendrierPage() {
                   aria-expanded={ouvrirStyles}
                 >
                   {ouvrirStyles
-                    ? 'Fermer'
+                    ? t.fermerCourt
                     : styles.length === 0
-                      ? 'Tous les styles'
-                      : `Styles (${styles.length})`}
+                      ? t.tousLesStyles
+                      : t.styleAvecNombre(styles.length)}
                 </button>
 
                 {styles.map((id) => (
@@ -550,14 +554,14 @@ export function CalendrierPage() {
               <input
                 type="search"
                 className="cal-chercher-champ"
-                placeholder="Chercher une salle, un artiste, une soirée"
+                placeholder={t.chercherSalleArtisteSoiree}
                 value={recherche}
                 onChange={(e) => setRecherche(e.target.value)}
-                aria-label="Chercher dans les soirées affichées"
+                aria-label={t.chercherDansAffichees}
               />
               {recherche.trim() !== '' && (
                 <>
-                  <span className="cal-note">sur les trois prochains mois</span>
+                  <span className="cal-note">{t.surTroisMois}</span>
                   <button className="cal-lien" onClick={() => setRecherche('')}>
                     Effacer
                   </button>
@@ -575,14 +579,14 @@ export function CalendrierPage() {
                 villes={villes}
                 choisie={ville}
                 onChoisir={choisirVille}
-                etiquette="Votre ville"
+                etiquette={t.votreVille}
                 autoFocus={ouvrirVilles}
               />
               {!ville && villes.length > 0 && (
                 <p className="cal-note">
                   SONAA connait {villes.length} villes. Le choix reste sur cette machine ; pour le
                   garder d&apos;un appareil à l&apos;autre, mettez-le dans{' '}
-                  <a href="#/profil">votre profil</a>.
+                  <a href="#/profil">{t.votreProfil}</a>.
                 </p>
               )}
             </div>
@@ -621,18 +625,18 @@ export function CalendrierPage() {
                   Resident Advisor ne répond pas. Ce n&apos;est pas une ville sans soirées :
                   c&apos;est la source qui est muette.{' '}
                   <button className="cal-lien" onClick={charger}>
-                    Réessayer
+                    {t.reessayer}
                   </button>
                 </p>
               ) : chargement ? (
-                <p className="cal-attente">Lecture de l&apos;agenda…</p>
+                <p className="cal-attente">{t.lectureAgenda}</p>
               ) : parJour.length === 0 ? (
                 <p className="cal-note">
                   {enRecherche ? (
                     <>
                       Rien qui corresponde à « {rechercheRetardee} » parmi les soirées que
                       Resident Advisor annonce à {ville.name} sur les trois prochains mois.{' '}
-                      <strong>Ils ne couvrent pas tout</strong> : une soirée qui passe de la
+                      <strong>{t.ilsNeCouvrentPasTout}</strong> : une soirée qui passe de la
                       techno sans se dire soirée techno peut leur échapper.
                     </>
                   ) : (
@@ -647,12 +651,13 @@ export function CalendrierPage() {
                 <>
                   <p className="cal-total">
                     {enRecherche && filtrees
-                      ? `${filtrees.length} soirée${filtrees.length > 1 ? 's' : ''} pour « ${rechercheRetardee} » à ${ville.name}, sur les trois prochains mois.`
-                      : `${total} soirée${total > 1 ? 's' : ''} ${quand} à ${ville.name}${
-                          soirees && total > soirees.length
-                            ? `, les ${soirees.length} premières`
-                            : ''
-                        }.`}
+                      ? t.compteurRecherche(filtrees.length, rechercheRetardee, ville.name)
+                      : t.compteurSoirees(
+                          total,
+                          quand,
+                          ville.name,
+                          soirees && total > soirees.length ? t.lesNpremieres(soirees.length) : ''
+                        )}
                   </p>
                   {/* ═══ UNE RECHERCHE NE SE RANGE PAS COMME UNE JOURNEE ═══
                    *
@@ -714,7 +719,7 @@ export function CalendrierPage() {
                                 {s.origine && s.origine !== 'ra' && (
                                   <span className="cal-origine">{NOM_DE_SOURCE[s.origine]}</span>
                                 )}
-                                {s.lieu ?? 'Lieu non annoncé'}
+                                {s.lieu ?? t.lieuNonAnnonce}
                               </span>
                             </span>
                           </li>
@@ -776,7 +781,7 @@ export function CalendrierPage() {
                                   {s.origine && s.origine !== 'ra' && (
                                     <span className="cal-origine">{NOM_DE_SOURCE[s.origine]}</span>
                                   )}
-                                  {s.lieu ?? 'Lieu non annoncé'}
+                                  {s.lieu ?? t.lieuNonAnnonce}
                                   {h ? ` · ${h}${sigle ? ` ${sigle}` : ''}` : ''}
                                 </p>
                                 {s.genres.length > 0 && (

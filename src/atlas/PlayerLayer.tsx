@@ -48,6 +48,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FaIcon } from './FaIcon.tsx';
 import './player-layer.css';
+import { t } from '../langue/langue.ts';
 
 export interface Playback {
   familyIndex: number;
@@ -926,7 +927,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
           className="pcol-rappel"
           onClick={() => setReduite(false)}
           aria-label={`Rouvrir le lecteur, ${panelGenreData.label}`}
-          title="Rouvrir le lecteur"
+          title={t.rouvrirLecteur}
         >
           <span className="pcol-rappel-nom">{panelGenreData.label}</span>
           <span aria-hidden="true">‹</span>
@@ -959,7 +960,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
               className="pcol-resize"
               role="separator"
               aria-orientation="vertical"
-              aria-label="Régler la largeur de la colonne, flèches gauche et droite"
+              aria-label={t.reglerLargeurColonne}
               tabIndex={0}
               onPointerDown={onResizeDown}
               onPointerMove={onResizeMove}
@@ -980,7 +981,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
               onPointerMove={onHandleMove}
               onPointerUp={onHandleUp}
               onClick={() => setSheetPos('bar')}
-              aria-label="Fermer le lecteur"
+              aria-label={t.fermerLecteur}
             >
               <FaIcon icon={faChevronDown} className="pcol-mini-glyphe" />
             </button>
@@ -1005,7 +1006,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
               <button
                 className="pcol-mini-ouvrir"
                 onClick={() => setSheetPos('half')}
-                aria-label="Ouvrir le lecteur"
+                aria-label={t.ouvrirLecteur}
               >
                 {/* UNE VIGNETTE DE VIDEO N'EST PAS UNE POCHETTE. Celles qui
                     viennent de YouTube portent le triangle rouge de lecture
@@ -1039,7 +1040,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                   site. Ils viennent desormais du meme jeu que la loupe et la
                   cible de la carte. */}
               <div className="pcol-mini-transport">
-                <button onClick={() => step(-1)} disabled={!playingHere} aria-label="Précédente">
+                <button onClick={() => step(-1)} disabled={!playingHere} aria-label={t.precedente}>
                   <FaIcon icon={faBackwardStep} className="pcol-mini-glyphe" />
                 </button>
                 <button
@@ -1067,7 +1068,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
               <button
                 className="pcol-mini-fleche"
                 onClick={() => setSheetPos('half')}
-                aria-label="Ouvrir le lecteur"
+                aria-label={t.ouvrirLecteur}
               >
                 <FaIcon icon={faChevronUp} className="pcol-mini-glyphe" />
               </button>
@@ -1087,10 +1088,10 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                   </span>
                 )}
                 {panelGenreData.confidence === 'debated' && (
-                  <span className="pcol-badge" title={panelGenreData.note}>filiation débattue</span>
+                  <span className="pcol-badge" title={panelGenreData.note}>{t.filiationDebattueMinuscule}</span>
                 )}
                 {panelGenreData.redaction === 'brouillon' && (
-                  <span className="pcol-badge pcol-badge-draft">fiche à relire</span>
+                  <span className="pcol-badge pcol-badge-draft">{t.ficheARelire}</span>
                 )}
               </p>
             </header>
@@ -1137,7 +1138,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
               )}
               {apiFailed && (
                 <p className="pcol-failed">
-                  Le lecteur YouTube n&apos;a pas pu se charger. La pochette reste affichée.
+                  {t.lecteurPasCharge}
                 </p>
               )}
             </div>
@@ -1168,7 +1169,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                 de graisses differentes et mal alignes, juste a cote d'icones
                 dessinees. */}
             <div className="pcol-transport">
-              <button onClick={() => step(-1)} disabled={!playingHere} aria-label="Précédente">
+              <button onClick={() => step(-1)} disabled={!playingHere} aria-label={t.precedente}>
                 <FaIcon icon={faBackwardStep} className="pcol-glyphe" />
               </button>
               <button
@@ -1203,7 +1204,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                 onPointerCancel={onBarreUp}
                 role="slider"
                 tabIndex={0}
-                aria-label="Position dans la track"
+                aria-label={t.positionDansLaTrack}
                 aria-valuemin={0}
                 aria-valuemax={Math.floor(duration)}
                 aria-valuenow={Math.floor(position)}
@@ -1230,7 +1231,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                   href={`https://www.youtube.com/watch?v=${shownInPanel.youtubeId}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  title="Ouvrir sur YouTube"
+                  title={t.ouvrirSurYoutube}
                 >
                   YT ↗
                 </a>
@@ -1263,7 +1264,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                 className="pcol-connexion"
                 onClick={() => window.dispatchEvent(new CustomEvent('sonaa:connexion'))}
               >
-                Se connecter pour voter et proposer des morceaux
+                {t.seConnecterPourVoter}
               </button>
             )}
 
@@ -1340,7 +1341,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
             {panelTracks.some((t) => t.role) && (
               <p className="pcol-legende">
                 <strong>origine</strong> le morceau qui fonde le genre ·{' '}
-                <strong>canon</strong> une référence établie
+                <strong>canon</strong> {t.referenceEtablie}
               </p>
             )}
 
@@ -1396,21 +1397,21 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                           {e.reach > 0 && (
                             <li>
                               {e.reach >= SEUIL_REACH ? (
-                                <>connu de <strong>{nb(e.reach)}</strong> auditeurs sur Last.fm</>
+                                <>connu de <strong>{nb(e.reach)}</strong> {t.auditeursLastfm}</>
                               ) : (
                                 /* SOUS CENT AUDITEURS, ON N'ECRIT PAS LE
                                    CHIFFRE : trente-sept genres sont dans ce
                                    cas, et donner l'autorite d'un releve a
                                    vingt-quatre personnes serait un mensonge
                                    poli. */
-                                <>peu documenté sur Last.fm</>
+                                <>{t.peuDocumenteLastfm}</>
                               )}
                               {releveReach && <span className="pcol-poids-date"> · relevé du {releveReach}</span>}
                             </li>
                           )}
                           {e.vues > 0 && (
                             <li>
-                              médiane de <strong>{nb(e.vues)}</strong> vues par morceau sur YouTube
+                              {t.medianeDe} <strong>{nb(e.vues)}</strong> vues par morceau sur YouTube
                               {releveVues && <span className="pcol-poids-date"> · relevé du {releveVues}</span>}
                             </li>
                           )}
@@ -1418,7 +1419,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                       );
                     })()}
                     {panelGenreData.redaction === 'brouillon' && (
-                      <p className="pcol-draft">fiche en brouillon, à relire</p>
+                      <p className="pcol-draft">{t.ficheEnBrouillon}</p>
                     )}
                     {panelGenreData.description && (
                       <p className="pcol-description">{panelGenreData.description}</p>
@@ -1455,7 +1456,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                               {panelGenreData.labelsHistoriques.join(' · ')}
                             </p>
                           ) : (
-                            <p className="pcol-none">sans label fondateur identifié</p>
+                            <p className="pcol-none">{t.sansLabelFondateur}</p>
                           )}
                         </div>
                         <div>
@@ -1463,14 +1464,14 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                           {panelGenreData.labelsActuels && panelGenreData.labelsActuels.length > 0 ? (
                             <p className="pcol-info-line">{panelGenreData.labelsActuels.join(' · ')}</p>
                           ) : (
-                            <p className="pcol-none">aucun, le genre ne produit plus</p>
+                            <p className="pcol-none">{t.aucunNeProduitPlus}</p>
                           )}
                         </div>
                       </div>
                     )}
                     {panelGenreData.artistesCles.length > 0 && (
                       <>
-                        <h4>Artistes clés</h4>
+                        <h4>{t.artistesCles}</h4>
                         <p className="pcol-info-line">{panelGenreData.artistesCles.join(' · ')}</p>
                       </>
                     )}
@@ -1498,16 +1499,16 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                     {STRUCTURES[panelGenre.familyIndex]?.genres[panelGenreData.parent]?.label}
                   </button>
                   {panelGenreData.structuralOnly && (
-                    <span className="pcol-none"> par convention d&apos;arbre, ce n&apos;est pas une filiation</span>
+                    <span className="pcol-none"> {t.conventionArbre}</span>
                   )}
                 </p>
               ) : (
                 <p className="pcol-none">fondateur de la famille {panelFamily.label}</p>
               )}
 
-              <h4>A donné</h4>
+              <h4>{t.aDonne}</h4>
               {panelGenreData.children.length === 0 ? (
-                <p className="pcol-none">rien, c&apos;est une feuille</p>
+                <p className="pcol-none">{t.rienUneFeuille}</p>
               ) : (
                 <p className="pcol-fil-chips">
                   {panelGenreData.children.map((childLocal) => (
@@ -1546,12 +1547,19 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                 if (shared.length === 0) return null;
                 return (
                   <>
-                    <h4>Charnières</h4>
-                    {shared.map((t) => (
-                      <p key={t.youtubeId} className="pcol-fil-shared">
-                        {t.title},{' '}
-                        <span className="pcol-none">aussi revendiquée par </span>
-                        {t.sharedWith.map((x, i) => (
+                    <h4>{t.charnieres}</h4>
+                    {/* LA PISTE S'APPELLE `piste` ET NON `t`, DEPUIS QUE `t` EST LE
+                        DICTIONNAIRE. Le parametre de cette boucle masquait la
+                        traduction : `t.aussiRevendiquee` designait une propriete
+                        de Track qui n'existe pas. Le compilateur l'a vu ici ;
+                        il ne l'aurait PAS vu si le nom de cle avait par hasard
+                        existe sur Track, et le texte serait sorti faux sans
+                        qu'aucun controle ne bronche. */}
+                    {shared.map((piste) => (
+                      <p key={piste.youtubeId} className="pcol-fil-shared">
+                        {piste.title},{' '}
+                        <span className="pcol-none">{t.aussiRevendiquee} </span>
+                        {piste.sharedWith.map((x, i) => (
                           <span key={`${x.familyIndex}-${x.genreLocal}`}>
                             {i > 0 && ', '}
                             <button
@@ -1570,7 +1578,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
 
               {panelGenreData.aliases.length > 0 && (
                 <>
-                  <h4>Aussi appelé</h4>
+                  <h4>{t.aussiAppele}</h4>
                   <p className="pcol-none">{panelGenreData.aliases.join(', ')}</p>
                 </>
               )}
@@ -1594,8 +1602,8 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
           <button
             className="pcol-close"
             onClick={() => setReduite(true)}
-            aria-label="Réduire le lecteur"
-            title="Réduire le lecteur"
+            aria-label={t.reduireLecteur}
+            title={t.reduireLecteur}
           >
             ›
           </button>
@@ -1611,7 +1619,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
           <button
             className="mini-back"
             onClick={() => onReopen(playback.familyIndex, playback.genreLocal)}
-            aria-label="Rouvrir la colonne du genre"
+            aria-label={t.rouvrirColonneGenre}
           >
             <span className="mini-slot" aria-hidden="true" />
             <span className="mini-text">
@@ -1621,7 +1629,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
           </button>
 
           <span className="mini-transport">
-            <button onClick={() => step(-1)} aria-label="Précédente">⏮</button>
+            <button onClick={() => step(-1)} aria-label={t.precedente}>⏮</button>
             <button onClick={toggle} aria-label={playing ? 'Pause' : 'Lecture'}>
               {playing ? '❚❚' : '▶'}
             </button>
@@ -1640,7 +1648,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
             <div className="mini-bar-fill" style={{ width: `${progress}%` }} />
           </div>
 
-          <button className="mini-stop" onClick={() => setPlayback(null)} aria-label="Arrêter">
+          <button className="mini-stop" onClick={() => setPlayback(null)} aria-label={t.arreter}>
             ✕
           </button>
         </div>

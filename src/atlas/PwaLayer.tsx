@@ -21,6 +21,7 @@ import {
   surMiseAJour,
 } from '../lib/pwa.ts';
 import './pwa.css';
+import { t } from '../langue/langue.ts';
 
 /** L'événement Chrome, absent des types du DOM. */
 interface EvenementInstallation extends Event {
@@ -123,13 +124,13 @@ export function PwaLayer() {
   if (majPrete) {
     return (
       <div className="pwa-bandeau" role="status">
-        <p>Une nouvelle version de l&apos;atlas est prête.</p>
+        <p>{t.nouvelleVersionPrete}</p>
         <span className="pwa-actions">
           <button className="pwa-bouton-principal" onClick={() => void appliquerLaMiseAJour()}>
-            Mettre à jour
+            {t.mettreAJour}
           </button>
           <button className="pwa-bouton" onClick={repousser}>
-            Plus tard
+            {t.plusTard}
           </button>
         </span>
       </div>
@@ -139,7 +140,7 @@ export function PwaLayer() {
   if (invite === 'navigateur') {
     return (
       <div className="pwa-bandeau" role="status">
-        <p>Installer SONAA pour l&apos;ouvrir hors ligne, sans barre de navigateur.</p>
+        <p>{t.installerSonaa}</p>
         <span className="pwa-actions">
           <button className="pwa-bouton-principal" onClick={() => void installer()}>
             Installer
@@ -164,7 +165,7 @@ export function PwaLayer() {
             </svg>
           </span>
           <span className="pwa-geste-mot">Partager</span> en bas de l&apos;écran, puis{' '}
-          <strong>Sur l&apos;écran d&apos;accueil</strong>.
+          <strong>{t.surEcranAccueil}</strong>.
         </p>
         <span className="pwa-actions">
           <button className="pwa-bouton" onClick={refuser}>

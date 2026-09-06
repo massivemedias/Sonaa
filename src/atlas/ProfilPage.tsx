@@ -441,7 +441,7 @@ export function ProfilPage() {
 
       {/* ── La ville d'attache ── */}
       <section className="sets-bloc">
-        <h2>Votre ville</h2>
+        <h2>{t.votreVille}</h2>
         <p className="sp-aide">
           Elle sert à ouvrir le calendrier sur les bonnes soirées, sur tous vos appareils. Elle
           n&apos;est montrée à personne. Vous pouvez la changer ou la retirer quand vous voulez.
@@ -463,7 +463,7 @@ export function ProfilPage() {
                   </button>
                 </>
               ) : (
-                <span className="sp-aide">Aucune ville enregistrée.</span>
+                <span className="sp-aide">{t.aucuneVilleEnregistree}</span>
               )}
             </div>
           }

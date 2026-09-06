@@ -13,6 +13,7 @@ import { FAMILIES, FAMILY_LINKS, STRUCTURES } from './structures.ts';
 import { SiteNav } from './SiteNav.tsx';
 import { ouvrirDansAtlas } from './ouvrir-genre.ts';
 import './index-view.css';
+import { t } from '../langue/langue.ts';
 
 export function IndexPage() {
   const families = useMemo(
@@ -31,7 +32,7 @@ export function IndexPage() {
   return (
     <div className="index-root">
       <a className="index-skip" href="#familles">
-        Aller à la liste des familles
+        {t.allerListeFamilles}
       </a>
 
       <header className="index-head">
@@ -65,13 +66,13 @@ export function IndexPage() {
                   <dl className="index-relations">
                     {parents.length > 0 && (
                       <>
-                        <dt>Née de</dt>
+                        <dt>{t.neeDe}</dt>
                         <dd>{parents.join(', ')}</dd>
                       </>
                     )}
                     {children.length > 0 && (
                       <>
-                        <dt>A donné</dt>
+                        <dt>{t.aDonne}</dt>
                         <dd>{children.join(', ')}</dd>
                       </>
                     )}

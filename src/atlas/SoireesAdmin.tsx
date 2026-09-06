@@ -32,6 +32,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { SelecteurVille } from './SelecteurVille.tsx';
 import { toutesLesVilles } from '../lib/villes.ts';
 import type { Ville } from '../lib/ville-active.ts';
+import { t } from '../langue/langue.ts';
 import {
   ajouterSoiree,
   supprimerSoiree,
@@ -142,7 +143,7 @@ export function SoireesAdmin() {
 
   return (
     <section className="sets-bloc">
-      <h2>Soirées ajoutées à la main</h2>
+      <h2>{t.soireesAjouteesMain}</h2>
       <p className="sp-aide">
         Resident Advisor est interrogé en direct, il n&apos;y a rien à y synchroniser. Ce panneau
         sert à ce qu&apos;il ne couvre pas : une soirée qui passe de la techno sans se dire
@@ -198,7 +199,7 @@ export function SoireesAdmin() {
           />
         </label>
         <label className="sp-label">
-          Artistes, séparés par des virgules
+          {t.artistesSepares}
           <input
             type="text"
             value={form.artistes}
@@ -206,7 +207,7 @@ export function SoireesAdmin() {
           />
         </label>
         <label className="sp-label">
-          Styles, séparés par des virgules
+          {t.stylesSepares}
           <input
             type="text"
             value={form.genres}

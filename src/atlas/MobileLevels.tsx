@@ -25,6 +25,7 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FaIcon } from './FaIcon.tsx';
 import { FAMILIES, FAMILY_RING_IDS, STRUCTURES, type Genre } from './structures.ts';
 import './mobile-levels.css';
+import { t } from '../langue/langue.ts';
 
 interface Props {
   /** Ouvre la vue graphique du genre, avec sa fiche et ses tracks. */
@@ -302,12 +303,12 @@ export function MobileLevels({ onOpen, onFamille, onEnsemble, onChercher, ouvert
       {niveau === 'ensemble' || niveau === 'familles' ? (
         <nav className="mn-ariane" aria-label="Chemin">
           {nav && nav.level !== 'atlas' && (
-            <button className="mn-retour" onClick={onRemonterCarte} aria-label="Remonter d'un niveau">
+            <button className="mn-retour" onClick={onRemonterCarte} aria-label={t.remonterNiveau}>
               <FaIcon icon={faChevronLeft} />
             </button>
           )}
           {niveau === 'ensemble' && (
-            <button className="mn-retour" onClick={remonter} aria-label="Revenir a la navigation">
+            <button className="mn-retour" onClick={remonter} aria-label={t.revenirNavigation}>
               <FaIcon icon={faChevronLeft} />
             </button>
           )}
@@ -462,7 +463,7 @@ export function MobileLevels({ onOpen, onFamille, onEnsemble, onChercher, ouvert
       <button
         className="mn-loupe"
         onClick={onChercher}
-        aria-label="Chercher un genre, un artiste, un label"
+        aria-label={t.chercherGenreArtisteLabel}
       >
         <span aria-hidden="true">⌕</span>
       </button>
@@ -483,8 +484,8 @@ export function MobileLevels({ onOpen, onFamille, onEnsemble, onChercher, ouvert
             <span className="mn-ensemble-note">219 genres, 14 familles, a regarder</span>
           </button>
           <a className="mn-ensemble" href="#/chronologie">
-            Chaîne chronologique
-            <span className="mn-ensemble-note">les genres dans le temps, par famille</span>
+            {t.chaineChronologiqueCourt}
+            <span className="mn-ensemble-note">{t.genresDansLeTemps}</span>
           </a>
         </>
       )}

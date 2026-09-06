@@ -25,6 +25,7 @@ import {
 import { envoyerLienMagique, memoriserIntention } from '../lib/auth.ts';
 import { useSession } from '../lib/useSession.ts';
 import './contribute.css';
+import { t } from '../langue/langue.ts';
 
 interface Props {
   readonly kind: ProposalKind;
@@ -178,7 +179,7 @@ export function ContributeDialog({
           <div className="contrib-corps">
             <p className="contrib-succes">
               Proposition enregistrée. Elle apparaît dès maintenant dans{' '}
-              <a href="#/propositions">les propositions en attente</a>, où elle peut être
+              <a href="#/propositions">{t.lesPropositionsEnAttente}</a>, où elle peut être
               soutenue ou contestée avant d&apos;être tranchée.
             </p>
             <p className="contrib-note">
@@ -194,7 +195,7 @@ export function ContributeDialog({
         ) : lienEnvoye ? (
           <div className="contrib-corps">
             <p className="contrib-succes">
-              Un lien de connexion vient de partir vers <strong>{email}</strong>.
+              {t.lienConnexionPartiVers} <strong>{email}</strong>.
             </p>
             <p className="contrib-note">
               Ouvrez-le sur cet appareil : vous reviendrez sur SONAA avec votre brouillon intact,
@@ -220,7 +221,7 @@ export function ContributeDialog({
                     value={artist}
                     maxLength={120}
                     onChange={(e) => setArtist(e.target.value)}
-                    placeholder="Nom tel qu'il figure sur la sortie"
+                    placeholder={t.nomSurLaSortie}
                   />
                 </label>
                 <label className="contrib-champ">
@@ -250,7 +251,7 @@ export function ContributeDialog({
             {kind === 'genre_edit' && (
               <>
                 <label className="contrib-champ">
-                  <span>Ce qui doit changer</span>
+                  <span>{t.ceQuiDoitChanger}</span>
                   <select
                     ref={premierChampRef as React.RefObject<HTMLSelectElement>}
                     value={field}
@@ -264,7 +265,7 @@ export function ContributeDialog({
                   </select>
                 </label>
                 <label className="contrib-champ">
-                  <span>Ce qui devrait être écrit</span>
+                  <span>{t.ceQuiDevraitEtreEcrit}</span>
                   <textarea
                     value={value}
                     maxLength={2000}
@@ -277,13 +278,13 @@ export function ContributeDialog({
 
             {kind === 'filiation' && (
               <label className="contrib-champ">
-                <span>Le genre dont il descend, selon vous</span>
+                <span>{t.leGenreDontIlDescend}</span>
                 <select
                   ref={premierChampRef as React.RefObject<HTMLSelectElement>}
                   value={parentId}
                   onChange={(e) => setParentId(e.target.value)}
                 >
-                  <option value="">Choisir un genre…</option>
+                  <option value="">{t.choisirUnGenre}</option>
                   {STRUCTURES.map((s, i) => (
                     <optgroup key={i} label={FAMILIES[i]?.label ?? ''}>
                       {s.genres
@@ -313,7 +314,7 @@ export function ContributeDialog({
                 maxLength={JUSTIFICATION_MAX}
                 rows={4}
                 onChange={(e) => setJustification(e.target.value)}
-                placeholder="Sur quoi vous appuyez-vous ? Une pochette, une interview, une date de sortie, une écoute."
+                placeholder={t.surQuoiVousAppuyez}
                 aria-describedby="contrib-pourquoi"
               />
             </label>
@@ -330,7 +331,7 @@ export function ContributeDialog({
                   pseudonyme.
                 </p>
                 <label className="contrib-champ">
-                  <span>Votre adresse</span>
+                  <span>{t.votreAdresse}</span>
                   <input
                     type="email"
                     value={email}

@@ -6,6 +6,7 @@
 
 import { useState } from 'react';
 import { STRUCTURES } from './structures.ts';
+import { t } from '../langue/langue.ts';
 import {
   LIBELLE_CHAMP,
   trancher,
@@ -75,7 +76,7 @@ export function ProposalCard({
           className={`prop-vote${monVote === 1 ? ' prop-vote-actif' : ''}`}
           onClick={() => onVote(p, 1)}
           disabled={voteImpossible}
-          aria-label="Soutenir cette proposition"
+          aria-label={t.soutenirProposition}
           title={estMienne ? 'On ne vote pas sur sa propre proposition' : 'Soutenir'}
         >
           ▲
@@ -85,7 +86,7 @@ export function ProposalCard({
           className={`prop-vote${monVote === -1 ? ' prop-vote-actif' : ''}`}
           onClick={() => onVote(p, -1)}
           disabled={voteImpossible}
-          aria-label="Contester cette proposition"
+          aria-label={t.contesterProposition}
           title={estMienne ? 'On ne vote pas sur sa propre proposition' : 'Contester'}
         >
           ▼
@@ -96,7 +97,7 @@ export function ProposalCard({
         <h3>{titre}</h3>
         <p className="prop-meta">
           {genre} · {new Date(p.created_at).toLocaleDateString('fr-CA')} · {p.author_tag}
-          {estMienne && <span className="prop-mienne">votre proposition</span>}
+          {estMienne && <span className="prop-mienne">{t.votreProposition}</span>}
           {p.status !== 'pending' && (
             <>
               {' · '}
@@ -113,13 +114,13 @@ export function ProposalCard({
 
         {p.kind === 'genre_edit' && payload.value && (
           <p className="prop-justification">
-            <strong>Proposé :</strong> {payload.value}
+            <strong>{t.proposeLe}</strong> {payload.value}
           </p>
         )}
         {p.kind === 'track' && payload.url && (
           <p className="prop-meta">
             <a href={payload.url} target="_blank" rel="noopener noreferrer nofollow">
-              source indiquée
+              {t.sourceIndiquee}
             </a>
           </p>
         )}
@@ -135,14 +136,14 @@ export function ProposalCard({
               value={note}
               maxLength={500}
               onChange={(e) => setNote(e.target.value)}
-              placeholder="Note de modération, facultative"
-              aria-label="Note de modération"
+              placeholder={t.noteModerationFacultative}
+              aria-label={t.noteModeration}
             />
             <button className="contrib-bouton" disabled={enCours} onClick={() => void decider('accepted')}>
               Accepter
             </button>
             <button className="contrib-bouton" disabled={enCours} onClick={() => void decider('merged')}>
-              Reportée dans le corpus
+              {t.reporteeDansLeCorpus}
             </button>
             <button className="contrib-bouton" disabled={enCours} onClick={() => void decider('rejected')}>
               Refuser

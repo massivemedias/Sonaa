@@ -278,7 +278,7 @@ export function AuthButton() {
                    page d'accueil. Meme panne que #/profil avant lui, au meme
                    endroit. */
                 <a href="#/moderation" role="menuitem" onClick={() => setMenu(false)}>
-                  Modération
+                  {t.moderationMenu}
                 </a>
               )}
               <button
@@ -288,7 +288,7 @@ export function AuthButton() {
                   void seDeconnecter();
                 }}
               >
-                Déconnexion
+                {t.deconnexion}
               </button>
             </div>
           )}

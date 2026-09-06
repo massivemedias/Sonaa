@@ -12,6 +12,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { dateCourte } from '../lib/comments.ts';
+import { t } from '../langue/langue.ts';
 
 interface LigneModeration {
   id: string;
@@ -102,7 +103,7 @@ export function CommentsModeration() {
 
   return (
     <section aria-labelledby="mod-commentaires">
-      <h2 id="mod-commentaires">Commentaires signalés</h2>
+      <h2 id="mod-commentaires">{t.commentairesSignales}</h2>
 
       {erreur && (
         <p className="contrib-erreur" role="alert">
@@ -114,13 +115,13 @@ export function CommentsModeration() {
           arrêté sans supprimer ce qui s'y trouve : la lecture reste possible,
           seule l'écriture est bloquée. */}
       <div className="mod-fermeture">
-        <label htmlFor="mod-genre">Fermer ou rouvrir les commentaires d&apos;un genre</label>
+        <label htmlFor="mod-genre">{t.fermerRouvrirCommentaires}</label>
         <div className="mod-fermeture-ligne">
           <input
             id="mod-genre"
             value={genreAFermer}
             onChange={(e) => setGenreAFermer(e.target.value)}
-            placeholder="identifiant du genre, par exemple dubtechno"
+            placeholder={t.identifiantDuGenre}
           />
           <button onClick={() => void fermerGenre(true)}>Fermer</button>
           <button onClick={() => void fermerGenre(false)}>Rouvrir</button>
@@ -128,10 +129,10 @@ export function CommentsModeration() {
       </div>
 
       {chargement ? (
-        <p className="prop-vide">Lecture de la file…</p>
+        <p className="prop-vide">{t.lectureDeLaFile}</p>
       ) : file.length === 0 ? (
         <p className="prop-vide">
-          Aucun commentaire signalé. La file ne montre que les messages signalés ou masqués.
+          {t.aucunCommentaireSignale}
         </p>
       ) : (
         <ul className="mod-liste">
@@ -144,7 +145,7 @@ export function CommentsModeration() {
                 <span className="mod-signalements">
                   {c.reports_count} signalement{c.reports_count > 1 ? 's' : ''}
                 </span>
-                {c.masque && <span className="mod-masque">masqué</span>}
+                {c.masque && <span className="mod-masque">{t.masqueCourt}</span>}
               </div>
               <p className="mod-item-corps">{c.body}</p>
               {c.motifs && c.motifs.filter(Boolean).length > 0 && (
