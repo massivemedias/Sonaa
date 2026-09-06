@@ -29,3 +29,7 @@ audit-decalage.md
 # est copie dans public/game/v3/assets/, avec le fichier de licence a cote.
 assets-source/
 public/_essai/
+
+# Le releve de la moisson Shotgun : une photographie datee, pas une source.
+# Il change a chaque passage et se refait par « npm run ingerer:shotgun -- --lire ».
+scripts/donnees/shotgun-releve.json

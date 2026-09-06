@@ -44,7 +44,8 @@
     "test": "vitest run",
     "favicon": "sh scripts/refaire-favicon.sh",
     "audit:lecture": "tsx scripts/audit-lecture.ts",
-    "audit:decalage": "tsx scripts/audit-decalage.ts"
+    "audit:decalage": "tsx scripts/audit-decalage.ts",
+    "ingerer:shotgun": "tsx scripts/ingerer-shotgun.ts"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^7.3.1",
@@ -63,6 +64,7 @@
     "@types/three": "^0.185.4",
     "@vitejs/plugin-react": "^4.3.4",
     "jsdom": "^25.0.1",
+    "playwright-core": "^1.63.0",
     "tsx": "^4.23.11",
     "typescript": "^5.7.3",
     "vite": "^5.4.11",

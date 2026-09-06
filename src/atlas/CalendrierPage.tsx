@@ -80,6 +80,15 @@ FAMILIES.forEach((f, i) => {
   for (const g of STRUCTURES[i]?.genres ?? []) FAMILLE_DE_GENRE.set(g.id, f.id);
 });
 
+/* CE QU'UNE PASTILLE DE SOURCE DIT, ET CE QU'ELLE NE DIT PAS. Elle nomme la
+   provenance, elle ne la juge pas : « Shotgun » est un fait verifiable, pas
+   une mention de qualite. Resident Advisor n'en a pas parce qu'il est le fond
+   de la liste ; nommer le fond revient a le repeter trois cents fois. */
+const NOM_DE_SOURCE: Record<'main' | 'shotgun', string> = {
+  main: 'ajoutée à la main',
+  shotgun: 'Shotgun',
+};
+
 /* LES TROIS QUESTIONS QU'ON SE POSE VRAIMENT.
 
    « Cette semaine, ce mois, trois mois » repondaient a une question que
@@ -285,7 +294,13 @@ export function CalendrierPage() {
         affiche: m.affiche,
         lien: m.lien ?? '',
         interesses: 0,
-        origine: 'main',
+        /* LA PASTILLE DISAIT « AJOUTEE A LA MAIN » POUR DES LIGNES QUE
+           PERSONNE N'AVAIT SAISIES. Constate a l'ecran des la premiere
+           moisson Shotgun : cent trente et une soirees montpellieraines
+           annoncees comme des saisies manuelles. La table sert deux sources
+           depuis qu'un adaptateur y verse, et le champ `source` le dit
+           depuis le debut ; il suffisait de le lire. */
+        origine: m.source === 'shotgun' ? 'shotgun' : 'main',
       }));
 
       if (!r) {
@@ -395,7 +410,8 @@ export function CalendrierPage() {
           <h1>Calendrier</h1>
           <p className="credits-lede">
             Ce qui se joue dans votre ville, dans les styles que vous suivez. Les soirées viennent
-            de Resident Advisor ; chaque titre y renvoie.
+            de Resident Advisor, de Shotgun et de saisies à la main ; chaque titre renvoie à sa
+            source, et la pastille dit laquelle.
           </p>
         </header>
 
@@ -695,8 +711,8 @@ export function CalendrierPage() {
                                     compact, ne le montrait pas : une soiree
                                     ajoutee a la main y passait pour une
                                     soiree de Resident Advisor. */}
-                                {s.origine === 'main' && (
-                                  <span className="cal-origine">ajoutée à la main</span>
+                                {s.origine && s.origine !== 'ra' && (
+                                  <span className="cal-origine">{NOM_DE_SOURCE[s.origine]}</span>
                                 )}
                                 {s.lieu ?? 'Lieu non annoncé'}
                               </span>
@@ -757,8 +773,8 @@ export function CalendrierPage() {
                                       la main, elle, ne vient pas de la, et
                                       celui qui la lit doit pouvoir le
                                       savoir. */}
-                                  {s.origine === 'main' && (
-                                    <span className="cal-origine">ajoutée à la main</span>
+                                  {s.origine && s.origine !== 'ra' && (
+                                    <span className="cal-origine">{NOM_DE_SOURCE[s.origine]}</span>
                                   )}
                                   {s.lieu ?? 'Lieu non annoncé'}
                                   {h ? ` · ${h}${sigle ? ` ${sigle}` : ''}` : ''}

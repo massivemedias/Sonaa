@@ -29,7 +29,11 @@ export interface Soiree {
      l'affichage le dit : quelqu'un qui lit un agenda a le droit de savoir
      qui le lui annonce, surtout quand deux sources ne disent pas la meme
      chose. */
-  readonly origine?: 'ra' | 'main';
+  /* D'OU VIENT LA LIGNE, ET C'EST AFFICHE. « ra » n'a pas de pastille : c'est
+     la source par defaut, la nommer partout serait du bruit. Les autres en
+     portent une, parce qu'un agenda qui melange des sources doit dire
+     laquelle, sinon il donne a toutes le credit de la mieux tenue. */
+  readonly origine?: 'ra' | 'main' | 'shotgun';
 }
 
 export interface Zone {

@@ -58,9 +58,19 @@ const DOSSIERS_HORS = new Set([
   'covers', 'images', 'machines', 'articles', 'fonts', 'splash', 'assets', 'brand',
 ]);
 /* Les rapports engendres par les scripts d'audit se refont a chaque passe :
-   ils portent la typographie de leur generateur, qui, lui, est controle. */
+   ils portent la typographie de leur generateur, qui, lui, est controle.
+
+   LE RELEVE SHOTGUN EST DE LA PAROLE RAPPORTEE. Il porte des titres de
+   soirees ecrits par des organisateurs, sept d'entre eux avec un cadratin :
+   « Zamdane : Le Spectacle Rahma \u2014 Interference » est le nom que ces gens
+   ont donne a leur soiree. La regle de ce depot porte sur NOTRE prose ; la
+   citation d'un tiers se cite telle qu'elle est, ou on ne la cite pas. Le
+   fichier est de toute facon ignore par git : il se refait a chaque passe. */
 const FICHIERS_HORS = (nom: string): boolean =>
-  /^audit-.*\.md$/.test(nom) || /cache/.test(nom) || nom === 'package-lock.json';
+  /^audit-.*\.md$/.test(nom) ||
+  /cache/.test(nom) ||
+  nom === 'package-lock.json' ||
+  nom === 'shotgun-releve.json';
 
 /** Titres et noms d'artistes où le tiret est dans l'œuvre elle-même. Vide,
     et destiné à le rester : à ne remplir qu'avec une référence précise. */
