@@ -728,7 +728,7 @@ function chuteGravity(){const cols=M.N,rows=M.rows,moved=new Map();
   return moved;}
 function renderBoardOnly(){for(let i=0;i<M.cells;i++)renderCell(i);renderHighlights();renderPalette();}
 function dropIn(c){
-  if(!G||G.done||G.x.busy)return;const cols=M.N,rows=M.rows,x=G.x;let land=-1;
+  if(!G||G.done)return;if(G.x.busy){G.x.queued=c;return;}const cols=M.N,rows=M.rows,x=G.x;let land=-1;
   for(let r=rows-1;r>=0;r--){const i=r*cols+c;if(!G.board[i]){land=i;break;}}
   if(land<0){shakeCell(c);buzz([20,30,20]);beep(90,90,'square',.08);return;}
   G.undo.push(snap());x.busy=true;G.board[land]=x.cur;x.cur=x.next;x.next=spawnExp(Math.max(1,...G.board));x.swapIn=Math.max(0,(x.swapIn||0)-1);x.drops=(x.drops||0)+1;
@@ -740,7 +740,8 @@ function dropIn(c){
   const finish=()=>{x.busy=false;if(chain>x.bestChain)x.bestChain=chain;
     P.bestScore=P.bestScore||{};if(x.score>(P.bestScore.chute||0)){P.bestScore.chute=x.score;saveP();if(!x.recordShown&&x.drops>12){x.recordShown=true;chainText('Nouveau record !');beep(880,200,'sine',.15);}}
     if(chuteDanger()){buzz([15,40,15]);}
-    afterMove();};
+    afterMove();
+    if(x.queued!==undefined&&!G.done){const q=x.queued;x.queued=undefined;setTimeout(()=>dropIn(q),40);}else x.queued=undefined;};
   const step=i=>{
     if(G.mode!=='chute'){x.busy=false;return;}
     const e=G.board[i];const r=M.row[i],cc=M.col[i];const nb=[];
