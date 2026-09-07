@@ -604,7 +604,7 @@ export function ChronologyView({ onOpen }: Props) {
             checked={showMajorsOnly}
             onChange={(e) => setShowMajorsOnly(e.target.checked)}
           />
-          <span>Genres principaux ({stats.majors} sur {stats.total})</span>
+          <span>{t.genresPrincipauxSur(stats.majors, stats.total)}</span>
         </label>
       </header>
 

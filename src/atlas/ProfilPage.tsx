@@ -355,7 +355,7 @@ export function ProfilPage() {
     setVilleAttache(v);
     setMessageVille(null);
     void enregistrerVilleDattache(v.id)
-      .then(() => setMessageVille(`Ville d'attache enregistrée : ${v.name}.`))
+      .then(() => setMessageVille(t.villeDattacheEnregistree(v.name)))
       .catch((e: unknown) => {
         setVilleAttache(null);
         setMessageVille(e instanceof Error ? e.message : 'Enregistrement impossible.');

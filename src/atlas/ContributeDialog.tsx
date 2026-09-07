@@ -305,7 +305,7 @@ export function ContributeDialog({
                 Justification{' '}
                 <em>
                   {restant > 0
-                    ? `encore ${restant} caractère${restant > 1 ? 's' : ''}`
+                    ? t.encoreNCaracteres(restant)
                     : `${justification.trim().length} / ${JUSTIFICATION_MAX}`}
                 </em>
               </span>

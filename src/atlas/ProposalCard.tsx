@@ -127,7 +127,7 @@ export function ProposalCard({
 
         <p className="prop-justification">{justification}</p>
 
-        {p.moderation_note && <p className="prop-meta">Note de modération : {p.moderation_note}</p>}
+        {p.moderation_note && <p className="prop-meta">{t.noteDeModeration(p.moderation_note)}</p>}
 
         {moderateur && p.status === 'pending' && (
           <div className="prop-moderation">

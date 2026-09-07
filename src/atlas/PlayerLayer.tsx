@@ -1317,7 +1317,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                               morceaux, ce qui est l'etat normal. */}
                           {track.role && (
                             <span className="pcol-row-role" data-role={track.role}>
-                              {track.role === 'origine' ? 'origine' : 'canon'}
+                              {track.role === 'origine' ? t.roleOrigine : t.roleCanon}
                             </span>
                           )}
                         </strong>
@@ -1340,8 +1340,8 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                 marques absentes, ce qui est du bruit. */}
             {panelTracks.some((t) => t.role) && (
               <p className="pcol-legende">
-                <strong>origine</strong> le morceau qui fonde le genre ·{' '}
-                <strong>canon</strong> {t.referenceEtablie}
+                <strong>{t.roleOrigine}</strong> {t.legendeOrigine} ·{' '}
+                <strong>{t.roleCanon}</strong> {t.referenceEtablie}
               </p>
             )}
 
@@ -1388,8 +1388,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                       return (
                         <ul className="pcol-poids">
                           <li>
-                            <strong>{nb(q.derivesDirects)}</strong> dérivé{q.derivesDirects > 1 ? 's' : ''} direct
-                            {q.derivesDirects > 1 ? 's' : ''}
+                            {t.nDerivesDirects(q.derivesDirects)}
                             {q.descendance !== q.derivesDirects && (
                               <>, <strong>{nb(q.descendance)}</strong> genre{q.descendance > 1 ? 's' : ''} en descendent au total</>
                             )}
@@ -1406,13 +1405,13 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                                    poli. */
                                 <>{t.peuDocumenteLastfm}</>
                               )}
-                              {releveReach && <span className="pcol-poids-date"> · relevé du {releveReach}</span>}
+                              {releveReach && <span className="pcol-poids-date">{t.releveDu(releveReach)}</span>}
                             </li>
                           )}
                           {e.vues > 0 && (
                             <li>
                               {t.medianeDe} <strong>{nb(e.vues)}</strong> vues par morceau sur YouTube
-                              {releveVues && <span className="pcol-poids-date"> · relevé du {releveVues}</span>}
+                              {releveVues && <span className="pcol-poids-date">{t.releveDu(releveVues)}</span>}
                             </li>
                           )}
                         </ul>
@@ -1503,7 +1502,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                   )}
                 </p>
               ) : (
-                <p className="pcol-none">fondateur de la famille {panelFamily.label}</p>
+                <p className="pcol-none">{t.fondateurDeLaFamille(panelFamily.label)}</p>
               )}
 
               <h4>{t.aDonne}</h4>

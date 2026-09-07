@@ -50,14 +50,27 @@ const FRANCAIS =
   /[àâäéèêëîïôöùûüçœÀÂÄÉÈÊËÎÏÔÖÙÛÜÇŒ]|\b(le|la|les|des|une|un|dans|pour|avec|sur|par|qui|que|quoi|vos|votre|ce|cette|aucun|aucune|tout|tous|sont|est|pas|ne|plus|puis|donc|ici|vers)\b/i;
 
 const ATTRIBUTS_LUS = /(?:aria-label|placeholder|title|alt)="([^"]{4,})"/g;
-const TEXTE_JSX = /> *([^<>{}\n]{4,}?) *</g;
+/* DEUX BORDS, PAS UN SEUL. Un texte JSX ne s'arrete pas toujours a une
+   balise : il s'arrete aussi a une accolade, quand une expression le coupe.
+   « Pour garder SONAA ... touchez{' '} » commence apres `>` et finit avant
+   `{` ; « en bas de l'ecran, puis{' '} » commence apres `}` et finit avant
+   `{`. La premiere version ne cherchait que `>...<` et a laisse passer une
+   phrase entiere sous une interface anglaise, avec un seul mot traduit au
+   milieu. On accepte donc `>` ou `}` a gauche, `<` ou `{` a droite. */
+const TEXTE_JSX = /[>}] *([^<>{}\n]{4,}?) *[<{]/g;
 
 /** Les commentaires deviennent des espaces : les positions restent justes,
     donc les numeros de ligne aussi. Un commentaire francais n'est pas un
     defaut, c'est la convention de ce depot. */
 function sansCommentaires(source: string): string {
+  /* LES SAUTS DE LIGNE SURVIVENT AU NETTOYAGE, ET C'EST TOUT LE POINT.
+     La premiere version remplacait un bloc par ' '.repeat(longueur) : un
+     commentaire de dix lignes devenait UNE ligne d'espaces, et chaque numero
+     de ligne apres lui derivait de neuf. Ce depot ecrit de longs commentaires
+     partout ; le rapport designait donc des lignes qui ne contenaient pas le
+     texte signale. On ne remplace que ce qui n'est pas un saut de ligne. */
   return source
-    .replace(/\/\*[\s\S]*?\*\//g, (bloc) => ' '.repeat(bloc.length))
+    .replace(/\/\*[\s\S]*?\*\//g, (bloc) => bloc.replace(/[^\n]/g, ' '))
     .replace(/^([ \t]*)\/\/.*$/gm, (ligne, creux: string) => creux + ' '.repeat(ligne.length - creux.length));
 }
 
@@ -91,7 +104,9 @@ for (const chemin of fichiers('src')) {
     trouves.push({ fichier: chemin, ligne: net.slice(0, indice).split('\n').length, texte });
   };
 
-  for (const m of net.matchAll(TEXTE_JSX)) noter(m.index ?? 0, (m[1] ?? '').trim());
+  /* Le `$` d'un `${...}` colle au texte qui le precede : « dérivé$ ». On
+     l'ote du rapport ; il ne dit rien sur la langue. */
+  for (const m of net.matchAll(TEXTE_JSX)) noter(m.index ?? 0, (m[1] ?? '').replace(/\$$/, '').trim());
   for (const m of net.matchAll(ATTRIBUTS_LUS)) noter(m.index ?? 0, (m[1] ?? '').trim());
 }
 

@@ -143,7 +143,7 @@ export function AccordeonView({ onOpen }: Props) {
       <div className="ac-corps">
         {q.length > 0 && (
           <p className="ac-compte" role="status">
-            {familles.reduce((n, x) => n + x.lignes.length, 0)} genre(s) sur {total}
+            {t.nGenresSurTotal(familles.reduce((n, x) => n + x.lignes.length, 0), total)}
           </p>
         )}
 

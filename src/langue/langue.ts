@@ -146,6 +146,25 @@ interface Dictionnaire {
   readonly passerAuClair: string;
   readonly passerAuSombre: string;
   readonly villeLibelle: string;
+  readonly nGenresSurTotal: (n: number, total: number) => string;
+  readonly genresPrincipauxSur: (n: number, total: number) => string;
+  readonly encoreNCaracteres: (n: number) => string;
+  readonly nDerivesDirects: (n: number) => string;
+  readonly derivesEtDescendance: (nom: string, d: number, total: number) => string;
+  readonly releveDu: (quand: string) => string;
+  readonly fondateurDeLaFamille: (famille: string) => string;
+  readonly villeDattacheEnregistree: (ville: string) => string;
+  readonly noteDeModeration: (note: string) => string;
+  readonly nSoireesAVenir: (n: number) => string;
+  readonly rienPourLaRechercheRa: (quoi: string, ville: string) => string;
+  readonly peutLeurEchapper: string;
+  readonly roleOrigine: string;
+  readonly roleCanon: string;
+  readonly legendeOrigine: string;
+  readonly installerIosAvant: string;
+  readonly partager: string;
+  readonly installerIosApres: string;
+  readonly compris: string;
   readonly fermerLaFiche: string;
   readonly stylesDeCetArtiste: string;
   readonly lesArtistesDuStyle: string;
@@ -530,6 +549,25 @@ const FR: Dictionnaire = {
   passerAuClair: 'Passer au thème clair',
   passerAuSombre: 'Passer au thème sombre',
   villeLibelle: "Ville",
+  nGenresSurTotal: (n, total) => `${n} genre${n > 1 ? 's' : ''} sur ${total}`,
+  genresPrincipauxSur: (n, total) => `Genres principaux (${n} sur ${total})`,
+  encoreNCaracteres: (n) => `encore ${n} caractère${n > 1 ? 's' : ''}`,
+  nDerivesDirects: (n) => `${n} dérivé${n > 1 ? 's' : ''} direct${n > 1 ? 's' : ''}`,
+  derivesEtDescendance: (nom, d, total) => `${nom} · ${d} dérivé${d > 1 ? 's' : ''} direct${d > 1 ? 's' : ''}, ${total} genre${total > 1 ? 's' : ''} au total`,
+  releveDu: (quand) => ` · relevé du ${quand}`,
+  fondateurDeLaFamille: (famille) => `fondateur de la famille ${famille}`,
+  villeDattacheEnregistree: (ville) => `Ville d’attache enregistrée : ${ville}.`,
+  noteDeModeration: (note) => `Note de modération : ${note}`,
+  nSoireesAVenir: (n) => `${n} soirée${n > 1 ? 's' : ''} à venir`,
+  rienPourLaRechercheRa: (quoi, ville) => `Rien qui corresponde à « ${quoi} » parmi les soirées que Resident Advisor annonce à ${ville} sur les trois prochains mois.`,
+  peutLeurEchapper: "une soirée qui passe de la techno sans se dire soirée techno peut leur échapper.",
+  roleOrigine: "origine",
+  roleCanon: "canon",
+  legendeOrigine: "le morceau qui fonde le genre",
+  installerIosAvant: "Pour garder SONAA sur votre écran d’accueil : touchez",
+  partager: "Partager",
+  installerIosApres: "en bas de l’écran, puis",
+  compris: "Compris",
   fermerLaFiche: "Fermer la fiche",
   stylesDeCetArtiste: "Styles de cet artiste",
   lesArtistesDuStyle: "Les artistes de ce style",
@@ -917,6 +955,28 @@ const EN: Dictionnaire = {
   passerAuClair: 'Switch to the light theme',
   passerAuSombre: 'Switch to the dark theme',
   villeLibelle: "City",
+  /* EN ANGLAIS, ZERO PREND LE PLURIEL : « 0 offshoots », la ou le francais
+     ecrit « 0 dérivé ». La regle n'est donc pas la meme des deux cotes, et
+     copier `n > 1` du francais donnait « 0 direct offshoot », vu a l'ecran. */
+  nGenresSurTotal: (n, total) => `${n} genre${n === 1 ? '' : 's'} of ${total}`,
+  genresPrincipauxSur: (n, total) => `Main genres (${n} of ${total})`,
+  encoreNCaracteres: (n) => `${n} more character${n === 1 ? '' : 's'}`,
+  nDerivesDirects: (n) => `${n} direct offshoot${n === 1 ? '' : 's'}`,
+  derivesEtDescendance: (nom, d, total) => `${nom} · ${d} direct offshoot${d === 1 ? '' : 's'}, ${total} genre${total === 1 ? '' : 's'} in all`,
+  releveDu: (quand) => ` · surveyed on ${quand}`,
+  fondateurDeLaFamille: (famille) => `founder of the ${famille} family`,
+  villeDattacheEnregistree: (ville) => `Home city saved: ${ville}.`,
+  noteDeModeration: (note) => `Moderation note: ${note}`,
+  nSoireesAVenir: (n) => `${n} upcoming night${n === 1 ? '' : 's'}`,
+  rienPourLaRechercheRa: (quoi, ville) => `Nothing matching “${quoi}” among the nights Resident Advisor lists in ${ville} over the next three months.`,
+  peutLeurEchapper: "a night that plays techno without calling itself a techno night can slip past them.",
+  roleOrigine: "origin",
+  roleCanon: "canon",
+  legendeOrigine: "the track that founds the genre",
+  installerIosAvant: "To keep SONAA on your home screen: tap",
+  partager: "Share",
+  installerIosApres: "at the bottom of the screen, then",
+  compris: "Got it",
   fermerLaFiche: "Close",
   stylesDeCetArtiste: "This artist’s styles",
   lesArtistesDuStyle: "Artists in this style",
@@ -987,9 +1047,9 @@ const EN: Dictionnaire = {
   ajouteeALaMain: "added by hand",
   choisirTiret: "Pick…",
   compteurSoirees: (n, quand, ville, reste) =>
-    `${n} night${n > 1 ? 's' : ''} ${quand} in ${ville}${reste}.`,
+    `${n} night${n === 1 ? '' : 's'} ${quand} in ${ville}${reste}.`,
   compteurRecherche: (n, quoi, ville) =>
-    `${n} night${n > 1 ? 's' : ''} for “${quoi}” in ${ville}, over the next three months.`,
+    `${n} night${n === 1 ? '' : 's'} for “${quoi}” in ${ville}, over the next three months.`,
   lesNpremieres: (n) => `, the first ${n}`,
   styleAvecNombre: (n) => `Styles (${n})`,
 
@@ -1118,7 +1178,7 @@ const EN: Dictionnaire = {
   tempo: 'Tempo',
   apparition: 'Emerged',
   descendance: 'Offshoots',
-  nGenresDerives: (n) => `${n} genre${n > 1 ? 's' : ''}`,
+  nGenresDerives: (n) => `${n} genre${n === 1 ? '' : 's'}`,
   vers: 'circa',
   motDeLAuteur: 'A word from Mika',
   positionDansLeMorceau: 'Position in track',

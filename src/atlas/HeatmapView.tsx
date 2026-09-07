@@ -315,7 +315,7 @@ export function HeatmapView({ onOpen }: Props) {
     const q = g ? poidsDe(g.id) : null;
     const taille = tailleDuNom(p.w, p.h);
     const infobulle = q
-      ? `${nom} · ${q.derivesDirects} dérivé${q.derivesDirects > 1 ? 's' : ''} direct${q.derivesDirects > 1 ? 's' : ''}, ${q.descendance} genre${q.descendance > 1 ? 's' : ''} au total`
+      ? t.derivesEtDescendance(nom, q.derivesDirects, q.descendance)
       : `${nom} · ${FAMILIES[p.item.familyIndex]?.count ?? 0} genres`;
     return (
       <button
@@ -411,7 +411,7 @@ export function HeatmapView({ onOpen }: Props) {
                veut dire que l'influence a saute les frontieres de famille. */
             return (
               <span>
-                {q.derivesDirects} dérivé{q.derivesDirects > 1 ? 's' : ''} direct{q.derivesDirects > 1 ? 's' : ''}
+                {t.nDerivesDirects(q.derivesDirects)}
                 {q.descendance !== q.derivesDirects && `, ${q.descendance} genres en descendent au total`}
               </span>
             );

@@ -941,10 +941,8 @@ export function CalendrierPage() {
                 <p className="cal-note">
                   {enRecherche ? (
                     <>
-                      Rien qui corresponde à « {rechercheRetardee} » parmi les soirées que
-                      Resident Advisor annonce à {ville.name} sur les trois prochains mois.{' '}
-                      <strong>{t.ilsNeCouvrentPasTout}</strong> : une soirée qui passe de la
-                      techno sans se dire soirée techno peut leur échapper.
+                      {t.rienPourLaRechercheRa(rechercheRetardee, ville.name)}{' '}
+                      <strong>{t.ilsNeCouvrentPasTout}</strong> : {t.peutLeurEchapper}
                     </>
                   ) : (
                     <>

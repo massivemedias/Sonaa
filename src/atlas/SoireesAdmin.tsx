@@ -233,7 +233,7 @@ export function SoireesAdmin() {
       <h3 className="sa-titre-liste">
         {aVenir.length === 0
           ? 'Aucune soirée à venir dans ce panneau'
-          : `${aVenir.length} soirée${aVenir.length > 1 ? 's' : ''} à venir`}
+          : t.nSoireesAVenir(aVenir.length)}
       </h3>
       {aVenir.length > 0 && (
         <ul className="sa-liste">

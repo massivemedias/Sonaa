@@ -157,19 +157,26 @@ export function PwaLayer() {
     return (
       <div className="pwa-bandeau" role="status">
         <p>
-          Pour garder SONAA sur votre écran d&apos;accueil : touchez{' '}
+          {/* LA PHRASE ETAIT EN FRANCAIS SOUS UNE INTERFACE ANGLAISE, avec
+              un seul mot traduit au milieu : « Pour garder SONAA ... puis On
+              the home screen ». Le controle de langue ne l'a pas vue parce
+              qu'elle est coupee par une icone et une mise en gras : aucun
+              morceau ne forme une coulee entiere entre deux balises. Elle est
+              donc en trois fragments du dictionnaire, dans le meme ordre dans
+              les deux langues. */}
+          {t.installerIosAvant}{' '}
           <span className="pwa-geste" aria-hidden="true">
             <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
               <path d="M12 2 8.5 5.5l1.4 1.4L11 5.8V15h2V5.8l1.1 1.1 1.4-1.4L12 2Z" />
               <path d="M5 11v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-9h-2v9H7v-9H5Z" />
             </svg>
           </span>
-          <span className="pwa-geste-mot">Partager</span> en bas de l&apos;écran, puis{' '}
+          <span className="pwa-geste-mot">{t.partager}</span> {t.installerIosApres}{' '}
           <strong>{t.surEcranAccueil}</strong>.
         </p>
         <span className="pwa-actions">
           <button className="pwa-bouton" onClick={refuser}>
-            Compris
+            {t.compris}
           </button>
         </span>
       </div>

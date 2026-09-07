@@ -544,7 +544,7 @@ export function MobileLevels({ onOpen, onFamille, onEnsemble, onChercher, ouvert
                       ? `${genre.tracks.length} tracks`
                       : null,
                     genre.children.length > 0
-                      ? `${genre.children.length} dérivé${genre.children.length > 1 ? 's' : ''}`
+                      ? t.nDerives(genre.children.length)
                       : null
                   ]
                     .filter(Boolean)
