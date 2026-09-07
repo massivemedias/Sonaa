@@ -46,7 +46,8 @@
     "audit:lecture": "tsx scripts/audit-lecture.ts",
     "audit:decalage": "tsx scripts/audit-decalage.ts",
     "ingerer:shotgun": "tsx scripts/ingerer-shotgun.ts",
-    "check:langue": "tsx scripts/check-langue.ts"
+    "check:langue": "tsx scripts/check-langue.ts",
+    "moissonner:artistes": "tsx scripts/moissonner-artistes.ts"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^7.3.1",

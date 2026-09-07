@@ -33,3 +33,4 @@ public/_essai/
 # Le releve de la moisson Shotgun : une photographie datee, pas une source.
 # Il change a chaque passage et se refait par « npm run ingerer:shotgun -- --lire ».
 scripts/donnees/shotgun-releve.json
+scripts/donnees/artistes.json
