@@ -290,6 +290,12 @@ function FicheSoiree({
         </button>
       </div>
       <div className="cal-fiche">
+      {/* L'AFFICHE OUVRE LA FICHE. Sur la carte elle fait 22 rem de large et
+          on la lit a peine ; ici elle a la largeur de la feuille. Pas de texte
+          de remplacement : le titre est deja juste au-dessus. */}
+      {soiree.affiche && (
+        <img className="cal-fiche-affiche" src={soiree.affiche} alt="" loading="lazy" />
+      )}
       <dl className="cal-fiche-faits">
         {soiree.artistes.length > 0 && (
           <div>
@@ -926,29 +932,27 @@ export function CalendrierPage() {
                     c'est ce qu'on a demande. */}
                 {traduction?.elargi && styleInterroge && !EST_FAMILLE.has(styleInterroge) && (
                   <p className="cal-note">
-                    Resident Advisor ne distingue pas{' '}
-                    <strong>{LABEL_DE_STYLE[styleInterroge] ?? styleInterroge}</strong> : la
-                    recherche a été élargie à « {traduction.valeur} ».
+                    {t.raNeDistinguePas}{' '}
+                    <strong>{LABEL_DE_STYLE[styleInterroge] ?? styleInterroge}</strong>
+                    {t.rechercheElargieA(traduction.valeur ?? '')}
                   </p>
                 )}
                 {traduction && traduction.valeur === null && styleInterroge && (
                   <p className="cal-note">
-                    Aucun équivalent de{' '}
-                    <strong>{LABEL_DE_STYLE[styleInterroge] ?? styleInterroge}</strong> chez
-                    Resident Advisor : voici tout ce qui se joue en ville.
+                    {t.aucunEquivalentDe}{' '}
+                    <strong>{LABEL_DE_STYLE[styleInterroge] ?? styleInterroge}</strong>
+                    {t.chezRaVoiciTout}
                   </p>
                 )}
               </>
 
               {zoneRa == null ? (
                 <p className="cal-note">
-                  Resident Advisor ne couvre pas {ville.name}. La ville reste dans SONAA, ses
-                  soirées viendront d&apos;ailleurs.
+                  {t.raNeCouvrePas(ville.name)}
                 </p>
               ) : panne ? (
                 <p className="cal-panne">
-                  Resident Advisor ne répond pas. Ce n&apos;est pas une ville sans soirées :
-                  c&apos;est la source qui est muette.{' '}
+                  {t.raNeRepondPas}{' '}
                   <button className="cal-lien" onClick={charger}>
                     {t.reessayer}
                   </button>
@@ -963,11 +967,7 @@ export function CalendrierPage() {
                       <strong>{t.ilsNeCouvrentPasTout}</strong> : {t.peutLeurEchapper}
                     </>
                   ) : (
-                    <>
-                      Rien d&apos;annoncé {quand} à {ville.name}
-                      {traduction?.valeur ? ` en ${traduction.valeur}` : ''}. Regardez les jours
-                      suivants, ou changez de style.
-                    </>
+                    t.rienDAnnonce(quand, ville.name, traduction?.valeur ?? null)
                   )}
                 </p>
               ) : (

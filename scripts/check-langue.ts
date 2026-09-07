@@ -57,7 +57,11 @@ const ATTRIBUTS_LUS = /(?:aria-label|placeholder|title|alt)="([^"]{4,})"/g;
    `{`. La premiere version ne cherchait que `>...<` et a laisse passer une
    phrase entiere sous une interface anglaise, avec un seul mot traduit au
    milieu. On accepte donc `>` ou `}` a gauche, `<` ou `{` a droite. */
-const TEXTE_JSX = /[>}] *([^<>{}\n]{4,}?) *[<{]/g;
+/* ET LE SAUT DE LIGNE COMPTE COMME UN BLANC. « Rien d'annoncé {quand} » a
+   passe ce controle pendant un jour parce que la phrase commencait sur sa
+   propre ligne, apres un `<>` : le blanc entre le bord et le texte etait un
+   retour a la ligne, et la premiere version n'acceptait que des espaces. */
+const TEXTE_JSX = /[>}]\s*([^<>{}\n]{4,}?)\s*[<{]/g;
 
 /** Les commentaires deviennent des espaces : les positions restent justes,
     donc les numeros de ligne aussi. Un commentaire francais n'est pas un

@@ -72,19 +72,18 @@ export function ModerationPage() {
       <div id="moderation-contenu" className="credits-body">
         {!fil.connecte ? (
           <p className="prop-vide">
-            Cette page demande une connexion. Elle ne montre rien de plus que{' '}
+            {t.pageDemandeConnexion}{' '}
             <a href="#/propositions">{t.lesPropositions}</a>{t.elleAjouteLesDecisions}
           </p>
         ) : !fil.moderateur ? (
           <p className="prop-vide">
-            Votre compte n&apos;est pas modérateur. La file ci-dessous est de toute façon
-            publique : elle est visible sur <a href="#/propositions">{t.laPageDesPropositions}</a>.
+            {t.pasModerateur} <a href="#/propositions">{t.laPageDesPropositions}</a>.
           </p>
         ) : (
           <p>
-            Les propositions en attente, la plus soutenue en tête.{' '}
-            <strong>{t.accepterNePublieRien}</strong> : le corpus se modifie par commit, avec ses
-            sources. Marquez « reportée dans le corpus » une fois le travail réellement fait.
+            {t.propositionsEnAttenteTete}{' '}
+            <strong>{t.accepterNePublieRien}</strong>
+            {t.corpusParCommit}
           </p>
         )}
 

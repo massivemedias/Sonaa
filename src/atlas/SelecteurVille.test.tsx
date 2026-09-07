@@ -18,6 +18,7 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { t } from '../langue/langue.ts';
 import { SelecteurVille } from './SelecteurVille.tsx';
 import type { Ville } from '../lib/ville-active.ts';
 
@@ -162,9 +163,12 @@ describe('SelecteurVille : au clavier seul', () => {
   it('une recherche sans resultat le dit au lieu de se taire', async () => {
     const { champ } = poser();
     await taper(champ, 'zzz');
+    /* La phrase vient du dictionnaire, dans la langue du test : on compare a
+       ce que le dictionnaire dit, pas a une chaine recopiee de memoire. */
+    const debut = t.aucuneVilleDeCeNom(0).split('0')[0] ?? '';
     expect(await screen.findByRole('status', {}, ATTENDRE)).toHaveProperty(
       'textContent',
-      expect.stringContaining('Aucune ville')
+      expect.stringContaining(debut.trim())
     );
   });
 

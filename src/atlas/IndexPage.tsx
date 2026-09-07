@@ -45,8 +45,7 @@ export function IndexPage() {
           <span>Index</span>
         </h1>
         <p>
-          Navigation hiérarchique des {FAMILIES.length} familles et de leurs {total} genres. Même
-          contenu et mêmes liens que l&apos;espace, sans la matière.
+          {t.indexIntro(FAMILIES.length, total)}
         </p>
         <SiteNav variant="page" />
       </header>
@@ -80,7 +79,7 @@ export function IndexPage() {
 
                   <table className="index-genres">
                     <caption className="index-visually-hidden">
-                      Genres de la famille {mass.label}
+                      {t.genresDeLaFamille(mass.label)}
                     </caption>
                     <thead>
                       <tr>

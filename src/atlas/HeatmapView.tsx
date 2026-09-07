@@ -394,7 +394,7 @@ export function HeatmapView({ onOpen }: Props) {
         </div>
         {vue.k > 1.01 && (
           <button className="hm-zoom-reset" onClick={() => setVue({ k: 1, x: 0, y: 0 })}>
-            {vue.k.toFixed(1)}× · tout voir
+            {vue.k.toFixed(1)}× · {t.toutVoir}
           </button>
         )}
       </div>

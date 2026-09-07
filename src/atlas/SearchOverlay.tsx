@@ -543,7 +543,7 @@ export function SearchOverlay({ onPick, onListen, onClose }: Props) {
 
           {charniere && (
             <span className="search-track-charniere">
-              {jumeaux.length} genres le revendiquent, la scène ne tranche pas
+              {t.genresLeRevendiquent(jumeaux.length)}
             </span>
           )}
 

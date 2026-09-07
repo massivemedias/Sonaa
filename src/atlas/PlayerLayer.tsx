@@ -1367,7 +1367,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                   onClick={() => setInfoOpen((v) => !v)}
                   aria-expanded={infoOpen}
                 >
-                  Le genre {infoOpen ? '▾' : '▸'}
+                  {t.leGenre} {infoOpen ? '▾' : '▸'}
                 </button>
                 {infoOpen && (
                   <div className="pcol-info-body">
@@ -1410,7 +1410,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                           )}
                           {e.vues > 0 && (
                             <li>
-                              {t.medianeDe} <strong>{nb(e.vues)}</strong> vues par morceau sur YouTube
+                              {t.medianeDe} <strong>{nb(e.vues)}</strong> {t.vuesParMorceau}
                               {releveVues && <span className="pcol-poids-date">{t.releveDu(releveVues)}</span>}
                             </li>
                           )}

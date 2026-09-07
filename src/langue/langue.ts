@@ -157,6 +157,31 @@ interface Dictionnaire {
   readonly noteDeModeration: (note: string) => string;
   readonly nSoireesAVenir: (n: number) => string;
   readonly rienPourLaRechercheRa: (quoi: string, ville: string) => string;
+  readonly rienDAnnonce: (quand: string, ville: string, style: string | null) => string;
+  readonly raNeDistinguePas: string;
+  readonly rechercheElargieA: (valeur: string) => string;
+  readonly aucunEquivalentDe: string;
+  readonly chezRaVoiciTout: string;
+  readonly raNeCouvrePas: (ville: string) => string;
+  readonly raNeRepondPas: string;
+  readonly propositionEnregistree: string;
+  readonly ouElleSoutenue: string;
+  readonly propositionAccepteePasAuto: string;
+  readonly toutVoir: string;
+  readonly indexIntro: (familles: number, genres: number) => string;
+  readonly genresDeLaFamille: (nom: string) => string;
+  readonly pageDemandeConnexion: string;
+  readonly pasModerateur: string;
+  readonly propositionsEnAttenteTete: string;
+  readonly corpusParCommit: string;
+  readonly leGenre: string;
+  readonly vuesParMorceau: string;
+  readonly connecte: string;
+  readonly enTantQue: (nom: string) => string;
+  readonly sousLePseudonyme: (pseudo: string) => string;
+  readonly virguleModerateur: string;
+  readonly genresLeRevendiquent: (combien: number) => string;
+  readonly aucuneVilleDeCeNom: (combien: number) => string;
   readonly peutLeurEchapper: string;
   readonly roleOrigine: string;
   readonly roleCanon: string;
@@ -555,6 +580,31 @@ const FR: Dictionnaire = {
   noteDeModeration: (note) => `Note de modération : ${note}`,
   nSoireesAVenir: (n) => `${n} soirée${n > 1 ? 's' : ''} à venir`,
   rienPourLaRechercheRa: (quoi, ville) => `Rien qui corresponde à « ${quoi} » parmi les soirées que Resident Advisor annonce à ${ville} sur les trois prochains mois.`,
+  rienDAnnonce: (quand, ville, style) => `Rien d’annoncé ${quand} à ${ville}${style ? ` en ${style}` : ''}. Regardez les jours suivants, ou changez de style.`,
+  raNeDistinguePas: "Resident Advisor ne distingue pas",
+  rechercheElargieA: (valeur) => ` : la recherche a été élargie à « ${valeur} ».`,
+  aucunEquivalentDe: "Aucun équivalent de",
+  chezRaVoiciTout: " chez Resident Advisor : voici tout ce qui se joue en ville.",
+  raNeCouvrePas: (ville) => `Resident Advisor ne couvre pas ${ville}. La ville reste dans SONAA, ses soirées viendront d’ailleurs.`,
+  raNeRepondPas: "Resident Advisor ne répond pas. Ce n’est pas une ville sans soirées : c’est la source qui est muette.",
+  propositionEnregistree: "Proposition enregistrée. Elle apparaît dès maintenant dans",
+  ouElleSoutenue: ", où elle peut être soutenue ou contestée avant d’être tranchée.",
+  propositionAccepteePasAuto: "Une proposition acceptée n’entre pas automatiquement dans l’atlas : elle est reportée à la main dans le corpus, avec ses sources.",
+  toutVoir: "tout voir",
+  indexIntro: (familles, genres) => `Navigation hiérarchique des ${familles} familles et de leurs ${genres} genres. Même contenu et mêmes liens que l’espace, sans la matière.`,
+  genresDeLaFamille: (nom) => `Genres de la famille ${nom}`,
+  pageDemandeConnexion: "Cette page demande une connexion. Elle ne montre rien de plus que",
+  pasModerateur: "Votre compte n’est pas modérateur. La file ci-dessous est de toute façon publique : elle est visible sur",
+  propositionsEnAttenteTete: "Les propositions en attente, la plus soutenue en tête.",
+  corpusParCommit: " : le corpus se modifie par commit, avec ses sources. Marquez « reportée dans le corpus » une fois le travail réellement fait.",
+  leGenre: "Le genre",
+  vuesParMorceau: "vues par morceau sur YouTube",
+  connecte: "Connecté",
+  enTantQue: (nom) => ` en tant que ${nom}`,
+  sousLePseudonyme: (pseudo) => ` sous le pseudonyme ${pseudo}`,
+  virguleModerateur: ", modérateur",
+  genresLeRevendiquent: (combien) => `${combien} genres le revendiquent, la scène ne tranche pas`,
+  aucuneVilleDeCeNom: (combien) => `Aucune ville de ce nom. SONAA en connaît ${combien} pour le moment.`,
   peutLeurEchapper: "une soirée qui passe de la techno sans se dire soirée techno peut leur échapper.",
   roleOrigine: "origine",
   roleCanon: "canon",
@@ -959,6 +1009,31 @@ const EN: Dictionnaire = {
   noteDeModeration: (note) => `Moderation note: ${note}`,
   nSoireesAVenir: (n) => `${n} upcoming night${n === 1 ? '' : 's'}`,
   rienPourLaRechercheRa: (quoi, ville) => `Nothing matching “${quoi}” among the nights Resident Advisor lists in ${ville} over the next three months.`,
+  rienDAnnonce: (quand, ville, style) => `Nothing announced ${quand} in ${ville}${style ? ` in ${style}` : ''}. Look at the days ahead, or change style.`,
+  raNeDistinguePas: "Resident Advisor does not distinguish",
+  rechercheElargieA: (valeur) => `: the search was widened to “${valeur}”.`,
+  aucunEquivalentDe: "No equivalent of",
+  chezRaVoiciTout: " on Resident Advisor: here is everything on in town.",
+  raNeCouvrePas: (ville) => `Resident Advisor does not cover ${ville}. The city stays in SONAA, its nights will come from elsewhere.`,
+  raNeRepondPas: "Resident Advisor is not responding. This is not a city without nights: the source is silent.",
+  propositionEnregistree: "Proposal saved. It appears right away in",
+  ouElleSoutenue: ", where it can be supported or challenged before being decided.",
+  propositionAccepteePasAuto: "An accepted proposal does not enter the atlas automatically: it is carried into the corpus by hand, with its sources.",
+  toutVoir: "see all",
+  indexIntro: (familles, genres) => `Hierarchical navigation of the ${familles} families and their ${genres} genres. Same content and same links as the space, without the matter.`,
+  genresDeLaFamille: (nom) => `Genres of the ${nom} family`,
+  pageDemandeConnexion: "This page requires signing in. It shows nothing more than",
+  pasModerateur: "Your account is not a moderator. The queue below is public anyway: it is visible on",
+  propositionsEnAttenteTete: "Pending proposals, the most supported first.",
+  corpusParCommit: ": the corpus changes by commit, with its sources. Mark “carried into the corpus” once the work is really done.",
+  leGenre: "The genre",
+  vuesParMorceau: "views per track on YouTube",
+  connecte: "Signed in",
+  enTantQue: (nom) => ` as ${nom}`,
+  sousLePseudonyme: (pseudo) => ` under the pseudonym ${pseudo}`,
+  virguleModerateur: ", moderator",
+  genresLeRevendiquent: (combien) => `${combien} genres claim it, the scene does not decide`,
+  aucuneVilleDeCeNom: (combien) => `No city by that name. SONAA knows ${combien} so far.`,
   peutLeurEchapper: "a night that plays techno without calling itself a techno night can slip past them.",
   roleOrigine: "origin",
   roleCanon: "canon",

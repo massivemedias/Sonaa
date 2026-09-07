@@ -650,6 +650,28 @@
   }
 }
 
+/* L'affiche en tete de la fiche. Sur telephone la feuille monte du bas et ne
+   prend que 88 % de l'ecran : l'affiche est bornee en hauteur pour que le
+   plateau et l'heure restent visibles sans defiler. Sur ordinateur la feuille
+   est haute comme l'ecran, et l'affiche prend sa largeur entiere. */
+.cal-fiche-affiche {
+  display: block;
+  width: 100%;
+  max-height: 34vh;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 12px;
+  background: var(--surface-margin);
+  margin: 0 0 1.1rem;
+}
+@media (min-width: 860px) {
+  .cal-fiche-affiche {
+    max-height: none;
+    aspect-ratio: 4 / 3;
+    margin-bottom: 1.3rem;
+  }
+}
+
 .cal-fiche-faits {
   margin: 0 0 1rem;
   display: grid;

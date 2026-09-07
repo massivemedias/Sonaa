@@ -178,17 +178,16 @@ export function ContributeDialog({
         {succes ? (
           <div className="contrib-corps">
             <p className="contrib-succes">
-              Proposition enregistrée. Elle apparaît dès maintenant dans{' '}
-              <a href="#/propositions">{t.lesPropositionsEnAttente}</a>, où elle peut être
-              soutenue ou contestée avant d&apos;être tranchée.
+              {t.propositionEnregistree}{' '}
+              <a href="#/propositions">{t.lesPropositionsEnAttente}</a>
+              {t.ouElleSoutenue}
             </p>
             <p className="contrib-note">
-              Une proposition acceptée n&apos;entre pas automatiquement dans l&apos;atlas : elle
-              est reportée à la main dans le corpus, avec ses sources.
+              {t.propositionAccepteePasAuto}
             </p>
             <div className="contrib-pied">
               <button className="contrib-primaire" onClick={onClose}>
-                Fermer
+                {t.fermer}
               </button>
             </div>
           </div>
@@ -203,7 +202,7 @@ export function ContributeDialog({
             </p>
             <div className="contrib-pied">
               <button className="contrib-primaire" onClick={onClose}>
-                Fermer
+                {t.fermer}
               </button>
             </div>
           </div>

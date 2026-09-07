@@ -136,13 +136,13 @@ export function PropositionsPage() {
                 propositions qu'on a déposées portent déjà « votre
                 proposition », ce qui suffit à les reconnaître. Le pseudonyme
                 ne reste dit que faute de nom de profil. */}
-            Connecté
+            {t.connecte}
             {fil.nom
-              ? ` en tant que ${fil.nom}`
+              ? t.enTantQue(fil.nom)
               : fil.pseudonyme
-                ? ` sous le pseudonyme ${fil.pseudonyme}`
+                ? t.sousLePseudonyme(fil.pseudonyme)
                 : ''}
-            {fil.moderateur ? ', modérateur' : ''}.{' '}
+            {fil.moderateur ? t.virguleModerateur : ''}.{' '}
             {fil.moderateur && <a href="#/moderation">{t.fileDeModeration}</a>}{' '}
             <button
               className="contrib-bouton"

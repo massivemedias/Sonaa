@@ -30,6 +30,7 @@ import {
   situer,
   type Ville,
 } from '../lib/ville-active.ts';
+import { t } from '../langue/langue.ts';
 import './selecteur-ville.css';
 
 /* DEBOUNCE. La liste des villes est deja en memoire, donc filtrer ne coute
@@ -187,7 +188,7 @@ export function SelecteurVille({
 
       {termeRetarde.trim().length >= CARACTERES_MIN && resultats.length === 0 && (
         <p className="sv-rien" role="status">
-          Aucune ville de ce nom. SONAA en connait {villes.length} pour le moment.
+          {t.aucuneVilleDeCeNom(villes.length)}
         </p>
       )}
 
