@@ -25,6 +25,11 @@ describe('estElectronique', () => {
   it('ne rejette pas sur la presence d un mot etranger', () => {
     expect(estElectronique('Techno-Metal Night', 'metal', null)).toBe(true);
   });
+  /* UN CHIFFRE COLLE AU MOT N'EST PAS UNE LETTRE : « Down2Techno » doit passer. */
+  it('accepte un mot electronique colle a un chiffre', () => {
+    expect(estElectronique('Down2Techno: FEL!, Pinch, POM', null, null)).toBe(true);
+    expect(estElectronique('#LeCypher #404 - Live Hip-Hop', 'dj set', null)).toBe(true);
+  });
   it('ne prend pas « set » ni « dj » a l interieur d un autre mot', () => {
     expect(estElectronique('Sunset Yoga', 'settle in', 'Adjust Co')).toBe(false);
   });

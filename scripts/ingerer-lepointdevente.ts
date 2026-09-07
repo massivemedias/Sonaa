@@ -34,6 +34,19 @@
  * l'inconnu reviendrait a verser la province entiere dans le calendrier de
  * Montreal. Le rendement sera faible, et c'est le rendement reel.
  *
+ * ═══ LA MEME GARDE QU'EVENTBRITE, ET ELLE EST ENCORE PLUS NECESSAIRE ICI ═══
+ *
+ * Premiere moisson, 7 septembre 2026 : 65 fiches du Grand Montreal, dont du
+ * rugby, du volleyball, du hockey a l'Auditorium de Verdun et des ateliers de
+ * bibliotheque pour enfants. « Le courant electrique (8-12 ans) » etait
+ * attrape par « electro », un match de l'Ecole de technologie superieure par
+ * « techno ». La recherche par mot de Lepointdevente cherche dans tout le
+ * texte, sans borne, et ramene tout ce qui contient la suite de lettres.
+ *
+ * On applique donc la garde par mots bornes de l'adaptateur Eventbrite, la
+ * meme fonction, pour que les deux sources soient jugees pareil ; et on y
+ * ajoute « electrique », parce qu'ici le mot vient des bibliotheques.
+ *
  * Mika a demande cet adaptateur en connaissant ces limites. Il existe pour
  * que le chiffre soit mesure, pas suppose.
  */
@@ -41,6 +54,7 @@
 import { writeFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { chromium, type Page } from 'playwright-core';
+import { estElectronique } from './ingerer-eventbrite.ts';
 
 const VILLE_SONAA = 'montreal-ca';
 
@@ -236,6 +250,7 @@ async function main(): Promise<void> {
   const releve: Fiche[] = [];
   let lues = 0;
   let horsMontreal = 0;
+  let horsSujet = 0;
   try {
     const page = await nav.newContext({ locale: 'fr-CA', timezoneId: 'America/Toronto' }).then((c) => c.newPage());
     await accepter(page);
@@ -246,8 +261,9 @@ async function main(): Promise<void> {
       lues += 1;
       try {
         const f = await lireLaFiche(page, ref);
-        if (f) releve.push(f);
-        else horsMontreal += 1;
+        if (!f) horsMontreal += 1;
+        else if (!estElectronique(f.titre, f.description, f.organisateur) || /[ée]lectrique/i.test(f.titre)) horsSujet += 1;
+        else releve.push(f);
       } catch (e) {
         console.log(`  ${ref} : ${(e as Error).message}`);
       }
@@ -257,7 +273,7 @@ async function main(): Promise<void> {
   } finally {
     await nav.close();
   }
-  console.log(`\n  ${releve.length} soirées du Grand Montréal retenues, ${horsMontreal} écartées (ville absente ou hors Montréal)`);
+  console.log(`\n  ${releve.length} soirées du Grand Montréal retenues, ${horsMontreal} écartées (ville absente ou hors Montréal), ${horsSujet} écartées (pas électroniques)`);
   console.log(`  dont ${releve.filter((f) => f.note === null).length} avec une heure sûre`);
 
   if (lire || !CLE_SERVICE) {

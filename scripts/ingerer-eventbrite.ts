@@ -159,7 +159,13 @@ const texte = (v: unknown): string | null => (typeof v === 'string' && v.trim() 
     a l'absence de filtre, qui donnait 373 fiches dont 38 surement
     electroniques. */
 export const MOTS_ELECTRONIQUES =
-  /\b(techno|tech house|house music|deep house|afro house|rave|dj|djs|electro|electronic|électro|électronique|trance|drum and bass|drum & bass|dnb|dubstep|uk garage|boiler room|warehouse|minimal|acid|disco|edm|remix|b2b|dancefloor|dance floor|nightclub|club night|afterhours|after hours|hardstyle|hardcore techno|breakbeat|jungle|ambient|synth|synthwave|italo|nu-disco|nu disco)\b/i;
+  /(?<![a-zà-ü])(techno|tech house|house music|deep house|afro house|rave|dj|djs|electro|electronic|électro|électronique|trance|drum and bass|drum & bass|dnb|dubstep|uk garage|boiler room|warehouse|minimal|acid|disco|edm|remix|b2b|dancefloor|dance floor|nightclub|club night|afterhours|after hours|hardstyle|hardcore techno|breakbeat|jungle|ambient|synth|synthwave|italo|nu-disco|nu disco)(?![a-zà-ü])/i;
+
+/* LA BORNE EST « PAS UNE LETTRE », PAS « PAS UN MOT ». `\b` compte un chiffre
+   comme une lettre : « Down2Techno » ne passait pas, alors que c'est la
+   soiree la plus pertinente de toute la moisson Lepointdevente. On borne donc
+   sur les lettres seulement, accents compris : « Technology » reste exclu
+   par la regle a part, « Sunset » reste exclu parce qu'un n precede set. */
 
 export const estElectronique = (titre: string, description: string | null, organisateur: string | null): boolean => {
   const t = `${titre} ${description ?? ''} ${organisateur ?? ''}`;
