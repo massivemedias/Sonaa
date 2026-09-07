@@ -449,14 +449,9 @@ interface Dictionnaire {
   readonly lesArtistes: string;
   readonly lesSons: string;
   readonly piedParcourir: string;
-  readonly piedAutresVues: string;
   readonly piedParticiper: string;
   readonly piedLeProjet: string;
   readonly piedIndex: string;
-  readonly piedCarte: string;
-  readonly piedArbre: string;
-  readonly piedChronologie: string;
-  readonly piedChaleur: string;
   readonly piedPropositions: string;
   readonly piedCode: string;
   readonly piedMot: string;
@@ -853,14 +848,9 @@ const FR: Dictionnaire = {
   lesArtistes: 'Artistes',
   lesSons: 'Sons',
   piedParcourir: 'Parcourir',
-  piedAutresVues: 'Autres vues',
   piedParticiper: 'Participer',
   piedLeProjet: 'Le projet',
   piedIndex: 'Index des 219 genres',
-  piedCarte: 'Carte en trois dimensions',
-  piedArbre: 'Arbre déployé',
-  piedChronologie: 'Chronologie',
-  piedChaleur: 'Carte de chaleur',
   piedPropositions: 'Propositions du public',
   piedCode: 'Le code, sur GitHub',
   piedMot:
@@ -1262,14 +1252,9 @@ const EN: Dictionnaire = {
   lesArtistes: 'Artists',
   lesSons: 'Sounds',
   piedParcourir: 'Browse',
-  piedAutresVues: 'Other views',
   piedParticiper: 'Take part',
   piedLeProjet: 'The project',
   piedIndex: 'Index of all 219 genres',
-  piedCarte: 'Three-dimensional map',
-  piedArbre: 'Expanded tree',
-  piedChronologie: 'Timeline',
-  piedChaleur: 'Heat map',
   piedPropositions: 'Public proposals',
   piedCode: 'The code, on GitHub',
   piedMot:

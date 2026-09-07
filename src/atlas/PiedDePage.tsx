@@ -1,12 +1,15 @@
 /* LE PIED DE PAGE.
 
-   IL RASSEMBLE CE QUI A ETE RETIRE DU MENU SANS ETRE SUPPRIME. Cinq vues
-   existent encore et repondent a leur adresse : la carte en trois dimensions,
-   la chronologie, la carte de chaleur, l'arbre deploye, l'index a plat. Elles
-   ont quitte la navigation parce qu'elle demandait de choisir avant de
-   savoir, et depuis elles n'etaient plus atteignables que par quelqu'un qui
-   connaissait l'adresse. Un pied de page est exactement l'endroit ou vivent
-   les portes secondaires.
+   LES « AUTRES VUES » N'Y SONT PLUS. Le pied a longtemps servi de refuge a
+   ce qui avait quitte le menu : la carte en trois dimensions, l'arbre
+   deploye, la chronologie, la carte de chaleur. Mika les a retirees d'ici
+   aussi, sur capture : quatre portes que personne ne pousse, sous un titre
+   qui promettait autre chose. Elles ne sont pas supprimees, leurs adresses
+   repondent toujours ; elles ne sont simplement plus proposees nulle part.
+   C'est la meme decision que pour le menu, un cran plus loin.
+
+   L'index a plat reste, sous « Parcourir » : c'est la liste des 219 genres,
+   une porte de premiere classe et non une vue de plus.
 
    LES LIENS SONT VERIFIES, PAS DECORATIFS. Chaque adresse ci-dessous repond
    aujourd'hui. Un pied rempli de liens morts fait plus de mal qu'un pied
@@ -39,15 +42,6 @@ export function PiedDePage() {
            chercher ailleurs ce qui est juste au-dessus. */
         { href: '#/calendrier', label: t.leCalendrier },
         { href: '#/index', label: t.piedIndex },
-      ],
-    },
-    {
-      titre: t.piedAutresVues,
-      liens: [
-        { href: '#/carte', label: t.piedCarte },
-        { href: '#/arbre', label: t.piedArbre },
-        { href: '#/chronologie', label: t.piedChronologie },
-        { href: '#/heatmap', label: t.piedChaleur },
       ],
     },
     {
