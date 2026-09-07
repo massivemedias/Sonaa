@@ -33,6 +33,26 @@
   padding-right: calc(var(--authb-reserve, 126px) + 0.6rem);
 }
 
+/* ═══ SUR TELEPHONE, LE MENU PREND SA PROPRE RANGEE ═══
+
+   MESURE SUR UN ECRAN DE 375 PX : la reserve du bouton de compte vaut 176 px
+   depuis que la langue et le theme l'ont rejoint. Appliquee a tout l'en-tete,
+   elle ne laissait que 183 px aux quatre liens, qui s'empilaient sur quatre
+   rangees ; l'en-tete faisait 192 px de haut, la moitie du premier ecran.
+
+   La reserve n'a de sens que sur la rangee que le bouton partage. Le logo y
+   est seul et n'a besoin de rien. Le menu descend donc sur sa propre rangee,
+   pleine largeur, ou rien ne le recouvre : quatre liens sur une ligne au lieu
+   de quatre rangees. */
+@media (max-width: 699px) {
+  .entete-site {
+    padding-right: var(--marge-page);
+  }
+  .entete-site .sitenav {
+    flex-basis: 100%;
+  }
+}
+
 /* Le contenu s'aligne sur la colonne du texte, comme dans Parcourir. */
 @media (min-width: 700px) {
   .entete-site {
