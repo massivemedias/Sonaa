@@ -916,7 +916,9 @@ const FR: Dictionnaire = {
   artisteIntrouvable: 'Cet artiste n’a pas de set publié.',
   retourAuxArtistes: 'Revenir aux artistes',
   lesStyles: 'Styles',
-  leCalendrier: 'Calendrier',
+  /* « Calendar » dans les deux langues : c'est le nom de la section, pas un
+     mot a traduire. Choix de Mika du 7 septembre 2026. */
+  leCalendrier: 'Calendar',
   leJeu: 'Jeu',
   derniersSets: 'Derniers sets',
   descriptionFacultative: 'Description, si vous voulez',

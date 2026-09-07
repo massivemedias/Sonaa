@@ -145,9 +145,11 @@ const routeOf = (): Route => {
      d'accueil revenait a proposer, comme premier ecran, la seule vue que le
      menu ne mentionne pas. */
   if (window.location.hash.startsWith('#/carte')) return 'atlas';
-  /* LA RACINE MENE A PARCOURIR. C'est la vue faite pour le doigt, celle que
-     le menu met en premier, et celle qu'on veut voir en arrivant. */
-  return 'parcourir';
+  /* LA RACINE MENE AU CALENDAR. Decision de Mika du 7 septembre 2026, pour
+     le lancement a Montreal : ce qu'on vient chercher en arrivant, c'est ce
+     qui se joue ce soir, pas la carte des genres. Parcourir reste a un clic,
+     premier dans le menu. */
+  return 'calendrier';
 };
 
 const estAtlas = (r: Route): boolean => r === 'atlas';

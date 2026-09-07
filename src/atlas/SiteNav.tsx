@@ -107,7 +107,10 @@ function courantOf(hash: string): SiteCourant {
   if (hash.startsWith('#/sets')) return 'sets';
   if (hash.startsWith('#/parcourir')) return 'parcourir';
   if (hash.startsWith('#/carte')) return 'atlas';
-  if (hash === '' || hash === '#' || hash.startsWith('#/')) return 'parcourir';
+  /* La racine est le Calendar, comme dans main.tsx : les deux doivent dire
+     la meme chose, sinon le menu allume « Styles » sur la page d'accueil. */
+  if (hash === '' || hash === '#') return 'calendrier';
+  if (hash.startsWith('#/')) return 'parcourir';
   return 'autre';
 }
 
