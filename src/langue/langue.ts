@@ -146,6 +146,7 @@ interface Dictionnaire {
   readonly passerAuClair: string;
   readonly passerAuSombre: string;
   readonly villeLibelle: string;
+  readonly stylesDeCetArtiste: string;
   readonly lesArtistesDuStyle: string;
   /** La provenance ET la date : un relevé sans date se lit comme une vérité
       intemporelle. */
@@ -528,6 +529,7 @@ const FR: Dictionnaire = {
   passerAuClair: 'Passer au thème clair',
   passerAuSombre: 'Passer au thème sombre',
   villeLibelle: "Ville",
+  stylesDeCetArtiste: "Styles de cet artiste",
   lesArtistesDuStyle: "Les artistes de ce style",
   artistesDouVientLaListe: (quand) =>
     `Classés par nombre d’auditeurs chez Last.fm, et retenus quand leurs disques confirment le style chez Discogs. Relevé du ${quand}.`,
@@ -913,6 +915,7 @@ const EN: Dictionnaire = {
   passerAuClair: 'Switch to the light theme',
   passerAuSombre: 'Switch to the dark theme',
   villeLibelle: "City",
+  stylesDeCetArtiste: "This artist’s styles",
   lesArtistesDuStyle: "Artists in this style",
   artistesDouVientLaListe: (quand) =>
     `Ranked by listener count on Last.fm, and kept when their records confirm the style on Discogs. Surveyed on ${quand}.`,

@@ -6,7 +6,7 @@
  * de fiches, ce qui est exactement la definition d'un endroit a tester. */
 
 import { describe, expect, it } from 'vitest';
-import { aplatir, ranger, vocabulaire, MODIFICATEURS, TROUS } from './lib/correspondance-styles.ts';
+import { ALIAS, aplatir, ranger, vocabulaire, MODIFICATEURS, TROUS } from './lib/correspondance-styles.ts';
 import { genresDuCorpus } from './lib/genres-du-corpus.ts';
 
 const GENRES = genresDuCorpus();
@@ -36,7 +36,7 @@ describe('aplatir', () => {
 describe('ranger : ce qui tombe sur un genre', () => {
   it('reconnait un libelle ecrit comme le notre', () => {
     expect(ranger('Detroit Techno', VOC)).toEqual({ sorte: 'genre', id: 'detroittechno' });
-    expect(ranger('Deep House', VOC)).toEqual({ sorte: 'genre', id: 'deephouse' });
+    expect(ranger('Deep House', VOC)).toEqual({ sorte: 'genre', id: 'usdeephouse' });
   });
 
   it('reconnait les orthographes de Discogs', () => {
@@ -89,5 +89,30 @@ describe('ranger : ce qu on refuse de ranger', () => {
      approchante prendrait a la place de Mika une decision d'auteur. */
   it('laisse de cote les genres que l atlas n a pas', () => {
     for (const n of TROUS) expect(ranger(n, VOC)).toBeNull();
+  });
+});
+
+describe('les cibles des alias existent vraiment', () => {
+  /* LE DEFAUT QUE CE TEST AURAIT ATTRAPE. « Deep House » pointait sur un
+     identifiant `deephouse` qui n'existe pas : le corpus l'appelle
+     `usdeephouse`. La pastille affichait donc « deephouse » en clair a
+     l'ecran, au milieu de vrais libelles. Une table de correspondance ecrite
+     a la main doit etre verifiee contre ce qu'elle pretend designer, sinon
+     elle designe des noms plausibles qui ne mènent nulle part. */
+  const IDS = new Set(GENRES.map((g) => g.id));
+  const FAMS = new Set(GENRES.map((g) => g.family));
+
+  it('chaque alias de genre designe un genre du corpus', () => {
+    const faux = Object.entries(ALIAS)
+      .filter(([, c]) => c.sorte === 'genre' && !IDS.has(c.id))
+      .map(([nom, c]) => `${nom} → ${c.id}`);
+    expect(faux).toEqual([]);
+  });
+
+  it('chaque alias de famille designe une famille du corpus', () => {
+    const faux = Object.entries(ALIAS)
+      .filter(([, c]) => c.sorte === 'famille' && !FAMS.has(c.id))
+      .map(([nom, c]) => `${nom} → ${c.id}`);
+    expect(faux).toEqual([]);
   });
 });

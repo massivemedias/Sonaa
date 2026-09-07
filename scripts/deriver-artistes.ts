@@ -37,6 +37,11 @@ import { ranger, vocabulaire } from './lib/correspondance-styles.ts';
 
 const RELEVE = fileURLToPath(new URL('./donnees/artistes.json', import.meta.url));
 const SORTIE = fileURLToPath(new URL('../src/data/artistes.json', import.meta.url));
+/* L'INDEX INVERSE PART DANS SON PROPRE FICHIER, ET C'EST TOUT LE POINT.
+   638 ko bruts, 134 une fois compresses : c'est acceptable pour qui cherche
+   un artiste, inacceptable pour qui vient lire une fiche de genre. Le
+   separer permet de ne le charger qu'au premier usage de la recherche. */
+const INDEX = fileURLToPath(new URL('../src/data/artistes-index.json', import.meta.url));
 
 /** Combien d'artistes par style. Trente, comme demande : c'est ce qui tient
     sur un ecran sans devenir un annuaire, et au-dela le classement de Last.fm
@@ -116,6 +121,29 @@ function main(): void {
   const livre: Livre = { fait: new Date().toISOString(), parGenre };
   writeFileSync(SORTIE, JSON.stringify(livre), 'utf8');
 
+  /* ═══ L'INDEX INVERSE : UN NOM, SES STYLES ═══
+   *
+   * Six styles au plus, du plus present au moins, parce qu'au-dela ce sont
+   * des incursions et non un style. Les noms sont ranges par leur forme
+   * aplatie : c'est ainsi que la recherche les cherchera, sans accent et
+   * sans ponctuation, pour que « Rhythim Is Rhythim » se trouve en tapant
+   * « rhythim is rhythim » comme « RhythimIsRhythim ». */
+  const parNom: Record<string, string[]> = {};
+  for (const [nom, brut] of Object.entries(releve.parArtiste)) {
+    const poids = new Map<string, number>();
+    for (const [style, n] of Object.entries(brut)) {
+      const cible = ranger(style, voc);
+      if (!cible) continue;
+      poids.set(cible.id, (poids.get(cible.id) ?? 0) + n);
+    }
+    if (poids.size === 0) continue;
+    parNom[nom] = [...poids.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 6)
+      .map(([id]) => id);
+  }
+  writeFileSync(INDEX, JSON.stringify(parNom), 'utf8');
+
   const styles = Object.keys(parGenre).length;
   const noms = new Set(Object.values(parGenre).flat()).size;
   const poids = Math.round(readFileSync(SORTIE, 'utf8').length / 1024);
@@ -123,6 +151,9 @@ function main(): void {
     `${styles} styles sur ${genres.length} ont des artistes, ${noms} noms distincts, ${poids} ko.`
   );
   console.log(`  ${confirmes} places confirmées par Discogs, ${inconnus} pas encore vérifiées.`);
+  const combien = Object.keys(JSON.parse(readFileSync(INDEX, 'utf8')) as object).length;
+  const poidsIndex = Math.round(readFileSync(INDEX, 'utf8').length / 1024);
+  console.log(`Index inverse : ${combien} artistes, ${poidsIndex} ko bruts.`);
 }
 
 main();

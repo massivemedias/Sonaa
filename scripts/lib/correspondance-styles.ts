@@ -82,7 +82,13 @@ export const ALIAS: Readonly<Record<string, Cible>> = {
   'synth pop': { sorte: 'genre', id: 'synthpop' },
   'electro house': { sorte: 'genre', id: 'electrohouse' },
   'tech house': { sorte: 'genre', id: 'techhouse' },
-  'deep house': { sorte: 'genre', id: 'deephouse' },
+  /* L'IDENTIFIANT N'EST PAS LE LIBELLE APLATI, ET C'EST LE PIEGE DE CETTE
+     TABLE. Le genre « Deep House » a pour identifiant `usdeephouse`, pas
+     `deephouse` : le corpus distingue la deep house americaine. Ecrire la
+     cible de memoire a produit une pastille qui affichait son identifiant
+     brut a l'ecran. Le test ci-dessous verifie desormais chaque cible contre
+     le corpus. */
+  'deep house': { sorte: 'genre', id: 'usdeephouse' },
   'progressive house': { sorte: 'genre', id: 'progressivehouse' },
   'happy hardcore': { sorte: 'genre', id: 'happyhardcore' },
   'broken beat': { sorte: 'genre', id: 'brokenbeat' },

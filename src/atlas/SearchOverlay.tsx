@@ -12,6 +12,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { FAMILIES, STRUCTURES } from './structures.ts';
 import './search.css';
 import { t } from '../langue/langue.ts';
+import { chercherArtistes, type ArtisteTrouve } from '../lib/styles-dartiste.ts';
 
 interface Props {
   onPick: (familyIndex: number, genreLocal: number) => void;
@@ -29,6 +30,12 @@ const fold = (s: string): string =>
     .trim();
 
 interface GenreEntry {
+  /* L'IDENTIFIANT DU CORPUS, PORTE JUSQU'ICI. La recherche travaillait sur des
+     positions, famille et rang dans la famille, ce qui suffisait tant qu'elle
+     ne parlait qu'a l'atlas. L'index des artistes moissonnes, lui, nomme les
+     genres par leur identifiant : il faut donc pouvoir passer de l'un a
+     l'autre, et c'est le corpus qui porte le lien. */
+  id: string;
   familyIndex: number;
   genreLocal: number;
   label: string;
@@ -76,6 +83,7 @@ const buildIndex = (): Index => {
   FAMILIES.forEach((family, familyIndex) => {
     STRUCTURES[familyIndex]?.genres.forEach((genre, genreLocal) => {
       genres.push({
+        id: genre.id,
         familyIndex,
         genreLocal,
         label: genre.label,
@@ -213,7 +221,12 @@ type Item =
   | { type: 'genre'; entry: GenreEntry; via: string | null }
   | { type: 'artist'; name: string; count: number; key: string }
   | { type: 'track'; entry: TrackEntry }
-  | { type: 'label'; name: string; count: number; key: string };
+  | { type: 'label'; name: string; count: number; key: string }
+  /* UN ARTISTE QUI N'EST PAS DANS LE CORPUS, ET SES STYLES.
+     Les quatre types precedents interrogent ce que SONAA contient ; celui-ci
+     interroge ce que SONAA a moissonne. Neuf mille noms que le corpus ne cite
+     nulle part, avec les styles que leurs disques portent chez Discogs. */
+  | { type: 'styles'; nom: string; genres: readonly string[] };
 
 export function SearchOverlay({ onPick, onListen, onClose }: Props) {
   const index = useMemo(buildIndex, []);
@@ -221,6 +234,26 @@ export function SearchOverlay({ onPick, onListen, onClose }: Props) {
   const [cursor, setCursor] = useState(0);
   /** Vue de détail : la liste des tracks d'un artiste ou d'un label. */
   const [drill, setDrill] = useState<{ type: 'artist' | 'label'; key: string; name: string } | null>(null);
+  /* L'INDEX DES ARTISTES ARRIVE APRES COUP, ET C'EST VOULU. Il pese 134 ko
+     compresses : l'attendre retarderait les resultats du corpus, qui sont
+     deja la. On affiche donc tout de suite ce qu'on sait, et les artistes
+     moissonnes se posent au rendu suivant. */
+  const [moissonnes, setMoissonnes] = useState<ArtisteTrouve[]>([]);
+  useEffect(() => {
+    let vivant = true;
+    if (drill) {
+      setMoissonnes([]);
+      return () => {
+        vivant = false;
+      };
+    }
+    void chercherArtistes(query).then((r) => {
+      if (vivant) setMoissonnes(r);
+    });
+    return () => {
+      vivant = false;
+    };
+  }, [query, drill]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const items = useMemo<Item[]>(() => {
@@ -282,6 +315,16 @@ export function SearchOverlay({ onPick, onListen, onClose }: Props) {
       ...artistHits.map(([key, v]) => ({ type: 'artist', name: v.name, count: v.tracks.length, key }) as Item)
     );
 
+    /* LES ARTISTES MOISSONNES VIENNENT APRES CEUX DU CORPUS, et jamais en
+       double : un nom que SONAA connait deja se lit mieux avec ses morceaux
+       qu'avec une liste de styles. */
+    const dejaLa = new Set(artistHits.map(([, v]) => fold(v.name)));
+    out.push(
+      ...moissonnes
+        .filter((a) => !dejaLa.has(fold(a.nom)))
+        .map((a) => ({ type: 'styles', nom: a.nom, genres: a.genres }) as Item)
+    );
+
     /* Tracks : titre ET artiste ET label, tous les mots, fautes tolérées.
        On dédoublonne par identifiant vidéo : une charnière revendiquée par
        trois genres est UN morceau, pas trois résultats. */
@@ -309,7 +352,7 @@ export function SearchOverlay({ onPick, onListen, onClose }: Props) {
     );
 
     return out;
-  }, [index, query, drill]);
+  }, [index, query, drill, moissonnes]);
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -364,6 +407,10 @@ export function SearchOverlay({ onPick, onListen, onClose }: Props) {
          mieux qu'une sortie involontaire. */
       return;
     }
+    /* UN ARTISTE MOISSONNE N'A PAS DE DETAIL A OUVRIR. Ses styles sont ecrits
+       sur la ligne et chacun est cliquable ; il n'y a rien derriere le nom,
+       puisque le corpus ne contient aucun de ses morceaux. */
+    if (item.type === 'styles') return;
     setDrill({ type: item.type, key: item.key, name: item.name });
   };
 
@@ -403,13 +450,21 @@ export function SearchOverlay({ onPick, onListen, onClose }: Props) {
   const groups: { title: string; from: number; to: number }[] = [];
   if (!drill) {
     let i = 0;
-    for (const type of ['genre', 'artist', 'track', 'label'] as const) {
+    for (const type of ['genre', 'artist', 'styles', 'track', 'label'] as const) {
       const from = i;
       while (i < items.length && items[i]?.type === type) i += 1;
       if (i > from) {
         groups.push({
           title:
-            type === 'genre' ? 'Genres' : type === 'artist' ? 'Artistes' : type === 'track' ? 'Tracks' : 'Labels',
+            type === 'genre'
+              ? 'Genres'
+              : type === 'artist'
+                ? 'Artistes'
+                : type === 'styles'
+                  ? t.stylesDeCetArtiste
+                  : type === 'track'
+                    ? 'Tracks'
+                    : 'Labels',
           from,
           to: i
         });
@@ -527,6 +582,57 @@ export function SearchOverlay({ onPick, onListen, onClose }: Props) {
         </button>
       );
     }
+    /* UN ARTISTE MOISSONNE : SON NOM, ET SES STYLES CLIQUABLES.
+     *
+     * La ligne ne mene nulle part par elle-meme, parce qu'il n'y a rien au
+     * bout : le corpus ne contient aucun morceau de cet artiste. Ce qu'elle
+     * porte, ce sont ses styles, et chacun d'eux, lui, mene quelque part.
+     * C'est la reponse a la question posee : « ce nom, c'est quel style ». */
+    if (item.type === 'styles') {
+      return (
+        <div className="search-hit search-hit-styles" role="option" aria-selected={active}>
+          <span className="search-label">{item.nom}</span>
+          {/* UN STYLE EST SOIT UN GENRE, SOIT UNE FAMILLE, et les deux
+              s'ouvrent differemment. Discogs etiquette « House » tout court
+              quatorze mille fois : ces occurrences-la designent la famille, et
+              cliquer dessus doit mener a la famille, pas a un genre choisi au
+              hasard dedans.
+
+              DEFAUT VU A L'ECRAN AVANT CORRECTION : les pastilles de famille
+              affichaient leur identifiant brut, « techno », « house », au
+              milieu de vrais libelles, parce qu'on les cherchait uniquement
+              parmi les genres. */}
+          <span className="search-styles">
+            {item.genres.map((id) => {
+              const genre = index.genres.find((x) => x.id === id);
+              if (genre) {
+                return (
+                  <button
+                    key={id}
+                    className="search-style-lien"
+                    onClick={() => onPick(genre.familyIndex, genre.genreLocal)}
+                  >
+                    {genre.label}
+                  </button>
+                );
+              }
+              const iFamille = FAMILIES.findIndex((f) => f.id === id);
+              if (iFamille < 0) return null;
+              return (
+                <button
+                  key={id}
+                  className="search-style-lien search-style-famille"
+                  onClick={() => onPick(iFamille, 0)}
+                >
+                  {FAMILIES[iFamille]?.label ?? id}
+                </button>
+              );
+            })}
+          </span>
+        </div>
+      );
+    }
+
     // artiste ou label : ouvre sa liste de tracks.
     return (
       <button

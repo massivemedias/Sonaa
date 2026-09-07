@@ -378,3 +378,42 @@
 .search-track-actions {
   order: 5;
 }
+
+/* ═══ UN ARTISTE MOISSONNE, ET SES STYLES ═══
+
+   La ligne n'est pas un bouton, contrairement a toutes les autres : elle ne
+   mene nulle part, puisque le corpus ne contient aucun morceau de cet
+   artiste. Ce sont ses STYLES qui menent quelque part, et ils sont chacun
+   cliquables. Faire de la ligne entiere un bouton aurait promis une
+   destination qui n'existe pas. */
+.search-hit-styles {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  padding: 0.5rem 0.9rem;
+  cursor: default;
+}
+.search-styles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+.search-style-lien {
+  padding: 0.1rem 0.5rem;
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-secondary);
+  font-family: inherit;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+.search-style-lien:hover {
+  border-color: var(--ink-primary);
+  color: var(--ink-primary);
+}
+/* Une pastille de famille est plus large qu'une de genre : elle le montre
+   par un fond plutot que par un mot de plus. */
+.search-style-famille {
+  border-style: dashed;
+}
