@@ -34,3 +34,7 @@ public/_essai/
 # Il change a chaque passage et se refait par « npm run ingerer:shotgun -- --lire ».
 scripts/donnees/shotgun-releve.json
 scripts/donnees/artistes.json
+
+# Le releve de la moisson Eventbrite : meme statut que celui de Shotgun,
+# une photographie datee qui se refait par « npm run ingerer:eventbrite -- --lire ».
+scripts/donnees/eventbrite-releve.json

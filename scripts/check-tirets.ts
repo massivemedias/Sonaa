@@ -70,7 +70,9 @@ const FICHIERS_HORS = (nom: string): boolean =>
   /^audit-.*\.md$/.test(nom) ||
   /cache/.test(nom) ||
   nom === 'package-lock.json' ||
-  nom === 'shotgun-releve.json';
+  nom === 'shotgun-releve.json' ||
+  /* Meme parole rapportee, meme regle : des titres d'organisateurs. */
+  nom === 'eventbrite-releve.json';
 
 /** Titres et noms d'artistes où le tiret est dans l'œuvre elle-même. Vide,
     et destiné à le rester : à ne remplir qu'avec une référence précise. */

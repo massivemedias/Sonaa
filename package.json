@@ -48,7 +48,8 @@
     "ingerer:shotgun": "tsx scripts/ingerer-shotgun.ts",
     "check:langue": "tsx scripts/check-langue.ts",
     "moissonner:artistes": "tsx scripts/moissonner-artistes.ts",
-    "deriver:artistes": "tsx scripts/deriver-artistes.ts"
+    "deriver:artistes": "tsx scripts/deriver-artistes.ts",
+    "ingerer:eventbrite": "tsx scripts/ingerer-eventbrite.ts"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^7.3.1",
