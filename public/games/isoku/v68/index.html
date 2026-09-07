@@ -63,7 +63,8 @@ header.top{display:flex;align-items:center;gap:8px;padding:10px 12px 4px}
 
 /* ---------- status + view ---------- */
 .viewbar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:2px 12px 2px}
-.viewbar .status{flex:1;min-width:0}
+.viewbar .status{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:520px){.viewbar{flex-wrap:wrap;row-gap:4px}.viewbar .status{flex:1 1 45%}.viewbar .iso-only,.viewbar .seg{margin-top:0}.viewbar .seg{margin-left:auto}}
 .iso-only{display:none}
 .app:not(.flat-mode):not(.nav3d) .iso-only{display:grid}
 .gamebtn{display:inline-flex;align-items:center;gap:4px;height:32px;padding:0 8px 0 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--text);font:800 11px var(--font-b);letter-spacing:.4px;text-transform:uppercase;white-space:nowrap}
