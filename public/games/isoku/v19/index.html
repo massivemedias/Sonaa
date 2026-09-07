@@ -738,7 +738,7 @@ function renderPalette(){
 function renderChrome(){
   const d=DIFFS.find(x=>x.id===G.diff);
   const left=G.board.filter(v=>!v).length;
-  $('#diffBtn').innerHTML='<b>'+d.name+'</b> · '+(G.done?(G.lost?'grille perdue':'grille terminée'):(M.mahjong?((left>>1)+' paire'+(left>2?'s':'')+' restante'+(left>2?'s':'')):(left+' case'+(left>1?'s':'')+' restante'+(left>1?'s':''))));
+  $('#diffBtn').innerHTML='<b>'+d.name+'</b> · '+(G.done?(G.lost?'grille perdue':'grille terminée'):(M.mahjong?(()=>{const pr=G.board.filter(v=>v).length>>1;return pr+' paire'+(pr>1?'s':'')+' restante'+(pr>1?'s':'');})():(left+' case'+(left>1?'s':'')+' restante'+(left>1?'s':''))));
   $('#mistChip').innerHTML=icon('x')+G.mistakes+(settings.showErr?'/3':'');$('#mistChip').classList.toggle('has',G.mistakes>0);
   $('#hintBadge').textContent=G.hints;
   $('#undoBtn').disabled=G.undo.length===0||G.done;
