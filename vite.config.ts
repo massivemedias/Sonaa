@@ -93,11 +93,15 @@ export default defineConfig({
 
            Il est desormais servi par le reseau, avec le cache pour seul
            filet hors ligne : voir la regle NetworkFirst plus bas. */
-        globIgnores: ['**/covers/**', '**/node_modules/**', '**/game/**'],
+        globIgnores: ['**/covers/**', '**/node_modules/**', '**/game/**', '**/games/**'],
         navigateFallback: 'index.html',
         /* /game/ est une page autonome, pas une route de l'application :
-           lui repondre index.html afficherait le site a la place du jeu. */
-        navigateFallbackDenylist: [/^\/covers\//, /^\/game\//],
+           lui repondre index.html afficherait le site a la place du jeu.
+           /games/ aussi : c'est la que vivent les autres jeux (Isoku). Le
+           7 septembre 2026, un telephone qui avait deja le service worker
+           tombait sur l'accueil en ouvrant /games/isoku/, parce que ce
+           dossier n'etait pas ici. */
+        navigateFallbackDenylist: [/^\/covers\//, /^\/game\//, /^\/games\//],
         cleanupOutdatedCaches: true,
         /* Le chunk des structures pèse 680 Ko : au-dessus du défaut, et il
            n'est pas question de le laisser hors du cache, c'est le corpus. */
@@ -113,7 +117,7 @@ export default defineConfig({
                reponse du reseau est gardee, donc le jeu reste jouable hors
                ligne ; simplement, des qu'il y a du reseau, c'est la version
                deployee qui gagne. */
-            urlPattern: ({ url }) => url.pathname.startsWith('/game/'),
+            urlPattern: ({ url }) => url.pathname.startsWith('/game/') || url.pathname.startsWith('/games/'),
             handler: 'NetworkFirst',
             options: {
               cacheName: 'sonaa-jeu',

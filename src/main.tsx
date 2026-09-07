@@ -25,6 +25,20 @@ if (new URLSearchParams(window.location.search).get('nocache') === '1') {
      retirer. Le reste de l'application démarre quand même, la purge peut
      échouer et il vaut mieux une page vivante qu'un écran blanc. */
   void purgerSiDemande();
+} else if (/^\/games?\//.test(window.location.pathname)) {
+  /* LA COQUILLE DE L'APPLICATION A ETE SERVIE POUR UNE PAGE A PART.
+
+     /game/ et /games/ sont des pages autonomes, hors de l'application. Si
+     ce code s'execute a l'une de ces adresses, c'est qu'un ancien service
+     worker, installe avant que le dossier figure dans sa liste d'exceptions,
+     a repondu index.html a la place de la page. Constate le 7 septembre 2026
+     sur un telephone : /games/isoku/ affichait l'accueil de l'atlas.
+
+     Le nouveau worker ne prend la main qu'une fois tous les onglets fermes,
+     ce que personne ne fait. On emprunte donc la sortie de secours qui
+     existe deja : ?nocache=1 desinscrit le worker, vide les caches et
+     recharge la meme adresse, servie cette fois par le reseau. */
+  window.location.replace(window.location.pathname + '?nocache=1' + window.location.hash);
 } else {
   enregistrerLeServiceWorker();
 }
