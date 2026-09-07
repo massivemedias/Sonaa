@@ -482,6 +482,12 @@ export function CalendrierPage() {
   const [chargement, setChargement] = useState(false);
   const [panne, setPanne] = useState(false);
   const [ouvrirStyles, setOuvrirStyles] = useState(false);
+  /* LE CHAMP DE RECHERCHE SE CACHE DERRIERE UNE LOUPE. Toujours visible, il
+     prenait une rangee entiere sous la barre pour un geste qu'on fait une
+     fois sur dix. La loupe est dans la rangee des vues, a droite des styles,
+     et elle ouvre le champ deja focalise : un tap, on tape. Demande de Mika
+     du 7 septembre 2026. */
+  const [ouvrirRecherche, setOuvrirRecherche] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => setRechercheRetardee(recherche.trim()), 350);
@@ -844,6 +850,26 @@ export function CalendrierPage() {
                     {LABEL_DE_STYLE[id] ?? id}
                   </button>
                 ))}
+
+                <button
+                  type="button"
+                  className={`cal-onglet cal-loupe${
+                    ouvrirRecherche || recherche.trim() !== '' ? ' cal-onglet-actif' : ''
+                  }`}
+                  onClick={() => {
+                    /* Refermer la loupe efface la recherche : un champ cache
+                       qui filtre encore la liste serait un piege. */
+                    if (ouvrirRecherche) setRecherche('');
+                    setOuvrirRecherche((v) => !v);
+                  }}
+                  aria-expanded={ouvrirRecherche}
+                  aria-label={t.chercherDansAffichees}
+                >
+                  <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true">
+                    <circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" strokeWidth="1.8" />
+                    <path d="M12.8 12.8 17 17" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                  </svg>
+                </button>
                 </>
               )}
             </div>
@@ -892,21 +918,30 @@ export function CalendrierPage() {
             </div>
           )}
 
-          {ville && (
+          {ville && ouvrirRecherche && (
             <div className="cal-chercher">
+              {/* autoFocus est voulu : le champ n'existe que parce qu'on vient
+                  d'appuyer sur la loupe, le clavier doit deja etre la. */}
               <input
                 type="search"
                 className="cal-chercher-champ"
                 placeholder={t.chercherSalleArtisteSoiree}
                 value={recherche}
                 onChange={(e) => setRecherche(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Escape') {
+                    setRecherche('');
+                    setOuvrirRecherche(false);
+                  }
+                }}
                 aria-label={t.chercherDansAffichees}
+                autoFocus
               />
               {recherche.trim() !== '' && (
                 <>
                   <span className="cal-note">{t.surTroisMois}</span>
                   <button className="cal-lien" onClick={() => setRecherche('')}>
-                    Effacer
+                    {t.effacer}
                   </button>
                 </>
               )}

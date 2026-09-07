@@ -455,6 +455,19 @@
 .cal-styles-bouton {
   font-weight: 500;
 }
+/* La loupe : un onglet rond, de la hauteur des autres, qui ne porte qu'une
+   icone. Le trait de l'icone suit la couleur du texte, donc il s'inverse
+   avec l'etat actif comme un libelle le ferait. */
+.cal-loupe {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  padding: 0.3rem 0;
+}
+.cal-loupe svg {
+  display: block;
+}
 
 /* Une pastille de style se distingue d'une vue : elle bascule un filtre,
    elle ne change pas la tranche de temps. Le trait la separe des trois
