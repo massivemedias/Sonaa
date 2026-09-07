@@ -36,6 +36,23 @@
  * ambigu en anglais, et la categorie est exclue a dessein. La voir figurer un
  * jour dans cette liste devra s'accompagner d'une mesure.
  *
+ * ═══ LA CATEGORIE N'EST PAS UN GENRE, ET LA PREMIERE MOISSON L'A PROUVE ═══
+ *
+ * Mesure du 7 septembre 2026, sur les 373 fiches versees : 38 surement
+ * electroniques, 126 franchement hors sujet, 199 indeterminees. La premiere
+ * carte affichee a Montreal etait un concert metal. Dans « electronic-music »
+ * a Montreal, Eventbrite range aussi des soirees trivia, des hommages a
+ * Ginette Reno dans des eglises de banlieue, Elvis Fever et des tributs aux
+ * Beatles : pour cette ville, la categorie veut dire « musique », au sens
+ * large, et rien de plus.
+ *
+ * On ne garde donc qu'une fiche dont le titre, la description ou
+ * l'organisateur porte un mot du vocabulaire electronique. C'est un filtre
+ * par mots, donc imparfait dans les deux sens : il laissera passer un
+ * « DJ » de mariage et rejettera une soiree qui ne dit pas son style. Il
+ * est prefere a l'absence de filtre, qui remplissait le calendrier de bruit
+ * a plus de trente contre un. Les fiches ecartees sont comptees et dites.
+ *
  * ═══ IDEMPOTENT, COMME SHOTGUN ═══
  *
  * Upsert sur (source, source_ref), ou source_ref est l'identifiant numerique
@@ -123,6 +140,17 @@ function evenements(html: string): Objet[] {
 }
 
 const texte = (v: unknown): string | null => (typeof v === 'string' && v.trim() !== '' ? v.trim() : null);
+
+/** Les mots qui font qu'une fiche a sa place dans un atlas des musiques
+    electroniques. Volontairement larges du cote electronique (« disco »,
+    « dj », « remix ») et sans aucun mot d'exclusion : un mot d'exclusion
+    rejetterait « techno-metal » pour le mot metal. On ne juge que sur la
+    presence, jamais sur l'absence. */
+export const MOTS_ELECTRONIQUES =
+  /(techno|house|rave|\bdj\b|electro|trance|drum|bass|dubstep|garage|club night|afterhours|after-hours|boiler|warehouse|minimal|acid|disco|dance party|soirée dansante|synth|ambient|breakbeat|jungle|hardstyle|edm|remix|\bset\b|b2b|live set|dance floor|dancefloor|nightclub)/i;
+
+export const estElectronique = (titre: string, description: string | null, organisateur: string | null): boolean =>
+  MOTS_ELECTRONIQUES.test(`${titre} ${description ?? ''} ${organisateur ?? ''}`);
 
 /* ── Etape 1 : decouvrir les adresses de fiches ───────────────────────── */
 
@@ -255,19 +283,21 @@ async function main(): Promise<void> {
 
   const fiches: Fiche[] = [];
   let n = 0;
+  let ecartees = 0;
   for (const [ref, url] of refs) {
     n += 1;
     try {
       const f = await lireLaFiche(ref, url);
-      if (f) fiches.push(f);
-      else console.log(`  ${n}/${refs.size} ${ref} : pas de JSON-LD, ignorée`);
+      if (!f) console.log(`  ${n}/${refs.size} ${ref} : pas de JSON-LD, ignorée`);
+      else if (!estElectronique(f.titre, f.description, f.organisateur)) ecartees += 1;
+      else fiches.push(f);
     } catch (e) {
       console.log(`  ${n}/${refs.size} ${ref} : ${(e as Error).message}`);
     }
     if (n % 25 === 0) console.log(`  ${n}/${refs.size} lues`);
     await dormir(PAUSE);
   }
-  console.log(`  ${fiches.length} soirées retenues`);
+  console.log(`  ${fiches.length} soirées retenues, ${ecartees} écartées faute de mot électronique`);
 
   const releve = { fait: new Date().toISOString(), [VILLE_SONAA]: fiches };
   if (lire || !CLE_SERVICE) {
