@@ -91,8 +91,8 @@ export function PropositionsPage() {
             lui, fonctionne entièrement. <a href="#/">{t.revenirAccueilTexte}</a>.
           </p>
         </div>
+          <PiedDePage />
         </main>
-        <PiedDePage />
       </>
     );
   }
@@ -220,8 +220,8 @@ export function PropositionsPage() {
           onEnvoye={fil.recharger}
         />
       )}
+        <PiedDePage />
       </main>
-      <PiedDePage />
     </>
   );
 }

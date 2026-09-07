@@ -10,7 +10,16 @@
    exactement ce que Mika a decrit.
 
    La borne remonte donc sur le conteneur, une fois, pour toutes les pages. */
+/* LE PIED DE PAGE TOMBE EN BAS, MEME QUAND LA PAGE EST COURTE.
+   Mesure sur /profil deconnecte : le pied se terminait a 473 px dans un
+   document de 1013, donc cinq cents pixels de vide sous lui. `min-height:
+   100vh` etirait la page sans dire ou mettre le creux, et il se mettait apres
+   le dernier element. En colonne flexible avec `margin-top: auto` sur le
+   pied, le creux se met AVANT lui, ce qui est le seul endroit ou il ne se
+   voit pas. */
 .credits {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
   /* LA MEME FORMULE QUE PARCOURIR, au pixel pres. Le conteneur borne et
      centre qui etait ici donnait 24 px de retrait la ou Parcourir en donnait
@@ -211,4 +220,11 @@
 
 .apropos-voix p:last-child {
   margin-block-end: 0;
+}
+
+
+/* Voir le commentaire sur `.credits` : le vide d'une page courte se range
+   au-dessus du pied et non en dessous. */
+.credits > .pied {
+  margin-top: auto;
 }

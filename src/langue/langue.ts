@@ -145,6 +145,11 @@ interface Dictionnaire {
   readonly choixDeLangue: string;
   readonly passerAuClair: string;
   readonly passerAuSombre: string;
+  readonly villeLibelle: string;
+  readonly choixSurCetteMachine: string;
+  readonly effacer: string;
+  /** « SONAA connaît 23 villes. » Le nombre change, la phrase aussi. */
+  readonly sonaaConnaitNVilles: (n: number) => string;
   readonly voirLaFiche: string;
   readonly replierLaFiche: string;
   readonly plateau: string;
@@ -516,6 +521,11 @@ const FR: Dictionnaire = {
   choixDeLangue: 'Langue de l’interface',
   passerAuClair: 'Passer au thème clair',
   passerAuSombre: 'Passer au thème sombre',
+  villeLibelle: "Ville",
+  choixSurCetteMachine:
+    "Le choix reste sur cette machine ; pour le garder d’un appareil à l’autre, mettez-le dans",
+  effacer: "Effacer",
+  sonaaConnaitNVilles: (n) => `SONAA connaît ${n} villes.`,
   voirLaFiche: "Voir la fiche complète",
   replierLaFiche: "Replier",
   plateau: "Plateau",
@@ -891,6 +901,11 @@ const EN: Dictionnaire = {
   choixDeLangue: 'Interface language',
   passerAuClair: 'Switch to the light theme',
   passerAuSombre: 'Switch to the dark theme',
+  villeLibelle: "City",
+  choixSurCetteMachine:
+    "The choice stays on this machine; to keep it from one device to the next, put it in",
+  effacer: "Clear",
+  sonaaConnaitNVilles: (n) => `SONAA knows ${n} cities.`,
   voirLaFiche: "See the full listing",
   replierLaFiche: "Collapse",
   plateau: "Line-up",

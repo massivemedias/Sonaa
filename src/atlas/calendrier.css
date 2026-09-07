@@ -15,17 +15,6 @@
   border-bottom: var(--rule-width) solid var(--rule-hairline);
 }
 
-.cal-ou {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.5rem;
-}
-
-.cal-ou strong {
-  font-size: 1.05rem;
-}
-
 .cal-note,
 .cal-attente {
   color: var(--ink-secondary);
@@ -90,16 +79,6 @@
   color: var(--surface-plate);
 }
 
-.cal-choix-ville {
-  margin: 1.2rem 0 1.6rem;
-}
-
-/* --- Le choix de ville --------------------------------------------------- */
-
-.cal-villes {
-  margin-top: 0.9rem;
-}
-
 .cal-recherche {
   width: 100%;
   box-sizing: border-box;
@@ -111,33 +90,12 @@
   font: inherit;
 }
 
-.cal-villes-liste {
-  list-style: none;
-  margin: 0.6rem 0 0;
-  padding: 0;
-  display: grid;
-  /* Trois colonnes sur grand ecran, une sur telephone : six cent trente-neuf
-     villes en une seule colonne feraient defiler la page pendant une minute. */
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  gap: 0.15rem 1rem;
-  max-height: 340px;
-  overflow-y: auto;
-}
-
-.cal-ville {
-  background: none;
-  border: 0;
-  padding: 0.3rem 0;
-  color: inherit;
-  font: inherit;
-  text-align: left;
-  width: 100%;
-  cursor: pointer;
-}
-
-.cal-ville:hover {
-  color: var(--ink-primary);
-}
+/* L'ANCIEN PANNEAU DE VILLES A DISPARU AVEC SON BOUTON. Il ouvrait une
+   grille de vingt-trois villes sous un champ de recherche ; la liste
+   deroulante de la barre fait la meme chose en un geste. Les regles qui le
+   dessinaient sont retirees plutot que gardees au cas ou : une feuille de
+   style pleine de regles orphelines finit par etre lue comme une carte du
+   present. */
 
 .cal-ville-active {
   font-weight: 600;
@@ -344,12 +302,6 @@
   color: var(--ink-secondary);
   font-size: 0.85rem;
   opacity: 0.8;
-}
-
-@media (max-width: 560px) {
-  .cal-villes-liste {
-    max-height: 260px;
-  }
 }
 
 /* --- Chercher dans les soirees affichees --------------------------------- */
@@ -665,4 +617,39 @@
   font-size: 0.78rem;
   text-decoration: underline;
   text-underline-offset: 0.2em;
+}
+
+
+/* ═══ LA VILLE, PREMIER CONTROLE DE LA BARRE ═══
+
+   Elle porte le meme dessin que le choix de date, qui est a deux places
+   d'elle : deux listes deroulantes cote a cote qui ne se ressembleraient pas
+   se liraient comme deux choses differentes. Le mot devant dit ce qu'on
+   choisit, la liste dit ce qui est choisi. */
+.cal-ville {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.3rem 0.5rem 0.3rem 0.75rem;
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 999px;
+}
+.cal-ville-mot {
+  color: var(--ink-secondary);
+  font-size: 0.72rem;
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+}
+.cal-ville select {
+  border: 0;
+  background: none;
+  color: var(--ink-primary);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: var(--weight-data);
+  cursor: pointer;
+}
+.cal-ville select:focus-visible {
+  outline: var(--rule-width) solid var(--ink-secondary);
+  outline-offset: 2px;
 }

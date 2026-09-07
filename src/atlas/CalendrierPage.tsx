@@ -41,9 +41,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import { ChoixStyles, EST_FAMILLE, LABEL_DE_STYLE } from './ChoixStyles.tsx';
-import { SelecteurVille } from './SelecteurVille.tsx';
 import { FAMILIES, STRUCTURES } from './structures.ts';
-import { resoudreVille, situer, type Ville } from '../lib/ville-active.ts';
+import { resoudreVille, type Ville } from '../lib/ville-active.ts';
 import {
   heureLocale,
   noterVilleDeSession,
@@ -80,6 +79,36 @@ import { langue, t } from '../langue/langue.ts';
    canadien est garde des deux cotes : jour avant mois, ce qui est aussi ce
    que lit un anglophone d'ici. */
 const LOCALE = langue === 'fr' ? 'fr-CA' : 'en-CA';
+
+/* LE NOM D'UN PAYS DANS LA LANGUE DE LA PAGE, sans table a tenir. Trente
+   lignes de correspondance code-vers-nom auraient a etre traduites deux fois
+   et vieilliraient ; le navigateur les connait deja. */
+const NOM_DE_PAYS = (() => {
+  try {
+    const noms = new Intl.DisplayNames([LOCALE], { type: 'region' });
+    return (code: string): string => noms.of(code) ?? code;
+  } catch {
+    return (code: string): string => code;
+  }
+})();
+
+/** Les villes rangees par pays, pays classes par leur nom affiche et villes
+    par le leur. Vingt-trois entrees se lisent tres bien dans une liste
+    deroulante a condition qu'elles soient rangees. */
+function villesParPays(villes: readonly Ville[]): [string, Ville[]][] {
+  const paquets = new Map<string, Ville[]>();
+  for (const v of villes) {
+    const deja = paquets.get(v.country_code);
+    if (deja) deja.push(v);
+    else paquets.set(v.country_code, [v]);
+  }
+  return [...paquets.entries()]
+    .map(([code, liste]): [string, Ville[]] => [
+      code,
+      [...liste].sort((a, b) => a.name.localeCompare(b.name, LOCALE)),
+    ])
+    .sort((a, b) => NOM_DE_PAYS(a[0]).localeCompare(NOM_DE_PAYS(b[0]), LOCALE));
+}
 
 /* La famille d'un genre, pour pouvoir elargir a elle quand RA ne connait pas
    le style precis. Calculee une fois : STRUCTURES ne bouge pas. */
@@ -259,7 +288,11 @@ export function CalendrierPage() {
   const [slugSession, setSlugSession] = useState<string | null>(null);
   const [idProfil, setIdProfil] = useState<string | null>(null);
   const [zoneDeduite, setZoneDeduite] = useState<number | null>(null);
-  const [nomDeduit, setNomDeduit] = useState<string | null>(null);
+  /* LE NOM DEDUIT N'EST PLUS AFFICHE : la liste deroulante montre la ville
+     retenue, quelle que soit la facon dont on y est arrive. On garde le
+     reglage parce que la deduction sert toujours a CHOISIR la ville par
+     defaut ; c'est son affichage qui etait redondant. */
+  const [, setNomDeduit] = useState<string | null>(null);
   const [prete, setPrete] = useState(false);
 
   const [styles, setStyles] = useState<string[]>(() => stylesSuivis());
@@ -281,7 +314,6 @@ export function CalendrierPage() {
   const [chargement, setChargement] = useState(false);
   const [panne, setPanne] = useState(false);
   const [ouvrirStyles, setOuvrirStyles] = useState(false);
-  const [ouvrirVilles, setOuvrirVilles] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => setRechercheRetardee(recherche.trim()), 350);
@@ -314,7 +346,7 @@ export function CalendrierPage() {
     [villes, zoneDeduite]
   );
 
-  const { ville, provenance } = useMemo(
+  const { ville } = useMemo(
     () =>
       resoudreVille({
         slugDuLien: slugLien,
@@ -430,7 +462,6 @@ export function CalendrierPage() {
     setSlugSession(v.slug);
     noterVilleDeSession(v.slug);
     poserVilleDansLien(v.slug);
-    setOuvrirVilles(false);
   };
 
   const changerStyles = (ids: string[]) => {
@@ -485,7 +516,6 @@ export function CalendrierPage() {
 
   /* Le nom local quand c'est une deduction, le notre sinon. Cloudflare rend
      « Montréal », notre table aussi ; RA ecrivait « Montreal ». */
-  const villeMontree = provenance === 'deduite' && nomDeduit ? nomDeduit : (ville?.name ?? null);
 
   /* La phrase du compteur nomme la tranche regardee. « 77 soirees a
      Montreal » ne disait pas sur quoi : ce soir, ce week-end, ou d'ici trois
@@ -516,30 +546,50 @@ export function CalendrierPage() {
 
         <div id="calendrier-contenu" className="credits-body">
           <div className="cal-barre">
-            <div className="cal-ou">
-              {enAttente ? (
-                <span className="cal-attente">{t.unInstant}</span>
-              ) : ville ? (
-                <>
-                  <strong>{villeMontree}</strong>
-                  <span className="cal-note">{situer(ville)}</span>
-                </>
-              ) : (
-                <span className="cal-note">{t.choisissezVille}</span>
-              )}
-              {ville && (
-                <button
-                  className="cal-lien"
-                  onClick={() => setOuvrirVilles((v) => !v)}
-                  aria-expanded={ouvrirVilles}
+            {/* ═══ LA VILLE EST LE PREMIER REGLAGE, DONC LE PREMIER CONTROLE ═══
+             *
+             * Elle etait un nom en gras suivi d'un lien « Changer de ville »,
+             * qui depliait un champ de recherche a filtrer. Trois gestes pour
+             * changer de ville, et rien qui dise qu'on POUVAIT en changer : un
+             * lien de texte au milieu d'une phrase ne se lit pas comme un
+             * reglage.
+             *
+             * Une liste deroulante native le dit d'elle-meme, en un geste, et
+             * se manie au clavier et au doigt sans que nous ecrivions quoi que
+             * ce soit. Vingt-trois villes tiennent dans une liste ; le champ
+             * de recherche etait la reponse a un probleme qu'on n'a pas
+             * encore, et il reste disponible dans le profil.
+             *
+             * Le pays vient de `Intl.DisplayNames`, dans la langue de la page.
+             * Le nom de la region, lui, disparait : le pays suffit a lever
+             * l'ambiguite, et « Occitanie, FR » a cote de « Montpellier »
+             * n'apprenait rien a personne. */}
+            <div className="cal-fenetres">
+              <label className="cal-ville">
+                <span className="cal-ville-mot">{t.villeLibelle}</span>
+                <select
+                  value={ville?.slug ?? ''}
+                  onChange={(e) => {
+                    const choisie = villes.find((v) => v.slug === e.target.value);
+                    if (choisie) choisirVille(choisie);
+                  }}
                 >
-                  {ouvrirVilles ? t.fermerCourt : t.changerDeVille}
-                </button>
-              )}
-            </div>
+                  {!ville && <option value="">{t.choisirTiret}</option>}
+                  {villesParPays(villes).map(([code, liste]) => (
+                    <optgroup key={code} label={NOM_DE_PAYS(code)}>
+                      {liste.map((v) => (
+                        <option key={v.slug} value={v.slug}>
+                          {v.name}
+                        </option>
+                      ))}
+                    </optgroup>
+                  ))}
+                </select>
+              </label>
+              {enAttente && <span className="cal-attente">{t.unInstant}</span>}
 
-            {ville && (
-              <div className="cal-fenetres">
+              {ville && (
+                <>
                 {VUES.map((v) => (
                   <button
                     key={v.cle}
@@ -626,8 +676,9 @@ export function CalendrierPage() {
                     {LABEL_DE_STYLE[id] ?? id}
                   </button>
                 ))}
-              </div>
-            )}
+                </>
+              )}
+            </div>
           </div>
 
           {/* Le panneau de choix se deploie sous la barre, pleine largeur :
@@ -665,26 +716,14 @@ export function CalendrierPage() {
             </div>
           )}
 
-          {/* L'ETAT VIDE MET LE SELECTEUR EN AVANT, il ne s'excuse pas dans un
-              coin : tant qu'aucune ville n'est choisie, c'est la seule chose a
-              faire sur cette page. */}
-          {(ouvrirVilles || (!ville && !enAttente)) && (
-            <div className="cal-choix-ville">
-              <SelecteurVille
-                villes={villes}
-                choisie={ville}
-                onChoisir={choisirVille}
-                etiquette={t.votreVille}
-                autoFocus={ouvrirVilles}
-              />
-              {!ville && villes.length > 0 && (
-                <p className="cal-note">
-                  SONAA connait {villes.length} villes. Le choix reste sur cette machine ; pour le
-                  garder d&apos;un appareil à l&apos;autre, mettez-le dans{' '}
-                  <a href="#/profil">{t.votreProfil}</a>.
-                </p>
-              )}
-            </div>
+          {/* TANT QU'AUCUNE VILLE N'EST CHOISIE, on dit ou se pose le choix.
+              Le selecteur, lui, est deja dans la barre au-dessus : il n'a plus
+              besoin d'un panneau qui s'ouvre. */}
+          {!ville && !enAttente && villes.length > 0 && (
+            <p className="cal-note">
+              {t.sonaaConnaitNVilles(villes.length)} {t.choixSurCetteMachine}{' '}
+              <a href="#/profil">{t.votreProfil}</a>.
+            </p>
           )}
 
           {ville && (
@@ -917,8 +956,15 @@ export function CalendrierPage() {
             </>
           )}
         </div>
+        {/* LE PIED DE PAGE EST DANS LA COLONNE, PAS DEHORS.
+            Il vivait apres </main>, donc a la largeur de la fenetre : ses
+            quatre colonnes commencaient au bord gauche de l'ecran pendant que
+            tout le reste de la page s'arretait a 1240 px. Mesure a 1440 px :
+            pied a 1440 de large a x=0, contre 1240 a x=100 pour Credits et A
+            propos, qui le placent DANS le main. Trois pages sur cinq avaient
+            raison. */}
+        <PiedDePage />
       </main>
-      <PiedDePage />
     </>
   );
 }
