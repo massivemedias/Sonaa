@@ -48,6 +48,11 @@ type SiteCourant =
    morceaux. Deux portes vers la meme piece, dont l'une est plus etroite.
    L'adresse #/index repond toujours, la page n'est pas supprimee. */
 const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
+  /* LE CALENDAR EN PREMIER, PARCE QU'IL EST LA PAGE D'ACCUEIL. On y lit ce
+     qui se joue ce soir ; les styles et les sons racontent d'ou ca vient.
+     Le menu suit le meme ordre que l'arrivee sur le site. Decision de Mika
+     du 7 septembre 2026. */
+  { href: '#/calendrier', id: 'calendrier', label: t.leCalendrier },
   /* DEUX PORTES VERS LE MEME CORPUS, ET ELLES SE NOMMENT PAR CE QU'ON Y
      TROUVE. « Parcourir » decrivait un geste, pas une destination : on ne
      sait pas ce qu'on va parcourir avant d'avoir clique. « Styles » et
@@ -63,10 +68,6 @@ const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
      d'un cote l'histoire des genres, de l'autre ce qui se depose aujourd'hui.
      La page garde ses artistes, en section nommee. */
   { href: '#/sets', id: 'sets', label: t.lesSons },
-  /* LE CALENDRIER EST UNE VUE, PAS UNE PAGE. On y lit ce qui se joue, comme
-     on lit les styles et les sons ailleurs : c'est la troisieme porte sur le
-     meme sujet, et elle regarde vers ce soir plutot que vers 1988. */
-  { href: '#/calendrier', id: 'calendrier', label: t.leCalendrier }
 ];
 
 /* QUATRE ENTREES, PLUS CINQ. Le menu tient desormais sur la meme rangee que

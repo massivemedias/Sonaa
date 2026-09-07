@@ -34,13 +34,10 @@ export function PiedDePage() {
     {
       titre: t.piedParcourir,
       liens: [
+        /* Le Calendar d'abord, comme dans le menu du haut : c'est la page d'accueil. */
+        { href: '#/calendrier', label: t.leCalendrier },
         { href: '#/parcourir', label: t.lesStyles },
         { href: '#/sets', label: t.lesSons },
-        /* LE CALENDRIER MANQUAIT ICI depuis qu'il existe : il est dans la
-           barre du haut, donc dans le menu, mais le pied ne le nommait pas.
-           Un pied de page qui ne liste pas une porte principale envoie
-           chercher ailleurs ce qui est juste au-dessus. */
-        { href: '#/calendrier', label: t.leCalendrier },
         { href: '#/index', label: t.piedIndex },
       ],
     },
