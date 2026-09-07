@@ -14,7 +14,9 @@ import {
   cleDuJour,
   estSansFuseau,
   fenetreDe,
+  grilleDuMois,
   heureAuMur,
+  jourDemandable,
   joursProposes,
   sansFuseau,
 } from './fenetre-agenda.ts';
@@ -192,5 +194,63 @@ describe('estSansFuseau et heureAuMur', () => {
 
   it('rend null sur une chaine sans heure', () => {
     expect(heureAuMur('2026-09-13')).toBeNull();
+  });
+});
+
+describe('grilleDuMois', () => {
+  /* Septembre 2026 commence un mardi et compte 30 jours. */
+  it('rend des semaines completes de sept jours', () => {
+    const g = grilleDuMois(2026, 8);
+    expect(g.every((s) => s.length === 7)).toBe(true);
+  });
+
+  it('commence le lundi, meme quand le mois commence un mardi', () => {
+    const g = grilleDuMois(2026, 8);
+    const premiere = g[0] ?? [];
+    expect(cleDuJour(premiere[0]!.jour)).toBe('2026-08-31');
+    expect(premiere[0]!.duMois).toBe(false);
+    expect(cleDuJour(premiere[1]!.jour)).toBe('2026-09-01');
+    expect(premiere[1]!.duMois).toBe(true);
+  });
+
+  /* LES COINS SONT REMPLIS, PAS VIDES. Une grille a trous se lit comme une
+     grille cassee ; les jours voisins sont la, simplement en retrait. */
+  it('bouche les coins avec les mois voisins, marques comme tels', () => {
+    const g = grilleDuMois(2026, 8);
+    const cases = g.flat();
+    expect(cases.filter((c) => c.duMois)).toHaveLength(30);
+    expect(cases.some((c) => !c.duMois)).toBe(true);
+  });
+
+  it('traverse un changement d annee', () => {
+    const g = grilleDuMois(2026, 11);
+    const dernier = g.flat().filter((c) => c.duMois).at(-1);
+    expect(cleDuJour(dernier!.jour)).toBe('2026-12-31');
+  });
+
+  /* Fevrier 2027 commence un lundi et compte 28 jours : quatre semaines
+     pile. La boucle ne doit pas en ajouter une cinquieme vide. */
+  it('ne fabrique pas de semaine entierement etrangere au mois', () => {
+    const g = grilleDuMois(2027, 1);
+    expect(g.every((s) => s.some((c) => c.duMois))).toBe(true);
+  });
+});
+
+describe('jourDemandable', () => {
+  const JEUDI = new Date(2026, 8, 3, 14, 30);
+
+  it('accepte aujourd hui, quelle que soit l heure qu il est', () => {
+    expect(jourDemandable(new Date(2026, 8, 3, 23, 59), JEUDI)).toBe(true);
+  });
+
+  it('refuse hier', () => {
+    expect(jourDemandable(new Date(2026, 8, 2), JEUDI)).toBe(false);
+  });
+
+  /* SOIXANTE JOURS, PAS UN DE PLUS. Un jour cliquable qui ne rend jamais rien
+     est une promesse en l air. */
+  it('accepte le dernier jour propose et refuse le suivant', () => {
+    expect(jourDemandable(new Date(2026, 10, 2), JEUDI)).toBe(true);
+    expect(jourDemandable(new Date(2026, 10, 3), JEUDI)).toBe(false);
   });
 });

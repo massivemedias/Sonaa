@@ -145,3 +145,58 @@ export function heureAuMur(iso: string): string | null {
   const m = /T(\d{2}):(\d{2})/.exec(iso);
   return m ? `${m[1]} h ${m[2]}` : null;
 }
+
+/* ═══ UNE GRILLE DE MOIS, PARCE QU'UNE DATE SE CHOISIT SUR UN CALENDRIER ═══
+
+   Le choix du jour etait une liste deroulante de soixante entrees. Elle
+   marchait, et elle ne repondait a aucune des questions qu'on se pose en
+   choisissant une date : quel jour de la semaine tombe le 12 ? combien de
+   samedis reste-t-il ? c'est dans combien de temps ? Un calendrier repond aux
+   trois d'un coup d'oeil, parce que la forme porte l'information.
+
+   LA SEMAINE COMMENCE LUNDI. Le calendrier sert a preparer des sorties : la
+   fin de semaine doit tenir d'un bloc a droite de la grille, pas etre coupee
+   en deux par un dimanche pose en tete. */
+
+export interface Case {
+  readonly jour: Date;
+  /** Faux pour les jours des mois voisins qui bouchent les coins. */
+  readonly duMois: boolean;
+}
+
+/** Les semaines d'un mois, du lundi au dimanche, coins compris. Toujours des
+    semaines completes : une grille a trous se lit comme une grille cassee. */
+export function grilleDuMois(annee: number, mois: number): Case[][] {
+  const premier = new Date(annee, mois, 1);
+  /* getDay rend 0 pour dimanche ; on veut 0 pour lundi. */
+  const decalage = (premier.getDay() + 6) % 7;
+  const debut = new Date(annee, mois, 1 - decalage);
+
+  /* ON S'ARRETE QUAND LE MOIS EST COUVERT, ET PAS UN JOUR APRES.
+     Premiere version : « tant qu'on n'a pas depasse le 7 du mois suivant ».
+     Elle fabriquait une cinquieme semaine entierement etrangere pour fevrier
+     2027, qui commence un lundi et compte vingt-huit jours, donc quatre
+     semaines pile. Le test l'a vu ; a l'oeil, on ne regarde pas fevrier d'une
+     annee non bissextile qui commence un lundi. */
+  const finDuMois = new Date(annee, mois + 1, 0);
+  const semaines: Case[][] = [];
+  const curseur = new Date(debut);
+  while (curseur <= finDuMois) {
+    const semaine: Case[] = [];
+    for (let i = 0; i < 7; i += 1) {
+      semaine.push({ jour: new Date(curseur), duMois: curseur.getMonth() === mois });
+      curseur.setDate(curseur.getDate() + 1);
+    }
+    semaines.push(semaine);
+  }
+  return semaines;
+}
+
+/** Vrai quand ce jour peut etre demande : d'aujourd'hui jusqu'au dernier jour
+    propose. Au-dela, les sources n'annoncent presque rien, et un jour
+    cliquable qui ne rend jamais rien est une promesse en l'air. */
+export function jourDemandable(jour: Date, maintenant: Date, combien = JOURS_PROPOSES): boolean {
+  const j = AU_MATIN(jour).getTime();
+  const debut = AU_MATIN(maintenant).getTime();
+  return j >= debut && j <= AU_MATIN(plusDeJours(maintenant, combien)).getTime();
+}

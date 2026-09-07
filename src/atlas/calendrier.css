@@ -653,3 +653,104 @@
   outline: var(--rule-width) solid var(--ink-secondary);
   outline-offset: 2px;
 }
+
+/* ═══ LE CALENDRIER DU CHOIX DE JOUR ═══
+
+   Il se deploie sous la barre, comme le panneau des styles, et il est borne :
+   une grille de mois qui s'etale sur 1240 px donnerait des cases de 170 px et
+   se lirait comme un tableau de bord, pas comme un calendrier. */
+.cal-jour-panneau {
+  margin: 0.8rem 0 0;
+}
+.cal-mois {
+  width: max-content;
+  max-width: 100%;
+  padding: 0.9rem 1rem 1rem;
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 14px;
+}
+.cal-mois-tete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.7rem;
+}
+.cal-mois-tete strong {
+  font-size: 0.86rem;
+  font-weight: var(--weight-data);
+  /* La premiere lettre du mois arrive en minuscule dans les deux langues. */
+  text-transform: capitalize;
+}
+.cal-mois-tete button {
+  width: 1.9rem;
+  height: 1.9rem;
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-primary);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.cal-mois-tete button:hover {
+  border-color: var(--ink-secondary);
+}
+
+.cal-mois-grille {
+  border-collapse: collapse;
+}
+.cal-mois-grille th {
+  padding: 0 0 0.35rem;
+  color: var(--ink-secondary);
+  font-size: 0.66rem;
+  font-weight: var(--weight-data);
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+}
+.cal-mois-grille td {
+  padding: 1px;
+}
+
+/* UNE CASE CARREE, PARCE QU'UN CALENDRIER SE LIT EN COLONNES AUTANT QU'EN
+   LIGNES : des cases plus larges que hautes cassent la lecture verticale des
+   samedis. */
+.cal-jour-case {
+  width: 2.3rem;
+  height: 2.3rem;
+  border: var(--rule-width) solid transparent;
+  border-radius: 8px;
+  background: none;
+  color: var(--ink-primary);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+.cal-jour-case:hover:not(:disabled) {
+  border-color: var(--ink-secondary);
+}
+.cal-jour-voisin {
+  color: var(--ink-secondary);
+  opacity: 0.55;
+}
+/* HORS FENETRE : visible, et inerte. Cacher ces jours ferait une grille
+   trouee ; les laisser cliquables promettrait des soirees que personne
+   n'annonce. */
+.cal-jour-case:disabled {
+  color: var(--ink-secondary);
+  opacity: 0.28;
+  cursor: default;
+}
+/* Aujourd'hui se repere sans etre choisi : un point sous le chiffre. */
+.cal-jour-aujourdhui:not(.cal-jour-choisi) {
+  font-weight: var(--weight-data);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+.cal-jour-choisi {
+  background: var(--ink-primary);
+  border-color: var(--ink-primary);
+  color: var(--plaque);
+  font-weight: var(--weight-data);
+}

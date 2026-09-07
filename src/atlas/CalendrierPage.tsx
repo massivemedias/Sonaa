@@ -66,8 +66,9 @@ import {
 import {
   cleDuJour,
   fenetreDe,
-  joursProposes,
   type Vue,
+  grilleDuMois,
+  jourDemandable,
 } from '../lib/fenetre-agenda.ts';
 import './credits.css';
 import './calendrier.css';
@@ -283,6 +284,99 @@ function FicheSoiree({ soiree, fuseau }: { soiree: Soiree; fuseau: string }) {
   );
 }
 
+
+/* ═══ LE CHOIX DU JOUR EST UN CALENDRIER, PAS UNE LISTE ═══
+ *
+ * C'etait une liste deroulante de soixante entrees, « lundi 7 septembre,
+ * mardi 8 septembre, … ». Elle fonctionnait et elle ne repondait a aucune des
+ * questions qu'on se pose en choisissant une date : quel jour de la semaine
+ * tombe le 12, combien de samedis restent, c'est dans combien de temps. Une
+ * grille de mois repond aux trois d'un seul coup d'oeil, parce que la forme
+ * porte l'information que la liste ecrivait en toutes lettres.
+ *
+ * LES JOURS HORS FENETRE RESTENT VISIBLES ET DEVIENNENT INERTES. Les cacher
+ * ferait un calendrier troue ; les laisser cliquables promettrait des soirees
+ * qu'aucune source n'annonce. Ils sont donc la, en retrait, et `disabled`.
+ */
+function ChoixDuJour({
+  choisi,
+  onChoisir,
+}: {
+  choisi: string | null;
+  onChoisir: (cle: string) => void;
+}) {
+  const aujourdhui = new Date();
+  const [ancre, setAncre] = useState(() => {
+    const depart = choisi ? new Date(`${choisi}T12:00:00`) : aujourdhui;
+    return new Date(depart.getFullYear(), depart.getMonth(), 1);
+  });
+
+  const semaines = grilleDuMois(ancre.getFullYear(), ancre.getMonth());
+  const titreMois = new Intl.DateTimeFormat(LOCALE, { month: 'long', year: 'numeric' }).format(ancre);
+
+  /* LES INITIALES DE JOURS VIENNENT DU NAVIGATEUR, pas d'une liste ecrite a
+     la main : elles doivent suivre la langue, et elles changent de casse et
+     de longueur d'une langue a l'autre. On part d'un lundi connu. */
+  const initiales = Array.from({ length: 7 }, (_, i) =>
+    new Intl.DateTimeFormat(LOCALE, { weekday: 'narrow' }).format(new Date(2026, 8, 7 + i))
+  );
+
+  const glisser = (pas: number): void =>
+    setAncre((m) => new Date(m.getFullYear(), m.getMonth() + pas, 1));
+
+  return (
+    <div className="cal-mois">
+      <div className="cal-mois-tete">
+        <button type="button" onClick={() => glisser(-1)} aria-label={t.moisPrecedent}>
+          ‹
+        </button>
+        <strong>{titreMois}</strong>
+        <button type="button" onClick={() => glisser(1)} aria-label={t.moisSuivant}>
+          ›
+        </button>
+      </div>
+
+      <table className="cal-mois-grille">
+        <thead>
+          <tr>
+            {initiales.map((lettre, i) => (
+              <th key={i} scope="col" abbr={lettre}>
+                {lettre}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {semaines.map((semaine) => (
+            <tr key={cleDuJour(semaine[0]!.jour)}>
+              {semaine.map((c) => {
+                const cle = cleDuJour(c.jour);
+                const ouvert = jourDemandable(c.jour, aujourdhui);
+                const estAujourdhui = cle === cleDuJour(aujourdhui);
+                return (
+                  <td key={cle}>
+                    <button
+                      type="button"
+                      className={`cal-jour-case${c.duMois ? '' : ' cal-jour-voisin'}${
+                        cle === choisi ? ' cal-jour-choisi' : ''
+                      }${estAujourdhui ? ' cal-jour-aujourdhui' : ''}`}
+                      disabled={!ouvert}
+                      onClick={() => onChoisir(cle)}
+                      aria-current={cle === choisi ? 'date' : undefined}
+                    >
+                      {c.jour.getDate()}
+                    </button>
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export function CalendrierPage() {
   const [villes, setVilles] = useState<Ville[]>([]);
   const [slugSession, setSlugSession] = useState<string | null>(null);
@@ -310,6 +404,7 @@ export function CalendrierPage() {
      ecrans, et on perd l'endroit ou l'on etait. Ouvrir la suivante ferme la
      precedente : la page ne s'allonge jamais de plus d'un panneau. */
   const [depliee, setDepliee] = useState<string | null>(null);
+  const [ouvrirJour, setOuvrirJour] = useState(false);
   const [total, setTotal] = useState(0);
   const [chargement, setChargement] = useState(false);
   const [panne, setPanne] = useState(false);
@@ -605,33 +700,24 @@ export function CalendrierPage() {
                   </button>
                 ))}
 
-                {/* LE CHOIX DE DATE EST UNE LISTE, PAS UN BOUTON DE PLUS.
-                    Choisir une date parmi soixante ne se fait pas dans une
-                    rangee ; et choisir une date EST une vue, donc la liste
-                    bascule la vue en meme temps qu'elle pose le jour. */}
-                <label className={`cal-date${enRecherche ? ' cal-suspendu' : ''}`}>
-                  <span className="cal-date-mot">{t.unJour}</span>
-                  <select
-                    value={vue === 'date' && dateChoisie ? dateChoisie : ''}
-                    onChange={(e) => {
-                      const v = e.target.value;
-                      if (!v) {
-                        setVue('aujourdhui');
-                        setDateChoisie(null);
-                      } else {
-                        setDateChoisie(v);
-                        setVue('date');
-                      }
-                    }}
-                  >
-                    <option value="">{t.choisirTiret}</option>
-                    {joursProposes(new Date()).map((d) => (
-                      <option key={cleDuJour(d)} value={cleDuJour(d)}>
-                        {jour(cleDuJour(d), fuseau)}
-                      </option>
-                    ))}
-                  </select>
-                </label>
+                {/* CHOISIR UNE DATE EST UNE VUE, donc le bouton bascule la vue
+                    en meme temps qu'il ouvre le calendrier. Le libelle porte
+                    la date retenue plutot que le mot « Un jour » : le bouton
+                    dit alors ce qu'on regarde, ce qui evite d'avoir a le
+                    rouvrir pour s'en souvenir. */}
+                <button
+                  type="button"
+                  className={`cal-onglet${vue === 'date' && !enRecherche ? ' cal-onglet-actif' : ''}${
+                    enRecherche ? ' cal-suspendu' : ''
+                  }`}
+                  onClick={() => {
+                    setOuvrirJour((v) => !v);
+                    setOuvrirStyles(false);
+                  }}
+                  aria-expanded={ouvrirJour}
+                >
+                  {vue === 'date' && dateChoisie ? jour(dateChoisie, fuseau) : t.unJour}
+                </button>
 
                 {/* ═══ LES STYLES REJOIGNENT LA BARRE ═══
                  *
@@ -655,7 +741,10 @@ export function CalendrierPage() {
                   className={`cal-onglet cal-styles-bouton${
                     ouvrirStyles ? ' cal-onglet-actif' : ''
                   }`}
-                  onClick={() => setOuvrirStyles((v) => !v)}
+                  onClick={() => {
+                    setOuvrirStyles((v) => !v);
+                    setOuvrirJour(false);
+                  }}
                   aria-expanded={ouvrirStyles}
                 >
                   {ouvrirStyles
@@ -680,6 +769,21 @@ export function CalendrierPage() {
               )}
             </div>
           </div>
+
+          {/* Le calendrier se deploie sous la barre, comme les styles : deux
+              panneaux au meme endroit, jamais tous les deux a la fois. */}
+          {ville && ouvrirJour && (
+            <div className="cal-jour-panneau">
+              <ChoixDuJour
+                choisi={vue === 'date' ? dateChoisie : null}
+                onChoisir={(cle) => {
+                  setDateChoisie(cle);
+                  setVue('date');
+                  setOuvrirJour(false);
+                }}
+              />
+            </div>
+          )}
 
           {/* Le panneau de choix se deploie sous la barre, pleine largeur :
               trente familles ne tiennent pas dans une rangee. */}
