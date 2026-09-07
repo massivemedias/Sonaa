@@ -1,0 +1,17 @@
+{
+  "name": "Isoku",
+  "short_name": "Isoku",
+  "description": "Sept casse-tetes en 3D isometrique : sudoku, mahjong, 2048, fusion, demineur, blocs et trio.",
+  "start_url": "/games/isoku/",
+  "scope": "/games/isoku/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#12152a",
+  "theme_color": "#12152a",
+  "lang": "fr",
+  "icons": [
+    { "src": "/games/isoku/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/games/isoku/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/games/isoku/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
