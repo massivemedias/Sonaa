@@ -72,7 +72,8 @@ const FICHIERS_HORS = (nom: string): boolean =>
   nom === 'package-lock.json' ||
   nom === 'shotgun-releve.json' ||
   /* Meme parole rapportee, meme regle : des titres d'organisateurs. */
-  nom === 'eventbrite-releve.json';
+  nom === 'eventbrite-releve.json' ||
+  nom === 'lepointdevente-releve.json';
 
 /** Titres et noms d'artistes où le tiret est dans l'œuvre elle-même. Vide,
     et destiné à le rester : à ne remplir qu'avec une référence précise. */

@@ -38,3 +38,6 @@ scripts/donnees/artistes.json
 # Le releve de la moisson Eventbrite : meme statut que celui de Shotgun,
 # une photographie datee qui se refait par « npm run ingerer:eventbrite -- --lire ».
 scripts/donnees/eventbrite-releve.json
+
+# Le releve Lepointdevente : meme statut, meme regle que les deux autres.
+scripts/donnees/lepointdevente-releve.json

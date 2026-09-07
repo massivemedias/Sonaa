@@ -122,17 +122,19 @@ FAMILIES.forEach((f, i) => {
    provenance, elle ne la juge pas : « Shotgun » est un fait verifiable, pas
    une mention de qualite. Resident Advisor n'en a pas parce qu'il est le fond
    de la liste ; nommer le fond revient a le repeter trois cents fois. */
-const ORIGINE_DE_SOURCE: Record<string, 'main' | 'shotgun' | 'eventbrite'> = {
+const ORIGINE_DE_SOURCE: Record<string, 'main' | 'shotgun' | 'eventbrite' | 'lepointdevente'> = {
   main: 'main',
   facebook: 'main',
   shotgun: 'shotgun',
   eventbrite: 'eventbrite',
+  lepointdevente: 'lepointdevente',
 };
 
-const NOM_DE_SOURCE: Record<'main' | 'shotgun' | 'eventbrite', string> = {
+const NOM_DE_SOURCE: Record<'main' | 'shotgun' | 'eventbrite' | 'lepointdevente', string> = {
   main: t.ajouteeALaMain,
   shotgun: 'Shotgun',
   eventbrite: 'Eventbrite',
+  lepointdevente: 'Lepointdevente',
 };
 
 /* LES TROIS QUESTIONS QU'ON SE POSE VRAIMENT.
