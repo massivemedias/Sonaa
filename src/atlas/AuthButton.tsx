@@ -27,6 +27,8 @@ import {
 } from '../lib/auth.ts';
 import { monPseudonyme, suisJeModerateur } from '../lib/proposals.ts';
 import { t } from '../langue/langue.ts';
+import { ChoixLangue } from './ChoixLangue.tsx';
+import { ChoixTheme } from './ChoixTheme.tsx';
 import './auth-button.css';
 
 /* L'ENDROIT EXACT QUITTÉ, capturé AVANT tout départ.
@@ -248,6 +250,26 @@ export function AuthButton() {
 
   return (
     <div className="authb" ref={boite}>
+      {/* ═══ LES TROIS REGLAGES DE LA PAGE, AU MEME ENDROIT ═══
+       *
+       * La langue et le theme vivaient en fin de rangee du menu, apres un
+       * separateur. Le raisonnement etait bon : ce sont des reglages et non
+       * des destinations, donc ils ne devaient pas se melanger aux liens. Il
+       * etait bon et il s'arretait a mi-chemin, parce qu'il les laissait dans
+       * la rangee des liens quand meme. Constate sur capture : sous le menu,
+       * « FR | EN » et le soleil tombaient a la ligne, seuls, en bas a gauche,
+       * a l'oppose exact du seul autre reglage de la page.
+       *
+       * Ils sont maintenant colles au compte, dans le coin haut droit. Trois
+       * reglages ensemble : la langue dans laquelle on lit, le theme dans
+       * lequel on regarde, et le compte sous lequel on ecrit.
+       *
+       * ILS SONT DANS LA MEME BOITE QUE LE COMPTE, ET C'EST CE QUI GARANTIT LE
+       * RESTE. La reserve publiee plus haut mesure le bord gauche de cette
+       * boite ; les poser a cote, dans un conteneur voisin, aurait fait que la
+       * loupe de recherche vienne se coller par-dessus eux. */}
+      <ChoixLangue />
+      <ChoixTheme />
       {connecte ? (
         <>
           <button

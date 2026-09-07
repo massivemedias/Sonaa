@@ -33,6 +33,11 @@
 }
 
 .authb {
+  /* TROIS REGLAGES SUR UNE RANGEE : langue, theme, compte. La boite portait
+     un seul bouton ; elle en porte trois, et c'est elle qui les aligne. */
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
   position: fixed;
   top: calc(14px + env(safe-area-inset-top, 0px));
   /* A GAUCHE DE LA COLONNE DU LECTEUR, ET NON DANS SON DOS.

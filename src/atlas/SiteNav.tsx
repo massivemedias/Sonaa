@@ -14,8 +14,6 @@
 
 import { useEffect, useState, type ReactNode } from 'react';
 import { t } from '../langue/langue.ts';
-import { ChoixLangue } from './ChoixLangue.tsx';
-import { ChoixTheme } from './ChoixTheme.tsx';
 import './site-nav.css';
 
 type SiteCourant =
@@ -162,16 +160,13 @@ export function SiteNav({ variant, extra }: Props) {
       <span className="sitenav-groupe">
         {PAGES.map(lien)}
       </span>
-      {/* LA LANGUE EST UN REGLAGE, DONC ELLE VIENT APRES LE SEPARATEUR.
-          Les deux groupes precedents sont des endroits ou l'on va ; celui-ci
-          change la facon dont on lit les autres. Le mettre au milieu des
-          destinations en ferait une destination, et on cliquerait dessus en
-          s'attendant a arriver quelque part. */}
-      <span className="sitenav-sep" aria-hidden="true">
-        ·
-      </span>
-      <ChoixLangue />
-      <ChoixTheme />
+      {/* LA LANGUE ET LE THEME ONT QUITTE CETTE RANGEE.
+          Ils y etaient apres le separateur, ce qui etait juste sur le fond :
+          ce sont des reglages, pas des destinations. Mais la rangee est celle
+          des liens, et sur un ecran etroit ils tombaient a la ligne, seuls,
+          sous le menu : deux reglages orphelins sur leur propre ligne, loin du
+          seul autre reglage de la page, le compte. Ils sont maintenant a cote
+          de lui, dans le coin haut droit. Voir AuthButton. */}
     </nav>
   );
 }
