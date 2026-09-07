@@ -41,3 +41,6 @@ scripts/donnees/eventbrite-releve.json
 
 # Le releve Lepointdevente : meme statut, meme regle que les deux autres.
 scripts/donnees/lepointdevente-releve.json
+
+# Le releve Ticketmaster : meme statut, meme regle que les trois autres.
+scripts/donnees/ticketmaster-releve.json
