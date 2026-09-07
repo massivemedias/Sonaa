@@ -67,7 +67,16 @@
    pour qu'elle couvre toute la largeur pendant que son contenu s'aligne sur
    la colonne. Il n'y a plus de navigation a placer ici. */
 
-.credits-head {
+/* LA RESERVE PROTEGE LE TITRE, PAS TOUT L'EN-TETE.
+   Elle etait posee sur `.credits-head`, donc sur le titre ET sur le chapeau
+   qui le suit. Le titre en a besoin : il partage sa ligne avec le bouton de
+   compte, en position fixe en haut a droite. Le chapeau, lui, vit plusieurs
+   lignes plus bas et ne rencontre rien.
+   Mesure sur telephone de 375 px : la reserve vaut 213 px depuis que la
+   langue et le theme ont rejoint le compte, et elle ecrasait le chapeau a
+   130 px de large, soit six mots par ligne sur un ecran qui en tient trois
+   fois plus. Le texte lisait comme une colonne de journal coincee. */
+.credits-head > h1 {
   padding-right: calc(var(--authb-reserve, 126px) + 0.5rem);
 }
 
@@ -95,7 +104,9 @@
 
 .credits-lede {
   margin: 0 0 2.2rem;
-  font-size: 0.9375rem;
+  /* 14 px et non 15 : demande de Mika apres l'avoir vu sur son telephone,
+     une fois le chapeau rendu a sa vraie largeur. */
+  font-size: 0.875rem;
   font-weight: 400;
   color: var(--ink-secondary);
 }
