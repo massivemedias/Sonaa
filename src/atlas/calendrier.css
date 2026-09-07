@@ -630,7 +630,12 @@
     justify-content: flex-end;
   }
   .cal-feuille {
-    width: min(30rem, 92vw);
+    /* Trente rem, et jamais l'ecran entier : on garde une bande de la liste
+       visible a gauche, sinon la feuille laterale devient une page, et on
+       perd ce qui la justifie. La marge est ecrite en soustraction plutot
+       qu'en pourcentage, parce que c'est ce qu'elle est : deux rem de
+       respiration, pas une fraction de l'ecran. */
+    width: min(30rem, 100vw - 2rem);
     max-height: none;
     border-radius: 0;
     box-shadow: -12px 0 40px rgb(0 0 0 / 32%);
