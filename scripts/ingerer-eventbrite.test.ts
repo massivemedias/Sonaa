@@ -15,6 +15,12 @@ describe('estElectronique', () => {
     expect(estElectronique("TRIVIA NIGHT AT HURLEY'S", null, null)).toBe(false);
     expect(estElectronique('Montréal : Vendredi 11 septembre 2026 - 19h30 : Hommage à Ginette Reno', null, null)).toBe(false);
   });
+  /* LA TROISIEME CARTE DE MONTREAL, AVANT LES BORNES DE MOT. « techno » nu
+     attrapait « Technology ». */
+  it('ne prend pas « techno » dans « technology », ni les autres mots enclaves', () => {
+    expect(estElectronique('Conference on Information Technology and Computing', null, null)).toBe(false);
+    expect(estElectronique('Grand entrance gala', 'discount travel to Edmonton', null)).toBe(false);
+  });
   /* PAS DE MOT D'EXCLUSION : un mot electronique suffit, quoi qu'il y ait a cote. */
   it('ne rejette pas sur la presence d un mot etranger', () => {
     expect(estElectronique('Techno-Metal Night', 'metal', null)).toBe(true);

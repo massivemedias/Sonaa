@@ -142,15 +142,29 @@ function evenements(html: string): Objet[] {
 const texte = (v: unknown): string | null => (typeof v === 'string' && v.trim() !== '' ? v.trim() : null);
 
 /** Les mots qui font qu'une fiche a sa place dans un atlas des musiques
-    electroniques. Volontairement larges du cote electronique (« disco »,
-    « dj », « remix ») et sans aucun mot d'exclusion : un mot d'exclusion
-    rejetterait « techno-metal » pour le mot metal. On ne juge que sur la
-    presence, jamais sur l'absence. */
-export const MOTS_ELECTRONIQUES =
-  /(techno|house|rave|\bdj\b|electro|trance|drum|bass|dubstep|garage|club night|afterhours|after-hours|boiler|warehouse|minimal|acid|disco|dance party|soirée dansante|synth|ambient|breakbeat|jungle|hardstyle|edm|remix|\bset\b|b2b|live set|dance floor|dancefloor|nightclub)/i;
+    electroniques.
 
-export const estElectronique = (titre: string, description: string | null, organisateur: string | null): boolean =>
-  MOTS_ELECTRONIQUES.test(`${titre} ${description ?? ''} ${organisateur ?? ''}`);
+    BORNES DE MOT PARTOUT, ET C'EST UNE LECON. La premiere version ecrivait
+    `techno` nu : « Conference on Information Technology » est passee, et
+    s'est affichee en troisieme carte a Montreal. Sans borne, « trance »
+    prend « entrance », « disco » prend « discount », « rave » prend
+    « travel », « edm » prend « Edmonton ». Chaque mot est donc borne, et
+    « technolog » est exclu a part parce que la borne ne suffit pas : le mot
+    commence bien par techno.
+
+    Sans mot d'exclusion musical, a dessein : rejeter sur « metal »
+    rejetterait « techno-metal ». On ne juge que sur la presence. Le filtre
+    reste imparfait dans les deux sens, et il le dit : un tournoi de golf
+    avec DJ passe, une soiree qui tait son style ne passe pas. Il est prefere
+    a l'absence de filtre, qui donnait 373 fiches dont 38 surement
+    electroniques. */
+export const MOTS_ELECTRONIQUES =
+  /\b(techno|tech house|house music|deep house|afro house|rave|dj|djs|electro|electronic|électro|électronique|trance|drum and bass|drum & bass|dnb|dubstep|uk garage|boiler room|warehouse|minimal|acid|disco|edm|remix|b2b|dancefloor|dance floor|nightclub|club night|afterhours|after hours|hardstyle|hardcore techno|breakbeat|jungle|ambient|synth|synthwave|italo|nu-disco|nu disco)\b/i;
+
+export const estElectronique = (titre: string, description: string | null, organisateur: string | null): boolean => {
+  const t = `${titre} ${description ?? ''} ${organisateur ?? ''}`;
+  return MOTS_ELECTRONIQUES.test(t) && !/technolog/i.test(t);
+};
 
 /* ── Etape 1 : decouvrir les adresses de fiches ───────────────────────── */
 
