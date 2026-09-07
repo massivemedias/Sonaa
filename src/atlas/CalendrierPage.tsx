@@ -122,9 +122,17 @@ FAMILIES.forEach((f, i) => {
    provenance, elle ne la juge pas : « Shotgun » est un fait verifiable, pas
    une mention de qualite. Resident Advisor n'en a pas parce qu'il est le fond
    de la liste ; nommer le fond revient a le repeter trois cents fois. */
-const NOM_DE_SOURCE: Record<'main' | 'shotgun', string> = {
+const ORIGINE_DE_SOURCE: Record<string, 'main' | 'shotgun' | 'eventbrite'> = {
+  main: 'main',
+  facebook: 'main',
+  shotgun: 'shotgun',
+  eventbrite: 'eventbrite',
+};
+
+const NOM_DE_SOURCE: Record<'main' | 'shotgun' | 'eventbrite', string> = {
   main: t.ajouteeALaMain,
   shotgun: 'Shotgun',
+  eventbrite: 'Eventbrite',
 };
 
 /* LES TROIS QUESTIONS QU'ON SE POSE VRAIMENT.
@@ -580,7 +588,13 @@ export function CalendrierPage() {
            annoncees comme des saisies manuelles. La table sert deux sources
            depuis qu'un adaptateur y verse, et le champ `source` le dit
            depuis le debut ; il suffisait de le lire. */
-        origine: m.source === 'shotgun' ? 'shotgun' : 'main',
+        /* LA SOURCE SE LIT, ELLE NE SE DEVINE PAS. Le ternaire « shotgun, sinon
+           a la main » a tenu tant qu'il n'y avait que deux sources ; la
+           troisieme aurait porte la pastille de la premiere venue. On passe
+           par une table fermee : une source inconnue retombe sur « a la
+           main », ce qui est faux mais visible, plutot que sur une source
+           qui ne l'a pas produite. */
+        origine: ORIGINE_DE_SOURCE[m.source] ?? 'main',
         description: m.description,
         fin: m.fin,
         adresse: m.adresse,
