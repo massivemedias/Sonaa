@@ -523,31 +523,125 @@
    `grid-column: 1 / -1` sur un enfant de la carte ne suffirait pas : c'est la
    carte qui est dans la grille. Le panneau sort donc du flux de la carte par
    `position: static` et une regle sur la carte elle-meme, ci-dessous. */
-.cal-soiree:has(.cal-fiche) {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: minmax(0, 22rem) minmax(0, 1fr);
-  grid-template-areas:
-    'affiche fiche'
-    'texte   fiche';
-  gap: 0 1.4rem;
-  align-items: start;
+/* L'ACCORDEON A DISPARU AVEC SES REGLES. Il vivait dans la grille, ce qui
+   demandait un `:has()`, une redefinition de colonnes et trois zones nommees
+   pour qu'une carte ouverte occupe toute la largeur. La feuille, elle, est
+   posee par-dessus la page : elle n'a besoin de rien savoir de la grille. */
+
+/* ═══ LA FEUILLE ═══
+
+   Sur telephone elle monte du bas et occupe presque toute la hauteur, comme
+   toutes les feuilles que le pouce connait. Sur ordinateur elle se pose a
+   droite, en colonne : la liste reste visible a cote, ce qui permet de
+   comparer deux soirees sans fermer. */
+.cal-voile {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: color-mix(in oklch, var(--encre-fond, #000) 62%, transparent);
+  backdrop-filter: blur(2px);
+  animation: cal-voile-entre 160ms ease-out;
 }
-.cal-soiree:has(.cal-fiche) .cal-ouvre {
-  grid-area: affiche;
+@keyframes cal-voile-entre {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
-.cal-soiree:has(.cal-fiche) .cal-texte {
-  grid-area: texte;
+
+.cal-feuille {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 88vh;
+  background: var(--plaque);
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+  box-shadow: 0 -12px 40px rgb(0 0 0 / 35%);
+  animation: cal-feuille-monte 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
+@keyframes cal-feuille-monte {
+  from { transform: translateY(14px); opacity: 0.6; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* LA TETE NE DEFILE PAS : le titre et la croix restent atteignables quand on
+   est au milieu de mille signes de description. */
+.cal-feuille-tete {
+  position: relative;
+  flex: 0 0 auto;
+  padding: 1.1rem 3rem 0.8rem 1.3rem;
+  border-bottom: var(--rule-width) solid var(--rule-hairline);
+}
+/* La poignee ne fait rien, elle DIT que ca vient du bas et que ca se referme.
+   C'est le seul element purement decoratif de cette feuille, et il gagne sa
+   place parce qu'il annonce un geste. */
+.cal-feuille-poignee {
+  position: absolute;
+  top: 0.45rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2.4rem;
+  height: 0.22rem;
+  border-radius: 999px;
+  background: var(--ink-secondary);
+  opacity: 0.35;
+}
+.cal-feuille-titre {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: var(--weight-data);
+  line-height: 1.3;
+  color: var(--ink-primary);
+}
+.cal-feuille-fermer {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-primary);
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.cal-feuille-fermer:hover {
+  border-color: var(--ink-primary);
+}
+
+/* SEUL LE CORPS DEFILE, et il le fait avec l'inertie du systeme. */
 .cal-fiche {
-  grid-area: fiche;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 1.1rem 1.3rem calc(1.6rem + env(safe-area-inset-bottom, 0px));
   min-width: 0;
 }
 
-@media (max-width: 760px) {
-  .cal-soiree:has(.cal-fiche) {
-    grid-template-columns: 1fr;
-    grid-template-areas: 'affiche' 'texte' 'fiche';
+@media (min-width: 860px) {
+  /* SUR ORDINATEUR, ELLE VIENT DE LA DROITE. Une feuille qui monte du bas sur
+     un ecran de 1400 px laisse deux tiers de vide au-dessus d'elle. */
+  .cal-voile {
+    align-items: stretch;
+    justify-content: flex-end;
+  }
+  .cal-feuille {
+    width: min(30rem, 92vw);
+    max-height: none;
+    border-radius: 0;
+    box-shadow: -12px 0 40px rgb(0 0 0 / 32%);
+    animation: cal-feuille-glisse 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .cal-feuille-poignee {
+    display: none;
+  }
+  @keyframes cal-feuille-glisse {
+    from { transform: translateX(18px); opacity: 0.6; }
+    to { transform: translateX(0); opacity: 1; }
   }
 }
 

@@ -146,6 +146,7 @@ interface Dictionnaire {
   readonly passerAuClair: string;
   readonly passerAuSombre: string;
   readonly villeLibelle: string;
+  readonly fermerLaFiche: string;
   readonly stylesDeCetArtiste: string;
   readonly lesArtistesDuStyle: string;
   /** La provenance ET la date : un relevé sans date se lit comme une vérité
@@ -529,6 +530,7 @@ const FR: Dictionnaire = {
   passerAuClair: 'Passer au thème clair',
   passerAuSombre: 'Passer au thème sombre',
   villeLibelle: "Ville",
+  fermerLaFiche: "Fermer la fiche",
   stylesDeCetArtiste: "Styles de cet artiste",
   lesArtistesDuStyle: "Les artistes de ce style",
   artistesDouVientLaListe: (quand) =>
@@ -915,6 +917,7 @@ const EN: Dictionnaire = {
   passerAuClair: 'Switch to the light theme',
   passerAuSombre: 'Switch to the dark theme',
   villeLibelle: "City",
+  fermerLaFiche: "Close",
   stylesDeCetArtiste: "This artist’s styles",
   lesArtistesDuStyle: "Artists in this style",
   artistesDouVientLaListe: (quand) =>

@@ -200,7 +200,22 @@ function jourCourt(iso: string, fuseau: string): string {
 }
 
 
-/* ═══ LA FICHE DEPLIEE, SOUS LA CARTE ═══
+/* ═══ LA FICHE S'OUVRE PAR-DESSUS, ELLE NE POUSSE PLUS LA GRILLE ═══
+ *
+ * ELLE ETAIT UN ACCORDEON, ET C'ETAIT UNE ERREUR SUR TELEPHONE. Deplier une
+ * fiche dans une grille ecarte tout ce qui suit de plusieurs ecrans : on perd
+ * l'endroit ou l'on etait, et il faut remonter a l'aveugle pour retrouver la
+ * carte suivante. Sur un ecran de telephone, ou la grille est deja en une
+ * seule colonne, mille signes de description repoussent la soiree suivante
+ * hors de tout.
+ *
+ * C'est donc une FEUILLE : elle monte du bas sur telephone, s'ouvre en
+ * panneau lateral sur ordinateur, et la liste ne bouge pas d'un pixel
+ * derriere elle. On la ferme, on est exactement la ou l'on avait clique.
+ *
+ * TROIS FACONS DE FERMER, PARCE QU'ON N'A PAS TOUS LE MEME GESTE : la croix,
+ * le fond, et Echap. Une feuille qui ne se ferme que par une croix de vingt
+ * pixels en haut a droite est une feuille qu'on ferme mal au pouce.
  *
  * Elle montre ce que la source annonce, sur place : le plateau entier et non
  * les six premiers, l'adresse et non le seul nom de salle, l'horaire de bout
@@ -217,14 +232,52 @@ function jourCourt(iso: string, fuseau: string): string {
  * une page publique. `white-space: pre-line` rend les retours a la ligne, et
  * c'est tout ce dont il a besoin.
  */
-function FicheSoiree({ soiree, fuseau }: { soiree: Soiree; fuseau: string }) {
+function FicheSoiree({
+  soiree,
+  fuseau,
+  onFermer,
+}: {
+  soiree: Soiree;
+  fuseau: string;
+  onFermer: () => void;
+}) {
   const debut = soiree.debut ? heureLocale(soiree.debut, fuseau) : null;
   const fin = soiree.fin ? heureLocale(soiree.fin, fuseau) : null;
   const rien =
     !soiree.description && !soiree.adresse && !soiree.prix && soiree.artistes.length === 0;
 
+  /* ECHAP FERME, ET LE FOND DE PAGE NE DEFILE PLUS DERRIERE. Sans le second,
+     on scrolle la liste en croyant scroller la fiche, et on ressort ailleurs. */
+  useEffect(() => {
+    const surTouche = (e: KeyboardEvent): void => {
+      if (e.key === 'Escape') onFermer();
+    };
+    window.addEventListener('keydown', surTouche);
+    const avant = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', surTouche);
+      document.body.style.overflow = avant;
+    };
+  }, [onFermer]);
+
   return (
-    <div className="cal-fiche" id={`detail-${soiree.id}`}>
+    <div className="cal-voile" onClick={onFermer}>
+    <div
+      className="cal-feuille"
+      role="dialog"
+      aria-modal="true"
+      aria-label={soiree.titre}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="cal-feuille-tete">
+        <span className="cal-feuille-poignee" aria-hidden="true" />
+        <h3 className="cal-feuille-titre">{soiree.titre}</h3>
+        <button type="button" className="cal-feuille-fermer" onClick={onFermer} aria-label={t.fermerLaFiche}>
+          ×
+        </button>
+      </div>
+      <div className="cal-fiche">
       <dl className="cal-fiche-faits">
         {soiree.artistes.length > 0 && (
           <div>
@@ -280,6 +333,8 @@ function FicheSoiree({ soiree, fuseau }: { soiree: Soiree; fuseau: string }) {
           {t.ouvrirChezLaSource}
         </a>
       )}
+      </div>
+    </div>
     </div>
   );
 }
@@ -770,6 +825,20 @@ export function CalendrierPage() {
             </div>
           </div>
 
+          {/* LA FEUILLE VIT AU NIVEAU DE LA PAGE, PAS DANS LA CARTE.
+              Rendue dans le `<li>`, elle heritait de la grille et il fallait
+              un `:has()` et trois regles de zones pour la faire tenir sur
+              toute la largeur. Rendue ici, une seule fois, elle se pose
+              par-dessus tout sans rien deranger, et la liste garde sa
+              position au pixel pres. */}
+          {depliee &&
+            (() => {
+              const s = (soirees ?? []).find((x) => x.id === depliee);
+              return s ? (
+                <FicheSoiree soiree={s} fuseau={fuseau} onFermer={() => setDepliee(null)} />
+              ) : null;
+            })()}
+
           {/* Le calendrier se deploie sous la barre, comme les styles : deux
               panneaux au meme endroit, jamais tous les deux a la fois. */}
           {ville && ouvrirJour && (
@@ -1047,7 +1116,6 @@ export function CalendrierPage() {
                                   <p className="cal-genres">{s.genres.join(' · ')}</p>
                                 )}
                               </div>
-                              {depliee === s.id && <FicheSoiree soiree={s} fuseau={fuseau} />}
                             </li>
                           );
                         })}
