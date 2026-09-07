@@ -42,7 +42,8 @@ import { FaIcon } from './FaIcon.tsx';
 import { SiteNav } from './SiteNav.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import { ContributeActions } from './ContributeActions.tsx';
-import { t } from '../langue/langue.ts';
+import { langue, t } from '../langue/langue.ts';
+import { artistesDuGenre, moissonFaiteLe } from '../lib/artistes.ts';
 import { setsDunGenre, type SetDJ } from '../lib/sets.ts';
 import { contributionsActives } from '../lib/config.ts';
 import './parcourir.css';
@@ -632,6 +633,14 @@ interface PageGenreProps {
 function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: PageGenreProps) {
   const tracks = genre.tracks;
   const derives = poidsDe(genre.id).descendance;
+  const artistes = artistesDuGenre(genre.id);
+  /* La date du releve, dans la langue de la page. Elle vit ici et non dans le
+     module de donnees : mettre en forme une date est un travail d'affichage. */
+  const dateMoisson = new Intl.DateTimeFormat(langue === 'fr' ? 'fr-CA' : 'en-CA', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(new Date(moissonFaiteLe));
   /* On revient a l'histoire en changeant de genre : rester sur l'onglet
      fabrication ferait arriver au milieu d'une recette sur un style qu'on
      vient a peine d'ouvrir. */
@@ -772,6 +781,34 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
 
       {t.texteEnFrancais && <p className="pv-langue">{t.texteEnFrancais}</p>}
       {genre.description && <p className="pv-description">{genre.description}</p>}
+
+      {/* ═══ LES ARTISTES DE CE STYLE ═══
+       *
+       * La fiche portait six « artistes clés », choisis a la main, dans la
+       * liste de faits. Ils y restent : ce sont ceux que Mika a verifies, et
+       * six noms tries valent mieux que trente rangs.
+       *
+       * Ceux-ci sont autre chose : un CLASSEMENT, celui de Last.fm, par
+       * nombre d'auditeurs, filtre par ce que Discogs sait des disques de
+       * chacun. Un artiste que Discogs connait et dont les sorties ne portent
+       * pas ce genre est retire : c'est exactement l'etiquette posee de
+       * travers par trois auditeurs qu'on cherchait a ecarter.
+       *
+       * LA PROVENANCE EST ECRITE SOUS LA LISTE, et ce n'est pas de la
+       * modestie. Une liste de trente noms sans source se lit comme un
+       * jugement de l'auteur ; avec sa source, elle se lit pour ce qu'elle
+       * est, un releve qu'on peut contester. */}
+      {artistes.length > 0 && (
+        <section className="pv-artistes">
+          <h3 className="pv-titre-liste">{t.lesArtistesDuStyle}</h3>
+          <ul className="pv-artistes-liste">
+            {artistes.map((nom) => (
+              <li key={nom}>{nom}</li>
+            ))}
+          </ul>
+          <p className="pv-artistes-source">{t.artistesDouVientLaListe(dateMoisson)}</p>
+        </section>
+      )}
 
       {/* LA DESCRIPTION AVANT LA LISTE, LE RESTE APRES.
 

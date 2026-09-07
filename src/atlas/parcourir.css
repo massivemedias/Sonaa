@@ -1313,3 +1313,37 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-article-famille {
   margin-top: 2rem;
 }
+
+/* ═══ LES ARTISTES D'UN STYLE ═══
+
+   Une liste de trente noms n'est ni une phrase ni un tableau : c'est un nuage
+   ordonne. On la dispose donc en colonnes automatiques, sans puces, avec le
+   rang implicite dans l'ordre de lecture. Les colonnes suivent la largeur au
+   lieu d'etre comptees : trois sur un ordinateur, une sur un telephone, sans
+   qu'aucun point de rupture soit ecrit. */
+.pv-artistes {
+  margin: 1.8rem 0 0;
+}
+.pv-artistes-liste {
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  columns: 3 14rem;
+  column-gap: 2rem;
+}
+.pv-artistes-liste li {
+  break-inside: avoid;
+  padding: 0.16rem 0;
+  color: var(--ink-primary);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+/* LA PROVENANCE, EN RETRAIT ET LISIBLE. Elle n'est pas une note de bas de
+   page : sans elle, trente noms se lisent comme un jugement de l'auteur. */
+.pv-artistes-source {
+  margin: 0.9rem 0 0;
+  max-width: 62ch;
+  color: var(--ink-secondary);
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
