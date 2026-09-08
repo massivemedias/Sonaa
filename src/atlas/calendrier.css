@@ -496,6 +496,36 @@
   }
 }
 
+/* DEUX COLONNES SUR TELEPHONE. Une seule carte par rangee, avec l'affiche
+   en 16/10 sur toute la largeur, faisait defiler quatre cents pixels par
+   soiree : cent onze soirees de fin de semaine, c'est un tunnel. A deux par
+   rangee on en voit six d'un coup, et l'affiche repasse en 4/5, le format
+   dans lequel presque tous les flyers sont dessines : plus etroite, elle
+   n'est plus recadree. Demande de Mika du 7 septembre 2026. */
+@media (max-width: 560px) {
+  .cal-liste {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.3rem 0.75rem;
+  }
+  .cal-soiree {
+    gap: 0.4rem;
+    padding-bottom: 1rem;
+  }
+  .cal-affiche,
+  .cal-soiree-sans-affiche {
+    aspect-ratio: 4 / 5;
+  }
+  .cal-soiree .cal-titre {
+    font-size: 0.9rem;
+    line-height: 1.25;
+  }
+  .cal-lieu,
+  .cal-artistes,
+  .cal-genres {
+    font-size: 0.78rem;
+  }
+}
+
 /* ═══ LA CARTE S'OUVRE, ELLE N'EMMENE PLUS AILLEURS ═══ */
 
 /* La pochette est un bouton : il faut lui retirer tout ce qu'un navigateur
