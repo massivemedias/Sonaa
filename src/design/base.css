@@ -126,6 +126,22 @@ p {
   outline-offset: 3px;
 }
 
+/* PAS DE CONTOUR SUR CE QU'ON CLIQUE. Mika, le 7 septembre 2026, devant le
+   selecteur de ville cerne de blanc apres un clic : « je ne veux pas de
+   highlight sur les liens et les boutons ». Chrome donne au selecteur, aux
+   liens et aux boutons le contour de focus meme a la souris. On le retire
+   sur ces trois-la, et sur le tap du telephone ; il reste sur les champs de
+   texte, ou il dit ou l'on tape. */
+a:focus-visible,
+button:focus-visible,
+select:focus-visible,
+[role='button']:focus-visible {
+  outline: none;
+}
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
 
 /* ═══ LE LOGO EST UNE IMAGE BLANCHE, DONC INVISIBLE SUR FOND CLAIR ═══
 
