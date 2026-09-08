@@ -9,7 +9,13 @@
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  /* AU-DESSUS DE LA BARRE DU BAS ET DU MINI LECTEUR quand ils sont la : les
+     deux grandeurs viennent de barre-bas.css. La barre porte deja la zone
+     sure dans sa hauteur, d'ou le `max` plutot qu'une addition qui la
+     compterait deux fois. */
+  bottom: calc(
+    0.75rem + max(env(safe-area-inset-bottom, 0px), var(--barre-bas-h, 0px)) + var(--mini-h, 0px)
+  );
   z-index: 70;
 
   display: flex;

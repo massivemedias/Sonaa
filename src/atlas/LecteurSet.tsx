@@ -8,10 +8,17 @@
    nativement : le passer par la meme machinerie serait ajouter des pannes
    possibles sans rien gagner.
 
-   Les deux ne se marchent pas dessus : le routeur de main.tsx est exclusif,
-   la vue Parcourir et sa balise YouTube sont demontees quand on est sur
-   #/sets. Il n'y a donc jamais deux sons a la fois, et cela ne tient pas a
-   une precaution mais a la structure des routes.
+   ═══ LA BALISE AUDIO N'EST PLUS ICI ═══
+
+   Elle vit dans lib/lecture-set.ts, une pour tout le site, et ce composant
+   ne fait que la regarder et la commander. C'est ce qui permet au son de
+   continuer quand on quitte la page des sons : avant, la balise mourait avec
+   le composant, et l'ecoute avec elle. Deux lecteurs de la meme page
+   montrent donc le meme etat, et la barre du bas aussi.
+
+   Les deux lecteurs du site, celui-ci et YouTube, s'annoncent l'un a l'autre
+   par un evenement : voir lecture-set.ts. Il n'y a jamais deux sons a la
+   fois, et cela ne tient plus aux routes mais a cette regle.
 
    ═══ LA FORME D'ONDE NE TELECHARGE RIEN ═══
 
@@ -24,7 +31,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { FaIcon } from './FaIcon.tsx';
 import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
-import { compterEcoute, lireOnde, mmss, urlAudio, type SetDJ } from '../lib/sets.ts';
+import { lireOnde, mmss, type SetDJ } from '../lib/sets.ts';
+import {
+  basculerLeSet,
+  chercherDansLeSet,
+  jouerLeSet,
+  useLectureSet,
+} from '../lib/lecture-set.ts';
 import { t } from '../langue/langue.ts';
 
 /* Barres serrees, comme demande : 2 px de barre, 1 px d'ecart. A 800 barres
@@ -40,14 +53,18 @@ interface Props {
 }
 
 export function LecteurSet({ set, compact = false }: Props) {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
   const toileRef = useRef<HTMLCanvasElement | null>(null);
-  const [joue, setJoue] = useState(false);
-  const [position, setPosition] = useState(0);
-  const [duree, setDuree] = useState(set.duree_s ?? 0);
   const [survol, setSurvol] = useState<number | null>(null);
-  const [erreur, setErreur] = useState<string | null>(null);
-  const compte = useRef(false);
+
+  /* CE LECTEUR NE MONTRE QUE CE QUI LE CONCERNE. Le son en cours est peut-etre
+     un autre set ; alors celui-ci est au repos, a zero, et son bouton dit
+     « ecouter ». Un seul etat pour tout le site, lu par chacun a sa place. */
+  const lecture = useLectureSet();
+  const courant = lecture.set?.id === set.id;
+  const joue = courant && lecture.joue;
+  const position = courant ? lecture.position : 0;
+  const duree = courant && lecture.duree > 0 ? lecture.duree : (set.duree_s ?? 0);
+  const erreur = courant && lecture.erreur ? t.setIllisible : null;
 
   const onde = useRef<Uint8Array | null>(null);
   if (onde.current === null) onde.current = lireOnde(set.onde);
@@ -127,55 +144,22 @@ export function LecteurSet({ set, compact = false }: Props) {
 
   /* --- Le son ------------------------------------------------------------- */
 
-  useEffect(() => {
-    const a = audioRef.current;
-    if (!a) return;
-    const surTemps = (): void => setPosition(a.currentTime);
-    const surDuree = (): void => {
-      if (Number.isFinite(a.duration)) setDuree(a.duration);
-    };
-    const surFin = (): void => {
-      setJoue(false);
-      setPosition(0);
-    };
-    const surErreur = (): void => {
-      setJoue(false);
-      setErreur(t.setIllisible);
-    };
-    a.addEventListener('timeupdate', surTemps);
-    a.addEventListener('loadedmetadata', surDuree);
-    a.addEventListener('durationchange', surDuree);
-    a.addEventListener('ended', surFin);
-    a.addEventListener('error', surErreur);
-    a.addEventListener('play', () => setJoue(true));
-    a.addEventListener('pause', () => setJoue(false));
-    return () => {
-      a.removeEventListener('timeupdate', surTemps);
-      a.removeEventListener('loadedmetadata', surDuree);
-      a.removeEventListener('durationchange', surDuree);
-      a.removeEventListener('ended', surFin);
-      a.removeEventListener('error', surErreur);
-    };
-  }, []);
-
-  /* L'ETAT SUIT L'ELEMENT, IL NE LE DEVANCE PAS. Le bouton n'affiche « en
-     lecture » que quand l'evenement `play` est arrive. C'est la lecon du
-     lecteur de morceaux : afficher Pause avant que le son ait demarre faisait
-     envoyer une pause au moment exact ou le geste allait debloquer. */
+  /* Toujours dans un geste. Si ce set n'est pas celui qui est charge, on le
+     charge et on le lance ; sinon on bascule. */
   const basculer = useCallback(() => {
-    const a = audioRef.current;
-    if (!a) return;
-    setErreur(null);
-    if (a.paused) {
-      void a.play().catch(() => setErreur(t.setIllisible));
-      if (!compte.current) {
-        compte.current = true;
-        void compterEcoute(set.id);
-      }
-    } else {
-      a.pause();
-    }
-  }, [set.id]);
+    if (courant) basculerLeSet();
+    else jouerLeSet(set);
+  }, [courant, set]);
+
+  /* Se placer dans un set qui n'est pas charge le charge d'abord : le clic
+     sur la forme d'onde d'un set au repos doit mener la, et pas nulle part. */
+  const placer = useCallback(
+    (secondes: number) => {
+      if (!courant) jouerLeSet(set);
+      chercherDansLeSet(secondes);
+    },
+    [courant, set]
+  );
 
   const positionDuClic = (e: React.MouseEvent<HTMLCanvasElement>): number => {
     const r = e.currentTarget.getBoundingClientRect();
@@ -183,16 +167,12 @@ export function LecteurSet({ set, compact = false }: Props) {
   };
 
   const chercher = (e: React.MouseEvent<HTMLCanvasElement>): void => {
-    const a = audioRef.current;
-    if (!a || duree <= 0) return;
-    const cible = positionDuClic(e) * duree;
-    a.currentTime = cible;
-    setPosition(cible);
+    if (duree <= 0) return;
+    placer(positionDuClic(e) * duree);
   };
 
   return (
     <div className={compact ? 'ls ls-compact' : 'ls'}>
-      <audio ref={audioRef} src={urlAudio(set.audio_path)} preload="metadata" />
 
       <button
         className="ls-bouton"
@@ -217,10 +197,8 @@ export function LecteurSet({ set, compact = false }: Props) {
           aria-valuenow={Math.round(position)}
           aria-valuetext={mmss(position)}
           onKeyDown={(e) => {
-            const a = audioRef.current;
-            if (!a) return;
-            if (e.key === 'ArrowRight') a.currentTime = Math.min(duree, a.currentTime + 15);
-            else if (e.key === 'ArrowLeft') a.currentTime = Math.max(0, a.currentTime - 15);
+            if (e.key === 'ArrowRight') placer(Math.min(duree, position + 15));
+            else if (e.key === 'ArrowLeft') placer(Math.max(0, position - 15));
             else if (e.key === ' ' || e.key === 'Enter') {
               e.preventDefault();
               basculer();

@@ -340,6 +340,19 @@ export function ProfilPage() {
       <main className="credits sets-page">
         <h1>{t.monProfil}</h1>
         <p>{t.connexionRequiseProfil}</p>
+        {/* LE BOUTON EST ICI, PAS SEULEMENT EN HAUT A DROITE. Depuis la barre
+            du bas on arrive sur cette page sans compte, et un texte qui dit
+            « connectez-vous » sans rien a presser renvoie chercher ou. Il
+            demande le panneau commun plutot que d'en dessiner un second. */}
+        <p>
+          <button
+            type="button"
+            className="contrib-primaire"
+            onClick={() => window.dispatchEvent(new Event('sonaa:connexion'))}
+          >
+            {t.seConnecter}
+          </button>
+        </p>
         <PiedDePage />
       </main>
     </>

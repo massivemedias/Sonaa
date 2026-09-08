@@ -338,6 +338,7 @@ interface Dictionnaire {
   readonly rouvrirLecteur: string;
   readonly reglerLargeurColonne: string;
   readonly fermerLecteur: string;
+  readonly profilCourt: string;
   readonly ouvrirLecteur: string;
   readonly precedente: string;
   readonly positionDansLaTrack: string;
@@ -754,6 +755,7 @@ const FR: Dictionnaire = {
   rouvrirLecteur: "Rouvrir le lecteur",
   reglerLargeurColonne: "Régler la largeur de la colonne, flèches gauche et droite",
   fermerLecteur: "Fermer le lecteur",
+  profilCourt: "Profil",
   ouvrirLecteur: "Ouvrir le lecteur",
   precedente: "Précédente",
   positionDansLaTrack: "Position dans la track",
@@ -1185,6 +1187,7 @@ const EN: Dictionnaire = {
   rouvrirLecteur: "Reopen the player",
   reglerLargeurColonne: "Adjust the column width, left and right arrows",
   fermerLecteur: "Close the player",
+  profilCourt: "Profile",
   ouvrirLecteur: "Open the player",
   precedente: "Previous",
   positionDansLaTrack: "Position in the track",

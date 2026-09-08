@@ -110,6 +110,12 @@ const SetsPage = lazy(() =>
 /* LE CALENDRIER EST CHARGE A LA DEMANDE, comme les autres pages. Il tire la
    liste des styles et parle a la passerelle : rien de tout cela n'a de raison
    de peser sur qui vient seulement lire l'atlas. */
+/* LA BARRE DU BAS ET LE MINI LECTEUR NE SONT PAS DIFFERES : ils sont sur
+   toutes les pages, petits, et un menu qui arrive apres la page est un menu
+   qui saute. */
+import { BarreBas } from './atlas/BarreBas.tsx';
+import { MiniLecteur } from './atlas/MiniLecteur.tsx';
+
 const CalendrierPage = lazy(() =>
   import('./atlas/CalendrierPage.tsx').then((module) => ({ default: module.CalendrierPage }))
 );
@@ -153,6 +159,21 @@ const routeOf = (): Route => {
 };
 
 const estAtlas = (r: Route): boolean => r === 'atlas';
+
+/* Les routes qui portent la barre du bas sur telephone : celles qui defilent
+   comme un document, ou comme Parcourir. Les vues plein ecran gardent leur
+   chrome, voir BarreBas.tsx. */
+const PORTE_LA_BARRE: ReadonlySet<Route> = new Set([
+  'calendrier',
+  'parcourir',
+  'sets',
+  'profil',
+  'index',
+  'credits',
+  'apropos',
+  'propositions',
+  'moderation',
+]);
 
 /* Un changement qui TRAVERSE l'atlas recharge la page. C'est brutal mais
    honnête : le contexte WebGL et le lecteur YouTube ne se démontent pas
@@ -214,6 +235,12 @@ function App() {
       {/* Hors de toute page : on doit pouvoir se connecter depuis n'importe
           quelle vue, pas seulement depuis l'atlas. */}
       <AuthButton />
+      {/* LE SON ET LA BARRE DU BAS VIVENT ICI, HORS DES ROUTES : c'est ce qui
+          leur permet de rester quand la page change. La barre d'onglets
+          relit l'adresse a chaque rendu de App, qui a lieu a chaque
+          changement de route. */}
+      <MiniLecteur />
+      {PORTE_LA_BARRE.has(route) && <BarreBas />}
       {/* Hors du Suspense : un bandeau « hors ligne » doit pouvoir s'afficher
           même si le chunk de la page en cours n'a pas pu être chargé. */}
       <PwaLayer />

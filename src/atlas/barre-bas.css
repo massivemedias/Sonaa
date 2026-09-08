@@ -1,0 +1,109 @@
+/* LA BARRE DU BAS. Voir BarreBas.tsx pour le pourquoi.
+
+   Elle n'existe que sous 768 px, le seuil que tout le site emploie deja pour
+   dire « telephone » (legende de l'atlas, fil d'Ariane, bouton de compte).
+   Une seule frontiere pour un seul mot. */
+
+/* ═══ LA PLACE EN BAS EST UNE GRANDEUR NOMMEE ═══
+
+   Tout ce qui se pose en bas de l'ecran lit ces deux hauteurs : la barre
+   d'onglets, puis le mini lecteur au-dessus d'elle. Le corps de page les
+   additionne dans son retrait bas, la barre de lecture de Parcourir s'y
+   ajoute par-dessus. Deux ecritures d'un meme nombre finissent par diverger ;
+   ici il n'y en a qu'une. */
+body {
+  --barre-bas-h: 0px;
+  --mini-h: 0px;
+  padding-bottom: calc(var(--barre-bas-h) + var(--mini-h));
+}
+body.avec-mini-lecteur {
+  --mini-h: 64px;
+}
+
+.barre-bas {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  body.avec-barre-bas {
+    --barre-bas-h: calc(58px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* LE MENU DU HAUT S'EFFACE quand la barre du bas est la : voir
+     BarreBas.tsx. L'en-tete ne garde que le logo. */
+  body.avec-barre-bas .sitenav-overlay {
+    display: none;
+  }
+
+  .barre-bas {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* AU-DESSUS DE L'EN-TETE (12), SOUS TOUT CE QUI SE POSE PAR-DESSUS LA
+       PAGE : le panneau de connexion (14), la fiche d'une soiree (40), le
+       formulaire de proposition (60), le bandeau d'installation (70). Une
+       barre d'onglets qui recouvre un voile est une barre qu'on touche par
+       erreur en voulant fermer le voile. La barre de lecture de Parcourir
+       (60) ne la croise pas : elle est decalee d'autant, voir plus bas. */
+    z-index: 13;
+    display: flex;
+    align-items: stretch;
+    box-sizing: border-box;
+    height: var(--barre-bas-h);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: var(--plaque);
+    border-top: 1px solid var(--voile-07);
+    font-family: var(--font-ui);
+  }
+
+  .barre-bas-onglet {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    min-width: 0;
+    color: var(--ink-secondary);
+    text-decoration: none;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: var(--serrage-ui);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .barre-bas-onglet[aria-current='page'] {
+    color: var(--ink-primary);
+  }
+  .barre-bas-onglet span {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .barre-bas-icone {
+    width: 22px;
+    height: 22px;
+  }
+
+}
+
+/* ═══ PARCOURIR LIT LES MEMES GRANDEURS ═══
+
+   Sa barre de lecture etait collee au bas de l'ecran, et la barre d'onglets
+   comme le mini lecteur l'auraient recouverte. Son corps a son propre
+   defilement, donc le retrait de `body` ne l'atteint pas : il lit la
+   grandeur lui-meme.
+
+   SELECTEURS QUALIFIES PAR `body`, ET C'EST VOULU : parcourir.css arrive
+   avec la vue, apres cette feuille, et a poids egal c'est lui qui gagnerait.
+   Un cran de plus ici, et l'ordre de chargement ne compte plus. */
+body .pv-barre {
+  bottom: calc(var(--barre-bas-h) + var(--mini-h));
+}
+body .pv-corps {
+  padding-bottom: calc(1.5rem + var(--barre-bas-h) + var(--mini-h));
+}
+body .pv[data-joue='true'] .pv-corps {
+  padding-bottom: calc(116px + env(safe-area-inset-bottom, 0px) + var(--barre-bas-h) + var(--mini-h));
+}

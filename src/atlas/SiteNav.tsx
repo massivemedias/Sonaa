@@ -29,6 +29,7 @@ type SiteCourant =
   | 'propositions'
   | 'moderation'
   | 'calendrier'
+  | 'profil'
   | 'autre';
 
 /* LE MENU NE PORTE PLUS QUE DEUX VUES.
@@ -94,8 +95,11 @@ const PAGES: readonly { href: string; id: SiteCourant; label: string }[] = [
  * adresse n'est pas une route, et le menu n'est de toute facon pas rendu
  * quand on est dans le jeu. */
 
-function courantOf(hash: string): SiteCourant {
+/** Quelle porte du site une adresse ouvre. Exporte pour la barre du bas, qui
+    doit allumer le meme onglet que ce menu : une seule lecture des adresses. */
+export function courantDuSite(hash: string): SiteCourant {
   if (hash.startsWith('#/index')) return 'index';
+  if (hash.startsWith('#/profil')) return 'profil';
   /* La page des credits allume « A propos », d'ou l'on y arrive. */
   if (hash.startsWith('#/credits')) return 'apropos';
   if (hash.startsWith('#/a-propos')) return 'apropos';
@@ -130,7 +134,7 @@ export function SiteNav({ variant, extra }: Props) {
     window.addEventListener('hashchange', suivre);
     return () => window.removeEventListener('hashchange', suivre);
   }, []);
-  const courant = courantOf(hash);
+  const courant = courantDuSite(hash);
 
   const lien = (item: { href: string; id: SiteCourant; label: string }) => {
     const actif = item.id === courant;

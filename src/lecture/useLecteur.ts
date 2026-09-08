@@ -28,6 +28,7 @@
       casse. */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { annoncerLecture, quandLAutreDemarre } from '../lib/lecture-set.ts';
 import type { Track } from '../atlas/structures.ts';
 import { t } from '../langue/langue.ts';
 
@@ -279,6 +280,8 @@ export function useLecteur({ precharger }: Options) {
       annulerMinuteurs();
       erreursDeSuite.current = 0;
       setLecture((l) => ({ ...l, etat: 'joue', message: null }));
+      /* On le dit au lecteur de sets, qui se tait : voir lib/lecture-set.ts. */
+      annoncerLecture('youtube');
       return;
     }
     if (code === 3) {
@@ -637,6 +640,12 @@ export function useLecteur({ precharger }: Options) {
      LA METADONNEE N'EST PAS DECORATIVE. Sans titre ni pochette, macOS affiche
      « sonaa.ca » et une page blanche dans son centre de controle. Avec, il
      affiche le morceau. On la tient donc a jour a chaque changement de piste. */
+  /* QUAND UN SET DEMARRE, LA VIDEO SE TAIT. L'autre sens est dans
+     auChangementDEtat. Les deux lecteurs vivent maintenant en meme temps sur
+     toutes les pages, et cette regle est la seule chose qui empeche deux
+     sons a la fois. */
+  useEffect(() => quandLAutreDemarre('youtube', () => playerRef.current?.pauseVideo()), []);
+
   useEffect(() => {
     const ms = navigator.mediaSession;
     if (!ms) return;
