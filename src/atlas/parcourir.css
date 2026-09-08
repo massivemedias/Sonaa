@@ -186,6 +186,34 @@
   color: oklch(var(--lt-84) 0.1 var(--pv-hue));
   font-size: 0.72rem;
 }
+/* Un artiste dans les resultats : son nom, puis ses styles en pastilles,
+   chacune une porte vers la fiche. Voir ParcourirView, la recherche. */
+.pv-resultat-artiste {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.55rem 0.75rem;
+}
+.pv-resultat-styles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.pv-resultat-style {
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--voile-14);
+  border-radius: 999px;
+  background: none;
+  color: var(--encre-douce-2);
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+.pv-resultat-style:hover {
+  color: var(--encre-vive);
+  border-color: var(--encre-douce-2);
+}
+
 .pv-resultat-vide {
   padding: 1rem 0.2rem;
   color: var(--encre-douce-2);

@@ -339,6 +339,7 @@ interface Dictionnaire {
   readonly reglerLargeurColonne: string;
   readonly fermerLecteur: string;
   readonly profilCourt: string;
+  readonly nomDunGenreOuArtiste: string;
   readonly ongletCompte: string;
   readonly ongletSets: string;
   readonly ongletEvenements: string;
@@ -795,6 +796,7 @@ const FR: Dictionnaire = {
   reglerLargeurColonne: "Régler la largeur de la colonne, flèches gauche et droite",
   fermerLecteur: "Fermer le lecteur",
   profilCourt: "Profil",
+  nomDunGenreOuArtiste: "Un genre, un artiste…",
   ongletCompte: "Compte",
   ongletSets: "Sets",
   ongletEvenements: "Événements",
@@ -1266,6 +1268,7 @@ const EN: Dictionnaire = {
   reglerLargeurColonne: "Adjust the column width, left and right arrows",
   fermerLecteur: "Close the player",
   profilCourt: "Profile",
+  nomDunGenreOuArtiste: "A genre, an artist…",
   ongletCompte: "Account",
   ongletSets: "Sets",
   ongletEvenements: "Events",

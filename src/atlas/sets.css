@@ -536,11 +536,16 @@
   cursor: pointer;
 }
 
+/* LA POCHETTE EN GRAND, EN TETE DE L'ONGLET SETS. Elle faisait 2,75 rem,
+   une pastille a cote du titre ; Mika veut voir ses sets « en cover en haut
+   de cette page » (7 septembre 2026). Elle passe a 7 rem, et la liste des
+   sets precede le formulaire de depot. */
 .sp-pochette {
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: 10px;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 12px;
   object-fit: cover;
+  flex: none;
 }
 
 /* La vignette qui s'agrandit est un bouton : elle doit se voir cliquable. */

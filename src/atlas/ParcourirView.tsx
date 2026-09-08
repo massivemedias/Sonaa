@@ -44,6 +44,8 @@ import { PiedDePage } from './PiedDePage.tsx';
 import { ContributeActions } from './ContributeActions.tsx';
 import { langue, t } from '../langue/langue.ts';
 import { artistesDuGenre, moissonFaiteLe } from '../lib/artistes.ts';
+import { chercherArtistes, type ArtisteTrouve } from '../lib/styles-dartiste.ts';
+import { LABEL_DE_STYLE } from './ChoixStyles.tsx';
 import { setsDunGenre, type SetDJ } from '../lib/sets.ts';
 import { contributionsActives } from '../lib/config.ts';
 import './parcourir.css';
@@ -271,6 +273,52 @@ export function ParcourirView() {
     return TOUS.filter((x) => sansAccent(x.g.label).includes(q)).slice(0, 40);
   }, [recherche]);
 
+  /* ═══ LA RECHERCHE REPOND AUSSI PAR UN ARTISTE ═══
+
+     Mika a tape « damon jee » ici, le 7 septembre 2026, et a lu « Aucun genre
+     de ce nom ». L'index des artistes moissonnes le connaissait, avec six
+     styles ; seule la recherche globale l'interrogeait. Cette barre est celle
+     qu'on a sous la main dans Styles, elle doit repondre pareil : le nom, et
+     ses styles, chacun menant a sa fiche. L'index arrive apres la premiere
+     frappe (il est charge a la demande) ; les genres s'affichent sans
+     l'attendre, les artistes se posent au rendu suivant. */
+  const [artistes, setArtistes] = useState<ArtisteTrouve[]>([]);
+  useEffect(() => {
+    const q = recherche.trim();
+    if (q.length < 3) {
+      setArtistes([]);
+      return;
+    }
+    let vivant = true;
+    void chercherArtistes(q, 5).then((r) => {
+      if (vivant) setArtistes(r);
+    });
+    return () => {
+      vivant = false;
+    };
+  }, [recherche]);
+
+  /* Un style de l'index est un genre ou une famille de SONAA : on ouvre la
+     fiche qui correspond, et on tait ceux que l'atlas ne nomme pas. */
+  const ouvrirStyle = useCallback(
+    (id: string): boolean => {
+      const genre = TOUS.find((x) => x.g.id === id);
+      if (genre) {
+        aller({ k: 'genre', fi: genre.fi, gl: genre.gl });
+        return true;
+      }
+      const fi = FAMILIES.findIndex((f) => f.id === id);
+      if (fi >= 0) {
+        aller({ k: 'famille', fi });
+        return true;
+      }
+      return false;
+    },
+    [aller]
+  );
+  const styleConnu = (id: string): boolean =>
+    TOUS.some((x) => x.g.id === id) || FAMILIES.some((f) => f.id === id);
+
   /* --- Rendu ------------------------------------------------------------- */
 
   const enTete = (
@@ -348,12 +396,36 @@ export function ParcourirView() {
         autoFocus
         value={recherche}
         onChange={(e) => setRecherche(e.target.value)}
-        placeholder={t.nomDunGenre}
+        placeholder={t.nomDunGenreOuArtiste}
         aria-label={t.chercherUnGenre}
       />
       {recherche.trim().length >= 2 && (
         <ul className="pv-resultats">
-          {resultats.length === 0 && <li className="pv-resultat-vide">{t.aucunGenreDeCeNom}</li>}
+          {resultats.length === 0 && artistes.length === 0 && (
+            <li className="pv-resultat-vide">{t.aucunGenreDeCeNom}</li>
+          )}
+          {artistes.map((a) => (
+            <li key={`a:${a.nom}`} className="pv-resultat-artiste">
+              <span className="pv-resultat-nom">{a.nom}</span>
+              <span className="pv-resultat-styles">
+                {a.genres.filter(styleConnu).map((id) => (
+                  <button
+                    key={id}
+                    type="button"
+                    className="pv-resultat-style"
+                    onClick={() => {
+                      if (ouvrirStyle(id)) {
+                        setChercheOuvert(false);
+                        setRecherche('');
+                      }
+                    }}
+                  >
+                    {LABEL_DE_STYLE[id] ?? id}
+                  </button>
+                ))}
+              </span>
+            </li>
+          ))}
           {resultats.map(({ fi, gl, g }) => (
             <li key={g.id}>
               <button

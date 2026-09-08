@@ -545,6 +545,69 @@ export function ProfilPage() {
 
       {onglet === 'sets' && (
       <>
+      {/* ── Mes sets ── */}
+      <section className="sets-bloc">
+        <h2>{t.mesSets(sets.length)}</h2>
+        {sets.length === 0 ? (
+          <p className="sp-aide">{t.aucunSetDepose}</p>
+        ) : (
+          <ul className="sp-liste">
+            {sets.map((s) => (
+              <li key={s.id} className="sp-item">
+                <div className="sp-item-tete">
+                  <div className="sp-item-titre">
+                    {urlPochette(s.cover_path) && (
+                      <img className="sp-pochette" src={urlPochette(s.cover_path) ?? ''} alt="" />
+                    )}
+                    <div>
+                    <h3>{s.titre}</h3>
+                    <p className="sp-aide">
+                      {s.duree_s ? mmss(s.duree_s) : t.dureeInconnue}
+                      {' · '}
+                      {s.publie ? t.publie : t.brouillon}
+                      {s.publie ? ` · ${t.nEcoutes(s.ecoutes)}` : ''}
+                    </p>
+                    </div>
+                  </div>
+                  <div className="sp-item-actions">
+                    <button onClick={() => setEnModif(enModif === s.id ? null : s.id)}>
+                      {enModif === s.id ? t.annuler : t.modifier}
+                    </button>
+                    <button
+                      onClick={() => {
+                        void basculerPublication(s.id, !s.publie).then(recharger);
+                      }}
+                    >
+                      {s.publie ? t.depublier : t.publier}
+                    </button>
+                    <button
+                      className="sp-danger"
+                      onClick={() => {
+                        if (!window.confirm(t.confirmerSuppression(s.titre))) return;
+                        void supprimerSet(s.id, s.audio_path).then(recharger);
+                      }}
+                    >
+                      {t.supprimer}
+                    </button>
+                  </div>
+                </div>
+                {enModif === s.id ? (
+                  <ModifierSet
+                    set={s}
+                    onFini={() => {
+                      setEnModif(null);
+                      void recharger();
+                    }}
+                    onAnnuler={() => setEnModif(null)}
+                  />
+                ) : (
+                  <LecteurSet set={s} compact />
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
       {/* ── Deposer ── */}
       <section className="sets-bloc">
         <h2>{t.deposerUnSet}</h2>
@@ -654,69 +717,6 @@ export function ProfilPage() {
         {messageDepot && <p className="sp-message">{messageDepot}</p>}
       </section>
 
-      {/* ── Mes sets ── */}
-      <section className="sets-bloc">
-        <h2>{t.mesSets(sets.length)}</h2>
-        {sets.length === 0 ? (
-          <p className="sp-aide">{t.aucunSetDepose}</p>
-        ) : (
-          <ul className="sp-liste">
-            {sets.map((s) => (
-              <li key={s.id} className="sp-item">
-                <div className="sp-item-tete">
-                  <div className="sp-item-titre">
-                    {urlPochette(s.cover_path) && (
-                      <img className="sp-pochette" src={urlPochette(s.cover_path) ?? ''} alt="" />
-                    )}
-                    <div>
-                    <h3>{s.titre}</h3>
-                    <p className="sp-aide">
-                      {s.duree_s ? mmss(s.duree_s) : t.dureeInconnue}
-                      {' · '}
-                      {s.publie ? t.publie : t.brouillon}
-                      {s.publie ? ` · ${t.nEcoutes(s.ecoutes)}` : ''}
-                    </p>
-                    </div>
-                  </div>
-                  <div className="sp-item-actions">
-                    <button onClick={() => setEnModif(enModif === s.id ? null : s.id)}>
-                      {enModif === s.id ? t.annuler : t.modifier}
-                    </button>
-                    <button
-                      onClick={() => {
-                        void basculerPublication(s.id, !s.publie).then(recharger);
-                      }}
-                    >
-                      {s.publie ? t.depublier : t.publier}
-                    </button>
-                    <button
-                      className="sp-danger"
-                      onClick={() => {
-                        if (!window.confirm(t.confirmerSuppression(s.titre))) return;
-                        void supprimerSet(s.id, s.audio_path).then(recharger);
-                      }}
-                    >
-                      {t.supprimer}
-                    </button>
-                  </div>
-                </div>
-                {enModif === s.id ? (
-                  <ModifierSet
-                    set={s}
-                    onFini={() => {
-                      setEnModif(null);
-                      void recharger();
-                    }}
-                    onAnnuler={() => setEnModif(null)}
-                  />
-                ) : (
-                  <LecteurSet set={s} compact />
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
       </>
       )}
       <PiedDePage />
