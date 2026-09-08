@@ -89,10 +89,20 @@ export async function soireesManuelles(
   au: Date
 ): Promise<SoireeManuelle[]> {
   if (!supabase) return [];
+  /* PUBLIEES SEULEMENT, ET C'EST DIT ICI, PAS SEULEMENT PAR LA BASE.
+
+     DEFAUT VU PAR MIKA LE 7 SEPTEMBRE 2026 : trois cent trente-huit fiches
+     Eventbrite mises de cote (un cirque, un hommage a Ginette Reno, un
+     quartet de jazz) apparaissaient dans SON calendrier et pas dans celui
+     du public. La regle de la base cache les fiches non publiees aux
+     anonymes, mais un moderateur voit tout : sans cette clause, le
+     calendrier d'un moderateur n'est pas le calendrier. La lecture
+     administrative, en dessous, garde son acces a ce qui est mis de cote. */
   const { data, error } = await supabase
     .from('soirees_manuelles')
     .select(CHAMPS)
     .eq('ville_id', villeId)
+    .eq('publiee', true)
     .gte('debut', du.toISOString())
     .lte('debut', au.toISOString())
     .order('debut', { ascending: true });
