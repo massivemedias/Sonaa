@@ -51,6 +51,7 @@ import { ModifierSet } from './ModifierSet.tsx';
 import { EnTeteSite } from './EnTeteSite.tsx';
 import { SelecteurVille } from './SelecteurVille.tsx';
 import { SoireesAdmin } from './SoireesAdmin.tsx';
+import { MesSoirees } from './MesSoirees.tsx';
 import {
   enregistrerVilleDattache,
   toutesLesVilles,
@@ -483,6 +484,8 @@ export function ProfilPage() {
         />
         {messageVille && <p className="sp-message">{messageVille}</p>}
       </section>
+
+      <MesSoirees />
 
       {moderateur && <SoireesAdmin />}
 

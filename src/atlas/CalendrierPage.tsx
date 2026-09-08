@@ -53,7 +53,10 @@ import {
   villeDeSession,
   villeDuLien,
 } from '../lib/villes.ts';
-import { soireesManuelles, type SoireeManuelle } from '../lib/soirees-manuelles.ts';
+import { soireesManuelles, supprimerSoiree, type SoireeManuelle } from '../lib/soirees-manuelles.ts';
+import { AjouterSoiree } from './AjouterSoiree.tsx';
+import { PartageSoiree } from './PartageSoiree.tsx';
+import { useSession } from '../lib/useSession.ts';
 import {
   agenda,
   noterStyles,
@@ -122,21 +125,26 @@ FAMILIES.forEach((f, i) => {
    provenance, elle ne la juge pas : « Shotgun » est un fait verifiable, pas
    une mention de qualite. Resident Advisor n'en a pas parce qu'il est le fond
    de la liste ; nommer le fond revient a le repeter trois cents fois. */
-const ORIGINE_DE_SOURCE: Record<string, 'main' | 'shotgun' | 'eventbrite' | 'lepointdevente' | 'ticketmaster'> = {
+type Origine = 'main' | 'shotgun' | 'eventbrite' | 'lepointdevente' | 'ticketmaster' | 'membre';
+
+const ORIGINE_DE_SOURCE: Record<string, Origine> = {
   main: 'main',
   facebook: 'main',
   shotgun: 'shotgun',
   eventbrite: 'eventbrite',
   lepointdevente: 'lepointdevente',
   ticketmaster: 'ticketmaster',
+  /* Ce qu'un membre connecte a depose lui-meme : voir AjouterSoiree. */
+  membre: 'membre',
 };
 
-const NOM_DE_SOURCE: Record<'main' | 'shotgun' | 'eventbrite' | 'lepointdevente' | 'ticketmaster', string> = {
+const NOM_DE_SOURCE: Record<Origine, string> = {
   main: t.ajouteeALaMain,
   shotgun: 'Shotgun',
   eventbrite: 'Eventbrite',
   lepointdevente: 'Lepointdevente',
   ticketmaster: 'Ticketmaster',
+  membre: t.sourceMembre,
 };
 
 /* LES TROIS QUESTIONS QU'ON SE POSE VRAIMENT.
@@ -247,12 +255,23 @@ function jourCourt(iso: string, fuseau: string): string {
 function FicheSoiree({
   soiree,
   fuseau,
+  villeNom,
+  moi,
   onFermer,
+  onRetiree,
 }: {
   soiree: Soiree;
   fuseau: string;
+  villeNom: string | null;
+  /** Le compte connecte, pour savoir si cette soiree est la sienne. */
+  moi: string | null;
   onFermer: () => void;
+  onRetiree: () => void;
 }) {
+  /* LA MIENNE : deposee par un membre, et ce membre est moi. C'est la seule
+     condition pour l'image Instagram et le retrait ; la base l'applique
+     aussi, l'ecran ne fait que ne pas proposer ce qu'elle refuserait. */
+  const laMienne = soiree.origine === 'membre' && soiree.auteur !== null && soiree.auteur === moi;
   const debut = soiree.debut ? heureLocale(soiree.debut, fuseau) : null;
   const fin = soiree.fin ? heureLocale(soiree.fin, fuseau) : null;
   const rien =
@@ -350,6 +369,18 @@ function FicheSoiree({
         <a className="cal-fiche-lien" href={soiree.lien} target="_blank" rel="noreferrer">
           {t.ouvrirChezLaSource}
         </a>
+      )}
+
+      {laMienne && (
+        <PartageSoiree
+          soiree={soiree}
+          ville={villeNom}
+          fuseau={fuseau}
+          onRetirer={async () => {
+            await supprimerSoiree(soiree.id.replace(/^main:/, ''));
+            onRetiree();
+          }}
+        />
       )}
       </div>
     </div>
@@ -488,6 +519,11 @@ export function CalendrierPage() {
      et elle ouvre le champ deja focalise : un tap, on tape. Demande de Mika
      du 7 septembre 2026. */
   const [ouvrirRecherche, setOuvrirRecherche] = useState(false);
+  /* AJOUTER UNE SOIREE : la feuille s'ouvre par-dessus le calendrier, comme
+     la fiche d'une soiree. Demande de Mika du 7 septembre 2026. */
+  const [ouvrirAjout, setOuvrirAjout] = useState(false);
+  const { session } = useSession();
+  const moi = session?.user.id ?? null;
 
   useEffect(() => {
     const t = setTimeout(() => setRechercheRetardee(recherche.trim()), 350);
@@ -616,6 +652,7 @@ export function CalendrierPage() {
         adresse: m.adresse,
         prix: m.prix,
         organisateur: m.organisateur,
+        auteur: m.ajoutee_par,
       }));
 
       if (!r) {
@@ -870,6 +907,15 @@ export function CalendrierPage() {
                     <path d="M12.8 12.8 17 17" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
                   </svg>
                 </button>
+
+                <button
+                  type="button"
+                  className="cal-onglet cal-ajouter"
+                  onClick={() => setOuvrirAjout(true)}
+                  aria-label={t.ajouterUneSoiree}
+                >
+                  + {t.ajouterCourt}
+                </button>
                 </>
               )}
             </div>
@@ -885,9 +931,31 @@ export function CalendrierPage() {
             (() => {
               const s = (soirees ?? []).find((x) => x.id === depliee);
               return s ? (
-                <FicheSoiree soiree={s} fuseau={fuseau} onFermer={() => setDepliee(null)} />
+                <FicheSoiree
+                  soiree={s}
+                  fuseau={fuseau}
+                  villeNom={ville?.name ?? null}
+                  moi={moi}
+                  onFermer={() => setDepliee(null)}
+                  onRetiree={() => {
+                    setDepliee(null);
+                    charger();
+                  }}
+                />
               ) : null;
             })()}
+
+          {ville && ouvrirAjout && (
+            <AjouterSoiree
+              ville={ville}
+              onFermer={() => setOuvrirAjout(false)}
+              onAjoutee={(s) => {
+                setOuvrirAjout(false);
+                charger();
+                setDepliee(`main:${s.id}`);
+              }}
+            />
+          )}
 
           {/* Le calendrier se deploie sous la barre, comme les styles : deux
               panneaux au meme endroit, jamais tous les deux a la fois. */}

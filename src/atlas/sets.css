@@ -655,6 +655,46 @@
 
 /* --- Le panneau des soirees ajoutees a la main --------------------------- */
 
+/* ═══ MES SOIREES, dans le profil : voir MesSoirees.tsx ═══ */
+.ms-liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+.ms-soiree {
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+  padding: 0.9rem;
+  border: 1px solid var(--voile-07);
+  border-radius: 12px;
+}
+.ms-affiche {
+  flex: none;
+  width: 5.5rem;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.ms-texte {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-size: 0.85rem;
+  color: var(--encre-douce-2);
+}
+.ms-texte strong {
+  color: var(--encre-2);
+  font-size: 0.95rem;
+}
+.ms-depubliee {
+  color: oklch(var(--lt-78) 0.17 85);
+}
+
 .sa-formulaire {
   display: flex;
   flex-direction: column;

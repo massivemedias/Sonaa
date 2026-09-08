@@ -1,0 +1,58 @@
+/* Le bloc de partage d'une soiree deposee : voir PartageSoiree.tsx. */
+.ps {
+  margin-top: 1.1rem;
+  padding-top: 1rem;
+  border-top: var(--rule-width) solid var(--rule-hairline);
+}
+.ps-boutons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.ps-bouton {
+  padding: 0.5rem 0.95rem;
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-primary);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.ps-bouton:hover {
+  border-color: var(--ink-primary);
+}
+.ps-bouton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+/* Le bouton qui fait la chose demandee, en plein : l'image. */
+.ps-principal {
+  border-color: transparent;
+  background: var(--ink-primary);
+  color: var(--surface-plate);
+  font-weight: 600;
+}
+.ps-retirer {
+  color: var(--ink-secondary);
+}
+.ps-etat {
+  margin: 0.6rem 0 0;
+  font-size: 0.8rem;
+  color: var(--ink-secondary);
+}
+/* L'apercu : l'image telle qu'elle est partie, en petit, qu'on peut garder
+   d'un appui long sur telephone. */
+.ps-apercu {
+  display: block;
+  width: min(14rem, 100%);
+  margin-top: 0.8rem;
+  border-radius: 10px;
+  overflow: hidden;
+  border: var(--rule-width) solid var(--rule-hairline);
+}
+.ps-apercu img {
+  display: block;
+  width: 100%;
+  height: auto;
+}

@@ -468,6 +468,12 @@
 .cal-loupe svg {
   display: block;
 }
+/* Le bouton d'ajout, dans la meme rangee : un onglet comme les autres, qui
+   ouvre une feuille au lieu de changer la vue. */
+.cal-ajouter {
+  font-weight: 500;
+  white-space: nowrap;
+}
 
 /* Une pastille de style se distingue d'une vue : elle bascule un filtre,
    elle ne change pas la tranche de temps. Le trait la separe des trois

@@ -339,6 +339,41 @@ interface Dictionnaire {
   readonly reglerLargeurColonne: string;
   readonly fermerLecteur: string;
   readonly profilCourt: string;
+  readonly ajouterUneSoiree: string;
+  readonly ajouterCourt: string;
+  readonly ajouterSoireeIntro: string;
+  readonly connexionPourAjouter: string;
+  readonly titreLibelle: string;
+  readonly dateLibelle: string;
+  readonly heureLibelle: string;
+  readonly salleLibelle: string;
+  readonly afficheLibelle: string;
+  readonly choisirUneAffiche: string;
+  readonly changerLAffiche: string;
+  readonly retirerLAffiche: string;
+  readonly afficheAide: string;
+  readonly lienBillets: string;
+  readonly annonceLibelle: string;
+  readonly enregistrementEnCours: string;
+  readonly enregistrementImpossible: string;
+  readonly ajouterLaSoiree: string;
+  readonly ilFautTitreEtDate: string;
+  readonly imagePourInstagram: string;
+  readonly imageEnCours: string;
+  readonly imagePrete: string;
+  readonly imageImpossible: string;
+  readonly copierLeTexteDuPost: string;
+  readonly texteCopie: string;
+  readonly copieImpossible: string;
+  readonly retirerLaSoiree: string;
+  readonly confirmerRetraitSoiree: string;
+  readonly retraitImpossible: string;
+  readonly mesSoirees: string;
+  readonly mesSoireesIntro: string;
+  readonly aucuneSoireeDeposee: string;
+  readonly soireeDepubliee: string;
+  readonly lectureImpossible: string;
+  readonly sourceMembre: string;
   readonly ouvrirLecteur: string;
   readonly precedente: string;
   readonly positionDansLaTrack: string;
@@ -756,6 +791,41 @@ const FR: Dictionnaire = {
   reglerLargeurColonne: "Régler la largeur de la colonne, flèches gauche et droite",
   fermerLecteur: "Fermer le lecteur",
   profilCourt: "Profil",
+  ajouterUneSoiree: "Ajouter une soirée",
+  ajouterCourt: "Ajouter",
+  ajouterSoireeIntro: "Elle apparaît dans le calendrier tout de suite, avec la mention « membre ». Vous pourrez ensuite en tirer l’image pour Instagram depuis sa fiche ou depuis votre profil.",
+  connexionPourAjouter: "Pour ajouter une soirée, connectez-vous : elle sera rattachée à votre compte, et vous seul pourrez la retirer.",
+  titreLibelle: "Titre",
+  dateLibelle: "Date",
+  heureLibelle: "Heure de début",
+  salleLibelle: "Salle",
+  afficheLibelle: "Affiche",
+  choisirUneAffiche: "Choisir une affiche",
+  changerLAffiche: "Changer l’affiche",
+  retirerLAffiche: "Retirer l’affiche",
+  afficheAide: "JPEG, PNG ou WebP. Le format carré ou 4:5 donne la plus belle story.",
+  lienBillets: "Lien pour les billets",
+  annonceLibelle: "Annonce",
+  enregistrementEnCours: "Enregistrement…",
+  enregistrementImpossible: "Enregistrement impossible.",
+  ajouterLaSoiree: "Ajouter la soirée",
+  ilFautTitreEtDate: "Il faut au moins un titre et une date.",
+  imagePourInstagram: "Image pour Instagram (9:16)",
+  imageEnCours: "L’image se dessine…",
+  imagePrete: "Image prête : elle est dans vos téléchargements, et ci-dessous. Sur téléphone, appuyez longuement dessus pour l’enregistrer.",
+  imageImpossible: "L’image n’a pas pu être dessinée.",
+  copierLeTexteDuPost: "Copier le texte du post",
+  texteCopie: "Texte copié. Collez-le dans la légende de votre post ou de votre story.",
+  copieImpossible: "Copie impossible dans ce navigateur.",
+  retirerLaSoiree: "Retirer la soirée",
+  confirmerRetraitSoiree: "Retirer cette soirée du calendrier ? Elle ne pourra pas être récupérée.",
+  retraitImpossible: "Retrait impossible.",
+  mesSoirees: "Mes soirées",
+  mesSoireesIntro: "Les soirées que vous avez ajoutées au calendrier. Pour chacune, l’image 9:16 pour Instagram et le texte du post.",
+  aucuneSoireeDeposee: "Aucune soirée à venir. Ajoutez-en une depuis le calendrier.",
+  soireeDepubliee: "Retirée du calendrier par un modérateur",
+  lectureImpossible: "Lecture impossible.",
+  sourceMembre: "membre",
   ouvrirLecteur: "Ouvrir le lecteur",
   precedente: "Précédente",
   positionDansLaTrack: "Position dans la track",
@@ -1188,6 +1258,41 @@ const EN: Dictionnaire = {
   reglerLargeurColonne: "Adjust the column width, left and right arrows",
   fermerLecteur: "Close the player",
   profilCourt: "Profile",
+  ajouterUneSoiree: "Add a night",
+  ajouterCourt: "Add",
+  ajouterSoireeIntro: "It appears in the calendar right away, marked “member”. You can then get the Instagram image from its card or from your profile.",
+  connexionPourAjouter: "To add a night, sign in: it will be tied to your account, and only you can remove it.",
+  titreLibelle: "Title",
+  dateLibelle: "Date",
+  heureLibelle: "Start time",
+  salleLibelle: "Venue",
+  afficheLibelle: "Poster",
+  choisirUneAffiche: "Choose a poster",
+  changerLAffiche: "Change the poster",
+  retirerLAffiche: "Remove the poster",
+  afficheAide: "JPEG, PNG or WebP. Square or 4:5 makes the best story.",
+  lienBillets: "Ticket link",
+  annonceLibelle: "Announcement",
+  enregistrementEnCours: "Saving…",
+  enregistrementImpossible: "Could not save.",
+  ajouterLaSoiree: "Add the night",
+  ilFautTitreEtDate: "A title and a date are required.",
+  imagePourInstagram: "Instagram image (9:16)",
+  imageEnCours: "Drawing the image…",
+  imagePrete: "Image ready: it is in your downloads, and below. On a phone, press and hold it to save.",
+  imageImpossible: "The image could not be drawn.",
+  copierLeTexteDuPost: "Copy the post text",
+  texteCopie: "Text copied. Paste it into the caption of your post or story.",
+  copieImpossible: "Copying is not possible in this browser.",
+  retirerLaSoiree: "Remove the night",
+  confirmerRetraitSoiree: "Remove this night from the calendar? It cannot be recovered.",
+  retraitImpossible: "Could not remove.",
+  mesSoirees: "My nights",
+  mesSoireesIntro: "The nights you added to the calendar. For each one, the 9:16 Instagram image and the post text.",
+  aucuneSoireeDeposee: "No upcoming night. Add one from the calendar.",
+  soireeDepubliee: "Removed from the calendar by a moderator",
+  lectureImpossible: "Could not read.",
+  sourceMembre: "member",
   ouvrirLecteur: "Open the player",
   precedente: "Previous",
   positionDansLaTrack: "Position in the track",

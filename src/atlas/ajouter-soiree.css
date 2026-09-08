@@ -1,0 +1,116 @@
+/* Le formulaire d'ajout d'une soiree. Il vit dans la feuille du calendrier
+   (cal-feuille), et n'apporte que ses champs. */
+.aj-form {
+  display: grid;
+  gap: 0.9rem;
+}
+.aj-intro {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--ink-secondary);
+}
+.aj-champ {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  color: var(--ink-secondary);
+}
+.aj-champ input,
+.aj-champ textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 10px;
+  background: var(--surface-margin);
+  color: var(--ink-primary);
+  font: inherit;
+  font-size: 0.95rem;
+}
+.aj-champ textarea {
+  resize: vertical;
+  line-height: 1.45;
+}
+.aj-deux {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+}
+
+/* L'affiche : un apercu en 4/5, les actions a cote. */
+.aj-affiche {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+}
+.aj-affiche-apercu,
+.aj-affiche-vide {
+  flex: none;
+  width: 6rem;
+  aspect-ratio: 4 / 5;
+  border-radius: 8px;
+  object-fit: cover;
+  background: var(--surface-margin);
+  border: var(--rule-width) solid var(--rule-hairline);
+}
+.aj-affiche-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+.aj-aide {
+  font-size: 0.72rem;
+  color: var(--ink-secondary);
+}
+
+.aj-pied {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  margin-top: 0.3rem;
+}
+.aj-principal,
+.aj-secondaire {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+.aj-principal {
+  border: none;
+  background: var(--ink-primary);
+  color: var(--surface-plate);
+  font-weight: 600;
+}
+.aj-principal:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.aj-secondaire {
+  border: var(--rule-width) solid var(--rule-hairline);
+  background: none;
+  color: var(--ink-primary);
+}
+.aj-secondaire:hover {
+  border-color: var(--ink-primary);
+}
+.aj-message {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--ink-primary);
+}
+.aj-connexion {
+  display: grid;
+  gap: 0.9rem;
+  justify-items: start;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.aj-connexion p {
+  margin: 0;
+}

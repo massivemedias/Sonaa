@@ -53,6 +53,10 @@ export interface SoireeManuelle {
   readonly adresse: string | null;
   readonly prix: string | null;
   readonly organisateur: string | null;
+  /* QUI L'A DEPOSEE. Nul pour ce que les adaptateurs versent ; le compte
+     pour ce qu'un membre ajoute. C'est ce qui decide qui peut la retirer et
+     qui peut en tirer l'image pour Instagram. */
+  readonly ajoutee_par: string | null;
 }
 
 /** Ce qu'on envoie pour creer ou modifier. L'identifiant et la date de
@@ -70,6 +74,7 @@ export interface Brouillon {
   source_ref?: string | null;
   note?: string | null;
   publiee?: boolean;
+  description?: string | null;
 }
 
 /* UNE SEULE CHAINE, SANS CONCATENATION. Coupee en deux avec un `+`, elle
@@ -77,7 +82,7 @@ export interface Brouillon {
    colonnes DANS le texte, retombe sur un type d'erreur. Le compilateur l'a
    dit tout de suite ; la ligne est longue, et c'est le prix. */
 const CHAMPS =
-  'id, ville_id, titre, debut, lieu, artistes, genres, lien, affiche, source, source_ref, note, publiee, description, fin, adresse, prix, organisateur';
+  'id, ville_id, titre, debut, lieu, artistes, genres, lien, affiche, source, source_ref, note, publiee, description, fin, adresse, prix, organisateur, ajoutee_par';
 
 /** Les soirees d'une ville sur une tranche. Rend un tableau vide quand la
     base est indisponible : le calendrier doit continuer a montrer Resident
@@ -118,6 +123,22 @@ export async function toutesLesSoireesManuelles(villeId: string): Promise<Soiree
     .from('soirees_manuelles')
     .select(CHAMPS)
     .eq('ville_id', villeId)
+    .order('debut', { ascending: true });
+  if (error) throw new Error(error.message);
+  return (data ?? []) as SoireeManuelle[];
+}
+
+/** Les soirees que le compte connecte a deposees, a venir d'abord. Vide
+    sans session : la base refuserait de toute facon. */
+export async function mesSoirees(): Promise<SoireeManuelle[]> {
+  if (!supabase) return [];
+  const { data: session } = await supabase.auth.getUser();
+  const id = session.user?.id;
+  if (!id) return [];
+  const { data, error } = await supabase
+    .from('soirees_manuelles')
+    .select(CHAMPS)
+    .eq('ajoutee_par', id)
     .order('debut', { ascending: true });
   if (error) throw new Error(error.message);
   return (data ?? []) as SoireeManuelle[];
