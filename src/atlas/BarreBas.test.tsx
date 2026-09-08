@@ -14,11 +14,12 @@ afterEach(() => {
 });
 
 describe('BarreBas', () => {
-  it('porte quatre onglets, dans l ordre Calendar, Styles, Sons, Profil', () => {
+  it('porte cinq onglets, dans l ordre Calendar, News, Styles, Sons, Profil', () => {
     render(<BarreBas />);
     const liens = screen.getAllByRole('link');
     expect(liens.map((l) => l.getAttribute('href'))).toEqual([
       '#/calendrier',
+      '#/news',
       '#/parcourir',
       '#/sets',
       '#/profil',

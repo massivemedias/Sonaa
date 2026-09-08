@@ -1,0 +1,66 @@
+# LA MOISSON DES NEWS, SIX FOIS PAR JOUR.
+#
+# Elle relit les flux des magazines (scripts/moissonner-news.ts), reecrit
+# public/news.json, et si le fichier a change, le commet et demande la
+# publication. Voir NewsPage.tsx pour ce que le site en fait.
+#
+# POURQUOI ELLE DECLENCHE LA PUBLICATION ELLE-MEME. Un commit pousse par le
+# jeton d'une action ne declenche pas les autres actions : c'est une regle
+# de GitHub, pour eviter les boucles. Sans l'appel explicite ci-dessous, le
+# fichier serait a jour dans le depot et vieux sur le site.
+
+name: Moisson des news
+
+on:
+  schedule:
+    # Toutes les quatre heures, en heure UTC.
+    - cron: '17 */4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: news
+  cancel-in-progress: false
+
+jobs:
+  moissonner:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Dependances
+        run: npm ci
+
+      - name: Moissonner
+        run: npm run moissonner:news
+
+      - name: Commettre si le fichier a change
+        id: commit
+        run: |
+          if git diff --quiet -- public/news.json; then
+            echo "change=non" >> "$GITHUB_OUTPUT"
+            echo "Rien de neuf."
+          else
+            git config user.name "moisson-news"
+            git config user.email "moisson-news@users.noreply.github.com"
+            git add public/news.json
+            git commit -m "News : moisson du $(date -u +%Y-%m-%d\ %H:%M) UTC"
+            git push
+            echo "change=oui" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publier
+        if: steps.commit.outputs.change == 'oui'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main

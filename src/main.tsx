@@ -116,6 +116,8 @@ const SetsPage = lazy(() =>
 import { BarreBas } from './atlas/BarreBas.tsx';
 import { MiniLecteur } from './atlas/MiniLecteur.tsx';
 
+const NewsPage = lazy(() => import('./atlas/NewsPage.tsx').then((m) => ({ default: m.NewsPage })));
+
 const CalendrierPage = lazy(() =>
   import('./atlas/CalendrierPage.tsx').then((module) => ({ default: module.CalendrierPage }))
 );
@@ -126,7 +128,7 @@ if (!rootElement) {
   throw new Error('Élément racine introuvable.');
 }
 
-type Route = 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'parcourir' | 'profil' | 'sets' | 'calendrier' | 'atlas';
+type Route = 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'parcourir' | 'profil' | 'sets' | 'calendrier' | 'news' | 'atlas';
 
 const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/index')) return 'index';
@@ -142,6 +144,7 @@ const routeOf = (): Route => {
      nulle part : la route manquait, le clic retombait sur la carte. */
   if (window.location.hash.startsWith('#/profil')) return 'profil';
   if (window.location.hash.startsWith('#/calendrier')) return 'calendrier';
+  if (window.location.hash.startsWith('#/news')) return 'news';
   if (window.location.hash.startsWith('#/sets')) return 'sets';
   /* LA CARTE EN TROIS DIMENSIONS A SON PROPRE CHEMIN, #/carte.
 
@@ -165,6 +168,7 @@ const estAtlas = (r: Route): boolean => r === 'atlas';
    chrome, voir BarreBas.tsx. */
 const PORTE_LA_BARRE: ReadonlySet<Route> = new Set([
   'calendrier',
+  'news',
   'parcourir',
   'sets',
   'profil',
@@ -226,6 +230,8 @@ function App() {
           <SetsPage />
         ) : route === 'calendrier' ? (
           <CalendrierPage />
+        ) : route === 'news' ? (
+          <NewsPage />
         ) : route === 'parcourir' ? (
           <ParcourirView />
         ) : (

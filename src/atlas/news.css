@@ -1,0 +1,184 @@
+/* L'onglet News : voir NewsPage.tsx. */
+
+.news-lede {
+  max-width: 62ch;
+  margin: 0 0 1.2rem;
+  color: var(--ink-secondary);
+  line-height: 1.5;
+}
+
+.news-filtres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1.4rem;
+}
+.news-filtre {
+  padding: 0.35rem 0.9rem;
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-secondary);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.news-filtre-actif {
+  color: var(--surface-plate);
+  background: var(--ink-primary);
+  border-color: var(--ink-primary);
+}
+
+.news-note {
+  margin: 0.8rem 0;
+  font-size: 0.85rem;
+  color: var(--ink-secondary);
+}
+
+/* ═══ LES ARTICLES ═══ Des cartes, l'image en tete, comme le calendrier :
+   c'est ce qui donne envie de lire. Sans image, une lettre sur un fond. */
+.news-liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.4rem 1.4rem;
+  align-items: start;
+}
+.news-lien {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 0;
+}
+.news-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 10px;
+  background: var(--surface-margin);
+}
+.news-image-vide {
+  display: grid;
+  place-items: center;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--ink-secondary);
+  border: var(--rule-width) solid var(--rule-hairline);
+}
+.news-corps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+.news-meta {
+  display: flex;
+  gap: 0.6rem;
+  align-items: baseline;
+  font-size: 0.72rem;
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+.news-source {
+  color: var(--ink-primary);
+  font-weight: 600;
+}
+.news-titre {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ink-primary);
+}
+.news-lien:hover .news-titre {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.news-resume {
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: var(--ink-secondary);
+}
+
+/* ═══ LES SOURCES ═══ Une case par site, la porte vers lui. */
+.news-sources {
+  margin-top: 2.4rem;
+  padding-top: 1.6rem;
+  border-top: var(--rule-width) solid var(--rule-hairline);
+}
+.news-sources h2 {
+  margin: 0 0 0.3rem;
+  font-size: 1.15rem;
+}
+.news-sources-liste {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 0.8rem;
+}
+.news-source-carte {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.9rem 1rem;
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 12px;
+}
+.news-source-nom {
+  font-weight: 600;
+  color: var(--ink-primary);
+  text-decoration: none;
+  border-bottom: 0;
+}
+.news-source-nom:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.news-source-quoi {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--ink-secondary);
+}
+.news-source-pied {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.3rem;
+  font-size: 0.72rem;
+  color: var(--ink-secondary);
+}
+.news-source-cat {
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+}
+.news-source-filtrer {
+  padding: 0.2rem 0.6rem;
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-primary);
+  font: inherit;
+  font-size: 0.74rem;
+  cursor: pointer;
+}
+.news-source-filtrer:hover {
+  border-color: var(--ink-primary);
+}
+.news-source-sansflux {
+  font-style: italic;
+}
+
+@media (max-width: 560px) {
+  .news-liste {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+}

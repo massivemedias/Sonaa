@@ -49,6 +49,7 @@
     "check:langue": "tsx scripts/check-langue.ts",
     "moissonner:artistes": "tsx scripts/moissonner-artistes.ts",
     "deriver:artistes": "tsx scripts/deriver-artistes.ts",
+    "moissonner:news": "tsx scripts/moissonner-news.ts",
     "ingerer:eventbrite": "tsx scripts/ingerer-eventbrite.ts",
     "ingerer:lepointdevente": "tsx scripts/ingerer-lepointdevente.ts",
     "ingerer:ticketmaster": "tsx scripts/ingerer-ticketmaster.ts"

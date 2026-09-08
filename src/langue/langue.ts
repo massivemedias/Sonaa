@@ -339,6 +339,25 @@ interface Dictionnaire {
   readonly reglerLargeurColonne: string;
   readonly fermerLecteur: string;
   readonly profilCourt: string;
+  readonly leNews: string;
+  readonly ledeNews: string;
+  readonly newsRayons: string;
+  readonly newsTout: string;
+  readonly newsProduction: string;
+  readonly newsDjing: string;
+  readonly newsScene: string;
+  readonly toutesLesSources: string;
+  readonly newsIndisponibles: string;
+  readonly aucunArticle: string;
+  readonly newsMisesAJour: (quand: string) => string;
+  readonly lesSources: string;
+  readonly sourcesIntro: string;
+  readonly voirSesArticles: string;
+  readonly pasDeFlux: string;
+  readonly ilYaMinutes: (n: number) => string;
+  readonly ilYaHeures: (n: number) => string;
+  readonly ilYaJours: (n: number) => string;
+  readonly hier: string;
   readonly nomDunGenreOuArtiste: string;
   readonly ongletCompte: string;
   readonly ongletSets: string;
@@ -796,6 +815,25 @@ const FR: Dictionnaire = {
   reglerLargeurColonne: "Régler la largeur de la colonne, flèches gauche et droite",
   fermerLecteur: "Fermer le lecteur",
   profilCourt: "Profil",
+  leNews: "News",
+  ledeNews: "Ce qui se dit en ce moment dans la musique électronique : les machines et les logiciels qui sortent, les techniques de production, le monde du DJing, la scène. Vingt magazines relus plusieurs fois par jour ; chaque titre mène à son site.",
+  newsRayons: "Rayons",
+  newsTout: "Tout",
+  newsProduction: "Production",
+  newsDjing: "DJing",
+  newsScene: "Scène",
+  toutesLesSources: "Toutes les sources",
+  newsIndisponibles: "Les news ne sont pas disponibles pour l’instant. Réessayez dans un moment.",
+  aucunArticle: "Aucun article dans ce rayon pour l’instant.",
+  newsMisesAJour: (quand) => `Dernière relève des flux : ${quand}.`,
+  lesSources: "Les sources",
+  sourcesIntro: "Les sites que SONAA relit. Ceux qui n’offrent plus de flux gardent leur porte : allez-y directement.",
+  voirSesArticles: "Ses articles",
+  pasDeFlux: "sans flux",
+  ilYaMinutes: (n) => (n < 2 ? "à l’instant" : `il y a ${n} min`),
+  ilYaHeures: (n) => `il y a ${n} h`,
+  ilYaJours: (n) => `il y a ${n} jours`,
+  hier: "hier",
   nomDunGenreOuArtiste: "Un genre, un artiste…",
   ongletCompte: "Compte",
   ongletSets: "Sets",
@@ -1268,6 +1306,25 @@ const EN: Dictionnaire = {
   reglerLargeurColonne: "Adjust the column width, left and right arrows",
   fermerLecteur: "Close the player",
   profilCourt: "Profile",
+  leNews: "News",
+  ledeNews: "What is being said right now in electronic music: the gear and software coming out, production techniques, the DJ world, the scene. Twenty magazines read several times a day; every headline leads to its site.",
+  newsRayons: "Sections",
+  newsTout: "All",
+  newsProduction: "Production",
+  newsDjing: "DJing",
+  newsScene: "Scene",
+  toutesLesSources: "All sources",
+  newsIndisponibles: "News are not available right now. Try again in a moment.",
+  aucunArticle: "No article in this section for now.",
+  newsMisesAJour: (quand) => `Feeds last read: ${quand}.`,
+  lesSources: "The sources",
+  sourcesIntro: "The sites SONAA reads. Those without a feed anymore keep their door: go there directly.",
+  voirSesArticles: "Its articles",
+  pasDeFlux: "no feed",
+  ilYaMinutes: (n) => (n < 2 ? "just now" : `${n} min ago`),
+  ilYaHeures: (n) => `${n} h ago`,
+  ilYaJours: (n) => `${n} days ago`,
+  hier: "yesterday",
   nomDunGenreOuArtiste: "A genre, an artist…",
   ongletCompte: "Account",
   ongletSets: "Sets",

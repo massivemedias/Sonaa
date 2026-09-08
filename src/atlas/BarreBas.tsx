@@ -8,12 +8,12 @@
  * faire, et c'est ce que Mika a demande le 7 septembre 2026 en montrant
  * SoundCloud.
  *
- * ═══ QUATRE ONGLETS, PAS CINQ ═══
+ * ═══ CINQ ONGLETS, DES MOTS COURTS ═══
  *
- * Calendar, Styles, Sons, Profil. « A propos » sort de la barre : c'est une
- * page qu'on lit une fois, elle reste dans le pied de page. Quatre onglets
- * laissent a chacun la place de son mot sous son icone ; a cinq, les mots
- * se coupent ou disparaissent, et une icone seule se devine.
+ * Calendar, News, Styles, Sons, Profil. « A propos » sort de la barre : c'est
+ * une page qu'on lit une fois, elle reste dans le pied de page. Cinq mots de
+ * six lettres au plus tiennent sous cinq icones sur 375 px ; c'est la
+ * limite, et News est arrive en dernier (Mika, 7 septembre 2026).
  *
  * ═══ ELLE REMPLACE LE MENU DU HAUT, ELLE NE S'Y AJOUTE PAS ═══
  *
@@ -32,6 +32,7 @@ import { useEffect } from 'react';
 import { FaIcon } from './FaIcon.tsx';
 import {
   faCalendarDays,
+  faNewspaper,
   faLayerGroup,
   faHeadphones,
   faUser,
@@ -55,6 +56,7 @@ export function BarreBas() {
 
   const onglets = [
     { href: '#/calendrier', id: 'calendrier', label: t.leCalendrier, icone: faCalendarDays },
+    { href: '#/news', id: 'news', label: t.leNews, icone: faNewspaper },
     { href: '#/parcourir', id: 'parcourir', label: t.lesStyles, icone: faLayerGroup },
     { href: '#/sets', id: 'sets', label: t.lesSons, icone: faHeadphones },
     { href: '#/profil', id: 'profil', label: t.profilCourt, icone: faUser },

@@ -74,7 +74,9 @@ const FICHIERS_HORS = (nom: string): boolean =>
   /* Meme parole rapportee, meme regle : des titres d'organisateurs. */
   nom === 'eventbrite-releve.json' ||
   nom === 'lepointdevente-releve.json' ||
-  nom === 'ticketmaster-releve.json';
+  nom === 'ticketmaster-releve.json' ||
+  /* Les titres des articles de vingt magazines, tels qu'ils les ecrivent. */
+  nom === 'news.json';
 
 /** Titres et noms d'artistes où le tiret est dans l'œuvre elle-même. Vide,
     et destiné à le rester : à ne remplir qu'avec une référence précise. */

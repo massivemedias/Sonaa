@@ -29,6 +29,7 @@ type SiteCourant =
   | 'propositions'
   | 'moderation'
   | 'calendrier'
+  | 'news'
   | 'profil'
   | 'autre';
 
@@ -54,6 +55,9 @@ const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
      Le menu suit le meme ordre que l'arrivee sur le site. Decision de Mika
      du 7 septembre 2026. */
   { href: '#/calendrier', id: 'calendrier', label: t.leCalendrier },
+  /* NEWS, JUSTE APRES : ce qui se dit aujourd'hui, a cote de ce qui se joue
+     ce soir. Demande de Mika du 7 septembre 2026. */
+  { href: '#/news', id: 'news', label: t.leNews },
   /* DEUX PORTES VERS LE MEME CORPUS, ET ELLES SE NOMMENT PAR CE QU'ON Y
      TROUVE. « Parcourir » decrivait un geste, pas une destination : on ne
      sait pas ce qu'on va parcourir avant d'avoir clique. « Styles » et
@@ -109,6 +113,7 @@ export function courantDuSite(hash: string): SiteCourant {
   if (hash.startsWith('#/heatmap')) return 'heatmap';
   if (hash.startsWith('#/arbre')) return 'arbre';
   if (hash.startsWith('#/calendrier')) return 'calendrier';
+  if (hash.startsWith('#/news')) return 'news';
   if (hash.startsWith('#/sets')) return 'sets';
   if (hash.startsWith('#/parcourir')) return 'parcourir';
   if (hash.startsWith('#/carte')) return 'atlas';

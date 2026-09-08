@@ -37,6 +37,7 @@ export function PiedDePage() {
       liens: [
         /* Le Calendar d'abord, comme dans le menu du haut : c'est la page d'accueil. */
         { href: '#/calendrier', label: t.leCalendrier },
+        { href: '#/news', label: t.leNews },
         { href: '#/parcourir', label: t.lesStyles },
         { href: '#/sets', label: t.lesSons },
         { href: '#/index', label: t.piedIndex },
