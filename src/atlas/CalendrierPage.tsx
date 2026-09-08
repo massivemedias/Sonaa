@@ -914,7 +914,7 @@ export function CalendrierPage() {
                   onClick={() => setOuvrirAjout(true)}
                   aria-label={t.ajouterUneSoiree}
                 >
-                  + {t.ajouterCourt}
+                  {t.ajouterCourt}
                 </button>
                 </>
               )}
