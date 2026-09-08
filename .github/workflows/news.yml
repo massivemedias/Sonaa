@@ -47,7 +47,9 @@ jobs:
       - name: Commettre si le fichier a change
         id: commit
         run: |
-          if git diff --quiet -- public/news.json; then
+          # -I ignore la ligne de la date de releve : sans article nouveau,
+          # rien n'est commis.
+          if git diff --quiet -I '^ *"fait":' -- public/news.json; then
             echo "change=non" >> "$GITHUB_OUTPUT"
             echo "Rien de neuf."
           else

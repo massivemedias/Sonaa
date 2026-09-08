@@ -49,6 +49,10 @@ describe('texte', () => {
   it('nettoie balises, CDATA et entites', () => {
     expect(texteNu('<![CDATA[<p>a &amp; b</p>]]>')).toBe('a & b');
   });
+  it('enleve la poussiere de WordPress avant de couper', () => {
+    expect(resumer('Un synthe sort. Read More Un synthe sort chez Isla')).toBe('Un synthe sort.');
+    expect(resumer('Texte. The post Titre appeared first on Synthtopia.')).toBe('Texte.');
+  });
   it('coupe un resume sur un mot', () => {
     const long = 'mot '.repeat(100).trim();
     const r = resumer(long, 50);

@@ -88,7 +88,10 @@ async function main(): Promise<void> {
     .slice(0, TOTAL);
 
   const livre: Livre = { fait: new Date().toISOString(), articles: tries, pannes };
-  writeFileSync(SORTIE, JSON.stringify(livre), 'utf8');
+  /* INDENTE, ET `fait` SUR SA PROPRE LIGNE : l'action planifiee compare le
+     fichier en ignorant cette ligne, pour ne commettre que quand un article
+     a change, pas six fois par jour pour une date. */
+  writeFileSync(SORTIE, JSON.stringify(livre, null, 1), 'utf8');
   const avecFlux = SOURCES.filter((s) => s.flux !== null).length;
   console.log(`\n${tries.length} articles de ${avecFlux - pannes.length} sources sur ${avecFlux}, ${pannes.length} panne(s).`);
 }

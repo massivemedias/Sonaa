@@ -51,8 +51,17 @@ export function texteNu(brut: string | null | undefined): string {
   return decoderEntites(sansBalises).replace(/\s+/g, ' ').trim();
 }
 
-/** Coupe un resume a `max` signes, sur un mot, avec des points de suspension. */
-export function resumer(texte: string, max = 220): string {
+/** Coupe un resume a `max` signes, sur un mot, avec des points de suspension.
+
+    ET ENLEVE D'ABORD LA POUSSIERE DE WORDPRESS : « Read More », « Continue
+    reading », « The post X appeared first on Y ». Vu sur Synthtopia des la
+    premiere moisson : le resume repetait le titre apres un « Read More ». */
+export function resumer(brut: string, max = 220): string {
+  const texte = brut
+    .replace(/\s*(?:Read More|Continue reading|Lire la suite)\b[\s\S]*$/i, '')
+    .replace(/\s*The post\b[\s\S]*appeared first on[\s\S]*$/i, '')
+    .replace(/\s*L’article\b[\s\S]*est apparu en premier sur[\s\S]*$/i, '')
+    .trim();
   if (texte.length <= max) return texte;
   const coupe = texte.slice(0, max);
   const dernier = coupe.lastIndexOf(' ');
