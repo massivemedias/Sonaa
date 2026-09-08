@@ -166,7 +166,7 @@ export function SoireesAdmin() {
             type="text"
             value={form.titre}
             maxLength={200}
-            placeholder="NINA KRAVIZ [DAY RAVE]"
+            placeholder="ex. NINA KRAVIZ [DAY RAVE]"
             onChange={(e) => setForm({ ...form, titre: e.target.value })}
           />
         </label>
@@ -194,7 +194,7 @@ export function SoireesAdmin() {
             type="text"
             value={form.lieu}
             maxLength={120}
-            placeholder="L&apos;Olympia"
+            placeholder="ex. L&apos;Olympia"
             onChange={(e) => setForm({ ...form, lieu: e.target.value })}
           />
         </label>
@@ -211,7 +211,7 @@ export function SoireesAdmin() {
           <input
             type="text"
             value={form.genres}
-            placeholder="Techno, Minimal"
+            placeholder="ex. Techno, Minimal"
             onChange={(e) => setForm({ ...form, genres: e.target.value })}
           />
         </label>
@@ -220,7 +220,7 @@ export function SoireesAdmin() {
           <input
             type="url"
             value={form.lien}
-            placeholder="https://www.facebook.com/events/..."
+            placeholder="ex. https://www.facebook.com/events/..."
             onChange={(e) => setForm({ ...form, lien: e.target.value })}
           />
         </label>

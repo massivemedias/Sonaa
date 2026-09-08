@@ -100,6 +100,9 @@
   color: var(--encre-douce-2);
 }
 .sp-label input[type='text'],
+.sp-label input[type='date'],
+.sp-label input[type='time'],
+.sp-label input[type='url'],
 .sp-label textarea,
 .sp-label input[type='file'] {
   padding: 0.5rem 0.7rem;
@@ -124,6 +127,16 @@
 .sp-label textarea {
   resize: vertical;
   line-height: calc(1em + 2px);
+}
+/* UN EXEMPLE N'EST PAS UNE VALEUR. Vu par Mika le 7 septembre 2026 : les
+   exemples des champs (« NINA KRAVIZ [DAY RAVE] », « L'Olympia ») avaient
+   la couleur du texte saisi, et on ne savait plus si le champ etait rempli.
+   Ils reculent d'un cran et passent en italique, comme partout ailleurs. */
+.sp-label input::placeholder,
+.sp-label textarea::placeholder {
+  color: var(--encre-douce-2);
+  opacity: 0.55;
+  font-style: italic;
 }
 
 .sp-action {
