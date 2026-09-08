@@ -556,8 +556,15 @@ export function ProfilPage() {
               <li key={s.id} className="sp-item">
                 <div className="sp-item-tete">
                   <div className="sp-item-titre">
-                    {urlPochette(s.cover_path) && (
-                      <img className="sp-pochette" src={urlPochette(s.cover_path) ?? ''} alt="" />
+                    {/* LA POCHETTE, OU LE PORTRAIT A DEFAUT : la page publique
+                        des sons fait pareil, et un set sans pochette y montre
+                        deja le visage de son auteur. Ici il restait un trou. */}
+                    {(urlPochette(s.cover_path) ?? urlAvatar(avatarPath)) && (
+                      <img
+                        className="sp-pochette"
+                        src={urlPochette(s.cover_path) ?? urlAvatar(avatarPath) ?? ''}
+                        alt=""
+                      />
                     )}
                     <div>
                     <h3>{s.titre}</h3>
