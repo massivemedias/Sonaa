@@ -158,18 +158,102 @@ const texte = (v: unknown): string | null => (typeof v === 'string' && v.trim() 
     avec DJ passe, une soiree qui tait son style ne passe pas. Il est prefere
     a l'absence de filtre, qui donnait 373 fiches dont 38 surement
     electroniques. */
-export const MOTS_ELECTRONIQUES =
-  /(?<![a-zà-ü])(techno|tech house|house music|deep house|afro house|rave|dj|djs|electro|electronic|électro|électronique|trance|drum and bass|drum & bass|dnb|dubstep|uk garage|boiler room|warehouse|minimal|acid|disco|edm|remix|b2b|dancefloor|dance floor|nightclub|club night|afterhours|after hours|hardstyle|hardcore techno|breakbeat|jungle|ambient|synth|synthwave|italo|nu-disco|nu disco)(?![a-zà-ü])/i;
+/* ═══ CE QUI COMPTE COMME ELECTRONIQUE, ET CE QUI NE COMPTE PAS ═══
+
+   LA PREMIERE VERSION ETAIT UNE LISTE DE MOTS, ET UN SEUL SUFFISAIT. Elle a
+   laisse passer un cirque, un hommage a Ginette Reno et un quartet de jazz,
+   parce que leurs annonces disaient « DJ » ou « disco » quelque part. Mika
+   les a vus en tete du calendrier de Montreal le 7 septembre 2026 : « les
+   trucs sur Eventbrite c'est pas de la musique electro du tout, fais
+   attention a ce que tu rajoutes ».
+
+   Il y a donc maintenant TROIS SORTES DE MOTS, et un ordre.
+
+   Les MOTS FORTS nomment un genre electronique ou une forme qui lui est
+   propre : techno, house music, drum and bass, un DJ set, un b2b. Un mot
+   fort dans le TITRE suffit, quoi qu'il y ait a cote : « Techno-Metal
+   Night » et « Cirque Du Rave » sont bien ce qu'ils disent.
+
+   Les MOTS BLOQUANTS nomment une autre scene ou une autre sorte de soiree :
+   un hommage, un quartet, du hip-hop, du salsa, un brunch, un tournoi de
+   golf. Un bloquant dans le titre ou chez l'organisateur, sans mot fort
+   dans le titre, ecarte la fiche : on ne va pas lire son annonce pour y
+   trouver le mot « DJ » qui y est presque toujours.
+
+   Les MOTS MOYENS nomment une forme sans nommer un genre : un DJ set, un
+   live set, un b2b. Ils comptent comme forts, sauf face a un bloquant :
+   une degustation de vins « avec DJ set » reste une degustation.
+
+   Les MOTS FAIBLES (« DJ », « disco », « remix », « nightclub ») ne
+   decident jamais seuls. Un roller disco et un DJ de mariage en portent.
+
+   L'ANNONCE, EN DERNIER. Un genre fort dans l'annonce suffit, sauf si elle
+   nomme aussi DEUX autres scenes : « pop 80/90, rock indie, latin, electro,
+   musiques des Caraibes » est une soiree dansante generaliste ou l'electro
+   passe entre deux autres choses, pas une soiree electronique. Un seul
+   bloquant a cote ne suffit pas a ecarter : « Afro House, Amapiano,
+   Afrobeats » est bien une soiree afro house. */
+
+const FRONTIERE_GAUCHE = '(?<![a-zà-ü])';
+const FRONTIERE_DROITE = '(?![a-zà-ü])';
+const motif = (mots: readonly string[]): RegExp =>
+  new RegExp(`${FRONTIERE_GAUCHE}(?:${mots.join('|')})${FRONTIERE_DROITE}`, 'i');
 
 /* LA BORNE EST « PAS UNE LETTRE », PAS « PAS UN MOT ». `\b` compte un chiffre
    comme une lettre : « Down2Techno » ne passait pas, alors que c'est la
    soiree la plus pertinente de toute la moisson Lepointdevente. On borne donc
    sur les lettres seulement, accents compris : « Technology » reste exclu
    par la regle a part, « Sunset » reste exclu parce qu'un n precede set. */
+export const MOTS_FORTS = motif([
+  'techno', 'tech house', 'house music', 'deep house', 'afro house', 'afrohouse',
+  'progressive house', 'acid house', 'minimal techno', 'electro', 'électro',
+  'electronic music', 'electronic', 'électronique', 'electronica', 'electronik',
+  'électronik', 'trance', 'psytrance', 'drum and bass', 'drum & bass', 'drum n bass',
+  'dnb', 'dubstep', 'uk garage', 'boiler room', 'hardstyle', 'hardcore techno',
+  'breakbeat', 'edm', 'italo', 'nu-disco', 'nu disco', 'synthwave', 'rave',
+  'ambient', 'idm', 'bass music', 'amapiano', 'gqom', 'jersey club', 'footwork',
+]);
+
+export const MOTS_MOYENS = motif([
+  'dj set', 'dj sets', 'live set', 'b2b', 'afterhours', 'after hours',
+  'warehouse party', 'open format', 'aux platines',
+]);
+
+export const MOTS_BLOQUANTS = motif([
+  'hommage', 'tribute', 'jazz', 'quartet', 'quatuor', '4tet', 'trio', 'orchestr[ea]',
+  'symphoni[eq]?u?e?', 'symphony', 'chorale', 'choir', 'gospel', 'opéra', 'opera',
+  'théâtre', 'theatre', 'theater', 'comedy', 'comédie', 'humour', 'stand-up', 'karaoke',
+  'karaoké', 'trivia', 'quiz', 'yoga', 'conférence', 'conference', 'workshop',
+  'atelier', 'kids?', 'enfants?', 'salsa', 'bachata', 'kizomba', 'zouk', 'semba',
+  'country', 'folk', 'blues', 'punk', 'chanson', 'classique', 'classical', 'piano',
+  'violon', 'gala', 'magie', 'magic', 'brunch', 'golf', 'real estate', 'immobilier',
+  'marimba', 'hip-hop', 'hip hop', 'rap', 'afrobeats?', 'reggaeton', 'dancehall',
+  'mariachi', 'cirque', 'circus', 'cabaret', 'burlesque', 'drag', 'bingo', 'wine',
+  'vins?', 'dégustation', 'tasting', 'roller', 'anniversaire', 'birthday', 'yacht',
+  'boat', 'bateau', 'croisière', 'cruise', 'throwback', '80s', '90s', '2000s',
+  'rock', 'pop', 'latin', 'latino', 'reggae', 'rnb', 'r&b', 'soul', 'métal', 'metal',
+]);
+/* La meme liste, en global, pour COMPTER les scenes nommees dans une annonce. */
+const BLOQUANTS_TOUS = new RegExp(MOTS_BLOQUANTS.source, 'gi');
+
+/* Garde pour les tests et la lecture : ce sont les mots qui ne decident pas. */
+export const MOTS_FAIBLES = motif([
+  'dj', 'djs', 'disco', 'remix', 'dancefloor', 'dance floor', 'nightclub',
+  'club night', 'party', 'soirée dansante',
+]);
+
+/** Le mot « techno » enclave dans « technology » n'est pas un mot. */
+const PAS_UN_GENRE = /technolog/i;
 
 export const estElectronique = (titre: string, description: string | null, organisateur: string | null): boolean => {
-  const t = `${titre} ${description ?? ''} ${organisateur ?? ''}`;
-  return MOTS_ELECTRONIQUES.test(t) && !/technolog/i.test(t);
+  const fort = (s: string): boolean => MOTS_FORTS.test(s.replace(PAS_UN_GENRE, ''));
+  if (fort(titre)) return true;
+  if (MOTS_BLOQUANTS.test(`${titre} ${organisateur ?? ''}`)) return false;
+  if (MOTS_MOYENS.test(titre)) return true;
+  const annonce = description ?? '';
+  const autresScenes = new Set([...annonce.matchAll(BLOQUANTS_TOUS)].map((m) => m[0].toLowerCase())).size;
+  if (fort(annonce)) return autresScenes < 2;
+  return autresScenes === 0 && MOTS_MOYENS.test(annonce);
 };
 
 /* ── Etape 1 : decouvrir les adresses de fiches ───────────────────────── */
