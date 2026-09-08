@@ -62,14 +62,6 @@
   border-radius: 10px;
   background: var(--surface-margin);
 }
-.news-image-vide {
-  display: grid;
-  place-items: center;
-  font-size: 2.4rem;
-  font-weight: 700;
-  color: var(--ink-secondary);
-  border: var(--rule-width) solid var(--rule-hairline);
-}
 .news-corps {
   display: flex;
   flex-direction: column;

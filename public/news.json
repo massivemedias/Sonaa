@@ -1,12 +1,12 @@
 {
- "fait": "2026-09-08T03:46:38.755Z",
+ "fait": "2026-09-08T03:54:22.309Z",
  "articles": [
   {
    "source": "synthtopia",
    "titre": "Isla Electronics ASICS Bi-Directional Control Of Alesis Andromeda A6 Synthesizer",
    "lien": "https://www.synthtopia.com/content/2026/09/07/isla-electronics-asics-bi-directional-control-of-alesis-andromeda-a6-synthesizer/",
    "date": "2026-09-08T01:09:53.000Z",
-   "image": null,
+   "image": "https://www.synthtopia.com/wp-content/uploads/2018/07/alesis-andromeda-synthesizer-e1532388139361.jpg",
    "resume": "ASICS is fully sysex compatible with the Andromeda A6 and supports bi-directional control.…"
   },
   {
@@ -22,7 +22,7 @@
    "titre": "The Best Budget Beatmaking Gear to Help you Get Creative",
    "lien": "https://www.gearnews.com/budget-beatmaking/",
    "date": "2026-09-07T17:00:00.000Z",
-   "image": "https://www.youtube.com/embed/ZOXzVGDTs_Q",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/08/budget-beatmaking.jpg",
    "resume": "Want to get started with beatmaking but don’t have a lot of money to spend? No problem! With this budget beatmaking gear, you can produce great-sounding tracks on a shoestring budget! Best Budget Beatmaking Gear Budget…"
   },
   {
@@ -46,7 +46,7 @@
    "titre": "The Best Multichannel Audio Interfaces for Home Recording",
    "lien": "https://www.gearnews.com/best-multichannel-audio-interfaces-studio/",
    "date": "2026-09-07T16:00:00.000Z",
-   "image": "https://www.youtube.com/embed/YIu-xedX9zE",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2023/09/focusrite-scarlett-18i20-4th-gen-ft.jpg",
    "resume": "So you want a setup for putting together demos, but you need more inputs? To tackle this problem, we’re looking at some of the best multichannel audio interfaces that provide you with the features and expandability to…"
   },
   {
@@ -110,7 +110,7 @@
    "titre": "Sony ULT TOWER MAX: A New Flagship Party Speaker",
    "lien": "https://www.gearnews.com/sony-ult-tower-max-tech/",
    "date": "2026-09-07T14:37:25.000Z",
-   "image": "https://www.youtube.com/embed/VWOqWn00UIY",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/sony-ult-tower-ft.jpg",
    "resume": "The Sony ULT TOWER MAX series is the latest version of Sony’s powerful wireless speakers, created in collaboration with Hip-Hop artists and producers. First introduced in 2025, the Sony ULT Power Sound series brings its…"
   },
   {
@@ -126,7 +126,7 @@
    "titre": "Scales among updates to the free Ardour DAW — with tuning on the way",
    "lien": "https://cdm.link/ardour-9-8-scales-and-tuning/",
    "date": "2026-09-07T11:39:51.000Z",
-   "image": null,
+   "image": "https://cdm.link/app/uploads/2026/09/ardour-9-8-scale-editor.jpeg",
    "resume": "Ardour 9.8 continues the rapid, detailed development of this free and open-source DAW, with improved session recovery and clip recording, expanded support for controllers and hardware, and an arpeggiator MIDI tool. The…"
   },
   {
@@ -166,7 +166,7 @@
    "titre": "The 5 Best Value Bass Guitars 2026: Budget Basses That Punch Above Their Price",
    "lien": "https://www.gearnews.com/best-value-bass-guitars-guitar/",
    "date": "2026-09-07T06:00:00.000Z",
-   "image": "https://www.youtube.com/embed/R0LsKTpjjt4",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/07/Best_Value_Bass_Guitar_Teaser.jpg",
    "resume": "The best value bass guitars offer players a great playing experience, excellent build quality, and superb bass tones. Whether you’re looking for your very first bass or you’re wanting to upgrade to a better model, we’ve…"
   },
   {
@@ -174,7 +174,7 @@
    "titre": "Free Yamaha TX7 Patch Editor & Librarian",
    "lien": "https://www.synthtopia.com/content/2026/09/06/free-yamaha-tx7-patch-editor-librarian/",
    "date": "2026-09-07T00:57:01.000Z",
-   "image": null,
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/yamaha-tx7.jpg",
    "resume": "This tool runs locally in the browser, reads voices from the TX7, saves full libraries, loads DX7 SysEx banks, edits six-operator FM voices visually and lets you send individual sounds when you need them.…"
   },
   {
@@ -182,7 +182,7 @@
    "titre": "Free Vintage Emulator Studio (VES) Brings Classic Digital Synths To Your DAW – But There’s A Catch",
    "lien": "https://www.synthtopia.com/content/2026/09/06/free-vintage-emulator-studio-ves-brings-classic-digital-synths-to-your-daw-but-theres-a-catch/",
    "date": "2026-09-06T20:10:35.000Z",
-   "image": null,
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/vintage-emulator-studio.jpg",
    "resume": "Vintage Emulator Studio (VES) is a free plugin virtual instrument collection that features vintage synthesizers, samplers, drum machines and sound modules emulated by MAME.…"
   },
   {
@@ -198,7 +198,7 @@
    "titre": "How to Create the Perfect Default Preset for Designing Sounds from Scratch",
    "lien": "https://www.gearnews.com/default-preset-synth-sound-design/",
    "date": "2026-09-06T16:00:00.000Z",
-   "image": "https://www.youtube.com/embed/Lgs9QUtWc3M",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/default-preset.jpg",
    "resume": "Want to design your own synth sounds from scratch? A neutral default preset is the perfect starting point. Find out how to design a custom default preset that perfectly suits your workflow. How to Create a Default…"
   },
   {
@@ -222,7 +222,7 @@
    "titre": "TetraOP, Delta6, CURVA: Free Plugins of the Week",
    "lien": "https://www.gearnews.com/tetraop-delta6-curva-free-plugins/",
    "date": "2026-09-06T06:00:00.000Z",
-   "image": "https://www.youtube.com/embed/QIp581eR8j4",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/tetraop-free-plugins-09-06-26.jpg",
    "resume": "This week’s roundup of freebies brings you two excellent synths and a very unique modulation plugin. Check out TetraOP, Delta6, and CURVA! Free Plugins of the Week TetraOP: 4-Oscillator Wavetable Synth with Extensive…"
   },
   {
@@ -230,7 +230,7 @@
    "titre": "Swiss Army Knife Tools for Music Production 2026: The Underrated Helpers Hiding in Plain Sight",
    "lien": "https://www.gearnews.com/swiss-army-knife-tools-studio/",
    "date": "2026-09-05T16:00:00.000Z",
-   "image": "https://www.youtube.com/embed/-1Xlv5UOthU",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/08/Siss-Army-Knife-Tools-T.jpg",
    "resume": "Buying plugins is easy. Most producers have figured out the right compressor for the drum bus, the best limiter, and the go-to EQ. However, there’s a whole other category of software that almost nobody talks about…"
   },
   {
@@ -302,7 +302,7 @@
    "titre": "Deals Of The Week from Elektron, AIAIA, and Cranborne Audio",
    "lien": "https://www.gearnews.com/deals-of-the-week-elektron-aiaia-cranborne-audio/",
    "date": "2026-09-05T06:00:00.000Z",
-   "image": "https://www.youtube.com/embed/6g00sPpecGI",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/deals-of-the-week-aiaiai-ft.jpg",
    "resume": "In this installment of Deals Of The Week, you’ll find a selection of exciting deals on music production gear to improve different areas of your setup. This Week’s Deals: Deals Of The Week: Get Nearly 15% Off AIAIAI…"
   },
   {
@@ -310,7 +310,7 @@
    "titre": "Throng, a 3D BlueSky interface, imagines social media as a mob",
    "lien": "https://cdm.link/create-digital-mobs/",
    "date": "2026-09-04T22:09:27.000Z",
-   "image": null,
+   "image": "https://cdm.link/app/uploads/2026/09/throng.jpg",
    "resume": "You're just relaxing by a peaceful campfire. You hear voices in the distance. Then, like a really chatty zombie invasion... they come. And keep coming. It's a 3D user interface for BlueSky, but it says something poetic…"
   },
   {
@@ -318,7 +318,7 @@
    "titre": "Loraine James has a new LP, it’s a free download, and it’s raw brilliance",
    "lien": "https://cdm.link/loraine-james-has-a-new-lp/",
    "date": "2026-09-04T17:47:29.000Z",
-   "image": null,
+   "image": "https://cdm.link/app/uploads/2026/09/nothingpersonal1.jpg",
    "resume": "\"U Get Me\"? Yes. Out today, Friday, Loraine James' newest LP It’s Nothing Personal. is the kind of massive, glitchy percussive syncopation I would want to use to break in an excellent, brand new pair of trainers. Then…"
   },
   {
@@ -334,7 +334,7 @@
    "titre": "In masses of live electronic sound, Jad Atoui built an opus",
    "lien": "https://cdm.link/jad-atoui-it-will-take-forever/",
    "date": "2026-09-04T16:02:55.000Z",
-   "image": null,
+   "image": "https://cdm.link/app/uploads/2026/09/jadatoui.jpg",
    "resume": "It Will Take Forever moves through emotions in swells, as if pulling us through feelings. Composed and played live on modular synths from 2023 to 2025 in Beirut, Jad Atoui's work almost sings grief through those…"
   },
   {
@@ -342,7 +342,7 @@
    "titre": "Fakear, Mykki Blanco, Pont Neuf Records… Les sorties de la semaine",
    "lien": "https://www.tsugi.fr/fakear-mykki-blanco-pont-neuf-records-les-sorties-de-la-semaine/",
    "date": "2026-09-04T15:02:48.000Z",
-   "image": null,
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/fakear-mykki-blanco-pont-neuf-records-les-sorties-de-la-semaine.jpg?hash=cdn-e34084b6bb8fdf0a3e906699d5b8b43c",
    "resume": "La semaine de rentrée rime avec beaucoup — vraiment beaucoup — de nouveautés musicales. Mais loin de nous l’idée de nous en plaindre, au contraire, c’est le moment de faire le plein de pépites pour rafraîchir nos…"
   },
   {
@@ -358,7 +358,7 @@
    "titre": "Old School Software, Electric Cow EC909, Turns Your Atari Into A Virtual 909 + 303",
    "lien": "https://www.synthtopia.com/content/2026/09/04/old-school-software-electric-cow-ec909-turns-your-atari-into-a-virtual-909-303/",
    "date": "2026-09-04T13:15:44.000Z",
-   "image": null,
+   "image": "https://www.synthtopia.com/wp-content/uploads/2013/09/roland-tr-909-rhythm-composer.jpg",
    "resume": "It's like ReBirth for your Atari!…"
   },
   {
@@ -366,7 +366,7 @@
    "titre": "Chippy Nonstop : portrait d’une artiste flamboyante et engagée",
    "lien": "https://www.tsugi.fr/chippy-nonstop-portrait-dune-artiste-flamboyante-et-engagee/",
    "date": "2026-09-04T12:39:07.000Z",
-   "image": null,
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/chippy-nonstop-portrait-dune-artiste-flamboyante-et-engagee.jpg?hash=cdn-66adc006dea4b26a381bfcd6feb4dde9",
    "resume": "Chippy Nonstop est DJ la nuit, productrice et promotrice le jour. Voilà une femme qui prouve que l’on peut porter des talons de 15cm, s’habiller court, mettre des perruques et être une girl boss incontestable. Tsugi la…"
   },
   {
@@ -390,7 +390,7 @@
    "titre": "Le Rex Club promet une rentrée exaltante avec une programmation cinq étoiles",
    "lien": "https://www.tsugi.fr/le-rex-club-promet-une-rentree-exaltante-avec-une-programmation-cinq-etoiles/",
    "date": "2026-09-04T10:37:13.000Z",
-   "image": null,
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/le-rex-club-promet-une-rentree-exaltante-avec-une-programmation-cinq-etoiles.jpg?hash=cdn-78fd09146743228f8c8843d5b09f4b72",
    "resume": "Le club le plus mythique des Grands Boulevards revient avec une programmation béton en septembre. Le Rex Club accueillera entre ses murs des légendes du DJing, mais aussi de jeunes talents émergents et prometteurs…"
   },
   {
@@ -406,7 +406,7 @@
    "titre": "Elektron Tonverk OS 1.40 In-Depth Demo",
    "lien": "https://www.synthtopia.com/content/2026/09/03/elektron-tonverk-os-1-40-in-depth-demo/",
    "date": "2026-09-04T01:30:06.000Z",
-   "image": null,
+   "image": "https://www.synthtopia.com/wp-content/uploads/2025/09/elektron-tonverk-angle.jpg",
    "resume": "Tonverk gets Overbridge multitrack streaming, additional options in each track’s modulation setup, pattern transpose in semitones and more. …"
   },
   {
@@ -414,7 +414,7 @@
    "titre": "Korg Prologue Synthesizers Get Expanded Synthesis Capabilities",
    "lien": "https://www.synthtopia.com/content/2026/09/03/korg-prologue-synthesizers-get-expanded-synthesis-capabilities/",
    "date": "2026-09-04T01:15:09.000Z",
-   "image": null,
+   "image": "https://www.synthtopia.com/wp-content/uploads/2018/01/korg-prologue-synth-closeup.jpg",
    "resume": "Elixir features three new custom multi engine oscillators, and 5 wavetable oscillators, expanding the sonic capabilities of the Prologue:…"
   },
   {
@@ -422,7 +422,7 @@
    "titre": "Akai S900 SuperOS v4.0 Firmware Update Brings New Features To Classic Sampler",
    "lien": "https://www.synthtopia.com/content/2026/09/03/akai-s900-superos-v4-0-firmware-update-brings-new-features-to-classic-sampler/",
    "date": "2026-09-04T01:07:56.000Z",
-   "image": null,
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/AKAI_S900.jpg",
    "resume": "The firmware adds features from the Akai S950 and S1000. It also brings new MIDI control, TIMESTRETCH and real-time filter modulation. …"
   },
   {
@@ -430,7 +430,7 @@
    "titre": "klattsch Turns 1980s Speech Synthesis Into A Singing Instrument",
    "lien": "https://www.synthtopia.com/content/2026/09/03/klattsch-turns-1980s-speech-synthesis-into-a-singing-instrument/",
    "date": "2026-09-04T00:51:40.000Z",
-   "image": null,
+   "image": "http://img.youtube.com/vi/AaazFB0J-iE/0.jpg",
    "resume": "klattsch uses no samples. It's based entirely on what was technically possible in 1980.…"
   },
   {
@@ -438,7 +438,7 @@
    "titre": "Free Virtual Band Space, Normal By Proxy, Lets You Jam Online With Your Friends",
    "lien": "https://www.synthtopia.com/content/2026/09/03/free-virtual-band-space-normal-by-proxy-lets-you-jam-online-with-your-friends/",
    "date": "2026-09-04T00:38:19.000Z",
-   "image": null,
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/normal-by-proxy-jam-space.jpg",
    "resume": "Normal By Proxy puts you in a virtual jam room - first person, with a bunch of synths and drum machines.…"
   },
   {
@@ -446,7 +446,7 @@
    "titre": "Audacity 4, free and open-source audio editor, arrives with a revamped UI",
    "lien": "https://cdm.link/audacity-4-and-tenacity-too/",
    "date": "2026-09-03T19:44:40.000Z",
-   "image": null,
+   "image": "https://cdm.link/app/uploads/2026/09/audacity-4-scaled.png",
    "resume": "It's been a long time coming. Audacity, the ubiquitous open-source audio editor now owned by Muse Group, reaches version 4 with a reworked UI and enhanced usability. Here's a look at what's new and a first run. And…"
   },
   {
@@ -454,7 +454,7 @@
    "titre": "Joy Crookes et Ravyn Lenae mêlent leur voix sur un single splendide et courageux",
    "lien": "https://www.tsugi.fr/joy-crookes-et-ravyn-lenae-melent-leur-voix-sur-un-single-splendide-et-courageux/",
    "date": "2026-09-03T15:19:18.000Z",
-   "image": null,
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/joy-crookes-et-ravyn-lenae-melent-leur-voix-sur-un-single-splendide-et-courageux.jpg?hash=cdn-1f449698ff7fe133bb32eb071240c815",
    "resume": "Une seconde partie du titre “Feet Don’t Fail Me Now”, de la chanteuse londonienne Joy Crookes, est parue lle 1er septembre. Elle y invite la chanteuse américaine Ravyn Lenae à partager le micro. Le morceau survient dans…"
   },
   {
@@ -462,7 +462,7 @@
    "titre": "New Sample Editor, Recorte, Now Available",
    "lien": "https://www.synthtopia.com/content/2026/09/03/new-sample-editor-recorte-now-available/",
    "date": "2026-09-03T13:39:28.000Z",
-   "image": null,
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/recorte-sample-editor.jpg",
    "resume": "Recorte offers a variety of different features to help users record, edit, and process samples, including an advanced audio recorder, automatic region detection (based on volume, transients, or slices), batch editing…"
   },
   {
@@ -470,7 +470,7 @@
    "titre": "Djrum livre « Psychic Video », le premier extrait de son DJ-Kicks",
    "lien": "https://www.tsugi.fr/djrum-livre-psychic-video-le-premier-extrait-de-son-dj-kicks/",
    "date": "2026-09-03T13:33:44.000Z",
-   "image": null,
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/djrum-livre-psychic-video-le-premier-extrait-de-son-dj-kicks.jpg?hash=cdn-89b7b27e634497c1251f6de350f04f9b",
    "resume": "Carte blanche pour Djrum sur le prochain DJ-Kicks ! Pour nous donner un avant goût de la compilation prévue pour le 16 octobre 2026, le DJ et producteur nous livre le single « Psychotic Video », entre percussions et…"
   },
   {
@@ -486,7 +486,7 @@
    "titre": "LESSSS, une artiste en quête d’indépendance",
    "lien": "https://www.tsugi.fr/lessss-une-artiste-en-quete-dindependance/",
    "date": "2026-09-03T13:11:53.000Z",
-   "image": null,
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/lessss-une-artiste-en-quete-dindependance.jpg?hash=cdn-114c92f897665ef98e165c600e47dc4d",
    "resume": "Alors qu’elle s’apprête à s’emparer du Transbordeur à Lyon pour un All Night Long le 26 septembre 2026, la DJ et productrice LESSSS a passé un été rythmé par les festivals et les sorties de singles. Figure montante…"
   },
   {
@@ -502,7 +502,7 @@
    "titre": "Les sorties musicales immanquables de cette rentrée 2026",
    "lien": "https://www.tsugi.fr/les-sorties-musicales-immanquables-de-cette-rentree-2026/",
    "date": "2026-09-03T10:37:20.000Z",
-   "image": null,
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/les-sorties-musicales-immanquables-de-cette-rentree-2026.jpg?hash=cdn-7311ea836fe7189a90aec489008a276e",
    "resume": "On le sait, la rentrée vient avec son lot de problèmes… Mais aussi avec son lot de sorties musicales ! Et ça, ça nous redonne vite le sourire. Tsugi se porte volontaire pour adoucir votre quotidien en vous présentant…"
   },
   {
@@ -510,7 +510,7 @@
    "titre": "Septabee, an insane-looking free Linux/Windows DAW with pomegranates",
    "lien": "https://cdm.link/septabee-is-here/",
    "date": "2026-09-03T09:16:33.000Z",
-   "image": null,
+   "image": "https://cdm.link/app/uploads/2026/09/septabee-image.jpg",
    "resume": "Suddenly, a bunch of the producers I follow are buzzing about the music-mangling possibilities of Septabee, a free DAW for Linux and Windows developed \"in secret\" over \"20,000 hours.\" And it looks like insane fun: a…"
   },
   {
@@ -526,7 +526,7 @@
    "titre": "Nuclear test equipment inspired this new Eurorack module",
    "lien": "https://cdm.link/ai-bxr-module/",
    "date": "2026-09-02T19:03:01.000Z",
-   "image": null,
+   "image": "https://cdm.link/app/uploads/2026/09/ai-hero2.jpeg",
    "resume": "Boxcar averagers, used in vintage nuclear test equipment, inspired the latest creation from AI Synthesis. What you get is the AI250 BXR: it's an oscillator, a voltage generator, and an audio mangler all in one. And it's…"
   },
   {
@@ -542,7 +542,7 @@
    "titre": "Logic1000 et Christine and the Queens nous offrent le morceau dont on avait besoin",
    "lien": "https://www.tsugi.fr/logic1000-et-christine-and-the-queens-nous-offrent-le-morceau-dont-on-avait-besoin/",
    "date": "2026-09-02T16:07:10.000Z",
-   "image": null,
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/logic1000-et-christine-and-the-queens-nous-offrent-le-morceau-dont-on-avait-besoin.jpg?hash=cdn-19ef98f5d70e7ad05ab5d66c48c4044c",
    "resume": "Hier à 18h, Logic1000 a dévoilé « The Only One », en collaboration avec Christine and the Queens en cadeau de fin de journée. Ce morceau est le troisième single de son prochain album Confirmation! prévu pour le 2…"
   },
   {
@@ -550,7 +550,7 @@
    "titre": "Le NAME Festival à Roubaix annulé après une décision municipale",
    "lien": "https://www.tsugi.fr/le-name-festival-a-roubaix-annule-apres-une-decision-municipale/",
    "date": "2026-09-02T14:56:31.000Z",
-   "image": null,
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/le-name-festival-a-roubaix-annule-apres-une-decision-municipale.jpg?hash=cdn-53c7fab079530da6991ac1101f83fec0",
    "resume": "Le NAME Festival qui devait faire son retour en décembre à la Condition Publique à Roubaix n’aura pas lieu. La ville dirigée par l’Insoumis David Guiraud a exigé un « moratoire » sur le festival en raison de « nuisances…"
   },
   {
@@ -558,7 +558,7 @@
    "titre": "Underscores revient avec un single hyperpop et hyper dansant",
    "lien": "https://www.tsugi.fr/underscores-revient-avec-un-single-hyperpop-et-hyper-dansant/",
    "date": "2026-09-02T13:40:42.000Z",
-   "image": null,
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/underscores-revient-avec-un-single-hyperpop-et-hyper-dansant.jpg?hash=cdn-471d5811e0db541261880c73153f72d4",
    "resume": "Quelque part entre SOPHIE et Charli XCX, underscores confirme sa place sur la scène pop et électronique. Quelques mois après la sortie de son album U, elle prolonge son univers et explore à nouveau les frontières…"
   },
   {
@@ -566,7 +566,7 @@
    "titre": "A patchable solar-powered synth with a speaker; birds, hot dogs, and more",
    "lien": "https://cdm.link/solar-powered-forever-grouse-and-more/",
    "date": "2026-09-02T13:26:40.000Z",
-   "image": null,
+   "image": "https://cdm.link/app/uploads/2026/09/forevergrouse.jpg",
    "resume": "What a strange and wonderful bird this is: the Forever Grouse from MONAD comes with its own loudspeaker, banana plugs for patching, and solar panels for power. But maybe you'd rather watch a film about a heron. Or music…"
   },
   {
@@ -582,7 +582,7 @@
    "titre": "Elastic Melody now does bass and DFAM-style percussion, too (Mac, iOS)",
    "lien": "https://cdm.link/elastic-melody-1-2/",
    "date": "2026-09-02T10:50:09.000Z",
-   "image": null,
+   "image": "https://cdm.link/app/uploads/2026/09/EM-DFAM-2.jpg",
    "resume": "Elastic Melody was already a go-to melody generator for Mac, iPad, and iPhone, with an internal synth engine inspired by the brilliant Dave Smith Evolver and the ability to output to other apps or hardware gear. Now it…"
   },
   {
@@ -598,7 +598,7 @@
    "titre": "Experimental Tool Promises To Give The Roland Aira Eurorack Effects Modules New Superpowers",
    "lien": "https://www.synthtopia.com/content/2026/09/01/experimental-tool-promises-to-give-the-roland-aira-eurorack-effects-modules-new-superpowers/",
    "date": "2026-09-02T00:40:35.000Z",
-   "image": null,
+   "image": "https://www.synthtopia.com/wp-content/uploads/2015/06/roland-aira-modular-Eurorack-effects-e1435685054185.png",
    "resume": "An experimental firmware switcher promises to let you use any Aira firmware on any of the modules. …"
   },
   {
@@ -606,7 +606,7 @@
    "titre": "Patience, module from Olivia Artz, scales modulation from seconds to decades",
    "lien": "https://cdm.link/patience/",
    "date": "2026-09-01T21:52:15.000Z",
-   "image": null,
+   "image": "https://cdm.link/app/uploads/2026/09/patience-hero.jpg",
    "resume": "Following the success of Time Machine, Olivia Artz has a new idea for playing with temporality in Eurorack modular. Patience is a \"lowest\" frequency oscillator, setting duration in seconds, minutes, hours, days, months…"
   },
   {
@@ -614,7 +614,7 @@
    "titre": "Toutes sur Scène : le festival à la programmation 100% féminine",
    "lien": "https://www.tsugi.fr/toutes-sur-scene-le-festival-a-la-programmation-100-feminine/",
    "date": "2026-09-01T15:32:07.000Z",
-   "image": null,
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/toutes-sur-scene-le-festival-a-la-programmation-100-feminine.jpg?hash=cdn-d1b3bcd6373d8d819cc34cffb6300396",
    "resume": "Yoa, Zélie, Solann, Juste Shani… Imaginez ce concentré de boss ladies au Théâtre du Châtelet, pour un événement 100% féminin. Eh non ce n’est pas un rêve, mais bien une — petite — partie du programme du festival Toutes…"
   },
   {
@@ -630,7 +630,7 @@
    "titre": "Botanica Natural Sequencer First Look",
    "lien": "https://www.synthtopia.com/content/2026/09/01/botanica-natural-sequencer-first-look/",
    "date": "2026-09-01T13:49:22.000Z",
-   "image": null,
+   "image": "http://img.youtube.com/vi/b1FgF5Ddq8Y/0.jpg",
    "resume": "Botanica is designed to create expressive sequences from simple patterns.…"
   },
   {
@@ -638,7 +638,7 @@
    "titre": "Concrete : Une barge de légende",
    "lien": "https://www.tsugi.fr/concrete-une-barge-de-legende/",
    "date": "2026-09-01T09:31:20.000Z",
-   "image": null,
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/concrete-une-barge-de-legende.jpg?hash=cdn-caee5dbd7aac9739d50debeb74b42bc5",
    "resume": "Entre 2011 et 2019, Concrete a redonné un nouveau souffle à la nuit parisienne, inventant des formats de soirées et favorisant le retour en force de la scène techno. Quinze ans après sa naissance, habitués, DJ et…"
   },
   {
@@ -646,7 +646,7 @@
    "titre": "Stuck For Wedding Music Ideas? Try This",
    "lien": "https://www.digitaldjtips.com/wedding-music-canon/",
    "date": "2026-09-01T09:04:28.000Z",
-   "image": null,
+   "image": "https://cdn.digitaldjtips.com/app/uploads/2026/09/01110101/wedding-canon.jpg",
    "resume": "I’ve had a sneak look at The Wedding Music Canon, a book coming later this month from an experienced US-based wedding DJ covering great tracks to play in wedding DJ sets from the 1950s up until the 2010s. Thankfully…"
   },
   {
@@ -654,7 +654,7 @@
    "titre": "Reloop Ups Its Entry Level Turntable Game With RP-2000 Mk4",
    "lien": "https://www.digitaldjtips.com/reloop-rp-2000-mk4/",
    "date": "2026-09-01T08:08:51.000Z",
-   "image": null,
+   "image": "https://cdn.digitaldjtips.com/app/uploads/2026/09/01100504/rp2000mk4.jpg",
    "resume": "Reloop has announced the RP-2000 Mk4 entry-level DJ turntable, which brings improvements over the popular RP-2000 Mk3 model, such as a more rigid chassis and more refined controls. Ultimately, this remains a classic…"
   },
   {
@@ -686,7 +686,7 @@
    "titre": "Ital Tek: Chasing Accidents",
    "lien": "https://www.ableton.com/en/blog/ital-tek-chasing-accidents/",
    "date": "2026-08-28T13:00:23.000Z",
-   "image": null,
+   "image": "https://beta-ableton.imgix.net/media/i34bncxm/595_ital-tek0_1200x630.jpg",
    "resume": ""
   },
   {
@@ -694,7 +694,7 @@
    "titre": "Deckshark Mako: Another Way To Ditch The Laptop",
    "lien": "https://www.digitaldjtips.com/deckshark-mako-another-way-to-ditch-the-laptop/",
    "date": "2026-08-25T10:15:14.000Z",
-   "image": null,
+   "image": "https://cdn.digitaldjtips.com/app/uploads/2026/08/25121117/DECKSHARK_white_with_deck_03-1.jpeg",
    "resume": "You wait years for someone to work out how to turn an ordinary Midi controller into a standalone unit, and then two solutions come along at once. Days after we wrote about Stembox, a small Seattle outfit called…"
   },
   {
@@ -710,7 +710,7 @@
    "titre": "A Step-by-Step Guide for Producing R&B Drums",
    "lien": "https://www.ableton.com/en/blog/step-by-step-guide-for-producing-rnb-drums/",
    "date": "2026-08-20T10:51:53.000Z",
-   "image": null,
+   "image": "https://beta-ableton.imgix.net/media/ptqlf0ah/592_how-to-series_rb-drums_1200x630.jpg",
    "resume": ""
   },
   {
@@ -718,7 +718,7 @@
    "titre": "Sudan Archives: Vintage Strings, Modern Gadgets",
    "lien": "https://www.ableton.com/en/blog/sudan-archives-vintage-strings-modern-gadgets/",
    "date": "2026-08-20T10:49:47.000Z",
-   "image": null,
+   "image": "https://beta-ableton.imgix.net/media/1hknx0b3/593_sudan-archives_1200x630.jpg",
    "resume": ""
   },
   {
@@ -734,7 +734,7 @@
    "titre": "Stembox Turns Any DJ Controller Into A Standalone",
    "lien": "https://www.digitaldjtips.com/stembox-turns-any-dj-controller-into-a-standalone/",
    "date": "2026-08-17T09:54:53.000Z",
-   "image": null,
+   "image": "https://cdn.digitaldjtips.com/app/uploads/2026/08/17115355/stembox.png",
    "resume": "A French company called Stembox claims its new DJ product can turn any DJ controller into something similar to the classic standalone experience. It is selling its own DJ software, a 15.6in touchscreen to run it on, and…"
   },
   {
@@ -750,7 +750,7 @@
    "titre": "AlphaTheta Reveals Pro DJ Link Security Flaw",
    "lien": "https://www.digitaldjtips.com/alphatheta-reveals-pro-dj-link-security-flaw/",
    "date": "2026-08-10T08:56:03.000Z",
-   "image": null,
+   "image": "https://cdn.digitaldjtips.com/app/uploads/2026/08/10105452/prodj-clean.png",
    "resume": "AlphaTheta has published a notice warning of a security vulnerability in Pro DJ Link, the network protocol that ties Rekordbox and CDJ/XDJ players together. According to the company, a third party who gains unauthorised…"
   },
   {
@@ -758,7 +758,7 @@
    "titre": "Sketch a Track in Note and Finish it in Live with LNA Does Audio Stuff",
    "lien": "https://www.ableton.com/en/blog/lna-does-audio-stuff-ableton-note/",
    "date": "2026-08-06T10:09:35.000Z",
-   "image": null,
+   "image": "https://beta-ableton.imgix.net/media/gutlbkwe/590_lna-note-tutorial_1200x630.jpg",
    "resume": ""
   },
   {
@@ -774,7 +774,7 @@
    "titre": "Create Your First Track in Ableton Live with Bad Snacks",
    "lien": "https://www.ableton.com/en/blog/create-your-first-track-in-ableton-live/",
    "date": "2026-07-31T13:18:49.000Z",
-   "image": null,
+   "image": "https://beta-ableton.imgix.net/media/oajgqc1g/589_bad-snacks-beginner-series_1200x630-1.jpg",
    "resume": ""
   },
   {
@@ -782,7 +782,7 @@
    "titre": "Input / Output: Christopher Tignor",
    "lien": "https://www.ableton.com/en/blog/input-output-christopher-tignor/",
    "date": "2026-07-28T13:15:42.000Z",
-   "image": null,
+   "image": "https://beta-ableton.imgix.net/media/fhvnhdem/588_christopher-tignor_1200x630.jpg",
    "resume": ""
   },
   {
@@ -790,7 +790,7 @@
    "titre": "DJCU2 Will Put Djay Pro’s Fluid Beatgrids In Any DJ App",
    "lien": "https://www.digitaldjtips.com/djcu2-will-put-djay-pros-fluid-beatgrids-in-any-dj-app/",
    "date": "2026-07-27T15:00:27.000Z",
-   "image": null,
+   "image": "https://cdn.digitaldjtips.com/app/uploads/2026/07/10145103/DJCU2-Beta.png",
    "resume": "DJCU2, a major update to the much-loved Mac-only DJ library conversion utility DJCU, is now in public beta. One big new trick is that it can carry Algoriddim Djay Pro’s fluid beatgrids into other DJ apps as part of…"
   },
   {
@@ -798,7 +798,7 @@
    "titre": "Late Bush: Breaking and Remaking Baroque",
    "lien": "https://www.ableton.com/en/blog/late-bush-breaking-and-remaking-baroque/",
    "date": "2026-07-23T14:02:01.000Z",
-   "image": null,
+   "image": "https://beta-ableton.imgix.net/media/s2pj4z4p/587_late-bush_1200x630.jpg",
    "resume": ""
   },
   {
@@ -806,7 +806,7 @@
    "titre": "Evermix Launches A Pro Subscription For Its App",
    "lien": "https://www.digitaldjtips.com/evermix-launches-a-pro-subscription-for-its-app/",
    "date": "2026-07-20T15:00:18.000Z",
-   "image": null,
+   "image": "https://cdn.digitaldjtips.com/app/uploads/2026/07/10124042/empweb.png",
    "resume": "Evermix has released a new version of its DJ app for iOS and Android, and the headline change is a new Pro subscription tier that adds livestreaming, video capture and one-tap uploads. Before getting into what Pro does…"
   },
   {
@@ -822,7 +822,7 @@
    "titre": "A Beginner’s Guide to Looping Guitar and Vocals",
    "lien": "https://www.ableton.com/en/blog/beginners-guide-to-looping-guitar-and-vocals/",
    "date": "2026-07-16T13:59:51.000Z",
-   "image": null,
+   "image": "https://beta-ableton.imgix.net/media/xw1jkmcw/583_extensions-sdk_1200x630.jpg",
    "resume": ""
   },
   {
@@ -830,7 +830,7 @@
    "titre": "Horse Lords: Inside Their Microtonal Universe",
    "lien": "https://www.ableton.com/en/blog/horse-lords-inside-their-microtonal-universe/",
    "date": "2026-07-16T13:58:37.000Z",
-   "image": null,
+   "image": "https://beta-ableton.imgix.net/media/zgrdhngj/585_horse-lords_1200x630.jpg",
    "resume": ""
   },
   {
@@ -838,7 +838,7 @@
    "titre": "Why Practising DJing Is Not A Crime",
    "lien": "https://www.digitaldjtips.com/practising-not-crime/",
    "date": "2026-07-15T15:32:50.000Z",
-   "image": null,
+   "image": "https://cdn.digitaldjtips.com/app/uploads/2026/06/29115546/phil_cheating.png",
    "resume": "Some DJs get weirdly offended by the idea of other DJs practising. Falling back on set routines, rehearsing transitions, planning the run of a mix – apparently all of that makes you somehow less of a “real” DJ. I think…"
   },
   {
@@ -846,7 +846,7 @@
    "titre": "The 2026 Chroma Drive: Our New DJ USB Drive (with no cap to lose)",
    "lien": "https://djtechtools.com/2026/07/13/the-2026-chroma-drive-our-new-dj-usb-drive-with-no-cap-to-lose/",
    "date": "2026-07-13T19:38:11.000Z",
-   "image": null,
+   "image": "https://s11234.pcdn.co/wp-content/uploads/2026/07/CHROMA-DRIVE-2026.png",
    "resume": "Our new 2026 Chroma Drive for DJs covers both the USB-C and USB-A ends, and comes in five colors."
   },
   {
@@ -854,7 +854,7 @@
    "titre": "Phase Adds Single-Cable HID For Rekordbox",
    "lien": "https://www.digitaldjtips.com/phase-adds-single-cable-hid-for-rekordbox/",
    "date": "2026-07-13T14:00:58.000Z",
-   "image": null,
+   "image": "https://cdn.digitaldjtips.com/app/uploads/2026/07/13164129/phase-orange.jpg",
    "resume": "Phase has announced that its wireless control pucks now work natively with rekordbox over HID, so you can ditch the RCA cables running to your mixer and connect the receiver to your laptop with a single USB cable. It’s…"
   },
   {
@@ -862,7 +862,7 @@
    "titre": "Input / Output: Noémi Büchi",
    "lien": "https://www.ableton.com/en/blog/input-output-noemi-buchi/",
    "date": "2026-07-09T12:46:11.000Z",
-   "image": null,
+   "image": "https://beta-ableton.imgix.net/media/mm4nfi02/biennaleson-29-11-soiree-hd-print-69-1.jpg",
    "resume": ""
   },
   {
@@ -870,7 +870,7 @@
    "titre": "AlphaTheta XDJ-AN: A $1,200 Standalone 2-Channel Replacing the XDJ-RR, Only Takes USB-C Drives",
    "lien": "https://djtechtools.com/2026/07/09/alphatheta-xdj-an-a-1200-standalone-2-channel-replacing-the-xdj-rr-only-takes-usb-c-drives/",
    "date": "2026-07-09T07:00:14.000Z",
-   "image": null,
+   "image": "https://s11234.pcdn.co/wp-content/uploads/2026/07/alphatheta-xdj-AN-standalone.jpg.optimal.jpg",
    "resume": "A decade after the XDJ-RR, AlphaTheta's $1,200 XDJ-AN weighs the same and costs about the same, just with streaming and cloud sync built in."
   },
   {
@@ -878,7 +878,7 @@
    "titre": "Our Bestselling DJing Book Now Available In Danish",
    "lien": "https://www.digitaldjtips.com/our-bestselling-djing-book-now-available-in-danish/",
    "date": "2026-07-07T08:47:18.000Z",
-   "image": null,
+   "image": "https://cdn.digitaldjtips.com/app/uploads/2026/07/10104704/Rock-The-Dancefloor-Danish.jpg",
    "resume": "Rock the Dancefloor!, the best-selling DJing book from Digital DJ Tips’ Phil Morse, is now available in a Danish edition. Published in hardback, it’s on sale online and in all good bookstores. The Danish edition…"
   },
   {
@@ -886,7 +886,7 @@
    "titre": "A Beginner’s Guide to Generating Techno Drum Patterns",
    "lien": "https://www.ableton.com/en/blog/generating-techno-drum-patterns/",
    "date": "2026-07-03T13:55:44.000Z",
-   "image": null,
+   "image": "https://beta-ableton.imgix.net/media/la0purdv/582_how-to-series_2_1200x630.jpg",
    "resume": ""
   },
   {
@@ -894,7 +894,7 @@
    "titre": "The CDJ-1500X is AlphaTheta’s first budget-minded media player since the XDJ-1000MK2",
    "lien": "https://djtechtools.com/2026/07/02/the-cdj-1500x-is-alphathetas-first-budget-minded-media-player-since-the-xdj-1000mk2/",
    "date": "2026-07-02T07:00:09.000Z",
-   "image": null,
+   "image": "https://s11234.pcdn.co/wp-content/uploads/2026/07/cdj-1500-announced.png",
    "resume": "AlphaTheta fills the gap the XDJ-1000MK2 left in 2016 with a budget-minded CDJ built on 2026 hardware, including a new crowd-request feature called CoBeat."
   },
   {
@@ -902,7 +902,7 @@
    "titre": "AlphaTheta’s New CoBeat Lets The Crowd Request Songs",
    "lien": "https://www.digitaldjtips.com/alphathetas-new-cobeat-lets-the-crowd-request-songs/",
    "date": "2026-07-02T06:59:21.000Z",
-   "image": null,
+   "image": "https://cdn.digitaldjtips.com/app/uploads/2026/07/02125715/CoBeat.jpg",
    "resume": "AlphaTheta has launched CoBeat, a service that lets audiences send song requests straight to the DJ’s player. It debuts on the new CDJ-1500X, currently the only hardware that supports it, and runs through a Rekordbox…"
   },
   {
@@ -910,7 +910,7 @@
    "titre": "Input / Output: Galcher Lustwerk",
    "lien": "https://www.ableton.com/en/blog/input-output-galcher-lustwerk/",
    "date": "2026-06-29T10:09:59.000Z",
-   "image": null,
+   "image": "https://beta-ableton.imgix.net/media/3wcg0gkg/581_galcher-lustwerk_1200x630.jpg",
    "resume": ""
   },
   {
@@ -934,7 +934,7 @@
    "titre": "Mixo Now Plays Perfectly With Pioneer DJ & AlphaTheta Gear",
    "lien": "https://www.digitaldjtips.com/mixo-now-plays-perfectly-with-pioneer-dj-alphatheta-gear/",
    "date": "2026-06-22T09:46:24.000Z",
-   "image": null,
+   "image": "https://cdn.digitaldjtips.com/app/uploads/2026/06/22114156/mixothumb.jpg",
    "resume": "Mixo, the cloud-first DJ library tool, has added the ability to export your library straight to Rekordbox USB, ready to plug into Pioneer DJ and AlphaTheta standalone gear. In other words, you can prepare and organise…"
   },
   {
@@ -958,7 +958,7 @@
    "titre": "14 NKS instruments that will change the way you create music",
    "lien": "https://blog.native-instruments.com/nks-instruments/",
    "date": "2026-06-05T06:52:13.000Z",
-   "image": null,
+   "image": "https://blog.native-instruments.com/wp-content/uploads/2025/09/NKS-Month-Blog-featured-1.jpg",
    "resume": "Good music is the outcome of a fluid process. When you’re in the flow, you need the right sounds at your fingertips – and the minimum of distractions. That’s the thinking behind Native Kontrol Standard , the technology…"
   },
   {
@@ -966,7 +966,7 @@
    "titre": "Farewell, Juno Download",
    "lien": "https://djtechtools.com/2026/06/02/farewell-juno-download/",
    "date": "2026-06-03T00:15:45.000Z",
-   "image": null,
+   "image": "https://s11234.pcdn.co/wp-content/uploads/2026/06/juno-shutdown.jpg.optimal.jpg",
    "resume": "After about 20 years, Juno Download has shut down with no warning. Here's what the DJ-first store meant, why it folded while vinyl booms, and where to buy DJ music now."
   },
   {
@@ -982,7 +982,7 @@
    "titre": "Midi Fighter Utility 2.91 Is Out; Our Biggest Update in Years",
    "lien": "https://djtechtools.com/2026/06/01/midi-fighter-utility-2-91-is-out-our-biggest-update-in-years/",
    "date": "2026-06-01T22:42:37.000Z",
-   "image": null,
+   "image": "https://s11234.pcdn.co/wp-content/uploads/2026/06/mfutility2026.jpg.optimal.jpg",
    "resume": "The Midi Fighter Utility 2.91 is out now, with new firmware for every Midi Fighter in the lineup. Here's what's new and how to update."
   },
   {
@@ -1022,7 +1022,7 @@
    "titre": "Engine DJ 5.0: on-board stems on the System 1, RGB waveforms for everyone",
    "lien": "https://djtechtools.com/2026/05/13/engine-dj-5-0-on-bard-stems-on-the-system-1-rgb-waveforms-for-everyone/",
    "date": "2026-05-13T20:42:03.000Z",
-   "image": null,
+   "image": "https://s11234.pcdn.co/wp-content/uploads/2026/05/engine-5-stem-separation-system-one.jpg.optimal.jpg",
    "resume": "Engine DJ 5.0 from Denon DJ went live today. The headline feature: on-board stems rendering. It’s exclusive to the Rane System 1, which now becomes the first piece of standalone DJ hardware that can split a track into…"
   },
   {
@@ -1030,7 +1030,7 @@
    "titre": "Devious Pocket: a €249 open-source DVS that ditches the laptop",
    "lien": "https://djtechtools.com/2026/05/10/devious-pocket-a-e249-open-source-dvs-that-ditches-the-laptop/",
    "date": "2026-05-10T22:49:56.000Z",
-   "image": null,
+   "image": "https://s11234.pcdn.co/wp-content/uploads/2026/05/1-hero.jpg.optimal.jpg",
    "resume": "Devious Pocket is a €249 standalone DVS from Amsterdam that turns any turntable into a digital vinyl rig. No laptop, no library software, no setup."
   },
   {
@@ -1038,7 +1038,7 @@
    "titre": "InMusic just bought Native Instruments. So what now for Traktor?",
    "lien": "https://djtechtools.com/2026/05/08/inmusic-just-bought-native-instruments-so-what-now-for-traktor/",
    "date": "2026-05-08T23:14:52.000Z",
-   "image": null,
+   "image": "https://s11234.pcdn.co/wp-content/uploads/2026/05/NI-purchased-by-InMusic.jpg.optimal.jpg",
    "resume": "Native Instruments has been sold. InMusic Brands, the U.S. parent of Akai Professional, Denon DJ, Numark, Rane, M-Audio, Moog, and Engine DJ, has signed a definitive agreement to acquire NI in full. That includes…"
   },
   {
@@ -1062,7 +1062,7 @@
    "titre": "Podcast 873: Andy Graham",
    "lien": "https://xlr8r.com/podcasts/podcast-873-andy-graham/",
    "date": "2024-10-23T19:53:54.000Z",
-   "image": null,
+   "image": "https://xlr8r.com/wp-content/uploads/2024/10/ANDY_GRAHAM_PODCAST_HERO6-scaled.jpg",
    "resume": "Andy Graham is a Glasgow, Scotland-born electronic music producer who is known for his innovative approach to ambient soundscapes and cinematic atmospheres. Before studying audio technology in college and university, he…"
   },
   {
@@ -1094,7 +1094,7 @@
    "titre": "Podcast 872: Tadleeh",
    "lien": "https://xlr8r.com/podcasts/podcast-872-tadleeh/",
    "date": "2024-10-16T17:07:56.000Z",
-   "image": null,
+   "image": "https://xlr8r.com/wp-content/uploads/2024/10/TADLEEH_PODCAST_HERO6-scaled.jpg",
    "resume": "Tadleeh is the project of Indian-born, Italy-based musician Hazina Francia. Her route into electronic music began when she was a teenager and discovered techno and drum & bass. “Then I’ve moved forward exploring more…"
   },
   {
@@ -1150,7 +1150,7 @@
    "titre": "10 perfect b2b records selected by dj sweet6teen & Gene On Earth",
    "lien": "https://mixmag.net/feature/10-perfect-b2b-records-selected-dj-sweet6teen-gene-on-earth",
    "date": null,
-   "image": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fnew-pic.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=ba770d77",
    "resume": "In preparation for their upcoming appearance at London's Waterworks, dj sweet6teen & Gene On Earth put their heads together to pick out their favourite tracks for a b2b DJ set"
   },
   {
@@ -1190,7 +1190,7 @@
    "titre": "Boomtown promised a “bold new era”, and nailed it",
    "lien": "https://mixmag.net/feature/boomtown-fair-festival-2026-review-radical-redesign-bold-new-era",
    "date": null,
-   "image": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FBoomtown2026_%40Leora_Bermeister_Sunday__A7R5622.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=73b7cc2f",
    "resume": "Opting for the theme of Radical Redesign for its 2026 edition, Boomtown Fair ramped up its offering in scale and scope, while still keeping its ethos of freedom and unpredictability at the core"
   },
   {
@@ -1198,7 +1198,7 @@
    "titre": "Industry Insider: An interview with Amsterdam Dance Event’s Managing Director, Jan-Willem van de Ven",
    "lien": "https://mixmag.net/feature/industry-insider-interview-amsterdam-dance-event-managing-director-jan-willem-van-de-ven",
    "date": null,
-   "image": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Findustry-insider-jan-willem.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=0d675698",
    "resume": "In the latest edition of our interview series talking to dance music’s most influential people, Mixmag sits down with ADE’s Jan-Willem van de Ven"
   },
   {
@@ -1214,7 +1214,7 @@
    "titre": "Sara Landry's HEKATE label and Change The Beat launch remix competition",
    "lien": "https://djmag.com/news/sara-landrys-hekate-label-and-change-beat-launch-remix-competition",
    "date": null,
-   "image": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Change%20The%20Beat%20and%20Sara%20Landry.jpg.webp?itok=BLzBkaPW519424736",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Prizes include an official release as well as a range of products from Native…"
   },
   {
@@ -1222,7 +1222,7 @@
    "titre": "Two people reported dead at Burning Man 2026",
    "lien": "https://djmag.com/news/two-people-reported-dead-burning-man-2026",
    "date": null,
-   "image": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/burning-man-credit-kyle-harmon.jpg.webp?itok=0UybnOcJ1006860301",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>No cause of death has been officially confirmed for either of the deaths, which were…"
   },
   {
@@ -1230,7 +1230,7 @@
    "titre": "Anyma issues statement after Istanbul show cancelled over “satanic” imagery claims",
    "lien": "https://djmag.com/news/anyma-issues-statement-after-istanbul-show-cancelled-over-satanic-imagery-claims",
    "date": null,
-   "image": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/anyma-live-show.jpg.webp?itok=kok2Vxi21690404655",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The A/V show was supposed to take place as part of his ÆDEN tour, but was cancelled after…"
   },
   {
@@ -1238,7 +1238,7 @@
    "titre": "Manumission: the return of Ibiza’s naughtiest, most notorious club event",
    "lien": "https://djmag.com/features/manumission-return-of-ibizas-naughtiest-most-notorious-club-event",
    "date": null,
-   "image": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Manumission-HEADER_0.jpg.webp?itok=wLq-0yOq232774483",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-intro field--type-text-long field--label-hidden field__item\"><p>Manumission is often remembered as Ibiza's wildest club event — although there was a lot more…"
   },
   {
@@ -1246,7 +1246,7 @@
    "titre": "Listen to Saoirse’s new single, 'Boombox'",
    "lien": "https://djmag.com/news/listen-saoirses-new-single-boombox",
    "date": null,
-   "image": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/LEAD%20PRESS_Saoirse_PRESS_02089%20LPS.jpg.webp?itok=8sp6IMuz352554654",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>\"Boombox is a moody little tech-house number with a slight extraterrestrial edge\"</p>…"
   },
   {
@@ -1254,7 +1254,7 @@
    "titre": "Sam Alfred announces new EP 'No More', on Ninja Tune",
    "lien": "https://djmag.com/news/sam-alfred-announces-new-ep-no-more-ninja-tune",
    "date": null,
-   "image": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/SamAlfred.jpg.webp?itok=yIi0vPfe1909542771",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Featuring a contribution from Luuk van Dijk on the opening track</p> </div>"
   },
   {
@@ -1262,7 +1262,7 @@
    "titre": "Alok, Adam Beyer and Argy link up for new single, ‘Keep Up’",
    "lien": "https://djmag.com/news/alok-adam-beyer-and-argy-link-new-single-keep",
    "date": null,
-   "image": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Keep%20Up-Composite%202.jpg.webp?itok=TmznLmos1418027013",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Out on Alok's recently launched Rave New World label</p> </div>"
   },
   {
@@ -1270,7 +1270,7 @@
    "titre": "Paul van Dyk unveils new live show concept, The Essence of Acid",
    "lien": "https://djmag.com/news/paul-van-dyk-unveils-new-live-show-concept-essence-of-acid",
    "date": null,
-   "image": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/39.%20Paul%20van%20Dyk%20cropped.jpg.webp?itok=CQQ6cCx31397241351",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The show will explore \"acid as an influence across electronic music\"</p> </div>"
   },
   {
@@ -1278,7 +1278,7 @@
    "titre": "Listen to Mau P’s new single, ‘Just A Little Bit More’",
    "lien": "https://djmag.com/news/listen-mau-ps-new-single-just-little-bit-more",
    "date": null,
-   "image": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/MauP.jpg.webp?itok=s0ZhFDOo1250423664",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The new single follows the release of 'neck' earlier this year and a busy summer of…"
   }
  ],

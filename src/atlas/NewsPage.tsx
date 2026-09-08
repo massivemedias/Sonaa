@@ -73,6 +73,11 @@ export function NewsPage() {
   const [panne, setPanne] = useState(false);
   const [filtre, setFiltre] = useState<Filtre>('tout');
   const [sourceChoisie, setSourceChoisie] = useState<string | null>(null);
+  /* UNE IMAGE QUI NE SE CHARGE PAS EMPORTE SA TUILE. La moisson a verifie
+     l'adresse, pas le droit de l'afficher ici : un site peut refuser qu'on
+     montre son image ailleurs que chez lui. La regle est la meme qu'a la
+     moisson : pas d'image, pas de tuile. */
+  const [cassees, setCassees] = useState<ReadonlySet<string>>(new Set());
   const maintenant = useMemo(() => Date.now(), []);
 
   useEffect(() => {
@@ -89,11 +94,11 @@ export function NewsPage() {
     if (!livre) return [];
     return livre.articles.filter((a) => {
       const s = PAR_SOURCE.get(a.source);
-      if (!s) return false;
+      if (!s || !a.image || cassees.has(a.lien)) return false;
       if (sourceChoisie) return a.source === sourceChoisie;
       return filtre === 'tout' || s.categorie === filtre;
     });
-  }, [livre, filtre, sourceChoisie]);
+  }, [livre, filtre, sourceChoisie, cassees]);
 
   const sourcesVisibles = SOURCES.filter((s) => filtre === 'tout' || s.categorie === filtre);
 
@@ -143,13 +148,14 @@ export function NewsPage() {
               return (
                 <li key={a.lien} className="news-carte">
                   <a href={a.lien} target="_blank" rel="noreferrer noopener" className="news-lien">
-                    {a.image ? (
-                      <img className="news-image" src={a.image} alt="" loading="lazy" referrerPolicy="no-referrer" />
-                    ) : (
-                      <span className="news-image news-image-vide" aria-hidden="true">
-                        {s?.nom.slice(0, 1)}
-                      </span>
-                    )}
+                    <img
+                      className="news-image"
+                      src={a.image ?? ''}
+                      alt=""
+                      loading="lazy"
+                      referrerPolicy="no-referrer"
+                      onError={() => setCassees((c) => new Set(c).add(a.lien))}
+                    />
                     <span className="news-corps">
                       <span className="news-meta">
                         <span className="news-source">{s?.nom}</span>

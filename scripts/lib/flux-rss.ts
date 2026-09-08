@@ -82,14 +82,42 @@ const attribut = (bloc: string, balise: string, attr: string): string | null => 
 
 /** L'image d'un article : media:content, media:thumbnail, enclosure, ou la
     premiere balise img du corps. Beaucoup de flux n'en ont aucune. */
+const RESSEMBLE_A_UNE_IMAGE = /\.(?:jpe?g|png|webp|gif|avif)(?:[?#]|$)/i;
+const PAS_UNE_IMAGE = /youtube\.com|youtu\.be|vimeo\.com|soundcloud\.com|\.mp4|\.mp3/i;
+
+/* UN media:content N'EST PAS FORCEMENT UNE IMAGE. Gearnews y met l'embed
+   YouTube de l'article, et la premiere version en faisait une image cassee
+   en tete de tuile. On ne garde media:content que s'il se dit image, ou si
+   son adresse en a l'air. */
 function imageDe(bloc: string): string | null {
-  const media = attribut(bloc, 'media:content', 'url') ?? attribut(bloc, 'media:thumbnail', 'url');
-  if (media) return media;
+  const contenus = [...bloc.matchAll(/<media:content\b([^>]*)>/gi)].map((m) => m[1] ?? '');
+  for (const attrs of contenus) {
+    const url = attrs.match(/\burl=["']([^"']+)["']/i)?.[1];
+    if (!url || PAS_UNE_IMAGE.test(url)) continue;
+    const type = attrs.match(/\btype=["']([^"']+)["']/i)?.[1] ?? '';
+    const medium = attrs.match(/\bmedium=["']([^"']+)["']/i)?.[1] ?? '';
+    if (type.startsWith('image/') || medium === 'image' || RESSEMBLE_A_UNE_IMAGE.test(url)) return url;
+  }
+  const vignette = attribut(bloc, 'media:thumbnail', 'url');
+  if (vignette && !PAS_UNE_IMAGE.test(vignette)) return vignette;
   const enclosure = bloc.match(/<enclosure\b[^>]*type=["']image\/[^"']*["'][^>]*url=["']([^"']+)["']/i)
     ?? bloc.match(/<enclosure\b[^>]*url=["']([^"']+\.(?:jpe?g|png|webp)[^"']*)["']/i);
   if (enclosure?.[1]) return enclosure[1];
   const img = bloc.match(/<img\b[^>]*src=["']([^"']+)["']/i) ?? bloc.match(/&lt;img\b[^&]*src=(?:&quot;|")([^"&]+)/i);
-  return img?.[1] ? decoderEntites(img[1]) : null;
+  const src = img?.[1] ? decoderEntites(img[1]) : null;
+  return src && /^https?:\/\//.test(src) && !PAS_UNE_IMAGE.test(src) ? src : null;
+}
+
+/** L'image que la page de l'article annonce aux reseaux (og:image), quand
+    le flux n'en donne pas. C'est celle que Facebook montrerait : la bonne. */
+export function imageDePage(html: string): string | null {
+  const m =
+    html.match(/<meta\b[^>]*property=["']og:image(?::secure_url)?["'][^>]*content=["']([^"']+)["']/i) ??
+    html.match(/<meta\b[^>]*content=["']([^"']+)["'][^>]*property=["']og:image(?::secure_url)?["']/i) ??
+    html.match(/<meta\b[^>]*name=["']twitter:image(?::src)?["'][^>]*content=["']([^"']+)["']/i) ??
+    html.match(/<meta\b[^>]*content=["']([^"']+)["'][^>]*name=["']twitter:image(?::src)?["']/i);
+  const url = m?.[1] ? decoderEntites(m[1]) : null;
+  return url && /^https?:\/\//.test(url) ? url : null;
 }
 
 function dateDe(brut: string | null): string | null {

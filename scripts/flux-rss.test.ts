@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { lireFlux, resumer, texteNu } from './lib/flux-rss.ts';
+import { imageDePage, lireFlux, resumer, texteNu } from './lib/flux-rss.ts';
 
 const RSS = `<?xml version="1.0"?><rss><channel><title>Attack</title>
 <item><title><![CDATA[Roland SH-101 &amp; the acid line]]></title>
@@ -39,6 +39,17 @@ describe('lireFlux', () => {
     expect(a?.lien).toBe('https://www.ableton.com/en/blog/live-13/');
     expect(a?.date).toBe('2026-09-06T08:30:00.000Z');
     expect(a?.image).toBe('https://img.example/live.png');
+  });
+  it('ne prend pas un embed YouTube pour une image', () => {
+    const xml = `<rss><channel><item><title>T</title><link>https://x.example/a</link>
+<media:content url="https://www.youtube.com/embed/abc" /><media:content url="https://x.example/i.jpg" medium="image" />
+</item></channel></rss>`;
+    expect(lireFlux(xml, 'x')[0]?.image).toBe('https://x.example/i.jpg');
+  });
+  it('lit l image annoncee par une page (og:image)', () => {
+    expect(imageDePage('<html><head><meta property="og:image" content="https://x.example/og.png"></head></html>')).toBe('https://x.example/og.png');
+    expect(imageDePage('<html><head><meta content="https://x.example/tw.jpg" name="twitter:image"></head></html>')).toBe('https://x.example/tw.jpg');
+    expect(imageDePage('<html></html>')).toBeNull();
   });
   it('rend vide sur un texte qui n est pas un flux, sans lever', () => {
     expect(lireFlux('<html><body>404</body></html>', 'x')).toEqual([]);
