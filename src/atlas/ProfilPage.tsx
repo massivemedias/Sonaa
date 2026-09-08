@@ -218,6 +218,9 @@ export function ProfilPage() {
          photo est deja partie sur le serveur, laisser la ligne en retard
          creerait un fichier que rien ne designe si la page se ferme ici. */
       await enregistrerArtiste({ nom: nom.trim() || t.artisteSansNom, bio: bio.trim() || null, avatar_path: chemin });
+      /* Le bouton de compte, en haut a droite, montre ce portrait : on le
+         previent, pour qu'il change sans recharger. Voir AuthButton. */
+      window.dispatchEvent(new Event('sonaa:profil-modifie'));
       setMessageProfil(t.photoEnregistree);
     } catch (e) {
       setMessageProfil(e instanceof Error ? e.message : String(e));

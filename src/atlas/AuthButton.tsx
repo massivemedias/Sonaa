@@ -27,6 +27,7 @@ import {
   seDeconnecter
 } from '../lib/auth.ts';
 import { monPseudonyme, suisJeModerateur } from '../lib/proposals.ts';
+import { monArtiste, urlAvatar } from '../lib/sets.ts';
 import { t } from '../langue/langue.ts';
 import { ChoixLangue } from './ChoixLangue.tsx';
 import { ChoixTheme } from './ChoixTheme.tsx';
@@ -83,6 +84,33 @@ export function AuthButton() {
   const boite = useRef<HTMLDivElement | null>(null);
 
   const connecte = session !== null;
+
+  /* LE PORTRAIT DU PROFIL, DANS LE COIN. Mika, le 8 septembre 2026 : « je
+     veux que l'image de mon profil s'affiche pareil en haut a droite en
+     mobile et desktop ». Le bouton montrait une initiale sur telephone et le
+     nom ailleurs ; avec un portrait, c'est le portrait, partout, et le nom
+     reste dans le menu. Sans portrait, rien ne change. Le profil previent
+     quand le portrait change (sonaa:profil-modifie), pour qu'on n'ait pas a
+     recharger la page pour se voir. */
+  const [avatar, setAvatar] = useState<string | null>(null);
+  useEffect(() => {
+    if (!connecte) {
+      setAvatar(null);
+      return;
+    }
+    let vivant = true;
+    const lire = (): void => {
+      void monArtiste().then((a) => {
+        if (vivant) setAvatar(urlAvatar(a?.avatar_path));
+      });
+    };
+    lire();
+    window.addEventListener('sonaa:profil-modifie', lire);
+    return () => {
+      vivant = false;
+      window.removeEventListener('sonaa:profil-modifie', lire);
+    };
+  }, [connecte]);
 
   /* LE PSEUDONYME VIENT DU SERVEUR, jamais de l'adresse : le dériver ici le
      rendrait réversible, donc ce ne serait plus un pseudonyme. */
@@ -274,11 +302,13 @@ export function AuthButton() {
       {connecte ? (
         <>
           <button
-            className="authb-bouton authb-compte"
+            className={`authb-bouton authb-compte${avatar ? ' authb-compte-portrait' : ''}`}
             onClick={() => setMenu((m) => !m)}
             aria-expanded={menu}
             aria-haspopup="menu"
+            aria-label={nomAffiche(session) ?? pseudo ?? undefined}
           >
+            {avatar && <img className="authb-portrait" src={avatar} alt="" />}
             {/* SUR TELEPHONE, L'INITIALE SEULE ; AILLEURS, LE NOM ENTIER.
 
                 Un nom coupe au milieu, « maudite... », n'est ni un nom ni une
