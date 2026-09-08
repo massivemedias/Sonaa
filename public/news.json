@@ -1,6 +1,22 @@
 {
- "fait": "2026-09-08T03:54:22.309Z",
+ "fait": "2026-09-08T08:54:03.126Z",
  "articles": [
+  {
+   "source": "bpb",
+   "titre": "Harmony Lab Audio releases Harmony Pro, a FREE harmony assistant",
+   "lien": "https://bedroomproducersblog.com/2026/09/08/harmony-pro-harmony-assistant/",
+   "date": "2026-09-08T08:39:25.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/harmonypro.jpg",
+   "resume": "Harmony Lab Audio has released Harmony Pro, a free harmony assistant designed for musicians who want to explore chord progressions and alternative harmonic directions. First, let’s get the GUI out of the way. It looks…"
+  },
+  {
+   "source": "musictech",
+   "titre": "Tracktion Waveform 14 Pro, as reviewed by an Ableton Live user",
+   "lien": "https://musictech.com/reviews/digital-audio-workstations/tracktion-waveform-14-pro-review/",
+   "date": "2026-09-08T08:00:22.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/09/Tracktion-Waveform-14-Pro-hero-credit-press@2000x1500.jpg",
+   "resume": "Waveform Pro 14: from $249 Waveform Free: $0 tracktion.com The older producers among us may faintly remember Waveform. Younger producers may not have heard of it at all. In either case, it’s a name rarely mentioned in…"
+  },
   {
    "source": "synthtopia",
    "titre": "Isla Electronics ASICS Bi-Directional Control Of Alesis Andromeda A6 Synthesizer",
@@ -120,14 +136,6 @@
    "date": "2026-09-07T14:10:49.000Z",
    "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/stemmaster.jpg",
    "resume": "NOMZ Studios has updated StemMaster to version 1.1.54, adding mastered stem export to its automated mixing and mastering application for Windows and macOS. BPB readers can use coupon code BPB15 to get 15% off until…"
-  },
-  {
-   "source": "cdm",
-   "titre": "Scales among updates to the free Ardour DAW — with tuning on the way",
-   "lien": "https://cdm.link/ardour-9-8-scales-and-tuning/",
-   "date": "2026-09-07T11:39:51.000Z",
-   "image": "https://cdm.link/app/uploads/2026/09/ardour-9-8-scale-editor.jpeg",
-   "resume": "Ardour 9.8 continues the rapid, detailed development of this free and open-source DAW, with improved session recovery and clip recording, expanded support for controllers and hardware, and an arpeggiator MIDI tool. The…"
   },
   {
    "source": "musicradar",
@@ -306,36 +314,12 @@
    "resume": "In this installment of Deals Of The Week, you’ll find a selection of exciting deals on music production gear to improve different areas of your setup. This Week’s Deals: Deals Of The Week: Get Nearly 15% Off AIAIAI…"
   },
   {
-   "source": "cdm",
-   "titre": "Throng, a 3D BlueSky interface, imagines social media as a mob",
-   "lien": "https://cdm.link/create-digital-mobs/",
-   "date": "2026-09-04T22:09:27.000Z",
-   "image": "https://cdm.link/app/uploads/2026/09/throng.jpg",
-   "resume": "You're just relaxing by a peaceful campfire. You hear voices in the distance. Then, like a really chatty zombie invasion... they come. And keep coming. It's a 3D user interface for BlueSky, but it says something poetic…"
-  },
-  {
-   "source": "cdm",
-   "titre": "Loraine James has a new LP, it’s a free download, and it’s raw brilliance",
-   "lien": "https://cdm.link/loraine-james-has-a-new-lp/",
-   "date": "2026-09-04T17:47:29.000Z",
-   "image": "https://cdm.link/app/uploads/2026/09/nothingpersonal1.jpg",
-   "resume": "\"U Get Me\"? Yes. Out today, Friday, Loraine James' newest LP It’s Nothing Personal. is the kind of massive, glitchy percussive syncopation I would want to use to break in an excellent, brand new pair of trainers. Then…"
-  },
-  {
    "source": "musicradar",
    "titre": "“We did a rehearsal recently, and Zak was the drummer”: Roger Daltrey says that The Who could readmit Zak Starkey for gigs next year",
    "lien": "https://www.musicradar.com/artists/drummers/we-did-a-rehearsal-recently-and-zak-was-the-drummer-roger-daltrey-says-that-the-who-could-readmit-zak-starkey-for-gigs-next-year",
    "date": "2026-09-04T16:23:00.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/z9dPF8PsqAiCBZC7HSVKAK-1280-80.jpg",
    "resume": "Could Zak Starkey reunite with The Who? That seems to be what Roger Daltrey is suggesting might happen in a new podcast interview. The singer was speaking on LifeMinute with Joann Butler and the conversation turned to…"
-  },
-  {
-   "source": "cdm",
-   "titre": "In masses of live electronic sound, Jad Atoui built an opus",
-   "lien": "https://cdm.link/jad-atoui-it-will-take-forever/",
-   "date": "2026-09-04T16:02:55.000Z",
-   "image": "https://cdm.link/app/uploads/2026/09/jadatoui.jpg",
-   "resume": "It Will Take Forever moves through emotions in swells, as if pulling us through feelings. Composed and played live on modular synths from 2023 to 2025 in Beirut, Jad Atoui's work almost sings grief through those…"
   },
   {
    "source": "tsugi",
@@ -376,14 +360,6 @@
    "date": "2026-09-04T12:18:44.000Z",
    "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/dbdone-wasser.jpg",
    "resume": "dBdone has released Wasser, a free multiband delay plugin for macOS and Windows. Wasser splits the incoming signal into frequency bands and lets you draw a different delay time for each one. That’s a pretty cool idea…"
-  },
-  {
-   "source": "bpb",
-   "titre": "Yurt Rock releases Pick Pocket audio-to-MIDI drum plugin for $49",
-   "lien": "https://bedroomproducersblog.com/2026/09/04/yurt-rock-pick-pocket/",
-   "date": "2026-09-04T12:03:08.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/pick-pockeg.jpg",
-   "resume": "Yurt Rock has released Pick Pocket, an audio-to-MIDI drum conversion plugin for macOS and Windows, priced at $49. This one is useful if you want to extract the groove from a drum recording without losing the swing and…"
   },
   {
    "source": "tsugi",
@@ -442,14 +418,6 @@
    "resume": "Normal By Proxy puts you in a virtual jam room - first person, with a bunch of synths and drum machines.…"
   },
   {
-   "source": "cdm",
-   "titre": "Audacity 4, free and open-source audio editor, arrives with a revamped UI",
-   "lien": "https://cdm.link/audacity-4-and-tenacity-too/",
-   "date": "2026-09-03T19:44:40.000Z",
-   "image": "https://cdm.link/app/uploads/2026/09/audacity-4-scaled.png",
-   "resume": "It's been a long time coming. Audacity, the ubiquitous open-source audio editor now owned by Muse Group, reaches version 4 with a reworked UI and enhanced usability. Here's a look at what's new and a first run. And…"
-  },
-  {
    "source": "tsugi",
    "titre": "Joy Crookes et Ravyn Lenae mêlent leur voix sur un single splendide et courageux",
    "lien": "https://www.tsugi.fr/joy-crookes-et-ravyn-lenae-melent-leur-voix-sur-un-single-splendide-et-courageux/",
@@ -506,28 +474,12 @@
    "resume": "On le sait, la rentrée vient avec son lot de problèmes… Mais aussi avec son lot de sorties musicales ! Et ça, ça nous redonne vite le sourire. Tsugi se porte volontaire pour adoucir votre quotidien en vous présentant…"
   },
   {
-   "source": "cdm",
-   "titre": "Septabee, an insane-looking free Linux/Windows DAW with pomegranates",
-   "lien": "https://cdm.link/septabee-is-here/",
-   "date": "2026-09-03T09:16:33.000Z",
-   "image": "https://cdm.link/app/uploads/2026/09/septabee-image.jpg",
-   "resume": "Suddenly, a bunch of the producers I follow are buzzing about the music-mangling possibilities of Septabee, a free DAW for Linux and Windows developed \"in secret\" over \"20,000 hours.\" And it looks like insane fun: a…"
-  },
-  {
    "source": "musictech",
    "titre": "The best new music plugins this week, free and paid",
    "lien": "https://musictech.com/news/gear/new-plugins-this-week/",
    "date": "2026-09-03T03:00:52.000Z",
    "image": "https://musictech.com/wp-content/uploads/2026/06/Producer-working-on-laptop-studio-hero-credit-jose-carlos-cerdeno-martinez-Getty@2000x1500.jpg",
    "resume": "Every week, we round up the most exciting new plugin releases — from virtual instruments and creative effects to mixing tools and workflow upgrades. There are tons of plugins released every week, both free and paid-for…"
-  },
-  {
-   "source": "cdm",
-   "titre": "Nuclear test equipment inspired this new Eurorack module",
-   "lien": "https://cdm.link/ai-bxr-module/",
-   "date": "2026-09-02T19:03:01.000Z",
-   "image": "https://cdm.link/app/uploads/2026/09/ai-hero2.jpeg",
-   "resume": "Boxcar averagers, used in vintage nuclear test equipment, inspired the latest creation from AI Synthesis. What you get is the AI250 BXR: it's an oscillator, a voltage generator, and an audio mangler all in one. And it's…"
   },
   {
    "source": "musictech",
@@ -562,28 +514,12 @@
    "resume": "Quelque part entre SOPHIE et Charli XCX, underscores confirme sa place sur la scène pop et électronique. Quelques mois après la sortie de son album U, elle prolonge son univers et explore à nouveau les frontières…"
   },
   {
-   "source": "cdm",
-   "titre": "A patchable solar-powered synth with a speaker; birds, hot dogs, and more",
-   "lien": "https://cdm.link/solar-powered-forever-grouse-and-more/",
-   "date": "2026-09-02T13:26:40.000Z",
-   "image": "https://cdm.link/app/uploads/2026/09/forevergrouse.jpg",
-   "resume": "What a strange and wonderful bird this is: the Forever Grouse from MONAD comes with its own loudspeaker, banana plugs for patching, and solar panels for power. But maybe you'd rather watch a film about a heron. Or music…"
-  },
-  {
    "source": "attack",
    "titre": "Dreamtonics Completes Its Trilogy With Instrument X",
    "lien": "https://www.attackmagazine.com/news/dreamtonics-completes-its-trilogy-with-instrument-x/",
    "date": "2026-09-02T13:23:20.000Z",
    "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/Attack-Mag-News-Feat-Images-INSTRUMENT-X.png?fit=1130%2C387&ssl=1",
    "resume": "Dreamtonics completes its trilogy with Instrument X, a neural acoustic modelling platform for orchestral instruments Dreamtonics, the Tokyo based developer behind vocal synthesis tools Synthesizer V and Vocoflex, has…"
-  },
-  {
-   "source": "cdm",
-   "titre": "Elastic Melody now does bass and DFAM-style percussion, too (Mac, iOS)",
-   "lien": "https://cdm.link/elastic-melody-1-2/",
-   "date": "2026-09-02T10:50:09.000Z",
-   "image": "https://cdm.link/app/uploads/2026/09/EM-DFAM-2.jpg",
-   "resume": "Elastic Melody was already a go-to melody generator for Mac, iPad, and iPhone, with an internal synth engine inspired by the brilliant Dave Smith Evolver and the ability to output to other apps or hardware gear. Now it…"
   },
   {
    "source": "musictech",
@@ -602,28 +538,12 @@
    "resume": "An experimental firmware switcher promises to let you use any Aira firmware on any of the modules. …"
   },
   {
-   "source": "cdm",
-   "titre": "Patience, module from Olivia Artz, scales modulation from seconds to decades",
-   "lien": "https://cdm.link/patience/",
-   "date": "2026-09-01T21:52:15.000Z",
-   "image": "https://cdm.link/app/uploads/2026/09/patience-hero.jpg",
-   "resume": "Following the success of Time Machine, Olivia Artz has a new idea for playing with temporality in Eurorack modular. Patience is a \"lowest\" frequency oscillator, setting duration in seconds, minutes, hours, days, months…"
-  },
-  {
    "source": "tsugi",
    "titre": "Toutes sur Scène : le festival à la programmation 100% féminine",
    "lien": "https://www.tsugi.fr/toutes-sur-scene-le-festival-a-la-programmation-100-feminine/",
    "date": "2026-09-01T15:32:07.000Z",
    "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/toutes-sur-scene-le-festival-a-la-programmation-100-feminine.jpg?hash=cdn-d1b3bcd6373d8d819cc34cffb6300396",
    "resume": "Yoa, Zélie, Solann, Juste Shani… Imaginez ce concentré de boss ladies au Théâtre du Châtelet, pour un événement 100% féminin. Eh non ce n’est pas un rêve, mais bien une — petite — partie du programme du festival Toutes…"
-  },
-  {
-   "source": "musictech",
-   "titre": "Job openings in music tech this month: Major label studios, Star Wars, AV repairs, and more",
-   "lien": "https://musictech.com/guides/essential-guide/jobs-career-openings-in-music-tech-audio-production/",
-   "date": "2026-09-01T14:00:41.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2025/12/Arturia-AstroLab-37-3-credit-press@1400x1050.jpg",
-   "resume": "EA wants someone to design sounds for the new Star Wars: Jedi game, but that’s not the only cool job in music tech this month. There is also a chance to really make a difference by working with people on the autism…"
   },
   {
    "source": "synthtopia",
@@ -1147,14 +1067,6 @@
   },
   {
    "source": "mixmag",
-   "titre": "10 perfect b2b records selected by dj sweet6teen & Gene On Earth",
-   "lien": "https://mixmag.net/feature/10-perfect-b2b-records-selected-dj-sweet6teen-gene-on-earth",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fnew-pic.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=ba770d77",
-   "resume": "In preparation for their upcoming appearance at London's Waterworks, dj sweet6teen & Gene On Earth put their heads together to pick out their favourite tracks for a b2b DJ set"
-  },
-  {
-   "source": "mixmag",
    "titre": "UK music industry calls on government to tackle \"damaging\" EU export fees",
    "lien": "https://mixmag.net/read/uk-music-industry-calls-government-tackle-damaging-eu-export-fees-news",
    "date": null,
@@ -1246,7 +1158,7 @@
    "titre": "Listen to Saoirse’s new single, 'Boombox'",
    "lien": "https://djmag.com/news/listen-saoirses-new-single-boombox",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/LEAD%20PRESS_Saoirse_PRESS_02089%20LPS.jpg.webp?itok=8sp6IMuz352554654",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/LEAD%20PRESS_Saoirse_PRESS_02089%20LPS.jpg.webp?itok=8sp6IMuz2010198180",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>\"Boombox is a moody little tech-house number with a slight extraterrestrial edge\"</p>…"
   },
   {
@@ -1254,7 +1166,7 @@
    "titre": "Sam Alfred announces new EP 'No More', on Ninja Tune",
    "lien": "https://djmag.com/news/sam-alfred-announces-new-ep-no-more-ninja-tune",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/SamAlfred.jpg.webp?itok=yIi0vPfe1909542771",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/SamAlfred.jpg.webp?itok=yIi0vPfe12891759",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Featuring a contribution from Luuk van Dijk on the opening track</p> </div>"
   },
   {
@@ -1280,7 +1192,36 @@
    "date": null,
    "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/MauP.jpg.webp?itok=s0ZhFDOo1250423664",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The new single follows the release of 'neck' earlier this year and a busy summer of…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Listen to TSHA’s new single, ‘All Night Long’",
+   "lien": "https://djmag.com/news/listen-tshas-new-single-all-night-long",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/TSHA.jpg.webp?itok=e5_vx2Tr1659234192",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>A “euphoric dancefloor anthem” featuring \"club-ready production\"</p> </div>"
+  },
+  {
+   "source": "djmag",
+   "titre": "Watch Overmono's full live set from London's Old Royal Naval College",
+   "lien": "https://djmag.com/news/watch-overmonos-full-live-set-londons-old-royal-naval-college",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/070826_LOTT_OVERMONO_FULL_ALBUM%40STILL_SIN_-224.jpg.webp?itok=ml95Iar82059659630",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The 90-minute set sees them perform music from across their discography, including recent…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Listen to Sara Landry's new single, 'Interesting'",
+   "lien": "https://djmag.com/news/listen-sara-landrys-new-single-interesting",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Screenshot%202026-09-04%20at%2015.13.55.png.webp?itok=UrjXlPgj959663144",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>It's the fourth song to be shared from forthcoming album 'Divine Intervention'</p> </div>"
   }
  ],
- "pannes": []
+ "pannes": [
+  {
+   "id": "cdm",
+   "raison": "HTTP 403"
+  }
+ ]
 }
