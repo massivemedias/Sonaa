@@ -74,6 +74,29 @@ const mo = (o: number): string => {
 
 type Etape = 'repos' | 'onde' | 'envoi' | 'ligne';
 
+/* ═══ LE PROFIL A UN MENU, PARCE QU'IL PORTAIT SIX BLOCS A LA FILE ═══
+
+   Identite, ville, soirees, panneau des moderateurs, depot d'un set, mes
+   sets : une seule page qui defilait sur trois ecrans, et Mika l'a dit le
+   7 septembre 2026 : « c'est un peu trop en vrac ». Trois onglets, par ce
+   qu'on vient y faire : son COMPTE (qui on est, ou on est), ses SETS, ses
+   EVENEMENTS. Le panneau des moderateurs va avec les evenements, puisque
+   c'est ce qu'il gere. */
+type Onglet = 'compte' | 'sets' | 'evenements';
+
+const lireOnglet = (): Onglet => {
+  const h = window.location.hash;
+  if (h.startsWith('#/profil/sets')) return 'sets';
+  if (h.startsWith('#/profil/evenements')) return 'evenements';
+  return 'compte';
+};
+
+const ONGLETS: readonly { id: Onglet; label: string }[] = [
+  { id: 'compte', label: t.ongletCompte },
+  { id: 'sets', label: t.ongletSets },
+  { id: 'evenements', label: t.ongletEvenements },
+];
+
 export function ProfilPage() {
   const [pret, setPret] = useState(false);
   const [connecte, setConnecte] = useState(false);
@@ -94,6 +117,15 @@ export function ProfilPage() {
      pas ce qui protege l'ecriture, la base s'en charge : c'est pour ne pas
      montrer un formulaire qui refuserait de servir. */
   const [moderateur, setModerateur] = useState(false);
+  /* L'onglet ouvert vit dans l'adresse (#/profil, #/profil/sets,
+     #/profil/evenements) : on peut y envoyer quelqu'un, et le bouton de
+     retour ramene a l'onglet precedent. */
+  const [onglet, setOnglet] = useState<Onglet>(lireOnglet);
+  useEffect(() => {
+    const suivre = (): void => setOnglet(lireOnglet());
+    window.addEventListener('hashchange', suivre);
+    return () => window.removeEventListener('hashchange', suivre);
+  }, []);
 
   const [sets, setSets] = useState<SetDJ[]>([]);
   const [fichier, setFichier] = useState<File | null>(null);
@@ -395,6 +427,22 @@ export function ProfilPage() {
       <main className="credits sets-page">
       <h1>{t.monProfil}</h1>
 
+      {/* LE MENU DU PROFIL. Voir `Onglet` plus haut pour le pourquoi. */}
+      <nav className="pf-menu" aria-label={t.monProfil}>
+        {ONGLETS.map((o) => (
+          <a
+            key={o.id}
+            href={o.id === 'compte' ? '#/profil' : `#/profil/${o.id}`}
+            className="pf-onglet"
+            aria-current={onglet === o.id ? 'page' : undefined}
+          >
+            {o.label}
+          </a>
+        ))}
+      </nav>
+
+      {onglet === 'compte' && (
+      <>
       {/* ── L'identite publique ── */}
       <section className="sets-bloc">
         <h2>{t.identitePublique}</h2>
@@ -484,11 +532,19 @@ export function ProfilPage() {
         />
         {messageVille && <p className="sp-message">{messageVille}</p>}
       </section>
+      </>
+      )}
 
+      {onglet === 'evenements' && (
+      <>
       <MesSoirees />
 
       {moderateur && <SoireesAdmin />}
+      </>
+      )}
 
+      {onglet === 'sets' && (
+      <>
       {/* ── Deposer ── */}
       <section className="sets-bloc">
         <h2>{t.deposerUnSet}</h2>
@@ -661,6 +717,8 @@ export function ProfilPage() {
           </ul>
         )}
       </section>
+      </>
+      )}
       <PiedDePage />
     </main>
     </>

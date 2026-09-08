@@ -339,6 +339,9 @@ interface Dictionnaire {
   readonly reglerLargeurColonne: string;
   readonly fermerLecteur: string;
   readonly profilCourt: string;
+  readonly ongletCompte: string;
+  readonly ongletSets: string;
+  readonly ongletEvenements: string;
   readonly mesPropositions: string;
   readonly ajouterUneSoiree: string;
   readonly ajouterCourt: string;
@@ -792,6 +795,9 @@ const FR: Dictionnaire = {
   reglerLargeurColonne: "Régler la largeur de la colonne, flèches gauche et droite",
   fermerLecteur: "Fermer le lecteur",
   profilCourt: "Profil",
+  ongletCompte: "Compte",
+  ongletSets: "Sets",
+  ongletEvenements: "Événements",
   mesPropositions: "Mes propositions",
   ajouterUneSoiree: "Ajouter un événement",
   ajouterCourt: "Ajouter un événement",
@@ -1260,6 +1266,9 @@ const EN: Dictionnaire = {
   reglerLargeurColonne: "Adjust the column width, left and right arrows",
   fermerLecteur: "Close the player",
   profilCourt: "Profile",
+  ongletCompte: "Account",
+  ongletSets: "Sets",
+  ongletEvenements: "Events",
   mesPropositions: "My proposals",
   ajouterUneSoiree: "Add an event",
   ajouterCourt: "Add an event",
