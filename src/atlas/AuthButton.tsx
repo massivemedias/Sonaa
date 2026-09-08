@@ -16,6 +16,7 @@
    décision qui appartient ailleurs. */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { PROPOSITIONS_OUVERTES } from '../lib/config.ts';
 import { useSession } from '../lib/useSession.ts';
 import {
   EVENEMENT_RETOUR,
@@ -291,10 +292,12 @@ export function AuthButton() {
           {menu && (
             <div className="authb-menu" role="menu">
               <a href="#/profil" role="menuitem" onClick={() => setMenu(false)}>Profil</a>
-              <a href="#/propositions" role="menuitem" onClick={() => setMenu(false)}>
-                Mes propositions
-              </a>
-              {moderateur && (
+              {PROPOSITIONS_OUVERTES && (
+                <a href="#/propositions" role="menuitem" onClick={() => setMenu(false)}>
+                  {t.mesPropositions}
+                </a>
+              )}
+              {PROPOSITIONS_OUVERTES && moderateur && (
                 /* #/admin n'a jamais existe : la route s'appelle #/moderation
                    depuis le premier jour, et ce lien retombait donc sur la
                    page d'accueil. Meme panne que #/profil avant lui, au meme

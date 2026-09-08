@@ -6,6 +6,7 @@
    vrais quand le corpus grandira. */
 
 import { FAMILIES, STRUCTURES } from './structures.ts';
+import { PROPOSITIONS_OUVERTES } from '../lib/config.ts';
 import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import './credits.css';
@@ -162,6 +163,7 @@ export function AProposPage() {
           </p>
         </section>
 
+        {PROPOSITIONS_OUVERTES && (
         <section aria-labelledby="apropos-contribuer">
           <h2 id="apropos-contribuer">Contribuer</h2>
           <p>
@@ -176,6 +178,7 @@ export function AProposPage() {
             il ne la prend pas.
           </p>
         </section>
+        )}
 
         {/* CE QUE LE SITE SAIT DE VOUS.
 

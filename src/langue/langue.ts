@@ -339,6 +339,7 @@ interface Dictionnaire {
   readonly reglerLargeurColonne: string;
   readonly fermerLecteur: string;
   readonly profilCourt: string;
+  readonly mesPropositions: string;
   readonly ajouterUneSoiree: string;
   readonly ajouterCourt: string;
   readonly ajouterSoireeIntro: string;
@@ -791,6 +792,7 @@ const FR: Dictionnaire = {
   reglerLargeurColonne: "Régler la largeur de la colonne, flèches gauche et droite",
   fermerLecteur: "Fermer le lecteur",
   profilCourt: "Profil",
+  mesPropositions: "Mes propositions",
   ajouterUneSoiree: "Ajouter un événement",
   ajouterCourt: "Ajouter un événement",
   ajouterSoireeIntro: "Elle apparaît dans le calendrier tout de suite, avec la mention « membre ». Vous pourrez ensuite en tirer l’image pour Instagram depuis sa fiche ou depuis votre profil.",
@@ -1258,6 +1260,7 @@ const EN: Dictionnaire = {
   reglerLargeurColonne: "Adjust the column width, left and right arrows",
   fermerLecteur: "Close the player",
   profilCourt: "Profile",
+  mesPropositions: "My proposals",
   ajouterUneSoiree: "Add an event",
   ajouterCourt: "Add an event",
   ajouterSoireeIntro: "It appears in the calendar right away, marked “member”. You can then get the Instagram image from its card or from your profile.",

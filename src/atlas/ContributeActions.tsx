@@ -11,7 +11,7 @@
    étaient imposés à quiconque ouvrait une fiche pour écouter une track. */
 
 import { lazy, Suspense, useEffect, useState } from 'react';
-import { contributionsActives } from '../lib/config.ts';
+import { contributionsActives, PROPOSITIONS_OUVERTES } from '../lib/config.ts';
 import { compterEnAttenteLeger } from '../lib/compte.ts';
 import type { ProposalKind } from '../lib/proposals.ts';
 import './contribute.css';
@@ -63,6 +63,10 @@ const brouillonDeLaRecherche = (
 };
 
 export function ContributeActions({ genreId, genreLabel, filiationDebattue }: Props) {
+  /* Fermees pour l'instant : voir lib/config.ts. Rien n'est rendu, rien n'est
+     charge. */
+  if (!PROPOSITIONS_OUVERTES) return null;
+
   const [ouverte, setOuverte] = useState<ProposalKind | null>(null);
   const [enAttente, setEnAttente] = useState(0);
 

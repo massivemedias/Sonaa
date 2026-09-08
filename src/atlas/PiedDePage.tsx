@@ -16,6 +16,7 @@
    vide : il apprend a ne plus rien y chercher. */
 
 import { t } from '../langue/langue.ts';
+import { PROPOSITIONS_OUVERTES } from '../lib/config.ts';
 import './pied.css';
 
 interface Lien {
@@ -45,7 +46,8 @@ export function PiedDePage() {
       titre: t.piedParticiper,
       liens: [
         { href: '#/profil', label: t.monProfil },
-        { href: '#/propositions', label: t.piedPropositions },
+        /* Les propositions sont fermees pour l'instant : voir lib/config.ts. */
+        ...(PROPOSITIONS_OUVERTES ? [{ href: '#/propositions', label: t.piedPropositions }] : []),
       ],
     },
     {

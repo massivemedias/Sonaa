@@ -12,3 +12,12 @@
 
 export const contributionsActives =
   Boolean(import.meta.env.VITE_SUPABASE_URL) && Boolean(import.meta.env.VITE_SUPABASE_ANON_KEY);
+
+/* LES PROPOSITIONS SONT FERMEES POUR L'INSTANT, ET C'EST UN CHOIX, PAS UNE
+   PANNE. Mika, le 7 septembre 2026 : « je vois pas super l'interet de ce
+   truc-la pour l'instant, c'etait pour les styles de musique ». Les pages
+   #/propositions et #/moderation repondent toujours, le code est intact ;
+   ce qui disparait, ce sont les PORTES : le menu du compte, le pied de page,
+   les boutons au bas d'une fiche de genre, la section d'A propos. Remettre
+   `true` ici rouvre tout d'un coup. */
+export const PROPOSITIONS_OUVERTES = false;
