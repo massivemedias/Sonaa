@@ -1,6 +1,30 @@
 {
- "fait": "2026-09-09T19:18:33.965Z",
+ "fait": "2026-09-09T22:35:27.810Z",
  "articles": [
+  {
+   "source": "digitaldjtips",
+   "titre": "Serato Fixes Its Beatgrids In DJ 5.0 Beta",
+   "lien": "https://www.digitaldjtips.com/serato-fixes-its-beatgrids-in-dj-5-0-beta/",
+   "date": "2026-09-09T21:00:31.000Z",
+   "image": "https://cdn.digitaldjtips.com/app/uploads/2026/09/08102959/Serato-grids-1.jpg",
+   "resume": "Serato has opened the public beta for Serato DJ 5.0, and the headline feature is a completely rebuilt beatgrid engine called Lucid Beatgrids. It automatically detects tempo changes and downbeats across both fixed and…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Serato DJ 5.0 Delivers Lucid Beatgrids and More – Now Live in Public Beta!",
+   "lien": "https://www.gearnews.com/serato-dj-5-0-dj/",
+   "date": "2026-09-09T21:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/serato-DJ-pro-5-T-128x71.jpg",
+   "resume": "Serato DJ 5.0 is here, with flexible analysis Lucid Beatgrids for tracks with fluctuating BPMs, open streaming, cue loops, and so much more. Open beta now! Serato DJ 5.0 It’s been almost a year since Serato graced us…"
+  },
+  {
+   "source": "musictech",
+   "titre": "Soundcraft Signature Plus 22 mixer review: “Analogue mixers are back, baby!”",
+   "lien": "https://musictech.com/reviews/studio-recording-gear/soundcraft-signature-plus-22-review/",
+   "date": "2026-09-09T20:02:15.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/09/Soundcraft-Signature-Plus-22-hero-credit-press@2000x1500.jpg",
+   "resume": "Mixing and making music can be as complicated or simple as you allow it to be, something that British company Soundcraft understands as much as anyone. Origins in live sound consoles through the 70s and 80s forged a…"
+  },
   {
    "source": "bpb",
    "titre": "Polarity Music has released Polarity-Recorder, a FREE background audio recorder",
@@ -208,14 +232,6 @@
    "date": "2026-09-09T10:09:20.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/hoSeSD7WHMzxqKXgQAN9JN-1280-80.jpg",
    "resume": "For one of the best hard rock bands to come out of Los Angeles in the ’80s, there was always a problem. No matter how high they flew, selling millions of albums and playing on the world’s biggest stages, there was…"
-  },
-  {
-   "source": "gearnews",
-   "titre": "Suno v6: The Next Generation of AI Music Arrives – Now With Warner Music and BMG’s Blessing",
-   "lien": "https://www.gearnews.com/suno-v6-tech/",
-   "date": "2026-09-09T09:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/Suno-v6-T-128x71.jpg",
-   "resume": "Suno just rolled out v6, a new generation of its AI music models, and for the first time, this one’s built directly alongside Warner Music Group , BMG, and Believe (including TuneCore). CEO Mikey Shulman is calling it…"
   },
   {
    "source": "musicradar",
@@ -528,14 +544,6 @@
    "date": "2026-09-03T13:33:44.000Z",
    "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/djrum-livre-psychic-video-le-premier-extrait-de-son-dj-kicks.jpg?hash=cdn-89b7b27e634497c1251f6de350f04f9b",
    "resume": "Carte blanche pour Djrum sur le prochain DJ-Kicks ! Pour nous donner un avant goût de la compilation prévue pour le 16 octobre 2026, le DJ et producteur nous livre le single « Psychotic Video », entre percussions et…"
-  },
-  {
-   "source": "musictech",
-   "titre": "Denon DJ’s new Prime 4 G2 is an all-in-one DJ controller with MPCe pads",
-   "lien": "https://musictech.com/news/gear/denon-dj-dj-system-prime-4-g2-mpce-pads/",
-   "date": "2026-09-03T13:19:42.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/09/denon-dj-prime-4-g2@2000x1500.jpg",
-   "resume": "Denon DJ has released a new all-in-one DJ system, the PRIME 4 G2 with a new “industry-first” feature for performers, with new tools that have never before been found in Denon products. Namely, the PRIME 4 G2 introduces…"
   },
   {
    "source": "tsugi",
@@ -930,14 +938,6 @@
    "resume": "Portland-based duo New Constellations write with an instinct that feels personal, grounded, and deeply human. Lifelong friends Harlee Case and Josh Smith have spent more than fifteen years creating together, shaping a…"
   },
   {
-   "source": "digitaldjtips",
-   "titre": "Mixo Now Plays Perfectly With Pioneer DJ & AlphaTheta Gear",
-   "lien": "https://www.digitaldjtips.com/mixo-now-plays-perfectly-with-pioneer-dj-alphatheta-gear/",
-   "date": "2026-06-22T09:46:24.000Z",
-   "image": "https://cdn.digitaldjtips.com/app/uploads/2026/06/22114156/mixothumb.jpg",
-   "resume": "Mixo, the cloud-first DJ library tool, has added the ability to export your library straight to Rekordbox USB, ready to plug into Pioneer DJ and AlphaTheta standalone gear. In other words, you can prepare and organise…"
-  },
-  {
    "source": "ni",
    "titre": "Citizen Kain on building emotion and space with Replika",
    "lien": "https://blog.native-instruments.com/citizen-kain/",
@@ -1114,6 +1114,94 @@
    "resume": "Scottish DJ-producer Jack Revill, better known as Jackmaster, has died of an accidental head injury, aged 38. Revill’s family confirmed the news on Instagram yesterday. “It’s with profound sorrow that we confirm the…"
   },
   {
+   "source": "mixmag",
+   "titre": "FKA twigs joins forces with UK non-profit Saffron to support diversity in music tech",
+   "lien": "https://mixmag.net/read/fka-twigs-joins-forces-uk-non-profit-saffron-support-diversity-music-tech-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FFKA-twigs-credit-Jordan-Hemingway.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=42cff487",
+   "resume": "The musician previously shared her fears over a lack of inclusivity in music production and engineering"
+  },
+  {
+   "source": "mixmag",
+   "titre": "D'Angelo's son to play Notorious B.I.G. in Snoop Dogg biopic",
+   "lien": "https://mixmag.net/read/dangelo-son-play-notorious-big-snoop-dogg-biopic-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fdangelo.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=6c44e9ec",
+   "resume": "Swayvo Twain will play the New York hip hop icon in Snoop, which is due to land in cinemas in August 2027"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Sadiq Khan weighs in on fabric and St Paul's event series amid religious outcry",
+   "lien": "https://mixmag.net/read/sadiq-khan-row-fabric-st-pauls-cathedral-events-series-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Ffabric-events.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=f43fec53",
+   "resume": "The Mayor of London called the partnership an \"iconic duo\", despite backlash over the Farringdon nightclub's forthcoming programme at the cathedral"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Glastonbury ticket price to increase by nearly 10% for 2027 return",
+   "lien": "https://mixmag.net/read/glastonbury-ticket-price-increase-2027-edition-sale-date-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fglasto-2027-tickets.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=4d2e6204",
+   "resume": "Passes for next year's edition of the Worthy Farm festival will go on sale in just a few weeks time"
+  },
+  {
+   "source": "mixmag",
+   "titre": "The Warehouse Project shares details of flagship 20th anniversary show",
+   "lien": "https://mixmag.net/read/the-warehouse-project-shares-details-flagship-20th-anniversary-show-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FWHP_2026-09-08-121454_jubx.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=17afb139",
+   "resume": "The Manchester event series will mark two decades with a party featuring sets from Rossi., Saoirse, Bullet Tooth and Enzo Siragusa in November"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Hot Since 82: \"Emotional connection is more important than trends\"",
+   "lien": "https://mixmag.net/feature/hot-since-82-interview-obsessions-new-album",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FHot-Since-82-1.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=14b6bf96",
+   "resume": "Inspired by a \"period of introspection and movement\", the Barnsley-raised producer's latest LP 'Obsessions' sees him reflect on his decades-long journey through music"
+  },
+  {
+   "source": "mixmag",
+   "titre": "New book tracing Laurent Garnier’s life and career has been published",
+   "lien": "https://mixmag.net/read/new-book-documenting-laurent-garnier-decades-long-career-published-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Flaurent-garnier-press.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=bb281bed",
+   "resume": "'Garnier' is described as a \"portrait of a pioneer and a manifesto for dance, celebration, and the night\""
+  },
+  {
+   "source": "mixmag",
+   "titre": "16% of British adults have listened to more music in the last 12 months",
+   "lien": "https://mixmag.net/read/16-percent-british-adults-listened-more-music-last-12-months-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fmusic_2026-09-08-113542_mbon.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=b1de89f5",
+   "resume": "New data from YouGov suggests that Gen Z listeners make up the lion's share of increased music consumption in British adults"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Inside Galactica's first-ever Ibiza residency at Eden",
+   "lien": "https://mixmag.net/feature/inside-galacticas-first-ever-ibiza-residency-at-eden",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fgalactica.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=f46f677c",
+   "resume": "The Italian hard techno brand has welcomed slam experts including 999999999, Cera Khin, Holy Priest and NIKOLINA across its 15-date run on the White Isle this summer"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Burning Man confirms two people died during 2026 festival",
+   "lien": "https://mixmag.net/read/burning-man-confirms-two-people-died-during-2026-festival-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FBurning-Man_2026-09-07-143557_zrkf.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=2a069e1e",
+   "resume": "Two men, one in their 50s and the other in his 60s, are confirmed to have died while attending last week's festival in Black Rock Desert, Nevada"
+  },
+  {
+   "source": "mixmag",
+   "titre": "fabric partnership with St Paul's Cathedral labelled \"insult to Nelson's memory\" by relative",
+   "lien": "https://mixmag.net/read/fabric-partnership-st-pauls-cathedral-labelled-insult-nelsons-memory-descendant-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fstpauls.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=d5c4e235",
+   "resume": "The Farringdon nightclub will hold the first event in its new four-year deal with the cathedral on October 29"
+  },
+  {
    "source": "djmag",
    "titre": "Nene H announces new EP, shares 'War das ein Traum': Listen",
    "lien": "https://djmag.com/news/nene-h-announces-new-ep-shares-war-das-ein-traum-listen",
@@ -1192,94 +1280,6 @@
    "date": null,
    "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/gyrofield-debut-album-great-jobs-new-single-press-photo-Loes-de-Boer.jpg.webp?itok=71NEG_q_1689111560",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Hong Kong-born, Netherlands-based artist Kiana Li takes inspiration from dub…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Tola Peckham launches fundraiser after burglars steal £30,000 worth of equipment",
-   "lien": "https://djmag.com/news/tola-peckham-launches-fundraiser-after-burglars-steal-ps30000-worth-of-equipment",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/tola-peckham-burglarly-london-gofundme.jpeg.webp?itok=sHOJdrn0934863460",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>In the 27th August break-in, thieves stole DJ gear, soundsystem components, bar stock and…"
-  },
-  {
-   "source": "djmag",
-   "titre": "New Manchester club, Locker, to open in New Century building",
-   "lien": "https://djmag.com/news/new-manchester-club-locker-open-new-century-building",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Manchester-new-club-Locker-CGI-rendering-Century-building-2026.jpg.webp?itok=VKFx1lV3190324635",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The 450-capacity space will open on the ground floor of 1960s Grade II-listed New Century…"
-  },
-  {
-   "source": "mixmag",
-   "titre": "FKA twigs joins forces with UK non-profit Saffron to support diversity in music tech",
-   "lien": "https://mixmag.net/read/fka-twigs-joins-forces-uk-non-profit-saffron-support-diversity-music-tech-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FFKA-twigs-credit-Jordan-Hemingway.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=42cff487",
-   "resume": "The musician previously shared her fears over a lack of inclusivity in music production and engineering"
-  },
-  {
-   "source": "mixmag",
-   "titre": "D'Angelo's son to play Notorious B.I.G. in Snoop Dogg biopic",
-   "lien": "https://mixmag.net/read/dangelo-son-play-notorious-big-snoop-dogg-biopic-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fdangelo.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=6c44e9ec",
-   "resume": "Swayvo Twain will play the New York hip hop icon in Snoop, which is due to land in cinemas in August 2027"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Sadiq Khan weighs in on fabric and St Paul's event series amid religious outcry",
-   "lien": "https://mixmag.net/read/sadiq-khan-row-fabric-st-pauls-cathedral-events-series-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Ffabric-events.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=f43fec53",
-   "resume": "The Mayor of London called the partnership an \"iconic duo\", despite backlash over the Farringdon nightclub's forthcoming programme at the cathedral"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Glastonbury ticket price to increase by nearly 10% for 2027 return",
-   "lien": "https://mixmag.net/read/glastonbury-ticket-price-increase-2027-edition-sale-date-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fglasto-2027-tickets.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=4d2e6204",
-   "resume": "Passes for next year's edition of the Worthy Farm festival will go on sale in just a few weeks time"
-  },
-  {
-   "source": "mixmag",
-   "titre": "The Warehouse Project shares details of flagship 20th anniversary show",
-   "lien": "https://mixmag.net/read/the-warehouse-project-shares-details-flagship-20th-anniversary-show-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FWHP_2026-09-08-121454_jubx.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=17afb139",
-   "resume": "The Manchester event series will mark two decades with a party featuring sets from Rossi., Saoirse, Bullet Tooth and Enzo Siragusa in November"
-  },
-  {
-   "source": "mixmag",
-   "titre": "New book tracing Laurent Garnier’s life and career has been published",
-   "lien": "https://mixmag.net/read/new-book-documenting-laurent-garnier-decades-long-career-published-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Flaurent-garnier-press.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=bb281bed",
-   "resume": "'Garnier' is described as a \"portrait of a pioneer and a manifesto for dance, celebration, and the night\""
-  },
-  {
-   "source": "mixmag",
-   "titre": "16% of British adults have listened to more music in the last 12 months",
-   "lien": "https://mixmag.net/read/16-percent-british-adults-listened-more-music-last-12-months-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fmusic_2026-09-08-113542_mbon.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=b1de89f5",
-   "resume": "New data from YouGov suggests that Gen Z listeners make up the lion's share of increased music consumption in British adults"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Burning Man confirms two people died during 2026 festival",
-   "lien": "https://mixmag.net/read/burning-man-confirms-two-people-died-during-2026-festival-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FBurning-Man_2026-09-07-143557_zrkf.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=2a069e1e",
-   "resume": "Two men, one in their 50s and the other in his 60s, are confirmed to have died while attending last week's festival in Black Rock Desert, Nevada"
-  },
-  {
-   "source": "mixmag",
-   "titre": "fabric partnership with St Paul's Cathedral labelled \"insult to Nelson's memory\" by relative",
-   "lien": "https://mixmag.net/read/fabric-partnership-st-pauls-cathedral-labelled-insult-nelsons-memory-descendant-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fstpauls.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=d5c4e235",
-   "resume": "The Farringdon nightclub will hold the first event in its new four-year deal with the cathedral on October 29"
   }
  ],
  "pannes": []
