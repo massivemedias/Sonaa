@@ -87,14 +87,17 @@ export function fenetreDe(vue: Vue, date: string | null, maintenant: Date): Fene
     }
   }
 
-  /* LA RECHERCHE COMMENCE AUJOURD'HUI, PAS DEMAIN, et la nuance n'est pas
-     theorique : chercher une salle a 19 h un samedi pour voir quand y aller
-     doit montrer CE SOIR d'abord. « La suite », elle, commence demain, parce
-     que ce qui se joue ce soir a deja son bouton et qu'une liste « le reste »
-     qui repete le premier ecran n'est pas le reste. Meme duree, depart
-     different, et c'est tout ce qui les separe. */
-  const depart = vue === 'recherche' ? aujourdhui : plusDeJours(aujourdhui, 1);
-  return { du: AU_MATIN(depart), au: AU_SOIR(plusDeJours(aujourdhui, 90)) };
+  /* LA SUITE ET LA RECHERCHE COMMENCENT AUJOURD'HUI, TOUTES LES DEUX.
+
+     La suite a commence demain pendant un temps, au motif que ce soir avait
+     deja son bouton. Mika, le 8 septembre 2026, un mardi soir : « quand je
+     cherche je voudrais voir le jour d'aujourd'hui puis les autres jours ».
+     Une liste « les jours suivants » qu'on ouvre pour voir la semaine et qui
+     commence par demain oblige a revenir sur « Aujourd'hui » pour avoir la
+     semaine entiere ; ce n'est pas une economie, c'est un aller-retour. Ce
+     soir en tete, puis les quatre-vingt-dix jours : la meme fenetre pour les
+     deux vues, et c'est ce qui les rend previsibles. */
+  return { du: aujourdhui, au: AU_SOIR(plusDeJours(aujourdhui, 90)) };
 }
 
 /** Les jours proposes dans le choix de date, a partir de demain : aujourd'hui

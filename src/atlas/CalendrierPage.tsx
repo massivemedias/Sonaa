@@ -604,7 +604,12 @@ export function CalendrierPage() {
       du,
       au,
       ...(traduction?.valeur ? { genre: traduction.valeur } : {}),
-      ...(enRecherche ? { pages: 8 } : {}),
+      /* LES JOURS SUIVANTS SE LISENT EN ENTIER, comme une recherche. A une
+         page, la liste s'arretait a quarante soirees de RA, et disait « les
+         89 premieres » sur 262 : le jeudi n'y etait pas quand on regardait
+         le mardi. Huit pages font 320 soirees, plus que trois mois de
+         Montreal ; la passerelle les garde une heure. */
+      ...(enRecherche || vue === 'suite' ? { pages: 8 } : {}),
     });
 
     /* ═══ DEUX SOURCES, UNE SEULE LISTE ═══

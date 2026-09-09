@@ -101,17 +101,17 @@ describe('fenetreDe : une date choisie', () => {
   it('une date absente ou illisible retombe sur la suite, sans casser', () => {
     const sans = fenetreDe('date', null, JEUDI);
     const bidon = fenetreDe('date', 'pas-une-date', JEUDI);
-    expect(jour(sans.du)).toBe('2026-09-04');
-    expect(jour(bidon.du)).toBe('2026-09-04');
+    expect(jour(sans.du)).toBe('2026-09-03');
+    expect(jour(bidon.du)).toBe('2026-09-03');
   });
 });
 
 describe('fenetreDe : la suite', () => {
-  /* Elle commence DEMAIN : ce qui se joue ce soir a deja son bouton, et une
-     liste « le reste » qui repete le premier ecran n'est pas le reste. */
-  it('commence demain et va jusqu a trois mois', () => {
+  /* Elle commence AUJOURD'HUI : on l'ouvre pour voir la semaine, et une
+     semaine qui commence demain oblige a revenir sur « Aujourd'hui ». */
+  it('commence aujourd hui et va jusqu a trois mois', () => {
     const f = fenetreDe('suite', null, JEUDI);
-    expect(jour(f.du)).toBe('2026-09-04');
+    expect(jour(f.du)).toBe('2026-09-03');
     expect(jour(f.au)).toBe('2026-12-02');
   });
 });
@@ -121,11 +121,11 @@ describe('fenetreDe : la recherche', () => {
      Chercher une salle a 19 h un samedi pour voir quand y aller doit montrer
      ce soir. Defaut constate a l'ecran : la recherche « stereo » rendait 27
      dates a partir du lendemain, en sautant la soiree du soir meme. */
-  it('commence aujourd hui, contrairement a la suite', () => {
+  it('commence aujourd hui, comme la suite', () => {
     const r = fenetreDe('recherche', null, JEUDI);
     const suite = fenetreDe('suite', null, JEUDI);
     expect(jour(r.du)).toBe('2026-09-03');
-    expect(jour(suite.du)).toBe('2026-09-04');
+    expect(jour(suite.du)).toBe('2026-09-03');
   });
 
   it('couvre la meme duree que la suite', () => {
