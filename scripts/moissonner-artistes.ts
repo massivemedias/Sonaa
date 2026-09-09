@@ -170,21 +170,86 @@ async function etapeStyles(releve: Releve, combien: number): Promise<void> {
 
 /* ── Etape 2 : un artiste, ses styles ─────────────────────────────────── */
 
-/** Les styles d'un artiste, ponderes par le nombre de sorties ou ils
-    apparaissent. Rend null quand Discogs ne connait pas le nom : c'est
-    different d'un artiste connu sans style, qu'on note par un objet vide. */
-async function stylesDeLArtiste(nom: string): Promise<Record<string, number> | null> {
+/* ═══ TROIS SOURCES, PARCE QU'AUCUNE N'A TOUT LE VOCABULAIRE ═══
+
+   Discogs classe les disques, finement, mais son vocabulaire s'arrete ou
+   celui des disquaires s'arrete : ni « Indie Dance » ni « Dark Disco » n'y
+   existent, alors que SONAA les nomme et que la scene les emploie tous les
+   jours. Mesure sur Maudite Machine le 9 septembre 2026 : Discogs disait
+   Techno, Minimal, Dark Electro, Disco ; Bandcamp disait « Dark disco ».
+
+   Bandcamp porte les etiquettes que l'artiste s'est donnees lui-meme, et sa
+   recherche les rend en une requete, sans page a lire. Last.fm porte celles
+   que le public lui a posees. On additionne les trois, chacune avec son
+   poids : une sortie Discogs vaut 1, une etiquette Bandcamp vaut 8 (c'est
+   l'artiste qui parle, et il n'en met que six), une etiquette Last.fm vaut
+   son score sur 100 divise par 25 (une etiquette a 100 vaut 4). Le
+   rangement dans notre vocabulaire se fait ensuite, dans deriver-artistes,
+   avec la meme table pour les trois. */
+
+async function stylesChezDiscogs(nom: string): Promise<Record<string, number>> {
   const d = (await json(
     `https://api.discogs.com/database/search?type=release&per_page=50&artist=${encodeURIComponent(nom)}`,
     { Authorization: `Discogs token=${DISCOGS}` }
   )) as { results?: { style?: string[] }[] };
-
-  const res = d.results ?? [];
-  if (res.length === 0) return null;
-
   const compte: Record<string, number> = {};
-  for (const r of res) for (const s of r.style ?? []) compte[s] = (compte[s] ?? 0) + 1;
+  for (const r of d.results ?? []) for (const s of r.style ?? []) compte[s] = (compte[s] ?? 0) + 1;
   return compte;
+}
+
+const aplati = (s: string): string =>
+  s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+
+async function stylesChezBandcamp(nom: string): Promise<Record<string, number>> {
+  const r = await fetch('https://bandcamp.com/api/bcsearch_public_api/1/autocomplete_elastic', {
+    method: 'POST',
+    headers: { 'User-Agent': AGENT, 'content-type': 'application/json' },
+    body: JSON.stringify({ search_text: nom, search_filter: 'b', full_page: false, fan_id: null }),
+  });
+  if (!r.ok) throw new Error(`Bandcamp ${r.status}`);
+  const j = (await r.json()) as { auto?: { results?: { type?: string; name?: string; tag_names?: string[] }[] } };
+  /* LE NOM DOIT ETRE LE MEME, pas seulement ressemblant : Bandcamp rend
+     aussi les voisins, et prendre le premier venu collerait a un artiste
+     les etiquettes d'un autre. */
+  const exact = (j.auto?.results ?? []).find((x) => x.type === 'b' && aplati(x.name ?? '') === aplati(nom));
+  const compte: Record<string, number> = {};
+  for (const t of exact?.tag_names ?? []) if (t.trim()) compte[t.trim()] = (compte[t.trim()] ?? 0) + 8;
+  return compte;
+}
+
+async function stylesChezLastfm(nom: string): Promise<Record<string, number>> {
+  if (!LASTFM) return {};
+  const j = (await json(
+    `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=${encodeURIComponent(nom)}&api_key=${LASTFM}&format=json&autocorrect=1`
+  )) as { toptags?: { tag?: { name: string; count: number }[] } };
+  const compte: Record<string, number> = {};
+  for (const t of j.toptags?.tag ?? []) {
+    if (t.count < 10) continue;
+    compte[t.name] = (compte[t.name] ?? 0) + Math.max(1, Math.round(t.count / 25));
+  }
+  return compte;
+}
+
+/** Les styles d'un artiste, les trois sources additionnees. Rend null quand
+    aucune ne connait le nom : c'est different d'un artiste connu sans
+    style, qu'on note par un objet vide. Une source qui tombe ne fait pas
+    tomber les deux autres. */
+async function stylesDeLArtiste(nom: string): Promise<Record<string, number> | null> {
+  const compte: Record<string, number> = {};
+  let connu = false;
+  for (const source of [stylesChezDiscogs, stylesChezBandcamp, stylesChezLastfm]) {
+    try {
+      const c = await source(nom);
+      if (Object.keys(c).length > 0) connu = true;
+      for (const [k, v] of Object.entries(c)) compte[k] = (compte[k] ?? 0) + v;
+    } catch (e) {
+      /* Discogs qui ne repond pas est un echec reseau, pas une absence : on
+         le laisse remonter pour que l'artiste soit redemande. Les deux
+         autres sources sont un complement, leur panne ne bloque rien. */
+      if (source === stylesChezDiscogs) throw e;
+    }
+  }
+  return connu ? compte : null;
 }
 
 /* ═══ LES ARTISTES DU CALENDRIER ET DES SETS, EN PREMIER ═══
@@ -233,9 +298,14 @@ async function etapeArtistes(releve: Releve, combien: number): Promise<void> {
      noms dont Mika a verifie le style a la main. */
   const duSite = await artistesDuSite();
   console.log(`${duSite.length} noms lus dans le calendrier et les sets.`);
+  /* `--rafraichir` redemande aussi les noms du site deja connus : c'est ce
+     qu'il faut quand une source s'ajoute (Bandcamp et Last.fm le 9
+     septembre 2026) et que les artistes de Montreal doivent en profiter
+     sans attendre que le releve soit refait de zero. */
+  const rafraichir = process.argv.includes('--rafraichir');
   const aFaire = [
     ...new Set([...duSite, ...Object.values(releve.parStyle).flat(), ...artistesDuCorpus()]),
-  ].filter((n) => !(n in releve.parArtiste) && !releve.introuvables.includes(n));
+  ].filter((n) => (rafraichir && duSite.includes(n)) || (!(n in releve.parArtiste) && !releve.introuvables.includes(n)));
 
   const lot = combien > 0 ? aFaire.slice(0, combien) : aFaire;
   console.log(`${aFaire.length} artistes sans styles, ${lot.length} demandés ce passage.`);

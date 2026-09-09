@@ -124,9 +124,30 @@ async function artisteChezLastfm(q: string, env: Env): Promise<ArtisteDiscogs> {
   const styles: Record<string, number> = {};
   /* Les etiquettes a moins de 5 sur 100 sont du bruit : « seen live »,
      « under 2000 listeners », un genre qu'une personne a pose une fois. */
-  for (const t of tags) if (t.count >= 5) styles[t.name] = t.count;
+  /* Le meme poids que la moisson : le score sur 100 divise par 25, une
+     etiquette a 100 vaut 4, comme une etiquette Bandcamp en vaut 8. */
+  for (const t of tags) if (t.count >= 10) styles[t.name] = Math.max(1, Math.round(t.count / 25));
   if (Object.keys(styles).length === 0) return { trouve: false, nom: null, sorties: 0, styles: {} };
   return { trouve: true, nom: j.toptags?.['@attr']?.artist ?? q, sorties: tags.length, styles };
+}
+
+/* BANDCAMP, LA OU L'ARTISTE SE NOMME LUI-MEME. Sa recherche rend les
+   etiquettes de l'artiste en une requete, et c'est la seule des trois
+   sources qui connaisse « Dark disco » ou « Indie Dance » (Discogs ne les a
+   pas dans son vocabulaire). Le nom doit etre exactement le meme. */
+async function artisteChezBandcamp(q: string): Promise<ArtisteDiscogs> {
+  const r = await fetch('https://bandcamp.com/api/bcsearch_public_api/1/autocomplete_elastic', {
+    method: 'POST',
+    headers: { 'user-agent': AGENT_DISCOGS, 'content-type': 'application/json' },
+    body: JSON.stringify({ search_text: q, search_filter: 'b', full_page: false, fan_id: null }),
+  });
+  if (!r.ok) throw new Error(`Bandcamp ${r.status}`);
+  const j = (await r.json()) as { auto?: { results?: { type?: string; name?: string; tag_names?: string[] }[] } };
+  const exact = (j.auto?.results ?? []).find((x) => x.type === 'b' && aplatirNom(x.name ?? '') === aplatirNom(q));
+  if (!exact) return { trouve: false, nom: null, sorties: 0, styles: {} };
+  const styles: Record<string, number> = {};
+  for (const t of exact.tag_names ?? []) if (t.trim()) styles[t.trim()] = (styles[t.trim()] ?? 0) + 8;
+  return { trouve: Object.keys(styles).length > 0, nom: exact.name ?? null, sorties: 0, styles };
 }
 
 async function artisteChezDiscogs(q: string, env: Env): Promise<ArtisteDiscogs> {
@@ -332,23 +353,39 @@ export default {
       if (q.length < 3) return refus(req, env, 400, 'q trop court');
       if (!env.DISCOGS_TOKEN) return refus(req, env, 503, 'Discogs non configure');
       const cache = caches.default;
-      const cle = new Request(`https://sonaa.ca/api/artiste?q=${encodeURIComponent(q.toLowerCase())}&v=2`);
+      const cle = new Request(`https://sonaa.ca/api/artiste?q=${encodeURIComponent(q.toLowerCase())}&v=4`);
       const garde = await cache.match(cle);
       if (garde) {
         const h = entetes(req, env, { 'content-type': 'application/json' });
         h.set('x-cache', 'garde');
         return new Response(garde.body, { headers: h });
       }
-      let reponse: ArtisteDiscogs & { source?: string };
-      try {
-        reponse = { ...(await artisteChezDiscogs(q, env)), source: 'discogs' };
-      } catch {
+      /* LES TROIS SOURCES S'ADDITIONNENT, comme dans la moisson : Discogs
+         quand il repond (il compte par adresse et refuse souvent d'ici),
+         Bandcamp, Last.fm. Ce qui est rendu porte le nom de celles qui ont
+         parle. */
+      const parts: (ArtisteDiscogs & { s: string })[] = [];
+      for (const [s, f] of [
+        ['discogs', () => artisteChezDiscogs(q, env)],
+        ['bandcamp', () => artisteChezBandcamp(q)],
+        ['lastfm', () => artisteChezLastfm(q, env)],
+      ] as const) {
         try {
-          reponse = { ...(await artisteChezLastfm(q, env)), source: 'lastfm' };
-        } catch (e) {
-          return refus(req, env, 502, e instanceof Error ? e.message : 'aucune source ne repond');
+          const r = await f();
+          if (r.trouve) parts.push({ ...r, s });
+        } catch {
+          /* Une source muette n'empeche pas les autres de repondre. */
         }
       }
+      const styles: Record<string, number> = {};
+      for (const p of parts) for (const [k, v] of Object.entries(p.styles)) styles[k] = (styles[k] ?? 0) + v;
+      const reponse: ArtisteDiscogs & { source?: string } = {
+        trouve: parts.length > 0,
+        nom: parts.find((p) => p.nom)?.nom ?? null,
+        sorties: parts.reduce((n, p) => n + p.sorties, 0),
+        styles,
+        source: parts.map((p) => p.s).join('+') || 'aucune',
+      };
       /* PAS TROUVE : ON NOTE LE NOM, ET LA MOISSON S'EN CHARGERA. Une seule
          entree par nom aplati, avec la date ; trente jours de vie, le temps
          que la moisson passe plusieurs fois. Un nom qui n'existe nulle part
