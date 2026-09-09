@@ -191,27 +191,55 @@
 .pv-resultat-artiste {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
-  padding: 0.55rem 0.75rem;
+  gap: 0.4rem;
+  margin: 0.5rem 0 0.8rem;
+  padding: 0.8rem 0.9rem 0.9rem;
+  border: 1px solid var(--voile-14);
+  border-radius: 14px;
+  background: var(--voile-04, rgb(255 255 255 / 4%));
+}
+.pv-resultat-etiquette {
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--encre-douce-2);
+}
+.pv-resultat-nom-artiste {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--encre-vive);
+}
+.pv-resultat-sesstyles {
+  margin-top: 0.2rem;
+  font-size: 0.78rem;
+  color: var(--encre-douce-2);
 }
 .pv-resultat-styles {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
+  gap: 0.4rem;
 }
+/* Les styles sont des BOUTONS PLEINS, pas des etiquettes : ils menent
+   quelque part, et c'est la seule chose a faire sur cette carte. */
 .pv-resultat-style {
-  padding: 0.2rem 0.6rem;
+  padding: 0.35rem 0.8rem;
   border: 1px solid var(--voile-14);
   border-radius: 999px;
-  background: none;
-  color: var(--encre-douce-2);
+  background: var(--voile-08, rgb(255 255 255 / 8%));
+  color: var(--encre-vive);
   font: inherit;
-  font-size: 0.78rem;
+  font-size: 0.84rem;
+  font-weight: 550;
   cursor: pointer;
 }
 .pv-resultat-style:hover {
-  color: var(--encre-vive);
-  border-color: var(--encre-douce-2);
+  background: var(--encre-vive);
+  color: var(--fond);
+  border-color: var(--encre-vive);
+}
+.pv-resultat-aide {
+  font-size: 0.72rem;
+  color: var(--encre-douce-2);
 }
 
 .pv-resultat-vide {

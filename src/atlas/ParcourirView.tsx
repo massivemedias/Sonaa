@@ -406,7 +406,17 @@ export function ParcourirView() {
           )}
           {artistes.map((a) => (
             <li key={`a:${a.nom}`} className="pv-resultat-artiste">
-              <span className="pv-resultat-nom">{a.nom}</span>
+              {/* CE QUE C'EST SE LIT AVANT LE NOM. Le nom seul, suivi de
+                  pastilles, laissait deviner que c'etaient ses styles ; Mika
+                  l'a lu comme un resultat sans reponse (9 septembre 2026).
+                  On ecrit « Artiste », d'ou viennent les styles, et ce que
+                  fait une pastille. */}
+              <span className="pv-resultat-etiquette">
+                {t.artisteResultat}
+                {a.source && a.source !== 'index' ? ` · ${t.selonSource(a.source === 'lastfm' ? 'Last.fm' : 'Discogs')}` : ''}
+              </span>
+              <span className="pv-resultat-nom pv-resultat-nom-artiste">{a.nom}</span>
+              <span className="pv-resultat-sesstyles">{t.sesStyles}</span>
               <span className="pv-resultat-styles">
                 {a.genres.filter(styleConnu).map((id) => (
                   <button
@@ -424,6 +434,7 @@ export function ParcourirView() {
                   </button>
                 ))}
               </span>
+              <span className="pv-resultat-aide">{t.toucherUnStyle}</span>
             </li>
           ))}
           {resultats.map(({ fi, gl, g }) => (

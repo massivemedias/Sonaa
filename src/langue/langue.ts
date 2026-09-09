@@ -339,6 +339,10 @@ interface Dictionnaire {
   readonly reglerLargeurColonne: string;
   readonly fermerLecteur: string;
   readonly profilCourt: string;
+  readonly artisteResultat: string;
+  readonly selonSource: (source: string) => string;
+  readonly sesStyles: string;
+  readonly toucherUnStyle: string;
   readonly leNews: string;
   readonly ledeNews: string;
   readonly newsRayons: string;
@@ -815,6 +819,10 @@ const FR: Dictionnaire = {
   reglerLargeurColonne: "Régler la largeur de la colonne, flèches gauche et droite",
   fermerLecteur: "Fermer le lecteur",
   profilCourt: "Profil",
+  artisteResultat: "Artiste",
+  selonSource: (source) => `styles selon ${source}`,
+  sesStyles: "Les styles qu’il joue, du plus présent au moins :",
+  toucherUnStyle: "Touchez un style pour ouvrir sa fiche.",
   leNews: "News",
   ledeNews: "Ce qui se dit en ce moment dans la musique électronique : les machines et les logiciels qui sortent, les techniques de production, le monde du DJing, la scène. Vingt magazines relus plusieurs fois par jour ; chaque titre mène à son site.",
   newsRayons: "Rayons",
@@ -1306,6 +1314,10 @@ const EN: Dictionnaire = {
   reglerLargeurColonne: "Adjust the column width, left and right arrows",
   fermerLecteur: "Close the player",
   profilCourt: "Profile",
+  artisteResultat: "Artist",
+  selonSource: (source) => `styles according to ${source}`,
+  sesStyles: "The styles they play, most present first:",
+  toucherUnStyle: "Tap a style to open its page.",
   leNews: "News",
   ledeNews: "What is being said right now in electronic music: the gear and software coming out, production techniques, the DJ world, the scene. Twenty magazines read several times a day; every headline leads to its site.",
   newsRayons: "Sections",

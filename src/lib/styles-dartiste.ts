@@ -73,11 +73,16 @@ async function enDirect(requete: string): Promise<ArtisteTrouve | null> {
     try {
       const r = await fetch(`${PASSERELLE}/api/artiste?q=${encodeURIComponent(requete)}`);
       if (!r.ok) return null;
-      const j = (await r.json()) as { trouve: boolean; nom: string | null; styles: Record<string, number> };
+      const j = (await r.json()) as {
+        trouve: boolean;
+        nom: string | null;
+        styles: Record<string, number>;
+        source?: 'discogs' | 'lastfm';
+      };
       if (!j.trouve) return null;
       const genres = stylesVersSonaa(j.styles);
       if (genres.length === 0) return null;
-      return { nom: j.nom ?? requete, genres, enDirect: true };
+      return { nom: j.nom ?? enNomPropre(requete), genres, enDirect: true, source: j.source ?? 'discogs' };
     } catch {
       return null;
     }
@@ -117,7 +122,22 @@ export interface ArtisteTrouve {
   readonly genres: readonly string[];
   /** Vrai quand la reponse vient de Discogs a l'instant, pas de l'index. */
   readonly enDirect?: boolean;
+  /** D'ou viennent les styles : l'index moissonne, ou une source en direct. */
+  readonly source?: 'index' | 'discogs' | 'lastfm';
 }
+
+/* LE NOM S'ECRIT COMME UN NOM, PAS COMME ON L'A TAPE. Quand la source ne
+   rend pas le nom (Discogs a repondu pour les sorties mais pas pour la
+   fiche), on garde ce qui a ete tape, avec une majuscule a chaque mot :
+   « laurent garnier » devient « Laurent Garnier ». Ce n'est pas la graphie
+   officielle, mais c'est un nom, et la fiche ne se lit plus comme une
+   faute de frappe. Vu par Mika le 9 septembre 2026. */
+const enNomPropre = (s: string): string =>
+  s
+    .trim()
+    .split(/\s+/)
+    .map((m) => (m.length > 0 ? m.charAt(0).toUpperCase() + m.slice(1) : m))
+    .join(' ');
 
 /** Les artistes dont le nom contient la requete, les mieux places d'abord.
     Rend un tableau vide tant que l'index n'est pas charge : la recherche
@@ -131,8 +151,8 @@ export async function chercherArtistes(requete: string, combien = 4): Promise<Ar
   const dedans: ArtisteTrouve[] = [];
   for (const [nom, genres] of Object.entries(idx)) {
     const plat = aplatirNom(nom);
-    if (plat === q || plat.startsWith(q)) debuts.push({ nom, genres });
-    else if (plat.includes(q)) dedans.push({ nom, genres });
+    if (plat === q || plat.startsWith(q)) debuts.push({ nom, genres, source: 'index' });
+    else if (plat.includes(q)) dedans.push({ nom, genres, source: 'index' });
     if (debuts.length >= combien) break;
   }
   const trouves = [...debuts, ...dedans].slice(0, combien);
