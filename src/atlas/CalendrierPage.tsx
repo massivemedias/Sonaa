@@ -157,10 +157,14 @@ const NOM_DE_SOURCE: Record<Origine, string> = {
    Le choix de date n'est pas un quatrieme bouton : c'est une liste
    deroulante a cote, parce qu'elle porte soixante entrees et qu'une rangee
    de soixante boutons n'est pas une rangee. */
+/* LES JOURS SUIVANTS JUSTE APRES AUJOURD'HUI : ce sont les deux memes
+   fenetres qui s'ouvrent l'une sur l'autre (ce soir, puis ce soir et les
+   quatre-vingt-dix jours). La fin de semaine, qui est une decoupe a part,
+   vient ensuite. Demande de Mika du 8 septembre 2026. */
 const VUES: readonly { cle: Vue; label: string }[] = [
   { cle: 'aujourdhui', label: t.aujourdhuiOnglet },
-  { cle: 'weekend', label: t.finDeSemaineOnglet },
   { cle: 'suite', label: t.joursSuivantsOnglet },
+  { cle: 'weekend', label: t.finDeSemaineOnglet },
 ];
 
 /* Le jour se lit AUSSI dans le fuseau du lieu : une soiree berlinoise du
