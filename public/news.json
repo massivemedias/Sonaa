@@ -1,6 +1,14 @@
 {
- "fait": "2026-09-08T22:43:32.426Z",
+ "fait": "2026-09-09T04:47:50.024Z",
  "articles": [
+  {
+   "source": "musictech",
+   "titre": "Inside Embassy Studios, where the rooms become part of the signal chain",
+   "lien": "https://musictech.com/features/interviews/inside-embassy-studios-where-the-rooms-become-part-of-the-signal-chain/",
+   "date": "2026-09-08T23:35:20.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/09/Embassy-Studios-Studio-A1-2-credit-press@1400x1050.jpg",
+   "resume": "Getting studio space in New York City is expensive. It’s why most NYC-based artists we speak to are making beats out of their bedrooms, or sharing a studio with friends and collaborators. Hip-hop and EDM mogul Frank…"
+  },
   {
    "source": "cdm",
    "titre": "Eminently controllable, accessible by design, Sting is now a plug-in",
@@ -560,14 +568,6 @@
    "date": "2026-09-02T19:03:01.000Z",
    "image": "https://cdm.link/app/uploads/2026/09/ai-hero2.jpeg",
    "resume": "Boxcar averagers, used in vintage nuclear test equipment, inspired the latest creation from AI Synthesis. What you get is the AI250 BXR: it's an oscillator, a voltage generator, and an audio mangler all in one. And it's…"
-  },
-  {
-   "source": "musictech",
-   "titre": "Stoic’s 9-to-5 routine has helped him release over 1,000 beats",
-   "lien": "https://musictech.com/features/interviews/stoic-beats-paella/",
-   "date": "2026-09-02T16:42:23.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/09/stoic-hero@2000x1500.jpg",
-   "resume": "It’s 11 am on a Wednesday in Staten Island when I speak with Stoic. Tonight, he’ll publish an instrumental hip-hop beat to YouTube, just like every other Monday, Wednesday and Friday. The 29-year-old producer has…"
   },
   {
    "source": "tsugi",
@@ -1131,14 +1131,6 @@
   },
   {
    "source": "mixmag",
-   "titre": "Inside Galactica's first-ever Ibiza residency at Eden",
-   "lien": "https://mixmag.net/feature/inside-galacticas-first-ever-ibiza-residency-at-eden",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fgalactica.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=f46f677c",
-   "resume": "The Italian hard techno brand has welcomed slam experts including 999999999, Cera Khin, Holy Priest and NIKOLINA across its 15-date run on the White Isle this summer"
-  },
-  {
-   "source": "mixmag",
    "titre": "Burning Man confirms two people died during 2026 festival",
    "lien": "https://mixmag.net/read/burning-man-confirms-two-people-died-during-2026-festival-news",
    "date": null,
@@ -1168,14 +1160,6 @@
    "date": null,
    "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fsde-round-ups.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=b64d7d78",
    "resume": "Rounding up festival news from across the dance and electronic world"
-  },
-  {
-   "source": "mixmag",
-   "titre": "10 perfect b2b records selected by dj sweet6teen & Gene On Earth",
-   "lien": "https://mixmag.net/feature/10-perfect-b2b-records-selected-dj-sweet6teen-gene-on-earth",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fnew-pic.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=ba770d77",
-   "resume": "In preparation for their upcoming appearance at London's Waterworks, dj sweet6teen & Gene On Earth put their heads together to pick out their favourite tracks for a b2b DJ set"
   },
   {
    "source": "mixmag",
@@ -1280,6 +1264,22 @@
    "date": null,
    "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Manumission-HEADER_0.jpg.webp?itok=wLq-0yOq1856624333",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-intro field--type-text-long field--label-hidden field__item\"><p>Manumission is often remembered as Ibiza's wildest club event — although there was a lot more…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Listen to Saoirse’s new single, 'Boombox'",
+   "lien": "https://djmag.com/news/listen-saoirses-new-single-boombox",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/LEAD%20PRESS_Saoirse_PRESS_02089%20LPS.jpg.webp?itok=8sp6IMuz1957033946",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>\"Boombox is a moody little tech-house number with a slight extraterrestrial edge\"</p>…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Sam Alfred announces new EP 'No More', on Ninja Tune",
+   "lien": "https://djmag.com/news/sam-alfred-announces-new-ep-no-more-ninja-tune",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/SamAlfred.jpg.webp?itok=yIi0vPfe712263281",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Featuring a contribution from Luuk van Dijk on the opening track</p> </div>"
   }
  ],
  "pannes": []
