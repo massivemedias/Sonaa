@@ -74,18 +74,25 @@
    Quand le profil a un portrait, le bouton de compte est un rond de 40 px
    qui le montre, sur telephone comme sur ordinateur ; le nom et l'initiale
    s'effacent, le nom reste dans le menu. Voir AuthButton.tsx. */
-.authb-compte-portrait {
+/* SELECTEUR DOUBLE, ET C'EST LE POINT. Ecrite avec la classe seule, cette
+   regle passait avant `.authb-bouton`, qui remettait ses 0,9 rem de marge
+   interieure : le rond faisait 40 px, le portrait 11 px de large, une
+   lamelle. Vu par Mika le 8 septembre 2026. A poids egal c'est l'ordre qui
+   decide ; a poids superieur, plus rien ne depend de l'ordre. */
+.authb-bouton.authb-compte-portrait {
   display: grid;
   place-items: center;
+  box-sizing: border-box;
   width: 40px;
   height: 40px;
   min-height: 0;
+  max-width: none;
   padding: 0;
   border-radius: 50%;
   overflow: hidden;
 }
-.authb-compte-portrait .authb-entier,
-.authb-compte-portrait .authb-initiale {
+.authb-bouton.authb-compte-portrait .authb-entier,
+.authb-bouton.authb-compte-portrait .authb-initiale {
   display: none;
 }
 .authb-portrait {
@@ -369,7 +376,11 @@
   .authb-compte .authb-initiale {
     display: block;
   }
-  .authb-compte-portrait .authb-initiale {
+  .authb-bouton.authb-compte-portrait {
+    width: 44px;
+    height: 44px;
+  }
+  .authb-bouton.authb-compte-portrait .authb-initiale {
     display: none;
   }
 }
