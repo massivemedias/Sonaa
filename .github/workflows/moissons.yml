@@ -1,0 +1,118 @@
+# LES MOISSONS DE LA NUIT : le calendrier et les artistes, sans que Mika
+# ait a s'en souvenir le 15 du mois.
+#
+# Chaque nuit a 1 h 17 (heure de Montreal) :
+#   1. les billetteries versent leurs soirees en base (Ticketmaster,
+#      Eventbrite, Lepointdevente, Shotgun), chacune dans son propre essai,
+#      pour qu'une source en panne n'arrete pas les autres ;
+#   2. les artistes du calendrier, des sets et des recherches manquees sont
+#      demandes a Discogs, l'index est refait, et s'il a change, il est
+#      commis et le site republie.
+#
+# CE QUE CETTE TACHE ATTEND DANS LES SECRETS DU DEPOT (Settings, Secrets and
+# variables, Actions) : SUPABASE_URL et SUPABASE_ANON_KEY existent deja pour
+# la publication ; il faut ajouter SUPABASE_SERVICE_ROLE_KEY (la cle
+# sb_secret du projet), TICKETMASTER_API_KEY, DISCOGS_TOKEN et
+# LASTFM_API_KEY. Sans eux, les etapes concernees echouent et le disent.
+#
+# LE RELEVE DES ARTISTES N'EST PAS DANS GIT (2,5 Mo, il grossit) : il passe
+# d'une nuit a l'autre par le cache des actions. Un cache perdu n'est pas une
+# perte : la moisson repart des noms du site et retrouve ce qu'il faut.
+
+name: Moissons de la nuit
+
+on:
+  schedule:
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: moissons
+  cancel-in-progress: false
+
+jobs:
+  moissonner:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      TICKETMASTER_API_KEY: ${{ secrets.TICKETMASTER_API_KEY }}
+      DISCOGS_TOKEN: ${{ secrets.DISCOGS_TOKEN }}
+      LASTFM_API_KEY: ${{ secrets.LASTFM_API_KEY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Dependances
+        run: npm ci
+
+      # ── Le calendrier ────────────────────────────────────────────────
+      - name: Ticketmaster (Montreal, Montpellier, Toulouse)
+        continue-on-error: true
+        run: |
+          npm run ingerer:ticketmaster
+          npm run ingerer:ticketmaster -- --ville=montpellier-fr
+          npm run ingerer:ticketmaster -- --ville=toulouse-fr
+
+      - name: Eventbrite
+        continue-on-error: true
+        run: npm run ingerer:eventbrite
+
+      # Lepointdevente et Shotgun pilotent le Chrome de la machine ; le
+      # runner Ubuntu de GitHub en a un.
+      - name: Lepointdevente
+        continue-on-error: true
+        run: npm run ingerer:lepointdevente
+
+      - name: Shotgun
+        continue-on-error: true
+        run: npm run ingerer:shotgun
+
+      # ── Les artistes ─────────────────────────────────────────────────
+      - name: Releve des artistes (cache d'une nuit a l'autre)
+        uses: actions/cache@v4
+        with:
+          path: scripts/donnees/artistes.json
+          key: artistes-${{ github.run_id }}
+          restore-keys: |
+            artistes-
+
+      - name: Artistes du calendrier, des sets et des recherches manquees
+        continue-on-error: true
+        run: npm run moissonner:artistes -- --etape=artistes --combien=300
+
+      - name: Index des artistes
+        run: npm run deriver:artistes
+
+      - name: Commettre si l'index a change
+        id: commit
+        run: |
+          if git diff --quiet -- src/data/artistes.json src/data/artistes-index.json; then
+            echo "change=non" >> "$GITHUB_OUTPUT"
+            echo "Index inchange."
+          else
+            git config user.name "moissons"
+            git config user.email "moissons@users.noreply.github.com"
+            git add src/data/artistes.json src/data/artistes-index.json
+            git commit -m "Artistes : moisson de la nuit du $(date -u +%Y-%m-%d)"
+            git push
+            echo "change=oui" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publier
+        if: steps.commit.outputs.change == 'oui'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main

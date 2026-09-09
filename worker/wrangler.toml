@@ -24,3 +24,11 @@ bucket_name = "sonaa-sets"
 # tout l'interet de la signature asymetrique.
 SUPABASE_URL = "https://pqgapyfqkjzvwkulxnhv.supabase.co"
 ORIGINES = "https://sonaa.ca,http://localhost:5173,http://localhost:4173"
+
+# LES NOMS QU'ON N'A PAS SU RESOUDRE. Quand ni Discogs (bloque par adresse
+# depuis ici) ni Last.fm ne connaissent un artiste, son nom est note ici, et
+# la moisson des artistes, qui tourne depuis un poste, le demande a Discogs
+# a son prochain passage. Le lendemain, il est dans l'index.
+[[kv_namespaces]]
+binding = "DEMANDES"
+id = "3896659cbb0342b08f7d4e38dd3e51f7"

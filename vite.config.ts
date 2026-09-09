@@ -35,10 +35,12 @@ export default defineConfig({
       },
     },
     VitePWA({
-      /* « prompt » et non « autoUpdate » : une mise à jour appliquée dans le
-         dos remplace le code sous les pieds de quelqu'un qui est en train de
-         lire une fiche, et peut interrompre une écoute. On propose, on
-         n'impose pas · voir UpdateBanner.tsx. */
+      /* « prompt » et non « autoUpdate », mais ce n'est plus la personne qui
+         appuie : c'est PwaLayer qui applique la version en attente au
+         prochain moment creux (changement de page, onglet en arrière-plan),
+         jamais pendant qu'un son joue, et ne montre le bandeau qu'à défaut
+         de moment creux en une demi-heure. « autoUpdate » ferait la même
+         chose sans regarder si un set joue. */
       registerType: 'prompt',
       injectRegister: null, // l'enregistrement est fait à la main dans pwa.ts
       manifestFilename: 'manifest.webmanifest',

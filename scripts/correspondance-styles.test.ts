@@ -6,7 +6,7 @@
  * de fiches, ce qui est exactement la definition d'un endroit a tester. */
 
 import { describe, expect, it } from 'vitest';
-import { ALIAS, aplatir, ranger, vocabulaire, MODIFICATEURS, TROUS } from './lib/correspondance-styles.ts';
+import { ALIAS, aplatir, ranger, vocabulaire, MODIFICATEURS, TROUS } from '../src/lib/correspondance-styles.ts';
 import { genresDuCorpus } from './lib/genres-du-corpus.ts';
 
 const GENRES = genresDuCorpus();

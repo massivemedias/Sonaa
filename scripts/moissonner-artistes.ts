@@ -187,12 +187,54 @@ async function stylesDeLArtiste(nom: string): Promise<Record<string, number> | n
   return compte;
 }
 
+/* ═══ LES ARTISTES DU CALENDRIER ET DES SETS, EN PREMIER ═══
+
+   C'est pour eux que la question « quels styles fait untel » se pose sur le
+   site : les noms sur les affiches de Montreal, et ceux qui deposent un set.
+   Ils ne figurent dans aucun classement Last.fm, donc aucune autre graine
+   ne les apporte. On les lit dans la base, avec la cle publique (les soirees
+   publiees et les artistes sont lisibles par tous), et on les passe AVANT
+   les autres : c'est ce qui fait que Lealtica et Maudite Machine entrent
+   dans l'index le soir meme ou ils sont a l'affiche.
+
+   Discogs, lui, ne peut pas etre interroge en direct depuis la passerelle :
+   il compte par adresse IP et les adresses de Cloudflare sont partagees
+   (mesure du 8 septembre 2026). D'ou cette moisson, depuis un poste. */
+async function artistesDuSite(): Promise<string[]> {
+  const url = process.env['VITE_SUPABASE_URL'];
+  const cle = process.env['VITE_SUPABASE_ANON_KEY'];
+  if (!url || !cle) return [];
+  const lire = async (chemin: string): Promise<unknown> => {
+    const r = await fetch(`${url}/rest/v1/${chemin}`, { headers: { apikey: cle, authorization: `Bearer ${cle}` } });
+    return r.ok ? r.json() : [];
+  };
+  const soirees = (await lire('soirees_manuelles?select=artistes&publiee=eq.true')) as { artistes?: string[] }[];
+  const comptes = (await lire('artistes?select=nom')) as { nom?: string }[];
+  const noms = new Set<string>();
+  for (const s of soirees) for (const a of s.artistes ?? []) if (a.trim().length >= 2) noms.add(a.trim());
+  for (const c of comptes) if (c.nom && c.nom.trim().length >= 2) noms.add(c.nom.trim());
+  /* ET LES NOMS QUE LA RECHERCHE N'A PAS SU RESOUDRE : la passerelle les
+     note quand ni Discogs ni Last.fm ne repondent en direct (voir
+     worker/src/index.ts, api/artiste). C'est la promesse faite a qui a tape
+     un nom pour rien : le lendemain, il y est. */
+  try {
+    const r = await fetch('https://sonaa-sets.massivemedias.workers.dev/api/artistes-demandes');
+    if (r.ok) for (const d of (await r.json()) as string[]) if (d.trim().length >= 3) noms.add(d.trim());
+  } catch {
+    /* La passerelle injoignable ne prive pas la moisson des autres graines. */
+  }
+  return [...noms];
+}
+
 async function etapeArtistes(releve: Releve, combien: number): Promise<void> {
-  /* LES GRAINES VIENNENT DES DEUX BOUTS : ce que Last.fm a classe par style,
-     et ce que le corpus nomme deja. Le second lot est petit et precieux : ce
-     sont des noms dont Mika a verifie le style a la main. */
+  /* LES GRAINES VIENNENT DE TROIS COTES : les noms du site (calendrier et
+     sets) d'abord, puis ce que Last.fm a classe par style, puis ce que le
+     corpus nomme deja. Le dernier lot est petit et precieux : ce sont des
+     noms dont Mika a verifie le style a la main. */
+  const duSite = await artistesDuSite();
+  console.log(`${duSite.length} noms lus dans le calendrier et les sets.`);
   const aFaire = [
-    ...new Set([...Object.values(releve.parStyle).flat(), ...artistesDuCorpus()]),
+    ...new Set([...duSite, ...Object.values(releve.parStyle).flat(), ...artistesDuCorpus()]),
   ].filter((n) => !(n in releve.parArtiste) && !releve.introuvables.includes(n));
 
   const lot = combien > 0 ? aFaire.slice(0, combien) : aFaire;

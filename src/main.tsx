@@ -116,6 +116,16 @@ const SetsPage = lazy(() =>
 import { BarreBas } from './atlas/BarreBas.tsx';
 import { MiniLecteur } from './atlas/MiniLecteur.tsx';
 
+/* UN MORCEAU DE CODE QUI N'EXISTE PLUS SE RECHARGE, IL NE PLANTE PAS. Une
+   page ouverte depuis hier demande un fichier que la publication de ce matin
+   a remplace : le navigateur ne le trouve plus. Vite le signale ; on
+   recharge, et la page revient a jour. Sans cela, la premiere navigation
+   apres une publication montrait un ecran blanc. */
+window.addEventListener('vite:preloadError', (e) => {
+  e.preventDefault();
+  window.location.reload();
+});
+
 const NewsPage = lazy(() => import('./atlas/NewsPage.tsx').then((m) => ({ default: m.NewsPage })));
 
 const CalendrierPage = lazy(() =>

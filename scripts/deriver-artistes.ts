@@ -33,7 +33,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { genresDuCorpus } from './lib/genres-du-corpus.ts';
-import { ranger, vocabulaire } from './lib/correspondance-styles.ts';
+import { ranger, vocabulaire } from '../src/lib/correspondance-styles.ts';
 
 const RELEVE = fileURLToPath(new URL('./donnees/artistes.json', import.meta.url));
 const SORTIE = fileURLToPath(new URL('../src/data/artistes.json', import.meta.url));
@@ -118,7 +118,14 @@ function main(): void {
     if (liste.length > 0) parGenre[g.id] = liste;
   }
 
-  const livre: Livre = { fait: new Date().toISOString(), parGenre };
+  /* LA DATE NE BOUGE QUE SI LE CONTENU BOUGE. La moisson de la nuit
+     (.github/workflows/moissons.yml) commet ce fichier quand il change ;
+     une date qui change a chaque passage aurait fait un commit et une
+     publication par nuit pour rien. On garde donc la date d'avant tant que
+     les classements sont les memes. */
+  const dAvant = existsSync(SORTIE) ? (JSON.parse(readFileSync(SORTIE, 'utf8')) as Livre) : null;
+  const pareil = dAvant !== null && JSON.stringify(dAvant.parGenre) === JSON.stringify(parGenre);
+  const livre: Livre = { fait: pareil && dAvant ? dAvant.fait : new Date().toISOString(), parGenre };
   writeFileSync(SORTIE, JSON.stringify(livre), 'utf8');
 
   /* ═══ L'INDEX INVERSE : UN NOM, SES STYLES ═══

@@ -19,8 +19,72 @@
  * passerelle. Cet index est le chemin rapide, pas le chemin complet.
  */
 
+import { FAMILIES, STRUCTURES } from '../atlas/structures.ts';
+import { ranger, vocabulaire, type Vocabulaire } from './correspondance-styles.ts';
+
 let index: Record<string, string[]> | null = null;
 let enCours: Promise<Record<string, string[]>> | null = null;
+
+/* ═══ LE REPLI EN DIRECT, PAR LA PASSERELLE ═══
+
+   Quand l'index ne connait pas le nom, on demande a Discogs, par le Worker
+   (route api/artiste), qui porte le jeton et garde la reponse un jour. Le
+   Worker rend les styles bruts de Discogs avec leur poids ; c'est ICI qu'on
+   les range dans notre vocabulaire, avec la table que la moisson emploie.
+
+   ON N'INTERROGE QU'UN NOM QUI A FINI D'ETRE TAPE. Chaque lettre relance la
+   recherche ; sans pause, « l », « le », « lea »... partiraient tous vers la
+   passerelle. On attend un demi-seconde de silence, et on n'envoie que si la
+   requete n'a pas change entre-temps. */
+const PASSERELLE = 'https://sonaa-sets.massivemedias.workers.dev';
+const PAUSE_MS = 500;
+let derniereRequete = 0;
+const memoireDirecte = new Map<string, Promise<ArtisteTrouve | null>>();
+
+let voc: Vocabulaire | null = null;
+const vocabulaireDuSite = (): Vocabulaire => {
+  if (voc) return voc;
+  const genres = STRUCTURES.flatMap((s) => s.genres.map((g) => ({ id: g.id, label: g.label })));
+  voc = vocabulaire(genres, FAMILIES.map((f) => ({ id: f.id, label: f.label })));
+  return voc;
+};
+
+/** Les styles bruts de Discogs, ranges dans le vocabulaire de SONAA et
+    ordonnes du plus present au moins. Six au plus, comme dans l'index. */
+export function stylesVersSonaa(bruts: Record<string, number>): string[] {
+  const v = vocabulaireDuSite();
+  const poids = new Map<string, number>();
+  for (const [style, n] of Object.entries(bruts)) {
+    const cible = ranger(style, v);
+    if (!cible) continue;
+    poids.set(cible.id, (poids.get(cible.id) ?? 0) + n);
+  }
+  return [...poids.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 6)
+    .map(([id]) => id);
+}
+
+async function enDirect(requete: string): Promise<ArtisteTrouve | null> {
+  const cle = requete.toLowerCase();
+  const deja = memoireDirecte.get(cle);
+  if (deja) return deja;
+  const p = (async (): Promise<ArtisteTrouve | null> => {
+    try {
+      const r = await fetch(`${PASSERELLE}/api/artiste?q=${encodeURIComponent(requete)}`);
+      if (!r.ok) return null;
+      const j = (await r.json()) as { trouve: boolean; nom: string | null; styles: Record<string, number> };
+      if (!j.trouve) return null;
+      const genres = stylesVersSonaa(j.styles);
+      if (genres.length === 0) return null;
+      return { nom: j.nom ?? requete, genres, enDirect: true };
+    } catch {
+      return null;
+    }
+  })();
+  memoireDirecte.set(cle, p);
+  return p;
+}
 
 /* La forme sur laquelle on compare : sans accent, sans ponctuation. La meme
    que celle du moissonneur, pour que « Rhythim Is Rhythim » se trouve quelle
@@ -51,6 +115,8 @@ async function charger(): Promise<Record<string, string[]>> {
 export interface ArtisteTrouve {
   readonly nom: string;
   readonly genres: readonly string[];
+  /** Vrai quand la reponse vient de Discogs a l'instant, pas de l'index. */
+  readonly enDirect?: boolean;
 }
 
 /** Les artistes dont le nom contient la requete, les mieux places d'abord.
@@ -69,5 +135,15 @@ export async function chercherArtistes(requete: string, combien = 4): Promise<Ar
     else if (plat.includes(q)) dedans.push({ nom, genres });
     if (debuts.length >= combien) break;
   }
-  return [...debuts, ...dedans].slice(0, combien);
+  const trouves = [...debuts, ...dedans].slice(0, combien);
+  if (trouves.length > 0) return trouves;
+
+  /* Rien dans l'index : on demande a Discogs, apres un silence, et
+     seulement si personne n'a tape autre chose entre-temps. */
+  const jeton = Date.now();
+  derniereRequete = jeton;
+  await new Promise((r) => setTimeout(r, PAUSE_MS));
+  if (derniereRequete !== jeton) return [];
+  const direct = await enDirect(requete.trim());
+  return direct ? [direct] : [];
 }

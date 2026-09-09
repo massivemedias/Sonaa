@@ -40,7 +40,122 @@ interface Env {
   readonly SETS: R2Bucket;
   readonly SUPABASE_URL: string;
   readonly ORIGINES: string;
+  /** Le jeton Discogs, pose par `wrangler secret put DISCOGS_TOKEN`. Jamais
+      dans le navigateur : c'est toute la raison de la route api/artiste. */
+  readonly DISCOGS_TOKEN?: string;
+  /** La cle Last.fm, second avis quand Discogs refuse. */
+  readonly LASTFM_API_KEY?: string;
+  /** Les noms qu'aucune source n'a resolus, pour la moisson du lendemain. */
+  readonly DEMANDES?: KVNamespace;
 }
+
+const aplatirNom = (s: string): string =>
+  s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+
+/* ═══ UN ARTISTE, SES STYLES, EN DIRECT CHEZ DISCOGS ═══
+
+   L'index embarque par le site connait 9 334 artistes : ceux qui figurent
+   dans un classement Last.fm. Un artiste local a trois sorties n'y est pas,
+   et c'est precisement lui que Mika veut trouver (Lealtica, Maudite
+   Machine, FM Radio Gods). Discogs le connait, avec les styles de chacun de
+   ses disques : on lui demande, ici, avec le jeton que le navigateur ne doit
+   pas voir, et on garde la reponse un jour.
+
+   CE QUI EST RENDU : le nom tel que Discogs l'ecrit, et le compte de ses
+   sorties par style Discogs (« Tech House » : 3). Le rangement dans le
+   vocabulaire de SONAA se fait cote site, avec la meme table que la moisson
+   (src/lib/correspondance-styles.ts) : une seule regle, lue des deux cotes. */
+const DISCOGS = 'https://api.discogs.com';
+const AGENT_DISCOGS = 'SONAA/1.0 +https://sonaa.ca';
+
+async function discogs(chemin: string, env: Env): Promise<unknown> {
+  /* LE JETON VA DANS L'ADRESSE ET DANS L'EN-TETE. Depuis le Worker, l'en-tete
+     seul laissait Discogs compter les requetes comme anonymes, par adresse
+     IP, et les adresses de sortie de Cloudflare sont partagees par tout le
+     monde : « too quickly » des la premiere. Discogs accepte aussi `token=`
+     dans l'adresse ; on envoie les deux. */
+  const sep = chemin.includes('?') ? '&' : '?';
+  const r = await fetch(`${DISCOGS}${chemin}${env.DISCOGS_TOKEN ? `${sep}token=${encodeURIComponent(env.DISCOGS_TOKEN)}` : ''}`, {
+    headers: {
+      'User-Agent': AGENT_DISCOGS,
+      Accept: 'application/vnd.discogs.v2.discogs+json',
+      ...(env.DISCOGS_TOKEN ? { Authorization: `Discogs token=${env.DISCOGS_TOKEN}` } : {}),
+    },
+  });
+  if (!r.ok) {
+    /* Le debut de la reponse et les compteurs de Discogs dans le message :
+       un 429 par jeton et un 429 par adresse ne se reparent pas pareil. */
+    const bout = (await r.text()).replace(/\s+/g, ' ').slice(0, 120);
+    const quota = `limite=${r.headers.get('x-discogs-ratelimit') ?? '?'} utilise=${r.headers.get('x-discogs-ratelimit-used') ?? '?'}`;
+    throw new Error(`Discogs ${r.status} ${quota} ${bout}`);
+  }
+  return r.json();
+}
+
+interface ArtisteDiscogs {
+  readonly trouve: boolean;
+  readonly nom: string | null;
+  readonly sorties: number;
+  readonly styles: Record<string, number>;
+}
+
+/* ═══ LAST.FM EN SECOND, PARCE QUE DISCOGS COMPTE PAR ADRESSE ═══
+
+   MESURE LE 8 SEPTEMBRE 2026 : depuis ce Worker, Discogs repondait « too
+   quickly » a la premiere requete, compteur a 70 sur 60, alors que le meme
+   jeton depuis un poste montrait 0 sur 60. Discogs limite par adresse IP de
+   depart, et les adresses de sortie de Cloudflare sont partagees par tous
+   les Workers du monde : le seau est plein avant nous.
+
+   Last.fm limite par cle, pas par adresse : il repond toujours. Ses
+   etiquettes sont posees par le public, donc plus pauvres pour un artiste
+   local a trois sorties (rien sur Lealtica), mais justes pour tout ce qui a
+   des auditeurs (Nina Kraviz, FM Radio Gods). On tente Discogs, on retombe
+   sur Last.fm, et on dit d'ou vient la reponse. */
+async function artisteChezLastfm(q: string, env: Env): Promise<ArtisteDiscogs> {
+  if (!env.LASTFM_API_KEY) return { trouve: false, nom: null, sorties: 0, styles: {} };
+  const r = await fetch(
+    `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=${encodeURIComponent(q)}&api_key=${env.LASTFM_API_KEY}&format=json&autocorrect=1`,
+    { headers: { 'user-agent': AGENT_DISCOGS } }
+  );
+  if (!r.ok) throw new Error(`Last.fm ${r.status}`);
+  const j = (await r.json()) as { toptags?: { tag?: { name: string; count: number }[]; '@attr'?: { artist?: string } } };
+  const tags = j.toptags?.tag ?? [];
+  const styles: Record<string, number> = {};
+  /* Les etiquettes a moins de 5 sur 100 sont du bruit : « seen live »,
+     « under 2000 listeners », un genre qu'une personne a pose une fois. */
+  for (const t of tags) if (t.count >= 5) styles[t.name] = t.count;
+  if (Object.keys(styles).length === 0) return { trouve: false, nom: null, sorties: 0, styles: {} };
+  return { trouve: true, nom: j.toptags?.['@attr']?.artist ?? q, sorties: tags.length, styles };
+}
+
+async function artisteChezDiscogs(q: string, env: Env): Promise<ArtisteDiscogs> {
+  /* Les sorties d'abord : c'est la qu'il y a les styles. Cinquante suffisent
+     a peser un style contre un autre. */
+  const sorties = (await discogs(
+    `/database/search?type=release&per_page=50&artist=${encodeURIComponent(q)}`,
+    env
+  )) as { results?: { style?: string[]; title?: string }[] };
+  const res = sorties.results ?? [];
+  const styles: Record<string, number> = {};
+  for (const r of res) for (const st of r.style ?? []) styles[st] = (styles[st] ?? 0) + 1;
+  if (res.length === 0) return { trouve: false, nom: null, sorties: 0, styles: {} };
+
+  /* Le nom tel que Discogs l'ecrit, pour l'afficher juste : « Maudite
+     Machine » et non ce qu'on a tape. */
+  let nom: string | null = null;
+  try {
+    const fiche = (await discogs(
+      `/database/search?type=artist&per_page=1&q=${encodeURIComponent(q)}`,
+      env
+    )) as { results?: { title?: string }[] };
+    nom = fiche.results?.[0]?.title ?? null;
+  } catch {
+    nom = null;
+  }
+  return { trouve: true, nom, sorties: res.length, styles };
+}
+
 
 /* --- Les entetes de partage entre origines -------------------------------- */
 
@@ -207,6 +322,74 @@ export default {
         JSON.stringify({ ville, pays, zone }),
         { headers: entetes(req, env, { 'content-type': 'application/json', 'cache-control': 'no-store' }) }
       );
+    }
+
+    /* UN ARTISTE QUE L'INDEX IGNORE. Publique, sans jeton : la question
+       « quels styles fait untel » n'appartient a personne. Un jour de cache
+       par nom, pour ne pas frapper Discogs a chaque frappe. */
+    if (req.method === 'GET' && chemin === 'api/artiste') {
+      const q = (url.searchParams.get('q') ?? '').trim().slice(0, 80);
+      if (q.length < 3) return refus(req, env, 400, 'q trop court');
+      if (!env.DISCOGS_TOKEN) return refus(req, env, 503, 'Discogs non configure');
+      const cache = caches.default;
+      const cle = new Request(`https://sonaa.ca/api/artiste?q=${encodeURIComponent(q.toLowerCase())}&v=2`);
+      const garde = await cache.match(cle);
+      if (garde) {
+        const h = entetes(req, env, { 'content-type': 'application/json' });
+        h.set('x-cache', 'garde');
+        return new Response(garde.body, { headers: h });
+      }
+      let reponse: ArtisteDiscogs & { source?: string };
+      try {
+        reponse = { ...(await artisteChezDiscogs(q, env)), source: 'discogs' };
+      } catch {
+        try {
+          reponse = { ...(await artisteChezLastfm(q, env)), source: 'lastfm' };
+        } catch (e) {
+          return refus(req, env, 502, e instanceof Error ? e.message : 'aucune source ne repond');
+        }
+      }
+      /* PAS TROUVE : ON NOTE LE NOM, ET LA MOISSON S'EN CHARGERA. Une seule
+         entree par nom aplati, avec la date ; trente jours de vie, le temps
+         que la moisson passe plusieurs fois. Un nom qui n'existe nulle part
+         finit par expirer sans avoir gene personne. */
+      if (!reponse.trouve && env.DEMANDES) {
+        const k = aplatirNom(q);
+        if (k.length >= 3) {
+          await env.DEMANDES.put(k, JSON.stringify({ nom: q, quand: new Date().toISOString() }), {
+            expirationTtl: 30 * 24 * 3600,
+          });
+        }
+      }
+      const corps = JSON.stringify(reponse);
+      await cache.put(
+        cle,
+        new Response(corps, { headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=86400' } })
+      );
+      const h = entetes(req, env, { 'content-type': 'application/json' });
+      h.set('x-cache', 'frais');
+      return new Response(corps, { headers: h });
+    }
+
+    /* LA LISTE DES NOMS DEMANDES, pour la moisson. Publique : ce sont des
+       noms d'artistes tapes dans une recherche, rien de personnel. */
+    if (req.method === 'GET' && chemin === 'api/artistes-demandes') {
+      if (!env.DEMANDES) return refus(req, env, 503, 'file non configuree');
+      const liste = await env.DEMANDES.list({ limit: 1000 });
+      const noms: string[] = [];
+      for (const k of liste.keys) {
+        const v = await env.DEMANDES.get(k.name);
+        if (!v) continue;
+        try {
+          const j = JSON.parse(v) as { nom?: string };
+          if (j.nom) noms.push(j.nom);
+        } catch {
+          /* Une entree illisible n'est pas une raison de taire les autres. */
+        }
+      }
+      return new Response(JSON.stringify(noms), {
+        headers: entetes(req, env, { 'content-type': 'application/json', 'cache-control': 'no-store' }),
+      });
     }
 
     /* LA LISTE DES VILLES, pour qui n'est pas la ou son adresse le dit. */

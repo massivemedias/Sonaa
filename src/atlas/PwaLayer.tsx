@@ -20,8 +20,28 @@ import {
   surEtatDuReseau,
   surMiseAJour,
 } from '../lib/pwa.ts';
+import { etatDeLectureSet } from '../lib/lecture-set.ts';
 import './pwa.css';
 import { t } from '../langue/langue.ts';
+
+/* ═══ LA MISE A JOUR SE FAIT TOUTE SEULE, AU MOMENT OU ELLE NE DERANGE PAS ═══
+ *
+ * Avant le lancement a Montreal (Mika, 8 septembre 2026) : un visiteur
+ * gardait l'ancienne version tant qu'il ne cliquait pas « Mettre a jour »,
+ * et on jugeait des corrections sur des pages jamais rechargees. Mais on ne
+ * veut pas non plus remplacer le code sous les pieds de quelqu'un qui lit
+ * ou qui ecoute.
+ *
+ * La regle : des qu'une version attend, on l'applique AU PROCHAIN MOMENT
+ * CREUX, c'est-a-dire quand la page change (l'ecran va se redessiner de
+ * toute facon) ou quand l'onglet passe en arriere-plan (personne ne
+ * regarde), et JAMAIS pendant qu'un son joue, un set comme une video. Si
+ * aucun moment creux ne vient en une demi-heure, le bandeau d'avant
+ * reapparait, et la personne decide. */
+const REPOUSSER_MS = 30 * 60 * 1000;
+
+const sonEnCours = (): boolean =>
+  etatDeLectureSet().joue || document.querySelector('.pv[data-joue="true"]') !== null;
 
 /** L'événement Chrome, absent des types du DOM. */
 interface EvenementInstallation extends Event {
@@ -38,7 +58,31 @@ export function PwaLayer() {
   const [evenement, setEvenement] = useState<EvenementInstallation | null>(null);
 
   useEffect(() => surEtatDuReseau(setEnLigne), []);
-  useEffect(() => surMiseAJour(setMajPrete), []);
+  /* La version en attente est notee, pas encore affichee : on attend un
+     moment creux (voir sonEnCours). Le bandeau ne vient qu'apres le delai. */
+  const [enAttente, setEnAttente] = useState(false);
+  useEffect(() => surMiseAJour(setEnAttente), []);
+  useEffect(() => {
+    if (!enAttente) return;
+    let appliquee = false;
+    const tenter = (): void => {
+      if (appliquee || sonEnCours()) return;
+      appliquee = true;
+      void appliquerLaMiseAJour();
+    };
+    const surVisibilite = (): void => {
+      if (document.hidden) tenter();
+    };
+    if (document.hidden) tenter();
+    window.addEventListener('hashchange', tenter);
+    document.addEventListener('visibilitychange', surVisibilite);
+    const bandeau = window.setTimeout(() => setMajPrete(true), REPOUSSER_MS);
+    return () => {
+      window.removeEventListener('hashchange', tenter);
+      document.removeEventListener('visibilitychange', surVisibilite);
+      window.clearTimeout(bandeau);
+    };
+  }, [enAttente]);
 
   /* ═══ « PLUS TARD » NE DOIT PAS VOULOIR DIRE « JAMAIS » ═══
    *
@@ -57,7 +101,6 @@ export function PwaLayer() {
    * `autoUpdate` : on ne remplace pas le code sous les pieds de quelqu'un
    * qui lit une fiche ou ecoute un set. Mais on redemande au bout d'une
    * demi-heure. */
-  const REPOUSSER_MS = 30 * 60 * 1000;
 
   const repousser = (): void => {
     setMajPrete(false);
