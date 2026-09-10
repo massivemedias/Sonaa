@@ -60,3 +60,10 @@ export function useSession(): EtatSession {
 
   return etat;
 }
+
+/** La session telle qu'on la connait A CET INSTANT, sans attendre. Pour ce
+    qui doit decider dans un geste, comme lancer un son : une promesse
+    arriverait apres le geste, et le navigateur refuserait alors le son. */
+export function sessionActuelle(): Session | null {
+  return sessionPartagee;
+}

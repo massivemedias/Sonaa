@@ -27,6 +27,7 @@ import { FAMILIES, STRUCTURES, type Genre, type Track } from './structures.ts';
 import { poidsDe } from './poids.ts';
 import { ProceduralCover } from './ProceduralCover.tsx';
 import { useLecteur } from '../lecture/useLecteur.ts';
+import { peutEcouter } from '../lib/porte-ecoute.ts';
 import MACHINES from '../data/machines.json';
 import ILLUSTRATIONS from '../data/illustrations.json';
 import {
@@ -175,7 +176,20 @@ export function ParcourirView() {
      ce qui permet au premier playVideo() de partir du geste, et donc au son
      d'etre autorise. Construit au premier appui, il devenait pret une seconde
      trop tard et le navigateur refusait. */
-  const { lecture, jouer, basculer, deplacer, chercher } = useLecteur({ precharger: niveau.k === 'genre' });
+  const { lecture, jouer: jouerSansPorte, basculer: basculerSansPorte, deplacer, chercher } = useLecteur({ precharger: niveau.k === 'genre' });
+
+  /* ON ECOUTE CONNECTE : voir porte-ecoute.ts. Les deux gestes qui lancent
+     un son passent par la porte ; elle ouvre le panneau de connexion quand
+     elle refuse, et le geste s'arrete la. */
+  const jouer = useCallback(
+    (...args: Parameters<typeof jouerSansPorte>) => {
+      if (peutEcouter()) jouerSansPorte(...args);
+    },
+    [jouerSansPorte]
+  );
+  const basculer = useCallback(() => {
+    if (peutEcouter()) basculerSansPorte();
+  }, [basculerSansPorte]);
 
   /* LE CLAVIER, SUR LE MODELE DE SPOTIFY.
 

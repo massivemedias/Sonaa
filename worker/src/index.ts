@@ -39,6 +39,9 @@ import { soirees, toutesLesSoirees } from './agenda.ts';
 interface Env {
   readonly SETS: R2Bucket;
   readonly SUPABASE_URL: string;
+  /** La cle publique du projet, celle du navigateur : elle sert a demander a
+      la base si le porteur d'un jeton est moderateur. Pas un secret. */
+  readonly SUPABASE_ANON_KEY?: string;
   readonly ORIGINES: string;
   /** Le jeton Discogs, pose par `wrangler secret put DISCOGS_TOKEN`. Jamais
       dans le navigateur : c'est toute la raison de la route api/artiste. */
@@ -247,6 +250,26 @@ const base64url = (s: string): Uint8Array => {
 };
 
 /** Rend l'identifiant du compte si le jeton est valide, sinon null. */
+async function estModerateur(req: Request, env: Env): Promise<boolean> {
+  const jeton = req.headers.get('Authorization') ?? '';
+  if (!jeton || !env.SUPABASE_ANON_KEY) return false;
+  try {
+    const r = await fetch(`${env.SUPABASE_URL}/rest/v1/rpc/is_moderator`, {
+      method: 'POST',
+      headers: {
+        apikey: env.SUPABASE_ANON_KEY,
+        Authorization: jeton,
+        'content-type': 'application/json',
+      },
+      body: '{}',
+    });
+    if (!r.ok) return false;
+    return (await r.json()) === true;
+  } catch {
+    return false;
+  }
+}
+
 async function qui(req: Request, env: Env): Promise<string | null> {
   const brut = req.headers.get('Authorization')?.replace(/^Bearer\s+/i, '');
   if (!brut) return null;
@@ -594,7 +617,16 @@ export default {
     }
 
     if (req.method === 'DELETE') {
-      if (!aMoi(chemin)) return refus(req, env, 403, 'chemin hors de votre dossier');
+      /* LA MODERATION PEUT RETIRER LE FICHIER D'UN AUTRE. Depuis le 10
+         septembre 2026 la base laisse un moderateur supprimer la ligne d'un
+         set qui n'est pas le sien ; sans ceci le fichier restait sur R2,
+         orphelin et facture. On demande a la base, avec le jeton de la
+         personne, si elle est moderatrice : c'est la meme fonction
+         is_moderator() que les politiques, et la reponse ne vaut que pour ce
+         jeton. */
+      if (!aMoi(chemin) && !(await estModerateur(req, env))) {
+        return refus(req, env, 403, 'chemin hors de votre dossier');
+      }
       await env.SETS.delete(chemin);
       return new Response(null, { status: 204, headers: entetes(req, env) });
     }

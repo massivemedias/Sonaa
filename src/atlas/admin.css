@@ -1,0 +1,57 @@
+/* L'administration : voir AdminPage.tsx. */
+
+.admin-defile {
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+}
+.admin-table th,
+.admin-table td {
+  padding: 0.5rem 0.6rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: var(--rule-width) solid var(--rule-hairline);
+  white-space: nowrap;
+}
+.admin-table th {
+  font-size: 0.72rem;
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  font-weight: 600;
+}
+
+.admin-etiquette {
+  margin-left: 0.5rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: var(--ink-primary);
+  color: var(--surface-plate);
+  font-size: 0.68rem;
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+}
+
+.admin-noms {
+  columns: 3 14rem;
+  margin: 0;
+  padding-left: 1.2rem;
+}
+.admin-noms li {
+  padding: 0.15rem 0;
+}
+
+.admin-lien {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-primary);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}

@@ -480,6 +480,49 @@ interface Dictionnaire {
   readonly tonAdresse: string;
   readonly envoiEnCours: string;
   readonly recevoirLien: string;
+  /* Le mot de passe, et le panneau de connexion qui va avec. */
+  readonly serviceIndisponible: string;
+  readonly adresseInvalide: string;
+  readonly identifiantsFaux: string;
+  readonly courrielNonConfirme: string;
+  readonly motDePasseTropCourt: (n: number) => string;
+  readonly compteExiste: string;
+  readonly confirmationPartie: string;
+  readonly quotaCourriel: string;
+  readonly motDePasse: string;
+  readonly creerUnCompte: string;
+  readonly motDePasseOublie: string;
+  readonly lienALaPlace: string;
+  readonly motDePasseALaPlace: string;
+  readonly nouveauMotDePasse: string;
+  readonly enregistrerMotDePasse: string;
+  readonly motDePasseChange: string;
+  readonly lienReinitParti: string;
+  readonly usageEcoute: string;
+  /* L'administration. */
+  readonly adminMenu: string;
+  readonly adminTitre: string;
+  readonly adminReserve: string;
+  readonly adminMembres: string;
+  readonly adminSets: string;
+  readonly adminSoirees: string;
+  readonly adminCommentaires: string;
+  readonly adminArtistes: string;
+  readonly adminComptes: (n: number) => string;
+  readonly adminInscritLe: string;
+  readonly adminDerniereConnexion: string;
+  readonly adminMoyen: string;
+  readonly adminArtiste: string;
+  readonly adminNSets: (n: number, publies: number) => string;
+  readonly adminNSoirees: (n: number) => string;
+  readonly adminJamais: string;
+  readonly adminTousLesSets: string;
+  readonly adminAucunSet: string;
+  readonly adminDeposePar: string;
+  readonly adminConfirmerRetrait: (titre: string) => string;
+  readonly adminDemandesIntro: string;
+  readonly adminAucuneDemande: string;
+  readonly adminLectureImpossible: string;
   readonly promesseDonnees: string;
   /* Etats du lecteur, cote moteur. */
   readonly erreurRetiree: string;
@@ -960,9 +1003,52 @@ const FR: Dictionnaire = {
   tonAdresse: 'Ton adresse',
   envoiEnCours: 'Envoi…',
   recevoirLien: 'Recevoir un lien',
+  serviceIndisponible: 'La connexion n’est pas disponible ici.',
+  adresseInvalide: 'Cette adresse ne ressemble pas à une adresse courriel.',
+  identifiantsFaux: 'Adresse ou mot de passe incorrect.',
+  courrielNonConfirme: 'Cette adresse n’a pas encore été confirmée : regarde dans ta boîte, et dans les indésirables.',
+  motDePasseTropCourt: (n) => `Le mot de passe doit faire au moins ${n} caractères.`,
+  compteExiste: 'Un compte existe déjà avec cette adresse. Connecte-toi, ou demande un nouveau mot de passe.',
+  confirmationPartie: 'Un courriel de confirmation vient de partir : ouvre-le, puis reviens te connecter.',
+  quotaCourriel:
+    'Trop de courriels sont partis depuis SONAA dans la dernière heure. Réessaie dans une heure, ou connecte-toi avec Google.',
+  motDePasse: 'Mot de passe',
+  creerUnCompte: 'Créer un compte',
+  motDePasseOublie: 'Mot de passe oublié ?',
+  lienALaPlace: 'Recevoir un lien de connexion par courriel à la place',
+  motDePasseALaPlace: 'Se connecter avec un mot de passe',
+  nouveauMotDePasse: 'Nouveau mot de passe',
+  enregistrerMotDePasse: 'Enregistrer le mot de passe',
+  motDePasseChange: 'Mot de passe enregistré. Tu es connecté.',
+  lienReinitParti: 'Un courriel vient de partir : ouvre-le pour choisir un nouveau mot de passe.',
+  usageEcoute: 'Connecte-toi pour écouter les sets et les morceaux. C’est gratuit, et ça prend dix secondes.',
+  adminMenu: 'Admin',
+  adminTitre: 'Administration',
+  adminReserve: 'Cette page est réservée à l’administration du site.',
+  adminMembres: 'Membres',
+  adminSets: 'Sets',
+  adminSoirees: 'Soirées',
+  adminCommentaires: 'Commentaires',
+  adminArtistes: 'Artistes demandés',
+  adminComptes: (n) => `${n} compte${n > 1 ? 's' : ''}`,
+  adminInscritLe: 'Inscrit le',
+  adminDerniereConnexion: 'Dernière connexion',
+  adminMoyen: 'Connexion',
+  adminArtiste: 'Artiste',
+  adminNSets: (n, publies) => `${n} set${n > 1 ? 's' : ''}, ${publies} publié${publies > 1 ? 's' : ''}`,
+  adminNSoirees: (n) => `${n} soirée${n > 1 ? 's' : ''}`,
+  adminJamais: 'jamais',
+  adminTousLesSets: 'Tous les sets, publiés ou non, avec qui les a déposés.',
+  adminAucunSet: 'Aucun set déposé pour l’instant.',
+  adminDeposePar: 'déposé par',
+  adminConfirmerRetrait: (titre) => `Retirer « ${titre} » définitivement ? Le fichier audio sera effacé.`,
+  adminDemandesIntro:
+    'Les noms d’artistes cherchés sur le site sans qu’aucune source ne les connaisse. La moisson de la nuit les redemande.',
+  adminAucuneDemande: 'Aucune demande en attente.',
+  adminLectureImpossible: 'Lecture impossible.',
   promesseDonnees:
-    'Aucun mot de passe, jamais. Ton pseudonyme public est calculé de façon non réversible : ' +
-    "ton adresse n'est affichée nulle part, ni pour toi ni pour les autres.",
+    'Ton adresse n’est affichée nulle part, ni pour toi ni pour les autres : ' +
+    'ton pseudonyme public est calculé de façon non réversible.',
   erreurRetiree: 'a été retirée de YouTube',
   erreurNonAutorisee: "n'est pas autorisée hors de YouTube",
   erreurIdentifiant: 'a un identifiant invalide',
@@ -1457,9 +1543,52 @@ const EN: Dictionnaire = {
   tonAdresse: 'Your email',
   envoiEnCours: 'Sending…',
   recevoirLien: 'Send me a link',
+  serviceIndisponible: 'Sign-in is not available here.',
+  adresseInvalide: 'This does not look like an email address.',
+  identifiantsFaux: 'Wrong email or password.',
+  courrielNonConfirme: 'This address has not been confirmed yet: check your inbox, and the spam folder.',
+  motDePasseTropCourt: (n) => `The password must be at least ${n} characters long.`,
+  compteExiste: 'An account already exists with this address. Sign in, or request a new password.',
+  confirmationPartie: 'A confirmation email is on its way: open it, then come back to sign in.',
+  quotaCourriel:
+    'Too many emails were sent from SONAA in the last hour. Try again in an hour, or sign in with Google.',
+  motDePasse: 'Password',
+  creerUnCompte: 'Create an account',
+  motDePasseOublie: 'Forgot your password?',
+  lienALaPlace: 'Get a sign-in link by email instead',
+  motDePasseALaPlace: 'Sign in with a password',
+  nouveauMotDePasse: 'New password',
+  enregistrerMotDePasse: 'Save the password',
+  motDePasseChange: 'Password saved. You are signed in.',
+  lienReinitParti: 'An email is on its way: open it to choose a new password.',
+  usageEcoute: 'Sign in to listen to sets and tracks. It is free, and it takes ten seconds.',
+  adminMenu: 'Admin',
+  adminTitre: 'Administration',
+  adminReserve: 'This page is reserved to the site administration.',
+  adminMembres: 'Members',
+  adminSets: 'Sets',
+  adminSoirees: 'Events',
+  adminCommentaires: 'Comments',
+  adminArtistes: 'Requested artists',
+  adminComptes: (n) => `${n} account${n === 1 ? '' : 's'}`,
+  adminInscritLe: 'Joined',
+  adminDerniereConnexion: 'Last sign-in',
+  adminMoyen: 'Sign-in',
+  adminArtiste: 'Artist',
+  adminNSets: (n, publies) => `${n} set${n === 1 ? '' : 's'}, ${publies} published`,
+  adminNSoirees: (n) => `${n} event${n === 1 ? '' : 's'}`,
+  adminJamais: 'never',
+  adminTousLesSets: 'Every set, published or not, with who uploaded it.',
+  adminAucunSet: 'No set uploaded yet.',
+  adminDeposePar: 'uploaded by',
+  adminConfirmerRetrait: (titre) => `Remove “${titre}” for good? The audio file will be deleted.`,
+  adminDemandesIntro:
+    'Artist names searched on the site that no source knew. The nightly harvest asks for them again.',
+  adminAucuneDemande: 'No pending request.',
+  adminLectureImpossible: 'Could not load.',
   promesseDonnees:
-    'No password, ever. Your public nickname is derived in a non reversible way: ' +
-    'your address is shown nowhere, not even to you.',
+    'Your address is shown nowhere, not even to you: ' +
+    'your public nickname is derived in a non reversible way.',
   erreurRetiree: 'was removed from YouTube',
   erreurNonAutorisee: 'cannot be played outside YouTube',
   erreurIdentifiant: 'has an invalid identifier',

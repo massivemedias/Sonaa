@@ -403,3 +403,33 @@
     display: none;
   }
 }
+
+/* DEUX BOUTONS DE MEME POIDS : entrer, ou creer son compte. La personne
+   sait lequel est le sien ; on ne lui fait pas repondre a une question
+   avant. */
+.authb-deux {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
+
+.authb-liens {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-top: 0.5rem;
+}
+
+.authb-panneau form .authb-lien {
+  min-height: 0;
+  padding: 0.25rem 0;
+  border: 0;
+  background: none;
+  color: var(--ink-secondary, var(--encre-douce));
+  font-size: 0.8rem;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}

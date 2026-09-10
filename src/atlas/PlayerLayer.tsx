@@ -31,6 +31,7 @@ import { ContributeActions } from './ContributeActions.tsx';
 import { VolumeControl } from './VolumeControl.tsx';
 import { TrackVote } from './TrackVote.tsx';
 import { contributionsActives } from '../lib/config.ts';
+import { peutEcouter } from '../lib/porte-ecoute.ts';
 import {
   mesVotesDuGenre,
   NonConnecte,
@@ -517,6 +518,8 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
 
   const play = useCallback(
     (familyIndex: number, genreLocal: number, trackIndex: number) => {
+      /* ON ECOUTE CONNECTE : voir porte-ecoute.ts. */
+      if (!peutEcouter()) return;
       setPlayback({ familyIndex, genreLocal, trackIndex });
     },
     []
@@ -649,6 +652,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
   const toggle = useCallback(() => {
     const p = playerRef.current;
     if (!p || !currentTrack) return;
+    if (!peutEcouter()) return;
     if (playing) p.pauseVideo();
     else p.playVideo();
   }, [playing, currentTrack]);

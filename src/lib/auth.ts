@@ -371,3 +371,116 @@ export async function connexionGoogle(intention?: Intention): Promise<ResultatEn
 export async function seDeconnecter(): Promise<void> {
   await supabase?.auth.signOut();
 }
+
+/* ═══ LE MOT DE PASSE, PARCE QUE LE COURRIEL EST UNE RESSOURCE RARE ═══
+
+   Mika, le 10 septembre 2026 : « un user va s'inscrire aujourd'hui et
+   publier son set ». Ce jour-la, Google repondait encore « missing OAuth
+   secret », et le lien magique est plafonne a deux envois par heure pour le
+   site entier. Un inscrit qui tombe sur le quota ne s'inscrit pas.
+
+   Le projet a « confirm email » desactive : une inscription par mot de passe
+   cree donc un compte VERIFIE sur-le-champ, sans envoyer un seul courriel.
+   C'est le seul chemin qui ne depend ni d'un secret a poser, ni d'un quota.
+   Le lien magique reste, en second : il sert a qui prefere, et a qui a
+   oublie son mot de passe.
+
+   LA PROMESSE « aucun mot de passe, jamais » du panneau tombe avec cette
+   fonction, et le texte du panneau tombe avec elle. Ce qui reste vrai, et
+   qui compte : l'adresse n'est affichee nulle part, le pseudonyme public
+   n'est pas reversible. */
+
+/** Huit signes, pas six : c'est le minimum que Supabase accepte de
+    configurer, et le seuil sous lequel un mot de passe se devine. */
+export const MOT_DE_PASSE_MIN = 8;
+
+const adresseValide = (email: string): boolean => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim());
+
+/** Entre avec le mot de passe. Le message d'echec ne distingue pas
+    « adresse inconnue » de « mauvais mot de passe » : Supabase ne le fait
+    pas non plus, et c'est ce qui empeche de tester des adresses. */
+export async function connexionMotDePasse(email: string, motDePasse: string): Promise<ResultatEnvoi> {
+  if (!supabase) return { ok: false, limiteAtteinte: false, message: t.serviceIndisponible };
+  if (!adresseValide(email)) return { ok: false, limiteAtteinte: false, message: t.adresseInvalide };
+  const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password: motDePasse });
+  if (!error) return { ok: true };
+  const code = (error as { code?: string }).code ?? '';
+  if (code === 'invalid_credentials' || /invalid login/i.test(error.message)) {
+    return { ok: false, limiteAtteinte: false, message: t.identifiantsFaux };
+  }
+  if (code === 'email_not_confirmed') {
+    return { ok: false, limiteAtteinte: false, message: t.courrielNonConfirme };
+  }
+  return { ok: false, limiteAtteinte: false, message: error.message || t.connexionEchouee };
+}
+
+/** Cree le compte et ouvre la session dans la foulee. Une adresse deja
+    prise est dite comme telle, avec la sortie : se connecter, ou redemander
+    un mot de passe. */
+export async function creerCompte(email: string, motDePasse: string): Promise<ResultatEnvoi> {
+  if (!supabase) return { ok: false, limiteAtteinte: false, message: t.serviceIndisponible };
+  if (!adresseValide(email)) return { ok: false, limiteAtteinte: false, message: t.adresseInvalide };
+  if (motDePasse.length < MOT_DE_PASSE_MIN) {
+    return { ok: false, limiteAtteinte: false, message: t.motDePasseTropCourt(MOT_DE_PASSE_MIN) };
+  }
+  const { data, error } = await supabase.auth.signUp({ email: email.trim(), password: motDePasse });
+  if (error) {
+    const code = (error as { code?: string }).code ?? '';
+    if (code === 'user_already_exists' || /already registered/i.test(error.message)) {
+      return { ok: false, limiteAtteinte: false, message: t.compteExiste };
+    }
+    if (code === 'weak_password') {
+      return { ok: false, limiteAtteinte: false, message: t.motDePasseTropCourt(MOT_DE_PASSE_MIN) };
+    }
+    return { ok: false, limiteAtteinte: false, message: error.message || t.connexionEchouee };
+  }
+  /* QUAND LA CONFIRMATION EST ACTIVEE COTE PROJET, Supabase repond un
+     utilisateur sans identite pour une adresse deja prise, au lieu d'une
+     erreur, pour ne pas dire qui est inscrit. On le lit comme tel. Et sans
+     session, c'est qu'un courriel de confirmation est parti. */
+  const identites = data.user?.identities ?? [];
+  if (data.user && identites.length === 0) {
+    return { ok: false, limiteAtteinte: false, message: t.compteExiste };
+  }
+  if (!data.session) return { ok: false, limiteAtteinte: false, message: t.confirmationPartie };
+  return { ok: true };
+}
+
+/** Envoie le courriel qui permet de choisir un nouveau mot de passe. Il
+    compte dans le quota d'envoi, comme un lien magique : c'est pour cela
+    qu'il n'est propose qu'en second. Le retour vise le profil, ou le
+    panneau saura qu'on vient changer son mot de passe. */
+export async function demanderNouveauMotDePasse(email: string): Promise<ResultatEnvoi> {
+  if (!supabase) return { ok: false, limiteAtteinte: false, message: t.serviceIndisponible };
+  if (!adresseValide(email)) return { ok: false, limiteAtteinte: false, message: t.adresseInvalide };
+  const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+    redirectTo: window.location.origin + window.location.pathname + '#/profil',
+  });
+  if (!error) return { ok: true };
+  const code = (error as { code?: string }).code ?? '';
+  const limite = code === 'over_email_send_rate_limit' || /rate limit/i.test(error.message);
+  return { ok: false, limiteAtteinte: limite, message: limite ? t.quotaCourriel : error.message };
+}
+
+/** Pose le nouveau mot de passe sur la session ouverte par le lien. */
+export async function changerMotDePasse(motDePasse: string): Promise<ResultatEnvoi> {
+  if (!supabase) return { ok: false, limiteAtteinte: false, message: t.serviceIndisponible };
+  if (motDePasse.length < MOT_DE_PASSE_MIN) {
+    return { ok: false, limiteAtteinte: false, message: t.motDePasseTropCourt(MOT_DE_PASSE_MIN) };
+  }
+  const { error } = await supabase.auth.updateUser({ password: motDePasse });
+  if (error) return { ok: false, limiteAtteinte: false, message: error.message };
+  return { ok: true };
+}
+
+/** L'evenement par lequel le panneau apprend qu'on arrive d'un lien de
+    nouveau mot de passe : il s'ouvre alors sur le champ qui va bien. */
+export const EVENEMENT_NOUVEAU_MOT_DE_PASSE = 'sonaa:nouveau-mot-de-passe';
+
+if (supabase) {
+  supabase.auth.onAuthStateChange((evenement) => {
+    if (evenement === 'PASSWORD_RECOVERY') {
+      window.dispatchEvent(new Event(EVENEMENT_NOUVEAU_MOT_DE_PASSE));
+    }
+  });
+}

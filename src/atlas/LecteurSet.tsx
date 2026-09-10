@@ -38,6 +38,7 @@ import {
   jouerLeSet,
   useLectureSet,
 } from '../lib/lecture-set.ts';
+import { peutEcouter } from '../lib/porte-ecoute.ts';
 import { t } from '../langue/langue.ts';
 
 /* Barres serrees, comme demande : 2 px de barre, 1 px d'ecart. A 800 barres
@@ -147,6 +148,9 @@ export function LecteurSet({ set, compact = false }: Props) {
   /* Toujours dans un geste. Si ce set n'est pas celui qui est charge, on le
      charge et on le lance ; sinon on bascule. */
   const basculer = useCallback(() => {
+    /* ON ECOUTE CONNECTE : voir porte-ecoute.ts. La porte ouvre elle-meme le
+       panneau de connexion quand elle refuse. */
+    if (!peutEcouter()) return;
     if (courant) basculerLeSet();
     else jouerLeSet(set);
   }, [courant, set]);
@@ -155,6 +159,7 @@ export function LecteurSet({ set, compact = false }: Props) {
      sur la forme d'onde d'un set au repos doit mener la, et pas nulle part. */
   const placer = useCallback(
     (secondes: number) => {
+      if (!peutEcouter()) return;
       if (!courant) jouerLeSet(set);
       chercherDansLeSet(secondes);
     },

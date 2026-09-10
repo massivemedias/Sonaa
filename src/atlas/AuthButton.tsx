@@ -19,13 +19,20 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { PROPOSITIONS_OUVERTES } from '../lib/config.ts';
 import { useSession } from '../lib/useSession.ts';
 import {
+  EVENEMENT_NOUVEAU_MOT_DE_PASSE,
   EVENEMENT_RETOUR,
+  MOT_DE_PASSE_MIN,
+  changerMotDePasse,
   connexionGoogle,
+  connexionMotDePasse,
+  creerCompte,
+  demanderNouveauMotDePasse,
   envoyerLienMagique,
   lireRetourDeConnexion,
   memoriserIntention,
   seDeconnecter
 } from '../lib/auth.ts';
+import { EVENEMENT_CONNEXION, MOTIF_ECOUTE } from '../lib/porte-ecoute.ts';
 import { monPseudonyme, suisJeModerateur } from '../lib/proposals.ts';
 import { monArtiste, urlAvatar } from '../lib/sets.ts';
 import { t } from '../langue/langue.ts';
@@ -82,7 +89,18 @@ export function AuthButton() {
   const [pseudo, setPseudo] = useState<string | null>(null);
   const [moderateur, setModerateur] = useState(false);
   const [email, setEmail] = useState('');
+  const [motDePasse, setMotDePasse] = useState('');
   const [envoi, setEnvoi] = useState<'repos' | 'envoi' | 'parti'>('repos');
+  /* LE PANNEAU A QUATRE VISAGES. `mdp` : adresse et mot de passe, pour
+     entrer ou creer son compte, sans courriel. `lien` : le lien magique,
+     en second parce qu'il coute un envoi sur un quota partage. `oubli` :
+     le courriel de nouveau mot de passe. `nouveau` : on arrive de ce
+     courriel, et on choisit le mot de passe. Voir auth.ts. */
+  const [mode, setMode] = useState<'mdp' | 'lien' | 'oubli' | 'nouveau'>('mdp');
+  /* POURQUOI ON DEMANDE. Ouvert par le bouton du coin, le panneau dit a quoi
+     sert un compte ; ouvert par un appui sur lecture, il dit que c'est pour
+     ecouter. La phrase vient de l'evenement, voir porte-ecoute.ts. */
+  const [motif, setMotif] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const boite = useRef<HTMLDivElement | null>(null);
 
@@ -146,9 +164,23 @@ export function AuthButton() {
      diverger, c'est le motif des grandeurs ecrites deux fois applique a une
      interface. */
   useEffect(() => {
-    const demande = (): void => setOuvert(true);
-    window.addEventListener('sonaa:connexion', demande);
-    return () => window.removeEventListener('sonaa:connexion', demande);
+    const demande = (e: Event): void => {
+      const detail = (e as CustomEvent<unknown>).detail;
+      setMotif(detail === MOTIF_ECOUTE ? t.usageEcoute : null);
+      setMessage(null);
+      setOuvert(true);
+    };
+    const nouveau = (): void => {
+      setMode('nouveau');
+      setMessage(null);
+      setOuvert(true);
+    };
+    window.addEventListener(EVENEMENT_CONNEXION, demande);
+    window.addEventListener(EVENEMENT_NOUVEAU_MOT_DE_PASSE, nouveau);
+    return () => {
+      window.removeEventListener(EVENEMENT_CONNEXION, demande);
+      window.removeEventListener(EVENEMENT_NOUVEAU_MOT_DE_PASSE, nouveau);
+    };
   }, []);
 
   /* L'ECHEC DE CONNEXION S'AFFICHE ICI, ET NULLE PART AILLEURS.
@@ -211,6 +243,53 @@ export function AuthButton() {
       }
     },
     [email]
+  );
+
+  /* ENTRER OU CREER, MEME FORMULAIRE, DEUX BOUTONS. Pas d'etape « as-tu deja
+     un compte ? » : la personne sait ce qu'elle veut, elle appuie sur le bon
+     bouton, et un compte deja pris le dit avec la sortie. */
+  const parMotDePasse = useCallback(
+    async (creer: boolean) => {
+      if (!email.trim() || !motDePasse) return;
+      setEnvoi('envoi');
+      setMessage(null);
+      const r = creer ? await creerCompte(email, motDePasse) : await connexionMotDePasse(email, motDePasse);
+      setEnvoi('repos');
+      if (r.ok) {
+        setMotDePasse('');
+        setOuvert(false);
+      } else setMessage(r.message);
+    },
+    [email, motDePasse]
+  );
+
+  const parOubli = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!email.trim()) return;
+      setEnvoi('envoi');
+      setMessage(null);
+      const r = await demanderNouveauMotDePasse(email);
+      setEnvoi('repos');
+      setMessage(r.ok ? t.lienReinitParti : r.message);
+    },
+    [email]
+  );
+
+  const parNouveau = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      setEnvoi('envoi');
+      setMessage(null);
+      const r = await changerMotDePasse(motDePasse);
+      setEnvoi('repos');
+      if (r.ok) {
+        setMotDePasse('');
+        setMode('mdp');
+        setOuvert(false);
+      } else setMessage(r.message);
+    },
+    [motDePasse]
   );
 
   /* CET EFFET EST DECLARE AVANT LE RETOUR ANTICIPE, ET IL LE FAUT.
@@ -340,6 +419,11 @@ export function AuthButton() {
                   {t.mesPropositions}
                 </a>
               )}
+              {moderateur && (
+                <a href="#/admin" role="menuitem" onClick={() => setMenu(false)}>
+                  {t.adminMenu}
+                </a>
+              )}
               {PROPOSITIONS_OUVERTES && moderateur && (
                 /* #/admin n'a jamais existe : la route s'appelle #/moderation
                    depuis le premier jour, et ce lien retombait donc sur la
@@ -367,7 +451,7 @@ export function AuthButton() {
         </button>
       )}
 
-      {ouvert && !connecte && (
+      {ouvert && (!connecte || mode === 'nouveau') && (
         <div className="authb-voile" onClick={() => setOuvert(false)}>
           {/* PAR-DESSUS, PAS UNE PAGE À PART : la carte reste visible derrière,
               donc on ne perd pas l'endroit où l'on se trouvait. */}
@@ -381,36 +465,125 @@ export function AuthButton() {
             <button className="authb-fermer" onClick={() => setOuvert(false)} aria-label={t.fermer}>
               ×
             </button>
-            <h2>{t.connexion}</h2>
-            <p className="authb-usage">{t.usageConnexion}</p>
+            <h2>{mode === 'nouveau' ? t.nouveauMotDePasse : t.connexion}</h2>
+            {mode !== 'nouveau' && <p className="authb-usage">{motif ?? t.usageConnexion}</p>}
 
-            {/* GOOGLE EN PREMIER, ET C'EST DE L'ARITHMÉTIQUE : le lien par
-                courriel est plafonné à cent envois par jour pour le site
-                entier. Google n'a pas cette limite. */}
-            <button className="authb-google" onClick={() => void parGoogle()}>
-              {t.continuerGoogle}
-            </button>
-
-            <div className="authb-ou"><span>{t.ou}</span></div>
-
-            {envoi === 'parti' ? (
-              <p className="authb-parti">{t.lienParti}</p>
-            ) : (
-              <form onSubmit={(e) => void parCourriel(e)}>
-                <label htmlFor="authb-email">{t.tonAdresse}</label>
+            {mode === 'nouveau' ? (
+              <form onSubmit={(e) => void parNouveau(e)}>
+                <label htmlFor="authb-mdp">{t.nouveauMotDePasse}</label>
                 <input
-                  id="authb-email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="toi@exemple.com"
-                  autoComplete="email"
+                  id="authb-mdp"
+                  type="password"
+                  value={motDePasse}
+                  onChange={(e) => setMotDePasse(e.target.value)}
+                  autoComplete="new-password"
+                  minLength={MOT_DE_PASSE_MIN}
                   required
                 />
                 <button type="submit" disabled={envoi === 'envoi'}>
-                  {envoi === 'envoi' ? t.envoiEnCours : t.recevoirLien}
+                  {envoi === 'envoi' ? t.envoiEnCours : t.enregistrerMotDePasse}
                 </button>
               </form>
+            ) : (
+              <>
+                {/* GOOGLE EN PREMIER, ET C'EST DE L'ARITHMÉTIQUE : le lien par
+                    courriel est plafonné pour le site entier. Google n'a pas
+                    cette limite. */}
+                <button className="authb-google" onClick={() => void parGoogle()}>
+                  {t.continuerGoogle}
+                </button>
+
+                <div className="authb-ou"><span>{t.ou}</span></div>
+
+                {mode === 'mdp' && (
+                  <form onSubmit={(e) => { e.preventDefault(); void parMotDePasse(false); }}>
+                    <label htmlFor="authb-email">{t.tonAdresse}</label>
+                    <input
+                      id="authb-email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="toi@exemple.com"
+                      autoComplete="email"
+                      required
+                    />
+                    <label htmlFor="authb-mdp">{t.motDePasse}</label>
+                    <input
+                      id="authb-mdp"
+                      type="password"
+                      value={motDePasse}
+                      onChange={(e) => setMotDePasse(e.target.value)}
+                      autoComplete="current-password"
+                      minLength={MOT_DE_PASSE_MIN}
+                      required
+                    />
+                    <div className="authb-deux">
+                      <button type="submit" disabled={envoi === 'envoi'}>
+                        {envoi === 'envoi' ? t.envoiEnCours : t.seConnecter}
+                      </button>
+                      <button type="button" disabled={envoi === 'envoi'} onClick={() => void parMotDePasse(true)}>
+                        {t.creerUnCompte}
+                      </button>
+                    </div>
+                    <div className="authb-liens">
+                      <button type="button" className="authb-lien" onClick={() => { setMode('oubli'); setMessage(null); }}>
+                        {t.motDePasseOublie}
+                      </button>
+                      <button type="button" className="authb-lien" onClick={() => { setMode('lien'); setMessage(null); }}>
+                        {t.lienALaPlace}
+                      </button>
+                    </div>
+                  </form>
+                )}
+
+                {mode === 'oubli' && (
+                  <form onSubmit={(e) => void parOubli(e)}>
+                    <label htmlFor="authb-email">{t.tonAdresse}</label>
+                    <input
+                      id="authb-email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="toi@exemple.com"
+                      autoComplete="email"
+                      required
+                    />
+                    <button type="submit" disabled={envoi === 'envoi'}>
+                      {envoi === 'envoi' ? t.envoiEnCours : t.nouveauMotDePasse}
+                    </button>
+                    <div className="authb-liens">
+                      <button type="button" className="authb-lien" onClick={() => { setMode('mdp'); setMessage(null); }}>
+                        {t.motDePasseALaPlace}
+                      </button>
+                    </div>
+                  </form>
+                )}
+
+                {mode === 'lien' && (envoi === 'parti' ? (
+                  <p className="authb-parti">{t.lienParti}</p>
+                ) : (
+                  <form onSubmit={(e) => void parCourriel(e)}>
+                    <label htmlFor="authb-email">{t.tonAdresse}</label>
+                    <input
+                      id="authb-email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="toi@exemple.com"
+                      autoComplete="email"
+                      required
+                    />
+                    <button type="submit" disabled={envoi === 'envoi'}>
+                      {envoi === 'envoi' ? t.envoiEnCours : t.recevoirLien}
+                    </button>
+                    <div className="authb-liens">
+                      <button type="button" className="authb-lien" onClick={() => { setMode('mdp'); setMessage(null); }}>
+                        {t.motDePasseALaPlace}
+                      </button>
+                    </div>
+                  </form>
+                ))}
+              </>
             )}
 
             {message && <p className="authb-message">{message}</p>}
