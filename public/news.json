@@ -1,6 +1,38 @@
 {
- "fait": "2026-09-09T22:35:27.810Z",
+ "fait": "2026-09-10T04:48:18.645Z",
  "articles": [
+  {
+   "source": "synthtopia",
+   "titre": "Bob Moog Foundation Announces Livestream Series, ‘From the Source’",
+   "lien": "https://www.synthtopia.com/content/2026/09/09/bob-moog-foundation-announces-livestream-series-from-the-source/",
+   "date": "2026-09-10T02:23:52.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/Bob-Moog-Foundation-Dave-Rossum-728x516.png",
+   "resume": "The Bob Moog Foundation is excited to announce its upcoming series of livestream events, From the Source: Live Conversations with Iconic Music Innovators . The series will feature exclusive “Ask Me Anything”-style live…"
+  },
+  {
+   "source": "synthtopia",
+   "titre": "Knobcon Returns This Weekend",
+   "lien": "https://www.synthtopia.com/content/2026/09/09/knobcon-returns-this-weekend/",
+   "date": "2026-09-10T01:39:20.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/knobcon_number_fourteen.jpg",
+   "resume": "Knobcon is back for its fourteenth edition this weekend, September 11 - 13, at the Hyatt Regency in Schaumburg, Illinois.…"
+  },
+  {
+   "source": "synthtopia",
+   "titre": "Antonus 3620 Keyboard Controller Brings ARP 3620 Design Into A Modern MIDI/CV Instrument",
+   "lien": "https://www.synthtopia.com/content/2026/09/09/antonus-3620-keyboard-controller-brings-arp-3620-design-into-a-modern-midi-cv-instrument/",
+   "date": "2026-09-10T01:20:47.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/antonus-keyboard.jpg",
+   "resume": "The Antonus 3620 is a MIDI/CV keyboard, sequencer and controller inspired by the classic ARP 3620, with 37- and 49-key versions, velocity and aftertouch, split operation, an arpeggiator, step sequencer and expanded…"
+  },
+  {
+   "source": "synthtopia",
+   "titre": "Elektron Outbox 8 Audio/CV Breakout Box Now Avaialble",
+   "lien": "https://www.synthtopia.com/content/2026/09/09/elektron-outbox-8-audio-cv-breakout-box-now-avaialble/",
+   "date": "2026-09-09T23:13:54.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/Elektron-Outbox-8-eight-output-computer-audio.png",
+   "resume": "Elektron Outbox 8 is a versatile eight-channel audio/CV breakout box and USB host/device designed to expand your connectivity, with creative possibilities to boot. …"
+  },
   {
    "source": "digitaldjtips",
    "titre": "Serato Fixes Its Beatgrids In DJ 5.0 Beta",
@@ -82,6 +114,14 @@
    "resume": "Dirtywave M8 is already superb as hardware, whether you run their pre-made device or build your own \"headless\" rig. Now, it has its own official iOS app for iPhone and iPad, too, and it looks hot."
   },
   {
+   "source": "synthtopia",
+   "titre": "The Bob Moog Foundation Announces Summer Raffle for Vintage Memorymoog Plus and Moog Muse Synthesizers",
+   "lien": "https://www.synthtopia.com/content/2026/09/09/the-bob-moog-foundation-announces-summer-raffle-for-vintage-memorymoog-plus-and-moog-muse-synthesizers/",
+   "date": "2026-09-09T17:00:03.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/2026_Mem-Muse_Raffle_blog-header.jpg",
+   "resume": "The Bob Moog Foundation has announced its latest fundraising raffle for a vintage Memorymoog Plus synthesizer and a brand new Moog Muse synthesizer. The Memorymoog Plus, serial number 3067, will be awarded to the first…"
+  },
+  {
    "source": "musictech",
    "titre": "VinylCon attendees tell us why “proper ownership and proper preservation” keep them hooked on physical music formats",
    "lien": "https://musictech.com/features/interviews/vinylcon-attendees-vinyl-physical-formats/",
@@ -146,12 +186,28 @@
    "resume": "Elektron Outbox 8 is officially available now. What went around as an unconfirmed rumor from Superbooth 2026 is now backed by full specs on Elektron’s own website: Outbox 8 is an eight-channel audio/CV breakout box that…"
   },
   {
+   "source": "synthtopia",
+   "titre": "Bjooks Celebrates 909 Day With Shipment of BEAT GEMS: Drum Machines in Modern Music",
+   "lien": "https://www.synthtopia.com/content/2026/09/09/bjooks-celebrates-909-day-with-shipment-of-beat-gems-drum-machines-in-modern-music/",
+   "date": "2026-09-09T14:09:07.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/05/beat-gems.jpg",
+   "resume": "Bjooks is celebrating 909 Day with a \"major milestone for drum machine lovers\": physical copies of the highly anticipated BEAT GEMS: Drum Machines in Modern Music will begin shipping this month. …"
+  },
+  {
    "source": "musicradar",
    "titre": "“Please don’t be offended if I say no”: Tame Impala’s Kevin Parker says he won’t be signing autographs or meeting fans from now on",
    "lien": "https://www.musicradar.com/artists/guitarists/please-dont-be-offended-if-i-say-no-tame-impalas-kevin-parker-says-he-wont-be-signing-autographs-or-meeting-fans-from-now-on",
    "date": "2026-09-09T13:59:49.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/9EBbzzaPY2iWxpUnq4j6GU-1280-80.jpg",
    "resume": "Tame Impala mainman Kevin Parker has announced that he’s had it with signing autographs. In fact, he’s not going to do it any more. The Aussie musician has explained in an Instagram Stories post why he’s made the…"
+  },
+  {
+   "source": "synthtopia",
+   "titre": "XILS-lab MemoryTone Brings Classic MemoryMoog Sound To Your DAW",
+   "lien": "https://www.synthtopia.com/content/2026/09/09/xils-lab-memorytone-brings-classic-memorymoog-sound-to-your-daw/",
+   "date": "2026-09-09T13:57:08.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/memorytone.jpg",
+   "resume": "XILS-lab’s MemoryTone is a 16-voice software synthesizer built around three oscillators per voice, a 24 dB/octave self-oscillating ladder filter, expanded modulation, MPE and an advanced arpeggiator.…"
   },
   {
    "source": "gearnews",
@@ -248,6 +304,14 @@
    "date": "2026-09-09T07:00:18.000Z",
    "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/InitialAudio-DifroMelodyAI.jpg",
    "resume": "Developer Initial Audio has released Difro Melody AI, a free AI MIDI generator for macOS and Windows. MIDI chord and pattern generators have been around for a while, and with AI’s emergence in music, it’s no surprise we…"
+  },
+  {
+   "source": "synthtopia",
+   "titre": "Is The Muro Box N40 The Most Beautiful MIDI Instrument Ever?",
+   "lien": "https://www.synthtopia.com/content/2026/09/08/is-the-muro-box-n40-the-most-beautiful-midi-instrument-ever/",
+   "date": "2026-09-09T02:26:02.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/midi-music-box.jpg",
+   "resume": "The N40 is a MIDI-compatible music box that has a built-in pickup and audio output.…"
   },
   {
    "source": "musictech",
@@ -474,46 +538,6 @@
    "resume": "After 25 years, Audacity has been given a bold “refresh”. With redesigned effects, refined clip editing, customisable Workspaces, and a streamlined new UI, Audacity 4 comes as the audio editor’s biggest update in years…"
   },
   {
-   "source": "synthtopia",
-   "titre": "Elektron Tonverk OS 1.40 In-Depth Demo",
-   "lien": "https://www.synthtopia.com/content/2026/09/03/elektron-tonverk-os-1-40-in-depth-demo/",
-   "date": "2026-09-04T01:30:06.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2025/09/elektron-tonverk-angle.jpg",
-   "resume": "Tonverk gets Overbridge multitrack streaming, additional options in each track’s modulation setup, pattern transpose in semitones and more. …"
-  },
-  {
-   "source": "synthtopia",
-   "titre": "Korg Prologue Synthesizers Get Expanded Synthesis Capabilities",
-   "lien": "https://www.synthtopia.com/content/2026/09/03/korg-prologue-synthesizers-get-expanded-synthesis-capabilities/",
-   "date": "2026-09-04T01:15:09.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2018/01/korg-prologue-synth-closeup.jpg",
-   "resume": "Elixir features three new custom multi engine oscillators, and 5 wavetable oscillators, expanding the sonic capabilities of the Prologue:…"
-  },
-  {
-   "source": "synthtopia",
-   "titre": "Akai S900 SuperOS v4.0 Firmware Update Brings New Features To Classic Sampler",
-   "lien": "https://www.synthtopia.com/content/2026/09/03/akai-s900-superos-v4-0-firmware-update-brings-new-features-to-classic-sampler/",
-   "date": "2026-09-04T01:07:56.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/AKAI_S900.jpg",
-   "resume": "The firmware adds features from the Akai S950 and S1000. It also brings new MIDI control, TIMESTRETCH and real-time filter modulation. …"
-  },
-  {
-   "source": "synthtopia",
-   "titre": "klattsch Turns 1980s Speech Synthesis Into A Singing Instrument",
-   "lien": "https://www.synthtopia.com/content/2026/09/03/klattsch-turns-1980s-speech-synthesis-into-a-singing-instrument/",
-   "date": "2026-09-04T00:51:40.000Z",
-   "image": "http://img.youtube.com/vi/AaazFB0J-iE/0.jpg",
-   "resume": "klattsch uses no samples. It's based entirely on what was technically possible in 1980.…"
-  },
-  {
-   "source": "synthtopia",
-   "titre": "Free Virtual Band Space, Normal By Proxy, Lets You Jam Online With Your Friends",
-   "lien": "https://www.synthtopia.com/content/2026/09/03/free-virtual-band-space-normal-by-proxy-lets-you-jam-online-with-your-friends/",
-   "date": "2026-09-04T00:38:19.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/normal-by-proxy-jam-space.jpg",
-   "resume": "Normal By Proxy puts you in a virtual jam room - first person, with a bunch of synths and drum machines.…"
-  },
-  {
    "source": "cdm",
    "titre": "Audacity 4, free and open-source audio editor, arrives with a revamped UI",
    "lien": "https://cdm.link/audacity-4-and-tenacity-too/",
@@ -528,14 +552,6 @@
    "date": "2026-09-03T15:19:18.000Z",
    "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/joy-crookes-et-ravyn-lenae-melent-leur-voix-sur-un-single-splendide-et-courageux.jpg?hash=cdn-1f449698ff7fe133bb32eb071240c815",
    "resume": "Une seconde partie du titre “Feet Don’t Fail Me Now”, de la chanteuse londonienne Joy Crookes, est parue lle 1er septembre. Elle y invite la chanteuse américaine Ravyn Lenae à partager le micro. Le morceau survient dans…"
-  },
-  {
-   "source": "synthtopia",
-   "titre": "New Sample Editor, Recorte, Now Available",
-   "lien": "https://www.synthtopia.com/content/2026/09/03/new-sample-editor-recorte-now-available/",
-   "date": "2026-09-03T13:39:28.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/recorte-sample-editor.jpg",
-   "resume": "Recorte offers a variety of different features to help users record, edit, and process samples, including an advanced audio recorder, automatic region detection (based on volume, transients, or slices), batch editing…"
   },
   {
    "source": "tsugi",
@@ -626,28 +642,12 @@
    "resume": "Dreamtonics completes its trilogy with Instrument X, a neural acoustic modelling platform for orchestral instruments Dreamtonics, the Tokyo based developer behind vocal synthesis tools Synthesizer V and Vocoflex, has…"
   },
   {
-   "source": "synthtopia",
-   "titre": "Experimental Tool Promises To Give The Roland Aira Eurorack Effects Modules New Superpowers",
-   "lien": "https://www.synthtopia.com/content/2026/09/01/experimental-tool-promises-to-give-the-roland-aira-eurorack-effects-modules-new-superpowers/",
-   "date": "2026-09-02T00:40:35.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2015/06/roland-aira-modular-Eurorack-effects-e1435685054185.png",
-   "resume": "An experimental firmware switcher promises to let you use any Aira firmware on any of the modules. …"
-  },
-  {
    "source": "tsugi",
    "titre": "Toutes sur Scène : le festival à la programmation 100% féminine",
    "lien": "https://www.tsugi.fr/toutes-sur-scene-le-festival-a-la-programmation-100-feminine/",
    "date": "2026-09-01T15:32:07.000Z",
    "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/toutes-sur-scene-le-festival-a-la-programmation-100-feminine.jpg?hash=cdn-d1b3bcd6373d8d819cc34cffb6300396",
    "resume": "Yoa, Zélie, Solann, Juste Shani… Imaginez ce concentré de boss ladies au Théâtre du Châtelet, pour un événement 100% féminin. Eh non ce n’est pas un rêve, mais bien une — petite — partie du programme du festival Toutes…"
-  },
-  {
-   "source": "synthtopia",
-   "titre": "Botanica Natural Sequencer First Look",
-   "lien": "https://www.synthtopia.com/content/2026/09/01/botanica-natural-sequencer-first-look/",
-   "date": "2026-09-01T13:49:22.000Z",
-   "image": "http://img.youtube.com/vi/b1FgF5Ddq8Y/0.jpg",
-   "resume": "Botanica is designed to create expressive sequences from simple patterns.…"
   },
   {
    "source": "tsugi",
@@ -1155,14 +1155,6 @@
   },
   {
    "source": "mixmag",
-   "titre": "Hot Since 82: \"Emotional connection is more important than trends\"",
-   "lien": "https://mixmag.net/feature/hot-since-82-interview-obsessions-new-album",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FHot-Since-82-1.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=14b6bf96",
-   "resume": "Inspired by a \"period of introspection and movement\", the Barnsley-raised producer's latest LP 'Obsessions' sees him reflect on his decades-long journey through music"
-  },
-  {
-   "source": "mixmag",
    "titre": "New book tracing Laurent Garnier’s life and career has been published",
    "lien": "https://mixmag.net/read/new-book-documenting-laurent-garnier-decades-long-career-published-news",
    "date": null,
@@ -1176,14 +1168,6 @@
    "date": null,
    "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fmusic_2026-09-08-113542_mbon.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=b1de89f5",
    "resume": "New data from YouGov suggests that Gen Z listeners make up the lion's share of increased music consumption in British adults"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Inside Galactica's first-ever Ibiza residency at Eden",
-   "lien": "https://mixmag.net/feature/inside-galacticas-first-ever-ibiza-residency-at-eden",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fgalactica.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=f46f677c",
-   "resume": "The Italian hard techno brand has welcomed slam experts including 999999999, Cera Khin, Holy Priest and NIKOLINA across its 15-date run on the White Isle this summer"
   },
   {
    "source": "mixmag",
@@ -1280,6 +1264,22 @@
    "date": null,
    "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/gyrofield-debut-album-great-jobs-new-single-press-photo-Loes-de-Boer.jpg.webp?itok=71NEG_q_1689111560",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Hong Kong-born, Netherlands-based artist Kiana Li takes inspiration from dub…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Tola Peckham launches fundraiser after burglars steal £30,000 worth of equipment",
+   "lien": "https://djmag.com/news/tola-peckham-launches-fundraiser-after-burglars-steal-ps30000-worth-of-equipment",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/tola-peckham-burglarly-london-gofundme.jpeg.webp?itok=sHOJdrn0934863460",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>In the 27th August break-in, thieves stole DJ gear, soundsystem components, bar stock and…"
+  },
+  {
+   "source": "djmag",
+   "titre": "New Manchester club, Locker, to open in New Century building",
+   "lien": "https://djmag.com/news/new-manchester-club-locker-open-new-century-building",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Manchester-new-club-Locker-CGI-rendering-Century-building-2026.jpg.webp?itok=VKFx1lV3190324635",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The 450-capacity space will open on the ground floor of 1960s Grade II-listed New Century…"
   }
  ],
  "pannes": []
