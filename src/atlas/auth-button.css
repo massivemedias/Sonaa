@@ -70,6 +70,24 @@
   display: none;
 }
 
+/* ═══ LA LOUPE, PAREIL PARTOUT ═══ Un rond de la taille du portrait, a
+   gauche de la langue. Voir AuthButton et RechercheGlobale. */
+.authb-bouton.authb-loupe {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: 36px;
+  height: 36px;
+  min-height: 0;
+  max-width: none;
+  padding: 0;
+  border-radius: 50%;
+}
+.authb-loupe svg {
+  width: 15px;
+  height: 15px;
+}
+
 /* ═══ LE PORTRAIT, PAREIL PARTOUT ═══
    Quand le profil a un portrait, le bouton de compte est un rond de 40 px
    qui le montre, sur telephone comme sur ordinateur ; le nom et l'initiale
@@ -376,7 +394,8 @@
   .authb-compte .authb-initiale {
     display: block;
   }
-  .authb-bouton.authb-compte-portrait {
+  .authb-bouton.authb-compte-portrait,
+  .authb-bouton.authb-loupe {
     width: 44px;
     height: 44px;
   }

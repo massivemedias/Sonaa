@@ -30,6 +30,9 @@ import { monPseudonyme, suisJeModerateur } from '../lib/proposals.ts';
 import { monArtiste, urlAvatar } from '../lib/sets.ts';
 import { t } from '../langue/langue.ts';
 import { ChoixLangue } from './ChoixLangue.tsx';
+import { FaIcon } from './FaIcon.tsx';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { EVENEMENT_RECHERCHE } from './RechercheGlobale.tsx';
 import { ChoixTheme } from './ChoixTheme.tsx';
 import './auth-button.css';
 
@@ -297,6 +300,16 @@ export function AuthButton() {
        * RESTE. La reserve publiee plus haut mesure le bord gauche de cette
        * boite ; les poser a cote, dans un conteneur voisin, aurait fait que la
        * loupe de recherche vienne se coller par-dessus eux. */}
+      {/* LA LOUPE, EN PREMIER DANS LA BOITE : le meme bouton, au meme
+          endroit, sur toutes les pages. Voir RechercheGlobale. */}
+      <button
+        type="button"
+        className="authb-bouton authb-loupe"
+        onClick={() => window.dispatchEvent(new Event(EVENEMENT_RECHERCHE))}
+        aria-label={t.ouvrirLaRecherche}
+      >
+        <FaIcon icon={faMagnifyingGlass} />
+      </button>
       <ChoixLangue />
       <ChoixTheme />
       {connecte ? (

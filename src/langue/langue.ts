@@ -339,6 +339,7 @@ interface Dictionnaire {
   readonly reglerLargeurColonne: string;
   readonly fermerLecteur: string;
   readonly profilCourt: string;
+  readonly ouvrirLaRecherche: string;
   readonly artisteResultat: string;
   readonly selonSource: (source: string) => string;
   readonly sesStyles: string;
@@ -819,6 +820,7 @@ const FR: Dictionnaire = {
   reglerLargeurColonne: "Régler la largeur de la colonne, flèches gauche et droite",
   fermerLecteur: "Fermer le lecteur",
   profilCourt: "Profil",
+  ouvrirLaRecherche: "Rechercher un genre, un artiste, un morceau",
   artisteResultat: "Artiste",
   selonSource: (source) => `styles selon ${source}`,
   sesStyles: "Les styles qu’il joue, du plus présent au moins :",
@@ -1314,6 +1316,7 @@ const EN: Dictionnaire = {
   reglerLargeurColonne: "Adjust the column width, left and right arrows",
   fermerLecteur: "Close the player",
   profilCourt: "Profile",
+  ouvrirLaRecherche: "Search a genre, an artist, a track",
   artisteResultat: "Artist",
   selonSource: (source) => `styles according to ${source}`,
   sesStyles: "The styles they play, most present first:",

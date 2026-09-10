@@ -115,6 +115,7 @@ const SetsPage = lazy(() =>
    qui saute. */
 import { BarreBas } from './atlas/BarreBas.tsx';
 import { MiniLecteur } from './atlas/MiniLecteur.tsx';
+import { RechercheGlobale } from './atlas/RechercheGlobale.tsx';
 
 /* UN MORCEAU DE CODE QUI N'EXISTE PLUS SE RECHARGE, IL NE PLANTE PAS. Une
    page ouverte depuis hier demande un fichier que la publication de ce matin
@@ -256,6 +257,7 @@ function App() {
           relit l'adresse a chaque rendu de App, qui a lieu a chaque
           changement de route. */}
       <MiniLecteur />
+      <RechercheGlobale />
       {PORTE_LA_BARRE.has(route) && <BarreBas />}
       {/* Hors du Suspense : un bandeau « hors ligne » doit pouvoir s'afficher
           même si le chunk de la page en cours n'a pas pu être chargé. */}

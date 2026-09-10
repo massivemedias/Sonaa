@@ -34,9 +34,7 @@ import {
   faPlay,
   faPause,
   faBackwardStep,
-  faForwardStep,
-  faMagnifyingGlass,
-  faXmark
+  faForwardStep
 } from '@fortawesome/free-solid-svg-icons';
 import { FaIcon } from './FaIcon.tsx';
 import { SiteNav } from './SiteNav.tsx';
@@ -44,8 +42,6 @@ import { PiedDePage } from './PiedDePage.tsx';
 import { ContributeActions } from './ContributeActions.tsx';
 import { langue, t } from '../langue/langue.ts';
 import { artistesDuGenre, moissonFaiteLe } from '../lib/artistes.ts';
-import { chercherArtistes, type ArtisteTrouve } from '../lib/styles-dartiste.ts';
-import { LABEL_DE_STYLE } from './ChoixStyles.tsx';
 import { setsDunGenre, type SetDJ } from '../lib/sets.ts';
 import { contributionsActives } from '../lib/config.ts';
 import './parcourir.css';
@@ -82,9 +78,6 @@ const mmss = (s: number): string => {
   const m = Math.floor(s / 60);
   return `${m}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 };
-
-const sansAccent = (s: string): string =>
-  s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
 /** Le nom porte-t-il un mot qu'aucune espace ne peut couper ?
 
@@ -167,8 +160,6 @@ function BandeauImages({ tracks, hue }: { tracks: readonly Track[]; hue: number 
 
 export function ParcourirView() {
   const [niveau, setNiveau] = useState<Niveau>(lireNiveau);
-  const [recherche, setRecherche] = useState('');
-  const [chercheOuvert, setChercheOuvert] = useState(false);
 
   useEffect(() => {
     const suivre = (): void => setNiveau(lireNiveau());
@@ -267,58 +258,6 @@ export function ParcourirView() {
 
   const pisteJouee = listeJouee?.tracks[lecture.index];
 
-  const resultats = useMemo(() => {
-    const q = sansAccent(recherche.trim());
-    if (q.length < 2) return [];
-    return TOUS.filter((x) => sansAccent(x.g.label).includes(q)).slice(0, 40);
-  }, [recherche]);
-
-  /* ═══ LA RECHERCHE REPOND AUSSI PAR UN ARTISTE ═══
-
-     Mika a tape « damon jee » ici, le 7 septembre 2026, et a lu « Aucun genre
-     de ce nom ». L'index des artistes moissonnes le connaissait, avec six
-     styles ; seule la recherche globale l'interrogeait. Cette barre est celle
-     qu'on a sous la main dans Styles, elle doit repondre pareil : le nom, et
-     ses styles, chacun menant a sa fiche. L'index arrive apres la premiere
-     frappe (il est charge a la demande) ; les genres s'affichent sans
-     l'attendre, les artistes se posent au rendu suivant. */
-  const [artistes, setArtistes] = useState<ArtisteTrouve[]>([]);
-  useEffect(() => {
-    const q = recherche.trim();
-    if (q.length < 3) {
-      setArtistes([]);
-      return;
-    }
-    let vivant = true;
-    void chercherArtistes(q, 5).then((r) => {
-      if (vivant) setArtistes(r);
-    });
-    return () => {
-      vivant = false;
-    };
-  }, [recherche]);
-
-  /* Un style de l'index est un genre ou une famille de SONAA : on ouvre la
-     fiche qui correspond, et on tait ceux que l'atlas ne nomme pas. */
-  const ouvrirStyle = useCallback(
-    (id: string): boolean => {
-      const genre = TOUS.find((x) => x.g.id === id);
-      if (genre) {
-        aller({ k: 'genre', fi: genre.fi, gl: genre.gl });
-        return true;
-      }
-      const fi = FAMILIES.findIndex((f) => f.id === id);
-      if (fi >= 0) {
-        aller({ k: 'famille', fi });
-        return true;
-      }
-      return false;
-    },
-    [aller]
-  );
-  const styleConnu = (id: string): boolean =>
-    TOUS.some((x) => x.g.id === id) || FAMILIES.some((f) => f.id === id);
-
   /* --- Rendu ------------------------------------------------------------- */
 
   const enTete = (
@@ -373,96 +312,16 @@ export function ParcourirView() {
         </h1>
       )}
 
-      <button
-        className="pv-chercher-bouton"
-        onClick={() => {
-          setChercheOuvert((v) => !v);
-          setRecherche('');
-        }}
-        aria-label={chercheOuvert ? t.fermerRecherche : t.chercherUnGenre}
-      >
-        <FaIcon icon={chercheOuvert ? faXmark : faMagnifyingGlass} />
-      </button>
-    
+      {/* LA LOUPE A QUITTE CET EN-TETE POUR LE COIN HAUT DROIT, ou elle est
+          la meme sur toutes les pages (voir AuthButton et RechercheGlobale).
+          Demande de Mika du 9 septembre 2026 : « toujours au meme endroit ». */}
       <SiteNav variant="overlay" />
     </header>
-  );
-
-  const barreRecherche = chercheOuvert && (
-    <div className="pv-chercher">
-      <input
-        className="pv-chercher-champ"
-        type="search"
-        autoFocus
-        value={recherche}
-        onChange={(e) => setRecherche(e.target.value)}
-        placeholder={t.nomDunGenreOuArtiste}
-        aria-label={t.chercherUnGenre}
-      />
-      {recherche.trim().length >= 2 && (
-        <ul className="pv-resultats">
-          {resultats.length === 0 && artistes.length === 0 && (
-            <li className="pv-resultat-vide">{t.aucunGenreDeCeNom}</li>
-          )}
-          {artistes.map((a) => (
-            <li key={`a:${a.nom}`} className="pv-resultat-artiste">
-              {/* CE QUE C'EST SE LIT AVANT LE NOM. Le nom seul, suivi de
-                  pastilles, laissait deviner que c'etaient ses styles ; Mika
-                  l'a lu comme un resultat sans reponse (9 septembre 2026).
-                  On ecrit « Artiste », d'ou viennent les styles, et ce que
-                  fait une pastille. */}
-              <span className="pv-resultat-etiquette">
-                {t.artisteResultat}
-                {a.source && a.source !== 'index' ? ` · ${t.selonSource(a.source === 'lastfm' ? 'Last.fm' : 'Discogs')}` : ''}
-              </span>
-              <span className="pv-resultat-nom pv-resultat-nom-artiste">{a.nom}</span>
-              <span className="pv-resultat-sesstyles">{t.sesStyles}</span>
-              <span className="pv-resultat-styles">
-                {a.genres.filter(styleConnu).map((id) => (
-                  <button
-                    key={id}
-                    type="button"
-                    className="pv-resultat-style"
-                    onClick={() => {
-                      if (ouvrirStyle(id)) {
-                        setChercheOuvert(false);
-                        setRecherche('');
-                      }
-                    }}
-                  >
-                    {LABEL_DE_STYLE[id] ?? id}
-                  </button>
-                ))}
-              </span>
-              <span className="pv-resultat-aide">{t.toucherUnStyle}</span>
-            </li>
-          ))}
-          {resultats.map(({ fi, gl, g }) => (
-            <li key={g.id}>
-              <button
-                className="pv-resultat"
-                onClick={() => {
-                  setChercheOuvert(false);
-                  setRecherche('');
-                  aller({ k: 'genre', fi, gl });
-                }}
-              >
-                <span className="pv-resultat-nom">{g.label}</span>
-                <span className="pv-resultat-famille" style={{ '--pv-hue': FAMILIES[fi]?.hue ?? 0 } as React.CSSProperties}>
-                  {FAMILIES[fi]?.label}
-                </span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
   );
 
   return (
     <div className="pv" data-joue={lecture.etat === 'joue' || lecture.etat === 'chargement' || Boolean(pisteJouee)}>
       {enTete}
-      {barreRecherche}
 
       <main className="pv-corps" ref={corps}>
         {niveau.k === 'familles' && (

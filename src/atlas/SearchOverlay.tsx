@@ -19,6 +19,9 @@ interface Props {
   /** Ouvre le lecteur sur le genre d'un track trouvé. */
   onListen: (familyIndex: number, genreLocal: number) => void;
   onClose: () => void;
+  /** Ouvre une FAMILLE (la pastille « House » tout court d'un artiste). A
+      defaut, on ouvre son premier genre, ce que fait l'atlas. */
+  onFamille?: (familyIndex: number) => void;
 }
 
 const fold = (s: string): string =>
@@ -226,9 +229,9 @@ type Item =
      Les quatre types precedents interrogent ce que SONAA contient ; celui-ci
      interroge ce que SONAA a moissonne. Neuf mille noms que le corpus ne cite
      nulle part, avec les styles que leurs disques portent chez Discogs. */
-  | { type: 'styles'; nom: string; genres: readonly string[] };
+  | { type: 'styles'; nom: string; genres: readonly string[]; source?: string };
 
-export function SearchOverlay({ onPick, onListen, onClose }: Props) {
+export function SearchOverlay({ onPick, onListen, onClose, onFamille }: Props) {
   const index = useMemo(buildIndex, []);
   const [query, setQuery] = useState('');
   const [cursor, setCursor] = useState(0);
@@ -322,7 +325,7 @@ export function SearchOverlay({ onPick, onListen, onClose }: Props) {
     out.push(
       ...moissonnes
         .filter((a) => !dejaLa.has(fold(a.nom)))
-        .map((a) => ({ type: 'styles', nom: a.nom, genres: a.genres }) as Item)
+        .map((a) => ({ type: 'styles', nom: a.nom, genres: a.genres, ...(a.source ? { source: a.source } : {}) }) as Item)
     );
 
     /* Tracks : titre ET artiste ET label, tous les mots, fautes tolérées.
@@ -591,7 +594,17 @@ export function SearchOverlay({ onPick, onListen, onClose }: Props) {
     if (item.type === 'styles') {
       return (
         <div className="search-hit search-hit-styles" role="option" aria-selected={active}>
-          <span className="search-label">{item.nom}</span>
+          {/* CE QUE C'EST SE LIT AVANT LE NOM : « Artiste », d'ou viennent
+              les styles, et ce que fait une pastille. Meme carte que celle
+              que Mika a validee dans Parcourir le 9 septembre 2026. */}
+          <span className="search-artiste-etiquette">
+            {t.artisteResultat}
+            {item.source && item.source !== 'index'
+              ? ` · ${t.selonSource(item.source === 'lastfm' ? 'Last.fm' : 'Discogs')}`
+              : ''}
+          </span>
+          <span className="search-label search-artiste-nom">{item.nom}</span>
+          <span className="search-artiste-sesstyles">{t.sesStyles}</span>
           {/* UN STYLE EST SOIT UN GENRE, SOIT UNE FAMILLE, et les deux
               s'ouvrent differemment. Discogs etiquette « House » tout court
               quatorze mille fois : ces occurrences-la designent la famille, et
@@ -622,13 +635,14 @@ export function SearchOverlay({ onPick, onListen, onClose }: Props) {
                 <button
                   key={id}
                   className="search-style-lien search-style-famille"
-                  onClick={() => onPick(iFamille, 0)}
+                  onClick={() => (onFamille ? onFamille(iFamille) : onPick(iFamille, 0))}
                 >
                   {FAMILIES[iFamille]?.label ?? id}
                 </button>
               );
             })}
           </span>
+          <span className="search-artiste-aide">{t.toucherUnStyle}</span>
         </div>
       );
     }
