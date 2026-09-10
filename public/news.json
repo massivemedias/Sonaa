@@ -1,6 +1,14 @@
 {
- "fait": "2026-09-10T19:08:34.503Z",
+ "fait": "2026-09-10T22:37:54.176Z",
  "articles": [
+  {
+   "source": "attack",
+   "titre": "XILS-lab Launches MemoryTone Software Synthesiser",
+   "lien": "https://www.attackmagazine.com/news/xils-lab-launches-memorytone-software-synthesiser/",
+   "date": "2026-09-10T20:18:58.000Z",
+   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/Attack-Mag-News-Feat-Images-Memorytone.jpg?fit=1130%2C387&ssl=1",
+   "resume": "The Grenoble-based developer's latest release recreates the architecture of a landmark early-1980s polyphonic analogue synthesiser, adding modern features including MPE support and 16-voice polyphony. XILS-lab has…"
+  },
   {
    "source": "gearnews",
    "titre": "5 of the Best USB Turntables",
@@ -32,6 +40,14 @@
    "date": "2026-09-10T16:00:00.000Z",
    "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/arturia-audiofuse-studio-ft.jpg",
    "resume": "The Arturia AudioFuse Studio Rev2 is the latest generation of Arturia’s flexible desktop audio interface with upgraded preamps and clocking stability. Introduced back in 2019, the AudioFuse Studio combined high-quality…"
+  },
+  {
+   "source": "cdm",
+   "titre": "Kevin Saunderson teaches a free 909 workshop, online and in Detroit",
+   "lien": "https://cdm.link/kevin-saunderson-roland-and-uma/",
+   "date": "2026-09-10T15:57:55.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/kevin.png",
+   "resume": "The best 909 Day reveal yesterday was this: on Saturday, Kevin Saunderson, techno originator and one of the Belleville Three, teaches a free workshop on the 909 with Roland (with Dustin Good). You can tune in online…"
   },
   {
    "source": "musicradar",
@@ -282,6 +298,14 @@
    "resume": "From developer Witch Pig comes Geminate, a free doubler/mimic effect plugin for macOS and Windows. Over the last few years, we’ve come to expect a few things from Witch Pig plugins, like quirky names and interesting…"
   },
   {
+   "source": "cdm",
+   "titre": "Dirtywave M8 has an official iOS app — a great addition to mobile tracker apps",
+   "lien": "https://cdm.link/dirtywave-m8-ios/",
+   "date": "2026-09-09T17:23:55.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/m8-tracker-hero.jpeg",
+   "resume": "Dirtywave M8 is already superb as hardware, whether you run their pre-made device or build your own \"headless\" rig. Now, it has its own official iOS app for iPhone and iPad, too, and it looks hot."
+  },
+  {
    "source": "synthtopia",
    "titre": "The Bob Moog Foundation Announces Summer Raffle for Vintage Memorymoog Plus and Moog Muse Synthesizers",
    "lien": "https://www.synthtopia.com/content/2026/09/09/the-bob-moog-foundation-announces-summer-raffle-for-vintage-memorymoog-plus-and-moog-muse-synthesizers/",
@@ -394,6 +418,14 @@
    "resume": "Getting studio space in New York City is expensive. It’s why most NYC-based artists we speak to are making beats out of their bedrooms, or sharing a studio with friends and collaborators. Hip-hop and EDM mogul Frank…"
   },
   {
+   "source": "cdm",
+   "titre": "Eminently controllable, accessible by design, Sting is now a plug-in",
+   "lien": "https://cdm.link/sting-the-plugin/",
+   "date": "2026-09-08T18:57:31.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/CleanShot-2026-09-08-at-20.29.51.png",
+   "resume": "Now this is how to do generative melodies. Add expression. Get control with your hands. Make melodies accessible -- including if you're blind and visually impaired. Sting, the beloved maker of acid melodies and other…"
+  },
+  {
    "source": "bpb",
    "titre": "Septabee: A FREE, unique, and sometimes bewildering DAW for Windows and Linux",
    "lien": "https://bedroomproducersblog.com/2026/09/08/septabee-daw/",
@@ -434,6 +466,14 @@
    "resume": "The new four-channel standalone system introduces pressure-sensitive MPCe pads, onboard Stems rendering and built-in DMX output, aimed at mobile, club and festival DJs. Denon DJ has announced PRIME 4 G2, a four-channel…"
   },
   {
+   "source": "cdm",
+   "titre": "Scales among updates to the free Ardour DAW — with tuning on the way",
+   "lien": "https://cdm.link/ardour-9-8-scales-and-tuning/",
+   "date": "2026-09-07T11:39:51.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/ardour-9-8-scale-editor.jpeg",
+   "resume": "Ardour 9.8 continues the rapid, detailed development of this free and open-source DAW, with improved session recovery and clip recording, expanded support for controllers and hardware, and an arpeggiator MIDI tool. The…"
+  },
+  {
    "source": "synthtopia",
    "titre": "Free Yamaha TX7 Patch Editor & Librarian",
    "lien": "https://www.synthtopia.com/content/2026/09/06/free-yamaha-tx7-patch-editor-librarian/",
@@ -456,6 +496,30 @@
    "date": "2026-09-06T19:50:56.000Z",
    "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/Attack-Mag-The-Best-Feature-Images-Weird-Drum-Machines.png?fit=1130%2C548&ssl=1",
    "resume": "Step into another world with the weirdest drum machines on the market in 2026. We’re talking an all-passive rhythm box, one that blurs the line between analog and sampling, one for kids, and more craziness. We love our…"
+  },
+  {
+   "source": "cdm",
+   "titre": "Throng, a 3D BlueSky interface, imagines social media as a mob",
+   "lien": "https://cdm.link/create-digital-mobs/",
+   "date": "2026-09-04T22:09:27.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/throng.jpg",
+   "resume": "You're just relaxing by a peaceful campfire. You hear voices in the distance. Then, like a really chatty zombie invasion... they come. And keep coming. It's a 3D user interface for BlueSky, but it says something poetic…"
+  },
+  {
+   "source": "cdm",
+   "titre": "Loraine James has a new LP, it’s a free download, and it’s raw brilliance",
+   "lien": "https://cdm.link/loraine-james-has-a-new-lp/",
+   "date": "2026-09-04T17:47:29.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/nothingpersonal1.jpg",
+   "resume": "\"U Get Me\"? Yes. Out today, Friday, Loraine James' newest LP It’s Nothing Personal. is the kind of massive, glitchy percussive syncopation I would want to use to break in an excellent, brand new pair of trainers. Then…"
+  },
+  {
+   "source": "cdm",
+   "titre": "In masses of live electronic sound, Jad Atoui built an opus",
+   "lien": "https://cdm.link/jad-atoui-it-will-take-forever/",
+   "date": "2026-09-04T16:02:55.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/jadatoui.jpg",
+   "resume": "It Will Take Forever moves through emotions in swells, as if pulling us through feelings. Composed and played live on modular synths from 2023 to 2025 in Beirut, Jad Atoui's work almost sings grief through those…"
   },
   {
    "source": "tsugi",
@@ -488,6 +552,14 @@
    "date": "2026-09-04T10:37:13.000Z",
    "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/le-rex-club-promet-une-rentree-exaltante-avec-une-programmation-cinq-etoiles.jpg?hash=cdn-78fd09146743228f8c8843d5b09f4b72",
    "resume": "Le club le plus mythique des Grands Boulevards revient avec une programmation béton en septembre. Le Rex Club accueillera entre ses murs des légendes du DJing, mais aussi de jeunes talents émergents et prometteurs…"
+  },
+  {
+   "source": "cdm",
+   "titre": "Audacity 4, free and open-source audio editor, arrives with a revamped UI",
+   "lien": "https://cdm.link/audacity-4-and-tenacity-too/",
+   "date": "2026-09-03T19:44:40.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/audacity-4-scaled.png",
+   "resume": "It's been a long time coming. Audacity, the ubiquitous open-source audio editor now owned by Muse Group, reaches version 4 with a reworked UI and enhanced usability. Here's a look at what's new and a first run. And…"
   },
   {
    "source": "tsugi",
@@ -536,6 +608,22 @@
    "date": "2026-09-03T09:36:45.000Z",
    "image": "https://beta-ableton.imgix.net/media/ugjfws2d/596_cinna-peyghamy_02.jpg",
    "resume": ""
+  },
+  {
+   "source": "cdm",
+   "titre": "Septabee, an insane-looking free Linux/Windows DAW with pomegranates",
+   "lien": "https://cdm.link/septabee-is-here/",
+   "date": "2026-09-03T09:16:33.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/septabee-image.jpg",
+   "resume": "Suddenly, a bunch of the producers I follow are buzzing about the music-mangling possibilities of Septabee, a free DAW for Linux and Windows developed \"in secret\" over \"20,000 hours.\" And it looks like insane fun: a…"
+  },
+  {
+   "source": "cdm",
+   "titre": "Nuclear test equipment inspired this new Eurorack module",
+   "lien": "https://cdm.link/ai-bxr-module/",
+   "date": "2026-09-02T19:03:01.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/ai-hero2.jpeg",
+   "resume": "Boxcar averagers, used in vintage nuclear test equipment, inspired the latest creation from AI Synthesis. What you get is the AI250 BXR: it's an oscillator, a voltage generator, and an audio mangler all in one. And it's…"
   },
   {
    "source": "tsugi",
@@ -704,14 +792,6 @@
    "date": "2026-08-06T10:09:35.000Z",
    "image": "https://beta-ableton.imgix.net/media/gutlbkwe/590_lna-note-tutorial_1200x630.jpg",
    "resume": ""
-  },
-  {
-   "source": "attack",
-   "titre": "Native Instrument’s SuperStarSaw Review",
-   "lien": "https://www.attackmagazine.com/reviews/gear-software/native-instruments-superstarsaw-review/",
-   "date": "2026-08-03T13:58:27.000Z",
-   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/08/Attack-Mag-News-Feat-Images-SuperStarSaw-1.png?fit=1130%2C387&ssl=1",
-   "resume": "It’s not often an instrument tells you what it is so blatantly. And perhaps there’s a reason for that, as SuperStarSaw is far more than the one-trick pony its name suggests. It’s not uncommon for me to start a review…"
   },
   {
    "source": "ableton",
@@ -1034,6 +1114,102 @@
    "resume": "Scottish DJ-producer Jack Revill, better known as Jackmaster, has died of an accidental head injury, aged 38. Revill’s family confirmed the news on Instagram yesterday. “It’s with profound sorrow that we confirm the…"
   },
   {
+   "source": "mixmag",
+   "titre": "Annie Mac and Horse Meat Disco join line-up for TESTBED reopening party",
+   "lien": "https://mixmag.net/read/annie-mac-and-horsemeat-disco-on-line-up-for-testbed-reopening-party-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FThe-Bridge-series.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=cd12c126",
+   "resume": "The Leeds venue will relaunch next month following a refurbishment, featuring a new soundsystem and layout changes"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Sadiq Khan criticises \"arrogant\" Westminster Council as it bans new nightlife venues and 'vertical drinking' in Soho",
+   "lien": "https://mixmag.net/read/sadiq-khan-criticises-arrogant-westminster-council-bans-new-nightlife-venues-vertical-drinking-soho-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fsoho_2026-09-10-142238_osqe.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=451e02e4",
+   "resume": "The council plans to move ahead with changes in its draft licensing policy, despite an 81% disapproval rate from a public consultation"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Detroit DJ Rick Wade shares health update following heart attack",
+   "lien": "https://mixmag.net/read/detroit-dj-rick-wade-shares-health-update-following-heart-attack-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Frick-wade-health.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=c5036b21",
+   "resume": "Despite remaining at home to recover, he's scheduled to perform a set in Miami tonight"
+  },
+  {
+   "source": "mixmag",
+   "titre": "UK promoter La Discothèque lands eight-figure investment fund",
+   "lien": "https://mixmag.net/read/la-discotheque-lands-eight-figure-investment-fund-promoter-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fla-disco.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=c01f39e8",
+   "resume": "The cash injection will support the disco promoter in expanding into North America, Europe and Asia"
+  },
+  {
+   "source": "mixmag",
+   "titre": "O2 Academy Sheffield will reopen in 2027 following major refurbishment",
+   "lien": "https://mixmag.net/read/o2-academy-sheffield-reopen-following-major-refurbishment-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fo2-academy-sheffield.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=c0bace87",
+   "resume": "The Arundel Gate venue, which closed four years ago, will relaunch with a new L-Acoustics soundsystem"
+  },
+  {
+   "source": "mixmag",
+   "titre": "The Mix 122: dj g2g",
+   "lien": "https://mixmag.net/feature/the-mix-122-dj-g2g-interview",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FTHE_MIX_THE_MIX_dj-g2g2.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=81401ed1",
+   "resume": "dj g2g locks in to her expansive, “neurospicy” style with a peak-time energy mix, and discusses the role of femme friendship in her creative practice and learning to lead with her heart"
+  },
+  {
+   "source": "mixmag",
+   "titre": "FKA twigs joins forces with UK non-profit Saffron to support diversity in music tech",
+   "lien": "https://mixmag.net/read/fka-twigs-joins-forces-uk-non-profit-saffron-support-diversity-music-tech-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FFKA-twigs-credit-Jordan-Hemingway.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=42cff487",
+   "resume": "The musician previously shared her fears over a lack of inclusivity in music production and engineering"
+  },
+  {
+   "source": "mixmag",
+   "titre": "D'Angelo's son to play Notorious B.I.G. in Snoop Dogg biopic",
+   "lien": "https://mixmag.net/read/dangelo-son-play-notorious-big-snoop-dogg-biopic-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fdangelo.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=6c44e9ec",
+   "resume": "Swayvo Twain will play the New York hip hop icon in Snoop, which is due to land in cinemas in August 2027"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Sadiq Khan weighs in on fabric and St Paul's event series amid religious outcry",
+   "lien": "https://mixmag.net/read/sadiq-khan-row-fabric-st-pauls-cathedral-events-series-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Ffabric-events.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=f43fec53",
+   "resume": "The Mayor of London called the partnership an \"iconic duo\", despite backlash over the Farringdon nightclub's forthcoming programme at the cathedral"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Glastonbury ticket price to increase by nearly 10% for 2027 return",
+   "lien": "https://mixmag.net/read/glastonbury-ticket-price-increase-2027-edition-sale-date-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fglasto-2027-tickets.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=4d2e6204",
+   "resume": "Passes for next year's edition of the Worthy Farm festival will go on sale in just a few weeks time"
+  },
+  {
+   "source": "mixmag",
+   "titre": "The Warehouse Project shares details of flagship 20th anniversary show",
+   "lien": "https://mixmag.net/read/the-warehouse-project-shares-details-flagship-20th-anniversary-show-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FWHP_2026-09-08-121454_jubx.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=17afb139",
+   "resume": "The Manchester event series will mark two decades with a party featuring sets from Rossi., Saoirse, Bullet Tooth and Enzo Siragusa in November"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Hot Since 82: \"Emotional connection is more important than trends\"",
+   "lien": "https://mixmag.net/feature/hot-since-82-interview-obsessions-new-album",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FHot-Since-82-1.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=14b6bf96",
+   "resume": "Inspired by a \"period of introspection and movement\", the Barnsley-raised producer's latest LP 'Obsessions' sees him reflect on his decades-long journey through music"
+  },
+  {
    "source": "djmag",
    "titre": "How Meat Beat Manifesto's ‘Radio Babylon' became breakbeat hardcore's accidental anthem",
    "lien": "https://djmag.com/features/how-meat-beat-manifestos-radio-babylon-became-breakbeat-hardcores-accidental-anthem",
@@ -1104,124 +1280,7 @@
    "date": null,
    "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/A%20product%20shot%20of%20the%20909.jpg.webp?itok=-dn4CKx0781692454",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The collection also features a pair of turntables signed by Grandmaster Flash</p> </div>"
-  },
-  {
-   "source": "djmag",
-   "titre": "Saint Abdullah and Eomac return to Planet Mu with new album, share single: Listen",
-   "lien": "https://djmag.com/news/saint-abdullah-and-eomac-return-planet-mu-new-album-share-single-listen",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/SAINT_A%20and_E_Rebecca_Distance.jpg.webp?itok=of_O8tjx1544821959",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The new album arrives on 16th October via Planet Mu</p> </div>"
-  },
-  {
-   "source": "djmag",
-   "titre": "Tomorrowland Winter 2027 dates and ticket sales announced",
-   "lien": "https://djmag.com/news/tomorrowland-winter-2027-dates-and-ticket-sales-announced",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/42-tomorrowland-winter.jpg.webp?itok=P4hmcKlv803385712",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Last year's edition hosted performances from over 100 DJs and artists</p> </div>"
-  },
-  {
-   "source": "djmag",
-   "titre": "Brian Eno relaunches cult ambient label Opal Records with two album reissues",
-   "lien": "https://djmag.com/news/brian-eno-relaunches-cult-ambient-label-opal-records-two-album-reissues",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/brian-eno-opal-records-re-launch-2005-photo-GUIDO-HARARI%202.jpg.webp?itok=BDJ-IrGj1870578636",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The ambient maestro's \"lost\" LPs 'Another Day on Earth' and 'Drawn From Life' are getting…"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Annie Mac and Horse Meat Disco join line-up for TESTBED reopening party",
-   "lien": "https://mixmag.net/read/annie-mac-and-horsemeat-disco-on-line-up-for-testbed-reopening-party-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FThe-Bridge-series.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=cd12c126",
-   "resume": "The Leeds venue will relaunch next month following a refurbishment, featuring a new soundsystem and layout changes"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Sadiq Khan criticises \"arrogant\" Westminster Council as it bans new nightlife venues and 'vertical drinking' in Soho",
-   "lien": "https://mixmag.net/read/sadiq-khan-criticises-arrogant-westminster-council-bans-new-nightlife-venues-vertical-drinking-soho-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fsoho_2026-09-10-142238_osqe.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=451e02e4",
-   "resume": "The council plans to move ahead with changes in its draft licensing policy, despite an 81% disapproval rate from a public consultation"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Detroit DJ Rick Wade shares health update following heart attack",
-   "lien": "https://mixmag.net/read/detroit-dj-rick-wade-shares-health-update-following-heart-attack-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Frick-wade-health.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=c5036b21",
-   "resume": "Despite remaining at home to recover, he's scheduled to perform a set in Miami tonight"
-  },
-  {
-   "source": "mixmag",
-   "titre": "UK promoter La Discothèque lands eight-figure investment fund",
-   "lien": "https://mixmag.net/read/la-discotheque-lands-eight-figure-investment-fund-promoter-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fla-disco.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=c01f39e8",
-   "resume": "The cash injection will support the disco promoter in expanding into North America, Europe and Asia"
-  },
-  {
-   "source": "mixmag",
-   "titre": "O2 Academy Sheffield will reopen in 2027 following major refurbishment",
-   "lien": "https://mixmag.net/read/o2-academy-sheffield-reopen-following-major-refurbishment-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fo2-academy-sheffield.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=c0bace87",
-   "resume": "The Arundel Gate venue, which closed four years ago, will relaunch with a new L-Acoustics soundsystem"
-  },
-  {
-   "source": "mixmag",
-   "titre": "FKA twigs joins forces with UK non-profit Saffron to support diversity in music tech",
-   "lien": "https://mixmag.net/read/fka-twigs-joins-forces-uk-non-profit-saffron-support-diversity-music-tech-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FFKA-twigs-credit-Jordan-Hemingway.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=42cff487",
-   "resume": "The musician previously shared her fears over a lack of inclusivity in music production and engineering"
-  },
-  {
-   "source": "mixmag",
-   "titre": "D'Angelo's son to play Notorious B.I.G. in Snoop Dogg biopic",
-   "lien": "https://mixmag.net/read/dangelo-son-play-notorious-big-snoop-dogg-biopic-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fdangelo.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=6c44e9ec",
-   "resume": "Swayvo Twain will play the New York hip hop icon in Snoop, which is due to land in cinemas in August 2027"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Sadiq Khan weighs in on fabric and St Paul's event series amid religious outcry",
-   "lien": "https://mixmag.net/read/sadiq-khan-row-fabric-st-pauls-cathedral-events-series-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Ffabric-events.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=f43fec53",
-   "resume": "The Mayor of London called the partnership an \"iconic duo\", despite backlash over the Farringdon nightclub's forthcoming programme at the cathedral"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Glastonbury ticket price to increase by nearly 10% for 2027 return",
-   "lien": "https://mixmag.net/read/glastonbury-ticket-price-increase-2027-edition-sale-date-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fglasto-2027-tickets.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=4d2e6204",
-   "resume": "Passes for next year's edition of the Worthy Farm festival will go on sale in just a few weeks time"
-  },
-  {
-   "source": "mixmag",
-   "titre": "The Warehouse Project shares details of flagship 20th anniversary show",
-   "lien": "https://mixmag.net/read/the-warehouse-project-shares-details-flagship-20th-anniversary-show-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FWHP_2026-09-08-121454_jubx.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=17afb139",
-   "resume": "The Manchester event series will mark two decades with a party featuring sets from Rossi., Saoirse, Bullet Tooth and Enzo Siragusa in November"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Hot Since 82: \"Emotional connection is more important than trends\"",
-   "lien": "https://mixmag.net/feature/hot-since-82-interview-obsessions-new-album",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FHot-Since-82-1.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=14b6bf96",
-   "resume": "Inspired by a \"period of introspection and movement\", the Barnsley-raised producer's latest LP 'Obsessions' sees him reflect on his decades-long journey through music"
   }
  ],
- "pannes": [
-  {
-   "id": "cdm",
-   "raison": "HTTP 403"
-  }
- ]
+ "pannes": []
 }
