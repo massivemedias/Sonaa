@@ -1,5 +1,5 @@
 {
- "fait": "2026-09-10T22:37:54.176Z",
+ "fait": "2026-09-11T04:45:50.442Z",
  "articles": [
   {
    "source": "attack",
@@ -1155,14 +1155,6 @@
   },
   {
    "source": "mixmag",
-   "titre": "The Mix 122: dj g2g",
-   "lien": "https://mixmag.net/feature/the-mix-122-dj-g2g-interview",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FTHE_MIX_THE_MIX_dj-g2g2.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=81401ed1",
-   "resume": "dj g2g locks in to her expansive, “neurospicy” style with a peak-time energy mix, and discusses the role of femme friendship in her creative practice and learning to lead with her heart"
-  },
-  {
-   "source": "mixmag",
    "titre": "FKA twigs joins forces with UK non-profit Saffron to support diversity in music tech",
    "lien": "https://mixmag.net/read/fka-twigs-joins-forces-uk-non-profit-saffron-support-diversity-music-tech-news",
    "date": null,
@@ -1280,6 +1272,14 @@
    "date": null,
    "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/A%20product%20shot%20of%20the%20909.jpg.webp?itok=-dn4CKx0781692454",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The collection also features a pair of turntables signed by Grandmaster Flash</p> </div>"
+  },
+  {
+   "source": "djmag",
+   "titre": "Saint Abdullah and Eomac return to Planet Mu with new album, share single: Listen",
+   "lien": "https://djmag.com/news/saint-abdullah-and-eomac-return-planet-mu-new-album-share-single-listen",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/SAINT_A%20and_E_Rebecca_Distance.jpg.webp?itok=of_O8tjx1544821959",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The new album arrives on 16th October via Planet Mu</p> </div>"
   }
  ],
  "pannes": []
