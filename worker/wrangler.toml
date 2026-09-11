@@ -26,7 +26,7 @@ SUPABASE_URL = "https://pqgapyfqkjzvwkulxnhv.supabase.co"
 # La cle publique du navigateur, pour demander a la base si un jeton est
 # celui d'un moderateur (suppression d'un set par la moderation).
 SUPABASE_ANON_KEY = "sb_publishable_y7NY3g6pZgJYRnX5fPbNXA_VlzRJpVn"
-ORIGINES = "https://sonaa.ca,http://localhost:5173,http://localhost:4173"
+ORIGINES = "https://sonaa.ca,http://localhost:5173,http://localhost:4173,https://www.facebook.com"
 
 # LES NOMS QU'ON N'A PAS SU RESOUDRE. Quand ni Discogs (bloque par adresse
 # depuis ici) ni Last.fm ne connaissent un artiste, son nom est note ici, et

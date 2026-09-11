@@ -344,7 +344,27 @@ export default {
     const url = new URL(req.url);
     const chemin = decodeURIComponent(url.pathname.replace(/^\//, ''));
 
+    /* LE DEPOT D'AFFICHE VIENT D'UNE ORIGINE QU'ON NE PEUT PAS ECRIRE D'AVANCE.
+       Les pages de facebook.com interdisent a leurs scripts d'appeler d'autres
+       serveurs (politique de securite de contenu), on ne peut donc pas
+       deposer depuis la page de l'evenement. Le navigateur ouvre l'image
+       elle-meme, sur le CDN de Facebook (scontent.<zone>.fbcdn.net, une
+       origine par zone), et depose depuis la. Cette seule route repond donc
+       a toute origine : elle n'a de toute facon aucun jeton a proteger,
+       sa serrure est ailleurs (voir plus bas). */
+    const depotDAffiche = chemin.startsWith('api/affiche/');
     if (req.method === 'OPTIONS') {
+      if (depotDAffiche) {
+        return new Response(null, {
+          status: 204,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'PUT, OPTIONS',
+            'Access-Control-Allow-Headers': 'content-type',
+            'Access-Control-Max-Age': '86400',
+          },
+        });
+      }
       return new Response(null, { status: 204, headers: entetes(req, env) });
     }
 
@@ -433,6 +453,53 @@ export default {
 
     /* LA LISTE DES NOMS DEMANDES, pour la moisson. Publique : ce sont des
        noms d'artistes tapes dans une recherche, rien de personnel. */
+    /* L'AFFICHE D'UNE SOIREE FACEBOOK, DEPOSEE PAR LE NAVIGATEUR QUI L'A LUE.
+
+       Les adresses d'images de Facebook sont signees et expirent, et elles
+       ne peuvent etre lues que par un navigateur connecte. La passe Facebook
+       (tache planifiee dans le Chrome de Mika) ne peut donc ni les garder
+       telles quelles, ni les faire transiter par un outil. Elle fait donc
+       faire le travail a la page elle-meme : le navigateur telecharge
+       l'image (le CDN de Facebook l'autorise) et la depose ici, sous
+       affiches/<identifiant Facebook>.jpg, que le GET public ci-dessous sert
+       comme n'importe quel objet.
+
+       SANS JETON, ET VOICI LA SERRURE. La page qui depose tourne sur
+       facebook.com, elle n'a aucun jeton SONAA. On n'accepte donc que : une
+       image (JPEG, PNG ou WebP, verifie sur les premiers octets), de moins
+       de trois megaoctets, pour un identifiant qui existe deja dans la base
+       comme soiree Facebook publiee, lue avec la cle publique. Le pire cas
+       est une affiche remplacee par une autre image pour une soiree connue,
+       et la passe suivante la remet. */
+    if (req.method === 'PUT' && chemin.startsWith('api/affiche/')) {
+      const ref = chemin.slice('api/affiche/'.length);
+      if (!/^\d{6,30}$/.test(ref)) return new Response(JSON.stringify({ erreur: 'identifiant invalide' }), { status: 400, headers: { 'content-type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
+      const taille = Number(req.headers.get('content-length') ?? '0');
+      if (!Number.isFinite(taille) || taille <= 0 || taille > 3 * 1024 * 1024) {
+        return new Response(JSON.stringify({ erreur: 'image absente ou trop lourde' }), { status: 413, headers: { 'content-type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
+      }
+      if (!env.SUPABASE_ANON_KEY) return new Response(JSON.stringify({ erreur: 'cle publique absente' }), { status: 503, headers: { 'content-type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
+      const existe = await fetch(
+        `${env.SUPABASE_URL}/rest/v1/soirees_manuelles?select=id&source=eq.facebook&source_ref=eq.${ref}&limit=1`,
+        { headers: { apikey: env.SUPABASE_ANON_KEY, Authorization: `Bearer ${env.SUPABASE_ANON_KEY}` } }
+      )
+        .then((r) => (r.ok ? r.json() : []))
+        .then((j) => Array.isArray(j) && j.length > 0)
+        .catch(() => false);
+      if (!existe) return new Response(JSON.stringify({ erreur: 'aucune soiree Facebook avec cet identifiant' }), { status: 404, headers: { 'content-type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
+      const corps = new Uint8Array(await req.arrayBuffer());
+      const jpeg = corps[0] === 0xff && corps[1] === 0xd8;
+      const png = corps[0] === 0x89 && corps[1] === 0x50 && corps[2] === 0x4e && corps[3] === 0x47;
+      const webp = corps[0] === 0x52 && corps[1] === 0x49 && corps[8] === 0x57 && corps[9] === 0x45;
+      if (!jpeg && !png && !webp) return new Response(JSON.stringify({ erreur: 'pas une image' }), { status: 415, headers: { 'content-type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
+      const type = jpeg ? 'image/jpeg' : png ? 'image/png' : 'image/webp';
+      const cle = `affiches/${ref}.jpg`;
+      await env.SETS.put(cle, corps, { httpMetadata: { contentType: type, cacheControl: 'public, max-age=86400' } });
+      return new Response(JSON.stringify({ cle, octets: corps.length }), {
+        headers: { 'content-type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      });
+    }
+
     if (req.method === 'GET' && chemin === 'api/artistes-demandes') {
       if (!env.DEMANDES) return refus(req, env, 503, 'file non configuree');
       const liste = await env.DEMANDES.list({ limit: 1000 });
@@ -541,7 +608,10 @@ export default {
       /* LES REQUETES PAR PLAGE SONT INDISPENSABLES. Sans elles, se deplacer
          dans un set d'une heure obligerait a telecharger l'heure entiere. */
       h.set('accept-ranges', 'bytes');
-      h.set('cache-control', 'public, max-age=31536000, immutable');
+      /* Les sets ne changent jamais sous une meme cle ; les affiches des
+         soirees Facebook, si (une passe par jour). L'objet dit sa propre
+         duree quand il en a une. */
+      h.set('cache-control', objet.httpMetadata?.cacheControl ?? 'public, max-age=31536000, immutable');
 
       /* LE 206 NE SE REND QUE SI LE CLIENT A DEMANDE UNE PLAGE.
 
