@@ -1,6 +1,22 @@
 {
- "fait": "2026-09-12T12:12:24.384Z",
+ "fait": "2026-09-12T15:35:03.058Z",
  "articles": [
+  {
+   "source": "musicradar",
+   "titre": "“I don't think most people realise the song was aimed at parents who drank and told their kids not to do drugs”: How Grace Slick and Jefferson Airplane went down the rabbit hole and created a psychedelic classic",
+   "lien": "https://www.musicradar.com/artists/singles-albums/i-dont-think-most-people-realise-the-song-was-aimed-at-parents-who-drank-and-told-their-kids-not-to-do-drugs-how-grace-slick-and-jefferson-airplane-went-down-the-rabbit-hole-and-created-a-psychedelic-classic",
+   "date": "2026-09-12T15:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/FRM6znJawXJ43VgkQ6VTfi-1280-80.jpg",
+   "resume": "If JRR Tolkien was the primary literary influence upon prog rock, there’s an argument to be made that Lewis Carroll served a similar role during the psychedelic era just a few years before. John Lennon’s work during…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "“He was for me what Elvis probably was for most other people. His style on every level was fantastic. Doing all the things we would later come to associate with Jimi Hendrix”: Buddy Guy at 90 – how the world’s greatest living bluesman transformed guitar",
+   "lien": "https://www.musicradar.com/artists/buddy-guy-at-90-how-the-worlds-greatest-living-bluesman-transformed-guitar",
+   "date": "2026-09-12T13:34:17.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/BukdDxZizg7GzPjpVRGgmd-1280-80.jpg",
+   "resume": "When Buddy Guy emerged from the clubs of the Chicago blues scene at the dawn of the 1960s as one of its most electric performers, charismatic and a not a little wild, something had changed. And it was he who was doing…"
+  },
   {
    "source": "bpb",
    "titre": "GIVEAWAY: Win Golden DSP Silkbrush Reverb (5 copies)",
@@ -154,6 +170,14 @@
    "resume": "New plugin developer The Note Audio has released True Panner, a free stereo panning and spatial imaging utility for macOS and Windows. The pan control in most DAWs changes the level sent to the left and right channels…"
   },
   {
+   "source": "tsugi",
+   "titre": "Marée Électronique : un open-air entre patrimoine, DJ-sets et VJing",
+   "lien": "https://www.tsugi.fr/la-maree-electronique-un-open-air-entre-patrimoine-dj-sets-et-vjing/",
+   "date": "2026-09-11T14:17:56.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/la-maree-electronique-un-open-air-entre-patrimoine-dj-sets-et-vjing.jpg?hash=cdn-1d07ded07dcea06db0de9cbfae4088c6",
+   "resume": "Pour nos adeptes de concepts inédits, la première édition de Marée Électronique prévue le 19 septembre prochain est faite pour vous ! Postés sur le barrage de Couesnon, vous pourrez danser aux rythmes de musiques…"
+  },
+  {
    "source": "musictech",
    "titre": "Roland celebrates 909 Day with free live workshop led by techno pioneer Kevin Saunderson",
    "lien": "https://musictech.com/news/events/roland-909-day-free-live-workshop-kevin-saunderson/",
@@ -200,6 +224,14 @@
    "date": "2026-09-11T13:02:10.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/MCiiZccVtYkxVEvTx9nJ9i-1280-80.jpg",
    "resume": "Arturia has updated its top-end desktop audio interface , Audiofuse Studio, launching a Rev 2 edition with ‘optimised’ preamps and an upgraded Bluetooth module. Among the crowded audio interface market, Audiofuse Studio…"
+  },
+  {
+   "source": "tsugi",
+   "titre": "Zaatar, FKJ, Bonobo… Les sorties de la semaine",
+   "lien": "https://www.tsugi.fr/zaatar-fkj-bonobo-les-sorties-de-la-semaine/",
+   "date": "2026-09-11T13:00:51.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/zaatar-fkj-bonobo-les-sorties-de-la-semaine.jpg?hash=cdn-2179aa68b1fa47fe7a661e72d9d34c82",
+   "resume": "Alors que nous recommençons à mettre des pulls et des vestes — snif — heureusement que les sorties musicales de la semaine sont toujours là pour nous réchauffer le cœur. Au coin du feu — oui, on abuse un peu — cette…"
   },
   {
    "source": "synthtopia",
@@ -250,6 +282,14 @@
    "resume": "The Neumann KH 310 II and KH 350 are two new 3-way additions to Neumann’s Klein + Hummel monitor range designed to sit just below the flagship KH 420. Although Sennheiser acquired Klein + Hummel studio monitors in 2005…"
   },
   {
+   "source": "tsugi",
+   "titre": "Lacchesi et Anetha se rejoignent pour un single hypnotique et politique",
+   "lien": "https://www.tsugi.fr/lacchesi-et-anetha-se-rejoignent-pour-un-single-hypnotique-et-politique/",
+   "date": "2026-09-11T09:58:43.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/lacchesi-et-anetha-se-rejoignent-pour-un-single-hypnotique-et-politique.jpg?hash=cdn-3fe7fd40e1af110102ecca270a07ec2a",
+   "resume": "Après un premier single avec Kittin paru le 10 juillet sur le label Mama Told Ya, Lacchesi dévoile aujourd’hui « No Pasarán », cette fois-ci aux côtés d’Anetha, une autre figure emblématique de la scène techno. Mais ce…"
+  },
+  {
    "source": "musicradar",
    "titre": "Ready or not, here I come: It's MusicRadar's Quiz of the Week #21!",
    "lien": "https://www.musicradar.com/artists/bands/ready-or-not-here-i-come-its-musicradars-quiz-of-the-week-21",
@@ -274,28 +314,12 @@
    "resume": "Queens Of The Stone Age were going at it until well after witching hour and yet were still getting no closer to what they were looking for. As drummer Jon Theodore remembers it, they had been trying to finish one of the…"
   },
   {
-   "source": "musicradar",
-   "titre": "Gretsch’s play for hard-riffing rock players continues with an “exotic” limited edition black limba makeover for the Jet and CVT – and it’s just $749",
-   "lien": "https://www.musicradar.com/guitars/gretsch-limited-edition-electromatic-black-limba-cvt-jet",
-   "date": "2026-09-11T08:56:15.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/qE2ChNLxHXho3ojmNwHVb8-1280-80.jpg",
-   "resume": "Having dropped an exquisite high-end limited edition Penguin a few weeks back, Gretsch has something special for those of us whose budgets are a little more modest, with its Electromatic Jet and CVT remodelled in black…"
-  },
-  {
    "source": "bpb",
    "titre": "Luftrum releases the Symbiotic Volume 2 preset collection for Omnisphere 3",
    "lien": "https://bedroomproducersblog.com/2026/09/11/luftrum-releases-the-symbiotic-volume-2-preset-collection-for-omnisphere-3/",
    "date": "2026-09-11T08:38:48.000Z",
    "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/Luftrum-SymbioticVolume2.jpg",
    "resume": "From Luftrum comes the Symbiotic Volume 2 preset collection for Omnisphere 3. Symbiotic is a new collaborative series from Danish sound designer Luftrum (Søren). The series offers custom Omnisphere 3 presets crafted by…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "\"I wrote it totally in my head. I worked on it for about three months in my head\": 11 saxophonists, 4 re-recordings and a £17,000 haircut… The tortuous tale of George Michael's Careless Whisper",
-   "lien": "https://www.musicradar.com/artists/i-wrote-it-totally-in-my-head-i-worked-on-it-for-about-three-months-in-my-head-11-saxophonists-4-re-recordings-and-a-gbp17-000-haircut-the-tortuous-tale-of-george-michaels-careless-whisper",
-   "date": "2026-09-11T07:52:33.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/6txdPiTUHuass73owFSzcE-1280-80.jpg",
-   "resume": "From its miraculous conception, multiple re-recordings, endless procession of unsuccessful sax solos and the small matter of paying £17,000 for a haircut, the saga of George Michael and Wham!’s Careless Whisper is a…"
   },
   {
    "source": "gearnews",
@@ -362,6 +386,22 @@
    "resume": "Joey Sturgis Tones is giving away Gemini Twin, a dual-mode virtual synthesizer for macOS and Windows, for a limited time. Gemini Twin normally costs $129, and JST has not announced an end date for the giveaway, so I…"
   },
   {
+   "source": "tsugi",
+   "titre": "CHLOÉ, Panteros666, Urumi… Arte Mix revient au Trabendo pour une soirée éclectique",
+   "lien": "https://www.tsugi.fr/chloe-panteros666-urumi-arte-mix-revient-au-trabendo-pour-une-soiree-eclectique/",
+   "date": "2026-09-10T13:51:06.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/chloe-panteros666-urumi-arte-mix-revient-au-trabendo-pour-une-soiree-eclectique.jpg?hash=cdn-079e40130522029bde5baa43d64d5d6e",
+   "resume": "La soirée Arte Mix est de retour au Trabendo ce 9 octobre et si vous nous dites qu’il n’y a pas au moins un set dans la liste qui vous intéresse, ce n’est pas bien de mentir ! En 9 heures, les enceintes passeront des…"
+  },
+  {
+   "source": "tsugi",
+   "titre": "Chapiteau Sonore : on dévoile la programmation du festival éclectique du Château Éphémère",
+   "lien": "https://www.tsugi.fr/chapiteau-sonore-on-devoile-la-programmation-du-festival-eclectique-du-chateau-ephemere/",
+   "date": "2026-09-10T13:44:50.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/chapiteau-sonore-on-devoile-la-programmation-du-festival-eclectique-du-chateau-ephemere.jpg?hash=cdn-9853037fe24e7aa40d47f042b3eb281f",
+   "resume": "Le festival Chapiteau Sonore, rendez-vous festif et musical du fameux Château Éphémère — un tiers-lieu niché en banlieue parisienne, plus précisément à Carrières-sous-Poissy (78) —, est de retour pour une 5ème édition…"
+  },
+  {
    "source": "musictech",
    "titre": "Neumann expands its range of 3-way monitors: meet the KH 310 II and KH 350",
    "lien": "https://musictech.com/news/gear/neumann-kh-310-ii-and-kh-350/",
@@ -392,6 +432,14 @@
    "date": "2026-09-10T10:37:54.000Z",
    "image": "https://musictech.com/wp-content/uploads/2026/09/Tonalic-Paul-Kleber-hero@2000x1500.jpg",
    "resume": "Celemony ‘s Tonalic plugin turns performances by legendary players – from Foo Fighters, Evanescence and Dizzee Rascal – into DAW-ready creative palettes. Now, a new player has stepped on stage and into the programme…"
+  },
+  {
+   "source": "tsugi",
+   "titre": "« L’histoire du Big Beat » : le Tsugi nº189 est dispo partout !",
+   "lien": "https://www.tsugi.fr/lhistoire-du-big-beat-le-tsugi-no189-est-dispo-partout/",
+   "date": "2026-09-10T09:34:10.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/lhistoire-du-big-beat-le-tsugi-no189-est-dispo-partout.jpg?hash=cdn-3f7842232c7a1f02cf971ded3b83300a",
+   "resume": "« Big Beat : Quand Fatboy Slim, The Prodigy ou The Chemical Brothers dynamitaient le dancefloor » le Tsugi Magazine 189, notre numéro de septembre-octobre, est sorti ! Il est disponible partout et à commander ici…"
   },
   {
    "source": "musictech",
@@ -482,6 +530,22 @@
    "resume": "At the latest edition of VinylCon in Los Angeles in late August, over 150,000 records were on sale throughout the convention floor. Doug Day had one of the largest booths, with five tables full of bins, flaunting every…"
   },
   {
+   "source": "tsugi",
+   "titre": "IA, classements et revenus… voilà ce qu’il faut retenir du bilan du SNEP",
+   "lien": "https://www.tsugi.fr/ia-classements-et-revenus-voila-ce-quil-faut-retenir-du-bilan-du-snep/",
+   "date": "2026-09-09T15:54:43.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/ia-classements-et-revenus-voila-ce-quil-faut-retenir-du-bilan-du-snep.jpg?hash=cdn-d22c7c37944550d1357ae3cb37d99878",
+   "resume": "Ça y est, le SNEP — Syndicat national de l’édition phonographique — a publié son bilan du marché musical sur les six premiers mois de 2026. Revenus du marché, positionnement des productions francophones dans les…"
+  },
+  {
+   "source": "tsugi",
+   "titre": "NYOKOBOP 2026 : et si on explorait la culture musicale du monde ?",
+   "lien": "https://www.tsugi.fr/nyokobop-2026-et-si-on-explorait-la-culture-musicale-du-monde/",
+   "date": "2026-09-09T15:39:40.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/nyokobop-2026-et-si-on-explorait-la-culture-musicale-du-monde.jpg?hash=cdn-09bd77127af3180509cc2a48d9edbcbd",
+   "resume": "Cinq lieux, 15 artistes venus du monde entier et six jours de fête entre le 4 et le 12 décembre 2026, quoi de mieux pour éviter la déprime hivernale ? NYOKOBOP, c’est l’occasion de faire le tour du monde, en faisant le…"
+  },
+  {
    "source": "cdm",
    "titre": "Eminently controllable, accessible by design, Sting is now a plug-in",
    "lien": "https://cdm.link/sting-the-plugin/",
@@ -490,12 +554,44 @@
    "resume": "Now this is how to do generative melodies. Add expression. Get control with your hands. Make melodies accessible -- including if you're blind and visually impaired. Sting, the beloved maker of acid melodies and other…"
   },
   {
+   "source": "tsugi",
+   "titre": "Ambient Swim, un programme entre animations et musiques électroniques",
+   "lien": "https://www.tsugi.fr/ambient-swim-un-programme-entre-animations-et-musiques-electroniques/",
+   "date": "2026-09-08T14:48:06.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/ambient-swim-un-programme-entre-animations-et-musiques-electroniques.jpg?hash=cdn-fddde2cc7ac3468f5b2c198b56bf1fd5",
+   "resume": "On en connaît des séries de musiques d’ambiances censées nous relaxer. Petite pensée à Lofi Girl, qui depuis des années diffuse sur YouTube une musique apaisante pour nous aider à étudier, travailler ou tout simplement…"
+  },
+  {
+   "source": "tsugi",
+   "titre": "Fat Dog, Jungle, DIIV… Les clips sortis ces dernières semaines à ne pas manquer",
+   "lien": "https://www.tsugi.fr/fat-dog-jungle-diiv-les-clips-sortis-ces-dernieres-semaines-a-ne-pas-manquer/",
+   "date": "2026-09-08T12:37:11.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/fat-dog-jungle-diiv-les-clips-sortis-ces-dernieres-semaines-a-ne-pas-manquer.jpg?hash=cdn-f75c359651c14cc40d3c0b71c70ec44d",
+   "resume": "Chez Tsugi, on nous sommes passionnés par les clips. Pourquoi ? Tout simplement parce qu’on adore rentrer dans l’univers visuel des artistes qu’on ajoute à nos playlists. Il n’y a rien de mieux pour illustrer un projet…"
+  },
+  {
    "source": "attack",
    "titre": "Denon DJ Unveils PRIME 4 G2",
    "lien": "https://www.attackmagazine.com/news/denon-dj-unveils-prime-4-g2/",
    "date": "2026-09-07T21:09:01.000Z",
    "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/Attack-Mag-News-Feat-Images-DENON-.jpg?fit=1130%2C387&ssl=1",
    "resume": "The new four-channel standalone system introduces pressure-sensitive MPCe pads, onboard Stems rendering and built-in DMX output, aimed at mobile, club and festival DJs. Denon DJ has announced PRIME 4 G2, a four-channel…"
+  },
+  {
+   "source": "tsugi",
+   "titre": "Techno Parade 2026 : le parcours et les line-ups se concrétisent",
+   "lien": "https://www.tsugi.fr/techno-parade-2026-le-parcours-et-les-line-ups-se-concretisent/",
+   "date": "2026-09-07T16:01:34.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/techno-parade-2026-le-parcours-et-les-line-ups-se-concretisent.jpg?hash=cdn-5cfd96c20d2d975f24fafc261c8e2bb3",
+   "resume": "Tic tac, tic tac… la date approche et l’excitation monte ! Après nous avoir dévoilé les dix chars qui défileront lors de la Techno Parade ce 19 septembre, l’association Technopol dévoile tout doucement les line-ups et…"
+  },
+  {
+   "source": "tsugi",
+   "titre": "Le Zeralda, une nouvelle salle de concert à la programmation défricheuse vient d’ouvrir à Bagnolet",
+   "lien": "https://www.tsugi.fr/le-zeralda-une-nouvelle-salle-de-concert-a-la-programmation-defricheuse-vient-douvrir-a-bagnolet/",
+   "date": "2026-09-07T12:43:04.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/le-zeralda-une-nouvelle-salle-de-concert-a-la-programmation-defricheuse-vient-douvrir-a-bagnolet.jpg?hash=cdn-486e1bd59fd562004d88ac3f2abeb250",
+   "resume": "Pour les punk ravers amateur·ices d’electro, de rock, de new wave, de musique industrielle, et autre noise, une nouvelle salle de concert, le Zeralda, vient d’ouvrir. Où ça nous direz-vous ? À Bagnolet, en proche…"
   },
   {
    "source": "cdm",
@@ -538,68 +634,12 @@
    "resume": "It Will Take Forever moves through emotions in swells, as if pulling us through feelings. Composed and played live on modular synths from 2023 to 2025 in Beirut, Jad Atoui's work almost sings grief through those…"
   },
   {
-   "source": "tsugi",
-   "titre": "Fakear, Mykki Blanco, Pont Neuf Records… Les sorties de la semaine",
-   "lien": "https://www.tsugi.fr/fakear-mykki-blanco-pont-neuf-records-les-sorties-de-la-semaine/",
-   "date": "2026-09-04T15:02:48.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/fakear-mykki-blanco-pont-neuf-records-les-sorties-de-la-semaine.jpg?hash=cdn-e34084b6bb8fdf0a3e906699d5b8b43c",
-   "resume": "La semaine de rentrée rime avec beaucoup — vraiment beaucoup — de nouveautés musicales. Mais loin de nous l’idée de nous en plaindre, au contraire, c’est le moment de faire le plein de pépites pour rafraîchir nos…"
-  },
-  {
-   "source": "tsugi",
-   "titre": "Chippy Nonstop : portrait d’une artiste flamboyante et engagée",
-   "lien": "https://www.tsugi.fr/chippy-nonstop-portrait-dune-artiste-flamboyante-et-engagee/",
-   "date": "2026-09-04T12:39:07.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/chippy-nonstop-portrait-dune-artiste-flamboyante-et-engagee.jpg?hash=cdn-66adc006dea4b26a381bfcd6feb4dde9",
-   "resume": "Chippy Nonstop est DJ la nuit, productrice et promotrice le jour. Voilà une femme qui prouve que l’on peut porter des talons de 15cm, s’habiller court, mettre des perruques et être une girl boss incontestable. Tsugi la…"
-  },
-  {
-   "source": "tsugi",
-   "titre": "Le Rex Club promet une rentrée exaltante avec une programmation cinq étoiles",
-   "lien": "https://www.tsugi.fr/le-rex-club-promet-une-rentree-exaltante-avec-une-programmation-cinq-etoiles/",
-   "date": "2026-09-04T10:37:13.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/le-rex-club-promet-une-rentree-exaltante-avec-une-programmation-cinq-etoiles.jpg?hash=cdn-78fd09146743228f8c8843d5b09f4b72",
-   "resume": "Le club le plus mythique des Grands Boulevards revient avec une programmation béton en septembre. Le Rex Club accueillera entre ses murs des légendes du DJing, mais aussi de jeunes talents émergents et prometteurs…"
-  },
-  {
    "source": "cdm",
    "titre": "Audacity 4, free and open-source audio editor, arrives with a revamped UI",
    "lien": "https://cdm.link/audacity-4-and-tenacity-too/",
    "date": "2026-09-03T19:44:40.000Z",
    "image": "https://cdm.link/app/uploads/2026/09/audacity-4-scaled.png",
    "resume": "It's been a long time coming. Audacity, the ubiquitous open-source audio editor now owned by Muse Group, reaches version 4 with a reworked UI and enhanced usability. Here's a look at what's new and a first run. And…"
-  },
-  {
-   "source": "tsugi",
-   "titre": "Joy Crookes et Ravyn Lenae mêlent leur voix sur un single splendide et courageux",
-   "lien": "https://www.tsugi.fr/joy-crookes-et-ravyn-lenae-melent-leur-voix-sur-un-single-splendide-et-courageux/",
-   "date": "2026-09-03T15:19:18.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/joy-crookes-et-ravyn-lenae-melent-leur-voix-sur-un-single-splendide-et-courageux.jpg?hash=cdn-1f449698ff7fe133bb32eb071240c815",
-   "resume": "Une seconde partie du titre “Feet Don’t Fail Me Now”, de la chanteuse londonienne Joy Crookes, est parue lle 1er septembre. Elle y invite la chanteuse américaine Ravyn Lenae à partager le micro. Le morceau survient dans…"
-  },
-  {
-   "source": "tsugi",
-   "titre": "Djrum livre « Psychic Video », le premier extrait de son DJ-Kicks",
-   "lien": "https://www.tsugi.fr/djrum-livre-psychic-video-le-premier-extrait-de-son-dj-kicks/",
-   "date": "2026-09-03T13:33:44.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/djrum-livre-psychic-video-le-premier-extrait-de-son-dj-kicks.jpg?hash=cdn-89b7b27e634497c1251f6de350f04f9b",
-   "resume": "Carte blanche pour Djrum sur le prochain DJ-Kicks ! Pour nous donner un avant goût de la compilation prévue pour le 16 octobre 2026, le DJ et producteur nous livre le single « Psychotic Video », entre percussions et…"
-  },
-  {
-   "source": "tsugi",
-   "titre": "LESSSS, une artiste en quête d’indépendance",
-   "lien": "https://www.tsugi.fr/lessss-une-artiste-en-quete-dindependance/",
-   "date": "2026-09-03T13:11:53.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/lessss-une-artiste-en-quete-dindependance.jpg?hash=cdn-114c92f897665ef98e165c600e47dc4d",
-   "resume": "Alors qu’elle s’apprête à s’emparer du Transbordeur à Lyon pour un All Night Long le 26 septembre 2026, la DJ et productrice LESSSS a passé un été rythmé par les festivals et les sorties de singles. Figure montante…"
-  },
-  {
-   "source": "tsugi",
-   "titre": "Les sorties musicales immanquables de cette rentrée 2026",
-   "lien": "https://www.tsugi.fr/les-sorties-musicales-immanquables-de-cette-rentree-2026/",
-   "date": "2026-09-03T10:37:20.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/les-sorties-musicales-immanquables-de-cette-rentree-2026.jpg?hash=cdn-7311ea836fe7189a90aec489008a276e",
-   "resume": "On le sait, la rentrée vient avec son lot de problèmes… Mais aussi avec son lot de sorties musicales ! Et ça, ça nous redonne vite le sourire. Tsugi se porte volontaire pour adoucir votre quotidien en vous présentant…"
   },
   {
    "source": "ableton",
@@ -634,52 +674,12 @@
    "resume": "Boxcar averagers, used in vintage nuclear test equipment, inspired the latest creation from AI Synthesis. What you get is the AI250 BXR: it's an oscillator, a voltage generator, and an audio mangler all in one. And it's…"
   },
   {
-   "source": "tsugi",
-   "titre": "Logic1000 et Christine and the Queens nous offrent le morceau dont on avait besoin",
-   "lien": "https://www.tsugi.fr/logic1000-et-christine-and-the-queens-nous-offrent-le-morceau-dont-on-avait-besoin/",
-   "date": "2026-09-02T16:07:10.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/logic1000-et-christine-and-the-queens-nous-offrent-le-morceau-dont-on-avait-besoin.jpg?hash=cdn-19ef98f5d70e7ad05ab5d66c48c4044c",
-   "resume": "Hier à 18h, Logic1000 a dévoilé « The Only One », en collaboration avec Christine and the Queens en cadeau de fin de journée. Ce morceau est le troisième single de son prochain album Confirmation! prévu pour le 2…"
-  },
-  {
-   "source": "tsugi",
-   "titre": "Le NAME Festival à Roubaix annulé après une décision municipale",
-   "lien": "https://www.tsugi.fr/le-name-festival-a-roubaix-annule-apres-une-decision-municipale/",
-   "date": "2026-09-02T14:56:31.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/le-name-festival-a-roubaix-annule-apres-une-decision-municipale.jpg?hash=cdn-53c7fab079530da6991ac1101f83fec0",
-   "resume": "Le NAME Festival qui devait faire son retour en décembre à la Condition Publique à Roubaix n’aura pas lieu. La ville dirigée par l’Insoumis David Guiraud a exigé un « moratoire » sur le festival en raison de « nuisances…"
-  },
-  {
-   "source": "tsugi",
-   "titre": "Underscores revient avec un single hyperpop et hyper dansant",
-   "lien": "https://www.tsugi.fr/underscores-revient-avec-un-single-hyperpop-et-hyper-dansant/",
-   "date": "2026-09-02T13:40:42.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/underscores-revient-avec-un-single-hyperpop-et-hyper-dansant.jpg?hash=cdn-471d5811e0db541261880c73153f72d4",
-   "resume": "Quelque part entre SOPHIE et Charli XCX, underscores confirme sa place sur la scène pop et électronique. Quelques mois après la sortie de son album U, elle prolonge son univers et explore à nouveau les frontières…"
-  },
-  {
    "source": "attack",
    "titre": "Dreamtonics Completes Its Trilogy With Instrument X",
    "lien": "https://www.attackmagazine.com/news/dreamtonics-completes-its-trilogy-with-instrument-x/",
    "date": "2026-09-02T13:23:20.000Z",
    "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/Attack-Mag-News-Feat-Images-INSTRUMENT-X.png?fit=1130%2C387&ssl=1",
    "resume": "Dreamtonics completes its trilogy with Instrument X, a neural acoustic modelling platform for orchestral instruments Dreamtonics, the Tokyo based developer behind vocal synthesis tools Synthesizer V and Vocoflex, has…"
-  },
-  {
-   "source": "tsugi",
-   "titre": "Toutes sur Scène : le festival à la programmation 100% féminine",
-   "lien": "https://www.tsugi.fr/toutes-sur-scene-le-festival-a-la-programmation-100-feminine/",
-   "date": "2026-09-01T15:32:07.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/toutes-sur-scene-le-festival-a-la-programmation-100-feminine.jpg?hash=cdn-d1b3bcd6373d8d819cc34cffb6300396",
-   "resume": "Yoa, Zélie, Solann, Juste Shani… Imaginez ce concentré de boss ladies au Théâtre du Châtelet, pour un événement 100% féminin. Eh non ce n’est pas un rêve, mais bien une — petite — partie du programme du festival Toutes…"
-  },
-  {
-   "source": "tsugi",
-   "titre": "Concrete : Une barge de légende",
-   "lien": "https://www.tsugi.fr/concrete-une-barge-de-legende/",
-   "date": "2026-09-01T09:31:20.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/concrete-une-barge-de-legende.jpg?hash=cdn-caee5dbd7aac9739d50debeb74b42bc5",
-   "resume": "Entre 2011 et 2019, Concrete a redonné un nouveau souffle à la nuit parisienne, inventant des formats de soirées et favorisant le retour en force de la scène techno. Quinze ans après sa naissance, habitués, DJ et…"
   },
   {
    "source": "digitaldjtips",
@@ -1206,7 +1206,7 @@
    "titre": "Eliza Rose and Sega Bodega link up on new six-track project, 'ARCADIA: PLEASUREDOME': Listen",
    "lien": "https://djmag.com/news/eliza-rose-and-sega-bodega-link-new-six-track-project-arcadia-pleasuredome-listen",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Screenshot%202026-09-11%20at%2014.43.35.png.webp?itok=70Sqk4e510736557",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Screenshot%202026-09-11%20at%2014.43.35.png.webp?itok=70Sqk4e51935550023",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The new record explores UK garage, drum & bass, trip-hop and more</p> </div>"
   },
   {
@@ -1270,7 +1270,7 @@
    "titre": "Sijya announces ‘Leather & Brass [Retrofitted]’ EP, shares ‘Do I Know [Rachika Nayar Edit]’: Listen",
    "lien": "https://djmag.com/news/sijya-announces-leather-brass-retrofitted-ep-shares-do-i-know-rachika-nayar-edit-listen",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Sijya%20-%205%20-%20by%20TITO%20%281%29.jpg.webp?itok=CaHCdHei1592256741",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Sijya%20-%205%20-%20by%20TITO%20%281%29.jpg.webp?itok=CaHCdHei958964016",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The Indian artist's originals, rethought by hand-picked 'femme producers'</p> </div>"
   },
   {
