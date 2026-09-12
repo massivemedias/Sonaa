@@ -1,6 +1,54 @@
 {
- "fait": "2026-09-12T04:40:28.703Z",
+ "fait": "2026-09-12T12:12:24.384Z",
  "articles": [
+  {
+   "source": "bpb",
+   "titre": "GIVEAWAY: Win Golden DSP Silkbrush Reverb (5 copies)",
+   "lien": "https://bedroomproducersblog.com/2026/09/12/giveaway-golden-dsp-silkbrush-reverb/",
+   "date": "2026-09-12T10:06:46.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/silkbrush-reverb.jpg",
+   "resume": "Golden DSP is giving five BPB readers a free copy of Silkbrush Reverb, a $59 ducking reverb plugin for macOS and Windows. To enter the giveaway, answer the question at the end of the article in the comments section. We…"
+  },
+  {
+   "source": "bpb",
+   "titre": "Wave Mastering launches WIDENER stereo enhancement plugin for $29.99",
+   "lien": "https://bedroomproducersblog.com/2026/09/12/wave-mastering-widener/",
+   "date": "2026-09-12T09:52:24.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/widener.jpg",
+   "resume": "Wave Mastering LTD has released WIDENER, a stereo enhancement plugin for macOS and Windows, with a $29.99 introductory price through September 30th. WIDENER is the first plugin from Andy De Rosa, a UK-based mixing and…"
+  },
+  {
+   "source": "bpb",
+   "titre": "13X Audio releases Aurora, a FREE 24-band dynamic EQ plugin",
+   "lien": "https://bedroomproducersblog.com/2026/09/12/13x-audio-aurora-eq/",
+   "date": "2026-09-12T09:45:23.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/aurora.jpg",
+   "resume": "13X Audio has released Aurora, a free 24-band dynamic parametric equalizer plugin for macOS, Windows, and Linux. This is probably the fifth or sixth similar EQ plugin I’ve seen over the past year or so. Vibe coding is…"
+  },
+  {
+   "source": "bpb",
+   "titre": "OXO-Music releases OXO Steps, a FREE six-track MIDI sequencer for macOS",
+   "lien": "https://bedroomproducersblog.com/2026/09/12/oxo-steps-midi-sequencer/",
+   "date": "2026-09-12T09:20:41.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/oxo-steps.jpg",
+   "resume": "OXO-Music has released OXO Steps, a free MIDI step sequencer and arpeggiator plugin for macOS. OXO Steps lets you enter one chord and use it to drive up to six independent sequences on separate MIDI channels. So, once…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Squarp Hapax 3.2: Now With Poly Aftertouch – the Last Big MPE Gap Just Closed",
+   "lien": "https://www.gearnews.com/squarp-instruments-hapax-sequencer-synths-studio/",
+   "date": "2026-09-12T08:12:51.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/04/Squarp-Hapax-OS-3-2.jpg",
+   "resume": "Squarp Instruments just released Firmware 3.2 for the Hapax sequencer, and the headline feature closes a gap that’s been open since the MPE update landed in version 3.0: poly aftertouch finally gets its own dedicated…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Save 25% on HX Stomp, 28% on Sonarworks, Sennheiser, and more: Deals of the Week!",
+   "lien": "https://www.gearnews.com/hx-stomp-deals-of-the-week/",
+   "date": "2026-09-12T06:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/Dealsoftheweek_120926.jpg",
+   "resume": "Thomann’s Guitar Days are in full swing, and there are loads and loads of deals on guitars and basses , amps and pedals , and acoustics . But wait, there is more! Among those over 500 deals, there are a few that deserve…"
+  },
   {
    "source": "attack",
    "titre": "Normal by Proxy Brings Shared, Browser-based Jamming For Up To 8 Players",
@@ -274,28 +322,12 @@
    "resume": "The Grenoble-based developer's latest release recreates the architecture of a landmark early-1980s polyphonic analogue synthesiser, adding modern features including MPE support and 16-voice polyphony. XILS-lab has…"
   },
   {
-   "source": "gearnews",
-   "titre": "5 of the Best USB Turntables",
-   "lien": "https://www.gearnews.com/best-usb-turntables-dj/",
-   "date": "2026-09-10T18:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2024/04/best-usb-turntables-teaser.jpg",
-   "resume": "Stop just admiring the covers of your record collection and start listening with these five best USB turntables. There are turntables here to fit every budget. Best USB Turntables Dual DTJ 301.1 USB Pro-Ject Debut…"
-  },
-  {
    "source": "synthtopia",
    "titre": "Are Korg’s ‘logue Macro Oscillator Synths Underrated?",
    "lien": "https://www.synthtopia.com/content/2026/09/10/are-korgs-logue-macro-oscillator-synths-underrated/",
    "date": "2026-09-10T17:02:36.000Z",
    "image": "https://www.synthtopia.com/wp-content/uploads/2024/05/korg-minlogue-xd-inverted.jpg",
    "resume": "The macro oscillator is \"an underrated gem of modern synthesis.\"…"
-  },
-  {
-   "source": "gearnews",
-   "titre": "88emu, Noise Engineering Legio, Organic Sequencing & More: Synth Journal",
-   "lien": "https://www.gearnews.com/88emu-synth-journal/",
-   "date": "2026-09-10T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/88emu-synth-journal-09-10-26.jpg",
-   "resume": "The Usual Suspects 88emu brings back the sound of ‘90s gaming, Noise Engineering drops 16 (!) new firmwares for the Legio series, and Botanica is a mesmerizing hardware sequencer for musical gardening: Synth Journal…"
   },
   {
    "source": "synthtopia",
@@ -362,22 +394,6 @@
    "resume": "Celemony ‘s Tonalic plugin turns performances by legendary players – from Foo Fighters, Evanescence and Dizzee Rascal – into DAW-ready creative palettes. Now, a new player has stepped on stage and into the programme…"
   },
   {
-   "source": "bpb",
-   "titre": "Infinite is a FREE open-source modular audiovisual workstation",
-   "lien": "https://bedroomproducersblog.com/2026/09/10/infinite-modular-workstation/",
-   "date": "2026-09-10T10:29:25.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/infinite.jpg",
-   "resume": "Indie developer and musician Naman Soni has released Infinite, a free and open-source modular audiovisual workstation for macOS and Windows. Infinite is a standalone application that combines a node-based sound-design…"
-  },
-  {
-   "source": "bpb",
-   "titre": "Fruitless Research releases Clew, a FREE physical-modeled spring reverb plugin",
-   "lien": "https://bedroomproducersblog.com/2026/09/10/fruitless-research-clew/",
-   "date": "2026-09-10T10:13:12.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/clew.jpg",
-   "resume": "Fruitless Research has launched Clew, a free spring reverb plugin for macOS and Windows. Clew is based on the long two-spring tank found in many guitar amplifiers, but it is not a convolution reverb playing back a…"
-  },
-  {
    "source": "musictech",
    "titre": "“These mixers set the bar for the perfect intersection of performance and value”: Soundcraft unveils new line of analogue mixing consoles",
    "lien": "https://musictech.com/news/gear/soundcraft-signature-plus-series/",
@@ -440,22 +456,6 @@
    "date": "2026-09-09T20:02:15.000Z",
    "image": "https://musictech.com/wp-content/uploads/2026/09/Soundcraft-Signature-Plus-22-hero-credit-press@2000x1500.jpg",
    "resume": "Mixing and making music can be as complicated or simple as you allow it to be, something that British company Soundcraft understands as much as anyone. Origins in live sound consoles through the 70s and 80s forged a…"
-  },
-  {
-   "source": "bpb",
-   "titre": "Polarity Music has released Polarity-Recorder, a FREE background audio recorder",
-   "lien": "https://bedroomproducersblog.com/2026/09/09/polarity-music-recorder/",
-   "date": "2026-09-09T18:12:16.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/PolarityMusic-Polarity-Recorder.jpg",
-   "resume": "Developer Polarity Music releases Polarity-Recorder, a free background audio recorder for macOS, Windows, and Linux. Polarity Music is an expert on all things Bitwig, a champion of open-source projects, and a fantastic…"
-  },
-  {
-   "source": "bpb",
-   "titre": "Matari Audio releases BUFFR 1.0 with an exclusive BPB discount",
-   "lien": "https://bedroomproducersblog.com/2026/09/09/matari-audio-buffr-discount/",
-   "date": "2026-09-09T18:06:15.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/buffr.jpg",
-   "resume": "Matari Audio has released BUFFR 1.0, a retrospective audio and MIDI recorder for macOS, Windows, and Linux. BUFFR is available for $49 until September 22nd at 17:00 UTC (normally $89). Enter the coupon code BPB at…"
   },
   {
    "source": "cdm",
@@ -1115,6 +1115,14 @@
   },
   {
    "source": "mixmag",
+   "titre": "Festival line-ups you might have missed: Creamfields, Listen Festival, Chronosphere",
+   "lien": "https://mixmag.net/read/festival-line-ups-you-might-have-missed-7-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fcreamfields-2026-pr.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=5870adb1",
+   "resume": "Rounding up festival news from across the dance and electronic world"
+  },
+  {
+   "source": "mixmag",
    "titre": "Universal Music to launch new AI music creation platform",
    "lien": "https://mixmag.net/read/universal-music-launch-new-ai-music-creation-platform-news",
    "date": null,
@@ -1194,19 +1202,11 @@
    "resume": "The cash injection will support the disco promoter in expanding into North America, Europe and Asia"
   },
   {
-   "source": "mixmag",
-   "titre": "O2 Academy Sheffield will reopen in 2027 following major refurbishment",
-   "lien": "https://mixmag.net/read/o2-academy-sheffield-reopen-following-major-refurbishment-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fo2-academy-sheffield.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=c0bace87",
-   "resume": "The Arundel Gate venue, which closed four years ago, will relaunch with a new L-Acoustics soundsystem"
-  },
-  {
    "source": "djmag",
    "titre": "Eliza Rose and Sega Bodega link up on new six-track project, 'ARCADIA: PLEASUREDOME': Listen",
    "lien": "https://djmag.com/news/eliza-rose-and-sega-bodega-link-new-six-track-project-arcadia-pleasuredome-listen",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Screenshot%202026-09-11%20at%2014.43.35.png.webp?itok=70Sqk4e51726665797",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Screenshot%202026-09-11%20at%2014.43.35.png.webp?itok=70Sqk4e510736557",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The new record explores UK garage, drum & bass, trip-hop and more</p> </div>"
   },
   {
