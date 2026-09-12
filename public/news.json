@@ -1,5 +1,5 @@
 {
- "fait": "2026-09-11T22:37:44.532Z",
+ "fait": "2026-09-12T04:40:28.703Z",
  "articles": [
   {
    "source": "attack",
@@ -314,6 +314,14 @@
    "resume": "Universal Music Group and AI firm ElevenLabs have partnered for a multi-year licensing agreement and wider strategic collaboration, with plans to launch a new AI-powered music platform and AI audio products for artists…"
   },
   {
+   "source": "cdm",
+   "titre": "Kevin Saunderson teaches a free 909 workshop, online and in Detroit",
+   "lien": "https://cdm.link/kevin-saunderson-roland-and-uma/",
+   "date": "2026-09-10T15:57:55.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/kevin.png",
+   "resume": "The best 909 Day reveal yesterday was this: on Saturday, Kevin Saunderson, techno originator and one of the Belleville Three, teaches a free workshop on the 909 with Roland (with Dustin Good). You can tune in online…"
+  },
+  {
    "source": "bpb",
    "titre": "Get The $129 JST Gemini Twin Synthesizer FREE For A Limited Time",
    "lien": "https://bedroomproducersblog.com/2026/09/10/jst-gemini-twin-free/",
@@ -450,6 +458,14 @@
    "resume": "Matari Audio has released BUFFR 1.0, a retrospective audio and MIDI recorder for macOS, Windows, and Linux. BUFFR is available for $49 until September 22nd at 17:00 UTC (normally $89). Enter the coupon code BPB at…"
   },
   {
+   "source": "cdm",
+   "titre": "Dirtywave M8 has an official iOS app — a great addition to mobile tracker apps",
+   "lien": "https://cdm.link/dirtywave-m8-ios/",
+   "date": "2026-09-09T17:23:55.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/m8-tracker-hero.jpeg",
+   "resume": "Dirtywave M8 is already superb as hardware, whether you run their pre-made device or build your own \"headless\" rig. Now, it has its own official iOS app for iPhone and iPad, too, and it looks hot."
+  },
+  {
    "source": "synthtopia",
    "titre": "The Bob Moog Foundation Announces Summer Raffle for Vintage Memorymoog Plus and Moog Muse Synthesizers",
    "lien": "https://www.synthtopia.com/content/2026/09/09/the-bob-moog-foundation-announces-summer-raffle-for-vintage-memorymoog-plus-and-moog-muse-synthesizers/",
@@ -466,6 +482,14 @@
    "resume": "At the latest edition of VinylCon in Los Angeles in late August, over 150,000 records were on sale throughout the convention floor. Doug Day had one of the largest booths, with five tables full of bins, flaunting every…"
   },
   {
+   "source": "cdm",
+   "titre": "Eminently controllable, accessible by design, Sting is now a plug-in",
+   "lien": "https://cdm.link/sting-the-plugin/",
+   "date": "2026-09-08T18:57:31.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/CleanShot-2026-09-08-at-20.29.51.png",
+   "resume": "Now this is how to do generative melodies. Add expression. Get control with your hands. Make melodies accessible -- including if you're blind and visually impaired. Sting, the beloved maker of acid melodies and other…"
+  },
+  {
    "source": "attack",
    "titre": "Denon DJ Unveils PRIME 4 G2",
    "lien": "https://www.attackmagazine.com/news/denon-dj-unveils-prime-4-g2/",
@@ -474,12 +498,44 @@
    "resume": "The new four-channel standalone system introduces pressure-sensitive MPCe pads, onboard Stems rendering and built-in DMX output, aimed at mobile, club and festival DJs. Denon DJ has announced PRIME 4 G2, a four-channel…"
   },
   {
+   "source": "cdm",
+   "titre": "Scales among updates to the free Ardour DAW — with tuning on the way",
+   "lien": "https://cdm.link/ardour-9-8-scales-and-tuning/",
+   "date": "2026-09-07T11:39:51.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/ardour-9-8-scale-editor.jpeg",
+   "resume": "Ardour 9.8 continues the rapid, detailed development of this free and open-source DAW, with improved session recovery and clip recording, expanded support for controllers and hardware, and an arpeggiator MIDI tool. The…"
+  },
+  {
    "source": "attack",
    "titre": "Ten of the Weirdest Drum Machines in 2026",
    "lien": "https://www.attackmagazine.com/reviews/the-best/ten-of-the-weirdest-drum-machines-in-2026/",
    "date": "2026-09-06T19:50:56.000Z",
    "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/Attack-Mag-The-Best-Feature-Images-Weird-Drum-Machines.png?fit=1130%2C548&ssl=1",
    "resume": "Step into another world with the weirdest drum machines on the market in 2026. We’re talking an all-passive rhythm box, one that blurs the line between analog and sampling, one for kids, and more craziness. We love our…"
+  },
+  {
+   "source": "cdm",
+   "titre": "Throng, a 3D BlueSky interface, imagines social media as a mob",
+   "lien": "https://cdm.link/create-digital-mobs/",
+   "date": "2026-09-04T22:09:27.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/throng.jpg",
+   "resume": "You're just relaxing by a peaceful campfire. You hear voices in the distance. Then, like a really chatty zombie invasion... they come. And keep coming. It's a 3D user interface for BlueSky, but it says something poetic…"
+  },
+  {
+   "source": "cdm",
+   "titre": "Loraine James has a new LP, it’s a free download, and it’s raw brilliance",
+   "lien": "https://cdm.link/loraine-james-has-a-new-lp/",
+   "date": "2026-09-04T17:47:29.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/nothingpersonal1.jpg",
+   "resume": "\"U Get Me\"? Yes. Out today, Friday, Loraine James' newest LP It’s Nothing Personal. is the kind of massive, glitchy percussive syncopation I would want to use to break in an excellent, brand new pair of trainers. Then…"
+  },
+  {
+   "source": "cdm",
+   "titre": "In masses of live electronic sound, Jad Atoui built an opus",
+   "lien": "https://cdm.link/jad-atoui-it-will-take-forever/",
+   "date": "2026-09-04T16:02:55.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/jadatoui.jpg",
+   "resume": "It Will Take Forever moves through emotions in swells, as if pulling us through feelings. Composed and played live on modular synths from 2023 to 2025 in Beirut, Jad Atoui's work almost sings grief through those…"
   },
   {
    "source": "tsugi",
@@ -504,6 +560,14 @@
    "date": "2026-09-04T10:37:13.000Z",
    "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/le-rex-club-promet-une-rentree-exaltante-avec-une-programmation-cinq-etoiles.jpg?hash=cdn-78fd09146743228f8c8843d5b09f4b72",
    "resume": "Le club le plus mythique des Grands Boulevards revient avec une programmation béton en septembre. Le Rex Club accueillera entre ses murs des légendes du DJing, mais aussi de jeunes talents émergents et prometteurs…"
+  },
+  {
+   "source": "cdm",
+   "titre": "Audacity 4, free and open-source audio editor, arrives with a revamped UI",
+   "lien": "https://cdm.link/audacity-4-and-tenacity-too/",
+   "date": "2026-09-03T19:44:40.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/audacity-4-scaled.png",
+   "resume": "It's been a long time coming. Audacity, the ubiquitous open-source audio editor now owned by Muse Group, reaches version 4 with a reworked UI and enhanced usability. Here's a look at what's new and a first run. And…"
   },
   {
    "source": "tsugi",
@@ -552,6 +616,22 @@
    "date": "2026-09-03T09:36:45.000Z",
    "image": "https://beta-ableton.imgix.net/media/ugjfws2d/596_cinna-peyghamy_02.jpg",
    "resume": ""
+  },
+  {
+   "source": "cdm",
+   "titre": "Septabee, an insane-looking free Linux/Windows DAW with pomegranates",
+   "lien": "https://cdm.link/septabee-is-here/",
+   "date": "2026-09-03T09:16:33.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/septabee-image.jpg",
+   "resume": "Suddenly, a bunch of the producers I follow are buzzing about the music-mangling possibilities of Septabee, a free DAW for Linux and Windows developed \"in secret\" over \"20,000 hours.\" And it looks like insane fun: a…"
+  },
+  {
+   "source": "cdm",
+   "titre": "Nuclear test equipment inspired this new Eurorack module",
+   "lien": "https://cdm.link/ai-bxr-module/",
+   "date": "2026-09-02T19:03:01.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/ai-hero2.jpeg",
+   "resume": "Boxcar averagers, used in vintage nuclear test equipment, inspired the latest creation from AI Synthesis. What you get is the AI250 BXR: it's an oscillator, a voltage generator, and an audio mangler all in one. And it's…"
   },
   {
    "source": "tsugi",
@@ -1051,6 +1131,14 @@
   },
   {
    "source": "mixmag",
+   "titre": "The Best Albums, EPs And Mixtapes Of The Year 2026 So Far",
+   "lien": "https://mixmag.net/feature/best-dance-electronic-rap-albums-eps-mixtapes-2026",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FAUGUST_Best_Of_Albums2.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=3a88782f",
+   "resume": "Mixmag's guide to the best albums, EPs and mixtapes of 2026"
+  },
+  {
+   "source": "mixmag",
    "titre": "Fred again.., Aphex Twin and Four Tet feature on soundtrack of new Ukraine rave documentary",
    "lien": "https://mixmag.net/read/ukraine-rave-documentary-aphex-fred-again-four-tet-news",
    "date": null,
@@ -1064,6 +1152,14 @@
    "date": null,
    "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fsilencio-credit-Joseph-Kadow.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=96feee00",
    "resume": "The six-month Berlin residency marks the David Lynch-designed club’s 15th anniversary"
+  },
+  {
+   "source": "mixmag",
+   "titre": "The Best Tracks Of The Year 2026 So Far",
+   "lien": "https://mixmag.net/feature/best-dance-electronic-club-tracks-2026",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FAUGUST_Best_Of_Tracks2.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=b62f5b85",
+   "resume": "Mixmag's guide to the best tracks of the year 2026"
   },
   {
    "source": "mixmag",
@@ -1184,28 +1280,7 @@
    "date": null,
    "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/dancefloor2.jpg.webp?itok=bGEsitWZ768637874",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Financial assistance, one-to-one support and future free venue hire are all part of the…"
-  },
-  {
-   "source": "djmag",
-   "titre": "The Weeknd donates $2.2 million from 2026 Europe tour to UN World Food Programme and Global Citizen",
-   "lien": "https://djmag.com/news/weeknd-donates-22-million-2026-europe-tour-un-world-food-programme-and-global-citizen",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Photo%206-09-26%2000%2031%2043%20%285%29.jpg.webp?itok=9qk3jwBf458833635",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The highest-earning male solo tour of all time heads to Asia this month </p> </div>"
-  },
-  {
-   "source": "djmag",
-   "titre": "How Meat Beat Manifesto’s ‘Radio Babylon’ became breakbeat hardcore’s accidental anthem",
-   "lien": "https://djmag.com/features/how-meat-beat-manifestos-radio-babylon-became-breakbeat-hardcores-accidental-anthem",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Meat-Beat-Manifesto-HEADER.jpg.webp?itok=30-A911u363288220",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-intro field--type-text-long field--label-hidden field__item\"><p>Produced almost entirely out of samples, Meat Beat Manifesto's ‘Radio Babylon’ raised eyebrows…"
   }
  ],
- "pannes": [
-  {
-   "id": "cdm",
-   "raison": "aucun article lu"
-  }
- ]
+ "pannes": []
 }
