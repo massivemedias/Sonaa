@@ -1107,7 +1107,7 @@ const FR: Dictionnaire = {
     `FLAC, WAV, MP3, M4A ou OGG, ${max} au plus par fichier, soit environ six heures ` +
     `de FLAC sans perte ou deux heures de WAV. Aucun fichier n’est réencodé : ce que vous déposez est ` +
     `exactement ce qui sera joué, octet pour octet. ` +
-    `Le set arrive en brouillon, vous seul le voyez tant que vous ne l’avez pas publié.`,
+    `Le set est en ligne dès le dépôt ; vous pouvez le dépublier à tout moment.`,
   fichierAudio: 'Fichier audio',
   titreDuSet: 'Titre',
   genresDuSet: (n) => `Styles, pour le ranger dans l’atlas (${n} au plus)`,
@@ -1162,7 +1162,7 @@ const FR: Dictionnaire = {
   formatAudioRefuse: 'Format refusé. MP3, M4A, AAC, OGG ou WAV seulement.',
   audioTropLourd: (taille, max) =>
     `Fichier de ${taille} : la limite est de ${max}. Réencodez en 128 kbps, ou coupez le set en deux.`,
-  setDepose: 'Set déposé, en brouillon. Publiez-le quand vous voulez.',
+  setDepose: 'Set déposé et en ligne dans Sons.',
   mesSets: (n) => (n === 0 ? 'Mes sets' : n === 1 ? '1 set déposé' : `${n} sets déposés`),
   aucunSetDepose: 'Rien de déposé pour l’instant.',
   aucunSetPublie: 'Aucun set publié pour l’instant.',
@@ -1654,7 +1654,7 @@ const EN: Dictionnaire = {
   limitesDepot: (max) =>
     `FLAC, WAV, MP3, M4A or OGG, ${max} max per file, about six hours of lossless FLAC or two hours of WAV. ` +
     `No file is re-encoded: what you upload is exactly what plays, byte for byte. ` +
-    `The set arrives as a draft, only you can see it until you publish it.`,
+    `The set is live as soon as it is uploaded; you can unpublish it at any time.`,
   fichierAudio: 'Audio file',
   titreDuSet: 'Title',
   genresDuSet: (n) => `Styles, to file it in the atlas (${n} max)`,
@@ -1707,7 +1707,7 @@ const EN: Dictionnaire = {
   formatAudioRefuse: 'Format refused. MP3, M4A, AAC, OGG or WAV only.',
   audioTropLourd: (taille, max) =>
     `File is ${taille}: the limit is ${max}. Re-encode at 128 kbps, or split the set in two.`,
-  setDepose: 'Set uploaded as a draft. Publish it whenever you want.',
+  setDepose: 'Set uploaded and live in Sounds.',
   mesSets: (n) => (n === 0 ? 'My sets' : n === 1 ? '1 set uploaded' : `${n} sets uploaded`),
   aucunSetDepose: 'Nothing uploaded yet.',
   aucunSetPublie: 'No published sets yet.',

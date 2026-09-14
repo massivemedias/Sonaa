@@ -324,7 +324,10 @@ export function ProfilPage() {
         duree_s: duree,
         taille_o: fichier.size,
         onde,
-        publie: false,
+        /* EN LIGNE DES LE DEPOT. Mika, le 14 septembre 2026 : Alexandre avait
+           depose son set et personne ne le voyait, il restait brouillon tant
+           qu'on n'appuyait pas sur Publier. Depublier reste la. */
+        publie: true,
       });
 
       setFichier(null);
