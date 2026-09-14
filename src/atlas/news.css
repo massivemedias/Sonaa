@@ -1,8 +1,30 @@
-/* L'onglet News : voir NewsPage.tsx. */
+/* L'onglet News : voir NewsPage.tsx.
 
+   UNE UNE DE JOURNAL. La hierarchie se lit a la taille du titre et a la
+   presence de l'image, dans une seule famille (Inter, voir DESIGN.md § 4) :
+   la une en 2,1 rem, le grand d'une rubrique en 1,5 rem, une carte en
+   1,05 rem, une breve en 1 rem. Les filets fins separent les breves comme
+   les colonnes d'un journal ; rien d'autre ne decore. */
+
+/* ═══ LA MANCHETTE ═══ */
+.news-manchette {
+  margin: 0 0 1rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 2px solid var(--ink-primary);
+}
+.news-manchette h1 {
+  margin: 0;
+}
+.news-edition {
+  margin: 0.2rem 0 0.6rem;
+  font-size: 0.78rem;
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
 .news-lede {
   max-width: 62ch;
-  margin: 0 0 1.2rem;
+  margin: 0;
   color: var(--ink-secondary);
   line-height: 1.5;
 }
@@ -11,7 +33,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin: 0 0 1.4rem;
+  margin: 0 0 1.6rem;
 }
 .news-filtre {
   padding: 0.35rem 0.9rem;
@@ -35,17 +57,7 @@
   color: var(--ink-secondary);
 }
 
-/* ═══ LES ARTICLES ═══ Des cartes, l'image en tete, comme le calendrier :
-   c'est ce qui donne envie de lire. Sans image, une lettre sur un fond. */
-.news-liste {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.4rem 1.4rem;
-  align-items: start;
-}
+/* ═══ LES PIECES COMMUNES ═══ */
 .news-lien {
   display: flex;
   flex-direction: column;
@@ -54,25 +66,29 @@
   text-decoration: none;
   border-bottom: 0;
 }
+.news-lien:hover .news-titre {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 .news-image {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 6px;
   background: var(--surface-margin);
 }
 .news-corps {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.35rem;
   min-width: 0;
 }
-.news-meta {
+.news-sur {
   display: flex;
   gap: 0.6rem;
   align-items: baseline;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   letter-spacing: var(--serrage-ui);
   text-transform: uppercase;
   color: var(--ink-secondary);
@@ -82,26 +98,145 @@
   font-weight: 600;
 }
 .news-titre {
-  font-size: 1rem;
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.25;
   color: var(--ink-primary);
-}
-.news-lien:hover .news-titre {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  text-wrap: balance;
 }
 .news-resume {
-  font-size: 0.84rem;
-  line-height: 1.45;
+  font-size: 0.92rem;
+  line-height: 1.5;
   color: var(--ink-secondary);
+}
+
+/* ═══ LA TETE : LA UNE ET EN BREF ═══ */
+.news-tete {
+  display: grid;
+  grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+  gap: 2rem;
+  padding-bottom: 1.6rem;
+  margin-bottom: 1.6rem;
+  border-bottom: var(--rule-width) solid var(--rule-hairline);
+}
+.news-une .news-titre {
+  font-size: 2.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.12;
+}
+.news-une .news-resume {
+  font-size: 1.05rem;
+  max-width: 62ch;
+}
+.news-une .news-corps {
+  gap: 0.5rem;
+  margin-top: 0.3rem;
+}
+.news-enbref {
+  border-left: var(--rule-width) solid var(--rule-hairline);
+  padding-left: 1.4rem;
+}
+
+/* ═══ LES RUBRIQUES ═══ */
+.news-rubrique {
+  padding-bottom: 1.6rem;
+  margin-bottom: 1.6rem;
+  border-bottom: var(--rule-width) solid var(--rule-hairline);
+}
+.news-rubrique-titre {
+  margin: 0 0 1rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+  color: var(--ink-primary);
+}
+.news-rubrique-bouton {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+.news-rubrique-bouton:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Le grand d'une rubrique : l'image a gauche, le texte a droite. */
+.news-grand .news-lien {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 1.4rem;
+  align-items: start;
+}
+.news-grand .news-titre {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.18;
+}
+.news-grand .news-resume {
+  font-size: 0.98rem;
+}
+
+.news-cartes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.4rem;
+  margin-top: 1.6rem;
+}
+.news-carte .news-titre {
+  font-size: 1.05rem;
+  /* UN TITRE DE MAGAZINE TIENT EN QUATRE LIGNES, une breve en deux : au-dela
+     c'est le resume qui parle, pas le titre. Musicradar en ecrit de douze
+     lignes ; borne, la rangee de cartes garde son rythme. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+
+/* Les breves : du texte en deux colonnes, un filet entre chaque. */
+.news-breves {
+  list-style: none;
+  margin: 1.4rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 2rem;
+}
+.news-breve {
+  padding: 0.7rem 0;
+  border-top: var(--rule-width) solid var(--rule-hairline);
+}
+.news-breve .news-lien {
+  gap: 0.3rem;
+}
+.news-breve .news-titre {
+  font-size: 1rem;
+  font-weight: 500;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.news-breves-colonne {
+  grid-template-columns: 1fr;
+  margin-top: 0;
+}
+.news-breves-colonne .news-breve:first-child {
+  border-top: 0;
+  padding-top: 0;
 }
 
 /* ═══ LES SOURCES ═══ Une case par site, la porte vers lui. */
 .news-sources {
-  margin-top: 2.4rem;
+  margin-top: 1rem;
   padding-top: 1.6rem;
-  border-top: var(--rule-width) solid var(--rule-hairline);
+  border-top: 2px solid var(--ink-primary);
 }
 .news-sources h2 {
   margin: 0 0 0.3rem;
@@ -168,9 +303,31 @@
   font-style: italic;
 }
 
-@media (max-width: 560px) {
-  .news-liste {
+/* ═══ TELEPHONE : UNE COLONNE, LE MEME ORDRE ═══ */
+@media (max-width: 760px) {
+  .news-tete {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+  .news-enbref {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .news-une .news-titre {
+    font-size: 1.55rem;
+  }
+  .news-grand .news-lien {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+  .news-grand .news-titre {
+    font-size: 1.25rem;
+  }
+  .news-cartes {
     grid-template-columns: 1fr;
     gap: 1.2rem;
+  }
+  .news-breves {
+    grid-template-columns: 1fr;
   }
 }

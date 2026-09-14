@@ -355,6 +355,9 @@ interface Dictionnaire {
   readonly newsIndisponibles: string;
   readonly aucunArticle: string;
   readonly newsMisesAJour: (quand: string) => string;
+  readonly newsALaUne: string;
+  readonly newsEnBref: string;
+  readonly newsEtAussi: string;
   readonly lesSources: string;
   readonly sourcesIntro: string;
   readonly voirSesArticles: string;
@@ -879,6 +882,9 @@ const FR: Dictionnaire = {
   newsIndisponibles: "Les news ne sont pas disponibles pour l’instant. Réessayez dans un moment.",
   aucunArticle: "Aucun article dans ce rayon pour l’instant.",
   newsMisesAJour: (quand) => `Dernière relève des flux : ${quand}.`,
+  newsALaUne: 'À la une',
+  newsEnBref: 'En bref',
+  newsEtAussi: 'Et aussi',
   lesSources: "Les sources",
   sourcesIntro: "Les sites que SONAA relit. Ceux qui n’offrent plus de flux gardent leur porte : allez-y directement.",
   voirSesArticles: "Ses articles",
@@ -1418,6 +1424,9 @@ const EN: Dictionnaire = {
   newsIndisponibles: "News are not available right now. Try again in a moment.",
   aucunArticle: "No article in this section for now.",
   newsMisesAJour: (quand) => `Feeds last read: ${quand}.`,
+  newsALaUne: 'Top stories',
+  newsEnBref: 'In brief',
+  newsEtAussi: 'Also',
   lesSources: "The sources",
   sourcesIntro: "The sites SONAA reads. Those without a feed anymore keep their door: go there directly.",
   voirSesArticles: "Its articles",
