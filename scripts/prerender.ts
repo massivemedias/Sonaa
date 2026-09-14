@@ -81,9 +81,17 @@ function ecrire(p: Page): void {
      le suit. L'app sait aussi le faire seule (chemins.ts), pour le cas ou le
      service worker sert son propre index.html a la place de cette page. */
   const amorce = `<script>if(!location.hash){history.replaceState(null,'',location.pathname+location.search+${JSON.stringify(p.hash)})}</script>`;
-  let html = gabarit.replace(/<title>[^<]*<\/title>/, meta).replace(/<meta\s+name="description"\s+content="[^"]*"\s*\/>\n?/, '');
-  html = html.replace(/<meta property="og:[^"]*" content="[^"]*" \/>\n?/g, (m) => (meta.includes('property="og:') && /og:(title|description|url|type|image)/.test(m) ? '' : m));
-  html = html.replace(/<meta name="twitter:[^"]*" content="[^"]*" \/>\n?/g, '');
+  /* LE GABARIT EST NETTOYE AVANT L'INJECTION, pas apres : les balises de la
+     racine (description, Open Graph, Twitter, canonical) partent, y compris
+     celles ecrites sur plusieurs lignes, puis les notres prennent la place
+     du titre. Nettoyer apres effacait aussi ce qu'on venait d'ecrire. */
+  let html = gabarit
+    .replace(/<meta\s+name="description"\s+content="[^"]*"\s*\/>\n?/g, '')
+    .replace(/<link\s+rel="canonical"[^>]*>\n?/g, '')
+    .replace(/<meta\s+property="og:(?:title|description|url|type|image|image:width|image:height|image:alt)"\s+content="[^"]*"\s*\/>\n?/g, '')
+    .replace(/<meta\s+name="twitter:[^"]*"\s+content="[^"]*"\s*\/>\n?/g, '')
+    .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\n?/g, '');
+  html = html.replace(/<title>[^<]*<\/title>/, () => meta);
   /* LE CONTENU ENTRE DANS LE CONTENEUR DE L'APP, devant l'ecran de
      chargement : React remplace tout au montage, les moteurs lisent tout
      avant. */

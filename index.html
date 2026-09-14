@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>SONAA</title>
+    <title>SONAA · Soirées électroniques et atlas des 219 styles</title>
+    <link rel="canonical" href="https://sonaa.ca/" />
     <meta
       name="description"
       content="Le calendrier complet des musiques électroniques : toutes les soirées de votre ville, par style, et l’atlas des 219 genres pour savoir d’où ça vient."
@@ -185,6 +186,15 @@
       content="Le logotype SONAA en lettrage blanc sur fond sombre, avec la phrase « Le calendrier complet des musiques électroniques »."
     />
     <meta property="og:locale" content="fr_FR" />
+    <!-- CE QUE LE SITE EST, DIT AUX MOTEURS : un site web avec sa recherche
+         et l'organisation qui le fait. Les fiches de styles et les soirées
+         portent chacune leur propre bloc, ecrit par scripts/prerender.ts. -->
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@graph":[
+        {"@type":"WebSite","@id":"https://sonaa.ca/#site","url":"https://sonaa.ca/","name":"SONAA","inLanguage":"fr","description":"Le calendrier des soirées électroniques et l’atlas des 219 styles de musique électronique, avec un cours de production par style.","publisher":{"@id":"https://sonaa.ca/#org"}},
+        {"@type":"Organization","@id":"https://sonaa.ca/#org","name":"SONAA","url":"https://sonaa.ca/","logo":"https://sonaa.ca/brand/sonaa-logo.png","foundingLocation":"Montréal","sameAs":["https://github.com/massivemedias/Sonaa"]}
+      ]}
+    </script>
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="SONAA, le calendrier complet des musiques électroniques" />
     <meta
