@@ -35,3 +35,9 @@ ORIGINES = "https://sonaa.ca,http://localhost:5173,http://localhost:4173,https:/
 [[kv_namespaces]]
 binding = "DEMANDES"
 id = "3896659cbb0342b08f7d4e38dd3e51f7"
+
+# LE COURRIEL A MIKA quand quelqu'un s'inscrit ou depose un set : voir
+# api/notifier dans src/index.ts. Le domaine sonaa.ca doit etre inscrit a
+# Email Sending dans le tableau de bord Cloudflare.
+[[send_email]]
+name = "EMAIL"

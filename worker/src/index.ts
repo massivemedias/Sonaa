@@ -50,6 +50,11 @@ interface Env {
   readonly LASTFM_API_KEY?: string;
   /** Les noms qu'aucune source n'a resolus, pour la moisson du lendemain. */
   readonly DEMANDES?: KVNamespace;
+  /** L'envoi de courriel de Cloudflare (Email Sending), domaine sonaa.ca. */
+  readonly EMAIL?: { send: (m: { to: string; from: { email: string; name: string }; subject: string; text: string; html?: string }) => Promise<unknown> };
+  /** Le secret que la base presente pour avoir le droit de faire ecrire un
+      courriel, pose par `wrangler secret put NOTIFIER_SECRET`. */
+  readonly NOTIFIER_SECRET?: string;
 }
 
 const aplatirNom = (s: string): string =>
@@ -377,6 +382,40 @@ export default {
        origine. Aucune fenetre de permission, aucun service tiers, aucune
        cle. La ville est ensuite rapprochee de la liste de RA, parce qu'une
        ville sans zone RA ne sert a rien pour la suite. */
+    /* ═══ UN COURRIEL A MIKA QUAND QUELQUE CHOSE ARRIVE ═══
+
+       Mika, le 14 septembre 2026 : « quand un nouvel utilisateur s'inscrit
+       j'aimerais recevoir un courriel a massivemedias@gmail.com, pareil
+       quand un user upload un set ». C'est la base qui appelle ici, par un
+       declencheur (pg_net) sur auth.users et sur dj_sets, avec un secret
+       partage : sans lui, personne ne peut faire ecrire un courriel depuis
+       l'exterieur. Le courriel part par l'envoi de Cloudflare, depuis
+       sonaa.ca. */
+    if (req.method === 'POST' && chemin === 'api/notifier') {
+      const secret = req.headers.get('x-sonaa-secret');
+      if (!env.NOTIFIER_SECRET || secret !== env.NOTIFIER_SECRET) return refus(req, env, 403, 'secret absent ou faux');
+      if (!env.EMAIL) return refus(req, env, 503, 'envoi de courriel non configure');
+      const { sujet, texte } = (await req.json()) as { sujet?: string; texte?: string };
+      if (!sujet || !texte) return refus(req, env, 400, 'sujet et texte obligatoires');
+      const propre = (x: string): string => x.replace(/[\r\n]+/g, ' ').slice(0, 200);
+      try {
+        await env.EMAIL.send({
+          to: 'massivemedias@gmail.com',
+          from: { email: 'bonjour@sonaa.ca', name: 'SONAA' },
+          subject: propre(sujet),
+          text: texte.slice(0, 5000),
+        });
+      } catch (e) {
+        /* On DIT pourquoi : un domaine pas encore inscrit a l'envoi, une
+           limite, un refus. Un 1101 muet ne sert a personne. */
+        return new Response(JSON.stringify({ envoye: false, erreur: e instanceof Error ? e.message : String(e) }), {
+          status: 502,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      return new Response(JSON.stringify({ envoye: true }), { headers: { 'content-type': 'application/json' } });
+    }
+
     if (req.method === 'GET' && chemin === 'api/ou') {
       const cf = (req as Request & { cf?: Record<string, unknown> }).cf ?? {};
       const ville = typeof cf['city'] === 'string' ? cf['city'] : null;
