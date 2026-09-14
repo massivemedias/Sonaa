@@ -256,6 +256,9 @@ async function lireArticle(cible: URL): Promise<ArticleLu | null> {
     l
       .map((m) => ({ t: m.t, x: m.t === 'img' ? m.x : decodeEntites(m.x.replace(/\s+/g, ' ').trim()) }))
       .filter((m) => (m.t === 'img' ? true : m.t === 'p' || m.t === 'quote' ? m.x.length >= 40 : m.x.length >= 3))
+      /* Le boniment des magazines : la commission d'affiliation, la lettre
+         d'information, le bandeau des cookies. Ce n'est pas l'article. */
+      .filter((m) => m.t === 'img' || !/affiliate commission|sign up to|newsletter|cookies|read more:|related articles|all rights reserved/i.test(m.x))
       .filter((m, i, a) => m.t !== 'img' || a.findIndex((y) => y.t === 'img' && y.x === m.x) === i);
   const poids = (l: Morceau[]) => l.filter((m) => m.t === 'p').reduce((n, m) => n + m.x.length, 0);
   let morceaux = nettoie(couches.article);
@@ -529,7 +532,7 @@ export default {
       }
       if (cible.protocol !== 'https:' || !hoteDeMagazine(cible.hostname)) return refus(req, env, 403, 'pas un magazine de la moisson');
       const cache = caches.default;
-      const cle = new Request(`https://sonaa.ca/api/article?u=${encodeURIComponent(cible.href)}&v=3`);
+      const cle = new Request(`https://sonaa.ca/api/article?u=${encodeURIComponent(cible.href)}&v=4`);
       const garde = await cache.match(cle);
       if (garde) {
         const r = new Response(garde.body, garde);
