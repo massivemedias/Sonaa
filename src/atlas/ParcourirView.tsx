@@ -46,6 +46,7 @@ import { artistesDuGenre, moissonFaiteLe } from '../lib/artistes.ts';
 import { setsDunGenre, type SetDJ } from '../lib/sets.ts';
 import { contributionsActives } from '../lib/config.ts';
 import { aUnCours } from '../lib/cours.ts';
+import { useTexteAnglais } from '../lib/anglais.ts';
 import { CoursDuStyle } from './CoursDuStyle.tsx';
 import './parcourir.css';
 
@@ -599,6 +600,7 @@ interface PageGenreProps {
 
 function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: PageGenreProps) {
   const tracks = genre.tracks;
+  const anglais = useTexteAnglais(genre.id);
   const derives = poidsDe(genre.id).descendance;
   const artistes = artistesDuGenre(genre.id);
   /* La date du releve, dans la langue de la page. Elle vit ici et non dans le
@@ -671,8 +673,10 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           Elle passe devant, avec les faits qui la completent. */}
 
 
-      {t.texteEnFrancais && <p className="pv-langue">{t.texteEnFrancais}</p>}
-      {genre.description && <p className="pv-description">{genre.description}</p>}
+      {t.texteEnFrancais && !anglais && <p className="pv-langue">{t.texteEnFrancais}</p>}
+      {(anglais?.description || genre.description) && (
+        <p className="pv-description">{anglais?.description || genre.description}</p>
+      )}
 
 
       {/* LA DESCRIPTION AVANT LA LISTE, LE RESTE APRES.

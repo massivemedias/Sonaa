@@ -22,6 +22,8 @@
    force a le remplir en entier : il est impossible d'en publier un a moitie
    traduit sans que la compilation le refuse. */
 
+import { langueDuChemin } from '../lib/chemins.ts';
+
 export type Langue = 'fr' | 'en';
 
 /* ON RESPECTE L'ORDRE DECLARE PAR LA PERSONNE, sans le corriger.
@@ -82,7 +84,17 @@ function langueDuNavigateur(): Langue {
   return 'en';
 }
 
-export const langue: Langue = langueRangee() ?? langueDuNavigateur();
+/* UNE PAGE SOUS /en/ EST EN ANGLAIS : c'est ce que le lien promettait a qui
+   l'a suivi depuis un moteur de recherche. Le choix range garde la main. */
+function langueDeLAdresse(): Langue | null {
+  try {
+    return typeof location !== 'undefined' && langueDuChemin(location.pathname) === 'en' ? 'en' : null;
+  } catch {
+    return null;
+  }
+}
+
+export const langue: Langue = langueRangee() ?? langueDeLAdresse() ?? langueDuNavigateur();
 
 /** Vrai quand la langue vient d'un choix explicite et non de la detection.
     Le selecteur s'en sert pour ne pas allumer un bouton que personne n'a

@@ -50,14 +50,26 @@ export function cheminsDesStyles(): CheminStyle[] {
   return out;
 }
 
+/** LES MEMES PAGES EN ANGLAIS vivent sous /en/ : /en/styles/techno/dub-techno/.
+    Meme ancre, meme contenu de l'app, la langue de l'interface en plus
+    (langue.ts lit ce prefixe quand rien n'a ete choisi). */
+export const PREFIXE_ANGLAIS = '/en';
+
+export function langueDuChemin(chemin: string): 'fr' | 'en' {
+  return chemin === PREFIXE_ANGLAIS || chemin.startsWith(`${PREFIXE_ANGLAIS}/`) ? 'en' : 'fr';
+}
+
 /** L'ancre qui correspond a un chemin, ou null si le chemin n'est pas un
     chemin du site. Le pre-rendu ecrit ces chemins ; l'app les relit. */
 export function hashDuChemin(chemin: string): string | null {
-  const c = chemin.replace(/\/+$/, '/');
+  const c = (langueDuChemin(chemin) === 'en' ? chemin.slice(PREFIXE_ANGLAIS.length) || '/' : chemin).replace(/\/+$/, '/');
   if (c === '/styles/') return '#/parcourir';
   const style = cheminsDesStyles().find((x) => x.chemin === c);
   if (style) return style.hash;
-  const soiree = c.match(/^\/soirees\/([a-z-]+)\/$/);
+  /* /soirees/montreal-ca/, /soirees/montreal-ca/techno/ (une famille) et
+     /soirees/montreal-ca/<id>/ (une soiree) ouvrent tous le calendrier de la
+     ville : la page pre-rendue a deja dit ce qu'il y avait a dire. */
+  const soiree = c.match(/^\/soirees\/([a-z-]+)\/(?:[^/]+\/)?$/);
   if (soiree) return `#/calendrier?city=${soiree[1]}`;
   if (c.startsWith('/soirees/')) return '#/calendrier';
   const son = c.match(/^\/sons\/([0-9a-f-]{36})\/$/);
