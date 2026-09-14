@@ -494,6 +494,11 @@ interface Dictionnaire {
   readonly quotaCourriel: string;
   readonly motDePasse: string;
   readonly creerUnCompte: string;
+  readonly creerMonCompte: string;
+  readonly creerCompteUsage: string;
+  readonly dejaUnCompte: string;
+  readonly compteCree: string;
+  readonly pasEncoreDeCompte: string;
   readonly motDePasseOublie: string;
   readonly lienALaPlace: string;
   readonly motDePasseALaPlace: string;
@@ -1020,6 +1025,11 @@ const FR: Dictionnaire = {
     'Trop de courriels sont partis depuis SONAA dans la dernière heure. Réessaie dans une heure, ou connecte-toi avec Google.',
   motDePasse: 'Mot de passe',
   creerUnCompte: 'Créer un compte',
+  creerMonCompte: 'Créer mon compte',
+  creerCompteUsage: 'Une adresse courriel et un mot de passe d’au moins 8 caractères, c’est tout. Aucun courriel à confirmer.',
+  dejaUnCompte: 'J’ai déjà un compte',
+  compteCree: 'Compte créé, tu es connecté.',
+  pasEncoreDeCompte: 'Pas encore de compte ?',
   motDePasseOublie: 'Mot de passe oublié ?',
   lienALaPlace: 'Recevoir un lien de connexion par courriel à la place',
   motDePasseALaPlace: 'Se connecter avec un mot de passe',
@@ -1563,6 +1573,11 @@ const EN: Dictionnaire = {
     'Too many emails were sent from SONAA in the last hour. Try again in an hour, or sign in with Google.',
   motDePasse: 'Password',
   creerUnCompte: 'Create an account',
+  creerMonCompte: 'Create my account',
+  creerCompteUsage: 'An email address and a password of at least 8 characters, that is all. No email to confirm.',
+  dejaUnCompte: 'I already have an account',
+  compteCree: 'Account created, you are signed in.',
+  pasEncoreDeCompte: 'No account yet?',
   motDePasseOublie: 'Forgot your password?',
   lienALaPlace: 'Get a sign-in link by email instead',
   motDePasseALaPlace: 'Sign in with a password',

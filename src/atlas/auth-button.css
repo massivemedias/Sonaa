@@ -433,3 +433,33 @@
   text-underline-offset: 3px;
   cursor: pointer;
 }
+
+/* L'ECRAN DE CREATION : un seul gros bouton, l'erreur au-dessus des champs. */
+.authb-panneau form .authb-principal {
+  background: var(--encre-5);
+  border: 0;
+  color: var(--leve);
+  font-weight: 500;
+  margin-top: 0.4rem;
+}
+.authb-creation .authb-message {
+  margin: 0 0 0.6rem;
+}
+.authb-creation .authb-usage {
+  margin-bottom: 0.8rem;
+}
+
+/* LA CONFIRMATION, sous le coin du compte, le temps de la lire. */
+.authb-confirmation {
+  position: fixed;
+  top: calc(var(--authb-top, 14px) + 48px);
+  right: 14px;
+  z-index: 12;
+  margin: 0;
+  padding: 0.55rem 0.9rem;
+  border-radius: 8px;
+  background: var(--encre-5);
+  color: var(--leve);
+  font-size: 0.85rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}

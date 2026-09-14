@@ -96,7 +96,10 @@ export function AuthButton() {
      en second parce qu'il coute un envoi sur un quota partage. `oubli` :
      le courriel de nouveau mot de passe. `nouveau` : on arrive de ce
      courriel, et on choisit le mot de passe. Voir auth.ts. */
-  const [mode, setMode] = useState<'mdp' | 'lien' | 'oubli' | 'nouveau'>('mdp');
+  const [mode, setMode] = useState<'mdp' | 'creer' | 'lien' | 'oubli' | 'nouveau'>('mdp');
+  /* LA CONFIRMATION, quelques secondes sous le bouton du compte : Alexandre,
+     le 14 septembre 2026, ne voyait pas qu'il venait d'etre connecte. */
+  const [confirmation, setConfirmation] = useState<string | null>(null);
   /* POURQUOI ON DEMANDE. Ouvert par le bouton du coin, le panneau dit a quoi
      sert un compte ; ouvert par un appui sur lecture, il dit que c'est pour
      ecouter. La phrase vient de l'evenement, voir porte-ecoute.ts. */
@@ -169,6 +172,7 @@ export function AuthButton() {
       const detail = (e as CustomEvent<unknown>).detail;
       setMotif(detail === MOTIF_ECOUTE ? t.usageEcoute : null);
       setMessage(null);
+      setMode('mdp');
       setOuvert(true);
     };
     const nouveau = (): void => {
@@ -269,6 +273,9 @@ export function AuthButton() {
       if (r.ok) {
         setMotDePasse('');
         setOuvert(false);
+        setMode('mdp');
+        setConfirmation(creer ? t.compteCree : null);
+        window.setTimeout(() => setConfirmation(null), 6000);
       } else setMessage(r.message);
     },
     [email, motDePasse]
@@ -402,6 +409,9 @@ export function AuthButton() {
       </button>
       <ChoixLangue />
       <ChoixTheme />
+      {connecte && confirmation && (
+        <p className="authb-confirmation" role="status">{confirmation}</p>
+      )}
       {connecte ? (
         <>
           <button
@@ -476,8 +486,8 @@ export function AuthButton() {
             <button className="authb-fermer" onClick={() => setOuvert(false)} aria-label={t.fermer}>
               ×
             </button>
-            <h2>{mode === 'nouveau' ? t.nouveauMotDePasse : t.connexion}</h2>
-            {mode !== 'nouveau' && <p className="authb-usage">{motif ?? t.usageConnexion}</p>}
+            <h2>{mode === 'nouveau' ? t.nouveauMotDePasse : mode === 'creer' ? t.creerUnCompte : t.connexion}</h2>
+            {mode !== 'nouveau' && mode !== 'creer' && <p className="authb-usage">{motif ?? t.usageConnexion}</p>}
 
             {mode === 'nouveau' ? (
               <form onSubmit={(e) => void parNouveau(e)}>
@@ -500,11 +510,14 @@ export function AuthButton() {
                 {/* GOOGLE EN PREMIER, ET C'EST DE L'ARITHMÉTIQUE : le lien par
                     courriel est plafonné pour le site entier. Google n'a pas
                     cette limite. */}
-                <button className="authb-google" onClick={() => void parGoogle()}>
-                  {t.continuerGoogle}
-                </button>
-
-                <div className="authb-ou"><span>{t.ou}</span></div>
+                {mode !== 'creer' && (
+                  <>
+                    <button className="authb-google" onClick={() => void parGoogle()}>
+                      {t.continuerGoogle}
+                    </button>
+                    <div className="authb-ou"><span>{t.ou}</span></div>
+                  </>
+                )}
 
                 {mode === 'mdp' && (
                   <form ref={formulaire} onSubmit={(e) => { e.preventDefault(); void parMotDePasse(false); }}>
@@ -532,7 +545,7 @@ export function AuthButton() {
                       <button type="submit" disabled={envoi === 'envoi'}>
                         {envoi === 'envoi' ? t.envoiEnCours : t.seConnecter}
                       </button>
-                      <button type="button" disabled={envoi === 'envoi'} onClick={() => void parMotDePasse(true)}>
+                      <button type="button" className="authb-creer" onClick={() => { setMode('creer'); setMessage(null); }}>
                         {t.creerUnCompte}
                       </button>
                     </div>
@@ -543,6 +556,41 @@ export function AuthButton() {
                       </button>
                       <button type="button" className="authb-lien" onClick={() => { setMode('lien'); setMessage(null); }}>
                         {t.lienALaPlace}
+                      </button>
+                    </div>
+                  </form>
+                )}
+
+                {mode === 'creer' && (
+                  <form ref={formulaire} className="authb-creation" onSubmit={(e) => { e.preventDefault(); void parMotDePasse(true); }}>
+                    <p className="authb-usage">{t.creerCompteUsage}</p>
+                    {message && <p className="authb-message" role="alert">{message}</p>}
+                    <label htmlFor="authb-email">{t.tonAdresse}</label>
+                    <input
+                      id="authb-email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="toi@exemple.com"
+                      autoComplete="email"
+                      required
+                    />
+                    <label htmlFor="authb-mdp">{t.motDePasse}</label>
+                    <input
+                      id="authb-mdp"
+                      type="password"
+                      value={motDePasse}
+                      onChange={(e) => setMotDePasse(e.target.value)}
+                      autoComplete="new-password"
+                      minLength={MOT_DE_PASSE_MIN}
+                      required
+                    />
+                    <button type="submit" className="authb-principal" disabled={envoi === 'envoi'}>
+                      {envoi === 'envoi' ? t.envoiEnCours : t.creerMonCompte}
+                    </button>
+                    <div className="authb-liens">
+                      <button type="button" className="authb-lien" onClick={() => { setMode('mdp'); setMessage(null); }}>
+                        {t.dejaUnCompte}
                       </button>
                     </div>
                   </form>
@@ -598,7 +646,7 @@ export function AuthButton() {
               </>
             )}
 
-            {message && mode !== 'mdp' && <p className="authb-message" role="alert">{message}</p>}
+            {message && mode !== 'mdp' && mode !== 'creer' && <p className="authb-message" role="alert">{message}</p>}
 
             {/* LA LIGNE SUR LES DONNÉES EST UNE PROMESSE, pas une mention
                 légale : elle dit ce que le site fait, et le site le tient. */}
