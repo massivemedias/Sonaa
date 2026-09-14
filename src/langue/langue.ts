@@ -462,6 +462,18 @@ interface Dictionnaire {
   readonly aPropSujet: string;
   readonly cettePiste: string;
   readonly lHistoire: string;
+  readonly produireCeStyle: string;
+  readonly coursTempo: string;
+  readonly coursRythme: string;
+  readonly coursBasse: string;
+  readonly coursSons: string;
+  readonly coursArrangement: string;
+  readonly coursMix: string;
+  readonly coursEtapes: string;
+  readonly coursReperes: string;
+  readonly coursSources: string;
+  readonly coursEnPreparation: string;
+  readonly coursAvis: string;
   readonly laFabrication: string;
   readonly ficheTechnique: string;
   readonly tempo: string;
@@ -998,6 +1010,18 @@ const FR: Dictionnaire = {
   aPropSujet: 'Le genre',
   cettePiste: 'Cette piste',
   lHistoire: 'L\u2019histoire',
+  produireCeStyle: 'Produire ce style',
+  coursTempo: 'Tempo et groove',
+  coursRythme: 'La rythmique',
+  coursBasse: 'La basse',
+  coursSons: 'Les sons',
+  coursArrangement: 'L’arrangement',
+  coursMix: 'Le mix',
+  coursEtapes: 'Pour commencer',
+  coursReperes: 'À écouter en travaillant',
+  coursSources: 'Sources',
+  coursEnPreparation: 'Le cours de ce style est en préparation.',
+  coursAvis: 'Un cours écrit pour SONAA, en français, à partir des sources citées en bas : un point de départ, pas une recette.',
   laFabrication: 'La fabrication',
   ficheTechnique: 'Fiche technique',
   tempo: 'Tempo',
@@ -1552,6 +1576,18 @@ const EN: Dictionnaire = {
   aPropSujet: 'The genre',
   cettePiste: 'This track',
   lHistoire: 'The story',
+  produireCeStyle: 'Produce this style',
+  coursTempo: 'Tempo and groove',
+  coursRythme: 'The drums',
+  coursBasse: 'The bass',
+  coursSons: 'The sounds',
+  coursArrangement: 'Arrangement',
+  coursMix: 'The mix',
+  coursEtapes: 'Getting started',
+  coursReperes: 'Listen while you work',
+  coursSources: 'Sources',
+  coursEnPreparation: 'The lesson for this style is in preparation.',
+  coursAvis: 'A lesson written for SONAA, in French, from the sources listed below: a starting point, not a recipe.',
   laFabrication: 'How it is made',
   ficheTechnique: 'Fact sheet',
   tempo: 'Tempo',

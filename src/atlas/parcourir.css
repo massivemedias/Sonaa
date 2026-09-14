@@ -1416,3 +1416,45 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   font-size: 0.74rem;
   line-height: 1.5;
 }
+
+/* ═══ LES BOUTONS QUI OUVRENT LE RESTE DE LA PAGE ═══ Voir PageGenre. Le
+   bouton des artistes suit la liste : absent sur telephone. */
+.pv-onglets {
+  flex-wrap: wrap;
+}
+@media (max-width: 768px) {
+  .pv-onglet-artistes {
+    display: none;
+  }
+}
+.pv-onglets + .pv-artistes,
+.pv-onglets + .pv-fiche {
+  margin-top: 1.2rem;
+}
+
+/* ═══ LE COURS ═══ */
+.pv-cours-note {
+  margin: 1.2rem 0 0;
+  color: var(--encre-douce-2);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+.pv-cours .pv-article-section p {
+  max-width: 120ch;
+}
+.pv-cours-etapes,
+.pv-cours-reperes {
+  margin: 0.4rem 0 0;
+  padding-left: 1.4rem;
+  max-width: 120ch;
+  line-height: 1.55;
+}
+.pv-cours-etapes li,
+.pv-cours-reperes li {
+  margin: 0.35rem 0;
+}
+.pv-cours-sources {
+  margin: 1.4rem 0 0;
+  color: var(--encre-douce-2);
+  font-size: 0.75rem;
+}

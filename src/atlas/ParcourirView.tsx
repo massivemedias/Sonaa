@@ -45,6 +45,8 @@ import { langue, t } from '../langue/langue.ts';
 import { artistesDuGenre, moissonFaiteLe } from '../lib/artistes.ts';
 import { setsDunGenre, type SetDJ } from '../lib/sets.ts';
 import { contributionsActives } from '../lib/config.ts';
+import { aUnCours } from '../lib/cours.ts';
+import { CoursDuStyle } from './CoursDuStyle.tsx';
 import './parcourir.css';
 
 /* --- L'adresse ------------------------------------------------------------ */
@@ -600,8 +602,10 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
   /* On revient a l'histoire en changeant de genre : rester sur l'onglet
      fabrication ferait arriver au milieu d'une recette sur un style qu'on
      vient a peine d'ouvrir. */
-  const [onglet, setOnglet] = useState<'histoire' | 'fabrication'>('histoire');
-  useEffect(() => setOnglet('histoire'), [genre.id]);
+  type Panneau = 'aucun' | 'artistes' | 'fiche' | 'histoire' | 'cours';
+  const [panneau, setPanneau] = useState<Panneau>('aucun');
+  useEffect(() => setPanneau('aucun'), [genre.id]);
+  const bascule = (p: Panneau): void => setPanneau((x) => (x === p ? 'aucun' : p));
   const cetteListe = lecture.listeId === genre.id;
   const enCours = cetteListe && (lecture.etat === 'joue' || lecture.etat === 'chargement');
 
@@ -652,119 +656,10 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           douze morceaux pour lire la reponse a la question qui amene ici.
           Elle passe devant, avec les faits qui la completent. */}
 
-      {/* LA FICHE TECHNIQUE. Elle ne dit rien que le corpus ne sache deja :
-          tempo, date, machines, labels, artistes, descendance. C'est le
-          minimum pour repondre a « comment ca se fabrique », et chaque valeur
-          est tracable jusqu'a la donnee, sans un mot invente. */}
-      <section className="pv-fiche" style={{ '--pv-hue': famille.hue } as React.CSSProperties}>
-        <h3 className="pv-fiche-titre">{t.ficheTechnique}</h3>
-        {/* PLUS DE PHOTO DE MACHINE ICI, NI AILLEURS.
-
-            Elle avait ete descendue en bas de page, puis remontee dans cette
-            fiche a cote de la ligne qu'elle illustre. Les deux placements
-            repondaient a la mauvaise question. Le verdict de Mika est net :
-            elle ne sert a rien. Une photo generique de TR-909, la meme pour
-            tous les genres qui la citent, n'apprend rien que la ligne
-            « Machines » ne dise deja, et elle occupe la place d'un contenu
-            qui, lui, manque. Les 31 fichiers et le script qui les a
-            rassembles restent au depot : c'est le rendu qui s'arrete, pas la
-            collecte, et rien n'est detruit si l'usage revient. */}
-        <dl className="pv-faits">
-          {genre.bpmRange && (
-            <div className="pv-fait">
-              <dt className="pv-fait-cle">{t.tempo}</dt>
-              <dd className="pv-fait-val">{t.bpm(genre.bpmRange[0], genre.bpmRange[1])}</dd>
-            </div>
-          )}
-          {genre.annee > 0 && (
-            <div className="pv-fait">
-              <dt className="pv-fait-cle">{t.apparition}</dt>
-              <dd className="pv-fait-val">
-                {genre.yearStart ? genre.annee : `${t.vers} ${genre.annee}`}
-              </dd>
-            </div>
-          )}
-          {genre.machines.length > 0 && (
-            <div className="pv-fait">
-              <dt className="pv-fait-cle">{t.machines}</dt>
-              <dd className="pv-fait-val">
-                <span className="pv-machines">
-                  {genre.machines.map((m) => (
-                    <span className="pv-machine" key={m}>{m}</span>
-                  ))}
-                </span>
-              </dd>
-            </div>
-          )}
-          {/* LE SON, SOUS LES MACHINES. Le champ portait les deux, sous la
-              seule etiquette « Machines » : « Distorsion en chaine » et
-              « Filtres en mouvement permanent » n'en sont pas. Ces phrases
-              disent comment le son se fabrique, ce qui est la deuxieme
-              question du producteur, pas la premiere. Elles ont donc leur
-              ligne au lieu de mentir sur celle d'a cote. */}
-          {genre.sonorites.length > 0 && (
-            <div className="pv-fait">
-              <dt className="pv-fait-cle">{t.sonorites}</dt>
-              <dd className="pv-fait-val">
-                <span className="pv-machines">
-                  {genre.sonorites.map((x) => (
-                    <span className="pv-machine pv-son" key={x}>{x}</span>
-                  ))}
-                </span>
-              </dd>
-            </div>
-          )}
-          {genre.labelsHistoriques.length > 0 && (
-            <div className="pv-fait">
-              <dt className="pv-fait-cle">{t.labels}</dt>
-              <dd className="pv-fait-val">{genre.labelsHistoriques.join(', ')}</dd>
-            </div>
-          )}
-          {genre.artistesCles.length > 0 && (
-            <div className="pv-fait">
-              <dt className="pv-fait-cle">{t.artistes}</dt>
-              <dd className="pv-fait-val">{genre.artistesCles.join(', ')}</dd>
-            </div>
-          )}
-          {derives > 0 && (
-            <div className="pv-fait">
-              <dt className="pv-fait-cle">{t.descendance}</dt>
-              <dd className="pv-fait-val">{t.nGenresDerives(derives)}</dd>
-            </div>
-          )}
-        </dl>
-      </section>
 
       {t.texteEnFrancais && <p className="pv-langue">{t.texteEnFrancais}</p>}
       {genre.description && <p className="pv-description">{genre.description}</p>}
 
-      {/* ═══ LES ARTISTES DE CE STYLE ═══
-       *
-       * La fiche portait six « artistes clés », choisis a la main, dans la
-       * liste de faits. Ils y restent : ce sont ceux que Mika a verifies, et
-       * six noms tries valent mieux que trente rangs.
-       *
-       * Ceux-ci sont autre chose : un CLASSEMENT, celui de Last.fm, par
-       * nombre d'auditeurs, filtre par ce que Discogs sait des disques de
-       * chacun. Un artiste que Discogs connait et dont les sorties ne portent
-       * pas ce genre est retire : c'est exactement l'etiquette posee de
-       * travers par trois auditeurs qu'on cherchait a ecarter.
-       *
-       * LA PROVENANCE EST ECRITE SOUS LA LISTE, et ce n'est pas de la
-       * modestie. Une liste de trente noms sans source se lit comme un
-       * jugement de l'auteur ; avec sa source, elle se lit pour ce qu'elle
-       * est, un releve qu'on peut contester. */}
-      {artistes.length > 0 && (
-        <section className="pv-artistes">
-          <h3 className="pv-titre-liste">{t.lesArtistesDuStyle}</h3>
-          <ul className="pv-artistes-liste">
-            {artistes.map((nom) => (
-              <li key={nom}>{nom}</li>
-            ))}
-          </ul>
-          <p className="pv-artistes-source">{t.artistesDouVientLaListe(dateMoisson)}</p>
-        </section>
-      )}
 
       {/* LA DESCRIPTION AVANT LA LISTE, LE RESTE APRES.
 
@@ -825,6 +720,146 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
         </ol>
       )}
 
+      {/* ═══ LE RESTE DE LA PAGE, DERRIERE DES BOUTONS ═══
+       *
+       * Mika, le 14 septembre 2026 : « laisse visible par defaut la description
+       * et les meilleures tracks, et des boutons qui font afficher le reste ».
+       * Une page de genre portait tout a la suite : la fiche technique, trente
+       * artistes, l'article, le tuto. Ce qu'on vient chercher, la description
+       * et les morceaux, se noyait dans ce qu'on pourrait vouloir ensuite.
+       * Chaque bouton ouvre une seule chose ; le meme bouton la referme. Les
+       * artistes n'existent pas sur telephone (voir parcourir.css). */}
+      <div className="pv-onglets" role="tablist">
+        {artistes.length > 0 && (
+          <button className="pv-onglet pv-onglet-artistes" role="tab" aria-selected={panneau === 'artistes'} onClick={() => bascule('artistes')}>
+            {t.lesArtistesDuStyle}
+          </button>
+        )}
+        <button className="pv-onglet" role="tab" aria-selected={panneau === 'fiche'} onClick={() => bascule('fiche')}>
+          {t.ficheTechnique}
+        </button>
+        {genre.article.length > 0 && (
+          <button className="pv-onglet" role="tab" aria-selected={panneau === 'histoire'} onClick={() => bascule('histoire')}>
+            {t.lHistoire}
+          </button>
+        )}
+        {(genre.tuto.length > 0 || aUnCours(genre.id)) && (
+          <button className="pv-onglet" role="tab" aria-selected={panneau === 'cours'} onClick={() => bascule('cours')}>
+            {t.produireCeStyle}
+          </button>
+        )}
+      </div>
+      {/* ═══ LES ARTISTES DE CE STYLE ═══
+       *
+       * La fiche portait six « artistes clés », choisis a la main, dans la
+       * liste de faits. Ils y restent : ce sont ceux que Mika a verifies, et
+       * six noms tries valent mieux que trente rangs.
+       *
+       * Ceux-ci sont autre chose : un CLASSEMENT, celui de Last.fm, par
+       * nombre d'auditeurs, filtre par ce que Discogs sait des disques de
+       * chacun. Un artiste que Discogs connait et dont les sorties ne portent
+       * pas ce genre est retire : c'est exactement l'etiquette posee de
+       * travers par trois auditeurs qu'on cherchait a ecarter.
+       *
+       * LA PROVENANCE EST ECRITE SOUS LA LISTE, et ce n'est pas de la
+       * modestie. Une liste de trente noms sans source se lit comme un
+       * jugement de l'auteur ; avec sa source, elle se lit pour ce qu'elle
+       * est, un releve qu'on peut contester. */}
+      {panneau === 'artistes' && artistes.length > 0 && (
+        <section className="pv-artistes">
+          <h3 className="pv-titre-liste">{t.lesArtistesDuStyle}</h3>
+          <ul className="pv-artistes-liste">
+            {artistes.map((nom) => (
+              <li key={nom}>{nom}</li>
+            ))}
+          </ul>
+          <p className="pv-artistes-source">{t.artistesDouVientLaListe(dateMoisson)}</p>
+        </section>
+      )}
+      {/* LA FICHE TECHNIQUE. Elle ne dit rien que le corpus ne sache deja :
+          tempo, date, machines, labels, artistes, descendance. C'est le
+          minimum pour repondre a « comment ca se fabrique », et chaque valeur
+          est tracable jusqu'a la donnee, sans un mot invente. */}
+      {panneau === 'fiche' && (
+        <section className="pv-fiche" style={{ '--pv-hue': famille.hue } as React.CSSProperties}>
+          <h3 className="pv-fiche-titre">{t.ficheTechnique}</h3>
+          {/* PLUS DE PHOTO DE MACHINE ICI, NI AILLEURS.
+
+              Elle avait ete descendue en bas de page, puis remontee dans cette
+              fiche a cote de la ligne qu'elle illustre. Les deux placements
+              repondaient a la mauvaise question. Le verdict de Mika est net :
+              elle ne sert a rien. Une photo generique de TR-909, la meme pour
+              tous les genres qui la citent, n'apprend rien que la ligne
+              « Machines » ne dise deja, et elle occupe la place d'un contenu
+              qui, lui, manque. Les 31 fichiers et le script qui les a
+              rassembles restent au depot : c'est le rendu qui s'arrete, pas la
+              collecte, et rien n'est detruit si l'usage revient. */}
+          <dl className="pv-faits">
+            {genre.bpmRange && (
+              <div className="pv-fait">
+                <dt className="pv-fait-cle">{t.tempo}</dt>
+                <dd className="pv-fait-val">{t.bpm(genre.bpmRange[0], genre.bpmRange[1])}</dd>
+              </div>
+            )}
+            {genre.annee > 0 && (
+              <div className="pv-fait">
+                <dt className="pv-fait-cle">{t.apparition}</dt>
+                <dd className="pv-fait-val">
+                  {genre.yearStart ? genre.annee : `${t.vers} ${genre.annee}`}
+                </dd>
+              </div>
+            )}
+            {genre.machines.length > 0 && (
+              <div className="pv-fait">
+                <dt className="pv-fait-cle">{t.machines}</dt>
+                <dd className="pv-fait-val">
+                  <span className="pv-machines">
+                    {genre.machines.map((m) => (
+                      <span className="pv-machine" key={m}>{m}</span>
+                    ))}
+                  </span>
+                </dd>
+              </div>
+            )}
+            {/* LE SON, SOUS LES MACHINES. Le champ portait les deux, sous la
+                seule etiquette « Machines » : « Distorsion en chaine » et
+                « Filtres en mouvement permanent » n'en sont pas. Ces phrases
+                disent comment le son se fabrique, ce qui est la deuxieme
+                question du producteur, pas la premiere. Elles ont donc leur
+                ligne au lieu de mentir sur celle d'a cote. */}
+            {genre.sonorites.length > 0 && (
+              <div className="pv-fait">
+                <dt className="pv-fait-cle">{t.sonorites}</dt>
+                <dd className="pv-fait-val">
+                  <span className="pv-machines">
+                    {genre.sonorites.map((x) => (
+                      <span className="pv-machine pv-son" key={x}>{x}</span>
+                    ))}
+                  </span>
+                </dd>
+              </div>
+            )}
+            {genre.labelsHistoriques.length > 0 && (
+              <div className="pv-fait">
+                <dt className="pv-fait-cle">{t.labels}</dt>
+                <dd className="pv-fait-val">{genre.labelsHistoriques.join(', ')}</dd>
+              </div>
+            )}
+            {genre.artistesCles.length > 0 && (
+              <div className="pv-fait">
+                <dt className="pv-fait-cle">{t.artistes}</dt>
+                <dd className="pv-fait-val">{genre.artistesCles.join(', ')}</dd>
+              </div>
+            )}
+            {derives > 0 && (
+              <div className="pv-fait">
+                <dt className="pv-fait-cle">{t.descendance}</dt>
+                <dd className="pv-fait-val">{t.nGenresDerives(derives)}</dd>
+              </div>
+            )}
+          </dl>
+        </section>
+      )}
       {/* L'ARTICLE LONG, quand il existe.
 
           IL PORTE SA MARQUE QUAND IL EST UN BROUILLON, et ce n'est pas une
@@ -843,28 +878,8 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           LES BOUTONS N'APPARAISSENT QUE S'IL Y A DEUX CHOSES A CHOISIR. Avec
           un seul texte, un onglet unique n'est pas un choix, c'est du decor
           qui coute un clic. */}
-      {genre.article.length > 0 && genre.tuto.length > 0 && (
-        <div className="pv-onglets" role="tablist">
-          <button
-            className="pv-onglet"
-            role="tab"
-            aria-selected={onglet === 'histoire'}
-            onClick={() => setOnglet('histoire')}
-          >
-            {t.lHistoire}
-          </button>
-          <button
-            className="pv-onglet"
-            role="tab"
-            aria-selected={onglet === 'fabrication'}
-            onClick={() => setOnglet('fabrication')}
-          >
-            {t.laFabrication}
-          </button>
-        </div>
-      )}
 
-      {genre.article.length > 0 && (genre.tuto.length === 0 || onglet === 'histoire') && (
+      {panneau === 'histoire' && genre.article.length > 0 && (
         <article className="pv-article">
           {genre.article.map((section) => (
             <section className="pv-article-section" key={section.titre}>
@@ -884,7 +899,7 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
         </article>
       )}
 
-      {genre.tuto.length > 0 && (genre.article.length === 0 || onglet === 'fabrication') && (
+      {panneau === 'cours' && genre.tuto.length > 0 && (
         <article className="pv-article">
           {/* PAS DE BANDEAU BROUILLON ICI : Mika l'a fait retirer de tout le
               site, et le remettre sur le tuto le ferait revenir par la
@@ -899,6 +914,8 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           ))}
         </article>
       )}
+      {panneau === 'cours' && genre.tuto.length === 0 && <CoursDuStyle genreId={genre.id} />}
+
 
       {genre.motDeLAuteur && (
         <blockquote className="pv-mot" style={{ '--pv-hue': famille.hue } as React.CSSProperties}>
