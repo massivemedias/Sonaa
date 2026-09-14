@@ -260,3 +260,15 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      # LES MOTEURS SONT PREVENUS A CHAQUE PUBLICATION. IndexNow est un
+      # protocole ouvert (Bing, Yandex, Naver, Seznam) : une seule requete
+      # avec la liste des adresses, et la cle publique qui prouve qu'on est
+      # bien le site. La liste est ecrite par scripts/prerender.ts.
+      - name: Prevenir les moteurs (IndexNow)
+        run: |
+          sleep 60
+          curl -sL 'https://sonaa.ca/indexnow.json?nocache=1' -o /tmp/indexnow.json
+          code=$(curl -s -o /tmp/indexnow.txt -w '%{http_code}' -X POST 'https://api.indexnow.org/indexnow' \
+            -H 'Content-Type: application/json; charset=utf-8' --data-binary @/tmp/indexnow.json)
+          echo "IndexNow : $code $(cat /tmp/indexnow.txt)"

@@ -369,6 +369,19 @@ if (existsSync(cheminNews)) {
   });
 }
 
+/* ═══ L'ACCUEIL ═══ La racine garde sa propre tete (index.html) ; elle
+   recoit seulement, devant l'ecran de chargement, de quoi lire et suivre :
+   un moteur qui arrive par la porte doit trouver les couloirs. */
+{
+  const familles = FAMILIES.map((f) => `<li><a href="/styles/${slug(f.label)}/">${h(f.label)}</a></li>`).join('');
+  const villes = pages
+    .filter((p) => /^\/soirees\/[a-z-]+\/$/.test(p.chemin))
+    .map((p) => `<li><a href="${p.chemin}">${h(p.titre.replace(/ · SONAA$/, ''))}</a></li>`)
+    .join('');
+  const corps = `<h1>SONAA</h1><p>Le calendrier des soirées électroniques et l’atlas des 219 styles de musique électronique, avec un cours de production par style.</p><h2>Les soirées</h2><ul>${villes}</ul><h2>Les styles</h2><ul><li><a href="/styles/">Tous les styles</a></li>${familles}</ul><h2>Et aussi</h2><ul><li><a href="/sons/">Les sets des DJs</a></li><li><a href="/news/">Les news</a></li></ul>`;
+  writeFileSync(join(DIST, 'index.html'), gabarit.replace('<div id="root">', `<div id="root"><main class="prerendu">${corps}</main>`), 'utf8');
+}
+
 /* ═══ LE PLAN DU SITE ET LES ROBOTS ═══ */
 
 const urls = ['/', ...pages.map((p) => p.chemin)].filter((x, i, a) => a.indexOf(x) === i);
@@ -379,6 +392,10 @@ writeFileSync(
     .join('\n')}\n</urlset>\n`,
   'utf8'
 );
+/* LA LISTE POUR INDEXNOW : le deploiement la poste a Bing, Yandex, Naver et
+   Seznam, qui partagent le protocole, a chaque publication. Google ne le suit
+   pas ; lui lit le plan du site. */
+writeFileSync(join(DIST, 'indexnow.json'), JSON.stringify({ host: 'sonaa.ca', key: '64a555bdafa38ed40c635a4617d2200c', keyLocation: `${ORIGINE}/64a555bdafa38ed40c635a4617d2200c.txt`, urlList: urls.map((u) => ORIGINE + u) }), 'utf8');
 writeFileSync(join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${ORIGINE}/sitemap.xml\n`, 'utf8');
 
 const nStyles = pages.filter((p) => p.chemin.startsWith('/styles/')).length;
