@@ -73,7 +73,13 @@ export function PwaLayer() {
     const surVisibilite = (): void => {
       if (document.hidden) tenter();
     };
-    if (document.hidden) tenter();
+    /* DES QU'ELLE EST LA, SI RIEN NE JOUE. Alexandre, le 14 septembre 2026,
+       a teste une correction publiee dix minutes plus tot sur une version
+       qui ne l'avait pas : la nouvelle attendait un changement de page qui
+       n'est jamais venu. Une version qui attend est une version qu'on ne
+       livre pas. Le rechargement coute une seconde, au chargement, quand
+       personne n'ecoute encore. */
+    tenter();
     window.addEventListener('hashchange', tenter);
     document.addEventListener('visibilitychange', surVisibilite);
     const bandeau = window.setTimeout(() => setMajPrete(true), REPOUSSER_MS);
