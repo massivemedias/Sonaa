@@ -1458,3 +1458,46 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   color: var(--encre-douce-2);
   font-size: 0.75rem;
 }
+
+/* Le nom sous lequel on cherche aussi ce genre, dans la ligne des faits. */
+.pv-hero-alias {
+  flex-basis: 100%;
+  opacity: 0.85;
+}
+
+/* ═══ LES PLUGINS ET MACHINES DU COURS ═══ */
+.pv-cours-outils {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+  max-width: 120ch;
+}
+.pv-cours-outils li {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: baseline;
+  gap: 0.6rem;
+  line-height: 1.45;
+}
+.pv-cours-outil-nom {
+  font-weight: 600;
+}
+.pv-cours-outil-type {
+  font-size: 0.68rem;
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+  color: var(--encre-douce-2);
+}
+.pv-cours-outil-pourquoi {
+  color: var(--encre-moyenne);
+}
+@media (max-width: 560px) {
+  .pv-cours-outils li {
+    grid-template-columns: auto auto;
+  }
+  .pv-cours-outil-pourquoi {
+    grid-column: 1 / -1;
+  }
+}

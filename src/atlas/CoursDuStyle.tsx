@@ -39,6 +39,20 @@ export function CoursDuStyle({ genreId }: { genreId: string }) {
           <p>{texte}</p>
         </section>
       ))}
+      {cours.outils && cours.outils.length > 0 && (
+        <section className="pv-article-section">
+          <h3 className="pv-article-titre">{t.coursOutils}</h3>
+          <ul className="pv-cours-outils">
+            {cours.outils.map((o) => (
+              <li key={o.nom}>
+                <span className="pv-cours-outil-nom">{o.nom}</span>
+                <span className="pv-cours-outil-type">{o.type}</span>
+                <span className="pv-cours-outil-pourquoi">{o.pourquoi}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
       <section className="pv-article-section">
         <h3 className="pv-article-titre">{t.coursEtapes}</h3>
         <ol className="pv-cours-etapes">
@@ -56,7 +70,7 @@ export function CoursDuStyle({ genreId }: { genreId: string }) {
         </ul>
       </section>
       <p className="pv-cours-sources">
-        {t.coursSources} : {cours.sources.join(' · ')}
+        {t.coursSources} : {[...cours.sources, ...(cours.sourcesOutils ?? [])].filter((x, i, a) => a.indexOf(x) === i).join(' · ')}
       </p>
     </article>
   );

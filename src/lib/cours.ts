@@ -24,6 +24,9 @@ export interface Cours {
   readonly etapes: readonly string[];
   readonly reperes: readonly string[];
   readonly sources: readonly string[];
+  /** Les outils les plus utilises pour ce style, du plus determinant au plus accessoire. */
+  readonly outils?: readonly { nom: string; type: 'machine' | 'plugin' | 'daw' | 'samples' | 'materiel'; pourquoi: string }[];
+  readonly sourcesOutils?: readonly string[];
 }
 
 const DISPONIBLES: ReadonlySet<string> = new Set(IDS as string[]);

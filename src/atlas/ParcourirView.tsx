@@ -364,20 +364,25 @@ export function ParcourirView() {
           <>
             <p className="pv-intro">{t.genresAppuyez(familleCourante.count)}</p>
             <div className="pv-grille">
-              {ordreParDate(STRUCTURES[niveau.fi]?.genres ?? []).map(({ g, gl }) => {
+              {/* UNE TUILE DE PLUS POUR UN NOM QU'ON CHERCHE. Mika, le 14 septembre
+                  2026 : Deep Techno et Hypnotic Techno sont le meme genre, mais
+                  quelqu'un qui cherche l'un des deux noms doit le voir dans la
+                  grille. La seconde tuile ouvre le meme genre, dit qu'elle est le
+                  meme, et ne compte pas dans le nombre de genres de la famille. */}
+              {ordreParDate(STRUCTURES[niveau.fi]?.genres ?? []).flatMap(({ g, gl }) => [{ g, gl, alias: null as string | null }, ...(TUILES_ALIAS[g.id] ? [{ g, gl, alias: TUILES_ALIAS[g.id] ?? null }] : [])]).map(({ g, gl, alias }) => {
                 const p = poidsDe(g.id);
                 return (
                   <button
-                    key={g.id}
+                    key={alias ? `${g.id}-alias` : g.id}
                     className="pv-tuile pv-tuile-genre"
                     onClick={() => aller({ k: 'genre', fi: niveau.fi, gl })}
                   >
                     <span className="pv-tuile-carte">
                       <span className="pv-tuile-bloc">
-                        <span className="pv-tuile-nom" data-long={motLong(g.label)}>{g.label}</span>
+                        <span className="pv-tuile-nom" data-long={motLong(alias ?? g.label)}>{alias ?? g.label}</span>
                         <span className="pv-tuile-detail">
-                          {g.annee > 0 ? g.annee : ''}
-                          {p.derivesDirects > 0 ? ` · ${t.nDerives(p.derivesDirects)}` : ''}
+                          {alias ? t.memeGenreQue(g.label) : g.annee > 0 ? g.annee : ''}
+                          {!alias && p.derivesDirects > 0 ? ` · ${t.nDerives(p.derivesDirects)}` : ''}
                         </span>
                       </span>
                     </span>
@@ -488,6 +493,10 @@ export function ParcourirView() {
    l'origine si elle existe, la premiere reference sinon, et la premiere piste
    en dernier recours. Aucun jugement invente : la hierarchie est dans la
    donnee, il suffisait de la lire. */
+/** Les noms qui meritent leur propre tuile dans la grille d'une famille,
+    alors qu'ils designent un genre deja present. Voir la grille. */
+const TUILES_ALIAS: Readonly<Record<string, string>> = { hypnotictechno: 'Hypnotic Techno' };
+
 function meilleurIndex(tracks: readonly Track[]): number {
   const origine = tracks.findIndex((t) => t.role === 'origine');
   if (origine >= 0) return origine;
@@ -622,6 +631,11 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           {genre.annee > 0 && <span>{genre.annee}</span>}
           {genre.bpmRange && <span>{t.bpm(genre.bpmRange[0], genre.bpmRange[1])}</span>}
           <span>{t.nMorceaux(tracks.length)}</span>
+          {genre.aliases.length > 0 && (
+            <span className="pv-hero-alias">
+              {t.aussiAppele} {genre.aliases.join(', ')}
+            </span>
+          )}
         </p>
 
         {/* LE GROS BOUTON N'EXISTE QUE S'IL Y A QUELQUE CHOSE A JOUER. Rendu

@@ -472,6 +472,8 @@ interface Dictionnaire {
   readonly coursEtapes: string;
   readonly coursReperes: string;
   readonly coursSources: string;
+  readonly coursOutils: string;
+  readonly memeGenreQue: (nom: string) => string;
   readonly coursEnPreparation: string;
   readonly coursAvis: string;
   readonly laFabrication: string;
@@ -1020,6 +1022,8 @@ const FR: Dictionnaire = {
   coursEtapes: 'Pour commencer',
   coursReperes: 'À écouter en travaillant',
   coursSources: 'Sources',
+  coursOutils: 'Les plugins et machines',
+  memeGenreQue: (nom) => `Même style que ${nom}`,
   coursEnPreparation: 'Le cours de ce style est en préparation.',
   coursAvis: 'Un cours écrit pour SONAA, en français, à partir des sources citées en bas : un point de départ, pas une recette.',
   laFabrication: 'La fabrication',
@@ -1586,6 +1590,8 @@ const EN: Dictionnaire = {
   coursEtapes: 'Getting started',
   coursReperes: 'Listen while you work',
   coursSources: 'Sources',
+  coursOutils: 'Plugins and machines',
+  memeGenreQue: (nom) => `Same style as ${nom}`,
   coursEnPreparation: 'The lesson for this style is in preparation.',
   coursAvis: 'A lesson written for SONAA, in French, from the sources listed below: a starting point, not a recipe.',
   laFabrication: 'How it is made',
