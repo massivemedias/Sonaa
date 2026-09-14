@@ -276,7 +276,10 @@ const ENTITES: Record<string, string> = {
   eacute: 'é', egrave: 'è', ecirc: 'ê', agrave: 'à', acirc: 'â', ccedil: 'ç', ocirc: 'ô', ucirc: 'û', iuml: 'ï', euml: 'ë', oelig: 'œ',
   copy: '©', trade: '™', reg: '®', deg: '°', euro: '€',
 };
-const decodeEntites = (s: string): string =>
+/* Deux passes : les magazines ecrivent parfois &amp;nbsp; dans leurs balises
+   meta, l'entite d'une entite. */
+const decodeEntites = (s: string): string => decodeUneFois(decodeUneFois(s));
+const decodeUneFois = (s: string): string =>
   s
     .replace(/&#(\d+);/g, (_, n: string) => String.fromCodePoint(Number(n)))
     .replace(/&#x([0-9a-f]+);/gi, (_, n: string) => String.fromCodePoint(parseInt(n, 16)))
@@ -526,7 +529,7 @@ export default {
       }
       if (cible.protocol !== 'https:' || !hoteDeMagazine(cible.hostname)) return refus(req, env, 403, 'pas un magazine de la moisson');
       const cache = caches.default;
-      const cle = new Request(`https://sonaa.ca/api/article?u=${encodeURIComponent(cible.href)}&v=2`);
+      const cle = new Request(`https://sonaa.ca/api/article?u=${encodeURIComponent(cible.href)}&v=3`);
       const garde = await cache.match(cle);
       if (garde) {
         const r = new Response(garde.body, garde);
