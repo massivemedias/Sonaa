@@ -103,6 +103,7 @@ export function AuthButton() {
   const [motif, setMotif] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const boite = useRef<HTMLDivElement | null>(null);
+  const formulaire = useRef<HTMLFormElement | null>(null);
 
   const connecte = session !== null;
 
@@ -250,7 +251,17 @@ export function AuthButton() {
      bouton, et un compte deja pris le dit avec la sortie. */
   const parMotDePasse = useCallback(
     async (creer: boolean) => {
-      if (!email.trim() || !motDePasse) return;
+      /* LE BOUTON NE FAIT JAMAIS RIEN EN SILENCE. Signale par Alexandre le
+         14 septembre 2026 : « Créer un compte ... ça ne fait rien quand je
+         clique ». Il cliquait avec un champ vide ou un mot de passe trop
+         court, et cette fonction sortait sans un mot. Le formulaire porte
+         deja les regles (adresse, huit signes) : on lui fait montrer ce qui
+         manque, comme au bouton d'envoi. */
+      if (formulaire.current && !formulaire.current.reportValidity()) return;
+      if (!email.trim() || !motDePasse) {
+        setMessage(t.motDePasseTropCourt(MOT_DE_PASSE_MIN));
+        return;
+      }
       setEnvoi('envoi');
       setMessage(null);
       const r = creer ? await creerCompte(email, motDePasse) : await connexionMotDePasse(email, motDePasse);
@@ -496,7 +507,7 @@ export function AuthButton() {
                 <div className="authb-ou"><span>{t.ou}</span></div>
 
                 {mode === 'mdp' && (
-                  <form onSubmit={(e) => { e.preventDefault(); void parMotDePasse(false); }}>
+                  <form ref={formulaire} onSubmit={(e) => { e.preventDefault(); void parMotDePasse(false); }}>
                     <label htmlFor="authb-email">{t.tonAdresse}</label>
                     <input
                       id="authb-email"
@@ -525,6 +536,7 @@ export function AuthButton() {
                         {t.creerUnCompte}
                       </button>
                     </div>
+                    {message && <p className="authb-message" role="alert">{message}</p>}
                     <div className="authb-liens">
                       <button type="button" className="authb-lien" onClick={() => { setMode('oubli'); setMessage(null); }}>
                         {t.motDePasseOublie}
@@ -586,7 +598,7 @@ export function AuthButton() {
               </>
             )}
 
-            {message && <p className="authb-message">{message}</p>}
+            {message && mode !== 'mdp' && <p className="authb-message" role="alert">{message}</p>}
 
             {/* LA LIGNE SUR LES DONNÉES EST UNE PROMESSE, pas une mention
                 légale : elle dit ce que le site fait, et le site le tient. */}
