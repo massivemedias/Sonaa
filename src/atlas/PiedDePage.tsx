@@ -1,22 +1,27 @@
-/* LE PIED DE PAGE.
-
-   LES « AUTRES VUES » N'Y SONT PLUS. Le pied a longtemps servi de refuge a
-   ce qui avait quitte le menu : la carte en trois dimensions, l'arbre
-   deploye, la chronologie, la carte de chaleur. Mika les a retirees d'ici
-   aussi, sur capture : quatre portes que personne ne pousse, sous un titre
-   qui promettait autre chose. Elles ne sont pas supprimees, leurs adresses
-   repondent toujours ; elles ne sont simplement plus proposees nulle part.
-   C'est la meme decision que pour le menu, un cran plus loin.
-
-   L'index a plat reste, sous « Parcourir » : c'est la liste des 219 genres,
-   une porte de premiere classe et non une vue de plus.
-
-   LES LIENS SONT VERIFIES, PAS DECORATIFS. Chaque adresse ci-dessous repond
-   aujourd'hui. Un pied rempli de liens morts fait plus de mal qu'un pied
-   vide : il apprend a ne plus rien y chercher. */
+/* LE PIED DE PAGE : LA SIGNATURE DU SITE, PAS UNE LISTE DE LIENS.
+ *
+ * Mika, le 14 septembre 2026 : « c'est trop simple comme ca, peut-etre aussi
+ * le logo Sonaa, et le nombre de visiteurs live sur le site ». Le pied
+ * n'etait que trois colonnes de liens. Il porte maintenant, en tete, le
+ * logo, une phrase qui dit ce qu'est SONAA, et le nombre de personnes sur
+ * le site a cet instant (voir presence.ts) ; puis les colonnes ; puis une
+ * ligne de bas : fait a Montreal, l'annee, les 219 genres.
+ *
+ * LES « AUTRES VUES » N'Y SONT PAS. Le pied a longtemps servi de refuge a
+ * ce qui avait quitte le menu : la carte en trois dimensions, l'arbre
+ * deploye, la chronologie, la carte de chaleur. Mika les a retirees d'ici
+ * aussi, sur capture : quatre portes que personne ne pousse. Elles ne sont
+ * pas supprimees, leurs adresses repondent toujours ; elles ne sont
+ * simplement plus proposees nulle part. L'index a plat reste : c'est la
+ * liste des 219 genres, une porte de premiere classe.
+ *
+ * LES LIENS SONT VERIFIES, PAS DECORATIFS. Chaque adresse ci-dessous repond
+ * aujourd'hui. Un pied rempli de liens morts fait plus de mal qu'un pied
+ * vide : il apprend a ne plus rien y chercher. */
 
 import { t } from '../langue/langue.ts';
 import { PROPOSITIONS_OUVERTES } from '../lib/config.ts';
+import { usePresence } from '../lib/presence.ts';
 import './pied.css';
 
 interface Lien {
@@ -31,11 +36,12 @@ interface Colonne {
 }
 
 export function PiedDePage() {
+  const presents = usePresence();
+
   const colonnes: Colonne[] = [
     {
       titre: t.piedParcourir,
       liens: [
-        /* Le Calendar d'abord, comme dans le menu du haut : c'est la page d'accueil. */
         { href: '#/calendrier', label: t.leCalendrier },
         { href: '#/news', label: t.leNews },
         { href: '#/parcourir', label: t.lesStyles },
@@ -46,8 +52,9 @@ export function PiedDePage() {
     {
       titre: t.piedParticiper,
       liens: [
+        { href: '#/calendrier', label: t.piedAjouterEvenement },
+        { href: '#/profil/sets', label: t.piedDeposerSet },
         { href: '#/profil', label: t.monProfil },
-        /* Les propositions sont fermees pour l'instant : voir lib/config.ts. */
         ...(PROPOSITIONS_OUVERTES ? [{ href: '#/propositions', label: t.piedPropositions }] : []),
       ],
     },
@@ -56,8 +63,6 @@ export function PiedDePage() {
       liens: [
         { href: '#/a-propos', label: t.aPropos },
         { href: '#/credits', label: t.credits },
-        /* Le jeu ne figure plus ici non plus, meme raison que dans la barre
-           de navigation : il reste en ligne, il n'est plus annonce. */
         {
           href: 'https://github.com/massivemedias/Sonaa',
           label: t.piedCode,
@@ -69,13 +74,28 @@ export function PiedDePage() {
 
   return (
     <footer className="pied">
+      {/* LA TETE : le logo, la phrase, et qui est la. Le logo est celui de
+          l'en-tete, en plus grand : c'est la seule fois ou il a la place. */}
+      <div className="pied-tete">
+        <a href="#/calendrier" className="pied-logo" aria-label="SONAA">
+          <img src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`} alt="SONAA" />
+        </a>
+        <p className="pied-slogan">{t.piedSlogan}</p>
+        {presents > 0 && (
+          <p className="pied-presence" role="status">
+            <span className="pied-pouls" aria-hidden="true" />
+            {presents === 1 ? t.piedSeul : t.piedEnCeMoment(presents)}
+          </p>
+        )}
+      </div>
+
       <div className="pied-colonnes">
         {colonnes.map((c) => (
           <nav className="pied-colonne" key={c.titre} aria-label={c.titre}>
             <h2>{c.titre}</h2>
             <ul>
               {c.liens.map((l) => (
-                <li key={l.href}>
+                <li key={l.href + l.label}>
                   <a
                     href={l.href}
                     {...(l.externe ? { target: '_blank', rel: 'noreferrer noopener' } : {})}
@@ -89,7 +109,12 @@ export function PiedDePage() {
         ))}
       </div>
 
-      <p className="pied-mot">{t.piedMot}</p>
+      <div className="pied-bas">
+        <p className="pied-mot">{t.piedMot}</p>
+        <p className="pied-signature">
+          {t.piedVille} · {new Date().getFullYear()}
+        </p>
+      </div>
     </footer>
   );
 }

@@ -596,6 +596,12 @@ interface Dictionnaire {
   readonly piedPropositions: string;
   readonly piedCode: string;
   readonly piedMot: string;
+  readonly piedEnCeMoment: (n: number) => string;
+  readonly piedSeul: string;
+  readonly piedAjouterEvenement: string;
+  readonly piedDeposerSet: string;
+  readonly piedSlogan: string;
+  readonly piedVille: string;
   readonly stockageUtilise: (u: string, max: string) => string;
   readonly stockageSansLimite: (u: string) => string;
   readonly voirTousLesArtistes: (n: number) => string;
@@ -1138,6 +1144,12 @@ const FR: Dictionnaire = {
   piedMot:
     'SONAA, un atlas généalogique des musiques électroniques. 219 genres, 14 familles, ' +
     'écrit et vérifié à la main.',
+  piedEnCeMoment: (n) => `${n} personnes sur le site en ce moment`,
+  piedSeul: 'Tu es seul sur le site en ce moment',
+  piedAjouterEvenement: 'Ajouter un événement',
+  piedDeposerSet: 'Déposer un set',
+  piedSlogan: 'Le calendrier, les styles et les sons de la musique électronique.',
+  piedVille: 'Fait à Montréal',
   stockageUtilise: (u, max) => `${u} utilisés sur ${max}.`,
   stockageSansLimite: (u) => `${u} déposés, sans limite sur ce compte.`,
   voirTousLesArtistes: (n) => `Voir les ${n} artistes`,
@@ -1685,6 +1697,12 @@ const EN: Dictionnaire = {
   piedMot:
     'SONAA, a genealogical atlas of electronic music. 219 genres, 14 families, ' +
     'written and checked by hand.',
+  piedEnCeMoment: (n) => `${n} people on the site right now`,
+  piedSeul: 'You are alone on the site right now',
+  piedAjouterEvenement: 'Add an event',
+  piedDeposerSet: 'Upload a set',
+  piedSlogan: 'The calendar, the styles and the sounds of electronic music.',
+  piedVille: 'Made in Montréal',
   stockageUtilise: (u, max) => `${u} used of ${max}.`,
   stockageSansLimite: (u) => `${u} uploaded, no limit on this account.`,
   voirTousLesArtistes: (n) => `See all ${n} artists`,

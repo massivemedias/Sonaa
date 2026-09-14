@@ -41,7 +41,93 @@
 }
 
 .pied-mot {
-  margin: 2rem 0 0;
+  margin: 0;
   color: var(--encre-effacee);
   font-size: 0.8125rem;
+  max-width: 60ch;
+}
+
+/* ═══ LA TETE DU PIED : logo, phrase, presence ═══ */
+.pied-tete {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem 2rem;
+  padding-bottom: 1.8rem;
+  margin-bottom: 1.8rem;
+  border-bottom: 1px solid var(--voile-09);
+}
+.pied-logo {
+  display: block;
+  border-bottom: 0;
+  line-height: 0;
+}
+.pied-logo img {
+  height: 56px;
+  width: auto;
+}
+.pied-slogan {
+  margin: 0;
+  color: var(--encre-forte);
+  font-size: 1rem;
+  line-height: 1.45;
+  max-width: 44ch;
+}
+/* QUI EST LA. Un point qui bat, le nombre. Le point ne decore pas : il dit
+   que le nombre est vivant, qu'il change quand quelqu'un arrive. */
+.pied-presence {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--voile-09);
+  border-radius: 999px;
+  color: var(--encre-forte);
+  font-size: 0.8125rem;
+  white-space: nowrap;
+}
+.pied-pouls {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: oklch(0.75 0.17 150);
+  box-shadow: 0 0 0 0 oklch(0.75 0.17 150 / 0.6);
+  animation: pied-pouls 2s ease-out infinite;
+}
+@keyframes pied-pouls {
+  0% { box-shadow: 0 0 0 0 oklch(0.75 0.17 150 / 0.6); }
+  70% { box-shadow: 0 0 0 7px oklch(0.75 0.17 150 / 0); }
+  100% { box-shadow: 0 0 0 0 oklch(0.75 0.17 150 / 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pied-pouls { animation: none; }
+}
+
+/* ═══ LA LIGNE DU BAS ═══ */
+.pied-bas {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem 2rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--voile-09);
+}
+.pied-signature {
+  margin: 0;
+  color: var(--encre-effacee);
+  font-size: 0.8125rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .pied-tete {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+  .pied-logo img {
+    height: 44px;
+  }
 }
