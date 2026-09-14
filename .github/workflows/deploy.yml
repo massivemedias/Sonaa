@@ -267,8 +267,14 @@ jobs:
       # bien le site. La liste est ecrite par scripts/prerender.ts.
       - name: Prevenir les moteurs (IndexNow)
         run: |
-          sleep 60
-          curl -sL 'https://sonaa.ca/indexnow.json?nocache=1' -o /tmp/indexnow.json
-          code=$(curl -s -o /tmp/indexnow.txt -w '%{http_code}' -X POST 'https://api.indexnow.org/indexnow' \
-            -H 'Content-Type: application/json; charset=utf-8' --data-binary @/tmp/indexnow.json)
-          echo "IndexNow : $code $(cat /tmp/indexnow.txt)"
+          # Trois essais a une minute d'intervalle : la page met parfois plus
+          # d'une minute a etre servie apres le deploiement, et IndexNow relit
+          # la cle a chaque envoi.
+          for essai in 1 2 3; do
+            sleep 60
+            curl -sL 'https://sonaa.ca/indexnow.json?nocache=1' -o /tmp/indexnow.json
+            code=$(curl -s -o /tmp/indexnow.txt -w '%{http_code}' -X POST 'https://api.indexnow.org/indexnow' \
+              -H 'Content-Type: application/json; charset=utf-8' --data-binary @/tmp/indexnow.json)
+            echo "IndexNow, essai $essai : $code $(cat /tmp/indexnow.txt)"
+            case "$code" in 200|202) break;; esac
+          done
