@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import './design/tokens.css';
 import './design/base.css';
 import { compterLaVisite, enregistrerLeServiceWorker, purgerSiDemande } from './lib/pwa.ts';
+import { hashDuChemin } from './lib/chemins.ts';
 import { PwaLayer } from './atlas/PwaLayer.tsx';
 import { AuthButton } from './atlas/AuthButton.tsx';
 import { ouvrirDansAtlas } from './atlas/ouvrir-genre.ts';
@@ -20,6 +21,13 @@ import { ouvrirDansAtlas } from './atlas/ouvrir-genre.ts';
    celui qu'on vient de retirer. Le chemin normal, lui, reste entièrement
    synchrone : le worker doit prendre la main le plus tôt possible. */
 compterLaVisite();
+/* UN CHEMIN LISIBLE DEVIENT UNE ANCRE. /styles/techno/dub-techno/ est une
+   page reelle (voir scripts/prerender.ts) ; l'app, elle, route sur l'ancre.
+   On la pose avant de lire l'adresse, le chemin reste dans la barre. */
+if (!window.location.hash) {
+  const ancre = hashDuChemin(window.location.pathname);
+  if (ancre) window.history.replaceState(null, '', window.location.pathname + window.location.search + ancre);
+}
 if (new URLSearchParams(window.location.search).get('nocache') === '1') {
   /* La page va se recharger : on n'enregistre pas le worker qu'on vient de
      retirer. Le reste de l'application démarre quand même, la purge peut
