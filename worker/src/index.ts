@@ -194,6 +194,100 @@ function origineAutorisee(req: Request, env: Env): string | null {
   return env.ORIGINES.split(',').map((x) => x.trim()).includes(o) ? o : null;
 }
 
+/* LES MAGAZINES DE LA MOISSON, et eux seuls : la liste de src/data/news-sources.ts. */
+const MAGAZINES = [
+  'attackmagazine.com', 'musicradar.com', 'musictech.com', 'cdm.link', 'gearnews.com', 'soundonsound.com',
+  'bedroomproducersblog.com', 'kvraudio.com', 'synthtopia.com', 'native-instruments.com', 'ableton.com',
+  'djmag.com', 'djtechtools.com', 'digitaldjtips.com', 'mixmag.net', 'ra.co', 'beatportal.com',
+  'electronicbeats.net', 'traxmag.com', 'tsugi.fr', 'xlr8r.com',
+];
+const hoteDeMagazine = (h: string): boolean => MAGAZINES.some((m) => h === m || h.endsWith(`.${m}`));
+
+interface Morceau { t: 'p' | 'h2' | 'h3' | 'quote' | 'img'; x: string }
+interface ArticleLu { titre: string; image: string | null; site: string; url: string; morceaux: Morceau[] }
+
+/* LIRE UNE PAGE SANS DOM. HTMLRewriter defile le HTML ; on ramasse trois
+   couches (dans <article>, dans <main>, partout) et on garde la premiere
+   qui a de la chair. Les paragraphes trop courts sont des boutons ou des
+   legendes, pas du texte. */
+async function lireArticle(cible: URL): Promise<ArticleLu | null> {
+  const r = await fetch(cible.href, {
+    headers: { 'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128 Safari/537.36 SONAA/1.0', accept: 'text/html' },
+    redirect: 'follow',
+    cf: { cacheTtl: 3600 },
+  } as RequestInit);
+  if (!r.ok || !(r.headers.get('content-type') ?? '').includes('html')) return null;
+  const meta: Record<string, string> = {};
+  const couches: Record<'article' | 'main' | 'tout', Morceau[]> = { article: [], main: [], tout: [] };
+  const ouvre = (couche: keyof typeof couches, t: Morceau['t']) => ({
+    element() {
+      couches[couche].push({ t, x: '' });
+    },
+    text(tx: Text) {
+      const dernier = couches[couche][couches[couche].length - 1];
+      if (dernier && dernier.t === t) dernier.x += tx.text;
+    },
+  });
+  const image = (couche: keyof typeof couches) => ({
+    element(e: Element) {
+      const src = e.getAttribute('data-src') ?? e.getAttribute('src') ?? '';
+      if (src.startsWith('http') && !/\.svg|\.gif|1x1|pixel|avatar|logo|icon/i.test(src)) couches[couche].push({ t: 'img', x: src });
+    },
+  });
+  let rw = new HTMLRewriter().on('meta', {
+    element(e) {
+      const p = e.getAttribute('property') ?? e.getAttribute('name') ?? '';
+      const c = e.getAttribute('content') ?? '';
+      if (p && c && !meta[p]) meta[p] = c;
+    },
+  });
+  for (const [couche, prefixe] of [['article', 'article '], ['main', 'main '], ['tout', '']] as const) {
+    rw = rw
+      .on(`${prefixe}p`, ouvre(couche, 'p'))
+      .on(`${prefixe}h2`, ouvre(couche, 'h2'))
+      .on(`${prefixe}h3`, ouvre(couche, 'h3'))
+      .on(`${prefixe}blockquote`, ouvre(couche, 'quote'))
+      .on(`${prefixe}img`, image(couche))
+      .on(`${prefixe}script`, { element(e) { e.remove(); } })
+      .on(`${prefixe}style`, { element(e) { e.remove(); } });
+  }
+  await rw.transform(r).arrayBuffer();
+  const nettoie = (l: Morceau[]): Morceau[] =>
+    l
+      .map((m) => ({ t: m.t, x: m.t === 'img' ? m.x : decodeEntites(m.x.replace(/\s+/g, ' ').trim()) }))
+      .filter((m) => (m.t === 'img' ? true : m.t === 'p' || m.t === 'quote' ? m.x.length >= 40 : m.x.length >= 3))
+      .filter((m, i, a) => m.t !== 'img' || a.findIndex((y) => y.t === 'img' && y.x === m.x) === i);
+  const poids = (l: Morceau[]) => l.filter((m) => m.t === 'p').reduce((n, m) => n + m.x.length, 0);
+  let morceaux = nettoie(couches.article);
+  if (poids(morceaux) < 600) morceaux = nettoie(couches.main);
+  if (poids(morceaux) < 600) morceaux = nettoie(couches.tout);
+  if (poids(morceaux) < 300) return null;
+  /* La fin d'une page de magazine, c'est « lire aussi » et la lettre
+     d'information : on coupe apres le dernier vrai paragraphe. */
+  const dernierP = morceaux.map((m) => m.t).lastIndexOf('p');
+  morceaux = morceaux.slice(0, dernierP + 1).slice(0, 120);
+  const titre = decodeEntites(meta['og:title'] ?? meta['twitter:title'] ?? '').trim();
+  const imageUne = meta['og:image'] ?? meta['twitter:image'] ?? null;
+  return { titre, image: imageUne && imageUne.startsWith('http') ? imageUne : null, site: cible.hostname.replace(/^www\./, ''), url: cible.href, morceaux: morceaux.filter((m) => m.t !== 'img' || m.x !== imageUne) };
+}
+
+const ENTITES: Record<string, string> = {
+  ldquo: '“', rdquo: '”', laquo: '«', raquo: '»', lsquo: '‘', rsquo: '’', hellip: '…', ndash: ', ', mdash: ', ',
+  eacute: 'é', egrave: 'è', ecirc: 'ê', agrave: 'à', acirc: 'â', ccedil: 'ç', ocirc: 'ô', ucirc: 'û', iuml: 'ï', euml: 'ë', oelig: 'œ',
+  copy: '©', trade: '™', reg: '®', deg: '°', euro: '€',
+};
+const decodeEntites = (s: string): string =>
+  s
+    .replace(/&#(\d+);/g, (_, n: string) => String.fromCodePoint(Number(n)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, n: string) => String.fromCodePoint(parseInt(n, 16)))
+    .replace(/&(nbsp|ensp|emsp|thinsp);/g, ' ')
+    .replace(/&(ldquo|rdquo|laquo|raquo|lsquo|rsquo|hellip|ndash|mdash|eacute|egrave|ecirc|agrave|acirc|ccedil|ocirc|ucirc|iuml|euml|oelig|copy|trade|reg|deg|euro);/g, (_, n: string) => ENTITES[n] ?? '')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, '’');
+
 function entetes(req: Request, env: Env, extra: Record<string, string> = {}): Headers {
   const h = new Headers(extra);
   const o = origineAutorisee(req, env);
@@ -414,6 +508,36 @@ export default {
         });
       }
       return new Response(JSON.stringify({ envoye: true }), { headers: { 'content-type': 'application/json' } });
+    }
+
+    /* UN ARTICLE DES NEWS, LU ICI. Mika, le 14 septembre 2026 : « quand je
+       clique je veux rester sur SONAA, voir le contenu directement ». Le
+       navigateur ne peut pas lire un site tiers (CORS), le Worker si. Il
+       ne lit que les magazines de la moisson (pas de relais ouvert), garde
+       le texte un jour, et rend une suite de paragraphes, titres et images,
+       sans script ni pub. La source est toujours nommee et liee. */
+    if (req.method === 'GET' && chemin === 'api/article') {
+      const brut = url.searchParams.get('u') ?? '';
+      let cible: URL;
+      try {
+        cible = new URL(brut);
+      } catch {
+        return refus(req, env, 400, 'adresse invalide');
+      }
+      if (cible.protocol !== 'https:' || !hoteDeMagazine(cible.hostname)) return refus(req, env, 403, 'pas un magazine de la moisson');
+      const cache = caches.default;
+      const cle = new Request(`https://sonaa.ca/api/article?u=${encodeURIComponent(cible.href)}&v=2`);
+      const garde = await cache.match(cle);
+      if (garde) {
+        const r = new Response(garde.body, garde);
+        for (const [k, v] of entetes(req, env)) r.headers.set(k, v);
+        return r;
+      }
+      const article = await lireArticle(cible);
+      if (!article) return refus(req, env, 502, 'article illisible');
+      const corps = JSON.stringify(article);
+      await cache.put(cle, new Response(corps, { headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=86400' } }));
+      return new Response(corps, { headers: entetes(req, env, { 'content-type': 'application/json', 'cache-control': 'public, max-age=3600' }) });
     }
 
     if (req.method === 'GET' && chemin === 'api/ou') {

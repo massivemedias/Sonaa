@@ -331,3 +331,64 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ═══ UN ARTICLE LU ICI ═══ Voir LectureArticle.tsx. Une colonne de lecture,
+   la largeur d'un livre, le corps un peu plus grand qu'ailleurs. */
+.lecture {
+  max-width: 72ch;
+  margin: 0 auto 3rem;
+}
+.lecture-retour {
+  margin: 0 0 1.4rem;
+  font-size: 0.85rem;
+}
+.lecture-titre {
+  margin: 0.4rem 0 1rem;
+  font-size: 2.1rem;
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.lecture-image,
+.lecture-figure {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 1.2rem 0;
+  border-radius: 6px;
+  background: var(--surface-margin);
+}
+.lecture p {
+  font-size: 1.08rem;
+  line-height: 1.65;
+  margin: 0 0 1.1rem;
+}
+.lecture h2 {
+  margin: 2rem 0 0.7rem;
+  font-size: 1.4rem;
+  line-height: 1.2;
+}
+.lecture h3 {
+  margin: 1.6rem 0 0.5rem;
+  font-size: 1.15rem;
+}
+.lecture blockquote {
+  margin: 1.4rem 0;
+  padding-left: 1.2rem;
+  border-left: 3px solid var(--rule-hairline);
+  color: var(--ink-secondary);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+.lecture-source {
+  margin-top: 2.4rem;
+  padding-top: 1.2rem;
+  border-top: 2px solid var(--ink-primary);
+  font-weight: 600;
+}
+@media (max-width: 760px) {
+  .lecture-titre {
+    font-size: 1.55rem;
+  }
+}

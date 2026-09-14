@@ -43,6 +43,7 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
+import { LectureArticle } from './LectureArticle.tsx';
 import { SOURCES, type Categorie } from '../data/news-sources.ts';
 import { langue, t } from '../langue/langue.ts';
 import './credits.css';
@@ -163,6 +164,15 @@ export function NewsPage() {
      moisson : pas d'image, pas de tuile. */
   const [cassees, setCassees] = useState<ReadonlySet<string>>(new Set());
   const maintenant = useMemo(() => Date.now(), []);
+  /* L'ARTICLE EN LECTURE, lu dans l'ancre. La page reste la meme route pour
+     main.tsx (#/news…), elle ecoute donc elle-meme les changements. */
+  const [ancre, setAncre] = useState(() => window.location.hash);
+  useEffect(() => {
+    const suivre = () => setAncre(window.location.hash);
+    window.addEventListener('hashchange', suivre);
+    return () => window.removeEventListener('hashchange', suivre);
+  }, []);
+  const urlEnLecture = ancre.startsWith('#/news/lire?') ? new URLSearchParams(ancre.slice('#/news/lire?'.length)).get('u') : null;
 
   useEffect(() => {
     document.title = `News · SONAA`;
@@ -206,8 +216,11 @@ export function NewsPage() {
     <img className="news-image" src={a.image ?? ''} alt="" loading="lazy" referrerPolicy="no-referrer" onError={() => casser(a)} />
   );
 
+  /* LE TITRE OUVRE L'ARTICLE ICI, pas chez le magazine : #/news/lire?u=…
+     (voir LectureArticle.tsx). Le bouton du milieu et le clic droit font
+     toujours ce qu'ils font, c'est l'ancre qui change. */
   const Lien = ({ a, className, children }: { a: Article; className: string; children: ReactNode }) => (
-    <a href={a.lien} target="_blank" rel="noreferrer noopener" className={className}>
+    <a href={`#/news/lire?u=${encodeURIComponent(a.lien)}`} className={className}>
       {children}
     </a>
   );
@@ -250,6 +263,16 @@ export function NewsPage() {
     <>
       <EnTeteSite />
       <main className="credits news">
+        {urlEnLecture && (() => {
+          const a = livre?.articles.find((x) => x.lien === urlEnLecture) ?? null;
+          return (
+            <>
+              <LectureArticle url={urlEnLecture} titre={a?.titre ?? null} source={a ? (PAR_SOURCE.get(a.source)?.nom ?? null) : null} image={a?.image ?? null} />
+              <PiedDePage />
+            </>
+          );
+        })()}
+        {!urlEnLecture && <>
         {/* LA MANCHETTE : le titre, la date de l'edition, et une ligne qui
             dit ce que c'est. Comme en haut d'un journal. */}
         <header className="news-manchette">
@@ -379,6 +402,7 @@ export function NewsPage() {
         </section>
 
         <PiedDePage />
+        </>}
       </main>
     </>
   );
