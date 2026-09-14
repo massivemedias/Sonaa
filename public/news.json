@@ -1,6 +1,126 @@
 {
- "fait": "2026-09-13T22:26:59.356Z",
+ "fait": "2026-09-14T15:03:13.876Z",
  "articles": [
+  {
+   "source": "bpb",
+   "titre": "ABYZOR releases IZZY, a FREE one-click synth for Windows",
+   "lien": "https://bedroomproducersblog.com/2026/09/14/abyzor-izzy-synth/",
+   "date": "2026-09-14T14:12:15.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/izzy.jpg",
+   "resume": "ABYZOR has released IZZY Synth, a free synthesizer plugin and standalone instrument for Windows. IZZY takes a different approach from the synths we all grew up with. You know, the normal synths that put oscillator…"
+  },
+  {
+   "source": "bpb",
+   "titre": "Helio is a new FREE and open-source music sequencer",
+   "lien": "https://bedroomproducersblog.com/2026/09/14/helio-music-sequencer/",
+   "date": "2026-09-14T14:03:16.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/Helio.jpg",
+   "resume": "Helio is a free, open-source sequencer that encourages experimentation with exotic scales and microtonal temperaments. It’s important to note that Helio isn’t meant to take your project from start to finish; it’s for…"
+  },
+  {
+   "source": "bpb",
+   "titre": "Sympiano is a FREE reverb plugin that explores the inside of a grand piano",
+   "lien": "https://bedroomproducersblog.com/2026/09/14/sympiano-grand-piano/",
+   "date": "2026-09-14T14:02:02.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/Sympiano.jpg",
+   "resume": "Sympiano is a reverb plugin that explores the inside of a grand piano, and it is free on macOS and Windows. We come across lots of reverb plugins that offer the acoustic character of specific places or objects, like…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "“It’s the only guitar that I’ve ever had stolen, and the neck was like a ’50s Les Paul. It was amazing”: Noel Gallagher and Johnny Marr have a theory about Stratocasters – and one legendary Strat in common",
+   "lien": "https://www.musicradar.com/guitars/its-the-only-guitar-that-ive-ever-had-stolen-and-the-neck-was-like-a-50s-les-paul-it-was-amazing-noel-gallagher-and-johnny-marr-have-a-theory-about-stratocasters-and-one-legendary-strat-in-common",
+   "date": "2026-09-14T13:59:39.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/xTNHkJPCYeDHuDXTwfdw83-1280-80.jpg",
+   "resume": "Noel Gallagher wrote two of Oasis’s best-loved songs on a guitar sold to him by Johnny Marr – but how much is Marr offering to buy it back for? The two legendary guitarists joined up recently to discuss the collection…"
+  },
+  {
+   "source": "bpb",
+   "titre": "Get 3 FREE plugins: ChromaBox, Randomachine, and Analog Empire (5,000 copies each)",
+   "lien": "https://bedroomproducersblog.com/2026/09/14/bpb-giveaway-chromabox/",
+   "date": "2026-09-14T13:46:22.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/wp-giveaway.jpg",
+   "resume": "BPB has teamed up with W. A. Production, United Plugins, and MeldaProduction for an exclusive giveaway of three paid plugins, with 5,000 copies of each available for free. Consider it a welcome-back-from-summer gift for…"
+  },
+  {
+   "source": "bpb",
+   "titre": "RC MIX releases $49 RC SNARE channel strip and offers RC RING for FREE",
+   "lien": "https://bedroomproducersblog.com/2026/09/14/rc-mix-snare-ring/",
+   "date": "2026-09-14T13:22:57.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/rcsnare.jpg",
+   "resume": "RC MIX has released RC SNARE, a $49 channel strip designed specifically for mixing recorded acoustic snare drums. Instead of replacing the drummer’s performance with samples, RC SNARE processes the original recording…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "“Meatloaf dippers, oh so light and yummy/Go on and warm your tummy, with dippers”: Bon Iver has written an ad jingle so catchy it will drive you mad",
+   "lien": "https://www.musicradar.com/artists/singers-songwriters/meatloaf-dippers-oh-so-light-and-yummy-go-on-and-warm-your-tummy-with-dippers-bon-iver-has-written-an-ad-jingle-so-catchy-it-will-drive-you-mad",
+   "date": "2026-09-14T12:40:49.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/9RTQun5fKqAsBTvGfri6sM-1280-80.jpg",
+   "resume": "Here’s something you probably weren’t expecting to hear this bright early autumn morning: Justin Vernon, aka Bon Iver, has written an advertising jingle for meatloaf dippers. Strange but true. The singer has written and…"
+  },
+  {
+   "source": "attack",
+   "titre": "Erica Synths Bullfrog Drums: More Than a Drum Machine",
+   "lien": "https://www.attackmagazine.com/reviews/gear-software/erica-synths-bullfrog-drums-more-than-a-drum-machine/",
+   "date": "2026-09-14T12:33:49.000Z",
+   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/Attack-Mag-Reviews-Bullfrog-Drums-3.png?fit=1130%2C386&ssl=1",
+   "resume": "A hands-on sampler and sequencer built with Richie Hawtin, the Bullfrog Drums wears \"educational\" lightly and delivers serious performance power. I've spent thirty-odd years now making noise with devices for a living…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "“He spent all day programming a backing track then ripped the power cable out with his bloody foot and lost all the drum programming”: The New Order classic “stolen” from a Donna Summer B-side",
+   "lien": "https://www.musicradar.com/artists/he-spent-all-day-programming-a-backing-track-then-ripped-the-power-cable-out-with-his-bloody-foot-and-lost-all-the-drum-programming-the-new-order-classic-stolen-from-a-donna-summer-b-side",
+   "date": "2026-09-14T11:56:27.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/6TBV4mcps6PqFqMAaeGgWg-1280-80.png",
+   "resume": "After Joy Division came to an untimely end following the sad death of its chief, Ian Curtis, a new band rose from the ruins. New Order featured former Joy Division members Bernard Sumner, Peter Hook and Stephen Morris…"
+  },
+  {
+   "source": "bpb",
+   "titre": "Polarity releases Polarity-Glue, a FREE SSL-inspired bus compressor",
+   "lien": "https://bedroomproducersblog.com/2026/09/14/polarity-glue-compressor/",
+   "date": "2026-09-14T10:58:29.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/polarity-glue.jpg",
+   "resume": "Polarity has released Polarity-Glue, a free SSL-inspired bus compressor for macOS, Windows, and Linux. Polarity-Glue is designed for compressing drum buses, instrument groups, and complete mixes. It applies one shared…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "“He was very keen and a bit too excited... I didn't like the idea of: 'Now here’s another album'\": Tony Iommi on why he turned down the opportunity of one final Sabbath album with original line-up",
+   "lien": "https://www.musicradar.com/artists/guitarists/he-was-very-keen-and-a-bit-too-excited-i-didnt-like-the-idea-of-now-heres-another-album-tony-iommi-on-why-he-turned-down-the-opportunity-of-one-final-sabbath-album-with-original-line-up",
+   "date": "2026-09-14T10:51:18.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/ds823s2RhDsxFQGaemXMN8-1280-80.jpg",
+   "resume": "Black Sabbath could have recorded one final album with the original lineup. But according to Tony Iommi, he passed on the opportunity. That’s what the guitarist has said in a new interview with Classic Rock . The final…"
+  },
+  {
+   "source": "bpb",
+   "titre": "t4 Digital Studio releases AlterVerb 53, a FREE Windows reverb plugin",
+   "lien": "https://bedroomproducersblog.com/2026/09/14/t4-alterverb-53/",
+   "date": "2026-09-14T10:33:05.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/alterverb.jpg",
+   "resume": "t4 Digital Studio has released AlterVerb 53, a free algorithmic reverb plugin for Windows. The developer designed AlterVerb 53 for busy and bright material that needs more space without losing definition. Drums…"
+  },
+  {
+   "source": "musictech",
+   "titre": "Heritage Audio Herchild 670N compressor review: We’re going to need a bigger rack",
+   "lien": "https://musictech.com/reviews/studio-recording-gear/heritage-audio-herchild-670n-review/",
+   "date": "2026-09-14T08:00:14.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/09/Heritage-Audio-Herchild-670N-hero-credit-press@2000x1500.jpg",
+   "resume": "$3,000, heritageaudio.com The original Fairchild is an ultra-rare valve compressor designed in the 1950s, famed for its flattering, gluey saturation, having risen to prominence when the Beatles used it in the studio…"
+  },
+  {
+   "source": "musictech",
+   "titre": "“When you challenge the norm, you’re always going to have pushback”: Audima Labs’ Sway controller is an indie innovation",
+   "lien": "https://musictech.com/features/interviews/audima-sway/",
+   "date": "2026-09-14T07:30:40.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/09/MT-HERO-AUDIMA-SWAY-CREDIT-SIMON-VINALL@2560x1707.jpg",
+   "resume": "I saac Jack and Jeremy Buckley don’t look like your typical CEOs. At 24 years old, the Australian-based co-founders of Audima Labs are more beach-casual than business-casual, with white T-shirts, permanent chin stubble…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "Could a Queen avatar show actually happen?",
+   "lien": "https://www.musicradar.com/artists/shows-festivals/could-a-queen-avatar-show-actually-happen",
+   "date": "2026-09-14T06:40:07.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/zwCxCCeSusgzCCkbY3mhje-1280-80.jpg",
+   "resume": "The two remaining members of Queen seem to be considering an avatar show in the same vein as Abba Voyage. That’s what Roger Taylor suggested during an appearance on Virgin Radio’s Breakfast Show. When the host Chris…"
+  },
   {
    "source": "cdm",
    "titre": "ALM records everything to stems, and now mixes, too, in compact modules",
@@ -88,14 +208,6 @@
    "date": "2026-09-12T09:45:23.000Z",
    "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/aurora.jpg",
    "resume": "13X Audio has released Aurora, a free 24-band dynamic parametric equalizer plugin for macOS, Windows, and Linux. This is probably the fifth or sixth similar EQ plugin I’ve seen over the past year or so. Vibe coding is…"
-  },
-  {
-   "source": "bpb",
-   "titre": "OXO-Music releases OXO Steps, a FREE six-track MIDI sequencer for macOS",
-   "lien": "https://bedroomproducersblog.com/2026/09/12/oxo-steps-midi-sequencer/",
-   "date": "2026-09-12T09:20:41.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/oxo-steps.jpg",
-   "resume": "OXO-Music has released OXO Steps, a free MIDI step sequencer and arpeggiator plugin for macOS. OXO Steps lets you enter one chord and use it to drive up to six independent sequences on separate MIDI channels. So, once…"
   },
   {
    "source": "gearnews",
@@ -186,36 +298,12 @@
    "resume": "As he prepares to release Ride Lonesome, his 15th studio album, Beck has been reflecting with The Times on his unlikely early success and the frequent left turns he’s taken throughout his career. The singer-songwriter’s…"
   },
   {
-   "source": "bpb",
-   "titre": "GIVEAWAY: Win Chimera cinematic presets for the FREE Vital synthesizer",
-   "lien": "https://bedroomproducersblog.com/2026/09/11/chimera-giveaway/",
-   "date": "2026-09-11T15:22:16.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/chimera-giveaway.jpg",
-   "resume": "We are giving away free copies of Chimera, a cinematic preset collection for the free Vital wavetable synthesizer. We previously featured Chimera during the Flame Sound Easter giveaway, and here is another chance to add…"
-  },
-  {
    "source": "musicradar",
    "titre": "Lil Wayne steps into Fortnite tomorrow with new bundle of accessories",
    "lien": "https://www.musicradar.com/artists/singers-songwriters/lil-wayne-steps-into-fortnite-tomorrow-with-new-bundle-of-accessories",
    "date": "2026-09-11T15:16:28.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/EjEV2en6E3gHQ6gm7GfkRi-1280-80.jpg",
    "resume": "Lil Wayne has become the latest artist to get involved in the wonderful world of Fortnite. The New Orleans rapper is set to join the game as part of their Icon series, which has already featured the likes of Sabrina…"
-  },
-  {
-   "source": "bpb",
-   "titre": "KVEIK 1.2 expands its block-based MIDI sequencer beyond drums",
-   "lien": "https://bedroomproducersblog.com/2026/09/11/kveik-midi-sequencer/",
-   "date": "2026-09-11T14:50:58.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/kveik.jpg",
-   "resume": "Swiss developer BITLANTIS has released KVEIK 1.2, a major update to its block-based MIDI step sequencer for macOS and Windows. KVEIK started as a drum sequencer, but version 1.2 adds a lot more melodic and harmonic…"
-  },
-  {
-   "source": "bpb",
-   "titre": "The Note Audio releases True Panner spatial imaging plugin for FREE",
-   "lien": "https://bedroomproducersblog.com/2026/09/11/the-note-audio-true-panner/",
-   "date": "2026-09-11T14:30:23.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/truepanner.jpg",
-   "resume": "New plugin developer The Note Audio has released True Panner, a free stereo panning and spatial imaging utility for macOS and Windows. The pan control in most DAWs changes the level sent to the left and right channels…"
   },
   {
    "source": "tsugi",
@@ -266,14 +354,6 @@
    "resume": "The new Yamaha DM5 range has two different options ideal for touring, with customizable workflows and the same high-quality processing as the DM series. With nearly 30 years of background in digital live mixing…"
   },
   {
-   "source": "musicradar",
-   "titre": "Arturia’s Audiofuse Studio Rev 2 aims to be a desktop interface for all occasions",
-   "lien": "https://www.musicradar.com/music-tech/audio-interfaces/arturias-audiofuse-studio-rev-2-aims-to-be-a-desktop-interface-for-all-occasions",
-   "date": "2026-09-11T13:02:10.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/MCiiZccVtYkxVEvTx9nJ9i-1280-80.jpg",
-   "resume": "Arturia has updated its top-end desktop audio interface , Audiofuse Studio, launching a Rev 2 edition with ‘optimised’ preamps and an upgraded Bluetooth module. Among the crowded audio interface market, Audiofuse Studio…"
-  },
-  {
    "source": "tsugi",
    "titre": "Zaatar, FKJ, Bonobo… Les sorties de la semaine",
    "lien": "https://www.tsugi.fr/zaatar-fkj-bonobo-les-sorties-de-la-semaine/",
@@ -290,36 +370,12 @@
    "resume": "The Brooklyn Synth & Pedal Expo is coming back to NY next month. The two-day event pops up in Greenpoint, Brooklyn, October 17–18, at a 7,000-square-foot warehouse turned immersive playground for electronic music…"
   },
   {
-   "source": "bpb",
-   "titre": "Amplimood releases Gazer FX, a FREE shoegaze multi-effect plugin",
-   "lien": "https://bedroomproducersblog.com/2026/09/11/amplimood-gazer-fx/",
-   "date": "2026-09-11T11:18:54.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/gazer.jpg",
-   "resume": "Amplimood has launched with Gazer FX, its first release and a free multi-effect plugin for macOS and Windows. I love using simple multi-effects that let you get some interesting combos quickly without building a long…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "“Paul might have been miffed, but I think he was more upset about not singing on the choruses – John did his own backing vocals”: How The Beatles managed to come together one final time and create one of their funkiest grooves",
-   "lien": "https://www.musicradar.com/artists/paul-might-have-been-miffed-but-i-think-he-was-more-upset-about-not-singing-on-the-choruses-john-did-his-own-backing-vocals-how-the-beatles-managed-to-come-together-one-final-time-and-create-one-of-their-funkiest-grooves",
-   "date": "2026-09-11T11:15:31.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/Nsd4U4H63rAH8YzAmyNMGE-1280-80.jpg",
-   "resume": "On 26 September 1969, The Beatles released their eleventh studio album Abbey Road. It was the last album the band recorded together and is widely regarded as a masterpiece. Abbey Road was a triumphal swan song for The…"
-  },
-  {
    "source": "musictech",
    "titre": "The public Beta for Serato DJ 5.0 is here – these are the key new features and upgrades",
    "lien": "https://musictech.com/news/gear/public-beta-serato-dj-5-0-new-features/",
    "date": "2026-09-11T10:40:05.000Z",
    "image": "https://musictech.com/wp-content/uploads/2026/09/Serato-hero@2000x1500.jpg",
    "resume": "Serato has launched the public Beta for Serato DJ 5.0, bringing major updates to the software across BPM analysis and streaming service access. Developed with Serato’s users in mind, this Beta introduces highly…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "Learn from a techno legend: Kevin Saunderson to give a Roland 909 workshop live from Detroit tomorrow",
-   "lien": "https://www.musicradar.com/music-tech/drum-machines/learn-from-a-techno-legend-kevin-saunderson-to-give-a-roland-909-workshop-live-from-detroit-tomorrow",
-   "date": "2026-09-11T10:34:18.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/htZjoqpjSrizgB3Zez3Vy8-1280-80.jpg",
-   "resume": "Kevin Saunderson, techno pioneer, one third of the Belleville Three and all round dance music legend is to give a Roland 909 workshop this coming Saturday (ie tomorrow, 12 September). It’s being facilitated with the…"
   },
   {
    "source": "gearnews",
@@ -336,30 +392,6 @@
    "date": "2026-09-11T09:58:43.000Z",
    "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/lacchesi-et-anetha-se-rejoignent-pour-un-single-hypnotique-et-politique.jpg?hash=cdn-3fe7fd40e1af110102ecca270a07ec2a",
    "resume": "Après un premier single avec Kittin paru le 10 juillet sur le label Mama Told Ya, Lacchesi dévoile aujourd’hui « No Pasarán », cette fois-ci aux côtés d’Anetha, une autre figure emblématique de la scène techno. Mais ce…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "Ready or not, here I come: It's MusicRadar's Quiz of the Week #21!",
-   "lien": "https://www.musicradar.com/artists/bands/ready-or-not-here-i-come-its-musicradars-quiz-of-the-week-21",
-   "date": "2026-09-11T09:46:45.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/VQJxJrXyDiWygk27zVHEJ4-1280-80.jpg",
-   "resume": "Wind down for your weekend and test your mighty musical brain with our quiz on all that's been moving and shaking on the pages of MusicRadar this week. We've 10 fiendish questions to fling your way, all set to test…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "“The lights were already out in the studio. We were all ready to leave. Some people had their jackets on”: How Queens Of The Stone Age found their album centrepiece at 2am, a “little drunk” and ready to go home",
-   "lien": "https://www.musicradar.com/artists/queens-of-the-stong-age-insignificant-other",
-   "date": "2026-09-11T09:00:26.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/5ZYaVCL6jjMrKubiNj4V5Q-1280-80.jpg",
-   "resume": "Queens Of The Stone Age were going at it until well after witching hour and yet were still getting no closer to what they were looking for. As drummer Jon Theodore remembers it, they had been trying to finish one of the…"
-  },
-  {
-   "source": "bpb",
-   "titre": "Luftrum releases the Symbiotic Volume 2 preset collection for Omnisphere 3",
-   "lien": "https://bedroomproducersblog.com/2026/09/11/luftrum-releases-the-symbiotic-volume-2-preset-collection-for-omnisphere-3/",
-   "date": "2026-09-11T08:38:48.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/Luftrum-SymbioticVolume2.jpg",
-   "resume": "From Luftrum comes the Symbiotic Volume 2 preset collection for Omnisphere 3. Symbiotic is a new collaborative series from Danish sound designer Luftrum (Søren). The series offers custom Omnisphere 3 presets crafted by…"
   },
   {
    "source": "attack",
@@ -400,14 +432,6 @@
    "date": "2026-09-10T15:57:55.000Z",
    "image": "https://cdm.link/app/uploads/2026/09/kevin.png",
    "resume": "The best 909 Day reveal yesterday was this: on Saturday, Kevin Saunderson, techno originator and one of the Belleville Three, teaches a free workshop on the 909 with Roland (with Dustin Good). You can tune in online…"
-  },
-  {
-   "source": "bpb",
-   "titre": "Get The $129 JST Gemini Twin Synthesizer FREE For A Limited Time",
-   "lien": "https://bedroomproducersblog.com/2026/09/10/jst-gemini-twin-free/",
-   "date": "2026-09-10T13:51:55.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/jst-gemini-twin.jpg",
-   "resume": "Joey Sturgis Tones is giving away Gemini Twin, a dual-mode virtual synthesizer for macOS and Windows, for a limited time. Gemini Twin normally costs $129, and JST has not announced an end date for the giveaway, so I…"
   },
   {
    "source": "tsugi",
@@ -506,14 +530,6 @@
    "resume": "Serato has opened the public beta for Serato DJ 5.0, and the headline feature is a completely rebuilt beatgrid engine called Lucid Beatgrids. It automatically detects tempo changes and downbeats across both fixed and…"
   },
   {
-   "source": "musictech",
-   "titre": "Soundcraft Signature Plus 22 mixer review: “Analogue mixers are back, baby!”",
-   "lien": "https://musictech.com/reviews/studio-recording-gear/soundcraft-signature-plus-22-review/",
-   "date": "2026-09-09T20:02:15.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/09/Soundcraft-Signature-Plus-22-hero-credit-press@2000x1500.jpg",
-   "resume": "Mixing and making music can be as complicated or simple as you allow it to be, something that British company Soundcraft understands as much as anyone. Origins in live sound consoles through the 70s and 80s forged a…"
-  },
-  {
    "source": "cdm",
    "titre": "Dirtywave M8 has an official iOS app — a great addition to mobile tracker apps",
    "lien": "https://cdm.link/dirtywave-m8-ios/",
@@ -528,14 +544,6 @@
    "date": "2026-09-09T17:00:03.000Z",
    "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/2026_Mem-Muse_Raffle_blog-header.jpg",
    "resume": "The Bob Moog Foundation has announced its latest fundraising raffle for a vintage Memorymoog Plus synthesizer and a brand new Moog Muse synthesizer. The Memorymoog Plus, serial number 3067, will be awarded to the first…"
-  },
-  {
-   "source": "musictech",
-   "titre": "VinylCon attendees tell us why “proper ownership and proper preservation” keep them hooked on physical music formats",
-   "lien": "https://musictech.com/features/interviews/vinylcon-attendees-vinyl-physical-formats/",
-   "date": "2026-09-09T16:47:28.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/09/vinylcon-cratedig-hero@2000x1500.jpg",
-   "resume": "At the latest edition of VinylCon in Los Angeles in late August, over 150,000 records were on sale throughout the convention floor. Doug Day had one of the largest booths, with five tables full of bins, flaunting every…"
   },
   {
    "source": "tsugi",
@@ -760,14 +768,6 @@
    "date": "2026-08-20T10:49:47.000Z",
    "image": "https://beta-ableton.imgix.net/media/1hknx0b3/593_sudan-archives_1200x630.jpg",
    "resume": ""
-  },
-  {
-   "source": "attack",
-   "titre": "Cleaning Up Vocal Rips With LALAL.AI Lynx",
-   "lien": "https://www.attackmagazine.com/technique/tutorials/cleaning-up-vocal-rips-with-lalal-ai-lynx/",
-   "date": "2026-08-18T21:40:47.000Z",
-   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/08/Attack-Mag-Reviews-Lalal.ai-Lynx.png?fit=1130%2C387&ssl=1",
-   "resume": "Grabbing vocal samples from the internet or vinyl? Here’s how to clean up voice rips with LALAL.AI and its new algorithm, Lynx , and use them in tracks. There’s nothing like a vocal sample to spice up a track. Whether…"
   },
   {
    "source": "digitaldjtips",
@@ -1115,6 +1115,38 @@
   },
   {
    "source": "mixmag",
+   "titre": "Manchester venue renae offers funding for up-and-coming promoters",
+   "lien": "https://mixmag.net/read/manchester-venue-renae-offers-funding-up-coming-promoters-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Frenae-manchester.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=c26003ab",
+   "resume": "Three successful applicants to the Promoter Promise initiative will be granted bursaries"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Santa Monica's Ocean Way Festival cancelled after hurricane erodes beach",
+   "lien": "https://mixmag.net/read/santa-monica-ocean-way-festival-cancelled-hurricane-erodes-beach-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FSM.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=6dfb1378",
+   "resume": "The Category 2 Hurricane Marie wreaked havoc across the Californian coastline last week, causing coastal flooding, property damage and beach erosion"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Yves Tumor removed from tour with Turnstile following allegations of abuse",
+   "lien": "https://mixmag.net/read/yves-tumor-removed-tour-turnstile-following-allegations-abuse-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FYves-Tumor-credit-Isabella-Corderas.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=d3b21d21",
+   "resume": "The experimental musician has strongly denied allegations of abusive behaviour and sexual assault"
+  },
+  {
+   "source": "mixmag",
+   "titre": "New music on our radar this week: Brian Eno, Shygirl, Blawan",
+   "lien": "https://mixmag.net/read/new-music-on-our-radar-this-week-7-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FEno-Shygirl-Blawan.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=657b260f",
+   "resume": "All the biggest releases on our radar"
+  },
+  {
+   "source": "mixmag",
    "titre": "Festival line-ups you might have missed: Creamfields, Listen Festival, Chronosphere",
    "lien": "https://mixmag.net/read/festival-line-ups-you-might-have-missed-7-news",
    "date": null,
@@ -1139,14 +1171,6 @@
   },
   {
    "source": "mixmag",
-   "titre": "The Best Albums, EPs And Mixtapes Of The Year 2026 So Far",
-   "lien": "https://mixmag.net/feature/best-dance-electronic-rap-albums-eps-mixtapes-2026",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FAUGUST_Best_Of_Albums2.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=3a88782f",
-   "resume": "Mixmag's guide to the best albums, EPs and mixtapes of 2026"
-  },
-  {
-   "source": "mixmag",
    "titre": "Fred again.., Aphex Twin and Four Tet feature on soundtrack of new Ukraine rave documentary",
    "lien": "https://mixmag.net/read/ukraine-rave-documentary-aphex-fred-again-four-tet-news",
    "date": null,
@@ -1162,51 +1186,51 @@
    "resume": "The six-month Berlin residency marks the David Lynch-designed club’s 15th anniversary"
   },
   {
-   "source": "mixmag",
-   "titre": "The Best Tracks Of The Year 2026 So Far",
-   "lien": "https://mixmag.net/feature/best-dance-electronic-club-tracks-2026",
+   "source": "djmag",
+   "titre": "“Be who you want to be”: Armin van Buuren appears in drag as ‘Mystery Queen’ on Dutch TV show",
+   "lien": "https://djmag.com/news/be-who-you-want-be-armin-van-buuren-appears-drag-mystery-queen-dutch-tv-show",
    "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FAUGUST_Best_Of_Tracks2.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=b62f5b85",
-   "resume": "Mixmag's guide to the best tracks of the year 2026"
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/808921922_18637575040035119_1613664715370597638_n%20%281%29.jpg.webp?itok=l80KcVM1999368484",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“Be who you want to be. That’s the reason I said yes to this\"</p> </div>"
   },
   {
-   "source": "mixmag",
-   "titre": "Annie Mac and Horse Meat Disco join line-up for TESTBED reopening party",
-   "lien": "https://mixmag.net/read/annie-mac-and-horsemeat-disco-on-line-up-for-testbed-reopening-party-news",
+   "source": "djmag",
+   "titre": "Djakarta Warehouse Project unveils first names for 2026 festival",
+   "lien": "https://djmag.com/news/djakarta-warehouse-project-unveils-first-names-2026-festival",
    "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FThe-Bridge-series.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=cd12c126",
-   "resume": "The Leeds venue will relaunch next month following a refurbishment, featuring a new soundsystem and layout changes"
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Djakarta%20Warehouse%20Project%20-%20Press%2001%20-%20Credit_%20%40dwp.jpeg.webp?itok=z45Ylb-D1936714317",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Featured in our Top 100 Festivals poll 2026</p> </div>"
   },
   {
-   "source": "mixmag",
-   "titre": "Sadiq Khan criticises \"arrogant\" Westminster Council as it bans new nightlife venues and 'vertical drinking' in Soho",
-   "lien": "https://mixmag.net/read/sadiq-khan-criticises-arrogant-westminster-council-bans-new-nightlife-venues-vertical-drinking-soho-news",
+   "source": "djmag",
+   "titre": "Loidis announces new album, ‘From The Toolkit Of Lovers’, on Incienso",
+   "lien": "https://djmag.com/news/loidis-announces-new-album-toolkit-of-lovers-incienso",
    "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fsoho_2026-09-10-142238_osqe.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=451e02e4",
-   "resume": "The council plans to move ahead with changes in its draft licensing policy, despite an 81% disapproval rate from a public consultation"
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Loidis%20poses%20in%20a%20mirror%20selfie%20in%20a%20broken%20up%20looking%20bathroom%20with%20the%20hand%20dryer%20hanging%20off%20the%20wall.%20He%20has%20his%20hood%20up%20and%20a%20pair%20of%20shades%20on.png.webp?itok=6QSUl411909806832",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The new album follows 2024's 'One Day' from the Philadelphia-based artist</p> </div>"
   },
   {
-   "source": "mixmag",
-   "titre": "Detroit DJ Rick Wade shares health update following heart attack",
-   "lien": "https://mixmag.net/read/detroit-dj-rick-wade-shares-health-update-following-heart-attack-news",
+   "source": "djmag",
+   "titre": "Sara Landry’s HEKATE label releases new single from CALLUSH, ‘Durchgemacht’",
+   "lien": "https://djmag.com/news/sara-landrys-hekate-label-releases-new-single-callush-durchgemacht",
    "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Frick-wade-health.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=c5036b21",
-   "resume": "Despite remaining at home to recover, he's scheduled to perform a set in Miami tonight"
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/2e03b81c-a31d-11f1-974a-0a58a9feac02-972x597.jpg.webp?itok=F7R8C5-a1094965237",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Described as a \"love letter to the Berlin club scene and German rap\"</p> </div>"
   },
   {
-   "source": "mixmag",
-   "titre": "UK promoter La Discothèque lands eight-figure investment fund",
-   "lien": "https://mixmag.net/read/la-discotheque-lands-eight-figure-investment-fund-promoter-news",
+   "source": "djmag",
+   "titre": "Modeselektor announce new album, 'MDSLKTR', share ‘AORTA’: Listen",
+   "lien": "https://djmag.com/news/modeselektor-announce-new-album-mdslktr-share-aorta-listen",
    "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fla-disco.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=c01f39e8",
-   "resume": "The cash injection will support the disco promoter in expanding into North America, Europe and Asia"
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/MDSLKTR%20MP-9.jpg.webp?itok=SqeeOO_I62607898",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>\"We weren't trying to make perfect tracks. We were trying to make the most honest ones we…"
   },
   {
    "source": "djmag",
    "titre": "Eliza Rose and Sega Bodega link up on new six-track project, 'ARCADIA: PLEASUREDOME': Listen",
    "lien": "https://djmag.com/news/eliza-rose-and-sega-bodega-link-new-six-track-project-arcadia-pleasuredome-listen",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Screenshot%202026-09-11%20at%2014.43.35.png.webp?itok=70Sqk4e52016276836",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Screenshot%202026-09-11%20at%2014.43.35.png.webp?itok=70Sqk4e51194693638",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The new record explores UK garage, drum & bass, trip-hop and more</p> </div>"
   },
   {
@@ -1214,7 +1238,7 @@
    "titre": "Shygirl announces new album, 'Swallow!', shares 'Lucky (hymn)': Listen",
    "lien": "https://djmag.com/news/shygirl-announces-new-album-swallow-shares-lucky-hymn-listen",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/LEAD%20Shygirl%20Lucky%20%28C.%20Jessica%20Madavo%29.jpg.webp?itok=W8dU0HKp1030242725",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/LEAD%20Shygirl%20Lucky%20%28C.%20Jessica%20Madavo%29.jpg.webp?itok=W8dU0HKp475536457",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The follow-up to 2022's 'Nymph' is set to be released on Friday, 6th November</p> </div>"
   },
   {
@@ -1222,7 +1246,7 @@
    "titre": "B Jones' family launches fundraiser amidst ongoing cancer recovery",
    "lien": "https://djmag.com/news/b-jones-family-launches-fundraiser-amidst-ongoing-cancer-recovery",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/B-Jones.webp?itok=8vNc-Cdl1347916061",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/B-Jones.webp?itok=8vNc-Cdl2028250583",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Despite now being cancer-free, the Spanish DJ and producer still has several months of…"
   },
   {
@@ -1230,7 +1254,7 @@
    "titre": "AVA London to host The Avalanches opening keynote interview presented by DJ Mag",
    "lien": "https://djmag.com/news/ava-london-host-avalanches-opening-keynote-interview-presented-dj-mag",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/cb1168a0-41a1-49ae-9cb2-3071ffb02212.jpg.webp?itok=Mfx25odY321831218",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/cb1168a0-41a1-49ae-9cb2-3071ffb02212.jpg.webp?itok=Mfx25odY1913019842",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The Australian duo will discuss their forthcoming fourth album, ‘No Bad Memories’, and…"
   },
   {
@@ -1256,30 +1280,6 @@
    "date": null,
    "image": "https://djmag.com/sites/default/files/styles/djm_25_500x500_sq/public/music_reviews/2026-09/Lovin%E2%80%99%20U%20EP.jpg.webp?itok=_v_Dx3zA",
    "resume": "<header class=\"_article--header d8-header-paragraph music-review\"><div class=\"row\"> <div class=\"col d-flex head-container pb-0\" style=\" \"> <div class=\"pane-credits-wrapper\"> <div class=\"pane-author-info top\"> <div…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Riva Starr & Close Counters - Push Your Luck EP",
-   "lien": "https://djmag.com/reviews/riva-starr-close-counters-push-your-luck-ep",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_25_500x500_sq/public/music_reviews/2026-09/Push%20Your%20Luck%20EP.jpg.webp?itok=UO0Im7_N",
-   "resume": "<header class=\"_article--header d8-header-paragraph music-review\"><div class=\"row\"> <div class=\"col d-flex head-container pb-0\" style=\" \"> <div class=\"pane-credits-wrapper\"> <div class=\"pane-author-info top\"> <div…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Sijya announces ‘Leather & Brass [Retrofitted]’ EP, shares ‘Do I Know [Rachika Nayar Edit]’: Listen",
-   "lien": "https://djmag.com/news/sijya-announces-leather-brass-retrofitted-ep-shares-do-i-know-rachika-nayar-edit-listen",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Sijya%20-%205%20-%20by%20TITO%20%281%29.jpg.webp?itok=CaHCdHei1806991567",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The Indian artist's originals, rethought by hand-picked 'femme producers'</p> </div>"
-  },
-  {
-   "source": "djmag",
-   "titre": "Manchester independent venue renae launches bursary for marginalised promoters",
-   "lien": "https://djmag.com/news/manchester-independent-venue-renae-launches-bursary-marginalised-promoters",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/dancefloor2.jpg.webp?itok=bGEsitWZ50215683",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Financial assistance, one-to-one support and future free venue hire are all part of the…"
   }
  ],
  "pannes": []
