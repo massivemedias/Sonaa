@@ -56,7 +56,7 @@ describe('ranger : ce qui tombe sur une famille', () => {
 
   it('range un nom qui porte sa famille', () => {
     expect(ranger('Euro House', VOC)).toEqual({ sorte: 'famille', id: 'house' });
-    expect(ranger('Deep Techno', VOC)).toEqual({ sorte: 'famille', id: 'techno' });
+    expect(ranger('Deep Techno', VOC)).toEqual({ sorte: 'genre', id: 'hypnotictechno' });
   });
 });
 

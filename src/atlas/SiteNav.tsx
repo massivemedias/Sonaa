@@ -13,6 +13,8 @@
    s'informe). L'état actif est un attribut, pas une couleur seule. */
 
 import { useEffect, useState, type ReactNode } from 'react';
+import { faCalendarDays, faNewspaper, faLayerGroup, faHeadphones, faCircleInfo, type IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { FaIcon } from './FaIcon.tsx';
 import { t } from '../langue/langue.ts';
 import './site-nav.css';
 
@@ -49,20 +51,20 @@ type SiteCourant =
    fait desormais mieux : par famille, avec un texte, une photo et les
    morceaux. Deux portes vers la meme piece, dont l'une est plus etroite.
    L'adresse #/index repond toujours, la page n'est pas supprimee. */
-const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
+const VUES: readonly { href: string; id: SiteCourant; label: string; icone: IconDefinition }[] = [
   /* LE CALENDAR EN PREMIER, PARCE QU'IL EST LA PAGE D'ACCUEIL. On y lit ce
      qui se joue ce soir ; les styles et les sons racontent d'ou ca vient.
      Le menu suit le meme ordre que l'arrivee sur le site. Decision de Mika
      du 7 septembre 2026. */
-  { href: '#/calendrier', id: 'calendrier', label: t.leCalendrier },
+  { href: '#/calendrier', id: 'calendrier', label: t.leCalendrier, icone: faCalendarDays },
   /* NEWS, JUSTE APRES : ce qui se dit aujourd'hui, a cote de ce qui se joue
      ce soir. Demande de Mika du 7 septembre 2026. */
-  { href: '#/news', id: 'news', label: t.leNews },
+  { href: '#/news', id: 'news', label: t.leNews, icone: faNewspaper },
   /* DEUX PORTES VERS LE MEME CORPUS, ET ELLES SE NOMMENT PAR CE QU'ON Y
      TROUVE. « Parcourir » decrivait un geste, pas une destination : on ne
      sait pas ce qu'on va parcourir avant d'avoir clique. « Styles » et
      « Artistes » disent l'un et l'autre ce qu'il y a derriere. */
-  { href: '#/parcourir', id: 'parcourir', label: t.lesStyles },
+  { href: '#/parcourir', id: 'parcourir', label: t.lesStyles, icone: faLayerGroup },
   /* LES SETS SONT UNE DESTINATION, PAS UN REGLAGE DE COMPTE. On peut les
      ecouter sans compte et sans en deposer un seul : les cacher derriere le
      menu du profil les rendrait invisibles a exactement les gens a qui ils
@@ -72,7 +74,7 @@ const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
      ecouter. « Sons » repond a « Styles » comme une porte repond a l'autre :
      d'un cote l'histoire des genres, de l'autre ce qui se depose aujourd'hui.
      La page garde ses artistes, en section nommee. */
-  { href: '#/sets', id: 'sets', label: t.lesSons },
+  { href: '#/sets', id: 'sets', label: t.lesSons, icone: faHeadphones },
 ];
 
 /* QUATRE ENTREES, PLUS CINQ. Le menu tient desormais sur la meme rangee que
@@ -80,8 +82,8 @@ const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
    « Credits » est la page qu'on ouvre une fois ; elle se rejoint depuis
    « A propos », qui la nomme, et depuis le pied de page. Elle garde son
    adresse et ses sept sections. */
-const PAGES: readonly { href: string; id: SiteCourant; label: string }[] = [
-  { href: '#/a-propos', id: 'apropos', label: t.aPropos }
+const PAGES: readonly { href: string; id: SiteCourant; label: string; icone: IconDefinition }[] = [
+  { href: '#/a-propos', id: 'apropos', label: t.aPropos, icone: faCircleInfo }
 ];
 
 /* ═══ LE JEU N'EST PLUS DANS LE MENU ═══
@@ -141,7 +143,13 @@ export function SiteNav({ variant, extra }: Props) {
   }, []);
   const courant = courantDuSite(hash);
 
-  const lien = (item: { href: string; id: SiteCourant; label: string }) => {
+  /* DES ICONES, ET LE NOM AU SURVOL. Mika, le 14 septembre 2026 : « des
+     icones au lieu du menu, et quand on hover ces icones on voit le nom de
+     la page ». Les memes icones que la barre du bas sur telephone, pour
+     qu'un signe veuille dire la meme chose partout. Le nom reste dans le
+     lien, lu par les lecteurs d'ecran, et apparait en infobulle au survol
+     ou au clavier. */
+  const lien = (item: { href: string; id: SiteCourant; label: string; icone: IconDefinition }) => {
     const actif = item.id === courant;
     return (
       <a
@@ -150,8 +158,10 @@ export function SiteNav({ variant, extra }: Props) {
         className="sitenav-lien"
         aria-current={actif ? 'page' : undefined}
         data-current={actif}
+        aria-label={item.label}
       >
-        {item.label}
+        <FaIcon icon={item.icone} />
+        <span className="sitenav-nom" role="tooltip">{item.label}</span>
       </a>
     );
   };

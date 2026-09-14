@@ -36,7 +36,10 @@ interface Colonne {
 }
 
 export function PiedDePage() {
-  const presents = usePresence();
+  const presence = usePresence();
+  const presents = presence.n;
+  /* LES VILLES, LES TROIS PLUS NOMBREUSES : « Montréal 3, Paris 1 ». */
+  const villes = presence.villes.slice(0, 3).map((v) => (v.n > 1 ? `${v.ville} ${v.n}` : v.ville)).join(', ');
 
   const colonnes: Colonne[] = [
     {
@@ -85,6 +88,7 @@ export function PiedDePage() {
           <p className="pied-presence" role="status">
             <span className="pied-pouls" aria-hidden="true" />
             {presents === 1 ? t.piedSeul : t.piedEnCeMoment(presents)}
+            {villes && <span className="pied-villes">{villes}</span>}
           </p>
         )}
       </div>

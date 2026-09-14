@@ -118,6 +118,7 @@ const ALIAS: Record<string, string[]> = {
   'drumandbass': ['drum and bass', 'drum n bass'],
   'psytrance': ['psytrance', 'psychedelic trance'],
   'dubtechno': ['dub techno'],
+  'hypnotictechno': ['deep techno', 'hypnotic techno'],
   'techhouse': ['tech house'],
   'deephouse': ['deep house'],
   'ukgarage': ['uk garage', '2step'],

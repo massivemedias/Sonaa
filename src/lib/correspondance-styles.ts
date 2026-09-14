@@ -99,7 +99,8 @@ export const ALIAS: Readonly<Record<string, Cible>> = {
 
   /* Discogs plus grossier que nous : le nom porte sa famille. */
   'euro house': { sorte: 'famille', id: 'house' },
-  'deep techno': { sorte: 'famille', id: 'techno' },
+  'deep techno': { sorte: 'genre', id: 'hypnotictechno' },
+  'hypnotic techno': { sorte: 'genre', id: 'hypnotictechno' },
   'hard house': { sorte: 'genre', id: 'hardhouse' },
   'bass music': { sorte: 'famille', id: 'bass' },
   'uk garage': { sorte: 'genre', id: 'ukgarage' },

@@ -15,9 +15,29 @@
 import { useEffect, useState } from 'react';
 import { supabase } from './supabase.ts';
 
-let compteActuel = 0;
-const abonnes = new Set<(n: number) => void>();
+/** Ce que le pied affiche : le nombre, et les villes d'ou viennent les
+    gens, les plus nombreuses d'abord. La ville vient de la passerelle
+    (api/ou, Cloudflare la lit dans la requete) : jamais de position, jamais
+    d'adresse, une ville et rien d'autre. */
+export interface Presence {
+  readonly n: number;
+  readonly villes: readonly { ville: string; n: number }[];
+}
+const RIEN: Presence = { n: 0, villes: [] };
+let presenceActuelle: Presence = RIEN;
+const abonnes = new Set<(p: Presence) => void>();
 let canalOuvert = false;
+
+async function maVille(): Promise<string | null> {
+  try {
+    const r = await fetch('https://sonaa-sets.massivemedias.workers.dev/api/ou');
+    if (!r.ok) return null;
+    const j = (await r.json()) as { ville?: string | null };
+    return typeof j.ville === 'string' && j.ville !== '' ? j.ville : null;
+  } catch {
+    return null;
+  }
+}
 
 function ouvrirLeCanal(): void {
   if (canalOuvert || !supabase) return;
@@ -26,25 +46,36 @@ function ouvrirLeCanal(): void {
   const canal = supabase.channel('sonaa-presence', { config: { presence: { key: cle } } });
   canal
     .on('presence', { event: 'sync' }, () => {
-      compteActuel = Object.keys(canal.presenceState()).length;
-      for (const f of abonnes) f(compteActuel);
+      const etat = canal.presenceState<{ ville?: string | null }>();
+      const parVille = new Map<string, number>();
+      for (const entrees of Object.values(etat)) {
+        const v = entrees[0]?.ville;
+        if (typeof v === 'string' && v !== '') parVille.set(v, (parVille.get(v) ?? 0) + 1);
+      }
+      presenceActuelle = {
+        n: Object.keys(etat).length,
+        villes: [...parVille.entries()].map(([ville, n]) => ({ ville, n })).sort((a, b) => b.n - a.n),
+      };
+      for (const f of abonnes) f(presenceActuelle);
     })
     .subscribe((statut) => {
-      if (statut === 'SUBSCRIBED') void canal.track({ depuis: Date.now() });
+      if (statut === 'SUBSCRIBED') {
+        void maVille().then((ville) => canal.track({ depuis: Date.now(), ville }));
+      }
     });
 }
 
-/** Le nombre d'onglets ouverts sur le site en ce moment, soi compris. Zero
-    tant qu'on ne sait pas. */
-export function usePresence(): number {
-  const [n, setN] = useState(compteActuel);
+/** Qui est sur le site en ce moment, soi compris : le nombre et les villes.
+    Vide tant qu'on ne sait pas. */
+export function usePresence(): Presence {
+  const [p, setP] = useState<Presence>(presenceActuelle);
   useEffect(() => {
     ouvrirLeCanal();
-    abonnes.add(setN);
-    setN(compteActuel);
+    abonnes.add(setP);
+    setP(presenceActuelle);
     return () => {
-      abonnes.delete(setN);
+      abonnes.delete(setP);
     };
   }, []);
-  return n;
+  return p;
 }

@@ -81,3 +81,36 @@
 .sitenav-page .sitenav-lien {
   font-size: 0.9375rem;
 }
+
+/* ═══ LE MENU EN ICONES, LE NOM AU SURVOL ═══ Voir SiteNav. */
+.sitenav-lien {
+  position: relative;
+  justify-content: center;
+  min-width: 40px;
+}
+.sitenav-lien svg {
+  width: 18px;
+  height: 18px;
+}
+.sitenav-nom {
+  position: absolute;
+  top: calc(100% - 4px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  background: var(--ink-primary);
+  color: var(--surface-plate);
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease, transform 120ms ease;
+  z-index: 5;
+}
+.sitenav-lien:hover .sitenav-nom,
+.sitenav-lien:focus-visible .sitenav-nom {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}

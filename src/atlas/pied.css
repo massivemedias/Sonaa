@@ -11,9 +11,17 @@
    pied de page est exactement le genre d'endroit ou une grille automatique
    evite trois media queries qui divergeront. */
 .pied-colonnes {
+  /* TROIS COLONNES, CENTREES DANS LE PIED : elles ne s'etirent plus jusqu'aux
+     bords, elles tiennent dans 44 rem au milieu, chacune centree. */
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
   gap: 1.6rem 2rem;
+  max-width: 44rem;
+  margin: 0 auto;
+  text-align: center;
+}
+.pied-colonne ul {
+  justify-items: center;
 }
 
 .pied-colonne h2 {
@@ -49,10 +57,14 @@
 
 /* ═══ LA TETE DU PIED : logo, phrase, presence ═══ */
 .pied-tete {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  /* CENTRE, ET PLUS PETIT. Mika, le 14 septembre 2026, sur capture : le
+     logo prenait toute la gauche. Une colonne centree : le logo, la phrase,
+     la presence, l'un sous l'autre. */
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1rem 2rem;
+  text-align: center;
+  gap: 0.8rem;
   padding-bottom: 1.8rem;
   margin-bottom: 1.8rem;
   border-bottom: 1px solid var(--voile-09);
@@ -63,7 +75,7 @@
   line-height: 0;
 }
 .pied-logo img {
-  height: 56px;
+  height: 36px;
   width: auto;
 }
 .pied-slogan {
@@ -78,6 +90,8 @@
 .pied-presence {
   display: inline-flex;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 0.5rem;
   margin: 0;
   padding: 0.4rem 0.8rem;
@@ -107,10 +121,10 @@
 /* ═══ LA LIGNE DU BAS ═══ */
 .pied-bas {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 1rem 2rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.4rem;
   margin-top: 2rem;
   padding-top: 1.2rem;
   border-top: 1px solid var(--voile-09);
@@ -122,12 +136,10 @@
   white-space: nowrap;
 }
 
-@media (max-width: 700px) {
-  .pied-tete {
-    grid-template-columns: 1fr;
-    justify-items: start;
-  }
-  .pied-logo img {
-    height: 44px;
-  }
+.pied-villes {
+  color: var(--encre-effacee);
+}
+.pied-villes::before {
+  content: '·';
+  margin-right: 0.5rem;
 }

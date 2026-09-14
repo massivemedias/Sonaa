@@ -8522,9 +8522,6 @@
      "album": "Movin Shadow (Antony Adam Remix)"
     }
    ],
-   "aliases": [
-    "Deep Techno"
-   ],
    "description": "Berlin, 1993 : Basic Channel applique à la techno les méthodes du dub jamaïcain, écho, filtrage, disparition. Les accords deviennent des nappes brumeuses qui pulsent dans la réverbération, le morceau un état plutôt qu'une trajectoire. Moritz von Oswald et Mark Ernestus n'ont presque jamais donné d'interviews : la musique, réduite à son grain, parle seule. Le style est devenu un continent contemplatif à part.",
    "machines": [
     "Roland RE-201 Space Echo",
@@ -52760,7 +52757,7 @@
   },
   {
    "id": "hypnotictechno",
-   "label": "Hypnotic Techno",
+   "label": "Deep Techno",
    "family": "techno",
    "structuralParent": "dubtechno",
    "parents": [
@@ -52778,6 +52775,7 @@
    "major": false,
    "note": "Annees 2000-2010, Donato Dozzy, labels Prologue et Spazio Disponibile. Boucles longues a evolution lente, entre la dub techno et la transe.",
    "aliases": [
+    "Hypnotic Techno",
     "Hypnotic",
     "Deep Hypnotic Techno"
    ],
