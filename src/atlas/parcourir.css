@@ -1383,6 +1383,16 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-artistes {
   margin: 1.8rem 0 0;
 }
+/* PAS SUR TELEPHONE. Mika, le 14 septembre 2026 : « je veux voir les
+   artistes mais pas dans la version mobile ». Trente noms en colonne sur un
+   ecran de 375 px repoussaient les morceaux et les sets sous trois ecrans
+   de liste. Le seuil est celui de la barre du bas : c'est lui qui definit
+   « telephone » sur ce site. */
+@media (max-width: 768px) {
+  .pv-artistes {
+    display: none;
+  }
+}
 .pv-artistes-liste {
   list-style: none;
   margin: 0.6rem 0 0;
