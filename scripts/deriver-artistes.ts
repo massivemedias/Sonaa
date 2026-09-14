@@ -34,6 +34,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { genresDuCorpus } from './lib/genres-du-corpus.ts';
 import { ranger, vocabulaire } from '../src/lib/correspondance-styles.ts';
+import { aplatirNom, fusionnerDoublons } from './lib/fusion-noms.ts';
 
 const RELEVE = fileURLToPath(new URL('./donnees/artistes.json', import.meta.url));
 const SORTIE = fileURLToPath(new URL('../src/data/artistes.json', import.meta.url));
@@ -64,7 +65,12 @@ function main(): void {
   if (!existsSync(RELEVE)) {
     throw new Error('Aucun relevé. Lancez d’abord npm run moissonner:artistes.');
   }
-  const releve = JSON.parse(readFileSync(RELEVE, 'utf8')) as Releve;
+  const brutReleve = JSON.parse(readFileSync(RELEVE, 'utf8')) as Releve;
+  /* UN ARTISTE, UNE ENTREE. Le releve porte les noms tels que chaque source
+     les ecrit ; voir fusion-noms.ts. La table par forme aplatie sert a
+     retrouver un artiste sous n'importe laquelle de ses graphies. */
+  const releve: Releve = { parStyle: brutReleve.parStyle, parArtiste: fusionnerDoublons(brutReleve.parArtiste) };
+  const parAplati = new Map(Object.entries(releve.parArtiste).map(([nom, styles]) => [aplatirNom(nom), { nom, styles }]));
   const genres = genresDuCorpus();
 
   /* Les familles, reconstruites depuis les genres : chaque genre porte la
@@ -76,7 +82,7 @@ function main(): void {
 
   /** Ce que Discogs dit d'un artiste, traduit dans notre vocabulaire. */
   const chezNous = (nom: string): { genres: Set<string>; familles: Set<string> } => {
-    const brut = releve.parArtiste[nom];
+    const brut = parAplati.get(aplatirNom(nom))?.styles;
     const g = new Set<string>();
     const f = new Set<string>();
     if (!brut) return { genres: g, familles: f };
@@ -101,10 +107,16 @@ function main(): void {
     const surs: string[] = [];
     const autres: string[] = [];
 
-    for (const nom of classement) {
+    const vus = new Set<string>();
+    for (const nomBrut of classement) {
+      /* Le nom affiche est celui de l'entree fusionnee, et une graphie deja
+         vue dans cette liste n'y entre pas deux fois. */
+      const nom = parAplati.get(aplatirNom(nomBrut))?.nom ?? nomBrut;
+      if (vus.has(aplatirNom(nom))) continue;
+      vus.add(aplatirNom(nom));
       const vu = chezNous(nom);
       if (vu.genres.has(g.id) || vu.familles.has(g.family)) surs.push(nom);
-      else if (!releve.parArtiste[nom]) autres.push(nom);
+      else if (!parAplati.has(aplatirNom(nom))) autres.push(nom);
       /* Un artiste que Discogs connait ET qui ne joue pas ce genre est
          ecarte : c'est exactement le tag pose par erreur qu'on cherchait. */
     }

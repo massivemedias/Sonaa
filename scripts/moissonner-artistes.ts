@@ -48,6 +48,7 @@
  */
 
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { sansPrefixes } from './lib/fusion-noms.ts';
 import { fileURLToPath } from 'node:url';
 import { genresDuCorpus, artistesDuCorpus } from './lib/genres-du-corpus.ts';
 
@@ -284,7 +285,7 @@ async function artistesDuSite(): Promise<string[]> {
      un nom pour rien : le lendemain, il y est. */
   try {
     const r = await fetch('https://sonaa-sets.massivemedias.workers.dev/api/artistes-demandes');
-    if (r.ok) for (const d of (await r.json()) as string[]) if (d.trim().length >= 3) noms.add(d.trim());
+    if (r.ok) for (const d of sansPrefixes((await r.json()) as string[])) if (d.trim().length >= 3) noms.add(d.trim());
   } catch {
     /* La passerelle injoignable ne prive pas la moisson des autres graines. */
   }

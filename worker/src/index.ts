@@ -429,16 +429,29 @@ export default {
         styles,
         source: parts.map((p) => p.s).join('+') || 'aucune',
       };
-      /* PAS TROUVE : ON NOTE LE NOM, ET LA MOISSON S'EN CHARGERA. Une seule
+      /* ON NOTE LE NOM, TROUVE OU NON, ET LA MOISSON S'EN CHARGERA. Une seule
          entree par nom aplati, avec la date ; trente jours de vie, le temps
          que la moisson passe plusieurs fois. Un nom qui n'existe nulle part
-         finit par expirer sans avoir gene personne. */
-      if (!reponse.trouve && env.DEMANDES) {
+         finit par expirer sans avoir gene personne.
+
+         TROUVE AUSSI, DEPUIS LE 13 SEPTEMBRE 2026 : Laurent Garnier se
+         trouvait ici a chaque recherche et n'entrait jamais dans l'index,
+         parce que seuls les echecs etaient notes. Un nom qu'on a su
+         resoudre en direct merite l'index autant qu'un autre.
+
+         ET ON EFFACE LES FRAPPES EN COURS : la recherche part apres une
+         pause, donc « Digital c » puis « Digital com » arrivent avant
+         « Digital committee ». Quand un nom arrive, ses debuts deja notes
+         s'en vont. */
+      if (env.DEMANDES) {
         const k = aplatirNom(q);
         if (k.length >= 3) {
-          await env.DEMANDES.put(k, JSON.stringify({ nom: q, quand: new Date().toISOString() }), {
+          await env.DEMANDES.put(k, JSON.stringify({ nom: q, quand: new Date().toISOString(), trouve: reponse.trouve }), {
             expirationTtl: 30 * 24 * 3600,
           });
+          const debuts: string[] = [];
+          for (let n = 3; n < k.length; n += 1) debuts.push(k.slice(0, n));
+          await Promise.all(debuts.map((d) => env.DEMANDES?.delete(d)));
         }
       }
       const corps = JSON.stringify(reponse);
@@ -503,8 +516,17 @@ export default {
     if (req.method === 'GET' && chemin === 'api/artistes-demandes') {
       if (!env.DEMANDES) return refus(req, env, 503, 'file non configuree');
       const liste = await env.DEMANDES.list({ limit: 1000 });
+      /* LES DEBUTS D'UN AUTRE NOM NE SONT PAS DES NOMS : on les ecarte de la
+         liste, et on les efface au passage, pour ce qui a ete note avant le
+         13 septembre 2026. */
+      const cles = liste.keys.map((k) => k.name);
+      const estUnDebut = (c: string): boolean => cles.some((autre) => autre.length > c.length && autre.startsWith(c));
       const noms: string[] = [];
       for (const k of liste.keys) {
+        if (estUnDebut(k.name)) {
+          await env.DEMANDES.delete(k.name);
+          continue;
+        }
         const v = await env.DEMANDES.get(k.name);
         if (!v) continue;
         try {
