@@ -972,10 +972,10 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 /* L'aveu de langue : le corpus est en francais et ne sera pas traduit par
    une machine. On le dit une fois, en tete de la description. */
 .pv-langue {
+  /* SANS FOND. C'etait une boite grise pleine largeur, et Mika l'a lue
+     comme un surlignage (14 septembre 2026) : « aucun highlight sur le
+     site ». Une note en petit, dans la couleur des notes, et rien autour. */
   margin: 1.1rem 0 0;
-  padding: 0.5rem 0.75rem;
-  border-radius: 8px;
-  background: var(--voile-05);
   color: var(--encre-douce-2);
   font-size: 0.75rem;
 }
@@ -1231,7 +1231,10 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      1,65 ecartait les lignes au point que le paragraphe se lisait comme une
      suite de lignes voisines ; 1,45 le rassemble en bloc. */
   .pv-description {
-    max-width: 62ch;
+    /* 120 SIGNES, COMME LE TEXTE DE FAMILLE. Mika, le 14 septembre 2026, sur
+       capture : « prends la largeur qu'il faut, t'es en desktop ». A 62 le
+       paragraphe s'arretait a mi-page sous un titre qui va au bord. */
+    max-width: 120ch;
     font-size: 1.0625rem;
     line-height: 1.45;
   }

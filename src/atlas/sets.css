@@ -254,7 +254,9 @@
 }
 .sp-description {
   margin: 1.2rem 0 0;
-  max-width: 62ch;
+  /* La largeur de la page, comme la forme d'onde au-dessus (Mika, 14
+     septembre 2026) ; 120 signes est la borne des grands ecrans. */
+  max-width: 120ch;
   line-height: 1.7;
   white-space: pre-wrap;
 }
