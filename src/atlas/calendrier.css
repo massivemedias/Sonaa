@@ -8,9 +8,10 @@
 .cal-barre {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem 1.5rem;
-  align-items: baseline;
+  gap: 0.4rem 0.8rem;
+  align-items: center;
   justify-content: space-between;
+  font-size: 0.9rem;
   padding-bottom: 0.9rem;
   border-bottom: var(--rule-width) solid var(--rule-hairline);
 }
@@ -896,11 +897,6 @@
    mots, pas des cadres : seul celui qu'on regarde est en plein. Le nombre
    de soirees suit chaque mot, en plus petit. Les outils (styles, loupe,
    ajout) sont a droite dans le meme registre. */
-.cal-barre {
-  align-items: center;
-  gap: 0.4rem 0.8rem;
-  font-size: 0.9rem;
-}
 .cal-vues,
 .cal-outils {
   display: flex;
