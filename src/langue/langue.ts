@@ -314,6 +314,7 @@ interface Dictionnaire {
   readonly demain: string;
   readonly toutesLesDates: string;
   readonly autreDate: string;
+  readonly ajouterPlus: string;
   readonly surTroisMois: string;
   readonly votreProfil: string;
   readonly ilsNeCouvrentPasTout: string;
@@ -874,6 +875,7 @@ const FR: Dictionnaire = {
   demain: "Demain",
   toutesLesDates: "Tout",
   autreDate: "Autre date",
+  ajouterPlus: "+ Ajouter",
   surTroisMois: "sur les trois prochains mois",
   votreProfil: "votre profil",
   ilsNeCouvrentPasTout: "Ils ne couvrent pas tout",
@@ -1449,6 +1451,7 @@ const EN: Dictionnaire = {
   demain: "Tomorrow",
   toutesLesDates: "All",
   autreDate: "Another date",
+  ajouterPlus: "+ Add",
   surTroisMois: "over the next three months",
   votreProfil: "your profile",
   ilsNeCouvrentPasTout: "They do not cover everything",

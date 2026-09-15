@@ -521,6 +521,7 @@ export function CalendrierPage() {
   /* AJOUTER UNE SOIREE : la feuille s'ouvre par-dessus le calendrier, comme
      la fiche d'une soiree. Demande de Mika du 7 septembre 2026. */
   const [ouvrirAjout, setOuvrirAjout] = useState(false);
+  const [ouvrirRecherche, setOuvrirRecherche] = useState(false);
   const { session } = useSession();
   const moi = session?.user.id ?? null;
 
@@ -851,149 +852,134 @@ export function CalendrierPage() {
 
               {ville && (
                 <>
-                {/* LA RECHERCHE EST UN CHAMP, PAS UNE LOUPE A OUVRIR : on
-                    cherche une salle ou un artiste plus souvent qu'on ne
-                    croit, et un champ visible se comprend sans explication. */}
-                <input
-                  type="search"
-                  className="cal-chercher-champ cal-chercher-barre"
-                  placeholder={t.chercherSalleArtisteSoiree}
-                  value={recherche}
-                  onChange={(e) => setRecherche(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Escape') setRecherche('');
-                  }}
-                  aria-label={t.chercherDansAffichees}
-                />
-
-                <button
-                  className={`cal-onglet cal-styles-bouton${
-                    ouvrirStyles ? ' cal-onglet-actif' : ''
-                  }`}
-                  onClick={() => {
-                    setOuvrirStyles((v) => !v);
-                    setOuvrirJour(false);
-                  }}
-                  aria-expanded={ouvrirStyles}
-                >
-                  {ouvrirStyles
-                    ? t.fermerCourt
-                    : styles.length === 0
-                      ? t.tousLesStyles
-                      : t.styleAvecNombre(styles.length)}
-                </button>
-
-                {styles.map((id) => (
+                {/* ═══ LES VUES, EN TEXTE, AVEC LEUR NOMBRE ═══ Mika, le 15
+                    septembre 2026 : « je veux quelque chose de compact ». Une
+                    bande de quatorze cases etait plus lisible que trois
+                    onglets et moins compacte ; ceci garde ce qui aidait, le
+                    nombre de soirees de chaque tranche, et rend la place :
+                    cinq mots sur une ligne, sans cadre, celui qu'on regarde
+                    en plein. Les nombres viennent des quatre-vingt-dix jours
+                    charges une fois. */}
+                <div className="cal-vues" role="tablist">
+                  {(
+                    [
+                      ['aujourdhui', t.ceSoir, nombreDe([cleDuJour(new Date())])],
+                      ['demain', t.demain, nombreDe([cleDuJour(joursDeLaBande[1] ?? new Date())])],
+                      ['weekend', t.finDeSemaineOnglet, nombreDe(clesWeekend)],
+                      ['suite', t.toutesLesDates, soirees?.length ?? 0],
+                    ] as const
+                  ).map(([cle, nom, n]) => {
+                    const actif =
+                      !enRecherche &&
+                      (cle === 'demain' ? vue === 'date' && dateChoisie === cleDuJour(joursDeLaBande[1] ?? new Date()) : vue === cle);
+                    return (
+                      <button
+                        key={cle}
+                        type="button"
+                        role="tab"
+                        aria-selected={actif}
+                        className={`cal-vue${actif ? ' cal-vue-active' : ''}${enRecherche ? ' cal-suspendu' : ''}`}
+                        onClick={() => {
+                          if (cle === 'demain') {
+                            setVue('date');
+                            setDateChoisie(cleDuJour(joursDeLaBande[1] ?? new Date()));
+                          } else {
+                            setVue(cle);
+                            setDateChoisie(null);
+                          }
+                          setOuvrirJour(false);
+                        }}
+                      >
+                        {nom}
+                        <span className="cal-n">{n}</span>
+                      </button>
+                    );
+                  })}
                   <button
-                    key={id}
-                    className={`cal-onglet cal-style-pastille${
-                      (styleActif ?? styles[0]) === id ? ' cal-onglet-actif' : ''
-                    }`}
-                    onClick={() => setStyleActif(id)}
+                    type="button"
+                    className={`cal-vue${
+                      vue === 'date' && dateChoisie && dateChoisie !== cleDuJour(joursDeLaBande[1] ?? new Date()) && !enRecherche
+                        ? ' cal-vue-active'
+                        : ''
+                    }${enRecherche ? ' cal-suspendu' : ''}`}
+                    onClick={() => {
+                      setOuvrirJour((v) => !v);
+                      setOuvrirStyles(false);
+                    }}
+                    aria-expanded={ouvrirJour}
                   >
-                    {LABEL_DE_STYLE[id] ?? id}
+                    {vue === 'date' && dateChoisie && dateChoisie !== cleDuJour(joursDeLaBande[1] ?? new Date())
+                      ? jourCourt(dateChoisie, fuseau)
+                      : t.unJour}
+                    <span className="cal-n" aria-hidden="true">▾</span>
                   </button>
-                ))}
+                </div>
 
-                <button
-                  type="button"
-                  className="cal-onglet cal-ajouter"
-                  onClick={() => setOuvrirAjout(true)}
-                  aria-label={t.ajouterUneSoiree}
-                >
-                  {t.ajouterCourt}
-                </button>
+                <div className="cal-outils">
+                  <button
+                    className={`cal-vue cal-styles-bouton${ouvrirStyles ? ' cal-vue-active' : ''}`}
+                    onClick={() => {
+                      setOuvrirStyles((v) => !v);
+                      setOuvrirJour(false);
+                    }}
+                    aria-expanded={ouvrirStyles}
+                  >
+                    {ouvrirStyles ? t.fermerCourt : styles.length === 0 ? t.tousLesStyles : t.styleAvecNombre(styles.length)}
+                    <span className="cal-n" aria-hidden="true">▾</span>
+                  </button>
+
+                  {styles.map((id) => (
+                    <button
+                      key={id}
+                      className={`cal-vue cal-style-pastille${(styleActif ?? styles[0]) === id ? ' cal-vue-active' : ''}`}
+                      onClick={() => setStyleActif(id)}
+                    >
+                      {LABEL_DE_STYLE[id] ?? id}
+                    </button>
+                  ))}
+
+                  {ouvrirRecherche ? (
+                    <input
+                      type="search"
+                      className="cal-chercher-champ cal-chercher-barre"
+                      placeholder={t.chercherSalleArtisteSoiree}
+                      value={recherche}
+                      onChange={(e) => setRecherche(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Escape') {
+                          setRecherche('');
+                          setOuvrirRecherche(false);
+                        }
+                      }}
+                      onBlur={() => {
+                        if (recherche.trim() === '') setOuvrirRecherche(false);
+                      }}
+                      aria-label={t.chercherDansAffichees}
+                      autoFocus
+                    />
+                  ) : (
+                    <button
+                      type="button"
+                      className="cal-vue cal-loupe"
+                      onClick={() => setOuvrirRecherche(true)}
+                      aria-label={t.chercherDansAffichees}
+                    >
+                      <svg viewBox="0 0 20 20" width="15" height="15" aria-hidden="true">
+                        <circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" strokeWidth="1.8" />
+                        <path d="M12.8 12.8 17 17" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                      </svg>
+                    </button>
+                  )}
+
+                  <button type="button" className="cal-vue cal-ajouter" onClick={() => setOuvrirAjout(true)} aria-label={t.ajouterUneSoiree}>
+                    {t.ajouterPlus}
+                  </button>
+                </div>
                 </>
               )}
             </div>
           </div>
 
-          {/* ═══ LA BANDE DES JOURS ═══ Ce soir, demain, puis les douze jours
-              qui suivent, chacun avec son nombre de soirees ; la fin de
-              semaine et « tout » au bout, et une porte vers les autres dates.
-              Elle defile a l'horizontal sur telephone. Pendant une recherche
-              elle s'eteint : la recherche porte sur les trois mois. */}
-          {ville && (
-            <div className={`cal-bande${enRecherche ? ' cal-suspendu' : ''}`} role="tablist" aria-label={t.quandLibelle}>
-              {joursDeLaBande.map((d, i) => {
-                const cle = cleDuJour(d);
-                const actif = !enRecherche && ((vue === 'aujourdhui' && i === 0) || (vue === 'date' && dateChoisie === cle));
-                const n = nombreParJour.get(cle) ?? 0;
-                const nom =
-                  i === 0 ? t.ceSoir : i === 1 ? t.demain : new Intl.DateTimeFormat(LOCALE, { weekday: 'short' }).format(d).replace(/\.$/, '');
-                return (
-                  <button
-                    key={cle}
-                    type="button"
-                    role="tab"
-                    aria-selected={actif}
-                    className={`cal-bande-jour${actif ? ' cal-bande-actif' : ''}${n === 0 ? ' cal-bande-vide' : ''}`}
-                    onClick={() => {
-                      if (i === 0) {
-                        setVue('aujourdhui');
-                        setDateChoisie(null);
-                      } else {
-                        setVue('date');
-                        setDateChoisie(cle);
-                      }
-                      setOuvrirJour(false);
-                    }}
-                  >
-                    <span className="cal-bande-nom">{nom}</span>
-                    <span className="cal-bande-numero">{d.getDate()}</span>
-                    <span className="cal-bande-n">{n}</span>
-                  </button>
-                );
-              })}
-              <span className="cal-bande-trait" aria-hidden="true" />
-              <button
-                type="button"
-                role="tab"
-                aria-selected={!enRecherche && vue === 'weekend'}
-                className={`cal-bande-jour cal-bande-large${!enRecherche && vue === 'weekend' ? ' cal-bande-actif' : ''}`}
-                onClick={() => {
-                  setVue('weekend');
-                  setDateChoisie(null);
-                  setOuvrirJour(false);
-                }}
-              >
-                <span className="cal-bande-nom">{t.finDeSemaineOnglet}</span>
-                <span className="cal-bande-n">{nombreDe(clesWeekend)}</span>
-              </button>
-              <button
-                type="button"
-                role="tab"
-                aria-selected={!enRecherche && vue === 'suite'}
-                className={`cal-bande-jour cal-bande-large${!enRecherche && vue === 'suite' ? ' cal-bande-actif' : ''}`}
-                onClick={() => {
-                  setVue('suite');
-                  setDateChoisie(null);
-                  setOuvrirJour(false);
-                }}
-              >
-                <span className="cal-bande-nom">{t.toutesLesDates}</span>
-                <span className="cal-bande-n">{soirees?.length ?? 0}</span>
-              </button>
-              <button
-                type="button"
-                className={`cal-bande-jour cal-bande-large${
-                  vue === 'date' && dateChoisie && !joursDeLaBande.some((d) => cleDuJour(d) === dateChoisie) ? ' cal-bande-actif' : ''
-                }`}
-                onClick={() => {
-                  setOuvrirJour((v) => !v);
-                  setOuvrirStyles(false);
-                }}
-                aria-expanded={ouvrirJour}
-              >
-                <span className="cal-bande-nom">
-                  {vue === 'date' && dateChoisie && !joursDeLaBande.some((d) => cleDuJour(d) === dateChoisie)
-                    ? jourCourt(dateChoisie, fuseau)
-                    : t.autreDate}
-                </span>
-                <span className="cal-bande-n">…</span>
-              </button>
-            </div>
-          )}
 
           {/* LA FEUILLE VIT AU NIVEAU DE LA PAGE, PAS DANS LA CARTE.
               Rendue dans le `<li>`, elle heritait de la grille et il fallait
