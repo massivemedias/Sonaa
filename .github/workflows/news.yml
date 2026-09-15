@@ -57,7 +57,11 @@ jobs:
             git config user.email "moisson-news@users.noreply.github.com"
             git add public/news.json
             git commit -m "News : moisson du $(date -u +%Y-%m-%d\ %H:%M) UTC"
-            git push
+            # La branche a pu avancer pendant la moisson : rebase, puis pousse.
+            for essai in 1 2 3; do
+              git pull --rebase origin main && git push && break
+              sleep 20
+            done
             echo "change=oui" >> "$GITHUB_OUTPUT"
           fi
 
