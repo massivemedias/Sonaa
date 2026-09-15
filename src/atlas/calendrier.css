@@ -924,3 +924,97 @@
   color: var(--plaque);
   font-weight: var(--weight-data);
 }
+
+/* ═══ LA BANDE DES JOURS ═══ Voir CalendrierPage.tsx. Une case par jour :
+   le nom en petit, le numero en grand, le nombre de soirees en dessous. La
+   case du jour regarde est pleine ; une case sans soiree est en retrait
+   mais reste cliquable, pour qu'on puisse verifier qu'il n'y a rien. Sur
+   telephone la bande defile a l'horizontal, sans barre de defilement. */
+.cal-bande {
+  display: flex;
+  gap: 0.35rem;
+  align-items: stretch;
+  margin: 0.9rem 0 0;
+  padding-bottom: 0.3rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+}
+.cal-bande::-webkit-scrollbar {
+  display: none;
+}
+.cal-bande-jour {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.05rem;
+  min-width: 3.4rem;
+  padding: 0.45rem 0.55rem 0.4rem;
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 12px;
+  background: none;
+  color: var(--ink-secondary);
+  font: inherit;
+  line-height: 1.1;
+  cursor: pointer;
+  scroll-snap-align: start;
+}
+.cal-bande-jour:hover {
+  color: var(--ink-primary);
+  border-color: var(--ink-secondary);
+}
+.cal-bande-nom {
+  font-size: 0.68rem;
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.cal-bande-numero {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--ink-primary);
+}
+.cal-bande-n {
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+}
+.cal-bande-large {
+  min-width: 5.2rem;
+  gap: 0.25rem;
+}
+.cal-bande-large .cal-bande-nom {
+  font-size: 0.78rem;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 500;
+}
+.cal-bande-vide {
+  opacity: 0.45;
+}
+.cal-bande-actif,
+.cal-bande-actif:hover {
+  color: var(--surface-plate);
+  background: var(--ink-primary);
+  border-color: var(--ink-primary);
+  opacity: 1;
+}
+.cal-bande-actif .cal-bande-numero,
+.cal-bande-actif:hover {
+  color: var(--surface-plate);
+}
+.cal-bande-trait {
+  flex: 0 0 auto;
+  width: var(--rule-width);
+  margin: 0.3rem 0.3rem;
+  background: var(--rule-hairline);
+}
+/* Le champ de recherche dans la barre : il prend la place qui reste. */
+.cal-chercher-barre {
+  flex: 1 1 12rem;
+  min-width: 9rem;
+  max-width: 22rem;
+  padding: 0.3rem 0.8rem;
+}

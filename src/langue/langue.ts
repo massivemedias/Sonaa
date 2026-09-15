@@ -310,6 +310,10 @@ interface Dictionnaire {
   readonly unInstant: string;
   readonly choisissezVille: string;
   readonly unJour: string;
+  readonly ceSoir: string;
+  readonly demain: string;
+  readonly toutesLesDates: string;
+  readonly autreDate: string;
   readonly surTroisMois: string;
   readonly votreProfil: string;
   readonly ilsNeCouvrentPasTout: string;
@@ -866,6 +870,10 @@ const FR: Dictionnaire = {
   unInstant: "Un instant…",
   choisissezVille: "Choisissez une ville.",
   unJour: "Un jour",
+  ceSoir: "Ce soir",
+  demain: "Demain",
+  toutesLesDates: "Tout",
+  autreDate: "Autre date",
   surTroisMois: "sur les trois prochains mois",
   votreProfil: "votre profil",
   ilsNeCouvrentPasTout: "Ils ne couvrent pas tout",
@@ -1437,6 +1445,10 @@ const EN: Dictionnaire = {
   unInstant: "One moment…",
   choisissezVille: "Pick a city.",
   unJour: "A day",
+  ceSoir: "Tonight",
+  demain: "Tomorrow",
+  toutesLesDates: "All",
+  autreDate: "Another date",
   surTroisMois: "over the next three months",
   votreProfil: "your profile",
   ilsNeCouvrentPasTout: "They do not cover everything",

@@ -157,15 +157,15 @@ const NOM_DE_SOURCE: Record<Origine, string> = {
    Le choix de date n'est pas un quatrieme bouton : c'est une liste
    deroulante a cote, parce qu'elle porte soixante entrees et qu'une rangee
    de soixante boutons n'est pas une rangee. */
-/* LES JOURS SUIVANTS JUSTE APRES AUJOURD'HUI : ce sont les deux memes
-   fenetres qui s'ouvrent l'une sur l'autre (ce soir, puis ce soir et les
-   quatre-vingt-dix jours). La fin de semaine, qui est une decoupe a part,
-   vient ensuite. Demande de Mika du 8 septembre 2026. */
-const VUES: readonly { cle: Vue; label: string }[] = [
-  { cle: 'aujourdhui', label: t.aujourdhuiOnglet },
-  { cle: 'suite', label: t.joursSuivantsOnglet },
-  { cle: 'weekend', label: t.finDeSemaineOnglet },
-];
+/* LA BANDE DES JOURS REMPLACE LES TROIS ONGLETS. Mika, le 15 septembre
+   2026 : « faudrait que tu trouves quelque chose qui fonctionne mieux ».
+   Trois boutons (aujourd'hui, la suite, la fin de semaine) et une grille
+   cachee derriere « Un jour » obligeaient a deviner ce qu'il y avait avant
+   de cliquer. La bande montre les quatorze prochains jours avec le nombre
+   de soirees de chacun : on voit ou ca se passe, puis on clique. Les
+   quatre-vingt-dix jours sont charges une fois ; changer de jour ne demande
+   plus rien a personne. */
+const JOURS_DANS_LA_BANDE = 14;
 
 /* Le jour se lit AUSSI dans le fuseau du lieu : une soiree berlinoise du
    samedi a 1 h du matin est un vendredi soir a Montreal, et la ranger sous
@@ -518,11 +518,6 @@ export function CalendrierPage() {
   const [panne, setPanne] = useState(false);
   const [ouvrirStyles, setOuvrirStyles] = useState(false);
   /* LE CHAMP DE RECHERCHE SE CACHE DERRIERE UNE LOUPE. Toujours visible, il
-     prenait une rangee entiere sous la barre pour un geste qu'on fait une
-     fois sur dix. La loupe est dans la rangee des vues, a droite des styles,
-     et elle ouvre le champ deja focalise : un tap, on tape. Demande de Mika
-     du 7 septembre 2026. */
-  const [ouvrirRecherche, setOuvrirRecherche] = useState(false);
   /* AJOUTER UNE SOIREE : la feuille s'ouvre par-dessus le calendrier, comme
      la fiche d'une soiree. Demande de Mika du 7 septembre 2026. */
   const [ouvrirAjout, setOuvrirAjout] = useState(false);
@@ -600,9 +595,11 @@ export function CalendrierPage() {
     if (zoneRa == null) return;
     setChargement(true);
     setPanne(false);
-    const { du, au } = enRecherche
-      ? fenetreDe('recherche', null, new Date())
-      : fenetreDe(vue, dateChoisie, new Date());
+    /* TOUJOURS LES QUATRE-VINGT-DIX JOURS. La tranche regardee (ce soir, un
+       jour, la fin de semaine) se decoupe ensuite dans ce qui est charge :
+       c'est ce qui permet a la bande d'afficher les nombres par jour et aux
+       clics d'etre instantanes. La passerelle garde les pages une heure. */
+    const { du, au } = fenetreDe('suite', null, new Date());
     const deRa = agenda({
       zone: zoneRa,
       du,
@@ -613,7 +610,7 @@ export function CalendrierPage() {
          89 premieres » sur 262 : le jeudi n'y etait pas quand on regardait
          le mardi. Huit pages font 320 soirees, plus que trois mois de
          Montreal ; la passerelle les garde une heure. */
-      ...(enRecherche || vue === 'suite' ? { pages: 8 } : {}),
+      pages: 8,
     });
 
     /* ═══ DEUX SOURCES, UNE SEULE LISTE ═══
@@ -676,7 +673,7 @@ export function CalendrierPage() {
       }
       setChargement(false);
     });
-  }, [zoneRa, vue, dateChoisie, traduction, enRecherche, ville]);
+  }, [zoneRa, traduction, ville]);
 
   useEffect(charger, [charger]);
 
@@ -712,15 +709,53 @@ export function CalendrierPage() {
   const sansAccent = (x: string): string =>
     x.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
+  /* LES CLES DE JOUR DE LA TRANCHE REGARDEE, ou null pour « tout ». Une
+     recherche ignore la tranche : on cherche une salle pour savoir QUAND. */
+  const clesDeLaTranche = useMemo((): ReadonlySet<string> | null => {
+    if (enRecherche || vue === 'suite' || vue === 'recherche') return null;
+    if (vue === 'date') return dateChoisie ? new Set([dateChoisie]) : null;
+    const { du, au } = fenetreDe(vue, null, new Date());
+    const cles = new Set<string>();
+    for (const d = new Date(du); d <= au; d.setDate(d.getDate() + 1)) cles.add(cleDuJour(d));
+    return cles;
+  }, [vue, dateChoisie, enRecherche]);
+
   const filtrees = useMemo(() => {
+    if (!soirees) return soirees;
     const q = sansAccent(rechercheRetardee);
-    if (!q) return soirees;
-    return (soirees ?? []).filter((s) =>
-      sansAccent(
-        [s.titre, s.lieu ?? '', s.artistes.join(' '), s.genres.join(' ')].join(' ')
-      ).includes(q)
+    return soirees.filter(
+      (s) =>
+        (!clesDeLaTranche || clesDeLaTranche.has(s.date.slice(0, 10))) &&
+        (!q || sansAccent([s.titre, s.lieu ?? '', s.artistes.join(' '), s.genres.join(' ')].join(' ')).includes(q))
     );
-  }, [soirees, rechercheRetardee]);
+  }, [soirees, rechercheRetardee, clesDeLaTranche]);
+
+  /* COMBIEN PAR JOUR, sur tout ce qui est charge : ce sont les nombres de
+     la bande, et ils ne bougent pas quand on change de jour. */
+  const nombreParJour = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const s of soirees ?? []) {
+      const cle = s.date.slice(0, 10);
+      m.set(cle, (m.get(cle) ?? 0) + 1);
+    }
+    return m;
+  }, [soirees]);
+  const nombreDe = (cles: Iterable<string>): number => [...cles].reduce((n, c) => n + (nombreParJour.get(c) ?? 0), 0);
+  const clesWeekend = useMemo(() => {
+    const { du, au } = fenetreDe('weekend', null, new Date());
+    const cles: string[] = [];
+    for (const d = new Date(du); d <= au; d.setDate(d.getDate() + 1)) cles.push(cleDuJour(d));
+    return cles;
+  }, []);
+  const joursDeLaBande = useMemo(() => {
+    const debut = new Date();
+    debut.setHours(0, 0, 0, 0);
+    return Array.from({ length: JOURS_DANS_LA_BANDE }, (_, i) => {
+      const d = new Date(debut);
+      d.setDate(d.getDate() + i);
+      return d;
+    });
+  }, []);
 
   const parJour = useMemo(() => {
     const m = new Map<string, Soiree[]>();
@@ -816,58 +851,21 @@ export function CalendrierPage() {
 
               {ville && (
                 <>
-                {VUES.map((v) => (
-                  <button
-                    key={v.cle}
-                    className={`cal-onglet${vue === v.cle && !enRecherche ? ' cal-onglet-actif' : ''}${
-                      enRecherche ? ' cal-suspendu' : ''
-                    }`}
-                    onClick={() => {
-                      setVue(v.cle);
-                      setDateChoisie(null);
-                    }}
-                  >
-                    {v.label}
-                  </button>
-                ))}
-
-                {/* CHOISIR UNE DATE EST UNE VUE, donc le bouton bascule la vue
-                    en meme temps qu'il ouvre le calendrier. Le libelle porte
-                    la date retenue plutot que le mot « Un jour » : le bouton
-                    dit alors ce qu'on regarde, ce qui evite d'avoir a le
-                    rouvrir pour s'en souvenir. */}
-                <button
-                  type="button"
-                  className={`cal-onglet${vue === 'date' && !enRecherche ? ' cal-onglet-actif' : ''}${
-                    enRecherche ? ' cal-suspendu' : ''
-                  }`}
-                  onClick={() => {
-                    setOuvrirJour((v) => !v);
-                    setOuvrirStyles(false);
+                {/* LA RECHERCHE EST UN CHAMP, PAS UNE LOUPE A OUVRIR : on
+                    cherche une salle ou un artiste plus souvent qu'on ne
+                    croit, et un champ visible se comprend sans explication. */}
+                <input
+                  type="search"
+                  className="cal-chercher-champ cal-chercher-barre"
+                  placeholder={t.chercherSalleArtisteSoiree}
+                  value={recherche}
+                  onChange={(e) => setRecherche(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Escape') setRecherche('');
                   }}
-                  aria-expanded={ouvrirJour}
-                >
-                  {vue === 'date' && dateChoisie ? jour(dateChoisie, fuseau) : t.unJour}
-                </button>
+                  aria-label={t.chercherDansAffichees}
+                />
 
-                {/* ═══ LES STYLES REJOIGNENT LA BARRE ═══
-                 *
-                 * Ils vivaient plus bas, sous un titre « Vos styles » et un
-                 * paragraphe qui expliquait ce que veut dire n'en suivre
-                 * aucun. Mika s'en moque, et il a raison : ce paragraphe
-                 * occupait quatre lignes pour dire ce que le bouton dit
-                 * deja, et il repoussait l'agenda sous la ligne de
-                 * flottaison.
-                 *
-                 * Ici, le reglage est a cote des autres reglages. Le bouton
-                 * porte l'etat en clair, « Tous les styles » ou le nom de
-                 * celui qui filtre, ce qui remplace le paragraphe : on lit
-                 * ce qui se passe au lieu de se le faire raconter.
-                 *
-                 * Les styles suivis restent des pastilles, mais apres le
-                 * bouton et dans la meme rangee : ils servent a BASCULER
-                 * entre eux, ce qui est un geste de reglage, pas une
-                 * section de la page. */}
                 <button
                   className={`cal-onglet cal-styles-bouton${
                     ouvrirStyles ? ' cal-onglet-actif' : ''
@@ -899,26 +897,6 @@ export function CalendrierPage() {
 
                 <button
                   type="button"
-                  className={`cal-onglet cal-loupe${
-                    ouvrirRecherche || recherche.trim() !== '' ? ' cal-onglet-actif' : ''
-                  }`}
-                  onClick={() => {
-                    /* Refermer la loupe efface la recherche : un champ cache
-                       qui filtre encore la liste serait un piege. */
-                    if (ouvrirRecherche) setRecherche('');
-                    setOuvrirRecherche((v) => !v);
-                  }}
-                  aria-expanded={ouvrirRecherche}
-                  aria-label={t.chercherDansAffichees}
-                >
-                  <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true">
-                    <circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" strokeWidth="1.8" />
-                    <path d="M12.8 12.8 17 17" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-                  </svg>
-                </button>
-
-                <button
-                  type="button"
                   className="cal-onglet cal-ajouter"
                   onClick={() => setOuvrirAjout(true)}
                   aria-label={t.ajouterUneSoiree}
@@ -929,6 +907,93 @@ export function CalendrierPage() {
               )}
             </div>
           </div>
+
+          {/* ═══ LA BANDE DES JOURS ═══ Ce soir, demain, puis les douze jours
+              qui suivent, chacun avec son nombre de soirees ; la fin de
+              semaine et « tout » au bout, et une porte vers les autres dates.
+              Elle defile a l'horizontal sur telephone. Pendant une recherche
+              elle s'eteint : la recherche porte sur les trois mois. */}
+          {ville && (
+            <div className={`cal-bande${enRecherche ? ' cal-suspendu' : ''}`} role="tablist" aria-label={t.quandLibelle}>
+              {joursDeLaBande.map((d, i) => {
+                const cle = cleDuJour(d);
+                const actif = !enRecherche && ((vue === 'aujourdhui' && i === 0) || (vue === 'date' && dateChoisie === cle));
+                const n = nombreParJour.get(cle) ?? 0;
+                const nom =
+                  i === 0 ? t.ceSoir : i === 1 ? t.demain : new Intl.DateTimeFormat(LOCALE, { weekday: 'short' }).format(d).replace(/\.$/, '');
+                return (
+                  <button
+                    key={cle}
+                    type="button"
+                    role="tab"
+                    aria-selected={actif}
+                    className={`cal-bande-jour${actif ? ' cal-bande-actif' : ''}${n === 0 ? ' cal-bande-vide' : ''}`}
+                    onClick={() => {
+                      if (i === 0) {
+                        setVue('aujourdhui');
+                        setDateChoisie(null);
+                      } else {
+                        setVue('date');
+                        setDateChoisie(cle);
+                      }
+                      setOuvrirJour(false);
+                    }}
+                  >
+                    <span className="cal-bande-nom">{nom}</span>
+                    <span className="cal-bande-numero">{d.getDate()}</span>
+                    <span className="cal-bande-n">{n}</span>
+                  </button>
+                );
+              })}
+              <span className="cal-bande-trait" aria-hidden="true" />
+              <button
+                type="button"
+                role="tab"
+                aria-selected={!enRecherche && vue === 'weekend'}
+                className={`cal-bande-jour cal-bande-large${!enRecherche && vue === 'weekend' ? ' cal-bande-actif' : ''}`}
+                onClick={() => {
+                  setVue('weekend');
+                  setDateChoisie(null);
+                  setOuvrirJour(false);
+                }}
+              >
+                <span className="cal-bande-nom">{t.finDeSemaineOnglet}</span>
+                <span className="cal-bande-n">{nombreDe(clesWeekend)}</span>
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={!enRecherche && vue === 'suite'}
+                className={`cal-bande-jour cal-bande-large${!enRecherche && vue === 'suite' ? ' cal-bande-actif' : ''}`}
+                onClick={() => {
+                  setVue('suite');
+                  setDateChoisie(null);
+                  setOuvrirJour(false);
+                }}
+              >
+                <span className="cal-bande-nom">{t.toutesLesDates}</span>
+                <span className="cal-bande-n">{soirees?.length ?? 0}</span>
+              </button>
+              <button
+                type="button"
+                className={`cal-bande-jour cal-bande-large${
+                  vue === 'date' && dateChoisie && !joursDeLaBande.some((d) => cleDuJour(d) === dateChoisie) ? ' cal-bande-actif' : ''
+                }`}
+                onClick={() => {
+                  setOuvrirJour((v) => !v);
+                  setOuvrirStyles(false);
+                }}
+                aria-expanded={ouvrirJour}
+              >
+                <span className="cal-bande-nom">
+                  {vue === 'date' && dateChoisie && !joursDeLaBande.some((d) => cleDuJour(d) === dateChoisie)
+                    ? jourCourt(dateChoisie, fuseau)
+                    : t.autreDate}
+                </span>
+                <span className="cal-bande-n">…</span>
+              </button>
+            </div>
+          )}
 
           {/* LA FEUILLE VIT AU NIVEAU DE LA PAGE, PAS DANS LA CARTE.
               Rendue dans le `<li>`, elle heritait de la grille et il fallait
@@ -995,36 +1060,6 @@ export function CalendrierPage() {
             </div>
           )}
 
-          {ville && ouvrirRecherche && (
-            <div className="cal-chercher">
-              {/* autoFocus est voulu : le champ n'existe que parce qu'on vient
-                  d'appuyer sur la loupe, le clavier doit deja etre la. */}
-              <input
-                type="search"
-                className="cal-chercher-champ"
-                placeholder={t.chercherSalleArtisteSoiree}
-                value={recherche}
-                onChange={(e) => setRecherche(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Escape') {
-                    setRecherche('');
-                    setOuvrirRecherche(false);
-                  }
-                }}
-                aria-label={t.chercherDansAffichees}
-                autoFocus
-              />
-              {recherche.trim() !== '' && (
-                <>
-                  <span className="cal-note">{t.surTroisMois}</span>
-                  <button className="cal-lien" onClick={() => setRecherche('')}>
-                    {t.effacer}
-                  </button>
-                </>
-              )}
-            </div>
-          )}
-
           {/* TANT QU'AUCUNE VILLE N'EST CHOISIE, on dit ou se pose le choix.
               Le selecteur, lui, est deja dans la barre au-dessus : il n'a plus
               besoin d'un panneau qui s'ouvre. */}
@@ -1088,10 +1123,10 @@ export function CalendrierPage() {
                     {enRecherche && filtrees
                       ? t.compteurRecherche(filtrees.length, rechercheRetardee, ville.name)
                       : t.compteurSoirees(
-                          total,
+                          filtrees?.length ?? 0,
                           quand,
                           ville.name,
-                          soirees && total > soirees.length ? t.lesNpremieres(soirees.length) : ''
+                          vue === 'suite' && soirees && total > soirees.length ? t.lesNpremieres(soirees.length) : ''
                         )}
                   </p>
                   {/* ═══ UNE RECHERCHE NE SE RANGE PAS COMME UNE JOURNEE ═══
