@@ -70,8 +70,6 @@ import {
   cleDuJour,
   fenetreDe,
   type Vue,
-  grilleDuMois,
-  jourDemandable,
 } from '../lib/fenetre-agenda.ts';
 import './credits.css';
 import './calendrier.css';
@@ -165,7 +163,7 @@ const NOM_DE_SOURCE: Record<Origine, string> = {
    de soirees de chacun : on voit ou ca se passe, puis on clique. Les
    quatre-vingt-dix jours sont charges une fois ; changer de jour ne demande
    plus rien a personne. */
-const JOURS_DANS_LA_BANDE = 14;
+const JOURS_DANS_LA_BANDE = 61;
 
 /* Le jour se lit AUSSI dans le fuseau du lieu : une soiree berlinoise du
    samedi a 1 h du matin est un vendredi soir a Montreal, et la ranger sous
@@ -393,98 +391,6 @@ function FicheSoiree({
 }
 
 
-/* ═══ LE CHOIX DU JOUR EST UN CALENDRIER, PAS UNE LISTE ═══
- *
- * C'etait une liste deroulante de soixante entrees, « lundi 7 septembre,
- * mardi 8 septembre, … ». Elle fonctionnait et elle ne repondait a aucune des
- * questions qu'on se pose en choisissant une date : quel jour de la semaine
- * tombe le 12, combien de samedis restent, c'est dans combien de temps. Une
- * grille de mois repond aux trois d'un seul coup d'oeil, parce que la forme
- * porte l'information que la liste ecrivait en toutes lettres.
- *
- * LES JOURS HORS FENETRE RESTENT VISIBLES ET DEVIENNENT INERTES. Les cacher
- * ferait un calendrier troue ; les laisser cliquables promettrait des soirees
- * qu'aucune source n'annonce. Ils sont donc la, en retrait, et `disabled`.
- */
-function ChoixDuJour({
-  choisi,
-  onChoisir,
-}: {
-  choisi: string | null;
-  onChoisir: (cle: string) => void;
-}) {
-  const aujourdhui = new Date();
-  const [ancre, setAncre] = useState(() => {
-    const depart = choisi ? new Date(`${choisi}T12:00:00`) : aujourdhui;
-    return new Date(depart.getFullYear(), depart.getMonth(), 1);
-  });
-
-  const semaines = grilleDuMois(ancre.getFullYear(), ancre.getMonth());
-  const titreMois = new Intl.DateTimeFormat(LOCALE, { month: 'long', year: 'numeric' }).format(ancre);
-
-  /* LES INITIALES DE JOURS VIENNENT DU NAVIGATEUR, pas d'une liste ecrite a
-     la main : elles doivent suivre la langue, et elles changent de casse et
-     de longueur d'une langue a l'autre. On part d'un lundi connu. */
-  const initiales = Array.from({ length: 7 }, (_, i) =>
-    new Intl.DateTimeFormat(LOCALE, { weekday: 'narrow' }).format(new Date(2026, 8, 7 + i))
-  );
-
-  const glisser = (pas: number): void =>
-    setAncre((m) => new Date(m.getFullYear(), m.getMonth() + pas, 1));
-
-  return (
-    <div className="cal-mois">
-      <div className="cal-mois-tete">
-        <button type="button" onClick={() => glisser(-1)} aria-label={t.moisPrecedent}>
-          ‹
-        </button>
-        <strong>{titreMois}</strong>
-        <button type="button" onClick={() => glisser(1)} aria-label={t.moisSuivant}>
-          ›
-        </button>
-      </div>
-
-      <table className="cal-mois-grille">
-        <thead>
-          <tr>
-            {initiales.map((lettre, i) => (
-              <th key={i} scope="col" abbr={lettre}>
-                {lettre}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {semaines.map((semaine) => (
-            <tr key={cleDuJour(semaine[0]!.jour)}>
-              {semaine.map((c) => {
-                const cle = cleDuJour(c.jour);
-                const ouvert = jourDemandable(c.jour, aujourdhui);
-                const estAujourdhui = cle === cleDuJour(aujourdhui);
-                return (
-                  <td key={cle}>
-                    <button
-                      type="button"
-                      className={`cal-jour-case${c.duMois ? '' : ' cal-jour-voisin'}${
-                        cle === choisi ? ' cal-jour-choisi' : ''
-                      }${estAujourdhui ? ' cal-jour-aujourdhui' : ''}`}
-                      disabled={!ouvert}
-                      onClick={() => onChoisir(cle)}
-                      aria-current={cle === choisi ? 'date' : undefined}
-                    >
-                      {c.jour.getDate()}
-                    </button>
-                  </td>
-                );
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
 export function CalendrierPage() {
   const [villes, setVilles] = useState<Ville[]>([]);
   const [slugSession, setSlugSession] = useState<string | null>(null);
@@ -512,7 +418,6 @@ export function CalendrierPage() {
      ecrans, et on perd l'endroit ou l'on etait. Ouvrir la suivante ferme la
      precedente : la page ne s'allonge jamais de plus d'un panneau. */
   const [depliee, setDepliee] = useState<string | null>(null);
-  const [ouvrirJour, setOuvrirJour] = useState(false);
   const [total, setTotal] = useState(0);
   const [chargement, setChargement] = useState(false);
   const [panne, setPanne] = useState(false);
@@ -860,67 +765,48 @@ export function CalendrierPage() {
                     cinq mots sur une ligne, sans cadre, celui qu'on regarde
                     en plein. Les nombres viennent des quatre-vingt-dix jours
                     charges une fois. */}
-                <div className="cal-vues" role="tablist">
-                  {(
-                    [
-                      ['aujourdhui', t.ceSoir, nombreDe([cleDuJour(new Date())])],
-                      ['demain', t.demain, nombreDe([cleDuJour(joursDeLaBande[1] ?? new Date())])],
-                      ['weekend', t.finDeSemaineOnglet, nombreDe(clesWeekend)],
-                      ['suite', t.toutesLesDates, soirees?.length ?? 0],
-                    ] as const
-                  ).map(([cle, nom, n]) => {
-                    const actif =
-                      !enRecherche &&
-                      (cle === 'demain' ? vue === 'date' && dateChoisie === cleDuJour(joursDeLaBande[1] ?? new Date()) : vue === cle);
-                    return (
-                      <button
-                        key={cle}
-                        type="button"
-                        role="tab"
-                        aria-selected={actif}
-                        className={`cal-vue${actif ? ' cal-vue-active' : ''}${enRecherche ? ' cal-suspendu' : ''}`}
-                        onClick={() => {
-                          if (cle === 'demain') {
-                            setVue('date');
-                            setDateChoisie(cleDuJour(joursDeLaBande[1] ?? new Date()));
-                          } else {
-                            setVue(cle);
-                            setDateChoisie(null);
-                          }
-                          setOuvrirJour(false);
-                        }}
-                      >
-                        {nom}
-                        <span className="cal-n">{n}</span>
-                      </button>
-                    );
-                  })}
-                  <button
-                    type="button"
-                    className={`cal-vue${
-                      vue === 'date' && dateChoisie && dateChoisie !== cleDuJour(joursDeLaBande[1] ?? new Date()) && !enRecherche
-                        ? ' cal-vue-active'
-                        : ''
-                    }${enRecherche ? ' cal-suspendu' : ''}`}
-                    onClick={() => {
-                      setOuvrirJour((v) => !v);
-                      setOuvrirStyles(false);
+                {/* ═══ QUAND : UNE LISTE DEROULANTE, COMME LA VILLE ═══ Mika,
+                    le 15 septembre 2026 : « tu pourrais faire a la place un
+                    select ? ». Ce soir, demain, la fin de semaine, tout, puis
+                    chaque jour des deux mois qui viennent ; chaque entree
+                    porte son nombre de soirees. Le meme dessin que la ville,
+                    a gauche : deux reglages, deux listes, une ligne. */}
+                <label className={`cal-ville cal-quand${enRecherche ? ' cal-suspendu' : ''}`}>
+                  <span className="cal-ville-mot">{t.quandLibelle}</span>
+                  <select
+                    value={vue === 'date' && dateChoisie ? `jour:${dateChoisie}` : vue === 'date' ? 'suite' : vue}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      if (v.startsWith('jour:')) {
+                        setVue('date');
+                        setDateChoisie(v.slice(5));
+                      } else {
+                        setVue(v as Vue);
+                        setDateChoisie(null);
+                      }
                     }}
-                    aria-expanded={ouvrirJour}
                   >
-                    {vue === 'date' && dateChoisie && dateChoisie !== cleDuJour(joursDeLaBande[1] ?? new Date())
-                      ? jourCourt(dateChoisie, fuseau)
-                      : t.unJour}
-                    <span className="cal-n" aria-hidden="true">▾</span>
-                  </button>
-                </div>
+                    <option value="aujourdhui">{`${t.ceSoir} (${nombreDe([cleDuJour(new Date())])})`}</option>
+                    <option value="weekend">{`${t.finDeSemaineOnglet} (${nombreDe(clesWeekend)})`}</option>
+                    <option value="suite">{`${t.toutesLesDates} (${soirees?.length ?? 0})`}</option>
+                    <optgroup label={t.unJour}>
+                      {joursDeLaBande.slice(1).map((d, i) => {
+                        const cle = cleDuJour(d);
+                        return (
+                          <option key={cle} value={`jour:${cle}`}>
+                            {`${i === 0 ? t.demain : jourCourt(cle, fuseau)} (${nombreParJour.get(cle) ?? 0})`}
+                          </option>
+                        );
+                      })}
+                    </optgroup>
+                  </select>
+                </label>
 
                 <div className="cal-outils">
                   <button
                     className={`cal-vue cal-styles-bouton${ouvrirStyles ? ' cal-vue-active' : ''}`}
                     onClick={() => {
                       setOuvrirStyles((v) => !v);
-                      setOuvrirJour(false);
                     }}
                     aria-expanded={ouvrirStyles}
                   >
@@ -1017,20 +903,6 @@ export function CalendrierPage() {
             />
           )}
 
-          {/* Le calendrier se deploie sous la barre, comme les styles : deux
-              panneaux au meme endroit, jamais tous les deux a la fois. */}
-          {ville && ouvrirJour && (
-            <div className="cal-jour-panneau">
-              <ChoixDuJour
-                choisi={vue === 'date' ? dateChoisie : null}
-                onChoisir={(cle) => {
-                  setDateChoisie(cle);
-                  setVue('date');
-                  setOuvrirJour(false);
-                }}
-              />
-            </div>
-          )}
 
           {/* Le panneau de choix se deploie sous la barre, pleine largeur :
               trente familles ne tiennent pas dans une rangee. */}
