@@ -1,6 +1,126 @@
 {
- "fait": "2026-09-15T13:37:06.828Z",
+ "fait": "2026-09-15T19:43:20.297Z",
  "articles": [
+  {
+   "source": "musicradar",
+   "titre": "IK Multimedia launches flagship amp and effects modeller that lets you run four Tone Models simultaneously: “The complete Tonex rig on a single pedalboard”",
+   "lien": "https://www.musicradar.com/guitars/ik-multimedia-tonex-board",
+   "date": "2026-09-15T18:43:59.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/5k4SEgtZevAGzdk5EjrnB6-1280-80.jpg",
+   "resume": "The evolution of IK Multimedia’s Tonex ecosystem continues apace with the launch of its flagship amp modeller , a unit that of course brings with it thousands of guitar amp sounds and thousands of effects, cab sims, and…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Arturia MiniFreak v5.0 Update – User Samples and Wavetables!",
+   "lien": "https://www.gearnews.com/arturia-minifreak-hybrid-polyphonic-synthesizer/",
+   "date": "2026-09-15T18:29:37.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/02/minifreak-firmware-update-3-0-ar.jpg",
+   "resume": "Four years on, the remarkable Arturia MiniFreak get a new update with the long-awaited addition of user sample and wavetable uploads. plus a bunch of new presets to show them off! [ UPDATE: 15th September, 2026 ] If…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Guitar Journal: Gibson Miami, Pink Floyd Gold Pick & More",
+   "lien": "https://www.gearnews.com/guitar-journal-gibson-miami/",
+   "date": "2026-09-15T18:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/Guitar-Journal-Gibson-Miami-Pink-Floyd-6k-Pick-Offset-Builds.jpg",
+   "resume": "This week, we’re checking out the latest guitar news, starting with the Gibson Garage Miami opening last weekend. Next up, we look at the insanely expensive £4.75k gold Pink Floyd plectrum! Finally, we check out the…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "“I was listening to a lot of the ‘80s stuff. Born In The USA, Bryan Adams, Def Leppard, Siouxie and the Banshees, The Cure and The Smiths... These people were crucial to me”: Brian Fallon on how ‘80s rock lit the fuse for his star-studded solo album",
+   "lien": "https://www.musicradar.com/artists/brian-fallon-not-bad-for-new-jersey",
+   "date": "2026-09-15T17:47:13.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/U9YHrRgrMaSJKAYDS6Ekj8-1280-80.jpg",
+   "resume": "Brian Fallon gives you everything of himself on Not Bad For New Jersey. Heart, body and soul, and a guided tour of all the musical preoccupations that have kept the Gaslight Anthem frontman chasing down songs and…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "“It is in fact me who, like many other people, is living with cancer. We completely understand how the misunderstanding arose”: Gillian Gilbert reveals it’s her who is seriously ill, not Stephen Morris",
+   "lien": "https://www.musicradar.com/artists/keyboard-players/it-is-in-fact-me-who-like-many-other-people-is-living-with-cancer-we-completely-understand-how-the-misunderstanding-arose-gillian-gilbert-reveals-its-her-who-is-seriously-ill-not-stephen-morris",
+   "date": "2026-09-15T17:22:01.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/oNXXpk2NnGcLvwFSMkMR5e-1280-80.jpg",
+   "resume": "Gillian Gilbert has revealed that it’s not her husband, drummer Stephen Morris, who is the seriously ill one in New Order – it’s her. Earlier in the summer you may recall that the band announced that Morris and Gilbert…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Steinberg, Universal Audio, Native Instruments: 3 Strong Software Deals — DAW, Tape Machines, and Guitar Amps",
+   "lien": "https://www.gearnews.com/steinberg-universal-audio-native-instruments-deal/",
+   "date": "2026-09-15T17:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/Software-Deals-37-2026.jpg",
+   "resume": "Steinberg opens this week with Cubase Elements 15, the budget-friendly entry point into the Cubase family, now €59. Next up is Universal Audio with the Ampex ATR-102 Mastering Tape, the legendary two-track tape machine…"
+  },
+  {
+   "source": "bpb",
+   "titre": "2B Played Music SlimVerb2 reverb plugin is FREE for a limited time",
+   "lien": "https://bedroomproducersblog.com/2026/09/15/2b-played-music-slimverb2-reverb-plugin-is-free-for-a-limited-time/",
+   "date": "2026-09-15T16:37:32.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/2BPlayedMusic-SlimVerb2.jpg",
+   "resume": "The SlimVerb2 reverb plugin from the developer 2B Played Music is now free for a limited time. Some of you probably have the original SlimVerb plugin; we’ve covered it a few times through various offers and limited-time…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Fender Lee Sklar Precision Bass: Aged To Perfection",
+   "lien": "https://www.gearnews.com/fender-lee-sklar-precision-bass/",
+   "date": "2026-09-15T16:30:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/Fender-Lee-Sklar-P-Bass.jpg",
+   "resume": "The Fender Lee Sklar Precision Bass faithfully replicates t he highly individualized P Bass heard on countless albums. James Taylor and Carole King, Phil Collins, Toto, Jackson Browne, Linda Ronstadt, Joe Cocker, and…"
+  },
+  {
+   "source": "musictech",
+   "titre": "AutoTune is now available in FL Studio – even to free users",
+   "lien": "https://musictech.com/news/gear/autotune-is-now-available-in-fl-studio-even-to-free-users/",
+   "date": "2026-09-15T16:27:23.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/09/AutoTune-FL-Studio@2000x1500.jpg",
+   "resume": "AutoTune is the quintessential pitch correction software, and it’s coming to FL Studio totally free. Image-Line – developer of the hugely popular DAW FL Studio – has partnered with AutoTune maker Antares on AutoTune Go…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "RND Plugins Launch: Rupert Neve Designs’ First-Ever Software Goes Live",
+   "lien": "https://www.gearnews.com/rnd-plugins-rupert-neve-studio/",
+   "date": "2026-09-15T16:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/RND-Plugins-T.jpg",
+   "resume": "Rupert Neve Designs just did something it’s never done before: released plugins under its own name. These new RND Plugins bring software versions of three of the company’s most beloved hardware units, the Portico II…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "“It wouldn't be a young generation, but I do believe that there are ways to do a new Big Four”: So who would be in Dave Mustaine’s new big four of thrash metal?",
+   "lien": "https://www.musicradar.com/artists/guitarists/it-wouldnt-be-a-young-generation-but-i-do-believe-that-there-are-ways-to-do-a-new-big-four-so-who-would-be-in-dave-mustaines-new-big-four-of-thrash-metal",
+   "date": "2026-09-15T15:41:52.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/8qUtv4KWcEN9abcNhBzTm-1280-80.jpg",
+   "resume": "The big four of thrash metal – Metallica, Slayer, Megadeth and Anthrax – arguably created an entire genre between them. But who would make up a ‘new generation’ big four in 2026? The Megadeth mainman was asked that very…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "EHX Adrian Belew Echoflanger: The Legendary King Crimson effect is back – but limited!",
+   "lien": "https://www.gearnews.com/ehx-adrian-belew-echoflanger-guitar/",
+   "date": "2026-09-15T15:09:31.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/EHX_Adrian_Belew_Echoflanger_Teaser.jpg",
+   "resume": "This one is a surprise: Electro Harmonix is bringing back a limited edition of the legendary Adrian Belew Echoflanger! The reissue features the four original modes, plus two new ones. And all the self-oscillating…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Mayer EMI Vibes Aurora 5.0: The Biggest Firmware Update to Date – Available Now!",
+   "lien": "https://www.gearnews.com/mayer-emi-vibes-md850-synth/",
+   "date": "2026-09-15T15:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/10/mayer-emi-md850-vibes-aurora-update-1.jpg",
+   "resume": "The Mayer EMI Vibes gets its biggest firmware update to date. Aurora 5.0 adds a slew of new features and sounds to the desktop synth. The update is available now! All about the Mayer EMI MD850 Vibes Mayer EMI Vibes…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "“It nearly didn’t happen. After I wrote the song, me and Diplo had a massive fight and I threw the hard drive at his head from the top floor”: How M.I.A. and producer Diplo broke the rules – and channelled Pink Floyd – on her mega hit Paper Planes",
+   "lien": "https://www.musicradar.com/artists/it-nearly-didnt-happen-after-i-wrote-the-song-me-and-diplo-had-a-massive-fight-and-i-threw-the-hard-drive-at-his-head-from-the-top-floor-how-m-i-a-and-producer-diplo-broke-the-rules-and-channelled-pink-floyd-on-her-mega-hit-paper-planes",
+   "date": "2026-09-15T14:56:39.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/brRS6DUSzetEdvPsSxUT9e-1280-80.jpg",
+   "resume": "M.I.A.’s biggest hit almost never was. The British-Sri Lankan artist’s breakout track was nearly lost after a fight with her producer – and boyfriend at the time – Diplo. That track was Paper Planes, and as M.I.A…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "“No one is quite sure how the acid got inside the synth”: Can using psychedelics make you a better musician or producer?",
+   "lien": "https://www.musicradar.com/music-tech/recording/no-one-is-quite-sure-how-the-acid-got-inside-the-synth-can-using-psychedelics-make-you-a-better-musician-or-producer",
+   "date": "2026-09-15T14:47:07.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/zxPBt47QYLiZwJFTsS45Mf-1280-80.jpg",
+   "resume": "In 2019, a technician found himself in an unusual situation . While working on the restoration of an original Buchla Model 100 modular synthesizer, he realized that he was, in fact, getting high. The nine-hour trip was…"
+  },
   {
    "source": "gearnews",
    "titre": "Martin 16 Series 2026: The Stage-Acoustics Get a Colorful Update",
@@ -51,14 +171,6 @@
   },
   {
    "source": "musicradar",
-   "titre": "“No one is quite sure how the acid got inside the synth”: Can using psychedelics make you a better musician or producer?",
-   "lien": "https://www.musicradar.com/music-tech/recording/no-one-is-quite-sure-how-the-acid-got-inside-the-synth-can-using-psychedelics-make-you-a-better-musician-or-producer",
-   "date": "2026-09-15T10:10:23.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/zxPBt47QYLiZwJFTsS45Mf-1280-80.jpg",
-   "resume": "In 2019, a technician found himself in an unusual situation . While working on the restoration of an original Buchla Model 100 modular synthesizer, he realized that he was, in fact, getting high. The nine-hour trip was…"
-  },
-  {
-   "source": "musicradar",
    "titre": "“It’s the first long-form video - I can’t think of a band that would let their lead guitarist fall flat on his face in the opening scene”: Giles Martin on the enduring importance of The Beatles’ A Hard Day’s Night",
    "lien": "https://www.musicradar.com/artists/its-the-first-long-form-video-i-cant-think-of-a-band-that-would-let-their-lead-guitarist-fall-flat-on-his-face-in-the-opening-scene-giles-martin-on-the-enduring-importance-of-the-beatles-a-hard-days-night",
    "date": "2026-09-15T10:05:19.000Z",
@@ -74,36 +186,12 @@
    "resume": "[Editor’s note: BandLab Technologies and MusicTech are both part of the Caldecott Music Group.] BandLab has rolled out a new update, which focuses chiefly on the upgrade of its mastering capabilities. The popular DAW –…"
   },
   {
-   "source": "gearnews",
-   "titre": "Streaming Fraud: Music Industry Launches Global Counteroffensive",
-   "lien": "https://www.gearnews.com/streaming-fraud-music-industry-tech/",
-   "date": "2026-09-15T09:47:38.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/Spotify-T-128x71.jpg",
-   "resume": "The IFPI, the international music industry’s global trade body, has launched a worldwide push against systematic streaming fraud on digital music services, working alongside its German affiliate, the Bundesverband…"
-  },
-  {
    "source": "musicradar",
    "titre": "\"Engineers no longer need to lock themselves into proprietary plugin ecosystems\": Audient launches Horizon, a new line of Thunderbolt interfaces with sub-millisecond latency and no onboard DSP",
    "lien": "https://www.musicradar.com/music-tech/engineers-no-longer-need-to-lock-themselves-into-proprietary-plugin-ecosystems-audient-launches-horizon-a-new-line-of-thunderbolt-interfaces-with-sub-millisecond-latency-and-no-onboard-dsp",
    "date": "2026-09-15T09:29:46.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/tcsEaPRNixygcMuZxMheHG-1280-80.jpg",
    "resume": "Audient has announced the launch of Horizon, a new flagship Thunderbolt audio interface range that the British company says has been five years in development. The Horizon range is made up of three models, each housed…"
-  },
-  {
-   "source": "gearnews",
-   "titre": "Elektron Monomachine and Machinedrum Now as a Plugin: Free Emulator for the Legendary Classics",
-   "lien": "https://www.gearnews.com/elektron-monomachine-machinedrum-plugin-free/",
-   "date": "2026-09-15T08:35:26.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/Elektron-Monomachine-Machinedrum-Emulator.jpg",
-   "resume": "What’s long been nothing more than a pipe dream for plenty of Elektron fans is finally real: free emulators now exist for the Elektron Monomachine and Machinedrum, running as both standalone software and a VST3 plugin…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "“It was an absolute balls-up fiasco. It almost ruined me”: Hans Zimmer, Dr Who and the worst charity record of all time",
-   "lien": "https://www.musicradar.com/music-industry/it-was-an-absolute-balls-up-fiasco-it-almost-ruined-me-hans-zimmer-dr-who-and-the-worst-charity-record-of-all-time",
-   "date": "2026-09-15T08:23:36.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/NLsnY7r5TGpBzcRfK6CjFV-1280-80.jpg",
-   "resume": "What goes around comes around and the fortunes of venerable BBC TV sci-fi show Dr Who are perhaps TV’s greatest example of the adage. The much-loved/equally-loathed sci-fi series was once a 1970s Saturday-night staple…"
   },
   {
    "source": "digitaldjtips",
@@ -130,84 +218,12 @@
    "resume": "£799 / $899 / €949, nobleaudio.com If you backpacked Thailand in the late noughties, there’s a chance you soundtracked your efforts to emulate The Beach with an early pair of Noble Audio in-ear monitors . While working…"
   },
   {
-   "source": "musicradar",
-   "titre": "\"He didn't tap a foot or move his head or anything. He listened to it all the way through and I thought he hated it\": When an Eagle, Heartbreaker, Roger Linn and an Oberheim OB-X combined forces for a pop masterpiece – the Boys Of Summer story",
-   "lien": "https://www.musicradar.com/guitars/he-didnt-tap-a-foot-or-move-his-head-or-anything-he-listened-to-it-all-the-way-through-and-i-thought-he-hated-it-when-an-eagle-heartbreaker-roger-linn-and-an-oberheim-ob-x-combined-forces-for-a-pop-masterpiece-the-boys-of-summer-story",
-   "date": "2026-09-15T07:56:39.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/yiGJ82xWiA22xRRdo8cDwh-1280-80.jpg",
-   "resume": "\"This song almost didn't happen,\" reflected Tom Petty & The Heartbreakers guitarist, songwriter and all-round rock hero Mike Campbell two years ago. It's incredible just how many famous songs nearly didn't take flight…"
-  },
-  {
-   "source": "gearnews",
-   "titre": "Universal Audio LUNA 3.0: Free DAW Gets an AI Boost and a New Spark Studio Subscription",
-   "lien": "https://www.gearnews.com/universal-audio-luna-3-spark-studio/",
-   "date": "2026-09-15T07:15:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/LUNA-Studio-T.jpg",
-   "resume": "Universal Audio LUNA 3.0 is the biggest update to this DAW, free version included, since it launched back in 2020. That means new smart tools like stem separation, audio-to-MIDI, plus lyric transcription and chord…"
-  },
-  {
-   "source": "gearnews",
-   "titre": "Michigan Synth Works MSW-820S Is a Dual-Oscillator Mono Synth With a TB-303 Sequencer",
-   "lien": "https://www.gearnews.com/michigan-synth-works-msw-820s-synth/",
-   "date": "2026-09-15T04:40:55.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/michigan-synth-works-msw-820s-t-128x71.jpg",
-   "resume": "Michigan Synth Works’s upcoming MSW-820S adds a TB-303 step sequencer to a Roland-style two-oscillator analog synth with 16-mode filter. Are you excited yet? Michigan Synth Works MSW-820S Michigan Synth Works does…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "“Come witness the fitness. It shall be a sight to behold”: Oasis confirm live dates for next year",
-   "lien": "https://www.musicradar.com/artists/shows-festivals/come-witness-the-fitness-it-shall-be-a-sight-to-behold-oasis-confirm-live-dates-for-next-year",
-   "date": "2026-09-14T20:10:10.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/vawazFVBPapQGiwkGLSSSh-1280-80.jpg",
-   "resume": "It’s official: after weeks of speculation. Oasis will be touring in 2027. The announcement was made this afternoon. “START THE CELEBRATIONS!!!!,” said the band’s somewhat tongue-in-cheek statement. “After a period of…"
-  },
-  {
-   "source": "gearnews",
-   "titre": "Audient Horizon: The New Apollo Killer?",
-   "lien": "https://www.gearnews.com/audient-horizon-studio/",
-   "date": "2026-09-14T17:30:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/audient-horizon-ft.jpg",
-   "resume": "The Audient Horizon series offers three new multichannel audio interfaces aimed at different-scale studio setups and different applications. The British console manufacturer Audient entered the audio interface market…"
-  },
-  {
    "source": "musictech",
    "titre": "Audient’s new flagship Horizon interfaces can run complex sessions in even the biggest studios",
    "lien": "https://musictech.com/news/gear/audient-horizon/",
    "date": "2026-09-14T17:00:38.000Z",
    "image": "https://musictech.com/wp-content/uploads/2026/09/Audient-Horizon-1@2000x1500.jpg",
    "resume": "Audient has just unveiled Horizon, its new flagship line of professional-grade Thunderbolt 3 audio interfaces. Aimed squarely at audio professionals, the range comprises three rack-mount models – the Horizon 8P, Horizon…"
-  },
-  {
-   "source": "gearnews",
-   "titre": "The 7 Best Headless Guitars of 2027: Headless to Happiness",
-   "lien": "https://www.gearnews.com/best-headless-guitars/",
-   "date": "2026-09-14T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2024/09/headless-e-gitarren-kaufberater.jpg",
-   "resume": "Headless electric guitars are fairly unusual. They may look a little strange, but they offer plenty of other benefits. I bet you’re wondering how they play! So let’s take a look at some of the best ones. Key Takeaways…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "\"Superb playability, a versatile sound set, and pretty unbeatable value\": Shergold Telstar Standard ST14 12-String review",
-   "lien": "https://www.musicradar.com/guitars/electric-guitars/shergold-telstar-standard-st14-12-string-review",
-   "date": "2026-09-14T16:53:55.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/yBHgpkD5td74w97HmPpyHF-1280-80.jpg",
-   "resume": "What is it? Part Firebird, part Gretsch , and part Telecaster, with a little dash of 12-string thrown in for good measure, the Telstar is something of a Griffin in the affordable guitar space, and one that is most…"
-  },
-  {
-   "source": "gearnews",
-   "titre": "Acoustic Treatment: Improving Your Home Studio",
-   "lien": "https://www.gearnews.com/acoustic-treatment-studio/",
-   "date": "2026-09-14T16:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/02/bass-traps-why-they-arent-actual.jpg",
-   "resume": "With budget acoustic treatment techniques, you can transform your home studio into a more professional environment for recording and mixing. Key Facts about Acoustic Treatment: With acoustic room treatment, we can…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "“Addiction is a disease and it's terrifying... my family and my future had to come first\": Elbow drummer Richard Jupp on why he walked away for a life of sobriety",
-   "lien": "https://www.musicradar.com/artists/drummers/addiction-is-a-disease-and-its-terrifying-my-family-and-my-future-had-to-come-first-elbow-drummer-richard-jupp-on-why-he-walked-away-for-a-life-of-sobriety",
-   "date": "2026-09-14T15:52:12.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/qAw9bscMVij87FGUrykgn7-1280-80.jpg",
-   "resume": "Richard Jupp – who was drummer with Elbow for over 25 years – has been talking about his battles with addiction and the reason why he quit the band in 2016. In an extensive interview on the BBC website, Jupp said of his…"
   },
   {
    "source": "bpb",
@@ -330,14 +346,6 @@
    "resume": "Wave Mastering LTD has released WIDENER, a stereo enhancement plugin for macOS and Windows, with a $29.99 introductory price through September 30th. WIDENER is the first plugin from Andy De Rosa, a UK-based mixing and…"
   },
   {
-   "source": "bpb",
-   "titre": "13X Audio releases Aurora, a FREE 24-band dynamic EQ plugin",
-   "lien": "https://bedroomproducersblog.com/2026/09/12/13x-audio-aurora-eq/",
-   "date": "2026-09-12T09:45:23.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/aurora.jpg",
-   "resume": "13X Audio has released Aurora, a free 24-band dynamic parametric equalizer plugin for macOS, Windows, and Linux. This is probably the fifth or sixth similar EQ plugin I’ve seen over the past year or so. Vibe coding is…"
-  },
-  {
    "source": "attack",
    "titre": "Normal by Proxy Brings Shared, Browser-based Jamming For Up To 8 Players",
    "lien": "https://www.attackmagazine.com/news/normal-by-proxy-brings-shared-browser-based-jamming-for-up-to-8-players/",
@@ -456,14 +464,6 @@
    "date": "2026-09-10T16:47:36.000Z",
    "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/fb3.jpg",
    "resume": "Full Bucket Music has introduced FB3, a free software instrument for Mac & Windows.…"
-  },
-  {
-   "source": "musictech",
-   "titre": "ElevenLabs strikes first deal with a major label to launch AI-powered music platform and audio products",
-   "lien": "https://musictech.com/news/industry/elevenlabs-deal-universal-music-group-ai-music-platform-products/",
-   "date": "2026-09-10T16:28:13.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/09/elevenlabs-umg@2000x1500.jpg",
-   "resume": "Universal Music Group and AI firm ElevenLabs have partnered for a multi-year licensing agreement and wider strategic collaboration, with plans to launch a new AI-powered music platform and AI audio products for artists…"
   },
   {
    "source": "cdm",
@@ -1115,6 +1115,14 @@
   },
   {
    "source": "mixmag",
+   "titre": "Armin van Buuren appears in full drag on Dutch TV show",
+   "lien": "https://mixmag.net/read/armin-van-buuren-appears-full-drag-dutch-tv-show-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Farmin-drag.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=05b8c078",
+   "resume": "The trance legend appeared on drag show Make Up Your Mind as a surprise ‘Mystery Queen’"
+  },
+  {
+   "source": "mixmag",
    "titre": "Eight people arrested after attempt to break into Edinburgh's FLY Festival",
    "lien": "https://mixmag.net/read/eight-people-arrested-attempt-break-into-edinburgh-fly-festival-news",
    "date": null,
@@ -1144,6 +1152,14 @@
    "date": null,
    "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Frenae-manchester.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=c26003ab",
    "resume": "Three successful applicants to the Promoter Promise initiative will be granted bursaries"
+  },
+  {
+   "source": "mixmag",
+   "titre": "“Came as strangers, left as friends”: Inside the Ibiza experiment bringing house music lovers together",
+   "lien": "https://mixmag.net/feature/strangers-to-friends-inside-ibiza-experiment-house-music-lovers-defected-white-claw",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fwhite-claw-defected-lead.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=1b33c118",
+   "resume": "White Claw and Defected flew 10 strangers to Ibiza for 24 hours as part of their ‘Find Your People’ experiment, pairing like-minded dance music fans to see if they can become lifelong friends"
   },
   {
    "source": "mixmag",
@@ -1186,27 +1202,43 @@
    "resume": "Mixmag's guide to the best DJ mixes of 2026"
   },
   {
-   "source": "mixmag",
-   "titre": "Universal Music to launch new AI music creation platform",
-   "lien": "https://mixmag.net/read/universal-music-launch-new-ai-music-creation-platform-news",
+   "source": "djmag",
+   "titre": "David Guetta and Marlon Hoffstadt announce collaborative single, ‘Caught Up’",
+   "lien": "https://djmag.com/news/david-guetta-and-marlon-hoffstadt-announce-collaborative-single-caught",
    "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FUMG.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=e864f188",
-   "resume": "UMG has teamed up with a firm specialising in AI speech and \"voice cloning\" software as part of the project"
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/david-guetta-marlon-hoffstadt-single-caught-up-unvrs-ibiza-residency-photo.png.webp?itok=qMTiANU31736761576",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The Berlin DJ teased teased there might be more teamwork from the duo behind the decks…"
   },
   {
-   "source": "mixmag",
-   "titre": "Over 100 anti-tourism protestors take to the streets in Ibiza",
-   "lien": "https://mixmag.net/read/over-100-anti-tourism-protestors-take-streets-ibiza-news",
+   "source": "djmag",
+   "titre": "Charlotte de Witte unveils new EP, ‘The Resistance’",
+   "lien": "https://djmag.com/news/charlotte-de-witte-unveils-new-ep-resistance",
    "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fibiza-tourism-credit-Saaremees.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=4fe25242",
-   "resume": "Young protestors rallied against the “unaffordable” state of Ibiza, calling for tourism restrictions"
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/charlotte-de-witte-new-ep-kntxt-the-resistance-photo-2.png.webp?itok=S5FJ6iTY1827999719",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Out next week, the three-tracker is an extension of the Belgian star's audiovisual live…"
+  },
+  {
+   "source": "djmag",
+   "titre": "DJ Mag announces Top 100 DJs LIVE 2026 at [UNVRS] Ibiza",
+   "lien": "https://djmag.com/news/dj-mag-announces-top-100-djs-live-2026-unvrs-ibiza",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/20261006_UNVRS_TOP100DJ_LINEUP_XCOVER_1500X500px.jpg.webp?itok=LUVQj4_y1335857641",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The iconic celebration of global electronic music returns to Ibiza next month</p> </div>"
+  },
+  {
+   "source": "djmag",
+   "titre": "Macklemore removed from Ed Sheeran tour over pro-Palestine advocacy",
+   "lien": "https://djmag.com/news/macklemore-removed-ed-sheeran-tour-over-pro-palestine-advocacy",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/macklemore-ed-sheeran-kicked-off-removed-loop-tour-pro-palestine-kraft-split.png.webp?itok=bppPeKo91757524193",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>\"[Sheeran's] typical apolitical stance was being challenged in a way it never had been…"
   },
   {
    "source": "djmag",
    "titre": "Serato DJ 5.0 adds “intuitive beatgrid technology”, Lucid Beatgrids",
    "lien": "https://djmag.com/news/serato-dj-50-adds-intuitive-beatgrid-technology-lucid-beatgrids",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/sertao.png.webp?itok=Q8wdWNcm384806249",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/sertao.png.webp?itok=Q8wdWNcm2005300311",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The latest update of the brand's flagship software is now available in public beta</p>…"
   },
   {
@@ -1214,7 +1246,7 @@
    "titre": "Universal Audio announces new free DAW, LUNA 3.0",
    "lien": "https://djmag.com/tech/universal-audio-announces-new-free-daw-luna-30",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/LUNA%20Play%20PR%20Hero%20copy.jpg.webp?itok=Dj9E-RiI1325365265",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/LUNA%20Play%20PR%20Hero%20copy.jpg.webp?itok=Dj9E-RiI364291466",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>UA has also announced a new subscription service, UA Spark Audio</p> </div>"
   },
   {
@@ -1222,7 +1254,7 @@
    "titre": "Listen to Four Tet's Boomtown 2026 set via BBC Radio 1's Essential Mix",
    "lien": "https://djmag.com/news/listen-four-tets-boomtown-2026-set-bbc-radio-1s-essential-mix",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/d4f97260-3d68-72f0-acea-31f05d91a3c9.jpg.webp?itok=yjxBgrn1792627522",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/d4f97260-3d68-72f0-acea-31f05d91a3c9.jpg.webp?itok=yjxBgrn11602007867",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The artist's standout set on the HYDRO XL stage was recorded in full to be aired by the…"
   },
   {
@@ -1230,7 +1262,7 @@
    "titre": "Jennifer Loveless announces debut album, ‘Familiar’, shares single: Listen",
    "lien": "https://djmag.com/news/jennifer-loveless-announces-debut-album-familiar-shares-single-listen",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/JenniferLoveless.jpg.webp?itok=X9GrIy9H73810966",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/JenniferLoveless.jpg.webp?itok=X9GrIy9H1140823196",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The seven-track mini-LP will arrive via Gerd Janson’s Running Back label</p> </div>"
   },
   {
@@ -1238,7 +1270,7 @@
    "titre": "Watch Björk DJ at Rome’s Dissonanze Festival",
    "lien": "https://djmag.com/news/watch-bjork-dj-romes-dissonanze-festival",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/808942972_18617520274016920_1447307779574383761_n.jpg.webp?itok=kYWeYSU71561508901",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/808942972_18617520274016920_1447307779574383761_n.jpg.webp?itok=kYWeYSU71053971284",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Including tracks by underscores, ABADIR, Arca and others</p> </div>"
   },
   {
@@ -1246,40 +1278,8 @@
    "titre": "Watch Carl Cox spotlight his favourite disco records ahead of Louie Vega b2b set at [UNVRS] Ibiza",
    "lien": "https://djmag.com/news/watch-carl-cox-spotlight-his-favourite-disco-records-ahead-of-louie-vega-b2b-set-unvrs-ibiza",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/CarlCox20252175%20Credit%20Dan%20Reid.jpg.webp?itok=ZMbAROe7801667263",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/CarlCox20252175%20Credit%20Dan%20Reid.jpg.webp?itok=ZMbAROe7277240852",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Including Ashford & Simpson's 1977 track 'Don't Cost You Nothin' </p> </div>"
-  },
-  {
-   "source": "djmag",
-   "titre": "The Chemical Brothers’ ‘Let Forever Be’ music video featuring Noel Gallagher remastered in 4K",
-   "lien": "https://djmag.com/news/chemical-brothers-let-forever-be-music-video-featuring-noel-gallagher-remastered-4k",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Chemical-Brothers-Surrender-Press-Shot-25-CREDIT-Kevin-Westenberg.webp?itok=PIYqsf2b1956057674",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Directed by Oscar-winning director Michel Gondry and featuring vocals from Noel…"
-  },
-  {
-   "source": "djmag",
-   "titre": "“Be who you want to be”: Armin van Buuren appears in drag as ‘Mystery Queen’ on Dutch TV show",
-   "lien": "https://djmag.com/news/be-who-you-want-be-armin-van-buuren-appears-drag-mystery-queen-dutch-tv-show",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/808921922_18637575040035119_1613664715370597638_n%20%281%29.jpg.webp?itok=l80KcVM11118433650",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“Be who you want to be. That’s the reason I said yes to this\"</p> </div>"
-  },
-  {
-   "source": "djmag",
-   "titre": "Djakarta Warehouse Project unveils first names for 2026 festival",
-   "lien": "https://djmag.com/news/djakarta-warehouse-project-unveils-first-names-2026-festival",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Djakarta%20Warehouse%20Project%20-%20Press%2001%20-%20Credit_%20%40dwp.jpeg.webp?itok=z45Ylb-D1450021462",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Featured in our Top 100 Festivals poll 2026</p> </div>"
-  },
-  {
-   "source": "djmag",
-   "titre": "Loidis announces new album, ‘From The Toolkit Of Lovers’, on Incienso",
-   "lien": "https://djmag.com/news/loidis-announces-new-album-toolkit-of-lovers-incienso",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Loidis%20poses%20in%20a%20mirror%20selfie%20in%20a%20broken%20up%20looking%20bathroom%20with%20the%20hand%20dryer%20hanging%20off%20the%20wall.%20He%20has%20his%20hood%20up%20and%20a%20pair%20of%20shades%20on.png.webp?itok=6QSUl4111486842241",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The new album follows 2024's 'One Day' from the Philadelphia-based artist</p> </div>"
   }
  ],
  "pannes": []
