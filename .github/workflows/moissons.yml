@@ -107,7 +107,13 @@ jobs:
             git config user.email "moissons@users.noreply.github.com"
             git add src/data/artistes.json src/data/artistes-index.json
             git commit -m "Artistes : moisson de la nuit du $(date -u +%Y-%m-%d)"
-            git push
+            # LA BRANCHE A PU AVANCER PENDANT LES HUIT MINUTES DE MOISSON (une
+            # publication, la moisson des news) : on se rebase avant de
+            # pousser, trois fois s'il le faut. Constate le 15 septembre 2026.
+            for essai in 1 2 3; do
+              git pull --rebase origin main && git push && break
+              sleep 20
+            done
             echo "change=oui" >> "$GITHUB_OUTPUT"
           fi
 
