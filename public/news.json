@@ -1,6 +1,14 @@
 {
- "fait": "2026-09-15T19:43:20.297Z",
+ "fait": "2026-09-15T22:55:19.906Z",
  "articles": [
+  {
+   "source": "cdm",
+   "titre": "Elgato’s Stream Deck as a DAW companion; new Reaper controller",
+   "lien": "https://cdm.link/elgato-stream-deck-reaper/",
+   "date": "2026-09-15T20:48:41.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/stream-deck-keys.jpg",
+   "resume": "Elgato's Stream Deck, a push-button desktop controller with interactive color keys and software shortcuts, has quietly become an ideal DAW accessory. Take, for example, this thoughtfully designed addition from Granite…"
+  },
   {
    "source": "musicradar",
    "titre": "IK Multimedia launches flagship amp and effects modeller that lets you run four Tone Models simultaneously: “The complete Tonex rig on a single pedalboard”",
@@ -682,14 +690,6 @@
    "resume": ""
   },
   {
-   "source": "cdm",
-   "titre": "Septabee, an insane-looking free Linux/Windows DAW with pomegranates",
-   "lien": "https://cdm.link/septabee-is-here/",
-   "date": "2026-09-03T09:16:33.000Z",
-   "image": "https://cdm.link/app/uploads/2026/09/septabee-image.jpg",
-   "resume": "Suddenly, a bunch of the producers I follow are buzzing about the music-mangling possibilities of Septabee, a free DAW for Linux and Windows developed \"in secret\" over \"20,000 hours.\" And it looks like insane fun: a…"
-  },
-  {
    "source": "attack",
    "titre": "Dreamtonics Completes Its Trilogy With Instrument X",
    "lien": "https://www.attackmagazine.com/news/dreamtonics-completes-its-trilogy-with-instrument-x/",
@@ -1206,15 +1206,23 @@
    "titre": "David Guetta and Marlon Hoffstadt announce collaborative single, ‘Caught Up’",
    "lien": "https://djmag.com/news/david-guetta-and-marlon-hoffstadt-announce-collaborative-single-caught",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/david-guetta-marlon-hoffstadt-single-caught-up-unvrs-ibiza-residency-photo.png.webp?itok=qMTiANU31736761576",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/david-guetta-marlon-hoffstadt-single-caught-up-unvrs-ibiza-residency-photo.png.webp?itok=qMTiANU31821095766",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The Berlin DJ teased teased there might be more teamwork from the duo behind the decks…"
+  },
+  {
+   "source": "djmag",
+   "titre": "ADE severs affiliation with hard techno event featuring Shlømo over 'conflicting values'",
+   "lien": "https://djmag.com/news/ade-severs-affiliation-hard-techno-event-featuring-shlomo-over-conflicting-values",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/ade-2025-amsterdam-dance-event-line-up-reveal-photo.JPG%20%281%29.webp?itok=yY0V9dn1693354059",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Several artists on the bill had previously withdrawn from the event over the addition of…"
   },
   {
    "source": "djmag",
    "titre": "Charlotte de Witte unveils new EP, ‘The Resistance’",
    "lien": "https://djmag.com/news/charlotte-de-witte-unveils-new-ep-resistance",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/charlotte-de-witte-new-ep-kntxt-the-resistance-photo-2.png.webp?itok=S5FJ6iTY1827999719",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/charlotte-de-witte-new-ep-kntxt-the-resistance-photo-2.png.webp?itok=S5FJ6iTY1024698558",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Out next week, the three-tracker is an extension of the Belgian star's audiovisual live…"
   },
   {
@@ -1222,7 +1230,7 @@
    "titre": "DJ Mag announces Top 100 DJs LIVE 2026 at [UNVRS] Ibiza",
    "lien": "https://djmag.com/news/dj-mag-announces-top-100-djs-live-2026-unvrs-ibiza",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/20261006_UNVRS_TOP100DJ_LINEUP_XCOVER_1500X500px.jpg.webp?itok=LUVQj4_y1335857641",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/20261006_UNVRS_TOP100DJ_LINEUP_XCOVER_1500X500px.jpg.webp?itok=LUVQj4_y1799314256",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The iconic celebration of global electronic music returns to Ibiza next month</p> </div>"
   },
   {
@@ -1230,7 +1238,7 @@
    "titre": "Macklemore removed from Ed Sheeran tour over pro-Palestine advocacy",
    "lien": "https://djmag.com/news/macklemore-removed-ed-sheeran-tour-over-pro-palestine-advocacy",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/macklemore-ed-sheeran-kicked-off-removed-loop-tour-pro-palestine-kraft-split.png.webp?itok=bppPeKo91757524193",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/macklemore-ed-sheeran-kicked-off-removed-loop-tour-pro-palestine-kraft-split.png.webp?itok=bppPeKo91248317156",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>\"[Sheeran's] typical apolitical stance was being challenged in a way it never had been…"
   },
   {
@@ -1238,7 +1246,7 @@
    "titre": "Serato DJ 5.0 adds “intuitive beatgrid technology”, Lucid Beatgrids",
    "lien": "https://djmag.com/news/serato-dj-50-adds-intuitive-beatgrid-technology-lucid-beatgrids",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/sertao.png.webp?itok=Q8wdWNcm2005300311",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/sertao.png.webp?itok=Q8wdWNcm1399845824",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The latest update of the brand's flagship software is now available in public beta</p>…"
   },
   {
@@ -1246,7 +1254,7 @@
    "titre": "Universal Audio announces new free DAW, LUNA 3.0",
    "lien": "https://djmag.com/tech/universal-audio-announces-new-free-daw-luna-30",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/LUNA%20Play%20PR%20Hero%20copy.jpg.webp?itok=Dj9E-RiI364291466",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/LUNA%20Play%20PR%20Hero%20copy.jpg.webp?itok=Dj9E-RiI648526795",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>UA has also announced a new subscription service, UA Spark Audio</p> </div>"
   },
   {
@@ -1254,7 +1262,7 @@
    "titre": "Listen to Four Tet's Boomtown 2026 set via BBC Radio 1's Essential Mix",
    "lien": "https://djmag.com/news/listen-four-tets-boomtown-2026-set-bbc-radio-1s-essential-mix",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/d4f97260-3d68-72f0-acea-31f05d91a3c9.jpg.webp?itok=yjxBgrn11602007867",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/d4f97260-3d68-72f0-acea-31f05d91a3c9.jpg.webp?itok=yjxBgrn1725202384",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The artist's standout set on the HYDRO XL stage was recorded in full to be aired by the…"
   },
   {
@@ -1262,7 +1270,7 @@
    "titre": "Jennifer Loveless announces debut album, ‘Familiar’, shares single: Listen",
    "lien": "https://djmag.com/news/jennifer-loveless-announces-debut-album-familiar-shares-single-listen",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/JenniferLoveless.jpg.webp?itok=X9GrIy9H1140823196",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/JenniferLoveless.jpg.webp?itok=X9GrIy9H1198110595",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The seven-track mini-LP will arrive via Gerd Janson’s Running Back label</p> </div>"
   },
   {
@@ -1270,16 +1278,8 @@
    "titre": "Watch Björk DJ at Rome’s Dissonanze Festival",
    "lien": "https://djmag.com/news/watch-bjork-dj-romes-dissonanze-festival",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/808942972_18617520274016920_1447307779574383761_n.jpg.webp?itok=kYWeYSU71053971284",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/808942972_18617520274016920_1447307779574383761_n.jpg.webp?itok=kYWeYSU7142606447",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Including tracks by underscores, ABADIR, Arca and others</p> </div>"
-  },
-  {
-   "source": "djmag",
-   "titre": "Watch Carl Cox spotlight his favourite disco records ahead of Louie Vega b2b set at [UNVRS] Ibiza",
-   "lien": "https://djmag.com/news/watch-carl-cox-spotlight-his-favourite-disco-records-ahead-of-louie-vega-b2b-set-unvrs-ibiza",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/CarlCox20252175%20Credit%20Dan%20Reid.jpg.webp?itok=ZMbAROe7277240852",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Including Ashford & Simpson's 1977 track 'Don't Cost You Nothin' </p> </div>"
   }
  ],
  "pannes": []
