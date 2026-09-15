@@ -387,7 +387,7 @@ const SUPABASE_KEY = process.env['VITE_SUPABASE_ANON_KEY'];
 interface Soiree {
   id: string; titre: string; debut: string; fin: string | null; lieu: string | null; adresse: string | null;
   lien: string | null; affiche: string | null; artistes: string[] | null; genres: string[] | null;
-  organisateur: string | null; description: string | null; ville_id: string;
+  organisateur: string | null; description: string | null; ville_id: string; prix: string | null; created_at: string;
 }
 interface Ville { id: string; slug: string; name: string; country_code: string; timezone: string }
 interface Set { id: string; titre: string; description: string | null; duree_s: number | null; cover_path: string | null; artiste_nom: string | null; created_at: string; genre_ids: string[] | null }
@@ -409,7 +409,7 @@ const quandLisible = (iso: string, fuseau: string): string =>
 const villes = await lire<Ville>('villes?select=id,slug,name,country_code,timezone&is_active=eq.true');
 const dans60Jours = new Date(Date.now() + 60 * 24 * 3600 * 1000).toISOString();
 const soirees = await lire<Soiree>(
-  `soirees_manuelles?select=id,titre,debut,fin,lieu,adresse,lien,affiche,artistes,genres,organisateur,description,ville_id&publiee=eq.true&debut=gte.${new Date().toISOString()}&debut=lte.${dans60Jours}&order=debut.asc&limit=1000`
+  `soirees_manuelles?select=id,titre,debut,fin,lieu,adresse,lien,affiche,artistes,genres,organisateur,description,ville_id,prix,created_at&publiee=eq.true&debut=gte.${new Date().toISOString()}&debut=lte.${dans60Jours}&order=debut.asc&limit=1000`
 );
 /* LA FAMILLE D'UNE SOIREE, depuis ses styles en texte libre (« HARD TECHNO »,
    « Deep House ») : le meme rangement que pour les artistes. Une soiree peut
@@ -428,22 +428,51 @@ const famillesDeLaSoiree = (s: Soiree): string[] => {
   return [...out];
 };
 
-const evenementDe = (s: Soiree, v: Ville, cheminVille: string): unknown => ({
-  '@context': 'https://schema.org',
-  '@type': 'MusicEvent',
-  name: s.titre,
-  startDate: s.debut,
-  endDate: s.fin ?? undefined,
-  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-  eventStatus: 'https://schema.org/EventScheduled',
-  location: { '@type': 'Place', name: s.lieu ?? v.name, address: s.adresse ?? `${v.name}, ${v.country_code}` },
-  image: s.affiche ? [s.affiche] : undefined,
-  description: s.description ? couper(s.description, 300) : undefined,
-  organizer: s.organisateur ? { '@type': 'Organization', name: s.organisateur } : undefined,
-  performer: (s.artistes ?? []).map((a) => ({ '@type': 'MusicGroup', name: a })),
-  offers: s.lien ? { '@type': 'Offer', url: s.lien, availability: 'https://schema.org/InStock' } : undefined,
-  url: ORIGINE + `${cheminVille}${s.id}/`,
-});
+/* CE QUE GOOGLE ATTEND D'UN EVENEMENT, ET QU'ON PEUT DIRE SANS INVENTER.
+   Search Console, le 15 septembre 2026 : endDate, organizer, et dans
+   l'offre price, priceCurrency et validFrom manquaient. La fin d'une soiree
+   qui n'en annonce pas est posee six heures apres le debut, ce qui est une
+   nuit de club ; l'organisateur inconnu devient la salle ; l'offre n'existe
+   que si un prix se lit, en monnaie du pays. Un prix invente vaudrait
+   pire qu'un champ vide. */
+const MONNAIE: Record<string, string> = { CA: 'CAD', US: 'USD', GB: 'GBP', CH: 'CHF', MX: 'MXN', BR: 'BRL', JP: 'JPY', AU: 'AUD' };
+const monnaieDe = (pays: string): string => MONNAIE[pays] ?? 'EUR';
+const prixLisible = (p: string | null): number | null => {
+  if (!p) return null;
+  if (/gratuit|free|libre/i.test(p)) return 0;
+  const m = p.replace(',', '.').match(/(\d+(?:\.\d+)?)/);
+  return m ? Number(m[1]) : null;
+};
+const finPresumee = (debut: string): string => new Date(new Date(debut).getTime() + 6 * 3600 * 1000).toISOString();
+const evenementDe = (s: Soiree, v: Ville, cheminVille: string): unknown => {
+  const prix = prixLisible(s.prix);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'MusicEvent',
+    name: s.titre,
+    startDate: s.debut,
+    endDate: s.fin ?? finPresumee(s.debut),
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    eventStatus: 'https://schema.org/EventScheduled',
+    location: { '@type': 'Place', name: s.lieu ?? v.name, address: s.adresse ?? `${v.name}, ${v.country_code}` },
+    image: s.affiche ? [s.affiche] : undefined,
+    description: s.description ? couper(s.description, 300) : undefined,
+    organizer: { '@type': 'Organization', name: s.organisateur ?? s.lieu ?? v.name, ...(s.lien ? { url: s.lien } : {}) },
+    performer: (s.artistes ?? []).length ? (s.artistes ?? []).map((a) => ({ '@type': 'MusicGroup', name: a })) : { '@type': 'MusicGroup', name: s.titre },
+    offers:
+      prix !== null
+        ? {
+            '@type': 'Offer',
+            price: prix,
+            priceCurrency: monnaieDe(v.country_code),
+            url: s.lien ?? ORIGINE + `${cheminVille}${s.id}/`,
+            availability: 'https://schema.org/InStock',
+            validFrom: s.created_at.slice(0, 10),
+          }
+        : undefined,
+    url: ORIGINE + `${cheminVille}${s.id}/`,
+  };
+};
 
 if (soirees.length > 0) {
   const villesAvecSoirees = villes.filter((v) => soirees.some((s) => s.ville_id === v.id));
