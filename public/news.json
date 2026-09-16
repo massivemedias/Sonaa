@@ -1,5 +1,5 @@
 {
- "fait": "2026-09-16T19:35:07.191Z",
+ "fait": "2026-09-16T22:59:05.519Z",
  "articles": [
   {
    "source": "attack",
@@ -1114,20 +1114,108 @@
    "resume": "Scottish DJ-producer Jack Revill, better known as Jackmaster, has died of an accidental head injury, aged 38. Revill’s family confirmed the news on Instagram yesterday. “It’s with profound sorrow that we confirm the…"
   },
   {
+   "source": "djmag",
+   "titre": "David Guetta kickstarts Top 100 DJs 2026 fundraiser for Bridges for Music Academy",
+   "lien": "https://djmag.com/news/david-guetta-kickstarts-top-100-djs-2026-fundraiser-bridges-music-academy",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Guetta.jpg.webp?itok=s-b4K6Pl1368588176",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The current World’s No.1 DJ has made the opening donation to this year’s campaign</p>…"
+  },
+  {
+   "source": "djmag",
+   "titre": "MPH announces new album, ‘Here, Forever’, shares ‘Mirage’: Listen",
+   "lien": "https://djmag.com/news/mph-announces-new-album-here-forever-shares-mirage-listen",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/mph-credit-squidlik.jpg.webp?itok=-RCvyFOq1903222662",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The new album is due for release on 20th November via Disorder/Capitol Records</p> </div>"
+  },
+  {
+   "source": "djmag",
+   "titre": "¥ØU$UK€ ¥UK1MAT$U announces debut European headline tour",
+   "lien": "https://djmag.com/news/youukeu-yuk1matu-announces-debut-european-headline-tour",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/yousuke-yukimatsu.jpg.webp?itok=TyE2X5PL934295952",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The five-date European tour takes hits the Netherlands, France, Belgium, Denmark and the…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Watch Carl Cox and Louie Vega play disco b2b at [UNVRS] Ibiza",
+   "lien": "https://djmag.com/news/watch-carl-cox-and-louie-vega-play-disco-b2b-unvrs-ibiza",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/carl-cox-louie-vega.jpg.webp?itok=7yzGap1u1365879925",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The disco-heavy set was the latest installment in Cox's star-studded residency</p> </div>"
+  },
+  {
+   "source": "djmag",
+   "titre": "Recognise 116: Moopie",
+   "lien": "https://djmag.com/features/recognise-116-moopie",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/RECOGNISE-116-HEADER.jpg.webp?itok=X0rIm-dC827309059",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-intro field--type-text-long field--label-hidden field__item\"><p>Moopie's work defies easy narratives. On any given day, you might find him hammering out all…"
+  },
+  {
+   "source": "djmag",
+   "titre": "upsammy and Piezo link up for collaborative album as Eerie Enterprise",
+   "lien": "https://djmag.com/news/upsammy-and-piezo-link-collaborative-album-eerie-enterprise",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Eerie%20Enterprise%20press%20shot%20by%20Eric%20Scaggiante%201_web.jpg.webp?itok=L_HrqOMT1356836755",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Their debut joint LP 'Places Remember Events' is out next month on Dekmantel</p> </div>"
+  },
+  {
+   "source": "djmag",
+   "titre": "Listen to Fred again.. and LATIN MAFIA’s Mexico City DJ set on Apple Music",
+   "lien": "https://djmag.com/news/listen-fred-again-and-latin-mafias-mexico-city-dj-set-apple-music",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/fred-again-latin-mafia-apple-music-usb002-live-recording-dj-set.png.webp?itok=jqRjucl31722957344",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The UK producer's USB002 tour sets with Four Tet (in Toronto) and Caribou and Floating…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Suno admits to scraping YouTube audio data to train AI music models&nbsp;",
+   "lien": "https://djmag.com/news/suno-admits-scraping-youtube-audio-data-train-ai-music-models",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/suno-youtube-scraping-ai-generated-music-training-model-court-case.jpg.webp?itok=OKu1asKK472355265",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Lawyers for the generative AI music creation platform own up to using licensed music…"
+  },
+  {
+   "source": "djmag",
+   "titre": "David Guetta and Marlon Hoffstadt announce collaborative single, ‘Caught Up’",
+   "lien": "https://djmag.com/news/david-guetta-and-marlon-hoffstadt-announce-collaborative-single-caught",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/david-guetta-marlon-hoffstadt-single-caught-up-unvrs-ibiza-residency-photo.png.webp?itok=qMTiANU32124268241",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The Berlin DJ teased teased there might be more teamwork from the duo behind the decks…"
+  },
+  {
+   "source": "djmag",
+   "titre": "ADE severs affiliation with hard techno event featuring Shlømo over 'conflicting values'",
+   "lien": "https://djmag.com/news/ade-severs-affiliation-hard-techno-event-featuring-shlomo-over-conflicting-values",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/ade-2025-amsterdam-dance-event-line-up-reveal-photo.JPG%20%281%29.webp?itok=yY0V9dn1720124151",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Several artists on the bill had previously withdrawn from the event over the addition of…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Charlotte de Witte unveils new EP, ‘The Resistance’",
+   "lien": "https://djmag.com/news/charlotte-de-witte-unveils-new-ep-resistance",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/charlotte-de-witte-new-ep-kntxt-the-resistance-photo-2.png.webp?itok=S5FJ6iTY2041398793",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Out next week, the three-tracker is an extension of the Belgian star's audiovisual live…"
+  },
+  {
+   "source": "djmag",
+   "titre": "DJ Mag announces Top 100 DJs LIVE 2026 at [UNVRS] Ibiza",
+   "lien": "https://djmag.com/news/dj-mag-announces-top-100-djs-live-2026-unvrs-ibiza",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/20261006_UNVRS_TOP100DJ_LINEUP_XCOVER_1500X500px.jpg.webp?itok=LUVQj4_y2131575781",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The iconic celebration of global electronic music returns to Ibiza next month</p> </div>"
+  },
+  {
    "source": "mixmag",
    "titre": "Youth Music reaches £1 million milestone in young artist investments",
    "lien": "https://mixmag.net/read/youth-music-invested-1-million-directly-aspiring-uk-artists-news",
    "date": null,
    "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fyouth-music.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=0bc2c6ce",
    "resume": "According to the charity's data, 54% of its NextGen Fund recipients have already landed careers in music since the programme launched in 2021"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Who's playing The Mixmag Lab?",
-   "lien": "https://mixmag.net/feature/lab-ldn",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FLabLondon_Whosplaying_08.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=9ffb4e4d",
-   "resume": "See who's playing The Mixmag Lab, our world famous party - and come through"
   },
   {
    "source": "mixmag",
@@ -1152,14 +1240,6 @@
    "date": null,
    "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Ffred-again-pinkpantheress-gta6.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=63b8f142",
    "resume": "Mysterious Instagram posts featuring GTA's signature art style were shared by a slew of major artists yesterday"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Transcendental experience: Decades in, Making Time is still reshaping the classic club night",
-   "lien": "https://mixmag.net/feature/making-time-philadelphia-party-festival-electroclash-bands-the-strokes",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fmaking-time-web.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=ff3bfecd",
-   "resume": "For the last 26 years, Philadelphia party Making Time has rewritten the traditional club night script. Fusing DJs with live acts, the beloved night has brought The Strokes, Interpol, Charli xcx and many more together…"
   },
   {
    "source": "mixmag",
@@ -1200,86 +1280,6 @@
    "date": null,
    "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Frenae-manchester.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=c26003ab",
    "resume": "Three successful applicants to the Promoter Promise initiative will be granted bursaries"
-  },
-  {
-   "source": "djmag",
-   "titre": "David Guetta kickstarts Top 100 DJs 2026 fundraiser for Bridges for Music Academy",
-   "lien": "https://djmag.com/news/david-guetta-kickstarts-top-100-djs-2026-fundraiser-bridges-music-academy",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Guetta.jpg.webp?itok=s-b4K6Pl315759406",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The current World’s No.1 DJ has made the opening donation to this year’s campaign</p>…"
-  },
-  {
-   "source": "djmag",
-   "titre": "MPH announces new album, ‘Here, Forever’, shares ‘Mirage’: Listen",
-   "lien": "https://djmag.com/news/mph-announces-new-album-here-forever-shares-mirage-listen",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/mph-credit-squidlik.jpg.webp?itok=-RCvyFOq518893528",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The new album is due for release on 20th November via Disorder/Capitol Records</p> </div>"
-  },
-  {
-   "source": "djmag",
-   "titre": "¥ØU$UK€ ¥UK1MAT$U announces debut European headline tour",
-   "lien": "https://djmag.com/news/youukeu-yuk1matu-announces-debut-european-headline-tour",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/yousuke-yukimatsu.jpg.webp?itok=TyE2X5PL835322698",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The five-date European tour takes hits the Netherlands, France, Belgium, Denmark and the…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Watch Carl Cox and Louie Vega play disco b2b at [UNVRS] Ibiza",
-   "lien": "https://djmag.com/news/watch-carl-cox-and-louie-vega-play-disco-b2b-unvrs-ibiza",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/carl-cox-louie-vega.jpg.webp?itok=7yzGap1u799591285",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The disco-heavy set was the latest installment in Cox's star-studded residency</p> </div>"
-  },
-  {
-   "source": "djmag",
-   "titre": "Recognise 116: Moopie",
-   "lien": "https://djmag.com/features/recognise-116-moopie",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/RECOGNISE-116-HEADER.jpg.webp?itok=X0rIm-dC918961602",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-intro field--type-text-long field--label-hidden field__item\"><p>Moopie's work defies easy narratives. On any given day, you might find him hammering out all…"
-  },
-  {
-   "source": "djmag",
-   "titre": "upsammy and Piezo link up for collaborative album as Eerie Enterprise",
-   "lien": "https://djmag.com/news/upsammy-and-piezo-link-collaborative-album-eerie-enterprise",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Eerie%20Enterprise%20press%20shot%20by%20Eric%20Scaggiante%201_web.jpg.webp?itok=L_HrqOMT582278859",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Their debut joint LP 'Places Remember Events' is out next month on Dekmantel</p> </div>"
-  },
-  {
-   "source": "djmag",
-   "titre": "Listen to Fred again.. and LATIN MAFIA’s Mexico City DJ set on Apple Music",
-   "lien": "https://djmag.com/news/listen-fred-again-and-latin-mafias-mexico-city-dj-set-apple-music",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/fred-again-latin-mafia-apple-music-usb002-live-recording-dj-set.png.webp?itok=jqRjucl31012045581",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The UK producer's USB002 tour sets with Four Tet (in Toronto) and Caribou and Floating…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Suno admits to scraping YouTube audio data to train AI music models&nbsp;",
-   "lien": "https://djmag.com/news/suno-admits-scraping-youtube-audio-data-train-ai-music-models",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/suno-youtube-scraping-ai-generated-music-training-model-court-case.jpg.webp?itok=OKu1asKK1646253833",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Lawyers for the generative AI music creation platform own up to using licensed music…"
-  },
-  {
-   "source": "djmag",
-   "titre": "David Guetta and Marlon Hoffstadt announce collaborative single, ‘Caught Up’",
-   "lien": "https://djmag.com/news/david-guetta-and-marlon-hoffstadt-announce-collaborative-single-caught",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/david-guetta-marlon-hoffstadt-single-caught-up-unvrs-ibiza-residency-photo.png.webp?itok=qMTiANU3996817797",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The Berlin DJ teased teased there might be more teamwork from the duo behind the decks…"
-  },
-  {
-   "source": "djmag",
-   "titre": "ADE severs affiliation with hard techno event featuring Shlømo over 'conflicting values'",
-   "lien": "https://djmag.com/news/ade-severs-affiliation-hard-techno-event-featuring-shlomo-over-conflicting-values",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/ade-2025-amsterdam-dance-event-line-up-reveal-photo.JPG%20%281%29.webp?itok=yY0V9dn11542389470",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Several artists on the bill had previously withdrawn from the event over the addition of…"
   }
  ],
  "pannes": []
