@@ -97,6 +97,9 @@ sortent.** Ils ne disparaissent pas : un bouton « Plus » apparaît dans
 l'en-tête sous 900 px et les porte, avec « À propos » et les trois pages
 légales.
 
+**Validé par Mika le 17 septembre 2026** : Styles reste dans le bouton
+« Plus » sur téléphone.
+
 C'est un compromis, et il est assumé. Styles reste la section qui porte les 219
 genres et presque tout le référencement ; la sortir de la barre du bas est le
 prix de deux portes marchandes. Si les mesures montrent que les visites de
