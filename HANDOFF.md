@@ -2,6 +2,10 @@
 # SONAA. Point d'entrée courant, 20 août 2026.
 # ═══════════════════════════════════════════════════════════════════════
 
+**Le plus récent d'abord : la section « Mission marchande » en fin de fichier,
+ouverte le 17 septembre 2026, porte les arbitrages en attente.**
+
+
 **Le document de reprise est
 `docs/reports/2026-08-20-cloture-heatmap.md`.** Il contient l'état mesuré du
 produit et de ses TROIS vues, les sept dettes avec la raison de chacune, les
@@ -891,3 +895,163 @@ environnement : le clic réel expire et les événements fabriqués ne pilotent 
 le moteur. La seule prise fiable est `window.__atlas.journalTaps()`, en
 production, qui dit ce que le moteur a visé et décidé sur les vingt derniers
 touchers. À utiliser depuis un téléphone réel.
+
+---
+
+# Mission marchande : décisions qui attendent Mika
+
+Ouvert le 17 septembre 2026, à la réception du prompt « marketplace +
+distribution numérique ». Aucune ligne de code n'a été écrite. Ce qui suit
+n'est pas technique : ce sont les arbitrages que le développement ne peut pas
+prendre à la place de Mika, et qui bloquent des phases entières.
+
+L'inspection complète et le plan par phases sont dans
+[docs/MARCHAND-INSPECTION.md](docs/MARCHAND-INSPECTION.md).
+
+## Bloquants d'affaires, dans l'ordre où ils bloquent
+
+**B1. Compte Stripe.** Recommandation Stripe Connect, comptes Express pour les
+artistes et les organisateurs : versements automatiques, identification des
+vendeurs déléguée à Stripe, taxes calculées, litiges gérés, disponible au
+Canada. Sans compte Stripe activé, rien ne se vend. C'est le premier geste de
+Mika, et il conditionne la phase A.
+
+**B2. Qui encaisse.** Aujourd'hui tout est sous Massive Medias, entreprise
+individuelle, responsabilité illimitée. Encaisser l'argent d'un tiers puis le
+lui reverser fait de SONAA un intermédiaire, avec les obligations qui vont
+avec. S'ajoute un point mesuré le 17 septembre : pour un panier qui contient
+les morceaux de deux artistes différents, Stripe ne sait pas répartir
+automatiquement (voir C3 plus bas), donc la plateforme encaisse puis reverse,
+donc la plateforme est le vendeur officiel. Au Canada, la plateforme qui
+facilite la vente devient responsable de percevoir et de remettre la TPS et la
+TVQ au-delà d'un seuil. Conséquence : incorporer SONAA avant la première vente
+réelle n'est pas une précaution, c'est la condition. Décision de Mika, avec son
+comptable, pas du développement.
+
+**B3. Commissions.** Proposition de départ : 10 % sur les morceaux et les
+mixtapes, 0 % sur les pourboires (frais Stripe seulement), 5 % sur la
+billetterie plus des frais de service payés par l'acheteur. Toutes en base,
+jamais dans le code. Reste à trancher : qui paie les frais Stripe sur un
+pourboire à 0 % de commission, la plateforme ou l'artiste. À 3 CAD de
+pourboire, les frais Stripe mangent 13 %.
+
+**B4. Textes légaux.** Le site n'a aujourd'hui aucune page de conditions,
+aucune politique de confidentialité, aucune mention légale. Vendre sans elles
+n'est pas envisageable, et la loi 25 du Québec s'applique déjà aux comptes
+existants. Il faut : conditions de vente, politique de remboursement,
+déclaration de droits signée par l'artiste vendeur, politique de
+confidentialité. À faire rédiger, pas à improviser dans le code.
+
+**B5. Loi québécoise sur les billets.** La revente au-dessus du prix affiché
+sans l'accord de l'organisateur est interdite. La revente entre particuliers
+reste hors du périmètre, mais les conditions doivent le dire.
+
+**B6. Distribution numérique, phase E.** Elle change la nature de SONAA :
+plus une place de marché, un distributeur. Elle ne commence pas avant que les
+phases A à D.5 tournent en production et que Mika ait tranché la voie
+d'accès aux magasins, le modèle de revenus, le périmètre initial, le support
+et les contrats. Le prompt demande un rapport de recherche avant tout code :
+c'est la bonne façon de faire, et ce rapport est une mission à part entière.
+
+## Contradictions relevées avec l'existant, à trancher
+
+**C1. Le menu.** Le prompt demande des mots au bureau et des icônes au
+téléphone. Le menu en icônes au bureau est une demande de Mika du 14 septembre,
+il y a trois jours, avec le nom de la page au survol. Revenir aux mots est
+possible en une heure, mais c'est un aller-retour : confirmer.
+
+**C2. La barre du bas.** Le prompt propose Calendrier, Tracks, Mixtapes, News,
+Panier, ce qui sort Styles et Profil de la barre. Styles porte les 219 genres,
+les cours et presque tout le référencement ; Profil est la seule porte vers le
+compte et le dépôt. Contre-proposition : garder cinq icônes utiles en bas
+(Calendrier, Tracks, Mixtapes, News, Styles) et poser le panier en tête de
+page à côté de la loupe, où vit déjà le compte. À trancher.
+
+**C3. Un panier, plusieurs vendeurs.** Le prompt décrit un paiement unique avec
+`transfer_data[destination]` par article. Ce n'est pas ce que fait Stripe :
+`transfer_data[destination]` ne prend qu'un seul destinataire par paiement. Pour
+un panier qui mélange deux artistes, il faut encaisser sur le compte de la
+plateforme puis créer un virement par vendeur, avec un `transfer_group` commun.
+C'est la voie recommandée, elle fonctionne, mais elle a une conséquence
+d'affaires, décrite en B2 : la plateforme devient le vendeur officiel.
+
+**C4. Le mot « track » est déjà pris.** Le corpus appelle « tracks » les 2 382
+morceaux de référence des genres, dans le code, dans la base
+(`track_votes`, `track_scores`), dans les fichiers de chargement et dans les
+contrôles. Nommer « Tracks » la section marchande crée une ambiguïté permanente,
+à l'écran comme dans le code. Proposition : la section publique s'appelle
+Tracks si Mika y tient, mais le code et la base utilisent `morceaux_vendus`
+pour la marchandise, et les contrôles de langue gardent « track » pour le
+corpus. À confirmer.
+
+**C5. Renommer Sons en Mixtapes casse des adresses indexées.** Les pages
+`/sons/` et `/sons/<id>/` sont dans le plan du site soumis à Google et Bing le
+14 septembre. GitHub Pages ne sait pas faire de redirection permanente : au
+mieux une page qui renvoie côté client, avec un canonique vers la nouvelle
+adresse. Le renommage se fait donc en gardant les anciennes adresses vivantes,
+pas en les supprimant. Prévu ainsi dans le plan.
+
+**C6. Le MP3 ne peut pas être fabriqué à la volée.** La passerelle est un
+Worker Cloudflare : 128 Mo de mémoire, pas de binaire natif, et le chargement
+de WebAssembly depuis une source distante y est interdit. Encoder un MP3 320 à
+la demande y est impossible, mesuré et documenté. Trois sorties : l'artiste
+dépose lui-même son MP3, ou le navigateur l'encode une fois au dépôt (il décode
+déjà le fichier pour dessiner la forme d'onde), ou on ajoute un conteneur
+Cloudflare avec une file. Recommandation pour commencer : vendre WAV et FLAC,
+et demander le MP3 à l'artiste. En revanche, écrire l'empreinte de l'acheteur
+dans les métadonnées à la volée reste possible : c'est de l'étiquetage, pas du
+réencodage.
+
+**C7. La forme d'onde se calcule déjà dans le navigateur**, sans charger le
+fichier entier, et c'est une décision documentée. Le prompt la demande côté
+serveur : même obstacle qu'en C6. Garder l'existant.
+
+**C8. Le corpus n'est pas une table.** `genre_id` ne peut pas être une clé
+étrangère vers le corpus, qui est un fichier du dépôt. Le projet a déjà tranché
+deux fois, pour `comments.genre_id` et pour `proposals.genre_id` : colonne
+texte, aucune clé étrangère, validation à l'écriture. La marchandise suit la
+même règle, il n'y a pas de raison d'inventer une exception.
+
+**C9. Les quotas.** Un compte a aujourd'hui 2 Go pour ses mixtapes. Les
+morceaux mis en vente, en WAV et en FLAC, viendraient s'y ajouter. Le prompt
+propose 500 Mo par morceau, ce qui est beaucoup pour un morceau seul. À
+trancher : quota séparé pour la marchandise, et plafond par morceau à 200 Mo.
+
+**C11. Les fichiers payants ne peuvent pas vivre là où vivent les mixtapes.**
+Point mesuré dans la passerelle : n'importe quel objet du seau R2 dont le
+chemin ne commence pas par `api/` se télécharge publiquement, par simple
+adresse. C'est délibéré et c'est bien pour un set gratuit, dont le commentaire
+du code dit que ce qui protège un brouillon n'est pas le secret du chemin mais
+le fait que la base ne le donne à personne. Un morceau payant renverse
+l'hypothèse : la base donnera le chemin à l'acheteur, et ce chemin marcherait
+ensuite pour le monde entier, indéfiniment. Les masters vendus doivent donc
+vivre derrière un préfixe que la lecture publique refuse, et ne sortir que par
+un lien signé de courte durée. À décider en phase B, mais à ne pas oublier :
+c'est le seul point où une erreur donne le catalogue gratuitement.
+
+**C12. Une table de production n'a pas de migration.** `soirees_manuelles`
+porte des politiques, un déclencheur, cinq adaptateurs et une route de la
+passerelle, mais aucune migration ne la crée : sa forme n'existe que dans la
+base de production et dans le TypeScript. Les tables d'événements et de
+billetterie s'y rattacheront. Avant la phase C, il faut écrire la migration qui
+la déclare telle qu'elle est, sinon une base neuve ne se reconstruit pas.
+
+**C10. Les prix dans les pages pré-rendues.** Les pages statiques sont écrites
+à la construction. Un prix changé en base ne se répercute qu'à la publication
+suivante, et Google afficherait l'ancien. Recommandation : le prix reste en
+données structurées avec une date de validité courte, et le prix affiché est
+lu au chargement.
+
+## Hors périmètre, noté pour ne pas être oublié
+
+Marchandise physique (t-shirts, vinyles) et ses douanes ; abonnements
+d'artistes ; revente de billets entre particuliers ; application native de
+scan ; recommandations personnalisées ; interface publique pour des tiers.
+Aucun de ces chantiers n'est commencé, et aucun ne doit l'être avant que la
+vente de base fonctionne.
+
+## Ce qui manque encore au dossier
+
+Le remboursement et la contestation d'un paiement n'ont pas de parcours décrit :
+la table des commandes prévoit les états, rien ne dit qui rembourse, en combien
+de temps, ni ce que devient la commission. À écrire avant la première vente.
