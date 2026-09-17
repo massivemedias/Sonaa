@@ -56,7 +56,25 @@ interface Article {
   readonly date: string | null;
   readonly image: string | null;
   readonly resume: string;
+  /* La version francaise, posee a la moisson. Absente pour les deux
+     magazines qui ecrivent deja en francais, et quand la traduction a
+     echoue. Voir scripts/lib/traduire.ts. */
+  readonly titre_fr?: string;
+  readonly resume_fr?: string;
 }
+
+/* ═══ LE TITRE DANS LA LANGUE DE LA PAGE ═══
+ *
+ * Mika, le 17 septembre 2026 : « FR voit du FR traduit, EN voit l'original ».
+ * Un lecteur anglophone lit toujours ce que le magazine a ecrit ; un lecteur
+ * francophone lit la traduction QUAND ELLE EXISTE, et l'original sinon.
+ *
+ * LE REPLI N'EST PAS UN DEFAUT, C'EST LA REGLE. Deux magazines ecrivent en
+ * francais et n'ont donc pas de traduction ; un article moissonne pendant une
+ * panne de l'API n'en a pas non plus. Dans les deux cas la ligne s'affiche
+ * telle quelle, ce qui est exactement l'etat d'avant. */
+const titreDe = (a: Article): string => (langue === 'fr' && a.titre_fr ? a.titre_fr : a.titre);
+const resumeDe = (a: Article): string => (langue === 'fr' && a.titre_fr ? (a.resume_fr ?? '') : a.resume);
 
 interface Livre {
   readonly fait: string;
@@ -231,8 +249,8 @@ export function NewsPage() {
         <Image a={a} />
         <span className="news-corps">
           <Surtitre a={a} />
-          <span className="news-titre">{a.titre}</span>
-          {a.resume && <span className="news-resume">{a.resume}</span>}
+          <span className="news-titre">{titreDe(a)}</span>
+          {resumeDe(a) && <span className="news-resume">{resumeDe(a)}</span>}
         </span>
       </Lien>
     </article>
@@ -244,7 +262,7 @@ export function NewsPage() {
         <Image a={a} />
         <span className="news-corps">
           <Surtitre a={a} />
-          <span className="news-titre">{a.titre}</span>
+          <span className="news-titre">{titreDe(a)}</span>
         </span>
       </Lien>
     </article>
@@ -254,7 +272,7 @@ export function NewsPage() {
     <li className="news-breve">
       <Lien a={a} className="news-lien">
         <Surtitre a={a} />
-        <span className="news-titre">{a.titre}</span>
+        <span className="news-titre">{titreDe(a)}</span>
       </Lien>
     </li>
   );
@@ -267,7 +285,7 @@ export function NewsPage() {
           const a = livre?.articles.find((x) => x.lien === urlEnLecture) ?? null;
           return (
             <>
-              <LectureArticle url={urlEnLecture} titre={a?.titre ?? null} source={a ? (PAR_SOURCE.get(a.source)?.nom ?? null) : null} image={a?.image ?? null} />
+              <LectureArticle url={urlEnLecture} titre={a ? titreDe(a) : null} source={a ? (PAR_SOURCE.get(a.source)?.nom ?? null) : null} image={a?.image ?? null} />
               <PiedDePage />
             </>
           );

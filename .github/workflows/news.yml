@@ -42,6 +42,11 @@ jobs:
         run: npm ci
 
       - name: Moissonner
+        # LA CLE DE TRADUCTION EST FACULTATIVE, ET C'EST VOULU. Sans elle, la
+        # moisson tourne et ecrit les articles en anglais ; elle ne tombe pas.
+        # Voir scripts/lib/traduire.ts et docs/NEWS-TRADUCTION.md.
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: npm run moissonner:news
 
       - name: Commettre si le fichier a change

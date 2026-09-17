@@ -26,9 +26,10 @@
  * dire, et la moisson suivante reessaie.
  */
 
-import { writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { imageDePage, lireFlux, SOURCES, type Article } from './lib/flux-rss.ts';
+import { traduire, type ATraduire } from './lib/traduire.ts';
 
 const SORTIE = fileURLToPath(new URL('../public/news.json', import.meta.url));
 /** Par source : assez pour une journee chargee, pas de quoi noyer les autres. */
@@ -117,7 +118,55 @@ async function main(): Promise<void> {
     .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''))
     .slice(0, TOTAL);
 
-  const livre: Livre = { fait: new Date().toISOString(), articles: tries, pannes };
+  /* ═══ LE FRANCAIS, POUR LES SOURCES QUI ECRIVENT EN ANGLAIS ═══
+   *
+   * Trois regles, dans cet ordre, et c'est l'ordre qui tient la facture.
+   *
+   * 1. On reprend les traductions du fichier precedent. Six passes par jour
+   *    sur cent soixante articles dont vingt-cinq sont nouveaux : sans cette
+   *    reprise, on paierait six fois cent soixante au lieu d'une fois
+   *    vingt-cinq.
+   * 2. On n'envoie que les sources declarees anglophones. Le champ `langue`
+   *    de news-sources.ts le dit depuis toujours : aucune detection, donc
+   *    aucun risque de retraduire du francais vers le francais.
+   * 3. Sans cle, on n'appelle rien et on le dit. Les articles sortent sans
+   *    traduction, la page les montre en anglais. */
+  const FRANCOPHONES = new Set(SOURCES.filter((s) => s.langue === 'fr').map((s) => s.id));
+  const deja = new Map<string, { titre: string; resume: string }>();
+  if (existsSync(SORTIE)) {
+    try {
+      const ancien = JSON.parse(readFileSync(SORTIE, 'utf8')) as Livre;
+      for (const a of ancien.articles) {
+        if (a.titre_fr) deja.set(a.lien, { titre: a.titre_fr, resume: a.resume_fr ?? '' });
+      }
+    } catch {
+      /* Fichier illisible : on repart de rien, la passe coutera une fois le
+         plein tarif et le fichier sera sain ensuite. */
+    }
+  }
+
+  const cle = process.env['ANTHROPIC_API_KEY'] ?? '';
+  const aTraduire: ATraduire[] = tries
+    .filter((a) => !FRANCOPHONES.has(a.source) && !deja.has(a.lien))
+    .map((a) => ({ lien: a.lien, titre: a.titre, resume: a.resume }));
+
+  let neuves = new Map<string, { titre: string; resume: string }>();
+  if (aTraduire.length === 0) {
+    console.log('\nTraduction : rien de nouveau a traduire.');
+  } else if (!cle) {
+    console.log(`\nTraduction : ${aTraduire.length} article(s) a traduire, mais ANTHROPIC_API_KEY est absente. Ils sortent en anglais.`);
+  } else {
+    console.log(`\nTraduction de ${aTraduire.length} article(s) :`);
+    neuves = await traduire(aTraduire, cle, (l) => console.log(l));
+  }
+
+  const traduits: Article[] = tries.map((a) => {
+    const t = neuves.get(a.lien) ?? deja.get(a.lien);
+    return t ? { ...a, titre_fr: t.titre, resume_fr: t.resume } : a;
+  });
+  console.log(`  ${traduits.filter((a) => a.titre_fr).length} article(s) sur ${traduits.length} ont leur version francaise.`);
+
+  const livre: Livre = { fait: new Date().toISOString(), articles: traduits, pannes };
   /* INDENTE, ET `fait` SUR SA PROPRE LIGNE : l'action planifiee compare le
      fichier en ignorant cette ligne, pour ne commettre que quand un article
      a change, pas six fois par jour pour une date. */

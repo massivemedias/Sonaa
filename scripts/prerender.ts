@@ -684,7 +684,13 @@ for (const l of LEGALES) {
    quatre heures et le site republie avec : la page change a chaque fois,
    ce qui est exactement ce qu'un moteur aime. */
 
-interface Article { source: string; titre: string; lien: string; date: string | null; image: string | null; resume: string }
+interface Article { source: string; titre: string; lien: string; date: string | null; image: string | null; resume: string; titre_fr?: string; resume_fr?: string }
+/* LA PAGE PRE-RENDUE EST EN FRANCAIS, comme tout ce qui n'est pas sous /en/ :
+   elle prend donc la traduction quand la moisson en a posee une, et
+   l'original pour les deux magazines francophones comme pour ce qui n'a pas
+   pu etre traduit. Voir scripts/lib/traduire.ts. */
+const titreFr = (a: Article): string => a.titre_fr ?? a.titre;
+const resumeFr = (a: Article): string => (a.titre_fr ? (a.resume_fr ?? '') : a.resume);
 const cheminNews = join(DIST, 'news.json');
 if (existsSync(cheminNews)) {
   const livre = JSON.parse(readFileSync(cheminNews, 'utf8')) as { articles: Article[] };
@@ -696,7 +702,7 @@ if (existsSync(cheminNews)) {
     description: 'Ce qui se dit en ce moment dans la musique électronique : les machines et logiciels qui sortent, les techniques de production, le monde du DJing, la scène. Vingt magazines relus plusieurs fois par jour.',
     image: articles[0]?.image ?? undefined,
     corps: `${entete([{ nom: 'News', href: '/news/' }])}<h1>News</h1><p>Vingt magazines de la musique électronique, relus plusieurs fois par jour ; chaque titre mène à son site.</p><ul>${articles
-      .map((a) => `<li><a href="${h(a.lien)}" rel="noopener">${h(a.titre)}</a>${a.resume ? ` : ${h(a.resume)}` : ''}</li>`)
+      .map((a) => `<li><a href="${h(a.lien)}" rel="noopener">${h(titreFr(a))}</a>${resumeFr(a) ? ` : ${h(resumeFr(a))}` : ''}</li>`)
       .join('')}</ul>`,
     jsonld: [filAriane([{ nom: 'News', href: '/news/' }])],
   });

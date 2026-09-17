@@ -26,6 +26,13 @@ export interface Article {
   readonly date: string | null;
   readonly image: string | null;
   readonly resume: string;
+  /* LA TRADUCTION FRANCAISE, POSEE PAR LA MOISSON, PAS PAR LE FLUX.
+     Absente quand la source ecrit deja en francais (Trax, Tsugi), quand la
+     traduction a echoue, ou quand la moisson tourne sans cle. L'affichage
+     retombe alors sur l'original, ce qui est l'etat d'avant le
+     17 septembre 2026. Voir scripts/lib/traduire.ts. */
+  readonly titre_fr?: string | undefined;
+  readonly resume_fr?: string | undefined;
 }
 
 /* ── Le texte ─────────────────────────────────────────────────────────── */
