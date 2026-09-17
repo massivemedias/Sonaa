@@ -1,6 +1,38 @@
 {
- "fait": "2026-09-16T22:59:05.519Z",
+ "fait": "2026-09-17T04:57:04.052Z",
  "articles": [
+  {
+   "source": "synthtopia",
+   "titre": "Patch Base 4 For Mac Now Available",
+   "lien": "https://www.synthtopia.com/content/2026/09/16/patch-base-4-for-mac-now-available/",
+   "date": "2026-09-17T02:46:27.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/patch-base-cz-1.jpg",
+   "resume": "Patch Base is a collection of editors and librarians for 85 hardware synthesizers.…"
+  },
+  {
+   "source": "synthtopia",
+   "titre": "GlitchShredder Brings Real-Time Glitch And Stutter Processing To iPhone And iPad",
+   "lien": "https://www.synthtopia.com/content/2026/09/16/glitchshredder-brings-real-time-glitch-and-stutter-processing-to-iphone-and-ipad/",
+   "date": "2026-09-17T02:38:16.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/glitchshredder.jpg",
+   "resume": "GlitchShredder is a glitch and stutter effect for iPhone and iPad that combines stereo audio chopping, tempo synchronization, probability-based segment manipulation, bitcrushing and drive, with standalone and AUv3…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Joe Landers Profligacy Is a KORG Prophecy Emulator: Get the Prodigy’s Synth for Free!",
+   "lien": "https://www.gearnews.com/joe-landers-profligacy-synth/",
+   "date": "2026-09-17T01:06:24.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/joe-landers-profligacy-T.jpg",
+   "resume": "Joe Landers Profligacy puts the KORG Prophecy hardware in your computer. This is the same synth that The Prodigy rinsed on hits like “Firestarter.” But there’s a catch… Joe Landers Profligacy: What You Need to Know Joe…"
+  },
+  {
+   "source": "musictech",
+   "titre": "Best Budget Synthesizers Under $250",
+   "lien": "https://musictech.com/guides/buyers-guide/best-budget-synthesizers-under-250/",
+   "date": "2026-09-16T23:00:15.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2025/06/Synthesizer-hero-credit-MaximFesenko-Getty@2000x1500.jpg",
+   "resume": "The world of plugins and software certainly has its advantages: price, convenience, and the fact you won’t need to free up any space on the desk. But sooner or later, most musicians get hungry for something hands-on…"
+  },
   {
    "source": "attack",
    "titre": "CRSSD After Dark Returns To San Diego Next Weekend",
@@ -266,6 +298,14 @@
    "resume": "We all love a good freebie, and this time, Antares has teamed up with Image-Line to offer the AutoTune Go pitch correction tool, free to all from FL Cloud. In this Article: Antares AutoTune Go for FL Studio Pricing and…"
   },
   {
+   "source": "synthtopia",
+   "titre": "New Mac App, HarmonyKeen, Writes Harmony Parts To Your MIDI Melodies Using Music Theory, Not AI",
+   "lien": "https://www.synthtopia.com/content/2026/09/15/new-mac-app-harmonykeen-writes-harmony-parts-to-your-midi-melodies-using-music-theory-not-ai/",
+   "date": "2026-09-16T01:47:14.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/harmonykeen.jpg",
+   "resume": "Give it a monophonic MIDI melody and it writes harmony parts around it, working out the voice leading.…"
+  },
+  {
    "source": "cdm",
    "titre": "Elgato’s Stream Deck as a DAW companion; new Reaper controller",
    "lien": "https://cdm.link/elgato-stream-deck-reaper/",
@@ -280,14 +320,6 @@
    "date": "2026-09-15T18:29:37.000Z",
    "image": "https://cdn.gearnews.com/wp-content/uploads/2025/02/minifreak-firmware-update-3-0-ar.jpg",
    "resume": "Four years on, the remarkable Arturia MiniFreak get a new update with the long-awaited addition of user sample and wavetable uploads. plus a bunch of new presets to show them off! [ UPDATE: 15th September, 2026 ] If…"
-  },
-  {
-   "source": "gearnews",
-   "titre": "Guitar Journal: Gibson Miami, Pink Floyd Gold Pick & More",
-   "lien": "https://www.gearnews.com/guitar-journal-gibson-miami/",
-   "date": "2026-09-15T18:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/Guitar-Journal-Gibson-Miami-Pink-Floyd-6k-Pick-Offset-Builds.jpg",
-   "resume": "This week, we’re checking out the latest guitar news, starting with the Gibson Garage Miami opening last weekend. Next up, we look at the insanely expensive £5.75k gold Pink Floyd plectrum! Finally, we check out the…"
   },
   {
    "source": "bpb",
@@ -338,12 +370,20 @@
    "resume": "£799 / $899 / €949, nobleaudio.com If you backpacked Thailand in the late noughties, there’s a chance you soundtracked your efforts to emulate The Beach with an early pair of Noble Audio in-ear monitors . While working…"
   },
   {
-   "source": "musictech",
-   "titre": "Audient’s new flagship Horizon interfaces can run complex sessions in even the biggest studios",
-   "lien": "https://musictech.com/news/gear/audient-horizon/",
-   "date": "2026-09-14T17:00:38.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/09/Audient-Horizon-1@2000x1500.jpg",
-   "resume": "Audient has just unveiled Horizon, its new flagship line of professional-grade Thunderbolt 3 audio interfaces. Aimed squarely at audio professionals, the range comprises three rack-mount models – the Horizon 8P, Horizon…"
+   "source": "synthtopia",
+   "titre": "Dirtywave M8 Music Tracker Brings The M8 Workflow To iPhone And iPad",
+   "lien": "https://www.synthtopia.com/content/2026/09/14/dirtywave-m8-music-tracker-brings-the-m8-workflow-to-iphone-and-ipad/",
+   "date": "2026-09-14T17:46:51.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/m8-music-tracker-ios.jpg",
+   "resume": "Dirtywave M8 Music Tracker brings the M8’s eight-track tracker, sequencer, synthesizer, sampler and MIDI-controller workflow to iPhone and iPad.…"
+  },
+  {
+   "source": "synthtopia",
+   "titre": "Tapechild UDS-16 Is A 16-Voice Drum Synth Inspired By Soviet Circuits",
+   "lien": "https://www.synthtopia.com/content/2026/09/14/tapechild-uds-16-is-a-16-voice-drum-synth-inspired-by-soviet-circuits/",
+   "date": "2026-09-14T15:46:42.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/drum-synthesizer.jpg",
+   "resume": "Tapechild UDS-16 is a 16-voice drum synthesizer with four synthesis models inspired by the Lel UDS and Formanta Rockton, plus a Tapechild-developed engine, with all sounds generated in real time rather than played back…"
   },
   {
    "source": "bpb",
@@ -386,12 +426,28 @@
    "resume": "A hands-on sampler and sequencer built with Richie Hawtin, the Bullfrog Drums wears \"educational\" lightly and delivers serious performance power. I've spent thirty-odd years now making noise with devices for a living…"
   },
   {
+   "source": "synthtopia",
+   "titre": "Free Tool Lets You Create Yamaha DX7 FM Patches Using Plain English",
+   "lien": "https://www.synthtopia.com/content/2026/09/13/free-tool-lets-you-create-yamaha-dx7-fm-patches-using-plain-english/",
+   "date": "2026-09-14T01:46:53.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2018/02/yamaha-dx7-e1789610658509.jpg",
+   "resume": "DX7 AI Studio promises to make creating DX7 patches fun.…"
+  },
+  {
    "source": "cdm",
    "titre": "ALM records everything to stems, and now mixes, too, in compact modules",
    "lien": "https://cdm.link/alm-multichannel-record-mix/",
    "date": "2026-09-13T17:57:16.000Z",
    "image": "https://cdm.link/app/uploads/2026/09/With-Mixer-hero-6-copy.jpg",
    "resume": "It's Stem Ripper, and its expansion module accomplice, \"With Mixer.\" Patch it up quick, record individual stems, and perform stereo mixing with aux sends, panning, and even external USB MIDI control. And fit it all in…"
+  },
+  {
+   "source": "synthtopia",
+   "titre": "Free Patch Editor For The KORG volca fm2",
+   "lien": "https://www.synthtopia.com/content/2026/09/12/free-patch-editor-for-the-korg-volca-fm2/",
+   "date": "2026-09-13T01:46:58.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/volca-fm-2-p-atch-editor.jpg",
+   "resume": "Developer Masaki Ono has created a free, web-based sound & sequence editor for the KORG volca fm2 synthesizer.…"
   },
   {
    "source": "attack",
@@ -474,22 +530,6 @@
    "resume": "The Grenoble-based developer's latest release recreates the architecture of a landmark early-1980s polyphonic analogue synthesiser, adding modern features including MPE support and 16-voice polyphony. XILS-lab has…"
   },
   {
-   "source": "synthtopia",
-   "titre": "Are Korg’s ‘logue Macro Oscillator Synths Underrated?",
-   "lien": "https://www.synthtopia.com/content/2026/09/10/are-korgs-logue-macro-oscillator-synths-underrated/",
-   "date": "2026-09-10T17:02:36.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2024/05/korg-minlogue-xd-inverted.jpg",
-   "resume": "The macro oscillator is \"an underrated gem of modern synthesis.\"…"
-  },
-  {
-   "source": "synthtopia",
-   "titre": "Free Soft Synth, FB3, Recreates Sound Of The Kawai K3 Synthesizer",
-   "lien": "https://www.synthtopia.com/content/2026/09/10/free-soft-synth-fb3-recreates-sound-of-the-kawai-k3-synthesizer/",
-   "date": "2026-09-10T16:47:36.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/fb3.jpg",
-   "resume": "Full Bucket Music has introduced FB3, a free software instrument for Mac & Windows.…"
-  },
-  {
    "source": "cdm",
    "titre": "Kevin Saunderson teaches a free 909 workshop, online and in Detroit",
    "lien": "https://cdm.link/kevin-saunderson-roland-and-uma/",
@@ -530,38 +570,6 @@
    "resume": "« Big Beat : Quand Fatboy Slim, The Prodigy ou The Chemical Brothers dynamitaient le dancefloor » le Tsugi Magazine 189, notre numéro de septembre-octobre, est sorti ! Il est disponible partout et à commander ici…"
   },
   {
-   "source": "synthtopia",
-   "titre": "Bob Moog Foundation Announces Livestream Series, ‘From the Source’",
-   "lien": "https://www.synthtopia.com/content/2026/09/09/bob-moog-foundation-announces-livestream-series-from-the-source/",
-   "date": "2026-09-10T02:23:52.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/Bob-Moog-Foundation-Dave-Rossum.png",
-   "resume": "The series will feature exclusive “Ask Me Anything”-style live video conversations with the innovators who have shaped the sound of modern music. …"
-  },
-  {
-   "source": "synthtopia",
-   "titre": "Knobcon Returns This Weekend & Here Are 10 Free Admission Codes",
-   "lien": "https://www.synthtopia.com/content/2026/09/09/knobcon-returns-this-weekend/",
-   "date": "2026-09-10T01:39:20.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/knobcon_number_fourteen.jpg",
-   "resume": "Knobcon is back for its fourteenth edition this weekend, September 11 - 13, at the Hyatt Regency in Schaumburg, Illinois.…"
-  },
-  {
-   "source": "synthtopia",
-   "titre": "Antonus 3620 Keyboard Controller Brings ARP 3620 Design Into A Modern MIDI/CV Instrument",
-   "lien": "https://www.synthtopia.com/content/2026/09/09/antonus-3620-keyboard-controller-brings-arp-3620-design-into-a-modern-midi-cv-instrument/",
-   "date": "2026-09-10T01:20:47.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/antonus-keyboard.jpg",
-   "resume": "The Antonus 3620 is a MIDI/CV keyboard, sequencer and controller inspired by the classic ARP 3620, with 37- and 49-key versions, velocity and aftertouch, split operation, an arpeggiator, step sequencer and expanded…"
-  },
-  {
-   "source": "synthtopia",
-   "titre": "Elektron Outbox 8 Audio/CV Breakout Box Now Avaialble",
-   "lien": "https://www.synthtopia.com/content/2026/09/09/elektron-outbox-8-audio-cv-breakout-box-now-avaialble/",
-   "date": "2026-09-09T23:13:54.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/Elektron-Outbox-8-eight-output-computer-audio.png",
-   "resume": "Elektron Outbox 8 is a versatile eight-channel audio/CV breakout box and USB host/device designed to expand your connectivity, with creative possibilities to boot. …"
-  },
-  {
    "source": "digitaldjtips",
    "titre": "Serato Fixes Its Beatgrids In DJ 5.0 Beta",
    "lien": "https://www.digitaldjtips.com/serato-fixes-its-beatgrids-in-dj-5-0-beta/",
@@ -576,14 +584,6 @@
    "date": "2026-09-09T17:23:55.000Z",
    "image": "https://cdm.link/app/uploads/2026/09/m8-tracker-hero.jpeg",
    "resume": "Dirtywave M8 is already superb as hardware, whether you run their pre-made device or build your own \"headless\" rig. Now, it has its own official iOS app for iPhone and iPad, too, and it looks hot."
-  },
-  {
-   "source": "synthtopia",
-   "titre": "The Bob Moog Foundation Announces Summer Raffle for Vintage Memorymoog Plus and Moog Muse Synthesizers",
-   "lien": "https://www.synthtopia.com/content/2026/09/09/the-bob-moog-foundation-announces-summer-raffle-for-vintage-memorymoog-plus-and-moog-muse-synthesizers/",
-   "date": "2026-09-09T17:00:03.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/2026_Mem-Muse_Raffle_blog-header.jpg",
-   "resume": "The Bob Moog Foundation has announced its latest fundraising raffle for a vintage Memorymoog Plus synthesizer and a brand new Moog Muse synthesizer. The Memorymoog Plus, serial number 3067, will be awarded to the first…"
   },
   {
    "source": "tsugi",
@@ -1114,6 +1114,94 @@
    "resume": "Scottish DJ-producer Jack Revill, better known as Jackmaster, has died of an accidental head injury, aged 38. Revill’s family confirmed the news on Instagram yesterday. “It’s with profound sorrow that we confirm the…"
   },
   {
+   "source": "mixmag",
+   "titre": "Youth Music reaches £1 million milestone in young artist investments",
+   "lien": "https://mixmag.net/read/youth-music-invested-1-million-directly-aspiring-uk-artists-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fyouth-music.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=0bc2c6ce",
+   "resume": "According to the charity's data, 54% of its NextGen Fund recipients have already landed careers in music since the programme launched in 2021"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Who's playing The Mixmag Lab?",
+   "lien": "https://mixmag.net/feature/lab-ldn",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FLabLondon_Whosplaying_08.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=9ffb4e4d",
+   "resume": "See who's playing The Mixmag Lab, our world famous party - and come through"
+  },
+  {
+   "source": "mixmag",
+   "titre": "EU \"concerned\" over LGBTQIA+ nightlife raids in Turkey",
+   "lien": "https://mixmag.net/read/eu-concerned-over-lgbtqia-nightlife-raids-in-turkey-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FTurkey.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=17645a9d",
+   "resume": "Turkish police raided dozens of homes and venues connected with the LGBTQIA+ community on Sunday"
+  },
+  {
+   "source": "mixmag",
+   "titre": "John Summit responds to backlash and alleged harassment after Argentina show",
+   "lien": "https://mixmag.net/read/john-summit-responds-backlash-alleged-harassment-argentina-show-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fjohn-summit-argentina.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=73c19567",
+   "resume": "The US DJ appeared to cut his set short by 40 minutes over the weekend"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Fred again.., PinkPantheress and more teased for GTA 6 soundtrack",
+   "lien": "https://mixmag.net/read/fred-again-pinkpantheress-teased-gta-6-soundtrack-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Ffred-again-pinkpantheress-gta6.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=63b8f142",
+   "resume": "Mysterious Instagram posts featuring GTA's signature art style were shared by a slew of major artists yesterday"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Transcendental experience: Decades in, Making Time is still reshaping the classic club night",
+   "lien": "https://mixmag.net/feature/making-time-philadelphia-party-festival-electroclash-bands-the-strokes",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fmaking-time-web.jpg&width=1200&height=630&focalX=0.5&focalY=0.5&quality=60&cb=ff3bfecd",
+   "resume": "For the last 26 years, Philadelphia party Making Time has rewritten the traditional club night script. Fusing DJs with live acts, the beloved night has brought The Strokes, Interpol, Charli xcx and many more together…"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Armin van Buuren appears in full drag on Dutch TV show",
+   "lien": "https://mixmag.net/read/armin-van-buuren-appears-full-drag-dutch-tv-show-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Farmin-drag.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=05b8c078",
+   "resume": "The trance legend appeared on drag show Make Up Your Mind as a surprise ‘Mystery Queen’"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Eight people arrested after attempt to break into Edinburgh's FLY Festival",
+   "lien": "https://mixmag.net/read/eight-people-arrested-attempt-break-into-edinburgh-fly-festival-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FFLY-Festival.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=b6694e47",
+   "resume": "A 12-year-old boy was among those apprehended after reportedly trespassing on a railway line in an attempt to gain access to the event"
+  },
+  {
+   "source": "mixmag",
+   "titre": "ADE severs ties with promoters over \"insensitive\" Shlømo booking",
+   "lien": "https://mixmag.net/read/ade-severs-ties-promoters-insensitive-shlomo-booking-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fshlomo-credit-Fany_Bardin.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=94d8350f",
+   "resume": "The French artist, who has been accused of rape and sexual misconduct, was due to perform at an event hosted by Komplott and Overgave during the music summit next month"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Suno admits to using music from YouTube to train its AI models",
+   "lien": "https://mixmag.net/read/ai-music-firm-suno-admits-using-music-from-youtube-to-train-models-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fsuno-ai.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=653c22a3",
+   "resume": "The AI music creation firm has admitted to using audio data from the platform in a new court filing"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Manchester venue renae offers funding for up-and-coming promoters",
+   "lien": "https://mixmag.net/read/manchester-venue-renae-offers-funding-up-coming-promoters-news",
+   "date": null,
+   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Frenae-manchester.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=c26003ab",
+   "resume": "Three successful applicants to the Promoter Promise initiative will be granted bursaries"
+  },
+  {
    "source": "djmag",
    "titre": "David Guetta kickstarts Top 100 DJs 2026 fundraiser for Bridges for Music Academy",
    "lien": "https://djmag.com/news/david-guetta-kickstarts-top-100-djs-2026-fundraiser-bridges-music-academy",
@@ -1166,7 +1254,7 @@
    "titre": "Listen to Fred again.. and LATIN MAFIA’s Mexico City DJ set on Apple Music",
    "lien": "https://djmag.com/news/listen-fred-again-and-latin-mafias-mexico-city-dj-set-apple-music",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/fred-again-latin-mafia-apple-music-usb002-live-recording-dj-set.png.webp?itok=jqRjucl31722957344",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/fred-again-latin-mafia-apple-music-usb002-live-recording-dj-set.png.webp?itok=jqRjucl31234197275",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The UK producer's USB002 tour sets with Four Tet (in Toronto) and Caribou and Floating…"
   },
   {
@@ -1182,7 +1270,7 @@
    "titre": "David Guetta and Marlon Hoffstadt announce collaborative single, ‘Caught Up’",
    "lien": "https://djmag.com/news/david-guetta-and-marlon-hoffstadt-announce-collaborative-single-caught",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/david-guetta-marlon-hoffstadt-single-caught-up-unvrs-ibiza-residency-photo.png.webp?itok=qMTiANU32124268241",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/david-guetta-marlon-hoffstadt-single-caught-up-unvrs-ibiza-residency-photo.png.webp?itok=qMTiANU31082196318",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The Berlin DJ teased teased there might be more teamwork from the duo behind the decks…"
   },
   {
@@ -1192,94 +1280,6 @@
    "date": null,
    "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/ade-2025-amsterdam-dance-event-line-up-reveal-photo.JPG%20%281%29.webp?itok=yY0V9dn1720124151",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Several artists on the bill had previously withdrawn from the event over the addition of…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Charlotte de Witte unveils new EP, ‘The Resistance’",
-   "lien": "https://djmag.com/news/charlotte-de-witte-unveils-new-ep-resistance",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/charlotte-de-witte-new-ep-kntxt-the-resistance-photo-2.png.webp?itok=S5FJ6iTY2041398793",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Out next week, the three-tracker is an extension of the Belgian star's audiovisual live…"
-  },
-  {
-   "source": "djmag",
-   "titre": "DJ Mag announces Top 100 DJs LIVE 2026 at [UNVRS] Ibiza",
-   "lien": "https://djmag.com/news/dj-mag-announces-top-100-djs-live-2026-unvrs-ibiza",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/20261006_UNVRS_TOP100DJ_LINEUP_XCOVER_1500X500px.jpg.webp?itok=LUVQj4_y2131575781",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The iconic celebration of global electronic music returns to Ibiza next month</p> </div>"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Youth Music reaches £1 million milestone in young artist investments",
-   "lien": "https://mixmag.net/read/youth-music-invested-1-million-directly-aspiring-uk-artists-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fyouth-music.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=0bc2c6ce",
-   "resume": "According to the charity's data, 54% of its NextGen Fund recipients have already landed careers in music since the programme launched in 2021"
-  },
-  {
-   "source": "mixmag",
-   "titre": "EU \"concerned\" over LGBTQIA+ nightlife raids in Turkey",
-   "lien": "https://mixmag.net/read/eu-concerned-over-lgbtqia-nightlife-raids-in-turkey-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FTurkey.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=17645a9d",
-   "resume": "Turkish police raided dozens of homes and venues connected with the LGBTQIA+ community on Sunday"
-  },
-  {
-   "source": "mixmag",
-   "titre": "John Summit responds to backlash and alleged harassment after Argentina show",
-   "lien": "https://mixmag.net/read/john-summit-responds-backlash-alleged-harassment-argentina-show-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fjohn-summit-argentina.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=73c19567",
-   "resume": "The US DJ appeared to cut his set short by 40 minutes over the weekend"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Fred again.., PinkPantheress and more teased for GTA 6 soundtrack",
-   "lien": "https://mixmag.net/read/fred-again-pinkpantheress-teased-gta-6-soundtrack-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Ffred-again-pinkpantheress-gta6.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=63b8f142",
-   "resume": "Mysterious Instagram posts featuring GTA's signature art style were shared by a slew of major artists yesterday"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Armin van Buuren appears in full drag on Dutch TV show",
-   "lien": "https://mixmag.net/read/armin-van-buuren-appears-full-drag-dutch-tv-show-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Farmin-drag.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=05b8c078",
-   "resume": "The trance legend appeared on drag show Make Up Your Mind as a surprise ‘Mystery Queen’"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Eight people arrested after attempt to break into Edinburgh's FLY Festival",
-   "lien": "https://mixmag.net/read/eight-people-arrested-attempt-break-into-edinburgh-fly-festival-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2FFLY-Festival.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=b6694e47",
-   "resume": "A 12-year-old boy was among those apprehended after reportedly trespassing on a railway line in an attempt to gain access to the event"
-  },
-  {
-   "source": "mixmag",
-   "titre": "ADE severs ties with promoters over \"insensitive\" Shlømo booking",
-   "lien": "https://mixmag.net/read/ade-severs-ties-promoters-insensitive-shlomo-booking-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fshlomo-credit-Fany_Bardin.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=94d8350f",
-   "resume": "The French artist, who has been accused of rape and sexual misconduct, was due to perform at an event hosted by Komplott and Overgave during the music summit next month"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Suno admits to using music from YouTube to train its AI models",
-   "lien": "https://mixmag.net/read/ai-music-firm-suno-admits-using-music-from-youtube-to-train-models-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Fsuno-ai.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=653c22a3",
-   "resume": "The AI music creation firm has admitted to using audio data from the platform in a new court filing"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Manchester venue renae offers funding for up-and-coming promoters",
-   "lien": "https://mixmag.net/read/manchester-venue-renae-offers-funding-up-coming-promoters-news",
-   "date": null,
-   "image": "https://images.mutualone.co.uk/?url=https%3A%2F%2Fcdn.craft.cloud%2F0bfe5635-ac77-4d17-9f4e-811b54bed2f3%2Fassets%2Fimages%2Frenae-manchester.jpg&width=660&focalX=0.5&focalY=0.5&quality=80&cb=c26003ab",
-   "resume": "Three successful applicants to the Promoter Promise initiative will be granted bursaries"
   }
  ],
  "pannes": []
