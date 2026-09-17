@@ -1,8 +1,11 @@
 /* LA BARRE DU BAS. Voir BarreBas.tsx pour le pourquoi.
 
-   Elle n'existe que sous 768 px, le seuil que tout le site emploie deja pour
-   dire « telephone » (legende de l'atlas, fil d'Ariane, bouton de compte).
-   Une seule frontiere pour un seul mot. */
+   Elle n'existe que sous 900 px. Le seuil etait a 768 px, celui que le reste
+   du site emploie pour dire « telephone ». Il monte a 900 px le 17 septembre
+   2026 parce que le menu du haut porte desormais sept mots au lieu de cinq
+   icones : entre 768 et 900 px ils tombaient a la ligne sous le logo. C'est
+   le seul endroit du site ou cette frontiere-la vaut 900, et c'est ici
+   qu'elle est ecrite. */
 
 /* ═══ LA PLACE EN BAS EST UNE GRANDEUR NOMMEE ═══
 
@@ -24,7 +27,7 @@ body.avec-mini-lecteur {
   display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 899px) {
   body.avec-barre-bas {
     --barre-bas-h: calc(58px + env(safe-area-inset-bottom, 0px));
   }
@@ -84,6 +87,18 @@ body.avec-mini-lecteur {
   .barre-bas-icone {
     width: 22px;
     height: 22px;
+  }
+  /* LE COMPTEUR SE POSE SUR L'ICONE, pas a cote : la colonne d'un onglet
+     fait un cinquieme d'ecran, et un chiffre pose a cote de l'icone
+     decalerait le libelle en dessous. */
+  .barre-bas-pastille {
+    position: relative;
+    display: inline-flex;
+  }
+  .barre-bas-pastille .badge-panier {
+    position: absolute;
+    top: -4px;
+    left: calc(100% - 6px);
   }
 
 }

@@ -43,10 +43,10 @@ export function MiniLecteur() {
       <div className="mini-filet" aria-hidden="true">
         <span style={{ width: `${avancee * 100}%` }} />
       </div>
-      <a className="mini-pochette" href={`#/sets/${set.id}`} aria-hidden="true" tabIndex={-1}>
+      <a className="mini-pochette" href={`#/mixtapes/${set.id}`} aria-hidden="true" tabIndex={-1}>
         {image ? <img src={image} alt="" /> : <span className="mini-pochette-vide" />}
       </a>
-      <a className="mini-texte" href={`#/sets/${set.id}`}>
+      <a className="mini-texte" href={`#/mixtapes/${set.id}`}>
         <strong>{set.titre}</strong>
         <span>{set.artiste_nom ?? t.artisteSansNom}</span>
       </a>

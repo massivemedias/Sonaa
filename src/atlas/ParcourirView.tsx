@@ -1006,11 +1006,11 @@ function SetsDuGenre({ genreId }: { genreId: string }) {
 
   return (
     <section className="pv-communaute">
-      <h3 className="pv-titre-liste">{t.setsDeLaCommunaute}</h3>
+      <h3 className="pv-titre-liste">{t.mixtapesDeLaCommunaute}</h3>
       <ul className="pv-sets">
         {sets.map((s) => (
           <li key={s.id}>
-            <a className="pv-set" href={`#/sets/${s.id}`}>
+            <a className="pv-set" href={`#/mixtapes/${s.id}`}>
               <span className="pv-set-titre">{s.titre}</span>
               <span className="pv-set-detail">
                 {s.artiste_nom ?? t.artisteSansNom}

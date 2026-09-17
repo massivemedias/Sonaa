@@ -65,6 +65,14 @@ interface Page {
   langue?: 'en' | undefined;
   /** Le chemin de la meme page dans l'autre langue, pour hreflang. */
   alterne?: string | undefined;
+  /* HORS INDEX ET HORS PLAN DU SITE. Le panier n'a rien a dire a un moteur :
+     il est vide pour tout le monde sauf pour celui qui l'a rempli. */
+  noindex?: boolean | undefined;
+  /* UNE AUTRE PAGE FAIT AUTORITE. Les anciennes adresses /sons/ restent
+     servies, parce qu'elles sont indexees et partagees, mais elles disent
+     elles-memes que la bonne adresse est /mixtapes/. Elles sortent du plan du
+     site : un plan ne liste que des canoniques. */
+  canonique?: string | undefined;
 }
 
 const pages: Page[] = [];
@@ -74,7 +82,8 @@ function ecrire(p: Page): void {
   const meta = [
     `<title>${h(p.titre)}</title>`,
     `<meta name="description" content="${h(p.description)}" />`,
-    `<link rel="canonical" href="${h(url)}" />`,
+    `<link rel="canonical" href="${h(ORIGINE + (p.canonique ?? p.chemin))}" />`,
+    p.noindex ? `<meta name="robots" content="noindex, follow" />` : '',
     `<meta property="og:title" content="${h(p.titre)}" />`,
     `<meta property="og:description" content="${h(p.description)}" />`,
     `<meta property="og:url" content="${h(url)}" />`,
@@ -551,23 +560,46 @@ if (sets.length > 0) {
   const pochette = (c: string | null): string | undefined =>
     c ? `${SUPABASE_URL}/storage/v1/object/public/covers/${c}` : undefined;
   const dureeIso = (s: number | null): string | undefined => (s ? `PT${Math.floor(s / 60)}M${s % 60}S` : undefined);
-  ecrire({
-    chemin: '/sons/',
-    hash: '#/sets',
-    titre: 'Les sets des DJs et producteurs de SONAA · SONAA',
-    description: `${sets.length} sets déposés par les membres de SONAA, à écouter en entier, sans perte, classés par style.`,
-    corps: `${entete([{ nom: 'Sons', href: '/sons/' }])}<h1>Les sets</h1><ul>${sets.map((s) => `<li><a href="/sons/${s.id}/">${h(s.titre)}</a> par ${h(s.artiste_nom ?? 'sans nom')}</li>`).join('')}</ul>`,
-    jsonld: [filAriane([{ nom: 'Sons', href: '/sons/' }])],
+
+  /* ═══ MIXTAPES, ET /sons/ QUI Y MENE ═══
+   *
+   * La section s'appelait Sons jusqu'au 17 septembre 2026. Ses 4 adresses
+   * etaient dans le plan du site soumis a Google et a Bing trois jours plus
+   * tot. GitHub Pages ne sait pas repondre 301 : la seule redirection
+   * possible est une page qui se sert elle-meme et qui DIT, par un
+   * canonique, ou est la bonne. C'est ce que fait `jumelle` ci-dessous. Les
+   * anciennes adresses restent donc servies, gardent leur contenu lisible
+   * pour qui arrive dessus, et sortent du plan du site. */
+  const jumelle = (p: Page): void => {
+    ecrire(p);
+    ecrire({
+      ...p,
+      chemin: p.chemin.replace('/mixtapes/', '/sons/'),
+      canonique: p.chemin,
+      /* Le corps porte le lien vers la bonne adresse, en tete : un visiteur
+         qui arrive par un vieux lien doit pouvoir cliquer, pas seulement
+         etre compris par un robot. */
+      corps: `<p><a href="${p.chemin}">${h(p.titre.replace(/ · SONAA$/, ''))}</a></p>${p.corps}`,
+    });
+  };
+
+  jumelle({
+    chemin: '/mixtapes/',
+    hash: '#/mixtapes',
+    titre: 'Les mixtapes des DJs et producteurs de SONAA · SONAA',
+    description: `${sets.length} mixtapes déposées par les membres de SONAA, à écouter en entier, sans perte, classées par style.`,
+    corps: `${entete([{ nom: 'Mixtapes', href: '/mixtapes/' }])}<h1>Les mixtapes</h1><ul>${sets.map((s) => `<li><a href="/mixtapes/${s.id}/">${h(s.titre)}</a> par ${h(s.artiste_nom ?? 'sans nom')}</li>`).join('')}</ul>`,
+    jsonld: [filAriane([{ nom: 'Mixtapes', href: '/mixtapes/' }])],
   });
   for (const s of sets) {
     const genres = (s.genre_ids ?? []).map((id) => STRUCTURES.flatMap((x) => x.genres).find((x) => x.id === id)?.label ?? id);
-    ecrire({
-      chemin: `/sons/${s.id}/`,
-      hash: `#/sets/${s.id}`,
-      titre: `${s.titre} par ${s.artiste_nom ?? 'un membre de SONAA'} : set à écouter · SONAA`,
-      description: couper(`${s.titre}, un set de ${s.artiste_nom ?? 'un membre de SONAA'}${s.duree_s ? ` (${Math.round(s.duree_s / 60)} min)` : ''}${genres.length ? `, ${genres.join(', ')}` : ''}.${s.description ? ` ${s.description}` : ''}`, 158),
+    jumelle({
+      chemin: `/mixtapes/${s.id}/`,
+      hash: `#/mixtapes/${s.id}`,
+      titre: `${s.titre} par ${s.artiste_nom ?? 'un membre de SONAA'} : mixtape à écouter · SONAA`,
+      description: couper(`${s.titre}, une mixtape de ${s.artiste_nom ?? 'un membre de SONAA'}${s.duree_s ? ` (${Math.round(s.duree_s / 60)} min)` : ''}${genres.length ? `, ${genres.join(', ')}` : ''}.${s.description ? ` ${s.description}` : ''}`, 158),
       image: pochette(s.cover_path),
-      corps: `${entete([{ nom: 'Sons', href: '/sons/' }, { nom: s.titre, href: `/sons/${s.id}/` }])}<h1>${h(s.titre)}</h1><p>${h(s.artiste_nom ?? '')}${s.duree_s ? ` · ${Math.round(s.duree_s / 60)} min` : ''}${genres.length ? ` · ${h(genres.join(', '))}` : ''}</p>${s.description ? `<p>${h(s.description)}</p>` : ''}<p><a href="/sons/${s.id}/#/sets/${s.id}">Écouter ce set</a></p>`,
+      corps: `${entete([{ nom: 'Mixtapes', href: '/mixtapes/' }, { nom: s.titre, href: `/mixtapes/${s.id}/` }])}<h1>${h(s.titre)}</h1><p>${h(s.artiste_nom ?? '')}${s.duree_s ? ` · ${Math.round(s.duree_s / 60)} min` : ''}${genres.length ? ` · ${h(genres.join(', '))}` : ''}</p>${s.description ? `<p>${h(s.description)}</p>` : ''}<p><a href="/mixtapes/${s.id}/#/mixtapes/${s.id}">Écouter cette mixtape</a></p>`,
       jsonld: [
         {
           '@context': 'https://schema.org',
@@ -578,11 +610,74 @@ if (sets.length > 0) {
           genre: genres,
           image: pochette(s.cover_path),
           datePublished: s.created_at.slice(0, 10),
-          url: `${ORIGINE}/sons/${s.id}/`,
+          url: `${ORIGINE}/mixtapes/${s.id}/`,
         },
       ],
     });
   }
+}
+
+/* ═══ LA COUCHE MARCHANDE ═══ Phase 0 : les adresses existent, la vente non.
+   Tracks est une vraie page, indexable, parce qu'une adresse apprise
+   aujourd'hui est une adresse deja classee le jour de l'ouverture. Le panier
+   est hors index. Les trois pages legales sont indexables : on doit pouvoir
+   les trouver depuis un moteur, c'est meme leur premier usage. */
+
+ecrire({
+  chemin: '/tracks/',
+  hash: '#/tracks',
+  titre: 'Tracks : les morceaux des artistes de SONAA · SONAA',
+  description:
+    'Les morceaux des artistes de SONAA, achetés directement à celles et ceux qui les ont faits. La vente ouvre bientôt.',
+  corps: `${entete([{ nom: 'Tracks', href: '/tracks/' }])}<h1>Tracks</h1><p>Les morceaux des artistes de SONAA, achetés directement à celles et ceux qui les ont faits.</p><h2>Bientôt</h2><p>La vente ouvre bientôt. Les artistes pourront déposer leurs morceaux, fixer leur prix, et recevoir l’argent sans intermédiaire de plus que la banque.</p><p><a href="/mixtapes/">Les mixtapes, en attendant</a></p>`,
+  jsonld: [filAriane([{ nom: 'Tracks', href: '/tracks/' }])],
+});
+
+ecrire({
+  chemin: '/panier/',
+  hash: '#/panier',
+  noindex: true,
+  titre: 'Panier · SONAA',
+  description: 'Votre panier sur SONAA.',
+  corps: `${entete([{ nom: 'Panier', href: '/panier/' }])}<h1>Panier</h1><p>Votre panier est vide.</p>`,
+  jsonld: [],
+});
+
+const LEGALES: readonly { chemin: string; hash: string; titre: string; description: string; sections: readonly string[] }[] = [
+  {
+    chemin: '/conditions/',
+    hash: '#/conditions',
+    titre: 'Conditions d’utilisation · SONAA',
+    description: 'Les conditions d’utilisation de SONAA : le service, le compte, ce que vous déposez, la vente, les responsabilités.',
+    sections: ['Ce qu’est le service', 'Le compte', 'Ce que vous déposez', 'La vente', 'Responsabilités', 'Droit applicable'],
+  },
+  {
+    chemin: '/confidentialite/',
+    hash: '#/confidentialite',
+    titre: 'Politique de confidentialité · SONAA',
+    description: 'Ce que SONAA collecte, à quoi cela sert, ce qui est partagé, combien de temps, et vos droits.',
+    sections: ['Ce qui est collecté', 'À quoi cela sert', 'Ce qui est partagé', 'Combien de temps', 'Vos droits', 'Nous écrire'],
+  },
+  {
+    chemin: '/mentions/',
+    hash: '#/mentions',
+    titre: 'Mentions légales · SONAA',
+    description: 'L’éditeur de SONAA, son hébergement, son contact et la propriété intellectuelle.',
+    sections: ['L’éditeur', 'L’hébergement', 'Contact', 'Propriété intellectuelle'],
+  },
+];
+const EN_REDACTION = 'Texte juridique en rédaction, à recevoir de l’avocat.';
+for (const l of LEGALES) {
+  ecrire({
+    chemin: l.chemin,
+    hash: l.hash,
+    titre: l.titre,
+    description: l.description,
+    corps:
+      `${entete([{ nom: l.titre.replace(/ · SONAA$/, ''), href: l.chemin }])}<h1>${h(l.titre.replace(/ · SONAA$/, ''))}</h1><p>${EN_REDACTION}</p>` +
+      l.sections.map((x) => `<h2>${h(x)}</h2><p>${EN_REDACTION}</p>`).join(''),
+    jsonld: [filAriane([{ nom: l.titre.replace(/ · SONAA$/, ''), href: l.chemin }])],
+  });
 }
 
 /* ═══ LES NEWS, DEPUIS LA MOISSON ═══ Le fichier est refait toutes les
@@ -616,13 +711,15 @@ if (existsSync(cheminNews)) {
     .filter((p) => /^\/soirees\/[a-z-]+\/$/.test(p.chemin))
     .map((p) => `<li><a href="${p.chemin}">${h(p.titre.replace(/ · SONAA$/, ''))}</a></li>`)
     .join('');
-  const corps = `<h1>SONAA</h1><p>Le calendrier des soirées électroniques et l’atlas des 219 styles de musique électronique, avec un cours de production par style.</p><h2>Les soirées</h2><ul>${villes}</ul><h2>Les styles</h2><ul><li><a href="/styles/">Tous les styles</a></li>${familles}</ul><h2>Et aussi</h2><ul><li><a href="/sons/">Les sets des DJs</a></li><li><a href="/news/">Les news</a></li><li><a href="${PREFIXE_ANGLAIS}/styles/" hreflang="en">Electronic music styles, in English</a></li></ul>`;
+  const corps = `<h1>SONAA</h1><p>Le calendrier des soirées électroniques et l’atlas des 219 styles de musique électronique, avec un cours de production par style.</p><h2>Les soirées</h2><ul>${villes}</ul><h2>Les styles</h2><ul><li><a href="/styles/">Tous les styles</a></li>${familles}</ul><h2>Et aussi</h2><ul><li><a href="/mixtapes/">Les mixtapes des DJs</a></li><li><a href="/tracks/">Les tracks à acheter</a></li><li><a href="/news/">Les news</a></li><li><a href="${PREFIXE_ANGLAIS}/styles/" hreflang="en">Electronic music styles, in English</a></li></ul>`;
   writeFileSync(join(DIST, 'index.html'), gabarit.replace('<div id="root">', `<div id="root"><main class="prerendu">${corps}</main>`), 'utf8');
 }
 
 /* ═══ LE PLAN DU SITE ET LES ROBOTS ═══ */
 
-const urls = ['/', ...pages.map((p) => p.chemin)].filter((x, i, a) => a.indexOf(x) === i);
+const urls = ['/', ...pages.filter((p) => !p.noindex && !p.canonique).map((p) => p.chemin)].filter(
+  (x, i, a) => a.indexOf(x) === i
+);
 writeFileSync(
   join(DIST, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls
@@ -644,7 +741,7 @@ writeFileSync(join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${ORI
 
 const nStyles = pages.filter((p) => p.chemin.startsWith('/styles/')).length;
 const nSoirees = pages.filter((p) => p.chemin.startsWith('/soirees/')).length;
-const nSons = pages.filter((p) => p.chemin.startsWith('/sons/')).length;
-console.log(`Pre-rendu : ${pages.length} pages (${nStyles} styles, ${nSoirees} soirees, ${nSons} sons), sitemap de ${urls.length} adresses.`);
+const nMixtapes = pages.filter((p) => p.chemin.startsWith('/mixtapes/')).length;
+console.log(`Pre-rendu : ${pages.length} pages (${nStyles} styles, ${nSoirees} soirees, ${nMixtapes} mixtapes), sitemap de ${urls.length} adresses.`);
 if (!SUPABASE_URL || !SUPABASE_KEY) console.log('  (sans base : pas de pages de soirees ni de sets)');
 if (!existsSync(join(DIST, 'styles', 'techno', 'dub-techno', 'index.html'))) throw new Error('la page temoin /styles/techno/dub-techno/ manque');

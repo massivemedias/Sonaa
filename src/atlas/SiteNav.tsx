@@ -13,15 +13,17 @@
    s'informe). L'état actif est un attribut, pas une couleur seule. */
 
 import { useEffect, useState, type ReactNode } from 'react';
-import { faCalendarDays, faNewspaper, faLayerGroup, faHeadphones, faCircleInfo, type IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { FaIcon } from './FaIcon.tsx';
 import { t } from '../langue/langue.ts';
+import { BadgePanier } from '../marchand/BadgePanier.tsx';
 import './site-nav.css';
 
 type SiteCourant =
   | 'atlas'
   | 'parcourir'
-  | 'sets'
+  | 'mixtapes'
+  | 'tracks'
+  | 'panier'
+  | 'legal'
   | 'chronologie'
   | 'heatmap'
   | 'arbre'
@@ -35,55 +37,39 @@ type SiteCourant =
   | 'profil'
   | 'autre';
 
-/* LE MENU NE PORTE PLUS QUE DEUX VUES.
-
-   La carte en trois dimensions, la chronologie, la carte de chaleur et
-   l'arbre en sont retires sur demande de Mika. Ils ne sont pas SUPPRIMES :
-   leurs adresses repondent toujours, les fichiers sont intacts, et un lien
-   suffit a les faire revenir. Ce qui change est ce que le site PROPOSE, et
-   ce qu'il propose maintenant tient en une porte d'entree.
-
-   POURQUOI CE N'EST PAS UNE PERTE : cinq facons de regarder le meme corpus
-   demandaient de choisir avant de savoir, et le choix se payait sur
-   telephone, ou le menu tenait trois lignes.
-
-   L'INDEX SORT A SON TOUR. Il listait les 219 genres a plat, ce que Parcourir
-   fait desormais mieux : par famille, avec un texte, une photo et les
-   morceaux. Deux portes vers la meme piece, dont l'une est plus etroite.
-   L'adresse #/index repond toujours, la page n'est pas supprimee. */
-const VUES: readonly { href: string; id: SiteCourant; label: string; icone: IconDefinition }[] = [
-  /* LE CALENDAR EN PREMIER, PARCE QU'IL EST LA PAGE D'ACCUEIL. On y lit ce
-     qui se joue ce soir ; les styles et les sons racontent d'ou ca vient.
-     Le menu suit le meme ordre que l'arrivee sur le site. Decision de Mika
-     du 7 septembre 2026. */
-  { href: '#/calendrier', id: 'calendrier', label: t.leCalendrier, icone: faCalendarDays },
-  /* NEWS, JUSTE APRES : ce qui se dit aujourd'hui, a cote de ce qui se joue
-     ce soir. Demande de Mika du 7 septembre 2026. */
-  { href: '#/news', id: 'news', label: t.leNews, icone: faNewspaper },
-  /* DEUX PORTES VERS LE MEME CORPUS, ET ELLES SE NOMMENT PAR CE QU'ON Y
-     TROUVE. « Parcourir » decrivait un geste, pas une destination : on ne
-     sait pas ce qu'on va parcourir avant d'avoir clique. « Styles » et
-     « Artistes » disent l'un et l'autre ce qu'il y a derriere. */
-  { href: '#/parcourir', id: 'parcourir', label: t.lesStyles, icone: faLayerGroup },
-  /* LES SETS SONT UNE DESTINATION, PAS UN REGLAGE DE COMPTE. On peut les
-     ecouter sans compte et sans en deposer un seul : les cacher derriere le
-     menu du profil les rendrait invisibles a exactement les gens a qui ils
-     s'adressent. */
-  /* « ARTISTES » NOMMAIT LES GENS, PAS CE QU'ON VIENT CHERCHER. Le jour ou
-     ils seront cent, le mot decrira une liste de noms alors qu'on vient
-     ecouter. « Sons » repond a « Styles » comme une porte repond a l'autre :
-     d'un cote l'histoire des genres, de l'autre ce qui se depose aujourd'hui.
-     La page garde ses artistes, en section nommee. */
-  { href: '#/sets', id: 'sets', label: t.lesSons, icone: faHeadphones },
+/* ═══ DES MOTS, PLUS DES ICONES ═══
+ *
+ * Le menu du bureau a porte des icones avec le nom au survol, du 14 au
+ * 17 septembre 2026. Il revient aux mots avec l'ouverture de la couche
+ * marchande, et la raison est la : cinq portes se devinent en icones, sept ne
+ * se devinent plus, et deux des nouvelles, Tracks et Panier, sont exactement
+ * celles qu'un visiteur ne cherchera pas s'il doit deviner ce que le dessin
+ * veut dire. Un panier se reconnait ; une section de vente qui s'appelle
+ * Tracks, non.
+ *
+ * L'ordre suit ce qu'on vient chercher : ce qui se joue ce soir, ce qui se
+ * dit aujourd'hui, d'ou ca vient, ce qui s'ecoute, ce qui s'achete. Puis, a
+ * part, ce qui appartient au visiteur : son panier et son compte.
+ *
+ * SUR TELEPHONE, CETTE RANGEE N'EXISTE PAS. Sous 900 px c'est la barre du bas
+ * qui porte la navigation, et ce menu est cache par la feuille de style. Les
+ * portes qui ne tiennent pas dans les cinq onglets sont dans le bouton
+ * « Plus » de l'en-tete. Voir BarreBas.tsx et MenuPlus.tsx. */
+const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
+  { href: '#/calendrier', id: 'calendrier', label: t.leCalendrier },
+  { href: '#/news', id: 'news', label: t.leNews },
+  { href: '#/parcourir', id: 'parcourir', label: t.lesStyles },
+  { href: '#/mixtapes', id: 'mixtapes', label: t.lesMixtapes },
+  { href: '#/tracks', id: 'tracks', label: t.lesTracks },
 ];
 
-/* QUATRE ENTREES, PLUS CINQ. Le menu tient desormais sur la meme rangee que
-   le logo et le titre d'une page : chaque mot de plus y coute directement.
-   « Credits » est la page qu'on ouvre une fois ; elle se rejoint depuis
-   « A propos », qui la nomme, et depuis le pied de page. Elle garde son
-   adresse et ses sept sections. */
-const PAGES: readonly { href: string; id: SiteCourant; label: string; icone: IconDefinition }[] = [
-  { href: '#/a-propos', id: 'apropos', label: t.aPropos, icone: faCircleInfo }
+/* CE QUI APPARTIENT AU VISITEUR, apres le separateur : son panier, son
+   compte. « A propos » a quitte la rangee en meme temps que les icones : a
+   sept mots la ligne est pleine, et cette page se rejoint depuis le pied,
+   ou elle a toujours ete. */
+const PAGES: readonly { href: string; id: SiteCourant; label: string }[] = [
+  { href: '#/panier', id: 'panier', label: t.lePanier },
+  { href: '#/profil', id: 'profil', label: t.monProfil },
 ];
 
 /* ═══ LE JEU N'EST PLUS DANS LE MENU ═══
@@ -116,7 +102,13 @@ export function courantDuSite(hash: string): SiteCourant {
   if (hash.startsWith('#/arbre')) return 'arbre';
   if (hash.startsWith('#/calendrier')) return 'calendrier';
   if (hash.startsWith('#/news')) return 'news';
-  if (hash.startsWith('#/sets')) return 'sets';
+  if (hash.startsWith('#/mixtapes')) return 'mixtapes';
+  if (hash.startsWith('#/sets')) return 'mixtapes';
+  if (hash.startsWith('#/tracks')) return 'tracks';
+  if (hash.startsWith('#/panier')) return 'panier';
+  if (hash.startsWith('#/conditions')) return 'legal';
+  if (hash.startsWith('#/confidentialite')) return 'legal';
+  if (hash.startsWith('#/mentions')) return 'legal';
   if (hash.startsWith('#/parcourir')) return 'parcourir';
   if (hash.startsWith('#/carte')) return 'atlas';
   /* La racine est le Calendar, comme dans main.tsx : les deux doivent dire
@@ -143,13 +135,9 @@ export function SiteNav({ variant, extra }: Props) {
   }, []);
   const courant = courantDuSite(hash);
 
-  /* DES ICONES, ET LE NOM AU SURVOL. Mika, le 14 septembre 2026 : « des
-     icones au lieu du menu, et quand on hover ces icones on voit le nom de
-     la page ». Les memes icones que la barre du bas sur telephone, pour
-     qu'un signe veuille dire la meme chose partout. Le nom reste dans le
-     lien, lu par les lecteurs d'ecran, et apparait en infobulle au survol
-     ou au clavier. */
-  const lien = (item: { href: string; id: SiteCourant; label: string; icone: IconDefinition }) => {
+  /* LE PANIER PORTE SON COMPTE, les autres non : c'est la seule porte dont
+     l'etat change sans qu'on la traverse. */
+  const lien = (item: { href: string; id: SiteCourant; label: string }) => {
     const actif = item.id === courant;
     return (
       <a
@@ -158,10 +146,9 @@ export function SiteNav({ variant, extra }: Props) {
         className="sitenav-lien"
         aria-current={actif ? 'page' : undefined}
         data-current={actif}
-        aria-label={item.label}
       >
-        <FaIcon icon={item.icone} />
-        <span className="sitenav-nom" role="tooltip">{item.label}</span>
+        {item.label}
+        {item.id === 'panier' && <BadgePanier />}
       </a>
     );
   };

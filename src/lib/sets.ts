@@ -805,7 +805,7 @@ export async function creerSet(champs: {
   return (data as { id: string }).id;
 }
 
-export async function mesSets(): Promise<SetDJ[]> {
+export async function mesMixtapes(): Promise<SetDJ[]> {
   if (!supabase) return [];
   const id = await moi();
   if (!id) return [];

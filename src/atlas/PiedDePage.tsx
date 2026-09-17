@@ -48,7 +48,8 @@ export function PiedDePage() {
         { href: '#/calendrier', label: t.leCalendrier },
         { href: '#/news', label: t.leNews },
         { href: '#/parcourir', label: t.lesStyles },
-        { href: '#/sets', label: t.lesSons },
+        { href: '#/mixtapes', label: t.lesMixtapes },
+        { href: '#/tracks', label: t.lesTracks },
         { href: '#/index', label: t.piedIndex },
       ],
     },
@@ -56,7 +57,7 @@ export function PiedDePage() {
       titre: t.piedParticiper,
       liens: [
         { href: '#/calendrier', label: t.piedAjouterEvenement },
-        { href: '#/profil/sets', label: t.piedDeposerSet },
+        { href: '#/profil/sets', label: t.piedDeposerMixtape },
         { href: '#/profil', label: t.monProfil },
         ...(PROPOSITIONS_OUVERTES ? [{ href: '#/propositions', label: t.piedPropositions }] : []),
       ],
@@ -71,6 +72,13 @@ export function PiedDePage() {
           label: t.piedCode,
           externe: true,
         },
+        /* LES TROIS PAGES LEGALES SONT DANS LE PIED, ET SUR TOUTES LES PAGES.
+           C'est le seul endroit ou on les cherche, et elles doivent etre
+           joignables de partout des lors qu'un compte existe : la loi 25 du
+           Quebec ne s'applique pas qu'aux pages qui vendent. */
+        { href: '#/conditions', label: t.conditionsTitre },
+        { href: '#/confidentialite', label: t.confidentialiteTitre },
+        { href: '#/mentions', label: t.mentionsTitre },
       ],
     },
   ];

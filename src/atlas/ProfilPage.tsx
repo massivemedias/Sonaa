@@ -33,7 +33,7 @@ import {
   deposerAudio,
   deposerAvatar,
   enregistrerArtiste,
-  mesSets,
+  mesMixtapes,
   mesurerDuree,
   mmss,
   monArtiste,
@@ -93,7 +93,7 @@ const lireOnglet = (): Onglet => {
 
 const ONGLETS: readonly { id: Onglet; label: string }[] = [
   { id: 'compte', label: t.ongletCompte },
-  { id: 'sets', label: t.ongletSets },
+  { id: 'sets', label: t.ongletMixtapes },
   { id: 'evenements', label: t.ongletEvenements },
 ];
 
@@ -140,7 +140,7 @@ export function ProfilPage() {
   const [pochette, setPochette] = useState<{ fichier: File; apercu: string; avant: number } | null>(null);
 
   const recharger = useCallback(async () => {
-    const [liste, place] = await Promise.all([mesSets(), monStockage()]);
+    const [liste, place] = await Promise.all([mesMixtapes(), monStockage()]);
     setSets(liste);
     setStockage(place);
   }, []);
@@ -336,7 +336,7 @@ export function ProfilPage() {
       setGenres([]);
       if (pochette) URL.revokeObjectURL(pochette.apercu);
       setPochette(null);
-      setMessageDepot(t.setDepose);
+      setMessageDepot(t.mixtapeDeposee);
       await recharger();
     } catch (e) {
       setMessageDepot(e instanceof Error ? e.message : String(e));
@@ -553,9 +553,9 @@ export function ProfilPage() {
       <>
       {/* ── Mes sets ── */}
       <section className="sets-bloc">
-        <h2>{t.mesSets(sets.length)}</h2>
+        <h2>{t.mesMixtapes(sets.length)}</h2>
         {sets.length === 0 ? (
-          <p className="sp-aide">{t.aucunSetDepose}</p>
+          <p className="sp-aide">{t.aucuneMixtapeDeposee}</p>
         ) : (
           <ul className="sp-liste">
             {sets.map((s) => (
@@ -623,7 +623,7 @@ export function ProfilPage() {
       </section>
       {/* ── Deposer ── */}
       <section className="sets-bloc">
-        <h2>{t.deposerUnSet}</h2>
+        <h2>{t.deposerUneMixtape}</h2>
         <p className="sp-aide">{t.limitesDepot(mo(TAILLE_MAX))}</p>
         {/* LA PLACE RESTANTE SE DIT AVANT, PAS APRES UN REFUS. Quelqu'un qui
             depose un fichier d'un gigaoctet met plusieurs minutes a
@@ -648,7 +648,7 @@ export function ProfilPage() {
         </ZoneDepot>
 
         <label className="sp-label">
-          {t.titreDuSet}
+          {t.titreDeLaMixtape}
           <input
             type="text"
             maxLength={120}

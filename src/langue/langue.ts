@@ -389,7 +389,7 @@ interface Dictionnaire {
   readonly hier: string;
   readonly nomDunGenreOuArtiste: string;
   readonly ongletCompte: string;
-  readonly ongletSets: string;
+  readonly ongletMixtapes: string;
   readonly ongletEvenements: string;
   readonly mesPropositions: string;
   readonly ajouterUneSoiree: string;
@@ -547,7 +547,7 @@ interface Dictionnaire {
   readonly adminTitre: string;
   readonly adminReserve: string;
   readonly adminMembres: string;
-  readonly adminSets: string;
+  readonly adminMixtapes: string;
   readonly adminSoirees: string;
   readonly adminCommentaires: string;
   readonly adminArtistes: string;
@@ -556,11 +556,11 @@ interface Dictionnaire {
   readonly adminDerniereConnexion: string;
   readonly adminMoyen: string;
   readonly adminArtiste: string;
-  readonly adminNSets: (n: number, publies: number) => string;
+  readonly adminNMixtapes: (n: number, publies: number) => string;
   readonly adminNSoirees: (n: number) => string;
   readonly adminJamais: string;
-  readonly adminTousLesSets: string;
-  readonly adminAucunSet: string;
+  readonly adminToutesLesMixtapes: string;
+  readonly adminAucuneMixtape: string;
   readonly adminDeposePar: string;
   readonly adminConfirmerRetrait: (titre: string) => string;
   readonly adminDemandesIntro: string;
@@ -583,7 +583,7 @@ interface Dictionnaire {
   readonly connexionEchouee: string;
 
   /* ── Les sets DJ ── */
-  readonly lesSets: string;
+  readonly lesMixtapesTitre: string;
   readonly monProfil: string;
   readonly baseIndisponible: string;
   readonly connexionRequiseProfil: string;
@@ -601,11 +601,11 @@ interface Dictionnaire {
   readonly artisteSansNom: string;
   readonly formatImageRefuse: string;
   readonly imageTropLourde: (taille: string) => string;
-  readonly deposerUnSet: string;
+  readonly deposerUneMixtape: string;
   readonly limitesDepot: (max: string) => string;
   readonly fichierAudio: string;
-  readonly titreDuSet: string;
-  readonly genresDuSet: (n: number) => string;
+  readonly titreDeLaMixtape: string;
+  readonly genresDeLaMixtape: (n: number) => string;
   readonly choisirLesStyles: string;
   readonly changerLesStyles: string;
   readonly fermerLesStyles: string;
@@ -623,7 +623,44 @@ interface Dictionnaire {
   readonly changementsNonEnregistres: string;
   readonly retirerLeStyle: (nom: string) => string;
   readonly lesArtistes: string;
-  readonly lesSons: string;
+  readonly lesMixtapes: string;
+  /* ═══ LA COUCHE MARCHANDE ═══ Ouverte le 17 septembre 2026, phase 0 : les
+     mots existent, la vente n'existe pas encore. Voir docs/adr/ADR-084. */
+  readonly lesTracks: string;
+  readonly tracksChapeau: string;
+  readonly tracksBientot: string;
+  readonly tracksBientotTexte: string;
+  readonly lePanier: string;
+  readonly panierVide: string;
+  readonly panierVideAide: string;
+  readonly panierOuvrir: string;
+  readonly panierFermer: string;
+  readonly panierSousTotal: string;
+  readonly panierNArticles: (n: number) => string;
+  readonly plusDeLiens: string;
+  readonly fermerLeMenu: string;
+  /* Les trois pages legales. Leur structure existe, leur texte est chez
+     l'avocat : chaque section porte son titre et la mention d'attente. */
+  readonly conditionsTitre: string;
+  readonly conditionsObjet: string;
+  readonly conditionsCompte: string;
+  readonly conditionsContenus: string;
+  readonly conditionsVente: string;
+  readonly conditionsResponsabilite: string;
+  readonly conditionsDroit: string;
+  readonly confidentialiteTitre: string;
+  readonly confidentialiteCollecte: string;
+  readonly confidentialiteUsage: string;
+  readonly confidentialitePartage: string;
+  readonly confidentialiteConservation: string;
+  readonly confidentialiteDroits: string;
+  readonly confidentialiteContact: string;
+  readonly mentionsTitre: string;
+  readonly mentionsEditeur: string;
+  readonly mentionsHebergement: string;
+  readonly mentionsContact: string;
+  readonly mentionsPropriete: string;
+  readonly juridiqueEnRedaction: string;
   readonly piedParcourir: string;
   readonly piedParticiper: string;
   readonly piedLeProjet: string;
@@ -634,22 +671,22 @@ interface Dictionnaire {
   readonly piedEnCeMoment: (n: number) => string;
   readonly piedSeul: string;
   readonly piedAjouterEvenement: string;
-  readonly piedDeposerSet: string;
+  readonly piedDeposerMixtape: string;
   readonly piedSlogan: string;
   readonly piedVille: string;
   readonly stockageUtilise: (u: string, max: string) => string;
   readonly stockageSansLimite: (u: string) => string;
   readonly voirTousLesArtistes: (n: number) => string;
-  readonly nSets: (n: number) => string;
+  readonly nMixtapes: (n: number) => string;
   readonly aucunArtiste: string;
-  readonly setsDeLaCommunaute: string;
+  readonly mixtapesDeLaCommunaute: string;
   readonly voirLArtiste: string;
   readonly artisteIntrouvable: string;
   readonly retourAuxArtistes: string;
   readonly lesStyles: string;
   readonly leCalendrier: string;
   readonly leJeu: string;
-  readonly derniersSets: string;
+  readonly dernieresMixtapes: string;
   readonly descriptionFacultative: string;
   readonly deposer: string;
   readonly etapeOnde: string;
@@ -658,10 +695,10 @@ interface Dictionnaire {
   readonly etapeLigne: string;
   readonly formatAudioRefuse: string;
   readonly audioTropLourd: (taille: string, max: string) => string;
-  readonly setDepose: string;
-  readonly mesSets: (n: number) => string;
-  readonly aucunSetDepose: string;
-  readonly aucunSetPublie: string;
+  readonly mixtapeDeposee: string;
+  readonly mesMixtapes: (n: number) => string;
+  readonly aucuneMixtapeDeposee: string;
+  readonly aucuneMixtapePubliee: string;
   readonly dureeInconnue: string;
   readonly publie: string;
   readonly brouillon: string;
@@ -670,10 +707,10 @@ interface Dictionnaire {
   readonly depublier: string;
   readonly supprimer: string;
   readonly confirmerSuppression: (titre: string) => string;
-  readonly setIntrouvable: string;
-  readonly retourAuxSets: string;
-  readonly setIllisible: string;
-  readonly avancerDansLeSet: string;
+  readonly mixtapeIntrouvable: string;
+  readonly retourAuxMixtapes: string;
+  readonly mixtapeIllisible: string;
+  readonly avancerDansLaMixtape: string;
   /** Unite de taille de fichier. « Mo » en francais, « MB » en anglais : le
       chiffre etait bon mais l'unite restait francaise dans l'interface
       anglaise, ce qui se lit comme une faute de frappe. */
@@ -950,7 +987,7 @@ const FR: Dictionnaire = {
   hier: "hier",
   nomDunGenreOuArtiste: "Un genre, un artiste…",
   ongletCompte: "Compte",
-  ongletSets: "Sets",
+  ongletMixtapes: "Mixtapes",
   ongletEvenements: "Événements",
   mesPropositions: "Mes propositions",
   ajouterUneSoiree: "Ajouter un événement",
@@ -1101,12 +1138,12 @@ const FR: Dictionnaire = {
   enregistrerMotDePasse: 'Enregistrer le mot de passe',
   motDePasseChange: 'Mot de passe enregistré. Tu es connecté.',
   lienReinitParti: 'Un courriel vient de partir : ouvre-le pour choisir un nouveau mot de passe.',
-  usageEcoute: 'Connecte-toi pour écouter les sets et les morceaux. C’est gratuit, et ça prend dix secondes.',
+  usageEcoute: 'Connecte-toi pour écouter les mixtapes et les morceaux. C’est gratuit, et ça prend dix secondes.',
   adminMenu: 'Admin',
   adminTitre: 'Administration',
   adminReserve: 'Cette page est réservée à l’administration du site.',
   adminMembres: 'Membres',
-  adminSets: 'Sets',
+  adminMixtapes: 'Mixtapes',
   adminSoirees: 'Soirées',
   adminCommentaires: 'Commentaires',
   adminArtistes: 'Artistes demandés',
@@ -1115,11 +1152,11 @@ const FR: Dictionnaire = {
   adminDerniereConnexion: 'Dernière connexion',
   adminMoyen: 'Connexion',
   adminArtiste: 'Artiste',
-  adminNSets: (n, publies) => `${n} set${n > 1 ? 's' : ''}, ${publies} publié${publies > 1 ? 's' : ''}`,
+  adminNMixtapes: (n, publies) => `${n} mixtape${n > 1 ? 's' : ''}, ${publies} publiée${publies > 1 ? 's' : ''}`,
   adminNSoirees: (n) => `${n} soirée${n > 1 ? 's' : ''}`,
   adminJamais: 'jamais',
-  adminTousLesSets: 'Tous les sets, publiés ou non, avec qui les a déposés.',
-  adminAucunSet: 'Aucun set déposé pour l’instant.',
+  adminToutesLesMixtapes: 'Toutes les mixtapes, publiées ou non, avec qui les a déposées.',
+  adminAucuneMixtape: 'Aucune mixtape déposée pour l’instant.',
   adminDeposePar: 'déposé par',
   adminConfirmerRetrait: (titre) => `Retirer « ${titre} » définitivement ? Le fichier audio sera effacé.`,
   adminDemandesIntro:
@@ -1148,33 +1185,33 @@ const FR: Dictionnaire = {
   connexionEchouee:
     'La connexion n’a pas abouti. Rien n’a été enregistré. Vous pouvez recommencer ci-dessous.',
 
-  lesSets: 'Les sets',
+  lesMixtapesTitre: 'Les mixtapes',
   monProfil: 'Mon profil',
-  baseIndisponible: "Le dépôt de sets n'est pas actif sur cette version du site.",
-  connexionRequiseProfil: 'Connectez-vous pour créer votre profil et déposer un set.',
+  baseIndisponible: "Le dépôt de mixtapes n'est pas actif sur cette version du site.",
+  connexionRequiseProfil: 'Connectez-vous pour créer votre profil et déposer une mixtape.',
   identitePublique: 'Mon identité publique',
   changerLaPhoto: 'Changer la photo',
   photoLimite: 'JPEG, PNG ou WebP, 2 Mo au plus.',
   nomDArtiste: 'Nom d’artiste',
-  nomDArtistePlaceholder: 'Le nom qui s’affichera sous vos sets',
+  nomDArtistePlaceholder: 'Le nom qui s’affichera sous vos mixtapes',
   presentation: 'Présentation',
   enregistrer: 'Enregistrer',
   creerMonProfil: 'Créer mon profil',
-  nomRequis: 'Il faut un nom pour signer un set.',
+  nomRequis: 'Il faut un nom pour signer une mixtape.',
   profilEnregistre: 'Profil enregistré.',
   photoEnregistree: 'Photo enregistrée.',
   artisteSansNom: 'Sans nom',
   formatImageRefuse: 'Format refusé. JPEG, PNG ou WebP seulement.',
   imageTropLourde: (taille) => `Image de ${taille} : la limite est de 2 Mo.`,
-  deposerUnSet: 'Déposer un set',
+  deposerUneMixtape: 'Déposer une mixtape',
   limitesDepot: (max) =>
     `FLAC, WAV, MP3, M4A ou OGG, ${max} au plus par fichier, soit environ six heures ` +
     `de FLAC sans perte ou deux heures de WAV. Aucun fichier n’est réencodé : ce que vous déposez est ` +
     `exactement ce qui sera joué, octet pour octet. ` +
-    `Le set est en ligne dès le dépôt ; vous pouvez le dépublier à tout moment.`,
+    `La mixtape est en ligne dès le dépôt ; vous pouvez le dépublier à tout moment.`,
   fichierAudio: 'Fichier audio',
-  titreDuSet: 'Titre',
-  genresDuSet: (n) => `Styles, pour le ranger dans l’atlas (${n} au plus)`,
+  titreDeLaMixtape: 'Titre',
+  genresDeLaMixtape: (n) => `Styles, pour la ranger dans l’atlas (${n} au plus)`,
   choisirLesStyles: 'Choisir des styles',
   changerLesStyles: 'Changer les styles',
   fermerLesStyles: 'Fermer',
@@ -1192,7 +1229,43 @@ const FR: Dictionnaire = {
   changementsNonEnregistres: 'Modifications non enregistrées',
   retirerLeStyle: (nom) => `Retirer ${nom}`,
   lesArtistes: 'Artistes',
-  lesSons: 'Sons',
+  lesMixtapes: 'Mixtapes',
+  lesTracks: 'Tracks',
+  tracksChapeau:
+    'Les morceaux des artistes de SONAA, achetés directement à celles et ceux qui les ont faits.',
+  tracksBientot: 'Bientôt',
+  tracksBientotTexte:
+    'La vente ouvre bientôt. Les artistes pourront déposer leurs morceaux, fixer leur prix, ' +
+    'et recevoir l’argent sans intermédiaire de plus que la banque.',
+  lePanier: 'Panier',
+  panierVide: 'Votre panier est vide.',
+  panierVideAide: 'Rien ne se vend encore sur SONAA. Cela vient.',
+  panierOuvrir: 'Ouvrir le panier',
+  panierFermer: 'Fermer le panier',
+  panierSousTotal: 'Sous-total',
+  panierNArticles: (n) => (n <= 1 ? `${n} article` : `${n} articles`),
+  plusDeLiens: 'Plus',
+  fermerLeMenu: 'Fermer le menu',
+  conditionsTitre: 'Conditions d’utilisation',
+  conditionsObjet: 'Ce qu’est le service',
+  conditionsCompte: 'Le compte',
+  conditionsContenus: 'Ce que vous déposez',
+  conditionsVente: 'La vente',
+  conditionsResponsabilite: 'Responsabilités',
+  conditionsDroit: 'Droit applicable',
+  confidentialiteTitre: 'Politique de confidentialité',
+  confidentialiteCollecte: 'Ce qui est collecté',
+  confidentialiteUsage: 'À quoi cela sert',
+  confidentialitePartage: 'Ce qui est partagé',
+  confidentialiteConservation: 'Combien de temps',
+  confidentialiteDroits: 'Vos droits',
+  confidentialiteContact: 'Nous écrire',
+  mentionsTitre: 'Mentions légales',
+  mentionsEditeur: 'L’éditeur',
+  mentionsHebergement: 'L’hébergement',
+  mentionsContact: 'Contact',
+  mentionsPropriete: 'Propriété intellectuelle',
+  juridiqueEnRedaction: 'Texte juridique en rédaction, à recevoir de l’avocat.',
   piedParcourir: 'Parcourir',
   piedParticiper: 'Participer',
   piedLeProjet: 'Le projet',
@@ -1205,24 +1278,24 @@ const FR: Dictionnaire = {
   piedEnCeMoment: (n) => `${n} personnes sur le site en ce moment`,
   piedSeul: 'Tu es seul sur le site en ce moment',
   piedAjouterEvenement: 'Ajouter un événement',
-  piedDeposerSet: 'Déposer un set',
+  piedDeposerMixtape: 'Déposer une mixtape',
   piedSlogan: 'Le calendrier, les styles et les sons de la musique électronique.',
   piedVille: 'Fait à Montréal',
   stockageUtilise: (u, max) => `${u} utilisés sur ${max}.`,
   stockageSansLimite: (u) => `${u} déposés, sans limite sur ce compte.`,
   voirTousLesArtistes: (n) => `Voir les ${n} artistes`,
-  nSets: (n) => (n <= 1 ? `${n} set` : `${n} sets`),
-  aucunArtiste: 'Personne n’a encore publié de set.',
-  setsDeLaCommunaute: 'Sets déposés dans ce style',
-  voirLArtiste: 'Voir tous ses sets',
-  artisteIntrouvable: 'Cet artiste n’a pas de set publié.',
+  nMixtapes: (n) => (n <= 1 ? `${n} mixtape` : `${n} mixtapes`),
+  aucunArtiste: 'Personne n’a encore publié de mixtape.',
+  mixtapesDeLaCommunaute: 'Mixtapes déposées dans ce style',
+  voirLArtiste: 'Voir toutes ses mixtapes',
+  artisteIntrouvable: 'Cet artiste n’a pas de mixtape publiée.',
   retourAuxArtistes: 'Revenir aux artistes',
   lesStyles: 'Styles',
   /* « Calendar » dans les deux langues : c'est le nom de la section, pas un
      mot a traduire. Choix de Mika du 7 septembre 2026. */
   leCalendrier: 'Calendar',
   leJeu: 'Jeu',
-  derniersSets: 'Derniers sets',
+  dernieresMixtapes: 'Dernières mixtapes',
   descriptionFacultative: 'Description, si vous voulez',
   deposer: 'Déposer',
   etapeOnde: 'Lecture de la forme d’onde…',
@@ -1231,11 +1304,11 @@ const FR: Dictionnaire = {
   etapeLigne: 'Enregistrement…',
   formatAudioRefuse: 'Format refusé. MP3, M4A, AAC, OGG ou WAV seulement.',
   audioTropLourd: (taille, max) =>
-    `Fichier de ${taille} : la limite est de ${max}. Réencodez en 128 kbps, ou coupez le set en deux.`,
-  setDepose: 'Set déposé et en ligne dans Sons.',
-  mesSets: (n) => (n === 0 ? 'Mes sets' : n === 1 ? '1 set déposé' : `${n} sets déposés`),
-  aucunSetDepose: 'Rien de déposé pour l’instant.',
-  aucunSetPublie: 'Aucun set publié pour l’instant.',
+    `Fichier de ${taille} : la limite est de ${max}. Réencodez en 128 kbps, ou coupez la mixtape en deux.`,
+  mixtapeDeposee: 'Mixtape déposée et en ligne dans Mixtapes.',
+  mesMixtapes: (n) => (n === 0 ? 'Mes mixtapes' : n === 1 ? '1 mixtape déposée' : `${n} mixtapes déposées`),
+  aucuneMixtapeDeposee: 'Rien de déposé pour l’instant.',
+  aucuneMixtapePubliee: 'Aucune mixtape publiée pour l’instant.',
   dureeInconnue: 'Durée inconnue',
   publie: 'Publié',
   brouillon: 'Brouillon',
@@ -1244,18 +1317,18 @@ const FR: Dictionnaire = {
   depublier: 'Dépublier',
   supprimer: 'Supprimer',
   confirmerSuppression: (titre) => `Supprimer « ${titre} » et son fichier, définitivement ?`,
-  setIntrouvable: 'Ce set n’existe pas, ou n’est plus publié.',
-  retourAuxSets: 'Revenir aux sets',
-  setIllisible: 'Le fichier n’a pas pu être lu.',
-  avancerDansLeSet: 'Avancer dans le set',
+  mixtapeIntrouvable: 'Cette mixtape n’existe pas, ou n’est plus publiée.',
+  retourAuxMixtapes: 'Revenir aux mixtapes',
+  mixtapeIllisible: 'Le fichier n’a pas pu être lu.',
+  avancerDansLaMixtape: 'Avancer dans la mixtape',
   uniteMo: 'Mo',
   uniteGo: 'Go',
   deposerOuCliquer: 'Déposer ou cliquer',
-  deposerLeFichier: 'Glissez votre set ici, ou cliquez',
+  deposerLeFichier: 'Glissez votre mixtape ici, ou cliquez',
   formatsAcceptes: 'FLAC ou WAV sans perte, ou MP3, M4A, OGG',
   sansPerte: 'sans perte',
   aiffRefuse:
-    'AIFF et ALAC ne sont lus ni par Chrome ni par Firefox : le set serait muet pour ' +
+    'AIFF et ALAC ne sont lus ni par Chrome ni par Firefox : la mixtape serait muette pour ' +
     'presque tout le monde. Exportez en FLAC, qui est sans perte lui aussi, plus léger, ' +
     'et lu partout.',
   sansPerteTropLourd: (taille, max, minutesWav, minutesFlac) =>
@@ -1526,7 +1599,7 @@ const EN: Dictionnaire = {
   hier: "yesterday",
   nomDunGenreOuArtiste: "A genre, an artist…",
   ongletCompte: "Account",
-  ongletSets: "Sets",
+  ongletMixtapes: "Mixtapes",
   ongletEvenements: "Events",
   mesPropositions: "My proposals",
   ajouterUneSoiree: "Add an event",
@@ -1678,12 +1751,12 @@ const EN: Dictionnaire = {
   enregistrerMotDePasse: 'Save the password',
   motDePasseChange: 'Password saved. You are signed in.',
   lienReinitParti: 'An email is on its way: open it to choose a new password.',
-  usageEcoute: 'Sign in to listen to sets and tracks. It is free, and it takes ten seconds.',
+  usageEcoute: 'Sign in to listen to mixtapes and tracks. It is free, and it takes ten seconds.',
   adminMenu: 'Admin',
   adminTitre: 'Administration',
   adminReserve: 'This page is reserved to the site administration.',
   adminMembres: 'Members',
-  adminSets: 'Sets',
+  adminMixtapes: 'Mixtapes',
   adminSoirees: 'Events',
   adminCommentaires: 'Comments',
   adminArtistes: 'Requested artists',
@@ -1692,11 +1765,11 @@ const EN: Dictionnaire = {
   adminDerniereConnexion: 'Last sign-in',
   adminMoyen: 'Sign-in',
   adminArtiste: 'Artist',
-  adminNSets: (n, publies) => `${n} set${n === 1 ? '' : 's'}, ${publies} published`,
+  adminNMixtapes: (n, publies) => `${n} mixtape${n === 1 ? '' : 's'}, ${publies} published`,
   adminNSoirees: (n) => `${n} event${n === 1 ? '' : 's'}`,
   adminJamais: 'never',
-  adminTousLesSets: 'Every set, published or not, with who uploaded it.',
-  adminAucunSet: 'No set uploaded yet.',
+  adminToutesLesMixtapes: 'Every mixtape, published or not, with who uploaded it.',
+  adminAucuneMixtape: 'No mixtape uploaded yet.',
   adminDeposePar: 'uploaded by',
   adminConfirmerRetrait: (titre) => `Remove “${titre}” for good? The audio file will be deleted.`,
   adminDemandesIntro:
@@ -1725,32 +1798,32 @@ const EN: Dictionnaire = {
   connexionEchouee:
     'Sign-in did not complete. Nothing was saved. You can try again below.',
 
-  lesSets: 'Sets',
+  lesMixtapesTitre: 'Mixtapes',
   monProfil: 'My profile',
-  baseIndisponible: 'Set uploads are not enabled on this build of the site.',
-  connexionRequiseProfil: 'Sign in to create your profile and upload a set.',
+  baseIndisponible: 'Mixtape uploads are not enabled on this build of the site.',
+  connexionRequiseProfil: 'Sign in to create your profile and upload a mixtape.',
   identitePublique: 'My public identity',
   changerLaPhoto: 'Change photo',
   photoLimite: 'JPEG, PNG or WebP, 2 MB max.',
   nomDArtiste: 'Artist name',
-  nomDArtistePlaceholder: 'The name shown under your sets',
+  nomDArtistePlaceholder: 'The name shown under your mixtapes',
   presentation: 'About you',
   enregistrer: 'Save',
   creerMonProfil: 'Create my profile',
-  nomRequis: 'A set needs a name to sign it.',
+  nomRequis: 'A mixtape needs a name to sign it.',
   profilEnregistre: 'Profile saved.',
   photoEnregistree: 'Photo saved.',
   artisteSansNom: 'Unnamed',
   formatImageRefuse: 'Format refused. JPEG, PNG or WebP only.',
   imageTropLourde: (taille) => `Image is ${taille}: the limit is 2 MB.`,
-  deposerUnSet: 'Upload a set',
+  deposerUneMixtape: 'Upload a mixtape',
   limitesDepot: (max) =>
     `FLAC, WAV, MP3, M4A or OGG, ${max} max per file, about six hours of lossless FLAC or two hours of WAV. ` +
     `No file is re-encoded: what you upload is exactly what plays, byte for byte. ` +
-    `The set is live as soon as it is uploaded; you can unpublish it at any time.`,
+    `The mixtape is live as soon as it is uploaded; you can unpublish it at any time.`,
   fichierAudio: 'Audio file',
-  titreDuSet: 'Title',
-  genresDuSet: (n) => `Styles, to file it in the atlas (${n} max)`,
+  titreDeLaMixtape: 'Title',
+  genresDeLaMixtape: (n) => `Styles, to file it in the atlas (${n} max)`,
   choisirLesStyles: 'Choose styles',
   changerLesStyles: 'Change styles',
   fermerLesStyles: 'Close',
@@ -1768,7 +1841,42 @@ const EN: Dictionnaire = {
   changementsNonEnregistres: 'Unsaved changes',
   retirerLeStyle: (nom) => `Remove ${nom}`,
   lesArtistes: 'Artists',
-  lesSons: 'Sounds',
+  lesMixtapes: 'Mixtapes',
+  lesTracks: 'Tracks',
+  tracksChapeau: 'Tracks by SONAA artists, bought straight from the people who made them.',
+  tracksBientot: 'Coming soon',
+  tracksBientotTexte:
+    'Sales open soon. Artists will upload their tracks, set their own price, ' +
+    'and get paid with no middleman beyond the bank.',
+  lePanier: 'Cart',
+  panierVide: 'Your cart is empty.',
+  panierVideAide: 'Nothing is for sale on SONAA yet. It is coming.',
+  panierOuvrir: 'Open the cart',
+  panierFermer: 'Close the cart',
+  panierSousTotal: 'Subtotal',
+  panierNArticles: (n) => (n <= 1 ? `${n} item` : `${n} items`),
+  plusDeLiens: 'More',
+  fermerLeMenu: 'Close the menu',
+  conditionsTitre: 'Terms of use',
+  conditionsObjet: 'What the service is',
+  conditionsCompte: 'Your account',
+  conditionsContenus: 'What you upload',
+  conditionsVente: 'Sales',
+  conditionsResponsabilite: 'Liability',
+  conditionsDroit: 'Governing law',
+  confidentialiteTitre: 'Privacy policy',
+  confidentialiteCollecte: 'What is collected',
+  confidentialiteUsage: 'What it is used for',
+  confidentialitePartage: 'What is shared',
+  confidentialiteConservation: 'How long it is kept',
+  confidentialiteDroits: 'Your rights',
+  confidentialiteContact: 'Contact us',
+  mentionsTitre: 'Legal notice',
+  mentionsEditeur: 'Publisher',
+  mentionsHebergement: 'Hosting',
+  mentionsContact: 'Contact',
+  mentionsPropriete: 'Intellectual property',
+  juridiqueEnRedaction: 'Legal text being drafted, to come from the lawyer.',
   piedParcourir: 'Browse',
   piedParticiper: 'Take part',
   piedLeProjet: 'The project',
@@ -1781,22 +1889,22 @@ const EN: Dictionnaire = {
   piedEnCeMoment: (n) => `${n} people on the site right now`,
   piedSeul: 'You are alone on the site right now',
   piedAjouterEvenement: 'Add an event',
-  piedDeposerSet: 'Upload a set',
+  piedDeposerMixtape: 'Upload a mixtape',
   piedSlogan: 'The calendar, the styles and the sounds of electronic music.',
   piedVille: 'Made in Montréal',
   stockageUtilise: (u, max) => `${u} used of ${max}.`,
   stockageSansLimite: (u) => `${u} uploaded, no limit on this account.`,
   voirTousLesArtistes: (n) => `See all ${n} artists`,
-  nSets: (n) => (n <= 1 ? `${n} set` : `${n} sets`),
-  aucunArtiste: 'Nobody has published a set yet.',
-  setsDeLaCommunaute: 'Sets uploaded in this style',
-  voirLArtiste: 'See all their sets',
-  artisteIntrouvable: 'This artist has no published set.',
+  nMixtapes: (n) => (n <= 1 ? `${n} mixtape` : `${n} mixtapes`),
+  aucunArtiste: 'Nobody has published a mixtape yet.',
+  mixtapesDeLaCommunaute: 'Mixtapes uploaded in this style',
+  voirLArtiste: 'See all their mixtapes',
+  artisteIntrouvable: 'This artist has no published mixtape.',
   retourAuxArtistes: 'Back to artists',
   lesStyles: 'Styles',
   leCalendrier: 'Calendar',
   leJeu: 'Game',
-  derniersSets: 'Latest sets',
+  dernieresMixtapes: 'Latest mixtapes',
   descriptionFacultative: 'Description, if you like',
   deposer: 'Upload',
   etapeOnde: 'Reading the waveform…',
@@ -1806,10 +1914,10 @@ const EN: Dictionnaire = {
   formatAudioRefuse: 'Format refused. MP3, M4A, AAC, OGG or WAV only.',
   audioTropLourd: (taille, max) =>
     `File is ${taille}: the limit is ${max}. Re-encode at 128 kbps, or split the set in two.`,
-  setDepose: 'Set uploaded and live in Sounds.',
-  mesSets: (n) => (n === 0 ? 'My sets' : n === 1 ? '1 set uploaded' : `${n} sets uploaded`),
-  aucunSetDepose: 'Nothing uploaded yet.',
-  aucunSetPublie: 'No published sets yet.',
+  mixtapeDeposee: 'Mixtape uploaded and live in Mixtapes.',
+  mesMixtapes: (n) => (n === 0 ? 'My mixtapes' : n === 1 ? '1 mixtape uploaded' : `${n} mixtapes uploaded`),
+  aucuneMixtapeDeposee: 'Nothing uploaded yet.',
+  aucuneMixtapePubliee: 'No published mixtapes yet.',
   dureeInconnue: 'Unknown length',
   publie: 'Published',
   brouillon: 'Draft',
@@ -1818,18 +1926,18 @@ const EN: Dictionnaire = {
   depublier: 'Unpublish',
   supprimer: 'Delete',
   confirmerSuppression: (titre) => `Delete “${titre}” and its file, permanently?`,
-  setIntrouvable: 'This set does not exist, or is no longer published.',
-  retourAuxSets: 'Back to sets',
-  setIllisible: 'The file could not be played.',
-  avancerDansLeSet: 'Seek in the set',
+  mixtapeIntrouvable: 'This mixtape does not exist, or is no longer published.',
+  retourAuxMixtapes: 'Back to mixtapes',
+  mixtapeIllisible: 'The file could not be played.',
+  avancerDansLaMixtape: 'Seek in the mixtape',
   uniteMo: 'MB',
   uniteGo: 'GB',
   deposerOuCliquer: 'Drop or click',
-  deposerLeFichier: 'Drag your set here, or click',
+  deposerLeFichier: 'Drag your mixtape here, or click',
   formatsAcceptes: 'FLAC or WAV lossless, or MP3, M4A, OGG',
   sansPerte: 'lossless',
   aiffRefuse:
-    'AIFF and ALAC play in neither Chrome nor Firefox: the set would be silent for ' +
+    'AIFF and ALAC play in neither Chrome nor Firefox: the mixtape would be silent for ' +
     'almost everyone. Export to FLAC, which is lossless too, smaller, and plays everywhere.',
   sansPerteTropLourd: (taille, max, minutesWav, minutesFlac) =>
     `File is ${taille}, and the limit is ${max}. That covers about ` +

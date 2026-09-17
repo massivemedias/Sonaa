@@ -115,7 +115,7 @@ export function ChoixStyles({ choisis, onChange, max, titre, famillesSeulement, 
     <div className="cs">
       {!nu && (
         <p className="sp-label cs-titre">
-          {titre ?? t.genresDuSet(max)}
+          {titre ?? t.genresDeLaMixtape(max)}
           <span className="cs-compte">
             {choisis.length} / {max}
           </span>

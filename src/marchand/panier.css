@@ -1,0 +1,151 @@
+/* LA FEUILLE DU PANIER. Voir PanierEcran.tsx.
+
+   Meme grammaire que la fiche d'une soiree : un voile sombre, une feuille qui
+   entre par le cote sur ordinateur et par le bas sur telephone, un filet sous
+   la tete, rien d'autre. Aucune ombre portee, aucune rondeur decorative : la
+   feuille se distingue par sa surface et par le voile, pas par un relief. */
+
+.pn-voile {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  justify-content: flex-end;
+  background: rgb(0 0 0 / 55%);
+}
+
+.pn {
+  display: flex;
+  flex-direction: column;
+  width: min(26rem, 100%);
+  max-height: 100%;
+  box-sizing: border-box;
+  padding: 1.2rem 1.4rem calc(1.4rem + env(safe-area-inset-bottom, 0px));
+  background: var(--surface-plate);
+  border-left: var(--rule-width) solid var(--rule-hairline);
+  overflow-y: auto;
+  font-family: var(--font-ui);
+}
+
+.pn-tete {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 2px solid var(--ink-primary);
+}
+
+.pn-titre {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.pn-fermer {
+  padding: 0 0.3rem;
+  border: 0;
+  background: none;
+  color: var(--ink-secondary);
+  font: inherit;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.pn-fermer:hover {
+  color: var(--ink-primary);
+}
+
+.pn-vide {
+  padding: 2.4rem 0 1rem;
+}
+.pn-vide-mot {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+  color: var(--ink-primary);
+}
+.pn-vide-aide {
+  margin: 0 0 1.4rem;
+  color: var(--ink-secondary);
+}
+.pn-lien {
+  color: var(--ink-primary);
+  text-underline-offset: 3px;
+}
+
+.pn-liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1 1 auto;
+}
+
+.pn-ligne {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.6rem;
+  align-items: baseline;
+  padding: 0.8rem 0;
+  border-bottom: var(--rule-width) solid var(--rule-hairline);
+}
+
+.pn-ligne-texte {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+.pn-ligne-titre {
+  color: var(--ink-primary);
+  font-weight: 600;
+}
+.pn-ligne-artiste {
+  font-size: 0.85rem;
+  color: var(--ink-secondary);
+}
+.pn-ligne-prix {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.pn-retirer {
+  padding: 0 0.3rem;
+  border: 0;
+  background: none;
+  color: var(--ink-secondary);
+  font: inherit;
+  cursor: pointer;
+}
+.pn-retirer:hover {
+  color: var(--ink-primary);
+}
+
+.pn-bas {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  border-top: 2px solid var(--ink-primary);
+}
+.pn-compte {
+  color: var(--ink-secondary);
+  font-size: 0.85rem;
+}
+.pn-total {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* TELEPHONE : LA FEUILLE PREND TOUT. Une colonne de 26 rem posee a droite
+   d'un ecran de 375 px n'est pas une colonne, c'est la page entiere avec une
+   bande de voile inutile a gauche. */
+@media (max-width: 899px) {
+  .pn-voile {
+    justify-content: stretch;
+  }
+  .pn {
+    width: 100%;
+    max-height: none;
+    border-left: 0;
+  }
+}

@@ -40,7 +40,7 @@ const lireOnglet = (): Onglet => {
 
 const ONGLETS: readonly { id: Onglet; label: () => string }[] = [
   { id: 'membres', label: () => t.adminMembres },
-  { id: 'sets', label: () => t.adminSets },
+  { id: 'sets', label: () => t.adminMixtapes },
   { id: 'soirees', label: () => t.adminSoirees },
   { id: 'commentaires', label: () => t.adminCommentaires },
   { id: 'artistes', label: () => t.adminArtistes },
@@ -141,7 +141,7 @@ function Membres() {
               <th>{t.adminInscritLe}</th>
               <th>{t.adminDerniereConnexion}</th>
               <th>{t.adminMoyen}</th>
-              <th>{t.adminSets}</th>
+              <th>{t.adminMixtapes}</th>
               <th>{t.adminSoirees}</th>
             </tr>
           </thead>
@@ -152,11 +152,11 @@ function Membres() {
                   {m.courriel}
                   {m.moderateur && <span className="admin-etiquette">{t.moderationMenu}</span>}
                 </td>
-                <td>{m.artiste_nom ? <a href={`#/sets/a/${m.user_id}`}>{m.artiste_nom}</a> : '·'}</td>
+                <td>{m.artiste_nom ? <a href={`#/mixtapes/a/${m.user_id}`}>{m.artiste_nom}</a> : '·'}</td>
                 <td>{quand(m.inscrit_le)}</td>
                 <td>{quand(m.derniere_connexion)}</td>
                 <td>{m.fournisseurs ?? '·'}</td>
-                <td>{m.n_sets > 0 ? t.adminNSets(m.n_sets, m.n_sets_publies) : '·'}</td>
+                <td>{m.n_sets > 0 ? t.adminNMixtapes(m.n_sets, m.n_sets_publies) : '·'}</td>
                 <td>{m.n_soirees > 0 ? t.adminNSoirees(m.n_soirees) : '·'}</td>
               </tr>
             ))}
@@ -178,10 +178,10 @@ function Sets() {
   if (!sets) return <p className="sp-aide">{t.chargement}</p>;
   return (
     <section className="sets-bloc">
-      <h2>{t.adminSets}</h2>
-      <p className="sp-aide">{t.adminTousLesSets}</p>
+      <h2>{t.adminMixtapes}</h2>
+      <p className="sp-aide">{t.adminToutesLesMixtapes}</p>
       {sets.length === 0 ? (
-        <p className="sp-aide">{t.adminAucunSet}</p>
+        <p className="sp-aide">{t.adminAucuneMixtape}</p>
       ) : (
         <ul className="sp-liste">
           {sets.map((s) => (
@@ -191,7 +191,7 @@ function Sets() {
                   {urlPochette(s.cover_path) && <img className="sp-pochette" src={urlPochette(s.cover_path) ?? ''} alt="" />}
                   <div>
                     <h3>
-                      <a href={`#/sets/${s.id}`}>{s.titre}</a>
+                      <a href={`#/mixtapes/${s.id}`}>{s.titre}</a>
                     </h3>
                     <p className="sp-aide">
                       {t.adminDeposePar} {s.artiste_nom ?? t.artisteSansNom}

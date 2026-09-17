@@ -72,9 +72,20 @@ export function hashDuChemin(chemin: string): string | null {
   const soiree = c.match(/^\/soirees\/([a-z-]+)\/(?:[^/]+\/)?$/);
   if (soiree) return `#/calendrier?city=${soiree[1]}`;
   if (c.startsWith('/soirees/')) return '#/calendrier';
-  const son = c.match(/^\/sons\/([0-9a-f-]{36})\/$/);
-  if (son) return `#/sets/${son[1]}`;
-  if (c === '/sons/') return '#/sets';
+  /* LES MIXTAPES ONT DEUX CHEMINS, ET C'EST VOULU. /mixtapes/ est le nom
+     depuis le 17 septembre 2026 ; /sons/ etait le sien depuis le 14 et se
+     trouve dans les 780 pages deja soumises a Google et a Bing. Les deux
+     ouvrent la meme page, et le pre-rendu dit laquelle est la bonne par un
+     canonique. Retirer une adresse publiee coute une semaine de reindexation
+     pour rien. */
+  const mixtape = c.match(/^\/(?:mixtapes|sons)\/([0-9a-f-]{36})\/$/);
+  if (mixtape) return `#/mixtapes/${mixtape[1]}`;
+  if (c === '/mixtapes/' || c === '/sons/') return '#/mixtapes';
+  if (c === '/tracks/') return '#/tracks';
+  if (c === '/panier/') return '#/panier';
+  if (c === '/conditions/') return '#/conditions';
+  if (c === '/confidentialite/') return '#/confidentialite';
+  if (c === '/mentions/') return '#/mentions';
   if (c === '/news/') return '#/news';
   return null;
 }

@@ -33,11 +33,12 @@ import { FaIcon } from './FaIcon.tsx';
 import {
   faCalendarDays,
   faNewspaper,
-  faLayerGroup,
   faHeadphones,
-  faUser,
+  faCartShopping,
+  faRecordVinyl,
 } from '@fortawesome/free-solid-svg-icons';
 import { courantDuSite } from './SiteNav.tsx';
+import { BadgePanier } from '../marchand/BadgePanier.tsx';
 import { t } from '../langue/langue.ts';
 import './barre-bas.css';
 
@@ -54,12 +55,19 @@ export function BarreBas() {
 
   const courant = courantDuSite(window.location.hash);
 
+  /* CINQ ONGLETS, ET PAS SIX. Au-dela, chaque onglet descend sous la largeur
+     d'un pouce sur un telephone etroit, et les libelles se coupent.
+     Styles et Profil en sortent le 17 septembre 2026 pour faire place a
+     Tracks et au Panier : ils vivent desormais dans le bouton « Plus » de
+     l'en-tete, qui n'existe que sur telephone. Voir MenuPlus.tsx. Ce n'est
+     pas un detail, c'est la contrepartie assumee de la couche marchande, et
+     elle est ecrite dans ADR-084. */
   const onglets = [
     { href: '#/calendrier', id: 'calendrier', label: t.leCalendrier, icone: faCalendarDays },
+    { href: '#/tracks', id: 'tracks', label: t.lesTracks, icone: faRecordVinyl },
+    { href: '#/mixtapes', id: 'mixtapes', label: t.lesMixtapes, icone: faHeadphones },
     { href: '#/news', id: 'news', label: t.leNews, icone: faNewspaper },
-    { href: '#/parcourir', id: 'parcourir', label: t.lesStyles, icone: faLayerGroup },
-    { href: '#/sets', id: 'sets', label: t.lesSons, icone: faHeadphones },
-    { href: '#/profil', id: 'profil', label: t.profilCourt, icone: faUser },
+    { href: '#/panier', id: 'panier', label: t.lePanier, icone: faCartShopping },
   ] as const;
 
   return (
@@ -73,7 +81,10 @@ export function BarreBas() {
             className="barre-bas-onglet"
             aria-current={actif ? 'page' : undefined}
           >
-            <FaIcon icon={o.icone} className="barre-bas-icone" />
+            <span className="barre-bas-pastille">
+              <FaIcon icon={o.icone} className="barre-bas-icone" />
+              {o.id === 'panier' && <BadgePanier />}
+            </span>
             <span>{o.label}</span>
           </a>
         );

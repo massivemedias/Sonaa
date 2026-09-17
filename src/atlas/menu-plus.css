@@ -1,0 +1,67 @@
+/* LE BOUTON « PLUS » ET SON PANNEAU. Voir MenuPlus.tsx.
+
+   Il n'existe que sous 900 px, la ou la barre du bas porte la navigation et
+   ou le menu du haut est cache. Au-dessus, toutes ses portes sont deja dans
+   la rangee de mots : le montrer serait proposer deux fois la meme chose. */
+
+.menu-plus {
+  display: none;
+  position: relative;
+}
+
+@media (max-width: 899px) {
+  .menu-plus {
+    display: inline-flex;
+  }
+}
+
+.menu-plus-bouton {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 0.5rem;
+  border: 0;
+  background: none;
+  color: var(--ink-secondary);
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.menu-plus-bouton:hover,
+.menu-plus-bouton[aria-expanded='true'] {
+  color: var(--ink-primary);
+}
+
+.menu-plus-panneau {
+  position: absolute;
+  top: calc(100% - 2px);
+  left: 0;
+  z-index: 14;
+  display: flex;
+  flex-direction: column;
+  min-width: 12rem;
+  padding: 0.4rem 0;
+  background: var(--surface-plate);
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 10px;
+}
+
+.menu-plus-lien {
+  padding: 0.6rem 1rem;
+  color: var(--ink-secondary);
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  text-decoration: none;
+}
+.menu-plus-lien:hover,
+.menu-plus-lien[aria-current='page'] {
+  color: var(--ink-primary);
+  background: var(--surface-margin);
+}
+
+.menu-plus-filet {
+  height: var(--rule-width);
+  margin: 0.35rem 0;
+  background: var(--rule-hairline);
+}

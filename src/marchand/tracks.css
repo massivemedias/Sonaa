@@ -1,0 +1,33 @@
+/* LA SECTION TRACKS, en attente d'ouverture. Voir TracksPage.tsx.
+
+   Un seul bloc, cadre par un filet, qui dit ce qui vient. Rien de decoratif :
+   quand la grille de morceaux arrivera, elle prendra la place de ce bloc sans
+   qu'il reste un ornement a retirer. */
+
+.tr-attente {
+  max-width: 60ch;
+  padding: 1.6rem 0 0;
+  border-top: 2px solid var(--ink-primary);
+}
+
+.tr-attente-titre {
+  margin: 0 0 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+  color: var(--ink-primary);
+}
+
+.tr-attente-texte {
+  margin: 0 0 1.2rem;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--ink-secondary);
+}
+
+.tr-lien {
+  color: var(--ink-primary);
+  font-weight: 600;
+  text-underline-offset: 3px;
+}

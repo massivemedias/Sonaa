@@ -3649,3 +3649,16 @@ texte. Elle n'a pas ete faite.
 
 Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012), échelle
 à rupture unique déclarée (ADR-015), sortie d'iCloud avec historique neuf (ADR-016).
+
+---
+
+## Suite : les décisions de la couche marchande
+
+À partir d'ADR-084, les décisions qui gouvernent un chantier long vivent dans
+un fichier par décision, sous [docs/adr/](docs/adr/). Ce fichier-ci reste la
+référence de tout ce qui précède.
+
+- [ADR-084 : SONAA ouvre une couche marchande](docs/adr/ADR-084-couche-marchande.md),
+  17 septembre 2026. Nommage Mixtapes et Tracks, les quatre contraintes
+  mesurées, le menu refondu et ce qu'il coûte sur téléphone, les anciennes
+  adresses gardées vivantes.

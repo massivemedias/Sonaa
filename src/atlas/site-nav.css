@@ -1,13 +1,21 @@
 /* Navigation du site. Deux variantes, une grammaire.
 
    overlay : vit dans le chrome existant (pied de l'atlas, tête des vues).
-   page    : pied des pages document, à la place des liens ad hoc. */
+   page    : pied des pages document, à la place des liens ad hoc.
+
+   DES MOTS, PAS DES ICÔNES, depuis le 17 septembre 2026. Voir SiteNav.tsx :
+   sept portes ne se devinent pas en dessins, et deux des nouvelles, Tracks et
+   Panier, sont justement celles qu'on ne cherche pas si on doit deviner.
+
+   CETTE RANGÉE N'EXISTE PAS SOUS 900 px : la barre du bas la remplace, et
+   c'est barre-bas.css qui l'efface. Ce qui n'entre pas dans ses cinq onglets
+   vit dans le bouton « Plus » de l'en-tête. */
 
 .sitenav {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.2rem 1.3rem;
+  gap: 0.2rem 1.6rem;
   font-family: var(--font-ui);
 }
 
@@ -15,35 +23,24 @@
   display: inline-flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.2rem 1.3rem;
+  gap: 0.2rem 1.6rem;
 }
 
-/* LE POINT DE SEPARATION DISPARAIT. Il separait deux groupes de mots ; entre
-   deux groupes de BOUTONS il ne separe plus rien et se lit comme un debris,
-   d'autant qu'au retour a la ligne il se retrouve seul en bout de rangee.
-   Constate a l'ecran. */
+/* LE POINT DE SÉPARATION DISPARAIT. Il séparait deux groupes de mots ; avec
+   l'espacement il ne sépare plus rien et se lit comme un débris, d'autant
+   qu'au retour à la ligne il se retrouve seul en bout de rangée. */
 .sitenav-sep {
   display: none;
 }
 
-/* DE VRAIS BOUTONS, plus des mots en petites capitales.
-
-   Ils faisaient 11 px, en majuscules, sans surface : au doigt on visait un
-   trait de texte de dix pixels de haut. Maintenant qu'il n'en reste que
-   quatre, ils peuvent prendre la place qu'une cible tactile demande, soit
-   44 px de haut, comme tout le reste de ce site. */
-/* DES MOTS, PLUS DES PASTILLES.
-
-   Ils avaient un contour et une rondeur, pour qu'on sache ou appuyer quand
-   ils etaient a 11 px en petites capitales. A 15 px et sur une seule rangee
-   avec le logo, ces contours dessinent quatre boites autour de quatre mots et
-   font peser la ligne plus que le titre qu'elle surmonte.
-
-   LA SURFACE TACTILE RESTE. Le contour disparait, pas les 46 px de haut : la
-   cible se garde, c'est son dessin qui s'efface. */
+/* UNE SEULE GRAISSE, et la surface tactile gardée : le contour a disparu en
+   septembre, pas les 46 px de haut. La cible reste, c'est son dessin qui
+   s'est effacé. */
 .sitenav-lien {
+  position: relative;
   display: inline-flex;
   align-items: center;
+  gap: 0.35rem;
   min-height: 46px;
   padding: 0 0.15rem;
   border: none;
@@ -53,6 +50,7 @@
   font-weight: 600;
   text-transform: none;
   text-decoration: none;
+  white-space: nowrap;
   cursor: pointer;
 }
 
@@ -67,10 +65,9 @@
   border-radius: 6px;
 }
 
-/* L'ETAT ACTIF SE VOIT SANS COMPARER. Le fond plein disparait avec le
-   contour ; il est remplace par la pleine couleur du texte, qui suffit des
+/* L'ÉTAT ACTIF SE VOIT SANS COMPARER : la pleine couleur du texte suffit dès
    lors que les autres sont en gris, et le poids ne bouge pas pour que la
-   ligne ne se deplace pas quand on change de page. */
+   ligne ne se déplace pas quand on change de page. */
 .sitenav-lien[data-current='true'],
 .sitenav-lien[aria-current='page'] {
   color: var(--ink-primary);
@@ -82,35 +79,23 @@
   font-size: 0.9375rem;
 }
 
-/* ═══ LE MENU EN ICONES, LE NOM AU SURVOL ═══ Voir SiteNav. */
-.sitenav-lien {
-  position: relative;
+/* ═══ LE COMPTEUR DU PANIER ═══ Voir BadgePanier.tsx.
+
+   Il n'apparaît que s'il compte quelque chose. Le chiffre est la donnée, la
+   pastille n'est là que pour le détacher du mot qui la précède. */
+.badge-panier {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  min-width: 40px;
-}
-.sitenav-lien svg {
-  width: 18px;
-  height: 18px;
-}
-.sitenav-nom {
-  position: absolute;
-  top: calc(100% - 4px);
-  left: 50%;
-  transform: translateX(-50%) translateY(-4px);
-  padding: 0.3rem 0.6rem;
-  border-radius: 6px;
+  min-width: 1.15rem;
+  height: 1.15rem;
+  padding: 0 0.3rem;
+  box-sizing: border-box;
+  border-radius: 999px;
   background: var(--ink-primary);
   color: var(--surface-plate);
-  font-size: 0.75rem;
-  font-weight: 500;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 120ms ease, transform 120ms ease;
-  z-index: 5;
-}
-.sitenav-lien:hover .sitenav-nom,
-.sitenav-lien:focus-visible .sitenav-nom {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
+  font-size: 0.68rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
 }

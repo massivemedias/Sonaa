@@ -115,6 +115,25 @@ const SetsPage = lazy(() =>
   import('./atlas/SetsPage.tsx').then((module) => ({ default: module.SetsPage }))
 );
 
+/* ═══ LA COUCHE MARCHANDE ═══ Phase 0, 17 septembre 2026. Les quatre ecrans
+   sont differes comme les autres : personne qui vient lire l'atlas ne doit
+   payer le panier, et le panier ne coute presque rien tant qu'il est vide. */
+const TracksPage = lazy(() =>
+  import('./marchand/TracksPage.tsx').then((m) => ({ default: m.TracksPage }))
+);
+const PanierEcran = lazy(() =>
+  import('./marchand/PanierEcran.tsx').then((m) => ({ default: m.PanierEcran }))
+);
+const ConditionsPage = lazy(() =>
+  import('./atlas/PagesLegales.tsx').then((m) => ({ default: m.ConditionsPage }))
+);
+const ConfidentialitePage = lazy(() =>
+  import('./atlas/PagesLegales.tsx').then((m) => ({ default: m.ConfidentialitePage }))
+);
+const MentionsPage = lazy(() =>
+  import('./atlas/PagesLegales.tsx').then((m) => ({ default: m.MentionsPage }))
+);
+
 /* LE CALENDRIER EST CHARGE A LA DEMANDE, comme les autres pages. Il tire la
    liste des styles et parle a la passerelle : rien de tout cela n'a de raison
    de peser sur qui vient seulement lire l'atlas. */
@@ -148,7 +167,7 @@ if (!rootElement) {
   throw new Error('Élément racine introuvable.');
 }
 
-type Route = 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'parcourir' | 'profil' | 'sets' | 'calendrier' | 'news' | 'admin' | 'atlas';
+type Route = 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'parcourir' | 'profil' | 'mixtapes' | 'tracks' | 'panier' | 'conditions' | 'confidentialite' | 'mentions' | 'calendrier' | 'news' | 'admin' | 'atlas';
 
 const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/index')) return 'index';
@@ -166,7 +185,17 @@ const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/calendrier')) return 'calendrier';
   if (window.location.hash.startsWith('#/news')) return 'news';
   if (window.location.hash.startsWith('#/admin')) return 'admin';
-  if (window.location.hash.startsWith('#/sets')) return 'sets';
+  /* MIXTAPES, ET #/sets QUI Y MENE TOUJOURS. La section s'appelait Sons
+     jusqu'au 17 septembre 2026 ; son ancienne ancre reste vivante, parce
+     qu'elle est dans des liens partages et dans les pages deja indexees.
+     Une adresse publiee ne se retire pas, elle se redirige. */
+  if (window.location.hash.startsWith('#/mixtapes')) return 'mixtapes';
+  if (window.location.hash.startsWith('#/sets')) return 'mixtapes';
+  if (window.location.hash.startsWith('#/tracks')) return 'tracks';
+  if (window.location.hash.startsWith('#/panier')) return 'panier';
+  if (window.location.hash.startsWith('#/conditions')) return 'conditions';
+  if (window.location.hash.startsWith('#/confidentialite')) return 'confidentialite';
+  if (window.location.hash.startsWith('#/mentions')) return 'mentions';
   /* LA CARTE EN TROIS DIMENSIONS A SON PROPRE CHEMIN, #/carte.
 
      Elle occupait la racine, et c'est ce qui faisait tomber Mika sur elle a
@@ -192,7 +221,11 @@ const PORTE_LA_BARRE: ReadonlySet<Route> = new Set([
   'admin',
   'news',
   'parcourir',
-  'sets',
+  'mixtapes',
+  'tracks',
+  'conditions',
+  'confidentialite',
+  'mentions',
   'profil',
   'index',
   'credits',
@@ -248,8 +281,18 @@ function App() {
           <AccordeonView onOpen={ouvrirDansAtlas} />
         ) : route === 'profil' ? (
           <ProfilPage />
-        ) : route === 'sets' ? (
+        ) : route === 'mixtapes' ? (
           <SetsPage />
+        ) : route === 'tracks' ? (
+          <TracksPage />
+        ) : route === 'panier' ? (
+          <PanierEcran />
+        ) : route === 'conditions' ? (
+          <ConditionsPage />
+        ) : route === 'confidentialite' ? (
+          <ConfidentialitePage />
+        ) : route === 'mentions' ? (
+          <MentionsPage />
         ) : route === 'calendrier' ? (
           <CalendrierPage />
         ) : route === 'news' ? (

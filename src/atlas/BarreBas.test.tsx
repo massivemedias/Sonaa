@@ -14,16 +14,27 @@ afterEach(() => {
 });
 
 describe('BarreBas', () => {
-  it('porte cinq onglets, dans l ordre Calendar, News, Styles, Sons, Profil', () => {
+  it('porte cinq onglets, dans l ordre Calendar, Tracks, Mixtapes, News, Panier', () => {
     render(<BarreBas />);
     const liens = screen.getAllByRole('link');
     expect(liens.map((l) => l.getAttribute('href'))).toEqual([
       '#/calendrier',
+      '#/tracks',
+      '#/mixtapes',
       '#/news',
-      '#/parcourir',
-      '#/sets',
-      '#/profil',
+      '#/panier',
     ]);
+  });
+
+  /* L'ANCIENNE ANCRE DOIT SURVIVRE. #/sets a ete l'adresse publique des
+     mixtapes du 2 au 17 septembre 2026 : elle est dans des liens partages et
+     dans les pages indexees. Elle allume le meme onglet. */
+  it('l ancienne ancre #/sets allume toujours l onglet Mixtapes', () => {
+    window.location.hash = '#/sets';
+    render(<BarreBas />);
+    const courants = screen.getAllByRole('link').filter((l) => l.getAttribute('aria-current') === 'page');
+    expect(courants).toHaveLength(1);
+    expect(courants[0]?.getAttribute('href')).toBe('#/mixtapes');
   });
 
   it('allume l onglet de la page courante, et un seul', () => {
@@ -31,7 +42,7 @@ describe('BarreBas', () => {
     render(<BarreBas />);
     const courants = screen.getAllByRole('link').filter((l) => l.getAttribute('aria-current') === 'page');
     expect(courants).toHaveLength(1);
-    expect(courants[0]?.getAttribute('href')).toBe('#/sets');
+    expect(courants[0]?.getAttribute('href')).toBe('#/mixtapes');
   });
 
   it('a la racine, c est le Calendar qui est allume', () => {

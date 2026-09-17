@@ -107,7 +107,7 @@ export function ModifierSet({ set, onFini, onAnnuler }: Props) {
   return (
     <div className="sp-modif sp-formulaire">
       <label className="sp-label">
-        {t.titreDuSet}
+        {t.titreDeLaMixtape}
         <input
           type="text"
           maxLength={120}

@@ -65,7 +65,7 @@ export function LecteurSet({ set, compact = false }: Props) {
   const joue = courant && lecture.joue;
   const position = courant ? lecture.position : 0;
   const duree = courant && lecture.duree > 0 ? lecture.duree : (set.duree_s ?? 0);
-  const erreur = courant && lecture.erreur ? t.setIllisible : null;
+  const erreur = courant && lecture.erreur ? t.mixtapeIllisible : null;
 
   const onde = useRef<Uint8Array | null>(null);
   if (onde.current === null) onde.current = lireOnde(set.onde);
@@ -196,7 +196,7 @@ export function LecteurSet({ set, compact = false }: Props) {
           onMouseLeave={() => setSurvol(null)}
           role="slider"
           tabIndex={0}
-          aria-label={t.avancerDansLeSet}
+          aria-label={t.avancerDansLaMixtape}
           aria-valuemin={0}
           aria-valuemax={Math.round(duree)}
           aria-valuenow={Math.round(position)}

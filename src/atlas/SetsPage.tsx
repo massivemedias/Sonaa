@@ -1,4 +1,4 @@
-/* Routes #/sets et #/sets/<identifiant> : la liste, et la page d'un set.
+/* Routes #/mixtapes et #/mixtapes/<identifiant> : la liste, et une mixtape.
 
    LA LISTE MONTRE LES FORMES D'ONDE SANS TELECHARGER UN SEUL OCTET D'AUDIO.
    C'est la raison d'etre des 800 valeurs stockees dans la ligne : dix sets
@@ -33,9 +33,9 @@ import './sets.css';
 
 /* TROIS ECRANS SOUS UNE SEULE ROUTE.
 
-   #/sets            la liste des artistes qui ont depose
-   #/sets/a/<compte> tout ce qu'un artiste a publie
-   #/sets/<uuid>     un set, avec son grand lecteur
+   #/mixtapes            la liste des artistes qui ont depose
+   #/mixtapes/a/<compte> tout ce qu'un artiste a publie
+   #/mixtapes/<uuid>     une mixtape, avec son grand lecteur
 
    Pourquoi l'entree n'est plus la liste des sets mais celle des ARTISTES :
    une liste de fichiers tries par date ne dit pas qui fait quoi. Ce qu'on
@@ -45,11 +45,15 @@ type Ecran =
   | { readonly k: 'artiste'; readonly compte: string }
   | { readonly k: 'set'; readonly id: string };
 
+/* LES DEUX PREFIXES MENENT ICI. La section s'appelle Mixtapes depuis le
+   17 septembre 2026 ; #/sets etait son nom public depuis le 2 septembre et
+   vit dans des liens partages et dans les pages deja indexees par Google.
+   Une adresse publiee ne se retire pas. */
 function ecranDeLAdresse(): Ecran {
   const h = window.location.hash;
-  const artiste = h.match(/^#\/sets\/a\/([0-9a-f-]{36})/i);
+  const artiste = h.match(/^#\/(?:mixtapes|sets)\/a\/([0-9a-f-]{36})/i);
   if (artiste?.[1]) return { k: 'artiste', compte: artiste[1] };
-  const set = h.match(/^#\/sets\/([0-9a-f-]{36})/i);
+  const set = h.match(/^#\/(?:mixtapes|sets)\/([0-9a-f-]{36})/i);
   if (set?.[1]) return { k: 'set', id: set[1] };
   return { k: 'artistes' };
 }
@@ -118,7 +122,7 @@ function ListeDesArtistes() {
     <>
       <EnTeteSite />
       <main className="credits sets-page">
-      <h1>{t.lesSons}</h1>
+      <h1>{t.lesMixtapes}</h1>
 
       <h2 className="sp-sous-titre sp-sous-titre-premier">{t.lesArtistes}</h2>
 
@@ -131,11 +135,11 @@ function ListeDesArtistes() {
         <ul className="sp-artistes">
           {(tous ? artistes : artistes.slice(0, ARTISTES_VISIBLES)).map((a) => (
             <li key={a.user_id}>
-              <a className="sp-carte-artiste" href={`#/sets/a/${a.user_id}`}>
+              <a className="sp-carte-artiste" href={`#/mixtapes/a/${a.user_id}`}>
                 <Portrait nom={a.nom} chemin={a.avatar_path} />
                 <span className="sp-carte-nom">{a.nom}</span>
                 <span className="sp-aide">
-                  {t.nSets(a.n_sets)} · {t.nEcoutes(a.ecoutes)}
+                  {t.nMixtapes(a.n_sets)} · {t.nEcoutes(a.ecoutes)}
                 </span>
               </a>
             </li>
@@ -155,7 +159,7 @@ function ListeDesArtistes() {
           sets donnent une raison de rester. */}
       {derniers.length > 0 && (
         <>
-          <h2 className="sp-sous-titre">{t.derniersSets}</h2>
+          <h2 className="sp-sous-titre">{t.dernieresMixtapes}</h2>
           <ul className="sp-liste">
             {derniers.map((s) => (
               <ListeUnSet set={s} key={s.id} />
@@ -216,7 +220,7 @@ function PageDUnArtiste({ compte }: { compte: string }) {
       <main className="credits sets-page">
         <h1>{t.artisteIntrouvable}</h1>
         <p className="sp-aide">
-          <a href="#/sets">{t.retourAuxArtistes}</a>
+          <a href="#/mixtapes">{t.retourAuxArtistes}</a>
         </p>
       </main>
     </>
@@ -228,7 +232,7 @@ function PageDUnArtiste({ compte }: { compte: string }) {
       <EnTeteSite />
       <main className="credits sets-page">
       <p className="sp-fil">
-        <a href="#/sets">{t.lesArtistes}</a>
+        <a href="#/mixtapes">{t.lesArtistes}</a>
       </p>
 
       <header className="sp-tete-artiste">
@@ -236,7 +240,7 @@ function PageDUnArtiste({ compte }: { compte: string }) {
         <div>
           <h1>{artiste.nom}</h1>
           <p className="sp-aide">
-            {t.nSets(artiste.n_sets)} · {t.nEcoutes(artiste.ecoutes)}
+            {t.nMixtapes(artiste.n_sets)} · {t.nEcoutes(artiste.ecoutes)}
           </p>
         </div>
       </header>
@@ -264,12 +268,12 @@ export function ListeUnSet({ set, sansArtiste }: { set: SetDJ; sansArtiste?: boo
           <Vignette set={set} />
           <div>
             <h3>
-              <a href={`#/sets/${set.id}`}>{set.titre}</a>
+              <a href={`#/mixtapes/${set.id}`}>{set.titre}</a>
             </h3>
             <p className="sp-aide">
               {!sansArtiste && (
                 <>
-                  <a href={`#/sets/a/${set.user_id}`}>{set.artiste_nom ?? t.artisteSansNom}</a>
+                  <a href={`#/mixtapes/a/${set.user_id}`}>{set.artiste_nom ?? t.artisteSansNom}</a>
                   {' · '}
                 </>
               )}
@@ -358,9 +362,9 @@ function PageDUnSet({ id }: { id: string }) {
       <>
       <EnTeteSite />
       <main className="credits sets-page">
-        <h1>{t.setIntrouvable}</h1>
+        <h1>{t.mixtapeIntrouvable}</h1>
         <p className="sp-aide">
-          <a href="#/sets">{t.retourAuxSets}</a>
+          <a href="#/mixtapes">{t.retourAuxMixtapes}</a>
         </p>
       </main>
     </>
@@ -372,7 +376,7 @@ function PageDUnSet({ id }: { id: string }) {
       <EnTeteSite />
       <main className="credits sets-page">
       <p className="sp-fil">
-        <a href="#/sets">{t.lesSets}</a>
+        <a href="#/mixtapes">{t.lesMixtapesTitre}</a>
       </p>
 
       <header className="sp-tete-set">
@@ -380,7 +384,7 @@ function PageDUnSet({ id }: { id: string }) {
         <div>
           <h1>{set.titre}</h1>
           <p className="sp-aide">
-            <a href={`#/sets/a/${set.user_id}`}>{set.artiste_nom ?? t.artisteSansNom}</a>
+            <a href={`#/mixtapes/a/${set.user_id}`}>{set.artiste_nom ?? t.artisteSansNom}</a>
             {set.duree_s ? ` · ${mmss(set.duree_s)}` : ''}
             {` · ${t.nEcoutes(set.ecoutes)}`}
           </p>
