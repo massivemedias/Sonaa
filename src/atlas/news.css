@@ -23,7 +23,10 @@
   color: var(--ink-secondary);
 }
 .news-lede {
-  max-width: 62ch;
+  /* 70 SIGNES. Mika, le 17 septembre 2026 : « contrains la description a
+     70ch pour la lisibilite ». La manchette, elle, va au bord de la colonne
+     de 1240 px, comme le titre qu'elle porte. */
+  max-width: 70ch;
   margin: 0;
   color: var(--ink-secondary);
   line-height: 1.5;

@@ -147,10 +147,14 @@ Aucune migration Supabase : rien de tout cela ne touche la base.
 - `worker/src/index.ts` : la variante traduite de `api/article`, clé de cache par langue.
 - `.github/workflows/news.yml` : le secret de l'API.
 
-## 9. À valider avant d'écrire une ligne
+## 9. Tranché par Mika le 17 septembre 2026
 
-1. Le corps des articles est-il traduit aussi, ou seulement la liste ?
-2. Les deux sources françaises sont-elles traduites vers l'anglais pour les
-   lecteurs anglophones, ou restent-elles en français pour tout le monde ?
-3. Une clé API Anthropic doit être créée et posée en secret GitHub, et en
-   secret de la passerelle si le corps est traduit.
+1. **La liste seule**, titres et résumés. Le corps reste dans sa langue
+   d'origine, à réévaluer si les lecteurs le demandent. La passerelle n'a donc
+   rien à changer, et aucun secret ne lui est ajouté.
+2. **Trax et Tsugi restent en français pour tout le monde.** Aucune traduction
+   du français vers l'anglais.
+3. **Pas de pages `/fr/news/<slug>/`**, recommandation suivie.
+
+Reste à poser : la clé API Anthropic en secret GitHub, sous le nom
+`ANTHROPIC_API_KEY`. L'implémentation démarre à ce moment-là.

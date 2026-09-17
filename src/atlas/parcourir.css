@@ -1231,10 +1231,15 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      1,65 ecartait les lignes au point que le paragraphe se lisait comme une
      suite de lignes voisines ; 1,45 le rassemble en bloc. */
   .pv-description {
-    /* 120 SIGNES, COMME LE TEXTE DE FAMILLE. Mika, le 14 septembre 2026, sur
-       capture : « prends la largeur qu'il faut, t'es en desktop ». A 62 le
-       paragraphe s'arretait a mi-page sous un titre qui va au bord. */
-    max-width: 120ch;
+    /* 70 SIGNES, ET C'EST UN RETOUR EN ARRIERE ASSUME.
+
+       Le 14 septembre 2026, sur capture, Mika demandait l'inverse : « prends
+       la largeur qu'il faut, t'es en desktop », et la borne est passee de 62
+       a 120. Mesure le 17 septembre sur un ecran de 2560 px : 120 signes
+       donnaient 137 caracteres par ligne, ce qui ne se lit plus, et c'est ce
+       qu'il a signale. 70 est la valeur qu'il a nommee. Le titre et la grille
+       vont toujours au bord de la colonne ; seul le paragraphe s'arrete. */
+    max-width: 70ch;
     font-size: 1.0625rem;
     line-height: 1.45;
   }
@@ -1254,7 +1259,9 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      pendant que tout le reste va au bord ne se lit pas comme une
      introduction, il se lit comme une colonne oubliee. */
   .pv-description-famille {
-    max-width: 120ch;
+    /* Meme mesure que la description d'un genre, meme raison : voir
+       ci-dessus. */
+    max-width: 70ch;
   }
   /* LA BORNE EST SUR LA SECTION, PAS SUR LE PARAGRAPHE.
 

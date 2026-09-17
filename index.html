@@ -39,6 +39,43 @@
     </script>
     <meta name="theme-color" content="#0a0c10" />
 
+    <!-- LE CONTENU PRE-RENDU A UNE COLONNE, LUI AUSSI.
+
+         scripts/prerender.ts pose le texte de la page dans
+         <main class="prerendu">, devant l'ecran de chargement, pour que les
+         moteurs et les navigateurs sans script lisent quelque chose. Ce bloc
+         n'etait touche par AUCUNE regle : sur un ecran large il s'etalait sur
+         toute la fenetre, et une ligne de description y faisait plus de deux
+         cents signes. La feuille de style de l'application le corrigerait,
+         mais elle arrive avec le bundle, donc apres.
+
+         Ces quelques lignes sont donc en ligne, comme le script de theme
+         au-dessus et pour la meme raison : ce qui doit etre juste avant la
+         premiere peinture ne peut pas attendre un telechargement.
+
+         1240 px est ecrit en clair et non lu dans --largeur-page : ce jeton
+         nait avec la feuille de style, c'est-a-dire trop tard pour ce bloc.
+         Les deux valeurs doivent rester d'accord. -->
+    <style>
+      .prerendu {
+        display: block;
+        box-sizing: border-box;
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 2rem 1rem 3rem;
+        font-family: system-ui, sans-serif;
+        line-height: 1.6;
+      }
+      .prerendu p,
+      .prerendu li {
+        max-width: 70ch;
+      }
+      .prerendu img {
+        max-width: 100%;
+        height: auto;
+      }
+    </style>
+
     <!-- Identité. Les chemins sont relatifs : le site est servi sous /Sonaa/ et
          aucune URL absolue vers le domaine n'est écrite en dur, sauf dans les
          métadonnées Open Graph, dont la spécification l'exige. -->
