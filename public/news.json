@@ -1,6 +1,158 @@
 {
- "fait": "2026-09-17T13:32:09.348Z",
+ "fait": "2026-09-17T19:44:46.139Z",
  "articles": [
+  {
+   "source": "bpb",
+   "titre": "West Highland Sound releases Cinematic Wineglasses, a FREE wine glass library for Kontakt",
+   "lien": "https://bedroomproducersblog.com/2026/09/17/west-highland-cinematic-wineglasses/",
+   "date": "2026-09-17T18:58:36.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/WestHighlandSound-CinematicWineglasses.jpg",
+   "resume": "Cinematic Wineglasses from developer West Highland Sound is a free wine glass library for Kontakt. The library requires the full version of Kontakt 6.8 or later and isn’t compatible with the free Kontakt Player…"
+  },
+  {
+   "source": "musictech",
+   "titre": "Roland’s flagship store and first-ever standalone US retail space is opening in New York City this October",
+   "lien": "https://musictech.com/news/industry/rolands-flagship-store-and-first-ever-standalone-us-retail-space-is-opening-in-new-york-city-this-october/",
+   "date": "2026-09-17T18:01:06.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/09/Roland-1@2000x1500.jpg",
+   "resume": "Roland is staking its brick-and-mortar claim in the US with its first official flagship store. The shop will open next month in New York City, offering close up experiences with new products, education, and other…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Unnecessary Studio Gear That Is Actually Worth Having",
+   "lien": "https://www.gearnews.com/unnecessary-studio-gear/",
+   "date": "2026-09-17T18:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/flock-audio-ft.jpg",
+   "resume": "We investigate equipment that is often referred to as unnecessary studio gear to find out if certain audio tools remain useful in any recording studio. In this Article: Unnecessary Studio Gear: Cranborne Audio 500R8…"
+  },
+  {
+   "source": "cdm",
+   "titre": "x0xb0x, the synth that launched an open-source hardware boom, is reborn",
+   "lien": "https://cdm.link/x0xb0x-begets-digix0x/",
+   "date": "2026-09-17T17:06:43.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/digix0x.jpg",
+   "resume": "Based on the legendary TB-303, the x0xb0x was an underground legend all its own, one that helped popularize the open-source hardware movement. And now it's back, in a digital emulation of the original hardware, from…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Yamaha FG7 and FS7 Series: High-End Acoustic Guitars from Japan!",
+   "lien": "https://www.gearnews.com/yamaha-fg7-fs7-series-guitar/",
+   "date": "2026-09-17T16:46:10.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/yamaha-fs7-teaser.jpg",
+   "resume": "With the FG7 and FS7 series, Yamaha once again proves just how much craftsmanship goes into its instruments. Let’s take a closer look at these new models and figure out whether they actually stand up to big names like…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "“When I pressed ‘record’ the two of us breathed in, and then when I finished we breathed out. That’s what it felt like”: Johnny Marr recalls the intimate and magical experience of writing songs with Morrissey for The Smiths",
+   "lien": "https://www.musicradar.com/artists/when-i-pressed-record-the-two-of-us-breathed-in-and-then-when-i-finished-we-breathed-out-thats-what-it-felt-like-johnny-marr-recalls-the-intimate-and-magical-experience-of-writing-songs-with-morrissey-for-the-smiths",
+   "date": "2026-09-17T16:32:29.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/dJEyHoTa7zQ22juxXxxSwg-1920-80.png",
+   "resume": "Guitarist Johnny Marr still cherishes the memories he has of The Smiths’ glory days in the ’80s, when he wrote the music and singer Morrissey wrote the lyrics to a host of classic songs. In an interview with Channel 4…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Sonicware ELZ_1 core, Dirtywave Announces a Performance Mixer, More: Synth Journal",
+   "lien": "https://www.gearnews.com/sonicware-elz_1-core-synth-journal/",
+   "date": "2026-09-17T16:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/sonicware-elz_1-core-T.jpg",
+   "resume": "Want a new Sonicware ELZ_1 core? Better hurry, because they’re limited to 50 units only… Sonicware ELZ_1 core and More: Synth Journal Sonicware ELZ_1 core Dirtywave MX Performance Mixer Amiteque FM-01 ALM/Busy Circuits…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "“When I heard Fred's voice for the first time, I thought, God, he'll never be a singer. He sounds like a strangled sheep”: Roger Taylor on what he thought when he first heard Freddie Mercury",
+   "lien": "https://www.musicradar.com/artists/drummers/when-i-heard-freds-voice-for-the-first-time-i-thought-god-hell-never-be-a-singer-he-sounds-like-a-strangled-sheep-roger-taylor-on-what-he-thought-when-he-first-heard-freddie-mercury",
+   "date": "2026-09-17T15:59:32.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/KNmxVFWtjDLkzWWopUDgXf-1920-80.jpg",
+   "resume": "Queen drummer Roger Taylor has a new solo album out and as part of the promotion he’s been on BBC Radio 2 choosing his Tracks Of My Years on the Vernon Kay show. Aside from picking ten favourite tracks, it involves an…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "I’ve covered Guitar Center sales for years, and the freshly launched Guitar-A-Thon sale is a must-shop with reductions hitting up to 30% off",
+   "lien": "https://www.musicradar.com/guitars/guitar-center-guitar-a-thon-deal",
+   "date": "2026-09-17T15:48:30.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/8WgyEpebU62nhgmvUDiVVZ-1920-80.png",
+   "resume": "As someone who’s spent years keeping tabs on retail events, I reckon Guitar Center’s newly launched Guitar-A-Thon is genuinely worth your time. Rather than just shifting old preowned gear, they've knocked up to 30% off…"
+  },
+  {
+   "source": "musictech",
+   "titre": "The best new music plugins this week, free and paid",
+   "lien": "https://musictech.com/news/gear/new-plugins-this-week/",
+   "date": "2026-09-17T15:40:52.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/09/Luna-2@2000x1500.jpg",
+   "resume": "Every week, we round up the most exciting new plugin releases — from virtual instruments and creative effects to mixing tools and workflow upgrades. There are tons of plugins released every week, both free and paid-for…"
+  },
+  {
+   "source": "musictech",
+   "titre": "What is multiband compression, and when should you use it?",
+   "lien": "https://musictech.com/glossary/multiband-compression/",
+   "date": "2026-09-17T15:20:12.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2023/06/musictech-og-image@1200x600-1068x534.png",
+   "resume": "Multiband compressors split your input signal into multiple frequency bands — typically between three and five, but sometimes more — passing each through its own compressor before mixing the results back together for…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "\"I'm cancelling my subscription\": Suno users slam its V6 update as \"muffled, generic, soulless garbage\"",
+   "lien": "https://www.musicradar.com/music-tech/im-cancelling-my-subscription-suno-users-slam-its-v6-update-as-muffled-generic-soulless-garbage",
+   "date": "2026-09-17T15:17:54.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/w5njE3VRS9Q5p3Qm7ZtJji-1920-80.png",
+   "resume": "Since launching in 2023, AI music platform Suno has received a steady torrent of criticism from musicians and music fans sceptical of its legally dubious training practices and wary of the growing threat that generative…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "Sonicware’s ELZ_1 core puts a powerful, multi-synthesis engine in a compact desktop box",
+   "lien": "https://www.musicradar.com/music-tech/synths/sonicwares-elz-1-core-puts-a-powerful-multi-synthesis-engine-in-a-compact-desktop-box",
+   "date": "2026-09-17T15:13:30.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/WPmdpk7QM6jMtqKMaUTgp3-1920-80.jpg",
+   "resume": "Japanese synth brand Sonicware has launched a new desktop module version of its ELZ_1 synth , ELZ_1 core. The new module is based on the same digital synthesis engine as Sonicware’s ELZ_1 play , but trims down that…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Vengeance Sound VPS Avenger 2 Synthesizer at 50% Off in This Sale!",
+   "lien": "https://www.gearnews.com/vengeance-sound-avenger-2-plugin-synths/",
+   "date": "2026-09-17T14:31:23.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/03/Vengeance-Sound-Avenger-2-Teaser.jpg",
+   "resume": "Only a few days left to grab 50 percent off VPS Avenger, Vengeance Sound’s flagship software synthesizer, over at Plugin Boutique *. You’ve got until September 30, 2026 to decide. A great package at a seriously…"
+  },
+  {
+   "source": "musictech",
+   "titre": "What is LUFS in music production?",
+   "lien": "https://musictech.com/glossary/lufs/",
+   "date": "2026-09-17T14:15:41.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/09/what-is-lufs-hero@2000x1500.jpg",
+   "resume": "LUFS is an acronym for Loudness Units Full Scale and is a standardised way to measure audio loudness. It’s most commonly referred to in the mastering phase of music production . In this context, ‘loudness’ is not the…"
+  },
+  {
+   "source": "musictech",
+   "titre": "GTA VI soundtrack revealed: with Fred again, Travis Scott and PinkPantheress all set to appear",
+   "lien": "https://musictech.com/news/music/gta-vi-soundtrack-revealed/",
+   "date": "2026-09-17T14:11:59.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/09/Travis-Scott-Fred-Again-PinkPantheress-GTA-VI-hero@2000x1500.jpg",
+   "resume": "Rockstar Games has teamed up with Atlantic Records to unveil the official soundtrack for GTA IV , which is set to be the biggest video game release ever when it launches 19 November 2026. Grand Theft Auto VI: The Album…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Harley Benton SC-550 Plus Fluence adds Active Fishman Pickups",
+   "lien": "https://www.gearnews.com/harley-benton-sc-550-plus-fluence-guitar/",
+   "date": "2026-09-17T14:03:45.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/hb-sc-550-plus-fluence-770x425-1-128x71.jpg",
+   "resume": "Harley Benton’s SC-550 series is their entry-level single-cut guitar line. With the two new SC-550 Plus Fluence models, Harley Benton is adding the legendary pickups from Fishman to this series. Is this the best…"
+  },
+  {
+   "source": "bpb",
+   "titre": "Lunacy launches NOVA platform with five FREE virtual instruments",
+   "lien": "https://bedroomproducersblog.com/2026/09/17/lunacy-nova-free-instruments/",
+   "date": "2026-09-17T13:56:31.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/lunacy-nova.jpg",
+   "resume": "Lunacy has launched NOVA, a new instrument platform and marketplace for macOS and Windows, with a free host plugin and five free virtual instruments. The basic idea is somewhat similar to what Spitfire Audio LABS used…"
+  },
+  {
+   "source": "attack",
+   "titre": "Martha Bolton: “Real Change Happens When Everyone Moves In The Same Direction”",
+   "lien": "https://www.attackmagazine.com/features/long-read/martha-bolton-real-change-happens-when-everyone-moves-in-the-same-direction/",
+   "date": "2026-09-17T13:47:58.000Z",
+   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/Attack-Mag-Long-Read-NBFG-1-.png?fit=1130%2C386&ssl=1",
+   "resume": "NOT BAD FOR A GIRL founder Martha Bolton on why balanced lineups start years before the poster, and why \"fewer women DJs\" doesn't hold up. Debates about representation in electronic music tend to get heated fast…"
+  },
   {
    "source": "musicradar",
    "titre": "See iconic Jeff Beck, Mike Bloomfield and Jack White guitars up close",
@@ -46,7 +198,7 @@
    "titre": "Gearmulator MD/MM is a FREE Elektron Machinedrum and Monomachine emulator",
    "lien": "https://bedroomproducersblog.com/2026/09/17/elektron-gearmulator/",
    "date": "2026-09-17T11:00:28.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/elektron-gearmulator.jpg",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/elektron.jpg",
    "resume": "Developer Joe Landers has released Gearmulator MD/MM, a free and open-source emulation of the Elektron Machinedrum and Monomachine for macOS and Windows. Landers is also the dev behind Profligacy, the hardware-level…"
   },
   {
@@ -130,14 +282,6 @@
    "resume": "GlitchShredder is a glitch and stutter effect for iPhone and iPad that combines stereo audio chopping, tempo synchronization, probability-based segment manipulation, bitcrushing and drive, with standalone and AUv3…"
   },
   {
-   "source": "gearnews",
-   "titre": "Joe Landers Profligacy Is a KORG Prophecy Emulator: Get the Prodigy’s Synth for Free!",
-   "lien": "https://www.gearnews.com/joe-landers-profligacy-synth/",
-   "date": "2026-09-17T01:06:24.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/joe-landers-profligacy-T.jpg",
-   "resume": "Joe Landers Profligacy puts the KORG Prophecy hardware in your computer. This is the same synth that The Prodigy rinsed on hits like “Firestarter.” But there’s a catch… Joe Landers Profligacy: What You Need to Know Joe…"
-  },
-  {
    "source": "musictech",
    "titre": "Best Budget Synthesizers Under $250",
    "lien": "https://musictech.com/guides/buyers-guide/best-budget-synthesizers-under-250/",
@@ -152,14 +296,6 @@
    "date": "2026-09-16T19:01:40.000Z",
    "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/Attack-Mag-News-Feat-Images-CRSSD-after-dark.jpg?fit=1130%2C387&ssl=1",
    "resume": "CRSSD Festival's afterparty series returns to San Diego from 25 to 27 September with sets across multiple venues. CRSSD Festival has confirmed the return of CRSSD After Dark, its official afterparty series, for three…"
-  },
-  {
-   "source": "gearnews",
-   "titre": "Boutique Microphones: Made By Hand",
-   "lien": "https://www.gearnews.com/boutique-microphones-studio/",
-   "date": "2026-09-16T18:07:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/boutique-microphones-ft.jpg",
-   "resume": "We check out some different manufacturers of hand-crafted boutique microphones that can expand your mic locker for taking on a wide range of recording projects. In this Article: Boutique Microphones: Sontronics Boutique…"
   },
   {
    "source": "bpb",
@@ -186,38 +322,6 @@
    "resume": "Music producers build complex arrangements using synthesizers, found sounds, acoustic instruments, and vocals , often layering them on top of each other. Sometimes, the result is almost perfect. Other times, unwanted…"
   },
   {
-   "source": "musicradar",
-   "titre": "“We were with Rick Rubin, drinking vodka and grapefruit juice, and we wrote that song in about five minutes”: How the Beastie Boys created the most ironic party anthem of the ’80s",
-   "lien": "https://www.musicradar.com/artists/bands/we-were-with-rick-rubin-drinking-vodka-and-grapefruit-juice-and-we-wrote-that-song-in-about-five-minutes-how-the-beastie-boys-created-the-most-ironic-party-anthem-of-the-80s",
-   "date": "2026-09-16T16:00:53.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/79LdNmmBqBNCKkb6C5sKVm-1920-80.jpg",
-   "resume": "Released during the run up to Christmas in 1986, (You Gotta) Fight For Your Right (To Party!) became the Beastie Boys’ signature anthem. As the fourth single out of seven from the hip-hop trio’s debut Licensed To Ill…"
-  },
-  {
-   "source": "gearnews",
-   "titre": "Panorama Whitekirk Delivers Haunting Guitars in a 12th Century Church – Sounds and Presets",
-   "lien": "https://www.gearnews.com/panorama-whitekirk-sounds-presets-synths/",
-   "date": "2026-09-16T16:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/Whitekirk4.jpg",
-   "resume": "A broad collection of sounds for you this week, featuring Panorama Whitekirk, a delightful sampled guitar, plus sounds for classic, quirky analogue synths and the Moog Muse! Sounds and Presets Panorama Whitekirk for…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "\"This is just the beginning\": Nopia launches on Kickstarter and hits $1.4m in 24 hours",
-   "lien": "https://www.musicradar.com/music-tech/this-is-just-the-beginning-nopia-launches-on-kickstarter-and-hits-usd1-4m-in-24-hours",
-   "date": "2026-09-16T15:46:59.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/wduPsQvoRpg6fbNgTcfHPe-1920-80.png",
-   "resume": "Three years on from its viral breakout moment , Nopia is finally here… almost. The creators of this much-hyped chord-generating synth have launched a Kickstarter campaign to fund the first production batch of Nopia MK1…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "Drake's “self-funded surreal” short film includes new country-inspired tracks",
-   "lien": "https://www.musicradar.com/artists/singles-albums/drakes-self-funded-surreal-short-film-includes-new-country-inspired-tracks",
-   "date": "2026-09-16T15:43:54.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/hxhXJayBnC7PNULPcUo9H9-1920-80.jpg",
-   "resume": "Drake appears to be the latest urban artist who's adding country music to their musical palette. The Canadian rapper dropped his trailed Fear Of Missing Out (FOMO) the other day. He described it as a “not-so-short…"
-  },
-  {
    "source": "musictech",
    "titre": "Nopia is open now for pre-orders – and it might just give the Telepathic Orchid a run for its money",
    "lien": "https://musictech.com/news/gear/nopia-open-now-for-pre-orders/",
@@ -226,36 +330,12 @@
    "resume": "Nopia – the semi-modular MIDI chord generator and synthesizer that’s been teased since as far back as 2023 – is finally open for pre-orders. First announced in May 2023 by Argentinian instrument designers Martin Grieco…"
   },
   {
-   "source": "musicradar",
-   "titre": "Millenium Drum's new flagship MPS-1500 Hybrid-X electronic drum set will turn some heads",
-   "lien": "https://www.musicradar.com/drums/electronic-drums/millenium-drums-new-flagship-mps-1500-hybrid-x-electronic-drum-set-will-turn-some-heads",
-   "date": "2026-09-16T15:39:15.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/3MYZF9aTJci8YGNSkeJzVV-1920-80.jpg",
-   "resume": "Musical retail giant Thomann has announced the release of a brand-new flagship model in the Millenium Drums range. The MPS-1500 Hybrid-X electronic drum kit is the pinnacle of what Millenium Drums has to offer and it…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "How Pete Townshend, Carlos Santana and a miracle pawn shop find in the depths of winter made Joe Bonamassa fall in love with P-90s: “That’s what really got me into them, the way they clean up really well but they would roar”",
-   "lien": "https://www.musicradar.com/artists/seymour-duncan-joe-bonamassa-pawn-shop-special-pickup-set",
-   "date": "2026-09-16T15:24:01.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/u4GmLajmkmSBadG8rSSCag-1920-80.jpg",
-   "resume": "Think of Joe Bonamassa and you don’t necessarily think of the blues guitar maestro as a P-90 player. Sure, he owns electric guitars with P-90s, but his tone is more commonly associated with the sound of PAF humbuckers…"
-  },
-  {
    "source": "musictech",
    "titre": "Arturia’s MiniFreak gets a free 5.0 update: here’s everything you need to know",
    "lien": "https://musictech.com/news/music/arturia-minifreak-free-5-0-update-new-features/",
    "date": "2026-09-16T15:15:29.000Z",
    "image": "https://musictech.com/wp-content/uploads/2025/12/arturia-minifreak-gotd-hero@2000x1500.jpg",
    "resume": "A 5.0 update has landed for Arturia ’s MiniFreak synth and MiniFreak V software. The update brings three major upgrades, including the ability to bring your own material into MiniFreak – a highly-requested enhancement…"
-  },
-  {
-   "source": "gearnews",
-   "titre": "Guitar Days at Thomann: More Than 500 Cool Deals With up to 60% Off",
-   "lien": "https://www.gearnews.com/guitar-days-thomann-deal/",
-   "date": "2026-09-16T15:00:21.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/09/2608_Thomann_Guitardays_Gearnews_1540x850_EN.jpg",
-   "resume": "From 9 to 30 September 2026, Thomann will be hosting its Guitar Days , where everything revolves around guitars, amps, basses and effects. During this period, Thomann is offering a large-scale promotion with more than…"
   },
   {
    "source": "bpb",
@@ -314,22 +394,6 @@
    "resume": "Image-Line has added Antares AutoTune Go to FL Cloud Free, making the vocal pitch correction plugin available to every FL Studio customer at no additional cost. The paid FL Cloud Plus and Pro tiers include it too, but…"
   },
   {
-   "source": "gearnews",
-   "titre": "Córdoba Fusion Orchestra CE Pro: Flamenco and More",
-   "lien": "https://www.gearnews.com/cordoba-fusion-orchestra-ce-pro-guitar/",
-   "date": "2026-09-16T10:12:10.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/Cordoba_Orchestra_CE_Pro_Teaser-128x71.jpg",
-   "resume": "With the Fusion Orchestra CE Pro, Córdoba introduces an evolution of its popular Fusion Orchestra CE . New tonewoods, an improved Fishman preamp, and visual highlights- all for under 2,000 euros! Córdoba reveals the…"
-  },
-  {
-   "source": "musictech",
-   "titre": "At £225, is the Omnitronic PM-404F the best four-channel DJ mixer at its price range?",
-   "lien": "https://musictech.com/reviews/dj/omnitronic-pm-404f-review/",
-   "date": "2026-09-16T08:00:27.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/09/Omnitronic-PM-404F-hero-credit-press@2000x1500.jpg",
-   "resume": "£225 (street price) Whether you’re looking to layer techno tools, double up on double drops, or just want to keep all of your decks plugged in at once, sometimes a two-channel DJ mixer won’t cut it. But stepping up to…"
-  },
-  {
    "source": "synthtopia",
    "titre": "New Mac App, HarmonyKeen, Writes Harmony Parts To Your MIDI Melodies Using Music Theory, Not AI",
    "lien": "https://www.synthtopia.com/content/2026/09/15/new-mac-app-harmonykeen-writes-harmony-parts-to-your-midi-melodies-using-music-theory-not-ai/",
@@ -346,52 +410,12 @@
    "resume": "Elgato's Stream Deck, a push-button desktop controller with interactive color keys and software shortcuts, has quietly become an ideal DAW accessory. Take, for example, this thoughtfully designed addition from Granite…"
   },
   {
-   "source": "bpb",
-   "titre": "2B Played Music SlimVerb2 reverb plugin is FREE for a limited time",
-   "lien": "https://bedroomproducersblog.com/2026/09/15/2b-played-music-slimverb2-reverb-plugin-is-free-for-a-limited-time/",
-   "date": "2026-09-15T16:37:32.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/2BPlayedMusic-SlimVerb2.jpg",
-   "resume": "The SlimVerb2 reverb plugin from the developer 2B Played Music is now free for a limited time. Some of you probably have the original SlimVerb plugin; we’ve covered it a few times through various offers and limited-time…"
-  },
-  {
-   "source": "musictech",
-   "titre": "AutoTune is now available in FL Studio – even to free users",
-   "lien": "https://musictech.com/news/gear/autotune-is-now-available-in-fl-studio-even-to-free-users/",
-   "date": "2026-09-15T16:27:23.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/09/AutoTune-FL-Studio@2000x1500.jpg",
-   "resume": "AutoTune is the quintessential pitch correction software, and it’s coming to FL Studio totally free. Image-Line – developer of the hugely popular DAW FL Studio – has partnered with AutoTune maker Antares on AutoTune Go…"
-  },
-  {
-   "source": "musictech",
-   "titre": "BandLab’s mastering capabilities just got an upgrade – here’s what’s new",
-   "lien": "https://musictech.com/news/music/bandlabs-mastering-capabilities-just-got-an-upgrade-heres-whats-new/",
-   "date": "2026-09-15T09:50:04.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/09/BandLab-new-hero@2000x1500.jpg",
-   "resume": "[Editor’s note: BandLab Technologies and MusicTech are both part of the Caldecott Music Group.] BandLab has rolled out a new update, which focuses chiefly on the upgrade of its mastering capabilities. The popular DAW –…"
-  },
-  {
    "source": "digitaldjtips",
    "titre": "Are Fake CDJs On The Way?",
    "lien": "https://www.digitaldjtips.com/are-fake-cdjs-on-the-way/",
    "date": "2026-09-15T08:19:46.000Z",
    "image": "https://cdn.digitaldjtips.com/app/uploads/2026/09/15101723/thumbb.jpeg",
    "resume": "A CDJ-3000X is big, expensive, and built to survive a decade of club abuse. It’s what pro DJs expect to find waiting for them in the booth. But a Reddit thread I read recently has been rattling around my head ever…"
-  },
-  {
-   "source": "musictech",
-   "titre": "My Forever Studio: Nick Hakim has your gear on long-term loan",
-   "lien": "https://musictech.com/shows/podcasts/my-forever-studio/nick-hakim/",
-   "date": "2026-09-15T08:15:05.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/09/mfs-ep-1-niick-hakim@2000x1500.jpg",
-   "resume": "In partnership with Audient My Forever Studio Season 8 is here — produced in partnership with Audient — and once again, our hosts Chris Barker and Will Betts are transporting an eclectic mix of talented producers into…"
-  },
-  {
-   "source": "musictech",
-   "titre": "Noble Audio FoKus Artemis review: Three is evidently the magic number",
-   "lien": "https://musictech.com/reviews/studio-recording-gear/noble-audio-fokus-artemis-review/",
-   "date": "2026-09-15T08:00:53.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/09/Noble-Audio-FoKus-Artemis-hero-credit-press@2000x1500.jpg",
-   "resume": "£799 / $899 / €949, nobleaudio.com If you backpacked Thailand in the late noughties, there’s a chance you soundtracked your efforts to emulate The Beach with an early pair of Noble Audio in-ear monitors . While working…"
   },
   {
    "source": "synthtopia",
@@ -408,14 +432,6 @@
    "date": "2026-09-14T15:46:42.000Z",
    "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/drum-synthesizer.jpg",
    "resume": "Tapechild UDS-16 is a 16-voice drum synthesizer with four synthesis models inspired by the Lel UDS and Formanta Rockton, plus a Tapechild-developed engine, with all sounds generated in real time rather than played back…"
-  },
-  {
-   "source": "bpb",
-   "titre": "ABYZOR releases IZZY, a FREE one-click synth for Windows",
-   "lien": "https://bedroomproducersblog.com/2026/09/14/abyzor-izzy-synth/",
-   "date": "2026-09-14T14:12:15.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/izzy.jpg",
-   "resume": "ABYZOR has released IZZY Synth, a free synthesizer plugin and standalone instrument for Windows. IZZY takes a different approach from the synths we all grew up with. You know, the normal synths that put oscillator…"
   },
   {
    "source": "attack",
@@ -490,12 +506,36 @@
    "resume": "Stagecraft Software has introduced Cenere, a versatile subtractive synthesizer that is designed to capture the character of vintage synthesizers, paired with all the power of modern wavetables.…"
   },
   {
+   "source": "tsugi",
+   "titre": "Marée Électronique : un open-air entre patrimoine, DJ-sets et VJing",
+   "lien": "https://www.tsugi.fr/la-maree-electronique-un-open-air-entre-patrimoine-dj-sets-et-vjing/",
+   "date": "2026-09-11T14:17:56.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/la-maree-electronique-un-open-air-entre-patrimoine-dj-sets-et-vjing.jpg?hash=cdn-1d07ded07dcea06db0de9cbfae4088c6",
+   "resume": "Pour nos adeptes de concepts inédits, la première édition de Marée Électronique prévue le 19 septembre prochain est faite pour vous ! Postés sur le barrage de Couesnon, vous pourrez danser aux rythmes de musiques…"
+  },
+  {
+   "source": "tsugi",
+   "titre": "Zaatar, FKJ, Bonobo… Les sorties de la semaine",
+   "lien": "https://www.tsugi.fr/zaatar-fkj-bonobo-les-sorties-de-la-semaine/",
+   "date": "2026-09-11T13:00:51.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/zaatar-fkj-bonobo-les-sorties-de-la-semaine.jpg?hash=cdn-2179aa68b1fa47fe7a661e72d9d34c82",
+   "resume": "Alors que nous recommençons à mettre des pulls et des vestes — snif — heureusement que les sorties musicales de la semaine sont toujours là pour nous réchauffer le cœur. Au coin du feu — oui, on abuse un peu — cette…"
+  },
+  {
    "source": "synthtopia",
    "titre": "Brooklyn Synth and Pedal Expo Returns October 17 – 18",
    "lien": "https://www.synthtopia.com/content/2026/09/11/brooklyn-synth-and-pedal-expo-returns-october-17-18/",
    "date": "2026-09-11T13:00:00.000Z",
    "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/2026-Brooklyn-Synth-Pedal-Expo-header.png",
    "resume": "The Brooklyn Synth & Pedal Expo is coming back to NY next month. The two-day event pops up in Greenpoint, Brooklyn, October 17–18, at a 7,000-square-foot warehouse turned immersive playground for electronic music…"
+  },
+  {
+   "source": "tsugi",
+   "titre": "Lacchesi et Anetha se rejoignent pour un single hypnotique et politique",
+   "lien": "https://www.tsugi.fr/lacchesi-et-anetha-se-rejoignent-pour-un-single-hypnotique-et-politique/",
+   "date": "2026-09-11T09:58:43.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/lacchesi-et-anetha-se-rejoignent-pour-un-single-hypnotique-et-politique.jpg?hash=cdn-3fe7fd40e1af110102ecca270a07ec2a",
+   "resume": "Après un premier single avec Kittin paru le 10 juillet sur le label Mama Told Ya, Lacchesi dévoile aujourd’hui « No Pasarán », cette fois-ci aux côtés d’Anetha, une autre figure emblématique de la scène techno. Mais ce…"
   },
   {
    "source": "attack",
@@ -512,6 +552,14 @@
    "date": "2026-09-10T15:57:55.000Z",
    "image": "https://cdm.link/app/uploads/2026/09/kevin.png",
    "resume": "The best 909 Day reveal yesterday was this: on Saturday, Kevin Saunderson, techno originator and one of the Belleville Three, teaches a free workshop on the 909 with Roland (with Dustin Good). You can tune in online…"
+  },
+  {
+   "source": "tsugi",
+   "titre": "CHLOÉ, Panteros666, Urumi… Arte Mix revient au Trabendo pour une soirée éclectique",
+   "lien": "https://www.tsugi.fr/chloe-panteros666-urumi-arte-mix-revient-au-trabendo-pour-une-soiree-eclectique/",
+   "date": "2026-09-10T13:51:06.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/chloe-panteros666-urumi-arte-mix-revient-au-trabendo-pour-une-soiree-eclectique.jpg?hash=cdn-079e40130522029bde5baa43d64d5d6e",
+   "resume": "La soirée Arte Mix est de retour au Trabendo ce 9 octobre et si vous nous dites qu’il n’y a pas au moins un set dans la liste qui vous intéresse, ce n’est pas bien de mentir ! En 9 heures, les enceintes passeront des…"
   },
   {
    "source": "tsugi",
@@ -658,14 +706,6 @@
    "resume": "\"U Get Me\"? Yes. Out today, Friday, Loraine James' newest LP It’s Nothing Personal. is the kind of massive, glitchy percussive syncopation I would want to use to break in an excellent, brand new pair of trainers. Then…"
   },
   {
-   "source": "cdm",
-   "titre": "In masses of live electronic sound, Jad Atoui built an opus",
-   "lien": "https://cdm.link/jad-atoui-it-will-take-forever/",
-   "date": "2026-09-04T16:02:55.000Z",
-   "image": "https://cdm.link/app/uploads/2026/09/jadatoui.jpg",
-   "resume": "It Will Take Forever moves through emotions in swells, as if pulling us through feelings. Composed and played live on modular synths from 2023 to 2025 in Beirut, Jad Atoui's work almost sings grief through those…"
-  },
-  {
    "source": "ableton",
    "titre": "A Step-by-Step Guide for Creating Rhythmic Pads",
    "lien": "https://www.ableton.com/en/blog/step-by-step-guide-for-creating-rhythmic-pads/",
@@ -720,14 +760,6 @@
    "date": "2026-08-31T09:39:28.000Z",
    "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/08/Pure-Sub-main.png?fit=1130%2C780&ssl=1",
    "resume": "Arturia’s Pre SUB was designed for 808s and Reeses, making it now easier than ever to dial in massive bass. It’s surprisingly affordable too. The specification of plugins continues. For some reason now, we’re all really…"
-  },
-  {
-   "source": "attack",
-   "titre": "5 Must-Watch Sets At CRSSD Festival Next Month",
-   "lien": "https://www.attackmagazine.com/reviews/the-best/5-must-watch-sets-at-crssd-festival-next-month/",
-   "date": "2026-08-30T21:09:01.000Z",
-   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/08/Attack-Mag-The-Best-CRSSD-FALL-26.png?fit=1130%2C379&ssl=1",
-   "resume": "CRSSD Festival returns to San Diego's Waterfront Park at the end of September, bringing another sprawling lineup across its waterfront stages. With so much on offer over the weekend, narrowing down a schedule is no…"
   },
   {
    "source": "ableton",
@@ -1083,6 +1115,22 @@
   },
   {
    "source": "mixmag",
+   "titre": "Save The Rave dubbed “Cornwall’s Fyre Festival” following disastrous event",
+   "lien": "https://mixmag.net/read/save-the-rave-dubbed-cornwall-fyre-festival-following-disastrous-event-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/save-the-rave_2026-09-17-153209_zlwp.jpg?fit=cover&width=660&s=7iSQt35N9oSGWQWhaZvG8edWZLQLUxzi75zjvFD7VeU",
+   "resume": "Artists booked to play claim that they were not paid, with attendees describing it as a “shit show”"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Erol Alkan's Trash party teases return after 20 years",
+   "lien": "https://mixmag.net/read/erol-alkan-trash-party-teases-return-after-20-years-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/Trash-01.jpg?fit=cover&width=660&s=yLavPn6iw_4Y2aVy2t5xRBCsRUdENRtw_cuUwb7b5d4",
+   "resume": "The legendary club night, renowned for its mixture of indie and electronic music, held its last event at The End in 2007"
+  },
+  {
+   "source": "mixmag",
    "titre": "The Mix 123: Optimo",
    "lien": "https://mixmag.net/feature/the-mix-123-optimo-espacio-glasgow-dj-interview",
    "date": null,
@@ -1154,35 +1202,51 @@
    "resume": "A 12-year-old boy was among those apprehended after reportedly trespassing on a railway line in an attempt to gain access to the event"
   },
   {
-   "source": "mixmag",
-   "titre": "ADE severs ties with promoters over \"insensitive\" Shlømo booking",
-   "lien": "https://mixmag.net/read/ade-severs-ties-promoters-insensitive-shlomo-booking-news",
+   "source": "djmag",
+   "titre": "DJ Mag launches Top 100 DJs 2026 fundraiser in aid of Bridges for Music",
+   "lien": "https://djmag.com/news/dj-mag-launches-top-100-djs-2026-fundraiser-aid-of-bridges-music",
    "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/shlomo-credit-Fany_Bardin.jpg?fit=cover&width=660&s=nnSxRbWAFq7FS18znLrwz7y-vP5SBmPvpVw8es9MBtI",
-   "resume": "The French artist, who has been accused of rape and sexual misconduct, was due to perform at an event hosted by Komplott and Overgave during the music summit next month"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Suno admits to using music from YouTube to train its AI models",
-   "lien": "https://mixmag.net/read/ai-music-firm-suno-admits-using-music-from-youtube-to-train-models-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/suno-ai.jpg?fit=cover&width=660&s=4X1h0ibbavp7_J0sK7B7BhSnEYNXlXTiVFLaI7HGn48",
-   "resume": "The AI music creation firm has admitted to using audio data from the platform in a new court filing"
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/BFM%20Graduation%202024%20-%20263.jpg.webp?itok=a7AVlYAw1605477567",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Artists in this year’s poll are being invited to sponsor students at the Bridges for Music…"
   },
   {
    "source": "djmag",
-   "titre": "Fred again.. and PinkPantheress added to GTA 6 soundtrack",
-   "lien": "https://djmag.com/news/fred-again-and-pinkpantheress-added-gta-6-soundtrack",
+   "titre": "Noisia announce reunion and first live show in four years",
+   "lien": "https://djmag.com/news/noisia-announce-reunion-and-first-live-show-four-years",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/gta-6-everything-revealed-and-confirmed_712g.1200.webp?itok=2qBdEA5n902055660",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Rockstar will release the long-awaited game on 19th November, alongside an accompanying…"
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/A_Noisia%202026_pictureby_Farhad%20Khodadadzade.jpg.webp?itok=lnE2gv6S1598748486",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“Combining our forces again feels incredibly exciting now,” the trio said in a statement…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Macklemore to donate entire Ed Sheeran tour salary to Palestine aid",
+   "lien": "https://djmag.com/news/macklemore-donate-entire-ed-sheeran-tour-salary-palestine-aid",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/SaveClip.App_472837339_18483843892018139_3366117400249383637_n.jpg.webp?itok=AUMQi7D41982329073",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>It comes after the US artist was dropped as a support act on the tour for speaking out in…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Erol Alkan hints at return of influential London club night, Trash",
+   "lien": "https://djmag.com/news/erol-alkan-hints-return-of-influential-london-club-night-trash",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/487801809_1207610060730479_4736247835723659179_n.jpg.webp?itok=UBjI3nB11036915917",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“But there is a light that never goes out. Got something to share with you, so let’s stay…"
+  },
+  {
+   "source": "djmag",
+   "titre": "GTA VI full soundtrack announced featuring Fred again.., PinkPantheress, more",
+   "lien": "https://djmag.com/news/gta-vi-full-soundtrack-announced-featuring-fred-again-pinkpantheress-more",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/gta-6-everything-revealed-and-confirmed_712g.1200.webp?itok=2qBdEA5n1115506205",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Landing 19th November, ‘Grand Theft Auto VI: The Album’ also features new music from…"
   },
   {
    "source": "djmag",
    "titre": "David Guetta kickstarts Top 100 DJs 2026 fundraiser for Bridges for Music Academy",
    "lien": "https://djmag.com/news/david-guetta-kickstarts-top-100-djs-2026-fundraiser-bridges-music-academy",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Guetta.jpg.webp?itok=s-b4K6Pl997962843",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Guetta.jpg.webp?itok=s-b4K6Pl869532227",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The current World’s No.1 DJ has made the opening donation to this year’s campaign</p>…"
   },
   {
@@ -1190,7 +1254,7 @@
    "titre": "New Order’s Gillian Gilbert reveals she is living with cancer",
    "lien": "https://djmag.com/news/new-orders-gillian-gilbert-reveals-she-living-cancer",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/gillian-gilbert-wikicommons.jpg.webp?itok=uHwgDO9H313463704",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/gillian-gilbert-wikicommons.jpg.webp?itok=uHwgDO9H1622992992",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Gilbert and her husband and bandmate, Stephen Morris, will not be joining New Order on…"
   },
   {
@@ -1198,7 +1262,7 @@
    "titre": "Jamz Supernova shares two new singles from upcoming ‘Dance Around The World’ compilation: Listen",
    "lien": "https://djmag.com/news/jamz-supernova-shares-two-new-singles-upcoming-dance-around-world-compilation-listen",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/jamz-supernova-credit-jesse-rd-bain.jpg.webp?itok=5qzIezHY934707010",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/jamz-supernova-credit-jesse-rd-bain.jpg.webp?itok=5qzIezHY772744949",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The compilation arrives 16th October via Mr Bongo</p> </div>"
   },
   {
@@ -1206,7 +1270,7 @@
    "titre": "Fatima Al Qadiri announces new Hyperdub EP, ‘3TWI’, shares single: Listen",
    "lien": "https://djmag.com/news/fatima-al-qadiri-announces-new-hyperdub-ep-3twi-shares-single-listen",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/fatima-al-qadiri-credit-yasser-abubeker.jpg.webp?itok=LnsUGR0_272275487",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/fatima-al-qadiri-credit-yasser-abubeker.jpg.webp?itok=LnsUGR0_862247973",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The new EP pays tribute to West Asian folk dance music with explorations of gender…"
   },
   {
@@ -1214,56 +1278,8 @@
    "titre": "MPH announces new album, ‘Here, Forever’, shares ‘Mirage’: Listen",
    "lien": "https://djmag.com/news/mph-announces-new-album-here-forever-shares-mirage-listen",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/mph-credit-squidlik.jpg.webp?itok=-RCvyFOq1330182000",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/mph-credit-squidlik.jpg.webp?itok=-RCvyFOq1893480062",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The new album is due for release on 20th November via Disorder/Capitol Records</p> </div>"
-  },
-  {
-   "source": "djmag",
-   "titre": "¥ØU$UK€ ¥UK1MAT$U announces debut European headline tour",
-   "lien": "https://djmag.com/news/youukeu-yuk1matu-announces-debut-european-headline-tour",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/yousuke-yukimatsu.jpg.webp?itok=TyE2X5PL1256466490",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The five-date European tour takes hits the Netherlands, France, Belgium, Denmark and the…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Watch Carl Cox and Louie Vega play disco b2b at [UNVRS] Ibiza",
-   "lien": "https://djmag.com/news/watch-carl-cox-and-louie-vega-play-disco-b2b-unvrs-ibiza",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/carl-cox-louie-vega.jpg.webp?itok=7yzGap1u114035959",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The disco-heavy set was the latest installment in Cox's star-studded residency</p> </div>"
-  },
-  {
-   "source": "djmag",
-   "titre": "Recognise 116: Moopie",
-   "lien": "https://djmag.com/features/recognise-116-moopie",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/RECOGNISE-116-HEADER.jpg.webp?itok=X0rIm-dC747612216",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-intro field--type-text-long field--label-hidden field__item\"><p>Moopie's work defies easy narratives. On any given day, you might find him hammering out all…"
-  },
-  {
-   "source": "djmag",
-   "titre": "upsammy and Piezo link up for collaborative album as Eerie Enterprise",
-   "lien": "https://djmag.com/news/upsammy-and-piezo-link-collaborative-album-eerie-enterprise",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Eerie%20Enterprise%20press%20shot%20by%20Eric%20Scaggiante%201_web.jpg.webp?itok=L_HrqOMT1677007651",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Their debut joint LP 'Places Remember Events' is out next month on Dekmantel</p> </div>"
-  },
-  {
-   "source": "djmag",
-   "titre": "Listen to Fred again.. and LATIN MAFIA’s Mexico City DJ set on Apple Music",
-   "lien": "https://djmag.com/news/listen-fred-again-and-latin-mafias-mexico-city-dj-set-apple-music",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/fred-again-latin-mafia-apple-music-usb002-live-recording-dj-set.png.webp?itok=jqRjucl355616665",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The UK producer's USB002 tour sets with Four Tet (in Toronto) and Caribou and Floating…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Suno admits to scraping YouTube audio data to train AI music models&nbsp;",
-   "lien": "https://djmag.com/news/suno-admits-scraping-youtube-audio-data-train-ai-music-models",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/suno-youtube-scraping-ai-generated-music-training-model-court-case.jpg.webp?itok=OKu1asKK811976322",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Lawyers for the generative AI music creation platform own up to using licensed music…"
   }
  ],
  "pannes": []
