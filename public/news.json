@@ -1,6 +1,118 @@
 {
- "fait": "2026-09-18T04:48:58.330Z",
+ "fait": "2026-09-18T12:59:41.817Z",
  "articles": [
+  {
+   "source": "bpb",
+   "titre": "Two Legs, Five Arms is a FREE generative drum machine for macOS",
+   "lien": "https://bedroomproducersblog.com/2026/09/18/two-legs-five-arms/",
+   "date": "2026-09-18T11:28:27.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/twolegs.jpg",
+   "resume": "François Pé has released Two Legs, Five Arms, a free generative drum machine and AU MIDI effect for macOS. We recently featured the developer’s free Euclid3an Arp, which builds polyrhythmic arpeggios without making you…"
+  },
+  {
+   "source": "bpb",
+   "titre": "Playhead builds custom effects chains from your sound descriptions",
+   "lien": "https://bedroomproducersblog.com/2026/09/18/playhead-custom-effects/",
+   "date": "2026-09-18T11:21:26.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/playhead.jpg",
+   "resume": "Playhead is a new music production tool that turns descriptions of a sound into editable effect chains in your DAW. It is available for macOS, with a free two-week trial. Sometimes you know exactly what a track needs…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "“People will say they are really Phil Collins records. Fine. If that’s all they can hear, they’re not listening properly”: How Eric Clapton’s ‘80s reinvention peaked with Behind The Mask – a song written by Ryuichi Sakamoto and dumped by Michael Jackson",
+   "lien": "https://www.musicradar.com/artists/eric-clapton-behind-the-mask",
+   "date": "2026-09-18T11:19:41.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/23VBWiYbT3UMrVFKSRSmT9-1920-80.jpg",
+   "resume": "The 1980s was a period of radical reinvention and Eric Clapton wanted a piece of it. This was the former Yardbird, the graduate of John Mayall’s seminal Bluesbreakers, a dyed-in-the-wool blues purist and ‘70s rock…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "“A great experience that exceeded all my expectations”: Johnny Marr’s guitar auction raises over £3.6 million for charity",
+   "lien": "https://www.musicradar.com/artists/guitarists/a-great-experience-that-exceeded-all-my-expectations-johnny-marrs-guitar-auction-raises-over-gbp3-6-million-for-charity",
+   "date": "2026-09-18T11:09:19.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/SzMJDHvUPP3h5mv8VusC5d-1920-80.jpg",
+   "resume": "The auction of Johnny Marr’s guitars has fetched over £3.6 million for charity – more than three times their estimated value. The ex-Smith's collection went under the hammer at the auction house Christie’s and raised…"
+  },
+  {
+   "source": "bpb",
+   "titre": "AZPEX Audio releases REGENT FREE clipper with ADAA and parallel processing",
+   "lien": "https://bedroomproducersblog.com/2026/09/18/azpex-audio-regent-clipper/",
+   "date": "2026-09-18T10:59:08.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/regent.jpg",
+   "resume": "AZPEX Audio has released REGENT, a free clipper plugin for macOS and Windows. I still find it fascinating how many free clippers there are. The number is probably well into the hundreds by now. You can cut through the…"
+  },
+  {
+   "source": "bpb",
+   "titre": "RiverFlux Audio releases PHIXER, a FREE phase correction plugin",
+   "lien": "https://bedroomproducersblog.com/2026/09/18/riverflux-phixer/",
+   "date": "2026-09-18T10:34:49.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/phixer.jpg",
+   "resume": "RiverFlux Audio has released PHIXER, a free phase correction plugin for macOS, Windows, and Linux. PHIXER is designed for stereo basses, synths, and full mixes that lose weight when summed to mono. It is available…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "Lunacy launches Nova platform with five free virtual instruments – but bigger things are on the way",
+   "lien": "https://www.musicradar.com/music-tech/lunacy-launches-nova-platform-with-five-free-virtual-instruments-but-bigger-things-on-the-way",
+   "date": "2026-09-18T10:29:01.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/Fjy7Y6wq3gnJyup93i9GVT-1920-80.png",
+   "resume": "Lunacy – the LA-based music software company behind the plugins Cube and Beam – has announced the launch of Nova, a cloud-based virtual instrument platform. All of Nova’s instruments can be played in both your browser…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "“Thom and Jonny used to write together a lot. So when we got to rehearsals, they had their parts worked out and I used to be like, ‘Where do I fit into this?’”: Ed O’Brien on shaping his Radiohead role",
+   "lien": "https://www.musicradar.com/artists/thom-and-jonny-used-to-write-together-a-lot-so-when-we-got-to-rehearsals-they-had-their-parts-worked-out-and-i-used-to-be-like-where-do-i-fit-into-this-ed-obrien-on-shaping-his-radiohead-role",
+   "date": "2026-09-18T10:21:13.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/BqbAzjzF3yLBpb3sNjDmAK-1920-80.png",
+   "resume": "One of the main things that Radiohead’s recent in-the-round live return has absolutely demonstrated is the vital importance of each and every member to the band’s aural universe. Although the central vocal powerhouse…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "Don't Wanna Miss A Thing? It's MusicRadar's Quiz of the Week #22!",
+   "lien": "https://www.musicradar.com/artists/bands/dont-wanna-miss-a-thing-its-musicradars-quiz-of-the-week-22",
+   "date": "2026-09-18T09:51:21.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/VQJxJrXyDiWygk27zVHEJ4-1920-80.jpg",
+   "resume": "Welcome your weekend and wind down with our rundown of music's biggest news in 10-question quiz form. Each week, we pick our favourite stories and test whether you – our loyal readers – have been paying attention or not…"
+  },
+  {
+   "source": "musictech",
+   "titre": "With an 800 nanometer diamond-coated diaphragm, FiiO’s new FT15 headphones are for the serious audiophile",
+   "lien": "https://musictech.com/news/gear/fiio-ft-15-headphones/",
+   "date": "2026-09-18T08:56:45.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/09/FiiO-1@2000x1500.jpg",
+   "resume": "High-end audio dealer FiiO has just released a new pair of headphones for the ultimate audiophile. In general, three main audio components dictate the sound quality in a set of cans: driver, diaphragm, and build…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Tone City Releases 7 Distortion Pedals: Meet the Loong Preamp, New Legend Series, and more!",
+   "lien": "https://www.gearnews.com/tone-city-loong-preamp-nashville-pedal-guitar/",
+   "date": "2026-09-18T08:51:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/tone-city-loong-teaser-128x71.jpg",
+   "resume": "Budget pedal maker Tone City has unveiled 7 new distortion pedals that cover a whide range of overdriver, distortion, fuzz sounds at very competitive prices. Among the new pedals are the dual-voiced Loong Preamp, three…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "Fancy opening for Ed Sheeran? Guitar Center is running a competition for that...",
+   "lien": "https://www.musicradar.com/artists/shows-festivals/fancy-opening-for-ed-sheeran-guitar-center-is-running-a-competition-for-that",
+   "date": "2026-09-18T08:18:13.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/Py6hW53JNRS2efHJDDSAZU-1920-80.jpg",
+   "resume": "With the hoo-hah over Ed Sheeran’s stadium gigs being the story of the week, it should be noted that there is one show on the Suffolk singer songwriter’s tour that will be graced by a support act: Mexico City. That’s…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Behringer Pedal Flanger: Is it a Wah? Is it a Flanger?",
+   "lien": "https://www.gearnews.com/behringer-pedal-flanger-guitar/",
+   "date": "2026-09-18T06:28:47.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/Behringer_ParaFlanger_Teaser.jpg",
+   "resume": "When Behringer released Real McCoy WahWah , it was a hint of what the new direction of their next round of pedal homages would be. Now the company is unveiling the Pedal Flanger, a tribute to the Tycobrahe Pedalflanger…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Record Vocals at Home 2026: Your Perfect Match for a Budget-Friendly Setup",
+   "lien": "https://www.gearnews.com/record-vocals-at-home-perfect-match/",
+   "date": "2026-09-18T06:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/09/vocal-recording-at2020.jpg",
+   "resume": "In this article, we’re showing you what you need if you want to record vocals at home. And we’re talking about affordable products that still deliver solid performance, even for total beginners. A Perfect Match for…"
+  },
   {
    "source": "gearnews",
    "titre": "XILS-lab MemoryTone: Is This Memorymoog Plugin the Cherry Audio Killer?",
@@ -170,30 +282,6 @@
    "resume": "Every vintage guitar has a story to tell – especially if they've been in the hands of players like Jeff Beck , Jack White and Mike Bloomfield . In her new photography book, Eleanor Jane is sharing 50 remarkable vintage…"
   },
   {
-   "source": "gearnews",
-   "titre": "MESA/Boogie 90s Triple Rectifier Standard: Less limited, more chrome!",
-   "lien": "https://www.gearnews.com/mesa-boogie-90s-triple-rectifier/",
-   "date": "2026-09-17T12:30:36.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/01/mb_90s_tr_standard_teaser-128x71.jpg",
-   "resume": "Back in January at NAMM 2026, the limited-edition special version of the MESA/Boogie 90s Triple Rectifier showed how to reissue the LOUDEST amp of the ’90s. Now the manufacturer is releasing a slightly more affordable…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "“I lost my voice, had a nervous breakdown and disappeared for 10 years”: La Roux re-emerges from a long hibernation with a new album about a 'long and very painful breakup'",
-   "lien": "https://www.musicradar.com/artists/singles-albums/i-literally-wrote-and-sung-this-song-lost-my-voice-had-a-nervous-breakdown-and-disappeared-for-10-years-la-roux-re-emerged-from-a-long-hibernation-with-a-new-album-about-a-long-and-very-painful-breakup",
-   "date": "2026-09-17T11:55:36.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/C9Dgy5bwv4T8HJFDuQjNyM-1920-80.jpg",
-   "resume": "Whatever happened to La Roux? It seems so long ago now, but Elly Jackson scored two huge hits in 2009 – Bulletproof and In For The Kill went to Number One and Two respectively in the UK. Her self titled debut album went…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "“He told us how it would change the band’s trajectory, it could be an albatross around our necks – but we wanted a radio hit”: The Wonder Stuff tell us how they spawned an uplifting indie classic",
-   "lien": "https://www.musicradar.com/artists/he-told-us-how-it-would-change-the-bands-trajectory-it-could-be-an-albatross-around-our-necks-but-we-wanted-a-radio-hit-the-wonder-stuff-tell-us-how-they-spawned-an-uplifting-indie-classic",
-   "date": "2026-09-17T11:30:56.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/FfBcMm5uyTjq9N2QgSQNXn-1920-80.png",
-   "resume": "“We’ve always loved playing live, that’s what The Wonder Stuff is all about,” says songwriter and Wonder Stuff frontman Miles Hunt. “From those early days, all we wanted to do was capture the sound of our live gigs -…"
-  },
-  {
    "source": "bpb",
    "titre": "Smart Audio Plugins launches Timbral Box parallel harmonic processor",
    "lien": "https://bedroomproducersblog.com/2026/09/17/smart-audio-timbral-box/",
@@ -210,60 +298,12 @@
    "resume": "Developer Joe Landers has released Gearmulator MD/MM, a free and open-source emulation of the Elektron Machinedrum and Monomachine for macOS and Windows. Landers is also the dev behind Profligacy, the hardware-level…"
   },
   {
-   "source": "musicradar",
-   "titre": "“Before Macklemore challenged me to match his donation, Ed called me and asked me to commit $2 million”: Robert Kraft says that Ed Sheeran has asked him to match his own donation to 'fight this humanitarian crisis'",
-   "lien": "https://www.musicradar.com/artists/shows-festivals/before-macklemore-challenged-me-to-match-his-donation-ed-called-me-and-asked-me-to-commit-usd2-million-robert-kraft-says-that-ed-sheeran-has-asked-him-to-match-his-own-donation-to-fight-this-humanitarian-crisis",
-   "date": "2026-09-17T10:47:21.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/T5iYkh2geNMK58JsnexhmL-1920-80.jpg",
-   "resume": "Another day, another new development in the Ed Sheeran/Macklemore/Robert Kraft fallout. As Sheeran is working out how to fill several hours of stage time without any support acts or a backing band, it’s emerged that the…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "“Joan Jett has always played by her own rules, and that certainly applies to her guitar of choice”: Epiphone brings back the Joan Jett Olympic Special and gives the single-pickup powerhouse an all-new look",
-   "lien": "https://www.musicradar.com/guitars/electric-guitars/epiphone-joan-jett-olympic-special-vintage-sunburst",
-   "date": "2026-09-17T10:24:24.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/Zs7aZQrYhyYBexJ5GkgM9Z-1920-80.jpg",
-   "resume": "Epiphone has resurrected one of its most-loved signature guitars as the Joan Jett Olympic Special returns to the lineup, featuring an fresh finish and a subtle but welcome upgrade on its predecessor. Where the 2022…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "“I’m 42 years old; I’ve only just realised you can change the tuning to make it easier to play stuff!”: When Death Cab for Cutie shared their guitar rig with us",
-   "lien": "https://www.musicradar.com/artists/im-42-years-old-ive-only-just-realised-you-can-change-the-tuning-to-make-it-easier-to-play-stuff-when-death-cab-for-cutie-shared-their-guitar-rig-with-us",
-   "date": "2026-09-17T10:20:50.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/kQLgtJChBTFmDyypPjaykd-1920-80.png",
-   "resume": "From haunting laments for deceased lovers to odes to long-distance relationships, Death Cab For Cutie’s brand of emotion-pulling indie has etched its way into the consciousness of millions over the last three decades…"
-  },
-  {
    "source": "bpb",
    "titre": "Analog Obsession releases FREE ToneShaper passive tone control plugin",
    "lien": "https://bedroomproducersblog.com/2026/09/17/analog-obsession-toneshaper/",
    "date": "2026-09-17T10:07:09.000Z",
    "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/toneshaper.jpg",
    "resume": "Analog Obsession has released ToneShaper, a free passive tone and body control plugin for macOS and Windows. In this day and age of vibe-coded plugins, even a relatively simple freebie from a tried-and-tested indie…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "“One day Mike played a riff on the guitar, with an echo, and I suddenly sang, ‘She seems to have an invisible touch – yeah!’ It came into my head fully formed”: How Genesis created their biggest hit – with a writing process “like jazz”",
-   "lien": "https://www.musicradar.com/artists/one-day-mike-played-a-riff-on-the-guitar-with-an-echo-and-i-suddenly-sang-she-seems-to-have-an-invisible-touch-yeah-it-came-into-my-head-fully-formed-how-genesis-created-their-biggest-hit-with-a-writing-process-like-jazz",
-   "date": "2026-09-17T10:02:42.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/Vavyopf2hmeSqNdyhHqCEQ-1920-80.jpg",
-   "resume": "No band has navigated the path from esoteric ’70s progressive rock to massively successful ’80s pop-rock with quite such conviction and aplomb as Genesis. When drummer Phil Collins took over on vocals following the…"
-  },
-  {
-   "source": "gearnews",
-   "titre": "Epiphone Joan Jett Olympic Special Returns in Vintage Sunburst",
-   "lien": "https://www.gearnews.com/epiphone-joan-jett-olympic-special/",
-   "date": "2026-09-17T08:40:45.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/Epiphone-Joan-Jett-Olympic-Special-Returns-in-Vintage-Sunburst-128x71.jpg",
-   "resume": "The Epiphone Joan Jett Olympic Special is back and now available in a Vintage Sunburst finish. This stripped-back single-pickup guitar brings everything back to basics. Contents – Epiphone Joan Jett Olympic Special…"
-  },
-  {
-   "source": "gearnews",
-   "titre": "EVH 5150 Iconic 15W Head: 6L6 Edition added!",
-   "lien": "https://www.gearnews.com/evh-5150-iconic-15w-head-guitar/",
-   "date": "2026-09-17T07:40:48.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/09/evh-5150-iconic-15-watt-ivory-teaser-neu-128x71.jpg",
-   "resume": "After the success of the initial EVH 5150 Iconic 15W Head, EVH has now released an additional version of the amp head with 6L6 tubes in two colors. What’s new about the EVH 5150 Iconic 15W 6L6 Head? Visually and in…"
   },
   {
    "source": "synthtopia",
@@ -352,46 +392,6 @@
    "date": "2026-09-16T13:43:49.000Z",
    "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/omnipass.jpg",
    "resume": "Soundins has released OmniPass, a free all-pass filter plugin for phase alignment and sound design on macOS and Windows. An all-pass filter is a slightly unusual tool. I mean, for starters, it sounds weird. A filter…"
-  },
-  {
-   "source": "bpb",
-   "titre": "Temecula DSP releases QDV1 QuadraVerb emulation for $75",
-   "lien": "https://bedroomproducersblog.com/2026/09/16/temecula-dsp-qdv1-quadraverb/",
-   "date": "2026-09-16T13:21:09.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/temecula.jpg",
-   "resume": "Temecula DSP has released QDV1, an Alesis QuadraVerb Plus emulation for macOS and Windows, available at an introductory price of $75. We first encountered Temecula DSP earlier this year through MDV-II, its free Alesis…"
-  },
-  {
-   "source": "bpb",
-   "titre": "Optopus is a FREE opto compressor with saturation for Windows",
-   "lien": "https://bedroomproducersblog.com/2026/09/16/optopus-compressor-windows/",
-   "date": "2026-09-16T13:10:46.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/optopus.jpg",
-   "resume": "madBee::audio has released Optopus, a free optical-style compressor with tube saturation for Windows. Optopus originally appeared in February, so this is an older freebie that we missed when it first arrived. It is…"
-  },
-  {
-   "source": "bpb",
-   "titre": "TagoPitch is a FREE vocal pitch and formant shifter for macOS and Windows",
-   "lien": "https://bedroomproducersblog.com/2026/09/16/tagopitch-formant-shifter/",
-   "date": "2026-09-16T11:16:46.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/tagopitch.jpg",
-   "resume": "TagoBeats has released TagoPitch, a free monophonic vocal pitch and formant shifter for macOS and Windows. TagoPitch isn’t a pitch-correction tool, meaning it doesn’t analyze a performance and pull individual notes…"
-  },
-  {
-   "source": "musictech",
-   "titre": "LUNA 3.0: the next generation of Universal Audio’s flagship DAW has arrived – here’s everything that’s new",
-   "lien": "https://musictech.com/news/gear/universal-audio-luna-3/",
-   "date": "2026-09-16T11:12:12.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/09/Luna-3@2000x1500.jpg",
-   "resume": "Less than a year after the unveiling of LUNA 2.0 , Universal Audio has launched the next sweeping update to its flagship DAW. Meet LUNA 3.0… Touted as a “landmark update” designed to make recording and music production…"
-  },
-  {
-   "source": "bpb",
-   "titre": "FL Studio users get Antares AutoTune Go FREE through FL Cloud",
-   "lien": "https://bedroomproducersblog.com/2026/09/16/fl-cloud-autotune-go/",
-   "date": "2026-09-16T11:03:53.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/autotune-go.jpg",
-   "resume": "Image-Line has added Antares AutoTune Go to FL Cloud Free, making the vocal pitch correction plugin available to every FL Studio customer at no additional cost. The paid FL Cloud Plus and Pro tiers include it too, but…"
   },
   {
    "source": "synthtopia",
@@ -1115,6 +1115,38 @@
   },
   {
    "source": "mixmag",
+   "titre": "Daft Punk's Guy-Manuel and Travis Scott team up on GTA VI soundtrack",
+   "lien": "https://mixmag.net/read/daft-punk-guy-manuel-produced-track-forthcoming-gta-vi-soundtrack-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/GTAVI.jpg?fit=cover&width=660&s=nyy273jKS3NVRhbQUCfzj-BRKPGML_N53y13WAPZQL8",
+   "resume": "'RHYNO' is one of six original tracks shared ahead of the release of 'Grand Theft Auto VI: The Album'"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Over €400,000 to be distributed to 32 clubs, radio stations and collectives in Berlin",
+   "lien": "https://mixmag.net/read/over-400000-distributed-32-clubs-radio-stations-collectives-berlin-clubcommission-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/berlin-nighttime.jpg?fit=cover&width=660&s=qJYmhVWHxx-jbljntMjZqukCW037ISRysgAGolYbvdE",
+   "resume": "Annual festival TAG DE CLUBKULTUR, set up by the Clubcommission, will award grants in October"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Beloved British rapper Sway has died, aged 44",
+   "lien": "https://mixmag.net/read/beloved-british-rapper-sway-died-aged-44-mobo-awards-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/sway-rapper.jpg?fit=cover&width=660&s=d5HjeiGY-LQHSJmUX-Z3xaHb90dQlyK4MP1htVkIvHI",
+   "resume": "Sway became the first independent artist to win a MOBO Award in 2005, triumphing over the likes of 50 Cent and The Game"
+  },
+  {
+   "source": "mixmag",
+   "titre": "UK cinemas to host free screenings of 24 Hour Party People for film's 24th anniversary",
+   "lien": "https://mixmag.net/read/uk-cinemas-host-free-screenings-24-hour-party-people-for-films-24th-anniversary-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/Altitude-films.jpg?fit=cover&width=660&s=3S_r5vUI2_ZIWoOmswaCuhaXoytVRYykzctDvA1fsdc",
+   "resume": "The 2002 biopic on The Haçienda and Factory Records co-founder Tony Wilson will be shown at over 100 independent cinemas across the UK next month"
+  },
+  {
+   "source": "mixmag",
    "titre": "Save The Rave dubbed “Cornwall’s Fyre Festival” following disastrous event",
    "lien": "https://mixmag.net/read/save-the-rave-dubbed-cornwall-fyre-festival-following-disastrous-event-news",
    "date": null,
@@ -1170,43 +1202,11 @@
    "resume": "The US DJ appeared to cut his set short by 40 minutes over the weekend"
   },
   {
-   "source": "mixmag",
-   "titre": "Fred again.., PinkPantheress and more teased for GTA 6 soundtrack",
-   "lien": "https://mixmag.net/read/fred-again-pinkpantheress-teased-gta-6-soundtrack-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/fred-again-pinkpantheress-gta6.jpg?fit=cover&width=660&s=AfCRXVzLXEKy1uWlBj8-TUZjXwNoIlvL1eWtvVghuY8",
-   "resume": "Mysterious Instagram posts featuring GTA's signature art style were shared by a slew of major artists yesterday"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Transcendental experience: Decades in, Making Time is still reshaping the classic club night",
-   "lien": "https://mixmag.net/feature/making-time-philadelphia-party-festival-electroclash-bands-the-strokes",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/making-time-web.jpg?fit=cover&format=baseline-jpeg&height=630&width=1200&s=PJWM7MdOeCuOEP_u9DiN9sedBJRAqcZakbUL47aTVNk",
-   "resume": "For the last 26 years, Philadelphia party Making Time has rewritten the traditional club night script. Fusing DJs with live acts, the beloved night has brought The Strokes, Interpol, Charli xcx and many more together…"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Armin van Buuren appears in full drag on Dutch TV show",
-   "lien": "https://mixmag.net/read/armin-van-buuren-appears-full-drag-dutch-tv-show-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/armin-drag.jpg?fit=cover&width=660&s=tXGiXYAKG6w_FINFtWqAbiknfnycG-sB_Z8EiIk1yBo",
-   "resume": "The trance legend appeared on drag show Make Up Your Mind as a surprise ‘Mystery Queen’"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Eight people arrested after attempt to break into Edinburgh's FLY Festival",
-   "lien": "https://mixmag.net/read/eight-people-arrested-attempt-break-into-edinburgh-fly-festival-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/FLY-Festival.jpg?fit=cover&width=660&s=A0SMqMRY8F0tcl8t9_v4xkDFWJeXAKfhKU_M9nCWe9c",
-   "resume": "A 12-year-old boy was among those apprehended after reportedly trespassing on a railway line in an attempt to gain access to the event"
-  },
-  {
    "source": "djmag",
    "titre": "DJ Mag launches Top 100 DJs 2026 fundraiser in aid of Bridges for Music",
    "lien": "https://djmag.com/news/dj-mag-launches-top-100-djs-2026-fundraiser-aid-of-bridges-music",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/BFM%20Graduation%202024%20-%20263.jpg.webp?itok=a7AVlYAw1605477567",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/BFM%20Graduation%202024%20-%20263.jpg.webp?itok=a7AVlYAw537583929",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Artists in this year’s poll are being invited to sponsor students at the Bridges for Music…"
   },
   {
@@ -1214,7 +1214,7 @@
    "titre": "Noisia announce reunion and first live show in four years",
    "lien": "https://djmag.com/news/noisia-announce-reunion-and-first-live-show-four-years",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/A_Noisia%202026_pictureby_Farhad%20Khodadadzade.jpg.webp?itok=lnE2gv6S1598748486",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/A_Noisia%202026_pictureby_Farhad%20Khodadadzade.jpg.webp?itok=lnE2gv6S542832479",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“Combining our forces again feels incredibly exciting now,” the trio said in a statement…"
   },
   {
@@ -1222,7 +1222,7 @@
    "titre": "Macklemore to donate entire Ed Sheeran tour salary to Palestine aid",
    "lien": "https://djmag.com/news/macklemore-donate-entire-ed-sheeran-tour-salary-palestine-aid",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/SaveClip.App_472837339_18483843892018139_3366117400249383637_n.jpg.webp?itok=AUMQi7D41982329073",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/SaveClip.App_472837339_18483843892018139_3366117400249383637_n.jpg.webp?itok=AUMQi7D41052769734",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>It comes after the US artist was dropped as a support act on the tour for speaking out in…"
   },
   {
@@ -1230,7 +1230,7 @@
    "titre": "Erol Alkan hints at return of influential London club night, Trash",
    "lien": "https://djmag.com/news/erol-alkan-hints-return-of-influential-london-club-night-trash",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/487801809_1207610060730479_4736247835723659179_n.jpg.webp?itok=UBjI3nB11036915917",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/487801809_1207610060730479_4736247835723659179_n.jpg.webp?itok=UBjI3nB1367497014",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“But there is a light that never goes out. Got something to share with you, so let’s stay…"
   },
   {
@@ -1238,7 +1238,7 @@
    "titre": "GTA VI full soundtrack announced featuring Fred again.., PinkPantheress, more",
    "lien": "https://djmag.com/news/gta-vi-full-soundtrack-announced-featuring-fred-again-pinkpantheress-more",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/gta-6-everything-revealed-and-confirmed_712g.1200.webp?itok=2qBdEA5n1115506205",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/gta-6-everything-revealed-and-confirmed_712g.1200.webp?itok=2qBdEA5n478115721",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Landing 19th November, ‘Grand Theft Auto VI: The Album’ also features new music from…"
   },
   {
@@ -1246,7 +1246,7 @@
    "titre": "David Guetta kickstarts Top 100 DJs 2026 fundraiser for Bridges for Music Academy",
    "lien": "https://djmag.com/news/david-guetta-kickstarts-top-100-djs-2026-fundraiser-bridges-music-academy",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Guetta.jpg.webp?itok=s-b4K6Pl869532227",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Guetta.jpg.webp?itok=s-b4K6Pl1223841854",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The current World’s No.1 DJ has made the opening donation to this year’s campaign</p>…"
   },
   {
@@ -1254,7 +1254,7 @@
    "titre": "New Order’s Gillian Gilbert reveals she is living with cancer",
    "lien": "https://djmag.com/news/new-orders-gillian-gilbert-reveals-she-living-cancer",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/gillian-gilbert-wikicommons.jpg.webp?itok=uHwgDO9H1622992992",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/gillian-gilbert-wikicommons.jpg.webp?itok=uHwgDO9H295204116",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Gilbert and her husband and bandmate, Stephen Morris, will not be joining New Order on…"
   },
   {
@@ -1262,7 +1262,7 @@
    "titre": "Jamz Supernova shares two new singles from upcoming ‘Dance Around The World’ compilation: Listen",
    "lien": "https://djmag.com/news/jamz-supernova-shares-two-new-singles-upcoming-dance-around-world-compilation-listen",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/jamz-supernova-credit-jesse-rd-bain.jpg.webp?itok=5qzIezHY772744949",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/jamz-supernova-credit-jesse-rd-bain.jpg.webp?itok=5qzIezHY226951646",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The compilation arrives 16th October via Mr Bongo</p> </div>"
   },
   {
@@ -1270,7 +1270,7 @@
    "titre": "Fatima Al Qadiri announces new Hyperdub EP, ‘3TWI’, shares single: Listen",
    "lien": "https://djmag.com/news/fatima-al-qadiri-announces-new-hyperdub-ep-3twi-shares-single-listen",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/fatima-al-qadiri-credit-yasser-abubeker.jpg.webp?itok=LnsUGR0_51529420",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/fatima-al-qadiri-credit-yasser-abubeker.jpg.webp?itok=LnsUGR0_1872841660",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The new EP pays tribute to West Asian folk dance music with explorations of gender…"
   },
   {
@@ -1278,7 +1278,7 @@
    "titre": "MPH announces new album, ‘Here, Forever’, shares ‘Mirage’: Listen",
    "lien": "https://djmag.com/news/mph-announces-new-album-here-forever-shares-mirage-listen",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/mph-credit-squidlik.jpg.webp?itok=-RCvyFOq1959994298",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/mph-credit-squidlik.jpg.webp?itok=-RCvyFOq1790010124",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The new album is due for release on 20th November via Disorder/Capitol Records</p> </div>"
   }
  ],
