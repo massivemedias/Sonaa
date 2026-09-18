@@ -1,6 +1,14 @@
 {
- "fait": "2026-09-17T22:52:38.434Z",
+ "fait": "2026-09-18T04:48:58.330Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "XILS-lab MemoryTone: Is This Memorymoog Plugin the Cherry Audio Killer?",
+   "lien": "https://www.gearnews.com/xils-lab-memorytone-synth/",
+   "date": "2026-09-18T02:06:54.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/xils-lab-memorytone-t.jpg",
+   "resume": "XILS-lab’s MemoryTone marks the third Moog Memorymoog emulation of the year. Is the market already saturated, or does XILS-lab’s take offer enough new to stand out? XILS-lab MemoryTone: A New Memorymoog Emulation…"
+  },
   {
    "source": "bpb",
    "titre": "West Highland Sound releases Cinematic Wineglasses, a FREE wine glass library for Kontakt",
@@ -256,14 +264,6 @@
    "date": "2026-09-17T07:40:48.000Z",
    "image": "https://cdn.gearnews.com/wp-content/uploads/2025/09/evh-5150-iconic-15-watt-ivory-teaser-neu-128x71.jpg",
    "resume": "After the success of the initial EVH 5150 Iconic 15W Head, EVH has now released an additional version of the amp head with 6L6 tubes in two colors. What’s new about the EVH 5150 Iconic 15W 6L6 Head? Visually and in…"
-  },
-  {
-   "source": "gearnews",
-   "titre": "SSL 4K Bundle: Now With sonible AI!",
-   "lien": "https://www.gearnews.com/ssl-4k-bundle-studio/",
-   "date": "2026-09-17T07:39:57.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/02/ssl-4kb-bundle-ft.jpg",
-   "resume": "The SSL 4K Bundle, which provides authentic console-style processing workflows, now features sonible AI assistance in its latest update. All about the 4K Bundle: SSL 4K Bundle sonible Integration SSL 4K Bundle: The Holy…"
   },
   {
    "source": "synthtopia",
@@ -1131,11 +1131,27 @@
   },
   {
    "source": "mixmag",
+   "titre": "The Mix 123: Optimo",
+   "lien": "https://mixmag.net/feature/the-mix-123-optimo-espacio-glasgow-dj-interview",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/THE_MIX_THE_MIX_Optimo_2.jpg?fit=cover&format=baseline-jpeg&height=630&width=1200&s=djjq1WjCKykGMTQWbueoUmly-pqWIrrlhKsi_DvzriY",
+   "resume": "Nearly three decades on from the first party at Sub Club, there's still nothing quite like Optimo set. JG Wilkes offers up a mix inspired by \"melting down\" moments in the club, and speaks to Megan Townsend about…"
+  },
+  {
+   "source": "mixmag",
    "titre": "Youth Music reaches £1 million milestone in young artist investments",
    "lien": "https://mixmag.net/read/youth-music-invested-1-million-directly-aspiring-uk-artists-news",
    "date": null,
    "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/youth-music.jpg?fit=cover&width=660&s=B0Mhp0smdFOwudbbVNhwAlWTuq4T4w64ZoVPynwiPYo",
    "resume": "According to the charity's data, 54% of its NextGen Fund recipients have already landed careers in music since the programme launched in 2021"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Who's playing The Mixmag Lab?",
+   "lien": "https://mixmag.net/feature/lab-ldn",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/LabLondon_Whosplaying_08.jpg?fit=cover&format=baseline-jpeg&height=630&width=1200&s=vb0tq_9JKMmSN-QQRqbdPlUED77JiG2qnFYstG67zQI",
+   "resume": "See who's playing The Mixmag Lab, our world famous party - and come through"
   },
   {
    "source": "mixmag",
@@ -1160,6 +1176,14 @@
    "date": null,
    "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/fred-again-pinkpantheress-gta6.jpg?fit=cover&width=660&s=AfCRXVzLXEKy1uWlBj8-TUZjXwNoIlvL1eWtvVghuY8",
    "resume": "Mysterious Instagram posts featuring GTA's signature art style were shared by a slew of major artists yesterday"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Transcendental experience: Decades in, Making Time is still reshaping the classic club night",
+   "lien": "https://mixmag.net/feature/making-time-philadelphia-party-festival-electroclash-bands-the-strokes",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/making-time-web.jpg?fit=cover&format=baseline-jpeg&height=630&width=1200&s=PJWM7MdOeCuOEP_u9DiN9sedBJRAqcZakbUL47aTVNk",
+   "resume": "For the last 26 years, Philadelphia party Making Time has rewritten the traditional club night script. Fusing DJs with live acts, the beloved night has brought The Strokes, Interpol, Charli xcx and many more together…"
   },
   {
    "source": "mixmag",
@@ -1256,22 +1280,6 @@
    "date": null,
    "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/mph-credit-squidlik.jpg.webp?itok=-RCvyFOq1959994298",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The new album is due for release on 20th November via Disorder/Capitol Records</p> </div>"
-  },
-  {
-   "source": "djmag",
-   "titre": "¥ØU$UK€ ¥UK1MAT$U announces debut European headline tour",
-   "lien": "https://djmag.com/news/youukeu-yuk1matu-announces-debut-european-headline-tour",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/yousuke-yukimatsu.jpg.webp?itok=TyE2X5PL626869272",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The five-date European tour takes hits the Netherlands, France, Belgium, Denmark and the…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Watch Carl Cox and Louie Vega play disco b2b at [UNVRS] Ibiza",
-   "lien": "https://djmag.com/news/watch-carl-cox-and-louie-vega-play-disco-b2b-unvrs-ibiza",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/carl-cox-louie-vega.jpg.webp?itok=7yzGap1u1016497902",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The disco-heavy set was the latest installment in Cox's star-studded residency</p> </div>"
   }
  ],
  "pannes": []
