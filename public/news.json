@@ -1,6 +1,14 @@
 {
- "fait": "2026-09-19T12:31:48.331Z",
+ "fait": "2026-09-19T18:38:19.715Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Best Gigging Songs: 5 Tracks I Love Playing Live",
+   "lien": "https://www.gearnews.com/best-gigging-songs-5-tracks-i-love-playing-live/",
+   "date": "2026-09-19T15:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/getty-images-ilbusca-.jpg",
+   "resume": "The best gigging songs can appeal to players for many reasons. Are they fun to play? Do they go down well with a crowd? Here are 5 of my favourites. Great Songs to Play Live: Tainted Love – Imelda May Heartbreaker – Pat…"
+  },
   {
    "source": "bpb",
    "titre": "Get UnitedPlugins FireMaximizer FREE until October 18",
@@ -66,12 +74,28 @@
    "resume": "Talking Heads are – sort of - reuniting again to launch a new channel on SiriusXM. The new channel called, well, Talking Heads Radio, will run from October 1 to October 22 on in-car satellite radios, and until October…"
   },
   {
+   "source": "cdm",
+   "titre": "Adam Wiltzie talks about his posthumous collaboration with Jóhann Jóhannsson",
+   "lien": "https://cdm.link/adam-wiltzie-johann-johannsson-friendship/",
+   "date": "2026-09-18T16:00:23.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/tape-work-COPY_7_ADAM-WILTZIE_FRIENDSHIP-SURVIVAL-GUIDE_MIXING.jpg",
+   "resume": "On Friendship Survival Guide, constructed from an archive of loops and sound exchanges, it's as if Jóhann Jóhannsson is alive again. Adam Wiltzie, co-founder of Stars of the Lid and part of A Winged Victory for the…"
+  },
+  {
    "source": "gearnews",
    "titre": "Wilko Johnson Guitar Playing: 5 Ways He Created His Unique Style",
    "lien": "https://www.gearnews.com/wilko-johnson-guitar-playing-5-ways-unique-style/",
    "date": "2026-09-18T16:00:00.000Z",
    "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/The-guitar-playing-of-Wilko-Johnson-.jpg",
    "resume": "Wilko Johnson’s guitar playing should be studied by all players. His approach and charisma are unrivaled. How did he do it all so well? The Guitar Playing Of Wilko Johnson: Influences Fingerstyle Chord Shapes Notable…"
+  },
+  {
+   "source": "tsugi",
+   "titre": "Ezra Collective, Il Est Vilaine, baozi… Les sorties de la semaine",
+   "lien": "https://www.tsugi.fr/ezra-collective-il-est-vilaine-baozi-les-sorties-de-la-semaine/",
+   "date": "2026-09-18T15:55:38.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/ezra-collective-il-est-vilaine-baozi-les-sorties-de-la-semaine.jpg?hash=cdn-c58b204cca5573bf2ba9cc9efff066bb",
+   "resume": "On nous a chuchoté à l’oreille que les états grippaux étaient de retour — nous les premiers… Les cachets de Doliprane ne font pas effet ? Ne vous inquiétez pas, la liste des sorties de la semaine est arrivée, et avec ce…"
   },
   {
    "source": "musictech",
@@ -266,12 +290,12 @@
    "resume": "We investigate equipment that is often referred to as unnecessary studio gear to find out if certain audio tools remain useful in any recording studio. In this Article: Unnecessary Studio Gear: Cranborne Audio 500R8…"
   },
   {
-   "source": "gearnews",
-   "titre": "Yamaha FG7 and FS7 Series: High-End Acoustic Guitars from Japan!",
-   "lien": "https://www.gearnews.com/yamaha-fg7-fs7-series-guitar/",
-   "date": "2026-09-17T16:46:10.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/yamaha-fs7-teaser.jpg",
-   "resume": "With the FG7 and FS7 series, Yamaha once again proves just how much craftsmanship goes into its instruments. Let’s take a closer look at these new models and figure out whether they actually stand up to big names like…"
+   "source": "cdm",
+   "titre": "x0xb0x, the synth that launched an open-source hardware boom, is reborn",
+   "lien": "https://cdm.link/x0xb0x-begets-digix0x/",
+   "date": "2026-09-17T17:06:43.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/digix0x.jpg",
+   "resume": "Based on the legendary TB-303, the x0xb0x was an underground legend all its own, one that helped popularize the open-source hardware movement. And now it's back, in a digital emulation of the original hardware, from…"
   },
   {
    "source": "musictech",
@@ -314,6 +338,14 @@
    "resume": "Lunacy has launched NOVA, a new instrument platform and marketplace for macOS and Windows, with a free host plugin and five free virtual instruments. The basic idea is somewhat similar to what Spitfire Audio LABS used…"
   },
   {
+   "source": "tsugi",
+   "titre": "Thylacine ajoute un second concert à l’Olympia pour clore sa tournée 2027",
+   "lien": "https://www.tsugi.fr/thylacine-ajoute-un-second-concert-a-lolympia-pour-clore-sa-tournee-2027/",
+   "date": "2026-09-17T13:52:24.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/thylacine-ajoute-un-second-concert-a-lolympia-pour-clore-sa-tournee-2027.jpg?hash=cdn-46fa0f5178ff5f3f293758270e611686",
+   "resume": "Un an après la sortie de son album Roads Vol.3, il est temps pour Thylacine d’entamer sa tournée cet automne. Après la Turquie, le Canada, l’Italie, la Suisse, l’Allemagne et les quatre coins de la France, le…"
+  },
+  {
    "source": "attack",
    "titre": "Martha Bolton: “Real Change Happens When Everyone Moves In The Same Direction”",
    "lien": "https://www.attackmagazine.com/features/long-read/martha-bolton-real-change-happens-when-everyone-moves-in-the-same-direction/",
@@ -344,6 +376,22 @@
    "date": "2026-09-17T10:07:09.000Z",
    "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/toneshaper.jpg",
    "resume": "Analog Obsession has released ToneShaper, a free passive tone and body control plugin for macOS and Windows. In this day and age of vibe-coded plugins, even a relatively simple freebie from a tried-and-tested indie…"
+  },
+  {
+   "source": "tsugi",
+   "titre": "Hyper Weekend Festival 2027 : on connaît les premiers noms de la programmation",
+   "lien": "https://www.tsugi.fr/hyper-weekend-festival-2027-on-connait-les-premiers-noms-de-la-programmation/",
+   "date": "2026-09-17T09:38:53.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/hyper-weekend-festival-2027-on-connait-les-premiers-noms-de-la-programmation.jpg?hash=cdn-7782ffc491dae1b4f1b3baa510ed29ec",
+   "resume": "Ça y est, nous savons que nous allons débuter l’année 2027 de la meilleure des manières. Du 22 au 27 janvier, l’Hyper Weekend Festival revient à la Maison de la radio et de la Musique. Cette année encore, la…"
+  },
+  {
+   "source": "tsugi",
+   "titre": "Tsugi Radio : l’Islandais Ásgeir en guitare-voix au studio",
+   "lien": "https://www.tsugi.fr/tsugi-radio-lislandais-asgeir-en-guitare-voix-au-studio/",
+   "date": "2026-09-17T06:59:24.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/tsugi-radio-lislandais-asgeir-en-guitare-voix-au-studio.jpg?hash=cdn-ed38ace0a18a88131bd95202a1df6cbe",
+   "resume": "ll s’appelle Ásgeir et en toute discrétion, il s’est taillé une solide place dans le paysage de la pop-folk internationale. Pour son dernier album sorti cet hiver, il a totalement remis à plat son processus créatif…"
   },
   {
    "source": "synthtopia",
@@ -378,12 +426,68 @@
    "resume": "CRSSD Festival's afterparty series returns to San Diego from 25 to 27 September with sets across multiple venues. CRSSD Festival has confirmed the return of CRSSD After Dark, its official afterparty series, for three…"
   },
   {
+   "source": "cdm",
+   "titre": "MOTU DP12 arrives, adding Dolby Atmos and more to a DAW classic",
+   "lien": "https://cdm.link/motu-dp12-arrives-adding-dolby-atmos-and-more-to-a-daw-classic/",
+   "date": "2026-09-16T17:32:46.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/atmos-panner.jpg",
+   "resume": "MOTU's DP doesn't get a lot of hype -- it just quietly remains a favorite for everything from scoring to post-production. DP12 has deep Dolby Atmos support, an Arrangement Strip, and lots of other welcome additions to…"
+  },
+  {
+   "source": "tsugi",
+   "titre": "Lambrini Girls annonce un nouvel album accompagné d’un single toujours aussi politique",
+   "lien": "https://www.tsugi.fr/lambrini-girls-annonce-un-nouvel-album-accompagne-dun-single-toujours-aussi-politique/",
+   "date": "2026-09-16T16:12:57.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/lambrini-girls-annonce-un-nouvel-album-accompagne-dun-single-toujours-aussi-politique.jpg?hash=cdn-dc0b43c31f87f6637c247d8a6c988a1a",
+   "resume": "Le groupe de punk Lambrini Girls vient d’annoncer l’arrivée de son prochain album No Refunds, disponible le 15 janvier 2027 sur City Slang. Parce qu’une bonne nouvelle n’arrive jamais seule, le duo formé à Brighton nous…"
+  },
+  {
+   "source": "tsugi",
+   "titre": "Concerts, conventions, rencontres… On connaît le programme du MaMA",
+   "lien": "https://www.tsugi.fr/concerts-conventions-rencontres-on-connait-le-programme-du-mama/",
+   "date": "2026-09-16T15:40:51.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/concerts-conventions-rencontres-on-connait-le-programme-du-mama.jpg?hash=cdn-a97163440d21b760f29f9ff59882ab81",
+   "resume": "Le MaMA Music & Convention est de retour entre Pigalle et Montmartre ces 14, 15 et 16 octobre. Comme à son habitude, le festival promet trois jours remplis de conventions, discussions et bien évidemment de musique…"
+  },
+  {
+   "source": "tsugi",
+   "titre": "Dave Clarke dévoile son exposition photo « Shots », accompagnée d’une soirée à Mia Mao",
+   "lien": "https://www.tsugi.fr/dave-clarke-devoile-son-exposition-photo-shots-accompagnee-dune-soiree-a-mia-mao/",
+   "date": "2026-09-16T08:22:38.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/dave-clarke-devoile-son-exposition-photo-shots-accompagnee-dune-soiree-a-mia-mao.jpg?hash=cdn-1c1359f884359798e1234bfed227d412",
+   "resume": "Qui n’aurait pas envie de fêter son anniversaire derrière les platines ? Eh bien justement, pour souffler ses bougies, Dave Clarke s’apprête à nous offrir une soirée ancrée dans l’underground à Mia Mao le 19 septembre…"
+  },
+  {
    "source": "synthtopia",
    "titre": "New Mac App, HarmonyKeen, Writes Harmony Parts To Your MIDI Melodies Using Music Theory, Not AI",
    "lien": "https://www.synthtopia.com/content/2026/09/15/new-mac-app-harmonykeen-writes-harmony-parts-to-your-midi-melodies-using-music-theory-not-ai/",
    "date": "2026-09-16T01:47:14.000Z",
    "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/harmonykeen.jpg",
    "resume": "Give it a monophonic MIDI melody and it writes harmony parts around it, working out the voice leading.…"
+  },
+  {
+   "source": "cdm",
+   "titre": "Elgato’s Stream Deck as a DAW companion; new Reaper controller",
+   "lien": "https://cdm.link/elgato-stream-deck-reaper/",
+   "date": "2026-09-15T20:48:41.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/stream-deck-keys.jpg",
+   "resume": "Elgato's Stream Deck, a push-button desktop controller with interactive color keys and software shortcuts, has quietly become an ideal DAW accessory. Take, for example, this thoughtfully designed addition from Granite…"
+  },
+  {
+   "source": "tsugi",
+   "titre": "Theodora, Ino Casablanca, Juste Shani… 130 artistes affirment leur soutien à la Palestine",
+   "lien": "https://www.tsugi.fr/theodora-ino-casablanca-juste-shani-130-artistes-affirment-leur-soutien-a-la-palestine/",
+   "date": "2026-09-15T15:54:47.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/theodora-ino-casablanca-juste-shani-130-artistes-affirment-leur-soutien-a-la-palestine.jpg?hash=cdn-f2708b9beb55649d8b8a9d61ef9bb4ea",
+   "resume": "Pour son quinzième numéro, Mosaïque Magazine a dédié sa couverture à la Palestine et ses rappeurs. Theodora, Pomme, Ino Casablanca et 127 autres artistes appellent à libérer la Palestine entre ces pages. Dans un…"
+  },
+  {
+   "source": "tsugi",
+   "titre": "Catherine Ringer, voix française emblématique des Rita Mitsouko, est morte à 68 ans",
+   "lien": "https://www.tsugi.fr/catherine-ringer-voix-francaise-emblematique-des-rita-mitsouko-est-morte-a-68-ans/",
+   "date": "2026-09-15T12:31:37.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/catherine-ringer-voix-francaise-emblematique-des-rita-mitsouko-est-morte-a-68-ans.jpg?hash=cdn-56e565e67e84d58eff57b0ea3f011c8c",
+   "resume": "Catherine Ringer, artiste iconique des Rita Mitsouko, est décédée dans la nuit du 14 septembre, à l’âge de 68 ans. Son parcours de vie et sa patte artistique auront marqué plus d’une génération. La nouvelle tombe ce 15…"
   },
   {
    "source": "digitaldjtips",
@@ -410,6 +514,14 @@
    "resume": "Tapechild UDS-16 is a 16-voice drum synthesizer with four synthesis models inspired by the Lel UDS and Formanta Rockton, plus a Tapechild-developed engine, with all sounds generated in real time rather than played back…"
   },
   {
+   "source": "tsugi",
+   "titre": "Live Report : La Fête de l’Huma, la fête partout pour toutes et tous",
+   "lien": "https://www.tsugi.fr/live-report-la-fete-de-lhuma-la-fete-partout-pour-toutes-et-tous/",
+   "date": "2026-09-14T15:20:37.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/live-report-la-fete-de-lhuma-la-fete-partout-pour-toutes-et-tous.jpg?hash=cdn-c43b0f55a20e0582aded9fb113392603",
+   "resume": "Chef oui chef, nous avons quitté la base 217 de Brétigny-sur-Orge après un week-end à La Fête de l’Humanité. Même après 40 milles pas sur les deux jours, il nous a été impossible de jeter un coup d’œil à tout ce que le…"
+  },
+  {
    "source": "attack",
    "titre": "Erica Synths Bullfrog Drums: More Than a Drum Machine",
    "lien": "https://www.attackmagazine.com/reviews/gear-software/erica-synths-bullfrog-drums-more-than-a-drum-machine/",
@@ -424,6 +536,14 @@
    "date": "2026-09-14T01:46:53.000Z",
    "image": "https://www.synthtopia.com/wp-content/uploads/2018/02/yamaha-dx7-e1789610658509.jpg",
    "resume": "DX7 AI Studio promises to make creating DX7 patches fun.…"
+  },
+  {
+   "source": "cdm",
+   "titre": "ALM records everything to stems, and now mixes, too, in compact modules",
+   "lien": "https://cdm.link/alm-multichannel-record-mix/",
+   "date": "2026-09-13T17:57:16.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/With-Mixer-hero-6-copy.jpg",
+   "resume": "It's Stem Ripper, and its expansion module accomplice, \"With Mixer.\" Patch it up quick, record individual stems, and perform stereo mixing with aux sends, panning, and even external USB MIDI control. And fit it all in…"
   },
   {
    "source": "synthtopia",
@@ -498,14 +618,6 @@
    "resume": "The Brooklyn Synth & Pedal Expo is coming back to NY next month. The two-day event pops up in Greenpoint, Brooklyn, October 17–18, at a 7,000-square-foot warehouse turned immersive playground for electronic music…"
   },
   {
-   "source": "tsugi",
-   "titre": "Lacchesi et Anetha se rejoignent pour un single hypnotique et politique",
-   "lien": "https://www.tsugi.fr/lacchesi-et-anetha-se-rejoignent-pour-un-single-hypnotique-et-politique/",
-   "date": "2026-09-11T09:58:43.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/lacchesi-et-anetha-se-rejoignent-pour-un-single-hypnotique-et-politique.jpg?hash=cdn-3fe7fd40e1af110102ecca270a07ec2a",
-   "resume": "Après un premier single avec Kittin paru le 10 juillet sur le label Mama Told Ya, Lacchesi dévoile aujourd’hui « No Pasarán », cette fois-ci aux côtés d’Anetha, une autre figure emblématique de la scène techno. Mais ce…"
-  },
-  {
    "source": "attack",
    "titre": "XILS-lab Launches MemoryTone Software Synthesiser",
    "lien": "https://www.attackmagazine.com/news/xils-lab-launches-memorytone-software-synthesiser/",
@@ -514,20 +626,12 @@
    "resume": "The Grenoble-based developer's latest release recreates the architecture of a landmark early-1980s polyphonic analogue synthesiser, adding modern features including MPE support and 16-voice polyphony. XILS-lab has…"
   },
   {
-   "source": "tsugi",
-   "titre": "CHLOÉ, Panteros666, Urumi… Arte Mix revient au Trabendo pour une soirée éclectique",
-   "lien": "https://www.tsugi.fr/chloe-panteros666-urumi-arte-mix-revient-au-trabendo-pour-une-soiree-eclectique/",
-   "date": "2026-09-10T13:51:06.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/chloe-panteros666-urumi-arte-mix-revient-au-trabendo-pour-une-soiree-eclectique.jpg?hash=cdn-079e40130522029bde5baa43d64d5d6e",
-   "resume": "La soirée Arte Mix est de retour au Trabendo ce 9 octobre et si vous nous dites qu’il n’y a pas au moins un set dans la liste qui vous intéresse, ce n’est pas bien de mentir ! En 9 heures, les enceintes passeront des…"
-  },
-  {
-   "source": "tsugi",
-   "titre": "Chapiteau Sonore : on dévoile la programmation du festival éclectique du Château Éphémère",
-   "lien": "https://www.tsugi.fr/chapiteau-sonore-on-devoile-la-programmation-du-festival-eclectique-du-chateau-ephemere/",
-   "date": "2026-09-10T13:44:50.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/chapiteau-sonore-on-devoile-la-programmation-du-festival-eclectique-du-chateau-ephemere.jpg?hash=cdn-9853037fe24e7aa40d47f042b3eb281f",
-   "resume": "Le festival Chapiteau Sonore, rendez-vous festif et musical du fameux Château Éphémère — un tiers-lieu niché en banlieue parisienne, plus précisément à Carrières-sous-Poissy (78) —, est de retour pour une 5ème édition…"
+   "source": "cdm",
+   "titre": "Kevin Saunderson teaches a free 909 workshop, online and in Detroit",
+   "lien": "https://cdm.link/kevin-saunderson-roland-and-uma/",
+   "date": "2026-09-10T15:57:55.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/kevin.png",
+   "resume": "The best 909 Day reveal yesterday was this: on Saturday, Kevin Saunderson, techno originator and one of the Belleville Three, teaches a free workshop on the 909 with Roland (with Dustin Good). You can tune in online…"
   },
   {
    "source": "ableton",
@@ -538,14 +642,6 @@
    "resume": ""
   },
   {
-   "source": "tsugi",
-   "titre": "« L’histoire du Big Beat » : le Tsugi nº189 est dispo partout !",
-   "lien": "https://www.tsugi.fr/lhistoire-du-big-beat-le-tsugi-no189-est-dispo-partout/",
-   "date": "2026-09-10T09:34:10.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/lhistoire-du-big-beat-le-tsugi-no189-est-dispo-partout.jpg?hash=cdn-3f7842232c7a1f02cf971ded3b83300a",
-   "resume": "« Big Beat : Quand Fatboy Slim, The Prodigy ou The Chemical Brothers dynamitaient le dancefloor » le Tsugi Magazine 189, notre numéro de septembre-octobre, est sorti ! Il est disponible partout et à commander ici…"
-  },
-  {
    "source": "digitaldjtips",
    "titre": "Serato Fixes Its Beatgrids In DJ 5.0 Beta",
    "lien": "https://www.digitaldjtips.com/serato-fixes-its-beatgrids-in-dj-5-0-beta/",
@@ -554,20 +650,12 @@
    "resume": "Serato has opened the public beta for Serato DJ 5.0, and the headline feature is a completely rebuilt beatgrid engine called Lucid Beatgrids. It automatically detects tempo changes and downbeats across both fixed and…"
   },
   {
-   "source": "tsugi",
-   "titre": "IA, classements et revenus… voilà ce qu’il faut retenir du bilan du SNEP",
-   "lien": "https://www.tsugi.fr/ia-classements-et-revenus-voila-ce-quil-faut-retenir-du-bilan-du-snep/",
-   "date": "2026-09-09T15:54:43.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/ia-classements-et-revenus-voila-ce-quil-faut-retenir-du-bilan-du-snep.jpg?hash=cdn-d22c7c37944550d1357ae3cb37d99878",
-   "resume": "Ça y est, le SNEP — Syndicat national de l’édition phonographique — a publié son bilan du marché musical sur les six premiers mois de 2026. Revenus du marché, positionnement des productions francophones dans les…"
-  },
-  {
-   "source": "tsugi",
-   "titre": "NYOKOBOP 2026 : et si on explorait la culture musicale du monde ?",
-   "lien": "https://www.tsugi.fr/nyokobop-2026-et-si-on-explorait-la-culture-musicale-du-monde/",
-   "date": "2026-09-09T15:39:40.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/nyokobop-2026-et-si-on-explorait-la-culture-musicale-du-monde.jpg?hash=cdn-09bd77127af3180509cc2a48d9edbcbd",
-   "resume": "Cinq lieux, 15 artistes venus du monde entier et six jours de fête entre le 4 et le 12 décembre 2026, quoi de mieux pour éviter la déprime hivernale ? NYOKOBOP, c’est l’occasion de faire le tour du monde, en faisant le…"
+   "source": "cdm",
+   "titre": "Dirtywave M8 has an official iOS app — a great addition to mobile tracker apps",
+   "lien": "https://cdm.link/dirtywave-m8-ios/",
+   "date": "2026-09-09T17:23:55.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/m8-tracker-hero.jpeg",
+   "resume": "Dirtywave M8 is already superb as hardware, whether you run their pre-made device or build your own \"headless\" rig. Now, it has its own official iOS app for iPhone and iPad, too, and it looks hot."
   },
   {
    "source": "ableton",
@@ -578,20 +666,12 @@
    "resume": ""
   },
   {
-   "source": "tsugi",
-   "titre": "Ambient Swim, un programme entre animations et musiques électroniques",
-   "lien": "https://www.tsugi.fr/ambient-swim-un-programme-entre-animations-et-musiques-electroniques/",
-   "date": "2026-09-08T14:48:06.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/ambient-swim-un-programme-entre-animations-et-musiques-electroniques.jpg?hash=cdn-fddde2cc7ac3468f5b2c198b56bf1fd5",
-   "resume": "On en connaît des séries de musiques d’ambiances censées nous relaxer. Petite pensée à Lofi Girl, qui depuis des années diffuse sur YouTube une musique apaisante pour nous aider à étudier, travailler ou tout simplement…"
-  },
-  {
-   "source": "tsugi",
-   "titre": "Fat Dog, Jungle, DIIV… Les clips sortis ces dernières semaines à ne pas manquer",
-   "lien": "https://www.tsugi.fr/fat-dog-jungle-diiv-les-clips-sortis-ces-dernieres-semaines-a-ne-pas-manquer/",
-   "date": "2026-09-08T12:37:11.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/fat-dog-jungle-diiv-les-clips-sortis-ces-dernieres-semaines-a-ne-pas-manquer.jpg?hash=cdn-f75c359651c14cc40d3c0b71c70ec44d",
-   "resume": "Chez Tsugi, on nous sommes passionnés par les clips. Pourquoi ? Tout simplement parce qu’on adore rentrer dans l’univers visuel des artistes qu’on ajoute à nos playlists. Il n’y a rien de mieux pour illustrer un projet…"
+   "source": "cdm",
+   "titre": "Eminently controllable, accessible by design, Sting is now a plug-in",
+   "lien": "https://cdm.link/sting-the-plugin/",
+   "date": "2026-09-08T18:57:31.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/CleanShot-2026-09-08-at-20.29.51.png",
+   "resume": "Now this is how to do generative melodies. Add expression. Get control with your hands. Make melodies accessible -- including if you're blind and visually impaired. Sting, the beloved maker of acid melodies and other…"
   },
   {
    "source": "attack",
@@ -602,20 +682,12 @@
    "resume": "The new four-channel standalone system introduces pressure-sensitive MPCe pads, onboard Stems rendering and built-in DMX output, aimed at mobile, club and festival DJs. Denon DJ has announced PRIME 4 G2, a four-channel…"
   },
   {
-   "source": "tsugi",
-   "titre": "Techno Parade 2026 : le parcours et les line-ups se concrétisent",
-   "lien": "https://www.tsugi.fr/techno-parade-2026-le-parcours-et-les-line-ups-se-concretisent/",
-   "date": "2026-09-07T16:01:34.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/techno-parade-2026-le-parcours-et-les-line-ups-se-concretisent.jpg?hash=cdn-5cfd96c20d2d975f24fafc261c8e2bb3",
-   "resume": "Tic tac, tic tac… la date approche et l’excitation monte ! Après nous avoir dévoilé les dix chars qui défileront lors de la Techno Parade ce 19 septembre, l’association Technopol dévoile tout doucement les line-ups et…"
-  },
-  {
-   "source": "tsugi",
-   "titre": "Le Zeralda, une nouvelle salle de concert à la programmation défricheuse vient d’ouvrir à Bagnolet",
-   "lien": "https://www.tsugi.fr/le-zeralda-une-nouvelle-salle-de-concert-a-la-programmation-defricheuse-vient-douvrir-a-bagnolet/",
-   "date": "2026-09-07T12:43:04.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/le-zeralda-une-nouvelle-salle-de-concert-a-la-programmation-defricheuse-vient-douvrir-a-bagnolet.jpg?hash=cdn-486e1bd59fd562004d88ac3f2abeb250",
-   "resume": "Pour les punk ravers amateur·ices d’electro, de rock, de new wave, de musique industrielle, et autre noise, une nouvelle salle de concert, le Zeralda, vient d’ouvrir. Où ça nous direz-vous ? À Bagnolet, en proche…"
+   "source": "cdm",
+   "titre": "Scales among updates to the free Ardour DAW — with tuning on the way",
+   "lien": "https://cdm.link/ardour-9-8-scales-and-tuning/",
+   "date": "2026-09-07T11:39:51.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/ardour-9-8-scale-editor.jpeg",
+   "resume": "Ardour 9.8 continues the rapid, detailed development of this free and open-source DAW, with improved session recovery and clip recording, expanded support for controllers and hardware, and an arpeggiator MIDI tool. The…"
   },
   {
    "source": "attack",
@@ -624,6 +696,14 @@
    "date": "2026-09-06T19:50:56.000Z",
    "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/Attack-Mag-The-Best-Feature-Images-Weird-Drum-Machines.png?fit=1130%2C548&ssl=1",
    "resume": "Step into another world with the weirdest drum machines on the market in 2026. We’re talking an all-passive rhythm box, one that blurs the line between analog and sampling, one for kids, and more craziness. We love our…"
+  },
+  {
+   "source": "cdm",
+   "titre": "Throng, a 3D BlueSky interface, imagines social media as a mob",
+   "lien": "https://cdm.link/create-digital-mobs/",
+   "date": "2026-09-04T22:09:27.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/throng.jpg",
+   "resume": "You're just relaxing by a peaceful campfire. You hear voices in the distance. Then, like a really chatty zombie invasion... they come. And keep coming. It's a 3D user interface for BlueSky, but it says something poetic…"
   },
   {
    "source": "ableton",
@@ -1126,7 +1206,7 @@
    "titre": "Listen to Ahadadream’s debut album, ‘P ★ K I’",
    "lien": "https://djmag.com/news/listen-ahadadreams-debut-album-p-k-i",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/ahadadream-credit-radhika-muthanna.jpg.webp?itok=aoawnQvr508096343",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/ahadadream-credit-radhika-muthanna.jpg.webp?itok=aoawnQvr396243453",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“This is a word which I grew up in Pakistan knowing to be nothing but positive, but was…"
   },
   {
@@ -1134,7 +1214,7 @@
    "titre": "AI ‘artists’ set to perform ‘live’ at first AI Music Awards in Los Angeles",
    "lien": "https://djmag.com/news/ai-artists-set-perform-live-first-ai-music-awards-los-angeles",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Screenshot%202026-09-18%20at%2018.51.15.png.webp?itok=99CZIufr651645839",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Screenshot%202026-09-18%20at%2018.51.15.png.webp?itok=99CZIufr1413477017",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The creators behind each AI “artist” will be “directing the stage”, according to…"
   },
   {
@@ -1142,7 +1222,7 @@
    "titre": "RÜFÜS DU SOL’s 2026 world tour becomes highest-grossing in electronic music history",
    "lien": "https://djmag.com/news/rufus-du-sols-2026-world-tour-becomes-highest-grossing-electronic-music-history",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/453629925_1041871200628919_4031931994403780005_n.jpg.webp?itok=Ezg4g2Pt186405931",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/453629925_1041871200628919_4031931994403780005_n.jpg.webp?itok=Ezg4g2Pt893562448",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The Australian trio’s latest run has generated $158 million and sold 1.7 million tickets…"
   },
   {
@@ -1150,7 +1230,7 @@
    "titre": "Sway, influential UK rapper, dies aged 44",
    "lien": "https://djmag.com/news/sway-influential-uk-rapper-dies-aged-44",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/497200374_18500184367052822_4345005262695473599_n.jpg.webp?itok=EffSD6X21822131178",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/497200374_18500184367052822_4345005262695473599_n.jpg.webp?itok=EffSD6X2429644713",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>He was the first unsigned artist to win Best Hip-Hop Act at the MOBO Awards</p> </div>"
   },
   {
@@ -1158,7 +1238,7 @@
    "titre": "Darude remixes ‘Sandstorm’ for the first time: Listen",
    "lien": "https://djmag.com/news/darude-remixes-sandstorm-first-time-listen",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Darude.jpeg.webp?itok=0-mSqIbb680244749",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Darude.jpeg.webp?itok=0-mSqIbb211282744",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“It’s the track that started everything for me and my career, and after 25 years, it felt…"
   },
   {
@@ -1198,30 +1278,9 @@
    "titre": "DJ breaks Guinness World Record for most vinyl shop visits in 24 hours",
    "lien": "https://djmag.com/news/dj-breaks-guinness-world-record-most-vinyl-shop-visits-24-hours",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/1789484974.png.webp?itok=Z4vSHKWi485717409",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/1789484974.png.webp?itok=Z4vSHKWi1512290102",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Paul Richards visited 28 stores in total during his record-breaking feat</p> </div>"
-  },
-  {
-   "source": "djmag",
-   "titre": "DJ Mag launches Top 100 DJs 2026 fundraiser in aid of Bridges for Music",
-   "lien": "https://djmag.com/news/dj-mag-launches-top-100-djs-2026-fundraiser-aid-of-bridges-music",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/BFM%20Graduation%202024%20-%20263.jpg.webp?itok=a7AVlYAw1459941739",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Artists in this year’s poll are being invited to sponsor students at the Bridges for Music…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Noisia announce reunion and first live show in four years",
-   "lien": "https://djmag.com/news/noisia-announce-reunion-and-first-live-show-four-years",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/A_Noisia%202026_pictureby_Farhad%20Khodadadzade.jpg.webp?itok=lnE2gv6S341253999",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“Combining our forces again feels incredibly exciting now,” the trio said in a statement…"
   }
  ],
- "pannes": [
-  {
-   "id": "cdm",
-   "raison": "aucun article lu"
-  }
- ]
+ "pannes": []
 }
