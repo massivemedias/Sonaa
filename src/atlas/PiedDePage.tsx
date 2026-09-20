@@ -50,6 +50,7 @@ export function PiedDePage() {
         { href: '#/parcourir', label: t.lesStyles },
         { href: '#/mixtapes', label: t.lesMixtapes },
         { href: '#/tracks', label: t.lesTracks },
+        { href: '#/reconnaitre', label: t.reconnaitre },
         { href: '#/index', label: t.piedIndex },
       ],
     },

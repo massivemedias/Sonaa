@@ -633,6 +633,20 @@ ecrire({
   jsonld: [filAriane([{ nom: 'Tracks', href: '/tracks/' }])],
 });
 
+/* RECONNAITRE A SA PAGE, ET ELLE EST INDEXABLE. Ce qu'elle promet se decrit
+   en trois phrases, et « reconnaitre un style de musique electronique » est
+   une chose que les gens cherchent. Le modele, lui, ne se telecharge qu'au
+   clic : rien de lourd n'est annonce ici. */
+ecrire({
+  chemin: '/reconnaitre/',
+  hash: '#/reconnaitre',
+  titre: 'Reconnaître un style de musique électronique par le micro · SONAA',
+  description:
+    'Faites écouter à SONAA ce qui passe à la radio ou dans la pièce : le style est reconnu sur votre appareil, sans que le son en sorte.',
+  corps: `${entete([{ nom: 'Reconnaître', href: '/reconnaitre/' }])}<h1>Reconnaître</h1><p>Faites écouter à SONAA ce qui passe à la radio, à la télé ou dans la pièce. Le style est reconnu sur votre appareil, sans que le son en sorte.</p><h2>Comment ça marche</h2><p>Le micro écoute dix secondes, après votre accord. Un modèle de reconnaissance tourne dans votre navigateur et rend les trois styles les plus probables, rattachés aux 219 genres de l’atlas quand ils y existent. Le son ne part sur aucun serveur.</p><p>Le style est une estimation faite sur dix secondes, pas un verdict : une voix, une publicité ou un enchaînement le trompent.</p><p><a href="/styles/">L’atlas des styles</a></p>`,
+  jsonld: [filAriane([{ nom: 'Reconnaître', href: '/reconnaitre/' }])],
+});
+
 ecrire({
   chemin: '/panier/',
   hash: '#/panier',

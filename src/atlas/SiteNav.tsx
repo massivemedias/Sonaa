@@ -22,6 +22,7 @@ type SiteCourant =
   | 'parcourir'
   | 'mixtapes'
   | 'tracks'
+  | 'reconnaitre'
   | 'panier'
   | 'legal'
   | 'chronologie'
@@ -60,6 +61,7 @@ const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
   { href: '#/news', id: 'news', label: t.leNews },
   { href: '#/parcourir', id: 'parcourir', label: t.lesStyles },
   { href: '#/mixtapes', id: 'mixtapes', label: t.lesMixtapes },
+  { href: '#/reconnaitre', id: 'reconnaitre', label: t.reconnaitre },
   { href: '#/tracks', id: 'tracks', label: t.lesTracks },
 ];
 
@@ -105,6 +107,7 @@ export function courantDuSite(hash: string): SiteCourant {
   if (hash.startsWith('#/mixtapes')) return 'mixtapes';
   if (hash.startsWith('#/sets')) return 'mixtapes';
   if (hash.startsWith('#/tracks')) return 'tracks';
+  if (hash.startsWith('#/reconnaitre')) return 'reconnaitre';
   if (hash.startsWith('#/panier')) return 'panier';
   if (hash.startsWith('#/conditions')) return 'legal';
   if (hash.startsWith('#/confidentialite')) return 'legal';

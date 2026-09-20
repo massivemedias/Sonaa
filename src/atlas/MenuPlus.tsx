@@ -46,6 +46,7 @@ export function MenuPlus() {
 
   const liens: readonly { href: string; label: string; id?: string }[] = [
     { href: '#/parcourir', label: t.lesStyles, id: 'parcourir' },
+    { href: '#/reconnaitre', label: t.reconnaitre, id: 'reconnaitre' },
     { href: '#/profil', label: t.monProfil, id: 'profil' },
     { href: '#/a-propos', label: t.aPropos, id: 'apropos' },
   ];

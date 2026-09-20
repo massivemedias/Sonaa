@@ -121,6 +121,14 @@ const SetsPage = lazy(() =>
 const TracksPage = lazy(() =>
   import('./marchand/TracksPage.tsx').then((m) => ({ default: m.TracksPage }))
 );
+
+/* RECONNAITRE : la page qui ecoute. Elle est differee comme les autres, et
+   c'est ici que cela compte le plus : elle tire TensorFlow.js et essentia.js,
+   qui pesent plus que tout le reste du site reuni. Personne qui vient lire
+   l'atlas ne doit les payer. Voir src/reconnaitre/. */
+const ReconnaitrePage = lazy(() =>
+  import('./reconnaitre/ReconnaitrePage.tsx').then((m) => ({ default: m.ReconnaitrePage }))
+);
 const PanierEcran = lazy(() =>
   import('./marchand/PanierEcran.tsx').then((m) => ({ default: m.PanierEcran }))
 );
@@ -167,7 +175,7 @@ if (!rootElement) {
   throw new Error('Élément racine introuvable.');
 }
 
-type Route = 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'parcourir' | 'profil' | 'mixtapes' | 'tracks' | 'panier' | 'conditions' | 'confidentialite' | 'mentions' | 'calendrier' | 'news' | 'admin' | 'atlas';
+type Route = 'reconnaitre' | 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'parcourir' | 'profil' | 'mixtapes' | 'tracks' | 'panier' | 'conditions' | 'confidentialite' | 'mentions' | 'calendrier' | 'news' | 'admin' | 'atlas';
 
 const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/index')) return 'index';
@@ -192,6 +200,7 @@ const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/mixtapes')) return 'mixtapes';
   if (window.location.hash.startsWith('#/sets')) return 'mixtapes';
   if (window.location.hash.startsWith('#/tracks')) return 'tracks';
+  if (window.location.hash.startsWith('#/reconnaitre')) return 'reconnaitre';
   if (window.location.hash.startsWith('#/panier')) return 'panier';
   if (window.location.hash.startsWith('#/conditions')) return 'conditions';
   if (window.location.hash.startsWith('#/confidentialite')) return 'confidentialite';
@@ -223,6 +232,7 @@ const PORTE_LA_BARRE: ReadonlySet<Route> = new Set([
   'parcourir',
   'mixtapes',
   'tracks',
+  'reconnaitre',
   'conditions',
   'confidentialite',
   'mentions',
@@ -285,6 +295,8 @@ function App() {
           <SetsPage />
         ) : route === 'tracks' ? (
           <TracksPage />
+        ) : route === 'reconnaitre' ? (
+          <ReconnaitrePage />
         ) : route === 'panier' ? (
           <PanierEcran />
         ) : route === 'conditions' ? (

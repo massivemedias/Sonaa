@@ -627,6 +627,33 @@ interface Dictionnaire {
   /* ═══ LA COUCHE MARCHANDE ═══ Ouverte le 17 septembre 2026, phase 0 : les
      mots existent, la vente n'existe pas encore. Voir docs/adr/ADR-084. */
   readonly lesTracks: string;
+  /* ═══ RECONNAITRE ═══ La page qui ecoute ce qui passe dans la piece.
+     Voir src/reconnaitre/ et RECONNAITRE.md. */
+  readonly reconnaitre: string;
+  readonly reconnaitreChapeau: string;
+  readonly reconnaitreEcouter: string;
+  readonly reconnaitreEnEcoute: (s: number) => string;
+  readonly reconnaitreAnalyse: string;
+  readonly reconnaitreChargement: (part: number) => string;
+  readonly reconnaitrePoids: (mo: number) => string;
+  readonly reconnaitreLeStyle: string;
+  readonly reconnaitreLeMorceau: string;
+  readonly reconnaitreHorsAtlas: string;
+  readonly reconnaitreSansMorceau: string;
+  readonly reconnaitreImprecis: string;
+  readonly reconnaitreErreurMicro: string;
+  readonly reconnaitreErreurStyle: string;
+  readonly reconnaitreRelancer: string;
+  readonly reconnaitreHistorique: string;
+  readonly reconnaitreAucunHistorique: string;
+  readonly reconnaitreEffacer: string;
+  readonly consentementTitre: string;
+  readonly consentementMicro: string;
+  readonly consentementLocal: string;
+  readonly consentementDuree: string;
+  readonly consentementCaseMorceau: string;
+  readonly consentementAccepter: string;
+  readonly consentementRefuser: string;
   readonly tracksChapeau: string;
   readonly tracksBientot: string;
   readonly tracksBientotTexte: string;
@@ -1231,6 +1258,36 @@ const FR: Dictionnaire = {
   lesArtistes: 'Artistes',
   lesMixtapes: 'Mixtapes',
   lesTracks: 'Tracks',
+  reconnaitre: 'Reconnaître',
+  reconnaitreChapeau:
+    'Faites écouter à SONAA ce qui passe à la radio, à la télé ou dans la pièce. ' +
+    'Le style est reconnu sur votre appareil, sans que le son en sorte.',
+  reconnaitreEcouter: 'Écouter',
+  reconnaitreEnEcoute: (s) => `Écoute… ${s} s`,
+  reconnaitreAnalyse: 'Analyse…',
+  reconnaitreChargement: (part) => `Chargement du modèle… ${Math.round(part * 100)} %`,
+  reconnaitrePoids: (mo) => `Le modèle pèse ${mo} Mo, téléchargés une seule fois puis gardés par le navigateur.`,
+  reconnaitreLeStyle: 'Le style',
+  reconnaitreLeMorceau: 'Le morceau',
+  reconnaitreHorsAtlas: 'hors atlas',
+  reconnaitreSansMorceau: 'Aucun morceau reconnu. Cela arrive souvent quand quelqu’un parle par-dessus.',
+  reconnaitreImprecis:
+    'Le style est une estimation faite sur dix secondes, pas un verdict. Une voix, une pub ou un enchaînement le trompent.',
+  reconnaitreErreurMicro: 'Le micro n’a pas pu s’ouvrir. Vérifiez l’autorisation du navigateur.',
+  reconnaitreErreurStyle: 'Le modèle n’a pas pu être chargé. Réessayez dans un moment.',
+  reconnaitreRelancer: 'Réécouter',
+  reconnaitreHistorique: 'Vos dernières écoutes',
+  reconnaitreAucunHistorique: 'Rien encore.',
+  reconnaitreEffacer: 'Effacer',
+  consentementTitre: 'Avant d’ouvrir le micro',
+  consentementMicro: 'SONAA va écouter dix secondes par le micro de cet appareil.',
+  consentementLocal:
+    'La reconnaissance du style se fait entièrement sur votre appareil. Le son ne part sur aucun serveur, et rien n’est enregistré.',
+  consentementDuree: 'Le micro se referme tout seul au bout des dix secondes.',
+  consentementCaseMorceau:
+    'Envoyer aussi huit secondes au service AudD pour tenter de reconnaître le titre. Le son n’y est pas conservé.',
+  consentementAccepter: 'J’accepte, écouter',
+  consentementRefuser: 'Annuler',
   tracksChapeau:
     'Les morceaux des artistes de SONAA, achetés directement à celles et ceux qui les ont faits.',
   tracksBientot: 'Bientôt',
@@ -1843,6 +1900,36 @@ const EN: Dictionnaire = {
   lesArtistes: 'Artists',
   lesMixtapes: 'Mixtapes',
   lesTracks: 'Tracks',
+  reconnaitre: 'Recognise',
+  reconnaitreChapeau:
+    'Let SONAA listen to what is playing on the radio, the TV or in the room. ' +
+    'The style is recognised on your own device, and the sound never leaves it.',
+  reconnaitreEcouter: 'Listen',
+  reconnaitreEnEcoute: (s) => `Listening… ${s}s`,
+  reconnaitreAnalyse: 'Analysing…',
+  reconnaitreChargement: (part) => `Loading the model… ${Math.round(part * 100)}%`,
+  reconnaitrePoids: (mo) => `The model weighs ${mo} MB, downloaded once and then kept by your browser.`,
+  reconnaitreLeStyle: 'The style',
+  reconnaitreLeMorceau: 'The track',
+  reconnaitreHorsAtlas: 'outside the atlas',
+  reconnaitreSansMorceau: 'No track recognised. That often happens when someone is talking over it.',
+  reconnaitreImprecis:
+    'The style is an estimate made on ten seconds, not a verdict. A voice, an advert or a transition will fool it.',
+  reconnaitreErreurMicro: 'The microphone could not be opened. Check your browser permission.',
+  reconnaitreErreurStyle: 'The model could not be loaded. Try again in a moment.',
+  reconnaitreRelancer: 'Listen again',
+  reconnaitreHistorique: 'Your recent listens',
+  reconnaitreAucunHistorique: 'Nothing yet.',
+  reconnaitreEffacer: 'Clear',
+  consentementTitre: 'Before opening the microphone',
+  consentementMicro: 'SONAA will listen for ten seconds through this device microphone.',
+  consentementLocal:
+    'Style recognition runs entirely on your device. The sound is sent to no server, and nothing is recorded.',
+  consentementDuree: 'The microphone closes on its own after the ten seconds.',
+  consentementCaseMorceau:
+    'Also send eight seconds to the AudD service to try to name the track. The sound is not kept there.',
+  consentementAccepter: 'I agree, listen',
+  consentementRefuser: 'Cancel',
   tracksChapeau: 'Tracks by SONAA artists, bought straight from the people who made them.',
   tracksBientot: 'Coming soon',
   tracksBientotTexte:

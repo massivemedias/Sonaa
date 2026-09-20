@@ -82,6 +82,7 @@ export function hashDuChemin(chemin: string): string | null {
   if (mixtape) return `#/mixtapes/${mixtape[1]}`;
   if (c === '/mixtapes/' || c === '/sons/') return '#/mixtapes';
   if (c === '/tracks/') return '#/tracks';
+  if (c === '/reconnaitre/') return '#/reconnaitre';
   if (c === '/panier/') return '#/panier';
   if (c === '/conditions/') return '#/conditions';
   if (c === '/confidentialite/') return '#/confidentialite';

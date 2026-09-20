@@ -34,6 +34,9 @@
    commence-t-il par l'identifiant qu'il porte ». */
 
 import { ZONES } from './zones.ts';
+/* Le lecteur de la reponse d'AudD vit dans src/, avec son test : voir
+   src/reconnaitre/audd.ts. Une copie ici aurait diverge. */
+import { lireReponseAudd } from '../../src/reconnaitre/audd.ts';
 import { soirees, toutesLesSoirees } from './agenda.ts';
 
 interface Env {
@@ -54,6 +57,11 @@ interface Env {
   readonly EMAIL?: { send: (m: { to: string; from: { email: string; name: string }; subject: string; text: string; html?: string }) => Promise<unknown> };
   /** Le secret que la base presente pour avoir le droit de faire ecrire un
       courriel, pose par `wrangler secret put NOTIFIER_SECRET`. */
+  /* LA CLE D'AUDD, POUR LA RECONNAISSANCE DE MORCEAU. Facultative : sans
+     elle la route repond 503 et la page masque la partie morceau. La
+     reconnaissance de STYLE, elle, tourne dans le navigateur et ne depend
+     d'aucune cle. Voir src/reconnaitre/. */
+  AUDD_API_KEY?: string;
   readonly NOTIFIER_SECRET?: string;
 }
 
@@ -544,6 +552,62 @@ export default {
       const corps = JSON.stringify(article);
       await cache.put(cle, new Response(corps, { headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=86400' } }));
       return new Response(corps, { headers: entetes(req, env, { 'content-type': 'application/json', 'cache-control': 'public, max-age=3600' }) });
+    }
+
+    /* ═══ RECONNAITRE UN MORCEAU ═══ POST api/reconnaitre-track
+     *
+     * Le navigateur envoie huit secondes d'audio, on les relaie a AudD, on
+     * rend cinq champs. L'audio N'EST PAS CONSERVE : il vit dans la memoire
+     * de cette requete, il n'est ecrit ni dans R2 ni dans KV, et il n'y a
+     * aucune trace a purger ensuite. C'est ce que la modale de consentement
+     * promet a l'utilisateur, et c'est verifiable ici en dix lignes.
+     *
+     * SANS CLE, 503, ET C'EST UNE REPONSE VALIDE. La reconnaissance de style
+     * tourne entierement dans le navigateur et ne depend pas de cette route ;
+     * la page masque la partie morceau et le reste fonctionne.
+     *
+     * TRENTE PAR HEURE ET PAR ADRESSE. AudD se facture a la requete : sans
+     * borne, une page laissee ouverte avec un minuteur coute un abonnement.
+     * Le compteur vit dans le meme KV que la file des artistes, sous un
+     * prefixe a lui, et expire tout seul. */
+    if (req.method === 'POST' && chemin === 'api/reconnaitre-track') {
+      if (!env.AUDD_API_KEY) return refus(req, env, 503, 'reconnaissance de morceau non configuree');
+
+      const ip = req.headers.get('cf-connecting-ip') ?? 'inconnue';
+      const heure = new Date().toISOString().slice(0, 13);
+      const cleCompteur = `reco:${ip}:${heure}`;
+      const vus = Number((await env.DEMANDES.get(cleCompteur)) ?? '0');
+      if (vus >= 30) return refus(req, env, 429, 'trop de reconnaissances cette heure-ci');
+
+      const audio = await req.arrayBuffer();
+      /* Huit secondes d'Opus pesent une centaine de kilo-octets. Quatre
+         mega-octets laissent la place a un format non compresse sans ouvrir
+         la porte a un envoi de fichier entier. */
+      if (audio.byteLength === 0) return refus(req, env, 400, 'aucun audio');
+      if (audio.byteLength > 4 * 1024 * 1024) return refus(req, env, 413, 'extrait trop long');
+
+      await env.DEMANDES.put(cleCompteur, String(vus + 1), { expirationTtl: 3900 });
+
+      const formulaire = new FormData();
+      formulaire.append('api_token', env.AUDD_API_KEY);
+      formulaire.append('return', 'apple_music,spotify');
+      formulaire.append('file', new Blob([audio]), 'extrait.webm');
+
+      let morceau: unknown = null;
+      try {
+        const r = await fetch('https://api.audd.io/', { method: 'POST', body: formulaire });
+        if (!r.ok) throw new Error(`AudD ${r.status}`);
+        morceau = lireReponseAudd(await r.json());
+      } catch (e) {
+        return new Response(
+          JSON.stringify({ morceau: null, erreur: e instanceof Error ? e.message : String(e) }),
+          { status: 502, headers: entetes(req, env, { 'content-type': 'application/json' }) }
+        );
+      }
+
+      return new Response(JSON.stringify({ morceau }), {
+        headers: entetes(req, env, { 'content-type': 'application/json', 'cache-control': 'no-store' }),
+      });
     }
 
     if (req.method === 'GET' && chemin === 'api/ou') {
