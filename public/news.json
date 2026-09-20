@@ -1,6 +1,46 @@
 {
- "fait": "2026-09-20T04:57:46.072Z",
+ "fait": "2026-09-20T13:04:27.698Z",
  "articles": [
+  {
+   "source": "bpb",
+   "titre": "Hakuna Audio releases FREE Hakunizer one-knob enhancer plugin",
+   "lien": "https://bedroomproducersblog.com/2026/09/20/hakuna-audio-hakunizer/",
+   "date": "2026-09-20T12:08:52.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/hakunizer.jpg",
+   "resume": "Hakuna Audio has released Hakunizer, a free one-knob enhancer plugin for macOS and Windows. The workflow immediately reminded me of Image-Line’s old Soundgoodizer. Just like in FL Studio’s old multiband sound enhancer…"
+  },
+  {
+   "source": "bpb",
+   "titre": "ModeAudio Quiet Piano Ambient Loops: Cinematic upright piano samples",
+   "lien": "https://bedroomproducersblog.com/2026/09/20/modeaudio-quiet-piano-ambient-loops/",
+   "date": "2026-09-20T11:53:28.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/quiet-piano.jpg",
+   "resume": "ModeAudio has released the Quiet Piano Ambient Loops, a collection of 833MB worth of royalty-free music loops and MIDI. The piano is arguably the most versatile instrument; a single performance can be percussive…"
+  },
+  {
+   "source": "bpb",
+   "titre": "Get Safari Audio Time Machine FREE in UJAM collaboration",
+   "lien": "https://bedroomproducersblog.com/2026/09/20/safari-audio-time-machine-free/",
+   "date": "2026-09-20T11:52:49.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/safari-timemachine.jpg",
+   "resume": "Safari Audio and UJAM have teamed up to give Time Machine away for free to UJAM users for a limited time. The vintage character plugin normally costs $49, and Safari Audio has not published an expiry date for the…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "“No plugins, no compressors, no gates… I don’t know how I did it!”: Underworld reflect on how they made their most breathtaking album",
+   "lien": "https://www.musicradar.com/artists/no-plugins-no-compressors-no-gates-i-dont-know-how-i-did-it-underworld-reflect-on-how-they-made-their-most-breathtaking-album",
+   "date": "2026-09-20T09:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/hYZQKdTCD8hFgXCxk3Wfnn-1920-80.png",
+   "resume": "Released a scant few months ahead of the track that would make them household names , 1996 album Second Toughest in the Infants found Underworld’s second-line up (Rick Smith, Darren Emerson and Karl Hyde) in rude…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Polarity-Glue, Reverse Reverb, ToneShaper: Free Plugins of the Week",
+   "lien": "https://www.gearnews.com/polarity-glue-free-plugins/",
+   "date": "2026-09-20T06:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/polarity-glue-free-plugins-09-20-26.jpg",
+   "resume": "This week’s round-up of freebies brings you an SSL-style compressor, instant reverse risers, and a super-useful tone and body shaper: Polarity-Glue, VAS Reverse Reverb, ToneShaper. Free Plugins of the Week…"
+  },
   {
    "source": "gearnews",
    "titre": "Best Gigging Songs: 5 Tracks I Love Playing Live",
@@ -210,14 +250,6 @@
    "resume": "One of the main things that Radiohead’s recent in-the-round live return has absolutely demonstrated is the vital importance of each and every member to the band’s aural universe. Although the central vocal powerhouse…"
   },
   {
-   "source": "musicradar",
-   "titre": "Don't Wanna Miss A Thing? It's MusicRadar's Quiz of the Week #22!",
-   "lien": "https://www.musicradar.com/artists/bands/dont-wanna-miss-a-thing-its-musicradars-quiz-of-the-week-22",
-   "date": "2026-09-18T09:51:21.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/VQJxJrXyDiWygk27zVHEJ4-1920-80.jpg",
-   "resume": "Welcome your weekend and wind down with our rundown of music's biggest news in 10-question quiz form. Each week, we pick our favourite stories and test whether you – our loyal readers – have been paying attention or not…"
-  },
-  {
    "source": "musictech",
    "titre": "With an 800 nanometer diamond-coated diaphragm, FiiO’s new FT15 headphones are for the serious audiophile",
    "lien": "https://musictech.com/news/gear/fiio-ft-15-headphones/",
@@ -282,14 +314,6 @@
    "resume": "Roland is staking its brick-and-mortar claim in the US with its first official flagship store. The shop will open next month in New York City, offering close up experiences with new products, education, and other…"
   },
   {
-   "source": "gearnews",
-   "titre": "Unnecessary Studio Gear That Is Actually Worth Having",
-   "lien": "https://www.gearnews.com/unnecessary-studio-gear/",
-   "date": "2026-09-17T18:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/flock-audio-ft.jpg",
-   "resume": "We investigate equipment that is often referred to as unnecessary studio gear to find out if certain audio tools remain useful in any recording studio. In this Article: Unnecessary Studio Gear: Cranborne Audio 500R8…"
-  },
-  {
    "source": "cdm",
    "titre": "x0xb0x, the synth that launched an open-source hardware boom, is reborn",
    "lien": "https://cdm.link/x0xb0x-begets-digix0x/",
@@ -352,30 +376,6 @@
    "date": "2026-09-17T13:47:58.000Z",
    "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/Attack-Mag-Long-Read-NBFG-1-.png?fit=1130%2C386&ssl=1",
    "resume": "NOT BAD FOR A GIRL founder Martha Bolton on why balanced lineups start years before the poster, and why \"fewer women DJs\" doesn't hold up. Debates about representation in electronic music tend to get heated fast…"
-  },
-  {
-   "source": "bpb",
-   "titre": "Smart Audio Plugins launches Timbral Box parallel harmonic processor",
-   "lien": "https://bedroomproducersblog.com/2026/09/17/smart-audio-timbral-box/",
-   "date": "2026-09-17T11:26:26.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/timbral-box.jpg",
-   "resume": "Smart Audio Plugins has released Timbral Box, a parallel harmonic processor for mixing and mastering, available for an introductory price of €48.30/$56 through September 30th, 2026. Timbral Box is a parallel harmonic…"
-  },
-  {
-   "source": "bpb",
-   "titre": "Gearmulator MD/MM is a FREE Elektron Machinedrum and Monomachine emulator",
-   "lien": "https://bedroomproducersblog.com/2026/09/17/elektron-gearmulator/",
-   "date": "2026-09-17T11:00:28.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/elektron.jpg",
-   "resume": "Developer Joe Landers has released Gearmulator MD/MM, a free and open-source emulation of the Elektron Machinedrum and Monomachine for macOS and Windows. Landers is also the dev behind Profligacy, the hardware-level…"
-  },
-  {
-   "source": "bpb",
-   "titre": "Analog Obsession releases FREE ToneShaper passive tone control plugin",
-   "lien": "https://bedroomproducersblog.com/2026/09/17/analog-obsession-toneshaper/",
-   "date": "2026-09-17T10:07:09.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/toneshaper.jpg",
-   "resume": "Analog Obsession has released ToneShaper, a free passive tone and body control plugin for macOS and Windows. In this day and age of vibe-coded plugins, even a relatively simple freebie from a tried-and-tested indie…"
   },
   {
    "source": "tsugi",
@@ -1114,102 +1114,6 @@
    "resume": "Scottish DJ-producer Jack Revill, better known as Jackmaster, has died of an accidental head injury, aged 38. Revill’s family confirmed the news on Instagram yesterday. “It’s with profound sorrow that we confirm the…"
   },
   {
-   "source": "djmag",
-   "titre": "Listen to Ahadadream’s debut album, ‘P ★ K I’",
-   "lien": "https://djmag.com/news/listen-ahadadreams-debut-album-p-k-i",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/ahadadream-credit-radhika-muthanna.jpg.webp?itok=aoawnQvr1214322298",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“This is a word which I grew up in Pakistan knowing to be nothing but positive, but was…"
-  },
-  {
-   "source": "djmag",
-   "titre": "AI ‘artists’ set to perform ‘live’ at first AI Music Awards in Los Angeles",
-   "lien": "https://djmag.com/news/ai-artists-set-perform-live-first-ai-music-awards-los-angeles",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Screenshot%202026-09-18%20at%2018.51.15.png.webp?itok=99CZIufr425962899",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The creators behind each AI “artist” will be “directing the stage”, according to…"
-  },
-  {
-   "source": "djmag",
-   "titre": "RÜFÜS DU SOL’s 2026 world tour becomes highest-grossing in electronic music history",
-   "lien": "https://djmag.com/news/rufus-du-sols-2026-world-tour-becomes-highest-grossing-electronic-music-history",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/453629925_1041871200628919_4031931994403780005_n.jpg.webp?itok=Ezg4g2Pt1002871293",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The Australian trio’s latest run has generated $158 million and sold 1.7 million tickets…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Sway, influential UK rapper, dies aged 44",
-   "lien": "https://djmag.com/news/sway-influential-uk-rapper-dies-aged-44",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/497200374_18500184367052822_4345005262695473599_n.jpg.webp?itok=EffSD6X21777055614",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>He was the first unsigned artist to win Best Hip-Hop Act at the MOBO Awards</p> </div>"
-  },
-  {
-   "source": "djmag",
-   "titre": "Darude remixes ‘Sandstorm’ for the first time: Listen",
-   "lien": "https://djmag.com/news/darude-remixes-sandstorm-first-time-listen",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Darude.jpeg.webp?itok=0-mSqIbb30650441",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“It’s the track that started everything for me and my career, and after 25 years, it felt…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Ahadadream - P ★ K I",
-   "lien": "https://djmag.com/reviews/ahadadream-p-k-i",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_25_500x500_sq/public/music_reviews/2026-09/p-star-k-i.jpg.webp?itok=eVQQyuI2",
-   "resume": "<header class=\"_article--header d8-header-paragraph music-review\"><div class=\"row\"> <div class=\"col d-flex head-container pb-0\" style=\" \"> <div class=\"pane-credits-wrapper\"> <div class=\"pane-author-info top\"> <div…"
-  },
-  {
-   "source": "djmag",
-   "titre": "K-Lone - Have a few days off",
-   "lien": "https://djmag.com/reviews/k-lone-have-few-days",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_25_500x500_sq/public/music_reviews/2026-09/Have%20a%20few%20days%20off%20.jpg.webp?itok=aKDWLT5N",
-   "resume": "<header class=\"_article--header d8-header-paragraph music-review\"><div class=\"row\"> <div class=\"col d-flex head-container pb-0\" style=\" \"> <div class=\"pane-credits-wrapper\"> <div class=\"pane-author-info top\"> <div…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Actress - Radical Frame",
-   "lien": "https://djmag.com/reviews/actress-radical-frame",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_25_500x500_sq/public/music_reviews/2026-09/Radical%20Frame%20.jpg.webp?itok=xz8is2B5",
-   "resume": "<header class=\"_article--header d8-header-paragraph music-review\"><div class=\"row\"> <div class=\"col d-flex head-container pb-0\" style=\" \"> <div class=\"pane-credits-wrapper\"> <div class=\"pane-author-info top\"> <div…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Stones Taro - Physics",
-   "lien": "https://djmag.com/reviews/stones-taro-physics",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_25_500x500_sq/public/music_reviews/2026-09/%20Physics%20%20.jpg.webp?itok=xqW-qD1s",
-   "resume": "<header class=\"_article--header d8-header-paragraph music-review\"><div class=\"row\"> <div class=\"col d-flex head-container pb-0\" style=\" \"> <div class=\"pane-credits-wrapper\"> <div class=\"pane-author-info top\"> <div…"
-  },
-  {
-   "source": "djmag",
-   "titre": "DJ breaks Guinness World Record for most vinyl shop visits in 24 hours",
-   "lien": "https://djmag.com/news/dj-breaks-guinness-world-record-most-vinyl-shop-visits-24-hours",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/1789484974.png.webp?itok=Z4vSHKWi1828724737",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Paul Richards visited 28 stores in total during his record-breaking feat</p> </div>"
-  },
-  {
-   "source": "djmag",
-   "titre": "DJ Mag launches Top 100 DJs 2026 fundraiser in aid of Bridges for Music",
-   "lien": "https://djmag.com/news/dj-mag-launches-top-100-djs-2026-fundraiser-aid-of-bridges-music",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/BFM%20Graduation%202024%20-%20263.jpg.webp?itok=a7AVlYAw2145544235",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Artists in this year’s poll are being invited to sponsor students at the Bridges for Music…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Noisia announce reunion and first live show in four years",
-   "lien": "https://djmag.com/news/noisia-announce-reunion-and-first-live-show-four-years",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/A_Noisia%202026_pictureby_Farhad%20Khodadadzade.jpg.webp?itok=lnE2gv6S1764824264",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“Combining our forces again feels incredibly exciting now,” the trio said in a statement…"
-  },
-  {
    "source": "mixmag",
    "titre": "Shoreditch club night to mark 90 years since Battle of Cable Street next month",
    "lien": "https://mixmag.net/read/sports-banger-king-alpha-sound-system-host-event-commemorating-90-years-battle-of-cable-street-news",
@@ -1267,6 +1171,14 @@
   },
   {
    "source": "mixmag",
+   "titre": "The Mix 123: Optimo",
+   "lien": "https://mixmag.net/feature/the-mix-123-optimo-espacio-glasgow-dj-interview",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/THE_MIX_THE_MIX_Optimo_2.jpg?fit=cover&format=baseline-jpeg&height=630&width=1200&s=djjq1WjCKykGMTQWbueoUmly-pqWIrrlhKsi_DvzriY",
+   "resume": "Nearly three decades on from the first party at Sub Club, there's still nothing quite like Optimo set. JG Wilkes offers up a mix inspired by \"melting down\" moments in the club, and speaks to Megan Townsend about…"
+  },
+  {
+   "source": "mixmag",
    "titre": "Youth Music reaches £1 million milestone in young artist investments",
    "lien": "https://mixmag.net/read/youth-music-invested-1-million-directly-aspiring-uk-artists-news",
    "date": null,
@@ -1280,6 +1192,94 @@
    "date": null,
    "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/LabLondon_Whosplaying_08.jpg?fit=cover&format=baseline-jpeg&height=630&width=1200&s=vb0tq_9JKMmSN-QQRqbdPlUED77JiG2qnFYstG67zQI",
    "resume": "See who's playing The Mixmag Lab, our world famous party - and come through"
+  },
+  {
+   "source": "mixmag",
+   "titre": "EU \"concerned\" over LGBTQIA+ nightlife raids in Turkey",
+   "lien": "https://mixmag.net/read/eu-concerned-over-lgbtqia-nightlife-raids-in-turkey-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/Turkey.jpg?fit=cover&width=660&s=4F8ve0ECc_PPKrrZwhOrukEDe4ugEEAM4B55cr6MZgA",
+   "resume": "Turkish police raided dozens of homes and venues connected with the LGBTQIA+ community on Sunday"
+  },
+  {
+   "source": "djmag",
+   "titre": "Listen to Ahadadream’s debut album, ‘P ★ K I’",
+   "lien": "https://djmag.com/news/listen-ahadadreams-debut-album-p-k-i",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/ahadadream-credit-radhika-muthanna.jpg.webp?itok=aoawnQvr1214322298",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“This is a word which I grew up in Pakistan knowing to be nothing but positive, but was…"
+  },
+  {
+   "source": "djmag",
+   "titre": "AI ‘artists’ set to perform ‘live’ at first AI Music Awards in Los Angeles",
+   "lien": "https://djmag.com/news/ai-artists-set-perform-live-first-ai-music-awards-los-angeles",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Screenshot%202026-09-18%20at%2018.51.15.png.webp?itok=99CZIufr1916424553",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The creators behind each AI “artist” will be “directing the stage”, according to…"
+  },
+  {
+   "source": "djmag",
+   "titre": "RÜFÜS DU SOL’s 2026 world tour becomes highest-grossing in electronic music history",
+   "lien": "https://djmag.com/news/rufus-du-sols-2026-world-tour-becomes-highest-grossing-electronic-music-history",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/453629925_1041871200628919_4031931994403780005_n.jpg.webp?itok=Ezg4g2Pt1002871293",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The Australian trio’s latest run has generated $158 million and sold 1.7 million tickets…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Sway, influential UK rapper, dies aged 44",
+   "lien": "https://djmag.com/news/sway-influential-uk-rapper-dies-aged-44",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/497200374_18500184367052822_4345005262695473599_n.jpg.webp?itok=EffSD6X2855039591",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>He was the first unsigned artist to win Best Hip-Hop Act at the MOBO Awards</p> </div>"
+  },
+  {
+   "source": "djmag",
+   "titre": "Darude remixes ‘Sandstorm’ for the first time: Listen",
+   "lien": "https://djmag.com/news/darude-remixes-sandstorm-first-time-listen",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Darude.jpeg.webp?itok=0-mSqIbb30650441",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“It’s the track that started everything for me and my career, and after 25 years, it felt…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Ahadadream - P ★ K I",
+   "lien": "https://djmag.com/reviews/ahadadream-p-k-i",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_25_500x500_sq/public/music_reviews/2026-09/p-star-k-i.jpg.webp?itok=eVQQyuI2",
+   "resume": "<header class=\"_article--header d8-header-paragraph music-review\"><div class=\"row\"> <div class=\"col d-flex head-container pb-0\" style=\" \"> <div class=\"pane-credits-wrapper\"> <div class=\"pane-author-info top\"> <div…"
+  },
+  {
+   "source": "djmag",
+   "titre": "K-Lone - Have a few days off",
+   "lien": "https://djmag.com/reviews/k-lone-have-few-days",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_25_500x500_sq/public/music_reviews/2026-09/Have%20a%20few%20days%20off%20.jpg.webp?itok=aKDWLT5N",
+   "resume": "<header class=\"_article--header d8-header-paragraph music-review\"><div class=\"row\"> <div class=\"col d-flex head-container pb-0\" style=\" \"> <div class=\"pane-credits-wrapper\"> <div class=\"pane-author-info top\"> <div…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Actress - Radical Frame",
+   "lien": "https://djmag.com/reviews/actress-radical-frame",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_25_500x500_sq/public/music_reviews/2026-09/Radical%20Frame%20.jpg.webp?itok=xz8is2B5",
+   "resume": "<header class=\"_article--header d8-header-paragraph music-review\"><div class=\"row\"> <div class=\"col d-flex head-container pb-0\" style=\" \"> <div class=\"pane-credits-wrapper\"> <div class=\"pane-author-info top\"> <div…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Stones Taro - Physics",
+   "lien": "https://djmag.com/reviews/stones-taro-physics",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_25_500x500_sq/public/music_reviews/2026-09/%20Physics%20%20.jpg.webp?itok=xqW-qD1s",
+   "resume": "<header class=\"_article--header d8-header-paragraph music-review\"><div class=\"row\"> <div class=\"col d-flex head-container pb-0\" style=\" \"> <div class=\"pane-credits-wrapper\"> <div class=\"pane-author-info top\"> <div…"
+  },
+  {
+   "source": "djmag",
+   "titre": "DJ breaks Guinness World Record for most vinyl shop visits in 24 hours",
+   "lien": "https://djmag.com/news/dj-breaks-guinness-world-record-most-vinyl-shop-visits-24-hours",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/1789484974.png.webp?itok=Z4vSHKWi1828724737",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Paul Richards visited 28 stores in total during his record-breaking feat</p> </div>"
   }
  ],
  "pannes": []
