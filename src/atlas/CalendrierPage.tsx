@@ -40,6 +40,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
+import { HeroAccueil, type AfficheHero } from './HeroAccueil.tsx';
 import { ChoixStyles, EST_FAMILLE, LABEL_DE_STYLE } from './ChoixStyles.tsx';
 import { FAMILIES, STRUCTURES } from './structures.ts';
 import { resoudreVille, type Ville } from '../lib/ville-active.ts';
@@ -674,6 +675,22 @@ export function CalendrierPage() {
     return [...m.entries()];
   }, [filtrees]);
 
+  /* LES AFFICHES DE LA BANNIERE : les cinq prochaines soirees qui en ont
+     une, dans l'ordre des dates. Aucune requete de plus, c'est la liste deja
+     chargee. Voir HeroAccueil.tsx. */
+  const affichesHero = useMemo<readonly AfficheHero[]>(
+    () =>
+      (soirees ?? [])
+        .filter((s): s is Soiree & { affiche: string } => Boolean(s.affiche))
+        .slice(0, 5)
+        .map((s) => ({ id: s.id, titre: s.titre, affiche: s.affiche })),
+    [soirees]
+  );
+
+  /* LA BANNIERE NE S'AFFICHE PAS PENDANT UNE RECHERCHE : on cherche une
+     salle, on ne decouvre plus le site. */
+  const avecHero = ville != null && !enRecherche;
+
   const fuseau = ville?.timezone ?? 'America/Toronto';
 
   /* LE SIGLE DE FUSEAU NE S'AFFICHE QUE S'IL APPREND QUELQUE CHOSE : quand la
@@ -706,10 +723,43 @@ export function CalendrierPage() {
           Aller au contenu
         </a>
 
-        <header className="credits-head">
-          <h1>{t.leCalendrier}</h1>
-          <p className="credits-lede">{t.ledeCalendrier}</p>
-        </header>
+        {/* ═══ LA BANNIERE D'ACCUEIL ═══ La racine du site mene ici depuis le
+            7 septembre 2026 : c'est donc cette page qui porte l'accueil, et
+            le calendrier commence juste dessous. Voir HeroAccueil.tsx. */}
+        {avecHero && (
+          <HeroAccueil
+            ville={ville.name}
+            nCeSoir={nombreDe([cleDuJour(new Date())])}
+            nWeekend={nombreDe(clesWeekend)}
+            affiches={affichesHero}
+            onCeSoir={() => {
+              setVue('aujourdhui');
+              setDateChoisie(null);
+            }}
+            onWeekend={() => {
+              setVue('weekend');
+              setDateChoisie(null);
+            }}
+            onVille={() => document.querySelector<HTMLSelectElement>('.cal-ville select')?.focus()}
+            onAffiche={(id) => setDepliee(id)}
+          />
+        )}
+
+        {/* LE CHAPEAU NE SE REPETE PAS SOUS LA BANNIERE. Quand elle est la,
+            elle porte le titre de la page et la phrase qui dit ce qu'est
+            SONAA ; redire les deux vingt pixels plus bas repousse la liste
+            sous la ligne de flottaison pour rien. Il reste alors un simple
+            intertitre, qui annonce la liste. */}
+        {avecHero ? (
+          <header className="credits-head cal-tete-courte">
+            <h2>{t.leCalendrier}</h2>
+          </header>
+        ) : (
+          <header className="credits-head">
+            <h1>{t.leCalendrier}</h1>
+            <p className="credits-lede">{t.ledeCalendrier}</p>
+          </header>
+        )}
 
         <div id="calendrier-contenu" className="credits-body">
           <div className="cal-barre">

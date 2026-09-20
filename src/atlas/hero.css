@@ -1,0 +1,208 @@
+/* LA BANNIERE D'ACCUEIL. Voir HeroAccueil.tsx.
+
+   ═══ LA COULEUR EST CELLE DE L'ATLAS, PAS CELLE DE BANDSINTOWN ═══
+
+   Leur turquoise est leur marque. Le reprendre aurait donné un site qui
+   ressemble à une copie, sur un fond sombre qui n'est pas le leur. Le lavis
+   est donc construit avec les teintes de familles du corpus, techno 225 et
+   ambient 185, les deux qui dominent le calendrier de Montréal : c'est la
+   même sensation de bleu vers le cyan, avec les valeurs du site. Elles sont
+   lues dans les jetons, jamais réécrites ici.
+
+   ═══ CE QUI EST GROS EST GROS POUR UNE RAISON ═══
+
+   Le titre monte à 4,5 rem parce qu'il porte la promesse entière de la page
+   et qu'il n'y a rien d'autre à lire avant. Les affiches sont inclinées de
+   quelques degrés seulement : au-delà, on ne lit plus ce qui est écrit
+   dessus, et ce sont de vraies affiches de vraies soirées. */
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 2.5rem;
+  align-items: center;
+  box-sizing: border-box;
+  margin: 0 0 2.4rem;
+  padding: 3.2rem max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2)) 3.2rem;
+  /* PLEINE LARGEUR, CONTENU DANS LA COLONNE : la même formule que l'en-tête
+     du site, pour que le lavis aille d'un bord à l'autre pendant que le texte
+     reste aligné sur le reste de la page. */
+  margin-left: calc(-1 * max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2)));
+  margin-right: calc(-1 * max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2)));
+  background:
+    radial-gradient(
+      130% 150% at 8% 0%,
+      oklch(var(--lt-50) 0.13 var(--family-techno-hue)) 0%,
+      oklch(var(--lt-34) 0.1 var(--family-techno-hue)) 34%,
+      transparent 70%
+    ),
+    radial-gradient(
+      110% 130% at 96% 96%,
+      oklch(var(--lt-46) 0.12 var(--family-ambient-hue)) 0%,
+      transparent 62%
+    ),
+    var(--surface-margin);
+  border-bottom: var(--rule-width) solid var(--rule-hairline);
+}
+
+.hero-mots {
+  min-width: 0;
+}
+
+.hero-titre {
+  margin: 0 0 1rem;
+  font-size: clamp(2.4rem, 5.2vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  color: var(--ink-primary);
+}
+
+.hero-phrase {
+  margin: 0 0 1.8rem;
+  max-width: 54ch;
+  font-size: 1.02rem;
+  line-height: 1.55;
+  color: var(--ink-secondary);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  align-items: center;
+}
+
+.hero-bouton {
+  padding: 0.75rem 1.4rem;
+  border: var(--rule-width) solid var(--ink-primary);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-primary);
+  font-family: var(--font-ui);
+  font-size: 0.98rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.hero-bouton:hover {
+  background: var(--surface-raised);
+}
+
+.hero-bouton-plein {
+  background: var(--ink-primary);
+  color: var(--surface-plate);
+}
+.hero-bouton-plein:hover {
+  background: var(--ink-primary);
+  opacity: 0.88;
+}
+
+/* La ville se lit comme un réglage, pas comme une destination : le nom en
+   clair, ce qu'on peut en faire en petit dessous. */
+.hero-ville {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  padding: 0.5rem 1rem;
+  border: 0;
+  background: none;
+  font-family: var(--font-ui);
+  cursor: pointer;
+  text-align: left;
+}
+.hero-ville-nom {
+  color: var(--ink-primary);
+  font-size: 0.98rem;
+  font-weight: 600;
+}
+.hero-ville-mot {
+  color: var(--ink-secondary);
+  font-size: 0.74rem;
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+}
+.hero-ville:hover .hero-ville-mot {
+  color: var(--ink-primary);
+}
+
+/* ═══ LE COLLAGE ═══ Cinq affiches qui se recouvrent, comme une pile posée
+   sur une table. La grille les fait toutes tomber dans la même case, et le
+   décalage vient de la translation de chacune. */
+/* DEUX RANGEES, TROIS PUIS DEUX. Une grille de trois colonnes ou deux
+   affiches s'etalaient laissait un trou en bas a droite, visible a l'ecran.
+   Trois en haut, deux plus larges en bas, chacune a sa place. */
+.hero-collage {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.7rem;
+  align-items: start;
+  min-width: 0;
+}
+.hero-affiche:nth-child(-n + 3) {
+  grid-column: span 2;
+}
+.hero-affiche:nth-child(4),
+.hero-affiche:nth-child(5) {
+  grid-column: span 3;
+}
+
+.hero-affiche {
+  padding: 0;
+  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 10px;
+  background: var(--surface-margin);
+  overflow: hidden;
+  cursor: pointer;
+  transform: rotate(var(--tour));
+  transition: transform 140ms ease;
+}
+.hero-affiche:hover,
+.hero-affiche:focus-visible {
+  transform: rotate(0deg) scale(1.03);
+}
+.hero-affiche img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+/* Les deux du bas sont couchées : trois portraits puis deux paysages font
+   une pile, cinq portraits font un catalogue. */
+.hero-affiche:nth-child(4) img,
+.hero-affiche:nth-child(5) img {
+  aspect-ratio: 16 / 10;
+}
+
+@media (max-width: 899px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 1.8rem;
+    padding-top: 2.2rem;
+    padding-bottom: 2.2rem;
+  }
+  /* TROIS AFFICHES SUR TELEPHONE, ET SANS INCLINAISON. Cinq vignettes
+     penchées sur 375 px ne se lisent plus, elles font du bruit. */
+  .hero-collage {
+    gap: 0.5rem;
+  }
+  .hero-affiche {
+    transform: none;
+  }
+  .hero-affiche:nth-child(-n + 3) {
+    grid-column: span 2;
+  }
+  .hero-affiche:nth-child(n + 4) {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-affiche {
+    transition: none;
+  }
+}

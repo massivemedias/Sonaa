@@ -627,6 +627,13 @@ interface Dictionnaire {
   /* ═══ LA COUCHE MARCHANDE ═══ Ouverte le 17 septembre 2026, phase 0 : les
      mots existent, la vente n'existe pas encore. Voir docs/adr/ADR-084. */
   readonly lesTracks: string;
+  /* ═══ L'ACCUEIL ═══ La banniere en tete du calendrier. Voir HeroAccueil. */
+  readonly heroTitre: string;
+  readonly heroPhrase: string;
+  readonly heroCeSoir: (n: number) => string;
+  readonly heroWeekend: (n: number) => string;
+  readonly heroVilleAutre: string;
+  readonly heroAffiches: string;
   /* ═══ RECONNAITRE ═══ La page qui ecoute ce qui passe dans la piece.
      Voir src/reconnaitre/ et RECONNAITRE.md. */
   readonly reconnaitre: string;
@@ -1258,6 +1265,14 @@ const FR: Dictionnaire = {
   lesArtistes: 'Artistes',
   lesMixtapes: 'Mixtapes',
   lesTracks: 'Tracks',
+  heroTitre: 'Ne manque plus une soirée',
+  heroPhrase:
+    'Toutes les soirées électroniques de votre ville, relevées chaque jour chez Resident Advisor, ' +
+    'Ticketmaster, Shotgun, Eventbrite et Lepointdevente, et ajoutées à la main par les organisateurs.',
+  heroCeSoir: (n) => (n === 0 ? 'Rien ce soir' : n === 1 ? '1 soirée ce soir' : `${n} soirées ce soir`),
+  heroWeekend: (n) => (n === 0 ? 'Rien en fin de semaine' : n === 1 ? '1 en fin de semaine' : `${n} en fin de semaine`),
+  heroVilleAutre: 'Changer de ville',
+  heroAffiches: 'Les prochaines soirées',
   reconnaitre: 'Reconnaître',
   reconnaitreChapeau:
     'Faites écouter à SONAA ce qui passe à la radio, à la télé ou dans la pièce. ' +
@@ -1900,6 +1915,14 @@ const EN: Dictionnaire = {
   lesArtistes: 'Artists',
   lesMixtapes: 'Mixtapes',
   lesTracks: 'Tracks',
+  heroTitre: 'Never miss a night',
+  heroPhrase:
+    'Every electronic night in your city, gathered daily from Resident Advisor, Ticketmaster, ' +
+    'Shotgun, Eventbrite and Lepointdevente, plus the ones promoters add by hand.',
+  heroCeSoir: (n) => (n === 0 ? 'Nothing tonight' : n === 1 ? '1 night tonight' : `${n} nights tonight`),
+  heroWeekend: (n) => (n === 0 ? 'Nothing this weekend' : n === 1 ? '1 this weekend' : `${n} this weekend`),
+  heroVilleAutre: 'Change city',
+  heroAffiches: 'The nights coming up',
   reconnaitre: 'Recognise',
   reconnaitreChapeau:
     'Let SONAA listen to what is playing on the radio, the TV or in the room. ' +

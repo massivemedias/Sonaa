@@ -855,3 +855,10 @@
 .cal-quand select {
   max-width: 13rem;
 }
+
+/* Sous la banniere, le titre de la liste n'est plus le titre de la page :
+   il annonce ce qui suit, et rien de plus. Voir HeroAccueil.tsx. */
+.cal-tete-courte h2 {
+  margin: 0;
+  font-size: 1.35rem;
+}
