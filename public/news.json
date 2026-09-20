@@ -1,5 +1,5 @@
 {
- "fait": "2026-09-20T18:51:00.158Z",
+ "fait": "2026-09-20T22:29:17.922Z",
  "articles": [
   {
    "source": "gearnews",
@@ -128,6 +128,14 @@
    "date": "2026-09-18T16:09:02.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/eudt5BsuCSae8kE3BZUQC7-1920-80.jpg",
    "resume": "Talking Heads are – sort of - reuniting again to launch a new channel on SiriusXM. The new channel called, well, Talking Heads Radio, will run from October 1 to October 22 on in-car satellite radios, and until October…"
+  },
+  {
+   "source": "cdm",
+   "titre": "Adam Wiltzie talks about his posthumous collaboration with Jóhann Jóhannsson",
+   "lien": "https://cdm.link/adam-wiltzie-johann-johannsson-friendship/",
+   "date": "2026-09-18T16:00:23.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/tape-work-COPY_7_ADAM-WILTZIE_FRIENDSHIP-SURVIVAL-GUIDE_MIXING.jpg",
+   "resume": "On Friendship Survival Guide, constructed from an archive of loops and sound exchanges, it's as if Jóhann Jóhannsson is alive again. Adam Wiltzie, co-founder of Stars of the Lid and part of A Winged Victory for the…"
   },
   {
    "source": "gearnews",
@@ -306,6 +314,14 @@
    "resume": "Roland is staking its brick-and-mortar claim in the US with its first official flagship store. The shop will open next month in New York City, offering close up experiences with new products, education, and other…"
   },
   {
+   "source": "cdm",
+   "titre": "x0xb0x, the synth that launched an open-source hardware boom, is reborn",
+   "lien": "https://cdm.link/x0xb0x-begets-digix0x/",
+   "date": "2026-09-17T17:06:43.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/digix0x.jpg",
+   "resume": "Based on the legendary TB-303, the x0xb0x was an underground legend all its own, one that helped popularize the open-source hardware movement. And now it's back, in a digital emulation of the original hardware, from…"
+  },
+  {
    "source": "musictech",
    "titre": "The best new music plugins this week, free and paid",
    "lien": "https://musictech.com/news/gear/new-plugins-this-week/",
@@ -410,6 +426,14 @@
    "resume": "CRSSD Festival's afterparty series returns to San Diego from 25 to 27 September with sets across multiple venues. CRSSD Festival has confirmed the return of CRSSD After Dark, its official afterparty series, for three…"
   },
   {
+   "source": "cdm",
+   "titre": "MOTU DP12 arrives, adding Dolby Atmos and more to a DAW classic",
+   "lien": "https://cdm.link/motu-dp12-arrives-adding-dolby-atmos-and-more-to-a-daw-classic/",
+   "date": "2026-09-16T17:32:46.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/atmos-panner.jpg",
+   "resume": "MOTU's DP doesn't get a lot of hype -- it just quietly remains a favorite for everything from scoring to post-production. DP12 has deep Dolby Atmos support, an Arrangement Strip, and lots of other welcome additions to…"
+  },
+  {
    "source": "tsugi",
    "titre": "Lambrini Girls annonce un nouvel album accompagné d’un single toujours aussi politique",
    "lien": "https://www.tsugi.fr/lambrini-girls-annonce-un-nouvel-album-accompagne-dun-single-toujours-aussi-politique/",
@@ -440,6 +464,14 @@
    "date": "2026-09-16T01:47:14.000Z",
    "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/harmonykeen.jpg",
    "resume": "Give it a monophonic MIDI melody and it writes harmony parts around it, working out the voice leading.…"
+  },
+  {
+   "source": "cdm",
+   "titre": "Elgato’s Stream Deck as a DAW companion; new Reaper controller",
+   "lien": "https://cdm.link/elgato-stream-deck-reaper/",
+   "date": "2026-09-15T20:48:41.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/stream-deck-keys.jpg",
+   "resume": "Elgato's Stream Deck, a push-button desktop controller with interactive color keys and software shortcuts, has quietly become an ideal DAW accessory. Take, for example, this thoughtfully designed addition from Granite…"
   },
   {
    "source": "tsugi",
@@ -504,6 +536,14 @@
    "date": "2026-09-14T01:46:53.000Z",
    "image": "https://www.synthtopia.com/wp-content/uploads/2018/02/yamaha-dx7-e1789610658509.jpg",
    "resume": "DX7 AI Studio promises to make creating DX7 patches fun.…"
+  },
+  {
+   "source": "cdm",
+   "titre": "ALM records everything to stems, and now mixes, too, in compact modules",
+   "lien": "https://cdm.link/alm-multichannel-record-mix/",
+   "date": "2026-09-13T17:57:16.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/With-Mixer-hero-6-copy.jpg",
+   "resume": "It's Stem Ripper, and its expansion module accomplice, \"With Mixer.\" Patch it up quick, record individual stems, and perform stereo mixing with aux sends, panning, and even external USB MIDI control. And fit it all in…"
   },
   {
    "source": "synthtopia",
@@ -586,6 +626,14 @@
    "resume": "The Grenoble-based developer's latest release recreates the architecture of a landmark early-1980s polyphonic analogue synthesiser, adding modern features including MPE support and 16-voice polyphony. XILS-lab has…"
   },
   {
+   "source": "cdm",
+   "titre": "Kevin Saunderson teaches a free 909 workshop, online and in Detroit",
+   "lien": "https://cdm.link/kevin-saunderson-roland-and-uma/",
+   "date": "2026-09-10T15:57:55.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/kevin.png",
+   "resume": "The best 909 Day reveal yesterday was this: on Saturday, Kevin Saunderson, techno originator and one of the Belleville Three, teaches a free workshop on the 909 with Roland (with Dustin Good). You can tune in online…"
+  },
+  {
    "source": "ableton",
    "titre": "Machinedrum: Planting Seeds",
    "lien": "https://www.ableton.com/en/blog/machinedrum-planting-seeds/",
@@ -602,12 +650,28 @@
    "resume": "Serato has opened the public beta for Serato DJ 5.0, and the headline feature is a completely rebuilt beatgrid engine called Lucid Beatgrids. It automatically detects tempo changes and downbeats across both fixed and…"
   },
   {
+   "source": "cdm",
+   "titre": "Dirtywave M8 has an official iOS app — a great addition to mobile tracker apps",
+   "lien": "https://cdm.link/dirtywave-m8-ios/",
+   "date": "2026-09-09T17:23:55.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/m8-tracker-hero.jpeg",
+   "resume": "Dirtywave M8 is already superb as hardware, whether you run their pre-made device or build your own \"headless\" rig. Now, it has its own official iOS app for iPhone and iPad, too, and it looks hot."
+  },
+  {
    "source": "ableton",
    "titre": "Made in Ableton Live: KVNDRA",
    "lien": "https://www.ableton.com/en/blog/made-in-ableton-live-kvndra/",
    "date": "2026-09-09T10:13:28.000Z",
    "image": "https://beta-ableton.imgix.net/media/cswjejpc/598_mial-kvndra_1200x630.jpg",
    "resume": ""
+  },
+  {
+   "source": "cdm",
+   "titre": "Eminently controllable, accessible by design, Sting is now a plug-in",
+   "lien": "https://cdm.link/sting-the-plugin/",
+   "date": "2026-09-08T18:57:31.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/CleanShot-2026-09-08-at-20.29.51.png",
+   "resume": "Now this is how to do generative melodies. Add expression. Get control with your hands. Make melodies accessible -- including if you're blind and visually impaired. Sting, the beloved maker of acid melodies and other…"
   },
   {
    "source": "attack",
@@ -618,12 +682,28 @@
    "resume": "The new four-channel standalone system introduces pressure-sensitive MPCe pads, onboard Stems rendering and built-in DMX output, aimed at mobile, club and festival DJs. Denon DJ has announced PRIME 4 G2, a four-channel…"
   },
   {
+   "source": "cdm",
+   "titre": "Scales among updates to the free Ardour DAW — with tuning on the way",
+   "lien": "https://cdm.link/ardour-9-8-scales-and-tuning/",
+   "date": "2026-09-07T11:39:51.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/ardour-9-8-scale-editor.jpeg",
+   "resume": "Ardour 9.8 continues the rapid, detailed development of this free and open-source DAW, with improved session recovery and clip recording, expanded support for controllers and hardware, and an arpeggiator MIDI tool. The…"
+  },
+  {
    "source": "attack",
    "titre": "Ten of the Weirdest Drum Machines in 2026",
    "lien": "https://www.attackmagazine.com/reviews/the-best/ten-of-the-weirdest-drum-machines-in-2026/",
    "date": "2026-09-06T19:50:56.000Z",
    "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/Attack-Mag-The-Best-Feature-Images-Weird-Drum-Machines.png?fit=1130%2C548&ssl=1",
    "resume": "Step into another world with the weirdest drum machines on the market in 2026. We’re talking an all-passive rhythm box, one that blurs the line between analog and sampling, one for kids, and more craziness. We love our…"
+  },
+  {
+   "source": "cdm",
+   "titre": "Throng, a 3D BlueSky interface, imagines social media as a mob",
+   "lien": "https://cdm.link/create-digital-mobs/",
+   "date": "2026-09-04T22:09:27.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/throng.jpg",
+   "resume": "You're just relaxing by a peaceful campfire. You hear voices in the distance. Then, like a really chatty zombie invasion... they come. And keep coming. It's a 3D user interface for BlueSky, but it says something poetic…"
   },
   {
    "source": "ableton",
@@ -1034,94 +1114,6 @@
    "resume": "Scottish DJ-producer Jack Revill, better known as Jackmaster, has died of an accidental head injury, aged 38. Revill’s family confirmed the news on Instagram yesterday. “It’s with profound sorrow that we confirm the…"
   },
   {
-   "source": "mixmag",
-   "titre": "Shoreditch club night to mark 90 years since Battle of Cable Street next month",
-   "lien": "https://mixmag.net/read/sports-banger-king-alpha-sound-system-host-event-commemorating-90-years-battle-of-cable-street-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/Cable-street.jpg?fit=cover&width=660&s=phaN1hAXP6dhsb1jwdh-NL0uh4TJBCc2DAEtbUJzqXY",
-   "resume": "Sports Banger and King Alpha Sound System will curate the show, with funds donated to striking workers represented by Unite the Union"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Daft Punk's Guy-Manuel and Travis Scott team up on GTA VI soundtrack",
-   "lien": "https://mixmag.net/read/daft-punk-guy-manuel-produced-track-forthcoming-gta-vi-soundtrack-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/GTAVI.jpg?fit=cover&width=660&s=nyy273jKS3NVRhbQUCfzj-BRKPGML_N53y13WAPZQL8",
-   "resume": "'RHYNO' is one of six original tracks shared ahead of the release of 'Grand Theft Auto VI: The Album'"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Over €400,000 to be distributed to 32 clubs, radio stations and collectives in Berlin",
-   "lien": "https://mixmag.net/read/over-400000-distributed-32-clubs-radio-stations-collectives-berlin-clubcommission-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/berlin-nighttime.jpg?fit=cover&width=660&s=qJYmhVWHxx-jbljntMjZqukCW037ISRysgAGolYbvdE",
-   "resume": "Annual festival TAG DE CLUBKULTUR, set up by the Clubcommission, will award grants in October"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Beloved British rapper Sway has died, aged 44",
-   "lien": "https://mixmag.net/read/beloved-british-rapper-sway-died-aged-44-mobo-awards-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/sway-rapper.jpg?fit=cover&width=660&s=d5HjeiGY-LQHSJmUX-Z3xaHb90dQlyK4MP1htVkIvHI",
-   "resume": "Sway became the first independent artist to win a MOBO Award in 2005, triumphing over the likes of 50 Cent and The Game"
-  },
-  {
-   "source": "mixmag",
-   "titre": "UK cinemas to host free screenings of 24 Hour Party People for film's 24th anniversary",
-   "lien": "https://mixmag.net/read/uk-cinemas-host-free-screenings-24-hour-party-people-for-films-24th-anniversary-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/Altitude-films.jpg?fit=cover&width=660&s=3S_r5vUI2_ZIWoOmswaCuhaXoytVRYykzctDvA1fsdc",
-   "resume": "The 2002 biopic on The Haçienda and Factory Records co-founder Tony Wilson will be shown at over 100 independent cinemas across the UK next month"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Save The Rave dubbed “Cornwall’s Fyre Festival” following disastrous event",
-   "lien": "https://mixmag.net/read/save-the-rave-dubbed-cornwall-fyre-festival-following-disastrous-event-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/save-the-rave_2026-09-17-153209_zlwp.jpg?fit=cover&width=660&s=7iSQt35N9oSGWQWhaZvG8edWZLQLUxzi75zjvFD7VeU",
-   "resume": "Artists booked to play claim that they were not paid, with attendees describing it as a “shit show”"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Erol Alkan's Trash party teases return after 20 years",
-   "lien": "https://mixmag.net/read/erol-alkan-trash-party-teases-return-after-20-years-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/Trash-01.jpg?fit=cover&width=660&s=yLavPn6iw_4Y2aVy2t5xRBCsRUdENRtw_cuUwb7b5d4",
-   "resume": "The legendary club night, renowned for its mixture of indie and electronic music, held its last event at The End in 2007"
-  },
-  {
-   "source": "mixmag",
-   "titre": "The Mix 123: Optimo",
-   "lien": "https://mixmag.net/feature/the-mix-123-optimo-espacio-glasgow-dj-interview",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/THE_MIX_THE_MIX_Optimo_2.jpg?fit=cover&format=baseline-jpeg&height=630&width=1200&s=djjq1WjCKykGMTQWbueoUmly-pqWIrrlhKsi_DvzriY",
-   "resume": "Nearly three decades on from the first party at Sub Club, there's still nothing quite like Optimo set. JG Wilkes offers up a mix inspired by \"melting down\" moments in the club, and speaks to Megan Townsend about…"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Youth Music reaches £1 million milestone in young artist investments",
-   "lien": "https://mixmag.net/read/youth-music-invested-1-million-directly-aspiring-uk-artists-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/youth-music.jpg?fit=cover&width=660&s=B0Mhp0smdFOwudbbVNhwAlWTuq4T4w64ZoVPynwiPYo",
-   "resume": "According to the charity's data, 54% of its NextGen Fund recipients have already landed careers in music since the programme launched in 2021"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Who's playing The Mixmag Lab?",
-   "lien": "https://mixmag.net/feature/lab-ldn",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/LabLondon_Whosplaying_08.jpg?fit=cover&format=baseline-jpeg&height=630&width=1200&s=vb0tq_9JKMmSN-QQRqbdPlUED77JiG2qnFYstG67zQI",
-   "resume": "See who's playing The Mixmag Lab, our world famous party - and come through"
-  },
-  {
-   "source": "mixmag",
-   "titre": "EU \"concerned\" over LGBTQIA+ nightlife raids in Turkey",
-   "lien": "https://mixmag.net/read/eu-concerned-over-lgbtqia-nightlife-raids-in-turkey-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/Turkey.jpg?fit=cover&width=660&s=4F8ve0ECc_PPKrrZwhOrukEDe4ugEEAM4B55cr6MZgA",
-   "resume": "Turkish police raided dozens of homes and venues connected with the LGBTQIA+ community on Sunday"
-  },
-  {
    "source": "djmag",
    "titre": "Listen to Ahadadream’s debut album, ‘P ★ K I’",
    "lien": "https://djmag.com/news/listen-ahadadreams-debut-album-p-k-i",
@@ -1216,12 +1208,79 @@
    "date": null,
    "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/A_Noisia%202026_pictureby_Farhad%20Khodadadzade.jpg.webp?itok=lnE2gv6S1764824264",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“Combining our forces again feels incredibly exciting now,” the trio said in a statement…"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Festival line-ups you might have missed: Margins United, Edgelands, Beat Hotel",
+   "lien": "https://mixmag.net/read/festival-line-ups-you-might-have-missed-margins-united-edgelands-beat-hotel-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/Beat-Hotel.jpg?fit=cover&width=660&s=S_iCdzkPzDDR6FFhOro5R1gMbhRGuHMQ_sUEaj68MME",
+   "resume": "Rounding up festival news from across the dance and electronic world"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Shoreditch club night to mark 90 years since Battle of Cable Street next month",
+   "lien": "https://mixmag.net/read/sports-banger-king-alpha-sound-system-host-event-commemorating-90-years-battle-of-cable-street-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/Cable-street.jpg?fit=cover&width=660&s=phaN1hAXP6dhsb1jwdh-NL0uh4TJBCc2DAEtbUJzqXY",
+   "resume": "Sports Banger and King Alpha Sound System will curate the show, with funds donated to striking workers represented by Unite the Union"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Daft Punk's Guy-Manuel and Travis Scott team up on GTA VI soundtrack",
+   "lien": "https://mixmag.net/read/daft-punk-guy-manuel-produced-track-forthcoming-gta-vi-soundtrack-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/GTAVI.jpg?fit=cover&width=660&s=nyy273jKS3NVRhbQUCfzj-BRKPGML_N53y13WAPZQL8",
+   "resume": "'RHYNO' is one of six original tracks shared ahead of the release of 'Grand Theft Auto VI: The Album'"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Over €400,000 to be distributed to 32 clubs, radio stations and collectives in Berlin",
+   "lien": "https://mixmag.net/read/over-400000-distributed-32-clubs-radio-stations-collectives-berlin-clubcommission-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/berlin-nighttime.jpg?fit=cover&width=660&s=qJYmhVWHxx-jbljntMjZqukCW037ISRysgAGolYbvdE",
+   "resume": "Annual festival TAG DE CLUBKULTUR, set up by the Clubcommission, will award grants in October"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Beloved British rapper Sway has died, aged 44",
+   "lien": "https://mixmag.net/read/beloved-british-rapper-sway-died-aged-44-mobo-awards-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/sway-rapper.jpg?fit=cover&width=660&s=d5HjeiGY-LQHSJmUX-Z3xaHb90dQlyK4MP1htVkIvHI",
+   "resume": "Sway became the first independent artist to win a MOBO Award in 2005, triumphing over the likes of 50 Cent and The Game"
+  },
+  {
+   "source": "mixmag",
+   "titre": "UK cinemas to host free screenings of 24 Hour Party People for film's 24th anniversary",
+   "lien": "https://mixmag.net/read/uk-cinemas-host-free-screenings-24-hour-party-people-for-films-24th-anniversary-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/Altitude-films.jpg?fit=cover&width=660&s=3S_r5vUI2_ZIWoOmswaCuhaXoytVRYykzctDvA1fsdc",
+   "resume": "The 2002 biopic on The Haçienda and Factory Records co-founder Tony Wilson will be shown at over 100 independent cinemas across the UK next month"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Save The Rave dubbed “Cornwall’s Fyre Festival” following disastrous event",
+   "lien": "https://mixmag.net/read/save-the-rave-dubbed-cornwall-fyre-festival-following-disastrous-event-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/save-the-rave_2026-09-17-153209_zlwp.jpg?fit=cover&width=660&s=7iSQt35N9oSGWQWhaZvG8edWZLQLUxzi75zjvFD7VeU",
+   "resume": "Artists booked to play claim that they were not paid, with attendees describing it as a “shit show”"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Erol Alkan's Trash party teases return after 20 years",
+   "lien": "https://mixmag.net/read/erol-alkan-trash-party-teases-return-after-20-years-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/Trash-01.jpg?fit=cover&width=660&s=yLavPn6iw_4Y2aVy2t5xRBCsRUdENRtw_cuUwb7b5d4",
+   "resume": "The legendary club night, renowned for its mixture of indie and electronic music, held its last event at The End in 2007"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Youth Music reaches £1 million milestone in young artist investments",
+   "lien": "https://mixmag.net/read/youth-music-invested-1-million-directly-aspiring-uk-artists-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/youth-music.jpg?fit=cover&width=660&s=B0Mhp0smdFOwudbbVNhwAlWTuq4T4w64ZoVPynwiPYo",
+   "resume": "According to the charity's data, 54% of its NextGen Fund recipients have already landed careers in music since the programme launched in 2021"
   }
  ],
- "pannes": [
-  {
-   "id": "cdm",
-   "raison": "aucun article lu"
-  }
- ]
+ "pannes": []
 }
