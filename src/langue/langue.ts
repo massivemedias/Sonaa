@@ -633,6 +633,7 @@ interface Dictionnaire {
   readonly heroCeSoir: (n: number) => string;
   readonly heroWeekend: (n: number) => string;
   readonly heroVilleAutre: string;
+  readonly heroChoisirVille: string;
   readonly heroAffiches: string;
   /* ═══ RECONNAITRE ═══ La page qui ecoute ce qui passe dans la piece.
      Voir src/reconnaitre/ et RECONNAITRE.md. */
@@ -1272,6 +1273,7 @@ const FR: Dictionnaire = {
   heroCeSoir: (n) => (n === 0 ? 'Rien ce soir' : n === 1 ? '1 soirée ce soir' : `${n} soirées ce soir`),
   heroWeekend: (n) => (n === 0 ? 'Rien en fin de semaine' : n === 1 ? '1 en fin de semaine' : `${n} en fin de semaine`),
   heroVilleAutre: 'Changer de ville',
+  heroChoisirVille: 'Choisir votre ville',
   heroAffiches: 'Les prochaines soirées',
   reconnaitre: 'Reconnaître',
   reconnaitreChapeau:
@@ -1922,6 +1924,7 @@ const EN: Dictionnaire = {
   heroCeSoir: (n) => (n === 0 ? 'Nothing tonight' : n === 1 ? '1 night tonight' : `${n} nights tonight`),
   heroWeekend: (n) => (n === 0 ? 'Nothing this weekend' : n === 1 ? '1 this weekend' : `${n} this weekend`),
   heroVilleAutre: 'Change city',
+  heroChoisirVille: 'Choose your city',
   heroAffiches: 'The nights coming up',
   reconnaitre: 'Recognise',
   reconnaitreChapeau:

@@ -64,17 +64,28 @@ export function HeroAccueil({
         <h1 className="hero-titre">{t.heroTitre}</h1>
         <p className="hero-phrase">{t.heroPhrase}</p>
 
+        {/* SANS VILLE, UNE SEULE ACTION, ET C'EST LA BONNE. Un visiteur dont
+            la ville n'est pas couverte, ou qui arrive sans reglage, voyait
+            une page nue : c'est pourtant lui que cette banniere vise. Les
+            compteurs n'ont alors rien a compter, le collage rien a montrer,
+            et il reste ce qu'il faut faire d'abord, choisir sa ville. */}
         <div className="hero-actions">
-          <button type="button" className="hero-bouton hero-bouton-plein" onClick={onCeSoir}>
-            {t.heroCeSoir(nCeSoir)}
-          </button>
-          <button type="button" className="hero-bouton" onClick={onWeekend}>
-            {t.heroWeekend(nWeekend)}
-          </button>
-          {ville && (
-            <button type="button" className="hero-ville" onClick={onVille}>
-              <span className="hero-ville-nom">{ville}</span>
-              <span className="hero-ville-mot">{t.heroVilleAutre}</span>
+          {ville ? (
+            <>
+              <button type="button" className="hero-bouton hero-bouton-plein" onClick={onCeSoir}>
+                {t.heroCeSoir(nCeSoir)}
+              </button>
+              <button type="button" className="hero-bouton" onClick={onWeekend}>
+                {t.heroWeekend(nWeekend)}
+              </button>
+              <button type="button" className="hero-ville" onClick={onVille}>
+                <span className="hero-ville-nom">{ville}</span>
+                <span className="hero-ville-mot">{t.heroVilleAutre}</span>
+              </button>
+            </>
+          ) : (
+            <button type="button" className="hero-bouton hero-bouton-plein" onClick={onVille}>
+              {t.heroChoisirVille}
             </button>
           )}
         </div>

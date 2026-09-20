@@ -687,9 +687,11 @@ export function CalendrierPage() {
     [soirees]
   );
 
-  /* LA BANNIERE NE S'AFFICHE PAS PENDANT UNE RECHERCHE : on cherche une
-     salle, on ne decouvre plus le site. */
-  const avecHero = ville != null && !enRecherche;
+  /* LA BANNIERE S'AFFICHE MEME SANS VILLE. Elle ne disparait que pendant une
+     recherche : on cherche une salle, on ne decouvre plus le site. Elle
+     attend en revanche que la liste des villes soit la, pour ne pas sauter
+     entre deux rendus. */
+  const avecHero = !enRecherche && (ville != null || villes.length > 0);
 
   const fuseau = ville?.timezone ?? 'America/Toronto';
 
@@ -728,7 +730,7 @@ export function CalendrierPage() {
             le calendrier commence juste dessous. Voir HeroAccueil.tsx. */}
         {avecHero && (
           <HeroAccueil
-            ville={ville.name}
+            ville={ville?.name ?? null}
             nCeSoir={nombreDe([cleDuJour(new Date())])}
             nWeekend={nombreDe(clesWeekend)}
             affiches={affichesHero}
