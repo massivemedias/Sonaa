@@ -713,10 +713,10 @@ if (existsSync(cheminNews)) {
   ecrire({
     chemin: '/news/',
     hash: '#/news',
-    titre: 'News : production musicale, DJing et scène électronique, relues plusieurs fois par jour · SONAA',
-    description: 'Ce qui se dit en ce moment dans la musique électronique : les machines et logiciels qui sortent, les techniques de production, le monde du DJing, la scène. Vingt magazines relus plusieurs fois par jour.',
+    titre: 'News : production musicale, DJing et scène électronique, relues matin et soir · SONAA',
+    description: 'Ce qui se dit en ce moment dans la musique électronique : les machines et logiciels qui sortent, les techniques de production, le monde du DJing, la scène. Vingt magazines relus matin et soir.',
     image: articles[0]?.image ?? undefined,
-    corps: `${entete([{ nom: 'News', href: '/news/' }])}<h1>News</h1><p>Vingt magazines de la musique électronique, relus plusieurs fois par jour ; chaque titre mène à son site.</p><ul>${articles
+    corps: `${entete([{ nom: 'News', href: '/news/' }])}<h1>News</h1><p>Vingt magazines de la musique électronique, relus matin et soir ; chaque titre mène à son site.</p><ul>${articles
       .map((a) => `<li><a href="${h(a.lien)}" rel="noopener">${h(titreFr(a))}</a>${resumeFr(a) ? ` : ${h(resumeFr(a))}` : ''}</li>`)
       .join('')}</ul>`,
     jsonld: [filAriane([{ nom: 'News', href: '/news/' }])],
