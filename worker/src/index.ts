@@ -37,7 +37,7 @@ import { ZONES } from './zones.ts';
 /* La table des sources et la consigne de traduction vivent dans src/, avec
    leurs tests : une copie ici aurait derive des la premiere source ajoutee. */
 import { SOURCES } from '../../src/data/news-sources.ts';
-import { MODELE, consigneCorps, lireReponseCorps } from '../../scripts/lib/traduire.ts';
+import { MODELE, consigneCorps, lireReponseCorps, rangsDeTexte, remettreEnPlace } from '../../scripts/lib/traduire.ts';
 /* Le lecteur de la reponse d'AudD vit dans src/, avec son test : voir
    src/reconnaitre/audd.ts. Une copie ici aurait diverge. */
 import { lireReponseAudd } from '../../src/reconnaitre/audd.ts';
@@ -353,11 +353,27 @@ async function traduireCorps(blocs: string[], cle: string): Promise<string[]> {
         messages: [{ role: 'user', content: JSON.stringify(blocs) }],
       }),
     });
-    if (!r.ok) return [];
-    const rep = (await r.json()) as { content?: { type: string; text?: string }[] };
+    if (!r.ok) {
+      console.log(`traduireCorps : HTTP ${r.status} ${(await r.text()).slice(0, 200)}`);
+      return [];
+    }
+    const rep = (await r.json()) as {
+      content?: { type: string; text?: string }[];
+      stop_reason?: string;
+      usage?: { input_tokens?: number; output_tokens?: number };
+    };
     const texte = (rep.content ?? []).filter((c) => c.type === 'text').map((c) => c.text ?? '').join('');
-    return lireReponseCorps(texte, blocs.length);
-  } catch {
+    const lus = lireReponseCorps(texte, blocs.length);
+    /* CE JOURNAL DIT POURQUOI UNE TRADUCTION N'A PAS EU LIEU. Sans lui, un
+       echec silencieux se lit « traduit: false » et rien de plus, et il faut
+       payer un appel de plus pour apprendre lequel des trois cas c'etait. */
+    console.log(
+      `traduireCorps : ${blocs.length} blocs demandes, ${lus.length} rendus, ` +
+        `arret ${rep.stop_reason}, ${rep.usage?.input_tokens} + ${rep.usage?.output_tokens} tokens`
+    );
+    return lus;
+  } catch (e) {
+    console.log(`traduireCorps : ${e instanceof Error ? e.message : String(e)}`);
     return [];
   }
 }
@@ -640,7 +656,8 @@ export default {
         if (range) {
           try {
             const lu = JSON.parse(range) as string[];
-            rendu = corps.map((m, i) => (m.t === 'img' ? m : { t: m.t, x: lu[i] ?? m.x }));
+            if (lu.length !== corps.length) throw new Error('entree de longueur differente');
+            rendu = corps.map((m, i) => (m.t === 'img' ? m : { t: m.t, x: lu[i] || m.x }));
             traduit = true;
           } catch {
             /* Entree abimee : on rend l'original. */
@@ -652,12 +669,21 @@ export default {
           const vus = Number((await env.DEMANDES.get(cleCompteur)) ?? '0');
           if (vus < 5) {
             await env.DEMANDES.put(cleCompteur, String(vus + 1), { expirationTtl: 3900 });
-            const aTraduire = corps.map((m) => (m.t === 'img' ? '' : m.x));
+            /* LES IMAGES NE PARTENT PAS EN TRADUCTION, et c'est ce qui
+               manquait. Elles partaient comme des chaines vides, le modele les
+               rendait vides, et la regle qui refuse un bloc vide, posee pour
+               attraper une traduction amputee, refusait alors l'article
+               entier : tout article illustre etait intraduisible, et le seul
+               symptome etait un « traduit: false » sans raison. On n'envoie
+               donc que les blocs de texte, et on les remet a leur place. */
+            const rangs = rangsDeTexte(corps);
+            const aTraduire = rangs.map((i) => (corps[i] as Morceau).x);
             const blocs = await traduireCorps(aTraduire, env.ANTHROPIC_API_KEY);
-            if (blocs.length === aTraduire.length) {
-              rendu = corps.map((m, i) => (m.t === 'img' ? m : { t: m.t, x: blocs[i] ?? m.x }));
+            if (blocs.length === aTraduire.length && blocs.length > 0) {
+              const complet = remettreEnPlace(corps, rangs, blocs);
+              rendu = corps.map((m, i) => (m.t === 'img' ? m : { t: m.t, x: complet[i] || m.x }));
               traduit = true;
-              await env.DEMANDES.put(cleTrad, JSON.stringify(blocs), { expirationTtl: 2592000 });
+              await env.DEMANDES.put(cleTrad, JSON.stringify(complet), { expirationTtl: 2592000 });
             }
           }
         }

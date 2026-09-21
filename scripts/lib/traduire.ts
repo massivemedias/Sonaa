@@ -123,6 +123,43 @@ export function consigneCorps(): string {
   ].join('\n');
 }
 
+/* ═══ LES IMAGES NE PARTENT PAS EN TRADUCTION ═══
+ *
+ * Un bloc image n'a pas de texte. Il est parti pendant deux jours comme une
+ * chaine vide, le modele la rendait vide, et `lireReponseCorps` refusait
+ * l'article entier au nom de la regle qui interdit un bloc vide : tout
+ * article illustre etait intraduisible, et le seul symptome visible etait un
+ * « traduit: false » sans raison. Les deux fonctions ci-dessous sont la part
+ * de ce calcul qui se teste sans appeler personne.
+ *
+ * Voir worker/src/index.ts, route api/article-flux. */
+
+/** La forme minimale d'un bloc d'article. */
+export interface BlocLu {
+  readonly t: string;
+  readonly x: string;
+}
+
+/** Les rangs des blocs qui portent du texte, dans l'ordre de l'article. */
+export function rangsDeTexte(corps: readonly BlocLu[]): number[] {
+  return corps.map((m, i) => (m.t === 'img' ? -1 : i)).filter((i) => i >= 0);
+}
+
+/** Les blocs traduits remis a leur rang, sur toute la longueur de l'article,
+    les places d'images laissees vides. Le cache range cette forme-la, donc la
+    relecture peut lire par index sans rien recalculer. */
+export function remettreEnPlace(
+  corps: readonly BlocLu[],
+  rangs: readonly number[],
+  blocs: readonly string[]
+): string[] {
+  const complet = corps.map(() => '');
+  rangs.forEach((rang, k) => {
+    complet[rang] = blocs[k] ?? '';
+  });
+  return complet;
+}
+
 /** Les blocs traduits, ou une liste vide si la reponse n'a pas la forme
     attendue. L'appelant garde alors l'original, ce qui est l'etat d'avant. */
 export function lireReponseCorps(texte: string, attendus: number): string[] {

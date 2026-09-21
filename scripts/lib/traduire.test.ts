@@ -5,8 +5,11 @@
 
 import { describe, expect, it } from 'vitest';
 import {
+  type BlocLu,
   consigne,
   cout,
+  rangsDeTexte,
+  remettreEnPlace,
   consigneCorps,
   demande,
   lireReponse,
@@ -123,5 +126,47 @@ describe('le prix d\'une passe', () => {
      tarif qui a bouge, et il faut le relever avant de le corriger. */
   it('chiffre une moisson de cent soixante articles en cents', () => {
     expect(cout(30_000, 25_000)).toBeLessThan(0.2);
+  });
+});
+
+/* LE BOGUE DU 21 SEPTEMBRE 2026, ET IL A VECU DEUX JOURS EN PRODUCTION.
+   Les blocs image partaient en traduction comme des chaines vides ; le modele
+   les rendait vides, et la regle qui refuse un bloc vide refusait alors
+   l'article entier. Tout article illustre etait intraduisible, et le seul
+   symptome etait un « traduit: false » sans raison. */
+describe('les images dans un corps d\'article', () => {
+  const corps: BlocLu[] = [
+    { t: 'p', x: 'The kick sits at 120 BPM.' },
+    { t: 'img', x: 'https://a.test/photo.jpg' },
+    { t: 'h2', x: 'The bassline' },
+    { t: 'img', x: 'https://a.test/autre.jpg' },
+    { t: 'p', x: 'Then the drop.' },
+  ];
+
+  it('ne met aucune image dans ce qui part au modele', () => {
+    const rangs = rangsDeTexte(corps);
+    expect(rangs).toEqual([0, 2, 4]);
+    expect(rangs.map((i) => corps[i]!.x)).not.toContain('https://a.test/photo.jpg');
+  });
+
+  it('remet les blocs a leur rang et laisse les places d\'images vides', () => {
+    const rangs = rangsDeTexte(corps);
+    const complet = remettreEnPlace(corps, rangs, ['Le kick est a 120 BPM.', 'La bassline', 'Puis le drop.']);
+    expect(complet).toHaveLength(corps.length);
+    expect(complet[0]).toBe('Le kick est a 120 BPM.');
+    expect(complet[1]).toBe('');
+    expect(complet[2]).toBe('La bassline');
+    expect(complet[3]).toBe('');
+    expect(complet[4]).toBe('Puis le drop.');
+  });
+
+  it('accepte la reponse du modele, qui ne voit que le texte', () => {
+    const rangs = rangsDeTexte(corps);
+    const reponse = '["Le kick est a 120 BPM.", "La bassline", "Puis le drop."]';
+    expect(lireReponseCorps(reponse, rangs.length)).toHaveLength(3);
+  });
+
+  it('refuse toujours une reponse amputee', () => {
+    expect(lireReponseCorps('["Un seul bloc"]', 3)).toEqual([]);
   });
 });
