@@ -6,6 +6,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   consigne,
+  cout,
   consigneCorps,
   demande,
   lireReponse,
@@ -108,5 +109,19 @@ describe('la traduction du corps', () => {
 
   it('accepte un tableau enveloppe de bavardage', () => {
     expect(lireReponseCorps('Voici :\n```json\n["Un"]\n```', 1)).toEqual(['Un']);
+  });
+});
+
+describe('le prix d\'une passe', () => {
+  it('compte a un dollar le million en entree et cinq en sortie', () => {
+    expect(cout(1_000_000, 0)).toBeCloseTo(1, 6);
+    expect(cout(0, 1_000_000)).toBeCloseTo(5, 6);
+  });
+
+  /* UNE PASSE REELLE : huit lots de vingt articles, l'ordre de grandeur
+     attendu est le cent, pas le dollar. Si ce test tombe un jour, c'est le
+     tarif qui a bouge, et il faut le relever avant de le corriger. */
+  it('chiffre une moisson de cent soixante articles en cents', () => {
+    expect(cout(30_000, 25_000)).toBeLessThan(0.2);
   });
 });

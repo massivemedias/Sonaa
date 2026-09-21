@@ -157,7 +157,14 @@ async function main(): Promise<void> {
     console.log(`\nTraduction : ${aTraduire.length} article(s) a traduire, mais ANTHROPIC_API_KEY est absente. Ils sortent en anglais.`);
   } else {
     console.log(`\nTraduction de ${aTraduire.length} article(s) :`);
-    neuves = await traduire(aTraduire, cle, (l) => console.log(l));
+    neuves = await traduire(
+      aTraduire,
+      cle,
+      (l) => console.log(l),
+      /* LE PRIX DE LA PASSE, DANS SON PROPRE JOURNAL. Une facture mensuelle ne
+         dit pas quelle moisson l'a gonflee ; cette ligne-la, si. */
+      (c) => console.log(`  ${c.lots} lot(s), ${c.entree} tokens entree, ${c.sortie} sortie, ${c.usd.toFixed(4)} USD`)
+    );
   }
 
   const traduits: Article[] = tries.map((a) => {

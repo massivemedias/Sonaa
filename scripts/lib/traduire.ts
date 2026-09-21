@@ -32,6 +32,29 @@ export const MODELE = 'claude-haiku-4-5-20251001';
     lot rate ne coute qu'un vingtieme de la passe. */
 export const PAR_LOT = 20;
 
+/* CE QUE LA PASSE A COUTE, ECRIT DANS LE JOURNAL.
+ *
+ * Une facture qui n'arrive qu'en fin de mois ne dit pas quelle passe l'a
+ * gonflee. Le modele rend le compte des tokens a chaque appel : on l'additionne
+ * et on l'imprime, donc le journal de chaque moisson porte son propre prix.
+ *
+ * Tarif Haiku 4.5 releve le 21 septembre 2026, en USD par million de tokens. */
+export const PRIX_ENTREE = 1;
+export const PRIX_SORTIE = 5;
+
+/** Le prix d'une passe, en USD. */
+export function cout(entree: number, sortie: number): number {
+  return (entree * PRIX_ENTREE + sortie * PRIX_SORTIE) / 1_000_000;
+}
+
+/** Le compte d'une passe : ce qui est parti, ce qui est revenu, ce que ca vaut. */
+export interface Compte {
+  readonly lots: number;
+  readonly entree: number;
+  readonly sortie: number;
+  readonly usd: number;
+}
+
 export interface ATraduire {
   readonly lien: string;
   readonly titre: string;
@@ -166,7 +189,10 @@ export function lireReponse(texte: string, lot: readonly ATraduire[]): Map<strin
 
 /* Un appel, un lot. Interne : tout passe par `traduire`, qui decoupe et
    encaisse les echecs. */
-async function traduireUnLot(lot: readonly ATraduire[], cle: string): Promise<Map<string, Traduction>> {
+async function traduireUnLot(
+  lot: readonly ATraduire[],
+  cle: string
+): Promise<{ sorties: Map<string, Traduction>; entree: number; sortie: number }> {
   const r = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
@@ -182,31 +208,47 @@ async function traduireUnLot(lot: readonly ATraduire[], cle: string): Promise<Ma
     }),
   });
   if (!r.ok) throw new Error(`Anthropic ${r.status} ${(await r.text()).slice(0, 200)}`);
-  const rep = (await r.json()) as { content?: { type: string; text?: string }[] };
+  const rep = (await r.json()) as {
+    content?: { type: string; text?: string }[];
+    usage?: { input_tokens?: number; output_tokens?: number };
+  };
   const texte = (rep.content ?? [])
     .filter((c) => c.type === 'text')
     .map((c) => c.text ?? '')
     .join('');
-  return lireReponse(texte, lot);
+  return {
+    sorties: lireReponse(texte, lot),
+    entree: rep.usage?.input_tokens ?? 0,
+    sortie: rep.usage?.output_tokens ?? 0,
+  };
 }
 
 /** Tous les lots, l'un apres l'autre. Un lot qui echoue est signale et
-    n'empeche pas les suivants. */
+    n'empeche pas les suivants. Le compte de la passe part par `compte`, qui
+    n'est appele qu'une fois, a la fin. */
 export async function traduire(
   aTraduire: readonly ATraduire[],
   cle: string,
-  journal: (ligne: string) => void = () => {}
+  journal: (ligne: string) => void = () => {},
+  compte: (c: Compte) => void = () => {}
 ): Promise<Map<string, Traduction>> {
   const tout = new Map<string, Traduction>();
+  let lots = 0;
+  let entree = 0;
+  let sortie = 0;
   for (let i = 0; i < aTraduire.length; i += PAR_LOT) {
     const lot = aTraduire.slice(i, i + PAR_LOT);
     try {
       const rendu = await traduireUnLot(lot, cle);
-      for (const [lien, t] of rendu) tout.set(lien, t);
-      journal(`  lot de ${lot.length} : ${rendu.size} traduits`);
+      for (const [lien, t] of rendu.sorties) tout.set(lien, t);
+      lots += 1;
+      entree += rendu.entree;
+      sortie += rendu.sortie;
+      journal(`  lot de ${lot.length} : ${rendu.sorties.size} traduits, ${rendu.entree} + ${rendu.sortie} tokens`);
     } catch (e) {
       journal(`  lot de ${lot.length} : ECHEC, ${e instanceof Error ? e.message : String(e)}`);
     }
   }
+  compte({ lots, entree, sortie, usd: cout(entree, sortie) });
   return tout;
 }
