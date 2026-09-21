@@ -285,7 +285,14 @@ export function NewsPage() {
           const a = livre?.articles.find((x) => x.lien === urlEnLecture) ?? null;
           return (
             <>
-              <LectureArticle url={urlEnLecture} titre={a ? titreDe(a) : null} source={a ? (PAR_SOURCE.get(a.source)?.nom ?? null) : null} image={a?.image ?? null} />
+              <LectureArticle
+                url={urlEnLecture}
+                titre={a ? titreDe(a) : null}
+                source={a ? (PAR_SOURCE.get(a.source)?.nom ?? null) : null}
+                image={a?.image ?? null}
+                idSource={a?.source ?? null}
+                langueSource={a ? (PAR_SOURCE.get(a.source)?.langue ?? null) : null}
+              />
               <PiedDePage />
             </>
           );

@@ -44,6 +44,10 @@ export const SOURCES: readonly Source[] = [
   { id: 'digitaldjtips', nom: 'Digital DJ Tips', site: 'https://www.digitaldjtips.com/', flux: 'https://www.digitaldjtips.com/feed/', categorie: 'djing', quoi: 'Apprendre à mixer, choisir son matériel', langue: 'en' },
 
   { id: 'ra', nom: 'Resident Advisor', site: 'https://ra.co/news', flux: null /* RA n'a plus de flux public */, categorie: 'scene', quoi: 'La scène mondiale : clubs, sorties, festivals', langue: 'en' },
+  /* Ajoute le 21 septembre 2026. Flux complet : le corps entier est dans
+     content:encoded, images comprises, donc la vue de lecture peut l'afficher
+     sans jamais aller chercher la page du magazine. */
+  { id: 'midnightrebels', nom: 'Midnight Rebels', site: 'https://midnightrebels.com/', flux: 'https://midnightrebels.com/feed/', categorie: 'scene', quoi: 'Culture électronique, vie nocturne et journalisme de scène', langue: 'en' },
   { id: 'mixmag', nom: 'Mixmag', site: 'https://mixmag.net/', flux: 'https://mixmag.net/rss.xml', categorie: 'scene', quoi: 'Actualité de la scène club et des artistes', langue: 'en' },
   { id: 'xlr8r', nom: 'XLR8R', site: 'https://xlr8r.com/', flux: 'https://xlr8r.com/feed/', categorie: 'scene', quoi: 'Sorties, podcasts, la scène underground', langue: 'en' },
   { id: 'electronicbeats', nom: 'Electronic Beats', site: 'https://www.electronicbeats.net/', flux: null /* 404, et ?feed=rss2 rend du HTML */, categorie: 'scene', quoi: 'Culture électronique, portraits, Berlin et au-delà', langue: 'en' },

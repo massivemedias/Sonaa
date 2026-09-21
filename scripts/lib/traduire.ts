@@ -74,6 +74,51 @@ export function consigne(): string {
   ].join('\n');
 }
 
+/* ═══ LE CORPS D'UN ARTICLE, MEME GLOSSAIRE, AUTRE FORME ═══
+ *
+ * Les titres et les resumes partent par lots a la moisson ; le corps, lui,
+ * ne part qu'a la demande, quand quelqu'un ouvre l'article en francais. Ce
+ * sont deux moments et deux formes de reponse, mais UNE SEULE liste de mots
+ * a ne pas traduire : c'est elle qui fait la difference entre un texte de
+ * metier et une traduction automatique, et elle ne doit exister qu'une fois.
+ *
+ * Voir worker/src/index.ts, route api/article-flux. */
+export function consigneCorps(): string {
+  return [
+    "Tu traduis en français le corps d'un article de magazine de musique électronique, pour un site montréalais.",
+    '',
+    'Règles, dans cet ordre de priorité :',
+    `1. Ne traduis JAMAIS le vocabulaire de métier : ${MOTS_GARDES.join(', ')}, et tous les noms de genres (techno, house, drum and bass, dub techno...).`,
+    '2. Ne traduis jamais un nom propre : artistes, labels, machines, logiciels, salles, festivals, villes. Garde la graphie exacte.',
+    '3. Traduis bloc par bloc, sans en fusionner ni en couper aucun, sans rien résumer et sans rien ajouter.',
+    '4. Si un bloc est déjà en français, rends-le tel quel.',
+    "5. N'utilise jamais de tiret cadratin ni de demi-cadratin. Virgule, deux-points ou point.",
+    '6. Écris avec les accents, et avec les apostrophes typographiques.',
+    '',
+    'Réponds UNIQUEMENT par un tableau JSON de chaînes, sans texte autour et sans bloc de code.',
+    "Autant d'éléments que de blocs reçus, dans le même ordre.",
+  ].join('\n');
+}
+
+/** Les blocs traduits, ou une liste vide si la reponse n'a pas la forme
+    attendue. L'appelant garde alors l'original, ce qui est l'etat d'avant. */
+export function lireReponseCorps(texte: string, attendus: number): string[] {
+  const debut = texte.indexOf('[');
+  const fin = texte.lastIndexOf(']');
+  if (debut === -1 || fin <= debut) return [];
+  try {
+    const lu: unknown = JSON.parse(texte.slice(debut, fin + 1));
+    if (!Array.isArray(lu)) return [];
+    const blocs = lu.map((x) => (typeof x === 'string' ? x : ''));
+    /* UNE TRADUCTION PARTIELLE N'EN EST PAS UNE. Si le modele a fusionne ou
+       oublie des blocs, l'article s'afficherait amoute sans que personne le
+       sache : on rend l'original entier plutot qu'un texte tronque. */
+    return blocs.length === attendus && blocs.every((b) => b !== '') ? blocs : [];
+  } catch {
+    return [];
+  }
+}
+
 /** Le lot mis en forme pour le modele : numerote, sans les adresses, qui ne
     servent a rien a la traduction et que le modele pourrait abimer. */
 export function demande(lot: readonly ATraduire[]): string {

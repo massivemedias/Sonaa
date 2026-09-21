@@ -4,7 +4,15 @@
    quelque part, et aucun ne doit faire tomber la moisson. */
 
 import { describe, expect, it } from 'vitest';
-import { consigne, demande, lireReponse, MOTS_GARDES, type ATraduire } from './traduire.ts';
+import {
+  consigne,
+  consigneCorps,
+  demande,
+  lireReponse,
+  lireReponseCorps,
+  MOTS_GARDES,
+  type ATraduire,
+} from './traduire.ts';
 
 const lot: ATraduire[] = [
   { lien: 'https://a.test/1', titre: 'Warehouse label drops four-on-the-floor EP', resume: 'A new EP.' },
@@ -76,5 +84,29 @@ describe('la lecture de la reponse', () => {
     const rendu = lireReponse('[{"i":1,"titre":"Seul","resume":""}]', lot);
     expect(rendu.size).toBe(1);
     expect(rendu.has('https://a.test/1')).toBe(false);
+  });
+});
+
+describe('la traduction du corps', () => {
+  it('partage le glossaire avec les titres', () => {
+    const c = consigneCorps();
+    for (const mot of MOTS_GARDES) expect(c).toContain(mot);
+  });
+
+  it('lit un tableau de chaines complet', () => {
+    expect(lireReponseCorps('["Un", "Deux", "Trois"]', 3)).toEqual(['Un', 'Deux', 'Trois']);
+  });
+
+  /* UNE TRADUCTION PARTIELLE EST PIRE QUE PAS DE TRADUCTION : l'article
+     s'afficherait amoute sans que personne le sache. */
+  it('refuse une reponse qui a perdu ou fusionne des blocs', () => {
+    expect(lireReponseCorps('["Un", "Deux"]', 3)).toEqual([]);
+    expect(lireReponseCorps('["Un", "", "Trois"]', 3)).toEqual([]);
+    expect(lireReponseCorps('pas du json', 3)).toEqual([]);
+    expect(lireReponseCorps('{"a":1}', 3)).toEqual([]);
+  });
+
+  it('accepte un tableau enveloppe de bavardage', () => {
+    expect(lireReponseCorps('Voici :\n```json\n["Un"]\n```', 1)).toEqual(['Un']);
   });
 });

@@ -34,6 +34,10 @@
    commence-t-il par l'identifiant qu'il porte ». */
 
 import { ZONES } from './zones.ts';
+/* La table des sources et la consigne de traduction vivent dans src/, avec
+   leurs tests : une copie ici aurait derive des la premiere source ajoutee. */
+import { SOURCES } from '../../src/data/news-sources.ts';
+import { MODELE, consigneCorps, lireReponseCorps } from '../../scripts/lib/traduire.ts';
 /* Le lecteur de la reponse d'AudD vit dans src/, avec son test : voir
    src/reconnaitre/audd.ts. Une copie ici aurait diverge. */
 import { lireReponseAudd } from '../../src/reconnaitre/audd.ts';
@@ -62,6 +66,10 @@ interface Env {
      reconnaissance de STYLE, elle, tourne dans le navigateur et ne depend
      d'aucune cle. Voir src/reconnaitre/. */
   AUDD_API_KEY?: string;
+  /* LA CLE DE TRADUCTION, POUR LE CORPS DES ARTICLES. Facultative : sans
+     elle la vue de lecture affiche l'original anglais, ce qui reste un
+     article lisible. Voir la route api/article-flux. */
+  ANTHROPIC_API_KEY?: string;
   readonly NOTIFIER_SECRET?: string;
 }
 
@@ -202,84 +210,87 @@ function origineAutorisee(req: Request, env: Env): string | null {
   return env.ORIGINES.split(',').map((x) => x.trim()).includes(o) ? o : null;
 }
 
-/* LES MAGAZINES DE LA MOISSON, et eux seuls : la liste de src/data/news-sources.ts. */
-const MAGAZINES = [
-  'attackmagazine.com', 'musicradar.com', 'musictech.com', 'cdm.link', 'gearnews.com', 'soundonsound.com',
-  'bedroomproducersblog.com', 'kvraudio.com', 'synthtopia.com', 'native-instruments.com', 'ableton.com',
-  'djmag.com', 'djtechtools.com', 'digitaldjtips.com', 'mixmag.net', 'ra.co', 'beatportal.com',
-  'electronicbeats.net', 'traxmag.com', 'tsugi.fr', 'xlr8r.com',
-];
-const hoteDeMagazine = (h: string): boolean => MAGAZINES.some((m) => h === m || h.endsWith(`.${m}`));
+/* ═══ LIRE UN ARTICLE DANS SON FLUX, ET NULLE PART AILLEURS ═══
+ *
+ * La vue de lecture allait chercher le corps sur la PAGE du magazine, la
+ * nettoyait et l'affichait. Cela marchait, et cela reproduisait un article
+ * entier depuis une source qui ne l'avait pas propose pour cela.
+ *
+ * Mika, le 21 septembre 2026 : « ne jamais aller chercher le corps sur la
+ * page du magazine ». On ne lit donc plus que le FLUX, c'est-a-dire le canal
+ * que l'editeur publie lui-meme pour etre repris. Quand il y met l'article
+ * entier, on l'affiche entier ; quand il n'en met qu'un extrait, on affiche
+ * l'extrait et un bouton vers chez lui. La difference est la sienne, pas la
+ * notre, et elle se lit dans la reponse : `integral`.
+ *
+ * Mesure du 21 septembre 2026 sur les quatre flux ajoutes ou verifies :
+ * Attack, Gearnews et Midnight Rebels livrent l'article entier avec ses
+ * images ; CDM ne livre qu'un resume de 478 signes. */
 
 interface Morceau { t: 'p' | 'h2' | 'h3' | 'quote' | 'img'; x: string }
-interface ArticleLu { titre: string; image: string | null; site: string; url: string; morceaux: Morceau[] }
 
-/* LIRE UNE PAGE SANS DOM. HTMLRewriter defile le HTML ; on ramasse trois
-   couches (dans <article>, dans <main>, partout) et on garde la premiere
-   qui a de la chair. Les paragraphes trop courts sont des boutons ou des
-   legendes, pas du texte. */
-async function lireArticle(cible: URL): Promise<ArticleLu | null> {
-  const r = await fetch(cible.href, {
-    headers: { 'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128 Safari/537.36 SONAA/1.0', accept: 'text/html' },
-    redirect: 'follow',
-    cf: { cacheTtl: 3600 },
-  } as RequestInit);
-  if (!r.ok || !(r.headers.get('content-type') ?? '').includes('html')) return null;
-  const meta: Record<string, string> = {};
-  const couches: Record<'article' | 'main' | 'tout', Morceau[]> = { article: [], main: [], tout: [] };
-  const ouvre = (couche: keyof typeof couches, t: Morceau['t']) => ({
+/* LE SEUIL DE L'INTEGRAL. En dessous, c'est un chapeau, pas un article : les
+   resumes de flux tournent autour de 300 a 500 signes, les articles entiers
+   depassent les 5000. Mille est loin des deux. */
+const SEUIL_INTEGRAL = 1000;
+
+/* Les blocs tires du HTML d'un flux. Meme decoupe que ce que la page
+   affichait avant, pour que la mise en page ne bouge pas. */
+async function morceauxDuHtml(html: string): Promise<Morceau[]> {
+  const sortie: Morceau[] = [];
+  const ouvre = (t: Morceau['t']) => ({
     element() {
-      couches[couche].push({ t, x: '' });
+      sortie.push({ t, x: '' });
     },
     text(tx: Text) {
-      const dernier = couches[couche][couches[couche].length - 1];
+      const dernier = sortie[sortie.length - 1];
       if (dernier && dernier.t === t) dernier.x += tx.text;
     },
   });
-  const image = (couche: keyof typeof couches) => ({
-    element(e: Element) {
-      const src = e.getAttribute('data-src') ?? e.getAttribute('src') ?? '';
-      if (src.startsWith('http') && !/\.svg|\.gif|1x1|pixel|avatar|logo|icon/i.test(src)) couches[couche].push({ t: 'img', x: src });
-    },
-  });
-  let rw = new HTMLRewriter().on('meta', {
-    element(e) {
-      const p = e.getAttribute('property') ?? e.getAttribute('name') ?? '';
-      const c = e.getAttribute('content') ?? '';
-      if (p && c && !meta[p]) meta[p] = c;
-    },
-  });
-  for (const [couche, prefixe] of [['article', 'article '], ['main', 'main '], ['tout', '']] as const) {
-    rw = rw
-      .on(`${prefixe}p`, ouvre(couche, 'p'))
-      .on(`${prefixe}h2`, ouvre(couche, 'h2'))
-      .on(`${prefixe}h3`, ouvre(couche, 'h3'))
-      .on(`${prefixe}blockquote`, ouvre(couche, 'quote'))
-      .on(`${prefixe}img`, image(couche))
-      .on(`${prefixe}script`, { element(e) { e.remove(); } })
-      .on(`${prefixe}style`, { element(e) { e.remove(); } });
+  await new HTMLRewriter()
+    .on('p', ouvre('p'))
+    .on('h2', ouvre('h2'))
+    .on('h3', ouvre('h3'))
+    .on('blockquote', ouvre('quote'))
+    .on('img', {
+      element(e) {
+        const src = e.getAttribute('data-src') ?? e.getAttribute('src') ?? '';
+        if (src.startsWith('http') && !/\.svg|1x1|pixel|avatar|logo|icon|gravatar/i.test(src)) {
+          sortie.push({ t: 'img', x: src });
+        }
+      },
+    })
+    .on('script', { element(e) { e.remove(); } })
+    .on('style', { element(e) { e.remove(); } })
+    .transform(new Response(html, { headers: { 'content-type': 'text/html; charset=utf-8' } }))
+    .arrayBuffer();
+
+  return sortie
+    .map((m) => ({ t: m.t, x: m.t === 'img' ? m.x : decodeEntites(m.x.replace(/\s+/g, ' ').trim()) }))
+    .filter((m) => (m.t === 'img' ? true : m.t === 'p' || m.t === 'quote' ? m.x.length >= 25 : m.x.length >= 3))
+    .filter((m, i, a) => m.t !== 'img' || a.findIndex((y) => y.t === 'img' && y.x === m.x) === i)
+    .filter((m) => m.t === 'img' || !/continue reading|read more|the post .* appeared first/i.test(m.x))
+    .slice(0, 160);
+}
+
+/* L'ITEM D'UN FLUX, retrouve par son adresse. On lit le XML a la main : un
+   analyseur complet pese plus que ce qu'il apporte pour deux balises, et
+   HTMLRewriter ne sait pas lire du XML. */
+function itemDuFlux(xml: string, lien: string): { contenu: string; integral: boolean } | null {
+  const items = xml.split('<item').slice(1);
+  for (const brut of items) {
+    const lienItem = /<link>([^<]+)<\/link>/.exec(brut)?.[1]?.trim();
+    if (!lienItem || lienItem.replace(/\/$/, '') !== lien.replace(/\/$/, '')) continue;
+    const encode = /<content:encoded>([\s\S]*?)<\/content:encoded>/.exec(brut)?.[1] ?? '';
+    const description = /<description>([\s\S]*?)<\/description>/.exec(brut)?.[1] ?? '';
+    const sansCdata = (x: string) => x.replace(/^\s*<!\[CDATA\[/, '').replace(/\]\]>\s*$/, '');
+    const corpsEncode = sansCdata(encode);
+    const corpsDescription = sansCdata(description);
+    const nu = (x: string) => decodeEntites(x.replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim();
+    const integral = nu(corpsEncode).length >= SEUIL_INTEGRAL;
+    return { contenu: integral ? corpsEncode : corpsDescription || corpsEncode, integral };
   }
-  await rw.transform(r).arrayBuffer();
-  const nettoie = (l: Morceau[]): Morceau[] =>
-    l
-      .map((m) => ({ t: m.t, x: m.t === 'img' ? m.x : decodeEntites(m.x.replace(/\s+/g, ' ').trim()) }))
-      .filter((m) => (m.t === 'img' ? true : m.t === 'p' || m.t === 'quote' ? m.x.length >= 40 : m.x.length >= 3))
-      /* Le boniment des magazines : la commission d'affiliation, la lettre
-         d'information, le bandeau des cookies. Ce n'est pas l'article. */
-      .filter((m) => m.t === 'img' || !/affiliate commission|sign up to|newsletter|cookies|read more:|related articles|all rights reserved/i.test(m.x))
-      .filter((m, i, a) => m.t !== 'img' || a.findIndex((y) => y.t === 'img' && y.x === m.x) === i);
-  const poids = (l: Morceau[]) => l.filter((m) => m.t === 'p').reduce((n, m) => n + m.x.length, 0);
-  let morceaux = nettoie(couches.article);
-  if (poids(morceaux) < 600) morceaux = nettoie(couches.main);
-  if (poids(morceaux) < 600) morceaux = nettoie(couches.tout);
-  if (poids(morceaux) < 300) return null;
-  /* La fin d'une page de magazine, c'est « lire aussi » et la lettre
-     d'information : on coupe apres le dernier vrai paragraphe. */
-  const dernierP = morceaux.map((m) => m.t).lastIndexOf('p');
-  morceaux = morceaux.slice(0, dernierP + 1).slice(0, 120);
-  const titre = decodeEntites(meta['og:title'] ?? meta['twitter:title'] ?? '').trim();
-  const imageUne = meta['og:image'] ?? meta['twitter:image'] ?? null;
-  return { titre, image: imageUne && imageUne.startsWith('http') ? imageUne : null, site: cible.hostname.replace(/^www\./, ''), url: cible.href, morceaux: morceaux.filter((m) => m.t !== 'img' || m.x !== imageUne) };
+  return null;
 }
 
 const ENTITES: Record<string, string> = {
@@ -327,6 +338,30 @@ function entetes(req: Request, env: Env, extra: Record<string, string> = {}): He
  * arriere-plan. Une soiree ajoutee met donc au plus cinq minutes a
  * apparaitre, sans commune mesure avec le temps qu'elle a mis a etre
  * moissonnee. */
+/* UN APPEL, UN ARTICLE. Les blocs vides, qui sont les images, partent quand
+   meme : le modele doit rendre autant d'elements qu'il en recoit, et c'est
+   ainsi qu'on peut remettre chaque bloc a sa place. */
+async function traduireCorps(blocs: string[], cle: string): Promise<string[]> {
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'x-api-key': cle, 'anthropic-version': '2023-06-01' },
+      body: JSON.stringify({
+        model: MODELE,
+        max_tokens: 8000,
+        system: consigneCorps(),
+        messages: [{ role: 'user', content: JSON.stringify(blocs) }],
+      }),
+    });
+    if (!r.ok) return [];
+    const rep = (await r.json()) as { content?: { type: string; text?: string }[] };
+    const texte = (rep.content ?? []).filter((c) => c.type === 'text').map((c) => c.text ?? '').join('');
+    return lireReponseCorps(texte, blocs.length);
+  } catch {
+    return [];
+  }
+}
+
 const CACHE_AGENDA = {
   'content-type': 'application/json',
   'cache-control': 'public, max-age=300, stale-while-revalidate=3600',
@@ -541,90 +576,97 @@ export default {
       return new Response(JSON.stringify({ envoye: true }), { headers: { 'content-type': 'application/json' } });
     }
 
-    /* UN ARTICLE DES NEWS, LU ICI. Mika, le 14 septembre 2026 : « quand je
-       clique je veux rester sur SONAA, voir le contenu directement ». Le
-       navigateur ne peut pas lire un site tiers (CORS), le Worker si. Il
-       ne lit que les magazines de la moisson (pas de relais ouvert), garde
-       le texte un jour, et rend une suite de paragraphes, titres et images,
-       sans script ni pub. La source est toujours nommee et liee. */
-    if (req.method === 'GET' && chemin === 'api/article') {
-      const brut = url.searchParams.get('u') ?? '';
-      let cible: URL;
-      try {
-        cible = new URL(brut);
-      } catch {
-        return refus(req, env, 400, 'adresse invalide');
-      }
-      if (cible.protocol !== 'https:' || !hoteDeMagazine(cible.hostname)) return refus(req, env, 403, 'pas un magazine de la moisson');
+    /* ═══ LE CORPS D'UN ARTICLE, DEPUIS SON FLUX ═══
+     *
+     * GET api/article-flux?source=<id>&lien=<url>&lang=fr
+     *
+     * On telecharge le flux du magazine, garde une heure, on y retrouve
+     * l'article par son adresse, et on rend ses blocs. La page du magazine
+     * n'est jamais ouverte : voir le commentaire de morceauxDuHtml.
+     *
+     * LA TRADUCTION DU CORPS SE FAIT ICI, A LA DEMANDE, et jamais a la
+     * moisson : traduire cent soixante articles six fois par jour pour les
+     * quelques-uns qu'on ouvre serait payer mille fois ce qu'on lit. Le
+     * resultat est range dans KV pour trente jours, donc la deuxieme
+     * ouverture ne coute rien. Cinq traductions par adresse et par heure :
+     * au-dela, on rend l'original, ce qui reste un article lisible. */
+    if (req.method === 'GET' && chemin === 'api/article-flux') {
+      const idSource = (url.searchParams.get('source') ?? '').trim();
+      const lien = (url.searchParams.get('lien') ?? '').trim();
+      const langue = url.searchParams.get('lang') === 'fr' ? 'fr' : 'en';
+      const source = SOURCES.find((x) => x.id === idSource);
+      if (!source || !source.flux) return refus(req, env, 404, 'source inconnue ou sans flux');
+      if (!lien.startsWith('http')) return refus(req, env, 400, 'lien invalide');
+
       const cache = caches.default;
-      const cle = new Request(`https://sonaa.ca/api/article?u=${encodeURIComponent(cible.href)}&v=4`);
-      const garde = await cache.match(cle);
+      const cleFlux = new Request(`https://sonaa.ca/flux/${source.id}?v=1`);
+      let xml = '';
+      const garde = await cache.match(cleFlux);
       if (garde) {
-        const r = new Response(garde.body, garde);
-        for (const [k, v] of entetes(req, env)) r.headers.set(k, v);
-        return r;
-      }
-      const article = await lireArticle(cible);
-      if (!article) return refus(req, env, 502, 'article illisible');
-      const corps = JSON.stringify(article);
-      await cache.put(cle, new Response(corps, { headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=86400' } }));
-      return new Response(corps, { headers: entetes(req, env, { 'content-type': 'application/json', 'cache-control': 'public, max-age=3600' }) });
-    }
-
-    /* ═══ RECONNAITRE UN MORCEAU ═══ POST api/reconnaitre-track
-     *
-     * Le navigateur envoie huit secondes d'audio, on les relaie a AudD, on
-     * rend cinq champs. L'audio N'EST PAS CONSERVE : il vit dans la memoire
-     * de cette requete, il n'est ecrit ni dans R2 ni dans KV, et il n'y a
-     * aucune trace a purger ensuite. C'est ce que la modale de consentement
-     * promet a l'utilisateur, et c'est verifiable ici en dix lignes.
-     *
-     * SANS CLE, 503, ET C'EST UNE REPONSE VALIDE. La reconnaissance de style
-     * tourne entierement dans le navigateur et ne depend pas de cette route ;
-     * la page masque la partie morceau et le reste fonctionne.
-     *
-     * TRENTE PAR HEURE ET PAR ADRESSE. AudD se facture a la requete : sans
-     * borne, une page laissee ouverte avec un minuteur coute un abonnement.
-     * Le compteur vit dans le meme KV que la file des artistes, sous un
-     * prefixe a lui, et expire tout seul. */
-    if (req.method === 'POST' && chemin === 'api/reconnaitre-track') {
-      if (!env.AUDD_API_KEY) return refus(req, env, 503, 'reconnaissance de morceau non configuree');
-
-      const ip = req.headers.get('cf-connecting-ip') ?? 'inconnue';
-      const heure = new Date().toISOString().slice(0, 13);
-      const cleCompteur = `reco:${ip}:${heure}`;
-      const vus = Number((await env.DEMANDES.get(cleCompteur)) ?? '0');
-      if (vus >= 30) return refus(req, env, 429, 'trop de reconnaissances cette heure-ci');
-
-      const audio = await req.arrayBuffer();
-      /* Huit secondes d'Opus pesent une centaine de kilo-octets. Quatre
-         mega-octets laissent la place a un format non compresse sans ouvrir
-         la porte a un envoi de fichier entier. */
-      if (audio.byteLength === 0) return refus(req, env, 400, 'aucun audio');
-      if (audio.byteLength > 4 * 1024 * 1024) return refus(req, env, 413, 'extrait trop long');
-
-      await env.DEMANDES.put(cleCompteur, String(vus + 1), { expirationTtl: 3900 });
-
-      const formulaire = new FormData();
-      formulaire.append('api_token', env.AUDD_API_KEY);
-      formulaire.append('return', 'apple_music,spotify');
-      formulaire.append('file', new Blob([audio]), 'extrait.webm');
-
-      let morceau: unknown = null;
-      try {
-        const r = await fetch('https://api.audd.io/', { method: 'POST', body: formulaire });
-        if (!r.ok) throw new Error(`AudD ${r.status}`);
-        morceau = lireReponseAudd(await r.json());
-      } catch (e) {
-        return new Response(
-          JSON.stringify({ morceau: null, erreur: e instanceof Error ? e.message : String(e) }),
-          { status: 502, headers: entetes(req, env, { 'content-type': 'application/json' }) }
-        );
+        xml = await garde.text();
+      } else {
+        try {
+          const r = await fetch(source.flux, {
+            headers: { 'user-agent': 'SONAA/1.0 (+https://sonaa.ca ; flux lu a la demande)', accept: 'application/rss+xml, application/xml' },
+          });
+          if (!r.ok) throw new Error(`flux ${r.status}`);
+          xml = await r.text();
+          await cache.put(cleFlux, new Response(xml, { headers: { 'content-type': 'application/xml', 'cache-control': 'public, max-age=3600' } }));
+        } catch (e) {
+          return refus(req, env, 502, e instanceof Error ? e.message : 'flux illisible');
+        }
       }
 
-      return new Response(JSON.stringify({ morceau }), {
-        headers: entetes(req, env, { 'content-type': 'application/json', 'cache-control': 'no-store' }),
-      });
+      const item = itemDuFlux(xml, lien);
+      /* L'ARTICLE A PU SORTIR DU FLUX. Les magazines n'y gardent que les dix
+         ou vingt derniers ; un article moissonne il y a trois jours n'y est
+         peut-etre plus. Ce n'est pas une erreur, c'est un article a lire
+         chez lui, et la page le dira. */
+      if (!item) {
+        return new Response(JSON.stringify({ trouve: false, integral: false, corps: [], traduit: false }), {
+          headers: entetes(req, env, { 'content-type': 'application/json', 'cache-control': 'public, max-age=600' }),
+        });
+      }
+
+      const corps = await morceauxDuHtml(item.contenu);
+
+      /* LA TRADUCTION : seulement en francais, seulement sur un article
+         entier, seulement depuis une source anglophone. */
+      let traduit = false;
+      let rendu = corps;
+      if (langue === 'fr' && item.integral && source.langue === 'en' && env.ANTHROPIC_API_KEY) {
+        const cleTrad = `trad:${langue}:${lien}`;
+        const range = await env.DEMANDES.get(cleTrad);
+        if (range) {
+          try {
+            const lu = JSON.parse(range) as string[];
+            rendu = corps.map((m, i) => (m.t === 'img' ? m : { t: m.t, x: lu[i] ?? m.x }));
+            traduit = true;
+          } catch {
+            /* Entree abimee : on rend l'original. */
+          }
+        } else {
+          const ip = req.headers.get('cf-connecting-ip') ?? 'inconnue';
+          const heure = new Date().toISOString().slice(0, 13);
+          const cleCompteur = `tradrl:${ip}:${heure}`;
+          const vus = Number((await env.DEMANDES.get(cleCompteur)) ?? '0');
+          if (vus < 5) {
+            await env.DEMANDES.put(cleCompteur, String(vus + 1), { expirationTtl: 3900 });
+            const aTraduire = corps.map((m) => (m.t === 'img' ? '' : m.x));
+            const blocs = await traduireCorps(aTraduire, env.ANTHROPIC_API_KEY);
+            if (blocs.length === aTraduire.length) {
+              rendu = corps.map((m, i) => (m.t === 'img' ? m : { t: m.t, x: blocs[i] ?? m.x }));
+              traduit = true;
+              await env.DEMANDES.put(cleTrad, JSON.stringify(blocs), { expirationTtl: 2592000 });
+            }
+          }
+        }
+      }
+
+      return new Response(
+        JSON.stringify({ trouve: true, integral: item.integral, corps: rendu, traduit, source: source.nom }),
+        { headers: entetes(req, env, { 'content-type': 'application/json', 'cache-control': 'public, max-age=600' }) }
+      );
     }
 
     if (req.method === 'GET' && chemin === 'api/ou') {

@@ -395,3 +395,54 @@
     font-size: 1.55rem;
   }
 }
+
+/* ═══ LA LECTURE DEPUIS LE FLUX ═══ Voir LectureArticle.tsx.
+
+   Le lien vers le magazine est en tête et en pied, et l'extrait dit qu'il en
+   est un. Le bouton de suite est le seul élément plein de la page : c'est là
+   qu'il faut aller, et nulle part ailleurs. */
+.lecture-haut-lien {
+  margin: 0 0 1.4rem;
+  font-size: 0.9rem;
+}
+.lecture-haut-lien a,
+.lecture-source-lien {
+  color: var(--ink-secondary);
+  text-underline-offset: 3px;
+}
+.lecture-haut-lien a:hover,
+.lecture-source-lien:hover {
+  color: var(--ink-primary);
+}
+
+/* L'avis de traduction : une ligne, en retrait, qui dit d'où vient le texte
+   qu'on est en train de lire. */
+.lecture-avis {
+  margin: 0 0 1.2rem;
+  padding-left: 0.8rem;
+  border-left: 2px solid var(--rule-hairline);
+  color: var(--ink-secondary);
+  font-size: 0.85rem;
+}
+
+.lecture-suite {
+  margin-top: 2rem;
+  padding-top: 1.4rem;
+  border-top: var(--rule-width) solid var(--rule-hairline);
+}
+.lecture-suite-mot {
+  margin: 0 0 1rem;
+  color: var(--ink-secondary);
+}
+.lecture-suite-bouton {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  background: var(--ink-primary);
+  color: var(--surface-plate);
+  font-weight: 600;
+  text-decoration: none;
+}
+.lecture-suite-bouton:hover {
+  opacity: 0.88;
+}
