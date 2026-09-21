@@ -33,6 +33,7 @@ import { fileURLToPath } from 'node:url';
 import { FAMILIES, STRUCTURES, type Genre } from '../src/atlas/structures.ts';
 import { ORIGINE, PREFIXE_ANGLAIS, cheminsDesStyles, slug } from '../src/lib/chemins.ts';
 import { ranger, vocabulaire } from '../src/lib/correspondance-styles.ts';
+import { MARCHAND_ACTIF } from '../src/config.ts';
 
 const DIST = fileURLToPath(new URL('../dist', import.meta.url));
 const RACINE = fileURLToPath(new URL('..', import.meta.url));
@@ -618,20 +619,42 @@ if (sets.length > 0) {
   }
 }
 
-/* ═══ LA COUCHE MARCHANDE ═══ Phase 0 : les adresses existent, la vente non.
-   Tracks est une vraie page, indexable, parce qu'une adresse apprise
-   aujourd'hui est une adresse deja classee le jour de l'ouverture. Le panier
-   est hors index. Les trois pages legales sont indexables : on doit pouvoir
-   les trouver depuis un moteur, c'est meme leur premier usage. */
+/* ═══ LA COUCHE MARCHANDE ═══ Les adresses existent, la vente non.
+   Les trois pages legales, elles, sont indexables quoi qu'il arrive : on doit
+   pouvoir les trouver depuis un moteur, c'est meme leur premier usage.
+
+   ═══ TRACKS N'EST PLUS INDEXABLE, ET C'EST UN RENVERSEMENT ASSUME ═══
+
+   Le 17 septembre 2026, Tracks etait ecrite indexable avec une raison qui se
+   tenait : une adresse apprise aujourd'hui est une adresse deja classee le
+   jour de l'ouverture.
+
+   Elle ne tient plus, parce que la vente n'a pas de date. Une page classee
+   sur « acheter des tracks » qui ne vend rien pendant des mois deçoit chaque
+   visite qu'elle recoit, et un moteur apprend cela aussi. Mika, le
+   21 septembre 2026 : « rien n'est indexe aujourd'hui, ne pas laisser de
+   trace ». Le mot juste est la : rien n'a encore ete classe, donc il n'y a
+   rien a perdre a attendre, et tout a perdre a promettre.
+
+   LES DEUX PAGES RESTENT ECRITES, servies, et portent `noindex, follow`, ce
+   qui les sort aussi du plan du site et d'IndexNow (voir le filtre plus bas).
+   Le jour ou MARCHAND_ACTIF repasse a `true`, elles reviennent telles
+   qu'elles etaient, et une publication suffit a les annoncer. */
 
 ecrire({
   chemin: '/tracks/',
   hash: '#/tracks',
-  titre: 'Tracks : les morceaux des artistes de SONAA · SONAA',
-  description:
-    'Les morceaux des artistes de SONAA, achetés directement à celles et ceux qui les ont faits. La vente ouvre bientôt.',
-  corps: `${entete([{ nom: 'Tracks', href: '/tracks/' }])}<h1>Tracks</h1><p>Les morceaux des artistes de SONAA, achetés directement à celles et ceux qui les ont faits.</p><h2>Bientôt</h2><p>La vente ouvre bientôt. Les artistes pourront déposer leurs morceaux, fixer leur prix, et recevoir l’argent sans intermédiaire de plus que la banque.</p><p><a href="/mixtapes/">Les mixtapes, en attendant</a></p>`,
-  jsonld: [filAriane([{ nom: 'Tracks', href: '/tracks/' }])],
+  noindex: !MARCHAND_ACTIF,
+  titre: MARCHAND_ACTIF
+    ? 'Tracks : les morceaux des artistes de SONAA · SONAA'
+    : 'Bientôt · SONAA',
+  description: MARCHAND_ACTIF
+    ? 'Les morceaux des artistes de SONAA, achetés directement à celles et ceux qui les ont faits. La vente ouvre bientôt.'
+    : 'Il n’y a rien à acheter sur SONAA pour l’instant.',
+  corps: MARCHAND_ACTIF
+    ? `${entete([{ nom: 'Tracks', href: '/tracks/' }])}<h1>Tracks</h1><p>Les morceaux des artistes de SONAA, achetés directement à celles et ceux qui les ont faits.</p><h2>Bientôt</h2><p>La vente ouvre bientôt. Les artistes pourront déposer leurs morceaux, fixer leur prix, et recevoir l’argent sans intermédiaire de plus que la banque.</p><p><a href="/mixtapes/">Les mixtapes, en attendant</a></p>`
+    : `${entete([{ nom: 'Bientôt', href: '/tracks/' }])}<h1>Bientôt</h1><p>Il n’y a rien à acheter sur SONAA pour l’instant. Cette adresse restera la même le jour où la vente ouvrira.</p><p><a href="/">Voir les soirées</a></p>`,
+  jsonld: MARCHAND_ACTIF ? [filAriane([{ nom: 'Tracks', href: '/tracks/' }])] : [],
 });
 
 /* LA PAGE DU MICRO, ET ELLE RESTE INDEXABLE MEME SORTIE DU MENU.
@@ -661,13 +684,20 @@ ecrire({
   jsonld: [filAriane([{ nom: 'Quel style joue là ?', href: '/reconnaitre/' }])],
 });
 
+/* LE PANIER A TOUJOURS ETE HORS INDEX : il est vide pour tout le monde sauf
+   pour celui qui l'a rempli. Tant que rien ne se vend, il ne dit meme plus
+   qu'il est un panier, il dit qu'il n'y a rien a acheter. */
 ecrire({
   chemin: '/panier/',
   hash: '#/panier',
   noindex: true,
-  titre: 'Panier · SONAA',
-  description: 'Votre panier sur SONAA.',
-  corps: `${entete([{ nom: 'Panier', href: '/panier/' }])}<h1>Panier</h1><p>Votre panier est vide.</p>`,
+  titre: MARCHAND_ACTIF ? 'Panier · SONAA' : 'Bientôt · SONAA',
+  description: MARCHAND_ACTIF
+    ? 'Votre panier sur SONAA.'
+    : 'Il n’y a rien à acheter sur SONAA pour l’instant.',
+  corps: MARCHAND_ACTIF
+    ? `${entete([{ nom: 'Panier', href: '/panier/' }])}<h1>Panier</h1><p>Votre panier est vide.</p>`
+    : `${entete([{ nom: 'Bientôt', href: '/panier/' }])}<h1>Bientôt</h1><p>Il n’y a rien à acheter sur SONAA pour l’instant. Cette adresse restera la même le jour où la vente ouvrira.</p><p><a href="/">Voir les soirées</a></p>`,
   jsonld: [],
 });
 
@@ -773,7 +803,7 @@ if (existsSync(cheminNews)) {
     (prochaines
       ? `<h2>Les prochaines soirées à ${h(montreal?.name ?? '')}</h2><ul>${prochaines}</ul><p><a href="/soirees/${montreal?.slug ?? ''}/">Tout le calendrier de ${h(montreal?.name ?? '')}</a></p>`
       : '') +
-    `<h2>Les soirées ailleurs</h2><ul>${villes}</ul><h2>Les styles</h2><ul><li><a href="/styles/">Tous les styles</a></li>${familles}</ul><h2>Et aussi</h2><ul><li><a href="/mixtapes/">Les mixtapes des DJs</a></li><li><a href="/tracks/">Les tracks à acheter</a></li><li><a href="/news/">Les news</a></li><li><a href="${PREFIXE_ANGLAIS}/styles/" hreflang="en">Electronic music styles, in English</a></li></ul>`;
+    `<h2>Les soirées ailleurs</h2><ul>${villes}</ul><h2>Les styles</h2><ul><li><a href="/styles/">Tous les styles</a></li>${familles}</ul><h2>Et aussi</h2><ul><li><a href="/mixtapes/">Les mixtapes des DJs</a></li>${MARCHAND_ACTIF ? '<li><a href="/tracks/">Les tracks à acheter</a></li>' : ''}<li><a href="/news/">Les news</a></li><li><a href="${PREFIXE_ANGLAIS}/styles/" hreflang="en">Electronic music styles, in English</a></li></ul>`;
 
   /* ═══ LA REQUETE PART AVANT LE BUNDLE ═══
    *

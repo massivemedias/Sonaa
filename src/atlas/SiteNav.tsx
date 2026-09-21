@@ -15,6 +15,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { t } from '../langue/langue.ts';
 import { BadgePanier } from '../marchand/BadgePanier.tsx';
+import { MARCHAND_ACTIF } from '../config.ts';
 import './site-nav.css';
 
 type SiteCourant =
@@ -61,7 +62,9 @@ const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
   { href: '#/news', id: 'news', label: t.leNews },
   { href: '#/parcourir', id: 'parcourir', label: t.lesStyles },
   { href: '#/mixtapes', id: 'mixtapes', label: t.lesMixtapes },
-  { href: '#/tracks', id: 'tracks', label: t.lesTracks },
+  /* TRACKS NE S'ANNONCE PAS TANT QUE RIEN NE SE VEND. Voir src/config.ts :
+     la porte se ferme, la route et la page restent. */
+  ...(MARCHAND_ACTIF ? [{ href: '#/tracks', id: 'tracks' as const, label: t.lesTracks }] : []),
 ];
 
 /* ═══ LA RECONNAISSANCE N'EST PLUS UNE PORTE DU MENU ═══
@@ -86,7 +89,9 @@ const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
    sept mots la ligne est pleine, et cette page se rejoint depuis le pied,
    ou elle a toujours ete. */
 const PAGES: readonly { href: string; id: SiteCourant; label: string }[] = [
-  { href: '#/panier', id: 'panier', label: t.lePanier },
+  /* LE PANIER NON PLUS : un panier sans rien a y mettre est une porte qui
+     ment. Voir src/config.ts. */
+  ...(MARCHAND_ACTIF ? [{ href: '#/panier', id: 'panier' as const, label: t.lePanier }] : []),
   { href: '#/profil', id: 'profil', label: t.monProfil },
 ];
 
@@ -167,7 +172,11 @@ export function SiteNav({ variant, extra }: Props) {
         data-current={actif}
       >
         {item.label}
-        {item.id === 'panier' && <BadgePanier />}
+        {/* LE COMPTE N'EST NI AFFICHE NI LU quand la vente est fermee : sans
+            cette garde, l'entree disparaitrait du menu mais le crochet
+            continuerait a ouvrir le stockage local a chaque rendu. Le panier
+            garde ce qu'il contient, personne ne le regarde. */}
+        {MARCHAND_ACTIF && item.id === 'panier' && <BadgePanier />}
       </a>
     );
   };

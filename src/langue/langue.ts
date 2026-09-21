@@ -676,6 +676,11 @@ interface Dictionnaire {
   readonly consentementRefuser: string;
   readonly tracksChapeau: string;
   readonly tracksBientot: string;
+  /* LA PAGE QUE RENDENT #/tracks ET #/panier TANT QUE RIEN NE SE VEND.
+     Voir src/config.ts et src/marchand/MarchandFerme.tsx. */
+  readonly marchandFermeTexte: string;
+  readonly marchandFermeQuoi: string;
+  readonly marchandFermeRetour: string;
   readonly tracksBientotTexte: string;
   readonly lePanier: string;
   readonly panierVide: string;
@@ -1321,6 +1326,10 @@ const FR: Dictionnaire = {
   tracksChapeau:
     'Les morceaux des artistes de SONAA, achetés directement à celles et ceux qui les ont faits.',
   tracksBientot: 'Bientôt',
+  marchandFermeTexte:
+    'Il n’y a rien à acheter sur SONAA pour l’instant. Cette adresse restera la même le jour où la vente ouvrira.',
+  marchandFermeQuoi: 'Ce qui vient',
+  marchandFermeRetour: 'Voir les soirées',
   tracksBientotTexte:
     'La vente ouvre bientôt. Les artistes pourront déposer leurs morceaux, fixer leur prix, ' +
     'et recevoir l’argent sans intermédiaire de plus que la banque.',
@@ -1970,6 +1979,10 @@ const EN: Dictionnaire = {
   consentementRefuser: 'Cancel',
   tracksChapeau: 'Tracks by SONAA artists, bought straight from the people who made them.',
   tracksBientot: 'Coming soon',
+  marchandFermeTexte:
+    'There is nothing to buy on SONAA yet. This address will stay the same the day sales open.',
+  marchandFermeQuoi: 'What is coming',
+  marchandFermeRetour: 'See the nights',
   tracksBientotTexte:
     'Sales open soon. Artists will upload their tracks, set their own price, ' +
     'and get paid with no middleman beyond the bank.',

@@ -36,10 +36,12 @@ import {
   faHeadphones,
   faCartShopping,
   faRecordVinyl,
+  faLayerGroup,
 } from '@fortawesome/free-solid-svg-icons';
 import { courantDuSite } from './SiteNav.tsx';
 import { BadgePanier } from '../marchand/BadgePanier.tsx';
 import { t } from '../langue/langue.ts';
+import { MARCHAND_ACTIF } from '../config.ts';
 import './barre-bas.css';
 
 /* La classe posee sur `body` quand la barre est rendue. C'est elle que les
@@ -55,20 +57,43 @@ export function BarreBas() {
 
   const courant = courantDuSite(window.location.hash);
 
-  /* CINQ ONGLETS, ET PAS SIX. Au-dela, chaque onglet descend sous la largeur
-     d'un pouce sur un telephone etroit, et les libelles se coupent.
-     Styles et Profil en sortent le 17 septembre 2026 pour faire place a
-     Tracks et au Panier : ils vivent desormais dans le bouton « Plus » de
-     l'en-tete, qui n'existe que sur telephone. Voir MenuPlus.tsx. Ce n'est
-     pas un detail, c'est la contrepartie assumee de la couche marchande, et
-     elle est ecrite dans ADR-084. */
-  const onglets = [
-    { href: '#/calendrier', id: 'calendrier', label: t.leCalendrier, icone: faCalendarDays },
-    { href: '#/tracks', id: 'tracks', label: t.lesTracks, icone: faRecordVinyl },
-    { href: '#/mixtapes', id: 'mixtapes', label: t.lesMixtapes, icone: faHeadphones },
-    { href: '#/news', id: 'news', label: t.leNews, icone: faNewspaper },
-    { href: '#/panier', id: 'panier', label: t.lePanier, icone: faCartShopping },
-  ] as const;
+  /* CINQ ONGLETS AU MAXIMUM, ET PAS SIX. Au-dela, chaque onglet descend sous
+     la largeur d'un pouce sur un telephone etroit, et les libelles se
+     coupent.
+
+     ═══ STYLES REVIENT QUAND LA COUCHE MARCHANDE SE TAIT ═══
+
+     Styles et Profil etaient sortis de la barre le 17 septembre 2026 pour
+     faire place a Tracks et au Panier, et ADR-084 l'avait ecrit comme une
+     contrepartie assumee, en disant que la decision se rouvrirait si les
+     visites de Styles s'effondraient sur telephone.
+
+     Elle se rouvre plus tot, et pour une autre raison : Tracks et le Panier
+     ne s'annoncent plus tant que rien ne se vend (voir src/config.ts), donc
+     la place qu'ils occupaient est libre et la contrepartie n'a plus d'objet.
+     Styles reprend la sienne. C'est la section qui porte les 219 genres et
+     presque tout le referencement ; la laisser dans le bouton « Plus » alors
+     que la barre a de la place serait garder le prix apres avoir rendu
+     l'achat.
+
+     QUATRE ONGLETS ET NON CINQ, ET « PLUS » N'ENTRE PAS DANS LA BARRE. Il vit
+     deja dans l'en-tete sur telephone : deux portes vers le meme menu, a deux
+     endroits de l'ecran, se cherchent au lieu de se trouver. Quatre onglets
+     sont aussi plus larges que cinq, donc plus faciles a viser. */
+  const onglets = MARCHAND_ACTIF
+    ? ([
+        { href: '#/calendrier', id: 'calendrier', label: t.leCalendrier, icone: faCalendarDays },
+        { href: '#/tracks', id: 'tracks', label: t.lesTracks, icone: faRecordVinyl },
+        { href: '#/mixtapes', id: 'mixtapes', label: t.lesMixtapes, icone: faHeadphones },
+        { href: '#/news', id: 'news', label: t.leNews, icone: faNewspaper },
+        { href: '#/panier', id: 'panier', label: t.lePanier, icone: faCartShopping },
+      ] as const)
+    : ([
+        { href: '#/calendrier', id: 'calendrier', label: t.leCalendrier, icone: faCalendarDays },
+        { href: '#/parcourir', id: 'parcourir', label: t.lesStyles, icone: faLayerGroup },
+        { href: '#/mixtapes', id: 'mixtapes', label: t.lesMixtapes, icone: faHeadphones },
+        { href: '#/news', id: 'news', label: t.leNews, icone: faNewspaper },
+      ] as const);
 
   return (
     <nav className="barre-bas" aria-label={t.navigationDuSite}>
@@ -83,7 +108,7 @@ export function BarreBas() {
           >
             <span className="barre-bas-pastille">
               <FaIcon icon={o.icone} className="barre-bas-icone" />
-              {o.id === 'panier' && <BadgePanier />}
+              {MARCHAND_ACTIF && o.id === 'panier' && <BadgePanier />}
             </span>
             <span>{o.label}</span>
           </a>

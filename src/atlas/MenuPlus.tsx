@@ -17,6 +17,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { t } from '../langue/langue.ts';
+import { MARCHAND_ACTIF } from '../config.ts';
 import { courantDuSite } from './SiteNav.tsx';
 import './menu-plus.css';
 
@@ -45,7 +46,13 @@ export function MenuPlus() {
   }, [ouvert]);
 
   const liens: readonly { href: string; label: string; id?: string }[] = [
-    { href: '#/parcourir', label: t.lesStyles, id: 'parcourir' },
+    /* STYLES N'EST ICI QUE QUAND LA BARRE DU BAS N'A PLUS DE PLACE POUR LUI.
+       Il y avait ete range le 17 septembre 2026, chasse de la barre par
+       Tracks et le Panier. Tant que ces deux-la ne s'annoncent pas, il est
+       revenu dans la barre, et le redire ici ferait deux portes vers la meme
+       page a deux endroits du meme ecran. Voir BarreBas.tsx et
+       src/config.ts. */
+    ...(MARCHAND_ACTIF ? [{ href: '#/parcourir', label: t.lesStyles, id: 'parcourir' }] : []),
     /* LA RECONNAISSANCE SORT D'ICI AUSSI, le 21 septembre 2026, et pour la
        meme raison que de la rangee du bureau : elle entre par le bouton en
        haut de l'atlas, pas par une liste de portes. Voir SiteNav.tsx. */

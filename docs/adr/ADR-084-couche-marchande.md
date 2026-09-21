@@ -1,6 +1,7 @@
 # ADR-084 : SONAA ouvre une couche marchande
 
-Date : 17 septembre 2026. Statut : accepté, phase 0 livrée.
+Date : 17 septembre 2026. Statut : accepté, phase 0 livrée, mise en ligne
+marchande suspendue au drapeau `MARCHAND_ACTIF` depuis le 21 septembre 2026.
 
 Les ADR-001 à ADR-083 vivent dans [ARCHITECTURE.md](../../ARCHITECTURE.md).
 Celui-ci ouvre un dossier séparé parce qu'il gouverne un chantier de plusieurs
@@ -79,6 +80,46 @@ politiques, un déclencheur, cinq adaptateurs et une route de la passerelle,
 mais aucune migration ne la crée : sa forme n'existe que dans la base de
 production. Les événements de la communauté s'y rattachent.
 
+## La mise en ligne est conditionnée à un drapeau
+
+**Ajouté le 21 septembre 2026.** La phase 0 avait ouvert les portes avant la
+boutique : Tracks et Panier étaient dans le menu du bureau, dans la barre du
+téléphone, et Tracks était même indexable. La raison écrite alors se tenait,
+« une adresse apprise aujourd'hui est une adresse déjà classée le jour de
+l'ouverture », mais elle supposait une date d'ouverture. Il n'y en a pas.
+
+**`MARCHAND_ACTIF`, dans `src/config.ts`, est à `false`.** Tant qu'il y est :
+
+- Tracks et Panier sortent du menu du bureau, de la barre du téléphone, du
+  bouton « Plus » et du pied de page, qui ne les portait déjà pas ;
+- `#/tracks` et `#/panier` répondent toujours, et rendent une page « Bientôt »
+  dans les deux langues, avec un retour au calendrier ;
+- leurs pages pré-rendues portent `noindex, follow` et sortent donc du plan du
+  site et d'IndexNow ;
+- le panier persistant garde ce qu'il contient, mais plus personne ne le lit :
+  le compteur n'est plus rendu, donc le stockage local n'est plus ouvert.
+
+**Rien n'est supprimé.** Ni code, ni route, ni migration, ni test. `TracksPage`
+et `PanierEcran` existent, restent chargés à la demande, et reviennent en
+remettant le drapeau à `true`. C'est le même mécanisme que
+`PROPOSITIONS_OUVERTES`, et pour la même raison : ce qui se ferme, ce sont les
+portes.
+
+### Les deux conditions qui le remettent à `true`, et elles sont cumulatives
+
+1. **Le compte Stripe Connect est actif**, pas seulement créé. Sans lui aucune
+   vente n'est encaissable, et une page qui annonce une vente qu'on ne peut
+   pas encaisser est une promesse qu'on ne tient pas.
+2. **Les conditions de vente sont en ligne et écrites**, pas seulement
+   structurées. Les trois pages légales existent depuis le 17 septembre 2026
+   avec leurs titres et sans leur texte ; vendre avant qu'elles soient
+   remplies expose Mika personnellement.
+
+**Le drapeau seul suffit à rouvrir**, et c'est ce que vérifie
+`src/marchand/marchand-ferme.test.tsx` : il relit les trois menus d'un coup,
+parce que fermer quatre portes à la main, c'est en fermer trois et découvrir
+la quatrième en production.
+
 ## Le menu, et ce qu'il coûte sur téléphone
 
 **Sur ordinateur, les mots reviennent.** Le menu a porté des icônes avec le nom
@@ -105,6 +146,18 @@ genres et presque tout le référencement ; la sortir de la barre du bas est le
 prix de deux portes marchandes. Si les mesures montrent que les visites de
 Styles s'effondrent sur téléphone, la décision se rouvre : c'est une liste de
 cinq entrées dans un fichier.
+
+**Rouverte le 21 septembre 2026, et plus tôt que prévu.** Pas par une mesure
+de fréquentation, par une autre raison : Tracks et le Panier ne s'annoncent
+plus tant que rien ne se vend, donc la place qu'ils prenaient est libre et la
+contrepartie n'a plus d'objet. Styles reprend la sienne dans la barre, et sort
+du bouton « Plus » pour ne pas y être deux fois. La barre tombe à quatre
+onglets : Calendrier, Styles, Mixtapes, News.
+
+« Plus » n'entre pas dans la barre pour autant. Il vit déjà dans l'en-tête sur
+téléphone, et deux portes vers le même menu à deux endroits du même écran se
+cherchent au lieu de se trouver. Quatre onglets sont aussi plus larges que
+cinq, donc plus faciles à viser.
 
 Le seuil monte de 768 à 900 px, et c'est le seul endroit du site où cette
 frontière-là vaut 900 : entre les deux, sept mots tombaient à la ligne sous le
@@ -134,7 +187,7 @@ autorité demande au moteur d'arbitrer une contradiction qu'on a créée soi-mê
 - **Stripe Connect.** Aucune vente sans compte activé. C'est le premier geste
   de la phase A.
 
-## Ce que cette phase n'a pas fait
+## Ce que la phase 0 n'a pas fait
 
 Aucune migration, aucun appel Stripe, aucun secret nouveau, aucun fichier
 vendu, aucune écriture dans la page Tracks, qui affiche « bientôt » et le dit.

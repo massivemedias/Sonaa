@@ -2,6 +2,7 @@ import { StrictMode, lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './design/tokens.css';
 import './design/base.css';
+import { MARCHAND_ACTIF } from './config.ts';
 import { compterLaVisite, enregistrerLeServiceWorker, purgerSiDemande } from './lib/pwa.ts';
 import { hashDuChemin } from './lib/chemins.ts';
 import { PwaLayer } from './atlas/PwaLayer.tsx';
@@ -120,6 +121,13 @@ const SetsPage = lazy(() =>
    payer le panier, et le panier ne coute presque rien tant qu'il est vide. */
 const TracksPage = lazy(() =>
   import('./marchand/TracksPage.tsx').then((m) => ({ default: m.TracksPage }))
+);
+
+/* CE QUE LES DEUX ADRESSES RENDENT TANT QUE RIEN NE SE VEND. Le drapeau est
+   dans src/config.ts ; les deux ecrans de vente restent charges a la demande
+   et reviennent en le remettant a `true`. */
+const MarchandFerme = lazy(() =>
+  import('./marchand/MarchandFerme.tsx').then((m) => ({ default: m.MarchandFerme }))
 );
 
 /* RECONNAITRE : la page qui ecoute. Elle est differee comme les autres, et
@@ -294,11 +302,11 @@ function App() {
         ) : route === 'mixtapes' ? (
           <SetsPage />
         ) : route === 'tracks' ? (
-          <TracksPage />
+          MARCHAND_ACTIF ? <TracksPage /> : <MarchandFerme />
         ) : route === 'reconnaitre' ? (
           <ReconnaitrePage />
         ) : route === 'panier' ? (
-          <PanierEcran />
+          MARCHAND_ACTIF ? <PanierEcran /> : <MarchandFerme />
         ) : route === 'conditions' ? (
           <ConditionsPage />
         ) : route === 'confidentialite' ? (
