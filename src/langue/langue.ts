@@ -151,7 +151,6 @@ interface Dictionnaire {
   readonly appuyezEncore: string;
   readonly pisteIllisible: string;
   readonly aPropos: string;
-  readonly credits: string;
   readonly index: string;
   readonly navigationDuSite: string;
   readonly choixDeLangue: string;
@@ -696,19 +695,13 @@ interface Dictionnaire {
   readonly mentionsContact: string;
   readonly mentionsPropriete: string;
   readonly juridiqueEnRedaction: string;
-  readonly piedParcourir: string;
-  readonly piedParticiper: string;
-  readonly piedLeProjet: string;
   readonly piedIndex: string;
   readonly piedPropositions: string;
   readonly piedCode: string;
-  readonly piedMot: string;
   readonly piedEnCeMoment: (n: number) => string;
   readonly piedSeul: string;
   readonly piedAjouterEvenement: string;
   readonly piedDeposerMixtape: string;
-  readonly piedSlogan: string;
-  readonly piedVille: string;
   readonly stockageUtilise: (u: string, max: string) => string;
   readonly stockageSansLimite: (u: string) => string;
   readonly voirTousLesArtistes: (n: number) => string;
@@ -791,7 +784,6 @@ const FR: Dictionnaire = {
   appuyezEncore: 'Appuyez encore pour lancer le son.',
   pisteIllisible: 'Piste illisible',
   aPropos: 'À propos',
-  credits: 'Crédits',
   index: 'Index',
   navigationDuSite: 'Navigation du site',
   choixDeLangue: 'Langue de l’interface',
@@ -1340,21 +1332,13 @@ const FR: Dictionnaire = {
   mentionsContact: 'Contact',
   mentionsPropriete: 'Propriété intellectuelle',
   juridiqueEnRedaction: 'Texte juridique en rédaction, à recevoir de l’avocat.',
-  piedParcourir: 'Parcourir',
-  piedParticiper: 'Participer',
-  piedLeProjet: 'Le projet',
   piedIndex: 'Index des 219 genres',
   piedPropositions: 'Propositions du public',
-  piedCode: 'Le code, sur GitHub',
-  piedMot:
-    'SONAA, un atlas généalogique des musiques électroniques. 219 genres, 14 familles, ' +
-    'écrit et vérifié à la main.',
+  piedCode: 'GitHub',
   piedEnCeMoment: (n) => `${n} personnes sur le site en ce moment`,
   piedSeul: 'Tu es seul sur le site en ce moment',
   piedAjouterEvenement: 'Ajouter un événement',
   piedDeposerMixtape: 'Déposer une mixtape',
-  piedSlogan: 'Le calendrier, les styles et les sons de la musique électronique.',
-  piedVille: 'Fait à Montréal',
   stockageUtilise: (u, max) => `${u} utilisés sur ${max}.`,
   stockageSansLimite: (u) => `${u} déposés, sans limite sur ce compte.`,
   voirTousLesArtistes: (n) => `Voir les ${n} artistes`,
@@ -1439,7 +1423,6 @@ const EN: Dictionnaire = {
   appuyezEncore: 'Tap again to start the sound.',
   pisteIllisible: 'Track unavailable',
   aPropos: 'About',
-  credits: 'Credits',
   index: 'Index',
   navigationDuSite: 'Site navigation',
   choixDeLangue: 'Interface language',
@@ -1990,21 +1973,13 @@ const EN: Dictionnaire = {
   mentionsContact: 'Contact',
   mentionsPropriete: 'Intellectual property',
   juridiqueEnRedaction: 'Legal text being drafted, to come from the lawyer.',
-  piedParcourir: 'Browse',
-  piedParticiper: 'Take part',
-  piedLeProjet: 'The project',
   piedIndex: 'Index of all 219 genres',
   piedPropositions: 'Public proposals',
-  piedCode: 'The code, on GitHub',
-  piedMot:
-    'SONAA, a genealogical atlas of electronic music. 219 genres, 14 families, ' +
-    'written and checked by hand.',
+  piedCode: 'GitHub',
   piedEnCeMoment: (n) => `${n} people on the site right now`,
   piedSeul: 'You are alone on the site right now',
   piedAjouterEvenement: 'Add an event',
   piedDeposerMixtape: 'Upload a mixtape',
-  piedSlogan: 'The calendar, the styles and the sounds of electronic music.',
-  piedVille: 'Made in Montréal',
   stockageUtilise: (u, max) => `${u} used of ${max}.`,
   stockageSansLimite: (u) => `${u} uploaded, no limit on this account.`,
   voirTousLesArtistes: (n) => `See all ${n} artists`,

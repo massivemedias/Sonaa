@@ -159,7 +159,7 @@ ecrire({
     'Un atlas généalogique des musiques électroniques : 219 genres classés en 14 familles, avec pour chacun son histoire, ses morceaux de référence, ses machines et un cours de production.',
   corps: `${entete([{ nom: 'Styles', href: '/styles/' }])}<h1>Les styles de musique électronique</h1><p>219 genres, 14 familles, écrits et vérifiés à la main.</p><ul>${FAMILIES.map(
     (f, fi) => `<li><a href="/styles/${slug(f.label)}/">${h(f.label)}</a> : ${STRUCTURES[fi]?.genres.length ?? 0} genres</li>`
-  ).join('')}</ul>`,
+  ).join('')}</ul><p><a href="/styles/#/index">Index des 219 genres, à plat</a></p>`,
   jsonld: [filAriane([{ nom: 'Styles', href: '/styles/' }])],
 });
 

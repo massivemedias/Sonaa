@@ -358,6 +358,13 @@ export function ParcourirView() {
                 </button>
               ))}
             </div>
+            {/* L'INDEX A PLAT DESCEND ICI, DEPUIS LE PIED DE PAGE. Il y etait
+                noye parmi seize liens ; c'est sur la page des styles qu'on le
+                cherche, quand on sait deja le nom du genre et qu'on ne veut
+                pas traverser sa famille. */}
+            <p className="pv-index">
+              <a href="#/index">{t.piedIndex}</a>
+            </p>
           </>
         )}
 
