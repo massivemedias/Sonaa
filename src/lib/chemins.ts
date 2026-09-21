@@ -15,7 +15,18 @@
  * partagee par l'app et par le pre-rendu : un slug qui differerait entre
  * les deux ferait des pages que l'app ne saurait pas ouvrir. */
 
-import { FAMILIES, STRUCTURES } from '../atlas/structures.ts';
+/* LA TABLE EST LUE, PAS CALCULEE, ET C'EST TOUT L'INTERET.
+ *
+ * Elle etait construite ici a partir de `structures.ts`, donc du corpus. Or
+ * `main.tsx` appelle `hashDuChemin` au demarrage : le corpus entier, 1254 Ko
+ * minifies, entrait dans le bundle d'entree de chaque page pour une fonction
+ * qui ne lit que des noms de dossiers. Mesure le 21 septembre 2026 : 72 pour
+ * cent du poids de l'entree.
+ *
+ * La table fait maintenant onze kilo-octets et se regenere a chaque build
+ * (scripts/generer-chemins-styles.ts). Le corpus reste dans le morceau que la
+ * page des styles charge a la demande. */
+import CHEMINS_STYLES from '../data/chemins-styles.json';
 
 export const ORIGINE = 'https://sonaa.ca';
 
@@ -38,16 +49,15 @@ export interface CheminStyle {
   readonly gl: number | null;
 }
 
-/** Tous les chemins de styles : les familles puis chaque genre. */
+/** Tous les chemins de styles : les familles puis chaque genre. Lus dans la
+    table, dont l'ordre est celui du corpus au moment du build. */
 export function cheminsDesStyles(): CheminStyle[] {
-  const out: CheminStyle[] = [];
-  FAMILIES.forEach((f, fi) => {
-    out.push({ chemin: `/styles/${slug(f.label)}/`, hash: `#/parcourir/${fi}`, fi, gl: null });
-    (STRUCTURES[fi]?.genres ?? []).forEach((g, gl) => {
-      out.push({ chemin: `/styles/${slug(f.label)}/${slug(g.label)}/`, hash: `#/parcourir/${fi}/${gl}`, fi, gl });
-    });
+  return Object.entries(CHEMINS_STYLES as Record<string, string>).map(([chemin, hash]) => {
+    const bouts = hash.slice('#/parcourir/'.length).split('/');
+    const fi = Number(bouts[0]);
+    const gl = bouts.length > 1 ? Number(bouts[1]) : null;
+    return { chemin, hash, fi, gl };
   });
-  return out;
 }
 
 /** LES MEMES PAGES EN ANGLAIS vivent sous /en/ : /en/styles/techno/dub-techno/.
@@ -62,10 +72,16 @@ export function langueDuChemin(chemin: string): 'fr' | 'en' {
 /** L'ancre qui correspond a un chemin, ou null si le chemin n'est pas un
     chemin du site. Le pre-rendu ecrit ces chemins ; l'app les relit. */
 export function hashDuChemin(chemin: string): string | null {
-  const c = (langueDuChemin(chemin) === 'en' ? chemin.slice(PREFIXE_ANGLAIS.length) || '/' : chemin).replace(/\/+$/, '/');
+  /* LA BARRE FINALE EST AJOUTEE SI ELLE MANQUE. Les adresses ecrites par le
+     pre-rendu la portent toujours, et l'hebergeur redirige vers elle, mais
+     un lien copie a la main ou un service worker qui sert la coquille peut
+     arriver sans : la traduction repondait alors null et la page tombait sur
+     le calendrier. */
+  const nu = langueDuChemin(chemin) === 'en' ? chemin.slice(PREFIXE_ANGLAIS.length) || '/' : chemin;
+  const c = nu.endsWith('/') ? nu.replace(/\/+$/, '/') : `${nu}/`;
   if (c === '/styles/') return '#/parcourir';
-  const style = cheminsDesStyles().find((x) => x.chemin === c);
-  if (style) return style.hash;
+  const style = (CHEMINS_STYLES as Record<string, string>)[c];
+  if (style) return style;
   /* /soirees/montreal-ca/, /soirees/montreal-ca/techno/ (une famille) et
      /soirees/montreal-ca/<id>/ (une soiree) ouvrent tous le calendrier de la
      ville : la page pre-rendue a deja dit ce qu'il y avait a dire. */

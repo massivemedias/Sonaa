@@ -315,6 +315,23 @@ function entetes(req: Request, env: Env, extra: Record<string, string> = {}): He
   return h;
 }
 
+/* CE QUE LE NAVIGATEUR A LE DROIT DE GARDER, ET QUI MANQUAIT.
+ *
+ * La reponse de l'agenda etait gardee une heure dans le cache du Worker, et
+ * PAS UNE SECONDE dans celui du navigateur : aucun en-tete ne le lui disait.
+ * Chaque ouverture de la page repayait donc l'aller-retour, pour une liste
+ * qui ne bouge pas d'une minute a l'autre.
+ *
+ * Cinq minutes de fraicheur, une heure de rabiot : passe cinq minutes le
+ * navigateur affiche quand meme ce qu'il a, immediatement, et revalide en
+ * arriere-plan. Une soiree ajoutee met donc au plus cinq minutes a
+ * apparaitre, sans commune mesure avec le temps qu'elle a mis a etre
+ * moissonnee. */
+const CACHE_AGENDA = {
+  'content-type': 'application/json',
+  'cache-control': 'public, max-age=300, stale-while-revalidate=3600',
+};
+
 const refus = (req: Request, env: Env, code: number, message: string): Response =>
   new Response(JSON.stringify({ erreur: message }), {
     status: code,
@@ -812,7 +829,7 @@ export default {
       const cle = new Request(`${url.toString()}&v=${FORME_REPONSE}`, { method: 'GET' });
       const garde = await cache.match(cle);
       if (garde) {
-        const h = entetes(req, env, { 'content-type': 'application/json' });
+        const h = entetes(req, env, CACHE_AGENDA);
         h.set('x-cache', 'garde');
         return new Response(garde.body, { headers: h });
       }
@@ -842,7 +859,7 @@ export default {
         headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=3600' },
       });
       await cache.put(cle, aGarder.clone());
-      const h = entetes(req, env, { 'content-type': 'application/json' });
+      const h = entetes(req, env, CACHE_AGENDA);
       h.set('x-cache', 'frais');
       return new Response(corps, { headers: h });
     }

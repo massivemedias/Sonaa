@@ -415,7 +415,7 @@ async function lire<T>(chemin: string): Promise<T[]> {
 const quandLisible = (iso: string, fuseau: string): string =>
   new Intl.DateTimeFormat('fr-CA', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: fuseau }).format(new Date(iso));
 
-const villes = await lire<Ville>('villes?select=id,slug,name,country_code,timezone&is_active=eq.true');
+const villesConnues = await lire<Ville>('villes?select=id,slug,name,country_code,timezone&is_active=eq.true');
 const dans60Jours = new Date(Date.now() + 60 * 24 * 3600 * 1000).toISOString();
 const soirees = await lire<Soiree>(
   `soirees_manuelles?select=id,titre,debut,fin,lieu,adresse,lien,affiche,artistes,genres,organisateur,description,ville_id,prix,created_at&publiee=eq.true&debut=gte.${new Date().toISOString()}&debut=lte.${dans60Jours}&order=debut.asc&limit=1000`
@@ -484,7 +484,7 @@ const evenementDe = (s: Soiree, v: Ville, cheminVille: string): unknown => {
 };
 
 if (soirees.length > 0) {
-  const villesAvecSoirees = villes.filter((v) => soirees.some((s) => s.ville_id === v.id));
+  const villesAvecSoirees = villesConnues.filter((v) => soirees.some((s) => s.ville_id === v.id));
   ecrire({
     chemin: '/soirees/',
     hash: '#/calendrier',
@@ -495,7 +495,7 @@ if (soirees.length > 0) {
       .join('')}</ul>`,
     jsonld: [filAriane([{ nom: 'Soirées', href: '/soirees/' }])],
   });
-  for (const v of villes) {
+  for (const v of villesConnues) {
     const liste = soirees.filter((s) => s.ville_id === v.id);
     if (liste.length === 0) continue;
     const cheminVille = `/soirees/${v.slug}/`;
@@ -731,8 +731,63 @@ if (existsSync(cheminNews)) {
     .filter((p) => /^\/soirees\/[a-z-]+\/$/.test(p.chemin))
     .map((p) => `<li><a href="${p.chemin}">${h(p.titre.replace(/ · SONAA$/, ''))}</a></li>`)
     .join('');
-  const corps = `<h1>SONAA</h1><p>Le calendrier des soirées électroniques et l’atlas des 219 styles de musique électronique, avec un cours de production par style.</p><h2>Les soirées</h2><ul>${villes}</ul><h2>Les styles</h2><ul><li><a href="/styles/">Tous les styles</a></li>${familles}</ul><h2>Et aussi</h2><ul><li><a href="/mixtapes/">Les mixtapes des DJs</a></li><li><a href="/tracks/">Les tracks à acheter</a></li><li><a href="/news/">Les news</a></li><li><a href="${PREFIXE_ANGLAIS}/styles/" hreflang="en">Electronic music styles, in English</a></li></ul>`;
-  writeFileSync(join(DIST, 'index.html'), gabarit.replace('<div id="root">', `<div id="root"><main class="prerendu">${corps}</main>`), 'utf8');
+  /* ═══ LES VINGT PROCHAINES SOIREES DE MONTREAL, DANS LE HTML ═══
+   *
+   * Mika, le 21 septembre 2026 : « a l'arrivee sur la racine, la liste met du
+   * temps a apparaitre ». Elle attendait le bundle, puis le montage de React,
+   * puis deux allers-retours pour deviner la ville, puis la requete. Ecrite
+   * ici, elle est lisible AVANT que la moindre ligne de JavaScript s'execute.
+   *
+   * MONTREAL SEULEMENT, ET C'EST ASSUME : c'est la ville de loin la plus
+   * demandee, et une page statique ne peut pas en servir vingt-trois. Les
+   * autres se chargent comme avant, sans rien perdre. */
+  const avecSoirees = villesConnues.filter((v) => soirees.some((x) => x.ville_id === v.id));
+  const montreal = avecSoirees.find((v) => v.slug === 'montreal-ca') ?? avecSoirees[0];
+  const prochaines = montreal
+    ? soirees
+        .filter((x) => x.ville_id === montreal.id)
+        .slice(0, 20)
+        .map(
+          (x) =>
+            `<li><a href="/soirees/${montreal.slug}/${x.id}/">${h(x.titre)}</a> : ${h(quandLisible(x.debut, montreal.timezone))}${x.lieu ? `, ${h(x.lieu)}` : ''}</li>`
+        )
+        .join('')
+    : '';
+
+  const corps =
+    `<h1>SONAA</h1><p>Le calendrier des soirées électroniques et l’atlas des 219 styles de musique électronique, avec un cours de production par style.</p>` +
+    (prochaines
+      ? `<h2>Les prochaines soirées à ${h(montreal?.name ?? '')}</h2><ul>${prochaines}</ul><p><a href="/soirees/${montreal?.slug ?? ''}/">Tout le calendrier de ${h(montreal?.name ?? '')}</a></p>`
+      : '') +
+    `<h2>Les soirées ailleurs</h2><ul>${villes}</ul><h2>Les styles</h2><ul><li><a href="/styles/">Tous les styles</a></li>${familles}</ul><h2>Et aussi</h2><ul><li><a href="/mixtapes/">Les mixtapes des DJs</a></li><li><a href="/tracks/">Les tracks à acheter</a></li><li><a href="/news/">Les news</a></li><li><a href="${PREFIXE_ANGLAIS}/styles/" hreflang="en">Electronic music styles, in English</a></li></ul>`;
+
+  /* ═══ LA REQUETE PART AVANT LE BUNDLE ═══
+   *
+   * Elle partait apres : telechargement du bundle, montage de React, deux
+   * allers-retours pour deviner la ville, PUIS l'agenda. Mesure le
+   * 21 septembre 2026, le premier octet de soiree arrivait a 1584 ms sur une
+   * connexion rapide, et l'essentiel de ce delai etait de l'attente.
+   *
+   * Ce fragment tient dans le HTML, il s'execute donc pendant que le bundle
+   * se telecharge, et il range la promesse. `src/lib/agenda.ts` la reprend si
+   * l'adresse correspond, et refait une requete normale sinon : une derive
+   * entre cette copie et `fenetreDe` coute l'optimisation, jamais un defaut.
+   *
+   * ZONE 40, MONTREAL, pour la meme raison que la liste ci-dessus. */
+  const precharge = `<script>(function(){try{
+var p=function(n){return String(n).padStart(2,'0')};
+var f=function(d){return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds())+'.000'};
+var a=new Date();a.setHours(0,0,0,0);
+var b=new Date(a);b.setDate(b.getDate()+90);b.setHours(23,59,59,999);
+var u='https://sonaa-sets.massivemedias.workers.dev/api/agenda?zone=40&du='+encodeURIComponent(f(a))+'&au='+encodeURIComponent(f(b))+'&pages=8';
+window.__precharge={};window.__precharge[u]=fetch(u);
+}catch(e){}})();</script>`;
+
+  writeFileSync(
+    join(DIST, 'index.html'),
+    gabarit.replace('<div id="root">', `${precharge}<div id="root"><main class="prerendu">${corps}</main>`),
+    'utf8'
+  );
 }
 
 /* ═══ LE PLAN DU SITE ET LES ROBOTS ═══ */

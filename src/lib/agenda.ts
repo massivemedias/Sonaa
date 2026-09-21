@@ -107,12 +107,29 @@ export async function agenda(opts: {
   if (opts.genre) p.set('genre', opts.genre);
   if (opts.pages && opts.pages > 1) p.set('pages', String(opts.pages));
   try {
-    const r = await fetch(`${PASSERELLE}/api/agenda?${p.toString()}`);
+    const r = await reprendre(`${PASSERELLE}/api/agenda?${p.toString()}`);
     if (!r.ok) return null;
     return (await r.json()) as { soirees: Soiree[]; total: number };
   } catch {
     return null;
   }
+}
+
+/* LA REQUETE A PEUT-ETRE DEJA ETE LANCEE PAR LE HTML.
+ *
+ * La page d'accueil pre-rendue porte un fragment qui demande l'agenda de
+ * Montreal pendant que le bundle se telecharge, et range la promesse sous
+ * l'adresse exacte. Si c'est la meme, on la reprend : la reponse est alors
+ * deja la, ou en route depuis une seconde. Sinon on demande normalement, et
+ * personne ne s'en apercoit. Voir scripts/prerender.ts. */
+function reprendre(url: string): Promise<Response> {
+  const cache = (window as unknown as { __precharge?: Record<string, Promise<Response>> }).__precharge;
+  const deja = cache?.[url];
+  if (deja) {
+    delete cache[url];
+    return deja;
+  }
+  return fetch(url);
 }
 
 /* --- Les styles suivis --------------------------------------------------- */
