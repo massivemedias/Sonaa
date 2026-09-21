@@ -29,7 +29,7 @@ export function TracksPage() {
       <main className="credits">
         <header className="credits-head">
           <h1>{t.lesTracks}</h1>
-          <p className="credits-lede">{t.tracksChapeau}</p>
+          <p className="credits-lede intro-page">{t.tracksChapeau}</p>
         </header>
 
         <div className="credits-body">

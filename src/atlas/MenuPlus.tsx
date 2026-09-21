@@ -46,7 +46,9 @@ export function MenuPlus() {
 
   const liens: readonly { href: string; label: string; id?: string }[] = [
     { href: '#/parcourir', label: t.lesStyles, id: 'parcourir' },
-    { href: '#/reconnaitre', label: t.reconnaitre, id: 'reconnaitre' },
+    /* LA RECONNAISSANCE SORT D'ICI AUSSI, le 21 septembre 2026, et pour la
+       meme raison que de la rangee du bureau : elle entre par le bouton en
+       haut de l'atlas, pas par une liste de portes. Voir SiteNav.tsx. */
     { href: '#/profil', label: t.monProfil, id: 'profil' },
     { href: '#/a-propos', label: t.aPropos, id: 'apropos' },
   ];

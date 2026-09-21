@@ -759,7 +759,7 @@ export function CalendrierPage() {
         ) : (
           <header className="credits-head">
             <h1>{t.leCalendrier}</h1>
-            <p className="credits-lede">{t.ledeCalendrier}</p>
+            <p className="credits-lede intro-page">{t.ledeCalendrier}</p>
           </header>
         )}
 

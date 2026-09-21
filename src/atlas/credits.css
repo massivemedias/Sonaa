@@ -67,6 +67,23 @@
    pour qu'elle couvre toute la largeur pendant que son contenu s'aligne sur
    la colonne. Il n'y a plus de navigation a placer ici. */
 
+/* UN EN-TETE QUI PORTE UN CHAPEAU DE SECTION N'EST PLUS UNE COLONNE DE
+   LECTURE.
+
+   Les 38 rem ci-dessus sont une mesure de lecture, juste pour A propos et
+   Credits, qui sont de la prose. Les sections du site, elles, ouvrent sur un
+   chapeau de cent signes (voir `.intro-page` dans design/base.css) : borne a
+   38 rem, il s'arretait 180 px avant sa propre mesure, et la classe commune
+   ne servait plus a rien la ou elle devait servir.
+
+   LA REGLE NE VISE QUE LES EN-TETES CONCERNES, par la presence du chapeau
+   lui-meme, et non par une liste de pages qu'il faudrait tenir a jour. Le
+   titre au-dessus est court partout ou cela s'applique, donc rien d'autre ne
+   bouge. */
+.credits-head:has(> .intro-page) {
+  max-width: none;
+}
+
 /* LA RESERVE PROTEGE LE TITRE, PAS TOUT L'EN-TETE.
    Elle etait posee sur `.credits-head`, donc sur le titre ET sur le chapeau
    qui le suit. Le titre en a besoin : il partage sa ligne avec le bouton de

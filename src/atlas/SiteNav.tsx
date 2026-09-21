@@ -61,9 +61,25 @@ const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
   { href: '#/news', id: 'news', label: t.leNews },
   { href: '#/parcourir', id: 'parcourir', label: t.lesStyles },
   { href: '#/mixtapes', id: 'mixtapes', label: t.lesMixtapes },
-  { href: '#/reconnaitre', id: 'reconnaitre', label: t.reconnaitre },
   { href: '#/tracks', id: 'tracks', label: t.lesTracks },
 ];
+
+/* ═══ LA RECONNAISSANCE N'EST PLUS UNE PORTE DU MENU ═══
+ *
+ * Elle y a ete du 19 au 21 septembre 2026, entre Mixtapes et Tracks. Ce
+ * n'est pas une section du site, c'est un geste : on ne la cherche pas en
+ * arrivant, on y pense quand on entend quelque chose qu'on ne nomme pas.
+ * Une septieme entree la mettait au meme rang que les six sections, qui,
+ * elles, portent du contenu.
+ *
+ * ELLE ENTRE PAR L'ATLAS, ou la question se pose. Un bouton large en haut de
+ * /styles/ demande « Quel style joue la ? » et ouvre la meme page. Voir
+ * ParcourirView.tsx.
+ *
+ * LA ROUTE RESTE VIVANTE, et c'est le point : #/reconnaitre et /reconnaitre/
+ * repondent comme avant, les liens partages tiennent, l'historique local du
+ * visiteur aussi, et `courantOf` reconnait toujours l'adresse pour que la
+ * page s'allume quand on y est. Seule l'annonce a bouge. */
 
 /* CE QUI APPARTIENT AU VISITEUR, apres le separateur : son panier, son
    compte. « A propos » a quitte la rangee en meme temps que les icones : a

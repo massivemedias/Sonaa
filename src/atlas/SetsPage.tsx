@@ -123,6 +123,10 @@ function ListeDesArtistes() {
       <EnTeteSite />
       <main className="credits sets-page">
       <h1>{t.lesMixtapes}</h1>
+      {/* LE CHAPEAU QUI MANQUAIT. La page ouvrait sur un titre puis une grille
+          de portraits, sans une phrase pour dire ce qu'on ecoute ici : elle
+          etait la seule des cinq sections dans ce cas. */}
+      <p className="sp-lede intro-page">{t.ledeMixtapes}</p>
 
       <h2 className="sp-sous-titre sp-sous-titre-premier">{t.lesArtistes}</h2>
 

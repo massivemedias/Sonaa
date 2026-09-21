@@ -68,7 +68,7 @@ export function ReconnaitrePage() {
   const vivant = useRef(true);
 
   useEffect(() => {
-    document.title = `${t.reconnaitre} · SONAA`;
+    document.title = `${t.quelStyleJoue} · SONAA`;
     setHistorique(lireHistorique());
     return () => {
       vivant.current = false;
@@ -157,7 +157,7 @@ export function ReconnaitrePage() {
       <EnTeteSite />
       <main className="credits rc">
         <header className="credits-head">
-          <h1>{t.reconnaitre}</h1>
+          <h1>{t.quelStyleJoue}</h1>
           <p className="credits-lede">{t.reconnaitreChapeau}</p>
         </header>
 

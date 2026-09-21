@@ -23,10 +23,10 @@
   color: var(--ink-secondary);
 }
 .news-lede {
-  /* 70 SIGNES. Mika, le 17 septembre 2026 : « contrains la description a
-     70ch pour la lisibilite ». La manchette, elle, va au bord de la colonne
-     de 1240 px, comme le titre qu'elle porte. */
-  max-width: 70ch;
+  /* LA LARGEUR N'EST PLUS ICI. Elle a valu 70 signes du 17 au 21 septembre
+     2026, puis Mika l'a portee a 100 pour les cinq chapeaux de section a la
+     fois : elle vit desormais dans `.intro-page`, dans design/base.css, et
+     cette classe-ci ne garde que la couleur et le rythme. */
   margin: 0;
   color: var(--ink-secondary);
   line-height: 1.5;

@@ -628,6 +628,10 @@ interface Dictionnaire {
   readonly retirerLeStyle: (nom: string) => string;
   readonly lesArtistes: string;
   readonly lesMixtapes: string;
+  /* LA PAGE DES MIXTAPES N'AVAIT PAS DE CHAPEAU, la seule des cinq sections
+     dans ce cas. Elle ouvrait sur un titre puis une grille de portraits, sans
+     une phrase pour dire ce qu'on ecoute ici ni qui l'a depose. */
+  readonly ledeMixtapes: string;
   /* ═══ LA COUCHE MARCHANDE ═══ Ouverte le 17 septembre 2026, phase 0 : les
      mots existent, la vente n'existe pas encore. Voir docs/adr/ADR-084. */
   readonly lesTracks: string;
@@ -641,7 +645,11 @@ interface Dictionnaire {
   readonly heroAffiches: string;
   /* ═══ RECONNAITRE ═══ La page qui ecoute ce qui passe dans la piece.
      Voir src/reconnaitre/ et RECONNAITRE.md. */
-  readonly reconnaitre: string;
+  /* LE TITRE DE LA PAGE, ET LE BOUTON QUI Y MENE DEPUIS L'ATLAS : le meme
+     libelle, une seule clef. « Reconnaitre » nommait l'outil ; la question
+     nomme ce que le visiteur vient chercher, et c'est elle qui tient sur un
+     bouton au milieu d'une page de styles. */
+  readonly quelStyleJoue: string;
   readonly reconnaitreChapeau: string;
   readonly reconnaitreEcouter: string;
   readonly reconnaitreEnEcoute: (s: number) => string;
@@ -1267,6 +1275,9 @@ const FR: Dictionnaire = {
   retirerLeStyle: (nom) => `Retirer ${nom}`,
   lesArtistes: 'Artistes',
   lesMixtapes: 'Mixtapes',
+  ledeMixtapes:
+    'Les sets déposés par les membres, longs et continus, à écouter en entier. ' +
+    'Chaque mixtape dit qui l’a faite et dans quels styles elle se tient.',
   lesTracks: 'Tracks',
   heroTitre: 'Ne manque plus une soirée',
   heroPhrase:
@@ -1277,7 +1288,7 @@ const FR: Dictionnaire = {
   heroVilleAutre: 'Changer de ville',
   heroChoisirVille: 'Choisir votre ville',
   heroAffiches: 'Les prochaines soirées',
-  reconnaitre: 'Reconnaître',
+  quelStyleJoue: 'Quel style joue là ?',
   reconnaitreChapeau:
     'Faites écouter à SONAA ce qui passe à la radio, à la télé ou dans la pièce. ' +
     'Le style est reconnu sur votre appareil, sans que le son en sorte.',
@@ -1914,6 +1925,9 @@ const EN: Dictionnaire = {
   retirerLeStyle: (nom) => `Remove ${nom}`,
   lesArtistes: 'Artists',
   lesMixtapes: 'Mixtapes',
+  ledeMixtapes:
+    'Sets uploaded by members, long and continuous, made to be heard whole. ' +
+    'Every mixtape says who made it and which styles it sits in.',
   lesTracks: 'Tracks',
   heroTitre: 'Never miss a night',
   heroPhrase:
@@ -1924,7 +1938,7 @@ const EN: Dictionnaire = {
   heroVilleAutre: 'Change city',
   heroChoisirVille: 'Choose your city',
   heroAffiches: 'The nights coming up',
-  reconnaitre: 'Recognise',
+  quelStyleJoue: 'What style is playing?',
   reconnaitreChapeau:
     'Let SONAA listen to what is playing on the radio, the TV or in the room. ' +
     'The style is recognised on your own device, and the sound never leaves it.',

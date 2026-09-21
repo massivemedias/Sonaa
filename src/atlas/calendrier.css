@@ -179,7 +179,9 @@
   max-width: none;
 }
 
-.cal .credits-lede,
+/* LE CHAPEAU SORT DE CETTE LISTE : sa largeur vient de `.intro-page`, la
+   classe commune aux cinq sections. Les notes et les totaux, eux, restent a
+   38 rem : ce sont des remarques de bas de liste, pas une ouverture. */
 .cal .cal-note,
 .cal .cal-total,
 .cal .cal-panne {

@@ -275,7 +275,49 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 
 /* La sortie vers les autres vues, en pied de la premiere page seulement : on
    ne la repete pas a chaque niveau, ou elle deviendrait du decor. */
+/* ═══ LE BOUTON QUI POSE LA QUESTION ═══
+
+   La reconnaissance a quitte le menu le 21 septembre 2026 et entre par ici.
+   Elle ouvre donc la page, avant le chapeau et avant la grille.
+
+   IL PREND LA LARGEUR, comme les tuiles au-dessous, et il emprunte leur
+   matiere : meme plaque levee, meme rayon, meme encre. Ce n'est pas un
+   ornement pose sur la page, c'est le premier objet de la grille, sauf qu'il
+   mene ailleurs. Un bouton etroit et colore aurait eu l'air d'une reclame.
+
+   LE MICRO EST LA POUR ETRE RECONNU DE LOIN, pas pour decorer : c'est le seul
+   dessin de la page, et il dit en un coup d'oeil que celui-ci ecoute quand
+   tout le reste se lit. */
+.pv-reco {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.9rem 0 0;
+  padding: 0.95rem 1.15rem;
+  border-radius: 26px;
+  background: var(--leve-2);
+  color: var(--encre-vive-3);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: var(--serrage);
+  transition: background 0.15s ease;
+}
+.pv-reco:hover,
+.pv-reco:focus-visible {
+  background: var(--leve-4);
+}
+.pv-reco-icone {
+  flex: 0 0 auto;
+  width: 1.05rem;
+  height: 1.05rem;
+}
+.pv-reco-mot {
+  min-width: 0;
+}
+
 .pv-intro {
+  /* La largeur vient de `.intro-page` : voir design/base.css. */
   margin: 0.9rem 0 0.7rem;
   color: var(--encre-douce-3);
   font-size: 0.775rem;

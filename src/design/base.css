@@ -161,3 +161,28 @@ html {
 :root[data-theme='clair'] img[src$='sonaa-logo.png'] {
   filter: invert(1) brightness(0.82);
 }
+
+
+/* ═══ LE CHAPEAU D'UNE SECTION : UNE SEULE CLASSE, UNE SEULE MESURE ═══
+ *
+ * Les cinq sections du site ouvrent sur un paragraphe qui dit ce qu'on
+ * trouve la. Ils avaient cinq largeurs : 70 signes sur News, 38 rem sur le
+ * calendrier, 60 sur Tracks, rien sur Styles, et pas de chapeau du tout sur
+ * Mixtapes. Cinq valeurs pour une seule notion, c'est le motif que ce depot
+ * connait : celle qu'on change n'est jamais celle qu'on regarde.
+ *
+ * CENT SIGNES, REGLE PAR MIKA LE 21 SEPTEMBRE 2026. Un chapeau n'est pas un
+ * texte de lecture longue : il se parcourt en une ou deux lignes sous un
+ * titre qui, lui, va au bord de la colonne. A 70 signes il s'arretait au
+ * tiers de la page et se lisait comme une colonne oubliee.
+ *
+ * LA BORNE NE MORD QUE SUR ORDINATEUR, et c'est voulu : sur un telephone
+ * cent signes depassent largement la fenetre, donc la regle ne change rien
+ * et n'a pas besoin d'une media query pour le dire.
+ *
+ * CE QUI RESTE A 70 SIGNES : les fiches de style, de famille et de mixtape.
+ * Ce sont des textes qu'on lit vraiment, parfois sept cents signes, et la
+ * mesure de lecture y a sa raison d'etre. Voir parcourir.css et sets.css. */
+.intro-page {
+  max-width: 100ch;
+}

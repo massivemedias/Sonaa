@@ -303,7 +303,7 @@ export function NewsPage() {
         <header className="news-manchette">
           <h1>News</h1>
           <p className="news-edition">{dateDeLEdition()}</p>
-          <p className="news-lede">{t.ledeNews}</p>
+          <p className="news-lede intro-page">{t.ledeNews}</p>
         </header>
 
         <div className="news-filtres" role="tablist" aria-label={t.newsRayons}>

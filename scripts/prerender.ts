@@ -634,18 +634,31 @@ ecrire({
   jsonld: [filAriane([{ nom: 'Tracks', href: '/tracks/' }])],
 });
 
-/* RECONNAITRE A SA PAGE, ET ELLE EST INDEXABLE. Ce qu'elle promet se decrit
-   en trois phrases, et « reconnaitre un style de musique electronique » est
-   une chose que les gens cherchent. Le modele, lui, ne se telecharge qu'au
-   clic : rien de lourd n'est annonce ici. */
+/* LA PAGE DU MICRO, ET ELLE RESTE INDEXABLE MEME SORTIE DU MENU.
+
+   Elle a quitte la rangee du menu le 21 septembre 2026 ; elle garde son
+   adresse, sa page pre-rendue et sa place dans le plan du site. Ce qu'elle
+   promet se decrit en trois phrases, et « identifier un style de musique
+   electronique » est une chose que les gens cherchent.
+
+   LE LIBELLE VISIBLE EST LA QUESTION, PAS LE NOM DE L'OUTIL, en h1 comme dans
+   le fil d'Ariane, exactement comme dans l'application : deux pages qui
+   portent deux titres differents pour la meme adresse, c'est un moteur qui
+   arbitre a notre place.
+
+   LE MOT « RECONNAITRE » SORT DU TITRE ET « IDENTIFIER » LE REMPLACE. Le
+   titre est un libelle, il est lu dans l'onglet et dans les resultats de
+   recherche ; la formule cherchee est gardee avec un synonyme plutot que
+   perdue. Le modele, lui, ne se telecharge qu'au clic : rien de lourd n'est
+   annonce ici. */
 ecrire({
   chemin: '/reconnaitre/',
   hash: '#/reconnaitre',
-  titre: 'Reconnaître un style de musique électronique par le micro · SONAA',
+  titre: 'Quel style joue là ? Identifier un style de musique électronique au micro · SONAA',
   description:
     'Faites écouter à SONAA ce qui passe à la radio ou dans la pièce : le style est reconnu sur votre appareil, sans que le son en sorte.',
-  corps: `${entete([{ nom: 'Reconnaître', href: '/reconnaitre/' }])}<h1>Reconnaître</h1><p>Faites écouter à SONAA ce qui passe à la radio, à la télé ou dans la pièce. Le style est reconnu sur votre appareil, sans que le son en sorte.</p><h2>Comment ça marche</h2><p>Le micro écoute dix secondes, après votre accord. Un modèle de reconnaissance tourne dans votre navigateur et rend les trois styles les plus probables, rattachés aux 219 genres de l’atlas quand ils y existent. Le son ne part sur aucun serveur.</p><p>Le style est une estimation faite sur dix secondes, pas un verdict : une voix, une publicité ou un enchaînement le trompent.</p><p><a href="/styles/">L’atlas des styles</a></p>`,
-  jsonld: [filAriane([{ nom: 'Reconnaître', href: '/reconnaitre/' }])],
+  corps: `${entete([{ nom: 'Quel style joue là ?', href: '/reconnaitre/' }])}<h1>Quel style joue là ?</h1><p>Faites écouter à SONAA ce qui passe à la radio, à la télé ou dans la pièce. Le style est reconnu sur votre appareil, sans que le son en sorte.</p><h2>Comment ça marche</h2><p>Le micro écoute dix secondes, après votre accord. Un modèle de reconnaissance tourne dans votre navigateur et rend les trois styles les plus probables, rattachés aux 219 genres de l’atlas quand ils y existent. Le son ne part sur aucun serveur.</p><p>Le style est une estimation faite sur dix secondes, pas un verdict : une voix, une publicité ou un enchaînement le trompent.</p><p><a href="/styles/">L’atlas des styles</a></p>`,
+  jsonld: [filAriane([{ nom: 'Quel style joue là ?', href: '/reconnaitre/' }])],
 });
 
 ecrire({

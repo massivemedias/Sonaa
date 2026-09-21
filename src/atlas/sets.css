@@ -252,6 +252,14 @@
   margin: 0 0 0.6rem;
   font-size: 0.8125rem;
 }
+/* LE CHAPEAU DE LA SECTION, qui n'existait pas avant le 21 septembre 2026.
+   Sa largeur vient de `.intro-page` ; ici, seulement le ton et le rythme. */
+.sp-lede {
+  margin: 0.6rem 0 1.8rem;
+  color: var(--ink-secondary);
+  line-height: 1.5;
+}
+
 .sp-description {
   margin: 1.2rem 0 0;
   /* 70 SIGNES, comme les descriptions de styles depuis le 17 septembre 2026.
