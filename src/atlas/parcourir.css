@@ -1273,38 +1273,42 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      1,65 ecartait les lignes au point que le paragraphe se lisait comme une
      suite de lignes voisines ; 1,45 le rassemble en bloc. */
   .pv-description {
-    /* 70 SIGNES, ET C'EST UN RETOUR EN ARRIERE ASSUME.
+    /* PLUS DE BORNE : LA LARGEUR DU CONTENU, ET LE CORPS BAISSE D'UN PIXEL.
 
-       Le 14 septembre 2026, sur capture, Mika demandait l'inverse : « prends
-       la largeur qu'il faut, t'es en desktop », et la borne est passee de 62
-       a 120. Mesure le 17 septembre sur un ecran de 2560 px : 120 signes
-       donnaient 137 caracteres par ligne, ce qui ne se lit plus, et c'est ce
-       qu'il a signale. 70 est la valeur qu'il a nommee. Le titre et la grille
-       vont toujours au bord de la colonne ; seul le paragraphe s'arrete. */
-    max-width: 70ch;
-    font-size: 1.0625rem;
+       TROIS VALEURS EN SEPT JOURS, ET LA QUATRIEME EST DIFFERENTE DES TROIS
+       AUTRES. 62 signes au depart, 120 le 14 septembre 2026, 70 le 18, et
+       chacune de ces trois-la etait une mesure de lecture cherchee au
+       jugement, sur un ecran, puis corrigee sur un autre. Une valeur qu'on
+       rejuge trois fois n'est pas une valeur, c'est un symptome.
+
+       MIKA, LE 21 SEPTEMBRE 2026 : la description prend la largeur du
+       contenu, celle de la grille de tuiles au-dessus. Il n'y a donc plus
+       rien a regler ici : le paragraphe s'arrete ou s'arrete la grille, a
+       1240 px sur la colonne de page, et le jour ou la colonne change, il
+       suit tout seul. C'est le titre et la grille qui donnent la mesure,
+       plus une borne posee a cote d'eux.
+
+       CE QUE CA COUTE, ET C'EST ASSUME : sur un tres grand ecran une ligne
+       passe les cent signes. Le corps descend d'un pixel pour cela, ce qui
+       rend une dizaine de signes par ligne sans que le texte devienne petit.
+
+       L'INTERLIGNE NE BOUGE PAS. Reglee dans le navigateur par Mika le
+       17 septembre, 1,45 rassemble le paragraphe en bloc la ou 1,65 le
+       laissait en lignes voisines. */
+    font-size: 1rem;
     line-height: 1.45;
   }
 
-  /* LE TEXTE DE FAMILLE N'EST PAS UN CHAPEAU DE GENRE, ET LA MEME REGLE NE
-     PEUT PAS SERVIR AUX DEUX.
+  /* LE TEXTE DE FAMILLE SUIT LA DESCRIPTION DE GENRE, et il n'y a plus de
+     raison de les separer.
 
-     Les descriptions de genre font 354 signes en mediane, et 62 signes de
-     mesure leur vont. Le texte de famille fait de 583 a 739 signes et ouvre
-     la page : borne a la meme mesure, il s'arretait a mi-largeur sous un
-     titre qui, lui, va au bord.
-
-     120 SIGNES, CE N'EST PLUS UNE MESURE DE LECTURE, ET C'EST VOULU. Regle
-     dans le navigateur par Mika. A 1240 px de page la borne ne mord presque
-     plus : le paragraphe suit la largeur du contenu, comme le titre et la
-     grille au-dessous. Un texte d'ouverture qui s'interrompt a mi-chemin
-     pendant que tout le reste va au bord ne se lit pas comme une
-     introduction, il se lit comme une colonne oubliee. */
-  .pv-description-famille {
-    /* Meme mesure que la description d'un genre, meme raison : voir
-       ci-dessus. */
-    max-width: 70ch;
-  }
+     Ils ont eu deux regles, parce qu'ils avaient deux longueurs : 354 signes
+     en mediane pour un genre, de 583 a 739 pour une famille, et une borne
+     qui allait a l'un coupait l'autre a mi-largeur sous un titre qui, lui,
+     allait au bord. Depuis que ni l'un ni l'autre n'est borne, la question
+     ne se pose plus : les deux prennent la largeur du contenu, et l'element
+     de famille porte deja les deux classes, donc le corps reduit le suit
+     sans qu'on le redise. */
   /* LA BORNE EST SUR LA SECTION, PAS SUR LE PARAGRAPHE.
 
      Elle etait sur le paragraphe, et l'image flottante s'en moquait : elle se

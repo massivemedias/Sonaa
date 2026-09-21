@@ -262,12 +262,30 @@
 
 .sp-description {
   margin: 1.2rem 0 0;
-  /* 70 SIGNES, comme les descriptions de styles depuis le 17 septembre 2026.
-     La forme d'onde au-dessus garde la largeur de la page : c'est un dessin,
-     il se regarde ; le texte se lit. */
-  max-width: 70ch;
   line-height: 1.7;
   white-space: pre-wrap;
+}
+
+/* LA DESCRIPTION PREND LA LARGEUR DU CONTENU, SUR BUREAU SEULEMENT.
+
+   Elle a valu 70 signes du 18 au 21 septembre 2026, alignee sur les fiches
+   de styles. Elle bouge avec elles, et pour la meme raison : la forme d'onde
+   et le lecteur au-dessus vont au bord de la colonne, et un texte qui
+   s'arrete au tiers sous des elements qui vont au bout se lit comme une
+   colonne oubliee plutot que comme une description.
+
+   RIEN NE CHANGE SUR TELEPHONE, et c'est pour cela que la regle est dans une
+   media query au lieu d'etre ecrite au-dessus : a 375 px, 70 signes ne
+   mordaient deja pas, et le corps courant y est la bonne taille.
+
+   Le seuil de 700 px est celui des fiches de styles, dans parcourir.css :
+   deux seuils pour une meme decision finiraient par diverger. */
+@media (min-width: 700px) {
+  .sp-description {
+    /* UN PIXEL DE MOINS, comme les fiches de styles : c'est ce qui rend la
+       pleine largeur lisible sur un grand ecran. */
+    font-size: 0.9375rem;
+  }
 }
 
 /* --- Le lecteur et sa forme d'onde -------------------------------------- */

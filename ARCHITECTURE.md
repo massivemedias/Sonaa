@@ -3652,13 +3652,18 @@ Aucun. Les trois arbitrages en attente ont été tranchés : React 19 (ADR-012),
 
 ---
 
-## Suite : les décisions de la couche marchande
+## Suite : les décisions qui vivent dans leur propre fichier
 
-À partir d'ADR-084, les décisions qui gouvernent un chantier long vivent dans
-un fichier par décision, sous [docs/adr/](docs/adr/). Ce fichier-ci reste la
-référence de tout ce qui précède.
+À partir d'ADR-084, les décisions vivent dans un fichier par décision, sous
+[docs/adr/](docs/adr/). Ce fichier-ci reste la référence de tout ce qui
+précède.
 
 - [ADR-084 : SONAA ouvre une couche marchande](docs/adr/ADR-084-couche-marchande.md),
   17 septembre 2026. Nommage Mixtapes et Tracks, les quatre contraintes
   mesurées, le menu refondu et ce qu'il coûte sur téléphone, les anciennes
   adresses gardées vivantes.
+- [ADR-085 : la largeur des textes, décidée par le contenu et non par une mesure](docs/adr/ADR-085-largeur-des-textes.md),
+  21 septembre 2026. Les descriptions de genre, de famille et de mixtape
+  prennent la largeur de la grille sur ordinateur, le corps baisse d'un pixel,
+  et le téléphone ne bouge pas. Remplace les 62, 120 puis 70 signes des 14 et
+  18 septembre, qui n'avaient jamais été écrits ailleurs que dans le CSS.
