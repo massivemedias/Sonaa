@@ -1,4 +1,4 @@
-# LA MOISSON DES NEWS, SIX FOIS PAR JOUR.
+# LA MOISSON DES NEWS, DEUX FOIS PAR JOUR.
 #
 # Elle relit les flux des magazines (scripts/moissonner-news.ts), reecrit
 # public/news.json, et si le fichier a change, le commet et demande la
@@ -13,8 +13,19 @@ name: Moisson des news
 
 on:
   schedule:
-    # Toutes les quatre heures, en heure UTC.
-    - cron: '17 */4 * * *'
+    # DEUX PASSES, 8 h et 20 h a Montreal, ecrites en UTC. Elle tournait
+    # toutes les quatre heures jusqu'au 21 septembre 2026 : depuis que les
+    # titres sont traduits, chaque passe coute, et les magazines ne publient
+    # pas six fois par jour. Le matin ramasse la nuit europeenne, le soir
+    # ramasse la journee nord-americaine.
+    #
+    # LA MINUTE 17 EST VOULUE : GitHub retarde les taches posees a l'heure
+    # ronde, quand tout le monde en demande une.
+    #
+    # L'HEURE AVANCEE N'EXISTE PAS POUR CRON. Ces heures sont justes de mars
+    # a novembre ; l'hiver, la moisson passe a 7 h et 19 h. Un decalage
+    # d'une heure sur une liste de news ne vaut pas deux calendriers.
+    - cron: '17 0,12 * * *'
   workflow_dispatch:
 
 permissions:

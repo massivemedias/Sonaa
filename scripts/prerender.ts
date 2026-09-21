@@ -695,9 +695,9 @@ for (const l of LEGALES) {
   });
 }
 
-/* ═══ LES NEWS, DEPUIS LA MOISSON ═══ Le fichier est refait toutes les
-   quatre heures et le site republie avec : la page change a chaque fois,
-   ce qui est exactement ce qu'un moteur aime. */
+/* ═══ LES NEWS, DEPUIS LA MOISSON ═══ Le fichier est refait deux fois par
+   jour et le site republie avec : la page change a chaque passe, ce qui est
+   exactement ce qu'un moteur aime. */
 
 interface Article { source: string; titre: string; lien: string; date: string | null; image: string | null; resume: string; titre_fr?: string; resume_fr?: string }
 /* LA PAGE PRE-RENDUE EST EN FRANCAIS, comme tout ce qui n'est pas sous /en/ :

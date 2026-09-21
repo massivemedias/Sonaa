@@ -1,4 +1,4 @@
-/* LA MOISSON DES NEWS : vingt flux, un fichier, six fois par jour.
+/* LA MOISSON DES NEWS : vingt flux, un fichier, deux fois par jour.
  *
  * Usage : npm run moissonner:news
  *
@@ -51,7 +51,7 @@ async function lire(url: string): Promise<string> {
     const r = await fetch(url, {
       signal: ctrl.signal,
       headers: {
-        'user-agent': 'SONAA/1.0 (+https://sonaa.ca ; flux lu six fois par jour)',
+        'user-agent': 'SONAA/1.0 (+https://sonaa.ca ; flux lu deux fois par jour)',
         accept: 'application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.5',
       },
       redirect: 'follow',
@@ -169,7 +169,7 @@ async function main(): Promise<void> {
   const livre: Livre = { fait: new Date().toISOString(), articles: traduits, pannes };
   /* INDENTE, ET `fait` SUR SA PROPRE LIGNE : l'action planifiee compare le
      fichier en ignorant cette ligne, pour ne commettre que quand un article
-     a change, pas six fois par jour pour une date. */
+     a change, pas deux fois par jour pour une date. */
   writeFileSync(SORTIE, JSON.stringify(livre, null, 1), 'utf8');
   const avecFlux = SOURCES.filter((s) => s.flux !== null).length;
   console.log(`\n${tries.length} articles de ${avecFlux - pannes.length} sources sur ${avecFlux}, ${pannes.length} panne(s).`);

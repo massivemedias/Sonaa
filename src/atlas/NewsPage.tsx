@@ -11,7 +11,7 @@
  *
  * ═══ D'OU VIENNENT LES ARTICLES ═══
  *
- * D'un fichier, public/news.json, refait six fois par jour par une tache
+ * D'un fichier, public/news.json, refait deux fois par jour par une tache
  * planifiee (scripts/moissonner-news.ts). Chaque article renvoie a son
  * site : SONAA ne reprend que le titre, la date, une image et un resume, et
  * dit d'ou ca vient. Les sources qui n'offrent plus de flux gardent leur

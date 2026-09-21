@@ -6,7 +6,7 @@ en français lit les news en français, un visiteur en anglais lit l'original.
 ## 1. Ce qui existe
 
 Les articles vivent dans `public/news.json`, 92 Ko, refait par
-`scripts/moissonner-news.ts` toutes les quatre heures. Un article porte six
+`scripts/moissonner-news.ts` deux fois par jour, 8 h et 20 h. Un article porte six
 champs : `source`, `titre`, `lien`, `date`, `image`, `resume`.
 
 **Il n'y a pas de corps d'article.** Le texte complet n'est jamais stocké : il
@@ -155,6 +155,26 @@ Aucune migration Supabase : rien de tout cela ne touche la base.
 2. **Trax et Tsugi restent en français pour tout le monde.** Aucune traduction
    du français vers l'anglais.
 3. **Pas de pages `/fr/news/<slug>/`**, recommandation suivie.
+
+## 10. Deux passes par jour, tranché le 21 septembre 2026
+
+La moisson passait six fois par jour quand elle ne coûtait rien. Depuis que
+chaque passe traduit, elle passe **deux fois, à 8 h et à 20 h, heure de
+Montréal**. Le matin ramasse la nuit européenne, le soir la journée
+nord-américaine, et les magazines de musique électronique ne publient pas six
+fois par jour.
+
+Le volume payé ne change pas, puisque seuls les articles nouveaux partent en
+traduction ; ce qui baisse, c'est le nombre de lots, donc le nombre de fois
+où la consigne de jargon est envoyée. Ce qui baisse aussi, c'est le nombre de
+publications du site : deux par jour au lieu de six, et donc six minutes
+d'action GitHub au lieu de dix-huit.
+
+Ce que cela coûte : un article publié à 9 h apparaît le soir. Pour une page de
+veille, c'est sans conséquence.
+
+L'heure d'hiver n'est pas rattrapée, cron ne la connaît pas : de novembre à
+mars, les passes tombent à 7 h et 19 h.
 
 Reste à poser : la clé API Anthropic en secret GitHub, sous le nom
 `ANTHROPIC_API_KEY`. L'implémentation démarre à ce moment-là.

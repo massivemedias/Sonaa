@@ -19,7 +19,7 @@
  *
  * RIEN N'EST JAMAIS RETRADUIT. La moisson reprend les traductions du fichier
  * precedent et n'envoie que les articles nouveaux, une vingtaine par passe.
- * Sans cela, on repaierait cent soixante articles six fois par jour.
+ * Sans cela, on repaierait cent soixante articles a chaque passe.
  *
  * UN ECHEC NE FAIT PAS TOMBER LA MOISSON. Sans cle, ou si l'appel echoue,
  * les articles sont ecrits sans traduction et s'affichent en anglais. Une

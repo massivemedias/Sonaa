@@ -585,7 +585,7 @@ export default {
      * n'est jamais ouverte : voir le commentaire de morceauxDuHtml.
      *
      * LA TRADUCTION DU CORPS SE FAIT ICI, A LA DEMANDE, et jamais a la
-     * moisson : traduire cent soixante articles six fois par jour pour les
+     * moisson : traduire cent soixante articles a chaque passe pour les
      * quelques-uns qu'on ouvre serait payer mille fois ce qu'on lit. Le
      * resultat est range dans KV pour trente jours, donc la deuxieme
      * ouverture ne coute rien. Cinq traductions par adresse et par heure :
