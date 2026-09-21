@@ -45,8 +45,9 @@ interface Cours {
   outils?: { nom: string; type: string; pourquoi: string }[]; sourcesOutils?: string[];
 }
 
+const CONTENEUR = '<div id="root">';
 const gabarit = readFileSync(join(DIST, 'index.html'), 'utf8');
-if (!gabarit.includes('<div id="root">')) throw new Error('dist/index.html : conteneur root introuvable');
+if (!gabarit.includes(CONTENEUR)) throw new Error('dist/index.html : conteneur root introuvable');
 
 const h = (s: string): string =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -783,11 +784,41 @@ var u='https://sonaa-sets.massivemedias.workers.dev/api/agenda?zone=40&du='+enco
 window.__precharge={};window.__precharge[u]=fetch(u);
 }catch(e){}})();</script>`;
 
-  writeFileSync(
-    join(DIST, 'index.html'),
-    gabarit.replace('<div id="root">', `${precharge}<div id="root"><main class="prerendu">${corps}</main>`),
-    'utf8'
-  );
+  /* ═══ PAS D'ECRAN DE CHARGEMENT SUR LA RACINE ═══
+   *
+   * Il couvrait la fenetre entiere, donc la liste ci-dessus, deja ecrite dans
+   * le HTML et lisible avant tout JavaScript. Mika, le 21 septembre 2026 :
+   * « retire l'ecran de chargement sur la racine ». Un ecran d'attente pose
+   * par-dessus un contenu qui est la n'attend plus rien, il le cache.
+   *
+   * Les autres pages le gardent : leur bloc pre-rendu est un pis-aller pour
+   * les moteurs, pas une page presentable, alors que la racine porte une
+   * vraie liste de soirees. */
+  const ouvre = gabarit.indexOf(CONTENEUR);
+  if (ouvre === -1) throw new Error('racine : conteneur introuvable, la decoupe de index.html a change');
+  /* ON COMPTE LES BALISES POUR TROUVER LA FERMETURE DU CONTENEUR. L'ecran de
+     chargement en contient lui-meme deux ou trois ; couper au premier
+     </div> venu laisserait des fragments ouverts dans la page. */
+  let profondeur = 1;
+  let i = ouvre + CONTENEUR.length;
+  while (profondeur > 0 && i < gabarit.length) {
+    const prochainOuvre = gabarit.indexOf('<div', i);
+    const prochainFerme = gabarit.indexOf('</div>', i);
+    if (prochainFerme === -1) break;
+    if (prochainOuvre !== -1 && prochainOuvre < prochainFerme) {
+      profondeur += 1;
+      i = prochainOuvre + 4;
+    } else {
+      profondeur -= 1;
+      i = prochainFerme + 6;
+    }
+  }
+  if (profondeur !== 0) throw new Error('racine : fermeture du conteneur introuvable');
+  const racine =
+    gabarit.slice(0, ouvre) +
+    `${precharge}${CONTENEUR}<main class="prerendu">${corps}</main></div>` +
+    gabarit.slice(i);
+  writeFileSync(join(DIST, 'index.html'), racine, 'utf8');
 }
 
 /* ═══ LE PLAN DU SITE ET LES ROBOTS ═══ */
