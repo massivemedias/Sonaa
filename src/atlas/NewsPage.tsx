@@ -45,6 +45,7 @@ import { EnTeteSite } from './EnTeteSite.tsx';
 import { Apparition } from '../design/mouvement.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import { LectureArticle } from './LectureArticle.tsx';
+import { ColonneLecture, type ArticleVoisin } from './ColonneLecture.tsx';
 import { SOURCES, type Categorie } from '../data/news-sources.ts';
 import { langue, t } from '../langue/langue.ts';
 import './credits.css';
@@ -86,6 +87,28 @@ interface Livre {
 type Filtre = 'tout' | Categorie;
 
 const PAR_SOURCE = new Map(SOURCES.map((s) => [s.id, s]));
+
+/* ═══ CE QUE LA COLONNE DE DROITE MONTRE SOUS « A LIRE AUSSI » ═══
+
+   Quatre articles, choisis dans le fichier deja charge : aucune requete de
+   plus. Ceux qui ONT UNE IMAGE passent devant, parce qu'une vignette sans
+   image dans une colonne etroite n'est qu'une ligne de texte de plus, et
+   qu'on en a deja une pleine page a cote.
+
+   L'article qu'on lit est exclu, evidemment ; sa source ne l'est pas. Lire
+   deux papiers du meme magazine a la suite est frequent et legitime. */
+const VOISINS_MONTRES = 4;
+
+function voisins(articles: readonly Article[], lu: string): ArticleVoisin[] {
+  const autres = articles.filter((a) => a.lien !== lu);
+  const rangs = [...autres.filter((a) => a.image), ...autres.filter((a) => !a.image)];
+  return rangs.slice(0, VOISINS_MONTRES).map((a) => ({
+    lien: a.lien,
+    titre: titreDe(a),
+    source: PAR_SOURCE.get(a.source)?.nom ?? a.source,
+    image: a.image,
+  }));
+}
 const RUBRIQUES: readonly Categorie[] = ['production', 'djing', 'scene'];
 
 /** « il y a 3 h », « hier », « il y a 4 jours » : le temps qu'on lit sur
@@ -286,14 +309,22 @@ export function NewsPage() {
           const a = livre?.articles.find((x) => x.lien === urlEnLecture) ?? null;
           return (
             <>
-              <LectureArticle
-                url={urlEnLecture}
-                titre={a ? titreDe(a) : null}
-                source={a ? (PAR_SOURCE.get(a.source)?.nom ?? null) : null}
-                image={a?.image ?? null}
-                idSource={a?.source ?? null}
-                langueSource={a ? (PAR_SOURCE.get(a.source)?.langue ?? null) : null}
-              />
+              {/* ═══ L'ARTICLE ET SA COLONNE ═══
+                  La colonne de lecture fait 72 signes et laissait trois cents
+                  pixels vides de chaque cote sur une page de 1240. La colonne
+                  de droite les occupe, et elle passe sous l'article sur
+                  telephone. Voir ColonneLecture.tsx et news.css. */}
+              <div className="lecture-grille">
+                <LectureArticle
+                  url={urlEnLecture}
+                  titre={a ? titreDe(a) : null}
+                  source={a ? (PAR_SOURCE.get(a.source)?.nom ?? null) : null}
+                  image={a?.image ?? null}
+                  idSource={a?.source ?? null}
+                  langueSource={a ? (PAR_SOURCE.get(a.source)?.langue ?? null) : null}
+                />
+                <ColonneLecture voisins={voisins(livre?.articles ?? [], urlEnLecture)} />
+              </div>
               <PiedDePage />
             </>
           );

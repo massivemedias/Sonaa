@@ -315,6 +315,10 @@ interface Dictionnaire {
   readonly choisissezVille: string;
   readonly unJour: string;
   readonly ceSoir: string;
+  /* LA COLONNE DE DROITE DE LA VUE DE LECTURE. Voir ColonneLecture.tsx. */
+  readonly aLireAussi: string;
+  readonly ceSoirA: (ville: string) => string;
+  readonly voirToutLeCalendrier: string;
   readonly demain: string;
   readonly toutesLesDates: string;
   readonly autreDate: string;
@@ -962,6 +966,9 @@ const FR: Dictionnaire = {
   choisissezVille: "Choisissez une ville.",
   unJour: "Un jour",
   ceSoir: "Ce soir",
+  aLireAussi: "À lire aussi",
+  ceSoirA: (ville) => `Ce soir à ${ville}`,
+  voirToutLeCalendrier: "Tout le calendrier",
   demain: "Demain",
   toutesLesDates: "Tout",
   autreDate: "Autre date",
@@ -1619,6 +1626,9 @@ const EN: Dictionnaire = {
   choisissezVille: "Pick a city.",
   unJour: "A day",
   ceSoir: "Tonight",
+  aLireAussi: "Also worth reading",
+  ceSoirA: (ville) => `Tonight in ${ville}`,
+  voirToutLeCalendrier: "The whole calendar",
   demain: "Tomorrow",
   toutesLesDates: "All",
   autreDate: "Another date",

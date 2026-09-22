@@ -379,9 +379,42 @@
 
 /* ═══ UN ARTICLE LU ICI ═══ Voir LectureArticle.tsx. Une colonne de lecture,
    la largeur d'un livre, le corps un peu plus grand qu'ailleurs. */
+/* ═══ L'ARTICLE ET SA COLONNE ═══
+
+   MESURE QUI A DECIDE DE CETTE GRILLE : la colonne de lecture fait 72
+   signes, soit environ 640 px, centree dans une page de 1240. Trois cents
+   pixels de chaque cote ne portaient rien, et Mika l'a vu sur une capture le
+   22 septembre 2026.
+
+   LA COLONNE DE DROITE EST FIXE, L'ARTICLE PREND LE RESTE, et non l'inverse :
+   une colonne laterale qui change de largeur avec l'ecran fait danser ses
+   vignettes, alors que l'article, lui, est deja borne par sa mesure de
+   lecture. `minmax(0, 72ch)` et non `72ch` seul : sans le minimum a zero, une
+   grille refuse de comprimer son contenu et deborde.
+
+   LE SEUIL EST 1080 PX, et c'est la somme des morceaux : 640 de lecture, 20
+   rem de colonne et 2,5 rem d'ecart font 1000, plus les retraits de page. En
+   dessous, une seule colonne et la colonne de droite passe SOUS l'article :
+   ce qu'on est venu lire passe devant. */
+.lecture-grille {
+  display: grid;
+  grid-template-columns: minmax(0, 72ch);
+  justify-content: center;
+  gap: 2.5rem;
+  margin-bottom: 3rem;
+}
+
+@media (min-width: 1080px) {
+  .lecture-grille {
+    grid-template-columns: minmax(0, 72ch) minmax(0, 20rem);
+    align-items: start;
+  }
+}
+
 .lecture {
   max-width: 72ch;
-  margin: 0 auto 3rem;
+  margin: 0;
+  min-width: 0;
 }
 .lecture-retour {
   margin: 0 0 1.4rem;
@@ -487,4 +520,141 @@
 }
 .lecture-suite-bouton:hover {
   opacity: 0.88;
+}
+
+
+/* ═══ LA COLONNE DE DROITE DE LA VUE DE LECTURE ═══ Voir ColonneLecture.tsx.
+
+   ELLE SUIT LE DEFILEMENT sur grand ecran, et s'arrete sous la pilule du
+   haut. Un article fait plusieurs ecrans de haut ; une colonne qui part
+   avec lui laisse une page a moitie vide pendant tout le reste de la
+   lecture. `align-items: start` sur la grille est ce qui rend ce `sticky`
+   possible : etiree sur toute la hauteur, elle n'aurait rien a coller. */
+.lecture-colonne {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  min-width: 0;
+}
+
+@media (min-width: 1080px) {
+  .lecture-colonne {
+    position: sticky;
+    top: 5rem;
+  }
+}
+
+.lc-bloc {
+  padding: 1.1rem 1.1rem 1.2rem;
+  border-radius: var(--rayon-carte);
+  background: var(--verre-fond);
+  border: 1px solid var(--verre-bord);
+  box-shadow: var(--ombre-carte);
+}
+
+.lc-titre {
+  margin: 0 0 0.9rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+.lc-liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+/* Une vignette, deux ou trois lignes de texte, et toute la surface cliquable.
+   Le retrait negatif rend la zone de clic plus large que le texte sans
+   decaler la colonne. */
+.lc-article,
+.lc-soiree {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  margin: 0 -0.5rem;
+  border: 0;
+  border-radius: 14px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 160ms ease;
+}
+.lc-article:hover,
+.lc-soiree:hover,
+.lc-article:focus-visible,
+.lc-soiree:focus-visible {
+  background: var(--voile-07);
+}
+
+.lc-vignette {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: var(--surface-margin);
+}
+
+.lc-article-texte {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.lc-source {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+/* TROIS LIGNES AU PLUS. Un titre de magazine en fait douze chez Musicradar ;
+   borne, la colonne garde son rythme et reste lisible d'un coup d'oeil. */
+.lc-article-titre {
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ink-primary);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.lc-lieu {
+  font-size: 0.78rem;
+  color: var(--ink-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lc-pied {
+  margin: 0.9rem 0 0;
+  font-size: 0.8rem;
+}
+.lc-pied a {
+  color: var(--ink-secondary);
+  text-decoration: none;
+}
+.lc-pied a:hover {
+  color: var(--ink-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
