@@ -76,14 +76,19 @@ export function ReconnaitrePage() {
     };
   }, []);
 
-  /* LA ROUTE DU MORCEAU EST SONDEE UNE FOIS, A L'OUVERTURE. Sans cle, elle
-     repond 503 et la section n'existera pas. On le demande avec un corps
-     vide : la route refuse avant meme de lire l'audio. */
+  /* LA ROUTE DU MORCEAU EST INTERROGEE UNE FOIS, A L'OUVERTURE. Sans cle,
+     elle repond `disponible: false` et la section n'existera pas.
+     
+     ON LA LIT, ON NE LUI ENVOIE PLUS RIEN. Cette sonde postait un corps
+     vide et lisait le code de retour, ce qui ecrivait une erreur 400 dans
+     la console de chaque visiteur a chaque ouverture de la page. Une
+     question de disponibilite est une lecture. Voir worker/src/index.ts. */
   useEffect(() => {
     let annule = false;
-    void fetch(`${PASSERELLE}/api/reconnaitre-track`, { method: 'POST', body: new Blob([]) })
-      .then((r) => {
-        if (!annule) setMorceauActif(r.status !== 503);
+    void fetch(`${PASSERELLE}/api/reconnaitre-track`)
+      .then((r) => (r.ok ? r.json() : { disponible: false }))
+      .then((d: { disponible?: boolean }) => {
+        if (!annule) setMorceauActif(d.disponible === true);
       })
       .catch(() => {
         if (!annule) setMorceauActif(false);

@@ -711,6 +711,26 @@ export default {
      * borne, une page laissee ouverte avec un minuteur coute un abonnement.
      * Le compteur vit dans le meme KV que la file des artistes, sous un
      * prefixe a lui, et expire tout seul. */
+    /* ═══ LA ROUTE REPOND AUSSI A LA QUESTION « ES-TU LA ? » ═══
+     *
+     * La page du micro doit savoir, a l'ouverture, si la reconnaissance de
+     * morceau est configuree : sans cle elle masque toute la section.
+     *
+     * ELLE LE DEMANDAIT EN POSTANT UN CORPS VIDE, et lisait le code de
+     * retour : 503 sans cle, 400 avec. Ca marchait, et ca ecrivait une
+     * erreur 400 dans la console de CHAQUE visiteur, a chaque ouverture de
+     * la page. Trace le 22 septembre 2026, apres deux rapports ou j'avais
+     * attribue ces 400 a la mauvaise page.
+     *
+     * Une question de disponibilite est une LECTURE : elle se pose en GET,
+     * et la reponse est 200 dans les deux cas. Rien n'est envoye a AudD, le
+     * compteur n'est pas touche, et plus personne ne voit d'erreur. */
+    if (req.method === 'GET' && chemin === 'api/reconnaitre-track') {
+      return new Response(JSON.stringify({ disponible: Boolean(env.AUDD_API_KEY) }), {
+        headers: entetes(req, env, { 'content-type': 'application/json', 'cache-control': 'public, max-age=300' }),
+      });
+    }
+
     if (req.method === 'POST' && chemin === 'api/reconnaitre-track') {
       if (!env.AUDD_API_KEY) return refus(req, env, 503, 'reconnaissance de morceau non configuree');
 
