@@ -28,6 +28,23 @@
   padding-right: max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2));
 }
 
+/* ═══ DANS L'ATLAS, LA COLONNE N'EST PAS LA MEME ═══
+
+   La formule ci-dessus deborde d'un conteneur qui n'a pas le retrait de la
+   page. `.pv-corps` a le sien, 0,75 rem, et le pied y sortait de quatre
+   pixels de chaque cote : mesure au 22 septembre 2026 sur un ecran de
+   375 px, apres que la v2 a donne sa maille pleine largeur au pied.
+
+   On reprend donc EXACTEMENT le retrait de ce conteneur-la, au lieu de
+   supposer celui de la page. Deux conteneurs, deux formules, et chacune lit
+   la grandeur de son propre parent. */
+.pv-corps > .pied {
+  margin-left: -0.75rem;
+  margin-right: -0.75rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
 /* LA PRESENCE, SEULE AU-DESSUS. C'est la seule ligne du pied qui change
    d'une minute à l'autre, donc la seule qu'on regarde vraiment. */
 .pied-presence {

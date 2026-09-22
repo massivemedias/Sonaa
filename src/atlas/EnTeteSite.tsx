@@ -15,7 +15,6 @@
    Parcourir. */
 
 import { SiteNav } from './SiteNav.tsx';
-import { MenuPlus } from './MenuPlus.tsx';
 import { t } from '../langue/langue.ts';
 import './entete.css';
 
@@ -30,9 +29,10 @@ export function EnTeteSite() {
         />
       </a>
       <SiteNav variant="overlay" />
-      {/* Sous 900 px, la rangee ci-dessus est cachee et la barre du bas prend
-          le relais : ce bouton porte ce qui n'y tient pas. Voir MenuPlus. */}
-      <MenuPlus />
+      {/* SOUS 900 PX, cette rangee est cachee et la barre du bas prend le
+          relais, « Plus » compris : il y est le cinquieme onglet depuis le
+          22 septembre 2026, parce qu'ici il recouvrait les controles fixes.
+          Voir BarreBas.tsx et MenuPlus.tsx. */}
     </header>
   );
 }

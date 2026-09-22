@@ -40,6 +40,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { courantDuSite } from './SiteNav.tsx';
 import { BadgePanier } from '../marchand/BadgePanier.tsx';
+import { MenuPlus } from './MenuPlus.tsx';
 import { t } from '../langue/langue.ts';
 import { MARCHAND_ACTIF } from '../config.ts';
 import './barre-bas.css';
@@ -114,6 +115,11 @@ export function BarreBas() {
           </a>
         );
       })}
+      {/* LE CINQUIEME ONGLET, qui n'est pas une destination mais un menu : il
+          deplie ce qui ne tient pas dans quatre onglets, le profil, la page
+          du projet et le legal. Il vivait dans l'en-tete, ou il recouvrait
+          les controles fixes. Voir MenuPlus.tsx. */}
+      <MenuPlus />
     </nav>
   );
 }

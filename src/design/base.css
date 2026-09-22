@@ -186,3 +186,19 @@ html {
 .intro-page {
   max-width: 100ch;
 }
+
+
+/* ═══ UN TITRE NE LAISSE PAS UN MOT SEUL SUR SA DERNIERE LIGNE ═══
+
+   Sur telephone, tous les titres du site passent a deux ou trois lignes, et
+   le navigateur coupe au dernier mot qui entre : « Ne manque plus une / 
+   soiree » laisse un mot seul, ce qui se lit comme une erreur de mise en
+   page. `text-wrap: balance` repartit les lignes a longueur egale, et ne
+   travaille que sur les blocs courts, donc exactement sur les titres.
+
+   Pose ici et non dans six feuilles : c'est la meme regle pour tous. */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}

@@ -52,7 +52,9 @@
 
 .hero-titre {
   margin: 0 0 1.1rem;
-  font-size: clamp(2.6rem, 5.6vw, 5rem);
+  /* `text-wrap: balance` plus bas : sur telephone le titre passe a deux
+     lignes, et sans equilibrage la seconde ne porte qu'un mot. */
+  font-size: clamp(2.2rem, 5.6vw, 5rem);
   font-weight: 800;
   line-height: 1.02;
   letter-spacing: -0.025em;
@@ -195,19 +197,33 @@
     padding-top: 2.6rem;
     padding-bottom: 2.4rem;
   }
-  /* TROIS AFFICHES SUR TELEPHONE, ET SANS INCLINAISON. Cinq vignettes
-     penchees sur 375 px ne se lisent plus, elles font du bruit. */
+  /* QUATRE AFFICHES EN CARRE, ET SANS INCLINAISON.
+
+     Elles etaient trois de front, donc 110 px de large sur un ecran de 375 :
+     a cette taille un flyer n'est plus qu'une tache, et c'est LUI qui donne
+     envie d'aller quelque part. Deux par deux, chacune fait 165 px, soit la
+     moitie de la largeur utile, et on en voit une de plus.
+
+     Sans inclinaison : cinq vignettes penchees sur 375 px ne se lisent plus,
+     elles font du bruit. */
   .hero-collage {
-    gap: 0.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
   }
   .hero-affiche {
     transform: none;
   }
-  .hero-affiche:nth-child(-n + 3) {
-    grid-column: span 2;
+  .hero-affiche:nth-child(-n + 4) {
+    grid-column: span 1;
   }
-  .hero-affiche:nth-child(n + 4) {
+  .hero-affiche:nth-child(n + 5) {
     display: none;
+  }
+  /* Toutes au meme rapport : deux portraits et deux paysages dans un carre
+     feraient une grille bancale. */
+  .hero-affiche:nth-child(4) img,
+  .hero-affiche:nth-child(5) img {
+    aspect-ratio: 4 / 5;
   }
 }
 

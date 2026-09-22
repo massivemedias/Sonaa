@@ -84,6 +84,23 @@
     padding-left: max(0.9rem, calc((100vw - var(--largeur-page)) / 2 - 0.6rem));
   }
 }
+
+/* ═══ SUR TELEPHONE, LE LOGO SORT DE CETTE RANGEE ═══
+
+   MESURE SUR UN ECRAN DE 375 PX, le 22 septembre 2026 : la rangee doit loger
+   le bouton de retour (44), le logo (90), le titre, la loupe (44) et la
+   reserve des controles fixes (221). Il restait 48 px au titre, ou
+   « Techno » s'affichait coupe. Un fil d'Ariane qu'on ne peut pas lire ne
+   sert a rien.
+
+   C'est le LOGO qui part, et c'est le moins cher des cinq : la marque est
+   deja dans la barre du bas, sur chaque ecran, et le bouton de retour dit
+   deja qu'on est quelque part dans l'atlas. Le titre reprend ses 150 px. */
+@media (max-width: 699px) {
+  .pv-tete .pv-logo {
+    display: none;
+  }
+}
 /* Le menu ne s'etire pas et ne se comprime pas : c'est le titre qui cede la
    place quand elle manque, parce qu'il peut se couper et pas lui. */
 .pv-tete > .sitenav {
@@ -344,14 +361,16 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   flex-direction: column;
   align-items: flex-start;
   gap: 0.15rem;
-  padding: 0.9rem 1rem;
+  padding: 0.75rem 0.7rem;
   border-radius: 20px;
   background: var(--verre-fond);
   border: 1px solid var(--verre-bord);
   box-shadow: var(--ombre-carte);
 }
 .pv-stat-n {
-  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  /* 22 PX AU PLANCHER : a 110 px de colonne sur un ecran de 375, « 2 382 »
+     en 25,6 px touchait ses deux bords. */
+  font-size: clamp(1.375rem, 3.4vw, 2.4rem);
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1;
@@ -362,7 +381,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   color: transparent;
 }
 .pv-stat-mot {
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;

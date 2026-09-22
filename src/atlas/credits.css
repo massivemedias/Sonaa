@@ -87,18 +87,25 @@
   max-width: none;
 }
 
-/* LA RESERVE PROTEGE LE TITRE, PAS TOUT L'EN-TETE.
-   Elle etait posee sur `.credits-head`, donc sur le titre ET sur le chapeau
-   qui le suit. Le titre en a besoin : il partage sa ligne avec le bouton de
-   compte, en position fixe en haut a droite. Le chapeau, lui, vit plusieurs
-   lignes plus bas et ne rencontre rien.
-   Mesure sur telephone de 375 px : la reserve vaut 213 px depuis que la
-   langue et le theme ont rejoint le compte, et elle ecrasait le chapeau a
-   130 px de large, soit six mots par ligne sur un ecran qui en tient trois
-   fois plus. Le texte lisait comme une colonne de journal coincee. */
-.credits-head > h1 {
-  padding-right: calc(var(--authb-reserve, 126px) + 0.5rem);
-}
+/* LA RESERVE DU TITRE EST RETIREE, ET ELLE ETAIT DEVENUE UN DEFAUT.
+
+   Elle a eu sa raison : le titre partageait sa ligne avec le bouton de
+   compte, fixe en haut a droite, et sans elle les deux se croisaient.
+
+   LA V2 A DEPLACE LE BOUTON SANS QUE CETTE LIGNE SUIVE. L'en-tete est
+   desormais une pilule qui porte sa propre rangee, et le bouton vit dedans ;
+   le titre commence plusieurs dizaines de pixels plus bas. Mesure sur un
+   ecran de 375 px, le 22 septembre 2026 : le bouton finit a 52 px du haut,
+   le titre commence a 115. Ils ne se rencontrent plus.
+
+   CE QUE LA RESERVE COUTAIT PENDANT CE TEMPS : `padding-right: 229px` sur
+   une boite de 343, soit 114 px pour ecrire un titre. « Quel style joue
+   la ? » tombait sur quatre lignes, et chaque page document avait le meme
+   defaut. Sur ordinateur la reserve ne valait que 126 px sur 1240 : c'est
+   pour cela que personne ne l'a vu avant de regarder un telephone.
+
+   La regle est donc supprimee. S'il fallait un jour la remettre, elle devrait
+   etre conditionnee a un croisement reel, pas posee d'avance. */
 
 .credits-foot {
   flex-wrap: wrap;

@@ -1,21 +1,33 @@
-/* LE MENU « PLUS », SUR TELEPHONE SEULEMENT.
+/* LE CINQUIEME ONGLET DE LA BARRE DU BAS : « Plus ».
  *
- * La barre du bas ne tient que cinq onglets, et la couche marchande en
- * demande deux de plus. Le rapport d'inspection du 17 septembre 2026 l'a dit
- * clairement : sortir Styles et Profil de la barre du bas n'est pas anodin,
- * parce que sous 900 px la barre du bas REMPLACE le menu du haut. Ce qui en
- * sort n'est plus atteignable nulle part.
+ * ═══ IL A VECU DANS L'EN-TETE, ET IL S'Y COGNAIT ═══
  *
- * Ce bouton est la reponse. Il vit dans l'en-tete, a cote du logo, il ne
- * s'affiche que sous 900 px, et il porte tout ce que la barre du bas ne peut
- * plus porter : les styles, le profil, a propos, et les trois pages legales,
- * qui doivent etre joignables depuis n'importe quelle page.
+ * Il etait pose dans la pilule du haut, a cote du logo. Mesure sur un ecran
+ * de 375 px le 22 septembre 2026 : le bouton occupait 96 a 156 px, et les
+ * controles fixes, loupe, langue, theme et compte, commencaient a 154. Ils se
+ * recouvraient, sur toutes les pages document. La pilule n'a pas la largeur
+ * pour les deux, et lui en donner aurait fait un en-tete sur deux rangees.
  *
- * IL SE FERME QUAND ON CLIQUE AILLEURS ET A LA TOUCHE ECHAP, comme tous les
- * panneaux du site. Un menu qui reste ouvert derriere la page suivante est un
- * menu qu'on a oublie de fermer. */
+ * ═══ IL MANQUAIT AUSSI A L'ATLAS ═══
+ *
+ * L'atlas dessine son propre en-tete et n'a jamais rendu ce bouton : sur
+ * telephone, /styles/ n'avait donc aucun acces au profil ni aux pages
+ * legales. En descendant dans la barre, qui est rendue sur toutes les pages
+ * qui defilent, il repare ce trou par la meme occasion.
+ *
+ * ═══ POURQUOI LA BARRE ET PAS UNE DEUXIEME RANGEE ═══
+ *
+ * La barre du bas est a portee du pouce, l'en-tete non, et c'est la raison
+ * pour laquelle la navigation y vit deja. Le reproche qu'on lui faisait,
+ * deux portes vers le meme menu a deux endroits de l'ecran, tombe : il n'y
+ * a plus qu'une porte, et elle est en bas.
+ *
+ * Le panneau s'ouvre donc VERS LE HAUT. Voir menu-plus.css. */
+
 
 import { useEffect, useRef, useState } from 'react';
+import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+import { FaIcon } from './FaIcon.tsx';
 import { t } from '../langue/langue.ts';
 import { MARCHAND_ACTIF } from '../config.ts';
 import { courantDuSite } from './SiteNav.tsx';
@@ -68,6 +80,9 @@ export function MenuPlus() {
 
   return (
     <div className="menu-plus" ref={boite}>
+      {/* LA MEME FORME QUE LES QUATRE AUTRES ONGLETS : une icone dans sa
+          pastille, un mot dessous. Un cinquieme onglet qui ne ressemblerait
+          pas aux autres se lirait comme un intrus. */}
       <button
         type="button"
         className="menu-plus-bouton"
@@ -75,7 +90,10 @@ export function MenuPlus() {
         aria-label={ouvert ? t.fermerLeMenu : t.plusDeLiens}
         onClick={() => setOuvert((v) => !v)}
       >
-        {t.plusDeLiens}
+        <span className="barre-bas-pastille">
+          <FaIcon icon={faEllipsis} className="barre-bas-icone" />
+        </span>
+        <span>{t.plusDeLiens}</span>
       </button>
       {ouvert && (
         <nav className="menu-plus-panneau" aria-label={t.plusDeLiens}>

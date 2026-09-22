@@ -431,7 +431,11 @@
   /* LA TAILLE D'UN TITRE DE SECTION, ecrite ici et lue par toutes les
      pages : check:constantes a refuse la meme decoupe ecrite en clair dans
      trois feuilles, et il avait raison, c'est la meme grandeur. */
-  --titre-section: clamp(2rem, 4vw, 2.8rem);
+  /* DE 28 A 45 PX, ET LE PLANCHER COMPTE AUTANT QUE LE PLAFOND. Il valait
+     2 rem, soit 32 px : sur un ecran de 375 px, « Quel style joue la ? » y
+     tenait sur trois lignes. La borne basse descend a 1,75 rem et la pente
+     passe a 7vw, qui ne mord qu'au-dessus de 400 px. */
+  --titre-section: clamp(1.75rem, 7vw, 2.8rem);
   /* LA MAILLE : le fond des bannieres, trois halos qui se recouvrent. */
   --maille:
     radial-gradient(60rem 40rem at 12% -8%, oklch(0.61 0.22 293 / 0.42), transparent 62%),
@@ -754,6 +758,37 @@
 /* Et le logo y reprend sa forme d'origine : il est blanc, sur du noir. */
 :root[data-theme='clair'] .atlas-root img[src$='sonaa-logo.png'] {
   filter: none;
+}
+
+/* ═══ LA MAILLE SE REDESSINE SUR TELEPHONE ═══
+
+   Ses trois halos font 60, 52 et 44 rem de large, soit 960, 832 et 704 px :
+   des mesures prises pour une page de 1240. Sur un ecran de 375 px on n'en
+   voit que le centre du premier, c'est-a-dire un aplat violet sans structure.
+   C'est exactement ce que Mika a vu en disant que le telephone etait moins
+   beau : ce n'etait pas la couleur, c'etait l'echelle.
+
+   Les memes trois halos, ramenes a la taille de l'ecran et ecartes pour
+   qu'on les distingue. Les couleurs et les opacites ne bougent pas. */
+@media (max-width: 699px) {
+  :root {
+    --maille:
+      radial-gradient(22rem 15rem at 6% -6%, oklch(0.61 0.22 293 / 0.46), transparent 64%),
+      radial-gradient(18rem 13rem at 102% 8%, oklch(0.79 0.13 226 / 0.38), transparent 62%),
+      radial-gradient(16rem 12rem at 40% 52%, oklch(0.67 0.26 322 / 0.24), transparent 66%);
+  }
+  :root[data-theme='clair'] {
+    --maille:
+      radial-gradient(22rem 15rem at 6% -6%, oklch(0.61 0.22 293 / 0.24), transparent 64%),
+      radial-gradient(18rem 13rem at 102% 8%, oklch(0.79 0.13 226 / 0.22), transparent 62%),
+      radial-gradient(16rem 12rem at 40% 52%, oklch(0.67 0.26 322 / 0.12), transparent 66%);
+  }
+  /* LE FLOU DU VERRE COUTE SUR UN TELEPHONE, et il coute a chaque pixel
+     couvert : deux capsules collantes qui defilent toute la page. On le
+     baisse d'un tiers, ce qui se voit a peine et se sent au defilement. */
+  :root {
+    --verre-flou: blur(14px) saturate(150%);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

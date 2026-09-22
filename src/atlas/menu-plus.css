@@ -1,50 +1,69 @@
-/* LE BOUTON « PLUS » ET SON PANNEAU. Voir MenuPlus.tsx.
+/* LE CINQUIEME ONGLET DE LA BARRE DU BAS, ET SON PANNEAU.
 
-   Il n'existe que sous 900 px, la ou la barre du bas porte la navigation et
-   ou le menu du haut est cache. Au-dessus, toutes ses portes sont deja dans
-   la rangee de mots : le montrer serait proposer deux fois la meme chose.
+   Voir MenuPlus.tsx pour le pourquoi du deplacement depuis l'en-tete.
 
-   LE PANNEAU EST EN VERRE, DEPUIS LA V2 : meme matiere que la pilule qui le
-   porte, un rayon de carte, une ombre. Un panneau opaque sous une barre
-   translucide se lisait comme un corps etranger. */
+   IL N'A PLUS BESOIN DE SA PROPRE MEDIA QUERY : il vit desormais DANS la
+   barre du bas, qui n'existe elle-meme que sous 900 px. Une seule frontiere,
+   ecrite une seule fois, dans barre-bas.css. */
 
 .menu-plus {
-  display: none;
   position: relative;
-}
-
-@media (max-width: 899px) {
-  .menu-plus {
-    display: inline-flex;
-  }
+  /* Un onglet comme les quatre autres : meme part de la largeur. */
+  flex: 1 1 0;
+  display: flex;
+  min-width: 0;
 }
 
 .menu-plus-bouton {
-  display: inline-flex;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  min-height: 38px;
-  padding: 0 0.85rem;
+  justify-content: center;
+  gap: 0.2rem;
+  min-width: 0;
+  padding: 0;
   border: 0;
-  border-radius: var(--rayon-pilule);
   background: none;
   color: var(--ink-secondary);
   font-family: var(--font-ui);
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: var(--serrage-ui);
   cursor: pointer;
-  transition: background 160ms ease, color 160ms ease;
+  -webkit-tap-highlight-color: transparent;
 }
-.menu-plus-bouton:hover,
+.menu-plus-bouton span:last-child {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* Ouvert, il s'allume comme l'onglet courant s'allume : la pastille se
+   remplit du degrade. C'est le meme signe pour le meme etat. */
 .menu-plus-bouton[aria-expanded='true'] {
   color: var(--ink-primary);
-  background: var(--voile-1);
+}
+.menu-plus-bouton[aria-expanded='true'] .barre-bas-pastille {
+  background: var(--degrade);
+  color: var(--sur-degrade);
 }
 
+/* ═══ LE PANNEAU S'OUVRE VERS LE HAUT ═══
+
+   Il descendait, du temps ou le bouton etait en haut de l'ecran. Depuis la
+   barre du bas, descendre le ferait sortir par le bas de la fenetre : il
+   monte, et il est ancre a DROITE, parce que le cinquieme onglet est le plus
+   a droite et qu'un panneau ancre a gauche sortirait par l'autre bord. */
 .menu-plus-panneau {
   position: absolute;
-  top: calc(100% + 0.5rem);
-  left: 0;
-  z-index: 14;
+  bottom: calc(100% + 0.6rem);
+  right: -0.3rem;
+  /* AU-DESSUS DU BANDEAU D'INSTALLATION, qui vit en 70 et occupait la place
+     ou ce panneau s'ouvre : vu a l'ecran le 22 septembre 2026, ses trois
+     derniers liens passaient dessous. Un menu qu'on vient d'ouvrir soi-meme
+     gagne contre un bandeau qu'on n'a pas demande. */
+  z-index: 71;
   display: flex;
   flex-direction: column;
   min-width: 13rem;
@@ -58,12 +77,13 @@
 }
 
 .menu-plus-lien {
-  padding: 0.6rem 0.9rem;
+  padding: 0.7rem 0.9rem;
   border-radius: 12px;
   color: var(--ink-secondary);
   font-family: var(--font-ui);
   font-size: 0.9375rem;
   text-decoration: none;
+  white-space: nowrap;
   transition: background 160ms ease, color 160ms ease;
 }
 .menu-plus-lien:hover,
