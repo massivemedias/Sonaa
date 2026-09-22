@@ -191,13 +191,24 @@ export function ColonneLecture({ voisins }: Props) {
                       chemins /soirees/<ville>/<id>/ ouvrent la ville, pas la
                       fiche. Voir chemins.ts. */}
                   <a className="lc-soiree" href={s.lien} target="_blank" rel="noreferrer noopener">
-                    {/* PAS DE `referrerPolicy` ICI, ET C'EST UNE CORRECTION.
-                        Je l'avais copiee des vignettes d'articles, ou elle
-                        sert : les magazines n'aiment pas etre charges depuis
-                        ailleurs. Resident Advisor fait l'inverse et REFUSE
-                        une requete sans referent : les trois affiches sont
-                        parties en production avec une largeur de zero.
-                        Les cartes du calendrier n'en posent pas non plus. */}
+                    {/* PAS DE `referrerPolicy` ICI, comme sur les cartes du
+                        calendrier, qui chargent exactement les memes images :
+                        deux traitements de la meme source dans le meme site
+                        finiraient par diverger. Les vignettes d'articles, un
+                        peu plus haut, la gardent : les magazines, eux,
+                        n'aiment pas etre charges depuis ailleurs.
+
+                        ELLE N'A JAMAIS RIEN CASSE, contrairement a ce que
+                        j'ai cru et ecrit une premiere fois. Je mesurais des
+                        images a largeur zero et j'en ai conclu que Resident
+                        Advisor refusait les requetes sans referent ; en
+                        forcant le chargement, elles arrivent tres bien AVEC
+                        la politique. Elles sont en chargement differe et
+                        vivent sous la ligne de flottaison : elles n'etaient
+                        pas cassees, elles n'etaient pas encore demandees.
+                        Une mesure prise au mauvais moment est une mesure
+                        fausse, et elle m'a fait ecrire une correction pour
+                        un defaut qui n'existait pas. */}
                     {s.affiche && <img className="lc-vignette" src={s.affiche} alt="" loading="lazy" decoding="async" />}
                     <span className="lc-article-texte">
                       {h && <span className="lc-source">{h}</span>}
