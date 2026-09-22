@@ -191,7 +191,14 @@ export function ColonneLecture({ voisins }: Props) {
                       chemins /soirees/<ville>/<id>/ ouvrent la ville, pas la
                       fiche. Voir chemins.ts. */}
                   <a className="lc-soiree" href={s.lien} target="_blank" rel="noreferrer noopener">
-                    {s.affiche && <img className="lc-vignette" src={s.affiche} alt="" loading="lazy" referrerPolicy="no-referrer" />}
+                    {/* PAS DE `referrerPolicy` ICI, ET C'EST UNE CORRECTION.
+                        Je l'avais copiee des vignettes d'articles, ou elle
+                        sert : les magazines n'aiment pas etre charges depuis
+                        ailleurs. Resident Advisor fait l'inverse et REFUSE
+                        une requete sans referent : les trois affiches sont
+                        parties en production avec une largeur de zero.
+                        Les cartes du calendrier n'en posent pas non plus. */}
+                    {s.affiche && <img className="lc-vignette" src={s.affiche} alt="" loading="lazy" decoding="async" />}
                     <span className="lc-article-texte">
                       {h && <span className="lc-source">{h}</span>}
                       <span className="lc-article-titre">{s.titre}</span>
