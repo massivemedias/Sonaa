@@ -227,7 +227,9 @@
   .news-grand:hover,
   .news-une:hover {
     transform: translateY(-6px);
-    border-color: oklch(0.79 0.13 226 / 0.4);
+    /* VIOLET ET NON CYAN depuis le 22 septembre 2026 : c'etait la derniere
+       trace de bleu du site, et seule elle aurait eu l'air d'un oubli. */
+    border-color: oklch(0.61 0.22 293 / 0.4);
   }
 }
 .news-carte .news-titre {

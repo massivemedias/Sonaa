@@ -11,17 +11,38 @@
    finit dans la meme lumiere, et les liens deviennent des puces de verre
    comme partout ailleurs. */
 
+/* ═══ PLUS DE BOITE : LA PAGE SE FOND DANS LE PIED ═══
+
+   Mika, le 22 septembre 2026 : « plus de boite, le fond commence par un
+   fondu depuis le noir de la page sur 120 px avant d'arriver au mauve, pas
+   de bord net ».
+
+   CE QUI FAISAIT LA BOITE, ET C'ETAIT DEUX CHOSES. Un filet de un pixel en
+   haut, et surtout le lavis qui commencait a pleine force sur ce filet : la
+   jointure se lisait comme le bord d'un panneau colle sous la page.
+
+   LE FONDU EST UNE COUCHE PAR-DESSUS, pas un reglage du lavis. La premiere
+   couche de `background-image` est celle du dessus : elle part de la couleur
+   exacte de la page et s'efface sur 120 px, decouvrant le lavis dessous.
+   Aucun bord ne peut donc exister, quelle que soit la couleur du lavis, et
+   le jour ou la palette change il n'y a rien a reregler ici.
+
+   LE CONTENU COMMENCE APRES LE FONDU, a 120 px pile : ecrire dedans
+   reviendrait a poser du texte sur la transition.
+
+   PLEINE LARGEUR, CONTENU DANS LA COLONNE : la meme formule que la
+   banniere, et c'est elle qui donne les 1240 px au contenu pendant que le
+   lavis va d'un bord a l'autre. */
 .pied {
   position: relative;
   margin-top: 3.5rem;
-  padding: 2.2rem 0 0;
-  border-top: 1px solid var(--verre-bord);
-  background-image: var(--maille);
+  padding: 7.5rem 0 0;
+  background-image:
+    linear-gradient(to bottom, var(--surface-plate) 0, transparent 120px),
+    var(--maille);
   background-size: 100% 100%;
   font-family: var(--font-ui);
   font-size: 0.85rem;
-  /* PLEINE LARGEUR SOUS LA COLONNE : le lavis va d'un bord a l'autre, le
-     contenu reste aligne. Meme formule que la banniere. */
   margin-left: calc(-1 * max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2)));
   margin-right: calc(-1 * max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2)));
   padding-left: max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2));

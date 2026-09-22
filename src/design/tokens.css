@@ -411,20 +411,25 @@
      c'est le verre qui change de sens.
      ═══════════════════════════════════════════════════════════════ */
   --accent-a: oklch(0.61 0.22 293);
+  /* LE BLEU N'EST PLUS DANS AUCUN DEGRADE depuis le 22 septembre 2026. Mika :
+     « sortir le bleu de tous les degrades de fond et de bouton, le cyan
+     n'apparait plus nulle part dans un degrade ». Le jeton reste declare,
+     parce qu'il documente la palette d'origine reprise de Tailwind, mais
+     plus une seule regle ne le lit. */
   --accent-b: oklch(0.79 0.13 226);
   --accent-c: oklch(0.67 0.26 322);
+  /* LES DEUX BOUTS DU DEGRADE, un violet profond et un violet clair, pris
+     dans la meme echelle que `--accent-a` : violet-700 et violet-400 de
+     Tailwind, convertis en oklch comme le reste du fichier. */
+  --accent-a-profond: oklch(0.49 0.24 294);
+  --accent-a-clair: oklch(0.75 0.15 295);
   /* Le texte pose SUR un degrade est blanc dans les deux themes. */
   --sur-degrade: oklch(0.99 0.004 255);
-  --degrade: linear-gradient(105deg, var(--accent-a), var(--accent-b));
-  /* PLUS AUCUN TEXTE NE LE PORTE DEPUIS LE 22 SEPTEMBRE 2026. Mika :
-     « retirer le degrade de couleur sur les textes ». Les six regles qui
-     l'employaient, le titre d'accueil, les titres de pages document, la
-     manchette des news, les sous-titres des mixtapes, les trois grands
-     chiffres de l'atlas et « SONAA <annee> » dans le pied, sont passees a
-     l'encre pleine. Le jeton RESTE parce que la consigne etait de ne rien
-     changer a la palette, et parce qu'il documente la variante de degrade
-     accordee a du texte, plus claire que celle des boutons. */
-  --degrade-texte: linear-gradient(105deg, oklch(0.99 0 0) 4%, oklch(0.83 0.09 293) 38%, oklch(0.87 0.09 226) 72%, oklch(0.86 0.13 322) 100%);
+  /* DU VIOLET PROFOND AU VIOLET CLAIR, le fuchsia au milieu. Il allait du
+     violet au ciel, et c'est ce bleu que Mika a fait sortir. Dix-neuf regles
+     lisent ce jeton, du bouton du micro a la jauge d'ecoute en passant par la
+     banniere d'accueil et la barre du bas : elles suivent toutes d'un coup. */
+  --degrade: linear-gradient(105deg, var(--accent-a-profond), var(--accent-c) 55%, var(--accent-a-clair));
   /* LE VERRE : un voile clair sur fond sombre, un voile sombre sur fond
      clair, et dans les deux cas le flou fait le reste. */
   --verre-fond: oklch(1 0 0 / 0.045);
@@ -451,11 +456,15 @@
      feuilles, et qu'il a raison : chronology.css emploie le meme nombre pour
      une notion differente, un plancher de grille. Deux notions, deux noms. */
   --plafond-image: 70vh;
-  /* LA MAILLE : le fond des bannieres, trois halos qui se recouvrent. */
+  /* LA MAILLE : le fond des bannieres et du pied, trois halos qui se
+     recouvrent. Le halo bleu du milieu est devenu fuchsia le 22 septembre
+     2026, en meme temps que le degrade : le cyan ne doit plus apparaitre
+     dans aucun fond. Les trois halos suivent desormais le meme chemin que
+     `--degrade`, violet profond, fuchsia, violet clair. */
   --maille:
-    radial-gradient(60rem 40rem at 12% -8%, oklch(0.61 0.22 293 / 0.42), transparent 62%),
-    radial-gradient(52rem 38rem at 88% 4%, oklch(0.79 0.13 226 / 0.34), transparent 60%),
-    radial-gradient(44rem 34rem at 50% 44%, oklch(0.67 0.26 322 / 0.22), transparent 64%);
+    radial-gradient(60rem 40rem at 12% -8%, oklch(0.49 0.24 294 / 0.55), transparent 62%),
+    radial-gradient(52rem 38rem at 88% 4%, oklch(0.67 0.26 322 / 0.3), transparent 60%),
+    radial-gradient(44rem 34rem at 50% 44%, oklch(0.75 0.15 295 / 0.2), transparent 64%);
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -596,7 +605,6 @@
 
   /* La v2 en theme clair : le verre devient un voile sombre, le degrade de
      texte s'assombrit pour rester lisible, la maille s'adoucit. */
-  --degrade-texte: linear-gradient(105deg, oklch(0.22 0.02 285) 4%, oklch(0.45 0.2 293) 38%, oklch(0.5 0.14 226) 72%, oklch(0.5 0.22 322) 100%);
   --verre-fond: oklch(0.2 0.01 285 / 0.04);
   --verre-fond-fort: oklch(0.2 0.01 285 / 0.07);
   --verre-bord: oklch(0.2 0.01 285 / 0.1);
@@ -604,9 +612,9 @@
   --lueur: 0 0 52px -14px oklch(0.61 0.22 293 / 0.55);
   --ombre-carte: 0 20px 40px -14px oklch(0.2 0.02 285 / 0.28);
   --maille:
-    radial-gradient(60rem 40rem at 12% -8%, oklch(0.61 0.22 293 / 0.22), transparent 62%),
-    radial-gradient(52rem 38rem at 88% 4%, oklch(0.79 0.13 226 / 0.2), transparent 60%),
-    radial-gradient(44rem 34rem at 50% 44%, oklch(0.67 0.26 322 / 0.1), transparent 64%);
+    radial-gradient(60rem 40rem at 12% -8%, oklch(0.49 0.24 294 / 0.2), transparent 62%),
+    radial-gradient(52rem 38rem at 88% 4%, oklch(0.67 0.26 322 / 0.16), transparent 60%),
+    radial-gradient(44rem 34rem at 50% 44%, oklch(0.75 0.15 295 / 0.12), transparent 64%);
   color-scheme: light;
 }
 
@@ -788,15 +796,15 @@
 @media (max-width: 699px) {
   :root {
     --maille:
-      radial-gradient(22rem 15rem at 6% -6%, oklch(0.61 0.22 293 / 0.46), transparent 64%),
-      radial-gradient(18rem 13rem at 102% 8%, oklch(0.79 0.13 226 / 0.38), transparent 62%),
-      radial-gradient(16rem 12rem at 40% 52%, oklch(0.67 0.26 322 / 0.24), transparent 66%);
+      radial-gradient(22rem 15rem at 6% -6%, oklch(0.49 0.24 294 / 0.58), transparent 64%),
+      radial-gradient(18rem 13rem at 102% 8%, oklch(0.67 0.26 322 / 0.34), transparent 62%),
+      radial-gradient(16rem 12rem at 40% 52%, oklch(0.75 0.15 295 / 0.22), transparent 66%);
   }
   :root[data-theme='clair'] {
     --maille:
-      radial-gradient(22rem 15rem at 6% -6%, oklch(0.61 0.22 293 / 0.24), transparent 64%),
-      radial-gradient(18rem 13rem at 102% 8%, oklch(0.79 0.13 226 / 0.22), transparent 62%),
-      radial-gradient(16rem 12rem at 40% 52%, oklch(0.67 0.26 322 / 0.12), transparent 66%);
+      radial-gradient(22rem 15rem at 6% -6%, oklch(0.49 0.24 294 / 0.22), transparent 64%),
+      radial-gradient(18rem 13rem at 102% 8%, oklch(0.67 0.26 322 / 0.18), transparent 62%),
+      radial-gradient(16rem 12rem at 40% 52%, oklch(0.75 0.15 295 / 0.14), transparent 66%);
   }
   /* LE FLOU DU VERRE COUTE SUR UN TELEPHONE, et il coute a chaque pixel
      couvert : deux capsules collantes qui defilent toute la page. On le

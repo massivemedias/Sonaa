@@ -35,7 +35,6 @@
 @theme inline {
   --font-sans: var(--police);
   --color-accent-a: var(--accent-a);
-  --color-accent-b: var(--accent-b);
   --color-accent-c: var(--accent-c);
   --color-encre: var(--ink-primary);
   --color-encre-douce: var(--ink-secondary);
