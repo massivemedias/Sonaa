@@ -95,15 +95,21 @@ export default defineConfig({
 
            Il est desormais servi par le reseau, avec le cache pour seul
            filet hors ligne : voir la regle NetworkFirst plus bas. */
-        globIgnores: ['**/covers/**', '**/node_modules/**', '**/game/**', '**/games/**'],
+        globIgnores: ['**/covers/**', '**/node_modules/**', '**/game/**', '**/games/**', '**/v2/**'],
         navigateFallback: 'index.html',
         /* /game/ est une page autonome, pas une route de l'application :
            lui repondre index.html afficherait le site a la place du jeu.
            /games/ aussi : c'est la que vivent les autres jeux (Isoku). Le
            7 septembre 2026, un telephone qui avait deja le service worker
            tombait sur l'accueil en ouvrant /games/isoku/, parce que ce
-           dossier n'etait pas ici. */
-        navigateFallbackDenylist: [/^\/covers\//, /^\/game\//, /^\/games\//],
+           dossier n'etait pas ici.
+
+           /v2/ EST LE MEME CAS, depuis le 21 septembre 2026 : une page
+           autonome de comparaison visuelle, sans React, montee sur Tailwind
+           et Motion depuis des CDN. Sans cette ligne, quiconque a deja le
+           service worker verrait l'accueil a la place du prototype, et Mika
+           en premier. */
+        navigateFallbackDenylist: [/^\/covers\//, /^\/game\//, /^\/games\//, /^\/v2\//],
         cleanupOutdatedCaches: true,
         /* Le chunk des structures pèse 680 Ko : au-dessus du défaut, et il
            n'est pas question de le laisser hors du cache, c'est le corpus. */
