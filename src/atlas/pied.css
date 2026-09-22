@@ -89,10 +89,7 @@
 .pied-nom {
   font-weight: 700;
   white-space: nowrap;
-  background: var(--degrade-texte);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--ink-primary);
 }
 
 .pied-liens,

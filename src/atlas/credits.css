@@ -131,10 +131,7 @@
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.05;
-  background: var(--degrade-texte);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--ink-primary);
 }
 
 .credits-lede {

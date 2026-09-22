@@ -375,10 +375,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   letter-spacing: -0.02em;
   line-height: 1;
   font-variant-numeric: tabular-nums;
-  background: var(--degrade-texte);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--ink-primary);
 }
 .pv-stat-mot {
   font-size: 0.62rem;

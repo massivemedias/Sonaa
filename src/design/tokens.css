@@ -416,6 +416,14 @@
   /* Le texte pose SUR un degrade est blanc dans les deux themes. */
   --sur-degrade: oklch(0.99 0.004 255);
   --degrade: linear-gradient(105deg, var(--accent-a), var(--accent-b));
+  /* PLUS AUCUN TEXTE NE LE PORTE DEPUIS LE 22 SEPTEMBRE 2026. Mika :
+     « retirer le degrade de couleur sur les textes ». Les six regles qui
+     l'employaient, le titre d'accueil, les titres de pages document, la
+     manchette des news, les sous-titres des mixtapes, les trois grands
+     chiffres de l'atlas et « SONAA <annee> » dans le pied, sont passees a
+     l'encre pleine. Le jeton RESTE parce que la consigne etait de ne rien
+     changer a la palette, et parce qu'il documente la variante de degrade
+     accordee a du texte, plus claire que celle des boutons. */
   --degrade-texte: linear-gradient(105deg, oklch(0.99 0 0) 4%, oklch(0.83 0.09 293) 38%, oklch(0.87 0.09 226) 72%, oklch(0.86 0.13 322) 100%);
   /* LE VERRE : un voile clair sur fond sombre, un voile sombre sur fond
      clair, et dans les deux cas le flou fait le reste. */
@@ -436,6 +444,13 @@
      tenait sur trois lignes. La borne basse descend a 1,75 rem et la pente
      passe a 7vw, qui ne mord qu'au-dessus de 400 px. */
   --titre-section: clamp(1.75rem, 7vw, 2.8rem);
+  /* LE PLAFOND D'UNE IMAGE D'ARTICLE, demande par Mika le 22 septembre
+     2026 : certaines images de flux font plusieurs milliers de pixels de
+     haut et occupaient plusieurs ecrans a elles seules. Nomme ici parce que
+     `check:constantes` refuse une decoupe d'ecran ecrite en clair dans deux
+     feuilles, et qu'il a raison : chronology.css emploie le meme nombre pour
+     une notion differente, un plancher de grille. Deux notions, deux noms. */
+  --plafond-image: 70vh;
   /* LA MAILLE : le fond des bannieres, trois halos qui se recouvrent. */
   --maille:
     radial-gradient(60rem 40rem at 12% -8%, oklch(0.61 0.22 293 / 0.42), transparent 62%),

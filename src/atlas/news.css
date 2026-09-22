@@ -19,10 +19,7 @@
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.05;
-  background: var(--degrade-texte);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--ink-primary);
 }
 .news-edition {
   margin: 0.2rem 0 0.6rem;
@@ -396,7 +393,18 @@
    rem de colonne et 2,5 rem d'ecart font 1000, plus les retraits de page. En
    dessous, une seule colonne et la colonne de droite passe SOUS l'article :
    ce qu'on est venu lire passe devant. */
+/* RIEN DE CETTE ZONE NE PEUT PASSER AU-DESSUS DU CHROME.
+
+   La pilule du haut vit en z-index 12 et la barre du bas en 13. Un contexte
+   d'empilement pose ici, a zero, borne tout ce que la zone contient sous
+   elles, quoi qu'une regle future y ajoute. C'est une garantie de
+   construction, pas un reglage a retrouver au cas par cas.
+
+   La colonne de droite reste collante : `position: sticky` depend du
+   conteneur de defilement, pas de l'empilement. */
 .lecture-grille {
+  position: relative;
+  z-index: 0;
   display: grid;
   grid-template-columns: minmax(0, 72ch);
   justify-content: center;
@@ -428,11 +436,33 @@
   letter-spacing: -0.01em;
   text-wrap: balance;
 }
+/* ═══ UNE IMAGE DU FLUX NE DEBORDE PAS, ET NE S'ETIRE PAS ═══
+
+   `max-width` ET NON `width`, et c'est la difference qui compte. A `width:
+   100%` toute image remplissait la colonne, y compris une vignette de
+   128 par 71 : mesure du 22 septembre 2026 sur la revue du LEWITT LW6 chez
+   Gearnews, elle etait rendue a 650 par 360, soit cinq fois sa taille, donc
+   floue. Une image n'a aucune raison d'etre agrandie au-dela de ce que le
+   magazine a publie.
+
+   LE PLAFOND, `--plafond-image`, VAUT 70 VH et il est demande par Mika : certaines images de flux font
+   plusieurs milliers de pixels de haut et occupaient plusieurs ecrans a
+   elles seules. `object-fit: contain` va avec, et seulement pour ce cas : il
+   ne sert que quand le plafond ecrase la boite, et il garde alors l'image
+   entiere et sans deformation plutot que de la recadrer.
+
+   LA PLACE EST RESERVEE AVANT L'ARRIVEE quand le flux declare `width` et
+   `height` : la balise les porte, `height: auto` laisse le navigateur en
+   deduire le rapport, et le texte sous l'image ne saute plus. Voir
+   LectureArticle.tsx et morceauxDuHtml dans le Worker. */
 .lecture-image,
 .lecture-figure {
   display: block;
-  width: 100%;
+  max-width: 100%;
   height: auto;
+  max-height: var(--plafond-image);
+  object-fit: contain;
+  object-position: left center;
   margin: 1.2rem 0;
   border-radius: 6px;
   background: var(--surface-margin);

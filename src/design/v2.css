@@ -18,8 +18,14 @@
 
    ═══ LES UTILITAIRES DE LA V2 ═══
 
-   Le verre, le texte en degrade, la lueur et la maille sont ce qui fait le
-   look du prototype. Ils sont declares ici, une fois, avec les variantes de
+   Le verre, la lueur et la maille sont ce qui fait le look du prototype.
+
+   L'UTILITAIRE `texte-degrade` A ETE RETIRE LE 22 SEPTEMBRE 2026. Mika :
+   « retirer le degrade de couleur sur les textes ». Aucun composant ne
+   l'employait, les six regles qui posaient le degrade sur du texte le
+   faisaient a la main, et garder un utilitaire dont le seul objet vient
+   d'etre interdit est le meilleur moyen qu'il revienne par distraction. Le
+   degrade reste sur les boutons, les jauges et les fonds, par `--degrade`. Ils sont declares ici, une fois, avec les variantes de
    Tailwind (hover:, md:) gratuites, et les feuilles des composants les
    composent au lieu de les reecrire. Voir ADR-086. */
 
@@ -49,13 +55,6 @@
   backdrop-filter: var(--verre-flou);
   -webkit-backdrop-filter: var(--verre-flou);
   border: 1px solid var(--verre-bord-fort);
-}
-
-@utility texte-degrade {
-  background: var(--degrade-texte);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
 }
 
 @utility lueur {

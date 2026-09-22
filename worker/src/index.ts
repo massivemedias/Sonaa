@@ -227,7 +227,12 @@ function origineAutorisee(req: Request, env: Env): string | null {
  * Attack, Gearnews et Midnight Rebels livrent l'article entier avec ses
  * images ; CDM ne livre qu'un resume de 478 signes. */
 
-interface Morceau { t: 'p' | 'h2' | 'h3' | 'quote' | 'img'; x: string }
+/* LES DIMENSIONS D'UNE IMAGE, QUAND LE FLUX LES DECLARE.
+   Sans elles le navigateur ne sait pas quelle place reserver et la page
+   saute quand chaque image arrive. Environ trois images sur dix les portent,
+   mesure faite le 22 septembre 2026 sur les flux de Gearnews et d'Attack.
+   Voir LectureArticle.tsx, qui les repose sur la balise. */
+interface Morceau { t: 'p' | 'h2' | 'h3' | 'quote' | 'img'; x: string; w?: number; h?: number }
 
 /* LE SEUIL DE L'INTEGRAL. En dessous, c'est un chapeau, pas un article : les
    resumes de flux tournent autour de 300 a 500 signes, les articles entiers
@@ -256,7 +261,16 @@ async function morceauxDuHtml(html: string): Promise<Morceau[]> {
       element(e) {
         const src = e.getAttribute('data-src') ?? e.getAttribute('src') ?? '';
         if (src.startsWith('http') && !/\.svg|1x1|pixel|avatar|logo|icon|gravatar/i.test(src)) {
-          sortie.push({ t: 'img', x: src });
+          /* ON NE GARDE QUE DES NOMBRES PLAUSIBLES. Un flux ecrit parfois
+             « 100% » ou « auto » dans ces attributs : poses tels quels sur la
+             balise, ils feraient reserver n'importe quoi. */
+          const n = (v: string | null): number | undefined => {
+            const x = Number(v);
+            return Number.isFinite(x) && x > 0 && x <= 10000 ? x : undefined;
+          };
+          const w = n(e.getAttribute('width'));
+          const h = n(e.getAttribute('height'));
+          sortie.push({ t: 'img', x: src, ...(w !== undefined && h !== undefined ? { w, h } : {}) });
         }
       },
     })
@@ -266,7 +280,7 @@ async function morceauxDuHtml(html: string): Promise<Morceau[]> {
     .arrayBuffer();
 
   return sortie
-    .map((m) => ({ t: m.t, x: m.t === 'img' ? m.x : decodeEntites(m.x.replace(/\s+/g, ' ').trim()) }))
+    .map((m) => ({ ...m, x: m.t === 'img' ? m.x : decodeEntites(m.x.replace(/\s+/g, ' ').trim()) }))
     .filter((m) => (m.t === 'img' ? true : m.t === 'p' || m.t === 'quote' ? m.x.length >= 25 : m.x.length >= 3))
     .filter((m, i, a) => m.t !== 'img' || a.findIndex((y) => y.t === 'img' && y.x === m.x) === i)
     .filter((m) => m.t === 'img' || !/continue reading|read more|the post .* appeared first/i.test(m.x))

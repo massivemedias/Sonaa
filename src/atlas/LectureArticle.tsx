@@ -31,6 +31,12 @@ const PASSERELLE = 'https://sonaa-sets.massivemedias.workers.dev';
 interface Morceau {
   readonly t: 'p' | 'h2' | 'h3' | 'quote' | 'img';
   readonly x: string;
+  /* LES DIMENSIONS DECLAREES PAR LE FLUX, quand il les donne. Elles ne
+     servent PAS a dimensionner l'image, la feuille de style s'en charge :
+     elles servent au navigateur a reserver la bonne place avant que l'image
+     arrive, donc a ne pas faire sauter le texte sous elle. */
+  readonly w?: number;
+  readonly h?: number;
 }
 
 interface Reponse {
@@ -164,7 +170,19 @@ export function LectureArticle({ url, titre, source, image, idSource, langueSour
       {traduction && <p className="lecture-avis">{t.traduitParMachine}</p>}
 
       {blocs.map((m, i) => {
-        if (m.t === 'img') return <img key={i} className="lecture-figure" src={m.x} alt="" loading="lazy" referrerPolicy="no-referrer" />;
+        if (m.t === 'img')
+          return (
+            <img
+              key={i}
+              className="lecture-figure"
+              src={m.x}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              referrerPolicy="no-referrer"
+              {...(m.w !== undefined && m.h !== undefined ? { width: m.w, height: m.h } : {})}
+            />
+          );
         if (m.t === 'h2') return <h2 key={i}>{m.x}</h2>;
         if (m.t === 'h3') return <h3 key={i}>{m.x}</h3>;
         if (m.t === 'quote') return <blockquote key={i}>{m.x}</blockquote>;

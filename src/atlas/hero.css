@@ -59,10 +59,7 @@
   line-height: 1.02;
   letter-spacing: -0.025em;
   text-wrap: balance;
-  background: var(--degrade-texte);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--ink-primary);
 }
 
 .hero-phrase {
