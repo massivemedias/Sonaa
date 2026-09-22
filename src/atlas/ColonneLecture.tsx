@@ -21,12 +21,30 @@
  * n'attendent pas l'article : un bloc lateral ne fait jamais patienter ce
  * qu'on est venu lire.
  *
- * ═══ LA VILLE EST NOMMEE, TOUJOURS ═══
+ * ═══ LA VILLE CHOISIE BAT LA VILLE DEDUITE ═══
  *
- * Elle vient de la connexion, donc c'est une deduction. Le titre l'ecrit en
- * toutes lettres, « Ce soir a Montreal », pour que personne ne croie a un
- * choix qu'il n'a pas fait. Sans ville reconnue, le bloc n'existe pas :
- * mieux vaut une colonne plus courte qu'un agenda d'ailleurs.
+ * Mika, le 22 septembre 2026 : « ville choisie dans le calendrier si elle
+ * existe, deduite sinon ». Quelqu'un qui a regle son calendrier sur Berlin
+ * ne veut pas lire les soirees de Montreal parce qu'il y est en voyage.
+ *
+ * LA TABLE DES VILLES N'EST LUE QUE S'IL Y A UN CHOIX A RESOUDRE. Sans choix,
+ * le chemin est exactement celui d'avant, `ouJeSuis` et rien d'autre : la
+ * requete supplementaire n'est payee que par ceux qui en ont besoin.
+ *
+ * UN SLUG PERIME EST IGNORE, pas suivi : il ne vient d'aucune intention
+ * presente. C'est la regle de `resoudreVille`, et on ne la reecrit pas ici.
+ *
+ * ═══ LA VILLE EST NOMMEE, ET SON HEURE EST LA SIENNE ═══
+ *
+ * Le titre l'ecrit en toutes lettres, « Ce soir a Berlin », pour que personne
+ * ne croie a un choix qu'il n'a pas fait quand elle est deduite. Et l'heure
+ * est celle de LA VILLE, pas celle du lecteur : une soiree berlinoise
+ * annoncee a l'heure de Montreal serait fausse de six heures. Le fuseau du
+ * navigateur ne sert que faute de mieux, quand la ville vient de la
+ * connexion et qu'on n'a donc pas sa fiche.
+ *
+ * Sans ville reconnue, le bloc n'existe pas : mieux vaut une colonne plus
+ * courte qu'un agenda d'ailleurs.
  *
  * ═══ ELLE PASSE SOUS L'ARTICLE SUR TELEPHONE ═══
  *
@@ -34,7 +52,7 @@
 
 import { useEffect, useState } from 'react';
 import { agenda, ouJeSuis, type Soiree } from '../lib/agenda.ts';
-import { heureLocale } from '../lib/villes.ts';
+import { heureLocale, toutesLesVilles, villeDeSession } from '../lib/villes.ts';
 import { t } from '../langue/langue.ts';
 
 /** Ce qu'il faut d'un article pour en faire une vignette de colonne. */
@@ -77,21 +95,40 @@ function bornesDuJour(): { du: Date; au: Date } {
   return { du, au };
 }
 
+/** La ville a montrer : celle du calendrier si elle est choisie et connue,
+    celle de la connexion sinon. Rend aussi le fuseau a employer pour les
+    heures, et `null` quand aucune zone n'est disponible. */
+async function villeDuBloc(): Promise<{ zone: number; nom: string; fuseau: string | null } | null> {
+  const choisi = villeDeSession();
+  if (choisi) {
+    const connues = await toutesLesVilles();
+    const v = connues.find((x) => x.slug === choisi);
+    if (v?.ra_area_id) return { zone: v.ra_area_id, nom: v.name, fuseau: v.timezone };
+    /* Choisie mais sans zone chez Resident Advisor, ou slug perime : on
+       retombe sur la deduction plutot que de se taire. */
+  }
+  const ou = await ouJeSuis();
+  if (!ou.zone) return null;
+  return { zone: ou.zone.id, nom: ou.ville ?? ou.zone.nom, fuseau: null };
+}
+
 function useCeSoir(): { ville: string | null; fuseau: string; soirees: readonly Soiree[] } {
   const [ville, setVille] = useState<string | null>(null);
-  /* Lu une fois a l'initialisation et non dans un effet : le fuseau du
-     navigateur ne change pas pendant qu'on lit un article. */
-  const [fuseau] = useState(() => Intl.DateTimeFormat().resolvedOptions().timeZone);
+  /* LE FUSEAU DE LA VILLE QUAND ON L'A, celui du navigateur sinon. Lu a
+     l'initialisation et non dans un effet : celui du navigateur ne change pas
+     pendant qu'on lit un article. */
+  const [fuseau, setFuseau] = useState(() => Intl.DateTimeFormat().resolvedOptions().timeZone);
   const [soirees, setSoirees] = useState<readonly Soiree[]>([]);
 
   useEffect(() => {
     let vivant = true;
     void (async () => {
-      const ou = await ouJeSuis();
-      if (!vivant || !ou.zone) return;
-      setVille(ou.ville ?? ou.zone.nom);
+      const ou = await villeDuBloc();
+      if (!vivant || !ou) return;
+      setVille(ou.nom);
+      if (ou.fuseau) setFuseau(ou.fuseau);
       const { du, au } = bornesDuJour();
-      const rendu = await agenda({ zone: ou.zone.id, du, au });
+      const rendu = await agenda({ zone: ou.zone, du, au });
       /* `null` veut dire que la source n'a pas repondu, et une liste vide
          qu'il n'y a rien : dans les deux cas cette colonne se tait. Elle
          n'est pas l'endroit ou l'on annonce une panne d'agenda. */
