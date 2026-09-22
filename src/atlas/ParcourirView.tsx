@@ -384,7 +384,12 @@ export function ParcourirView() {
                 <span className="pv-stat-mot">{t.statFamilles}</span>
               </div>
               <div className="pv-stat">
-                <span className="pv-stat-n">{N_MORCEAUX.toLocaleString()}</span>
+                <span className="pv-stat-n">
+                  {/* LE NOMBRE SUIT LA LANGUE DU SITE, pas celle du navigateur : un
+                      visiteur anglophone qui lit la page en francais voyait
+                      « 2,382 » sous un mot francais. */}
+                  {N_MORCEAUX.toLocaleString(langue === 'fr' ? 'fr-CA' : 'en-CA')}
+                </span>
                 <span className="pv-stat-mot">{t.statMorceaux}</span>
               </div>
             </Apparition>
