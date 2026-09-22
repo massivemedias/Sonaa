@@ -146,24 +146,24 @@
      qu'aucune regle ne soit fausse.
      ═══════════════════════════════════════════════════════════════ */
 
-  --creux: oklch(0.07 0.01 255);
-  --creux-2: oklch(0.08 0.01 255);
-  --creux-3: oklch(0.12 0.01 255);
-  --fond: oklch(0.14 0.01 255);
-  --plaque: oklch(0.16 0.012 255);
-  --plaque-2: oklch(0.17 0.012 255);
-  --plaque-3: oklch(0.18 0.012 255);
-  --leve: oklch(0.2 0.014 255);
-  --leve-2: oklch(0.21 0.014 255);
-  --leve-3: oklch(0.22 0.014 255);
-  --leve-4: oklch(0.24 0.014 255);
-  --filet-fantome: oklch(0.26 0.01 255);
-  --filet-fantome-2: oklch(0.28 0.01 255);
-  --filet: oklch(0.3 0.01 255);
-  --filet-2: oklch(0.31 0.01 255);
-  --filet-3: oklch(0.34 0.01 255);
-  --filet-fort: oklch(0.4 0.012 255);
-  --filet-fort-2: oklch(0.42 0.012 255);
+  --creux: oklch(0.045 0.012 285);
+  --creux-2: oklch(0.055 0.012 285);
+  --creux-3: oklch(0.075 0.012 285);
+  --fond: oklch(0.09 0.012 285);
+  --plaque: oklch(0.105 0.014 285);
+  --plaque-2: oklch(0.11 0.014 285);
+  --plaque-3: oklch(0.12 0.014 285);
+  --leve: oklch(0.14 0.016 285);
+  --leve-2: oklch(0.15 0.016 285);
+  --leve-3: oklch(0.16 0.016 285);
+  --leve-4: oklch(0.18 0.016 285);
+  --filet-fantome: oklch(0.2 0.012 285);
+  --filet-fantome-2: oklch(0.22 0.012 285);
+  --filet: oklch(0.24 0.012 285);
+  --filet-2: oklch(0.25 0.012 285);
+  --filet-3: oklch(0.28 0.012 285);
+  --filet-fort: oklch(0.34 0.014 285);
+  --filet-fort-2: oklch(0.36 0.014 285);
   --encre-effacee: oklch(0.5 0.01 255);
   --encre-effacee-2: oklch(0.52 0.01 255);
   --encre-effacee-3: oklch(0.55 0.01 255);
@@ -393,6 +393,50 @@
   --motion-zoom: 300ms;
   --motion-ease: cubic-bezier(0.4, 0, 0.2, 1);
   --propagation-per-year: 40ms;  /* durée d'un segment, par année franchie */
+
+  /* ═══════════════════════════════════════════════════════════════
+     LA V2, LE 21 SEPTEMBRE 2026 : CE QUI FAIT LE LOOK, NOMME UNE FOIS
+
+     Mika a compare la v1 et un prototype monte sur la pile 21st.dev, et il a
+     choisi le prototype. Ce bloc porte tout ce qui le distingue : deux accents
+     tenus par un degrade, une matiere de verre, une lueur, un rayon de carte.
+     Tout le reste du site lit ces jetons ; rien n'ecrit une de ces couleurs
+     en dur. L'echelle des gris au-dessus a suivi : plus sombre d'un cran, et
+     teintee de violet a 285 au lieu du bleu-gris de 255.
+
+     LES ACCENTS SONT ECRITS EN OKLCH, comme tout le fichier, a partir des
+     hexadecimaux du prototype : violet 8b5cf6, ciel 38bdf8, fuchsia d946ef.
+     Ils ne suivent pas l'echelle des gris entre les deux themes, parce qu'un
+     accent est une teinte, pas une lumiere : ils gardent leur clarte, et
+     c'est le verre qui change de sens.
+     ═══════════════════════════════════════════════════════════════ */
+  --accent-a: oklch(0.61 0.22 293);
+  --accent-b: oklch(0.79 0.13 226);
+  --accent-c: oklch(0.67 0.26 322);
+  /* Le texte pose SUR un degrade est blanc dans les deux themes. */
+  --sur-degrade: oklch(0.99 0.004 255);
+  --degrade: linear-gradient(105deg, var(--accent-a), var(--accent-b));
+  --degrade-texte: linear-gradient(105deg, oklch(0.99 0 0) 4%, oklch(0.83 0.09 293) 38%, oklch(0.87 0.09 226) 72%, oklch(0.86 0.13 322) 100%);
+  /* LE VERRE : un voile clair sur fond sombre, un voile sombre sur fond
+     clair, et dans les deux cas le flou fait le reste. */
+  --verre-fond: oklch(1 0 0 / 0.045);
+  --verre-fond-fort: oklch(1 0 0 / 0.07);
+  --verre-bord: oklch(1 0 0 / 0.1);
+  --verre-bord-fort: oklch(1 0 0 / 0.14);
+  --verre-flou: blur(22px) saturate(160%);
+  --lueur: 0 0 62px -14px oklch(0.61 0.22 293 / 0.85);
+  --ombre-carte: 0 25px 50px -12px oklch(0 0 0 / 0.6);
+  --rayon-carte: 24px;
+  --rayon-pilule: 999px;
+  /* LA TAILLE D'UN TITRE DE SECTION, ecrite ici et lue par toutes les
+     pages : check:constantes a refuse la meme decoupe ecrite en clair dans
+     trois feuilles, et il avait raison, c'est la meme grandeur. */
+  --titre-section: clamp(2rem, 4vw, 2.8rem);
+  /* LA MAILLE : le fond des bannieres, trois halos qui se recouvrent. */
+  --maille:
+    radial-gradient(60rem 40rem at 12% -8%, oklch(0.61 0.22 293 / 0.42), transparent 62%),
+    radial-gradient(52rem 38rem at 88% 4%, oklch(0.79 0.13 226 / 0.34), transparent 60%),
+    radial-gradient(44rem 34rem at 50% 44%, oklch(0.67 0.26 322 / 0.22), transparent 64%);
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -531,6 +575,19 @@
   --lt-88: 0.3;
   --lt-93: 0.3;
 
+  /* La v2 en theme clair : le verre devient un voile sombre, le degrade de
+     texte s'assombrit pour rester lisible, la maille s'adoucit. */
+  --degrade-texte: linear-gradient(105deg, oklch(0.22 0.02 285) 4%, oklch(0.45 0.2 293) 38%, oklch(0.5 0.14 226) 72%, oklch(0.5 0.22 322) 100%);
+  --verre-fond: oklch(0.2 0.01 285 / 0.04);
+  --verre-fond-fort: oklch(0.2 0.01 285 / 0.07);
+  --verre-bord: oklch(0.2 0.01 285 / 0.1);
+  --verre-bord-fort: oklch(0.2 0.01 285 / 0.16);
+  --lueur: 0 0 52px -14px oklch(0.61 0.22 293 / 0.55);
+  --ombre-carte: 0 20px 40px -14px oklch(0.2 0.02 285 / 0.28);
+  --maille:
+    radial-gradient(60rem 40rem at 12% -8%, oklch(0.61 0.22 293 / 0.22), transparent 62%),
+    radial-gradient(52rem 38rem at 88% 4%, oklch(0.79 0.13 226 / 0.2), transparent 60%),
+    radial-gradient(44rem 34rem at 50% 44%, oklch(0.67 0.26 322 / 0.1), transparent 64%);
   color-scheme: light;
 }
 
@@ -549,24 +606,24 @@
    seule regle de atlas.css ait a savoir qu'un theme existe.
    ═══════════════════════════════════════════════════════════════ */
 :root[data-theme='clair'] .atlas-root {
-  --creux: oklch(0.07 0.01 255);
-  --creux-2: oklch(0.08 0.01 255);
-  --creux-3: oklch(0.12 0.01 255);
-  --fond: oklch(0.14 0.01 255);
-  --plaque: oklch(0.16 0.012 255);
-  --plaque-2: oklch(0.17 0.012 255);
-  --plaque-3: oklch(0.18 0.012 255);
-  --leve: oklch(0.2 0.014 255);
-  --leve-2: oklch(0.21 0.014 255);
-  --leve-3: oklch(0.22 0.014 255);
-  --leve-4: oklch(0.24 0.014 255);
-  --filet-fantome: oklch(0.26 0.01 255);
-  --filet-fantome-2: oklch(0.28 0.01 255);
-  --filet: oklch(0.3 0.01 255);
-  --filet-2: oklch(0.31 0.01 255);
-  --filet-3: oklch(0.34 0.01 255);
-  --filet-fort: oklch(0.4 0.012 255);
-  --filet-fort-2: oklch(0.42 0.012 255);
+  --creux: oklch(0.045 0.012 285);
+  --creux-2: oklch(0.055 0.012 285);
+  --creux-3: oklch(0.075 0.012 285);
+  --fond: oklch(0.09 0.012 285);
+  --plaque: oklch(0.105 0.014 285);
+  --plaque-2: oklch(0.11 0.014 285);
+  --plaque-3: oklch(0.12 0.014 285);
+  --leve: oklch(0.14 0.016 285);
+  --leve-2: oklch(0.15 0.016 285);
+  --leve-3: oklch(0.16 0.016 285);
+  --leve-4: oklch(0.18 0.016 285);
+  --filet-fantome: oklch(0.2 0.012 285);
+  --filet-fantome-2: oklch(0.22 0.012 285);
+  --filet: oklch(0.24 0.012 285);
+  --filet-2: oklch(0.25 0.012 285);
+  --filet-3: oklch(0.28 0.012 285);
+  --filet-fort: oklch(0.34 0.014 285);
+  --filet-fort-2: oklch(0.36 0.014 285);
   --encre-effacee: oklch(0.5 0.01 255);
   --encre-effacee-2: oklch(0.52 0.01 255);
   --encre-effacee-3: oklch(0.55 0.01 255);

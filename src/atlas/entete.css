@@ -1,21 +1,27 @@
 /* La barre du haut des pages document. Elle reprend les mesures de .pv-tete :
-   meme hauteur, meme fond, meme filet, meme alignement de colonne. Deux
-   barres qui font la meme chose a deux pixels pres se remarquent. */
+   meme hauteur, meme matiere, meme alignement de colonne. Deux barres qui
+   font la meme chose a deux pixels pres se remarquent.
 
-/* ELLE RESTE EN HAUT, QUOI QU'IL ARRIVE.
+   ═══ UNE PILULE DE VERRE QUI FLOTTE, DEPUIS LA V2 ═══
 
-   Parcourir tient dans un cadre fixe avec son propre defilement : sa barre
-   n'a jamais bouge. Les pages document, elles, font defiler le document
-   entier, et leur barre partait donc vers le haut des la premiere molette.
-   Deux comportements pour la meme barre, selon la page ou l'on se trouve.
+   Elle etait une bande pleine largeur, collee en haut, sur fond de page. Le
+   prototype choisi par Mika le 21 septembre 2026 la detache : une pilule
+   arrondie, en verre, posee a quelques pixels du bord, sous laquelle la page
+   defile en transparence. C'est le premier signe de la v2, sur toutes les
+   pages, et c'est pour cela qu'il vit dans une regle et pas dans dix.
 
-   `sticky` suffit ici, et c'est justement pourquoi elle est POSEE HORS DE
-   `main` : un element ne colle qu'a l'interieur de son conteneur de
-   defilement, et depuis l'interieur d'une colonne bornee elle aurait cesse
-   de coller au bas de cette colonne. */
+   ELLE RESTE `sticky`, ET C'EST POURQUOI ELLE EST HORS DE `main` : un element
+   ne colle qu'a l'interieur de son conteneur de defilement, et depuis une
+   colonne bornee elle aurait cesse de coller au bas de cette colonne.
+
+   LA PILULE VA D'UN BORD A L'AUTRE, moins six dixiemes de rem de chaque cote,
+   et non a la largeur de la colonne : le bouton de compte est fixe a
+   quatorze pixels du bord droit de l'ecran, et une pilule bornee a 1240 px
+   le laisserait flotter dehors sur un grand ecran. Son CONTENU, lui,
+   s'aligne sur la colonne, par le retrait interieur. */
 .entete-site {
   position: sticky;
-  top: 0;
+  top: 0.6rem;
   /* Sous le bouton de compte (14) et sous le lecteur (10 chez les pages
      document), au-dessus de tout le reste du texte. */
   z-index: 12;
@@ -24,10 +30,15 @@
   align-items: center;
   gap: 0.3rem 1rem;
   box-sizing: border-box;
-  min-height: 56px;
-  padding: calc(0.5rem + env(safe-area-inset-top, 0px)) var(--marge-page) 0.5rem;
-  background: var(--fond);
-  border-bottom: 1px solid var(--voile-07);
+  min-height: 54px;
+  margin: 0.6rem 0.6rem 0;
+  padding: calc(0.35rem + env(safe-area-inset-top, 0px)) 0.9rem 0.35rem;
+  border-radius: var(--rayon-pilule);
+  background: var(--verre-fond-fort);
+  backdrop-filter: var(--verre-flou);
+  -webkit-backdrop-filter: var(--verre-flou);
+  border: 1px solid var(--verre-bord);
+  box-shadow: var(--ombre-carte);
   /* LE BOUTON DE COMPTE EST FIXE EN HAUT A DROITE, hors de ce flux. La meme
      reserve que dans Parcourir l'empeche de recouvrir le dernier lien. */
   padding-right: calc(var(--authb-reserve, 126px) + 0.6rem);
@@ -42,24 +53,24 @@
 
    La reserve n'a de sens que sur la rangee que le bouton partage. Le logo y
    est seul et n'a besoin de rien. Le menu descend donc sur sa propre rangee,
-   pleine largeur, ou rien ne le recouvre : quatre liens sur une ligne au lieu
-   de quatre rangees. */
+   pleine largeur, ou rien ne le recouvre. */
 @media (max-width: 699px) {
   .entete-site {
-    padding-right: var(--marge-page);
+    padding-right: 0.9rem;
   }
   .entete-site .sitenav {
     flex-basis: 100%;
   }
 }
 
-/* Le contenu s'aligne sur la colonne du texte, comme dans Parcourir. */
+/* Le contenu s'aligne sur la colonne du texte, comme dans Parcourir : le
+   retrait interieur retire les six dixiemes de rem de marge exterieure. */
 @media (min-width: 700px) {
   .entete-site {
-    padding-left: max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2));
+    padding-left: max(0.9rem, calc((100vw - var(--largeur-page)) / 2 - 0.6rem));
     padding-right: max(
       calc(var(--authb-reserve, 126px) + 0.6rem),
-      calc((100vw - var(--largeur-page)) / 2)
+      calc((100vw - var(--largeur-page)) / 2 - 0.6rem)
     );
   }
 }
@@ -70,7 +81,7 @@
   flex: none;
 }
 .entete-logo img {
-  height: 26px;
+  height: 24px;
   width: auto;
   display: block;
 }

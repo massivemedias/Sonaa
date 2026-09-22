@@ -28,6 +28,7 @@ import { Loupe } from './Loupe.tsx';
 import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import { t } from '../langue/langue.ts';
+import { Apparition } from '../design/mouvement.tsx';
 import './credits.css';
 import './sets.css';
 
@@ -137,8 +138,8 @@ function ListeDesArtistes() {
       ) : (
         <>
         <ul className="sp-artistes">
-          {(tous ? artistes : artistes.slice(0, ARTISTES_VISIBLES)).map((a) => (
-            <li key={a.user_id}>
+          {(tous ? artistes : artistes.slice(0, ARTISTES_VISIBLES)).map((a, rang) => (
+            <Apparition as="li" key={a.user_id} i={rang}>
               <a className="sp-carte-artiste" href={`#/mixtapes/a/${a.user_id}`}>
                 <Portrait nom={a.nom} chemin={a.avatar_path} />
                 <span className="sp-carte-nom">{a.nom}</span>
@@ -146,7 +147,7 @@ function ListeDesArtistes() {
                   {t.nMixtapes(a.n_sets)} · {t.nEcoutes(a.ecoutes)}
                 </span>
               </a>
-            </li>
+            </Apparition>
           ))}
         </ul>
         {!tous && artistes.length > ARTISTES_VISIBLES && (

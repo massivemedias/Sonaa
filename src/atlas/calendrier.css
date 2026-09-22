@@ -50,23 +50,26 @@
 }
 
 .cal-onglet {
-  background: none;
-  border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 999px;
-  padding: 0.3rem 0.8rem;
+  background: var(--verre-fond);
+  border: 1px solid var(--verre-bord);
+  border-radius: var(--rayon-pilule);
+  padding: 0.4rem 0.9rem;
   color: var(--ink-secondary);
   font: inherit;
   cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
 }
 
 .cal-onglet:hover {
   color: var(--ink-primary);
 }
 
+/* L'ONGLET COURANT PORTE LE DEGRADE, depuis la v2 : c'est l'etat, pas un
+   ornement, et il se lit de loin. */
 .cal-onglet-actif {
-  color: var(--surface-plate);
-  background: var(--ink-primary);
-  border-color: var(--ink-primary);
+  color: var(--sur-degrade);
+  background: var(--degrade);
+  border-color: transparent;
 }
 
 /* LE SURVOL NE DOIT PAS EFFACER L'ONGLET ACTIF.
@@ -77,15 +80,16 @@
    var(--encre-3) des deux cotes, texte invisible. Vu a l'ecran,
    confirme en lisant les styles calcules. */
 .cal-onglet-actif:hover {
-  color: var(--surface-plate);
+  color: var(--sur-degrade);
+  background: var(--degrade);
 }
 
 .cal-recherche {
   width: 100%;
   box-sizing: border-box;
-  background: var(--surface-margin);
-  border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 8px;
+  background: var(--verre-fond);
+  border: 1px solid var(--verre-bord);
+  border-radius: 12px;
   padding: 0.55rem 0.75rem;
   color: inherit;
   font: inherit;
@@ -123,10 +127,10 @@
 }
 
 .cal-date select {
-  background: var(--surface-margin);
+  background: var(--verre-fond);
   color: var(--ink-primary);
-  border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 999px;
+  border: 1px solid var(--verre-bord);
+  border-radius: var(--rayon-pilule);
   padding: 0.35rem 0.6rem;
   font: inherit;
   max-width: 14rem;
@@ -198,7 +202,7 @@
      soiree ferait une carte de mille deux cents pixels. */
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 0.4rem 1.6rem;
+  gap: 1.25rem;
   /* Les cartes d'une meme rangee commencent en haut : sans cela, une carte
      courte se centrerait sur la hauteur de sa voisine et les affiches ne
      seraient plus alignees. */
@@ -225,21 +229,48 @@
    faite sur `?w=600`, `?width=600` et `?image_process=`, les trois rendent
    1080 par 1350. Le chargement differe est donc la seule economie
    disponible. */
+/* ═══ LA CARTE DE VERRE, DEPUIS LA V2 ═══
+
+   La soiree etait une affiche et du texte, poses l'un sous l'autre sans
+   cadre. Le prototype choisi le 21 septembre 2026 en fait une carte : un
+   verre arrondi, une ombre portee, l'affiche qui remplit le haut et se coupe
+   au rayon, le texte dans un retrait, et un leger soulevement au survol. */
 .cal-soiree {
   display: flex;
   flex-direction: column;
   gap: 0.55rem;
-  padding: 0.5rem 0 1.4rem;
+  padding: 0;
   align-items: stretch;
+  overflow: hidden;
+  border-radius: var(--rayon-carte);
+  background: var(--verre-fond);
+  border: 1px solid var(--verre-bord);
+  box-shadow: var(--ombre-carte);
+  transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 400ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .cal-soiree:hover {
+    transform: translateY(-6px);
+    border-color: oklch(0.61 0.22 293 / 0.4);
+  }
+}
+.cal-soiree .cal-texte {
+  padding: 0.2rem 1.1rem 1.2rem;
 }
 
 .cal-affiche {
   width: 100%;
   aspect-ratio: 16 / 10;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 0;
   background: var(--surface-margin);
   display: block;
+  transition: transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@media (hover: hover) and (pointer: fine) {
+  .cal-soiree:hover .cal-affiche {
+    transform: scale(1.05);
+  }
 }
 
 /* SANS AFFICHE, LA CARTE GARDE SA PLACE. Une soiree qui n'en a pas
@@ -248,9 +279,10 @@
 .cal-soiree-sans-affiche {
   width: 100%;
   aspect-ratio: 16 / 10;
-  border-radius: 10px;
-  background: var(--surface-margin);
-  border: var(--rule-width) solid var(--rule-hairline);
+  border-radius: 0;
+  background-image: var(--maille);
+  background-color: var(--surface-margin);
+  border-bottom: 1px solid var(--verre-bord);
 }
 
 .cal-texte {
@@ -320,9 +352,9 @@
   flex: 1 1 auto;
   max-width: 26rem;
   box-sizing: border-box;
-  background: var(--surface-margin);
-  border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 999px;
+  background: var(--verre-fond);
+  border: 1px solid var(--verre-bord);
+  border-radius: var(--rayon-pilule);
   padding: 0.5rem 0.9rem;
   color: var(--ink-primary);
   font: inherit;

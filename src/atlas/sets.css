@@ -16,12 +16,15 @@
   width: 100%;
 }
 
+/* EN VERRE, DEPUIS LA V2 : la matiere du prototype choisi le 21 septembre
+   2026, lue dans les jetons. */
 .sets-bloc {
   margin: 2rem 0 0;
   padding: 1.2rem 1.3rem 1.4rem;
-  border: 1px solid var(--voile-09);
-  border-radius: 18px;
-  background: var(--voile-03);
+  border: 1px solid var(--verre-bord);
+  border-radius: var(--rayon-carte);
+  background: var(--verre-fond);
+  box-shadow: var(--ombre-carte);
 }
 .sets-bloc h2 {
   margin: 0 0 0.9rem;
@@ -106,9 +109,9 @@
 .sp-label textarea,
 .sp-label input[type='file'] {
   padding: 0.5rem 0.7rem;
-  border: 1px solid var(--voile-14);
-  border-radius: 10px;
-  background: var(--plaque-3);
+  border: 1px solid var(--verre-bord);
+  border-radius: 12px;
+  background: var(--verre-fond);
   color: var(--encre-2);
   font-family: inherit;
   font-size: 0.9375rem;
@@ -143,9 +146,11 @@
   justify-self: start;
   padding: 0.55rem 1.1rem;
   border: none;
-  border-radius: 999px;
-  background: oklch(var(--lt-78) 0.17 85);
-  color: var(--leve);
+  border-radius: var(--rayon-pilule);
+  /* Le degrade des accents, depuis la v2 : ce qui se presse le porte. */
+  background: var(--degrade);
+  color: var(--sur-degrade);
+  box-shadow: var(--lueur);
   font-weight: 700;
   cursor: pointer;
 }
@@ -176,9 +181,10 @@
 }
 .sp-item {
   padding: 0.9rem 1rem 1rem;
-  border: 1px solid var(--voile-08);
-  border-radius: 14px;
-  background: var(--voile-02);
+  border: 1px solid var(--verre-bord);
+  border-radius: var(--rayon-carte);
+  background: var(--verre-fond);
+  box-shadow: var(--ombre-carte);
 }
 .sp-item-tete {
   display: flex;
@@ -316,8 +322,9 @@
   place-items: center;
   border: none;
   border-radius: 50%;
-  background: var(--encre-vive-2);
-  color: var(--fond);
+  background: var(--degrade);
+  color: var(--sur-degrade);
+  box-shadow: var(--lueur);
   cursor: pointer;
 }
 
@@ -482,13 +489,27 @@
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr));
   gap: 1.2rem 1rem;
 }
+/* LE PORTRAIT EST UNE CARTE DE VERRE, DEPUIS LA V2, et il se souleve au
+   survol : la grammaire du prototype, la meme que les cartes du calendrier. */
 .sp-carte-artiste {
   display: grid;
   justify-items: center;
   gap: 0.35rem;
+  padding: 1.1rem 0.8rem 1rem;
+  border-radius: var(--rayon-carte);
+  background: var(--verre-fond);
+  border: 1px solid var(--verre-bord);
+  box-shadow: var(--ombre-carte);
   text-align: center;
   color: inherit;
   text-decoration: none;
+  transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 400ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .sp-carte-artiste:hover {
+    transform: translateY(-6px);
+    border-color: oklch(0.61 0.22 293 / 0.4);
+  }
 }
 .sp-carte-nom {
   font-weight: 700;
@@ -534,6 +555,11 @@
   margin: 2.2rem 0 0.6rem;
   font-size: 1.0625rem;
   font-weight: 700;
+  /* En degrade, comme tous les titres de section depuis la v2. */
+  background: var(--degrade-texte);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /* --- Les styles choisis --------------------------------------------------- */
@@ -826,3 +852,4 @@
   color: var(--ink-secondary);
   font-size: 0.9rem;
 }
+

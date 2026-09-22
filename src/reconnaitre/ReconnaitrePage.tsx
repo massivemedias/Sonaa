@@ -24,6 +24,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { EnTeteSite } from '../atlas/EnTeteSite.tsx';
 import { PiedDePage } from '../atlas/PiedDePage.tsx';
 import { t } from '../langue/langue.ts';
+import { Apparition } from '../design/mouvement.tsx';
 import { FAMILIES, STRUCTURES } from '../atlas/structures.ts';
 import { slug } from '../lib/chemins.ts';
 import { capturer, SECONDES_CAPTURE } from './capture.ts';
@@ -185,7 +186,7 @@ export function ReconnaitrePage() {
           {etat === 'erreur' && <p className="rc-erreur">{erreur}</p>}
 
           {styles.length > 0 && (
-            <section className="rc-bloc">
+            <Apparition as="section" className="rc-bloc">
               <h2 className="rc-titre">{t.reconnaitreLeStyle}</h2>
               <ul className="rc-styles">
                 {styles.map((s) => {
@@ -219,11 +220,11 @@ export function ReconnaitrePage() {
                 })}
               </ul>
               <p className="rc-note">{t.reconnaitreImprecis}</p>
-            </section>
+            </Apparition>
           )}
 
           {etat === 'resultat' && morceauActif && accepteMorceau && (
-            <section className="rc-bloc">
+            <Apparition as="section" i={1} className="rc-bloc">
               <h2 className="rc-titre">{t.reconnaitreLeMorceau}</h2>
               {morceau ? (
                 <div className="rc-morceau">
@@ -246,7 +247,7 @@ export function ReconnaitrePage() {
               ) : (
                 <p className="rc-note">{t.reconnaitreSansMorceau}</p>
               )}
-            </section>
+            </Apparition>
           )}
 
           <section className="rc-bloc">

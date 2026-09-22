@@ -39,6 +39,7 @@ import {
   faForwardStep
 } from '@fortawesome/free-solid-svg-icons';
 import { FaIcon } from './FaIcon.tsx';
+import { Apparition } from '../design/mouvement.tsx';
 import { SiteNav } from './SiteNav.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import { ContributeActions } from './ContributeActions.tsx';
@@ -99,6 +100,10 @@ const motLong = (nom: string): '1' | undefined =>
 const TOUS: { fi: number; gl: number; g: Genre }[] = FAMILIES.flatMap((_, fi) =>
   (STRUCTURES[fi]?.genres ?? []).map((g, gl) => ({ fi, gl, g }))
 );
+/* LE NOMBRE DE MORCEAUX DE REFERENCE, lu une fois. Il va sous un grand
+   chiffre en haut de l'atlas, avec les genres et les familles. */
+const N_MORCEAUX = TOUS.reduce((n, x) => n + x.g.tracks.length, 0);
+
 
 /* --- La pochette ---------------------------------------------------------- */
 
@@ -361,16 +366,35 @@ export function ParcourirView() {
                 UN LIEN, ET NON UN BOUTON : il change d'adresse. Le clavier,
                 le clic du milieu et le menu contextuel marchent donc sans
                 qu'on ait rien a ecrire. */}
-            <a className="pv-reco" href="#/reconnaitre">
-              <FaIcon icon={faMicrophone} className="pv-reco-icone" />
-              <span className="pv-reco-mot">{t.quelStyleJoue}</span>
-            </a>
+            <Apparition>
+              <a className="pv-reco" href="#/reconnaitre">
+                <FaIcon icon={faMicrophone} className="pv-reco-icone" />
+                <span className="pv-reco-mot">{t.quelStyleJoue}</span>
+              </a>
+            </Apparition>
+            {/* LES TROIS GRANDS CHIFFRES DE LA V2, lus dans le corpus. Voir
+                parcourir.css pour la raison d'etre ici et non sur l'accueil. */}
+            <Apparition i={1} className="pv-stats">
+              <div className="pv-stat">
+                <span className="pv-stat-n">{TOUS.length}</span>
+                <span className="pv-stat-mot">{t.statGenres}</span>
+              </div>
+              <div className="pv-stat">
+                <span className="pv-stat-n">{FAMILIES.length}</span>
+                <span className="pv-stat-mot">{t.statFamilles}</span>
+              </div>
+              <div className="pv-stat">
+                <span className="pv-stat-n">{N_MORCEAUX.toLocaleString()}</span>
+                <span className="pv-stat-mot">{t.statMorceaux}</span>
+              </div>
+            </Apparition>
             <p className="pv-intro intro-page">
               {t.accroche(TOUS.length, FAMILIES.length)}
             </p>
             <div className="pv-grille">
               {FAMILIES.map((f, fi) => (
-                <button key={f.id} className="pv-tuile" onClick={() => aller({ k: 'famille', fi })}>
+                <Apparition key={f.id} i={fi}>
+                <button className="pv-tuile" onClick={() => aller({ k: 'famille', fi })}>
                   <span className="pv-tuile-carte">
                     <span className="pv-tuile-bloc">
                       <span className="pv-tuile-nom" data-long={motLong(f.label)}>{f.label}</span>
@@ -378,6 +402,7 @@ export function ParcourirView() {
                     </span>
                   </span>
                 </button>
+                </Apparition>
               ))}
             </div>
             {/* L'INDEX A PLAT DESCEND ICI, DEPUIS LE PIED DE PAGE. Il y etait

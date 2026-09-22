@@ -3667,3 +3667,7 @@ précède.
   prennent la largeur de la grille sur ordinateur, le corps baisse d'un pixel,
   et le téléphone ne bouge pas. Remplace les 62, 120 puis 70 signes des 14 et
   18 septembre, qui n'avaient jamais été écrits ailleurs que dans le CSS.
+- [ADR-086 : la v2, ou le site prend la pile et le look de 21st.dev](docs/adr/ADR-086-la-v2.md),
+  21 septembre 2026. Tailwind sans reset, Motion réduit à un geste, la palette
+  portée par les jetons, le chrome en verre qui flotte, et le renversement
+  assumé de la section 10 de DESIGN.md.

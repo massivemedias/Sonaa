@@ -2,6 +2,8 @@ import { StrictMode, lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './design/tokens.css';
 import './design/base.css';
+import './design/v2.css';
+import { MotionRacine } from './design/mouvement.tsx';
 import { MARCHAND_ACTIF } from './config.ts';
 import { compterLaVisite, enregistrerLeServiceWorker, purgerSiDemande } from './lib/pwa.ts';
 import { hashDuChemin } from './lib/chemins.ts';
@@ -280,6 +282,7 @@ function App() {
 
   return (
     <StrictMode>
+    <MotionRacine>
       <Suspense fallback={null}>
         {route === 'index' ? (
           <IndexPage />
@@ -338,7 +341,8 @@ function App() {
       {/* Hors du Suspense : un bandeau « hors ligne » doit pouvoir s'afficher
           même si le chunk de la page en cours n'a pas pu être chargé. */}
       <PwaLayer />
-    </StrictMode>
+    </MotionRacine>
+  </StrictMode>
   );
 }
 

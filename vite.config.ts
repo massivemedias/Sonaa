@@ -2,6 +2,7 @@ import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
+import tailwindcss from '@tailwindcss/vite';
 
 // SONAA est un site 100 % statique servi depuis GitHub Pages sur sonaa.ca.
 // Deux variables d'environnement seulement, toutes deux publiques par
@@ -11,6 +12,12 @@ export default defineConfig({
   base: '/',
   plugins: [
     react(),
+    /* TAILWIND, DEPUIS LE 21 SEPTEMBRE 2026, ET SANS SON RESET. La feuille
+       src/design/v2.css n'importe que le theme et les utilitaires : le
+       « preflight » remettrait a zero les boutons, les listes et les titres
+       de trente-cinq feuilles ecrites a la main, et c'est exactement ce
+       qu'on ne veut pas. Voir ADR-086. */
+    tailwindcss(),
     /* LE JEU S'OUVRE AUSSI EN DEVELOPPEMENT.
      *
      * SONAA Label Tycoon vit dans public/game/, en page a part. GitHub Pages
@@ -95,7 +102,7 @@ export default defineConfig({
 
            Il est desormais servi par le reseau, avec le cache pour seul
            filet hors ligne : voir la regle NetworkFirst plus bas. */
-        globIgnores: ['**/covers/**', '**/node_modules/**', '**/game/**', '**/games/**', '**/v2/**'],
+        globIgnores: ['**/covers/**', '**/node_modules/**', '**/game/**', '**/games/**'],
         navigateFallback: 'index.html',
         /* /game/ est une page autonome, pas une route de l'application :
            lui repondre index.html afficherait le site a la place du jeu.
@@ -104,12 +111,10 @@ export default defineConfig({
            tombait sur l'accueil en ouvrant /games/isoku/, parce que ce
            dossier n'etait pas ici.
 
-           /v2/ EST LE MEME CAS, depuis le 21 septembre 2026 : une page
-           autonome de comparaison visuelle, sans React, montee sur Tailwind
-           et Motion depuis des CDN. Sans cette ligne, quiconque a deja le
-           service worker verrait l'accueil a la place du prototype, et Mika
-           en premier. */
-        navigateFallbackDenylist: [/^\/covers\//, /^\/game\//, /^\/games\//, /^\/v2\//],
+           /v2/ Y A VECU UN JOUR, le 21 septembre 2026 : le prototype de
+           comparaison qui a decide du portage. Il n'existe plus, le site
+           entier EST la v2. Voir ADR-086. */
+        navigateFallbackDenylist: [/^\/covers\//, /^\/game\//, /^\/games\//],
         cleanupOutdatedCaches: true,
         /* Le chunk des structures pèse 680 Ko : au-dessus du défaut, et il
            n'est pas question de le laisser hors du cache, c'est le corpus. */

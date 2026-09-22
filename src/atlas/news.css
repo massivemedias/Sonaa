@@ -10,10 +10,19 @@
 .news-manchette {
   margin: 0 0 1rem;
   padding-bottom: 0.9rem;
-  border-bottom: 2px solid var(--ink-primary);
+  border-bottom: 1px solid var(--verre-bord);
 }
+/* Le titre porte le degrade de la v2, comme tous les titres de section. */
 .news-manchette h1 {
   margin: 0;
+  font-size: var(--titre-section);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  background: var(--degrade-texte);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 .news-edition {
   margin: 0.2rem 0 0.6rem;
@@ -39,19 +48,20 @@
   margin: 0 0 1.6rem;
 }
 .news-filtre {
-  padding: 0.35rem 0.9rem;
-  border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 999px;
-  background: none;
+  padding: 0.4rem 0.95rem;
+  border: 1px solid var(--verre-bord);
+  border-radius: var(--rayon-pilule);
+  background: var(--verre-fond);
   color: var(--ink-secondary);
   font: inherit;
   font-size: 0.9rem;
   cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
 }
 .news-filtre-actif {
-  color: var(--surface-plate);
-  background: var(--ink-primary);
-  border-color: var(--ink-primary);
+  color: var(--sur-degrade);
+  background: var(--degrade);
+  border-color: transparent;
 }
 
 .news-note {
@@ -78,8 +88,14 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 14px;
   background: var(--surface-margin);
+  transition: transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@media (hover: hover) and (pointer: fine) {
+  .news-lien:hover .news-image {
+    transform: scale(1.03);
+  }
 }
 .news-corps {
   display: flex;
@@ -190,6 +206,32 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.4rem;
   margin-top: 1.6rem;
+}
+/* ═══ LES CARTES SONT EN VERRE, DEPUIS LA V2 ═══ Un rayon de carte, un
+   voile, une ombre, un soulevement au survol : la grammaire du prototype. */
+.news-carte,
+.news-grand,
+.news-une {
+  padding: 1rem;
+  border-radius: var(--rayon-carte);
+  background: var(--verre-fond);
+  border: 1px solid var(--verre-bord);
+  box-shadow: var(--ombre-carte);
+  transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 400ms ease;
+}
+.news-carte .news-image,
+.news-grand .news-image,
+.news-une .news-image {
+  border-radius: 14px;
+  overflow: hidden;
+}
+@media (hover: hover) and (pointer: fine) {
+  .news-carte:hover,
+  .news-grand:hover,
+  .news-une:hover {
+    transform: translateY(-6px);
+    border-color: oklch(0.79 0.13 226 / 0.4);
+  }
 }
 .news-carte .news-titre {
   font-size: 1.05rem;

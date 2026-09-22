@@ -2,10 +2,17 @@
 
    Elle n'existe que sous 900 px. Le seuil etait a 768 px, celui que le reste
    du site emploie pour dire « telephone ». Il monte a 900 px le 17 septembre
-   2026 parce que le menu du haut porte desormais sept mots au lieu de cinq
-   icones : entre 768 et 900 px ils tombaient a la ligne sous le logo. C'est
-   le seul endroit du site ou cette frontiere-la vaut 900, et c'est ici
-   qu'elle est ecrite. */
+   2026 parce que le menu du haut porte des mots au lieu d'icones : entre 768
+   et 900 px ils tombaient a la ligne sous le logo. C'est le seul endroit du
+   site ou cette frontiere-la vaut 900, et c'est ici qu'elle est ecrite.
+
+   ═══ ELLE FLOTTE, EN VERRE, DEPUIS LA V2 ═══
+
+   Elle etait une bande collee au bas de l'ecran. Le prototype choisi par
+   Mika le 21 septembre 2026 la detache du bord, comme la pilule du haut :
+   une capsule arrondie a six dixiemes de rem du bas et des cotes, en verre,
+   sous laquelle la page defile. L'onglet courant porte le degrade des
+   accents sur son icone, ce qui se lit de loin sans lire le mot. */
 
 /* ═══ LA PLACE EN BAS EST UNE GRANDEUR NOMMEE ═══
 
@@ -13,7 +20,8 @@
    d'onglets, puis le mini lecteur au-dessus d'elle. Le corps de page les
    additionne dans son retrait bas, la barre de lecture de Parcourir s'y
    ajoute par-dessus. Deux ecritures d'un meme nombre finissent par diverger ;
-   ici il n'y en a qu'une. */
+   ici il n'y en a qu'une. LA MARGE DE FLOTTEMENT EN FAIT PARTIE : la barre
+   ne touche plus le bas, et la place qu'elle reserve inclut l'ecart. */
 body {
   --barre-bas-h: 0px;
   --mini-h: 0px;
@@ -29,7 +37,7 @@ body.avec-mini-lecteur {
 
 @media (max-width: 899px) {
   body.avec-barre-bas {
-    --barre-bas-h: calc(58px + env(safe-area-inset-bottom, 0px));
+    --barre-bas-h: calc(60px + 0.6rem + env(safe-area-inset-bottom, 0px));
   }
 
   /* LE MENU DU HAUT S'EFFACE quand la barre du bas est la : voir
@@ -40,23 +48,24 @@ body.avec-mini-lecteur {
 
   .barre-bas {
     position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    left: 0.6rem;
+    right: 0.6rem;
+    bottom: calc(0.6rem + env(safe-area-inset-bottom, 0px));
     /* AU-DESSUS DE L'EN-TETE (12), SOUS TOUT CE QUI SE POSE PAR-DESSUS LA
        PAGE : le panneau de connexion (14), la fiche d'une soiree (40), le
-       formulaire de proposition (60), le bandeau d'installation (70). Une
-       barre d'onglets qui recouvre un voile est une barre qu'on touche par
-       erreur en voulant fermer le voile. La barre de lecture de Parcourir
-       (60) ne la croise pas : elle est decalee d'autant, voir plus bas. */
+       formulaire de proposition (60), le bandeau d'installation (70). */
     z-index: 13;
     display: flex;
     align-items: stretch;
     box-sizing: border-box;
-    height: var(--barre-bas-h);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-    background: var(--plaque);
-    border-top: 1px solid var(--voile-07);
+    height: 60px;
+    padding: 0 0.3rem;
+    border-radius: var(--rayon-pilule);
+    background: var(--verre-fond-fort);
+    backdrop-filter: var(--verre-flou);
+    -webkit-backdrop-filter: var(--verre-flou);
+    border: 1px solid var(--verre-bord);
+    box-shadow: var(--ombre-carte);
     font-family: var(--font-ui);
   }
 
@@ -70,7 +79,7 @@ body.avec-mini-lecteur {
     min-width: 0;
     color: var(--ink-secondary);
     text-decoration: none;
-    font-size: 0.68rem;
+    font-size: 0.66rem;
     font-weight: 600;
     letter-spacing: var(--serrage-ui);
     -webkit-tap-highlight-color: transparent;
@@ -85,22 +94,32 @@ body.avec-mini-lecteur {
     white-space: nowrap;
   }
   .barre-bas-icone {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
   }
   /* LE COMPTEUR SE POSE SUR L'ICONE, pas a cote : la colonne d'un onglet
-     fait un cinquieme d'ecran, et un chiffre pose a cote de l'icone
-     decalerait le libelle en dessous. */
+     fait un quart d'ecran, et un chiffre pose a cote de l'icone decalerait
+     le libelle en dessous. */
   .barre-bas-pastille {
     position: relative;
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 28px;
+    border-radius: var(--rayon-pilule);
+    transition: background 200ms ease;
+  }
+  /* L'onglet courant : l'icone sur le degrade, en blanc. */
+  .barre-bas-onglet[aria-current='page'] .barre-bas-pastille {
+    background: var(--degrade);
+    color: var(--sur-degrade);
   }
   .barre-bas-pastille .badge-panier {
     position: absolute;
     top: -4px;
-    left: calc(100% - 6px);
+    left: calc(100% - 10px);
   }
-
 }
 
 /* ═══ PARCOURIR LIT LES MEMES GRANDEURS ═══

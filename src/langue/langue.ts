@@ -133,6 +133,11 @@ interface Dictionnaire {
   readonly retourAtlas: string;
   /** « 219 genres, 14 familles. Appuyez sur une famille. » */
   readonly accroche: (genres: number, familles: number) => string;
+  /* LES TROIS MOTS SOUS LES GRANDS CHIFFRES de la page des styles, depuis la
+     v2 : le nombre est lu dans le corpus, le mot vient d'ici. */
+  readonly statGenres: string;
+  readonly statFamilles: string;
+  readonly statMorceaux: string;
   readonly genresAppuyez: (n: number) => string;
   readonly nGenres: (n: number) => string;
   readonly nDerives: (n: number) => string;
@@ -784,6 +789,9 @@ const FR: Dictionnaire = {
   aucunGenreDeCeNom: 'Aucun genre de ce nom.',
   retourAtlas: "SONAA, revenir à l'accueil",
   accroche: (g, f) => `${g} genres, ${f} familles. Appuyez sur une famille.`,
+  statGenres: 'Genres',
+  statFamilles: 'Familles',
+  statMorceaux: 'Morceaux',
   genresAppuyez: (n) => `${n} genres. Appuyez pour ouvrir.`,
   nGenres: (n) => `${n} genres`,
   nDerives: (n) => `${n} dérivé${n > 1 ? 's' : ''}`,
@@ -1435,6 +1443,9 @@ const EN: Dictionnaire = {
   aucunGenreDeCeNom: 'No genre by that name.',
   retourAtlas: 'SONAA, back to home',
   accroche: (g, f) => `${g} genres, ${f} families. Tap a family.`,
+  statGenres: 'Genres',
+  statFamilles: 'Families',
+  statMorceaux: 'Tracks',
   genresAppuyez: (n) => `${n} genres. Tap to open.`,
   nGenres: (n) => `${n} genres`,
   nDerives: (n) => `${n} offshoot${n > 1 ? 's' : ''}`,

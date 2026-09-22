@@ -6,8 +6,11 @@
 
 .tr-attente {
   max-width: 60ch;
-  padding: 1.6rem 0 0;
-  border-top: 2px solid var(--ink-primary);
+  padding: 1.6rem 1.6rem 1.4rem;
+  border-radius: var(--rayon-carte);
+  background: var(--verre-fond);
+  border: 1px solid var(--verre-bord);
+  box-shadow: var(--ombre-carte);
 }
 
 .tr-attente-titre {
@@ -27,7 +30,12 @@
 }
 
 .tr-lien {
-  color: var(--ink-primary);
-  font-weight: 600;
-  text-underline-offset: 3px;
+  display: inline-block;
+  padding: 0.6rem 1.3rem;
+  border-radius: var(--rayon-pilule);
+  background: var(--degrade);
+  color: var(--sur-degrade);
+  box-shadow: var(--lueur);
+  font-weight: 700;
+  text-decoration: none;
 }

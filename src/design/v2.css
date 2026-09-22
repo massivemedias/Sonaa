@@ -1,0 +1,67 @@
+/* LA V2 : TAILWIND, SANS SON RESET, ET CINQ UTILITAIRES A NOUS.
+
+   ═══ POURQUOI PAS `@import "tailwindcss"` TOUT COURT ═══
+
+   La forme courte importe aussi le « preflight », une remise a zero qui
+   retire les marges des titres, la puce des listes, la bordure des boutons.
+   Trente-cinq feuilles ecrites a la main comptent sur les valeurs par defaut
+   du navigateur a des dizaines d'endroits ; le reset les aurait toutes
+   deplacees d'un coup, sans qu'aucune regle ne soit fausse. On n'importe donc
+   que le theme et les utilitaires, et rien n'est remis a zero.
+
+   ═══ LES COULEURS DE TAILWIND SONT NOS JETONS ═══
+
+   `bg-accent-a` ou `text-encre` ne portent pas une valeur, ils lisent
+   tokens.css. Le theme clair, la carte en trois dimensions qui reste sombre,
+   tout continue de marcher : Tailwind n'est qu'une autre facon d'ecrire une
+   classe, pas une seconde source de verite.
+
+   ═══ LES UTILITAIRES DE LA V2 ═══
+
+   Le verre, le texte en degrade, la lueur et la maille sont ce qui fait le
+   look du prototype. Ils sont declares ici, une fois, avec les variantes de
+   Tailwind (hover:, md:) gratuites, et les feuilles des composants les
+   composent au lieu de les reecrire. Voir ADR-086. */
+
+@import 'tailwindcss/theme.css';
+@import 'tailwindcss/utilities.css';
+
+@theme inline {
+  --font-sans: var(--police);
+  --color-accent-a: var(--accent-a);
+  --color-accent-b: var(--accent-b);
+  --color-accent-c: var(--accent-c);
+  --color-encre: var(--ink-primary);
+  --color-encre-douce: var(--ink-secondary);
+  --color-fond: var(--surface-plate);
+  --radius-carte: var(--rayon-carte);
+}
+
+@utility verre {
+  background: var(--verre-fond);
+  backdrop-filter: var(--verre-flou);
+  -webkit-backdrop-filter: var(--verre-flou);
+  border: 1px solid var(--verre-bord);
+}
+
+@utility verre-fort {
+  background: var(--verre-fond-fort);
+  backdrop-filter: var(--verre-flou);
+  -webkit-backdrop-filter: var(--verre-flou);
+  border: 1px solid var(--verre-bord-fort);
+}
+
+@utility texte-degrade {
+  background: var(--degrade-texte);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility lueur {
+  box-shadow: var(--lueur);
+}
+
+@utility maille {
+  background-image: var(--maille);
+}

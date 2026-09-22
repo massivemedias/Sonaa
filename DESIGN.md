@@ -542,7 +542,13 @@ C'est aussi le seul moment où la chroma monte au maximum. Le reste de la planch
 appliqué d'un coup, sans transition. La lignée reste identifiable, elle n'est plus racontée.
 
 Tout le reste du mouvement est fonctionnel et discret : 300 ms sur le zoom, pas de
-parallaxe, pas d'apparition en fondu, pas de ressort.
+parallaxe.
+
+**Depuis la v2 du 21 septembre 2026, il y a une apparition et un ressort, et un
+seul.** Les cartes, les tuiles et les résultats entrent en cascade, de vingt-deux
+pixels, avec un ressort ferme qui ne rebondit pas. Le geste est écrit une fois,
+dans `src/design/mouvement.tsx`, et les pages le composent au lieu d'en inventer
+un chacune. `prefers-reduced-motion` le supprime entièrement. Voir ADR-086.
 
 ---
 
@@ -633,9 +639,18 @@ Pas d'emoji. Pas de tiret cadratin. Pas de superlatif.
 
 ## 10. Interdits, rappelés pour qu'on puisse me les opposer
 
-Dégradé violet-bleu. Cartes arrondies à ombre portée. Glassmorphism. Fond crème avec serif
-à fort contraste et accent terracotta. Emoji dans l'interface. Illustration 3D. Hero avec
-un gros chiffre et un petit label. Un accent acide unique sur fond noir pur.
+**Révisé le 21 septembre 2026, et c'est un renversement.** La première ligne de
+cette section interdisait le dégradé violet-bleu, les cartes arrondies à ombre
+portée, le glassmorphism et le grand chiffre à petit label. Elle a été opposée
+à Mika, deux fois, avec ce texte à l'appui. Il a demandé un prototype, l'a
+comparé à côté de la v1, et a choisi le prototype. Ces quatre formes sont
+désormais la signature du site, portées par les jetons de `tokens.css` et
+décrites dans [ADR-086](docs/adr/ADR-086-la-v2.md). On ne garde pas un
+interdit qu'on a décidé de lever ; on écrit qu'on l'a levé, et pourquoi.
+
+Ce qui reste interdit, et n'a pas été rouvert : fond crème avec serif à fort
+contraste et accent terracotta. Emoji dans l'interface. Illustration 3D. Un
+accent acide unique sur fond noir pur.
 
 Et pour la couche WebGL, qui est l'endroit où l'on dérape le plus vite :
 perspective, caméra qui orbite, parallaxe au mouvement de souris, noeuds

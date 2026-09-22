@@ -124,10 +124,13 @@
 .authb-bouton {
   min-height: 36px;
   padding: 0 0.9rem;
-  background: color-mix(in oklab, var(--fond, var(--plaque)) 82%, transparent);
-  backdrop-filter: blur(6px);
-  border: 1px solid var(--rule-strong, var(--filet-fort));
-  border-radius: 18px;
+  /* LA MEME MATIERE QUE LA PILULE DU HAUT, depuis la v2 : le bouton vit dans
+     la meme bande qu'elle, deux verres differents se verraient. */
+  background: var(--verre-fond-fort);
+  backdrop-filter: var(--verre-flou);
+  -webkit-backdrop-filter: var(--verre-flou);
+  border: 1px solid var(--verre-bord-fort);
+  border-radius: var(--rayon-pilule);
   color: var(--ink-primary, var(--encre-2));
   font-size: 0.82rem;
   /* Ce bouton a porte une exception de serrage, le temps ou la valeur

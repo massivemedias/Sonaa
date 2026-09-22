@@ -68,8 +68,21 @@
      La marge a droite reste, pour que le TITRE ne coule pas sous la loupe. */
   position: relative;
   padding-right: calc(var(--authb-reserve, 126px) + 0.6rem + 44px);
-  background: var(--fond);
-  border-bottom: 1px solid var(--voile-07);
+  /* LA MEME PILULE DE VERRE QUE L'EN-TETE DES PAGES DOCUMENT, depuis la v2.
+     Voir entete.css : deux en-tetes qui font la meme chose se ressemblent. */
+  margin: 0.6rem 0.6rem 0;
+  padding-left: 0.9rem;
+  border-radius: var(--rayon-pilule);
+  background: var(--verre-fond-fort);
+  backdrop-filter: var(--verre-flou);
+  -webkit-backdrop-filter: var(--verre-flou);
+  border: 1px solid var(--verre-bord);
+  box-shadow: var(--ombre-carte);
+}
+@media (min-width: 700px) {
+  .pv-tete {
+    padding-left: max(0.9rem, calc((100vw - var(--largeur-page)) / 2 - 0.6rem));
+  }
 }
 /* Le menu ne s'etire pas et ne se comprime pas : c'est le titre qui cede la
    place quand elle manque, parce qu'il peut se couper et pas lui. */
@@ -89,8 +102,8 @@
   cursor: pointer;
 }
 .pv-retour {
-  background: var(--encre-vive-2);
-  color: var(--plaque);
+  background: var(--degrade);
+  color: var(--sur-degrade);
 }
 .pv-chercher-bouton {
   /* Ancree au bord droit et non portee par le flux : voir .pv-tete. */
@@ -293,19 +306,67 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   align-items: center;
   gap: 0.75rem;
   margin: 0.9rem 0 0;
-  padding: 0.95rem 1.15rem;
+  padding: 1rem 1.25rem;
   border-radius: 26px;
-  background: var(--leve-2);
-  color: var(--encre-vive-3);
+  /* LE DEGRADE ET LA LUEUR, depuis la v2 : c'est le bouton qui ecoute, le
+     seul objet de la page qui fait quelque chose de different, et il se voit
+     comme tel. */
+  background: var(--degrade);
+  color: var(--sur-degrade);
+  box-shadow: var(--lueur);
   text-decoration: none;
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: var(--serrage);
-  transition: background 0.15s ease;
+  transition: filter 160ms ease, transform 160ms ease;
 }
 .pv-reco:hover,
 .pv-reco:focus-visible {
-  background: var(--leve-4);
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+/* ═══ LES TROIS GRANDS CHIFFRES, DEPUIS LA V2 ═══
+
+   Le prototype ouvre sur un grand chiffre et un petit mot dessous : genres,
+   familles, morceaux. Ils sont lus dans le corpus, pas ecrits, et ils vivent
+   ici plutot que sur l'accueil parce que c'est la seule page qui charge deja
+   le corpus : les mettre sur le calendrier aurait tire 1,2 Mo dans son
+   paquet pour trois nombres. */
+.pv-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+  margin: 0.9rem 0 0;
+}
+.pv-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  padding: 0.9rem 1rem;
+  border-radius: 20px;
+  background: var(--verre-fond);
+  border: 1px solid var(--verre-bord);
+  box-shadow: var(--ombre-carte);
+}
+.pv-stat-n {
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  background: var(--degrade-texte);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.pv-stat-mot {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
 }
 .pv-reco-icone {
   flex: 0 0 auto;
@@ -407,13 +468,18 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   min-height: 112px;
   /* La marge de la plaque exterieure. */
   padding: 5px;
-  border: 0;
+  /* LA TUILE EST EN VERRE, DEPUIS LA V2 : la plaque exterieure devient un
+     voile borde, avec l'ombre de carte du prototype, et se souleve au
+     survol. La forme, la hauteur fixe et la grille ne bougent pas. */
+  border: 1px solid var(--verre-bord);
   border-radius: 26px;
-  background: var(--leve-2);
+  background: var(--verre-fond);
+  box-shadow: var(--ombre-carte);
   color: var(--encre-vive-3);
   font: inherit;
   text-align: left;
   cursor: pointer;
+  transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 400ms ease;
 }
 
 /* LA CARTE INTERIEURE porte le texte et la couleur claire. Elle est un
@@ -445,11 +511,8 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   /* Un degrade a peine perceptible, comme sur la maquette : la carte est un
      peu plus claire en haut. Assez pour donner une matiere, pas assez pour
      faire un effet. */
-  background: linear-gradient(
-    180deg,
-    var(--filet-3),
-    var(--filet-2)
-  );
+  background: linear-gradient(180deg, var(--voile-07), var(--voile-03));
+  transition: background 300ms ease, color 300ms ease;
 }
 /* Le bloc lui-meme : centre par le parent, aligne a gauche a l'interieur. */
 .pv-tuile-bloc {
@@ -463,7 +526,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-tuile:active {
   transform: scale(0.98);
 }
-/* LE SURVOL, aux couleurs demandees : #FFC400 pour la carte, #3C3C3C pour le
+/* LE SURVOL, aux couleurs demandees : #FFC400 pour la carte, var(--sur-degrade) pour le
    texte.
 
    IL NE S'APPLIQUE QU'AUX POINTEURS PRECIS. Sur un ecran tactile il n'y a pas
@@ -471,25 +534,29 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
    collee a la derniere tuile touchee jusqu'au toucher suivant. On aurait une
    tuile jaune en permanence, sans rapport avec ce que fait l'utilisateur. */
 @media (hover: hover) and (pointer: fine) {
+  .pv-tuile:hover {
+    transform: translateY(-5px);
+    border-color: oklch(0.61 0.22 293 / 0.45);
+  }
   .pv-tuile:hover .pv-tuile-carte {
-    background: #ffc400;
+    background: var(--degrade);
   }
   .pv-tuile:hover .pv-tuile-nom {
-    color: #3c3c3c;
+    color: var(--sur-degrade);
   }
   .pv-tuile:hover .pv-tuile-detail {
-    color: #3c3c3c;
+    color: var(--sur-degrade);
     opacity: 0.72;
   }
 }
 /* LE FOCUS CLAVIER GARDE CETTE COULEUR sur tous les appareils : c'est une
    position, pas un survol, et elle doit se voir. */
 .pv-tuile:focus-visible .pv-tuile-carte {
-  background: #ffc400;
+  background: var(--degrade);
 }
 .pv-tuile:focus-visible .pv-tuile-nom,
 .pv-tuile:focus-visible .pv-tuile-detail {
-  color: #3c3c3c;
+  color: var(--sur-degrade);
 }
 .pv-tuile-nom {
   /* LE NOM D'UN GENRE EST UN TITRE, PAS UNE ETIQUETTE D'INTERFACE.

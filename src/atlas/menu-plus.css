@@ -2,7 +2,11 @@
 
    Il n'existe que sous 900 px, la ou la barre du bas porte la navigation et
    ou le menu du haut est cache. Au-dessus, toutes ses portes sont deja dans
-   la rangee de mots : le montrer serait proposer deux fois la meme chose. */
+   la rangee de mots : le montrer serait proposer deux fois la meme chose.
+
+   LE PANNEAU EST EN VERRE, DEPUIS LA V2 : meme matiere que la pilule qui le
+   porte, un rayon de carte, une ombre. Un panneau opaque sous une barre
+   translucide se lisait comme un corps etranger. */
 
 .menu-plus {
   display: none;
@@ -18,50 +22,58 @@
 .menu-plus-bouton {
   display: inline-flex;
   align-items: center;
-  min-height: 44px;
-  padding: 0 0.5rem;
+  min-height: 38px;
+  padding: 0 0.85rem;
   border: 0;
+  border-radius: var(--rayon-pilule);
   background: none;
   color: var(--ink-secondary);
   font-family: var(--font-ui);
-  font-size: 0.9375rem;
-  font-weight: 600;
+  font-size: 0.9rem;
+  font-weight: 500;
   cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
 }
 .menu-plus-bouton:hover,
 .menu-plus-bouton[aria-expanded='true'] {
   color: var(--ink-primary);
+  background: var(--voile-1);
 }
 
 .menu-plus-panneau {
   position: absolute;
-  top: calc(100% - 2px);
+  top: calc(100% + 0.5rem);
   left: 0;
   z-index: 14;
   display: flex;
   flex-direction: column;
-  min-width: 12rem;
-  padding: 0.4rem 0;
-  background: var(--surface-plate);
-  border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 10px;
+  min-width: 13rem;
+  padding: 0.5rem;
+  border-radius: 18px;
+  background: var(--panneau-96);
+  backdrop-filter: var(--verre-flou);
+  -webkit-backdrop-filter: var(--verre-flou);
+  border: 1px solid var(--verre-bord-fort);
+  box-shadow: var(--ombre-carte);
 }
 
 .menu-plus-lien {
-  padding: 0.6rem 1rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 12px;
   color: var(--ink-secondary);
   font-family: var(--font-ui);
   font-size: 0.9375rem;
   text-decoration: none;
+  transition: background 160ms ease, color 160ms ease;
 }
 .menu-plus-lien:hover,
 .menu-plus-lien[aria-current='page'] {
   color: var(--ink-primary);
-  background: var(--surface-margin);
+  background: var(--voile-1);
 }
 
 .menu-plus-filet {
-  height: var(--rule-width);
-  margin: 0.35rem 0;
-  background: var(--rule-hairline);
+  height: 1px;
+  margin: 0.4rem 0.5rem;
+  background: var(--verre-bord);
 }

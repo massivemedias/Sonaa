@@ -24,6 +24,7 @@
  * plutot que de disparaitre et de laisser croire a un oubli. */
 
 import { t } from '../langue/langue.ts';
+import { Apparition } from '../design/mouvement.tsx';
 import './hero.css';
 
 export interface AfficheHero {
@@ -60,7 +61,7 @@ export function HeroAccueil({
 }: Props) {
   return (
     <section className="hero" aria-label={t.heroTitre}>
-      <div className="hero-mots">
+      <Apparition className="hero-mots">
         <h1 className="hero-titre">{t.heroTitre}</h1>
         <p className="hero-phrase">{t.heroPhrase}</p>
 
@@ -89,10 +90,10 @@ export function HeroAccueil({
             </button>
           )}
         </div>
-      </div>
+      </Apparition>
 
       {affiches.length > 0 && (
-        <div className="hero-collage" aria-label={t.heroAffiches}>
+        <Apparition i={1} className="hero-collage" aria-label={t.heroAffiches}>
           {affiches.slice(0, ANGLES.length).map((a, i) => (
             <button
               key={a.id}
@@ -105,7 +106,7 @@ export function HeroAccueil({
               <img src={a.affiche} alt="" loading="lazy" decoding="async" draggable={false} />
             </button>
           ))}
-        </div>
+        </Apparition>
       )}
     </section>
   );

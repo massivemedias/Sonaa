@@ -32,7 +32,10 @@
   padding-bottom: 4rem;
   font-family: var(--font-ui);
   color: var(--ink-primary);
-  background: var(--plaque);
+  /* LE MEME FOND QUE `body`, et non `--plaque` : depuis la v2 la pilule du
+     haut et la barre du bas sont en verre, et deux fonds differents sous un
+     verre se voient a la jointure. */
+  background: var(--surface-plate);
 }
 
 .credits-skip {
@@ -112,11 +115,19 @@
   display: block;
 }
 
+/* LE TITRE PORTE LE DEGRADE, DEPUIS LA V2 : c'est la signature du prototype
+   choisi le 21 septembre 2026, un titre qui va du blanc au violet puis au
+   ciel. Declare ici pour toutes les pages qui partagent cet en-tete. */
 .credits-head h1 {
   margin: 1.6rem 0 0.3rem;
-  font-size: 1.6rem;
-  font-weight: 600;
-  letter-spacing: var(--serrage);
+  font-size: var(--titre-section);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  background: var(--degrade-texte);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .credits-lede {
@@ -256,3 +267,4 @@
 .credits > .pied {
   margin-top: auto;
 }
+

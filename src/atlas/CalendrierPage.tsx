@@ -40,6 +40,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
+import { Apparition } from '../design/mouvement.tsx';
 import { HeroAccueil, type AfficheHero } from './HeroAccueil.tsx';
 import { ChoixStyles, EST_FAMILLE, LABEL_DE_STYLE } from './ChoixStyles.tsx';
 import { FAMILIES, STRUCTURES } from './structures.ts';
@@ -1111,11 +1112,11 @@ export function CalendrierPage() {
                     <section key={date} className="cal-jour">
                       <h3>{jour(date, fuseau)}</h3>
                       <ul className="cal-liste">
-                        {liste.map((s) => {
+                        {liste.map((s, rang) => {
                           const h = s.debut ? heureLocale(s.debut, fuseau) : null;
                           const sigle = ailleurs && s.debut ? sigleFuseau(s.debut, fuseau) : null;
                           return (
-                            <li key={s.id} className="cal-soiree">
+                            <Apparition as="li" key={s.id} i={rang} className="cal-soiree">
                               {/* LA CARTE ENTIERE OUVRE LA FICHE, POCHETTE COMPRISE.
                                   Elle etait un lien vers un autre site : on
                                   cliquait sur un titre et on quittait SONAA
@@ -1189,7 +1190,7 @@ export function CalendrierPage() {
                                   <p className="cal-genres">{s.genres.join(' · ')}</p>
                                 )}
                               </div>
-                            </li>
+                            </Apparition>
                           );
                         })}
                       </ul>

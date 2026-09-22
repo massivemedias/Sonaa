@@ -42,6 +42,7 @@
 
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { EnTeteSite } from './EnTeteSite.tsx';
+import { Apparition } from '../design/mouvement.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import { LectureArticle } from './LectureArticle.tsx';
 import { SOURCES, type Categorie } from '../data/news-sources.ts';
@@ -257,7 +258,7 @@ export function NewsPage() {
   );
 
   const Carte = ({ a }: { a: Article }) => (
-    <article className="news-carte">
+    <Apparition as="article" className="news-carte">
       <Lien a={a} className="news-lien">
         <Image a={a} />
         <span className="news-corps">
@@ -265,7 +266,7 @@ export function NewsPage() {
           <span className="news-titre">{titreDe(a)}</span>
         </span>
       </Lien>
-    </article>
+    </Apparition>
   );
 
   const Breve = ({ a }: { a: Article }) => (

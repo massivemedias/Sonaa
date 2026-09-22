@@ -14,27 +14,67 @@
   border-bottom: var(--rule-width) solid var(--rule-hairline);
 }
 
+/* ═══ LE BOUTON QUI ECOUTE, DEPUIS LA V2 ═══
+
+   C'est le seul objet de la page qui agit, et il se voit comme tel : le
+   degrade des accents, la lueur, une taille de geste. Pendant l'ecoute il
+   devient du verre, et un anneau bat autour de lui : l'anneau n'est pas un
+   ornement, c'est l'etat, le micro est ouvert. Il s'arrete avec lui, et
+   `prefers-reduced-motion` le remplace par un simple contour. */
 .rc-bouton {
   position: relative;
-  overflow: hidden;
-  min-width: 14rem;
-  min-height: 3.4rem;
-  padding: 0 1.6rem;
-  border: var(--rule-width) solid var(--ink-primary);
-  border-radius: 999px;
-  background: var(--ink-primary);
-  color: var(--surface-plate);
+  overflow: visible;
+  min-width: 15rem;
+  min-height: 3.8rem;
+  padding: 0 2rem;
+  border: 1px solid transparent;
+  border-radius: var(--rayon-pilule);
+  background: var(--degrade);
+  color: var(--sur-degrade);
+  box-shadow: var(--lueur);
   font-family: var(--font-ui);
-  font-size: 1.05rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 700;
   cursor: pointer;
+  transition: filter 160ms ease, transform 160ms ease;
+}
+.rc-bouton:hover:not(:disabled) {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
 }
 .rc-bouton:disabled {
   cursor: default;
 }
 .rc-bouton-actif {
-  background: none;
+  background: var(--verre-fond-fort);
+  backdrop-filter: var(--verre-flou);
+  -webkit-backdrop-filter: var(--verre-flou);
+  border-color: var(--verre-bord-fort);
   color: var(--ink-primary);
+  box-shadow: none;
+  overflow: hidden;
+}
+.rc-bouton-actif::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 2px solid oklch(0.61 0.22 293 / 0.7);
+  pointer-events: none;
+  animation: rc-anneau 1.6s ease-out infinite;
+}
+@keyframes rc-anneau {
+  0% { transform: scale(1); opacity: 0.9; }
+  100% { transform: scale(1.18); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rc-bouton-actif::before {
+    animation: none;
+    opacity: 0.9;
+  }
+  .rc-bouton {
+    transition: none;
+  }
 }
 .rc-bouton-mot {
   position: relative;
@@ -48,7 +88,8 @@
   position: absolute;
   inset: 0;
   transform-origin: left center;
-  background: var(--surface-margin);
+  background: var(--degrade);
+  opacity: 0.35;
   transition: transform 1s linear;
 }
 
@@ -111,13 +152,17 @@
   max-width: 44rem;
 }
 
+/* Chaque style est une carte de verre, et sa part se lit sur le degrade. */
 .rc-style {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 8rem 3.2rem;
   gap: 0.9rem;
   align-items: center;
-  padding: 0.7rem 0;
-  border-bottom: var(--rule-width) solid var(--rule-hairline);
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 18px;
+  background: var(--verre-fond);
+  border: 1px solid var(--verre-bord);
 }
 
 .rc-style-nom {
@@ -144,7 +189,7 @@
 .rc-part-pleine {
   display: block;
   height: 100%;
-  background: var(--ink-primary);
+  background: var(--degrade);
 }
 
 .rc-pourcent {
@@ -166,13 +211,19 @@
   display: flex;
   gap: 1.2rem;
   align-items: flex-start;
+  padding: 1.1rem;
+  border-radius: var(--rayon-carte);
+  background: var(--verre-fond);
+  border: 1px solid var(--verre-bord);
+  box-shadow: var(--ombre-carte);
 }
 .rc-pochette {
   width: 120px;
   height: 120px;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 16px;
   background: var(--surface-margin);
+  box-shadow: var(--ombre-carte);
 }
 .rc-morceau-texte {
   display: flex;
@@ -198,9 +249,21 @@
 .rc-morceau-liens {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.9rem;
-  margin: 0.5rem 0 0;
-  font-size: 0.9rem;
+  gap: 0.4rem;
+  margin: 0.7rem 0 0;
+  font-size: 0.85rem;
+}
+.rc-morceau-liens a {
+  padding: 0.35rem 0.8rem;
+  border-radius: var(--rayon-pilule);
+  background: var(--verre-fond-fort);
+  border: 1px solid var(--verre-bord);
+  color: var(--ink-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+.rc-morceau-liens a:hover {
+  background: var(--voile-14);
 }
 
 .rc-historique {
@@ -213,8 +276,11 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.3rem 0.9rem;
-  padding: 0.55rem 0;
-  border-bottom: var(--rule-width) solid var(--rule-hairline);
+  padding: 0.65rem 0.9rem;
+  margin-bottom: 0.4rem;
+  border-radius: 14px;
+  background: var(--verre-fond);
+  border: 1px solid var(--verre-bord);
   font-size: 0.92rem;
 }
 .rc-passe-styles {
@@ -240,10 +306,13 @@
 .rc-modale {
   width: min(34rem, 100%);
   box-sizing: border-box;
-  padding: 1.6rem;
-  background: var(--surface-plate);
-  border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 14px;
+  padding: 1.8rem;
+  background: var(--panneau-96);
+  backdrop-filter: var(--verre-flou);
+  -webkit-backdrop-filter: var(--verre-flou);
+  border: 1px solid var(--verre-bord-fort);
+  border-radius: var(--rayon-carte);
+  box-shadow: var(--ombre-carte);
   font-family: var(--font-ui);
 }
 .rc-modale p {
@@ -263,8 +332,9 @@
   align-items: flex-start;
   margin: 1.2rem 0;
   padding: 0.8rem;
-  border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 10px;
+  border: 1px solid var(--verre-bord);
+  background: var(--verre-fond);
+  border-radius: 14px;
   color: var(--ink-secondary);
   font-size: 0.9rem;
   line-height: 1.5;
@@ -294,9 +364,10 @@
   color: var(--ink-secondary);
 }
 .rc-accord {
-  border: var(--rule-width) solid var(--ink-primary);
-  background: var(--ink-primary);
-  color: var(--surface-plate);
+  border: 1px solid transparent;
+  background: var(--degrade);
+  color: var(--sur-degrade);
+  box-shadow: var(--lueur);
 }
 
 @media (max-width: 599px) {
