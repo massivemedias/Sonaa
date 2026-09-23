@@ -1,7 +1,9 @@
 # ADR-087 : la racine de /styles/ est un nuage de bulles
 
 **Date** : 22 septembre 2026
-**Statut** : en vigueur
+**Statut** : abandonnée le jour même, voir ADR-088. Le nuage a été publié, puis
+retiré : sur cette page une famille et un genre sont la même chose, quelque
+chose qu'on ouvre, et ils prennent donc la même tuile.
 **Remplace** : la grille des quatorze tuiles de famille, posée le 21 septembre
 2026 et redessinée le 22 au matin.
 

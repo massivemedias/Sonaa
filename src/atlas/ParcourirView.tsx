@@ -40,7 +40,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FaIcon } from './FaIcon.tsx';
 import { Apparition } from '../design/mouvement.tsx';
-import { NuageFamilles } from './NuageFamilles.tsx';
 import { SiteNav } from './SiteNav.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import { ContributeActions } from './ContributeActions.tsx';
@@ -101,23 +100,18 @@ const motLong = (nom: string): '1' | undefined =>
 const TOUS: { fi: number; gl: number; g: Genre }[] = FAMILIES.flatMap((_, fi) =>
   (STRUCTURES[fi]?.genres ?? []).map((g, gl) => ({ fi, gl, g }))
 );
-/* ═══ LES TROIS FONDATEURS DE CHAQUE FAMILLE, CALCULES UNE FOIS ═══
+/* ═══ LA DECENNIE DE NAISSANCE DE CHAQUE FAMILLE, CALCULEE UNE FOIS ═══
  *
- * Les trois genres les plus anciens, montres dans la bulle au survol. Une
- * famille se raconte par ses fondateurs, pas par ses derniers venus, et
- * c'est deja l'ordre que `ordreParDate` applique partout dans cette vue.
+ * L'annee du plus ancien de ses genres, ramenee a sa dizaine. Elle tient la
+ * place que l'annee tient sur une tuile de genre : la ligne sous le nom dit
+ * quand, puis combien.
  *
- * LES GENRES SANS ANNEE SONT ECARTES : ils n'apprennent rien dans une liste
- * de trois, et ils prendraient la place de ceux qui disent quelque chose.
- *
- * LA DECENNIE DE NAISSANCE N'EST PLUS CALCULEE : elle servait au chiffre
- * fantome des tuiles, parti avec elles. */
-const REPRESENTATIFS: readonly (readonly string[])[] = FAMILIES.map((_, fi) =>
-  ordreParDate(STRUCTURES[fi]?.genres ?? [])
-    .filter((x) => x.g.annee > 0)
-    .slice(0, 3)
-    .map((x) => x.g.label)
-);
+ * LES GENRES SANS ANNEE SONT ECARTES du calcul. Le corpus en compte, et un
+ * zero pris pour une date ferait naitre toutes les familles en l'an 0. */
+const DECENNIES: readonly number[] = FAMILIES.map((_, fi) => {
+  const annees = (STRUCTURES[fi]?.genres ?? []).map((g) => g.annee).filter((a) => a > 0);
+  return annees.length > 0 ? Math.floor(Math.min(...annees) / 10) * 10 : 0;
+});
 
 /* LE NOMBRE DE MORCEAUX DE REFERENCE, lu une fois. Il va sous un grand
    chiffre en haut de l'atlas, avec les genres et les familles. */
@@ -412,16 +406,43 @@ export function ParcourirView() {
                 <span className="pv-stat-mot">{t.statMorceaux}</span>
               </div>
             </Apparition>
-            {/* ═══ LE NUAGE REMPLACE LA GRILLE ═══
-                Mika, le 22 septembre 2026. Quatorze bulles de verre empilees,
-                une par famille, a la place de quinze tuiles rangees. La tuile
-                d'index part avec la grille : la route `#/index` reste servie,
-                elle n'est simplement plus annoncee ici. Voir
-                NuageFamilles.tsx. */}
-            <NuageFamilles
-              representatifs={REPRESENTATIFS}
-              onOuvrir={(fi) => aller({ k: 'famille', fi })}
-            />
+            {/* ═══ LA MEME TUILE QUE POUR UN GENRE, SANS UNE LIGNE DE PLUS ═══
+
+                Mika, le 22 septembre 2026, apres trois dessins tentes en une
+                journee : filet teinte, lueur radiale, bulles de verre. Aucun
+                ne tenait, et le quatrieme n'est pas un quatrieme dessin.
+
+                UNE FAMILLE ET UN GENRE SONT LA MEME CHOSE ICI : quelque chose
+                qu'on ouvre. Ils prennent donc la meme tuile, aux memes
+                classes, dans la meme grille, avec le meme survol. Ce n'est
+                pas une economie de code, c'est ce que la page dit : le niveau
+                au-dessus se parcourt comme le niveau en dessous.
+
+                La ligne de detail suit le meme moule : « 1994 · 3 derives »
+                pour un genre, « Annees 1980 · 23 genres » pour une famille.
+                Quand, puis combien. */}
+            <p className="pv-intro">{t.famillesAppuyez(FAMILIES.length)}</p>
+            <div className="pv-grille">
+              {FAMILIES.map((f, fi) => (
+                <button
+                  key={f.id}
+                  className="pv-tuile pv-tuile-genre"
+                  onClick={() => aller({ k: 'famille', fi })}
+                >
+                  <span className="pv-tuile-carte">
+                    <span className="pv-tuile-bloc">
+                      <span className="pv-tuile-nom" data-long={motLong(f.label)}>
+                        {f.label}
+                      </span>
+                      <span className="pv-tuile-detail">
+                        {DECENNIES[fi] ? `${t.decennie(DECENNIES[fi] ?? 0)} · ` : ''}
+                        {t.nGenres(f.count)}
+                      </span>
+                    </span>
+                  </span>
+                </button>
+              ))}
+            </div>
           </>
         )}
 

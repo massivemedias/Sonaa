@@ -1638,16 +1638,3 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   }
 }
 
-/* Le lien vers l'index a plat des 219 genres, sous la grille des familles.
-   Voir ParcourirView : il vient du pied de page, ou personne ne le trouvait. */
-.pv-index {
-  margin: 1.4rem 0 0;
-  font-size: 0.9rem;
-}
-.pv-index a {
-  color: var(--encre-douce-2);
-  text-underline-offset: 3px;
-}
-.pv-index a:hover {
-  color: var(--encre-3);
-}

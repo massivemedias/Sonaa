@@ -141,6 +141,7 @@ interface Dictionnaire {
   readonly statFamilles: string;
   readonly statMorceaux: string;
   readonly genresAppuyez: (n: number) => string;
+  readonly famillesAppuyez: (n: number) => string;
   readonly nGenres: (n: number) => string;
   readonly nDerives: (n: number) => string;
   readonly nMorceaux: (n: number) => string;
@@ -799,6 +800,7 @@ const FR: Dictionnaire = {
   statFamilles: 'Familles',
   statMorceaux: 'Morceaux',
   genresAppuyez: (n) => `${n} genres. Appuyez pour ouvrir.`,
+  famillesAppuyez: (n) => `${n} familles. Appuyez pour ouvrir.`,
   nGenres: (n) => `${n} genres`,
   nDerives: (n) => `${n} dérivé${n > 1 ? 's' : ''}`,
   nMorceaux: (n) => `${n} morceau${n > 1 ? 'x' : ''}`,
@@ -1456,6 +1458,7 @@ const EN: Dictionnaire = {
   statFamilles: 'Families',
   statMorceaux: 'Tracks',
   genresAppuyez: (n) => `${n} genres. Tap to open.`,
+  famillesAppuyez: (n) => `${n} families. Tap to open.`,
   nGenres: (n) => `${n} genres`,
   nDerives: (n) => `${n} offshoot${n > 1 ? 's' : ''}`,
   nMorceaux: (n) => `${n} track${n > 1 ? 's' : ''}`,
