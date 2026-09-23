@@ -806,9 +806,12 @@
   border: var(--rule-width) solid var(--rule-hairline);
   border-radius: 999px;
 }
+/* LE MOT DEVANT SE LIT : 0,8 rem en demi-gras. Mika, le 23 septembre 2026,
+   sur VILLE et QUAND a 0,72 rem en maigre : « ecrit petit et trop fin ». */
 .cal-ville-mot {
   color: var(--ink-secondary);
-  font-size: 0.72rem;
+  font-size: 0.8rem;
+  font-weight: 600;
   letter-spacing: var(--serrage-ui);
   text-transform: uppercase;
 }
@@ -817,13 +820,17 @@
   background: none;
   color: var(--ink-primary);
   font-family: inherit;
-  font-size: 0.82rem;
-  font-weight: var(--weight-data);
+  font-size: 0.9rem;
+  font-weight: var(--weight-track);
   cursor: pointer;
 }
-.cal-ville select:focus-visible {
-  outline: var(--rule-width) solid var(--ink-secondary);
-  outline-offset: 2px;
+/* PAS DE RECTANGLE AUTOUR DE LA VALEUR. Le selecteur gardait un contour de
+   focus a lui, qui contredisait la regle generale de base.css et restait
+   affiche apres chaque choix a la souris : « ya toujours un highlight
+   rectangulaire », le 23 septembre 2026. Le focus se dit par la capsule
+   elle-meme, dont le filet fonce : pas de forme nouvelle, pas de bleu. */
+.cal-ville:focus-within {
+  border-color: var(--ink-secondary);
 }
 
 /* ═══ LA BARRE COMPACTE ═══ Voir CalendrierPage.tsx. Les vues sont des
