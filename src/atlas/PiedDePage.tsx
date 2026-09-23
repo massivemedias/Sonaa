@@ -31,8 +31,12 @@ interface Lien {
 export function PiedDePage() {
   const presence = usePresence();
   const presents = presence.n;
-  /* LES VILLES, LES TROIS PLUS NOMBREUSES : « Montréal 3, Paris 1 ». */
-  const villes = presence.villes.slice(0, 3).map((v) => (v.n > 1 ? `${v.ville} ${v.n}` : v.ville)).join(', ');
+  /* LA PREMIERE VILLE SEULEMENT, SANS SON COMPTE : « 2 en ligne · Tripoli ».
+     Mika, le 22 septembre 2026, apres avoir vu le pied casser a 1240 px en
+     francais : la phrase entiere et trois villes chiffrees prenaient 282 px
+     dans une rangee ou il n'en restait plus. Le nombre et une ville disent
+     la meme chose en 110. */
+  const ville = presence.villes[0]?.ville ?? '';
 
   /* AU CENTRE, CE QU'ON NE TROUVE PAS DANS LE MENU. Les sections du site,
      Calendrier, News, Styles, Mixtapes, sont toutes dans la rangee du haut ou
@@ -53,11 +57,16 @@ export function PiedDePage() {
   ];
 
   /* A DROITE, LE LEGAL, ET SEUL. C'est la seule chose qu'on vient chercher
-     dans un pied de page en sachant d'avance qu'elle y est. */
+     dans un pied de page en sachant d'avance qu'elle y est.
+
+     EN TITRES COURTS : « Conditions », « Confidentialité », « Mentions ».
+     Les titres complets font 371 px a eux trois en francais, les courts 190.
+     Ils restent entiers sur les pages elles-memes et dans le menu « Plus »,
+     ou la place ne manque pas. */
   const legal: readonly Lien[] = [
-    { href: '#/conditions', label: t.conditionsTitre },
-    { href: '#/confidentialite', label: t.confidentialiteTitre },
-    { href: '#/mentions', label: t.mentionsTitre },
+    { href: '#/conditions', label: t.conditionsCourt },
+    { href: '#/confidentialite', label: t.confidentialiteCourt },
+    { href: '#/mentions', label: t.mentionsCourt },
   ];
 
   const lien = (l: Lien) => (
@@ -85,8 +94,8 @@ export function PiedDePage() {
         {presents > 0 && (
           <p className="pied-presence" role="status">
             <span className="pied-pouls" aria-hidden="true" />
-            {presents === 1 ? t.piedSeul : t.piedEnCeMoment(presents)}
-            {villes && <span className="pied-villes">{villes}</span>}
+            {t.piedEnLigne(presents)}
+            {ville && <span className="pied-villes">{ville}</span>}
           </p>
         )}
 

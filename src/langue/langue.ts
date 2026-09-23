@@ -728,8 +728,13 @@ interface Dictionnaire {
   readonly piedIndex: string;
   readonly piedPropositions: string;
   readonly piedCode: string;
-  readonly piedEnCeMoment: (n: number) => string;
-  readonly piedSeul: string;
+  /** « 2 en ligne » : le nombre seul, la ville vient a cote. */
+  readonly piedEnLigne: (n: number) => string;
+  /** LES TITRES COURTS DU LEGAL, pour le pied seulement : les pages gardent
+      leur titre complet, et le menu « Plus » du telephone aussi. */
+  readonly conditionsCourt: string;
+  readonly confidentialiteCourt: string;
+  readonly mentionsCourt: string;
   readonly piedAjouterEvenement: string;
   readonly piedDeposerMixtape: string;
   readonly stockageUtilise: (u: string, max: string) => string;
@@ -1384,8 +1389,10 @@ const FR: Dictionnaire = {
   piedIndex: 'Index des 219 genres',
   piedPropositions: 'Propositions du public',
   piedCode: 'GitHub',
-  piedEnCeMoment: (n) => `${n} personnes sur le site en ce moment`,
-  piedSeul: 'Tu es seul sur le site en ce moment',
+  piedEnLigne: (n) => `${n} en ligne`,
+  conditionsCourt: 'Conditions',
+  confidentialiteCourt: 'Confidentialité',
+  mentionsCourt: 'Mentions',
   piedAjouterEvenement: 'Ajouter un événement',
   piedDeposerMixtape: 'Déposer une mixtape',
   stockageUtilise: (u, max) => `${u} utilisés sur ${max}.`,
@@ -2044,8 +2051,10 @@ const EN: Dictionnaire = {
   piedIndex: 'Index of all 219 genres',
   piedPropositions: 'Public proposals',
   piedCode: 'GitHub',
-  piedEnCeMoment: (n) => `${n} people on the site right now`,
-  piedSeul: 'You are alone on the site right now',
+  piedEnLigne: (n) => `${n} online`,
+  conditionsCourt: 'Terms',
+  confidentialiteCourt: 'Privacy',
+  mentionsCourt: 'Legal',
   piedAjouterEvenement: 'Add an event',
   piedDeposerMixtape: 'Upload a mixtape',
   stockageUtilise: (u, max) => `${u} used of ${max}.`,

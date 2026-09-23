@@ -24,7 +24,11 @@
   margin-top: 3.5rem;
   border-top: 1px solid oklch(1 0 0 / 0.08);
   font-family: var(--font-ui);
-  font-size: 0.82rem;
+  /* TREIZE PIXELS, EN PIXELS. Mika, le 22 septembre 2026 : le pied cassait
+     sur deux lignes a 1240 px en francais. La rangee est mesuree au pixel
+     par scripts/check-pied.ts, et une taille en rem y bougerait avec le
+     reglage du navigateur pendant que la colonne, elle, reste a 1240. */
+  font-size: 13px;
   margin-left: calc(-1 * max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2)));
   margin-right: calc(-1 * max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2)));
   padding-left: max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2));
@@ -121,17 +125,24 @@
   text-underline-offset: 3px;
 }
 
-/* Le legal se distingue sans crier : un cran plus pale. Il est la pour qui le
-   cherche, pas pour qui lit la page. */
+/* Le legal se distingue sans crier : un cran plus pale et un pixel plus
+   petit. Il est la pour qui le cherche, pas pour qui lit la page. */
 .pied-lien-legal {
   opacity: 0.72;
+  font-size: 12px;
 }
 
-/* ═══ TELEPHONE : LA PRESENCE AU-DESSUS, LES LIENS EN DESSOUS ═══
+/* ═══ SOUS 1024 PX : LA PRESENCE AU-DESSUS, LES LIENS EN DESSOUS ═══
    A 375 px, sept liens et une pastille sur une rangee donneraient huit
    lignes d'un mot. La rangee se replie : presence, puis les liens, qui
-   passent d'eux-memes sur deux rangees, puis le nom. */
-@media (max-width: 860px) {
+   passent d'eux-memes sur deux rangees, puis le nom.
+
+   LE SEUIL EST 1024 ET NON PLUS 860, parce que la promesse est faite a
+   partir de 1024 : au-dessus, une rangee et jamais deux, mesure par
+   scripts/check-pied.ts. Entre 860 et 1023 la rangee tenait par chance
+   selon la langue et le nombre de villes, et une chance n'est pas une
+   regle. */
+@media (max-width: 1023px) {
   .pied-ligne {
     flex-direction: column;
     align-items: center;
