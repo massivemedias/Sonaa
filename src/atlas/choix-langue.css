@@ -63,3 +63,10 @@
     font-size: 0.66rem;
   }
 }
+
+/* EN THEME CLAIR, PAS D'OPACITE SUR CE TEXTE : sur du blanc, une encre
+   attenuee passe sous le contraste AA. Mesure le 22 septembre 2026. */
+:root[data-theme='clair'] .choixlangue-bouton:not([data-actif='true']) {
+  opacity: 1;
+  color: var(--ink-secondary);
+}

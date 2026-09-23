@@ -63,7 +63,11 @@
    un seul etat, c'est la porte ouverte a « je ne sais plus laquelle est
    selectionnee » : la classe est posee par les fleches comme par le survol. */
 .sv-option-surlignee {
-  background: var(--voile-08);
+  background: var(--accent-a);
+  color: oklch(1 0 0);
+}
+.sv-option-surlignee .sv-situation {
+  color: oklch(1 0 0 / 0.82);
 }
 
 .sv-situation {

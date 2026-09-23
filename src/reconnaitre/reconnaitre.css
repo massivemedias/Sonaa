@@ -152,11 +152,12 @@
   max-width: 44rem;
 }
 
-/* Chaque style est une carte de verre, et sa part se lit sur le degrade. */
+/* CHAQUE STYLE EST UNE CARTE DE VERRE, ET RIEN NE LA CHIFFRE. La jauge et le
+   pourcentage sont partis le 22 septembre 2026 : la sortie du reseau est une
+   sigmoide par classe, et une part qui n'en est pas une n'a pas a se lire.
+   L'ordre des cartes est le classement, du plus probable au moins probable. */
 .rc-style {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 8rem 3.2rem;
-  gap: 0.9rem;
+  display: flex;
   align-items: center;
   padding: 0.85rem 1rem;
   margin-bottom: 0.5rem;
@@ -179,25 +180,6 @@
   opacity: 0.8;
 }
 
-.rc-part {
-  display: block;
-  height: 6px;
-  background: var(--surface-margin);
-  border-radius: 999px;
-  overflow: hidden;
-}
-.rc-part-pleine {
-  display: block;
-  height: 100%;
-  background: var(--degrade);
-}
-
-.rc-pourcent {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-  color: var(--ink-secondary);
-  font-size: 0.9rem;
-}
 
 .rc-note {
   margin: 1rem 0 0;
@@ -371,12 +353,6 @@
 }
 
 @media (max-width: 599px) {
-  .rc-style {
-    grid-template-columns: minmax(0, 1fr) 3.2rem;
-  }
-  .rc-part {
-    display: none;
-  }
   .rc-morceau {
     flex-direction: column;
   }

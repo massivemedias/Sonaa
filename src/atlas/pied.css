@@ -38,7 +38,7 @@
 /* LE FILET S'INVERSE EN THEME CLAIR : un voile blanc sur fond blanc ne
    separe rien. */
 :root[data-theme='clair'] .pied {
-  border-top-color: oklch(0.2 0.01 285 / 0.1);
+  border-top-color: oklch(0 0 0 / 0.12);
 }
 
 /* DANS L'ATLAS, LA COLONNE N'EST PAS LA MEME : `.pv-corps` a son propre
@@ -130,6 +130,16 @@
 .pied-lien-legal {
   opacity: 0.72;
   font-size: 12px;
+}
+
+/* EN THEME CLAIR, LE CRAN DE GRIS EST DANS L'ENCRE, PAS DANS L'OPACITE.
+   Mesure le 22 septembre 2026 par l'audit de contraste : une encre a 0,43
+   de clarte passee a 72 % sur du blanc tombe a 3,9 pour 1, sous le AA. La
+   meme encre pleine fait 7,3 pour 1 et reste un cran sous le noir. */
+:root[data-theme='clair'] .pied-lien-legal,
+:root[data-theme='clair'] .pied-villes {
+  opacity: 1;
+  color: var(--ink-secondary);
 }
 
 /* ═══ SOUS 1024 PX : LA PRESENCE AU-DESSUS, LES LIENS EN DESSOUS ═══

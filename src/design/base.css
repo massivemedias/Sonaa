@@ -142,6 +142,29 @@ html {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* ═══ CE QU'ON SELECTIONNE PREND L'ACCENT DU SITE, PAS LE BLEU DU SYSTEME ═══
+   Mika, le 22 septembre 2026, devant les selecteurs du calendrier : « retirer
+   le highlight bleu ». Trois endroits ou le navigateur peint son bleu :
+   la selection de texte, les cases et curseurs (`accent-color`), et l'option
+   choisie d'un `select`. Les trois prennent le violet du site et une encre
+   inversee. Le contour de focus, lui, reste celui de base.css, en encre. */
+:root {
+  accent-color: var(--accent-a);
+}
+::selection {
+  background: var(--accent-a);
+  color: oklch(1 0 0);
+}
+select option {
+  background: var(--surface-raised);
+  color: var(--ink-primary);
+}
+select option:checked,
+select option:hover {
+  background: var(--accent-a);
+  color: oklch(1 0 0);
+}
+
 
 /* ═══ LE LOGO EST UNE IMAGE BLANCHE, DONC INVISIBLE SUR FOND CLAIR ═══
 

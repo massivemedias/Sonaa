@@ -218,7 +218,13 @@ export function ReconnaitrePage() {
           {styles.length > 0 && (
             <Apparition as="section" className="rc-bloc">
               <h2 className="rc-titre">{t.reconnaitreLeStyle}</h2>
-              <ul className="rc-styles">
+              {/* UN CLASSEMENT, SANS CHIFFRES. Mika, le 22 septembre 2026, apres
+                  l'audit : la sortie du reseau est une sigmoide par classe, pas
+                  une part. « Techno 82 % » et « House 67 % » ne se partageaient
+                  rien, et la jauge les presentait comme s'ils le faisaient. Le
+                  premier est le plus probable, le troisieme le moins, c'est
+                  tout ce que le reseau sait dire honnetement. */}
+              <ol className="rc-styles">
                 {styles.map((s) => {
                   const entree = styleDeLEtiquette(s.discogs);
                   const chemin = entree?.sonaa
@@ -229,7 +235,6 @@ export function ReconnaitrePage() {
                           return f ? cheminDeLaFamille(f) : null;
                         })()
                       : null;
-                  const pourcent = `${Math.round(s.score * 100)} %`;
                   return (
                     <li key={s.discogs} className="rc-style">
                       {chemin ? (
@@ -241,14 +246,10 @@ export function ReconnaitrePage() {
                           {s.nom} <span className="rc-hors-mot">{t.reconnaitreHorsAtlas}</span>
                         </span>
                       )}
-                      <span className="rc-part" aria-hidden="true">
-                        <span className="rc-part-pleine" style={{ width: pourcent }} />
-                      </span>
-                      <span className="rc-pourcent">{pourcent}</span>
                     </li>
                   );
                 })}
-              </ul>
+              </ol>
               <p className="rc-note">{t.reconnaitreImprecis}</p>
             </Apparition>
           )}

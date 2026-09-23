@@ -71,7 +71,15 @@ for (const dossier of DOSSIERS) {
       }
       if (nu === '}' && selecteurCourant !== null) {
         reglesVues += 1;
-        const k = cle(selecteurCourant);
+        /* UN @font-face N'EST PAS UNE REGLE QUI CASCADE : chaque bloc decrit
+           une fonte, et deux blocs de la meme famille a deux graisses sont
+           deux fontes, pas une declaration qui en ecrase une autre. Ils sont
+           donc distingues par ce qui les identifie, famille, graisse, style.
+           Depuis le 22 septembre 2026, Larsseit en porte deux. */
+        const identite = (nom: string) => declarations.find((d) => d.propriete === nom)?.valeur ?? '';
+        const k = selecteurCourant.startsWith('@font-face')
+          ? cle(`@font-face ${identite('font-family')} ${identite('font-weight')} ${identite('font-style')}`)
+          : cle(selecteurCourant);
         const dejaVu = vues.get(k) ?? [];
         vues.set(k, [...dejaVu, ...declarations]);
         selecteurCourant = null;
