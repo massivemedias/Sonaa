@@ -328,7 +328,10 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      rangee. Sans `1fr` ici, une rangee dont un nom de genre passe a deux
      lignes faisait 112 px et les autres 108 : quatre pixels qu'on ne nomme
      pas mais qu'on voit en descendant la grille. */
-  grid-auto-rows: 1fr;
+  /* 160 PX SUR BUREAU, 120 SUR TELEPHONE, demandes par Mika. La hauteur est
+     posee par la grille et non par la tuile : c'est elle qui garantit que
+     les quinze sont identiques, y compris celle de l'index. */
+  grid-auto-rows: 160px;
   gap: 0.75rem;
   margin: 1.2rem 0 0;
 }
@@ -344,84 +347,187 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 @media (max-width: 560px) {
   .pv-grille-familles {
     grid-template-columns: minmax(0, 1fr);
+    grid-auto-rows: 120px;
   }
 }
 
-/* ═══ LA TUILE D'UNE FAMILLE ═══
+/* ═══ LA TUILE D'UNE FAMILLE : UN BLOC DE COULEUR, RIEN D'AUTRE ═══
  *
- * ELLE PORTE LA TEINTE DE SA FAMILLE, celle du corpus, la meme que la
- * banniere d'un genre : quatorze familles, quatorze tuiles reconnaissables
- * sans lire. Le fond est la teinte a 12 %, le filet gauche la meme teinte
- * pleine sur trois pixels. La teinte arrive par `--f-hue`, posee en ligne
- * depuis `FAMILIES[i].hue` : c'est une DONNEE, elle n'a rien a faire dans
- * une feuille de style.
+ * Mika, le 22 septembre 2026 : « aucun filet gauche, aucun contour de 1 px,
+ * aucune ombre portee, aucun coin surligne. La tuile est un bloc de couleur.
+ * La couleur est la lumiere, pas un cadre. »
  *
- * LA CLARTE ET LE CHROMA SONT FIXES, PAS LA TEINTE. `--lt-62` suit le theme,
- * donc la tuile se tient aussi bien sur fond clair, et le chroma de 0,14 est
- * celui que cette feuille emploie deja pour les pastilles de genre. */
+ * CE QUI EST INTERDIT ICI, ET SE VERIFIE EN LISANT : pas de `border`, pas de
+ * `box-shadow`, pas d'`outline`. La seule forme est le rayon de 20 px.
+ *
+ * ═══ LA LUEUR VIENT DU COIN BAS DROIT ═══
+ *
+ * Chroma plein au coin, puis fondu jusqu'a 6 % de teinte dans le coin
+ * oppose : c'est le fond entier de la tuile, pas un accent pose dessus. La
+ * teinte arrive par `--f-hue`, posee en ligne depuis la donnee du corpus ;
+ * la clarte passe par `--lt-62`, donc la tuile se tient dans les deux
+ * themes sans qu'aucune couleur ne soit ecrite deux fois.
+ *
+ * ELLE EST DANS UN PSEUDO-ELEMENT, ET C'EST UNE NECESSITE TECHNIQUE. Le
+ * survol doit la faire GROSSIR et la deplacer vers le centre en 250 ms ; un
+ * degrade radial pose sur `background-image` ne s'anime pas. Une couche a
+ * part, deplacee par `transform`, s'anime elle sur le processeur graphique
+ * et ne fait pas repeindre le texte a chaque image. */
 .pv-famille {
   --f-chroma: 0.14;
   position: relative;
+  /* LE CHIFFRE FANTOME DEBORDE PAR LE HAUT ET DOIT ETRE COUPE : c'est ce
+     `hidden` qui le coupe, et lui seul. */
+  overflow: hidden;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   align-items: flex-start;
-  gap: 0.15rem;
   width: 100%;
   height: 100%;
-  min-height: 108px;
   box-sizing: border-box;
-  padding: 1rem 3.2rem 1rem 1.1rem;
+  padding: 1.1rem 1.2rem;
   border: 0;
-  border-left: 3px solid oklch(var(--lt-62) var(--f-chroma) var(--f-hue));
-  border-radius: 6px 18px 18px 6px;
-  background: oklch(var(--lt-62) var(--f-chroma) var(--f-hue) / 0.12);
+  border-radius: 20px;
+  /* LE FOND DE BASE : la teinte a 6 % posee sur la surface de la page. En
+     sombre cela fait le noir teinte demande ; en clair, la meme formule
+     donne un blanc teinte, parce que c'est la surface qui change, pas la
+     regle. */
+  background:
+    linear-gradient(
+      oklch(var(--lt-62) var(--f-chroma) var(--f-hue) / 0.06),
+      oklch(var(--lt-62) var(--f-chroma) var(--f-hue) / 0.06)
+    ),
+    var(--surface-plate);
   color: var(--ink-primary);
   font: inherit;
   text-align: left;
   text-decoration: none;
   cursor: pointer;
-  transition: background 200ms ease;
 }
+
+/* DEUX LUEURS QUI SE CROISENT, ET NON UNE QUI SE DEPLACE.
+ *
+ * J'AI D'ABORD AGRANDI ET DECALE LA MEME COUCHE, ET C'ETAIT FAUX. Vu a la
+ * capture : `scale` puis `translate` ramenaient le BORD de la couche a
+ * l'interieur de la tuile, et comme le degrade est opaque a son coin, ce
+ * bord devenait un rectangle net en plein milieu du survol. Un degrade sans
+ * bord dans une boite qui en a un : c'est la boite qui gagne.
+ *
+ * Les deux etats sont donc deux couches fixes, `inset: 0` toutes les deux,
+ * dont on croise l'opacite. Aucune n'a de bord visible parce qu'aucune ne
+ * bouge, et l'opacite s'anime sur le processeur graphique comme le faisait
+ * `transform`. */
+.pv-famille::before,
+.pv-famille::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  transition: opacity 250ms ease;
+  pointer-events: none;
+}
+
+/* AU REPOS : la lueur nait du coin bas droit. */
+.pv-famille::before {
+  background: radial-gradient(
+    115% 115% at 100% 100%,
+    oklch(var(--lt-62) var(--f-chroma) var(--f-hue) / 0.92) 0%,
+    oklch(var(--lt-62) var(--f-chroma) var(--f-hue) / 0.32) 42%,
+    transparent 74%
+  );
+}
+
+/* AU SURVOL : plus grande, et son foyer a glisse vers le centre. */
+.pv-famille::after {
+  opacity: 0;
+  background: radial-gradient(
+    155% 155% at 76% 76%,
+    oklch(var(--lt-62) var(--f-chroma) var(--f-hue) / 0.95) 0%,
+    oklch(var(--lt-62) var(--f-chroma) var(--f-hue) / 0.38) 46%,
+    transparent 80%
+  );
+}
+
 @media (hover: hover) and (pointer: fine) {
-  .pv-famille:hover {
-    background: oklch(var(--lt-62) var(--f-chroma) var(--f-hue) / 0.2);
+  .pv-famille:hover::before {
+    opacity: 0;
+  }
+  .pv-famille:hover::after {
+    opacity: 1;
   }
 }
 .pv-famille:active {
   transform: scale(0.99);
 }
 
-.pv-famille-nom {
-  font-size: 1.35rem;
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: var(--serrage);
+/* ═══ LE CHIFFRE FANTOME ═══
+ *
+ * La decennie en deux chiffres, calee en haut a droite et coupee par le bord
+ * du haut : elle se lit comme une trame, pas comme une etiquette. Elle n'est
+ * pas annoncee aux lecteurs d'ecran, qui recoivent la decennie entiere dans
+ * le nom du bouton : « 70 » lu a voix haute ne veut rien dire. */
+.pv-famille-chiffre {
+  position: absolute;
+  top: -0.3em;
+  right: 0.06em;
+  z-index: 1;
+  font-size: 140px;
+  font-weight: 800;
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+  color: oklch(var(--lt-62) var(--f-chroma) var(--f-hue) / 0.08);
+  transition: color 250ms ease;
+  pointer-events: none;
+  user-select: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .pv-famille:hover .pv-famille-chiffre {
+    color: oklch(var(--lt-62) var(--f-chroma) var(--f-hue) / 0.14);
+  }
 }
 
-.pv-famille-date {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+/* ═══ LE BLOC DU BAS : LES TROIS GENRES, LE NOM, LE COMPTE ═══
+   Au-dessus de la lueur, donc `z-index` : sans lui le texte passerait sous
+   la couche de couleur. */
+.pv-famille-bas {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.pv-famille-nom {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: var(--serrage);
+  color: var(--ink-primary);
+}
+
+.pv-famille-n {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: oklch(var(--lt-84) 0.08 var(--f-hue));
+  color: oklch(var(--lt-84) var(--f-chroma) var(--f-hue));
 }
 
 /* ═══ LES TROIS FONDATEURS ═══
- *
- * SUR UN ECRAN A SOURIS ILS ATTENDENT LE SURVOL. La tuile dit d'abord le nom
- * et la date ; les trois genres sont la recompense du geste, pas du bruit
- * pose d'avance sur quatorze tuiles.
- *
- * SUR UN ECRAN TACTILE ILS SONT LA D'EMBLEE, parce qu'il n'y a pas de survol
- * et qu'une information qui n'apparait jamais n'existe pas. C'est le meme
- * raisonnement que le survol jaune des tuiles de genre, plus bas.
- *
- * LA PLACE EST RESERVEE DANS LES DEUX CAS, par `min-height` sur la tuile : un
- * texte qui apparait au survol et POUSSE la grille ferait sauter la page sous
- * la souris. */
+   Au-dessus du nom, en petit. Ils attendent le survol sur un ecran a souris
+   et sont la d'emblee sur un ecran tactile, ou le survol n'existe pas : une
+   information qui n'apparait jamais n'existe pas. La place leur est reservee
+   par la hauteur fixe de la tuile, donc rien ne bouge a leur arrivee. */
 .pv-famille-genres {
-  font-size: 0.78rem;
-  line-height: 1.3;
+  max-width: 100%;
+  margin-bottom: 0.15rem;
+  font-size: 0.72rem;
+  line-height: 1.25;
   color: var(--ink-secondary);
   overflow: hidden;
   display: -webkit-box;
@@ -431,7 +537,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 @media (hover: hover) and (pointer: fine) {
   .pv-famille-genres {
     opacity: 0;
-    transition: opacity 200ms ease;
+    transition: opacity 250ms ease;
   }
   .pv-famille:hover .pv-famille-genres,
   .pv-famille:focus-visible .pv-famille-genres {
@@ -439,40 +545,48 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   }
 }
 
-/* LE COMPTE EN BAS A DROITE : c'est un reperage, pas une lecture. Il est
-   ancre au coin, donc il ne bouge pas quand les trois genres apparaissent. */
-.pv-famille-n {
-  position: absolute;
-  right: 1rem;
-  bottom: 0.9rem;
-  font-size: 1.05rem;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  color: oklch(var(--lt-84) 0.1 var(--f-hue));
-}
-
 /* ═══ LA QUINZIEME TUILE : L'INDEX A PLAT ═══
-   Sans teinte et sans filet colore, parce qu'elle n'est pas une famille. Un
-   filet gris la rattache visuellement a la grille sans la faire passer pour
-   la quinzieme famille. */
+   Sans lueur, et son chiffre fantome est le nombre de genres. Elle n'est pas
+   une famille : elle n'a donc pas de teinte, et le gris le dit mieux qu'une
+   note en bas de page. */
 .pv-famille-index {
   --f-hue: 0;
   --f-chroma: 0;
-  justify-content: center;
-  border-left-color: var(--filet-fort);
-  background: var(--voile-04);
+  background: var(--voile-06);
+}
+.pv-famille-index::before,
+.pv-famille-index::after {
+  display: none;
+}
+.pv-famille-index .pv-famille-chiffre {
+  color: var(--voile-06);
 }
 .pv-famille-index .pv-famille-nom {
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: var(--ink-secondary);
 }
 @media (hover: hover) and (pointer: fine) {
   .pv-famille-index:hover {
-    background: var(--voile-08);
+    background: var(--voile-09);
   }
   .pv-famille-index:hover .pv-famille-nom {
     color: var(--ink-primary);
+  }
+}
+
+/* ═══ TELEPHONE : MEME DESSIN, MOINS HAUT ═══
+   120 px au lieu de 160, le chiffre reduit d'autant pour garder le meme
+   debordement, et les trois genres montres d'emblee. */
+@media (max-width: 560px) {
+  .pv-famille {
+    padding: 0.9rem 1rem;
+  }
+  .pv-famille-chiffre {
+    font-size: 104px;
+  }
+  .pv-famille-nom {
+    font-size: 1.4rem;
   }
 }
 

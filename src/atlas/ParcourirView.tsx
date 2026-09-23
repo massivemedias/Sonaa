@@ -426,17 +426,28 @@ export function ParcourirView() {
                       className="pv-famille"
                       style={{ '--f-hue': f.hue } as React.CSSProperties}
                       onClick={() => aller({ k: 'famille', fi })}
+                      /* LE CHIFFRE FANTOME EST UN DESSIN, PAS UN LIBELLE :
+                         « 70 » lu a voix haute ne veut rien dire. La decennie
+                         entiere entre donc dans le nom accessible du bouton,
+                         et le chiffre en sort. */
+                      aria-label={d?.decennie ? `${f.label}, ${t.decennie(d.decennie)}, ${t.nGenres(f.count)}` : undefined}
                     >
-                      <span className="pv-famille-nom">{f.label}</span>
-                      {d?.decennie ? <span className="pv-famille-date">{t.decennie(d.decennie)}</span> : null}
-                      {/* LES TROIS FONDATEURS. Caches au survol pres sur un
-                          ecran a souris, montres d'emblee sur un ecran
-                          tactile, ou le survol n'existe pas. Voir
-                          parcourir.css. */}
-                      {d && d.representatifs.length > 0 && (
-                        <span className="pv-famille-genres">{d.representatifs.join(' · ')}</span>
-                      )}
-                      <span className="pv-famille-n">{f.count}</span>
+                      {d?.decennie ? (
+                        <span className="pv-famille-chiffre" aria-hidden="true">
+                          {String(d.decennie).slice(2)}
+                        </span>
+                      ) : null}
+                      <span className="pv-famille-bas">
+                        {/* LES TROIS FONDATEURS, au-dessus du nom. Caches
+                            jusqu'au survol sur un ecran a souris, montres
+                            d'emblee sur un ecran tactile ou le survol
+                            n'existe pas. Voir parcourir.css. */}
+                        {d && d.representatifs.length > 0 && (
+                          <span className="pv-famille-genres">{d.representatifs.join(' · ')}</span>
+                        )}
+                        <span className="pv-famille-nom">{f.label}</span>
+                        <span className="pv-famille-n">{t.nGenres(f.count)}</span>
+                      </span>
                     </button>
                   </Apparition>
                 );
@@ -445,7 +456,10 @@ export function ParcourirView() {
                   et elle ne doit pas se lire comme la quinzieme. */}
               <Apparition i={FAMILIES.length}>
                 <a className="pv-famille pv-famille-index" href="#/index">
-                  <span className="pv-famille-nom">{t.piedIndex}</span>
+                  <span className="pv-famille-chiffre" aria-hidden="true">{TOUS.length}</span>
+                  <span className="pv-famille-bas">
+                    <span className="pv-famille-nom">{t.piedIndex}</span>
+                  </span>
                 </a>
               </Apparition>
             </div>
