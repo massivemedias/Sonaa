@@ -1,6 +1,56 @@
 {
- "fait": "2026-09-22T17:03:23.385Z",
+ "fait": "2026-09-23T04:52:41.344Z",
  "articles": [
+  {
+   "source": "musictech",
+   "titre": "Best DAWs for producers, songwriters, engineers and DJs right now",
+   "lien": "https://musictech.com/guides/buyers-guide/best-daw-music-producers-in-all-genres-styles-workflows/",
+   "date": "2026-09-22T23:00:21.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2024/06/Audio-engineer-working-on-music-crdeit-gorodenkoff-Getty@2000x1500.jpg",
+   "resume": "The digital audio workstation – or DAW – is the backbone of modern music production . If you’ve ever wanted to compose or record music, you’re probably familiar with what this software does. Put simply, DAWs give…",
+   "titre_fr": "Meilleurs DAW pour producteurs, compositeurs, ingénieurs et DJ en ce moment",
+   "resume_fr": "La digital audio workstation – ou DAW – est l'épine dorsale de la production musicale moderne. Si vous avez déjà voulu composer ou enregistrer de la musique, vous connaissez probablement ce que ce logiciel fait. En termes simples, les DAW vous permettent…"
+  },
+  {
+   "source": "cdm",
+   "titre": "Elektron is halting sharing of mods and hacks on its forums; official comments",
+   "lien": "https://cdm.link/elektron-on-hacks-and-mods/",
+   "date": "2026-09-22T22:55:33.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/machinedrum-angle.jpg",
+   "resume": "Music gearmaker Elektron last week announced it would not allow sharing hacks and modifications for its devices on its official Elektronauts forum or social media channels. In a statement, the company says a sudden…",
+   "titre_fr": "Elektron arrête le partage de mods et de hacks sur ses forums ; déclarations officielles",
+   "resume_fr": "Le fabricant de matériel musical Elektron a annoncé la semaine dernière qu'il n'autoriserait plus le partage de hacks et de modifications pour ses appareils sur son forum officiel Elektronauts ou ses canaux de médias sociaux. Dans un communiqué, l'entreprise déclare qu'une soudaine…"
+  },
+  {
+   "source": "musictech",
+   "titre": "Sidechain Compression: What is it and what’s it used for?",
+   "lien": "https://musictech.com/glossary/sidechain-compression/",
+   "date": "2026-09-22T21:54:26.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/09/sidechain-compression-hero-compvca@2000x1500.jpg",
+   "resume": "Sidechain compression is a music production technique in which a compressor turns down an audio signal in response to another audio signal. Most commonly, it’s used to ‘duck’ pads, bass and other instruments in time…",
+   "titre_fr": "Sidechain Compression : qu'est-ce que c'est et à quoi ça sert ?",
+   "resume_fr": "La sidechain compression est une technique de production musicale dans laquelle un compresseur réduit un signal audio en réponse à un autre signal audio. Le plus souvent, elle est utilisée pour « duck » les pads, la basse et d'autres instruments en temps…"
+  },
+  {
+   "source": "bpb",
+   "titre": "RiverFlux Audio releases BITLAYER, a FREE multiband bitcrusher",
+   "lien": "https://bedroomproducersblog.com/2026/09/22/riverflux-audio-bitlayer/",
+   "date": "2026-09-22T18:05:22.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/bitlayer.jpg",
+   "resume": "RiverFlux Audio has released BITLAYER, a free multiband bitcrusher for macOS, Windows, and Linux. This is a surprisingly cool bitcrusher, but the first thing I noticed was the interface. The pixel-art knobs and chunky…",
+   "titre_fr": "RiverFlux Audio sort BITLAYER, un multiband bitcrusher GRATUIT",
+   "resume_fr": "RiverFlux Audio a sorti BITLAYER, un multiband bitcrusher gratuit pour macOS, Windows et Linux. C'est un bitcrusher étonnamment cool, mais la première chose que j'ai remarquée était l'interface. Les knobs en pixel art et les…"
+  },
+  {
+   "source": "musictech",
+   "titre": "Lunacy Audio launches new AI-powered plugin sharing platform, NOVA",
+   "lien": "https://musictech.com/news/industry/lunacy-audio-nova/",
+   "date": "2026-09-22T17:03:00.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/09/Lunacy-Audios-NOVA-plugin-Growl.jpg",
+   "resume": "Lunacy Audio has a history of strong releases; back in 2021, we awarded the company’s sample-based virtual instrument CUBE a stunning 9/10 , and 2024’s multi-effects engine, BEAM, was also pretty damn impressive. Now…",
+   "titre_fr": "Lunacy Audio lance NOVA, nouvelle plateforme de partage de plugin alimentée par l'IA",
+   "resume_fr": "Lunacy Audio a un historique de sorties solides ; en 2021, nous avons attribué à l'instrument virtuel basé sur des samples CUBE de l'entreprise un impressionnant 9/10, et le moteur multi-effets de 2024, BEAM, était aussi assez impressionnant. Maintenant…"
+  },
   {
    "source": "gearnews",
    "titre": "Guitar Journal: Gibson 6 DES Series Models & More",
@@ -172,6 +222,14 @@
    "resume_fr": "La basse distordue qui secouait les fans à la scène Wompy Woods s'arrêta soudainement. Excision se tenait derrière les Pioneer CDJs tandis que les énormes écrans LED s'assombrirent complètement. Tout le monde se prépara à un autre brutal drop. À la place…"
   },
   {
+   "source": "tsugi",
+   "titre": "Live Report : La sororité au cœur de Toutes sur Scène",
+   "lien": "https://www.tsugi.fr/live-report-la-sonorite-au-coeur-de-toutes-sur-scene/",
+   "date": "2026-09-22T12:22:34.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/live-report-la-sonorite-au-coeur-de-toutes-sur-scene.jpg?hash=cdn-f92838426b117acc8933277a5354da1e",
+   "resume": "Ce samedi 19 septembre, les femmes ont pris possession du Théâtre du Châtelet pour une soirée de rêve. Pour la première édition du festival Toutes Sur Scène, ce ne sont pas moins de huit artistes qui ont répondu…"
+  },
+  {
    "source": "musicradar",
    "titre": "“John Lennon told me it was a great song”: Alice Cooper’s satirical ’70s hit",
    "lien": "https://www.musicradar.com/artists/john-lennon-told-me-it-was-a-great-song-we-took-it-off-the-worst-album-we-ever-made-and-turned-it-into-one-of-the-biggest-hits-we-ever-had-alice-coopers-satirical-70s-hit-and-his-high-times-with-lennon-keith-moon-ringo-starr-and-salvador-dali",
@@ -332,6 +390,14 @@
    "resume_fr": "Depuis 2019, vous pouvez essayer virtuellement et utiliser plus de 200 pédales de guitare et basse via Stompenberg FX de Thomann. De cette façon, vous pouvez entendre comment votre propre instrument et votre jeu sonnent à travers un ProCo Rat, un Boss DS-1, ou un..."
   },
   {
+   "source": "tsugi",
+   "titre": "Tsugi Radio : marta en live au studio",
+   "lien": "https://www.tsugi.fr/tsugi-radio-marta-en-live-au-studio/",
+   "date": "2026-09-21T15:49:47.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/tsugi-radio-marta-en-live-au-studio.jpg?hash=cdn-2ecf5a895c90616528d1c531712f87c2",
+   "resume": "Ils se sont rencontrés au conservatoire de jazz, ont joué avec Malvina, Lucie Antunes et Mehdi Kerkouche mais ce qui les fait kiffer c’est de jouer de la techno, oui, mais avec une batterie et un violon, et pourquoi…"
+  },
+  {
    "source": "musictech",
    "titre": "“The death of Suno”: Reddit users have turned against Suno after v6 model update",
    "lien": "https://musictech.com/news/industry/suno-ai-update-v6/",
@@ -340,6 +406,14 @@
    "resume": "Back in August, Suno got a slap on the wrist for its unlawful AI training practices , with German courts ruling that it had used protected songs without permission. Then, at the start of September, Suno came clean in…",
    "titre_fr": "« La mort de Suno »: les utilisateurs de Reddit se sont retournés contre Suno après la mise à jour du modèle v6",
    "resume_fr": "En août dernier, Suno a reçu une réprimande pour ses pratiques illégales d'entraînement IA, les tribunaux allemands ayant jugé qu'il avait utilisé des chansons protégées sans permission. Puis, au début de septembre, Suno a avoué..."
+  },
+  {
+   "source": "tsugi",
+   "titre": "Le Sucre clot son mois de septembre avec 24 heures de soirée",
+   "lien": "https://www.tsugi.fr/le-sucre-clot-son-mois-de-septembre-avec-24-heures-de-soiree/",
+   "date": "2026-09-21T15:41:19.000Z",
+   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/le-sucre-clot-son-mois-de-septembre-avec-24-heures-de-soiree.jpg?hash=cdn-9076cb484d5794dc995d9ee6032ad743",
+   "resume": "Faire la fête pendant 24 heures non-stop ? Le Sucre à Lyon a bien compris que c’est ce dont les fêtards avaient besoin, un petit mois après la rentrée. Quand on dit 24 heures, on ne ment pas ! Les enceintes resteront…"
   },
   {
    "source": "midnightrebels",
@@ -482,16 +556,6 @@
    "resume_fr": "Dans sa dernière vidéo, le synthésiste Starsky Carr oppose une légende vintage à un concurrent moderne dans un affrontement de polysynth analog 8-voice."
   },
   {
-   "source": "bpb",
-   "titre": "Get UnitedPlugins FireMaximizer FREE until October 18",
-   "lien": "https://bedroomproducersblog.com/2026/09/19/unitedplugins-firemaximizer-free/",
-   "date": "2026-09-19T11:08:01.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/firemaximizer.jpg",
-   "resume": "UnitedPlugins is offering FireMaximizer for free until October 18, 2026, as part of a collaboration with the Japanese シユウの作曲・DTM講座 channel. Add the plugin to your cart, then enter the coupon code SiyuFMX100 at checkout…",
-   "titre_fr": "Obtenez UnitedPlugins FireMaximizer GRATUIT jusqu'au 18 octobre",
-   "resume_fr": "UnitedPlugins offre FireMaximizer gratuitement jusqu'au 18 octobre 2026, en collaboration avec la chaîne シユウの作曲・DTM講座. Ajoute le plugin à ton panier, puis rentre le code promo SiyuFMX100 à la caisse..."
-  },
-  {
    "source": "synthtopia",
    "titre": "Arturia MiniFreak Gets Sample Import, User Wavetables & More",
    "lien": "https://www.synthtopia.com/content/2026/09/18/arturia-minifreak-gets-sample-import-user-wavetables-more/",
@@ -528,36 +592,6 @@
    "resume": "Xfer Records released Steve Duda’s Serum plugin 12 years ago. It was an instant classic that went on to become the synth of choice for many producers due to its ease of use, flexibility and complex, upfront sound Then…",
    "titre_fr": "Serum 2 vs Vital : tu dois payer pour la synthèse de qualité pro ?",
    "resume_fr": "Xfer Records a sorti le plugin Serum de Steve Duda il y a 12 ans. C'est devenu un classique instantané qui s'est imposé comme le synth de choix pour de nombreux producteurs grâce à sa facilité d'utilisation, sa flexibilité et son son complexe et direct Puis..."
-  },
-  {
-   "source": "musictech",
-   "titre": "“It’s so important”: Nick Hakim explains why every producer should learn their DAW’s key commands",
-   "lien": "https://musictech.com/news/gear/nick-hakim-explains-why-every-producer-should-learn-their-daw-key-commands-my-forever-studio/",
-   "date": "2026-09-18T14:54:05.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/09/Nick-Hakim-hero@2000x1500.jpg",
-   "resume": "As a producer, you’re going to drastically supercharge your workflow if you spend some time learning the key commands of your chosen DAW. It might seem like a boring task to sit down and learn them, but knowing how to…",
-   "titre_fr": "« C'est tellement important » : Nick Hakim explique pourquoi chaque producteur devrait apprendre les raccourcis clavier de sa DAW",
-   "resume_fr": "En tant que producteur, tu vas considérablement surcharger ton workflow si tu passes du temps à apprendre les raccourcis clavier de ta DAW de choix. Ça peut sembler une tâche ennuyeuse de te mettre à les apprendre, mais connaître comment..."
-  },
-  {
-   "source": "musictech",
-   "titre": "With an 800 nanometer diamond-coated diaphragm, FiiO’s new FT15 headphones are for the serious audiophile",
-   "lien": "https://musictech.com/news/gear/fiio-ft-15-headphones/",
-   "date": "2026-09-18T08:56:45.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/09/FiiO-1@2000x1500.jpg",
-   "resume": "High-end audio dealer FiiO has just released a new pair of headphones for the ultimate audiophile. In general, three main audio components dictate the sound quality in a set of cans: driver, diaphragm, and build…",
-   "titre_fr": "Avec un diaphragme recouvert de diamant de 800 nanomètres, les nouveaux écouteurs FT15 de FiiO sont destinés à l'audiophile sérieux",
-   "resume_fr": "Le revendeur audio haut de gamme FiiO vient de lancer une nouvelle paire d'écouteurs pour l'audiophile ultime. En général, trois composants audio principaux dictent la qualité sonore d'un set d'écouteurs: le driver, le diaphragme et la construction…"
-  },
-  {
-   "source": "musictech",
-   "titre": "Six of the best earplugs for hearing protection at gigs and festivals",
-   "lien": "https://musictech.com/guides/buyers-guide/best-earplugs-hearing-protection-at-gigs-and-festivals/",
-   "date": "2026-09-18T08:00:50.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2027/09/Drummer-with-earplugs-image-TomLester-Getty@2000x1500.jpg",
-   "resume": "Are you keeping your hearing in check? The World Health Organisation reports that by 2050, nearly 2.5 billion people are projected to have some degree of hearing loss, and more than 700 million will require hearing…",
-   "titre_fr": "Six des meilleurs bouchons auditifs pour la protection auditive aux gigs et festivals",
-   "resume_fr": "Prenez-vous soin de votre audition ? L'Organisation mondiale de la santé rapporte qu'en 2050, près de 2,5 milliards de personnes devraient souffrir d'une certaine forme de perte auditive, et plus de 700 millions auront besoin…"
   },
   {
    "source": "synthtopia",
@@ -744,14 +778,6 @@
    "resume_fr": "Tapechild UDS-16 est un synthétiseur de drums 16 voix avec quatre modèles de synthèse inspirés par le Lel UDS et le Formanta Rockton, plus un moteur développé par Tapechild, avec tous les sons générés en temps réel plutôt que joués…"
   },
   {
-   "source": "tsugi",
-   "titre": "Live Report : La Fête de l’Huma, la fête partout pour toutes et tous",
-   "lien": "https://www.tsugi.fr/live-report-la-fete-de-lhuma-la-fete-partout-pour-toutes-et-tous/",
-   "date": "2026-09-14T15:20:37.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/live-report-la-fete-de-lhuma-la-fete-partout-pour-toutes-et-tous.jpg?hash=cdn-c43b0f55a20e0582aded9fb113392603",
-   "resume": "Chef oui chef, nous avons quitté la base 217 de Brétigny-sur-Orge après un week-end à La Fête de l’Humanité. Même après 40 milles pas sur les deux jours, il nous a été impossible de jeter un coup d’œil à tout ce que le…"
-  },
-  {
    "source": "attack",
    "titre": "Erica Synths Bullfrog Drums: More Than a Drum Machine",
    "lien": "https://www.attackmagazine.com/reviews/gear-software/erica-synths-bullfrog-drums-more-than-a-drum-machine/",
@@ -812,22 +838,6 @@
    "resume_fr": "Noise Engineering a lancé 16 nouvelles options firmware pour sa plateforme de module Eurorack Legio…"
   },
   {
-   "source": "tsugi",
-   "titre": "Marée Électronique : un open-air entre patrimoine, DJ-sets et VJing",
-   "lien": "https://www.tsugi.fr/la-maree-electronique-un-open-air-entre-patrimoine-dj-sets-et-vjing/",
-   "date": "2026-09-11T14:17:56.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/la-maree-electronique-un-open-air-entre-patrimoine-dj-sets-et-vjing.jpg?hash=cdn-1d07ded07dcea06db0de9cbfae4088c6",
-   "resume": "Pour nos adeptes de concepts inédits, la première édition de Marée Électronique prévue le 19 septembre prochain est faite pour vous ! Postés sur le barrage de Couesnon, vous pourrez danser aux rythmes de musiques…"
-  },
-  {
-   "source": "tsugi",
-   "titre": "Zaatar, FKJ, Bonobo… Les sorties de la semaine",
-   "lien": "https://www.tsugi.fr/zaatar-fkj-bonobo-les-sorties-de-la-semaine/",
-   "date": "2026-09-11T13:00:51.000Z",
-   "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/zaatar-fkj-bonobo-les-sorties-de-la-semaine.jpg?hash=cdn-2179aa68b1fa47fe7a661e72d9d34c82",
-   "resume": "Alors que nous recommençons à mettre des pulls et des vestes — snif — heureusement que les sorties musicales de la semaine sont toujours là pour nous réchauffer le cœur. Au coin du feu — oui, on abuse un peu — cette…"
-  },
-  {
    "source": "attack",
    "titre": "XILS-lab Launches MemoryTone Software Synthesiser",
    "lien": "https://www.attackmagazine.com/news/xils-lab-launches-memorytone-software-synthesiser/",
@@ -886,16 +896,6 @@
    "resume": "",
    "titre_fr": "Made in Ableton Live: KVNDRA",
    "resume_fr": ""
-  },
-  {
-   "source": "cdm",
-   "titre": "Eminently controllable, accessible by design, Sting is now a plug-in",
-   "lien": "https://cdm.link/sting-the-plugin/",
-   "date": "2026-09-08T18:57:31.000Z",
-   "image": "https://cdm.link/app/uploads/2026/09/CleanShot-2026-09-08-at-20.29.51.png",
-   "resume": "Now this is how to do generative melodies. Add expression. Get control with your hands. Make melodies accessible -- including if you're blind and visually impaired. Sting, the beloved maker of acid melodies and other…",
-   "titre_fr": "Aisément contrôlable, accessible par conception, Sting est maintenant un plugin",
-   "resume_fr": "Voilà comment faire des mélodies génératives. Ajoutez de l'expression. Prenez le contrôle avec vos mains. Rendez les mélodies accessibles, y compris si vous êtes aveugle ou malvoyant. Sting, le créateur bien-aimé de acid mélodies et d'autres..."
   },
   {
    "source": "attack",
@@ -1398,126 +1398,6 @@
    "resume_fr": "Le DJ-producteur écossais Jack Revill, mieux connu sous le nom de Jackmaster, est décédé d'un traumatisme crânien accidentel, à 38 ans. La famille de Revill a confirmé la nouvelle sur Instagram hier. « C'est avec une profonde tristesse que nous confirmons…"
   },
   {
-   "source": "djmag",
-   "titre": "James Hype teases new 16-deck DJ setup",
-   "lien": "https://djmag.com/james-hype-teases-new-16-deck-dj-setup",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/unnamed_0.png.webp?itok=3tlKMeP029266646",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“Maybe we’ve been thinking too small”</p> </div>",
-   "titre_fr": "James Hype tease une nouvelle setup DJ à 16 decks",
-   "resume_fr": "« Peut-être que nous avons pensé trop petit »"
-  },
-  {
-   "source": "djmag",
-   "titre": "Armin van Buuren stars in new mini-documentary filmed at [UNVRS]: Watch",
-   "lien": "https://djmag.com/news/armin-van-buuren-stars-new-mini-documentary-filmed-unvrs-watch",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/799170338_893319686991424_8649373282544103776_n.jpeg.webp?itok=AgilQbQq1811939132",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The short film, titled <em>The Psychology of the Dancefloor</em>, explores what happens in…",
-   "titre_fr": "Armin van Buuren vedette d'un nouveau mini-documentaire filmé à [UNVRS] : À regarder",
-   "resume_fr": "Le court métrage, intitulé The Psychology of the Dancefloor, explore ce qui se passe…"
-  },
-  {
-   "source": "djmag",
-   "titre": "UK vinyl counterfeiter behind major fraud operation sentenced to prison",
-   "lien": "https://djmag.com/news/uk-vinyl-counterfeiter-behind-major-fraud-operation-sentenced-prison",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/vinyl_0.png.webp?itok=N3TVhi7s303274704",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Rehan Ahmed reportedly cashed in £2.7 million from the scheme over seven years</p> </div>",
-   "titre_fr": "Le contrefacteur de vinyles britannique derrière une grande opération frauduleuse condamné à la prison",
-   "resume_fr": "Rehan Ahmed aurait encaissé 2,7 millions de livres sterling grâce à ce stratagème sur sept ans"
-  },
-  {
-   "source": "djmag",
-   "titre": "Madonna teases Charli XCX remix of ‘Danceteria’: Listen",
-   "lien": "https://djmag.com/news/madonna-teases-charli-xcx-remix-of-danceteria-listen",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Untitled%20design%20%2816%29.png.webp?itok=s6kXUnpl1866799357",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>‘Danceteria’ is taken from Madonna’s latest album, ‘Confessions On A Dance Floor: Part…",
-   "titre_fr": "Madonna taquine le remix de Charli XCX de « Danceteria » : écoutez",
-   "resume_fr": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>« Danceteria » est extrait du dernier album de Madonna, « Confessions On A Dance Floor: Part…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Chase & Status announce 2027 UK and European arena tour",
-   "lien": "https://djmag.com/news/chase-status-announce-2027-uk-and-european-arena-tour",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/pressshot.webp?itok=sWqurTf61401348888",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The London duo will take their forthcoming album ‘Generic Everything’ on the road next…",
-   "titre_fr": "Chase & Status annoncent une tournée arenas UK et européenne 2027",
-   "resume_fr": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Le duo londonien emmènera son album à venir « Generic Everything » sur les routes l'année prochaine…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Watch Alok play to a record-breaking crowd at Rock in Rio 2026",
-   "lien": "https://djmag.com/news/watch-alok-play-record-breaking-crowd-rock-rio-2026",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/ALOK-cover-10.jpg.webp?itok=CqDDSTkE1881689420",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The Brazilian DJ closed the New Dance Order stage on Saturday in front of its largest-ever…",
-   "titre_fr": "Regardez Alok jouer devant un crowd record à Rock in Rio 2026",
-   "resume_fr": "Le DJ brésilien a fermé la scène New Dance Order samedi devant son plus grand crowd de tous les temps…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Calvin Harris DJs for 1.6 million people at record-breaking São Paulo show",
-   "lien": "https://djmag.com/news/calvin-harris-djs-16-million-people-record-breaking-sao-paulo-show",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/SaveClip.App_807830440_18629667052009548_7686120003953563246_n.jpg.webp?itok=N_ziFv4z2046199606",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“Only in Brazil!!! This was a truly insane day”</p> </div>",
-   "titre_fr": "Calvin Harris DJ pour 1,6 million de personnes lors du show record-breaking de São Paulo",
-   "resume_fr": "« Only in Brazil!!! C'était une journée vraiment dingue »"
-  },
-  {
-   "source": "djmag",
-   "titre": "Free 24 Hour Party People screenings set for UK cinemas next month",
-   "lien": "https://djmag.com/news/free-24-hour-party-people-screenings-set-uk-cinemas-next-month",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/eyJidWNrZXQiOiJzdGF0aWMudXNoZXJ1LmNvbSIsImtleSI6ImltZy9tb3ZpZXMvdzc4MF9jNjM5UldGSFh2TDAyTXRwMVQwWlNUOGQ1RmouanBnIiwiZWRpdHMiOnsicmVzaXplIjp7ImZpdCI6ImNvdmVyIiwid2lkdGgiOjE5MjB9fX0%3D_0.webp?itok=s1auv59X130829190",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The 2002 film stars Steve Coogan as Factory Records and The Haçienda founder, Tony…",
-   "titre_fr": "Les projections gratuites de 24 Hour Party People prévues dans les cinémas britanniques le mois prochain",
-   "resume_fr": "Le film de 2002 met en vedette Steve Coogan dans le rôle de Tony Wilson, fondateur de Factory Records et The Haçienda…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Miss Monique and Robbie Williams share collaborative single, ‘Beauty In Us’: Listen",
-   "lien": "https://djmag.com/news/miss-monique-and-robbie-williams-share-collaborative-single-beauty-us-listen",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Screenshot%202026-09-14%20at%2016.34.21.png.webp?itok=HE4ClM_S1875470698",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Out now, the track is inspired by the duo’s “different but equally defining experiences of…",
-   "titre_fr": "Miss Monique et Robbie Williams partagent un single collaboratif, 'Beauty In Us': Écoutez",
-   "resume_fr": "Sorti maintenant, le track est inspiré des « expériences différentes mais tout aussi marquantes » du duo…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Listen to Ahadadream’s debut album, ‘P ★ K I’",
-   "lien": "https://djmag.com/news/listen-ahadadreams-debut-album-p-k-i",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/ahadadream-credit-radhika-muthanna.jpg.webp?itok=aoawnQvr75449857",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“This is a word which I grew up in Pakistan knowing to be nothing but positive, but was…",
-   "titre_fr": "Écoutez l'album de débuts d'Ahadadream, 'P ★ K I'",
-   "resume_fr": "« C'est un mot que j'ai grandi en Pakistan en sachant qu'il n'était que positif, mais était… »"
-  },
-  {
-   "source": "djmag",
-   "titre": "AI ‘artists’ set to perform ‘live’ at first AI Music Awards in Los Angeles",
-   "lien": "https://djmag.com/news/ai-artists-set-perform-live-first-ai-music-awards-los-angeles",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Screenshot%202026-09-18%20at%2018.51.15.png.webp?itok=99CZIufr578836124",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The creators behind each AI “artist” will be “directing the stage”, according to…",
-   "titre_fr": "Des « artistes » IA s'apprêtent à se produire « live » aux premiers AI Music Awards à Los Angeles",
-   "resume_fr": "Les créateurs derrière chaque « artiste » IA seront « en train de diriger la scène », selon…"
-  },
-  {
-   "source": "djmag",
-   "titre": "RÜFÜS DU SOL’s 2026 world tour becomes highest-grossing in electronic music history",
-   "lien": "https://djmag.com/news/rufus-du-sols-2026-world-tour-becomes-highest-grossing-electronic-music-history",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/453629925_1041871200628919_4031931994403780005_n.jpg.webp?itok=Ezg4g2Pt312502225",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The Australian trio’s latest run has generated $158 million and sold 1.7 million tickets…",
-   "titre_fr": "La tournée mondiale 2026 de RÜFÜS DU SOL devient la plus rentable de l'histoire de la musique électronique",
-   "resume_fr": "La dernière tournée du trio australien a généré 158 millions de dollars et vendu 1,7 million de tickets"
-  },
-  {
    "source": "mixmag",
    "titre": "Celebrated IDM and electro artist Vector Lovers has died",
    "lien": "https://mixmag.net/read/celebrated-idm-electro-artist-vector-lovers-died-news",
@@ -1576,6 +1456,126 @@
    "resume": "Pakistan-born artist Ahadadream has spent more than 15 years immersed in UK dance music, empowered by the dancefloor as a space to embrace all sides of himself and transforming the scene through his own contributions…",
    "titre_fr": "Sur son album de débuts « P ★ K I », Ahadadream fait une déclaration audacieuse d'amour-propre",
    "resume_fr": "L'artiste née au Pakistan Ahadadream a passé plus de 15 ans immergée dans la musique dance britannique, renforcée par le dancefloor en tant qu'espace pour embrasser tous les côtés d'elle-même et transformant la scène à travers ses propres contributions…"
+  },
+  {
+   "source": "mixmag",
+   "titre": "The Cover Mix: Ahadadream",
+   "lien": "https://mixmag.net/feature/ahadadream-dj-cover-mix-mixmag-lab-london",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/MM_COVERMIX_AHAD_WEB2.jpg?fit=cover&format=baseline-jpeg&height=630&width=1200&s=PFnF-NGczSyT3L3jnHQhapLE2ODEfrhH0Na62lsy1ws",
+   "resume": "To celebrate the release of his debut album ‘P ★ K I’, Ahadadream hosted rousing launch party in the Mixmag Lab London",
+   "titre_fr": "The Cover Mix : Ahadadream",
+   "resume_fr": "Pour célébrer la sortie de son album inaugural « P ★ K I », Ahadadream a organisé une fête de lancement enthousiaste au Mixmag Lab London"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Mastermind behind UK's biggest-ever vinyl counterfeit operation sentenced to prison",
+   "lien": "https://mixmag.net/read/mastermind-uk-biggest-ever-vinyl-counterfeit-operation-sentenced-to-three-years-in-prison-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/Vinyl_2026-09-21-140103_wmjq.jpg?fit=cover&width=660&s=aHUxsLvihlACMeaW4-_3ggs3v4rOQzeIz6MzmzVwHGY",
+   "resume": "Rehan Ahmed was found to have earned £2.4 million from the sale of fake vinyl releases from artists such as The Beatles, Taylor Swift and Ed Sheeran",
+   "titre_fr": "Le cerveau derrière l'plus grande opération de contrefaçon de vinyl du Royaume-Uni condamné à la prison",
+   "resume_fr": "Rehan Ahmed aurait gagné 2,4 millions de livres sterling avec la vente de faux disques vinyle d'artistes comme The Beatles, Taylor Swift et Ed Sheeran"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Long-running Budapest nightclub Aether to close, citing financial strain",
+   "lien": "https://mixmag.net/read/long-running-budapest-nightclub-aether-close-citing-financial-strain-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/aether-club.jpg?fit=cover&width=660&s=v4zQGyiE_D6m5bg0R5sTzt4or-GTqANODdA1xy9zUFk",
+   "resume": "The venue, which will close this weekend after 11 years, has hinted that it could return if things become \"favourable\" in the future",
+   "titre_fr": "Le nightclub de longue date Aether à Budapest ferme, citant des difficultés financières",
+   "resume_fr": "Le lieu, qui fermera ce week-end après 11 ans, a laissé entendre qu'il pourrait réapparaître si les choses deviennent « favorables » à l'avenir"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Calvin Harris sets Guinness World Record for biggest-ever crowd at a DJ set",
+   "lien": "https://mixmag.net/read/calvin-harris-guinness-world-record-dj-set-sao-paulo-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/Calvin-Harris_2026-09-21-115748_arso.jpg?fit=cover&width=660&s=c404h1AiNJu5f6wmmRuP5PbC2pFws6r3UDmdxXIAPmk",
+   "resume": "The Scottish DJ and producer played in front of 1.6 million people in São Paulo earlier this year",
+   "titre_fr": "Calvin Harris établit un record Guinness World pour la plus grande foule jamais vue à un set de DJ",
+   "resume_fr": "Le DJ et producteur écossais a joué devant 1,6 million de personnes à São Paulo plus tôt cette année"
+  },
+  {
+   "source": "mixmag",
+   "titre": "10 lost David Bowie tracks released on streaming for the first time",
+   "lien": "https://mixmag.net/read/ten-10-lost-david-bowie-tracks-released-streaming-first-time-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/david-bowie-lost-musicc.jpg?fit=cover&width=660&s=58acdjjDp3_vKEy-2lgUJWQWBkZ--Ia-1rYZO_EEg5I",
+   "resume": "The tracks were filed under his birth name, David Jones, in the ‘60s and are said to be his most “visceral and raw” creations",
+   "titre_fr": "10 morceaux perdus de David Bowie sortis en streaming pour la première fois",
+   "resume_fr": "Les morceaux ont été classés sous son nom de naissance, David Jones, dans les années 60 et seraient ses créations les plus « viscérales et brutes »"
+  },
+  {
+   "source": "djmag",
+   "titre": "James Hype teases new 16-deck DJ setup",
+   "lien": "https://djmag.com/james-hype-teases-new-16-deck-dj-setup",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/unnamed_0.png.webp?itok=3tlKMeP02003839857",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“Maybe we’ve been thinking too small”</p> </div>",
+   "titre_fr": "James Hype tease une nouvelle setup DJ à 16 decks",
+   "resume_fr": "« Peut-être que nous avons pensé trop petit »"
+  },
+  {
+   "source": "djmag",
+   "titre": "Apple opens 600-capacity venue in London",
+   "lien": "https://djmag.com/news/apple-opens-600-capacity-venue-london",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Apple-Music-Hall-exterior.jpg.webp?itok=wORVCzrj472425941",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Apple VP Oliver Schusser said: “We have really no interest in trying to be in the way of…",
+   "titre_fr": "Apple ouvre un lieu de 600 capacités à Londres",
+   "resume_fr": "La vice-présidente d'Apple Oliver Schusser a déclaré : « Nous n'avons vraiment aucun intérêt à essayer de nous mettre en travers du…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Gorillaz reissue ‘Demon Days’, ‘Plastic Beach’ and self-titled album on colour vinyl and cassette",
+   "lien": "https://djmag.com/news/gorillaz-reissue-demon-days-plastic-beach-and-self-titled-album-colour-vinyl-and-cassette",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/gorillaz-2_0.jpg.webp?itok=7tcULvVu2046899050",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The 25th anniversary collection will also feature a 500-piece jigsaw puzzle, slipmat…",
+   "titre_fr": "Gorillaz réédite « Demon Days », « Plastic Beach » et l'album éponyme sur vinyle de couleur et cassette",
+   "resume_fr": "La collection pour le 25e anniversaire comprendra également un puzzle de 500 pièces, un slipmat…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Armin van Buuren stars in new mini-documentary filmed at [UNVRS]: Watch",
+   "lien": "https://djmag.com/news/armin-van-buuren-stars-new-mini-documentary-filmed-unvrs-watch",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/799170338_893319686991424_8649373282544103776_n.jpeg.webp?itok=AgilQbQq2082801338",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The short film, titled <em>The Psychology of the Dancefloor</em>, explores what happens in…",
+   "titre_fr": "Armin van Buuren vedette d'un nouveau mini-documentaire filmé à [UNVRS] : À regarder",
+   "resume_fr": "Le court métrage, intitulé The Psychology of the Dancefloor, explore ce qui se passe…"
+  },
+  {
+   "source": "djmag",
+   "titre": "UK vinyl counterfeiter behind major fraud operation sentenced to prison",
+   "lien": "https://djmag.com/news/uk-vinyl-counterfeiter-behind-major-fraud-operation-sentenced-prison",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/vinyl_0.png.webp?itok=N3TVhi7s477441524",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Rehan Ahmed reportedly cashed in £2.7 million from the scheme over seven years</p> </div>",
+   "titre_fr": "Le contrefacteur de vinyles britannique derrière une grande opération frauduleuse condamné à la prison",
+   "resume_fr": "Rehan Ahmed aurait encaissé 2,7 millions de livres sterling grâce à ce stratagème sur sept ans"
+  },
+  {
+   "source": "djmag",
+   "titre": "Madonna teases Charli XCX remix of ‘Danceteria’: Listen",
+   "lien": "https://djmag.com/news/madonna-teases-charli-xcx-remix-of-danceteria-listen",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Untitled%20design%20%2816%29.png.webp?itok=s6kXUnpl589619358",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>‘Danceteria’ is taken from Madonna’s latest album, ‘Confessions On A Dance Floor: Part…",
+   "titre_fr": "Madonna taquine le remix de Charli XCX de « Danceteria » : écoutez",
+   "resume_fr": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>« Danceteria » est extrait du dernier album de Madonna, « Confessions On A Dance Floor: Part…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Chase & Status announce 2027 UK and European arena tour",
+   "lien": "https://djmag.com/news/chase-status-announce-2027-uk-and-european-arena-tour",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/pressshot.webp?itok=sWqurTf61069586527",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The London duo will take their forthcoming album ‘Generic Everything’ on the road next…",
+   "titre_fr": "Chase & Status annoncent une tournée arenas UK et européenne 2027",
+   "resume_fr": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Le duo londonien emmènera son album à venir « Generic Everything » sur les routes l'année prochaine…"
   }
  ],
  "pannes": []
