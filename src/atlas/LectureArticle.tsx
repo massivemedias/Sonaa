@@ -141,6 +141,24 @@ export function LectureArticle({ url, titre, source, image, idSource, langueSour
   const lu = typeof etat === 'object' ? etat : null;
   const blocs = traduction ?? lu?.corps ?? [];
 
+  /* UNE PHOTO, PAS DEUX. Mika, le 23 septembre 2026, sur un article de
+     MusicTech ou la meme image se suivait deux fois : celle du flux, en
+     tete, puis la premiere du corps, qui est presque toujours la meme photo
+     sous une autre adresse (taille, CDN). Deux regles : l'image de tete
+     s'efface quand le corps ouvre sur une image, et une adresse deja vue
+     dans le corps n'y est pas rendue une seconde fois. */
+  const cle = (u: string) => u.split('?')[0]?.replace(/-\d+x\d+(?=\.\w+$)/, '') ?? u;
+  const corpsOuvreSurImage = blocs.slice(0, 2).some((m) => m.t === 'img');
+  const imageDeTete = image && !corpsOuvreSurImage && !blocs.some((m) => m.t === 'img' && cle(m.x) === cle(image)) ? image : null;
+  const vues = new Set<string>();
+  const blocsSansDoublon = blocs.filter((m) => {
+    if (m.t !== 'img') return true;
+    const k = cle(m.x);
+    if (vues.has(k)) return false;
+    vues.add(k);
+    return true;
+  });
+
   const versLaSource = (
     <a className="lecture-source-lien" href={url} target="_blank" rel="noreferrer noopener">
       {t.lireSur(site)}
@@ -160,7 +178,7 @@ export function LectureArticle({ url, titre, source, image, idSource, langueSour
       <h1 className="lecture-titre">{titre ?? site}</h1>
       <p className="lecture-haut-lien">{versLaSource}</p>
 
-      {image && <img className="lecture-image" src={image} alt="" referrerPolicy="no-referrer" />}
+      {imageDeTete && <img className="lecture-image" src={imageDeTete} alt="" referrerPolicy="no-referrer" />}
 
       {etat === 'chargement' && <p className="news-note">{t.articleEnLecture}</p>}
       {etat === 'panne' && <p className="news-note">{t.articleIllisible}</p>}
@@ -169,7 +187,7 @@ export function LectureArticle({ url, titre, source, image, idSource, langueSour
       {traduitEnCours && <p className="lecture-avis">{t.traductionEnCours}</p>}
       {traduction && <p className="lecture-avis">{t.traduitParMachine}</p>}
 
-      {blocs.map((m, i) => {
+      {blocsSansDoublon.map((m, i) => {
         if (m.t === 'img')
           return (
             <img
