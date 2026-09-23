@@ -27,7 +27,7 @@ import { t } from '../langue/langue.ts';
 import { Apparition } from '../design/mouvement.tsx';
 import { FAMILIES, STRUCTURES } from '../atlas/structures.ts';
 import { slug } from '../lib/chemins.ts';
-import { capturer, SECONDES_CAPTURE } from './capture.ts';
+import { capturer, NIVEAU_MINIMAL, SECONDES_CAPTURE } from './capture.ts';
 import { chargerMoteur, POIDS_MODELE_MO, type Prediction } from './modele.ts';
 import { familleSonaa, nomCourt, styleDeLEtiquette } from './discogs-vers-sonaa.ts';
 import { ajouterAlHistorique, lireHistorique, viderHistorique, type Reconnaissance } from './historique.ts';
@@ -62,6 +62,10 @@ export function ReconnaitrePage() {
   const [seconde, setSeconde] = useState(0);
   const [styles, setStyles] = useState<readonly Prediction[]>([]);
   const [morceau, setMorceau] = useState<MorceauReconnu | null>(null);
+  /* POURQUOI IL N'Y A PAS DE MORCEAU. Mesure le 22 septembre 2026 : la route
+     repondait `null` sans distinguer « AudD n'a rien reconnu » de « AudD
+     refuse, quota atteint », et la page se taisait dans les deux cas. */
+  const [raisonMorceau, setRaisonMorceau] = useState<string>('');
   const [erreur, setErreur] = useState<string>('');
   const [historique, setHistorique] = useState<readonly Reconnaissance[]>([]);
   const [morceauActif, setMorceauActif] = useState(false);
@@ -114,24 +118,45 @@ export function ReconnaitrePage() {
       void moteur.prechauffer();
       const capture = await capturer((s) => setSeconde(s));
 
+      /* SON TROP FAIBLE : ON LE DIT, ON NE CLASSE PAS. Un micro coupe ou une
+         piece silencieuse donnaient un style avec sa jauge, ou une erreur
+         sans nom quand Essentia plantait sur du zero. Voir NIVEAU_MINIMAL. */
+      if (capture.niveau < NIVEAU_MINIMAL) {
+        setErreur(t.reconnaitreSonTropFaible);
+        setEtat('erreur');
+        return;
+      }
+
       setEtat('analyse');
       const trouves = await moteur.predire(capture.pcm);
       setStyles(trouves);
 
       /* LE MORCEAU EST DEMANDE APRES, ET SON ECHEC N'EFFACE PAS LE STYLE. */
       let reconnu: MorceauReconnu | null = null;
+      let raison = '';
       if (morceauActif && accepteMorceau) {
         try {
-          const r = await fetch(`${PASSERELLE}/api/reconnaitre-track`, { method: 'POST', body: capture.extrait });
-          if (r.ok) {
-            const lu = (await r.json()) as { morceau: MorceauReconnu | null };
-            reconnu = lu.morceau;
+          const r = await fetch(`${PASSERELLE}/api/reconnaitre-track`, {
+            method: 'POST',
+            headers: { 'content-type': capture.extrait.type || 'application/octet-stream' },
+            body: capture.extrait,
+          });
+          const lu = (await r.json().catch(() => ({}))) as { morceau?: MorceauReconnu | null; raison?: string | null; erreur?: string };
+          reconnu = r.ok ? (lu.morceau ?? null) : null;
+          raison = lu.raison ?? lu.erreur ?? (r.ok ? '' : `HTTP ${r.status}`);
+          if (import.meta.env.DEV) {
+            (window as unknown as { __sonaaReco?: Record<string, unknown> }).__sonaaReco = {
+              ...(window as unknown as { __sonaaReco?: Record<string, unknown> }).__sonaaReco,
+              morceau: { statut: r.status, corps: lu },
+            };
           }
-        } catch {
-          /* Reseau coupe ou quota atteint : le style suffit. */
+        } catch (e) {
+          /* Reseau coupe : le style suffit, mais on le dit. */
+          raison = e instanceof Error ? e.message : String(e);
         }
       }
       setMorceau(reconnu);
+      setRaisonMorceau(raison);
       setEtat('resultat');
 
       setHistorique(
@@ -250,7 +275,17 @@ export function ReconnaitrePage() {
                   </div>
                 </div>
               ) : (
-                <p className="rc-note">{t.reconnaitreSansMorceau}</p>
+                <>
+                  <p className="rc-morceau-titre">{t.reconnaitreMorceauNonIdentifie}</p>
+                  {/* JAMAIS DE SILENCE : « rien reconnu » et « le service refuse »
+                      sont deux phrases differentes, et la seconde porte la
+                      raison telle que le service la donne. */}
+                  <p className="rc-note">
+                    {raisonMorceau === 'aucun resultat' || raisonMorceau === ''
+                      ? t.reconnaitreSansMorceau
+                      : t.reconnaitreServiceRefuse(raisonMorceau)}
+                  </p>
+                </>
               )}
             </Apparition>
           )}

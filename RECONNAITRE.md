@@ -12,7 +12,7 @@ Le code vit dans `src/reconnaitre/`, la route de la passerelle dans
 
 | Mesure | Valeur |
 |---|---|
-| Réseau | DiscogsResNet, le modèle de la démonstration officielle d'Essentia |
+| Réseau | DiscogsResNet, le modèle tfjs de la démonstration `discogs-autotagging` du dépôt MTG/essentia.js, au même octet près |
 | Entrée | 128 trames de 96 bandes mel, à 16 000 Hz |
 | Sortie | 400 styles Discogs |
 | Poids | 45 483 872 octets, soit **43,4 Mo**, en 11 fichiers plus un descripteur |
@@ -74,13 +74,13 @@ vérifiée par huit tests.
 | | Nombre |
 |---|---|
 | Étiquettes du modèle | 400 |
-| Styles électroniques | 106 |
+| Styles électroniques | 107 |
 | Électroniques avec un genre SONAA exact | 87 |
-| Électroniques sans genre exact, rattachés à une famille | 19 |
+| Électroniques sans genre exact, rattachés à une famille | 20 |
 | Non électroniques que SONAA couvre quand même | 12 |
-| Non électroniques sans équivalent, affichés en gris | 282 |
+| Non électroniques sans équivalent, affichés en gris | 281 |
 
-### Les dix-neuf styles électroniques sans genre SONAA
+### Les vingt styles électroniques sans genre SONAA
 
 Ils sont trop larges pour un genre, ou absents de l'atlas. Chacun garde une
 famille SONAA, donc le lecteur est envoyé quelque part de juste.
@@ -92,6 +92,7 @@ famille SONAA, donc le lecteur est envoyé quelque part de juste.
 | Euro House, House, Tropical House | house |
 | Neofolk, New Wave, Noise | industrial |
 | Hands Up | hardcore |
+| Neo Trance | trance |
 | Synthwave | electro |
 | Techno | techno |
 | Vaporwave | downtempo |
@@ -143,3 +144,57 @@ underground. Le style est présenté comme une estimation faite sur dix
 secondes, et la phrase est à l'écran, sous le résultat : une voix, une
 publicité ou un enchaînement le trompent. Le modèle a été entraîné sur des
 morceaux entiers, pas sur dix secondes de radio avec un animateur par-dessus.
+
+## 7. L'audit du 22 septembre 2026 : ce qui était faux, et ce qui a été mesuré
+
+Constat en production : deep house et hypnotic techno donnaient le même trio
+« Hi NRG / Dance-pop / Hardstyle », et aucun morceau ne s'affichait.
+
+**Le banc.** `scripts/banc-reconnaitre.mjs` lance Chrome avec un faux micro
+qui lit un fichier WAV, pilote la page comme un visiteur, et rend ce que le
+visiteur aurait vu plus les mesures que la page expose en développement.
+Rien n'est contourné : getUserMedia, MediaRecorder, décodage, rééchantillonnage,
+fenêtres, réseau, envoi à la passerelle.
+
+**Le morceau.** AudD répond `status: error`, code 902, « authorization failed:
+the limit was reached », pour trois extraits de morceaux publiés, en WebM/Opus
+comme en WAV 16 kHz. Le quota du jeton est épuisé. La route rendait `null`
+dans ce cas comme dans « rien reconnu » ; elle rend maintenant `raison`, et la
+page l'affiche sous « Morceau non identifié ». Le format envoyé est mesuré :
+`audio/webm;codecs=opus`, 8 tranches d'une seconde, 130 684 octets, reçus tels
+quels par la passerelle. La conversion en WAV n'a pas été faite : elle ne se
+justifie que si AudD refuse le format, et il refuse avant de le lire.
+
+**Le style.** Le chemin est fidèle : décodé à 48 000 Hz, ramené à 160 320
+échantillons à 16 000 Hz pour 10,02 s ; un appel groupé et quatre appels
+séparés donnent les mêmes 400 sorties à 0 près ; le même fichier passé sans
+micro donne le même top 3 à 0,02 à 0,12 près. Les paramètres suivent la fiche
+officielle, TensorflowInputMusiCNN à 16 kHz, trames de 512, saut de 256, 96
+bandes, fenêtres de 128 trames, à un écart près : le saut entre fenêtres est
+de 128 trames ici, 62 dans l'algorithme d'Essentia et 64 dans la démonstration.
+
+**La cause était l'ordre des étiquettes.** La table suivait l'ordre des classes
+d'un autre modèle, la tête discogs400 pour EffnetDiscogs. La démonstration
+d'où vient le réseau range les mêmes noms autrement, et sept diffèrent. À 268
+index sur 400, le nom affiché était celui d'une autre classe : « Hi NRG »
+était House, « Dance-pop » était Deep House, « Hardstyle » était Hip-House.
+Le trio vu sur de la deep house était donc juste, et mal nommé. L'ordre vit
+maintenant dans `etiquettes-modele.ts`, copié de la démonstration, et un test
+tient les deux listes ensemble.
+
+| Extrait | Avant | Après |
+|---|---|---|
+| Extrawelt, Herz aus Blech | Tech House 82, Hi NRG 67, Dark Ambient 27 | Techno 82, House 67, Deep Techno 27 |
+| Biesmans, On the Run | Minimal Techno 38, Tech House 34, Hi NRG 34 | Neo Trance 38, Techno 34, House 34 |
+| Affkt, Roommush | Power Electronics 36, Hi NRG 19, Minimal Techno 8 | Progressive House 36, House 19, Neo Trance 8 |
+| Pardon Moi, Damon Jee remix | Minimal Techno 46, Power Electronics 39, Tech House 35 | Neo Trance 46, Progressive House 39, Techno 35 |
+
+**Le niveau.** Musique : 0,15 à 0,37 de niveau efficace. Sinusoïde à -44 dBFS :
+0,006, et le réseau répondait quand même « Euro-Disco 19 % ». Silence : 0, et
+Essentia levait une exception brute dans le WASM. Sous 0,01 la page dit « Son
+trop faible » et ne classe pas. Le seuil est provisoire : aucun vrai
+enregistrement de pièce n'a pu être fait sur ce poste.
+
+**Ce que les pourcentages sont.** La sortie du réseau est une sigmoïde par
+classe, pas une distribution : « Techno 82 % » et « House 67 % » ne se
+partagent rien. La jauge les présente comme des parts, et c'est trompeur.

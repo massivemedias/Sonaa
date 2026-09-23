@@ -672,6 +672,10 @@ interface Dictionnaire {
   readonly reconnaitreLeMorceau: string;
   readonly reconnaitreHorsAtlas: string;
   readonly reconnaitreSansMorceau: string;
+  readonly reconnaitreMorceauNonIdentifie: string;
+  readonly reconnaitreSonTropFaible: string;
+  /** La raison rendue par le service, telle quelle : un code et sa phrase. */
+  readonly reconnaitreServiceRefuse: (raison: string) => string;
   readonly reconnaitreImprecis: string;
   readonly reconnaitreErreurMicro: string;
   readonly reconnaitreErreurStyle: string;
@@ -1330,6 +1334,9 @@ const FR: Dictionnaire = {
   reconnaitreLeMorceau: 'Le morceau',
   reconnaitreHorsAtlas: 'hors atlas',
   reconnaitreSansMorceau: 'Aucun morceau reconnu. Cela arrive souvent quand quelqu’un parle par-dessus.',
+  reconnaitreMorceauNonIdentifie: 'Morceau non identifié',
+  reconnaitreSonTropFaible: 'Son trop faible. Rapprochez l’appareil de la source et réessayez.',
+  reconnaitreServiceRefuse: (raison) => `Le service de reconnaissance n’a pas rendu de résultat (${raison}).`,
   reconnaitreImprecis:
     'Le style est une estimation faite sur dix secondes, pas un verdict. Une voix, une pub ou un enchaînement le trompent.',
   reconnaitreErreurMicro: 'Le micro n’a pas pu s’ouvrir. Vérifiez l’autorisation du navigateur.',
@@ -1993,6 +2000,9 @@ const EN: Dictionnaire = {
   reconnaitreLeMorceau: 'The track',
   reconnaitreHorsAtlas: 'outside the atlas',
   reconnaitreSansMorceau: 'No track recognised. That often happens when someone is talking over it.',
+  reconnaitreMorceauNonIdentifie: 'Track not identified',
+  reconnaitreSonTropFaible: 'Sound too quiet. Move the device closer to the source and try again.',
+  reconnaitreServiceRefuse: (raison) => `The recognition service returned no result (${raison}).`,
   reconnaitreImprecis:
     'The style is an estimate made on ten seconds, not a verdict. A voice, an advert or a transition will fool it.',
   reconnaitreErreurMicro: 'The microphone could not be opened. Check your browser permission.',

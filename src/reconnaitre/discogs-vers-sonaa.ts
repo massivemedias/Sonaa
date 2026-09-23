@@ -67,9 +67,6 @@ export const STYLES_RECONNUS: readonly StyleReconnu[] = [
   { discogs: "Blues---Piano Blues", sonaa: null, famille: "Blues" },
   { discogs: "Blues---Rhythm & Blues", sonaa: null, famille: "Blues" },
   { discogs: "Blues---Texas Blues", sonaa: null, famille: "Blues" },
-  { discogs: "Brass & Military---Brass Band", sonaa: null, famille: "Brass & Military" },
-  { discogs: "Brass & Military---Marches", sonaa: null, famille: "Brass & Military" },
-  { discogs: "Brass & Military---Military", sonaa: null, famille: "Brass & Military" },
   { discogs: "Children's---Educational", sonaa: null, famille: "Children's" },
   { discogs: "Children's---Nursery Rhymes", sonaa: null, famille: "Children's" },
   { discogs: "Children's---Story", sonaa: null, famille: "Children's" },
@@ -164,6 +161,7 @@ export const STYLES_RECONNUS: readonly StyleReconnu[] = [
   { discogs: "Electronic---Minimal Techno", sonaa: "minimaltechno", famille: "minimal" },
   { discogs: "Electronic---Modern Classical", sonaa: null, famille: "ambient" },
   { discogs: "Electronic---Musique Concrète", sonaa: "musiqueconcrete", famille: "roots" },
+  { discogs: "Electronic---Neo Trance", sonaa: null, famille: "trance" },
   { discogs: "Electronic---Neofolk", sonaa: null, famille: "industrial" },
   { discogs: "Electronic---New Age", sonaa: "newage", famille: "ambient" },
   { discogs: "Electronic---New Beat", sonaa: "newbeat", famille: "industrial" },
@@ -196,16 +194,18 @@ export const STYLES_RECONNUS: readonly StyleReconnu[] = [
   { discogs: "Folk, World, & Country---Bluegrass", sonaa: null, famille: "Folk, World, & Country" },
   { discogs: "Folk, World, & Country---Cajun", sonaa: null, famille: "Folk, World, & Country" },
   { discogs: "Folk, World, & Country---Canzone Napoletana", sonaa: null, famille: "Folk, World, & Country" },
-  { discogs: "Folk, World, & Country---Catalan Music", sonaa: null, famille: "Folk, World, & Country" },
   { discogs: "Folk, World, & Country---Celtic", sonaa: null, famille: "Folk, World, & Country" },
   { discogs: "Folk, World, & Country---Country", sonaa: null, famille: "Folk, World, & Country" },
   { discogs: "Folk, World, & Country---Fado", sonaa: null, famille: "Folk, World, & Country" },
   { discogs: "Folk, World, & Country---Flamenco", sonaa: null, famille: "Folk, World, & Country" },
+  { discogs: "Folk, World, & Country---Gamelan", sonaa: null, famille: "Folk, World, & Country" },
   { discogs: "Folk, World, & Country---Folk", sonaa: null, famille: "Folk, World, & Country" },
   { discogs: "Folk, World, & Country---Gospel", sonaa: null, famille: "Folk, World, & Country" },
+  { discogs: "Folk, World, & Country---Hawaiian", sonaa: null, famille: "Folk, World, & Country" },
   { discogs: "Folk, World, & Country---Highlife", sonaa: null, famille: "Folk, World, & Country" },
   { discogs: "Folk, World, & Country---Hillbilly", sonaa: null, famille: "Folk, World, & Country" },
   { discogs: "Folk, World, & Country---Hindustani", sonaa: null, famille: "Folk, World, & Country" },
+  { discogs: "Folk, World, & Country---Klezmer", sonaa: null, famille: "Folk, World, & Country" },
   { discogs: "Folk, World, & Country---Honky Tonk", sonaa: null, famille: "Folk, World, & Country" },
   { discogs: "Folk, World, & Country---Indian Classical", sonaa: null, famille: "Folk, World, & Country" },
   { discogs: "Folk, World, & Country---Laïkó", sonaa: null, famille: "Folk, World, & Country" },
@@ -220,6 +220,7 @@ export const STYLES_RECONNUS: readonly StyleReconnu[] = [
   { discogs: "Folk, World, & Country---Zouk", sonaa: null, famille: "Folk, World, & Country" },
   { discogs: "Folk, World, & Country---Éntekhno", sonaa: null, famille: "Folk, World, & Country" },
   { discogs: "Funk / Soul---Afrobeat", sonaa: null, famille: "Funk / Soul" },
+  { discogs: "Funk / Soul---Bayou Funk", sonaa: null, famille: "Funk / Soul" },
   { discogs: "Funk / Soul---Boogie", sonaa: "boogie", famille: "disco" },
   { discogs: "Funk / Soul---Contemporary R&B", sonaa: null, famille: "Funk / Soul" },
   { discogs: "Funk / Soul---Disco", sonaa: "disco", famille: "disco" },
@@ -306,7 +307,6 @@ export const STYLES_RECONNUS: readonly StyleReconnu[] = [
   { discogs: "Latin---Mambo", sonaa: null, famille: "Latin" },
   { discogs: "Latin---Mariachi", sonaa: null, famille: "Latin" },
   { discogs: "Latin---Merengue", sonaa: null, famille: "Latin" },
-  { discogs: "Latin---Norteño", sonaa: null, famille: "Latin" },
   { discogs: "Latin---Nueva Cancion", sonaa: null, famille: "Latin" },
   { discogs: "Latin---Pachanga", sonaa: null, famille: "Latin" },
   { discogs: "Latin---Porro", sonaa: null, famille: "Latin" },
@@ -320,7 +320,6 @@ export const STYLES_RECONNUS: readonly StyleReconnu[] = [
   { discogs: "Latin---Tango", sonaa: null, famille: "Latin" },
   { discogs: "Latin---Tejano", sonaa: null, famille: "Latin" },
   { discogs: "Latin---Vallenato", sonaa: null, famille: "Latin" },
-  { discogs: "Non-Music---Audiobook", sonaa: null, famille: "Non-Music" },
   { discogs: "Non-Music---Comedy", sonaa: null, famille: "Non-Music" },
   { discogs: "Non-Music---Dialogue", sonaa: null, famille: "Non-Music" },
   { discogs: "Non-Music---Education", sonaa: null, famille: "Non-Music" },
@@ -333,6 +332,7 @@ export const STYLES_RECONNUS: readonly StyleReconnu[] = [
   { discogs: "Non-Music---Radioplay", sonaa: null, famille: "Non-Music" },
   { discogs: "Non-Music---Religious", sonaa: null, famille: "Non-Music" },
   { discogs: "Non-Music---Spoken Word", sonaa: null, famille: "Non-Music" },
+  { discogs: "Non-Music---Speech", sonaa: null, famille: "Non-Music" },
   { discogs: "Pop---Ballad", sonaa: null, famille: "Pop" },
   { discogs: "Pop---Bollywood", sonaa: null, famille: "Pop" },
   { discogs: "Pop---Bubblegum", sonaa: null, famille: "Pop" },
@@ -352,6 +352,7 @@ export const STYLES_RECONNUS: readonly StyleReconnu[] = [
   { discogs: "Reggae---Calypso", sonaa: null, famille: "Reggae" },
   { discogs: "Reggae---Dancehall", sonaa: null, famille: "Reggae" },
   { discogs: "Reggae---Dub", sonaa: "dub", famille: "roots" },
+  { discogs: "Reggae---Dub Poetry", sonaa: null, famille: "Reggae" },
   { discogs: "Reggae---Lovers Rock", sonaa: null, famille: "Reggae" },
   { discogs: "Reggae---Ragga", sonaa: null, famille: "Reggae" },
   { discogs: "Reggae---Reggae", sonaa: "reggae", famille: "roots" },
@@ -379,7 +380,6 @@ export const STYLES_RECONNUS: readonly StyleReconnu[] = [
   { discogs: "Rock---Death Metal", sonaa: null, famille: "Rock" },
   { discogs: "Rock---Deathcore", sonaa: null, famille: "Rock" },
   { discogs: "Rock---Deathrock", sonaa: null, famille: "Rock" },
-  { discogs: "Rock---Depressive Black Metal", sonaa: null, famille: "Rock" },
   { discogs: "Rock---Doo Wop", sonaa: null, famille: "Rock" },
   { discogs: "Rock---Doom Metal", sonaa: null, famille: "Rock" },
   { discogs: "Rock---Dream Pop", sonaa: null, famille: "Rock" },
@@ -458,6 +458,10 @@ export const STYLES_RECONNUS: readonly StyleReconnu[] = [
 
 /* L'acces par etiquette, construit une fois : le modele rend des indices,
    et la page en lit trois par reconnaissance. */
+/* LA TABLE SE CHERCHE PAR LE NOM, JAMAIS PAR L'INDEX. L'ordre des lignes
+   ci-dessus n'est pas celui des sorties du reseau : cet ordre-la vit dans
+   etiquettes-modele.ts, copie de la demonstration dont vient le modele, et
+   un test verifie que les deux portent les memes 400 noms. */
 const PAR_ETIQUETTE = new Map(STYLES_RECONNUS.map((s) => [s.discogs, s]));
 
 export function styleDeLEtiquette(discogs: string): StyleReconnu | null {

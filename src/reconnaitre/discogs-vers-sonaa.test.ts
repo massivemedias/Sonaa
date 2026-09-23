@@ -36,9 +36,9 @@ describe('la table des 400 styles', () => {
     expect(faux.map((s) => s.discogs)).toEqual([]);
   });
 
-  it('couvre les 106 styles electroniques, dont 87 par un genre exact', () => {
+  it('couvre les 107 styles electroniques, dont 87 par un genre exact', () => {
     const elec = STYLES_RECONNUS.filter((s) => s.discogs.startsWith('Electronic---'));
-    expect(elec).toHaveLength(106);
+    expect(elec).toHaveLength(107);
     expect(elec.filter((s) => s.sonaa !== null)).toHaveLength(87);
   });
 

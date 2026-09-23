@@ -22,10 +22,31 @@ export const FREQUENCE_MODELE = 16000;
 export const SECONDES_CAPTURE = 10;
 /** Ce qu'on envoie a AudD, quand on l'envoie. Au-dela, on paie du silence. */
 export const SECONDES_TRACK = 8;
+/* SOUS CE NIVEAU, ON NE CLASSE PAS. Mesure le 22 septembre 2026 par le banc
+   (scripts/banc-reconnaitre.mjs) sur le chemin complet du micro : quatre
+   extraits de morceaux publies donnent un niveau efficace de 0,15 a 0,37 ;
+   une sinusoide a -44 dBFS donne 0,006 et recoit quand meme « Euro-Disco
+   19 % » ; le silence numerique donne 0 et fait lever une exception brute
+   dans le WASM d'Essentia (un pointeur, 6736064, pas un message). Le seuil
+   est a -40 dBFS, dix fois sous la musique la plus douce mesuree. Il est
+   PROVISOIRE : aucun vrai enregistrement de piece n'a pu etre mesure sur ce
+   poste, qui n'a pas de micro accessible au banc. */
+export const NIVEAU_MINIMAL = 0.01;
 
 export interface Capture {
   readonly pcm: Float32Array;
   readonly extrait: Blob;
+  /** Le niveau efficace (RMS) du signal ramene a 16 kHz, entre 0 et 1. Il
+      sert a dire « son trop faible » au lieu de classer du bruit. */
+  readonly niveau: number;
+}
+
+/** Le niveau efficace d'un signal : la racine de la moyenne des carres. */
+function niveauEfficace(pcm: Float32Array): number {
+  if (pcm.length === 0) return 0;
+  let somme = 0;
+  for (let i = 0; i < pcm.length; i += 1) somme += (pcm[i] ?? 0) ** 2;
+  return Math.sqrt(somme / pcm.length);
 }
 
 /* LE FORMAT D'ENREGISTREMENT SE NEGOCIE. Safari ne connait pas webm et rend
@@ -35,7 +56,15 @@ function typeAccepte(): string | undefined {
   return candidats.find((t) => typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported(t));
 }
 
-async function versPcm(blob: Blob): Promise<Float32Array> {
+interface Decode {
+  readonly pcm: Float32Array;
+  /** La frequence a laquelle le navigateur a decode l'enregistrement, avant
+      le reechantillonnage : 48 000 Hz en general. */
+  readonly frequenceDecodee: number;
+  readonly dureeDecodee: number;
+}
+
+async function versPcm(blob: Blob): Promise<Decode> {
   const octets = await blob.arrayBuffer();
   const ctx = new AudioContext();
   let decode: AudioBuffer;
@@ -51,7 +80,7 @@ async function versPcm(blob: Blob): Promise<Float32Array> {
   source.connect(hors.destination);
   source.start();
   const rendu = await hors.startRendering();
-  return rendu.getChannelData(0).slice();
+  return { pcm: rendu.getChannelData(0).slice(), frequenceDecodee: decode.sampleRate, dureeDecodee: decode.duration };
 }
 
 /** Ouvre le micro, enregistre, referme, et rend les deux formes du son.
@@ -93,7 +122,33 @@ export async function capturer(onSeconde: (n: number) => void = () => {}): Promi
        d'une seconde, donc huit tranches. C'est approximatif et cela suffit,
        AudD lit ce qu'on lui donne. */
     const extrait = new Blob(morceaux.slice(0, SECONDES_TRACK), { type: enregistreur.mimeType });
-    return { pcm: await versPcm(tout), extrait };
+    const decode = await versPcm(tout);
+    const niveau = niveauEfficace(decode.pcm);
+
+    /* EN DEVELOPPEMENT SEULEMENT : ce que la capture a vraiment produit, lu
+       par le banc d'essai (scripts/banc-reconnaitre.mjs). Le type, la
+       taille, la frequence decodee et le niveau sont exactement ce qu'il
+       faut pour savoir si ce qu'on envoie au modele et a AudD est du son. */
+    if (import.meta.env.DEV) {
+      (window as unknown as { __sonaaReco?: Record<string, unknown> }).__sonaaReco = {
+        ...(window as unknown as { __sonaaReco?: Record<string, unknown> }).__sonaaReco,
+        capture: {
+          type: enregistreur.mimeType,
+          tranches: morceaux.length,
+          octetsTout: tout.size,
+          octetsExtrait: extrait.size,
+          frequenceDecodee: decode.frequenceDecodee,
+          dureeDecodee: decode.dureeDecodee,
+          echantillonsPcm: decode.pcm.length,
+          frequencePcm: FREQUENCE_MODELE,
+          niveau,
+          /* Le signal lui-meme, pour que le banc refasse l'inference a sa
+             facon et compare. Cent soixante mille flottants, en dev seulement. */
+          pcm: decode.pcm,
+        },
+      };
+    }
+    return { pcm: decode.pcm, extrait, niveau };
   } finally {
     /* LE MICRO SE REFERME MEME SI TOUT A ECHOUE. Une piste laissee ouverte
        garde le point rouge allume et la promesse est rompue. */

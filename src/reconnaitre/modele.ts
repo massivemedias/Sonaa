@@ -27,6 +27,7 @@
  * dire au lieu de presenter un pourcentage comme un verdict. */
 
 import { nomCourt } from './discogs-vers-sonaa.ts';
+import { ETIQUETTES_MODELE } from './etiquettes-modele.ts';
 
 const PASSERELLE = 'https://sonaa-sets.massivemedias.workers.dev';
 const ADRESSE_MODELE = `${PASSERELLE}/modele/discogs-resnet/model.json`;
@@ -124,6 +125,22 @@ async function monter(onEtape: (part: number) => void): Promise<Moteur> {
 
   let chauffe = false;
 
+  /* EN DEVELOPPEMENT SEULEMENT : les pieces du moteur, nues, pour le banc
+     d'essai. Il s'en sert pour comparer un appel groupe a des appels
+     separes, et pour lire les 400 sorties brutes plutot que trois noms. */
+  if (import.meta.env.DEV) {
+    (window as unknown as { __sonaaReco?: Record<string, unknown> }).__sonaaReco = {
+      ...(window as unknown as { __sonaaReco?: Record<string, unknown> }).__sonaaReco,
+      moteur: {
+        inferer,
+        fenetres: (pcm: Float32Array) => fenetresMel(essentia, pcm),
+        etiquettes,
+        tramesParFenetre: TRAMES_PAR_FENETRE,
+        bandes: BANDES,
+      },
+    };
+  }
+
   return {
     async prechauffer(): Promise<void> {
       if (chauffe) return;
@@ -161,13 +178,14 @@ async function monter(onEtape: (part: number) => void): Promise<Moteur> {
   };
 }
 
-/* LES 400 ETIQUETTES SONT CELLES DE LA TABLE, DANS L'ORDRE DU MODELE. Les
-   lire depuis la table plutot que depuis un second fichier evite qu'un jour
-   les deux ordres divergent, ce qui donnerait des styles justes sur des
-   scores faux, le pire des defauts possibles ici. */
+/* LES 400 ETIQUETTES SONT CELLES DU MODELE, DANS L'ORDRE DE SES SORTIES.
+   Elles etaient lues depuis la table de correspondance, « pour eviter que
+   deux ordres divergent » ; c'est precisement ce qui est arrive, parce que
+   la table suivait l'ordre d'un autre modele. Depuis le 22 septembre 2026
+   l'ordre vient du fichier copie de la demonstration d'origine, et la table
+   se cherche par le nom. Voir etiquettes-modele.ts. */
 async function etiquettesDuModele(): Promise<readonly string[]> {
-  const { STYLES_RECONNUS } = await import('./discogs-vers-sonaa.ts');
-  return STYLES_RECONNUS.map((s) => s.discogs);
+  return ETIQUETTES_MODELE;
 }
 
 interface EssentiaLike {

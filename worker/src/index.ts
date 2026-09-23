@@ -397,6 +397,23 @@ const CACHE_AGENDA = {
   'cache-control': 'public, max-age=300, stale-while-revalidate=3600',
 };
 
+/* CE QU'AUDD DIT QUAND IL NE REND PAS DE MORCEAU. Trois formes, lues sur
+   ses reponses : `status: "error"` avec `error.error_code` et
+   `error.error_message` (jeton refuse, quota, fichier illisible) ;
+   `status: "success"` avec `result: null` (rien reconnu) ; un `result`
+   sans artiste ni titre. Le code d'erreur et son message sont ceux d'AudD,
+   ils ne portent rien de secret, et ils sont exactement ce qu'il faut lire
+   pour savoir si le probleme est chez nous ou chez lui. */
+function raisonDAudd(brut: Record<string, unknown>): string {
+  if (brut['status'] !== 'success') {
+    const err = (typeof brut['error'] === 'object' && brut['error'] !== null ? brut['error'] : {}) as Record<string, unknown>;
+    const code = err['error_code'] !== undefined ? String(err['error_code']) : '?';
+    const message = typeof err['error_message'] === 'string' ? err['error_message'] : String(brut['status'] ?? 'inconnu');
+    return `audd ${code} : ${message}`;
+  }
+  return brut['result'] === null || brut['result'] === undefined ? 'aucun resultat' : 'reponse incomplete';
+}
+
 const refus = (req: Request, env: Env, code: number, message: string): Response =>
   new Response(JSON.stringify({ erreur: message }), {
     status: code,
@@ -768,21 +785,32 @@ export default {
       formulaire.append('return', 'apple_music,spotify');
       formulaire.append('file', new Blob([audio]), 'extrait.webm');
 
+      /* LA RAISON D'UN « RIEN » EST RENDUE, ET C'EST LA CORRECTION DU 22
+         SEPTEMBRE 2026. La route repondait `{ morceau: null }` aussi bien
+         quand AudD n'avait pas reconnu que quand AudD refusait la cle ou le
+         quota : mesure ce jour-la avec trois extraits de morceaux publies,
+         trois fois `null`, et aucun moyen de savoir lequel des deux cas on
+         tenait. AudD dit toujours pourquoi : `status: "error"` avec un code,
+         ou `result: null`. On le rend tel quel, et la page le montre. */
       let morceau: unknown = null;
+      let raison: string | null = null;
       try {
         const r = await fetch('https://api.audd.io/', { method: 'POST', body: formulaire });
         if (!r.ok) throw new Error(`AudD ${r.status}`);
-        morceau = lireReponseAudd(await r.json());
+        const brut = (await r.json()) as Record<string, unknown>;
+        morceau = lireReponseAudd(brut);
+        if (!morceau) raison = raisonDAudd(brut);
       } catch (e) {
         return new Response(
-          JSON.stringify({ morceau: null, erreur: e instanceof Error ? e.message : String(e) }),
+          JSON.stringify({ morceau: null, raison: e instanceof Error ? e.message : String(e) }),
           { status: 502, headers: entetes(req, env, { 'content-type': 'application/json' }) }
         );
       }
 
-      return new Response(JSON.stringify({ morceau }), {
-        headers: entetes(req, env, { 'content-type': 'application/json', 'cache-control': 'no-store' }),
-      });
+      return new Response(
+        JSON.stringify({ morceau, raison, recu: { octets: audio.byteLength, type: req.headers.get('content-type') } }),
+        { headers: entetes(req, env, { 'content-type': 'application/json', 'cache-control': 'no-store' }) }
+      );
     }
 
     if (req.method === 'GET' && chemin === 'api/ou') {
