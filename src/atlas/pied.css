@@ -54,7 +54,11 @@
 .pied-ligne {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  /* 1,25 rem ET NON 1,5 : Inter est plus large que Larsseit, et au retour
+     d'Inter le 23 septembre 2026 le controle mesure a refuse la rangee a
+     1024 px en francais, a dix pixels pres. Les deux ecarts en rendent
+     huit, les liens en rendent dix-neuf. */
+  gap: 1.25rem;
   min-height: 56px;
 }
 
@@ -109,7 +113,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.2rem 1.1rem;
+  gap: 0.2rem 0.9rem;
   justify-content: flex-end;
 }
 
