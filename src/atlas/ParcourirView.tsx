@@ -100,6 +100,27 @@ const motLong = (nom: string): '1' | undefined =>
 const TOUS: { fi: number; gl: number; g: Genre }[] = FAMILIES.flatMap((_, fi) =>
   (STRUCTURES[fi]?.genres ?? []).map((g, gl) => ({ fi, gl, g }))
 );
+/* ═══ CE QUE PORTE LA TUILE D'UNE FAMILLE, CALCULE UNE FOIS ═══
+ *
+ * La decennie de naissance est celle du PLUS ANCIEN genre de la famille, et
+ * les trois genres montres au survol sont les trois plus anciens. Ce n'est
+ * pas un choix de mise en page : une famille se raconte par ses fondateurs,
+ * pas par ses derniers venus, et c'est deja l'ordre que `ordreParDate`
+ * applique partout ailleurs dans cette vue.
+ *
+ * LES GENRES SANS ANNEE SONT ECARTES, pas ranges en dernier : ils fausseraient
+ * la decennie s'ils tombaient en tete, et ils n'apprennent rien dans une
+ * liste de trois. */
+const FAMILLES_DETAIL: readonly { decennie: number | null; representatifs: readonly string[] }[] =
+  FAMILIES.map((_, fi) => {
+    const dates = ordreParDate(STRUCTURES[fi]?.genres ?? []).filter((x) => x.g.annee > 0);
+    const premiere = dates[0]?.g.annee ?? 0;
+    return {
+      decennie: premiere > 0 ? Math.floor(premiere / 10) * 10 : null,
+      representatifs: dates.slice(0, 3).map((x) => x.g.label),
+    };
+  });
+
 /* LE NOMBRE DE MORCEAUX DE REFERENCE, lu une fois. Il va sous un grand
    chiffre en haut de l'atlas, avec les genres et les familles. */
 const N_MORCEAUX = TOUS.reduce((n, x) => n + x.g.tracks.length, 0);
@@ -393,30 +414,44 @@ export function ParcourirView() {
                 <span className="pv-stat-mot">{t.statMorceaux}</span>
               </div>
             </Apparition>
-            <p className="pv-intro intro-page">
-              {t.accroche(TOUS.length, FAMILIES.length)}
-            </p>
-            <div className="pv-grille">
-              {FAMILIES.map((f, fi) => (
-                <Apparition key={f.id} i={fi}>
-                <button className="pv-tuile" onClick={() => aller({ k: 'famille', fi })}>
-                  <span className="pv-tuile-carte">
-                    <span className="pv-tuile-bloc">
-                      <span className="pv-tuile-nom" data-long={motLong(f.label)}>{f.label}</span>
-                      <span className="pv-tuile-detail">{t.nGenres(f.count)}</span>
-                    </span>
-                  </span>
-                </button>
-                </Apparition>
-              ))}
+            {/* LA PHRASE « 219 genres, 14 familles » EST PARTIE. Elle redisait
+                mot pour mot les deux grands chiffres poses vingt pixels
+                au-dessus. */}
+            <div className="pv-grille-familles">
+              {FAMILIES.map((f, fi) => {
+                const d = FAMILLES_DETAIL[fi];
+                return (
+                  <Apparition key={f.id} i={fi}>
+                    <button
+                      className="pv-famille"
+                      style={{ '--f-hue': f.hue } as React.CSSProperties}
+                      onClick={() => aller({ k: 'famille', fi })}
+                    >
+                      <span className="pv-famille-nom">{f.label}</span>
+                      {d?.decennie ? <span className="pv-famille-date">{t.decennie(d.decennie)}</span> : null}
+                      {/* LES TROIS FONDATEURS. Caches au survol pres sur un
+                          ecran a souris, montres d'emblee sur un ecran
+                          tactile, ou le survol n'existe pas. Voir
+                          parcourir.css. */}
+                      {d && d.representatifs.length > 0 && (
+                        <span className="pv-famille-genres">{d.representatifs.join(' · ')}</span>
+                      )}
+                      <span className="pv-famille-n">{f.count}</span>
+                    </button>
+                  </Apparition>
+                );
+              })}
+              {/* LA QUINZIEME TUILE, SANS TEINTE : elle n'est pas une famille,
+                  et elle ne doit pas se lire comme la quinzieme. */}
+              <Apparition i={FAMILIES.length}>
+                <a className="pv-famille pv-famille-index" href="#/index">
+                  <span className="pv-famille-nom">{t.piedIndex}</span>
+                </a>
+              </Apparition>
             </div>
-            {/* L'INDEX A PLAT DESCEND ICI, DEPUIS LE PIED DE PAGE. Il y etait
-                noye parmi seize liens ; c'est sur la page des styles qu'on le
-                cherche, quand on sait deja le nom du genre et qu'on ne veut
-                pas traverser sa famille. */}
-            <p className="pv-index">
-              <a href="#/index">{t.piedIndex}</a>
-            </p>
+            {/* L'INDEX A PLAT EST DEVENU LA QUINZIEME TUILE, ci-dessus. Il a
+                ete un lien nu sous la grille, et avant cela une ligne perdue
+                parmi seize dans le pied de page. */}
           </>
         )}
 

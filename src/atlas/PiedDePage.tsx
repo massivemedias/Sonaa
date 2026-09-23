@@ -72,26 +72,36 @@ export function PiedDePage() {
 
   return (
     <footer className="pied">
-      {/* LA PRESENCE RESTE, ET SEULE AU-DESSUS. C'est la seule ligne du pied
-          qui change d'une minute a l'autre, donc la seule qu'on regarde. */}
-      {presents > 0 && (
-        <p className="pied-presence" role="status">
-          <span className="pied-pouls" aria-hidden="true" />
-          {presents === 1 ? t.piedSeul : t.piedEnCeMoment(presents)}
-          {villes && <span className="pied-villes">{villes}</span>}
-        </p>
-      )}
-
-      {/* UNE SEULE LIGNE. Le pied portait trois colonnes et seize liens,
-          c'est-a-dire un second menu, plus fourni que le vrai. Mika, le
-          21 septembre 2026 : « trop lourd, reduis a une ligne ». */}
+      {/* UNE SEULE RANGEE, TROIS GROUPES. Le nom a gauche, la presence au
+          milieu, les sept liens a droite. La presence etait une ligne a elle
+          seule au-dessus ; elle tient dans la meme rangee, reduite, et le
+          pied passe de 247 px a 56. */}
       <div className="pied-ligne">
         <span className="pied-nom">SONAA {new Date().getFullYear()}</span>
+
+        {/* ELLE RESTE LA SEULE CHOSE DU PIED QUI CHANGE D'UNE MINUTE A
+            L'AUTRE, donc la seule qu'on regarde. Absente quand il n'y a
+            personne : une pastille qui annonce zero est du bruit. */}
+        {presents > 0 && (
+          <p className="pied-presence" role="status">
+            <span className="pied-pouls" aria-hidden="true" />
+            {presents === 1 ? t.piedSeul : t.piedEnCeMoment(presents)}
+            {villes && <span className="pied-villes">{villes}</span>}
+          </p>
+        )}
+
+        {/* LES SEPT LIENS EN UN SEUL GROUPE. Ils etaient en deux navigations,
+            l'une pour les gestes et l'autre pour le legal, ce qui se
+            justifiait sur trois colonnes. Sur une seule rangee, deux groupes
+            cote a cote ne se distinguent plus : ils n'en font qu'un, et le
+            legal garde son cran de gris. */}
         <nav className="pied-liens" aria-label={t.navigationDuSite}>
           {centre.map(lien)}
-        </nav>
-        <nav className="pied-legal" aria-label={t.mentionsTitre}>
-          {legal.map(lien)}
+          {legal.map((l) => (
+            <a key={l.href} href={l.href} className="pied-lien-legal">
+              {l.label}
+            </a>
+          ))}
         </nav>
       </div>
     </footer>

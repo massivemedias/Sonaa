@@ -1,64 +1,45 @@
 /* LE PIED DE PAGE. Voir PiedDePage.tsx.
 
-   Une ligne sur ordinateur, deux au plus sur téléphone. Rien n'y est centré
-   pour faire joli : les trois groupes sont posés aux trois places qu'on
-   regarde, le nom à gauche, ce qu'on peut faire au milieu, le légal à
-   droite. Sur téléphone la ligne se replie et tout se centre, parce qu'à
-   375 px il n'y a plus de gauche ni de droite.
+   ═══ UNE LIGNE, ET RIEN D'AUTRE ═══
 
-   LA MAILLE REVIENT EN BAS, DEPUIS LA V2 : le pied porte le meme lavis de
-   trois halos que la banniere d'accueil, en plus discret. La page commence et
-   finit dans la meme lumiere, et les liens deviennent des puces de verre
-   comme partout ailleurs. */
+   Mika, le 22 septembre 2026 : « plus de lavis ni de fondu, une seule ligne,
+   fond de la page, filet superieur de 1 px a 8 % de blanc ».
 
-/* ═══ PLUS DE BOITE : LA PAGE SE FOND DANS LE PIED ═══
+   IL A PORTE, EN TROIS JOURS, TROIS ETATS. Trois colonnes et seize liens,
+   puis une ligne sous un lavis de couleur, puis un fondu de 120 px depuis le
+   noir. A chaque fois il prenait plus de place : le dernier faisait 247 px de
+   haut pour sept liens et une pastille, soit un quart d'ecran de telephone
+   donne a ce qu'on regarde en dernier.
 
-   Mika, le 22 septembre 2026 : « plus de boite, le fond commence par un
-   fondu depuis le noir de la page sur 120 px avant d'arriver au mauve, pas
-   de bord net ».
+   CINQUANTE-SIX PIXELS, et tout tient dedans : le nom a gauche, la presence
+   au milieu, les sept liens a droite. Le filet a 8 % de blanc est la seule
+   chose qui le separe de la page, et c'est assez : un pied n'a pas besoin
+   d'etre annonce, il a besoin d'etre trouve quand on le cherche.
 
-   CE QUI FAISAIT LA BOITE, ET C'ETAIT DEUX CHOSES. Un filet de un pixel en
-   haut, et surtout le lavis qui commencait a pleine force sur ce filet : la
-   jointure se lisait comme le bord d'un panneau colle sous la page.
-
-   LE FONDU EST UNE COUCHE PAR-DESSUS, pas un reglage du lavis. La premiere
-   couche de `background-image` est celle du dessus : elle part de la couleur
-   exacte de la page et s'efface sur 120 px, decouvrant le lavis dessous.
-   Aucun bord ne peut donc exister, quelle que soit la couleur du lavis, et
-   le jour ou la palette change il n'y a rien a reregler ici.
-
-   LE CONTENU COMMENCE APRES LE FONDU, a 120 px pile : ecrire dedans
-   reviendrait a poser du texte sur la transition.
-
-   PLEINE LARGEUR, CONTENU DANS LA COLONNE : la meme formule que la
+   PLEINE LARGEUR, CONTENU DANS LA COLONNE : la formule est celle de la
    banniere, et c'est elle qui donne les 1240 px au contenu pendant que le
-   lavis va d'un bord a l'autre. */
+   filet va d'un bord a l'autre. */
+
 .pied {
-  position: relative;
   margin-top: 3.5rem;
-  padding: 7.5rem 0 0;
-  background-image:
-    linear-gradient(to bottom, var(--surface-plate) 0, transparent 120px),
-    var(--maille);
-  background-size: 100% 100%;
+  border-top: 1px solid oklch(1 0 0 / 0.08);
   font-family: var(--font-ui);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   margin-left: calc(-1 * max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2)));
   margin-right: calc(-1 * max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2)));
   padding-left: max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2));
   padding-right: max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2));
 }
 
-/* ═══ DANS L'ATLAS, LA COLONNE N'EST PAS LA MEME ═══
+/* LE FILET S'INVERSE EN THEME CLAIR : un voile blanc sur fond blanc ne
+   separe rien. */
+:root[data-theme='clair'] .pied {
+  border-top-color: oklch(0.2 0.01 285 / 0.1);
+}
 
-   La formule ci-dessus deborde d'un conteneur qui n'a pas le retrait de la
-   page. `.pv-corps` a le sien, 0,75 rem, et le pied y sortait de quatre
-   pixels de chaque cote : mesure au 22 septembre 2026 sur un ecran de
-   375 px, apres que la v2 a donne sa maille pleine largeur au pied.
-
-   On reprend donc EXACTEMENT le retrait de ce conteneur-la, au lieu de
-   supposer celui de la page. Deux conteneurs, deux formules, et chacune lit
-   la grandeur de son propre parent. */
+/* DANS L'ATLAS, LA COLONNE N'EST PAS LA MEME : `.pv-corps` a son propre
+   retrait, 0,75 rem, et la formule ci-dessus y deborderait de quatre pixels
+   de chaque cote. Chaque conteneur lit la grandeur de son propre parent. */
 .pv-corps > .pied {
   margin-left: -0.75rem;
   margin-right: -0.75rem;
@@ -66,102 +47,112 @@
   padding-right: 0.75rem;
 }
 
-/* LA PRESENCE, SEULE AU-DESSUS. C'est la seule ligne du pied qui change
-   d'une minute à l'autre, donc la seule qu'on regarde vraiment. */
+.pied-ligne {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  min-height: 56px;
+}
+
+.pied-nom {
+  flex: none;
+  color: var(--ink-secondary);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ═══ LA PRESENCE, REDUITE, AU MILIEU ═══
+   Elle etait une pastille de verre sur sa propre ligne. Elle garde son pouls,
+   qui est ce qu'on regarde, et perd son cadre : dans une rangee de 56 px, un
+   cadre autour de trois mots fait un bouton qui n'en est pas un. */
 .pied-presence {
   display: inline-flex;
-  flex-wrap: wrap;
-  gap: 0.4rem 0.6rem;
+  flex-wrap: nowrap;
   align-items: center;
-  justify-content: center;
-  margin: 0 0 1.4rem;
-  padding: 0.45rem 0.9rem;
-  border-radius: var(--rayon-pilule);
-  background: var(--verre-fond);
-  border: 1px solid var(--verre-bord);
+  gap: 0.4rem;
+  margin: 0;
+  min-width: 0;
   color: var(--ink-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* ENTRE LES DEUX, ET NON COLLEE AU NOM. Deux marges automatiques la
+     centrent dans la place qui reste une fois le nom et les liens poses.
+     C'est elle qui porte l'ecart, pas les liens : une marge automatique a
+     droite sur les liens la ramenait contre le nom. */
+  margin-inline: auto;
 }
 
 .pied-pouls {
-  width: 7px;
-  height: 7px;
+  flex: none;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: oklch(var(--lt-72) 0.16 145);
-  box-shadow: 0 0 10px oklch(var(--lt-72) 0.16 145 / 0.8);
+  box-shadow: 0 0 8px oklch(var(--lt-72) 0.16 145 / 0.8);
 }
 
 .pied-villes {
-  color: var(--ink-secondary);
-  opacity: 0.75;
+  opacity: 0.7;
 }
 .pied-villes::before {
   content: '· ';
 }
 
-.pied-ligne {
+/* LES SEPT LIENS, POUSSES A DROITE par la marge automatique : c'est elle qui
+   place la presence au milieu, sans avoir a lui donner une largeur. */
+.pied-liens {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem 1.6rem;
   align-items: center;
-  justify-content: space-between;
-  padding-bottom: 2rem;
+  gap: 0.2rem 1.1rem;
+  justify-content: flex-end;
 }
 
-.pied-nom {
-  font-weight: 700;
-  white-space: nowrap;
-  color: var(--ink-primary);
-}
-
-.pied-liens,
-.pied-legal {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-  align-items: center;
-}
-
-.pied-ligne a {
-  padding: 0.35rem 0.75rem;
-  border-radius: var(--rayon-pilule);
+.pied-liens a {
   color: var(--ink-secondary);
   text-decoration: none;
-  border-bottom: 0;
   white-space: nowrap;
-  transition: background 160ms ease, color 160ms ease;
 }
-.pied-ligne a:hover,
-.pied-ligne a:focus-visible {
+.pied-liens a:hover,
+.pied-liens a:focus-visible {
   color: var(--ink-primary);
-  background: var(--voile-1);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
-/* Le légal se distingue sans crier : un cran plus petit, un cran plus pâle.
-   Il est là pour qui le cherche, pas pour qui lit la page. */
-.pied-legal {
-  font-size: 0.78rem;
-  opacity: 0.8;
+/* Le legal se distingue sans crier : un cran plus pale. Il est la pour qui le
+   cherche, pas pour qui lit la page. */
+.pied-lien-legal {
+  opacity: 0.72;
 }
 
-/* ═══ TÉLÉPHONE : DEUX LIGNES AU PLUS, TOUT CENTRÉ ═══
-   À 375 px, trois groupes sur une rangée donneraient six lignes de un mot. */
-@media (max-width: 720px) {
+/* ═══ TELEPHONE : LA PRESENCE AU-DESSUS, LES LIENS EN DESSOUS ═══
+   A 375 px, sept liens et une pastille sur une rangee donneraient huit
+   lignes d'un mot. La rangee se replie : presence, puis les liens, qui
+   passent d'eux-memes sur deux rangees, puis le nom. */
+@media (max-width: 860px) {
   .pied-ligne {
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.7rem;
+    min-height: 0;
+    padding: 1rem 0 1.2rem;
     text-align: center;
   }
-  .pied-liens,
-  .pied-legal {
+  .pied-presence {
+    order: 1;
+    margin-inline: 0;
+    white-space: normal;
+  }
+  .pied-liens {
+    order: 2;
     justify-content: center;
+    gap: 0.4rem 1rem;
   }
   .pied-nom {
     order: 3;
-    font-size: 0.78rem;
-  }
-  .pied-legal {
-    order: 4;
-    margin-top: -0.2rem;
+    font-size: 0.76rem;
+    opacity: 0.8;
   }
 }

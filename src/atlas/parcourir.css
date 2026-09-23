@@ -305,6 +305,177 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 
 /* La sortie vers les autres vues, en pied de la premiere page seulement : on
    ne la repete pas a chaque niveau, ou elle deviendrait du decor. */
+/* ═══ LA GRILLE DES QUATORZE FAMILLES ═══
+ *
+ * QUATRE COLONNES EGALES, ET C'EST LA CORRECTION PRINCIPALE. Les tuiles
+ * etaient dimensionnees par leur texte : « Disco » faisait 155 px de large et
+ * « Downtempo » 255, sur une grille qui laissait des trous entre les deux. La
+ * cause est venue du jour ou chaque tuile a ete enveloppee pour son animation
+ * d'entree : l'element de grille est devenu l'enveloppe, et le bouton dedans
+ * s'est remis a la largeur de son texte. On le refait remplir.
+ *
+ * DEUX COLONNES SUR TABLETTE, UNE SUR TELEPHONE. Une tuile qui porte un nom,
+ * une decennie, trois genres et un compte a besoin de largeur : a quatre
+ * colonnes sous 1000 px, les trois genres tomberaient sur quatre lignes.
+ *
+ * L'ENVELOPPE D'ANIMATION EST L'ELEMENT DE GRILLE, et c'est elle qui doit
+ * s'etirer ; le bouton prend ensuite toute sa boite. Sans les deux regles,
+ * une seule ne suffit pas. */
+.pv-grille-familles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* TOUTES LES RANGEES A LA MEME HAUTEUR, pas seulement celles d'une meme
+     rangee. Sans `1fr` ici, une rangee dont un nom de genre passe a deux
+     lignes faisait 112 px et les autres 108 : quatre pixels qu'on ne nomme
+     pas mais qu'on voit en descendant la grille. */
+  grid-auto-rows: 1fr;
+  gap: 0.75rem;
+  margin: 1.2rem 0 0;
+}
+.pv-grille-familles > * {
+  min-width: 0;
+  display: flex;
+}
+@media (max-width: 1000px) {
+  .pv-grille-familles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 560px) {
+  .pv-grille-familles {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ═══ LA TUILE D'UNE FAMILLE ═══
+ *
+ * ELLE PORTE LA TEINTE DE SA FAMILLE, celle du corpus, la meme que la
+ * banniere d'un genre : quatorze familles, quatorze tuiles reconnaissables
+ * sans lire. Le fond est la teinte a 12 %, le filet gauche la meme teinte
+ * pleine sur trois pixels. La teinte arrive par `--f-hue`, posee en ligne
+ * depuis `FAMILIES[i].hue` : c'est une DONNEE, elle n'a rien a faire dans
+ * une feuille de style.
+ *
+ * LA CLARTE ET LE CHROMA SONT FIXES, PAS LA TEINTE. `--lt-62` suit le theme,
+ * donc la tuile se tient aussi bien sur fond clair, et le chroma de 0,14 est
+ * celui que cette feuille emploie deja pour les pastilles de genre. */
+.pv-famille {
+  --f-chroma: 0.14;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  width: 100%;
+  height: 100%;
+  min-height: 108px;
+  box-sizing: border-box;
+  padding: 1rem 3.2rem 1rem 1.1rem;
+  border: 0;
+  border-left: 3px solid oklch(var(--lt-62) var(--f-chroma) var(--f-hue));
+  border-radius: 6px 18px 18px 6px;
+  background: oklch(var(--lt-62) var(--f-chroma) var(--f-hue) / 0.12);
+  color: var(--ink-primary);
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 200ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .pv-famille:hover {
+    background: oklch(var(--lt-62) var(--f-chroma) var(--f-hue) / 0.2);
+  }
+}
+.pv-famille:active {
+  transform: scale(0.99);
+}
+
+.pv-famille-nom {
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: var(--serrage);
+}
+
+.pv-famille-date {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: oklch(var(--lt-84) 0.08 var(--f-hue));
+}
+
+/* ═══ LES TROIS FONDATEURS ═══
+ *
+ * SUR UN ECRAN A SOURIS ILS ATTENDENT LE SURVOL. La tuile dit d'abord le nom
+ * et la date ; les trois genres sont la recompense du geste, pas du bruit
+ * pose d'avance sur quatorze tuiles.
+ *
+ * SUR UN ECRAN TACTILE ILS SONT LA D'EMBLEE, parce qu'il n'y a pas de survol
+ * et qu'une information qui n'apparait jamais n'existe pas. C'est le meme
+ * raisonnement que le survol jaune des tuiles de genre, plus bas.
+ *
+ * LA PLACE EST RESERVEE DANS LES DEUX CAS, par `min-height` sur la tuile : un
+ * texte qui apparait au survol et POUSSE la grille ferait sauter la page sous
+ * la souris. */
+.pv-famille-genres {
+  font-size: 0.78rem;
+  line-height: 1.3;
+  color: var(--ink-secondary);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+@media (hover: hover) and (pointer: fine) {
+  .pv-famille-genres {
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+  .pv-famille:hover .pv-famille-genres,
+  .pv-famille:focus-visible .pv-famille-genres {
+    opacity: 1;
+  }
+}
+
+/* LE COMPTE EN BAS A DROITE : c'est un reperage, pas une lecture. Il est
+   ancre au coin, donc il ne bouge pas quand les trois genres apparaissent. */
+.pv-famille-n {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.9rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: oklch(var(--lt-84) 0.1 var(--f-hue));
+}
+
+/* ═══ LA QUINZIEME TUILE : L'INDEX A PLAT ═══
+   Sans teinte et sans filet colore, parce qu'elle n'est pas une famille. Un
+   filet gris la rattache visuellement a la grille sans la faire passer pour
+   la quinzieme famille. */
+.pv-famille-index {
+  --f-hue: 0;
+  --f-chroma: 0;
+  justify-content: center;
+  border-left-color: var(--filet-fort);
+  background: var(--voile-04);
+}
+.pv-famille-index .pv-famille-nom {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink-secondary);
+}
+@media (hover: hover) and (pointer: fine) {
+  .pv-famille-index:hover {
+    background: var(--voile-08);
+  }
+  .pv-famille-index:hover .pv-famille-nom {
+    color: var(--ink-primary);
+  }
+}
+
 /* ═══ LE BOUTON QUI POSE LA QUESTION ═══
 
    La reconnaissance a quitte le menu le 21 septembre 2026 et entre par ici.

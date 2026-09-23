@@ -132,7 +132,9 @@ interface Dictionnaire {
   readonly aucunGenreDeCeNom: string;
   readonly retourAtlas: string;
   /** « 219 genres, 14 familles. Appuyez sur une famille. » */
-  readonly accroche: (genres: number, familles: number) => string;
+  /* LA DECENNIE DE NAISSANCE D'UNE FAMILLE, sur sa tuile. Prise du plus
+     ancien genre qu'elle contient. */
+  readonly decennie: (d: number) => string;
   /* LES TROIS MOTS SOUS LES GRANDS CHIFFRES de la page des styles, depuis la
      v2 : le nombre est lu dans le corpus, le mot vient d'ici. */
   readonly statGenres: string;
@@ -792,7 +794,7 @@ const FR: Dictionnaire = {
   nomDunGenre: "Nom d'un genre",
   aucunGenreDeCeNom: 'Aucun genre de ce nom.',
   retourAtlas: "SONAA, revenir à l'accueil",
-  accroche: (g, f) => `${g} genres, ${f} familles. Appuyez sur une famille.`,
+  decennie: (d) => `Années ${d}`,
   statGenres: 'Genres',
   statFamilles: 'Familles',
   statMorceaux: 'Morceaux',
@@ -1449,7 +1451,7 @@ const EN: Dictionnaire = {
   nomDunGenre: 'Genre name',
   aucunGenreDeCeNom: 'No genre by that name.',
   retourAtlas: 'SONAA, back to home',
-  accroche: (g, f) => `${g} genres, ${f} families. Tap a family.`,
+  decennie: (d) => `${d}s`,
   statGenres: 'Genres',
   statFamilles: 'Families',
   statMorceaux: 'Tracks',
