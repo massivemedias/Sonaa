@@ -8,18 +8,12 @@
 :root {
   /* LA POLICE DU SITE, nommee une fois ici et lue partout.
 
-     LARSSEIT EST AUTO-HEBERGEE DEPUIS LE 22 SEPTEMBRE 2026. C'est une fonte
-     commerciale de Type Dynamic : aucun service ne la sert, aucun appareil
-     ne l'embarque. Les deux fichiers sont dans public/fonts/, sous-ensemble
-     latin et latin-ext tire des OTF sous licence de Mika, 34 Ko chacun, et
-     declares en bas de ce fichier. Aucune police ne vient d'un tiers.
-
-     La licence n'a pas de graisse Regular : Light sert de 400 et Bold de
-     700, comme sur le site de Maudite Machine.
-
-     La pile de repli est choisie pour sa parente de dessin : Larsseit est une
-     grotesque geometrique, Inter tient la meme largeur d'oeil. */
-  --police: 'Larsseit', 'Inter', system-ui, -apple-system, sans-serif;
+     INTER, ET C'EST UN CHOIX FAIT DEUX FOIS. Larsseit a ete auto-hebergee
+     le 22 septembre 2026, avec sa licence, ses deux graisses et son
+     prechargement ; Mika l'a vue en ligne le 23 et a prefere Inter :
+     « j'aimais bien l'ancienne police finalement ». Les fichiers Larsseit
+     sont partis avec ce choix, pour qu'aucune requete ne les cherche. */
+  --police: 'Inter', system-ui, -apple-system, sans-serif;
 
   /* LE SERRAGE : -0,3 px, UNE seule valeur, pour tout le site.
 
@@ -825,31 +819,7 @@
   }
 }
 
-/* LARSSEIT, DEUX GRAISSES, AUTO-HEBERGEE. `font-display: swap` : le texte
-   se lit tout de suite dans la police de repli et change quand la fonte
-   arrive ; index.html precharge les deux fichiers pour que ce changement
-   se fasse avant le premier rendu dans presque tous les cas. `unicode-range`
-   limite ce que couvrent ces fichiers a ce qu'ils contiennent : pour un
-   autre alphabet le navigateur passe a Inter sans rien telecharger ici. */
-@font-face {
-  font-family: 'Larsseit';
-  src: url('../../public/fonts/larsseit-400.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0000-00FF, U+0100-024F, U+0259, U+1E00-1EFF, U+2000-206F, U+20A0-20C0, U+2113, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Larsseit';
-  src: url('../../public/fonts/larsseit-700.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0000-00FF, U+0100-024F, U+0259, U+1E00-1EFF, U+2000-206F, U+20A0-20C0, U+2113, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-/* Inter variable, sous-ensemble latin, auto-hébergée : le repli, pour ce que
-   Larsseit ne couvre pas. Aucun appel tiers. */
+/* Inter variable, sous-ensemble latin, auto-hébergée : aucun appel tiers. */
 @font-face {
   font-family: 'Inter';
   src: url('../../public/fonts/inter-variable-latin.woff2') format('woff2');
