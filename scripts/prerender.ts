@@ -159,9 +159,17 @@ ecrire({
   titre: 'Les styles de musique électronique : 219 genres, 14 familles · SONAA',
   description:
     'Un atlas généalogique des musiques électroniques : 219 genres classés en 14 familles, avec pour chacun son histoire, ses morceaux de référence, ses machines et un cours de production.',
+  /* LA LISTE DES QUATORZE FAMILLES RESTE DANS LE HTML STATIQUE, en liens
+     simples : c'est ce que lit un moteur, et c'est ce que voit quelqu'un qui
+     arrive avant que le bundle soit la. Le nuage de bulles s'y substitue a
+     l'hydratation. Voir NuageFamilles.tsx.
+
+     LE LIEN VERS L'INDEX A PLAT EST PARTI d'ici aussi, le 22 septembre
+     2026 : Mika ne veut plus aucun lien visible vers lui depuis cette page.
+     La route `#/index` reste servie par l'application. */
   corps: `${entete([{ nom: 'Styles', href: '/styles/' }])}<h1>Les styles de musique électronique</h1><p>219 genres, 14 familles, écrits et vérifiés à la main.</p><ul>${FAMILIES.map(
     (f, fi) => `<li><a href="/styles/${slug(f.label)}/">${h(f.label)}</a> : ${STRUCTURES[fi]?.genres.length ?? 0} genres</li>`
-  ).join('')}</ul><p><a href="/styles/#/index">Index des 219 genres, à plat</a></p>`,
+  ).join('')}</ul>`,
   jsonld: [filAriane([{ nom: 'Styles', href: '/styles/' }])],
 });
 

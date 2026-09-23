@@ -1,0 +1,162 @@
+/* LE NUAGE DES FAMILLES. Voir NuageFamilles.tsx.
+
+   ═══ AUCUNE CARTE, AUCUN RECTANGLE ═══
+
+   Le fond de la section reste celui de la page. Il n'y a ici que quatorze
+   cercles : rien qui les contienne, rien qui les encadre. */
+
+.pv-nuage-boitier {
+  display: flex;
+  justify-content: center;
+  margin: 1.6rem 0 0;
+}
+
+/* LA HAUTEUR VIENT DU CALCUL, pas d'une valeur ecrite : c'est l'empilement
+   qui dit la place qu'il prend, et le conteneur la reprend telle quelle. */
+.pv-nuage {
+  position: relative;
+  flex: none;
+}
+
+/* ═══ LA BULLE : L'ENVELOPPE FLOTTE, LE CORPS GROSSIT ═══
+
+   DEUX ELEMENTS ET NON UN, parce que les deux mouvements se font tous deux
+   par `transform` : une animation de flottement et une transition d'echelle
+   sur le meme element se remplacent l'une l'autre. L'enveloppe derive, le
+   corps grandit, et chacun garde sa propriete. */
+.pv-bulle {
+  position: absolute;
+  animation-name: pv-derive;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+/* SIX PIXELS, ET PAS UN DE PLUS. Au-dela on ne lit plus un nuage qui
+   respire, on lit une page qui bouge. */
+@keyframes pv-derive {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, -6px, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pv-bulle {
+    animation: none;
+  }
+}
+
+/* ═══ LA MATIERE : DU VERRE, ET RIEN D'AUTRE ═══
+
+   Quatre couches et aucune de plus : la teinte de la famille, le flou de
+   l'arriere-plan, un reflet blanc en haut a gauche, un filet interieur
+   blanc. Le filet est un `box-shadow` EN INSET et non une bordure : une
+   bordure externe epaissirait le cercle et le ferait deborder de sa boite,
+   qui est exactement de son diametre. */
+.pv-bulle-corps {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0 12%;
+  border: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(60% 60% at 28% 24%, oklch(1 0 0 / 0.18), transparent 70%),
+    oklch(var(--lt-62) 0.14 var(--f-hue) / 0.22);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: inset 0 0 0 1px oklch(1 0 0 / 0.1);
+  color: var(--ink-primary);
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 300ms ease;
+}
+
+/* THEME CLAIR : la teinte monte a 30 % et le reflet descend a 10 %. Un voile
+   a 22 % sur du blanc ne se voit pas, et un reflet blanc non plus. */
+:root[data-theme='clair'] .pv-bulle-corps {
+  background:
+    radial-gradient(60% 60% at 28% 24%, oklch(1 0 0 / 0.1), transparent 70%),
+    oklch(var(--lt-62) 0.14 var(--f-hue) / 0.3);
+  box-shadow: inset 0 0 0 1px oklch(1 0 0 / 0.28);
+}
+
+/* LE CORPS SUIT LE DIAMETRE, pas l'ecran : c'est la bulle qui doit contenir
+   le mot. « Downtempo » dans un cercle de 84 px ne tient qu'a ce prix. */
+.pv-bulle-nom {
+  font-size: clamp(0.62rem, calc(var(--d) * 0.115), 1.15rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: var(--serrage);
+}
+
+.pv-bulle-n {
+  font-size: clamp(0.5rem, calc(var(--d) * 0.062), 0.68rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: oklch(var(--lt-84) 0.14 var(--f-hue));
+}
+
+/* ═══ LES TROIS FONDATEURS ═══
+
+   Ils apparaissent sous le compte au survol. La hauteur est animee en plus
+   de l'opacite : le contenu est centre dans le cercle, donc sans cela le nom
+   sauterait d'un coup a l'arrivee du texte au lieu de remonter avec lui. */
+.pv-bulle-genres {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  font-size: 0.6rem;
+  line-height: 1.3;
+  color: var(--ink-secondary);
+  transition: max-height 300ms ease, opacity 300ms ease;
+}
+
+/* ═══ LE SURVOL ═══
+
+   `:has` PLUTOT QUE LE SURVOL DU NUAGE : le nuage occupe un carre, et les
+   coins entre les bulles en font partie. Survoler un coin vide aurait
+   eteint les quatorze bulles sans qu'aucune ne s'allume. */
+@media (hover: hover) and (pointer: fine) {
+  .pv-bulle {
+    transition: opacity 300ms ease;
+  }
+  .pv-nuage:has(.pv-bulle-corps:hover) .pv-bulle {
+    opacity: 0.7;
+  }
+  /* CELLE QU'ON SURVOLE PASSE DEVANT. Les bulles sont tangentes : celle qui
+     grossit de huit pour cent mord sur ses voisines, et sans cela elle
+     passerait dessous, ce qui se lit comme un defaut d'empilement. */
+  .pv-nuage .pv-bulle:has(.pv-bulle-corps:hover) {
+    z-index: 1;
+    opacity: 1;
+  }
+  .pv-bulle-corps:hover {
+    transform: scale(1.08);
+  }
+  .pv-bulle-corps:hover .pv-bulle-genres,
+  .pv-bulle-corps:focus-visible .pv-bulle-genres {
+    max-height: 3.2em;
+    opacity: 1;
+  }
+  .pv-bulle-corps:focus-visible {
+    transform: scale(1.08);
+  }
+}
+
+/* ═══ TELEPHONE : L'APPUI VAUT LE SURVOL ═══
+   Il n'y a pas de survol, et les trois genres ne tiendraient de toute facon
+   pas dans un cercle de cette taille : ils restent caches, et c'est l'appui
+   qui ouvre la famille. Le grossissement, lui, se garde au doigt. */
+@media (max-width: 560px) {
+  .pv-bulle-corps:active {
+    transform: scale(1.08);
+  }
+}

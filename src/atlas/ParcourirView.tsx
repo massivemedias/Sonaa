@@ -40,6 +40,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FaIcon } from './FaIcon.tsx';
 import { Apparition } from '../design/mouvement.tsx';
+import { NuageFamilles } from './NuageFamilles.tsx';
 import { SiteNav } from './SiteNav.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import { ContributeActions } from './ContributeActions.tsx';
@@ -100,26 +101,23 @@ const motLong = (nom: string): '1' | undefined =>
 const TOUS: { fi: number; gl: number; g: Genre }[] = FAMILIES.flatMap((_, fi) =>
   (STRUCTURES[fi]?.genres ?? []).map((g, gl) => ({ fi, gl, g }))
 );
-/* ═══ CE QUE PORTE LA TUILE D'UNE FAMILLE, CALCULE UNE FOIS ═══
+/* ═══ LES TROIS FONDATEURS DE CHAQUE FAMILLE, CALCULES UNE FOIS ═══
  *
- * La decennie de naissance est celle du PLUS ANCIEN genre de la famille, et
- * les trois genres montres au survol sont les trois plus anciens. Ce n'est
- * pas un choix de mise en page : une famille se raconte par ses fondateurs,
- * pas par ses derniers venus, et c'est deja l'ordre que `ordreParDate`
- * applique partout ailleurs dans cette vue.
+ * Les trois genres les plus anciens, montres dans la bulle au survol. Une
+ * famille se raconte par ses fondateurs, pas par ses derniers venus, et
+ * c'est deja l'ordre que `ordreParDate` applique partout dans cette vue.
  *
- * LES GENRES SANS ANNEE SONT ECARTES, pas ranges en dernier : ils fausseraient
- * la decennie s'ils tombaient en tete, et ils n'apprennent rien dans une
- * liste de trois. */
-const FAMILLES_DETAIL: readonly { decennie: number | null; representatifs: readonly string[] }[] =
-  FAMILIES.map((_, fi) => {
-    const dates = ordreParDate(STRUCTURES[fi]?.genres ?? []).filter((x) => x.g.annee > 0);
-    const premiere = dates[0]?.g.annee ?? 0;
-    return {
-      decennie: premiere > 0 ? Math.floor(premiere / 10) * 10 : null,
-      representatifs: dates.slice(0, 3).map((x) => x.g.label),
-    };
-  });
+ * LES GENRES SANS ANNEE SONT ECARTES : ils n'apprennent rien dans une liste
+ * de trois, et ils prendraient la place de ceux qui disent quelque chose.
+ *
+ * LA DECENNIE DE NAISSANCE N'EST PLUS CALCULEE : elle servait au chiffre
+ * fantome des tuiles, parti avec elles. */
+const REPRESENTATIFS: readonly (readonly string[])[] = FAMILIES.map((_, fi) =>
+  ordreParDate(STRUCTURES[fi]?.genres ?? [])
+    .filter((x) => x.g.annee > 0)
+    .slice(0, 3)
+    .map((x) => x.g.label)
+);
 
 /* LE NOMBRE DE MORCEAUX DE REFERENCE, lu une fois. Il va sous un grand
    chiffre en haut de l'atlas, avec les genres et les familles. */
@@ -414,58 +412,16 @@ export function ParcourirView() {
                 <span className="pv-stat-mot">{t.statMorceaux}</span>
               </div>
             </Apparition>
-            {/* LA PHRASE « 219 genres, 14 familles » EST PARTIE. Elle redisait
-                mot pour mot les deux grands chiffres poses vingt pixels
-                au-dessus. */}
-            <div className="pv-grille-familles">
-              {FAMILIES.map((f, fi) => {
-                const d = FAMILLES_DETAIL[fi];
-                return (
-                  <Apparition key={f.id} i={fi}>
-                    <button
-                      className="pv-famille"
-                      style={{ '--f-hue': f.hue } as React.CSSProperties}
-                      onClick={() => aller({ k: 'famille', fi })}
-                      /* LE CHIFFRE FANTOME EST UN DESSIN, PAS UN LIBELLE :
-                         « 70 » lu a voix haute ne veut rien dire. La decennie
-                         entiere entre donc dans le nom accessible du bouton,
-                         et le chiffre en sort. */
-                      aria-label={d?.decennie ? `${f.label}, ${t.decennie(d.decennie)}, ${t.nGenres(f.count)}` : undefined}
-                    >
-                      {d?.decennie ? (
-                        <span className="pv-famille-chiffre" aria-hidden="true">
-                          {String(d.decennie).slice(2)}
-                        </span>
-                      ) : null}
-                      <span className="pv-famille-bas">
-                        {/* LES TROIS FONDATEURS, au-dessus du nom. Caches
-                            jusqu'au survol sur un ecran a souris, montres
-                            d'emblee sur un ecran tactile ou le survol
-                            n'existe pas. Voir parcourir.css. */}
-                        {d && d.representatifs.length > 0 && (
-                          <span className="pv-famille-genres">{d.representatifs.join(' · ')}</span>
-                        )}
-                        <span className="pv-famille-nom">{f.label}</span>
-                        <span className="pv-famille-n">{t.nGenres(f.count)}</span>
-                      </span>
-                    </button>
-                  </Apparition>
-                );
-              })}
-              {/* LA QUINZIEME TUILE, SANS TEINTE : elle n'est pas une famille,
-                  et elle ne doit pas se lire comme la quinzieme. */}
-              <Apparition i={FAMILIES.length}>
-                <a className="pv-famille pv-famille-index" href="#/index">
-                  <span className="pv-famille-chiffre" aria-hidden="true">{TOUS.length}</span>
-                  <span className="pv-famille-bas">
-                    <span className="pv-famille-nom">{t.piedIndex}</span>
-                  </span>
-                </a>
-              </Apparition>
-            </div>
-            {/* L'INDEX A PLAT EST DEVENU LA QUINZIEME TUILE, ci-dessus. Il a
-                ete un lien nu sous la grille, et avant cela une ligne perdue
-                parmi seize dans le pied de page. */}
+            {/* ═══ LE NUAGE REMPLACE LA GRILLE ═══
+                Mika, le 22 septembre 2026. Quatorze bulles de verre empilees,
+                une par famille, a la place de quinze tuiles rangees. La tuile
+                d'index part avec la grille : la route `#/index` reste servie,
+                elle n'est simplement plus annoncee ici. Voir
+                NuageFamilles.tsx. */}
+            <NuageFamilles
+              representatifs={REPRESENTATIFS}
+              onOuvrir={(fi) => aller({ k: 'famille', fi })}
+            />
           </>
         )}
 
