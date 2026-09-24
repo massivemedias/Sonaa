@@ -671,6 +671,8 @@ interface Dictionnaire {
   readonly reconnaitreLeStyle: string;
   readonly reconnaitreLeMorceau: string;
   readonly reconnaitreHorsAtlas: string;
+  /** Quand le reseau ne donne qu une famille : « Famille Techno ». */
+  readonly reconnaitreFamilleSeule: (nom: string) => string;
   readonly reconnaitreSansMorceau: string;
   readonly reconnaitreMorceauNonIdentifie: string;
   readonly reconnaitreMorceauNonDemande: string;
@@ -1334,6 +1336,7 @@ const FR: Dictionnaire = {
   reconnaitreLeStyle: 'Le style',
   reconnaitreLeMorceau: 'Le morceau',
   reconnaitreHorsAtlas: 'hors atlas',
+  reconnaitreFamilleSeule: (nom) => `Famille ${nom}`,
   reconnaitreSansMorceau: 'Aucun morceau reconnu. Cela arrive souvent quand quelqu’un parle par-dessus.',
   reconnaitreMorceauNonIdentifie: 'Morceau non identifié',
   reconnaitreMorceauNonDemande: 'Le morceau n’a pas été cherché : coche la case « envoyer huit secondes » au prochain essai.',
@@ -2001,6 +2004,7 @@ const EN: Dictionnaire = {
   reconnaitreLeStyle: 'The style',
   reconnaitreLeMorceau: 'The track',
   reconnaitreHorsAtlas: 'outside the atlas',
+  reconnaitreFamilleSeule: (nom) => `${nom} family`,
   reconnaitreSansMorceau: 'No track recognised. That often happens when someone is talking over it.',
   reconnaitreMorceauNonIdentifie: 'Track not identified',
   reconnaitreMorceauNonDemande: 'The track was not searched: tick the “send eight seconds” box next time.',

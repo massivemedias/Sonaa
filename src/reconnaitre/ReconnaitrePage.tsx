@@ -39,14 +39,13 @@ const PASSERELLE = 'https://sonaa-sets.massivemedias.workers.dev';
 
 type Etat = 'repos' | 'consentement' | 'chargement' | 'ecoute' | 'analyse' | 'resultat' | 'erreur';
 
-/* L'ADRESSE D'UN GENRE OU D'UNE FAMILLE, telle que le pre-rendu l'ecrit. Un
-   lien construit ici doit etre exactement celui de l'atlas, sinon il tombe
-   sur la page d'accueil sans rien dire. */
-function cheminDuGenre(id: string): string | null {
+
+/** Le nom et l'adresse d'un genre de l'atlas, par son identifiant. */
+function genreSonaa(id: string): { nom: string; chemin: string } | null {
   for (let fi = 0; fi < FAMILIES.length; fi += 1) {
     const genre = STRUCTURES[fi]?.genres.find((g) => g.id === id);
     const famille = FAMILIES[fi];
-    if (genre && famille) return `/styles/${slug(famille.label)}/${slug(genre.label)}/`;
+    if (genre && famille) return { nom: genre.label, chemin: `/styles/${slug(famille.label)}/${slug(genre.label)}/` };
   }
   return null;
 }
@@ -224,31 +223,38 @@ export function ReconnaitrePage() {
                   rien, et la jauge les presentait comme s'ils le faisaient. Le
                   premier est le plus probable, le troisieme le moins, c'est
                   tout ce que le reseau sait dire honnetement. */}
+              {/* EN LANGUE SONAA, PAS EN LANGUE DISCOGS. Mika, le 23 septembre 2026 :
+                  « t'es au courant que nous sommes dans SONAA la ? ». Le reseau
+                  parle Discogs, « Deep Techno », « Neo Trance » ; la page parle
+                  l'atlas : le genre SONAA quand la table en donne un, la famille
+                  quand elle n'en donne pas, « hors atlas » pour ce qui n'est pas
+                  electronique. Deux etiquettes qui menent au meme endroit ne
+                  font qu'une ligne. */}
               <ol className="rc-styles">
-                {styles.map((s) => {
-                  const entree = styleDeLEtiquette(s.discogs);
-                  const chemin = entree?.sonaa
-                    ? cheminDuGenre(entree.sonaa)
-                    : entree
-                      ? (() => {
-                          const f = familleSonaa(entree);
-                          return f ? cheminDeLaFamille(f) : null;
-                        })()
-                      : null;
-                  return (
-                    <li key={s.discogs} className="rc-style">
-                      {chemin ? (
-                        <a className="rc-style-nom" href={chemin}>
-                          {s.nom}
+                {styles
+                  .map((s) => {
+                    const entree = styleDeLEtiquette(s.discogs);
+                    const genre = entree?.sonaa ? genreSonaa(entree.sonaa) : null;
+                    const famille = entree ? familleSonaa(entree) : null;
+                    if (genre) return { cle: `g:${entree?.sonaa}`, nom: genre.nom, chemin: genre.chemin, hors: false };
+                    const f = famille ? FAMILIES.find((x) => x.id === famille) : null;
+                    if (f) return { cle: `f:${f.id}`, nom: t.reconnaitreFamilleSeule(f.label), chemin: cheminDeLaFamille(f.id), hors: false };
+                    return { cle: `d:${s.discogs}`, nom: s.nom, chemin: null, hors: true };
+                  })
+                  .filter((x, i, tous) => tous.findIndex((y) => y.cle === x.cle) === i)
+                  .map((x) => (
+                    <li key={x.cle} className="rc-style">
+                      {x.chemin ? (
+                        <a className="rc-style-nom" href={x.chemin}>
+                          {x.nom}
                         </a>
                       ) : (
                         <span className="rc-style-nom rc-style-hors">
-                          {s.nom} <span className="rc-hors-mot">{t.reconnaitreHorsAtlas}</span>
+                          {x.nom} <span className="rc-hors-mot">{t.reconnaitreHorsAtlas}</span>
                         </span>
                       )}
                     </li>
-                  );
-                })}
+                  ))}
               </ol>
               <p className="rc-note">{t.reconnaitreImprecis}</p>
             </Apparition>
