@@ -706,7 +706,7 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
   /* On revient a l'histoire en changeant de genre : rester sur l'onglet
      fabrication ferait arriver au milieu d'une recette sur un style qu'on
      vient a peine d'ouvrir. */
-  type Panneau = 'aucun' | 'artistes' | 'fiche' | 'histoire' | 'cours';
+  type Panneau = 'aucun' | 'artistes' | 'histoire' | 'cours';
   const [panneau, setPanneau] = useState<Panneau>('aucun');
   useEffect(() => setPanneau('aucun'), [genre.id]);
   const bascule = (p: Panneau): void => setPanneau((x) => (x === p ? 'aucun' : p));
@@ -770,22 +770,11 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
       {(anglais?.description || genre.description) && (
         <p className="pv-description">{anglais?.description || genre.description}</p>
       )}
-      {/* LA FICHE TECHNIQUE SE PREND ICI, SOUS LA DESCRIPTION ET AVANT LES
-          MORCEAUX. Mika, le 23 septembre 2026 : « deplacer le bouton Fact
-          sheet juste sous la description ». Le bouton « Produire ce style »
-          reste sous la liste, avec les artistes et l'histoire. */}
-      <div className="pv-onglets pv-onglets-haut" role="tablist">
-        <button className="pv-onglet" role="tab" aria-selected={panneau === 'fiche'} onClick={() => bascule('fiche')}>
-          {t.ficheTechnique}
-        </button>
-      </div>
-      {/* LA FICHE TECHNIQUE. Elle ne dit rien que le corpus ne sache deja :
-          tempo, date, machines, labels, artistes, descendance. C'est le
-          minimum pour repondre a « comment ca se fabrique », et chaque valeur
-          est tracable jusqu'a la donnee, sans un mot invente. */}
-      {panneau === 'fiche' && (
+      {/* LA FICHE TECHNIQUE FAIT PARTIE DE LA PAGE. Mika, le 23 septembre
+          2026 : plus de bouton, plus d'etat ouvert ou ferme, le panneau est
+          la, deplie, sous la description et avant les morceaux. Son intitule
+          part avec le bouton : sans rien a ouvrir, il ne nommait plus rien. */}
         <section className="pv-fiche" style={{ '--pv-hue': famille.hue } as React.CSSProperties}>
-          <h3 className="pv-fiche-titre">{t.ficheTechnique}</h3>
           {/* PLUS DE PHOTO DE MACHINE ICI, NI AILLEURS.
 
               Elle avait ete descendue en bas de page, puis remontee dans cette
@@ -862,7 +851,6 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
             )}
           </dl>
         </section>
-      )}
 
 
       {/* LA DESCRIPTION AVANT LA LISTE, LE RESTE APRES.
