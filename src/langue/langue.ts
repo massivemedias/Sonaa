@@ -671,11 +671,15 @@ interface Dictionnaire {
   readonly reconnaitreLeStyle: string;
   readonly reconnaitreLeMorceau: string;
   readonly reconnaitreHorsAtlas: string;
+  /** Sous le bouton d ecoute, avant tout clic : le texte avant le lien AudD, puis apres. */
+  readonly reconnaitreEnvoiAvant: string;
+  readonly reconnaitreEnvoiApres: string;
+  readonly reconnaitreEnvoiInterrupteur: string;
+  readonly confidentialitePartageCorps: string;
   /** Quand le reseau ne donne qu une famille : « Famille Techno ». */
   readonly reconnaitreFamilleSeule: (nom: string) => string;
   readonly reconnaitreSansMorceau: string;
   readonly reconnaitreMorceauNonIdentifie: string;
-  readonly reconnaitreMorceauNonDemande: string;
   readonly reconnaitreSonTropFaible: string;
   /** La raison rendue par le service, telle quelle : un code et sa phrase. */
   readonly reconnaitreServiceRefuse: (raison: string) => string;
@@ -690,7 +694,6 @@ interface Dictionnaire {
   readonly consentementMicro: string;
   readonly consentementLocal: string;
   readonly consentementDuree: string;
-  readonly consentementCaseMorceau: string;
   readonly consentementAccepter: string;
   readonly consentementRefuser: string;
   readonly tracksChapeau: string;
@@ -1336,10 +1339,13 @@ const FR: Dictionnaire = {
   reconnaitreLeStyle: 'Le style',
   reconnaitreLeMorceau: 'Le morceau',
   reconnaitreHorsAtlas: 'hors atlas',
+  reconnaitreEnvoiAvant: 'Huit secondes de son sont envoyées à ',
+  reconnaitreEnvoiApres: ' pour identifier le morceau. Rien n’est conservé.',
+  reconnaitreEnvoiInterrupteur: 'Identifier le morceau',
+  confidentialitePartageCorps: 'Quand vous utilisez la reconnaissance de musique, huit secondes de son captées par le micro sont envoyées à AudD (audd.io) pour identifier le morceau ; SONAA ne les conserve pas.',
   reconnaitreFamilleSeule: (nom) => `Famille ${nom}`,
   reconnaitreSansMorceau: 'Aucun morceau reconnu. Cela arrive souvent quand quelqu’un parle par-dessus.',
   reconnaitreMorceauNonIdentifie: 'Morceau non identifié',
-  reconnaitreMorceauNonDemande: 'Le morceau n’a pas été cherché : coche la case « envoyer huit secondes » au prochain essai.',
   reconnaitreSonTropFaible: 'Son trop faible. Rapprochez l’appareil de la source et réessayez.',
   reconnaitreServiceRefuse: (raison) => `Le service de reconnaissance n’a pas rendu de résultat (${raison}).`,
   reconnaitreImprecis:
@@ -1355,8 +1361,6 @@ const FR: Dictionnaire = {
   consentementLocal:
     'La reconnaissance du style se fait entièrement sur votre appareil. Le son ne part sur aucun serveur, et rien n’est enregistré.',
   consentementDuree: 'Le micro se referme tout seul au bout des dix secondes.',
-  consentementCaseMorceau:
-    'Envoyer aussi huit secondes au service AudD pour tenter de reconnaître le titre. Le son n’y est pas conservé.',
   consentementAccepter: 'J’accepte, écouter',
   consentementRefuser: 'Annuler',
   tracksChapeau:
@@ -2004,10 +2008,13 @@ const EN: Dictionnaire = {
   reconnaitreLeStyle: 'The style',
   reconnaitreLeMorceau: 'The track',
   reconnaitreHorsAtlas: 'outside the atlas',
+  reconnaitreEnvoiAvant: 'Eight seconds of sound are sent to ',
+  reconnaitreEnvoiApres: ' to identify the track. Nothing is kept.',
+  reconnaitreEnvoiInterrupteur: 'Identify the track',
+  confidentialitePartageCorps: 'When you use music recognition, eight seconds of sound captured by the microphone are sent to AudD (audd.io) to identify the track; SONAA does not keep them.',
   reconnaitreFamilleSeule: (nom) => `${nom} family`,
   reconnaitreSansMorceau: 'No track recognised. That often happens when someone is talking over it.',
   reconnaitreMorceauNonIdentifie: 'Track not identified',
-  reconnaitreMorceauNonDemande: 'The track was not searched: tick the “send eight seconds” box next time.',
   reconnaitreSonTropFaible: 'Sound too quiet. Move the device closer to the source and try again.',
   reconnaitreServiceRefuse: (raison) => `The recognition service returned no result (${raison}).`,
   reconnaitreImprecis:
@@ -2023,8 +2030,6 @@ const EN: Dictionnaire = {
   consentementLocal:
     'Style recognition runs entirely on your device. The sound is sent to no server, and nothing is recorded.',
   consentementDuree: 'The microphone closes on its own after the ten seconds.',
-  consentementCaseMorceau:
-    'Also send eight seconds to the AudD service to try to name the track. The sound is not kept there.',
   consentementAccepter: 'I agree, listen',
   consentementRefuser: 'Cancel',
   tracksChapeau: 'Tracks by SONAA artists, bought straight from the people who made them.',

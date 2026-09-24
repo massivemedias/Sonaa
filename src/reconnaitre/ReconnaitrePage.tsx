@@ -36,6 +36,24 @@ import '../atlas/credits.css';
 import './reconnaitre.css';
 
 const PASSERELLE = 'https://sonaa-sets.massivemedias.workers.dev';
+const CLE_ENVOI = 'sonaa-envoi-morceau';
+const CLE_MICRO = 'sonaa-micro-consenti';
+
+function lireChoix(cle: string, defaut: boolean): boolean {
+  try {
+    const v = localStorage.getItem(cle);
+    return v === null ? defaut : v === '1';
+  } catch {
+    return defaut;
+  }
+}
+function ecrireChoix(cle: string, valeur: boolean): void {
+  try {
+    localStorage.setItem(cle, valeur ? '1' : '0');
+  } catch {
+    /* navigation privee : le choix ne survit pas a la page, et c'est tout */
+  }
+}
 
 type Etat = 'repos' | 'consentement' | 'chargement' | 'ecoute' | 'analyse' | 'resultat' | 'erreur';
 
@@ -68,7 +86,13 @@ export function ReconnaitrePage() {
   const [erreur, setErreur] = useState<string>('');
   const [historique, setHistorique] = useState<readonly Reconnaissance[]>([]);
   const [morceauActif, setMorceauActif] = useState(false);
-  const [accepteMorceau, setAccepteMorceau] = useState(false);
+  /* LE CLIC VAUT CONSENTEMENT, ET L'ENVOI SE DEBRANCHE. Mika, le 23 septembre
+     2026 : « plus aucune case a cocher ». La fenetre ne demande plus que le
+     micro, une fois, et s'en souvient ; l'envoi de huit secondes a AudD est
+     annonce en clair sous le bouton, actif par defaut, et un interrupteur le
+     coupe pour qui ne le veut pas. Les deux choix vivent dans localStorage. */
+  const [envoiMorceau, setEnvoiMorceau] = useState<boolean>(() => lireChoix(CLE_ENVOI, true));
+  const [microConsenti, setMicroConsenti] = useState<boolean>(() => lireChoix(CLE_MICRO, false));
   const vivant = useRef(true);
 
   useEffect(() => {
@@ -133,7 +157,7 @@ export function ReconnaitrePage() {
       /* LE MORCEAU EST DEMANDE APRES, ET SON ECHEC N'EFFACE PAS LE STYLE. */
       let reconnu: MorceauReconnu | null = null;
       let raison = '';
-      if (morceauActif && accepteMorceau) {
+      if (morceauActif && envoiMorceau) {
         try {
           const r = await fetch(`${PASSERELLE}/api/reconnaitre-track`, {
             method: 'POST',
@@ -170,7 +194,7 @@ export function ReconnaitrePage() {
       setErreur(nom === 'NotAllowedError' || nom === 'NotFoundError' ? t.reconnaitreErreurMicro : t.reconnaitreErreurStyle);
       setEtat('erreur');
     }
-  }, [morceauActif, accepteMorceau]);
+  }, [morceauActif, envoiMorceau]);
 
   const enMarche = etat === 'chargement' || etat === 'ecoute' || etat === 'analyse';
 
@@ -197,7 +221,12 @@ export function ReconnaitrePage() {
               type="button"
               className={`rc-bouton${enMarche ? ' rc-bouton-actif' : ''}`}
               disabled={enMarche}
-              onClick={() => (etat === 'repos' || etat === 'resultat' || etat === 'erreur' ? setEtat('consentement') : undefined)}
+              onClick={() => {
+                if (etat !== 'repos' && etat !== 'resultat' && etat !== 'erreur') return;
+                /* LE MICRO NE SE DEMANDE QU'UNE FOIS, comme n'importe quel site. */
+                if (microConsenti) void lancer();
+                else setEtat('consentement');
+              }}
               aria-live="polite"
             >
               {etat === 'ecoute' && (
@@ -210,6 +239,29 @@ export function ReconnaitrePage() {
               <span className="rc-bouton-mot">{libelleBouton}</span>
             </button>
             <p className="rc-poids">{t.reconnaitrePoids(POIDS_MODELE_MO)}</p>
+            {morceauActif && (
+              <p className="rc-envoi">
+                <span>
+                  {t.reconnaitreEnvoiAvant}
+                  <a href="https://audd.io" target="_blank" rel="noreferrer noopener">
+                    AudD
+                  </a>
+                  {t.reconnaitreEnvoiApres}
+                </span>
+                <label className="rc-interrupteur">
+                  <input
+                    type="checkbox"
+                    role="switch"
+                    checked={envoiMorceau}
+                    onChange={(e) => {
+                      setEnvoiMorceau(e.target.checked);
+                      ecrireChoix(CLE_ENVOI, e.target.checked);
+                    }}
+                  />
+                  <span>{t.reconnaitreEnvoiInterrupteur}</span>
+                </label>
+              </p>
+            )}
           </div>
 
           {etat === 'erreur' && <p className="rc-erreur">{erreur}</p>}
@@ -260,17 +312,7 @@ export function ReconnaitrePage() {
             </Apparition>
           )}
 
-          {/* LE MORCEAU NON CHERCHE SE DIT AUSSI. Mika, le 23 septembre 2026,
-              devant un resultat sans morceau : la case n'etait pas cochee,
-              et la page ne disait rien. Une section absente se lit comme une
-              fonction absente. */}
-          {etat === 'resultat' && morceauActif && !accepteMorceau && (
-            <Apparition as="section" i={1} className="rc-bloc">
-              <h2 className="rc-titre">{t.reconnaitreLeMorceau}</h2>
-              <p className="rc-note">{t.reconnaitreMorceauNonDemande}</p>
-            </Apparition>
-          )}
-          {etat === 'resultat' && morceauActif && accepteMorceau && (
+          {etat === 'resultat' && morceauActif && envoiMorceau && (
             <Apparition as="section" i={1} className="rc-bloc">
               <h2 className="rc-titre">{t.reconnaitreLeMorceau}</h2>
               {morceau ? (
@@ -357,21 +399,19 @@ export function ReconnaitrePage() {
             <p>{t.consentementMicro}</p>
             <p>{t.consentementLocal}</p>
             <p>{t.consentementDuree}</p>
-            {morceauActif && (
-              <label className="rc-case">
-                <input
-                  type="checkbox"
-                  checked={accepteMorceau}
-                  onChange={(e) => setAccepteMorceau(e.target.checked)}
-                />
-                <span>{t.consentementCaseMorceau}</span>
-              </label>
-            )}
             <div className="rc-modale-boutons">
               <button type="button" className="rc-refus" onClick={() => setEtat('repos')}>
                 {t.consentementRefuser}
               </button>
-              <button type="button" className="rc-accord" onClick={() => void lancer()}>
+              <button
+                type="button"
+                className="rc-accord"
+                onClick={() => {
+                  setMicroConsenti(true);
+                  ecrireChoix(CLE_MICRO, true);
+                  void lancer();
+                }}
+              >
                 {t.consentementAccepter}
               </button>
             </div>

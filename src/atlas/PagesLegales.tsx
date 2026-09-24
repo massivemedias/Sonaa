@@ -23,7 +23,13 @@ import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import './credits.css';
 
-function PageLegale({ titre, sections }: { titre: string; sections: readonly string[] }) {
+interface Section {
+  readonly titre: string;
+  /** Le texte quand il existe ; sinon la section dit qu'elle attend. */
+  readonly corps?: string;
+}
+
+function PageLegale({ titre, sections }: { titre: string; sections: readonly (string | Section)[] }) {
   useEffect(() => {
     document.title = `${titre} · SONAA`;
   }, [titre]);
@@ -38,12 +44,15 @@ function PageLegale({ titre, sections }: { titre: string; sections: readonly str
         </header>
 
         <div className="credits-body">
-          {sections.map((s) => (
-            <section key={s}>
-              <h2>{s}</h2>
-              <p>{t.juridiqueEnRedaction}</p>
-            </section>
-          ))}
+          {sections.map((s) => {
+            const sec = typeof s === 'string' ? { titre: s } : s;
+            return (
+              <section key={sec.titre}>
+                <h2>{sec.titre}</h2>
+                <p>{sec.corps ?? t.juridiqueEnRedaction}</p>
+              </section>
+            );
+          })}
         </div>
 
         <PiedDePage />
@@ -75,7 +84,9 @@ export function ConfidentialitePage() {
       sections={[
         t.confidentialiteCollecte,
         t.confidentialiteUsage,
-        t.confidentialitePartage,
+        /* LA SEULE PHRASE DEJA ECRITE : l'envoi a AudD, pose le 23 septembre
+           2026 avec le retrait de la case de consentement. */
+        { titre: t.confidentialitePartage, corps: t.confidentialitePartageCorps },
         t.confidentialiteConservation,
         t.confidentialiteDroits,
         t.confidentialiteContact,
