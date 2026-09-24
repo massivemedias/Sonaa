@@ -26,7 +26,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FAMILIES, STRUCTURES, type Genre, type Track } from './structures.ts';
 import { poidsDe } from './poids.ts';
 import { ProceduralCover } from './ProceduralCover.tsx';
-import { useLecteur } from '../lecture/useLecteur.ts';
+import type { useLecteur } from '../lecture/useLecteur.ts';
+import { useLecteurPartage } from '../lecture/LecteurContexte.tsx';
 import { peutEcouter } from '../lib/porte-ecoute.ts';
 import MACHINES from '../data/machines.json';
 import ILLUSTRATIONS from '../data/illustrations.json';
@@ -198,7 +199,14 @@ export function ParcourirView() {
      ce qui permet au premier playVideo() de partir du geste, et donc au son
      d'etre autorise. Construit au premier appui, il devenait pret une seconde
      trop tard et le navigateur refusait. */
-  const { lecture, jouer: jouerSansPorte, basculer: basculerSansPorte, deplacer, chercher } = useLecteur({ precharger: niveau.k === 'genre' });
+  /* LE LECTEUR EST CELUI DE L'APPLICATION, PAS CELUI DE CETTE VUE : voir
+     lecture/LecteurContexte.tsx. On lui demande seulement de se construire
+     des qu'une page de genre s'ouvre, pour que le premier appui soit dans le
+     geste. Quitter cette vue ne le demonte plus. */
+  const { lecture, jouer: jouerSansPorte, basculer: basculerSansPorte, deplacer, chercher, demanderPrechargement } = useLecteurPartage();
+  useEffect(() => {
+    if (niveau.k === 'genre') demanderPrechargement();
+  }, [niveau.k, demanderPrechargement]);
 
   /* ON ECOUTE CONNECTE : voir porte-ecoute.ts. Les deux gestes qui lancent
      un son passent par la porte ; elle ouvre le panneau de connexion quand

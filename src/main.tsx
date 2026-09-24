@@ -4,6 +4,7 @@ import './design/tokens.css';
 import './design/base.css';
 import './design/v2.css';
 import { MotionRacine } from './design/mouvement.tsx';
+import { LecteurProvider } from './lecture/LecteurContexte.tsx';
 import { MARCHAND_ACTIF } from './config.ts';
 import { compterLaVisite, enregistrerLeServiceWorker, purgerSiDemande } from './lib/pwa.ts';
 import { hashDuChemin } from './lib/chemins.ts';
@@ -283,6 +284,7 @@ function App() {
   return (
     <StrictMode>
     <MotionRacine>
+    <LecteurProvider>
       <Suspense fallback={null}>
         {route === 'index' ? (
           <IndexPage />
@@ -341,6 +343,7 @@ function App() {
       {/* Hors du Suspense : un bandeau « hors ligne » doit pouvoir s'afficher
           même si le chunk de la page en cours n'a pas pu être chargé. */}
       <PwaLayer />
+    </LecteurProvider>
     </MotionRacine>
   </StrictMode>
   );

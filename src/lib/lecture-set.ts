@@ -22,7 +22,7 @@
  */
 
 import { useSyncExternalStore } from 'react';
-import { compterEcoute, urlAudio, type SetDJ } from './sets.ts';
+import { compterEcoute, urlAudio, urlAvatar, urlPochette, type SetDJ } from './sets.ts';
 
 export type SourceDeLecture = 'set' | 'youtube';
 
@@ -61,8 +61,58 @@ const abonnes = new Set<() => void>();
 const comptes = new Set<string>();
 
 function publier(suivant: EtatLectureSet): void {
+  const changeDeJeu = suivant.joue !== etat.joue || (suivant.set?.id ?? null) !== (etat.set?.id ?? null);
   etat = suivant;
   for (const f of abonnes) f();
+  if (changeDeJeu) direAuSysteme();
+}
+
+/* ═══ CE QUE LE SYSTEME AFFICHE : ecran verrouille, centre de controle ═══
+   Mika, le 23 septembre 2026 : « pour que les controles systeme et l'ecran
+   verrouille pilotent la lecture ». Le set est le seul son du site qui joue
+   dans une balise audio native, donc le seul qui continue quand le telephone
+   se verrouille ; sans metadonnees il s'y affichait comme « sonaa.ca ». */
+function direAuSysteme(): void {
+  const ms = typeof navigator !== 'undefined' ? navigator.mediaSession : undefined;
+  if (!ms) return;
+  const set = etat.set;
+  if (!set) {
+    ms.metadata = null;
+    ms.playbackState = 'none';
+    return;
+  }
+  if (typeof MediaMetadata === 'function') {
+    const image = urlPochette(set.cover_path) ?? urlAvatar(set.artiste_avatar);
+    ms.metadata = new MediaMetadata({
+      title: set.titre,
+      artist: set.artiste_nom ?? '',
+      album: 'SONAA',
+      artwork: image ? [{ src: image, sizes: '512x512' }] : [],
+    });
+  }
+  ms.playbackState = etat.joue ? 'playing' : 'paused';
+}
+
+/* LES GESTES DU SYSTEME, POSES UNE FOIS avec la balise. Une action que ce
+   navigateur ne connait pas leve : on l'ignore et on garde les autres. */
+function poserLesGestes(): void {
+  const ms = typeof navigator !== 'undefined' ? navigator.mediaSession : undefined;
+  if (!ms) return;
+  const poser = (action: MediaSessionAction, h: MediaSessionActionHandler): void => {
+    try {
+      ms.setActionHandler(action, h);
+    } catch {
+      /* action inconnue ici */
+    }
+  };
+  poser('play', () => basculerLeSet());
+  poser('pause', () => basculerLeSet());
+  poser('stop', () => arreterLeSet());
+  poser('seekbackward', (d) => chercherDansLeSet(etat.position - (d.seekOffset ?? 10)));
+  poser('seekforward', (d) => chercherDansLeSet(etat.position + (d.seekOffset ?? 10)));
+  poser('seekto', (d) => {
+    if (typeof d.seekTime === 'number') chercherDansLeSet(d.seekTime);
+  });
 }
 
 /** La balise, creee au premier besoin et jamais detruite. */
@@ -84,6 +134,7 @@ function balise(): HTMLAudioElement {
      sur l'evenement `play`. Afficher Pause avant que le son ait demarre
      faisait envoyer une pause au moment ou le geste allait debloquer. */
   quandLAutreDemarre('set', () => a.pause());
+  poserLesGestes();
   audio = a;
   return a;
 }
