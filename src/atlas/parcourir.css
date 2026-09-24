@@ -714,6 +714,11 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   gap: 0.5rem;
   margin: 2rem 0 0;
 }
+/* LA RANGEE DU HAUT, sous la description : elle colle au texte qu'elle
+   complete et laisse de l'air avant la liste des morceaux. */
+.pv-onglets-haut {
+  margin: 1rem 0 0.25rem;
+}
 .pv-onglet {
   display: inline-flex;
   align-items: center;

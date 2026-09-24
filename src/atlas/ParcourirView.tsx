@@ -762,123 +762,15 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
       {(anglais?.description || genre.description) && (
         <p className="pv-description">{anglais?.description || genre.description}</p>
       )}
-
-
-      {/* LA DESCRIPTION AVANT LA LISTE, LE RESTE APRES.
-
-          Elle etait passee SOUS la liste parce qu'on defilait trop longtemps
-          avant d'atteindre le lecteur. Le probleme etait reel, mais il ne
-          venait pas de sa position : il venait de sa TAILLE. Le corps est
-          descendu a 12 px depuis, et le chapeau tient en trois lignes. Il
-          reprend donc sa place naturelle, qui est d'ouvrir la page, sans
-          repousser la musique hors de l'ecran.
-
-          Ce qui reste dessous est ce qui est LONG : la photo, la fiche
-          technique et l'article. */}
-      {tracks.length > 0 && (
-        <h3 className="pv-titre-liste">{t.nMorceaux(tracks.length)}</h3>
-      )}
-
-      {tracks.length > 0 && (
-        <ol className="pv-pistes">
-          {tracks.map((tr, i) => {
-            const active = cetteListe && lecture.index === i;
-            return (
-              <li key={tr.id}>
-                <button
-                  className="pv-piste"
-                  data-active={active}
-                  onClick={() => (active ? basculer() : jouer(tracks, i, genre.id))}
-                >
-                  <span className="pv-piste-image">
-                    <Pochette track={tr} hue={famille.hue} taille={48} />
-                    {active && (
-                      <span className="pv-piste-etat" aria-hidden="true">
-                        <FaIcon icon={lecture.etat === 'joue' ? faPause : faPlay} />
-                      </span>
-                    )}
-                  </span>
-                  <span className="pv-piste-texte">
-                    <span className="pv-piste-titre">{tr.title}</span>
-                    <span className="pv-piste-artiste">
-                      {tr.artist}
-                      {/* L'ANNEE AFFICHEE EST CELLE DE LA SORTIE ORIGINALE
-                          QUAND ON LA CONNAIT.
-
-                          `year` est la date capturee au premier passage,
-                          `release.year` celle relevee sur Discogs par
-                          correspondance exigeante. La regle du projet, deja
-                          appliquee dans l'ancien lecteur, est de preferer la
-                          seconde. Cette vue ne lisait que la premiere : 502
-                          morceaux dates dans le corpus s'affichaient sans
-                          date, dont six des vingt de Detroit Techno. */}
-                      {anneeDe(tr) ? ` · ${anneeDe(tr)}` : ''}
-                      {tr.role === 'origine' ? ` · ${t.origine}` : ''}
-                    </span>
-                  </span>
-                </button>
-              </li>
-            );
-          })}
-        </ol>
-      )}
-
-      {/* ═══ LE RESTE DE LA PAGE, DERRIERE DES BOUTONS ═══
-       *
-       * Mika, le 14 septembre 2026 : « laisse visible par defaut la description
-       * et les meilleures tracks, et des boutons qui font afficher le reste ».
-       * Une page de genre portait tout a la suite : la fiche technique, trente
-       * artistes, l'article, le tuto. Ce qu'on vient chercher, la description
-       * et les morceaux, se noyait dans ce qu'on pourrait vouloir ensuite.
-       * Chaque bouton ouvre une seule chose ; le meme bouton la referme. Les
-       * artistes n'existent pas sur telephone (voir parcourir.css). */}
-      <div className="pv-onglets" role="tablist">
-        {artistes.length > 0 && (
-          <button className="pv-onglet pv-onglet-artistes" role="tab" aria-selected={panneau === 'artistes'} onClick={() => bascule('artistes')}>
-            {t.lesArtistesDuStyle}
-          </button>
-        )}
+      {/* LA FICHE TECHNIQUE SE PREND ICI, SOUS LA DESCRIPTION ET AVANT LES
+          MORCEAUX. Mika, le 23 septembre 2026 : « deplacer le bouton Fact
+          sheet juste sous la description ». Le bouton « Produire ce style »
+          reste sous la liste, avec les artistes et l'histoire. */}
+      <div className="pv-onglets pv-onglets-haut" role="tablist">
         <button className="pv-onglet" role="tab" aria-selected={panneau === 'fiche'} onClick={() => bascule('fiche')}>
           {t.ficheTechnique}
         </button>
-        {genre.article.length > 0 && (
-          <button className="pv-onglet" role="tab" aria-selected={panneau === 'histoire'} onClick={() => bascule('histoire')}>
-            {t.lHistoire}
-          </button>
-        )}
-        {(genre.tuto.length > 0 || aUnCours(genre.id)) && (
-          <button className="pv-onglet" role="tab" aria-selected={panneau === 'cours'} onClick={() => bascule('cours')}>
-            {t.produireCeStyle}
-          </button>
-        )}
       </div>
-      {/* ═══ LES ARTISTES DE CE STYLE ═══
-       *
-       * La fiche portait six « artistes clés », choisis a la main, dans la
-       * liste de faits. Ils y restent : ce sont ceux que Mika a verifies, et
-       * six noms tries valent mieux que trente rangs.
-       *
-       * Ceux-ci sont autre chose : un CLASSEMENT, celui de Last.fm, par
-       * nombre d'auditeurs, filtre par ce que Discogs sait des disques de
-       * chacun. Un artiste que Discogs connait et dont les sorties ne portent
-       * pas ce genre est retire : c'est exactement l'etiquette posee de
-       * travers par trois auditeurs qu'on cherchait a ecarter.
-       *
-       * LA PROVENANCE EST ECRITE SOUS LA LISTE, et ce n'est pas de la
-       * modestie. Une liste de trente noms sans source se lit comme un
-       * jugement de l'auteur ; avec sa source, elle se lit pour ce qu'elle
-       * est, un releve qu'on peut contester. */}
-      {panneau === 'artistes' && artistes.length > 0 && (
-        <section className="pv-artistes">
-          <h3 className="pv-titre-liste">{t.lesArtistesDuStyle}</h3>
-          <ul className="pv-artistes-liste">
-            {artistes.map((nom) => (
-              <li key={nom}>{nom}</li>
-            ))}
-          </ul>
-          <p className="pv-artistes-source">{t.artistesDouVientLaListe(dateMoisson)}</p>
-        </section>
-      )}
       {/* LA FICHE TECHNIQUE. Elle ne dit rien que le corpus ne sache deja :
           tempo, date, machines, labels, artistes, descendance. C'est le
           minimum pour repondre a « comment ca se fabrique », et chaque valeur
@@ -961,6 +853,120 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
               </div>
             )}
           </dl>
+        </section>
+      )}
+
+
+      {/* LA DESCRIPTION AVANT LA LISTE, LE RESTE APRES.
+
+          Elle etait passee SOUS la liste parce qu'on defilait trop longtemps
+          avant d'atteindre le lecteur. Le probleme etait reel, mais il ne
+          venait pas de sa position : il venait de sa TAILLE. Le corps est
+          descendu a 12 px depuis, et le chapeau tient en trois lignes. Il
+          reprend donc sa place naturelle, qui est d'ouvrir la page, sans
+          repousser la musique hors de l'ecran.
+
+          Ce qui reste dessous est ce qui est LONG : la photo, la fiche
+          technique et l'article. */}
+      {tracks.length > 0 && (
+        <h3 className="pv-titre-liste">{t.nMorceaux(tracks.length)}</h3>
+      )}
+
+      {tracks.length > 0 && (
+        <ol className="pv-pistes">
+          {tracks.map((tr, i) => {
+            const active = cetteListe && lecture.index === i;
+            return (
+              <li key={tr.id}>
+                <button
+                  className="pv-piste"
+                  data-active={active}
+                  onClick={() => (active ? basculer() : jouer(tracks, i, genre.id))}
+                >
+                  <span className="pv-piste-image">
+                    <Pochette track={tr} hue={famille.hue} taille={48} />
+                    {active && (
+                      <span className="pv-piste-etat" aria-hidden="true">
+                        <FaIcon icon={lecture.etat === 'joue' ? faPause : faPlay} />
+                      </span>
+                    )}
+                  </span>
+                  <span className="pv-piste-texte">
+                    <span className="pv-piste-titre">{tr.title}</span>
+                    <span className="pv-piste-artiste">
+                      {tr.artist}
+                      {/* L'ANNEE AFFICHEE EST CELLE DE LA SORTIE ORIGINALE
+                          QUAND ON LA CONNAIT.
+
+                          `year` est la date capturee au premier passage,
+                          `release.year` celle relevee sur Discogs par
+                          correspondance exigeante. La regle du projet, deja
+                          appliquee dans l'ancien lecteur, est de preferer la
+                          seconde. Cette vue ne lisait que la premiere : 502
+                          morceaux dates dans le corpus s'affichaient sans
+                          date, dont six des vingt de Detroit Techno. */}
+                      {anneeDe(tr) ? ` · ${anneeDe(tr)}` : ''}
+                      {tr.role === 'origine' ? ` · ${t.origine}` : ''}
+                    </span>
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ol>
+      )}
+
+      {/* ═══ LE RESTE DE LA PAGE, DERRIERE DES BOUTONS ═══
+       *
+       * Mika, le 14 septembre 2026 : « laisse visible par defaut la description
+       * et les meilleures tracks, et des boutons qui font afficher le reste ».
+       * Une page de genre portait tout a la suite : la fiche technique, trente
+       * artistes, l'article, le tuto. Ce qu'on vient chercher, la description
+       * et les morceaux, se noyait dans ce qu'on pourrait vouloir ensuite.
+       * Chaque bouton ouvre une seule chose ; le meme bouton la referme. Les
+       * artistes n'existent pas sur telephone (voir parcourir.css). */}
+      <div className="pv-onglets" role="tablist">
+        {artistes.length > 0 && (
+          <button className="pv-onglet pv-onglet-artistes" role="tab" aria-selected={panneau === 'artistes'} onClick={() => bascule('artistes')}>
+            {t.lesArtistesDuStyle}
+          </button>
+        )}
+        {genre.article.length > 0 && (
+          <button className="pv-onglet" role="tab" aria-selected={panneau === 'histoire'} onClick={() => bascule('histoire')}>
+            {t.lHistoire}
+          </button>
+        )}
+        {(genre.tuto.length > 0 || aUnCours(genre.id)) && (
+          <button className="pv-onglet" role="tab" aria-selected={panneau === 'cours'} onClick={() => bascule('cours')}>
+            {t.produireCeStyle}
+          </button>
+        )}
+      </div>
+      {/* ═══ LES ARTISTES DE CE STYLE ═══
+       *
+       * La fiche portait six « artistes clés », choisis a la main, dans la
+       * liste de faits. Ils y restent : ce sont ceux que Mika a verifies, et
+       * six noms tries valent mieux que trente rangs.
+       *
+       * Ceux-ci sont autre chose : un CLASSEMENT, celui de Last.fm, par
+       * nombre d'auditeurs, filtre par ce que Discogs sait des disques de
+       * chacun. Un artiste que Discogs connait et dont les sorties ne portent
+       * pas ce genre est retire : c'est exactement l'etiquette posee de
+       * travers par trois auditeurs qu'on cherchait a ecarter.
+       *
+       * LA PROVENANCE EST ECRITE SOUS LA LISTE, et ce n'est pas de la
+       * modestie. Une liste de trente noms sans source se lit comme un
+       * jugement de l'auteur ; avec sa source, elle se lit pour ce qu'elle
+       * est, un releve qu'on peut contester. */}
+      {panneau === 'artistes' && artistes.length > 0 && (
+        <section className="pv-artistes">
+          <h3 className="pv-titre-liste">{t.lesArtistesDuStyle}</h3>
+          <ul className="pv-artistes-liste">
+            {artistes.map((nom) => (
+              <li key={nom}>{nom}</li>
+            ))}
+          </ul>
+          <p className="pv-artistes-source">{t.artistesDouVientLaListe(dateMoisson)}</p>
         </section>
       )}
       {/* L'ARTICLE LONG, quand il existe.
