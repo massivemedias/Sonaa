@@ -673,6 +673,7 @@ interface Dictionnaire {
   readonly reconnaitreHorsAtlas: string;
   readonly reconnaitreSansMorceau: string;
   readonly reconnaitreMorceauNonIdentifie: string;
+  readonly reconnaitreMorceauNonDemande: string;
   readonly reconnaitreSonTropFaible: string;
   /** La raison rendue par le service, telle quelle : un code et sa phrase. */
   readonly reconnaitreServiceRefuse: (raison: string) => string;
@@ -1335,6 +1336,7 @@ const FR: Dictionnaire = {
   reconnaitreHorsAtlas: 'hors atlas',
   reconnaitreSansMorceau: 'Aucun morceau reconnu. Cela arrive souvent quand quelqu’un parle par-dessus.',
   reconnaitreMorceauNonIdentifie: 'Morceau non identifié',
+  reconnaitreMorceauNonDemande: 'Le morceau n’a pas été cherché : coche la case « envoyer huit secondes » au prochain essai.',
   reconnaitreSonTropFaible: 'Son trop faible. Rapprochez l’appareil de la source et réessayez.',
   reconnaitreServiceRefuse: (raison) => `Le service de reconnaissance n’a pas rendu de résultat (${raison}).`,
   reconnaitreImprecis:
@@ -2001,6 +2003,7 @@ const EN: Dictionnaire = {
   reconnaitreHorsAtlas: 'outside the atlas',
   reconnaitreSansMorceau: 'No track recognised. That often happens when someone is talking over it.',
   reconnaitreMorceauNonIdentifie: 'Track not identified',
+  reconnaitreMorceauNonDemande: 'The track was not searched: tick the “send eight seconds” box next time.',
   reconnaitreSonTropFaible: 'Sound too quiet. Move the device closer to the source and try again.',
   reconnaitreServiceRefuse: (raison) => `The recognition service returned no result (${raison}).`,
   reconnaitreImprecis:

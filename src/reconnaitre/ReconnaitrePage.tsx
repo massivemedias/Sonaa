@@ -254,6 +254,16 @@ export function ReconnaitrePage() {
             </Apparition>
           )}
 
+          {/* LE MORCEAU NON CHERCHE SE DIT AUSSI. Mika, le 23 septembre 2026,
+              devant un resultat sans morceau : la case n'etait pas cochee,
+              et la page ne disait rien. Une section absente se lit comme une
+              fonction absente. */}
+          {etat === 'resultat' && morceauActif && !accepteMorceau && (
+            <Apparition as="section" i={1} className="rc-bloc">
+              <h2 className="rc-titre">{t.reconnaitreLeMorceau}</h2>
+              <p className="rc-note">{t.reconnaitreMorceauNonDemande}</p>
+            </Apparition>
+          )}
           {etat === 'resultat' && morceauActif && accepteMorceau && (
             <Apparition as="section" i={1} className="rc-bloc">
               <h2 className="rc-titre">{t.reconnaitreLeMorceau}</h2>
