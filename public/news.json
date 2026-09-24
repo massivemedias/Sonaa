@@ -1,6 +1,14 @@
 {
- "fait": "2026-09-23T17:13:04.240Z",
+ "fait": "2026-09-24T05:01:30.755Z",
  "articles": [
+  {
+   "source": "musicradar",
+   "titre": "“A cash grab”: Mark E Smith’s colleagues and partner wrangle over the \"final” Fall album",
+   "lien": "https://www.musicradar.com/artists/singles-albums/i-have-marks-actual-last-recordings-he-was-working-on-a-cover-of-madonnas-material-girl-mark-e-smiths-colleagues-and-partner-wrangle-over-the-final-fall-album",
+   "date": "2026-09-23T22:30:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/3Pqn2WEKwfJYXNcYUdXcMJ-1920-80.jpg",
+   "resume": "A row has broken out about what is reportedly “the final” Fall album, over eight years since founder, frontman and sole original member Mark E Smith died. Post Script is being released next month and contains nine…"
+  },
   {
    "source": "gearnews",
    "titre": "One-Trick Pony Studio Devices That Are Actually Brilliant",
@@ -350,16 +358,6 @@
    "resume": "Lunacy Audio has a history of strong releases; back in 2021, we awarded the company’s sample-based virtual instrument CUBE a stunning 9/10 , and 2024’s multi-effects engine, BEAM, was also pretty damn impressive. Now…",
    "titre_fr": "Lunacy Audio lance NOVA, nouvelle plateforme de partage de plugin alimentée par l'IA",
    "resume_fr": "Lunacy Audio a un historique de sorties solides ; en 2021, nous avons attribué à l'instrument virtuel basé sur des samples CUBE de l'entreprise un impressionnant 9/10, et le moteur multi-effets de 2024, BEAM, était aussi assez impressionnant. Maintenant…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "Has Fender finally solved the problem of single-coil hum with this “innovative breakthrough”?",
-   "lien": "https://www.musicradar.com/guitars/fender-launches-silent-system-on-limited-run-american-professional-classic-telecaster-and-strat",
-   "date": "2026-09-22T16:44:14.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/e8e4RFZyjyV8jV5ZV8C6kG-1920-80.jpg",
-   "resume": "Fender has long been at war with single-coil hum. With its most-famous electric guitars , the Stratocaster and Telecaster , both predominantly single-coil instruments, there has been no shortage of R&D efforts to put…",
-   "titre_fr": "Fender a-t-il enfin résolu le problème du bruit des micros simple-bobine avec cette « percée innovante » ?",
-   "resume_fr": "Fender lutte depuis longtemps contre le bruit des micros simple-bobine. Avec ses guitares électriques les plus célèbres, la Stratocaster et la Telecaster, toutes deux à prédominance de micros simple-bobine, les efforts de R&D n'ont pas manqué pour…"
   },
   {
    "source": "bpb",
@@ -1398,6 +1396,106 @@
    "resume_fr": "Le DJ-producteur écossais Jack Revill, mieux connu sous le nom de Jackmaster, est décédé d'un traumatisme crânien accidentel, à 38 ans. La famille de Revill a confirmé la nouvelle sur Instagram hier. « C'est avec une profonde tristesse que nous confirmons…"
   },
   {
+   "source": "mixmag",
+   "titre": "UK startup offering \"avatar\" music performances lands multi-million investment",
+   "lien": "https://mixmag.net/read/uk-startup-offering-avatar-musicians-lands-multi-million-investment-to-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/avatar.jpg?fit=cover&width=660&s=3p-e7CxOn8YW7OrSTyo0EaYsRk0KKQcX5l_4UuRGYjc",
+   "resume": "Unit1 wants to offer a \"low-cost\" live music alternative, with performances from both living and dead artists",
+   "titre_fr": "Une startup britannique proposant des performances musicales en « avatar » lève un investissement de plusieurs millions",
+   "resume_fr": "Unit1 veut offrir une alternative live musicale « à bas coût », avec des performances d'artistes vivants et décédés"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Bus passengers in Singapore can now be fined up to £300 for playing music out loud",
+   "lien": "https://mixmag.net/read/bus-passengers-singapore-now-fined-playing-music-out-loud-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/singapore-phone-music.jpg?fit=cover&width=660&s=Ajklqc7cWSI2eCT5rsflLx8m42SGqMckB1OusHCquZE",
+   "resume": "The new rules come into place today and apply to the entirety of the city state's bus network",
+   "titre_fr": "Les passagers des bus à Singapour peuvent désormais être condamnés à une amende jusqu'à £300 pour avoir joué de la musique à haute voix",
+   "resume_fr": "Les nouvelles règles entrent en vigueur aujourd'hui et s'appliquent à l'ensemble du réseau de bus de la cité-État"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Disgraced DJ Tim Westwood charged with two additional sexual offences",
+   "lien": "https://mixmag.net/read/disgraced-dj-tim-westwood-charged-two-additional-sexual-offences-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/tim-westwood.jpg?fit=cover&width=660&s=gZ2gCdBrEcj6CJCYnGQzYeFUgJ_5W9HcbDkNcW7Joog",
+   "resume": "The former BBC Radio 1 presenter is now facing a total of 17 charges",
+   "titre_fr": "Le DJ discrédité Tim Westwood accusé de deux infractions sexuelles supplémentaires",
+   "resume_fr": "L'ancien présentateur de BBC Radio 1 fait face à un total de 17 accusations"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Armin van Buuren dives into the psychology of the [UNVRS] dancefloor in new documentary",
+   "lien": "https://mixmag.net/feature/armin-van-buuren-psychology-state-of-trance-unvrs-ibiza",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/armin_2026-09-22-153522_njbx.jpg?fit=cover&format=baseline-jpeg&height=630&width=1200&s=j8fLotrM2_N9LURqEZxlxAYY_ICXt4n4g0Xy1R1gpJ8",
+   "resume": "Filmed during his five-hour set at the launch of 25 Years of A State of Trance at the Ibiza superclub, the mini documentary explores what happens to our brains when we experience club coalescence"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Celebrated IDM and electro artist Vector Lovers has died",
+   "lien": "https://mixmag.net/read/celebrated-idm-electro-artist-vector-lovers-died-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/vector-lovers.jpg?fit=cover&width=660&s=EydCc8QrPC4lRGdvfM3Su9p5zdtoGy2FY1fBOSI6TVc",
+   "resume": "His affiliate label Soma Records remember Vector Lovers as a “very talented producer”",
+   "titre_fr": "L'artiste IDM et electro célébré Vector Lovers est décédé",
+   "resume_fr": "Son label affilié Soma Records se souvient de Vector Lovers comme d'un « très talentueux producteur »"
+  },
+  {
+   "source": "mixmag",
+   "titre": "UK nightlife venues still 29% down on pre-COVID numbers",
+   "lien": "https://mixmag.net/read/number-uk-nightlife-venues-increases-despite-still-being-down-29-compared-to-pre-covid-figures-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/nightclub_2026-09-22-141907_lnbd.jpg?fit=cover&width=660&s=nFIPkUd4D0ilM2p4C86MPXWq8veHPS6en4PzcTUSWE0",
+   "resume": "The amount of late-night venues and nightclubs rose by 0.4% between March and June 2026, though the NTIA warn that rising costs could \"extinguish\" this small recovery",
+   "titre_fr": "Les salles de nightlife britanniques accusent toujours un retard de 29 % par rapport aux chiffres d'avant-COVID",
+   "resume_fr": "Le nombre de salles tard le soir et de nightclubs a augmenté de 0,4 % entre mars et juin 2026, bien que le NTIA avertisse que la hausse des coûts pourrait « éteindre » cette petite reprise"
+  },
+  {
+   "source": "mixmag",
+   "titre": "Free app lets you avoid smart glasses-wearers in the club",
+   "lien": "https://mixmag.net/read/new-app-detects-people-using-meta-glasses-club-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/meta-glasses.jpg?fit=cover&width=660&s=p0pDTysD76D7T8wEfRZ926eBttqwsP6JbWBuO8It_8I",
+   "resume": "ZuckOff, which uses Bluetooth to identify if a device is nearby, has already been downloaded by 6,000 people",
+   "titre_fr": "Une app gratuite te permet d'éviter les porteurs de smart glasses au club",
+   "resume_fr": "ZuckOff, qui utilise Bluetooth pour identifier la présence d'un appareil, a déjà été téléchargée par 6 000 personnes"
+  },
+  {
+   "source": "mixmag",
+   "titre": "As France cracks down on free parties, 350,000 people dance in protest at Paris’ Techno Parade",
+   "lien": "https://mixmag.net/feature/paris-techno-parade-ripost-law-protest-free-parties-2026",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/Paris-Techno-Parade-2026-credit-Mateus-Santa-Rita.jpg?fit=cover&format=baseline-jpeg&height=630&width=1200&s=AXwTZeC3uYd1ABszRP9IDAV3TdBZIzOxu-A83_8NgJw",
+   "resume": "Following a two-year hiatus, the return of Paris’ Techno Parade couldn’t be more timely. The French RIPOST law, adopted this summer, threatens organisers of undeclared free parties with eye-watering fines and lengthy…"
+  },
+  {
+   "source": "mixmag",
+   "titre": "10 Bay Area bangers selected by erika and sfcowboy",
+   "lien": "https://mixmag.net/feature/10-bay-area-bangers-dance-music-tracks-erika-sfcowboy-san-francisco-oakland",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/erika-sfcowboy-bay-area-playlist.png?fit=cover&format=baseline-jpeg&height=630&width=1200&s=VB8bsVkj2EPj1a8YE2DlE3US7bGh0actfr4zg5v2WUM",
+   "resume": "Before they set the pace as openers at San Francisco's Portola festival, local heroes erika and sfcowboy take us on a trip through essential sounds from the Bay Area"
+  },
+  {
+   "source": "mixmag",
+   "titre": "New 600-capacity music venue from Apple Music to open in London this autumn",
+   "lien": "https://mixmag.net/read/new-600-capacity-music-venue-from-apple-music-to-open-in-london-this-autumn-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/apple-music-hall.jpg?fit=cover&width=660&s=CXeODo0SlPplrRcNW3ajTtuO9QHBxM5DpZZDC4xqvyA",
+   "resume": "Apple Music Hall will open within Battersea Power Station in “the coming weeks”"
+  },
+  {
+   "source": "mixmag",
+   "titre": "On debut album ‘P ★ K I’, Ahadadream makes a bold statement of self-love",
+   "lien": "https://mixmag.net/feature/ahadadream-dj-cover-feature-interview-p-ki-album",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/MM_AHADADREAM_WEB_002.jpg?fit=cover&format=baseline-jpeg&height=630&width=1200&s=YclrNUF-wIHqnFZXnLo4weew7q9LOURn3ZFMpnr0U_g",
+   "resume": "Pakistan-born artist Ahadadream has spent more than 15 years immersed in UK dance music, empowered by the dancefloor as a space to embrace all sides of himself and transforming the scene through his own contributions…"
+  },
+  {
    "source": "djmag",
    "titre": "Gorillaz reissue ‘Demon Days’, ‘Plastic Beach’ and self-titled album on colour vinyl and cassette",
    "lien": "https://djmag.com/news/gorillaz-reissue-demon-days-plastic-beach-and-self-titled-album-colour-vinyl-and-cassette",
@@ -1442,7 +1540,7 @@
    "titre": "Watch The Weeknd debut anime-inspired new single, ‘Tokyo’, featuring Yoko Takahashi",
    "lien": "https://djmag.com/news/watch-weeknd-debut-anime-inspired-new-single-tokyo-featuring-yoko-takahashi",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/the-weeknd-via-instagram.jpg.webp?itok=02YeYOH51217928341",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/the-weeknd-via-instagram.jpg.webp?itok=02YeYOH5278943797",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The track was debuted in Japan over the weekend, as The Weeknd kicked off the Asia leg of…",
    "titre_fr": "Regardez The Weeknd débuter le nouveau single inspiré du manga « Tokyo », avec Yoko Takahashi",
    "resume_fr": "Le track a été débuté au Japon le week-end dernier, tandis que The Weeknd lançait la leg asiatique de…"
@@ -1452,7 +1550,7 @@
    "titre": "Ezra Collective make history as first UK jazz group to score a No. 1 album",
    "lien": "https://djmag.com/news/ezra-collective-make-history-first-uk-jazz-group-score-no-1-album",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/ezra-collective-credit-sergio-pointer.jpeg.webp?itok=yniQC6Dh419972064",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/ezra-collective-credit-sergio-pointer.jpeg.webp?itok=yniQC6Dh1003816844",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>'Here Because of Hope' was released via Partisan Records on 11th September</p> </div>",
    "titre_fr": "Ezra Collective entre dans l'histoire en tant que premier groupe jazz britannique à marquer un album No. 1",
    "resume_fr": "« Here Because of Hope » a été lancé via Partisan Records le 11 septembre…"
@@ -1462,120 +1560,10 @@
    "titre": "John Talabot announces new album under OR alias, 'Music For Empty Stadiums'",
    "lien": "https://djmag.com/news/john-talabot-announces-new-album-under-or-alias-music-empty-stadiums",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/John-Talabot.jpg.webp?itok=geVY2qVo542170265",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/John-Talabot.jpg.webp?itok=geVY2qVo196259163",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>AD 93 will release the album on 30th October</p> </div>",
    "titre_fr": "John Talabot annonce un nouvel album sous l'alias OR, « Music For Empty Stadiums »",
    "resume_fr": "AD 93 sortira l'album le 30 octobre…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Former Radio 1 DJ Tim Westwood charged with two further sexual assault offences",
-   "lien": "https://djmag.com/news/former-radio-1-dj-tim-westwood-charged-two-further-sexual-assault-offences",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/tim-westwood.jpg.webp?itok=xJlb3WqH2100758893",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Westwood was previously charged with 15 offences in October 2025</p> </div>",
-   "titre_fr": "L'ancien DJ Radio 1 Tim Westwood accusé de deux autres infractions d'agression sexuelle",
-   "resume_fr": "Westwood a été précédemment accusé de 15 infractions en octobre 2025…"
-  },
-  {
-   "source": "djmag",
-   "titre": "James Hype teases new 16-deck DJ setup",
-   "lien": "https://djmag.com/news/james-hype-teases-new-16-deck-dj-setup",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/unnamed_0.png.webp?itok=3tlKMeP01516068951",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“Maybe we’ve been thinking too small”</p> </div>",
-   "titre_fr": "James Hype tease sa nouvelle configuration DJ 16-decks",
-   "resume_fr": "« Peut-être qu'on a pensé trop petit»…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Apple opens 600-capacity venue in London",
-   "lien": "https://djmag.com/news/apple-opens-600-capacity-venue-london",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Apple-Music-Hall-exterior.jpg.webp?itok=wORVCzrj505920707",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Apple VP Oliver Schusser said: “We have really no interest in trying to be in the way of…",
-   "titre_fr": "Apple ouvre un lieu de 600 capacités à Londres",
-   "resume_fr": "La vice-présidente d'Apple Oliver Schusser a déclaré : « Nous n'avons vraiment aucun intérêt à essayer de nous mettre en travers du…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Lost Lands festival cancels final hours of DJ sets following severe storms",
-   "lien": "https://djmag.com/news/lost-lands-festival-cancels-final-hours-of-dj-sets-following-severe-storms",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/lost-lands-festival-2026-mud-evacuation-venue-severe-storm-warning.jpeg.webp?itok=5FVKNU481288565327",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The Legend Valley, Ohio weekender has been nicknamed Mudlands 2026 after muddy conditions…",
-   "titre_fr": "Le festival Lost Lands annule les dernières heures de sets de DJ suite à de graves tempêtes",
-   "resume_fr": "Le weekender Legend Valley, Ohio a été surnommé Mudlands 2026 après les conditions boueuses…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Armin van Buuren stars in new mini-documentary filmed at [UNVRS]: Watch",
-   "lien": "https://djmag.com/news/armin-van-buuren-stars-new-mini-documentary-filmed-unvrs-watch",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/799170338_893319686991424_8649373282544103776_n.jpeg.webp?itok=AgilQbQq1186824522",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The short film, titled <em>The Psychology of the Dancefloor</em>, explores what happens in…",
-   "titre_fr": "Armin van Buuren vedette d'un nouveau mini-documentaire filmé à [UNVRS] : À regarder",
-   "resume_fr": "Le court métrage, intitulé The Psychology of the Dancefloor, explore ce qui se passe…"
-  },
-  {
-   "source": "mixmag",
-   "titre": "UK startup offering \"avatar\" music performances lands multi-million investment",
-   "lien": "https://mixmag.net/read/uk-startup-offering-avatar-musicians-lands-multi-million-investment-to-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/avatar.jpg?fit=cover&width=660&s=3p-e7CxOn8YW7OrSTyo0EaYsRk0KKQcX5l_4UuRGYjc",
-   "resume": "Unit1 wants to offer a \"low-cost\" live music alternative, with performances from both living and dead artists",
-   "titre_fr": "Une startup britannique proposant des performances musicales en « avatar » lève un investissement de plusieurs millions",
-   "resume_fr": "Unit1 veut offrir une alternative live musicale « à bas coût », avec des performances d'artistes vivants et décédés"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Bus passengers in Singapore can now be fined up to £300 for playing music out loud",
-   "lien": "https://mixmag.net/read/bus-passengers-singapore-now-fined-playing-music-out-loud-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/singapore-phone-music.jpg?fit=cover&width=660&s=Ajklqc7cWSI2eCT5rsflLx8m42SGqMckB1OusHCquZE",
-   "resume": "The new rules come into place today and apply to the entirety of the city state's bus network",
-   "titre_fr": "Les passagers des bus à Singapour peuvent désormais être condamnés à une amende jusqu'à £300 pour avoir joué de la musique à haute voix",
-   "resume_fr": "Les nouvelles règles entrent en vigueur aujourd'hui et s'appliquent à l'ensemble du réseau de bus de la cité-État"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Disgraced DJ Tim Westwood charged with two additional sexual offences",
-   "lien": "https://mixmag.net/read/disgraced-dj-tim-westwood-charged-two-additional-sexual-offences-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/tim-westwood.jpg?fit=cover&width=660&s=gZ2gCdBrEcj6CJCYnGQzYeFUgJ_5W9HcbDkNcW7Joog",
-   "resume": "The former BBC Radio 1 presenter is now facing a total of 17 charges",
-   "titre_fr": "Le DJ discrédité Tim Westwood accusé de deux infractions sexuelles supplémentaires",
-   "resume_fr": "L'ancien présentateur de BBC Radio 1 fait face à un total de 17 accusations"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Celebrated IDM and electro artist Vector Lovers has died",
-   "lien": "https://mixmag.net/read/celebrated-idm-electro-artist-vector-lovers-died-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/vector-lovers.jpg?fit=cover&width=660&s=EydCc8QrPC4lRGdvfM3Su9p5zdtoGy2FY1fBOSI6TVc",
-   "resume": "His affiliate label Soma Records remember Vector Lovers as a “very talented producer”",
-   "titre_fr": "L'artiste IDM et electro célébré Vector Lovers est décédé",
-   "resume_fr": "Son label affilié Soma Records se souvient de Vector Lovers comme d'un « très talentueux producteur »"
-  },
-  {
-   "source": "mixmag",
-   "titre": "UK nightlife venues still 29% down on pre-COVID numbers",
-   "lien": "https://mixmag.net/read/number-uk-nightlife-venues-increases-despite-still-being-down-29-compared-to-pre-covid-figures-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/nightclub_2026-09-22-141907_lnbd.jpg?fit=cover&width=660&s=nFIPkUd4D0ilM2p4C86MPXWq8veHPS6en4PzcTUSWE0",
-   "resume": "The amount of late-night venues and nightclubs rose by 0.4% between March and June 2026, though the NTIA warn that rising costs could \"extinguish\" this small recovery",
-   "titre_fr": "Les salles de nightlife britanniques accusent toujours un retard de 29 % par rapport aux chiffres d'avant-COVID",
-   "resume_fr": "Le nombre de salles tard le soir et de nightclubs a augmenté de 0,4 % entre mars et juin 2026, bien que le NTIA avertisse que la hausse des coûts pourrait « éteindre » cette petite reprise"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Free app lets you avoid smart glasses-wearers in the club",
-   "lien": "https://mixmag.net/read/new-app-detects-people-using-meta-glasses-club-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/meta-glasses.jpg?fit=cover&width=660&s=p0pDTysD76D7T8wEfRZ926eBttqwsP6JbWBuO8It_8I",
-   "resume": "ZuckOff, which uses Bluetooth to identify if a device is nearby, has already been downloaded by 6,000 people",
-   "titre_fr": "Une app gratuite te permet d'éviter les porteurs de smart glasses au club",
-   "resume_fr": "ZuckOff, qui utilise Bluetooth pour identifier la présence d'un appareil, a déjà été téléchargée par 6 000 personnes"
   }
  ],
  "pannes": []
