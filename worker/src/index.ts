@@ -1053,7 +1053,23 @@ export default {
     /* LECTURE PUBLIQUE. Un set publie s'ecoute sans compte, comme sur
        n'importe quelle plateforme. Ce qui protege les brouillons n'est pas le
        secret du chemin mais le fait que la base ne le donne a personne. */
-    if (req.method === 'GET' && chemin && !chemin.startsWith('api/')) {
+    /* HEAD AUSSI, ET PAS SEULEMENT GET. Mesure le 24 septembre 2026 en
+       diagnostiquant les coupures de lecture sur telephone : un HEAD sur un
+       set tombait dans le mur d'authentification et rendait 401, alors que
+       le meme chemin en GET rendait 206 par plage. Un lecteur qui sonde la
+       taille et les plages avant de lire recevait donc un refus. */
+    if ((req.method === 'GET' || req.method === 'HEAD') && chemin && !chemin.startsWith('api/')) {
+      if (req.method === 'HEAD') {
+        const tete = await env.SETS.head(chemin);
+        if (!tete) return refus(req, env, 404, 'introuvable');
+        const h = entetes(req, env);
+        tete.writeHttpMetadata(h);
+        h.set('etag', tete.httpEtag);
+        h.set('accept-ranges', 'bytes');
+        h.set('content-length', String(tete.size));
+        h.set('cache-control', tete.httpMetadata?.cacheControl ?? 'public, max-age=31536000, immutable');
+        return new Response(null, { status: 200, headers: h });
+      }
       const plage = req.headers.get('Range');
       const objet = plage
         ? await env.SETS.get(chemin, { range: req.headers })
