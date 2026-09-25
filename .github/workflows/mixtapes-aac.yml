@@ -1,0 +1,25 @@
+# LES MIXTAPES DEPOSEES DANS LA JOURNEE SONT ENCODEES EN AAC LA NUIT.
+# Voir scripts/convertir-sets-aac.ts. Le WAV reste le master dans R2.
+# Secrets attendus : SUPABASE_SERVICE_ROLE_KEY (deja pose pour les moissons),
+# CLOUDFLARE_API_TOKEN avec ecriture R2 sur le seau sonaa-sets (a poser).
+name: Mixtapes en AAC
+on:
+  schedule:
+    - cron: '17 7 * * *'
+  workflow_dispatch:
+jobs:
+  convertir:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - run: npm run convertir:aac
+        env:
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

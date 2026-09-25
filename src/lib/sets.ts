@@ -137,6 +137,9 @@ export interface SetDJ {
   readonly titre: string;
   readonly description: string | null;
   readonly audio_path: string;
+  /** La version AAC 192 kbit/s, rangee a cote du WAV par
+      scripts/convertir-sets-aac.ts ; null tant qu'elle n'existe pas. */
+  readonly audio_aac_path?: string | null;
   readonly cover_path: string | null;
   readonly duree_s: number | null;
   readonly onde: string | null;
@@ -811,7 +814,7 @@ export async function mesMixtapes(): Promise<SetDJ[]> {
   if (!id) return [];
   const { data } = await supabase
     .from('dj_sets')
-    .select('id, titre, description, audio_path, cover_path, duree_s, onde, ecoutes, created_at, user_id, genre_ids, publie')
+    .select('id, titre, description, audio_path, audio_aac_path, cover_path, duree_s, onde, ecoutes, created_at, user_id, genre_ids, publie')
     .eq('user_id', id)
     .order('created_at', { ascending: false });
   return (data as SetDJ[] | null) ?? [];
@@ -930,6 +933,13 @@ export async function supprimerSet(id: string, chemin: string): Promise<void> {
   const jeton = data.session?.access_token;
   if (!jeton) return;
   await fetch(`${PASSERELLE}/${chemin}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${jeton}` },
+  }).catch(() => undefined);
+  /* L'AAC PART AVEC LE WAV. Il vit sous le meme chemin en .m4a (voir
+     scripts/convertir-sets-aac.ts) ; s'il n'existe pas, la passerelle rend
+     404 et c'est sans consequence. */
+  await fetch(`${PASSERELLE}/${chemin.replace(/\.[^./]+$/, '')}.m4a`, {
     method: 'DELETE',
     headers: { Authorization: `Bearer ${jeton}` },
   }).catch(() => undefined);

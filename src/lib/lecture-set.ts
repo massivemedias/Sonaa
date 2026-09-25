@@ -143,7 +143,10 @@ function balise(): HTMLAudioElement {
 export function jouerLeSet(set: SetDJ): void {
   const a = balise();
   if (etat.set?.id !== set.id) {
-    a.src = urlAudio(set.audio_path);
+    /* L'AAC QUAND IL EXISTE, LE WAV SINON. Mika, le 24 septembre 2026 : un
+       set d'une heure passe de 600 Mo a 85. Le WAV reste le master et son
+       adresse ne change pas. */
+    a.src = urlAudio(set.audio_aac_path ?? set.audio_path);
     publier({ set, joue: false, position: 0, duree: set.duree_s ?? 0, erreur: false });
   }
   void a.play().then(
