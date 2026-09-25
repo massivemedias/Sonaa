@@ -1,7 +1,7 @@
 # LES MIXTAPES DEPOSEES DANS LA JOURNEE SONT ENCODEES EN AAC LA NUIT.
 # Voir scripts/convertir-sets-aac.ts. Le WAV reste le master dans R2.
 # Secrets attendus : SUPABASE_SERVICE_ROLE_KEY (deja pose pour les moissons),
-# CLOUDFLARE_API_TOKEN avec ecriture R2 sur le seau sonaa-sets (a poser).
+# CONVERSION_SECRET, le meme que celui pose sur la passerelle (a poser).
 name: Mixtapes en AAC
 on:
   schedule:
@@ -22,4 +22,4 @@ jobs:
       - run: npm run convertir:aac
         env:
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CONVERSION_SECRET: ${{ secrets.CONVERSION_SECRET }}

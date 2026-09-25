@@ -71,6 +71,12 @@ interface Env {
      article lisible. Voir la route api/article-flux. */
   ANTHROPIC_API_KEY?: string;
   readonly NOTIFIER_SECRET?: string;
+  /* LE SECRET DE LA CONVERSION AAC, pose par `wrangler secret put
+     CONVERSION_SECRET`. Il n'ouvre que le depot et l'effacement de fichiers
+     .m4a, par les routes de depot par tranches : c'est la machine qui
+     encode les mixtapes (scripts/convertir-sets-aac.ts), pas une personne.
+     Voir la porte ci-dessous, avant `qui`. */
+  readonly CONVERSION_SECRET?: string;
 }
 
 const aplatirNom = (s: string): string =>
@@ -1105,10 +1111,15 @@ export default {
 
     /* ECRITURE. Tout ce qui suit exige un jeton valide, et un chemin qui
        commence par l'identifiant qu'il porte. */
-    const moi = await qui(req, env);
-    if (!moi) return refus(req, env, 401, 'jeton absent ou invalide');
+    /* LA MACHINE QUI ENCODE LES MIXTAPES entre par un secret, pas par un
+       jeton de personne, et ne peut toucher qu'aux .m4a : l'AAC d'un set
+       se range a cote de son WAV, dans le dossier de quelqu'un d'autre. */
+    const secretRecu = req.headers.get('x-conversion-secret');
+    const machine = Boolean(env.CONVERSION_SECRET) && secretRecu !== null && secretRecu === env.CONVERSION_SECRET;
+    const moi = machine ? null : await qui(req, env);
+    if (!moi && !machine) return refus(req, env, 401, 'jeton absent ou invalide');
 
-    const aMoi = (cle: string): boolean => cle.startsWith(`${moi}/`);
+    const aMoi = (cle: string): boolean => (machine ? /\.m4a$/i.test(cle) : cle.startsWith(`${moi}/`));
 
     if (req.method === 'POST' && chemin === 'api/creer') {
       const { cle, type } = (await req.json()) as { cle: string; type: string };
