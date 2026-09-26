@@ -1,6 +1,76 @@
 {
- "fait": "2026-09-26T05:08:04.312Z",
+ "fait": "2026-09-26T16:30:32.239Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "The Rise of the Signature Guitar: The Good & Not So Good",
+   "lien": "https://www.gearnews.com/the-rise-of-the-signature-guitar/",
+   "date": "2026-09-26T15:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/The-Rise-of-the-Signature-Guitar-The-Good-Not-So-Good.jpg",
+   "resume": "We are witnessing an absolute explosion of signature models. It seems like every week brings a new artist collaboration hitting the market, covering every genre and price point. Signature guitars used to be rare…",
+   "titre_fr": "L'ascension de la guitare signature : le bon et le moins bon",
+   "resume_fr": "On assiste à une explosion absolue des modèles signature. Il semble que chaque semaine apporte une nouvelle collaboration d'artiste sur le marché, couvrant tous les genres et tous les gammes de prix. Les guitares signature étaient autrefois rares…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "How Arctic Monkeys created their biggest-ever single – inspired by R&B and hip-hop grooves",
+   "lien": "https://www.musicradar.com/artists/how-arctic-monkeys-created-their-biggest-ever-single-inspired-by-r-and-b-and-hip-hop-grooves-i-feel-like-that-song-was-a-ghost-within-the-walls-of-this-old-guitar-that-i-bought",
+   "date": "2026-09-26T13:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/GUXLqE72pm4nYBe3i473qa-1920-80.jpg",
+   "resume": "On the long, winding road that transformed Arctic Monkeys from gnarly, spiky-haired noughties Sheffield indie clubbers to the alluringly smooth hotel lounge crooners of 2022 album The Car, the 2013 single Do I Wanna…",
+   "titre_fr": "Comment Arctic Monkeys ont créé leur plus grand single, inspiré par les groove R&B et hip-hop",
+   "resume_fr": "Sur la route longue et sinueuse qui a transformé Arctic Monkeys de jeunes clubbeurs indie de Sheffield des années 2000 aux crooners d'hôtel lounge séduisants de l'album The Car de 2022, le single Do I Wanna de 2013…"
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Artists Fight Back At AI But Secret AI Licensing Contracts Continue",
+   "lien": "https://midnightrebels.com/major-labels-ai-licensing-musician-backlash/",
+   "date": "2026-09-26T12:51:45.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/09/If-AI-Wins-What-Is-Music-in-100-Years.webp?fit=2400%2C1350&ssl=1",
+   "resume": "In recent months, music advocacy groups and featured recording artists have publicly challenged major record labels over secret licensing negotiations with generative AI developers, as detailed by the Los Angeles Times…",
+   "titre_fr": "Les artistes se battent contre l'IA mais les contrats secrets de licence IA continuent",
+   "resume_fr": "Ces derniers mois, des groupes de défense de la musique et des artistes enregistrés ont contesté publiquement les grandes maisons de disques sur les négociations de licence secrètes avec les développeurs d'IA générative, comme l'a détaillé le Los Angeles Times…"
+  },
+  {
+   "source": "bpb",
+   "titre": "Suno confirms v6 is trained on user-generated interactions as new copyright lawsuits surface",
+   "lien": "https://bedroomproducersblog.com/2026/09/26/suno-lawsuit/",
+   "date": "2026-09-26T08:23:51.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/suno-lawsuit.jpg",
+   "resume": "Suno recently released v6 of its AI music generation models, marking a new beginning for the platform and a step out of the shadows of its legally murky past. Well, that was the plan. The trouble is, the company faced…",
+   "titre_fr": "Suno confirme que v6 est entraîné sur les interactions générées par les utilisateurs alors que de nouveaux procès en droit d'auteur émergent",
+   "resume_fr": "Suno a récemment lancé v6 de ses modèles de génération de musique IA, marquant un nouveau départ pour la plateforme et un pas hors de l'ombre de son passé juridiquement trouble. Enfin, c'était le plan. Le problème, c'est que l'entreprise a dû faire face…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Guitar Summit 2026: We’re On Site for You!",
+   "lien": "https://www.gearnews.com/guitar-summit-2026-report/",
+   "date": "2026-09-26T07:38:41.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/guitar-summit-2026-128x71.jpg",
+   "resume": "We’ve rounded up the latest news from Guitar Summit 2026 . There were plenty of highlights, stars, and surprises to discover again this year. As always, the Gearnews team was on site, mixing in with the crowds. Almost…",
+   "titre_fr": "Guitar Summit 2026 : on est sur place pour vous !",
+   "resume_fr": "On a rassemblé les dernières nouvelles de Guitar Summit 2026. Il y avait beaucoup de temps forts, de stars et de surprises à découvrir encore cette année. Comme toujours, l'équipe Gearnews était sur place, se mêlant à la foule. Presque…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "\"He’s the musical Jesus. It’s like when they describe the apostles hanging out with Jesus\": Todd Edwards on his second coming with Daft Punk, stage fright and why house producers need to stop rehashing old ideas",
+   "lien": "https://www.musicradar.com/artists/todd-edwards-interview",
+   "date": "2026-09-26T07:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/TwCUDXyr9V6cev9XZxMgPT-1920-80.jpg",
+   "resume": "Todd Edwards' intricate sample-led house music laid the groundwork for UK garage and served as inspiration for Daft Punk, Burial and Disclosure, but three decades in, he's still introducing himself. 34 years into a…",
+   "titre_fr": "« Il est le Jésus musical. C'est comme quand on décrit les apôtres qui traînent avec Jésus » : Todd Edwards sur son second coming avec Daft Punk, le trac et pourquoi les producteurs house doivent arrêter de recycler les vieilles idées",
+   "resume_fr": "La musique house menée par les sample complexes de Todd Edwards a jeté les bases du UK garage et a servi d'inspiration à Daft Punk, Burial et Disclosure, mais après trois décennies, il se présente toujours. 34 ans dans une…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Elektron Digitone II Bundle, Native Instruments Maschine+ and Ableton Move: 3 Amazing Groovebox Deals",
+   "lien": "https://www.gearnews.com/elektron-digitone-ii-bundle-deals/",
+   "date": "2026-09-26T06:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/groovebox-deals-T.jpg",
+   "resume": "Get your groove on with these three incredible deals on grooveboxes, including an Elektron Digitone II bundle you won’t want to miss. 3 Amazing Groovebox Deals Elektron Digitone II Bundle: Amazing Price Native…",
+   "titre_fr": "Elektron Digitone II Bundle, Native Instruments Maschine+ et Ableton Move : 3 incroyables deals sur grooveboxes",
+   "resume_fr": "Lancez-vous dans le groove avec ces trois incroyables offres sur les grooveboxes, incluant un bundle Elektron Digitone II que vous ne voudrez pas rater. 3 incroyables deals sur grooveboxes Elektron Digitone II Bundle : prix incroyable Native…"
+  },
   {
    "source": "musicradar",
    "titre": "How The Mamas & The Papas created California Dreamin’, a counterculture anthem for the Summer Of Love",
@@ -92,6 +162,56 @@
    "resume_fr": "Brian May n'a aucun doute quand il nomme le plus grand guitariste de tous les temps. Comme il le dit dans une nouvelle interview : « Jimi Hendrix, pour moi, sera toujours le dieu ultime de la guitare. » S'exprimant sur BBC2's The Rock Show avec…"
   },
   {
+   "source": "bpb",
+   "titre": "Rue Blose releases Oppressor, a FREE spectral sidechain compressor",
+   "lien": "https://bedroomproducersblog.com/2026/09/25/rue-blose-oppressor/",
+   "date": "2026-09-25T12:30:48.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/oppressor.jpg",
+   "resume": "Rue Blose has released Oppressor, a free multiband and spectral sidechain compressor for macOS and Windows. This free compressor was designed specifically to help you create space between competing sounds without…",
+   "titre_fr": "Rue Blose lance Oppressor, un FREE compresseur sidechain spectral",
+   "resume_fr": "Rue Blose a lancé Oppressor, un compresseur sidechain multiband et spectral gratuit pour macOS et Windows. Ce compresseur gratuit a été conçu spécifiquement pour vous aider à créer de l'espace entre les sons qui se font concurrence sans…"
+  },
+  {
+   "source": "bpb",
+   "titre": "YBK Instrument Player for Windows is FREE until October 19th",
+   "lien": "https://bedroomproducersblog.com/2026/09/25/ybk-instrument-player/",
+   "date": "2026-09-25T12:07:54.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/instrument-player.jpg",
+   "resume": "YBK Audio is offering Instrument Player, a standalone VST3 instrument host for Windows, free until October 19th. Instrument Player normally costs $10 and strips away the timeline, mixer, and track setup you’d normally…",
+   "titre_fr": "YBK Instrument Player pour Windows est GRATUIT jusqu'au 19 octobre",
+   "resume_fr": "YBK Audio propose Instrument Player, un host d'instrument VST3 autonome pour Windows, gratuit jusqu'au 19 octobre. Instrument Player coûte normalement 10 $ et supprime la timeline, le mixer et la configuration des pistes que vous auriez normalement…"
+  },
+  {
+   "source": "bpb",
+   "titre": "Apollo View releases Scope, a FREE oscilloscope plugin for Mac and Windows",
+   "lien": "https://bedroomproducersblog.com/2026/09/25/apollo-view-scope/",
+   "date": "2026-09-25T12:02:16.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/scope.jpg",
+   "resume": "Apollo View Modular has released Scope 1.2, a free beat-synced oscilloscope plugin for macOS and Windows. The latest update makes this one worth a look for Windows users, as Scope was previously available only on macOS…",
+   "titre_fr": "Apollo View lance Scope, un FREE plugin oscilloscope pour Mac et Windows",
+   "resume_fr": "Apollo View Modular a lancé Scope 1.2, un plugin oscilloscope gratuit synchronisé au beat pour macOS et Windows. La dernière mise à jour le rend intéressant pour les utilisateurs Windows, car Scope était auparavant disponible uniquement sur macOS…"
+  },
+  {
+   "source": "bpb",
+   "titre": "Thenatan gives away DIAL radio effect FREE for 72 hours",
+   "lien": "https://bedroomproducersblog.com/2026/09/25/thenatan-dial-radio-free/",
+   "date": "2026-09-25T11:54:36.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/thenatan-dial.jpg",
+   "resume": "Thenatan is giving away DIAL, a new radio signal designer plugin for macOS and Windows, free for 72 hours. The plugin normally costs $50, but you can currently claim it for $0 with no coupon code. Thenatan does not show…",
+   "titre_fr": "Thenatan offre l'effet radio DIAL GRATUITEMENT pendant 72 heures",
+   "resume_fr": "Thenatan offre DIAL, un nouveau plugin de concepteur de signal radio pour macOS et Windows, gratuitement pendant 72 heures. Le plugin coûte normalement 50 $, mais vous pouvez actuellement le réclamer pour 0 $ sans code coupon. Thenatan n'affiche pas…"
+  },
+  {
+   "source": "bpb",
+   "titre": "ILIO releases 10 FREE SINES presets for Omnisphere 3",
+   "lien": "https://bedroomproducersblog.com/2026/09/25/ilio-sines-presets/",
+   "date": "2026-09-25T11:32:04.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/sines.jpg",
+   "resume": "ILIO and LifeStyleDidIt have released the SINES Demo Pack, a free collection of ten presets for Spectrasonics Omnisphere 3. The full version of Omnisphere 3 is required. Obviously, there is no free Omnisphere player (I…",
+   "titre_fr": "ILIO publie 10 presets SINES GRATUITS pour Omnisphere 3",
+   "resume_fr": "ILIO et LifeStyleDidIt ont publié le SINES Demo Pack, une collection gratuite de dix presets pour Spectrasonics Omnisphere 3. La version complète d'Omnisphere 3 est requise. Évidemment, il n'existe pas de player Omnisphere gratuit (je…"
+  },
+  {
    "source": "musictech",
    "titre": "Polyend takes aim at guitarists with a new looper and multi-FX pedal, Loop",
    "lien": "https://musictech.com/news/gear/polyend-loop/",
@@ -110,6 +230,16 @@
    "resume": "The Matteo Mancuso RS20MM is a new signature model for the Italian guitarist, based on the RevStar. It is a glorious-looking guitar and comes with a chambered mahogany body, figured maple top, and DiMarzio PAF 36th…",
    "titre_fr": "Yamaha Matteo Mancuso RS20MM : Signature RevStar",
    "resume_fr": "Le Matteo Mancuso RS20MM est un nouveau signature model pour le guitariste italien, basé sur le RevStar. C'est une guitare magnifique et il vient avec un chambered mahogany body, figured maple top et DiMarzio PAF 36th…"
+  },
+  {
+   "source": "bpb",
+   "titre": "Soundpaint rebuilt: One FREE sampler to rule them all?",
+   "lien": "https://bedroomproducersblog.com/2026/09/25/soundpaint-5-update/",
+   "date": "2026-09-25T11:22:45.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/SoundpaintV.jpg",
+   "resume": "Soundpaint came onto the scene back in 2021 as an ambitious project with a lot of potential. The free music instrument technology ticked a lot of boxes from the get-go, not least because it comes from the people behind…",
+   "titre_fr": "Soundpaint reconstruit : un sampler GRATUIT pour les gouverner tous ?",
+   "resume_fr": "Soundpaint a fait son apparition en 2021 en tant que projet ambitieux avec beaucoup de potentiel. La technologie d'instrument musical gratuite cochait beaucoup de cases dès le départ, notamment parce qu'elle provient de gens derrière…"
   },
   {
    "source": "gearnews",
@@ -132,16 +262,6 @@
    "resume_fr": "Dans l'édition d'aujourd'hui de SampleRadar, nous tirons l'inspiration non pas d'un genre particulier mais d'un groupe spécifique : The Prodigy. Les samples ont été créés autour de l'époque de leur album « Always Outnumbered, Never Outgunned », et…"
   },
   {
-   "source": "gearnews",
-   "titre": "Antares AutoTune Advanced: Even Controls and Preserves Vibrato!",
-   "lien": "https://www.gearnews.com/antares-autotune-advanced-studio/",
-   "date": "2026-09-25T09:39:26.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/antares-autotune-advanced-ft.jpg",
-   "resume": "Introducing Antares AutoTune Advanced, the new flagship auto-pitch correction plugin with a vibrato engine that preserves natural variation. AutoTune Advanced is an exciting development that branches out from the core…",
-   "titre_fr": "Antares AutoTune Advanced : contrôle et préserve même le vibrato !",
-   "resume_fr": "Présentation d'Antares AutoTune Advanced, le nouveau flagship auto-pitch correction plugin avec un vibrato engine qui préserve la variation naturelle. AutoTune Advanced est un développement passionnant qui se ramifie à partir du core…"
-  },
-  {
    "source": "cdm",
    "titre": "Resolume 7.28 uses vision to let you play with intelligent live effects and blends",
    "lien": "https://cdm.link/resolume-7-28-computer-vision/",
@@ -150,26 +270,6 @@
    "resume": "Take a break from the surveillance nightmare around us for computer vision that's local, not online, and doing creative, artistic things, instead. Resolume 7.28 adds some powerful Wire nodes and new effects and blends…",
    "titre_fr": "Resolume 7.28 utilise la vision pour vous laisser jouer avec des intelligent live effects et blends",
    "resume_fr": "Faites une pause du cauchemar de surveillance autour de nous pour une computer vision locale, pas en ligne, et qui fait des choses créatives et artistiques, à la place. Resolume 7.28 ajoute de puissants Wire nodes et de nouveaux effects et blends…"
-  },
-  {
-   "source": "gearnews",
-   "titre": "Guitar Days 2026: New Crazy Deals on Amps and Pedals at Thomann!",
-   "lien": "https://www.gearnews.com/guitar-days-amps-pedals-guitar-deals/",
-   "date": "2026-09-25T09:08:32.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/2608_Thomann_Guitardays_GN_Amps_Pedals_EN_1540x850.jpg",
-   "resume": "The Thomann Guitar Days 2026 have kicked off * and are in full swing. There are some amazing deals with huge discounts and brands like Electro Harmonix, Line6, MXR, Behringer, Soldano, and Supro are included. The sale…",
-   "titre_fr": "Guitar Days 2026 : de folles réductions sur les amps et pedals chez Thomann !",
-   "resume_fr": "Les Thomann Guitar Days 2026 ont commencé et battent son plein. Il y a des offres incroyables avec d'énormes réductions et des brands comme Electro Harmonix, Line6, MXR, Behringer, Soldano et Supro sont incluses. La vente…"
-  },
-  {
-   "source": "gearnews",
-   "titre": "Two Notes Torpedo Captor X Pro: The Most Powerful Load Box and Attenuator?",
-   "lien": "https://www.gearnews.com/two-notes-torpedo-captor-x-pro-guitar/",
-   "date": "2026-09-25T09:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/TwoNotes_Torpedo_Captor_X_Pro_Teaser-128x71.jpg",
-   "resume": "The load boxes from Two Notes are among the most popular on the market. Following the Captor X Plus released this spring, the manufacturer is now unveiling the Torpedo Captor X Pro: the largest version of the Torpedo…",
-   "titre_fr": "Two Notes Torpedo Captor X Pro : la boîte de charge et l'atténuateur les plus puissants ?",
-   "resume_fr": "Les load boxes de Two Notes sont parmi les plus populaires du marché. Suite au Captor X Plus sorti ce printemps, le fabricant dévoile maintenant le Torpedo Captor X Pro : la plus grande version du Torpedo…"
   },
   {
    "source": "musicradar",
@@ -272,26 +372,6 @@
    "resume_fr": "Un vieux Nokia pointe vers un stack de speakers à 4 h du matin, et son minuscule microphone capture cinq secondes de bassline avant que la foule ne se mette à crier par-dessus. L'enregistrement ressemble à une abeille piégée dans une boîte de conserve. Le suivant…"
   },
   {
-   "source": "musicradar",
-   "titre": "“Even if you have a decent amp, there's enough variety and depth of effects in the Stage to justify integrating it into an existing rig”: Hotone Ampero II Stage review",
-   "lien": "https://www.musicradar.com/guitars/guitar-pedals/hotone-ampero-ii-stage-review",
-   "date": "2026-09-24T17:44:59.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/yThCyPsABAmXPG7F5DSjE9-1920-80.jpg",
-   "resume": "What is it? Following on from its successful second-generation Ampero floorboard, Hotone has released the Ampero II Stage. It includes a streamlined back panel and new features enabled by Bluetooth and a companion app…",
-   "titre_fr": "« Même si vous avez un bon ampli, il y a assez de variété et de profondeur d'effets dans le Stage pour justifier de l'intégrer dans un rig existant » : examen du Hotone Ampero II Stage",
-   "resume_fr": "Qu'est-ce que c'est ? Suite à son réussi floorboard Ampero de deuxième génération, Hotone a sorti l'Ampero II Stage. Il comprend un panneau arrière rationalisé et de nouvelles fonctionnalités activées par Bluetooth et une application compagne…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "“Please remain vigilant”: Oasis warn against scammers in the forthcoming Live 27 ticketing bunfight",
-   "lien": "https://www.musicradar.com/artists/shows-festivals/please-remain-vigilant-oasis-warn-against-scammers-in-the-forthcoming-live-27-ticketing-bunfight",
-   "date": "2026-09-24T16:07:15.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/tRmAeZShapZWMWigRXMTCE-1920-80.jpg",
-   "resume": "Today is the day that those who were lucky in the ballot for Oasis tickets will start to receive their access codes, but the band have warned against scammers who are sending fake ones. “Important: We have been made…",
-   "titre_fr": "« Restez vigilants » : Oasis avertit contre les arnaqueurs avant la mêlée des billets Live 27",
-   "resume_fr": "Aujourd'hui, ceux qui ont eu de la chance au tirage au sort pour les billets Oasis commencent à recevoir leurs codes d'accès, mais le groupe a averti contre les arnaqueurs qui en envoient de faux. « Important : on nous a…"
-  },
-  {
    "source": "musictech",
    "titre": "“This is one of the biggest weeks for Maschine sound content we’ve ever had”: Native Instruments rolls out Maschine 3.7 update – alongside three new expansion packs",
    "lien": "https://musictech.com/news/gear/maschine-3-7/",
@@ -320,6 +400,46 @@
    "resume": "SoundSwitch 2.11 has just landed, and the big news is that it now integrates with Rekordbox properly. That means that this popular DJ lighting control software now works with all the major DJ software platforms. Until…",
    "titre_fr": "SoundSwitch ajoute l'intégration officielle de Rekordbox",
    "resume_fr": "SoundSwitch 2.11 vient de sortir, et la grande nouvelle c'est qu'il intègre maintenant Rekordbox correctement. Cela signifie que ce populaire logiciel de contrôle d'éclairage DJ fonctionne maintenant avec toutes les principales plateformes DJ. Jusqu'à…"
+  },
+  {
+   "source": "bpb",
+   "titre": "DAWception is a FREE mini DAW that runs inside your DAW",
+   "lien": "https://bedroomproducersblog.com/2026/09/24/dawception-mini-daw/",
+   "date": "2026-09-24T13:53:55.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/dawception.jpg",
+   "resume": "JohnmanJohnston has released DAWception, a free and open-source mini DAW that runs as a VST3 plugin inside another digital audio workstation. The developer created it as a pretty clever workaround for the track limits…",
+   "titre_fr": "DAWception est un mini DAW GRATUIT qui tourne à l'intérieur de votre DAW",
+   "resume_fr": "JohnmanJohnston a lancé DAWception, un mini DAW gratuit et open-source qui fonctionne comme un plugin VST3 à l'intérieur d'une autre station de travail audio numérique. Le développeur l'a créé comme un contournement plutôt intelligent pour les limites de pistes…"
+  },
+  {
+   "source": "bpb",
+   "titre": "nClear releases Gluon, a FREE bus compressor with multi-instance control",
+   "lien": "https://bedroomproducersblog.com/2026/09/24/nclear-gluon-bus-compressor/",
+   "date": "2026-09-24T13:34:51.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/gluon.jpg",
+   "resume": "nClear Audio has released Gluon, a free bus compressor for macOS, Windows, and Linux. You may remember nClear Audio from the free VocRide and Sibalance vocal plugins, which we featured earlier this year. Their new…",
+   "titre_fr": "nClear publie Gluon, un FREE compresseur bus avec contrôle multi-instance",
+   "resume_fr": "nClear Audio a lancé Gluon, un compresseur bus gratuit pour macOS, Windows et Linux. Vous vous souvenez peut-être de nClear Audio grâce aux plugins vocaux gratuits VocRide et Sibalance, que nous avons présentés plus tôt cette année. Leur nouveau…"
+  },
+  {
+   "source": "bpb",
+   "titre": "Box Of Rules releases Box Of Synths, a FREE prompt-driven synthesizer beta",
+   "lien": "https://bedroomproducersblog.com/2026/09/24/box-of-synths-beta/",
+   "date": "2026-09-24T13:27:52.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/outrun-bass.jpg",
+   "resume": "Box Of Rules has released Box Of Synths, a free beta synthesizer that creates editable patches from written descriptions. This is the most recent project by the developer behind Picking Fingers and the much larger Box…",
+   "titre_fr": "Box Of Rules lance Box Of Synths, un synthesizer piloté par prompt GRATUIT en beta",
+   "resume_fr": "Box Of Rules a lancé Box Of Synths, un synthesizer beta gratuit qui crée des patches modifiables à partir de descriptions écrites. C'est le projet le plus récent du développeur derrière Picking Fingers et le bien plus grand Box…"
+  },
+  {
+   "source": "bpb",
+   "titre": "Exo Audio releases COLOR, a FREE one-knob harmonizer for macOS and Windows",
+   "lien": "https://bedroomproducersblog.com/2026/09/24/exo-audio-color/",
+   "date": "2026-09-24T12:25:16.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/ExoAudio-COLOR.jpg",
+   "resume": "Developer Exo Audio has released COLOR, a free one-knob harmoniser for macOS and Windows. To download COLOR for free, submit your email address and wait for the download link, which should arrive promptly. COLOR is a…",
+   "titre_fr": "Exo Audio publie COLOR, un harmonizer à une molette GRATUIT pour macOS et Windows",
+   "resume_fr": "Le développeur Exo Audio a lancé COLOR, un harmonizer gratuit à une molette pour macOS et Windows. Pour télécharger COLOR gratuitement, soumettez votre adresse email et attendez le lien de téléchargement, qui devrait arriver rapidement. COLOR est un…"
   },
   {
    "source": "musictech",
@@ -362,6 +482,16 @@
    "resume_fr": "Elektron a annoncé qu'il bannit la discussion des modifications firmware de son forum officiel, Elektronauts, en raison de préoccupations concernant la protection de ses droits de propriété intellectuelle et le potentiel de « brique » du matériel. …"
   },
   {
+   "source": "bpb",
+   "titre": "SoniX Audio releases DRUMFLX, a FREE drum machine plugin",
+   "lien": "https://bedroomproducersblog.com/2026/09/23/sonix-audio-drumflx/",
+   "date": "2026-09-23T12:51:05.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/drumflx.jpg",
+   "resume": "SoniX Audio has released DRUMFLX, a free drum machine plugin for macOS and Windows. DRUMFLX is a sample-based instrument built by producer KXVI, whose credits include work with Future, SZA, 21 Savage, and Lil Tjay. It…",
+   "titre_fr": "SoniX Audio publie DRUMFLX, un FREE plugin drum machine",
+   "resume_fr": "SoniX Audio a lancé DRUMFLX, un plugin drum machine gratuit pour macOS et Windows. DRUMFLX est un instrument basé sur des sample construit par le producteur KXVI, dont les crédits incluent un travail avec Future, SZA, 21 Savage et Lil Tjay. Il…"
+  },
+  {
    "source": "synthtopia",
    "titre": "Minimal Instruments Nagi Offers A No-Code Route To Building Native Audio Plugins",
    "lien": "https://www.synthtopia.com/content/2026/09/23/minimal-instruments-nagi-offers-a-no-code-route-to-building-native-audio-plugins/",
@@ -370,16 +500,6 @@
    "resume": "Nagi's workflow combines a visual node editor, Faust DSP code and an interface designer in a single application, with an integrated audio preview that lets users hear a patch before compiling it.…",
    "titre_fr": "Minimal Instruments Nagi offre une voie sans code pour construire des plugins audio Native",
    "resume_fr": "Le workflow de Nagi combine un éditeur de nœuds visuel, du code DSP Faust et un concepteur d'interface dans une seule application, avec une prévisualisation audio intégrée qui permet aux utilisateurs d'entendre un patch avant de le compiler.…"
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "Armin van Buuren Transforms a Rock Classic Into the Trance Anthem Take Me Home",
-   "lien": "https://midnightrebels.com/armin-van-buuren-transforms-a-rock-classic-into-the-trance-anthem-take-me-home/",
-   "date": "2026-09-23T12:27:34.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/09/RHYNO-TravisScott-DaftPunk-GTA6-Soundtrack.webp?fit=2400%2C1350&ssl=1",
-   "resume": "Armin van Buuren is gutting a massive alternative rock track for his next single. He is calling it “Take Me Home.” It avoids the lazy snag of just slapping a heavy kick drum under an old vocal stem. He went way harder…",
-   "titre_fr": "Armin van Buuren transforme un classique rock en hymne trance Take Me Home",
-   "resume_fr": "Armin van Buuren déchire un énorme morceau d'alternative rock pour son prochain single. Il l'appelle « Take Me Home ». Cela évite le piège paresseux de simplement placer une grosse kick drum sous une ancienne vocal stem. Il s'y est beaucoup plus investi…"
   },
   {
    "source": "musictech",
@@ -1148,6 +1268,16 @@
    "resume_fr": "Peu de producteurs brouillent la ligne entre musicien et artiste électronique comme Father Funk. Son nouvel album, Funk The System, capture le chaos et la couleur de la performance live dans un cadre électronique lourd en basses. Chaque track…"
   },
   {
+   "source": "xlr8r",
+   "titre": "Get Physical and M.A.N.D.Y. Co-Founder Philipp Jung Has Passed Away",
+   "lien": "https://xlr8r.com/news/get-physical-and-m-a-n-d-y-co-founder-philipp-jung-has-passed-away/",
+   "date": "2026-05-24T21:31:33.000Z",
+   "image": "https://xlr8r.com/wp-content/uploads/2026/05/May-21-2026-Screenshot-from-Philipp-Press-Release-1024x682.png",
+   "resume": "Philipp Jung, co-founder of Get Physical and one half of M.A.N.D.Y., has passed away, aged 55. Philipp was a close friend and collaborator to XLR8R and its staff and family. We are heartbroken and will miss him! His…",
+   "titre_fr": "Get Physical et le co-fondateur de M.A.N.D.Y. Philipp Jung a disparu",
+   "resume_fr": "Philipp Jung, co-fondateur de Get Physical et moitié de M.A.N.D.Y., a disparu, à l'âge de 55 ans. Philipp était un ami proche et un collaborateur de XLR8R et de son personnel et sa famille. On a le cœur brisé et il nous manquera ! Son…"
+  },
+  {
    "source": "djtechtools",
    "titre": "Engine DJ 5.0: on-board stems on the System 1, RGB waveforms for everyone",
    "lien": "https://djtechtools.com/2026/05/13/engine-dj-5-0-on-bard-stems-on-the-system-1-rgb-waveforms-for-everyone/",
@@ -1176,6 +1306,96 @@
    "resume": "Native Instruments has been sold. InMusic Brands, the U.S. parent of Akai Professional, Denon DJ, Numark, Rane, M-Audio, Moog, and Engine DJ, has signed a definitive agreement to acquire NI in full. That includes…",
    "titre_fr": "InMusic vient d'acheter Native Instruments. Et maintenant, Traktor ?",
    "resume_fr": "Native Instruments a été vendue. InMusic Brands, la maison mère américaine d'Akai Professional, Denon DJ, Numark, Rane, M-Audio, Moog et Engine DJ, a signé un accord définitif pour acquérir NI en totalité. Ça inclut…"
+  },
+  {
+   "source": "xlr8r",
+   "titre": "Download an Ableton Live Set From Polygonia",
+   "lien": "https://xlr8r.com/features/download-an-ableton-live-set-from-polygonia/",
+   "date": "2024-12-20T23:04:29.000Z",
+   "image": "https://xlr8r.com/wp-content/uploads/2024/12/438_XLR8R-Polygonia_Blog-Image-1600x800_03-1024x512.jpg",
+   "resume": "Few artists demonstrate such a multifaceted talent and the poise to balance it all quite like Polygonia , the musical alias of Lindsey Wang. Having risen to prominence with an impressive combination of technical mastery…",
+   "titre_fr": "Téléchargez un Ableton Live Set de Polygonia",
+   "resume_fr": "Peu d'artistes démontrent un tel talent multifacette et l'aplomb pour tout équilibrer comme Polygonia, alias musical de Lindsey Wang. Ayant accédé à la notoriété avec une combinaison impressionnante de maîtrise technique…"
+  },
+  {
+   "source": "xlr8r",
+   "titre": "Bjarki Returns with New Album",
+   "lien": "https://xlr8r.com/news/bjarki-returns-with-new-album/",
+   "date": "2024-10-29T22:19:52.000Z",
+   "image": "https://xlr8r.com/wp-content/uploads/2024/10/hh3gx_yg-1024x576.png",
+   "resume": "Bjarki will release a new album next month. A Guide To Hellthier Lifestyle is the first album to land on the Iceland artist’s Differance label, which he co-founded with the artist Thomas Harrington Rawle. Conceptually…",
+   "titre_fr": "Bjarki revient avec un nouvel album",
+   "resume_fr": "Bjarki sortira un nouvel album le mois prochain. A Guide To Hellthier Lifestyle est le premier album à paraître sur le label Differance de l'artiste islandais, qu'il a cofondé avec l'artiste Thomas Harrington Rawle. Conceptuellement…"
+  },
+  {
+   "source": "xlr8r",
+   "titre": "Podcast 873: Andy Graham",
+   "lien": "https://xlr8r.com/podcasts/podcast-873-andy-graham/",
+   "date": "2024-10-23T19:53:54.000Z",
+   "image": "https://xlr8r.com/wp-content/uploads/2024/10/ANDY_GRAHAM_PODCAST_HERO6-scaled.jpg",
+   "resume": "Andy Graham is a Glasgow, Scotland-born electronic music producer who is known for his innovative approach to ambient soundscapes and cinematic atmospheres. Before studying audio technology in college and university, he…",
+   "titre_fr": "Podcast 873: Andy Graham",
+   "resume_fr": "Andy Graham est un producteur de musique électronique né à Glasgow, en Écosse, connu pour son approche innovante des soundscapes ambient et des atmosphères cinématiques. Avant d'étudier la technologie audio au collège et à l'université, il…"
+  },
+  {
+   "source": "xlr8r",
+   "titre": "Beatrice Dillon to Launch Label with Double-Single",
+   "lien": "https://xlr8r.com/news/beatrice-dillon-to-launch-label-with-double-single/",
+   "date": "2024-10-23T08:37:18.000Z",
+   "image": "https://xlr8r.com/wp-content/uploads/2024/10/unnamed-2-1024x768.jpg",
+   "resume": "Beatrice Dillon will release a new double-single next month. Seven Reorganisations is the first release on Dillon’s new label, HI. Originally commissioned by artist Mark Fell for Sheffield’s No Bounds Festival in 2022…",
+   "titre_fr": "Beatrice Dillon lance un label avec un double single",
+   "resume_fr": "Beatrice Dillon sortira un nouveau double single le mois prochain. Seven Reorganisations est la première sortie sur le nouveau label de Dillon, HI. Commandée à l'origine par l'artiste Mark Fell pour le No Bounds Festival de Sheffield en 2022…"
+  },
+  {
+   "source": "xlr8r",
+   "titre": "The Mole to Release Fifth Album on Circus Company",
+   "lien": "https://xlr8r.com/news/the-mole-to-release-fifth-album-on-circus-company/",
+   "date": "2024-10-22T12:44:51.000Z",
+   "image": "https://xlr8r.com/wp-content/uploads/2024/10/0016586174_10-765x1024.jpg",
+   "resume": "The Mole will release a new album next month. High Hopes is the Canadian artist’s fifth solo album and his second for Circus Company , following The River Widens in 2023. High Hopes comprises 17 songs that sound nothing…",
+   "titre_fr": "The Mole sort son cinquième album sur Circus Company",
+   "resume_fr": "The Mole sortira un nouvel album le mois prochain. High Hopes est le cinquième album solo de l'artiste canadien et son deuxième pour Circus Company, suite à The River Widens en 2023. High Hopes comprend 17 morceaux qui sonnent complètement…"
+  },
+  {
+   "source": "xlr8r",
+   "titre": "Curses to Release New Album",
+   "lien": "https://xlr8r.com/news/curses-to-release-new-album/",
+   "date": "2024-10-17T21:29:48.000Z",
+   "image": "https://xlr8r.com/wp-content/uploads/2024/10/unnamed-1-759x1024.jpg",
+   "resume": "Curses will release a new album later this month. Known for making dark, romantic, cinematic new wave, Curses, real name Luca Venezia, has previously released two full length albums on Dischi Autunno—the latest…",
+   "titre_fr": "Curses sort un nouvel album",
+   "resume_fr": "Curses sortira un nouvel album plus tard ce mois-ci. Connu pour sa new wave sombre, romantique et cinématique, Curses, de son vrai nom Luca Venezia, a précédemment sorti deux albums complets sur Dischi Autunno—le dernier…"
+  },
+  {
+   "source": "xlr8r",
+   "titre": "Podcast 872: Tadleeh",
+   "lien": "https://xlr8r.com/podcasts/podcast-872-tadleeh/",
+   "date": "2024-10-16T17:07:56.000Z",
+   "image": "https://xlr8r.com/wp-content/uploads/2024/10/TADLEEH_PODCAST_HERO6-scaled.jpg",
+   "resume": "Tadleeh is the project of Indian-born, Italy-based musician Hazina Francia. Her route into electronic music began when she was a teenager and discovered techno and drum & bass. “Then I’ve moved forward exploring more…",
+   "titre_fr": "Podcast 872: Tadleeh",
+   "resume_fr": "Tadleeh est le projet de la musicienne Hazina Francia, née en Inde et basée en Italie. Son entrée dans la musique électronique a commencé quand elle était adolescente et a découvert le techno et le drum and bass. « Ensuite j'ai progressé en explorant plus…"
+  },
+  {
+   "source": "xlr8r",
+   "titre": "Flying Lotus Shares New House Track",
+   "lien": "https://xlr8r.com/news/flying-lotus-shares-new-house-track/",
+   "date": "2024-10-16T08:23:14.000Z",
+   "image": "https://xlr8r.com/wp-content/uploads/2024/10/FlyingLotus_Ingo-Swann_Tim_Saccenti_1400x933-682x1024.jpg",
+   "resume": "Flying Lotus has shared a new single, “Ingo Swann.” “Ingo Swann,” an upbeat, shimmering house number, sounds like nothing from Flying Lotus’s typical oeuvre. It takes its title from the famed psychic of the same name…",
+   "titre_fr": "Flying Lotus partage un nouveau morceau house",
+   "resume_fr": "Flying Lotus a partagé un nouveau single, « Ingo Swann ». « Ingo Swann », un morceau house dynamique et scintillant, ne ressemble à rien de l'oeuvre habituelle de Flying Lotus. Le titre est inspiré du célèbre psychique du même nom…"
+  },
+  {
+   "source": "xlr8r",
+   "titre": "Jackmaster Dies Aged 38",
+   "lien": "https://xlr8r.com/news/jackmaster-dies-aged-38/",
+   "date": "2024-10-14T10:51:47.000Z",
+   "image": "https://xlr8r.com/wp-content/uploads/2024/10/568732_8608425_updates.webp",
+   "resume": "Scottish DJ-producer Jack Revill, better known as Jackmaster, has died of an accidental head injury, aged 38. Revill’s family confirmed the news on Instagram yesterday. “It’s with profound sorrow that we confirm the…",
+   "titre_fr": "Jackmaster décédé à 38 ans",
+   "resume_fr": "Le DJ-producteur écossais Jack Revill, mieux connu sous le nom de Jackmaster, est décédé d'une blessure à la tête accidentelle, à l'âge de 38 ans. La famille de Revill a confirmé la nouvelle sur Instagram hier. « C'est avec une profonde tristesse que nous confirmons…"
   },
   {
    "source": "mixmag",
@@ -1289,76 +1509,6 @@
   },
   {
    "source": "djmag",
-   "titre": "Roland announces its first standalone US store to open in New York",
-   "lien": "https://djmag.com/tech/roland-announces-its-first-standalone-us-store-open-new-york",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Screenshot%202026-09-25%20at%2018.21.59.png.webp?itok=1g6PyXyY959100997",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Roland's new flagship store features its first dedicated grand piano showroom</p> </div>",
-   "titre_fr": "Roland annonce l'ouverture de son premier flagship store aux États-Unis à New York",
-   "resume_fr": "La nouvelle boutique phare de Roland propose sa première salle d'exposition dédiée aux pianos à queue"
-  },
-  {
-   "source": "djmag",
-   "titre": "Listen to Madonna and Charli xcx’s collaborative single, ‘Danceteria Afterhours’",
-   "lien": "https://djmag.com/news/listen-madonna-and-charli-xcxs-collaborative-single-danceteria-afterhours",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Screenshot%202026-09-25%20at%2016.26.05.png.webp?itok=EhO-D0qN274919730",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The pair have reworked Madonna’s recent track ‘Danceteria’, which appeared on her…",
-   "titre_fr": "Écoutez le single collaboratif de Madonna et Charli xcx, 'Danceteria Afterhours'",
-   "resume_fr": "Le duo a réinterprété le récent morceau 'Danceteria' de Madonna, qui figurait sur son…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Macklemore announces Free Palestine benefit concerts in London, Dublin and Paris",
-   "lien": "https://djmag.com/news/macklemore-announces-free-palestine-benefit-concerts-london-dublin-and-paris",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/SaveClip.App_781005860_18619961593018139_570162458272734780_n.jpg.webp?itok=bBB3rU-F421710508",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“So, as you all know, my schedule freed up a bit”</p> </div>",
-   "titre_fr": "Macklemore annonce des concerts de bienfaisance Free Palestine à Londres, Dublin et Paris",
-   "resume_fr": "« Donc, comme vous le savez tous, mon agenda s'est un peu libéré »"
-  },
-  {
-   "source": "djmag",
-   "titre": "Fred again.. speaks out against AI music: “The process is the magic”",
-   "lien": "https://djmag.com/news/fred-again-speaks-out-against-ai-music-process-magic",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Fred%20again...%20%5BCredit%20-%20Theo%20Batterham%5D%20%281%29.jpg.webp?itok=fNprovmb916932895",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The UK artist shared his thoughts in a series of Instagram stories</p> </div>",
-   "titre_fr": "Fred again.. s'exprime contre la musique IA: « Le processus est la magie »",
-   "resume_fr": "L'artiste britannique a partagé ses pensées dans une série de stories Instagram"
-  },
-  {
-   "source": "djmag",
-   "titre": "Photographing counterculture and community in the UK free party movement with Alan Lodge",
-   "lien": "https://djmag.com/features/photographing-counterculture-and-community-uk-free-party-movement-alan-lodge",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/HEADER-2_0.jpg.webp?itok=WZfHOhoi1062822727",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-intro field--type-text-long field--label-hidden field__item\"><p>In his new exhibition,<em> Common Grounds: Counterculture & Confrontation since 1976</em>…",
-   "titre_fr": "Photographier la contreculture et la communauté du mouvement free party britannique avec Alan Lodge",
-   "resume_fr": "Dans sa nouvelle exposition, Common Grounds: Counterculture & Confrontation since 1976…"
-  },
-  {
-   "source": "djmag",
-   "titre": "The Prodigy’s ‘Breathe’ set for 30th anniversary vinyl reissue",
-   "lien": "https://djmag.com/news/prodigys-breathe-set-30th-anniversary-vinyl-reissue",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Screenshot%202026-09-25%20at%2016.00.53.png.webp?itok=M17dOs_d1633959651",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The release includes the original track, an instrumental version, and two remixes</p>…",
-   "titre_fr": "Le 'Breathe' de The Prodigy prévu pour une réédition vinyle pour le 30e anniversaire",
-   "resume_fr": "La sortie inclut le morceau original, une version instrumentale, et deux remix"
-  },
-  {
-   "source": "djmag",
-   "titre": "Charlotte de Witte donates all proceeds from ‘The Resistance’ EP to nightlife advocacy foundation",
-   "lien": "https://djmag.com/news/charlotte-de-witte-donates-all-proceeds-resistance-ep-nightlife-advocacy-foundation",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/PRESS%20SHOT.png.webp?itok=WKQ4_zNU1486884486",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The four-track EP is out now on de Witte’s KNTXT label</p> </div>",
-   "titre_fr": "Charlotte de Witte donne tous les bénéfices de l'EP 'The Resistance' à une fondation de défense de la vie nocturne",
-   "resume_fr": "L'EP de quatre pistes sort maintenant sur le label KNTXT de de Witte"
-  },
-  {
-   "source": "djmag",
    "titre": "Sl8r - Callisto EP",
    "lien": "https://djmag.com/reviews/sl8r-callisto-ep",
    "date": null,
@@ -1408,14 +1558,5 @@
    "resume_fr": ""
   }
  ],
- "pannes": [
-  {
-   "id": "bpb",
-   "raison": "HTTP 403"
-  },
-  {
-   "id": "xlr8r",
-   "raison": "HTTP 403"
-  }
- ]
+ "pannes": []
 }
