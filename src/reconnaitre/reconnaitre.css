@@ -347,7 +347,10 @@
 
 /* L'ENVOI A AUDD, EN PETIT SOUS LE BOUTON : une phrase, un lien, rien a
    regler. */
-.rc-envoi {
+/* `.rc .credits-body p` fixe le corps des paragraphes a 15 px : la regle
+   ci-dessous est plus precise pour garder cette ligne petite. Mesure en
+   ligne le 27 septembre 2026, 15 px avant, 12,8 apres. */
+.rc .credits-body .rc-envoi {
   margin: 0.5rem 0 0;
   color: var(--ink-secondary);
   font-size: 0.8rem;
