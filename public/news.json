@@ -1,6 +1,56 @@
 {
- "fait": "2026-09-27T05:25:48.581Z",
+ "fait": "2026-09-27T17:03:24.284Z",
  "articles": [
+  {
+   "source": "midnightrebels",
+   "titre": "What Deadmau5 and James Hype’s Latest Clash Says About DJ Tech",
+   "lien": "https://midnightrebels.com/deadmau5-james-hype-16-deck-autopilot-dj-rivalry/",
+   "date": "2026-09-27T16:54:47.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/06/Deadmau5-steps-in-to-cover-30000-emergency-medical-bill-for-36-rescued-cats.webp?fit=1280%2C720&ssl=1",
+   "resume": "“All my favourite DJs play 16 tracks at once.” That’s what Deadmau5 typed under James Hype’s teaser video this month, the one where Hype chalks a 360-degree square onto a warehouse floor and surrounds himself with…",
+   "titre_fr": "Ce que le clash entre Deadmau5 et James Hype révèle sur la tech DJ",
+   "resume_fr": "« Tous mes DJ préférés jouent 16 tracks à la fois. » C'est ce que Deadmau5 a écrit sous la vidéo teaser de James Hype ce mois-ci, celle où Hype dessine un carré à 360 degrés sur le sol d'un warehouse et se positionne au milieu de…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Adam Jones’ Guitar Tone: Sound Like Tool With Plugins, a Budget Setup, or Studio Gear",
+   "lien": "https://www.gearnews.com/adam-jones-guitar-tone-guitar/",
+   "date": "2026-09-27T16:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/adamjones.jpg",
+   "resume": "Whether it’s “Schism,” “Lateralus,” or “Sober,” Adam Jones’ guitar tone is a defining sonic element of pro-rock legends Tool. Since Jones’ playing is more about creating atmosphere than playing the fastest, bendiest…",
+   "titre_fr": "La tonalité de guitare d'Adam Jones: Sonner comme Tool avec des plugins, un setup budget ou du gear de studio",
+   "resume_fr": "Que ce soit « Schism », « Lateralus » ou « Sober », la tonalité de guitare d'Adam Jones est un élément sonore déterminant de la légende du pro-rock Tool. Puisque le jeu d'Adam Jones porte davantage sur la création d'atmosphère que sur la rapidité et la technique…"
+  },
+  {
+   "source": "bpb",
+   "titre": "Libelula Audio releases Ultiverb, a feature-packed FREE reverb for Windows",
+   "lien": "https://bedroomproducersblog.com/2026/09/27/libelula-audio-ultiverb/",
+   "date": "2026-09-27T14:04:39.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/ultiverb.jpg",
+   "resume": "Libelula Audio has released Ultiverb, a free algorithmic reverb plugin for Windows. Free reverb plugins are hardly rare these days, and our free reverb roundup already lists the best ones. Ultiverb is still worth…",
+   "titre_fr": "Libelula Audio lance Ultiverb, un reverb GRATUIT complet pour Windows",
+   "resume_fr": "Libelula Audio a lancé Ultiverb, un free plugin reverb algorithmique pour Windows. Les free reverb plugins ne sont guère rares ces jours-ci, et notre sélection des meilleurs en liste déjà plusieurs. Ultiverb mérite néanmoins…"
+  },
+  {
+   "source": "bpb",
+   "titre": "NoiseAsh Heater V2 ($129 value) is FREE for a limited time",
+   "lien": "https://bedroomproducersblog.com/2026/09/27/noiseash-heater-free/",
+   "date": "2026-09-27T13:59:53.000Z",
+   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/heater.jpg",
+   "resume": "Audio Plugin Deals is offering NoiseAsh Heater V2, an analog-style saturation and tone-shaping plugin for macOS and Windows, as a free download for a limited time. Heater V2 normally has a $129 list price, although…",
+   "titre_fr": "NoiseAsh Heater V2 (valeur 129 $) est GRATUIT pour une durée limitée",
+   "resume_fr": "Audio Plugin Deals propose NoiseAsh Heater V2, un plugin de saturation et de tone-shaping style analogique pour macOS et Windows, en téléchargement gratuit pour une durée limitée. Heater V2 affiche normalement un prix listé de 129 $, bien que…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Gluon, DRUMFLX, BIT LAYER: Free Plugins of the Week",
+   "lien": "https://www.gearnews.com/gluon-drumflx-bit-layer-free-plugins/",
+   "date": "2026-09-27T06:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/gluon-free-plugins-09-27-26.jpg",
+   "resume": "Gluon is a free bus compressor plugin with multi-instance control, DRUMFLX may be the only free drum machine plugin you’ll ever need, and Bit Layer is a multi-band bit crusher: Free plugins of the week! Free Plugins of…",
+   "titre_fr": "Gluon, DRUMFLX, BIT LAYER: Free Plugins de la semaine",
+   "resume_fr": "Gluon est un free bus compressor plugin avec contrôle multi-instance, DRUMFLX pourrait être le seul free drum machine plugin dont vous aurez jamais besoin, et Bit Layer est un multi-band bit crusher: Free plugins de la semaine!"
+  },
   {
    "source": "musicradar",
    "titre": "Paul McCartney remembers showing Elvis how to bass like a pro",
@@ -232,16 +282,6 @@
    "resume_fr": "Polyend – le fabricant polonais de gear electronic music connu pour ses innovants grooveboxes et contrôleurs MIDI, le dernier desquels s'est présenté sous une forme terriblement similaire à un clavier QWERTY, vise maintenant les guitaristes avec son…"
   },
   {
-   "source": "gearnews",
-   "titre": "Yamaha Matteo Mancuso RS20MM: Signature RevStar",
-   "lien": "https://www.gearnews.com/yamaha-matteo-mancuso-rs20mm-signature-revstar/",
-   "date": "2026-09-25T11:23:32.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/Yamaha_Matteo_RS20mm_Teaser.jpg",
-   "resume": "The Matteo Mancuso RS20MM is a new signature model for the Italian guitarist, based on the RevStar. It is a glorious-looking guitar and comes with a chambered mahogany body, figured maple top, and DiMarzio PAF 36th…",
-   "titre_fr": "Yamaha Matteo Mancuso RS20MM : Signature RevStar",
-   "resume_fr": "Le Matteo Mancuso RS20MM est un nouveau signature model pour le guitariste italien, basé sur le RevStar. C'est une guitare magnifique et il vient avec un chambered mahogany body, figured maple top et DiMarzio PAF 36th…"
-  },
-  {
    "source": "bpb",
    "titre": "Soundpaint rebuilt: One FREE sampler to rule them all?",
    "lien": "https://bedroomproducersblog.com/2026/09/25/soundpaint-5-update/",
@@ -250,16 +290,6 @@
    "resume": "Soundpaint came onto the scene back in 2021 as an ambitious project with a lot of potential. The free music instrument technology ticked a lot of boxes from the get-go, not least because it comes from the people behind…",
    "titre_fr": "Soundpaint reconstruit : un sampler GRATUIT pour les gouverner tous ?",
    "resume_fr": "Soundpaint a fait son apparition en 2021 en tant que projet ambitieux avec beaucoup de potentiel. La technologie d'instrument musical gratuite cochait beaucoup de cases dès le départ, notamment parce qu'elle provient de gens derrière…"
-  },
-  {
-   "source": "gearnews",
-   "titre": "LIFE LIKE A DJ: Live The DJ Life in this Free Browser-Based Game",
-   "lien": "https://www.gearnews.com/life-like-a-dj/",
-   "date": "2026-09-25T11:12:42.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/life-like-a-dj-teaser-128x71.jpg",
-   "resume": "In LIFE LIKE A DJ, you can delve into every aspect of a DJ’s career, from building and leveraging industry contacts to booking and playing gigs. Make sure your schedule is clear, because this DJ career simulation could…",
-   "titre_fr": "LIFE LIKE A DJ : Vivez la vie de DJ dans ce jeu gratuit basé sur navigateur",
-   "resume_fr": "Dans LIFE LIKE A DJ, vous pouvez explorer tous les aspects de la carrière d'un DJ, de la construction et l'exploitation des contacts industriels à la réservation et la performance de gigs. Assurez-vous que votre emploi du temps est libre, car cette DJ career simulation pourrait…"
   },
   {
    "source": "musicradar",
@@ -362,16 +392,6 @@
    "resume_fr": "Antares a annoncé la sortie d'AutoTune® Advanced, une nouvelle édition du plugin d'accord vocal basée sur une refonte complète de l'algorithme Auto-Mode pitch et équipée d'un nouveau moteur de détection de vibrato DVA™ développé…"
   },
   {
-   "source": "midnightrebels",
-   "titre": "Before Shazam: How Early Ravers Hunted Down Mystery Track IDs",
-   "lien": "https://midnightrebels.com/how-ravers-identified-tracks-before-shazam/",
-   "date": "2026-09-24T18:12:12.000Z",
-   "image": "https://midnightrebels.com/wp-content/uploads/2026/01/MTV-Rewind-The-33000-Video-Archive-Restoring-Music-History.avif",
-   "resume": "An old Nokia points at a speaker stack at 4 a.m., and its tiny microphone catches five seconds of bassline before the crowd starts shouting over it. The recording sounds like a bee trapped in a tin can . The next…",
-   "titre_fr": "Avant Shazam : comment les premiers ravers ont traqué les mystery track IDs",
-   "resume_fr": "Un vieux Nokia pointe vers un stack de speakers à 4 h du matin, et son minuscule microphone capture cinq secondes de bassline avant que la foule ne se mette à crier par-dessus. L'enregistrement ressemble à une abeille piégée dans une boîte de conserve. Le suivant…"
-  },
-  {
    "source": "musictech",
    "titre": "“This is one of the biggest weeks for Maschine sound content we’ve ever had”: Native Instruments rolls out Maschine 3.7 update – alongside three new expansion packs",
    "lien": "https://musictech.com/news/gear/maschine-3-7/",
@@ -432,16 +452,6 @@
    "resume_fr": "Box Of Rules a lancé Box Of Synths, un synthesizer beta gratuit qui crée des patches modifiables à partir de descriptions écrites. C'est le projet le plus récent du développeur derrière Picking Fingers et le bien plus grand Box…"
   },
   {
-   "source": "bpb",
-   "titre": "Exo Audio releases COLOR, a FREE one-knob harmonizer for macOS and Windows",
-   "lien": "https://bedroomproducersblog.com/2026/09/24/exo-audio-color/",
-   "date": "2026-09-24T12:25:16.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/ExoAudio-COLOR.jpg",
-   "resume": "Developer Exo Audio has released COLOR, a free one-knob harmoniser for macOS and Windows. To download COLOR for free, submit your email address and wait for the download link, which should arrive promptly. COLOR is a…",
-   "titre_fr": "Exo Audio publie COLOR, un harmonizer à une molette GRATUIT pour macOS et Windows",
-   "resume_fr": "Le développeur Exo Audio a lancé COLOR, un harmonizer gratuit à une molette pour macOS et Windows. Pour télécharger COLOR gratuitement, soumettez votre adresse email et attendez le lien de téléchargement, qui devrait arriver rapidement. COLOR est un…"
-  },
-  {
    "source": "musictech",
    "titre": "“He said, ‘Okay, just keep playing it over and over again’”: Rick Rubin on Jay-Z’s insane ability to write lyrics off the cuff",
    "lien": "https://musictech.com/news/music/jay-z-rick-rubin-99-problems-writing-process/",
@@ -480,16 +490,6 @@
    "resume": "Elektron has announced that it is banning discussion of firmware mods from its official forum, Elektronauts, because of concerns over protecting its intellectual rights and the potential for 'bricking' hardware. …",
    "titre_fr": "Elektron bannit la discussion des modificationsfirmware de son forum, Elektronauts",
    "resume_fr": "Elektron a annoncé qu'il bannit la discussion des modifications firmware de son forum officiel, Elektronauts, en raison de préoccupations concernant la protection de ses droits de propriété intellectuelle et le potentiel de « brique » du matériel. …"
-  },
-  {
-   "source": "bpb",
-   "titre": "SoniX Audio releases DRUMFLX, a FREE drum machine plugin",
-   "lien": "https://bedroomproducersblog.com/2026/09/23/sonix-audio-drumflx/",
-   "date": "2026-09-23T12:51:05.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/drumflx.jpg",
-   "resume": "SoniX Audio has released DRUMFLX, a free drum machine plugin for macOS and Windows. DRUMFLX is a sample-based instrument built by producer KXVI, whose credits include work with Future, SZA, 21 Savage, and Lil Tjay. It…",
-   "titre_fr": "SoniX Audio publie DRUMFLX, un FREE plugin drum machine",
-   "resume_fr": "SoniX Audio a lancé DRUMFLX, un plugin drum machine gratuit pour macOS et Windows. DRUMFLX est un instrument basé sur des sample construit par le producteur KXVI, dont les crédits incluent un travail avec Future, SZA, 21 Savage et Lil Tjay. Il…"
   },
   {
    "source": "synthtopia",
@@ -1509,6 +1509,36 @@
   },
   {
    "source": "djmag",
+   "titre": "Photographing counterculture and community in the UK free party movement with Alan Lodge",
+   "lien": "https://djmag.com/features/photographing-counterculture-and-community-uk-free-party-movement-alan-lodge",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/HEADER-2_0.jpg.webp?itok=WZfHOhoi2133339301",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-intro field--type-text-long field--label-hidden field__item\"><p>In his new exhibition,<em> Common Grounds: Counterculture & Confrontation since 1976</em>…",
+   "titre_fr": "Photographier la contre-culture et la communauté du mouvement free party britannique avec Alan Lodge",
+   "resume_fr": "Dans sa nouvelle exposition, Common Grounds: Counterculture & Confrontation since 1976…"
+  },
+  {
+   "source": "djmag",
+   "titre": "The Prodigy’s ‘Breathe’ set for 30th anniversary vinyl reissue",
+   "lien": "https://djmag.com/news/prodigys-breathe-set-30th-anniversary-vinyl-reissue",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Screenshot%202026-09-25%20at%2016.00.53.png.webp?itok=M17dOs_d1049280677",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The release includes the original track, an instrumental version, and two remixes</p>…",
+   "titre_fr": "« Breathe » de The Prodigy en réédition vinyle pour ses 30 ans",
+   "resume_fr": "La sortie comprend la track originale, une version instrumentale et deux remixes"
+  },
+  {
+   "source": "djmag",
+   "titre": "Charlotte de Witte donates all proceeds from ‘The Resistance’ EP to nightlife advocacy foundation",
+   "lien": "https://djmag.com/news/charlotte-de-witte-donates-all-proceeds-resistance-ep-nightlife-advocacy-foundation",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/PRESS%20SHOT.png.webp?itok=WKQ4_zNU1375980659",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The four-track EP is out now on de Witte’s KNTXT label</p> </div>",
+   "titre_fr": "Charlotte de Witte reverse tous les bénéfices de l'EP « The Resistance » à une fondation de plaidoyer pour la vie nocturne",
+   "resume_fr": "Le quatre-track EP est dès maintenant disponible sur le label KNTXT de de Witte"
+  },
+  {
+   "source": "djmag",
    "titre": "Sl8r - Callisto EP",
    "lien": "https://djmag.com/reviews/sl8r-callisto-ep",
    "date": null,
@@ -1545,16 +1575,6 @@
    "image": "https://djmag.com/sites/default/files/styles/djm_25_500x500_sq/public/music_reviews/2026-09/Nearly%20.jpg.webp?itok=ywUmjfkN",
    "resume": "<header class=\"_article--header d8-header-paragraph music-review\"><div class=\"row\"> <div class=\"col d-flex head-container pb-0\" style=\" \"> <div class=\"pane-credits-wrapper\"> <div class=\"pane-author-info top\"> <div…",
    "titre_fr": "Bullion, Nearly",
-   "resume_fr": ""
-  },
-  {
-   "source": "djmag",
-   "titre": "MITHER - Be Kind EP",
-   "lien": "https://djmag.com/reviews/mither-be-kind-ep",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_25_500x500_sq/public/music_reviews/2026-09/Be%20Kind%20EP.jpg.webp?itok=5mxYixLR",
-   "resume": "<header class=\"_article--header d8-header-paragraph music-review\"><div class=\"row\"> <div class=\"col d-flex head-container pb-0\" style=\" \"> <div class=\"pane-credits-wrapper\"> <div class=\"pane-author-info top\"> <div…",
-   "titre_fr": "MITHER, Be Kind EP",
    "resume_fr": ""
   }
  ],
