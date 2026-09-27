@@ -77,6 +77,12 @@ interface Env {
      encode les mixtapes (scripts/convertir-sets-aac.ts), pas une personne.
      Voir la porte ci-dessous, avant `qui`. */
   readonly CONVERSION_SECRET?: string;
+  /* LA CLE DE SERVICE DE SUPABASE, pour ecrire les scans : la table n'a
+     aucune politique d'insertion, seule cette cle passe, par la fonction
+     enregistrer_scan. Posee par `wrangler secret put
+     SUPABASE_SERVICE_ROLE_KEY`. Absente, la route repond 503 et la page
+     montre quand meme son resultat. */
+  readonly SUPABASE_SERVICE_ROLE_KEY?: string;
 }
 
 const aplatirNom = (s: string): string =>
@@ -918,6 +924,55 @@ export default {
         }),
         { headers: entetes(req, env, { 'content-type': 'application/json', 'cache-control': 'no-store' }) }
       );
+    }
+
+    /* ═══ GARDER UNE ECOUTE ═══ POST api/scan
+     *
+     * Mika, le 27 septembre 2026 : le scan nourrit les pages de style. Le
+     * navigateur envoie le morceau nomme par AudD et le genre de l'atlas que
+     * le reseau a estime ; on garde ca, et rien d'autre : ni adresse, ni
+     * position, ni identifiant. Le seuil est refait ici, la meme valeur que
+     * src/reconnaitre/scan.ts, parce qu'un client peut mentir sur le sien.
+     * L'ecriture passe par la cle de service et la fonction enregistrer_scan,
+     * qui compte les ecoutes d'un meme morceau au lieu de le dupliquer. Le
+     * statut nait « en attente » : rien ne parait avant moderation. */
+    if (req.method === 'POST' && chemin === 'api/scan') {
+      if (!env.SUPABASE_SERVICE_ROLE_KEY) return refus(req, env, 503, 'scans non configures');
+      const ip = req.headers.get('cf-connecting-ip') ?? 'inconnue';
+      const cleCompteur = `scan:${ip}:${new Date().toISOString().slice(0, 13)}`;
+      const vus = Number((await env.DEMANDES.get(cleCompteur)) ?? '0');
+      if (vus >= 20) return refus(req, env, 429, 'trop de scans cette heure-ci');
+      let corps: Record<string, unknown>;
+      try {
+        corps = (await req.json()) as Record<string, unknown>;
+      } catch {
+        return refus(req, env, 400, 'corps illisible');
+      }
+      const texte = (k: string, max: number): string | null => (typeof corps[k] === 'string' && (corps[k] as string).trim() ? (corps[k] as string).trim().slice(0, max) : null);
+      const titre = texte('titre', 200);
+      const artiste = texte('artiste', 200);
+      const genre = texte('genre_slug', 64);
+      const confiance = typeof corps['confiance'] === 'number' ? corps['confiance'] : NaN;
+      const pochette = texte('pochette_url', 500);
+      const annee = typeof corps['annee'] === 'number' && corps['annee'] > 1800 && corps['annee'] < 2100 ? Math.round(corps['annee']) : null;
+      if (!titre || !artiste || !genre || !/^[a-z0-9-]+$/.test(genre)) return refus(req, env, 400, 'titre, artiste ou genre manquant');
+      /* 0,30 : la meme valeur que SEUIL_SCAN dans src/reconnaitre/scan.ts. */
+      if (!(confiance >= 0.3 && confiance <= 1)) return refus(req, env, 400, 'confiance sous le seuil');
+      if (pochette && !/^https:\/\//.test(pochette)) return refus(req, env, 400, 'pochette non https');
+      await env.DEMANDES.put(cleCompteur, String(vus + 1), { expirationTtl: 3900 });
+      const r = await fetch(`${env.SUPABASE_URL}/rest/v1/rpc/enregistrer_scan`, {
+        method: 'POST',
+        headers: {
+          apikey: env.SUPABASE_SERVICE_ROLE_KEY,
+          Authorization: `Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`,
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({ p_titre: titre, p_artiste: artiste, p_label: texte('label', 200), p_annee: annee, p_pochette_url: pochette, p_genre_slug: genre, p_confiance: confiance }),
+      });
+      if (!r.ok) return refus(req, env, 502, `base : ${r.status}`);
+      return new Response(JSON.stringify({ enregistre: true }), {
+        headers: entetes(req, env, { 'content-type': 'application/json', 'cache-control': 'no-store' }),
+      });
     }
 
     if (req.method === 'GET' && chemin === 'api/ou') {

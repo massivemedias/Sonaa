@@ -42,6 +42,14 @@ import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import { Apparition } from '../design/mouvement.tsx';
 import { HeroAccueil, type AfficheHero } from './HeroAccueil.tsx';
+import { lazy, Suspense } from 'react';
+import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
+import { FaIcon } from './FaIcon.tsx';
+import '../reconnaitre/surcouche.css';
+
+/* LE MICRO NE SE CHARGE QU'AU CLIC : son composant tire ensuite TensorFlow
+   et Essentia, et l'accueil n'a pas a les payer. */
+const Reconnaissance = lazy(() => import('../reconnaitre/Reconnaissance.tsx').then((m) => ({ default: m.Reconnaissance })));
 import { ChoixStyles, EST_FAMILLE, LABEL_DE_STYLE } from './ChoixStyles.tsx';
 import { FAMILIES, STRUCTURES } from './structures.ts';
 import { resoudreVille, type Ville } from '../lib/ville-active.ts';
@@ -693,6 +701,7 @@ export function CalendrierPage() {
      attend en revanche que la liste des villes soit la, pour ne pas sauter
      entre deux rendus. */
   const avecHero = !enRecherche && (ville != null || villes.length > 0);
+  const [microOuvert, setMicroOuvert] = useState(false);
 
   const fuseau = ville?.timezone ?? 'America/Toronto';
 
@@ -746,6 +755,27 @@ export function CalendrierPage() {
             onVille={() => document.querySelector<HTMLSelectElement>('.cal-ville select')?.focus()}
             onAffiche={(id) => setDepliee(id)}
           />
+        )}
+        {/* ═══ LE MICRO, SOUS LA BANNIERE ═══ Mika, le 27 septembre 2026 :
+            « le scan vit sur l'accueil ». Le resultat s'ouvre par-dessus la
+            page ; l'adresse ne change pas, le calendrier reste dessous. */}
+        {avecHero && (
+          <button type="button" className="micro-bouton" onClick={() => setMicroOuvert(true)}>
+            <FaIcon icon={faMicrophone} />
+            <span>{t.quelStyleJoue}</span>
+          </button>
+        )}
+        {microOuvert && (
+          <div className="rc-voile-page" onClick={() => setMicroOuvert(false)}>
+            <div className="rc-surcouche-panneau" role="dialog" aria-modal="true" aria-label={t.quelStyleJoue} onClick={(e) => e.stopPropagation()}>
+              <button type="button" className="rc-surcouche-fermer" onClick={() => setMicroOuvert(false)} aria-label={t.fermerLaSurcouche}>
+                ×
+              </button>
+              <Suspense fallback={<p className="rc-note">{t.unInstant}</p>}>
+                <Reconnaissance enSurcouche />
+              </Suspense>
+            </div>
+          </div>
         )}
 
         {/* LE CHAPEAU NE SE REPETE PAS SOUS LA BANNIERE. Quand elle est la,

@@ -1,0 +1,71 @@
+/* « Entendu recemment » sous les morceaux d'un genre. Voir EntenduRecemment.tsx. */
+.entendu {
+  margin: 2rem 0 0;
+}
+.entendu-liste {
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+  gap: 0.55rem;
+}
+.entendu-ligne {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.55rem 0.7rem;
+  border-radius: 14px;
+  background: var(--verre-fond);
+  border: 1px solid var(--verre-bord);
+}
+.entendu-pochette {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 8px;
+  object-fit: cover;
+  background: var(--surface-margin);
+}
+.entendu-texte {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 0.1rem;
+}
+.entendu-texte strong,
+.entendu-texte span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.entendu-texte span {
+  color: var(--ink-secondary);
+  font-size: 0.85rem;
+}
+.entendu-youtube {
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--verre-bord-fort);
+  color: var(--ink-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* La moderation : deux boutons par ligne, sur une colonne pleine largeur. */
+.entendu-moderation {
+  grid-template-columns: 3rem minmax(0, 1fr) auto;
+}
+.entendu-boutons {
+  display: inline-flex;
+  gap: 0.4rem;
+}
+.entendu-boutons .entendu-youtube {
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: none;
+  cursor: pointer;
+}

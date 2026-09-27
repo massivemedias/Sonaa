@@ -84,6 +84,9 @@ async function passer(fichier) {
       }
       reseau.recu = { statut: r.status(), corps };
     }
+    if (r.url().includes('api/scan') && r.request().method() === 'POST') {
+      reseau.scan = { statut: r.status(), corps: await r.text().catch(() => null) };
+    }
   });
 
   await page.goto(URL_PAGE, { waitUntil: 'networkidle' });
@@ -135,6 +138,7 @@ async function passer(fichier) {
       raisonAffichee: q('.rc-morceau-titre') && !q('.rc-morceau') ? (q('.rc-morceau-titre').nextElementSibling || {}).textContent : null,
       capture: reco.capture ? { ...reco.capture, pcm: undefined } : null,
       morceau: reco.morceau || null,
+      scan: reco.scan || null,
       etiquettes: null,
       brut: null,
       groupement: null,

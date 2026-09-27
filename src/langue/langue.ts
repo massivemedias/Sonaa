@@ -671,6 +671,15 @@ interface Dictionnaire {
   readonly reconnaitreLeStyle: string;
   readonly reconnaitreLeMorceau: string;
   readonly reconnaitreHorsAtlas: string;
+  readonly ouvrirLeStyle: string;
+  readonly ecouterSurYoutube: string;
+  readonly entenduRecemment: string;
+  readonly scansTitre: string;
+  readonly scansAucun: string;
+  readonly scanPublier: string;
+  readonly scanRejeter: string;
+  readonly scanEcoutes: (n: number) => string;
+  readonly fermerLaSurcouche: string;
   readonly reconnaitreAlbum: string;
   readonly reconnaitreLabel: string;
   readonly reconnaitreAnnee: string;
@@ -1345,6 +1354,15 @@ const FR: Dictionnaire = {
   reconnaitreLeStyle: 'Le style',
   reconnaitreLeMorceau: 'Le morceau',
   reconnaitreHorsAtlas: 'hors atlas',
+  ouvrirLeStyle: 'Ouvrir le style',
+  ecouterSurYoutube: 'Écouter sur YouTube',
+  entenduRecemment: 'Entendu récemment',
+  scansTitre: 'Scans en attente',
+  scansAucun: 'Aucun scan en attente.',
+  scanPublier: 'Publier',
+  scanRejeter: 'Rejeter',
+  scanEcoutes: (n) => `${n} écoute${n > 1 ? 's' : ''}`,
+  fermerLaSurcouche: 'Fermer',
   reconnaitreAlbum: 'Album',
   reconnaitreLabel: 'Label',
   reconnaitreAnnee: 'Année',
@@ -2020,6 +2038,15 @@ const EN: Dictionnaire = {
   reconnaitreLeStyle: 'The style',
   reconnaitreLeMorceau: 'The track',
   reconnaitreHorsAtlas: 'outside the atlas',
+  ouvrirLeStyle: 'Open the style',
+  ecouterSurYoutube: 'Listen on YouTube',
+  entenduRecemment: 'Heard recently',
+  scansTitre: 'Pending scans',
+  scansAucun: 'No pending scan.',
+  scanPublier: 'Publish',
+  scanRejeter: 'Reject',
+  scanEcoutes: (n) => `${n} listen${n > 1 ? 's' : ''}`,
+  fermerLaSurcouche: 'Close',
   reconnaitreAlbum: 'Album',
   reconnaitreLabel: 'Label',
   reconnaitreAnnee: 'Year',

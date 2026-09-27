@@ -23,11 +23,12 @@ import { suisJeModerateur } from '../lib/proposals.ts';
 import { artistesDemandes, listerMembres, listerTousLesSets, type Membre, type SetAdmin } from '../lib/admin.ts';
 import { basculerPublication, mmss, supprimerSet, urlPochette } from '../lib/sets.ts';
 import { langue, t } from '../langue/langue.ts';
+import { ScansModeration } from '../reconnaitre/ScansModeration.tsx';
 import './credits.css';
 import './sets.css';
 import './admin.css';
 
-type Onglet = 'membres' | 'sets' | 'soirees' | 'commentaires' | 'artistes';
+type Onglet = 'membres' | 'sets' | 'soirees' | 'commentaires' | 'artistes' | 'scans';
 
 const lireOnglet = (): Onglet => {
   const h = window.location.hash;
@@ -35,6 +36,7 @@ const lireOnglet = (): Onglet => {
   if (h.startsWith('#/admin/soirees')) return 'soirees';
   if (h.startsWith('#/admin/commentaires')) return 'commentaires';
   if (h.startsWith('#/admin/artistes')) return 'artistes';
+  if (h.startsWith('#/admin/scans')) return 'scans';
   return 'membres';
 };
 
@@ -44,6 +46,9 @@ const ONGLETS: readonly { id: Onglet; label: () => string }[] = [
   { id: 'soirees', label: () => t.adminSoirees },
   { id: 'commentaires', label: () => t.adminCommentaires },
   { id: 'artistes', label: () => t.adminArtistes },
+  /* LES SCANS DU MICRO : la moderation des morceaux entendus, reservee a
+     l'adresse qui edite le site. Voir reconnaitre/ScansModeration.tsx. */
+  { id: 'scans', label: () => t.scansTitre },
 ];
 
 const quand = (iso: string | null): string => {
@@ -97,7 +102,7 @@ export function AdminPage() {
         ) : (
           <>
             <nav className="pf-menu" aria-label={t.adminTitre}>
-              {ONGLETS.map((o) => (
+              {ONGLETS.filter((o) => o.id !== 'scans' || session?.user.email === 'mauditemachine@gmail.com').map((o) => (
                 <a
                   key={o.id}
                   href={o.id === 'membres' ? '#/admin' : `#/admin/${o.id}`}
@@ -113,6 +118,7 @@ export function AdminPage() {
             {onglet === 'soirees' && <SoireesAdmin />}
             {onglet === 'commentaires' && <CommentsModeration />}
             {onglet === 'artistes' && <Artistes />}
+            {onglet === 'scans' && session?.user.email === 'mauditemachine@gmail.com' && <ScansModeration />}
           </>
         )}
         <PiedDePage />

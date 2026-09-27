@@ -28,6 +28,7 @@ import { poidsDe } from './poids.ts';
 import { ProceduralCover } from './ProceduralCover.tsx';
 import type { useLecteur } from '../lecture/useLecteur.ts';
 import { useLecteurPartage } from '../lecture/LecteurContexte.tsx';
+import { EntenduRecemment } from '../reconnaitre/EntenduRecemment.tsx';
 import { peutEcouter } from '../lib/porte-ecoute.ts';
 import MACHINES from '../data/machines.json';
 import ILLUSTRATIONS from '../data/illustrations.json';
@@ -911,6 +912,10 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           })}
         </ol>
       )}
+
+      {/* CE QUE LE MICRO A ENTENDU DANS CE GENRE, publie par la moderation.
+          Absent quand il n'y a rien. Voir reconnaitre/EntenduRecemment.tsx. */}
+      <EntenduRecemment genreId={genre.id} />
 
       {/* ═══ LE RESTE DE LA PAGE, DERRIERE DES BOUTONS ═══
        *
