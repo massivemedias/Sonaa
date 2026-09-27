@@ -345,6 +345,18 @@
   }
 }
 
+/* L'ENVOI A AUDD, EN PETIT SOUS LE BOUTON : une phrase, un lien, rien a
+   regler. */
+.rc-envoi {
+  margin: 0.5rem 0 0;
+  color: var(--ink-secondary);
+  font-size: 0.8rem;
+}
+.rc-envoi a {
+  color: var(--ink-primary);
+  text-underline-offset: 3px;
+}
+
 /* ═══ LA FICHE DU RESULTAT, EN GRAND ═══
    Mika, le 27 septembre 2026 : sur ordinateur, une carte qui prend la place.
    La pochette a gauche, 240 px, le morceau et ses faits a droite, le style

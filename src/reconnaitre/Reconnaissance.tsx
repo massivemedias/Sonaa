@@ -296,9 +296,19 @@ export function Reconnaissance({ enSurcouche = false }: Props) {
               <span className="rc-bouton-mot">{libelleBouton}</span>
             </button>
             <p className="rc-poids">{t.reconnaitrePoids(POIDS_MODELE_MO)}</p>
-            {/* LA LIGNE SUR L'ENVOI A AUDD EST PARTIE. Mika, le 27 septembre
-                2026 : « enleve cette ligne ». L'envoi reste actif par defaut,
-                memorise, et la politique de confidentialite le decrit. */}
+            {/* LA LIGNE SUR L'ENVOI A AUDD, EN PETIT, SANS INTERRUPTEUR. Retiree
+                puis remise le meme jour, le 27 septembre 2026 : « remets la
+                ligne, en petit, avec AudD en lien ; l'interrupteur reste
+                retire ». L'envoi reste actif, memorise. */}
+            {morceauActif && (
+              <p className="rc-envoi">
+                {t.reconnaitreEnvoiAvant}
+                <a href="https://audd.io" target="_blank" rel="noreferrer noopener">
+                  AudD
+                </a>
+                {t.reconnaitreEnvoiApres}
+              </p>
+            )}
           </div>
 
           {etat === 'erreur' && <p className="rc-erreur">{erreur}</p>}
