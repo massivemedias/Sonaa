@@ -51,7 +51,7 @@ async function passer(fichier) {
   const contexte = await chromium.launchPersistentContext(PROFIL, {
     channel: 'chrome',
     headless: true,
-    viewport: { width: 1200, height: 900 },
+    viewport: { width: 1400, height: 900 },
     args: [
       '--use-fake-device-for-media-stream',
       '--use-fake-ui-for-media-stream',
@@ -92,14 +92,12 @@ async function passer(fichier) {
      morceau existe dans la modale. */
   await attendre(1500);
   await page.click('.rc-bouton');
-  await page.waitForSelector('.rc-modale', { timeout: 10_000 });
-  const caseMorceau = await page.$('.rc-case input[type=checkbox]');
-  const consentement = { casePresente: Boolean(caseMorceau), cochee: false };
-  if (caseMorceau) {
-    await caseMorceau.check();
-    consentement.cochee = await caseMorceau.isChecked();
-  }
-  await page.click('.rc-accord');
+  /* LA FENETRE DE CONSENTEMENT NE VIENT QU'UNE FOIS PAR PROFIL : depuis le
+     23 septembre 2026 l'accord au micro est memorise. Si elle ne vient pas,
+     l'ecoute a deja commence. */
+  const modale = await page.waitForSelector('.rc-modale', { timeout: 4000 }).catch(() => null);
+  const consentement = { modale: Boolean(modale) };
+  if (modale) await page.click('.rc-accord');
 
   const debut = Date.now();
   await page.waitForFunction(

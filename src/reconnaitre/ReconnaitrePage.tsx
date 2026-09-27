@@ -32,7 +32,6 @@ import { chargerMoteur, POIDS_MODELE_MO, type Prediction } from './modele.ts';
 import { familleSonaa, nomCourt, styleDeLEtiquette } from './discogs-vers-sonaa.ts';
 import { ajouterAlHistorique, lireHistorique, viderHistorique, type Reconnaissance } from './historique.ts';
 import type { MorceauReconnu } from './audd.ts';
-import { stylesVersSonaa } from '../lib/styles-dartiste.ts';
 import '../atlas/credits.css';
 import './reconnaitre.css';
 
@@ -67,6 +66,13 @@ function genreSonaa(id: string): { nom: string; chemin: string } | null {
     if (genre && famille) return { nom: genre.label, chemin: `/styles/${slug(famille.label)}/${slug(genre.label)}/` };
   }
   return null;
+}
+
+/** « 6:55 » depuis des secondes. */
+function mmss(secondes: number): string {
+  const m = Math.floor(secondes / 60);
+  const s = Math.round(secondes % 60);
+  return `${m}:${String(s).padStart(2, '0')}`;
 }
 
 function cheminDeLaFamille(id: string): string | null {
@@ -199,14 +205,6 @@ export function ReconnaitrePage() {
 
   const enMarche = etat === 'chargement' || etat === 'ecoute' || etat === 'analyse';
 
-  /* LES STYLES DE LA SORTIE, RAMENES A L'ATLAS avec la table de la moisson :
-     un genre SONAA par style Discogs qu'elle sait ranger, sans doublon. */
-  const stylesDuMorceau = useMemo(() => {
-    const bruts = morceau?.styles ?? [];
-    if (bruts.length === 0) return [];
-    const ids = stylesVersSonaa(Object.fromEntries(bruts.map((x) => [x, 1])));
-    return ids.map(genreSonaa).filter((g): g is { nom: string; chemin: string } => g !== null);
-  }, [morceau]);
 
   const libelleBouton = useMemo(() => {
     if (etat === 'chargement') return t.reconnaitreChargement(avancement);
@@ -276,109 +274,129 @@ export function ReconnaitrePage() {
 
           {etat === 'erreur' && <p className="rc-erreur">{erreur}</p>}
 
-          {etat === 'resultat' && morceauActif && envoiMorceau && (
-            <Apparition as="section" className="rc-bloc">
-              <h2 className="rc-titre">{t.reconnaitreLeMorceau}</h2>
-              {morceau ? (
-                <div className="rc-morceau">
-                  {morceau.pochette && <img className="rc-pochette" src={morceau.pochette} alt="" loading="lazy" />}
-                  <div className="rc-morceau-texte">
-                    <p className="rc-morceau-titre">{morceau.titre}</p>
-                    <p className="rc-morceau-artiste">{morceau.artiste}</p>
-                    {morceau.album && <p className="rc-morceau-album">{morceau.album}</p>}
-                    {(morceau.label || morceau.annee) && (
-                      <p className="rc-morceau-album">{[morceau.label, morceau.annee].filter(Boolean).join(' · ')}</p>
+          {/* ═══ LA FICHE DU RESULTAT, EN GRAND ═══
+              Mika, le 27 septembre 2026 : « en desktop c'est pas beau, je veux
+              quelque chose qui prenne de la place ». Une seule carte : la
+              pochette a gauche, le morceau a droite avec ses faits (album,
+              label, annee, duree, position de l'extrait), ses liens, puis le
+              style avec sa confiance. Les pourcentages reviennent, nommes
+              pour ce qu'ils sont : la confiance du reseau par style, pas une
+              part d'un tout. */}
+          {(etat === 'resultat' || styles.length > 0) && (
+            <Apparition as="section" className="rc-bloc rc-resultat">
+              {etat === 'resultat' && morceauActif && envoiMorceau && (
+                <div className="rc-fiche">
+                  <div className="rc-fiche-pochette">
+                    {morceau?.pochette ? (
+                      <img src={morceau.pochette} alt="" loading="lazy" />
+                    ) : (
+                      <span className="rc-fiche-vide" aria-hidden="true" />
                     )}
-                    {morceau.liens.length > 0 && (
-                      <p className="rc-morceau-liens">
-                        {morceau.liens.map((l) => (
-                          <a key={l.url} href={l.url} target="_blank" rel="noreferrer noopener">
-                            {l.nom}
-                          </a>
-                        ))}
-                      </p>
+                  </div>
+                  <div className="rc-fiche-corps">
+                    <p className="rc-titre">{t.reconnaitreLeMorceau}</p>
+                    {morceau ? (
+                      <>
+                        <h2 className="rc-fiche-titre">{morceau.titre}</h2>
+                        <p className="rc-fiche-artiste">{morceau.artiste}</p>
+                        <dl className="rc-faits">
+                          {morceau.album && (
+                            <div>
+                              <dt>{t.reconnaitreAlbum}</dt>
+                              <dd>{morceau.album}</dd>
+                            </div>
+                          )}
+                          {morceau.label && (
+                            <div>
+                              <dt>{t.reconnaitreLabel}</dt>
+                              <dd>{morceau.label}</dd>
+                            </div>
+                          )}
+                          {morceau.annee && (
+                            <div>
+                              <dt>{t.reconnaitreAnnee}</dt>
+                              <dd>{morceau.annee}</dd>
+                            </div>
+                          )}
+                          {morceau.duree && (
+                            <div>
+                              <dt>{t.reconnaitreDuree}</dt>
+                              <dd>{mmss(morceau.duree)}</dd>
+                            </div>
+                          )}
+                          {morceau.position && (
+                            <div>
+                              <dt>{t.reconnaitrePosition}</dt>
+                              <dd>{morceau.position}</dd>
+                            </div>
+                          )}
+                        </dl>
+                        {morceau.liens.length > 0 && (
+                          <p className="rc-morceau-liens">
+                            {morceau.liens.map((l) => (
+                              <a key={l.url} href={l.url} target="_blank" rel="noreferrer noopener">
+                                {l.nom}
+                              </a>
+                            ))}
+                          </p>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <h2 className="rc-fiche-titre">{t.reconnaitreMorceauNonIdentifie}</h2>
+                        <p className="rc-note">
+                          {raisonMorceau === 'aucun resultat' || raisonMorceau === ''
+                            ? t.reconnaitreSansMorceau
+                            : t.reconnaitreServiceRefuse(raisonMorceau)}
+                        </p>
+                      </>
                     )}
                   </div>
                 </div>
-              ) : (
-                <>
-                  <p className="rc-morceau-titre">{t.reconnaitreMorceauNonIdentifie}</p>
-                  {/* JAMAIS DE SILENCE : « rien reconnu » et « le service refuse »
-                      sont deux phrases differentes, et la seconde porte la
-                      raison telle que le service la donne. */}
-                  <p className="rc-note">
-                    {raisonMorceau === 'aucun resultat' || raisonMorceau === ''
-                      ? t.reconnaitreSansMorceau
-                      : t.reconnaitreServiceRefuse(raisonMorceau)}
-                  </p>
-                </>
               )}
-            </Apparition>
-          )}
 
-          {/* LE STYLE DE LA SORTIE D'ABORD, L'OREILLE ENSUITE. Quand le morceau
-              est nomme et que Discogs connait sa sortie, ses styles ramenes a
-              l'atlas valent mieux que l'estimation du reseau sur dix
-              secondes ; celle-ci reste, titree pour ce qu'elle est. */}
-          {stylesDuMorceau.length > 0 && (
-            <Apparition as="section" i={1} className="rc-bloc">
-              <h2 className="rc-titre">{t.reconnaitreLeStyle}</h2>
-              <ol className="rc-styles">
-                {stylesDuMorceau.map((g) => (
-                  <li key={g.chemin} className="rc-style">
-                    <a className="rc-style-nom" href={g.chemin}>
-                      {g.nom}
-                    </a>
-                  </li>
-                ))}
-              </ol>
-              <p className="rc-note">{t.reconnaitreStyleDeLaSortie}</p>
-            </Apparition>
-          )}
-
-          {styles.length > 0 && (
-            <Apparition as="section" i={stylesDuMorceau.length > 0 ? 2 : 1} className="rc-bloc">
-              <h2 className="rc-titre">{stylesDuMorceau.length > 0 ? t.reconnaitreALOreille : t.reconnaitreLeStyle}</h2>
-              {/* UN CLASSEMENT, SANS CHIFFRES. Mika, le 22 septembre 2026, apres
-                  l'audit : la sortie du reseau est une sigmoide par classe, pas
-                  une part. « Techno 82 % » et « House 67 % » ne se partageaient
-                  rien, et la jauge les presentait comme s'ils le faisaient. Le
-                  premier est le plus probable, le troisieme le moins, c'est
-                  tout ce que le reseau sait dire honnetement. */}
-              {/* EN LANGUE SONAA, PAS EN LANGUE DISCOGS. Mika, le 23 septembre 2026 :
-                  « t'es au courant que nous sommes dans SONAA la ? ». Le reseau
-                  parle Discogs, « Deep Techno », « Neo Trance » ; la page parle
-                  l'atlas : le genre SONAA quand la table en donne un, la famille
-                  quand elle n'en donne pas, « hors atlas » pour ce qui n'est pas
-                  electronique. Deux etiquettes qui menent au meme endroit ne
-                  font qu'une ligne. */}
-              <ol className="rc-styles">
-                {styles
-                  .map((s) => {
-                    const entree = styleDeLEtiquette(s.discogs);
-                    const genre = entree?.sonaa ? genreSonaa(entree.sonaa) : null;
-                    const famille = entree ? familleSonaa(entree) : null;
-                    if (genre) return { cle: `g:${entree?.sonaa}`, nom: genre.nom, chemin: genre.chemin, hors: false };
-                    const f = famille ? FAMILIES.find((x) => x.id === famille) : null;
-                    if (f) return { cle: `f:${f.id}`, nom: t.reconnaitreFamilleSeule(f.label), chemin: cheminDeLaFamille(f.id), hors: false };
-                    return { cle: `d:${s.discogs}`, nom: s.nom, chemin: null, hors: true };
-                  })
-                  .filter((x, i, tous) => tous.findIndex((y) => y.cle === x.cle) === i)
-                  .map((x) => (
-                    <li key={x.cle} className="rc-style">
-                      {x.chemin ? (
-                        <a className="rc-style-nom" href={x.chemin}>
-                          {x.nom}
-                        </a>
-                      ) : (
-                        <span className="rc-style-nom rc-style-hors">
-                          {x.nom} <span className="rc-hors-mot">{t.reconnaitreHorsAtlas}</span>
-                        </span>
-                      )}
-                    </li>
-                  ))}
-              </ol>
-              <p className="rc-note">{t.reconnaitreImprecis}</p>
+              {styles.length > 0 && (
+                <div className="rc-fiche-styles">
+                  <h3 className="rc-titre">{t.reconnaitreLeStyle}</h3>
+                  <ol className="rc-styles">
+                    {styles
+                      .map((s) => {
+                        const entree = styleDeLEtiquette(s.discogs);
+                        const genre = entree?.sonaa ? genreSonaa(entree.sonaa) : null;
+                        const famille = entree ? familleSonaa(entree) : null;
+                        const f = !genre && famille ? FAMILIES.find((x) => x.id === famille) : null;
+                        const cle = genre ? `g:${entree?.sonaa}` : f ? `f:${f.id}` : `d:${s.discogs}`;
+                        const nom = genre ? genre.nom : f ? t.reconnaitreFamilleSeule(f.label) : s.nom;
+                        const chemin = genre ? genre.chemin : f ? cheminDeLaFamille(f.id) : null;
+                        return { cle, nom, chemin, score: s.score };
+                      })
+                      .filter((x, i, tous) => tous.findIndex((y) => y.cle === x.cle) === i)
+                      .map((x) => {
+                        const pourcent = `${Math.round(x.score * 100)} %`;
+                        return (
+                          <li key={x.cle} className="rc-style">
+                            {x.chemin ? (
+                              <a className="rc-style-nom" href={x.chemin}>
+                                {x.nom}
+                              </a>
+                            ) : (
+                              <span className="rc-style-nom rc-style-hors">
+                                {x.nom} <span className="rc-hors-mot">{t.reconnaitreHorsAtlas}</span>
+                              </span>
+                            )}
+                            <span className="rc-part" aria-hidden="true">
+                              <span className="rc-part-pleine" style={{ width: pourcent }} />
+                            </span>
+                            <span className="rc-pourcent">
+                              <span className="rc-pourcent-mot">{t.reconnaitreConfiance}</span> {pourcent}
+                            </span>
+                          </li>
+                        );
+                      })}
+                  </ol>
+                  <p className="rc-note">{t.reconnaitreImprecis}</p>
+                </div>
+              )}
             </Apparition>
           )}
 

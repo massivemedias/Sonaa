@@ -671,8 +671,12 @@ interface Dictionnaire {
   readonly reconnaitreLeStyle: string;
   readonly reconnaitreLeMorceau: string;
   readonly reconnaitreHorsAtlas: string;
-  readonly reconnaitreALOreille: string;
-  readonly reconnaitreStyleDeLaSortie: string;
+  readonly reconnaitreAlbum: string;
+  readonly reconnaitreLabel: string;
+  readonly reconnaitreAnnee: string;
+  readonly reconnaitreDuree: string;
+  readonly reconnaitrePosition: string;
+  readonly reconnaitreConfiance: string;
   /** Sous le bouton d ecoute, avant tout clic : le texte avant le lien AudD, puis apres. */
   readonly reconnaitreEnvoiAvant: string;
   readonly reconnaitreEnvoiApres: string;
@@ -1341,8 +1345,12 @@ const FR: Dictionnaire = {
   reconnaitreLeStyle: 'Le style',
   reconnaitreLeMorceau: 'Le morceau',
   reconnaitreHorsAtlas: 'hors atlas',
-  reconnaitreALOreille: 'À l’oreille, sur dix secondes',
-  reconnaitreStyleDeLaSortie: 'Les styles de cette sortie, d’après Discogs, ramenés à l’atlas.',
+  reconnaitreAlbum: 'Album',
+  reconnaitreLabel: 'Label',
+  reconnaitreAnnee: 'Année',
+  reconnaitreDuree: 'Durée',
+  reconnaitrePosition: 'Position de l’extrait',
+  reconnaitreConfiance: 'confiance',
   reconnaitreEnvoiAvant: 'Huit secondes de son sont envoyées à ',
   reconnaitreEnvoiApres: ' pour identifier le morceau. Rien n’est conservé.',
   reconnaitreEnvoiInterrupteur: 'Identifier le morceau',
@@ -2012,8 +2020,12 @@ const EN: Dictionnaire = {
   reconnaitreLeStyle: 'The style',
   reconnaitreLeMorceau: 'The track',
   reconnaitreHorsAtlas: 'outside the atlas',
-  reconnaitreALOreille: 'By ear, over ten seconds',
-  reconnaitreStyleDeLaSortie: 'The styles of this release, from Discogs, mapped to the atlas.',
+  reconnaitreAlbum: 'Album',
+  reconnaitreLabel: 'Label',
+  reconnaitreAnnee: 'Year',
+  reconnaitreDuree: 'Length',
+  reconnaitrePosition: 'Position of the excerpt',
+  reconnaitreConfiance: 'confidence',
   reconnaitreEnvoiAvant: 'Eight seconds of sound are sent to ',
   reconnaitreEnvoiApres: ' to identify the track. Nothing is kept.',
   reconnaitreEnvoiInterrupteur: 'Identify the track',

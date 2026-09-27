@@ -395,3 +395,137 @@
   background: oklch(1 0 0);
   transform: translateX(0.95rem);
 }
+
+/* ═══ LA FICHE DU RESULTAT, EN GRAND ═══
+   Mika, le 27 septembre 2026 : sur ordinateur, une carte qui prend la place.
+   La pochette a gauche, 240 px, le morceau et ses faits a droite, le style
+   dessous avec sa confiance. Sur telephone, tout s'empile. */
+.rc-resultat {
+  max-width: none;
+}
+/* LA PAGE S'ELARGIT : les pages de texte tiennent en 38 rem, cette fiche
+   veut la place d'un ecran. Le chapeau suit, pour que la colonne soit une. */
+.rc .credits-head,
+.rc .credits-body {
+  max-width: 72rem;
+}
+.rc-fiche {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 1.8rem;
+  align-items: start;
+  padding: 1.4rem;
+  border-radius: 22px;
+  background: var(--verre-fond);
+  border: 1px solid var(--verre-bord);
+}
+.rc-fiche-pochette img,
+.rc-fiche-vide {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 16px;
+  object-fit: cover;
+  background: var(--surface-margin);
+}
+/* LES DEUX INTITULES DE LA FICHE SONT DES ETIQUETTES, pas des titres :
+   petites capitales grises, comme « LE MORCEAU » au-dessus de l'ancienne
+   carte. Le titre du morceau, lui, est un h2 que credits.css mettrait en
+   petites capitales : la regle ci-dessous est plus precise et le garde
+   en grand. */
+.rc-fiche-corps > .rc-titre,
+.rc-fiche-styles > .rc-titre {
+  margin: 0 0 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+.rc-fiche-corps .rc-fiche-titre {
+  text-transform: none;
+  letter-spacing: var(--serrage);
+  margin: 0.2rem 0 0.15rem;
+  font-size: clamp(1.5rem, 3vw, 2.3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: var(--serrage);
+  color: var(--ink-primary);
+}
+.rc-fiche-artiste {
+  margin: 0 0 1rem;
+  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+  color: var(--ink-secondary);
+}
+.rc-faits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 0.7rem 1.4rem;
+  margin: 0 0 1.1rem;
+}
+.rc-faits div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.rc-faits dt {
+  font-size: 0.7rem;
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+.rc-faits dd {
+  margin: 0;
+  color: var(--ink-primary);
+  font-weight: 500;
+}
+.rc-fiche-styles {
+  margin-top: 1.6rem;
+}
+.rc-fiche-styles .rc-styles {
+  max-width: none;
+}
+.rc-fiche-styles .rc-style {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(8rem, 22rem) 8.5rem;
+  gap: 1rem;
+  align-items: center;
+}
+.rc-part {
+  display: block;
+  height: 8px;
+  background: var(--surface-margin);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.rc-part-pleine {
+  display: block;
+  height: 100%;
+  background: var(--degrade);
+}
+.rc-pourcent {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-primary);
+  font-weight: 600;
+}
+.rc-pourcent-mot {
+  font-weight: 400;
+  color: var(--ink-secondary);
+  font-size: 0.8rem;
+}
+@media (max-width: 720px) {
+  .rc-fiche {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .rc-fiche-pochette {
+    width: 160px;
+  }
+  .rc-fiche-styles .rc-style {
+    grid-template-columns: minmax(0, 1fr) 7rem;
+  }
+  .rc-part {
+    display: none;
+  }
+}

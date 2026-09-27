@@ -418,6 +418,8 @@ interface MorceauAudd {
   readonly liens: readonly { readonly nom: string; readonly url: string }[];
   readonly label: string | null;
   readonly annee: number | null;
+  readonly duree: number | null;
+  readonly position: string | null;
   readonly styles: readonly string[];
 }
 
@@ -430,7 +432,7 @@ async function completerParDeezer(m: MorceauAudd): Promise<MorceauAudd> {
   try {
     /* DEUX RECHERCHES : la stricte, par champs, puis la libre. Mesure le 27
        septembre 2026 : « Pardon Moi » n'est trouve que par la seconde. */
-    type Reponse = { data?: { album?: { id?: number; cover_big?: string } }[] };
+    type Reponse = { data?: { duration?: number; album?: { id?: number; cover_big?: string } }[] };
     const chercher = async (q: string): Promise<Reponse> =>
       (await (await fetch(`https://api.deezer.com/search?q=${encodeURIComponent(q)}&limit=1`)).json()) as Reponse;
     let piste = (await chercher(`artist:"${m.artiste}" track:"${m.titre}"`)).data?.[0];
@@ -447,7 +449,49 @@ async function completerParDeezer(m: MorceauAudd): Promise<MorceauAudd> {
       pochette: m.pochette ?? piste.album.cover_big ?? album.cover_big ?? null,
       label: m.label ?? (album.label?.trim() || null),
       annee: m.annee ?? (Number.isFinite(annee) && annee > 1800 ? annee : null),
+      duree: m.duree ?? (typeof piste.duration === 'number' && piste.duration > 0 ? piste.duration : null),
     };
+  } catch {
+    return m;
+  }
+}
+
+/* BANDCAMP DONNE LE LIEN VERS LA PISTE. Mika, le 27 septembre 2026 : « un
+   lien vers la track sur Bandcamp quand ca existe ». La recherche publique
+   rend la piste avec son adresse quand le titre et l'artiste concordent.
+   Beatport, lui, est derriere un mur anti-robot : pas de lien tant qu'il
+   n'a pas d'API ouverte. */
+const journalReco: string[] = [];
+async function completerParBandcamp(m: MorceauAudd): Promise<MorceauAudd> {
+  try {
+    const r = await fetch('https://bandcamp.com/api/bcsearch_public_api/1/autocomplete_elastic', {
+      method: 'POST',
+      headers: { 'user-agent': AGENT_DISCOGS, 'content-type': 'application/json' },
+      body: JSON.stringify({ search_text: `${m.artiste} ${m.titre}`, search_filter: 't', full_page: false, fan_id: null }),
+      signal: AbortSignal.timeout(4000),
+    });
+    if (!r.ok) {
+      journalReco.push(`bandcamp recherche ${r.status}`);
+      return m;
+    }
+    const j = (await r.json()) as { auto?: { results?: { type?: string; name?: string; band_name?: string; item_url_path?: string }[] } };
+    const titre = aplatirNom(m.titre);
+    const artiste = aplatirNom(m.artiste);
+    const piste = (j.auto?.results ?? []).find(
+      (x) => x.type === 't' && typeof x.item_url_path === 'string' && aplatirNom(x.name ?? '').includes(titre) && (aplatirNom(x.band_name ?? '') === artiste || aplatirNom(x.name ?? '').includes(artiste))
+    );
+    if (!piste?.item_url_path) {
+      journalReco.push(`bandcamp : ${j.auto?.results?.length ?? 0} resultat(s), aucun ne correspond`);
+      return m;
+    }
+    const liens = [...m.liens, { nom: 'Bandcamp', url: piste.item_url_path }];
+    /* LA PAGE DE LA PISTE N'EST PAS LUE. Elle porte les etiquettes de
+       l'artiste et la duree, mais Bandcamp repond aux adresses de
+       Cloudflare par sa page de controle anti-robot, 3 Ko sans une
+       etiquette, quel que soit l'agent. Mesure le 27 septembre 2026 avec
+       le journal (?journal=1). Le lien, lui, vient de l'API et tient. */
+    journalReco.push('bandcamp : piste trouvee');
+    return { ...m, liens };
   } catch {
     return m;
   }
@@ -852,7 +896,9 @@ export default {
         /* DEEZER COMPLETE CE QU'AUDD NE DIT PAS : pochette, label, annee.
            Mika, le 27 septembre 2026 : « que ca affiche l'artiste, le track,
            le style, le cover et le label ». */
+        journalReco.length = 0;
         if (morceau) morceau = await completerParDeezer(morceau);
+        if (morceau) morceau = await completerParBandcamp(morceau);
       } catch (e) {
         return new Response(
           JSON.stringify({ morceau: null, raison: e instanceof Error ? e.message : String(e) }),
@@ -861,7 +907,15 @@ export default {
       }
 
       return new Response(
-        JSON.stringify({ morceau, raison, recu: { octets: audio.byteLength, type: req.headers.get('content-type') } }),
+        JSON.stringify({
+          morceau,
+          raison,
+          recu: { octets: audio.byteLength, type: req.headers.get('content-type') },
+          /* CE QUE CHAQUE SOURCE A FAIT, sur demande (?journal=1) : pour
+             comprendre un lien absent ou une etiquette manquante sans
+             rejouer la scene a l'aveugle. Rien de secret dedans. */
+          ...(url.searchParams.get('journal') === '1' ? { journal: [...journalReco] } : {}),
+        }),
         { headers: entetes(req, env, { 'content-type': 'application/json', 'cache-control': 'no-store' }) }
       );
     }

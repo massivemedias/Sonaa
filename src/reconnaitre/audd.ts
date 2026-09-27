@@ -26,6 +26,10 @@ export interface MorceauReconnu {
   /** Le label et l'annee de sortie, quand AudD ou Discogs les donnent. */
   readonly label: string | null;
   readonly annee: number | null;
+  /** La duree du morceau en secondes (Deezer ou Bandcamp), et l'endroit ou
+      l'extrait tombe dans le morceau, « 03:12 », tel qu'AudD le dit. */
+  readonly duree: number | null;
+  readonly position: string | null;
   /** Les styles de la sortie chez Discogs, bruts : la page les ramene a
       l'atlas avec la table de la moisson. Vide quand Discogs ne sait pas. */
   readonly styles: readonly string[];
@@ -99,6 +103,8 @@ export function lireReponseAudd(brut: unknown): MorceauReconnu | null {
     liens,
     label: label || null,
     annee: Number.isFinite(annee) && annee > 1800 ? annee : null,
+    duree: null,
+    position: /^\d{1,2}:\d{2}$/.test(texte(res['timecode'])) ? texte(res['timecode']) : null,
     styles: [],
   };
 }

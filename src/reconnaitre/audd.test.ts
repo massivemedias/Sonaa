@@ -51,7 +51,7 @@ describe('la reponse d AudD', () => {
   it('accepte un morceau sans album, sans pochette et sans lien', () => {
     const nu = { status: 'success', result: { artist: 'Inconnu', title: 'Sans rien' } };
     const m = lireReponseAudd(nu);
-    expect(m).toEqual({ artiste: 'Inconnu', titre: 'Sans rien', album: null, pochette: null, liens: [], label: null, annee: null, styles: [] });
+    expect(m).toEqual({ artiste: 'Inconnu', titre: 'Sans rien', album: null, pochette: null, liens: [], label: null, annee: null, duree: null, position: null, styles: [] });
   });
 
   it('rend null quand AudD n a rien reconnu', () => {
