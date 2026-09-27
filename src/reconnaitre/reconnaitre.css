@@ -248,22 +248,26 @@
   background: var(--voile-14);
 }
 
+/* L'HISTORIQUE PREND LA LARGEUR : une grille de cartes, trois de front sur
+   un ecran, une seule sur un telephone. Mika, le 27 septembre 2026 :
+   « occupe l'espace, on est en desktop ». */
 .rc-historique {
   list-style: none;
   margin: 0;
   padding: 0;
-  max-width: 44rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  gap: 0.6rem;
 }
 .rc-passe {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem 0.9rem;
-  padding: 0.65rem 0.9rem;
-  margin-bottom: 0.4rem;
-  border-radius: 14px;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.85rem 1rem;
+  border-radius: 16px;
   background: var(--verre-fond);
   border: 1px solid var(--verre-bord);
-  font-size: 0.92rem;
+  font-size: 0.95rem;
 }
 .rc-passe-styles {
   color: var(--ink-primary);
@@ -339,61 +343,6 @@
   .rc-morceau {
     flex-direction: column;
   }
-}
-
-/* ═══ L'ENVOI A AUDD, DIT AVANT LE CLIC ═══
-   Une ligne sous le bouton, et un interrupteur a cote : le clic vaut
-   consentement parce que ce qui part est ecrit la, en clair, avant. */
-.rc-envoi {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem 1.2rem;
-  margin: 0.6rem 0 0;
-  color: var(--ink-secondary);
-  font-size: 0.85rem;
-}
-.rc-envoi a {
-  color: var(--ink-primary);
-  text-underline-offset: 3px;
-}
-.rc-interrupteur {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  white-space: nowrap;
-  cursor: pointer;
-}
-.rc-interrupteur input {
-  width: 2.2rem;
-  height: 1.25rem;
-  margin: 0;
-  appearance: none;
-  border-radius: 999px;
-  background: var(--surface-margin);
-  border: var(--rule-width) solid var(--rule-hairline);
-  position: relative;
-  cursor: pointer;
-  transition: background 200ms ease;
-}
-.rc-interrupteur input::before {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: calc(1.25rem - 6px);
-  height: calc(1.25rem - 6px);
-  border-radius: 50%;
-  background: var(--ink-secondary);
-  transition: transform 200ms ease, background 200ms ease;
-}
-.rc-interrupteur input:checked {
-  background: var(--accent-a);
-  border-color: var(--accent-a);
-}
-.rc-interrupteur input:checked::before {
-  background: oklch(1 0 0);
-  transform: translateX(0.95rem);
 }
 
 /* ═══ LA FICHE DU RESULTAT, EN GRAND ═══

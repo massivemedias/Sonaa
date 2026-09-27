@@ -69,6 +69,18 @@ function genreSonaa(id: string): { nom: string; chemin: string } | null {
   return null;
 }
 
+/* LE NOM DE L'ATLAS POUR UNE ETIQUETTE DU RESEAU : le genre s'il en a un,
+   la famille sinon, le nom Discogs en dernier recours. L'historique parlait
+   Discogs (« Hi NRG, Dance-pop ») ; il parle SONAA. */
+function nomAtlas(discogs: string): string {
+  const entree = styleDeLEtiquette(discogs);
+  const genre = entree?.sonaa ? genreSonaa(entree.sonaa) : null;
+  if (genre) return genre.nom;
+  const famille = entree ? familleSonaa(entree) : null;
+  const f = famille ? FAMILIES.find((x) => x.id === famille) : null;
+  return f ? f.label : nomCourt(discogs);
+}
+
 /** « 6:55 » depuis des secondes. */
 function mmss(secondes: number): string {
   const m = Math.floor(secondes / 60);
@@ -105,7 +117,7 @@ export function Reconnaissance({ enSurcouche = false }: Props) {
      micro, une fois, et s'en souvient ; l'envoi de huit secondes a AudD est
      annonce en clair sous le bouton, actif par defaut, et un interrupteur le
      coupe pour qui ne le veut pas. Les deux choix vivent dans localStorage. */
-  const [envoiMorceau, setEnvoiMorceau] = useState<boolean>(() => lireChoix(CLE_ENVOI, true));
+  const [envoiMorceau] = useState<boolean>(() => lireChoix(CLE_ENVOI, true));
   const [microConsenti, setMicroConsenti] = useState<boolean>(() => lireChoix(CLE_MICRO, false));
   const vivant = useRef(true);
 
@@ -284,29 +296,9 @@ export function Reconnaissance({ enSurcouche = false }: Props) {
               <span className="rc-bouton-mot">{libelleBouton}</span>
             </button>
             <p className="rc-poids">{t.reconnaitrePoids(POIDS_MODELE_MO)}</p>
-            {morceauActif && (
-              <p className="rc-envoi">
-                <span>
-                  {t.reconnaitreEnvoiAvant}
-                  <a href="https://audd.io" target="_blank" rel="noreferrer noopener">
-                    AudD
-                  </a>
-                  {t.reconnaitreEnvoiApres}
-                </span>
-                <label className="rc-interrupteur">
-                  <input
-                    type="checkbox"
-                    role="switch"
-                    checked={envoiMorceau}
-                    onChange={(e) => {
-                      setEnvoiMorceau(e.target.checked);
-                      ecrireChoix(CLE_ENVOI, e.target.checked);
-                    }}
-                  />
-                  <span>{t.reconnaitreEnvoiInterrupteur}</span>
-                </label>
-              </p>
-            )}
+            {/* LA LIGNE SUR L'ENVOI A AUDD EST PARTIE. Mika, le 27 septembre
+                2026 : « enleve cette ligne ». L'envoi reste actif par defaut,
+                memorise, et la politique de confidentialite le decrit. */}
           </div>
 
           {etat === 'erreur' && <p className="rc-erreur">{erreur}</p>}
@@ -481,7 +473,7 @@ export function Reconnaissance({ enSurcouche = false }: Props) {
                 {historique.map((r) => (
                   <li key={r.quand} className="rc-passe">
                     <span className="rc-passe-styles">
-                      {r.styles.map((s) => nomCourt(s.discogs)).join(', ')}
+                      {r.styles.map((s) => nomAtlas(s.discogs)).join(', ')}
                     </span>
                     {r.titre && (
                       <span className="rc-passe-morceau">
