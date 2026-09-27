@@ -1,6 +1,16 @@
 {
- "fait": "2026-09-26T16:30:32.239Z",
+ "fait": "2026-09-27T05:25:48.581Z",
  "articles": [
+  {
+   "source": "musicradar",
+   "titre": "Paul McCartney remembers showing Elvis how to bass like a pro",
+   "lien": "https://www.musicradar.com/artists/when-we-met-elvis-i-was-like-youre-trying-to-learn-bass-are-you-son-sit-down-let-me-show-you-a-few-things-paul-mccartney-remembers-teaching-elvis-how-to-bass-like-a-pro",
+   "date": "2026-09-27T00:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/jWSA2sMzS7PDWDQTg89u7A-1920-80.png",
+   "resume": "Recently, we rediscovered a classic Paul McCartney interview from the MusicRadar archive . Originally conducted by Tony Bacon back in our then-sister title Bass Magazine, the chat with Paul took place way back in 1994…",
+   "titre_fr": "Paul McCartney se souvient d'avoir montré à Elvis comment jouer de la basse en pro",
+   "resume_fr": "Récemment, nous avons redécouvert une interview classique de Paul McCartney des archives de MusicRadar. Originalement menée par Tony Bacon pour notre ancienne publication sœur Bass Magazine, cette conversation avec Paul remonte à 1994…"
+  },
   {
    "source": "gearnews",
    "titre": "The Rise of the Signature Guitar: The Good & Not So Good",
@@ -350,16 +360,6 @@
    "resume": "Antares has announced the release of AutoTune Advanced, a new edition of the vocal tuning plugin based on a ground-up rebuild of the Auto-Mode pitch algorithm and equipped with a newly-developed DVA vibrato detection…",
    "titre_fr": "« Depuis 1997, la plainte au sujet de la correction de pitch est la même : elle sort le chanteur du chant. C'est le problème que DVA a été construit pour résoudre » : Antares lance AutoTune Advanced avec le nouveau moteur de vibrato DVA™",
    "resume_fr": "Antares a annoncé la sortie d'AutoTune® Advanced, une nouvelle édition du plugin d'accord vocal basée sur une refonte complète de l'algorithme Auto-Mode pitch et équipée d'un nouveau moteur de détection de vibrato DVA™ développé…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "Phil Collen on why you can play anything on his new Jackson, and even nail those Hysteria tones",
-   "lien": "https://www.musicradar.com/artists/def-leppard-phil-collen-on-his-signature-jackson-pro-series-pc1-e",
-   "date": "2026-09-24T18:42:53.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/zQVmB9LrebRJyMYpBUdYxM-1920-80.jpg",
-   "resume": "There isn’t much that Phil Collen’s new Jackson PC1-E can’t do. It has DiMarzio’s nuclear option as the bridge humbucker, the active PC1 Sustainer Driver at the neck, with Collen’s signature stacked ‘bucker in the…",
-   "titre_fr": "Phil Collen sur pourquoi vous pouvez jouer n'importe quoi sur sa nouvelle Jackson, et même reproduire les tones Hysteria",
-   "resume_fr": "Il y a peu de choses que la nouvelle Jackson PC1-E de Phil Collen ne peut pas faire. Elle a l'option nucléaire de DiMarzio comme le humbucker de chevalet, l'Active PC1 Sustainer Driver au chevalet, avec le 'bucker empilé signature de Collen au…"
   },
   {
    "source": "midnightrebels",
