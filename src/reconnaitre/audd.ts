@@ -23,6 +23,12 @@ export interface MorceauReconnu {
   readonly album: string | null;
   readonly pochette: string | null;
   readonly liens: readonly { readonly nom: string; readonly url: string }[];
+  /** Le label et l'annee de sortie, quand AudD ou Discogs les donnent. */
+  readonly label: string | null;
+  readonly annee: number | null;
+  /** Les styles de la sortie chez Discogs, bruts : la page les ramene a
+      l'atlas avec la table de la moisson. Vide quand Discogs ne sait pas. */
+  readonly styles: readonly string[];
 }
 
 const texte = (x: unknown): string => (typeof x === 'string' ? x.trim() : '');
@@ -83,11 +89,16 @@ export function lireReponseAudd(brut: unknown): MorceauReconnu | null {
   }
 
   const album = texte(res['album']);
+  const label = texte(res['label']);
+  const annee = Number.parseInt(texte(res['release_date']).slice(0, 4), 10);
   return {
     artiste,
     titre,
     album: album || null,
     pochette: pochetteDe(apple, spotify),
     liens,
+    label: label || null,
+    annee: Number.isFinite(annee) && annee > 1800 ? annee : null,
+    styles: [],
   };
 }

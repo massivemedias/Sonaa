@@ -410,6 +410,49 @@ const CACHE_AGENDA = {
    sans artiste ni titre. Le code d'erreur et son message sont ceux d'AudD,
    ils ne portent rien de secret, et ils sont exactement ce qu'il faut lire
    pour savoir si le probleme est chez nous ou chez lui. */
+interface MorceauAudd {
+  readonly artiste: string;
+  readonly titre: string;
+  readonly album: string | null;
+  readonly pochette: string | null;
+  readonly liens: readonly { readonly nom: string; readonly url: string }[];
+  readonly label: string | null;
+  readonly annee: number | null;
+  readonly styles: readonly string[];
+}
+
+/* DEEZER COMPLETE CE QU'AUDD NE DIT PAS : la pochette, le label, l'annee.
+   Discogs aurait donne les styles de la sortie, mais il refuse les adresses
+   de Cloudflare (voir wrangler.toml) ; Deezer, lui, repond sans cle. Une
+   recherche par artiste et titre, la premiere reponse, puis la fiche de
+   l'album pour le label. Si Deezer ne sait pas, le morceau part tel quel. */
+async function completerParDeezer(m: MorceauAudd): Promise<MorceauAudd> {
+  try {
+    /* DEUX RECHERCHES : la stricte, par champs, puis la libre. Mesure le 27
+       septembre 2026 : « Pardon Moi » n'est trouve que par la seconde. */
+    type Reponse = { data?: { album?: { id?: number; cover_big?: string } }[] };
+    const chercher = async (q: string): Promise<Reponse> =>
+      (await (await fetch(`https://api.deezer.com/search?q=${encodeURIComponent(q)}&limit=1`)).json()) as Reponse;
+    let piste = (await chercher(`artist:"${m.artiste}" track:"${m.titre}"`)).data?.[0];
+    if (!piste?.album?.id) piste = (await chercher(`${m.artiste} ${m.titre}`)).data?.[0];
+    if (!piste?.album?.id) return m;
+    const album = (await (await fetch(`https://api.deezer.com/album/${piste.album.id}`)).json()) as {
+      label?: string;
+      release_date?: string;
+      cover_big?: string;
+    };
+    const annee = Number.parseInt((album.release_date ?? '').slice(0, 4), 10);
+    return {
+      ...m,
+      pochette: m.pochette ?? piste.album.cover_big ?? album.cover_big ?? null,
+      label: m.label ?? (album.label?.trim() || null),
+      annee: m.annee ?? (Number.isFinite(annee) && annee > 1800 ? annee : null),
+    };
+  } catch {
+    return m;
+  }
+}
+
 function raisonDAudd(brut: Record<string, unknown>): string {
   if (brut['status'] !== 'success') {
     const err = (typeof brut['error'] === 'object' && brut['error'] !== null ? brut['error'] : {}) as Record<string, unknown>;
@@ -798,7 +841,7 @@ export default {
          trois fois `null`, et aucun moyen de savoir lequel des deux cas on
          tenait. AudD dit toujours pourquoi : `status: "error"` avec un code,
          ou `result: null`. On le rend tel quel, et la page le montre. */
-      let morceau: unknown = null;
+      let morceau: MorceauAudd | null = null;
       let raison: string | null = null;
       try {
         const r = await fetch('https://api.audd.io/', { method: 'POST', body: formulaire });
@@ -806,6 +849,10 @@ export default {
         const brut = (await r.json()) as Record<string, unknown>;
         morceau = lireReponseAudd(brut);
         if (!morceau) raison = raisonDAudd(brut);
+        /* DEEZER COMPLETE CE QU'AUDD NE DIT PAS : pochette, label, annee.
+           Mika, le 27 septembre 2026 : « que ca affiche l'artiste, le track,
+           le style, le cover et le label ». */
+        if (morceau) morceau = await completerParDeezer(morceau);
       } catch (e) {
         return new Response(
           JSON.stringify({ morceau: null, raison: e instanceof Error ? e.message : String(e) }),

@@ -115,6 +115,8 @@ async function passer(fichier) {
   ).catch(() => {});
   await attendre(800);
   const duree = Date.now() - debut;
+  /* UNE CAPTURE DU RESULTAT, quand on la demande : SONAA_CAPTURE=chemin.png */
+  if (process.env.SONAA_CAPTURE) await page.screenshot({ path: process.env.SONAA_CAPTURE, fullPage: true });
 
   /* LE MEME FICHIER, SANS LE MICRO : decode et reechantillonne par la page
      elle-meme, puis les memes fenetres et le meme reseau. Si ce chemin donne

@@ -671,6 +671,8 @@ interface Dictionnaire {
   readonly reconnaitreLeStyle: string;
   readonly reconnaitreLeMorceau: string;
   readonly reconnaitreHorsAtlas: string;
+  readonly reconnaitreALOreille: string;
+  readonly reconnaitreStyleDeLaSortie: string;
   /** Sous le bouton d ecoute, avant tout clic : le texte avant le lien AudD, puis apres. */
   readonly reconnaitreEnvoiAvant: string;
   readonly reconnaitreEnvoiApres: string;
@@ -1339,6 +1341,8 @@ const FR: Dictionnaire = {
   reconnaitreLeStyle: 'Le style',
   reconnaitreLeMorceau: 'Le morceau',
   reconnaitreHorsAtlas: 'hors atlas',
+  reconnaitreALOreille: 'À l’oreille, sur dix secondes',
+  reconnaitreStyleDeLaSortie: 'Les styles de cette sortie, d’après Discogs, ramenés à l’atlas.',
   reconnaitreEnvoiAvant: 'Huit secondes de son sont envoyées à ',
   reconnaitreEnvoiApres: ' pour identifier le morceau. Rien n’est conservé.',
   reconnaitreEnvoiInterrupteur: 'Identifier le morceau',
@@ -2008,6 +2012,8 @@ const EN: Dictionnaire = {
   reconnaitreLeStyle: 'The style',
   reconnaitreLeMorceau: 'The track',
   reconnaitreHorsAtlas: 'outside the atlas',
+  reconnaitreALOreille: 'By ear, over ten seconds',
+  reconnaitreStyleDeLaSortie: 'The styles of this release, from Discogs, mapped to the atlas.',
   reconnaitreEnvoiAvant: 'Eight seconds of sound are sent to ',
   reconnaitreEnvoiApres: ' to identify the track. Nothing is kept.',
   reconnaitreEnvoiInterrupteur: 'Identify the track',

@@ -32,6 +32,7 @@ import { chargerMoteur, POIDS_MODELE_MO, type Prediction } from './modele.ts';
 import { familleSonaa, nomCourt, styleDeLEtiquette } from './discogs-vers-sonaa.ts';
 import { ajouterAlHistorique, lireHistorique, viderHistorique, type Reconnaissance } from './historique.ts';
 import type { MorceauReconnu } from './audd.ts';
+import { stylesVersSonaa } from '../lib/styles-dartiste.ts';
 import '../atlas/credits.css';
 import './reconnaitre.css';
 
@@ -198,6 +199,15 @@ export function ReconnaitrePage() {
 
   const enMarche = etat === 'chargement' || etat === 'ecoute' || etat === 'analyse';
 
+  /* LES STYLES DE LA SORTIE, RAMENES A L'ATLAS avec la table de la moisson :
+     un genre SONAA par style Discogs qu'elle sait ranger, sans doublon. */
+  const stylesDuMorceau = useMemo(() => {
+    const bruts = morceau?.styles ?? [];
+    if (bruts.length === 0) return [];
+    const ids = stylesVersSonaa(Object.fromEntries(bruts.map((x) => [x, 1])));
+    return ids.map(genreSonaa).filter((g): g is { nom: string; chemin: string } => g !== null);
+  }, [morceau]);
+
   const libelleBouton = useMemo(() => {
     if (etat === 'chargement') return t.reconnaitreChargement(avancement);
     if (etat === 'ecoute') return t.reconnaitreEnEcoute(seconde);
@@ -266,9 +276,69 @@ export function ReconnaitrePage() {
 
           {etat === 'erreur' && <p className="rc-erreur">{erreur}</p>}
 
-          {styles.length > 0 && (
+          {etat === 'resultat' && morceauActif && envoiMorceau && (
             <Apparition as="section" className="rc-bloc">
+              <h2 className="rc-titre">{t.reconnaitreLeMorceau}</h2>
+              {morceau ? (
+                <div className="rc-morceau">
+                  {morceau.pochette && <img className="rc-pochette" src={morceau.pochette} alt="" loading="lazy" />}
+                  <div className="rc-morceau-texte">
+                    <p className="rc-morceau-titre">{morceau.titre}</p>
+                    <p className="rc-morceau-artiste">{morceau.artiste}</p>
+                    {morceau.album && <p className="rc-morceau-album">{morceau.album}</p>}
+                    {(morceau.label || morceau.annee) && (
+                      <p className="rc-morceau-album">{[morceau.label, morceau.annee].filter(Boolean).join(' · ')}</p>
+                    )}
+                    {morceau.liens.length > 0 && (
+                      <p className="rc-morceau-liens">
+                        {morceau.liens.map((l) => (
+                          <a key={l.url} href={l.url} target="_blank" rel="noreferrer noopener">
+                            {l.nom}
+                          </a>
+                        ))}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <p className="rc-morceau-titre">{t.reconnaitreMorceauNonIdentifie}</p>
+                  {/* JAMAIS DE SILENCE : « rien reconnu » et « le service refuse »
+                      sont deux phrases differentes, et la seconde porte la
+                      raison telle que le service la donne. */}
+                  <p className="rc-note">
+                    {raisonMorceau === 'aucun resultat' || raisonMorceau === ''
+                      ? t.reconnaitreSansMorceau
+                      : t.reconnaitreServiceRefuse(raisonMorceau)}
+                  </p>
+                </>
+              )}
+            </Apparition>
+          )}
+
+          {/* LE STYLE DE LA SORTIE D'ABORD, L'OREILLE ENSUITE. Quand le morceau
+              est nomme et que Discogs connait sa sortie, ses styles ramenes a
+              l'atlas valent mieux que l'estimation du reseau sur dix
+              secondes ; celle-ci reste, titree pour ce qu'elle est. */}
+          {stylesDuMorceau.length > 0 && (
+            <Apparition as="section" i={1} className="rc-bloc">
               <h2 className="rc-titre">{t.reconnaitreLeStyle}</h2>
+              <ol className="rc-styles">
+                {stylesDuMorceau.map((g) => (
+                  <li key={g.chemin} className="rc-style">
+                    <a className="rc-style-nom" href={g.chemin}>
+                      {g.nom}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+              <p className="rc-note">{t.reconnaitreStyleDeLaSortie}</p>
+            </Apparition>
+          )}
+
+          {styles.length > 0 && (
+            <Apparition as="section" i={stylesDuMorceau.length > 0 ? 2 : 1} className="rc-bloc">
+              <h2 className="rc-titre">{stylesDuMorceau.length > 0 ? t.reconnaitreALOreille : t.reconnaitreLeStyle}</h2>
               {/* UN CLASSEMENT, SANS CHIFFRES. Mika, le 22 septembre 2026, apres
                   l'audit : la sortie du reseau est une sigmoide par classe, pas
                   une part. « Techno 82 % » et « House 67 % » ne se partageaient
@@ -309,43 +379,6 @@ export function ReconnaitrePage() {
                   ))}
               </ol>
               <p className="rc-note">{t.reconnaitreImprecis}</p>
-            </Apparition>
-          )}
-
-          {etat === 'resultat' && morceauActif && envoiMorceau && (
-            <Apparition as="section" i={1} className="rc-bloc">
-              <h2 className="rc-titre">{t.reconnaitreLeMorceau}</h2>
-              {morceau ? (
-                <div className="rc-morceau">
-                  {morceau.pochette && <img className="rc-pochette" src={morceau.pochette} alt="" loading="lazy" />}
-                  <div className="rc-morceau-texte">
-                    <p className="rc-morceau-titre">{morceau.titre}</p>
-                    <p className="rc-morceau-artiste">{morceau.artiste}</p>
-                    {morceau.album && <p className="rc-morceau-album">{morceau.album}</p>}
-                    {morceau.liens.length > 0 && (
-                      <p className="rc-morceau-liens">
-                        {morceau.liens.map((l) => (
-                          <a key={l.url} href={l.url} target="_blank" rel="noreferrer noopener">
-                            {l.nom}
-                          </a>
-                        ))}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <p className="rc-morceau-titre">{t.reconnaitreMorceauNonIdentifie}</p>
-                  {/* JAMAIS DE SILENCE : « rien reconnu » et « le service refuse »
-                      sont deux phrases differentes, et la seconde porte la
-                      raison telle que le service la donne. */}
-                  <p className="rc-note">
-                    {raisonMorceau === 'aucun resultat' || raisonMorceau === ''
-                      ? t.reconnaitreSansMorceau
-                      : t.reconnaitreServiceRefuse(raisonMorceau)}
-                  </p>
-                </>
-              )}
             </Apparition>
           )}
 
