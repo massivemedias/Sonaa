@@ -71,6 +71,12 @@ des métadonnées de panneau et deviennent la géométrie même de la carte.
 
 ## 3. Palette
 
+> **Remplacée le 28 septembre 2026 par [ADR-089](docs/adr/ADR-089-verre-depoli-sur-sable.md).**
+> Le fond est du sable dans les deux thèmes, l'encre est #3C3C3C en clair,
+> l'accent est un terracotta, et les surfaces sont en verre dépoli. Les
+> quatorze teintes de famille de la section 3.2 restent les seules couleurs
+> vives du site. Ce qui suit est conservé pour mémoire du premier graphite.
+
 ### 3.1 Le fond
 
 Pas de noir. Un graphite froid légèrement désaturé, qui laisse respirer trois niveaux
@@ -648,9 +654,19 @@ désormais la signature du site, portées par les jetons de `tokens.css` et
 décrites dans [ADR-086](docs/adr/ADR-086-la-v2.md). On ne garde pas un
 interdit qu'on a décidé de lever ; on écrit qu'on l'a levé, et pourquoi.
 
-Ce qui reste interdit, et n'a pas été rouvert : fond crème avec serif à fort
-contraste et accent terracotta. Emoji dans l'interface. Illustration 3D. Un
-accent acide unique sur fond noir pur.
+**Révisé de nouveau le 28 septembre 2026, par [ADR-089](docs/adr/ADR-089-verre-depoli-sur-sable.md).**
+Le mauve, le violet, le fuchsia et le cyan sortent du site, avec le dégradé,
+la lueur et la maille. Le fond devient du sable, l'accent un terracotta,
+et le verre reste mais en une seule recette. Cette section interdisait « fond
+crème avec serif à fort contraste et accent terracotta » : la moitié de cet
+interdit est levée par la mission du 28 septembre, le sable et le
+terracotta, et l'autre moitié tient, la police reste une linéale. Les cartes
+n'ont plus d'ombre portée, seules les surfaces qui flottent en ont une, très
+diffuse.
+
+Ce qui reste interdit, et n'a pas été rouvert : serif à fort contraste.
+Emoji dans l'interface. Illustration 3D. Un accent acide unique sur fond noir
+pur. Un dégradé sur du texte. Du noir pur ou du blanc pur en fond.
 
 Et pour la couche WebGL, qui est l'endroit où l'on dérape le plus vite :
 perspective, caméra qui orbite, parallaxe au mouvement de souris, noeuds

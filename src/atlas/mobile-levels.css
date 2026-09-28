@@ -26,6 +26,8 @@
      quelque chose de visible.
 
      La borne lit la MEME valeur nommee que la feuille elle-meme. */
+  /* EXCEPTION D'ESPACEMENT : les 64 px sont le repli d'une HAUTEUR de barre,
+     lue dans la variable, et non un ecart ; ils restent en clair. */
   inset: 0 0 var(--feuille-bar-h, 64px) 0;
   /* HUIT, ET NON SIX. La fleche de retour de l'application vit en 7, au meme
      endroit de l'ecran que la mienne. Ma couche est opaque, donc elle la
@@ -68,7 +70,7 @@
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: var(--espace-8);
   /* LA ZONE SURE DU HAUT, ET C'EST IOS QUI L'IMPOSE.
 
      DEFAUT VU SUR CAPTURE IPHONE : le fil d'Ariane passait SOUS la barre
@@ -79,7 +81,7 @@
 
      La place a DROITE est reservee au point d'entree du compte, qui remonte
      dans l'en-tete : sans elle, il recouvrirait la loupe. */
-  padding: calc(0.7rem + env(safe-area-inset-top, 0px)) 0.9rem 0.7rem;
+  padding: calc(var(--espace-12) + env(safe-area-inset-top, 0px)) var(--espace-16) var(--espace-12);
   /* UNE MARGE, PAS UN REMPLISSAGE, et la nuance EST le defaut.
 
      Le fil defile horizontalement, et `overflow` decoupe a la boite de
@@ -93,7 +95,9 @@
      Elle lit la meme grandeur nommee que le bouton de compte, plus la loupe
      et les ecarts. Deux ecritures d'un meme nombre finissent par diverger. */
   /* DOUZE PIXELS FRANCS AVANT LA LOUPE, en plus de la loupe et du compte. */
-  margin-right: calc(var(--authb-reserve, 110px) + 44px + 36px + env(safe-area-inset-right, 0px));
+  /* EXCEPTION D'ESPACEMENT : 110 px est le repli de la largeur du compte et
+     44 px la largeur de la loupe, deux tailles et non deux ecarts. */
+  margin-right: calc(var(--authb-reserve, 110px) + 44px + var(--espace-32) + env(safe-area-inset-right, 0px));
   /* IL NE DEFILE PLUS, IL TRONQUE. Le defilement lateral laissait le dernier
      segment coupe en plein milieu d'un mot, « DOWNT » pour Downtempo, sans
      aucune marque disant qu'il manquait quelque chose. Un texte coupe net se
@@ -103,7 +107,8 @@
      prenait toute ; depuis que le fil s'arrete avant la loupe, le filet
      s'arretait avec lui et laissait un trait a moitie tire au milieu de
      l'ecran. Une separation qui ne separe qu'une moitie ne separe rien. Le
-     fond et le flou de la bande suffisent a la detacher de la carte. */
+     fond de la bande, un voile plat sans flou depuis ADR-089, suffit a la
+     detacher de la carte. */
   font-family: var(--font-ui);
   font-size: 0.75rem;
   letter-spacing: var(--serrage);
@@ -202,13 +207,13 @@
   list-style: none;
   margin: 0;
   /* DOUZE PIXELS DE CHAQUE COTE, quelle que soit la profondeur. */
-  padding: 8px 12px 2rem;
+  padding: var(--espace-8) var(--espace-12) var(--espace-32);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
 .mn-liste > li + li {
-  margin-top: 4px;
+  margin-top: var(--espace-4);
 }
 
 .mn-carte {
@@ -219,7 +224,7 @@
   flex-direction: column;
   justify-content: center;
   gap: 2px;
-  padding: 8px 10px 8px 12px;
+  padding: var(--espace-8) var(--espace-12);
   text-align: left;
   background: color-mix(in oklab, var(--famille) 10%, transparent);
   /* La couleur de famille en filet à gauche : elle identifie sans crier, et
@@ -280,9 +285,9 @@
 .mn-carte[data-profondeur='3'] { border-left-color: color-mix(in oklab, var(--famille) 45%, white); }
 
 /* Le TEXTE seulement, jamais le bloc. */
-.mn-carte[data-profondeur='1'] > * { margin-left: 8px; }
-.mn-carte[data-profondeur='2'] > * { margin-left: 16px; }
-.mn-carte[data-profondeur='3'] > * { margin-left: 24px; }
+.mn-carte[data-profondeur='1'] > * { margin-left: var(--espace-8); }
+.mn-carte[data-profondeur='2'] > * { margin-left: var(--espace-16); }
+.mn-carte[data-profondeur='3'] > * { margin-left: var(--espace-24); }
 
 /* --- AU NIVEAU DU GENRE, LA NAVIGATION S'EFFACE ---------------------------
 
@@ -306,7 +311,6 @@
 .mn[data-niveau='genre'] .mn-ariane {
   pointer-events: auto;
   background: color-mix(in oklab, var(--fond, var(--plaque)) 88%, transparent);
-  backdrop-filter: blur(6px);
 }
 
 /* Le fil d'Ariane peut porter trois niveaux et des noms longs. Il defile
@@ -342,12 +346,11 @@
 .mn[data-niveau='ensemble'] .mn-ariane {
   pointer-events: auto;
   background: color-mix(in oklab, var(--fond, var(--plaque)) 88%, transparent);
-  backdrop-filter: blur(6px);
 }
 
 .mn-note {
   margin-left: auto;
-  padding-left: 0.6rem;
+  padding-left: var(--espace-8);
   color: var(--ink-secondary, var(--encre-douce));
   text-transform: none;
   letter-spacing: var(--serrage);
@@ -362,10 +365,10 @@
   order: 2;
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  gap: var(--espace-4);
   min-height: 56px;
-  margin: 0 0.7rem 0.9rem;
-  padding: 0.6rem 0.9rem;
+  margin: 0 var(--espace-12) var(--espace-16);
+  padding: var(--espace-8) var(--espace-16);
   text-align: left;
   background: transparent;
   border: 1px dashed var(--rule-strong, var(--filet-fort));
@@ -400,8 +403,8 @@
    rapprocher sans qu'on le decide. */
 .mn-loupe {
   position: absolute;
-  top: calc(6px + env(safe-area-inset-top, 0px));
-  right: calc(var(--authb-reserve, 110px) + 16px + env(safe-area-inset-right, 0px));
+  top: calc(var(--espace-8) + env(safe-area-inset-top, 0px));
+  right: calc(var(--authb-reserve, 110px) + var(--espace-16) + env(safe-area-inset-right, 0px));
   z-index: 14;
   flex: none;
   display: grid;
@@ -443,7 +446,6 @@
 .mn[data-niveau='genres'] .mn-ariane {
   pointer-events: auto;
   background: color-mix(in oklab, var(--fond, var(--plaque)) 88%, transparent);
-  backdrop-filter: blur(6px);
 }
 
 .mn[data-niveau='familles'] .mn-loupe,
@@ -453,4 +455,20 @@
 
 .mn > *:not(.mn-ariane):not(.mn-loupe) {
   display: none;
+}
+
+/* LES CIBLES TACTILES, SOUS 900 px. Un segment cliquable du fil d'Ariane fait
+   44 px de haut ; sa marge negative rend a la bande ce qu'il y ajoute, pour
+   que la bande garde sa hauteur nommee au niveau des familles, ou aucune
+   fleche de 44 px ne la tient deja. Le point de suspension est un bouton
+   icone : il fait aussi 44 px de large. */
+@media (max-width: 899px) {
+  button.mn-crumb:not([disabled]) {
+    min-height: 44px;
+    margin-block: calc(-1 * var(--espace-12));
+  }
+
+  .mn-crumb-elide {
+    min-width: 44px;
+  }
 }

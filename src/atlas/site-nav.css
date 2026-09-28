@@ -5,9 +5,9 @@
 
    DES MOTS, PAS DES ICÔNES, depuis le 17 septembre 2026. Voir SiteNav.tsx.
 
-   DES PUCES DE VERRE, DEPUIS LA V2. Un lien etait un mot qui s'eclaircit au
+   DES PUCES, DEPUIS LA V2. Un lien etait un mot qui s'eclaircit au
    survol ; il devient une puce arrondie qui se remplit au survol, et la page
-   courante garde sa puce allumee. C'est la grammaire du prototype choisi le
+   courante porte l'accent. C'est la grammaire du prototype choisi le
    21 septembre 2026, et c'est lisible sans comparer : la puce pleine est la
    ou l'on est.
 
@@ -18,7 +18,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.2rem 0.25rem;
+  gap: var(--espace-4);
   font-family: var(--font-ui);
 }
 
@@ -26,7 +26,7 @@
   display: inline-flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.2rem 0.25rem;
+  gap: var(--espace-4);
 }
 
 /* LE POINT DE SÉPARATION DISPARAIT : les deux groupes se distinguent par un
@@ -35,16 +35,16 @@
   display: none;
 }
 .sitenav-groupe + .sitenav-groupe {
-  margin-left: 0.6rem;
+  margin-left: var(--espace-8);
 }
 
 .sitenav-lien {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: var(--espace-4);
   min-height: 38px;
-  padding: 0 0.85rem;
+  padding: 0 var(--espace-16);
   border: none;
   border-radius: var(--rayon-pilule);
   background: transparent;
@@ -69,12 +69,28 @@
   outline-offset: 3px;
 }
 
-/* L'ÉTAT ACTIF SE VOIT SANS COMPARER : la puce est pleine. Le poids ne bouge
-   pas pour que la rangee ne se deplace pas quand on change de page. */
+/* L'ETAT ACTIF SE VOIT SANS COMPARER : la puce est pleine, sur l'accent. Le
+   poids ne bouge pas pour que la rangee ne se deplace pas quand on change
+   de page. */
 .sitenav-lien[data-current='true'],
 .sitenav-lien[aria-current='page'] {
-  color: var(--ink-primary);
-  background: var(--voile-12);
+  color: var(--sur-accent);
+  background: var(--accent);
+}
+
+/* DANS LE LIEN COURANT, LA PASTILLE GARDE UN FILET : sinon elle se fond
+   dans la puce, accent sur accent, sur la page Panier. */
+.sitenav-lien[data-current='true'] .badge-panier,
+.sitenav-lien[aria-current='page'] .badge-panier {
+  box-shadow: inset 0 0 0 1px var(--sur-accent);
+}
+
+/* SOUS 900 PX, LA PUCE FAIT 44 PX : la rangee du haut s'efface derriere la
+   barre du bas, mais le pied des pages document la garde, et il se touche. */
+@media (max-width: 899px) {
+  .sitenav-lien {
+    min-height: 44px;
+  }
 }
 
 /* Pied de page document : un peu plus lisible, filet au-dessus déjà fourni
@@ -87,18 +103,18 @@
 
    Il n'apparaît que s'il compte quelque chose. Le chiffre est la donnée, la
    pastille n'est là que pour le détacher du mot qui la précède ; elle porte
-   le degrade des accents, comme tout ce qui compte quelque chose en v2. */
+   l'accent, comme tout ce qui compte quelque chose. */
 .badge-panier {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-width: 1.15rem;
   height: 1.15rem;
-  padding: 0 0.3rem;
+  padding: 0 var(--espace-4);
   box-sizing: border-box;
   border-radius: var(--rayon-pilule);
-  background: var(--degrade);
-  color: var(--sur-degrade);
+  background: var(--accent);
+  color: var(--sur-accent);
   font-size: 0.68rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;

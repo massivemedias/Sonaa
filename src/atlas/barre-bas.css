@@ -6,13 +6,12 @@
    et 900 px ils tombaient a la ligne sous le logo. C'est le seul endroit du
    site ou cette frontiere-la vaut 900, et c'est ici qu'elle est ecrite.
 
-   ═══ ELLE FLOTTE, EN VERRE, DEPUIS LA V2 ═══
+   ═══ FIXEE AU BORD BAS, EN VERRE, DEPUIS ADR-089 ═══
 
-   Elle etait une bande collee au bas de l'ecran. Le prototype choisi par
-   Mika le 21 septembre 2026 la detache du bord, comme la pilule du haut :
-   une capsule arrondie a six dixiemes de rem du bas et des cotes, en verre,
-   sous laquelle la page defile. L'onglet courant porte le degrade des
-   accents sur son icone, ce qui se lit de loin sans lire le mot. */
+   Elle etait une capsule detachee du bas. Elle devient une bande fixee au
+   bord, de 64 px plus la zone de securite iOS, en verre depoli ; la page
+   defile dessous. La matiere vient de design/verre.css. L'onglet courant
+   porte l'accent sur son icone, ce qui se lit de loin sans lire le mot. */
 
 /* ═══ LA PLACE EN BAS EST UNE GRANDEUR NOMMEE ═══
 
@@ -20,8 +19,8 @@
    d'onglets, puis le mini lecteur au-dessus d'elle. Le corps de page les
    additionne dans son retrait bas, la barre de lecture de Parcourir s'y
    ajoute par-dessus. Deux ecritures d'un meme nombre finissent par diverger ;
-   ici il n'y en a qu'une. LA MARGE DE FLOTTEMENT EN FAIT PARTIE : la barre
-   ne touche plus le bas, et la place qu'elle reserve inclut l'ecart. */
+   ici il n'y en a qu'une, et la hauteur de la barre elle-meme vient du jeton
+   `--barre-bas-hauteur` de tokens.css, que la barre et la reserve lisent. */
 body {
   --barre-bas-h: 0px;
   --mini-h: 0px;
@@ -37,7 +36,7 @@ body.avec-mini-lecteur {
 
 @media (max-width: 899px) {
   body.avec-barre-bas {
-    --barre-bas-h: calc(60px + 0.6rem + env(safe-area-inset-bottom, 0px));
+    --barre-bas-h: calc(var(--barre-bas-hauteur) + env(safe-area-inset-bottom, 0px));
   }
 
   /* LE MENU DU HAUT S'EFFACE quand la barre du bas est la : voir
@@ -48,9 +47,9 @@ body.avec-mini-lecteur {
 
   .barre-bas {
     position: fixed;
-    left: 0.6rem;
-    right: 0.6rem;
-    bottom: calc(0.6rem + env(safe-area-inset-bottom, 0px));
+    left: 0;
+    right: 0;
+    bottom: 0;
     /* AU-DESSUS DE L'EN-TETE (12), SOUS TOUT CE QUI SE POSE PAR-DESSUS LA
        PAGE : le panneau de connexion (14), la fiche d'une soiree (40), le
        formulaire de proposition (60), le bandeau d'installation (70). */
@@ -58,14 +57,8 @@ body.avec-mini-lecteur {
     display: flex;
     align-items: stretch;
     box-sizing: border-box;
-    height: 60px;
-    padding: 0 0.3rem;
-    border-radius: var(--rayon-pilule);
-    background: var(--verre-fond-fort);
-    backdrop-filter: var(--verre-flou);
-    -webkit-backdrop-filter: var(--verre-flou);
-    border: 1px solid var(--verre-bord);
-    box-shadow: var(--ombre-carte);
+    height: calc(var(--barre-bas-hauteur) + env(safe-area-inset-bottom, 0px));
+    padding: 0 var(--espace-4) env(safe-area-inset-bottom, 0px);
     font-family: var(--font-ui);
   }
 
@@ -75,8 +68,9 @@ body.avec-mini-lecteur {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.2rem;
-    min-width: 0;
+    gap: var(--espace-4);
+    min-width: 44px;
+    min-height: 44px;
     color: var(--ink-secondary);
     text-decoration: none;
     font-size: 0.66rem;
@@ -110,10 +104,10 @@ body.avec-mini-lecteur {
     border-radius: var(--rayon-pilule);
     transition: background 200ms ease;
   }
-  /* L'onglet courant : l'icone sur le degrade, en blanc. */
+  /* L'onglet courant : l'icone sur l'accent, dans l'encre qui va dessus. */
   .barre-bas-onglet[aria-current='page'] .barre-bas-pastille {
-    background: var(--degrade);
-    color: var(--sur-degrade);
+    background: var(--accent);
+    color: var(--sur-accent);
   }
   .barre-bas-pastille .badge-panier {
     position: absolute;
@@ -136,7 +130,7 @@ body .pv-barre {
   bottom: calc(var(--barre-bas-h) + var(--mini-h));
 }
 body .pv-corps {
-  padding-bottom: calc(1.5rem + var(--barre-bas-h) + var(--mini-h));
+  padding-bottom: calc(var(--espace-24) + var(--barre-bas-h) + var(--mini-h));
 }
 body .pv[data-joue='true'] .pv-corps {
   padding-bottom: calc(116px + env(safe-area-inset-bottom, 0px) + var(--barre-bas-h) + var(--mini-h));

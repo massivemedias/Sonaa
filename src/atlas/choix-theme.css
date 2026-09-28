@@ -29,3 +29,12 @@
 .choixtheme svg {
   display: block;
 }
+
+/* CIBLE TACTILE SOUS 900 PX : un bouton qui ne porte qu'un dessin fait
+   44 px de haut et de large, le dessin reste a sa taille. */
+@media (max-width: 899px) {
+  .choixtheme {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}

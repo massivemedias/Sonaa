@@ -5,30 +5,34 @@
   min-height: 100%;
   max-width: 52rem;
   margin: 0 auto;
-  padding: clamp(1.5rem, 5vw, 3.5rem) clamp(1rem, 4vw, 2rem) 4rem;
+  padding: clamp(var(--espace-24), 5vw, var(--espace-48)) clamp(var(--espace-16), 4vw, var(--espace-32)) var(--espace-64);
   color: var(--ink-primary);
 }
 
 .index-skip {
   position: absolute;
+  /* -9999px sort le lien d'evitement de l'ecran tant qu'il n'a pas le
+     focus : une mise hors champ, pas un decalage de mise en page. */
   left: -9999px;
 }
 
 .index-skip:focus {
   position: static;
   display: inline-block;
-  margin-bottom: 1rem;
+  margin-bottom: var(--espace-16);
   font-family: var(--font-ui);
   font-size: 0.75rem;
   color: var(--ink-primary);
 }
 
 .index-head {
-  padding-right: calc(var(--authb-reserve, 126px) + 0.5rem);
+  /* 126px est le repli de la largeur mesuree du bouton de compte : une
+     taille lue a l'ecran, pas un pas d'espacement. */
+  padding-right: calc(var(--authb-reserve, 126px) + var(--espace-8));
 }
 
 .index-head .sitenav {
-  margin: 0.9rem 0 0;
+  margin: var(--espace-16) 0 0;
 }
 
 .index-head h1 {
@@ -36,12 +40,12 @@
   font-size: clamp(1.75rem, 5vw, 2.75rem);
   letter-spacing: var(--serrage);
   text-transform: uppercase;
-  margin-bottom: 0.75rem;
+  margin-bottom: var(--espace-12);
 }
 
 .index-head p {
   max-width: 46ch;
-  margin-bottom: 0.6rem;
+  margin-bottom: var(--espace-8);
 }
 
 .index-mono {
@@ -58,7 +62,7 @@
 
 .index-families {
   list-style: none;
-  margin: 2rem 0 0;
+  margin: var(--espace-32) 0 0;
   padding: 0;
   border-top: 1px solid var(--rule-hairline);
 }
@@ -70,8 +74,8 @@
 .index-families summary {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  padding: 0.9rem 0.25rem;
+  gap: var(--espace-12);
+  padding: var(--espace-16) var(--espace-4);
   cursor: pointer;
 }
 
@@ -97,14 +101,14 @@
 }
 
 .index-family-body {
-  padding: 0.25rem 0 1.5rem 1.5rem;
+  padding: var(--espace-4) 0 var(--espace-24) var(--espace-24);
 }
 
 .index-relations {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 0.15rem 0.9rem;
-  margin: 0 0 1.1rem;
+  gap: var(--espace-4) var(--espace-16);
+  margin: 0 0 var(--espace-16);
   font-family: var(--font-ui);
   font-size: 0.75rem;
 }
@@ -126,7 +130,7 @@
 .index-genres th,
 .index-genres td {
   text-align: left;
-  padding: 0.35rem 0.6rem 0.35rem 0;
+  padding: var(--espace-4) var(--espace-8) var(--espace-4) 0;
   border-bottom: 1px solid var(--rule-hairline);
   font-weight: 400;
 }
@@ -137,7 +141,7 @@
   color: var(--ink-primary);
   background: transparent;
   border: 0;
-  padding: 0.55rem 0;
+  padding: var(--espace-8) 0;
   min-height: 44px;
   cursor: pointer;
   text-align: left;
@@ -179,14 +183,14 @@
 }
 
 .index-foot {
-  margin-top: 2.5rem;
+  margin-top: var(--espace-32);
 }
 
 /* En-tête de la vue liste : le logotype, puis le mot Index. */
 .index-title {
   display: flex;
   align-items: baseline;
-  gap: 0.8rem;
+  gap: var(--espace-12);
   flex-wrap: wrap;
 }
 

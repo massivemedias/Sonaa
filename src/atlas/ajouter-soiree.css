@@ -2,7 +2,7 @@
    (cal-feuille), et n'apporte que ses champs. */
 .aj-form {
   display: grid;
-  gap: 0.9rem;
+  gap: var(--espace-16);
 }
 .aj-intro {
   margin: 0;
@@ -12,7 +12,7 @@
 }
 .aj-champ {
   display: grid;
-  gap: 0.3rem;
+  gap: var(--espace-4);
   font-size: 0.78rem;
   color: var(--ink-secondary);
 }
@@ -20,7 +20,7 @@
 .aj-champ textarea {
   box-sizing: border-box;
   width: 100%;
-  padding: 0.55rem 0.75rem;
+  padding: var(--espace-8) var(--espace-12);
   border: var(--rule-width) solid var(--rule-hairline);
   border-radius: 10px;
   background: var(--surface-margin);
@@ -35,13 +35,13 @@
 .aj-deux {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.7rem;
+  gap: var(--espace-12);
 }
 
 /* L'affiche : un apercu en 4/5, les actions a cote. */
 .aj-affiche {
   display: flex;
-  gap: 0.8rem;
+  gap: var(--espace-12);
   align-items: flex-start;
 }
 .aj-affiche-apercu,
@@ -58,7 +58,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.4rem;
+  gap: var(--espace-8);
 }
 .aj-aide {
   font-size: 0.72rem;
@@ -67,15 +67,15 @@
 
 .aj-pied {
   display: flex;
-  gap: 0.6rem;
+  gap: var(--espace-8);
   align-items: center;
-  margin-top: 0.3rem;
+  margin-top: var(--espace-4);
 }
 .aj-principal,
 .aj-secondaire {
   display: inline-flex;
   align-items: center;
-  padding: 0.55rem 1.1rem;
+  padding: var(--espace-8) var(--espace-16);
   border-radius: 999px;
   font: inherit;
   font-size: 0.88rem;
@@ -106,11 +106,20 @@
 }
 .aj-connexion {
   display: grid;
-  gap: 0.9rem;
+  gap: var(--espace-16);
   justify-items: start;
   font-size: 0.9rem;
   line-height: 1.5;
 }
 .aj-connexion p {
   margin: 0;
+}
+
+/* Sous 900 px, les deux boutons du pied font 44 px de haut : ce sont des
+   cibles. */
+@media (max-width: 899px) {
+  .aj-principal,
+  .aj-secondaire {
+    min-height: 44px;
+  }
 }

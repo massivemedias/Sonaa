@@ -11,7 +11,7 @@
 }
 .admin-table th,
 .admin-table td {
-  padding: 0.5rem 0.6rem;
+  padding: var(--espace-8);
   text-align: left;
   vertical-align: top;
   border-bottom: var(--rule-width) solid var(--rule-hairline);
@@ -26,8 +26,8 @@
 }
 
 .admin-etiquette {
-  margin-left: 0.5rem;
-  padding: 0.1rem 0.45rem;
+  margin-left: var(--espace-8);
+  padding: 2px var(--espace-8);
   border-radius: 999px;
   background: var(--ink-primary);
   color: var(--surface-plate);
@@ -39,12 +39,13 @@
 .admin-noms {
   columns: 3 14rem;
   margin: 0;
-  padding-left: 1.2rem;
+  padding-left: var(--espace-16);
 }
 .admin-noms li {
-  padding: 0.15rem 0;
+  padding: 2px 0;
 }
 
+/* Un bouton qui se lit comme un lien, dans une phrase : pas une cible a part. */
 .admin-lien {
   padding: 0;
   border: 0;

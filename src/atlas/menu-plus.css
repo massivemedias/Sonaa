@@ -20,8 +20,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.2rem;
+  gap: var(--espace-4);
   min-width: 0;
+  /* 44 PX, COMME LES QUATRE AUTRES ONGLETS de la barre du bas. */
+  min-height: 44px;
   padding: 0;
   border: 0;
   background: none;
@@ -29,6 +31,10 @@
   font-family: var(--font-ui);
   font-size: 0.66rem;
   font-weight: 600;
+  /* L'INTERLIGNE DE LA PAGE, comme les quatre onglets qui sont des liens :
+     un bouton prend celui du navigateur, et son libelle tombait deux pixels
+     plus bas que les autres. */
+  line-height: inherit;
   letter-spacing: var(--serrage-ui);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -40,13 +46,13 @@
   white-space: nowrap;
 }
 /* Ouvert, il s'allume comme l'onglet courant s'allume : la pastille se
-   remplit du degrade. C'est le meme signe pour le meme etat. */
+   remplit de l'accent. C'est le meme signe pour le meme etat. */
 .menu-plus-bouton[aria-expanded='true'] {
   color: var(--ink-primary);
 }
 .menu-plus-bouton[aria-expanded='true'] .barre-bas-pastille {
-  background: var(--degrade);
-  color: var(--sur-degrade);
+  background: var(--accent);
+  color: var(--sur-accent);
 }
 
 /* ═══ LE PANNEAU S'OUVRE VERS LE HAUT ═══
@@ -57,8 +63,8 @@
    a droite et qu'un panneau ancre a gauche sortirait par l'autre bord. */
 .menu-plus-panneau {
   position: absolute;
-  bottom: calc(100% + 0.6rem);
-  right: -0.3rem;
+  bottom: calc(100% + var(--espace-8));
+  right: calc(-1 * var(--espace-4));
   /* AU-DESSUS DU BANDEAU D'INSTALLATION, qui vit en 70 et occupait la place
      ou ce panneau s'ouvre : vu a l'ecran le 22 septembre 2026, ses trois
      derniers liens passaient dessous. Un menu qu'on vient d'ouvrir soi-meme
@@ -67,17 +73,16 @@
   display: flex;
   flex-direction: column;
   min-width: 13rem;
-  padding: 0.5rem;
+  padding: var(--espace-8);
   border-radius: 18px;
-  background: var(--panneau-96);
-  backdrop-filter: var(--verre-flou);
-  -webkit-backdrop-filter: var(--verre-flou);
-  border: 1px solid var(--verre-bord-fort);
-  box-shadow: var(--ombre-carte);
+  /* La matiere, le filet et l'ombre vers le haut viennent de design/verre.css. */
 }
 
 .menu-plus-lien {
-  padding: 0.7rem 0.9rem;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: var(--espace-12) var(--espace-16);
   border-radius: 12px;
   color: var(--ink-secondary);
   font-family: var(--font-ui);
@@ -86,14 +91,18 @@
   white-space: nowrap;
   transition: background 160ms ease, color 160ms ease;
 }
-.menu-plus-lien:hover,
-.menu-plus-lien[aria-current='page'] {
+.menu-plus-lien:hover {
   color: var(--ink-primary);
   background: var(--voile-1);
+}
+/* La page courante porte l'accent, dans l'encre qui va dessus. */
+.menu-plus-lien[aria-current='page'] {
+  color: var(--sur-accent);
+  background: var(--accent);
 }
 
 .menu-plus-filet {
   height: 1px;
-  margin: 0.4rem 0.5rem;
-  background: var(--verre-bord);
+  margin: var(--espace-8);
+  background: var(--filet);
 }

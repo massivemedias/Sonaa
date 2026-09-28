@@ -7,7 +7,7 @@
   z-index: 30;
   display: grid;
   place-items: center;
-  padding: 1.5rem;
+  padding: var(--espace-24);
   font-family: var(--font-ui);
   /* LE FOND DOIT COUPER LA CARTE, PAS LA TAMISER.
      Mesuré sur capture au premier chargement : à 0,86 d'opacité, les noms de
@@ -16,12 +16,10 @@
      phrases, et la liste des quatorze familles se mélangeait aux labels
      derrière elle. C'est la première chose que voit un visiteur, et elle se
      lisait comme un écran encombré.
-     Deux corrections, ensemble : opacité portée à 0,94, et flou du fond, qui
-     retire aux mots leur forme sans effacer la carte. La même raison avait
-     déjà fait cacher la légende d'aide pendant l'accueil. */
-  background: var(--panneau-94);
-  backdrop-filter: blur(14px) saturate(0.85);
-  -webkit-backdrop-filter: blur(14px) saturate(0.85);
+     Depuis ADR-089 le rideau n'est plus floute, l'opacite passe donc a 0,98
+     et c'est elle seule qui coupe la carte. La même raison avait déjà fait
+     cacher la légende d'aide pendant l'accueil. */
+  background: var(--panneau-98);
   animation: welcome-in 240ms var(--motion-ease);
 }
 
@@ -36,7 +34,7 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
+  gap: var(--espace-16);
 }
 
 .welcome-name {
@@ -59,7 +57,7 @@
 .welcome-families {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem 1rem;
+  gap: var(--espace-4) var(--espace-16);
   list-style: none;
   margin: 0;
   padding: 0;
@@ -73,7 +71,7 @@
 .welcome-families li {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: var(--espace-8);
 }
 
 .welcome-dot {
@@ -86,11 +84,11 @@
 .welcome-keys {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 0.4rem 1rem;
+  gap: var(--espace-8) var(--espace-16);
   margin: 0;
   font-size: 0.8125rem;
   border-top: 1px solid var(--rule-hairline);
-  padding-top: 1rem;
+  padding-top: var(--espace-16);
 }
 
 .welcome-keys dt {
@@ -113,7 +111,7 @@
   color: var(--fond);
   background: var(--ink-primary);
   border: 0;
-  padding: 0.6rem 1.6rem;
+  padding: var(--espace-8) var(--espace-24);
   cursor: pointer;
   min-height: 44px;
 }
@@ -121,18 +119,18 @@
 @media (max-width: 700px) {
   .welcome {
     place-items: end stretch;
-    padding: 1.1rem;
-    padding-bottom: max(1.1rem, env(safe-area-inset-bottom));
+    padding: var(--espace-16);
+    padding-bottom: max(var(--espace-16), env(safe-area-inset-bottom));
   }
   .welcome-name {
     letter-spacing: var(--serrage);
   }
   .welcome-keys {
     grid-template-columns: 1fr;
-    gap: 0.15rem;
+    gap: var(--espace-4);
   }
   .welcome-keys dd {
-    margin-bottom: 0.4rem;
+    margin-bottom: var(--espace-8);
   }
   .welcome-go {
     align-self: stretch;
@@ -162,7 +160,7 @@
 /* --- Le choix de la vue (ADR-043) ----------------------------------------- */
 
 .welcome-choose {
-  margin: 1.4rem 0 0.6rem;
+  margin: var(--espace-24) 0 var(--espace-8);
   font-size: 0.8125rem;
   color: var(--ink-secondary);
   letter-spacing: var(--serrage);
@@ -171,14 +169,14 @@
 .welcome-views {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 0.6rem;
+  gap: var(--espace-8);
 }
 
 .welcome-view {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  padding: 0.7rem 0.8rem;
+  gap: var(--espace-4);
+  padding: var(--espace-12);
   background: var(--rideau-6);
   border: 1px solid var(--rule-hairline);
   color: var(--ink-primary);
@@ -219,21 +217,21 @@
    recule d'un cran sans disparaitre, elle reste utile a qui veut savoir de
    quoi il s'agit exactement. */
 .welcome-accroche {
-  margin: 0 0 0.5rem;
+  margin: 0 0 var(--espace-8);
   max-width: 46ch;
 }
 .welcome-accroche p {
-  margin: 0 0 0.28rem;
+  margin: 0 0 var(--espace-4);
   font-size: clamp(1.02rem, 2.1vw, 1.28rem);
   line-height: 1.45;
   color: var(--voile-92);
 }
 /* La derniere ligne porte le contenu factuel, elle peut respirer un peu. */
 .welcome-accroche p:last-of-type {
-  margin-block-start: 0.55rem;
+  margin-block-start: var(--espace-8);
 }
 .welcome-signature {
-  margin-block-start: 0.7rem !important;
+  margin-block-start: var(--espace-12) !important;
   font-size: 0.78rem !important;
   letter-spacing: var(--serrage);
   text-transform: uppercase;

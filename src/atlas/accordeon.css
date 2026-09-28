@@ -26,20 +26,22 @@
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid var(--voile-08);
-  padding-right: calc(var(--authb-reserve, 126px) + 0.6rem);
+  /* 126px est le repli de la largeur mesuree du bouton de compte : une
+     taille lue a l'ecran, pas un pas d'espacement. */
+  padding-right: calc(var(--authb-reserve, 126px) + var(--espace-8));
 }
 .ac-chrome .sitenav {
-  padding: 0 0.9rem 0.4rem;
+  padding: 0 var(--espace-16) var(--espace-8);
 }
 
 .ac-fil {
   flex: none;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--espace-8);
   min-height: 3rem;
   box-sizing: border-box;
-  padding: calc(0.6rem + env(safe-area-inset-top, 0px)) 0.9rem 0.5rem;
+  padding: calc(var(--espace-8) + env(safe-area-inset-top, 0px)) var(--espace-16) var(--espace-8);
 }
 .ac-retour {
   flex: none;
@@ -82,7 +84,7 @@
   min-width: 0;
   box-sizing: border-box;
   height: 34px;
-  padding: 0 0.7rem;
+  padding: 0 var(--espace-12);
   border: 1px solid var(--voile-14);
   border-radius: 17px;
   background: var(--leve-3);
@@ -114,35 +116,36 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  padding: 0 0.9rem calc(3rem + env(safe-area-inset-bottom, 0px));
+  padding: 0 var(--espace-16) calc(var(--espace-48) + env(safe-area-inset-bottom, 0px));
 }
 /* LE BANDEAU D'INSTALLATION est fixe en bas et flotte au-dessus de tout.
    Ici rien n'est perdu, la vue defile, mais sans cette reserve les dernieres
    lignes resteraient inatteignables sous lui. */
 body:has(.pwa-bandeau) .ac-corps {
+  /* 9 rem est la hauteur du bandeau d'installation : une taille reservee, pas un pas. */
   padding-bottom: calc(9rem + env(safe-area-inset-bottom, 0px));
 }
 .ac-compte {
-  margin: 0.8rem 0 0;
+  margin: var(--espace-12) 0 0;
   font-size: 0.78rem;
   color: var(--encre-douce-2);
 }
 
 .ac-famille {
-  margin: 1.4rem 0 0;
+  margin: var(--espace-24) 0 0;
 }
 .ac-famille-titre {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin: 0 0 0.35rem;
+  gap: var(--espace-8);
+  margin: 0 0 var(--espace-4);
   /* L'en-tete de famille reste visible pendant qu'on descend dans ses
      genres : sans lui, quinze niveaux plus bas, on ne sait plus dans quelle
      famille on se trouve. */
   position: sticky;
   top: 0;
   z-index: 1;
-  padding: 0.45rem 0;
+  padding: var(--espace-8) 0;
   background: var(--plaque);
   font-size: 0.95rem;
   font-weight: 600;
@@ -171,11 +174,11 @@ body:has(.pwa-bandeau) .ac-corps {
 .ac-ligne {
   display: flex;
   align-items: center;
-  gap: 0.15rem;
+  gap: var(--espace-4);
   /* LE DECALAGE EST PLAFONNE : au dela du sixieme niveau, un pas complet
      pousserait les noms hors de l'ecran sur un telephone de 320 px. Le pas
      retrecit au lieu de disparaitre, la hierarchie reste donc lisible. */
-  padding-left: calc(min(var(--ac-niveau), 6) * 0.85rem + max(var(--ac-niveau) - 6, 0) * 0.3rem);
+  padding-left: calc(min(var(--ac-niveau), 6) * var(--espace-16) + max(var(--ac-niveau) - 6, 0) * var(--espace-4));
   position: relative;
 }
 /* Le trait vertical qui relie un enfant a son parent. Il part du bord gauche
@@ -184,7 +187,7 @@ body:has(.pwa-bandeau) .ac-corps {
 .ac-ligne::before {
   content: '';
   position: absolute;
-  left: calc(min(var(--ac-niveau), 6) * 0.85rem + max(var(--ac-niveau) - 6, 0) * 0.3rem - 0.42rem);
+  left: calc(min(var(--ac-niveau), 6) * var(--espace-16) + max(var(--ac-niveau) - 6, 0) * var(--espace-4) - var(--espace-8));
   top: 0;
   bottom: 0;
   width: 1px;
@@ -214,7 +217,7 @@ body:has(.pwa-bandeau) .ac-corps {
 .ac-nom {
   flex: 0 1 auto;
   min-width: 0;
-  padding: 0.32rem 0;
+  padding: var(--espace-4) 0;
   border: 0;
   background: none;
   color: inherit;
@@ -232,8 +235,8 @@ body:has(.pwa-bandeau) .ac-corps {
 }
 .ac-poids {
   flex: none;
-  margin-left: 0.45rem;
-  padding: 0 0.4rem;
+  margin-left: var(--espace-8);
+  padding: 0 var(--espace-8);
   border-radius: 8px;
   background: oklch(var(--lt-70) 0.15 var(--ac-hue) / 0.16);
   color: oklch(var(--lt-78) 0.06 var(--ac-hue));
@@ -250,7 +253,38 @@ body:has(.pwa-bandeau) .ac-corps {
 
 @media (min-width: 900px) {
   .ac-corps {
-    padding-left: max(0.9rem, calc((100vw - 900px) / 2));
-    padding-right: max(0.9rem, calc((100vw - 900px) / 2));
+    /* 900px est la largeur de la colonne de lecture : une taille, pas un pas. */
+    padding-left: max(var(--espace-16), calc((100vw - 900px) / 2));
+    padding-right: max(var(--espace-16), calc((100vw - 900px) / 2));
+  }
+}
+
+/* === CIBLES TACTILES SOUS 900 PX === Le retour et le triangle de repli, qui
+   ne portent qu'un signe, font 44 px de cote ; la case vide qui remplace le
+   triangle prend la meme largeur pour que les noms restent alignes. Le logo
+   et chaque nom font 44 px de haut, l'image du logo garde ses 26 px. */
+@media (max-width: 899px) {
+  .ac-retour {
+    width: 44px;
+    height: 44px;
+  }
+  .ac-logo {
+    display: flex;
+    align-items: center;
+    height: auto;
+    min-height: 44px;
+  }
+  .ac-logo img {
+    height: 26px;
+  }
+  .ac-plier {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .ac-nom {
+    min-height: 44px;
+  }
+  .ac-filtre {
+    min-height: 44px;
   }
 }

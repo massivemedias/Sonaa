@@ -28,28 +28,28 @@
      lisent le meme jeton. */
   padding-left: max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2));
   padding-right: max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2));
-  padding-top: 3rem;
-  padding-bottom: 4rem;
+  padding-top: var(--espace-48);
+  padding-bottom: var(--espace-64);
   font-family: var(--font-ui);
   color: var(--ink-primary);
-  /* LE MEME FOND QUE `body`, et non `--plaque` : depuis la v2 la pilule du
-     haut et la barre du bas sont en verre, et deux fonds differents sous un
-     verre se voient a la jointure. */
-  background: var(--surface-plate);
+  /* PAS DE FOND : celui de body et son grain se voient a travers. Un fond
+     ici cacherait le grain sur toutes les pages document. */
+  background: transparent;
 }
 
 .credits-skip {
   position: absolute;
+  /* Hors ecran jusqu'au focus : ce n'est pas un decalage de mise en page. */
   left: -999px;
 }
 
 .credits-skip:focus {
-  left: 1rem;
-  top: 1rem;
+  left: var(--espace-16);
+  top: var(--espace-16);
   z-index: 10;
   background: var(--ink-primary);
   color: var(--fond);
-  padding: 0.4rem 0.8rem;
+  padding: var(--espace-8) var(--espace-12);
 }
 
 /* LA COLONNE DE LECTURE COMMENCE OU COMMENCE LE LOGO.
@@ -122,11 +122,11 @@
   display: block;
 }
 
-/* LE TITRE PORTE LE DEGRADE, DEPUIS LA V2 : c'est la signature du prototype
-   choisi le 21 septembre 2026, un titre qui va du blanc au violet puis au
-   ciel. Declare ici pour toutes les pages qui partagent cet en-tete. */
+/* LE TITRE EST EN ENCRE PLEINE, DEPUIS ADR-089 : le degrade de la v2 est
+   parti avec le mauve. Declare ici pour toutes les pages qui partagent cet
+   en-tete. */
 .credits-head h1 {
-  margin: 1.6rem 0 0.3rem;
+  margin: var(--espace-24) 0 var(--espace-4);
   font-size: var(--titre-section);
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -135,7 +135,7 @@
 }
 
 .credits-lede {
-  margin: 0 0 2.2rem;
+  margin: 0 0 var(--espace-32);
   /* 14 px et non 15 : demande de Mika apres l'avoir vu sur son telephone,
      une fois le chapeau rendu a sa vraie largeur. */
   font-size: 0.875rem;
@@ -144,11 +144,11 @@
 }
 
 .credits-body section {
-  margin-bottom: 2rem;
+  margin-bottom: var(--espace-32);
 }
 
 .credits-body h2 {
-  margin: 0 0 0.6rem;
+  margin: 0 0 var(--espace-8);
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: var(--serrage);
@@ -157,7 +157,7 @@
 }
 
 .credits-body p {
-  margin: 0 0 0.7rem;
+  margin: 0 0 var(--espace-12);
   font-size: 0.9375rem;
   font-weight: 400;
   line-height: 1.65;
@@ -169,7 +169,7 @@
 
 .credits-body ul {
   list-style: none;
-  margin: 0 0 0.7rem;
+  margin: 0 0 var(--espace-12);
   padding: 0;
   font-size: 0.9375rem;
   line-height: 1.9;
@@ -189,13 +189,13 @@
 .credits-families {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.3rem 1.1rem;
+  gap: var(--espace-4) var(--espace-16);
 }
 
 .credits-families li {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: var(--espace-8);
 }
 
 .credits-dot {
@@ -207,8 +207,8 @@
 
 .credits-foot {
   display: flex;
-  gap: 1.4rem;
-  padding-top: 1.4rem;
+  gap: var(--espace-24);
+  padding-top: var(--espace-24);
   border-top: 1px solid var(--rule-hairline);
 }
 
@@ -245,8 +245,8 @@
    n'ont jamais été appliquées. Personne ne pouvait s'en apercevoir, le bloc
    étant resté vide depuis sa pose. */
 .apropos-voix {
-  margin-block-start: 0.9rem;
-  padding-inline-start: 0.9rem;
+  margin-block-start: var(--espace-16);
+  padding-inline-start: var(--espace-16);
   border-inline-start: 2px solid var(--voile-24);
   /* LONGUEUR DE LIGNE. La colonne de la page fait 38 rem, ce qui donnait 81
      signes par ligne : au-dessus de la fourchette confortable, et l'oeil perd
@@ -258,7 +258,7 @@
   font-style: italic;
   color: var(--voile-84);
   /* Quatre paragraphes collés se lisent comme un seul. */
-  margin-block-end: 0.85rem;
+  margin-block-end: var(--espace-16);
 }
 
 .apropos-voix p:last-child {
@@ -270,5 +270,16 @@
    au-dessus du pied et non en dessous. */
 .credits > .pied {
   margin-top: auto;
+}
+
+/* CIBLES TACTILES : sous 900 px, le bouton et les liens-boutons du pied de
+   page font au moins 44 px de haut. */
+@media (max-width: 899px) {
+  .credits-replay,
+  .credits-foot a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
 }
 

@@ -71,7 +71,7 @@ export function appliquerTheme(t: Theme): void {
   /* LA BARRE DU NAVIGATEUR SUIT AUSSI, sur telephone. Sans cela, un site
      clair garde une barre d'adresse noire, et la jointure se voit. */
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute('content', t === 'clair' ? '#f7f6f5' : '#0a0c10');
+  if (meta) meta.setAttribute('content', t === 'clair' ? '#f8f1e3' : '#1e1a14');
 }
 
 /** Range le choix et l'applique. */

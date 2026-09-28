@@ -39,6 +39,7 @@ export function ChoixLangue() {
         onClick={() => choisirLangue(code)}
         aria-current={actif ? 'true' : undefined}
         data-actif={actif}
+        data-courante={langue === code}
         lang={code}
         title={libelle}
         aria-label={libelle}

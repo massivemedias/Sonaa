@@ -8,11 +8,11 @@
 
 /* ═══ LA MANCHETTE ═══ */
 .news-manchette {
-  margin: 0 0 1rem;
-  padding-bottom: 0.9rem;
-  border-bottom: 1px solid var(--verre-bord);
+  margin: 0 0 var(--espace-16);
+  padding-bottom: var(--espace-16);
+  border-bottom: 1px solid var(--filet);
 }
-/* Le titre porte le degrade de la v2, comme tous les titres de section. */
+/* Le titre est en encre pleine, comme tous les titres de section. */
 .news-manchette h1 {
   margin: 0;
   font-size: var(--titre-section);
@@ -22,7 +22,7 @@
   color: var(--ink-primary);
 }
 .news-edition {
-  margin: 0.2rem 0 0.6rem;
+  margin: var(--espace-4) 0 var(--espace-8);
   font-size: 0.78rem;
   letter-spacing: var(--serrage-ui);
   text-transform: uppercase;
@@ -41,12 +41,12 @@
 .news-filtres {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 0 0 1.6rem;
+  gap: var(--espace-8);
+  margin: 0 0 var(--espace-24);
 }
 .news-filtre {
-  padding: 0.4rem 0.95rem;
-  border: 1px solid var(--verre-bord);
+  padding: var(--espace-8) var(--espace-16);
+  border: 1px solid var(--filet);
   border-radius: var(--rayon-pilule);
   background: var(--verre-fond);
   color: var(--ink-secondary);
@@ -56,13 +56,13 @@
   transition: background 160ms ease, color 160ms ease;
 }
 .news-filtre-actif {
-  color: var(--sur-degrade);
-  background: var(--degrade);
+  color: var(--sur-accent);
+  background: var(--accent);
   border-color: transparent;
 }
 
 .news-note {
-  margin: 0.8rem 0;
+  margin: var(--espace-12) 0;
   font-size: 0.85rem;
   color: var(--ink-secondary);
 }
@@ -71,7 +71,7 @@
 .news-lien {
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
+  gap: var(--espace-8);
   color: inherit;
   text-decoration: none;
   border-bottom: 0;
@@ -97,12 +97,12 @@
 .news-corps {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: var(--espace-4);
   min-width: 0;
 }
 .news-sur {
   display: flex;
-  gap: 0.6rem;
+  gap: var(--espace-8);
   align-items: baseline;
   font-size: 0.7rem;
   letter-spacing: var(--serrage-ui);
@@ -129,9 +129,9 @@
 .news-tete {
   display: grid;
   grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
-  gap: 2rem;
-  padding-bottom: 1.6rem;
-  margin-bottom: 1.6rem;
+  gap: var(--espace-32);
+  padding-bottom: var(--espace-24);
+  margin-bottom: var(--espace-24);
   border-bottom: var(--rule-width) solid var(--rule-hairline);
 }
 .news-une .news-titre {
@@ -145,22 +145,22 @@
   max-width: 62ch;
 }
 .news-une .news-corps {
-  gap: 0.5rem;
-  margin-top: 0.3rem;
+  gap: var(--espace-8);
+  margin-top: var(--espace-4);
 }
 .news-enbref {
   border-left: var(--rule-width) solid var(--rule-hairline);
-  padding-left: 1.4rem;
+  padding-left: var(--espace-24);
 }
 
 /* ═══ LES RUBRIQUES ═══ */
 .news-rubrique {
-  padding-bottom: 1.6rem;
-  margin-bottom: 1.6rem;
+  padding-bottom: var(--espace-24);
+  margin-bottom: var(--espace-24);
   border-bottom: var(--rule-width) solid var(--rule-hairline);
 }
 .news-rubrique-titre {
-  margin: 0 0 1rem;
+  margin: 0 0 var(--espace-16);
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: var(--serrage-ui);
@@ -186,7 +186,7 @@
 .news-grand .news-lien {
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-  gap: 1.4rem;
+  gap: var(--espace-24);
   align-items: start;
 }
 .news-grand .news-titre {
@@ -201,20 +201,18 @@
 .news-cartes {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.4rem;
-  margin-top: 1.6rem;
+  gap: var(--espace-24);
+  margin-top: var(--espace-24);
 }
-/* ═══ LES CARTES SONT EN VERRE, DEPUIS LA V2 ═══ Un rayon de carte, un
-   voile, une ombre, un soulevement au survol : la grammaire du prototype. */
+/* ═══ LES CARTES SONT EN VERRE ═══ La recette (fond, flou, filet interieur)
+   vit dans design/verre.css. Ici, un rayon de carte et un soulevement au
+   survol. */
 .news-carte,
 .news-grand,
 .news-une {
-  padding: 1rem;
+  padding: var(--espace-16);
   border-radius: var(--rayon-carte);
-  background: var(--verre-fond);
-  border: 1px solid var(--verre-bord);
-  box-shadow: var(--ombre-carte);
-  transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 400ms ease;
+  transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 400ms ease;
 }
 .news-carte .news-image,
 .news-grand .news-image,
@@ -227,9 +225,9 @@
   .news-grand:hover,
   .news-une:hover {
     transform: translateY(-6px);
-    /* VIOLET ET NON CYAN depuis le 22 septembre 2026 : c'etait la derniere
-       trace de bleu du site, et seule elle aurait eu l'air d'un oubli. */
-    border-color: oklch(0.61 0.22 293 / 0.4);
+    /* LE SURVOL ECLAIRCIT LE VERRE, sans filet colore : le mauve est parti
+       le 28 septembre 2026 avec le reste de la v2. */
+    --verre-fond: var(--verre-fond-survol);
   }
 }
 .news-carte .news-titre {
@@ -246,18 +244,18 @@
 /* Les breves : du texte en deux colonnes, un filet entre chaque. */
 .news-breves {
   list-style: none;
-  margin: 1.4rem 0 0;
+  margin: var(--espace-24) 0 0;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 2rem;
+  column-gap: var(--espace-32);
 }
 .news-breve {
-  padding: 0.7rem 0;
+  padding: var(--espace-12) 0;
   border-top: var(--rule-width) solid var(--rule-hairline);
 }
 .news-breve .news-lien {
-  gap: 0.3rem;
+  gap: var(--espace-4);
 }
 .news-breve .news-titre {
   font-size: 1rem;
@@ -278,28 +276,28 @@
 
 /* ═══ LES SOURCES ═══ Une case par site, la porte vers lui. */
 .news-sources {
-  margin-top: 1rem;
-  padding-top: 1.6rem;
+  margin-top: var(--espace-16);
+  padding-top: var(--espace-24);
   border-top: 2px solid var(--ink-primary);
 }
 .news-sources h2 {
-  margin: 0 0 0.3rem;
+  margin: 0 0 var(--espace-4);
   font-size: 1.15rem;
 }
 .news-sources-liste {
   list-style: none;
-  margin: 1rem 0 0;
+  margin: var(--espace-16) 0 0;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 0.8rem;
+  gap: var(--espace-12);
 }
+/* La case est en verre : design/verre.css porte son fond et son filet. */
 .news-source-carte {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
-  padding: 0.9rem 1rem;
-  border: var(--rule-width) solid var(--rule-hairline);
+  gap: var(--espace-4);
+  padding: var(--espace-16);
   border-radius: 12px;
 }
 .news-source-nom {
@@ -321,8 +319,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 0.5rem;
-  margin-top: 0.3rem;
+  gap: var(--espace-8);
+  margin-top: var(--espace-4);
   font-size: 0.72rem;
   color: var(--ink-secondary);
 }
@@ -331,7 +329,7 @@
   text-transform: uppercase;
 }
 .news-source-filtrer {
-  padding: 0.2rem 0.6rem;
+  padding: var(--espace-4) var(--espace-8);
   border: var(--rule-width) solid var(--rule-hairline);
   border-radius: 999px;
   background: none;
@@ -351,7 +349,7 @@
 @media (max-width: 760px) {
   .news-tete {
     grid-template-columns: 1fr;
-    gap: 1.4rem;
+    gap: var(--espace-24);
   }
   .news-enbref {
     border-left: 0;
@@ -362,14 +360,14 @@
   }
   .news-grand .news-lien {
     grid-template-columns: 1fr;
-    gap: 0.7rem;
+    gap: var(--espace-12);
   }
   .news-grand .news-titre {
     font-size: 1.25rem;
   }
   .news-cartes {
     grid-template-columns: 1fr;
-    gap: 1.2rem;
+    gap: var(--espace-16);
   }
   .news-breves {
     grid-template-columns: 1fr;
@@ -410,8 +408,8 @@
   display: grid;
   grid-template-columns: minmax(0, 72ch);
   justify-content: center;
-  gap: 2.5rem;
-  margin-bottom: 3rem;
+  gap: var(--espace-32);
+  margin-bottom: var(--espace-48);
 }
 
 @media (min-width: 1080px) {
@@ -427,11 +425,11 @@
   min-width: 0;
 }
 .lecture-retour {
-  margin: 0 0 1.4rem;
+  margin: 0 0 var(--espace-24);
   font-size: 0.85rem;
 }
 .lecture-titre {
-  margin: 0.4rem 0 1rem;
+  margin: var(--espace-8) 0 var(--espace-16);
   font-size: 2.1rem;
   font-weight: 700;
   line-height: 1.12;
@@ -465,35 +463,35 @@
   max-height: var(--plafond-image);
   object-fit: contain;
   object-position: left center;
-  margin: 1.2rem 0;
+  margin: var(--espace-16) 0;
   border-radius: 6px;
   background: var(--surface-margin);
 }
 .lecture p {
   font-size: 1.08rem;
   line-height: 1.65;
-  margin: 0 0 1.1rem;
+  margin: 0 0 var(--espace-16);
 }
 .lecture h2 {
-  margin: 2rem 0 0.7rem;
+  margin: var(--espace-32) 0 var(--espace-12);
   font-size: 1.4rem;
   line-height: 1.2;
 }
 .lecture h3 {
-  margin: 1.6rem 0 0.5rem;
+  margin: var(--espace-24) 0 var(--espace-8);
   font-size: 1.15rem;
 }
 .lecture blockquote {
-  margin: 1.4rem 0;
-  padding-left: 1.2rem;
+  margin: var(--espace-24) 0;
+  padding-left: var(--espace-16);
   border-left: 3px solid var(--rule-hairline);
   color: var(--ink-secondary);
   font-size: 1.05rem;
   line-height: 1.55;
 }
 .lecture-source {
-  margin-top: 2.4rem;
-  padding-top: 1.2rem;
+  margin-top: var(--espace-32);
+  padding-top: var(--espace-16);
   border-top: 2px solid var(--ink-primary);
   font-weight: 600;
 }
@@ -509,7 +507,7 @@
    est un. Le bouton de suite est le seul élément plein de la page : c'est là
    qu'il faut aller, et nulle part ailleurs. */
 .lecture-haut-lien {
-  margin: 0 0 1.4rem;
+  margin: 0 0 var(--espace-24);
   font-size: 0.9rem;
 }
 .lecture-haut-lien a,
@@ -525,25 +523,25 @@
 /* L'avis de traduction : une ligne, en retrait, qui dit d'où vient le texte
    qu'on est en train de lire. */
 .lecture-avis {
-  margin: 0 0 1.2rem;
-  padding-left: 0.8rem;
+  margin: 0 0 var(--espace-16);
+  padding-left: var(--espace-12);
   border-left: 2px solid var(--rule-hairline);
   color: var(--ink-secondary);
   font-size: 0.85rem;
 }
 
 .lecture-suite {
-  margin-top: 2rem;
-  padding-top: 1.4rem;
+  margin-top: var(--espace-32);
+  padding-top: var(--espace-24);
   border-top: var(--rule-width) solid var(--rule-hairline);
 }
 .lecture-suite-mot {
-  margin: 0 0 1rem;
+  margin: 0 0 var(--espace-16);
   color: var(--ink-secondary);
 }
 .lecture-suite-bouton {
   display: inline-block;
-  padding: 0.7rem 1.4rem;
+  padding: var(--espace-12) var(--espace-24);
   border-radius: 999px;
   background: var(--ink-primary);
   color: var(--surface-plate);
@@ -565,27 +563,30 @@
 .lecture-colonne {
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
+  gap: var(--espace-24);
   min-width: 0;
 }
 
 @media (min-width: 1080px) {
   .lecture-colonne {
     position: sticky;
-    top: 5rem;
+    /* La hauteur de la pilule du haut, plus un pas : 80 px, comme avant. */
+    top: calc(var(--entete-h) + var(--espace-24));
   }
 }
 
+/* Un bloc de la colonne : un voile plat du theme, sans flou, avec un filet.
+   Il n'est pas sur la liste du verre : trois flous a l'ecran, c'est un de
+   trop. */
 .lc-bloc {
-  padding: 1.1rem 1.1rem 1.2rem;
+  padding: var(--espace-16);
   border-radius: var(--rayon-carte);
   background: var(--verre-fond);
-  border: 1px solid var(--verre-bord);
-  box-shadow: var(--ombre-carte);
+  border: 1px solid var(--filet);
 }
 
 .lc-titre {
-  margin: 0 0 0.9rem;
+  margin: 0 0 var(--espace-16);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -599,7 +600,7 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: var(--espace-4);
 }
 
 /* Une vignette, deux ou trois lignes de texte, et toute la surface cliquable.
@@ -608,12 +609,12 @@
 .lc-article,
 .lc-soiree {
   display: flex;
-  gap: 0.75rem;
+  gap: var(--espace-12);
   align-items: flex-start;
   width: 100%;
   box-sizing: border-box;
-  padding: 0.5rem;
-  margin: 0 -0.5rem;
+  padding: var(--espace-8);
+  margin: 0 calc(-1 * var(--espace-8));
   border: 0;
   border-radius: 14px;
   background: none;
@@ -644,7 +645,7 @@
 .lc-article-texte {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: var(--espace-4);
   min-width: 0;
 }
 
@@ -678,7 +679,7 @@
 }
 
 .lc-pied {
-  margin: 0.9rem 0 0;
+  margin: var(--espace-16) 0 0;
   font-size: 0.8rem;
 }
 .lc-pied a {
@@ -689,4 +690,35 @@
   color: var(--ink-primary);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* ═══ LES CIBLES TACTILES ═══ Sous 900 px, tout ce qui se touche fait au
+   moins 44 px de haut : les puces de rayon, le titre de rubrique qui filtre,
+   le bouton de source et le bouton de suite d'un article. Les liens isoles
+   (seuls dans leur case ou leur paragraphe) grandissent aussi ; les liens
+   dans une phrase ne sont pas concernes. */
+@media (max-width: 899px) {
+  .news-filtre,
+  .news-rubrique-bouton,
+  .news-source-filtrer,
+  .lecture-suite-bouton {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .news-source-nom,
+  .lecture-retour a,
+  .lecture-source-lien,
+  .lc-pied a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  /* Une breve et une ligne de la colonne sont des blocs cliquables : la
+     hauteur est garantie meme quand le titre tient sur une ligne ou que la
+     vignette, l'heure et le lieu manquent. */
+  .news-breve .news-lien,
+  .lc-article,
+  .lc-soiree {
+    min-height: 44px;
+  }
 }

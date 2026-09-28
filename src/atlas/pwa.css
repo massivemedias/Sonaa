@@ -14,20 +14,22 @@
      sure dans sa hauteur, d'ou le `max` plutot qu'une addition qui la
      compterait deux fois. */
   bottom: calc(
-    0.75rem + max(env(safe-area-inset-bottom, 0px), var(--barre-bas-h, 0px)) + var(--mini-h, 0px)
+    var(--espace-12) + max(env(safe-area-inset-bottom, 0px), var(--barre-bas-h, 0px)) + var(--mini-h, 0px)
   );
   z-index: 70;
 
   display: flex;
   align-items: center;
-  gap: 0.9rem;
+  gap: var(--espace-16);
   width: min(38rem, calc(100vw - 1.5rem));
-  padding: 0.7rem 0.9rem;
+  padding: var(--espace-12) var(--espace-16);
 
   background: var(--surface-raised);
   border: var(--rule-width) solid var(--rule-hairline);
   border-radius: 4px;
-  box-shadow: 0 0.75rem 2rem var(--rideau-45);
+  /* Le bandeau est pose en bas : son ombre part vers le haut, comme pour
+     tout ce qui est pose en bas. */
+  box-shadow: var(--ombre-flottante-haut);
 
   font-family: var(--font-ui);
   font-size: 0.82rem;
@@ -80,7 +82,7 @@ body:has(.hm) .pwa-bandeau {
 
 .pwa-actions {
   display: flex;
-  gap: 0.45rem;
+  gap: var(--espace-8);
   flex: 0 0 auto;
 }
 
@@ -89,7 +91,7 @@ body:has(.hm) .pwa-bandeau {
   /* Serres comme les titres et non comme le menu : ce sont deux mots pleins,
      pas une etiquette isolee. */
   letter-spacing: var(--serrage);
-  padding: 0.4rem 0.75rem;
+  padding: var(--espace-8) var(--espace-12);
   font-family: inherit;
   font-size: 0.78rem;
   font-weight: var(--weight-track);
@@ -124,7 +126,7 @@ body:has(.hm) .pwa-bandeau {
   justify-content: center;
   width: 1.35rem;
   height: 1.35rem;
-  margin: 0 0.15rem;
+  margin: 0 var(--espace-4);
   vertical-align: -0.3rem;
   border: var(--rule-width) solid var(--rule-hairline);
   border-radius: 3px;
@@ -139,7 +141,7 @@ body:has(.hm) .pwa-bandeau {
   .pwa-bandeau {
     flex-direction: column;
     align-items: stretch;
-    gap: 0.6rem;
+    gap: var(--espace-8);
     font-size: 0.8rem;
   }
 
@@ -147,10 +149,17 @@ body:has(.hm) .pwa-bandeau {
     justify-content: flex-end;
   }
 
-  /* Cibles tactiles : les mêmes 44 px que partout ailleurs. */
   .pwa-bouton,
   .pwa-bouton-principal {
-    min-height: 2.75rem;
-    padding-inline: 1rem;
+    padding-inline: var(--espace-16);
+  }
+}
+
+/* Cibles tactiles : les memes 44 px que partout ailleurs, sous 900 px et
+   plus seulement sous 560 px. */
+@media (max-width: 899px) {
+  .pwa-bouton,
+  .pwa-bouton-principal {
+    min-height: 44px;
   }
 }

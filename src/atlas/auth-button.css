@@ -37,9 +37,11 @@
      un seul bouton ; elle en porte trois, et c'est elle qui les aligne. */
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: var(--espace-12);
   position: fixed;
-  top: calc(14px + env(safe-area-inset-top, 0px));
+  /* CENTRE DANS LA BARRE DE 56 PX : (56 moins 36) sur deux, plus la zone de
+     securite. La barre et ce bouton lisent le meme jeton. */
+  top: calc((var(--entete-h) - 36px) / 2 + env(safe-area-inset-top, 0px));
   /* A GAUCHE DE LA COLONNE DU LECTEUR, ET NON DANS SON DOS.
 
      DEFAUT TROUVE AU DOIGT, le meme que trois fois deja : le bouton etait pose
@@ -51,7 +53,7 @@
 
      On le decale donc de la LARGEUR de la colonne, en lisant la meme valeur
      nommee qu'elle. Deux ecritures d'un meme nombre finissent par diverger. */
-  right: calc(var(--player-w, 0px) + 14px + env(safe-area-inset-right, 0px));
+  right: calc(var(--player-w, 0px) + var(--marge-page) + env(safe-area-inset-right, 0px));
   /* AU-DESSUS DE LA NAVIGATION PAR NIVEAUX, qui vit en 8, et de la colonne du
      lecteur, qui vit en 12. Une porte d'entree que quelque chose recouvre est
      une porte fermee. */
@@ -67,6 +69,11 @@
 }
 
 .authb-initiale {
+  display: none;
+}
+/* Sur ordinateur, « Se connecter » est un mot : l'icone ne sert qu'au
+   telephone, voir plus bas. */
+.authb-entrer-icone {
   display: none;
 }
 
@@ -123,13 +130,9 @@
 
 .authb-bouton {
   min-height: 36px;
-  padding: 0 0.9rem;
-  /* LA MEME MATIERE QUE LA PILULE DU HAUT, depuis la v2 : le bouton vit dans
-     la meme bande qu'elle, deux verres differents se verraient. */
-  background: var(--verre-fond-fort);
-  backdrop-filter: var(--verre-flou);
-  -webkit-backdrop-filter: var(--verre-flou);
-  border: 1px solid var(--verre-bord-fort);
+  padding: 0 var(--espace-16);
+  /* LA MATIERE EST CELLE DE LA BARRE, par design/verre.css : le bouton vit
+     dans la meme bande qu'elle, deux verres differents se verraient. */
   border-radius: var(--rayon-pilule);
   color: var(--ink-primary, var(--encre-2));
   font-size: 0.82rem;
@@ -159,21 +162,21 @@
 }
 
 .authb-bouton:hover {
-  border-color: var(--ink-secondary, var(--encre-douce));
+  --verre-fond: var(--verre-fond-survol);
 }
 
 .authb-menu {
   position: absolute;
-  top: calc(100% + 6px);
+  top: calc(100% + var(--espace-8));
   right: 0;
   min-width: 190px;
   display: flex;
   flex-direction: column;
-  padding: 4px;
+  padding: var(--espace-4);
   background: var(--fond, var(--plaque));
   border: 1px solid var(--rule-strong, var(--filet-fort));
   border-radius: 10px;
-  box-shadow: 0 12px 32px var(--rideau-45);
+  box-shadow: var(--ombre-flottante);
 }
 
 .authb-menu a,
@@ -181,7 +184,7 @@
   min-height: 40px;
   display: flex;
   align-items: center;
-  padding: 0 0.7rem;
+  padding: 0 var(--espace-12);
   background: transparent;
   border: 0;
   border-radius: 6px;
@@ -206,9 +209,8 @@
   z-index: 10;
   display: grid;
   place-items: center;
-  padding: 1rem;
+  padding: var(--espace-16);
   background: var(--rideau-6);
-  backdrop-filter: blur(3px);
 }
 
 .authb-panneau {
@@ -216,7 +218,7 @@
   width: min(26rem, 100%);
   max-height: 90dvh;
   overflow-y: auto;
-  padding: 1.4rem 1.3rem 1.1rem;
+  padding: var(--espace-24) var(--espace-24) var(--espace-16);
   background: var(--fond, var(--plaque));
   border: 1px solid var(--rule-strong, var(--filet-fort));
   border-radius: 14px;
@@ -225,8 +227,8 @@
 
 .authb-fermer {
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: var(--espace-8);
+  right: var(--espace-8);
   width: 44px;
   height: 44px;
   background: transparent;
@@ -237,12 +239,12 @@
 }
 
 .authb-panneau h2 {
-  margin: 0 0 0.3rem;
+  margin: 0 0 var(--espace-4);
   font-size: 1.1rem;
 }
 
 .authb-usage {
-  margin: 0 0 1rem;
+  margin: 0 0 var(--espace-16);
   color: var(--ink-secondary, var(--encre-douce));
   font-size: 0.88rem;
 }
@@ -266,8 +268,8 @@
 .authb-ou {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  margin: 1rem 0;
+  gap: var(--espace-8);
+  margin: var(--espace-16) 0;
   color: var(--ink-secondary, var(--encre-douce));
   font-size: 0.75rem;
 }
@@ -283,7 +285,7 @@
 .authb-panneau form {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: var(--espace-8);
 }
 
 .authb-panneau label {
@@ -293,7 +295,7 @@
 
 .authb-panneau input {
   min-height: 44px;
-  padding: 0 0.7rem;
+  padding: 0 var(--espace-12);
   background: var(--voile-05);
   border: 1px solid var(--rule-strong, var(--filet-fort));
   border-radius: 8px;
@@ -313,7 +315,7 @@
 
 .authb-parti,
 .authb-message {
-  margin: 0.8rem 0 0;
+  margin: var(--espace-12) 0 0;
   font-size: 0.85rem;
   line-height: 1.45;
 }
@@ -323,8 +325,8 @@
 }
 
 .authb-donnees {
-  margin: 1.1rem 0 0;
-  padding-top: 0.8rem;
+  margin: var(--espace-16) 0 0;
+  padding-top: var(--espace-12);
   border-top: 1px solid var(--rule-hairline, var(--filet));
   color: var(--ink-secondary, var(--encre-douce));
   font-size: 0.74rem;
@@ -345,16 +347,20 @@
      Il rejoint donc le seul endroit qui accueille deja des commandes sur
      telephone, l'en-tete, a droite. Le fil d'Ariane lui reserve sa place par
      une marge, plutot que de le laisser recouvrir la loupe. */
+  /* CENTRE DANS LA BARRE DE 56 PX, SUR LA GOUTTIERE : les ronds font 44 px,
+     (56 moins 44) sur deux donne le haut, et le bord droit est celui du
+     contenu, a la meme distance du bord que le logo a gauche. */
   .authb {
-    top: calc(8px + env(safe-area-inset-top, 0px));
-    right: calc(8px + env(safe-area-inset-right, 0px));
+    top: calc((var(--entete-h) - 44px) / 2 + env(safe-area-inset-top, 0px));
+    right: calc(var(--marge-page) + env(safe-area-inset-right, 0px));
     left: auto;
     bottom: auto;
     transform: none;
+    gap: var(--espace-4);
   }
 
   .authb-menu {
-    top: calc(100% + 6px);
+    top: calc(100% + var(--espace-8));
     bottom: auto;
     right: 0;
     transform: none;
@@ -394,13 +400,26 @@
     display: none;
   }
 
-  .authb-compte .authb-initiale {
-    display: block;
-  }
-  .authb-bouton.authb-compte-portrait,
-  .authb-bouton.authb-loupe {
+  /* SE CONNECTER, EN ROND : l'icone seule, le mot reste le nom du bouton. */
+  .authb-entrer {
+    display: grid;
+    place-items: center;
     width: 44px;
     height: 44px;
+    padding: 0;
+    border-radius: 50%;
+  }
+  .authb-entrer .authb-entrer-mot {
+    display: none;
+  }
+  .authb-entrer-icone {
+    display: block;
+    width: 15px;
+    height: 15px;
+  }
+
+  .authb-compte .authb-initiale {
+    display: block;
   }
   .authb-bouton.authb-compte-portrait .authb-initiale {
     display: none;
@@ -413,20 +432,20 @@
 .authb-deux {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.4rem;
-  margin-top: 0.3rem;
+  gap: var(--espace-8);
+  margin-top: var(--espace-4);
 }
 
 .authb-liens {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
-  margin-top: 0.5rem;
+  gap: var(--espace-4);
+  margin-top: var(--espace-8);
 }
 
 .authb-panneau form .authb-lien {
   min-height: 0;
-  padding: 0.25rem 0;
+  padding: var(--espace-4) 0;
   border: 0;
   background: none;
   color: var(--ink-secondary, var(--encre-douce));
@@ -443,26 +462,47 @@
   border: 0;
   color: var(--leve);
   font-weight: 500;
-  margin-top: 0.4rem;
+  margin-top: var(--espace-8);
 }
 .authb-creation .authb-message {
-  margin: 0 0 0.6rem;
+  margin: 0 0 var(--espace-8);
 }
 .authb-creation .authb-usage {
-  margin-bottom: 0.8rem;
+  margin-bottom: var(--espace-12);
 }
 
 /* LA CONFIRMATION, sous le coin du compte, le temps de la lire. */
 .authb-confirmation {
   position: fixed;
-  top: calc(var(--authb-top, 14px) + 48px);
-  right: 14px;
+  top: calc(var(--authb-top, var(--espace-16)) + var(--espace-48));
+  right: var(--espace-16);
   z-index: 12;
   margin: 0;
-  padding: 0.55rem 0.9rem;
+  padding: var(--espace-8) var(--espace-16);
   border-radius: 8px;
   background: var(--encre-5);
   color: var(--leve);
   font-size: 0.85rem;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--ombre-flottante);
+}
+
+/* ═══ CIBLES TACTILES SOUS 900 PX ═══ Tout ce qui se touche fait 44 px :
+   la pilule de compte, les deux ronds, les lignes du menu et les liens du
+   formulaire. Voir ADR-089. */
+@media (max-width: 899px) {
+  .authb-bouton {
+    min-height: 44px;
+  }
+  .authb-bouton.authb-compte-portrait,
+  .authb-bouton.authb-loupe {
+    width: 44px;
+    height: 44px;
+  }
+  .authb-menu a,
+  .authb-menu button {
+    min-height: 44px;
+  }
+  .authb-panneau form .authb-lien {
+    min-height: 44px;
+  }
 }

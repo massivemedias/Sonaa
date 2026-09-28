@@ -122,7 +122,7 @@ p {
 }
 
 :focus-visible {
-  outline: 2px solid var(--ink-primary);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
@@ -146,14 +146,14 @@ html {
    Mika, le 22 septembre 2026, devant les selecteurs du calendrier : « retirer
    le highlight bleu ». Trois endroits ou le navigateur peint son bleu :
    la selection de texte, les cases et curseurs (`accent-color`), et l'option
-   choisie d'un `select`. Les trois prennent le violet du site et une encre
-   inversee. Le contour de focus, lui, reste celui de base.css, en encre. */
+   choisie d'un `select`. Les trois prennent le terracotta du site et l'encre
+   qui se pose dessus. */
 :root {
-  accent-color: var(--accent-a);
+  accent-color: var(--accent);
 }
 ::selection {
-  background: var(--accent-a);
-  color: oklch(1 0 0);
+  background: var(--accent);
+  color: var(--sur-accent);
 }
 select option {
   background: var(--surface-raised);
@@ -161,8 +161,34 @@ select option {
 }
 select option:checked,
 select option:hover {
-  background: var(--accent-a);
-  color: oklch(1 0 0);
+  background: var(--accent);
+  color: var(--sur-accent);
+}
+
+
+/* ═══ LE GRAIN DE SABLE ═══
+
+   Le fond n'est pas un aplat : un bruit fractal tres fin, genere en SVG et
+   ecrit en ligne dans les jetons (`--grain`), repete en tuiles
+   de 200 px sous toute la page. Il est pose sur un pseudo-element FIXE, et
+   non en fond de `body`, pour deux raisons mesurees : `background-attachment:
+   fixed` est ignore par Safari sur iPhone, et un fond qui defile avec la page
+   fait scintiller le grain a chaque geste. Ici il ne bouge pas.
+
+   Il passe sous tout le contenu (`z-index: -1` dans le contexte de la racine)
+   et au-dessus de la couleur de `body`, qui se propage au canevas. Les
+   surfaces de verre le floutent, donc il ne s'y voit pas ; c'est voulu.
+
+   Il reste quand le mouvement est reduit : il ne bouge jamais. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--grain);
+  background-size: 200px 200px;
+  opacity: var(--grain-opacite);
 }
 
 

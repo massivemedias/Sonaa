@@ -80,7 +80,11 @@ const CONTROLES = [
      Chrome : la rangee du pied doit tenir sur une ligne a partir de 1024 px.
      Il n'est pas dans le deploiement, qui n'a pas de Chrome ; il n'est ici
      que parce que le Mac qui publie en a un. */
-  ['pied', 'npm run check:pied --silent']
+  ['pied', 'npm run check:pied --silent'],
+  /* MEME RAISON, MEME PLACE : neuf pages a huit largeurs dans un vrai
+     Chrome, aucun debordement, les deux barres a leur hauteur, les cibles
+     a 44 px, le repli du verre. Voir scripts/check-mobile.ts et ADR-089. */
+  ['mobile', 'npm run check:mobile --silent']
 ];
 
 /* LA BARRIERE VERIFIE QU'ELLE COUVRE LE DEPLOIEMENT, et elle le fait toute

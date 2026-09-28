@@ -1,47 +1,31 @@
 /* LA BANNIERE D'ACCUEIL. Voir HeroAccueil.tsx.
 
-   ═══ LA V2, LE 21 SEPTEMBRE 2026 ═══
+   ═══ RANGEE, DEPUIS LE 28 SEPTEMBRE 2026 (ADR-089) ═══
 
-   Elle portait le lavis techno et ambient de l'atlas. Le prototype que Mika a
-   choisi pose la maille des trois accents, un titre en degrade, un bouton
-   plein qui luit et un second en verre. Les affiches restent : ce sont de
-   vraies affiches de vraies soirees, et c'est la seule chose de cette
-   banniere qui porte une donnee. Les couleurs, elles, sont lues dans les
-   jetons de tokens.css, jamais ecrites ici.
+   Elle portait la maille des trois accents, un titre en degrade, un bouton
+   qui luit et cinq affiches inclinees qui se recouvraient comme une pile.
+   Tout cela est parti : la banniere est posee sur le sable, comme le reste,
+   et les affiches tiennent en une rangee DROITE, meme taille, memes coins,
+   aucune rotation. Elles restent de vraies affiches de vraies soirees, et
+   c'est la seule chose de cette banniere qui porte une donnee.
 
    ═══ CE QUI EST GROS EST GROS POUR UNE RAISON ═══
 
-   Le titre monte a 5 rem parce qu'il porte la promesse entiere de la page et
-   qu'il n'y a rien d'autre a lire avant. Les affiches sont inclinees de
-   quelques degres seulement : au-dela, on ne lit plus ce qui est ecrit
-   dessus. */
+   Le titre monte a 4,4 rem parce qu'il porte la promesse entiere de la page
+   et qu'il n'y a rien d'autre a lire avant. */
 
 .hero {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  gap: 2.5rem;
+  /* Le texte a gauche, les cinq affiches a droite : cinq affiches de meme
+     taille demandent de la largeur, la colonne de droite prend sept
+     douziemes. */
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: var(--espace-48);
   align-items: center;
   box-sizing: border-box;
-  margin: 0 0 2.4rem;
-  padding: 4.2rem max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2)) 3.6rem;
-  /* PLEINE LARGEUR, CONTENU DANS LA COLONNE : la meme formule que l'en-tete
-     du site, pour que la maille aille d'un bord a l'autre pendant que le
-     texte reste aligne sur le reste de la page. */
-  margin-left: calc(-1 * max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2)));
-  margin-right: calc(-1 * max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2)));
-  background-image: var(--maille);
-  background-color: var(--surface-plate);
-  overflow: hidden;
-}
-/* Le fondu vers la page, en bas : la maille ne s'arrete pas sur un trait. */
-.hero::after {
-  content: '';
-  position: absolute;
-  inset: auto 0 0;
-  height: 7rem;
-  pointer-events: none;
-  background: linear-gradient(to bottom, transparent, var(--surface-plate));
+  margin: 0 0 var(--espace-32);
+  padding: var(--espace-48) 0 var(--espace-32);
 }
 
 .hero-mots {
@@ -51,10 +35,10 @@
 }
 
 .hero-titre {
-  margin: 0 0 1.1rem;
+  margin: 0 0 var(--espace-16);
   /* `text-wrap: balance` plus bas : sur telephone le titre passe a deux
      lignes, et sans equilibrage la seconde ne porte qu'un mot. */
-  font-size: clamp(2.2rem, 5.6vw, 5rem);
+  font-size: clamp(2.2rem, 5.6vw, 4.4rem);
   font-weight: 800;
   line-height: 1.02;
   letter-spacing: -0.025em;
@@ -63,7 +47,7 @@
 }
 
 .hero-phrase {
-  margin: 0 0 2rem;
+  margin: 0 0 var(--espace-32);
   max-width: 54ch;
   font-size: 1.08rem;
   line-height: 1.55;
@@ -73,19 +57,20 @@
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.7rem;
+  gap: var(--espace-8);
   align-items: center;
 }
 
-/* Le second bouton est en verre ; le premier, plein, porte le degrade et la
-   lueur, voir plus bas. */
+/* Le second bouton est en verre (fond du theme a demi, filet interieur) ; le
+   premier, plein, porte l'accent. Les deux font 44 px de haut : ce sont des
+   cibles. */
 .hero-bouton {
-  padding: 0.85rem 1.6rem;
-  border: 1px solid var(--verre-bord-fort);
+  min-height: 44px;
+  padding: 0 var(--espace-24);
+  border: 0;
   border-radius: var(--rayon-pilule);
-  background: var(--verre-fond-fort);
-  backdrop-filter: var(--verre-flou);
-  -webkit-backdrop-filter: var(--verre-flou);
+  background: var(--verre-fond);
+  box-shadow: var(--verre-filet);
   color: var(--ink-primary);
   font-family: var(--font-ui);
   font-size: 0.98rem;
@@ -95,18 +80,17 @@
   transition: background 160ms ease, transform 160ms ease;
 }
 .hero-bouton:hover {
-  background: var(--voile-14);
+  background: var(--verre-fond-survol);
 }
 
 .hero-bouton-plein {
-  border-color: transparent;
-  background: var(--degrade);
-  color: var(--sur-degrade);
-  box-shadow: var(--lueur);
+  background: var(--accent);
+  box-shadow: none;
+  color: var(--sur-accent);
 }
 .hero-bouton-plein:hover {
-  background: var(--degrade);
-  filter: brightness(1.1);
+  background: var(--accent);
+  filter: brightness(1.06);
 }
 
 /* La ville se lit comme un reglage, pas comme une destination : le nom en
@@ -115,8 +99,10 @@
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.1rem;
-  padding: 0.5rem 1rem;
+  justify-content: center;
+  gap: 0;
+  min-height: 44px;
+  padding: 0 var(--espace-12);
   border: 0;
   background: none;
   font-family: var(--font-ui);
@@ -138,40 +124,30 @@
   color: var(--ink-primary);
 }
 
-/* ═══ LE COLLAGE ═══ Cinq affiches qui se recouvrent, comme une pile posee
-   sur une table. Chacune est une carte de verre, avec l'ombre de la v2. */
+/* ═══ LA RANGEE ═══ Cinq affiches, meme taille, meme alignement, coins a
+   16 px, espacees d'un pas de l'echelle, aucune rotation. */
 .hero-collage {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 0.7rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--espace-12);
   align-items: start;
   min-width: 0;
-}
-.hero-affiche:nth-child(-n + 3) {
-  grid-column: span 2;
-}
-.hero-affiche:nth-child(4),
-.hero-affiche:nth-child(5) {
-  grid-column: span 3;
 }
 
 .hero-affiche {
   padding: 0;
-  border: 1px solid var(--verre-bord);
-  border-radius: 16px;
+  border: 0;
+  border-radius: var(--rayon-affiche);
   background: var(--surface-margin);
-  box-shadow: var(--ombre-carte);
   overflow: hidden;
   cursor: pointer;
-  transform: rotate(var(--tour));
-  transition: transform 200ms ease, box-shadow 200ms ease;
+  transition: transform 200ms ease;
 }
 .hero-affiche:hover,
 .hero-affiche:focus-visible {
-  transform: rotate(0deg) scale(1.04);
-  box-shadow: var(--lueur);
+  transform: scale(1.04);
 }
 .hero-affiche img {
   display: block;
@@ -180,68 +156,54 @@
   object-fit: cover;
 }
 
-/* Les deux du bas sont couchees : trois portraits puis deux paysages font
-   une pile, cinq portraits font un catalogue. */
-.hero-affiche:nth-child(4) img,
-.hero-affiche:nth-child(5) img {
-  aspect-ratio: 16 / 10;
-}
-
 @media (max-width: 899px) {
   .hero {
     grid-template-columns: 1fr;
-    gap: 1.8rem;
-    padding-top: 2.6rem;
-    padding-bottom: 2.4rem;
+    gap: var(--espace-24);
+    padding-top: var(--espace-32);
+    padding-bottom: var(--espace-24);
   }
-  /* QUATRE AFFICHES EN CARRE, ET SANS INCLINAISON.
+  /* ═══ UN DEFILEMENT HORIZONTAL, DEUX AFFICHES ET DEMIE VISIBLES ═══
 
-     Elles etaient trois de front, donc 110 px de large sur un ecran de 375 :
-     a cette taille un flyer n'est plus qu'une tache, et c'est LUI qui donne
-     envie d'aller quelque part. Deux par deux, chacune fait 165 px, soit la
-     moitie de la largeur utile, et on en voit une de plus.
-
-     Sans inclinaison : cinq vignettes penchees sur 375 px ne se lisent plus,
-     elles font du bruit. */
+     Trois de front sur 390 px feraient 109 px de large : a cette taille un
+     flyer n'est plus qu'une tache. Deux et demie en font 134, et la demie
+     qui depasse dit qu'il y en a d'autres, ce qu'une rangee complete ne
+     dit pas. La bande sort de la colonne jusqu'aux bords de l'ecran, et
+     son retrait interieur ramene la premiere affiche sur la gouttiere : le
+     document, lui, ne deborde pas, seule la bande defile. */
   .hero-collage {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.6rem;
+    display: flex;
+    gap: var(--espace-8);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    margin-inline: calc(-1 * var(--marge-page));
+    padding-inline: var(--marge-page);
+    scroll-padding-inline: var(--marge-page);
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .hero-collage::-webkit-scrollbar {
+    display: none;
   }
   .hero-affiche {
-    transform: none;
-  }
-  .hero-affiche:nth-child(-n + 4) {
-    grid-column: span 1;
-  }
-  .hero-affiche:nth-child(n + 5) {
-    display: none;
+    flex: 0 0 calc((100% - 2 * var(--espace-8)) / 2.5);
+    scroll-snap-align: start;
   }
   /* LES DEUX PILULES SUR UNE RANGEE, LA VILLE DESSOUS, A GAUCHE. Mika, le
      28 septembre 2026, sur son iPhone : « rien n'est droit ». Les deux
      comptes se posaient l'un sous l'autre a des largeurs differentes, et la
      ville flottait a droite du second. */
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.5rem;
-  }
   .hero-ville {
     flex-basis: 100%;
-    padding-left: 0.25rem;
+    padding-left: var(--espace-4);
   }
-  /* Les deux pilules doivent tenir sur 358 px : a 1,6 rem de retrait elles
+  /* Les deux pilules doivent tenir sur 350 px : a 1,5 rem de retrait elles
      faisaient 160 et 201, soit 369 avec l'ecart, et la seconde passait
-     dessous. A 1,1 rem elles tiennent. */
+     dessous. A 1 rem elles tiennent. */
   .hero-bouton {
-    padding: 0.75rem 1.1rem;
+    padding: 0 var(--espace-16);
     font-size: 0.95rem;
-  }
-  /* Toutes au meme rapport : deux portraits et deux paysages dans un carre
-     feraient une grille bancale. */
-  .hero-affiche:nth-child(4) img,
-  .hero-affiche:nth-child(5) img {
-    aspect-ratio: 4 / 5;
   }
 }
 

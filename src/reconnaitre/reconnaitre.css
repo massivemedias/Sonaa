@@ -8,30 +8,29 @@
 .rc-action {
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: var(--espace-12);
   align-items: flex-start;
-  padding-bottom: 1.6rem;
+  padding-bottom: var(--espace-24);
   border-bottom: var(--rule-width) solid var(--rule-hairline);
 }
 
 /* ═══ LE BOUTON QUI ECOUTE, DEPUIS LA V2 ═══
 
    C'est le seul objet de la page qui agit, et il se voit comme tel : le
-   degrade des accents, la lueur, une taille de geste. Pendant l'ecoute il
-   devient du verre, et un anneau bat autour de lui : l'anneau n'est pas un
-   ornement, c'est l'etat, le micro est ouvert. Il s'arrete avec lui, et
+   terracotta de l'accent, plein, une taille de geste. Pendant l'ecoute il
+   devient un voile plat, et un anneau bat autour de lui : l'anneau n'est pas
+   un ornement, c'est l'etat, le micro est ouvert. Il s'arrete avec lui, et
    `prefers-reduced-motion` le remplace par un simple contour. */
 .rc-bouton {
   position: relative;
   overflow: visible;
   min-width: 15rem;
   min-height: 3.8rem;
-  padding: 0 2rem;
+  padding: 0 var(--espace-32);
   border: 1px solid transparent;
   border-radius: var(--rayon-pilule);
-  background: var(--degrade);
-  color: var(--sur-degrade);
-  box-shadow: var(--lueur);
+  background: var(--accent);
+  color: var(--sur-accent);
   font-family: var(--font-ui);
   font-size: 1.1rem;
   font-weight: 700;
@@ -45,13 +44,14 @@
 .rc-bouton:disabled {
   cursor: default;
 }
+/* LE MICRO OUVERT EST UN VOILE PLAT, PAS DU VERRE : un filet autour, le
+   filet interieur, et aucun flou, pour que le bouton ne fasse pas un niveau
+   de verre de plus sur la page. */
 .rc-bouton-actif {
-  background: var(--verre-fond-fort);
-  backdrop-filter: var(--verre-flou);
-  -webkit-backdrop-filter: var(--verre-flou);
-  border-color: var(--verre-bord-fort);
+  background: var(--verre-fond);
+  border-color: var(--filet);
   color: var(--ink-primary);
-  box-shadow: none;
+  box-shadow: var(--verre-filet);
   overflow: hidden;
 }
 .rc-bouton-actif::before {
@@ -59,7 +59,7 @@
   position: absolute;
   inset: -1px;
   border-radius: inherit;
-  border: 2px solid oklch(0.61 0.22 293 / 0.7);
+  border: 2px solid var(--accent);
   pointer-events: none;
   animation: rc-anneau 1.6s ease-out infinite;
 }
@@ -88,7 +88,7 @@
   position: absolute;
   inset: 0;
   transform-origin: left center;
-  background: var(--degrade);
+  background: var(--accent);
   opacity: 0.35;
   transition: transform 1s linear;
 }
@@ -100,15 +100,15 @@
 }
 
 .rc-erreur {
-  margin: 1.2rem 0 0;
-  padding-left: 0.8rem;
+  margin: var(--espace-16) 0 0;
+  padding-left: var(--espace-12);
   border-left: 2px solid oklch(var(--lt-62) 0.14 25);
   color: oklch(var(--lt-88) 0.09 25);
 }
 
 .rc-bloc {
-  padding-top: 1.6rem;
-  margin-top: 1.6rem;
+  padding-top: var(--espace-24);
+  margin-top: var(--espace-24);
   border-top: var(--rule-width) solid var(--rule-hairline);
 }
 .rc-bloc:first-of-type {
@@ -119,8 +119,8 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 1rem;
-  margin: 0 0 1rem;
+  gap: var(--espace-16);
+  margin: 0 0 var(--espace-16);
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: var(--serrage-ui);
@@ -152,18 +152,19 @@
   max-width: 44rem;
 }
 
-/* CHAQUE STYLE EST UNE CARTE DE VERRE, ET RIEN NE LA CHIFFRE. La jauge et le
-   pourcentage sont partis le 22 septembre 2026 : la sortie du reseau est une
-   sigmoide par classe, et une part qui n'en est pas une n'a pas a se lire.
-   L'ordre des cartes est le classement, du plus probable au moins probable. */
+/* CHAQUE STYLE EST UNE CARTE, UN VOILE PLAT SANS FLOU, ET RIEN NE LA
+   CHIFFRE. La jauge et le pourcentage sont partis le 22 septembre 2026 : la
+   sortie du reseau est une sigmoide par classe, et une part qui n'en est pas
+   une n'a pas a se lire. L'ordre des cartes est le classement, du plus
+   probable au moins probable. */
 .rc-style {
   display: flex;
   align-items: center;
-  padding: 0.85rem 1rem;
-  margin-bottom: 0.5rem;
+  padding: var(--espace-16);
+  margin-bottom: var(--espace-8);
   border-radius: 18px;
   background: var(--verre-fond);
-  border: 1px solid var(--verre-bord);
+  border: 1px solid var(--filet);
 }
 
 .rc-style-nom {
@@ -182,7 +183,7 @@
 
 
 .rc-note {
-  margin: 1rem 0 0;
+  margin: var(--espace-16) 0 0;
   max-width: 70ch;
   color: var(--ink-secondary);
   font-size: 0.9rem;
@@ -191,13 +192,12 @@
 
 .rc-morceau {
   display: flex;
-  gap: 1.2rem;
+  gap: var(--espace-16);
   align-items: flex-start;
-  padding: 1.1rem;
+  padding: var(--espace-16);
   border-radius: var(--rayon-carte);
   background: var(--verre-fond);
-  border: 1px solid var(--verre-bord);
-  box-shadow: var(--ombre-carte);
+  border: 1px solid var(--filet);
 }
 .rc-pochette {
   width: 120px;
@@ -205,12 +205,11 @@
   object-fit: cover;
   border-radius: 16px;
   background: var(--surface-margin);
-  box-shadow: var(--ombre-carte);
 }
 .rc-morceau-texte {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: var(--espace-4);
   min-width: 0;
 }
 .rc-morceau-titre {
@@ -231,15 +230,15 @@
 .rc-morceau-liens {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  margin: 0.7rem 0 0;
+  gap: var(--espace-8);
+  margin: var(--espace-12) 0 0;
   font-size: 0.85rem;
 }
 .rc-morceau-liens a {
-  padding: 0.35rem 0.8rem;
+  padding: var(--espace-4) var(--espace-12);
   border-radius: var(--rayon-pilule);
-  background: var(--verre-fond-fort);
-  border: 1px solid var(--verre-bord);
+  background: var(--verre-fond);
+  border: 1px solid var(--filet);
   color: var(--ink-primary);
   text-decoration: none;
   font-weight: 600;
@@ -250,23 +249,24 @@
 
 /* L'HISTORIQUE PREND LA LARGEUR : une grille de cartes, trois de front sur
    un ecran, une seule sur un telephone. Mika, le 27 septembre 2026 :
-   « occupe l'espace, on est en desktop ». */
+   « occupe l'espace, on est en desktop ». Les cartes sont un voile plat,
+   sans flou ni ombre : elles ne sont pas du verre. */
 .rc-historique {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
-  gap: 0.6rem;
+  gap: var(--espace-8);
 }
 .rc-passe {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  padding: 0.85rem 1rem;
+  gap: var(--espace-4);
+  padding: var(--espace-16);
   border-radius: 16px;
-  background: var(--verre-fond);
-  border: 1px solid var(--verre-bord);
+  background: var(--voile-06);
+  border: 1px solid var(--filet);
   font-size: 0.95rem;
 }
 .rc-passe-styles {
@@ -285,29 +285,29 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
-  background: rgb(0 0 0 / 60%);
+  padding: var(--espace-16);
+  background: var(--rideau-6);
 }
 
+/* La modale flotte au-dessus de la page : elle porte l'ombre diffuse, sans
+   flou, le rideau derriere elle est deja un voile. */
 .rc-modale {
   width: min(34rem, 100%);
   box-sizing: border-box;
-  padding: 1.8rem;
+  padding: var(--espace-24);
   background: var(--panneau-96);
-  backdrop-filter: var(--verre-flou);
-  -webkit-backdrop-filter: var(--verre-flou);
-  border: 1px solid var(--verre-bord-fort);
+  border: 1px solid var(--filet);
   border-radius: var(--rayon-carte);
-  box-shadow: var(--ombre-carte);
+  box-shadow: var(--ombre-flottante);
   font-family: var(--font-ui);
 }
 .rc-modale p {
-  margin: 0 0 0.8rem;
+  margin: 0 0 var(--espace-12);
   color: var(--ink-secondary);
   line-height: 1.55;
 }
 .rc-modale-titre {
-  margin: 0 0 1rem;
+  margin: 0 0 var(--espace-16);
   font-size: 1.2rem;
   color: var(--ink-primary);
 }
@@ -315,13 +315,13 @@
 
 .rc-modale-boutons {
   display: flex;
-  gap: 0.8rem;
+  gap: var(--espace-12);
   justify-content: flex-end;
-  margin-top: 1.4rem;
+  margin-top: var(--espace-24);
 }
 .rc-refus,
 .rc-accord {
-  padding: 0.6rem 1.2rem;
+  padding: var(--espace-8) var(--espace-16);
   border-radius: 999px;
   font: inherit;
   font-weight: 600;
@@ -334,14 +334,29 @@
 }
 .rc-accord {
   border: 1px solid transparent;
-  background: var(--degrade);
-  color: var(--sur-degrade);
-  box-shadow: var(--lueur);
+  background: var(--accent);
+  color: var(--sur-accent);
 }
 
 @media (max-width: 599px) {
   .rc-morceau {
     flex-direction: column;
+  }
+}
+
+/* LES CIBLES TACTILES : sous 900 px, tout ce qui se touche fait 44 px de
+   haut. Le grand bouton du micro les depasse deja. */
+@media (max-width: 899px) {
+  .rc-effacer,
+  .rc-refus,
+  .rc-accord {
+    min-height: 44px;
+  }
+  .rc-morceau-liens a,
+  a.rc-style-nom {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
   }
 }
 
@@ -351,7 +366,7 @@
    ci-dessous est plus precise pour garder cette ligne petite. Mesure en
    ligne le 27 septembre 2026, 15 px avant, 12,8 apres. */
 .rc .credits-body .rc-envoi {
-  margin: 0.5rem 0 0;
+  margin: var(--espace-8) 0 0;
   color: var(--ink-secondary);
   font-size: 0.8rem;
 }
@@ -373,15 +388,15 @@
 .rc .credits-body {
   max-width: 72rem;
 }
+/* La fiche est du verre : son fond, son filet et son flou viennent de
+   design/verre.css, elle ne garde ici que sa grille et son rayon. */
 .rc-fiche {
   display: grid;
   grid-template-columns: 240px minmax(0, 1fr);
-  gap: 1.8rem;
+  gap: var(--espace-24);
   align-items: start;
-  padding: 1.4rem;
+  padding: var(--espace-24);
   border-radius: 22px;
-  background: var(--verre-fond);
-  border: 1px solid var(--verre-bord);
 }
 .rc-fiche-pochette img,
 .rc-fiche-vide {
@@ -399,7 +414,7 @@
    en grand. */
 .rc-fiche-corps > .rc-titre,
 .rc-fiche-styles > .rc-titre {
-  margin: 0 0 0.4rem;
+  margin: 0 0 var(--espace-8);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: var(--serrage-ui);
@@ -409,7 +424,7 @@
 .rc-fiche-corps .rc-fiche-titre {
   text-transform: none;
   letter-spacing: var(--serrage);
-  margin: 0.2rem 0 0.15rem;
+  margin: var(--espace-4) 0 var(--espace-4);
   font-size: clamp(1.5rem, 3vw, 2.3rem);
   font-weight: 700;
   line-height: 1.1;
@@ -417,20 +432,20 @@
   color: var(--ink-primary);
 }
 .rc-fiche-artiste {
-  margin: 0 0 1rem;
+  margin: 0 0 var(--espace-16);
   font-size: clamp(1.05rem, 1.6vw, 1.35rem);
   color: var(--ink-secondary);
 }
 .rc-faits {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
-  gap: 0.7rem 1.4rem;
-  margin: 0 0 1.1rem;
+  gap: var(--espace-12) var(--espace-24);
+  margin: 0 0 var(--espace-16);
 }
 .rc-faits div {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: var(--espace-4);
 }
 .rc-faits dt {
   font-size: 0.7rem;
@@ -444,7 +459,7 @@
   font-weight: 500;
 }
 .rc-fiche-styles {
-  margin-top: 1.6rem;
+  margin-top: var(--espace-24);
 }
 .rc-fiche-styles .rc-styles {
   max-width: none;
@@ -452,7 +467,7 @@
 .rc-fiche-styles .rc-style {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(8rem, 22rem) 8.5rem;
-  gap: 1rem;
+  gap: var(--espace-16);
   align-items: center;
 }
 .rc-part {
@@ -465,7 +480,7 @@
 .rc-part-pleine {
   display: block;
   height: 100%;
-  background: var(--degrade);
+  background: var(--accent);
 }
 .rc-pourcent {
   text-align: right;
@@ -481,7 +496,7 @@
 @media (max-width: 720px) {
   .rc-fiche {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: var(--espace-16);
   }
   .rc-fiche-pochette {
     width: 160px;

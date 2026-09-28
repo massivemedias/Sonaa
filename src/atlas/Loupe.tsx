@@ -10,6 +10,7 @@
    panneau qu'on ne sait pas fermer est un panneau qui fait peur. */
 
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { t } from '../langue/langue.ts';
 
 interface Props {
@@ -34,7 +35,11 @@ export function Loupe({ url, legende, onFermer }: Props) {
     };
   }, [onFermer]);
 
-  return (
+  /* PAR UN PORTAIL, SOUS BODY, DEPUIS ADR-089. La vignette vit dans une carte
+     de mixtape, et la carte est en verre depoli : un parent qui porte un
+     filtre d'arriere-plan devient le cadre de ses enfants fixes. Rendue sur
+     place, la loupe se serait ouverte dans la carte et non sur l'ecran. */
+  return createPortal(
     <div className="loupe" role="dialog" aria-modal="true" aria-label={legende} onClick={onFermer}>
       <button className="loupe-fermer" onClick={onFermer} aria-label={t.fermerLImage}>
         ×
@@ -42,6 +47,7 @@ export function Loupe({ url, legende, onFermer }: Props) {
       {/* Le clic sur l'image elle-meme ne ferme pas : on veut pouvoir la
           regarder sans que le moindre geste la fasse disparaitre. */}
       <img src={url} alt={legende} onClick={(e) => e.stopPropagation()} />
-    </div>
+    </div>,
+    document.body
   );
 }

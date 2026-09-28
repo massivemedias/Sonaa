@@ -21,8 +21,9 @@
    filet va d'un bord a l'autre. */
 
 .pied {
-  margin-top: 3.5rem;
-  border-top: 1px solid oklch(1 0 0 / 0.08);
+  margin-top: var(--espace-48);
+  /* EN VERRE DEPOLI, depuis ADR-089 : la matiere vient de design/verre.css,
+     et le filet du haut est le filet interieur du verre. */
   font-family: var(--font-ui);
   /* TREIZE PIXELS, EN PIXELS. Mika, le 22 septembre 2026 : le pied cassait
      sur deux lignes a 1240 px en francais. La rangee est mesuree au pixel
@@ -35,30 +36,23 @@
   padding-right: max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2));
 }
 
-/* LE FILET S'INVERSE EN THEME CLAIR : un voile blanc sur fond blanc ne
-   separe rien. */
-:root[data-theme='clair'] .pied {
-  border-top-color: oklch(0 0 0 / 0.12);
-}
-
 /* DANS L'ATLAS, LA COLONNE N'EST PAS LA MEME : `.pv-corps` a son propre
-   retrait, 0,75 rem, et la formule ci-dessus y deborderait de quatre pixels
-   de chaque cote. Chaque conteneur lit la grandeur de son propre parent. */
+   retrait, la gouttiere seule, et la formule ci-dessus y deborderait sur un
+   grand ecran. Chaque conteneur lit la grandeur de son propre parent. */
 .pv-corps > .pied {
-  margin-left: -0.75rem;
-  margin-right: -0.75rem;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
+  margin-left: calc(-1 * var(--marge-page));
+  margin-right: calc(-1 * var(--marge-page));
+  padding-left: var(--marge-page);
+  padding-right: var(--marge-page);
 }
 
 .pied-ligne {
   display: flex;
   align-items: center;
-  /* 1,25 rem ET NON 1,5 : Inter est plus large que Larsseit, et au retour
+  /* UN PAS DE 16 ET NON 24 : Inter est plus large que Larsseit, et au retour
      d'Inter le 23 septembre 2026 le controle mesure a refuse la rangee a
-     1024 px en francais, a dix pixels pres. Les deux ecarts en rendent
-     huit, les liens en rendent dix-neuf. */
-  gap: 1.25rem;
+     1024 px en francais, a dix pixels pres. */
+  gap: var(--espace-16);
   min-height: 56px;
 }
 
@@ -77,7 +71,7 @@
   display: inline-flex;
   flex-wrap: nowrap;
   align-items: center;
-  gap: 0.4rem;
+  gap: var(--espace-8);
   margin: 0;
   min-width: 0;
   color: var(--ink-secondary);
@@ -101,7 +95,7 @@
 }
 
 .pied-villes {
-  opacity: 0.7;
+  color: var(--ink-secondary);
 }
 .pied-villes::before {
   content: '· ';
@@ -113,7 +107,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.2rem 0.9rem;
+  gap: var(--espace-4) var(--espace-12);
   justify-content: flex-end;
 }
 
@@ -129,21 +123,11 @@
   text-underline-offset: 3px;
 }
 
-/* Le legal se distingue sans crier : un cran plus pale et un pixel plus
-   petit. Il est la pour qui le cherche, pas pour qui lit la page. */
+/* Le legal se distingue sans crier : un pixel plus petit. PAS D'OPACITE
+   EN PLUS : l'encre secondaire est deja a 65 ou 75 %, et un cran de plus
+   tombait sous le AA dans les deux themes (mesure le 28 septembre 2026). */
 .pied-lien-legal {
-  opacity: 0.72;
   font-size: 12px;
-}
-
-/* EN THEME CLAIR, LE CRAN DE GRIS EST DANS L'ENCRE, PAS DANS L'OPACITE.
-   Mesure le 22 septembre 2026 par l'audit de contraste : une encre a 0,43
-   de clarte passee a 72 % sur du blanc tombe a 3,9 pour 1, sous le AA. La
-   meme encre pleine fait 7,3 pour 1 et reste un cran sous le noir. */
-:root[data-theme='clair'] .pied-lien-legal,
-:root[data-theme='clair'] .pied-villes {
-  opacity: 1;
-  color: var(--ink-secondary);
 }
 
 /* ═══ SOUS 1024 PX : LA PRESENCE AU-DESSUS, LES LIENS EN DESSOUS ═══
@@ -160,10 +144,20 @@
   .pied-ligne {
     flex-direction: column;
     align-items: center;
-    gap: 0.7rem;
+    gap: var(--espace-12);
     min-height: 0;
-    padding: 1rem 0 1.2rem;
+    padding: var(--espace-16) 0 var(--espace-24);
     text-align: center;
+  }
+  /* DES CIBLES DE 44 PX AU DOIGT : chaque lien est une boite de 44 px de
+     haut, le texte centre dedans, et la rangee garde son air. */
+  .pied-liens a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 var(--espace-4);
   }
   .pied-presence {
     order: 1;
@@ -173,11 +167,10 @@
   .pied-liens {
     order: 2;
     justify-content: center;
-    gap: 0.4rem 1rem;
+    gap: 0 var(--espace-8);
   }
   .pied-nom {
     order: 3;
     font-size: 0.76rem;
-    opacity: 0.8;
   }
 }

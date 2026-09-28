@@ -10,6 +10,7 @@
    d'envoi de courriels (voir lib/auth.ts). */
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { FAMILIES, STRUCTURES } from './structures.ts';
 import {
   CHAMPS_EDITABLES,
@@ -160,7 +161,11 @@ export function ContributeDialog({
     }
   }
 
-  return (
+  /* PAR UN PORTAIL, SOUS BODY, DEPUIS ADR-089 : la fenetre peut s'ouvrir
+     depuis une surface en verre depoli, et un parent flou devient le cadre
+     de ses enfants fixes. Sous body, elle couvre l'ecran quel que soit
+     l'endroit d'ou on l'ouvre. */
+  return createPortal(
     <div className="contrib-fond" role="presentation" onClick={onClose}>
       <div
         className="contrib-boite"
@@ -373,6 +378,7 @@ export function ContributeDialog({
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

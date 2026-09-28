@@ -16,18 +16,17 @@
   width: 100%;
 }
 
-/* EN VERRE, DEPUIS LA V2 : la matiere du prototype choisi le 21 septembre
-   2026, lue dans les jetons. */
+/* UN VOILE PLAT, SANS FLOU : le bloc n'est pas dans la liste du verre, il
+   prend le fond de verre et un filet, lus dans les jetons. */
 .sets-bloc {
-  margin: 2rem 0 0;
-  padding: 1.2rem 1.3rem 1.4rem;
-  border: 1px solid var(--verre-bord);
+  margin: var(--espace-32) 0 0;
+  padding: var(--espace-16) var(--espace-24) var(--espace-24);
+  border: 1px solid var(--filet);
   border-radius: var(--rayon-carte);
   background: var(--verre-fond);
-  box-shadow: var(--ombre-carte);
 }
 .sets-bloc h2 {
-  margin: 0 0 0.9rem;
+  margin: 0 0 var(--espace-16);
   font-size: 1.0625rem;
   font-weight: 700;
 }
@@ -36,7 +35,7 @@
 
 .sp-identite {
   display: grid;
-  gap: 1.3rem;
+  gap: var(--espace-24);
 }
 @media (min-width: 640px) {
   .sp-identite {
@@ -48,7 +47,7 @@
 .sp-avatar {
   display: grid;
   justify-items: center;
-  gap: 0.5rem;
+  gap: var(--espace-8);
 }
 .sp-avatar img,
 .sp-avatar .sp-avatar-vide {
@@ -70,7 +69,7 @@
 }
 .sp-avatar-bouton {
   cursor: pointer;
-  padding: 0.35rem 0.8rem;
+  padding: var(--espace-4) var(--espace-12);
   border: 1px solid var(--voile-18);
   border-radius: 999px;
   font-size: 0.8125rem;
@@ -90,7 +89,7 @@
    pourquoi. */
 .sp-champs {
   display: grid;
-  gap: 1.4rem;
+  gap: var(--espace-24);
   justify-items: start;
 }
 .sp-champs > .sp-label {
@@ -98,7 +97,7 @@
 }
 .sp-label {
   display: grid;
-  gap: 0.3rem;
+  gap: var(--espace-4);
   font-size: 0.8125rem;
   color: var(--encre-douce-2);
 }
@@ -108,8 +107,8 @@
 .sp-label input[type='url'],
 .sp-label textarea,
 .sp-label input[type='file'] {
-  padding: 0.5rem 0.7rem;
-  border: 1px solid var(--verre-bord);
+  padding: var(--espace-8) var(--espace-12);
+  border: 1px solid var(--filet);
   border-radius: 12px;
   background: var(--verre-fond);
   color: var(--encre-2);
@@ -144,13 +143,12 @@
 
 .sp-action {
   justify-self: start;
-  padding: 0.55rem 1.1rem;
+  padding: var(--espace-8) var(--espace-16);
   border: none;
   border-radius: var(--rayon-pilule);
-  /* Le degrade des accents, depuis la v2 : ce qui se presse le porte. */
-  background: var(--degrade);
-  color: var(--sur-degrade);
-  box-shadow: var(--lueur);
+  /* L'accent, en plein : ce qui se presse le porte. */
+  background: var(--accent);
+  color: var(--sur-accent);
   font-weight: 700;
   cursor: pointer;
 }
@@ -160,12 +158,12 @@
 }
 
 .sp-aide {
-  margin: 0.35rem 0 0;
+  margin: var(--espace-4) 0 0;
   color: var(--encre-tierce-3);
   font-size: 0.8125rem;
 }
 .sp-message {
-  margin: 0.6rem 0 0;
+  margin: var(--espace-8) 0 0;
   font-size: 0.875rem;
   color: var(--encre-forte-2);
 }
@@ -177,25 +175,23 @@
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 1rem;
+  gap: var(--espace-16);
 }
+/* La matiere du verre vient de verre.css : ici, le retrait et le rayon. */
 .sp-item {
-  padding: 0.9rem 1rem 1rem;
-  border: 1px solid var(--verre-bord);
+  padding: var(--espace-16);
   border-radius: var(--rayon-carte);
-  background: var(--verre-fond);
-  box-shadow: var(--ombre-carte);
 }
 .sp-item-tete {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem 1rem;
+  gap: var(--espace-8) var(--espace-16);
   align-items: start;
   justify-content: space-between;
 }
 .sp-item-titre {
   display: flex;
-  gap: 0.75rem;
+  gap: var(--espace-12);
   align-items: center;
 }
 .sp-item h3 {
@@ -212,10 +208,10 @@
 }
 .sp-item-actions {
   display: flex;
-  gap: 0.4rem;
+  gap: var(--espace-8);
 }
 .sp-item-actions button {
-  padding: 0.3rem 0.7rem;
+  padding: var(--espace-4) var(--espace-12);
   border: 1px solid var(--voile-16);
   border-radius: 999px;
   background: none;
@@ -240,9 +236,9 @@
 
 .sp-tete-set {
   display: flex;
-  gap: 1rem;
+  gap: var(--espace-16);
   align-items: center;
-  margin: 0.5rem 0 1.2rem;
+  margin: var(--espace-8) 0 var(--espace-16);
 }
 .sp-tete-set h1 {
   margin: 0;
@@ -255,19 +251,19 @@
   font-size: 1.8rem;
 }
 .sp-fil {
-  margin: 0 0 0.6rem;
+  margin: 0 0 var(--espace-8);
   font-size: 0.8125rem;
 }
 /* LE CHAPEAU DE LA SECTION, qui n'existait pas avant le 21 septembre 2026.
    Sa largeur vient de `.intro-page` ; ici, seulement le ton et le rythme. */
 .sp-lede {
-  margin: 0.6rem 0 1.8rem;
+  margin: var(--espace-8) 0 var(--espace-24);
   color: var(--ink-secondary);
   line-height: 1.5;
 }
 
 .sp-description {
-  margin: 1.2rem 0 0;
+  margin: var(--espace-16) 0 0;
   line-height: 1.7;
   white-space: pre-wrap;
 }
@@ -298,9 +294,9 @@
 
 .ls {
   display: flex;
-  gap: 0.9rem;
+  gap: var(--espace-16);
   align-items: center;
-  margin-top: 0.9rem;
+  margin-top: var(--espace-16);
 }
 
 /* ROND BLANC, TRIANGLE PETIT.
@@ -322,9 +318,8 @@
   place-items: center;
   border: none;
   border-radius: 50%;
-  background: var(--degrade);
-  color: var(--sur-degrade);
-  box-shadow: var(--lueur);
+  background: var(--accent);
+  color: var(--sur-accent);
   cursor: pointer;
 }
 
@@ -377,7 +372,7 @@
 .ls-temps {
   display: flex;
   justify-content: space-between;
-  margin: 0.15rem 0 0;
+  margin: var(--espace-4) 0 0;
   color: var(--encre-tierce-2);
   font-size: 0.75rem;
   font-variant-numeric: tabular-nums;
@@ -408,7 +403,7 @@
   cursor: pointer;
   border: 1px dashed var(--voile-18);
   border-radius: 14px;
-  padding: 1rem;
+  padding: var(--espace-16);
   text-align: center;
   transition: border-color 120ms ease, background-color 120ms ease;
 }
@@ -435,7 +430,7 @@
   font-weight: 700;
 }
 .zd-aide {
-  margin: 0.3rem 0 0;
+  margin: var(--espace-4) 0 0;
   color: var(--encre-tierce-3);
   font-size: 0.8125rem;
 }
@@ -483,32 +478,29 @@
    nom, et une grille en montre huit d'un coup la ou une liste en montre trois. */
 .sp-artistes {
   list-style: none;
-  margin: 1.4rem 0 0;
+  margin: var(--espace-24) 0 0;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr));
-  gap: 1.2rem 1rem;
+  gap: var(--espace-16);
 }
-/* LE PORTRAIT EST UNE CARTE DE VERRE, DEPUIS LA V2, et il se souleve au
-   survol : la grammaire du prototype, la meme que les cartes du calendrier. */
+/* LE PORTRAIT EST UNE CARTE DE VERRE, dont la recette vit dans verre.css, et
+   il se souleve au survol : la meme grammaire que les cartes du calendrier. */
 .sp-carte-artiste {
   display: grid;
   justify-items: center;
-  gap: 0.35rem;
-  padding: 1.1rem 0.8rem 1rem;
+  gap: var(--espace-4);
+  padding: var(--espace-16) var(--espace-12) var(--espace-16);
   border-radius: var(--rayon-carte);
-  background: var(--verre-fond);
-  border: 1px solid var(--verre-bord);
-  box-shadow: var(--ombre-carte);
   text-align: center;
   color: inherit;
   text-decoration: none;
-  transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 400ms ease;
+  transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 400ms ease;
 }
 @media (hover: hover) and (pointer: fine) {
   .sp-carte-artiste:hover {
     transform: translateY(-6px);
-    border-color: oklch(0.61 0.22 293 / 0.4);
+    --verre-fond: var(--verre-fond-survol);
   }
 }
 .sp-carte-nom {
@@ -529,9 +521,9 @@
 
 .sp-tete-artiste {
   display: flex;
-  gap: 1.1rem;
+  gap: var(--espace-16);
   align-items: center;
-  margin: 0.5rem 0 1.2rem;
+  margin: var(--espace-8) 0 var(--espace-16);
 }
 .sp-tete-artiste h1 {
   margin: 0;
@@ -549,10 +541,10 @@
 }
 
 .sp-sous-titre-premier {
-  margin-top: 1.4rem;
+  margin-top: var(--espace-24);
 }
 .sp-sous-titre {
-  margin: 2.2rem 0 0.6rem;
+  margin: var(--espace-32) 0 var(--espace-8);
   font-size: 1.0625rem;
   font-weight: 700;
   color: var(--ink-primary);
@@ -567,7 +559,7 @@
   aspect-ratio: 1;
   display: grid;
   place-items: center;
-  padding: 0.8rem;
+  padding: var(--espace-12);
 }
 .zd-apercu {
   width: 100%;
@@ -576,7 +568,7 @@
   border-radius: 10px;
 }
 .sp-lien {
-  margin-top: 0.4rem;
+  margin-top: var(--espace-8);
   padding: 0;
   border: none;
   background: none;
@@ -626,7 +618,7 @@
      decoupe d'ecran qu'on veut ici, c'est un simple retrait autour de
      l'image, et le haut est plus grand pour laisser passer le bouton de
      fermeture. */
-  padding: 4rem 1.25rem 1.5rem;
+  padding: var(--espace-64) var(--espace-16) var(--espace-24);
   background: var(--panneau-88);
   cursor: zoom-out;
 }
@@ -638,8 +630,8 @@
 }
 .loupe-fermer {
   position: absolute;
-  top: max(1rem, env(safe-area-inset-top, 0px));
-  right: 1rem;
+  top: max(var(--espace-16), env(safe-area-inset-top, 0px));
+  right: var(--espace-16);
   width: 40px;
   height: 40px;
   border: none;
@@ -660,8 +652,8 @@
    suffit a les grouper a l'oeil sans une seule ligne de separation. */
 .sp-formulaire {
   display: grid;
-  gap: 1.4rem;
-  margin-top: 1.1rem;
+  gap: var(--espace-24);
+  margin-top: var(--espace-16);
   justify-items: start;
 }
 .sp-formulaire > * {
@@ -681,15 +673,15 @@
 /* --- La modification d'un set --------------------------------------------- */
 
 .sp-modif {
-  margin-top: 1rem;
-  padding-top: 1rem;
+  margin-top: var(--espace-16);
+  padding-top: var(--espace-16);
   border-top: 1px solid var(--voile-1);
 }
 .sp-modif-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.8rem;
+  gap: var(--espace-12);
 }
 /* L'AVERTISSEMENT EST A COTE DU BOUTON, pas en haut du formulaire. C'est au
    moment ou l'on cherche comment valider qu'on a besoin de savoir qu'il reste
@@ -707,8 +699,8 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.75rem;
-  margin-top: 0.7rem;
+  gap: var(--espace-12);
+  margin-top: var(--espace-12);
 }
 
 .sp-action-sobre {
@@ -728,14 +720,14 @@
 .pf-menu {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 0.2rem 0 1.6rem;
+  gap: var(--espace-8);
+  margin: var(--espace-4) 0 var(--espace-24);
 }
 .pf-onglet {
   display: inline-flex;
   align-items: center;
   min-height: 2.4rem;
-  padding: 0 1rem;
+  padding: 0 var(--espace-16);
   border: 1px solid var(--voile-14);
   border-radius: 999px;
   color: var(--encre-douce-2);
@@ -746,10 +738,11 @@
 .pf-onglet:hover {
   color: var(--encre-2);
 }
+/* L'onglet courant est sur l'accent, dans l'encre qui va dessus. */
 .pf-onglet[aria-current='page'] {
-  background: var(--encre-2);
-  border-color: var(--encre-2);
-  color: var(--fond);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--sur-accent);
 }
 
 /* ═══ MES SOIREES, dans le profil : voir MesSoirees.tsx ═══ */
@@ -758,13 +751,13 @@
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 1rem;
+  gap: var(--espace-16);
 }
 .ms-soiree {
   display: flex;
-  gap: 0.9rem;
+  gap: var(--espace-16);
   align-items: flex-start;
-  padding: 0.9rem;
+  padding: var(--espace-16);
   border: 1px solid var(--voile-07);
   border-radius: 12px;
 }
@@ -780,7 +773,7 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: var(--espace-4);
   font-size: 0.85rem;
   color: var(--encre-douce-2);
 }
@@ -795,14 +788,14 @@
 .sa-formulaire {
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: var(--espace-12);
   max-width: 30rem;
-  margin-top: 1.1rem;
+  margin-top: var(--espace-16);
 }
 
 .sa-deux {
   display: flex;
-  gap: 0.8rem;
+  gap: var(--espace-12);
 }
 
 .sa-deux .sp-label {
@@ -810,7 +803,7 @@
 }
 
 .sa-titre-liste {
-  margin: 1.6rem 0 0.6rem;
+  margin: var(--espace-24) 0 var(--espace-8);
   font-size: 0.95rem;
   color: var(--ink-secondary);
 }
@@ -821,15 +814,15 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: var(--espace-8);
 }
 
 .sa-liste li {
   display: flex;
   align-items: baseline;
-  gap: 0.8rem;
+  gap: var(--espace-12);
   flex-wrap: wrap;
-  padding: 0.5rem 0;
+  padding: var(--espace-8) 0;
   border-top: var(--rule-width) solid var(--rule-hairline);
 }
 
@@ -849,3 +842,23 @@
   font-size: 0.9rem;
 }
 
+
+/* --- Les cibles tactiles -------------------------------------------------- */
+
+/* Sous 900 px, tout ce qui se presse fait au moins 44 px de haut, et 44 de
+   large quand c'est une icone : le bouton compact du lecteur et la croix de
+   la loupe passent de 36 et 40 px a la cible. */
+@media (max-width: 899px) {
+  .sp-action,
+  .sp-avatar-bouton,
+  .sp-item-actions button,
+  .sp-lien,
+  .pf-onglet {
+    min-height: 44px;
+  }
+  .ls-compact .ls-bouton,
+  .loupe-fermer {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}

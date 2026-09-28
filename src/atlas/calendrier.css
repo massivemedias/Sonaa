@@ -8,11 +8,11 @@
 .cal-barre {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem 0.8rem;
+  gap: var(--espace-8) var(--espace-12);
   align-items: center;
   justify-content: space-between;
   font-size: 0.9rem;
-  padding-bottom: 0.9rem;
+  padding-bottom: var(--espace-16);
   border-bottom: var(--rule-width) solid var(--rule-hairline);
 }
 
@@ -46,14 +46,14 @@
 .cal-fenetres {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: var(--espace-8);
 }
 
 .cal-onglet {
   background: var(--verre-fond);
-  border: 1px solid var(--verre-bord);
+  border: 1px solid var(--filet);
   border-radius: var(--rayon-pilule);
-  padding: 0.4rem 0.9rem;
+  padding: var(--espace-8) var(--espace-16);
   color: var(--ink-secondary);
   font: inherit;
   cursor: pointer;
@@ -64,11 +64,11 @@
   color: var(--ink-primary);
 }
 
-/* L'ONGLET COURANT PORTE LE DEGRADE, depuis la v2 : c'est l'etat, pas un
-   ornement, et il se lit de loin. */
+/* L'ONGLET COURANT PORTE L'ACCENT PLEIN, depuis ADR-089 : c'est l'etat, pas
+   un ornement, et il se lit de loin. */
 .cal-onglet-actif {
-  color: var(--sur-degrade);
-  background: var(--degrade);
+  color: var(--sur-accent);
+  background: var(--accent);
   border-color: transparent;
 }
 
@@ -80,17 +80,17 @@
    var(--encre-3) des deux cotes, texte invisible. Vu a l'ecran,
    confirme en lisant les styles calcules. */
 .cal-onglet-actif:hover {
-  color: var(--sur-degrade);
-  background: var(--degrade);
+  color: var(--sur-accent);
+  background: var(--accent);
 }
 
 .cal-recherche {
   width: 100%;
   box-sizing: border-box;
   background: var(--verre-fond);
-  border: 1px solid var(--verre-bord);
+  border: 1px solid var(--filet);
   border-radius: 12px;
-  padding: 0.55rem 0.75rem;
+  padding: var(--espace-8) var(--espace-12);
   color: inherit;
   font: inherit;
 }
@@ -117,7 +117,7 @@
 .cal-date {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: var(--espace-8);
   color: var(--ink-secondary);
   font-size: 0.9rem;
 }
@@ -129,9 +129,9 @@
 .cal-date select {
   background: var(--verre-fond);
   color: var(--ink-primary);
-  border: 1px solid var(--verre-bord);
+  border: 1px solid var(--filet);
   border-radius: var(--rayon-pilule);
-  padding: 0.35rem 0.6rem;
+  padding: var(--espace-4) var(--espace-8);
   font: inherit;
   max-width: 14rem;
 }
@@ -145,7 +145,7 @@
 
 .cal-total {
   color: var(--ink-secondary);
-  margin: 1.4rem 0 0.4rem;
+  margin: var(--espace-24) 0 var(--espace-8);
 }
 
 .cal-panne {
@@ -153,16 +153,16 @@
      une panne, pas une nuance de gris. */
   color: oklch(var(--lt-88) 0.09 25);
   border-left: 2px solid oklch(var(--lt-62) 0.14 25);
-  padding-left: 0.8rem;
+  padding-left: var(--espace-12);
 }
 
 .cal-jour h3 {
-  margin: 1.8rem 0 0.7rem;
+  margin: var(--espace-24) 0 var(--espace-12);
   font-size: 0.95rem;
   text-transform: capitalize;
   color: var(--ink-secondary);
   border-bottom: var(--rule-width) solid var(--rule-hairline);
-  padding-bottom: 0.4rem;
+  padding-bottom: var(--espace-8);
 }
 
 /* ═══ LA COLONNE UNIQUE, ET CE QUI LA CAUSAIT VRAIMENT ═══
@@ -202,7 +202,7 @@
      soiree ferait une carte de mille deux cents pixels. */
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.25rem;
+  gap: var(--espace-16);
   /* Les cartes d'une meme rangee commencent en haut : sans cela, une carte
      courte se centrerait sur la hauteur de sa voisine et les affiches ne
      seraient plus alignees. */
@@ -233,29 +233,29 @@
 
    La soiree etait une affiche et du texte, poses l'un sous l'autre sans
    cadre. Le prototype choisi le 21 septembre 2026 en fait une carte : un
-   verre arrondi, une ombre portee, l'affiche qui remplit le haut et se coupe
-   au rayon, le texte dans un retrait, et un leger soulevement au survol. */
+   verre arrondi, l'affiche qui remplit le haut et se coupe au rayon, le
+   texte dans un retrait, et un leger soulevement au survol. Depuis ADR-089,
+   la recette du verre vit dans design/verre.css, et la carte n'a plus
+   d'ombre portee. */
 .cal-soiree {
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
+  gap: var(--espace-8);
   padding: 0;
   align-items: stretch;
   overflow: hidden;
   border-radius: var(--rayon-carte);
-  background: var(--verre-fond);
-  border: 1px solid var(--verre-bord);
-  box-shadow: var(--ombre-carte);
-  transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 400ms ease;
+  transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 400ms ease;
 }
 @media (hover: hover) and (pointer: fine) {
   .cal-soiree:hover {
     transform: translateY(-6px);
-    border-color: oklch(0.61 0.22 293 / 0.4);
+    /* LE SURVOL ECLAIRCIT LE VERRE, sans filet colore. */
+    --verre-fond: var(--verre-fond-survol);
   }
 }
 .cal-soiree .cal-texte {
-  padding: 0.2rem 1.1rem 1.2rem;
+  padding: var(--espace-4) var(--espace-16) var(--espace-16);
 }
 
 .cal-affiche {
@@ -280,9 +280,8 @@
   width: 100%;
   aspect-ratio: 16 / 10;
   border-radius: 0;
-  background-image: var(--maille);
   background-color: var(--surface-margin);
-  border-bottom: 1px solid var(--verre-bord);
+  border-bottom: 1px solid var(--filet);
 }
 
 .cal-texte {
@@ -316,7 +315,7 @@
 
 .cal-lieu,
 .cal-artistes {
-  margin: 0.15rem 0 0;
+  margin: 2px 0 0;
   font-size: 0.92rem;
 }
 
@@ -333,7 +332,7 @@
 /* Les genres annonces par la soiree passent apres le lieu et les noms : ils
    confirment, ils n'informent pas. */
 .cal-genres {
-  margin: 0.15rem 0 0;
+  margin: 2px 0 0;
   color: var(--ink-secondary);
   font-size: 0.85rem;
   opacity: 0.8;
@@ -344,8 +343,8 @@
 .cal-chercher {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
-  margin: 0.9rem 0 0.2rem;
+  gap: var(--espace-12);
+  margin: var(--espace-16) 0 var(--espace-4);
 }
 
 .cal-chercher-champ {
@@ -353,9 +352,9 @@
   max-width: 26rem;
   box-sizing: border-box;
   background: var(--verre-fond);
-  border: 1px solid var(--verre-bord);
+  border: 1px solid var(--filet);
   border-radius: var(--rayon-pilule);
-  padding: 0.5rem 0.9rem;
+  padding: var(--espace-8) var(--espace-16);
   color: var(--ink-primary);
   font: inherit;
 }
@@ -379,19 +378,19 @@
    de la page vide, ce qui etait deja le reproche fait a la grille. */
 .cal-horaire {
   list-style: none;
-  margin: 0.6rem 0 0;
+  margin: var(--espace-8) 0 0;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(23rem, 1fr));
-  gap: 0 2.4rem;
+  gap: 0 var(--espace-32);
 }
 
 .cal-ligne {
   display: grid;
   grid-template-columns: 5.4rem 44px 1fr;
   align-items: center;
-  gap: 0.8rem;
-  padding: 0.5rem 0;
+  gap: var(--espace-12);
+  padding: var(--espace-8) 0;
   border-top: var(--rule-width) solid var(--rule-hairline);
 }
 
@@ -459,7 +458,7 @@
 @media (max-width: 560px) {
   .cal-ligne {
     grid-template-columns: 4.6rem 36px 1fr;
-    gap: 0.6rem;
+    gap: var(--espace-8);
   }
   .cal-ligne-affiche {
     width: 36px;
@@ -471,8 +470,8 @@
    elle informe, elle ne se vante pas. */
 .cal-origine {
   display: inline-block;
-  margin-right: 0.45rem;
-  padding: 0.05rem 0.4rem;
+  margin-right: var(--espace-8);
+  padding: 1px var(--espace-8);
   border: var(--rule-width) solid var(--rule-hairline);
   border-radius: 999px;
   font-size: 0.72rem;
@@ -485,7 +484,7 @@
 /* --- Les styles, dans la barre des reglages ------------------------------ */
 
 .cal-styles-panneau {
-  margin: 0.9rem 0 0.2rem;
+  margin: var(--espace-16) 0 var(--espace-4);
 }
 
 /* ═══ QUATRE COLONNES SUR ORDINATEUR ═══
@@ -513,11 +512,11 @@
 @media (max-width: 560px) {
   .cal-liste {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.3rem 0.75rem;
+    gap: var(--espace-4) var(--espace-12);
   }
   .cal-soiree {
-    gap: 0.4rem;
-    padding-bottom: 1rem;
+    gap: var(--espace-8);
+    padding-bottom: var(--espace-16);
   }
   .cal-affiche,
   .cal-soiree-sans-affiche {
@@ -592,8 +591,9 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  background: color-mix(in oklch, var(--encre-fond, #000) 62%, transparent);
-  backdrop-filter: blur(2px);
+  /* UN RIDEAU PLAT, SANS FLOU : la feuille posee dessus est deja du verre,
+     et un rideau floute ferait un niveau de plus. */
+  background: var(--rideau-6);
   animation: cal-voile-entre 160ms ease-out;
 }
 @keyframes cal-voile-entre {
@@ -606,10 +606,8 @@
   flex-direction: column;
   width: 100%;
   max-height: 88vh;
-  background: var(--plaque);
   border-top-left-radius: 18px;
   border-top-right-radius: 18px;
-  box-shadow: 0 -12px 40px rgb(0 0 0 / 35%);
   animation: cal-feuille-monte 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 @keyframes cal-feuille-monte {
@@ -622,7 +620,7 @@
 .cal-feuille-tete {
   position: relative;
   flex: 0 0 auto;
-  padding: 1.1rem 3rem 0.8rem 1.3rem;
+  padding: var(--espace-16) var(--espace-48) var(--espace-12) var(--espace-24);
   border-bottom: var(--rule-width) solid var(--rule-hairline);
 }
 /* La poignee ne fait rien, elle DIT que ca vient du bas et que ca se referme.
@@ -630,7 +628,7 @@
    place parce qu'il annonce un geste. */
 .cal-feuille-poignee {
   position: absolute;
-  top: 0.45rem;
+  top: var(--espace-8);
   left: 50%;
   transform: translateX(-50%);
   width: 2.4rem;
@@ -648,8 +646,8 @@
 }
 .cal-feuille-fermer {
   position: absolute;
-  top: 0.9rem;
-  right: 0.9rem;
+  top: var(--espace-16);
+  right: var(--espace-16);
   width: 2.1rem;
   height: 2.1rem;
   border: var(--rule-width) solid var(--rule-hairline);
@@ -664,12 +662,13 @@
   border-color: var(--ink-primary);
 }
 
-/* SEUL LE CORPS DEFILE, et il le fait avec l'inertie du systeme. */
+/* SEUL LE CORPS DEFILE, et il le fait avec l'inertie du systeme. Le 0px du
+   bas est le repli de env(), pas un espacement : il reste en clair. */
 .cal-fiche {
   flex: 1 1 auto;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 1.1rem 1.3rem calc(1.6rem + env(safe-area-inset-bottom, 0px));
+  padding: var(--espace-16) var(--espace-24) calc(var(--espace-24) + env(safe-area-inset-bottom, 0px));
   min-width: 0;
 }
 
@@ -689,7 +688,6 @@
     width: min(30rem, 100vw - 2rem);
     max-height: none;
     border-radius: 0;
-    box-shadow: -12px 0 40px rgb(0 0 0 / 32%);
     animation: cal-feuille-glisse 220ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .cal-feuille-poignee {
@@ -713,25 +711,25 @@
   object-fit: cover;
   border-radius: 12px;
   background: var(--surface-margin);
-  margin: 0 0 1.1rem;
+  margin: 0 0 var(--espace-16);
 }
 @media (min-width: 860px) {
   .cal-fiche-affiche {
     max-height: none;
     aspect-ratio: 4 / 3;
-    margin-bottom: 1.3rem;
+    margin-bottom: var(--espace-24);
   }
 }
 
 .cal-fiche-faits {
-  margin: 0 0 1rem;
+  margin: 0 0 var(--espace-16);
   display: grid;
-  gap: 0.55rem;
+  gap: var(--espace-8);
 }
 .cal-fiche-faits div {
   display: grid;
   grid-template-columns: 6.5rem minmax(0, 1fr);
-  gap: 0.6rem;
+  gap: var(--espace-8);
   align-items: baseline;
 }
 .cal-fiche-faits dt {
@@ -754,7 +752,7 @@
 }
 
 .cal-fiche-texte h4 {
-  margin: 0 0 0.4rem;
+  margin: 0 0 var(--espace-8);
   color: var(--ink-secondary);
   font-size: 0.72rem;
   font-weight: var(--weight-data);
@@ -775,7 +773,7 @@
 }
 
 .cal-fiche-vide {
-  margin: 0 0 0.8rem;
+  margin: 0 0 var(--espace-12);
   max-width: 60ch;
   color: var(--ink-secondary);
   font-size: 0.8rem;
@@ -784,7 +782,7 @@
 
 .cal-fiche-lien {
   display: inline-block;
-  margin-top: 0.9rem;
+  margin-top: var(--espace-16);
   color: var(--ink-primary);
   font-size: 0.78rem;
   text-decoration: underline;
@@ -801,9 +799,8 @@
 .cal-ville {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.3rem 0.5rem 0.3rem 0.75rem;
-  border: var(--rule-width) solid var(--rule-hairline);
+  gap: var(--espace-8);
+  padding: var(--espace-4) var(--espace-8) var(--espace-4) var(--espace-12);
   border-radius: 999px;
 }
 /* LE MOT DEVANT SE LIT : 0,8 rem en demi-gras. Mika, le 23 septembre 2026,
@@ -828,9 +825,9 @@
    focus a lui, qui contredisait la regle generale de base.css et restait
    affiche apres chaque choix a la souris : « ya toujours un highlight
    rectangulaire », le 23 septembre 2026. Le focus se dit par la capsule
-   elle-meme, dont le filet fonce : pas de forme nouvelle, pas de bleu. */
+   elle-meme, dont le verre s'eclaircit : pas de forme nouvelle, pas de bleu. */
 .cal-ville:focus-within {
-  border-color: var(--ink-secondary);
+  --verre-fond: var(--verre-fond-survol);
 }
 
 /* ═══ LA BARRE COMPACTE ═══ Voir CalendrierPage.tsx. Les vues sont des
@@ -842,7 +839,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.1rem;
+  gap: 2px;
 }
 .cal-outils {
   margin-left: auto;
@@ -850,8 +847,8 @@
 .cal-vue {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  padding: 0.3rem 0.6rem;
+  gap: var(--espace-4);
+  padding: var(--espace-4) var(--espace-8);
   border: 0;
   border-radius: 999px;
   background: none;
@@ -865,10 +862,12 @@
   color: var(--ink-primary);
   background: var(--surface-margin);
 }
+/* LA VUE COURANTE PORTE L'ACCENT PLEIN, comme tout etat actif depuis
+   ADR-089, et son texte est --sur-accent. */
 .cal-vue-active,
 .cal-vue-active:hover {
-  color: var(--surface-plate);
-  background: var(--ink-primary);
+  color: var(--sur-accent);
+  background: var(--accent);
 }
 .cal-n {
   font-size: 0.72rem;
@@ -876,7 +875,7 @@
   font-variant-numeric: tabular-nums;
 }
 .cal-loupe {
-  padding: 0.3rem 0.45rem;
+  padding: var(--espace-4) var(--espace-8);
 }
 .cal-loupe svg {
   display: block;
@@ -884,7 +883,7 @@
 .cal-chercher-barre {
   flex: 0 1 14rem;
   min-width: 9rem;
-  padding: 0.25rem 0.75rem;
+  padding: var(--espace-4) var(--espace-12);
   font-size: 0.9rem;
 }
 .cal-style-pastille {
@@ -910,6 +909,11 @@
   opacity: 1;
   color: var(--ink-secondary);
 }
+/* SUR L'ACCENT, LE NOMBRE REPREND LE TEXTE DE LA VUE : une encre grise sur
+   le terracotta tomberait sous le AA. */
+:root[data-theme='clair'] .cal-vue-active .cal-n {
+  color: inherit;
+}
 
 /* ═══ LA BARRE SUR TELEPHONE : DEUX SELECTEURS DE MEME LARGEUR ═══
    Mika, le 28 septembre 2026, sur son iPhone : « rien n'est droit ». Ville
@@ -920,7 +924,7 @@
   .cal-fenetres {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.4rem;
+    gap: var(--espace-8);
   }
   .cal-fenetres .cal-ville {
     justify-content: space-between;
@@ -935,5 +939,36 @@
     grid-column: 1 / -1;
     margin-left: 0;
     justify-content: flex-start;
+  }
+}
+
+/* ═══ LES CIBLES TACTILES ═══ Sous 900 px, tout ce qui se touche fait au
+   moins 44 px de haut : les vues et les pastilles de la barre, les onglets,
+   les listes deroulantes, le bouton Reessayer, le lien de la fiche et le
+   titre de chaque carte, qui est un bouton meme si l'affiche ouvre deja la
+   meme feuille. La loupe et la croix de la feuille, qui sont des icones,
+   font aussi 44 px de large ; la croix remonte d'un cran et la tete de la
+   feuille lui reserve sa place, pour que le titre ne passe pas dessous. */
+@media (max-width: 899px) {
+  .cal-onglet,
+  .cal-vue,
+  .cal-ville select,
+  .cal-date select,
+  .cal-lien,
+  .cal-fiche-lien,
+  .cal-titre-bouton {
+    min-height: 44px;
+  }
+  .cal-loupe {
+    min-width: 44px;
+  }
+  .cal-feuille-fermer {
+    top: var(--espace-8);
+    right: var(--espace-8);
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .cal-feuille-tete {
+    padding-right: var(--espace-64);
   }
 }

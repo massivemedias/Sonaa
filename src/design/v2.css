@@ -1,4 +1,4 @@
-/* LA V2 : TAILWIND, SANS SON RESET, ET CINQ UTILITAIRES A NOUS.
+/* TAILWIND, SANS SON RESET, ET UN SEUL UTILITAIRE A NOUS.
 
    ═══ POURQUOI PAS `@import "tailwindcss"` TOUT COURT ═══
 
@@ -11,31 +11,25 @@
 
    ═══ LES COULEURS DE TAILWIND SONT NOS JETONS ═══
 
-   `bg-accent-a` ou `text-encre` ne portent pas une valeur, ils lisent
+   `bg-accent` ou `text-encre` ne portent pas une valeur, ils lisent
    tokens.css. Le theme clair, la carte en trois dimensions qui reste sombre,
    tout continue de marcher : Tailwind n'est qu'une autre facon d'ecrire une
    classe, pas une seconde source de verite.
 
-   ═══ LES UTILITAIRES DE LA V2 ═══
+   ═══ CE QUI EST PARTI LE 28 SEPTEMBRE 2026 ═══
 
-   Le verre, la lueur et la maille sont ce qui fait le look du prototype.
-
-   L'UTILITAIRE `texte-degrade` A ETE RETIRE LE 22 SEPTEMBRE 2026. Mika :
-   « retirer le degrade de couleur sur les textes ». Aucun composant ne
-   l'employait, les six regles qui posaient le degrade sur du texte le
-   faisaient a la main, et garder un utilitaire dont le seul objet vient
-   d'etre interdit est le meilleur moyen qu'il revienne par distraction. Le
-   degrade reste sur les boutons, les jauges et les fonds, par `--degrade`. Ils sont declares ici, une fois, avec les variantes de
-   Tailwind (hover:, md:) gratuites, et les feuilles des composants les
-   composent au lieu de les reecrire. Voir ADR-086. */
+   Les utilitaires `verre-fort`, `lueur` et `maille` sont retires avec la
+   direction qui les portait (ADR-089) : plus de lueur, plus de maille, un
+   seul verre. `verre` reste, et il lit la meme recette que design/verre.css,
+   pour qui voudrait la poser par une classe. Voir ADR-086 pour la pile. */
 
 @import 'tailwindcss/theme.css';
 @import 'tailwindcss/utilities.css';
 
 @theme inline {
   --font-sans: var(--police);
-  --color-accent-a: var(--accent-a);
-  --color-accent-c: var(--accent-c);
+  --color-accent: var(--accent);
+  --color-sur-accent: var(--sur-accent);
   --color-encre: var(--ink-primary);
   --color-encre-douce: var(--ink-secondary);
   --color-fond: var(--surface-plate);
@@ -46,20 +40,5 @@
   background: var(--verre-fond);
   backdrop-filter: var(--verre-flou);
   -webkit-backdrop-filter: var(--verre-flou);
-  border: 1px solid var(--verre-bord);
-}
-
-@utility verre-fort {
-  background: var(--verre-fond-fort);
-  backdrop-filter: var(--verre-flou);
-  -webkit-backdrop-filter: var(--verre-flou);
-  border: 1px solid var(--verre-bord-fort);
-}
-
-@utility lueur {
-  box-shadow: var(--lueur);
-}
-
-@utility maille {
-  background-image: var(--maille);
+  box-shadow: var(--verre-filet);
 }

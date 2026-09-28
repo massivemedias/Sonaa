@@ -38,7 +38,7 @@ import { monArtiste, urlAvatar } from '../lib/sets.ts';
 import { t } from '../langue/langue.ts';
 import { ChoixLangue } from './ChoixLangue.tsx';
 import { FaIcon } from './FaIcon.tsx';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faUser } from '@fortawesome/free-solid-svg-icons';
 import { EVENEMENT_RECHERCHE } from './RechercheGlobale.tsx';
 import { ChoixTheme } from './ChoixTheme.tsx';
 import './auth-button.css';
@@ -467,8 +467,13 @@ export function AuthButton() {
           )}
         </>
       ) : (
-        <button className="authb-bouton" onClick={() => setOuvert(true)}>
-          {t.seConnecter}
+        /* SUR TELEPHONE, UN ROND ET UNE ICONE, COMME LE COMPTE CONNECTE. Le
+           mot entier faisait 111 px en francais, et la barre du haut ne
+           tenait plus a 320 px : il recouvrait le logo. Le mot reste dans le
+           bouton pour l'ordinateur, et dans son nom pour qui lit l'ecran. */
+        <button className="authb-bouton authb-entrer" onClick={() => setOuvert(true)} aria-label={t.seConnecter}>
+          <FaIcon icon={faUser} className="authb-entrer-icone" />
+          <span className="authb-entrer-mot">{t.seConnecter}</span>
         </button>
       )}
 

@@ -73,6 +73,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
+  /* Exception : moitie de la largeur de la poignee, qui se centre sur le bord. */
   left: -5px;
   width: 10px;
   cursor: col-resize;
@@ -85,6 +86,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
+  /* Exception : (10 - 2) / 2, le trait se centre dans la poignee. */
   left: 4px;
   width: 2px;
   background: transparent;
@@ -155,9 +157,9 @@
   transform: translateY(-50%);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--espace-8);
   max-width: 40vw;
-  padding: 0.7rem 0.8rem;
+  padding: var(--espace-12);
   background: var(--panneau-96);
   border: 1px solid var(--rule-hairline);
   border-right: 0;
@@ -181,7 +183,7 @@
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  padding: 1.1rem 1.1rem 0.8rem;
+  padding: var(--espace-16) var(--espace-16) var(--espace-12);
   scrollbar-width: thin;
 }
 
@@ -236,14 +238,14 @@
   position: absolute;
   inset: auto 0 0 0;
   margin: 0;
-  padding: 0.5rem 0.7rem;
+  padding: var(--espace-8) var(--espace-12);
   font-size: 0.71875rem;
   color: var(--ink-secondary);
   background: var(--panneau-9);
 }
 
 .pcol-title {
-  margin: 0.9rem 0 0;
+  margin: var(--espace-16) 0 0;
   font-size: 1.25rem;
   font-weight: var(--weight-track);
   line-height: 1.2;
@@ -251,17 +253,17 @@
 }
 
 .pcol-artist {
-  margin: 0.15rem 0 0;
+  margin: 2px 0 0;
   font-size: 0.9375rem;
   font-weight: var(--weight-data);
   color: var(--ink-secondary);
 }
 
 .pcol-genre {
-  margin: 0.5rem 0 0;
+  margin: var(--espace-8) 0 0;
   display: flex;
   align-items: baseline;
-  gap: 0.55rem;
+  gap: var(--espace-8);
   flex-wrap: wrap;
 }
 
@@ -291,11 +293,11 @@
 /* Le label de disque : ligne dédiée, du poids. C'est une donnée de digging,
    pas une note de bas de page. */
 .pcol-imprint {
-  margin: 0.55rem 0 0;
+  margin: var(--espace-8) 0 0;
   font-size: 0.9375rem;
   display: flex;
   align-items: baseline;
-  gap: 0.5rem;
+  gap: var(--espace-8);
 }
 
 .pcol-imprint strong {
@@ -310,11 +312,11 @@
   color: var(--ink-secondary);
   font-variant-numeric: tabular-nums;
   border: 1px solid var(--rule-hairline);
-  padding: 0.08rem 0.4rem;
+  padding: 1px var(--espace-8);
 }
 
 .pcol-release {
-  margin: 0.3rem 0 0;
+  margin: var(--espace-4) 0 0;
   font-size: 0.78125rem;
   font-weight: var(--weight-data);
   color: var(--ink-secondary);
@@ -324,7 +326,7 @@
 /* --- Les infos du genre, repliables, ouvertes par défaut ------------------- */
 
 .pcol-info {
-  margin-top: 0.9rem;
+  margin-top: var(--espace-16);
   border-top: 1px solid var(--rule-hairline);
 }
 
@@ -333,7 +335,7 @@
   text-align: left;
   background: transparent;
   border: 0;
-  padding: 0.6rem 0;
+  padding: var(--espace-8) 0;
   cursor: pointer;
   font-family: var(--font-ui);
   font-size: 0.6875rem;
@@ -344,7 +346,7 @@
 }
 
 .pcol-info-body {
-  padding-bottom: 0.6rem;
+  padding-bottom: var(--espace-8);
   animation: pcol-fade 200ms var(--motion-ease, ease);
 }
 
@@ -354,7 +356,7 @@
 }
 
 .pcol-draft {
-  margin: 0 0 0.5rem;
+  margin: 0 0 var(--espace-8);
   font-size: 0.65625rem;
   letter-spacing: var(--serrage);
   text-transform: uppercase;
@@ -363,7 +365,7 @@
 
 /* Corps de texte confortable, 62 caractères de ligne dans la colonne. */
 .pcol-description {
-  margin: 0 0 0.7rem;
+  margin: 0 0 var(--espace-12);
   max-width: 62ch;
   font-size: 0.8125rem;
   font-weight: var(--weight-data);
@@ -372,7 +374,7 @@
 }
 
 .pcol-info-body h4 {
-  margin: 0.55rem 0 0.15rem;
+  margin: var(--espace-8) 0 2px;
   font-size: 0.625rem;
   font-weight: var(--weight-data);
   letter-spacing: var(--serrage);
@@ -389,7 +391,7 @@
 .pcol-labels {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.8rem;
+  gap: var(--espace-12);
 }
 
 .pcol-none {
@@ -416,8 +418,8 @@
    n'a pas besoin de crier pour se trouver. */
 .pcol-row-role {
   display: inline-block;
-  margin-left: 0.45rem;
-  padding: 0.05rem 0.3rem;
+  margin-left: var(--espace-8);
+  padding: 1px var(--espace-4);
   border: 1px solid var(--rule-hairline);
   border-radius: 2px;
   font-family: var(--font-ui);
@@ -437,7 +439,7 @@
 /* La legende, une seule fois sous la liste et seulement si un role y figure :
    une legende qui explique des signes absents est du bruit. */
 .pcol-legende {
-  margin: 0.5rem 0 0;
+  margin: var(--espace-8) 0 0;
   font-family: var(--font-ui);
   font-size: 0.625rem;
   line-height: 1.5;
@@ -449,7 +451,7 @@
    disputer la lecture. */
 .pcol-poids {
   list-style: none;
-  margin: 0 0 0.7rem;
+  margin: 0 0 var(--espace-12);
   padding: 0;
   font-family: var(--font-ui);
   font-size: 0.72rem;
@@ -468,7 +470,7 @@
 
 .pcol-list {
   list-style: none;
-  margin: 0.6rem 0 0;
+  margin: var(--espace-8) 0 0;
   padding: 0;
 }
 
@@ -476,8 +478,8 @@
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 0.7rem;
-  padding: 0.4rem 0.4rem;
+  gap: var(--espace-12);
+  padding: var(--espace-8);
   background: transparent;
   border: 0;
   border-bottom: 1px solid var(--voile-05);
@@ -557,7 +559,7 @@
 }
 
 .pcol-shared {
-  margin: 0.7rem 0 0;
+  margin: var(--espace-12) 0 0;
   font-size: 0.78125rem;
   color: var(--ink-secondary);
 }
@@ -580,8 +582,8 @@
   flex: none;
   display: flex;
   align-items: center;
-  gap: 0.55rem;
-  padding: 0.6rem 0.9rem calc(0.6rem + env(safe-area-inset-bottom));
+  gap: var(--espace-8);
+  padding: var(--espace-8) var(--espace-16) calc(var(--espace-8) + env(safe-area-inset-bottom));
   border-top: 1px solid var(--rule-hairline);
   background: var(--creux-2);
 }
@@ -592,7 +594,7 @@
   color: var(--ink-primary);
   background: transparent;
   border: 0;
-  padding: 0.25rem;
+  padding: var(--espace-4);
   cursor: pointer;
   line-height: 1;
 }
@@ -705,6 +707,7 @@
 .pcol-bar-fill::after {
   content: '';
   position: absolute;
+  /* Exception : moitie de la largeur de la poignee, qui se centre sur le bout du rempli. */
   right: -9px;
   top: 50%;
   transform: translateY(-50%);
@@ -757,14 +760,14 @@
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  margin-bottom: 6px;
+  margin-bottom: var(--espace-4);
   z-index: 14;
 
   display: grid;
   place-items: center;
   width: 34px;
   height: 104px;
-  padding: 10px 0;
+  padding: var(--espace-8) 0;
 
   background: var(--surface-raised);
   border: 1px solid var(--rule-hairline);
@@ -792,7 +795,7 @@
   color: var(--ink-secondary);
   text-decoration: none;
   border: 1px solid var(--rule-hairline);
-  padding: 0.25rem 0.45rem;
+  padding: var(--espace-4) var(--espace-8);
   white-space: nowrap;
 }
 
@@ -802,8 +805,8 @@
 
 .pcol-close {
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+  top: var(--espace-8);
+  right: var(--espace-8);
   width: 32px;
   height: 32px;
   background: transparent;
@@ -981,8 +984,9 @@
 
        Quarante-quatre pixels de bouton plus douze d'ecart. Et une reserve a
        droite, sans laquelle la duree de fin sortait du cadre. */
-    padding-left: 56px;
-    padding-right: 6px;
+    /* Exception : 44px est la largeur du bouton de reduction, une taille et non un espacement. */
+    padding-left: calc(44px + var(--espace-12));
+    padding-right: var(--espace-4);
   }
 
   /* LA BARRE DE PROGRESSION REPREND LA PLACE RENDUE.
@@ -1040,14 +1044,14 @@
 
   .pcol[data-sheet='half'] .pcol-list,
   .pcol[data-sheet='full'] .pcol-list {
-    margin-top: 0.3rem;
+    margin-top: var(--espace-4);
   }
 
   .pcol-handle {
     display: block;
     flex: none;
     width: 100%;
-    padding: 0.55rem 0;
+    padding: var(--espace-8) 0;
     background: transparent;
     border: 0;
     cursor: grab;
@@ -1072,7 +1076,7 @@
   }
 
   .pcol-scroll {
-    padding: 0 1rem 0.8rem;
+    padding: 0 var(--espace-16) var(--espace-12);
   }
 
   /* L'ancienne pochette centree a 60 % de la largeur : remplacee par la
@@ -1080,14 +1084,6 @@
      hasard avec une autre valeur du meme nombre ailleurs. */
   .pcol-media {
     margin: 0 auto;
-  }
-
-  /* Cibles tactiles. La règle vise les boutons de transport ORDINAIRES :
-     le bouton de lecture a ses propres dimensions, verrouillées plus haut
-     par des min/max, et le volume a les siennes. */
-  .pcol-transport button {
-    min-width: 42px;
-    min-height: 42px;
   }
 
   /* 48 px au doigt, toujours parfaitement rond. */
@@ -1149,7 +1145,7 @@
   }
 
   .pcol-transport {
-    gap: 0.35rem;
+    gap: var(--espace-4);
   }
 }
 
@@ -1182,7 +1178,7 @@
 @container pcol (max-width: 430px) {
   .pcol-transport {
     flex-wrap: wrap;
-    row-gap: 0.5rem;
+    row-gap: var(--espace-8);
   }
 
   /* Rangée 1 : les commandes. Rangée 2 : la position. */
@@ -1206,6 +1202,8 @@
 
 /* --- Barre discrète ---------------------------------------------------------- */
 
+/* Sa matiere, son filet et son ombre viennent de design/verre.css : cette
+   regle ne garde que sa place et sa mise en rangee. */
 .mini {
   position: fixed;
   left: 0;
@@ -1214,16 +1212,14 @@
   z-index: 13;
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 0.5rem 1.1rem 0.5rem 0.9rem;
-  background: var(--panneau-97);
-  border-top: 1px solid var(--rule-hairline);
+  gap: var(--espace-16);
+  padding: var(--espace-8) var(--espace-16);
 }
 
 .mini-back {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: var(--espace-12);
   background: transparent;
   border: 0;
   padding: 0;
@@ -1267,7 +1263,7 @@
 .mini-transport {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: var(--espace-12);
   flex: none;
 }
 
@@ -1306,11 +1302,6 @@
   .mini-text {
     max-width: 9rem;
   }
-  .mini-transport button,
-  .mini-stop {
-    min-width: 44px;
-    min-height: 44px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1329,7 +1320,7 @@
 /* --- La fiche vit dans la colonne (mission clic direct) -------------------- */
 
 .pcol-head {
-  margin-bottom: 0.9rem;
+  margin-bottom: var(--espace-16);
 }
 
 .pcol-genre-title {
@@ -1341,10 +1332,10 @@
 }
 
 .pcol-genre-line {
-  margin: 0.3rem 0 0;
+  margin: var(--espace-4) 0 0;
   display: flex;
   align-items: baseline;
-  gap: 0.6rem;
+  gap: var(--espace-8);
   flex-wrap: wrap;
 }
 
@@ -1369,7 +1360,7 @@
   text-transform: uppercase;
   color: var(--ink-secondary);
   border: 1px solid var(--rule-hairline);
-  padding: 0.1rem 0.4rem;
+  padding: 2px var(--espace-8);
 }
 
 .pcol-badge-draft {
@@ -1379,7 +1370,7 @@
 
 /* Le transport est désormais DANS le flux, sous l'identité de la track. */
 .pcol-transport {
-  margin: 0.8rem 0 0.2rem;
+  margin: var(--espace-12) 0 var(--espace-4);
   border: 1px solid var(--rule-hairline);
   border-left: 0;
   border-right: 0;
@@ -1390,14 +1381,14 @@
 
 /* Les filiations, en pied de colonne. */
 .pcol-filiations {
-  margin-top: 1rem;
+  margin-top: var(--espace-16);
   border-top: 1px solid var(--rule-hairline);
-  padding-top: 0.4rem;
-  padding-bottom: 0.6rem;
+  padding-top: var(--espace-8);
+  padding-bottom: var(--espace-8);
 }
 
 .pcol-filiations h4 {
-  margin: 0.6rem 0 0.15rem;
+  margin: var(--espace-8) 0 2px;
   font-size: 0.625rem;
   font-weight: var(--weight-data);
   letter-spacing: var(--serrage);
@@ -1414,7 +1405,7 @@
 .pcol-fil-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.3rem;
+  gap: var(--espace-4);
 }
 
 .pcol-fil-link {
@@ -1423,7 +1414,7 @@
   color: var(--ink-primary);
   font-family: var(--font-ui);
   font-size: 0.75rem;
-  padding: 0.16rem 0.5rem;
+  padding: 3px var(--espace-8);
   cursor: pointer;
   transition: border-color 150ms linear, color 150ms linear;
 }
@@ -1434,17 +1425,17 @@
 }
 
 .pcol-fil-shared {
-  margin-bottom: 0.25rem !important;
+  margin-bottom: var(--espace-4) !important;
 }
 
 
 /* Message d'erreur YouTube : honnête et discret. */
 .pcol-notice {
-  margin: 0.5rem 0 0;
+  margin: var(--espace-8) 0 0;
   font-size: 0.75rem;
   color: oklch(var(--lt-75) 0.12 60);
   border: 1px solid oklch(var(--lt-40) 0.08 60);
-  padding: 0.35rem 0.55rem;
+  padding: var(--espace-4) var(--espace-8);
 }
 
 .mini-notice {
@@ -1465,7 +1456,7 @@
 .pcol-li {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: var(--espace-4);
 }
 
 .pcol-li .pcol-row {
@@ -1478,7 +1469,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.05rem;
+  gap: 1px;
   width: 1.9rem;
 }
 
@@ -1518,8 +1509,8 @@
 }
 
 .pcol-vote-erreur {
-  margin: 0 0 0.5rem;
-  padding: 0.45rem 0.6rem;
+  margin: 0 0 var(--espace-8);
+  padding: var(--espace-8);
   font-size: 0.76rem;
   line-height: 1.45;
   color: oklch(var(--lt-88) 0.09 25);
@@ -1557,10 +1548,10 @@
   .pcol[data-sheet='full'] .pcol-scroll {
     display: grid;
     grid-template-columns: 56px minmax(0, 1fr);
-    column-gap: 0.6rem;
-    row-gap: 0.15rem;
+    column-gap: var(--espace-8);
+    row-gap: 2px;
     align-content: start;
-    padding-top: 0.2rem;
+    padding-top: var(--espace-4);
   }
 
   /* Par defaut tout occupe la largeur entiere. Seuls les trois elements de la
@@ -1652,7 +1643,7 @@
     inset: 0 0 auto auto;
     width: 44px;
     height: 44px;
-    background: color-mix(in oklab, black 55%, transparent);
+    background: var(--rideau-55);
     border-radius: 0 6px 0 6px;
   }
 
@@ -1663,7 +1654,7 @@
   }
 
   .pcol-transport {
-    margin-top: 0.5rem;
+    margin-top: var(--espace-8);
   }
 
   /* LA LISTE PREND LE RESTE. Elle etait limitee en hauteur et defilait dans
@@ -1671,7 +1662,7 @@
   .pcol-list {
     max-height: none;
     overflow: visible;
-    margin-top: 0.4rem;
+    margin-top: var(--espace-8);
   }
 
 }
@@ -1697,13 +1688,13 @@
 
   .pcol-genre-line {
     font-size: 0.7rem;
-    margin: 0.1rem 0 0;
+    margin: 2px 0 0;
   }
 
   .pcol-row {
-    padding-top: 0.22rem;
-    padding-bottom: 0.22rem;
-    gap: 0.5rem;
+    padding-top: var(--espace-4);
+    padding-bottom: var(--espace-4);
+    gap: var(--espace-8);
   }
 
   .pcol-row-cover {
@@ -1724,7 +1715,7 @@
     margin-top: 2px;
   }
   .pcol-transport {
-    row-gap: 0.3rem;
+    row-gap: var(--espace-4);
   }
 }
 
@@ -1777,10 +1768,10 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--espace-8);
   height: 100%;
   /* DOUZE A GAUCHE, comme demande : la vignette ne colle plus au bord. */
-  padding: 0 10px 0 12px;
+  padding: 0 var(--espace-8) 0 var(--espace-12);
   background: var(--fond, var(--plaque));
   touch-action: pan-y;
 }
@@ -1800,7 +1791,7 @@
 .pcol-mini-progres span {
   display: block;
   height: 100%;
-  background: var(--family, oklch(var(--lt-72) 0.15 250));
+  background: var(--family, var(--accent));
 }
 
 .pcol-mini-ouvrir {
@@ -1808,7 +1799,7 @@
   min-width: 0;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--espace-8);
   padding: 0;
   background: transparent;
   border: 0;
@@ -1958,8 +1949,8 @@
    ce qui est exactement ce qui doit changer. */
 .pcol-fermer {
   position: absolute;
-  top: 6px;
-  left: 6px;
+  top: var(--espace-4);
+  left: var(--espace-4);
   z-index: 2;
   display: grid;
   place-items: center;
@@ -1997,6 +1988,8 @@
     display: none;
   }
 
+  /* Exception assumee a la largeur de 44 px : a 320 px la rangee deborde
+     sinon. La hauteur, elle, reste a 44 px, voir les cibles tactiles plus bas. */
   .pcol[data-sheet='half'] .pcol-transport > button,
   .pcol[data-sheet='full'] .pcol-transport > button {
     width: 38px;
@@ -2012,6 +2005,55 @@
 
   .pcol[data-sheet='half'] .pcol-transport,
   .pcol[data-sheet='full'] .pcol-transport {
-    padding-right: 4px;
+    padding-right: var(--espace-4);
+  }
+}
+
+/* --- Cibles tactiles, sous 900 px -------------------------------------------
+
+   Tout ce qui se touche fait au moins 44 px de haut, et 44 de large quand
+   c'est un bouton icone. Deux exceptions assumees plus haut : les fleches de
+   vote, resserrees sous 700 px seulement pour garder cinq titres visibles
+   (entre 701 et 899 px elles font 44 px, bloc suivant), et la largeur des
+   boutons de transport sous 360 px, ou la rangee ne tient pas autrement.
+   Les liens de filiation poses dans une phrase n'en sont pas. */
+@media (max-width: 899px) {
+  .pcol-rappel,
+  .pcol-info-toggle,
+  .pcol-row,
+  .pcol-filiations p > .pcol-fil-link {
+    min-height: 44px;
+  }
+
+  /* Boutons de transport, bouton de lecture compris, volume, fermeture et
+     commandes du mini lecteur : 44 px dans les deux sens. */
+  .pcol-transport button,
+  .pcol-close,
+  .pcol-vol-bouton,
+  .pcol-mini-transport button,
+  .mini-transport button,
+  .mini-stop {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Le lien vers YouTube est un lien-bouton : il se centre dans sa hauteur. */
+  .pcol-youtube {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+/* Fleches de vote entre 701 et 899 px : l'arbitrage du telephone ne vaut que
+   sous 700 px, la colonne laterale reprend donc 44 px. Requete a part pour ne
+   pas ecraser le resserrement sous 700 px. */
+@media (min-width: 701px) and (max-width: 899px) {
+  .tvote {
+    width: 44px;
+  }
+  .tvote-b {
+    min-width: 44px;
+    min-height: 44px;
   }
 }

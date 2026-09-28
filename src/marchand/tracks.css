@@ -6,15 +6,14 @@
 
 .tr-attente {
   max-width: 60ch;
-  padding: 1.6rem 1.6rem 1.4rem;
+  padding: var(--espace-24);
   border-radius: var(--rayon-carte);
   background: var(--verre-fond);
-  border: 1px solid var(--verre-bord);
-  box-shadow: var(--ombre-carte);
+  border: 1px solid var(--filet);
 }
 
 .tr-attente-titre {
-  margin: 0 0 0.6rem;
+  margin: 0 0 var(--espace-8);
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: var(--serrage-ui);
@@ -23,7 +22,7 @@
 }
 
 .tr-attente-texte {
-  margin: 0 0 1.2rem;
+  margin: 0 0 var(--espace-16);
   font-size: 1.05rem;
   line-height: 1.6;
   color: var(--ink-secondary);
@@ -31,11 +30,20 @@
 
 .tr-lien {
   display: inline-block;
-  padding: 0.6rem 1.3rem;
+  padding: var(--espace-8) var(--espace-24);
   border-radius: var(--rayon-pilule);
-  background: var(--degrade);
-  color: var(--sur-degrade);
-  box-shadow: var(--lueur);
+  background: var(--accent);
+  color: var(--sur-accent);
   font-weight: 700;
   text-decoration: none;
+}
+
+/* Sous 900 px, le lien-bouton est une cible : 44 px de haut au moins, le
+   texte centre dedans. */
+@media (max-width: 899px) {
+  .tr-lien {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
 }

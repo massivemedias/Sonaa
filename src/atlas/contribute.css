@@ -12,9 +12,8 @@
   z-index: 60;
   display: grid;
   place-items: center;
-  padding: 4dvh 1rem;
+  padding: 4dvh var(--espace-16);
   background: var(--rideau-72);
-  backdrop-filter: blur(3px);
 }
 
 .contrib-boite {
@@ -27,11 +26,11 @@
   border-radius: 4px;
   font-family: var(--font-ui);
   color: var(--ink-primary);
-  box-shadow: 0 1.5rem 3rem var(--rideau-5);
+  box-shadow: var(--ombre-flottante);
 }
 
 .contrib-tete {
-  padding: 1.1rem 1.3rem 0.9rem;
+  padding: var(--espace-16) var(--espace-24);
   border-bottom: var(--rule-width) solid var(--rule-hairline);
 }
 
@@ -43,19 +42,19 @@
 }
 
 .contrib-genre {
-  margin: 0.2rem 0 0;
+  margin: var(--espace-4) 0 0;
   font-size: 0.8rem;
   font-weight: var(--weight-data);
   color: var(--ink-secondary);
 }
 
 .contrib-corps {
-  padding: 1.1rem 1.3rem 1.3rem;
+  padding: var(--espace-16) var(--espace-24) var(--espace-24);
   overflow-y: auto;
 }
 
 .contrib-intro {
-  margin: 0 0 1.1rem;
+  margin: 0 0 var(--espace-16);
   font-size: 0.85rem;
   line-height: 1.55;
   color: var(--ink-secondary);
@@ -63,15 +62,15 @@
 
 .contrib-champ {
   display: block;
-  margin-bottom: 0.9rem;
+  margin-bottom: var(--espace-16);
 }
 
 .contrib-champ > span {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: 0.6rem;
-  margin-bottom: 0.3rem;
+  gap: var(--espace-8);
+  margin-bottom: var(--espace-4);
   font-size: 0.78rem;
   font-weight: var(--weight-track);
 }
@@ -87,7 +86,7 @@
 .contrib-champ select,
 .contrib-champ textarea {
   width: 100%;
-  padding: 0.5rem 0.6rem;
+  padding: var(--espace-8);
   font-family: inherit;
   font-size: 0.88rem;
   color: var(--ink-primary);
@@ -110,21 +109,21 @@
 }
 
 .contrib-note {
-  margin: 0 0 0.9rem;
+  margin: 0 0 var(--espace-16);
   font-size: 0.75rem;
   line-height: 1.5;
   color: var(--ink-secondary);
 }
 
 .contrib-connexion {
-  margin-top: 1.1rem;
-  padding-top: 1rem;
+  margin-top: var(--espace-16);
+  padding-top: var(--espace-16);
   border-top: var(--rule-width) solid var(--rule-hairline);
 }
 
 .contrib-erreur {
-  margin: 0 0 0.9rem;
-  padding: 0.55rem 0.7rem;
+  margin: 0 0 var(--espace-16);
+  padding: var(--espace-8) var(--espace-12);
   font-size: 0.8rem;
   line-height: 1.5;
   color: oklch(var(--lt-88) 0.09 25);
@@ -134,7 +133,7 @@
 }
 
 .contrib-succes {
-  margin: 0 0 0.8rem;
+  margin: 0 0 var(--espace-12);
   font-size: 0.88rem;
   line-height: 1.55;
 }
@@ -146,13 +145,13 @@
 .contrib-pied {
   display: flex;
   justify-content: flex-end;
-  gap: 0.6rem;
-  margin-top: 1.2rem;
+  gap: var(--espace-8);
+  margin-top: var(--espace-16);
 }
 
 .contrib-primaire,
 .contrib-secondaire {
-  padding: 0.5rem 0.95rem;
+  padding: var(--espace-8) var(--espace-16);
   font-family: inherit;
   font-size: 0.82rem;
   font-weight: var(--weight-track);
@@ -181,13 +180,13 @@
 /* ------------------------------------------- boutons dans la fiche de genre */
 
 .contrib-actions {
-  margin-top: 1.4rem;
-  padding-top: 1rem;
+  margin-top: var(--espace-24);
+  padding-top: var(--espace-16);
   border-top: var(--rule-width) solid var(--rule-hairline);
 }
 
 .contrib-actions h4 {
-  margin: 0 0 0.55rem;
+  margin: 0 0 var(--espace-8);
   font-size: 0.72rem;
   font-weight: var(--weight-track);
   letter-spacing: var(--serrage);
@@ -198,11 +197,11 @@
 .contrib-actions-liste {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: var(--espace-8);
 }
 
 .contrib-bouton {
-  padding: 0.35rem 0.65rem;
+  padding: var(--espace-4) var(--espace-12);
   font-family: var(--font-ui);
   font-size: 0.76rem;
   font-weight: var(--weight-data);
@@ -221,7 +220,7 @@
 
 .contrib-compteur {
   display: inline-block;
-  margin-top: 0.55rem;
+  margin-top: var(--espace-8);
   font-size: 0.74rem;
   color: var(--ink-secondary);
 }
@@ -238,14 +237,14 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--espace-12);
 }
 
 .prop-carte {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 0.9rem;
-  padding: 0.85rem 1rem;
+  gap: var(--espace-16);
+  padding: var(--espace-16);
   background: var(--surface-raised);
   border: var(--rule-width) solid var(--rule-hairline);
   border-radius: 3px;
@@ -255,7 +254,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.15rem;
+  gap: 2px;
   min-width: 2.4rem;
 }
 
@@ -282,10 +281,13 @@
   cursor: default;
 }
 
-.prop-vote-actif {
-  color: var(--ink-primary);
-  border-color: var(--ink-secondary);
-  background: var(--filet-fantome-2);
+/* Le vote donne est un etat actif : fond accent, texte prevu pour l'accent,
+   y compris au survol, pour que l'encre du survol ne se pose pas dessus. */
+.prop-vote-actif,
+.prop-vote-actif:hover:not(:disabled) {
+  color: var(--sur-accent);
+  border-color: var(--accent);
+  background: var(--accent);
 }
 
 .prop-score {
@@ -295,26 +297,26 @@
 }
 
 .prop-corps h3 {
-  margin: 0 0 0.25rem;
+  margin: 0 0 var(--espace-4);
   font-size: 0.92rem;
   font-weight: var(--weight-genre);
 }
 
 .prop-meta {
-  margin: 0 0 0.5rem;
+  margin: 0 0 var(--espace-8);
   font-size: 0.74rem;
   color: var(--ink-secondary);
 }
 
 .prop-justification {
-  margin: 0 0 0.4rem;
+  margin: 0 0 var(--espace-8);
   font-size: 0.83rem;
   line-height: 1.55;
 }
 
 .prop-etat {
   display: inline-block;
-  padding: 0.08rem 0.4rem;
+  padding: 1px var(--espace-8);
   font-size: 0.68rem;
   letter-spacing: var(--serrage);
   text-transform: uppercase;
@@ -328,7 +330,7 @@
 .prop-etat-rejected { color: oklch(var(--lt-80) 0.09 25);  border-color: oklch(var(--lt-45) 0.07 25); }
 
 .prop-mienne {
-  margin-left: 0.4rem;
+  margin-left: var(--espace-8);
   font-size: 0.68rem;
   color: var(--ink-secondary);
 }
@@ -336,12 +338,12 @@
 .prop-filtres {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-bottom: 1.2rem;
+  gap: var(--espace-8);
+  margin-bottom: var(--espace-16);
 }
 
 .prop-filtre {
-  padding: 0.3rem 0.7rem;
+  padding: var(--espace-4) var(--espace-12);
   font-family: var(--font-ui);
   font-size: 0.78rem;
   color: var(--ink-secondary);
@@ -351,32 +353,33 @@
   cursor: pointer;
 }
 
+/* Le filtre courant est un etat actif : fond accent, texte prevu pour l'accent. */
 .prop-filtre-actif {
-  color: var(--ink-primary);
-  border-color: var(--rule-strong);
-  background: var(--surface-raised);
+  color: var(--sur-accent);
+  border-color: var(--accent);
+  background: var(--accent);
 }
 
 .prop-vide {
-  padding: 2rem 0;
+  padding: var(--espace-32) 0;
   font-size: 0.88rem;
   color: var(--ink-secondary);
 }
 
 /* Modération : les décisions sont dans la carte, pas dans une autre page. */
 .prop-moderation {
-  margin-top: 0.7rem;
-  padding-top: 0.7rem;
+  margin-top: var(--espace-12);
+  padding-top: var(--espace-12);
   border-top: var(--rule-width) solid var(--rule-hairline);
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: var(--espace-8);
   align-items: center;
 }
 
 .prop-moderation input {
   flex: 1 1 12rem;
-  padding: 0.35rem 0.55rem;
+  padding: var(--espace-4) var(--espace-8);
   font-family: inherit;
   font-size: 0.8rem;
   color: var(--ink-primary);
@@ -387,7 +390,7 @@
 
 @media (max-width: 560px) {
   .contrib-boite { width: 100%; max-height: 94dvh; }
-  .prop-carte { padding: 0.75rem 0.8rem; gap: 0.7rem; }
+  .prop-carte { padding: var(--espace-12); gap: var(--espace-12); }
 
   /* Cibles tactiles. Mesurées à 30 px de côté sur un écran de 375 px, sous
      le minimum de 44 px : voter demandait de viser. */
@@ -397,25 +400,25 @@
 
 /* LA FILE DE MODERATION DES COMMENTAIRES. */
 .mod-fermeture {
-  margin: 1.2rem 0;
-  padding: 0.8rem;
+  margin: var(--espace-16) 0;
+  padding: var(--espace-12);
   border: 1px solid var(--voile-12);
   border-radius: 6px;
 }
 .mod-fermeture label {
   display: block;
-  margin-block-end: 0.45rem;
+  margin-block-end: var(--espace-8);
   font-size: 0.82rem;
   color: var(--voile-68);
 }
 .mod-fermeture-ligne {
   display: flex;
-  gap: 0.5rem;
+  gap: var(--espace-8);
   flex-wrap: wrap;
 }
 .mod-fermeture-ligne input {
   flex: 1 1 14rem;
-  padding: 0.4rem 0.55rem;
+  padding: var(--espace-8);
   border: 1px solid var(--voile-16);
   border-radius: 5px;
   background: var(--voile-04);
@@ -424,22 +427,22 @@
 }
 .mod-liste {
   list-style: none;
-  margin: 1rem 0 0;
+  margin: var(--espace-16) 0 0;
   padding: 0;
 }
 .mod-item {
-  padding: 0.7rem 0;
+  padding: var(--espace-12) 0;
   border-block-start: 1px solid var(--voile-1);
 }
 .mod-item-entete {
   display: flex;
-  gap: 0.7rem;
+  gap: var(--espace-12);
   flex-wrap: wrap;
   font-size: 0.76rem;
   color: var(--voile-5);
 }
 .mod-signalements {
-  color: rgba(255, 190, 120, 0.85);
+  color: oklch(var(--lt-82) 0.10 65);
 }
 .mod-masque {
   color: var(--voile-4);
@@ -447,18 +450,37 @@
   letter-spacing: var(--serrage);
 }
 .mod-item-corps {
-  margin: 0.4rem 0;
+  margin: var(--espace-8) 0;
   font-size: 0.88rem;
   line-height: 1.5;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
 .mod-motifs {
-  margin: 0.3rem 0;
+  margin: var(--espace-4) 0;
   font-size: 0.76rem;
   color: var(--voile-45);
 }
 .mod-item-actions {
   display: flex;
-  gap: 0.5rem;
+  gap: var(--espace-8);
+}
+
+/* SOUS 900 PX, CHAQUE BOUTON EST UNE CIBLE : 44 px de haut au moins, et
+   44 px de cote pour les fleches de vote. Les boutons nus de la file de
+   moderation comptent aussi. */
+@media (max-width: 899px) {
+  .contrib-champ select,
+  .contrib-primaire,
+  .contrib-secondaire,
+  .contrib-bouton,
+  .prop-filtre,
+  .mod-fermeture-ligne button,
+  .mod-item-actions button {
+    min-height: 44px;
+  }
+  .prop-vote {
+    min-width: 44px;
+    min-height: 44px;
+  }
 }

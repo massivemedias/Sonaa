@@ -44,10 +44,9 @@ interface Props {
   readonly onAffiche: (id: string) => void;
 }
 
-/* LES INCLINAISONS SONT ECRITES, PAS TIREES AU SORT. Un angle aleatoire
-   change a chaque rendu de React, et le collage tremble des qu'on clique
-   ailleurs sur la page. */
-const ANGLES = [-7, 5, -3, 8, -5];
+/* CINQ AFFICHES, ET PAS UNE DE PLUS : c'est la largeur d'une rangee droite
+   sur ordinateur. Elles ne sont plus inclinees depuis ADR-089. */
+const N_AFFICHES = 5;
 
 export function HeroAccueil({
   ville,
@@ -94,15 +93,8 @@ export function HeroAccueil({
 
       {affiches.length > 0 && (
         <Apparition i={1} className="hero-collage" aria-label={t.heroAffiches}>
-          {affiches.slice(0, ANGLES.length).map((a, i) => (
-            <button
-              key={a.id}
-              type="button"
-              className="hero-affiche"
-              style={{ '--tour': `${ANGLES[i] ?? 0}deg` } as React.CSSProperties}
-              onClick={() => onAffiche(a.id)}
-              title={a.titre}
-            >
+          {affiches.slice(0, N_AFFICHES).map((a) => (
+            <button key={a.id} type="button" className="hero-affiche" onClick={() => onAffiche(a.id)} title={a.titre}>
               <img src={a.affiche} alt="" loading="lazy" decoding="async" draggable={false} />
             </button>
           ))}

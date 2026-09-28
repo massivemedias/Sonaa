@@ -17,7 +17,9 @@
   inset: 0;
   display: flex;
   flex-direction: column;
-  background: var(--fond);
+  /* PAS DE FOND : celui de body, et son grain, se voient a travers. Un fond
+     opaque ici cacherait le grain sur toute la section des styles. */
+  background: transparent;
   color: var(--encre-vive);
   font-family: inherit;
   -webkit-tap-highlight-color: transparent;
@@ -26,62 +28,42 @@
 /* --- En-tete -------------------------------------------------------------- */
 
 .pv-tete {
-  flex: none;
-  /* UNE SEULE RANGEE : le logo, le titre, puis le menu, alignes.
+  /* ═══ FIXEE EN HAUT, EN VERRE, D'UN BORD A L'AUTRE, DEPUIS ADR-089 ═══
 
-     Ils etaient sur deux rangees, ce qui doublait la hauteur de l'en-tete
-     pour quatre mots. Un flex qui passe a la ligne le fait tenir sur une
-     rangee des qu'il y a la place, et n'en prend une seconde que sur les
-     ecrans etroits, ou c'est de toute facon inevitable. */
+     Elle etait une pilule collante et un enfant du flux ; elle est posee
+     sur le haut de la vue, et le corps defile dessous. Sa hauteur est le
+     jeton `--entete-h`, que le corps lit pour son retrait haut : la meme
+     grandeur aux deux bouts, jamais deux nombres qu'on espere egaux. La
+     matiere vient de design/verre.css. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 12;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
-  gap: 0.3rem 1rem;
+  gap: var(--espace-16);
   box-sizing: border-box;
-  min-height: 56px;
-  padding: calc(0.5rem + env(safe-area-inset-top, 0px)) var(--marge-page) 0.5rem;
+  height: calc(var(--entete-h) + env(safe-area-inset-top, 0px));
+  padding: env(safe-area-inset-top, 0px) var(--marge-page) 0;
   /* LA LOUPE EST ANCREE, ELLE N'EST PLUS POUSSEE.
 
      TROIS SIGNALEMENTS POUR LE MEME DEFAUT, et les deux premieres corrections
      l'ont rendu plus rare sans le rendre impossible. Le mecanisme etait une
      RESERVE : une marge a droite de l'en-tete, assez large pour que le flux
-     depose la loupe avant le bouton de compte. Mesure de ce mecanisme, sur un
-     ecran de 309 px, en imposant des reserves croissantes :
-
-       reserve  51 px -> ecart 10 px
-       reserve  75 px -> ecart 10 px
-       reserve 133 px -> ecart 10 px   (« mauditemachine »)
-       reserve 178 px -> ecart -9 px
-       reserve 223 px -> ecart -54 px
-
-     Au-dela d'environ 150 px, l'en-tete ne peut plus se comprimer : le logo,
-     le titre et la loupe ont une largeur plancher, la marge deborde, et la
-     loupe repasse SOUS le bouton. Une reserve ne protege donc que tant qu'il
-     reste de la place a lui prendre, ce qui n'est pas une protection.
-
-     L'ancrage, lui, ne depend pas de la place disponible : la loupe est posee
-     en absolu a `reserve + 0.6rem` du bord droit, c'est-a-dire a 0,6 rem du
-     bord gauche du bouton de compte, quelle que soit la longueur du
-     pseudonyme. Le chevauchement devient impossible par construction au lieu
-     d'etre evite par calcul.
-
-     La marge a droite reste, pour que le TITRE ne coule pas sous la loupe. */
-  position: relative;
-  padding-right: calc(var(--authb-reserve, 126px) + 0.6rem + 44px);
-  /* LA MEME PILULE DE VERRE QUE L'EN-TETE DES PAGES DOCUMENT, depuis la v2.
-     Voir entete.css : deux en-tetes qui font la meme chose se ressemblent. */
-  margin: 0.6rem 0.6rem 0;
-  padding-left: 0.9rem;
-  border-radius: var(--rayon-pilule);
-  background: var(--verre-fond-fort);
-  backdrop-filter: var(--verre-flou);
-  -webkit-backdrop-filter: var(--verre-flou);
-  border: 1px solid var(--verre-bord);
-  box-shadow: var(--ombre-carte);
+     depose la loupe avant le bouton de compte. Au-dela d'environ 150 px de
+     reserve, l'en-tete ne peut plus se comprimer et la loupe repasse SOUS le
+     bouton. L'ancrage, lui, ne depend pas de la place disponible : la loupe
+     est posee en absolu a `reserve + un pas` du bord droit, quelle que soit
+     la longueur du pseudonyme. DEPUIS QUE LA LOUPE VIT DANS LE GROUPE DU
+     COMPTE, la reserve ne compte plus ses 44 px : ils donnaient au titre,
+     a 390 px, deux pixels de large. */
+  padding-right: calc(var(--authb-reserve, 126px) + var(--espace-8));
 }
 @media (min-width: 700px) {
   .pv-tete {
-    padding-left: max(0.9rem, calc((100vw - var(--largeur-page)) / 2 - 0.6rem));
+    padding-left: max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2));
   }
 }
 
@@ -119,19 +101,16 @@
   cursor: pointer;
 }
 .pv-retour {
-  background: var(--degrade);
-  color: var(--sur-degrade);
+  background: var(--accent);
+  color: var(--sur-accent);
 }
 .pv-chercher-bouton {
   /* Ancree au bord droit et non portee par le flux : voir .pv-tete. */
   position: absolute;
-  right: calc(var(--authb-reserve, 126px) + 0.6rem);
-  /* ALIGNEE SUR LA PREMIERE RANGEE, PAS SUR LE CENTRE DE L'EN-TETE.
-     Depuis que la navigation occupe une seconde rangee, un centrage vertical
-     posait la loupe entre les deux, dix-neuf pixels sous le bouton de retour
-     avec lequel elle forme pourtant une paire. Elle prend donc le meme
-     retrait haut que lui. */
-  top: calc(0.5rem + env(safe-area-inset-top, 0px));
+  right: calc(var(--authb-reserve, 126px) + var(--espace-8));
+  /* CENTREE DANS LA BARRE DE 56 PX : (56 moins 44) sur deux, plus la zone
+     de securite, le meme calcul que le bouton de compte. */
+  top: calc((var(--entete-h) - 44px) / 2 + env(safe-area-inset-top, 0px));
   background: var(--voile-08);
   color: inherit;
 }
@@ -167,13 +146,13 @@
 
 .pv-chercher {
   flex: none;
-  padding: 0.6rem 0.75rem 0.2rem;
+  padding: var(--espace-8) var(--espace-12) var(--espace-4);
 }
 .pv-chercher-champ {
   box-sizing: border-box;
   width: 100%;
   height: 46px;
-  padding: 0 0.9rem;
+  padding: 0 var(--espace-16);
   border: 0;
   border-radius: 23px;
   background: var(--leve-4);
@@ -182,7 +161,7 @@
   font-size: 0.875rem;
 }
 .pv-resultats {
-  margin: 0.5rem 0 0;
+  margin: var(--espace-8) 0 0;
   padding: 0;
   list-style: none;
   max-height: var(--resultats-h);
@@ -191,10 +170,10 @@
 .pv-resultat {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: var(--espace-8);
   width: 100%;
   min-height: 52px;
-  padding: 0.5rem 0.2rem;
+  padding: var(--espace-8) var(--espace-4);
   border: 0;
   border-bottom: 1px solid var(--voile-06);
   background: none;
@@ -210,7 +189,7 @@
 }
 .pv-resultat-famille {
   flex: none;
-  padding: 0.15rem 0.5rem;
+  padding: var(--espace-4) var(--espace-8);
   border-radius: 10px;
   background: oklch(var(--lt-62) 0.14 var(--pv-hue) / 0.22);
   color: oklch(var(--lt-84) 0.1 var(--pv-hue));
@@ -221,12 +200,12 @@
 .pv-resultat-artiste {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  margin: 0.5rem 0 0.8rem;
-  padding: 0.8rem 0.9rem 0.9rem;
+  gap: var(--espace-8);
+  margin: var(--espace-8) 0 var(--espace-12);
+  padding: var(--espace-12) var(--espace-16) var(--espace-16);
   border: 1px solid var(--voile-14);
   border-radius: 14px;
-  background: var(--voile-04, rgb(255 255 255 / 4%));
+  background: var(--voile-04);
 }
 .pv-resultat-etiquette {
   font-size: 0.68rem;
@@ -240,22 +219,22 @@
   color: var(--encre-vive);
 }
 .pv-resultat-sesstyles {
-  margin-top: 0.2rem;
+  margin-top: var(--espace-4);
   font-size: 0.78rem;
   color: var(--encre-douce-2);
 }
 .pv-resultat-styles {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: var(--espace-8);
 }
 /* Les styles sont des BOUTONS PLEINS, pas des etiquettes : ils menent
    quelque part, et c'est la seule chose a faire sur cette carte. */
 .pv-resultat-style {
-  padding: 0.35rem 0.8rem;
+  padding: var(--espace-4) var(--espace-12);
   border: 1px solid var(--voile-14);
   border-radius: 999px;
-  background: var(--voile-08, rgb(255 255 255 / 8%));
+  background: var(--voile-08);
   color: var(--encre-vive);
   font: inherit;
   font-size: 0.84rem;
@@ -273,7 +252,7 @@
 }
 
 .pv-resultat-vide {
-  padding: 1rem 0.2rem;
+  padding: var(--espace-16) var(--espace-4);
   color: var(--encre-douce-2);
   font-size: 0.775rem;
 }
@@ -286,20 +265,25 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  padding: 0 0.75rem 1.5rem;
+  /* LE RETRAIT HAUT EST LA HAUTEUR DE LA BARRE, plus la zone de securite,
+     plus un pas d'air : voir .pv-tete. La gouttiere est celle du site. */
+  padding: calc(var(--entete-h) + env(safe-area-inset-top, 0px) + var(--espace-16)) var(--marge-page) var(--espace-24);
 }
 /* La barre de lecture flotte au-dessus du defilement : on lui reserve sa
    hauteur plus la zone sure, sinon les dernieres lignes sont inatteignables. */
 .pv[data-joue='true'] .pv-corps {
+  /* 116 px est la hauteur de la barre de lecture : une taille reservee, pas un pas. */
   padding-bottom: calc(116px + env(safe-area-inset-bottom, 0px));
 }
 /* LE BANDEAU D'INSTALLATION flotte en bas, par-dessus tout. Ici rien n'est
    perdu puisque la vue defile, mais sans reserve les dernieres tuiles
    restent sous lui, inatteignables. */
 body:has(.pwa-bandeau) .pv-corps {
+  /* 9 rem est la hauteur du bandeau d'installation : une taille reservee, pas un pas. */
   padding-bottom: calc(9rem + env(safe-area-inset-bottom, 0px));
 }
 body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
+  /* 14 rem : le bandeau plus la barre de lecture, deux tailles reservees, pas un pas. */
   padding-bottom: calc(14rem + env(safe-area-inset-bottom, 0px));
 }
 
@@ -310,10 +294,10 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
    La reconnaissance a quitte le menu le 21 septembre 2026 et entre par ici.
    Elle ouvre donc la page, avant le chapeau et avant la grille.
 
-   IL PREND LA LARGEUR, comme les tuiles au-dessous, et il emprunte leur
-   matiere : meme plaque levee, meme rayon, meme encre. Ce n'est pas un
-   ornement pose sur la page, c'est le premier objet de la grille, sauf qu'il
-   mene ailleurs. Un bouton etroit et colore aurait eu l'air d'une reclame.
+   IL PREND LA LARGEUR, comme les tuiles au-dessous, et leur rayon. Ce n'est
+   pas un ornement pose sur la page, c'est le premier objet de la grille,
+   sauf qu'il mene ailleurs : l'accent plein, depuis ADR-089, dit cette
+   difference. Un bouton etroit aurait eu l'air d'une reclame.
 
    LE MICRO EST LA POUR ETRE RECONNU DE LOIN, pas pour decorer : c'est le seul
    dessin de la page, et il dit en un coup d'oeil que celui-ci ecoute quand
@@ -321,16 +305,15 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-reco {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin: 0.9rem 0 0;
-  padding: 1rem 1.25rem;
+  gap: var(--espace-12);
+  margin: var(--espace-16) 0 0;
+  padding: var(--espace-16) var(--espace-24);
   border-radius: 26px;
-  /* LE DEGRADE ET LA LUEUR, depuis la v2 : c'est le bouton qui ecoute, le
+  /* EN ACCENT PLEIN, depuis ADR-089 : c'est le bouton qui ecoute, le
      seul objet de la page qui fait quelque chose de different, et il se voit
      comme tel. */
-  background: var(--degrade);
-  color: var(--sur-degrade);
-  box-shadow: var(--lueur);
+  background: var(--accent);
+  color: var(--sur-accent);
   text-decoration: none;
   font-size: 0.95rem;
   font-weight: 700;
@@ -353,19 +336,18 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-stats {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.6rem;
-  margin: 0.9rem 0 0;
+  gap: var(--espace-8);
+  margin: var(--espace-16) 0 0;
 }
 .pv-stat {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.15rem;
-  padding: 0.75rem 0.7rem;
+  gap: var(--espace-4);
+  padding: var(--espace-12) var(--espace-12);
   border-radius: 20px;
   background: var(--verre-fond);
-  border: 1px solid var(--verre-bord);
-  box-shadow: var(--ombre-carte);
+  border: 1px solid var(--filet);
 }
 .pv-stat-n {
   /* 22 PX AU PLANCHER : a 110 px de colonne sur un ecran de 375, « 2 382 »
@@ -395,7 +377,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 
 .pv-intro {
   /* La largeur vient de `.intro-page` : voir design/base.css. */
-  margin: 0.9rem 0 0.7rem;
+  margin: var(--espace-16) 0 var(--espace-12);
   color: var(--encre-douce-3);
   font-size: 0.775rem;
 }
@@ -403,10 +385,10 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 /* Le texte d'une famille respire un peu plus que celui d'un genre : il ouvre
    la page au lieu de suivre un bandeau. */
 .pv-description-famille {
-  margin-top: 1rem;
+  margin-top: var(--espace-16);
 }
 .pv-description-famille + .pv-intro {
-  margin-top: 1.4rem;
+  margin-top: var(--espace-24);
 }
 
 /* --- Les rectangles ------------------------------------------------------- */
@@ -449,7 +431,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      Au-dessus de 700 px le rapport revient tout seul, parce que la largeur
      minimale de 19 rem redonne des tuiles larges. */
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.55rem;
+  gap: var(--espace-8);
 }
 /* LA VIGNETTE : UN CADRE DANS UN CADRE.
 
@@ -483,14 +465,11 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      700 px la tuile redevient une banniere et 112 suffit toujours. */
   min-height: 112px;
   /* La marge de la plaque exterieure. */
-  padding: 5px;
-  /* LA TUILE EST EN VERRE, DEPUIS LA V2 : la plaque exterieure devient un
-     voile borde, avec l'ombre de carte du prototype, et se souleve au
-     survol. La forme, la hauteur fixe et la grille ne bougent pas. */
-  border: 1px solid var(--verre-bord);
+  padding: var(--espace-4);
+  /* LA TUILE EST EN VERRE, DEPUIS ADR-089 : la matiere de la plaque exterieure
+     vient de design/verre.css, sans bordure ni ombre portee, et la tuile se
+     souleve au survol. La forme, la hauteur fixe et la grille ne bougent pas. */
   border-radius: 26px;
-  background: var(--verre-fond);
-  box-shadow: var(--ombre-carte);
   color: var(--encre-vive-3);
   font: inherit;
   text-align: left;
@@ -522,7 +501,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      lignes. */
   gap: 0;
   box-sizing: border-box;
-  padding: 0.9rem 1rem;
+  padding: var(--espace-16) var(--espace-16);
   border-radius: 22px;
   /* Un degrade a peine perceptible, comme sur la maquette : la carte est un
      peu plus claire en haut. Assez pour donner une matiere, pas assez pour
@@ -542,37 +521,37 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-tuile:active {
   transform: scale(0.98);
 }
-/* LE SURVOL, aux couleurs demandees : #FFC400 pour la carte, var(--sur-degrade) pour le
+/* LE SURVOL, en accent : var(--accent) pour la carte, var(--sur-accent) pour le
    texte.
 
    IL NE S'APPLIQUE QU'AUX POINTEURS PRECIS. Sur un ecran tactile il n'y a pas
    de survol : le navigateur le simule au toucher, et la couleur reste ensuite
    collee a la derniere tuile touchee jusqu'au toucher suivant. On aurait une
-   tuile jaune en permanence, sans rapport avec ce que fait l'utilisateur. */
+   tuile en accent en permanence, sans rapport avec ce que fait l'utilisateur. */
 @media (hover: hover) and (pointer: fine) {
   .pv-tuile:hover {
     transform: translateY(-5px);
-    border-color: oklch(0.61 0.22 293 / 0.45);
+    --verre-fond: var(--verre-fond-survol);
   }
   .pv-tuile:hover .pv-tuile-carte {
-    background: var(--degrade);
+    background: var(--accent);
   }
   .pv-tuile:hover .pv-tuile-nom {
-    color: var(--sur-degrade);
+    color: var(--sur-accent);
   }
   .pv-tuile:hover .pv-tuile-detail {
-    color: var(--sur-degrade);
+    color: var(--sur-accent);
     opacity: 0.72;
   }
 }
 /* LE FOCUS CLAVIER GARDE CETTE COULEUR sur tous les appareils : c'est une
    position, pas un survol, et elle doit se voir. */
 .pv-tuile:focus-visible .pv-tuile-carte {
-  background: var(--degrade);
+  background: var(--accent);
 }
 .pv-tuile:focus-visible .pv-tuile-nom,
 .pv-tuile:focus-visible .pv-tuile-detail {
-  color: var(--sur-degrade);
+  color: var(--sur-accent);
 }
 .pv-tuile-nom {
   /* LE NOM D'UN GENRE EST UN TITRE, PAS UNE ETIQUETTE D'INTERFACE.
@@ -654,7 +633,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 
 .pv-hero {
   position: relative;
-  margin: 0.75rem -0.75rem 0;
+  margin: var(--espace-12) calc(-1 * var(--espace-12)) 0;
   background: linear-gradient(
     170deg,
     oklch(var(--lt-46) 0.15 var(--pv-hue)),
@@ -665,7 +644,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-hero-texte {
   position: relative;
   z-index: 1;
-  padding: 1.1rem 0.9rem 1.2rem;
+  padding: var(--espace-16) var(--espace-16) var(--espace-16);
 }
 
 /* --- Le bandeau d'images --------------------------------------------------- */
@@ -711,15 +690,15 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 
 .pv-onglets {
   display: flex;
-  gap: 0.5rem;
-  margin: 2rem 0 0;
+  gap: var(--espace-8);
+  margin: var(--espace-32) 0 0;
 }
 .pv-onglet {
   display: inline-flex;
   align-items: center;
   /* La meme cible que partout ailleurs sur ce site. */
   min-height: 44px;
-  padding: 0 1.1rem;
+  padding: 0 var(--espace-16);
   border: 1px solid var(--voile-16);
   border-radius: 22px;
   background: transparent;
@@ -733,9 +712,9 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
    grammaire que le menu du site, pour qu'on n'ait pas a comparer deux
    boutons entre eux pour savoir ou l'on est. */
 .pv-onglet[aria-selected='true'] {
-  background: var(--encre-vive);
-  border-color: var(--encre-vive);
-  color: var(--plaque);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--sur-accent);
 }
 .pv-onglet:hover:not([aria-selected='true']) {
   border-color: var(--voile-34);
@@ -745,24 +724,24 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 /* --- L'article long --- */
 
 .pv-article {
-  margin: 2rem 0 0;
+  margin: var(--espace-32) 0 0;
 }
 /* Colle aux onglets quand ils sont la : c'est le meme bloc. */
 .pv-onglets + .pv-article {
-  margin-top: 1.2rem;
+  margin-top: var(--espace-16);
 }
 .pv-article-section + .pv-article-section {
-  margin-top: 1.9rem;
+  margin-top: var(--espace-32);
 }
 .pv-article-titre {
-  margin: 0 0 0.6rem;
+  margin: 0 0 var(--espace-8);
   font-size: 1.0625rem;
   font-weight: 700;
   line-height: 1.25;
   color: var(--encre-vive);
 }
 .pv-article-section p {
-  margin: 0 0 0.85rem;
+  margin: 0 0 var(--espace-16);
   color: var(--encre-forte-3);
   font-size: var(--texte);
   line-height: 1.7;
@@ -781,7 +760,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
    les blocs de texte n'ont pas la meme longueur, les images se rattrapent et
    se chevauchent. Un seul cote, une seule colonne de respiration. */
 .pv-illu {
-  margin: 0.2rem 0 0.9rem;
+  margin: var(--espace-4) 0 var(--espace-16);
   padding: 0;
 }
 .pv-illu img {
@@ -793,10 +772,10 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   background: var(--leve-3);
 }
 .pv-illu figcaption {
-  margin-top: 0.4rem;
+  margin-top: var(--espace-8);
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  gap: var(--espace-4);
   line-height: 1.35;
 }
 .pv-illu-nom {
@@ -824,14 +803,12 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 /* --- La fiche technique ---------------------------------------------------- */
 
 .pv-fiche {
-  margin: 1.4rem 0 0;
-  padding: 1rem 1.05rem 1.1rem;
-  border: 1px solid var(--voile-09);
+  margin: var(--espace-24) 0 0;
+  padding: var(--espace-16) var(--espace-16) var(--espace-16);
   border-radius: 18px;
-  background: var(--voile-03);
 }
 .pv-fiche-titre {
-  margin: 0 0 0.85rem;
+  margin: 0 0 var(--espace-16);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: var(--serrage);
@@ -841,13 +818,13 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-machines {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
+  gap: var(--espace-4);
   /* Elles etaient etirees sur toute la largeur de la cellule et se lisaient
      comme des lignes separees. Une pastille prend la largeur de son mot. */
   align-items: flex-start;
 }
 .pv-machine {
-  padding: 0.2rem 0.55rem;
+  padding: var(--espace-4) var(--espace-8);
   border-radius: 8px;
   background: oklch(var(--lt-62) 0.14 var(--pv-hue) / 0.18);
   color: oklch(var(--lt-88) 0.05 var(--pv-hue));
@@ -865,7 +842,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 }
 .pv-mot-titre {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--espace-8);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: var(--serrage);
@@ -879,7 +856,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  padding: 0 0.85rem;
+  padding: 0 var(--espace-16);
   border: 0;
   border-radius: 11px;
   background: var(--voile-18);
@@ -892,7 +869,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 }
 .pv-hero-nom {
   font-family: inherit;
-  margin: 0.6rem 0 0.3rem;
+  margin: var(--espace-8) 0 var(--espace-4);
   font-size: 1.625rem;
   font-weight: 700;
   line-height: 1.1;
@@ -900,8 +877,8 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-hero-faits {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 0 0 1rem;
+  gap: var(--espace-8);
+  margin: 0 0 var(--espace-16);
   font-size: 0.75rem;
   color: var(--voile-78);
 }
@@ -911,11 +888,11 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-hero-play {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: var(--espace-8);
   /* 52 px : c'est l'action principale de la page, elle doit se toucher sans
      viser. */
   min-height: 52px;
-  padding: 0 1.5rem;
+  padding: 0 var(--espace-24);
   border: 0;
   border-radius: 26px;
   background: var(--encre-vive-2);
@@ -940,8 +917,8 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 }
 
 .pv-alerte {
-  margin: 0.8rem 0 0;
-  padding: 0.7rem 0.85rem;
+  margin: var(--espace-12) 0 0;
+  padding: var(--espace-12) var(--espace-16);
   border-radius: 10px;
   background: oklch(var(--lt-45) 0.13 55 / 0.28);
   color: oklch(var(--lt-93) 0.05 70);
@@ -951,18 +928,18 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 /* --- Les morceaux --------------------------------------------------------- */
 
 .pv-pistes {
-  margin: 0.9rem 0 0;
+  margin: var(--espace-16) 0 0;
   padding: 0;
   list-style: none;
 }
 .pv-piste {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--espace-12);
   width: 100%;
   /* 60 px : une ligne de morceau se tape en marchant. */
   min-height: 60px;
-  padding: 0.4rem 0.2rem;
+  padding: var(--espace-8) var(--espace-4);
   border: 0;
   background: none;
   color: inherit;
@@ -1011,7 +988,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: var(--espace-4);
 }
 .pv-piste-titre {
   /* Un titre de morceau se serre comme un titre. La ligne est courte et
@@ -1040,7 +1017,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   /* ELLE MONTE AU-DESSUS DES MORCEAUX. Posee tout en bas, il fallait passer
      douze lignes de liste pour savoir ce qu'on ecoutait. C'est pourtant la
      reponse a la question qui amene ici : c'est quoi, ce style ? */
-  margin: 1.2rem 0 0;
+  margin: var(--espace-16) 0 0;
   color: var(--encre);
   /* LE CHAPEAU ET L'ARTICLE PARTAGENT LA MEME TAILLE, celle du texte
       courant. Le chapeau etait plus gros que l'article, ce qui se defend dans
@@ -1054,13 +1031,13 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   /* Une liste de definitions porte des marges par defaut qui cassent la
      grille : on les remet a zero ici plutot que dans une regle globale. */
   padding: 0;
-  margin: 1.1rem 0 0;
+  margin: var(--espace-16) 0 0;
   display: grid;
-  gap: 0.55rem;
+  gap: var(--espace-8);
 }
 .pv-fait {
   display: flex;
-  gap: 0.55rem;
+  gap: var(--espace-8);
   align-items: baseline;
   font-size: 0.75rem;
   line-height: 1.45;
@@ -1078,9 +1055,9 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   color: var(--encre-forte);
 }
 .pv-mot {
-  margin: 1.1rem 0 0;
+  margin: var(--espace-16) 0 0;
   /* blockquote porte une indentation par defaut. */
-  padding: 0.85rem 1rem;
+  padding: var(--espace-16) var(--espace-16);
   border-left: 3px solid oklch(var(--lt-62) 0.14 var(--pv-hue));
   border-radius: 0 10px 10px 0;
   background: var(--voile-04);
@@ -1090,7 +1067,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 }
 .pv-mot-signe {
   display: block;
-  margin-top: 0.5rem;
+  margin-top: var(--espace-8);
   color: var(--encre-tierce-3);
   font-size: 0.75rem;
 }
@@ -1100,13 +1077,13 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   /* SANS FOND. C'etait une boite grise pleine largeur, et Mika l'a lue
      comme un surlignage (14 septembre 2026) : « aucun highlight sur le
      site ». Une note en petit, dans la couleur des notes, et rien autour. */
-  margin: 1.1rem 0 0;
+  margin: var(--espace-16) 0 0;
   color: var(--encre-douce-2);
   font-size: 0.75rem;
 }
 .pv-titre-liste {
   letter-spacing: var(--serrage-ui);
-  margin: 1.6rem 0 0.2rem;
+  margin: var(--espace-24) 0 var(--espace-4);
   font-family: inherit;
   font-size: 0.9375rem;
   font-weight: 700;
@@ -1133,9 +1110,9 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      peut ATTRAPER plutot que seulement regarder. */
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  gap: var(--espace-4);
   box-sizing: border-box;
-  padding: 0.25rem 0.6rem calc(0.4rem + env(safe-area-inset-bottom, 0px));
+  padding: var(--espace-4) var(--espace-8) calc(var(--espace-8) + env(safe-area-inset-bottom, 0px));
   /* FOND OPAQUE : sur un fond translucide le texte de la page defile en
      transparence sous les titres et les rend illisibles. */
   background: var(--leve);
@@ -1144,7 +1121,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-barre-bas {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--espace-8);
 }
 
 /* --- La rangee de defilement --- */
@@ -1152,7 +1129,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-scrub {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--espace-8);
 }
 .pv-scrub-temps {
   flex: none;
@@ -1196,6 +1173,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   top: 50%;
   width: 12px;
   height: 12px;
+  /* La moitie de la largeur de la poignee, pour la centrer sur sa position : une taille, pas un pas. */
   margin-left: -6px;
   border-radius: 50%;
   background: var(--encre-vive-2);
@@ -1210,7 +1188,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 .pv-barre-ouvrir {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: var(--espace-8);
   flex: 1 1 auto;
   min-width: 0;
   min-height: 52px;
@@ -1234,7 +1212,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  gap: var(--espace-4);
 }
 .pv-barre-titre {
   font-size: 0.75rem;
@@ -1258,7 +1236,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   flex: none;
   display: flex;
   align-items: center;
-  gap: 0.1rem;
+  gap: var(--espace-4);
 }
 .pv-barre-transport button {
   display: grid;
@@ -1306,20 +1284,20 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
     padding-right: max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2));
   }
   .pv-grille {
-    /* 16 rem et non 19 : a 1400 px de large avec 0,7 rem de gouttiere, une
+    /* 16 rem et non 19 : a 1400 px de large avec un pas de gouttiere, une
        tuile de 19 rem n'en laisse tenir que quatre. Seize en laisse tenir
        cinq, ce qui est le compte demande. */
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
-    gap: 0.7rem;
+    gap: var(--espace-12);
   }
   .pv-tuile {
     min-height: 112px;
     border-radius: 26px;
-    padding: 5px;
+    padding: var(--espace-4);
   }
   .pv-tuile-carte {
     border-radius: 22px;
-    padding: 1.1rem 1.5rem;
+    padding: var(--espace-16) var(--espace-24);
   }
   .pv-tuile-nom {
     font-size: 1.625rem;
@@ -1333,7 +1311,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
     border-radius: 20px;
   }
   .pv-hero-texte {
-    padding: 2rem 2rem 2.2rem;
+    padding: var(--espace-32) var(--espace-32) var(--espace-32);
   }
   /* LA DESCRIPTION RESTE SUR UNE COLONNE.
 
@@ -1412,7 +1390,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   .pv-illu {
     float: right;
     width: 15rem;
-    margin: 0.3rem 0 0.8rem 1.6rem;
+    margin: var(--espace-4) 0 var(--espace-12) var(--espace-24);
   }
   /* La section suivante ne demarre jamais a cote d'une photo de la
      precedente : un titre pousse contre une image d'un autre sujet se lit
@@ -1434,7 +1412,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      devenait invisible. La borne ne protegeait rien, elle armait un piege. */
   .pv-pistes {
     columns: 2;
-    column-gap: 2.5rem;
+    column-gap: var(--espace-32);
   }
   /* Une ligne ne se coupe jamais entre deux colonnes : une pochette d'un
      cote et son titre de l'autre serait pire que du defilement. */
@@ -1458,33 +1436,35 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
      loin, seule dans la marge a cote du bouton de compte. Ancrer sur le
      bouton suffit a ne pas le chevaucher, mais pas a rester dans la page.
 
-     Le plus grand des deux ecarts satisfait les deux : reste a 0,6 rem du
-     bouton de compte quand l'ecran est etroit, et rejoint le bord de la
+     Le plus grand des deux ecarts satisfait les deux : reste a un pas (var(--espace-8))
+     du bouton de compte quand l'ecran est etroit, et rejoint le bord de la
      colonne quand l'ecran est large. */
   .pv-chercher-bouton {
-    right: max(calc(var(--authb-reserve, 126px) + 0.6rem), calc((100vw - var(--largeur-page)) / 2));
+    right: max(calc(var(--authb-reserve, 126px) + var(--espace-8)), calc((100vw - var(--largeur-page)) / 2));
   }
   .pv-tete {
-    padding-right: max(calc(var(--authb-reserve, 126px) + 0.6rem + 44px), calc((100vw - var(--largeur-page)) / 2 + 44px));
+    /* 126 px est le repli de la reserve du bouton de compte : une taille,
+       pas un pas. */
+    padding-right: max(calc(var(--authb-reserve, 126px) + var(--espace-8)), calc((100vw - var(--largeur-page)) / 2));
   }
 }
 
 /* --- Les sets deposes dans un genre --------------------------------------- */
 
 .pv-communaute {
-  margin-top: 1.8rem;
+  margin-top: var(--espace-24);
 }
 .pv-sets {
   list-style: none;
-  margin: 0.4rem 0 0;
+  margin: var(--espace-8) 0 0;
   padding: 0;
   display: grid;
-  gap: 0.4rem;
+  gap: var(--espace-8);
 }
 .pv-set {
   display: grid;
-  gap: 0.15rem;
-  padding: 0.55rem 0.75rem;
+  gap: var(--espace-4);
+  padding: var(--espace-8) var(--espace-12);
   border: 1px solid var(--voile-09);
   border-radius: 12px;
   background: var(--voile-02);
@@ -1506,7 +1486,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 /* L'article d'une famille prend la meme mesure de lecture que le reste : ce
    qui doit grandir est le texte, pas la largeur de la colonne. */
 .pv-article-famille {
-  margin-top: 2rem;
+  margin-top: var(--espace-32);
 }
 
 /* ═══ LES ARTISTES D'UN STYLE ═══
@@ -1517,7 +1497,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
    lieu d'etre comptees : trois sur un ordinateur, une sur un telephone, sans
    qu'aucun point de rupture soit ecrit. */
 .pv-artistes {
-  margin: 1.8rem 0 0;
+  margin: var(--espace-24) 0 0;
 }
 /* PAS SUR TELEPHONE. Mika, le 14 septembre 2026 : « je veux voir les
    artistes mais pas dans la version mobile ». Trente noms en colonne sur un
@@ -1531,14 +1511,14 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 }
 .pv-artistes-liste {
   list-style: none;
-  margin: 0.6rem 0 0;
+  margin: var(--espace-8) 0 0;
   padding: 0;
   columns: 3 14rem;
-  column-gap: 2rem;
+  column-gap: var(--espace-32);
 }
 .pv-artistes-liste li {
   break-inside: avoid;
-  padding: 0.16rem 0;
+  padding: var(--espace-4) 0;
   color: var(--ink-primary);
   font-size: 0.82rem;
   line-height: 1.45;
@@ -1546,7 +1526,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 /* LA PROVENANCE, EN RETRAIT ET LISIBLE. Elle n'est pas une note de bas de
    page : sans elle, trente noms se lisent comme un jugement de l'auteur. */
 .pv-artistes-source {
-  margin: 0.9rem 0 0;
+  margin: var(--espace-16) 0 0;
   max-width: 62ch;
   color: var(--ink-secondary);
   font-size: 0.74rem;
@@ -1565,12 +1545,12 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 }
 .pv-onglets + .pv-artistes,
 .pv-onglets + .pv-fiche {
-  margin-top: 1.2rem;
+  margin-top: var(--espace-16);
 }
 
 /* ═══ LE COURS ═══ */
 .pv-cours-note {
-  margin: 1.2rem 0 0;
+  margin: var(--espace-16) 0 0;
   color: var(--encre-douce-2);
   font-size: 0.8rem;
   line-height: 1.5;
@@ -1580,17 +1560,17 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 }
 .pv-cours-etapes,
 .pv-cours-reperes {
-  margin: 0.4rem 0 0;
-  padding-left: 1.4rem;
+  margin: var(--espace-8) 0 0;
+  padding-left: var(--espace-24);
   max-width: 120ch;
   line-height: 1.55;
 }
 .pv-cours-etapes li,
 .pv-cours-reperes li {
-  margin: 0.35rem 0;
+  margin: var(--espace-4) 0;
 }
 .pv-cours-sources {
-  margin: 1.4rem 0 0;
+  margin: var(--espace-24) 0 0;
   color: var(--encre-douce-2);
   font-size: 0.75rem;
 }
@@ -1604,17 +1584,17 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
 /* ═══ LES PLUGINS ET MACHINES DU COURS ═══ */
 .pv-cours-outils {
   list-style: none;
-  margin: 0.4rem 0 0;
+  margin: var(--espace-8) 0 0;
   padding: 0;
   display: grid;
-  gap: 0.55rem;
+  gap: var(--espace-8);
   max-width: 120ch;
 }
 .pv-cours-outils li {
   display: grid;
   grid-template-columns: auto auto 1fr;
   align-items: baseline;
-  gap: 0.6rem;
+  gap: var(--espace-8);
   line-height: 1.45;
 }
 .pv-cours-outil-nom {
@@ -1638,3 +1618,29 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   }
 }
 
+/* ═══ LES CIBLES TACTILES, SOUS 900 PX ═══ Tout ce qui se touche seul fait
+   au moins 44 px de haut. Le logo est un lien isole : sa cible grandit, son
+   image garde ses 28 px. Les liens pris dans une phrase ne sont pas vises. */
+@media (max-width: 899px) {
+  .pv-resultat-style,
+  .pv-set {
+    min-height: 44px;
+  }
+  .pv-logo {
+    display: flex;
+    align-items: center;
+    height: 44px;
+  }
+  .pv-logo img {
+    height: 28px;
+  }
+  .pv-scrub-piste {
+    min-height: 44px;
+  }
+  .pv-illu-credit {
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+    min-height: 44px;
+  }
+}

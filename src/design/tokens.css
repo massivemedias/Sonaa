@@ -65,18 +65,14 @@
      ecrite a huit endroits finit par n'etre changee qu'a sept. */
   --largeur-page: 1240px;
 
-  /* LE RETRAIT LATERAL MINIMAL, sur ecran etroit.
+  /* LA GOUTTIERE LATERALE : 20 px sur telephone, 32 px a partir de 768 px.
 
-     Il valait 0,75 rem dans Parcourir et 1,5 rem sur les pages document. A
-     1280 px les deux formules donnaient 20 et 24 px : le logo de la barre du
-     haut se decalait de quatre pixels selon la page, ce qui est exactement le
-     genre d'ecart qu'on ne nomme pas mais qu'on sent en naviguant.
-
-     Une seule valeur, lue des deux cotes, comme pour la largeur et le
-     serrage. Un rem : la moitie de l'ancien retrait des pages de texte, le
-     tiers de plus que celui de Parcourir, et assez pour que du texte ne
-     touche pas le bord sur un telephone. */
-  --marge-page: 1rem;
+     Elle valait 0,75 rem dans Parcourir et 1,5 rem sur les pages document ;
+     a 1280 px les deux formules donnaient 20 et 24 px, et le logo se
+     decalait de quatre pixels selon la page. Une seule valeur, lue des deux
+     cotes. Les 32 px de la tablette sont ecrits en bas de ce fichier, dans
+     la seule media query qui touche une mesure. */
+  --marge-page: 20px;
 
   /* LA TAILLE DU TEXTE COURANT, demandee par Mika devant la fiche Electro
      House : 12 px sur telephone, 13 px sur ordinateur.
@@ -105,82 +101,80 @@
   --resultats-h: 46vh;
 
   /* ═══════════════════════════════════════════════════════════════
+
+  /* ═══════════════════════════════════════════════════════════════
      L'ECHELLE DES GRIS, ET POURQUOI ELLE EXISTE
 
      LE THEME CLAIR ETAIT IMPOSSIBLE AVANT CE BLOC, et pas par manque de
      volonte : quatre cent trente-six couleurs etaient ecrites en dur dans
-     vingt-deux feuilles. Les jetons de surface ci-dessous existaient deja,
-     mais presque personne ne s'en servait. Un systeme de jetons que le code
-     contourne n'est pas un systeme, c'est une intention.
+     vingt-deux feuilles. Chaque clarte rencontree dans le depot a recu son
+     jeton ; les sous-numeros (--plaque-2, --encre-3) gardent des ecarts de
+     deux centiemes qu'un rabattement aurait effaces.
 
-     LES VALEURS N'ONT PAS BOUGE. Chaque clarte rencontree dans le depot a
-     recu son jeton, a l'identique : le theme sombre rend exactement ce qu'il
-     rendait avant. Les sous-numeros (--plaque-2, --encre-3) ne sont pas de
-     la decoration, ils gardent des ecarts de deux centiemes qu'un rabattement
-     aurait effaces, et avec eux la difference entre une carte et son filet.
+     ═══ LE SABLE, DEPUIS LE 28 SEPTEMBRE 2026, ADR-089 ═══
+
+     L'echelle etait un graphite teinte de violet a 285, le theme clair un
+     blanc pur. Elle devient du SABLE : en sombre, un sable gris profond
+     autour de 0,22 de clarte, teinte 80 ; en clair, un sable de plage
+     tres pale autour de 0,96, teinte 85. Aucun noir pur, aucun blanc pur.
+     Les encres suivent la meme teinte chaude, a chroma minuscule, pour
+     qu'un gris ne paraisse jamais bleu sur du sable.
 
      ═══ LE THEME CLAIR N'EST PAS UNE INVERSION ═══
 
-     Les FILETS et l'ENCRE s'inversent : ce qui etait clair sur fond sombre
-     devient sombre sur fond clair. Les SURFACES, elles, ne s'inversent PAS.
-     Dans les deux themes, une surface surelevee est plus lumineuse que le
-     fond, parce que c'est ainsi qu'on lit le relief : inverser aurait donne
-     des cartes plus grises que la page qui les porte, ce qui les enfonce au
-     lieu de les lever.
+     Les FILETS et l'ENCRE s'inversent. Les SURFACES, elles, ne s'inversent
+     PAS : dans les deux themes, une surface surelevee est plus lumineuse
+     que le fond, parce que c'est ainsi qu'on lit le relief.
 
-     L'ECART SE COMPRIME AUSSI. Un meme ecart de clarte se lit plus fort en
-     sombre sur clair qu'en clair sur sombre : les voiles blancs deviennent
-     des voiles noirs a deux tiers de leur opacite, sans quoi chaque
-     separateur deviendrait un trait.
-
-     Trois controles d'ordre tournent a la generation : surfaces croissantes,
-     encre et filets decroissants, et aucun filet plus clair que la surface la
-     plus sombre. Une echelle qui se croise fait disparaitre un bord sans
-     qu'aucune regle ne soit fausse.
+     LES ENCRES DU THEME CLAIR SONT #3C3C3C, MELANGE AU SABLE : l'encre
+     principale est ce gris exactement, et chaque encre secondaire est ce
+     meme gris pose a une opacite decroissante sur le sable, puis fige en
+     valeur opaque. La plus pale qui porte du texte tient 4,59 pour 1, ce
+     qui est le AA mesure, pas suppose.
      ═══════════════════════════════════════════════════════════════ */
 
-  --creux: oklch(0.045 0.012 285);
-  --creux-2: oklch(0.055 0.012 285);
-  --creux-3: oklch(0.075 0.012 285);
-  --fond: oklch(0.09 0.012 285);
-  --plaque: oklch(0.105 0.014 285);
-  --plaque-2: oklch(0.11 0.014 285);
-  --plaque-3: oklch(0.12 0.014 285);
-  --leve: oklch(0.14 0.016 285);
-  --leve-2: oklch(0.15 0.016 285);
-  --leve-3: oklch(0.16 0.016 285);
-  --leve-4: oklch(0.18 0.016 285);
-  --filet-fantome: oklch(0.2 0.012 285);
-  --filet-fantome-2: oklch(0.22 0.012 285);
-  --filet: oklch(0.24 0.012 285);
-  --filet-2: oklch(0.25 0.012 285);
-  --filet-3: oklch(0.28 0.012 285);
-  --filet-fort: oklch(0.34 0.014 285);
-  --filet-fort-2: oklch(0.36 0.014 285);
-  --encre-effacee: oklch(0.5 0.01 255);
-  --encre-effacee-2: oklch(0.52 0.01 255);
-  --encre-effacee-3: oklch(0.55 0.01 255);
-  --encre-tierce: oklch(0.58 0.01 255);
-  --encre-tierce-2: oklch(0.6 0.01 255);
-  --encre-tierce-3: oklch(0.62 0.01 255);
-  --encre-douce: oklch(0.66 0.01 255);
-  --encre-douce-2: oklch(0.68 0.01 255);
-  --encre-douce-3: oklch(0.7 0.01 255);
-  --encre-moyenne: oklch(0.72 0.01 255);
-  --encre-moyenne-2: oklch(0.75 0.01 255);
-  --encre-moyenne-3: oklch(0.78 0.01 255);
-  --encre-forte: oklch(0.82 0.008 255);
-  --encre-forte-2: oklch(0.85 0.008 255);
-  --encre-forte-3: oklch(0.86 0.008 255);
-  --encre-forte-4: oklch(0.88 0.008 255);
-  --encre: oklch(0.9 0.008 255);
-  --encre-2: oklch(0.92 0.008 255);
-  --encre-3: oklch(0.93 0.008 255);
-  --encre-4: oklch(0.94 0.008 255);
-  --encre-5: oklch(0.95 0.008 255);
-  --encre-vive: oklch(0.97 0.004 255);
-  --encre-vive-2: oklch(0.98 0.004 255);
-  --encre-vive-3: oklch(0.99 0.004 255);
+  --creux: oklch(0.17 0.012 80);
+  --creux-2: oklch(0.18 0.012 80);
+  --creux-3: oklch(0.19 0.012 80);
+  --fond: oklch(0.2 0.012 80);
+  --plaque: oklch(0.215 0.012 80);
+  --plaque-2: oklch(0.22 0.012 80);
+  --plaque-3: oklch(0.23 0.012 80);
+  --leve: oklch(0.25 0.012 80);
+  --leve-2: oklch(0.26 0.012 80);
+  --leve-3: oklch(0.27 0.012 80);
+  --leve-4: oklch(0.29 0.012 80);
+  --filet-fantome: oklch(0.3 0.012 80);
+  --filet-fantome-2: oklch(0.32 0.012 80);
+  --filet: oklch(0.34 0.012 80);
+  --filet-2: oklch(0.35 0.012 80);
+  --filet-3: oklch(0.38 0.012 80);
+  --filet-fort: oklch(0.44 0.012 80);
+  --filet-fort-2: oklch(0.46 0.012 80);
+  --encre-effacee: oklch(0.62 0.01 85);
+  --encre-effacee-2: oklch(0.64 0.01 85);
+  --encre-effacee-3: oklch(0.66 0.01 85);
+  --encre-tierce: oklch(0.68 0.01 85);
+  --encre-tierce-2: oklch(0.7 0.01 85);
+  --encre-tierce-3: oklch(0.72 0.01 85);
+  --encre-douce: oklch(0.76 0.01 85);
+  --encre-douce-2: oklch(0.78 0.01 85);
+  --encre-douce-3: oklch(0.8 0.01 85);
+  --encre-moyenne: oklch(0.82 0.01 85);
+  --encre-moyenne-2: oklch(0.84 0.01 85);
+  --encre-moyenne-3: oklch(0.86 0.01 85);
+  --encre-forte: oklch(0.88 0.01 85);
+  --encre-forte-2: oklch(0.9 0.01 85);
+  --encre-forte-3: oklch(0.91 0.01 85);
+  --encre-forte-4: oklch(0.92 0.01 85);
+  --encre: oklch(0.93 0.01 85);
+  --encre-2: oklch(0.935 0.01 85);
+  --encre-3: oklch(0.94 0.01 85);
+  --encre-4: oklch(0.95 0.01 85);
+  --encre-5: oklch(0.96 0.01 85);
+  --encre-vive: oklch(0.97 0.01 85);
+  --encre-vive-2: oklch(0.98 0.01 85);
+  --encre-vive-3: oklch(0.99 0.008 85);
 
   --voile-02: oklch(1 0 0 / 0.02);
   --voile-025: oklch(1 0 0 / 0.025);
@@ -232,32 +226,13 @@
   --rideau-85: oklch(0.0 0 0 / 0.85);
   --rideau-95: oklch(0.0 0 0 / 0.95);
 
-  --panneau-88: oklch(0.0 0.008 255 / 0.88);
-  --panneau-9: oklch(0.07 0.008 255 / 0.9);
-  --panneau-94: oklch(0.08 0.008 255 / 0.94);
-  --panneau-96: oklch(0.12 0.008 255 / 0.96);
-  --panneau-97: oklch(0.1 0.008 255 / 0.97);
-  --panneau-98: oklch(0.12 0.008 255 / 0.98);
+  --panneau-88: oklch(0.22 0.012 80 / 0.88);
+  --panneau-9: oklch(0.22 0.012 80 / 0.9);
+  --panneau-94: oklch(0.22 0.012 80 / 0.94);
+  --panneau-96: oklch(0.22 0.012 80 / 0.96);
+  --panneau-97: oklch(0.22 0.012 80 / 0.97);
+  --panneau-98: oklch(0.22 0.012 80 / 0.98);
 
-  /* ---------------------------------------------------------------
-     LES ANCIENS NOMS DE ROLE DELEGUENT.
-     Ils sont nommes dans une centaine de regles ; les remplacer aurait
-     touche autant de lignes pour aucun gain. Ils pointent desormais sur
-     l'echelle, donc ils suivent le theme sans le savoir.
-     --------------------------------------------------------------- */
-  /* ═══ LA CLARTE DES COULEURS TEINTEES, A PART DES GRIS ═══
-
-     Les teintes de famille, les accents et les etats ne peuvent pas suivre
-     l'echelle des gris : une couleur porte une TEINTE qui doit rester la
-     meme dans les deux themes, et seule sa clarte doit tourner. Un vert de
-     validation qui devient rouge en changeant de theme n'est plus un vert de
-     validation.
-
-     On ne remplace donc que la clarte, par un jeton, et on laisse la teinte
-     et le chroma ou ils sont : `oklch(var(--lt-78) 0.17 85)` reste le jaune
-     de SONAA dans les deux themes, plus lumineux sur fond sombre, plus dense
-     sur fond clair. Le miroir est `1.16 moins la clarte`, borne pour ne
-     jamais depasser ni le noir ni le blanc utiles. */
   --lt-26: 0.26;
   --lt-28: 0.28;
   --lt-30: 0.3;
@@ -290,12 +265,14 @@
   --rule-width: 1px;
 
   --ink-primary: var(--encre-3);
-  --ink-secondary: var(--encre-douce-2);
+  /* LE TEXTE SECONDAIRE EST L'ENCRE A 65 % D'OPACITE, et non un gris : sur
+     une surface de verre, un gris opaque ferait une tache, une encre
+     translucide prend la couleur de ce qu'elle recouvre. Mesure sur le fond
+     sombre : 6,8 pour 1. */
+  --ink-secondary: oklch(0.94 0.01 85 / 0.65);
 
-  /* CE QUE LE NAVIGATEUR DOIT SAVOIR, et qu'aucune de nos regles ne lui dit :
-     la couleur des barres de defilement, des champs natifs et des menus
-     deroulants du systeme. Sans cette ligne, une page claire garde des menus
-     noirs. */
+  /* CE QUE LE NAVIGATEUR DOIT SAVOIR : la couleur des barres de defilement,
+     des champs natifs et des menus deroulants du systeme. */
   color-scheme: dark;
 
   /* ---------------------------------------------------------------
@@ -387,141 +364,167 @@
   --motion-ease: cubic-bezier(0.4, 0, 0.2, 1);
   --propagation-per-year: 40ms;  /* durée d'un segment, par année franchie */
 
+
   /* ═══════════════════════════════════════════════════════════════
-     LA V2, LE 21 SEPTEMBRE 2026 : CE QUI FAIT LE LOOK, NOMME UNE FOIS
+     LA MATIERE DU SITE, DEPUIS LE 28 SEPTEMBRE 2026 : SABLE, TERRACOTTA,
+     VERRE DEPOLI. Voir docs/adr/ADR-089.
 
-     Mika a compare la v1 et un prototype monte sur la pile 21st.dev, et il a
-     choisi le prototype. Ce bloc porte tout ce qui le distingue : deux accents
-     tenus par un degrade, une matiere de verre, une lueur, un rayon de carte.
-     Tout le reste du site lit ces jetons ; rien n'ecrit une de ces couleurs
-     en dur. L'echelle des gris au-dessus a suivi : plus sombre d'un cran, et
-     teintee de violet a 285 au lieu du bleu-gris de 255.
+     Ce bloc remplace celui de la v2 : plus de mauve, de violet, de fuchsia
+     ni de cyan, plus de degrade, plus de lueur, plus de maille. Les six
+     jetons de la v2 qui les portaient (les trois accents, le degrade, la
+     lueur, la maille) sont supprimes, et aucune regle ne les lit plus. Ce
+     qui reste de couleur vive sur le site, ce sont les quatorze teintes de
+     famille du corpus.
 
-     LES ACCENTS SONT ECRITS EN OKLCH, comme tout le fichier, a partir des
-     hexadecimaux du prototype : violet 8b5cf6, ciel 38bdf8, fuchsia d946ef.
-     Ils ne suivent pas l'echelle des gris entre les deux themes, parce qu'un
-     accent est une teinte, pas une lumiere : ils gardent leur clarte, et
-     c'est le verre qui change de sens.
+     ═══ UN SEUL ACCENT, ET IL TIENT LE AA DANS LES DEUX ROLES ═══
+
+     Le terracotta sert aux boutons, aux etats actifs et aux liens. Le
+     0,62 de clarte demande a ete mesure avant d'etre ecarte : en clair, il
+     donnait 3,4 pour 1 comme texte sur le sable et 3,8 pour 1 sous du
+     texte blanc, sous le AA dans les deux roles. A 0,54, il donne 4,7 et
+     5,3. En sombre, l'accent remonte a 0,74 et le texte pose dessus est le
+     fond lui-meme : 7,2 pour 1.
+
+     REGLE D'EMPLOI : du texte en --accent ne se pose que sur le fond ou
+     sur du verre, jamais sur --accent-voile ; un fond en --accent porte du
+     texte en --sur-accent, jamais autre chose.
+
+     ═══ LE VERRE ═══
+
+     Une surface de verre est le fond du theme a 40 % en sombre, 55 % en
+     clair, floute de 24 px et sature de 1,4, avec un filet INTERIEUR blanc
+     a 8 % ou 12 %. Aucune bordure exterieure, aucune ombre dure. La recette
+     vit une fois, dans design/verre.css ; les feuilles des composants ne la
+     reecrivent pas, elles surchargent au plus --verre-fond pour un survol.
      ═══════════════════════════════════════════════════════════════ */
-  --accent-a: oklch(0.61 0.22 293);
-  /* LE BLEU N'EST PLUS DANS AUCUN DEGRADE depuis le 22 septembre 2026. Mika :
-     « sortir le bleu de tous les degrades de fond et de bouton, le cyan
-     n'apparait plus nulle part dans un degrade ». Le jeton reste declare,
-     parce qu'il documente la palette d'origine reprise de Tailwind, mais
-     plus une seule regle ne le lit. */
-  --accent-b: oklch(0.79 0.13 226);
-  --accent-c: oklch(0.67 0.26 322);
-  /* LES DEUX BOUTS DU DEGRADE, un violet profond et un violet clair, pris
-     dans la meme echelle que `--accent-a` : violet-700 et violet-400 de
-     Tailwind, convertis en oklch comme le reste du fichier. */
-  --accent-a-profond: oklch(0.49 0.24 294);
-  --accent-a-clair: oklch(0.75 0.15 295);
-  /* Le texte pose SUR un degrade est blanc dans les deux themes. */
-  --sur-degrade: oklch(0.99 0.004 255);
-  /* DU VIOLET PROFOND AU VIOLET CLAIR, le fuchsia au milieu. Il allait du
-     violet au ciel, et c'est ce bleu que Mika a fait sortir. Dix-neuf regles
-     lisent ce jeton, du bouton du micro a la jauge d'ecoute en passant par la
-     banniere d'accueil et la barre du bas : elles suivent toutes d'un coup. */
-  --degrade: linear-gradient(105deg, var(--accent-a-profond), var(--accent-c) 55%, var(--accent-a-clair));
-  /* LE VERRE : un voile clair sur fond sombre, un voile sombre sur fond
-     clair, et dans les deux cas le flou fait le reste. */
-  --verre-fond: oklch(1 0 0 / 0.045);
-  --verre-fond-fort: oklch(1 0 0 / 0.07);
-  --verre-bord: oklch(1 0 0 / 0.1);
-  --verre-bord-fort: oklch(1 0 0 / 0.14);
-  --verre-flou: blur(22px) saturate(160%);
-  --lueur: 0 0 62px -14px oklch(0.61 0.22 293 / 0.85);
-  --ombre-carte: 0 25px 50px -12px oklch(0 0 0 / 0.6);
+  --accent: oklch(0.74 0.12 50);
+  --sur-accent: oklch(0.22 0.012 80);
+  --accent-voile: oklch(0.74 0.12 50 / 0.18);
+  /* LE FOND DE LA SURFACE, et non celui de la page : a la couleur exacte
+     du fond, un verre disparait dans le sable des qu'il n'a rien dessous.
+     La surface levee du theme, a 40 % en sombre et 55 % en clair. */
+  --verre-fond: oklch(0.27 0.012 80 / 0.4);
+  --verre-fond-survol: oklch(0.31 0.012 80 / 0.5);
+  --verre-filet: inset 0 0 0 1px oklch(1 0 0 / 0.08);
+  /* Le meme flou dans les deux themes : 24 px et une saturation de 1,4. */
+  --verre-flou: blur(24px) saturate(1.4);
+  --verre-opaque: var(--leve-2);
+  --ombre-flottante: 0 12px 40px -16px oklch(0 0 0 / 0.6);
+  --ombre-flottante-haut: 0 -12px 40px -16px oklch(0 0 0 / 0.6);
+  --grain-opacite: 0.06;
   --rayon-carte: 24px;
+  /* LES AFFICHES DE LA BANNIERE, a 16 px : plus serre que les cartes, parce
+     qu'une affiche est une image et non un conteneur. */
+  --rayon-affiche: 16px;
   --rayon-pilule: 999px;
   /* LA TAILLE D'UN TITRE DE SECTION, ecrite ici et lue par toutes les
      pages : check:constantes a refuse la meme decoupe ecrite en clair dans
      trois feuilles, et il avait raison, c'est la meme grandeur. */
-  /* DE 28 A 45 PX, ET LE PLANCHER COMPTE AUTANT QUE LE PLAFOND. Il valait
-     2 rem, soit 32 px : sur un ecran de 375 px, « Quel style joue la ? » y
-     tenait sur trois lignes. La borne basse descend a 1,75 rem et la pente
-     passe a 7vw, qui ne mord qu'au-dessus de 400 px. */
   --titre-section: clamp(1.75rem, 7vw, 2.8rem);
   /* LE PLAFOND D'UNE IMAGE D'ARTICLE, demande par Mika le 22 septembre
      2026 : certaines images de flux font plusieurs milliers de pixels de
-     haut et occupaient plusieurs ecrans a elles seules. Nomme ici parce que
-     `check:constantes` refuse une decoupe d'ecran ecrite en clair dans deux
-     feuilles, et qu'il a raison : chronology.css emploie le meme nombre pour
-     une notion differente, un plancher de grille. Deux notions, deux noms. */
+     haut et occupaient plusieurs ecrans a elles seules. */
   --plafond-image: 70vh;
-  /* LA MAILLE : le fond des bannieres et du pied, trois halos qui se
-     recouvrent. Le halo bleu du milieu est devenu fuchsia le 22 septembre
-     2026, en meme temps que le degrade : le cyan ne doit plus apparaitre
-     dans aucun fond. Les trois halos suivent desormais le meme chemin que
-     `--degrade`, violet profond, fuchsia, violet clair. */
-  --maille:
-    radial-gradient(60rem 40rem at 12% -8%, oklch(0.49 0.24 294 / 0.55), transparent 62%),
-    radial-gradient(52rem 38rem at 88% 4%, oklch(0.67 0.26 322 / 0.3), transparent 60%),
-    radial-gradient(44rem 34rem at 50% 44%, oklch(0.75 0.15 295 / 0.2), transparent 64%);
+
+  /* ═══ L'ECHELLE D'ESPACEMENT ═══ Huit pas, et rien entre deux. Une
+     feuille qui ecrit 0,55 rem ou 1,1 rem ecrit une valeur que personne ne
+     retrouvera ; elle ecrit un pas de l'echelle, ou elle explique pourquoi
+     pas. Les noms disent la valeur en pixels, la valeur est en rem pour
+     suivre le reglage du navigateur. */
+  --espace-4: 0.25rem;
+  --espace-8: 0.5rem;
+  --espace-12: 0.75rem;
+  --espace-16: 1rem;
+  --espace-24: 1.5rem;
+  --espace-32: 2rem;
+  --espace-48: 3rem;
+  --espace-64: 4rem;
+
+  /* ═══ LES DEUX BARRES FIXES ═══ Leur hauteur est ecrite ici et lue a
+     deux endroits chacune : par la barre, qui la prend, et par le corps de
+     page, qui la reserve. Le retrait n'est donc jamais devine, il est la
+     meme grandeur. La zone de securite iOS s'ajoute aux deux bouts, par
+     env(), la ou chaque barre la lit. */
+  --entete-h: 56px;
+  --barre-bas-hauteur: 64px;
+
+  /* ═══ LE GRAIN DE SABLE ═══ Un bruit fractal en SVG, en ligne, sans
+     fichier ni requete : une tuile de 200 px repetee sous toute la page,
+     desaturee, posee par base.css a l'opacite ci-dessus. Mesure dans la
+     feuille construite, avec sa regle et ses trois opacites : 815 octets,
+     314 une fois compresses. Il est statique : il ne bouge pas au defilement et il
+     reste quand le mouvement est reduit, parce qu'il ne bouge jamais. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+/* LA GOUTTIERE PASSE A 32 PX SUR TABLETTE ET AU-DELA. Sur telephone elle
+   vaut 20 px, ecrits plus haut ; c'est le seul jeton de mesure qui change
+   avec la largeur, et il change ici, une fois. */
+@media (min-width: 768px) {
+  :root {
+    --marge-page: 32px;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   LE THEME CLAIR
+   LE THEME CLAIR : LE SABLE DE PLAGE
 
-   Il ne redefinit QUE l'echelle des gris et les accents. Tout le reste,
-   les polices, les mesures, les durees, les teintes de famille, est commun
-   aux deux : un theme est une lumiere, pas une autre identite.
+   Il ne redefinit QUE l'echelle des gris, l'accent et la matiere. Tout le
+   reste, les polices, les mesures, les durees, les teintes de famille, est
+   commun aux deux : un theme est une lumiere, pas une autre identite.
 
-   L'ATTRIBUT EST SUR `html` ET NON SUR `body`. C'est ce qui permet a la
-   couleur d'etre posee avant le premier rendu, par un fragment de script
-   dans index.html, et donc de ne pas faire clignoter la page en blanc au
-   chargement de qui a choisi le sombre, ni l'inverse.
+   L'ATTRIBUT EST SUR `html` ET NON SUR `body`, pose par un fragment de
+   script dans index.html avant la premiere peinture, pour ne pas faire
+   clignoter la page.
+
+   LE FOND EST LE SABLE, 0,96 0,02 85, et l'encre est #3C3C3C exactement,
+   comme demande. Le texte secondaire est cette encre a 75 % et non a 65 % :
+   65 % donnait 3,75 pour 1 sur le sable, sous le AA ; 75 % donne 4,87.
+   Les encres opaques ci-dessous sont les melanges correspondants, figes.
    ═══════════════════════════════════════════════════════════════ */
-/* ═══ LE THEME CLAIR EST UN SITE D'IMPRESSION ═══
-   Mika, le 22 septembre 2026 : « blanc franc, encre noire pleine, pas de
-   gris bleute, pas de surface teintee ». Toutes les valeurs ci-dessous sont
-   a chroma zero : le blanc est 1, l'encre principale est a 0,06, et les
-   encres secondaires ne descendent pas sous 0,55 de clarte, ce qui tient le
-   contraste AA sur du blanc. Les teintes de famille, elles, ne sont pas
-   ici : elles viennent du corpus et restent. */
 :root[data-theme='clair'] {
-  --creux: oklch(0.965 0 0);
-  --creux-2: oklch(0.97 0 0);
-  --creux-3: oklch(0.975 0 0);
-  --fond: oklch(1 0 0);
-  --plaque: oklch(1 0 0);
-  --plaque-2: oklch(1 0 0);
-  --plaque-3: oklch(1 0 0);
-  --leve: oklch(1 0 0);
-  --leve-2: oklch(1 0 0);
-  --leve-3: oklch(1 0 0);
-  --leve-4: oklch(1 0 0);
-  --filet-fantome: oklch(0.94 0 0);
-  --filet-fantome-2: oklch(0.925 0 0);
-  --filet: oklch(0.9 0 0);
-  --filet-2: oklch(0.885 0 0);
-  --filet-3: oklch(0.87 0 0);
-  --filet-fort: oklch(0.82 0 0);
-  --filet-fort-2: oklch(0.8 0 0);
-  --encre-effacee: oklch(0.55 0 0);
-  --encre-effacee-2: oklch(0.54 0 0);
-  --encre-effacee-3: oklch(0.53 0 0);
-  --encre-tierce: oklch(0.5 0 0);
-  --encre-tierce-2: oklch(0.49 0 0);
-  --encre-tierce-3: oklch(0.48 0 0);
-  --encre-douce: oklch(0.44 0 0);
-  --encre-douce-2: oklch(0.43 0 0);
-  --encre-douce-3: oklch(0.42 0 0);
-  --encre-moyenne: oklch(0.36 0 0);
-  --encre-moyenne-2: oklch(0.35 0 0);
-  --encre-moyenne-3: oklch(0.34 0 0);
-  --encre-forte: oklch(0.28 0 0);
-  --encre-forte-2: oklch(0.26 0 0);
-  --encre-forte-3: oklch(0.24 0 0);
-  --encre-forte-4: oklch(0.22 0 0);
-  --encre: oklch(0.1 0 0);
-  --encre-2: oklch(0.08 0 0);
-  --encre-3: oklch(0.06 0 0);
-  --encre-4: oklch(0.05 0 0);
-  --encre-5: oklch(0.04 0 0);
-  --encre-vive: oklch(0.02 0 0);
-  --encre-vive-2: oklch(0.01 0 0);
-  --encre-vive-3: oklch(0 0 0);
+  --creux: oklch(0.925 0.02 85);
+  --creux-2: oklch(0.93 0.02 85);
+  --creux-3: oklch(0.935 0.02 85);
+  --fond: oklch(0.95 0.02 85);
+  --plaque: oklch(0.955 0.02 85);
+  --plaque-2: oklch(0.96 0.02 85);
+  --plaque-3: oklch(0.965 0.02 85);
+  --leve: oklch(0.975 0.015 85);
+  --leve-2: oklch(0.98 0.015 85);
+  --leve-3: oklch(0.985 0.015 85);
+  --leve-4: oklch(0.99 0.012 85);
+  --filet-fantome: oklch(0.9 0.02 85);
+  --filet-fantome-2: oklch(0.89 0.02 85);
+  --filet: oklch(0.87 0.02 85);
+  --filet-2: oklch(0.86 0.02 85);
+  --filet-3: oklch(0.85 0.02 85);
+  --filet-fort: oklch(0.78 0.02 85);
+  --filet-fort-2: oklch(0.76 0.02 85);
+  --encre-effacee: #6f6d69;
+  --encre-effacee-2: #6d6b67;
+  --encre-effacee-3: #6b6966;
+  --encre-tierce: #676662;
+  --encre-tierce-2: #656461;
+  --encre-tierce-3: #63625f;
+  --encre-douce: #62605d;
+  --encre-douce-2: #605e5c;
+  --encre-douce-3: #5e5d5a;
+  --encre-moyenne: #565553;
+  --encre-moyenne-2: #545452;
+  --encre-moyenne-3: #535250;
+  --encre-forte: #4b4a49;
+  --encre-forte-2: #494948;
+  --encre-forte-3: #474746;
+  --encre-forte-4: #454544;
+  --encre: #424141;
+  --encre-2: #40403f;
+  --encre-3: #3c3c3c;
+  --encre-4: #383838;
+  --encre-5: #343434;
+  --encre-vive: #303030;
+  --encre-vive-2: #2c2c2c;
+  --encre-vive-3: #282828;
 
   --voile-02: oklch(0 0 0 / 0.013);
   --voile-025: oklch(0 0 0 / 0.017);
@@ -573,12 +576,12 @@
   --rideau-85: oklch(0 0 0 / 0.612);
   --rideau-95: oklch(0 0 0 / 0.684);
 
-  --panneau-88: oklch(1 0 0 / 0.88);
-  --panneau-9: oklch(1 0 0 / 0.9);
-  --panneau-94: oklch(1 0 0 / 0.94);
-  --panneau-96: oklch(1 0 0 / 0.96);
-  --panneau-97: oklch(1 0 0 / 0.97);
-  --panneau-98: oklch(1 0 0 / 0.98);
+  --panneau-88: oklch(0.96 0.02 85 / 0.88);
+  --panneau-9: oklch(0.96 0.02 85 / 0.9);
+  --panneau-94: oklch(0.96 0.02 85 / 0.94);
+  --panneau-96: oklch(0.96 0.02 85 / 0.96);
+  --panneau-97: oklch(0.96 0.02 85 / 0.97);
+  --panneau-98: oklch(0.96 0.02 85 / 0.98);
 
   --lt-26: 0.9;
   --lt-28: 0.88;
@@ -603,17 +606,20 @@
   --lt-88: 0.3;
   --lt-93: 0.3;
 
-  /* La v2 en theme clair : le verre devient un voile sombre, le degrade de
-     texte s'assombrit pour rester lisible, la maille s'adoucit. */
-  --verre-fond: oklch(0 0 0 / 0.035);
-  --verre-fond-fort: oklch(0 0 0 / 0.06);
-  --verre-bord: oklch(0 0 0 / 0.12);
-  --verre-bord-fort: oklch(0 0 0 / 0.18);
-  --lueur: 0 0 52px -14px oklch(0.61 0.22 293 / 0.55);
-  --ombre-carte: 0 20px 40px -14px oklch(0.2 0.02 285 / 0.28);
-  /* PAS DE MAILLE EN THEME CLAIR : un lavis violet sur du blanc est une
-     surface teintee, et le theme clair n'en a plus. */
-  --maille: none;
+  /* LES ALIAS SE REDECLARENT ICI : une variable qui en cite une autre est
+     resolue LA OU ELLE EST DECLAREE. Sur le meme element `html`, c'est sans
+     consequence ; on les repete pour que le bloc se lise entier. */
+  --ink-secondary: rgb(60 60 60 / 0.75);
+
+  --accent: oklch(0.54 0.13 45);
+  --sur-accent: oklch(0.99 0.005 85);
+  --accent-voile: oklch(0.54 0.13 45 / 0.14);
+  --verre-fond: oklch(0.995 0.008 85 / 0.55);
+  --verre-fond-survol: oklch(1 0.004 85 / 0.8);
+  --verre-filet: inset 0 0 0 1px oklch(1 0 0 / 0.12);
+  --ombre-flottante: 0 12px 40px -16px oklch(0.3 0.03 60 / 0.35);
+  --ombre-flottante-haut: 0 -12px 40px -16px oklch(0.3 0.03 60 / 0.35);
+  --grain-opacite: 0.05;
   color-scheme: light;
 }
 
@@ -621,59 +627,59 @@
 /* ═══════════════════════════════════════════════════════════════
    LA CARTE EN TROIS DIMENSIONS RESTE SOMBRE, DANS LES DEUX THEMES.
 
-   Ce n'est pas un oubli, c'est le seul choix qui tienne. Son canevas rend un
-   ciel NOIR, en WebGL, avec des spheres qui tirent leur lisibilite de ce
-   fond ; le theme d'interface ne l'atteint pas et ne doit pas l'atteindre.
-   Vu a l'ecran avant correction : le chrome clair encadrait un vide noir, et
-   le logo, inverse pour les pages claires, disparaissait dans ce vide.
+   Son canevas rend un ciel NOIR, en WebGL, avec des spheres qui tirent
+   leur lisibilite de ce fond ; le theme d'interface ne l'atteint pas et ne
+   doit pas l'atteindre. On redeclare donc l'echelle sombre SUR le conteneur
+   de la carte, et les variables cascadent.
 
-   On redeclare donc l'echelle sombre SUR le conteneur de la carte. Les
-   variables cascadent : tout ce qui est dedans redevient sombre sans qu'une
-   seule regle de atlas.css ait a savoir qu'un theme existe.
+   LES ALIAS SE REDECLARENT AUSSI, ET C'EST INDISPENSABLE : une variable
+   qui en cite une autre est resolue LA OU ELLE EST DECLAREE, pas la ou
+   elle est employee. `--ink-primary: var(--encre-3)` declare sur `:root`
+   capturait la valeur claire une fois pour toutes.
    ═══════════════════════════════════════════════════════════════ */
 :root[data-theme='clair'] .atlas-root {
-  --creux: oklch(0.045 0.012 285);
-  --creux-2: oklch(0.055 0.012 285);
-  --creux-3: oklch(0.075 0.012 285);
-  --fond: oklch(0.09 0.012 285);
-  --plaque: oklch(0.105 0.014 285);
-  --plaque-2: oklch(0.11 0.014 285);
-  --plaque-3: oklch(0.12 0.014 285);
-  --leve: oklch(0.14 0.016 285);
-  --leve-2: oklch(0.15 0.016 285);
-  --leve-3: oklch(0.16 0.016 285);
-  --leve-4: oklch(0.18 0.016 285);
-  --filet-fantome: oklch(0.2 0.012 285);
-  --filet-fantome-2: oklch(0.22 0.012 285);
-  --filet: oklch(0.24 0.012 285);
-  --filet-2: oklch(0.25 0.012 285);
-  --filet-3: oklch(0.28 0.012 285);
-  --filet-fort: oklch(0.34 0.014 285);
-  --filet-fort-2: oklch(0.36 0.014 285);
-  --encre-effacee: oklch(0.5 0.01 255);
-  --encre-effacee-2: oklch(0.52 0.01 255);
-  --encre-effacee-3: oklch(0.55 0.01 255);
-  --encre-tierce: oklch(0.58 0.01 255);
-  --encre-tierce-2: oklch(0.6 0.01 255);
-  --encre-tierce-3: oklch(0.62 0.01 255);
-  --encre-douce: oklch(0.66 0.01 255);
-  --encre-douce-2: oklch(0.68 0.01 255);
-  --encre-douce-3: oklch(0.7 0.01 255);
-  --encre-moyenne: oklch(0.72 0.01 255);
-  --encre-moyenne-2: oklch(0.75 0.01 255);
-  --encre-moyenne-3: oklch(0.78 0.01 255);
-  --encre-forte: oklch(0.82 0.008 255);
-  --encre-forte-2: oklch(0.85 0.008 255);
-  --encre-forte-3: oklch(0.86 0.008 255);
-  --encre-forte-4: oklch(0.88 0.008 255);
-  --encre: oklch(0.9 0.008 255);
-  --encre-2: oklch(0.92 0.008 255);
-  --encre-3: oklch(0.93 0.008 255);
-  --encre-4: oklch(0.94 0.008 255);
-  --encre-5: oklch(0.95 0.008 255);
-  --encre-vive: oklch(0.97 0.004 255);
-  --encre-vive-2: oklch(0.98 0.004 255);
-  --encre-vive-3: oklch(0.99 0.004 255);
+  --creux: oklch(0.17 0.012 80);
+  --creux-2: oklch(0.18 0.012 80);
+  --creux-3: oklch(0.19 0.012 80);
+  --fond: oklch(0.2 0.012 80);
+  --plaque: oklch(0.215 0.012 80);
+  --plaque-2: oklch(0.22 0.012 80);
+  --plaque-3: oklch(0.23 0.012 80);
+  --leve: oklch(0.25 0.012 80);
+  --leve-2: oklch(0.26 0.012 80);
+  --leve-3: oklch(0.27 0.012 80);
+  --leve-4: oklch(0.29 0.012 80);
+  --filet-fantome: oklch(0.3 0.012 80);
+  --filet-fantome-2: oklch(0.32 0.012 80);
+  --filet: oklch(0.34 0.012 80);
+  --filet-2: oklch(0.35 0.012 80);
+  --filet-3: oklch(0.38 0.012 80);
+  --filet-fort: oklch(0.44 0.012 80);
+  --filet-fort-2: oklch(0.46 0.012 80);
+  --encre-effacee: oklch(0.62 0.01 85);
+  --encre-effacee-2: oklch(0.64 0.01 85);
+  --encre-effacee-3: oklch(0.66 0.01 85);
+  --encre-tierce: oklch(0.68 0.01 85);
+  --encre-tierce-2: oklch(0.7 0.01 85);
+  --encre-tierce-3: oklch(0.72 0.01 85);
+  --encre-douce: oklch(0.76 0.01 85);
+  --encre-douce-2: oklch(0.78 0.01 85);
+  --encre-douce-3: oklch(0.8 0.01 85);
+  --encre-moyenne: oklch(0.82 0.01 85);
+  --encre-moyenne-2: oklch(0.84 0.01 85);
+  --encre-moyenne-3: oklch(0.86 0.01 85);
+  --encre-forte: oklch(0.88 0.01 85);
+  --encre-forte-2: oklch(0.9 0.01 85);
+  --encre-forte-3: oklch(0.91 0.01 85);
+  --encre-forte-4: oklch(0.92 0.01 85);
+  --encre: oklch(0.93 0.01 85);
+  --encre-2: oklch(0.935 0.01 85);
+  --encre-3: oklch(0.94 0.01 85);
+  --encre-4: oklch(0.95 0.01 85);
+  --encre-5: oklch(0.96 0.01 85);
+  --encre-vive: oklch(0.97 0.01 85);
+  --encre-vive-2: oklch(0.98 0.01 85);
+  --encre-vive-3: oklch(0.99 0.008 85);
 
   --voile-02: oklch(1 0 0 / 0.02);
   --voile-025: oklch(1 0 0 / 0.025);
@@ -725,12 +731,12 @@
   --rideau-85: oklch(0.0 0 0 / 0.85);
   --rideau-95: oklch(0.0 0 0 / 0.95);
 
-  --panneau-88: oklch(0.0 0.008 255 / 0.88);
-  --panneau-9: oklch(0.07 0.008 255 / 0.9);
-  --panneau-94: oklch(0.08 0.008 255 / 0.94);
-  --panneau-96: oklch(0.12 0.008 255 / 0.96);
-  --panneau-97: oklch(0.1 0.008 255 / 0.97);
-  --panneau-98: oklch(0.12 0.008 255 / 0.98);
+  --panneau-88: oklch(0.22 0.012 80 / 0.88);
+  --panneau-9: oklch(0.22 0.012 80 / 0.9);
+  --panneau-94: oklch(0.22 0.012 80 / 0.94);
+  --panneau-96: oklch(0.22 0.012 80 / 0.96);
+  --panneau-97: oklch(0.22 0.012 80 / 0.97);
+  --panneau-98: oklch(0.22 0.012 80 / 0.98);
 
   --lt-26: 0.26;
   --lt-28: 0.28;
@@ -755,61 +761,31 @@
   --lt-88: 0.88;
   --lt-93: 0.93;
 
-  /* LES ALIAS SE REDECLARENT ICI, ET C'EST INDISPENSABLE.
-
-     PIEGE VU A L'ECRAN : l'echelle etait bien redevenue sombre a l'interieur
-     de la carte, `--encre-3` y valait 0.93, et le titre du panneau s'affichait
-     pourtant en noir sur noir. La raison tient a une regle de CSS qu'on
-     oublie : une variable qui en cite une autre est resolue LA OU ELLE EST
-     DECLAREE, pas la ou elle est employee. `--ink-primary: var(--encre-3)`
-     etant declare sur `:root`, il capturait la valeur claire une fois pour
-     toutes et la faisait descendre dejà calculee.
-
-     Les redeclarer ici les force a se resoudre ici. C'est la meme
-     indirection qu'ailleurs dans le fichier, mais elle doit etre repetee a
-     chaque endroit ou l'echelle change. */
   --surface-plate: var(--plaque-2);
   --surface-margin: var(--fond);
   --surface-raised: var(--leve-2);
   --rule-hairline: var(--filet);
   --rule-strong: var(--filet-fort-2);
   --ink-primary: var(--encre-3);
-  --ink-secondary: var(--encre-douce-2);
+  --ink-secondary: oklch(0.94 0.01 85 / 0.65);
+  --accent: oklch(0.74 0.12 50);
+  --sur-accent: oklch(0.22 0.012 80);
+  --accent-voile: oklch(0.74 0.12 50 / 0.18);
+  /* LE FOND DE LA SURFACE, et non celui de la page : a la couleur exacte
+     du fond, un verre disparait dans le sable des qu'il n'a rien dessous.
+     La surface levee du theme, a 40 % en sombre et 55 % en clair. */
+  --verre-fond: oklch(0.27 0.012 80 / 0.4);
+  --verre-fond-survol: oklch(0.31 0.012 80 / 0.5);
+  --verre-filet: inset 0 0 0 1px oklch(1 0 0 / 0.08);
+  --verre-opaque: var(--leve-2);
+  --ombre-flottante: 0 12px 40px -16px oklch(0 0 0 / 0.6);
+  --ombre-flottante-haut: 0 -12px 40px -16px oklch(0 0 0 / 0.6);
+  --grain-opacite: 0.06;
 }
 
 /* Et le logo y reprend sa forme d'origine : il est blanc, sur du noir. */
 :root[data-theme='clair'] .atlas-root img[src$='sonaa-logo.png'] {
   filter: none;
-}
-
-/* ═══ LA MAILLE SE REDESSINE SUR TELEPHONE ═══
-
-   Ses trois halos font 60, 52 et 44 rem de large, soit 960, 832 et 704 px :
-   des mesures prises pour une page de 1240. Sur un ecran de 375 px on n'en
-   voit que le centre du premier, c'est-a-dire un aplat violet sans structure.
-   C'est exactement ce que Mika a vu en disant que le telephone etait moins
-   beau : ce n'etait pas la couleur, c'etait l'echelle.
-
-   Les memes trois halos, ramenes a la taille de l'ecran et ecartes pour
-   qu'on les distingue. Les couleurs et les opacites ne bougent pas. */
-@media (max-width: 699px) {
-  :root {
-    --maille:
-      radial-gradient(22rem 15rem at 6% -6%, oklch(0.49 0.24 294 / 0.58), transparent 64%),
-      radial-gradient(18rem 13rem at 102% 8%, oklch(0.67 0.26 322 / 0.34), transparent 62%),
-      radial-gradient(16rem 12rem at 40% 52%, oklch(0.75 0.15 295 / 0.22), transparent 66%);
-  }
-  /* PAS DE MAILLE EN THEME CLAIR : un lavis violet sur du blanc est une
-     surface teintee, et le theme clair n'en a plus. */
-  :root[data-theme='clair'] {
-    --maille: none;
-  }
-  /* LE FLOU DU VERRE COUTE SUR UN TELEPHONE, et il coute a chaque pixel
-     couvert : deux capsules collantes qui defilent toute la page. On le
-     baisse d'un tiers, ce qui se voit a peine et se sent au defilement. */
-  :root {
-    --verre-flou: blur(14px) saturate(150%);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

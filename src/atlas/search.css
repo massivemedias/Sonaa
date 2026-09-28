@@ -8,7 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 12vh 1rem 1rem;
+  padding: 12vh var(--espace-16) var(--espace-16);
   background: var(--rideau-55);
   font-family: var(--font-ui);
 }
@@ -29,7 +29,7 @@
   background: transparent;
   border: 0;
   border-bottom: 1px solid var(--rule-hairline);
-  padding: 0.9rem 1rem;
+  padding: var(--espace-16);
   outline: none;
   appearance: none;
 }
@@ -41,7 +41,7 @@
 .search-results {
   list-style: none;
   margin: 0;
-  padding: 0.3rem 0;
+  padding: var(--espace-4) 0;
   max-height: var(--resultats-h);
   overflow-y: auto;
 }
@@ -50,14 +50,14 @@
   width: 100%;
   display: flex;
   align-items: baseline;
-  gap: 0.6rem;
+  gap: var(--espace-8);
   font-family: var(--font-ui);
   font-size: 0.875rem;
   text-align: left;
   color: var(--ink-primary);
   background: transparent;
   border: 0;
-  padding: 0.5rem 1rem;
+  padding: var(--espace-8) var(--espace-16);
   cursor: pointer;
 }
 
@@ -98,7 +98,7 @@
 .search-empty,
 .search-hint {
   margin: 0;
-  padding: 0.7rem 1rem;
+  padding: var(--espace-12) var(--espace-16);
   font-size: 0.75rem;
   font-weight: 400;
   color: var(--ink-secondary);
@@ -113,14 +113,13 @@
     padding-top: 6vh;
   }
   .search-hit {
-    min-height: 44px;
     align-items: center;
     flex-wrap: wrap;
   }
   /* Sur 390 px, l'alias passe sous le nom plutôt que de comprimer la ligne. */
   .search-via {
     width: 100%;
-    padding-left: 1.1rem;
+    padding-left: var(--espace-16);
   }
   .search-hint {
     display: none;
@@ -141,7 +140,7 @@
 }
 
 .search-group-title {
-  margin: 0.55rem 0 0.2rem;
+  margin: var(--espace-8) 0 var(--espace-4);
   font-size: 0.625rem;
   font-weight: var(--weight-family);
   letter-spacing: var(--serrage);
@@ -164,7 +163,7 @@
   letter-spacing: var(--serrage);
   color: var(--ink-primary);
   border: 1px solid var(--rule-hairline);
-  padding: 0.12rem 0.45rem;
+  padding: var(--espace-4) var(--espace-8);
   white-space: nowrap;
   cursor: pointer;
 }
@@ -176,8 +175,8 @@
 .search-drill-head {
   display: flex;
   align-items: baseline;
-  gap: 0.6rem;
-  padding: 0.4rem 0.2rem 0.55rem;
+  gap: var(--espace-8);
+  padding: var(--espace-8) var(--espace-4) var(--espace-8);
   border-bottom: 1px solid var(--rule-hairline);
 }
 
@@ -214,9 +213,9 @@
    Ce qui reste de la ligne est du texte a lire. */
 .search-hit-track {
   display: grid;
-  gap: 0.3rem;
+  gap: var(--espace-4);
   align-items: start;
-  padding-block: 0.7rem;
+  padding-block: var(--espace-12);
   cursor: default;
 }
 
@@ -247,7 +246,7 @@
   order: 2;
   display: flex;
   align-items: baseline;
-  gap: 0.5rem;
+  gap: var(--espace-8);
   flex-wrap: wrap;
   font-size: 0.8125rem;
   color: var(--ink-secondary);
@@ -266,7 +265,7 @@
 .search-track-genres {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.9rem;
+  gap: var(--espace-16);
   align-items: baseline;
 }
 
@@ -306,8 +305,8 @@
 
 .search-track-actions {
   display: flex;
-  gap: 0.6rem;
-  margin-top: 0.15rem;
+  gap: var(--espace-8);
+  margin-top: var(--espace-4);
 }
 
 .search-track-bouton {
@@ -317,7 +316,7 @@
   color: var(--ink-secondary);
   border: 1px solid var(--rule-hairline);
   border-radius: 999px;
-  padding: 0.25rem 0.65rem;
+  padding: var(--espace-4) var(--espace-12);
   cursor: pointer;
 }
 
@@ -328,9 +327,9 @@
 
 /* L'ÉTAT SANS RÉSULTAT, qui est le cas le plus fréquent. */
 .search-vide {
-  padding: 1.1rem 0.9rem;
+  padding: var(--espace-16);
   display: grid;
-  gap: 0.45rem;
+  gap: var(--espace-8);
   justify-items: start;
 }
 
@@ -352,15 +351,17 @@
   opacity: 0.8;
 }
 
+/* Le seul bouton plein de la recherche : il porte l'accent, et le texte
+   pose dessus est celui prevu pour l'accent. */
 .search-vide-bouton {
-  margin-top: 0.2rem;
+  margin-top: var(--espace-4);
   font-size: 0.75rem;
   letter-spacing: var(--serrage);
-  color: #0a0c10;
-  background: #f2f4f8;
+  color: var(--sur-accent);
+  background: var(--accent);
   border: 0;
   border-radius: 999px;
-  padding: 0.45rem 0.9rem;
+  padding: var(--espace-8) var(--espace-16);
   cursor: pointer;
 }
 
@@ -390,9 +391,9 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 0.35rem;
-  margin: 0.3rem 0.5rem 0.5rem;
-  padding: 0.7rem 0.9rem 0.8rem;
+  gap: var(--espace-4);
+  margin: var(--espace-4) var(--espace-8) var(--espace-8);
+  padding: var(--espace-12) var(--espace-16) var(--espace-12);
   border: var(--rule-width) solid var(--rule-hairline);
   border-radius: 12px;
   cursor: default;
@@ -415,10 +416,10 @@
 .search-styles {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.3rem;
+  gap: var(--espace-4);
 }
 .search-style-lien {
-  padding: 0.3rem 0.75rem;
+  padding: var(--espace-4) var(--espace-12);
   border: var(--rule-width) solid var(--rule-hairline);
   border-radius: 999px;
   background: none;
@@ -435,4 +436,27 @@
    par un fond plutot que par un mot de plus. */
 .search-style-famille {
   border-style: dashed;
+}
+
+/* ═══ CIBLES TACTILES SOUS 900 PX ═══ Tout ce qui se touche fait 44 px de
+   haut, et le bouton de retour, qui ne porte qu'un signe, 44 px de large.
+   Les sorties d'un morceau sont des spans en ligne : elles deviennent des
+   boites en ligne pour que la hauteur minimale s'applique. */
+@media (max-width: 899px) {
+  .search-hit,
+  .search-vide-bouton,
+  .search-style-lien,
+  .search-track-genre {
+    min-height: 44px;
+  }
+  .search-genre-chip,
+  .search-track-bouton {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .search-back {
+    min-width: 44px;
+    min-height: 44px;
+  }
 }

@@ -7,18 +7,20 @@
   position: fixed;
   inset: 0;
   background: var(--bg, var(--fond));
-  color: var(--ink-primary, #e6edf3);
+  color: var(--ink-primary, var(--encre-2));
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 1rem;
+  padding: var(--espace-16);
   font-family: var(--font-ui);
 }
 
 .chrono-header {
   max-width: var(--largeur-page);
-  margin: 0 auto 1.5rem;
-  padding-bottom: 1rem;
-  padding-right: calc(var(--authb-reserve, 126px) + 0.5rem);
+  margin: 0 auto var(--espace-24);
+  padding-bottom: var(--espace-16);
+  /* 126px est le repli de la largeur mesuree du bouton de compte : une
+     taille lue a l'ecran, pas un pas d'espacement. */
+  padding-right: calc(var(--authb-reserve, 126px) + var(--espace-8));
   border-bottom: 1px solid var(--voile-1);
 }
 
@@ -26,8 +28,8 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.75rem 1.2rem;
-  margin-bottom: 1rem;
+  gap: var(--espace-12) var(--espace-16);
+  margin-bottom: var(--espace-16);
 }
 
 .chrono-logo {
@@ -46,36 +48,36 @@
 .chrono-title {
   font-size: 1.5rem;
   font-weight: 600;
-  margin: 0 0 0.75rem;
+  margin: 0 0 var(--espace-12);
   letter-spacing: var(--serrage);
 }
 
 .chrono-legend {
   font-size: 0.8125rem;
   color: var(--voile-6);
-  margin: 0 0 0.75rem;
+  margin: 0 0 var(--espace-12);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--espace-8);
 }
 
 .chrono-legend-graft {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: var(--espace-8);
 }
 
 .chrono-filter {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--espace-8);
   font-size: 0.8125rem;
   color: var(--voile-7);
   cursor: pointer;
 }
 
 .chrono-filter input {
-  accent-color: oklch(var(--lt-70) 0.15 220);
+  accent-color: var(--accent);
 }
 
 /* --- ACCORDÉON MOBILE --- */
@@ -97,10 +99,10 @@
 .chrono-family-header {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--espace-12);
   width: 100%;
   min-height: 56px;
-  padding: 0.95rem 1rem;
+  padding: var(--espace-16);
   background: transparent;
   border: none;
   color: inherit;
@@ -140,7 +142,7 @@
 }
 
 .chrono-family-body {
-  padding: 0.4rem 0.6rem 0.8rem;
+  padding: var(--espace-8) var(--espace-8) var(--espace-12);
 }
 
 /* LA LISTE TACTILE D'UNE FAMILLE. Une rangee = un genre, assez haute pour
@@ -153,12 +155,12 @@
 }
 
 .chrono-liste-bloc + .chrono-liste-bloc {
-  margin-top: 0.7rem;
+  margin-top: var(--espace-12);
 }
 
 .chrono-liste-decennie {
-  margin: 0 0 0.25rem;
-  padding: 0 0.4rem;
+  margin: 0 0 var(--espace-4);
+  padding: 0 var(--espace-8);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: var(--serrage);
@@ -169,10 +171,10 @@
 .chrono-liste-genre {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--espace-8);
   width: 100%;
   min-height: 52px;
-  padding: 0.65rem 0.6rem 0.65rem var(--retrait, 8px);
+  padding: var(--espace-12) var(--espace-8) var(--espace-12) var(--retrait, var(--espace-8));
   background: transparent;
   border: 0;
   border-bottom: 1px solid var(--voile-06);
@@ -223,7 +225,7 @@
 .chrono-columns {
   display: grid;
   grid-template-columns: repeat(14, 1fr);
-  gap: 4px;
+  gap: var(--espace-4);
   max-width: 1600px;
   margin: 0 auto;
   min-height: 70vh;
@@ -238,7 +240,7 @@
 }
 
 .chrono-column-header {
-  padding: 0.625rem 0.5rem;
+  padding: var(--espace-12) var(--espace-8);
   margin: 0;
   font-size: 0.6875rem;
   font-weight: 600;
@@ -277,7 +279,7 @@
 .chrono-decade-label {
   position: absolute;
   top: 2px;
-  left: 4px;
+  left: var(--espace-4);
   font-size: 0.5625rem;
   color: var(--voile-3);
   font-weight: 500;
@@ -294,7 +296,7 @@
   position: relative;
   flex: 1;
   min-height: var(--h-totale, 100%);
-  padding: 0.5rem 0.25rem;
+  padding: var(--espace-8) var(--espace-4);
 }
 
 .chrono-line {
@@ -321,8 +323,8 @@
 .chrono-genre {
   position: absolute;
   top: var(--y);
-  left: 4px;
-  right: 4px;
+  left: var(--espace-4);
+  right: var(--espace-4);
   height: 40px;
   box-sizing: border-box;
   overflow: hidden;
@@ -330,7 +332,9 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 2px;
-  padding: 0.375rem 0.5rem;
+  /* Le pas vertical est 4 et non 8 : la carte a une hauteur fixe de 40 px,
+     et le nom plus l'annee n'y tiennent qu'avec ce retrait. */
+  padding: var(--espace-4) var(--espace-8);
   background: oklch(0.22 0.02 var(--hue));
   border: 1px solid oklch(var(--lt-50) 0.1 var(--hue) / 0.3);
   border-left: 3px solid oklch(var(--lt-70) 0.15 var(--hue));
@@ -372,8 +376,8 @@
 
 .chrono-graft {
   position: absolute;
-  top: 4px;
-  right: 4px;
+  top: var(--espace-4);
+  right: var(--espace-4);
   display: flex;
   gap: 3px;
 }
@@ -390,8 +394,8 @@
 
 .chrono-footer {
   max-width: var(--largeur-page);
-  margin: 2rem auto 0;
-  padding-top: 1rem;
+  margin: var(--espace-32) auto 0;
+  padding-top: var(--espace-16);
   border-top: 1px solid var(--voile-1);
 }
 
@@ -406,33 +410,33 @@
 
 @media (max-width: 768px) {
   .chrono-root {
-    padding: 0.75rem;
+    padding: var(--espace-12);
   }
 
   .chrono-header {
-    margin-bottom: 0.9rem;
-    padding-bottom: 0.75rem;
-    padding-right: calc(var(--authb-reserve, 126px) + 0.25rem);
+    margin-bottom: var(--espace-16);
+    padding-bottom: var(--espace-12);
+    /* 126px : le meme repli de largeur du bouton de compte, une taille. */
+    padding-right: calc(var(--authb-reserve, 126px) + var(--espace-4));
   }
 
   .chrono-chrome {
-    gap: 0.45rem 0.7rem;
-    margin-bottom: 0.6rem;
+    gap: var(--espace-8) var(--espace-12);
+    margin-bottom: var(--espace-8);
   }
 
   .chrono-title {
     font-size: 1.2rem;
-    margin-bottom: 0.35rem;
+    margin-bottom: var(--espace-4);
   }
 
   .chrono-legend {
     font-size: 0.75rem;
-    margin-bottom: 0.45rem;
+    margin-bottom: var(--espace-8);
   }
 
   .chrono-filter {
     font-size: 0.875rem;
-    min-height: 44px;
   }
 
   .chrono-columns {
@@ -445,13 +449,13 @@
     left: auto;
     right: auto;
     transform: none;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--espace-8);
   }
 
   .chrono-genres {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--espace-8);
     padding: 0;
   }
 
@@ -464,8 +468,8 @@
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.25rem;
-    margin-bottom: 0.75rem;
+    gap: var(--espace-4);
+    margin-bottom: var(--espace-12);
   }
 
   .chrono-decade {
@@ -473,7 +477,7 @@
     top: auto;
     height: auto;
     border: none;
-    padding: 0.2rem 0.5rem;
+    padding: var(--espace-4) var(--espace-8);
     background: var(--voile-05);
     border-radius: 3px;
   }
@@ -522,7 +526,7 @@
 
 .chrono-selecteur button {
   min-height: 44px;
-  padding: 0 0.9rem;
+  padding: 0 var(--espace-16);
   background: transparent;
   border: 0;
   border-radius: 6px;
@@ -532,9 +536,10 @@
   cursor: pointer;
 }
 
+/* L'onglet courant est un etat actif : fond d'accent, texte pose dessus. */
 .chrono-selecteur button[aria-selected='true'] {
-  background: var(--voile-08);
-  color: var(--ink-primary, var(--encre-2));
+  background: var(--accent);
+  color: var(--sur-accent);
 }
 
 /* LE DEFILEMENT EST HORIZONTAL, et il n'y a que lui : `touch-action` le
@@ -579,10 +584,12 @@
    posee dessous, en chiffres lisibles et non en mention discrete. */
 .chrono-epoque-graduation {
   position: absolute;
+  /* -8px pose la graduation a cheval sur l'axe : une position dans la
+     scene, pas un pas d'espacement. */
   top: calc(var(--haut) - 8px);
   left: var(--x);
-  padding-top: 22px;
-  padding-left: 6px;
+  padding-top: var(--espace-24);
+  padding-left: var(--espace-8);
   border-left: 2px solid var(--ink-primary, var(--encre-2));
   color: var(--ink-primary, var(--encre-2));
   font-family: var(--font-ui);
@@ -636,7 +643,7 @@
   width: 100%;
   height: 34px;
   box-sizing: border-box;
-  padding: 4px 6px;
+  padding: var(--espace-4) var(--espace-8);
   overflow: hidden;
   background: oklch(0.22 0.02 var(--hue));
   border: 1px solid oklch(var(--lt-50) 0.1 var(--hue) / 0.3);
@@ -698,8 +705,10 @@
 /* La graduation traverse l'axe horizontalement, l'annee posee a sa droite. */
 .chrono-epoque[data-orientation='verticale'] .chrono-epoque-graduation {
   top: var(--x);
+  /* -10px pose la graduation a cheval sur l'axe vertical : une position
+     dans la scene, pas un pas d'espacement. */
   left: calc(var(--haut) - 10px);
-  padding: 0 0 0 26px;
+  padding: 0 0 0 var(--espace-24);
   border-left: 0;
   border-top: 2px solid var(--ink-primary, var(--encre-2));
 }
@@ -745,7 +754,7 @@
 .chrono-epoque[data-orientation='verticale'] .chrono-epoque-case {
   width: 156px;
   height: 52px;
-  padding: 7px 10px;
+  padding: var(--espace-8) var(--espace-12);
 }
 
 .chrono-epoque[data-orientation='verticale'] .chrono-epoque-nom {
@@ -754,4 +763,26 @@
 
 .chrono-epoque[data-orientation='verticale'] .chrono-epoque-an {
   font-size: 12px;
+}
+
+/* === CIBLES TACTILES SOUS 900 PX === Le logo et le filtre des genres
+   principaux font 44 px de haut ; l'image du logo garde ses 28 px, c'est la
+   zone de toucher qui grandit. Les cartes des colonnes et les cases de
+   l'epoque ne sont pas concernees : leur hauteur est une grandeur du
+   placement calcule dans ChronologyView.tsx, et la changer ici ferait se
+   toucher ou se chevaucher les cases. Sur telephone, ce sont la liste et
+   l'accordeon qui servent, et leurs rangees font deja 52 et 56 px. */
+@media (max-width: 899px) {
+  .chrono-logo {
+    display: flex;
+    align-items: center;
+    height: auto;
+    min-height: 44px;
+  }
+  .chrono-logo img {
+    height: 28px;
+  }
+  .chrono-filter {
+    min-height: 44px;
+  }
 }

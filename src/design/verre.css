@@ -1,0 +1,145 @@
+/* LE VERRE DEPOLI : UNE RECETTE, ECRITE UNE FOIS. Voir docs/adr/ADR-089.
+ *
+ * ═══ CE QU'EST UNE SURFACE DE VERRE ═══
+ *
+ * Le fond du theme a 40 % en sombre, 55 % en clair ; un flou de 24 px et une
+ * saturation de 1,4 sur ce qui passe dessous ; un filet INTERIEUR blanc a
+ * 8 % ou 12 %, pose en ombre interne et non en bordure. Aucune bordure
+ * exterieure, aucun filet colore, aucune ombre dure. Les surfaces qui
+ * FLOTTENT (les deux barres, la surcouche du micro, le menu Plus, la feuille
+ * d'une soiree) portent en plus une ombre tres diffuse, et elles seules.
+ *
+ * ═══ POURQUOI ICI ET PAS DANS VINGT FEUILLES ═══
+ *
+ * La v2 ecrivait le verre dans chaque feuille : quatre declarations, vingt
+ * fois, et deja deux variantes (fond, fond fort) que rien ne distinguait a
+ * l'ecran. Une recette ecrite vingt fois derive vingt fois. Elle vit donc
+ * ici, sur la liste des surfaces qui la portent, et les feuilles des
+ * composants ne declarent NI fond, NI bordure, NI ombre sur ces selecteurs.
+ * Un survol se dit en surchargeant --verre-fond sur l'element, jamais en
+ * reecrivant `background`.
+ *
+ * ═══ DEUX NIVEAUX, JAMAIS TROIS ═══
+ *
+ * Un verre sur un verre se lit encore : la surcouche du micro porte la
+ * fiche du morceau. Un troisieme flou par-dessus fait de la bouillie. La
+ * regle en bas de ce fichier retire le flou au troisieme niveau, par
+ * construction, sans qu'une feuille ait a le savoir.
+ *
+ * ═══ LE REPLI ═══
+ *
+ * Un navigateur sans filtre d'arriere-plan verrait la page defiler au
+ * travers d'un voile a 40 %, illisible. Il recoit une surface opaque du
+ * theme. Meme chose pour qui a demande moins de transparence au systeme. */
+
+.entete-site,
+.pv-tete,
+.barre-bas,
+.authb-bouton,
+.pv-tuile,
+.cal-soiree,
+.cal-ville,
+.cal-feuille,
+.news-carte,
+.news-grand,
+.news-une,
+.news-source-carte,
+.sp-item,
+.sp-carte-artiste,
+.pv-fiche,
+.rc-fiche,
+.rc-surcouche-panneau,
+.mini,
+.pied {
+  border: 0;
+  background: var(--verre-fond);
+  -webkit-backdrop-filter: var(--verre-flou);
+  backdrop-filter: var(--verre-flou);
+  box-shadow: var(--verre-filet);
+}
+
+/* Ce qui flotte au-dessus de la page porte l'ombre diffuse, vers le bas
+   pour ce qui est en haut, vers le haut pour ce qui est en bas. */
+.entete-site,
+.pv-tete,
+.rc-surcouche-panneau,
+.cal-feuille {
+  box-shadow: var(--verre-filet), var(--ombre-flottante);
+}
+.barre-bas,
+.mini {
+  box-shadow: var(--verre-filet), var(--ombre-flottante-haut);
+}
+
+/* LE MENU PLUS N'EST PAS DU VERRE, ET C'EST LA PHYSIQUE DU FILTRE, PAS UN
+   GOUT. Il s'ouvre depuis la barre du bas, qui est floutee : un element
+   flou devient la racine d'arriere-plan de ses descendants, et un flou pose
+   dans le menu ne verrait que l'interieur de la barre, c'est-a-dire rien de
+   la page au-dessus. Il laisserait passer le texte en clair sous ses liens.
+   Il prend donc un panneau presque opaque du theme, le meme filet interieur
+   et l'ombre des surfaces flottantes. */
+.menu-plus-panneau {
+  border: 0;
+  background: var(--panneau-96);
+  box-shadow: var(--verre-filet), var(--ombre-flottante-haut);
+}
+
+/* LE TROISIEME NIVEAU N'EST PLUS DU VERRE : un voile plat, sans flou. */
+:is(.entete-site, .pv-tete, .barre-bas, .authb-bouton, .pv-tuile, .cal-soiree, .cal-ville, .cal-feuille, .news-carte, .news-grand, .news-une, .news-source-carte, .sp-item, .sp-carte-artiste, .pv-fiche, .rc-fiche, .rc-surcouche-panneau, .mini, .pied)
+  :is(.entete-site, .pv-tete, .barre-bas, .authb-bouton, .pv-tuile, .cal-soiree, .cal-ville, .cal-feuille, .news-carte, .news-grand, .news-une, .news-source-carte, .sp-item, .sp-carte-artiste, .pv-fiche, .rc-fiche, .rc-surcouche-panneau, .mini, .pied)
+  :is(.entete-site, .pv-tete, .barre-bas, .authb-bouton, .pv-tuile, .cal-soiree, .cal-ville, .cal-feuille, .news-carte, .news-grand, .news-une, .news-source-carte, .sp-item, .sp-carte-artiste, .pv-fiche, .rc-fiche, .rc-surcouche-panneau, .mini, .pied) {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: var(--voile-06);
+}
+
+/* LE REPLI : sans filtre d'arriere-plan, la surface est opaque. Le test
+   `-webkit-` compte pour les WebKit anciens qui ne connaissent que lui. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .entete-site,
+  .pv-tete,
+  .barre-bas,
+  .authb-bouton,
+  .pv-tuile,
+  .cal-soiree,
+  .cal-ville,
+  .cal-feuille,
+  .news-carte,
+  .news-grand,
+  .news-une,
+  .news-source-carte,
+  .sp-item,
+  .sp-carte-artiste,
+  .pv-fiche,
+  .rc-fiche,
+  .rc-surcouche-panneau,
+    .mini,
+  .pied {
+    background: var(--verre-opaque);
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .entete-site,
+  .pv-tete,
+  .barre-bas,
+  .authb-bouton,
+  .pv-tuile,
+  .cal-soiree,
+  .cal-ville,
+  .cal-feuille,
+  .news-carte,
+  .news-grand,
+  .news-une,
+  .news-source-carte,
+  .sp-item,
+  .sp-carte-artiste,
+  .pv-fiche,
+  .rc-fiche,
+  .rc-surcouche-panneau,
+    .mini,
+  .pied {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--verre-opaque);
+  }
+}

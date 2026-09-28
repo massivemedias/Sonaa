@@ -194,6 +194,8 @@
      famille a une meme couleur ferait perdre ce que la sphere disait. */
   border: 1px solid oklch(var(--plaque-l, 0.72) var(--plaque-c, 0.15) var(--plaque-hue, 284));
   border-radius: 12px;
+  /* EXCEPTION D'ESPACEMENT : remplissage compte au pixel pres par le moteur
+     (webgl-orbit.ts) pour l'anti-chevauchement ; il reste en clair. */
   padding: 4px 7px;
   /* LA PASTILLE, huit pixels de rond a gauche du texte, DANS la boite. Sa
      largeur est comptee par le moteur : une pastille dessinee et non comptee
@@ -201,6 +203,8 @@
      boite plus etroite que la boite rendue. */
   display: inline-flex;
   align-items: center;
+  /* EXCEPTION D'ESPACEMENT : l'ecart de la pastille est compte par le moteur
+     dans la largeur de la plaque ; il reste en clair. */
   gap: 5px;
   text-shadow: none;
   font-weight: 600;
@@ -218,6 +222,8 @@
 
 @media (max-width: 499px) {
   .atlas-label[data-plaque='1'] {
+    /* EXCEPTION D'ESPACEMENT : remplissage compte au pixel pres par le moteur
+       (webgl-orbit.ts) pour l'anti-chevauchement ; il reste en clair. */
     padding: 5px 8px;
     border-radius: 10px;
   }
@@ -246,6 +252,8 @@
   background: var(--rideau-95);
   border-width: 2px;
   border-color: oklch(calc(var(--plaque-l, 0.72) + 0.12) var(--plaque-c, 0.15) var(--plaque-hue, 284));
+  /* EXCEPTION D'ESPACEMENT : remplissage compte au pixel pres par le moteur
+     (webgl-orbit.ts) pour l'anti-chevauchement ; il reste en clair. */
   padding: 2px 5px;
   color: #fff;
   /* CINQ POUR CENT, et la boite ne bouge pas de place : la transformation est
@@ -268,6 +276,8 @@
   background: oklch(0.55 0.2 var(--plaque-hue, 284));
   border-color: oklch(0.75 0.22 var(--plaque-hue, 284));
   border-width: 2px;
+  /* EXCEPTION D'ESPACEMENT : remplissage compte au pixel pres par le moteur
+     (webgl-orbit.ts) pour l'anti-chevauchement ; il reste en clair. */
   padding: 2px 5px;
 }
 
@@ -276,6 +286,8 @@
    La fixer ici aussi ferait la meme grandeur ecrite a deux endroits. */
 @media (max-width: 600px) {
   .atlas-label[data-plaque='1'] {
+    /* EXCEPTION D'ESPACEMENT : remplissage compte au pixel pres par le moteur
+       (webgl-orbit.ts) pour l'anti-chevauchement ; il reste en clair. */
     padding: 5px 8px;
     border-radius: 10px;
   }
@@ -283,6 +295,8 @@
   .atlas-label[data-plaque='1']:hover,
   .atlas-label[data-plaque='1'][data-survol='1'],
   .atlas-label[data-plaque='1'][data-focus='1'] {
+    /* EXCEPTION D'ESPACEMENT : remplissage compte au pixel pres par le moteur
+       (webgl-orbit.ts) pour l'anti-chevauchement ; il reste en clair. */
     padding: 4px 7px;
   }
 }
@@ -297,8 +311,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
-  padding: 2rem;
+  gap: var(--espace-24);
+  padding: var(--espace-32);
 }
 
 .atlas-fallback-notice {
@@ -323,8 +337,8 @@
 .atlas-fallback-list li {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.65rem 0.8rem;
+  gap: var(--espace-8);
+  padding: var(--espace-12);
   background: var(--surface-margin);
   font-family: var(--font-ui);
   font-size: 0.6875rem;
@@ -375,8 +389,12 @@
   position: absolute;
   /* Sous le logotype, qui descend a 57,6 px, et a gauche du fil, qui commence
      a 67,2 px : aucune des deux boites ne la touche, verifie par mesure. */
+  /* EXCEPTION D'ESPACEMENT : cette hauteur est mesuree avec celle du
+     logotype et celle du fil ; arrondie a l'echelle, la fleche sortirait de
+     la ligne du fil de dix pixels. Elle reste en clair. A l'echelle, le fil
+     commence desormais a 64 px et la fleche finit a 60 : calcule, pas mesure. */
   top: 3.85rem;
-  left: 1rem;
+  left: var(--espace-16);
   z-index: 7;
   width: 44px;
   height: 44px;
@@ -402,17 +420,17 @@
 }
 
 .atlas-root:has(.crumb-retour) .crumbs {
-  left: 4.2rem;
+  left: var(--espace-64);
 }
 
 /* Fil d'Ariane permanent. */
 .crumbs {
   position: absolute;
-  left: 1.25rem;
+  left: var(--espace-24);
   z-index: 6;
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: var(--espace-8);
   flex-wrap: wrap;
   max-width: 60vw;
 }
@@ -425,7 +443,7 @@
   color: var(--ink-secondary);
   background: transparent;
   border: 0;
-  padding: 0.25rem 0.1rem;
+  padding: var(--espace-4);
   cursor: pointer;
 }
 
@@ -446,12 +464,12 @@
    sûres iOS s'ajoutent au retrait. */
 .controls {
   position: absolute;
-  right: calc(14px + env(safe-area-inset-right, 0px));
-  top: calc(14px + env(safe-area-inset-top, 0px));
+  right: calc(var(--espace-16) + env(safe-area-inset-right, 0px));
+  top: calc(var(--espace-16) + env(safe-area-inset-top, 0px));
   z-index: 6;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--espace-12);
   transition: opacity 400ms ease;
 }
 
@@ -510,7 +528,7 @@
 .crumb-group {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: var(--espace-8);
 }
 
 /* NOM SURVOLÉ : pleine opacité et graisse forte.
@@ -560,7 +578,7 @@
      dépassait des deux côtés et passait sous les contrôles. Elle se replie et
      se place au-dessus d'eux. */
   .controls {
-    bottom: max(1rem, env(safe-area-inset-bottom));
+    bottom: max(var(--espace-16), env(safe-area-inset-bottom));
   }
 
   /* Les noms de familles passent dessous et centrés sur écran étroit, mais
@@ -572,10 +590,10 @@
   /* Le fil d'Ariane peut être long : il se replie au lieu de sortir, et il se
      resserre pour ne pas manger quatre lignes sur un chemin profond. */
   .crumbs {
-    right: 5.5rem;
+    right: var(--espace-64);
     flex-wrap: wrap;
-    row-gap: 0.1rem;
-    column-gap: 0.3rem;
+    row-gap: var(--espace-4);
+    column-gap: var(--espace-4);
     font-size: 0.625rem;
   }
   .crumb {
@@ -590,7 +608,9 @@
 
 .brand {
   position: absolute;
-  left: 1.25rem;
+  left: var(--espace-24);
+  /* EXCEPTION D'ESPACEMENT : le bas du logotype, a 57,6 px, est la mesure sur
+     laquelle la fleche de retour et le fil d'Ariane sont poses. */
   top: 0.85rem;
   z-index: 7;
   display: block;
@@ -686,21 +706,23 @@
 }
 
 /* Le fil d'Ariane descend sous le logotype plutôt que de se battre avec lui. */
+/* EXCEPTION D'ESPACEMENT : la ligne du fil est mesuree avec la fleche de
+   retour, centre sur centre ; elle reste en clair. */
 .crumbs {
   top: 4.4rem;
 }
 
 @media (max-width: 700px) {
   .brand {
-    left: 0.9rem;
-    top: 0.7rem;
+    left: var(--espace-16);
+    top: var(--espace-12);
   }
   .brand img {
     height: 34px;
   }
   .crumbs {
-    top: 3.6rem;
-    left: 0.9rem;
+    top: var(--espace-64);
+    left: var(--espace-16);
   }
 }
 
@@ -719,7 +741,7 @@
   color: var(--ink-secondary);
   background: transparent;
   border: 1px solid var(--rule-hairline);
-  padding: 0.1rem 0.45rem;
+  padding: var(--espace-4) var(--espace-8);
   cursor: pointer;
   line-height: 1.4;
 }
@@ -747,8 +769,8 @@
 /* Lien crédits, en pied, à l'opposé des contrôles. */
 .credits-link {
   position: absolute;
-  left: 1.25rem;
-  bottom: 1rem;
+  left: var(--espace-24);
+  bottom: var(--espace-16);
   z-index: 6;
   font-family: var(--font-ui);
   font-size: 0.6875rem;
@@ -767,8 +789,8 @@
 
 @media (max-width: 700px) {
   .credits-link {
-    left: 0.9rem;
-    bottom: max(0.9rem, env(safe-area-inset-bottom));
+    left: var(--espace-16);
+    bottom: max(var(--espace-16), env(safe-area-inset-bottom));
   }
 }
 
@@ -778,8 +800,8 @@
 /* Pied de page : crédits et index côte à côte, dans toutes les vues. */
 .foot-links {
   position: absolute;
-  left: 1.25rem;
-  right: 1.25rem;
+  left: var(--espace-24);
+  right: var(--espace-24);
   /* LE PIED PASSE AU-DESSUS DE LA BARRE DU LECTEUR SUR TELEPHONE.
 
      DEFAUT MESURE en ajoutant la troisieme vue : le pied vivait a 516 px du
@@ -791,7 +813,7 @@
      La borne lit la MEME valeur nommee que la barre elle-meme : deux
      ecritures d'un meme nombre finissent par diverger. Sur ordinateur la
      variable vaut zero et rien ne bouge. */
-  bottom: calc(1rem + var(--pied-decalage, 0px));
+  bottom: calc(var(--espace-16) + var(--pied-decalage, 0px));
   z-index: 6;
 }
 
@@ -814,7 +836,7 @@
   color: var(--ink-tertiary, var(--ink-secondary));
   background: transparent;
   border: 0;
-  padding: 0.2rem 0;
+  padding: var(--espace-4) 0;
   cursor: pointer;
 }
 
@@ -941,13 +963,13 @@
 
 .legend {
   position: absolute;
-  left: 1.25rem;
-  bottom: calc(3.4rem + env(safe-area-inset-bottom, 0px));
+  left: var(--espace-24);
+  bottom: calc(var(--espace-64) + env(safe-area-inset-bottom, 0px));
   z-index: 6;
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
-  padding: 0.55rem 0.7rem;
+  gap: var(--espace-4);
+  padding: var(--espace-8) var(--espace-12);
   background: var(--rideau-55);
   border-radius: 4px;
   font-family: var(--font-ui);
@@ -981,17 +1003,17 @@
 
 .legend-list {
   list-style: none;
-  margin: 0.25rem 0 0;
+  margin: var(--espace-4) 0 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.22rem;
+  gap: var(--espace-4);
 }
 
 .legend-list li {
   display: flex;
   align-items: baseline;
-  gap: 0.5rem;
+  gap: var(--espace-8);
   font-size: 0.6875rem;
 }
 
@@ -1021,7 +1043,7 @@
   }
   /* Au-dessus de la feuille réduite ; disparaît quand elle monte. */
   .atlas-root[data-sheet-pos='bar'] .legend {
-    bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+    bottom: calc(var(--espace-64) + env(safe-area-inset-bottom, 0px));
   }
   .atlas-root[data-sheet-pos='half'] .legend,
   .atlas-root[data-sheet-pos='full'] .legend {
@@ -1040,16 +1062,16 @@
    on signale un doute, on ne barre pas une entree que personne n'a tranchee.
    Le vote est le correcteur de long terme du corpus, pas une sanction. */
 .tvote-en-doute .tvote-score {
-  color: #d98b7a;
+  color: oklch(var(--lt-70) 0.09 25);
   font-weight: 600;
 }
 .tvote-en-doute::after {
   content: '';
   position: absolute;
-  inset-inline-start: -0.5rem;
-  inset-block: 0.15rem;
+  inset-inline-start: calc(-1 * var(--espace-8));
+  inset-block: var(--espace-4);
   inline-size: 2px;
-  background: #d98b7a;
+  background: oklch(var(--lt-70) 0.09 25);
   opacity: 0.55;
   border-radius: 1px;
 }
@@ -1065,14 +1087,14 @@
    d'avertissement : une phrase et le bouton qui permet d'y repondre. C'est
    le premier usage reel du systeme de propositions. */
 .pcol-manque {
-  margin-block-start: 1rem;
-  padding: 0.85rem 0.9rem;
+  margin-block-start: var(--espace-16);
+  padding: var(--espace-16);
   border: 1px solid var(--voile-14);
   border-radius: 6px;
   background: var(--voile-03);
 }
 .pcol-manque p {
-  margin: 0 0 0.6rem;
+  margin: 0 0 var(--espace-8);
   font-size: 0.88rem;
   line-height: 1.45;
   color: var(--voile-72);
@@ -1083,14 +1105,14 @@
    marques, un lecteur le prendrait pour la suite de la description et
    croirait le site en train d'affirmer un fait. */
 .pcol-mot-auteur {
-  margin: 0.9rem 0 0;
-  padding: 0.1rem 0 0.1rem 0.85rem;
+  margin: var(--espace-16) 0 0;
+  padding: var(--espace-4) 0 var(--espace-4) var(--espace-16);
   border-inline-start: 2px solid var(--voile-28);
 }
 .pcol-mot-auteur p {
   /* Quatre paragraphes dans une colonne de 420 px : sans écart entre eux, le
      mot de l'auteur devient un pavé de deux cents mots. */
-  margin: 0 0 0.7rem;
+  margin: 0 0 var(--espace-12);
   font-style: italic;
   font-size: 0.92rem;
   line-height: 1.55;
@@ -1100,7 +1122,7 @@
   margin-block-end: 0;
 }
 .pcol-mot-signature {
-  margin-block-start: 0.4rem !important;
+  margin-block-start: var(--espace-8) !important;
   font-style: normal !important;
   font-size: 0.78rem !important;
   letter-spacing: var(--serrage);
@@ -1118,7 +1140,7 @@
    reclame pas. Consulter et ecouter restent libres sans compte, et rien
    dans ce bandeau ne doit laisser croire le contraire. */
 .pcol-connexion {
-  margin: 0 0 0.55rem;
+  margin: 0 0 var(--espace-8);
   font-size: 0.8rem;
   line-height: 1.4;
   color: var(--voile-5);
@@ -1128,25 +1150,25 @@
    une fiche sert d'abord a ecouter, le fil ne doit pas pousser les morceaux
    hors de l'ecran. */
 .pcol-fil {
-  margin-block-start: 0.9rem;
+  margin-block-start: var(--espace-16);
 }
 .pcol-fil-corps {
-  margin-block-start: 0.7rem;
+  margin-block-start: var(--espace-12);
 }
 .pcol-fil-message {
-  margin: 0 0 0.6rem;
+  margin: 0 0 var(--espace-8);
   font-size: 0.8rem;
   color: var(--voile-7);
 }
 .pcol-fil-vide {
-  margin: 0.3rem 0 0.8rem;
+  margin: var(--espace-4) 0 var(--espace-12);
   font-size: 0.82rem;
   color: var(--voile-45);
 }
 .pcol-fil-saisie textarea {
   width: 100%;
   box-sizing: border-box;
-  padding: 0.55rem 0.65rem;
+  padding: var(--espace-8) var(--espace-12);
   border: 1px solid var(--voile-16);
   border-radius: 5px;
   background: var(--voile-04);
@@ -1159,8 +1181,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.6rem;
-  margin-block-start: 0.4rem;
+  gap: var(--espace-8);
+  margin-block-start: var(--espace-8);
 }
 .pcol-fil-compte {
   font-size: 0.72rem;
@@ -1168,15 +1190,15 @@
 }
 .pcol-fil-liste {
   list-style: none;
-  margin: 0.9rem 0 0;
+  margin: var(--espace-16) 0 0;
   padding: 0;
 }
 .pcol-fil-item {
-  padding: 0.55rem 0 0.55rem 0.7rem;
+  padding: var(--espace-8) 0 var(--espace-8) var(--espace-12);
   border-inline-start: 2px solid var(--voile-1);
 }
 .pcol-fil-item + .pcol-fil-item {
-  margin-block-start: 0.35rem;
+  margin-block-start: var(--espace-4);
 }
 /* LE MESSAGE DE L'AUTEUR DU SITE. Un lisere dans la couleur de la famille et
    une mention en petites capitales, rien de plus : la distinction doit se
@@ -1188,7 +1210,7 @@
 .pcol-fil-entete {
   display: flex;
   align-items: baseline;
-  gap: 0.5rem;
+  gap: var(--espace-8);
   flex-wrap: wrap;
 }
 .pcol-fil-auteur {
@@ -1208,7 +1230,7 @@
   color: var(--voile-34);
 }
 .pcol-fil-texte {
-  margin: 0.3rem 0 0.4rem;
+  margin: var(--espace-4) 0 var(--espace-8);
   font-size: 0.87rem;
   line-height: 1.5;
   color: var(--voile-86);
@@ -1218,10 +1240,10 @@
 .pcol-fil-pied {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: var(--espace-8);
 }
 .pcol-fil-pied button {
-  padding: 0.1rem 0.35rem;
+  padding: var(--espace-4);
   border: 0;
   background: none;
   color: var(--voile-42);
@@ -1238,7 +1260,7 @@
   color: var(--voile-6);
 }
 .pcol-fil-lien {
-  margin-inline-start: 0.5rem;
+  margin-inline-start: var(--espace-8);
   font-size: 0.72rem !important;
   text-decoration: underline;
 }
@@ -1284,7 +1306,48 @@
      que la bande elle-meme. Deux ecritures d'un meme nombre finissent toujours
      par diverger, et cette semaine en a fait la demonstration. */
   .controls {
-    top: calc(var(--mn-bande-h) + 14px + env(safe-area-inset-top, 0px));
+    top: calc(var(--mn-bande-h) + var(--espace-16) + env(safe-area-inset-top, 0px));
   }
 }
 
+/* LES CIBLES TACTILES, SOUS 900 px. Chaque bouton de la scene fait au moins
+   44 px de haut, et le bouton icone du fil replie 44 px de large. Les
+   segments du fil d'Ariane prennent une marge negative egale a ce qu'ils
+   gagnent, pour rester centres sur la fleche de retour. */
+@media (max-width: 899px) {
+  button.crumb,
+  .crumb-ellipsis {
+    min-height: 44px;
+    margin-block: calc(-1 * var(--espace-12));
+  }
+
+  .crumb-ellipsis {
+    min-width: 44px;
+  }
+
+  .brand {
+    min-height: 44px;
+  }
+
+  .credits-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .foot-view,
+  .legend-toggle {
+    min-height: 44px;
+  }
+
+  .pcol-fil-pied button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .pcol-connexion,
+  button.pcol-fil-vide,
+  .pcol-fil-actions button {
+    min-height: 44px;
+  }
+}

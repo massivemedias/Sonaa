@@ -1,17 +1,19 @@
 /* LE SELECTEUR DE LANGUE. Il vit dans la barre du haut, apres les pages, et
    il doit s'y faire oublier : c'est un reglage, pas une destination. Il est
-   donc plus petit et plus pale que les liens qui l'entourent, et il ne
-   s'eclaire qu'au survol et sur le choix actif. */
+   donc plus petit que les liens qui l'entourent, dans l'encre secondaire,
+   et il ne s'eclaire qu'au survol et sur le choix actif. PLUS D'OPACITE EN
+   PLUS de l'encre secondaire depuis ADR-089 : l'encre est deja translucide,
+   et les deux ensemble tombaient a 3,4 pour 1 en sombre, sous le AA. */
 
 .choixlangue {
   display: inline-flex;
   align-items: center;
-  gap: 0.28rem;
-  margin-left: 0.1rem;
+  gap: var(--espace-4);
+  margin-left: var(--espace-4);
 }
 
 .choixlangue-bouton {
-  padding: 0.1rem 0.18rem;
+  padding: var(--espace-4);
   border: 0;
   background: none;
   color: var(--ink-secondary);
@@ -20,7 +22,6 @@
   letter-spacing: var(--serrage-ui);
   text-transform: uppercase;
   cursor: pointer;
-  opacity: 0.62;
   transition: opacity 140ms var(--motion-ease), color 140ms var(--motion-ease);
 }
 
@@ -33,10 +34,12 @@
 /* LE CHOIX ACTIF SE DIT PAR DEUX SIGNAUX, PAS UN. La couleur seule ne se voit
    pas de tout le monde : le poids de trait double le message, et la ligne
    dessous le triple. Trois signaux pour deux lettres n'est pas de trop quand
-   les deux lettres se ressemblent autant. */
+   les deux lettres se ressemblent autant. Depuis ADR-089, le choix actif
+   porte le fond accent et le texte prevu pour l'accent. */
 .choixlangue-bouton[data-actif='true'] {
   opacity: 1;
-  color: var(--ink-primary);
+  background: var(--accent);
+  color: var(--sur-accent);
   font-weight: var(--weight-genre);
   text-decoration: underline;
   text-underline-offset: 0.22em;
@@ -64,9 +67,28 @@
   }
 }
 
+/* CIBLE TACTILE SOUS 900 PX : deux lettres, mais 44 px pour les toucher. */
+@media (max-width: 899px) {
+  .choixlangue-bouton {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
 /* EN THEME CLAIR, PAS D'OPACITE SUR CE TEXTE : sur du blanc, une encre
    attenuee passe sous le contraste AA. Mesure le 22 septembre 2026. */
 :root[data-theme='clair'] .choixlangue-bouton:not([data-actif='true']) {
   opacity: 1;
   color: var(--ink-secondary);
+}
+
+/* SUR TELEPHONE, UNE SEULE LETTRE-BOUTON : l'autre langue. La langue en
+   cours se lit deja dans chaque mot de la page ; ce qu'on cherche ici, c'est
+   la porte vers l'autre. Deux ronds de 44 px et un filet entre eux ne
+   tenaient pas a cote du logo sur un ecran de 320 px. */
+@media (max-width: 699px) {
+  .choixlangue-bouton[data-courante='true'],
+  .choixlangue-barre {
+    display: none;
+  }
 }

@@ -3671,3 +3671,13 @@ précède.
   21 septembre 2026. Tailwind sans reset, Motion réduit à un geste, la palette
   portée par les jetons, le chrome en verre qui flotte, et le renversement
   assumé de la section 10 de DESIGN.md.
+- [ADR-087 : le nuage des familles](docs/adr/ADR-087-nuage-des-familles.md),
+  22 septembre 2026, abandonné le jour même.
+- [ADR-088 : les familles prennent la tuile des genres](docs/adr/ADR-088-les-familles-prennent-la-tuile-des-genres.md),
+  22 septembre 2026. Quatorze tuiles identiques à celles des genres, rien de
+  plus ; d3-hierarchy sort des dépendances.
+- [ADR-089 : verre dépoli sur sable](docs/adr/ADR-089-verre-depoli-sur-sable.md),
+  28 septembre 2026. Plus de mauve : un fond sable dans les deux thèmes, un
+  accent terracotta mesuré au AA, un grain de 396 octets, une recette de
+  verre écrite une fois, les deux barres fixées avec des hauteurs en jetons,
+  une échelle d'espacement, et un contrôle mesuré à huit largeurs.

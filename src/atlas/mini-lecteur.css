@@ -3,7 +3,8 @@
    Elle se pose sur la barre du bas quand celle-ci existe, sur le bord de
    l'ecran sinon : `--barre-bas-h` vaut zero hors du telephone. Sa hauteur,
    `--mini-h`, est declaree dans barre-bas.css avec celle de la barre, la ou
-   les deux grandeurs vivent ensemble et sont additionnees. */
+   les deux grandeurs vivent ensemble et sont additionnees. Sa matiere, son
+   filet et son ombre vers le haut viennent de design/verre.css. */
 .mini {
   position: fixed;
   left: 0;
@@ -14,12 +15,10 @@
   z-index: 13;
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: var(--espace-12);
   box-sizing: border-box;
   height: var(--mini-h, 64px);
-  padding: 0 0.6rem 0 0.75rem;
-  background: var(--plaque);
-  border-top: 1px solid var(--voile-07);
+  padding: 0 var(--espace-8) 0 var(--espace-12);
   font-family: var(--font-ui);
 }
 
@@ -61,7 +60,7 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  gap: var(--espace-4);
   color: var(--ink-primary);
   text-decoration: none;
 }
@@ -120,5 +119,20 @@
 @media (min-width: 769px) {
   .mini {
     right: var(--player-w, 0px);
+  }
+}
+
+/* SOUS 900 PX, LES DEUX RONDS FONT 44 PX : ils se touchent au pouce, et la
+   barre de 64 px les loge sans bouger. Le lien du titre aussi prend 44 px
+   de haut, centre, pour que le pouce l'atteigne sans viser la ligne. */
+@media (max-width: 899px) {
+  .mini-bouton,
+  .mini-fermer {
+    width: 44px;
+    height: 44px;
+  }
+  .mini-texte {
+    min-height: 44px;
+    justify-content: center;
   }
 }

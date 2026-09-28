@@ -13,11 +13,11 @@
 
 .sp-styles {
   list-style: none;
-  margin: 0.5rem 0 0;
+  margin: var(--espace-8) 0 0;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: var(--espace-8);
 }
 /* La pastille EST le bouton qui la retire. Une croix separee a cote d'une
    etiquette double le nombre de cibles pour une seule intention, et sur
@@ -25,8 +25,8 @@
 .sp-styles button {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.25rem 0.6rem;
+  gap: var(--espace-8);
+  padding: var(--espace-4) var(--espace-8);
   border: 1px solid var(--voile-16);
   border-radius: 999px;
   background: var(--voile-05);
@@ -35,6 +35,7 @@
   font-size: 0.8125rem;
   cursor: pointer;
 }
+/* Le survol vire au rouge : il annonce que le clic retire le style. */
 .sp-styles button:hover {
   border-color: oklch(var(--lt-75) 0.13 25 / 0.6);
   color: oklch(var(--lt-80) 0.1 25);
@@ -47,21 +48,21 @@
 /* --- Le choix des styles -------------------------------------------------- */
 
 .cs {
-  margin-top: 0.2rem;
+  margin-top: var(--espace-4);
 }
 .cs-titre {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 1rem;
+  gap: var(--espace-16);
 }
 .cs-compte {
   font-variant-numeric: tabular-nums;
   color: var(--encre-effacee-3);
 }
 .cs-ouvrir {
-  margin-top: 0.5rem;
-  padding: 0.4rem 0.9rem;
+  margin-top: var(--espace-8);
+  padding: var(--espace-8) var(--espace-16);
   border: 1px solid var(--voile-18);
   border-radius: 999px;
   background: none;
@@ -75,8 +76,8 @@
 }
 
 .cs-panneau {
-  margin-top: 0.7rem;
-  padding: 0.9rem;
+  margin-top: var(--espace-12);
+  padding: var(--espace-16);
   border: 1px solid var(--voile-12);
   border-radius: 14px;
   background: var(--plaque);
@@ -84,7 +85,7 @@
 .cs-recherche {
   width: 100%;
   box-sizing: border-box;
-  padding: 0.5rem 0.7rem;
+  padding: var(--espace-8) var(--espace-12);
   border: 1px solid var(--voile-14);
   border-radius: 10px;
   background: var(--creux-3);
@@ -96,13 +97,13 @@
    styles poussent le bouton d'envoi a deux ecrans plus bas et on ne sait plus
    qu'il existe. */
 .cs-familles {
-  margin-top: 0.8rem;
+  margin-top: var(--espace-12);
   max-height: 42vh;
   overflow-y: auto;
   overscroll-behavior: contain;
 }
 .cs-famille {
-  margin: 0.9rem 0 0.35rem;
+  margin: var(--espace-16) 0 var(--espace-4);
   font-size: 0.6875rem;
   font-weight: 700;
   color: var(--encre-tierce-2);
@@ -117,10 +118,10 @@
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
+  gap: var(--espace-4);
 }
 .cs-genres button {
-  padding: 0.28rem 0.6rem;
+  padding: var(--espace-4) var(--espace-8);
   border: 1px solid var(--voile-14);
   border-radius: 999px;
   background: none;
@@ -132,13 +133,24 @@
 .cs-genres button:hover:not(:disabled) {
   border-color: var(--voile-34);
 }
+/* Un style pris est un etat actif : fond accent, texte prevu pour l'accent. */
 .cs-genres button[data-pris='true'] {
-  background: oklch(var(--lt-78) 0.17 85);
-  border-color: oklch(var(--lt-78) 0.17 85);
-  color: var(--leve);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--sur-accent);
   font-weight: 700;
 }
 .cs-genres button:disabled {
   opacity: 0.35;
   cursor: default;
+}
+
+/* CIBLES TACTILES SOUS 900 PX : chaque pastille et le bouton d'ouverture
+   font 44 px de haut. */
+@media (max-width: 899px) {
+  .sp-styles button,
+  .cs-ouvrir,
+  .cs-genres button {
+    min-height: 44px;
+  }
 }

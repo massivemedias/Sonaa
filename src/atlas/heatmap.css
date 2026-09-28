@@ -19,12 +19,14 @@
   flex: none;
   display: flex;
   flex-direction: column;
-  gap: 0.15rem 0.8rem;
-  padding-right: calc(var(--authb-reserve, 126px) + 0.6rem);
+  gap: var(--espace-4) var(--espace-12);
+  /* 126px est le repli de la largeur mesuree du bouton de compte : une
+     taille lue a l'ecran, pas un pas d'espacement. */
+  padding-right: calc(var(--authb-reserve, 126px) + var(--espace-8));
 }
 
 .hm-chrome .sitenav {
-  padding: 0 0.9rem 0.35rem;
+  padding: 0 var(--espace-16) var(--espace-4);
 }
 
 /* --- Le fil d'Ariane, meme grammaire que les autres vues ------------------ */
@@ -33,12 +35,12 @@
   flex: none;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: var(--espace-8);
   min-height: 3rem;
   box-sizing: border-box;
   /* La zone sure du haut : sur telephone la barre d'etat mange le haut de
      l'ecran, et sa hauteur varie d'un modele a l'autre. */
-  padding: calc(0.6rem + env(safe-area-inset-top, 0px)) 0.9rem 0.6rem;
+  padding: calc(var(--espace-8) + env(safe-area-inset-top, 0px)) var(--espace-16) var(--espace-8);
   font-size: 0.75rem;
   letter-spacing: var(--serrage);
   overflow: hidden;
@@ -100,7 +102,7 @@
 
 .hm-sep {
   flex: none;
-  padding: 0 0.15rem;
+  padding: 0 var(--espace-4);
   color: var(--ink-secondary, var(--encre-douce));
 }
 
@@ -108,13 +110,13 @@
 
 .hm-reglage {
   flex: none;
-  padding: 0 0.9rem 0.4rem;
+  padding: 0 var(--espace-16) var(--espace-8);
 }
 
 .hm-curseur {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: var(--espace-8);
   font-family: var(--font-ui);
   font-size: 0.6875rem;
   letter-spacing: var(--serrage);
@@ -132,7 +134,7 @@
   flex: 1;
   min-width: 0;
   height: 16px;
-  accent-color: oklch(var(--lt-72) 0.16 250);
+  accent-color: var(--accent);
   cursor: pointer;
 }
 
@@ -140,7 +142,7 @@
    exprime un RANG et non un rapport, et sans elle la carte laisserait croire
    qu'un pave deux fois plus grand est deux fois plus ecoute. */
 .hm-methode {
-  margin: 0.3rem 0 0;
+  margin: var(--espace-4) 0 0;
   font-family: var(--font-ui);
   font-size: 0.625rem;
   line-height: 1.4;
@@ -150,7 +152,7 @@
 
 .hm-methode-seule {
   flex: none;
-  padding: 0 0.9rem 0.4rem;
+  padding: 0 var(--espace-16) var(--espace-8);
   margin: 0;
 }
 
@@ -163,7 +165,7 @@
   position: relative;
   flex: 1;
   min-height: 0;
-  margin: 0 6px calc(6px + env(safe-area-inset-bottom, 0px));
+  margin: 0 var(--espace-8) calc(var(--espace-8) + env(safe-area-inset-bottom, 0px));
   overflow: hidden;
   /* LE PINCEMENT APPARTIENT A LA CARTE, PAS AU NAVIGATEUR. Sans cela, deux
      doigts declenchent le zoom de la page entiere et la carte ne recoit
@@ -189,10 +191,10 @@
    facteur courant ET offre la sortie. Un zoom sans retour est un piege. */
 .hm-zoom-reset {
   position: absolute;
-  right: 8px;
-  bottom: 8px;
+  right: var(--espace-8);
+  bottom: var(--espace-8);
   z-index: 3;
-  padding: 0.35rem 0.6rem;
+  padding: var(--espace-4) var(--espace-8);
   background: var(--encre-vive-2);
   border: 0;
   border-radius: 999px;
@@ -262,14 +264,14 @@
 .hm-bulle {
   position: fixed;
   left: 50%;
-  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(var(--espace-12) + env(safe-area-inset-bottom, 0px));
   transform: translateX(-50%);
   z-index: 4;
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  gap: var(--espace-4);
   max-width: min(92vw, 420px);
-  padding: 0.5rem 0.8rem;
+  padding: var(--espace-8) var(--espace-12);
   background: color-mix(in oklab, var(--fond, var(--plaque)) 92%, transparent);
   border: 1px solid var(--rule-hairline, var(--filet));
   border-radius: 8px;
@@ -277,9 +279,36 @@
   font-size: 0.78rem;
   line-height: 1.35;
   pointer-events: none;
-  backdrop-filter: blur(6px);
 }
 
 .hm-bulle span {
   color: var(--ink-secondary, var(--encre-douce));
+}
+
+/* === CIBLES TACTILES SOUS 900 PX === Le retour, qui ne porte qu'un signe,
+   fait 44 px de cote ; le logo, le premier maillon du fil et le retour a
+   l'echelle 1 font 44 px de haut. L'image du logo garde ses 26 px, c'est la
+   zone de toucher qui grandit. Les paves ne sont pas concernes : leur taille
+   est la donnee que la vue montre. */
+@media (max-width: 899px) {
+  .hm-retour {
+    width: 44px;
+    height: 44px;
+  }
+  .hm-logo {
+    display: flex;
+    align-items: center;
+    height: auto;
+    min-height: 44px;
+  }
+  .hm-logo img {
+    height: 26px;
+  }
+  button.hm-crumb,
+  .hm-zoom-reset {
+    min-height: 44px;
+  }
+  .hm-curseur input {
+    min-height: 44px;
+  }
 }
