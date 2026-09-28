@@ -94,7 +94,10 @@ Cinq affiches en une rangée droite, même taille, coins à 16 px, aucune
 rotation ; le texte à gauche sur ordinateur. Sur téléphone, la rangée devient
 un défilement horizontal qui montre deux affiches et demie : trois de front
 sur 390 px feraient 109 px de large, et à cette taille un flyer n'est plus
-qu'une tache. La règle anti-doublon d'affiches reste.
+qu'une tache. La règle anti-doublon d'affiches reste, et elle se renforce :
+une affiche par salle. Deux soirées d'une même salle portaient le même
+programme du mois sous deux adresses d'image, et la rangée de bureau le
+montrait deux fois.
 
 ### Le téléphone
 
@@ -104,7 +107,10 @@ qu'une tache. La règle anti-doublon d'affiches reste.
   64 px plus la zone de sécurité. Chaque hauteur est un jeton lu deux fois,
   par la barre et par le retrait du corps de page : le contenu ne peut pas
   passer dessous, parce que c'est le même nombre.
-- Cibles tactiles de 44 px sous 900 px.
+- Cibles tactiles de 44 px sous 900 px. Dans Safari, une liste déroulante
+  native garde 20 px de haut quoi qu'on lui demande : les listes du
+  calendrier perdent l'apparence du système, et leur chevron est dessiné en
+  CSS, à la couleur du texte.
 - Le groupe du compte, en haut à droite, devient quatre ronds de 44 px :
   la loupe, l'autre langue seulement, le thème, et le compte, dont « Se
   connecter » devient une icône qui garde le mot comme nom accessible. Le mot
@@ -159,7 +165,8 @@ dimensions qui reste sombre : rien ne bouge.
 | Barre du haut | 56 px partout, fixée, floutée à 24 px |
 | Barre du bas | 64 px sous 900 px, au bord, et le corps réserve cette place |
 | Cibles tactiles | aucune sous 44 px sous 900 px |
-| Repli sans filtre | six surfaces de verre mesurées, toutes opaques |
+| Repli sans filtre | huit surfaces de verre mesurées en ligne, cartes de soirée comprises, toutes opaques |
+| Moteur de Safari | le même contrôle passe dans WebKit, en ligne, après un correctif : les listes Ville et Quand y restaient à 20 px de haut tant qu'elles gardaient l'apparence du système |
 | Pied de page | une ligne de 1024 à 1440 px dans les deux langues |
 | Grain | 815 octets bruts, 314 compressés |
 
