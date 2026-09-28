@@ -8,7 +8,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.7rem;
-  margin: 1rem 0 0;
+  margin: 1rem 0 1.6rem;
   padding: 0.9rem 1.3rem;
   border: 0;
   border-radius: 999px;
@@ -94,6 +94,11 @@
   color: oklch(1 0 0);
 }
 @media (max-width: 720px) {
+  .micro-bouton {
+    width: 100%;
+    justify-content: center;
+    margin: 0.4rem 0 1.8rem;
+  }
   .rc-voile-page {
     padding: 0;
   }

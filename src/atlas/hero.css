@@ -216,6 +216,27 @@
   .hero-affiche:nth-child(n + 5) {
     display: none;
   }
+  /* LES DEUX PILULES SUR UNE RANGEE, LA VILLE DESSOUS, A GAUCHE. Mika, le
+     28 septembre 2026, sur son iPhone : « rien n'est droit ». Les deux
+     comptes se posaient l'un sous l'autre a des largeurs differentes, et la
+     ville flottait a droite du second. */
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .hero-ville {
+    flex-basis: 100%;
+    padding-left: 0.25rem;
+  }
+  /* Les deux pilules doivent tenir sur 358 px : a 1,6 rem de retrait elles
+     faisaient 160 et 201, soit 369 avec l'ecart, et la seconde passait
+     dessous. A 1,1 rem elles tiennent. */
+  .hero-bouton {
+    padding: 0.75rem 1.1rem;
+    font-size: 0.95rem;
+  }
   /* Toutes au meme rapport : deux portraits et deux paysages dans un carre
      feraient une grille bancale. */
   .hero-affiche:nth-child(4) img,

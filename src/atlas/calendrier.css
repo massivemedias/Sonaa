@@ -910,3 +910,30 @@
   opacity: 1;
   color: var(--ink-secondary);
 }
+
+/* ═══ LA BARRE SUR TELEPHONE : DEUX SELECTEURS DE MEME LARGEUR ═══
+   Mika, le 28 septembre 2026, sur son iPhone : « rien n'est droit ». Ville
+   et Quand se posaient l'un sous l'autre a des largeurs differentes, et les
+   outils partaient a droite sous eux. Ici les deux capsules prennent chacune
+   la moitie, et les outils s'alignent a gauche sur la rangee suivante. */
+@media (max-width: 560px) {
+  .cal-fenetres {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.4rem;
+  }
+  .cal-fenetres .cal-ville {
+    justify-content: space-between;
+    min-width: 0;
+  }
+  .cal-fenetres .cal-ville select {
+    min-width: 0;
+    flex: 1 1 auto;
+    width: 100%;
+  }
+  .cal-fenetres .cal-outils {
+    grid-column: 1 / -1;
+    margin-left: 0;
+    justify-content: flex-start;
+  }
+}

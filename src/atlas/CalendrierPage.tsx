@@ -689,8 +689,12 @@ export function CalendrierPage() {
      chargee. Voir HeroAccueil.tsx. */
   const affichesHero = useMemo<readonly AfficheHero[]>(
     () =>
+      /* UNE MEME IMAGE NE REVIENT PAS. Mesure le 28 septembre 2026 sur un
+         iPhone : quatre soirees d'une meme salle portaient la meme photo, et
+         la banniere montrait quatre fois le meme batiment. */
       (soirees ?? [])
         .filter((s): s is Soiree & { affiche: string } => Boolean(s.affiche))
+        .filter((s, i, tous) => tous.findIndex((x) => x.affiche === s.affiche) === i)
         .slice(0, 5)
         .map((s) => ({ id: s.id, titre: s.titre, affiche: s.affiche })),
     [soirees]
