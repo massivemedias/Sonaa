@@ -691,10 +691,17 @@ export function CalendrierPage() {
     () =>
       /* UNE MEME IMAGE NE REVIENT PAS. Mesure le 28 septembre 2026 sur un
          iPhone : quatre soirees d'une meme salle portaient la meme photo, et
-         la banniere montrait quatre fois le meme batiment. */
+         la banniere montrait quatre fois le meme batiment.
+
+         ET UNE MEME SALLE NON PLUS. Le meme jour, sur la rangee de bureau,
+         deux soirees differentes du meme lieu portaient le meme programme
+         du mois, sous deux adresses d'image differentes : comparer les
+         adresses ne le voyait pas. Une affiche par salle, la premiere en
+         date. */
       (soirees ?? [])
         .filter((s): s is Soiree & { affiche: string } => Boolean(s.affiche))
         .filter((s, i, tous) => tous.findIndex((x) => x.affiche === s.affiche) === i)
+        .filter((s, i, tous) => !s.lieu || tous.findIndex((x) => x.lieu?.trim().toLowerCase() === s.lieu?.trim().toLowerCase()) === i)
         .slice(0, 5)
         .map((s) => ({ id: s.id, titre: s.titre, affiche: s.affiche })),
     [soirees]
