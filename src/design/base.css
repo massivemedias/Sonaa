@@ -166,22 +166,20 @@ select option:hover {
 }
 
 
-/* ═══ LE GRAIN DE SABLE ═══
+/* ═══ LE FIL DU BOIS ═══
 
-   Le fond n'est pas un aplat : un bruit fractal tres fin, genere en SVG et
-   ecrit en ligne dans les jetons (`--grain`), repete en tuiles
-   de 200 px sous toute la page. Il est pose sur un pseudo-element FIXE, et
-   non en fond de `body`, pour deux raisons mesurees : `background-attachment:
-   fixed` est ignore par Safari sur iPhone, et un fond qui defile avec la page
-   fait scintiller le grain a chaque geste. Ici il ne bouge pas.
+   Le fond n'est pas un aplat : un veinage de bois tres fin, genere en SVG
+   et ecrit en ligne dans les jetons (`--grain`), repete en tuiles de 400 px
+   sous toute la page. Il est pose sur un pseudo-element FIXE, et non en
+   fond de `body`, pour deux raisons mesurees : `background-attachment:
+   fixed` est ignore par Safari sur iPhone, et un fond qui defile avec la
+   page fait scintiller la texture a chaque geste. Ici il ne bouge pas.
 
    Il passe sous tout le contenu (`z-index: -1` dans le contexte de la racine)
    et au-dessus de la couleur de `body`, qui se propage au canevas. Les
    surfaces de verre le floutent, donc il ne s'y voit pas ; c'est voulu.
 
-   Il reste quand le mouvement est reduit : il ne bouge jamais. Depuis le 28
-   septembre 2026 il se voit : des grains de couleur, creme sur le sable
-   sombre et bruns sur le sable clair, et non plus un gris a 5 %. */
+   Il reste quand le mouvement est reduit : il ne bouge jamais. */
 body::before {
   content: '';
   position: fixed;
@@ -189,7 +187,7 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background-image: var(--grain);
-  background-size: 200px 200px;
+  background-size: 400px 400px;
   opacity: var(--grain-opacite);
 }
 

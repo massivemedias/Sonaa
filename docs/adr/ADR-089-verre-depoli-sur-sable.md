@@ -24,12 +24,11 @@ et un accent, un terracotta, pour les boutons, les états actifs et les liens.
 | Accent | terracotta, `oklch(0.54 0.13 45)`, #aa5224 | le même, remonté, `oklch(0.74 0.12 50)`, #e79363 |
 | Sur l'accent | `oklch(0.99 0.005 85)` | le fond, `oklch(0.22 0.012 80)` |
 
-Pas de blanc pur, pas de noir pur, nulle part. Le fond porte un grain de
-sable : un bruit fractal en SVG, écrit en ligne dans les jetons, répété en
-tuiles de 200 px sur un pseudo-élément fixe de `body`, à 5 % d'opacité en
-clair et 6 % en sombre. Aucun fichier, aucune requête. Il
-ne bouge pas au défilement, et il reste quand le mouvement est réduit,
-parce qu'il ne bouge jamais.
+Pas de blanc pur, pas de noir pur, nulle part. Le fond porte une texture
+de bois très fine, en SVG écrit dans les jetons, répétée en tuiles de 400 px
+sur un pseudo-élément fixe de `body` : voir « Retouches du même jour ». Elle
+ne bouge pas au défilement, et elle reste quand le mouvement est réduit,
+parce qu'elle ne bouge jamais.
 
 **Deux valeurs demandées ont été mesurées avant d'être écartées.** Le texte
 secondaire à 65 % donnait 3,75 pour 1 sur le sable, sous le AA ; à 75 % il
@@ -133,17 +132,21 @@ le plus proche.
 Mika, sur ses captures de bureau : « vraiment bon, j'aimerais les fonts plus
 petites, le hover et focus du menu quelque chose de différent, les titres du
 menu à droite en desktop, garder les icônes en mobile », puis « que le
-background soit texturé ».
+background soit texturé », et enfin « plutôt une texture de bois très fine ».
 
-- **Le grain se voit.** Le premier grain, un bruit gris à 5 %, ne variait
-  que d'un demi-niveau de gris sur le sable : mesuré en pixels, il était
-  invisible. Ce sont maintenant des grains de couleur, bruns sur le sable
-  clair à 45 %, crème sur le sable sombre à 24 %, où seuls les pics du bruit
-  deviennent des grains. Le fond moyen passe de #f8f1e3 à #f2eadb en clair
-  et de #1e1a14 à #26221c en sombre. Trois couleurs claires ont été foncées
-  d'un cran pour tenir le AA sur ce fond : l'accent passe à 0,52 de clarté,
-  le texte secondaire à 80 %, les encres les plus pâles d'un cran. L'audit
-  de contraste mesure désormais le fond en pixels, grain compris.
+- **Le fond est un bois très fin.** Le premier grain, un bruit gris à 5 %,
+  ne variait que d'un demi-niveau de gris sur le sable : mesuré en pixels,
+  il était invisible. Mika a demandé une texture, puis « plutôt une texture
+  de bois très fine ». C'est un veinage en SVG : un bruit étiré en largeur
+  donne des fibres longues et fines, un second bruit très lent les fait
+  onduler, et les deux passent par `feTile` avant le déplacement, sans quoi
+  une couture verticale apparaissait tous les 400 px. Fibres brunes sur le
+  sable clair à 40 %, crème sur le sable sombre à 26 %. Le fond moyen passe
+  de #f8f1e3 à #f1e9d9 en clair et de #1e1a14 à #29251f en sombre. Trois
+  couleurs claires ont été foncées d'un cran pour tenir le AA sur ce fond :
+  l'accent passe à 0,52 de clarté, le texte secondaire à 80 %, les encres
+  les plus pâles d'un cran. L'audit de contraste mesure désormais le fond
+  en pixels, texture comprise.
 - **Les textes sont plus petits** : titres de section de 45 à 36 px au plus,
   titre de la bannière de 70 à 56 px, chapeau de la bannière de 17 à 15 px,
   boutons et menu à 14 et 13 px, listes du calendrier à 13,6 px.
@@ -174,8 +177,9 @@ dimensions qui reste sombre : rien ne bouge.
 
 ## Ce que cela coûte, et qui est assumé
 
-- Le grain ajoute 1072 octets à la feuille de style construite, 325 une
-  fois compressés, et aucune requête : deux tuiles, une par thème.
+- Le veinage ajoute 1840 octets à la feuille de style construite, 440 une
+  fois compressés, sous les 2 Ko demandés, et aucune requête : deux tuiles,
+  une par thème.
 - Le flou de 24 px est demandé sur téléphone aussi ; Safari le rend en
   matériel. Si un téléphone ancien peine, le jeton `--verre-flou` se baisse
   d'un geste.
@@ -194,7 +198,7 @@ dimensions qui reste sombre : rien ne bouge.
 | Repli sans filtre | huit surfaces de verre mesurées en ligne, cartes de soirée comprises, toutes opaques |
 | Moteur de Safari | le même contrôle passe dans WebKit, en ligne, après un correctif : les listes Ville et Quand y restaient à 20 px de haut tant qu'elles gardaient l'apparence du système |
 | Pied de page | une ligne de 1024 à 1440 px dans les deux langues |
-| Grain | 1072 octets bruts, 325 compressés, deux tuiles |
+| Texture de bois | 1840 octets bruts, 440 compressés, deux tuiles |
 
 Soixante-six textes posés sur une image (pochettes, affiches, bannières de
 genre) ne sont pas mesurables et ne comptent pas dans les minimums.

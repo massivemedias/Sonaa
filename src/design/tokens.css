@@ -452,22 +452,29 @@
   --entete-h: 56px;
   --barre-bas-hauteur: 64px;
 
-  /* ═══ LE GRAIN DE SABLE ═══ Un bruit fractal en SVG, en ligne, sans
-     fichier ni requete : une tuile de 200 px repetee sous toute la page,
-     posee par base.css. Il est statique : il ne bouge pas au defilement et
-     il reste quand le mouvement est reduit, parce qu'il ne bouge jamais.
+  /* ═══ LE FIL DU BOIS ═══ Un veinage tres fin, genere en SVG et ecrit en
+     ligne, sans fichier ni requete : une tuile de 400 px repetee sous toute
+     la page, posee par base.css. Il est statique : il ne bouge pas au
+     defilement et il reste quand le mouvement est reduit.
 
-     CE N'EST PLUS UN GRIS A 5 %. Le premier grain, un bruit desature a 5 %
-     d'opacite, ne variait que d'un demi-niveau de gris sur le sable : mesure
-     le 28 septembre 2026, il etait invisible, et Mika a demande « que le
-     background soit texture ». Ce sont maintenant des grains de couleur
-     posees sur le fond : des grains creme sur le sable sombre, des grains
-     bruns sur le sable clair (voir le theme clair). Seuls les pics du bruit
-     deviennent des grains, les creux restent transparents, ce qui donne du
-     sable et non un voile. Le fond moyen bouge de 7 niveaux en clair et de
-     9 en sombre, et les encres ont ete remesurees sur ce fond-la. */
-  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 0.96  0 0 0 0 0.88  3.5 0 0 0 -1.8'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)'/%3E%3C/svg%3E");
-  --grain-opacite: 0.24;
+     SON HISTOIRE EN UNE JOURNEE, le 28 septembre 2026. Un bruit gris a 5 %,
+     invisible (un demi-niveau de gris, mesure) ; puis des grains de sable
+     visibles, a la demande de Mika (« que le background soit texture ») ;
+     puis ce bois, a la sienne encore : « plutot une texture de bois tres
+     fine ».
+
+     COMMENT IL EST FAIT. Un bruit etire en largeur (frequence 0,0025 en
+     horizontal, 0,7 en vertical) donne des fibres longues et fines ; un
+     second bruit, tres lent, les fait onduler par deplacement. Les deux
+     bruits passent par feTile avant le deplacement : sans cela, le
+     deplacement lisait du vide au bord de la tuile, et une couture
+     verticale apparaissait tous les 400 px. Seuls les pics deviennent des
+     fibres, le reste est transparent. Fibres creme sur le sable sombre,
+     brunes sur le sable clair (voir le theme clair). Le fond moyen bouge de
+     8 niveaux en clair et de 10 en sombre, et les encres sont mesurees sur
+     ce fond-la par l'audit de contraste. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g' x='-10%' y='-10%' width='120%' height='120%'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0025 0.7' numOctaves='3' seed='3' stitchTiles='stitch' x='0' y='0' width='400' height='400'/%3E%3CfeTile result='f'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.005 0.02' numOctaves='2' seed='7' stitchTiles='stitch' x='0' y='0' width='400' height='400'/%3E%3CfeTile result='o'/%3E%3CfeDisplacementMap in='f' in2='o' scale='12' xChannelSelector='R' yChannelSelector='G'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 0.94  0 0 0 0 0.84  3 0 0 0 -1.4'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)'/%3E%3C/svg%3E");
+  --grain-opacite: 0.26;
 }
 
 /* LA GOUTTIERE PASSE A 32 PX SUR TABLETTE ET AU-DELA. Sur telephone elle
@@ -633,8 +640,8 @@
   --verre-filet: inset 0 0 0 1px oklch(1 0 0 / 0.12);
   --ombre-flottante: 0 12px 40px -16px oklch(0.3 0.03 60 / 0.35);
   --ombre-flottante-haut: 0 -12px 40px -16px oklch(0.3 0.03 60 / 0.35);
-  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.3  0 0 0 0 0.22  0 0 0 0 0.12  3.5 0 0 0 -1.8'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)'/%3E%3C/svg%3E");
-  --grain-opacite: 0.45;
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g' x='-10%' y='-10%' width='120%' height='120%'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0025 0.7' numOctaves='3' seed='3' stitchTiles='stitch' x='0' y='0' width='400' height='400'/%3E%3CfeTile result='f'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.005 0.02' numOctaves='2' seed='7' stitchTiles='stitch' x='0' y='0' width='400' height='400'/%3E%3CfeTile result='o'/%3E%3CfeDisplacementMap in='f' in2='o' scale='12' xChannelSelector='R' yChannelSelector='G'/%3E%3CfeColorMatrix values='0 0 0 0 0.34  0 0 0 0 0.23  0 0 0 0 0.12  3 0 0 0 -1.4'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)'/%3E%3C/svg%3E");
+  --grain-opacite: 0.4;
   color-scheme: light;
 }
 
