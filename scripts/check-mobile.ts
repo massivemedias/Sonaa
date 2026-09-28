@@ -332,7 +332,10 @@ let repli = '';
       }
     }
     const coupe = document.createElement('style');
-    coupe.textContent = '* { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }';
+    /* LES TRANSITIONS SONT COUPEES AUSSI : une carte de soiree anime sa
+       couleur de fond sur 400 ms, et lue aussitot elle rendait encore le
+       fond d'avant le repli. */
+    coupe.textContent = '* { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; transition: none !important; }';
     document.head.appendChild(coupe);
     const cv = document.createElement('canvas'); cv.width = cv.height = 1; const cx = cv.getContext('2d', { willReadFrequently: true }); const alpha = (c) => { cx.clearRect(0, 0, 1, 1); cx.fillStyle = 'rgba(0,0,0,0)'; cx.fillStyle = c; cx.fillRect(0, 0, 1, 1); return cx.getImageData(0, 0, 1, 1).data[3] / 255; };
     const surfaces = [...document.querySelectorAll('.entete-site, .barre-bas, .cal-soiree, .cal-ville, .pied, .authb-bouton')]

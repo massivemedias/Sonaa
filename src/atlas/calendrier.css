@@ -821,6 +821,26 @@
   font-weight: var(--weight-track);
   cursor: pointer;
 }
+/* SANS L'APPARENCE DU SYSTEME, ET LE CHEVRON EST DESSINE ICI. Mesure dans
+   le moteur de Safari le 28 septembre 2026 : une liste deroulante native y
+   garde 20 px de haut quoi qu'on lui demande, et la cible au doigt tombait
+   sous les 44 px. Sans l'apparence native, la hauteur minimale s'applique.
+   Le chevron est fait de deux degrades a la couleur du texte, donc il suit
+   le theme sans image ni jeton de plus. */
+.cal-ville select,
+.cal-date select {
+  -webkit-appearance: none;
+  appearance: none;
+  padding-right: var(--espace-24);
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position:
+    calc(100% - 11px) 55%,
+    calc(100% - 6px) 55%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+}
 /* PAS DE RECTANGLE AUTOUR DE LA VALEUR. Le selecteur gardait un contour de
    focus a lui, qui contredisait la regle generale de base.css et restait
    affiche apres chaque choix a la souris : « ya toujours un highlight

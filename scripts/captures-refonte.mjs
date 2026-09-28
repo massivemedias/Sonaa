@@ -43,10 +43,15 @@ const PAGES = [
 ];
 
 const navigateur = await chromium.launch({ channel: 'chrome', headless: true });
+const CHROME_ORDINAIRE = (await navigateur.newPage().then(async (p) => { const ua = await p.evaluate('navigator.userAgent'); await p.close(); return ua; })).replace('HeadlessChrome', 'Chrome');
 for (const theme of ['clair', 'sombre']) {
   for (const largeur of [390, 1440]) {
     for (const p of PAGES) {
-      const contexte = await navigateur.newContext({ viewport: { width: largeur, height: largeur < 900 ? 844 : 900 }, deviceScaleFactor: 2 });
+      /* L'IDENTITE D'UN CHROME ORDINAIRE : images.ra.co refuse ses affiches a
+         un navigateur qui se declare « HeadlessChrome » (403, mesure le 28
+         septembre 2026), et les captures montraient des cadres vides la ou
+         un visiteur voit les affiches. */
+      const contexte = await navigateur.newContext({ viewport: { width: largeur, height: largeur < 900 ? 844 : 900 }, deviceScaleFactor: 2, userAgent: CHROME_ORDINAIRE });
       await contexte.addInitScript(`localStorage.setItem('sonaa-theme', '${theme}')`);
       /* Montreal, pour que l'accueil porte de vraies cartes de soirees : sans
          ville, un navigateur de controle ne voit que l'invitation a en choisir une. */
