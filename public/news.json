@@ -1,6 +1,66 @@
 {
- "fait": "2026-09-27T17:03:24.284Z",
+ "fait": "2026-09-28T05:33:21.263Z",
  "articles": [
+  {
+   "source": "synthtopia",
+   "titre": "Synthetic Sound Labs Wave Oracle Multi-Function Signal Visualization Module For MU Systems",
+   "lien": "https://www.synthtopia.com/content/2026/09/27/synthetic-sound-labs-wave-oracle-multi-function-signal-visualization-module-for-mu-systems/",
+   "date": "2026-09-28T00:40:58.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/ssl-wave-oracle.jpg",
+   "resume": "Wave Oracle combines oscilloscope, XY, spectrum analysis, tuning, metering, audio-responsive visualization and integrated learning functions in a single module.…",
+   "titre_fr": "Synthetic Sound Labs Wave Oracle Multi-Function Signal Visualization Module For MU Systems",
+   "resume_fr": "Wave Oracle combine oscilloscope, XY, spectrum analysis, tuning, metering, audio-responsive visualization et integrated learning functions dans un seul module."
+  },
+  {
+   "source": "synthtopia",
+   "titre": "Buchla Ziggy Synthesizer Now Expected To Ship In December 2026",
+   "lien": "https://www.synthtopia.com/content/2026/09/27/buchla-ziggy-synthesizer-now-expected-to-ship-in-december-2026/",
+   "date": "2026-09-28T00:25:10.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/05/buchla-ziggy-preview.jpg",
+   "resume": "Buchla Ziggy is a compact analog desktop instrument built around a complex oscillator, low-pass gate and flexible digital modulation system.…",
+   "titre_fr": "Buchla Ziggy Synthesizer Now Expected To Ship In December 2026",
+   "resume_fr": "Buchla Ziggy est un instrument de bureau analog compact construit autour d'un complex oscillator, low-pass gate et flexible digital modulation system."
+  },
+  {
+   "source": "synthtopia",
+   "titre": "SynthSkool Intros Degauss Vintage Synth Sample Instrument",
+   "lien": "https://www.synthtopia.com/content/2026/09/27/synthskool-intros-degauss-vintage-synth-sample-instrument/",
+   "date": "2026-09-28T00:18:14.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/degauss.webp",
+   "resume": "Degauss is designed to provide access to sounds from rare vintage hardware in a software format, without requiring the original instruments.…",
+   "titre_fr": "SynthSkool Intros Degauss Vintage Synth Sample Instrument",
+   "resume_fr": "Degauss est conçu pour fournir accès aux sons du matériel vintage rare dans un format software, sans nécessiter les instruments originaux."
+  },
+  {
+   "source": "musicradar",
+   "titre": "“I don't feel I've learnt enough” says Jonny Greenwood as he admits he used to be “clumsy” and “lazy”",
+   "lien": "https://www.musicradar.com/artists/guitarists/i-dont-feel-ive-learnt-enough-says-jonny-greenwood-as-he-admits-he-used-to-be-a-clumsy-and-lazy-guitarist",
+   "date": "2026-09-27T22:55:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/A72BPsaeKuEJfC6d9AJ8K-1920-80.jpg",
+   "resume": "Jonny Greenwood has admitted that back in the early days of Radiohead he was “clumsy” and “lazy” as a guitarist. This somewhat surprising confession came in an interview in the i . Greenwood – who is the youngest member…",
+   "titre_fr": "« Je ne sens pas avoir appris assez » dit Jonny Greenwood en admettant qu'il était autrefois « maladroit » et « paresseux »",
+   "resume_fr": "Jonny Greenwood a admis que durant les débuts de Radiohead il était « maladroit » et « paresseux » comme guitariste. Cet aveu plutôt surprenant est venu dans une interview dans le i. Greenwood – qui est le plus jeune membre…"
+  },
+  {
+   "source": "cdm",
+   "titre": "Agitate Ableton Live tempos, chop up YouTube slop, more with Oliver Torr",
+   "lien": "https://cdm.link/agitate-glazmo-and-more/",
+   "date": "2026-09-27T22:08:06.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/dream-port.png",
+   "resume": "Oliver Torr is disrupting your sound waves, mangling your Ableton Live tempo (alongside the awesome duo MIRA新伝統), and assembling drum kits out of AI-surfed YouTube chaos. The Glazmo Network founder has been doing deep…",
+   "titre_fr": "Agitate les tempos Ableton Live, chop up YouTube slop, et plus avec Oliver Torr",
+   "resume_fr": "Oliver Torr perturbe vos ondes sonores, malaxe votre tempo Ableton Live (aux côtés du duo formidable MIRA新伝統), et assemble des drum kits à partir du chaos YouTube surfé par IA. Le fondateur de Glazmo Network a été en train de faire du…"
+  },
+  {
+   "source": "cdm",
+   "titre": "Enjoy Monty Python’s Argument Sketch on two vintage speech synthesizers",
+   "lien": "https://cdm.link/argument-sketch-on-vintage-speech-synths/",
+   "date": "2026-09-27T17:58:33.000Z",
+   "image": "https://cdm.link/app/uploads/2026/09/speech-synths.jpg",
+   "resume": "A DECtalk Express stands in for Monty Python actor Michael Palin, with an Intex Talker (Votrax SC-01A) voicing the role of John Cleese. Retro speech synthesis just sounds better. Not more intelligible, necessarily, but…",
+   "titre_fr": "Profitez du Argument Sketch de Monty Python sur deux speech synthesizers vintage",
+   "resume_fr": "Un DECtalk Express remplace l'acteur de Monty Python Michael Palin, avec un Intex Talker (Votrax SC-01A) pour la voix du rôle de John Cleese. La speech synthesis rétro sonne juste mieux. Pas nécessairement plus intelligible, mais…"
+  },
   {
    "source": "midnightrebels",
    "titre": "What Deadmau5 and James Hype’s Latest Clash Says About DJ Tech",
@@ -60,6 +120,16 @@
    "resume": "Recently, we rediscovered a classic Paul McCartney interview from the MusicRadar archive . Originally conducted by Tony Bacon back in our then-sister title Bass Magazine, the chat with Paul took place way back in 1994…",
    "titre_fr": "Paul McCartney se souvient d'avoir montré à Elvis comment jouer de la basse en pro",
    "resume_fr": "Récemment, nous avons redécouvert une interview classique de Paul McCartney des archives de MusicRadar. Originalement menée par Tony Bacon pour notre ancienne publication sœur Bass Magazine, cette conversation avec Paul remonte à 1994…"
+  },
+  {
+   "source": "synthtopia",
+   "titre": "Overtonium Is A Free, Open-Source Additive Synthesizer For Mac, Windows And Linux",
+   "lien": "https://www.synthtopia.com/content/2026/09/26/overtonium-is-a-free-open-source-additive-synthesizer-for-mac-windows-and-linux/",
+   "date": "2026-09-26T23:19:00.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/overtonium-additive-synthesizer.webp",
+   "resume": "Overtonium is a free, open-source 32-partial additive synthesizer that gives each harmonic its own channel-style controls for tuning, envelopes, modulation, stereo placement and level.…",
+   "titre_fr": "Overtonium Est Un Additive Synthesizer Gratuit Et Open-Source Pour Mac, Windows Et Linux",
+   "resume_fr": "Overtonium est un synthesizer additif 32-partial gratuit et open-source qui donne à chaque harmonique ses propres contrôles style channel pour tuning, envelopes, modulation, stereo placement et level."
   },
   {
    "source": "gearnews",
@@ -140,6 +210,36 @@
    "resume": "It’s a song that evokes the Summer Of Love and the heady vibes of San Francisco's Haight-Ashbury scene. It is also a composition that encapsulates the dreamy, sun-drenched allure of America’s West Coast, a promise…",
    "titre_fr": "Comment The Mamas & The Papas ont créé California Dreamin', un hymne contre-culture pour l'Été de l'Amour",
    "resume_fr": "C'est une chanson qui évoque l'Été de l'Amour et les vibrations enivrantes de la scène Haight-Ashbury de San Francisco. C'est aussi une composition qui encapsule l'attrait onirique et ensoleillé de la côte Ouest américaine, une promesse..."
+  },
+  {
+   "source": "synthtopia",
+   "titre": "Ocean Swift Intros Wave Editor For Mac & Windows",
+   "lien": "https://www.synthtopia.com/content/2026/09/25/ocean-swift-intros-wave-editor-for-mac-windows/",
+   "date": "2026-09-25T23:54:02.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/Wave-Editor-Everyday-workflows.webp",
+   "resume": "Ocean Swift Wave Editor is a standalone audio editor for Windows and Apple Silicon Macs, combining sample editing, looping and offline DSP processing.…",
+   "titre_fr": "Ocean Swift Intros Wave Editor Pour Mac & Windows",
+   "resume_fr": "Ocean Swift Wave Editor est un éditeur audio standalone pour Windows et Apple Silicon Macs, combinant sample editing, looping et offline DSP processing."
+  },
+  {
+   "source": "synthtopia",
+   "titre": "Woovebox Packs A Synth, Sampler And Sequencer Into A Pocket-Sized Box",
+   "lien": "https://www.synthtopia.com/content/2026/09/25/woovebox-packs-a-synth-sampler-and-sequencer-into-a-pocket-sized-box/",
+   "date": "2026-09-25T23:36:12.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/woovebox.jpg",
+   "resume": "Woovebox is a pocket-sized music workstation combining synthesis, sequencing, sampling, effects and mastering in a highly portable hardware device.…",
+   "titre_fr": "Woovebox Intègre Un Synth, Sampler Et Sequencer Dans Une Boîte De Poche",
+   "resume_fr": "Woovebox est une station de travail musicale de poche combinant synthesis, sequencing, sampling, effects et mastering dans un appareil hardware très portable."
+  },
+  {
+   "source": "synthtopia",
+   "titre": "Free Emulator Brings Waldorf Wave Sound To Your DAW",
+   "lien": "https://www.synthtopia.com/content/2026/09/25/free-emulator-brings-waldorf-wave-sound-to-your-daw/",
+   "date": "2026-09-25T23:27:47.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/wave-emulation-screenshot.png",
+   "resume": "Wave Emulation is a software recreation of the classic Waldorf Wave, a hybrid wavetable synthesizer known for hybrid synth engine, featuring gritty digital oscillators paired with analog filters.…",
+   "titre_fr": "Emulator Gratuit Apporte Waldorf Wave Sound À Votre DAW",
+   "resume_fr": "Wave Emulation est une recréation software du classique Waldorf Wave, un synthesizer wavetable hybrid connu pour hybrid synth engine, présentant des oscillators numériques granuleux associés à des analog filters."
   },
   {
    "source": "cdm",
@@ -332,6 +432,16 @@
    "resume_fr": "Gerhard Behles n'est pas intéressé par l'idée que la musique est un « problème » à résoudre pour les humains. Au lieu de cela, le PDG et cofondateur d'Ableton voit la musique et l'acte de la créer comme une expérience continue qui contribue à…"
   },
   {
+   "source": "synthtopia",
+   "titre": "Polyend Intros Loop 8-Track Performance Looper",
+   "lien": "https://www.synthtopia.com/content/2026/09/24/polyend-intros-loop-8-track-performance-looper/",
+   "date": "2026-09-25T04:07:09.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/polyend-loop-looper.jpg",
+   "resume": "Polyend Loop combines four independent audio loop tracks, four sample-based drum tracks, a hardware sequencer and more than 100 effects in a standalone instrument.…",
+   "titre_fr": "Polyend Intros Loop 8-Track Performance Looper",
+   "resume_fr": "Polyend Loop combine quatre pistes de loop audio indépendantes, quatre pistes de drum sample-based, un hardware sequencer et plus de 100 effects dans un instrument standalone."
+  },
+  {
    "source": "musicradar",
    "titre": "Olivia Rodrigo on how being a \"novice\" guitarist led to a happy accident when she was writing The Cure",
    "lien": "https://www.musicradar.com/artists/im-not-great-at-guitar-i-was-trying-to-play-a-chord-and-i-played-it-wrong-i-messed-up-where-my-fingers-were-but-it-actually-just-sounded-cool-olivia-rodrigo-on-how-being-a-novice-guitarist-led-to-a-happy-accident-when-she-was-writing-the-cure",
@@ -380,16 +490,6 @@
    "resume": "Compression is a process that reduces the dynamics of an audio signal. In this context, “dynamics” refers to the way volume changes within a passage of audio, both from moment to moment and across longer time spans. The…",
    "titre_fr": "Qu'est-ce que la compression, et pourquoi l'utilisons-nous en musique ?",
    "resume_fr": "La compression est un processus qui réduit la dynamique d'un signal audio. Dans ce contexte, « dynamique » fait référence à la façon dont le volume change au sein d'un passage audio, à la fois moment après moment et sur des périodes plus longues. Le…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "\"Since 1997, the complaint about pitch correction has been the same: it takes the singer out of the singing. That's the problem DVA was built to solve\": Antares launches AutoTune Advanced with new DVA vibrato engine",
-   "lien": "https://www.musicradar.com/music-tech/antares-launches-autotune-advanced-with-new-dvatm-vibrato-detection-and-preservation-engine",
-   "date": "2026-09-24T19:00:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/3R2YMvPKK5qi9V9JAu3bke-1920-80.jpg",
-   "resume": "Antares has announced the release of AutoTune Advanced, a new edition of the vocal tuning plugin based on a ground-up rebuild of the Auto-Mode pitch algorithm and equipped with a newly-developed DVA vibrato detection…",
-   "titre_fr": "« Depuis 1997, la plainte au sujet de la correction de pitch est la même : elle sort le chanteur du chant. C'est le problème que DVA a été construit pour résoudre » : Antares lance AutoTune Advanced avec le nouveau moteur de vibrato DVA™",
-   "resume_fr": "Antares a annoncé la sortie d'AutoTune® Advanced, une nouvelle édition du plugin d'accord vocal basée sur une refonte complète de l'algorithme Auto-Mode pitch et équipée d'un nouveau moteur de détection de vibrato DVA™ développé…"
   },
   {
    "source": "musictech",
@@ -626,36 +726,6 @@
    "resume_fr": "Construisez un son inspiré par le drone harmonique pompant de Someone Great de LCD Soundsystem avec Diva de u-he, puis mettez-le en œuvre dans plusieurs genres. Si vous avez suivi certains des récents Synth Secrets vous saurez que..."
   },
   {
-   "source": "synthtopia",
-   "titre": "New Project Brings Elektron Monomachine, Machinedrum To Your DAW",
-   "lien": "https://www.synthtopia.com/content/2026/09/20/new-project-brings-elektron-monomachine-machinedrum-to-your-daw/",
-   "date": "2026-09-20T18:07:10.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2016/02/Mobile-Images-Monomachine-e1455150122448.jpg",
-   "resume": "The software essentially creates a virtual machine that can run the official firmware, and handle the input and output needed to be used on your computer.…",
-   "titre_fr": "Nouveau projet pour mettre Elektron Monomachine et Machinedrum dans votre DAW",
-   "resume_fr": "Le logiciel crée essentiellement une machine virtuelle qui peut exécuter le firmware officiel, et gérer l'entrée et la sortie nécessaires pour être utilisé sur votre ordinateur."
-  },
-  {
-   "source": "synthtopia",
-   "titre": "Can A Modern Polysynth Beat The Classic Roland Jupiter 8?",
-   "lien": "https://www.synthtopia.com/content/2026/09/19/can-a-modern-polysynth-beat-the-classic-roland-jupiter-8/",
-   "date": "2026-09-19T13:52:30.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2026/01/frap-tools-magnolia.jpg",
-   "resume": "In his latest video, synthesist Starsky Carr pits a vintage legend against a modern contender in an 8-voice analog polysynth matchup. …",
-   "titre_fr": "Un polysynth moderne peut-il battre la Roland Jupiter 8 classique?",
-   "resume_fr": "Dans sa dernière vidéo, le synthésiste Starsky Carr oppose une légende vintage à un concurrent moderne dans un affrontement de polysynth analog 8-voice."
-  },
-  {
-   "source": "synthtopia",
-   "titre": "Arturia MiniFreak Gets Sample Import, User Wavetables & More",
-   "lien": "https://www.synthtopia.com/content/2026/09/18/arturia-minifreak-gets-sample-import-user-wavetables-more/",
-   "date": "2026-09-18T20:36:07.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2022/10/Arturia-MiniFreak-topview-e1666108886522.png",
-   "resume": "Arturia has release v5 firmware for the MiniFreak, adding user sample and wavetable import, plus a new Factory Bank v5.0 with 23 new presets.…",
-   "titre_fr": "Arturia MiniFreak obtient l'importation d'échantillons, des wavetables utilisateur et plus",
-   "resume_fr": "Arturia a publié le firmware v5 pour le MiniFreak, ajoutant l'importation d'échantillons et de wavetables personnalisés, plus une nouvelle Factory Bank v5.0 avec 23 nouveaux presets."
-  },
-  {
    "source": "cdm",
    "titre": "Adam Wiltzie talks about his posthumous collaboration with Jóhann Jóhannsson",
    "lien": "https://cdm.link/adam-wiltzie-johann-johannsson-friendship/",
@@ -672,16 +742,6 @@
    "date": "2026-09-18T15:55:38.000Z",
    "image": "https://www.tsugi.fr/cdn/ptext.sopress.dev/tsugi/ezra-collective-il-est-vilaine-baozi-les-sorties-de-la-semaine.jpg?hash=cdn-c58b204cca5573bf2ba9cc9efff066bb",
    "resume": "On nous a chuchoté à l’oreille que les états grippaux étaient de retour — nous les premiers… Les cachets de Doliprane ne font pas effet ? Ne vous inquiétez pas, la liste des sorties de la semaine est arrivée, et avec ce…"
-  },
-  {
-   "source": "synthtopia",
-   "titre": "Open-Source Project Brings New Features To Elektron Octatrack",
-   "lien": "https://www.synthtopia.com/content/2026/09/17/open-source-project-brings-new-features-to-elektron-octatrack/",
-   "date": "2026-09-18T04:26:50.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2013/06/Elektron-Octatrack-e1790011825613.jpg",
-   "resume": "If you're an Octatrack owners, Octabam promises to give you new effects, expanded MIDI functionality, additional sound-design options and bug fixes that aren't available in the stock firmware.…",
-   "titre_fr": "Le projet open-source apporte de nouvelles fonctionnalités à Elektron Octatrack",
-   "resume_fr": "Si vous êtes propriétaire d'un Octatrack, Octabam promet de vous offrir de nouveaux effects, une fonctionnalité MIDI étendue, des options supplémentaires de sound-design et des corrections de bugs non disponibles dans le firmware stock."
   },
   {
    "source": "cdm",
@@ -728,26 +788,6 @@
    "resume": "ll s’appelle Ásgeir et en toute discrétion, il s’est taillé une solide place dans le paysage de la pop-folk internationale. Pour son dernier album sorti cet hiver, il a totalement remis à plat son processus créatif…"
   },
   {
-   "source": "synthtopia",
-   "titre": "Patch Base 4 For Mac Now Available",
-   "lien": "https://www.synthtopia.com/content/2026/09/16/patch-base-4-for-mac-now-available/",
-   "date": "2026-09-17T02:46:27.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/patch-base-cz-1.jpg",
-   "resume": "Patch Base is a collection of editors and librarians for 85 hardware synthesizers.…",
-   "titre_fr": "Patch Base 4 pour Mac maintenant disponible",
-   "resume_fr": "Patch Base est une collection d'éditeurs et de librarians pour 85 synthétiseurs hardware…"
-  },
-  {
-   "source": "synthtopia",
-   "titre": "GlitchShredder Brings Real-Time Glitch And Stutter Processing To iPhone And iPad",
-   "lien": "https://www.synthtopia.com/content/2026/09/16/glitchshredder-brings-real-time-glitch-and-stutter-processing-to-iphone-and-ipad/",
-   "date": "2026-09-17T02:38:16.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/glitchshredder.jpg",
-   "resume": "GlitchShredder is a glitch and stutter effect for iPhone and iPad that combines stereo audio chopping, tempo synchronization, probability-based segment manipulation, bitcrushing and drive, with standalone and AUv3…",
-   "titre_fr": "GlitchShredder apporte le traitement glitch et stutter en temps réel à iPhone et iPad",
-   "resume_fr": "GlitchShredder est un effet glitch et stutter pour iPhone et iPad qui combine le chopping audio stéréo, la synchronisation de tempo, la manipulation de segments basée sur la probabilité, le bitcrushing et la drive, avec les modes standalone et AUv3…"
-  },
-  {
    "source": "attack",
    "titre": "CRSSD After Dark Returns To San Diego Next Weekend",
    "lien": "https://www.attackmagazine.com/news/crssd-after-dark-returns-to-san-diego-next-weekend/",
@@ -792,26 +832,6 @@
    "resume": "Qui n’aurait pas envie de fêter son anniversaire derrière les platines ? Eh bien justement, pour souffler ses bougies, Dave Clarke s’apprête à nous offrir une soirée ancrée dans l’underground à Mia Mao le 19 septembre…"
   },
   {
-   "source": "synthtopia",
-   "titre": "New Mac App, HarmonyKeen, Writes Harmony Parts To Your MIDI Melodies Using Music Theory, Not AI",
-   "lien": "https://www.synthtopia.com/content/2026/09/15/new-mac-app-harmonykeen-writes-harmony-parts-to-your-midi-melodies-using-music-theory-not-ai/",
-   "date": "2026-09-16T01:47:14.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/harmonykeen.jpg",
-   "resume": "Give it a monophonic MIDI melody and it writes harmony parts around it, working out the voice leading.…",
-   "titre_fr": "Nouvelle app Mac, HarmonyKeen, écrit les parties d'harmonie de vos mélodies MIDI en utilisant la théorie musicale, pas l'IA",
-   "resume_fr": "Donnez-lui une mélodie MIDI monophonique et elle écrit des parties d'harmonie autour, travaillant la conduite des voix…"
-  },
-  {
-   "source": "cdm",
-   "titre": "Elgato’s Stream Deck as a DAW companion; new Reaper controller",
-   "lien": "https://cdm.link/elgato-stream-deck-reaper/",
-   "date": "2026-09-15T20:48:41.000Z",
-   "image": "https://cdm.link/app/uploads/2026/09/stream-deck-keys.jpg",
-   "resume": "Elgato's Stream Deck, a push-button desktop controller with interactive color keys and software shortcuts, has quietly become an ideal DAW accessory. Take, for example, this thoughtfully designed addition from Granite…",
-   "titre_fr": "Elgato's Stream Deck comme accessoire DAW ; nouveau contrôleur Reaper",
-   "resume_fr": "Le Stream Deck d'Elgato, un contrôleur de bureau à boutons-poussoirs avec des touches de couleur interactive et des raccourcis logiciels, est devenu discrètement un accessoire DAW idéal. Prenez, par exemple, cet ajout intelligemment conçu de Granite…"
-  },
-  {
    "source": "tsugi",
    "titre": "Theodora, Ino Casablanca, Juste Shani… 130 artistes affirment leur soutien à la Palestine",
    "lien": "https://www.tsugi.fr/theodora-ino-casablanca-juste-shani-130-artistes-affirment-leur-soutien-a-la-palestine/",
@@ -838,16 +858,6 @@
    "resume_fr": "Un CDJ-3000X est volumineux, coûteux, et construit pour survivre une décennie d'abus en club. C'est ce que les pro DJs s'attendent à trouver dans la booth. Mais un fil Reddit que j'ai lu récemment tourne dans ma tête depuis…"
   },
   {
-   "source": "synthtopia",
-   "titre": "Dirtywave M8 Music Tracker Brings The M8 Workflow To iPhone And iPad",
-   "lien": "https://www.synthtopia.com/content/2026/09/14/dirtywave-m8-music-tracker-brings-the-m8-workflow-to-iphone-and-ipad/",
-   "date": "2026-09-14T17:46:51.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/m8-music-tracker-ios.jpg",
-   "resume": "Dirtywave M8 Music Tracker brings the M8’s eight-track tracker, sequencer, synthesizer, sampler and MIDI-controller workflow to iPhone and iPad.…",
-   "titre_fr": "Dirtywave M8 Music Tracker apporte le workflow M8 à iPhone et iPad",
-   "resume_fr": "Dirtywave M8 Music Tracker apporte le tracker huit pistes du M8, le sequencer, le synthétiseur, le sampler et le workflow MIDI-controller à iPhone et iPad…"
-  },
-  {
    "source": "attack",
    "titre": "Erica Synths Bullfrog Drums: More Than a Drum Machine",
    "lien": "https://www.attackmagazine.com/reviews/gear-software/erica-synths-bullfrog-drums-more-than-a-drum-machine/",
@@ -856,16 +866,6 @@
    "resume": "A hands-on sampler and sequencer built with Richie Hawtin, the Bullfrog Drums wears \"educational\" lightly and delivers serious performance power. I've spent thirty-odd years now making noise with devices for a living…",
    "titre_fr": "Erica Synths Bullfrog Drums : plus qu'une drum machine",
    "resume_fr": "Un sampler et sequencer interactif construit avec Richie Hawtin, le Bullfrog Drums porte « éducatif » légèrement et délivre une puissance de performance sérieuse. J'ai passé trente-quelques années à présent à faire du bruit avec des appareils pour gagner ma vie…"
-  },
-  {
-   "source": "cdm",
-   "titre": "ALM records everything to stems, and now mixes, too, in compact modules",
-   "lien": "https://cdm.link/alm-multichannel-record-mix/",
-   "date": "2026-09-13T17:57:16.000Z",
-   "image": "https://cdm.link/app/uploads/2026/09/With-Mixer-hero-6-copy.jpg",
-   "resume": "It's Stem Ripper, and its expansion module accomplice, \"With Mixer.\" Patch it up quick, record individual stems, and perform stereo mixing with aux sends, panning, and even external USB MIDI control. And fit it all in…",
-   "titre_fr": "ALM enregistre tout en stems, et maintenant mixe aussi, dans des modules compacts",
-   "resume_fr": "C'est Stem Ripper, et son module d'expansion complice, « With Mixer ». Patchez-le rapidement, enregistrez des stems individuels, et effectuez du mixage stéréo avec des envois auxiliaires, du panning, et même du contrôle MIDI USB externe. Et mettez tout dans…"
   },
   {
    "source": "attack",
@@ -1398,6 +1398,106 @@
    "resume_fr": "Le DJ-producteur écossais Jack Revill, mieux connu sous le nom de Jackmaster, est décédé d'une blessure à la tête accidentelle, à l'âge de 38 ans. La famille de Revill a confirmé la nouvelle sur Instagram hier. « C'est avec une profonde tristesse que nous confirmons…"
   },
   {
+   "source": "djmag",
+   "titre": "Listen to Madonna and Charli xcx’s collaborative single, ‘Danceteria Afterhours’",
+   "lien": "https://djmag.com/news/listen-madonna-and-charli-xcxs-collaborative-single-danceteria-afterhours",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Screenshot%202026-09-25%20at%2016.26.05.png.webp?itok=EhO-D0qN2132568927",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The pair have reworked Madonna’s recent track ‘Danceteria’, which appeared on her…",
+   "titre_fr": "Écoutez le single collaboratif de Madonna et Charli xcx, « Danceteria Afterhours »",
+   "resume_fr": "Le duo a remixé le track récent de Madonna « Danceteria », qui est apparu sur son…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Macklemore announces Free Palestine benefit concerts in London, Dublin and Paris",
+   "lien": "https://djmag.com/news/macklemore-announces-free-palestine-benefit-concerts-london-dublin-and-paris",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/SaveClip.App_781005860_18619961593018139_570162458272734780_n.jpg.webp?itok=bBB3rU-F1169665453",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“So, as you all know, my schedule freed up a bit”</p> </div>",
+   "titre_fr": "Macklemore annonce des concerts benefit Free Palestine à Londres, Dublin et Paris",
+   "resume_fr": "« Alors, comme vous le savez tous, mon calendrier s'est libéré un peu »"
+  },
+  {
+   "source": "djmag",
+   "titre": "Fred again.. speaks out against AI music: “The process is the magic”",
+   "lien": "https://djmag.com/news/fred-again-speaks-out-against-ai-music-process-magic",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Fred%20again...%20%5BCredit%20-%20Theo%20Batterham%5D%20%281%29.jpg.webp?itok=fNprovmb690977685",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The UK artist shared his thoughts in a series of Instagram stories</p> </div>",
+   "titre_fr": "Fred again.. s'exprime contre la musique IA : « Le processus est la magie »",
+   "resume_fr": "L'artiste UK a partagé ses pensées dans une série de stories Instagram"
+  },
+  {
+   "source": "djmag",
+   "titre": "Photographing counterculture and community in the UK free party movement with Alan Lodge",
+   "lien": "https://djmag.com/features/photographing-counterculture-and-community-uk-free-party-movement-alan-lodge",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/HEADER-2_0.jpg.webp?itok=WZfHOhoi446561637",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-intro field--type-text-long field--label-hidden field__item\"><p>In his new exhibition,<em> Common Grounds: Counterculture & Confrontation since 1976</em>…",
+   "titre_fr": "Photographier la contre-culture et la communauté du mouvement free party britannique avec Alan Lodge",
+   "resume_fr": "Dans sa nouvelle exposition, Common Grounds: Counterculture & Confrontation since 1976…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Charlotte de Witte donates all proceeds from ‘The Resistance’ EP to nightlife advocacy foundation",
+   "lien": "https://djmag.com/news/charlotte-de-witte-donates-all-proceeds-resistance-ep-nightlife-advocacy-foundation",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/PRESS%20SHOT.png.webp?itok=WKQ4_zNU1855272709",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The four-track EP is out now on de Witte’s KNTXT label</p> </div>",
+   "titre_fr": "Charlotte de Witte reverse tous les bénéfices de l'EP « The Resistance » à une fondation de plaidoyer pour la vie nocturne",
+   "resume_fr": "Le quatre-track EP est dès maintenant disponible sur le label KNTXT de de Witte"
+  },
+  {
+   "source": "djmag",
+   "titre": "Sl8r - Callisto EP",
+   "lien": "https://djmag.com/reviews/sl8r-callisto-ep",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_25_500x500_sq/public/music_reviews/2026-09/Callisto.jpg.webp?itok=JiecYP3A",
+   "resume": "<header class=\"_article--header d8-header-paragraph music-review\"><div class=\"row\"> <div class=\"col d-flex head-container pb-0\" style=\" \"> <div class=\"pane-credits-wrapper\"> <div class=\"pane-author-info top\"> <div…",
+   "titre_fr": "Sl8r - Callisto EP",
+   "resume_fr": ""
+  },
+  {
+   "source": "djmag",
+   "titre": "Matsu - Manifest EP",
+   "lien": "https://djmag.com/reviews/matsu-manifest-ep",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_25_500x500_sq/public/music_reviews/2026-09/Manifest%20EP.jpg.webp?itok=XbdDZq97",
+   "resume": "<header class=\"_article--header d8-header-paragraph music-review\"><div class=\"row\"> <div class=\"col d-flex head-container pb-0\" style=\" \"> <div class=\"pane-credits-wrapper\"> <div class=\"pane-author-info top\"> <div…",
+   "titre_fr": "Matsu, Manifest EP",
+   "resume_fr": ""
+  },
+  {
+   "source": "djmag",
+   "titre": "Dusky - Signals",
+   "lien": "https://djmag.com/reviews/dusky-signals",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_25_500x500_sq/public/music_reviews/2026-09/Signals%20.jpg.webp?itok=F1rypEuG",
+   "resume": "<header class=\"_article--header d8-header-paragraph music-review\"><div class=\"row\"> <div class=\"col d-flex head-container pb-0\" style=\" \"> <div class=\"pane-credits-wrapper\"> <div class=\"pane-author-info top\"> <div…",
+   "titre_fr": "Dusky, Signals",
+   "resume_fr": ""
+  },
+  {
+   "source": "djmag",
+   "titre": "Bullion - Nearly",
+   "lien": "https://djmag.com/reviews/bullion-nearly",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_25_500x500_sq/public/music_reviews/2026-09/Nearly%20.jpg.webp?itok=ywUmjfkN",
+   "resume": "<header class=\"_article--header d8-header-paragraph music-review\"><div class=\"row\"> <div class=\"col d-flex head-container pb-0\" style=\" \"> <div class=\"pane-credits-wrapper\"> <div class=\"pane-author-info top\"> <div…",
+   "titre_fr": "Bullion, Nearly",
+   "resume_fr": ""
+  },
+  {
+   "source": "djmag",
+   "titre": "MITHER - Be Kind EP",
+   "lien": "https://djmag.com/reviews/mither-be-kind-ep",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_25_500x500_sq/public/music_reviews/2026-09/Be%20Kind%20EP.jpg.webp?itok=5mxYixLR",
+   "resume": "<header class=\"_article--header d8-header-paragraph music-review\"><div class=\"row\"> <div class=\"col d-flex head-container pb-0\" style=\" \"> <div class=\"pane-credits-wrapper\"> <div class=\"pane-author-info top\"> <div…",
+   "titre_fr": "MITHER - Be Kind EP",
+   "resume_fr": "MITHER - Be Kind EP"
+  },
+  {
    "source": "mixmag",
    "titre": "Liverpool's GBar ordered to close following triple stabbing",
    "lien": "https://mixmag.net/read/liverpools-gbar-ordered-to-close-following-triple-stabbing-news",
@@ -1476,106 +1576,6 @@
    "resume": "Moby’s hand-drawn DJ demo cassette from 1987-88 has a current bid of $700",
    "titre_fr": "Des cassettes rares de Moby, Eminem et Depeche Mode mises aux enchères",
    "resume_fr": "La cassette DJ demo dessinée à la main par Moby de 1987-88 a une enchère actuelle de 700 $"
-  },
-  {
-   "source": "mixmag",
-   "titre": "The Cover Mix: Ahadadream",
-   "lien": "https://mixmag.net/feature/ahadadream-dj-cover-mix-mixmag-lab-london",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/MM_COVERMIX_AHAD_WEB2.jpg?fit=cover&format=baseline-jpeg&height=630&width=1200&s=PFnF-NGczSyT3L3jnHQhapLE2ODEfrhH0Na62lsy1ws",
-   "resume": "To celebrate the release of his debut album ‘P ★ K I’, Ahadadream hosted rousing launch party in the Mixmag Lab London",
-   "titre_fr": "The Cover Mix: Ahadadream",
-   "resume_fr": "Pour célébrer la sortie de son album de débuts « P ★ K I », Ahadadream a organisé une rousing launch party au Mixmag Lab London"
-  },
-  {
-   "source": "mixmag",
-   "titre": "UK startup offering \"avatar\" music performances lands multi-million investment",
-   "lien": "https://mixmag.net/read/uk-startup-offering-avatar-musicians-lands-multi-million-investment-to-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/avatar.jpg?fit=cover&width=660&s=3p-e7CxOn8YW7OrSTyo0EaYsRk0KKQcX5l_4UuRGYjc",
-   "resume": "Unit1 wants to offer a \"low-cost\" live music alternative, with performances from both living and dead artists",
-   "titre_fr": "Une startup britannique proposant des performances musicales en « avatar » lève un investissement de plusieurs millions",
-   "resume_fr": "Unit1 veut offrir une alternative live musicale « à bas coût », avec des performances d'artistes vivants et décédés"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Bus passengers in Singapore can now be fined up to £300 for playing music out loud",
-   "lien": "https://mixmag.net/read/bus-passengers-singapore-now-fined-playing-music-out-loud-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/singapore-phone-music.jpg?fit=cover&width=660&s=Ajklqc7cWSI2eCT5rsflLx8m42SGqMckB1OusHCquZE",
-   "resume": "The new rules come into place today and apply to the entirety of the city state's bus network",
-   "titre_fr": "Les passagers des bus à Singapour peuvent désormais être condamnés à une amende jusqu'à £300 pour avoir joué de la musique à haute voix",
-   "resume_fr": "Les nouvelles règles entrent en vigueur aujourd'hui et s'appliquent à l'ensemble du réseau de bus de la cité-État"
-  },
-  {
-   "source": "djmag",
-   "titre": "Photographing counterculture and community in the UK free party movement with Alan Lodge",
-   "lien": "https://djmag.com/features/photographing-counterculture-and-community-uk-free-party-movement-alan-lodge",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/HEADER-2_0.jpg.webp?itok=WZfHOhoi2133339301",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-intro field--type-text-long field--label-hidden field__item\"><p>In his new exhibition,<em> Common Grounds: Counterculture & Confrontation since 1976</em>…",
-   "titre_fr": "Photographier la contre-culture et la communauté du mouvement free party britannique avec Alan Lodge",
-   "resume_fr": "Dans sa nouvelle exposition, Common Grounds: Counterculture & Confrontation since 1976…"
-  },
-  {
-   "source": "djmag",
-   "titre": "The Prodigy’s ‘Breathe’ set for 30th anniversary vinyl reissue",
-   "lien": "https://djmag.com/news/prodigys-breathe-set-30th-anniversary-vinyl-reissue",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Screenshot%202026-09-25%20at%2016.00.53.png.webp?itok=M17dOs_d1049280677",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The release includes the original track, an instrumental version, and two remixes</p>…",
-   "titre_fr": "« Breathe » de The Prodigy en réédition vinyle pour ses 30 ans",
-   "resume_fr": "La sortie comprend la track originale, une version instrumentale et deux remixes"
-  },
-  {
-   "source": "djmag",
-   "titre": "Charlotte de Witte donates all proceeds from ‘The Resistance’ EP to nightlife advocacy foundation",
-   "lien": "https://djmag.com/news/charlotte-de-witte-donates-all-proceeds-resistance-ep-nightlife-advocacy-foundation",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/PRESS%20SHOT.png.webp?itok=WKQ4_zNU1375980659",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The four-track EP is out now on de Witte’s KNTXT label</p> </div>",
-   "titre_fr": "Charlotte de Witte reverse tous les bénéfices de l'EP « The Resistance » à une fondation de plaidoyer pour la vie nocturne",
-   "resume_fr": "Le quatre-track EP est dès maintenant disponible sur le label KNTXT de de Witte"
-  },
-  {
-   "source": "djmag",
-   "titre": "Sl8r - Callisto EP",
-   "lien": "https://djmag.com/reviews/sl8r-callisto-ep",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_25_500x500_sq/public/music_reviews/2026-09/Callisto.jpg.webp?itok=JiecYP3A",
-   "resume": "<header class=\"_article--header d8-header-paragraph music-review\"><div class=\"row\"> <div class=\"col d-flex head-container pb-0\" style=\" \"> <div class=\"pane-credits-wrapper\"> <div class=\"pane-author-info top\"> <div…",
-   "titre_fr": "Sl8r - Callisto EP",
-   "resume_fr": ""
-  },
-  {
-   "source": "djmag",
-   "titre": "Matsu - Manifest EP",
-   "lien": "https://djmag.com/reviews/matsu-manifest-ep",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_25_500x500_sq/public/music_reviews/2026-09/Manifest%20EP.jpg.webp?itok=XbdDZq97",
-   "resume": "<header class=\"_article--header d8-header-paragraph music-review\"><div class=\"row\"> <div class=\"col d-flex head-container pb-0\" style=\" \"> <div class=\"pane-credits-wrapper\"> <div class=\"pane-author-info top\"> <div…",
-   "titre_fr": "Matsu, Manifest EP",
-   "resume_fr": ""
-  },
-  {
-   "source": "djmag",
-   "titre": "Dusky - Signals",
-   "lien": "https://djmag.com/reviews/dusky-signals",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_25_500x500_sq/public/music_reviews/2026-09/Signals%20.jpg.webp?itok=F1rypEuG",
-   "resume": "<header class=\"_article--header d8-header-paragraph music-review\"><div class=\"row\"> <div class=\"col d-flex head-container pb-0\" style=\" \"> <div class=\"pane-credits-wrapper\"> <div class=\"pane-author-info top\"> <div…",
-   "titre_fr": "Dusky, Signals",
-   "resume_fr": ""
-  },
-  {
-   "source": "djmag",
-   "titre": "Bullion - Nearly",
-   "lien": "https://djmag.com/reviews/bullion-nearly",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_25_500x500_sq/public/music_reviews/2026-09/Nearly%20.jpg.webp?itok=ywUmjfkN",
-   "resume": "<header class=\"_article--header d8-header-paragraph music-review\"><div class=\"row\"> <div class=\"col d-flex head-container pb-0\" style=\" \"> <div class=\"pane-credits-wrapper\"> <div class=\"pane-author-info top\"> <div…",
-   "titre_fr": "Bullion, Nearly",
-   "resume_fr": ""
   }
  ],
  "pannes": []
