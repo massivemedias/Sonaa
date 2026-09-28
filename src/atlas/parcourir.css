@@ -84,9 +84,13 @@
   }
 }
 /* Le menu ne s'etire pas et ne se comprime pas : c'est le titre qui cede la
-   place quand elle manque, parce qu'il peut se couper et pas lui. */
+   place quand elle manque, parce qu'il peut se couper et pas lui. Il est
+   pousse a droite, contre les reglages du compte, comme dans la barre des
+   pages : voir entete.css. */
 .pv-tete > .sitenav {
   flex: none;
+  margin-left: auto;
+  margin-right: var(--espace-16);
 }
 .pv-retour,
 .pv-chercher-bouton {

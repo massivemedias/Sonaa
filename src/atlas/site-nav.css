@@ -5,11 +5,14 @@
 
    DES MOTS, PAS DES ICÔNES, depuis le 17 septembre 2026. Voir SiteNav.tsx.
 
-   DES PUCES, DEPUIS LA V2. Un lien etait un mot qui s'eclaircit au
-   survol ; il devient une puce arrondie qui se remplit au survol, et la page
-   courante porte l'accent. C'est la grammaire du prototype choisi le
-   21 septembre 2026, et c'est lisible sans comparer : la puce pleine est la
-   ou l'on est.
+   UN TRAIT SOUS LE MOT, DEPUIS LE 28 SEPTEMBRE 2026. La v2 posait une
+   puce arrondie, pleine d'accent sur la page courante ; Mika a demande
+   « quelque chose de different » pour le survol et le focus. Le mot reste
+   nu, et un trait terracotta de 2 px nait sous lui depuis son centre :
+   au survol et au focus du clavier il se dessine, sur la page courante il
+   reste. Aucune boite autour du mot, ni fond, ni contour : c'est la regle
+   posee par Mika le 7 septembre (« pas de highlight sur les liens »), et le
+   trait suffit a dire ou est le focus.
 
    CETTE RANGÉE N'EXISTE PAS SOUS 900 px : la barre du bas la remplace, et
    c'est barre-bas.css qui l'efface. */
@@ -44,48 +47,68 @@
   align-items: center;
   gap: var(--espace-4);
   min-height: 38px;
-  padding: 0 var(--espace-16);
+  padding: 0 var(--espace-12);
   border: none;
-  border-radius: var(--rayon-pilule);
   background: transparent;
   color: var(--ink-secondary);
-  font-size: 0.9rem;
+  /* 13 PX ET NON 14,4, le 28 septembre 2026 : « les fonts plus petites ». */
+  font-size: 0.8125rem;
   font-weight: 500;
   text-transform: none;
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
-  transition: background 160ms ease, color 160ms ease;
+  transition: color 160ms ease;
+}
+
+/* LE TRAIT : sous le mot, de la largeur du mot, a 6 px du bas de la cible.
+   Il part de son centre, replie a zero, et se deploie. */
+.sitenav-lien::after {
+  content: '';
+  position: absolute;
+  left: var(--espace-12);
+  right: var(--espace-12);
+  bottom: 6px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 220ms var(--motion-ease);
 }
 
 .sitenav-lien:hover,
 .sitenav-lien:focus-visible {
   color: var(--ink-primary);
-  background: var(--voile-1);
 }
-
+.sitenav-lien:hover::after,
+.sitenav-lien:focus-visible::after {
+  transform: scaleX(1);
+}
+/* Aucun contour : le trait dit ou est le focus du clavier. */
 .sitenav-lien:focus-visible {
-  outline: 2px solid var(--ink-primary);
-  outline-offset: 3px;
+  outline: none;
 }
 
-/* L'ETAT ACTIF SE VOIT SANS COMPARER : la puce est pleine, sur l'accent. Le
-   poids ne bouge pas pour que la rangee ne se deplace pas quand on change
+/* LA PAGE COURANTE GARDE SON TRAIT, et son mot passe a l'encre pleine. Le
+   poids ne bouge pas, pour que la rangee ne se deplace pas quand on change
    de page. */
 .sitenav-lien[data-current='true'],
 .sitenav-lien[aria-current='page'] {
-  color: var(--sur-accent);
-  background: var(--accent);
+  color: var(--ink-primary);
+}
+.sitenav-lien[data-current='true']::after,
+.sitenav-lien[aria-current='page']::after {
+  transform: scaleX(1);
 }
 
-/* DANS LE LIEN COURANT, LA PASTILLE GARDE UN FILET : sinon elle se fond
-   dans la puce, accent sur accent, sur la page Panier. */
-.sitenav-lien[data-current='true'] .badge-panier,
-.sitenav-lien[aria-current='page'] .badge-panier {
-  box-shadow: inset 0 0 0 1px var(--sur-accent);
+@media (prefers-reduced-motion: reduce) {
+  .sitenav-lien::after {
+    transition: none;
+  }
 }
 
-/* SOUS 900 PX, LA PUCE FAIT 44 PX : la rangee du haut s'efface derriere la
+/* SOUS 900 PX, LE LIEN FAIT 44 PX : la rangee du haut s'efface derriere la
    barre du bas, mais le pied des pages document la garde, et il se touche. */
 @media (max-width: 899px) {
   .sitenav-lien {

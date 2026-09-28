@@ -129,8 +129,10 @@
      LES ENCRES DU THEME CLAIR SONT #3C3C3C, MELANGE AU SABLE : l'encre
      principale est ce gris exactement, et chaque encre secondaire est ce
      meme gris pose a une opacite decroissante sur le sable, puis fige en
-     valeur opaque. La plus pale qui porte du texte tient 4,59 pour 1, ce
-     qui est le AA mesure, pas suppose.
+     valeur opaque. Depuis que le grain se voit, elles sont mesurees sur le
+     sable texture, dont la moyenne est plus sombre de 7 niveaux : la plus
+     pale qui porte du texte y tient 4,9 pour 1, ce qui est le AA mesure,
+     pas suppose.
      ═══════════════════════════════════════════════════════════════ */
 
   --creux: oklch(0.17 0.012 80);
@@ -381,9 +383,10 @@
      Le terracotta sert aux boutons, aux etats actifs et aux liens. Le
      0,62 de clarte demande a ete mesure avant d'etre ecarte : en clair, il
      donnait 3,4 pour 1 comme texte sur le sable et 3,8 pour 1 sous du
-     texte blanc, sous le AA dans les deux roles. A 0,54, il donne 4,7 et
-     5,3. En sombre, l'accent remonte a 0,74 et le texte pose dessus est le
-     fond lui-meme : 7,2 pour 1.
+     texte blanc, sous le AA dans les deux roles. A 0,52, il donne 4,8
+     comme lien sur le sable texture et 5,8 sous du texte clair. En sombre,
+     l'accent remonte a 0,74 et le texte pose dessus est le fond lui-meme :
+     7,2 pour 1.
 
      REGLE D'EMPLOI : du texte en --accent ne se pose que sur le fond ou
      sur du verre, jamais sur --accent-voile ; un fond en --accent porte du
@@ -411,7 +414,6 @@
   --verre-opaque: var(--leve-2);
   --ombre-flottante: 0 12px 40px -16px oklch(0 0 0 / 0.6);
   --ombre-flottante-haut: 0 -12px 40px -16px oklch(0 0 0 / 0.6);
-  --grain-opacite: 0.06;
   --rayon-carte: 24px;
   /* LES AFFICHES DE LA BANNIERE, a 16 px : plus serre que les cartes, parce
      qu'une affiche est une image et non un conteneur. */
@@ -420,7 +422,9 @@
   /* LA TAILLE D'UN TITRE DE SECTION, ecrite ici et lue par toutes les
      pages : check:constantes a refuse la meme decoupe ecrite en clair dans
      trois feuilles, et il avait raison, c'est la meme grandeur. */
-  --titre-section: clamp(1.75rem, 7vw, 2.8rem);
+  /* PLUS PETIT DEPUIS LE 28 SEPTEMBRE 2026, Mika : « j'aimerais les fonts
+     plus petites ». Le plafond passe de 45 a 36 px, le plancher de 28 a 24. */
+  --titre-section: clamp(1.5rem, 6vw, 2.25rem);
   /* LE PLAFOND D'UNE IMAGE D'ARTICLE, demande par Mika le 22 septembre
      2026 : certaines images de flux font plusieurs milliers de pixels de
      haut et occupaient plusieurs ecrans a elles seules. */
@@ -450,11 +454,20 @@
 
   /* ═══ LE GRAIN DE SABLE ═══ Un bruit fractal en SVG, en ligne, sans
      fichier ni requete : une tuile de 200 px repetee sous toute la page,
-     desaturee, posee par base.css a l'opacite ci-dessus. Mesure dans la
-     feuille construite, avec sa regle et ses trois opacites : 815 octets,
-     314 une fois compresses. Il est statique : il ne bouge pas au defilement et il
-     reste quand le mouvement est reduit, parce qu'il ne bouge jamais. */
-  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)'/%3E%3C/svg%3E");
+     posee par base.css. Il est statique : il ne bouge pas au defilement et
+     il reste quand le mouvement est reduit, parce qu'il ne bouge jamais.
+
+     CE N'EST PLUS UN GRIS A 5 %. Le premier grain, un bruit desature a 5 %
+     d'opacite, ne variait que d'un demi-niveau de gris sur le sable : mesure
+     le 28 septembre 2026, il etait invisible, et Mika a demande « que le
+     background soit texture ». Ce sont maintenant des grains de couleur
+     posees sur le fond : des grains creme sur le sable sombre, des grains
+     bruns sur le sable clair (voir le theme clair). Seuls les pics du bruit
+     deviennent des grains, les creux restent transparents, ce qui donne du
+     sable et non un voile. Le fond moyen bouge de 7 niveaux en clair et de
+     9 en sombre, et les encres ont ete remesurees sur ce fond-la. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 0.96  0 0 0 0 0.88  3.5 0 0 0 -1.8'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)'/%3E%3C/svg%3E");
+  --grain-opacite: 0.24;
 }
 
 /* LA GOUTTIERE PASSE A 32 PX SUR TABLETTE ET AU-DELA. Sur telephone elle
@@ -478,8 +491,9 @@
    clignoter la page.
 
    LE FOND EST LE SABLE, 0,96 0,02 85, et l'encre est #3C3C3C exactement,
-   comme demande. Le texte secondaire est cette encre a 75 % et non a 65 % :
-   65 % donnait 3,75 pour 1 sur le sable, sous le AA ; 75 % donne 4,87.
+   comme demande. Le texte secondaire est cette encre a 80 % et non a 65 % :
+   65 % donnait 3,75 pour 1 sur le sable, sous le AA ; 80 % donne 5,2 sur
+   le sable texture.
    Les encres opaques ci-dessous sont les melanges correspondants, figes.
    ═══════════════════════════════════════════════════════════════ */
 :root[data-theme='clair'] {
@@ -501,15 +515,15 @@
   --filet-3: oklch(0.85 0.02 85);
   --filet-fort: oklch(0.78 0.02 85);
   --filet-fort-2: oklch(0.76 0.02 85);
-  --encre-effacee: #6f6d69;
-  --encre-effacee-2: #6d6b67;
-  --encre-effacee-3: #6b6966;
-  --encre-tierce: #676662;
-  --encre-tierce-2: #656461;
-  --encre-tierce-3: #63625f;
-  --encre-douce: #62605d;
-  --encre-douce-2: #605e5c;
-  --encre-douce-3: #5e5d5a;
+  --encre-effacee: #656461;
+  --encre-effacee-2: #63625f;
+  --encre-effacee-3: #62605d;
+  --encre-tierce: #605e5c;
+  --encre-tierce-2: #5e5d5a;
+  --encre-tierce-3: #5c5b58;
+  --encre-douce: #5a5957;
+  --encre-douce-2: #585755;
+  --encre-douce-3: #565553;
   --encre-moyenne: #565553;
   --encre-moyenne-2: #545452;
   --encre-moyenne-3: #535250;
@@ -609,17 +623,18 @@
   /* LES ALIAS SE REDECLARENT ICI : une variable qui en cite une autre est
      resolue LA OU ELLE EST DECLAREE. Sur le meme element `html`, c'est sans
      consequence ; on les repete pour que le bloc se lise entier. */
-  --ink-secondary: rgb(60 60 60 / 0.75);
+  --ink-secondary: rgb(60 60 60 / 0.8);
 
-  --accent: oklch(0.54 0.13 45);
+  --accent: oklch(0.52 0.13 45);
   --sur-accent: oklch(0.99 0.005 85);
-  --accent-voile: oklch(0.54 0.13 45 / 0.14);
+  --accent-voile: oklch(0.52 0.13 45 / 0.14);
   --verre-fond: oklch(0.995 0.008 85 / 0.55);
   --verre-fond-survol: oklch(1 0.004 85 / 0.8);
   --verre-filet: inset 0 0 0 1px oklch(1 0 0 / 0.12);
   --ombre-flottante: 0 12px 40px -16px oklch(0.3 0.03 60 / 0.35);
   --ombre-flottante-haut: 0 -12px 40px -16px oklch(0.3 0.03 60 / 0.35);
-  --grain-opacite: 0.05;
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.3  0 0 0 0 0.22  0 0 0 0 0.12  3.5 0 0 0 -1.8'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)'/%3E%3C/svg%3E");
+  --grain-opacite: 0.45;
   color-scheme: light;
 }
 
@@ -780,7 +795,6 @@
   --verre-opaque: var(--leve-2);
   --ombre-flottante: 0 12px 40px -16px oklch(0 0 0 / 0.6);
   --ombre-flottante-haut: 0 -12px 40px -16px oklch(0 0 0 / 0.6);
-  --grain-opacite: 0.06;
 }
 
 /* Et le logo y reprend sa forme d'origine : il est blanc, sur du noir. */

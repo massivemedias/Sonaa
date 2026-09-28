@@ -34,16 +34,16 @@
 /* LE CHOIX ACTIF SE DIT PAR DEUX SIGNAUX, PAS UN. La couleur seule ne se voit
    pas de tout le monde : le poids de trait double le message, et la ligne
    dessous le triple. Trois signaux pour deux lettres n'est pas de trop quand
-   les deux lettres se ressemblent autant. Depuis ADR-089, le choix actif
-   porte le fond accent et le texte prevu pour l'accent. */
+   les deux lettres se ressemblent autant. Depuis le 28 septembre 2026, le
+   choix actif parle comme le menu : l'encre pleine et un trait terracotta
+   sous le mot, sans pastille. */
 .choixlangue-bouton[data-actif='true'] {
-  opacity: 1;
-  background: var(--accent);
-  color: var(--sur-accent);
+  color: var(--ink-primary);
   font-weight: var(--weight-genre);
   text-decoration: underline;
-  text-underline-offset: 0.22em;
-  text-decoration-thickness: var(--rule-width);
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
 }
 
 /* Le trait qui separe les deux codes. Il ne se lit pas, il se voit : c'est

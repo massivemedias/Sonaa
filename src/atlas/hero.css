@@ -38,7 +38,9 @@
   margin: 0 0 var(--espace-16);
   /* `text-wrap: balance` plus bas : sur telephone le titre passe a deux
      lignes, et sans equilibrage la seconde ne porte qu'un mot. */
-  font-size: clamp(2.2rem, 5.6vw, 4.4rem);
+  /* PLUS PETIT DEPUIS LE 28 SEPTEMBRE 2026 : « j'aimerais les fonts plus
+     petites ». Le plafond passe de 70 a 56 px, le plancher de 35 a 32. */
+  font-size: clamp(2rem, 4.8vw, 3.5rem);
   font-weight: 800;
   line-height: 1.02;
   letter-spacing: -0.025em;
@@ -49,7 +51,7 @@
 .hero-phrase {
   margin: 0 0 var(--espace-32);
   max-width: 54ch;
-  font-size: 1.08rem;
+  font-size: 0.95rem;
   line-height: 1.55;
   color: var(--ink-secondary);
 }
@@ -73,7 +75,7 @@
   box-shadow: var(--verre-filet);
   color: var(--ink-primary);
   font-family: var(--font-ui);
-  font-size: 0.98rem;
+  font-size: 0.875rem;
   font-weight: 600;
   white-space: nowrap;
   cursor: pointer;
@@ -111,12 +113,12 @@
 }
 .hero-ville-nom {
   color: var(--ink-primary);
-  font-size: 0.98rem;
+  font-size: 0.875rem;
   font-weight: 600;
 }
 .hero-ville-mot {
   color: var(--ink-secondary);
-  font-size: 0.74rem;
+  font-size: 0.68rem;
   letter-spacing: var(--serrage-ui);
   text-transform: uppercase;
 }
@@ -203,7 +205,6 @@
      dessous. A 1 rem elles tiennent. */
   .hero-bouton {
     padding: 0 var(--espace-16);
-    font-size: 0.95rem;
   }
 }
 

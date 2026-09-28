@@ -47,6 +47,16 @@
   }
 }
 
+/* ═══ LE MENU A DROITE, SUR ORDINATEUR ═══ Mika, le 28 septembre 2026 : « les
+   titres du menu a droite en desktop ». Le logo reste a gauche, seul, et le
+   menu rejoint les reglages du compte au bord droit, un pas de 24 px avant
+   la loupe. Sous 900 px il n'y a pas de menu ici : la barre d'icones du bas
+   le remplace, et elle ne change pas. */
+.entete-site > .sitenav {
+  margin-left: auto;
+  margin-right: var(--espace-16);
+}
+
 /* Le logo est une cible : 44 px de haut, meme si l'image en fait 24. */
 .entete-logo {
   display: inline-flex;

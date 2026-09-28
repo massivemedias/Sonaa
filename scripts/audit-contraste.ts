@@ -109,7 +109,9 @@ const SCRIPT = `(() => {
     const parent = e.parentElement && e.parentElement.className && typeof e.parentElement.className === 'string' ? '.' + e.parentElement.className.trim().split(/\\s+/)[0] + ' > ' : '';
     return parent + e.tagName.toLowerCase() + cls;
   };
-  const fondPage = parse(getComputedStyle(document.body).backgroundColor);
+  /* LE FOND DE LA PAGE EST CELUI QU'ON VOIT, GRAIN COMPRIS : mesure en
+     pixels avant la lecture (voir plus bas), et non la couleur de body. */
+  const fondPage = __FOND__;
   const textes = []; let surImage = 0; let total = 0;
   for (const e of document.querySelectorAll('body *')) {
     let brut = '';
@@ -165,6 +167,7 @@ if (!process.env.SONAA_URL) {
 const fermer = await servir();
 const navigateur = await chromium.launch({ channel: 'chrome', headless: true });
 const parTheme: Record<string, { min: number; ou: string; sous: Texte[]; lus: number; surImage: number }> = {};
+const fondsVus: Record<string, number[]> = {};
 
 for (const theme of THEMES) {
   parTheme[theme] = { min: Infinity, ou: '', sous: [], lus: 0, surImage: 0 };
@@ -196,7 +199,27 @@ for (const theme of THEMES) {
         await contexte.close();
         continue;
       }
-      const lu: Lecture = JSON.parse(await page.evaluate(SCRIPT));
+      /* LE FOND REEL : on cache tout ce que porte la page, on photographie
+         une tuile de grain sur le sable, et on en prend la moyenne. Le grain
+         assombrit le sable clair de sept niveaux et eclaircit le sombre de
+         neuf ; un texte qui passe sur la couleur nue peut ne plus passer
+         sur le fond qu'on voit. */
+      const cache = await page.addStyleTag({ content: 'body > * { visibility: hidden !important; }' });
+      const tuile = await page.screenshot({ clip: { x: 0, y: 300, width: 200, height: 200 } });
+      await cache.evaluate((e) => (e as Element).remove());
+      const fond: number[] = await page.evaluate(`(async () => {
+        const img = new Image();
+        img.src = 'data:image/png;base64,${tuile.toString('base64')}';
+        await img.decode();
+        const cv = document.createElement('canvas'); cv.width = img.width; cv.height = img.height;
+        const cx = cv.getContext('2d'); cx.drawImage(img, 0, 0);
+        const d = cx.getImageData(0, 0, cv.width, cv.height).data;
+        let r = 0, g = 0, b = 0; const n = d.length / 4;
+        for (let i = 0; i < d.length; i += 4) { r += d[i]; g += d[i + 1]; b += d[i + 2]; }
+        return [r / n, g / n, b / n, 1];
+      })()`);
+      if (!fondsVus[theme]) fondsVus[theme] = fond.slice(0, 3).map((v) => Math.round(v));
+      const lu: Lecture = JSON.parse(await page.evaluate(SCRIPT.replace('__FOND__', JSON.stringify(fond))));
       await contexte.close();
       const t = parTheme[theme]!;
       t.lus += lu.textes.length;
@@ -222,7 +245,7 @@ for (const theme of THEMES) {
     const k = `${x.sel}|${x.fg}|${x.bg}`;
     if (!uniques.has(k)) uniques.set(k, x);
   }
-  console.log(`\n${theme.toUpperCase()} : ${t.lus} textes lus, ${t.surImage} sur image (non mesurables), minimum ${t.min === Infinity ? '-' : t.min} pour 1 (${t.ou}).`);
+  console.log(`\n${theme.toUpperCase()} : fond reel rgb(${(fondsVus[theme] ?? []).join(', ')}), ${t.lus} textes lus, ${t.surImage} sur image (non mesurables), minimum ${t.min === Infinity ? '-' : t.min} pour 1 (${t.ou}).`);
   if (uniques.size === 0) console.log('  Tout passe le AA.');
   else {
     console.log(`  ${uniques.size} texte(s) sous le AA :`);

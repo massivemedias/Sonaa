@@ -179,7 +179,9 @@ select option:hover {
    et au-dessus de la couleur de `body`, qui se propage au canevas. Les
    surfaces de verre le floutent, donc il ne s'y voit pas ; c'est voulu.
 
-   Il reste quand le mouvement est reduit : il ne bouge jamais. */
+   Il reste quand le mouvement est reduit : il ne bouge jamais. Depuis le 28
+   septembre 2026 il se voit : des grains de couleur, creme sur le sable
+   sombre et bruns sur le sable clair, et non plus un gris a 5 %. */
 body::before {
   content: '';
   position: fixed;

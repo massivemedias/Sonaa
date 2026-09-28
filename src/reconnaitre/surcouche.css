@@ -9,12 +9,14 @@
   align-items: center;
   gap: var(--espace-12);
   margin: var(--espace-16) 0 var(--espace-24);
-  padding: var(--espace-16) var(--espace-24);
+  padding: var(--espace-12) var(--espace-24);
   border: 0;
   border-radius: 999px;
   background: var(--accent);
   color: var(--sur-accent);
   font: inherit;
+  /* 14 PX ET NON 16, le 28 septembre 2026 : « les fonts plus petites ». */
+  font-size: 0.875rem;
   font-weight: 700;
   cursor: pointer;
   transition: transform 160ms ease, filter 160ms ease;
