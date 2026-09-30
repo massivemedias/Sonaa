@@ -166,14 +166,14 @@ select option:hover {
 }
 
 
-/* ═══ LE GRAIN DE GRANITE ═══
+/* ═══ LE GRANITE FIN ═══
 
-   Le fond n'est pas un aplat : un pointille mineral tres fin, genere en SVG
-     et ecrit en ligne dans les jetons (`--grain`), repete en tuiles de 280 px
-   sous toute la page. Il est pose sur un pseudo-element FIXE, et non en
-   fond de `body`, pour deux raisons mesurees : `background-attachment:
-   fixed` est ignore par Safari sur iPhone, et un fond qui defile avec la
-   page fait scintiller la texture a chaque geste. Ici il ne bouge pas.
+   Le fond n'est pas un aplat : un granite adouci, genere en SVG et ecrit en
+   ligne dans les jetons (`--grain`), repete en tuiles de 800 px sous toute
+   la page. Il est pose sur un pseudo-element FIXE, et non en fond de
+   `body`, pour deux raisons mesurees : `background-attachment: fixed` est
+   ignore par Safari sur iPhone, et un fond qui defile avec la page fait
+   scintiller la texture a chaque geste. Ici il ne bouge pas.
 
    Il passe sous tout le contenu (`z-index: -1` dans le contexte de la racine)
    et au-dessus de la couleur de `body`, qui se propage au canevas. Les
@@ -187,7 +187,7 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background-image: var(--grain);
-  background-size: 280px 280px;
+  background-size: 800px 800px;
   opacity: var(--grain-opacite);
 }
 

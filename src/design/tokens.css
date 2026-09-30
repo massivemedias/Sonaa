@@ -448,22 +448,30 @@
   --entete-h: 56px;
   --barre-bas-hauteur: 64px;
 
-  /* ═══ LE GRAIN DE GRANITE ═══ Un pointille mineral tres fin, genere en
-     SVG et ecrit en ligne, sans fichier ni requete : une tuile de 400 px
-     repetee sous toute la page, posee par base.css. Il est statique.
+  /* ═══ LE GRANITE FIN ═══ Un granite adouci, genere en SVG et ecrit en
+     ligne, sans fichier ni requete : une tuile de 800 px repetee sous toute
+     la page, posee par base.css. Il est statique : il ne bouge pas au
+     defilement et il reste quand le mouvement est reduit.
 
-     POURQUOI DU GRANITE ET NON DU BOIS. Mika a d'abord demande une texture,
-     puis du bois tres fin (28 septembre). Le 29, le bois et le jaune du
-     sable ne tenaient plus. Le granite reprend l'objet de reference du
-     site, le carottage, sans poser de fibres. Un bruit isotrope, quatre
-     octaves : des grains, pas des veines. Seuls les pics du bruit
-     deviennent des taches, le reste est transparent.
+     POURQUOI DU GRANITE. Mika a d'abord demande une texture, puis du bois
+     tres fin (28 septembre) ; le 29, le bois et le jaune du sable ne
+     tenaient plus, et le granite reprend l'objet de reference du site, le
+     carottage (ADR-090).
 
-     Specks clairs sur le granite sombre, sombres sur le clair. Deux bruits
-     superposes : un gros grain mineral, un pointille fin. L'opacite est
-     celle du bois, parce qu'un pointille trop leger disparait a l'ecran. */
-  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.045' numOctaves='5' seed='11' stitchTiles='stitch' result='gros'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='3' seed='3' stitchTiles='stitch' result='fin'/%3E%3CfeBlend in='gros' in2='fin' mode='multiply' result='mix'/%3E%3CfeColorMatrix in='mix' values='0 0 0 0 0.82  0 0 0 0 0.81  0 0 0 0 0.78  1.8 0 0 0 -0.7'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)'/%3E%3C/svg%3E");
-  --grain-opacite: 0.42;
+     POURQUOI CE GRANITE-CI, le 30 septembre (« une meilleure texture ») :
+     le premier granite melangeait les echelles, et ses taches moyennes et
+     contrastees se lisaient comme du camouflage ou un marbre sale, qui se
+     battait avec le contenu. Une pierre polie separe deux echelles, et
+     c'est ce qui est fait ici :
+     - des nuances tres larges et tres douces, a peine perceptibles, qui
+       empechent l'aplat de faire plastique ;
+     - un pointille fin et net, en deux tailles de grains, clairseme, qui
+       fait la pierre.
+     Seuls les pics de chaque bruit deviennent des grains, le reste est
+     transparent. Grains sombres sur le granite clair, clairs sur le
+     granite sombre, qui se lit alors comme un granite noir moucheté. */
+  --grain: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800'><filter id='g' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='.004' numOctaves='3' seed='4' stitchTiles='stitch'/><feColorMatrix result='a' values='0 0 0 0 .93 0 0 0 0 .91 0 0 0 0 .88 .5 0 0 0 -.2'/><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='9' stitchTiles='stitch'/><feColorMatrix result='b' values='0 0 0 0 .93 0 0 0 0 .91 0 0 0 0 .88 0 7 0 0 -4.4'/><feTurbulence type='fractalNoise' baseFrequency='.3' seed='21' stitchTiles='stitch'/><feColorMatrix result='d' values='0 0 0 0 .93 0 0 0 0 .91 0 0 0 0 .88 0 0 10 0 -7'/><feMerge><feMergeNode in='a'/><feMergeNode in='b'/><feMergeNode in='d'/></feMerge></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+  --grain-opacite: 0.45;
 }
 
 /* LA GOUTTIERE PASSE A 32 PX SUR TABLETTE ET AU-DELA. Sur telephone elle
@@ -629,8 +637,8 @@
   --verre-filet: inset 0 0 0 1px oklch(1 0 0 / 0.12);
   --ombre-flottante: 0 12px 40px -16px oklch(0.3 0.03 60 / 0.35);
   --ombre-flottante-haut: 0 -12px 40px -16px oklch(0.3 0.03 60 / 0.35);
-  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.045' numOctaves='5' seed='11' stitchTiles='stitch' result='gros'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='3' seed='3' stitchTiles='stitch' result='fin'/%3E%3CfeBlend in='gros' in2='fin' mode='multiply' result='mix'/%3E%3CfeColorMatrix in='mix' values='0 0 0 0 0.24  0 0 0 0 0.23  0 0 0 0 0.22  1.8 0 0 0 -0.7'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)'/%3E%3C/svg%3E");
-  --grain-opacite: 0.48;
+  --grain: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800'><filter id='g' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='.004' numOctaves='3' seed='4' stitchTiles='stitch'/><feColorMatrix result='a' values='0 0 0 0 .16 0 0 0 0 .15 0 0 0 0 .14 .5 0 0 0 -.2'/><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='9' stitchTiles='stitch'/><feColorMatrix result='b' values='0 0 0 0 .16 0 0 0 0 .15 0 0 0 0 .14 0 7 0 0 -4.4'/><feTurbulence type='fractalNoise' baseFrequency='.3' seed='21' stitchTiles='stitch'/><feColorMatrix result='d' values='0 0 0 0 .16 0 0 0 0 .15 0 0 0 0 .14 0 0 10 0 -7'/><feMerge><feMergeNode in='a'/><feMergeNode in='b'/><feMergeNode in='d'/></feMerge></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+  --grain-opacite: 0.6;
   color-scheme: light;
 }
 
