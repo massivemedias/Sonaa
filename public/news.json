@@ -1,6 +1,66 @@
 {
- "fait": "2026-09-29T18:08:43.589Z",
+ "fait": "2026-09-30T05:41:25.681Z",
  "articles": [
+  {
+   "source": "musictech",
+   "titre": "Which software is best for recording and creating DJ mixes?",
+   "lien": "https://musictech.com/guides/buyers-guide/best-dj-mix-recording-software/",
+   "date": "2026-09-30T02:19:52.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2023/09/dj.studio@2000x1500.jpg",
+   "resume": "For decades, recording a DJ mix was hooking up the output of your mixer , hitting the record button and hoping you didn’t make a galloping mistake 30 minutes in. Today, the process is far more sophisticated. Whether…",
+   "titre_fr": "Quel logiciel choisir pour enregistrer et créer des DJ mixes?",
+   "resume_fr": "Pendant des décennies, enregistrer un DJ mix consistait à brancher la sortie de votre mixer, appuyer sur record et espérer ne pas faire d'erreur catastrophique 30 minutes plus tard. Aujourd'hui, le processus est bien plus sophistiqué. Que vous…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "Meet Benjamin, a hardware controller that's designed to unlock the potential of YouTube music lessons",
+   "lien": "https://www.musicradar.com/music-tech/controllers/a-control-surface-for-practice-benjamin-is-designed-to-unlock-the-potential-of-youtube-music-lessons-by-making-sections-easier-to-loop-navigate-and-play",
+   "date": "2026-09-30T01:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/RVVP9LRfpHKb8swutYR5yc-1920-80.jpg",
+   "resume": "YouTube has become the biggest music-learning platform in the world, but it does have certain limitations. Looping specific song sections involves frequent clicking/touching and dragging of a progress bar and you have a…",
+   "titre_fr": "Rencontrez Benjamin, un hardware controller conçu pour libérer le potentiel des tutoriels musicaux YouTube",
+   "resume_fr": "YouTube est devenu la plus grande plateforme d'apprentissage musical au monde, mais elle a certaines limitations. Boucler des sections spécifiques d'une chanson implique de nombreux clics/touches et du glissement de barre de progression et vous avez…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "Guitar hero George Lynch on the highs and lows of his extraordinary career",
+   "lien": "https://www.musicradar.com/artists/our-singer-played-flute-like-ian-anderson-he-would-blow-fire-out-of-his-flute-and-he-wore-these-see-through-stretchy-pants-with-no-underwear-it-was-really-hard-to-watch-guitar-hero-george-lynch-on-the-highs-and-lows-of-his-extraordinary-career",
+   "date": "2026-09-29T23:10:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/2VXGroeY5KB3caKm2rTnKZ-1920-80.jpg",
+   "resume": "George Lynch is one of the most acclaimed and influential rock guitarists to have emerged in the ’80s. He could have been Ozzy Osbourne’s right hand man. He lost out on that gig twice – first to Randy Rhoads and later…",
+   "titre_fr": "George Lynch, guitariste de légende, raconte les hauts et les bas d'une carrière extraordinaire",
+   "resume_fr": "George Lynch est l'un des guitaristes rock les plus acclamés et influents à émerger dans les années 80. Il aurait pu être la main droite d'Ozzy Osbourne. Il a manqué ce poste deux fois, d'abord face à Randy Rhoads et plus tard…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "\"The hypocrisy in the industry is insane\": House legend Todd Edwards on sampling Suno",
+   "lien": "https://www.musicradar.com/artists/i-resent-the-way-people-talk-about-this-technology-as-if-its-from-the-devil-the-hypocrisy-in-the-industry-is-insane-house-legend-todd-edwards-on-how-ai-has-transformed-his-approach-to-sampling",
+   "date": "2026-09-29T23:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/HyQ5mMazFMHvkYM3Ds6syG-1920-80.jpg",
+   "resume": "Last weekend, we sat down with house legend, UKG innovator and sampling wizard Todd Edwards for a wide-ranging conversation that surveyed his 34-year career, touching on his iconic first UK show , his multiple Daft Punk…",
+   "titre_fr": "« L'hypocrisie dans l'industrie est folle » : la légende house Todd Edwards parle de sampling avec Suno",
+   "resume_fr": "Le week-end dernier, nous nous sommes assis avec la légende house, innovateur UKG et maître du sampling Todd Edwards pour une conversation large qui a survole sa carrière de 34 ans, touchant à son premier show UK iconique, ses multiples collaborations Daft Punk…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "“This could well be the amp simulator to rule them all”: Line 6 Helix Stadium Native review",
+   "lien": "https://www.musicradar.com/music-tech/plugins/line-6-helix-stadium-native-review",
+   "date": "2026-09-29T20:05:28.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/VV6bic4JbxRP4VYH6hUhyC-1920-80.jpg",
+   "resume": "What is it? Having owned an HX Stomp for many years now and been a big user of Helix Native, I jumped at the opportunity to review the latest iteration of Line 6’s software offering in Helix Stadium Native. Arriving not…",
+   "titre_fr": "« Ceci pourrait bien être le simulateur d'ampli ultime » : test du Line 6 Helix Stadium Native",
+   "resume_fr": "Qu'est-ce que c'est? Après avoir possédé un HX Stomp pendant plusieurs années et avoir beaucoup utilisé Helix Native, j'ai sauté sur l'occasion de tester la dernière itération de l'offre logicielle de Line 6 avec Helix Stadium Native. À l'arrivée non…"
+  },
+  {
+   "source": "synthtopia",
+   "titre": "Backgrounds Creates Evolving Soundscapes From Your Keyword Prompts",
+   "lien": "https://www.synthtopia.com/content/2026/09/29/backgrounds-creates-evolving-soundscapes-from-your-keyword-prompts/",
+   "date": "2026-09-29T19:45:47.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/backgrounds.jpg",
+   "resume": "Sampleson Backgrounds is a new soundscape creation tool that lets users combine words and ideas on a canvas to generate evolving cinematic atmospheres.…",
+   "titre_fr": "Backgrounds crée des ambiances sonores évolutives à partir de vos invites de mots-clés",
+   "resume_fr": "Sampleson Backgrounds est un nouvel outil de création d'ambiances sonores qui permet aux utilisateurs de combiner des mots et des idées sur un canevas pour générer des atmosphères cinématiques évolutives.…"
+  },
   {
    "source": "gearnews",
    "titre": "Strymon La Brea Analog Tape Drive: Inspired by the Deco",
@@ -368,16 +428,6 @@
    "resume_fr": "Phantom Sun est un synthesizer iPad semi-modulaire conçu pour les patchs génératifs, la conception sonore expérimentale et la performance tactile expressive…"
   },
   {
-   "source": "synthtopia",
-   "titre": "Osmose Firmware Update 2.3 Now Available, But Some Users Suggest Caution",
-   "lien": "https://www.synthtopia.com/content/2026/09/28/osmose-firmware-update-2-3-now-available-but-some-users-suggest-caution/",
-   "date": "2026-09-28T22:45:47.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2025/11/osmose-61-preview.jpg",
-   "resume": "While Osmose 2.3 offers a lot of new features, we've seen some owners express frustration with the upgrade process. …",
-   "titre_fr": "Mise à jour firmware Osmose 2.3 maintenant disponible, mais certains utilisateurs suggèrent la prudence",
-   "resume_fr": "Bien que Osmose 2.3 offre beaucoup de nouvelles fonctionnalités, nous avons vu certains propriétaires exprimer de la frustration avec le processus de mise à niveau…"
-  },
-  {
    "source": "gearnews",
    "titre": "Five Best Value Single-Cut Guitars of 2026: Gibson and beyond",
    "lien": "https://www.gearnews.com/best-value-single-cut-guitars/",
@@ -466,16 +516,6 @@
    "resume_fr": "VirtualDJ 2026 vient de recevoir sa troisième et dernière mise à jour, et avec elle, encore plus de fonctionnalités IA intègrent le logiciel DJ. Aux côtés de ShoutOut, qui vous permet de créer vos propres voix-off et paroles, vous pouvez maintenant aussi construire…"
   },
   {
-   "source": "musicradar",
-   "titre": "Nirvana's Krist Novoselic and Dave Grohl reunite at the 2026 VMAs as Madonna and Taylor Swift win big",
-   "lien": "https://www.musicradar.com/artists/nirvana-continues-to-resonate-so-deeply-because-people-are-still-hungry-for-authenticity-kurt-would-have-loved-that-legacy-krist-novoselic-reunites-with-dave-grohl-at-the-2026-mtv-video-music-awards-as-madonna-and-taylor-swift-win-big",
-   "date": "2026-09-28T13:36:06.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/wqGAa9GEGXiZTTEcSXLCEG-1920-80.jpg",
-   "resume": "Madonna and Taylor Swift were the big winners at last night’s MTV Video Awards, winning seven and three prizes respectively, and there was also an on-stage reunion for the surviving members of Nirvana as they accepted…",
-   "titre_fr": "Krist Novoselic et Dave Grohl de Nirvana se retrouvent aux MTV Video Music Awards 2026 alors que Madonna et Taylor Swift remportent les plus grands prix",
-   "resume_fr": "Madonna et Taylor Swift ont été les grands gagnants des MTV Video Music Awards d'hier soir, remportant respectivement sept et trois prix, et il y a aussi eu une réunion sur scène pour les membres survivants de Nirvana alors qu'ils acceptaient…"
-  },
-  {
    "source": "bpb",
    "titre": "Monomodule is a FREE Elektron Monomachine emulator for your DAW",
    "lien": "https://bedroomproducersblog.com/2026/09/28/monomodule-elektron-monomachine/",
@@ -544,36 +584,6 @@
    "resume": "Safari Audio is giving away Camel Strip, its $49 vintage-inspired channel strip plugin, exclusively to BPB readers. Add Camel Strip to your cart on the official product page and enter the code BPB100OFF at checkout. It…",
    "titre_fr": "Obtenez Safari Audio Camel Strip GRATUIT exclusivement chez BPB",
    "resume_fr": "Safari Audio offre Camel Strip, son plugin channel strip d'inspiration vintage à 49 $, exclusivement aux lecteurs de BPB. Ajoutez Camel Strip à votre panier sur la page produit officielle et entrez le code BPB100OFF à la caisse. Il…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "Fred Again slams AI music: \"I've felt no pull whatsoever to even try it... the process is the magic\"",
-   "lien": "https://www.musicradar.com/artists/fred-again-slams-ai-music-ive-felt-no-pull-whatsoever-to-even-try-it-the-process-is-the-magic",
-   "date": "2026-09-28T10:56:24.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/TvyCxFv3xx7hjR2sGegfjW-1920-80.png",
-   "resume": "Fred Again has shared his thoughts on the use of generative AI tools in music creation, joining the increasing numbers of well-known musicians and producers that have spoken out against the technology in recent months…",
-   "titre_fr": "Fred Again fustige la musique IA : « Je n'ai ressenti aucune envie d'essayer… le processus est la magie »",
-   "resume_fr": "Fred Again a partagé ses réflexions sur l'utilisation des outils d'IA générative dans la création musicale, rejoignant le nombre croissant de musiciens et producteurs bien connus qui se sont exprimés contre la technologie ces derniers mois…"
-  },
-  {
-   "source": "musicradar",
-   "titre": "Petri Alanko on crafting the intense sonic universe of Control Resonant",
-   "lien": "https://www.musicradar.com/artists/i-really-cried-with-all-that-emotion-to-be-honest-there-were-moments-where-the-lack-of-hope-and-strength-grabbed-me-i-had-to-take-a-break-petri-alanko-on-crafting-the-intense-sonic-universe-of-control-resonant",
-   "date": "2026-09-28T10:10:11.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/DLUmfMCYnYPwd6cnUDqVJL-1920-80.png",
-   "resume": "Although it’s taken decades, video games are now not only a widely respected artistic medium, but also more than bring home the bacon financially. The global video game industry makes approximately five to six times…",
-   "titre_fr": "Petri Alanko sur la création de l'univers sonore intense de Control Resonant",
-   "resume_fr": "Bien que cela ait pris des décennies, les jeux vidéo sont désormais non seulement un médium artistique largement respecté, mais aussi plus que rentable financièrement. L'industrie mondiale du jeu vidéo génère environ cinq à six fois..."
-  },
-  {
-   "source": "musicradar",
-   "titre": "Olivia Rodrigo kicks off her Unraveled tour with a “one of one” heart-shaped guitar and a surprise solo",
-   "lien": "https://www.musicradar.com/artists/five-prototypes-before-i-got-the-body-right-it-had-to-look-cool-play-easy-feel-comfortable-and-most-of-all-sound-good-olivia-rodrigo-kicks-off-her-unraveled-tour-with-a-one-of-one-heart-shaped-guitar-and-a-surprise-solo",
-   "date": "2026-09-28T09:55:57.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/FvVEFwpc2gifnkuvgT3DWU-1920-80.jpg",
-   "resume": "She admits that she’s not the world’s greatest guitarist , but that doesn’t mean Olivia Rodrigo doesn’t love a striking, highly individual guitar. Rodrigo kicked off her Unraveled tour on Friday and played several…",
-   "titre_fr": "Olivia Rodrigo lance sa tournée Unraveled avec une guitare en forme de cœur « unique » et une surprise solo",
-   "resume_fr": "Elle admet qu'elle n'est pas la plus grande guitariste du monde, mais cela n'empêche pas Olivia Rodrigo d'aimer une guitare frappante et très personnelle. Rodrigo a lancé sa tournée Unraveled vendredi et a joué plusieurs..."
   },
   {
    "source": "musictech",
@@ -682,16 +692,6 @@
    "resume": "Compression is a process that reduces the dynamics of an audio signal. In this context, “dynamics” refers to the way volume changes within a passage of audio, both from moment to moment and across longer time spans. The…",
    "titre_fr": "Qu'est-ce que la compression, et pourquoi l'utilisons-nous en musique ?",
    "resume_fr": "La compression est un processus qui réduit la dynamique d'un signal audio. Dans ce contexte, « dynamique » fait référence à la façon dont le volume change au sein d'un passage audio, à la fois moment après moment et sur des périodes plus longues. Le…"
-  },
-  {
-   "source": "musictech",
-   "titre": "“This is one of the biggest weeks for Maschine sound content we’ve ever had”: Native Instruments rolls out Maschine 3.7 update – alongside three new expansion packs",
-   "lien": "https://musictech.com/news/gear/maschine-3-7/",
-   "date": "2026-09-24T15:46:59.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/09/Maschine-hero@2000x1500.jpg",
-   "resume": "It’s been a tumultuous year for Native Instruments , which kicked off the year in January by announcing it had entered preliminary insolvency proceedings . CEO Nick Williams was quick to reassure producers in the NI…",
-   "titre_fr": "« C'est l'une des plus grosses semaines de contenu sonore Maschine qu'on ait jamais eu » : Native Instruments déploie la mise à jour Maschine 3.7 – aux côtés de trois nouveaux packs d'expansion",
-   "resume_fr": "Ce fut une année tumultueuse pour Native Instruments, qui a commencé en janvier en annonçant qu'elle avait engagé une procédure préalable d'insolvabilité. Le PDG Nick Williams s'est empressé de rassurer les producteurs de NI…"
   },
   {
    "source": "tsugi",
