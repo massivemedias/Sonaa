@@ -101,8 +101,6 @@
   --resultats-h: 46vh;
 
   /* ═══════════════════════════════════════════════════════════════
-
-  /* ═══════════════════════════════════════════════════════════════
      L'ECHELLE DES GRIS, ET POURQUOI ELLE EXISTE
 
      LE THEME CLAIR ETAIT IMPOSSIBLE AVANT CE BLOC, et pas par manque de
@@ -111,14 +109,13 @@
      jeton ; les sous-numeros (--plaque-2, --encre-3) gardent des ecarts de
      deux centiemes qu'un rabattement aurait effaces.
 
-     ═══ LE SABLE, DEPUIS LE 28 SEPTEMBRE 2026, ADR-089 ═══
+     ═══ LE GRANITE, DEPUIS LE 29 SEPTEMBRE 2026, ADR-090 ═══
 
-     L'echelle etait un graphite teinte de violet a 285, le theme clair un
-     blanc pur. Elle devient du SABLE : en sombre, un sable gris profond
-     autour de 0,22 de clarte, teinte 80 ; en clair, un sable de plage
-     tres pale autour de 0,96, teinte 85. Aucun noir pur, aucun blanc pur.
-     Les encres suivent la meme teinte chaude, a chroma minuscule, pour
-     qu'un gris ne paraisse jamais bleu sur du sable.
+     L'echelle etait un graphite teinte de violet, puis un sable trop jaune
+     (chroma 0,02 a la teinte 85). Elle devient du GRANITE : meme clarte,
+     chroma ramenee a 0,004, teinte 65-70. Assez chaud pour ne pas virer
+     au bleu de dashboard, trop peu pour lire du jaune. Aucun noir pur,
+     aucun blanc pur. Les encres suivent, a chroma encore plus basse.
 
      ═══ LE THEME CLAIR N'EST PAS UNE INVERSION ═══
 
@@ -126,57 +123,56 @@
      PAS : dans les deux themes, une surface surelevee est plus lumineuse
      que le fond, parce que c'est ainsi qu'on lit le relief.
 
-     LES ENCRES DU THEME CLAIR SONT #3C3C3C, MELANGE AU SABLE : l'encre
+     LES ENCRES DU THEME CLAIR SONT #3C3C3C, MELANGE AU GRANITE : l'encre
      principale est ce gris exactement, et chaque encre secondaire est ce
-     meme gris pose a une opacite decroissante sur le sable, puis fige en
+     meme gris pose a une opacite decroissante sur le granite, puis fige en
      valeur opaque. Depuis que le grain se voit, elles sont mesurees sur le
-     sable texture, dont la moyenne est plus sombre de 7 niveaux : la plus
-     pale qui porte du texte y tient 4,9 pour 1, ce qui est le AA mesure,
+     fond texture : la plus pale qui porte du texte y tient le AA mesure,
      pas suppose.
      ═══════════════════════════════════════════════════════════════ */
 
-  --creux: oklch(0.17 0.012 80);
-  --creux-2: oklch(0.18 0.012 80);
-  --creux-3: oklch(0.19 0.012 80);
-  --fond: oklch(0.2 0.012 80);
-  --plaque: oklch(0.215 0.012 80);
-  --plaque-2: oklch(0.22 0.012 80);
-  --plaque-3: oklch(0.23 0.012 80);
-  --leve: oklch(0.25 0.012 80);
-  --leve-2: oklch(0.26 0.012 80);
-  --leve-3: oklch(0.27 0.012 80);
-  --leve-4: oklch(0.29 0.012 80);
-  --filet-fantome: oklch(0.3 0.012 80);
-  --filet-fantome-2: oklch(0.32 0.012 80);
-  --filet: oklch(0.34 0.012 80);
-  --filet-2: oklch(0.35 0.012 80);
-  --filet-3: oklch(0.38 0.012 80);
-  --filet-fort: oklch(0.44 0.012 80);
-  --filet-fort-2: oklch(0.46 0.012 80);
-  --encre-effacee: oklch(0.62 0.01 85);
-  --encre-effacee-2: oklch(0.64 0.01 85);
-  --encre-effacee-3: oklch(0.66 0.01 85);
-  --encre-tierce: oklch(0.68 0.01 85);
-  --encre-tierce-2: oklch(0.7 0.01 85);
-  --encre-tierce-3: oklch(0.72 0.01 85);
-  --encre-douce: oklch(0.76 0.01 85);
-  --encre-douce-2: oklch(0.78 0.01 85);
-  --encre-douce-3: oklch(0.8 0.01 85);
-  --encre-moyenne: oklch(0.82 0.01 85);
-  --encre-moyenne-2: oklch(0.84 0.01 85);
-  --encre-moyenne-3: oklch(0.86 0.01 85);
-  --encre-forte: oklch(0.88 0.01 85);
-  --encre-forte-2: oklch(0.9 0.01 85);
-  --encre-forte-3: oklch(0.91 0.01 85);
-  --encre-forte-4: oklch(0.92 0.01 85);
-  --encre: oklch(0.93 0.01 85);
-  --encre-2: oklch(0.935 0.01 85);
-  --encre-3: oklch(0.94 0.01 85);
-  --encre-4: oklch(0.95 0.01 85);
-  --encre-5: oklch(0.96 0.01 85);
-  --encre-vive: oklch(0.97 0.01 85);
-  --encre-vive-2: oklch(0.98 0.01 85);
-  --encre-vive-3: oklch(0.99 0.008 85);
+  --creux: oklch(0.17 0.004 70);
+  --creux-2: oklch(0.18 0.004 70);
+  --creux-3: oklch(0.19 0.004 70);
+  --fond: oklch(0.2 0.004 70);
+  --plaque: oklch(0.215 0.004 70);
+  --plaque-2: oklch(0.22 0.004 70);
+  --plaque-3: oklch(0.23 0.004 70);
+  --leve: oklch(0.25 0.004 70);
+  --leve-2: oklch(0.26 0.004 70);
+  --leve-3: oklch(0.27 0.004 70);
+  --leve-4: oklch(0.29 0.004 70);
+  --filet-fantome: oklch(0.3 0.004 70);
+  --filet-fantome-2: oklch(0.32 0.004 70);
+  --filet: oklch(0.34 0.004 70);
+  --filet-2: oklch(0.35 0.004 70);
+  --filet-3: oklch(0.38 0.004 70);
+  --filet-fort: oklch(0.44 0.004 70);
+  --filet-fort-2: oklch(0.46 0.004 70);
+  --encre-effacee: oklch(0.62 0.006 80);
+  --encre-effacee-2: oklch(0.64 0.006 80);
+  --encre-effacee-3: oklch(0.66 0.006 80);
+  --encre-tierce: oklch(0.68 0.006 80);
+  --encre-tierce-2: oklch(0.7 0.006 80);
+  --encre-tierce-3: oklch(0.72 0.006 80);
+  --encre-douce: oklch(0.76 0.006 80);
+  --encre-douce-2: oklch(0.78 0.006 80);
+  --encre-douce-3: oklch(0.8 0.006 80);
+  --encre-moyenne: oklch(0.82 0.006 80);
+  --encre-moyenne-2: oklch(0.84 0.006 80);
+  --encre-moyenne-3: oklch(0.86 0.006 80);
+  --encre-forte: oklch(0.88 0.006 80);
+  --encre-forte-2: oklch(0.9 0.006 80);
+  --encre-forte-3: oklch(0.91 0.006 80);
+  --encre-forte-4: oklch(0.92 0.006 80);
+  --encre: oklch(0.93 0.006 80);
+  --encre-2: oklch(0.935 0.006 80);
+  --encre-3: oklch(0.94 0.006 80);
+  --encre-4: oklch(0.95 0.006 80);
+  --encre-5: oklch(0.96 0.006 80);
+  --encre-vive: oklch(0.97 0.006 80);
+  --encre-vive-2: oklch(0.98 0.006 80);
+  --encre-vive-3: oklch(0.99 0.005 80);
 
   --voile-02: oklch(1 0 0 / 0.02);
   --voile-025: oklch(1 0 0 / 0.025);
@@ -228,12 +224,12 @@
   --rideau-85: oklch(0.0 0 0 / 0.85);
   --rideau-95: oklch(0.0 0 0 / 0.95);
 
-  --panneau-88: oklch(0.22 0.012 80 / 0.88);
-  --panneau-9: oklch(0.22 0.012 80 / 0.9);
-  --panneau-94: oklch(0.22 0.012 80 / 0.94);
-  --panneau-96: oklch(0.22 0.012 80 / 0.96);
-  --panneau-97: oklch(0.22 0.012 80 / 0.97);
-  --panneau-98: oklch(0.22 0.012 80 / 0.98);
+  --panneau-88: oklch(0.22 0.004 70 / 0.88);
+  --panneau-9: oklch(0.22 0.004 70 / 0.9);
+  --panneau-94: oklch(0.22 0.004 70 / 0.94);
+  --panneau-96: oklch(0.22 0.004 70 / 0.96);
+  --panneau-97: oklch(0.22 0.004 70 / 0.97);
+  --panneau-98: oklch(0.22 0.004 70 / 0.98);
 
   --lt-26: 0.26;
   --lt-28: 0.28;
@@ -271,7 +267,7 @@
      une surface de verre, un gris opaque ferait une tache, une encre
      translucide prend la couleur de ce qu'elle recouvre. Mesure sur le fond
      sombre : 6,8 pour 1. */
-  --ink-secondary: oklch(0.94 0.01 85 / 0.65);
+  --ink-secondary: oklch(0.94 0.006 80 / 0.65);
 
   /* CE QUE LE NAVIGATEUR DOIT SAVOIR : la couleur des barres de defilement,
      des champs natifs et des menus deroulants du systeme. */
@@ -382,9 +378,9 @@
 
      Le terracotta sert aux boutons, aux etats actifs et aux liens. Le
      0,62 de clarte demande a ete mesure avant d'etre ecarte : en clair, il
-     donnait 3,4 pour 1 comme texte sur le sable et 3,8 pour 1 sous du
+     donnait 3,4 pour 1 comme texte sur le granite et 3,8 pour 1 sous du
      texte blanc, sous le AA dans les deux roles. A 0,52, il donne 4,8
-     comme lien sur le sable texture et 5,8 sous du texte clair. En sombre,
+     comme lien sur le granite texture et 5,8 sous du texte clair. En sombre,
      l'accent remonte a 0,74 et le texte pose dessus est le fond lui-meme :
      7,2 pour 1.
 
@@ -401,13 +397,13 @@
      reecrivent pas, elles surchargent au plus --verre-fond pour un survol.
      ═══════════════════════════════════════════════════════════════ */
   --accent: oklch(0.74 0.12 50);
-  --sur-accent: oklch(0.22 0.012 80);
+  --sur-accent: oklch(0.22 0.004 70);
   --accent-voile: oklch(0.74 0.12 50 / 0.18);
   /* LE FOND DE LA SURFACE, et non celui de la page : a la couleur exacte
-     du fond, un verre disparait dans le sable des qu'il n'a rien dessous.
+     du fond, un verre disparait dans le granite des qu'il n'a rien dessous.
      La surface levee du theme, a 40 % en sombre et 55 % en clair. */
-  --verre-fond: oklch(0.27 0.012 80 / 0.4);
-  --verre-fond-survol: oklch(0.31 0.012 80 / 0.5);
+  --verre-fond: oklch(0.27 0.004 70 / 0.4);
+  --verre-fond-survol: oklch(0.31 0.004 70 / 0.5);
   --verre-filet: inset 0 0 0 1px oklch(1 0 0 / 0.08);
   /* Le meme flou dans les deux themes : 24 px et une saturation de 1,4. */
   --verre-flou: blur(24px) saturate(1.4);
@@ -452,29 +448,22 @@
   --entete-h: 56px;
   --barre-bas-hauteur: 64px;
 
-  /* ═══ LE FIL DU BOIS ═══ Un veinage tres fin, genere en SVG et ecrit en
-     ligne, sans fichier ni requete : une tuile de 400 px repetee sous toute
-     la page, posee par base.css. Il est statique : il ne bouge pas au
-     defilement et il reste quand le mouvement est reduit.
+  /* ═══ LE GRAIN DE GRANITE ═══ Un pointille mineral tres fin, genere en
+     SVG et ecrit en ligne, sans fichier ni requete : une tuile de 400 px
+     repetee sous toute la page, posee par base.css. Il est statique.
 
-     SON HISTOIRE EN UNE JOURNEE, le 28 septembre 2026. Un bruit gris a 5 %,
-     invisible (un demi-niveau de gris, mesure) ; puis des grains de sable
-     visibles, a la demande de Mika (« que le background soit texture ») ;
-     puis ce bois, a la sienne encore : « plutot une texture de bois tres
-     fine ».
+     POURQUOI DU GRANITE ET NON DU BOIS. Mika a d'abord demande une texture,
+     puis du bois tres fin (28 septembre). Le 29, le bois et le jaune du
+     sable ne tenaient plus. Le granite reprend l'objet de reference du
+     site, le carottage, sans poser de fibres. Un bruit isotrope, quatre
+     octaves : des grains, pas des veines. Seuls les pics du bruit
+     deviennent des taches, le reste est transparent.
 
-     COMMENT IL EST FAIT. Un bruit etire en largeur (frequence 0,0025 en
-     horizontal, 0,7 en vertical) donne des fibres longues et fines ; un
-     second bruit, tres lent, les fait onduler par deplacement. Les deux
-     bruits passent par feTile avant le deplacement : sans cela, le
-     deplacement lisait du vide au bord de la tuile, et une couture
-     verticale apparaissait tous les 400 px. Seuls les pics deviennent des
-     fibres, le reste est transparent. Fibres creme sur le sable sombre,
-     brunes sur le sable clair (voir le theme clair). Le fond moyen bouge de
-     8 niveaux en clair et de 10 en sombre, et les encres sont mesurees sur
-     ce fond-la par l'audit de contraste. */
-  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g' x='-10%' y='-10%' width='120%' height='120%'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0025 0.7' numOctaves='3' seed='3' stitchTiles='stitch' x='0' y='0' width='400' height='400'/%3E%3CfeTile result='f'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.005 0.02' numOctaves='2' seed='7' stitchTiles='stitch' x='0' y='0' width='400' height='400'/%3E%3CfeTile result='o'/%3E%3CfeDisplacementMap in='f' in2='o' scale='12' xChannelSelector='R' yChannelSelector='G'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 0.94  0 0 0 0 0.84  3 0 0 0 -1.4'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)'/%3E%3C/svg%3E");
-  --grain-opacite: 0.26;
+     Specks clairs sur le granite sombre, sombres sur le clair. Deux bruits
+     superposes : un gros grain mineral, un pointille fin. L'opacite est
+     celle du bois, parce qu'un pointille trop leger disparait a l'ecran. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.045' numOctaves='5' seed='11' stitchTiles='stitch' result='gros'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='3' seed='3' stitchTiles='stitch' result='fin'/%3E%3CfeBlend in='gros' in2='fin' mode='multiply' result='mix'/%3E%3CfeColorMatrix in='mix' values='0 0 0 0 0.82  0 0 0 0 0.81  0 0 0 0 0.78  1.8 0 0 0 -0.7'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)'/%3E%3C/svg%3E");
+  --grain-opacite: 0.42;
 }
 
 /* LA GOUTTIERE PASSE A 32 PX SUR TABLETTE ET AU-DELA. Sur telephone elle
@@ -487,7 +476,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   LE THEME CLAIR : LE SABLE DE PLAGE
+   LE THEME CLAIR : LE GRANITE PALE
 
    Il ne redefinit QUE l'echelle des gris, l'accent et la matiere. Tout le
    reste, les polices, les mesures, les durees, les teintes de famille, est
@@ -497,31 +486,31 @@
    script dans index.html avant la premiere peinture, pour ne pas faire
    clignoter la page.
 
-   LE FOND EST LE SABLE, 0,96 0,02 85, et l'encre est #3C3C3C exactement,
-   comme demande. Le texte secondaire est cette encre a 80 % et non a 65 % :
-   65 % donnait 3,75 pour 1 sur le sable, sous le AA ; 80 % donne 5,2 sur
-   le sable texture.
+   LE FOND EST LE GRANITE PALE, 0,95 0,004 65, et l'encre est #3C3C3C
+   exactement, comme demande. Le texte secondaire est cette encre a 80 %
+   et non a 65 % : 65 % donnait 3,75 pour 1, sous le AA ; 80 % tient le AA
+   sur le granite texture.
    Les encres opaques ci-dessous sont les melanges correspondants, figes.
    ═══════════════════════════════════════════════════════════════ */
 :root[data-theme='clair'] {
-  --creux: oklch(0.925 0.02 85);
-  --creux-2: oklch(0.93 0.02 85);
-  --creux-3: oklch(0.935 0.02 85);
-  --fond: oklch(0.95 0.02 85);
-  --plaque: oklch(0.955 0.02 85);
-  --plaque-2: oklch(0.96 0.02 85);
-  --plaque-3: oklch(0.965 0.02 85);
-  --leve: oklch(0.975 0.015 85);
-  --leve-2: oklch(0.98 0.015 85);
-  --leve-3: oklch(0.985 0.015 85);
-  --leve-4: oklch(0.99 0.012 85);
-  --filet-fantome: oklch(0.9 0.02 85);
-  --filet-fantome-2: oklch(0.89 0.02 85);
-  --filet: oklch(0.87 0.02 85);
-  --filet-2: oklch(0.86 0.02 85);
-  --filet-3: oklch(0.85 0.02 85);
-  --filet-fort: oklch(0.78 0.02 85);
-  --filet-fort-2: oklch(0.76 0.02 85);
+  --creux: oklch(0.925 0.004 65);
+  --creux-2: oklch(0.93 0.004 65);
+  --creux-3: oklch(0.935 0.004 65);
+  --fond: oklch(0.95 0.004 65);
+  --plaque: oklch(0.955 0.004 65);
+  --plaque-2: oklch(0.96 0.004 65);
+  --plaque-3: oklch(0.965 0.004 65);
+  --leve: oklch(0.975 0.006 80);
+  --leve-2: oklch(0.98 0.006 80);
+  --leve-3: oklch(0.985 0.006 80);
+  --leve-4: oklch(0.99 0.005 80);
+  --filet-fantome: oklch(0.9 0.004 65);
+  --filet-fantome-2: oklch(0.89 0.004 65);
+  --filet: oklch(0.87 0.004 65);
+  --filet-2: oklch(0.86 0.004 65);
+  --filet-3: oklch(0.85 0.004 65);
+  --filet-fort: oklch(0.78 0.004 65);
+  --filet-fort-2: oklch(0.76 0.004 65);
   --encre-effacee: #656461;
   --encre-effacee-2: #63625f;
   --encre-effacee-3: #62605d;
@@ -597,12 +586,12 @@
   --rideau-85: oklch(0 0 0 / 0.612);
   --rideau-95: oklch(0 0 0 / 0.684);
 
-  --panneau-88: oklch(0.96 0.02 85 / 0.88);
-  --panneau-9: oklch(0.96 0.02 85 / 0.9);
-  --panneau-94: oklch(0.96 0.02 85 / 0.94);
-  --panneau-96: oklch(0.96 0.02 85 / 0.96);
-  --panneau-97: oklch(0.96 0.02 85 / 0.97);
-  --panneau-98: oklch(0.96 0.02 85 / 0.98);
+  --panneau-88: oklch(0.96 0.004 65 / 0.88);
+  --panneau-9: oklch(0.96 0.004 65 / 0.9);
+  --panneau-94: oklch(0.96 0.004 65 / 0.94);
+  --panneau-96: oklch(0.96 0.004 65 / 0.96);
+  --panneau-97: oklch(0.96 0.004 65 / 0.97);
+  --panneau-98: oklch(0.96 0.004 65 / 0.98);
 
   --lt-26: 0.9;
   --lt-28: 0.88;
@@ -633,15 +622,15 @@
   --ink-secondary: rgb(60 60 60 / 0.8);
 
   --accent: oklch(0.52 0.13 45);
-  --sur-accent: oklch(0.99 0.005 85);
+  --sur-accent: oklch(0.99 0.004 80);
   --accent-voile: oklch(0.52 0.13 45 / 0.14);
-  --verre-fond: oklch(0.995 0.008 85 / 0.55);
-  --verre-fond-survol: oklch(1 0.004 85 / 0.8);
+  --verre-fond: oklch(0.995 0.005 80 / 0.55);
+  --verre-fond-survol: oklch(1 0.003 80 / 0.8);
   --verre-filet: inset 0 0 0 1px oklch(1 0 0 / 0.12);
   --ombre-flottante: 0 12px 40px -16px oklch(0.3 0.03 60 / 0.35);
   --ombre-flottante-haut: 0 -12px 40px -16px oklch(0.3 0.03 60 / 0.35);
-  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g' x='-10%' y='-10%' width='120%' height='120%'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0025 0.7' numOctaves='3' seed='3' stitchTiles='stitch' x='0' y='0' width='400' height='400'/%3E%3CfeTile result='f'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.005 0.02' numOctaves='2' seed='7' stitchTiles='stitch' x='0' y='0' width='400' height='400'/%3E%3CfeTile result='o'/%3E%3CfeDisplacementMap in='f' in2='o' scale='12' xChannelSelector='R' yChannelSelector='G'/%3E%3CfeColorMatrix values='0 0 0 0 0.34  0 0 0 0 0.23  0 0 0 0 0.12  3 0 0 0 -1.4'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)'/%3E%3C/svg%3E");
-  --grain-opacite: 0.4;
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.045' numOctaves='5' seed='11' stitchTiles='stitch' result='gros'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='3' seed='3' stitchTiles='stitch' result='fin'/%3E%3CfeBlend in='gros' in2='fin' mode='multiply' result='mix'/%3E%3CfeColorMatrix in='mix' values='0 0 0 0 0.24  0 0 0 0 0.23  0 0 0 0 0.22  1.8 0 0 0 -0.7'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)'/%3E%3C/svg%3E");
+  --grain-opacite: 0.48;
   color-scheme: light;
 }
 
@@ -660,48 +649,48 @@
    capturait la valeur claire une fois pour toutes.
    ═══════════════════════════════════════════════════════════════ */
 :root[data-theme='clair'] .atlas-root {
-  --creux: oklch(0.17 0.012 80);
-  --creux-2: oklch(0.18 0.012 80);
-  --creux-3: oklch(0.19 0.012 80);
-  --fond: oklch(0.2 0.012 80);
-  --plaque: oklch(0.215 0.012 80);
-  --plaque-2: oklch(0.22 0.012 80);
-  --plaque-3: oklch(0.23 0.012 80);
-  --leve: oklch(0.25 0.012 80);
-  --leve-2: oklch(0.26 0.012 80);
-  --leve-3: oklch(0.27 0.012 80);
-  --leve-4: oklch(0.29 0.012 80);
-  --filet-fantome: oklch(0.3 0.012 80);
-  --filet-fantome-2: oklch(0.32 0.012 80);
-  --filet: oklch(0.34 0.012 80);
-  --filet-2: oklch(0.35 0.012 80);
-  --filet-3: oklch(0.38 0.012 80);
-  --filet-fort: oklch(0.44 0.012 80);
-  --filet-fort-2: oklch(0.46 0.012 80);
-  --encre-effacee: oklch(0.62 0.01 85);
-  --encre-effacee-2: oklch(0.64 0.01 85);
-  --encre-effacee-3: oklch(0.66 0.01 85);
-  --encre-tierce: oklch(0.68 0.01 85);
-  --encre-tierce-2: oklch(0.7 0.01 85);
-  --encre-tierce-3: oklch(0.72 0.01 85);
-  --encre-douce: oklch(0.76 0.01 85);
-  --encre-douce-2: oklch(0.78 0.01 85);
-  --encre-douce-3: oklch(0.8 0.01 85);
-  --encre-moyenne: oklch(0.82 0.01 85);
-  --encre-moyenne-2: oklch(0.84 0.01 85);
-  --encre-moyenne-3: oklch(0.86 0.01 85);
-  --encre-forte: oklch(0.88 0.01 85);
-  --encre-forte-2: oklch(0.9 0.01 85);
-  --encre-forte-3: oklch(0.91 0.01 85);
-  --encre-forte-4: oklch(0.92 0.01 85);
-  --encre: oklch(0.93 0.01 85);
-  --encre-2: oklch(0.935 0.01 85);
-  --encre-3: oklch(0.94 0.01 85);
-  --encre-4: oklch(0.95 0.01 85);
-  --encre-5: oklch(0.96 0.01 85);
-  --encre-vive: oklch(0.97 0.01 85);
-  --encre-vive-2: oklch(0.98 0.01 85);
-  --encre-vive-3: oklch(0.99 0.008 85);
+  --creux: oklch(0.17 0.004 70);
+  --creux-2: oklch(0.18 0.004 70);
+  --creux-3: oklch(0.19 0.004 70);
+  --fond: oklch(0.2 0.004 70);
+  --plaque: oklch(0.215 0.004 70);
+  --plaque-2: oklch(0.22 0.004 70);
+  --plaque-3: oklch(0.23 0.004 70);
+  --leve: oklch(0.25 0.004 70);
+  --leve-2: oklch(0.26 0.004 70);
+  --leve-3: oklch(0.27 0.004 70);
+  --leve-4: oklch(0.29 0.004 70);
+  --filet-fantome: oklch(0.3 0.004 70);
+  --filet-fantome-2: oklch(0.32 0.004 70);
+  --filet: oklch(0.34 0.004 70);
+  --filet-2: oklch(0.35 0.004 70);
+  --filet-3: oklch(0.38 0.004 70);
+  --filet-fort: oklch(0.44 0.004 70);
+  --filet-fort-2: oklch(0.46 0.004 70);
+  --encre-effacee: oklch(0.62 0.006 80);
+  --encre-effacee-2: oklch(0.64 0.006 80);
+  --encre-effacee-3: oklch(0.66 0.006 80);
+  --encre-tierce: oklch(0.68 0.006 80);
+  --encre-tierce-2: oklch(0.7 0.006 80);
+  --encre-tierce-3: oklch(0.72 0.006 80);
+  --encre-douce: oklch(0.76 0.006 80);
+  --encre-douce-2: oklch(0.78 0.006 80);
+  --encre-douce-3: oklch(0.8 0.006 80);
+  --encre-moyenne: oklch(0.82 0.006 80);
+  --encre-moyenne-2: oklch(0.84 0.006 80);
+  --encre-moyenne-3: oklch(0.86 0.006 80);
+  --encre-forte: oklch(0.88 0.006 80);
+  --encre-forte-2: oklch(0.9 0.006 80);
+  --encre-forte-3: oklch(0.91 0.006 80);
+  --encre-forte-4: oklch(0.92 0.006 80);
+  --encre: oklch(0.93 0.006 80);
+  --encre-2: oklch(0.935 0.006 80);
+  --encre-3: oklch(0.94 0.006 80);
+  --encre-4: oklch(0.95 0.006 80);
+  --encre-5: oklch(0.96 0.006 80);
+  --encre-vive: oklch(0.97 0.006 80);
+  --encre-vive-2: oklch(0.98 0.006 80);
+  --encre-vive-3: oklch(0.99 0.005 80);
 
   --voile-02: oklch(1 0 0 / 0.02);
   --voile-025: oklch(1 0 0 / 0.025);
@@ -753,12 +742,12 @@
   --rideau-85: oklch(0.0 0 0 / 0.85);
   --rideau-95: oklch(0.0 0 0 / 0.95);
 
-  --panneau-88: oklch(0.22 0.012 80 / 0.88);
-  --panneau-9: oklch(0.22 0.012 80 / 0.9);
-  --panneau-94: oklch(0.22 0.012 80 / 0.94);
-  --panneau-96: oklch(0.22 0.012 80 / 0.96);
-  --panneau-97: oklch(0.22 0.012 80 / 0.97);
-  --panneau-98: oklch(0.22 0.012 80 / 0.98);
+  --panneau-88: oklch(0.22 0.004 70 / 0.88);
+  --panneau-9: oklch(0.22 0.004 70 / 0.9);
+  --panneau-94: oklch(0.22 0.004 70 / 0.94);
+  --panneau-96: oklch(0.22 0.004 70 / 0.96);
+  --panneau-97: oklch(0.22 0.004 70 / 0.97);
+  --panneau-98: oklch(0.22 0.004 70 / 0.98);
 
   --lt-26: 0.26;
   --lt-28: 0.28;
@@ -789,15 +778,15 @@
   --rule-hairline: var(--filet);
   --rule-strong: var(--filet-fort-2);
   --ink-primary: var(--encre-3);
-  --ink-secondary: oklch(0.94 0.01 85 / 0.65);
+  --ink-secondary: oklch(0.94 0.006 80 / 0.65);
   --accent: oklch(0.74 0.12 50);
-  --sur-accent: oklch(0.22 0.012 80);
+  --sur-accent: oklch(0.22 0.004 70);
   --accent-voile: oklch(0.74 0.12 50 / 0.18);
   /* LE FOND DE LA SURFACE, et non celui de la page : a la couleur exacte
-     du fond, un verre disparait dans le sable des qu'il n'a rien dessous.
+     du fond, un verre disparait dans le granite des qu'il n'a rien dessous.
      La surface levee du theme, a 40 % en sombre et 55 % en clair. */
-  --verre-fond: oklch(0.27 0.012 80 / 0.4);
-  --verre-fond-survol: oklch(0.31 0.012 80 / 0.5);
+  --verre-fond: oklch(0.27 0.004 70 / 0.4);
+  --verre-fond-survol: oklch(0.31 0.004 70 / 0.5);
   --verre-filet: inset 0 0 0 1px oklch(1 0 0 / 0.08);
   --verre-opaque: var(--leve-2);
   --ombre-flottante: 0 12px 40px -16px oklch(0 0 0 / 0.6);

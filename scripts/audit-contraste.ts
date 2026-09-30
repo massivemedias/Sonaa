@@ -200,10 +200,9 @@ for (const theme of THEMES) {
         continue;
       }
       /* LE FOND REEL : on cache tout ce que porte la page, on photographie
-         une tuile de grain sur le sable, et on en prend la moyenne. Le grain
-         assombrit le sable clair de sept niveaux et eclaircit le sombre de
-         neuf ; un texte qui passe sur la couleur nue peut ne plus passer
-         sur le fond qu'on voit. */
+         une tuile de grain sur le granite, et on en prend la moyenne. Le grain
+         assombrit le granite clair et eclaircit le sombre ; un texte qui
+         passe sur la couleur nue peut ne plus passer sur le fond qu'on voit. */
       const cache = await page.addStyleTag({ content: 'body > * { visibility: hidden !important; }' });
       const tuile = await page.screenshot({ clip: { x: 0, y: 300, width: 200, height: 200 } });
       await cache.evaluate((e) => (e as Element).remove());

@@ -3681,3 +3681,7 @@ précède.
   accent terracotta mesuré au AA, un grain de 396 octets, une recette de
   verre écrite une fois, les deux barres fixées avec des hauteurs en jetons,
   une échelle d'espacement, et un contrôle mesuré à huit largeurs.
+- [ADR-090 : granite sous le verre](docs/adr/ADR-090-granite-sous-le-verre.md),
+  29 septembre 2026. Le bois et le jaune du sable sortent : fond granite,
+  chroma 0,004, teinte 65-70, grain mineral visible, et l'accent terracotta
+  porte les etats jaunes qui restaient en dur.

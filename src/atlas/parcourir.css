@@ -1476,7 +1476,7 @@ body:has(.pwa-bandeau) .pv[data-joue='true'] .pv-corps {
   text-decoration: none;
 }
 .pv-set:hover {
-  border-color: oklch(var(--lt-78) 0.17 85 / 0.5);
+  border-color: color-mix(in oklch, var(--accent) 50%, transparent);
 }
 .pv-set-titre {
   font-size: 0.9375rem;

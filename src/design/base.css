@@ -166,10 +166,10 @@ select option:hover {
 }
 
 
-/* ═══ LE FIL DU BOIS ═══
+/* ═══ LE GRAIN DE GRANITE ═══
 
-   Le fond n'est pas un aplat : un veinage de bois tres fin, genere en SVG
-   et ecrit en ligne dans les jetons (`--grain`), repete en tuiles de 400 px
+   Le fond n'est pas un aplat : un pointille mineral tres fin, genere en SVG
+     et ecrit en ligne dans les jetons (`--grain`), repete en tuiles de 280 px
    sous toute la page. Il est pose sur un pseudo-element FIXE, et non en
    fond de `body`, pour deux raisons mesurees : `background-attachment:
    fixed` est ignore par Safari sur iPhone, et un fond qui defile avec la
@@ -187,7 +187,7 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background-image: var(--grain);
-  background-size: 400px 400px;
+  background-size: 280px 280px;
   opacity: var(--grain-opacite);
 }
 

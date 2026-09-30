@@ -71,8 +71,9 @@ des métadonnées de panneau et deviennent la géométrie même de la carte.
 
 ## 3. Palette
 
-> **Remplacée le 28 septembre 2026 par [ADR-089](docs/adr/ADR-089-verre-depoli-sur-sable.md).**
-> Le fond est du sable dans les deux thèmes, l'encre est #3C3C3C en clair,
+> **Remplacée le 28 septembre 2026 par [ADR-089](docs/adr/ADR-089-verre-depoli-sur-sable.md),
+> puis le 29 par [ADR-090](docs/adr/ADR-090-granite-sous-le-verre.md).**
+> Le fond est du granite dans les deux thèmes, l'encre est #3C3C3C en clair,
 > l'accent est un terracotta, et les surfaces sont en verre dépoli. Les
 > quatorze teintes de famille de la section 3.2 restent les seules couleurs
 > vives du site. Ce qui suit est conservé pour mémoire du premier graphite.
@@ -654,12 +655,13 @@ désormais la signature du site, portées par les jetons de `tokens.css` et
 décrites dans [ADR-086](docs/adr/ADR-086-la-v2.md). On ne garde pas un
 interdit qu'on a décidé de lever ; on écrit qu'on l'a levé, et pourquoi.
 
-**Révisé de nouveau le 28 septembre 2026, par [ADR-089](docs/adr/ADR-089-verre-depoli-sur-sable.md).**
+**Révisé de nouveau le 28 septembre 2026, par [ADR-089](docs/adr/ADR-089-verre-depoli-sur-sable.md),
+puis le 29 par [ADR-090](docs/adr/ADR-090-granite-sous-le-verre.md).**
 Le mauve, le violet, le fuchsia et le cyan sortent du site, avec le dégradé,
-la lueur et la maille. Le fond devient du sable, l'accent un terracotta,
+la lueur et la maille. Le fond devient du granite, l'accent un terracotta,
 et le verre reste mais en une seule recette. Cette section interdisait « fond
 crème avec serif à fort contraste et accent terracotta » : la moitié de cet
-interdit est levée par la mission du 28 septembre, le sable et le
+interdit est levée par la mission du 28 septembre, le granite et le
 terracotta, et l'autre moitié tient, la police reste une linéale. Les cartes
 n'ont plus d'ombre portée, seules les surfaces qui flottent en ont une, très
 diffuse.

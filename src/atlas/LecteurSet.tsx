@@ -123,9 +123,12 @@ export function LecteurSet({ set, compact = false }: Props) {
       const y = (hauteurCss - h) / 2;
       const frac = (i + 0.5) / nBarres;
 
+      const accent = getComputedStyle(document.documentElement)
+        .getPropertyValue('--accent')
+        .trim();
       ctx.fillStyle =
         frac <= avancee
-          ? 'oklch(0.78 0.17 85)'
+          ? accent || 'oklch(0.74 0.12 50)'
           : survolFrac !== null && frac <= survolFrac
             ? 'oklch(0.52 0.03 260)'
             : 'oklch(0.38 0.012 260)';
