@@ -471,7 +471,10 @@
      transparent. Grains sombres sur le granite clair, clairs sur le
      granite sombre, qui se lit alors comme un granite noir moucheté. */
   --grain: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800'><filter id='g' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='.004' numOctaves='3' seed='4' stitchTiles='stitch'/><feColorMatrix result='a' values='0 0 0 0 .93 0 0 0 0 .91 0 0 0 0 .88 .5 0 0 0 -.2'/><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='9' stitchTiles='stitch'/><feColorMatrix result='b' values='0 0 0 0 .93 0 0 0 0 .91 0 0 0 0 .88 0 7 0 0 -4.4'/><feTurbulence type='fractalNoise' baseFrequency='.3' seed='21' stitchTiles='stitch'/><feColorMatrix result='d' values='0 0 0 0 .93 0 0 0 0 .91 0 0 0 0 .88 0 0 10 0 -7'/><feMerge><feMergeNode in='a'/><feMergeNode in='b'/><feMergeNode in='d'/></feMerge></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
-  --grain-opacite: 0.45;
+  /* TRES DISCRET DEPUIS LE 30 SEPTEMBRE 2026, Mika : « ca doit etre tres
+     subtil, la c'est trop voyant ». Le pointille se voit de pres et se
+     laisse oublier de loin. */
+  --grain-opacite: 0.16;
 }
 
 /* LA GOUTTIERE PASSE A 32 PX SUR TABLETTE ET AU-DELA. Sur telephone elle
@@ -638,7 +641,7 @@
   --ombre-flottante: 0 12px 40px -16px oklch(0.3 0.03 60 / 0.35);
   --ombre-flottante-haut: 0 -12px 40px -16px oklch(0.3 0.03 60 / 0.35);
   --grain: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800'><filter id='g' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='.004' numOctaves='3' seed='4' stitchTiles='stitch'/><feColorMatrix result='a' values='0 0 0 0 .16 0 0 0 0 .15 0 0 0 0 .14 .5 0 0 0 -.2'/><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='9' stitchTiles='stitch'/><feColorMatrix result='b' values='0 0 0 0 .16 0 0 0 0 .15 0 0 0 0 .14 0 7 0 0 -4.4'/><feTurbulence type='fractalNoise' baseFrequency='.3' seed='21' stitchTiles='stitch'/><feColorMatrix result='d' values='0 0 0 0 .16 0 0 0 0 .15 0 0 0 0 .14 0 0 10 0 -7'/><feMerge><feMergeNode in='a'/><feMergeNode in='b'/><feMergeNode in='d'/></feMerge></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
-  --grain-opacite: 0.6;
+  --grain-opacite: 0.2;
   color-scheme: light;
 }
 

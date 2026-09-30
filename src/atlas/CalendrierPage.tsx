@@ -64,6 +64,7 @@ import {
   villeDuLien,
 } from '../lib/villes.ts';
 import { soireesManuelles, supprimerSoiree, type SoireeManuelle } from '../lib/soirees-manuelles.ts';
+import { sansDoublons } from '../lib/sans-doublons.ts';
 import { AjouterSoiree } from './AjouterSoiree.tsx';
 import { PartageSoiree } from './PartageSoiree.tsx';
 import { useSession } from '../lib/useSession.ts';
@@ -580,12 +581,17 @@ export function CalendrierPage() {
       if (!r) {
         setPanne(true);
         /* Meme sans RA, ce qu'on a saisi reste affichable. */
-        setSoirees(ajoutees.length > 0 ? ajoutees : null);
-        setTotal(ajoutees.length);
+        const seules = sansDoublons(ajoutees);
+        setSoirees(seules.length > 0 ? seules : null);
+        setTotal(seules.length);
       } else {
-        const tout = [...r.soirees, ...ajoutees].sort((a, b) => a.date.localeCompare(b.date));
+        /* UNE SOIREE, UNE CARTE : voir sans-doublons.ts. Le total retire ce
+           qui a ete ecarte, sinon « les 201 premieres sur 217 » ferait
+           croire qu'il en manque. */
+        const brut = [...r.soirees, ...ajoutees];
+        const tout = sansDoublons(brut).sort((a, b) => a.date.localeCompare(b.date));
         setSoirees(tout);
-        setTotal(r.total + ajoutees.length);
+        setTotal(Math.max(tout.length, r.total + ajoutees.length - (brut.length - tout.length)));
       }
       setChargement(false);
     });

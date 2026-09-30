@@ -106,11 +106,47 @@ function enSoiree(e: EvenementRa): Soiree {
   };
 }
 
-/** Les soirees d'une zone, entre deux dates, eventuellement d'un seul genre.
+/* ═══ UNE SOIREE, UNE LIGNE ═══
+ *
+ * RA NE REND PAS DES SOIREES, IL REND DES ANNONCES. Mesure le 30 septembre
+ * 2026 sur Montreal, quatre-vingt-dix jours : 217 lignes pour 201 soirees.
+ * Un festival ou une exposition de plusieurs jours y revient une fois par
+ * jour d'annonce, avec le meme identifiant et la meme date de debut :
+ * l'exposition Chiharu Shiota cinq fois, MAPP, AMP Fest et Akousma trois
+ * fois. Le calendrier les montrait toutes, cote a cote, et Mika l'a vu :
+ * « les events ne sont pas bons ».
+ *
+ * On garde la premiere ligne de chaque identifiant, et `total` retire ce
+ * qui a ete ecarte : il compte des soirees, plus des annonces. */
+function uneFoisChacune(liste: readonly Soiree[]): Soiree[] {
+  const vus = new Set<string>();
+  return liste.filter((s) => {
+    if (vus.has(s.id)) return false;
+    vus.add(s.id);
+    return true;
+  });
+}
+
+/** Les soirees d'une zone, entre deux dates, eventuellement d'un seul genre,
+    une ligne par soiree. Rend `null` si RA ne repond pas : voir pageRa(). */
+export async function soirees(opts: {
+  zone: number;
+  du: string;
+  au: string;
+  genre?: string | undefined;
+  page?: number | undefined;
+}): Promise<{ soirees: Soiree[]; total: number } | null> {
+  const brut = await pageRa(opts);
+  if (!brut) return null;
+  const uniques = uneFoisChacune(brut.soirees);
+  return { soirees: uniques, total: Math.max(uniques.length, brut.total - (brut.soirees.length - uniques.length)) };
+}
+
+/** Une page brute de RA, telle qu'il la rend, doublons compris.
     Rend `null` si RA ne repond pas ou repond autre chose que du JSON : la
     page doit pouvoir distinguer « aucune soiree » de « la source est
     tombee », et confondre les deux serait exactement le defaut a eviter. */
-export async function soirees(opts: {
+async function pageRa(opts: {
   zone: number;
   du: string;
   au: string;
@@ -204,12 +240,15 @@ export async function toutesLesSoirees(opts: {
   let total = 0;
 
   for (let page = 1; page <= plafond; page += 1) {
-    const bloc = await soirees({ ...opts, page });
+    /* LES PAGES BRUTES, et les doublons ecartes une fois a la fin : une meme
+       soiree peut revenir sur deux pages, et c'est sur le compte brut des
+       annonces que se decide s'il reste des pages a tourner. */
+    const bloc = await pageRa({ ...opts, page });
     /* UNE PAGE QUI TOMBE N'EST PAS « PLUS DE RESULTATS ». Si la premiere
        echoue, on rend null, la page affichera « la source est muette ». Si
        c'est une suivante, on garde ce qu'on a : mieux vaut une liste
        incomplete qu'aucune, et `total` dira qu'elle est incomplete. */
-    if (!bloc) return page === 1 ? null : { soirees: tout, total };
+    if (!bloc) return page === 1 ? null : sansLignesEnTrop(tout, total);
     total = bloc.total;
     tout.push(...bloc.soirees);
     if (tout.length >= total || bloc.soirees.length === 0) break;
@@ -217,5 +256,12 @@ export async function toutesLesSoirees(opts: {
        c'est ce qui separe un lecteur d'un aspirateur. */
     await new Promise((r) => setTimeout(r, 250));
   }
-  return { soirees: tout, total };
+  return sansLignesEnTrop(tout, total);
+}
+
+/* Les doublons retires, et le total des annonces ramene a un total de
+   soirees, du meme nombre. */
+function sansLignesEnTrop(tout: readonly Soiree[], total: number): { soirees: Soiree[]; total: number } {
+  const uniques = uneFoisChacune(tout);
+  return { soirees: uniques, total: Math.max(uniques.length, total - (tout.length - uniques.length)) };
 }

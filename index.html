@@ -18,15 +18,15 @@
          mieux qu'un defaut qu'on ne peut pas rattraper apres coup.
 
          Il ne lit rien d'autre que son propre reglage, il n'ecrit rien, et il
-         echoue en silence : sans stockage accessible, on suit le systeme, ce
-         qui est deja la bonne reponse par defaut. -->
+         echoue en silence : sans stockage accessible, le theme sombre reste,
+         et c'est le theme par defaut. -->
     <script>
       (function () {
         try {
           var choisi = localStorage.getItem('sonaa-theme');
-          var clair =
-            choisi === 'clair' ||
-            (choisi === null && window.matchMedia('(prefers-color-scheme: light)').matches);
+          /* SANS CHOIX, LE SOMBRE, depuis le 30 septembre 2026 : voir
+             src/lib/theme.ts. Le reglage du systeme n'est plus lu. */
+          var clair = choisi === 'clair';
           if (clair) {
             document.documentElement.setAttribute('data-theme', 'clair');
             var m = document.querySelector('meta[name="theme-color"]');

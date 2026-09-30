@@ -9,13 +9,13 @@
  * rechargement ici serait du bruit pour rien, et il ferait perdre l'endroit
  * ou l'on se trouve dans une longue page.
  *
- * ═══ TROIS ETATS, PAS DEUX ═══
+ * ═══ SANS CHOIX, C'EST LE SOMBRE ═══
  *
- * « sombre », « clair », et l'absence de choix. Sans choix, on suit le
- * reglage du systeme, qui est la meilleure supposition possible : quelqu'un
- * qui a mis son telephone en mode nuit a deja dit ce qu'il voulait, ailleurs.
- * Le troisieme etat n'est pas un defaut de conception, c'est le seul moyen de
- * ne pas contredire une preference deja exprimee.
+ * « sombre », « clair », et l'absence de choix. L'absence de choix suivait
+ * le reglage du systeme. Depuis le 30 septembre 2026, elle vaut le sombre :
+ * Mika, devant la page claire, « fait en dark, je pense que c'est mieux ».
+ * C'est le theme dans lequel le site a ete dessine et ou le granite se lit
+ * le mieux ; qui prefere le clair l'a a un geste, et son choix est retenu.
  *
  * ═══ LE CLIGNOTEMENT EST LE VRAI PIEGE ═══
  *
@@ -39,18 +39,9 @@ function themeRange(): Theme | null {
   }
 }
 
-/** Ce que le systeme dit, quand la personne n'a rien dit. */
-function themeDuSysteme(): Theme {
-  try {
-    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'clair' : 'sombre';
-  } catch {
-    return 'sombre';
-  }
-}
-
-/** Le theme en vigueur, choisi ou deduit. */
+/** Le theme en vigueur : celui qui a ete choisi, sinon le sombre. */
 export function themeActuel(): Theme {
-  return themeRange() ?? themeDuSysteme();
+  return themeRange() ?? 'sombre';
 }
 
 /* PAS DE `themeEstChoisi`. Elle avait ete ecrite, exportee et documentee,

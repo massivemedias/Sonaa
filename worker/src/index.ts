@@ -615,8 +615,11 @@ async function qui(req: Request, env: Env): Promise<string | null> {
   }
 }
 
-/* La forme de la reponse de l'agenda. A incrementer des qu'elle change. */
-const FORME_REPONSE = 2;
+/* La forme de la reponse de l'agenda. A incrementer des qu'elle change.
+   3 depuis le 30 septembre 2026 : une ligne par soiree (voir agenda.ts). Les
+   reponses gardees avant portaient les doublons de RA, et elles ne doivent
+   plus etre servies. */
+const FORME_REPONSE = 3;
 
 /* --- Ou se trouve le visiteur -------------------------------------------- */
 

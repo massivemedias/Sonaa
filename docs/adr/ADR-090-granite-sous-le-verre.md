@@ -81,6 +81,19 @@ Contraste AA remesuré sur le fond réel, en pixels : 6,18 pour 1 au minimum
 en sombre, 4,67 en clair. Rendu vérifié dans Chrome et dans le moteur de
 Safari.
 
+## Le même jour, plus tard : très discret, et sombre par défaut
+
+Mika, devant la page claire : « fait en dark, je pense que c'est mieux, et ça
+doit être très subtil, là c'est trop voyant ».
+
+- **Le granite passe à peine perceptible** : 20 % d'opacité en clair au lieu
+  de 60, 16 % en sombre au lieu de 45. L'écart type du fond tombe de 16 à 5
+  niveaux de gris en clair et de 18 à 6,5 en sombre : le pointillé se voit
+  de près et se laisse oublier de loin.
+- **Sans choix, le site s'ouvre en sombre.** Il suivait le réglage du
+  système ; il ne le lit plus. Qui préfère le clair l'a d'un geste, et son
+  choix est retenu comme avant.
+
 ## Ce qui ne change pas
 
 Le verre, l'accent terracotta, Inter, les quatorze teintes de famille, la
