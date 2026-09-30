@@ -26,11 +26,11 @@ peu pour lire du jaune.
 
 | Rôle | Clair | Sombre |
 |---|---|---|
-| Fond | granite pâle, `oklch(0.95 0.004 65)` | granite profond, `oklch(0.2 0.004 70)` |
+| Fond | granite pâle, `oklch(0.95 0.004 65)` | granite profond, `oklch(0.15 0.004 70)`, #0c0b09, depuis le 30 septembre |
 | Texte principal | `#3C3C3C` exactement | granite très pâle, `oklch(0.94 0.006 80)` |
 | Texte secondaire | `#3C3C3C` à 80 % | l'encre à 65 % |
 | Accent | terracotta, inchangé | terracotta, inchangé |
-| Sur l'accent | `oklch(0.99 0.004 80)` | le fond, `oklch(0.22 0.004 70)` |
+| Sur l'accent | `oklch(0.99 0.004 80)` | le fond, `oklch(0.15 0.004 70)` |
 
 Pas de blanc pur, pas de noir pur, nulle part.
 
@@ -93,6 +93,19 @@ doit être très subtil, là c'est trop voyant ».
 - **Sans choix, le site s'ouvre en sombre.** Il suivait le réglage du
   système ; il ne le lit plus. Qui préfère le clair l'a d'un geste, et son
   choix est retenu comme avant.
+
+## Le 30 septembre au soir : Inter, et plus sombre derrière
+
+Mika : « on garde Inter et encore plus sombre derrière ».
+
+- **Inter reste la police**, et la question de Larsseit est close.
+- **Le fond sombre descend de 0,22 à 0,15 de clarté**, #0c0b09. Les
+  surfaces, les panneaux et le verre suivent d'un cran, les filets de six
+  centièmes pour rester visibles, et l'encre posée sur l'accent prend la
+  nouvelle couleur du fond. Pas de noir pur. L'encre tient 16,5 pour 1 sur
+  ce fond, l'accent 8,2.
+- **Le granite sombre passe de 16 à 12 %** : sur un fond plus noir, les grains
+  clairs ressortent davantage, et 12 % rend le même écart qu'avant.
 
 ## Ce qui ne change pas
 

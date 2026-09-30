@@ -131,24 +131,29 @@
      pas suppose.
      ═══════════════════════════════════════════════════════════════ */
 
-  --creux: oklch(0.17 0.004 70);
-  --creux-2: oklch(0.18 0.004 70);
-  --creux-3: oklch(0.19 0.004 70);
-  --fond: oklch(0.2 0.004 70);
-  --plaque: oklch(0.215 0.004 70);
-  --plaque-2: oklch(0.22 0.004 70);
-  --plaque-3: oklch(0.23 0.004 70);
-  --leve: oklch(0.25 0.004 70);
-  --leve-2: oklch(0.26 0.004 70);
-  --leve-3: oklch(0.27 0.004 70);
-  --leve-4: oklch(0.29 0.004 70);
-  --filet-fantome: oklch(0.3 0.004 70);
-  --filet-fantome-2: oklch(0.32 0.004 70);
-  --filet: oklch(0.34 0.004 70);
-  --filet-2: oklch(0.35 0.004 70);
-  --filet-3: oklch(0.38 0.004 70);
-  --filet-fort: oklch(0.44 0.004 70);
-  --filet-fort-2: oklch(0.46 0.004 70);
+  /* LE FOND SOMBRE, DESCENDU LE 30 SEPTEMBRE 2026 : « encore plus sombre
+     derriere », a dit Mika. La page passe de 0,22 a 0,15 de clarte, #0c0b09,
+     les surfaces et le verre suivent d'un cran, les filets de six centiemes
+     pour rester visibles. Toujours pas de noir pur. L'encre y tient 16,5
+     pour 1, l'accent 8,2. */
+  --creux: oklch(0.1 0.004 70);
+  --creux-2: oklch(0.11 0.004 70);
+  --creux-3: oklch(0.12 0.004 70);
+  --fond: oklch(0.13 0.004 70);
+  --plaque: oklch(0.145 0.004 70);
+  --plaque-2: oklch(0.15 0.004 70);
+  --plaque-3: oklch(0.16 0.004 70);
+  --leve: oklch(0.18 0.004 70);
+  --leve-2: oklch(0.19 0.004 70);
+  --leve-3: oklch(0.2 0.004 70);
+  --leve-4: oklch(0.22 0.004 70);
+  --filet-fantome: oklch(0.24 0.004 70);
+  --filet-fantome-2: oklch(0.26 0.004 70);
+  --filet: oklch(0.28 0.004 70);
+  --filet-2: oklch(0.29 0.004 70);
+  --filet-3: oklch(0.32 0.004 70);
+  --filet-fort: oklch(0.38 0.004 70);
+  --filet-fort-2: oklch(0.4 0.004 70);
   --encre-effacee: oklch(0.62 0.006 80);
   --encre-effacee-2: oklch(0.64 0.006 80);
   --encre-effacee-3: oklch(0.66 0.006 80);
@@ -224,12 +229,12 @@
   --rideau-85: oklch(0.0 0 0 / 0.85);
   --rideau-95: oklch(0.0 0 0 / 0.95);
 
-  --panneau-88: oklch(0.22 0.004 70 / 0.88);
-  --panneau-9: oklch(0.22 0.004 70 / 0.9);
-  --panneau-94: oklch(0.22 0.004 70 / 0.94);
-  --panneau-96: oklch(0.22 0.004 70 / 0.96);
-  --panneau-97: oklch(0.22 0.004 70 / 0.97);
-  --panneau-98: oklch(0.22 0.004 70 / 0.98);
+  --panneau-88: oklch(0.15 0.004 70 / 0.88);
+  --panneau-9: oklch(0.15 0.004 70 / 0.9);
+  --panneau-94: oklch(0.15 0.004 70 / 0.94);
+  --panneau-96: oklch(0.15 0.004 70 / 0.96);
+  --panneau-97: oklch(0.15 0.004 70 / 0.97);
+  --panneau-98: oklch(0.15 0.004 70 / 0.98);
 
   --lt-26: 0.26;
   --lt-28: 0.28;
@@ -397,13 +402,13 @@
      reecrivent pas, elles surchargent au plus --verre-fond pour un survol.
      ═══════════════════════════════════════════════════════════════ */
   --accent: oklch(0.74 0.12 50);
-  --sur-accent: oklch(0.22 0.004 70);
+  --sur-accent: oklch(0.15 0.004 70);
   --accent-voile: oklch(0.74 0.12 50 / 0.18);
   /* LE FOND DE LA SURFACE, et non celui de la page : a la couleur exacte
      du fond, un verre disparait dans le granite des qu'il n'a rien dessous.
      La surface levee du theme, a 40 % en sombre et 55 % en clair. */
-  --verre-fond: oklch(0.27 0.004 70 / 0.4);
-  --verre-fond-survol: oklch(0.31 0.004 70 / 0.5);
+  --verre-fond: oklch(0.2 0.004 70 / 0.4);
+  --verre-fond-survol: oklch(0.24 0.004 70 / 0.5);
   --verre-filet: inset 0 0 0 1px oklch(1 0 0 / 0.08);
   /* Le meme flou dans les deux themes : 24 px et une saturation de 1,4. */
   --verre-flou: blur(24px) saturate(1.4);
@@ -473,8 +478,10 @@
   --grain: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800'><filter id='g' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='.004' numOctaves='3' seed='4' stitchTiles='stitch'/><feColorMatrix result='a' values='0 0 0 0 .93 0 0 0 0 .91 0 0 0 0 .88 .5 0 0 0 -.2'/><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='9' stitchTiles='stitch'/><feColorMatrix result='b' values='0 0 0 0 .93 0 0 0 0 .91 0 0 0 0 .88 0 7 0 0 -4.4'/><feTurbulence type='fractalNoise' baseFrequency='.3' seed='21' stitchTiles='stitch'/><feColorMatrix result='d' values='0 0 0 0 .93 0 0 0 0 .91 0 0 0 0 .88 0 0 10 0 -7'/><feMerge><feMergeNode in='a'/><feMergeNode in='b'/><feMergeNode in='d'/></feMerge></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
   /* TRES DISCRET DEPUIS LE 30 SEPTEMBRE 2026, Mika : « ca doit etre tres
      subtil, la c'est trop voyant ». Le pointille se voit de pres et se
-     laisse oublier de loin. */
-  --grain-opacite: 0.16;
+     laisse oublier de loin. 12 % et non 16 depuis que le fond sombre est
+     descendu a 0,15 : sur un fond plus noir, les grains clairs ressortent
+     davantage, et 12 % rend le meme ecart qu'avant. */
+  --grain-opacite: 0.12;
 }
 
 /* LA GOUTTIERE PASSE A 32 PX SUR TABLETTE ET AU-DELA. Sur telephone elle
@@ -660,24 +667,24 @@
    capturait la valeur claire une fois pour toutes.
    ═══════════════════════════════════════════════════════════════ */
 :root[data-theme='clair'] .atlas-root {
-  --creux: oklch(0.17 0.004 70);
-  --creux-2: oklch(0.18 0.004 70);
-  --creux-3: oklch(0.19 0.004 70);
-  --fond: oklch(0.2 0.004 70);
-  --plaque: oklch(0.215 0.004 70);
-  --plaque-2: oklch(0.22 0.004 70);
-  --plaque-3: oklch(0.23 0.004 70);
-  --leve: oklch(0.25 0.004 70);
-  --leve-2: oklch(0.26 0.004 70);
-  --leve-3: oklch(0.27 0.004 70);
-  --leve-4: oklch(0.29 0.004 70);
-  --filet-fantome: oklch(0.3 0.004 70);
-  --filet-fantome-2: oklch(0.32 0.004 70);
-  --filet: oklch(0.34 0.004 70);
-  --filet-2: oklch(0.35 0.004 70);
-  --filet-3: oklch(0.38 0.004 70);
-  --filet-fort: oklch(0.44 0.004 70);
-  --filet-fort-2: oklch(0.46 0.004 70);
+  --creux: oklch(0.1 0.004 70);
+  --creux-2: oklch(0.11 0.004 70);
+  --creux-3: oklch(0.12 0.004 70);
+  --fond: oklch(0.13 0.004 70);
+  --plaque: oklch(0.145 0.004 70);
+  --plaque-2: oklch(0.15 0.004 70);
+  --plaque-3: oklch(0.16 0.004 70);
+  --leve: oklch(0.18 0.004 70);
+  --leve-2: oklch(0.19 0.004 70);
+  --leve-3: oklch(0.2 0.004 70);
+  --leve-4: oklch(0.22 0.004 70);
+  --filet-fantome: oklch(0.24 0.004 70);
+  --filet-fantome-2: oklch(0.26 0.004 70);
+  --filet: oklch(0.28 0.004 70);
+  --filet-2: oklch(0.29 0.004 70);
+  --filet-3: oklch(0.32 0.004 70);
+  --filet-fort: oklch(0.38 0.004 70);
+  --filet-fort-2: oklch(0.4 0.004 70);
   --encre-effacee: oklch(0.62 0.006 80);
   --encre-effacee-2: oklch(0.64 0.006 80);
   --encre-effacee-3: oklch(0.66 0.006 80);
@@ -753,12 +760,12 @@
   --rideau-85: oklch(0.0 0 0 / 0.85);
   --rideau-95: oklch(0.0 0 0 / 0.95);
 
-  --panneau-88: oklch(0.22 0.004 70 / 0.88);
-  --panneau-9: oklch(0.22 0.004 70 / 0.9);
-  --panneau-94: oklch(0.22 0.004 70 / 0.94);
-  --panneau-96: oklch(0.22 0.004 70 / 0.96);
-  --panneau-97: oklch(0.22 0.004 70 / 0.97);
-  --panneau-98: oklch(0.22 0.004 70 / 0.98);
+  --panneau-88: oklch(0.15 0.004 70 / 0.88);
+  --panneau-9: oklch(0.15 0.004 70 / 0.9);
+  --panneau-94: oklch(0.15 0.004 70 / 0.94);
+  --panneau-96: oklch(0.15 0.004 70 / 0.96);
+  --panneau-97: oklch(0.15 0.004 70 / 0.97);
+  --panneau-98: oklch(0.15 0.004 70 / 0.98);
 
   --lt-26: 0.26;
   --lt-28: 0.28;
@@ -791,13 +798,13 @@
   --ink-primary: var(--encre-3);
   --ink-secondary: oklch(0.94 0.006 80 / 0.65);
   --accent: oklch(0.74 0.12 50);
-  --sur-accent: oklch(0.22 0.004 70);
+  --sur-accent: oklch(0.15 0.004 70);
   --accent-voile: oklch(0.74 0.12 50 / 0.18);
   /* LE FOND DE LA SURFACE, et non celui de la page : a la couleur exacte
      du fond, un verre disparait dans le granite des qu'il n'a rien dessous.
      La surface levee du theme, a 40 % en sombre et 55 % en clair. */
-  --verre-fond: oklch(0.27 0.004 70 / 0.4);
-  --verre-fond-survol: oklch(0.31 0.004 70 / 0.5);
+  --verre-fond: oklch(0.2 0.004 70 / 0.4);
+  --verre-fond-survol: oklch(0.24 0.004 70 / 0.5);
   --verre-filet: inset 0 0 0 1px oklch(1 0 0 / 0.08);
   --verre-opaque: var(--leve-2);
   --ombre-flottante: 0 12px 40px -16px oklch(0 0 0 / 0.6);
