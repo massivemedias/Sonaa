@@ -6,6 +6,7 @@
    d'autre ne bouge. */
 
 .rc-action {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--espace-12);
@@ -93,10 +94,20 @@
   transition: transform 1s linear;
 }
 
-.rc-poids {
+/* LE POIDS DU MODELE ET L'ENVOI A AUDD : ECRITS, PAS MONTRES. Mika, le 30
+   septembre 2026 : « cache-le mais laisse-le ecrit ». Retires de l'ecran
+   comme on retire un texte reserve aux lecteurs d'ecran : ni `display:
+   none` ni `visibility: hidden`, qui les retireraient aussi de la lecture. */
+.rc-poids,
+.rc .credits-body .rc-envoi {
+  position: absolute;
+  width: 1px;
+  height: 1px;
   margin: 0;
-  color: var(--ink-secondary);
-  font-size: 0.85rem;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .rc-erreur {
@@ -259,21 +270,71 @@
   grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   gap: var(--espace-8);
 }
+/* UNE ECOUTE PASSEE : la pochette a gauche, le morceau, les styles et le
+   moment a droite. Sans pochette, le micro tient sa place, pour que les
+   lignes restent alignees. */
 .rc-passe {
-  display: flex;
-  flex-direction: column;
-  gap: var(--espace-4);
-  padding: var(--espace-16);
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: var(--espace-12);
+  align-items: center;
+  padding: var(--espace-12);
   border-radius: 16px;
   background: var(--voile-06);
   border: 1px solid var(--filet);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
-.rc-passe-styles {
-  color: var(--ink-primary);
-}
-.rc-passe-morceau {
+.rc-passe-pochette {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface-margin);
   color: var(--ink-secondary);
+}
+.rc-passe-pochette img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.rc-passe-micro {
+  width: 16px;
+  height: 16px;
+}
+.rc-passe-texte {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.rc-passe-texte > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rc-passe-titre {
+  color: var(--ink-primary);
+  font-weight: 700;
+}
+.rc-passe-artiste,
+.rc-passe-styles {
+  color: var(--ink-secondary);
+}
+.rc-passe-quand {
+  color: var(--ink-secondary);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+/* L'historique est vise par « Mes ecoutes » : il s'arrete sous l'en-tete
+   fixe, pas dessous. */
+.rc-ecoutes {
+  scroll-margin-top: calc(var(--entete-h) + var(--espace-16));
+}
+.rc-compte {
+  margin: calc(-1 * var(--espace-8)) 0 var(--espace-16);
 }
 
 /* ═══ LA MODALE DE CONSENTEMENT ═══ Elle n'est pas contournable : elle se
@@ -360,20 +421,6 @@
   }
 }
 
-/* L'ENVOI A AUDD, EN PETIT SOUS LE BOUTON : une phrase, un lien, rien a
-   regler. */
-/* `.rc .credits-body p` fixe le corps des paragraphes a 15 px : la regle
-   ci-dessous est plus precise pour garder cette ligne petite. Mesure en
-   ligne le 27 septembre 2026, 15 px avant, 12,8 apres. */
-.rc .credits-body .rc-envoi {
-  margin: var(--espace-8) 0 0;
-  color: var(--ink-secondary);
-  font-size: 0.8rem;
-}
-.rc-envoi a {
-  color: var(--ink-primary);
-  text-underline-offset: 3px;
-}
 
 /* ═══ LA FICHE DU RESULTAT, EN GRAND ═══
    Mika, le 27 septembre 2026 : sur ordinateur, une carte qui prend la place.
@@ -506,5 +553,35 @@
   }
   .rc-part {
     display: none;
+  }
+}
+
+/* LES DEUX GESTES SOUS LE RESULTAT : ouvrir le style, ecouter sur YouTube.
+   Ils vivaient dans la feuille de la surcouche de l'accueil, que la page
+   /reconnaitre/ ne chargeait pas : sur la page, ils sortaient nus. */
+.rc-gestes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-12);
+  margin: var(--espace-24) 0 0;
+}
+.rc-geste {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--espace-12) var(--espace-16);
+  border-radius: 999px;
+  border: 1px solid var(--filet);
+  color: var(--ink-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+.rc-geste-plein {
+  background: var(--accent);
+  border-color: transparent;
+  color: var(--sur-accent);
+}
+@media (max-width: 899px) {
+  .rc-geste {
+    min-height: 44px;
   }
 }

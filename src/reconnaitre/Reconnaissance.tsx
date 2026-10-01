@@ -1,9 +1,14 @@
-/* RECONNAITRE : ce qui passe a la radio, a la tele, dans la piece.
+/* RECONNAITRE : ce qui passe en soiree, a la radio, dans la piece.
  *
- * LE COMPOSANT VIT A DEUX ENDROITS depuis le 27 septembre 2026 : la page
- * /reconnaitre/, gardee pour les liens existants, et la surcouche de
- * l'accueil, ouverte par le bouton sous la banniere sans changer d'adresse.
- * Meme code, meme micro, meme resultat.
+ * LE COMPOSANT VIT A DEUX ENDROITS : la page /reconnaitre/, et l'accueil,
+ * ou il s'ouvre DANS la page sous le bouton depuis le 30 septembre 2026.
+ * Il s'ouvrait en surcouche plein ecran ; Mika : « quand on clique on ne
+ * voit plus rien d'autre, je trouve ca dommage ». Meme code, meme micro,
+ * meme resultat.
+ *
+ * UN CLIC SUR LA QUESTION LANCE L'ECOUTE. Le bouton de l'accueil et le lien
+ * du menu (#/reconnaitre/ecouter) demandent `demarrer` : on ne fait pas
+ * cliquer deux fois quelqu'un qui a deja dit ce qu'il voulait.
  *
  * DEUX RESULTATS INDEPENDANTS, ET L'ORDRE COMPTE.
  *
@@ -24,7 +29,10 @@
  * accepter la premiere sans la seconde. */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { t } from '../langue/langue.ts';
+import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
+import { langue, t } from '../langue/langue.ts';
+import { FaIcon } from '../atlas/FaIcon.tsx';
+import { useSession } from '../lib/useSession.ts';
 import { Apparition } from '../design/mouvement.tsx';
 import { FAMILIES, STRUCTURES } from '../atlas/structures.ts';
 import { slug } from '../lib/chemins.ts';
@@ -32,6 +40,7 @@ import { capturer, NIVEAU_MINIMAL, SECONDES_CAPTURE } from './capture.ts';
 import { chargerMoteur, POIDS_MODELE_MO, type Prediction } from './modele.ts';
 import { familleSonaa, nomCourt, styleDeLEtiquette } from './discogs-vers-sonaa.ts';
 import { ajouterAlHistorique, lireHistorique, viderHistorique, type Reconnaissance } from './historique.ts';
+import { ajouterEcouteAuCompte, fusionner, lireEcoutesDuCompte, viderEcoutesDuCompte } from './ecoutes-compte.ts';
 import type { MorceauReconnu } from './audd.ts';
 import { scanAEnregistrer } from './scan.ts';
 import './reconnaitre.css';
@@ -93,13 +102,29 @@ function cheminDeLaFamille(id: string): string | null {
   return famille ? `/styles/${slug(famille.label)}/` : null;
 }
 
+/* LA DATE D'UNE ECOUTE, courte : « mar. 30 sept., 21 h 14 ». */
+const FORMAT_QUAND = new Intl.DateTimeFormat(langue === 'fr' ? 'fr-CA' : 'en-CA', {
+  weekday: 'short',
+  day: 'numeric',
+  month: 'short',
+  hour: '2-digit',
+  minute: '2-digit',
+});
+
 interface Props {
-  /** Vrai dans la surcouche de l'accueil : le titre est celui de la fenetre,
-      et les deux boutons d'action suivent le resultat. */
-  readonly enSurcouche?: boolean;
+  /** Vrai sur l'accueil : la question est deja ecrite sur le bouton qui
+      ouvre, le composant ne la repete pas et ne touche pas au titre de
+      l'onglet. */
+  readonly enLigne?: boolean;
+  /** Lance l'ecoute des l'ouverture (ou la demande d'accord, la premiere
+      fois). */
+  readonly demarrer?: boolean;
+  /** Fait defiler jusqu'a l'historique a l'ouverture : l'entree « Mes
+      ecoutes » du menu du compte. */
+  readonly versHistorique?: boolean;
 }
 
-export function Reconnaissance({ enSurcouche = false }: Props) {
+export function Reconnaissance({ enLigne = false, demarrer = false, versHistorique = false }: Props) {
   const [etat, setEtat] = useState<Etat>('repos');
   const [avancement, setAvancement] = useState(0);
   const [seconde, setSeconde] = useState(0);
@@ -110,8 +135,18 @@ export function Reconnaissance({ enSurcouche = false }: Props) {
      refuse, quota atteint », et la page se taisait dans les deux cas. */
   const [raisonMorceau, setRaisonMorceau] = useState<string>('');
   const [erreur, setErreur] = useState<string>('');
-  const [historique, setHistorique] = useState<readonly Reconnaissance[]>([]);
+  /* LES DEUX MEMOIRES : celle du navigateur, toujours, et celle du compte
+     quand on est connecte. Voir ecoutes-compte.ts. */
+  const [local, setLocal] = useState<readonly Reconnaissance[]>([]);
+  const [duCompte, setDuCompte] = useState<readonly Reconnaissance[]>([]);
+  const historique = useMemo(() => fusionner(duCompte, local), [duCompte, local]);
+  const { session } = useSession();
+  const compte = session?.user.id ?? null;
   const [morceauActif, setMorceauActif] = useState(false);
+  /* LA SONDE PEUT REPONDRE APRES LE CLIC : l'ecoute lancee des l'ouverture
+     part avant elle. Le resultat est donc lu dans une reference au moment
+     d'envoyer, dix secondes plus tard, et non fige dans la fonction. */
+  const morceauActifRef = useRef(false);
   /* LE CLIC VAUT CONSENTEMENT, ET L'ENVOI SE DEBRANCHE. Mika, le 23 septembre
      2026 : « plus aucune case a cocher ». La fenetre ne demande plus que le
      micro, une fois, et s'en souvient ; l'envoi de huit secondes a AudD est
@@ -122,12 +157,29 @@ export function Reconnaissance({ enSurcouche = false }: Props) {
   const vivant = useRef(true);
 
   useEffect(() => {
-    document.title = `${t.quelStyleJoue} · SONAA`;
-    setHistorique(lireHistorique());
+    if (!enLigne) document.title = `${t.quelleTrack} · SONAA`;
+    setLocal(lireHistorique());
     return () => {
       vivant.current = false;
     };
-  }, []);
+  }, [enLigne]);
+
+  useEffect(() => {
+    let annule = false;
+    setDuCompte([]);
+    if (!compte) return;
+    void lireEcoutesDuCompte().then((lues) => {
+      if (!annule && lues) setDuCompte(lues);
+    });
+    return () => {
+      annule = true;
+    };
+  }, [compte]);
+
+  const blocHistorique = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (versHistorique) blocHistorique.current?.scrollIntoView({ block: 'start' });
+  }, [versHistorique]);
 
   /* LA ROUTE DU MORCEAU EST INTERROGEE UNE FOIS, A L'OUVERTURE. Sans cle,
      elle repond `disponible: false` et la section n'existera pas.
@@ -141,9 +193,11 @@ export function Reconnaissance({ enSurcouche = false }: Props) {
     void fetch(`${PASSERELLE}/api/reconnaitre-track`)
       .then((r) => (r.ok ? r.json() : { disponible: false }))
       .then((d: { disponible?: boolean }) => {
+        morceauActifRef.current = d.disponible === true;
         if (!annule) setMorceauActif(d.disponible === true);
       })
       .catch(() => {
+        morceauActifRef.current = false;
         if (!annule) setMorceauActif(false);
       });
     return () => {
@@ -183,7 +237,7 @@ export function Reconnaissance({ enSurcouche = false }: Props) {
       /* LE MORCEAU EST DEMANDE APRES, ET SON ECHEC N'EFFACE PAS LE STYLE. */
       let reconnu: MorceauReconnu | null = null;
       let raison = '';
-      if (morceauActif && envoiMorceau) {
+      if (morceauActifRef.current && envoiMorceau) {
         try {
           const r = await fetch(`${PASSERELLE}/api/reconnaitre-track`, {
             method: 'POST',
@@ -226,19 +280,38 @@ export function Reconnaissance({ enSurcouche = false }: Props) {
       }
       setEtat('resultat');
 
-      setHistorique(
-        ajouterAlHistorique({
-          quand: Date.now(),
-          styles: trouves.map((s) => ({ discogs: s.discogs, score: s.score })),
-          ...(reconnu ? { artiste: reconnu.artiste, titre: reconnu.titre } : {}),
-        })
-      );
+      const ecoute: Reconnaissance = {
+        quand: Date.now(),
+        styles: trouves.map((s) => ({ discogs: s.discogs, score: s.score })),
+        ...(reconnu ? { artiste: reconnu.artiste, titre: reconnu.titre } : {}),
+        ...(reconnu?.pochette ? { pochette: reconnu.pochette } : {}),
+      };
+      /* CONNECTE, L'ECOUTE VA AU COMPTE ; si la base refuse, le navigateur
+         la garde, pour qu'elle ne se perde pas. */
+      if (compte) {
+        setDuCompte((avant) => [ecoute, ...avant]);
+        void ajouterEcouteAuCompte(ecoute).then((ok) => {
+          if (!ok) setLocal(ajouterAlHistorique(ecoute));
+        });
+      } else {
+        setLocal(ajouterAlHistorique(ecoute));
+      }
     } catch (e) {
       const nom = e instanceof Error ? e.name : '';
       setErreur(nom === 'NotAllowedError' || nom === 'NotFoundError' ? t.reconnaitreErreurMicro : t.reconnaitreErreurStyle);
       setEtat('erreur');
     }
-  }, [morceauActif, envoiMorceau]);
+  }, [envoiMorceau, compte]);
+
+  /* L'OUVERTURE QUI LANCE L'ECOUTE. Une seule fois, meme si React rejoue
+     l'effet en developpement. */
+  const demarre = useRef(false);
+  useEffect(() => {
+    if (!demarrer || demarre.current) return;
+    demarre.current = true;
+    if (microConsenti) void lancer();
+    else setEtat('consentement');
+  }, [demarrer, microConsenti, lancer]);
 
   const enMarche = etat === 'chargement' || etat === 'ecoute' || etat === 'analyse';
 
@@ -266,11 +339,13 @@ export function Reconnaissance({ enSurcouche = false }: Props) {
 
   return (
     <>
-      <div className={enSurcouche ? 'rc rc-surcouche' : 'rc'}>
-        <header className="credits-head">
-          <h1>{t.quelStyleJoue}</h1>
-          <p className="credits-lede">{t.reconnaitreChapeau}</p>
-        </header>
+      <div className={enLigne ? 'rc rc-en-ligne' : 'rc'}>
+        {!enLigne && (
+          <header className="credits-head">
+            <h1>{t.quelleTrack}</h1>
+            <p className="credits-lede">{t.reconnaitreChapeau}</p>
+          </header>
+        )}
 
         <div className="credits-body">
           <div className="rc-action">
@@ -295,15 +370,19 @@ export function Reconnaissance({ enSurcouche = false }: Props) {
               )}
               <span className="rc-bouton-mot">{libelleBouton}</span>
             </button>
+            {/* LE POIDS DU MODELE ET L'ENVOI A AUDD SONT ECRITS, ET NE SE
+                VOIENT PAS. Mika, le 30 septembre 2026 : « je suis conscient
+                qu'il faut l'afficher, cache-le mais laisse-le ecrit, ca ne
+                doit pas se voir ». Les deux phrases restent dans la page, lues
+                par les lecteurs d'ecran et les moteurs ; la feuille les retire
+                de l'ecran (voir reconnaitre.css). L'envoi est aussi dit sur la
+                page de confidentialite. Le lien ne prend pas le focus : un
+                lien invisible qui le prendrait egarerait le clavier. */}
             <p className="rc-poids">{t.reconnaitrePoids(POIDS_MODELE_MO)}</p>
-            {/* LA LIGNE SUR L'ENVOI A AUDD, EN PETIT, SANS INTERRUPTEUR. Retiree
-                puis remise le meme jour, le 27 septembre 2026 : « remets la
-                ligne, en petit, avec AudD en lien ; l'interrupteur reste
-                retire ». L'envoi reste actif, memorise. */}
             {morceauActif && (
               <p className="rc-envoi">
                 {t.reconnaitreEnvoiAvant}
-                <a href="https://audd.io" target="_blank" rel="noreferrer noopener">
+                <a href="https://audd.io" target="_blank" rel="noreferrer noopener" tabIndex={-1}>
                   AudD
                 </a>
                 {t.reconnaitreEnvoiApres}
@@ -463,33 +542,55 @@ export function Reconnaissance({ enSurcouche = false }: Props) {
             </Apparition>
           )}
 
-          <section className="rc-bloc">
+          {/* ═══ L'HISTORIQUE ═══ Connecte, il vient du compte et suit d'un
+              appareil a l'autre ; sinon du navigateur. Chaque ecoute porte
+              sa pochette, le morceau, les styles et le moment : c'est ce
+              qu'on cherche le lendemain d'une soiree. */}
+          <section className="rc-bloc rc-ecoutes" id="ecoutes" ref={blocHistorique}>
             <h2 className="rc-titre">
               {t.reconnaitreHistorique}
               {historique.length > 0 && (
                 <button
                   type="button"
                   className="rc-effacer"
-                  onClick={() => setHistorique(viderHistorique())}
+                  onClick={() => {
+                    setLocal(viderHistorique());
+                    setDuCompte([]);
+                    if (compte) void viderEcoutesDuCompte(compte);
+                  }}
                 >
                   {t.reconnaitreEffacer}
                 </button>
               )}
             </h2>
+            {compte && <p className="rc-note rc-compte">{t.reconnaitreDansLeCompte}</p>}
             {historique.length === 0 ? (
               <p className="rc-note">{t.reconnaitreAucunHistorique}</p>
             ) : (
               <ul className="rc-historique">
                 {historique.map((r) => (
                   <li key={r.quand} className="rc-passe">
-                    <span className="rc-passe-styles">
-                      {r.styles.map((s) => nomAtlas(s.discogs)).join(', ')}
+                    <span className="rc-passe-pochette" aria-hidden="true">
+                      {r.pochette ? (
+                        <img src={r.pochette} alt="" loading="lazy" />
+                      ) : (
+                        <FaIcon icon={faMicrophone} className="rc-passe-micro" />
+                      )}
                     </span>
-                    {r.titre && (
-                      <span className="rc-passe-morceau">
-                        {r.artiste} · {r.titre}
+                    <span className="rc-passe-texte">
+                      {r.titre ? (
+                        <>
+                          <span className="rc-passe-titre">{r.titre}</span>
+                          <span className="rc-passe-artiste">{r.artiste}</span>
+                        </>
+                      ) : null}
+                      <span className="rc-passe-styles">
+                        {r.styles.map((s) => nomAtlas(s.discogs)).join(', ')}
                       </span>
-                    )}
+                      <time className="rc-passe-quand" dateTime={new Date(r.quand).toISOString()}>
+                        {FORMAT_QUAND.format(r.quand)}
+                      </time>
+                    </span>
                   </li>
                 ))}
               </ul>

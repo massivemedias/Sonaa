@@ -39,7 +39,7 @@ const PAGES = [
   { nom: 'accueil', chemin: '/', attend: '.hero-titre' },
   { nom: 'genre', chemin: '/styles/techno/dub-techno/', attend: '.pv-fiche' },
   { nom: 'news', chemin: '/news/', attend: '.news-une, .news-carte, .news-breve' },
-  { nom: 'micro', chemin: '/', attend: '.micro-bouton', ouvrir: '.micro-bouton', puis: '.rc-surcouche-panneau .rc-bouton' },
+  { nom: 'micro', chemin: '/', attend: '.bt', ouvrir: '.bt', puis: '.rc-deplie .rc-bouton' },
 ];
 
 const navigateur = await chromium.launch({ channel: 'chrome', headless: true });

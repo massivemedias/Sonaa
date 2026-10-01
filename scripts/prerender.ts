@@ -685,11 +685,11 @@ ecrire({
 ecrire({
   chemin: '/reconnaitre/',
   hash: '#/reconnaitre',
-  titre: 'Quel style joue là ? Identifier un style de musique électronique au micro · SONAA',
+  titre: 'Quelle est cette track qui joue ? Identifier un morceau et son style au micro · SONAA',
   description:
-    'Faites écouter à SONAA ce qui passe à la radio ou dans la pièce : le style est reconnu sur votre appareil, sans que le son en sorte.',
-  corps: `${entete([{ nom: 'Quel style joue là ?', href: '/reconnaitre/' }])}<h1>Quel style joue là ?</h1><p>Faites écouter à SONAA ce qui passe à la radio, à la télé ou dans la pièce. Le style est reconnu sur votre appareil, sans que le son en sorte.</p><h2>Comment ça marche</h2><p>Le micro écoute dix secondes, après votre accord. Un modèle de reconnaissance tourne dans votre navigateur et rend les trois styles les plus probables, rattachés aux 219 genres de l’atlas quand ils y existent. Le son ne part sur aucun serveur.</p><p>Le style est une estimation faite sur dix secondes, pas un verdict : une voix, une publicité ou un enchaînement le trompent.</p><p><a href="/styles/">L’atlas des styles</a></p>`,
-  jsonld: [filAriane([{ nom: 'Quel style joue là ?', href: '/reconnaitre/' }])],
+    'Faites écouter à SONAA ce qui passe en soirée, à la radio ou dans la pièce : le morceau, son artiste et son style.',
+  corps: `${entete([{ nom: 'Quelle est cette track qui joue ?', href: '/reconnaitre/' }])}<h1>Quelle est cette track qui joue ?</h1><p>Faites écouter à SONAA ce qui passe en soirée, à la radio ou dans la pièce : le morceau, son artiste et son style.</p><h2>Comment ça marche</h2><p>Le micro écoute dix secondes, après votre accord. Le style est reconnu dans votre navigateur et rattaché aux 219 genres de l’atlas quand il y existe ; le morceau est identifié par AudD, à qui huit secondes de son sont envoyées et qui ne les garde pas.</p><p>Connecté, vous retrouvez vos écoutes d’un appareil à l’autre.</p><p>Le style est une estimation faite sur dix secondes, pas un verdict : une voix, une publicité ou un enchaînement le trompent.</p><p><a href="/styles/">L’atlas des styles</a></p>`,
+  jsonld: [filAriane([{ nom: 'Quelle est cette track qui joue ?', href: '/reconnaitre/' }])],
 });
 
 /* LE PANIER A TOUJOURS ETE HORS INDEX : il est vide pour tout le monde sauf

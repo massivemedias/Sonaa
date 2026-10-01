@@ -34,7 +34,6 @@ import MACHINES from '../data/machines.json';
 import ILLUSTRATIONS from '../data/illustrations.json';
 import {
   faChevronLeft,
-  faMicrophone,
   faPlay,
   faPause
 } from '@fortawesome/free-solid-svg-icons';
@@ -50,6 +49,8 @@ import { contributionsActives } from '../lib/config.ts';
 import { aUnCours } from '../lib/cours.ts';
 import { useTexteAnglais } from '../lib/anglais.ts';
 import { CoursDuStyle } from './CoursDuStyle.tsx';
+import { BoutonTrack } from '../reconnaitre/BoutonTrack.tsx';
+import { ADRESSE_ECOUTER } from '../reconnaitre/adresses.ts';
 import './parcourir.css';
 
 /* --- L'adresse ------------------------------------------------------------ */
@@ -367,20 +368,18 @@ export function ParcourirView() {
                 chose qu'on ne sait pas nommer, c'est-a-dire ici, devant
                 quatorze familles et deux cent trente-trois genres.
 
-                LE BOUTON PORTE LA QUESTION, PAS LE NOM DE L'OUTIL. « Quel
-                style joue la ? » dit ce qu'on obtient ; « Reconnaitre »
-                disait ce que la machine fait. C'est aussi le titre de la page
-                d'arrivee, donc la meme clef du dictionnaire aux deux bouts, et
-                aucune chance qu'une des deux derive.
+                LE BOUTON PORTE LA QUESTION, PAS LE NOM DE L'OUTIL. « Quelle
+                est cette track qui joue ? » dit ce qu'on obtient ;
+                « Reconnaitre » disait ce que la machine fait. C'est aussi le
+                titre de la page d'arrivee, donc la meme clef du dictionnaire
+                aux deux bouts. Le bouton est celui de l'accueil, depuis le 30
+                septembre 2026 : voir reconnaitre/BoutonTrack.tsx.
 
                 UN LIEN, ET NON UN BOUTON : il change d'adresse. Le clavier,
                 le clic du milieu et le menu contextuel marchent donc sans
                 qu'on ait rien a ecrire. */}
             <Apparition>
-              <a className="pv-reco" href="#/reconnaitre">
-                <FaIcon icon={faMicrophone} className="pv-reco-icone" />
-                <span className="pv-reco-mot">{t.quelStyleJoue}</span>
-              </a>
+              <BoutonTrack href={ADRESSE_ECOUTER} />
             </Apparition>
             {/* LES TROIS GRANDS CHIFFRES DE LA V2, lus dans le corpus. Voir
                 parcourir.css pour la raison d'etre ici et non sur l'accueil. */}

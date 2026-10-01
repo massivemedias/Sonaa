@@ -663,7 +663,12 @@ interface Dictionnaire {
      libelle, une seule clef. « Reconnaitre » nommait l'outil ; la question
      nomme ce que le visiteur vient chercher, et c'est elle qui tient sur un
      bouton au milieu d'une page de styles. */
-  readonly quelStyleJoue: string;
+  readonly quelleTrack: string;
+  readonly quelleTrackCourt: string;
+  readonly quelleTrackOnglet: string;
+  readonly quelleTrackSous: string;
+  readonly reconnaitreDansLeCompte: string;
+  readonly mesEcoutes: string;
   readonly reconnaitreChapeau: string;
   readonly reconnaitreEcouter: string;
   readonly reconnaitreEnEcoute: (s: number) => string;
@@ -1346,10 +1351,15 @@ const FR: Dictionnaire = {
   heroVilleAutre: 'Changer de ville',
   heroChoisirVille: 'Choisir votre ville',
   heroAffiches: 'Les prochaines soirées',
-  quelStyleJoue: 'Quel style joue là ?',
+  quelleTrack: 'Quelle est cette track qui joue ?',
+  quelleTrackCourt: 'Quelle track ?',
+  quelleTrackOnglet: 'Track ?',
+  quelleTrackSous: 'SONAA écoute dix secondes et vous dit tout.',
+  reconnaitreDansLeCompte: 'Gardées dans votre compte, visibles de vous seul.',
+  mesEcoutes: 'Mes écoutes',
   reconnaitreChapeau:
-    'Faites écouter à SONAA ce qui passe à la radio, à la télé ou dans la pièce. ' +
-    'Le style est reconnu sur votre appareil, sans que le son en sorte.',
+    'Faites écouter à SONAA ce qui passe en soirée, à la radio ou dans la pièce : ' +
+    'le morceau, son artiste et son style.',
   reconnaitreEcouter: 'Écouter',
   reconnaitreEnEcoute: (s) => `Écoute… ${s} s`,
   reconnaitreAnalyse: 'Analyse…',
@@ -2032,10 +2042,15 @@ const EN: Dictionnaire = {
   heroVilleAutre: 'Change city',
   heroChoisirVille: 'Choose your city',
   heroAffiches: 'The nights coming up',
-  quelStyleJoue: 'What style is playing?',
+  quelleTrack: 'What track is playing?',
+  quelleTrackCourt: 'What track?',
+  quelleTrackOnglet: 'Track?',
+  quelleTrackSous: 'SONAA listens for ten seconds and tells you everything.',
+  reconnaitreDansLeCompte: 'Kept in your account, visible only to you.',
+  mesEcoutes: 'My listens',
   reconnaitreChapeau:
-    'Let SONAA listen to what is playing on the radio, the TV or in the room. ' +
-    'The style is recognised on your own device, and the sound never leaves it.',
+    'Let SONAA listen to what is playing at a party, on the radio or in the room: ' +
+    'the track, its artist and its style.',
   reconnaitreEcouter: 'Listen',
   reconnaitreEnEcoute: (s) => `Listening… ${s}s`,
   reconnaitreAnalyse: 'Analysing…',

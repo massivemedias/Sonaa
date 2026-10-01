@@ -283,41 +283,17 @@ body:has(.pwa-bandeau) .pv-corps {
 
 /* La sortie vers les autres vues, en pied de la premiere page seulement : on
    ne la repete pas a chaque niveau, ou elle deviendrait du decor. */
-/* ═══ LE BOUTON QUI POSE LA QUESTION ═══
-
-   La reconnaissance a quitte le menu le 21 septembre 2026 et entre par ici.
-   Elle ouvre donc la page, avant le chapeau et avant la grille.
-
-   IL PREND LA LARGEUR, comme les tuiles au-dessous, et leur rayon. Ce n'est
-   pas un ornement pose sur la page, c'est le premier objet de la grille,
-   sauf qu'il mene ailleurs : l'accent plein, depuis ADR-089, dit cette
-   difference. Un bouton etroit aurait eu l'air d'une reclame.
-
-   LE MICRO EST LA POUR ETRE RECONNU DE LOIN, pas pour decorer : c'est le seul
-   dessin de la page, et il dit en un coup d'oeil que celui-ci ecoute quand
-   tout le reste se lit. */
-.pv-reco {
+/* LE BOUTON QUI POSE LA QUESTION est celui de l'accueil depuis le 30
+   septembre 2026 : son dessin vit dans reconnaitre/bouton-track.css. Ici,
+   il ne prend que sa place, en tete de la grille et de sa largeur, comme
+   les tuiles au-dessous. */
+.pv-corps .bt {
   display: flex;
-  align-items: center;
-  gap: var(--espace-12);
+  width: 100%;
   margin: var(--espace-16) 0 0;
-  padding: var(--espace-16) var(--espace-24);
-  border-radius: 26px;
-  /* EN ACCENT PLEIN, depuis ADR-089 : c'est le bouton qui ecoute, le
-     seul objet de la page qui fait quelque chose de different, et il se voit
-     comme tel. */
-  background: var(--accent);
-  color: var(--sur-accent);
-  text-decoration: none;
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: var(--serrage);
-  transition: filter 160ms ease, transform 160ms ease;
 }
-.pv-reco:hover,
-.pv-reco:focus-visible {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
+.pv-corps .bt-egaliseur {
+  margin-left: auto;
 }
 
 /* ═══ LES TROIS GRANDS CHIFFRES, DEPUIS LA V2 ═══
@@ -360,15 +336,6 @@ body:has(.pwa-bandeau) .pv-corps {
   text-transform: uppercase;
   color: var(--ink-secondary);
 }
-.pv-reco-icone {
-  flex: 0 0 auto;
-  width: 1.05rem;
-  height: 1.05rem;
-}
-.pv-reco-mot {
-  min-width: 0;
-}
-
 .pv-intro {
   /* La largeur vient de `.intro-page` : voir design/base.css. */
   margin: var(--espace-16) 0 var(--espace-12);

@@ -16,6 +16,9 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { t } from '../langue/langue.ts';
 import { BadgePanier } from '../marchand/BadgePanier.tsx';
 import { MARCHAND_ACTIF } from '../config.ts';
+import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
+import { FaIcon } from './FaIcon.tsx';
+import { ADRESSE_ECOUTER } from '../reconnaitre/adresses.ts';
 import './site-nav.css';
 
 type SiteCourant =
@@ -67,22 +70,28 @@ const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
   ...(MARCHAND_ACTIF ? [{ href: '#/tracks', id: 'tracks' as const, label: t.lesTracks }] : []),
 ];
 
-/* ═══ LA RECONNAISSANCE N'EST PLUS UNE PORTE DU MENU ═══
+/* ═══ LA RECONNAISSANCE REVIENT DANS LE MENU, MAIS PAS COMME UNE PORTE ═══
  *
- * Elle y a ete du 19 au 21 septembre 2026, entre Mixtapes et Tracks. Ce
- * n'est pas une section du site, c'est un geste : on ne la cherche pas en
- * arrivant, on y pense quand on entend quelque chose qu'on ne nomme pas.
- * Une septieme entree la mettait au meme rang que les six sections, qui,
- * elles, portent du contenu.
+ * Elle y a ete du 19 au 21 septembre 2026, entre Mixtapes et Tracks, au meme
+ * rang que les sections qui portent du contenu, et elle en etait sortie pour
+ * cette raison : ce n'est pas une section, c'est un geste.
  *
- * ELLE ENTRE PAR L'ATLAS, ou la question se pose. Un bouton large en haut de
- * /styles/ demande « Quel style joue la ? » et ouvre la meme page. Voir
- * ParcourirView.tsx.
- *
- * LA ROUTE RESTE VIVANTE, et c'est le point : #/reconnaitre et /reconnaitre/
- * repondent comme avant, les liens partages tiennent, l'historique local du
- * visiteur aussi, et `courantOf` reconnait toujours l'adresse pour que la
- * page s'allume quand on y est. Seule l'annonce a bouge. */
+ * Mika, le 30 septembre 2026 : « je voudrais le bouton dans le menu aussi,
+ * mobile ou desktop, et qu'il se dissocie du reste pour attirer le regard ».
+ * Elle revient donc en GESTE et non en porte : une pilule d'accent avec son
+ * micro, a part des mots, qui lance l'ecoute en arrivant
+ * (#/reconnaitre/ecouter). Sous 1180 px la pilule ne garde que le micro,
+ * pour que la rangee tienne a cote du compte. Voir site-nav.css. */
+function BoutonTrackNav() {
+  return (
+    <a className="sitenav-track" href={ADRESSE_ECOUTER} title={t.quelleTrack} aria-label={t.quelleTrack}>
+      <FaIcon icon={faMicrophone} className="sitenav-track-icone" />
+      <span className="sitenav-track-mot" aria-hidden="true">
+        {t.quelleTrackCourt}
+      </span>
+    </a>
+  );
+}
 
 /* CE QUI APPARTIENT AU VISITEUR, apres le separateur : son panier, son
    compte. « A propos » a quitte la rangee en meme temps que les icones : a
@@ -192,6 +201,7 @@ export function SiteNav({ variant, extra }: Props) {
       <span className="sitenav-groupe">
         {VUES.map(lien)}
       </span>
+      {variant === 'overlay' && <BoutonTrackNav />}
       <span className="sitenav-sep" aria-hidden="true">
         ·
       </span>

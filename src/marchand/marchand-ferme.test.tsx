@@ -74,7 +74,7 @@ describe('la couche marchande fermee', () => {
   it('rend Styles dans la barre du telephone, et une seule fois', () => {
     render(<BarreBas />);
     const adresses = screen.getAllByRole('link').map((l) => l.getAttribute('href'));
-    expect(adresses).toEqual(['#/calendrier', '#/parcourir', '#/mixtapes', '#/news']);
+    expect(adresses).toEqual(['#/calendrier', '#/parcourir', '#/reconnaitre/ecouter', '#/mixtapes', '#/news']);
   });
 
   it('ne redit pas Styles dans le bouton Plus', () => {

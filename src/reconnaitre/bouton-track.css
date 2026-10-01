@@ -1,0 +1,193 @@
+/* LE BOUTON « QUELLE EST CETTE TRACK QUI JOUE ? ». Voir BoutonTrack.tsx.
+
+   Il se detache du reste par trois choses que rien d'autre sur le site ne
+   porte ensemble : un degrade de l'accent vers un terracotta plus rouge, un
+   halo de la meme couleur sous lui, et du mouvement. Il reste dans le
+   dessin : la pilule, l'accent, la police et les rayons sont ceux du site.
+
+   LE DEGRADE NE PASSE JAMAIS PAR LE BLANC NI PAR LE NOIR, pour que l'encre
+   posee dessus garde son contraste dans les deux themes : en sombre l'encre
+   est presque noire sur un accent clair, en clair elle est blanche sur un
+   accent fonce, et le rouge du melange a la meme clarte que l'accent. */
+
+.bt {
+  --bt-rouge: color-mix(in oklch, var(--accent) 72%, oklch(0.56 0.17 28));
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espace-16);
+  box-sizing: border-box;
+  max-width: 100%;
+  min-height: 64px;
+  padding: var(--espace-8) var(--espace-24) var(--espace-8) var(--espace-8);
+  border: 0;
+  border-radius: var(--rayon-pilule);
+  background: linear-gradient(115deg, var(--accent) 0%, var(--accent) 35%, var(--bt-rouge) 100%);
+  color: var(--sur-accent);
+  box-shadow:
+    0 14px 34px -16px color-mix(in oklch, var(--accent) 85%, transparent),
+    inset 0 1px 0 oklch(1 0 0 / 0.22);
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 180ms var(--motion-ease), box-shadow 180ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.bt:hover,
+.bt:focus-visible {
+  transform: translateY(-2px);
+  box-shadow:
+    0 20px 40px -16px color-mix(in oklch, var(--accent) 95%, transparent),
+    inset 0 1px 0 oklch(1 0 0 / 0.28);
+}
+.bt:focus-visible {
+  outline: 2px solid var(--ink-primary);
+  outline-offset: 3px;
+}
+
+/* UN REFLET PASSE, LENTEMENT, toutes les sept secondes : assez pour que
+   l'oeil s'y pose en arrivant, assez rare pour ne pas clignoter. */
+.bt::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(105deg, transparent 35%, oklch(1 0 0 / 0.16) 50%, transparent 65%);
+  transform: translateX(-100%);
+  animation: bt-reflet 7s ease-in-out 1.2s infinite;
+  pointer-events: none;
+}
+@keyframes bt-reflet {
+  0% { transform: translateX(-100%); }
+  18%, 100% { transform: translateX(100%); }
+}
+
+/* LA PASTILLE DU MICRO, ET SON ANNEAU QUI RESPIRE. */
+.bt-micro {
+  position: relative;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--sur-accent);
+  color: var(--accent);
+}
+.bt-micro::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--sur-accent);
+  animation: bt-souffle 2.4s ease-out infinite;
+}
+@keyframes bt-souffle {
+  0% { transform: scale(1); opacity: 0.55; }
+  100% { transform: scale(1.45); opacity: 0; }
+}
+.bt-micro-icone {
+  width: 18px;
+  height: 18px;
+}
+
+.bt-mots {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.bt-titre {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: var(--serrage);
+}
+.bt-sous {
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+/* L'EGALISEUR, le dessin du favicon, qui joue. */
+.bt-egaliseur {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 22px;
+  margin-left: var(--espace-8);
+}
+.bt-egaliseur i {
+  display: block;
+  width: 3px;
+  height: 100%;
+  border-radius: 2px;
+  background: currentColor;
+  transform-origin: center;
+  animation: bt-barre 1.1s ease-in-out infinite;
+}
+.bt-egaliseur i:nth-child(1) { animation-delay: -0.2s; }
+.bt-egaliseur i:nth-child(2) { animation-delay: -0.6s; animation-duration: 0.9s; }
+.bt-egaliseur i:nth-child(3) { animation-delay: -0.4s; animation-duration: 1.3s; }
+.bt-egaliseur i:nth-child(4) { animation-delay: -0.8s; }
+@keyframes bt-barre {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+
+/* OUVERT, LE BOUTON SE CALME : l'ecoute a lieu dessous, et c'est elle qui
+   bouge alors. */
+.bt[aria-expanded='true'] .bt-egaliseur i,
+.bt[aria-expanded='true'] .bt-micro::before,
+.bt[aria-expanded='true']::after {
+  animation: none;
+}
+.bt[aria-expanded='true'] .bt-egaliseur i {
+  transform: scaleY(0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bt,
+  .bt::after,
+  .bt-micro::before,
+  .bt-egaliseur i {
+    animation: none;
+    transition: none;
+  }
+  .bt::after,
+  .bt-micro::before {
+    display: none;
+  }
+  .bt-egaliseur i:nth-child(odd) {
+    transform: scaleY(0.55);
+  }
+}
+
+/* SUR TELEPHONE, IL PREND LA LARGEUR : c'est le premier geste de la page,
+   et une cible pleine largeur se touche sans viser. */
+@media (max-width: 720px) {
+  .bt {
+    display: flex;
+    width: 100%;
+    gap: var(--espace-12);
+    padding-right: var(--espace-16);
+  }
+  .bt-micro {
+    width: 44px;
+    height: 44px;
+  }
+  .bt-titre {
+    font-size: 0.95rem;
+  }
+  .bt-sous {
+    font-size: 0.75rem;
+  }
+  .bt-egaliseur {
+    margin-left: auto;
+  }
+}

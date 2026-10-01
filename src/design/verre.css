@@ -48,7 +48,7 @@
 .sp-carte-artiste,
 .pv-fiche,
 .rc-fiche,
-.rc-surcouche-panneau,
+.rc-deplie,
 .mini,
 .pied {
   border: 0;
@@ -62,7 +62,7 @@
    pour ce qui est en haut, vers le haut pour ce qui est en bas. */
 .entete-site,
 .pv-tete,
-.rc-surcouche-panneau,
+.rc-deplie,
 .cal-feuille {
   box-shadow: var(--verre-filet), var(--ombre-flottante);
 }
@@ -85,9 +85,9 @@
 }
 
 /* LE TROISIEME NIVEAU N'EST PLUS DU VERRE : un voile plat, sans flou. */
-:is(.entete-site, .pv-tete, .barre-bas, .authb-bouton, .pv-tuile, .cal-soiree, .cal-ville, .cal-feuille, .news-carte, .news-grand, .news-une, .news-source-carte, .sp-item, .sp-carte-artiste, .pv-fiche, .rc-fiche, .rc-surcouche-panneau, .mini, .pied)
-  :is(.entete-site, .pv-tete, .barre-bas, .authb-bouton, .pv-tuile, .cal-soiree, .cal-ville, .cal-feuille, .news-carte, .news-grand, .news-une, .news-source-carte, .sp-item, .sp-carte-artiste, .pv-fiche, .rc-fiche, .rc-surcouche-panneau, .mini, .pied)
-  :is(.entete-site, .pv-tete, .barre-bas, .authb-bouton, .pv-tuile, .cal-soiree, .cal-ville, .cal-feuille, .news-carte, .news-grand, .news-une, .news-source-carte, .sp-item, .sp-carte-artiste, .pv-fiche, .rc-fiche, .rc-surcouche-panneau, .mini, .pied) {
+:is(.entete-site, .pv-tete, .barre-bas, .authb-bouton, .pv-tuile, .cal-soiree, .cal-ville, .cal-feuille, .news-carte, .news-grand, .news-une, .news-source-carte, .sp-item, .sp-carte-artiste, .pv-fiche, .rc-fiche, .rc-deplie, .mini, .pied)
+  :is(.entete-site, .pv-tete, .barre-bas, .authb-bouton, .pv-tuile, .cal-soiree, .cal-ville, .cal-feuille, .news-carte, .news-grand, .news-une, .news-source-carte, .sp-item, .sp-carte-artiste, .pv-fiche, .rc-fiche, .rc-deplie, .mini, .pied)
+  :is(.entete-site, .pv-tete, .barre-bas, .authb-bouton, .pv-tuile, .cal-soiree, .cal-ville, .cal-feuille, .news-carte, .news-grand, .news-une, .news-source-carte, .sp-item, .sp-carte-artiste, .pv-fiche, .rc-fiche, .rc-deplie, .mini, .pied) {
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
   background: var(--voile-06);
@@ -112,7 +112,7 @@
   .sp-carte-artiste,
   .pv-fiche,
   .rc-fiche,
-  .rc-surcouche-panneau,
+  .rc-deplie,
     .mini,
   .pied {
     background: var(--verre-opaque);
@@ -135,7 +135,7 @@
   .sp-carte-artiste,
   .pv-fiche,
   .rc-fiche,
-  .rc-surcouche-panneau,
+  .rc-deplie,
     .mini,
   .pied {
     -webkit-backdrop-filter: none;

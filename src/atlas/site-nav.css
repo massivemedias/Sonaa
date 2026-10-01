@@ -122,6 +122,65 @@
   font-size: 0.9375rem;
 }
 
+/* ═══ « QUELLE TRACK ? », LE GESTE DANS LE MENU ═══ Voir SiteNav.tsx.
+
+   Il se detache des mots sans quitter le dessin : la meme pilule et le meme
+   degrade que le grand bouton de l'accueil (bouton-track.css), en petit, et
+   un micro dans une pastille. Pas de trait au survol : il n'est pas une
+   page, il ne s'allume donc jamais comme page courante. */
+.sitenav-track {
+  --bt-rouge: color-mix(in oklch, var(--accent) 72%, oklch(0.56 0.17 28));
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espace-8);
+  min-height: 34px;
+  margin-left: var(--espace-8);
+  padding: 0 var(--espace-12) 0 4px;
+  border-radius: var(--rayon-pilule);
+  background: linear-gradient(115deg, var(--accent) 0%, var(--accent) 40%, var(--bt-rouge) 100%);
+  color: var(--sur-accent);
+  box-shadow: 0 8px 20px -12px color-mix(in oklch, var(--accent) 90%, transparent);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: transform 160ms var(--motion-ease), filter 160ms ease;
+}
+.sitenav-track-icone {
+  box-sizing: content-box;
+  width: 12px;
+  height: 12px;
+  padding: 7px;
+  border-radius: 50%;
+  background: var(--sur-accent);
+  color: var(--accent);
+}
+.sitenav-track:hover,
+.sitenav-track:focus-visible {
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+}
+.sitenav-track:focus-visible {
+  outline: 2px solid var(--ink-primary);
+  outline-offset: 3px;
+}
+/* SOUS 1180 PX, LE MICRO SEUL : la rangee des mots, la pilule et le compte
+   ne tiennent plus ensemble entre 900 et 1180 px. Le nom reste dans
+   l'etiquette et dans la bulle. */
+@media (max-width: 1179px) {
+  .sitenav-track {
+    padding: 0 4px;
+  }
+  .sitenav-track-mot {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sitenav-track {
+    transition: none;
+  }
+}
+
 /* ═══ LE COMPTEUR DU PANIER ═══ Voir BadgePanier.tsx.
 
    Il n'apparaît que s'il compte quelque chose. Le chiffre est la donnée, la

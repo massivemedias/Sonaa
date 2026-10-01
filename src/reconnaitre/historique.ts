@@ -1,9 +1,10 @@
 /* LES VINGT DERNIERES RECONNAISSANCES, DANS LE NAVIGATEUR.
  *
- * Elles ne partent nulle part : ni base, ni passerelle, ni compte. C'est une
- * memoire locale, pour retrouver le style entendu la veille dans un bar, et
+ * Sans compte, elles ne partent nulle part : ni base, ni passerelle. C'est
+ * une memoire locale, pour retrouver le style entendu la veille dans un bar, et
  * elle s'efface d'un bouton. La modale de consentement le promet, ce module
- * est l'endroit ou cette promesse est tenue ou trahie.
+ * est l'endroit ou cette promesse est tenue ou trahie. Connecte, les
+ * nouvelles ecoutes vont au compte : voir ecoutes-compte.ts.
  *
  * VINGT, ET PAS PLUS. Une liste qui grandit sans fin finit par peser dans le
  * stockage local, qui est partage avec le panier, le theme et la langue. */
@@ -19,6 +20,8 @@ export interface Reconnaissance {
   /** Le morceau, quand AudD l'a reconnu. */
   readonly artiste?: string | undefined;
   readonly titre?: string | undefined;
+  /** La pochette, adresse https d'origine, jamais recopiee. */
+  readonly pochette?: string | undefined;
 }
 
 const vide: Reconnaissance[] = [];

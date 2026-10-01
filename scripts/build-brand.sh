@@ -10,17 +10,10 @@
 #                        opaque, transparent hors du disque. Source de tout
 #                        ce qui est carre ou rond, utilise TEL QUEL.
 #
-# Deux points mesures qui expliquent des choix qui pourraient surprendre :
-#   - le disque noir contre le fond du site (#0a0c10) ne donne que 1,07:1 de
-#     contraste, donc l'image de partage porte un filet ivoire, sinon le
-#     disque est invisible et le lettrage flotte ;
-#   - la variante de theme du favicon va dans le sens SOMBRE et non clair :
-#     un disque noir se detache tres bien d'une barre d'onglets claire, et
-#     se perd dans une barre sombre.
+# Le disque noir contre le fond du site ne donne que 1,07:1 de contraste :
+# c'est pourquoi le partage passe par une capture (voir plus bas).
 #
-# LES FAVICONS SONT LE S SEUL, en blanc. Le disque entier a ete essaye et
-# mesure illisible a 16 px : voir la section des favicons plus bas, qui porte
-# les chiffres et le raisonnement. Le disque reste partout ailleurs.
+# LES ICONES NE VIENNENT PLUS DE CES SOURCES. Voir scripts/refaire-favicon.sh.
 #
 # Usage : bash scripts/build-brand.sh   (depuis la racine du depot)
 
@@ -41,77 +34,12 @@ magick "$LOGO" -resize 1800x -strip "$B/sonaa-logo.png"
 # Disque servi, source des carres.
 magick "$CIRCLE" -resize 1024x1024 -strip "$B/sonaa-logo-circle.png"
 
-# iOS : coins remplis, opacite totale exigee par Apple.
-magick -size 180x180 xc:"$FOND" \
-  \( "$CIRCLE" -resize 180x180 \) -composite -alpha off "$B/apple-touch-icon.png"
-
-# Application : le disque tel quel, transparence hors disque conservee.
-magick "$CIRCLE" -resize 192x192 -strip "$B/icon-192.png"
-magick "$CIRCLE" -resize 512x512 -strip "$B/icon-512.png"
-
-# Maskable : marge de securite de 20 pour cent, fond opaque.
-magick -size 512x512 xc:"$FOND" \
-  \( "$CIRCLE" -resize 410x410 \) -gravity center -composite -alpha off \
-  "$B/icon-maskable-512.png"
-
-# ═══════════════════════════════════════════════════════════════════════
-# FAVICONS : LE S SEUL, EN BLANC. Ce n'est plus le disque entier.
-# ═══════════════════════════════════════════════════════════════════════
-#
-# CE CHOIX EN REMPLACE UN AUTRE, ET IL FAUT SAVOIR LEQUEL. Les favicons
-# etaient le DISQUE ENTIER, sur demande : « on reconnait une pastille avant de
-# lire un lettrage ». Le cout etait declare : a 16 px le lettrage n'est plus
-# qu'une trace claire au centre.
-#
-# Constat, en agrandissant les fichiers reellement produits : ce n etait pas une
-# trace claire, c etait une BAVURE GRISE. Le mot entier « Sonaa », cinq lettres
-# calligraphiees, etait reduit dans seize pixels : aucun trait ne survivait, et
-# dans un onglet on voyait une pastille sombre sans forme identifiable.
-#
-# On recadre donc sur le S initial, sa grande boucle et sa hampe, en BLANC sur
-# le fond du site. Une forme, pas un mot. Le disque reste partout ailleurs :
-# icones d'application, ecran de lancement, image de partage.
-#
-# LA DILATATION N'EST PAS UN ORNEMENT. Les delies de cette calligraphie font
-# moins d'un pixel une fois reduits : sans epaississement ils disparaissent par
-# endroits et la forme se casse. On dilate donc avant de reduire, et PLUS FORT
-# a 16 px qu'a 32, parce que le probleme y est deux fois pire.
-S_SOURCE="/tmp/sonaa-s.png"
-magick "$LOGO" -trim +repage -crop 26%x100%+0+0 +repage -trim +repage \
-  -resize 900x900\> "$S_SOURCE"
-
-# 32 et 48 px : dilatation moderee, les contreformes de la boucle restent
-# ouvertes et la forme se lit entierement.
-for T in 32 48; do
-  magick "$S_SOURCE" -alpha extract -morphology Dilate Disk:14 \
-    -resize $((T * 90 / 100))x$((T * 90 / 100)) \
-    -background none -gravity center -extent ${T}x${T} miff:- |
-  magick -size ${T}x${T} xc:"$FOND" - -compose over -composite -alpha off -strip \
-    "/tmp/sonaa-fav-$T.png"
-done
-cp /tmp/sonaa-fav-32.png "$B/favicon-32.png"
-
-# 16 px : dilatation FRANCHE. Les contreformes se ferment, et c'est assume :
-# a cette taille une forme pleine et reconnaissable vaut mieux qu'un dessin
-# fidele et illisible.
-magick "$S_SOURCE" -alpha extract -morphology Dilate Disk:22 \
-  -resize 14x14 -background none -gravity center -extent 16x16 miff:- |
-magick -size 16x16 xc:"$FOND" - -compose over -composite -alpha off -strip \
-  "$B/favicon-16.png"
-
-# L'ICO porte les trois tailles : le navigateur choisit celle qui lui va.
-magick "$B/favicon-16.png" "$B/favicon-32.png" /tmp/sonaa-fav-48.png "$B/favicon.ico"
-
-# Variante servie sous prefers-color-scheme: dark. Le filet suit le bord du
-# disque : un disque noir se perd dans une barre d'onglets sombre, et un
-# cadre rectangulaire autour d'une forme ronde se verrait comme une erreur.
-# Le disque est circonscrit a l'image : centre (2308,2308), rayon 2308. Le
-# filet est pose a 2280 pour rester dans le pixel du bord apres reduction.
-# Le S blanc se detache aussi bien d'une barre claire que d'une barre sombre :
-# la variante de theme n'a plus d'objet, les deux fichiers reprennent le meme
-# dessin pour ne pas casser les liens qui les declarent.
-cp "$B/favicon-16.png" "$B/favicon-dark-16.png"
-cp "$B/favicon-32.png" "$B/favicon-dark-32.png"
+# LES ICONES NE SORTENT PLUS D'ICI. Favicons, icone Apple, icones de
+# l'application : un seul dessin depuis le 30 septembre 2026, l'egaliseur de
+# public/brand/favicon.svg, et un seul ecrivain, scripts/refaire-favicon.sh.
+# Ce script les ecrivait depuis le disque et le S ; les laisser ici, c'etait
+# remettre l'ancien S au prochain lancement.
+sh scripts/refaire-favicon.sh
 
 # L'IMAGE DE PARTAGE N'EST PLUS ECRITE ICI. Elle l'a ete : le disque et son
 # filet, centres sur le fond du site. Elle disait qui publie, jamais ce qu'on

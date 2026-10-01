@@ -43,9 +43,8 @@ import { PiedDePage } from './PiedDePage.tsx';
 import { Apparition } from '../design/mouvement.tsx';
 import { HeroAccueil, type AfficheHero } from './HeroAccueil.tsx';
 import { lazy, Suspense } from 'react';
-import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
-import { FaIcon } from './FaIcon.tsx';
-import '../reconnaitre/surcouche.css';
+import '../reconnaitre/deplie.css';
+import { BoutonTrack } from '../reconnaitre/BoutonTrack.tsx';
 
 /* LE MICRO NE SE CHARGE QU'AU CLIC : son composant tire ensuite TensorFlow
    et Essentia, et l'accueil n'a pas a les payer. */
@@ -777,25 +776,19 @@ export function CalendrierPage() {
           />
         )}
         {/* ═══ LE MICRO, SOUS LA BANNIERE ═══ Mika, le 27 septembre 2026 :
-            « le scan vit sur l'accueil ». Le resultat s'ouvre par-dessus la
-            page ; l'adresse ne change pas, le calendrier reste dessous. */}
-        {avecHero && (
-          <button type="button" className="micro-bouton" onClick={() => setMicroOuvert(true)}>
-            <FaIcon icon={faMicrophone} />
-            <span>{t.quelStyleJoue}</span>
-          </button>
-        )}
+            « le scan vit sur l'accueil ». Depuis le 30 septembre, le clic
+            lance l'ecoute et la reconnaissance s'ouvre DANS la page, sous le
+            bouton : le calendrier reste visible dessous. Voir deplie.css. */}
+        {avecHero && <BoutonTrack ouvert={microOuvert} onClick={() => setMicroOuvert((o) => !o)} />}
         {microOuvert && (
-          <div className="rc-voile-page" onClick={() => setMicroOuvert(false)}>
-            <div className="rc-surcouche-panneau" role="dialog" aria-modal="true" aria-label={t.quelStyleJoue} onClick={(e) => e.stopPropagation()}>
-              <button type="button" className="rc-surcouche-fermer" onClick={() => setMicroOuvert(false)} aria-label={t.fermerLaSurcouche}>
-                ×
-              </button>
-              <Suspense fallback={<p className="rc-note">{t.unInstant}</p>}>
-                <Reconnaissance enSurcouche />
-              </Suspense>
-            </div>
-          </div>
+          <section className="rc-deplie" aria-label={t.quelleTrack}>
+            <button type="button" className="rc-deplie-fermer" onClick={() => setMicroOuvert(false)} aria-label={t.fermerLaSurcouche}>
+              ×
+            </button>
+            <Suspense fallback={<p className="rc-note">{t.unInstant}</p>}>
+              <Reconnaissance enLigne demarrer />
+            </Suspense>
+          </section>
         )}
 
         {/* LE CHAPEAU NE SE REPETE PAS SOUS LA BANNIERE. Quand elle est la,

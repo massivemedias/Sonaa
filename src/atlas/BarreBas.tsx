@@ -37,12 +37,14 @@ import {
   faCartShopping,
   faRecordVinyl,
   faLayerGroup,
+  faMicrophone,
 } from '@fortawesome/free-solid-svg-icons';
 import { courantDuSite } from './SiteNav.tsx';
 import { BadgePanier } from '../marchand/BadgePanier.tsx';
 import { MenuPlus } from './MenuPlus.tsx';
 import { t } from '../langue/langue.ts';
 import { MARCHAND_ACTIF } from '../config.ts';
+import { ADRESSE_ECOUTER } from '../reconnaitre/adresses.ts';
 import './barre-bas.css';
 
 /* La classe posee sur `body` quand la barre est rendue. C'est elle que les
@@ -58,7 +60,8 @@ export function BarreBas() {
 
   const courant = courantDuSite(window.location.hash);
 
-  /* CINQ ONGLETS AU MAXIMUM, ET PAS SIX. Au-dela, chaque onglet descend sous
+  /* CINQ ONGLETS AU MAXIMUM, ET PAS SIX (le geste « Track ? » n'est pas un
+     onglet, voir plus bas). Au-dela, chaque onglet descend sous
      la largeur d'un pouce sur un telephone etroit, et les libelles se
      coupent.
 
@@ -96,25 +99,37 @@ export function BarreBas() {
         { href: '#/news', id: 'news', label: t.leNews, icone: faNewspaper },
       ] as const);
 
+  const onglet = (o: (typeof onglets)[number]) => {
+    const actif = o.id === courant;
+    return (
+      <a key={o.id} href={o.href} className="barre-bas-onglet" aria-current={actif ? 'page' : undefined}>
+        <span className="barre-bas-pastille">
+          <FaIcon icon={o.icone} className="barre-bas-icone" />
+          {MARCHAND_ACTIF && o.id === 'panier' && <BadgePanier />}
+        </span>
+        <span>{o.label}</span>
+      </a>
+    );
+  };
+  const milieu = Math.ceil(onglets.length / 2);
+
   return (
     <nav className="barre-bas" aria-label={t.navigationDuSite}>
-      {onglets.map((o) => {
-        const actif = o.id === courant;
-        return (
-          <a
-            key={o.id}
-            href={o.href}
-            className="barre-bas-onglet"
-            aria-current={actif ? 'page' : undefined}
-          >
-            <span className="barre-bas-pastille">
-              <FaIcon icon={o.icone} className="barre-bas-icone" />
-              {MARCHAND_ACTIF && o.id === 'panier' && <BadgePanier />}
-            </span>
-            <span>{o.label}</span>
-          </a>
-        );
-      })}
+      {onglets.slice(0, milieu).map(onglet)}
+      {/* ═══ « TRACK ? », LE GESTE AU MILIEU ═══ Mika, le 30 septembre 2026 :
+          le bouton dans le menu, sur telephone aussi, et qu'il attire le
+          regard. Il n'est pas une page : sa pastille porte l'accent en
+          permanence, en degrade, quand celle des onglets ne s'allume que sur
+          la page courante. Il lance l'ecoute en arrivant. C'est le sixieme
+          element de la barre : mesure a 320 px, les libelles tiennent encore
+          (voir scripts/check-mobile.ts). */}
+      <a href={ADRESSE_ECOUTER} className="barre-bas-onglet barre-bas-track" aria-label={t.quelleTrack}>
+        <span className="barre-bas-pastille">
+          <FaIcon icon={faMicrophone} className="barre-bas-icone" />
+        </span>
+        <span aria-hidden="true">{t.quelleTrackOnglet}</span>
+      </a>
+      {onglets.slice(milieu).map(onglet)}
       {/* LE CINQUIEME ONGLET, qui n'est pas une destination mais un menu : il
           deplie ce qui ne tient pas dans quatre onglets, le profil, la page
           du projet et le legal. Il vivait dans l'en-tete, ou il recouvrait

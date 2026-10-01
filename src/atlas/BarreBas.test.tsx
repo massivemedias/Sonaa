@@ -7,6 +7,7 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { cleanup, render, screen } from '@testing-library/react';
 import { BarreBas, CLASSE_AVEC_BARRE } from './BarreBas.tsx';
+import { t } from '../langue/langue.ts';
 import { MARCHAND_ACTIF } from '../config.ts';
 
 afterEach(() => {
@@ -27,9 +28,18 @@ describe('BarreBas', () => {
     const liens = screen.getAllByRole('link');
     expect(liens.map((l) => l.getAttribute('href'))).toEqual(
       MARCHAND_ACTIF
-        ? ['#/calendrier', '#/tracks', '#/mixtapes', '#/news', '#/panier']
-        : ['#/calendrier', '#/parcourir', '#/mixtapes', '#/news']
+        ? ['#/calendrier', '#/tracks', '#/mixtapes', '#/reconnaitre/ecouter', '#/news', '#/panier']
+        : ['#/calendrier', '#/parcourir', '#/reconnaitre/ecouter', '#/mixtapes', '#/news']
     );
+  });
+
+  /* LE GESTE « TRACK ? » EST AU MILIEU, et il se nomme en entier pour un
+     lecteur d'ecran : le mot court sous la pastille ne dit pas ce qu'il
+     fait. Mika, le 30 septembre 2026. */
+  it('porte le geste de reconnaissance au milieu, nomme en entier', () => {
+    render(<BarreBas />);
+    const geste = screen.getByRole('link', { name: t.quelleTrack });
+    expect(geste.getAttribute('href')).toBe('#/reconnaitre/ecouter');
   });
 
   /* L'ANCIENNE ANCRE DOIT SURVIVRE. #/sets a ete l'adresse publique des

@@ -1,55 +1,43 @@
 #!/bin/sh
-# LE FAVICON DE L'ONGLET : LE S DE SONAA, DECOUPE DANS LE LOGO.
+# LES ICONES DE SONAA : UN EGALISEUR, DESSINE UNE FOIS EN VECTEUR.
 #
 # Usage : npm run favicon
 #
-# ═══ DEUX TENTATIVES, ET CE QUE LA SECONDE A APPRIS ═══
+# ═══ POURQUOI PLUS LE S DU LOGO ═══
 #
-# Au depart, les icones venaient toutes du logo rond, disque ENTIER, favicons
-# compris. A seize pixels le lettrage n'etait plus qu'une virgule claire qui
-# ressemblait a une croche. Premiere correction : un carre a coins arrondis au
-# lieu du cercle, et le mot entier epaissi. On lisait « Sonaa » a trente-deux
-# pixels, ce qui etait deja mieux, mais Mika a mis le doigt sur ce qui restait
-# faux : le mot est LARGE ET COURT, donc dans une tuile carree il occupe une
-# bande au milieu et laisse le haut et le bas vides. Trop petit.
+# L'onglet portait le S du logo, decoupe dans le lettrage de script, blanc
+# fin sur un carre presque noir. Mika, le 30 septembre 2026 : « je voudrais
+# un meilleur logo favicon, il est pas beau celui present ». Mesure a la
+# taille reelle : a seize pixels, une lettre de script se lit comme un « @ »
+# ou un « f », et le blanc fin sur le noir n'y laissait qu'une trace grise.
 #
-# LE S, LUI, EST PLUS HAUT QUE LARGE. Il epouse la tuile au lieu de flotter
-# dedans. A trente-deux pixels il fait vingt-neuf pixels de haut au lieu de
-# sept : quatre fois plus de matiere pour le meme carre. Et c'est une lettre
-# du logo, pas un dessin nouveau.
+# Le nouveau signe est un egaliseur : trois barres claires sur une tuile
+# terracotta, la couleur d'accent du site. Il dit « son » a toutes les
+# tailles, il reprend le motif du bouton « Quelle est cette track qui
+# joue ? », et la tuile coloree se detache aussi bien d'une barre d'onglets
+# claire que d'une sombre : il n'y a plus besoin d'une variante sombre a
+# filet.
 #
-# ═══ LA DECOUPE, ET POURQUOI ELLE N'EST PAS UN SIMPLE RECADRAGE ═══
+# ═══ UNE GRILLE DE TRENTE-DEUX, ET C'EST TOUT LE SECRET ═══
 #
-# Le S de ce script ne s'arrete pas net : sa barre traversante file vers la
-# droite et rejoint le « o ». Couper a la verticale donnait soit un « d »,
-# quand on coupait avant la boucle du haut, soit un morceau de « o » colle au
-# bord, quand on coupait apres.
+# Le dessin (public/brand/favicon.svg) est pose sur une grille de 32 unites :
+# des barres de 4 unites, espacees de 4, aux bords pairs. A seize pixels,
+# chaque barre tombe pile sur deux pixels pleins ; un premier essai a quatre
+# barres de 60 sur 512 tombait entre deux pixels et devenait flou. Chaque
+# taille est rasterisee directement depuis le vecteur, a la densite qui la
+# donne exactement, jamais reduite depuis une grande image.
 #
-# On coupe donc en DEUX temps : une verticale a 530 pixels, qui garde la
-# boucle du haut, puis un effacement du coin en bas a droite, ou trainait le
-# bas du « o ». Les composantes connexes ne servent a rien ici, la barre
-# traversante relie le S au « o » : c'est une seule forme au sens du pixel,
-# deux lettres au sens de la lecture.
+# ═══ LES GRANDES ICONES ═══
 #
-# ═══ L'EPAISSISSEMENT ═══
-#
-# Le logo est un script en trait fin. Reduit sans rien faire, il devient un
-# gris sale. Les fondeurs epaississent aux petits corps depuis toujours. Un
-# pixel de dilatation sur une reduction intermediaire suffit ; deux soudent
-# les boucles entre elles. Compare a trois epaisseurs, retenu : un.
-#
-# ═══ LES GRANDES ICONES NE SONT PAS TOUCHEES ═══
-#
-# apple-touch-icon, icon-192, icon-512 et la version masquable gardent le
-# disque et le mot entier : a cette taille il est parfaitement lisible, et iOS
-# comme Android y appliquent leur propre masque. Le probleme etait celui de
-# l'onglet, la correction reste dans l'onglet.
+# apple-touch-icon et la version masquable sont pleines, sans coins : iOS et
+# Android appliquent leur propre masque, et des coins dessines s'y
+# verraient en double. Les barres restent dans la zone sure de 80 %.
 
 set -eu
 
 cd "$(dirname "$0")/.."
-LOGO=public/brand/sonaa-logo.png
 SORTIE=public/brand
+SVG=$SORTIE/favicon.svg
 TEMPO=$(mktemp -d)
 trap 'rm -rf "$TEMPO"' EXIT
 
@@ -58,61 +46,32 @@ if ! command -v magick > /dev/null 2>&1; then
   exit 1
 fi
 
-FOND='#0a0c10'
-# Le filet de la variante sombre : la tuile est presque noire, donc invisible
-# sur une barre d'onglets sombre. Un liseré clair sur le bord la detache.
-FILET='#8b8f98'
+# La meme tuile, sans coins arrondis, pour les icones que le systeme masque.
+sed 's/ rx="7" fill/ fill/' "$SVG" > "$TEMPO/plein.svg"
 
-# ── 1. Le S, isole ────────────────────────────────────────────────────────
-magick "$LOGO" -alpha extract \
-  -crop 530x783+0+0 +repage \
-  -fill black -draw 'rectangle 430,640 530,783' \
-  -trim +repage -resize x300 "$TEMPO/s.png"
-magick "$TEMPO/s.png" -morphology Dilate Disk:1 -trim +repage "$TEMPO/s-gras.png"
-
-# ── 2. Le fond, carre a coins arrondis ────────────────────────────────────
-# Dessine grand puis reduit : c'est ce qui donne des coins lisses. Le rayon
-# vaut 19 % du cote, la proportion habituelle des icones d'application.
-carre() { # $1 = taille, $2 = couleur de filet ou vide
-  if [ -n "$2" ]; then
-    magick -size 512x512 xc:none \
-      -fill "$FOND" -stroke "$2" -strokewidth 14 \
-      -draw 'roundrectangle 7,7 504,504 96,96' \
-      -resize "$1x$1" "$TEMPO/fond.png"
-  else
-    magick -size 512x512 xc:none -fill "$FOND" -stroke none \
-      -draw 'roundrectangle 0,0 511,511 96,96' \
-      -resize "$1x$1" "$TEMPO/fond.png"
-  fi
+# Le vecteur est lu a 96 points par pouce : 32 unites a la densite 3 x N
+# donnent exactement N pixels.
+rendre() { # $1 = svg, $2 = taille, $3 = fichier
+  magick -background none -density $(( 3 * $2 )) "$1" -strip "$3"
 }
 
-# ── 3. Une icone ──────────────────────────────────────────────────────────
-icone() { # $1 = taille, $2 = fichier, $3 = couleur de filet ou vide
-  taille=$1
-  # LA LETTRE SE CALE SUR LA HAUTEUR, pas sur la largeur : c'est tout
-  # l'interet du S. 94 % laisse juste ce qu'il faut pour que les coins
-  # arrondis ne rognent pas la boucle du bas.
-  hauteur=$(( taille * 94 / 100 ))
-  carre "$taille" "$3"
-  magick "$TEMPO/s-gras.png" -resize "x${hauteur}" "$TEMPO/g.png"
-  magick "$TEMPO/fond.png" \
-    \( "$TEMPO/g.png" -background none -alpha copy -fill white -colorize 100 \) \
-    -gravity center -composite -strip "$2"
-}
+rendre "$SVG" 16 "$SORTIE/favicon-16.png"
+rendre "$SVG" 32 "$SORTIE/favicon-32.png"
+rendre "$SVG" 48 "$TEMPO/48.png"
+rendre "$SVG" 192 "$SORTIE/icon-192.png"
+rendre "$SVG" 512 "$SORTIE/icon-512.png"
+rendre "$TEMPO/plein.svg" 180 "$SORTIE/apple-touch-icon.png"
+rendre "$TEMPO/plein.svg" 512 "$SORTIE/icon-maskable-512.png"
 
-icone 16 "$SORTIE/favicon-16.png" ''
-icone 32 "$SORTIE/favicon-32.png" ''
-icone 48 "$TEMPO/48.png" ''
-icone 16 "$SORTIE/favicon-dark-16.png" "$FILET"
-icone 32 "$SORTIE/favicon-dark-32.png" "$FILET"
+# Le .ico, trois tailles dans un fichier, pour les vieux navigateurs et
+# Windows, qui choisit selon le contexte.
+magick "$SORTIE/favicon-16.png" "$SORTIE/favicon-32.png" "$TEMPO/48.png" "$SORTIE/favicon.ico"
 
-# ── 4. Le .ico, trois tailles dans un fichier ─────────────────────────────
-# Il sert aux vieux navigateurs et a Windows, qui choisit selon le contexte.
-magick "$SORTIE/favicon-16.png" "$SORTIE/favicon-32.png" "$TEMPO/48.png" \
-  "$SORTIE/favicon.ico"
+# Les anciennes variantes sombres a filet n'ont plus lieu d'etre.
+rm -f "$SORTIE/favicon-dark-16.png" "$SORTIE/favicon-dark-32.png"
 
-echo "Favicon refait a partir du S de $LOGO :"
-for f in favicon-16 favicon-32 favicon-dark-16 favicon-dark-32; do
-  printf '  %-20s %s\n' "$f.png" "$(magick identify -format '%wx%h, %B octets' "$SORTIE/$f.png")"
+echo "Icones refaites a partir de $SVG :"
+for f in favicon-16 favicon-32 apple-touch-icon icon-192 icon-512 icon-maskable-512; do
+  printf '  %-22s %s\n' "$f.png" "$(magick identify -format '%wx%h, %B octets' "$SORTIE/$f.png")"
 done
-printf '  %-20s %s\n' 'favicon.ico' "$(magick identify -format '%wx%h ' "$SORTIE/favicon.ico")"
+printf '  %-22s %s\n' 'favicon.ico' "$(magick identify -format '%wx%h ' "$SORTIE/favicon.ico")"

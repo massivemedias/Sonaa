@@ -112,56 +112,18 @@
 
          Aucune URL absolue vers le domaine n'est écrite en dur pour autant,
          sauf dans les métadonnées Open Graph, dont la spécification l'exige. -->
-    <!-- Icônes. Deux familles, et la différence est assumée.
-
-         LES GRANDES (apple-touch, 192, 512, masquable) portent le disque
-         noir et le lettrage entier : à cette taille il est parfaitement
-         lisible, et iOS comme Android appliquent de toute façon leur propre
-         masque.
-
-         CELLE DE L'ONGLET porte LE S SEUL, découpé dans le logo. Elle a été
-         reprise deux fois le 3 septembre 2026, et la deuxième fois pour une
-         raison qui vaut d'être écrite.
-
-         Elle reprenait d'abord le disque entier, donc le lettrage réduit à
-         une virgule claire qui ressemblait à une croche. Premier remède : un
-         carré à coins arrondis, et le mot entier épaissi. On lisait
-         « Sonaa », mais Mika a nommé ce qui restait faux : le mot est LARGE
-         ET COURT, donc dans un carré il occupe une bande au milieu et laisse
-         le haut et le bas vides. Trop petit.
-
-         Le S, lui, est plus haut que large : il épouse la tuile au lieu de
-         flotter dedans. À 32 pixels il en fait 29 de haut au lieu de 7,
-         quatre fois plus de matière pour le même carré, et c'est une lettre
-         du logo, pas un dessin nouveau. Le trait est épaissi avant
-         réduction, ce que font les fondeurs pour les petits corps.
-
-         Voir scripts/refaire-favicon.sh, qui explique aussi pourquoi la
-         découpe se fait en deux temps : la barre traversante du S rejoint le
-         « o », c'est une seule forme au sens du pixel et deux lettres au
-         sens de la lecture.
-
-         La variante de thème va dans le sens SOMBRE et non clair : la tuile
-         est presque noire, donc elle se détache très bien d'une barre
-         claire, mais se fond dans une barre sombre. La variante sombre porte
-         donc un filet clair sur son bord. -->
-    <link rel="icon" href="/brand/favicon.ico" sizes="48x48" />
+    <!-- Icônes : un égaliseur, trois barres claires sur une tuile terracotta.
+         Il remplace le 30 septembre 2026 le S du logo, qui à seize pixels se
+         lisait comme un « @ » (Mika : « il est pas beau celui présent »).
+         Le vecteur d'abord, net à toutes les densités ; les PNG et le .ico
+         pour les navigateurs qui ne lisent pas le SVG. La tuile colorée se
+         détache d'une barre d'onglets claire comme d'une sombre : la
+         variante sombre à filet n'a plus lieu d'être. Voir
+         scripts/refaire-favicon.sh. -->
+    <link rel="icon" type="image/svg+xml" href="/brand/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/brand/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/brand/favicon-16.png" />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="/brand/favicon-dark-32.png"
-      media="(prefers-color-scheme: dark)"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="/brand/favicon-dark-16.png"
-      media="(prefers-color-scheme: dark)"
-    />
+    <link rel="icon" href="/brand/favicon.ico" sizes="48x48" />
     <link rel="apple-touch-icon" sizes="180x180" href="/brand/apple-touch-icon.png" />
     <!-- Le manifest est genere par vite-plugin-pwa, qui injecte lui-meme ce
          lien au build : le declarer ici en produirait deux. -->

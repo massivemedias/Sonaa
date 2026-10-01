@@ -41,6 +41,7 @@ import { FaIcon } from './FaIcon.tsx';
 import { faMagnifyingGlass, faUser } from '@fortawesome/free-solid-svg-icons';
 import { EVENEMENT_RECHERCHE } from './RechercheGlobale.tsx';
 import { ChoixTheme } from './ChoixTheme.tsx';
+import { ADRESSE_HISTORIQUE } from '../reconnaitre/adresses.ts';
 import './auth-button.css';
 
 /* L'ENDROIT EXACT QUITTÉ, capturé AVANT tout départ.
@@ -435,6 +436,13 @@ export function AuthButton() {
           {menu && (
             <div className="authb-menu" role="menu">
               <a href="#/profil" role="menuitem" onClick={() => setMenu(false)}>Profil</a>
+              {/* LES ECOUTES DU COMPTE, depuis le 30 septembre 2026 : Mika veut
+                  « un menu historique de ses recherches quand la personne est
+                  connectee ». Elles vivent sur la page de reconnaissance ;
+                  cette entree y descend directement. */}
+              <a href={ADRESSE_HISTORIQUE} role="menuitem" onClick={() => setMenu(false)}>
+                {t.mesEcoutes}
+              </a>
               {PROPOSITIONS_OUVERTES && (
                 <a href="#/propositions" role="menuitem" onClick={() => setMenu(false)}>
                   {t.mesPropositions}
