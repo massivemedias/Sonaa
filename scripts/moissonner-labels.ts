@@ -250,7 +250,11 @@ async function sortiesDuGenre(nomDiscogs: string, cle: string, genre: string | n
     const [artiste, ...reste] = (x.title ?? '').split(' - ');
     if (!artiste || reste.length === 0) continue;
     const annee = Number.parseInt(x.year ?? '', 10);
-    const image = x.cover_image && !x.cover_image.includes('spacer.gif') ? x.cover_image : null;
+    /* UNE ADRESSE QUI RESSEMBLE A UNE CLE N'ENTRE PAS : le controle des
+       secrets du deploiement la refuserait, et il a raison de ne rien
+       laisser passer (voir scripts/check-secrets-dist.mjs). */
+    const suspecte = (u: string): boolean => /ghp_|github_pat_|AIza|sk-[A-Za-z0-9]{16}|sb_secret_|eyJhbGciOi/.test(u);
+    const image = x.cover_image && !x.cover_image.includes('spacer.gif') && !suspecte(x.cover_image) ? x.cover_image : null;
     sorties.push({
       titre: sansTirets(reste.join(' - ').trim()),
       artiste: artiste.replace(/\*$/, '').replace(/\s\(\d+\)$/, '').trim(),

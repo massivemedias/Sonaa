@@ -37,6 +37,7 @@
     "check:deps": "tsx scripts/check-deps.ts",
     "check:pied": "tsx scripts/check-pied.ts",
     "check:mobile": "tsx scripts/check-mobile.ts",
+    "check:secrets": "node scripts/check-secrets-dist.mjs",
     "audit:contraste": "tsx scripts/audit-contraste.ts",
     "captures:refonte": "node scripts/captures-refonte.mjs",
     "convertir:aac": "tsx scripts/convertir-sets-aac.ts",

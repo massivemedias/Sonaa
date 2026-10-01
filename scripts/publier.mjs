@@ -76,6 +76,9 @@ const CONTROLES = [
   ['langue', 'npm run check:langue --silent'],
   ['tests', 'npm test --silent'],
   ['construction', 'npm run build --silent'],
+  /* LES MEMES MOTIFS DE SECRET QUE LE DEPLOIEMENT, sur le site construit,
+     avant de pousser. Voir scripts/check-secrets-dist.mjs. */
+  ['secrets', 'npm run check:secrets --silent'],
   /* APRES LA CONSTRUCTION, parce qu'il mesure le site construit dans un vrai
      Chrome : la rangee du pied doit tenir sur une ligne a partir de 1024 px.
      Il n'est pas dans le deploiement, qui n'a pas de Chrome ; il n'est ici
