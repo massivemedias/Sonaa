@@ -10,6 +10,10 @@
 .fs {
   display: grid;
   gap: var(--espace-24);
+  /* LA FICHE SE MESURE A SA COLONNE, PAS A L'ECRAN : elle vit pleine
+     largeur dans la feuille du calendrier, et dans une demi-page sur
+     ordinateur dans le profil et l'administration. */
+  container-type: inline-size;
 }
 
 /* ═══ LE LIEN ═══ */
@@ -144,10 +148,15 @@
   display: grid;
   gap: var(--espace-24);
 }
-@media (min-width: 760px) {
+@container (min-width: 560px) {
+  .fs-grille {
+    grid-template-columns: 180px minmax(0, 1fr);
+    align-items: start;
+  }
+}
+@container (min-width: 760px) {
   .fs-grille {
     grid-template-columns: 220px minmax(0, 1fr);
-    align-items: start;
   }
 }
 
@@ -273,9 +282,9 @@
   color: var(--ink-primary);
 }
 
-/* SUR TELEPHONE, le bouton « Remplir » passe sous la case : la case garde
-   toute la largeur pour qu'on voie le lien colle. */
-@media (max-width: 520px) {
+/* DANS UNE COLONNE ETROITE, le bouton « Remplir » passe sous la case : la
+   case garde toute la largeur pour qu'on voie le lien colle. */
+@container (max-width: 440px) {
   .fs-lien-rangee {
     flex-direction: column;
   }

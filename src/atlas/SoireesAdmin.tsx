@@ -1,69 +1,69 @@
-/* LE PANNEAU DES SOIREES AJOUTEES A LA MAIN.
+/* LE PANNEAU DES SOIREES AJOUTEES A LA MAIN, dans l'administration.
  *
  * ═══ POURQUOI UN PANNEAU ET PAS UN BOUTON « SYNCHRONISER » ═══
  *
  * Mika demandait un bouton de synchronisation dans son profil. Il ne peut pas
- * exister sous cette forme, et la raison est technique, pas une reticence :
- * ce qui manque au calendrier vit sur Facebook, dont l'API d'evenements est
- * fermee depuis 2018, dont les pages exigent une session connectee, et que le
- * navigateur ne peut de toute facon pas interroger depuis sonaa.ca. Un bouton
- * dans cette page n'aurait rien a appeler.
+ * exister sous cette forme : ce qui manque au calendrier vit sur Facebook,
+ * dont l'API d'evenements est fermee depuis 2018. Resident Advisor, lui, est
+ * deja interroge en direct. Ce panneau est l'endroit ou DEPOSER ce qu'on a
+ * lu ailleurs.
  *
- * CE QUI PEUT ETRE AUTOMATISE L'EST DEJA : Resident Advisor est interroge en
- * direct a chaque ouverture du calendrier, avec un cache d'une heure. Il n'y
- * a rien a synchroniser de ce cote, la page est toujours a jour.
+ * ═══ LE MEME FORMULAIRE QUE PARTOUT, A COTE DE LA LISTE ═══
  *
- * CE QUI RESTE EST UN TRAVAIL DE LECTURE. Comparer Facebook et RA demande de
- * juger si « AME @ AWAKEN » est une soiree electronique ou un atelier de
- * bien-etre, si « technoland » est un club ou un salon professionnel. Cette
- * page est donc l'endroit ou DEPOSER le resultat de cette lecture, faite par
- * Mika ou par moi qui pilote son navigateur, et non un bouton qui pretendrait
- * s'en charger seul.
+ * Mika, le 1er octobre 2026, devant l'ancien formulaire de huit champs bruts
+ * colle a gauche : « je ne sais pas ou ajouter la soiree, et en desktop
+ * c'est mal foutu, tout est a gauche alors qu'on a la place ». Le panneau
+ * prend donc le formulaire commun, qui commence par le lien a coller
+ * (FormulaireSoiree.tsx), et l'ecran se partage : ajouter a gauche, la liste
+ * a droite, avec une recherche. Sur telephone, l'un sous l'autre.
  *
  * ═══ RESERVE AUX MODERATEURS, ET LA BASE LE SAIT ═══
  *
- * L'affichage ne protege rien : ce sont les politiques RLS qui refusent
- * l'ecriture a qui n'est pas moderateur. Cacher le formulaire est une
- * commodite, pas une serrure, et c'est pourquoi il n'y a aucune verification
- * de droit ici en dehors de celle qui decide d'afficher.
- */
+ * L'affichage ne protege rien : ce sont les politiques RLS qui refusent a qui
+ * n'est pas moderateur de retirer la soiree d'un autre. */
 
-import { useCallback, useEffect, useState } from 'react';
-import { SelecteurVille } from './SelecteurVille.tsx';
-import { toutesLesVilles } from '../lib/villes.ts';
-import type { Ville } from '../lib/ville-active.ts';
-import { t } from '../langue/langue.ts';
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { FormulaireSoiree } from "./FormulaireSoiree.tsx";
+import { toutesLesVilles } from "../lib/villes.ts";
+import type { Ville } from "../lib/ville-active.ts";
+import { quandEnLettres } from "../lib/affiche-insta.ts";
+import { langue, t } from "../langue/langue.ts";
 import {
-  ajouterSoiree,
   supprimerSoiree,
   toutesLesSoireesManuelles,
   type SoireeManuelle,
-} from '../lib/soirees-manuelles.ts';
+} from "../lib/soirees-manuelles.ts";
+import "./formulaire-soiree.css";
 
-const VIDE = {
-  titre: '',
-  jour: '',
-  heure: '22:00',
-  lieu: '',
-  artistes: '',
-  genres: '',
-  lien: '',
+const NOM_DE_SOURCE: Record<string, string> = {
+  facebook: "Facebook",
+  eventbrite: "Eventbrite",
+  lepointdevente: "Lepointdevente",
+  ticketmaster: "Ticketmaster",
+  shotgun: "Shotgun",
+  membre: t.sourceMembre,
+  main: t.sourceMain,
 };
+
+const sansAccents = (s: string): string =>
+  s
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
 
 export function SoireesAdmin() {
   const [villes, setVilles] = useState<Ville[]>([]);
   const [ville, setVille] = useState<Ville | null>(null);
   const [liste, setListe] = useState<SoireeManuelle[]>([]);
-  const [form, setForm] = useState({ ...VIDE });
+  const [terme, setTerme] = useState("");
   const [message, setMessage] = useState<string | null>(null);
-  const [occupe, setOccupe] = useState(false);
 
   useEffect(() => {
     void toutesLesVilles().then((v) => {
       setVilles(v);
       /* Montreal par defaut : c'est la ville de Mika, et celle dont il a
-         constate les manques. Aucune autre n'a de raison d'etre devant. */
-      setVille(v.find((x) => x.slug === 'montreal-ca') ?? v[0] ?? null);
+         constate les manques. */
+      setVille(v.find((x) => x.slug === "montreal-ca") ?? v[0] ?? null);
     });
   }, []);
 
@@ -71,184 +71,129 @@ export function SoireesAdmin() {
     if (!ville) return;
     void toutesLesSoireesManuelles(ville.id)
       .then(setListe)
-      .catch((e: unknown) => setMessage(e instanceof Error ? e.message : 'Lecture impossible.'));
+      .catch((e: unknown) =>
+        setMessage(e instanceof Error ? e.message : t.lectureImpossible),
+      );
   }, [ville]);
 
   useEffect(recharger, [recharger]);
 
-  const enregistrer = () => {
-    if (!ville) return;
-    if (!form.titre.trim() || !form.jour) {
-      setMessage('Il faut au moins un titre et une date.');
-      return;
-    }
-    setOccupe(true);
-    setMessage(null);
-    /* LA DATE EST CONSTRUITE COMPOSANTE PAR COMPOSANTE, jamais par
-       `new Date('2026-09-12T22:00')` interprete ailleurs : l'heure saisie est
-       l'heure de la salle, et c'est celle qu'on veut voir ressortir. */
-    const [a, m, j] = form.jour.split('-').map(Number);
-    const [h, mn] = form.heure.split(':').map(Number);
-    const debut = new Date(a ?? 2026, (m ?? 1) - 1, j ?? 1, h ?? 22, mn ?? 0);
+  const aVenir = useMemo(() => {
+    const maintenant = Date.now();
+    const cherche = sansAccents(terme.trim());
+    return liste
+      .filter((s) => new Date(s.debut).getTime() >= maintenant)
+      .filter(
+        (s) =>
+          !cherche ||
+          sansAccents(`${s.titre} ${s.lieu ?? ""}`).includes(cherche),
+      );
+  }, [liste, terme]);
 
-    const decouper = (x: string): string[] =>
-      x
-        .split(',')
-        .map((s) => s.trim())
-        .filter(Boolean);
-
-    void ajouterSoiree({
-      ville_id: ville.id,
-      titre: form.titre.trim(),
-      debut: debut.toISOString(),
-      lieu: form.lieu.trim() || null,
-      artistes: decouper(form.artistes),
-      genres: decouper(form.genres),
-      lien: form.lien.trim() || null,
-      source: 'main',
-    })
-      .then(() => {
-        setForm({ ...VIDE });
-        setMessage('Soirée ajoutée. Elle apparaît dans le calendrier tout de suite.');
-        recharger();
-      })
-      .catch((e: unknown) =>
-        setMessage(e instanceof Error ? e.message : 'Enregistrement impossible.')
-      )
-      .finally(() => setOccupe(false));
-  };
-
-  const retirer = (s: SoireeManuelle) => {
+  const retirer = (s: SoireeManuelle): void => {
     setMessage(null);
     void supprimerSoiree(s.id)
-      .then(() => {
-        setMessage(`« ${s.titre} » retirée.`);
-        recharger();
-      })
-      .catch((e: unknown) => setMessage(e instanceof Error ? e.message : 'Suppression impossible.'));
+      .then(recharger)
+      .catch((e: unknown) =>
+        setMessage(e instanceof Error ? e.message : t.enregistrementImpossible),
+      );
   };
-
-  const quand = (iso: string): string => {
-    const d = new Date(iso);
-    return new Intl.DateTimeFormat('fr-CA', {
-      weekday: 'short',
-      day: 'numeric',
-      month: 'short',
-      hour: '2-digit',
-      minute: '2-digit',
-    }).format(d);
-  };
-
-  const aVenir = liste.filter((s) => new Date(s.debut) >= new Date());
 
   return (
-    <section className="sets-bloc">
-      <h2>{t.soireesAjouteesMain}</h2>
-      <p className="sp-aide">
-        Resident Advisor est interrogé en direct, il n&apos;y a rien à y synchroniser. Ce panneau
-        sert à ce qu&apos;il ne couvre pas : une soirée qui passe de la techno sans se dire
-        soirée techno, une salle hors de leur réseau, un promoteur qui ne publie que sur
-        Facebook. Ce qui est déposé ici apparaît dans le calendrier immédiatement, avec la
-        mention « ajoutée à la main ».
-      </p>
+    <div className="ev-colonnes">
+      <section className="sets-bloc ev-bloc">
+        <h2>{t.ajouterUneSoiree}</h2>
+        <p className="ev-intro">{t.soireesAdminIntro}</p>
+        <FormulaireSoiree
+          villeInitiale={ville}
+          onAjoutee={() => {
+            setMessage(t.soireeAjoutee);
+            recharger();
+          }}
+        />
+        {message && (
+          <p className="fs-bilan ev-ajoutee" role="status">
+            {message}
+          </p>
+        )}
+      </section>
 
-      <SelecteurVille
-        villes={villes}
-        choisie={ville}
-        onChoisir={setVille}
-        etiquette="Ville de la soirée"
-      />
-
-      <div className="sa-formulaire">
-        <label className="sp-label">
-          Titre
-          <input
-            type="text"
-            value={form.titre}
-            maxLength={200}
-            placeholder="ex. NINA KRAVIZ [DAY RAVE]"
-            onChange={(e) => setForm({ ...form, titre: e.target.value })}
-          />
-        </label>
-        <div className="sa-deux">
-          <label className="sp-label">
-            Date
-            <input
-              type="date"
-              value={form.jour}
-              onChange={(e) => setForm({ ...form, jour: e.target.value })}
-            />
+      <section className="sets-bloc ev-bloc">
+        <h2>
+          {t.soireesAjouteesMain}
+          {aVenir.length > 0 && (
+            <span className="ev-compte">{aVenir.length}</span>
+          )}
+        </h2>
+        <div className="ev-filtres">
+          <label className="fs-champ">
+            <span>{t.villeLibelle}</span>
+            <select
+              value={ville?.id ?? ""}
+              onChange={(e) =>
+                setVille(villes.find((v) => v.id === e.target.value) ?? null)
+              }
+            >
+              {villes.map((v) => (
+                <option key={v.id} value={v.id}>
+                  {v.name}
+                </option>
+              ))}
+            </select>
           </label>
-          <label className="sp-label">
-            Heure
+          <label className="fs-champ">
+            <span>{t.chercherUneSoiree}</span>
             <input
-              type="time"
-              value={form.heure}
-              onChange={(e) => setForm({ ...form, heure: e.target.value })}
+              type="search"
+              value={terme}
+              onChange={(e) => setTerme(e.target.value)}
             />
           </label>
         </div>
-        <label className="sp-label">
-          Salle
-          <input
-            type="text"
-            value={form.lieu}
-            maxLength={120}
-            placeholder="ex. L&apos;Olympia"
-            onChange={(e) => setForm({ ...form, lieu: e.target.value })}
-          />
-        </label>
-        <label className="sp-label">
-          {t.artistesSepares}
-          <input
-            type="text"
-            value={form.artistes}
-            onChange={(e) => setForm({ ...form, artistes: e.target.value })}
-          />
-        </label>
-        <label className="sp-label">
-          {t.stylesSepares}
-          <input
-            type="text"
-            value={form.genres}
-            placeholder="ex. Techno, Minimal"
-            onChange={(e) => setForm({ ...form, genres: e.target.value })}
-          />
-        </label>
-        <label className="sp-label">
-          Lien
-          <input
-            type="url"
-            value={form.lien}
-            placeholder="ex. https://www.facebook.com/events/..."
-            onChange={(e) => setForm({ ...form, lien: e.target.value })}
-          />
-        </label>
-        <button className="sp-action" disabled={occupe} onClick={enregistrer}>
-          {occupe ? 'Enregistrement…' : 'Ajouter la soirée'}
-        </button>
-        {message && <p className="sp-message">{message}</p>}
-      </div>
-
-      <h3 className="sa-titre-liste">
-        {aVenir.length === 0
-          ? 'Aucune soirée à venir dans ce panneau'
-          : t.nSoireesAVenir(aVenir.length)}
-      </h3>
-      {aVenir.length > 0 && (
-        <ul className="sa-liste">
-          {aVenir.map((s) => (
-            <li key={s.id}>
-              <span className="sa-quand">{quand(s.debut)}</span>
-              <span className="sa-titre">{s.titre}</span>
-              <span className="sa-lieu">{s.lieu ?? 'lieu non précisé'}</span>
-              <button className="sp-action sp-action-sobre" onClick={() => retirer(s)}>
-                Retirer
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-    </section>
+        {aVenir.length === 0 ? (
+          <p className="ev-vide">{t.aucuneSoireeDansLaVille}</p>
+        ) : (
+          <ul className="ev-rangees">
+            {aVenir.map((s) => (
+              <li key={s.id} className="ev-rangee">
+                {s.affiche ? (
+                  <img
+                    className="ev-rangee-affiche"
+                    src={s.affiche}
+                    alt=""
+                    loading="lazy"
+                  />
+                ) : (
+                  <span className="ev-rangee-affiche" aria-hidden="true" />
+                )}
+                <div className="ev-texte">
+                  <span className="ev-quand">
+                    {quandEnLettres(
+                      s.debut,
+                      ville?.timezone ?? "America/Toronto",
+                      langue,
+                    )}
+                  </span>
+                  <strong className="ev-titre">{s.titre}</strong>
+                  <span className="ev-ou">
+                    {[s.lieu, NOM_DE_SOURCE[s.source] ?? s.source]
+                      .filter(Boolean)
+                      .join(" · ")}
+                    {!s.publiee && <> · {t.soireeDepubliee}</>}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  className="fs-secondaire ev-retirer"
+                  onClick={() => retirer(s)}
+                >
+                  {t.retirerCourt}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    </div>
   );
 }

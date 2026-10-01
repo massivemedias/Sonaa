@@ -50,7 +50,10 @@ export function PiedDePage() {
      contribution, la page qui explique le projet, et le code. */
   const centre: readonly Lien[] = [
     { href: '#/a-propos', label: t.aPropos },
-    { href: '#/calendrier', label: t.piedAjouterEvenement },
+    /* LE FORMULAIRE, ET NON LE CALENDRIER, depuis le 1er octobre 2026 : ce
+       lien menait au calendrier, ou il fallait encore trouver « + Ajouter ».
+       Mika : « je ne sais pas ou ajouter la soiree ». */
+    { href: '#/profil/evenements', label: t.piedAjouterEvenement },
     { href: '#/profil/sets', label: t.piedDeposerMixtape },
     { href: 'https://github.com/massivemedias/Sonaa', label: t.piedCode, externe: true },
     ...(PROPOSITIONS_OUVERTES ? [{ href: '#/propositions', label: t.piedPropositions }] : []),

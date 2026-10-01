@@ -443,6 +443,9 @@ export function AuthButton() {
               <a href={ADRESSE_HISTORIQUE} role="menuitem" onClick={() => setMenu(false)}>
                 {t.mesEcoutes}
               </a>
+              <a href="#/profil/evenements" role="menuitem" onClick={() => setMenu(false)}>
+                {t.ajouterUneSoiree}
+              </a>
               {PROPOSITIONS_OUVERTES && (
                 <a href="#/propositions" role="menuitem" onClick={() => setMenu(false)}>
                   {t.mesPropositions}

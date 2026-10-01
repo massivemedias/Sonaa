@@ -505,6 +505,11 @@ interface Dictionnaire {
   readonly morceauPasDansAtlas: string;
   readonly rienNeCorrespond: string;
   readonly soireesAjouteesMain: string;
+  readonly chercherUneSoiree: string;
+  readonly aucuneSoireeDansLaVille: string;
+  readonly retirerCourt: string;
+  readonly sourceMain: string;
+  readonly soireesAdminIntro: string;
   readonly lesQuatorzeFamilles: string;
   readonly choisirLaVue: string;
   readonly cliquezUneVue: string;
@@ -1235,6 +1240,11 @@ const FR: Dictionnaire = {
   morceauPasDansAtlas: "Ce morceau n’est pas encore dans l’atlas.",
   rienNeCorrespond: "Rien ne correspond.",
   soireesAjouteesMain: "Soirées ajoutées à la main",
+  chercherUneSoiree: "Chercher un titre ou une salle",
+  aucuneSoireeDansLaVille: "Aucune soirée à venir ici.",
+  retirerCourt: "Retirer",
+  sourceMain: "À la main",
+  soireesAdminIntro: "Resident Advisor est lu en direct ; ce qui s’ajoute ici couvre le reste : Facebook, les salles hors réseau, les promoteurs. Tout apparaît au calendrier aussitôt.",
   lesQuatorzeFamilles: "Les quatorze familles",
   choisirLaVue: "Choisir la vue",
   cliquezUneVue: "Cliquez une vue pour entrer dans la carte :",
@@ -1974,6 +1984,11 @@ const EN: Dictionnaire = {
   morceauPasDansAtlas: "This track is not in the atlas yet.",
   rienNeCorrespond: "Nothing matches.",
   soireesAjouteesMain: "Nights added by hand",
+  chercherUneSoiree: "Search a title or a venue",
+  aucuneSoireeDansLaVille: "No upcoming night here.",
+  retirerCourt: "Remove",
+  sourceMain: "By hand",
+  soireesAdminIntro: "Resident Advisor is read live; what is added here covers the rest: Facebook, venues outside its network, promoters. Everything shows in the calendar at once.",
   lesQuatorzeFamilles: "The fourteen families",
   choisirLaVue: "Pick the view",
   cliquezUneVue: "Click a view to enter the map:",

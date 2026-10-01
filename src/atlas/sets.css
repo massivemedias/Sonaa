@@ -845,9 +845,79 @@
   font-weight: 600;
   text-underline-offset: 3px;
 }
-@media (min-width: 900px) {
-  .ev-liste {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+/* ═══ DEUX COLONNES SUR ORDINATEUR ═══ Ajouter a gauche, la liste a
+   droite : le profil et l'administration partagent la meme grille. La
+   colonne du formulaire est la plus large, c'est elle qui porte l'affiche
+   et les champs. */
+.ev-colonnes {
+  display: grid;
+  gap: var(--espace-24);
+  margin-top: var(--espace-32);
+}
+.ev-colonnes > .sets-bloc {
+  margin-top: 0;
+  min-width: 0;
+}
+@media (min-width: 1100px) {
+  .ev-colonnes {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    align-items: start;
+  }
+  /* LA LISTE DEFILE DANS SA COLONNE : quarante soirees en ligne faisaient
+     une page de cinq ecrans a cote d'un formulaire d'un seul. */
+  .ev-rangees {
+    max-height: min(72vh, 56rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+/* LA LISTE DE MODERATION : une ligne par soiree, la vignette, le texte, et
+   le retrait a droite. Une recherche et la ville au-dessus. */
+.ev-filtres {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: var(--espace-12);
+  margin-bottom: var(--espace-16);
+}
+.ev-rangees {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+.ev-rangee {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  gap: var(--espace-12);
+  align-items: center;
+  padding: var(--espace-12) 0;
+  border-top: 1px solid var(--filet);
+}
+.ev-rangee-affiche {
+  display: block;
+  width: 48px;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 8px;
+  background: var(--voile-08);
+}
+.ev-rangee .ev-titre {
+  font-size: 0.9375rem;
+}
+.ev-retirer {
+  min-height: 36px;
+  padding: 0 var(--espace-16);
+  font-size: 0.8125rem;
+}
+@media (max-width: 520px) {
+  .ev-filtres {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 899px) {
+  .ev-retirer {
+    min-height: 44px;
   }
 }
 
