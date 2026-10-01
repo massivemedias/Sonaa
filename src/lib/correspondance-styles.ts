@@ -68,6 +68,17 @@ export const ALIAS: Readonly<Record<string, Cible>> = {
   'drum n bass': { sorte: 'genre', id: 'drumandbass' },
   'drum and bass': { sorte: 'genre', id: 'drumandbass' },
   'drumnbass': { sorte: 'genre', id: 'drumandbass' },
+  /* Les etiquettes du public (Last.fm, Bandcamp, Apple Music), depuis le
+     1er octobre 2026 : la reconnaissance d'un morceau les lit, et « Drum &
+     Bass » d'Apple ne s'aplatissait sur rien. */
+  'drum & bass': { sorte: 'genre', id: 'drumandbass' },
+  'drum&bass': { sorte: 'genre', id: 'drumandbass' },
+  'dnb': { sorte: 'genre', id: 'drumandbass' },
+  'd&b': { sorte: 'genre', id: 'drumandbass' },
+  'liquid funk': { sorte: 'genre', id: 'liquiddnb' },
+  'liquid dnb': { sorte: 'genre', id: 'liquiddnb' },
+  'liquid drum & bass': { sorte: 'genre', id: 'liquiddnb' },
+  'liquid drum and bass': { sorte: 'genre', id: 'liquiddnb' },
   'psy-trance': { sorte: 'genre', id: 'psychedelictrance' },
   'psytrance': { sorte: 'genre', id: 'psychedelictrance' },
   'goa': { sorte: 'genre', id: 'goatrance' },

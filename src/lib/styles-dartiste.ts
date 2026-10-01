@@ -20,7 +20,7 @@
  */
 
 import { FAMILIES, STRUCTURES } from '../atlas/structures.ts';
-import { ranger, vocabulaire, type Vocabulaire } from './correspondance-styles.ts';
+import { ranger, vocabulaire, type Cible, type Vocabulaire } from './correspondance-styles.ts';
 
 let index: Record<string, string[]> | null = null;
 let enCours: Promise<Record<string, string[]>> | null = null;
@@ -63,6 +63,28 @@ export function stylesVersSonaa(bruts: Record<string, number>): string[] {
     .sort((a, b) => b[1] - a[1])
     .slice(0, 6)
     .map(([id]) => id);
+}
+
+/** Les etiquettes d'un morceau (Apple Music, Last.fm, Bandcamp), deja
+    ordonnees de la plus sure a la moins sure, rangees dans l'atlas. La
+    premiere a le plus de poids ; deux etiquettes qui tombent sur le meme
+    genre s'additionnent. Trois au plus. Voir la reconnaissance. */
+export function ciblesDesEtiquettes(etiquettes: readonly string[]): readonly Cible[] {
+  const v = vocabulaireDuSite();
+  const poids = new Map<string, { cible: Cible; n: number }>();
+  etiquettes.forEach((e, i) => {
+    const cible = ranger(e, v) ?? ranger(e.toLowerCase(), v);
+    if (!cible) return;
+    const cle = `${cible.sorte}:${cible.id}`;
+    const avant = poids.get(cle);
+    poids.set(cle, { cible, n: (avant?.n ?? 0) + (etiquettes.length - i) });
+  });
+  /* UN GENRE VAUT MIEUX QUE SA FAMILLE : « Drum and Bass » et « Breaks »
+     arrivent souvent ensemble, le premier dit tout ce que dit le second. */
+  return [...poids.values()]
+    .sort((a, b) => (a.cible.sorte === b.cible.sorte ? b.n - a.n : a.cible.sorte === 'genre' ? -1 : 1))
+    .slice(0, 3)
+    .map((x) => x.cible);
 }
 
 async function enDirect(requete: string): Promise<ArtisteTrouve | null> {

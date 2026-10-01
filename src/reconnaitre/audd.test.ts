@@ -16,6 +16,7 @@ const complet = {
     apple_music: {
       url: 'https://music.apple.com/ca/album/phylyps-trak/1',
       artwork: { url: 'https://is1.mzstatic.com/image/{w}x{h}{c}.{f}', width: 1400 },
+      genreNames: ['Techno', 'Music', 'Electronic'],
     },
     spotify: {
       external_urls: { spotify: 'https://open.spotify.com/track/abc' },
@@ -31,6 +32,11 @@ describe('la reponse d AudD', () => {
     expect(m?.artiste).toBe('Basic Channel');
     expect(m?.titre).toBe('Phylyps Trak');
     expect(m?.album).toBe('BCD');
+  });
+
+  /* LE GENRE D'APPLE EST LU, sans « Music », qui est celui de tout. */
+  it('lit le genre d Apple Music', () => {
+    expect(lireReponseAudd(complet)?.styles).toEqual(['Techno', 'Electronic']);
   });
 
   /* LE GABARIT D'APPLE DOIT ETRE REMPLI, sinon l'image ne charge pas et la
@@ -51,7 +57,7 @@ describe('la reponse d AudD', () => {
   it('accepte un morceau sans album, sans pochette et sans lien', () => {
     const nu = { status: 'success', result: { artist: 'Inconnu', title: 'Sans rien' } };
     const m = lireReponseAudd(nu);
-    expect(m).toEqual({ artiste: 'Inconnu', titre: 'Sans rien', album: null, pochette: null, liens: [], label: null, annee: null, duree: null, position: null, styles: [] });
+    expect(m).toEqual({ artiste: 'Inconnu', titre: 'Sans rien', album: null, pochette: null, liens: [], label: null, annee: null, duree: null, position: null, styles: [], sourceStyles: null });
   });
 
   it('rend null quand AudD n a rien reconnu', () => {

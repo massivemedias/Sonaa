@@ -105,14 +105,13 @@
   cursor: pointer;
 }
 .pv-retour {
-  /* LE ROND FAIT 39 PX PARTOUT, LA CIBLE EN FAIT 44. Mika, le 1er octobre
-     2026, deux fois : « reduis de 5 px la taille du rond orange ». La
-     premiere fois il n'avait retreci que sur ordinateur, et le rond restait
-     de 44 px dans une fenetre etroite. Le fond est maintenant peint dans la
-     boite de contenu : 2,5 px de marge interieure transparente tout autour,
-     un rond de 39 px qu'on voit, et 44 px qu'on touche (le minimum que
-     scripts/check-mobile.ts exige d'une cible au doigt). */
-  padding: 2.5px;
+  /* LE ROND FAIT 32 PX PARTOUT, LA CIBLE EN FAIT 44. Mika, le 1er octobre
+     2026, trois fois : « reduis de 5 px », puis « encore trop gros le rayon
+     du rond ». Le fond est peint dans la boite de contenu : 6 px de marge
+     interieure transparente tout autour, un rond de 32 px qu'on voit, et
+     44 px qu'on touche (le minimum que scripts/check-mobile.ts exige d'une
+     cible au doigt). */
+  padding: 6px;
   background: var(--accent);
   background-clip: content-box;
   color: var(--sur-accent);
@@ -133,8 +132,8 @@
   height: 17px;
 }
 .pv-retour svg {
-  width: 15px;
-  height: 15px;
+  width: 13px;
+  height: 13px;
 }
 .pv-logo {
   flex: none;

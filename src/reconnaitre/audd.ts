@@ -30,9 +30,14 @@ export interface MorceauReconnu {
       l'extrait tombe dans le morceau, « 03:12 », tel qu'AudD le dit. */
   readonly duree: number | null;
   readonly position: string | null;
-  /** Les styles de la sortie chez Discogs, bruts : la page les ramene a
-      l'atlas avec la table de la moisson. Vide quand Discogs ne sait pas. */
+  /** LES ETIQUETTES DU MORCEAU, du plus sur au moins sur : le genre d'Apple
+      Music, les etiquettes Last.fm du morceau puis de l'artiste, celles de
+      l'artiste sur Bandcamp. Brutes : la page les range dans l'atlas avec
+      la table de la moisson (lib/correspondance-styles.ts). Vide quand
+      personne ne sait. */
   readonly styles: readonly string[];
+  /** Qui a donne les etiquettes, « apple+lastfm » par exemple. */
+  readonly sourceStyles?: string | null;
 }
 
 const texte = (x: unknown): string => (typeof x === 'string' ? x.trim() : '');
@@ -105,6 +110,13 @@ export function lireReponseAudd(brut: unknown): MorceauReconnu | null {
     annee: Number.isFinite(annee) && annee > 1800 ? annee : null,
     duree: null,
     position: /^\d{1,2}:\d{2}$/.test(texte(res['timecode'])) ? texte(res['timecode']) : null,
-    styles: [],
+    /* LE GENRE D'APPLE MUSIC VIENT AVEC LA REPONSE, il suffit de le lire :
+       « Drum & Bass », « Dance », « Electronic ». Les deux derniers ne se
+       rangent nulle part dans l'atlas et tomberont d'eux-memes. « Music »
+       est le genre de tout ce que vend Apple. */
+    styles: Array.isArray(apple?.['genreNames'])
+      ? (apple['genreNames'] as unknown[]).map(texte).filter((g) => g && g !== 'Music')
+      : [],
+    sourceStyles: Array.isArray(apple?.['genreNames']) ? 'apple' : null,
   };
 }

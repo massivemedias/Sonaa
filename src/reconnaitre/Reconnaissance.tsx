@@ -43,6 +43,8 @@ import { ajouterAlHistorique, lireHistorique, viderHistorique, type Reconnaissan
 import { ajouterEcouteAuCompte, fusionner, lireEcoutesDuCompte, viderEcoutesDuCompte } from './ecoutes-compte.ts';
 import type { MorceauReconnu } from './audd.ts';
 import { scanAEnregistrer } from './scan.ts';
+import { ciblesDesEtiquettes } from '../lib/styles-dartiste.ts';
+import type { Cible } from '../lib/correspondance-styles.ts';
 import './reconnaitre.css';
 
 const PASSERELLE = 'https://sonaa-sets.massivemedias.workers.dev';
@@ -101,6 +103,36 @@ function cheminDeLaFamille(id: string): string | null {
   const famille = FAMILIES.find((f) => f.id === id);
   return famille ? `/styles/${slug(famille.label)}/` : null;
 }
+
+/* LE STYLE D'UN MORCEAU NOMME, par ses etiquettes rangees dans l'atlas.
+   Voir completerParEtiquettes dans la passerelle et ciblesDesEtiquettes. */
+interface StyleSur {
+  readonly cle: string;
+  readonly nom: string;
+  readonly chemin: string | null;
+  readonly genre: string | null;
+}
+function stylesSurs(cibles: readonly Cible[]): readonly StyleSur[] {
+  const sortie: StyleSur[] = [];
+  for (const c of cibles) {
+    if (c.sorte === 'genre') {
+      const g = genreSonaa(c.id);
+      if (g) sortie.push({ cle: `g:${c.id}`, nom: g.nom, chemin: g.chemin, genre: c.id });
+    } else {
+      const f = FAMILIES.find((x) => x.id === c.id);
+      if (f) sortie.push({ cle: `f:${c.id}`, nom: t.reconnaitreFamilleSeule(f.label), chemin: cheminDeLaFamille(f.id), genre: null });
+    }
+  }
+  return sortie;
+}
+
+/* QUI A DONNE LES ETIQUETTES, en noms qu'on reconnait. */
+const NOM_SOURCE: Record<string, string> = {
+  apple: 'Apple Music',
+  'lastfm-morceau': 'Last.fm',
+  'lastfm-artiste': 'Last.fm',
+  bandcamp: 'Bandcamp',
+};
 
 /* LA DATE D'UNE ECOUTE, courte : « mar. 30 sept., 21 h 14 ». */
 const FORMAT_QUAND = new Intl.DateTimeFormat(langue === 'fr' ? 'fr-CA' : 'en-CA', {
@@ -264,7 +296,11 @@ export function Reconnaissance({ enLigne = false, demarrer = false, versHistoriq
       /* CE QU'ON GARDE : voir scan.ts. Le morceau nomme, le meilleur genre de
          l'atlas, si la confiance passe le seuil. La passerelle refait le
          calcul et ecrit « en attente » ; rien ne parait avant moderation. */
-      const scan = scanAEnregistrer(reconnu, trouves);
+      /* LES ETIQUETTES DU MORCEAU PASSENT AVANT L'OREILLE DU RESEAU, pour
+         le scan comme pour l'historique : quand Apple ou Last.fm disent
+         « drum and bass », le reseau qui hesite a 7 % n'a plus voix. */
+      const surs = reconnu ? stylesSurs(ciblesDesEtiquettes(reconnu.styles)) : [];
+      const scan = scanAEnregistrer(reconnu, trouves, surs.find((x) => x.genre)?.genre ?? null);
       if (import.meta.env.DEV) {
         (window as unknown as { __sonaaReco?: Record<string, unknown> }).__sonaaReco = {
           ...(window as unknown as { __sonaaReco?: Record<string, unknown> }).__sonaaReco,
@@ -282,7 +318,10 @@ export function Reconnaissance({ enLigne = false, demarrer = false, versHistoriq
 
       const ecoute: Reconnaissance = {
         quand: Date.now(),
-        styles: trouves.map((s) => ({ discogs: s.discogs, score: s.score })),
+        styles:
+          surs.length > 0
+            ? surs.map((x) => ({ discogs: x.nom, score: 1 }))
+            : trouves.map((s) => ({ discogs: s.discogs, score: s.score })),
         ...(reconnu ? { artiste: reconnu.artiste, titre: reconnu.titre } : {}),
         ...(reconnu?.pochette ? { pochette: reconnu.pochette } : {}),
       };
@@ -315,9 +354,17 @@ export function Reconnaissance({ enLigne = false, demarrer = false, versHistoriq
 
   const enMarche = etat === 'chargement' || etat === 'ecoute' || etat === 'analyse';
 
+  const stylesDuMorceau = useMemo(() => (morceau ? stylesSurs(ciblesDesEtiquettes(morceau.styles)) : []), [morceau]);
+  const sourcesDuStyle = useMemo(
+    () => [...new Set((morceau?.sourceStyles ?? '').split('+').map((s) => NOM_SOURCE[s]).filter((s): s is string => Boolean(s)))],
+    [morceau]
+  );
+
   /* LE PREMIER STYLE QUI A UNE FICHE, genre ou famille, pour le bouton
-     « Ouvrir le style ». */
+     « Ouvrir le style ». Celui du morceau d'abord. */
   const premierChemin = useMemo(() => {
+    const sur = stylesDuMorceau.find((x) => x.chemin)?.chemin;
+    if (sur) return sur;
     for (const s of styles) {
       const entree = styleDeLEtiquette(s.discogs);
       const genre = entree?.sonaa ? genreSonaa(entree.sonaa) : null;
@@ -326,7 +373,7 @@ export function Reconnaissance({ enLigne = false, demarrer = false, versHistoriq
       if (famille) return cheminDeLaFamille(famille);
     }
     return null;
-  }, [styles]);
+  }, [styles, stylesDuMorceau]);
 
 
   const libelleBouton = useMemo(() => {
@@ -336,6 +383,51 @@ export function Reconnaissance({ enLigne = false, demarrer = false, versHistoriq
     if (etat === 'resultat' || etat === 'erreur') return t.reconnaitreRelancer;
     return t.reconnaitreEcouter;
   }, [etat, avancement, seconde]);
+
+  /* CE QUE LE RESEAU DEVINAIT A L'OREILLE, par confiance decroissante. */
+  const listeOreille = (
+    <ol className="rc-styles">
+      {styles
+        .map((s) => {
+          const entree = styleDeLEtiquette(s.discogs);
+          const genre = entree?.sonaa ? genreSonaa(entree.sonaa) : null;
+          const famille = entree ? familleSonaa(entree) : null;
+          const f = !genre && famille ? FAMILIES.find((x) => x.id === famille) : null;
+          const cle = genre ? `g:${entree?.sonaa}` : f ? `f:${f.id}` : `d:${s.discogs}`;
+          const nom = genre ? genre.nom : f ? t.reconnaitreFamilleSeule(f.label) : s.nom;
+          const chemin = genre ? genre.chemin : f ? cheminDeLaFamille(f.id) : null;
+          return { cle, nom, chemin, score: s.score };
+        })
+        .filter((x, i, tous) => tous.findIndex((y) => y.cle === x.cle) === i)
+        .map((x) => {
+          const pourcent = `${Math.round(x.score * 100)} %`;
+          /* LA LARGEUR S'ECRIT SANS ESPACE : « 7 % » est un
+             pourcentage pour qui lit et une valeur invalide pour
+             le navigateur, qui la jetait et peignait la barre
+             pleine. Vu par Mika le 1er octobre 2026. */
+          const largeur = `${Math.round(x.score * 100)}%`;
+          return (
+            <li key={x.cle} className="rc-style">
+              {x.chemin ? (
+                <a className="rc-style-nom" href={x.chemin}>
+                  {x.nom}
+                </a>
+              ) : (
+                <span className="rc-style-nom rc-style-hors">
+                  {x.nom} <span className="rc-hors-mot">{t.reconnaitreHorsAtlas}</span>
+                </span>
+              )}
+              <span className="rc-part" aria-hidden="true">
+                <span className="rc-part-pleine" style={{ width: largeur }} />
+              </span>
+              <span className="rc-pourcent">
+                <span className="rc-pourcent-mot">{t.reconnaitreConfiance}</span> {pourcent}
+              </span>
+            </li>
+          );
+        })}
+    </ol>
+  );
 
   return (
     <>
@@ -473,46 +565,45 @@ export function Reconnaissance({ enLigne = false, demarrer = false, versHistoriq
                 </div>
               )}
 
-              {styles.length > 0 && (
+              {/* ═══ LE STYLE ═══ Quand le morceau a un nom, ses etiquettes
+                  (Apple Music, Last.fm, Bandcamp) disent le style, et la
+                  source est ecrite dessous. Ce que le reseau devinait a
+                  l'oreille reste consultable, replie. Sans morceau, c'est la
+                  seule reponse, et elle s'affiche comme avant. */}
+              {(stylesDuMorceau.length > 0 || styles.length > 0) && (
                 <div className="rc-fiche-styles">
                   <h3 className="rc-titre">{t.reconnaitreLeStyle}</h3>
-                  <ol className="rc-styles">
-                    {styles
-                      .map((s) => {
-                        const entree = styleDeLEtiquette(s.discogs);
-                        const genre = entree?.sonaa ? genreSonaa(entree.sonaa) : null;
-                        const famille = entree ? familleSonaa(entree) : null;
-                        const f = !genre && famille ? FAMILIES.find((x) => x.id === famille) : null;
-                        const cle = genre ? `g:${entree?.sonaa}` : f ? `f:${f.id}` : `d:${s.discogs}`;
-                        const nom = genre ? genre.nom : f ? t.reconnaitreFamilleSeule(f.label) : s.nom;
-                        const chemin = genre ? genre.chemin : f ? cheminDeLaFamille(f.id) : null;
-                        return { cle, nom, chemin, score: s.score };
-                      })
-                      .filter((x, i, tous) => tous.findIndex((y) => y.cle === x.cle) === i)
-                      .map((x) => {
-                        const pourcent = `${Math.round(x.score * 100)} %`;
-                        return (
-                          <li key={x.cle} className="rc-style">
+                  {stylesDuMorceau.length > 0 && (
+                    <>
+                      <ul className="rc-styles-surs">
+                        {stylesDuMorceau.map((x) => (
+                          <li key={x.cle}>
                             {x.chemin ? (
-                              <a className="rc-style-nom" href={x.chemin}>
+                              <a className="rc-style-sur" href={x.chemin}>
                                 {x.nom}
                               </a>
                             ) : (
-                              <span className="rc-style-nom rc-style-hors">
-                                {x.nom} <span className="rc-hors-mot">{t.reconnaitreHorsAtlas}</span>
-                              </span>
+                              <span className="rc-style-sur">{x.nom}</span>
                             )}
-                            <span className="rc-part" aria-hidden="true">
-                              <span className="rc-part-pleine" style={{ width: pourcent }} />
-                            </span>
-                            <span className="rc-pourcent">
-                              <span className="rc-pourcent-mot">{t.reconnaitreConfiance}</span> {pourcent}
-                            </span>
                           </li>
-                        );
-                      })}
-                  </ol>
-                  <p className="rc-note">{t.reconnaitreImprecis}</p>
+                        ))}
+                      </ul>
+                      <p className="rc-note">{t.reconnaitreStyleSource(sourcesDuStyle)}</p>
+                    </>
+                  )}
+                  {styles.length > 0 &&
+                    (stylesDuMorceau.length > 0 ? (
+                      <details className="rc-oreille">
+                        <summary>{t.reconnaitreALOreille}</summary>
+                        {listeOreille}
+                        <p className="rc-note">{t.reconnaitreImprecis}</p>
+                      </details>
+                    ) : (
+                      <>
+                        {listeOreille}
+                        <p className="rc-note">{t.reconnaitreImprecis}</p>
+                      </>
+                    ))}
                 </div>
               )}
 

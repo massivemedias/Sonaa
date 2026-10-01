@@ -428,6 +428,7 @@ interface MorceauAudd {
   readonly duree: number | null;
   readonly position: string | null;
   readonly styles: readonly string[];
+  readonly sourceStyles?: string | null;
 }
 
 /* DEEZER COMPLETE CE QU'AUDD NE DIT PAS : la pochette, le label, l'annee.
@@ -502,6 +503,73 @@ async function completerParBandcamp(m: MorceauAudd): Promise<MorceauAudd> {
   } catch {
     return m;
   }
+}
+
+/* ═══ LE STYLE D'UN MORCEAU NOMME, PAR CEUX QUI LE CONNAISSENT ═══
+
+   Mika, le 1er octobre 2026 : AudD trouve « Tinnies & Ciggies » d'Amoss,
+   et la page annonce « Famille Ambient, 7 % ». C'est de la drum and bass,
+   sur Flexout Audio. Le reseau qui ecoute dix secondes au micro devine a
+   l'oreille ; quand le morceau a un nom, d'autres le savent. On demande
+   donc, dans l'ordre, et on additionne :
+
+   1. le genre d'Apple Music, deja dans la reponse d'AudD ;
+   2. les etiquettes Last.fm DU MORCEAU, les plus precises (« neurofunk ») ;
+   3. celles de l'ARTISTE sur Last.fm et sur Bandcamp, si le morceau n'en a
+      pas assez.
+
+   Discogs aurait donne les styles de la sortie, mais il refuse les
+   adresses de Cloudflare (voir artisteChezDiscogs). Le poids d'une
+   etiquette Last.fm est son score sur 100 divise par 25, comme dans la
+   moisson ; celles du morceau comptent double. Les noms sont rendus bruts,
+   la page les range dans l'atlas. */
+async function completerParEtiquettes(m: MorceauAudd, env: Env): Promise<MorceauAudd> {
+  const poids = new Map<string, number>();
+  const ajouter = (nom: string, n: number): void => {
+    const cle = nom.trim();
+    if (cle) poids.set(cle, (poids.get(cle) ?? 0) + n);
+  };
+  const sources = new Set<string>();
+  m.styles.forEach((g, i) => ajouter(g, 6 - Math.min(i, 3)));
+  if (m.styles.length > 0) sources.add(m.sourceStyles ?? 'apple');
+
+  if (env.LASTFM_API_KEY) {
+    try {
+      const r = await fetch(
+        `https://ws.audioscrobbler.com/2.0/?method=track.gettoptags&artist=${encodeURIComponent(m.artiste)}&track=${encodeURIComponent(m.titre)}&api_key=${env.LASTFM_API_KEY}&format=json&autocorrect=1`,
+        { headers: { 'user-agent': AGENT_DISCOGS }, signal: AbortSignal.timeout(4000) }
+      );
+      const j = (await r.json()) as { toptags?: { tag?: { name: string; count: number }[] } };
+      const tags = (j.toptags?.tag ?? []).filter((x) => x.count >= 10);
+      for (const x of tags) ajouter(x.name, 2 * Math.max(1, Math.round(x.count / 25)));
+      if (tags.length > 0) sources.add('lastfm-morceau');
+      journalReco.push(`lastfm morceau : ${tags.length} etiquette(s)`);
+    } catch {
+      journalReco.push('lastfm morceau : muet');
+    }
+  }
+  /* L'ARTISTE SEULEMENT S'IL MANQUE QUELQUE CHOSE : un artiste qui touche a
+     trois styles diluerait la reponse precise du morceau. */
+  if (poids.size < 3) {
+    for (const [s, f] of [
+      ['lastfm-artiste', () => artisteChezLastfm(m.artiste, env)],
+      ['bandcamp', () => artisteChezBandcamp(m.artiste)],
+    ] as const) {
+      try {
+        const a = await f();
+        if (!a.trouve) continue;
+        for (const [nom, n] of Object.entries(a.styles)) ajouter(nom, n);
+        sources.add(s);
+      } catch {
+        /* Une source muette n'empeche pas les autres. */
+      }
+    }
+  }
+  const styles = [...poids.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 10)
+    .map(([nom]) => nom);
+  return { ...m, styles, sourceStyles: [...sources].join('+') || null };
 }
 
 function raisonDAudd(brut: Record<string, unknown>): string {
@@ -1122,6 +1190,7 @@ export default {
         journalReco.length = 0;
         if (morceau) morceau = await completerParDeezer(morceau);
         if (morceau) morceau = await completerParBandcamp(morceau);
+        if (morceau) morceau = await completerParEtiquettes(morceau, env);
       } catch (e) {
         return new Response(
           JSON.stringify({ morceau: null, raison: e instanceof Error ? e.message : String(e) }),

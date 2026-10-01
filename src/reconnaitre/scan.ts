@@ -56,9 +56,17 @@ export function genreRattachable(styles: readonly Prediction[]): { genre: string
 
 /** Le scan a enregistrer, ou null si rien ne doit l'etre : pas de morceau,
     pas de genre exact, ou confiance sous le seuil. */
-export function scanAEnregistrer(morceau: MorceauReconnu | null, styles: readonly Prediction[]): Scan | null {
+export function scanAEnregistrer(
+  morceau: MorceauReconnu | null,
+  styles: readonly Prediction[],
+  /* LE GENRE DONNE PAR LES ETIQUETTES DU MORCEAU (Apple Music, Last.fm),
+     depuis le 1er octobre 2026 : il passe avant l'oreille du reseau, avec
+     une confiance pleine, parce qu'il vient de ceux qui connaissent le
+     morceau et non d'une devinette sur dix secondes. */
+  genreDuMorceau: string | null = null
+): Scan | null {
   if (!morceau) return null;
-  const r = genreRattachable(styles);
+  const r = genreDuMorceau ? { genre: genreDuMorceau, confiance: 1 } : genreRattachable(styles);
   if (!r || r.confiance < SEUIL_SCAN) return null;
   return {
     titre: morceau.titre,

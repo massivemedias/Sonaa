@@ -723,6 +723,8 @@ interface Dictionnaire {
   readonly reconnaitreChargement: (part: number) => string;
   readonly reconnaitrePoids: (mo: number) => string;
   readonly reconnaitreLeStyle: string;
+  readonly reconnaitreStyleSource: (sources: readonly string[]) => string;
+  readonly reconnaitreALOreille: string;
   readonly reconnaitreLeMorceau: string;
   readonly reconnaitreHorsAtlas: string;
   readonly ouvrirLeStyle: string;
@@ -1466,6 +1468,11 @@ const FR: Dictionnaire = {
   reconnaitreChargement: (part) => `Chargement du modèle… ${Math.round(part * 100)} %`,
   reconnaitrePoids: (mo) => `Le modèle pèse ${mo} Mo, téléchargés une seule fois puis gardés par le navigateur.`,
   reconnaitreLeStyle: 'Le style',
+  reconnaitreStyleSource: (s) =>
+    s.length === 0
+      ? 'D’après les étiquettes du morceau.'
+      : `D’après ${s.length === 1 ? s[0] : `${s.slice(0, -1).join(', ')} et ${s[s.length - 1]}`}, pour ce morceau.`,
+  reconnaitreALOreille: 'Ce que le micro entendait',
   reconnaitreLeMorceau: 'Le morceau',
   reconnaitreHorsAtlas: 'hors atlas',
   ouvrirLeStyle: 'Ouvrir le style',
@@ -2204,6 +2211,11 @@ const EN: Dictionnaire = {
   reconnaitreChargement: (part) => `Loading the model… ${Math.round(part * 100)}%`,
   reconnaitrePoids: (mo) => `The model weighs ${mo} MB, downloaded once and then kept by your browser.`,
   reconnaitreLeStyle: 'The style',
+  reconnaitreStyleSource: (s) =>
+    s.length === 0
+      ? 'According to the track’s tags.'
+      : `According to ${s.length === 1 ? s[0] : `${s.slice(0, -1).join(', ')} and ${s[s.length - 1]}`}, for this track.`,
+  reconnaitreALOreille: 'What the microphone heard',
   reconnaitreLeMorceau: 'The track',
   reconnaitreHorsAtlas: 'outside the atlas',
   ouvrirLeStyle: 'Open the style',
