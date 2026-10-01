@@ -31,12 +31,73 @@
   right: 0;
   height: 2px;
   background: var(--voile-07);
+  cursor: pointer;
+  /* Le doigt qui tire ne fait pas defiler la page. */
+  touch-action: none;
+  transition: height 150ms ease, top 150ms ease;
 }
-.mini-filet span {
-  display: block;
-  height: 100%;
+/* LA CIBLE : vingt-quatre pixels autour d'un trait de deux, invisible. Elle
+   deborde de onze pixels au-dessus du lecteur et de onze dedans. */
+.mini-filet::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -11px;
+  bottom: -11px;
+}
+.mini-filet-fait {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
   background: var(--accent);
   transition: width 250ms linear;
+}
+/* La poignee : cachee au repos, elle nait au survol, au focus et pendant
+   qu'on tire. C'est elle qui dit le focus du clavier, sans contour. */
+.mini-filet-poignee {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: scale(0);
+  transition: transform 150ms ease;
+}
+.mini-filet:hover,
+.mini-filet:focus-visible,
+.mini-filet[data-tire='true'] {
+  top: -2px;
+  height: 4px;
+}
+.mini-filet:hover .mini-filet-poignee,
+.mini-filet:focus-visible .mini-filet-poignee,
+.mini-filet[data-tire='true'] .mini-filet-poignee {
+  transform: scale(1);
+}
+.mini-filet:focus-visible {
+  outline: none;
+}
+/* Pendant qu'on tire, le trait suit le doigt sans retard. */
+.mini-filet[data-tire='true'] .mini-filet-fait {
+  transition: none;
+}
+/* AU DOIGT, LA POIGNEE EST TOUJOURS LA : un ecran tactile n'a pas de survol,
+   et un trait de deux pixels ne dit pas qu'il se tire. */
+@media (hover: none) {
+  .mini-filet-poignee {
+    transform: scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mini-filet,
+  .mini-filet-fait,
+  .mini-filet-poignee {
+    transition: none;
+  }
 }
 
 .mini-pochette {
