@@ -670,6 +670,7 @@
 /* La pochette est un bouton : il faut lui retirer tout ce qu'un navigateur
    met sur un bouton, et lui laisser exactement la surface de l'image. */
 .cal-ouvre {
+  position: relative;
   display: block;
   width: 100%;
   padding: 0;
@@ -677,6 +678,82 @@
   background: none;
   cursor: pointer;
   text-align: left;
+}
+
+/* ═══ LE JOUR SUR L'AFFICHE ═══ Voir CalendrierPage.tsx et date-soiree.ts.
+
+   Une pastille sombre en haut a gauche de l'image, quelle que soit
+   l'affiche dessous : le fond est le granite sombre presque opaque, l'encre
+   presque blanche, et le contraste ne depend pas de l'image. Elle apparait
+   au survol et au focus du clavier ; au doigt, qui n'a pas de survol, elle
+   est toujours la. */
+.cal-quand-survol {
+  position: absolute;
+  top: var(--espace-12);
+  left: var(--espace-12);
+  max-width: calc(100% - 2 * var(--espace-12));
+  box-sizing: border-box;
+  padding: var(--espace-4) var(--espace-12);
+  border-radius: var(--rayon-pilule);
+  background: oklch(0.15 0.004 70 / 0.82);
+  color: oklch(0.97 0.004 80);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+@media (hover: hover) {
+  .cal-soiree:hover .cal-quand-survol,
+  .cal-ouvre:focus-visible .cal-quand-survol {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (hover: none) {
+  .cal-quand-survol {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* La forme courte, « sam. 3 oct. - 15 h 00 », pour les cartes etroites du
+   telephone ; la longue y reste lue par les lecteurs d'ecran. */
+.cal-quand-court {
+  display: none;
+}
+@media (max-width: 699px) {
+  .cal-quand-court {
+    display: inline;
+  }
+  .cal-quand-long {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+/* SUR UNE AFFICHE DESSINEE, LE JOUR EST DEJA ECRIT EN GRAND : la pastille ne
+   s'affiche pas, mais elle reste le nom du bouton pour un lecteur d'ecran. */
+.cal-ouvre:has(.cal-gen) .cal-quand-survol {
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cal-quand-survol {
+    transition: none;
+  }
 }
 .cal-ouvre:focus-visible {
   outline: var(--rule-width) solid var(--ink-secondary);

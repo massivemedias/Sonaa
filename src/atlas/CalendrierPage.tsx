@@ -66,6 +66,7 @@ import {
 import { soireesManuelles, supprimerSoiree, type SoireeManuelle } from '../lib/soirees-manuelles.ts';
 import { sansDoublons } from '../lib/sans-doublons.ts';
 import { ImageDeSoiree } from './AfficheGeneree.tsx';
+import { quandEnLettres } from '../lib/date-soiree.ts';
 import { AjouterSoiree } from './AjouterSoiree.tsx';
 import { PartageSoiree } from './PartageSoiree.tsx';
 import { useSession } from '../lib/useSession.ts';
@@ -347,15 +348,16 @@ function FicheSoiree({
             </dd>
           </div>
         )}
-        {debut && (
-          <div>
-            <dt>{t.quandLibelle}</dt>
-            <dd>
-              {debut}
-              {fin ? ` ${t.jusqua} ${fin}` : ''}
-            </dd>
-          </div>
-        )}
+        {/* LE JOUR EN TOUTES LETTRES, PAS SEULEMENT L'HEURE : « samedi 3 octobre
+            2026 - 15 h 00 ». Voir date-soiree.ts. La ligne existe meme sans
+            heure annoncee, parce que le jour, lui, est toujours connu. */}
+        <div>
+          <dt>{t.quandLibelle}</dt>
+          <dd>
+            {quandEnLettres(soiree, debut, fuseau, LOCALE)}
+            {fin ? ` ${t.jusqua} ${fin}` : ''}
+          </dd>
+        </div>
         {soiree.prix && (
           <div>
             <dt>{t.combien}</dt>
@@ -1174,6 +1176,20 @@ export function CalendrierPage() {
                                 aria-controls={`detail-${s.id}`}
                               >
                                 <ImageDeSoiree soiree={s} fuseau={fuseau} variante="carte" className="cal-affiche" />
+                                {/* LE JOUR SUR L'AFFICHE, AU SURVOL. Mika, le 30
+                                    septembre 2026 : « faut que je cherche quand
+                                    c'est ». Le jour n'etait ecrit qu'en tete de
+                                    section, des ecrans plus haut. Il s'affiche
+                                    sur l'image quand on la survole, et en
+                                    permanence au doigt, qui n'a pas de survol.
+                                    Il est aussi le nom de ce bouton. */}
+                                <span className="cal-quand-survol">
+                                  <span className="cal-quand-long">{quandEnLettres(s, h, fuseau, LOCALE, false)}</span>
+                                  <span className="cal-quand-court" aria-hidden="true">
+                                    {jourCourt(s.date, fuseau)}
+                                    {h ? ` - ${h}` : ''}
+                                  </span>
+                                </span>
                               </button>
                               <div className="cal-texte">
                                 <button
