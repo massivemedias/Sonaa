@@ -41,3 +41,22 @@ Aucun coût récurrent : la moisson (`npm run moissonner:labels`) tourne avec
 les clés déjà posées, et les pages sont générées au déploiement. La moisson
 de la nuit ajoute les nouveaux labels chaque nuit et refait tout le premier
 du mois.
+
+## La galerie et les logos (ajout du 1er octobre 2026)
+
+`#/labels` est une galerie, ouverte depuis la barre de navigation (après
+Styles) et le menu « Plus » sur téléphone. Elle se cherche, se trie par
+présence dans l'atlas ou de A à Z, et se filtre par pays. En tête, huit
+incontournables : les labels que l'atlas cite le plus, sans les majors.
+Classés par disques possédés, Columbia, EMI ou Sony passaient devant Warp
+et Tresor, parce qu'ils sortent d'abord de la pop.
+
+Chaque label porte son logo :
+
+- celui de Wikimedia Commons d'abord, quand sa licence est libre (domaine
+  public, CC0, CC BY), avec son crédit sur la fiche ;
+- l'image du label chez Discogs sinon, comme ses pochettes ;
+- à défaut, un monogramme teinté par le nom, pour que la galerie reste
+  une grille de visuels et non une liste de trous.
+
+Le pays, moissonné en français, s'affiche dans la langue du site.

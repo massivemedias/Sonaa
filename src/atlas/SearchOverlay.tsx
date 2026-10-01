@@ -11,9 +11,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { FAMILIES, STRUCTURES } from './structures.ts';
 import './search.css';
-import { t } from '../langue/langue.ts';
+import { langue, t } from '../langue/langue.ts';
 import { chercherArtistes, type ArtisteTrouve } from '../lib/styles-dartiste.ts';
-import { labelsPourRecherche, type EntreeLabel } from '../lib/labels.ts';
+import { labelsPourRecherche, nomDuPays, type EntreeLabel } from '../lib/labels.ts';
 import INDEX_LABELS from '../data/labels-index.json';
 
 interface Props {
@@ -505,7 +505,7 @@ export function SearchOverlay({ onPick, onListen, onClose, onFamille }: Props) {
           onClick={() => act(item)}
         >
           <span className="search-labelpage-nom">{e.n}</span>
-          <span className="search-labelpage-faits">{[e.p, e.a, e.c > 0 ? t.labelResultat(e.c) : null].filter(Boolean).join(' · ')}</span>
+          <span className="search-labelpage-faits">{[e.p ? nomDuPays(e.p, langue) : null, e.a, e.c > 0 ? t.labelResultat(e.c) : null].filter(Boolean).join(' · ')}</span>
         </button>
       );
     }

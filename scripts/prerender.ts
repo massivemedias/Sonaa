@@ -919,7 +919,7 @@ for (const f of FICHES_LABELS) {
     { nom: f.nom, href: `/labels/${f.slug}/` },
   ];
   const premiere = resume.split(/(?<=\.)\s/)[0] ?? '';
-  ecrire({
+  const page = {
     chemin: `/labels/${f.slug}/`,
     hash: `#/labels/${f.slug}`,
     titre: `${f.nom} : label${f.pays ? ` (${f.pays})` : ''}${f.annee ? `, fondé en ${f.annee}` : ''}, ses disques les plus connus · SONAA`,
@@ -945,7 +945,11 @@ for (const f of FICHES_LABELS) {
         sameAs: [f.wiki.fr, f.wiki.en, f.discogs].filter(Boolean),
       },
     ],
-  });
+  };
+  ecrire(page);
+  /* L'adresse d'une graphie fondue dans ce label reste servie, avec ce
+     label pour canonique : un lien deja partage ne tombe pas sur une 404. */
+  for (const a of f.anciens ?? []) ecrire({ ...page, chemin: `/labels/${a}/`, canonique: page.chemin });
 }
 
 /* ═══ LE PLAN DU SITE ET LES ROBOTS ═══ */

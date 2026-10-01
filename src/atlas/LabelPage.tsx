@@ -27,7 +27,7 @@ import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import { useLecteurPartage } from '../lecture/LecteurContexte.tsx';
 import { peutEcouter } from '../lib/porte-ecoute.ts';
-import { cleDeLabel, type EntreeLabel, type FicheLabel } from '../lib/labels.ts';
+import { cleDeLabel, estMajor, nomDuPays, ordreDeNotoriete, type EntreeLabel, type FicheLabel } from '../lib/labels.ts';
 import { slug } from '../lib/chemins.ts';
 import INDEX from '../data/labels-index.json';
 import { langue, t } from '../langue/langue.ts';
@@ -78,6 +78,48 @@ function Pochette({ p }: { p: PisteDuLabel }) {
   );
 }
 
+/* ═══ LE LOGO ═══ Sur une plaque claire : la plupart des logos sont noirs
+   sur fond transparent, et disparaitraient sur le granite sombre. Sans logo,
+   un monogramme : les initiales du label, sur une teinte tiree de son nom,
+   pour que deux labels sans logo ne se ressemblent pas. */
+const teinteDuNom = (nom: string): number => {
+  let h = 0;
+  for (let i = 0; i < nom.length; i += 1) h = (h * 31 + nom.charCodeAt(i)) % 360;
+  return h;
+};
+const initiales = (nom: string): string =>
+  nom
+    .replace(/\b(records?|recordings|music|label|ltd|inc)\b/gi, '')
+    .split(/[^A-Za-z0-9]+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((m) => m[0]?.toUpperCase() ?? '')
+    .join('') || nom.slice(0, 2).toUpperCase();
+
+function Logo({ nom, url, grand = false }: { nom: string; url: string | null | undefined; grand?: boolean }) {
+  const [casse, setCasse] = useState(false);
+  if (url && !casse) {
+    /* UNE IMAGE DE DISCOGS EST UNE VIGNETTE CARREE, souvent avec son propre
+       fond : elle remplit la tuile. Un logo de Commons est un dessin sur fond
+       transparent : il se pose sur la plaque, avec de l'air autour. */
+    const commons = url.includes('wikimedia.org');
+    return (
+      <span className={`lb-logo${commons ? '' : ' lb-logo-image'}${grand ? ' lb-logo-grand' : ''}`}>
+        <img src={url} alt={nom} loading="lazy" onError={() => setCasse(true)} />
+      </span>
+    );
+  }
+  return (
+    <span
+      className={`lb-logo lb-logo-monogramme${grand ? ' lb-logo-grand' : ''}`}
+      style={{ ['--lb-teinte' as string]: String(teinteDuNom(nom)) }}
+      aria-hidden="true"
+    >
+      {initiales(nom)}
+    </span>
+  );
+}
+
 function Fiche({ fiche }: { fiche: FicheLabel }) {
   const { lecture, jouer, basculer } = useLecteurPartage();
   const pistes = useMemo(() => pistesDuLabel(fiche.cles), [fiche]);
@@ -103,13 +145,27 @@ function Fiche({ fiche }: { fiche: FicheLabel }) {
   const resume = langue === 'en' ? (fiche.resume.en ?? fiche.resume.fr) : (fiche.resume.fr ?? fiche.resume.en);
   const langueDuResume = langue === 'en' ? (fiche.resume.en ? 'en' : 'fr') : fiche.resume.fr ? 'fr' : 'en';
   const wiki = langueDuResume === 'fr' ? (fiche.wiki.fr ?? fiche.wiki.en) : (fiche.wiki.en ?? fiche.wiki.fr);
-  const faits = [fiche.pays, fiche.annee ? t.labelFonde(fiche.annee) : null, fiche.fondateurs.length > 0 ? t.labelPar(fiche.fondateurs) : null].filter(
+  const faits = [fiche.pays ? nomDuPays(fiche.pays, langue) : null, fiche.annee ? t.labelFonde(fiche.annee) : null, fiche.fondateurs.length > 0 ? t.labelPar(fiche.fondateurs) : null].filter(
     (x): x is string => Boolean(x)
   );
 
   return (
     <article className="lb">
-      <header className="lb-tete">
+      <header className="lb-tete lb-tete-fiche">
+        {/* LE FOND DE LA TETE : ses pochettes les plus connues, floutees.
+            Le label se reconnait a ses disques avant de se lire. */}
+        {fiche.sorties.some((s) => s.image) && (
+          <div className="lb-fond" aria-hidden="true">
+            {fiche.sorties
+              .filter((s) => s.image)
+              .slice(0, 4)
+              .map((s) => (
+                <img key={s.url} src={s.image ?? ''} alt="" loading="lazy" />
+              ))}
+          </div>
+        )}
+        <Logo nom={fiche.nom} url={fiche.logo?.url} grand />
+        <div className="lb-tete-texte">
         <p className="lb-surtitre">
           <a href="#/labels">{t.lesLabels}</a>
         </p>
@@ -127,6 +183,12 @@ function Fiche({ fiche }: { fiche: FicheLabel }) {
             </a>
           )}
         </p>
+        {fiche.logo?.source === 'commons' && fiche.logo.credit && fiche.logo.page && (
+          <a className="lb-credit-logo" href={fiche.logo.page} target="_blank" rel="noreferrer noopener">
+            {t.labelLogoCredit(fiche.logo.credit)}
+          </a>
+        )}
+        </div>
       </header>
 
       <div className="lb-colonnes">
@@ -232,28 +294,96 @@ function Fiche({ fiche }: { fiche: FicheLabel }) {
   );
 }
 
-/** La liste de tous les labels, par ordre alphabetique, avec leur pays,
-    leur annee et leur nombre de morceaux dans l'atlas. */
-function Liste() {
+/* ═══ LA GALERIE DE TOUS LES LABELS ═══
+
+   Mika, le 1er octobre 2026 : « une belle page design, avec des logos de
+   labels ». Les plus connus d'abord (le nombre de collectionneurs de leur
+   disque le plus possede), en cartes a logo ; un champ pour chercher, un
+   tri A a Z, un filtre par pays. En tete, les huit incontournables en
+   grand. */
+function Galerie() {
+  const [terme, setTerme] = useState('');
+  const [tri, setTri] = useState<'connus' | 'alpha'>('connus');
+  const [pays, setPays] = useState('');
   useEffect(() => {
     document.title = `${t.lesLabels} · SONAA`;
   }, []);
+
+  const lesPays = useMemo(() => {
+    const n = new Map<string, number>();
+    for (const e of ENTREES) if (e.p) n.set(e.p, (n.get(e.p) ?? 0) + 1);
+    return [...n.entries()].sort((a, b) => b[1] - a[1]).map(([p]) => p);
+  }, []);
+
+  const liste = useMemo(() => {
+    const q = cleDeLabel(terme);
+    return ENTREES.filter((e) => (!q || e.k.some((k) => k.includes(q))) && (!pays || e.p === pays)).sort((a, b) =>
+      tri === 'alpha' ? a.n.localeCompare(b.n) : ordreDeNotoriete(a, b)
+    );
+  }, [terme, tri, pays]);
+
+  const uneVue = !terme && !pays && tri === 'connus';
+  const aLaUne = uneVue ? liste.filter((e) => !estMajor(e)).slice(0, 8) : [];
+  const reste = uneVue ? liste.filter((e) => !aLaUne.includes(e)) : liste;
+
+  const carte = (e: EntreeLabel, grande: boolean) => (
+    <li key={e.s} className={grande ? 'lbg-carte lbg-carte-une' : 'lbg-carte'}>
+      <a href={`#/labels/${e.s}`}>
+        <Logo nom={e.n} url={e.l} />
+        <span className="lbg-nom">{e.n}</span>
+        <span className="lbg-faits">{[e.p ? nomDuPays(e.p, langue) : null, e.a].filter(Boolean).join(' · ')}</span>
+        {e.c > 0 && <span className="lbg-compte">{t.labelResultat(e.c)}</span>}
+      </a>
+    </li>
+  );
+
   return (
-    <section className="lb">
-      <header className="lb-tete">
+    <section className="lb lbg">
+      <header className="lb-tete lbg-tete">
         <h1 className="lb-nom">{t.lesLabels}</h1>
         <p className="lb-faits">{t.labelsChapeau(ENTREES.length)}</p>
+        <div className="lbg-outils">
+          <input
+            type="search"
+            className="lbg-chercher"
+            placeholder={t.labelsChercher}
+            aria-label={t.labelsChercher}
+            value={terme}
+            onChange={(e) => setTerme(e.target.value)}
+          />
+          <div className="lbg-tri" role="group">
+            <button type="button" aria-pressed={tri === 'connus'} onClick={() => setTri('connus')}>
+              {t.labelsTriConnus}
+            </button>
+            <button type="button" aria-pressed={tri === 'alpha'} onClick={() => setTri('alpha')}>
+              {t.labelsTriAlpha}
+            </button>
+          </div>
+          <select className="lbg-pays" value={pays} onChange={(e) => setPays(e.target.value)} aria-label={t.labelsTousPays}>
+            <option value="">{t.labelsTousPays}</option>
+            {lesPays.map((p) => (
+              <option key={p} value={p}>
+                {nomDuPays(p, langue)}
+              </option>
+            ))}
+          </select>
+        </div>
       </header>
-      <ul className="lb-liste">
-        {ENTREES.map((e) => (
-          <li key={e.s}>
-            <a href={`#/labels/${e.s}`}>
-              <span className="lb-liste-nom">{e.n}</span>
-              <span className="lb-liste-faits">{[e.p, e.a, e.c > 0 ? t.labelResultat(e.c) : null].filter(Boolean).join(' · ')}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
+
+      {aLaUne.length > 0 && (
+        <div className="lbg-section">
+          <h2 className="lb-titre">{t.labelsALaUne}</h2>
+          <ul className="lbg-grille lbg-grille-une">{aLaUne.map((e) => carte(e, true))}</ul>
+        </div>
+      )}
+      <div className="lbg-section">
+        {uneVue && <h2 className="lb-titre">{t.labelsTous(ENTREES.length)}</h2>}
+        {reste.length === 0 && aLaUne.length === 0 ? (
+          <p className="lb-note">{t.labelsAucun}</p>
+        ) : (
+          <ul className="lbg-grille">{reste.map((e) => carte(e, false))}</ul>
+        )}
+      </div>
     </section>
   );
 }
@@ -277,7 +407,7 @@ export function LabelPage() {
     }
     setFiche('chargement');
     void chargerFiches().then((toutes) => {
-      if (vivant) setFiche(toutes.find((f) => f.slug === slugCourant) ?? null);
+      if (vivant) setFiche(toutes.find((f) => f.slug === slugCourant || f.anciens?.includes(slugCourant)) ?? null);
     });
     window.scrollTo(0, 0);
     return () => {
@@ -290,7 +420,7 @@ export function LabelPage() {
       <EnTeteSite />
       <main className="credits lb-page">
         {!slugCourant ? (
-          <Liste />
+          <Galerie />
         ) : fiche === 'chargement' ? (
           <p className="lb-note">{t.chargement}</p>
         ) : fiche ? (

@@ -26,6 +26,8 @@ export interface FicheLabel {
   readonly nom: string;
   /** Les graphies du nom dans le corpus, pour y retrouver ses morceaux. */
   readonly cles: readonly string[];
+  /** Les adresses d'une graphie fondue dans celle-ci, qui renvoient ici. */
+  readonly anciens?: readonly string[];
   /** Le nombre de morceaux du label dans l'atlas, au moment de la moisson. */
   readonly n: number;
   readonly pays: string | null;
@@ -38,6 +40,18 @@ export interface FicheLabel {
   readonly profil: string | null;
   readonly discogs: string | null;
   readonly sorties: readonly SortieConnue[];
+  /** L'element Wikidata, « Q123 ». */
+  readonly wikidata?: string | null;
+  /** Le logo : Wikimedia Commons d'abord (licence libre, credit), l'image
+      du label chez Discogs sinon. */
+  readonly logo?: LogoLabel | null;
+}
+
+export interface LogoLabel {
+  readonly url: string;
+  readonly source: 'commons' | 'discogs';
+  readonly credit: string | null;
+  readonly page: string | null;
 }
 
 /** La forme sur laquelle on compare deux noms de label : sans accents, sans
@@ -69,6 +83,11 @@ export interface EntreeLabel {
   readonly c: number;
   readonly p: string | null;
   readonly a: number | null;
+  /** L'adresse du logo, pour la galerie et la recherche. */
+  readonly l?: string | null;
+  /** Le nombre de collectionneurs de son disque le plus possede : la
+      notoriete, pour ranger la galerie. */
+  readonly r?: number;
 }
 
 /** Les labels que la recherche montre EN PREMIER : ceux dont le nom commence
@@ -89,4 +108,54 @@ export function labelsPourRecherche(requete: string, index: readonly EntreeLabel
     .sort((a, b) => b.note - a.note || b.e.c - a.e.c)
     .slice(0, 2)
     .map((x) => x.e);
+}
+
+/* LES MAJORS NE SONT PAS DES INCONTOURNABLES DE L'ATLAS. Classes par leurs
+   disques les plus possedes, Republic, EMI, Sony ou Warner passaient devant
+   Warp et Tresor (vu le 1er octobre 2026) : ils sortent de tout, et d'abord
+   de la pop. Ils restent dans la galerie, mais pas en tete. La liste est
+   celle des grandes maisons et de leurs etiquettes historiques. */
+const MAJORS = new Set(
+  [
+    'columbia', 'emi', 'parlophone', 'sony music', 'sony music entertainment', 'warner music', 'warner bros records', 'warner records',
+    'republic records', 'atlantic', 'atlantic records', 'virgin', 'virgin records', 'polydor', 'island records', 'capitol records',
+    'rca', 'rca records', 'rca victor', 'epic', 'epic records', 'mercury', 'mercury records', 'universal music', 'universal music group',
+    'interscope records', 'elektra', 'elektra records', 'arista', 'arista records', 'decca', 'decca records', 'def jam recordings',
+    'geffen records', 'a and m records', 'motown', 'emi records', 'bmg', 'bmg rights management', 'sire records', 'reprise records',
+    'because music', 'columbia records', 'cbs', 'philips', 'ariola', 'aftermath entertainment', 'republic',
+  ].map(cleDeLabel)
+);
+
+export function estMajor(e: Pick<EntreeLabel, 'k'>): boolean {
+  return e.k.some((k) => MAJORS.has(k));
+}
+
+/** L'ordre de la galerie : la presence dans l'atlas d'abord (un label dont
+    l'atlas cite vingt morceaux compte plus pour lui qu'un label celebre
+    pour autre chose), puis le nombre de collectionneurs de son disque le
+    plus possede. */
+export function ordreDeNotoriete(a: EntreeLabel, b: EntreeLabel): number {
+  return b.c - a.c || (b.r ?? 0) - (a.r ?? 0) || a.n.localeCompare(b.n);
+}
+
+/* LE PAYS EST MOISSONNE EN FRANCAIS (le libelle Wikidata), et le site parle
+   aussi anglais : « Royaume-Uni » s'affichait tel quel en anglais. Le nom
+   francais est ramene a son code ISO, que le navigateur nomme dans la langue
+   du site. Un pays absent de la table garde son nom francais. */
+const CODES_DES_PAYS: Readonly<Record<string, string>> = {
+  'États-Unis': 'US', 'Royaume-Uni': 'GB', Allemagne: 'DE', 'Pays-Bas': 'NL', Belgique: 'BE', France: 'FR', Italie: 'IT',
+  Canada: 'CA', Japon: 'JP', Norvège: 'NO', Jamaïque: 'JM', Australie: 'AU', Espagne: 'ES', Suède: 'SE', Finlande: 'FI',
+  Égypte: 'EG', 'Corée du Sud': 'KR', Hongrie: 'HU', Islande: 'IS', 'Émirats arabes unis': 'AE', Danemark: 'DK', Suisse: 'CH',
+  Autriche: 'AT', Irlande: 'IE', Portugal: 'PT', Pologne: 'PL', Russie: 'RU', Brésil: 'BR', Mexique: 'MX', Grèce: 'GR',
+  'Afrique du Sud': 'ZA', 'Nouvelle-Zélande': 'NZ', Israël: 'IL', Inde: 'IN', Chine: 'CN', Argentine: 'AR', Tchéquie: 'CZ',
+};
+
+export function nomDuPays(pays: string, langue: string): string {
+  const code = CODES_DES_PAYS[pays];
+  if (!code || langue === 'fr') return pays;
+  try {
+    return new Intl.DisplayNames([langue], { type: 'region' }).of(code) ?? pays;
+  } catch {
+    return pays;
+  }
 }

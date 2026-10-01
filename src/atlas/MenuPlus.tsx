@@ -68,6 +68,9 @@ export function MenuPlus() {
     /* LA RECONNAISSANCE SORT D'ICI AUSSI, le 21 septembre 2026, et pour la
        meme raison que de la rangee du bureau : elle entre par le bouton en
        haut de l'atlas, pas par une liste de portes. Voir SiteNav.tsx. */
+    /* LES LABELS, depuis le 1er octobre 2026 : la barre du bas est pleine
+       (quatre onglets et Track ID), ils entrent donc ici. Voir LabelPage. */
+    { href: '#/labels', label: t.navLabels, id: 'labels' },
     { href: '#/profil', label: t.monProfil, id: 'profil' },
     { href: '#/a-propos', label: t.aPropos, id: 'apropos' },
   ];

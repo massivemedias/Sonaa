@@ -4,6 +4,11 @@
    ordinateur : ce qu'on lit et ce qu'on ecoute a gauche, les pochettes de
    ses disques les plus connus a droite. Sur telephone, tout s'empile. */
 
+/* LE FOND DE POCHETTES DEBORDE DE LA COLONNE, et c'est voulu ; il ne doit
+   pas deborder de l'ecran (defilement horizontal mesure a 390 px). */
+.lb-page {
+  overflow-x: clip;
+}
 .lb-page .lb {
   display: grid;
   gap: var(--espace-32);
@@ -278,33 +283,6 @@ a.lb-source {
   }
 }
 
-/* ═══ LA LISTE DE TOUS LES LABELS ═══ */
-.lb-liste {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  columns: 3 18rem;
-  column-gap: var(--espace-32);
-}
-.lb-liste li {
-  break-inside: avoid;
-}
-.lb-liste a {
-  display: grid;
-  gap: 2px;
-  padding: var(--espace-8) 0;
-  border-bottom: 1px solid var(--filet);
-  text-decoration: none;
-}
-.lb-liste-nom {
-  font-weight: 700;
-  color: var(--ink-primary);
-}
-.lb-liste-faits {
-  font-size: 0.75rem;
-  color: var(--ink-secondary);
-}
-
 @media (max-width: 899px) {
   .lb-liens a,
   .lb-styles a {
@@ -314,14 +292,242 @@ a.lb-source {
     width: 52px;
     height: 52px;
   }
-  .lb-liste a {
-    min-height: 44px;
-  }
   .lb-piste-style,
   .lb-surtitre a,
   a.lb-source {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
+  }
+}
+
+/* ═══ LE LOGO ═══ Une plaque claire, le logo contenu dedans : la plupart
+   sont noirs sur fond transparent. Le monogramme, a defaut, porte une teinte
+   tiree du nom du label. */
+.lb-logo {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 18px;
+  overflow: hidden;
+  background: oklch(0.95 0.008 75);
+  box-shadow: inset 0 0 0 1px oklch(1 0 0 / 0.08);
+}
+.lb-logo img {
+  width: 78%;
+  height: 78%;
+  object-fit: contain;
+}
+.lb-logo-image img {
+  width: 100%;
+  height: 100%;
+}
+.lb-logo-monogramme {
+  background:
+    radial-gradient(120% 90% at 20% 15%, oklch(0.42 0.12 var(--lb-teinte, 40)) 0%, transparent 60%),
+    oklch(0.24 0.05 var(--lb-teinte, 40));
+  color: oklch(0.92 0.04 var(--lb-teinte, 40));
+  font-size: clamp(1.6rem, 4.4vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.lb-logo-grand {
+  width: clamp(120px, 16vw, 188px);
+  flex: none;
+  border-radius: 26px;
+  box-shadow:
+    0 24px 60px -30px oklch(0 0 0 / 0.9),
+    inset 0 0 0 1px oklch(1 0 0 / 0.1);
+}
+.lb-logo-grand.lb-logo-monogramme {
+  font-size: clamp(2.6rem, 5.4vw, 3.6rem);
+}
+
+/* ═══ LA TETE D'UNE FICHE : le logo a gauche, le fond de pochettes ═══ */
+.lb-tete-fiche {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  gap: var(--espace-32);
+  padding: var(--espace-32) 0;
+}
+.lb-tete-texte {
+  display: grid;
+  gap: var(--espace-8);
+  min-width: 0;
+}
+.lb-fond {
+  position: absolute;
+  inset: -40px -10vw -20px;
+  z-index: -1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  opacity: 0.32;
+  filter: blur(46px) saturate(1.3);
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 40%, transparent 100%);
+}
+.lb-fond img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.lb-credit-logo {
+  font-size: 0.6875rem;
+  color: var(--ink-secondary);
+  text-decoration: none;
+}
+.lb-credit-logo:hover {
+  text-decoration: underline;
+}
+@media (max-width: 720px) {
+  .lb-tete-fiche {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--espace-16);
+    padding: var(--espace-16) 0;
+  }
+}
+
+/* ═══ LA GALERIE ═══ */
+.lbg-tete {
+  gap: var(--espace-12);
+}
+.lbg-outils {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-8);
+  align-items: center;
+  margin-top: var(--espace-8);
+}
+.lbg-chercher,
+.lbg-pays {
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: 0 var(--espace-16);
+  border: 1px solid var(--filet);
+  border-radius: var(--rayon-pilule);
+  background: var(--verre-fond);
+  color: var(--ink-primary);
+  font: inherit;
+  font-size: 0.875rem;
+}
+.lbg-chercher {
+  flex: 1 1 16rem;
+  max-width: 26rem;
+}
+.lbg-chercher:focus-visible,
+.lbg-pays:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.lbg-pays {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: var(--espace-32);
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+}
+.lbg-tri {
+  display: inline-flex;
+  padding: 3px;
+  border: 1px solid var(--filet);
+  border-radius: var(--rayon-pilule);
+}
+.lbg-tri button {
+  min-height: 36px;
+  padding: 0 var(--espace-16);
+  border: 0;
+  border-radius: var(--rayon-pilule);
+  background: none;
+  color: var(--ink-secondary);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.lbg-tri button[aria-pressed='true'] {
+  background: var(--accent);
+  color: var(--sur-accent);
+}
+
+.lbg-section + .lbg-section {
+  margin-top: var(--espace-16);
+}
+.lbg-grille {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--espace-24) var(--espace-16);
+}
+.lbg-grille-une {
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: var(--espace-24);
+}
+.lbg-carte a {
+  display: grid;
+  gap: 2px;
+  color: inherit;
+  text-decoration: none;
+}
+.lbg-carte .lb-logo {
+  margin-bottom: var(--espace-8);
+  transition: transform 260ms var(--motion-ease), box-shadow 260ms ease;
+}
+.lbg-carte a:hover .lb-logo,
+.lbg-carte a:focus-visible .lb-logo {
+  transform: translateY(-4px);
+  box-shadow:
+    0 18px 40px -22px color-mix(in oklch, var(--accent) 80%, transparent),
+    inset 0 0 0 2px var(--accent);
+}
+.lbg-carte a:focus-visible {
+  outline: none;
+}
+.lbg-nom {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--ink-primary);
+}
+.lbg-carte-une .lbg-nom {
+  font-size: 1.125rem;
+}
+.lbg-faits {
+  font-size: 0.75rem;
+  color: var(--ink-secondary);
+}
+.lbg-compte {
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+@media (max-width: 520px) {
+  .lbg-grille {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .lbg-grille-une {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .lbg-chercher {
+    max-width: none;
+  }
+}
+@media (max-width: 899px) {
+  .lbg-tri button {
+    min-height: 44px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lbg-carte .lb-logo {
+    transition: none;
   }
 }

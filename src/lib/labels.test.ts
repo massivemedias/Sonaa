@@ -2,7 +2,7 @@
    premier. Voir labels.ts. */
 
 import { describe, expect, it } from 'vitest';
-import { cleDeLabel, estSansLabel, labelsPourRecherche, type EntreeLabel } from './labels.ts';
+import { cleDeLabel, estMajor, estSansLabel, labelsPourRecherche, nomDuPays, ordreDeNotoriete, type EntreeLabel } from './labels.ts';
 
 const index: EntreeLabel[] = [
   { s: 'f-communications', n: 'F Communications', k: ['f communications'], c: 1, p: 'France', a: 1994 },
@@ -30,5 +30,22 @@ describe('labelsPourRecherche', () => {
     expect(labelsPourRecherche('warp', index).map((e) => e.s)).toEqual(['warp-records']);
     expect(labelsPourRecherche('wa', index)).toEqual([]);
     expect(labelsPourRecherche('r&s', index).map((e) => e.s)).toEqual(['r-et-s-records']);
+  });
+});
+
+describe('la galerie', () => {
+  it('ne met pas les majors en tete, et range par presence dans l atlas', () => {
+    expect(estMajor({ k: ['columbia'] })).toBe(true);
+    expect(estMajor({ k: ['warp records'] })).toBe(false);
+    const tries = [...index].sort(ordreDeNotoriete).map((e) => e.s);
+    expect(tries[0]).toBe('warp-records');
+  });
+});
+
+describe('le pays', () => {
+  it('se dit dans la langue du site', () => {
+    expect(nomDuPays('Royaume-Uni', 'fr')).toBe('Royaume-Uni');
+    expect(nomDuPays('Royaume-Uni', 'en')).toBe('United Kingdom');
+    expect(nomDuPays('Atlantide', 'en')).toBe('Atlantide');
   });
 });

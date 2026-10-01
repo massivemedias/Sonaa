@@ -24,6 +24,7 @@ import './site-nav.css';
 type SiteCourant =
   | 'atlas'
   | 'parcourir'
+  | 'labels'
   | 'mixtapes'
   | 'tracks'
   | 'reconnaitre'
@@ -64,6 +65,10 @@ const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
   { href: '#/calendrier', id: 'calendrier', label: t.leCalendrier },
   { href: '#/news', id: 'news', label: t.leNews },
   { href: '#/parcourir', id: 'parcourir', label: t.lesStyles },
+  /* LES LABELS, a cote des styles, depuis le 1er octobre 2026 : deux facons
+     de ranger la meme musique, par son genre et par la maison qui l'a sortie.
+     Voir LabelPage.tsx. */
+  { href: '#/labels', id: 'labels', label: t.navLabels },
   { href: '#/mixtapes', id: 'mixtapes', label: t.lesMixtapes },
   /* TRACKS NE S'ANNONCE PAS TANT QUE RIEN NE SE VEND. Voir src/config.ts :
      la porte se ferme, la route et la page restent. */
@@ -143,6 +148,7 @@ export function courantDuSite(hash: string): SiteCourant {
   if (hash.startsWith('#/confidentialite')) return 'legal';
   if (hash.startsWith('#/mentions')) return 'legal';
   if (hash.startsWith('#/parcourir')) return 'parcourir';
+  if (hash.startsWith('#/labels')) return 'labels';
   if (hash.startsWith('#/carte')) return 'atlas';
   /* La racine est le Calendar, comme dans main.tsx : les deux doivent dire
      la meme chose, sinon le menu allume « Styles » sur la page d'accueil. */

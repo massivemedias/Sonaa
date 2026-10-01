@@ -539,6 +539,15 @@ interface Dictionnaire {
   readonly coursEnPreparation: string;
   readonly coursAvis: string;
   readonly lesLabels: string;
+  readonly navLabels: string;
+  readonly labelsChercher: string;
+  readonly labelsTriConnus: string;
+  readonly labelsTriAlpha: string;
+  readonly labelsTousPays: string;
+  readonly labelsAucun: string;
+  readonly labelsALaUne: string;
+  readonly labelsTous: (n: number) => string;
+  readonly labelLogoCredit: (credit: string) => string;
   readonly labelsChapeau: (n: number) => string;
   readonly labelFonde: (annee: number) => string;
   readonly labelPar: (noms: readonly string[]) => string;
@@ -1290,6 +1299,15 @@ const FR: Dictionnaire = {
   coursEnPreparation: 'Le cours de ce style est en préparation.',
   coursAvis: 'Un cours écrit pour SONAA, en français, à partir des sources citées en bas : un point de départ, pas une recette.',
   lesLabels: 'Les labels',
+  navLabels: 'Labels',
+  labelsChercher: 'Chercher un label',
+  labelsTriConnus: 'Les plus connus',
+  labelsTriAlpha: 'De A à Z',
+  labelsTousPays: 'Tous les pays',
+  labelsAucun: 'Aucun label ne correspond.',
+  labelsALaUne: 'Les incontournables',
+  labelsTous: (n) => `Tous les labels (${n})`,
+  labelLogoCredit: (credit) => `Logo : ${credit}`,
   labelsChapeau: (n) => `${n} labels de musique électronique : leur histoire, leurs disques les plus connus et leurs morceaux dans l’atlas.`,
   labelFonde: (annee) => `Fondé en ${annee}`,
   labelPar: (noms) => `par ${noms.length > 1 ? `${noms.slice(0, -1).join(', ')} et ${noms[noms.length - 1]}` : noms[0] ?? ''}`,
@@ -2056,6 +2074,15 @@ const EN: Dictionnaire = {
   coursEnPreparation: 'The lesson for this style is in preparation.',
   coursAvis: 'A lesson written for SONAA, in French, from the sources listed below: a starting point, not a recipe.',
   lesLabels: 'Labels',
+  navLabels: 'Labels',
+  labelsChercher: 'Search a label',
+  labelsTriConnus: 'Best known',
+  labelsTriAlpha: 'A to Z',
+  labelsTousPays: 'All countries',
+  labelsAucun: 'No label matches.',
+  labelsALaUne: 'Essential labels',
+  labelsTous: (n) => `All labels (${n})`,
+  labelLogoCredit: (credit) => `Logo: ${credit}`,
   labelsChapeau: (n) => `${n} electronic music labels: their story, their best-known records and their tracks in the atlas.`,
   labelFonde: (annee) => `Founded in ${annee}`,
   labelPar: (noms) => `by ${noms.length > 1 ? `${noms.slice(0, -1).join(', ')} and ${noms[noms.length - 1]}` : noms[0] ?? ''}`,
