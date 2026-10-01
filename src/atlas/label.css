@@ -126,21 +126,53 @@ a.lb-source {
   flex-wrap: wrap;
   gap: var(--espace-8);
 }
-.lb-styles a {
+.lb-styles button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espace-8);
+  min-height: 36px;
+  padding: 0 var(--espace-16);
+  border: 0;
+  border-radius: var(--rayon-pilule);
+  background: var(--accent-voile);
+  color: var(--ink-primary);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.lb-styles button[aria-pressed='true'] {
+  background: var(--accent);
+  color: var(--sur-accent);
+}
+.lb-styles-n {
+  font-size: 0.75rem;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+/* LE STYLE OUVERT : revenir a tous ses morceaux, ou aller a la fiche du
+   style. */
+.lb-style-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-8);
+  margin: 0 0 var(--espace-16);
+}
+.lb-style-actions button,
+.lb-style-actions a {
   display: inline-flex;
   align-items: center;
   min-height: 36px;
   padding: 0 var(--espace-16);
+  border: 1px solid var(--filet);
   border-radius: var(--rayon-pilule);
-  background: var(--accent-voile);
+  background: none;
   color: var(--ink-primary);
-  font-size: 0.875rem;
-  font-weight: 600;
+  font: inherit;
+  font-size: 0.8125rem;
   text-decoration: none;
-}
-.lb-styles li:first-child a {
-  background: var(--accent);
-  color: var(--sur-accent);
+  cursor: pointer;
 }
 
 /* LES MORCEAUX DE L'ATLAS : la pochette joue, le style mene a sa fiche. */
@@ -285,7 +317,9 @@ a.lb-source {
 
 @media (max-width: 899px) {
   .lb-liens a,
-  .lb-styles a {
+  .lb-styles button,
+  .lb-style-actions button,
+  .lb-style-actions a {
     min-height: 44px;
   }
   .lb-jouer {
@@ -304,47 +338,6 @@ a.lb-source {
 /* ═══ LE LOGO ═══ Une plaque claire, le logo contenu dedans : la plupart
    sont noirs sur fond transparent. Le monogramme, a defaut, porte une teinte
    tiree du nom du label. */
-.lb-logo {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 100%;
-  aspect-ratio: 1;
-  border-radius: 18px;
-  overflow: hidden;
-  background: oklch(0.95 0.008 75);
-  box-shadow: inset 0 0 0 1px oklch(1 0 0 / 0.08);
-}
-.lb-logo img {
-  width: 78%;
-  height: 78%;
-  object-fit: contain;
-}
-.lb-logo-image img {
-  width: 100%;
-  height: 100%;
-}
-.lb-logo-monogramme {
-  background:
-    radial-gradient(120% 90% at 20% 15%, oklch(0.42 0.12 var(--lb-teinte, 40)) 0%, transparent 60%),
-    oklch(0.24 0.05 var(--lb-teinte, 40));
-  color: oklch(0.92 0.04 var(--lb-teinte, 40));
-  font-size: clamp(1.6rem, 4.4vw, 2.4rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-}
-.lb-logo-grand {
-  width: clamp(120px, 16vw, 188px);
-  flex: none;
-  border-radius: 26px;
-  box-shadow:
-    0 24px 60px -30px oklch(0 0 0 / 0.9),
-    inset 0 0 0 1px oklch(1 0 0 / 0.1);
-}
-.lb-logo-grand.lb-logo-monogramme {
-  font-size: clamp(2.6rem, 5.4vw, 3.6rem);
-}
-
 /* ═══ LA TETE D'UNE FICHE : le logo a gauche, le fond de pochettes ═══ */
 .lb-tete-fiche {
   position: relative;

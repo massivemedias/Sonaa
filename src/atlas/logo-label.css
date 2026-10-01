@@ -1,0 +1,53 @@
+/* LE LOGO D'UN LABEL (voir LogoLabel.tsx). Sur une plaque claire : la
+   plupart des logos sont noirs sur fond transparent, et disparaitraient sur
+   le granite sombre. */
+
+.lb-logo {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 18px;
+  overflow: hidden;
+  background: oklch(0.95 0.008 75);
+  box-shadow: inset 0 0 0 1px oklch(1 0 0 / 0.08);
+}
+.lb-logo img {
+  width: 78%;
+  height: 78%;
+  object-fit: contain;
+}
+.lb-logo-image img {
+  width: 100%;
+  height: 100%;
+}
+.lb-logo-monogramme {
+  background:
+    radial-gradient(120% 90% at 20% 15%, oklch(0.42 0.12 var(--lb-teinte, 40)) 0%, transparent 60%),
+    oklch(0.24 0.05 var(--lb-teinte, 40));
+  color: oklch(0.92 0.04 var(--lb-teinte, 40));
+  font-size: clamp(1.6rem, 4.4vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.lb-logo-grand {
+  width: clamp(120px, 16vw, 188px);
+  flex: none;
+  border-radius: 26px;
+  box-shadow:
+    0 24px 60px -30px oklch(0 0 0 / 0.9),
+    inset 0 0 0 1px oklch(1 0 0 / 0.1);
+}
+.lb-logo-grand.lb-logo-monogramme {
+  font-size: clamp(2.6rem, 5.4vw, 3.6rem);
+}
+.lb-logo-petit {
+  width: 28px;
+  flex: none;
+  border-radius: 7px;
+}
+.lb-logo-petit.lb-logo-monogramme {
+  font-size: 0.625rem;
+  letter-spacing: 0;
+}

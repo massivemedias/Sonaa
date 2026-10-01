@@ -22,7 +22,7 @@
    lieu de quitter le site. C'est le geste le plus utilise du systeme, et il
    n'est gratuit que si l'on s'y branche. */
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FAMILIES, STRUCTURES, type Genre, type Track } from './structures.ts';
 import { poidsDe } from './poids.ts';
 import { ProceduralCover } from './ProceduralCover.tsx';
@@ -49,6 +49,9 @@ import { contributionsActives } from '../lib/config.ts';
 import { aUnCours } from '../lib/cours.ts';
 import { useTexteAnglais } from '../lib/anglais.ts';
 import { CoursDuStyle } from './CoursDuStyle.tsx';
+import { LogoLabel } from './LogoLabel.tsx';
+import { labelsDuStyle, type EntreeLabel } from '../lib/labels.ts';
+import INDEX_LABELS from '../data/labels-index.json';
 import { BoutonTrack } from '../reconnaitre/BoutonTrack.tsx';
 import { ADRESSE_ECOUTER } from '../reconnaitre/adresses.ts';
 import './parcourir.css';
@@ -677,6 +680,15 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
   const anglais = useTexteAnglais(genre.id);
   const derives = poidsDe(genre.id).descendance;
   const artistes = artistesDuGenre(genre.id);
+  const labels = useMemo(
+    () =>
+      labelsDuStyle(
+        genre.tracks.map((tr) => tr.release?.label),
+        [...genre.labelsHistoriques, ...(genre.labelsActuels ?? [])],
+        INDEX_LABELS as readonly EntreeLabel[]
+      ),
+    [genre]
+  );
   /* La date du releve, dans la langue de la page. Elle vit ici et non dans le
      module de donnees : mettre en forme une date est un travail d'affichage. */
   const dateMoisson = new Intl.DateTimeFormat(langue === 'fr' ? 'fr-CA' : 'en-CA', {
@@ -812,10 +824,29 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
                 </dd>
               </div>
             )}
-            {genre.labelsHistoriques.length > 0 && (
+            {/* LES LABELS DU STYLE, recoupes (voir labelsDuStyle) : ceux que
+                la fiche nomme, ranges par leurs morceaux du style dans
+                l'atlas, puis ceux que l'atlas y ajoute. Chacun ouvre sa page
+                avec ce style deja choisi. */}
+            {labels.length > 0 && (
               <div className="pv-fait">
                 <dt className="pv-fait-cle">{t.labels}</dt>
-                <dd className="pv-fait-val">{genre.labelsHistoriques.join(', ')}</dd>
+                <dd className="pv-fait-val">
+                  <span className="pv-labels">
+                    {labels.map((l) =>
+                      l.entree ? (
+                        <a key={l.entree.s} className="pv-label" href={`#/labels/${l.entree.s}?style=${genre.id}`} title={t.labelsDuStyleAide(l.nom, genre.label)}>
+                          <LogoLabel nom={l.nom} url={l.entree.l} taille="petit" />
+                          {l.nom}
+                        </a>
+                      ) : (
+                        <span key={l.nom} className="pv-label pv-label-nu">
+                          {l.nom}
+                        </span>
+                      )
+                    )}
+                  </span>
+                </dd>
               </div>
             )}
             {genre.artistesCles.length > 0 && (

@@ -548,6 +548,11 @@ interface Dictionnaire {
   readonly labelsALaUne: string;
   readonly labelsTous: (n: number) => string;
   readonly labelLogoCredit: (credit: string) => string;
+  readonly labelDansLeStyle: (style: string, n: number) => string;
+  readonly labelTousSesMorceaux: (n: number) => string;
+  readonly labelVoirLeStyle: (style: string) => string;
+  readonly labelRienDansCeStyle: (style: string) => string;
+  readonly labelsDuStyleAide: (label: string, style: string) => string;
   readonly labelsChapeau: (n: number) => string;
   readonly labelFonde: (annee: number) => string;
   readonly labelPar: (noms: readonly string[]) => string;
@@ -1308,6 +1313,11 @@ const FR: Dictionnaire = {
   labelsALaUne: 'Les incontournables',
   labelsTous: (n) => `Tous les labels (${n})`,
   labelLogoCredit: (credit) => `Logo : ${credit}`,
+  labelDansLeStyle: (style, n) => `${style} : ${n} morceau${n > 1 ? 'x' : ''} dans l’atlas`,
+  labelTousSesMorceaux: (n) => `Tous ses morceaux (${n})`,
+  labelVoirLeStyle: (style) => `La fiche du style ${style}`,
+  labelRienDansCeStyle: (style) => `L’atlas n’a pas encore de morceau ${style} de ce label : voici tous les autres.`,
+  labelsDuStyleAide: (label, style) => `${label} : ses morceaux de ${style}`,
   labelsChapeau: (n) => `${n} labels de musique électronique : leur histoire, leurs disques les plus connus et leurs morceaux dans l’atlas.`,
   labelFonde: (annee) => `Fondé en ${annee}`,
   labelPar: (noms) => `par ${noms.length > 1 ? `${noms.slice(0, -1).join(', ')} et ${noms[noms.length - 1]}` : noms[0] ?? ''}`,
@@ -2083,6 +2093,11 @@ const EN: Dictionnaire = {
   labelsALaUne: 'Essential labels',
   labelsTous: (n) => `All labels (${n})`,
   labelLogoCredit: (credit) => `Logo: ${credit}`,
+  labelDansLeStyle: (style, n) => `${style}: ${n} track${n > 1 ? 's' : ''} in the atlas`,
+  labelTousSesMorceaux: (n) => `All its tracks (${n})`,
+  labelVoirLeStyle: (style) => `The ${style} page`,
+  labelRienDansCeStyle: (style) => `The atlas has no ${style} track from this label yet: here are all the others.`,
+  labelsDuStyleAide: (label, style) => `${label}: its ${style} tracks`,
   labelsChapeau: (n) => `${n} electronic music labels: their story, their best-known records and their tracks in the atlas.`,
   labelFonde: (annee) => `Founded in ${annee}`,
   labelPar: (noms) => `by ${noms.length > 1 ? `${noms.slice(0, -1).join(', ')} and ${noms[noms.length - 1]}` : noms[0] ?? ''}`,

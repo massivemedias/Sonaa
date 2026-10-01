@@ -95,10 +95,11 @@ export interface EntreeLabel {
     par ce qu'on a tape, ou qui l'egale. A partir de trois lettres, sinon
     « wa » ouvrirait Warp a chaque frappe. Le nom exact passe devant, puis
     le label le plus present dans l'atlas. */
+const sansSuffixe = (k: string): string => k.replace(/ (records|recordings|music|label)$/, '');
+
 export function labelsPourRecherche(requete: string, index: readonly EntreeLabel[]): readonly EntreeLabel[] {
   const q = cleDeLabel(requete);
   if (q.length < 3) return [];
-  const sansSuffixe = (k: string): string => k.replace(/ (records|recordings|music|label)$/, '');
   return index
     .map((e) => {
       const exact = e.k.some((k) => k === q || sansSuffixe(k) === q);
@@ -126,6 +127,7 @@ const MAJORS = new Set(
     'because music', 'columbia records', 'cbs', 'philips', 'ariola', 'aftermath entertainment', 'republic',
     /* et leurs filiales */
     'wea', 'sire', 'mca records', 'jive', 'jive records', 'london records', 'barclay', 'sony soho square', 'go beat', 'maverick',
+    'wea japan', 'warner music denmark', 'universal music france', 'universal music tv',
   ].map(cleDeLabel)
 );
 
@@ -169,4 +171,57 @@ export function nomDuPays(pays: string, langue: string): string {
   } catch {
     return pays;
   }
+}
+
+/* LES LABELS D'UN STYLE. Mika, le 1er octobre 2026 : « dans les styles,
+   recoupe l'information, mettons les meilleurs labels d'IDM ». Deux sources
+   se recoupent :
+   - les labels que la fiche du style nomme (historiques et actuels), choisis
+     a la main : ce sont les meilleurs, et ils passent devant ;
+   - ceux des morceaux du style dans l'atlas : ils rangent les premiers (le
+     label qui porte le plus de morceaux du style d'abord) et en ajoutent,
+     a partir de deux morceaux, hors majors (WEA Japan n'est pas un label
+     d'IDM parce qu'il a distribue deux disques d'Aphex Twin au Japon).
+   Un label nomme sans page reste dans la liste, sans lien. */
+export interface LabelDuStyle {
+  readonly nom: string;
+  readonly entree: EntreeLabel | null;
+  /** Ses morceaux de ce style dans l'atlas. */
+  readonly n: number;
+}
+
+export function labelsDuStyle(
+  labelsDesMorceaux: readonly (string | null | undefined)[],
+  nommes: readonly string[],
+  index: readonly EntreeLabel[],
+  max = 6
+): readonly LabelDuStyle[] {
+  const parCle = new Map<string, EntreeLabel>();
+  for (const e of index) for (const k of e.k) if (!parCle.has(k)) parCle.set(k, e);
+  const trouver = (nom: string): EntreeLabel | null => {
+    const q = cleDeLabel(nom);
+    return parCle.get(q) ?? parCle.get(`${q} records`) ?? index.find((e) => e.k.some((k) => sansSuffixe(k) === q)) ?? null;
+  };
+  const compte = new Map<EntreeLabel, number>();
+  for (const l of labelsDesMorceaux) {
+    const e = l ? parCle.get(cleDeLabel(l)) : undefined;
+    if (e) compte.set(e, (compte.get(e) ?? 0) + 1);
+  }
+  const vus = new Set<string>();
+  const choisis: LabelDuStyle[] = [];
+  for (const brut of nommes) {
+    /* « Ilian Tape (parenté) » : la parenthese est une nuance de la fiche. */
+    const nom = brut.replace(/\s*\([^)]*\)/g, '').trim();
+    const e = nom ? trouver(nom) : null;
+    const id = e?.s ?? cleDeLabel(nom);
+    if (!id || vus.has(id)) continue;
+    vus.add(id);
+    choisis.push({ nom: e?.n ?? nom, entree: e, n: e ? (compte.get(e) ?? 0) : 0 });
+  }
+  choisis.sort((a, b) => b.n - a.n || (b.entree ? (b.entree.r ?? 0) : -1) - (a.entree ? (a.entree.r ?? 0) : -1));
+  const ajoutes = [...compte.entries()]
+    .filter(([e, n]) => n >= 2 && !vus.has(e.s) && !estMajor(e))
+    .sort(([a, na], [b, nb]) => nb - na || (b.r ?? 0) - (a.r ?? 0))
+    .map(([e, n]): LabelDuStyle => ({ nom: e.n, entree: e, n }));
+  return [...choisis, ...ajoutes].slice(0, max);
 }

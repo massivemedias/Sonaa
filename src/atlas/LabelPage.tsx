@@ -21,6 +21,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { FAMILIES, STRUCTURES, type Track } from './structures.ts';
 import { ProceduralCover } from './ProceduralCover.tsx';
+import { LogoLabel } from './LogoLabel.tsx';
 import { FaIcon } from './FaIcon.tsx';
 import { faPause, faPlay } from '@fortawesome/free-solid-svg-icons';
 import { EnTeteSite } from './EnTeteSite.tsx';
@@ -48,25 +49,47 @@ interface PisteDuLabel {
   readonly famille: string;
   readonly chemin: string;
   readonly hue: number;
+  /** Tous les styles qui revendiquent ce morceau, par identifiant. */
+  readonly styles: string[];
+}
+
+interface StyleDeLatlas {
+  readonly id: string;
+  readonly nom: string;
+  readonly chemin: string;
+}
+
+/** Un style de l'atlas par son identifiant, celui que porte ?style= . */
+function styleParId(id: string): StyleDeLatlas | null {
+  for (let fi = 0; fi < FAMILIES.length; fi += 1) {
+    const f = FAMILIES[fi];
+    const g = STRUCTURES[fi]?.genres.find((x) => x.id === id);
+    if (f && g) return { id, nom: g.label, chemin: `/styles/${slug(f.label)}/${slug(g.label)}/` };
+  }
+  return null;
 }
 
 /** Les morceaux de l'atlas sortis sur ce label, un par enregistrement : une
-    charniere revendiquee par deux genres n'apparait qu'une fois. */
+    charniere revendiquee par deux genres n'apparait qu'une fois, sous le
+    premier, mais se retrouve en ouvrant l'un ou l'autre. */
 function pistesDuLabel(cles: readonly string[]): readonly PisteDuLabel[] {
   const voulues = new Set(cles);
-  const vues = new Set<string>();
-  const sortie: PisteDuLabel[] = [];
+  const vues = new Map<string, PisteDuLabel>();
   FAMILIES.forEach((f, fi) => {
     STRUCTURES[fi]?.genres.forEach((g) => {
       for (const tr of g.tracks) {
         const l = tr.release?.label;
-        if (!l || !voulues.has(cleDeLabel(l)) || vues.has(tr.youtubeId)) continue;
-        vues.add(tr.youtubeId);
-        sortie.push({ track: tr, genre: g.label, famille: f.label, chemin: `/styles/${slug(f.label)}/${slug(g.label)}/`, hue: f.hue });
+        if (!l || !voulues.has(cleDeLabel(l))) continue;
+        const deja = vues.get(tr.youtubeId);
+        if (deja) {
+          if (!deja.styles.includes(g.id)) deja.styles.push(g.id);
+          continue;
+        }
+        vues.set(tr.youtubeId, { track: tr, genre: g.label, famille: f.label, chemin: `/styles/${slug(f.label)}/${slug(g.label)}/`, hue: f.hue, styles: [g.id] });
       }
     });
   });
-  return sortie.sort((a, b) => (a.track.release?.year ?? a.track.year ?? 9999) - (b.track.release?.year ?? b.track.year ?? 9999));
+  return [...vues.values()].sort((a, b) => (a.track.release?.year ?? a.track.year ?? 9999) - (b.track.release?.year ?? b.track.year ?? 9999));
 }
 
 function Pochette({ p }: { p: PisteDuLabel }) {
@@ -78,65 +101,48 @@ function Pochette({ p }: { p: PisteDuLabel }) {
   );
 }
 
-/* ═══ LE LOGO ═══ Sur une plaque claire : la plupart des logos sont noirs
-   sur fond transparent, et disparaitraient sur le granite sombre. Sans logo,
-   un monogramme : les initiales du label, sur une teinte tiree de son nom,
-   pour que deux labels sans logo ne se ressemblent pas. */
-const teinteDuNom = (nom: string): number => {
-  let h = 0;
-  for (let i = 0; i < nom.length; i += 1) h = (h * 31 + nom.charCodeAt(i)) % 360;
-  return h;
-};
-const initiales = (nom: string): string =>
-  nom
-    .replace(/\b(records?|recordings|music|label|ltd|inc)\b/gi, '')
-    .split(/[^A-Za-z0-9]+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((m) => m[0]?.toUpperCase() ?? '')
-    .join('') || nom.slice(0, 2).toUpperCase();
-
-function Logo({ nom, url, grand = false }: { nom: string; url: string | null | undefined; grand?: boolean }) {
-  const [casse, setCasse] = useState(false);
-  if (url && !casse) {
-    /* UNE IMAGE DE DISCOGS EST UNE VIGNETTE CARREE, souvent avec son propre
-       fond : elle remplit la tuile. Un logo de Commons est un dessin sur fond
-       transparent : il se pose sur la plaque, avec de l'air autour. */
-    const commons = url.includes('wikimedia.org');
-    return (
-      <span className={`lb-logo${commons ? '' : ' lb-logo-image'}${grand ? ' lb-logo-grand' : ''}`}>
-        <img src={url} alt={nom} loading="lazy" onError={() => setCasse(true)} />
-      </span>
-    );
-  }
-  return (
-    <span
-      className={`lb-logo lb-logo-monogramme${grand ? ' lb-logo-grand' : ''}`}
-      style={{ ['--lb-teinte' as string]: String(teinteDuNom(nom)) }}
-      aria-hidden="true"
-    >
-      {initiales(nom)}
-    </span>
-  );
-}
-
-function Fiche({ fiche }: { fiche: FicheLabel }) {
+function Fiche({ fiche, style }: { fiche: FicheLabel; style: string | null }) {
   const { lecture, jouer, basculer } = useLecteurPartage();
   const pistes = useMemo(() => pistesDuLabel(fiche.cles), [fiche]);
-  const morceaux = useMemo(() => pistes.map((p) => p.track), [pistes]);
-  const listeId = `label:${fiche.slug}`;
+
+  /* LE STYLE OUVERT. Mika, le 1er octobre 2026 : « quand on clique sur les
+     labels d'un style, on tombe sur la page du label avec le style ouvert ».
+     Arrive de la fiche de l'IDM, Warp montre ses morceaux d'IDM, et un
+     bouton rend les autres. Les pastilles de styles font la meme chose sur
+     place. L'adresse suit (?style=), pour qu'on puisse la partager. */
+  const [ouvert, setOuvert] = useState<string | null>(style);
+  useEffect(() => setOuvert(style), [style, fiche.slug]);
+  const ouvrir = (id: string | null): void => {
+    setOuvert(id);
+    window.history.replaceState(null, '', `#/labels/${fiche.slug}${id ? `?style=${id}` : ''}`);
+  };
 
   /* SES STYLES : les genres de ses morceaux dans l'atlas, du plus present au
-     moins present. */
+     moins present. Le style ouvert y est toujours. */
   const styles = useMemo(() => {
-    const n = new Map<string, { genre: string; chemin: string; n: number }>();
+    const n = new Map<string, { style: StyleDeLatlas; n: number }>();
     for (const p of pistes) {
-      const x = n.get(p.chemin) ?? { genre: p.genre, chemin: p.chemin, n: 0 };
-      x.n += 1;
-      n.set(p.chemin, x);
+      for (const id of p.styles) {
+        const x = n.get(id) ?? (() => {
+          const s = styleParId(id);
+          return s ? { style: s, n: 0 } : null;
+        })();
+        if (!x) continue;
+        x.n += 1;
+        n.set(id, x);
+      }
     }
-    return [...n.values()].sort((a, b) => b.n - a.n).slice(0, 8);
-  }, [pistes]);
+    const tous = [...n.values()].sort((a, b) => b.n - a.n);
+    const premiers = tous.slice(0, 8);
+    const lui = ouvert ? tous.find((x) => x.style.id === ouvert) : undefined;
+    return lui && !premiers.includes(lui) ? [...premiers, lui] : premiers;
+  }, [pistes, ouvert]);
+
+  const styleOuvert = ouvert ? styleParId(ouvert) : null;
+  const dansLeStyle = useMemo(() => (ouvert ? pistes.filter((p) => p.styles.includes(ouvert)) : []), [pistes, ouvert]);
+  const visibles = styleOuvert && dansLeStyle.length > 0 ? dansLeStyle : pistes;
+  const morceaux = useMemo(() => visibles.map((p) => p.track), [visibles]);
+  const listeId = `label:${fiche.slug}:${styleOuvert && dansLeStyle.length > 0 ? styleOuvert.id : ''}`;
 
   useEffect(() => {
     document.title = `${fiche.nom} · SONAA`;
@@ -164,7 +170,7 @@ function Fiche({ fiche }: { fiche: FicheLabel }) {
               ))}
           </div>
         )}
-        <Logo nom={fiche.nom} url={fiche.logo?.url} grand />
+        <LogoLabel nom={fiche.nom} url={fiche.logo?.url} taille="grand" />
         <div className="lb-tete-texte">
         <p className="lb-surtitre">
           <a href="#/labels">{t.lesLabels}</a>
@@ -213,8 +219,11 @@ function Fiche({ fiche }: { fiche: FicheLabel }) {
               <h2 className="lb-titre">{t.labelStyles}</h2>
               <ul className="lb-styles">
                 {styles.map((s) => (
-                  <li key={s.chemin}>
-                    <a href={s.chemin}>{s.genre}</a>
+                  <li key={s.style.id}>
+                    <button type="button" aria-pressed={ouvert === s.style.id} onClick={() => ouvrir(ouvert === s.style.id ? null : s.style.id)}>
+                      {s.style.nom}
+                      <span className="lb-styles-n">{s.n}</span>
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -222,12 +231,27 @@ function Fiche({ fiche }: { fiche: FicheLabel }) {
           )}
 
           <section className="lb-bloc">
-            <h2 className="lb-titre">{t.labelDansLAtlas(pistes.length)}</h2>
+            {styleOuvert && dansLeStyle.length > 0 ? (
+              <>
+                <h2 className="lb-titre">{t.labelDansLeStyle(styleOuvert.nom, dansLeStyle.length)}</h2>
+                <p className="lb-style-actions">
+                  <button type="button" onClick={() => ouvrir(null)}>
+                    {t.labelTousSesMorceaux(pistes.length)}
+                  </button>
+                  <a href={styleOuvert.chemin}>{t.labelVoirLeStyle(styleOuvert.nom)}</a>
+                </p>
+              </>
+            ) : (
+              <>
+                <h2 className="lb-titre">{t.labelDansLAtlas(pistes.length)}</h2>
+                {styleOuvert && pistes.length > 0 && <p className="lb-note">{t.labelRienDansCeStyle(styleOuvert.nom)}</p>}
+              </>
+            )}
             {pistes.length === 0 ? (
               <p className="lb-note">{t.labelAucunMorceau}</p>
             ) : (
               <ol className="lb-pistes">
-                {pistes.map((p, i) => {
+                {visibles.map((p, i) => {
                   const active = lecture.listeId === listeId && lecture.index === i;
                   return (
                     <li key={p.track.youtubeId} className="lb-piste" data-active={active}>
@@ -253,8 +277,10 @@ function Fiche({ fiche }: { fiche: FicheLabel }) {
                           {(p.track.release?.year ?? p.track.year) ? ` · ${p.track.release?.year ?? p.track.year}` : ''}
                         </span>
                       </span>
-                      <a className="lb-piste-style" href={p.chemin}>
-                        {p.genre}
+                      {/* Le style ouvert se lit sur chaque ligne, meme quand le
+                          morceau est range d'abord sous un autre. */}
+                      <a className="lb-piste-style" href={styleOuvert && p.styles.includes(styleOuvert.id) ? styleOuvert.chemin : p.chemin}>
+                        {styleOuvert && p.styles.includes(styleOuvert.id) ? styleOuvert.nom : p.genre}
                       </a>
                     </li>
                   );
@@ -329,7 +355,7 @@ function Galerie() {
   const carte = (e: EntreeLabel, grande: boolean) => (
     <li key={e.s} className={grande ? 'lbg-carte lbg-carte-une' : 'lbg-carte'}>
       <a href={`#/labels/${e.s}`}>
-        <Logo nom={e.n} url={e.l} />
+        <LogoLabel nom={e.n} url={e.l} />
         <span className="lbg-nom">{e.n}</span>
         <span className="lbg-faits">{[e.p ? nomDuPays(e.p, langue) : null, e.a].filter(Boolean).join(' · ')}</span>
         {e.c > 0 && <span className="lbg-compte">{t.labelResultat(e.c)}</span>}
@@ -390,11 +416,16 @@ function Galerie() {
 
 export function LabelPage() {
   const lireSlug = (): string | null => /^#\/labels\/([^/?#]+)/.exec(window.location.hash)?.[1] ?? null;
+  const lireStyle = (): string | null => /[?&]style=([^&#]+)/.exec(window.location.hash)?.[1] ?? null;
   const [slugCourant, setSlugCourant] = useState<string | null>(lireSlug);
+  const [styleCourant, setStyleCourant] = useState<string | null>(lireStyle);
   const [fiche, setFiche] = useState<FicheLabel | null | 'chargement'>('chargement');
 
   useEffect(() => {
-    const suivre = (): void => setSlugCourant(lireSlug());
+    const suivre = (): void => {
+      setSlugCourant(lireSlug());
+      setStyleCourant(lireStyle());
+    };
     window.addEventListener('hashchange', suivre);
     return () => window.removeEventListener('hashchange', suivre);
   }, []);
@@ -424,7 +455,7 @@ export function LabelPage() {
         ) : fiche === 'chargement' ? (
           <p className="lb-note">{t.chargement}</p>
         ) : fiche ? (
-          <Fiche fiche={fiche} />
+          <Fiche fiche={fiche} style={styleCourant} />
         ) : (
           <section className="lb">
             <p className="lb-note">{t.labelIntrouvable}</p>

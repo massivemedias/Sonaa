@@ -34,7 +34,7 @@ import { FAMILIES, STRUCTURES, type Genre } from '../src/atlas/structures.ts';
 import { ORIGINE, PREFIXE_ANGLAIS, cheminsDesStyles, slug } from '../src/lib/chemins.ts';
 import { ranger, vocabulaire } from '../src/lib/correspondance-styles.ts';
 import { MARCHAND_ACTIF } from '../src/config.ts';
-import { cleDeLabel, type FicheLabel } from '../src/lib/labels.ts';
+import { cleDeLabel, labelsDuStyle, type EntreeLabel, type FicheLabel } from '../src/lib/labels.ts';
 
 const DIST = fileURLToPath(new URL('../dist', import.meta.url));
 const RACINE = fileURLToPath(new URL('..', import.meta.url));
@@ -151,6 +151,21 @@ const filAriane = (fil: { nom: string; href: string }[]): unknown => ({
 });
 
 const styles = cheminsDesStyles();
+/* LES LABELS D'UN STYLE, en liens vers leurs pages : les memes que la fiche
+   du style montre (voir labelsDuStyle). */
+const INDEX_LABELS = existsSync(fileURLToPath(new URL('../src/data/labels-index.json', import.meta.url)))
+  ? (JSON.parse(readFileSync(fileURLToPath(new URL('../src/data/labels-index.json', import.meta.url)), 'utf8')) as EntreeLabel[])
+  : [];
+function labelsEnLiens(g: { tracks: readonly { release?: { label?: string | null } | null }[]; labelsHistoriques: readonly string[]; labelsActuels: readonly string[] | null }): string {
+  return labelsDuStyle(
+    g.tracks.map((tr) => tr.release?.label),
+    [...g.labelsHistoriques, ...(g.labelsActuels ?? [])],
+    INDEX_LABELS
+  )
+    .map((l) => (l.entree ? `<a href="/labels/${h(l.entree.s)}/">${h(l.nom)}</a>` : h(l.nom)))
+    .join(', ');
+}
+
 const cheminDuGenre = new Map<string, string>();
 for (const s of styles) if (s.gl !== null) cheminDuGenre.set((STRUCTURES[s.fi]?.genres[s.gl] as Genre).id, s.chemin);
 
@@ -234,7 +249,7 @@ for (const s of styles) {
     g.annee > 0 ? `<li>Apparition : ${g.yearStart ? '' : 'vers '}${g.annee}</li>` : '',
     g.machines.length ? `<li>Machines : ${h(g.machines.join(', '))}</li>` : '',
     g.sonorites.length ? `<li>Le son : ${h(g.sonorites.join(', '))}</li>` : '',
-    g.labelsHistoriques.length ? `<li>Labels : ${h(g.labelsHistoriques.join(', '))}</li>` : '',
+    labelsEnLiens(g) ? `<li>Labels : ${labelsEnLiens(g)}</li>` : '',
     g.artistesCles.length ? `<li>Artistes clés : ${h(g.artistesCles.join(', '))}</li>` : '',
   ].join('');
   const rubriques = cours
@@ -350,7 +365,7 @@ for (const s of styles) {
     g.annee > 0 ? `<li>First appeared: ${g.yearStart ? '' : 'around '}${g.annee}</li>` : '',
     g.machines.length ? `<li>Machines: ${h(g.machines.join(', '))}</li>` : '',
     g.sonorites.length ? `<li>The sound: ${h(g.sonorites.join(', '))}</li>` : '',
-    g.labelsHistoriques.length ? `<li>Labels: ${h(g.labelsHistoriques.join(', '))}</li>` : '',
+    labelsEnLiens(g) ? `<li>Labels: ${labelsEnLiens(g)}</li>` : '',
     g.artistesCles.length ? `<li>Key artists: ${h(g.artistesCles.join(', '))}</li>` : '',
   ].join('');
   const questions: [string, string][] = [

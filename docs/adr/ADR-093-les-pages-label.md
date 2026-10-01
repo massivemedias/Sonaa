@@ -70,3 +70,14 @@ VRSTL Records, et la galerie ne le listait pas. Mika veut y trouver son
 label : la moisson a une liste de labels ajoutés à la main, absents du
 corpus, dont la fiche vient de Discogs comme les autres. Le canon des genres
 reste sans l'auteur ; seule la galerie, qui est un annuaire, le liste.
+
+## Les labels d'un style, et le style ouvert (1er octobre 2026)
+
+La ligne « Labels » de la fiche d'un style croise deux sources
+(`labelsDuStyle`) : les labels que la fiche nomme, choisis à la main, rangés
+par leurs morceaux du style dans l'atlas ; puis ceux que l'atlas y ajoute à
+partir de deux morceaux, hors majors et filiales. Chacun porte son logo et
+ouvre sa page avec ce style déjà choisi : `#/labels/warp-records?style=idm`
+montre les morceaux d'IDM de Warp, et un bouton rend les autres. Sur la page
+d'un label, les pastilles de styles font la même chose sur place, et
+l'adresse suit. Les pages HTML des styles lient ces labels à leurs pages.

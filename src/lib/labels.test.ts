@@ -2,7 +2,7 @@
    premier. Voir labels.ts. */
 
 import { describe, expect, it } from 'vitest';
-import { cleDeLabel, estMajor, succes, estSansLabel, labelsPourRecherche, nomDuPays, ordreDeNotoriete, type EntreeLabel } from './labels.ts';
+import { cleDeLabel, estMajor, succes, estSansLabel, labelsDuStyle, labelsPourRecherche, nomDuPays, ordreDeNotoriete, type EntreeLabel } from './labels.ts';
 
 const index: EntreeLabel[] = [
   { s: 'f-communications', n: 'F Communications', k: ['f communications'], c: 1, p: 'France', a: 1994 },
@@ -53,5 +53,23 @@ describe('le pays', () => {
     expect(nomDuPays('Royaume-Uni', 'fr')).toBe('Royaume-Uni');
     expect(nomDuPays('Royaume-Uni', 'en')).toBe('United Kingdom');
     expect(nomDuPays('Atlantide', 'en')).toBe('Atlantide');
+  });
+});
+
+describe('les labels d un style', () => {
+  const idx: EntreeLabel[] = [
+    { s: 'warp-records', n: 'Warp Records', k: ['warp records'], c: 40, p: null, a: null, r: 900 },
+    { s: 'planet-mu', n: 'Planet Mu', k: ['planet mu'], c: 3, p: null, a: null, r: 300 },
+    { s: 'rephlex', n: 'Rephlex', k: ['rephlex'], c: 2, p: null, a: null, r: 500 },
+    { s: 'ilian-tape', n: 'Ilian Tape', k: ['ilian tape'], c: 4, p: null, a: null, r: 50 },
+    { s: 'wea', n: 'WEA', k: ['wea', 'wea japan'], c: 9, p: null, a: null, r: 9000 },
+    { s: 'kompakt', n: 'Kompakt', k: ['kompakt'], c: 9, p: null, a: null, r: 100 },
+  ];
+  it('met les labels nommes devant, ranges par morceaux du style, et en ajoute hors majors', () => {
+    const morceaux = ['Warp Records', 'Warp Records', 'WEA Japan', 'WEA Japan', 'Ilian Tape', 'Kompakt', 'Kompakt', null];
+    const r = labelsDuStyle(morceaux, ['Warp', 'Rephlex', 'Skam', 'Planet Mu', 'Ilian Tape (parenté)'], idx);
+    expect(r.map((l) => l.nom)).toEqual(['Warp Records', 'Ilian Tape', 'Rephlex', 'Planet Mu', 'Skam', 'Kompakt']);
+    expect(r[0]?.n).toBe(2);
+    expect(r.find((l) => l.nom === 'Skam')?.entree).toBeNull();
   });
 });

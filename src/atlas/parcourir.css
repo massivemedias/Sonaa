@@ -788,6 +788,43 @@ body:has(.pwa-bandeau) .pv-corps {
   text-transform: uppercase;
   color: var(--encre-douce);
 }
+/* LES LABELS DU STYLE : une pastille par label, son logo en petit. */
+.pv-labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-8);
+}
+.pv-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espace-8);
+  min-height: 36px;
+  padding: 4px var(--espace-12) 4px 4px;
+  border-radius: var(--rayon-pilule);
+  background: oklch(1 0 0 / 0.05);
+  color: var(--ink-primary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.pv-label .lb-logo-petit {
+  border-radius: 50%;
+}
+a.pv-label:hover,
+a.pv-label:focus-visible {
+  background: var(--accent-voile);
+}
+.pv-label-nu {
+  padding-left: var(--espace-12);
+  color: var(--ink-secondary);
+  font-weight: 500;
+}
+@media (max-width: 899px) {
+  .pv-label {
+    min-height: 44px;
+  }
+}
+
 .pv-machines {
   display: flex;
   flex-wrap: wrap;
