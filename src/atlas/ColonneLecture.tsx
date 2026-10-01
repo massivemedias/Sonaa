@@ -148,19 +148,35 @@ function useCeSoir(): { ville: string | null; fuseau: string; soirees: readonly 
   return { ville, fuseau, soirees };
 }
 
+/* QUATRE VOISINS, ET JAMAIS UNE VIGNETTE CASSEE. Mika, le 30 septembre 2026,
+   capture a l'appui : deux vignettes de Bedroom Producers Blog s'affichaient
+   en icone d'image manquante, « je ne veux jamais voir ce genre de chose ».
+   Un voisin dont l'image echoue sort de la liste, et le candidat suivant
+   prend sa place : la page en passe huit pour quatre places. */
+const VOISINS_MONTRES = 4;
+
 export function ColonneLecture({ voisins }: Props) {
   const { ville, fuseau, soirees } = useCeSoir();
+  const [cassees, setCassees] = useState<ReadonlySet<string>>(new Set());
+  const montres = voisins.filter((a) => a.image && !cassees.has(a.lien)).slice(0, VOISINS_MONTRES);
 
   return (
     <aside className="lecture-colonne" aria-label={t.aLireAussi}>
-      {voisins.length > 0 && (
+      {montres.length > 0 && (
         <section className="lc-bloc">
           <h2 className="lc-titre">{t.aLireAussi}</h2>
           <ul className="lc-liste">
-            {voisins.map((a) => (
+            {montres.map((a) => (
               <li key={a.lien}>
                 <a className="lc-article" href={versLArticle(a.lien)}>
-                  {a.image && <img className="lc-vignette" src={a.image} alt="" loading="lazy" referrerPolicy="no-referrer" />}
+                  <img
+                    className="lc-vignette"
+                    src={a.image ?? ''}
+                    alt=""
+                    loading="lazy"
+                    referrerPolicy="no-referrer"
+                    onError={() => setCassees((c) => new Set(c).add(a.lien))}
+                  />
                   <span className="lc-article-texte">
                     <span className="lc-source">{a.source}</span>
                     <span className="lc-article-titre">{a.titre}</span>

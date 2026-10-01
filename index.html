@@ -39,6 +39,23 @@
     </script>
     <meta name="theme-color" content="#0c0b09" />
 
+    <!-- AUCUNE IMAGE CASSEE NE S'AFFICHE, NULLE PART. Mika, le 30 septembre
+         2026 : « je ne veux jamais voir ce genre de chose ». Toute image qui
+         echoue est marquee ici, en phase de capture, avant meme que le code
+         de la page soit charge ; design/base.css la cache. Les composants
+         qui savent mieux faire (une affiche dessinee, une tuile retiree) le
+         font en plus ; ceci est le filet sous tout le reste. -->
+    <script>
+      addEventListener(
+        'error',
+        function (e) {
+          var t = e.target;
+          if (t && t.tagName === 'IMG') t.setAttribute('data-cassee', '');
+        },
+        true
+      );
+    </script>
+
     <!-- LE CONTENU PRE-RENDU A UNE COLONNE, LUI AUSSI.
 
          scripts/prerender.ts pose le texte de la page dans

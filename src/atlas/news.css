@@ -722,3 +722,19 @@
     min-height: 44px;
   }
 }
+
+/* ═══ LE FIL SANS FIN ═══ Voir FilMagazine dans NewsPage.tsx.
+   Il reprend la grammaire des rubriques, un grand, trois cartes, trois
+   breves, page apres page. Sous un article, il s'ouvre par un filet et un
+   titre, pour qu'on sache que l'article est fini et que le magazine
+   continue. La sentinelle n'a pas de taille : elle ne sert qu'a etre vue. */
+.news-fil {
+  margin-top: var(--espace-48);
+}
+.lecture-grille + .news-fil {
+  padding-top: var(--espace-32);
+  border-top: 1px solid var(--rule-hairline);
+}
+.news-fil-sentinelle {
+  height: 1px;
+}

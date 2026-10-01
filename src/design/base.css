@@ -251,3 +251,17 @@ h2,
 h3 {
   text-wrap: balance;
 }
+
+
+/* ═══ UNE IMAGE CASSEE NE SE VOIT PAS ═══ Voir le script en tete
+   d'index.html, qui marque `data-cassee` sur toute image en echec. Elle
+   garde sa place, pour que rien ne saute, et son icone de navigateur
+   disparait. Les figures d'un article, elles, s'effacent tout a fait :
+   leur place reservee laisserait un trou au milieu du texte. */
+img[data-cassee] {
+  visibility: hidden;
+}
+.lecture-figure[data-cassee],
+.lecture-image[data-cassee] {
+  display: none;
+}

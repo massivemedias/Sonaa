@@ -40,7 +40,7 @@
  * reste la une.
  */
 
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { EnTeteSite } from './EnTeteSite.tsx';
 import { Apparition } from '../design/mouvement.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
@@ -97,12 +97,14 @@ const PAR_SOURCE = new Map(SOURCES.map((s) => [s.id, s]));
 
    L'article qu'on lit est exclu, evidemment ; sa source ne l'est pas. Lire
    deux papiers du meme magazine a la suite est frequent et legitime. */
-const VOISINS_MONTRES = 4;
+/* HUIT CANDIDATS POUR QUATRE PLACES : la colonne retire un voisin dont
+   l'image casse, et le suivant prend sa place. Voir ColonneLecture.tsx. */
+const VOISINS_CANDIDATS = 8;
 
 function voisins(articles: readonly Article[], lu: string): ArticleVoisin[] {
   const autres = articles.filter((a) => a.lien !== lu);
   const rangs = [...autres.filter((a) => a.image), ...autres.filter((a) => !a.image)];
-  return rangs.slice(0, VOISINS_MONTRES).map((a) => ({
+  return rangs.slice(0, VOISINS_CANDIDATS).map((a) => ({
     lien: a.lien,
     titre: titreDe(a),
     source: PAR_SOURCE.get(a.source)?.nom ?? a.source,
@@ -195,6 +197,182 @@ function repartir(articles: readonly Article[], filtre: Filtre, parSource: boole
   return { une, enBref, rubriques, cartes: [], breves: [] };
 }
 
+/* ═══ LES CARTES DU MAGAZINE, HORS DE LA PAGE ═══
+ *
+ * Elles vivaient dans NewsPage, redefinies a chaque rendu. Le fil sans fin
+ * (plus bas) les emploie aussi, sous un article ouvert, et un composant qui
+ * garde un etat ne peut pas etre redefini a chaque rendu de son parent : il
+ * repartirait de zero. Elles sortent donc ici ; ce qu'elles partageaient
+ * avec la page, l'heure de reference et le geste qui retire une tuile dont
+ * l'image casse, passe par un contexte. */
+interface ContexteNews {
+  readonly maintenant: number;
+  readonly casser: (a: Article) => void;
+}
+const NewsContexte = createContext<ContexteNews>({ maintenant: 0, casser: () => {} });
+
+/* LES QUATRE FACONS DE POSER UN ARTICLE. Une seule donnee, quatre tailles.
+   La source et l'age sont le « surtitre », en petites capitales, comme la
+   rubrique au-dessus d'un titre de journal. */
+function Surtitre({ a }: { a: Article }) {
+  const { maintenant } = useContext(NewsContexte);
+  return (
+    <span className="news-sur">
+      <span className="news-source">{PAR_SOURCE.get(a.source)?.nom}</span>
+      {a.date && <span className="news-quand">{ilYa(a.date, maintenant)}</span>}
+    </span>
+  );
+}
+
+/* UNE IMAGE QUI CASSE RETIRE SA TUILE : la page n'affiche jamais un cadre
+   vide. La moisson ecarte deja les images qui ne se chargent pas ; ceci
+   couvre celles qui tombent entre deux moissons. */
+function Image({ a }: { a: Article }) {
+  const { casser } = useContext(NewsContexte);
+  return (
+    <img className="news-image" src={a.image ?? ''} alt="" loading="lazy" referrerPolicy="no-referrer" onError={() => casser(a)} />
+  );
+}
+
+/* LE TITRE OUVRE L'ARTICLE ICI, pas chez le magazine : #/news/lire?u=…
+   (voir LectureArticle.tsx). Le bouton du milieu et le clic droit font
+   toujours ce qu'ils font, c'est l'ancre qui change. */
+function Lien({ a, className, children }: { a: Article; className: string; children: ReactNode }) {
+  return (
+    <a href={`#/news/lire?u=${encodeURIComponent(a.lien)}`} className={className}>
+      {children}
+    </a>
+  );
+}
+
+function Grand({ a, une: estLaUne }: { a: Article; une?: boolean }) {
+  return (
+    <article className={estLaUne ? 'news-une' : 'news-grand'}>
+      <Lien a={a} className="news-lien">
+        <Image a={a} />
+        <span className="news-corps">
+          <Surtitre a={a} />
+          <span className="news-titre">{titreDe(a)}</span>
+          {resumeDe(a) && <span className="news-resume">{resumeDe(a)}</span>}
+        </span>
+      </Lien>
+    </article>
+  );
+}
+
+function Carte({ a }: { a: Article }) {
+  return (
+    <Apparition as="article" className="news-carte">
+      <Lien a={a} className="news-lien">
+        <Image a={a} />
+        <span className="news-corps">
+          <Surtitre a={a} />
+          <span className="news-titre">{titreDe(a)}</span>
+        </span>
+      </Lien>
+    </Apparition>
+  );
+}
+
+function Breve({ a }: { a: Article }) {
+  return (
+    <li className="news-breve">
+      <Lien a={a} className="news-lien">
+        <Surtitre a={a} />
+        <span className="news-titre">{titreDe(a)}</span>
+      </Lien>
+    </li>
+  );
+}
+
+/* ═══ LE FIL SANS FIN ═══
+ *
+ * Mika, le 30 septembre 2026 : « je veux toujours avoir la possibilite de
+ * scroller pour tomber sur d'autres articles, meme quand j'en ouvre un ; je
+ * dois voir en style magazine quand je finis de lire un article ; ca doit
+ * etre infini ». La page des news s'arretait apres ses rubriques, et un
+ * article ouvert s'arretait a son dernier paragraphe.
+ *
+ * Le fil pose les articles par pages de sept, dans la grammaire du
+ * magazine : un grand, trois cartes, trois breves. Une sentinelle sous la
+ * derniere page en ajoute une des qu'elle approche de l'ecran, deux ecrans
+ * et demi a l'avance, pour que la suite soit deja la quand on y arrive. Il
+ * s'arrete quand tous les articles du fichier sont passes, et le dit : un
+ * fil qui inventerait des articles mentirait. */
+const PAGE_DU_FIL = 7;
+
+function FilMagazine({ articles, titre, fin }: { articles: readonly Article[]; titre: string | null; fin: ReactNode }) {
+  const [combien, setCombien] = useState(PAGE_DU_FIL);
+  const sentinelle = useRef<HTMLDivElement | null>(null);
+  const reste = combien < articles.length;
+
+  /* AU DEFILEMENT, ET NON PAR UN OBSERVATEUR D'INTERSECTION. Mesure le 30
+     septembre 2026 : un lancer rapide au doigt, ou la touche Fin, fait
+     passer la sentinelle de « sous l'ecran » a « au-dessus » entre deux
+     images, sans qu'elle soit jamais vue ; l'observateur ne se declenchait
+     pas, et le fil restait a sa premiere page. Ici on regarde ou elle est :
+     a moins de deux ecrans et demi, ou deja depassee, une page de plus. Le
+     controle se refait apres chaque page ajoutee, jusqu'a ce que la suite
+     soit de nouveau devant. */
+  useEffect(() => {
+    if (!reste) return;
+    const verifier = (): void => {
+      const el = sentinelle.current;
+      if (el && el.getBoundingClientRect().top < window.innerHeight * 2.5) setCombien((c) => c + PAGE_DU_FIL);
+    };
+    let attente = 0;
+    const auDefilement = (): void => {
+      if (attente) return;
+      attente = requestAnimationFrame(() => {
+        attente = 0;
+        verifier();
+      });
+    };
+    window.addEventListener('scroll', auDefilement, { passive: true });
+    window.addEventListener('resize', auDefilement);
+    verifier();
+    return () => {
+      window.removeEventListener('scroll', auDefilement);
+      window.removeEventListener('resize', auDefilement);
+      cancelAnimationFrame(attente);
+    };
+  }, [reste, combien]);
+
+  if (articles.length === 0) return null;
+  const pages: Article[][] = [];
+  for (let i = 0; i < Math.min(combien, articles.length); i += PAGE_DU_FIL) pages.push(articles.slice(i, i + PAGE_DU_FIL));
+  return (
+    <section className="news-fil" aria-label={titre ?? undefined}>
+      {titre && <h2 className="news-rubrique-titre">{titre}</h2>}
+      {pages.map((page) => {
+        const [grand, ...suite] = page;
+        const cartes = suite.slice(0, 3);
+        const breves = suite.slice(3);
+        return (
+          <div key={page[0]?.lien} className="news-rubrique">
+            {grand && <Grand a={grand} />}
+            {cartes.length > 0 && (
+              <div className="news-cartes">
+                {cartes.map((a) => (
+                  <Carte key={a.lien} a={a} />
+                ))}
+              </div>
+            )}
+            {breves.length > 0 && (
+              <ul className="news-breves">
+                {breves.map((a) => (
+                  <Breve key={a.lien} a={a} />
+                ))}
+              </ul>
+            )}
+          </div>
+        );
+      })}
+      {reste ? <div ref={sentinelle} className="news-fil-sentinelle" aria-hidden="true" /> : <p className="news-note">{fin}</p>}
+    </section>
+  );
+}
+
 export function NewsPage() {
   const [livre, setLivre] = useState<Livre | null>(null);
   const [panne, setPanne] = useState(false);
@@ -242,67 +420,25 @@ export function NewsPage() {
 
   const sourcesVisibles = SOURCES.filter((s) => filtre === 'tout' || s.categorie === filtre);
 
-  const casser = (a: Article): void => setCassees((c) => new Set(c).add(a.lien));
-
-  /* ═══ LES QUATRE FACONS DE POSER UN ARTICLE ═══ Une seule donnee, quatre
-     tailles. La source et l'age sont le « surtitre », en petites capitales,
-     comme la rubrique au-dessus d'un titre de journal. */
-  const Surtitre = ({ a }: { a: Article }) => (
-    <span className="news-sur">
-      <span className="news-source">{PAR_SOURCE.get(a.source)?.nom}</span>
-      {a.date && <span className="news-quand">{ilYa(a.date, maintenant)}</span>}
-    </span>
+  const contexte = useMemo<ContexteNews>(
+    () => ({ maintenant, casser: (a: Article) => setCassees((c) => new Set(c).add(a.lien)) }),
+    [maintenant]
   );
 
-  const Image = ({ a }: { a: Article }) => (
-    <img className="news-image" src={a.image ?? ''} alt="" loading="lazy" referrerPolicy="no-referrer" onError={() => casser(a)} />
-  );
-
-  /* LE TITRE OUVRE L'ARTICLE ICI, pas chez le magazine : #/news/lire?u=…
-     (voir LectureArticle.tsx). Le bouton du milieu et le clic droit font
-     toujours ce qu'ils font, c'est l'ancre qui change. */
-  const Lien = ({ a, className, children }: { a: Article; className: string; children: ReactNode }) => (
-    <a href={`#/news/lire?u=${encodeURIComponent(a.lien)}`} className={className}>
-      {children}
-    </a>
-  );
-
-  const Grand = ({ a, une: estLaUne }: { a: Article; une?: boolean }) => (
-    <article className={estLaUne ? 'news-une' : 'news-grand'}>
-      <Lien a={a} className="news-lien">
-        <Image a={a} />
-        <span className="news-corps">
-          <Surtitre a={a} />
-          <span className="news-titre">{titreDe(a)}</span>
-          {resumeDe(a) && <span className="news-resume">{resumeDe(a)}</span>}
-        </span>
-      </Lien>
-    </article>
-  );
-
-  const Carte = ({ a }: { a: Article }) => (
-    <Apparition as="article" className="news-carte">
-      <Lien a={a} className="news-lien">
-        <Image a={a} />
-        <span className="news-corps">
-          <Surtitre a={a} />
-          <span className="news-titre">{titreDe(a)}</span>
-        </span>
-      </Lien>
-    </Apparition>
-  );
-
-  const Breve = ({ a }: { a: Article }) => (
-    <li className="news-breve">
-      <Lien a={a} className="news-lien">
-        <Surtitre a={a} />
-        <span className="news-titre">{titreDe(a)}</span>
-      </Lien>
-    </li>
-  );
-
+  /* CE QUE L'EDITION N'A PAS POSE continue dans le fil, sous les rubriques :
+     la page ne s'arrete plus apres ses trois rubriques. */
+  const resteDuFil = useMemo(() => {
+    const poses = new Set<string>();
+    const poser = (a: Article | null) => a && poses.add(a.lien);
+    poser(edition.une);
+    edition.enBref.forEach(poser);
+    edition.rubriques.forEach((r) => [r.grand, ...r.cartes, ...r.breves].forEach(poser));
+    edition.cartes.forEach(poser);
+    edition.breves.forEach(poser);
+    return articles.filter((a) => !poses.has(a.lien));
+  }, [articles, edition]);
   return (
-    <>
+    <NewsContexte.Provider value={contexte}>
       <EnTeteSite />
       <main className="credits news">
         {urlEnLecture && (() => {
@@ -325,6 +461,14 @@ export function NewsPage() {
                 />
                 <ColonneLecture voisins={voisins(livre?.articles ?? [], urlEnLecture)} />
               </div>
+              {/* LA LECTURE NE S'ARRETE PAS AU DERNIER PARAGRAPHE : le
+                  magazine continue dessous, sans fin. Voir FilMagazine. */}
+              <FilMagazine
+                key={urlEnLecture}
+                titre={t.newsALireEnsuite}
+                articles={articles.filter((x) => x.lien !== urlEnLecture)}
+                fin={t.newsToutLu}
+              />
               <PiedDePage />
             </>
           );
@@ -431,6 +575,7 @@ export function NewsPage() {
           </section>
         )}
 
+        <FilMagazine titre={null} articles={resteDuFil} fin={t.newsToutLu} />
         {livre && <p className="news-note">{t.newsMisesAJour(ilYa(livre.fait, maintenant))}</p>}
 
         <section className="news-sources" aria-labelledby="news-sources-titre">
@@ -461,6 +606,6 @@ export function NewsPage() {
         <PiedDePage />
         </>}
       </main>
-    </>
+    </NewsContexte.Provider>
   );
 }

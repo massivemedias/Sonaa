@@ -63,6 +63,32 @@ async function lire(url: string): Promise<string> {
   }
 }
 
+/* Une image se charge si son adresse rend un statut 200 et un type image,
+   demandee comme un navigateur la demanderait depuis une autre page. Le
+   corps est lu puis jete : certains serveurs ne disent la verite qu'une fois
+   la reponse consommee. Dix secondes au plus. */
+const NAVIGATEUR =
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0 Safari/537.36';
+async function imageSeCharge(adresse: string): Promise<boolean> {
+  if (!/^https?:\/\//.test(adresse)) return false;
+  const arret = new AbortController();
+  const minuteur = setTimeout(() => arret.abort(), 10_000);
+  try {
+    const r = await fetch(adresse, {
+      signal: arret.signal,
+      redirect: 'follow',
+      headers: { 'user-agent': NAVIGATEUR, accept: 'image/avif,image/webp,image/*,*/*;q=0.8', referer: 'https://sonaa.ca/' },
+    });
+    const type = r.headers.get('content-type') ?? '';
+    await r.arrayBuffer().catch(() => undefined);
+    return r.ok && type.startsWith('image/');
+  } catch {
+    return false;
+  } finally {
+    clearTimeout(minuteur);
+  }
+}
+
 async function main(): Promise<void> {
   const articles: Article[] = [];
   const pannes: { id: string; raison: string }[] = [];
@@ -100,10 +126,37 @@ async function main(): Promise<void> {
       })
     );
   }
-  const complets: Article[] = articles
+  const avecImage: Article[] = articles
     .map((a) => (a.image ? a : { ...a, image: trouvees.get(a.lien) ?? null }))
     .filter((a) => a.image !== null);
-  console.log(`\n  ${sansImage.length} sans image dans le flux, ${trouvees.size} retrouvees sur la page, ${articles.length - complets.length} ecartees.`);
+  console.log(`\n  ${sansImage.length} sans image dans le flux, ${trouvees.size} retrouvees sur la page, ${articles.length - avecImage.length} ecartees.`);
+
+  /* ═══ UNE IMAGE ANNONCEE N'EST PAS UNE IMAGE QUI SE CHARGE ═══
+   *
+   * Mika, le 30 septembre 2026, capture a l'appui : « il y a des images
+   * manquantes, je ne veux jamais voir ce genre de chose ». Les douze
+   * articles de Bedroom Producers Blog annoncaient une image que le site
+   * refuse a tout le monde : un controle anti-robots de Cloudflare repond
+   * 403 a toute requete qui ne vient pas d'une visite de leur page, y
+   * compris a un navigateur ordinaire qui charge l'image depuis SONAA.
+   *
+   * On TELECHARGE donc chaque image avant de la retenir, avec l'identite
+   * d'un navigateur : un statut 200 et un type image, ou l'article tombe,
+   * selon la regle posee par Mika des la premiere moisson, « s'il n'y en a
+   * pas, on ne met pas cette tuile ». Par paquets de huit, comme plus haut. */
+  const ecarteesParSource = new Map<string, number>();
+  const chargees = new Set<string>();
+  for (let i = 0; i < avecImage.length; i += 8) {
+    await Promise.all(
+      avecImage.slice(i, i + 8).map(async (a) => {
+        if (await imageSeCharge(a.image ?? '')) chargees.add(a.lien);
+        else ecarteesParSource.set(a.source, (ecarteesParSource.get(a.source) ?? 0) + 1);
+      })
+    );
+  }
+  const complets = avecImage.filter((a) => chargees.has(a.lien));
+  const detail = [...ecarteesParSource.entries()].map(([s, n]) => `${s} ${n}`).join(', ');
+  console.log(`  ${avecImage.length - complets.length} image(s) qui ne se chargent pas, articles ecartes${detail ? ` (${detail})` : ''}.`);
 
   /* Du plus recent au plus ancien ; ce qui n'a pas de date passe en dernier.
      Les doublons (un meme lien pousse deux fois par un flux bavard) sont

@@ -1,5 +1,5 @@
 {
- "fait": "2026-09-30T18:02:13.670Z",
+ "fait": "2026-10-01T02:00:44.235Z",
  "articles": [
   {
    "source": "gearnews",
@@ -30,26 +30,6 @@
    "resume": "After a quiet few months, it seems we’re beginning to see what the Arturia boffins in Grenoble have been up to, and it seems sound designers are picking up on this too! More Arturia Presets Than You Can Shake a Stick…",
    "titre_fr": "Une foule de patches pour les synthés Arturia, et bien plus encore ! – Sounds and Presets",
    "resume_fr": "Après quelques mois calmes, il semble que nous commencions à voir ce que les gars d'Arturia à Grenoble ont fait, et il semble que les sound designers le remarquent aussi ! Plus de presets Arturia que tu ne peux le supporter..."
-  },
-  {
-   "source": "bpb",
-   "titre": "Airwindows releases ConsoleX3 open-source mixing system with an adaptive GUI",
-   "lien": "https://bedroomproducersblog.com/2026/09/30/airwindows-consolex3/",
-   "date": "2026-09-30T15:37:32.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/airwindows-console-x3.jpg",
-   "resume": "Airwindows has released ConsoleX3, a free and open-source mixing console system for macOS, Windows, and Linux. Most Airwindows plugins famously prioritize efficient DSP over custom interfaces, but ConsoleX3 continues…",
-   "titre_fr": "Airwindows sort ConsoleX3, un système de mixage open-source avec une interface graphique adaptative",
-   "resume_fr": "Airwindows a lancé ConsoleX3, une console de mixage libre et open-source pour macOS, Windows et Linux. Les plugins Airwindows donnent traditionnellement la priorité au DSP efficace plutôt qu'aux interfaces personnalisées, mais ConsoleX3 poursuit..."
-  },
-  {
-   "source": "bpb",
-   "titre": "Pizza Bagel Plugins releases Schmear vocal widener FREE",
-   "lien": "https://bedroomproducersblog.com/2026/09/30/pizza-bagel-plugins-schmear/",
-   "date": "2026-09-30T15:03:31.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/schmear.jpg",
-   "resume": "Pizza Bagel Plugins has released Schmear, a streamlined vocal widener for macOS and Windows that is currently free instead of $19. The new company comes from Los Angeles producer and vocal producer Justin Gammella. His…",
-   "titre_fr": "Pizza Bagel Plugins sort Schmear, un élargisseur vocal GRATUIT",
-   "resume_fr": "Pizza Bagel Plugins a lancé Schmear, un élargisseur vocal épuré pour macOS et Windows actuellement gratuit au lieu de 19 $. La nouvelle entreprise provient du producteur et vocal producer de Los Angeles Justin Gammella. Son..."
   },
   {
    "source": "gearnews",
@@ -112,16 +92,6 @@
    "resume_fr": "De nombreux musiciens sont compréhensiblement méfiants à l'égard des modèles de musique générative. Ces outils peuvent représenter le pire de l'IA – exécutant des fonctions qui empiètent activement sur la créativité humaine, souvent entraînés sur du matériel protégé par le droit d'auteur et..."
   },
   {
-   "source": "bpb",
-   "titre": "Get SampleScience RC909 Pro FREE through October 31st",
-   "lien": "https://bedroomproducersblog.com/2026/09/30/samplescience-rc909-pro-free/",
-   "date": "2026-09-30T13:22:34.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/rc909pro.jpg",
-   "resume": "SampleScience is giving away RC909 Pro, a sample-based TR-909 drum instrument for macOS and Windows, free instead of $30 through October 31st. There is no shortage of free 909 samples, but RC909 Pro packages them into a…",
-   "titre_fr": "Obtenez SampleScience RC909 Pro GRATUITEMENT jusqu'au 31 octobre",
-   "resume_fr": "SampleScience offre RC909 Pro, un instrument drum sample-based TR-909 pour macOS et Windows, gratuit au lieu de 30 $ jusqu'au 31 octobre. Il n'y a pas de pénurie d'échantillons 909 gratuits, mais RC909 Pro les empaquette dans un..."
-  },
-  {
    "source": "gearnews",
    "titre": "Warm Audio Mod Series: Centavo and WA-C1 Mods and a Black Keys Peach Fuzz!",
    "lien": "https://www.gearnews.com/warm-audio-mod-series-centavo-and-wa-c1-guitar/",
@@ -152,16 +122,6 @@
    "resume_fr": "Si quelqu'un doute que Robin Trower est 100 % badass, il suffit de considérer comment il a obtenu son son. Après avoir quitté Procol Harum en 1971 à la recherche d'un meilleur véhicule pour ses talents de guitare émergents, il a été..."
   },
   {
-   "source": "bpb",
-   "titre": "Sync Audio launches MegaMorph plugin host for $79",
-   "lien": "https://bedroomproducersblog.com/2026/09/30/sync-audio-megamorph/",
-   "date": "2026-09-30T12:46:11.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/megamorph.jpg",
-   "resume": "Sync Audio has released MegaMorph, a plugin host and modulation environment for macOS and Windows, priced at $79. The new MegaMorph expands on the idea behind MegaMod, which Sync Audio initially offered as a free beta…",
-   "titre_fr": "Sync Audio lance MegaMorph, un host plugin au prix de 79 $",
-   "resume_fr": "Sync Audio a lancé MegaMorph, un host plugin et un environnement de modulation pour macOS et Windows, au prix de 79 $. Le nouveau MegaMorph s'appuie sur l'idée derrière MegaMod, que Sync Audio a initialement proposé comme bêta gratuite..."
-  },
-  {
    "source": "musicradar",
    "titre": "\"This is a dream inspiration engine\": BT and Spitfire Audio team up for Phoenix hybrid synth",
    "lien": "https://www.musicradar.com/music-tech/this-is-a-dream-inspiration-engine-bt-and-spitfire-audio-team-up-for-phoenix-hybrid-synth",
@@ -170,16 +130,6 @@
    "resume": "Spitfire Audio has teamed up with composer, producer and music technologist BT for the release of Phoenix, a hybrid software synthesizer that brings together samples from BT's private archive with wavetable and FM…",
    "titre_fr": "« C'est un moteur d'inspiration de rêve » : BT et Spitfire Audio s'associent pour le synthé hybride Phoenix",
    "resume_fr": "Spitfire Audio s'est associé au compositeur, producteur et technologue musical BT pour la sortie de Phoenix, un synthétiseur logiciel hybride qui réunit des samples des archives privées de BT avec wavetable et FM..."
-  },
-  {
-   "source": "bpb",
-   "titre": "Audija releases OScope 2 with a substantial FREE version",
-   "lien": "https://bedroomproducersblog.com/2026/09/30/audija-oscope-2-free/",
-   "date": "2026-09-30T12:07:15.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/oscope.jpg",
-   "resume": "Audija has released OScope 2, a major update to its beat-synced oscilloscope and spectral analysis plugin for macOS and Windows. We first covered OScope in 2023, but version 2 is much more capable than the original. The…",
-   "titre_fr": "Audija sort OScope 2 avec une version GRATUITE substantielle",
-   "resume_fr": "Audija a lancé OScope 2, une mise à jour majeure de son plugin oscilloscope et analyse spectrale synchronisé au beat pour macOS et Windows. Nous avons d'abord couvert OScope en 2023, mais la version 2 est beaucoup plus capable que l'original. Le..."
   },
   {
    "source": "musictech",
@@ -332,16 +282,6 @@
    "resume_fr": "Cette semaine, nous regardons les dernières nouvelles de guitare des derniers jours. D'abord, nous découvrons la nouvelle Strandberg Boden Essential 6 Tremolo avec le système Arc TILT. Ensuite, nous regardons Burls Art et sa dernière guitare sans…"
   },
   {
-   "source": "bpb",
-   "titre": "Get Drum Spice FREE while 5,000 licenses last",
-   "lien": "https://bedroomproducersblog.com/2026/09/29/drum-spice-free/",
-   "date": "2026-09-29T15:48:24.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/drum-spice.jpg",
-   "resume": "CELEST DSP and Audio Spices are giving BPB readers 5,000 full licenses for Drum Spice, a new drum bus processor normally priced at $59.99. These are perpetual licenses with lifetime updates. The giveaway is first-come…",
-   "titre_fr": "Obtenez Drum Spice GRATUITEMENT tant que 5 000 licences restent",
-   "resume_fr": "CELEST DSP et Audio Spices offrent aux lecteurs de BPB 5 000 licences complètes pour Drum Spice, un nouveau processeur de drum bus normalement au prix de 59,99 $. Ce sont des licences perpétuelles avec mises à jour à vie. Le cadeau est premier arrivé…"
-  },
-  {
    "source": "musictech",
    "titre": "Spitfire Audio once again teams up with BT on Phoenix, a hybrid synth built from the producer’s private archive",
    "lien": "https://musictech.com/news/gear/spitfire-audio-phoenix-bt/",
@@ -408,46 +348,6 @@
    "resume": "When NDSTRY opened its doors in Pampanga, its founders spent about a year building a foundation around resident DJs before scaling their lineup. Most regional venues chase immediate returns by stocking playlists with…",
    "titre_fr": "NDSTRY accepte Risky Nights pour construire une identité à long terme",
    "resume_fr": "Quand NDSTRY a ouvert ses portes à Pampanga, ses fondateurs ont passé environ un an à construire une fondation autour de DJ résidents avant de développer leur lineup. La plupart des salles régionales recherchent des rendements immédiats en remplissant les playlists avec…"
-  },
-  {
-   "source": "bpb",
-   "titre": "Leit Audio releases UnClip, a FREE plugin for repairing clipped audio",
-   "lien": "https://bedroomproducersblog.com/2026/09/29/leit-audio-unclip/",
-   "date": "2026-09-29T11:11:29.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/unclip.jpg",
-   "resume": "Leit Audio has released UnClip, a free audio restoration plugin for macOS, Windows, and Linux. I am mostly sharing this one for fun. We have featured so many free clippers (REGENT and E-Peakclipper-500, to name a few)…",
-   "titre_fr": "Leit Audio sort UnClip, un plugin GRATUIT pour réparer l'audio écrêté",
-   "resume_fr": "Leit Audio a lancé UnClip, un plugin gratuit de restauration audio pour macOS, Windows et Linux. Je partage celui-ci surtout pour le plaisir. Nous avons présenté tellement de clippers gratuits (REGENT et E-Peakclipper-500, pour n'en nommer que quelques-uns)…"
-  },
-  {
-   "source": "bpb",
-   "titre": "ABYZOR Genesis adds FREE local AI for unlimited MIDI generation",
-   "lien": "https://bedroomproducersblog.com/2026/09/29/abyzor-genesis-midi/",
-   "date": "2026-09-29T11:03:09.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/abyzor.jpg",
-   "resume": "ABYZOR has released a free local AI module for its Genesis MIDI generator plugin for macOS and Windows. We featured Genesis when it launched in June. It generates melodies, basslines, chord progressions, and arpeggios…",
-   "titre_fr": "ABYZOR Genesis ajoute l'IA locale GRATUITE pour la génération MIDI illimitée",
-   "resume_fr": "ABYZOR a lancé un module IA local gratuit pour son plugin générateur MIDI Genesis pour macOS et Windows. Nous avons présenté Genesis à son lancement en juin. Il génère des mélodies, des basslines, des progressions d'accords et des arpèges…"
-  },
-  {
-   "source": "bpb",
-   "titre": "StereoiXer by Xilentch, a FREE multi-band spatial image processor for macOS and Windows",
-   "lien": "https://bedroomproducersblog.com/2026/09/29/xilentch-stereoixer/",
-   "date": "2026-09-29T11:02:26.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/Xilentch-StereoiXer.jpg",
-   "resume": "Earlier this year, Xilentch updated its free XM Series plugins, and this latest release, the StereoiXer, shares the same architecture as the developer’s popular mastering bundle. StereoiXer is a free multiband spatial…",
-   "titre_fr": "StereoiXer par Xilentch, un processeur d'image spatiale multi-bande GRATUIT pour macOS et Windows",
-   "resume_fr": "Plus tôt cette année, Xilentch a mis à jour ses plugins XM Series gratuits, et cette dernière version, le StereoiXer, partage la même architecture que le bundle mastering populaire du développeur. StereoiXer est un processeur spatial multi-bande gratuit…"
-  },
-  {
-   "source": "bpb",
-   "titre": "Finnish Forest Percussion is a FREE organic percussion library for Decent Sampler",
-   "lien": "https://bedroomproducersblog.com/2026/09/29/finnish-forest-percussion-decent-sampler/",
-   "date": "2026-09-29T11:01:28.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/AV-Ylanne-FinnishForestPercussion.jpg",
-   "resume": "From developer AV-Ylänne comes Finnish Forest Percussion, a free organic percussion library for Decent Sampler. We’ve covered lots of Decent Sampler libraries on BPB, and new releases are always a treat to hear about…",
-   "titre_fr": "Finnish Forest Percussion est une bibliothèque de percussion organique GRATUITE pour Decent Sampler",
-   "resume_fr": "Du développeur AV-Ylänne vient Finnish Forest Percussion, une bibliothèque de percussion organique gratuite pour Decent Sampler. Nous avons couvert beaucoup de bibliothèques Decent Sampler sur BPB, et les nouvelles versions sont toujours un plaisir d'entendre parler…"
   },
   {
    "source": "attack",
@@ -588,16 +488,6 @@
    "resume_fr": "Phantom Sun est un synthesizer iPad semi-modulaire conçu pour les patchs génératifs, la conception sonore expérimentale et la performance tactile expressive…"
   },
   {
-   "source": "bpb",
-   "titre": "Run native VST2 plugins on first-generation Akai MPC/Force standalone units",
-   "lien": "https://bedroomproducersblog.com/2026/09/28/akai-mpc-vst2/",
-   "date": "2026-09-28T16:10:08.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/sd88me-MPCVSTPlugins.jpg",
-   "resume": "Thanks to developer sd88me, you can now run native VST2 plugins on first-generation Akai MPC/Force standalone units. MPC users are familiar with the various pros and cons of working in standalone and controller modes…",
-   "titre_fr": "Exécuter des plugins VST2 natifs sur les unités standalone Akai MPC/Force de première génération",
-   "resume_fr": "Grâce au développeur sd88me, vous pouvez maintenant exécuter des plugins VST2 natifs sur les unités standalone Akai MPC/Force de première génération. Les utilisateurs de MPC connaissent les différents avantages et inconvénients de travailler en mode standalone et contrôleur…"
-  },
-  {
    "source": "tsugi",
    "titre": "Nancy Jazz Pulsations 2026 : on connaît la programmation complète de cette institution",
    "lien": "https://www.tsugi.fr/nancy-jazz-pulsations-2026-on-connait-la-programmation-complete-de-cette-institution/",
@@ -614,16 +504,6 @@
    "resume": "We're awash with emulations at the moment, but this one is on another level. The chip that powered everything from Yamaha’s little-known CX5M computer to the best 80s FM synths and video game masterpieces gets a…",
    "titre_fr": "Mortal FM Kombat: l'émulation OPMZ Yamaha minutieuse de Plogue fait totalement sensation",
    "resume_fr": "Nous sommes inondés d'émulations en ce moment, mais celle-ci est à un autre niveau. La puce qui a alimenté tout, du petit ordinateur Yamaha CX5M méconnu aux meilleures synthétiseurs FM des années 80 et aux chef-d'œuvres de jeux vidéo reçoit un…"
-  },
-  {
-   "source": "bpb",
-   "titre": "Monomodule is a FREE Elektron Monomachine emulator for your DAW",
-   "lien": "https://bedroomproducersblog.com/2026/09/28/monomodule-elektron-monomachine/",
-   "date": "2026-09-28T13:14:04.000Z",
-   "image": "https://bedroomproducersblog.com/wp-content/uploads/2026/09/monomodule.jpg",
-   "resume": "Shnolk has released Monomodule, a free and open-source Elektron Monomachine emulator for macOS, Windows, and Linux. Monomodule runs the original Monomachine DSP program instruction by instruction inside an emulated…",
-   "titre_fr": "Monomodule est un émulateur gratuit Elektron Monomachine pour votre DAW",
-   "resume_fr": "Shnolk a lancé Monomodule, un émulateur gratuit et open-source Elektron Monomachine pour macOS, Windows et Linux. Monomodule exécute le programme DSP Monomachine d'origine instruction par instruction dans un émulateur…"
   },
   {
    "source": "musictech",
@@ -1399,6 +1279,14 @@
   },
   {
    "source": "mixmag",
+   "titre": "The Mix 125: Sam Girling",
+   "lien": "https://mixmag.net/feature/the-mix-125-sam-girling-interview-dj-hessle-audio",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/THE_MIX_SG2.jpg?fit=cover&format=baseline-jpeg&height=630&width=1200&s=h9xvOW_xv9jTM2i6pYCgGCQ5gV-KfJwp5Ql0MrWjCH4",
+   "resume": "In supplying weapons-grade club bangers to your favourite DJs and dancefloors alike, Sam Girling is finding his footing after a decade in music. He enters a sonic state of dark flux for his edition of The Mix, and…"
+  },
+  {
+   "source": "mixmag",
    "titre": "Mixmag and image enhancement app Wink team up on #WinkTheNightBack campaign",
    "lien": "https://mixmag.net/feature/mixmag-image-enhancement-app-wink-team-up-winkthenightback-campaign",
    "date": null,
@@ -1509,6 +1397,22 @@
   },
   {
    "source": "djmag",
+   "titre": "New book, In Clubland, chronicles 35 years of global club culture",
+   "lien": "https://djmag.com/news/new-book-clubland-chronicles-35-years-of-global-club-culture",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/in-clubland-via-80s-casuals.jpg.webp?itok=B5iVLGwe459446835",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The new book features cameos from Daft Punk and The Chemical Brothers</p> </div>"
+  },
+  {
+   "source": "djmag",
+   "titre": "Andrew Garfield says you’re not a real DJ unless you play vinyl",
+   "lien": "https://djmag.com/news/andrew-garfield-says-youre-not-real-dj-unless-you-play-vinyl",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/andrew-garfield-kareem-rahma.jpg.webp?itok=Tkh5tmux1112510023",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Garfield made the statement during a Subway Takes interview with Kareem Rahma</p> </div>"
+  },
+  {
+   "source": "djmag",
    "titre": "Charlotte de Witte and KI/KI announce first-ever b2b set at Flanders Expo",
    "lien": "https://djmag.com/news/charlotte-de-witte-and-kiki-announce-first-ever-b2b-set-flanders-expo",
    "date": null,
@@ -1542,7 +1446,7 @@
    "titre": "Swedish House Mafia share new video for ‘Happiness Is So Sad’: Watch",
    "lien": "https://djmag.com/news/swedish-house-mafia-share-new-video-happiness-so-sad-watch",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/swedish-house-mafia-lykki-li-happiness-is-so-sad-san-franciso-portola-festival.jpg.webp?itok=uDYgwbJt1379977020",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/swedish-house-mafia-lykki-li-happiness-is-so-sad-san-franciso-portola-festival.jpg.webp?itok=uDYgwbJt1264801062",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The visual for the collaboration with Lykke Li was filmed on 25 phones at a house…",
    "titre_fr": "Swedish House Mafia dévoile le nouveau clip pour « Happiness Is So Sad » : À regarder",
    "resume_fr": "Le visuel de la collaboration avec Lykke Li a été tourné sur 25 téléphones dans une maison..."
@@ -1552,7 +1456,7 @@
    "titre": "Dom Dolla joins Kylie Minogue on stage for new remix at AFL Grand Final",
    "lien": "https://djmag.com/news/dom-dolla-joins-kylie-minogue-stage-new-remix-afl-grand-final",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/dom-dolla-kylie-minogue-afc-grand-final-cant-get-you-out-of-my-head-remix-performance-2026.jpeg.webp?itok=PO_gDcwM942155646",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/dom-dolla-kylie-minogue-afc-grand-final-cant-get-you-out-of-my-head-remix-performance-2026.jpeg.webp?itok=PO_gDcwM804365702",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Dressed as an aircraft marshall, Dolla debuted a high-energy rework of Minogue’s ‘Can’t…",
    "titre_fr": "Dom Dolla rejoint Kylie Minogue sur scène pour un nouveau remix à l'AFL Grand Final",
    "resume_fr": "Vêtu d'un uniforme de marshal aérien, Dolla a présenté en avant-première un remix haute énergie du titre 'Can't' de Minogue…"
@@ -1562,7 +1466,7 @@
    "titre": "Martin Garrix teases new single featuring his own vocals, ‘This Dream Of You’: Listen",
    "lien": "https://djmag.com/news/martin-garrix-teases-new-single-featuring-his-own-vocals-dream-of-you-listen",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/2.-Martin-Garrix.jpg.webp?itok=j7-x4lfC1673046144",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/2.-Martin-Garrix.jpg.webp?itok=j7-x4lfC616270246",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“Singing is very far out of my comfort zone, but I am excited to try new things and…",
    "titre_fr": "Martin Garrix tease son nouveau single avec ses propres voix, 'This Dream Of You': écoutez",
    "resume_fr": "« Le chant est très loin de ma zone de confort, mais je suis enthousiaste à l'idée d'essayer de nouvelles choses et…"
@@ -1576,6 +1480,30 @@
    "resume": "<div class=\"clearfix text-formatted field field--name-field-intro field--type-text-long field--label-hidden field__item\"><p>The latest and greatest DJs, producers and MCs rising to the top this month. From acid-tinted…",
    "titre_fr": "Six artistes émergents à écouter: septembre 2026",
    "resume_fr": "Les derniers et plus grands DJ, producteurs et MC en ascension ce mois-ci. Du acid teinté…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Josh Baker, Kettama and Prospa add second London date for 2027",
+   "lien": "https://djmag.com/news/josh-baker-kettama-and-prospa-add-second-london-date-2027",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/josh-baker-kettama-prospa-london-finsbury-park-july-3-4-2027-shows-photo.jpg.webp?itok=rT-5ImZU1761740165",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The first Finsbury Park show next July sold out within an hour of pre-sale going live this…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Sasha and John Digweed auction rare ‘Northern Exposure’ records and memorabilia",
+   "lien": "https://djmag.com/news/sasha-and-john-digweed-auction-rare-northern-exposure-records-and-memorabilia",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/sasha-john-digweed-northern-exposure-auction-amplifyd-split.jpg.webp?itok=HQrPY8pV198841730",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“I love the fact that we’re not selling pristine museum pieces. We’re selling our copies…"
+  },
+  {
+   "source": "djmag",
+   "titre": "Native Instruments announces Maschine 3.7 with new creative sequencing tools",
+   "lien": "https://djmag.com/tech/native-instruments-announces-maschine-37-new-creative-sequencing-tools",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/unnamed%20%285%29.png.webp?itok=bqmRPOm61148832777",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The music tech giant is also marking its 30th birthday by launching three more of its…"
   }
  ],
  "pannes": []

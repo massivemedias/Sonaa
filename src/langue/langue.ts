@@ -395,6 +395,8 @@ interface Dictionnaire {
   readonly articleEnLecture: string;
   readonly articleIllisible: string;
   readonly newsEtAussi: string;
+  readonly newsALireEnsuite: string;
+  readonly newsToutLu: string;
   readonly lesSources: string;
   readonly sourcesIntro: string;
   readonly voirSesArticles: string;
@@ -1076,6 +1078,8 @@ const FR: Dictionnaire = {
   articleEnLecture: 'Lecture de l’article…',
   articleIllisible: 'Cet article ne se laisse pas lire ici.',
   newsEtAussi: 'Et aussi',
+  newsALireEnsuite: 'À lire ensuite',
+  newsToutLu: 'Vous avez tout lu. La prochaine édition arrive dans quelques heures.',
   lesSources: "Les sources",
   sourcesIntro: "Les sites que SONAA relit. Ceux qui n’offrent plus de flux gardent leur porte : allez-y directement.",
   voirSesArticles: "Ses articles",
@@ -1760,6 +1764,8 @@ const EN: Dictionnaire = {
   articleEnLecture: 'Loading the article…',
   articleIllisible: 'This article cannot be read here.',
   newsEtAussi: 'Also',
+  newsALireEnsuite: 'Read next',
+  newsToutLu: 'You have read everything. The next edition is a few hours away.',
   lesSources: "The sources",
   sourcesIntro: "The sites SONAA reads. Those without a feed anymore keep their door: go there directly.",
   voirSesArticles: "Its articles",
