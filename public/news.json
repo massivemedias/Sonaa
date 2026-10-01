@@ -1,6 +1,26 @@
 {
- "fait": "2026-10-01T02:00:44.235Z",
+ "fait": "2026-10-01T06:07:17.161Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "10 Years of Exploding Shed: From an Attic to a Synth DIY Shop, Plus a Giveaway Worth Over 5,600 Euros!",
+   "lien": "https://www.gearnews.com/10-years-of-exploding-shed-raffle/",
+   "date": "2026-10-01T06:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/Exploding-Shed-2026-T.jpg",
+   "resume": "In October 2026, Exploding Shed turns ten, and we’re celebrating right along with them! This Leipzig-in-Germany-based synth DIY shop now ships almost everywhere in the EU, but it all started with Tupperware, a homemade…",
+   "titre_fr": "10 ans d'Exploding Shed: d'un grenier à une boutique DIY de synthés, plus un concours d'une valeur de plus de 5 600 euros!",
+   "resume_fr": "En octobre 2026, Exploding Shed souffle ses dix bougies, et nous célébrons avec eux! Cette boutique DIY de synthés basée à Leipzig en Allemagne expédie désormais presque partout dans l'UE, mais tout a commencé avec du Tupperware, un…"
+  },
+  {
+   "source": "gearnews",
+   "titre": "Thoughtful Things Engram: A Weird AI Groovebox Sampler From the Backrooms",
+   "lien": "https://www.gearnews.com/thoughtful-things-engram-synth/",
+   "date": "2026-10-01T04:33:20.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/thoughtful-things-engram-T.jpg",
+   "resume": "AI hardware arrives in the form of Thoughtful Things Engram, a sampler groovebox with neural audio processing and generative sound models inside. Curious about generating “uncanny” AI sounds, as the developer calls…",
+   "titre_fr": "Thoughtful Things Engram: un étrange groovebox sampler IA des Backrooms",
+   "resume_fr": "Le matériel IA arrive sous la forme de Thoughtful Things Engram, un groovebox sampler avec traitement audio neuronal et modèles de son génératifs intégrés. Curieux de générer des sons IA « étranges », comme les appelle le développeur…"
+  },
   {
    "source": "gearnews",
    "titre": "Cheap Microphones That Engineers Use Instead of Expensive Classics",
@@ -260,26 +280,6 @@
    "resume": "Sampleson Backgrounds is a new soundscape creation tool that lets users combine words and ideas on a canvas to generate evolving cinematic atmospheres.…",
    "titre_fr": "Backgrounds crée des ambiances sonores évolutives à partir de vos invites de mots-clés",
    "resume_fr": "Sampleson Backgrounds est un nouvel outil de création d'ambiances sonores qui permet aux utilisateurs de combiner des mots et des idées sur un canevas pour générer des atmosphères cinématiques évolutives.…"
-  },
-  {
-   "source": "gearnews",
-   "titre": "Strymon La Brea Analog Tape Drive: Inspired by the Deco",
-   "lien": "https://www.gearnews.com/strymon-la-brea/",
-   "date": "2026-09-29T17:18:37.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/Strymon-La-Brea-Analog-Tape-Drive.jpg",
-   "resume": "The Strymon La Brea is an analog tape-drive pedal inspired by the Deco; it is 100% analog and can go from overdriven to full-blown fuzz if pushed hard. Contents – Strymon La Brea La Brea First Thoughts Simple Controls…",
-   "titre_fr": "Strymon La Brea Analog Tape Drive : inspiré par le Deco",
-   "resume_fr": "La Strymon La Brea est une pédale analog tape-drive inspirée par la Deco ; elle est 100 % analog et peut passer du overdrive au fuzz complet si on la pousse fort. Contenu : Strymon La Brea La Brea First Thoughts Commandes simples…"
-  },
-  {
-   "source": "gearnews",
-   "titre": "Guitar Journal: Boden Essential 6 Tremolo & More",
-   "lien": "https://www.gearnews.com/guitar-journal-boden-essential-6-tremolo-more/",
-   "date": "2026-09-29T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/Guitar-Journal-Boden-Essential-6-Tremolo-More.jpg",
-   "resume": "This week, we look at the latest guitar news from the past few days. First, we check out the new Strandberg Boden Essential 6 Tremolo with the Arc TILT system. Then we look at Burls Art and his latest guitar with no…",
-   "titre_fr": "Guitar Journal : Boden Essential 6 Tremolo et plus",
-   "resume_fr": "Cette semaine, nous regardons les dernières nouvelles de guitare des derniers jours. D'abord, nous découvrons la nouvelle Strandberg Boden Essential 6 Tremolo avec le système Arc TILT. Ensuite, nous regardons Burls Art et sa dernière guitare sans…"
   },
   {
    "source": "musictech",
@@ -1279,14 +1279,6 @@
   },
   {
    "source": "mixmag",
-   "titre": "The Mix 125: Sam Girling",
-   "lien": "https://mixmag.net/feature/the-mix-125-sam-girling-interview-dj-hessle-audio",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/THE_MIX_SG2.jpg?fit=cover&format=baseline-jpeg&height=630&width=1200&s=h9xvOW_xv9jTM2i6pYCgGCQ5gV-KfJwp5Ql0MrWjCH4",
-   "resume": "In supplying weapons-grade club bangers to your favourite DJs and dancefloors alike, Sam Girling is finding his footing after a decade in music. He enters a sonic state of dark flux for his edition of The Mix, and…"
-  },
-  {
-   "source": "mixmag",
    "titre": "Mixmag and image enhancement app Wink team up on #WinkTheNightBack campaign",
    "lien": "https://mixmag.net/feature/mixmag-image-enhancement-app-wink-team-up-winkthenightback-campaign",
    "date": null,
@@ -1397,97 +1389,13 @@
   },
   {
    "source": "djmag",
-   "titre": "New book, In Clubland, chronicles 35 years of global club culture",
-   "lien": "https://djmag.com/news/new-book-clubland-chronicles-35-years-of-global-club-culture",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/in-clubland-via-80s-casuals.jpg.webp?itok=B5iVLGwe459446835",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The new book features cameos from Daft Punk and The Chemical Brothers</p> </div>"
-  },
-  {
-   "source": "djmag",
-   "titre": "Andrew Garfield says you’re not a real DJ unless you play vinyl",
-   "lien": "https://djmag.com/news/andrew-garfield-says-youre-not-real-dj-unless-you-play-vinyl",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/andrew-garfield-kareem-rahma.jpg.webp?itok=Tkh5tmux1112510023",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Garfield made the statement during a Subway Takes interview with Kareem Rahma</p> </div>"
-  },
-  {
-   "source": "djmag",
-   "titre": "Charlotte de Witte and KI/KI announce first-ever b2b set at Flanders Expo",
-   "lien": "https://djmag.com/news/charlotte-de-witte-and-kiki-announce-first-ever-b2b-set-flanders-expo",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/SaveClip.App_828493371_18629735008000448_1774630810506280066_n.jpg.webp?itok=NZ-t9AZ91508000052",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The special b2b set will be part of de Witte’s recently announced dates at Flanders…",
-   "titre_fr": "Charlotte de Witte et KI/KI annoncent leur premier b2b à Flanders Expo",
-   "resume_fr": "Le b2b spécial fera partie des dates récemment annoncées de de Witte à Flanders..."
-  },
-  {
-   "source": "djmag",
-   "titre": "Watch ANOTR’s full DJ set from Alexandra Palace in London",
-   "lien": "https://djmag.com/news/watch-anotrs-full-dj-set-alexandra-palace-london",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/anotr.jpg.webp?itok=Z6ZzIcZB607916903",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The show was part of the Amsterdam duo’s two-night run at the iconic London venue</p>…",
-   "titre_fr": "Regardez le set DJ complet d'ANOTR depuis Alexandra Palace à Londres",
-   "resume_fr": "Le show faisait partie de la run de deux nuits du duo d'Amsterdam à l'emblématique salle londonienne..."
-  },
-  {
-   "source": "djmag",
-   "titre": "Tinashe shares ‘Popstar’ remix EP featuring PinkPantheress, Nick León, more",
-   "lien": "https://djmag.com/news/tinashe-shares-popstar-remix-ep-featuring-pinkpantheress-nick-leon-more",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Tinashe-Credit-Hugo-Comte-remix-ep-popstar-pinkpantheress-nick-leon-umru_0.jpg.webp?itok=W5ldF-5w2080383447",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>A ‘Bonus Edition’ of the US artist’s 2026 LP is out now, featuring four new “flips”</p>…",
-   "titre_fr": "Tinashe partage l'EP remix « Popstar » avec PinkPantheress, Nick León et plus",
-   "resume_fr": "Une « Bonus Edition » du LP 2026 de l'artiste américaine est disponible maintenant, avec quatre nouveaux « flips »..."
-  },
-  {
-   "source": "djmag",
-   "titre": "Swedish House Mafia share new video for ‘Happiness Is So Sad’: Watch",
-   "lien": "https://djmag.com/news/swedish-house-mafia-share-new-video-happiness-so-sad-watch",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/swedish-house-mafia-lykki-li-happiness-is-so-sad-san-franciso-portola-festival.jpg.webp?itok=uDYgwbJt1264801062",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The visual for the collaboration with Lykke Li was filmed on 25 phones at a house…",
-   "titre_fr": "Swedish House Mafia dévoile le nouveau clip pour « Happiness Is So Sad » : À regarder",
-   "resume_fr": "Le visuel de la collaboration avec Lykke Li a été tourné sur 25 téléphones dans une maison..."
-  },
-  {
-   "source": "djmag",
-   "titre": "Dom Dolla joins Kylie Minogue on stage for new remix at AFL Grand Final",
-   "lien": "https://djmag.com/news/dom-dolla-joins-kylie-minogue-stage-new-remix-afl-grand-final",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/dom-dolla-kylie-minogue-afc-grand-final-cant-get-you-out-of-my-head-remix-performance-2026.jpeg.webp?itok=PO_gDcwM804365702",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Dressed as an aircraft marshall, Dolla debuted a high-energy rework of Minogue’s ‘Can’t…",
-   "titre_fr": "Dom Dolla rejoint Kylie Minogue sur scène pour un nouveau remix à l'AFL Grand Final",
-   "resume_fr": "Vêtu d'un uniforme de marshal aérien, Dolla a présenté en avant-première un remix haute énergie du titre 'Can't' de Minogue…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Martin Garrix teases new single featuring his own vocals, ‘This Dream Of You’: Listen",
-   "lien": "https://djmag.com/news/martin-garrix-teases-new-single-featuring-his-own-vocals-dream-of-you-listen",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/2.-Martin-Garrix.jpg.webp?itok=j7-x4lfC616270246",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“Singing is very far out of my comfort zone, but I am excited to try new things and…",
-   "titre_fr": "Martin Garrix tease son nouveau single avec ses propres voix, 'This Dream Of You': écoutez",
-   "resume_fr": "« Le chant est très loin de ma zone de confort, mais je suis enthousiaste à l'idée d'essayer de nouvelles choses et…"
-  },
-  {
-   "source": "djmag",
-   "titre": "Six emerging artists you need to hear: September 2026",
-   "lien": "https://djmag.com/features/six-emerging-artists-you-need-hear-september-2026",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/GTK%20SEPT%2026%20HEADER2.jpg.webp?itok=EddkoOuS552733",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-intro field--type-text-long field--label-hidden field__item\"><p>The latest and greatest DJs, producers and MCs rising to the top this month. From acid-tinted…",
-   "titre_fr": "Six artistes émergents à écouter: septembre 2026",
-   "resume_fr": "Les derniers et plus grands DJ, producteurs et MC en ascension ce mois-ci. Du acid teinté…"
-  },
-  {
-   "source": "djmag",
    "titre": "Josh Baker, Kettama and Prospa add second London date for 2027",
    "lien": "https://djmag.com/news/josh-baker-kettama-and-prospa-add-second-london-date-2027",
    "date": null,
    "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/josh-baker-kettama-prospa-london-finsbury-park-july-3-4-2027-shows-photo.jpg.webp?itok=rT-5ImZU1761740165",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The first Finsbury Park show next July sold out within an hour of pre-sale going live this…"
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The first Finsbury Park show next July sold out within an hour of pre-sale going live this…",
+   "titre_fr": "Josh Baker, Kettama et Prospa ajoutent une deuxième date à Londres pour 2027",
+   "resume_fr": "Le premier show de Finsbury Park en juillet prochain s'est vendu en une heure après que la prévente soit devenue disponible…"
   },
   {
    "source": "djmag",
@@ -1495,7 +1403,9 @@
    "lien": "https://djmag.com/news/sasha-and-john-digweed-auction-rare-northern-exposure-records-and-memorabilia",
    "date": null,
    "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/sasha-john-digweed-northern-exposure-auction-amplifyd-split.jpg.webp?itok=HQrPY8pV198841730",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“I love the fact that we’re not selling pristine museum pieces. We’re selling our copies…"
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“I love the fact that we’re not selling pristine museum pieces. We’re selling our copies…",
+   "titre_fr": "Sasha et John Digweed mettent aux enchères les disques rares « Northern Exposure » et des souvenirs",
+   "resume_fr": "« J'aime le fait que nous ne vendons pas des pièces de musée immaculées. Nous vendons nos copies…"
   },
   {
    "source": "djmag",
@@ -1503,7 +1413,9 @@
    "lien": "https://djmag.com/tech/native-instruments-announces-maschine-37-new-creative-sequencing-tools",
    "date": null,
    "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/unnamed%20%285%29.png.webp?itok=bqmRPOm61148832777",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The music tech giant is also marking its 30th birthday by launching three more of its…"
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The music tech giant is also marking its 30th birthday by launching three more of its…",
+   "titre_fr": "Native Instruments annonce Maschine 3.7 avec nouveaux outils de séquençage créatif",
+   "resume_fr": "Le géant de la musique technologique marque aussi son 30e anniversaire en lançant trois autres de ses…"
   }
  ],
  "pannes": []
