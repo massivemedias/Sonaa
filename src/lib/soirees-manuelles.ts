@@ -31,6 +31,7 @@
  */
 
 import { supabase } from './supabase.ts';
+import type { SoireeLue } from './lire-soiree.ts';
 
 export interface SoireeManuelle {
   readonly id: string;
@@ -75,6 +76,9 @@ export interface Brouillon {
   note?: string | null;
   publiee?: boolean;
   description?: string | null;
+  adresse?: string | null;
+  prix?: string | null;
+  organisateur?: string | null;
 }
 
 /* UNE SEULE CHAINE, SANS CONCATENATION. Coupee en deux avec un `+`, elle
@@ -168,4 +172,39 @@ export async function supprimerSoiree(id: string): Promise<void> {
   if (!supabase) throw new Error('base indisponible');
   const { error } = await supabase.from('soirees_manuelles').delete().eq('id', id);
   if (error) throw new Error(error.message);
+}
+
+/* ═══ LIRE UNE SOIREE PAR SON LIEN ═══
+
+   La passerelle lit la page (Facebook, Eventbrite, Resident Advisor...) et
+   rend ce qu'elle a compris, avec l'affiche en base64 pour qu'elle soit
+   deposee comme une affiche choisie a la main. Voir src/lib/lire-soiree.ts
+   et la route api/lire-soiree de la passerelle. Reserve aux comptes
+   connectes : le jeton de la session accompagne la demande. */
+
+const PASSERELLE = 'https://sonaa-sets.massivemedias.workers.dev';
+
+export interface SoireeLueReponse extends SoireeLue {
+  readonly afficheDonnees: { readonly type: string; readonly base64: string } | null;
+  /** Vrai quand cette soiree est deja au calendrier. */
+  readonly deja: boolean;
+  /** Faux quand la page n'a rien laisse lire : il ne reste que l'adresse. */
+  readonly lisible?: boolean;
+}
+
+export async function lireSoireeDuLien(lien: string): Promise<SoireeLueReponse> {
+  if (!supabase) throw new Error('base indisponible');
+  const { data } = await supabase.auth.getSession();
+  const jeton = data.session?.access_token;
+  if (!jeton) throw new Error('non connecte');
+  const r = await fetch(`${PASSERELLE}/api/lire-soiree`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${jeton}`, 'content-type': 'application/json' },
+    body: JSON.stringify({ lien }),
+  });
+  if (!r.ok) {
+    const lu = (await r.json().catch(() => ({}))) as { erreur?: string };
+    throw new Error(lu.erreur ?? `HTTP ${r.status}`);
+  }
+  return (await r.json()) as SoireeLueReponse;
 }

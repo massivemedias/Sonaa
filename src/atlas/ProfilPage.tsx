@@ -50,7 +50,6 @@ import { ChoixStyles } from './ChoixStyles.tsx';
 import { ModifierSet } from './ModifierSet.tsx';
 import { EnTeteSite } from './EnTeteSite.tsx';
 import { SelecteurVille } from './SelecteurVille.tsx';
-import { SoireesAdmin } from './SoireesAdmin.tsx';
 import { MesSoirees } from './MesSoirees.tsx';
 import {
   enregistrerVilleDattache,
@@ -80,8 +79,9 @@ type Etape = 'repos' | 'onde' | 'envoi' | 'ligne';
    sets : une seule page qui defilait sur trois ecrans, et Mika l'a dit le
    7 septembre 2026 : « c'est un peu trop en vrac ». Trois onglets, par ce
    qu'on vient y faire : son COMPTE (qui on est, ou on est), ses SETS, ses
-   EVENEMENTS. Le panneau des moderateurs va avec les evenements, puisque
-   c'est ce qu'il gere. */
+   EVENEMENTS. Le panneau des moderateurs y a vecu jusqu'au 1er octobre
+   2026 ; il ne vit plus que dans l'administration, et l'onglet ne garde
+   pour eux qu'un lien. Voir MesSoirees.tsx. */
 type Onglet = 'compte' | 'sets' | 'evenements';
 
 const lireOnglet = (): Onglet => {
@@ -113,9 +113,9 @@ export function ProfilPage() {
   const [villes, setVilles] = useState<Ville[]>([]);
   const [villeAttache, setVilleAttache] = useState<Ville | null>(null);
   const [messageVille, setMessageVille] = useState<string | null>(null);
-  /* Le panneau des soirees ne s'affiche que pour les moderateurs. Ce n'est
-     pas ce qui protege l'ecriture, la base s'en charge : c'est pour ne pas
-     montrer un formulaire qui refuserait de servir. */
+  /* Moderateur : l'onglet des evenements lui montre le chemin de
+     l'administration. Ce n'est pas ce qui protege l'ecriture, la base s'en
+     charge. */
   const [moderateur, setModerateur] = useState(false);
   /* L'onglet ouvert vit dans l'adresse (#/profil, #/profil/sets,
      #/profil/evenements) : on peut y envoyer quelqu'un, et le bouton de
@@ -543,9 +543,7 @@ export function ProfilPage() {
 
       {onglet === 'evenements' && (
       <>
-      <MesSoirees />
-
-      {moderateur && <SoireesAdmin />}
+      <MesSoirees moderateur={moderateur} />
       </>
       )}
 

@@ -108,6 +108,19 @@
   background: var(--accent);
   color: var(--sur-accent);
 }
+/* 39 PX ET NON 44 SUR ORDINATEUR, le 1er octobre 2026 : « le bouton de
+   retour est trop gros, reduis-le de 5 px ». Sous 900 px il garde ses
+   44 px, la taille d'un doigt (voir scripts/check-mobile.ts). */
+@media (min-width: 900px) {
+  .pv-retour {
+    width: 39px;
+    height: 39px;
+  }
+  .pv-retour svg {
+    width: 15px;
+    height: 15px;
+  }
+}
 .pv-chercher-bouton {
   /* Ancree au bord droit et non portee par le flux : voir .pv-tete. */
   position: absolute;
@@ -1340,67 +1353,10 @@ body:has(.pwa-bandeau) .pv-corps {
   font-size: 0.8rem;
   line-height: 1.5;
 }
-.pv-cours .pv-article-section p {
-  max-width: 120ch;
-}
-.pv-cours-etapes,
-.pv-cours-reperes {
-  margin: var(--espace-8) 0 0;
-  padding-left: var(--espace-24);
-  max-width: 120ch;
-  line-height: 1.55;
-}
-.pv-cours-etapes li,
-.pv-cours-reperes li {
-  margin: var(--espace-4) 0;
-}
-.pv-cours-sources {
-  margin: var(--espace-24) 0 0;
-  color: var(--encre-douce-2);
-  font-size: 0.75rem;
-}
-
 /* Le nom sous lequel on cherche aussi ce genre, dans la ligne des faits. */
 .pv-hero-alias {
   flex-basis: 100%;
   opacity: 0.85;
-}
-
-/* ═══ LES PLUGINS ET MACHINES DU COURS ═══ */
-.pv-cours-outils {
-  list-style: none;
-  margin: var(--espace-8) 0 0;
-  padding: 0;
-  display: grid;
-  gap: var(--espace-8);
-  max-width: 120ch;
-}
-.pv-cours-outils li {
-  display: grid;
-  grid-template-columns: auto auto 1fr;
-  align-items: baseline;
-  gap: var(--espace-8);
-  line-height: 1.45;
-}
-.pv-cours-outil-nom {
-  font-weight: 600;
-}
-.pv-cours-outil-type {
-  font-size: 0.68rem;
-  letter-spacing: var(--serrage-ui);
-  text-transform: uppercase;
-  color: var(--encre-douce-2);
-}
-.pv-cours-outil-pourquoi {
-  color: var(--encre-moyenne);
-}
-@media (max-width: 560px) {
-  .pv-cours-outils li {
-    grid-template-columns: auto auto;
-  }
-  .pv-cours-outil-pourquoi {
-    grid-column: 1 / -1;
-  }
 }
 
 /* ═══ LES CIBLES TACTILES, SOUS 900 PX ═══ Tout ce qui se touche seul fait

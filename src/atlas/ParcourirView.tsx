@@ -989,22 +989,11 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
         </article>
       )}
 
-      {panneau === 'cours' && genre.tuto.length > 0 && (
-        <article className="pv-article">
-          {/* PAS DE BANDEAU BROUILLON ICI : Mika l'a fait retirer de tout le
-              site, et le remettre sur le tuto le ferait revenir par la
-              fenetre. */}
-          {genre.tuto.map((section) => (
-            <section className="pv-article-section" key={section.titre}>
-              <h3 className="pv-article-titre">{section.titre}</h3>
-              {section.texte.split('\n\n').map((para, i) => (
-                <p key={String(i)}>{para}</p>
-              ))}
-            </section>
-          ))}
-        </article>
-      )}
-      {panneau === 'cours' && genre.tuto.length === 0 && <CoursDuStyle genreId={genre.id} />}
+      {/* LE TUTO DU CORPUS ET LE COURS PASSENT PAR LA MEME PAGE, depuis le
+          1er octobre 2026 : le tuto (Acid House, Detroit Techno, ecrits
+          depuis le livre scanne) remplace le texte du cours, mais garde ses
+          schemas, ses machines et ses etapes. Voir CoursDuStyle.tsx. */}
+      {panneau === 'cours' && <CoursDuStyle genreId={genre.id} tuto={genre.tuto} />}
 
 
       {genre.motDeLAuteur && (

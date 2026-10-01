@@ -28,6 +28,7 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const CORPUS = fileURLToPath(new URL('../src/data/corpus.json', import.meta.url));
+const COURS = fileURLToPath(new URL('../src/data/cours.json', import.meta.url));
 const SORTIE = fileURLToPath(new URL('../src/data/machines.json', import.meta.url));
 const DOSSIER = fileURLToPath(new URL('../public/machines/', import.meta.url));
 
@@ -160,6 +161,18 @@ for (const g of corpus.genres) {
     if (m) voulus.set(m, (voulus.get(m) ?? 0) + 1);
   }
 }
+/* LES MACHINES DES COURS AUSSI, depuis le 1er octobre 2026 : « Produire ce
+   style » montre les machines qu'il cite (voir CoursDuStyle.tsx). Seules
+   les machines et le materiel ont une photo a chercher ; un plugin n'a pas
+   de photo libre, il a une capture d'ecran qui appartient a son editeur. */
+const cours = JSON.parse(readFileSync(COURS, 'utf8')) as Record<string, { outils?: { nom: string; type: string }[] }>;
+for (const c of Object.values(cours)) {
+  for (const o of c.outils ?? []) {
+    if (o.type !== 'machine' && o.type !== 'materiel') continue;
+    const m = modele(o.nom);
+    if (m) voulus.set(m, (voulus.get(m) ?? 0) + 1);
+  }
+}
 
 const liste = [...voulus.entries()]
   .sort((a, b) => b[1] - a[1])
@@ -172,6 +185,15 @@ const deja: Record<string, Fiche> = existsSync(SORTIE)
   ? (JSON.parse(readFileSync(SORTIE, 'utf8')) as Record<string, Fiche>)
   : {};
 
+/* LES IMAGES REFUSEES APRES LES AVOIR VUES. Le garde du titre ne suffit pas
+   pour un nom court : le 1er octobre 2026, « Lexicon 224 » a rendu une
+   publicite de quincaillerie, « Waldorf 4 » un dessin d'immeuble de 1900,
+   « Lexicon 480L » une console de mixage entiere, « Mellotron M400 »
+   l'interieur d'un autre clavier. Chaque nouvelle recolte se regarde sur une
+   planche contact avant d'etre publiee ; ce qui y est faux est ecrit ici, et
+   la recolte suivante ne le reprend pas. */
+const REFUSEES = new Set(['Lexicon 224', 'Waldorf 4', 'Lexicon 480L', 'Mellotron M400']);
+
 let trouves = 0;
 /* DEUX COMPTEURS, ET NON UN SEUL. Le premier bilan disait « 20 sans image
    libre » alors que les vingt avaient ete refusees par le SERVEUR, pas par
@@ -182,6 +204,10 @@ let echecReseau = 0;
 const resultats: Record<string, Fiche> = { ...deja };
 
 for (const nom of liste) {
+  if (REFUSEES.has(nom)) {
+    console.log(`  refusee ${nom}  (image vue fausse, voir REFUSEES)`);
+    continue;
+  }
   if (deja[nom]) {
     console.log(`  deja    ${nom}`);
     continue;

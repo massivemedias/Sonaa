@@ -55,6 +55,7 @@ import { writeFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { chromium, type Page } from 'playwright-core';
 import { estElectronique } from './ingerer-eventbrite.ts';
+import { dateDe, decouperTitre } from '../src/lib/lire-soiree.ts';
 
 const VILLE_SONAA = 'montreal-ca';
 
@@ -133,41 +134,10 @@ async function decouvrir(page: Page): Promise<Set<string>> {
 
 /* ── Etape 2 : lire une fiche ─────────────────────────────────────────── */
 
-const MOIS: Record<string, number> = {
-  janvier: 1, février: 2, fevrier: 2, mars: 3, avril: 4, mai: 5, juin: 6, juillet: 7,
-  août: 8, aout: 8, septembre: 9, octobre: 10, novembre: 11, décembre: 12, decembre: 12,
-};
-
-/** La date, d'abord dans la reference (« Y7R260923001 » vaut 2026-09-23),
-    sinon dans le titre (« 23 septembre 2026 »). Null quand ni l'un ni l'autre
-    ne la porte : une fiche sans date n'a pas sa place dans un calendrier. */
-export function dateDe(ref: string, titre: string): string | null {
-  const r = /^[a-z0-9]{3}(\d{2})(\d{2})(\d{2})\d{3}$/i.exec(ref);
-  if (r) return `20${r[1]}-${r[2]}-${r[3]}`;
-  const t = /(\d{1,2})(?:er)?\s+([\p{L}]+)\s+(20\d\d)/u.exec(titre);
-  if (t) {
-    const m = MOIS[(t[2] ?? '').toLowerCase()];
-    if (m) return `${t[3]}-${String(m).padStart(2, '0')}-${String(t[1]).padStart(2, '0')}`;
-  }
-  return null;
-}
-
-/** Le titre og:title, decoupe : organisateur, titre, lieu, ville. La
-    forme est « Organisateur présente Titre - date - Lieu, Ville, QC - ... »
-    et chaque morceau peut manquer. */
-export function decouperTitre(og: string): {
-  organisateur: string | null; titre: string; lieu: string | null; ville: string | null;
-} {
-  const sansSite = og.replace(/\s*-\s*Lepointdevente\.com\s*$/i, '').trim();
-  const morceaux = sansSite.split(/\s+-\s+/);
-  const tete = morceaux[0] ?? sansSite;
-  const pres = /^(.+?)\s+pr[ée]sente\s+(.+)$/i.exec(tete);
-  const organisateur = pres ? pres[1]!.trim() : null;
-  const titre = (pres ? pres[2]! : tete).trim();
-  const fin = morceaux.length >= 3 ? morceaux[morceaux.length - 1]! : '';
-  const l = /^(.+?),\s*([^,]+?),\s*(QC|ON|NB|AB|BC|MB|SK|NS)$/i.exec(fin.trim());
-  return { organisateur, titre, lieu: l ? l[1]!.trim() : null, ville: l ? l[2]!.trim() : null };
-}
+/* LA DATE ET LE TITRE SE LISENT DANS src/lib/lire-soiree.ts, depuis le 1er
+   octobre 2026 : le formulaire « Ajouter une soiree » lit les memes fiches
+   quand on colle un lien, et deux copies d'une meme lecture finissent par
+   diverger. */
 
 async function lireLaFiche(page: Page, ref: string): Promise<Fiche | null> {
   const lien = `https://lepointdevente.com/billets/${ref}`;

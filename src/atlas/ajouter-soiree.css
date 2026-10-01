@@ -1,109 +1,6 @@
-/* Le formulaire d'ajout d'une soiree. Il vit dans la feuille du calendrier
-   (cal-feuille), et n'apporte que ses champs. */
-.aj-form {
-  display: grid;
-  gap: var(--espace-16);
-}
-.aj-intro {
-  margin: 0;
-  font-size: 0.85rem;
-  line-height: 1.5;
-  color: var(--ink-secondary);
-}
-.aj-champ {
-  display: grid;
-  gap: var(--espace-4);
-  font-size: 0.78rem;
-  color: var(--ink-secondary);
-}
-.aj-champ input,
-.aj-champ textarea {
-  box-sizing: border-box;
-  width: 100%;
-  padding: var(--espace-8) var(--espace-12);
-  border: var(--rule-width) solid var(--rule-hairline);
-  border-radius: 10px;
-  background: var(--surface-margin);
-  color: var(--ink-primary);
-  font: inherit;
-  font-size: 0.95rem;
-}
-.aj-champ textarea {
-  resize: vertical;
-  line-height: 1.45;
-}
-.aj-deux {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--espace-12);
-}
-
-/* L'affiche : un apercu en 4/5, les actions a cote. */
-.aj-affiche {
-  display: flex;
-  gap: var(--espace-12);
-  align-items: flex-start;
-}
-.aj-affiche-apercu,
-.aj-affiche-vide {
-  flex: none;
-  width: 6rem;
-  aspect-ratio: 4 / 5;
-  border-radius: 8px;
-  object-fit: cover;
-  background: var(--surface-margin);
-  border: var(--rule-width) solid var(--rule-hairline);
-}
-.aj-affiche-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--espace-8);
-}
-.aj-aide {
-  font-size: 0.72rem;
-  color: var(--ink-secondary);
-}
-
-.aj-pied {
-  display: flex;
-  gap: var(--espace-8);
-  align-items: center;
-  margin-top: var(--espace-4);
-}
-.aj-principal,
-.aj-secondaire {
-  display: inline-flex;
-  align-items: center;
-  padding: var(--espace-8) var(--espace-16);
-  border-radius: 999px;
-  font: inherit;
-  font-size: 0.88rem;
-  cursor: pointer;
-}
-.aj-principal {
-  border: none;
-  background: var(--ink-primary);
-  color: var(--surface-plate);
-  font-weight: 600;
-}
-.aj-principal:disabled {
-  opacity: 0.5;
-  cursor: default;
-}
-.aj-secondaire {
-  border: var(--rule-width) solid var(--rule-hairline);
-  background: none;
-  color: var(--ink-primary);
-}
-.aj-secondaire:hover {
-  border-color: var(--ink-primary);
-}
-.aj-message {
-  margin: 0;
-  font-size: 0.82rem;
-  color: var(--ink-primary);
-}
+/* LA FEUILLE « AJOUTER UNE SOIREE » DU CALENDRIER. Le formulaire lui-meme
+   vit dans formulaire-soiree.css, partage avec le profil ; il ne reste ici
+   que l'invitation a se connecter, pour qui ne l'est pas. */
 .aj-connexion {
   display: grid;
   gap: var(--espace-16);
@@ -114,12 +11,17 @@
 .aj-connexion p {
   margin: 0;
 }
-
-/* Sous 900 px, les deux boutons du pied font 44 px de haut : ce sont des
-   cibles. */
-@media (max-width: 899px) {
-  .aj-principal,
-  .aj-secondaire {
-    min-height: 44px;
-  }
+.aj-principal {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--espace-24);
+  border: none;
+  border-radius: var(--rayon-pilule);
+  background: var(--accent);
+  color: var(--sur-accent);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
 }

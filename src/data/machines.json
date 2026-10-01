@@ -143,7 +143,7 @@
     "machine": "Minimoog",
     "fichier": "machines/minimoog.webp",
     "distant": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Minimoog_voyager.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-    "auteur": ". Original uploader was Kimi95 at it.wikipedia",
+    "auteur": "Original uploader was Kimi95 at it.wikipedia",
     "licence": "CC BY 3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Minimoog_voyager.jpg",
     "largeur": 439,
@@ -308,5 +308,485 @@
     "source": "https://commons.wikimedia.org/wiki/File:Roland_TR-606.jpg",
     "largeur": 1123,
     "hauteur": 556
+  },
+  "Korg M1": {
+    "machine": "Korg M1",
+    "fichier": "machines/korg-m1.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/0/07/Korg_M1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "Warren B.",
+    "licence": "CC BY-SA 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Korg_M1.jpg",
+    "largeur": 1024,
+    "hauteur": 371
+  },
+  "Roland RE-201": {
+    "machine": "Roland RE-201",
+    "fichier": "machines/roland-re-201.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/Roland_Space_Echo_RE-201_at_SMEM_Schaulager.jpg/1280px-Roland_Space_Echo_RE-201_at_SMEM_Schaulager.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "1904.CC",
+    "licence": "CC BY 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_Space_Echo_RE-201_at_SMEM_Schaulager.jpg",
+    "largeur": 4032,
+    "hauteur": 3024
+  },
+  "Roland SH-101": {
+    "machine": "Roland SH-101",
+    "fichier": "machines/roland-sh-101.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/9/94/Roland_SH-101_%28blue%29_on_JD-800.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "Christian Jensen",
+    "licence": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_SH-101_(blue)_on_JD-800.jpg",
+    "largeur": 640,
+    "hauteur": 480
+  },
+  "Akai MPC60": {
+    "machine": "Akai MPC60",
+    "fichier": "machines/akai-mpc60.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/2/2d/Akai_MPC60.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "The original uploader was Kimi95 at Italian Wikipedia .",
+    "licence": "CC BY 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Akai_MPC60.jpg",
+    "largeur": 450,
+    "hauteur": 419
+  },
+  "E-mu SP-1200": {
+    "machine": "E-mu SP-1200",
+    "fichier": "machines/e-mu-sp-1200.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/4/46/E-mu_SP-1200_%28111607sp1200%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "2xUeL",
+    "licence": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:E-mu_SP-1200_(111607sp1200).jpg",
+    "largeur": 400,
+    "hauteur": 319
+  },
+  "Technics SL-1200": {
+    "machine": "Technics SL-1200",
+    "fichier": "machines/technics-sl-1200.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/Technics_SL-1200MK2-2.jpg/1280px-Technics_SL-1200MK2-2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "derivative work: 32bitmaschine ( talk ) Technics_SL-1200MK2.jpg : Dydric",
+    "licence": "CC BY-SA 2.5",
+    "source": "https://commons.wikimedia.org/wiki/File:Technics_SL-1200MK2-2.jpg",
+    "largeur": 2114,
+    "hauteur": 1342
+  },
+  "Akai MPC2000XL": {
+    "machine": "Akai MPC2000XL",
+    "fichier": "machines/akai-mpc2000xl.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/Akai_MPC2000XL_SE-2.jpg/1280px-Akai_MPC2000XL_SE-2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "The original uploader was Djkarl at English Wikipedia .",
+    "licence": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Akai_MPC2000XL_SE-2.jpg",
+    "largeur": 1632,
+    "hauteur": 1224
+  },
+  "Sequential Prophet-5": {
+    "machine": "Sequential Prophet-5",
+    "fichier": "machines/sequential-prophet-5.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Sequential_Circuits_Prophet_5.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "CPRdave at English Wikipedia",
+    "licence": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Sequential_Circuits_Prophet_5.jpg",
+    "largeur": 386,
+    "hauteur": 163
+  },
+  "Roland D-50": {
+    "machine": "Roland D-50",
+    "fichier": "machines/roland-d-50.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/a/ab/Roland_D-50.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "Original uploader was Kimi95 at it.wikipedia",
+    "licence": "CC BY 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_D-50.jpg",
+    "largeur": 460,
+    "hauteur": 162
+  },
+  "Akai S3000XL": {
+    "machine": "Akai S3000XL",
+    "fichier": "machines/akai-s3000xl.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/b/b1/AKAI_S3000XL.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "Shawn's_Studio_(5).jpg : Angie Schwendemann derivative work AKAI S3000XL.jpg : Shoulder-synth ( talk ) NeXT cube & Akai S3000XL.jpg : akorbeti AKAI S2000.jpg : emilyaugust Akai-S1000.JPG : DG3YEV derivative work AKAI S1000.jpg : Clusternote ( talk ) derivative work: Clusternote ( talk )",
+    "licence": "CC BY-SA 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:AKAI_S3000XL.jpg",
+    "largeur": 820,
+    "hauteur": 154
+  },
+  "Ensoniq ESQ-1": {
+    "machine": "Ensoniq ESQ-1",
+    "fichier": "machines/ensoniq-esq-1.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Ensoniq_ESQ-1.jpg/1280px-Ensoniq_ESQ-1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Jenkstom",
+    "licence": "CC0",
+    "source": "https://commons.wikimedia.org/wiki/File:Ensoniq_ESQ-1.jpg",
+    "largeur": 4624,
+    "hauteur": 1503
+  },
+  "Roland MC-202": {
+    "machine": "Roland MC-202",
+    "fichier": "machines/roland-mc-202.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/48/Roland_MC-202.jpg/1280px-Roland_MC-202.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Brandon Daniel from Sunnyvale, CA, USA",
+    "licence": "CC BY-SA 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_MC-202.jpg",
+    "largeur": 3872,
+    "hauteur": 2592
+  },
+  "Eventide H3000": {
+    "machine": "Eventide H3000",
+    "fichier": "machines/eventide-h3000.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Eventide_H3000_SE_Ultra-Harmonizer.jpg/1280px-Eventide_H3000_SE_Ultra-Harmonizer.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "John R. Southern",
+    "licence": "CC BY-SA 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Eventide_H3000_SE_Ultra-Harmonizer.jpg",
+    "largeur": 2816,
+    "hauteur": 2112
+  },
+  "Ensoniq ASR-10": {
+    "machine": "Ensoniq ASR-10",
+    "fichier": "machines/ensoniq-asr-10.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/b/bb/Ensoniq_ASR-10_rear.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "Brn062.JPG : Ulfbastel 06:39, 19 June 2007 (UTC) derivative work: Clusternote ( talk )",
+    "licence": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Ensoniq_ASR-10_rear.jpg",
+    "largeur": 643,
+    "hauteur": 232
+  },
+  "Hammond B-3": {
+    "machine": "Hammond B-3",
+    "fichier": "machines/hammond-b-3.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Hammond_b3_con_leslie_122.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "it:user:Salli",
+    "licence": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Hammond_b3_con_leslie_122.jpg",
+    "largeur": 500,
+    "hauteur": 337
+  },
+  "Roland VP-330": {
+    "machine": "Roland VP-330",
+    "fichier": "machines/roland-vp-330.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Roland_VP-330_Vocoder_Plus_-_later_model_%281%29_-_alex_studio.jpg/1280px-Roland_VP-330_Vocoder_Plus_-_later_model_%281%29_-_alex_studio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "ghostdad",
+    "licence": "CC BY-SA 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_VP-330_Vocoder_Plus_-_later_model_(1)_-_alex_studio.jpg",
+    "largeur": 1600,
+    "hauteur": 1200
+  },
+  "Moog Mother-32": {
+    "machine": "Moog Mother-32",
+    "fichier": "machines/moog-mother-32.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/87/Moog_Mother-32_synthesizer.jpg/1280px-Moog_Mother-32_synthesizer.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Doctroid",
+    "licence": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Moog_Mother-32_synthesizer.jpg",
+    "largeur": 2714,
+    "hauteur": 1377
+  },
+  "Kurzweil K2000": {
+    "machine": "Kurzweil K2000",
+    "fichier": "machines/kurzweil-k2000.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Kurzweil_K2000_top.png/1280px-Kurzweil_K2000_top.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Matt Perry",
+    "licence": "CC BY 2.5",
+    "source": "https://commons.wikimedia.org/wiki/File:Kurzweil_K2000_top.png",
+    "largeur": 1532,
+    "hauteur": 514
+  },
+  "ARP 2500": {
+    "machine": "ARP 2500",
+    "fichier": "machines/arp-2500.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/f/fa/ARP_2500.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "User Jonasz on pl.wikipedia",
+    "licence": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:ARP_2500.jpg",
+    "largeur": 327,
+    "hauteur": 103
+  },
+  "Pioneer DJM-500": {
+    "machine": "Pioneer DJM-500",
+    "fichier": "machines/pioneer-djm-500.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Technics_1200_MK2%2C_Technics_1210_MK2_%26_Pioneer_DJM-500.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "Jenkinslane at en.wikipedia",
+    "licence": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Technics_1200_MK2,_Technics_1210_MK2_%26_Pioneer_DJM-500.jpg",
+    "largeur": 720,
+    "hauteur": 540
+  },
+  "Casio SK-1": {
+    "machine": "Casio SK-1",
+    "fichier": "machines/casio-sk-1.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/0/05/Casio_SK-1_Sampling_Synthesizer.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "Vlad Spears",
+    "licence": "CC BY-SA 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Casio_SK-1_Sampling_Synthesizer.jpg",
+    "largeur": 1280,
+    "hauteur": 960
+  },
+  "E-mu Proteus-2000": {
+    "machine": "E-mu Proteus-2000",
+    "fichier": "machines/e-mu-proteus-2000.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/9/95/E-mu_Proteus_2000_%28small%29.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "Norsez's_desk_1.jpg : norsez derivative work: Clusternote ( talk )",
+    "licence": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:E-mu_Proteus_2000_(small).png",
+    "largeur": 995,
+    "hauteur": 332
+  },
+  "Moog Modular-3P": {
+    "machine": "Moog Modular-3P",
+    "fichier": "machines/moog-modular-3p.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Moog_modular_3P.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "The original uploader was Kimi95 at Italian Wikipedia .",
+    "licence": "CC BY 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Moog_modular_3P.jpg",
+    "largeur": 460,
+    "hauteur": 293
+  },
+  "Shure SM57": {
+    "machine": "Shure SM57",
+    "fichier": "machines/shure-sm57.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/3/35/Shure_SM57.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "SM57&Beta57.JPG : Iain Fergusson - Iainf 06:20, 24 June 2006 (UTC) derivative work: Binksternet ( talk )",
+    "licence": "CC BY 2.5",
+    "source": "https://commons.wikimedia.org/wiki/File:Shure_SM57.jpg",
+    "largeur": 387,
+    "hauteur": 1348
+  },
+  "Boss SP-303": {
+    "machine": "Boss SP-303",
+    "fichier": "machines/boss-sp-303.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Boss_SP-303.jpg/1280px-Boss_SP-303.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "LonerXL",
+    "licence": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Boss_SP-303.jpg",
+    "largeur": 2689,
+    "hauteur": 2754
+  },
+  "Roland MC-4": {
+    "machine": "Roland MC-4",
+    "fichier": "machines/roland-mc-4.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Roland_MC-4_Microcomposer.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "Clunkbox at English Wikipedia",
+    "licence": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_MC-4_Microcomposer.jpg",
+    "largeur": 740,
+    "hauteur": 574
+  },
+  "Roland Jupiter-8": {
+    "machine": "Roland Jupiter-8",
+    "fichier": "machines/roland-jupiter-8.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Roland_Jupiter-8_Synth%2C_1983_%282039658601%29.jpg/1280px-Roland_Jupiter-8_Synth%2C_1983_%282039658601%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Ed Uthman from Houston, TX, USA",
+    "licence": "CC BY-SA 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_Jupiter-8_Synth,_1983_(2039658601).jpg",
+    "largeur": 2599,
+    "hauteur": 1733
+  },
+  "Roland JX-3P": {
+    "machine": "Roland JX-3P",
+    "fichier": "machines/roland-jx-3p.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/8/83/Roland_JX-3P.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "Jarrod Trainque from Boston, MA, United States",
+    "licence": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_JX-3P.jpg",
+    "largeur": 800,
+    "hauteur": 600
+  },
+  "Behringer RD-8": {
+    "machine": "Behringer RD-8",
+    "fichier": "machines/behringer-rd-8.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/42/Behringer_RD-8_8129.jpg/1280px-Behringer_RD-8_8129.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Ashley Pomeroy",
+    "licence": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Behringer_RD-8_8129.jpg",
+    "largeur": 3000,
+    "hauteur": 1893
+  },
+  "Yamaha DX100": {
+    "machine": "Yamaha DX100",
+    "fichier": "machines/yamaha-dx100.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/Yamaha_DX100_FM_synthesizer_%281985%29_display_%26_controller.jpg/1280px-Yamaha_DX100_FM_synthesizer_%281985%29_display_%26_controller.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Marco Raaphorst",
+    "licence": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Yamaha_DX100_FM_synthesizer_(1985)_display_%26_controller.jpg",
+    "largeur": 4000,
+    "hauteur": 3000
+  },
+  "Roland Jupiter-6": {
+    "machine": "Roland Jupiter-6",
+    "fichier": "machines/roland-jupiter-6.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/Roland_Jupiter-6.jpg/1280px-Roland_Jupiter-6.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Svuntutheysari",
+    "licence": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_Jupiter-6.jpg",
+    "largeur": 2000,
+    "hauteur": 549
+  },
+  "Roland R-8": {
+    "machine": "Roland R-8",
+    "fichier": "machines/roland-r-8.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/Roland_R-8_human_rhythm_composer.jpg/1280px-Roland_R-8_human_rhythm_composer.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Candyman777",
+    "licence": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_R-8_human_rhythm_composer.jpg",
+    "largeur": 2431,
+    "hauteur": 1888
+  },
+  "Roland System-100M": {
+    "machine": "Roland System-100M",
+    "fichier": "machines/roland-system-100m.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/Roland-System-100M.jpg/1280px-Roland-System-100M.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Hannes Grobe",
+    "licence": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland-System-100M.jpg",
+    "largeur": 3937,
+    "hauteur": 2358
+  },
+  "Revox B77": {
+    "machine": "Revox B77",
+    "fichier": "machines/revox-b77.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Revox_B77.jpg/1280px-Revox_B77.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Norbert Schnitzler",
+    "licence": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Revox_B77.jpg",
+    "largeur": 2805,
+    "hauteur": 2194
+  },
+  "Roland TR-8S": {
+    "machine": "Roland TR-8S",
+    "fichier": "machines/roland-tr-8s.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/9/98/Roland_TR-8S_Rhythm_Performer_%282018-03-12_20.07_by_Kazuhisa_OTSUBO%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "Kazuhisa OTSUBO from Tokyo, Japan",
+    "licence": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_TR-8S_Rhythm_Performer_(2018-03-12_20.07_by_Kazuhisa_OTSUBO).jpg",
+    "largeur": 640,
+    "hauteur": 562
+  },
+  "Boss CE-2": {
+    "machine": "Boss CE-2",
+    "fichier": "machines/boss-ce-2.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Boss_CE-2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "marcelodonati",
+    "licence": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Boss_CE-2.jpg",
+    "largeur": 220,
+    "hauteur": 291
+  },
+  "Shure SM58": {
+    "machine": "Shure SM58",
+    "fichier": "machines/shure-sm58.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/0/07/Shure_sm58.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "ChrisHH",
+    "licence": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Shure_sm58.jpg",
+    "largeur": 1136,
+    "hauteur": 852
+  },
+  "Korg SQ-10": {
+    "machine": "Korg SQ-10",
+    "fichier": "machines/korg-sq-10.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Korg_SQ-10.JPG/1280px-Korg_SQ-10.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Spantax",
+    "licence": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Korg_SQ-10.JPG",
+    "largeur": 2576,
+    "hauteur": 1932
+  },
+  "Roland Juno-6": {
+    "machine": "Roland Juno-6",
+    "fichier": "machines/roland-juno-6.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Roland_Juno-60.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "Taavo_from_Stockholm_and_Ivana_Helsinki.jpg : Ville Hyvönen from helsinki / tallinn, Finland derivative work: Shoulder-synth ( talk )",
+    "licence": "CC BY-SA 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_Juno-60.jpg",
+    "largeur": 1200,
+    "hauteur": 440
+  },
+  "Casio VL-1": {
+    "machine": "Casio VL-1",
+    "fichier": "machines/casio-vl-1.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Casio_vl-1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "No machine-readable author provided. Jyoti Mishra assumed (based on copyright claims).",
+    "licence": "CC BY-SA 2.5",
+    "source": "https://commons.wikimedia.org/wiki/File:Casio_vl-1.jpg",
+    "largeur": 500,
+    "hauteur": 333
+  },
+  "Boss DS-1": {
+    "machine": "Boss DS-1",
+    "fichier": "machines/boss-ds-1.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/Boss-DS-1.jpg/1280px-Boss-DS-1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Matt Eason",
+    "licence": "CC BY 2.5",
+    "source": "https://commons.wikimedia.org/wiki/File:Boss-DS-1.jpg",
+    "largeur": 1321,
+    "hauteur": 1191
+  },
+  "Revox A77": {
+    "machine": "Revox A77",
+    "fichier": "machines/revox-a77.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/Revox_A77_MkIV.jpg/1280px-Revox_A77_MkIV.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Putput",
+    "licence": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Revox_A77_MkIV.jpg",
+    "largeur": 1600,
+    "hauteur": 1200
+  },
+  "Roland System-100": {
+    "machine": "Roland System-100",
+    "fichier": "machines/roland-system-100.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Roland_System_100.jpg/1280px-Roland_System_100.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Notreshuggie",
+    "licence": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_System_100.jpg",
+    "largeur": 4288,
+    "hauteur": 2848
+  },
+  "Oberheim Matrix-1000": {
+    "machine": "Oberheim Matrix-1000",
+    "fichier": "machines/oberheim-matrix-1000.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/49/Oberheim_Matrix-1000_%28black%29.jpg/1280px-Oberheim_Matrix-1000_%28black%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Interfaces_@_Klangkreuzfahrt_Leipzig.jpg : GeschnittenBrot derivative work: Clusternote ( talk )",
+    "licence": "CC BY-SA 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Oberheim_Matrix-1000_(black).jpg",
+    "largeur": 1962,
+    "hauteur": 154
+  },
+  "Casio FZ-1": {
+    "machine": "Casio FZ-1",
+    "fichier": "machines/casio-fz-1.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/Casio_FZ-1_%2832572726217%29.jpg/1280px-Casio_FZ-1_%2832572726217%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "deepsonic from Switzerland",
+    "licence": "CC BY-SA 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Casio_FZ-1_(32572726217).jpg",
+    "largeur": 1367,
+    "hauteur": 2048
+  },
+  "Korg 01": {
+    "machine": "Korg 01",
+    "fichier": "machines/korg-01.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/e/ed/Korg01w.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "No machine-readable author provided. Gh~commonswiki assumed (based on copyright claims).",
+    "licence": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Korg01w.jpg",
+    "largeur": 500,
+    "hauteur": 352
+  },
+  "Roland JP-8080": {
+    "machine": "Roland JP-8080",
+    "fichier": "machines/roland-jp-8080.webp",
+    "distant": "https://upload.wikimedia.org/wikipedia/commons/3/31/Ensoniq_MR-61%2C_Korg_Trinity%2C_Roland_JP-8080_%40_Tributo_Jean_Michel_Jarre.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "auteur": "Daniel Kohan",
+    "licence": "CC BY-SA 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Ensoniq_MR-61,_Korg_Trinity,_Roland_JP-8080_@_Tributo_Jean_Michel_Jarre.jpg",
+    "largeur": 640,
+    "hauteur": 480
+  },
+  "Roland JV-1080": {
+    "machine": "Roland JV-1080",
+    "fichier": "machines/roland-jv-1080.webp",
+    "distant": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/12/Roland_JV-1080_front.png/1280px-Roland_JV-1080_front.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "auteur": "Matt Perry",
+    "licence": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Roland_JV-1080_front.png",
+    "largeur": 1504,
+    "hauteur": 281
   }
 }

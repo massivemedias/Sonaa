@@ -745,44 +745,110 @@
   color: var(--sur-accent);
 }
 
-/* ═══ MES SOIREES, dans le profil : voir MesSoirees.tsx ═══ */
-.ms-liste {
+/* ═══ L'ONGLET EVENEMENTS DU PROFIL : voir MesSoirees.tsx ═══
+
+   Deux blocs : ajouter, puis a venir. Les soirees sont des cartes, l'affiche
+   a gauche en 4/5, la date en petites capitales au-dessus du titre, comme
+   les cartes du calendrier. */
+.ev-bloc h2 {
+  display: flex;
+  align-items: center;
+  gap: var(--espace-8);
+}
+.ev-intro {
+  margin: calc(-1 * var(--espace-8)) 0 var(--espace-24);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--ink-secondary);
+}
+.ev-compte {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 var(--espace-8);
+  box-sizing: border-box;
+  border-radius: var(--rayon-pilule);
+  background: var(--voile-08);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+.ev-ajoutee {
+  margin: var(--espace-16) 0 0;
+}
+.ev-vide {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--ink-secondary);
+}
+.ev-liste {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: var(--espace-16);
+  gap: var(--espace-12);
 }
-.ms-soiree {
-  display: flex;
+.ev-carte {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
   gap: var(--espace-16);
-  align-items: flex-start;
-  padding: var(--espace-16);
-  border: 1px solid var(--voile-07);
-  border-radius: 12px;
+  align-items: start;
+  padding: var(--espace-12);
+  border: 1px solid var(--filet);
+  border-radius: 16px;
+  background: var(--voile-04);
 }
-.ms-affiche {
-  flex: none;
-  width: 5.5rem;
+.ev-affiche {
+  display: block;
+  width: 96px;
   aspect-ratio: 4 / 5;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 10px;
 }
-.ms-texte {
-  flex: 1 1 auto;
-  min-width: 0;
+.ev-affiche-vide {
+  background: var(--voile-08);
+}
+.ev-texte {
   display: flex;
   flex-direction: column;
   gap: var(--espace-4);
-  font-size: 0.85rem;
-  color: var(--encre-douce-2);
+  min-width: 0;
 }
-.ms-texte strong {
-  color: var(--encre-2);
-  font-size: 0.95rem;
-}
-.ms-depubliee {
+.ev-quand {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
   color: var(--accent);
+}
+.ev-titre {
+  font-size: 1rem;
+  line-height: 1.3;
+  color: var(--ink-primary);
+}
+.ev-ou {
+  font-size: 0.8125rem;
+  color: var(--ink-secondary);
+}
+.ev-depubliee {
+  font-size: 0.8125rem;
+  color: var(--accent);
+}
+.ev-moderation {
+  margin: var(--espace-24) 0 0;
+  font-size: 0.8125rem;
+  color: var(--ink-secondary);
+}
+.ev-moderation a {
+  color: var(--ink-primary);
+  font-weight: 600;
+  text-underline-offset: 3px;
+}
+@media (min-width: 900px) {
+  .ev-liste {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .sa-formulaire {

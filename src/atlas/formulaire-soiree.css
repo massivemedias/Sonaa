@@ -1,0 +1,292 @@
+/* AJOUTER UNE SOIREE : le lien d'abord, la fiche ensuite. Voir
+   FormulaireSoiree.tsx.
+
+   Deux temps, et la page les montre comme tels : une seule grande case pour
+   le lien, avec son bouton d'accent, puis la fiche, affiche a gauche et
+   champs a droite sur ordinateur, tout empile sur telephone. Les champs
+   reprennent la matiere des autres formulaires du profil : voile de verre,
+   filet, coins de 12 px. */
+
+.fs {
+  display: grid;
+  gap: var(--espace-24);
+}
+
+/* ═══ LE LIEN ═══ */
+.fs-lien {
+  display: grid;
+  gap: var(--espace-8);
+}
+.fs-lien-etiquette {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+}
+.fs-lien-rangee {
+  display: flex;
+  gap: var(--espace-8);
+  align-items: stretch;
+}
+.fs-lien-rangee input {
+  flex: 1 1 auto;
+  min-width: 0;
+  box-sizing: border-box;
+  min-height: 48px;
+  padding: 0 var(--espace-16);
+  border: 1px solid var(--filet);
+  border-radius: var(--rayon-pilule);
+  background: var(--verre-fond);
+  color: var(--ink-primary);
+  font: inherit;
+  font-size: 0.9375rem;
+}
+.fs-lien-rangee input:focus-visible,
+.fs-champ input:focus-visible,
+.fs-champ select:focus-visible,
+.fs-champ textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: transparent;
+}
+.fs-lien-rangee input::placeholder,
+.fs-champ input::placeholder {
+  color: var(--ink-secondary);
+  opacity: 0.6;
+}
+.fs-aide {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--ink-secondary);
+}
+.fs-lien-main {
+  justify-self: start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-primary);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* ═══ LES BOUTONS ═══ Le principal porte l'accent, comme tout ce qui
+   agit ; le secondaire est un contour. */
+.fs-principal,
+.fs-secondaire {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 var(--espace-24);
+  border-radius: var(--rayon-pilule);
+  font: inherit;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.fs-principal {
+  font-weight: 700;
+  border: 0;
+  background: var(--accent);
+  color: var(--sur-accent);
+}
+.fs-principal:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.fs-secondaire {
+  border: 1px solid var(--filet);
+  background: none;
+  color: var(--ink-primary);
+  font-weight: 600;
+}
+.fs-secondaire:hover {
+  border-color: var(--ink-primary);
+}
+.fs-lien-discret {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-secondary);
+  font: inherit;
+  font-size: 0.8125rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* ═══ LA FICHE ═══ */
+.fs-fiche {
+  display: grid;
+  gap: var(--espace-16);
+  padding-top: var(--espace-24);
+  border-top: 1px solid var(--filet);
+}
+.fs-bilan {
+  margin: 0;
+  padding: var(--espace-12) var(--espace-16);
+  border-radius: 12px;
+  background: var(--accent-voile);
+  color: var(--ink-primary);
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+.fs-bilan[data-ton='attention'] {
+  background: var(--voile-08);
+  border-left: 3px solid var(--accent);
+}
+
+.fs-grille {
+  display: grid;
+  gap: var(--espace-24);
+}
+@media (min-width: 760px) {
+  .fs-grille {
+    grid-template-columns: 220px minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.fs-affiche {
+  display: grid;
+  gap: var(--espace-12);
+  justify-items: start;
+}
+.fs-affiche-image,
+.fs-affiche-vide {
+  display: block;
+  width: 100%;
+  max-width: 220px;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--rayon-affiche);
+  object-fit: cover;
+  background: var(--voile-06);
+  border: 1px solid var(--filet);
+}
+.fs-affiche-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-12);
+  align-items: center;
+}
+
+.fs-champs {
+  display: grid;
+  gap: var(--espace-16);
+  min-width: 0;
+}
+.fs-deux {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--espace-12);
+}
+.fs-champ {
+  display: grid;
+  gap: var(--espace-4);
+  min-width: 0;
+  font-size: 0.8125rem;
+  color: var(--ink-secondary);
+}
+.fs-champ > span {
+  display: flex;
+  gap: var(--espace-8);
+  align-items: baseline;
+}
+/* « A COMPLETER » : ce que la page n'a pas donne, et qu'il faut dire. */
+.fs-champ em {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: var(--accent);
+}
+.fs-champ input,
+.fs-champ select,
+.fs-champ textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 44px;
+  padding: var(--espace-8) var(--espace-12);
+  border: 1px solid var(--filet);
+  border-radius: 12px;
+  background: var(--verre-fond);
+  color: var(--ink-primary);
+  font: inherit;
+  font-size: 0.9375rem;
+}
+.fs-champ select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: var(--espace-32);
+}
+.fs-champ[data-manque='true'] input {
+  border-color: var(--accent);
+}
+.fs-champ textarea {
+  resize: vertical;
+  line-height: 1.5;
+}
+/* Le titre est le champ qu'on lit d'abord : il est plus grand. */
+.fs-champ-titre input {
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+.fs-note {
+  margin: calc(-1 * var(--espace-8)) 0 0;
+  font-size: 0.8125rem;
+  color: var(--accent);
+}
+
+.fs-details {
+  border-top: 1px solid var(--filet);
+  padding-top: var(--espace-12);
+}
+.fs-details summary {
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--ink-primary);
+  cursor: pointer;
+}
+.fs-details[open] summary {
+  margin-bottom: var(--espace-12);
+}
+
+.fs-pied {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-8);
+  align-items: center;
+}
+.fs-message {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--ink-primary);
+}
+
+/* SUR TELEPHONE, le bouton « Remplir » passe sous la case : la case garde
+   toute la largeur pour qu'on voie le lien colle. */
+@media (max-width: 520px) {
+  .fs-lien-rangee {
+    flex-direction: column;
+  }
+  .fs-deux {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 899px) {
+  .fs-lien-main,
+  .fs-lien-discret,
+  .fs-details summary {
+    min-height: 44px;
+  }
+}

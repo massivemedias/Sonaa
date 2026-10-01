@@ -42,6 +42,7 @@ import { MODELE, consigneCorps, lireReponseCorps, rangsDeTexte, remettreEnPlace 
    src/reconnaitre/audd.ts. Une copie ici aurait diverge. */
 import { lireReponseAudd } from '../../src/reconnaitre/audd.ts';
 import { soirees, toutesLesSoirees } from './agenda.ts';
+import { jourEtHeure, lireLaPage, lireLeLienSeul, sourceDuLien, texteNu } from '../../src/lib/lire-soiree.ts';
 
 interface Env {
   readonly SETS: R2Bucket;
@@ -651,6 +652,92 @@ function zoneLaPlusProche(ville: string, pays: string): { id: number; nom: strin
   return null;
 }
 
+/* --- Lire une soiree (voir la route api/lire-soiree) ------------------- */
+
+const NAVIGATEUR_LECTURE =
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36';
+
+/** Une affiche distante, en base64, si c'est bien une image de moins de
+    quatre megaoctets. Le navigateur la depose ensuite comme les autres. */
+async function imageEnBase64(adresse: string, agent: string): Promise<{ type: string; base64: string } | null> {
+  try {
+    const r = await fetch(adresse, { headers: { 'user-agent': agent, accept: 'image/*' }, signal: AbortSignal.timeout(10000) });
+    const type = (r.headers.get('content-type') ?? '').split(';')[0]?.trim() ?? '';
+    if (!r.ok || !/^image\/(jpeg|png|webp)$/.test(type)) return null;
+    const octets = new Uint8Array(await r.arrayBuffer());
+    if (octets.length === 0 || octets.length > 4 * 1024 * 1024) return null;
+    let binaire = '';
+    for (let i = 0; i < octets.length; i += 0x8000) binaire += String.fromCharCode(...octets.subarray(i, i + 0x8000));
+    return { type, base64: btoa(binaire) };
+  } catch {
+    return null;
+  }
+}
+
+/** Une soiree de Resident Advisor par son identifiant, par la meme API que
+    l'agenda. L'heure est celle de la salle, ecrite sans fuseau. */
+async function evenementRa(id: string): Promise<Record<string, unknown> | null> {
+  const requete = `query { event(id: "${id.replace(/\D/g, '')}") { title date startTime content cost venue { name address area { name } } artists { name } images { filename type } genres { name } promoters { name } } }`;
+  try {
+    const r = await fetch('https://ra.co/graphql', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        referer: 'https://ra.co/events',
+        'user-agent': 'SONAA/1.0 (atlas genealogique de la musique electronique; sonaa.ca)',
+      },
+      body: JSON.stringify({ query: requete }),
+      signal: AbortSignal.timeout(10000),
+    });
+    const e = ((await r.json()) as { data?: { event?: Record<string, unknown> | null } }).data?.event;
+    if (!e) return null;
+    const { jour, heure } = jourEtHeure(String(e['startTime'] ?? e['date'] ?? ''));
+    const venue = (e['venue'] ?? {}) as { name?: string; address?: string; area?: { name?: string } };
+    const noms = (x: unknown): string[] => (Array.isArray(x) ? x.map((a) => String((a as { name?: string }).name ?? '')).filter(Boolean) : []);
+    const images = Array.isArray(e['images']) ? (e['images'] as { filename?: string; type?: string }[]) : [];
+    const affiche = images.find((i) => i.type === 'FLYERFRONT')?.filename ?? images[0]?.filename ?? null;
+    return {
+      titre: e['title'] ?? null,
+      jour,
+      heure,
+      lieu: venue.name ?? null,
+      adresse: venue.address ?? null,
+      ville: venue.area?.name ?? null,
+      artistes: noms(e['artists']),
+      genres: noms(e['genres']),
+      description: typeof e['content'] === 'string' ? texteNu(e['content']).slice(0, 2000) || null : null,
+      organisateur: noms(e['promoters'])[0] ?? null,
+      prix: typeof e['cost'] === 'string' && e['cost'].trim() ? e['cost'].trim() : null,
+      affiche,
+      source: 'ra',
+      ref: id,
+    };
+  } catch {
+    return null;
+  }
+}
+
+/** Le nom de la salle d'apres son adresse : une soiree deja rangee au meme
+    numero, dans la meme rue, le porte. Rien si l'adresse n'a pas de numero. */
+async function salleALAdresse(adresse: string, env: Env): Promise<string | null> {
+  const m = /^(\d{1,5})\s+(.+)$/.exec(adresse.trim());
+  if (!m || !env.SUPABASE_ANON_KEY) return null;
+  const numero = m[1] ?? '';
+  const sansAccents = (s: string): string => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const mots = sansAccents(m[2] ?? '')
+    .split(/[^a-z0-9]+/)
+    .filter((w) => w.length >= 4 && !/^(rue|avenue|boulevard|chemin|route|place|montreal)$/.test(w));
+  if (mots.length === 0) return null;
+  const lignes = (await fetch(
+    `${env.SUPABASE_URL}/rest/v1/soirees_manuelles?select=lieu,adresse&adresse=ilike.${encodeURIComponent(numero)}%20*&lieu=not.is.null&limit=40`,
+    { headers: { apikey: env.SUPABASE_ANON_KEY, Authorization: `Bearer ${env.SUPABASE_ANON_KEY}` } }
+  )
+    .then((r) => (r.ok ? r.json() : []))
+    .catch(() => [])) as { lieu?: string; adresse?: string }[];
+  const trouvee = lignes.find((l) => mots.some((w) => sansAccents(l.adresse ?? '').includes(w)));
+  return trouvee?.lieu ?? null;
+}
+
 /* --- Le service ----------------------------------------------------------- */
 
 export default {
@@ -826,6 +913,133 @@ export default {
         JSON.stringify({ trouve: true, integral: item.integral, corps: rendu, traduit, source: source.nom }),
         { headers: entetes(req, env, { 'content-type': 'application/json', 'cache-control': 'public, max-age=600' }) }
       );
+    }
+
+    /* ═══ LIRE UNE SOIREE A PARTIR DE SON LIEN ═══ POST api/lire-soiree
+     *
+     * Mika, le 1er octobre 2026 : coller un lien Facebook dans « Ajouter une
+     * soiree » doit remplir la fiche, que la personne corrige ensuite. Le
+     * navigateur ne peut lire ni facebook.com ni eventbrite.ca depuis
+     * sonaa.ca ; la passerelle lit pour lui, et src/lib/lire-soiree.ts
+     * comprend ce qu'elle a lu.
+     *
+     * RESERVE AUX COMPTES CONNECTES, et compte par heure : une route qui va
+     * chercher n'importe quelle page pour n'importe qui serait un relais
+     * offert au premier robot venu. L'affiche revient avec la reponse, en
+     * base64, pour que le navigateur la depose comme une affiche choisie a
+     * la main : aucune route ne sert d'images d'ailleurs. */
+    if (req.method === 'POST' && chemin === 'api/lire-soiree') {
+      const compte = await qui(req, env);
+      if (!compte) return refus(req, env, 401, 'connexion requise');
+      if (env.DEMANDES) {
+        const cleCompteur = `lire:${compte}:${new Date().toISOString().slice(0, 13)}`;
+        const vus = Number((await env.DEMANDES.get(cleCompteur)) ?? '0');
+        if (vus >= 60) return refus(req, env, 429, 'trop de lectures cette heure-ci');
+        await env.DEMANDES.put(cleCompteur, String(vus + 1), { expirationTtl: 3700 });
+      }
+      let lien = '';
+      try {
+        lien = String(((await req.json()) as { lien?: unknown }).lien ?? '').trim();
+      } catch {
+        return refus(req, env, 400, 'corps illisible');
+      }
+      let cible: URL;
+      try {
+        cible = new URL(lien);
+      } catch {
+        return refus(req, env, 400, 'adresse illisible');
+      }
+      if (!/^https?:$/.test(cible.protocol) || /^(localhost|127\.|10\.|192\.168\.|\[)/.test(cible.hostname)) {
+        return refus(req, env, 400, 'adresse refusee');
+      }
+      const { source, ref } = sourceDuLien(lien);
+      const repondre = (corps: unknown): Response =>
+        new Response(JSON.stringify(corps), { headers: entetes(req, env, { 'content-type': 'application/json', 'cache-control': 'no-store' }) });
+
+      /* DEJA AU CALENDRIER ? La passe Facebook quotidienne (le Chrome de
+         Mika) range les soirees avec leur heure et leur salle, que l'apercu
+         de Facebook ne donne pas. Si l'identifiant y est, c'est la meilleure
+         lecture possible, et la personne doit savoir qu'elle ajouterait un
+         doublon. */
+      if (source === 'facebook' && ref && env.SUPABASE_ANON_KEY) {
+        const cle = { apikey: env.SUPABASE_ANON_KEY, Authorization: `Bearer ${env.SUPABASE_ANON_KEY}` };
+        const lignes = (await fetch(
+          `${env.SUPABASE_URL}/rest/v1/soirees_manuelles?select=titre,debut,lieu,adresse,artistes,genres,description,organisateur,prix,affiche,ville_id&source=eq.facebook&source_ref=eq.${ref}&limit=1`,
+          { headers: cle }
+        )
+          .then((r) => (r.ok ? r.json() : []))
+          .catch(() => [])) as Record<string, unknown>[];
+        const l = lignes[0];
+        if (l) {
+          const villes = (await fetch(`${env.SUPABASE_URL}/rest/v1/villes?select=name,timezone&id=eq.${String(l['ville_id'])}`, { headers: cle })
+            .then((r) => (r.ok ? r.json() : []))
+            .catch(() => [])) as { name?: string; timezone?: string }[];
+          const fuseau = villes[0]?.timezone ?? 'America/Toronto';
+          const debut = new Date(String(l['debut']));
+          const parties = Object.fromEntries(
+            new Intl.DateTimeFormat('en-CA', { timeZone: fuseau, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
+              .formatToParts(debut)
+              .map((p) => [p.type, p.value])
+          );
+          const affiche = typeof l['affiche'] === 'string' ? (l['affiche'] as string) : null;
+          return repondre({
+            titre: l['titre'] ?? null,
+            jour: `${parties['year']}-${parties['month']}-${parties['day']}`,
+            heure: `${parties['hour']}:${parties['minute']}`,
+            lieu: l['lieu'] ?? null,
+            adresse: l['adresse'] ?? null,
+            ville: villes[0]?.name ?? null,
+            artistes: l['artistes'] ?? [],
+            genres: l['genres'] ?? [],
+            description: l['description'] ?? null,
+            organisateur: l['organisateur'] ?? null,
+            prix: l['prix'] ?? null,
+            affiche,
+            afficheDonnees: affiche ? await imageEnBase64(affiche, NAVIGATEUR_LECTURE) : null,
+            lien,
+            source,
+            ref,
+            deja: true,
+          });
+        }
+      }
+
+      /* RESIDENT ADVISOR SE LIT PAR SON API, comme l'agenda : sa page est
+         derriere une protection anti-robot, son API non. */
+      if (source === 'ra' && ref) {
+        const ra = await evenementRa(ref);
+        if (ra) {
+          const affiche = typeof ra['affiche'] === 'string' ? ra['affiche'] : null;
+          return repondre({ ...ra, lien, afficheDonnees: affiche ? await imageEnBase64(affiche, NAVIGATEUR_LECTURE) : null, deja: false });
+        }
+      }
+
+      /* FACEBOOK NE MONTRE UNE SOIREE QU'A UN LECTEUR D'APERCU DE LIENS, et
+         en anglais la phrase d'apercu n'a qu'une forme. Les autres sources
+         veulent un navigateur ordinaire. */
+      const agent = source === 'facebook' ? 'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)' : NAVIGATEUR_LECTURE;
+      let html = '';
+      try {
+        const r = await fetch(cible.toString(), {
+          headers: { 'user-agent': agent, accept: 'text/html,application/xhtml+xml', 'accept-language': source === 'facebook' ? 'en-US,en;q=0.9' : 'fr-CA,fr;q=0.9,en;q=0.8' },
+          redirect: 'follow',
+          signal: AbortSignal.timeout(12000),
+        });
+        if (r.ok && (r.headers.get('content-type') ?? '').includes('html')) html = (await r.text()).slice(0, 4_000_000);
+      } catch {
+        /* Page muette : il restera ce que dit l'adresse. */
+      }
+      const lue = html ? lireLaPage(html, lien) : lireLeLienSeul(lien);
+      /* LA SALLE D'APRES L'ADRESSE. Facebook donne l'adresse et jamais le
+         nom de la salle ; une soiree deja rangee a la meme adresse le dit. */
+      const lieu = lue.lieu ?? (lue.adresse && env.SUPABASE_ANON_KEY ? await salleALAdresse(lue.adresse, env) : null);
+      return repondre({
+        ...lue,
+        lieu,
+        afficheDonnees: lue.affiche ? await imageEnBase64(lue.affiche, agent) : null,
+        deja: false,
+        lisible: Boolean(html && lue.titre),
+      });
     }
 
     /* ═══ RECONNAITRE UN MORCEAU ═══ POST api/reconnaitre-track

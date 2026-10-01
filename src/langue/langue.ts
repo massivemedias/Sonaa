@@ -441,6 +441,26 @@ interface Dictionnaire {
   readonly retraitImpossible: string;
   readonly mesSoirees: string;
   readonly mesSoireesIntro: string;
+  readonly collerLeLien: string;
+  readonly remplir: string;
+  readonly lienAide: string;
+  readonly remplirALaMain: string;
+  readonly lectureDeLaPage: string;
+  readonly ficheRemplie: (source: string) => string;
+  readonly heureAVerifier: string;
+  readonly dejaAuCalendrier: string;
+  readonly pageIllisible: string;
+  readonly lectureImpossibleLien: string;
+  readonly adresseLibelle: string;
+  readonly prixLibelle: string;
+  readonly organisateurLibelle: string;
+  readonly prixEtOrganisateur: string;
+  readonly aCompleter: string;
+  readonly laPage: string;
+  readonly soireeAjoutee: string;
+  readonly soireesAVenirTitre: string;
+  readonly moderationSoireesAilleurs: string;
+  readonly ouvrirLAdministration: string;
   readonly aucuneSoireeDeposee: string;
   readonly soireeDepubliee: string;
   readonly lectureImpossible: string;
@@ -515,6 +535,30 @@ interface Dictionnaire {
   readonly memeGenreQue: (nom: string) => string;
   readonly coursEnPreparation: string;
   readonly coursAvis: string;
+  readonly coursRegleTitre: string;
+  readonly coursSansTempo: string;
+  readonly coursPlageBpm: (a: number, b: number) => string;
+  readonly coursGrilleTitre: string;
+  readonly coursGrilleAide: string;
+  readonly coursEcouterMotif: (bpm: number) => string;
+  readonly coursArreterMotif: string;
+  readonly coursMesure: (n: number) => string;
+  readonly coursMachinesTitre: string;
+  readonly coursAutresOutils: string;
+  readonly coursEcouterRepere: string;
+  readonly instrKick: string;
+  readonly instrCaisse: string;
+  readonly instrClap: string;
+  readonly instrRim: string;
+  readonly instrCharley: string;
+  readonly instrCharleyOuvert: string;
+  readonly instrRide: string;
+  readonly instrPerc: string;
+  readonly outilMachine: string;
+  readonly outilPlugin: string;
+  readonly outilDaw: string;
+  readonly outilSamples: string;
+  readonly outilMateriel: string;
   readonly laFabrication: string;
   readonly ficheTechnique: string;
   readonly tempo: string;
@@ -1128,8 +1172,28 @@ const FR: Dictionnaire = {
   confirmerRetraitSoiree: "Retirer cette soirée du calendrier ? Elle ne pourra pas être récupérée.",
   retraitImpossible: "Retrait impossible.",
   mesSoirees: "Mes soirées",
-  mesSoireesIntro: "Les soirées que vous avez ajoutées au calendrier. Pour chacune, l’image 9:16 pour Instagram et le texte du post.",
-  aucuneSoireeDeposee: "Aucune soirée à venir. Ajoutez-en une depuis le calendrier.",
+  mesSoireesIntro: "Ajoutez une soirée au calendrier, puis tirez-en l’image pour Instagram et le texte du post.",
+  aucuneSoireeDeposee: "Aucune soirée à venir pour l’instant. Collez un lien ci-dessus pour en ajouter une.",
+  collerLeLien: "Collez le lien de la soirée",
+  remplir: "Remplir",
+  lienAide: "Facebook, Resident Advisor, Eventbrite, Lepointdevente ou la page de la salle : SONAA lit la page et remplit la fiche. Vous corrigez ce qui manque.",
+  remplirALaMain: "Pas de lien ? Remplir à la main",
+  lectureDeLaPage: "Lecture de la page…",
+  ficheRemplie: (source) => `Fiche remplie depuis ${source}. Vérifiez-la avant de l’ajouter.`,
+  heureAVerifier: "La page ne donne pas l’heure : indiquez-la.",
+  dejaAuCalendrier: "Cette soirée est déjà au calendrier. Vous pouvez quand même l’ajouter à votre nom.",
+  pageIllisible: "Cette page ne se laisse pas lire. Complétez la fiche à la main.",
+  lectureImpossibleLien: "La lecture du lien a échoué. Réessayez, ou complétez la fiche à la main.",
+  adresseLibelle: "Adresse",
+  prixLibelle: "Prix",
+  organisateurLibelle: "Organisateur",
+  prixEtOrganisateur: "Prix et organisateur",
+  aCompleter: "à compléter",
+  laPage: "la page",
+  soireeAjoutee: "Soirée ajoutée. Elle est au calendrier.",
+  soireesAVenirTitre: "À venir",
+  moderationSoireesAilleurs: "Toutes les soirées ajoutées à la main, de tous les comptes, se gèrent dans l’administration.",
+  ouvrirLAdministration: "Ouvrir l’administration",
   soireeDepubliee: "Retirée du calendrier par un modérateur",
   lectureImpossible: "Lecture impossible.",
   sourceMembre: "membre",
@@ -1201,6 +1265,30 @@ const FR: Dictionnaire = {
   memeGenreQue: (nom) => `Même style que ${nom}`,
   coursEnPreparation: 'Le cours de ce style est en préparation.',
   coursAvis: 'Un cours écrit pour SONAA, en français, à partir des sources citées en bas : un point de départ, pas une recette.',
+  coursRegleTitre: 'Le tempo',
+  coursSansTempo: 'Pas de tempo : le temps est libre.',
+  coursPlageBpm: (a, b) => `${a} à ${b}`,
+  coursGrilleTitre: 'La batterie, pas à pas',
+  coursGrilleAide: 'Une mesure en doubles croches, lue dans le cours. Chaque case pleine est un coup ; les plus vives sont accentuées, les plus pâles sont des notes fantômes.',
+  coursEcouterMotif: (bpm) => `Écouter à ${bpm} BPM`,
+  coursArreterMotif: 'Arrêter',
+  coursMesure: (n) => `Mesure ${n}`,
+  coursMachinesTitre: 'Les machines',
+  coursAutresOutils: 'Logiciels et autres outils',
+  coursEcouterRepere: 'Écouter',
+  instrKick: 'Kick',
+  instrCaisse: 'Caisse claire',
+  instrClap: 'Clap',
+  instrRim: 'Rimshot',
+  instrCharley: 'Charley fermé',
+  instrCharleyOuvert: 'Charley ouvert',
+  instrRide: 'Ride',
+  instrPerc: 'Percussions',
+  outilMachine: 'Machine',
+  outilPlugin: 'Plugin',
+  outilDaw: 'Logiciel',
+  outilSamples: 'Banque de sons',
+  outilMateriel: 'Matériel',
   laFabrication: 'La fabrication',
   ficheTechnique: 'Fiche technique',
   tempo: 'Tempo',
@@ -1819,8 +1907,28 @@ const EN: Dictionnaire = {
   confirmerRetraitSoiree: "Remove this night from the calendar? It cannot be recovered.",
   retraitImpossible: "Could not remove.",
   mesSoirees: "My nights",
-  mesSoireesIntro: "The nights you added to the calendar. For each one, the 9:16 Instagram image and the post text.",
-  aucuneSoireeDeposee: "No upcoming night. Add one from the calendar.",
+  mesSoireesIntro: "Add a night to the calendar, then get its Instagram image and post text.",
+  aucuneSoireeDeposee: "No upcoming night yet. Paste a link above to add one.",
+  collerLeLien: "Paste the event link",
+  remplir: "Fill in",
+  lienAide: "Facebook, Resident Advisor, Eventbrite, Lepointdevente or the venue’s page: SONAA reads the page and fills in the form. You fix what is missing.",
+  remplirALaMain: "No link? Fill in by hand",
+  lectureDeLaPage: "Reading the page…",
+  ficheRemplie: (source) => `Filled in from ${source}. Check it before adding.`,
+  heureAVerifier: "The page does not give the time: please add it.",
+  dejaAuCalendrier: "This night is already in the calendar. You can still add it under your name.",
+  pageIllisible: "This page cannot be read. Please fill in the form by hand.",
+  lectureImpossibleLien: "Reading the link failed. Try again, or fill in the form by hand.",
+  adresseLibelle: "Address",
+  prixLibelle: "Price",
+  organisateurLibelle: "Organizer",
+  prixEtOrganisateur: "Price and organizer",
+  aCompleter: "to fill in",
+  laPage: "the page",
+  soireeAjoutee: "Night added. It is in the calendar.",
+  soireesAVenirTitre: "Coming up",
+  moderationSoireesAilleurs: "Every night added by hand, from every account, is managed in the administration.",
+  ouvrirLAdministration: "Open the administration",
   soireeDepubliee: "Removed from the calendar by a moderator",
   lectureImpossible: "Could not read.",
   sourceMembre: "member",
@@ -1893,6 +2001,30 @@ const EN: Dictionnaire = {
   memeGenreQue: (nom) => `Same style as ${nom}`,
   coursEnPreparation: 'The lesson for this style is in preparation.',
   coursAvis: 'A lesson written for SONAA, in French, from the sources listed below: a starting point, not a recipe.',
+  coursRegleTitre: 'Tempo',
+  coursSansTempo: 'No tempo: time is free.',
+  coursPlageBpm: (a, b) => `${a} to ${b}`,
+  coursGrilleTitre: 'The drums, step by step',
+  coursGrilleAide: 'One bar of sixteenth notes, read from the lesson. Each filled cell is a hit; the brightest are accents, the palest are ghost notes.',
+  coursEcouterMotif: (bpm) => `Play at ${bpm} BPM`,
+  coursArreterMotif: 'Stop',
+  coursMesure: (n) => `Bar ${n}`,
+  coursMachinesTitre: 'The machines',
+  coursAutresOutils: 'Software and other tools',
+  coursEcouterRepere: 'Listen',
+  instrKick: 'Kick',
+  instrCaisse: 'Snare',
+  instrClap: 'Clap',
+  instrRim: 'Rimshot',
+  instrCharley: 'Closed hat',
+  instrCharleyOuvert: 'Open hat',
+  instrRide: 'Ride',
+  instrPerc: 'Percussion',
+  outilMachine: 'Hardware',
+  outilPlugin: 'Plugin',
+  outilDaw: 'DAW',
+  outilSamples: 'Samples',
+  outilMateriel: 'Gear',
   laFabrication: 'How it is made',
   ficheTechnique: 'Fact sheet',
   tempo: 'Tempo',

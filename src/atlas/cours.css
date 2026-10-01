@@ -1,0 +1,441 @@
+/* LE COURS « PRODUIRE CE STYLE ». Voir CoursDuStyle.tsx.
+
+   Une planche (le tempo, la grille, les machines) et une colonne de texte.
+   Sur ordinateur, le texte a gauche, borne a 68 signes, et la planche a
+   droite ; sur telephone, la planche passe devant. */
+
+.cours {
+  display: grid;
+  gap: var(--espace-32);
+  margin: var(--espace-16) 0 0;
+}
+@media (min-width: 1100px) {
+  .cours {
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
+    gap: var(--espace-48);
+    align-items: start;
+  }
+  .cours-planche {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .cours-texte {
+    grid-column: 1;
+    grid-row: 1;
+  }
+}
+
+/* ═══ LA PLANCHE ═══ Des blocs en voile de verre, empiles. */
+.cours-planche {
+  display: grid;
+  gap: var(--espace-16);
+  min-width: 0;
+}
+.cours-bloc {
+  padding: var(--espace-16) var(--espace-16) var(--espace-24);
+  border: 1px solid var(--filet);
+  border-radius: 20px;
+  background: var(--verre-fond);
+}
+.cours-bloc-titre {
+  margin: 0 0 var(--espace-12);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+/* LE TEMPO : le chiffre en grand, la regle dessous. */
+.cours-tempo-chiffre {
+  margin: 0;
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: var(--serrage);
+  color: var(--ink-primary);
+  font-variant-numeric: tabular-nums;
+}
+.cours-tempo-chiffre span {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.cours-tempo-libre {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--ink-primary);
+}
+.cours-regle {
+  position: relative;
+  height: 8px;
+  margin: var(--espace-16) 0 var(--espace-24);
+  border-radius: var(--rayon-pilule);
+  background: var(--voile-08);
+}
+.cours-regle-plage {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: var(--rayon-pilule);
+  background: var(--accent);
+  box-shadow: 0 0 14px color-mix(in oklch, var(--accent) 60%, transparent);
+}
+.cours-regle-repere {
+  position: absolute;
+  top: 14px;
+  transform: translateX(-50%);
+  font-size: 0.6875rem;
+  color: var(--ink-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.cours-regle-repere::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -10px;
+  width: 1px;
+  height: 6px;
+  background: var(--filet);
+}
+
+/* LA GRILLE : seize cases par mesure, un temps tous les quatre pas. */
+.cours-mesure + .cours-mesure {
+  margin-top: var(--espace-16);
+}
+.cours-mesure-nom {
+  margin: 0 0 var(--espace-4);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--ink-secondary);
+}
+.cours-rangee {
+  display: grid;
+  grid-template-columns: 5.75rem repeat(16, minmax(0, 1fr));
+  gap: 3px;
+  align-items: center;
+  margin-bottom: 3px;
+}
+.cours-temps {
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--ink-secondary);
+}
+.cours-instrument {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--ink-primary);
+}
+.cours-case {
+  aspect-ratio: 1;
+  border-radius: 4px;
+  background: var(--voile-06);
+  transition: transform 80ms ease, background 80ms ease;
+}
+/* LE TEMPS SE VOIT : la case vide du premier pas de chaque temps est un
+   peu plus marquee. Pas de marge pour l'ecarter : une marge dans une piste
+   de grille retrecit la case, et un carre plus petit se lit comme un coup
+   plus faible. */
+.cours-rangee > .cours-case:nth-child(4n + 2)[data-coup='non'] {
+  background: var(--voile-12);
+}
+.cours-case[data-coup='oui'] {
+  background: color-mix(in oklch, var(--accent) 78%, transparent);
+}
+.cours-case[data-coup='fort'] {
+  background: var(--accent);
+  box-shadow: 0 0 8px color-mix(in oklch, var(--accent) 55%, transparent);
+}
+.cours-case[data-coup='fantome'] {
+  background: color-mix(in oklch, var(--accent) 32%, transparent);
+}
+/* LA COLONNE QUI JOUE s'allume, coup ou silence. */
+.cours-case[data-actif='true'] {
+  outline: 2px solid var(--ink-primary);
+  outline-offset: -1px;
+}
+.cours-case[data-actif='true']:not([data-coup='non']) {
+  transform: scale(1.12);
+}
+.cours-grille-pied {
+  display: grid;
+  gap: var(--espace-8);
+  margin-top: var(--espace-16);
+}
+.cours-ecouter {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espace-8);
+  min-height: 40px;
+  padding: 0 var(--espace-16) 0 var(--espace-12);
+  border: 0;
+  border-radius: var(--rayon-pilule);
+  background: var(--accent);
+  color: var(--sur-accent);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.cours-ecouter:focus-visible {
+  outline: 2px solid var(--ink-primary);
+  outline-offset: 2px;
+}
+/* Le triangle de lecture, ou le carre d'arret, dessines en CSS. */
+.cours-ecouter-icone {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 6px 0 6px 10px;
+  border-color: transparent transparent transparent currentColor;
+}
+.cours-ecouter-icone[data-joue='true'] {
+  width: 10px;
+  height: 10px;
+  border: 0;
+  border-radius: 2px;
+  background: currentColor;
+}
+.cours-aide {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--ink-secondary);
+}
+
+/* LES MACHINES : la photo, le nom, pourquoi elle est la, et son credit. */
+.cours-machines-liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--espace-16);
+}
+.cours-machine {
+  display: grid;
+  gap: var(--espace-8);
+}
+.cours-machine img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 12px;
+  background: var(--voile-06);
+}
+.cours-machine-texte {
+  display: grid;
+  gap: 2px;
+}
+.cours-machine-nom {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+}
+.cours-machine-pourquoi {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--ink-secondary);
+}
+/* LE CREDIT EST UN LIEN VERS LA PAGE SOURCE : c'est ce que demandent les
+   licences par attribution. */
+.cours-machine-credit {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.6875rem;
+  color: var(--ink-secondary);
+  text-decoration: none;
+}
+.cours-machine-credit:hover {
+  text-decoration: underline;
+}
+@media (min-width: 560px) and (max-width: 1099px) {
+  .cours-machines-liste {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ═══ LE TEXTE ═══ 68 signes, une ligne qui se lit sans perdre le debut. */
+.cours-texte {
+  min-width: 0;
+  max-width: 68ch;
+}
+.cours-avis {
+  margin: 0 0 var(--espace-24);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--ink-secondary);
+}
+.cours-section + .cours-section {
+  margin-top: var(--espace-48);
+}
+.cours-section-titre {
+  display: flex;
+  align-items: baseline;
+  gap: var(--espace-12);
+  margin: 0 0 var(--espace-12);
+  font-size: 1.1875rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--ink-primary);
+}
+.cours-numero {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.cours-section p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--ink-primary);
+}
+
+/* LES ETAPES : de grands numeros d'accent, une etape par carte. */
+.cours-etapes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--espace-8);
+}
+.cours-etapes li {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  gap: var(--espace-12);
+  align-items: start;
+  padding: var(--espace-12) var(--espace-16);
+  border: 1px solid var(--filet);
+  border-radius: 14px;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--ink-primary);
+}
+.cours-etape-numero {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.cours-outils {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--espace-12);
+}
+.cours-outils li {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: start;
+  column-gap: var(--espace-8);
+  row-gap: 2px;
+  align-items: baseline;
+}
+.cours-outil-nom {
+  font-weight: 700;
+  color: var(--ink-primary);
+}
+.cours-outil-type {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.cours-outil-pourquoi {
+  grid-column: 1 / -1;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--ink-secondary);
+}
+
+/* LES MORCEAUX A ECOUTER : le titre en avant, et un lien pour l'entendre. */
+.cours-reperes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--espace-8);
+}
+.cours-repere {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--espace-12);
+  row-gap: 2px;
+  padding: var(--espace-12) var(--espace-16);
+  border: 1px solid var(--filet);
+  border-radius: 14px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--ink-secondary);
+}
+.cours-repere-titre {
+  font-weight: 700;
+  color: var(--ink-primary);
+}
+.cours-repere-artiste,
+.cours-repere-pourquoi {
+  grid-column: 1;
+}
+.cours-repere-lien {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 var(--espace-12);
+  border: 1px solid var(--filet);
+  border-radius: var(--rayon-pilule);
+  color: var(--ink-primary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.cours-repere-lien:hover {
+  border-color: var(--accent);
+}
+
+.cours-sources {
+  margin: var(--espace-32) 0 0;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--ink-secondary);
+}
+
+@media (max-width: 899px) {
+  .cours-ecouter,
+  .cours-repere-lien {
+    min-height: 44px;
+  }
+}
+@media (max-width: 420px) {
+  .cours-rangee {
+    grid-template-columns: 4.5rem repeat(16, minmax(0, 1fr));
+    gap: 2px;
+  }
+  .cours-repere {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cours-repere-lien {
+    grid-column: 1;
+    grid-row: auto;
+    justify-self: start;
+    margin-top: var(--espace-8);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cours-case {
+    transition: none;
+  }
+}

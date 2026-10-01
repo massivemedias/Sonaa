@@ -1,7 +1,7 @@
 /* LES DEUX SEULES DECISIONS DE CET ADAPTATEUR : lire une date, decouper un titre.
  * Les exemples sont des fiches reelles relevees le 7 septembre 2026. */
 import { describe, expect, it } from 'vitest';
-import { dateDe, decouperTitre } from './ingerer-lepointdevente.ts';
+import { dateDe, decouperTitre } from '../src/lib/lire-soiree.ts';
 
 describe('dateDe', () => {
   it('lit la date encodee dans la reference', () => {
