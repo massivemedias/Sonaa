@@ -247,7 +247,14 @@ let mesures = 0;
 for (const page_ of PAGES) {
   for (const largeur of LARGEURS) {
    for (const langue of largeur < SEUIL_TELEPHONE ? (['fr', 'en'] as const) : (['fr'] as const)) {
-    const contexte = await navigateur.newContext({ viewport: { width: largeur, height: largeur < SEUIL_TELEPHONE ? 844 : 900 } });
+    /* LES CIBLES SE MESURENT AU REPOS. Le parallaxe fait arriver les cartes
+       du bas a 97 % de leur taille : une pastille de 44 px mesuree en
+       chemin en faisait 43 (vu le 1er octobre 2026). Sans mouvement, on
+       mesure ce que le doigt trouve une fois la page posee. */
+    const contexte = await navigateur.newContext({
+      viewport: { width: largeur, height: largeur < SEUIL_TELEPHONE ? 844 : 900 },
+      reducedMotion: 'reduce',
+    });
     await contexte.addInitScript(`localStorage.setItem('sonaa-langue', '${langue}')`);
     /* Montreal, pour que l'accueil porte de vraies cartes de soirees : sans
        ville, un navigateur de controle ne voit que l'invitation a en choisir une. */
