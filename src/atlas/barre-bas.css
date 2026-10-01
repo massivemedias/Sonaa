@@ -118,20 +118,14 @@ body.avec-mini-lecteur {
 
 /* ═══ PARCOURIR LIT LES MEMES GRANDEURS ═══
 
-   Sa barre de lecture etait collee au bas de l'ecran, et la barre d'onglets
-   comme le mini lecteur l'auraient recouverte. Son corps a son propre
-   defilement, donc le retrait de `body` ne l'atteint pas : il lit la
-   grandeur lui-meme.
+   Son corps a son propre defilement, donc le retrait de `body` ne l'atteint
+   pas : il lit la grandeur lui-meme, la barre d'onglets plus le mini
+   lecteur. La barre de lecture propre a Parcourir est partie le 30
+   septembre 2026 (« ya deux lecteurs, garde celui du bas ») : il n'y a plus
+   de place a lui reserver.
 
-   SELECTEURS QUALIFIES PAR `body`, ET C'EST VOULU : parcourir.css arrive
-   avec la vue, apres cette feuille, et a poids egal c'est lui qui gagnerait.
-   Un cran de plus ici, et l'ordre de chargement ne compte plus. */
-body .pv-barre {
-  bottom: calc(var(--barre-bas-h) + var(--mini-h));
-}
+   SELECTEUR QUALIFIE PAR `body`, ET C'EST VOULU : parcourir.css arrive avec
+   la vue, apres cette feuille, et a poids egal c'est lui qui gagnerait. */
 body .pv-corps {
   padding-bottom: calc(var(--espace-24) + var(--barre-bas-h) + var(--mini-h));
-}
-body .pv[data-joue='true'] .pv-corps {
-  padding-bottom: calc(116px + env(safe-area-inset-bottom, 0px) + var(--barre-bas-h) + var(--mini-h));
 }

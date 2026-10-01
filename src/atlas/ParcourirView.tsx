@@ -22,7 +22,7 @@
    lieu de quitter le site. C'est le geste le plus utilise du systeme, et il
    n'est gratuit que si l'on s'y branche. */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { FAMILIES, STRUCTURES, type Genre, type Track } from './structures.ts';
 import { poidsDe } from './poids.ts';
 import { ProceduralCover } from './ProceduralCover.tsx';
@@ -36,9 +36,7 @@ import {
   faChevronLeft,
   faMicrophone,
   faPlay,
-  faPause,
-  faBackwardStep,
-  faForwardStep
+  faPause
 } from '@fortawesome/free-solid-svg-icons';
 import { FaIcon } from './FaIcon.tsx';
 import { Apparition } from '../design/mouvement.tsx';
@@ -293,16 +291,6 @@ export function ParcourirView() {
   const genreCourant = niveau.k === 'genre' ? STRUCTURES[niveau.fi]?.genres[niveau.gl] : undefined;
   const familleCourante = niveau.k === 'familles' ? undefined : FAMILIES[niveau.fi];
 
-  /* La liste jouee, retrouvee depuis son identifiant : la barre du bas doit
-     afficher un titre meme apres qu'on a change de page. */
-  const listeJouee = useMemo(() => {
-    if (!lecture.listeId) return null;
-    const t = TOUS.find((x) => x.g.id === lecture.listeId);
-    return t ? { ...t, tracks: t.g.tracks } : null;
-  }, [lecture.listeId]);
-
-  const pisteJouee = listeJouee?.tracks[lecture.index];
-
   /* --- Rendu ------------------------------------------------------------- */
 
   const enTete = (
@@ -365,7 +353,7 @@ export function ParcourirView() {
   );
 
   return (
-    <div className="pv" data-joue={lecture.etat === 'joue' || lecture.etat === 'chargement' || Boolean(pisteJouee)}>
+    <div className="pv">
       {enTete}
 
       <main className="pv-corps" ref={corps}>
@@ -559,18 +547,11 @@ export function ParcourirView() {
         <PiedDePage />
       </main>
 
-      {pisteJouee && listeJouee && (
-        <BarreLecture
-          piste={pisteJouee}
-          hue={FAMILIES[listeJouee.fi]?.hue ?? 0}
-          genreLabel={listeJouee.g.label}
-          lecture={lecture}
-          basculer={basculer}
-          deplacer={deplacer}
-          chercher={chercher}
-          ouvrir={() => aller({ k: 'genre', fi: listeJouee.fi, gl: listeJouee.gl })}
-        />
-      )}
+      {/* PLUS DE BARRE DE LECTURE ICI. Mika, le 30 septembre 2026 : « attention
+          ya deux lecteurs, garde celui du bas ». Le mini lecteur du site, monte
+          hors de cette vue, montre le morceau, son etat, precedent, pause et
+          suivant, et la liste du style s'enchaine toute seule a la fin d'un
+          morceau. Voir MiniLecteur.tsx. */}
     </div>
   );
 }
@@ -1116,151 +1097,3 @@ function SetsDuGenre({ genreId }: { genreId: string }) {
   );
 }
 
-/* --- La barre du bas ------------------------------------------------------ */
-
-interface BarreProps {
-  piste: Track;
-  hue: number;
-  genreLabel: string;
-  lecture: ReturnType<typeof useLecteur>['lecture'];
-  basculer: () => void;
-  deplacer: (n: number) => void;
-  chercher: (secondes: number) => void;
-  ouvrir: () => void;
-}
-
-function BarreLecture({ piste, hue, genreLabel, lecture, basculer, deplacer, chercher, ouvrir }: BarreProps) {
-  /* CE QU'ON MONTRE PENDANT QU'ON TIRE n'est pas ce que le lecteur joue.
-
-     Sans cet etat, la poignee revient sous le doigt a chaque rafraichissement
-     de position, et l'on croit que la barre resiste. On affiche donc la
-     position TIREE tant que le doigt est pose, et la position reelle apres. */
-  const [tire, setTire] = useState<number | null>(null);
-  const piste_ref = useRef<HTMLDivElement | null>(null);
-
-  const position = tire ?? lecture.position;
-  const avance = lecture.duree > 0 ? Math.min(100, Math.max(0, (position / lecture.duree) * 100)) : 0;
-  const joue = lecture.etat === 'joue';
-
-  const secondesDe = (clientX: number): number => {
-    const el = piste_ref.current;
-    if (!el || lecture.duree <= 0) return 0;
-    const b = el.getBoundingClientRect();
-    const f = Math.min(1, Math.max(0, (clientX - b.left) / b.width));
-    return f * lecture.duree;
-  };
-
-  return (
-    <div className="pv-barre">
-      {/* LA RANGEE DE DEFILEMENT, QU'ON ATTRAPE AU DOIGT. La ligne visible
-          fait 4 px, mais la zone qui recoit le geste fait toute la hauteur de
-          la rangee : viser une ligne de quatre pixels au pouce est
-          impossible, et c'est pour cela que l'ancienne barre n'etait qu'un
-          temoin. */}
-      <div className="pv-scrub">
-        <span className="pv-scrub-temps">{mmss(position)}</span>
-        <div
-          ref={piste_ref}
-          className="pv-scrub-piste"
-          role="slider"
-          tabIndex={0}
-          aria-label={t.positionDansLeMorceau}
-          aria-valuemin={0}
-          aria-valuemax={Math.round(lecture.duree)}
-          aria-valuenow={Math.round(position)}
-          aria-valuetext={mmss(position)}
-          onPointerDown={(e) => {
-            if (lecture.duree <= 0) return;
-            /* LA CAPTURE PEUT ETRE REFUSEE, et ce n'est pas une raison
-               d'abandonner le glissement. Elle echoue quand le pointeur
-               n'est plus actif au moment ou on la demande, ce qui arrive
-               quand le doigt part tres vite. Sans ce garde, l'exception
-               remontait avant setTire et la barre ne bougeait pas du tout :
-               un echec de confort devenait un echec de fonction. */
-            try {
-              e.currentTarget.setPointerCapture(e.pointerId);
-            } catch {
-              /* On suit alors le pointeur sans capture, ce qui marche tant
-                 qu'il reste au-dessus de la barre. */
-            }
-            setTire(secondesDe(e.clientX));
-          }}
-          onPointerMove={(e) => {
-            if (tire === null) return;
-            setTire(secondesDe(e.clientX));
-          }}
-          onPointerUp={(e) => {
-            if (tire === null) return;
-            const s = secondesDe(e.clientX);
-            setTire(null);
-            chercher(s);
-          }}
-          onPointerCancel={() => setTire(null)}
-          onKeyDown={(e) => {
-            if (lecture.duree <= 0) return;
-            if (e.key === 'ArrowLeft') {
-              e.preventDefault();
-              chercher(Math.max(0, lecture.position - SAUT));
-            }
-            if (e.key === 'ArrowRight') {
-              e.preventDefault();
-              chercher(Math.min(lecture.duree, lecture.position + SAUT));
-            }
-          }}
-        >
-          <span className="pv-scrub-fond">
-            <span className="pv-scrub-fait" style={{ width: `${avance}%` }} />
-          </span>
-          <span className="pv-scrub-poignee" style={{ left: `${avance}%` }} />
-        </div>
-        <span className="pv-scrub-temps">{lecture.duree > 0 ? mmss(lecture.duree) : '--:--'}</span>
-      </div>
-
-      <div className="pv-barre-bas">
-      <button className="pv-barre-ouvrir" onClick={ouvrir}>
-        <Pochette track={piste} hue={hue} taille={44} />
-        <span className="pv-barre-texte">
-          <span className="pv-barre-titre">{piste.title}</span>
-          <span className="pv-barre-sous">
-            {/* L'ETAT EST DIT EN TOUTES LETTRES quand il n'est pas la lecture.
-                Un bouton qui n'a pas encore obtenu le son doit le montrer, pas
-                afficher une pause qui n'a pas eu lieu. */}
-            {lecture.etat === 'chargement'
-              ? t.chargement
-              : lecture.etat === 'bloque'
-                ? t.appuyezEncoreCourt
-                : lecture.etat === 'erreur'
-                  ? t.pisteIllisible
-                  : (
-                      /* PAS DE GABARIT QUI COMPOSE UN POINT MEDIAN AVEC UN
-                         NOM : c'est la regle que check:labels fait respecter,
-                         parce qu'un suffixe colle a un nom a deja ete pris
-                         pour un identifiant technique reste d'un jeu de
-                         donnees factice. Le separateur est un element a lui,
-                         le nom reste nu. */
-                      <>
-                        {piste.artist}
-                        <span className="pv-sep" aria-hidden="true" />
-                        {genreLabel}
-                      </>
-                    )}
-          </span>
-        </span>
-      </button>
-
-      <div className="pv-barre-transport">
-        <button onClick={() => deplacer(-1)} aria-label={t.morceauPrecedent}>
-          <FaIcon icon={faBackwardStep} />
-        </button>
-        <button className="pv-barre-play" onClick={basculer} aria-label={joue ? t.pause : t.lecture}>
-          <FaIcon icon={joue ? faPause : faPlay} />
-        </button>
-        <button onClick={() => deplacer(1)} aria-label={t.morceauSuivant}>
-          <FaIcon icon={faForwardStep} />
-        </button>
-      </div>
-
-      </div>
-    </div>
-  );
-}

@@ -40,8 +40,12 @@ import { t } from '../langue/langue.ts';
  * reapparait, et la personne decide. */
 const REPOUSSER_MS = 30 * 60 * 1000;
 
+/* LE MINI LECTEUR DIT S'IL JOUE, sur toutes les pages. On lisait la barre de
+   Parcourir, qui ne voyait la musique que sur les pages de styles, et qui est
+   partie le 30 septembre 2026 : le mini lecteur porte maintenant
+   `data-joue`, pour un set comme pour un morceau de style. */
 const sonEnCours = (): boolean =>
-  etatDeLectureSet().joue || document.querySelector('.pv[data-joue="true"]') !== null;
+  etatDeLectureSet().joue || document.querySelector('.mini[data-joue="true"]') !== null;
 
 /** L'événement Chrome, absent des types du DOM. */
 interface EvenementInstallation extends Event {

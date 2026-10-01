@@ -13,7 +13,7 @@
 
 import { useEffect } from 'react';
 import { FaIcon } from './FaIcon.tsx';
-import { faPlay, faPause, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faPause, faXmark, faBackwardStep, faForwardStep } from '@fortawesome/free-solid-svg-icons';
 import { arreterLeSet, basculerLeSet, useLectureSet } from '../lib/lecture-set.ts';
 import { urlAvatar, urlPochette } from '../lib/sets.ts';
 import { useLecteurPartage } from '../lecture/LecteurContexte.tsx';
@@ -56,7 +56,7 @@ export function MiniLecteur() {
     const avancee = genre.lecture.duree > 0 ? Math.min(1, genre.lecture.position / genre.lecture.duree) : 0;
     const chemin = cheminDuGenre(genre.lecture.listeId);
     return (
-      <div className="mini" role="region" aria-label={t.lectureEnCours}>
+      <div className="mini" role="region" aria-label={t.lectureEnCours} data-joue={joue}>
         <div className="mini-filet" aria-hidden="true">
           <span style={{ width: `${avancee * 100}%` }} />
         </div>
@@ -65,10 +65,30 @@ export function MiniLecteur() {
         </a>
         <a className="mini-texte" href={chemin}>
           <strong>{piste.title}</strong>
-          <span>{piste.artist}</span>
+          {/* L'ETAT EN TOUTES LETTRES quand ce n'est pas la lecture. La barre
+              de Parcourir le disait, et elle est partie le 30 septembre 2026 :
+              un morceau qui n'a pas obtenu le son doit le montrer ici. */}
+          <span>
+            {genre.lecture.etat === 'chargement'
+              ? t.chargement
+              : genre.lecture.etat === 'bloque'
+                ? t.appuyezEncoreCourt
+                : genre.lecture.etat === 'erreur'
+                  ? t.pisteIllisible
+                  : piste.artist}
+          </span>
         </a>
+        {/* PRECEDENT ET SUIVANT, depuis que ce lecteur est le seul : la liste
+            du style s'enchaine toute seule, et ces deux boutons permettent
+            d'y passer un morceau. */}
+        <button type="button" className="mini-pas" onClick={() => genre.deplacer(-1)} aria-label={t.morceauPrecedent}>
+          <FaIcon icon={faBackwardStep} />
+        </button>
         <button type="button" className="mini-bouton" onClick={genre.basculer} aria-label={joue ? t.pause : t.ecouter}>
           <FaIcon icon={joue ? faPause : faPlay} />
+        </button>
+        <button type="button" className="mini-pas" onClick={() => genre.deplacer(1)} aria-label={t.morceauSuivant}>
+          <FaIcon icon={faForwardStep} />
         </button>
         <button type="button" className="mini-fermer" onClick={genre.arreter} aria-label={t.fermerLecteur}>
           <FaIcon icon={faXmark} />
@@ -83,7 +103,7 @@ export function MiniLecteur() {
   const avancee = lecture.duree > 0 ? Math.min(1, lecture.position / lecture.duree) : 0;
 
   return (
-    <div className="mini" role="region" aria-label={t.lectureEnCours}>
+    <div className="mini" role="region" aria-label={t.lectureEnCours} data-joue={lecture.joue}>
       <div className="mini-filet" aria-hidden="true">
         <span style={{ width: `${avancee * 100}%` }} />
       </div>

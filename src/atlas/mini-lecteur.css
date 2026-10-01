@@ -99,6 +99,30 @@
   width: 16px;
   height: 16px;
 }
+/* PRECEDENT ET SUIVANT : des signes sans fond, de part et d'autre du rond,
+   pour que la lecture reste le geste principal. 44 px, ce sont des cibles. */
+.mini-pas {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: var(--ink-secondary);
+  cursor: pointer;
+  transition: color 160ms ease, background 160ms ease;
+}
+.mini-pas:hover,
+.mini-pas:focus-visible {
+  color: var(--ink-primary);
+  background: var(--voile-06);
+}
+.mini-pas svg {
+  width: 15px;
+  height: 15px;
+}
 .mini-fermer {
   width: 2.2rem;
   height: 2.2rem;
@@ -134,5 +158,18 @@
   .mini-texte {
     min-height: 44px;
     justify-content: center;
+  }
+}
+
+/* SUR UN TELEPHONE ETROIT, LE TITRE D'ABORD. Cinq cibles de 44 px et leurs
+   ecarts laissaient vingt pixels au titre a 320 px. Sous 420 px les ecarts se
+   resserrent et « precedent » s'efface : la liste s'enchaine toute seule, et
+   c'est « suivant » qu'on cherche du pouce. */
+@media (max-width: 419px) {
+  .mini {
+    gap: var(--espace-4);
+  }
+  .mini-pas:first-of-type {
+    display: none;
   }
 }
