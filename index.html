@@ -9,34 +9,12 @@
       name="description"
       content="Le calendrier complet des musiques électroniques : toutes les soirées de votre ville, par style, et l’atlas des 219 genres pour savoir d’où ça vient."
     />
-    <meta name="color-scheme" content="dark light" />
+    <meta name="color-scheme" content="dark" />
 
-    <!-- LE THEME EST POSE AVANT LA PREMIERE PEINTURE, ET C'EST TOUT L'INTERET
-         DE CE FRAGMENT. Pose plus tard, au montage de React, la page rendrait
-         d'abord en sombre puis basculerait : un eclair noir a chaque
-         chargement, pour qui a choisi le clair. Quatre lignes en ligne valent
-         mieux qu'un defaut qu'on ne peut pas rattraper apres coup.
-
-         Il ne lit rien d'autre que son propre reglage, il n'ecrit rien, et il
-         echoue en silence : sans stockage accessible, le theme sombre reste,
-         et c'est le theme par defaut. -->
-    <script>
-      (function () {
-        try {
-          var choisi = localStorage.getItem('sonaa-theme');
-          /* SANS CHOIX, LE SOMBRE, depuis le 30 septembre 2026 : voir
-             src/lib/theme.ts. Le reglage du systeme n'est plus lu. */
-          var clair = choisi === 'clair';
-          if (clair) {
-            document.documentElement.setAttribute('data-theme', 'clair');
-            var m = document.querySelector('meta[name="theme-color"]');
-            if (m) m.setAttribute('content', '#f4f1ef');
-          }
-        } catch (e) {
-          /* Navigation privee ou stockage refuse : le theme sombre reste. */
-        }
-      })();
-    </script>
+    <!-- SOMBRE, ET RIEN D'AUTRE, depuis le 1er octobre 2026 : Mika, « enleve
+         le bouton light mode, je veux juste un dark mode ». Il n'y a plus de
+         theme a poser avant la premiere peinture : la feuille de style ne
+         connait plus que le sombre. -->
     <meta name="theme-color" content="#0c0b09" />
 
     <!-- AUCUNE IMAGE CASSEE NE S'AFFICHE, NULLE PART. Mika, le 30 septembre

@@ -4,6 +4,7 @@ import './design/tokens.css';
 import './design/base.css';
 import './design/v2.css';
 import './design/verre.css';
+import './design/parallaxe.css';
 import { MotionRacine } from './design/mouvement.tsx';
 import { LecteurProvider } from './lecture/LecteurContexte.tsx';
 import { MARCHAND_ACTIF } from './config.ts';

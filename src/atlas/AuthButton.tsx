@@ -40,7 +40,6 @@ import { ChoixLangue } from './ChoixLangue.tsx';
 import { FaIcon } from './FaIcon.tsx';
 import { faMagnifyingGlass, faUser } from '@fortawesome/free-solid-svg-icons';
 import { EVENEMENT_RECHERCHE } from './RechercheGlobale.tsx';
-import { ChoixTheme } from './ChoixTheme.tsx';
 import { ADRESSE_HISTORIQUE } from '../reconnaitre/adresses.ts';
 import './auth-button.css';
 
@@ -408,8 +407,9 @@ export function AuthButton() {
       >
         <FaIcon icon={faMagnifyingGlass} />
       </button>
+      {/* LE BOUTON DE THEME EST PARTI le 1er octobre 2026 : le site n'a plus
+          qu'un theme, le sombre. */}
       <ChoixLangue />
-      <ChoixTheme />
       {connecte && confirmation && (
         <p className="authb-confirmation" role="status">{confirmation}</p>
       )}

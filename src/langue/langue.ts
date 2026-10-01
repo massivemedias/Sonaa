@@ -162,8 +162,6 @@ interface Dictionnaire {
   readonly index: string;
   readonly navigationDuSite: string;
   readonly choixDeLangue: string;
-  readonly passerAuClair: string;
-  readonly passerAuSombre: string;
   readonly villeLibelle: string;
   readonly nGenresSurTotal: (n: number, total: number) => string;
   readonly genresPrincipauxSur: (n: number, total: number) => string;
@@ -907,8 +905,6 @@ const FR: Dictionnaire = {
   index: 'Index',
   navigationDuSite: 'Navigation du site',
   choixDeLangue: 'Langue de l’interface',
-  passerAuClair: 'Passer au thème clair',
-  passerAuSombre: 'Passer au thème sombre',
   villeLibelle: "Ville",
   nGenresSurTotal: (n, total) => `${n} genre${n > 1 ? 's' : ''} sur ${total}`,
   genresPrincipauxSur: (n, total) => `Genres principaux (${n} sur ${total})`,
@@ -1653,8 +1649,6 @@ const EN: Dictionnaire = {
   index: 'Index',
   navigationDuSite: 'Site navigation',
   choixDeLangue: 'Interface language',
-  passerAuClair: 'Switch to the light theme',
-  passerAuSombre: 'Switch to the dark theme',
   villeLibelle: "City",
   /* EN ANGLAIS, ZERO PREND LE PLURIEL : « 0 offshoots », la ou le francais
      ecrit « 0 dérivé ». La regle n'est donc pas la meme des deux cotes, et

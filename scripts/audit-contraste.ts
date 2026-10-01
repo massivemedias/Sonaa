@@ -26,7 +26,8 @@ const PORT = 4189;
    cartes de soirees et de mixtapes, que le site construit sans base n'a pas. */
 const ORIGINE = process.env.SONAA_URL ?? `http://127.0.0.1:${PORT}`;
 const LARGEURS = [390, 1440] as const;
-const THEMES = ['sombre', 'clair'] as const;
+/* LE SOMBRE SEUL depuis le 1er octobre 2026 : le theme clair a ete retire. */
+const THEMES = ['sombre'] as const;
 const PAGES: readonly { chemin: string; attend: string; nom: string }[] = [
   { nom: 'accueil', chemin: '/', attend: '.hero-titre' },
   { nom: 'styles', chemin: '/styles/', attend: '.pv-tuile' },

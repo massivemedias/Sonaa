@@ -75,13 +75,6 @@
   }
 }
 
-/* EN THEME CLAIR, PAS D'OPACITE SUR CE TEXTE : sur du blanc, une encre
-   attenuee passe sous le contraste AA. Mesure le 22 septembre 2026. */
-:root[data-theme='clair'] .choixlangue-bouton:not([data-actif='true']) {
-  opacity: 1;
-  color: var(--ink-secondary);
-}
-
 /* SUR TELEPHONE, UNE SEULE LETTRE-BOUTON : l'autre langue. La langue en
    cours se lit deja dans chaque mot de la page ; ce qu'on cherche ici, c'est
    la porte vers l'autre. Deux ronds de 44 px et un filet entre eux ne

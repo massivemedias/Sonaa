@@ -45,6 +45,11 @@ for (const dossier of DOSSIERS) {
        media queries, dont on suit la profondeur pour ne pas comparer deux
        contextes différents. */
     const lignes = texte.split('\n');
+    /* LES CONTEXTES S'EMPILENT : un `@keyframes` dans un `@supports` dans
+       un `@media` (design/parallaxe.css, 1er octobre 2026). Une seule
+       variable perdait le contexte exterieur des que l'interieur se
+       refermait. */
+    const pile: string[] = [];
     let contexte = '';
     let selecteurCourant: string | null = null;
     let debutRegle = 0;
@@ -59,12 +64,16 @@ for (const dossier of DOSSIERS) {
          que dans une affiche etroite n'est pas une redite de la regle
          generale. Ajoute le 30 septembre 2026 avec la premiere requete de
          conteneur du projet (calendrier.css, l'affiche dessinee). */
-      if (nu.startsWith('@media') || nu.startsWith('@supports') || nu.startsWith('@container')) {
-        contexte = nu;
+      /* `@keyframes` AUSSI : ses `from` et ses `to` appartiennent a CETTE
+         animation, et le `from` d'une autre n'est pas une redite. */
+      if (nu.startsWith('@media') || nu.startsWith('@supports') || nu.startsWith('@container') || nu.startsWith('@keyframes')) {
+        pile.push(nu);
+        contexte = pile.join(' ');
         return;
       }
       if (nu === '}' && selecteurCourant === null) {
-        contexte = '';
+        pile.pop();
+        contexte = pile.join(' ');
         return;
       }
       if (nu.endsWith('{')) {

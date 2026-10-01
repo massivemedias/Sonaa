@@ -44,7 +44,7 @@ const PAGES = [
 
 const navigateur = await chromium.launch({ channel: 'chrome', headless: true });
 const CHROME_ORDINAIRE = (await navigateur.newPage().then(async (p) => { const ua = await p.evaluate('navigator.userAgent'); await p.close(); return ua; })).replace('HeadlessChrome', 'Chrome');
-for (const theme of ['clair', 'sombre']) {
+for (const theme of ['sombre']) {
   for (const largeur of [390, 1440]) {
     for (const p of PAGES) {
       /* L'IDENTITE D'UN CHROME ORDINAIRE : images.ra.co refuse ses affiches a

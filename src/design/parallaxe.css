@@ -1,0 +1,203 @@
+/* LE PARALLAXE : CE QUE LE DEFILEMENT FAIT BOUGER.
+
+   Mika, le 1er octobre 2026 : « un peu plus de parallax, pas trop, quelque
+   chose de joli ; quand on scroll ca doit faire des choses cool, bien fluide
+   et design ».
+
+   ═══ FLUIDE PAR CONSTRUCTION ═══
+
+   Tout est ecrit en animations liees au defilement (animation-timeline),
+   pas en JavaScript : le navigateur les joue sur le fil de composition, a
+   la cadence de l'ecran, sans attendre la page. On n'anime que `translate`,
+   `scale`, `rotate` et `opacity`, les quatre proprietes qui ne redessinent
+   rien. `translate` et `scale` sont des proprietes a part entiere, et non
+   `transform` : elles s'ajoutent au `transform` du survol (les affiches qui
+   grossissent sous la souris) au lieu de l'ecraser.
+
+   ═══ CE QUI BOUGE, ET POURQUOI CA ═══
+
+   1. Le fond de granite glisse plus lentement que la page : la profondeur,
+      sans rien montrer.
+   2. Sur l'accueil, les affiches de la banniere montent a des vitesses
+      differentes, en eventail, et le titre s'efface doucement.
+   3. Dans chaque carte de soiree, l'affiche glisse dans son cadre pendant
+      que la carte traverse l'ecran.
+   4. Les intertitres arrivent de cote, les tuiles des styles et les blocs du
+      cours montent en apparaissant.
+   5. La barre du haut s'assombrit des qu'on quitte le haut de la page ; sur
+      un article, un fil d'accent dit ou l'on en est de la lecture.
+
+   ═══ CE QUI N'EN PROFITE PAS, ET C'EST VOULU ═══
+
+   Les navigateurs qui ne connaissent pas ces animations (Firefox, en
+   octobre 2026) gardent la page immobile : rien ne casse, rien ne manque.
+   Et quiconque a demande a son systeme de reduire les animations ne voit
+   rien bouger du tout. */
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    /* ═══ 1. LE FOND ═══ La couche de grain deborde d'un cinquieme d'ecran
+       vers le bas, pour avoir de quoi glisser sans decouvrir de bord. */
+    body::before {
+      bottom: -20vh;
+      animation: px-fond linear both;
+      animation-timeline: scroll(root);
+    }
+    @keyframes px-fond {
+      to {
+        translate: 0 -20vh;
+      }
+    }
+
+    /* ═══ 2. LA BANNIERE DE L'ACCUEIL ═══ Sur les 80 premiers pour cent de
+       l'ecran de defilement : au-dela, elle est sortie. */
+    .hero-mots {
+      animation: px-hero-mots linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 80vh;
+    }
+    @keyframes px-hero-mots {
+      to {
+        translate: 0 -48px;
+        opacity: 0.35;
+      }
+    }
+    .hero-affiche {
+      animation: px-hero-affiche linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 85vh;
+    }
+    /* Trois profondeurs, en alternance : la premiere, la troisieme et la
+       cinquieme affiche sont les plus proches et montent le plus vite. */
+    .hero-affiche:nth-child(odd) {
+      --px-hauteur: -96px;
+      --px-tour: -2deg;
+    }
+    .hero-affiche:nth-child(even) {
+      --px-hauteur: -44px;
+      --px-tour: 1.5deg;
+    }
+    .hero-affiche:nth-child(3) {
+      --px-hauteur: -140px;
+      --px-tour: 0deg;
+    }
+    @keyframes px-hero-affiche {
+      to {
+        translate: 0 var(--px-hauteur, -60px);
+        rotate: var(--px-tour, 0deg);
+      }
+    }
+
+    /* ═══ 3. L'AFFICHE GLISSE DANS SON CADRE ═══ Grossie d'un huitieme pour
+       avoir de la marge, elle descend de 10 % de sa hauteur pendant que la
+       carte traverse l'ecran, de son entree en bas a sa sortie en haut. Le
+       cadre (la carte, l'affiche de la banniere) coupe ce qui depasse. */
+    /* LA CARTE DONNE LE TEMPS, PAS L'IMAGE. Le cadre coupe ce qui depasse
+       (overflow: hidden), et un element qui coupe est, pour le navigateur,
+       une zone de defilement : la vue de l'image s'y mesurait, immobile, et
+       l'affiche ne bougeait pas. On nomme donc le passage de la CARTE dans
+       l'ecran, et l'image le suit. */
+    .cal-soiree {
+      view-timeline-name: --px-carte;
+    }
+    .hero-affiche {
+      view-timeline-name: --px-affiche;
+    }
+    .cal-affiche,
+    .hero-affiche img {
+      scale: 1.12;
+      animation: px-cadre linear both;
+      animation-range: cover;
+    }
+    .cal-affiche {
+      animation-timeline: --px-carte;
+    }
+    .hero-affiche img {
+      animation-timeline: --px-affiche;
+    }
+    @keyframes px-cadre {
+      from {
+        translate: 0 -5%;
+      }
+      to {
+        translate: 0 5%;
+      }
+    }
+
+    /* ═══ 4. CE QUI ARRIVE ═══ Les intertitres glissent de la gauche, les
+       tuiles et les blocs montent. Seulement a l'entree : une fois a sa
+       place, rien ne repart quand on remonte la page, sinon tout bouge tout
+       le temps et plus rien ne se lit. */
+    .cal-jour h3,
+    .news-rubrique-titre,
+    .cours-section-titre,
+    .ev-bloc > h2 {
+      animation: px-arrivee-cote linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+    @keyframes px-arrivee-cote {
+      from {
+        translate: -28px 0;
+        opacity: 0;
+      }
+    }
+    .pv-tuile,
+    .cours-bloc,
+    .cours-etapes li,
+    .cours-repere {
+      animation: px-arrivee-bas linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 80%;
+    }
+    @keyframes px-arrivee-bas {
+      from {
+        translate: 0 36px;
+        scale: 0.97;
+        opacity: 0;
+      }
+    }
+    /* La plage du tempo se remplit en arrivant. */
+    .cours-regle-plage {
+      transform-origin: left center;
+      animation: px-remplir linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 45%;
+    }
+    @keyframes px-remplir {
+      from {
+        scale: 0 1;
+      }
+    }
+
+    /* ═══ 5. LA BARRE DU HAUT, ET LE FIL DE LECTURE ═══ */
+    .entete-site {
+      animation: px-entete linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 160px;
+    }
+    @keyframes px-entete {
+      to {
+        box-shadow: 0 10px 30px -18px oklch(0 0 0 / 0.9);
+      }
+    }
+    /* Sur un article seulement : la page qui se lit d'un bout a l'autre. */
+    body:has(.lecture-titre) .entete-site::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      height: 2px;
+      background: var(--accent);
+      transform-origin: left center;
+      animation: px-lecture linear both;
+      animation-timeline: scroll(root);
+    }
+    @keyframes px-lecture {
+      from {
+        scale: 0 1;
+      }
+    }
+  }
+}
