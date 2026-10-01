@@ -41,8 +41,14 @@ navigateur, les machines en photo libre avec leur crédit. Le texte tient
 dans une colonne de 68 signes, la planche à côté sur ordinateur, devant sur
 téléphone.
 
-Les grilles ont été lues dans le texte de chaque cours (174 sur 219) ; un
-cours qui ne place aucun coup n'a pas de grille. Les photos viennent de
-Wikimedia Commons, sous licence libre vérifiée, et chaque récolte se regarde
-sur une planche contact avant publication : quatre images fausses ont été
-refusées le 1er octobre (voir `REFUSEES` dans `scripts/images-machines.ts`).
+Les grilles ont été lues dans le texte de chaque cours, puis relues contre
+lui par un second lecteur : 185 cours sur 219 en ont une. Un cours qui ne
+place aucun coup n'a pas de grille, et aucune grille n'est montrée sans
+kick : quand un cours de techno, de house, de trance ou de psy décrit le son
+du kick sans écrire sa place, il est posé en quatre temps, la règle de ces
+familles.
+
+Les photos viennent de Wikimedia Commons, sous licence libre vérifiée, et
+chaque récolte se regarde sur une planche contact avant publication : quatre
+images fausses ont été refusées le 1er octobre (voir `REFUSEES` dans
+`scripts/images-machines.ts`).

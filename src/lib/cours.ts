@@ -63,7 +63,17 @@ export interface PisteDeMotif {
    rythmique et les etapes disent ou tombe chaque coup (« kick sur 1 et
    « et » du 3 »). Un cours qui ne place rien (ambient, drone, rythme libre)
    n'a pas de grille, et c'est voulu : une grille inventee serait un faux
-   schema. 174 cours sur 219 en ont une. */
+   schema.
+
+   ELLES ONT ETE RELUES LE MEME JOUR, chacune contre son texte, par un
+   second lecteur : 8 corrigees (une caisse oubliee, des fantomes poses sans
+   raison, des croches ouvertes lues fermees), 13 ajoutees la ou le texte
+   placait les coups. UNE REGLE EN EST SORTIE : pas de grille sans kick.
+   Seize cours de techno, de house, de trance et de psy decrivent le son du
+   kick sans ecrire sa place ; il y est pose en quatre temps, la regle de
+   ces familles, quand le texte dit « kick droit » ou ne dit rien d'autre.
+   Le trip-hop et la coldwave, dont le kick n'est ni en quatre temps ni
+   place, n'ont plus de grille. 185 cours sur 219 en ont une. */
 let motifs: Promise<Record<string, readonly PisteDeMotif[]>> | null = null;
 
 export function motifDuGenre(genreId: string): Promise<readonly PisteDeMotif[] | null> {
