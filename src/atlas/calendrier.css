@@ -273,19 +273,149 @@
   }
 }
 
-/* SANS AFFICHE, LA CARTE GARDE SA PLACE. Une soiree qui n'en a pas
-   remonterait son texte au niveau des images voisines, et la rangee
-   ressemblerait a un accident de mise en page. */
-.cal-soiree-sans-affiche {
+/* ═══ L'AFFICHE DESSINEE ═══ Voir AfficheGeneree.tsx.
+
+   Le fond et l'encre prennent la teinte de la famille du style, passee en
+   variable par le composant ; sans style, le chroma tombe a celui du granite.
+   Clair sur fonce en theme sombre, fonce sur clair en theme clair : l'encre
+   tient largement le AA dans les deux.
+
+   LES TAILLES SONT EN UNITES DE CONTENEUR (cqi) : un centieme de la largeur
+   de l'affiche. La meme affiche se lit dans une carte de 300 px et dans une
+   fiche de 480, sans media query. */
+.cal-gen {
+  container-type: inline-size;
+  display: block;
+  box-sizing: border-box;
   width: 100%;
+  overflow: hidden;
+  background: oklch(0.27 var(--gen-chroma) var(--gen-teinte));
+  color: oklch(0.9 var(--gen-chroma-encre) var(--gen-teinte));
+  font-family: var(--font-ui);
+  text-align: left;
+  transition: transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+:root[data-theme='clair'] .cal-gen {
+  background: oklch(0.9 var(--gen-chroma) var(--gen-teinte));
+  color: oklch(0.3 var(--gen-chroma-encre) var(--gen-teinte));
+}
+.cal-gen-dedans {
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 6cqi 7cqi;
+}
+.cal-gen-haut,
+.cal-gen-bas {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 3cqi;
+  min-width: 0;
+  /* Un plancher de 11 px : dans la grille a deux colonnes d'un telephone,
+     l'affiche fait 170 px de large, et 4,2 centiemes y donnaient 7 px. */
+  font-size: max(4.2cqi, 11px);
+  font-weight: 600;
+  line-height: 1.3;
+}
+.cal-gen-semaine,
+.cal-gen-mois,
+.cal-gen-style {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.cal-gen-jour {
+  align-self: end;
+  font-size: 30cqi;
+  font-weight: 800;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+}
+.cal-gen-mois {
+  font-size: max(6cqi, 12px);
+  font-weight: 700;
+}
+/* SANS STYLE, LE CHIFFRE PREND L'ACCENT : l'affiche reste dans le granite,
+   elle ne pretend a aucune famille, mais elle n'est pas une case grise. */
+.cal-gen[data-neutre='true'] .cal-gen-jour {
+  color: var(--accent);
+}
+/* UNE AFFICHE ETROITE GARDE L'ESSENTIEL : le jour, l'heure, le mois. La
+   ligne du bas repete la salle et le style, deja ecrits sous l'image. */
+@container (max-width: 240px) {
+  .cal-gen-bas {
+    display: none;
+  }
+  .cal-gen-jour {
+    font-size: 36cqi;
+  }
+}
+.cal-gen-bas {
+  margin-top: 3cqi;
+}
+.cal-gen-lieu {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cal-gen-style {
+  flex: none;
+}
+
+/* LA CARTE : la place exacte d'une affiche, 16 sur 10, et le meme leger
+   zoom au survol. */
+.cal-gen-carte {
   aspect-ratio: 16 / 10;
-  border-radius: 0;
-  background-color: var(--surface-margin);
-  border-bottom: 1px solid var(--filet);
+}
+@media (hover: hover) and (pointer: fine) {
+  .cal-soiree:hover .cal-gen-carte {
+    transform: scale(1.05);
+  }
+}
+
+/* LA LIGNE D'HORAIRE : un carre de 44 px, le jour seul. */
+.cal-gen-ligne {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
+}
+.cal-gen-ligne .cal-gen-jour {
+  align-self: center;
+  font-size: 1.15rem;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* LA FICHE : la place de l'affiche en tete de fiche, aux memes rapports. */
+.cal-gen-fiche {
+  aspect-ratio: 16 / 9;
+  max-height: 34vh;
+  border-radius: 12px;
+  margin: 0 0 var(--espace-16);
+}
+@media (min-width: 860px) {
+  .cal-gen-fiche {
+    aspect-ratio: 4 / 3;
+    max-height: none;
+    margin-bottom: var(--espace-24);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cal-gen {
+    transition: none;
+  }
 }
 
 .cal-texte {
   min-width: 0;
+}
+/* L'heure d'une carte reste d'un seul tenant : voir CalendrierPage.tsx. */
+.cal-heure {
+  white-space: nowrap;
 }
 
 /* LE FILET DES LIENS DE PROSE N'A RIEN A FAIRE SOUS UN TITRE DE BLOC.

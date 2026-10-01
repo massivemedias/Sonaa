@@ -55,7 +55,11 @@ for (const dossier of DOSSIERS) {
 
     lignes.forEach((ligne, i) => {
       const nu = ligne.replace(/\/\*.*?\*\//g, '').trim();
-      if (nu.startsWith('@media') || nu.startsWith('@supports')) {
+      /* `@container` OUVRE UN CONTEXTE comme `@media` : une regle qui ne vaut
+         que dans une affiche etroite n'est pas une redite de la regle
+         generale. Ajoute le 30 septembre 2026 avec la premiere requete de
+         conteneur du projet (calendrier.css, l'affiche dessinee). */
+      if (nu.startsWith('@media') || nu.startsWith('@supports') || nu.startsWith('@container')) {
         contexte = nu;
         return;
       }

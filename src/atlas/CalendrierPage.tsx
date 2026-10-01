@@ -65,6 +65,7 @@ import {
 } from '../lib/villes.ts';
 import { soireesManuelles, supprimerSoiree, type SoireeManuelle } from '../lib/soirees-manuelles.ts';
 import { sansDoublons } from '../lib/sans-doublons.ts';
+import { ImageDeSoiree } from './AfficheGeneree.tsx';
 import { AjouterSoiree } from './AjouterSoiree.tsx';
 import { PartageSoiree } from './PartageSoiree.tsx';
 import { useSession } from '../lib/useSession.ts';
@@ -325,9 +326,9 @@ function FicheSoiree({
       {/* L'AFFICHE OUVRE LA FICHE. Sur la carte elle fait 22 rem de large et
           on la lit a peine ; ici elle a la largeur de la feuille. Pas de texte
           de remplacement : le titre est deja juste au-dessus. */}
-      {soiree.affiche && (
-        <img className="cal-fiche-affiche" src={soiree.affiche} alt="" loading="lazy" />
-      )}
+      {/* LA FICHE A TOUJOURS UNE IMAGE : l'affiche, ou celle qu'on dessine
+          a partir de la soiree. Voir AfficheGeneree.tsx. */}
+      <ImageDeSoiree soiree={soiree} fuseau={fuseau} variante="fiche" className="cal-fiche-affiche" />
       <dl className="cal-fiche-faits">
         {soiree.artistes.length > 0 && (
           <div>
@@ -1116,18 +1117,7 @@ export function CalendrierPage() {
                                 </span>
                               )}
                             </span>
-                            {s.affiche ? (
-                              <img
-                                className="cal-ligne-affiche"
-                                src={s.affiche}
-                                alt=""
-                                loading="lazy"
-                                decoding="async"
-                                draggable={false}
-                              />
-                            ) : (
-                              <div className="cal-ligne-affiche" aria-hidden="true" />
-                            )}
+                            <ImageDeSoiree soiree={s} fuseau={fuseau} variante="ligne" className="cal-ligne-affiche" />
                             <span className="cal-ligne-texte">
                               <a className="cal-titre" href={s.lien} target="_blank" rel="noreferrer">
                                 {s.titre}
@@ -1183,23 +1173,7 @@ export function CalendrierPage() {
                                 aria-expanded={depliee === s.id}
                                 aria-controls={`detail-${s.id}`}
                               >
-                                {s.affiche ? (
-                                  <img
-                                    className="cal-affiche"
-                                    src={s.affiche}
-                                    alt=""
-                                    /* CHARGEMENT DIFFERE, ET C'EST LA SEULE
-                                       ECONOMIE POSSIBLE : RA sert ses
-                                       originaux, un a deux megaoctets piece,
-                                       et ignore tout parametre de
-                                       redimensionnement. */
-                                    loading="lazy"
-                                    decoding="async"
-                                    draggable={false}
-                                  />
-                                ) : (
-                                  <div className="cal-soiree-sans-affiche" aria-hidden="true" />
-                                )}
+                                <ImageDeSoiree soiree={s} fuseau={fuseau} variante="carte" className="cal-affiche" />
                               </button>
                               <div className="cal-texte">
                                 <button
@@ -1231,7 +1205,18 @@ export function CalendrierPage() {
                                     <span className="cal-origine">{NOM_DE_SOURCE[s.origine]}</span>
                                   )}
                                   {s.lieu ?? t.lieuNonAnnonce}
-                                  {h ? ` · ${h}${sigle ? ` ${sigle}` : ''}` : ''}
+                                  {/* L'HEURE NE SE COUPE PAS : « 22 h » en fin de
+                                      ligne et « 00 » sous elle, vu sur une
+                                      carte de telephone le 30 septembre 2026. */}
+                                  {h && (
+                                    <>
+                                      {' · '}
+                                      <span className="cal-heure">
+                                        {h}
+                                        {sigle ? ` ${sigle}` : ''}
+                                      </span>
+                                    </>
+                                  )}
                                 </p>
                                 {s.genres.length > 0 && (
                                   <p className="cal-genres">{s.genres.join(' · ')}</p>
