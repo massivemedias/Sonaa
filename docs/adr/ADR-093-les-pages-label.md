@@ -46,10 +46,12 @@ du mois.
 
 `#/labels` est une galerie, ouverte depuis la barre de navigation (après
 Styles) et le menu « Plus » sur téléphone. Elle se cherche, se trie par
-présence dans l'atlas ou de A à Z, et se filtre par pays. En tête, huit
-incontournables : les labels que l'atlas cite le plus, sans les majors.
-Classés par disques possédés, Columbia, EMI ou Sony passaient devant Warp
-et Tresor, parce qu'ils sortent d'abord de la pop.
+succès ou de A à Z, et se filtre par pays. En tête, huit incontournables :
+les labels qui marchent le mieux, tous styles confondus, sans les majors ni
+leurs filiales (décision de Mika, 1er octobre 2026). Le succès d'un label est
+la somme des collectionneurs de ses sorties électroniques les plus possédées
+chez Discogs : un catalogue qui marche compte plus qu'un tube isolé, et un
+label de rap ne passe pas devant grâce à ses disques de rap.
 
 Chaque label porte son logo :
 
@@ -60,3 +62,11 @@ Chaque label porte son logo :
   une grille de visuels et non une liste de trous.
 
 Le pays, moissonné en français, s'affiche dans la langue du site.
+
+## VRSTL Records, ajouté à la main (1er octobre 2026)
+
+Le corpus ne cite aucun morceau de Maudite Machine (ADR-050), donc aucun de
+VRSTL Records, et la galerie ne le listait pas. Mika veut y trouver son
+label : la moisson a une liste de labels ajoutés à la main, absents du
+corpus, dont la fiche vient de Discogs comme les autres. Le canon des genres
+reste sans l'auteur ; seule la galerie, qui est un annuaire, le liste.

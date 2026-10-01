@@ -2,7 +2,7 @@
    premier. Voir labels.ts. */
 
 import { describe, expect, it } from 'vitest';
-import { cleDeLabel, estMajor, estSansLabel, labelsPourRecherche, nomDuPays, ordreDeNotoriete, type EntreeLabel } from './labels.ts';
+import { cleDeLabel, estMajor, succes, estSansLabel, labelsPourRecherche, nomDuPays, ordreDeNotoriete, type EntreeLabel } from './labels.ts';
 
 const index: EntreeLabel[] = [
   { s: 'f-communications', n: 'F Communications', k: ['f communications'], c: 1, p: 'France', a: 1994 },
@@ -34,11 +34,17 @@ describe('labelsPourRecherche', () => {
 });
 
 describe('la galerie', () => {
-  it('ne met pas les majors en tete, et range par presence dans l atlas', () => {
+  it('ne met pas les majors en tete, et range par succes', () => {
     expect(estMajor({ k: ['columbia'] })).toBe(true);
+    expect(estMajor({ k: ['sire records'] })).toBe(true);
     expect(estMajor({ k: ['warp records'] })).toBe(false);
-    const tries = [...index].sort(ordreDeNotoriete).map((e) => e.s);
-    expect(tries[0]).toBe('warp-records');
+    const avecSucces = index.map((e) => ({ ...e, r: e.s === 'r-et-s-records' ? 900 : 100 }));
+    expect([...avecSucces].sort(ordreDeNotoriete).map((e) => e.s).slice(0, 2)).toEqual(['r-et-s-records', 'warp-records']);
+  });
+
+  it('compte les seules sorties electroniques', () => {
+    const sortie = { titre: 't', artiste: 'a', annee: null, image: null, url: '' };
+    expect(succes({ sorties: [{ ...sortie, possedee: 10, electronique: true }, { ...sortie, possedee: 99, electronique: false }, { ...sortie, possedee: 5, electronique: true }] })).toBe(15);
   });
 });
 

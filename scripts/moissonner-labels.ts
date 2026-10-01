@@ -30,7 +30,7 @@
 
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { cleDeLabel, estSansLabel, type FicheLabel, type SortieConnue } from '../src/lib/labels.ts';
+import { cleDeLabel, succes, estSansLabel, type FicheLabel, type SortieConnue } from '../src/lib/labels.ts';
 import { slug } from '../src/lib/chemins.ts';
 import { nettoyerProfil, sansTirets, variantes } from './lib/labels-moisson.ts';
 
@@ -73,6 +73,19 @@ for (const g of corpus.genres) {
   }
 }
 for (const l of parCle.values()) l.nom = [...l.graphies.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? l.nom;
+
+/* LES LABELS AJOUTES A LA MAIN, absents du corpus. VRSTL Records, le label
+   de Mika : l'atlas ne cite aucun morceau de son auteur (ADR-050), mais la
+   galerie est un annuaire, et Mika veut y trouver son label (1er octobre
+   2026). Sa fiche vient de Discogs comme celle des autres. */
+const AJOUTS: readonly { nom: string; pays: string; fondateurs: string[]; site: string }[] = [
+  { nom: 'VRSTL Records', pays: 'Canada', fondateurs: ['Maudite Machine'], site: 'https://vrstlrecords.com' },
+];
+const AJOUTE = new Map(AJOUTS.map((a) => [cleDeLabel(a.nom), a]));
+for (const a of AJOUTS) {
+  const cle = cleDeLabel(a.nom);
+  if (!parCle.has(cle)) parCle.set(cle, { cle, nom: a.nom, graphies: new Map([[a.nom, 0]]), n: 0 });
+}
 let labels = [...parCle.values()];
 const tousLesNoms = new Set(labels.map((l) => l.cle));
 if (SEULEMENT) labels = labels.filter((l) => l.cle === cleDeLabel(SEULEMENT));
@@ -206,7 +219,7 @@ const tousRetenus = labels
       ? null
       : choisir(candidats.get(l.cle)?.filter((c) => acceptable(c, l.cle))),
   }))
-  .filter(({ l, wd }) => l.n >= SEUIL_MORCEAUX || wd?.frwiki || wd?.enwiki);
+  .filter(({ l, wd }) => l.n >= SEUIL_MORCEAUX || wd?.frwiki || wd?.enwiki || AJOUTE.has(l.cle));
 
 /* UN LABEL, UNE PAGE. Le corpus ecrit « Armada » et « Armada Music », « Out
    Of Line » et « Out Of Line Music » : deux graphies, un seul element
@@ -354,20 +367,30 @@ async function discogs(chemin: string): Promise<unknown> {
    « Electronic », et toutes ses sorties seulement s'il y en a moins de
    quatre (un label de house n'a pas toujours le genre ecrit partout). */
 async function sortiesConnues(nomDiscogs: string, cle: string): Promise<SortieConnue[]> {
-  const electroniques = await sortiesDuGenre(nomDiscogs, cle, 'Electronic');
-  return electroniques.length >= 4 ? electroniques : sortiesDuGenre(nomDiscogs, cle, null);
+  const electroniques = await sortiesDuGenre(nomDiscogs, cle, 'Electronic', 'master');
+  if (electroniques.length >= 4) return electroniques;
+  const toutes = await sortiesDuGenre(nomDiscogs, cle, null, 'master');
+  if (toutes.length >= 4) return toutes;
+  /* UN PETIT LABEL NUMERIQUE N'A SOUVENT PAS DE « MASTER » chez Discogs, ses
+     disques n'existant qu'en une edition : on prend alors ses sorties. */
+  const editions = await sortiesDuGenre(nomDiscogs, cle, null, 'release');
+  return editions.length > toutes.length ? editions : toutes;
 }
 
-async function sortiesDuGenre(nomDiscogs: string, cle: string, genre: string | null): Promise<SortieConnue[]> {
+async function sortiesDuGenre(nomDiscogs: string, cle: string, genre: string | null, type: 'master' | 'release'): Promise<SortieConnue[]> {
   const j = (await discogs(
-    `/database/search?label=${encodeURIComponent(nomDiscogs)}&type=master&per_page=40&sort=have&sort_order=desc${genre ? `&genre=${encodeURIComponent(genre)}` : ''}`
-  )) as { results?: { title?: string; year?: string; label?: string[]; community?: { have?: number }; cover_image?: string; uri?: string }[] } | null;
+    `/database/search?label=${encodeURIComponent(nomDiscogs)}&type=${type}&per_page=40&sort=have&sort_order=desc${genre ? `&genre=${encodeURIComponent(genre)}` : ''}`
+  )) as {
+    results?: { title?: string; year?: string; label?: string[]; genre?: string[]; community?: { have?: number }; cover_image?: string; uri?: string }[];
+  } | null;
   const sorties: SortieConnue[] = [];
   for (const x of j?.results ?? []) {
     /* LE LABEL EXACT, ou on passe : voir l'en-tete. */
     if (!(x.label ?? []).some((l) => cleDeLabel(l) === cle || cleDeLabel(l) === cleDeLabel(nomDiscogs))) continue;
     const [artiste, ...reste] = (x.title ?? '').split(' - ');
     if (!artiste || reste.length === 0) continue;
+    /* Une edition revient sous plusieurs formats : une fois suffit. */
+    if (sorties.some((s) => s.url === `https://www.discogs.com${x.uri ?? ''}` || x.title === `${s.artiste} - ${s.titre}`)) continue;
     const annee = Number.parseInt(x.year ?? '', 10);
     /* UNE ADRESSE QUI RESSEMBLE A UNE CLE N'ENTRE PAS : le controle des
        secrets du deploiement la refuserait, et il a raison de ne rien
@@ -378,6 +401,7 @@ async function sortiesDuGenre(nomDiscogs: string, cle: string, genre: string | n
       artiste: artiste.replace(/\*$/, '').replace(/\s\(\d+\)$/, '').trim(),
       annee: Number.isFinite(annee) && annee > 1900 ? annee : null,
       possedee: x.community?.have ?? 0,
+      electronique: genre === 'Electronic' || (x.genre ?? []).includes('Electronic'),
       image,
       url: `https://www.discogs.com${x.uri ?? ''}`,
     });
@@ -431,6 +455,10 @@ for (const { l, wd } of retenus) {
         nomDiscogs = exact.title;
         imageDiscogs = exact.cover_image && !exact.cover_image.includes('spacer.gif') ? exact.cover_image : null;
         urlDiscogs = exact.uri ? `https://www.discogs.com${exact.uri}` : null;
+        /* Sans Wikipedia, la presentation de Discogs est la seule : on la
+           demande aussi pour un label trouve par son nom. */
+        const detail = exact.id ? ((await discogs(`/labels/${exact.id}`)) as { profile?: string } | null) : null;
+        profil = detail?.profile ? sansTirets(nettoyerProfil(detail.profile)).slice(0, 900) || null : null;
       }
     }
   }
@@ -443,10 +471,10 @@ for (const { l, wd } of retenus) {
     cles: [...new Set([l.cle, ...[...l.graphies.keys()].map(cleDeLabel)])],
     anciens: anciens.get(l.cle) ?? [],
     n: l.n,
-    pays: wd?.pays ?? null,
+    pays: wd?.pays ?? AJOUTE.get(l.cle)?.pays ?? null,
     annee: wd?.annee ?? null,
-    fondateurs: wd ? (fondateurs.get(wd.item) ?? []) : [],
-    site: wd?.site ?? null,
+    fondateurs: wd ? (fondateurs.get(wd.item) ?? []) : (AJOUTE.get(l.cle)?.fondateurs ?? []),
+    site: wd?.site ?? AJOUTE.get(l.cle)?.site ?? null,
     wiki: { ...(wd?.frwiki ? { fr: wd.frwiki } : {}), ...(wd?.enwiki ? { en: wd.enwiki } : {}) },
     resume: { ...(resumeFr ? { fr: resumeFr } : {}), ...(resumeEn ? { en: resumeEn } : {}) },
     profil: resumeFr || resumeEn ? null : profil,
@@ -473,7 +501,7 @@ writeFileSync(SORTIE, `${JSON.stringify(tout, null, 1)}\n`);
    fiche entiere ne se charge que sur la page du label. */
 writeFileSync(
   INDEX,
-  `${JSON.stringify(tout.map((f) => ({ s: f.slug, n: f.nom, k: f.cles, c: f.n, p: f.pays, a: f.annee, l: f.logo?.url ?? null, r: f.sorties[0]?.possedee ?? 0 })))}\n`
+  `${JSON.stringify(tout.map((f) => ({ s: f.slug, n: f.nom, k: f.cles, c: f.n, p: f.pays, a: f.annee, l: f.logo?.url ?? null, r: succes(f) })))}\n`
 );
 const avecResume = tout.filter((f) => f.resume.fr || f.resume.en || f.profil).length;
 const avecSorties = tout.filter((f) => f.sorties.length > 0).length;

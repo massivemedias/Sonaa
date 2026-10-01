@@ -17,6 +17,8 @@ export interface SortieConnue {
   readonly annee: number | null;
   /** Le nombre de personnes qui l'ont dans leur collection chez Discogs. */
   readonly possedee: number;
+  /** Classee en musique electronique chez Discogs. */
+  readonly electronique?: boolean;
   readonly image: string | null;
   readonly url: string;
 }
@@ -85,8 +87,7 @@ export interface EntreeLabel {
   readonly a: number | null;
   /** L'adresse du logo, pour la galerie et la recherche. */
   readonly l?: string | null;
-  /** Le nombre de collectionneurs de son disque le plus possede : la
-      notoriete, pour ranger la galerie. */
+  /** Son succes (voir succes) : pour ranger la galerie. */
   readonly r?: number;
 }
 
@@ -123,6 +124,8 @@ const MAJORS = new Set(
     'interscope records', 'elektra', 'elektra records', 'arista', 'arista records', 'decca', 'decca records', 'def jam recordings',
     'geffen records', 'a and m records', 'motown', 'emi records', 'bmg', 'bmg rights management', 'sire records', 'reprise records',
     'because music', 'columbia records', 'cbs', 'philips', 'ariola', 'aftermath entertainment', 'republic',
+    /* et leurs filiales */
+    'wea', 'sire', 'mca records', 'jive', 'jive records', 'london records', 'barclay', 'sony soho square', 'go beat', 'maverick',
   ].map(cleDeLabel)
 );
 
@@ -130,12 +133,20 @@ export function estMajor(e: Pick<EntreeLabel, 'k'>): boolean {
   return e.k.some((k) => MAJORS.has(k));
 }
 
-/** L'ordre de la galerie : la presence dans l'atlas d'abord (un label dont
-    l'atlas cite vingt morceaux compte plus pour lui qu'un label celebre
-    pour autre chose), puis le nombre de collectionneurs de son disque le
-    plus possede. */
+/* LE SUCCES D'UN LABEL : combien de collectionneurs ont ses sorties
+   electroniques les plus possedees chez Discogs, additionne. Mika, le 1er
+   octobre 2026 : « dans le top je veux les labels qui fonctionnent le mieux,
+   tout style confondu ». La somme plutot que le seul disque le plus possede :
+   un catalogue qui marche compte plus qu'un tube isole. Les sorties hors
+   electronique ne comptent pas, sinon un label de rap passerait devant. */
+export function succes(f: Pick<FicheLabel, 'sorties'>): number {
+  return f.sorties.reduce((somme, s) => somme + (s.electronique ? s.possedee : 0), 0);
+}
+
+/** L'ordre de la galerie : le succes d'abord, puis la presence dans
+    l'atlas, puis le nom. */
 export function ordreDeNotoriete(a: EntreeLabel, b: EntreeLabel): number {
-  return b.c - a.c || (b.r ?? 0) - (a.r ?? 0) || a.n.localeCompare(b.n);
+  return (b.r ?? 0) - (a.r ?? 0) || b.c - a.c || a.n.localeCompare(b.n);
 }
 
 /* LE PAYS EST MOISSONNE EN FRANCAIS (le libelle Wikidata), et le site parle
