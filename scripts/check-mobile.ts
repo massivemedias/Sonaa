@@ -48,7 +48,7 @@ const ENTETE_H = 56;
 const BARRE_BAS_H = 64;
 const CIBLE_MIN = 44;
 
-/* LES NEUF PAGES : chacune avec le selecteur qui prouve qu'elle est rendue.
+/* LES DIX PAGES : chacune avec le selecteur qui prouve qu'elle est rendue.
    Les pages pre-rendues sont visitees par leur chemin, les autres par leur
    ancre. */
 const PAGES: readonly { chemin: string; attend: string; nom: string }[] = [
@@ -61,6 +61,9 @@ const PAGES: readonly { chemin: string; attend: string; nom: string }[] = [
   { nom: 'a-propos', chemin: '/#/a-propos', attend: '.credits-body' },
   { nom: 'credits', chemin: '/#/credits', attend: '.credits-body' },
   { nom: 'mentions', chemin: '/mentions/', attend: '.credits-body' },
+  /* La page d'un label, depuis le 1er octobre 2026 : le nom en tres grand
+     et deux colonnes, a verifier sous 400 px. */
+  { nom: 'label', chemin: '/labels/f-communications/', attend: '.lb-nom' },
 ];
 
 const TYPES: Record<string, string> = {

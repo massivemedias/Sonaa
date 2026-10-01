@@ -36,6 +36,12 @@ describe('hashDuChemin', () => {
 
   /* LES ANCIENNES ADRESSES SONT DANS DES LIENS PARTAGES ET DANS L'INDEX DE
      GOOGLE : elles doivent repondre tant que ces liens existent. */
+  it('traduit la liste des labels et la page d un label', () => {
+    expect(hashDuChemin('/labels/')).toBe('#/labels');
+    expect(hashDuChemin('/labels/f-communications/')).toBe('#/labels/f-communications');
+    expect(hashDuChemin('/labels/f-communications')).toBe('#/labels/f-communications');
+  });
+
   it('garde /sons/ vivant a cote de /mixtapes/', () => {
     expect(hashDuChemin('/mixtapes/')).toBe('#/mixtapes');
     expect(hashDuChemin('/sons/')).toBe('#/mixtapes');

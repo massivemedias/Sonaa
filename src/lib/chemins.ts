@@ -80,6 +80,10 @@ export function hashDuChemin(chemin: string): string | null {
   const nu = langueDuChemin(chemin) === 'en' ? chemin.slice(PREFIXE_ANGLAIS.length) || '/' : chemin;
   const c = nu.endsWith('/') ? nu.replace(/\/+$/, '/') : `${nu}/`;
   if (c === '/styles/') return '#/parcourir';
+  /* LES LABELS, depuis le 1er octobre 2026 : /labels/ et /labels/<slug>/. */
+  if (c === '/labels/') return '#/labels';
+  const label = c.match(/^\/labels\/([a-z0-9-]+)\/$/);
+  if (label) return `#/labels/${label[1]}`;
   const style = (CHEMINS_STYLES as Record<string, string>)[c];
   if (style) return style;
   /* /soirees/montreal-ca/, /soirees/montreal-ca/techno/ (une famille) et

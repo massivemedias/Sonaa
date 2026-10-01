@@ -13,6 +13,8 @@ import { FAMILIES, STRUCTURES } from './structures.ts';
 import './search.css';
 import { t } from '../langue/langue.ts';
 import { chercherArtistes, type ArtisteTrouve } from '../lib/styles-dartiste.ts';
+import { labelsPourRecherche, type EntreeLabel } from '../lib/labels.ts';
+import INDEX_LABELS from '../data/labels-index.json';
 
 interface Props {
   onPick: (familyIndex: number, genreLocal: number) => void;
@@ -221,6 +223,11 @@ const scoreTrack = (mots: string[], t: TrackEntry): number => {
 
 /** Un item actionnable de la liste plate (le clavier navigue dessus). */
 type Item =
+  /* LA PAGE D'UN LABEL, EN PREMIER QUAND ON LE NOMME. Mika, le 1er octobre
+     2026, en cherchant « F communications » : le resultat attendu en tete
+     est le label lui-meme, sa fiche, et non ses morceaux un par un. Voir
+     LabelPage.tsx. */
+  | { type: 'labelPage'; entree: EntreeLabel }
   | { type: 'genre'; entry: GenreEntry; via: string | null }
   | { type: 'artist'; name: string; count: number; key: string }
   | { type: 'track'; entry: TrackEntry }
@@ -275,6 +282,8 @@ export function SearchOverlay({ onPick, onListen, onClose, onFamille }: Props) {
     }
 
     const out: Item[] = [];
+
+    out.push(...labelsPourRecherche(query, INDEX_LABELS as readonly EntreeLabel[]).map((entree) => ({ type: 'labelPage', entree }) as Item));
 
     // Genres : nom, alias, famille.
     const genreHits = index.genres
@@ -390,6 +399,11 @@ export function SearchOverlay({ onPick, onListen, onClose, onFamille }: Props) {
       onClose();
       return;
     }
+    if (item.type === 'labelPage') {
+      window.location.hash = `#/labels/${item.entree.s}`;
+      onClose();
+      return;
+    }
     if (item.type === 'track') {
       /* LA LIGNE D'UN MORCEAU NE MENE NULLE PART, ET C'EST VOULU.
 
@@ -453,13 +467,15 @@ export function SearchOverlay({ onPick, onListen, onClose, onFamille }: Props) {
   const groups: { title: string; from: number; to: number }[] = [];
   if (!drill) {
     let i = 0;
-    for (const type of ['genre', 'artist', 'styles', 'track', 'label'] as const) {
+    for (const type of ['labelPage', 'genre', 'artist', 'styles', 'track', 'label'] as const) {
       const from = i;
       while (i < items.length && items[i]?.type === type) i += 1;
       if (i > from) {
         groups.push({
           title:
-            type === 'genre'
+            type === 'labelPage'
+              ? t.rechercheLeLabel
+              : type === 'genre'
               ? 'Genres'
               : type === 'artist'
                 ? 'Artistes'
@@ -477,6 +493,22 @@ export function SearchOverlay({ onPick, onListen, onClose, onFamille }: Props) {
 
   const row = (item: Item, i: number) => {
     const active = i === cursor;
+    if (item.type === 'labelPage') {
+      const e = item.entree;
+      return (
+        <button
+          role="option"
+          aria-selected={active}
+          data-active={active}
+          className="search-hit search-hit-labelpage"
+          onMouseEnter={() => setCursor(i)}
+          onClick={() => act(item)}
+        >
+          <span className="search-labelpage-nom">{e.n}</span>
+          <span className="search-labelpage-faits">{[e.p, e.a, e.c > 0 ? t.labelResultat(e.c) : null].filter(Boolean).join(' · ')}</span>
+        </button>
+      );
+    }
     if (item.type === 'genre') {
       return (
         <button

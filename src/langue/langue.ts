@@ -538,6 +538,24 @@ interface Dictionnaire {
   readonly memeGenreQue: (nom: string) => string;
   readonly coursEnPreparation: string;
   readonly coursAvis: string;
+  readonly lesLabels: string;
+  readonly labelsChapeau: (n: number) => string;
+  readonly labelFonde: (annee: number) => string;
+  readonly labelPar: (noms: readonly string[]) => string;
+  readonly labelSite: string;
+  readonly labelVoirDiscogs: string;
+  readonly labelLireWikipedia: string;
+  readonly labelSourceDiscogs: string;
+  readonly labelDansLAtlas: (n: number) => string;
+  readonly labelAucunMorceau: string;
+  readonly labelSortiesConnues: string;
+  readonly labelSortiesAide: string;
+  readonly labelCollectionneurs: (n: number) => string;
+  readonly labelStyles: string;
+  readonly labelIntrouvable: string;
+  readonly labelTousLesLabels: string;
+  readonly rechercheLeLabel: string;
+  readonly labelResultat: (n: number) => string;
   readonly coursRegleTitre: string;
   readonly coursSansTempo: string;
   readonly coursPlageBpm: (a: number, b: number) => string;
@@ -1271,6 +1289,24 @@ const FR: Dictionnaire = {
   memeGenreQue: (nom) => `Même style que ${nom}`,
   coursEnPreparation: 'Le cours de ce style est en préparation.',
   coursAvis: 'Un cours écrit pour SONAA, en français, à partir des sources citées en bas : un point de départ, pas une recette.',
+  lesLabels: 'Les labels',
+  labelsChapeau: (n) => `${n} labels de musique électronique : leur histoire, leurs disques les plus connus et leurs morceaux dans l’atlas.`,
+  labelFonde: (annee) => `Fondé en ${annee}`,
+  labelPar: (noms) => `par ${noms.length > 1 ? `${noms.slice(0, -1).join(', ')} et ${noms[noms.length - 1]}` : noms[0] ?? ''}`,
+  labelSite: 'Site du label',
+  labelVoirDiscogs: 'Discogs',
+  labelLireWikipedia: 'Lire la suite sur Wikipédia (texte sous licence CC BY-SA)',
+  labelSourceDiscogs: 'Présentation tirée de Discogs.',
+  labelDansLAtlas: (n) => `Dans l’atlas : ${n} morceau${n > 1 ? 'x' : ''}`,
+  labelAucunMorceau: 'L’atlas ne contient pas encore de morceau de ce label.',
+  labelSortiesConnues: 'Les sorties les plus connues',
+  labelSortiesAide: 'Classées par le nombre de collectionneurs qui les possèdent sur Discogs.',
+  labelCollectionneurs: (n) => `${n.toLocaleString('fr-CA')} collectionneurs`,
+  labelStyles: 'Ses styles dans l’atlas',
+  labelIntrouvable: 'Ce label n’a pas encore de page.',
+  labelTousLesLabels: 'Tous les labels',
+  rechercheLeLabel: 'Le label',
+  labelResultat: (n) => `${n} morceau${n > 1 ? 'x' : ''} dans l’atlas`,
   coursRegleTitre: 'Le tempo',
   coursSansTempo: 'Pas de tempo : le temps est libre.',
   coursPlageBpm: (a, b) => `${a} à ${b}`,
@@ -2019,6 +2055,24 @@ const EN: Dictionnaire = {
   memeGenreQue: (nom) => `Same style as ${nom}`,
   coursEnPreparation: 'The lesson for this style is in preparation.',
   coursAvis: 'A lesson written for SONAA, in French, from the sources listed below: a starting point, not a recipe.',
+  lesLabels: 'Labels',
+  labelsChapeau: (n) => `${n} electronic music labels: their story, their best-known records and their tracks in the atlas.`,
+  labelFonde: (annee) => `Founded in ${annee}`,
+  labelPar: (noms) => `by ${noms.length > 1 ? `${noms.slice(0, -1).join(', ')} and ${noms[noms.length - 1]}` : noms[0] ?? ''}`,
+  labelSite: 'Label website',
+  labelVoirDiscogs: 'Discogs',
+  labelLireWikipedia: 'Read more on Wikipedia (text under CC BY-SA licence)',
+  labelSourceDiscogs: 'Description from Discogs.',
+  labelDansLAtlas: (n) => `In the atlas: ${n} track${n === 1 ? '' : 's'}`,
+  labelAucunMorceau: 'The atlas has no track from this label yet.',
+  labelSortiesConnues: 'Best-known releases',
+  labelSortiesAide: 'Ranked by how many collectors own them on Discogs.',
+  labelCollectionneurs: (n) => `${n.toLocaleString('en-CA')} collectors`,
+  labelStyles: 'Its styles in the atlas',
+  labelIntrouvable: 'This label has no page yet.',
+  labelTousLesLabels: 'All labels',
+  rechercheLeLabel: 'The label',
+  labelResultat: (n) => `${n} track${n === 1 ? '' : 's'} in the atlas`,
   coursRegleTitre: 'Tempo',
   coursSansTempo: 'No tempo: time is free.',
   coursPlageBpm: (a, b) => `${a} to ${b}`,

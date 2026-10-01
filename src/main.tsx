@@ -139,6 +139,9 @@ const MarchandFerme = lazy(() =>
    c'est ici que cela compte le plus : elle tire TensorFlow.js et essentia.js,
    qui pesent plus que tout le reste du site reuni. Personne qui vient lire
    l'atlas ne doit les payer. Voir src/reconnaitre/. */
+/* LES LABELS : la fiche d'un label et la liste de tous. Voir
+   atlas/LabelPage.tsx. Differee : elle tire le corpus et les fiches. */
+const LabelPage = lazy(() => import('./atlas/LabelPage.tsx').then((m) => ({ default: m.LabelPage })));
 const ReconnaitrePage = lazy(() =>
   import('./reconnaitre/ReconnaitrePage.tsx').then((m) => ({ default: m.ReconnaitrePage }))
 );
@@ -188,7 +191,7 @@ if (!rootElement) {
   throw new Error('Élément racine introuvable.');
 }
 
-type Route = 'reconnaitre' | 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'parcourir' | 'profil' | 'mixtapes' | 'tracks' | 'panier' | 'conditions' | 'confidentialite' | 'mentions' | 'calendrier' | 'news' | 'admin' | 'atlas';
+type Route = 'labels' | 'reconnaitre' | 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'parcourir' | 'profil' | 'mixtapes' | 'tracks' | 'panier' | 'conditions' | 'confidentialite' | 'mentions' | 'calendrier' | 'news' | 'admin' | 'atlas';
 
 const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/index')) return 'index';
@@ -214,6 +217,7 @@ const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/sets')) return 'mixtapes';
   if (window.location.hash.startsWith('#/tracks')) return 'tracks';
   if (window.location.hash.startsWith('#/reconnaitre')) return 'reconnaitre';
+  if (window.location.hash.startsWith('#/labels')) return 'labels';
   if (window.location.hash.startsWith('#/panier')) return 'panier';
   if (window.location.hash.startsWith('#/conditions')) return 'conditions';
   if (window.location.hash.startsWith('#/confidentialite')) return 'confidentialite';
@@ -240,6 +244,7 @@ const estAtlas = (r: Route): boolean => r === 'atlas';
    chrome, voir BarreBas.tsx. */
 const PORTE_LA_BARRE: ReadonlySet<Route> = new Set([
   'calendrier',
+  'labels',
   'admin',
   'news',
   'parcourir',
@@ -312,6 +317,8 @@ function App() {
           MARCHAND_ACTIF ? <TracksPage /> : <MarchandFerme />
         ) : route === 'reconnaitre' ? (
           <ReconnaitrePage />
+        ) : route === 'labels' ? (
+          <LabelPage />
         ) : route === 'panier' ? (
           MARCHAND_ACTIF ? <PanierEcran /> : <MarchandFerme />
         ) : route === 'conditions' ? (

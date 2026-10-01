@@ -34,6 +34,7 @@ import { FAMILIES, STRUCTURES, type Genre } from '../src/atlas/structures.ts';
 import { ORIGINE, PREFIXE_ANGLAIS, cheminsDesStyles, slug } from '../src/lib/chemins.ts';
 import { ranger, vocabulaire } from '../src/lib/correspondance-styles.ts';
 import { MARCHAND_ACTIF } from '../src/config.ts';
+import { cleDeLabel, type FicheLabel } from '../src/lib/labels.ts';
 
 const DIST = fileURLToPath(new URL('../dist', import.meta.url));
 const RACINE = fileURLToPath(new URL('..', import.meta.url));
@@ -872,6 +873,81 @@ window.__precharge={};window.__precharge[u]=fetch(u);
   writeFileSync(join(DIST, 'index.html'), racine, 'utf8');
 }
 
+/* ═══ LES LABELS ═══
+
+   Une vraie page par label, comme pour les styles : un moteur de recherche
+   lit le nom, l'histoire, les disques les plus connus et les morceaux que
+   l'atlas en contient, sans attendre l'application. Voir LabelPage.tsx et
+   scripts/moissonner-labels.ts. En francais seulement pour l'instant. */
+
+const FICHES_LABELS = existsSync(fileURLToPath(new URL('../src/data/labels.json', import.meta.url)))
+  ? (JSON.parse(readFileSync(fileURLToPath(new URL('../src/data/labels.json', import.meta.url)), 'utf8')) as FicheLabel[])
+  : [];
+const morceauxParCle = new Map<string, { titre: string; artiste: string; annee: number | null; genre: string; chemin: string }[]>();
+FAMILIES.forEach((f, fi) => {
+  STRUCTURES[fi]?.genres.forEach((g) => {
+    for (const tr of g.tracks) {
+      const l = tr.release?.label;
+      if (!l) continue;
+      const k = cleDeLabel(l);
+      const liste = morceauxParCle.get(k) ?? [];
+      if (!liste.some((x) => x.titre === tr.title && x.artiste === tr.artist)) {
+        liste.push({ titre: tr.title, artiste: tr.artist, annee: tr.release?.year ?? tr.year, genre: g.label, chemin: `/styles/${slug(f.label)}/${slug(g.label)}/` });
+      }
+      morceauxParCle.set(k, liste);
+    }
+  });
+});
+
+if (FICHES_LABELS.length > 0) {
+  ecrire({
+    chemin: '/labels/',
+    hash: '#/labels',
+    titre: `Les labels de musique électronique : ${FICHES_LABELS.length} labels, leur histoire et leurs disques · SONAA`,
+    description: `${FICHES_LABELS.length} labels de musique électronique : leur histoire, leurs disques les plus connus et leurs morceaux dans l’atlas.`,
+    corps: `${entete([{ nom: 'Labels', href: '/labels/' }])}<h1>Les labels</h1><ul>${FICHES_LABELS.map((f) => `<li><a href="/labels/${h(f.slug)}/">${h(f.nom)}</a>${f.pays ? `, ${h(f.pays)}` : ''}${f.annee ? `, ${f.annee}` : ''}</li>`).join('')}</ul>`,
+    jsonld: [filAriane([{ nom: 'Labels', href: '/labels/' }])],
+  });
+}
+
+for (const f of FICHES_LABELS) {
+  const morceaux = f.cles.flatMap((k) => morceauxParCle.get(k) ?? []);
+  const faits = [f.pays, f.annee ? `fondé en ${f.annee}` : null, f.fondateurs.length > 0 ? `par ${f.fondateurs.join(', ')}` : null].filter(Boolean).join(', ');
+  const resume = f.resume.fr ?? f.resume.en ?? f.profil ?? '';
+  const fil = [
+    { nom: 'Labels', href: '/labels/' },
+    { nom: f.nom, href: `/labels/${f.slug}/` },
+  ];
+  const premiere = resume.split(/(?<=\.)\s/)[0] ?? '';
+  ecrire({
+    chemin: `/labels/${f.slug}/`,
+    hash: `#/labels/${f.slug}`,
+    titre: `${f.nom} : label${f.pays ? ` (${f.pays})` : ''}${f.annee ? `, fondé en ${f.annee}` : ''}, ses disques les plus connus · SONAA`,
+    description: couper(premiere || `${f.nom} : son histoire, ses disques les plus connus et ses morceaux dans l’atlas des musiques électroniques.`, 158),
+    corps: `${entete(fil)}<h1>${h(f.nom)}</h1>${faits ? `<p>${h(faits)}.</p>` : ''}${resume ? `<p>${h(resume)}</p>` : ''}${
+      morceaux.length > 0
+        ? `<h2>Dans l’atlas</h2><ul>${morceaux.map((m) => `<li>${h(m.titre)}, ${h(m.artiste)}${m.annee ? ` (${m.annee})` : ''} : <a href="${h(m.chemin)}">${h(m.genre)}</a></li>`).join('')}</ul>`
+        : ''
+    }${
+      f.sorties.length > 0
+        ? `<h2>Les sorties les plus connues</h2><ol>${f.sorties.map((s) => `<li>${h(s.artiste)}, ${h(s.titre)}${s.annee ? ` (${s.annee})` : ''}</li>`).join('')}</ol>`
+        : ''
+    }<p><a href="/labels/">Tous les labels</a></p>`,
+    jsonld: [
+      filAriane(fil),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: f.nom,
+        ...(f.annee ? { foundingDate: String(f.annee) } : {}),
+        ...(f.fondateurs.length > 0 ? { founder: f.fondateurs.map((n) => ({ '@type': 'Person', name: n })) } : {}),
+        ...(f.site ? { url: f.site } : {}),
+        sameAs: [f.wiki.fr, f.wiki.en, f.discogs].filter(Boolean),
+      },
+    ],
+  });
+}
+
 /* ═══ LE PLAN DU SITE ET LES ROBOTS ═══ */
 
 const urls = ['/', ...pages.filter((p) => !p.noindex && !p.canonique).map((p) => p.chemin)].filter(
@@ -899,6 +975,7 @@ writeFileSync(join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${ORI
 const nStyles = pages.filter((p) => p.chemin.startsWith('/styles/')).length;
 const nSoirees = pages.filter((p) => p.chemin.startsWith('/soirees/')).length;
 const nMixtapes = pages.filter((p) => p.chemin.startsWith('/mixtapes/')).length;
-console.log(`Pre-rendu : ${pages.length} pages (${nStyles} styles, ${nSoirees} soirees, ${nMixtapes} mixtapes), sitemap de ${urls.length} adresses.`);
+const nLabels = pages.filter((p) => p.chemin.startsWith('/labels/')).length;
+console.log(`Pre-rendu : ${pages.length} pages (${nStyles} styles, ${nSoirees} soirees, ${nMixtapes} mixtapes, ${nLabels} labels), sitemap de ${urls.length} adresses.`);
 if (!SUPABASE_URL || !SUPABASE_KEY) console.log('  (sans base : pas de pages de soirees ni de sets)');
 if (!existsSync(join(DIST, 'styles', 'techno', 'dub-techno', 'index.html'))) throw new Error('la page temoin /styles/techno/dub-techno/ manque');

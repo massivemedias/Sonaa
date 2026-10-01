@@ -1,0 +1,327 @@
+/* LA PAGE D'UN LABEL. Voir LabelPage.tsx.
+
+   Le nom en grand, ses faits sur une ligne, puis deux colonnes sur
+   ordinateur : ce qu'on lit et ce qu'on ecoute a gauche, les pochettes de
+   ses disques les plus connus a droite. Sur telephone, tout s'empile. */
+
+.lb-page .lb {
+  display: grid;
+  gap: var(--espace-32);
+  max-width: none;
+}
+
+/* ═══ LA TETE ═══ */
+.lb-tete {
+  display: grid;
+  gap: var(--espace-8);
+}
+.lb-surtitre {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+}
+.lb-surtitre a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.lb-nom {
+  margin: 0;
+  font-size: clamp(2.25rem, 6vw, 4.25rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  color: var(--ink-primary);
+}
+.lb-faits {
+  margin: 0;
+  max-width: 70ch;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink-secondary);
+}
+.lb-liens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-8);
+  margin: var(--espace-8) 0 0;
+}
+.lb-liens a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 var(--espace-16);
+  border: 1px solid var(--filet);
+  border-radius: var(--rayon-pilule);
+  color: var(--ink-primary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.lb-liens a:hover {
+  border-color: var(--accent);
+}
+
+/* ═══ LES COLONNES ═══ */
+.lb-colonnes {
+  display: grid;
+  gap: var(--espace-32);
+}
+@media (min-width: 1100px) {
+  .lb-colonnes {
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+    gap: var(--espace-48);
+    align-items: start;
+  }
+}
+.lb-principal {
+  display: grid;
+  gap: var(--espace-32);
+  min-width: 0;
+}
+.lb-titre {
+  margin: 0 0 var(--espace-12);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+.lb-resume {
+  margin: 0;
+  max-width: 68ch;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--ink-primary);
+}
+.lb-source {
+  display: inline-block;
+  margin: var(--espace-12) 0 0;
+  font-size: 0.75rem;
+  color: var(--ink-secondary);
+}
+a.lb-source {
+  text-underline-offset: 3px;
+}
+.lb-note {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--ink-secondary);
+}
+
+/* SES STYLES : des pastilles vers les fiches de genre. */
+.lb-styles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-8);
+}
+.lb-styles a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 var(--espace-16);
+  border-radius: var(--rayon-pilule);
+  background: var(--accent-voile);
+  color: var(--ink-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.lb-styles li:first-child a {
+  background: var(--accent);
+  color: var(--sur-accent);
+}
+
+/* LES MORCEAUX DE L'ATLAS : la pochette joue, le style mene a sa fiche. */
+.lb-pistes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--espace-4);
+}
+.lb-piste {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) auto;
+  gap: var(--espace-12);
+  align-items: center;
+  padding: var(--espace-8);
+  border-radius: 14px;
+  transition: background 160ms ease;
+}
+.lb-piste:hover,
+.lb-piste[data-active='true'] {
+  background: var(--voile-06);
+}
+.lb-jouer {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--voile-08);
+  cursor: pointer;
+}
+.lb-pochette {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.lb-jouer-icone {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: oklch(0 0 0 / 0.45);
+  color: #fff;
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+.lb-jouer-icone svg {
+  width: 14px;
+  height: 14px;
+}
+.lb-jouer:hover .lb-jouer-icone,
+.lb-jouer:focus-visible .lb-jouer-icone,
+.lb-piste[data-active='true'] .lb-jouer-icone {
+  opacity: 1;
+}
+.lb-piste-texte {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.lb-piste-titre,
+.lb-piste-artiste {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lb-piste-titre {
+  font-weight: 700;
+  color: var(--ink-primary);
+}
+.lb-piste-artiste {
+  font-size: 0.8125rem;
+  color: var(--ink-secondary);
+}
+.lb-piste-style {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* ═══ LES SORTIES LES PLUS CONNUES ═══ Des pochettes en grille, du disque
+   le plus possede au moins possede. */
+.lb-sorties-bloc {
+  padding: var(--espace-16) var(--espace-16) var(--espace-24);
+  border: 1px solid var(--filet);
+  border-radius: 20px;
+  background: var(--verre-fond);
+}
+.lb-sorties {
+  list-style: none;
+  margin: 0 0 var(--espace-12);
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--espace-16) var(--espace-12);
+}
+.lb-sortie a {
+  display: grid;
+  gap: 2px;
+  color: inherit;
+  text-decoration: none;
+}
+.lb-sortie img,
+.lb-sortie-vide {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 10px;
+  background: var(--voile-08);
+  margin-bottom: var(--espace-4);
+  transition: transform 200ms ease;
+}
+.lb-sortie a:hover img {
+  transform: scale(1.03);
+}
+.lb-sortie-titre {
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--ink-primary);
+}
+.lb-sortie-artiste,
+.lb-sortie-compte {
+  font-size: 0.75rem;
+  color: var(--ink-secondary);
+}
+.lb-sortie-compte {
+  font-variant-numeric: tabular-nums;
+}
+@media (min-width: 560px) and (max-width: 1099px) {
+  .lb-sorties {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* ═══ LA LISTE DE TOUS LES LABELS ═══ */
+.lb-liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  columns: 3 18rem;
+  column-gap: var(--espace-32);
+}
+.lb-liste li {
+  break-inside: avoid;
+}
+.lb-liste a {
+  display: grid;
+  gap: 2px;
+  padding: var(--espace-8) 0;
+  border-bottom: 1px solid var(--filet);
+  text-decoration: none;
+}
+.lb-liste-nom {
+  font-weight: 700;
+  color: var(--ink-primary);
+}
+.lb-liste-faits {
+  font-size: 0.75rem;
+  color: var(--ink-secondary);
+}
+
+@media (max-width: 899px) {
+  .lb-liens a,
+  .lb-styles a {
+    min-height: 44px;
+  }
+  .lb-jouer {
+    width: 52px;
+    height: 52px;
+  }
+  .lb-liste a {
+    min-height: 44px;
+  }
+  .lb-piste-style,
+  .lb-surtitre a,
+  a.lb-source {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
