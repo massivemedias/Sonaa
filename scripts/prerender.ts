@@ -685,11 +685,11 @@ ecrire({
 ecrire({
   chemin: '/reconnaitre/',
   hash: '#/reconnaitre',
-  titre: 'Quelle est cette track qui joue ? Identifier un morceau et son style au micro · SONAA',
+  titre: 'Track ID : identifier un morceau et son style au micro · SONAA',
   description:
     'Faites écouter à SONAA ce qui passe en soirée, à la radio ou dans la pièce : le morceau, son artiste et son style.',
-  corps: `${entete([{ nom: 'Quelle est cette track qui joue ?', href: '/reconnaitre/' }])}<h1>Quelle est cette track qui joue ?</h1><p>Faites écouter à SONAA ce qui passe en soirée, à la radio ou dans la pièce : le morceau, son artiste et son style.</p><h2>Comment ça marche</h2><p>Le micro écoute dix secondes, après votre accord. Le style est reconnu dans votre navigateur et rattaché aux 219 genres de l’atlas quand il y existe ; le morceau est identifié par AudD, à qui huit secondes de son sont envoyées et qui ne les garde pas.</p><p>Connecté, vous retrouvez vos écoutes d’un appareil à l’autre.</p><p>Le style est une estimation faite sur dix secondes, pas un verdict : une voix, une publicité ou un enchaînement le trompent.</p><p><a href="/styles/">L’atlas des styles</a></p>`,
-  jsonld: [filAriane([{ nom: 'Quelle est cette track qui joue ?', href: '/reconnaitre/' }])],
+  corps: `${entete([{ nom: 'Track ID', href: '/reconnaitre/' }])}<h1>Track ID</h1><p>Faites écouter à SONAA ce qui passe en soirée, à la radio ou dans la pièce : le morceau, son artiste et son style.</p><h2>Comment ça marche</h2><p>Le micro écoute dix secondes, après votre accord. Le style est reconnu dans votre navigateur et rattaché aux 219 genres de l’atlas quand il y existe ; le morceau est identifié par AudD, à qui huit secondes de son sont envoyées et qui ne les garde pas.</p><p>Connecté, vous retrouvez vos écoutes d’un appareil à l’autre.</p><p>Le style est une estimation faite sur dix secondes, pas un verdict : une voix, une publicité ou un enchaînement le trompent.</p><p><a href="/styles/">L’atlas des styles</a></p>`,
+  jsonld: [filAriane([{ nom: 'Track ID', href: '/reconnaitre/' }])],
 });
 
 /* LE PANIER A TOUJOURS ETE HORS INDEX : il est vide pour tout le monde sauf

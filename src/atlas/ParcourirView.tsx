@@ -368,11 +368,11 @@ export function ParcourirView() {
                 chose qu'on ne sait pas nommer, c'est-a-dire ici, devant
                 quatorze familles et deux cent trente-trois genres.
 
-                LE BOUTON PORTE LA QUESTION, PAS LE NOM DE L'OUTIL. « Quelle
-                est cette track qui joue ? » dit ce qu'on obtient ;
-                « Reconnaitre » disait ce que la machine fait. C'est aussi le
-                titre de la page d'arrivee, donc la meme clef du dictionnaire
-                aux deux bouts. Le bouton est celui de l'accueil, depuis le 30
+                LE BOUTON PORTE LE MOT DU MILIEU, PAS LE NOM DE L'OUTIL.
+                « Track ID », depuis le 1er octobre 2026, est ce qu'on ecrit
+                sous un set pour demander un morceau ; « Reconnaitre » disait
+                ce que la machine fait. C'est aussi le titre de la page
+                d'arrivee, donc la meme clef du dictionnaire aux deux bouts. Le bouton est celui de l'accueil, depuis le 30
                 septembre 2026 : voir reconnaitre/BoutonTrack.tsx.
 
                 UN LIEN, ET NON UN BOUTON : il change d'adresse. Le clavier,

@@ -781,7 +781,7 @@ export function CalendrierPage() {
             bouton : le calendrier reste visible dessous. Voir deplie.css. */}
         {avecHero && <BoutonTrack ouvert={microOuvert} onClick={() => setMicroOuvert((o) => !o)} />}
         {microOuvert && (
-          <section className="rc-deplie" aria-label={t.quelleTrack}>
+          <section className="rc-deplie" aria-label={t.trackId}>
             <button type="button" className="rc-deplie-fermer" onClick={() => setMicroOuvert(false)} aria-label={t.fermerLaSurcouche}>
               ×
             </button>

@@ -1,4 +1,4 @@
-# ADR-091 : « Quelle est cette track qui joue ? », un geste dans tous les menus
+# ADR-091 : « Track ID », un geste dans tous les menus
 
 Date : 30 septembre 2026. Statut : accepté.
 
@@ -8,9 +8,14 @@ sur la surcouche plein écran de l'accueil du 27 septembre.
 
 ## Ce qui est décidé
 
-La reconnaissance s'annonce par sa question : « Quelle est cette track qui
-joue ? ». Elle nomme le morceau d'abord, puisque c'est ce qu'on veut savoir
-en soirée ; le style vient avec.
+La reconnaissance s'annonce par « Track ID », l'expression du milieu pour
+demander un morceau, la même en français et en anglais. Elle nomme le
+morceau d'abord, puisque c'est ce qu'on veut savoir en soirée ; le style
+vient avec. Le sous-titre du grand bouton dit ce qu'on obtient.
+
+Amendement du 1er octobre 2026 : le titre publié le 30 septembre, « Quelle
+est cette track qui joue ? » (« Quelle track ? » dans le menu), a été refusé
+par Mika le lendemain.
 
 Elle revient dans les menus, mais comme un geste et non comme une porte :
 

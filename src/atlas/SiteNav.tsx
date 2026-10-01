@@ -84,10 +84,10 @@ const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
  * pour que la rangee tienne a cote du compte. Voir site-nav.css. */
 function BoutonTrackNav() {
   return (
-    <a className="sitenav-track" href={ADRESSE_ECOUTER} title={t.quelleTrack} aria-label={t.quelleTrack}>
+    <a className="sitenav-track" href={ADRESSE_ECOUTER} title={t.trackId} aria-label={t.trackId}>
       <FaIcon icon={faMicrophone} className="sitenav-track-icone" />
       <span className="sitenav-track-mot" aria-hidden="true">
-        {t.quelleTrackCourt}
+        {t.trackId}
       </span>
     </a>
   );

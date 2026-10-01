@@ -1,4 +1,5 @@
-/* LE BOUTON « QUELLE EST CETTE TRACK QUI JOUE ? »
+/* LE BOUTON « TRACK ID » (« Quelle est cette track qui joue ? » jusqu'au
+ * 1er octobre 2026 ; voir le dictionnaire, cle trackId).
  *
  * Mika, le 30 septembre 2026 : « le bouton est mal fait, je voudrais quelque
  * chose de plus attrayant », qui « se dissocie du reste pour attirer le
@@ -25,8 +26,8 @@ function Contenu() {
         <FaIcon icon={faMicrophone} className="bt-micro-icone" />
       </span>
       <span className="bt-mots">
-        <span className="bt-titre">{t.quelleTrack}</span>
-        <span className="bt-sous">{t.quelleTrackSous}</span>
+        <span className="bt-titre">{t.trackId}</span>
+        <span className="bt-sous">{t.trackIdSous}</span>
       </span>
       <span className="bt-egaliseur" aria-hidden="true">
         <i />

@@ -707,10 +707,8 @@ interface Dictionnaire {
      libelle, une seule clef. « Reconnaitre » nommait l'outil ; la question
      nomme ce que le visiteur vient chercher, et c'est elle qui tient sur un
      bouton au milieu d'une page de styles. */
-  readonly quelleTrack: string;
-  readonly quelleTrackCourt: string;
-  readonly quelleTrackOnglet: string;
-  readonly quelleTrackSous: string;
+  readonly trackId: string;
+  readonly trackIdSous: string;
   readonly reconnaitreDansLeCompte: string;
   readonly mesEcoutes: string;
   readonly reconnaitreChapeau: string;
@@ -1439,10 +1437,14 @@ const FR: Dictionnaire = {
   heroVilleAutre: 'Changer de ville',
   heroChoisirVille: 'Choisir votre ville',
   heroAffiches: 'Les prochaines soirées',
-  quelleTrack: 'Quelle est cette track qui joue ?',
-  quelleTrackCourt: 'Quelle track ?',
-  quelleTrackOnglet: 'Track ?',
-  quelleTrackSous: 'SONAA écoute dix secondes et vous dit tout.',
+  /* « TRACK ID », LE 1er OCTOBRE 2026, et pas une question. Mika, devant
+     « Quelle track ? » : « franchement le titre c'est la merde, trouve autre
+     chose ». « ID ? » est ce que le milieu ecrit sous chaque video de set
+     pour demander un morceau ; « Track ID » se dit pareil dans les deux
+     langues et tient dans un onglet de telephone. Le sous-titre du grand
+     bouton dit ce qu'on obtient, pour qui ne connait pas l'expression. */
+  trackId: 'Track ID',
+  trackIdSous: 'SONAA écoute dix secondes et vous dit ce qui joue.',
   reconnaitreDansLeCompte: 'Gardées dans votre compte, visibles de vous seul.',
   mesEcoutes: 'Mes écoutes',
   reconnaitreChapeau:
@@ -2174,10 +2176,8 @@ const EN: Dictionnaire = {
   heroVilleAutre: 'Change city',
   heroChoisirVille: 'Choose your city',
   heroAffiches: 'The nights coming up',
-  quelleTrack: 'What track is playing?',
-  quelleTrackCourt: 'What track?',
-  quelleTrackOnglet: 'Track?',
-  quelleTrackSous: 'SONAA listens for ten seconds and tells you everything.',
+  trackId: 'Track ID',
+  trackIdSous: 'SONAA listens for ten seconds and tells you what is playing.',
   reconnaitreDansLeCompte: 'Kept in your account, visible only to you.',
   mesEcoutes: 'My listens',
   reconnaitreChapeau:

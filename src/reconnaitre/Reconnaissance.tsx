@@ -157,7 +157,7 @@ export function Reconnaissance({ enLigne = false, demarrer = false, versHistoriq
   const vivant = useRef(true);
 
   useEffect(() => {
-    if (!enLigne) document.title = `${t.quelleTrack} · SONAA`;
+    if (!enLigne) document.title = `${t.trackId} · SONAA`;
     setLocal(lireHistorique());
     return () => {
       vivant.current = false;
@@ -342,7 +342,7 @@ export function Reconnaissance({ enLigne = false, demarrer = false, versHistoriq
       <div className={enLigne ? 'rc rc-en-ligne' : 'rc'}>
         {!enLigne && (
           <header className="credits-head">
-            <h1>{t.quelleTrack}</h1>
+            <h1>{t.trackId}</h1>
             <p className="credits-lede">{t.reconnaitreChapeau}</p>
           </header>
         )}

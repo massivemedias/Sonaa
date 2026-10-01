@@ -33,12 +33,12 @@ describe('BarreBas', () => {
     );
   });
 
-  /* LE GESTE « TRACK ? » EST AU MILIEU, et il se nomme en entier pour un
+  /* LE GESTE « TRACK ID » EST AU MILIEU, et il se nomme en entier pour un
      lecteur d'ecran : le mot court sous la pastille ne dit pas ce qu'il
      fait. Mika, le 30 septembre 2026. */
   it('porte le geste de reconnaissance au milieu, nomme en entier', () => {
     render(<BarreBas />);
-    const geste = screen.getByRole('link', { name: t.quelleTrack });
+    const geste = screen.getByRole('link', { name: t.trackId });
     expect(geste.getAttribute('href')).toBe('#/reconnaitre/ecouter');
   });
 

@@ -122,7 +122,7 @@
   font-size: 0.9375rem;
 }
 
-/* ═══ « QUELLE TRACK ? », LE GESTE DANS LE MENU ═══ Voir SiteNav.tsx.
+/* ═══ « TRACK ID », LE GESTE DANS LE MENU ═══ Voir SiteNav.tsx.
 
    Il se detache des mots sans quitter le dessin : la meme pilule et le meme
    degrade que le grand bouton de l'accueil (bouton-track.css), en petit, et

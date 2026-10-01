@@ -13,9 +13,9 @@
 #
 # Le nouveau signe est un egaliseur : trois barres claires sur une tuile
 # terracotta, la couleur d'accent du site. Il dit « son » a toutes les
-# tailles, il reprend le motif du bouton « Quelle est cette track qui
-# joue ? », et la tuile coloree se detache aussi bien d'une barre d'onglets
-# claire que d'une sombre : il n'y a plus besoin d'une variante sombre a
+# tailles, il reprend le motif du bouton « Track ID », et la tuile
+# coloree se detache aussi bien d'une barre d'onglets claire que d'une
+# sombre : il n'y a plus besoin d'une variante sombre a
 # filet.
 #
 # ═══ UNE GRILLE DE TRENTE-DEUX, ET C'EST TOUT LE SECRET ═══

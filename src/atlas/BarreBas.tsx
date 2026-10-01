@@ -60,7 +60,7 @@ export function BarreBas() {
 
   const courant = courantDuSite(window.location.hash);
 
-  /* CINQ ONGLETS AU MAXIMUM, ET PAS SIX (le geste « Track ? » n'est pas un
+  /* CINQ ONGLETS AU MAXIMUM, ET PAS SIX (le geste « Track ID » n'est pas un
      onglet, voir plus bas). Au-dela, chaque onglet descend sous
      la largeur d'un pouce sur un telephone etroit, et les libelles se
      coupent.
@@ -116,18 +116,18 @@ export function BarreBas() {
   return (
     <nav className="barre-bas" aria-label={t.navigationDuSite}>
       {onglets.slice(0, milieu).map(onglet)}
-      {/* ═══ « TRACK ? », LE GESTE AU MILIEU ═══ Mika, le 30 septembre 2026 :
+      {/* ═══ « TRACK ID », LE GESTE AU MILIEU ═══ Mika, le 30 septembre 2026 :
           le bouton dans le menu, sur telephone aussi, et qu'il attire le
           regard. Il n'est pas une page : sa pastille porte l'accent en
           permanence, en degrade, quand celle des onglets ne s'allume que sur
           la page courante. Il lance l'ecoute en arrivant. C'est le sixieme
           element de la barre : mesure a 320 px, les libelles tiennent encore
           (voir scripts/check-mobile.ts). */}
-      <a href={ADRESSE_ECOUTER} className="barre-bas-onglet barre-bas-track" aria-label={t.quelleTrack}>
+      <a href={ADRESSE_ECOUTER} className="barre-bas-onglet barre-bas-track" aria-label={t.trackId}>
         <span className="barre-bas-pastille">
           <FaIcon icon={faMicrophone} className="barre-bas-icone" />
         </span>
-        <span aria-hidden="true">{t.quelleTrackOnglet}</span>
+        <span aria-hidden="true">{t.trackId}</span>
       </a>
       {onglets.slice(milieu).map(onglet)}
       {/* LE CINQUIEME ONGLET, qui n'est pas une destination mais un menu : il
