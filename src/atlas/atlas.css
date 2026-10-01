@@ -778,7 +778,9 @@
   text-transform: uppercase;
   color: var(--ink-secondary);
   text-decoration: none;
-  opacity: 0.7;
+  /* PAS D'OPACITE EN PLUS DE L'ENCRE SECONDAIRE, qui est deja translucide :
+     les deux ensemble tombaient sous le AA (mesure en ligne le 30 septembre
+     2026, 3,73 pour 1 sur les genres d'une carte en theme clair). */
 }
 
 .credits-link:hover,
