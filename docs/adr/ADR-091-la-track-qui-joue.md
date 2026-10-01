@@ -40,8 +40,13 @@ Le poids du modèle et l'envoi à AudD restent écrits dans la page, retirés de
 l'écran à la manière d'un texte pour lecteur d'écran.
 
 Le favicon devient un égaliseur de trois barres claires sur une tuile
-terracotta, le même dessin que le bouton. Un seul vecteur,
-`public/brand/favicon.svg`, un seul écrivain, `scripts/refaire-favicon.sh`.
+terracotta, le même dessin que le bouton. Un seul écrivain,
+`scripts/refaire-favicon.sh`.
+
+Amendement du 1er octobre 2026 : le favicon et les icônes d'application
+deviennent le logotype « Sonaa », rogné aux cinq lettres et aussi grand que
+le carré le permet, à la demande de Mika. L'égaliseur reste le motif du
+bouton Track ID.
 
 ## Pourquoi
 

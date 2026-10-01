@@ -1,77 +1,76 @@
 #!/bin/sh
-# LES ICONES DE SONAA : UN EGALISEUR, DESSINE UNE FOIS EN VECTEUR.
+# LES ICONES DE SONAA : LE LOGOTYPE « Sonaa », LE PLUS GROS POSSIBLE.
 #
 # Usage : npm run favicon
 #
-# ═══ POURQUOI PLUS LE S DU LOGO ═══
+# ═══ L'HISTOIRE COURTE ═══
 #
-# L'onglet portait le S du logo, decoupe dans le lettrage de script, blanc
-# fin sur un carre presque noir. Mika, le 30 septembre 2026 : « je voudrais
-# un meilleur logo favicon, il est pas beau celui present ». Mesure a la
-# taille reelle : a seize pixels, une lettre de script se lit comme un « @ »
-# ou un « f », et le blanc fin sur le noir n'y laissait qu'une trace grise.
+# Le S seul du logotype jusqu'au 30 septembre 2026, puis un egaliseur de trois
+# barres (« il est pas beau celui present »), puis, le 1er octobre 2026, le
+# logotype entier : Mika, « pour le favicon essaie de mettre ca, et je le
+# veux le plus gros possible pour un favicon ».
 #
-# Le nouveau signe est un egaliseur : trois barres claires sur une tuile
-# terracotta, la couleur d'accent du site. Il dit « son » a toutes les
-# tailles, il reprend le motif du bouton « Track ID », et la tuile
-# coloree se detache aussi bien d'une barre d'onglets claire que d'une
-# sombre : il n'y a plus besoin d'une variante sombre a
-# filet.
+# ═══ LE PLUS GROS POSSIBLE, ET CE QUE CA VEUT DIRE ═══
 #
-# ═══ UNE GRILLE DE TRENTE-DEUX, ET C'EST TOUT LE SECRET ═══
+# Le logotype est deux fois et quart plus large que haut, et le S monte du
+# haut au bas de l'image : on ne peut rien rogner en hauteur sans couper une
+# lettre. On rogne donc en largeur, les arabesques de gauche et de droite,
+# et on garde les cinq lettres entieres : le mot occupe alors 56 % de la
+# hauteur du carre, au lieu de 43 % avec le logotype entier. Le fond est un
+# carre plein, sans coins arrondis : un coin arrondi est de la place perdue.
 #
-# Le dessin (public/brand/favicon.svg) est pose sur une grille de 32 unites :
-# des barres de 4 unites, espacees de 4, aux bords pairs. A seize pixels,
-# chaque barre tombe pile sur deux pixels pleins ; un premier essai a quatre
-# barres de 60 sur 512 tombait entre deux pixels et devenait flou. Chaque
-# taille est rasterisee directement depuis le vecteur, a la densite qui la
-# donne exactement, jamais reduite depuis une grande image.
+# A SEIZE PIXELS, AUCUNE ECRITURE CURSIVE NE SE LIT, c'est une tache blanche
+# en forme de mot. Les onglets des ecrans Retina prennent la version 32 px,
+# ou « Sonaa » se lit. Les traits sont epaissis avant la reduction, un peu
+# plus pour les petites tailles, sinon le blanc fin se dissout dans le noir.
 #
-# ═══ LES GRANDES ICONES ═══
+# Les icones d'application (Apple, Android) gardent une marge : le systeme
+# arrondit les coins, et l'icone « maskable » doit tenir dans le cercle de
+# securite (80 % du carre).
 #
-# apple-touch-icon et la version masquable sont pleines, sans coins : iOS et
-# Android appliquent leur propre masque, et des coins dessines s'y
-# verraient en double. Les barres restent dans la zone sure de 80 %.
+# Il n'y a plus de favicon.svg : le logotype n'existe qu'en image, et un SVG
+# qui emballerait une image ne serait net a aucune taille de plus.
 
 set -eu
 
 cd "$(dirname "$0")/.."
-SORTIE=public/brand
-SVG=$SORTIE/favicon.svg
-TEMPO=$(mktemp -d)
-trap 'rm -rf "$TEMPO"' EXIT
+SOURCE="SonaaLogo.png"
+SORTIE="public/brand"
+FOND="#0c0b09"
+TMP="$(mktemp -d)"
+trap 'rm -rf "$TMP"' EXIT
 
-if ! command -v magick > /dev/null 2>&1; then
-  echo "ImageMagick est necessaire : brew install imagemagick" >&2
-  exit 1
-fi
+test -f "$SOURCE" || { echo "source absente : $SOURCE"; exit 1; }
 
-# La meme tuile, sans coins arrondis, pour les icones que le systeme masque.
-sed 's/ rx="7" fill/ fill/' "$SVG" > "$TEMPO/plein.svg"
+# Le logotype a 2048 px de large, rogne aux cinq lettres : de 200 a 1800 en
+# largeur, toute la hauteur (le S la touche aux deux bouts).
+magick "$SOURCE" -resize 2048x "$TMP/base.png"
+magick "$TMP/base.png" -crop 1600x890+200+0 +repage "$TMP/mot.png"
 
-# Le vecteur est lu a 96 points par pouce : 32 unites a la densite 3 x N
-# donnent exactement N pixels.
-rendre() { # $1 = svg, $2 = taille, $3 = fichier
-  magick -background none -density $(( 3 * $2 )) "$1" -strip "$3"
+# icone TAILLE LARGEUR_DU_MOT EPAISSISSEMENT FICHIER
+icone() {
+  magick "$TMP/mot.png" -channel A -morphology Dilate "Disk:$3" +channel \
+    -filter Lanczos -resize "$2x$2" \
+    -background "$FOND" -gravity center -extent "$1x$1" -alpha remove -strip "$4"
 }
 
-rendre "$SVG" 16 "$SORTIE/favicon-16.png"
-rendre "$SVG" 32 "$SORTIE/favicon-32.png"
-rendre "$SVG" 48 "$TEMPO/48.png"
-rendre "$SVG" 192 "$SORTIE/icon-192.png"
-rendre "$SVG" 512 "$SORTIE/icon-512.png"
-rendre "$TEMPO/plein.svg" 180 "$SORTIE/apple-touch-icon.png"
-rendre "$TEMPO/plein.svg" 512 "$SORTIE/icon-maskable-512.png"
+# Les favicons : le mot de bord a bord.
+icone 16 16 40 "$TMP/16.png"
+icone 32 32 22 "$TMP/32.png"
+icone 48 48 14 "$TMP/48.png"
+cp "$TMP/16.png" "$SORTIE/favicon-16.png"
+cp "$TMP/32.png" "$SORTIE/favicon-32.png"
+magick "$TMP/16.png" "$TMP/32.png" "$TMP/48.png" "$SORTIE/favicon.ico"
 
-# Le .ico, trois tailles dans un fichier, pour les vieux navigateurs et
-# Windows, qui choisit selon le contexte.
-magick "$SORTIE/favicon-16.png" "$SORTIE/favicon-32.png" "$TEMPO/48.png" "$SORTIE/favicon.ico"
+# Les icones d'application : une marge, le systeme arrondit les coins.
+icone 180 158 4 "$SORTIE/apple-touch-icon.png"
+icone 192 168 4 "$SORTIE/icon-192.png"
+icone 512 448 2 "$SORTIE/icon-512.png"
+icone 512 380 2 "$SORTIE/icon-maskable-512.png"
 
-# Les anciennes variantes sombres a filet n'ont plus lieu d'etre.
-rm -f "$SORTIE/favicon-dark-16.png" "$SORTIE/favicon-dark-32.png"
+rm -f "$SORTIE/favicon.svg"
 
-echo "Icones refaites a partir de $SVG :"
-for f in favicon-16 favicon-32 apple-touch-icon icon-192 icon-512 icon-maskable-512; do
-  printf '  %-22s %s\n' "$f.png" "$(magick identify -format '%wx%h, %B octets' "$SORTIE/$f.png")"
+echo "Icones refaites depuis $SOURCE :"
+for f in favicon-16.png favicon-32.png favicon.ico apple-touch-icon.png icon-192.png icon-512.png icon-maskable-512.png; do
+  magick identify -format "  $f %wx%h %b\n" "$SORTIE/$f" | head -3
 done
-printf '  %-22s %s\n' 'favicon.ico' "$(magick identify -format '%wx%h ' "$SORTIE/favicon.ico")"

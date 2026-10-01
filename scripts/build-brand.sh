@@ -35,10 +35,10 @@ magick "$LOGO" -resize 1800x -strip "$B/sonaa-logo.png"
 magick "$CIRCLE" -resize 1024x1024 -strip "$B/sonaa-logo-circle.png"
 
 # LES ICONES NE SORTENT PLUS D'ICI. Favicons, icone Apple, icones de
-# l'application : un seul dessin depuis le 30 septembre 2026, l'egaliseur de
-# public/brand/favicon.svg, et un seul ecrivain, scripts/refaire-favicon.sh.
-# Ce script les ecrivait depuis le disque et le S ; les laisser ici, c'etait
-# remettre l'ancien S au prochain lancement.
+# l'application : un seul ecrivain, scripts/refaire-favicon.sh, qui les tire
+# du logotype depuis le 1er octobre 2026. Ce script les ecrivait depuis le
+# disque et le S ; les laisser ici, c'etait remettre l'ancien S au prochain
+# lancement.
 sh scripts/refaire-favicon.sh
 
 # L'IMAGE DE PARTAGE N'EST PLUS ECRITE ICI. Elle l'a ete : le disque et son
