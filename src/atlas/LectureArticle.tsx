@@ -14,6 +14,13 @@
  * Dans les deux, le nom du magazine et le lien vers l'original sont en tete
  * ET en pied : on ne doit jamais avoir a chercher d'ou vient ce qu'on lit.
  *
+ * LE RESUME SONAA REMPLACE L'EXTRAIT. Mika, le 2 octobre 2026 : « j'aimerais
+ * avoir tout l'article sur mon site ». Republier le texte du magazine ne se
+ * fait pas sans son accord ; la moisson ecrit donc, pour chaque article en
+ * extrait, un resume original des faits (voir scripts/lib/resume-sonaa.ts).
+ * Il s'affiche a la place de l'extrait, signe comme tel, avec le bouton vers
+ * l'article entier dessous.
+ *
  * LA TRADUCTION ARRIVE APRES, ET NE FAIT PAS ATTENDRE. Une premiere demande
  * rend l'original tout de suite ; si l'interface est en francais et que
  * l'article est anglais et entier, une seconde demande part, et le texte est
@@ -56,6 +63,8 @@ interface Props {
   readonly idSource: string | null;
   /** La langue du magazine : on ne traduit que ce qui est en anglais. */
   readonly langueSource: 'fr' | 'en' | null;
+  /** Le resume SONAA, quand la moisson en a ecrit un. */
+  readonly synthese: { readonly fr: readonly string[]; readonly en: readonly string[] } | null;
 }
 
 /* LE NOINDEX ET LE CANONIQUE VIVENT LE TEMPS DE LA VUE. Poses au montage,
@@ -80,7 +89,7 @@ function useSignauxDeMoteur(url: string): void {
   }, [url]);
 }
 
-export function LectureArticle({ url, titre, source, image, idSource, langueSource }: Props) {
+export function LectureArticle({ url, titre, source, image, idSource, langueSource, synthese }: Props) {
   const [etat, setEtat] = useState<Reponse | 'chargement' | 'panne'>('chargement');
   const [traduction, setTraduction] = useState<readonly Morceau[] | null>(null);
   const [traduitEnCours, setTraduitEnCours] = useState(false);
@@ -102,6 +111,12 @@ export function LectureArticle({ url, titre, source, image, idSource, langueSour
     setTraduction(null);
     setTraduitEnCours(false);
     window.scrollTo(0, 0);
+    /* AVEC UN RESUME, LE FLUX N'A RIEN A AJOUTER : il ne porterait que
+       l'extrait que le resume remplace. */
+    if (synthese) {
+      setEtat({ trouve: true, integral: false, corps: [], traduit: false });
+      return;
+    }
     if (!idSource) {
       setEtat('panne');
       return;
@@ -132,7 +147,7 @@ export function LectureArticle({ url, titre, source, image, idSource, langueSour
     return () => {
       vivant = false;
     };
-  }, [url, idSource, langueSource]);
+  }, [url, idSource, langueSource, synthese]);
 
   useEffect(() => {
     document.title = `${titre ?? site} · SONAA`;
@@ -207,9 +222,21 @@ export function LectureArticle({ url, titre, source, image, idSource, langueSour
         return <p key={i}>{m.x}</p>;
       })}
 
+      {synthese && (
+        <section className="lecture-resume" aria-label={t.resumeSonaa}>
+          <p className="lecture-resume-marque">{t.resumeSonaa}</p>
+          {(langue === 'fr' ? synthese.fr : synthese.en).map((p, i) => (
+            <p key={i}>{p}</p>
+          ))}
+          <p className="lecture-resume-note">{t.resumeSonaaNote(nomSource)}</p>
+          <a className="lecture-suite-bouton" href={url} target="_blank" rel="noreferrer noopener">
+            {t.lireArticleCompletSur(nomSource)}
+          </a>
+        </section>
+      )}
       {/* L'EXTRAIT LE DIT, ET LE BOUTON SE VOIT. Un extrait qui s'arrete sans
           rien annoncer se lit comme un article coupe. */}
-      {lu && lu.trouve && !lu.integral && (
+      {!synthese && lu && lu.trouve && !lu.integral && (
         <div className="lecture-suite">
           <p className="lecture-suite-mot">{t.extraitSeulement}</p>
           <a className="lecture-suite-bouton" href={url} target="_blank" rel="noreferrer noopener">

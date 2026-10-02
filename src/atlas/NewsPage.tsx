@@ -63,6 +63,8 @@ interface Article {
      echoue. Voir scripts/lib/traduire.ts. */
   readonly titre_fr?: string;
   readonly resume_fr?: string;
+  /** Le resume SONAA d'un article dont le flux ne donne qu'un extrait. */
+  readonly synthese?: { readonly fr: readonly string[]; readonly en: readonly string[] };
 }
 
 /* ═══ LE TITRE DANS LA LANGUE DE LA PAGE ═══
@@ -458,6 +460,7 @@ export function NewsPage() {
                   image={a?.image ?? null}
                   idSource={a?.source ?? null}
                   langueSource={a ? (PAR_SOURCE.get(a.source)?.langue ?? null) : null}
+                  synthese={a?.synthese ?? null}
                 />
                 <ColonneLecture voisins={voisins(livre?.articles ?? [], urlEnLecture)} />
               </div>

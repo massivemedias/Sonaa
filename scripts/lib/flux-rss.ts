@@ -33,6 +33,13 @@ export interface Article {
      17 septembre 2026. Voir scripts/lib/traduire.ts. */
   readonly titre_fr?: string | undefined;
   readonly resume_fr?: string | undefined;
+  /** Le flux porte l'article entier (au moins mille signes dans
+      content:encoded), la meme regle que la lecture : voir
+      worker/src/index.ts, SEUIL_INTEGRAL. */
+  readonly integral?: boolean | undefined;
+  /** Le resume SONAA d'un article dont le flux ne donne qu'un extrait :
+      voir scripts/lib/resume-sonaa.ts. */
+  readonly synthese?: { readonly fr: readonly string[]; readonly en: readonly string[] } | undefined;
 }
 
 /* ── Le texte ─────────────────────────────────────────────────────────── */
@@ -158,6 +165,7 @@ export function lireFlux(xml: string, source: string): Article[] {
       date: dateDe(champ(bloc, 'pubDate') ?? champ(bloc, 'dc:date') ?? champ(bloc, 'published') ?? champ(bloc, 'updated')),
       image: imageDe(bloc),
       resume: resumer(texteNu(corps)),
+      integral: !atom && texteNu(champ(bloc, 'content:encoded')).length >= 1000,
     });
   }
   return out;

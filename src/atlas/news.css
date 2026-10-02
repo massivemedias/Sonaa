@@ -552,6 +552,27 @@
   opacity: 0.88;
 }
 
+/* LE RESUME SONAA : la marque en tete, comme une rubrique, pour qu'on sache
+   avant de lire que ce texte est le notre et non celui du magazine. */
+.lecture-resume {
+  margin-top: var(--espace-8);
+}
+.lecture-resume-marque {
+  margin: 0 0 var(--espace-12);
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.lecture-resume-note {
+  margin: var(--espace-24) 0 var(--espace-16);
+  padding-top: var(--espace-16);
+  border-top: var(--rule-width) solid var(--rule-hairline);
+  color: var(--ink-secondary);
+  font-size: 0.85rem;
+}
+
 
 /* ═══ LA COLONNE DE DROITE DE LA VUE DE LECTURE ═══ Voir ColonneLecture.tsx.
 

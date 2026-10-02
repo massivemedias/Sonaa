@@ -30,6 +30,8 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { imageDePage, lireFlux, SOURCES, type Article } from './lib/flux-rss.ts';
 import { traduire, type ATraduire } from './lib/traduire.ts';
+import Anthropic from '@anthropic-ai/sdk';
+import { MODELE_RESUME, prixDe, resumerArticle, texteDeLaPage, type Facture, type ResumeSonaa } from './lib/resume-sonaa.ts';
 
 const SORTIE = fileURLToPath(new URL('../public/news.json', import.meta.url));
 /** Par source : assez pour une journee chargee, pas de quoi noyer les autres. */
@@ -37,6 +39,11 @@ const PAR_SOURCE = 12;
 /** Au total : ce que la page montre, du plus recent au plus ancien. */
 const TOTAL = 160;
 const DELAI_MS = 15_000;
+/* LES RESUMES SONAA D'UNE PASSE, AU PLUS. Une passe en trouve d'ordinaire
+   une dizaine de nouveaux ; la toute premiere en avait plus de cent a
+   rattraper. Le plafond etale ce rattrapage sur quelques passes, et borne
+   la facture d'une passe qui s'emballerait. */
+const RESUMES_PAR_PASSE = 40;
 
 export interface Livre {
   readonly fait: string;
@@ -186,11 +193,13 @@ async function main(): Promise<void> {
    *    traduction, la page les montre en anglais. */
   const FRANCOPHONES = new Set(SOURCES.filter((s) => s.langue === 'fr').map((s) => s.id));
   const deja = new Map<string, { titre: string; resume: string }>();
+  const synthesesDeja = new Map<string, ResumeSonaa>();
   if (existsSync(SORTIE)) {
     try {
       const ancien = JSON.parse(readFileSync(SORTIE, 'utf8')) as Livre;
       for (const a of ancien.articles) {
         if (a.titre_fr) deja.set(a.lien, { titre: a.titre_fr, resume: a.resume_fr ?? '' });
+        if (a.synthese) synthesesDeja.set(a.lien, a.synthese);
       }
     } catch {
       /* Fichier illisible : on repart de rien, la passe coutera une fois le
@@ -226,7 +235,56 @@ async function main(): Promise<void> {
   });
   console.log(`  ${traduits.filter((a) => a.titre_fr).length} article(s) sur ${traduits.length} ont leur version francaise.`);
 
-  const livre: Livre = { fait: new Date().toISOString(), articles: traduits, pannes };
+  /* ═══ LE RESUME SONAA, POUR LES ARTICLES DONT LE FLUX NE DONNE QU'UN
+     EXTRAIT ═══ Voir scripts/lib/resume-sonaa.ts. Comme la traduction : on
+     reprend ceux du fichier precedent, on ne paie que les nouveaux, et sans
+     cle on n'appelle rien. La page de l'article est lue une fois, pour en
+     tirer les faits ; son texte n'est pas garde. */
+  const syntheses = new Map(synthesesDeja);
+  const aResumer = traduits.filter((a) => !a.integral && !syntheses.has(a.lien)).slice(0, RESUMES_PAR_PASSE);
+  if (aResumer.length === 0) {
+    console.log('\nResumes SONAA : rien de nouveau.');
+  } else if (!cle) {
+    console.log(`\nResumes SONAA : ${aResumer.length} article(s) a resumer, mais ANTHROPIC_API_KEY est absente.`);
+  } else {
+    console.log(`\nResumes SONAA de ${aResumer.length} article(s), avec ${MODELE_RESUME} :`);
+    const client = new Anthropic({ apiKey: cle });
+    const facture: Facture = { entree: 0, sortie: 0 };
+    let faits = 0;
+    for (let i = 0; i < aResumer.length; i += 3) {
+      await Promise.all(
+        aResumer.slice(i, i + 3).map(async (a) => {
+          const nom = SOURCES.find((s) => s.id === a.source)?.nom ?? a.source;
+          try {
+            const texte = texteDeLaPage(await lire(a.lien));
+            /* Moins de huit cents signes : un mur payant ou une page vide, pas
+               de quoi resumer un article. */
+            if (texte.length < 800) {
+              console.log(`  ${nom.padEnd(22)} page trop courte (${texte.length} signes) : ${a.titre.slice(0, 50)}`);
+              return;
+            }
+            const r = await resumerArticle(client, { titre: a.titre, source: nom, lien: a.lien }, texte, facture);
+            if (r) {
+              syntheses.set(a.lien, r);
+              faits += 1;
+            } else {
+              console.log(`  ${nom.padEnd(22)} pas de resume : ${a.titre.slice(0, 50)}`);
+            }
+          } catch (e) {
+            console.log(`  ${nom.padEnd(22)} ${e instanceof Error ? e.message : String(e)} : ${a.titre.slice(0, 50)}`);
+          }
+        })
+      );
+    }
+    console.log(`  ${faits} resume(s) faits, ${facture.entree} tokens entree, ${facture.sortie} sortie, ${prixDe(facture).toFixed(4)} USD`);
+  }
+  const resumes: Article[] = traduits.map((a) => {
+    const s = syntheses.get(a.lien);
+    return s ? { ...a, synthese: s } : a;
+  });
+  console.log(`  ${resumes.filter((a) => a.synthese).length} article(s) sur ${resumes.filter((a) => !a.integral).length} en extrait ont leur resume SONAA.`);
+
+  const livre: Livre = { fait: new Date().toISOString(), articles: resumes, pannes };
   /* INDENTE, ET `fait` SUR SA PROPRE LIGNE : l'action planifiee compare le
      fichier en ignorant cette ligne, pour ne commettre que quand un article
      a change, pas deux fois par jour pour une date. */
