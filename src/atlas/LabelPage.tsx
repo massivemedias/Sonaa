@@ -18,7 +18,7 @@
  * dans le corpus au moment de l'affichage, par le nom du label. Un morceau
  * ajoute au corpus apparait donc ici sans nouvelle moisson. */
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { FAMILIES, STRUCTURES, type Track } from './structures.ts';
 import { ProceduralCover } from './ProceduralCover.tsx';
 import { LogoLabel } from './LogoLabel.tsx';
@@ -36,6 +36,7 @@ import './credits.css';
 import './label.css';
 
 const ENTREES = INDEX as readonly EntreeLabel[];
+const PAQUET_GALERIE = 60;
 
 /* LA FICHE D'UN LABEL, SEULE. Le pre-rendu ecrit /labels/<slug>/fiche.json
    a cote de chaque page : plus de mille fiches pesent plusieurs mega-octets,
@@ -374,6 +375,23 @@ function Galerie() {
   const aLaUne = uneVue ? liste.filter((e) => !estMajor(e) && e.c >= 3).slice(0, 8) : [];
   const reste = uneVue ? liste.filter((e) => !aLaUne.includes(e)) : liste;
 
+  /* LA GRILLE SE DEROULE PAR PAQUETS. Mille trois cent soixante-dix cartes
+     d'un coup faisaient une page de 174 000 px, lourde a construire sur un
+     telephone pour un ecran qui en montre six. Soixante d'abord, puis
+     soixante de plus chaque fois que le bas approche. */
+  const [combien, setCombien] = useState(PAQUET_GALERIE);
+  useEffect(() => setCombien(PAQUET_GALERIE), [terme, tri, pays]);
+  const bas = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const el = bas.current;
+    if (!el || combien >= reste.length) return;
+    const o = new IntersectionObserver((entrees) => {
+      if (entrees.some((x) => x.isIntersecting)) setCombien((c) => c + PAQUET_GALERIE);
+    }, { rootMargin: '1200px 0px' });
+    o.observe(el);
+    return () => o.disconnect();
+  }, [combien, reste.length]);
+
   const carte = (e: EntreeLabel, grande: boolean) => (
     <li key={e.s} className={grande ? 'lbg-carte lbg-carte-une' : 'lbg-carte'}>
       <a href={`#/labels/${e.s}`}>
@@ -429,7 +447,10 @@ function Galerie() {
         {reste.length === 0 && aLaUne.length === 0 ? (
           <p className="lb-note">{t.labelsAucun}</p>
         ) : (
-          <ul className="lbg-grille">{reste.map((e) => carte(e, false))}</ul>
+          <>
+            <ul className="lbg-grille">{reste.slice(0, combien).map((e) => carte(e, false))}</ul>
+            {combien < reste.length && <div ref={bas} aria-hidden="true" />}
+          </>
         )}
       </div>
     </section>

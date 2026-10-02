@@ -142,6 +142,28 @@ html {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* ═══ SUR TELEPHONE, LA PAGE NE BOUGE PAS SOUS LE DOIGT ═══ Mika, le 2
+   octobre 2026 : « je veux que le site ne bouge pas ».
+
+   Le rebond en haut et en bas de page tirait le contenu sous les barres
+   fixes, et sur Android il declenchait le rechargement en tirant vers le
+   bas. Il s'arrete au bord.
+
+   UN CHAMP DE MOINS DE 16 PX FAIT ZOOMER IPHONE quand on le touche, et la
+   page reste agrandie, decalee sur le cote, apres qu'on a fini de taper :
+   la recherche des labels (14 px) et les menus du calendrier (13,6 px) le
+   faisaient. Seize pixels sur telephone, partout, plutot que dans chaque
+   feuille. */
+@media (max-width: 899px) {
+  html,
+  body {
+    overscroll-behavior-y: none;
+  }
+  body :is(input:not([type='checkbox'], [type='radio'], [type='range']), select, textarea) {
+    font-size: max(16px, 1em);
+  }
+}
+
 /* ═══ CE QU'ON SELECTIONNE PREND L'ACCENT DU SITE, PAS LE BLEU DU SYSTEME ═══
    Mika, le 22 septembre 2026, devant les selecteurs du calendrier : « retirer
    le highlight bleu ». Trois endroits ou le navigateur peint son bleu :

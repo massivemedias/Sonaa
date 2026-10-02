@@ -20,7 +20,10 @@
 .credits {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  /* svh : la hauteur de l'ecran barre d'adresse depliee. vh valait celle
+     d'un ecran sans barre, et une page courte defilait de cette difference
+     sur iPhone, ce qui suffisait a faire bouger les barres fixes. */
+  min-height: 100svh;
   /* LA MEME FORMULE QUE PARCOURIR, au pixel pres. Le conteneur borne et
      centre qui etait ici donnait 24 px de retrait la ou Parcourir en donnait
      20 : quatre pixels d'ecart sur le logo selon la page. La colonne est

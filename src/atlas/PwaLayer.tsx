@@ -208,7 +208,7 @@ export function PwaLayer() {
 
   if (invite === 'ios') {
     return (
-      <div className="pwa-bandeau" role="status">
+      <div className="pwa-bandeau pwa-bandeau-ios" role="status">
         <p>
           {/* LA PHRASE ETAIT EN FRANCAIS SOUS UNE INTERFACE ANGLAISE, avec
               un seul mot traduit au milieu : « Pour garder SONAA ... puis On

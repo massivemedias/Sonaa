@@ -361,6 +361,38 @@ let repli = '';
   repli = `${(r.surfaces as unknown[]).length} surfaces mesurees sans filtre, toutes opaques (${(r.surfaces as { nom: string }[]).map((s) => s.nom).join(', ')}).`;
 }
 
+/* ═══ CHANGER D'ONGLET ARRIVE EN HAUT, ET L'ACCUEIL DEFILE COMME UNE PAGE ═══
+
+   Mika, le 2 octobre 2026 : « quand on change de bouton en bas, des fois le
+   menu remonte et ca casse la navigation ». Deux causes, mesurees ici pour
+   qu'elles ne reviennent pas : la page suivante heritait de la position de
+   defilement de la precedente (le calendrier s'ouvrait a 391 px), et
+   l'accueil defilait dans une boite au lieu de la page, ce qui empeche
+   Safari de replier sa barre d'adresse et la fait bouger d'un onglet a
+   l'autre. */
+let parcours = '';
+{
+  const contexte = await navigateur.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+  const page = await contexte.newPage();
+  await page.goto(`${ORIGINE}/#/news`, { waitUntil: 'load', timeout: 30000 });
+  await page.waitForSelector('a.barre-bas-onglet', { timeout: 20000 });
+  await page.waitForTimeout(600);
+  await page.evaluate('window.scrollTo(0, 1500)');
+  await page.waitForTimeout(150);
+  await page.click('a.barre-bas-onglet[href="#/calendrier"]');
+  await page.waitForTimeout(900);
+  const yCalendrier = Number(await page.evaluate('Math.round(window.scrollY)'));
+  if (yCalendrier !== 0) erreurs.push(`onglets : de News descendu, le calendrier s'ouvre a ${yCalendrier} px au lieu du haut`);
+  await page.click('a.barre-bas-onglet[href="#/parcourir"]');
+  await page.waitForSelector('.pv-corps', { timeout: 20000 });
+  await page.waitForTimeout(900);
+  const accueil = JSON.parse(String(await page.evaluate(`JSON.stringify({ doc: document.documentElement.scrollHeight, ecran: innerHeight, debord: getComputedStyle(document.querySelector('.pv-corps')).overflowY, y: Math.round(scrollY) })`))) as { doc: number; ecran: number; debord: string; y: number };
+  if (accueil.debord !== 'visible' || accueil.doc <= accueil.ecran) erreurs.push(`onglets : l'accueil defile dans une boite (overflow ${accueil.debord}, document ${accueil.doc} px pour un ecran de ${accueil.ecran}) et non avec la page`);
+  if (accueil.y !== 0) erreurs.push(`onglets : l'accueil s'ouvre a ${accueil.y} px au lieu du haut`);
+  await contexte.close();
+  parcours = `calendrier ouvert a ${yCalendrier} px apres News descendu ; accueil ${accueil.doc} px de document, defilement ${accueil.debord}.`;
+}
+
 await navigateur.close();
 fermer();
 
@@ -372,4 +404,4 @@ if (erreurs.length > 0) {
   console.error(`MOBILE : ${erreurs.length} defaut(s) mesure(s).\n` + erreurs.map((e) => `  ${e}`).join('\n') + '\n\nMesures :\n' + lignes.join('\n'));
   process.exit(1);
 }
-console.log(`Mobile : ${mesures} mesures, aucun debordement, barres de ${ENTETE_H} et ${BARRE_BAS_H} px, cibles de ${CIBLE_MIN} px. Repli : ${repli}\n${lignes.join('\n')}`);
+console.log(`Mobile : ${mesures} mesures, aucun debordement, barres de ${ENTETE_H} et ${BARRE_BAS_H} px, cibles de ${CIBLE_MIN} px. Repli : ${repli} Onglets : ${parcours}\n${lignes.join('\n')}`);

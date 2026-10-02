@@ -82,6 +82,12 @@
   .pv-tete .pv-logo {
     display: none;
   }
+  /* SAUF A L'ACCUEIL, ou il n'y a pas de titre a qui laisser la place : le
+     coin gauche y restait vide, et l'en-tete paraissait casse (vu le 2
+     octobre 2026). */
+  .pv-tete:not(:has(.pv-tete-titre)) .pv-logo {
+    display: flex;
+  }
 }
 /* Le menu ne s'etire pas et ne se comprime pas : c'est le titre qui cede la
    place quand elle manque, parce qu'il peut se couper et pas lui. Il est
@@ -1416,5 +1422,40 @@ a.pv-label:focus-visible {
     align-items: center;
     align-self: flex-start;
     min-height: 44px;
+  }
+}
+
+/* ═══ UNE SEULE FACON DE DEFILER, SUR TELEPHONE ═══
+
+   Mika, le 2 octobre 2026 : « quand on change de bouton en bas, des fois le
+   menu remonte, je veux que le site ne bouge pas et prenne tout l'espace ».
+
+   Cette vue etait la seule du site a defiler dans une boite (`.pv` fixe sur
+   tout l'ecran, `.pv-corps` qui defile), et c'est la page d'accueil. Les
+   autres font defiler la page elle-meme. Sur iPhone, Safari ne replie sa
+   barre d'adresse que quand la PAGE defile : ici elle restait depliee, et
+   elle se repliait ou se redepliait a chaque passage d'un onglet a l'autre,
+   en faisant monter et descendre la barre du bas. L'ecran perdait aussi la
+   hauteur de cette barre d'adresse sur la page la plus visitee.
+
+   Sous 900 px, la vue devient donc une page comme les autres : elle defile
+   avec le document, l'en-tete est fixe comme celui des pages, et le retrait
+   bas est celui de body (voir barre-bas.css). L'ordinateur garde sa boite :
+   sa barre d'adresse ne bouge pas. */
+@media (max-width: 899px) {
+  .pv {
+    position: relative;
+    inset: auto;
+    display: block;
+  }
+  .pv-tete {
+    position: fixed;
+  }
+  .pv-corps {
+    overflow: visible;
+    overscroll-behavior: auto;
+  }
+  body .pv-corps {
+    padding-bottom: var(--espace-24);
   }
 }

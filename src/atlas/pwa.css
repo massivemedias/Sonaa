@@ -155,6 +155,21 @@ body:has(.hm) .pwa-bandeau {
   }
 }
 
+/* L'INVITE D'IPHONE TIENT SUR UNE LIGNE ET DEMIE. En colonne, avec son
+   bouton dessous, elle prenait 137 px au-dessus de la barre du bas, sur
+   chaque page, tant qu'on ne l'avait pas fermee : un cinquieme de l'ecran
+   (mesure le 2 octobre 2026). Son seul bouton se pose a droite du texte. */
+@media (max-width: 560px) {
+  .pwa-bandeau-ios {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--espace-12);
+    padding: var(--espace-8) var(--espace-8) var(--espace-8) var(--espace-12);
+    font-size: 0.75rem;
+    line-height: 1.35;
+  }
+}
+
 /* Cibles tactiles : les memes 44 px que partout ailleurs, sous 900 px et
    plus seulement sous 560 px. */
 @media (max-width: 899px) {

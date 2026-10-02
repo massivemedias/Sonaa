@@ -102,7 +102,17 @@ export function BarreBas() {
   const onglet = (o: (typeof onglets)[number]) => {
     const actif = o.id === courant;
     return (
-      <a key={o.id} href={o.href} className="barre-bas-onglet" aria-current={actif ? 'page' : undefined}>
+      <a
+        key={o.id}
+        href={o.href}
+        className="barre-bas-onglet"
+        aria-current={actif ? 'page' : undefined}
+        /* L'ONGLET DE LA PAGE OU L'ON EST RAMENE EN HAUT, comme dans toute
+           application : l'adresse ne change pas, rien d'autre ne le ferait. */
+        onClick={() => {
+          if (actif && window.location.hash === o.href) window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+      >
         <span className="barre-bas-pastille">
           <FaIcon icon={o.icone} className="barre-bas-icone" />
           {MARCHAND_ACTIF && o.id === 'panier' && <BadgePanier />}

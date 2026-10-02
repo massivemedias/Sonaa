@@ -289,7 +289,10 @@ export function ParcourirView() {
      correct, c'est le PASSAGE de l'un a l'autre qui ne l'est pas. */
   const corps = useRef<HTMLElement | null>(null);
   useEffect(() => {
+    /* Sur ordinateur le corps defile ; sur telephone, la page (voir
+       parcourir.css, « UNE SEULE FACON DE DEFILER »). */
     corps.current?.scrollTo({ top: 0 });
+    window.scrollTo(0, 0);
   }, [niveau.k, niveau.k === 'famille' || niveau.k === 'genre' ? niveau.fi : -1, niveau.k === 'genre' ? niveau.gl : -1]);
 
   const genreCourant = niveau.k === 'genre' ? STRUCTURES[niveau.fi]?.genres[niveau.gl] : undefined;

@@ -1,4 +1,4 @@
-import { StrictMode, lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { StrictMode, lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './design/tokens.css';
 import './design/base.css';
@@ -287,6 +287,22 @@ function App() {
     window.addEventListener('hashchange', auChangement);
     return () => window.removeEventListener('hashchange', auChangement);
   }, []);
+
+  /* UNE PAGE NOUVELLE S'OUVRE EN HAUT. Mika, le 2 octobre 2026 : « quand on
+     change de bouton en bas, des fois le menu remonte et ca casse la
+     navigation ». La page suivante gardait la position de defilement de la
+     precedente : de News descendu a 1500 px, le calendrier s'ouvrait a
+     391 px, au milieu de rien. Sur iPhone, Safari redeploie alors sa barre
+     d'adresse en cours de route, et la barre du bas saute avec elle. Avant
+     la peinture, pour que la page n'apparaisse jamais ailleurs qu'en haut. */
+  const premiereRoute = useRef(true);
+  useLayoutEffect(() => {
+    if (premiereRoute.current) {
+      premiereRoute.current = false;
+      return;
+    }
+    window.scrollTo(0, 0);
+  }, [route]);
 
   return (
     <StrictMode>
