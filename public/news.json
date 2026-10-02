@@ -1,6 +1,16 @@
 {
- "fait": "2026-10-01T18:28:49.414Z",
+ "fait": "2026-10-02T05:49:48.809Z",
  "articles": [
+  {
+   "source": "musicradar",
+   "titre": "Giles Martin reveals that his father's piano solo on In My Life was originally played on an organ",
+   "lien": "https://www.musicradar.com/artists/at-that-stage-he-was-the-best-keyboard-player-in-the-beatles-because-paul-and-john-had-not-developed-their-keyboard-talents-as-well-as-he-had-giles-martin-reveals-that-his-fathers-piano-solo-on-in-my-life-was-originally-played-on-an-organ",
+   "date": "2026-10-02T00:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/Dz2yhdXMaEU5FLUN9JMbEd-1920-80.jpg",
+   "resume": "You could come up with plenty of reasons why producer George Martin deserved to be known as ‘the fifth Beatle’, but one of the most tangible is the Bach-inspired piano solo from 1965’s In My Life. The song featured on…",
+   "titre_fr": "Giles Martin révèle que le solo de piano de son père sur In My Life était originellement joué à l'orgue",
+   "resume_fr": "On pourrait trouver de nombreuses raisons pour lesquelles le producteur George Martin méritait d'être connu comme « le cinquième Beatles », mais l'une des plus tangibles est le solo de piano inspiré par Bach de In My Life en 1965. La chanson figurait sur..."
+  },
   {
    "source": "musicradar",
    "titre": "“I want people to think, ‘That band Venom was crazy!’”: Heavy metal innovator Conrad ‘Cronos’ Lant dies at 63",
@@ -140,6 +150,16 @@
    "resume": "Every week, we round up the most exciting new plugin releases — from virtual instruments and creative effects to mixing tools and workflow upgrades. There are tons of plugins released every week, both free and paid, so…",
    "titre_fr": "Les meilleurs nouveaux plugins musicaux de la semaine, gratuits et payants",
    "resume_fr": "Chaque semaine, nous regroupons les sorties de plugins les plus passionnantes – des instruments virtuels et effets créatifs aux outils de mixage et améliorations de flux de travail. Des tonnes de plugins sont sortis chaque semaine, gratuits et payants, alors…"
+  },
+  {
+   "source": "musictech",
+   "titre": "Job openings in music tech this month: Las Vegas theater productions, analogue experience curation, and more",
+   "lien": "https://musictech.com/guides/essential-guide/jobs-career-openings-in-music-tech-audio-production/",
+   "date": "2026-10-01T14:00:41.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2025/12/Arturia-AstroLab-37-3-credit-press@1400x1050.jpg",
+   "resume": "This month’s roundup of jobs has a particular shine to it. Run audio at “O,” the current Cirque du Soleil production in Las Vegas or manage Roland ’s first ever US store, opening soon in New York City. Beyond that…",
+   "titre_fr": "Offres d'emploi en musique tech ce mois-ci : productions de théâtre à Las Vegas, curation d'expérience analogique, et plus",
+   "resume_fr": "La sélection d'emplois de ce mois-ci a une brillance particulière. Gérez l'audio au spectacle « O » de Cirque du Soleil à Las Vegas ou dirigez le premier magasin américain de Roland, qui ouvrira bientôt à New York City. Au-delà de cela..."
   },
   {
    "source": "musicradar",
@@ -292,16 +312,6 @@
    "resume_fr": "Note de l'éditeur : BandLab Technologies et MusicTech font tous deux partie de Caldecott Music Group. Ivan Chen est le nouveau PDG de BandLab Technologies, l'ancien PDG Meng Ru Kuok passant à un rôle de président exécutif. Kuok..."
   },
   {
-   "source": "musicradar",
-   "titre": "“I’m not going back to sleeping on floors”: Dinosaur Jr’s J Mascis reveals why he turned down Nirvana",
-   "lien": "https://www.musicradar.com/artists/bands/dinosaur-jrs-j-mascis-reveals-why-he-turned-down-nirvana-i-had-just-graduated-to-being-able-to-stay-in-motels-and-not-on-floors-but-they-were-still-in-the-floor-phase-im-not-going-back-to-the-floors",
-   "date": "2026-09-30T13:41:44.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/amUTwGdoPTMYkcADo6VfVV-1920-80.jpg",
-   "resume": "Every band eventually reunites these days. But few reformations have been as unlikely, nor as successful as Dinosaur Jr’s. The indie rockers, who very much played John The Baptist to Nirvana’s messiah, didn’t much like…",
-   "titre_fr": "« Je ne retourne pas dormir par terre » : J Mascis de Dinosaur Jr révèle pourquoi il a refusé Nirvana",
-   "resume_fr": "Chaque groupe finit par se réunir ces jours-ci. Mais peu de reformations ont été aussi improbables, ni aussi couronnées de succès que celle de Dinosaur Jr. Les rockeurs indé, qui jouaient vraiment Jean le Baptiste au Messie de Nirvana, n'aimaient pas vraiment..."
-  },
-  {
    "source": "cdm",
    "titre": "Magpies and hope: a journey into Anastasia Kristensen’s Bestiarium",
    "lien": "https://cdm.link/anastasia-kristensen-bestiarium-sombre-interview/",
@@ -360,16 +370,6 @@
    "resume": "Sampleson Backgrounds is a new soundscape creation tool that lets users combine words and ideas on a canvas to generate evolving cinematic atmospheres.…",
    "titre_fr": "Backgrounds crée des ambiances sonores évolutives à partir de vos invites de mots-clés",
    "resume_fr": "Sampleson Backgrounds est un nouvel outil de création d'ambiances sonores qui permet aux utilisateurs de combiner des mots et des idées sur un canevas pour générer des atmosphères cinématiques évolutives.…"
-  },
-  {
-   "source": "musictech",
-   "titre": "Spitfire Audio once again teams up with BT on Phoenix, a hybrid synth built from the producer’s private archive",
-   "lien": "https://musictech.com/news/gear/spitfire-audio-phoenix-bt/",
-   "date": "2026-09-29T15:15:35.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/09/Spitfire-Audio-Phoenix-1@2000x1500.jpg",
-   "resume": "Spitfire Audio has released Phoenix, a hybrid synthesizer made in collaboration with Grammy-nominated composer and producer Brian Transeau, aka BT . It’s the third collaboration between the pair, following Phobos in…",
-   "titre_fr": "Spitfire Audio s'associe à nouveau à BT sur Phoenix, un synthé hybrid construit à partir des archives privées du producteur",
-   "resume_fr": "Spitfire Audio a lancé Phoenix, un synthétiseur hybrid réalisé en collaboration avec le compositeur et producteur nominé aux Grammy Brian Transeau, alias BT. C'est la troisième collaboration entre les deux, après Phobos en…"
   },
   {
    "source": "midnightrebels",
@@ -1282,7 +1282,7 @@
    "titre": "Mau P announced for Hong Kong event series, UNDER THE KT-BRIDGE",
    "lien": "https://djmag.com/news/mau-p-announced-hong-kong-event-series-under-kt-bridge-0",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-10/t10026_MauP.jpg.webp?itok=hFgsb14_1186600552",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-10/t10026_MauP.jpg.webp?itok=hFgsb14_1894491693",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The Dutch hitmaker will make his Hong Kong debut at the POV event</p> </div>",
    "titre_fr": "Mau P annoncé pour la série d'événements de Hong Kong, UNDER THE KT-BRIDGE",
    "resume_fr": "Le hitmaker néerlandais fera ses débuts à Hong Kong lors de l'événement POV"
@@ -1292,20 +1292,10 @@
    "titre": "Sir Spyro marks 10 years of ‘Topper Top’ with remixes from Conducta, Jaz Imsky, more",
    "lien": "https://djmag.com/news/sir-spyro-marks-10-years-of-topper-top-remixes-conducta-jaz-imsky-more",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-10/Sir-Spyro-Beatportal.webp?itok=z6JLOP1U2044697091",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-10/Sir-Spyro-Beatportal.webp?itok=z6JLOP1U386808305",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The original track was released via Deep Medi Musik in September 2016</p> </div>",
    "titre_fr": "Sir Spyro marque 10 ans de « Topper Top » avec des remixes de Conducta, Jaz Imsky, et plus",
    "resume_fr": "Le track original a été sorti via Deep Medi Musik en septembre 2016"
-  },
-  {
-   "source": "djmag",
-   "titre": "London’s Heaven nightclub granted protected status against redevelopment",
-   "lien": "https://djmag.com/news/londons-heaven-nightclub-granted-protected-status-against-redevelopment",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-10/Heaven.jpg.webp?itok=XHiScy9G939224625",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>“Heaven means so much to so many people, and we want to ensure it continues to serve our…",
-   "titre_fr": "Le nightclub Heaven de Londres obtient un statut patrimonial contre le redéveloppement",
-   "resume_fr": "« Heaven signifie énormément pour tellement de gens, et on veut s'assurer qu'il continue à servir notre…"
   },
   {
    "source": "djmag",
@@ -1322,7 +1312,7 @@
    "titre": "New book, In Clubland, chronicles 35 years of global club culture",
    "lien": "https://djmag.com/news/new-book-clubland-chronicles-35-years-of-global-club-culture",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/in-clubland-via-80s-casuals.jpg.webp?itok=B5iVLGwe2058292045",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/in-clubland-via-80s-casuals.jpg.webp?itok=B5iVLGwe1758643052",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The new book features cameos from Daft Punk and The Chemical Brothers</p> </div>",
    "titre_fr": "Un nouveau livre, In Clubland, retrace 35 ans de culture club mondiale",
    "resume_fr": "Le nouveau livre comporte des apparitions de Daft Punk et The Chemical Brothers"
@@ -1332,10 +1322,20 @@
    "titre": "Artist behind Fred again..’s ‘USB002’ announces immersive ADE installation",
    "lien": "https://djmag.com/news/artist-behind-fred-agains-usb002-announces-immersive-ade-installation",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/boris-acket-via-ade.jpg.webp?itok=xufWjtv6266959042",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/boris-acket-via-ade.jpg.webp?itok=xufWjtv61043717830",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The large-scale installation is part of ADE’s 30th anniversary celebrations</p> </div>",
    "titre_fr": "L'artiste derrière « USB002 » de Fred again.. annonce une installation immersive à l'ADE",
    "resume_fr": "L'installation à grande échelle fait partie des célébrations du 30e anniversaire de l'ADE"
+  },
+  {
+   "source": "djmag",
+   "titre": "Bose is bringing wired earbuds back after 11 years",
+   "lien": "https://djmag.com/tech/bose-bringing-wired-earbuds-back-after-11-years",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/bose-wired-earbuds.jpg.webp?itok=Ge-W9fSY1113447055",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The new model, available from 15th October, come with three modes of noise…",
+   "titre_fr": "Bose ramène les écouteurs filaires après 11 ans",
+   "resume_fr": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>Le nouveau modèle, disponible à partir du 15 octobre, est livré avec trois modes de réduction de bruit..."
   },
   {
    "source": "djmag",
@@ -1362,20 +1362,10 @@
    "titre": "Watch ANOTR’s full DJ set from Alexandra Palace in London",
    "lien": "https://djmag.com/news/watch-anotrs-full-dj-set-alexandra-palace-london",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/anotr.jpg.webp?itok=Z6ZzIcZB1627305433",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/anotr.jpg.webp?itok=Z6ZzIcZB1324843541",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The show was part of the Amsterdam duo’s two-night run at the iconic London venue</p>…",
    "titre_fr": "Regarde le DJ set complet d'ANOTR depuis Alexandra Palace à Londres",
    "resume_fr": "Le show faisait partie de la tournée de deux nuits du duo d'Amsterdam à la célèbre salle londonienne"
-  },
-  {
-   "source": "djmag",
-   "titre": "Tinashe shares ‘Popstar’ remix EP featuring PinkPantheress, Nick León, more",
-   "lien": "https://djmag.com/news/tinashe-shares-popstar-remix-ep-featuring-pinkpantheress-nick-leon-more",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-09/Tinashe-Credit-Hugo-Comte-remix-ep-popstar-pinkpantheress-nick-leon-umru_0.jpg.webp?itok=W5ldF-5w1936316447",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>A ‘Bonus Edition’ of the US artist’s 2026 LP is out now, featuring four new “flips”</p>…",
-   "titre_fr": "Tinashe partage l'EP remix « Popstar » en collaboration avec PinkPantheress, Nick León, et plus",
-   "resume_fr": "Une « Bonus Edition » du LP 2026 de l'artiste américaine est sortie maintenant, avec quatre nouveaux « flips »"
   },
   {
    "source": "mixmag",
@@ -1396,16 +1386,6 @@
    "resume": "The Manchester club series will take a “short breather” after celebrating its 20th anniversary",
    "titre_fr": "The Warehouse Project prend une année sabbatique en 2027",
    "resume_fr": "La série de club de Manchester prendra une « petite pause » après avoir célébré son 20e anniversaire"
-  },
-  {
-   "source": "mixmag",
-   "titre": "Mixmag and image enhancement app Wink team up on #WinkTheNightBack campaign",
-   "lien": "https://mixmag.net/feature/mixmag-image-enhancement-app-wink-team-up-winkthenightback-campaign",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/wink-lead.jpg?fit=cover&format=baseline-jpeg&height=630&width=1200&s=rxxBsIHH9eJ_YKtqKLPTmo5zU5DbwEbZ_f-Wo5CCDFY",
-   "resume": "The campaign aims to rescue and restore blurry, low-quality photos and videos from clubbers, DJs and promoters, with rewards up for grabs",
-   "titre_fr": "Mixmag et l'appli Wink s'associent pour la campagne #WinkTheNightBack",
-   "resume_fr": "La campagne vise à récupérer et restaurer les photos et vidéos floues et de faible qualité des clubbers, DJs et promoteurs, avec des récompenses à la clé"
   },
   {
    "source": "mixmag",
