@@ -40,7 +40,7 @@ const ENTREES = INDEX as readonly EntreeLabel[];
 /* LA FICHE D'UN LABEL, SEULE. Le pre-rendu ecrit /labels/<slug>/fiche.json
    a cote de chaque page : plus de mille fiches pesent plusieurs mega-octets,
    et une page n'en montre qu'une. Le fichier entier ne se charge qu'en
-   dernier recours, en developpement ou si la fiche manque. */
+   developpement, ou le pre-rendu n'a pas tourne. */
 let toutes: Promise<readonly FicheLabel[]> | null = null;
 const chargerToutes = (): Promise<readonly FicheLabel[]> => {
   toutes ??= import('../data/labels.json').then((m) => (m.default ?? m) as unknown as readonly FicheLabel[]);
@@ -51,9 +51,13 @@ async function chargerFiche(slugVoulu: string): Promise<FicheLabel | null> {
     const r = await fetch(`/labels/${encodeURIComponent(slugVoulu)}/fiche.json`);
     if (r.ok && (r.headers.get('content-type') ?? '').includes('json')) return (await r.json()) as FicheLabel;
   } catch {
-    /* hors ligne ou developpement : le fichier entier */
+    /* hors ligne : rien de plus a tenter */
   }
-  return (await chargerToutes()).find((f) => f.slug === slugVoulu || f.anciens?.includes(slugVoulu)) ?? null;
+  /* En developpement, le pre-rendu n'a pas tourne : le fichier entier. Le
+     test sur DEV le retire de la construction, ou ses 4,5 Mo depassaient la
+     limite du cache hors ligne (vu le 1er octobre 2026). */
+  if (import.meta.env.DEV) return (await chargerToutes()).find((f) => f.slug === slugVoulu || f.anciens?.includes(slugVoulu)) ?? null;
+  return null;
 }
 
 interface PisteDuLabel {

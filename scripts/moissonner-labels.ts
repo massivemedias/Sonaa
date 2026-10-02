@@ -466,7 +466,7 @@ async function sortiesDuGenre(nomDiscogs: string, cle: string, genre: string | n
     const image = x.cover_image && !x.cover_image.includes('spacer.gif') && !suspecte(x.cover_image) ? x.cover_image : null;
     sorties.push({
       titre: sansTirets(reste.join(' - ').trim()),
-      artiste: artiste.replace(/\*$/, '').replace(/\s\(\d+\)$/, '').trim(),
+      artiste: sansTirets(artiste.replace(/\*$/, '').replace(/\s\(\d+\)$/, '').trim()),
       annee: Number.isFinite(annee) && annee > 1900 ? annee : null,
       possedee: x.community?.have ?? 0,
       electronique: genre === 'Electronic' || (x.genre ?? []).includes('Electronic'),
