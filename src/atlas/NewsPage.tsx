@@ -65,6 +65,9 @@ interface Article {
   readonly resume_fr?: string;
   /** Le resume SONAA d'un article dont le flux ne donne qu'un extrait. */
   readonly synthese?: { readonly fr: readonly string[]; readonly en: readonly string[] };
+  /** Le flux porte l'article entier. Absent dans un fichier d'avant le
+      2 octobre 2026, ou l'article est alors tenu pour lisible. */
+  readonly integral?: boolean;
 }
 
 /* ═══ LE TITRE DANS LA LANGUE DE LA PAGE ═══
@@ -412,6 +415,9 @@ export function NewsPage() {
       .filter((a) => {
         const s = PAR_SOURCE.get(a.source);
         if (!s || !a.image || cassees.has(a.lien)) return false;
+        /* Ni entier ni resume : il ne se lirait pas ici. La moisson ne
+           l'ecrit plus ; ceci garde la regle si un fichier ancien revient. */
+        if (a.integral === false && !a.synthese) return false;
         if (sourceChoisie) return a.source === sourceChoisie;
         return filtre === 'tout' || s.categorie === filtre;
       })

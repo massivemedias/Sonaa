@@ -40,10 +40,11 @@ const PAR_SOURCE = 12;
 const TOTAL = 160;
 const DELAI_MS = 15_000;
 /* LES RESUMES SONAA D'UNE PASSE, AU PLUS. Une passe en trouve d'ordinaire
-   une dizaine de nouveaux ; la toute premiere en avait plus de cent a
-   rattraper. Le plafond etale ce rattrapage sur quelques passes, et borne
-   la facture d'une passe qui s'emballerait. */
-const RESUMES_PAR_PASSE = 40;
+   une dizaine de nouveaux ; la toute premiere en avait une centaine a
+   rattraper, et un article sans resume n'est plus montre (voir plus bas) :
+   le rattrapage se fait donc d'un coup. Le plafond borne seulement la
+   facture d'une passe qui s'emballerait (trois dollars au pire). */
+const RESUMES_PAR_PASSE = 100;
 
 export interface Livre {
   readonly fait: string;
@@ -284,7 +285,16 @@ async function main(): Promise<void> {
   });
   console.log(`  ${resumes.filter((a) => a.synthese).length} article(s) sur ${resumes.filter((a) => !a.integral).length} en extrait ont leur resume SONAA.`);
 
-  const livre: Livre = { fait: new Date().toISOString(), articles: resumes, pannes };
+  /* ═══ UN ARTICLE QU'ON NE PEUT PAS LIRE ICI N'EST PAS MONTRE ═══ Mika, le
+     2 octobre 2026, devant un article de MusicRadar reduit a son titre et a
+     « Lire la suite sur MusicRadar » : « je prefere ne pas le voir ». Un
+     article reste s'il est entier dans son flux, ou s'il a son resume SONAA.
+     Celui dont la page n'a pas pu etre resumee (mur payant, blocage des
+     robots) attend la passe suivante, ou ne revient pas. */
+  const lisibles = resumes.filter((a) => a.integral !== false || a.synthese);
+  console.log(`  ${resumes.length - lisibles.length} article(s) en extrait sans resume ne sont pas montres.`);
+
+  const livre: Livre = { fait: new Date().toISOString(), articles: lisibles, pannes };
   /* INDENTE, ET `fait` SUR SA PROPRE LIGNE : l'action planifiee compare le
      fichier en ignorant cette ligne, pour ne commettre que quand un article
      a change, pas deux fois par jour pour une date. */
