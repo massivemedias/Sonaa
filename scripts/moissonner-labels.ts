@@ -3,15 +3,17 @@
  * Usage : npm run moissonner:labels                 (tout, en reprenant)
  *         npm run moissonner:labels -- --refaire     (tout, de zero)
  *         npm run moissonner:labels -- --seulement="F Communications"
+ *         npm run moissonner:labels -- --tranche     (la nuit : un 28e refait)
  *
  * Voir src/lib/labels.ts pour ce que la page en fait.
  *
  * ═══ QUELS LABELS ═══
  *
- * Tous ceux que le corpus cite sur un morceau, et on garde ceux qui ont au
- * moins TROIS morceaux dans l'atlas OU une page Wikipedia. Le nombre seul ne
- * suffisait pas : F Communications, Kompakt et Ostgut Ton n'ont qu'un morceau
- * chacun dans le corpus, et ce sont exactement ceux qu'on cherche.
+ * Tous ceux que le corpus cite sur un morceau, et ceux que les fiches des
+ * styles nomment sans qu'aucun morceau les porte (Skam pour l'IDM). Il y en
+ * avait d'abord un seuil, trois morceaux ou une page Wikipedia ; Mika a
+ * demande les petits aussi, le 1er octobre 2026. Une fiche qui ne trouve
+ * rien nulle part (ni morceau, ni Discogs, ni Wikipedia) n'est pas ecrite.
  *
  * ═══ D'OU VIENT CHAQUE CHAMP, ET SOUS QUELLE LICENCE ═══
  *
@@ -30,7 +32,7 @@
 
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { cleDeLabel, succes, estSansLabel, type FicheLabel, type SortieConnue } from '../src/lib/labels.ts';
+import { cleDeLabel, nomsDeLabels, succes, estSansLabel, type FicheLabel, type SortieConnue } from '../src/lib/labels.ts';
 import { slug } from '../src/lib/chemins.ts';
 import { nettoyerProfil, sansTirets, variantes } from './lib/labels-moisson.ts';
 
@@ -40,8 +42,18 @@ const INDEX = fileURLToPath(new URL('../src/data/labels-index.json', import.meta
 const AGENT = 'SonaaAtlas/1.0 (https://sonaa.ca; massivemedias@gmail.com)';
 const DISCOGS = process.env['DISCOGS_TOKEN'] ?? '';
 const REFAIRE = process.argv.includes('--refaire');
+/* LE ROULEMENT DE LA NUIT. Tout refaire le premier du mois prenait plus de
+   deux heures avec les petits labels, au-dela des 90 minutes de la moisson
+   automatique. Chaque nuit refait donc un vingt-huitieme des fiches, choisi
+   par le nom : tout est rafraichi en quatre semaines. Un label nomme par une
+   fiche de style et introuvable n'est recherche que dans sa tranche. */
+const TRANCHE = process.argv.includes('--tranche');
+const dansLaTranche = (cle: string): boolean => {
+  let h = 0;
+  for (let i = 0; i < cle.length; i += 1) h = (h * 31 + cle.charCodeAt(i)) % 9973;
+  return h % 28 === (new Date().getUTCDate() - 1) % 28;
+};
 const SEULEMENT = process.argv.find((a) => a.startsWith('--seulement='))?.slice('--seulement='.length) ?? null;
-const SEUIL_MORCEAUX = 3;
 
 const pause = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms));
 /* UNE ADRESSE QUI RESSEMBLE A UNE CLE N'ENTRE PAS : le controle des secrets
@@ -49,6 +61,40 @@ const pause = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms
 const suspecte = (u: string): boolean => /ghp_|github_pat_|AIza|sk-[A-Za-z0-9]{16}|sb_secret_|eyJhbGciOi/.test(u);
 
 /* ── 1. Les labels du corpus ─────────────────────────────────────────── */
+
+/* LES CORRECTIONS A LA MAIN, relues le 1er octobre 2026 sur la moisson des
+   petits labels. Chaque liste dit ce qu'une regle ne pouvait pas deviner. */
+
+/** Ce que le corpus range dans la case « label » et qui n'en est pas un : des
+    magazines (leurs mix offerts en couverture) et un studio de mastering. */
+const PAS_DES_LABELS = new Set(['alchemy mastering', 'mixmag', 'xlr8r', 'knowledge magazine']);
+
+/** Des noms que les fiches des styles citent, et que Wikidata et Discogs
+    attribuent a un homonyme : « Tesco » y est la chaine de supermarches,
+    « Wild Bunch » une societe de cinema, « Coyote » un studio de Portland.
+    Ils restent ecrits dans la fiche du style, sans page. */
+const NOMS_ECARTES = new Set(
+  [
+    'Acid Test', 'Blackout', 'Coyote', 'Cyber', 'DAT Records', 'Evolution', 'Formation', 'FUSE', 'Guidance', 'Insomniac Records',
+    'Jazzanova', 'King Street', 'Les Disques du Soleil', 'Lost & Found', "Movin'", 'Mystic Sound', 'Noise Maker', 'People', 'Polaris',
+    'PPU', 'Pure Trance', 'Slip-N-Slide', 'Southern Fried', 'Subculture', 'Sudbeats', 'TCP', 'Tesco', 'Things To Come', 'Transmission',
+    'VIM', 'Wild Bunch',
+  ].map(cleDeLabel)
+);
+
+/** Le meme label sous un autre nom, que la recherche et les fiches des
+    styles doivent retrouver : Tidy Trax est Tidy, Play It Again Sam est
+    [PIAS]. */
+const AUTRES_NOMS: Readonly<Record<string, readonly string[]>> = {
+  tidy: ['tidy trax'],
+  'd j international records': ['dj international'],
+  'pias recordings': ['play it again sam'],
+  'esl music': ['eighteenth street lounge'],
+};
+const DEJA_NOMMES = new Set(Object.values(AUTRES_NOMS).flat());
+
+/** Des labels dont la fiche Discogs trouvee par le nom est celle d'un autre. */
+const DISCOGS_HOMONYMES = new Set(['clarity recordings', 'fox']);
 
 interface LabelDuCorpus {
   cle: string;
@@ -58,13 +104,13 @@ interface LabelDuCorpus {
 }
 
 const corpus = JSON.parse(readFileSync(CORPUS, 'utf8')) as {
-  genres: { tracks: { release?: { label?: string } | null }[] }[];
+  genres: { tracks: { release?: { label?: string } | null }[]; labelsHistoriques?: string[]; labelsActuels?: string[] | null }[];
 };
 const parCle = new Map<string, LabelDuCorpus>();
 for (const g of corpus.genres) {
   for (const t of g.tracks) {
     const nom = t.release?.label?.trim();
-    if (!nom || estSansLabel(nom)) continue;
+    if (!nom || estSansLabel(nom) || PAS_DES_LABELS.has(cleDeLabel(nom))) continue;
     const cle = cleDeLabel(nom);
     const l = parCle.get(cle) ?? { cle, nom, graphies: new Map(), n: 0 };
     l.n += 1;
@@ -86,10 +132,25 @@ for (const a of AJOUTS) {
   const cle = cleDeLabel(a.nom);
   if (!parCle.has(cle)) parCle.set(cle, { cle, nom: a.nom, graphies: new Map([[a.nom, 0]]), n: 0 });
 }
+/* LES LABELS QUE LES FICHES DES STYLES NOMMENT, sans morceau dans l'atlas.
+   « Warp » est deja la sous « Warp Records » : un nom qui egale un label du
+   corpus, a « Records » pres, n'en cree pas un second. */
+const racineDuNom = (cle: string): string => cle.replace(/ (records|recordings|music|label)$/, '');
+const racinesDuCorpus = new Set([...parCle.keys()].map(racineDuNom));
+const NOMMES = new Set<string>();
+for (const g of corpus.genres) {
+  for (const nom of [...(g.labelsHistoriques ?? []), ...(g.labelsActuels ?? [])].flatMap(nomsDeLabels)) {
+    const cle = cleDeLabel(nom);
+    if (!cle || estSansLabel(nom) || parCle.has(cle) || racinesDuCorpus.has(racineDuNom(cle)) || NOMS_ECARTES.has(cle) || DEJA_NOMMES.has(cle)) continue;
+    parCle.set(cle, { cle, nom, graphies: new Map([[nom, 0]]), n: 0 });
+    racinesDuCorpus.add(racineDuNom(cle));
+    NOMMES.add(cle);
+  }
+}
 let labels = [...parCle.values()];
 const tousLesNoms = new Set(labels.map((l) => l.cle));
 if (SEULEMENT) labels = labels.filter((l) => l.cle === cleDeLabel(SEULEMENT));
-console.log(`${labels.length} label(s) dans le corpus.`);
+console.log(`${labels.length} label(s) : ${labels.length - NOMMES.size - AJOUTS.length} du corpus, ${NOMMES.size} nommes par les fiches des styles.`);
 
 /* ── 2. Wikidata ─────────────────────────────────────────────────────── */
 
@@ -113,8 +174,8 @@ async function sparql(requete: string): Promise<Record<string, { value: string }
   for (let essai = 0; essai < 4; essai += 1) {
     const r = await fetch(`https://query.wikidata.org/sparql?format=json&query=${encodeURIComponent(requete)}`, {
       headers: { 'User-Agent': AGENT, Accept: 'application/sparql-results+json' },
-    });
-    if (r.ok) return ((await r.json()) as { results: { bindings: Record<string, { value: string }>[] } }).results.bindings;
+    }).catch(() => null);
+    if (r?.ok) return ((await r.json()) as { results: { bindings: Record<string, { value: string }>[] } }).results.bindings;
     await pause(3000 * (essai + 1));
   }
   return [];
@@ -219,7 +280,7 @@ const tousRetenus = labels
       ? null
       : choisir(candidats.get(l.cle)?.filter((c) => acceptable(c, l.cle))),
   }))
-  .filter(({ l, wd }) => l.n >= SEUIL_MORCEAUX || wd?.frwiki || wd?.enwiki || AJOUTE.has(l.cle));
+  .filter(({ l, wd }) => l.n >= 1 || wd?.frwiki || wd?.enwiki || AJOUTE.has(l.cle) || NOMMES.has(l.cle));
 
 /* UN LABEL, UNE PAGE. Le corpus ecrit « Armada » et « Armada Music », « Out
    Of Line » et « Out Of Line Music » : deux graphies, un seul element
@@ -248,7 +309,7 @@ const retenus = tousRetenus.filter((r) => {
   anciens.set(t.l.cle, [...(anciens.get(t.l.cle) ?? []), slug(r.l.nom) || slug(r.l.cle)]);
   return false;
 });
-console.log(`${retenus.length} label(s) retenu(s) (au moins ${SEUIL_MORCEAUX} morceaux, ou une page Wikipedia).`);
+console.log(`${retenus.length} label(s) retenu(s).`);
 
 /* Les fondateurs, en une requete par lot d'elements. */
 const fondateurs = new Map<string, string[]>();
@@ -344,10 +405,17 @@ async function resume(adresse: string | null): Promise<string | undefined> {
 
 async function discogs(chemin: string): Promise<unknown> {
   if (!DISCOGS) return null;
-  for (let essai = 0; essai < 3; essai += 1) {
+  for (let essai = 0; essai < 5; essai += 1) {
+    /* UNE COUPURE DU RESEAU N'ARRETE PAS LA MOISSON : le 1er octobre 2026,
+       un DNS absent une seconde l'a fait tomber a la fiche 486 sur 1560. On
+       attend, et on reessaie. */
     const r = await fetch(`https://api.discogs.com${chemin}`, {
       headers: { 'User-Agent': AGENT, Authorization: `Discogs token=${DISCOGS}` },
-    });
+    }).catch(() => null);
+    if (!r) {
+      await pause(15000);
+      continue;
+    }
     /* SOIXANTE REQUETES A LA MINUTE avec un jeton : une seconde entre deux,
        et une attente plus longue quand Discogs dit que c'est trop. */
     await pause(1100);
@@ -428,16 +496,17 @@ for (const { l, wd } of retenus) {
   const avant = deja.get(s);
   /* Une fiche se reprend telle quelle, sauf si son element Wikidata a change
      depuis : les regles de reconnaissance ont pu la corriger. */
-  if (avant && !SEULEMENT && (avant.wikidata ?? null) === (wd?.item ?? null)) {
-    fiches.set(s, { ...avant, n: l.n, cles: [...new Set([l.cle, ...[...l.graphies.keys()].map(cleDeLabel)])], anciens: anciens.get(l.cle) ?? [] });
+  if (avant && !SEULEMENT && (avant.wikidata ?? null) === (wd?.item ?? null) && !(TRANCHE && dansLaTranche(l.cle))) {
+    fiches.set(s, { ...avant, n: l.n, cles: [...new Set([l.cle, ...[...l.graphies.keys()].map(cleDeLabel), ...(AUTRES_NOMS[l.cle] ?? [])])], anciens: anciens.get(l.cle) ?? [] });
     continue;
   }
+  if (TRANCHE && !avant && l.n === 0 && NOMMES.has(l.cle) && !dansLaTranche(l.cle)) continue;
 
   let nomDiscogs = l.nom;
   let profil: string | null = null;
   let urlDiscogs: string | null = null;
   let imageDiscogs: string | null = null;
-  if (DISCOGS) {
+  if (DISCOGS && !DISCOGS_HOMONYMES.has(l.cle)) {
     const fiche = wd?.discogs
       ? ((await discogs(`/labels/${wd.discogs}`)) as { name?: string; profile?: string; uri?: string; images?: { type?: string; uri?: string }[] } | null)
       : null;
@@ -464,11 +533,13 @@ for (const { l, wd } of retenus) {
   }
   const sorties = DISCOGS ? await sortiesConnues(nomDiscogs, l.cle) : [];
   const [resumeFr, resumeEn] = await Promise.all([resume(wd?.frwiki ?? null), resume(wd?.enwiki ?? null)]);
+  /* Un label nomme qu'on ne trouve nulle part n'a rien a montrer. */
+  if (l.n === 0 && !urlDiscogs && !resumeFr && !resumeEn && !AJOUTE.has(l.cle)) continue;
 
   fiches.set(s, {
     slug: s,
     nom: l.nom,
-    cles: [...new Set([l.cle, ...[...l.graphies.keys()].map(cleDeLabel)])],
+    cles: [...new Set([l.cle, ...[...l.graphies.keys()].map(cleDeLabel), ...(AUTRES_NOMS[l.cle] ?? [])])],
     anciens: anciens.get(l.cle) ?? [],
     n: l.n,
     pays: wd?.pays ?? AJOUTE.get(l.cle)?.pays ?? null,
@@ -492,6 +563,24 @@ for (const { l, wd } of retenus) {
   process.stdout.write(`\r${faits} fiche(s) faite(s) : ${l.nom.slice(0, 40).padEnd(40)}`);
   /* On ecrit en chemin : une moisson coupee reprend ou elle en etait. */
   if (faits % 10 === 0) writeFileSync(SORTIE, `${JSON.stringify([...fiches.values()].sort((a, b) => a.nom.localeCompare(b.nom)), null, 1)}\n`);
+}
+
+/* DEUX NOMS, UNE MEME FICHE DISCOGS : « Upsetter » et « Upsetter Records »
+   n'ont pas d'element Wikidata pour les reunir, mais Discogs les donne pour
+   un seul label. Ils se fondent comme les graphies d'un meme element. */
+const parDiscogs = new Map<string, FicheLabel[]>();
+for (const f of fiches.values()) if (f.discogs) parDiscogs.set(f.discogs, [...(parDiscogs.get(f.discogs) ?? []), f]);
+for (const groupe of parDiscogs.values()) {
+  if (groupe.length < 2) continue;
+  const [t, ...autres] = [...groupe].sort((a, b) => b.n - a.n);
+  if (!t) continue;
+  fiches.set(t.slug, {
+    ...t,
+    n: groupe.reduce((somme, f) => somme + f.n, 0),
+    cles: [...new Set(groupe.flatMap((f) => f.cles))],
+    anciens: [...new Set([...(t.anciens ?? []), ...autres.flatMap((f) => [f.slug, ...(f.anciens ?? [])])])],
+  });
+  for (const f of autres) fiches.delete(f.slug);
 }
 
 const tout = [...fiches.values()].sort((a, b) => a.nom.localeCompare(b.nom));

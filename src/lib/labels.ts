@@ -128,6 +128,7 @@ const MAJORS = new Set(
     /* et leurs filiales */
     'wea', 'sire', 'mca records', 'jive', 'jive records', 'london records', 'barclay', 'sony soho square', 'go beat', 'maverick',
     'wea japan', 'warner music denmark', 'universal music france', 'universal music tv',
+    'umc', 'emi electrola',
   ].map(cleDeLabel)
 );
 
@@ -183,6 +184,17 @@ export function nomDuPays(pays: string, langue: string): string {
      a partir de deux morceaux, hors majors (WEA Japan n'est pas un label
      d'IDM parce qu'il a distribue deux disques d'Aphex Twin au Japon).
    Un label nomme sans page reste dans la liste, sans lien. */
+/** Les noms de label qu'une fiche de style ecrit dans une seule case :
+    « Ilian Tape (parenté) » est Ilian Tape, « Oasis/Casablanca » en est deux,
+    et une phrase (« genre éteint ; quelques rééditions ») n'en est aucun. */
+export function nomsDeLabels(brut: string): readonly string[] {
+  return brut
+    .replace(/\s*\([^)]*\)/g, '')
+    .split('/')
+    .map((n) => n.trim())
+    .filter((n) => n.length > 0 && n.length <= 40 && !n.includes(';'));
+}
+
 export interface LabelDuStyle {
   readonly nom: string;
   readonly entree: EntreeLabel | null;
@@ -209,10 +221,8 @@ export function labelsDuStyle(
   }
   const vus = new Set<string>();
   const choisis: LabelDuStyle[] = [];
-  for (const brut of nommes) {
-    /* « Ilian Tape (parenté) » : la parenthese est une nuance de la fiche. */
-    const nom = brut.replace(/\s*\([^)]*\)/g, '').trim();
-    const e = nom ? trouver(nom) : null;
+  for (const nom of nommes.flatMap(nomsDeLabels)) {
+    const e = trouver(nom);
     const id = e?.s ?? cleDeLabel(nom);
     if (!id || vus.has(id)) continue;
     vus.add(id);

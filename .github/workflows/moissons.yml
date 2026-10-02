@@ -96,13 +96,14 @@ jobs:
       - name: Index des artistes
         run: npm run deriver:artistes
 
-      # LES LABELS (pages /labels/, 1er octobre 2026) : chaque nuit, seulement
-      # ceux qui sont apparus dans le corpus ; le premier du mois, tous, pour
-      # suivre les disques que les collectionneurs ajoutent chez Discogs.
+      # LES LABELS (pages /labels/, 1er octobre 2026) : chaque nuit, ceux qui
+      # sont apparus dans le corpus, et un vingt-huitieme des autres refait,
+      # pour suivre les disques que les collectionneurs ajoutent chez
+      # Discogs. Tout refaire d'un coup depasserait les 90 minutes du job.
       - name: Labels
         continue-on-error: true
         run: |
-          if [ "$(date -u +%d)" = "01" ]; then npm run moissonner:labels -- --refaire; else npm run moissonner:labels; fi
+          npm run moissonner:labels -- --tranche
 
       - name: Commettre si l'index a change
         id: commit

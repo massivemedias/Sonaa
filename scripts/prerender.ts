@@ -961,10 +961,26 @@ for (const f of FICHES_LABELS) {
       },
     ],
   };
-  ecrire(page);
+  /* UNE PAGE MINCE NE S'INDEXE PAS. Avec les petits labels, des fiches n'ont
+     ni presentation ni sortie connue : un nom et un morceau. Elles restent
+     servies, mais un moteur qui en lirait sept cents jugerait le site sur
+     elles. */
+  ecrire({ ...page, noindex: !resume && f.sorties.length === 0 });
+  /* LA FICHE SEULE, A COTE DE SA PAGE. Avec plus de mille labels, le fichier
+     entier pese plusieurs mega-octets : la page d'un label ne charge que la
+     sienne (voir chargerFiche dans LabelPage.tsx). */
+  const json = `${JSON.stringify(f)}\n`;
+  const ecrireFiche = (s: string): void => {
+    mkdirSync(join(DIST, 'labels', s), { recursive: true });
+    writeFileSync(join(DIST, 'labels', s, 'fiche.json'), json, 'utf8');
+  };
+  ecrireFiche(f.slug);
   /* L'adresse d'une graphie fondue dans ce label reste servie, avec ce
      label pour canonique : un lien deja partage ne tombe pas sur une 404. */
-  for (const a of f.anciens ?? []) ecrire({ ...page, chemin: `/labels/${a}/`, canonique: page.chemin });
+  for (const a of f.anciens ?? []) {
+    ecrire({ ...page, chemin: `/labels/${a}/`, canonique: page.chemin });
+    ecrireFiche(a);
+  }
 }
 
 /* ═══ LE PLAN DU SITE ET LES ROBOTS ═══ */

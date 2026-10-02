@@ -2,7 +2,7 @@
    premier. Voir labels.ts. */
 
 import { describe, expect, it } from 'vitest';
-import { cleDeLabel, estMajor, succes, estSansLabel, labelsDuStyle, labelsPourRecherche, nomDuPays, ordreDeNotoriete, type EntreeLabel } from './labels.ts';
+import { cleDeLabel, estMajor, succes, estSansLabel, labelsDuStyle, labelsPourRecherche, nomsDeLabels, nomDuPays, ordreDeNotoriete, type EntreeLabel } from './labels.ts';
 
 const index: EntreeLabel[] = [
   { s: 'f-communications', n: 'F Communications', k: ['f communications'], c: 1, p: 'France', a: 1994 },
@@ -71,5 +71,13 @@ describe('les labels d un style', () => {
     expect(r.map((l) => l.nom)).toEqual(['Warp Records', 'Ilian Tape', 'Rephlex', 'Planet Mu', 'Skam', 'Kompakt']);
     expect(r[0]?.n).toBe(2);
     expect(r.find((l) => l.nom === 'Skam')?.entree).toBeNull();
+  });
+});
+
+describe('les noms d une case de fiche', () => {
+  it('retire la nuance, coupe les doubles, ecarte les phrases', () => {
+    expect(nomsDeLabels('Ilian Tape (parenté)')).toEqual(['Ilian Tape']);
+    expect(nomsDeLabels('Oasis/Casablanca')).toEqual(['Oasis', 'Casablanca']);
+    expect(nomsDeLabels('genre éteint ; quelques rééditions et hommages dispersés')).toEqual([]);
   });
 });

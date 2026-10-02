@@ -19,10 +19,21 @@ Une page dit, dans cet ordre :
 
 ## Quels labels
 
-Tous ceux que le corpus cite, à condition d'avoir au moins trois morceaux
-dans l'atlas ou une page Wikipédia : 393 le 1er octobre 2026. Le nombre seul
-ne suffisait pas, F Communications, Kompakt et Ostgut Ton n'ont qu'un morceau
-chacun dans le corpus.
+Tous ceux que le corpus cite, et ceux que les fiches des styles nomment sans
+qu'aucun morceau les porte (Skam pour l'IDM) : 1 370 le 1er octobre 2026. Un
+seuil (trois morceaux ou une page Wikipédia) en gardait d'abord 381 ; Mika a
+demandé les petits aussi. Un label qu'on ne trouve nulle part (ni morceau,
+ni Discogs, ni Wikipédia) n'a pas de page.
+
+La moisson porte des corrections relues à la main : ce que le corpus range
+en « label » sans en être un (Mixmag, un studio de mastering), les noms que
+Wikidata et Discogs donnent à un homonyme (« Tesco », la chaîne de
+supermarchés), et les autres noms d'un même label (Tidy Trax est Tidy).
+
+Une page sans présentation ni sortie connue est servie mais porte `noindex` :
+sept cents pages minces feraient juger le site sur elles. La page d'un label
+charge sa seule fiche, `/labels/<slug>/fiche.json`, écrite au déploiement,
+et non le fichier entier, qui pèse plus de 5 Mo.
 
 ## D'où viennent les données
 
@@ -38,9 +49,11 @@ retrouve dans le corpus par le nom du label (`cleDeLabel`).
 ## Coût
 
 Aucun coût récurrent : la moisson (`npm run moissonner:labels`) tourne avec
-les clés déjà posées, et les pages sont générées au déploiement. La moisson
-de la nuit ajoute les nouveaux labels chaque nuit et refait tout le premier
-du mois.
+les clés déjà posées, et les pages sont générées au déploiement. La première
+moisson complète a pris environ deux heures, à cause de la pause d'une
+seconde qu'impose Discogs. La moisson de la nuit ajoute les nouveaux labels
+et refait un vingt-huitième des autres (`--tranche`) : tout est rafraîchi en
+quatre semaines, sans dépasser les 90 minutes du job.
 
 ## La galerie et les logos (ajout du 1er octobre 2026)
 

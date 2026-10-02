@@ -37,11 +37,24 @@ import './label.css';
 
 const ENTREES = INDEX as readonly EntreeLabel[];
 
-let fiches: Promise<readonly FicheLabel[]> | null = null;
-const chargerFiches = (): Promise<readonly FicheLabel[]> => {
-  fiches ??= import('../data/labels.json').then((m) => (m.default ?? m) as unknown as readonly FicheLabel[]);
-  return fiches;
+/* LA FICHE D'UN LABEL, SEULE. Le pre-rendu ecrit /labels/<slug>/fiche.json
+   a cote de chaque page : plus de mille fiches pesent plusieurs mega-octets,
+   et une page n'en montre qu'une. Le fichier entier ne se charge qu'en
+   dernier recours, en developpement ou si la fiche manque. */
+let toutes: Promise<readonly FicheLabel[]> | null = null;
+const chargerToutes = (): Promise<readonly FicheLabel[]> => {
+  toutes ??= import('../data/labels.json').then((m) => (m.default ?? m) as unknown as readonly FicheLabel[]);
+  return toutes;
 };
+async function chargerFiche(slugVoulu: string): Promise<FicheLabel | null> {
+  try {
+    const r = await fetch(`/labels/${encodeURIComponent(slugVoulu)}/fiche.json`);
+    if (r.ok && (r.headers.get('content-type') ?? '').includes('json')) return (await r.json()) as FicheLabel;
+  } catch {
+    /* hors ligne ou developpement : le fichier entier */
+  }
+  return (await chargerToutes()).find((f) => f.slug === slugVoulu || f.anciens?.includes(slugVoulu)) ?? null;
+}
 
 interface PisteDuLabel {
   readonly track: Track;
@@ -349,7 +362,12 @@ function Galerie() {
   }, [terme, tri, pays]);
 
   const uneVue = !terme && !pays && tri === 'connus';
-  const aLaUne = uneVue ? liste.filter((e) => !estMajor(e)).slice(0, 8) : [];
+  /* LES INCONTOURNABLES ONT DES MORCEAUX DANS L'ATLAS. Avec les petits
+     labels, Sonet, Chrysalis ou Circa passaient en tete : Discogs compte a
+     chaque label qui a presse Violator ou Mezzanine dans un pays tous les
+     collectionneurs du disque. Trois morceaux au moins, comme le seuil des
+     premieres pages, ecartent les licences d'un seul tube. */
+  const aLaUne = uneVue ? liste.filter((e) => !estMajor(e) && e.c >= 3).slice(0, 8) : [];
   const reste = uneVue ? liste.filter((e) => !aLaUne.includes(e)) : liste;
 
   const carte = (e: EntreeLabel, grande: boolean) => (
@@ -437,8 +455,8 @@ export function LabelPage() {
       return;
     }
     setFiche('chargement');
-    void chargerFiches().then((toutes) => {
-      if (vivant) setFiche(toutes.find((f) => f.slug === slugCourant || f.anciens?.includes(slugCourant)) ?? null);
+    void chargerFiche(slugCourant).then((f) => {
+      if (vivant) setFiche(f);
     });
     window.scrollTo(0, 0);
     return () => {
