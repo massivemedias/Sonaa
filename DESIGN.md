@@ -74,7 +74,8 @@ des métadonnées de panneau et deviennent la géométrie même de la carte.
 > **Remplacée le 28 septembre 2026 par [ADR-089](docs/adr/ADR-089-verre-depoli-sur-sable.md),
 > puis le 29 par [ADR-090](docs/adr/ADR-090-granite-sous-le-verre.md).**
 > Le fond est du granite dans les deux thèmes, l'encre est #3C3C3C en clair,
-> l'accent est un terracotta, et les surfaces sont en verre dépoli. Les
+> l'accent est un vert #00FF62 depuis le 2 octobre 2026 ([ADR-096](docs/adr/ADR-096-l-accent-vert.md),
+> il était terracotta avant), et les surfaces sont en verre dépoli. Les
 > quatorze teintes de famille de la section 3.2 restent les seules couleurs
 > vives du site. Ce qui suit est conservé pour mémoire du premier graphite.
 
@@ -667,8 +668,9 @@ n'ont plus d'ombre portée, seules les surfaces qui flottent en ont une, très
 diffuse.
 
 Ce qui reste interdit, et n'a pas été rouvert : serif à fort contraste.
-Emoji dans l'interface. Illustration 3D. Un accent acide unique sur fond noir
-pur. Un dégradé sur du texte. Du noir pur ou du blanc pur en fond.
+Emoji dans l'interface. Illustration 3D. Un fond noir pur (l'accent acide,
+lui, est permis depuis [ADR-096](docs/adr/ADR-096-l-accent-vert.md), sur le
+granite). Un dégradé sur du texte. Du noir pur ou du blanc pur en fond.
 
 Et pour la couche WebGL, qui est l'endroit où l'on dérape le plus vite :
 perspective, caméra qui orbite, parallaxe au mouvement de souris, noeuds

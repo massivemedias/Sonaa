@@ -400,9 +400,20 @@
      vit une fois, dans design/verre.css ; les feuilles des composants ne la
      reecrivent pas, elles surchargent au plus --verre-fond pour un survol.
      ═══════════════════════════════════════════════════════════════ */
-  --accent: oklch(0.74 0.12 50);
+  /* ═══ LE VERT, DEPUIS LE 2 OCTOBRE 2026 ═══ Mika, apres qu'on lui a dit
+     que son site « faisait Claude » : le terracotta sur noir chaud etait
+     l'identite meme de claude.ai. L'accent devient #00FF62, un vert vif
+     (oklch 0,87 0,26 147). Sur le granite il fait plus de 14 pour 1 comme
+     texte ; le texte pose dessus reste --sur-accent, presque noir, a plus
+     de 13 pour 1. Voir docs/adr/ADR-096. */
+  --accent: #00ff62;
   --sur-accent: oklch(0.15 0.004 70);
-  --accent-voile: oklch(0.74 0.12 50 / 0.18);
+  --accent-voile: rgb(0 255 98 / 0.16);
+  /* LE SECOND TON DU DEGRADE DE TRACK ID. Le melange se faisait avec un
+     rouge, qui donnait un orange plus chaud ; avec le vert il aurait donne
+     du kaki. Un vert d'eau de meme clarte : le degrade reste lumineux et
+     l'encre presque noire garde son contraste sur toute sa longueur. */
+  --accent-degrade: oklch(0.82 0.17 172);
   /* LE FOND DE LA SURFACE, et non celui de la page : a la couleur exacte
      du fond, un verre disparait dans le granite des qu'il n'a rien dessous.
      La surface levee du theme, a 40 % en sombre et 55 % en clair. */

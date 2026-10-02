@@ -120,7 +120,7 @@ body.avec-mini-lecteur {
       115deg,
       var(--accent) 0%,
       var(--accent) 35%,
-      color-mix(in oklch, var(--accent) 72%, oklch(0.56 0.17 28)) 100%
+      color-mix(in oklch, var(--accent) 72%, var(--accent-degrade)) 100%
     );
     color: var(--sur-accent);
     box-shadow:

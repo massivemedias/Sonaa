@@ -8,10 +8,10 @@
    LE DEGRADE NE PASSE JAMAIS PAR LE BLANC NI PAR LE NOIR, pour que l'encre
    posee dessus garde son contraste dans les deux themes : en sombre l'encre
    est presque noire sur un accent clair, en clair elle est blanche sur un
-   accent fonce, et le rouge du melange a la meme clarte que l'accent. */
+   accent fonce, et le second ton du melange (--accent-degrade) a presque la clarte de l'accent. */
 
 .bt {
-  --bt-rouge: color-mix(in oklch, var(--accent) 72%, oklch(0.56 0.17 28));
+  --bt-second: color-mix(in oklch, var(--accent) 72%, var(--accent-degrade));
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -24,7 +24,7 @@
   padding: var(--espace-8) var(--espace-24) var(--espace-8) var(--espace-8);
   border: 0;
   border-radius: var(--rayon-pilule);
-  background: linear-gradient(115deg, var(--accent) 0%, var(--accent) 35%, var(--bt-rouge) 100%);
+  background: linear-gradient(115deg, var(--accent) 0%, var(--accent) 35%, var(--bt-second) 100%);
   color: var(--sur-accent);
   box-shadow:
     0 14px 34px -16px color-mix(in oklch, var(--accent) 85%, transparent),
