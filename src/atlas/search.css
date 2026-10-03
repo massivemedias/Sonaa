@@ -465,25 +465,9 @@
    Une carte plus grande que les lignes, a l'accent : c'est la reponse a la
    question posee, pas un resultat parmi d'autres. */
 .search-hit-labelpage {
-  display: grid;
-  gap: 2px;
-  margin: var(--espace-4) var(--espace-16) var(--espace-8);
-  width: auto;
-  padding: var(--espace-16);
-  border: 1px solid var(--accent);
-  border-radius: 16px;
-  background: var(--accent-voile);
+  align-items: center;
 }
-.search-hit-labelpage[data-active='true'] {
-  background: color-mix(in oklch, var(--accent) 28%, transparent);
-}
-.search-labelpage-nom {
-  font-size: 1.25rem;
-  font-weight: 800;
-  line-height: 1.15;
-  color: var(--ink-primary);
-}
-.search-labelpage-faits {
-  font-size: 0.8125rem;
-  color: var(--ink-secondary);
+.search-hit-labelpage .lb-logo-petit {
+  width: 20px;
+  border-radius: 5px;
 }

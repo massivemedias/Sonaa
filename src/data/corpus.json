@@ -9425,7 +9425,7 @@
     128
    ],
    "major": true,
-   "note": "Cologne, 1997, Kompakt et Perlon. Une cartographie de reference : Tech House 1996, accord.",
+   "note": "Cologne, 1997, Kompakt et Perlon ; Montréal, 2000, MUTEK et Akufen. Une cartographie de reference : Tech House 1996, accord.",
    "tracks": [
     {
      "youtubeId": "Cmj0LNnS0n8",
@@ -9624,13 +9624,93 @@
       "local": "covers/7iJI6nFEZvM.jpg"
      },
      "album": "Minimanimalistics"
+    },
+    {
+     "youtubeId": "x4vMNTSoL6M",
+     "artist": "Akufen",
+     "title": "Skidoos",
+     "year": 2002,
+     "verified": true,
+     "role": "canon",
+     "cover": {
+      "url": "https://cdn-images.dzcdn.net/images/cover/da3bad083e1d5b7a0c31053e4f0dd905/500x500-000000-80-0-0.jpg",
+      "source": "deezer",
+      "local": "covers/x4vMNTSoL6M.jpg"
+     },
+     "album": "Click Shower"
+    },
+    {
+     "youtubeId": "xt1Lmxil4vY",
+     "artist": "Akufen",
+     "title": "My Way",
+     "year": 2002,
+     "verified": true,
+     "role": "canon",
+     "cover": {
+      "url": "https://i.ytimg.com/vi/xt1Lmxil4vY/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/xt1Lmxil4vY.jpg"
+     }
+    },
+    {
+     "youtubeId": "u0PY_Vd9AOs",
+     "artist": "Akufen",
+     "title": "Wet Floors",
+     "year": 2002,
+     "verified": true,
+     "role": "canon",
+     "cover": {
+      "url": "https://i.ytimg.com/vi/u0PY_Vd9AOs/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/u0PY_Vd9AOs.jpg"
+     }
+    },
+    {
+     "youtubeId": "XfdHB8Ljags",
+     "artist": "Akufen",
+     "title": "Severed Finger Samba",
+     "year": 2002,
+     "verified": true,
+     "role": "canon",
+     "cover": {
+      "url": "https://i.ytimg.com/vi/XfdHB8Ljags/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/XfdHB8Ljags.jpg"
+     }
+    },
+    {
+     "youtubeId": "uXGqINzyXDw",
+     "artist": "Deadbeat",
+     "title": "Pocket Dwellers",
+     "year": 2002,
+     "verified": true,
+     "role": "canon",
+     "cover": {
+      "url": "https://i.ytimg.com/vi/uXGqINzyXDw/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/uXGqINzyXDw.jpg"
+     }
+    },
+    {
+     "youtubeId": "t-WRPun8Bo4",
+     "artist": "Jeff Milligan",
+     "title": "Resolution",
+     "year": 2002,
+     "verified": true,
+     "role": "canon",
+     "cover": {
+      "url": "https://i.ytimg.com/vi/t-WRPun8Bo4/maxresdefault.jpg",
+      "source": "youtube",
+      "local": "covers/t-WRPun8Bo4.jpg"
+     }
     }
    ],
    "aliases": [
     "Minimal House",
-    "Glitch House"
+    "Glitch House",
+    "Click House"
    ],
-   "description": "La house au microscope, autour de 2000 : clics, fragments de voix, grains infimes assemblés en grooves soyeux. L'Allemagne (Perlon, Kompakt) et la scène glitch s'y rencontrent, Luomo y écrit des chansons entières en pointillisme. C'est une musique d'orfèvre, sensuelle malgré son vocabulaire minuscule, et l'ancêtre direct du minimal des années 2000.",
+   "description": "La house au microscope, autour de 2000 : clics, fragments de voix, grains infimes assemblés en grooves soyeux. Le style naît en Allemagne à la fin des années 1990 (Perlon, Kompakt, Playhouse, Force Inc), et son nom vient du critique Philip Sherburne, dans The Wire en 2001. Montréal en devient aussitôt la seconde capitale : le festival MUTEK y naît en 2000, et Akufen y invente le microsampling, des milliers d'éclats de radio FM recousus en grooves sur My Way (2002). C'est une musique d'orfèvre, sensuelle malgré son vocabulaire minuscule, et l'ancêtre direct du minimal des années 2000.",
    "machines": [
     "Ableton Live",
     "Max/MSP"
@@ -9639,7 +9719,9 @@
     "Perlon",
     "Force Inc",
     "Kompakt",
-    "Spectral Sound"
+    "Spectral Sound",
+    "Playhouse",
+    "Trapez"
    ],
    "labelsActuels": [
     "Perlon",
@@ -9650,7 +9732,8 @@
     "Ricardo Villalobos",
     "Isolée",
     "Akufen",
-    "Matthew Herbert"
+    "Matthew Herbert",
+    "Deadbeat"
    ],
    "sonorites": [
     "Granulation et micro-samples",
@@ -18120,7 +18203,8 @@
      "role": "canon",
      "shared": [
       "electroacoustic"
-     ]
+     ],
+     "album": "Mix 02"
     },
     {
      "youtubeId": "N9pOq8u6-bA",
@@ -18478,10 +18562,11 @@
       "format": "Vinyl, LP, Promo"
      },
      "cover": {
-      "url": "https://i.ytimg.com/vi/-HBMvmJQzcY/maxresdefault.jpg",
-      "source": "youtube",
+      "url": "https://i.discogs.com/MAO25RdH1AoHSVgq9_f4leE3oLrA_Euhb5eLU6Amimg/rs:fit/g:sm/q:90/h:587/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkzOTAy/MS0xNjA4NTA3OTQy/LTE1MTEuanBlZw.jpeg",
+      "source": "discogs",
       "local": "covers/-HBMvmJQzcY.jpg"
-     }
+     },
+     "album": "Mix 02"
     },
     {
      "youtubeId": "-uIvzVgk16c",
@@ -32517,7 +32602,8 @@
       "country": "UK",
       "year": 2021,
       "format": "File, WAV, Album"
-     }
+     },
+     "album": "im hole"
     },
     {
      "youtubeId": "iUFEhqn810M",
@@ -48032,7 +48118,8 @@
       "url": "https://i.discogs.com/jbhGFOSkXzmuRZPFjaCVxHTfAcPYx3whvlkkUmyw_-o/rs:fit/g:sm/q:90/h:547/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5OTYz/MDctMTQ2ODA4NTY4/OC04NDAzLmpwZWc.jpeg",
       "source": "discogs",
       "local": "covers/YfPkpmEimpw.jpg"
-     }
+     },
+     "album": "Coastal Haze - A soft, washed-out synth pad that feels like watching the morning fog roll in over a calm ocean."
     },
     {
      "youtubeId": "vf0WbeOXRyY",

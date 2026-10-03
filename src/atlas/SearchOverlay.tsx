@@ -14,6 +14,7 @@ import './search.css';
 import { langue, t } from '../langue/langue.ts';
 import { chercherArtistes, type ArtisteTrouve } from '../lib/styles-dartiste.ts';
 import { labelsPourRecherche, nomDuPays, type EntreeLabel } from '../lib/labels.ts';
+import { LogoLabel } from './LogoLabel.tsx';
 import INDEX_LABELS from '../data/labels-index.json';
 
 interface Props {
@@ -504,8 +505,13 @@ export function SearchOverlay({ onPick, onListen, onClose, onFamille }: Props) {
           onMouseEnter={() => setCursor(i)}
           onClick={() => act(item)}
         >
-          <span className="search-labelpage-nom">{e.n}</span>
-          <span className="search-labelpage-faits">{[e.p ? nomDuPays(e.p, langue) : null, e.a, e.c > 0 ? t.labelResultat(e.c) : null].filter(Boolean).join(' · ')}</span>
+          {/* UNE LIGNE COMME LES AUTRES. Mika, le 3 octobre 2026 : « que tous
+              les resultats soient ecrits de la meme maniere ». Le label etait
+              une grande carte verte au-dessus des genres ; il prend la forme
+              d'une ligne, son logo a la place de la pastille de couleur. */}
+          <LogoLabel nom={e.n} url={e.l} taille="petit" />
+          <span className="search-label">{e.n}</span>
+          <span className="search-family">{[e.p ? nomDuPays(e.p, langue) : null, e.a, e.c > 0 ? t.labelResultat(e.c) : null].filter(Boolean).join(' · ')} ›</span>
         </button>
       );
     }
@@ -690,9 +696,7 @@ export function SearchOverlay({ onPick, onListen, onClose, onFamille }: Props) {
         onClick={() => act(item)}
       >
         <span className="search-label">{item.name}</span>
-        <span className="search-family">
-          {item.count} track{item.count > 1 ? 's' : ''} au corpus ›
-        </span>
+        <span className="search-family">{t.labelResultat(item.count)} ›</span>
       </button>
     );
   };
