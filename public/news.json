@@ -1,6 +1,78 @@
 {
- "fait": "2026-10-02T18:07:44.046Z",
+ "fait": "2026-10-03T05:30:33.211Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Impressive Deals From 3 Big Brands: Arturia, KORG and Akai!",
+   "lien": "https://www.gearnews.com/impressive-deals-arturia-korg-akai-deals/",
+   "date": "2026-10-03T05:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/deals_cover.jpg",
+   "resume": "We hunt down the deals of the week so you don’t have to, and we’ve found some pretty awesome savings for you from 3 big-name brands! October always feels like a long month, especially when it comes to pay cheques. I…",
+   "integral": true,
+   "titre_fr": "Offres impressionnantes de 3 grandes marques : Arturia, KORG et Akai !",
+   "resume_fr": "Nous traquons les offres de la semaine pour que vous n'ayez pas à le faire, et nous avons trouvé des économies vraiment géniales pour vous auprès de 3 grandes marques ! Octobre a toujours l'impression d'être un long mois, surtout quand il s'agit de chèques de paie. Je…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "“He could be a complete idiot, over some things”: Paul McCartney thinks that Lennon “expected more” from him in the early 70s",
+   "lien": "https://www.musicradar.com/artists/singers-songwriters/i-always-thought-john-was-very-cool-but-he-could-be-a-complete-idiot-over-some-things-paul-mccartney-thinks-that-lennon-expected-more-from-me-in-the-early-70s",
+   "date": "2026-10-02T22:55:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/6RLV59Abp9DiQ7Bkri2FxQ-1920-80.jpg",
+   "resume": "In virtually every interview he’s given since 1970, Paul McCartney has been asked about his relationship with John Lennon. You might well ask what else is there to discover about the friendship that changed music…",
+   "integral": true,
+   "titre_fr": "« Il pourrait être un complet idiot, sur certaines choses » : Paul McCartney pense que Lennon « en attendait plus » de lui au début des années 70",
+   "resume_fr": "Dans pratiquement chaque interview qu'il a donnée depuis 1970, Paul McCartney s'est vu poser des questions sur sa relation avec John Lennon. Vous pourriez bien vous demander ce qu'il y a d'autre à découvrir sur l'amitié qui a changé la musique…"
+  },
+  {
+   "source": "synthtopia",
+   "titre": "Chompi Sampling Keyboard Lives On As Free Nibbi Plugin",
+   "lien": "https://www.synthtopia.com/content/2026/10/02/chompi-sampling-keyboard-lives-on-as-free-nibbi-plugin/",
+   "date": "2026-10-02T20:37:28.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2023/03/chompi-sampler.jpg",
+   "resume": "Record and sample sounds, play them across the keyboard, layer tape-style loops, and get weird with lo-fi saturation, wow and flutter, delay, reverb, and filters.…",
+   "integral": false,
+   "titre_fr": "Chompi Sampling Keyboard vit en tant que plugin Nibbi gratuit",
+   "resume_fr": "Enregistrez et samplez des sons, jouez-les sur le clavier, superposez des boucles de style magnétique, et amusez-vous avec la saturation lo-fi, le wow et le flutter, le delay, la reverb et les filtres…",
+   "synthese": {
+    "fr": [
+     "Chase Bliss a récemment mis fin au développement du Chompi, son clavier échantillonneur, en expliquant que l'équipe atteignait les limites techniques de la machine. Plutôt que de laisser l'instrument disparaître, l'entreprise et le collectif Chompi Club ont choisi de publier son micrologiciel sous licence libre.",
+     "Le studio TemeculaDSP s'est emparé de ce code pour en tirer Nibbi, une extension logicielle gratuite qui reproduit le comportement du Chompi directement dans un logiciel de production. Elle s'installe aux formats VST, Audio Unit et AAX, ce qui la rend compatible avec la plupart des stations audionumériques courantes.",
+     "Sur le plan des fonctions, Nibbi permet de capter des sons, de les répartir sur l'étendue du clavier et d'empiler des boucles inspirées des magnétophones à bande. Une série d'effets complète l'ensemble : saturation au grain volontairement dégradé, instabilités de vitesse typiques de la cassette, écho, réverbération et filtres.",
+     "Le charme du Chompi tenait en bonne partie à son jeu immédiat et à ses commandes physiques, une dimension que le logiciel ne remplace pas entièrement. Pour les producteurs et les amateurs de textures lo-fi, l'ouverture du code offre toutefois une seconde vie à cette conception. Nibbi se télécharge dès maintenant sans frais."
+    ],
+    "en": [
+     "Chase Bliss recently stopped developing the Chompi, its sampling keyboard, explaining that the team had reached the technical ceiling of the hardware. Rather than let the instrument fade away, the company and the Chompi Club collective decided to publish its firmware under an open source license.",
+     "Studio TemeculaDSP took that code and built Nibbi, a free software version that recreates the Chompi's behavior inside a production environment. It installs in VST, Audio Unit and AAX formats, making it usable in most common digital audio workstations.",
+     "In terms of features, Nibbi lets users capture audio, spread samples across the keyboard range and stack loops modeled on tape machines. A set of effects rounds it out: deliberately degraded lo-fi saturation, cassette-style pitch wobble, echo, reverb and filters.",
+     "Much of the Chompi's charm came from its immediate playability and physical controls, something software cannot fully replicate. For producers and fans of lo-fi textures, though, opening the code gives the design a second life. Nibbi can be downloaded right now at no cost."
+    ]
+   }
+  },
+  {
+   "source": "synthtopia",
+   "titre": "Vintage Synth Review: The E-Mu Emax II Sampling Synthesizer",
+   "lien": "https://www.synthtopia.com/content/2026/10/02/vintage-synth-review-the-e-mu-emax-ii-sampling-synthesizer/",
+   "date": "2026-10-02T20:10:04.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/10/e-mu-emax-ii.jpg",
+   "resume": "While the Emax II offers improved specs across the board, it dropped the analog filters of the original. …",
+   "integral": false,
+   "titre_fr": "Vintage Synth Review : L'E-Mu Emax II Sampling Synthesizer",
+   "resume_fr": "Bien que l'Emax II offre des spécifications améliorées dans tous les domaines, il a abandonné les filtres analogiques de l'original. …",
+   "synthese": {
+    "fr": [
+     "Le concepteur sonore et synthésiste Ian Dixon consacre une nouvelle vidéo à l'E-mu Emax II, un échantillonneur numérique devenu un classique. Lancé en 1989 par E-mu Systems, cet appareil 16 bits succédait à l'Emax original, qui travaillait en 12 bits. Ses caractéristiques sont meilleures sur presque tous les plans, mais il a abandonné les filtres analogiques de son prédécesseur, si bien que chaque modèle conserve une signature sonore propre et ses propres adeptes.",
+     "Dixon s'intéresse plus précisément à la version en rack, sortie en 1990, qui propose 16 voix de polyphonie, des filtres résonants numériques et le grain typique des banques de sons d'E-mu. Son exemplaire dispose de 2 Mo de mémoire et d'un lecteur Gotek, une émulation de lecteur de disquettes sur clé USB qui simplifie le chargement des sons aujourd'hui.",
+     "La vidéo d'environ seize minutes retrace la lignée allant de l'Emulator à l'Emax II, puis passe en revue les fréquences d'échantillonnage, les connexions SCSI et MIDI, le chargement de la collection Grey Sounds Volume 1 et divers sons de cuivres, de piano, de guitare et de voix. Dixon explore aussi le filtre et son paramètre Q, les enveloppes, la modulation ainsi que les fonctions d'échantillonnage, de bouclage et d'édition.",
+     "Pour l'auteur, il s'agit du début d'un projet à plus long terme : constituer une bibliothèque de sons exploitable, l'étiqueter, échantillonner son propre matériel et voir ce que ce rack peut apporter à des productions actuelles. Il explique enfin pourquoi les échantillonneurs numériques d'époque sonnent encore différemment des logiciels modernes."
+    ],
+    "en": [
+     "Sound designer and synthesist Ian Dixon has released a new video on the E-mu Emax II, a digital sampler that has become a classic. Introduced by E-mu Systems in 1989, this 16-bit unit followed the original 12-bit Emax. It improved on its predecessor in nearly every specification but dropped the analog filters, so each model keeps its own sonic signature and its own following.",
+     "Dixon focuses on the rack version, released in 1990, which offers 16 voices of polyphony, digital resonant filters and the distinctive flavour of E-mu's sound libraries. His unit has 2 MB of memory and a Gotek drive, a USB-based floppy drive emulator that makes loading sounds much easier today.",
+     "The roughly sixteen-minute video traces the lineage from the Emulator to the Emax II, then covers sampling rates, SCSI and MIDI connectivity, loading the Grey Sounds Volume 1 collection, and a range of brass, piano, guitar and vocal sounds. Dixon also explores the filter and its Q control, envelopes, modulation, and the sampling, looping and editing functions.",
+     "For Dixon, this marks the start of a longer project: building a usable sound library, tagging it, sampling his own material and finding out what the rack can bring to current productions. He closes by discussing why vintage digital samplers still sound different from modern software."
+    ]
+   }
+  },
   {
    "source": "gearnews",
    "titre": "5 of the Best Samplers with Analog Filters",
@@ -217,6 +289,31 @@
    "resume_fr": "On pourrait trouver de nombreuses raisons pour lesquelles le producteur George Martin méritait d'être connu comme « le cinquième Beatles », mais l'une des plus tangibles est le solo de piano inspiré par Bach de In My Life en 1965. La chanson figurait sur..."
   },
   {
+   "source": "synthtopia",
+   "titre": "New Convolution Play Application Lets You Explore The Sound Designs Possibilities Of Impulse Responses",
+   "lien": "https://www.synthtopia.com/content/2026/10/01/new-convolution-play-application-lets-you-explore-the-sound-designs-possibilities-of-impulse-responses/",
+   "date": "2026-10-01T20:11:12.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2026/10/convolution-playground.jpg",
+   "resume": "Convolution Playground is a new browser-based application that lets you explore the sound design possibilities of impulse responses. …",
+   "integral": false,
+   "titre_fr": "New Convolution Play Application vous permet d'explorer les possibilités de sound design des Impulse Responses",
+   "resume_fr": "Convolution Playground est une nouvelle application basée sur navigateur qui vous permet d'explorer les possibilités de sound design des impulse responses. …",
+   "synthese": {
+    "fr": [
+     "Dans sa plus récente vidéo loopop, l'animateur Ziv Eliraz présente Convolution Playground, une nouvelle application qui fonctionne directement dans le navigateur. Elle sert à découvrir tout ce que les réponses impulsionnelles peuvent offrir en matière de conception sonore, en transformant de simples fichiers audio en effets.",
+     "L'outil propose dix approches pour façonner une réponse impulsionnelle : floraisons inversées, échos dessinés à la main, corps d'accords, balayages de filtre, voyelles, délais spectraux, réverbérations et même un effet de pluie. On peut partir des sons fournis, glisser ses propres fichiers dans l'interface ou activer l'entrée audio en direct pour traiter un instrument en temps réel, ce qui intéressera autant les producteurs en studio que les musiciens qui jouent sur scène.",
+     "Trois modes d'affichage, soit la forme d'onde, la réponse en fréquence et une vue en cascade, permettent de visualiser l'effet obtenu. Les fichiers importés ne quittent jamais l'appareil de l'utilisateur, un point rassurant pour qui travaille sur du matériel inédit.",
+     "La version gratuite donne accès à l'ensemble des réglages de conception sonore ainsi qu'à la fonction d'écoute de la réponse impulsionnelle. L'exportation des réponses impulsionnelles en fichiers WAV, utile pour les réutiliser dans un plugiciel de convolution, est toutefois réservée aux membres WaveShaper sur Patreon, qui disposent d'une édition dédiée. Un tutoriel vidéo accompagne l'application."
+    ],
+    "en": [
+     "In his latest loopop video, host Ziv Eliraz showcases Convolution Playground, a new application that runs directly in the web browser. It is designed to explore what impulse responses can offer for sound design, turning ordinary audio files into effects.",
+     "The tool offers ten approaches to shaping an impulse response: reverse blooms, hand-drawn echoes, chord bodies, filter sweeps, vowels, spectral delays, reverbs and even a rain effect. Users can start from the included sounds, drag in their own files or enable live audio input to process an instrument in real time, which should appeal to studio producers and live performers alike.",
+     "Three display modes, waveform, frequency response and a waterfall view, let you see the effect you are hearing. Imported files never leave the user's device, a reassuring point for anyone working with unreleased material.",
+     "The free version includes all the sound-design controls along with the option to listen to the impulse response. Exporting impulse responses as WAV files, handy for reusing them in a convolution plugin, is reserved for WaveShaper members on Patreon, who get a dedicated edition. A video tutorial accompanies the application."
+    ]
+   }
+  },
+  {
    "source": "musicradar",
    "titre": "“I want people to think, ‘That band Venom was crazy!’”: Heavy metal innovator Conrad ‘Cronos’ Lant dies at 63",
    "lien": "https://www.musicradar.com/artists/i-want-people-in-the-future-to-think-that-band-venom-was-crazy-i-just-wanted-to-be-part-of-the-story-of-rock-n-roll-i-wanted-to-live-that-life-heavy-metal-innovator-conrad-cronos-lant-of-venom-has-died-aged-63",
@@ -400,17 +497,6 @@
    "resume_fr": "Image-Line – fabricant de FL Studio – continue d'étendre sa portée par des collaborations réfléchies avec certaines des plus grandes marques du monde de la technologie musicale. Il y a seulement un mois, l'entreprise a annoncé qu'elle avait établi un partenariat avec Antares pour…"
   },
   {
-   "source": "musicradar",
-   "titre": "Novation launches FLpad and FLpad Mini, its first dedicated pad controllers for FL Studio",
-   "lien": "https://www.musicradar.com/music-tech/novation-launches-flpad-and-flpad-mini-its-first-dedicated-pad-controllers-for-fl-studio",
-   "date": "2026-10-01T15:00:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/Pnd2p5bsDaGekwJXQonjLD-1920-80.jpg",
-   "resume": "Novation has announced the launch of FLpad and FLpad Mini, a pair of MIDI pad controllers designed specifically for FL Studio that promise to bring producers and musicians \"new ways to get hands-on with their projects\"…",
-   "integral": true,
-   "titre_fr": "Novation lance FLPad et FLpad Mini, ses premiers contrôleurs pad dédiés pour FL Studio",
-   "resume_fr": "Novation a annoncé le lancement de FLpad et FLpad Mini, une paire de contrôleurs pad MIDI conçus spécifiquement pour FL Studio qui promettent d'offrir aux producteurs et musiciens « de nouvelles façons d'interagir directement avec leurs projets »…"
-  },
-  {
    "source": "gearnews",
    "titre": "Novation FLpad: New Grid Controllers Turn FL Studio into a Hybrid Groovebox",
    "lien": "https://www.gearnews.com/novation-flpad-controller/",
@@ -444,17 +530,6 @@
    "resume_fr": "La sélection d'emplois de ce mois-ci a une brillance particulière. Gérez l'audio au spectacle « O » de Cirque du Soleil à Las Vegas ou dirigez le premier magasin américain de Roland, qui ouvrira bientôt à New York City. Au-delà de cela..."
   },
   {
-   "source": "gearnews",
-   "titre": "Gretsch Limited Edition Quilt Classic Falcon: The Semi-Hollow to End All Semi-Hollows",
-   "lien": "https://www.gearnews.com/limited-edition-quilt-classic-falcon-guitar/",
-   "date": "2026-10-01T13:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/Gretsch_LE_Falcon_Quilted_Teaser.jpg",
-   "resume": "With the new G6136TGQM-59 Limited Edition Quilt Classic Falcon, Gretsch presents a sophisticated reimagining of its legendary “White Falcon.” Visually distinctive, yet closely inspired by the ’59 classic in design…",
-   "integral": true,
-   "titre_fr": "Gretsch Limited Edition Quilt Classic Falcon : la guitare semi-creuse pour terminer toutes les semi-creuses",
-   "resume_fr": "Avec la nouvelle Limited Edition Quilt Classic Falcon G6136TGQM-59, Gretsch présente une réinterprétation sophistiquée de son légendaire « White Falcon ». Visuellement distinctive, mais étroitement inspirée par le classique '59 dans sa conception…"
-  },
-  {
    "source": "musictech",
    "titre": "All of the best deals on Plugin Boutique right now: UJAM, Soundtoys, XLN Audio and more",
    "lien": "https://musictech.com/news/gear/best-deals-plugin-boutique-october-2026/",
@@ -464,6 +539,31 @@
    "integral": true,
    "titre_fr": "Toutes les meilleures affaires sur Plugin Boutique en ce moment : UJAM, Soundtoys, XLN Audio et plus",
    "resume_fr": "On n'a jamais trop de plugins, non ? On a trouvé un tas de bonnes affaires pour que tu puisses t'en mettre plein les poches et agrandir ta collection encore plus. On a fouillé Plugin Boutique à la recherche des meilleures affaires actuellement…"
+  },
+  {
+   "source": "synthtopia",
+   "titre": "Unofficial Mods For Elektron Digitakt Adds Metallic Percussion Synth Machine",
+   "lien": "https://www.synthtopia.com/content/2026/09/30/unofficial-mods-for-elektron-digitakt-adds-metallic-percussion-synth-machine/",
+   "date": "2026-09-30T19:45:09.000Z",
+   "image": "https://www.synthtopia.com/wp-content/uploads/2017/05/Elektron-digitakt-e1496115306409.png",
+   "resume": "Elektron may have banned discussion of firmware hacks and mods from its official forum, Elektronauts, but it the unofficial mods seem to be just be coming faster. …",
+   "integral": false,
+   "titre_fr": "Les Mods Officiels pour Elektron Digitakt Ajoutent une Metallic Percussion Synth Machine",
+   "resume_fr": "Elektron a peut-être interdit la discussion des hacks et mods firmware sur son forum officiel, Elektronauts, mais les mods non officiels semblent arriver encore plus vite. …",
+   "synthese": {
+    "fr": [
+     "Un développeur connu sous le pseudonyme Soejrd a dévoilé Sophie for Digitakt, une modification non officielle qui ajoute au Digitakt d'Elektron une machine de synthèse consacrée aux percussions métalliques. Cette sortie survient alors qu'Elektron a interdit toute discussion sur les bidouillages et modifications de firmware sur Elektronauts, son forum officiel, ce qui ne semble pas freiner la cadence des projets indépendants.",
+     "Le mod vise uniquement le Digitakt de première génération (Mk1) tournant sous le système 1.53. Il est né d'une adaptation en virgule fixe de Sophie, un moteur créé par mestela pour la plateforme Schwung, puis s'est développé en quatre modèles distincts baptisés FUSE, BOOM, PIPE et SHARD.",
+     "Pour les producteurs, l'intérêt tient à l'intégration : les sons générés passent par le chemin de signal habituel de l'appareil, soit l'amplificateur, le filtre, le mixeur et les effets du Digitakt. On peut donc façonner ces timbres métalliques avec les outils déjà connus de la machine.",
+     "Le dépôt ne distribue pas de système Elektron modifié, mais seulement le code source. Il s'agit d'un mod à compiler soi-même, en fournissant son propre fichier OS 1.53, afin d'éviter toute violation des droits d'auteur d'Elektron. Quiconque souhaite l'essayer est invité à sauvegarder ses projets au préalable."
+    ],
+    "en": [
+     "A developer known as Soejrd has unveiled Sophie for Digitakt, an unofficial modification that adds a synth machine dedicated to metallic percussion to Elektron's Digitakt. It arrives even though Elektron has banned discussion of firmware hacks and mods on Elektronauts, its official forum, a move that does not seem to be slowing independent projects.",
+     "The mod targets only the first-generation Digitakt (Mk1) running OS 1.53. It started as a fixed-point adaptation of Sophie, an engine created by mestela for the Schwung platform, and grew into four distinct models named FUSE, BOOM, PIPE and SHARD.",
+     "For producers, the appeal lies in integration: the generated sounds travel through the unit's usual signal path, meaning the Digitakt's amp, filter, mixer and effects. These metallic tones can therefore be shaped with the tools users already know.",
+     "The repository does not distribute a modified Elektron operating system, only the source code. It is a build-it-yourself mod that requires supplying your own OS 1.53 file, which avoids infringing on Elektron's copyrights. Anyone wanting to try it is advised to back up their projects first."
+    ]
+   }
   },
   {
    "source": "tsugi",
@@ -823,110 +923,6 @@
    }
   },
   {
-   "source": "synthtopia",
-   "titre": "North American Electronic Sound Expo (NAESE) Coming To Cleveland April 2027",
-   "lien": "https://www.synthtopia.com/content/2026/09/28/north-american-electronic-sound-expo-naese-coming-to-cleveland-april-2027/",
-   "date": "2026-09-28T23:08:00.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/North-American-Electronic-Sound-Expo.jpg",
-   "resume": "The event is designed to bring hardware and software makers, musicians and the wider electronic-sound community together.…",
-   "integral": false,
-   "titre_fr": "North American Electronic Sound Expo (NAESE) arrive à Cleveland en avril 2027",
-   "resume_fr": "L'événement est conçu pour réunir les fabricants de matériel et de logiciels, les musiciens et la communauté des sons électroniques au sens large.",
-   "synthese": {
-    "fr": [
-     "Un nouveau salon consacré au son électronique verra le jour aux États-Unis : le North American Electronic Sound Expo, ou NAESE, se tiendra du 9 au 11 avril 2027 au Huntington Convention Center, à Cleveland, en Ohio. L'objectif des organisateurs est de réunir sous un même toit les fabricants d'équipement et de logiciels, les musiciens et l'ensemble de la communauté passionnée de synthèse.",
-     "La programmation s'articule autour de quatre volets. Un plancher d'exposition permettra d'essayer le matériel sur place, tandis que des conférences, panels, ateliers et démonstrations aborderont la conception sonore et la production. Des prestations musicales sont aussi prévues, qu'elles soient jouées sur machines, à l'ordinateur ou en formule hybride, sans oublier des zones de jam ouvertes où chacun pourra brancher son propre équipement.",
-     "Côté exposants, on attend des fabricants de synthétiseurs matériels, de modulaire en format Eurorack ou autre, d'instruments virtuels et de plugiciels, de contrôleurs MIDI, de pédales et de processeurs externes. Les entreprises de kits à monter soi-même, les éditeurs de banques d'échantillons et les revendeurs d'appareils d'époque seront également de la partie. L'événement prévoit en outre une bourse destinée aux très petits fabricants, le Micro-Maker Scholarship, ainsi qu'une remise de prix.",
-     "Seuls des laissez-passer valides pour les trois jours sont proposés : ils coûtent 70 $ US en prévente hâtive et 85 $ US au tarif normal. Aucune entrée à la journée n'est offerte."
-    ],
-    "en": [
-     "A new event dedicated to electronic sound is launching in the United States: the North American Electronic Sound Expo, or NAESE, runs April 9 to 11, 2027, at Cleveland's Huntington Convention Center in Ohio. Organizers aim to gather equipment and software companies, musicians and the broader synth community in one place.",
-     "The program is built on four pillars. A show floor will let visitors try gear firsthand, while talks, panels, workshops and demos will cover sound design and production. Concerts are planned too, featuring hardware, laptop and hybrid setups, along with open jam areas where attendees can plug in their own instruments.",
-     "Expected exhibitors include makers of hardware synths, Eurorack and other modular systems, virtual instruments and plugins, MIDI controllers, pedals and outboard processors. DIY kit companies, sample pack publishers and vintage equipment dealers will also attend. The expo adds a support program for very small builders, the Micro-Maker Scholarship, plus an awards program.",
-     "Only full three-day passes are sold, priced at US$70 for early bird buyers and US$85 at the standard rate. There is no single-day option."
-    ]
-   }
-  },
-  {
-   "source": "synthtopia",
-   "titre": "Våld Labs TRESSE Combines Plaits-Inspired Engines With New Synthesis Tools",
-   "lien": "https://www.synthtopia.com/content/2026/09/28/vald-labs-tresse-combines-plaits-inspired-engines-with-new-synthesis-tools/",
-   "date": "2026-09-28T23:00:30.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/tresse-1.jpg",
-   "resume": "Våld Labs TRESSE is a two-layer software synthesizer with 39 sound engines, generative sequencing and extensive modulation.…",
-   "integral": false,
-   "titre_fr": "Våld Labs TRESSE combine des moteurs inspirés de Plaits avec de nouveaux outils de synthèse",
-   "resume_fr": "Våld Labs TRESSE est un synthétiseur logiciel deux couches avec 39 moteurs sonores, sequençage génératif et modulation extensive.",
-   "synthese": {
-    "fr": [
-     "Le studio Våld Labs lance TRESSE, un synthétiseur logiciel bâti sur deux couches sonores indépendantes. L'instrument réunit au même endroit la génération de sons, la séquence de motifs et la modulation, ce qui permet de construire une idée musicale complète sans multiplier les plugiciels.",
-     "Chacune des deux couches dispose de huit voix de polyphonie et peut puiser parmi 39 moteurs de synthèse. De ce nombre, 24 s'inspirent du module Plaits dans sa version classique, alors que les 15 autres ont été conçus par l'équipe de Våld Labs. On y trouve aussi un filtre multimode à morphing rappelant le SEM, des enveloppes séparées pour le volume et le filtre, du repliement d'onde, de la réduction de résolution, de la distorsion, du chorus ainsi que du désaccord et de l'élargissement stéréo.",
-     "Le séquenceur intégré VEKTE attribue un motif distinct à chaque couche et propose sept algorithmes génératifs. Il offre des réglages de gamme, d'accords, de probabilité, de swing et d'humanisation. Trois LFO et deux pistes de modulation génératives complètent le tout, avec un moteur audio fonctionnant à 48 kHz.",
-     "Pour stimuler la création, TRESSE peut générer des sons au hasard, et les préréglages s'échangent au moyen de clés textuelles, de codes QR ou de cartes de partage.",
-     "Offert sur macOS et Windows, le logiciel coûte 19,99 € en achat unique, avec tous les moteurs et les mises à jour de la série 1.x. Il fonctionne en VST3 et en AU sur Mac, et une déclinaison pour iPhone et iPad est en préparation."
-    ],
-    "en": [
-     "Våld Labs has introduced TRESSE, a software synthesizer organized around two separate sound layers. It brings tone generation, pattern sequencing and modulation together in one place, letting users develop a full musical idea without stacking several plugins.",
-     "Each layer offers eight voices of polyphony and can draw on a pool of 39 synthesis engines. Of these, 24 take their cue from the classic version of the Plaits module, while the remaining 15 were created in house by Våld Labs. The sound path also includes a morphing SEM-inspired multimode filter, separate amplitude and filter envelopes, wavefolding, bit crushing, distortion, chorus, plus detuning and stereo widening.",
-     "The onboard VEKTE sequencer gives every layer its own pattern and supplies seven generative algorithms. Users can set scale, chords, probability, swing and humanization. Three LFOs and a pair of generative modulation lanes round things out, all running on a 48 kHz audio engine.",
-     "To spark ideas, TRESSE can produce randomized sounds, and presets can be traded through text keys, QR codes or share cards.",
-     "The synth runs on macOS and Windows and sells for €19.99 as a single payment covering every engine and all 1.x updates. Mac users get VST3 and AU formats, and an iPhone and iPad edition is currently being developed."
-    ]
-   }
-  },
-  {
-   "source": "synthtopia",
-   "titre": "Warthog Promises Total Recall For Your Eurorack Modular Synth Patches",
-   "lien": "https://www.synthtopia.com/content/2026/09/28/warthog-promises-total-recall-for-your-eurorack-modular-synth-patches/",
-   "date": "2026-09-28T22:57:53.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/adamsynths-warthog.jpg",
-   "resume": "At Roma Modulare 2026, Adam Miski, founder of Adamsynths and designer of the innovative Warthog Eurorack system shared an intro to the Warthog Total Recall system.…",
-   "integral": false,
-   "titre_fr": "Warthog promet Total Recall pour vos patchs de synthé modulaire Eurorack",
-   "resume_fr": "À Roma Modulare 2026, Adam Miski, fondateur d'Adamsynths et concepteur du système Eurorack innovant Warthog, a présenté une introduction au système Warthog Total Recall.",
-   "synthese": {
-    "fr": [
-     "Lors de l'édition 2026 de Roma Modulare, Adam Miski, fondateur de la marque Adamsynths, a présenté le Warthog, un système Eurorack de sa conception, ainsi que sa fonction phare baptisée Total Recall. Dans une entrevue filmée sur place, il a expliqué la démarche derrière ce projet et ce qui le distingue des systèmes modulaires habituels.",
-     "Le principe vise un problème bien connu des adeptes du modulaire : un patch est normalement éphémère et s'évanouit dès qu'on retire les câbles. Total Recall mémorise non seulement la position des potentiomètres et des commutateurs, mais aussi le routage des câbles, ce qui permet de sauvegarder des configurations complexes et de les rappeler instantanément.",
-     "Miski a également abordé le morphing entre instantanés, la possibilité de réunir plusieurs idées musicales dans un même patch et la modification du routage des câbles lors du passage d'un instantané à l'autre.",
-     "Pour les musiciens qui jouent sur scène, les concepteurs sonores et les expérimentateurs, cette approche ouvre la porte à des performances où l'on change de configuration sans tout rebrancher. Aucun prix ni date de sortie n'a été communiqué; plus de détails sont offerts sur le site d'Adamsynths."
-    ],
-    "en": [
-     "At Roma Modulare 2026, Adam Miski, founder of the Adamsynths brand, introduced Warthog, a Eurorack system he designed, along with its headline feature called Total Recall. In an interview filmed at the event, he discussed the thinking behind the project and what sets it apart from conventional modular setups.",
-     "The concept tackles a familiar issue for modular users: a patch is usually fleeting and vanishes once the cables are pulled. Total Recall stores not only the positions of knobs and switches but also the cable routing, letting users save elaborate configurations and bring them back instantly.",
-     "Miski also covered morphing between snapshots, the ability to blend several musical ideas within one patch, and changing the cable routing when moving from one snapshot to another.",
-     "For live performers, sound designers and experimenters, this approach makes it possible to switch configurations on stage without repatching by hand. No price or release date was announced; further details are available on the Adamsynths website."
-    ]
-   }
-  },
-  {
-   "source": "synthtopia",
-   "titre": "New App, Phantom Sun, Brings Semi-Modular Synthesis To The iPad",
-   "lien": "https://www.synthtopia.com/content/2026/09/28/new-app-phantom-sun-brings-semi-modular-synthesis-to-the-ipad/",
-   "date": "2026-09-28T22:51:08.000Z",
-   "image": "https://www.synthtopia.com/wp-content/uploads/2026/09/phantom-sun.jpg",
-   "resume": "Phantom Sun is a semi-modular iPad synthesizer designed for generative patches, experimental sound design and expressive touch performance.…",
-   "integral": false,
-   "titre_fr": "Nouvelle app Phantom Sun apporte la synthèse semi-modulaire à l'iPad",
-   "resume_fr": "Phantom Sun est un synthétiseur semi-modulaire pour iPad conçu pour les patchs génératifs, la sound design expérimentale et la performance tactile expressive.",
-   "synthese": {
-    "fr": [
-     "Phantom Sun est une nouvelle application pour iPad qui transpose sur tablette l'approche du synthétiseur semi-modulaire. Elle vise la création de patchs génératifs, la recherche sonore expérimentale et le jeu expressif au toucher.",
-     "Plutôt que de recourir à des câbles virtuels, l'application propose une page de patch fondée sur un principe source-destination : chaque destination peut recevoir jusqu'à quatre sources de modulation, avec des quantités bipolaires réglables indépendamment. Le moteur comprend deux oscillateurs offrant des modes fixe et libre, deux générateurs de pente, deux filtres de type low-pass gate, des VCA et des commutateurs.",
-     "Pour les textures qui évoluent d'elles-mêmes, Phantom Sun réunit deux séquenceurs de cinq pas pouvant être enchaînés, des tensions aléatoires fluctuantes, un échantillonneur-bloqueur ainsi que des modules de logique, d'horloge et d'impulsions. Une surface tactile inspirée des claviers à plaques génère des signaux de hauteur, de déclenchement et de pression, ce qui favorise une interprétation nuancée.",
-     "Côté effets, on trouve un écho, une réverbération à ressort et une saturation. L'application gère les préréglages et les banques, accepte le MIDI externe, se synchronise sur le tempo de l'hôte et fonctionne seule ou comme module AUv3 dans une station de travail audio sur iPad.",
-     "Phantom Sun est offerte sur l'App Store américain au prix de 9,99 $ US et nécessite iPadOS 15.0 ou une version plus récente."
-    ],
-    "en": [
-     "Phantom Sun is a new iPad app that brings the semi-modular synthesizer approach to the tablet. It targets generative patching, experimental sound design and expressive touch-based playing.",
-     "Rather than relying on virtual cables, the app offers a patch page built on a source-to-destination principle: each destination can take up to four modulation sources, each with its own independent bipolar amount. The engine includes two oscillators with fixed and free modes, two slope generators, two low-pass gates, VCAs and switches.",
-     "For textures that evolve on their own, Phantom Sun brings together two linkable five-step sequencers, fluctuating random voltages, sample and hold, plus logic, clock and pulse modules. A touch surface modeled on plate-style keyboards outputs pitch, gate and pressure signals, encouraging nuanced performance.",
-     "On the effects side, there is an echo, a spring reverb and a drive stage. The app handles presets and banks, supports external MIDI, syncs to the host tempo and runs either standalone or as an AUv3 plug-in inside an iPad audio workstation.",
-     "Phantom Sun is available on the U.S. App Store for US$9.99 and requires iPadOS 15.0 or later."
-    ]
-   }
-  },
-  {
    "source": "tsugi",
    "titre": "Nancy Jazz Pulsations 2026 : on connaît la programmation complète de cette institution",
    "lien": "https://www.tsugi.fr/nancy-jazz-pulsations-2026-on-connait-la-programmation-complete-de-cette-institution/",
@@ -1280,6 +1276,31 @@
    "resume_fr": "La série afterparty du CRSSD Festival revient à San Diego du 25 au 27 septembre avec des sets dans plusieurs venues. Le CRSSD Festival a confirmé le retour de CRSSD After Dark, sa série d'afterparty officielle, pour trois…"
   },
   {
+   "source": "digitaldjtips",
+   "titre": "Are Fake CDJs On The Way?",
+   "lien": "https://www.digitaldjtips.com/are-fake-cdjs-on-the-way/",
+   "date": "2026-09-15T08:19:46.000Z",
+   "image": "https://cdn.digitaldjtips.com/app/uploads/2026/09/15101723/thumbb.jpeg",
+   "resume": "A CDJ-3000X is big, expensive, and built to survive a decade of club abuse. It’s what pro DJs expect to find waiting for them in the booth. But a Reddit thread I read recently has been rattling around my head ever…",
+   "integral": false,
+   "titre_fr": "Des faux CDJ en route ?",
+   "resume_fr": "Un CDJ-3000X est gros, cher, et conçu pour survivre à une décennie d'abus en club. C'est ce que les pro DJ s'attendent à trouver qui les attendent dans la cabine. Mais un fil Reddit que j'ai lu récemment me tourne dans la tête depuis…",
+   "synthese": {
+    "fr": [
+     "Phil Morse, fondateur de Digital DJ Tips, s'interroge sur une possibilité qui circule sur Reddit : verra-t-on bientôt apparaître des copies bon marché des lecteurs CDJ, comme le CDJ-3000X, cet appareil coûteux et robuste que les DJ professionnels s'attendent à trouver en cabine?",
+     "Il fait un parallèle avec la hi-fi, où des fabricants chinois ont produit des équivalents fonctionnels d'amplificateurs dès que les circuits sont tombés dans le domaine public, pour une fraction du prix. Côté DJ, le logiciel des lecteurs autonomes commence à s'échapper : certains font tourner un équivalent du système CDJ sur un Raspberry Pi, un ordinateur portable ou une tablette, ou ajoutent les stems à du matériel qui ne les offrait pas, grâce à la rétro-ingénierie ou au codage assisté par IA.",
+     "Si le logiciel n'est plus l'obstacle, la valeur réside dans le matériel : des plateaux qui encaissent dix ans d'usage, des boutons qui résistent à des millions de pressions, des connecteurs fiables. Les CDJ-2000NXS2 et CDJ-3000 servent encore chaque soir dans les clubs, fruit d'une ingénierie coûteuse. Une usine pourrait donc imaginer un boîtier semblable, moins solide mais beaucoup moins cher, chargé du logiciel trouvé en ligne.",
+     "Pour l'auteur, un tel clone aiderait les DJ au budget serré, mais une panne en plein set ou un plateau qui prend du jeu après six mois peut coûter des contrats et une réputation. Il invite les lecteurs à donner leur avis dans les commentaires de sa vidéo YouTube."
+    ],
+    "en": [
+     "Phil Morse, founder of Digital DJ Tips, explores a question raised on Reddit: how long until cheap copies of CDJ players appear, such as the CDJ-3000X, the expensive, rugged unit pro DJs expect to find in the booth?",
+     "He draws a parallel with hi-fi, where Chinese manufacturers built working amplifier equivalents for a fraction of the price once the circuits came out of patent. In DJing, standalone player software is starting to leak: people run something close to CDJ software on a Raspberry Pi, laptop or tablet, or add stems to hardware never sold with them, through reverse engineering or AI-assisted coding.",
+     "If software is no longer the hard part, the value lies in hardware: jogwheels that survive ten years of abuse, buttons rated for a million presses, connectors that stay tight. CDJ-2000NXS2s and CDJ-3000s still work nightly in clubs, the result of costly engineering. A factory could therefore build a similar-looking box, less durable but far cheaper, loaded with software already circulating online.",
+     "Morse notes that such a clone would help budget-conscious DJs, but a player failing mid-set or a jogwheel wobbling after six months can cost gigs and reputation. He asks readers to share their views in the comments of his YouTube video."
+    ]
+   }
+  },
+  {
    "source": "attack",
    "titre": "Erica Synths Bullfrog Drums: More Than a Drum Machine",
    "lien": "https://www.attackmagazine.com/reviews/gear-software/erica-synths-bullfrog-drums-more-than-a-drum-machine/",
@@ -1452,6 +1473,33 @@
    }
   },
   {
+   "source": "digitaldjtips",
+   "titre": "Deckshark Mako: Another Way To Ditch The Laptop",
+   "lien": "https://www.digitaldjtips.com/deckshark-mako-another-way-to-ditch-the-laptop/",
+   "date": "2026-08-25T10:15:14.000Z",
+   "image": "https://cdn.digitaldjtips.com/app/uploads/2026/08/25121117/DECKSHARK_white_with_deck_03-1.jpeg",
+   "resume": "You wait years for someone to work out how to turn an ordinary Midi controller into a standalone unit, and then two solutions come along at once. Days after we wrote about Stembox, a small Seattle outfit called…",
+   "integral": false,
+   "titre_fr": "Deckshark Mako : Une autre façon de se passer de l'ordinateur",
+   "resume_fr": "Vous attendez des années que quelqu'un trouve comment transformer un ordinaire contrôleur Midi en unité autonome, et puis deux solutions arrivent à la fois. Quelques jours après que nous ayons écrit sur Stembox, une petite équipe de Seattle appelée…",
+   "synthese": {
+    "fr": [
+     "Deckshark, une petite entreprise de Seattle, commence à livrer le Mako, un boîtier de 299 $ US qui se fixe à l'arrière d'un contrôleur MIDI pour le transformer en appareil autonome. Il fait tourner son propre logiciel de DJ et lit la musique directement depuis une clé USB, sans ordinateur portable ni écran séparé. Cette sortie survient quelques jours après l'annonce de Stembox, qui poursuit le même objectif.",
+     "L'unité s'attache avec deux vis à main et un court câble USB presque invisible. Selon le fabricant, la fixation tient même si le contrôleur repose sur un support de clavier ou dépasse d'une table. On y trouve trois ports USB sur le dessus, dont deux avec bouton d'éjection sécurisée et témoin lumineux, ainsi qu'un socle fourni pour l'utiliser à part.",
+     "Le logiciel, Bite DJ, est une variante assumée de Mixxx, l'application libre bien connue. Il lit nativement les bibliothèques Rekordbox, Serato et Traktor, mise sur une interface entièrement tactile, conserve repères et évaluations sur la clé, propose des modes jog vinyle et CDJ, accepte d'autres appareils MIDI et gère séparément les sorties cabine, maître et casque.",
+     "Malgré le discours sur la compatibilité universelle, seuls les DDJ-FLX4 et DDJ-400 sont pleinement pris en charge. L'appareil exige son alimentation 5,1 V, sans batterie externe, et la « latence nulle » annoncée reste à vérifier. Le code est publié sur GitHub sous licence GPL, et une version à construire soi-même avec Raspberry Pi et impression 3D circule via Discord et Patreon.",
+     "Les couleurs en édition limitée coûtent 329 $ US. Le premier lot s'est écoulé en un week-end, le stock est épuisé et la livraison se limite pour l'instant aux États-Unis."
+    ],
+    "en": [
+     "Deckshark, a small Seattle company, has begun shipping the Mako, a US$299 box that attaches to the back of a MIDI controller and turns it into a standalone unit. It runs its own DJ software and plays music straight from a USB stick, with no laptop or separate screen. It arrives just days after the announcement of Stembox, which has the same goal.",
+     "The unit mounts with two thumb screws and a short, mostly hidden USB cable. The maker says the grip holds even when the controller sits on a keyboard stand or overhangs a table. It offers three top-mounted USB ports, two with safe-eject buttons and indicator lights, plus an included stand for separate use.",
+     "Its software, Bite DJ, is an openly acknowledged fork of Mixxx, the well-known free DJ app. It reads Rekordbox, Serato and Traktor libraries natively, uses a touch-only interface, stores cue points and ratings on the stick, offers vinyl and CDJ jog modes, accepts extra MIDI gear and handles booth, master and headphone outputs independently.",
+     "Despite claims of broad compatibility, only the DDJ-FLX4 and DDJ-400 are fully supported. The unit requires its 5.1V supply, power banks are not supported, and the advertised \"zero latency\" remains untested. The code is on GitHub under the GPL, and a build-your-own route using Raspberry Pi and 3D printing is offered through Discord and Patreon.",
+     "Limited-edition colours cost US$329. The first batch sold out in a weekend, stock is depleted, and shipping is currently limited to the United States."
+    ]
+   }
+  },
+  {
    "source": "ableton",
    "titre": "Sudan Archives: Vintage Strings, Modern Gadgets",
    "lien": "https://www.ableton.com/en/blog/sudan-archives-vintage-strings-modern-gadgets/",
@@ -1475,6 +1523,31 @@
      "Her live rig has grown from a Roland SP-404, a violin and a mic to about ten cases: wireless systems, a Roland SPD-SX, keyboard, looper, pedals and Live sending timecode for lighting. She hopes to cut it back to two cases.",
      "In the studio, she builds lines note by note in Live, stacks up to 100 stems with careful panning, and uses automation, pitching, Crystallizer, Auto-Tune and a Franklin Audio MP-10 pedal. Her avant-pop presets, where one button triggers ten violins playing a chord, are available for Note, Move and Push.",
      "Her album The BPM, built around the Gadget Girl persona, explores balancing humanity and technology. She sees AI as a new face of the long-running appropriation of Black music."
+    ]
+   }
+  },
+  {
+   "source": "digitaldjtips",
+   "titre": "Stembox Turns Any DJ Controller Into A Standalone",
+   "lien": "https://www.digitaldjtips.com/stembox-turns-any-dj-controller-into-a-standalone/",
+   "date": "2026-08-17T09:54:53.000Z",
+   "image": "https://cdn.digitaldjtips.com/app/uploads/2026/08/17115355/stembox.png",
+   "resume": "A French company called Stembox claims its new DJ product can turn any DJ controller into something similar to the classic standalone experience. It is selling its own DJ software, a 15.6in touchscreen to run it on, and…",
+   "integral": false,
+   "titre_fr": "Stembox transforme n'importe quel contrôleur DJ en mode autonome",
+   "resume_fr": "Une entreprise française appelée Stembox prétend que son nouveau produit DJ peut transformer n'importe quel contrôleur DJ en quelque chose de similaire à l'expérience standalone classique. Elle vend son propre logiciel DJ, un écran tactile de 15,6 pouces pour l'exécuter, et…",
+   "synthese": {
+    "fr": [
+     "Stembox, une jeune entreprise française, propose une solution pour transformer n'importe quel contrôleur DJ en un système proche d'une console autonome. L'offre comprend un logiciel de mix maison, un écran tactile de 15,6 pouces et, bientôt, un modèle où l'ordinateur est intégré à l'écran. Les prix débutent à 129 €.",
+     "Le principe repose sur les clés USB préparées avec Rekordbox : Stembox lit directement les listes de lecture, grilles de tempo, repères et tonalités, tandis que le contrôleur MIDI branché sert aux commandes et à la sortie audio. Trois formules existent : le logiciel seul à 129 €, licence à vie pour Windows et macOS sur deux ordinateurs; Stembox Display à 229 €, avec un écran Full HD IPS relié en USB-C; et Stembox Pro+ à 389 €, entièrement autonome, annoncé prochainement.",
+     "Il s'agit d'une application complète : deux ou quatre platines, égaliseur trois bandes, synchronisation, quantification, synchronisation de tonalité, huit pads sur huit modes dont un échantillonneur de 16 emplacements, treize effets et enregistrement du mix. Les stems sont séparés sur l'ordinateur avant la prestation, à raison de quelques minutes par morceau, puis contrôlés aux pads, avec envoi d'effets vers un seul élément. On trouve aussi un séquenceur Drum Station et une fonction Loop Saver.",
+     "Manquent toutefois les entrées micro et auxiliaire, le timecode, la sortie cabine, la diffusion et l'Auto DJ. Un outil en ligne vérifie la compatibilité des contrôleurs, et l'essai de cinq jours annoncé n'est pas disponible actuellement. Phil Morse, de Digital DJ Tips, attend de tester le produit avant de se prononcer."
+    ],
+    "en": [
+     "Stembox, a young French company, offers a way to turn any DJ controller into something close to a standalone unit. The lineup includes in-house mixing software, a 15.6-inch touchscreen and, soon, a model with the computer built into the screen. Prices begin at €129.",
+     "The concept relies on USB sticks prepared in Rekordbox: Stembox reads playlists, beatgrids, cues and keys directly, while the attached MIDI controller handles control and audio output. There are three options: software only at €129, a lifetime licence for Windows and macOS on two computers; Stembox Display at €229, adding a Full HD IPS screen over USB-C; and Stembox Pro+ at €389, fully computer-free and due soon.",
+     "It is a complete application: two or four decks, three-band EQ, sync, quantize, key sync, eight pads across eight modes including a 16-slot sampler, thirteen effects and mix recording. Stems are separated on the computer ahead of the gig, taking a few minutes per track, then played from the pads, with effects routable to a single element. There is also a Drum Station sequencer and a Loop Saver feature.",
+     "Missing are mic and aux inputs, timecode, booth output, broadcasting and Auto DJ. An online tool checks controller compatibility, and the advertised five-day trial is not currently available. Phil Morse of Digital DJ Tips wants to test the product before reaching a verdict."
     ]
    }
   },
@@ -2011,6 +2084,56 @@
   },
   {
    "source": "mixmag",
+   "titre": "40 kilos of cocaine replaced with flour after going missing from police custody",
+   "lien": "https://mixmag.net/read/40-kilos-cocaine-replaced-flour-after-going-missing-from-police-custody-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/flour-cocaine.jpg?fit=cover&width=660&s=0h0CHtneCsT9eB1YjCYgCAez9D7-VCz9WD57mqtRO78",
+   "resume": "The drug haul was being held at a courthouse in Fiji, valued at a whopping £10 million",
+   "integral": false,
+   "titre_fr": "40 kilos de cocaïne remplacés par de la farine après avoir disparu de la garde à vue",
+   "resume_fr": "La prise de drogue était détenue dans un palais de justice à Fiji, évaluée à pas moins de £10 million",
+   "synthese": {
+    "fr": [
+     "Aux Fidji, près de 40 kilogrammes de cocaïne saisis par la police ont disparu de l'entrepôt où ils étaient conservés comme pièces à conviction, pour être remplacés par de la farine. La drogue, dont la valeur est estimée à 30 millions de dollars fidjiens, soit environ 10,4 millions de livres sterling, se trouvait au greffe de la Haute Cour de Suva dans le cadre d'une procédure judiciaire.",
+     "Selon les médias locaux, c'est lors d'une vérification menée le 15 septembre que les policiers ont constaté l'absence totale de sept des 39 blocs entreposés. L'enquête lancée ensuite, rapportée par CNN, a révélé grâce à des analyses médico-légales qu'il ne restait plus rien de la cocaïne d'origine : chaque bloc avait été substitué.",
+     "La police fidjienne a indiqué que les tests ne montraient aucune trace de stupéfiants et que toutes les pièces avaient été trafiquées. Les soupçons visent le personnel responsable de la garde des preuves au greffe. Une personne d'intérêt, actuellement à l'étranger, doit être interrogée, sans autre précision.",
+     "La saisie remonte à 2019. En 2021, la Haute Cour de Suva avait condamné Joshua Aziz Rahman à 20 ans de prison pour possession de cette cargaison. Au Parlement, le politicien Jone Usamate a déploré l'affaire et s'est demandé comment on pouvait désormais se fier au contenu réel des autres pièces à conviction."
+    ],
+    "en": [
+     "In Fiji, nearly 40 kilograms of cocaine confiscated by police vanished from the facility where it was held as evidence and was swapped for flour. The drugs, valued at roughly 30 million Fijian dollars, or about 10.4 million pounds sterling, were kept at the Suva High Court Registry as part of a court case.",
+     "According to local outlets, officers noticed during a check on September 15 that seven of the 39 stored blocks were entirely gone. The investigation that followed, reported by CNN, used forensic analysis to show that none of the original cocaine was left: every block had been substituted.",
+     "Fiji Police said testing found no illegal substances and that all the exhibits had been interfered with. Suspicion is focused on staff in charge of safeguarding evidence at the registry. A person of interest, currently abroad, is to be questioned, with no further details released.",
+     "The seizure dates back to 2019. In 2021, the Suva High Court jailed Joshua Aziz Rahman for 20 years for possessing the shipment. In parliament, politician Jone Usamate condemned the situation and questioned how anyone could now trust what other evidence exhibits actually contain."
+    ]
+   }
+  },
+  {
+   "source": "mixmag",
+   "titre": "London club night and venue Lost hints at return with 24-hour events",
+   "lien": "https://mixmag.net/read/london-nightclub-lost-hints-return-24-hour-events-news",
+   "date": null,
+   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/lost-club-night.jpg?fit=cover&width=660&s=jZVFDI2qHsb3GQgJ0feqHW777B8fuDcKJSihFK-3a3k",
+   "resume": "The secretive venue left its former home inside a disused Central London cinema in May",
+   "integral": false,
+   "titre_fr": "Le club Lost de Londres suggère son retour avec des événements de 24 heures",
+   "resume_fr": "Le lieu secret a quitté son ancien emplacement dans un cinéma désaffecté du centre de Londres en mai",
+   "synthese": {
+    "fr": [
+     "La soirée et salle londonienne Lost laisse entendre qu'elle reviendra cet automne, environ cinq mois après avoir quitté l'ancien cinéma Odeon désaffecté de Shaftesbury Avenue, dans le secteur de Covent Garden, où elle s'était installée.",
+     "Le 30 septembre, l'organisation a réactivé son compte Instagram pour annoncer son retour, évoquant la découverte d'une « ville dans la ville ». Elle décrit un quartier ouvert 24 heures sur 24 au cœur de Londres, qu'elle souhaite bâtir avec son public, toujours sans téléphones et sans programmation dévoilée à l'avance. Un retour est envisagé dès novembre.",
+     "Lost avait dû partir en mai, faute d'avoir obtenu la prolongation de son bail. Depuis son ouverture à la fin de 2025, l'endroit accueillait des soirées chaque vendredi et samedi. Il se présentait comme une nouvelle forme de vie nocturne, réunissant salles de cinéma, espaces de performances en direct et une salle de club où se sont produits notamment Charli xcx, The Dare et Lancey Foux.",
+     "Le mystère entourant le lieu a largement contribué à sa popularité : les téléphones y sont interdits et les participants doivent appeler un numéro pour connaître l'adresse. Lors de l'annonce de ses dernières soirées en mai, Lost affirmait déjà avoir trouvé un nouvel emplacement, sans en révéler l'adresse. Pour les fêtards londoniens, le format promet une expérience prolongée et déconnectée, fidèle à l'esprit du projet."
+    ],
+    "en": [
+     "London club night and venue Lost is hinting at a comeback this autumn, roughly five months after leaving the disused Odeon cinema on Shaftesbury Avenue, in the Covent Garden area, that served as its home.",
+     "On September 30, the organisers revived their Instagram account to tease the return, speaking of having found a \"city within a city.\" They describe a 24-hour district in the heart of London that they want to build together with their audience, still with no phones and no announced line-up. A return is being floated for November.",
+     "Lost was forced out in May after failing to secure a lease extension. Since opening in late 2025, the venue had hosted parties every Friday and Saturday. It promoted itself as a new kind of nightlife, combining cinema rooms, live performance spaces and a club room that welcomed artists such as Charli xcx, The Dare and Lancey Foux.",
+     "Secrecy fuelled much of its popularity: phones are banned and guests must call a number to learn the location. When it announced its final shows in May, Lost already said it had secured a new site, though it gave little detail about where. For London clubbers, the concept promises an extended, disconnected experience in keeping with the project's original spirit."
+    ]
+   }
+  },
+  {
+   "source": "mixmag",
    "titre": "The Warehouse Project is taking a fallow year in 2027",
    "lien": "https://mixmag.net/read/manchester-warehouse-project-taking-fallow-year-break-2027-news",
    "date": null,
@@ -2215,6 +2338,33 @@
   },
   {
    "source": "djmag",
+   "titre": "Roni Size announce UK tour marking 30 years of 'New Forms'",
+   "lien": "https://djmag.com/news/roni-size-announce-uk-tour-marking-30-years-of-new-forms",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-10/Screenshot%202026-10-02%20at%2015.05.50.png.webp?itok=tZEBWh4k679327640",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The drum & bass artist and his band will play nine shows across June 2027 to mark the…",
+   "integral": false,
+   "titre_fr": "Roni Size annonce une tournée britannique marquant 30 ans de « New Forms »",
+   "resume_fr": "L'artiste drum and bass et son groupe joueront neuf spectacles entre juin 2027 pour marquer…",
+   "synthese": {
+    "fr": [
+     "Roni Size célèbre les 30 ans de son album phare « New Forms » avec une tournée britannique. Accompagné de son groupe, le producteur drum & bass donnera neuf concerts au Royaume-Uni en juin prochain, en commençant le jeudi 2 juin à l'O2 Academy de Bournemouth.",
+     "La tournée passera ensuite par Birmingham, Londres, Leeds, Nottingham, Newcastle, Manchester et Glasgow, avant de se conclure le vendredi 25 juin au Canons Marsh Amphitheatre de Bristol. Le duo Fabio & Grooverider assurera la première partie de chaque date, sauf à Londres.",
+     "Dans une déclaration, l'artiste rappelle que ce projet lancé il y a trois décennies n'a jamais été pensé pour rester figé, et que le son continue d'évoluer. Il annonce le retour de Reprazent pour un nouveau chapitre de cet héritage.",
+     "La prévente des billets débutera le mercredi 7 octobre à 10 h (heure britannique), suivie de la vente générale le vendredi 9 octobre à la même heure.",
+     "Paru en juin 1997, « New Forms » a marqué la naissance de Roni Size Reprazent, alors que le DJ et producteur transformait sa démarche en véritable formation musicale. L'album intégrait des influences jazz à la drum & bass et contenait le classique « Brown Paper Bag ». Il a remporté le Mercury Prize en 1997, devançant notamment The Chemical Brothers et The Prodigy."
+    ],
+    "en": [
+     "Roni Size is marking 30 years of his landmark album 'New Forms' with a UK tour. Backed by his band, the drum & bass producer will play nine shows across the UK next June, opening on Thursday, June 2 at Bournemouth's O2 Academy.",
+     "The run then visits Birmingham, London, Leeds, Nottingham, Newcastle, Manchester and Glasgow, before closing on Friday, June 25 at Bristol's Canons Marsh Amphitheatre. Fabio & Grooverider will open every date except the London show.",
+     "In a statement, the artist said the project begun three decades ago was never meant to stay still, and that the sound keeps pushing forward. He announced Reprazent's return for a fresh chapter in that legacy.",
+     "Ticket pre-sale opens Wednesday, October 7 at 10am BST, with general sale following on Friday, October 9 at the same time.",
+     "Released in June 1997, 'New Forms' launched Roni Size Reprazent, as the DJ and producer turned his approach into a full band project. The record wove jazz influences into drum & bass and included the classic 'Brown Paper Bag'. It took the 1997 Mercury Prize, beating The Chemical Brothers and The Prodigy among other contenders."
+    ]
+   }
+  },
+  {
+   "source": "djmag",
    "titre": "The Warehouse Project to take \"fallow year\" in 2027",
    "lien": "https://djmag.com/news/warehouse-project-take-fallow-year-2027",
    "date": null,
@@ -2235,6 +2385,31 @@
      "According to the post, the team spent a long time weighing how best to celebrate its twentieth anniversary. Their conclusion: to give the 2026 season its full milestone status, they should slow down the year after. The current format will therefore be paused, although a handful of much smaller events are planned for 2027. Their exact shape remains unclear, as does whether they will happen in smaller Manchester venues.",
      "Launched in 2006 inside a former Boddingtons brewery in the Strangeways district, the project later relocated to Store Street, closer to the city centre, then spent several years at Victoria Warehouse in Trafford Park. It now calls Depot Mayfield home, a short walk from Store Street.",
      "This season has featured nights hosted by Overmono, The Streets, Worried About Henry, Rampa + &ME and Interplanetary Criminal, among others. The event sits at No. 15 in DJ Mag's Top 100 Clubs 2026 poll and released a special film earlier this year to mark its 20 years. For fans, 2026 looks set to be the last full-scale season for a while."
+    ]
+   }
+  },
+  {
+   "source": "djmag",
+   "titre": "Listen to Dom Dolla, Solomun and Skepta's collaborative single, ‘DANGER DANGER’",
+   "lien": "https://djmag.com/news/listen-dom-dolla-solomun-and-skeptas-collaborative-single-danger-danger",
+   "date": null,
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-10/Dom-Dolla-Solomun-Skepta.jpg.webp?itok=8L_V2Ij1568904269",
+   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>It marks the first time the three artists have linked up on record</p> </div>",
+   "integral": false,
+   "titre_fr": "Écoutez le single collaboratif de Dom Dolla, Solomun et Skepta, « DANGER DANGER »",
+   "resume_fr": "C'est la première fois que les trois artistes travaillent ensemble sur un track",
+   "synthese": {
+    "fr": [
+     "Dom Dolla, Solomun et Skepta unissent leurs forces sur « DANGER DANGER », un nouveau titre maintenant offert chez Three Six Zero Recordings. C'est la première fois que les trois artistes enregistrent ensemble. La pièce marie la voix reconnaissable du rappeur britannique à des percussions massives et à des synthés euphoriques, une formule taillée pour les pistes de danse.",
+     "Le morceau avait déjà été dévoilé plus tôt cet été, lors de la résidence de Dom Dolla au Hï Ibiza. Il marque des retrouvailles entre le producteur australien et Solomun, qui avaient partagé les platines en b2b il y a quelques années dans le cadre de la résidence +1 de Solomun à Ibiza. Pour Skepta, il s'agit d'une toute première collaboration avec l'un ou l'autre.",
+     "La saison ibizienne tire à sa fin pour le trio. La résidence de Dom Dolla s'est conclue fin août, Skepta termine sa série Más Tiempo au Hï Ibiza le 3 octobre, et Solomun clôt sa résidence au Pacha le dimanche 4 octobre.",
+     "Par ailleurs, Dom Dolla a récemment rejoint Kylie Minogue sur scène lors de la grande finale de l'AFL pour présenter son remix de « Can't Get You Out Of My Head ». De son côté, Solomun a publié en août un film de concert tiré de son spectacle marquant à l'Alexandra Palace de Londres, en février."
+    ],
+    "en": [
+     "Dom Dolla, Solomun and Skepta have joined forces on \"DANGER DANGER\", a new single now available on Three Six Zero Recordings. It is the first time the three artists have recorded together. The track pairs the British rapper's recognizable voice with hefty percussion and euphoric synths, a combination built for the dancefloor.",
+     "The song was first aired earlier this summer during Dom Dolla's residency at Hï Ibiza. It reunites the Australian producer with Solomun, the two having played b2b a few years ago as part of Solomun's +1 residency in Ibiza. For Skepta, it is a first collaboration with either of them.",
+     "The Ibiza season is wrapping up for all three. Dom Dolla's residency ended in late August, Skepta closes his Más Tiempo series at Hï Ibiza on October 3, and Solomun finishes his Pacha residency on Sunday, October 4.",
+     "Meanwhile, Dom Dolla recently joined Kylie Minogue onstage at the AFL Grand Final to debut his remix of \"Can't Get You Out Of My Head\". Solomun, for his part, released a concert film in August documenting his landmark February show at London's Alexandra Palace."
     ]
    }
   },
