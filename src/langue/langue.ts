@@ -551,6 +551,56 @@ interface Dictionnaire {
   readonly labelVoirLeStyle: (style: string) => string;
   readonly labelRienDansCeStyle: (style: string) => string;
   readonly labelsDuStyleAide: (label: string, style: string) => string;
+  readonly navPlatines: string;
+  readonly platinesTitre: string;
+  readonly platinesChapeau: string;
+  readonly platineNom: (nom: string) => string;
+  readonly platineVide: string;
+  readonly platineCharger: string;
+  readonly platineDecodage: string;
+  readonly platineErreur: string;
+  readonly platineCue: string;
+  readonly platineLecture: string;
+  readonly platineCueChaud: (n: number) => string;
+  readonly platineChauds: string;
+  readonly platineLectureCourt: string;
+  readonly platineCueAide: string;
+  readonly platinePitch: string;
+  readonly platinePlage: (n: number) => string;
+  readonly platineJog: string;
+  readonly platineRestant: string;
+  readonly platineTonalite: string;
+  readonly platineApercu: string;
+  readonly platineOndeAide: string;
+  readonly platineZoomPlus: string;
+  readonly platineZoomMoins: string;
+  readonly platineSurAudius: string;
+  readonly tableNom: string;
+  readonly tableVoie: (n: number) => string;
+  readonly tableVoieLibre: string;
+  readonly tableGain: string;
+  readonly tableAigus: string;
+  readonly tableMediums: string;
+  readonly tableBasses: string;
+  readonly tableAigusCourt: string;
+  readonly tableMediumsCourt: string;
+  readonly tableBassesCourt: string;
+  readonly tableFiltre: string;
+  readonly tableVolume: (n: number) => string;
+  readonly tableCrossfader: string;
+  readonly tableMaitre: string;
+  readonly tableEffets: string;
+  readonly tableTemps: string;
+  readonly effetNom: (nom: string) => string;
+  readonly navigateurTitre: string;
+  readonly navigateurStyle: string;
+  readonly navigateurChercher: string;
+  readonly navigateurVide: string;
+  readonly navigateurCharge: string;
+  readonly navigateurSurPlatine: (nom: string) => string;
+  readonly navigateurSource: string;
+  readonly navigateurFermer: string;
+  readonly platinesGlisser: string;
   readonly labelsChapeau: (n: number) => string;
   readonly labelFonde: (annee: number) => string;
   readonly labelPar: (noms: readonly string[]) => string;
@@ -1314,6 +1364,56 @@ const FR: Dictionnaire = {
   labelVoirLeStyle: (style) => `La fiche du style ${style}`,
   labelRienDansCeStyle: (style) => `L’atlas n’a pas encore de morceau ${style} de ce label : voici tous les autres.`,
   labelsDuStyleAide: (label, style) => `${label} : ses morceaux de ${style}`,
+  navPlatines: 'Platines',
+  platinesTitre: 'Platines',
+  platinesChapeau: 'Deux platines et une table, dans le navigateur. Les morceaux viennent d’Audius, classés par style.',
+  platineNom: (nom) => `Platine ${nom}`,
+  platineVide: 'Aucun morceau chargé',
+  platineCharger: 'Charger un morceau',
+  platineDecodage: 'Décodage…',
+  platineErreur: 'Ce morceau ne se charge pas.',
+  platineCue: 'Cue',
+  platineLecture: 'Lecture et pause',
+  platineCueChaud: (n) => `Cue ${n}`,
+  platineChauds: 'Hot cues',
+  platineLectureCourt: 'Lecture',
+  platineCueAide: 'Clic : poser ou rejoindre. Clic droit ou appui long : effacer.',
+  platinePitch: 'Pitch',
+  platinePlage: (n) => `Plage du pitch : ±${n} %`,
+  platineJog: 'Jog',
+  platineRestant: 'Restant',
+  platineTonalite: 'Tonalité',
+  platineApercu: 'Vue d’ensemble du morceau',
+  platineOndeAide: 'Molette : zoomer. En pause, tirer l’onde pour se placer, puis CUE pour poser le point.',
+  platineZoomPlus: 'Zoomer dans l’onde',
+  platineZoomMoins: 'Dézoomer',
+  platineSurAudius: 'Écouter sur Audius',
+  tableNom: 'Table',
+  tableVoie: (n) => `Voie ${n}`,
+  tableVoieLibre: 'libre',
+  tableGain: 'Gain',
+  tableAigus: 'Aigus',
+  tableMediums: 'Médiums',
+  tableBasses: 'Basses',
+  tableAigusCourt: 'Hi',
+  tableMediumsCourt: 'Mid',
+  tableBassesCourt: 'Low',
+  tableFiltre: 'Filtre',
+  tableVolume: (n) => `Volume de la voie ${n}`,
+  tableCrossfader: 'Crossfader',
+  tableMaitre: 'Master',
+  tableEffets: 'Effets',
+  tableTemps: 'Temps',
+  effetNom: (nom) => ({ reverb: 'Reverb', delay: 'Delay', disto: 'Disto', chorus: 'Chorus', flanger: 'Flanger', crush: 'Crush', trans: 'Trans' })[nom] ?? nom,
+  navigateurTitre: 'Morceaux',
+  navigateurStyle: 'Style',
+  navigateurChercher: 'Chercher sur Audius',
+  navigateurVide: 'Aucun morceau trouvé.',
+  navigateurCharge: 'Recherche…',
+  navigateurSurPlatine: (nom) => `Charger sur la platine ${nom}`,
+  navigateurSource: 'Morceaux publiés sur Audius par leurs artistes, lus chez Audius.',
+  navigateurFermer: 'Fermer',
+  platinesGlisser: 'Glisse pour passer d’une platine à la table.',
   labelsChapeau: (n) => `${n} labels de musique électronique : leur histoire, leurs disques les plus connus et leurs morceaux dans l’atlas.`,
   labelFonde: (annee) => `Fondé en ${annee}`,
   labelPar: (noms) => `par ${noms.length > 1 ? `${noms.slice(0, -1).join(', ')} et ${noms[noms.length - 1]}` : noms[0] ?? ''}`,
@@ -2092,6 +2192,56 @@ const EN: Dictionnaire = {
   labelVoirLeStyle: (style) => `The ${style} page`,
   labelRienDansCeStyle: (style) => `The atlas has no ${style} track from this label yet: here are all the others.`,
   labelsDuStyleAide: (label, style) => `${label}: its ${style} tracks`,
+  navPlatines: 'Decks',
+  platinesTitre: 'Decks',
+  platinesChapeau: 'Two decks and a mixer, in the browser. Tracks come from Audius, sorted by style.',
+  platineNom: (nom) => `Deck ${nom}`,
+  platineVide: 'No track loaded',
+  platineCharger: 'Load a track',
+  platineDecodage: 'Decoding…',
+  platineErreur: 'This track will not load.',
+  platineCue: 'Cue',
+  platineLecture: 'Play and pause',
+  platineCueChaud: (n) => `Hot cue ${n}`,
+  platineChauds: 'Hot cues',
+  platineLectureCourt: 'Play',
+  platineCueAide: 'Click: set or jump. Right-click or long press: clear.',
+  platinePitch: 'Pitch',
+  platinePlage: (n) => `Pitch range: ±${n}%`,
+  platineJog: 'Jog',
+  platineRestant: 'Remaining',
+  platineTonalite: 'Key',
+  platineApercu: 'Track overview',
+  platineOndeAide: 'Wheel: zoom. When paused, drag the waveform to find your spot, then CUE to set the point.',
+  platineZoomPlus: 'Zoom into the waveform',
+  platineZoomMoins: 'Zoom out',
+  platineSurAudius: 'Listen on Audius',
+  tableNom: 'Mixer',
+  tableVoie: (n) => `Channel ${n}`,
+  tableVoieLibre: 'free',
+  tableGain: 'Gain',
+  tableAigus: 'High',
+  tableMediums: 'Mid',
+  tableBasses: 'Low',
+  tableAigusCourt: 'Hi',
+  tableMediumsCourt: 'Mid',
+  tableBassesCourt: 'Low',
+  tableFiltre: 'Filter',
+  tableVolume: (n) => `Channel ${n} volume`,
+  tableCrossfader: 'Crossfader',
+  tableMaitre: 'Master',
+  tableEffets: 'Effects',
+  tableTemps: 'Beat',
+  effetNom: (nom) => ({ reverb: 'Reverb', delay: 'Delay', disto: 'Disto', chorus: 'Chorus', flanger: 'Flanger', crush: 'Crush', trans: 'Trans' })[nom] ?? nom,
+  navigateurTitre: 'Tracks',
+  navigateurStyle: 'Style',
+  navigateurChercher: 'Search Audius',
+  navigateurVide: 'No track found.',
+  navigateurCharge: 'Searching…',
+  navigateurSurPlatine: (nom) => `Load on deck ${nom}`,
+  navigateurSource: 'Tracks published on Audius by their artists, played from Audius.',
+  navigateurFermer: 'Close',
+  platinesGlisser: 'Swipe to move between the decks and the mixer.',
   labelsChapeau: (n) => `${n} electronic music labels: their story, their best-known records and their tracks in the atlas.`,
   labelFonde: (annee) => `Founded in ${annee}`,
   labelPar: (noms) => `by ${noms.length > 1 ? `${noms.slice(0, -1).join(', ')} and ${noms[noms.length - 1]}` : noms[0] ?? ''}`,

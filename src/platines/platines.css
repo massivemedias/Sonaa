@@ -1,0 +1,1185 @@
+/* LES PLATINES. Voir PlatinesPage.tsx.
+
+   LE LANGAGE DES MACHINES DE MAUDITEMACHINE.COM. Mika a donne la MM-808
+   comme modele, et son depot porte un guide ecrit pour ce projet :
+   docs/design/MACHINES-DESIGN-SYSTEM.md de MauditeMachine2025. Les teintes
+   ci-dessous en viennent, nommees comme la-bas : le graphite anodise et
+   brosse du panneau, le chanfrein qui accroche la lumiere, le caoutchouc des
+   pads, la collerette et le capuchon des potards, l'os de la serigraphie, le
+   verre de l'ecran OLED. Les couleurs d'action passent par role (section
+   9.3 du guide). Depuis le 3 octobre 2026, l'accent du site est l'orange de
+   la machine (ADR-098) : il dit ce qui joue et ce qui est allume ; le jaune
+   vif dit ce qui est pose, les hot cues. Mika ne veut pas plus de couleurs
+   que ca.
+
+   C'est une machine vue de dessus, a plat : pas de perspective ni de
+   camera, que DESIGN.md interdit. Le relief tient dans les ombres et les
+   degrades de matiere. */
+
+.pl-page {
+  --pl-encre: #0a0a0b;
+  --pl-graphite: #141417;
+  --pl-filet: #2e3036;
+  --pl-os: #f6f1e7;
+  --pl-os-85: rgb(246 241 231 / 0.85);
+  --pl-os-55: rgb(246 241 231 / 0.55);
+  --pl-os-35: rgb(246 241 231 / 0.35);
+  --pl-rouge: #e0442a;
+  --pl-corps: #0c0c0e;
+  --pl-chanfrein: #2a2b30;
+  --pl-touche: #1e1f23;
+  --pl-collerette: #1a1b1f;
+  --pl-verre: #050506;
+  --pl-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  padding: calc(var(--entete-h) + var(--espace-16)) max(var(--marge-page), 2vw) var(--espace-48);
+  color: var(--ink-primary);
+  font-family: var(--font-ui);
+}
+
+.pl-tete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--espace-8) var(--espace-24);
+  margin-bottom: var(--espace-16);
+}
+.pl-titre {
+  margin: 0;
+  font-size: clamp(1.5rem, 2.6vw, 1.9rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.pl-chapeau {
+  margin: 0;
+  color: var(--ink-secondary);
+  font-size: 0.875rem;
+}
+
+/* ═══ LA SCENE : A | TABLE | B ═══ */
+.pl-scene {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(400px, 460px) minmax(0, 1fr);
+  gap: var(--espace-16);
+  align-items: stretch;
+}
+.pl-panneau {
+  min-width: 0;
+  display: flex;
+}
+.pl-panneau > * {
+  flex: 1 1 auto;
+}
+.pl-onglets,
+.pl-feuille {
+  display: none;
+}
+
+/* ═══ LE CHASSIS ═══ Le panneau anodise et brosse (des lignes horizontales
+   invisibles de loin), la cle chaude en haut a gauche, le chanfrein sur
+   l'arete du haut, puis le flanc du chassis sous le panneau et l'ombre
+   portee sur le sol. */
+.pl-machine {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px 16px 18px;
+  margin-bottom: 10px;
+  border-radius: 22px;
+  background:
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.016) 0 1px, transparent 1px 3px),
+    radial-gradient(120% 70% at 0% 0%, rgb(255 246 232 / 0.06), transparent 60%),
+    var(--pl-graphite);
+  box-shadow:
+    inset 0 1px 0 var(--pl-chanfrein),
+    inset 1px 0 0 rgb(42 43 48 / 0.55),
+    inset -1px 0 0 rgb(0 0 0 / 0.5),
+    0 0 0 1px #08080a,
+    0 9px 0 0 var(--pl-corps),
+    0 9px 0 1px #060607,
+    0 34px 50px -18px rgb(0 0 0 / 0.95);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+/* La plaque : la marque, le modele, une note discrete a droite, comme
+   « MAUDITE MACHINE  MM-808  FIRMWARE » en haut de la boite a rythmes. */
+.pl-plaque {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 2px 4px 0;
+  white-space: nowrap;
+}
+.pl-marque {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  color: var(--pl-os);
+}
+.pl-modele {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--pl-os-85);
+}
+.pl-plaque-note {
+  margin-left: auto;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--pl-os-35);
+}
+
+/* La serigraphie : capitales, graisse 500, interlettrage 0,2 em, os a
+   85 %. Les noms de groupe en gras. */
+.pl-silk,
+.pl-bouton-nom,
+.pl-voie-nom,
+.pl-crochet span {
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--pl-os-85);
+  white-space: nowrap;
+  line-height: 1;
+}
+.pl-silk-fort {
+  font-weight: 700;
+}
+.pl-commande {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+}
+
+/* Le crochet sous un groupe : releve aux deux bouts, coupe au milieu. */
+.pl-crochet {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: -4px 6px 0;
+}
+.pl-crochet::before,
+.pl-crochet::after {
+  content: '';
+  flex: 1 1 auto;
+  height: 5px;
+  border-bottom: 1px solid var(--pl-os-35);
+}
+.pl-crochet::before {
+  border-left: 1px solid var(--pl-os-35);
+}
+.pl-crochet::after {
+  border-right: 1px solid var(--pl-os-35);
+}
+.pl-crochet span {
+  font-weight: 700;
+  letter-spacing: 0.26em;
+}
+
+/* ═══ L'ECRAN OLED ═══ Du verre presque noir, enfonce dans sa lunette, et
+   de la monospace couleur os. L'onde garde l'accent. */
+.pl-ecran,
+.pl-effets-ecran {
+  border-radius: 6px;
+  background: var(--pl-verre);
+  box-shadow:
+    inset 0 0 0 1px #000,
+    inset 0 3px 10px rgb(0 0 0 / 0.9),
+    0 0 0 4px #0b0b0d,
+    0 1px 0 4px var(--pl-chanfrein);
+  font-family: var(--pl-mono);
+  color: var(--pl-os);
+}
+.pl-ecran {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 4px;
+  padding: 10px;
+}
+.pl-ecran-tete {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+.pl-ecran-pochette {
+  width: 40px;
+  height: 40px;
+  border-radius: 3px;
+  object-fit: cover;
+  background: rgb(246 241 231 / 0.06);
+}
+.pl-ecran-titres {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.pl-ecran-titre,
+.pl-ecran-artiste {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pl-ecran-titre {
+  font-family: var(--font-ui);
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+.pl-ecran-artiste {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--pl-os-55);
+}
+.pl-ecran-artiste a {
+  color: inherit;
+  text-decoration: none;
+}
+.pl-ecran-artiste a:hover {
+  color: var(--pl-os);
+}
+.pl-ecran-chiffres {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  padding: 6px 0;
+  border-top: 1px solid rgb(246 241 231 / 0.08);
+  border-bottom: 1px solid rgb(246 241 231 / 0.08);
+}
+.pl-chiffre {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.pl-chiffre-nom {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pl-os-35);
+}
+.pl-chiffre-valeur {
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pl-onde {
+  position: relative;
+}
+.pl-onde-zoom {
+  display: block;
+  width: 100%;
+  height: 72px;
+  touch-action: none;
+}
+.pl-onde-zoom[data-tirable='true'] {
+  cursor: ew-resize;
+}
+/* Le zoom, en touches d'ecran discretes dans le coin de l'onde. */
+.pl-zoom {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--pl-os-55);
+}
+.pl-zoom button {
+  width: 24px;
+  height: 20px;
+  padding: 0;
+  border: 1px solid rgb(246 241 231 / 0.16);
+  border-radius: 4px;
+  background: rgb(5 5 6 / 0.7);
+  color: var(--pl-os-85);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+}
+.pl-zoom button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.pl-onde-apercu {
+  display: block;
+  width: 100%;
+  height: 26px;
+  cursor: pointer;
+  touch-action: none;
+}
+.pl-onde-etat {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  color: var(--pl-os-55);
+}
+
+/* ═══ LES TOUCHES ═══ Comme CLEAR ou MUTE sur la MM-808 : une touche
+   sombre, son flanc dessous, et la fente de LED en haut qui s'allume. */
+.pl-touche {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 34px;
+  padding: 9px 10px 6px;
+  border: 0;
+  border-radius: 5px;
+  background: linear-gradient(180deg, #24252a, var(--pl-touche) 60%, #1a1b1f);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.07),
+    0 3px 0 #0b0b0d,
+    0 5px 8px rgb(0 0 0 / 0.55);
+  color: var(--pl-os-85);
+  font: inherit;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 60ms ease, box-shadow 60ms ease;
+}
+.pl-touche:active {
+  transform: translateY(2px);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.05),
+    0 1px 0 #0b0b0d,
+    0 2px 4px rgb(0 0 0 / 0.5);
+}
+.pl-touche-led {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  width: 40%;
+  height: 3px;
+  margin-left: -20%;
+  border-radius: 2px;
+  background: var(--pl-filet);
+}
+.pl-touche[aria-pressed='true'] .pl-touche-led,
+.pl-touche[data-allume='true'] .pl-touche-led {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+.pl-charger {
+  margin-left: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* ═══ LES PADS ═══ Du caoutchouc en dome, a peine eclaire quand il attend,
+   plein de sa couleur quand le repere est pose : dessus a 100 %, flancs a
+   55 %, et le halo qui deborde dessous. */
+.pl-chauds {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  padding: 0 4px;
+}
+.pl-pad {
+  --pl-cue: var(--accent-jaune);
+  width: 100%;
+  height: 44px;
+  border: 0;
+  border-radius: 7px;
+  background: radial-gradient(ellipse 80% 70% at 50% 35%, #1b1b1e, #0f0f11 75%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.05),
+    inset 0 0 0 1px color-mix(in srgb, var(--pl-cue) 16%, transparent),
+    0 4px 0 #09090a,
+    0 6px 10px rgb(0 0 0 / 0.6);
+  cursor: pointer;
+  transition: transform 60ms ease;
+}
+.pl-pad:active {
+  transform: translateY(2px);
+}
+.pl-pad[data-pose='true'] {
+  background: radial-gradient(
+    ellipse 80% 70% at 50% 35%,
+    color-mix(in srgb, var(--pl-cue) 70%, white),
+    var(--pl-cue) 55%,
+    color-mix(in srgb, var(--pl-cue) 70%, black)
+  );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.3),
+    0 4px 0 color-mix(in srgb, var(--pl-cue) 55%, black),
+    0 0 22px -2px var(--pl-cue);
+}
+
+/* ═══ TRANSPORT, JOG, PITCH ═══ */
+.pl-corps {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 4px 4px 0;
+}
+.pl-transport {
+  display: grid;
+  gap: 18px;
+  align-self: end;
+}
+
+/* CUE et PLAY : deux grosses touches de caoutchouc, comme RUN/STOP sur la
+   MM-808, avec leur fente de LED. En pause, la fente de PLAY respire
+   doucement quand un morceau attend ; en lecture, toute la touche s'allume
+   d'orange, comme OPEN. Rien ne clignote. */
+.pl-grosse-touche {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 58px;
+  border: 0;
+  border-radius: 9px;
+  background: linear-gradient(180deg, #25262a 0%, #18191c 55%, #131416 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.08),
+    inset 0 -2px 0 rgb(0 0 0 / 0.35),
+    0 5px 0 #0a0a0b,
+    0 9px 14px rgb(0 0 0 / 0.6);
+  color: var(--pl-os-85);
+  cursor: pointer;
+  transition:
+    transform 70ms ease,
+    box-shadow 70ms ease,
+    background 160ms ease;
+}
+.pl-grosse-touche:active {
+  transform: translateY(3px);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.06),
+    0 2px 0 #0a0a0b,
+    0 4px 8px rgb(0 0 0 / 0.5);
+}
+.pl-grosse-touche .pl-touche-led {
+  top: 7px;
+  width: 44%;
+  margin-left: -22%;
+}
+.pl-grosse-touche-texte {
+  margin-top: 6px;
+  padding-left: 0.24em;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+}
+.pl-icone-lecture {
+  width: 30px;
+  height: 14px;
+  margin-top: 6px;
+  fill: currentColor;
+}
+.pl-cue[data-allume='true'] .pl-touche-led,
+.pl-lecture[data-pret='true'] .pl-touche-led {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+.pl-lecture[data-pret='true'] .pl-touche-led {
+  animation: pl-respire 3.2s ease-in-out infinite;
+}
+.pl-lecture[data-actif='true'] {
+  background: radial-gradient(ellipse 90% 80% at 50% 28%, #ff9b55, var(--accent) 55%, #c64a05);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.35),
+    inset 0 -2px 0 rgb(0 0 0 / 0.2),
+    0 5px 0 #7d2e03,
+    0 0 28px -4px rgb(255 106 19 / 0.75),
+    0 9px 14px rgb(0 0 0 / 0.5);
+  color: #1c0c02;
+}
+.pl-lecture[data-actif='true'] .pl-touche-led {
+  background: rgb(0 0 0 / 0.35);
+  box-shadow: none;
+  animation: none;
+}
+@keyframes pl-respire {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* Le jog : la bague d'aluminium brosse, le plateau noir mat strie qui
+   tourne avec la lecture et porte son anneau de LED, l'ecran rond au
+   centre. */
+.pl-jog {
+  position: relative;
+  justify-self: center;
+  width: min(100%, 260px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  cursor: grab;
+  touch-action: none;
+}
+.pl-jog:active {
+  cursor: grabbing;
+}
+.pl-jog-bague {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    repeating-conic-gradient(rgb(255 255 255 / 0.05) 0 1deg, transparent 1deg 2deg),
+    conic-gradient(from 20deg, #7d8188, #c5c8ce 40deg, #8a8e95 90deg, #b9bcc2 150deg, #7a7e85 200deg, #c9ccd2 260deg, #8c9097 320deg, #7d8188);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.3),
+    0 0 0 3px #0a0a0b,
+    0 0 0 4px var(--pl-chanfrein),
+    0 14px 28px -8px rgb(0 0 0 / 0.95);
+}
+.pl-jog-plateau {
+  position: absolute;
+  inset: 6%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 40% 30%, rgb(255 255 255 / 0.05), transparent 60%),
+    repeating-conic-gradient(#141416 0 1.5deg, #18181b 1.5deg 3deg);
+  box-shadow:
+    inset 0 0 0 2px #070708,
+    inset 0 8px 16px rgb(255 255 255 / 0.03);
+  will-change: transform;
+}
+.pl-jog-leds,
+.pl-jog-repere {
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  -webkit-mask: radial-gradient(circle, transparent calc(50% - 7px), #000 calc(50% - 6px) calc(50% - 1px), transparent 50%);
+  mask: radial-gradient(circle, transparent calc(50% - 7px), #000 calc(50% - 6px) calc(50% - 1px), transparent 50%);
+}
+.pl-jog-leds {
+  background: repeating-conic-gradient(from -2deg, rgb(46 48 54 / 0.9) 0 4deg, transparent 4deg 7.5deg);
+}
+.pl-jog-repere {
+  background: repeating-conic-gradient(from -2deg, var(--accent) 0 4deg, transparent 4deg 7.5deg);
+  -webkit-mask-image:
+    radial-gradient(circle, transparent calc(50% - 7px), #000 calc(50% - 6px) calc(50% - 1px), transparent 50%),
+    conic-gradient(from -11.5deg, #000 0 23deg, transparent 23deg);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    radial-gradient(circle, transparent calc(50% - 7px), #000 calc(50% - 6px) calc(50% - 1px), transparent 50%),
+    conic-gradient(from -11.5deg, #000 0 23deg, transparent 23deg);
+  mask-composite: intersect;
+}
+.pl-jog-centre {
+  position: absolute;
+  inset: 30%;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--pl-verre);
+  box-shadow:
+    0 0 0 4px #0a0a0b,
+    0 0 0 5px rgb(255 255 255 / 0.08),
+    inset 0 2px 8px rgb(0 0 0 / 0.9);
+  pointer-events: none;
+}
+.pl-jog-centre img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.92;
+}
+
+.pl-pitch {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  align-self: stretch;
+  align-content: end;
+}
+.pl-plage {
+  min-width: 48px;
+}
+.pl-pitch-course {
+  position: relative;
+}
+.pl-led {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pl-filet);
+}
+.pl-led[data-allume='true'] {
+  background: var(--accent-jaune);
+  box-shadow: 0 0 8px var(--accent-jaune);
+}
+.pl-led-zero {
+  position: absolute;
+  top: 50%;
+  left: -6px;
+  margin-top: -3px;
+}
+
+/* ═══ LES COMMANDES ═══ */
+.pl-fader {
+  position: relative;
+  touch-action: none;
+  cursor: grab;
+}
+.pl-fader:active {
+  cursor: grabbing;
+}
+.pl-fader-vertical {
+  width: 40px;
+  height: 170px;
+}
+.pl-fader-horizontal {
+  width: 100%;
+  height: 40px;
+}
+.pl-fader-rainure {
+  position: absolute;
+  border-radius: 2px;
+  background: var(--pl-verre);
+  box-shadow:
+    inset 0 1px 2px #000,
+    0 1px 0 var(--pl-chanfrein);
+}
+.pl-fader-vertical .pl-fader-rainure {
+  top: 8px;
+  bottom: 8px;
+  left: 50%;
+  width: 4px;
+  margin-left: -2px;
+}
+.pl-fader-horizontal .pl-fader-rainure {
+  left: 8px;
+  right: 8px;
+  top: 50%;
+  height: 4px;
+  margin-top: -2px;
+}
+/* La graduation serigraphiee, de part et d'autre de la fente. */
+.pl-fader-graduation {
+  position: absolute;
+  background-repeat: no-repeat;
+}
+.pl-fader-vertical .pl-fader-graduation {
+  top: 8px;
+  bottom: 8px;
+  left: 50%;
+  width: 30px;
+  margin-left: -15px;
+  background-image:
+    repeating-linear-gradient(to bottom, var(--pl-os-35) 0 1px, transparent 1px 10%),
+    repeating-linear-gradient(to bottom, var(--pl-os-35) 0 1px, transparent 1px 10%);
+  background-size: 6px 100%, 6px 100%;
+  background-position: left top, right top;
+}
+.pl-fader-horizontal .pl-fader-graduation {
+  left: 8px;
+  right: 8px;
+  top: 50%;
+  height: 30px;
+  margin-top: -15px;
+  background-image:
+    repeating-linear-gradient(to right, var(--pl-os-35) 0 1px, transparent 1px 10%),
+    repeating-linear-gradient(to right, var(--pl-os-35) 0 1px, transparent 1px 10%);
+  background-size: 100% 6px, 100% 6px;
+  background-position: left top, left bottom;
+}
+/* Le capuchon : du caoutchouc noir, un repere os au milieu. */
+.pl-fader-curseur {
+  position: absolute;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #2a2b30, #121214 45%, #0b0b0d);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.12),
+    0 5px 8px rgb(0 0 0 / 0.85);
+}
+.pl-fader-curseur::after {
+  content: '';
+  position: absolute;
+  background: var(--pl-os);
+}
+.pl-fader-vertical .pl-fader-curseur {
+  left: 4px;
+  right: 4px;
+  height: 22px;
+  transform: translateY(50%);
+}
+.pl-fader-vertical .pl-fader-curseur::after {
+  left: 3px;
+  right: 3px;
+  top: 10px;
+  height: 2px;
+}
+.pl-fader-horizontal .pl-fader-curseur {
+  top: 4px;
+  bottom: 4px;
+  width: 24px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, #2a2b30, #121214 45%, #0b0b0d);
+}
+.pl-fader-horizontal .pl-fader-curseur::after {
+  top: 3px;
+  bottom: 3px;
+  left: 11px;
+  width: 2px;
+}
+.pl-fader:focus-visible,
+.pl-bouton-cadran:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+/* Le potard : la collerette, le capuchon noir et son repere os. Le filtre
+   a un capuchon bleu : Mika le voulait « d'une couleur differente », c'est
+   le bleu du solo de la MM-808. */
+.pl-bouton {
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+}
+.pl-bouton-cadran {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  touch-action: none;
+  cursor: ns-resize;
+}
+.pl-bouton[data-cran='true'] .pl-bouton-cadran::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  width: 1px;
+  height: 4px;
+  background: var(--pl-os-35);
+}
+.pl-bouton-collerette {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: var(--pl-collerette);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.07),
+    0 4px 7px rgb(0 0 0 / 0.75);
+}
+.pl-bouton-capuchon {
+  position: absolute;
+  inset: 1px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, #2c2c31, #101012 55%, #09090a);
+  box-shadow:
+    inset 0 -2px 3px rgb(0 0 0 / 0.6),
+    inset 0 1px 0 rgb(255 255 255 / 0.08);
+}
+.pl-bouton-index {
+  position: absolute;
+  top: 9%;
+  left: 50%;
+  width: 2.5px;
+  height: 34%;
+  margin-left: -1.25px;
+  border-radius: 1px;
+  background: var(--pl-os);
+}
+.pl-voie .pl-bouton-cadran,
+.pl-maitre .pl-bouton-cadran {
+  width: 38px;
+  height: 38px;
+}
+/* Le filtre a le capuchon orange de la machine : Mika le voulait « d'une
+   couleur differente », et l'orange est la seule autre couleur du site. */
+.pl-bouton-filtre .pl-bouton-capuchon {
+  background: radial-gradient(circle at 35% 28%, #ffa266, var(--accent) 52%, #a83d03);
+}
+.pl-bouton-filtre .pl-bouton-index {
+  background: #1c0c02;
+}
+
+/* ═══ LA TABLE ═══ */
+.pl-effets {
+  display: grid;
+  gap: 14px;
+}
+.pl-effets-ecran {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 4px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+/* Sept potards d'effets sur une rangee, comme GLOBAL FX. */
+.pl-effets-potards {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+  padding: 8px 0 0;
+}
+.pl-effets-potards .pl-bouton-nom {
+  letter-spacing: 0.12em;
+}
+.pl-effets-temps {
+  display: grid;
+  grid-template-columns: auto repeat(6, minmax(0, 1fr));
+  align-items: center;
+  gap: 5px;
+  padding: 0 4px;
+}
+.pl-effets-temps .pl-silk {
+  padding-right: 6px;
+}
+.pl-effets-temps .pl-touche {
+  padding-left: 2px;
+  padding-right: 2px;
+  letter-spacing: 0.04em;
+}
+
+.pl-voies {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+  gap: 4px;
+  flex: 1 1 auto;
+  padding: 0 2px;
+}
+.pl-voie,
+.pl-maitre {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 9px;
+  padding: 4px 2px 0;
+}
+.pl-maitre {
+  padding-left: 10px;
+  border-left: 1px solid rgb(246 241 231 / 0.1);
+}
+.pl-voie[data-active='false'] {
+  opacity: 0.4;
+  pointer-events: none;
+}
+.pl-voie-numero {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--pl-os-85);
+}
+.pl-voie-nom {
+  margin-top: -6px;
+  color: var(--pl-os-55);
+}
+.pl-voie-bas {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+}
+.pl-voie-fader.pl-fader-vertical {
+  height: 124px;
+}
+
+/* Le VU : quinze LED, vertes puis orange puis rouges, qui s'allument en
+   decibels (voir ledsAllumees). Eteintes, elles restent visibles. */
+.pl-vu {
+  --pl-niveau: 0;
+  position: relative;
+  width: 7px;
+  min-height: 80px;
+  background: rgb(46 48 54 / 0.7);
+  -webkit-mask: repeating-linear-gradient(to top, #000 0 calc(100% / 15 - 2px), transparent calc(100% / 15 - 2px) calc(100% / 15));
+  mask: repeating-linear-gradient(to top, #000 0 calc(100% / 15 - 2px), transparent calc(100% / 15 - 2px) calc(100% / 15));
+}
+.pl-vu::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--accent-jaune) 0 66.7%, var(--accent) 66.7% 86.7%, var(--pl-rouge) 86.7%);
+  clip-path: inset(calc((1 - var(--pl-niveau)) * 100%) 0 0 0);
+}
+.pl-vu-maitre {
+  height: 150px;
+}
+
+.pl-croise {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 0 10px;
+}
+.pl-croise-fader.pl-fader-horizontal {
+  height: 40px;
+}
+
+/* ═══ LE NAVIGATEUR ═══ */
+.pl-bas {
+  margin-top: var(--espace-32);
+  scroll-margin-top: calc(var(--entete-h) + var(--espace-16));
+}
+.pl-navigateur {
+  display: grid;
+  gap: var(--espace-12);
+}
+.pl-navigateur-tete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espace-8) var(--espace-12);
+}
+.pl-navigateur-titre {
+  margin: 0 auto 0 0;
+  font-size: 1.125rem;
+  font-weight: 800;
+}
+.pl-navigateur-style {
+  display: flex;
+  align-items: center;
+  gap: var(--espace-8);
+  font-size: 0.75rem;
+  color: var(--ink-secondary);
+}
+.pl-navigateur-style select,
+.pl-navigateur-chercher {
+  min-height: 40px;
+  padding: 0 var(--espace-12);
+  border: 1px solid rgb(246 241 231 / 0.1);
+  border-radius: var(--rayon-pilule);
+  background: rgb(246 241 231 / 0.04);
+  color: var(--ink-primary);
+  font: inherit;
+  font-size: 0.875rem;
+}
+.pl-navigateur-chercher {
+  min-width: 220px;
+}
+.pl-navigateur-fermer {
+  min-height: 40px;
+  padding: 0 var(--espace-16);
+  border: 1px solid rgb(246 241 231 / 0.1);
+  border-radius: var(--rayon-pilule);
+  background: transparent;
+  color: var(--ink-primary);
+  font: inherit;
+  cursor: pointer;
+}
+.pl-navigateur-note,
+.pl-navigateur-source {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--ink-secondary);
+}
+.pl-morceaux {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+.pl-morceau {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--espace-12);
+  padding: var(--espace-4) var(--espace-8);
+  border-radius: 8px;
+}
+.pl-morceau:hover {
+  background: rgb(246 241 231 / 0.04);
+}
+.pl-morceau img,
+.pl-morceau-vide {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  object-fit: cover;
+  background: rgb(246 241 231 / 0.06);
+}
+.pl-morceau-titres {
+  display: grid;
+  min-width: 0;
+}
+.pl-morceau-titre,
+.pl-morceau-artiste {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pl-morceau-titre {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.pl-morceau-artiste {
+  font-size: 0.75rem;
+  color: var(--ink-secondary);
+}
+.pl-morceau-chiffres {
+  display: grid;
+  grid-template-columns: 36px 36px 44px;
+  gap: var(--espace-4);
+  font-family: var(--pl-mono);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-secondary);
+  text-align: right;
+}
+.pl-morceau-actions {
+  display: flex;
+  gap: var(--espace-8);
+}
+.pl-morceau-actions button {
+  min-width: 40px;
+  min-height: 36px;
+  border: 0;
+  border-radius: 5px;
+  background: linear-gradient(180deg, #24252a, var(--pl-touche) 60%, #1a1b1f);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.07),
+    0 3px 0 #0b0b0d;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+.pl-morceau-actions button:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #0b0b0d;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pl-lecture[data-pret='true'] .pl-touche-led {
+    animation: none;
+  }
+}
+
+/* ═══ SUR TELEPHONE : TROIS MACHINES QU'ON FAIT GLISSER ═══ Mika : « en
+   mobile, des swipes gauche droite pour passer du deck au mixer et a
+   l'autre deck ». Le defilement horizontal du navigateur, aimante a chaque
+   panneau, fait le geste sans une ligne de JavaScript. Le navigateur de
+   morceaux s'ouvre en feuille, depuis le bouton d'une platine. */
+@media (max-width: 899px) {
+  .pl-page {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .pl-tete {
+    padding: 0 var(--marge-page);
+    margin-bottom: var(--espace-12);
+  }
+  .pl-chapeau {
+    display: none;
+  }
+  .pl-onglets {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--espace-8);
+    padding: 0 var(--marge-page) var(--espace-16);
+  }
+  .pl-onglets button {
+    min-height: 44px;
+    border: 0;
+    border-radius: 5px;
+    background: linear-gradient(180deg, #24252a, var(--pl-touche) 60%, #1a1b1f);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.07),
+      0 3px 0 #0b0b0d;
+    color: var(--pl-os-85);
+    font: inherit;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .pl-onglets button[aria-pressed='true'] {
+    color: var(--accent);
+  }
+  .pl-scene {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    padding-bottom: 12px;
+  }
+  .pl-scene::-webkit-scrollbar {
+    display: none;
+  }
+  .pl-panneau {
+    flex: 0 0 100%;
+    padding: 0 var(--marge-page);
+    box-sizing: border-box;
+    scroll-snap-align: center;
+  }
+  .pl-bas {
+    display: none;
+  }
+  .pl-feuille {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    overflow-y: auto;
+    padding: calc(env(safe-area-inset-top, 0px) + var(--espace-16)) var(--marge-page) calc(var(--barre-bas-h, 0px) + var(--espace-24));
+    background: var(--surface-plate);
+  }
+  .pl-voie[data-active='false'] {
+    display: none;
+  }
+  .pl-voies {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+  }
+  .pl-bouton-cadran {
+    width: 40px;
+    height: 40px;
+  }
+  .pl-touche,
+  .pl-pad {
+    min-height: 44px;
+  }
+  .pl-zoom button {
+    width: 36px;
+    height: 30px;
+  }
+  /* Sept potards ne tiennent pas sur une rangee de telephone : deux
+     rangees, quatre puis trois. */
+  .pl-effets-potards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    row-gap: 14px;
+  }
+  .pl-morceau {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+  }
+  .pl-morceau-chiffres {
+    display: none;
+  }
+  .pl-navigateur-chercher {
+    min-width: 0;
+    flex: 1 1 100%;
+  }
+  .pl-chiffre-valeur {
+    font-size: 12.5px;
+  }
+  .pl-ecran-chiffres {
+    gap: 4px;
+  }
+  .pl-effets-temps .pl-touche {
+    font-size: 8.5px;
+    letter-spacing: 0.02em;
+  }
+}

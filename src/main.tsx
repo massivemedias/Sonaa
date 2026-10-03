@@ -142,6 +142,10 @@ const MarchandFerme = lazy(() =>
 /* LES LABELS : la fiche d'un label et la liste de tous. Voir
    atlas/LabelPage.tsx. Differee : elle tire le corpus et les fiches. */
 const LabelPage = lazy(() => import('./atlas/LabelPage.tsx').then((m) => ({ default: m.LabelPage })));
+/* LES PLATINES : deux platines et une table, le son d'Audius calcule dans le
+   navigateur. Voir platines/PlatinesPage.tsx. Differee : personne d'autre
+   ne paie le moteur audio. */
+const PlatinesPage = lazy(() => import('./platines/PlatinesPage.tsx').then((m) => ({ default: m.PlatinesPage })));
 const ReconnaitrePage = lazy(() =>
   import('./reconnaitre/ReconnaitrePage.tsx').then((m) => ({ default: m.ReconnaitrePage }))
 );
@@ -191,7 +195,7 @@ if (!rootElement) {
   throw new Error('Élément racine introuvable.');
 }
 
-type Route = 'labels' | 'reconnaitre' | 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'parcourir' | 'profil' | 'mixtapes' | 'tracks' | 'panier' | 'conditions' | 'confidentialite' | 'mentions' | 'calendrier' | 'news' | 'admin' | 'atlas';
+type Route = 'platines' | 'labels' | 'reconnaitre' | 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'parcourir' | 'profil' | 'mixtapes' | 'tracks' | 'panier' | 'conditions' | 'confidentialite' | 'mentions' | 'calendrier' | 'news' | 'admin' | 'atlas';
 
 const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/index')) return 'index';
@@ -218,6 +222,7 @@ const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/tracks')) return 'tracks';
   if (window.location.hash.startsWith('#/reconnaitre')) return 'reconnaitre';
   if (window.location.hash.startsWith('#/labels')) return 'labels';
+  if (window.location.hash.startsWith('#/platines')) return 'platines';
   if (window.location.hash.startsWith('#/panier')) return 'panier';
   if (window.location.hash.startsWith('#/conditions')) return 'conditions';
   if (window.location.hash.startsWith('#/confidentialite')) return 'confidentialite';
@@ -245,6 +250,7 @@ const estAtlas = (r: Route): boolean => r === 'atlas';
 const PORTE_LA_BARRE: ReadonlySet<Route> = new Set([
   'calendrier',
   'labels',
+  'platines',
   'admin',
   'news',
   'parcourir',
@@ -335,6 +341,8 @@ function App() {
           <ReconnaitrePage />
         ) : route === 'labels' ? (
           <LabelPage />
+        ) : route === 'platines' ? (
+          <PlatinesPage />
         ) : route === 'panier' ? (
           MARCHAND_ACTIF ? <PanierEcran /> : <MarchandFerme />
         ) : route === 'conditions' ? (

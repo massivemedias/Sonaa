@@ -1,6 +1,7 @@
 # ADR-096 : l'accent devient vert
 
-Date : 2 octobre 2026. Statut : accepté.
+Date : 2 octobre 2026. Statut : remplacé le 3 octobre 2026 par
+[ADR-098](ADR-098-l-orange-et-le-jaune.md).
 
 ## Pourquoi
 

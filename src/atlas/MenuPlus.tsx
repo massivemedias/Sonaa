@@ -71,6 +71,8 @@ export function MenuPlus() {
     /* LES LABELS, depuis le 1er octobre 2026 : la barre du bas est pleine
        (quatre onglets et Track ID), ils entrent donc ici. Voir LabelPage. */
     { href: '#/labels', label: t.navLabels, id: 'labels' },
+    /* LES PLATINES, depuis le 3 octobre 2026, pour la meme raison. */
+    { href: '#/platines', label: t.navPlatines, id: 'platines' },
     { href: '#/profil', label: t.monProfil, id: 'profil' },
     { href: '#/a-propos', label: t.aPropos, id: 'apropos' },
   ];
