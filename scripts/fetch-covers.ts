@@ -35,7 +35,9 @@
    de la famille et les initiales de l'artiste.
 
    Usage : npm run fetch:covers [-- --force]
-   Sans --force, un morceau qui a déjà une pochette iTunes n'est pas réinterrogé. */
+   Sans --force, un morceau qui a déjà une vraie pochette (iTunes, Deezer ou
+   Discogs) n'est pas réinterrogé ; avec --force, une vraie pochette n'est
+   jamais remplacée par une vignette YouTube. */
 
 import { mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 
@@ -59,7 +61,7 @@ interface Track {
   title: string;
   year: number | null;
   verified: true;
-  cover?: { url: string; source: 'deezer' | 'itunes' | 'youtube'; local: string };
+  cover?: { url: string; source: 'deezer' | 'itunes' | 'discogs' | 'youtube'; local: string };
   /* Le vrai label de disque demanderait un jeton Discogs. iTunes ne donne que
      l'album : c'est ce qu'on affiche, en le nommant pour ce qu'il est. */
   album?: string;
@@ -249,13 +251,21 @@ const writeCorpus = (): void => {
 let itunes = 0;
 let deezer = 0;
 let fallback = 0;
+/* UNE VRAIE POCHETTE, C'EST AUSSI CELLE DE DISCOGS. Ce script ne
+   connaissait que Deezer et iTunes : une pochette Discogs, posee par
+   fetch-release-data, etait reinterrogee a chaque passe, et quand Deezer et
+   iTunes ne trouvaient rien, elle etait remplacee par la vignette YouTube.
+   Le 3 octobre 2026, une passe a ainsi degrade 161 pochettes d'un coup. Une
+   vignette de video ne remplace jamais une vraie pochette, d'ou qu'elle
+   vienne. */
+const VRAIES_POCHETTES = new Set(['itunes', 'deezer', 'discogs']);
 let kept = 0;
 let failures = 0;
 
 for (const genre of corpus.genres) {
   if (COVERS_ONLY) break;
   for (const track of genre.tracks) {
-    const hasRealCover = track.cover?.source === 'itunes' || track.cover?.source === 'deezer';
+    const hasRealCover = VRAIES_POCHETTES.has(track.cover?.source ?? '');
     if (!FORCE && hasRealCover) {
       kept += 1;
       continue;
@@ -304,7 +314,7 @@ for (const genre of corpus.genres) {
       console.log(`  ok    ${genre.id.padEnd(20)} ${track.artist} - ${track.title} [${hitSource}]`);
       remember(track);
       writeCorpus();
-    } else if (previous?.source === 'itunes' || previous?.source === 'deezer') {
+    } else if (previous && VRAIES_POCHETTES.has(previous.source)) {
       /* En --force, une recherche qui échoue pour cause de quota ne doit PAS
          remplacer une vraie pochette par une vignette de vidéo. On garde
          l'ancienne : l'échec est celui du réseau, pas celui de la pochette. */
