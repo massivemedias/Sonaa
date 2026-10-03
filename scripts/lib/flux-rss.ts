@@ -37,9 +37,6 @@ export interface Article {
       content:encoded), la meme regle que la lecture : voir
       worker/src/index.ts, SEUIL_INTEGRAL. */
   readonly integral?: boolean | undefined;
-  /** Le resume SONAA d'un article dont le flux ne donne qu'un extrait :
-      voir scripts/lib/resume-sonaa.ts. */
-  readonly synthese?: { readonly fr: readonly string[]; readonly en: readonly string[] } | undefined;
 }
 
 /* ── Le texte ─────────────────────────────────────────────────────────── */

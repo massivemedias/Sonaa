@@ -1,6 +1,13 @@
 # ADR-095 : le résumé SONAA des articles en extrait
 
-Date : 2 octobre 2026. Statut : accepté.
+Date : 2 octobre 2026. Statut : abandonné le 3 octobre 2026.
+
+> **Abandonné.** Les deux premières passes ont coûté 4,60 $ pour 78 résumés
+> (environ 5 cents chacun, pas 3), et ont épuisé les crédits de l'API. Mika,
+> le 3 octobre : « je veux juste les articles complets, c'est tout ». La
+> moisson ne résume plus rien ; la page News ne montre que les articles que
+> le magazine publie en entier dans son flux. Le code a été retiré, ce qui
+> suit est conservé pour mémoire.
 
 ## La demande
 
