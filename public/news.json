@@ -1,6 +1,28 @@
 {
- "fait": "2026-10-03T05:30:33.211Z",
+ "fait": "2026-10-03T16:30:30.487Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Ground Loops in the Home Studio 2026: The Easy Way to Stop Hum and Buzz for Good",
+   "lien": "https://www.gearnews.com/ground-loops-in-the-home-studio/",
+   "date": "2026-10-03T16:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/Hum-Whine-T.jpg",
+   "resume": "That thin, piercing whine coming out of your speakers the moment a synth receives MIDI over USB? Every hardware producer knows it, and it can drive you up the wall. Ground loops in the home studio cause hum, buzz, and…",
+   "integral": true,
+   "titre_fr": "Boucles de masse dans le home studio 2026 : la façon facile d'arrêter le bourdonnement une fois pour toutes",
+   "resume_fr": "Ce léger sifflement perçant qui sort de vos enceintes dès qu'un synth reçoit du MIDI via USB ? Tout producteur hardware le connaît, et ça peut vous rendre fou. Les boucles de masse dans le home studio causent du bourdonnement, du buzz, et…"
+  },
+  {
+   "source": "musicradar",
+   "titre": "“They put horns on their record”: Talking Heads reveal they were accused of ‘selling out’ on debut single",
+   "lien": "https://www.musicradar.com/artists/bands/they-put-horns-on-their-record-talking-heads-reveal-that-they-were-accused-of-selling-out-as-early-as-their-debut-single",
+   "date": "2026-10-03T11:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/SphMbEsXyBs7m8nztp5s46-1920-80.jpg",
+   "resume": "The four members of Talking Heads reunited to launch their pop-up radio station on SiriusXM earlier this week with an extensive conversation with Este Haim. The station will play nothing but music by the band and their…",
+   "integral": true,
+   "titre_fr": "« Ils ont mis des cuivres sur leur disque » : les Talking Heads racontent comment on les a accusés de « vendre » sur leur premier single",
+   "resume_fr": "Les quatre membres des Talking Heads se sont réunis pour lancer leur station de radio pop-up sur SiriusXM plus tôt cette semaine avec une longue conversation avec Este Haim. La station ne jouera que de la musique du groupe et de leurs…"
+  },
   {
    "source": "gearnews",
    "titre": "Impressive Deals From 3 Big Brands: Arturia, KORG and Akai!",
@@ -475,17 +497,6 @@
    }
   },
   {
-   "source": "musicradar",
-   "titre": "Universal Audio's next generation of Volt audio interfaces offers more ways to shape your sound",
-   "lien": "https://www.musicradar.com/music-tech/universal-audios-next-generation-of-volt-audio-interfaces-offers-more-ways-to-shape-your-sound",
-   "date": "2026-10-01T15:11:13.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/ay6maccWvixy73Sq2T4Wnb-1920-80.jpg",
-   "resume": "Universal Audio launched its Volt series of audio interfaces in 2021, promising \"classic studio sound\" at an accessible price point and providing an affordable alternative to the company's popular Apollo line. Five…",
-   "integral": true,
-   "titre_fr": "La prochaine génération des interfaces audio Volt de Universal Audio offre plus de façons de façonner votre son",
-   "resume_fr": "Universal Audio a lancé sa série Volt d'interfaces audio en 2021, promettant un « son de studio classique » à un prix accessible et offrant une alternative abordable à la populaire ligne Apollo de l'entreprise. Cinq…"
-  },
-  {
    "source": "musictech",
    "titre": "Meet the FLpad – a Novation 8×8 grid controller designed specifically for FL Studio",
    "lien": "https://musictech.com/news/gear/novation-flpad/",
@@ -495,17 +506,6 @@
    "integral": true,
    "titre_fr": "Découvrez la FLpad – un contrôleur grille Novation 8×8 conçu spécifiquement pour FL Studio",
    "resume_fr": "Image-Line – fabricant de FL Studio – continue d'étendre sa portée par des collaborations réfléchies avec certaines des plus grandes marques du monde de la technologie musicale. Il y a seulement un mois, l'entreprise a annoncé qu'elle avait établi un partenariat avec Antares pour…"
-  },
-  {
-   "source": "gearnews",
-   "titre": "Novation FLpad: New Grid Controllers Turn FL Studio into a Hybrid Groovebox",
-   "lien": "https://www.gearnews.com/novation-flpad-controller/",
-   "date": "2026-10-01T15:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/novation-flpad-lifestyle-2.jpg",
-   "resume": "The new Novation FLpad and FLpad Mini are the first purpose-built grid controllers for FL Studio, offering a groovebox-like workflow with the Channel Rack. Novation FLpad: Grid Controllers for FL Studio While it’s…",
-   "integral": true,
-   "titre_fr": "Novation FLpad : les nouveaux contrôleurs grille transforment FL Studio en groovebox hybride",
-   "resume_fr": "Les nouveaux Novation FLpad et FLpad Mini sont les premiers contrôleurs grille conçus spécifiquement pour FL Studio, offrant un flux de travail de groovebox avec le Channel Rack. Novation FLpad : contrôleurs grille pour FL Studio Bien que…"
   },
   {
    "source": "musictech",
@@ -1228,6 +1228,31 @@
      "Asked by Create Digital Music to clarify, the company said that poorly tested builds could damage users' instruments and put its intellectual property at risk. It was also concerned that files, tools and links appearing on its own forum might suggest official endorsement.",
      "General discussion of firmware modding is still permitted. The restriction targets material that enables unauthorized modifications, such as files, repositories, tools and instructions. Some long-established third-party projects remain approved, including Justin Mammarella's Machinedrum X firmware for the original Machinedrum SPS-1. Other projects will be reviewed case by case. Mammarella's broader MCL project, built on open-source work by Adafruit and Manuel Odendahl, also supports other hardware.",
      "Software clones, such as Joe Landers' VST3 versions of the Monomachine and Machinedrum, are not covered by the statement. More broadly, the situation raises questions about how communities will cope with AI-generated projects, about security, and about hardware value once classic firmware becomes easy to reproduce."
+    ]
+   }
+  },
+  {
+   "source": "digitaldjtips",
+   "titre": "VirtualDJ Now Officially Supports AlphaTheta’s OneLibrary",
+   "lien": "https://www.digitaldjtips.com/virtualdj-now-officially-supports-alphathetas-onelibrary/",
+   "date": "2026-09-22T13:18:15.000Z",
+   "image": "https://cdn.digitaldjtips.com/app/uploads/2026/09/22151659/vdj.jpeg",
+   "resume": "AlphaTheta has announced that VirtualDJ supports OneLibrary, the shared music library format it launched in October 2025 alongside Algoriddim and Native Instruments. You can export a VirtualDJ collection to a USB drive…",
+   "integral": false,
+   "titre_fr": "VirtualDJ supporte officiellement désormais OneLibrary d'AlphaTheta",
+   "resume_fr": "AlphaTheta a annoncé que VirtualDJ supporte OneLibrary, le format de bibliothèque musicale partagée qu'il a lancé en octobre 2025 aux côtés d'Algoriddim et Native Instruments. Vous pouvez exporter une collection VirtualDJ vers une clé USB…",
+   "synthese": {
+    "fr": [
+     "AlphaTheta confirme que VirtualDJ prend désormais en charge OneLibrary, le format de bibliothèque partagée lancé en octobre 2025 avec Algoriddim et Native Instruments. Les utilisateurs peuvent exporter leur collection sur une clé USB dans ce format, en conservant listes de lecture, repères instantanés et grilles de tempo, puis la lire sur les CDJ-3000X et CDJ-1500X, les XDJ-AZ et XDJ-AN, l'Opus Quad et l'Omnis Duo. Il faut toutefois une version du logiciel compatible.",
+     "VirtualDJ n'en était pas à ses débuts : sa fonction d'export CDJ produisait déjà depuis environ cinq ans des clés lisibles par Rekordbox, conçues par rétro-ingénierie sans accord officiel. La nouveauté tient donc surtout à la reconnaissance formelle. Stéphane Clavel, PDG d'Atomix Productions, insiste sur l'ouverture et la compatibilité comme principes fondateurs du logiciel. De son côté, Traktor, annoncé partenaire dès le lancement, figure encore comme « à venir » près d'un an plus tard.",
+     "OneLibrary n'est au fond qu'un nouveau nom pour Device Library Plus, le format déjà utilisé par Rekordbox. Tout le matériel compatible provient d'AlphaTheta, la spécification reste non publiée et l'entreprise admet ne pas garantir une compatibilité totale entre applications. Serato et Engine DJ demeurent absents.",
+     "Pour le DJ, l'avantage est concret : préparer ses morceaux dans le logiciel de son choix et jouer directement sur l'équipement des clubs. La dépendance se déplace cependant vers le fabricant des lecteurs, ce qui soulève la question de la valeur d'une norme contrôlée par un seul acteur."
+    ],
+    "en": [
+     "AlphaTheta has confirmed that VirtualDJ now supports OneLibrary, the shared library format introduced in October 2025 together with Algoriddim and Native Instruments. Users can export their collection to a USB drive in this format, keeping playlists, hot cues and beatgrids, then play it on the CDJ-3000X and CDJ-1500X, the XDJ-AZ and XDJ-AN, the Opus Quad and the Omnis Duo. A compatible version of the software is required.",
+     "This is not new territory for VirtualDJ: its CDJ Export tool has produced Rekordbox-readable drives for roughly five years, built through reverse engineering without any official approval. What changes is mainly the formal recognition. Stephane Clavel, CEO of Atomix Productions, points to openness and compatibility as core values of the software. Traktor, meanwhile, was named a partner at launch yet is still marked as upcoming almost a year on.",
+     "OneLibrary is essentially a renamed Device Library Plus, the format Rekordbox already used. Every compatible device is made by AlphaTheta, the specification remains unpublished, and the company admits that full compatibility across applications is not guaranteed. Serato and Engine DJ are still not on board.",
+     "For DJs, the gain is tangible: prepare tracks in the software of choice and play straight on club equipment. Yet the dependency simply moves to the maker of the players, raising doubts about how meaningful a standard controlled by one company can be."
     ]
    }
   },
@@ -2312,36 +2337,11 @@
    }
   },
   {
-   "source": "mixmag",
-   "titre": "Police in Ibiza are using drones to find illegal villa parties",
-   "lien": "https://mixmag.net/read/police-ibiza-using-drones-find-illegal-villa-parties-news",
-   "date": null,
-   "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/police-ibiza.jpg?fit=cover&width=660&s=6jzUTV_vrrLUo7dphicNTgXCzB4SlKVGN6v7SwEQpj0",
-   "resume": "Local police are reportedly using drones fitted with infrared cameras to detect private events",
-   "integral": false,
-   "titre_fr": "La police d'Ibiza utilise des drones pour trouver les villa parties illégales",
-   "resume_fr": "La police locale utiliserait des drones équipés de caméras infrarouges pour détecter les événements privés",
-   "synthese": {
-    "fr": [
-     "La police locale de Sant Josep, à Ibiza, a recours à des drones munis de caméras infrarouges pour repérer les fêtes clandestines organisées dans des villas de l'île. Le 8 septembre, le corps policier a diffusé une vidéo montrant ces appareils en action, dans le cadre d'une offensive plus large contre les événements sans permis.",
-     "Les images, filmées du point de vue du drone, montrent un zoom sur les plaques d'immatriculation de voitures rassemblées avant une soirée non autorisée, ainsi que l'usage apparent de la vision thermique pour localiser les fêtes. Selon le site We Rave You, l'opération a été déclenchée après la découverte d'une invitation partagée sur WhatsApp, qui annonçait une soirée en villa avec DJ et donnait aux invités un point de rendez-vous d'où ils seraient conduits sur place.",
-     "Dans son communiqué, la police affirme que ces rassemblements posent des problèmes bien plus graves que le bruit : risques pour la sécurité publique et pour l'intégrité physique des participants, embouteillages et stationnement anarchique, absence de mesures de sécurité adéquates et perturbation du repos des voisins. Elle rappelle qu'une villa privée ne se transforme pas en discothèque par simple envoi d'une localisation.",
-     "Les autorités promettent de poursuivre fermement tant les organisateurs que les fêtards. Ce durcissement s'inscrit dans la continuité de l'amende de 300 000 euros infligée à Diplo pour une fête illégale tenue en 2024 sur un site protégé surplombant Es Vedrà."
-    ],
-    "en": [
-     "The local police of Sant Josep, in Ibiza, are using drones equipped with infrared cameras to track down clandestine parties held in villas across the island. On September 8, the force released a video showing the aircraft at work as part of a broader push against unlicensed events.",
-     "The footage, shot from the drone's viewpoint, zooms in on the licence plates of cars gathering ahead of an unauthorised party and appears to use thermal imaging to pinpoint gatherings. According to We Rave You, the operation began after officers found an invitation circulating on WhatsApp that promoted a villa party with DJs and told guests to meet at a set location before being driven to the venue.",
-     "In a statement, police argued that such parties cause harm well beyond noise: threats to public safety and to the physical wellbeing of attendees and others, traffic and parking chaos, a lack of proper safety measures and disruption to neighbours' rest. They noted that a private villa does not become a nightclub just because someone sends out a location.",
-     "Authorities say they will keep pursuing both organisers and partygoers. The tougher stance follows the 300,000 euro fine handed to Diplo over an illegal party held in 2024 at a protected site overlooking Es Vedrà."
-    ]
-   }
-  },
-  {
    "source": "djmag",
    "titre": "Roni Size announce UK tour marking 30 years of 'New Forms'",
    "lien": "https://djmag.com/news/roni-size-announce-uk-tour-marking-30-years-of-new-forms",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-10/Screenshot%202026-10-02%20at%2015.05.50.png.webp?itok=tZEBWh4k679327640",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-10/Screenshot%202026-10-02%20at%2015.05.50.png.webp?itok=tZEBWh4k2017701826",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>The drum & bass artist and his band will play nine shows across June 2027 to mark the…",
    "integral": false,
    "titre_fr": "Roni Size annonce une tournée britannique marquant 30 ans de « New Forms »",
@@ -2365,35 +2365,10 @@
   },
   {
    "source": "djmag",
-   "titre": "The Warehouse Project to take \"fallow year\" in 2027",
-   "lien": "https://djmag.com/news/warehouse-project-take-fallow-year-2027",
-   "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-10/WHP.png.webp?itok=Ut5l6LHb1766978885",
-   "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>\"There will still be events, but on a far smaller scale\" the organisers of the event…",
-   "integral": false,
-   "titre_fr": "Le Warehouse Project prend une « année sabbatique » en 2027",
-   "resume_fr": "« Il y aura toujours des événements, mais à une bien plus petite échelle » selon les organisateurs",
-   "synthese": {
-    "fr": [
-     "Les organisateurs de The Warehouse Project, la série de soirées emblématique de Manchester, ont annoncé que l'événement fera une pause en 2027. Ils parlent d'une « année de jachère », une décision dévoilée sur Instagram au moment où l'équipe souligne deux décennies d'activité.",
-     "Selon le message, l'équipe a longuement réfléchi à la meilleure façon de célébrer ce vingtième anniversaire. Sa conclusion : pour que la saison 2026 prenne toute sa valeur de jalon, il vaut mieux ralentir l'année suivante. La formule actuelle sera donc mise en veille, même si quelques rendez-vous beaucoup plus modestes sont prévus en 2027. On ignore encore leur forme exacte et s'ils se tiendront dans des salles plus petites de la ville.",
-     "Lancé en 2006 dans une ancienne brasserie Boddingtons du quartier de Strangeways, le projet a ensuite déménagé sur Store Street, plus près du centre, puis a passé quelques années au Victoria Warehouse de Trafford Park. Il est aujourd'hui installé au Depot Mayfield, à deux pas de Store Street.",
-     "La saison en cours a accueilli des soirées pilotées entre autres par Overmono, The Streets, Worried About Henry, Rampa + &ME et Interplanetary Criminal. L'événement occupe le 15e rang du classement Top 100 Clubs 2026 de DJ Mag et a présenté plus tôt cette année un film spécial pour ses 20 ans. Pour les amateurs, 2026 s'annonce donc comme la dernière grande saison avant un bon moment."
-    ],
-    "en": [
-     "The organisers of The Warehouse Project, Manchester's landmark club series, have announced that the event will step back in 2027. They describe it as a \"fallow year,\" a decision shared on Instagram as the team reflects on two decades of activity.",
-     "According to the post, the team spent a long time weighing how best to celebrate its twentieth anniversary. Their conclusion: to give the 2026 season its full milestone status, they should slow down the year after. The current format will therefore be paused, although a handful of much smaller events are planned for 2027. Their exact shape remains unclear, as does whether they will happen in smaller Manchester venues.",
-     "Launched in 2006 inside a former Boddingtons brewery in the Strangeways district, the project later relocated to Store Street, closer to the city centre, then spent several years at Victoria Warehouse in Trafford Park. It now calls Depot Mayfield home, a short walk from Store Street.",
-     "This season has featured nights hosted by Overmono, The Streets, Worried About Henry, Rampa + &ME and Interplanetary Criminal, among others. The event sits at No. 15 in DJ Mag's Top 100 Clubs 2026 poll and released a special film earlier this year to mark its 20 years. For fans, 2026 looks set to be the last full-scale season for a while."
-    ]
-   }
-  },
-  {
-   "source": "djmag",
    "titre": "Listen to Dom Dolla, Solomun and Skepta's collaborative single, ‘DANGER DANGER’",
    "lien": "https://djmag.com/news/listen-dom-dolla-solomun-and-skeptas-collaborative-single-danger-danger",
    "date": null,
-   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-10/Dom-Dolla-Solomun-Skepta.jpg.webp?itok=8L_V2Ij1568904269",
+   "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-10/Dom-Dolla-Solomun-Skepta.jpg.webp?itok=8L_V2Ij12125710328",
    "resume": "<div class=\"clearfix text-formatted field field--name-field-standfirst field--type-text-long field--label-hidden field__item\"><p>It marks the first time the three artists have linked up on record</p> </div>",
    "integral": false,
    "titre_fr": "Écoutez le single collaboratif de Dom Dolla, Solomun et Skepta, « DANGER DANGER »",
