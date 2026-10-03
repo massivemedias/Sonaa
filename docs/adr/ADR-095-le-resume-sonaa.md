@@ -8,6 +8,11 @@ Date : 2 octobre 2026. Statut : abandonné le 3 octobre 2026.
 > moisson ne résume plus rien ; la page News ne montre que les articles que
 > le magazine publie en entier dans son flux. Le code a été retiré, ce qui
 > suit est conservé pour mémoire.
+>
+> Le même jour, Mika a coupé aussi la traduction (« coupe aussi la
+> traduction ») : les titres, les chapeaux et les articles restent dans la
+> langue du magazine, la moisson et le serveur Cloudflare n'appellent plus
+> l'API d'Anthropic, et la clé SONAA ne sert plus à rien.
 
 ## La demande
 

@@ -15,17 +15,16 @@
  * ET en pied : on ne doit jamais avoir a chercher d'ou vient ce qu'on lit.
 
  *
- * LA TRADUCTION ARRIVE APRES, ET NE FAIT PAS ATTENDRE. Une premiere demande
- * rend l'original tout de suite ; si l'interface est en francais et que
- * l'article est anglais et entier, une seconde demande part, et le texte est
- * remplace quand elle revient. Voir la route api/article-flux.
+ * LE TEXTE RESTE DANS LA LANGUE DU MAGAZINE. Il etait traduit en francais
+ * par Claude a la demande, jusqu'au 3 octobre 2026, ou Mika a coupe la
+ * traduction (voir ADR-095).
  *
  * CETTE PAGE N'EST PAS INDEXABLE, et c'est voulu : le texte est celui d'un
  * autre, l'adresse qui fait autorite est la sienne. On le dit aux moteurs par
  * un noindex et un canonique, poses tant que la vue est ouverte. */
 
 import { useEffect, useState } from 'react';
-import { langue, t } from '../langue/langue.ts';
+import { t } from '../langue/langue.ts';
 
 const PASSERELLE = 'https://sonaa-sets.massivemedias.workers.dev';
 
@@ -55,8 +54,6 @@ interface Props {
   readonly image: string | null;
   /** L'identifiant de la source dans la table, pour retrouver son flux. */
   readonly idSource: string | null;
-  /** La langue du magazine : on ne traduit que ce qui est en anglais. */
-  readonly langueSource: 'fr' | 'en' | null;
 }
 
 /* LE NOINDEX ET LE CANONIQUE VIVENT LE TEMPS DE LA VUE. Poses au montage,
@@ -81,10 +78,8 @@ function useSignauxDeMoteur(url: string): void {
   }, [url]);
 }
 
-export function LectureArticle({ url, titre, source, image, idSource, langueSource }: Props) {
+export function LectureArticle({ url, titre, source, image, idSource }: Props) {
   const [etat, setEtat] = useState<Reponse | 'chargement' | 'panne'>('chargement');
-  const [traduction, setTraduction] = useState<readonly Morceau[] | null>(null);
-  const [traduitEnCours, setTraduitEnCours] = useState(false);
 
   const site = (() => {
     try {
@@ -100,8 +95,6 @@ export function LectureArticle({ url, titre, source, image, idSource, langueSour
   useEffect(() => {
     let vivant = true;
     setEtat('chargement');
-    setTraduction(null);
-    setTraduitEnCours(false);
     window.scrollTo(0, 0);
     if (!idSource) {
       setEtat('panne');
@@ -113,19 +106,6 @@ export function LectureArticle({ url, titre, source, image, idSource, langueSour
       .then((rep) => {
         if (!vivant) return;
         setEtat(rep);
-        /* LA SECONDE DEMANDE NE PART QUE SI ELLE A UNE CHANCE DE SERVIR. */
-        if (langue === 'fr' && rep.trouve && rep.integral && langueSource === 'en') {
-          setTraduitEnCours(true);
-          fetch(`${adresse}&lang=fr`)
-            .then((r) => (r.ok ? (r.json() as Promise<Reponse>) : Promise.reject(new Error(String(r.status)))))
-            .then((tr) => {
-              if (vivant && tr.traduit) setTraduction(tr.corps);
-            })
-            .catch(() => {})
-            .finally(() => {
-              if (vivant) setTraduitEnCours(false);
-            });
-        }
       })
       .catch(() => {
         if (vivant) setEtat('panne');
@@ -133,14 +113,14 @@ export function LectureArticle({ url, titre, source, image, idSource, langueSour
     return () => {
       vivant = false;
     };
-  }, [url, idSource, langueSource]);
+  }, [url, idSource]);
 
   useEffect(() => {
     document.title = `${titre ?? site} · SONAA`;
   }, [titre, site]);
 
   const lu = typeof etat === 'object' ? etat : null;
-  const blocs = traduction ?? lu?.corps ?? [];
+  const blocs = lu?.corps ?? [];
 
   /* UNE PHOTO, PAS DEUX. Mika, le 23 septembre 2026, sur un article de
      MusicTech ou la meme image se suivait deux fois : celle du flux, en
@@ -185,8 +165,6 @@ export function LectureArticle({ url, titre, source, image, idSource, langueSour
       {etat === 'panne' && <p className="news-note">{t.articleIllisible}</p>}
       {lu && !lu.trouve && <p className="news-note">{t.articleHorsFlux}</p>}
 
-      {traduitEnCours && <p className="lecture-avis">{t.traductionEnCours}</p>}
-      {traduction && <p className="lecture-avis">{t.traduitParMachine}</p>}
 
       {blocsSansDoublon.map((m, i) => {
         if (m.t === 'img')

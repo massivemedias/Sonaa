@@ -26,10 +26,9 @@
  * dire, et la moisson suivante reessaie.
  */
 
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { writeFileSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { imageDePage, lireFlux, SOURCES, type Article } from './lib/flux-rss.ts';
-import { traduire, type ATraduire } from './lib/traduire.ts';
 
 const SORTIE = fileURLToPath(new URL('../public/news.json', import.meta.url));
 /** Par source : assez pour une journee chargee, pas de quoi noyer les autres. */
@@ -171,69 +170,18 @@ async function main(): Promise<void> {
     .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''))
     .slice(0, TOTAL);
 
-  /* ═══ LE FRANCAIS, POUR LES SOURCES QUI ECRIVENT EN ANGLAIS ═══
-   *
-   * Trois regles, dans cet ordre, et c'est l'ordre qui tient la facture.
-   *
-   * 1. On reprend les traductions du fichier precedent. Six passes par jour
-   *    sur cent soixante articles dont vingt-cinq sont nouveaux : sans cette
-   *    reprise, on paierait six fois cent soixante au lieu d'une fois
-   *    vingt-cinq.
-   * 2. On n'envoie que les sources declarees anglophones. Le champ `langue`
-   *    de news-sources.ts le dit depuis toujours : aucune detection, donc
-   *    aucun risque de retraduire du francais vers le francais.
-   * 3. Sans cle, on n'appelle rien et on le dit. Les articles sortent sans
-   *    traduction, la page les montre en anglais. */
-  const FRANCOPHONES = new Set(SOURCES.filter((s) => s.langue === 'fr').map((s) => s.id));
-  const deja = new Map<string, { titre: string; resume: string }>();
-  if (existsSync(SORTIE)) {
-    try {
-      const ancien = JSON.parse(readFileSync(SORTIE, 'utf8')) as Livre;
-      for (const a of ancien.articles) {
-        if (a.titre_fr) deja.set(a.lien, { titre: a.titre_fr, resume: a.resume_fr ?? '' });
-      }
-    } catch {
-      /* Fichier illisible : on repart de rien, la passe coutera une fois le
-         plein tarif et le fichier sera sain ensuite. */
-    }
-  }
-
-  const cle = process.env['ANTHROPIC_API_KEY'] ?? '';
-  const aTraduire: ATraduire[] = tries
-    .filter((a) => !FRANCOPHONES.has(a.source) && !deja.has(a.lien))
-    .map((a) => ({ lien: a.lien, titre: a.titre, resume: a.resume }));
-
-  let neuves = new Map<string, { titre: string; resume: string }>();
-  if (aTraduire.length === 0) {
-    console.log('\nTraduction : rien de nouveau a traduire.');
-  } else if (!cle) {
-    console.log(`\nTraduction : ${aTraduire.length} article(s) a traduire, mais ANTHROPIC_API_KEY est absente. Ils sortent en anglais.`);
-  } else {
-    console.log(`\nTraduction de ${aTraduire.length} article(s) :`);
-    neuves = await traduire(
-      aTraduire,
-      cle,
-      (l) => console.log(l),
-      /* LE PRIX DE LA PASSE, DANS SON PROPRE JOURNAL. Une facture mensuelle ne
-         dit pas quelle moisson l'a gonflee ; cette ligne-la, si. */
-      (c) => console.log(`  ${c.lots} lot(s), ${c.entree} tokens entree, ${c.sortie} sortie, ${c.usd.toFixed(4)} USD`)
-    );
-  }
-
-  const traduits: Article[] = tries.map((a) => {
-    const t = neuves.get(a.lien) ?? deja.get(a.lien);
-    return t ? { ...a, titre_fr: t.titre, resume_fr: t.resume } : a;
-  });
-  console.log(`  ${traduits.filter((a) => a.titre_fr).length} article(s) sur ${traduits.length} ont leur version francaise.`);
-
+  /* ═══ LES TITRES RESTENT DANS LA LANGUE DU MAGAZINE ═══ Ils etaient
+     traduits en francais par Claude depuis le 17 septembre 2026. Mika, le 3
+     octobre, apres l'abandon du resume SONAA : « coupe aussi la
+     traduction ». Plus aucun appel a une API payante dans cette moisson. */
   /* ═══ SEULS LES ARTICLES ENTIERS SONT MONTRES ═══ Mika, le 2 octobre
      2026, devant un article de MusicRadar reduit a son titre et a « Lire la
      suite » : « je prefere ne pas le voir ». Puis le 3, apres l'essai d'un
      resume ecrit par Claude (ADR-095, abandonne pour son cout) : « je veux
      juste les articles complets, c'est tout ». Un article reste s'il est
      entier dans son flux ; un extrait ne l'est jamais. */
-  const lisibles = traduits.filter((a) => a.integral !== false);
-  console.log(`  ${traduits.length - lisibles.length} article(s) en extrait ne sont pas montres.`);
+  const lisibles = tries.filter((a) => a.integral !== false);
+  console.log(`\n  ${tries.length - lisibles.length} article(s) en extrait ne sont pas montres.`);
 
   const livre: Livre = { fait: new Date().toISOString(), articles: lisibles, pannes };
   /* INDENTE, ET `fait` SUR SA PROPRE LIGNE : l'action planifiee compare le

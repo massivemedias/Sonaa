@@ -520,16 +520,6 @@
   color: var(--ink-primary);
 }
 
-/* L'avis de traduction : une ligne, en retrait, qui dit d'où vient le texte
-   qu'on est en train de lire. */
-.lecture-avis {
-  margin: 0 0 var(--espace-16);
-  padding-left: var(--espace-12);
-  border-left: 2px solid var(--rule-hairline);
-  color: var(--ink-secondary);
-  font-size: 0.85rem;
-}
-
 .lecture-suite {
   margin-top: var(--espace-32);
   padding-top: var(--espace-24);

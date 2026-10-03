@@ -766,13 +766,10 @@ for (const l of LEGALES) {
    jour et le site republie avec : la page change a chaque passe, ce qui est
    exactement ce qu'un moteur aime. */
 
-interface Article { source: string; titre: string; lien: string; date: string | null; image: string | null; resume: string; titre_fr?: string; resume_fr?: string }
-/* LA PAGE PRE-RENDUE EST EN FRANCAIS, comme tout ce qui n'est pas sous /en/ :
-   elle prend donc la traduction quand la moisson en a posee une, et
-   l'original pour les deux magazines francophones comme pour ce qui n'a pas
-   pu etre traduit. Voir scripts/lib/traduire.ts. */
-const titreFr = (a: Article): string => a.titre_fr ?? a.titre;
-const resumeFr = (a: Article): string => (a.titre_fr ? (a.resume_fr ?? '') : a.resume);
+interface Article { source: string; titre: string; lien: string; date: string | null; image: string | null; resume: string }
+/* Les titres restent dans la langue du magazine depuis le 3 octobre 2026. */
+const titreFr = (a: Article): string => a.titre;
+const resumeFr = (a: Article): string => a.resume;
 const cheminNews = join(DIST, 'news.json');
 if (existsSync(cheminNews)) {
   const livre = JSON.parse(readFileSync(cheminNews, 'utf8')) as { articles: Article[] };

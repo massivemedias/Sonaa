@@ -1,5 +1,12 @@
 # Traduire les news : analyse et recommandation
 
+> **Abandonné le 3 octobre 2026.** Mika a coupé la traduction des news avec
+> le résumé SONAA (voir [ADR-095](adr/ADR-095-le-resume-sonaa.md)) : les
+> titres et les articles se lisent dans la langue du magazine, et plus rien
+> n'appelle l'API d'Anthropic. Le code a été retiré ; ce qui suit est
+> conservé pour mémoire.
+
+
 Étape 0, 17 septembre 2026. Aucune ligne de code. Objectif visé : un visiteur
 en français lit les news en français, un visiteur en anglais lit l'original.
 

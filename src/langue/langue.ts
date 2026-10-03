@@ -387,8 +387,6 @@ interface Dictionnaire {
   readonly lireLaSuiteSur: (source: string) => string;
   readonly extraitSeulement: string;
   readonly articleHorsFlux: string;
-  readonly traductionEnCours: string;
-  readonly traduitParMachine: string;
   readonly retourAuxNews: string;
   readonly articleEnLecture: string;
   readonly articleIllisible: string;
@@ -1154,8 +1152,6 @@ const FR: Dictionnaire = {
   lireLaSuiteSur: (source) => `Lire la suite sur ${source}`,
   extraitSeulement: 'Ce magazine ne publie qu’un extrait dans son flux. La suite se lit chez lui.',
   articleHorsFlux: 'Cet article n’est plus dans le flux du magazine. Il se lit chez lui.',
-  traductionEnCours: 'Traduction en cours, voici l’original…',
-  traduitParMachine: 'Traduit automatiquement de l’anglais.',
   retourAuxNews: 'Retour aux news',
   articleEnLecture: 'Lecture de l’article…',
   articleIllisible: 'Cet article ne se laisse pas lire ici.',
@@ -1933,8 +1929,6 @@ const EN: Dictionnaire = {
   lireLaSuiteSur: (source) => `Read the rest on ${source}`,
   extraitSeulement: 'This magazine only publishes an excerpt in its feed. The rest is on their site.',
   articleHorsFlux: 'This article is no longer in the magazine feed. It can be read on their site.',
-  traductionEnCours: 'Translating, here is the original in the meantime…',
-  traduitParMachine: 'Machine translated from English.',
   retourAuxNews: 'Back to the news',
   articleEnLecture: 'Loading the article…',
   articleIllisible: 'This article cannot be read here.',

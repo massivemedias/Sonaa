@@ -58,28 +58,17 @@ interface Article {
   readonly date: string | null;
   readonly image: string | null;
   readonly resume: string;
-  /* La version francaise, posee a la moisson. Absente pour les deux
-     magazines qui ecrivent deja en francais, et quand la traduction a
-     echoue. Voir scripts/lib/traduire.ts. */
-  readonly titre_fr?: string;
-  readonly resume_fr?: string;
   /** Le flux porte l'article entier. Absent dans un fichier d'avant le
       2 octobre 2026, ou l'article est alors tenu pour lisible. */
   readonly integral?: boolean;
 }
 
-/* ═══ LE TITRE DANS LA LANGUE DE LA PAGE ═══
- *
- * Mika, le 17 septembre 2026 : « FR voit du FR traduit, EN voit l'original ».
- * Un lecteur anglophone lit toujours ce que le magazine a ecrit ; un lecteur
- * francophone lit la traduction QUAND ELLE EXISTE, et l'original sinon.
- *
- * LE REPLI N'EST PAS UN DEFAUT, C'EST LA REGLE. Deux magazines ecrivent en
- * francais et n'ont donc pas de traduction ; un article moissonne pendant une
- * panne de l'API n'en a pas non plus. Dans les deux cas la ligne s'affiche
- * telle quelle, ce qui est exactement l'etat d'avant. */
-const titreDe = (a: Article): string => (langue === 'fr' && a.titre_fr ? a.titre_fr : a.titre);
-const resumeDe = (a: Article): string => (langue === 'fr' && a.titre_fr ? (a.resume_fr ?? '') : a.resume);
+/* ═══ LE TITRE DANS LA LANGUE DU MAGAZINE ═══ Il etait traduit en francais
+   par Claude du 17 septembre au 3 octobre 2026 ; Mika a coupe la traduction
+   avec le resume SONAA (voir ADR-095). Chaque article se lit tel que son
+   magazine l'a ecrit. */
+const titreDe = (a: Article): string => a.titre;
+const resumeDe = (a: Article): string => a.resume;
 
 interface Livre {
   readonly fait: string;
@@ -463,7 +452,6 @@ export function NewsPage() {
                   source={a ? (PAR_SOURCE.get(a.source)?.nom ?? null) : null}
                   image={a?.image ?? null}
                   idSource={a?.source ?? null}
-                  langueSource={a ? (PAR_SOURCE.get(a.source)?.langue ?? null) : null}
                 />
                 <ColonneLecture voisins={voisins(livre?.articles ?? [], urlEnLecture)} />
               </div>

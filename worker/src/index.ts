@@ -37,7 +37,6 @@ import { ZONES } from './zones.ts';
 /* La table des sources et la consigne de traduction vivent dans src/, avec
    leurs tests : une copie ici aurait derive des la premiere source ajoutee. */
 import { SOURCES } from '../../src/data/news-sources.ts';
-import { MODELE, consigneCorps, lireReponseCorps, rangsDeTexte, remettreEnPlace } from '../../scripts/lib/traduire.ts';
 /* Le lecteur de la reponse d'AudD vit dans src/, avec son test : voir
    src/reconnaitre/audd.ts. Une copie ici aurait diverge. */
 import { lireReponseAudd } from '../../src/reconnaitre/audd.ts';
@@ -67,10 +66,6 @@ interface Env {
      reconnaissance de STYLE, elle, tourne dans le navigateur et ne depend
      d'aucune cle. Voir src/reconnaitre/. */
   AUDD_API_KEY?: string;
-  /* LA CLE DE TRADUCTION, POUR LE CORPS DES ARTICLES. Facultative : sans
-     elle la vue de lecture affiche l'original anglais, ce qui reste un
-     article lisible. Voir la route api/article-flux. */
-  ANTHROPIC_API_KEY?: string;
   readonly NOTIFIER_SECRET?: string;
   /* LE SECRET DE LA CONVERSION AAC, pose par `wrangler secret put
      CONVERSION_SECRET`. Il n'ouvre que le depot et l'effacement de fichiers
@@ -365,46 +360,6 @@ function entetes(req: Request, env: Env, extra: Record<string, string> = {}): He
  * arriere-plan. Une soiree ajoutee met donc au plus cinq minutes a
  * apparaitre, sans commune mesure avec le temps qu'elle a mis a etre
  * moissonnee. */
-/* UN APPEL, UN ARTICLE. Les blocs vides, qui sont les images, partent quand
-   meme : le modele doit rendre autant d'elements qu'il en recoit, et c'est
-   ainsi qu'on peut remettre chaque bloc a sa place. */
-async function traduireCorps(blocs: string[], cle: string): Promise<string[]> {
-  try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json', 'x-api-key': cle, 'anthropic-version': '2023-06-01' },
-      body: JSON.stringify({
-        model: MODELE,
-        max_tokens: 8000,
-        system: consigneCorps(),
-        messages: [{ role: 'user', content: JSON.stringify(blocs) }],
-      }),
-    });
-    if (!r.ok) {
-      console.log(`traduireCorps : HTTP ${r.status} ${(await r.text()).slice(0, 200)}`);
-      return [];
-    }
-    const rep = (await r.json()) as {
-      content?: { type: string; text?: string }[];
-      stop_reason?: string;
-      usage?: { input_tokens?: number; output_tokens?: number };
-    };
-    const texte = (rep.content ?? []).filter((c) => c.type === 'text').map((c) => c.text ?? '').join('');
-    const lus = lireReponseCorps(texte, blocs.length);
-    /* CE JOURNAL DIT POURQUOI UNE TRADUCTION N'A PAS EU LIEU. Sans lui, un
-       echec silencieux se lit « traduit: false » et rien de plus, et il faut
-       payer un appel de plus pour apprendre lequel des trois cas c'etait. */
-    console.log(
-      `traduireCorps : ${blocs.length} blocs demandes, ${lus.length} rendus, ` +
-        `arret ${rep.stop_reason}, ${rep.usage?.input_tokens} + ${rep.usage?.output_tokens} tokens`
-    );
-    return lus;
-  } catch (e) {
-    console.log(`traduireCorps : ${e instanceof Error ? e.message : String(e)}`);
-    return [];
-  }
-}
-
 const CACHE_AGENDA = {
   'content-type': 'application/json',
   'cache-control': 'public, max-age=300, stale-while-revalidate=3600',
@@ -882,22 +837,16 @@ export default {
 
     /* ═══ LE CORPS D'UN ARTICLE, DEPUIS SON FLUX ═══
      *
-     * GET api/article-flux?source=<id>&lien=<url>&lang=fr
+     * GET api/article-flux?source=<id>&lien=<url>
      *
      * On telecharge le flux du magazine, garde une heure, on y retrouve
      * l'article par son adresse, et on rend ses blocs. La page du magazine
-     * n'est jamais ouverte : voir le commentaire de morceauxDuHtml.
-     *
-     * LA TRADUCTION DU CORPS SE FAIT ICI, A LA DEMANDE, et jamais a la
-     * moisson : traduire cent soixante articles a chaque passe pour les
-     * quelques-uns qu'on ouvre serait payer mille fois ce qu'on lit. Le
-     * resultat est range dans KV pour trente jours, donc la deuxieme
-     * ouverture ne coute rien. Cinq traductions par adresse et par heure :
-     * au-dela, on rend l'original, ce qui reste un article lisible. */
+     * n'est jamais ouverte : voir le commentaire de morceauxDuHtml. Le texte
+     * part tel que le magazine l'a ecrit, sans traduction depuis le
+     * 3 octobre 2026 (voir docs/adr/ADR-095). */
     if (req.method === 'GET' && chemin === 'api/article-flux') {
       const idSource = (url.searchParams.get('source') ?? '').trim();
       const lien = (url.searchParams.get('lien') ?? '').trim();
-      const langue = url.searchParams.get('lang') === 'fr' ? 'fr' : 'en';
       const source = SOURCES.find((x) => x.id === idSource);
       if (!source || !source.flux) return refus(req, env, 404, 'source inconnue ou sans flux');
       if (!lien.startsWith('http')) return refus(req, env, 400, 'lien invalide');
@@ -934,51 +883,11 @@ export default {
 
       const corps = await morceauxDuHtml(item.contenu);
 
-      /* LA TRADUCTION : seulement en francais, seulement sur un article
-         entier, seulement depuis une source anglophone. */
-      let traduit = false;
-      let rendu = corps;
-      if (langue === 'fr' && item.integral && source.langue === 'en' && env.ANTHROPIC_API_KEY) {
-        const cleTrad = `trad:${langue}:${lien}`;
-        const range = await env.DEMANDES.get(cleTrad);
-        if (range) {
-          try {
-            const lu = JSON.parse(range) as string[];
-            if (lu.length !== corps.length) throw new Error('entree de longueur differente');
-            rendu = corps.map((m, i) => (m.t === 'img' ? m : { t: m.t, x: lu[i] || m.x }));
-            traduit = true;
-          } catch {
-            /* Entree abimee : on rend l'original. */
-          }
-        } else {
-          const ip = req.headers.get('cf-connecting-ip') ?? 'inconnue';
-          const heure = new Date().toISOString().slice(0, 13);
-          const cleCompteur = `tradrl:${ip}:${heure}`;
-          const vus = Number((await env.DEMANDES.get(cleCompteur)) ?? '0');
-          if (vus < 5) {
-            await env.DEMANDES.put(cleCompteur, String(vus + 1), { expirationTtl: 3900 });
-            /* LES IMAGES NE PARTENT PAS EN TRADUCTION, et c'est ce qui
-               manquait. Elles partaient comme des chaines vides, le modele les
-               rendait vides, et la regle qui refuse un bloc vide, posee pour
-               attraper une traduction amputee, refusait alors l'article
-               entier : tout article illustre etait intraduisible, et le seul
-               symptome etait un « traduit: false » sans raison. On n'envoie
-               donc que les blocs de texte, et on les remet a leur place. */
-            const rangs = rangsDeTexte(corps);
-            const aTraduire = rangs.map((i) => (corps[i] as Morceau).x);
-            const blocs = await traduireCorps(aTraduire, env.ANTHROPIC_API_KEY);
-            if (blocs.length === aTraduire.length && blocs.length > 0) {
-              const complet = remettreEnPlace(corps, rangs, blocs);
-              rendu = corps.map((m, i) => (m.t === 'img' ? m : { t: m.t, x: complet[i] || m.x }));
-              traduit = true;
-              await env.DEMANDES.put(cleTrad, JSON.stringify(complet), { expirationTtl: 2592000 });
-            }
-          }
-        }
-      }
-
+      /* PLUS DE TRADUCTION depuis le 3 octobre 2026 (voir ADR-095) : le
+         texte part tel que le magazine l'a ecrit. `traduit` reste dans la
+         reponse, toujours faux, pour les pages deja ouvertes. */
       return new Response(
-        JSON.stringify({ trouve: true, integral: item.integral, corps: rendu, traduit, source: source.nom }),
+        JSON.stringify({ trouve: true, integral: item.integral, corps, traduit: false, source: source.nom }),
         { headers: entetes(req, env, { 'content-type': 'application/json', 'cache-control': 'public, max-age=600' }) }
       );
     }
