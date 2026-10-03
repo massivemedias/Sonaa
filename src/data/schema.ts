@@ -80,7 +80,7 @@ const trackSchema = z.strictObject({
          collectionne. La provenance reste enregistree parce que
          l'interface s'en sert : une vignette YouTube est une capture video et
          non une pochette, elle est donc ecartee a l'affichage. */
-      source: z.enum(['deezer', 'itunes', 'youtube', 'discogs']),
+      source: z.enum(['deezer', 'itunes', 'youtube', 'discogs', 'musicbrainz']),
       local: z.string().startsWith('covers/')
     })
     .optional(),

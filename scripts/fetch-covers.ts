@@ -35,8 +35,8 @@
    de la famille et les initiales de l'artiste.
 
    Usage : npm run fetch:covers [-- --force]
-   Sans --force, un morceau qui a déjà une vraie pochette (iTunes, Deezer ou
-   Discogs) n'est pas réinterrogé ; avec --force, une vraie pochette n'est
+   Sans --force, un morceau qui a déjà une vraie pochette (iTunes, Deezer,
+   Discogs ou MusicBrainz) n'est pas réinterrogé ; avec --force, une vraie pochette n'est
    jamais remplacée par une vignette YouTube. */
 
 import { mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
@@ -61,7 +61,7 @@ interface Track {
   title: string;
   year: number | null;
   verified: true;
-  cover?: { url: string; source: 'deezer' | 'itunes' | 'discogs' | 'youtube'; local: string };
+  cover?: { url: string; source: 'deezer' | 'itunes' | 'discogs' | 'musicbrainz' | 'youtube'; local: string };
   /* Le vrai label de disque demanderait un jeton Discogs. iTunes ne donne que
      l'album : c'est ce qu'on affiche, en le nommant pour ce qu'il est. */
   album?: string;
@@ -258,7 +258,7 @@ let fallback = 0;
    Le 3 octobre 2026, une passe a ainsi degrade 161 pochettes d'un coup. Une
    vignette de video ne remplace jamais une vraie pochette, d'ou qu'elle
    vienne. */
-const VRAIES_POCHETTES = new Set(['itunes', 'deezer', 'discogs']);
+const VRAIES_POCHETTES = new Set(['itunes', 'deezer', 'discogs', 'musicbrainz']);
 let kept = 0;
 let failures = 0;
 
