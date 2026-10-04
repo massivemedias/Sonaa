@@ -1,6 +1,24 @@
 {
- "fait": "2026-10-03T18:46:24.670Z",
+ "fait": "2026-10-04T06:01:45.510Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Overtonium, Ultiverb, ENS-86: Free Plugins of the Week",
+   "lien": "https://www.gearnews.com/overtonium-ultiverb-free-plugins/",
+   "date": "2026-10-04T06:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/overtonium-free-plugins-10-04-26.jpg",
+   "resume": "Overtonium is an amazing additive synth that works like a mixer, Ultiverb is one of the most feature-rich free reverbs I’ve ever seen, and ENS-86 delivers classic chorus sounds: Free plugins of the week! Free Plugins of…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "How Paul Hardcastle created his sample-driven masterpiece 19",
+   "lien": "https://www.musicradar.com/artists/they-thought-it-was-going-to-be-the-biggest-flop-ever-but-there-were-two-guys-thinking-this-might-just-change-the-face-of-music-how-paul-hardcastle-created-his-sample-driven-masterpiece-19",
+   "date": "2026-10-03T23:30:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/Vtws6MW8UV8BdtaUr8cWAS-1920-80.png",
+   "resume": "Back in 1985, the concept of a professional home studio was still fairly alien. Synthesizers and drum machines were firmly on the agenda, but with digital audio in its infancy, any reasonably substantial studio…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "Ground Loops in the Home Studio 2026: The Easy Way to Stop Hum and Buzz for Good",
@@ -182,15 +200,6 @@
    "integral": true
   },
   {
-   "source": "musicradar",
-   "titre": "\"Genuinely punches above what its asking price might suggest\": Patina PJ-6 offset guitar review",
-   "lien": "https://www.musicradar.com/guitars/electric-guitars/patina-pj-6-review",
-   "date": "2026-10-01T17:31:27.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/w24BqdUP5RJRRm7WgVtsEd-1920-80.jpg",
-   "resume": "What is it? When it comes to affordable alternatives to the Big F, you aren’t exactly short on options these days, and with parts more accessible than ever, these budget-friendly options are typically well spec’d and…",
-   "integral": true
-  },
-  {
    "source": "gearnews",
    "titre": "Mix Bus Plugins: Processors for Channel Groups and Your Main Stereo Bus",
    "lien": "https://www.gearnews.com/mix-bus-plugins-studio/",
@@ -206,15 +215,6 @@
    "date": "2026-10-01T16:47:08.000Z",
    "image": "https://musictech.com/wp-content/uploads/2026/10/Hazel-Mills-hero@2000x1500.jpg",
    "resume": "When it comes to music production gear – MIDI controllers, keyboards, microphones, plugins – there’s no shortage of options available. But could so much choice actually be a bad thing? As a producer, the temptation is…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "CHOMPI as a Free Plugin, a Waldorf Wave for your DAW, and a big Coral Update: Synth Journal",
-   "lien": "https://www.gearnews.com/chompi-nibbi-free-plugin-synth-journal/",
-   "date": "2026-10-01T16:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/chompi-nibbi-synth-journal.jpg",
-   "resume": "Chase Bliss officially discontinues and open-sources CHOMPI – and a developer immediately turns it into a free plugin. Also in this week’s Synth Journal: a Waldorf Wave emulator for your DAW and a huge update for the…",
    "integral": true
   },
   {
