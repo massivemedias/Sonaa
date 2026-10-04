@@ -1,6 +1,15 @@
 {
- "fait": "2026-10-04T06:01:45.510Z",
+ "fait": "2026-10-04T16:53:54.493Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "MPC2000 Mods by vubeatz: Unlocking Hidden Powers of the MPC2000 and MPC2000XL",
+   "lien": "https://www.gearnews.com/mpc2000-mods-synth/",
+   "date": "2026-10-04T16:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/mpc2000-mods-1.jpg",
+   "resume": "Hot new features for two vintage sampling legends: Take your MPC2000 or MPC2000XL to another level with these MPC2000 Mods! MPC2000 Mods: New Features for the MPC2000 and MPC2000XL The AKAI MPC series enjoys a legendary…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "Overtonium, Ultiverb, ENS-86: Free Plugins of the Week",
@@ -197,15 +206,6 @@
    "date": "2026-10-01T18:17:49.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/mcaS5rLWas2cqe5KuRmKsW-1920-80.jpg",
    "resume": "Conrad Lant, the frontman for hugely influential metal band Venom, has died aged 63. Known to fans by his stage name of Cronos, he passed away on 1 October. Lant was born in London on 15 January 1963 and raised in…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Mix Bus Plugins: Processors for Channel Groups and Your Main Stereo Bus",
-   "lien": "https://www.gearnews.com/mix-bus-plugins-studio/",
-   "date": "2026-10-01T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2019/10/deal-ik-multimedia-t-racks-5-max-01.jpg",
-   "resume": "Using mix bus plugins has become an essential part of modern music production, but with so many options available, where do you start? In this Article: Mix Bus Plugins: IK Multimedia T-RackS Mix Bus Plugins: SSL Fusion…",
    "integral": true
   },
   {
