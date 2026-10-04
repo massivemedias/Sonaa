@@ -1778,9 +1778,12 @@
     width: 40px;
     height: 40px;
   }
+  /* QUARANTE-HUIT ET NON QUARANTE-QUATRE : inclinees, les machines
+     raccourcissent un peu ce qu'elles portent ; une touche de 48 px en
+     garde 44 au doigt. */
   .pl-touche,
   .pl-pad {
-    min-height: 44px;
+    min-height: 48px;
   }
   /* Au doigt, le zoom quitte le coin de l'onde pour une rangee a lui. */
   .pl-zoom {
@@ -1789,12 +1792,12 @@
     margin-top: 6px;
   }
   .pl-zoom button {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
   }
   .pl-recherche {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
   }
   .pl-page {
     --pl-inclinaison: 7deg;
@@ -1807,8 +1810,8 @@
     min-height: 48px;
   }
   .pl-playlist-ligne button {
-    min-width: 44px;
-    min-height: 44px;
+    min-width: 48px;
+    min-height: 48px;
   }
   .pl-jog-zone {
     width: min(100%, 240px);
@@ -1826,13 +1829,13 @@
   .pl-ecran-touche,
   .pl-caisse-retirer,
   .pl-caisse-nommer input {
-    min-height: 44px;
+    min-height: 48px;
   }
   .pl-morceau-actions button {
-    min-width: 44px;
+    min-width: 48px;
   }
   .pl-navigateur-fermer {
-    width: 44px;
+    width: 48px;
   }
 }
 
