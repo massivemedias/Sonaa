@@ -1,6 +1,6 @@
 # ADR-099 : mes morceaux, glissés sur les platines
 
-Date : 3 octobre 2026. Statut : accepté.
+Date : 3 octobre 2026. Statut : remplacé par [ADR-101](ADR-101-les-decks-partent.md) : les Decks ont quitté Sonaa le 4 octobre 2026.
 
 ## Pourquoi
 

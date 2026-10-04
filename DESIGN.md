@@ -669,9 +669,9 @@ n'ont plus d'ombre portée, seules les surfaces qui flottent en ont une, très
 diffuse.
 
 Ce qui reste interdit, et n'a pas été rouvert : serif à fort contraste.
-Emoji dans l'interface. Illustration 3D (sauf les machines des Decks,
-légèrement inclinées en perspective depuis le 3 octobre 2026, voir
-[ADR-100](docs/adr/ADR-100-un-peu-de-3d.md)). Un fond noir pur (l'accent acide,
+Emoji dans l'interface. Illustration 3D (l'exception des machines des
+Decks, [ADR-100](docs/adr/ADR-100-un-peu-de-3d.md), est partie avec eux le
+4 octobre 2026, voir [ADR-101](docs/adr/ADR-101-les-decks-partent.md)). Un fond noir pur (l'accent acide,
 lui, est permis depuis [ADR-096](docs/adr/ADR-096-l-accent-vert.md), sur le
 granite ; il est orange depuis [ADR-098](docs/adr/ADR-098-l-orange-et-le-jaune.md)). Un dégradé sur du texte. Du noir pur ou du blanc pur en fond.
 

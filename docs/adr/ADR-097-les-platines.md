@@ -1,6 +1,6 @@
 # ADR-097 : les platines, sur Audius, dans le langage des machines
 
-Date : 3 octobre 2026. Statut : accepté.
+Date : 3 octobre 2026. Statut : remplacé par [ADR-101](ADR-101-les-decks-partent.md) : les Decks ont quitté Sonaa le 4 octobre 2026.
 
 ## Pourquoi
 
