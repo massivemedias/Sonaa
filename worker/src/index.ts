@@ -41,7 +41,7 @@ import { SOURCES } from '../../src/data/news-sources.ts';
    src/reconnaitre/audd.ts. Une copie ici aurait diverge. */
 import { lireReponseAudd } from '../../src/reconnaitre/audd.ts';
 import { soirees, toutesLesSoirees } from './agenda.ts';
-import { PasConfigure, chercher as chercherSoundcloud, flux as fluxSoundcloud, piece as pieceSoundcloud } from './soundcloud.ts';
+import { PasConfigure, chercher as chercherSoundcloud, flux as fluxSoundcloud, morceauxMm, piece as pieceSoundcloud } from './soundcloud.ts';
 import { jourEtHeure, lireLaPage, lireLeLienSeul, sourceDuLien, texteNu } from '../../src/lib/lire-soiree.ts';
 
 interface Env {
@@ -1208,6 +1208,16 @@ export default {
           if (garde) return new Response(garde.body, { headers: entetes(req, env, { 'content-type': 'application/json', 'x-cache': 'garde' }) });
           const corps = JSON.stringify({ tracks: await chercherSoundcloud(env, q) });
           await cache.put(cle, new Response(corps, { headers: { 'content-type': 'application/json', 'cache-control': 'max-age=900' } }));
+          return new Response(corps, { headers: entetes(req, env, { 'content-type': 'application/json' }) });
+        }
+        if (chemin === 'api/soundcloud/maudite') {
+          // Les morceaux de Mika : une heure de cache, son compte change peu
+          const cache = caches.default;
+          const cle = new Request('https://sonaa.ca/api/soundcloud/maudite?v=1');
+          const garde = await cache.match(cle);
+          if (garde) return new Response(garde.body, { headers: entetes(req, env, { 'content-type': 'application/json', 'x-cache': 'garde' }) });
+          const corps = JSON.stringify({ tracks: await morceauxMm(env) });
+          await cache.put(cle, new Response(corps, { headers: { 'content-type': 'application/json', 'cache-control': 'max-age=3600' } }));
           return new Response(corps, { headers: entetes(req, env, { 'content-type': 'application/json' }) });
         }
         if (chemin === 'api/soundcloud/flux') return json(await fluxSoundcloud(env, url.searchParams.get('urn') ?? ''), { 'cache-control': 'no-store' });

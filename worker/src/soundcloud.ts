@@ -40,6 +40,15 @@ export interface EnvSoundcloud {
   readonly DEMANDES?: KVNamespace;
 }
 
+/**
+ * LES MORCEAUX DE MAUDITE MACHINE (Mika, 4 octobre 2026 : « les gens
+ * pourront mixer mes tracks »). Mika est l'auteur de ce compte et consent a
+ * ce que ses morceaux passent sur les platines, quelle que soit leur licence
+ * sur SoundCloud : c'est le consentement expres de l'auteur que demandent
+ * les conditions (section 3).
+ */
+export const COMPTE_MM = 'mauditemachine';
+
 /** Les licences qui autorisent les oeuvres derivees (et le domaine public). */
 export const LICENCES_REMIX = new Set(['cc-by', 'cc-by-sa', 'cc-by-nc', 'cc-by-nc-sa', 'no-rights-reserved']);
 /** Un morceau, pas un set : une minute au moins, douze au plus (tout est decode en memoire). */
@@ -105,8 +114,10 @@ interface Brut {
   permalink_url?: string;
   artwork_url?: string | null;
   genre?: string | null;
-  user?: { username?: string; permalink_url?: string };
+  user?: { username?: string; permalink_url?: string; permalink?: string };
 }
+
+const deMm = (b: Brut): boolean => b.user?.permalink === COMPTE_MM || (b.user?.permalink_url ?? '').toLowerCase().endsWith(`/${COMPTE_MM}`);
 
 export interface MorceauSoundcloud {
   id: string;
@@ -122,7 +133,8 @@ export interface MorceauSoundcloud {
 }
 
 function versMorceau(b: Brut): MorceauSoundcloud | null {
-  if (!b.urn || !b.title || !b.license || !LICENCES_REMIX.has(b.license)) return null;
+  if (!b.urn || !b.title) return null;
+  if (!deMm(b) && (!b.license || !LICENCES_REMIX.has(b.license))) return null;
   if (b.streamable === false || (b.access && b.access !== 'playable')) return null;
   const d = b.duration ?? 0;
   if (d < DUREE.min || d > DUREE.max) return null;
@@ -133,7 +145,7 @@ function versMorceau(b: Brut): MorceauSoundcloud | null {
     bpm: typeof b.bpm === 'number' && b.bpm > 0 ? Math.round(b.bpm * 10) / 10 : null,
     key: b.key_signature || null,
     duration: d / 1000,
-    license: b.license,
+    license: deMm(b) ? 'mauditemachine' : (b.license ?? ''),
     link: b.permalink_url ?? '',
     artistLink: b.user?.permalink_url ?? null,
     genre: b.genre ?? '',
@@ -163,6 +175,27 @@ export async function chercher(env: EnvSoundcloud, q: string): Promise<MorceauSo
         vus.add(m.id);
         sortie.push(m);
       }
+    }
+    suivante = Array.isArray(d) ? null : (d.next_href ?? null);
+  }
+  return sortie;
+}
+
+/** Les morceaux du compte de Maudite Machine (une heure de cache au Worker). */
+export async function morceauxMm(env: EnvSoundcloud): Promise<MorceauSoundcloud[]> {
+  const r = await api(env, `/resolve?url=${encodeURIComponent(`https://soundcloud.com/${COMPTE_MM}`)}`);
+  if (!r.ok) throw new Error(`compte introuvable (${r.status})`);
+  const u = (await r.json()) as { urn?: string };
+  if (!u.urn) throw new Error('compte introuvable');
+  let suivante: string | null = `/users/${encodeURIComponent(u.urn)}/tracks?access=playable&limit=200&linked_partitioning=true`;
+  const sortie: MorceauSoundcloud[] = [];
+  for (let page = 0; page < 3 && suivante; page += 1) {
+    const p = await api(env, suivante);
+    if (!p.ok) break;
+    const d = (await p.json()) as { collection?: Brut[]; next_href?: string | null } | Brut[];
+    for (const b of Array.isArray(d) ? d : (d.collection ?? [])) {
+      const m = versMorceau(b);
+      if (m) sortie.push(m);
     }
     suivante = Array.isArray(d) ? null : (d.next_href ?? null);
   }
