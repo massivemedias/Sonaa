@@ -1060,6 +1060,99 @@
   box-shadow: 0 1px 0 #0b0b0d;
 }
 
+/* ═══ MES MORCEAUX ═══ La provenance en deux touches, la zone ou l'on
+   glisse ses fichiers, et le voile qui couvre une platine survolee par un
+   fichier. */
+.pl-sources {
+  display: flex;
+  gap: 8px;
+}
+.pl-sources .pl-touche {
+  min-width: 96px;
+  padding-left: 14px;
+  padding-right: 14px;
+}
+.pl-navigateur-filtres {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espace-8) var(--espace-12);
+}
+.pl-depot-zone {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 26px 16px;
+  border: 1px dashed rgb(246 241 231 / 0.22);
+  border-radius: 12px;
+  background: rgb(246 241 231 / 0.02);
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color 120ms ease,
+    background 120ms ease;
+}
+.pl-depot-zone:hover,
+.pl-depot-zone[data-survol='true'] {
+  border-color: var(--accent);
+  background: var(--accent-voile);
+}
+.pl-depot-zone:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.pl-depot-zone input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.pl-depot-titre {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+.pl-depot-note {
+  font-size: 0.8125rem;
+  color: var(--ink-secondary);
+}
+.pl-refus {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 0.8125rem;
+  color: var(--accent);
+}
+.pl-morceau-actions .pl-morceau-retirer {
+  color: var(--pl-os-55);
+  font-weight: 400;
+  font-size: 1.1rem;
+}
+.pl-annonce {
+  min-height: 1.2em;
+  margin: var(--espace-12) 0 0;
+  font-size: 0.8125rem;
+  color: var(--accent);
+}
+.pl-annonce:empty {
+  display: none;
+}
+.pl-depot {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  border-radius: 22px;
+  border: 2px dashed var(--accent);
+  background: rgb(10 10 11 / 0.82);
+  color: var(--accent);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .pl-lecture[data-pret='true'] .pl-touche-led {
     animation: none;

@@ -12,19 +12,7 @@
  * chaque requete (`app_name`) ; on cite l'artiste et on renvoie vers sa
  * page ; on ne garde aucun fichier : la platine lit le son chez Audius. */
 
-export interface MorceauAudius {
-  readonly id: string;
-  readonly titre: string;
-  readonly artiste: string;
-  readonly genre: string;
-  readonly bpm: number | null;
-  readonly tonalite: string | null;
-  /** En secondes. */
-  readonly duree: number;
-  readonly pochette: string | null;
-  /** La page du morceau chez Audius. */
-  readonly lien: string;
-}
+import type { Morceau } from './morceau.ts';
 
 const APP = 'sonaa';
 const HOTE_PAR_DEFAUT = 'https://api.audius.co';
@@ -56,10 +44,11 @@ interface Brut {
   user?: { name?: string; handle?: string };
 }
 
-function versMorceau(b: Brut): MorceauAudius | null {
+function versMorceau(b: Brut): Morceau | null {
   if (!b.id || !b.title || b.is_streamable === false) return null;
   return {
     id: b.id,
+    source: 'audius',
     titre: b.title,
     artiste: b.user?.name ?? b.user?.handle ?? '',
     genre: b.genre ?? '',
@@ -71,11 +60,11 @@ function versMorceau(b: Brut): MorceauAudius | null {
   };
 }
 
-async function lire(chemin: string): Promise<MorceauAudius[]> {
+async function lire(chemin: string): Promise<Morceau[]> {
   const r = await fetch(`${await hoteAudius()}${chemin}${chemin.includes('?') ? '&' : '?'}app_name=${APP}`);
   if (!r.ok) return [];
   const d = (await r.json()) as { data?: Brut[] };
-  return (d.data ?? []).map(versMorceau).filter((m): m is MorceauAudius => m !== null);
+  return (d.data ?? []).map(versMorceau).filter((m): m is Morceau => m !== null);
 }
 
 /* ═══ CE QUE LA PLATINE ACCEPTE ═══ Un morceau, pas un set : une minute au
@@ -83,7 +72,7 @@ async function lire(chemin: string): Promise<MorceauAudius[]> {
    d'onde ; un mix de deux heures pese plusieurs centaines de mega-octets
    une fois decode, et un telephone ne les a pas. */
 export const DUREE_MAX = 12 * 60;
-const jouable = (m: MorceauAudius): boolean => m.duree >= 60 && m.duree <= DUREE_MAX;
+const jouable = (m: Morceau): boolean => m.duree >= 60 && m.duree <= DUREE_MAX;
 
 /* ═══ DU STYLE DE L'ATLAS AU GENRE D'AUDIUS ═══ Audius range ses morceaux
    dans une cinquantaine de genres ; l'atlas en a deux cent dix-neuf. Le nom
@@ -136,7 +125,7 @@ const ELECTRONIQUES = new Set([
 
 /** Les morceaux d'un style de l'atlas : ceux qui portent son nom d'abord,
     puis les plus ecoutes de son genre chez Audius. */
-export async function morceauxDuStyle(famille: string, style: string): Promise<readonly MorceauAudius[]> {
+export async function morceauxDuStyle(famille: string, style: string): Promise<readonly Morceau[]> {
   const genre = genreAudius(famille, style);
   const [parNom, tendances] = await Promise.all([
     lire(`/v1/tracks/search?query=${encodeURIComponent(style)}&limit=40`),
@@ -149,7 +138,7 @@ export async function morceauxDuStyle(famille: string, style: string): Promise<r
 }
 
 /** Une recherche libre, pour choisir son morceau soi-meme. */
-export async function chercherAudius(requete: string): Promise<readonly MorceauAudius[]> {
+export async function chercherAudius(requete: string): Promise<readonly Morceau[]> {
   const q = requete.trim();
   if (q.length < 2) return [];
   return (await lire(`/v1/tracks/search?query=${encodeURIComponent(q)}&limit=40`)).filter(jouable);

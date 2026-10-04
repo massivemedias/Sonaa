@@ -599,6 +599,16 @@ interface Dictionnaire {
   readonly navigateurCharge: string;
   readonly navigateurSurPlatine: (nom: string) => string;
   readonly navigateurSource: string;
+  readonly navigateurProvenance: string;
+  readonly navigateurMesMorceaux: (n: number) => string;
+  readonly caisseDeposer: string;
+  readonly caisseLocal: string;
+  readonly caisseAnalyse: (fait: number, total: number) => string;
+  readonly caisseVide: string;
+  readonly caisseRetirer: (titre: string) => string;
+  readonly caisseIllisible: (nom: string) => string;
+  readonly caisseTropLong: (nom: string) => string;
+  readonly platineDeposer: string;
   readonly navigateurFermer: string;
   readonly platinesGlisser: string;
   readonly labelsChapeau: (n: number) => string;
@@ -1412,6 +1422,16 @@ const FR: Dictionnaire = {
   navigateurCharge: 'Recherche…',
   navigateurSurPlatine: (nom) => `Charger sur la platine ${nom}`,
   navigateurSource: 'Morceaux publiés sur Audius par leurs artistes, lus chez Audius.',
+  navigateurProvenance: 'Provenance des morceaux',
+  navigateurMesMorceaux: (n) => (n > 0 ? `Mes morceaux (${n})` : 'Mes morceaux'),
+  caisseDeposer: 'Glisse tes fichiers audio ici, ou touche pour les choisir',
+  caisseLocal: 'Tes fichiers restent sur cet appareil : rien n’est envoyé sur internet.',
+  caisseAnalyse: (fait, total) => `Analyse du fichier ${fait} sur ${total}…`,
+  caisseVide: 'Aucun morceau pour l’instant.',
+  caisseRetirer: (titre) => `Retirer ${titre}`,
+  caisseIllisible: (nom) => `${nom} ne se lit pas : il faut un MP3, un WAV, un AIFF, un FLAC ou un M4A.`,
+  caisseTropLong: (nom) => `${nom} dure plus de 15 minutes : trop lourd pour les platines.`,
+  platineDeposer: 'Lâche le fichier pour le charger',
   navigateurFermer: 'Fermer',
   platinesGlisser: 'Glisse pour passer d’une platine à la table.',
   labelsChapeau: (n) => `${n} labels de musique électronique : leur histoire, leurs disques les plus connus et leurs morceaux dans l’atlas.`,
@@ -2240,6 +2260,16 @@ const EN: Dictionnaire = {
   navigateurCharge: 'Searching…',
   navigateurSurPlatine: (nom) => `Load on deck ${nom}`,
   navigateurSource: 'Tracks published on Audius by their artists, played from Audius.',
+  navigateurProvenance: 'Track source',
+  navigateurMesMorceaux: (n) => (n > 0 ? `My tracks (${n})` : 'My tracks'),
+  caisseDeposer: 'Drop your audio files here, or tap to choose them',
+  caisseLocal: 'Your files stay on this device: nothing is uploaded.',
+  caisseAnalyse: (fait, total) => `Analysing file ${fait} of ${total}…`,
+  caisseVide: 'No tracks yet.',
+  caisseRetirer: (titre) => `Remove ${titre}`,
+  caisseIllisible: (nom) => `${nom} cannot be read: use an MP3, WAV, AIFF, FLAC or M4A file.`,
+  caisseTropLong: (nom) => `${nom} is longer than 15 minutes: too heavy for the decks.`,
+  platineDeposer: 'Drop the file to load it',
   navigateurFermer: 'Close',
   platinesGlisser: 'Swipe to move between the decks and the mixer.',
   labelsChapeau: (n) => `${n} electronic music labels: their story, their best-known records and their tracks in the atlas.`,

@@ -15,7 +15,8 @@ import { EnTeteSite } from '../atlas/EnTeteSite.tsx';
 import { PiedDePage } from '../atlas/PiedDePage.tsx';
 import { useLecteurPartage } from '../lecture/LecteurContexte.tsx';
 import { t } from '../langue/langue.ts';
-import type { MorceauAudius } from './audius.ts';
+import { FichierRefuse, ajouterFichier } from './caisse.ts';
+import type { Morceau } from './morceau.ts';
 import { crossfader, gainDuFader, vitesse } from './calculs.ts';
 import { NavigateurVue } from './NavigateurVue.tsx';
 import { PlatineVue, type EtatPlatine } from './PlatineVue.tsx';
@@ -27,7 +28,7 @@ const ETAT_VIDE: EtatPlatine = { bpm: null, pitch: 0, enLecture: false };
 
 export function PlatinesPage() {
   const { arreter } = useLecteurPartage();
-  const [morceaux, setMorceaux] = useState<[MorceauAudius | null, MorceauAudius | null]>([null, null]);
+  const [morceaux, setMorceaux] = useState<[Morceau | null, Morceau | null]>([null, null]);
   const [etats, setEtats] = useState<[EtatPlatine, EtatPlatine]>([ETAT_VIDE, ETAT_VIDE]);
   const [volumes, setVolumes] = useState({ a: 0.8, b: 0.8, croise: 0 });
   const [feuille, setFeuille] = useState<0 | 1 | null>(null);
@@ -75,7 +76,7 @@ export function PlatinesPage() {
     return meilleur.bpm;
   }, [etats, volumes]);
 
-  const charger = (m: MorceauAudius, i: 0 | 1): void => {
+  const charger = (m: Morceau, i: 0 | 1): void => {
     /* Le petit lecteur du site joue peut-etre un morceau : deux sons a la
        fois, c'est un de trop. */
     arreter();
@@ -83,6 +84,33 @@ export function PlatinesPage() {
     setFeuille(null);
     aller(i === 0 ? 0 : 2);
   };
+
+  /* UN FICHIER LACHE SUR UNE PLATINE : il entre dans la caisse (lu,
+     analyse), puis se charge. */
+  const [annonce, setAnnonce] = useState<string | null>(null);
+  const deposer = (f: File, i: 0 | 1): void => {
+    setAnnonce(t.caisseAnalyse(1, 1));
+    ajouterFichier(f)
+      .then((m) => {
+        setAnnonce(null);
+        charger(m, i);
+      })
+      .catch((e: unknown) => setAnnonce(e instanceof FichierRefuse && e.raison === 'trop-long' ? t.caisseTropLong(f.name) : t.caisseIllisible(f.name)));
+  };
+
+  /* Un fichier lache a cote d'une cible ne doit pas remplacer la page par
+     sa lecture, ce que fait le navigateur par defaut. */
+  useEffect(() => {
+    const retenir = (e: globalThis.DragEvent): void => {
+      if ([...(e.dataTransfer?.types ?? [])].includes('Files')) e.preventDefault();
+    };
+    window.addEventListener('dragover', retenir);
+    window.addEventListener('drop', retenir);
+    return () => {
+      window.removeEventListener('dragover', retenir);
+      window.removeEventListener('drop', retenir);
+    };
+  }, []);
 
   const aller = (n: number): void => {
     const s = scene.current;
@@ -123,15 +151,19 @@ export function PlatinesPage() {
           }}
         >
           <div className="pl-panneau">
-            <PlatineVue index={0} morceau={morceaux[0]} onCharger={() => ouvrirNavigateur(0)} onEtat={onEtatA} />
+            <PlatineVue index={0} morceau={morceaux[0]} onCharger={() => ouvrirNavigateur(0)} onEtat={onEtatA} onDeposer={(f) => deposer(f, 0)} />
           </div>
           <div className="pl-panneau">
             <TableVue bpm={bpm} onVolumes={setVolumes} />
           </div>
           <div className="pl-panneau">
-            <PlatineVue index={1} morceau={morceaux[1]} onCharger={() => ouvrirNavigateur(1)} onEtat={onEtatB} />
+            <PlatineVue index={1} morceau={morceaux[1]} onCharger={() => ouvrirNavigateur(1)} onEtat={onEtatB} onDeposer={(f) => deposer(f, 1)} />
           </div>
         </div>
+
+        <p className="pl-annonce" role="status">
+          {annonce}
+        </p>
 
         <div className="pl-bas" ref={bas}>
           <NavigateurVue cible={null} onChoisir={charger} />

@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { bpmAffiche, crossfader, decibelsEq, dosage, filtreDuBouton, gainDuFader, ledsAllumees, pics, pitchEnPourcent, tempsAffiche, tonaliteCourte } from './calculs.ts';
+import { bpmAffiche, crossfader, decibelsEq, dosage, estimerBpm, filtreDuBouton, gainDuFader, ledsAllumees, pics, pitchEnPourcent, tempsAffiche, tonaliteCourte } from './calculs.ts';
 import { genreAudius } from './audius.ts';
 import { garderReperes, lireReperes } from './memoire.ts';
+import { lireTags, titreDuNom } from './tags.ts';
 
 describe('la tonalite', () => {
   it('se dit court et en Camelot', () => {
@@ -89,5 +90,91 @@ describe('la dose des effets', () => {
     expect(dosage('disto', 1)).toEqual({ sec: 0, humide: 1 });
     expect(dosage('chorus', 1)).toEqual({ sec: 0.5, humide: 0.8 });
     expect(dosage('reverb', 1).sec).toBe(1);
+  });
+});
+
+/* Un faux morceau : un coup de grosse caisse (un bruit qui decroit vite) a
+   chaque temps, et un charley plus faible entre les temps. */
+function battement(bpm: number, secondes: number, frequence = 22050): Float32Array {
+  const s = new Float32Array(Math.floor(secondes * frequence));
+  const temps = (60 / bpm) * frequence;
+  let graine = 1;
+  const hasard = (): number => {
+    graine = (graine * 16807) % 2147483647;
+    return graine / 2147483647 - 0.5;
+  };
+  for (let t = 0; t < s.length; t += temps / 2) {
+    const fort = Math.round(t / (temps / 2)) % 2 === 0;
+    const debut = Math.floor(t);
+    for (let i = 0; i < 2000 && debut + i < s.length; i += 1) s[debut + i] = (s[debut + i] ?? 0) + hasard() * (fort ? 1 : 0.25) * Math.exp(-i / 300);
+  }
+  return s;
+}
+
+describe('le BPM d un fichier', () => {
+  it('trouve le tempo d une house, d une techno et d une drum and bass', () => {
+    expect(estimerBpm(battement(124, 90), 22050)).toBe(124);
+    expect(estimerBpm(battement(132, 90), 22050)).toBe(132);
+    expect(estimerBpm(battement(174, 90), 22050)).toBe(174);
+  });
+  it('ne glisse pas aux deux tiers sur un morceau court et sature', () => {
+    const s = battement(126, 40).map((v) => Math.max(-1, Math.min(1, v * 1.2)));
+    expect(estimerBpm(s, 22050)).toBe(126);
+  });
+  it('se tait sur un silence ou un fichier trop court', () => {
+    expect(estimerBpm(new Float32Array(22050 * 30), 22050)).toBeNull();
+    expect(estimerBpm(new Float32Array(100), 22050)).toBeNull();
+  });
+});
+
+describe('la tonalite des fichiers', () => {
+  it('lit les notations courtes et Camelot', () => {
+    expect(tonaliteCourte('Am')).toEqual({ nom: 'Am', camelot: '8A' });
+    expect(tonaliteCourte('F#m')).toEqual({ nom: 'F♯m', camelot: '11A' });
+    expect(tonaliteCourte('Db')).toEqual({ nom: 'D♭', camelot: '3B' });
+    expect(tonaliteCourte('8A')).toEqual({ nom: 'Am', camelot: '8A' });
+    expect(tonaliteCourte('Ebmin')).toEqual({ nom: 'E♭m', camelot: '2A' });
+    expect(tonaliteCourte('rien')).toBeNull();
+  });
+});
+
+/* Un tag ID3 fabrique a la main : en-tete, puis les cadres. */
+function id3(version: 3 | 4, cadres: [string, Uint8Array][]): ArrayBuffer {
+  const taille = (n: number, sur: boolean): number[] =>
+    sur ? [(n >> 21) & 127, (n >> 14) & 127, (n >> 7) & 127, n & 127] : [(n >>> 24) & 255, (n >> 16) & 255, (n >> 8) & 255, n & 255];
+  const corps: number[] = [];
+  for (const [id, octets] of cadres) corps.push(...[...id].map((c) => c.charCodeAt(0)), ...taille(octets.length, version === 4), 0, 0, ...octets);
+  return new Uint8Array([0x49, 0x44, 0x33, version, 0, 0, ...taille(corps.length, true), ...corps, 0xff, 0xfb]).buffer;
+}
+const latin = (t: string): Uint8Array => new Uint8Array([0, ...[...t].map((c) => c.charCodeAt(0))]);
+const utf16 = (t: string): Uint8Array => {
+  const o = [1, 0xff, 0xfe];
+  for (const c of t) o.push(c.charCodeAt(0) & 255, c.charCodeAt(0) >> 8);
+  return new Uint8Array(o);
+};
+const utf8 = (t: string): Uint8Array => new Uint8Array([3, ...new TextEncoder().encode(t)]);
+
+describe('les tags d un fichier', () => {
+  it('lit un ID3 v2.3 : titre, artiste en UTF-16, BPM, tonalite et pochette', () => {
+    const pochette = new Uint8Array([0, ...[...'image/jpeg'].map((c) => c.charCodeAt(0)), 0, 3, 0, 0xff, 0xd8, 0xff]);
+    const t = lireTags(id3(3, [['TIT2', latin('Mentasm')], ['TPE1', utf16('Joey Beltram')], ['TBPM', latin('128')], ['TKEY', latin('Am')], ['TPUB', latin('R&S')], ['APIC', pochette]]));
+    expect(t.titre).toBe('Mentasm');
+    expect(t.artiste).toBe('Joey Beltram');
+    expect(t.bpm).toBe(128);
+    expect(t.tonalite).toBe('Am');
+    expect(t.label).toBe('R&S');
+    expect(t.pochette?.type).toBe('image/jpeg');
+    expect([...(t.pochette?.octets ?? [])]).toEqual([0xff, 0xd8, 0xff]);
+  });
+  it('lit un ID3 v2.4 en UTF-8 et ignore un fichier sans tag', () => {
+    const t = lireTags(id3(4, [['TIT2', utf8('Pièce d’été')], ['TCON', latin('(18) Techno')]]));
+    expect(t.titre).toBe('Pièce d’été');
+    expect(t.genre).toBe('Techno');
+    expect(lireTags(new Uint8Array([0xff, 0xfb, 0x90]).buffer)).toEqual({});
+  });
+  it('tire artiste et titre du nom du fichier', () => {
+    expect(titreDuNom('01 Akufen - Deck The House.mp3')).toEqual({ artiste: 'Akufen', titre: 'Deck The House' });
+    expect(titreDuNom('808 State - Pacific State.wav')).toEqual({ artiste: '808 State', titre: 'Pacific State' });
+    expect(titreDuNom('sans_artiste.aiff')).toEqual({ artiste: '', titre: 'sans artiste' });
   });
 });

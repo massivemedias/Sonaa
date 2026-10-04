@@ -20,15 +20,39 @@ const CAMELOT_MAJEUR: Readonly<Record<string, string>> = {
   B: '1B', 'F#': '2B', Db: '3B', Ab: '4B', Eb: '5B', Bb: '6B', F: '7B', C: '8B', G: '9B', D: '10B', A: '11B', E: '12B',
 };
 
+/* Les fichiers des DJ l'ecrivent autrement : « Am », « F#m », « Dbmin »,
+   « C maj », ou directement en Camelot (« 8A ») quand Mixed In Key est
+   passe par la. Toutes ces formes donnent la meme reponse. */
+function noteEtMode(cle: string): { note: string; mineur: boolean } | null {
+  const longue = /^\s*([a-g](?:\s+(?:flat|sharp))?)\s+(major|minor)\s*$/i.exec(cle);
+  if (longue) {
+    const note = NOTES[(longue[1] ?? '').toLowerCase().replace(/\s+/g, ' ')];
+    return note ? { note, mineur: (longue[2] ?? '').toLowerCase() === 'minor' } : null;
+  }
+  const camelot = /^\s*(1[0-2]|[1-9])\s*([ab])\s*$/i.exec(cle);
+  if (camelot) {
+    const code = `${camelot[1]}${(camelot[2] ?? '').toUpperCase()}`;
+    const table = code.endsWith('A') ? CAMELOT_MINEUR : CAMELOT_MAJEUR;
+    const note = Object.keys(table).find((n) => table[n] === code);
+    return note ? { note, mineur: code.endsWith('A') } : null;
+  }
+  const courte = /^\s*([a-g])\s*([#b♯♭])?\s*(m|min|minor|maj|major)?\s*$/i.exec(cle);
+  if (courte) {
+    const alteration = courte[2] === '♯' ? '#' : courte[2] === '♭' ? 'b' : (courte[2] ?? '');
+    const note = `${(courte[1] ?? '').toUpperCase()}${alteration}`;
+    const mode = courte[3] ?? '';
+    return { note, mineur: mode === 'm' || /^min/i.test(mode) };
+  }
+  return null;
+}
+
 export function tonaliteCourte(cle: string | null | undefined): { nom: string; camelot: string } | null {
-  const m = /^\s*([a-g](?:\s+(?:flat|sharp))?)\s+(major|minor)\s*$/i.exec(cle ?? '');
-  if (!m) return null;
-  const note = NOTES[(m[1] ?? '').toLowerCase().replace(/\s+/g, ' ')];
-  if (!note) return null;
-  const mineur = (m[2] ?? '').toLowerCase() === 'minor';
-  const canon = ENHARMONIE[note] ?? note;
-  const camelot = (mineur ? CAMELOT_MINEUR : CAMELOT_MAJEUR)[canon] ?? '';
-  return { nom: `${note.replace('b', '♭').replace('#', '♯')}${mineur ? 'm' : ''}`, camelot };
+  const lu = noteEtMode(cle ?? '');
+  if (!lu) return null;
+  const canon = ENHARMONIE[lu.note] ?? lu.note;
+  const camelot = (lu.mineur ? CAMELOT_MINEUR : CAMELOT_MAJEUR)[canon];
+  if (!camelot) return null;
+  return { nom: `${lu.note.replace('b', '♭').replace('#', '♯')}${lu.mineur ? 'm' : ''}`, camelot };
 }
 
 /* ═══ LE PITCH ═══ Le fader va de -1 a +1 ; la plage (3, 6 ou 12 %) dit ce
@@ -128,4 +152,54 @@ export function ledsAllumees(crete: number, segments: number = LED_DU_VU): numbe
   const db = 20 * Math.log10(crete);
   const part = (db + 36) / 36;
   return Math.max(0, Math.min(segments, Math.ceil(part * segments)));
+}
+
+/* ═══ LE BPM D'UN FICHIER ═══ Audius donne le tempo ; un fichier glisse
+   par un DJ ne le donne pas toujours. On l'ecoute : l'amplitude du son monte
+   a chaque coup (l'enveloppe d'attaques), et cette enveloppe se ressemble
+   a elle-meme quand on la decale d'un temps. L'amplitude, et non son
+   logarithme : en logarithme, un charley pese autant qu'une grosse caisse,
+   et le tempo glisse aux deux tiers. On cherche le decalage qui lui
+   ressemble le plus, entre 78 et 180 BPM, sur une minute prise au milieu du
+   morceau, la ou il tourne. Le resultat se cale a l'entier quand il en est
+   tout proche : la musique de club est presque toujours a un BPM rond. */
+export function estimerBpm(signal: Float32Array, frequence: number): number | null {
+  const pas = Math.max(1, Math.round(frequence / 200));
+  const images = Math.floor(signal.length / pas);
+  if (images < 400) return null;
+  const debut = Math.max(0, Math.floor(images / 2) - 6000);
+  const fin = Math.min(images, debut + 12000);
+  const energie = new Float32Array(fin - debut);
+  for (let k = 0; k < energie.length; k += 1) {
+    let e = 0;
+    const o = (debut + k) * pas;
+    for (let i = 0; i < pas; i += 1) {
+      const v = signal[o + i] ?? 0;
+      e += v * v;
+    }
+    energie[k] = Math.sqrt(e / pas);
+  }
+  const attaques = new Float32Array(energie.length);
+  for (let k = 1; k < energie.length; k += 1) attaques[k] = Math.max(0, (energie[k] ?? 0) - (energie[k - 1] ?? 0));
+  const imagesParSeconde = frequence / pas;
+  const decalageMin = Math.floor((60 / 180) * imagesParSeconde);
+  const decalageMax = Math.ceil((60 / 78) * imagesParSeconde);
+  const scores = new Float32Array(decalageMax + 2);
+  for (let d = decalageMin - 1; d <= decalageMax + 1; d += 1) {
+    let s = 0;
+    for (let k = d; k < attaques.length; k += 1) s += (attaques[k] ?? 0) * (attaques[k - d] ?? 0);
+    scores[d] = s / (attaques.length - d);
+  }
+  let meilleur = -1;
+  for (let d = decalageMin; d <= decalageMax; d += 1) if (meilleur < 0 || (scores[d] ?? 0) > (scores[meilleur] ?? 0)) meilleur = d;
+  if (meilleur < 0 || !((scores[meilleur] ?? 0) > 0)) return null;
+  /* Le sommet entre deux images, par une parabole. */
+  const a = scores[meilleur - 1] ?? 0;
+  const b = scores[meilleur] ?? 0;
+  const c = scores[meilleur + 1] ?? 0;
+  const courbure = a - 2 * b + c;
+  const decalage = meilleur + (courbure !== 0 ? (0.5 * (a - c)) / courbure : 0);
+  const bpm = (60 * imagesParSeconde) / decalage;
+  const rond = Math.round(bpm);
+  return Math.abs(bpm - rond) < 0.3 ? rond : Math.round(bpm * 10) / 10;
 }

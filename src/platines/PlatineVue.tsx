@@ -15,9 +15,9 @@
  * lecture et fait entendre un grain de son, pour trouver un temps a
  * l'oreille. Un tour vaut 1,8 seconde, la vitesse d'un vinyle a 33 tours. */
 
-import { useEffect, useRef, useState, type PointerEvent } from 'react';
+import { useEffect, useRef, useState, type DragEvent, type PointerEvent } from 'react';
 import { t } from '../langue/langue.ts';
-import { adresseDuSon, type MorceauAudius } from './audius.ts';
+import { adresseDuMorceau, type Morceau } from './morceau.ts';
 import { PLAGES_PITCH, bpmAffiche, pitchEnPourcent, tempsAffiche, tonaliteCourte } from './calculs.ts';
 import { Crochet, Fader } from './Commandes.tsx';
 import { REPERES_VIDES, garderReperes, lireReperes, type Reperes } from './memoire.ts';
@@ -43,12 +43,18 @@ export interface EtatPlatine {
 
 interface Props {
   readonly index: 0 | 1;
-  readonly morceau: MorceauAudius | null;
+  readonly morceau: Morceau | null;
   readonly onCharger: () => void;
   readonly onEtat: (e: EtatPlatine) => void;
+  /** Un fichier audio lache sur la platine. */
+  readonly onDeposer: (f: File) => void;
 }
 
-export function PlatineVue({ index, morceau, onCharger, onEtat }: Props) {
+/* Glisse-t-on des fichiers ? Pendant le survol, le navigateur ne dit que
+   leurs types, pas leurs noms. */
+const porteDesFichiers = (e: DragEvent): boolean => [...(e.dataTransfer?.types ?? [])].includes('Files');
+
+export function PlatineVue({ index, morceau, onCharger, onEtat, onDeposer }: Props) {
   const nom = index === 0 ? 'A' : 'B';
   const [chargement, setChargement] = useState<number | null>(null);
   const [erreur, setErreur] = useState(false);
@@ -57,6 +63,7 @@ export function PlatineVue({ index, morceau, onCharger, onEtat }: Props) {
   const [fader, setFader] = useState(0);
   const [plage, setPlage] = useState<number>(PLAGES_PITCH[0]);
   const [enLecture, setEnLecture] = useState(false);
+  const [survol, setSurvol] = useState(false);
   const pitch = pitchEnPourcent(fader, plage);
 
   const zoom = useRef<HTMLCanvasElement | null>(null);
@@ -84,8 +91,11 @@ export function PlatineVue({ index, morceau, onCharger, onEtat }: Props) {
     const p = platine();
     p.onFin = () => setEnLecture(false);
     void (async () => {
+      let liberer = (): void => undefined;
       try {
-        await p.charger(await adresseDuSon(morceau.id), (part) => setChargement(part), arret.signal);
+        const son = await adresseDuMorceau(morceau);
+        liberer = son.liberer;
+        await p.charger(son.adresse, (part) => setChargement(part), arret.signal);
         if (arret.signal.aborted) return;
         const r = lireReperes(morceau.id);
         setReperes(r);
@@ -95,6 +105,7 @@ export function PlatineVue({ index, morceau, onCharger, onEtat }: Props) {
       } catch {
         if (!arret.signal.aborted) setErreur(true);
       } finally {
+        liberer();
         if (!arret.signal.aborted) setChargement(null);
       }
     })();
@@ -213,7 +224,32 @@ export function PlatineVue({ index, morceau, onCharger, onEtat }: Props) {
   const tonalite = tonaliteCourte(morceau?.tonalite);
 
   return (
-    <section className={`pl-machine pl-platine pl-platine-${nom.toLowerCase()}`} aria-label={t.platineNom(nom)}>
+    <section
+      className={`pl-machine pl-platine pl-platine-${nom.toLowerCase()}`}
+      aria-label={t.platineNom(nom)}
+      data-survol={survol}
+      onDragOver={(e) => {
+        if (!porteDesFichiers(e)) return;
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'copy';
+        setSurvol(true);
+      }}
+      onDragLeave={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setSurvol(false);
+      }}
+      onDrop={(e) => {
+        if (!porteDesFichiers(e)) return;
+        e.preventDefault();
+        setSurvol(false);
+        const f = e.dataTransfer.files[0];
+        if (f) onDeposer(f);
+      }}
+    >
+      {survol && (
+        <div className="pl-depot" aria-hidden="true">
+          {t.platineDeposer}
+        </div>
+      )}
       <header className="pl-plaque">
         <span className="pl-marque">SONAA</span>
         <span className="pl-modele">{t.platineNom(nom)}</span>
@@ -229,13 +265,14 @@ export function PlatineVue({ index, morceau, onCharger, onEtat }: Props) {
           <div className="pl-ecran-titres">
             <span className="pl-ecran-titre">{morceau ? morceau.titre : t.platineVide}</span>
             <span className="pl-ecran-artiste">
-              {morceau ? (
+              {morceau?.lien ? (
                 <a href={morceau.lien} target="_blank" rel="noreferrer noopener" title={t.platineSurAudius}>
                   {morceau.artiste}
                 </a>
               ) : (
-                ' '
+                (morceau?.artiste ?? ' ')
               )}
+              {morceau?.label ? <span className="pl-ecran-genre"> · {morceau.label}</span> : null}
               {morceau?.genre ? <span className="pl-ecran-genre"> · {morceau.genre}</span> : null}
             </span>
           </div>
