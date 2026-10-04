@@ -144,6 +144,7 @@ function Membres() {
             <tr>
               <th>{t.tonAdresse}</th>
               <th>{t.adminArtiste}</th>
+              <th>{t.villeLibelle}</th>
               <th>{t.adminInscritLe}</th>
               <th>{t.adminDerniereConnexion}</th>
               <th>{t.adminMoyen}</th>
@@ -159,6 +160,8 @@ function Membres() {
                   {m.moderateur && <span className="admin-etiquette">{t.moderationMenu}</span>}
                 </td>
                 <td>{m.artiste_nom ? <a href={`#/mixtapes/a/${m.user_id}`}>{m.artiste_nom}</a> : '·'}</td>
+                {/* La ville d'attache que la personne a choisie ; vide sinon, jamais devinee */}
+                <td>{m.ville ? `${m.ville}${m.pays ? `, ${m.pays}` : ''}` : '·'}</td>
                 <td>{quand(m.inscrit_le)}</td>
                 <td>{quand(m.derniere_connexion)}</td>
                 <td>{m.fournisseurs ?? '·'}</td>

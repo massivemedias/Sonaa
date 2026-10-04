@@ -824,6 +824,7 @@ interface Dictionnaire {
   readonly conditionsDroit: string;
   readonly confidentialiteTitre: string;
   readonly confidentialiteCollecte: string;
+  readonly confidentialiteCollecteCorps: string;
   readonly confidentialiteUsage: string;
   readonly confidentialitePartage: string;
   readonly confidentialiteConservation: string;
@@ -1600,6 +1601,8 @@ const FR: Dictionnaire = {
   conditionsDroit: 'Droit applicable',
   confidentialiteTitre: 'Politique de confidentialité',
   confidentialiteCollecte: 'Ce qui est collecté',
+  confidentialiteCollecteCorps:
+    'Si vous choisissez une ville d’attache dans votre profil, la modération de SONAA la voit dans la liste des comptes, avec votre adresse courriel. Elle n’est jamais publiée, et vous pouvez la retirer à tout moment. Sans ville choisie, SONAA ne cherche pas à savoir d’où vous êtes : ni adresse IP, ni mesure d’audience.',
   confidentialiteUsage: 'À quoi cela sert',
   confidentialitePartage: 'Ce qui est partagé',
   confidentialiteConservation: 'Combien de temps',
@@ -2371,6 +2374,8 @@ const EN: Dictionnaire = {
   conditionsDroit: 'Governing law',
   confidentialiteTitre: 'Privacy policy',
   confidentialiteCollecte: 'What is collected',
+  confidentialiteCollecteCorps:
+    'If you choose a home city in your profile, SONAA’s moderators see it in the list of accounts, with your email address. It is never published, and you can remove it at any time. Without a chosen city, SONAA does not try to find out where you are: no IP address, no audience tracking.',
   confidentialiteUsage: 'What it is used for',
   confidentialitePartage: 'What is shared',
   confidentialiteConservation: 'How long it is kept',

@@ -20,6 +20,10 @@ export interface Membre {
   readonly n_sets_publies: number;
   readonly n_soirees: number;
   readonly moderateur: boolean;
+  /** La ville d'attache choisie par la personne (jamais devinee), ou null. */
+  readonly ville: string | null;
+  /** Son pays, code ISO a deux lettres, ou null. */
+  readonly pays: string | null;
 }
 
 export interface SetAdmin {

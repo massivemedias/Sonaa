@@ -82,7 +82,8 @@ export function ConfidentialitePage() {
     <PageLegale
       titre={t.confidentialiteTitre}
       sections={[
-        t.confidentialiteCollecte,
+        /* LA VILLE D'ATTACHE, visible de la moderation depuis le 4 octobre 2026 (migration admin_ville_dattache) */
+        { titre: t.confidentialiteCollecte, corps: t.confidentialiteCollecteCorps },
         t.confidentialiteUsage,
         /* LA SEULE PHRASE DEJA ECRITE : l'envoi a AudD, pose le 23 septembre
            2026 avec le retrait de la case de consentement. */
