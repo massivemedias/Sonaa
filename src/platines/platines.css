@@ -430,7 +430,7 @@
   touch-action: none;
 }
 .pl-onde-zoom[data-tirable='true'] {
-  cursor: ew-resize;
+  cursor: pointer;
 }
 /* La fenetre du zoom, ecrite discretement dans le coin de l'onde. */
 .pl-zoom-valeur {
@@ -689,11 +689,8 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  cursor: grab;
+  cursor: pointer;
   touch-action: none;
-}
-.pl-jog:active {
-  cursor: grabbing;
 }
 .pl-jog > * {
   position: absolute;
@@ -896,10 +893,7 @@
 .pl-fader {
   position: relative;
   touch-action: none;
-  cursor: grab;
-}
-.pl-fader:active {
-  cursor: grabbing;
+  cursor: pointer;
 }
 .pl-fader-vertical {
   width: 40px;
@@ -1013,6 +1007,9 @@
   justify-items: center;
   gap: 9px;
 }
+/* LA MAIN, PARTOUT OU CA BOUGE : potards, faders, jog, onde. Mika ne
+   voulait pas des doubles fleches ; la main dit « on peut y toucher », comme
+   sur un lien. */
 .pl-bouton-cadran {
   position: relative;
   width: 30px;
@@ -1020,7 +1017,7 @@
   margin: 4px;
   border-radius: 50%;
   touch-action: none;
-  cursor: ns-resize;
+  cursor: pointer;
 }
 .pl-bouton-anneau {
   position: absolute;

@@ -5,10 +5,12 @@
  * la molette regle finement, le double-clic remet au neutre. Au clavier,
  * les fleches font la meme chose : ce sont des curseurs (role="slider").
  *
- * LES GESTES SONT CEUX DES MACHINES DE MAUDITEMACHINE.COM (le guide
- * docs/design/MACHINES-DESIGN-SYSTEM.md de ce depot-la, section 7) : 270
- * degres de course, 150 px de glisser pour toute la course, Maj dix fois
- * plus fin, comme Ableton, 2 % par cran de molette. Un fader ne saute pas
+ * LES POTARDS TOURNENT (Mika, le 3 octobre 2026 : « fais les knobs
+ * rotary ») : on les attrape et on tourne autour, la valeur suit l'angle du
+ * pointeur, 270 degres pour toute la course, comme un vrai bouton. Tout pres
+ * du centre, ou l'angle s'affole au moindre pixel, c'est le glisser vertical
+ * qui prend le relais (150 px pour toute la course). Maj : dix fois plus
+ * fin, comme Ableton ; 2 % par cran de molette. Un fader ne saute pas
  * sous le clic : on l'attrape ou il est, comme un vrai, sinon toucher le
  * pitch d'une platine qui joue ferait un saut de tempo. */
 
@@ -74,7 +76,7 @@ export function Bouton({
       (dose, volume). Par defaut, du neutre quand il est au milieu. */
   readonly depuis?: 'neutre' | 'minimum';
 }) {
-  const depart = useRef<{ y: number; v: number } | null>(null);
+  const depart = useRef<{ x: number; y: number; cx: number; cy: number; v: number } | null>(null);
   const angleDe = (v: number): number => -135 + ((v - min) / (max - min)) * 270;
   const angle = angleDe(valeur);
   const cran = neutre > min && neutre < max;
@@ -90,16 +92,30 @@ export function Bouton({
         aria-valuemax={max}
         aria-valuenow={Math.round(valeur * 100) / 100}
         onPointerDown={(e: PointerEvent<HTMLDivElement>) => {
-          e.currentTarget.setPointerCapture(e.pointerId);
-          depart.current = { y: e.clientY, v: valeur };
+          const r = e.currentTarget.getBoundingClientRect();
+          depart.current = { x: e.clientX, y: e.clientY, cx: r.left + r.width / 2, cy: r.top + r.height / 2, v: valeur };
+          if (e.isPrimary) e.currentTarget.setPointerCapture(e.pointerId);
         }}
         onPointerMove={(e) => {
-          if (!depart.current) return;
-          /* Maj : dix fois plus fin. On repart d'ici pour ne pas sauter. */
-          const finesse = e.shiftKey ? 1500 : 150;
-          const d = (depart.current.y - e.clientY) / finesse;
-          const v = borne(depart.current.v + d * (max - min), min, max);
-          depart.current = { y: e.clientY, v };
+          const p = depart.current;
+          if (!p) return;
+          const finesse = e.shiftKey ? 0.1 : 1;
+          /* L'angle de chaque position autour du centre, depuis le haut, dans
+             le sens des aiguilles d'une montre. */
+          const angle = (x: number, y: number): number => Math.atan2(x - p.cx, p.cy - y);
+          let d: number;
+          if (Math.hypot(e.clientX - p.cx, e.clientY - p.cy) >= 14 && Math.hypot(p.x - p.cx, p.y - p.cy) >= 14) {
+            let tour = angle(e.clientX, e.clientY) - angle(p.x, p.y);
+            if (tour > Math.PI) tour -= 2 * Math.PI;
+            if (tour < -Math.PI) tour += 2 * Math.PI;
+            d = tour / (1.5 * Math.PI);
+          } else {
+            d = (p.y - e.clientY) / 150;
+          }
+          /* On repart d'ici a chaque pas : pas de saut, et la butee arrete
+             la valeur sans la faire revenir de l'autre cote. */
+          const v = borne(p.v + d * finesse * (max - min), min, max);
+          depart.current = { ...p, x: e.clientX, y: e.clientY, v };
           onChange(v);
         }}
         onPointerUp={() => {

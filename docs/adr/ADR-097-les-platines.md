@@ -83,7 +83,11 @@ toujours. Le code garde ses noms de fichiers.
 **Les potards**, en rotary control : un anneau de valeur autour, dont la
 partie allumée en orange part du neutre (égaliseur, filtre) ou du minimum
 (dose, master) ; un corps lisse au dessus concave, dont la lumière ne
-tourne pas ; un repère os.
+tourne pas ; un repère os. Ils tournent pour de vrai : on les attrape et
+on tourne autour, la valeur suit l'angle du pointeur (270 degrés pour la
+course) ; tout près du centre, le glisser vertical prend le relais. Partout
+où quelque chose bouge (potards, faders, jog, onde), le curseur est la main
+d'un lien, plus les doubles flèches.
 
 **« Mixer »**, et non « Table », en français comme en anglais.
 
