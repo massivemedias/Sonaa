@@ -82,6 +82,19 @@ export const decibelsEq = (v: number): number => (v < 0 ? v * 26 : v * 6);
 
 export const gainDesDecibels = (db: number): number => 10 ** (db / 20);
 
+/* ═══ L'ISOLATEUR ═══ Le gain d'une bande de l'egaliseur, comme sur une
+   table de club : neutre au centre, +6 dB tout a droite, et tout a gauche
+   la bande disparait (kill). Entre les deux, la coupe descend jusqu'a
+   -26 dB, puis le dernier petit bout de course coupe net. */
+export const KILL = -0.97;
+export function gainBande(v: number): number {
+  if (v <= KILL) return 0;
+  return gainDesDecibels(decibelsEq(v));
+}
+/* Les deux frequences de coupure : graves sous 250 Hz, aigus au-dessus de
+   2,5 kHz, les mediums entre les deux, comme les isolateurs de club. */
+export const COUPURES = { basse: 250, haute: 2500 } as const;
+
 /* ═══ LES FADERS ═══ La voie suit une courbe douce (le haut du fader garde
    l'essentiel du volume) ; le crossfader garde une puissance constante au
    milieu, pour qu'un enchainement ne creuse pas. */

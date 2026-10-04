@@ -302,6 +302,12 @@
   justify-items: center;
   gap: 8px;
 }
+/* LES NOMS AU-DESSUS (Mika, le 3 octobre 2026 : « je prefere que les
+   titres soient au-dessus des boutons ») : potards, hot cues, CUE et PLAY. */
+.pl-commande > .pl-silk,
+.pl-bouton > .pl-bouton-nom {
+  order: -1;
+}
 
 /* Le crochet sous un groupe : releve aux deux bouts, coupe au milieu. */
 .pl-crochet {

@@ -11,9 +11,8 @@
    accent fonce, et le second ton du melange (--accent-degrade) a presque la clarte de l'accent.
 
    PLUS DE DEGRADE NI DE REFLET depuis le 3 octobre 2026 : Mika ne les
-   aimait pas. Le bouton devient une grande touche orange pleine, aux coins
-   a peine arrondis, avec son flanc dessous, comme le pad OPEN de la MM-808
-   et comme le Track ID de l'en-tete (site-nav.css). */
+   aimait pas. Le bouton reste une pilule, en orange uni, comme le Track ID
+   de l'en-tete (site-nav.css). */
 
 .bt {
   position: relative;
@@ -27,12 +26,9 @@
   min-height: 64px;
   padding: var(--espace-8) var(--espace-24) var(--espace-8) var(--espace-8);
   border: 0;
-  border-radius: 12px;
+  border-radius: var(--rayon-pilule);
   background: var(--accent);
   color: var(--sur-accent);
-  box-shadow:
-    inset 0 1px 0 oklch(1 0 0 / 0.28),
-    0 4px 0 #9c3a05;
   font: inherit;
   text-align: left;
   text-decoration: none;
@@ -42,12 +38,6 @@
 }
 .bt:hover {
   background: color-mix(in srgb, var(--accent) 88%, white);
-}
-.bt:active {
-  transform: translateY(3px);
-  box-shadow:
-    inset 0 1px 0 oklch(1 0 0 / 0.2),
-    0 1px 0 #9c3a05;
 }
 .bt:focus-visible {
   outline: 2px solid var(--ink-primary);

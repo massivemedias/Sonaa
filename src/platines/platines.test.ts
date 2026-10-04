@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { bpmAffiche, crossfader, decibelsEq, dosage, estimerBpm, filtreDuBouton, gainDuFader, ledsAllumees, pics, pitchEnPourcent, tempsAffiche, tonaliteCourte } from './calculs.ts';
+import { bpmAffiche, crossfader, decibelsEq, dosage, estimerBpm, filtreDuBouton, gainBande, gainDuFader, ledsAllumees, pics, pitchEnPourcent, tempsAffiche, tonaliteCourte } from './calculs.ts';
 import { genreAudius } from './audius.ts';
 import { garderReperes, lireReperes } from './memoire.ts';
 import { lireTags, titreDuNom } from './tags.ts';
@@ -176,5 +176,15 @@ describe('les tags d un fichier', () => {
     expect(titreDuNom('01 Akufen - Deck The House.mp3')).toEqual({ artiste: 'Akufen', titre: 'Deck The House' });
     expect(titreDuNom('808 State - Pacific State.wav')).toEqual({ artiste: '808 State', titre: 'Pacific State' });
     expect(titreDuNom('sans_artiste.aiff')).toEqual({ artiste: '', titre: 'sans artiste' });
+  });
+});
+
+describe('l isolateur', () => {
+  it('est neutre au centre, monte a +6 dB, et coupe tout a gauche', () => {
+    expect(gainBande(0)).toBe(1);
+    expect(20 * Math.log10(gainBande(1))).toBeCloseTo(6, 5);
+    expect(20 * Math.log10(gainBande(-0.5))).toBeCloseTo(-13, 5);
+    expect(gainBande(-1)).toBe(0);
+    expect(gainBande(-0.98)).toBe(0);
   });
 });

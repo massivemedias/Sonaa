@@ -124,33 +124,27 @@
 
 /* ═══ « TRACK ID », LE GESTE DANS LE MENU ═══ Voir SiteNav.tsx.
 
-   UNE TOUCHE, PLUS UNE PILULE EN DEGRADE. Mika, le 3 octobre 2026 : « je
-   n'aime pas le degrade, et je n'aime pas le bouton comme ca ». Il prend la
-   forme du pad OPEN de la MM-808 : un orange plein, un coin a peine arrondi,
-   son flanc plus sombre dessous, et le micro pose a meme la touche. Presse,
-   il s'enfonce. Il n'est pas une page : il ne s'allume jamais comme page
-   courante. */
+   UNE PILULE ORANGE UNIE. Mika n'a voulu ni du degrade (« je n'aime pas le
+   degrade »), ni de la touche a coins carres qui l'a remplace un temps
+   (« je prefere encore un radius de 50 % ») : la pilule revient, sans
+   degrade, sans flanc, le micro pose a meme l'orange. Il n'est pas une
+   page : il ne s'allume jamais comme page courante. */
 .sitenav-track {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  min-height: 32px;
+  min-height: 34px;
   margin-left: var(--espace-8);
-  padding: 0 12px 0 10px;
-  border-radius: 7px;
+  padding: 0 14px 0 12px;
+  border-radius: var(--rayon-pilule);
   background: var(--accent);
   color: var(--sur-accent);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.28),
-    0 3px 0 #9c3a05;
   font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.01em;
   white-space: nowrap;
   text-decoration: none;
-  transition:
-    transform 80ms ease,
-    box-shadow 80ms ease;
+  transition: background 120ms ease;
 }
 .sitenav-track-icone {
   width: 13px;
@@ -159,12 +153,6 @@
 }
 .sitenav-track:hover {
   background: color-mix(in srgb, var(--accent) 88%, white);
-}
-.sitenav-track:active {
-  transform: translateY(2px);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.2),
-    0 1px 0 #9c3a05;
 }
 .sitenav-track:focus-visible {
   outline: 2px solid var(--ink-primary);
@@ -175,7 +163,7 @@
    l'etiquette et dans la bulle. */
 @media (max-width: 1179px) {
   .sitenav-track {
-    padding: 0 10px;
+    padding: 0 11px;
   }
   .sitenav-track-mot {
     display: none;

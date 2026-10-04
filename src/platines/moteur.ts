@@ -13,7 +13,7 @@
  *
  * Voir calculs.ts pour les courbes, et PlatinesPage.tsx pour l'interface. */
 
-import { crossfader, decibelsEq, dosage, dureeDesTemps, filtreDuBouton, gainDesDecibels, gainDuFader, pics, vitesse } from './calculs.ts';
+import { COUPURES, crossfader, decibelsEq, dosage, dureeDesTemps, filtreDuBouton, gainBande, gainDesDecibels, gainDuFader, pics, vitesse } from './calculs.ts';
 
 const LISSAGE = 0.015;
 /* La finesse de l'onde detaillee : 400 pics par seconde, soit un par pixel
@@ -21,12 +21,29 @@ const LISSAGE = 0.015;
    l'attaque d'une grosse caisse. */
 export const DETAIL_PAR_SECONDE = 400;
 
-/* ═══ UNE VOIE DE TABLE ═══ */
+/* ═══ UNE VOIE DE TABLE ═══
+
+   L'EGALISEUR EST UN ISOLATEUR, depuis le 3 octobre 2026 (Mika : « des EQ
+   qui fonctionnent parfaitement »). Les trois correcteurs en plateau et en
+   cloche d'avant ne coupaient jamais tout : basses a fond a gauche, le haut
+   de la grosse caisse passait encore. Ici le son est separe en trois bandes
+   par des filtres de Linkwitz-Riley du quatrieme ordre (deux Butterworth en
+   cascade), a 250 Hz et 2,5 kHz ; les graves passent en plus par un
+   passe-tout a 2,5 kHz, pour qu'ils restent en phase avec les deux autres
+   bandes. Les trois se rejoignent a plat, a 0 dB pres, quand les potards
+   sont au centre ; chacun peut ensuite supprimer sa bande. */
+/* LE Q DE BUTTERWORTH, 0,707. Piege de Web Audio : pour un passe-bas ou un
+   passe-haut, le Q s'ecrit en decibels (-3,01 dB), pour un passe-tout il
+   reste lineaire. Ecrit 0,707 partout, il faisait une bosse de 7,5 dB a
+   chaque coupure (mesure du 3 octobre 2026). */
+const BUTTERWORTH_DB = 20 * Math.log10(Math.SQRT1_2);
+const BUTTERWORTH = Math.SQRT1_2;
+const RESONANCE = 4;
 export class Voie {
   readonly entree: GainNode;
-  private readonly bas: BiquadFilterNode;
-  private readonly medium: BiquadFilterNode;
-  private readonly aigu: BiquadFilterNode;
+  private readonly bas: GainNode;
+  private readonly medium: GainNode;
+  private readonly aigu: GainNode;
   private readonly passeBas: BiquadFilterNode;
   private readonly passeHaut: BiquadFilterNode;
   private readonly fader: GainNode;
@@ -36,16 +53,28 @@ export class Voie {
 
   constructor(private readonly ctx: AudioContext, sortie: AudioNode) {
     this.entree = ctx.createGain();
-    this.bas = new BiquadFilterNode(ctx, { type: 'lowshelf', frequency: 120 });
-    this.medium = new BiquadFilterNode(ctx, { type: 'peaking', frequency: 1000, Q: 0.8 });
-    this.aigu = new BiquadFilterNode(ctx, { type: 'highshelf', frequency: 7000 });
-    this.passeBas = new BiquadFilterNode(ctx, { type: 'lowpass', frequency: 20000, Q: 1.1 });
-    this.passeHaut = new BiquadFilterNode(ctx, { type: 'highpass', frequency: 10, Q: 1.1 });
+    this.bas = ctx.createGain();
+    this.medium = ctx.createGain();
+    this.aigu = ctx.createGain();
+    const filtre = (type: BiquadFilterType, frequency: number): BiquadFilterNode =>
+      new BiquadFilterNode(ctx, { type, frequency, Q: type === 'allpass' ? BUTTERWORTH : BUTTERWORTH_DB });
+    const recombine = ctx.createGain();
+    this.entree
+      .connect(filtre('lowpass', COUPURES.basse))
+      .connect(filtre('lowpass', COUPURES.basse))
+      .connect(filtre('allpass', COUPURES.haute))
+      .connect(this.bas)
+      .connect(recombine);
+    const audessus = this.entree.connect(filtre('highpass', COUPURES.basse)).connect(filtre('highpass', COUPURES.basse));
+    audessus.connect(filtre('lowpass', COUPURES.haute)).connect(filtre('lowpass', COUPURES.haute)).connect(this.medium).connect(recombine);
+    audessus.connect(filtre('highpass', COUPURES.haute)).connect(filtre('highpass', COUPURES.haute)).connect(this.aigu).connect(recombine);
+    this.passeBas = new BiquadFilterNode(ctx, { type: 'lowpass', frequency: 20000, Q: BUTTERWORTH_DB });
+    this.passeHaut = new BiquadFilterNode(ctx, { type: 'highpass', frequency: 10, Q: BUTTERWORTH_DB });
     this.fader = new GainNode(ctx, { gain: gainDuFader(0.8) });
     this.croise = new GainNode(ctx, { gain: 0.707 });
     this.mesure = new AnalyserNode(ctx, { fftSize: 1024 });
     this.tampon = new Float32Array(this.mesure.fftSize);
-    this.entree.connect(this.bas).connect(this.medium).connect(this.aigu).connect(this.passeBas).connect(this.passeHaut).connect(this.fader);
+    recombine.connect(this.passeBas).connect(this.passeHaut).connect(this.fader);
     this.fader.connect(this.mesure);
     this.fader.connect(this.croise).connect(sortie);
   }
@@ -59,13 +88,17 @@ export class Voie {
   }
 
   egaliseur(bande: 'aigu' | 'medium' | 'bas', v: number): void {
-    this.regler(this[bande].gain, decibelsEq(v));
+    this.regler(this[bande].gain, gainBande(v));
   }
 
+  /* Au repos le filtre est plat ; il ne prend sa resonance (4 dB, le
+     sifflement des filtres de club) que lorsqu'on le tourne. */
   filtre(v: number): void {
     const f = filtreDuBouton(v);
     this.regler(this.passeBas.frequency, f.type === 'bas' ? f.frequence : 20000);
     this.regler(this.passeHaut.frequency, f.type === 'haut' ? f.frequence : 10);
+    this.regler(this.passeBas.Q, f.type === 'bas' ? RESONANCE : BUTTERWORTH_DB);
+    this.regler(this.passeHaut.Q, f.type === 'haut' ? RESONANCE : BUTTERWORTH_DB);
   }
 
   volume(x: number): void {
