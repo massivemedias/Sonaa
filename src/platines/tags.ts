@@ -84,6 +84,14 @@ const CHAMPS: Readonly<Record<string, keyof Omit<Tags, 'pochette'>>> = {
   TKE: 'tonalite',
 };
 
+/** La longueur des tags en tete d'un fichier, d'apres ses dix premiers
+    octets : zero s'il n'en a pas. Elle permet de ne lire que les tags d'un
+    fichier de 10 Mo, et non le fichier entier. */
+export function tailleDesTags(debut: Uint8Array): number {
+  if (debut[0] !== 0x49 || debut[1] !== 0x44 || debut[2] !== 0x33) return 0;
+  return 10 + syncsafe(debut, 6);
+}
+
 export function lireTags(fichier: ArrayBuffer): Tags {
   const o = new Uint8Array(fichier);
   if (o[0] !== 0x49 || o[1] !== 0x44 || o[2] !== 0x33) return {};

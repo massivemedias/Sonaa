@@ -606,6 +606,8 @@ interface Dictionnaire {
   readonly navigateurSource: string;
   readonly navigateurProvenance: string;
   readonly playlistTitre: string;
+  readonly playlistAgrandir: string;
+  readonly playlistReduire: string;
   readonly playlistCharger: (titre: string, deck: string) => string;
   readonly navigateurMesMorceaux: (n: number) => string;
   readonly caisseDeposer: string;
@@ -625,7 +627,11 @@ interface Dictionnaire {
   readonly caisseVide: string;
   readonly caisseRetirer: (titre: string) => string;
   readonly caisseIllisible: (nom: string) => string;
-  readonly caisseTropLong: (nom: string) => string;
+  readonly caisseTropLourd: (nom: string) => string;
+  readonly caissePoids: (octets: number) => string;
+  readonly caissePasDePlace: (poids: string, libre: string) => string;
+  readonly caisseGrosImport: (n: number, poids: string) => string;
+  readonly caisseCopier: string;
   readonly platineDeposer: string;
   readonly navigateurFermer: string;
   readonly platinesGlisser: string;
@@ -1417,7 +1423,7 @@ const FR: Dictionnaire = {
   platineRestant: 'Restant',
   platineTonalite: 'Tonalité',
   platineApercu: 'Vue d’ensemble du morceau',
-  platineOndeAide: 'Molette : zoomer. En pause, tirer l’onde pour se placer, puis CUE pour poser le point.',
+  platineOndeAide: 'Molette ou pincement à deux doigts : zoomer. En pause, tirer l’onde pour se placer, puis CUE pour poser le point.',
   platineZoomPlus: 'Zoomer dans l’onde',
   platineZoomMoins: 'Dézoomer',
   platineSurAudius: 'Écouter sur Audius',
@@ -1447,6 +1453,8 @@ const FR: Dictionnaire = {
   navigateurSource: 'Morceaux publiés sur Audius par leurs artistes, lus chez Audius.',
   navigateurProvenance: 'Provenance des morceaux',
   playlistTitre: 'Playlist',
+  playlistAgrandir: 'Agrandir la playlist',
+  playlistReduire: 'Réduire la playlist',
   playlistCharger: (titre, deck) => `Charger ${titre} sur le deck ${deck}`,
   navigateurMesMorceaux: (n) => (n > 0 ? `Mes morceaux (${n})` : 'Mes morceaux'),
   caisseDeposer: 'Glisse ici des fichiers audio ou un dossier entier',
@@ -1466,7 +1474,11 @@ const FR: Dictionnaire = {
   caisseVide: 'Aucun morceau pour l’instant.',
   caisseRetirer: (titre) => `Retirer ${titre}`,
   caisseIllisible: (nom) => `${nom} ne se lit pas : il faut un MP3, un WAV, un AIFF, un FLAC ou un M4A.`,
-  caisseTropLong: (nom) => `${nom} dure plus de 15 minutes : trop lourd pour les decks.`,
+  caisseTropLourd: (nom) => `${nom} pèse plus de 200 Mo : trop lourd pour les decks.`,
+  caissePoids: (o) => (o >= 1024 ** 3 ? `${(o / 1024 ** 3).toFixed(1).replace('.', ',')} Go` : `${Math.max(1, Math.round(o / 1024 ** 2))} Mo`),
+  caissePasDePlace: (poids, libre) => `Pas assez de place : ces fichiers pèsent ${poids}, et ce navigateur n’en accorde plus que ${libre} sur cet appareil.`,
+  caisseGrosImport: (n, poids) => `${n} morceaux, ${poids} : ils seront copiés dans ce navigateur, sur cet appareil. Rien n’est envoyé sur internet.`,
+  caisseCopier: 'Copier',
   platineDeposer: 'Lâche le fichier pour le charger',
   navigateurFermer: 'Fermer',
   platinesGlisser: 'Glisse pour passer d’un deck au mixer.',
@@ -2273,7 +2285,7 @@ const EN: Dictionnaire = {
   platineRestant: 'Remaining',
   platineTonalite: 'Key',
   platineApercu: 'Track overview',
-  platineOndeAide: 'Wheel: zoom. When paused, drag the waveform to find your spot, then CUE to set the point.',
+  platineOndeAide: 'Wheel or two-finger pinch: zoom. When paused, drag the waveform to find your spot, then CUE to set the point.',
   platineZoomPlus: 'Zoom into the waveform',
   platineZoomMoins: 'Zoom out',
   platineSurAudius: 'Listen on Audius',
@@ -2303,6 +2315,8 @@ const EN: Dictionnaire = {
   navigateurSource: 'Tracks published on Audius by their artists, played from Audius.',
   navigateurProvenance: 'Track source',
   playlistTitre: 'Playlist',
+  playlistAgrandir: 'Expand the playlist',
+  playlistReduire: 'Collapse the playlist',
   playlistCharger: (titre, deck) => `Load ${titre} on deck ${deck}`,
   navigateurMesMorceaux: (n) => (n > 0 ? `My tracks (${n})` : 'My tracks'),
   caisseDeposer: 'Drop audio files or a whole folder here',
@@ -2322,7 +2336,11 @@ const EN: Dictionnaire = {
   caisseVide: 'No tracks yet.',
   caisseRetirer: (titre) => `Remove ${titre}`,
   caisseIllisible: (nom) => `${nom} cannot be read: use an MP3, WAV, AIFF, FLAC or M4A file.`,
-  caisseTropLong: (nom) => `${nom} is longer than 15 minutes: too heavy for the decks.`,
+  caisseTropLourd: (nom) => `${nom} is larger than 200 MB: too heavy for the decks.`,
+  caissePoids: (o) => (o >= 1024 ** 3 ? `${(o / 1024 ** 3).toFixed(1)} GB` : `${Math.max(1, Math.round(o / 1024 ** 2))} MB`),
+  caissePasDePlace: (poids, libre) => `Not enough room: these files weigh ${poids}, and this browser only allows ${libre} more on this device.`,
+  caisseGrosImport: (n, poids) => `${n} tracks, ${poids}: they will be copied into this browser, on this device. Nothing is uploaded.`,
+  caisseCopier: 'Copy',
   platineDeposer: 'Drop the file to load it',
   navigateurFermer: 'Close',
   platinesGlisser: 'Swipe to move between the decks and the mixer.',

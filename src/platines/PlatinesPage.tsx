@@ -22,7 +22,7 @@ import { EnTeteSite } from '../atlas/EnTeteSite.tsx';
 import { PiedDePage } from '../atlas/PiedDePage.tsx';
 import { useLecteurPartage } from '../lecture/LecteurContexte.tsx';
 import { t } from '../langue/langue.ts';
-import { FichierRefuse, ajouterFichier } from './caisse.ts';
+import { FichierRefuse, ajouterFichier, morceauAnalyse } from './caisse.ts';
 import type { Morceau } from './morceau.ts';
 import { crossfader, gainDuFader, vitesse } from './calculs.ts';
 import { NavigateurVue } from './NavigateurVue.tsx';
@@ -119,7 +119,21 @@ export function PlatinesPage() {
     return meilleur.bpm;
   }, [etats, volumes]);
 
+  const [annonce, setAnnonce] = useState<string | null>(null);
+  /* Un fichier pas encore analyse l'est avant d'arriver sur le deck : son
+     BPM et sa duree s'affichent tout de suite. */
   const charger = (m: Morceau, i: 0 | 1): void => {
+    if (m.source === 'fichier' && m.duree === 0 && !m.illisible) {
+      setAnnonce(t.caisseAnalyse(1, 1));
+      void morceauAnalyse(m.id).then((a) => {
+        setAnnonce(a?.illisible ? t.caisseIllisible(m.titre) : null);
+        if (a && !a.illisible) placer(a, i);
+      });
+      return;
+    }
+    placer(m, i);
+  };
+  const placer = (m: Morceau, i: 0 | 1): void => {
     /* Le petit lecteur du site joue peut-etre un morceau : deux sons a la
        fois, c'est un de trop. */
     arreter();
@@ -130,7 +144,6 @@ export function PlatinesPage() {
 
   /* UN FICHIER LACHE SUR UNE PLATINE : il entre dans la caisse (lu,
      analyse), puis se charge. */
-  const [annonce, setAnnonce] = useState<string | null>(null);
   const deposer = (f: File, i: 0 | 1): void => {
     setAnnonce(t.caisseAnalyse(1, 1));
     ajouterFichier(f)
@@ -138,7 +151,7 @@ export function PlatinesPage() {
         setAnnonce(null);
         charger(m, i);
       })
-      .catch((e: unknown) => setAnnonce(e instanceof FichierRefuse && e.raison === 'trop-long' ? t.caisseTropLong(f.name) : t.caisseIllisible(f.name)));
+      .catch((e: unknown) => setAnnonce(e instanceof FichierRefuse ? t.caisseTropLourd(f.name) : t.caisseIllisible(f.name)));
   };
 
   /* Un fichier lache a cote d'une cible ne doit pas remplacer la page par
@@ -168,6 +181,7 @@ export function PlatinesPage() {
     navigateurSur === i ? <NavigateurVue cible={i} onChoisir={charger} onFermer={() => setNavigateurSur(null)} /> : null;
 
   const onglets = [t.platineNom('A'), t.tableNom, t.platineNom('B')];
+  const actuels = [morceaux[0]?.id ?? null, morceaux[1]?.id ?? null] as const;
 
   return (
     <>
@@ -210,7 +224,7 @@ export function PlatinesPage() {
               onEtat={onEtatA}
               onDeposer={(f) => deposer(f, 0)}
               navigateur={navigateurDe(0)}
-              playlist={<PlaylistVue cible={0} actuel={morceaux[0]?.id ?? null} onChoisir={charger} />}
+              playlist={<PlaylistVue actuels={actuels} onChoisir={charger} />}
             />
           </div>
           <div className="pl-panneau">
@@ -224,7 +238,7 @@ export function PlatinesPage() {
               onEtat={onEtatB}
               onDeposer={(f) => deposer(f, 1)}
               navigateur={navigateurDe(1)}
-              playlist={<PlaylistVue cible={1} actuel={morceaux[1]?.id ?? null} onChoisir={charger} />}
+              playlist={<PlaylistVue actuels={actuels} onChoisir={charger} />}
             />
           </div>
         </div>

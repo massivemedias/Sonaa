@@ -24,6 +24,8 @@ export interface Morceau {
   readonly lien: string | null;
   /** Le dossier d'un fichier de la caisse ; vide s'il est en vrac. */
   readonly dossier?: string;
+  /** Un fichier de la caisse que le navigateur n'a pas su decoder. */
+  readonly illisible?: boolean;
 }
 
 /** L'adresse ou la platine va chercher le son, et de quoi la liberer. */

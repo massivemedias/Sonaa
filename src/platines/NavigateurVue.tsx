@@ -23,12 +23,13 @@ import {
   dossierDuChemin,
   estUnSon,
   fichiersDuDepot,
+  placeDisponible,
   retirerDeCaisse,
   retirerDossier,
   type FichierRange,
 } from './caisse.ts';
 import { tempsAffiche, tonaliteCourte } from './calculs.ts';
-import { STYLES, TOUS, VRAC, changerSelection, duDossier, useCaisse, useMorceauxDuStyle, useSelection } from './selection.ts';
+import { STYLES, TOUS, VRAC, changerSelection, dossierEffectif, duDossier, useCaisse, useMorceauxDuStyle, useSelection } from './selection.ts';
 
 /* L'iPhone et l'iPad n'ont pas de selecteur de dossier : on y nomme le
    dossier, puis on choisit ses morceaux dans Fichiers. */
@@ -45,8 +46,9 @@ interface Props {
 export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
   /* La source, le style et le dossier sont ceux de toute la page : les
      playlists des decks les suivent (voir selection.ts). */
-  const { source, style, dossier: dossierOuvert } = useSelection();
+  const { source, style, dossier: dossierChoisi } = useSelection();
   const caisse = useCaisse();
+  const dossierOuvert = caisse ? dossierEffectif(caisse, dossierChoisi) : dossierChoisi;
   const listeDuStyle = useMorceauxDuStyle(source === 'audius' ? style : null);
   const [requete, setRequete] = useState('');
   const [resultats, setResultats] = useState<readonly Morceau[] | null>(null);
@@ -77,11 +79,24 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
   const enVrac = (caisse ?? []).filter((m) => !m.dossier).length;
   const visibles = duDossier(caisse ?? [], dossierOuvert);
 
-  /* Les fichiers entrent un par un : chacun est decode pour sa duree et son
-     BPM, et deux decodages a la fois pesent trop sur un telephone. */
-  const importer = async (fichiers: readonly FichierRange[]): Promise<void> => {
+  /* UN GROS IMPORT SE CONFIRME. Rien n'est envoye, mais tout est copie dans
+     le navigateur de cet appareil : au-dela de 2 Go, on dit combien il pese
+     avant de copier, et on refuse s'il n'y a pas la place. */
+  const [aConfirmer, setAConfirmer] = useState<{ fichiers: readonly FichierRange[]; poids: number } | null>(null);
+  const importer = async (fichiers: readonly FichierRange[], confirme = false): Promise<void> => {
     const sons = fichiers.filter((x) => estUnSon(x.fichier));
     if (sons.length === 0) return;
+    const poids = sons.reduce((n, x) => n + x.fichier.size, 0);
+    const place = await placeDisponible();
+    if (place !== null && poids > place) {
+      setRefus([t.caissePasDePlace(t.caissePoids(poids), t.caissePoids(place))]);
+      return;
+    }
+    if (!confirme && poids > 2 * 1024 ** 3) {
+      setAConfirmer({ fichiers: sons, poids });
+      return;
+    }
+    setAConfirmer(null);
     const refuses: string[] = [];
     for (let i = 0; i < sons.length; i += 1) {
       const x = sons[i];
@@ -90,7 +105,7 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
       try {
         await ajouterFichier(x.fichier, x.dossier);
       } catch (e) {
-        refuses.push(e instanceof FichierRefuse && e.raison === 'trop-long' ? t.caisseTropLong(x.fichier.name) : t.caisseIllisible(x.fichier.name));
+        refuses.push(e instanceof FichierRefuse ? t.caisseTropLourd(x.fichier.name) : t.caisseIllisible(x.fichier.name));
       }
     }
     setImport(null);
@@ -139,10 +154,10 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
         <span className="pl-morceau-chiffres">
           <span>{m.bpm ? m.bpm.toFixed(0) : '--'}</span>
           <span>{k ? k.camelot : '--'}</span>
-          <span>{tempsAffiche(m.duree).slice(0, 5)}</span>
+          <span>{m.duree > 0 ? tempsAffiche(m.duree).slice(0, 5) : '--:--'}</span>
         </span>
         <span className="pl-morceau-actions">
-          <button type="button" aria-label={t.navigateurSurPlatine(cible === 0 ? 'A' : 'B')} onClick={() => onChoisir(m, cible)}>
+          <button type="button" disabled={m.illisible} aria-label={t.navigateurSurPlatine(cible === 0 ? 'A' : 'B')} onClick={() => onChoisir(m, cible)}>
             {cible === 0 ? 'A' : 'B'}
           </button>
           {retirer && (
@@ -287,6 +302,17 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
             <span className="pl-depot-titre">{t.caisseDeposer}</span>
             <span className="pl-depot-note">{t.caisseLocal}</span>
           </label>
+          {aConfirmer && (
+            <div className="pl-caisse-nommer" role="group" aria-label={t.caisseCopier}>
+              <p className="pl-navigateur-note">{t.caisseGrosImport(aConfirmer.fichiers.length, t.caissePoids(aConfirmer.poids))}</p>
+              <button type="button" className="pl-ecran-touche" onClick={() => void importer(aConfirmer.fichiers, true)}>
+                {t.caisseCopier}
+              </button>
+              <button type="button" className="pl-ecran-touche" onClick={() => setAConfirmer(null)}>
+                {t.caisseAnnuler}
+              </button>
+            </div>
+          )}
           {import_ && (
             <p className="pl-navigateur-note pl-caisse-analyse" role="status">
               {t.caisseAnalyse(import_.fait, import_.total)}

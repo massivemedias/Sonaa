@@ -20,14 +20,26 @@ lâcher un fichier directement sur une platine, qui le charge.
 (IndexedDB, `src/platines/caisse.ts`). Il n'y a ni compte, ni serveur, ni
 envoi. Le même fichier glissé deux fois est le même morceau, avec ses cues.
 
+**Un gros dossier entre en quelques secondes** (3 octobre 2026, Mika : « il
+se passe quoi si je glisse un dossier de 1 800 tracks ? »). À l'entrée, on
+ne lit que les tags, dans les premiers octets du fichier. La durée, et le
+BPM quand le tag n'en donne pas, se calculent ensuite en fond, un morceau à
+la fois, tant que la page est visible ; un morceau qu'on charge avant son
+tour est analysé tout de suite. Au-delà de 2 Go, la page dit combien
+l'import pèse et demande avant de copier ; s'il n'y a pas la place que le
+navigateur accorde, elle refuse. Elle demande aussi que la caisse ne soit
+pas vidée quand l'appareil manque de place. Un fichier de plus de 200 Mo est
+refusé : décodé en entier, il pèserait trop sur un téléphone.
+
+**Un dossier retenu qui n'a plus de morceau montre tout** : la liste ne
+reste plus vide quand la caisse ne l'est pas.
+
 **Les tags d'abord, l'oreille ensuite.** Titre, artiste, label, genre, BPM,
 tonalité et pochette viennent des tags ID3 quand ils existent
 (`tags.ts`) : rekordbox, Serato et Mixed In Key y écrivent le BPM et la
 tonalité. Sinon, le nom « Artiste - Titre » donne l'artiste et le titre, et
 le BPM est estimé par autocorrélation de l'enveloppe d'amplitude
 (`estimerBpm`). La tonalité n'est pas devinée.
-
-**Un quart d'heure au plus** par fichier : il est décodé en entier.
 
 **Les dossiers** (3 octobre 2026). Mika range ses morceaux en dossiers dans
 Fichiers, sur son iPhone. Chaque morceau porte le nom de son dossier, et les

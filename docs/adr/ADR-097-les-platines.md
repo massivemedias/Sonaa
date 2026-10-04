@@ -97,6 +97,17 @@ pour lui faire de la place.
 
 **Un peu de 3D** : voir ADR-100.
 
+**Sur téléphone, une machine par écran, sans défiler** (3 octobre 2026).
+Chaque machine prend la hauteur visible (`100dvh` moins l'en-tête, les
+onglets et la barre du bas) ; dans un deck, tout est à taille fixe sauf la
+playlist, qui prend le reste et défile seule, et dont une touche l'agrandit
+par-dessus le jog. Chaque ligne a ses touches A et B. Les chiffres de l'écran
+perdent leurs noms, le jog et le pitch suivent la hauteur de l'écran, et on
+zoome dans l'onde en la pinçant à deux doigts. Les machines y restent à
+plat : inclinées, elles rognaient leurs touches sous les 44 px du doigt. Le
+titre de la page se cache (il reste pour les lecteurs d'écran) et la
+finition tient en deux pastilles à côté des onglets.
+
 **Tout tient dans l'écran, à toutes les largeurs.** Un deck ne descend pas
 sous 420 px et la table fait 460 px. Sur ordinateur, quand la fenêtre est
 trop étroite ou trop basse, la scène se réduit en entier (jamais sous 55 %)

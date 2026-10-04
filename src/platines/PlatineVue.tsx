@@ -175,6 +175,14 @@ export function PlatineVue({ index, morceau, onCharger, onEtat, onDeposer, navig
      d'une CDJ : tirer vers la gauche avance. On entend des grains de son au
      passage, puis CUE pose le point la ou l'on s'est arrete. */
   const tirage = useRef<{ x: number; depart: number; dernierGrain: number } | null>(null);
+  /* LE PINCEMENT, au telephone : deux doigts qui s'ecartent zooment, qui se
+     rapprochent dezooment, un cran a chaque quart d'ecart en plus. */
+  const doigts = useRef(new Map<number, number>());
+  const pince = useRef<number | null>(null);
+  const ecart = (): number => {
+    const x = [...doigts.current.values()];
+    return Math.abs((x[0] ?? 0) - (x[1] ?? 0));
+  };
 
   /* ═══ LE PITCH BEND ═══ Mika, le 3 octobre 2026 : ces touches servent,
      tant qu'on les tient, a deplacer finement le morceau pour l'ajuster et
@@ -351,11 +359,29 @@ export function PlatineVue({ index, morceau, onCharger, onEtat, onDeposer, navig
             className="pl-onde-zoom"
             data-tirable={pret && !enLecture}
             onPointerDown={(e) => {
+              doigts.current.set(e.pointerId, e.clientX);
+              if (doigts.current.size === 2) {
+                tirage.current = null;
+                pince.current = ecart();
+                return;
+              }
               if (!pret || platine().enLecture) return;
               e.currentTarget.setPointerCapture(e.pointerId);
               tirage.current = { x: e.clientX, depart: platine().position(), dernierGrain: 0 };
             }}
             onPointerMove={(e) => {
+              if (doigts.current.has(e.pointerId)) doigts.current.set(e.pointerId, e.clientX);
+              if (pince.current !== null && doigts.current.size === 2) {
+                const maintenant = ecart();
+                if (maintenant > pince.current * 1.25 + 8) {
+                  zoomer(1);
+                  pince.current = maintenant;
+                } else if (maintenant < pince.current / 1.25 - 8) {
+                  zoomer(-1);
+                  pince.current = maintenant;
+                }
+                return;
+              }
               const g = tirage.current;
               if (!g || !pret) return;
               const r = e.currentTarget.getBoundingClientRect();
@@ -369,19 +395,20 @@ export function PlatineVue({ index, morceau, onCharger, onEtat, onDeposer, navig
                 p.aller(cible);
               }
             }}
-            onPointerUp={() => {
+            onPointerUp={(e) => {
+              doigts.current.delete(e.pointerId);
+              if (doigts.current.size < 2) pince.current = null;
+              tirage.current = null;
+            }}
+            onPointerCancel={(e) => {
+              doigts.current.delete(e.pointerId);
+              pince.current = null;
               tirage.current = null;
             }}
           />
-          <div className="pl-zoom">
-            <button type="button" aria-label={t.platineZoomMoins} disabled={zoomNiveau === 0} onClick={() => zoomer(-1)}>
-              −
-            </button>
-            <span aria-hidden="true">{fenetre} s</span>
-            <button type="button" aria-label={t.platineZoomPlus} disabled={zoomNiveau === FENETRES.length - 1} onClick={() => zoomer(1)}>
-              +
-            </button>
-          </div>
+          <span className="pl-zoom-valeur" aria-hidden="true">
+            {fenetre} s
+          </span>
           {chargement !== null && (
             <span className="pl-onde-etat">
               {chargement < 1 ? `${Math.round(chargement * 100)} %` : t.platineDecodage}
@@ -389,27 +416,37 @@ export function PlatineVue({ index, morceau, onCharger, onEtat, onDeposer, navig
           )}
           {erreur && <span className="pl-onde-etat">{t.platineErreur}</span>}
         </div>
-        <canvas
-          ref={apercu}
-          className="pl-onde-apercu"
-          role="slider"
-          aria-label={t.platineApercu}
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={0}
-          tabIndex={-1}
-          onPointerDown={(e) => {
-            if (!pret) return;
-            e.currentTarget.setPointerCapture(e.pointerId);
-            platine().aller((e.nativeEvent.offsetX / Math.max(1, e.currentTarget.clientWidth)) * platine().duree);
-          }}
-          onPointerMove={(e) => {
-            if (!pret || !e.currentTarget.hasPointerCapture(e.pointerId)) return;
-            /* offsetX, et non clientX : la machine est inclinee, et seul le
-               repere de l'ecran lui-meme dit ou l'on a touche. */
-            platine().aller((e.nativeEvent.offsetX / Math.max(1, e.currentTarget.clientWidth)) * platine().duree);
-          }}
-        />
+        {/* LA VUE D'ENSEMBLE ET LE ZOOM, sur une seule rangee : moins haut, et
+            au telephone, une bande assez large pour y poser le doigt. */}
+        <div className="pl-defilement">
+          <button type="button" className="pl-zoom" aria-label={t.platineZoomMoins} disabled={zoomNiveau === 0} onClick={() => zoomer(-1)}>
+            −
+          </button>
+          <canvas
+            ref={apercu}
+            className="pl-onde-apercu"
+            role="slider"
+            aria-label={t.platineApercu}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={0}
+            tabIndex={-1}
+            onPointerDown={(e) => {
+              if (!pret) return;
+              e.currentTarget.setPointerCapture(e.pointerId);
+              platine().aller((e.nativeEvent.offsetX / Math.max(1, e.currentTarget.clientWidth)) * platine().duree);
+            }}
+            onPointerMove={(e) => {
+              if (!pret || !e.currentTarget.hasPointerCapture(e.pointerId)) return;
+              /* offsetX, et non clientX : la machine est inclinee, et seul le
+                 repere de l'ecran lui-meme dit ou l'on a touche. */
+              platine().aller((e.nativeEvent.offsetX / Math.max(1, e.currentTarget.clientWidth)) * platine().duree);
+            }}
+          />
+          <button type="button" className="pl-zoom" aria-label={t.platineZoomPlus} disabled={zoomNiveau === FENETRES.length - 1} onClick={() => zoomer(1)}>
+            +
+          </button>
+        </div>
       </div>
 
       <div className="pl-chauds" title={t.platineCueAide}>

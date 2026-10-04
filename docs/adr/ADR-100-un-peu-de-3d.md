@@ -11,7 +11,9 @@ MM-808 de mauditemachine.com, vue légèrement de face, avec son épaisseur.
 ## Ce qui est décidé
 
 - Chaque machine s'incline vers l'arrière (`rotateX`, 11 degrés sur
-  ordinateur, 7 sur téléphone) sous une perspective de 2 400 px prise
+  ordinateur ; à plat sur téléphone, où l'inclinaison rognait les touches
+  sous les 44 px du doigt et où la place manque) sous une perspective de
+  2 400 px prise
   au-dessus d'elle. Son arête avant accroche la lumière, sa face avant se
   voit, épaisse, et son ombre tombe sur la table.
 - C'est du CSS. Il n'y a ni WebGL, ni caméra qui bouge, ni parallaxe.

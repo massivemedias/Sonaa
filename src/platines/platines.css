@@ -432,31 +432,36 @@
 .pl-onde-zoom[data-tirable='true'] {
   cursor: ew-resize;
 }
-/* Le zoom, en touches d'ecran discretes dans le coin de l'onde. */
-.pl-zoom {
+/* La fenetre du zoom, ecrite discretement dans le coin de l'onde. */
+.pl-zoom-valeur {
   position: absolute;
   top: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  right: 2px;
   font-size: 10px;
-  color: var(--pl-os-55);
+  color: var(--pl-os-35);
+  pointer-events: none;
 }
-.pl-zoom button {
+/* La vue d'ensemble, entre les deux touches du zoom. */
+.pl-defilement {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+}
+.pl-zoom {
   width: 24px;
-  height: 20px;
+  height: 24px;
   padding: 0;
   border: 1px solid var(--pl-os-16);
   border-radius: 4px;
-  background: rgb(5 5 6 / 0.7);
+  background: transparent;
   color: var(--pl-os-85);
   font: inherit;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1;
   cursor: pointer;
 }
-.pl-zoom button:disabled {
+.pl-zoom:disabled {
   opacity: 0.3;
   cursor: default;
 }
@@ -1295,6 +1300,14 @@
   font-size: 11px;
   color: var(--pl-os-55);
 }
+.pl-playlist-actions {
+  display: flex;
+  gap: 4px;
+}
+.pl-playlist-ligne button[aria-pressed='true'] {
+  background: var(--accent);
+  color: var(--sur-accent);
+}
 .pl-playlist-ligne button {
   min-width: 28px;
   min-height: 26px;
@@ -1310,6 +1323,10 @@
 .pl-playlist-ligne button:hover {
   background: var(--accent);
   color: var(--sur-accent);
+}
+
+.pl-playlist-agrandir {
+  display: none;
 }
 
 /* ═══ LE NAVIGATEUR, DANS LA PLATINE ═══ Il s'ouvre sur la platine dont on a
@@ -1778,40 +1795,21 @@
     width: 40px;
     height: 40px;
   }
-  /* QUARANTE-HUIT ET NON QUARANTE-QUATRE : inclinees, les machines
-     raccourcissent un peu ce qu'elles portent ; une touche de 48 px en
-     garde 44 au doigt. */
   .pl-touche,
   .pl-pad {
-    min-height: 48px;
+    min-height: 44px;
   }
-  /* Au doigt, le zoom quitte le coin de l'onde pour une rangee a lui. */
-  .pl-zoom {
-    position: static;
-    justify-content: flex-end;
-    margin-top: 6px;
-  }
-  .pl-zoom button {
-    width: 48px;
-    height: 48px;
-  }
+
   .pl-recherche {
-    width: 48px;
-    height: 48px;
-  }
-  .pl-page {
-    --pl-inclinaison: 7deg;
-  }
-  .pl-playlist {
-    flex: 0 0 auto;
-    height: 268px;
+    width: 44px;
+    height: 44px;
   }
   .pl-playlist-ligne {
     min-height: 48px;
   }
   .pl-playlist-ligne button {
-    min-width: 48px;
-    min-height: 48px;
+    min-width: 44px;
+    min-height: 44px;
   }
   .pl-jog-zone {
     width: min(100%, 240px);
@@ -1829,13 +1827,13 @@
   .pl-ecran-touche,
   .pl-caisse-retirer,
   .pl-caisse-nommer input {
-    min-height: 48px;
+    min-height: 44px;
   }
   .pl-morceau-actions button {
-    min-width: 48px;
+    min-width: 44px;
   }
   .pl-navigateur-fermer {
-    width: 48px;
+    width: 44px;
   }
 }
 
@@ -1900,5 +1898,336 @@
   .pl-effets-temps .pl-silk {
     grid-column: 1 / -1;
     padding: 0;
+  }
+}
+
+/* ═══ SUR TELEPHONE, UNE MACHINE PAR ECRAN, SANS DEFILER ═══ Mika, le
+   3 octobre 2026 : « un deck dans la fenetre, je swipe, le mixer rentre, je
+   swipe, l'autre deck, sur toute la fenetre ; je n'ai pas besoin de
+   scroller ; c'est surtout la playlist que je peux scroller ».
+
+   Chaque machine prend exactement la hauteur visible : l'ecran moins
+   l'en-tete, les onglets et la barre du bas (dvh : la hauteur reelle, barre
+   d'adresse comprise). Dans un deck, tout est a taille fixe sauf la
+   playlist, qui prend ce qui reste et defile seule. Les machines restent a
+   plat : inclinees, elles rognaient leurs touches sous les 44 px du doigt,
+   et la place manque. Leur face avant epaisse, elle, reste. */
+@media (max-width: 899px) {
+  .pl-page {
+    --pl-inclinaison: 0deg;
+    --pl-hauteur: calc(
+      100dvh - var(--entete-h) - env(safe-area-inset-top, 0px) - var(--barre-bas-h, 0px) - var(--mini-h, 0px) - 44px - 52px
+    );
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 8px;
+    align-content: start;
+    padding-top: calc(var(--entete-h) + env(safe-area-inset-top, 0px) + 10px);
+    padding-bottom: 0;
+  }
+  /* L'en-tete tient sur la rangee des onglets : le titre reste pour les
+     lecteurs d'ecran, la finition devient deux pastilles. */
+  .pl-tete {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+  }
+  .pl-titre {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .pl-finition {
+    margin: 0;
+    gap: 6px;
+  }
+  .pl-finition button {
+    justify-content: center;
+    width: 44px;
+    padding: 0;
+    font-size: 0;
+  }
+  .pl-onglets {
+    grid-column: 1;
+    grid-row: 1;
+    padding-bottom: 0;
+  }
+  .pl-scene,
+  .pl-annonce {
+    grid-column: 1 / -1;
+  }
+  .pl-scene {
+    margin-top: 10px;
+    padding-bottom: 0;
+  }
+  .pl-page > .pied {
+    display: none;
+  }
+  .pl-machine {
+    height: var(--pl-hauteur);
+    min-height: 440px;
+    gap: 8px;
+    padding: 10px 10px 12px;
+  }
+  .pl-machine > :not(.pl-playlist) {
+    flex-shrink: 0;
+  }
+  /* Le mixer peut, sur un petit ecran, depasser un peu : il s'allonge alors
+     plutot que de rogner ses voies. */
+  .pl-table {
+    height: auto;
+    min-height: var(--pl-hauteur);
+  }
+  .pl-plaque {
+    min-height: 44px;
+  }
+  .pl-logo {
+    width: 30px;
+    height: 26px;
+  }
+  .pl-modele {
+    font-size: 18px;
+  }
+
+  /* L'ecran du deck, resserre. */
+  .pl-ecran {
+    gap: 4px;
+    margin: 4px 4px 0;
+    padding: 8px;
+  }
+  .pl-ecran-tete {
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 8px;
+  }
+  .pl-ecran-pochette {
+    width: 28px;
+    height: 28px;
+  }
+  .pl-ecran-titre {
+    font-size: 13px;
+  }
+  .pl-ecran-artiste {
+    font-size: 11px;
+  }
+  /* Les valeurs se lisent seules (121.0, +0.00 %, 8A, -04:15) : leurs
+     noms laissent leur ligne a la playlist. */
+  .pl-ecran .pl-ecran-chiffres {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding: 3px 0;
+  }
+  .pl-chiffre-nom {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .pl-chiffre-valeur {
+    font-size: 12px;
+  }
+  .pl-onde-zoom {
+    height: 40px;
+  }
+  /* Au doigt, on zoome en pincant l'onde : les touches du zoom laissent
+     leur place. */
+  .pl-zoom {
+    display: none;
+  }
+  .pl-defilement {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pl-onde-apercu {
+    height: 26px;
+  }
+
+  /* Les hot cues, sans numeros ni crochet : leur ordre se voit. */
+  .pl-chauds {
+    gap: 8px;
+  }
+  .pl-chauds .pl-silk,
+  .pl-platine > .pl-crochet {
+    display: none;
+  }
+
+  /* CUE et PLAY a gauche du jog, le pitch a droite : une seule rangee. */
+  .pl-platine .pl-corps {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: 'transport jog pitch';
+    gap: 10px;
+    padding: 0;
+  }
+  .pl-platine .pl-transport {
+    display: grid;
+    gap: 10px;
+    align-self: center;
+  }
+  .pl-grosse-touche {
+    width: 64px;
+    height: 48px;
+  }
+  .pl-transport .pl-silk,
+  .pl-pitch .pl-silk {
+    display: none;
+  }
+  .pl-jog-zone {
+    width: min(100%, clamp(108px, 16dvh, 200px));
+  }
+  .pl-pitch {
+    gap: 6px;
+    align-self: center;
+  }
+  .pl-pitch-fader.pl-fader-vertical {
+    height: clamp(64px, 10dvh, 150px);
+  }
+  /* Le pitch bend garde 44 px au doigt, mais un rond visible plus petit,
+     pour ne pas couvrir un jog qui a perdu de la taille. */
+  .pl-platine .pl-recherche {
+    bottom: -12px;
+    isolation: isolate;
+    background: transparent;
+    box-shadow: none;
+  }
+  .pl-platine .pl-recherche::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    z-index: -1;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 35%, var(--m-pad-haut), var(--m-pad-bas) 72%);
+    box-shadow:
+      inset 0 1px 0 var(--m-touche-reflet),
+      0 3px 0 var(--m-pad-flanc),
+      0 4px 6px var(--m-touche-ombre);
+  }
+  .pl-platine .pl-recherche-arriere {
+    left: -16px;
+  }
+  .pl-platine .pl-recherche-avant {
+    right: -16px;
+  }
+
+  /* La playlist prend ce qui reste, et s'agrandit par-dessus le jog. */
+  .pl-playlist {
+    flex: 1 1 0;
+    min-height: 88px;
+    margin: 0 4px;
+  }
+  .pl-playlist[data-grande='true'] {
+    position: absolute;
+    inset: 60px 14px 14px;
+    z-index: 3;
+  }
+  .pl-playlist-tete {
+    align-items: center;
+    padding-bottom: 4px;
+  }
+  .pl-playlist-agrandir {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    margin: -6px -4px -6px 0;
+    border: 1px solid var(--pl-os-16);
+    border-radius: 5px;
+    background: transparent;
+    color: var(--pl-os-85);
+    cursor: pointer;
+  }
+  .pl-playlist-agrandir svg {
+    width: 12px;
+    height: 8px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+  }
+  .pl-playlist[data-grande='true'] .pl-playlist-agrandir svg {
+    transform: rotate(180deg);
+  }
+
+  /* Le mixer resserre : les sept potards d'effets sur une rangee, les six
+     divisions sur une autre, et dans chaque voie, les potards par trois. */
+  .pl-effets {
+    gap: 8px;
+  }
+  .pl-effets-ecran {
+    margin: 4px 4px 0;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  .pl-table .pl-effets-potards {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    row-gap: 0;
+    padding-top: 4px;
+  }
+  .pl-effets-potards .pl-bouton-cadran {
+    width: 26px;
+    height: 26px;
+  }
+  .pl-effets-potards .pl-bouton-nom {
+    font-size: 7px;
+    letter-spacing: 0.04em;
+  }
+  .pl-table .pl-effets-temps {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 2px;
+  }
+  .pl-table .pl-effets-temps .pl-silk,
+  .pl-effets .pl-crochet,
+  .pl-table > .pl-crochet {
+    display: none;
+  }
+  .pl-voies {
+    flex: 1 1 auto;
+  }
+  .pl-voie {
+    grid-template-columns: repeat(3, auto);
+    justify-content: center;
+    column-gap: 4px;
+    row-gap: 4px;
+  }
+  .pl-voie-numero,
+  .pl-voie-nom,
+  .pl-voie-bas {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+  .pl-voie .pl-bouton-cadran {
+    width: 32px;
+    height: 32px;
+    margin: 2px;
+  }
+  .pl-table {
+    gap: 6px;
+  }
+  .pl-maitre .pl-bouton-nom {
+    display: none;
+  }
+  .pl-voie .pl-bouton-nom {
+    font-size: 8px;
+    letter-spacing: 0.1em;
+  }
+  .pl-voie-fader.pl-fader-vertical {
+    height: clamp(64px, 11dvh, 112px);
+  }
+  .pl-vu {
+    min-height: 60px;
+  }
+  .pl-croise {
+    padding: 0 6px;
+  }
+}
+
+/* Sur un ecran bas (un iPhone dans Safari, barres depliees), la bande
+   d'ecran des effets cede sa place : les potards disent deja quel effet
+   est ouvert, et l'onglet tient alors dans la fenetre. */
+@media (max-width: 899px) and (max-height: 760px) {
+  .pl-effets-ecran {
+    display: none;
+  }
+  .pl-playlist {
+    min-height: 80px;
   }
 }

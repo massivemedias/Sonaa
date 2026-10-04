@@ -6,7 +6,7 @@
 import { useEffect, useState } from 'react';
 import { FAMILIES, STRUCTURES } from '../atlas/structures.ts';
 import { morceauxDuStyle } from './audius.ts';
-import { ecouterCaisse, lireCaisse } from './caisse.ts';
+import { ecouterCaisse, lancerAnalyses, lireCaisse } from './caisse.ts';
 import type { Morceau } from './morceau.ts';
 
 export type Source = 'audius' | 'fichiers';
@@ -113,6 +113,8 @@ export function useCaisse(): readonly Morceau[] | null {
         });
     };
     relire();
+    /* Les analyses reprennent ou elles en etaient, a chaque visite. */
+    void lancerAnalyses();
     const arreter = ecouterCaisse(relire);
     return () => {
       vivant = false;
@@ -122,6 +124,15 @@ export function useCaisse(): readonly Morceau[] | null {
   return caisse;
 }
 
+/* UN DOSSIER QUI N'EXISTE PLUS MONTRE TOUT. Le dossier ouvert est retenu
+   dans le navigateur ; s'il a ete retire, ou s'il n'a jamais eu de morceau
+   sur cet appareil, la liste restait vide alors que la caisse ne l'etait
+   pas (« Mes morceaux (1) » et rien dessous, vu par Mika le 3 octobre). */
+export const dossierEffectif = (caisse: readonly Morceau[], dossier: string): string =>
+  dossier === TOUS || caisse.some((m) => (m.dossier ?? VRAC) === dossier) ? dossier : TOUS;
+
 /** Les morceaux d'un dossier de la caisse. */
-export const duDossier = (caisse: readonly Morceau[], dossier: string): readonly Morceau[] =>
-  caisse.filter((m) => dossier === TOUS || (m.dossier ?? VRAC) === dossier);
+export const duDossier = (caisse: readonly Morceau[], dossier: string): readonly Morceau[] => {
+  const d = dossierEffectif(caisse, dossier);
+  return caisse.filter((m) => d === TOUS || (m.dossier ?? VRAC) === d);
+};
