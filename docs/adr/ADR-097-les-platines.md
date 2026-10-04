@@ -97,7 +97,9 @@ passe-tout sur les graves pour la phase. Mesuré sur la voie même : plat à
 (-63 dB à 40 Hz pour les basses, -30 dB au cœur des médiums, -62 dB à
 12 kHz pour les aigus) ; à droite, +6 dB. Piège noté dans le code : dans
 Web Audio, le Q d'un passe-bas ou d'un passe-haut est en décibels. Le
-filtre de voie est plat au repos et ne résonne qu'en balayage.
+filtre de voie est plat au repos et ne résonne qu'en balayage. Les coupures à
+250 Hz et 2,5 kHz, celles des isolateurs de club, sont confirmées par Mika
+le 4 octobre 2026, de préférence à celles d'une DJM (70 Hz et 13 kHz).
 
 **Les noms au-dessus** des potards, des hot cues, de CUE et de PLAY.
 
