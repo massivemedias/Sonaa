@@ -21,6 +21,12 @@
  * la ou il est. Apres un rechargement, le navigateur redemande une fois
  * l'acces au dossier, au premier morceau qu'on charge.
  *
+ * TROP GROS POUR ETRE COPIE, AILLEURS QUE SUR CHROME (Mika, 86,7 Go pour
+ * 1,9 Go accordes) : le dossier se relie le temps de la visite. Les fichiers
+ * restent en memoire, ou ils sont ; seuls leurs tags et leurs BPM sont
+ * gardes. A la visite suivante, on glisse a nouveau le dossier, et chaque
+ * morceau retrouve aussitot ses donnees et ses cues.
+ *
  * LES DOSSIERS, depuis le 3 octobre 2026 : Mika range ses morceaux en
  * dossiers dans Fichiers, sur son iPhone. Chaque morceau porte le nom de
  * son dossier (vide s'il est en vrac) ; un dossier n'existe que par ses
@@ -57,6 +63,8 @@ interface Entree {
   readonly poignee?: FileSystemFileHandle;
   /** Le dossier relie qui le contient. */
   readonly racine?: string;
+  /** Relie pour la visite seulement : le fichier n'est qu'en memoire. */
+  readonly session?: boolean;
   readonly ajout: number;
   /** Absent dans les entrees d'avant les dossiers : en vrac. */
   readonly dossier?: string;
@@ -111,8 +119,13 @@ function versMorceau(e: Entree): Morceau {
     lien: null,
     dossier: e.dossier ?? '',
     ...(e.illisible ? { illisible: true } : {}),
+    ...(e.session && !enMemoire.has(e.id) && !e.fichier ? { aRelier: true } : {}),
   };
 }
+
+/* Les fichiers relies pour la visite : de simples references a ce qui est
+   sur le disque, perdues a la fermeture de la page. */
+const enMemoire = new Map<string, File>();
 
 /** Les morceaux de la caisse, les derniers glisses en premier. */
 export async function lireCaisse(): Promise<Morceau[]> {
@@ -140,6 +153,8 @@ async function autorise(h: FileSystemHandle, demander: boolean): Promise<boolean
     que l'acces est accorde (demande si `demander`). */
 async function contenu(e: Entree, demander: boolean): Promise<Blob | null> {
   if (e.fichier) return e.fichier;
+  const visite = enMemoire.get(e.id);
+  if (visite) return visite;
   if (!e.poignee) return null;
   const racine = e.racine ? await requete<{ poignee: FileSystemDirectoryHandle } | undefined>('readonly', (m) => m.get(e.racine ?? ''), RACINES) : undefined;
   if (!(await autorise(racine?.poignee ?? e.poignee, demander))) return null;
@@ -218,7 +233,7 @@ export async function ajouterFichier(f: File, dossier = ''): Promise<Morceau> {
 /* Une entree, d'apres les tags seulement : les dix premiers octets disent
    leur longueur, et on ne lit que celle-la (8 Mo au plus, une grande
    pochette comprise). */
-async function entreeDe(f: File, id: string, dossier: string, ou: Pick<Entree, 'fichier' | 'poignee' | 'racine'>): Promise<Entree> {
+async function entreeDe(f: File, id: string, dossier: string, ou: Pick<Entree, 'fichier' | 'poignee' | 'racine' | 'session'>): Promise<Entree> {
   const tete = new Uint8Array(await f.slice(0, 10).arrayBuffer());
   const longueur = Math.min(f.size, tailleDesTags(tete), 8 * 1024 * 1024);
   const tags = longueur > 0 ? lireTags(await f.slice(0, longueur).arrayBuffer()) : {};
@@ -238,6 +253,37 @@ async function entreeDe(f: File, id: string, dossier: string, ou: Pick<Entree, '
     ajout: Date.now(),
     dossier,
   };
+}
+
+/** Relie des fichiers pour la visite, sans les copier : leurs tags et leur
+    BPM sont gardes, eux, pour la prochaine fois. */
+export async function relierPourLaVisite(fichiers: readonly FichierRange[], progres: (fait: number, total: number) => void): Promise<number> {
+  let relies = 0;
+  for (let i = 0; i < fichiers.length; i += 1) {
+    const x = fichiers[i];
+    if (!x) continue;
+    progres(i + 1, fichiers.length);
+    if (x.fichier.size > POIDS_MAX) continue;
+    try {
+      const id = empreinte(x.fichier);
+      enMemoire.set(id, x.fichier);
+      const deja = await requete<Entree | undefined>('readonly', (m) => m.get(id));
+      if (deja) {
+        if (x.dossier && deja.dossier !== x.dossier) await requete('readwrite', (m) => m.put({ ...deja, dossier: x.dossier }));
+        enAttente.delete(id);
+      } else {
+        const entree = await entreeDe(x.fichier, id, x.dossier, { session: true });
+        await requete('readwrite', (m) => m.put(entree));
+      }
+      relies += 1;
+      if (relies % 100 === 0) window.dispatchEvent(new Event(CHANGEMENT));
+    } catch {
+      /* un fichier illisible : on passe au suivant */
+    }
+  }
+  window.dispatchEvent(new Event(CHANGEMENT));
+  void lancerAnalyses();
+  return relies;
 }
 
 /* ═══ RELIER UN DOSSIER (Chrome, Edge) ═══ Le navigateur rend une poignee
@@ -339,13 +385,22 @@ export async function lancerAnalyses(): Promise<void> {
   if (enCours) return;
   enCours = true;
   try {
+    /* La caisse se lit une fois par tour, pas une fois par morceau : sur dix
+       mille morceaux, la relire a chaque fois couterait des minutes. Un tour
+       de plus ne sert qu'aux morceaux entres entre-temps. */
     for (;;) {
-      if (document.hidden) await new Promise<void>((r) => document.addEventListener('visibilitychange', () => r(), { once: true }));
       const toutes = await requete<Entree[]>('readonly', (m) => m.getAll());
-      const suivante = toutes.sort((a, b) => b.ajout - a.ajout).find((e) => e.duree === 0 && !e.illisible && !enAttente.has(e.id));
-      if (!suivante) break;
-      await analyserEntree(suivante);
-      await new Promise((r) => window.setTimeout(r, 150));
+      const aFaire = toutes.filter((e) => e.duree === 0 && !e.illisible && !enAttente.has(e.id)).sort((a, b) => b.ajout - a.ajout);
+      if (aFaire.length === 0) break;
+      for (const e of aFaire) {
+        if (document.hidden) await new Promise<void>((r) => document.addEventListener('visibilitychange', () => r(), { once: true }));
+        const fraiche = await requete<Entree | undefined>('readonly', (m) => m.get(e.id));
+        if (!fraiche || fraiche.duree > 0 || fraiche.illisible) continue;
+        const apres = await analyserEntree(fraiche);
+        /* Une pause apres un vrai decodage seulement : un morceau a relier
+           se saute aussitot. */
+        if (apres !== fraiche) await new Promise((r) => window.setTimeout(r, 150));
+      }
     }
   } finally {
     enCours = false;

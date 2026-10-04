@@ -26,6 +26,8 @@ export interface Morceau {
   readonly dossier?: string;
   /** Un fichier de la caisse que le navigateur n'a pas su decoder. */
   readonly illisible?: boolean;
+  /** Relie pour une visite passee : il faut glisser a nouveau son dossier. */
+  readonly aRelier?: boolean;
 }
 
 /** L'adresse ou la platine va chercher le son, et de quoi la liberer. */

@@ -43,6 +43,17 @@ même ; un fichier seul, lui, est copié. Safari et Firefox n'ont pas ce
 sélecteur : ils copient, comme avant. La base passe en version 2, avec un
 magasin `racines` pour les dossiers reliés.
 
+**Trop gros pour être copié, il se relie pour la visite** (3 octobre 2026,
+Mika glisse 86,7 Go dans un navigateur qui en accorde 1,9). Sans le
+sélecteur de Chrome, les fichiers d'un dossier lâché ne restent que des
+références en mémoire : rien n'est copié. Leurs tags, leurs BPM et leurs
+cues sont gardés ; à la visite suivante, ces morceaux s'affichent « à
+relier », et glisser à nouveau le dossier les rend aussitôt lisibles. Entre
+2 Go et la place disponible, on choisit entre copier et relier pour la
+visite. Les listes montrent au plus 200 lignes, avec une recherche dans
+Mes morceaux ; les analyses en fond relisent la caisse une fois par tour,
+pas une fois par morceau.
+
 **Un dossier retenu qui n'a plus de morceau montre tout** : la liste ne
 reste plus vide quand la caisse ne l'est pas.
 

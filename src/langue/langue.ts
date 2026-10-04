@@ -629,7 +629,11 @@ interface Dictionnaire {
   readonly caisseIllisible: (nom: string) => string;
   readonly caisseTropLourd: (nom: string) => string;
   readonly caissePoids: (octets: number) => string;
-  readonly caissePasDePlace: (poids: string, libre: string) => string;
+  readonly caisseTropGros: (n: number, poids: string, libre: string) => string;
+  readonly caisseRelierVisite: string;
+  readonly caisseARelier: string;
+  readonly caisseFiltrer: string;
+  readonly caissePremiers: (n: number, total: number) => string;
   readonly caisseGrosImport: (n: number, poids: string) => string;
   readonly caisseCopier: string;
   readonly caisseRelie: string;
@@ -1478,7 +1482,12 @@ const FR: Dictionnaire = {
   caisseIllisible: (nom) => `${nom} ne se lit pas : il faut un MP3, un WAV, un AIFF, un FLAC ou un M4A.`,
   caisseTropLourd: (nom) => `${nom} pèse plus de 200 Mo : trop lourd pour les decks.`,
   caissePoids: (o) => (o >= 1024 ** 3 ? `${(o / 1024 ** 3).toFixed(1).replace('.', ',')} Go` : `${Math.max(1, Math.round(o / 1024 ** 2))} Mo`),
-  caissePasDePlace: (poids, libre) => `Pas assez de place : ces fichiers pèsent ${poids}, et ce navigateur n’en accorde plus que ${libre} sur cet appareil.`,
+  caisseTropGros: (n, poids, libre) =>
+    `${n} morceaux, ${poids} : trop pour les copier dans ce navigateur (${libre} libres). Relie-les pour cette visite : rien n’est copié, et la prochaine fois, glisse à nouveau le dossier, ils reviennent aussitôt avec leurs BPM et leurs cues.`,
+  caisseRelierVisite: 'Relier pour cette visite',
+  caisseARelier: 'Certains morceaux n’étaient reliés que le temps d’une visite : glisse à nouveau leur dossier pour les relire.',
+  caisseFiltrer: 'Chercher dans mes morceaux',
+  caissePremiers: (n, total) => `${n} sur ${total} : cherche pour trouver les autres.`,
   caisseGrosImport: (n, poids) => `${n} morceaux, ${poids} : ils seront copiés dans ce navigateur, sur cet appareil. Rien n’est envoyé sur internet.`,
   caisseCopier: 'Copier',
   caisseRelie: 'Sur Chrome, un dossier est relié, pas copié : tes fichiers restent là où ils sont.',
@@ -2342,7 +2351,12 @@ const EN: Dictionnaire = {
   caisseIllisible: (nom) => `${nom} cannot be read: use an MP3, WAV, AIFF, FLAC or M4A file.`,
   caisseTropLourd: (nom) => `${nom} is larger than 200 MB: too heavy for the decks.`,
   caissePoids: (o) => (o >= 1024 ** 3 ? `${(o / 1024 ** 3).toFixed(1)} GB` : `${Math.max(1, Math.round(o / 1024 ** 2))} MB`),
-  caissePasDePlace: (poids, libre) => `Not enough room: these files weigh ${poids}, and this browser only allows ${libre} more on this device.`,
+  caisseTropGros: (n, poids, libre) =>
+    `${n} tracks, ${poids}: too much to copy into this browser (${libre} free). Link them for this visit: nothing is copied, and next time, drop the folder again and they come back at once with their BPM and cues.`,
+  caisseRelierVisite: 'Link for this visit',
+  caisseARelier: 'Some tracks were only linked for one visit: drop their folder again to read them.',
+  caisseFiltrer: 'Search my tracks',
+  caissePremiers: (n, total) => `${n} of ${total}: search to find the others.`,
   caisseGrosImport: (n, poids) => `${n} tracks, ${poids}: they will be copied into this browser, on this device. Nothing is uploaded.`,
   caisseCopier: 'Copy',
   caisseRelie: 'On Chrome, a folder is linked, not copied: your files stay where they are.',

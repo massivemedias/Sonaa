@@ -27,12 +27,13 @@ import {
   placeDisponible,
   relier,
   relierDossier,
+  relierPourLaVisite,
   retirerDeCaisse,
   retirerDossier,
   type FichierRange,
 } from './caisse.ts';
 import { tempsAffiche, tonaliteCourte } from './calculs.ts';
-import { STYLES, TOUS, VRAC, changerSelection, dossierEffectif, duDossier, useCaisse, useMorceauxDuStyle, useSelection } from './selection.ts';
+import { LIGNES_MAX, STYLES, TOUS, VRAC, changerSelection, dossierEffectif, duDossier, filtrer, useCaisse, useMorceauxDuStyle, useSelection } from './selection.ts';
 
 /* L'iPhone et l'iPad n'ont pas de selecteur de dossier : on y nomme le
    dossier, puis on choisit ses morceaux dans Fichiers. */
@@ -80,23 +81,24 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
     return [...compte.entries()].filter(([d]) => d !== VRAC).sort((a, b) => a[0].localeCompare(b[0], 'fr'));
   }, [caisse]);
   const enVrac = (caisse ?? []).filter((m) => !m.dossier).length;
-  const visibles = duDossier(caisse ?? [], dossierOuvert);
+  const [filtre, setFiltre] = useState('');
+  const visibles = filtrer(duDossier(caisse ?? [], dossierOuvert), filtre);
+  const aRelier = visibles.some((m) => m.aRelier);
 
   /* UN GROS IMPORT SE CONFIRME. Rien n'est envoye, mais tout est copie dans
      le navigateur de cet appareil : au-dela de 2 Go, on dit combien il pese
      avant de copier, et on refuse s'il n'y a pas la place. */
-  const [aConfirmer, setAConfirmer] = useState<{ fichiers: readonly FichierRange[]; poids: number } | null>(null);
+  /* Trop gros pour la place accordee, on ne peut que relier pour la
+     visite ; gros mais logeable, on choisit entre copier et relier. */
+  const [aConfirmer, setAConfirmer] = useState<{ fichiers: readonly FichierRange[]; poids: number; libre: number | null } | null>(null);
   const importer = async (fichiers: readonly FichierRange[], confirme = false): Promise<void> => {
     const sons = fichiers.filter((x) => estUnSon(x.fichier));
     if (sons.length === 0) return;
     const poids = sons.reduce((n, x) => n + x.fichier.size, 0);
     const place = await placeDisponible();
-    if (place !== null && poids > place) {
-      setRefus([t.caissePasDePlace(t.caissePoids(poids), t.caissePoids(place))]);
-      return;
-    }
-    if (!confirme && poids > 2 * 1024 ** 3) {
-      setAConfirmer({ fichiers: sons, poids });
+    const manque = place !== null && poids > place;
+    if (manque || (!confirme && poids > 2 * 1024 ** 3)) {
+      setAConfirmer({ fichiers: sons, poids, libre: manque ? place : null });
       return;
     }
     setAConfirmer(null);
@@ -121,6 +123,11 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
   /* RELIER, SUR CHROME ET EDGE : rien n'est copie, la caisse lit les
      fichiers la ou ils sont. Ailleurs, on copie. */
   const [bilan, setBilan] = useState<string | null>(null);
+  const relierVisite = async (fichiers: readonly FichierRange[]): Promise<void> => {
+    setAConfirmer(null);
+    const n = await relierPourLaVisite(fichiers, progres);
+    relie({ nom: fichiers[0]?.dossier || t.navigateurMesMorceaux(0), relies: n });
+  };
   const relie = (r: { nom: string; relies: number } | null): void => {
     setImport(null);
     if (!r) return;
@@ -190,7 +197,7 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
           <span>{m.duree > 0 ? tempsAffiche(m.duree).slice(0, 5) : '--:--'}</span>
         </span>
         <span className="pl-morceau-actions">
-          <button type="button" disabled={m.illisible} aria-label={t.navigateurSurPlatine(cible === 0 ? 'A' : 'B')} onClick={() => onChoisir(m, cible)}>
+          <button type="button" disabled={m.illisible || m.aRelier} aria-label={t.navigateurSurPlatine(cible === 0 ? 'A' : 'B')} onClick={() => onChoisir(m, cible)}>
             {cible === 0 ? 'A' : 'B'}
           </button>
           {retirer && (
@@ -343,10 +350,19 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
           )}
           {aConfirmer && (
             <div className="pl-caisse-nommer" role="group" aria-label={t.caisseCopier}>
-              <p className="pl-navigateur-note">{t.caisseGrosImport(aConfirmer.fichiers.length, t.caissePoids(aConfirmer.poids))}</p>
-              <button type="button" className="pl-ecran-touche" onClick={() => void importer(aConfirmer.fichiers, true)}>
-                {t.caisseCopier}
+              <p className="pl-navigateur-note">
+                {aConfirmer.libre !== null
+                  ? t.caisseTropGros(aConfirmer.fichiers.length, t.caissePoids(aConfirmer.poids), t.caissePoids(aConfirmer.libre))
+                  : t.caisseGrosImport(aConfirmer.fichiers.length, t.caissePoids(aConfirmer.poids))}
+              </p>
+              <button type="button" className="pl-ecran-touche" onClick={() => void relierVisite(aConfirmer.fichiers)}>
+                {t.caisseRelierVisite}
               </button>
+              {aConfirmer.libre === null && (
+                <button type="button" className="pl-ecran-touche" onClick={() => void importer(aConfirmer.fichiers, true)}>
+                  {t.caisseCopier}
+                </button>
+              )}
               <button type="button" className="pl-ecran-touche" onClick={() => setAConfirmer(null)}>
                 {t.caisseAnnuler}
               </button>
@@ -364,10 +380,22 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
               ))}
             </ul>
           )}
+          {(caisse?.length ?? 0) > 0 && (
+            <input
+              className="pl-navigateur-chercher"
+              type="search"
+              value={filtre}
+              placeholder={t.caisseFiltrer}
+              aria-label={t.caisseFiltrer}
+              onChange={(e) => setFiltre(e.target.value)}
+            />
+          )}
+          {aRelier && <p className="pl-navigateur-note">{t.caisseARelier}</p>}
+          {visibles.length > LIGNES_MAX && <p className="pl-navigateur-note">{t.caissePremiers(LIGNES_MAX, visibles.length)}</p>}
           {caisse === null ? null : visibles.length === 0 ? (
             <p className="pl-navigateur-note">{t.caisseVide}</p>
           ) : (
-            <ul className="pl-morceaux">{visibles.map((m) => ligne(m, true))}</ul>
+            <ul className="pl-morceaux">{visibles.slice(0, LIGNES_MAX).map((m) => ligne(m, true))}</ul>
           )}
           {dossierOuvert !== TOUS && dossierOuvert !== VRAC && visibles.length > 0 && (
             <button

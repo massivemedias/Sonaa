@@ -136,3 +136,17 @@ export const duDossier = (caisse: readonly Morceau[], dossier: string): readonly
   const d = dossierEffectif(caisse, dossier);
   return caisse.filter((m) => d === TOUS || (m.dossier ?? VRAC) === d);
 };
+
+/* CHERCHER DANS SES MORCEAUX : sans les accents ni la casse, dans le titre,
+   l'artiste, le label et le genre. Une caisse de dix mille morceaux ne se
+   parcourt pas a la main. */
+const plat = (x: string): string => x.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+export function filtrer(liste: readonly Morceau[], requete: string): readonly Morceau[] {
+  const q = plat(requete.trim());
+  if (!q) return liste;
+  return liste.filter((m) => plat(`${m.titre} ${m.artiste} ${m.label ?? ''} ${m.genre}`).includes(q));
+}
+
+/* Au plus deux cents lignes a l'ecran : au-dela, le navigateur rame, et la
+   recherche trouve plus vite qu'un doigt qui defile. */
+export const LIGNES_MAX = 200;

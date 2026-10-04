@@ -16,7 +16,7 @@
 import { useState } from 'react';
 import { t } from '../langue/langue.ts';
 import type { Morceau } from './morceau.ts';
-import { TOUS, VRAC, dossierEffectif, duDossier, styleDe, useCaisse, useMorceauxDuStyle, useSelection } from './selection.ts';
+import { LIGNES_MAX, TOUS, VRAC, dossierEffectif, duDossier, styleDe, useCaisse, useMorceauxDuStyle, useSelection } from './selection.ts';
 
 interface Props {
   /** Les morceaux charges sur A et sur B, pour les reperer dans la liste. */
@@ -63,7 +63,7 @@ export function PlaylistVue({ actuels, onChoisir }: Props) {
         <p className="pl-playlist-note">{source === 'fichiers' ? t.caisseVide : t.navigateurVide}</p>
       ) : (
         <ul className="pl-playlist-liste">
-          {liste.map((m) => (
+          {liste.slice(0, LIGNES_MAX).map((m) => (
             <li key={m.id} className="pl-playlist-ligne" aria-current={actuels.includes(m.id) ? 'true' : undefined}>
               <span className="pl-playlist-titres">
                 <span className="pl-playlist-titre">{m.titre}</span>
@@ -77,7 +77,7 @@ export function PlaylistVue({ actuels, onChoisir }: Props) {
                     type="button"
                     aria-label={t.playlistCharger(m.titre, lettre)}
                     aria-pressed={actuels[i] === m.id}
-                    disabled={m.illisible}
+                    disabled={m.illisible || m.aRelier}
                     onClick={() => {
                       setGrande(false);
                       onChoisir(m, i === 0 ? 0 : 1);
