@@ -41,7 +41,7 @@ import { SOURCES } from '../../src/data/news-sources.ts';
    src/reconnaitre/audd.ts. Une copie ici aurait diverge. */
 import { lireReponseAudd } from '../../src/reconnaitre/audd.ts';
 import { soirees, toutesLesSoirees } from './agenda.ts';
-import { PasConfigure, chercher as chercherSoundcloud, flux as fluxSoundcloud, morceauxMm, piece as pieceSoundcloud } from './soundcloud.ts';
+import { PasConfigure, chercher as chercherSoundcloud, connexion as connexionSoundcloud, deconnexion as deconnexionSoundcloud, flux as fluxSoundcloud, mesMorceaux, morceauxMm, piece as pieceSoundcloud, rappel as rappelSoundcloud, seance as seanceSoundcloud } from './soundcloud.ts';
 import { jourEtHeure, lireLaPage, lireLeLienSeul, sourceDuLien, texteNu } from '../../src/lib/lire-soiree.ts';
 
 interface Env {
@@ -1195,7 +1195,15 @@ export default {
        routes publiques, sans jeton Supabase : chercher (les seules licences
        qui autorisent le remix), flux (les morceaux de fichier d'un titre),
        piece (le relais d'un morceau quand le CDN refuse le navigateur). Rien
-       n'est garde du son. Voir soundcloud.ts. */
+       n'est garde du son. Voir soundcloud.ts.
+       SE CONNECTER AVEC SOUNDCLOUD (meme jour) : connexion ouvre la page de
+       SoundCloud, rappel en revient, moi rend les morceaux du compte
+       connecte, deconnexion efface la seance ; la seance voyage dans
+       Authorization: Bearer, jamais dans l'adresse. */
+    if (req.method === 'POST' && chemin === 'api/soundcloud/deconnexion') {
+      await deconnexionSoundcloud(env, req.headers.get('Authorization'));
+      return new Response(null, { status: 204, headers: entetes(req, env) });
+    }
     if (req.method === 'GET' && chemin.startsWith('api/soundcloud/')) {
       const json = (corps: unknown, extra: Record<string, string> = {}): Response =>
         new Response(JSON.stringify(corps), { headers: entetes(req, env, { 'content-type': 'application/json', ...extra }) });
@@ -1220,7 +1228,25 @@ export default {
           await cache.put(cle, new Response(corps, { headers: { 'content-type': 'application/json', 'cache-control': 'max-age=3600' } }));
           return new Response(corps, { headers: entetes(req, env, { 'content-type': 'application/json' }) });
         }
-        if (chemin === 'api/soundcloud/flux') return json(await fluxSoundcloud(env, url.searchParams.get('urn') ?? ''), { 'cache-control': 'no-store' });
+        if (chemin === 'api/soundcloud/connexion') {
+          // Le retour ne va qu'aux Decks : mauditemachine.com ou son serveur de travail
+          const origine = url.searchParams.get('origine') ?? '';
+          const permises = env.ORIGINES.split(',').map((x) => x.trim());
+          if (!permises.includes(origine) || !/^(https:\/\/(www\.)?mauditemachine\.com|http:\/\/localhost:\d{2,5})$/.test(origine)) {
+            return refus(req, env, 400, 'origine refusee');
+          }
+          return await connexionSoundcloud(env, origine);
+        }
+        if (chemin === 'api/soundcloud/rappel') return await rappelSoundcloud(env, url);
+        if (chemin === 'api/soundcloud/moi') {
+          const s = await seanceSoundcloud(env, req.headers.get('Authorization'));
+          if (!s) return refus(req, env, 401, 'seance absente');
+          return json({ name: s.nom, tracks: await mesMorceaux(env, s) }, { 'cache-control': 'no-store' });
+        }
+        if (chemin === 'api/soundcloud/flux') {
+          const s = await seanceSoundcloud(env, req.headers.get('Authorization'));
+          return json(await fluxSoundcloud(env, url.searchParams.get('urn') ?? '', s), { 'cache-control': 'no-store' });
+        }
         if (chemin === 'api/soundcloud/piece') {
           const r = await pieceSoundcloud(url.searchParams.get('u') ?? '');
           const h = entetes(req, env, { 'content-type': r.headers.get('content-type') ?? 'audio/mpeg', 'cache-control': 'no-store' });

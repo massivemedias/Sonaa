@@ -93,8 +93,8 @@ async function jeton(env: EnvSoundcloud): Promise<string> {
   return enMemoire.t;
 }
 
-async function api(env: EnvSoundcloud, chemin: string): Promise<Response> {
-  const t = await jeton(env);
+async function api(env: EnvSoundcloud, chemin: string, utilisateur?: string): Promise<Response> {
+  const t = utilisateur ?? (await jeton(env));
   return fetch(chemin.startsWith('http') ? chemin : `${API}${chemin}`, {
     headers: { Authorization: `OAuth ${t}`, accept: 'application/json; charset=utf-8' },
   });
@@ -114,8 +114,13 @@ interface Brut {
   permalink_url?: string;
   artwork_url?: string | null;
   genre?: string | null;
-  user?: { username?: string; permalink_url?: string; permalink?: string };
+  sharing?: string;
+  user?: { urn?: string; id?: number; username?: string; permalink_url?: string; permalink?: string };
 }
+
+/** Le morceau appartient-il au compte connecte (urn de l'auteur) ? */
+const deLui = (b: Brut, proprietaire?: string): boolean =>
+  !!proprietaire && (b.user?.urn === proprietaire || (b.user?.id !== undefined && `soundcloud:users:${b.user.id}` === proprietaire));
 
 const deMm = (b: Brut): boolean => b.user?.permalink === COMPTE_MM || (b.user?.permalink_url ?? '').toLowerCase().endsWith(`/${COMPTE_MM}`);
 
@@ -132,10 +137,19 @@ export interface MorceauSoundcloud {
   genre: string;
 }
 
-function versMorceau(b: Brut): MorceauSoundcloud | null {
+/**
+ * Un morceau qu'on a le droit de passer sur une platine : une licence de
+ * remix, ou le compte de Maudite Machine, ou (proprietaire) le compte de la
+ * personne connectee, qui consent pour ses propres morceaux. Les morceaux
+ * prives demandent un jeton secret que l'API ne rend pas toujours : on s'en
+ * tient aux morceaux publics.
+ */
+function versMorceau(b: Brut, proprietaire?: string): MorceauSoundcloud | null {
   if (!b.urn || !b.title) return null;
-  if (!deMm(b) && (!b.license || !LICENCES_REMIX.has(b.license))) return null;
+  const lui = deLui(b, proprietaire);
+  if (!lui && !deMm(b) && (!b.license || !LICENCES_REMIX.has(b.license))) return null;
   if (b.streamable === false || (b.access && b.access !== 'playable')) return null;
+  if (b.sharing === 'private') return null;
   const d = b.duration ?? 0;
   if (d < DUREE.min || d > DUREE.max) return null;
   return {
@@ -145,7 +159,7 @@ function versMorceau(b: Brut): MorceauSoundcloud | null {
     bpm: typeof b.bpm === 'number' && b.bpm > 0 ? Math.round(b.bpm * 10) / 10 : null,
     key: b.key_signature || null,
     duration: d / 1000,
-    license: deMm(b) ? 'mauditemachine' : (b.license ?? ''),
+    license: lui ? 'mine' : deMm(b) ? 'mauditemachine' : (b.license ?? ''),
     link: b.permalink_url ?? '',
     artistLink: b.user?.permalink_url ?? null,
     genre: b.genre ?? '',
@@ -210,18 +224,20 @@ export async function morceauxMm(env: EnvSoundcloud): Promise<MorceauSoundcloud[
  * morceaux, dans l'ordre. Le titre doit avoir une licence de remix : on le
  * reverifie ici, l'adresse pourrait etre forgee.
  */
-export async function flux(env: EnvSoundcloud, urn: string): Promise<{ format: 'mp3' | 'aac'; pieces: string[] }> {
+export async function flux(env: EnvSoundcloud, urn: string, qui?: Seance | null): Promise<{ format: 'mp3' | 'aac'; pieces: string[] }> {
   if (!/^soundcloud:tracks:\d{1,20}$/.test(urn)) throw new Error('urn invalide');
-  const piste = await api(env, `/tracks/${encodeURIComponent(urn)}`);
+  // Connecte : tout passe par son jeton, et ses propres morceaux sont permis
+  const u = qui?.a;
+  const piste = await api(env, `/tracks/${encodeURIComponent(urn)}`, u);
   if (!piste.ok) throw new Error(`morceau introuvable (${piste.status})`);
-  if (!versMorceau((await piste.json()) as Brut)) throw new Error('licence sans remix');
-  const r = await api(env, `/tracks/${encodeURIComponent(urn)}/streams`);
+  if (!versMorceau((await piste.json()) as Brut, qui?.urn)) throw new Error('licence sans remix');
+  const r = await api(env, `/tracks/${encodeURIComponent(urn)}/streams`, u);
   if (!r.ok) throw new Error(`flux refuses (${r.status})`);
   const s = (await r.json()) as { hls_mp3_128_url?: string; hls_aac_160_url?: string };
   const format: 'mp3' | 'aac' = s.hls_mp3_128_url ? 'mp3' : 'aac';
   const liste = s.hls_mp3_128_url ?? s.hls_aac_160_url;
   if (!liste) throw new Error('aucun flux');
-  const m = await api(env, liste);
+  const m = await api(env, liste, u);
   if (!m.ok) throw new Error(`liste refusee (${m.status})`);
   const base = m.url;
   const texte = await m.text();
@@ -245,4 +261,165 @@ export async function piece(adresse: string): Promise<Response> {
   if (u.protocol !== 'https:' || !HOTES_CDN.test(u.hostname)) return new Response('hote refuse', { status: 403 });
   const r = await fetch(u.toString());
   return new Response(r.body, { status: r.status, headers: { 'content-type': r.headers.get('content-type') ?? 'audio/mpeg', 'cache-control': 'no-store' } });
+}
+
+/* --- Se connecter avec SoundCloud ------------------------------------------ */
+
+/* Mika, le 4 octobre 2026 : « je veux que les gens puissent connecter leur
+ * SoundCloud ». Une personne se connecte avec son compte SoundCloud, pas avec
+ * un compte du site, et mixe SES morceaux : c'est elle qui consent a leur
+ * modification. Les morceaux des autres restent soumis aux licences de remix.
+ *
+ * Flux « authorization code » avec PKCE. Le secret de l'application reste
+ * ici : la page des Decks ouvre /connexion dans une fenetre, SoundCloud
+ * revient sur /rappel, le Worker echange le code contre les jetons et les
+ * garde dans le KV DEMANDES. La page ne recoit qu'un numero de seance
+ * (32 octets au hasard) ; le KV ne connait que son empreinte SHA-256, si
+ * bien qu'une lecture du KV ne donne pas de seance utilisable. Le numero
+ * arrive dans le fragment de l'adresse (#s=...), que le navigateur n'envoie a
+ * aucun serveur, sur une page de mauditemachine.com qui le range et se ferme
+ * (public/soundcloud-connect.html du depot MauditeMachine). */
+
+/** L'adresse de retour, a inscrire telle quelle dans l'application SoundCloud de Mika. */
+export const RETOUR_OAUTH = 'https://sonaa-sets.massivemedias.workers.dev/api/soundcloud/rappel';
+/** La page des Decks qui recoit le numero de seance. */
+const PAGE_RETOUR = '/soundcloud-connect.html';
+/** Une seance oubliee apres soixante jours sans servir. */
+const VIE_SEANCE = 60 * 24 * 3600;
+
+export interface Seance {
+  /** le jeton d'acces de la personne */
+  a: string;
+  /** son jeton de renouvellement (il ne sert qu'une fois) */
+  r: string;
+  /** la fin du jeton d'acces, cinq minutes avant la vraie */
+  fin: number;
+  urn: string;
+  nom: string;
+}
+
+const b64url = (b: ArrayBuffer | Uint8Array): string =>
+  btoa(String.fromCharCode(...new Uint8Array(b)))
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '');
+const hasard = (n: number): string => b64url(crypto.getRandomValues(new Uint8Array(n)));
+const empreinte = async (s: string): Promise<string> =>
+  [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)))].map((x) => x.toString(16).padStart(2, '0')).join('');
+const cleSeance = async (id: string): Promise<string> => `soundcloud:seance:${await empreinte(id)}`;
+
+/** Un jeton de personne : le code de la connexion, ou le renouvellement. */
+async function jetonPersonne(env: EnvSoundcloud, champs: Record<string, string>): Promise<Pick<Seance, 'a' | 'r' | 'fin'>> {
+  const r = await fetch('https://secure.soundcloud.com/oauth/token', {
+    method: 'POST',
+    headers: { 'content-type': 'application/x-www-form-urlencoded', accept: 'application/json; charset=utf-8' },
+    body: new URLSearchParams({ client_id: env.SOUNDCLOUD_CLIENT_ID ?? '', client_secret: env.SOUNDCLOUD_CLIENT_SECRET ?? '', ...champs }),
+  });
+  if (!r.ok) throw new Error(`jeton refuse (${r.status})`);
+  const d = (await r.json()) as { access_token?: string; refresh_token?: string; expires_in?: number };
+  if (!d.access_token) throw new Error('jeton absent');
+  return { a: d.access_token, r: d.refresh_token ?? '', fin: Date.now() + Math.max(120, (d.expires_in ?? 3600) - 300) * 1000 };
+}
+
+/** Le depart : un etat et un verificateur PKCE gardes dix minutes, puis la page de SoundCloud. */
+export async function connexion(env: EnvSoundcloud, origine: string): Promise<Response> {
+  if (!env.SOUNDCLOUD_CLIENT_ID || !env.SOUNDCLOUD_CLIENT_SECRET || !env.DEMANDES) throw new PasConfigure('soundcloud non configure');
+  const etat = hasard(24);
+  const verif = hasard(48);
+  const defi = b64url(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verif)));
+  await env.DEMANDES.put(`soundcloud:etat:${etat}`, JSON.stringify({ v: verif, o: origine }), { expirationTtl: 600 });
+  const p = new URLSearchParams({
+    client_id: env.SOUNDCLOUD_CLIENT_ID,
+    redirect_uri: RETOUR_OAUTH,
+    response_type: 'code',
+    code_challenge: defi,
+    code_challenge_method: 'S256',
+    state: etat,
+    display: 'popup',
+  });
+  return Response.redirect(`https://secure.soundcloud.com/authorize?${p.toString()}`, 302);
+}
+
+/** Le retour de SoundCloud : le code devient une seance, la page des Decks recoit son numero. */
+export async function rappel(env: EnvSoundcloud, url: URL): Promise<Response> {
+  const etat = url.searchParams.get('state') ?? '';
+  const cle = `soundcloud:etat:${etat}`;
+  const garde = /^[A-Za-z0-9_-]{20,64}$/.test(etat) && env.DEMANDES ? ((await env.DEMANDES.get(cle, 'json')) as { v: string; o: string } | null) : null;
+  if (!garde || !env.DEMANDES) {
+    return new Response('Ce lien a expire. Recommence depuis les Decks de mauditemachine.com.', { status: 400, headers: { 'content-type': 'text/plain; charset=utf-8' } });
+  }
+  await env.DEMANDES.delete(cle);
+  const vers = (frag: Record<string, string>): Response => Response.redirect(`${garde.o}${PAGE_RETOUR}#${new URLSearchParams(frag).toString()}`, 302);
+  const code = url.searchParams.get('code');
+  if (!code) return vers({ e: 'refused' });
+  try {
+    const t = await jetonPersonne(env, { grant_type: 'authorization_code', redirect_uri: RETOUR_OAUTH, code_verifier: garde.v, code });
+    const me = await fetch(`${API}/me`, { headers: { Authorization: `OAuth ${t.a}`, accept: 'application/json; charset=utf-8' } });
+    if (!me.ok) throw new Error(`profil refuse (${me.status})`);
+    const u = (await me.json()) as { urn?: string; username?: string };
+    if (!u.urn) throw new Error('profil sans urn');
+    const id = hasard(32);
+    const s: Seance = { ...t, urn: u.urn, nom: u.username ?? '' };
+    await env.DEMANDES.put(await cleSeance(id), JSON.stringify(s), { expirationTtl: VIE_SEANCE });
+    return vers({ s: id, n: s.nom });
+  } catch {
+    return vers({ e: 'failed' });
+  }
+}
+
+/**
+ * La seance d'une requete (Authorization: Bearer <numero>), jeton renouvele
+ * s'il arrive a sa fin ; null si elle n'existe pas ou plus.
+ */
+export async function seance(env: EnvSoundcloud, autorisation: string | null): Promise<Seance | null> {
+  const id = /^Bearer ([A-Za-z0-9_-]{30,64})$/.exec(autorisation ?? '')?.[1];
+  if (!id || !env.DEMANDES) return null;
+  const cle = await cleSeance(id);
+  const s = (await env.DEMANDES.get(cle, 'json')) as Seance | null;
+  if (!s) return null;
+  if (s.fin > Date.now()) return s;
+  if (!s.r) return null;
+  try {
+    const t = await jetonPersonne(env, { grant_type: 'refresh_token', refresh_token: s.r });
+    const neuve: Seance = { ...s, ...t, r: t.r || s.r };
+    await env.DEMANDES.put(cle, JSON.stringify(neuve), { expirationTtl: VIE_SEANCE });
+    return neuve;
+  } catch {
+    // Une requete voisine l'a peut-etre deja renouvelee (le jeton de renouvellement ne sert qu'une fois)
+    const autre = (await env.DEMANDES.get(cle, 'json')) as Seance | null;
+    return autre && autre.fin > Date.now() ? autre : null;
+  }
+}
+
+/** Les morceaux publics du compte connecte. */
+export async function mesMorceaux(env: EnvSoundcloud, s: Seance): Promise<MorceauSoundcloud[]> {
+  let suivante: string | null = '/me/tracks?limit=200&linked_partitioning=true';
+  const sortie: MorceauSoundcloud[] = [];
+  for (let page = 0; page < 3 && suivante; page += 1) {
+    const r = await api(env, suivante, s.a);
+    if (!r.ok) throw new Error(`morceaux refuses (${r.status})`);
+    const d = (await r.json()) as { collection?: Brut[]; next_href?: string | null } | Brut[];
+    for (const b of Array.isArray(d) ? d : (d.collection ?? [])) {
+      const m = versMorceau(b, s.urn);
+      if (m) sortie.push(m);
+    }
+    suivante = Array.isArray(d) ? null : (d.next_href ?? null);
+  }
+  return sortie;
+}
+
+/** Se deconnecter : la seance s'efface ici, et SoundCloud oublie le jeton. */
+export async function deconnexion(env: EnvSoundcloud, autorisation: string | null): Promise<void> {
+  const id = /^Bearer ([A-Za-z0-9_-]{30,64})$/.exec(autorisation ?? '')?.[1];
+  if (!id || !env.DEMANDES) return;
+  const cle = await cleSeance(id);
+  const s = (await env.DEMANDES.get(cle, 'json')) as Seance | null;
+  await env.DEMANDES.delete(cle);
+  if (s) {
+    await fetch('https://secure.soundcloud.com/sign-out', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ access_token: s.a }),
+    }).catch(() => undefined);
+  }
 }
