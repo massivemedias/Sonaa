@@ -241,9 +241,11 @@
   container: table / inline-size;
 }
 
-/* La plaque : le logotype de Maudite Machine, le M serigraphie en haut a
-   droite de la MM-808, puis le nom de la machine. L'image est blanche ; elle
-   sert de masque, et prend l'encre de la finition. */
+/* LA PLAQUE, comme celle du MM-ARP de mauditemachine.com : a gauche, le
+   nom de la machine en capitales grasses tres espacees (DECK A, MIXER) ; a
+   droite, une ligne qui dit ce qu'elle est, plus petite et plus pale, puis
+   le logotype. L'image du logotype est blanche : elle sert de masque et
+   prend l'encre de la finition. */
 .pl-plaque {
   display: flex;
   align-items: center;
@@ -252,32 +254,33 @@
   padding: 0 4px;
   white-space: nowrap;
 }
+.pl-modele {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--m-encre-85);
+}
+.pl-plaque-note {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--m-encre-55);
+}
 .pl-logo {
   flex: 0 0 auto;
   width: 35px;
   height: 30px;
+  margin-left: 4px;
   background: var(--m-encre);
   -webkit-mask: url('/brand/mauditemachine-logotype.png') center / contain no-repeat;
   mask: url('/brand/mauditemachine-logotype.png') center / contain no-repeat;
 }
-.pl-modele {
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 1;
-  color: var(--m-encre-85);
-}
-.pl-modele-mot {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-}
-.pl-plaque-note {
-  margin-left: auto;
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  color: var(--m-encre-35);
+.pl-charger-court {
+  display: none;
 }
 
 /* La serigraphie : capitales, graisse 400, interlettrage 0,22 em. Les noms
@@ -1991,7 +1994,8 @@
     height: 26px;
   }
   .pl-modele {
-    font-size: 18px;
+    font-size: 15px;
+    letter-spacing: 0.16em;
   }
 
   /* L'ecran du deck, resserre. */
@@ -2232,5 +2236,24 @@
   }
   .pl-playlist {
     min-height: 80px;
+  }
+}
+
+/* Une plaque etroite garde l'essentiel : la touche dit « Charger », et la
+   ligne du mixer laisse la place a son nom. */
+@container deck (max-width: 420px) {
+  .pl-charger-long {
+    display: none;
+  }
+  .pl-charger-court {
+    display: inline;
+  }
+}
+@container table (max-width: 360px) {
+  .pl-plaque-note {
+    display: none;
+  }
+  .pl-table .pl-logo {
+    margin-left: auto;
   }
 }

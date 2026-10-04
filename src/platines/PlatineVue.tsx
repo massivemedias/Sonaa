@@ -300,15 +300,20 @@ export function PlatineVue({ index, morceau, onCharger, onEtat, onDeposer, navig
           {t.platineDeposer}
         </div>
       )}
+      {/* LA PLAQUE, comme celle du MM-ARP : le nom de la machine a gauche,
+          en capitales espacees, le logotype a droite. */}
       <header className="pl-plaque">
-        <span className="pl-logo" role="img" aria-label="Maudite Machine" />
         <span className="pl-modele" aria-hidden="true">
-          {nom}
+          {t.platineNom(nom)}
         </span>
         <button type="button" className="pl-touche pl-charger" data-allume={!morceau || navigateur !== null} aria-expanded={navigateur !== null} onClick={onCharger}>
           <span className="pl-touche-led" aria-hidden="true" />
-          {t.platineCharger}
+          <span className="pl-charger-long">{t.platineCharger}</span>
+          <span className="pl-charger-court" aria-hidden="true">
+            {t.platineChargerCourt}
+          </span>
         </button>
+        <span className="pl-logo" role="img" aria-label="Maudite Machine" />
       </header>
       {navigateur !== null && <div className="pl-platine-navigateur">{navigateur}</div>}
 
@@ -344,7 +349,9 @@ export function PlatineVue({ index, morceau, onCharger, onEtat, onDeposer, navig
           </span>
           <span className="pl-chiffre">
             <span className="pl-chiffre-nom">{t.platineTonalite}</span>
-            <span className="pl-chiffre-valeur">{tonalite ? `${tonalite.nom} ${tonalite.camelot}` : '--'}</span>
+            {/* La roue de Camelot seule (9A) : c'est elle qui dit ce qui se
+                melange, Mika la prefere a la note. */}
+            <span className="pl-chiffre-valeur">{tonalite ? tonalite.camelot : '--'}</span>
           </span>
           <span className="pl-chiffre">
             <span className="pl-chiffre-nom">{t.platineRestant}</span>

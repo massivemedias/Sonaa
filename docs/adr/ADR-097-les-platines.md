@@ -101,6 +101,13 @@ filtre de voie est plat au repos et ne résonne qu'en balayage.
 
 **Les noms au-dessus** des potards, des hot cues, de CUE et de PLAY.
 
+**Les plaques**, comme celle du MM-ARP : « DECK A », « DECK B » et « MIXER »
+en capitales grasses très espacées à gauche ; à droite, une ligne
+descriptive plus pâle (« Table de mixage 4 voies ») puis le logotype.
+
+**La tonalité en Camelot seulement** (9A) sur l'écran des decks : c'est elle
+qui dit ce qui se mélange.
+
 **« Mixer »**, et non « Table », en français comme en anglais.
 
 **Une petite playlist** en bas de chaque deck (`PlaylistVue.tsx`) : ce que

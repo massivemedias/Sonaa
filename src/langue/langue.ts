@@ -562,6 +562,7 @@ interface Dictionnaire {
   readonly platineNom: (nom: string) => string;
   readonly platineVide: string;
   readonly platineCharger: string;
+  readonly platineChargerCourt: string;
   readonly platineDecodage: string;
   readonly platineErreur: string;
   readonly platineCue: string;
@@ -581,6 +582,7 @@ interface Dictionnaire {
   readonly platineZoomMoins: string;
   readonly platineSurAudius: string;
   readonly tableNom: string;
+  readonly tableDescription: string;
   readonly tableVoie: (n: number) => string;
   readonly tableVoieLibre: string;
   readonly tableGain: string;
@@ -1415,6 +1417,7 @@ const FR: Dictionnaire = {
   platineNom: (nom) => `Deck ${nom}`,
   platineVide: 'Aucun morceau chargé',
   platineCharger: 'Charger un morceau',
+  platineChargerCourt: 'Charger',
   platineDecodage: 'Décodage…',
   platineErreur: 'Ce morceau ne se charge pas.',
   platineCue: 'Cue',
@@ -1434,6 +1437,7 @@ const FR: Dictionnaire = {
   platineZoomMoins: 'Dézoomer',
   platineSurAudius: 'Écouter sur Audius',
   tableNom: 'Mixer',
+  tableDescription: 'Table de mixage 4 voies',
   tableVoie: (n) => `Voie ${n}`,
   tableVoieLibre: 'libre',
   tableGain: 'Gain',
@@ -2284,6 +2288,7 @@ const EN: Dictionnaire = {
   platineNom: (nom) => `Deck ${nom}`,
   platineVide: 'No track loaded',
   platineCharger: 'Load a track',
+  platineChargerCourt: 'Load',
   platineDecodage: 'Decoding…',
   platineErreur: 'This track will not load.',
   platineCue: 'Cue',
@@ -2303,6 +2308,7 @@ const EN: Dictionnaire = {
   platineZoomMoins: 'Zoom out',
   platineSurAudius: 'Listen on Audius',
   tableNom: 'Mixer',
+  tableDescription: '4-channel DJ mixer',
   tableVoie: (n) => `Channel ${n}`,
   tableVoieLibre: 'free',
   tableGain: 'Gain',

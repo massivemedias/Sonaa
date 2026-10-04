@@ -133,9 +133,9 @@ export function TableVue({ bpm, onVolumes }: Props) {
   return (
     <section className="pl-machine pl-table" aria-label={t.tableNom}>
       <header className="pl-plaque">
+        <span className="pl-modele">{t.tableNom}</span>
+        <span className="pl-plaque-note">{t.tableDescription}</span>
         <span className="pl-logo" role="img" aria-label="Maudite Machine" />
-        <span className="pl-modele pl-modele-mot">{t.tableNom}</span>
-        <span className="pl-plaque-note">4 CH</span>
       </header>
 
       <div className="pl-effets" aria-label={t.tableEffets}>
@@ -190,7 +190,6 @@ export function TableVue({ bpm, onVolumes }: Props) {
               obtenirMoteur().table.volumeMaitre(v);
             }}
             nom={t.tableMaitre}
-            libelle={t.tableMaitre}
             depuis="minimum"
           />
           <span
