@@ -34,20 +34,25 @@ function clavier(e: KeyboardEvent, r: Reglage): void {
   e.preventDefault();
 }
 
-/* ═══ LE BOUTON ROTATIF ═══ Une jupe striee qui tourne sous les doigts, un
-   dessus bombe dont le reflet ne bouge pas (la lumiere vient de la piece,
-   pas du bouton), un repere couleur os, et autour, l'echelle serigraphiee :
-   onze traits sur 270 degres, les bouts et le neutre plus longs. */
-const TRAITS = Array.from({ length: 11 }, (_, i) => -135 + i * 27);
-function Echelle({ cran }: { readonly cran: boolean }) {
+/* ═══ LE BOUTON ROTATIF ═══ Un vrai rotary control, comme l'a demande
+   Mika : autour, l'anneau de valeur, une gorge sombre sur 270 degres ou la
+   valeur s'allume en orange (depuis le neutre pour un egaliseur ou un
+   filtre, depuis le minimum pour une dose ou un volume) ; dessous, un corps
+   lisse au dessus concave, dont la lumiere ne tourne pas ; dessus, le
+   repere couleur os, qui tourne. */
+const R = 44;
+const point = (degres: number): string => {
+  const r = (degres * Math.PI) / 180;
+  return `${(R * Math.sin(r)).toFixed(2)} ${(-R * Math.cos(r)).toFixed(2)}`;
+};
+const arc = (de: number, a: number): string => `M ${point(de)} A ${R} ${R} 0 ${a - de > 180 ? 1 : 0} 1 ${point(a)}`;
+
+function Anneau({ de, a }: { readonly de: number; readonly a: number }) {
+  const [debut, fin] = de < a ? [de, a] : [a, de];
   return (
-    <svg className="pl-bouton-echelle" viewBox="-50 -50 100 100" aria-hidden="true">
-      {TRAITS.map((a) => {
-        const long = a === -135 || a === 135 || (cran && a === 0);
-        const r = (a - 90) * (Math.PI / 180);
-        const [r1, r2] = [39, long ? 47 : 44];
-        return <line key={a} x1={r1 * Math.cos(r)} y1={r1 * Math.sin(r)} x2={r2 * Math.cos(r)} y2={r2 * Math.sin(r)} />;
-      })}
+    <svg className="pl-bouton-anneau" viewBox="-50 -50 100 100" aria-hidden="true">
+      <path className="pl-anneau-gorge" d={arc(-135, 135)} />
+      {fin - debut > 0.5 && <path className="pl-anneau-valeur" d={arc(debut, fin)} />}
     </svg>
   );
 }
@@ -61,10 +66,19 @@ export function Bouton({
   nom,
   teinte,
   libelle,
-}: Reglage & { readonly teinte?: 'normal' | 'filtre' | 'effet'; readonly libelle?: string }) {
+  depuis,
+}: Reglage & {
+  readonly teinte?: 'normal' | 'filtre' | 'effet';
+  readonly libelle?: string;
+  /** D'ou l'anneau s'allume : du neutre (egaliseur, filtre) ou du minimum
+      (dose, volume). Par defaut, du neutre quand il est au milieu. */
+  readonly depuis?: 'neutre' | 'minimum';
+}) {
   const depart = useRef<{ y: number; v: number } | null>(null);
-  const angle = -135 + ((valeur - min) / (max - min)) * 270;
+  const angleDe = (v: number): number => -135 + ((v - min) / (max - min)) * 270;
+  const angle = angleDe(valeur);
   const cran = neutre > min && neutre < max;
+  const origine = depuis === 'minimum' || !cran ? -135 : angleDe(neutre);
   return (
     <div className={`pl-bouton pl-bouton-${teinte ?? 'normal'}`} data-cran={cran}>
       <div
@@ -95,8 +109,8 @@ export function Bouton({
         onWheel={(e: WheelEvent) => onChange(borne(valeur - Math.sign(e.deltaY) * (max - min) * (e.shiftKey ? 0.01 : 0.02), min, max))}
         onKeyDown={(e) => clavier(e, { valeur, min, max, neutre, onChange, nom })}
       >
-        <Echelle cran={cran} />
-        <span className="pl-bouton-jupe" aria-hidden="true" style={{ transform: `rotate(${angle}deg)` }} />
+        <Anneau de={origine} a={angle} />
+        <span className="pl-bouton-jupe" aria-hidden="true" />
         <span className="pl-bouton-dessus" aria-hidden="true" />
         <span className="pl-bouton-index" aria-hidden="true" style={{ transform: `rotate(${angle}deg)` }} />
       </div>

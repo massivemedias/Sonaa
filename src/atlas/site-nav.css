@@ -124,41 +124,47 @@
 
 /* ═══ « TRACK ID », LE GESTE DANS LE MENU ═══ Voir SiteNav.tsx.
 
-   Il se detache des mots sans quitter le dessin : la meme pilule et le meme
-   degrade que le grand bouton de l'accueil (bouton-track.css), en petit, et
-   un micro dans une pastille. Pas de trait au survol : il n'est pas une
-   page, il ne s'allume donc jamais comme page courante. */
+   UNE TOUCHE, PLUS UNE PILULE EN DEGRADE. Mika, le 3 octobre 2026 : « je
+   n'aime pas le degrade, et je n'aime pas le bouton comme ca ». Il prend la
+   forme du pad OPEN de la MM-808 : un orange plein, un coin a peine arrondi,
+   son flanc plus sombre dessous, et le micro pose a meme la touche. Presse,
+   il s'enfonce. Il n'est pas une page : il ne s'allume jamais comme page
+   courante. */
 .sitenav-track {
-  --bt-second: color-mix(in oklch, var(--accent) 72%, var(--accent-degrade));
   display: inline-flex;
   align-items: center;
-  gap: var(--espace-8);
-  min-height: 34px;
+  gap: 7px;
+  min-height: 32px;
   margin-left: var(--espace-8);
-  padding: 0 var(--espace-12) 0 4px;
-  border-radius: var(--rayon-pilule);
-  background: linear-gradient(115deg, var(--accent) 0%, var(--accent) 40%, var(--bt-second) 100%);
+  padding: 0 12px 0 10px;
+  border-radius: 7px;
+  background: var(--accent);
   color: var(--sur-accent);
-  box-shadow: 0 8px 20px -12px color-mix(in oklch, var(--accent) 90%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.28),
+    0 3px 0 #9c3a05;
   font-size: 0.8125rem;
   font-weight: 700;
+  letter-spacing: 0.01em;
   white-space: nowrap;
   text-decoration: none;
-  transition: transform 160ms var(--motion-ease), filter 160ms ease;
+  transition:
+    transform 80ms ease,
+    box-shadow 80ms ease;
 }
 .sitenav-track-icone {
-  box-sizing: content-box;
-  width: 12px;
-  height: 12px;
-  padding: 7px;
-  border-radius: 50%;
-  background: var(--sur-accent);
-  color: var(--accent);
+  width: 13px;
+  height: 13px;
+  color: var(--sur-accent);
 }
-.sitenav-track:hover,
-.sitenav-track:focus-visible {
-  transform: translateY(-1px);
-  filter: brightness(1.06);
+.sitenav-track:hover {
+  background: color-mix(in srgb, var(--accent) 88%, white);
+}
+.sitenav-track:active {
+  transform: translateY(2px);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.2),
+    0 1px 0 #9c3a05;
 }
 .sitenav-track:focus-visible {
   outline: 2px solid var(--ink-primary);
@@ -169,7 +175,7 @@
    l'etiquette et dans la bulle. */
 @media (max-width: 1179px) {
   .sitenav-track {
-    padding: 0 4px;
+    padding: 0 10px;
   }
   .sitenav-track-mot {
     display: none;

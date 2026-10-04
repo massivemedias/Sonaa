@@ -109,30 +109,23 @@ body.avec-mini-lecteur {
     background: var(--accent);
     color: var(--sur-accent);
   }
-  /* LE GESTE « TRACK ? » : sa pastille est toujours allumee, en degrade
-     d'accent avec un halo, et son mot passe a l'encre pleine. Voir
-     BarreBas.tsx. */
+  /* LE GESTE « TRACK ? » : sa pastille est toujours allumee, et son mot
+     passe a l'encre pleine. Depuis le 3 octobre 2026, une touche orange
+     pleine, comme le pad OPEN de la MM-808, sans degrade ni halo : Mika n'en
+     voulait plus. Un carre aux coins doux, et non une pilule : la pilule
+     allumee est deja la marque de la page courante. Voir BarreBas.tsx. */
   .barre-bas-track {
     color: var(--ink-primary);
   }
   .barre-bas-track .barre-bas-pastille {
-    background: linear-gradient(
-      115deg,
-      var(--accent) 0%,
-      var(--accent) 35%,
-      color-mix(in oklch, var(--accent) 72%, var(--accent-degrade)) 100%
-    );
+    width: 34px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--accent);
     color: var(--sur-accent);
     box-shadow:
-      0 0 0 3px color-mix(in oklch, var(--accent) 22%, transparent),
-      0 6px 16px -8px color-mix(in oklch, var(--accent) 95%, transparent);
-  }
-  /* UN ROND ET NON UNE PILULE : la pilule allumee est deja la marque de la
-     page courante, et les deux se confondaient sur l'accueil. */
-  .barre-bas-track .barre-bas-pastille {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
+      inset 0 1px 0 rgb(255 255 255 / 0.28),
+      0 3px 0 #9c3a05;
   }
   .barre-bas-track .barre-bas-icone {
     width: 16px;

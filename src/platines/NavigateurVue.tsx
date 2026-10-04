@@ -14,53 +14,26 @@
  * on y glisse ses fichiers, ou on les choisit, et ils restent la. */
 
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { FAMILIES, STRUCTURES } from '../atlas/structures.ts';
 import { t } from '../langue/langue.ts';
-import { chercherAudius, morceauxDuStyle } from './audius.ts';
+import { chercherAudius } from './audius.ts';
 import type { Morceau } from './morceau.ts';
 import {
   FichierRefuse,
   ajouterFichier,
   dossierDuChemin,
-  ecouterCaisse,
   estUnSon,
   fichiersDuDepot,
-  lireCaisse,
   retirerDeCaisse,
   retirerDossier,
   type FichierRange,
 } from './caisse.ts';
 import { tempsAffiche, tonaliteCourte } from './calculs.ts';
-
-const CLE_STYLE = 'sonaa-platines-style';
-const CLE_SOURCE = 'sonaa-platines-source';
-const CLE_DOSSIER = 'sonaa-platines-dossier';
-type Source = 'audius' | 'fichiers';
-/* Le dossier ouvert : TOUS montre la caisse entiere, VRAC les morceaux sans
-   dossier, et sinon le nom du dossier. */
-const TOUS = '*';
-const VRAC = '';
+import { STYLES, TOUS, VRAC, changerSelection, duDossier, useCaisse, useMorceauxDuStyle, useSelection } from './selection.ts';
 
 /* L'iPhone et l'iPad n'ont pas de selecteur de dossier : on y nomme le
    dossier, puis on choisit ses morceaux dans Fichiers. */
 const sansSelecteurDeDossier = (): boolean =>
   /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-
-function memoire<T extends string>(cle: string, defaut: T, permis: readonly T[]): T {
-  try {
-    const v = localStorage.getItem(cle) as T | null;
-    return v && permis.includes(v) ? v : defaut;
-  } catch {
-    return defaut;
-  }
-}
-function retenir(cle: string, v: string): void {
-  try {
-    localStorage.setItem(cle, v);
-  } catch {
-    /* rien a retenir */
-  }
-}
 
 interface Props {
   /** La platine qui recevra le morceau. */
@@ -70,35 +43,18 @@ interface Props {
 }
 
 export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
-  const styles = useMemo(
-    () =>
-      FAMILIES.map((f, fi) => ({
-        famille: f,
-        genres: (STRUCTURES[fi]?.genres ?? []).map((g) => ({ cle: `${f.id}/${g.id}`, famille: f.id, nom: g.label })),
-      })),
-    []
-  );
-  const [style, setStyle] = useState<string>(() => {
-    try {
-      return localStorage.getItem(CLE_STYLE) ?? 'house/usdeephouse';
-    } catch {
-      return 'house/usdeephouse';
-    }
-  });
+  /* La source, le style et le dossier sont ceux de toute la page : les
+     playlists des decks les suivent (voir selection.ts). */
+  const { source, style, dossier: dossierOuvert } = useSelection();
+  const caisse = useCaisse();
+  const listeDuStyle = useMorceauxDuStyle(source === 'audius' ? style : null);
   const [requete, setRequete] = useState('');
-  const [liste, setListe] = useState<readonly Morceau[] | null>(null);
-  const [source, setSource] = useState<Source>(() => memoire<Source>(CLE_SOURCE, 'audius', ['audius', 'fichiers']));
-  const [caisse, setCaisse] = useState<readonly Morceau[] | null>(null);
+  const [resultats, setResultats] = useState<readonly Morceau[] | null>(null);
+  const cherche = requete.trim().length >= 2;
+  const liste = cherche ? resultats : listeDuStyle;
   const [import_, setImport] = useState<{ fait: number; total: number } | null>(null);
   const [refus, setRefus] = useState<readonly string[]>([]);
   const [survol, setSurvol] = useState(false);
-  const [dossierOuvert, setDossierOuvert] = useState<string>(() => {
-    try {
-      return localStorage.getItem(CLE_DOSSIER) ?? TOUS;
-    } catch {
-      return TOUS;
-    }
-  });
   const [nommer, setNommer] = useState<string | null>(null);
   const [confirmer, setConfirmer] = useState(false);
   const fichiersRef = useRef<HTMLInputElement | null>(null);
@@ -107,9 +63,8 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
   const destination = useRef<string>(VRAC);
 
   const ouvrirDossier = (d: string): void => {
-    setDossierOuvert(d);
     setConfirmer(false);
-    retenir(CLE_DOSSIER, d);
+    changerSelection({ dossier: d });
   };
   const dossierCourant = dossierOuvert === TOUS ? VRAC : dossierOuvert;
 
@@ -120,26 +75,7 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
     return [...compte.entries()].filter(([d]) => d !== VRAC).sort((a, b) => a[0].localeCompare(b[0], 'fr'));
   }, [caisse]);
   const enVrac = (caisse ?? []).filter((m) => !m.dossier).length;
-  const visibles = (caisse ?? []).filter((m) => dossierOuvert === TOUS || (m.dossier ?? VRAC) === dossierOuvert);
-
-  useEffect(() => {
-    let vivant = true;
-    const relire = (): void => {
-      lireCaisse()
-        .then((l) => {
-          if (vivant) setCaisse(l);
-        })
-        .catch(() => {
-          if (vivant) setCaisse([]);
-        });
-    };
-    relire();
-    const arreter = ecouterCaisse(relire);
-    return () => {
-      vivant = false;
-      arreter();
-    };
-  }, []);
+  const visibles = duDossier(caisse ?? [], dossierOuvert);
 
   /* Les fichiers entrent un par un : chacun est decode pour sa duree et son
      BPM, et deux decodages a la fois pesent trop sur un telephone. */
@@ -169,33 +105,27 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
     else dossierRef.current?.click();
   };
 
+  /* Une recherche libre attend que l'on cesse de taper. */
   useEffect(() => {
+    if (!cherche) return;
     let vivant = true;
-    setListe(null);
-    const attente = window.setTimeout(
-      () => {
-        const choisi = styles.flatMap((s) => s.genres).find((g) => g.cle === style);
-        const recherche = requete.trim().length >= 2 ? chercherAudius(requete) : choisi ? morceauxDuStyle(choisi.famille, choisi.nom) : Promise.resolve([]);
-        recherche
-          .then((l) => {
-            if (vivant) setListe(l);
-          })
-          .catch(() => {
-            if (vivant) setListe([]);
-          });
-      },
-      requete ? 400 : 0
-    );
+    setResultats(null);
+    const attente = window.setTimeout(() => {
+      chercherAudius(requete)
+        .then((l) => {
+          if (vivant) setResultats(l);
+        })
+        .catch(() => {
+          if (vivant) setResultats([]);
+        });
+    }, 400);
     return () => {
       vivant = false;
       window.clearTimeout(attente);
     };
-  }, [style, requete, styles]);
+  }, [requete, cherche]);
 
-  const choisirSource = (s: Source): void => {
-    setSource(s);
-    retenir(CLE_SOURCE, s);
-  };
+  const choisirSource = (s: 'audius' | 'fichiers'): void => changerSelection({ source: s });
 
   const ligne = (m: Morceau, retirer: boolean): ReactNode => {
     const k = tonaliteCourte(m.tonalite);
@@ -399,12 +329,11 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
               <select
                 value={style}
                 onChange={(e) => {
-                  setStyle(e.target.value);
                   setRequete('');
-                  retenir(CLE_STYLE, e.target.value);
+                  changerSelection({ style: e.target.value });
                 }}
               >
-                {styles.map((s) => (
+                {STYLES.map((s) => (
                   <optgroup key={s.famille.id} label={s.famille.label}>
                     {s.genres.map((g) => (
                       <option key={g.cle} value={g.cle}>

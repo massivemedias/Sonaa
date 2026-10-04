@@ -80,8 +80,22 @@ restent sombres dans les deux. Le site, lui, reste sombre.
 comme en anglais. L'adresse devient `#/decks` ; `#/platines` y mène
 toujours. Le code garde ses noms de fichiers.
 
-**Les potards** : une échelle sérigraphiée de onze traits autour, une jupe
-striée qui tourne, un dessus bombé dont le reflet reste fixe, un repère os.
+**Les potards**, en rotary control : un anneau de valeur autour, dont la
+partie allumée en orange part du neutre (égaliseur, filtre) ou du minimum
+(dose, master) ; un corps lisse au dessus concave, dont la lumière ne
+tourne pas ; un repère os.
+
+**« Mixer »**, et non « Table », en français comme en anglais.
+
+**Une petite playlist** en bas de chaque deck (`PlaylistVue.tsx`) : ce que
+montre le navigateur, le style d'Audius ou le dossier de Mes morceaux, en
+lignes courtes avec la touche qui charge. Une ligne ne charge pas au
+toucher : en plein mix, un doigt qui fait défiler ne doit pas remplacer le
+morceau qui joue. La sélection (source, style, dossier) est commune au
+navigateur et aux deux playlists (`selection.ts`). Le jog a perdu 32 px
+pour lui faire de la place.
+
+**Un peu de 3D** : voir ADR-100.
 
 **Tout tient dans l'écran, à toutes les largeurs.** Un deck ne descend pas
 sous 420 px et la table fait 460 px. Sur ordinateur, quand la fenêtre est

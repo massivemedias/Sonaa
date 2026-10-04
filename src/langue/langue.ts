@@ -605,6 +605,8 @@ interface Dictionnaire {
   readonly navigateurSurPlatine: (nom: string) => string;
   readonly navigateurSource: string;
   readonly navigateurProvenance: string;
+  readonly playlistTitre: string;
+  readonly playlistCharger: (titre: string, deck: string) => string;
   readonly navigateurMesMorceaux: (n: number) => string;
   readonly caisseDeposer: string;
   readonly caisseAjouterFichiers: string;
@@ -1392,7 +1394,7 @@ const FR: Dictionnaire = {
   labelsDuStyleAide: (label, style) => `${label} : ses morceaux de ${style}`,
   navPlatines: 'Decks',
   platinesTitre: 'Decks',
-  platinesChapeau: 'Deux decks et une table, dans le navigateur : les morceaux d’Audius, classés par style, ou tes propres fichiers.',
+  platinesChapeau: 'Deux decks et un mixer, dans le navigateur : les morceaux d’Audius, classés par style, ou tes propres fichiers.',
   platinesFinition: 'Finition des machines',
   platinesFinitionNoire: 'Noire',
   platinesFinitionBlanche: 'Blanche',
@@ -1419,7 +1421,7 @@ const FR: Dictionnaire = {
   platineZoomPlus: 'Zoomer dans l’onde',
   platineZoomMoins: 'Dézoomer',
   platineSurAudius: 'Écouter sur Audius',
-  tableNom: 'Table',
+  tableNom: 'Mixer',
   tableVoie: (n) => `Voie ${n}`,
   tableVoieLibre: 'libre',
   tableGain: 'Gain',
@@ -1444,6 +1446,8 @@ const FR: Dictionnaire = {
   navigateurSurPlatine: (nom) => `Charger sur le deck ${nom}`,
   navigateurSource: 'Morceaux publiés sur Audius par leurs artistes, lus chez Audius.',
   navigateurProvenance: 'Provenance des morceaux',
+  playlistTitre: 'Playlist',
+  playlistCharger: (titre, deck) => `Charger ${titre} sur le deck ${deck}`,
   navigateurMesMorceaux: (n) => (n > 0 ? `Mes morceaux (${n})` : 'Mes morceaux'),
   caisseDeposer: 'Glisse ici des fichiers audio ou un dossier entier',
   caisseAjouterFichiers: '+ Fichiers',
@@ -1465,7 +1469,7 @@ const FR: Dictionnaire = {
   caisseTropLong: (nom) => `${nom} dure plus de 15 minutes : trop lourd pour les decks.`,
   platineDeposer: 'Lâche le fichier pour le charger',
   navigateurFermer: 'Fermer',
-  platinesGlisser: 'Glisse pour passer d’un deck à la table.',
+  platinesGlisser: 'Glisse pour passer d’un deck au mixer.',
   labelsChapeau: (n) => `${n} labels de musique électronique : leur histoire, leurs disques les plus connus et leurs morceaux dans l’atlas.`,
   labelFonde: (annee) => `Fondé en ${annee}`,
   labelPar: (noms) => `par ${noms.length > 1 ? `${noms.slice(0, -1).join(', ')} et ${noms[noms.length - 1]}` : noms[0] ?? ''}`,
@@ -2298,6 +2302,8 @@ const EN: Dictionnaire = {
   navigateurSurPlatine: (nom) => `Load on deck ${nom}`,
   navigateurSource: 'Tracks published on Audius by their artists, played from Audius.',
   navigateurProvenance: 'Track source',
+  playlistTitre: 'Playlist',
+  playlistCharger: (titre, deck) => `Load ${titre} on deck ${deck}`,
   navigateurMesMorceaux: (n) => (n > 0 ? `My tracks (${n})` : 'My tracks'),
   caisseDeposer: 'Drop audio files or a whole folder here',
   caisseAjouterFichiers: '+ Files',

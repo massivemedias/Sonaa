@@ -8,10 +8,14 @@
    LE DEGRADE NE PASSE JAMAIS PAR LE BLANC NI PAR LE NOIR, pour que l'encre
    posee dessus garde son contraste dans les deux themes : en sombre l'encre
    est presque noire sur un accent clair, en clair elle est blanche sur un
-   accent fonce, et le second ton du melange (--accent-degrade) a presque la clarte de l'accent. */
+   accent fonce, et le second ton du melange (--accent-degrade) a presque la clarte de l'accent.
+
+   PLUS DE DEGRADE NI DE REFLET depuis le 3 octobre 2026 : Mika ne les
+   aimait pas. Le bouton devient une grande touche orange pleine, aux coins
+   a peine arrondis, avec son flanc dessous, comme le pad OPEN de la MM-808
+   et comme le Track ID de l'en-tete (site-nav.css). */
 
 .bt {
-  --bt-second: color-mix(in oklch, var(--accent) 72%, var(--accent-degrade));
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -23,12 +27,12 @@
   min-height: 64px;
   padding: var(--espace-8) var(--espace-24) var(--espace-8) var(--espace-8);
   border: 0;
-  border-radius: var(--rayon-pilule);
-  background: linear-gradient(115deg, var(--accent) 0%, var(--accent) 35%, var(--bt-second) 100%);
+  border-radius: 12px;
+  background: var(--accent);
   color: var(--sur-accent);
   box-shadow:
-    0 14px 34px -16px color-mix(in oklch, var(--accent) 85%, transparent),
-    inset 0 1px 0 oklch(1 0 0 / 0.22);
+    inset 0 1px 0 oklch(1 0 0 / 0.28),
+    0 4px 0 #9c3a05;
   font: inherit;
   text-align: left;
   text-decoration: none;
@@ -36,33 +40,18 @@
   transition: transform 180ms var(--motion-ease), box-shadow 180ms ease;
   -webkit-tap-highlight-color: transparent;
 }
-.bt:hover,
-.bt:focus-visible {
-  transform: translateY(-2px);
+.bt:hover {
+  background: color-mix(in srgb, var(--accent) 88%, white);
+}
+.bt:active {
+  transform: translateY(3px);
   box-shadow:
-    0 20px 40px -16px color-mix(in oklch, var(--accent) 95%, transparent),
-    inset 0 1px 0 oklch(1 0 0 / 0.28);
+    inset 0 1px 0 oklch(1 0 0 / 0.2),
+    0 1px 0 #9c3a05;
 }
 .bt:focus-visible {
   outline: 2px solid var(--ink-primary);
   outline-offset: 3px;
-}
-
-/* UN REFLET PASSE, LENTEMENT, toutes les sept secondes : assez pour que
-   l'oeil s'y pose en arrivant, assez rare pour ne pas clignoter. */
-.bt::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(105deg, transparent 35%, oklch(1 0 0 / 0.16) 50%, transparent 65%);
-  transform: translateX(-100%);
-  animation: bt-reflet 7s ease-in-out 1.2s infinite;
-  pointer-events: none;
-}
-@keyframes bt-reflet {
-  0% { transform: translateX(-100%); }
-  18%, 100% { transform: translateX(100%); }
 }
 
 /* LA PASTILLE DU MICRO, ET SON ANNEAU QUI RESPIRE. */
@@ -143,8 +132,7 @@
 /* OUVERT, LE BOUTON SE CALME : l'ecoute a lieu dessous, et c'est elle qui
    bouge alors. */
 .bt[aria-expanded='true'] .bt-egaliseur i,
-.bt[aria-expanded='true'] .bt-micro::before,
-.bt[aria-expanded='true']::after {
+.bt[aria-expanded='true'] .bt-micro::before {
   animation: none;
 }
 .bt[aria-expanded='true'] .bt-egaliseur i {
@@ -153,13 +141,11 @@
 
 @media (prefers-reduced-motion: reduce) {
   .bt,
-  .bt::after,
   .bt-micro::before,
   .bt-egaliseur i {
     animation: none;
     transition: none;
   }
-  .bt::after,
   .bt-micro::before {
     display: none;
   }

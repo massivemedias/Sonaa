@@ -191,6 +191,7 @@ export function TableVue({ bpm, onVolumes }: Props) {
             }}
             nom={t.tableMaitre}
             libelle={t.tableMaitre}
+            depuis="minimum"
           />
           <span
             className="pl-vu pl-vu-maitre"

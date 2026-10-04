@@ -51,13 +51,15 @@ interface Props {
   /** Le navigateur de morceaux, ouvert dans la platine quand on y charge
       un morceau, comme l'ecran de navigation d'une CDJ. */
   readonly navigateur: ReactNode;
+  /** La petite playlist, en bas du deck. */
+  readonly playlist: ReactNode;
 }
 
 /* Glisse-t-on des fichiers ? Pendant le survol, le navigateur ne dit que
    leurs types, pas leurs noms. */
 const porteDesFichiers = (e: DragEvent): boolean => [...(e.dataTransfer?.types ?? [])].includes('Files');
 
-export function PlatineVue({ index, morceau, onCharger, onEtat, onDeposer, navigateur }: Props) {
+export function PlatineVue({ index, morceau, onCharger, onEtat, onDeposer, navigateur, playlist }: Props) {
   const nom = index === 0 ? 'A' : 'B';
   const [chargement, setChargement] = useState<number | null>(null);
   const [erreur, setErreur] = useState(false);
@@ -399,13 +401,13 @@ export function PlatineVue({ index, morceau, onCharger, onEtat, onDeposer, navig
           onPointerDown={(e) => {
             if (!pret) return;
             e.currentTarget.setPointerCapture(e.pointerId);
-            const r = e.currentTarget.getBoundingClientRect();
-            platine().aller(((e.clientX - r.left) / r.width) * platine().duree);
+            platine().aller((e.nativeEvent.offsetX / Math.max(1, e.currentTarget.clientWidth)) * platine().duree);
           }}
           onPointerMove={(e) => {
             if (!pret || !e.currentTarget.hasPointerCapture(e.pointerId)) return;
-            const r = e.currentTarget.getBoundingClientRect();
-            platine().aller(((e.clientX - r.left) / r.width) * platine().duree);
+            /* offsetX, et non clientX : la machine est inclinee, et seul le
+               repere de l'ecran lui-meme dit ou l'on a touche. */
+            platine().aller((e.nativeEvent.offsetX / Math.max(1, e.currentTarget.clientWidth)) * platine().duree);
           }}
         />
       </div>
@@ -595,6 +597,7 @@ export function PlatineVue({ index, morceau, onCharger, onEtat, onDeposer, navig
           </span>
         </div>
       </div>
+      {playlist}
     </section>
   );
 }

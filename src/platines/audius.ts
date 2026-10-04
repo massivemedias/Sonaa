@@ -125,7 +125,22 @@ const ELECTRONIQUES = new Set([
 
 /** Les morceaux d'un style de l'atlas : ceux qui portent son nom d'abord,
     puis les plus ecoutes de son genre chez Audius. */
-export async function morceauxDuStyle(famille: string, style: string): Promise<readonly Morceau[]> {
+/* Le navigateur et les playlists des deux decks demandent le meme style au
+   meme moment : une seule requete, gardee le temps de la page. */
+const parStyle = new Map<string, Promise<readonly Morceau[]>>();
+export function morceauxDuStyle(famille: string, style: string): Promise<readonly Morceau[]> {
+  const cle = `${famille}/${style}`;
+  let p = parStyle.get(cle);
+  if (!p) {
+    p = chargerStyle(famille, style).catch((e: unknown) => {
+      parStyle.delete(cle);
+      throw e;
+    });
+    parStyle.set(cle, p);
+  }
+  return p;
+}
+async function chargerStyle(famille: string, style: string): Promise<readonly Morceau[]> {
   const genre = genreAudius(famille, style);
   const [parNom, tendances] = await Promise.all([
     lire(`/v1/tracks/search?query=${encodeURIComponent(style)}&limit=40`),

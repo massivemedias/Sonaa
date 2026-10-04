@@ -16,9 +16,10 @@
    redefinit. Restent sombres dans les deux : les ecrans, les capuchons des
    potards et des faders, le plateau du jog, comme sur les vraies machines.
 
-   C'est une machine vue de dessus, a plat : pas de perspective ni de
-   camera, que DESIGN.md interdit. Le relief tient dans les ombres et les
-   degrades de matiere. */
+   UN PEU DE 3D, depuis le 3 octobre 2026 : Mika voulait les machines
+   « un peu en 3D », comme la MM-808. Chacune s'incline vers l'arriere sous
+   une perspective, et sa face avant se voit, epaisse. C'est du CSS, pas de
+   WebGL ni de camera ; DESIGN.md note l'interdit leve (ADR-100). */
 
 .pl-page {
   /* Ce qui ne change pas avec la finition. */
@@ -30,6 +31,8 @@
   --pl-verre: #050506;
   --pl-rouge: #e0442a;
   --pl-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  /* L'inclinaison des machines vers l'arriere. */
+  --pl-inclinaison: 11deg;
 
   /* La finition noire. */
   --m-panneau: #141417;
@@ -63,6 +66,7 @@
   --m-lunette: #0b0b0d;
   --m-puits: #0a0a0b;
   --m-vu-eteint: rgb(46 48 54 / 0.7);
+  --m-anneau-gorge: rgb(246 241 231 / 0.12);
 
   padding: calc(var(--entete-h) + var(--espace-16)) max(var(--marge-page), 2vw) var(--espace-48);
   color: var(--ink-primary);
@@ -111,6 +115,7 @@
   --m-lunette: #d6d1c8;
   --m-puits: #d9d4cb;
   --m-vu-eteint: rgb(0 0 0 / 0.12);
+  --m-anneau-gorge: rgb(0 0 0 / 0.16);
 }
 
 .pl-tete {
@@ -183,6 +188,8 @@
 .pl-panneau {
   min-width: 0;
   display: flex;
+  perspective: 2400px;
+  perspective-origin: 50% 0%;
 }
 .pl-panneau > * {
   flex: 1 1 auto;
@@ -201,8 +208,10 @@
   flex-direction: column;
   gap: 14px;
   padding: 16px 16px 18px;
-  margin-bottom: 10px;
+  margin-bottom: 22px;
   border-radius: 22px;
+  transform: rotateX(var(--pl-inclinaison));
+  transform-origin: 50% 100%;
   background:
     repeating-linear-gradient(0deg, var(--m-brossage) 0 1px, transparent 1px 3px),
     radial-gradient(120% 70% at 0% 0%, var(--m-cle), transparent 60%),
@@ -212,9 +221,12 @@
     inset 1px 0 0 var(--m-arete-gauche),
     inset -1px 0 0 var(--m-arete-droite),
     0 0 0 1px var(--m-contour),
-    0 9px 0 0 var(--m-corps),
-    0 9px 0 1px var(--m-corps-contour),
-    0 34px 50px -18px var(--m-ombre);
+    /* L'arete avant, qui accroche la lumiere, puis la face avant du
+       chassis, epaisse, et l'ombre sur la table. */
+    0 3px 0 0 var(--m-chanfrein),
+    0 18px 0 0 var(--m-corps),
+    0 18px 0 1px var(--m-corps-contour),
+    0 44px 50px -16px var(--m-ombre);
   color: var(--m-encre-85);
   user-select: none;
   -webkit-user-select: none;
@@ -320,7 +332,8 @@
    de la monospace couleur os pour les chiffres. */
 .pl-ecran,
 .pl-effets-ecran,
-.pl-platine-navigateur {
+.pl-platine-navigateur,
+.pl-playlist {
   border-radius: 6px;
   background: var(--pl-verre);
   box-shadow:
@@ -664,7 +677,7 @@
 .pl-jog-zone {
   position: relative;
   justify-self: center;
-  width: min(100%, 268px);
+  width: min(100%, 236px);
   aspect-ratio: 1;
 }
 .pl-jog {
@@ -864,6 +877,9 @@
   background: var(--accent-jaune);
   box-shadow: 0 0 8px var(--accent-jaune);
 }
+.pl-pitch-fader.pl-fader-vertical {
+  height: 150px;
+}
 .pl-led-zero {
   position: absolute;
   top: 50%;
@@ -984,9 +1000,9 @@
   outline-offset: 4px;
 }
 
-/* Le potard : l'echelle serigraphiee, la jupe striee qui tourne, le dessus
-   bombe au reflet fixe, le repere os. Les potards restent sombres dans les
-   deux finitions, comme sur la MM-808 claire. */
+/* LE POTARD, en rotary control : l'anneau de valeur autour, le corps lisse
+   au dessus concave, le repere os. Les potards restent sombres dans les deux
+   finitions, comme sur la MM-808 claire. */
 .pl-bouton {
   display: grid;
   justify-items: center;
@@ -996,21 +1012,29 @@
   position: relative;
   width: 30px;
   height: 30px;
-  margin-top: 4px;
+  margin: 4px;
   border-radius: 50%;
   touch-action: none;
   cursor: ns-resize;
 }
-.pl-bouton-echelle {
+.pl-bouton-anneau {
   position: absolute;
-  inset: -9px;
-  width: calc(100% + 18px);
-  height: calc(100% + 18px);
+  inset: -7px;
+  width: calc(100% + 14px);
+  height: calc(100% + 14px);
   overflow: visible;
-  stroke: var(--m-encre-35);
-  stroke-width: 2.4;
+  fill: none;
   stroke-linecap: round;
   pointer-events: none;
+}
+.pl-anneau-gorge {
+  stroke: var(--m-anneau-gorge);
+  stroke-width: 6;
+}
+.pl-anneau-valeur {
+  stroke: var(--accent);
+  stroke-width: 6;
+  filter: drop-shadow(0 0 2px rgb(255 106 19 / 0.6));
 }
 .pl-bouton-jupe,
 .pl-bouton-dessus,
@@ -1019,25 +1043,25 @@
   border-radius: 50%;
   pointer-events: none;
 }
+/* Le corps : un cylindre sombre, a peine molete, eclaire d'en haut. */
 .pl-bouton-jupe {
   inset: 0;
   background:
-    radial-gradient(circle, transparent 62%, rgb(0 0 0 / 0.45) 100%),
-    repeating-conic-gradient(#0b0b0d 0 5deg, #26262a 5deg 10deg);
+    repeating-conic-gradient(rgb(255 255 255 / 0.035) 0 2deg, transparent 2deg 6deg),
+    linear-gradient(180deg, #34343a 0%, #17171a 55%, #0c0c0e 100%);
   box-shadow:
     0 0 0 1px #000,
-    0 3px 6px rgb(0 0 0 / 0.55),
-    0 1px 0 1px var(--m-chanfrein);
+    inset 0 1px 0 rgb(255 255 255 / 0.16),
+    0 4px 7px rgb(0 0 0 / 0.6);
 }
+/* Le dessus, concave : plus sombre en haut, la lumiere accroche le bas. */
 .pl-bouton-dessus {
-  inset: 15%;
-  background:
-    radial-gradient(ellipse 70% 55% at 38% 28%, rgb(255 255 255 / 0.18), transparent 70%),
-    radial-gradient(circle at 50% 45%, var(--m-potard-haut), var(--m-potard) 62%, var(--m-potard-bas));
+  inset: 14%;
+  background: radial-gradient(circle at 50% 72%, var(--m-potard-haut), var(--m-potard) 58%, var(--m-potard-bas));
   box-shadow:
-    inset 0 1px 1px rgb(255 255 255 / 0.12),
-    inset 0 -2px 3px rgb(0 0 0 / 0.55),
-    0 1px 2px rgb(0 0 0 / 0.75);
+    inset 0 2px 3px rgb(0 0 0 / 0.65),
+    inset 0 -1px 0 rgb(255 255 255 / 0.1),
+    0 0 0 1px rgb(0 0 0 / 0.5);
 }
 .pl-bouton-index {
   inset: 0;
@@ -1045,25 +1069,23 @@
 .pl-bouton-index::before {
   content: '';
   position: absolute;
-  top: 5%;
+  top: 6%;
   left: calc(50% - 1.25px);
   width: 2.5px;
-  height: 38%;
+  height: 40%;
   border-radius: 2px;
   background: var(--pl-os);
   box-shadow: 0 0 2px rgb(0 0 0 / 0.6);
 }
 .pl-voie .pl-bouton-cadran,
 .pl-maitre .pl-bouton-cadran {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
 }
 /* Le filtre a le dessus orange de la machine : Mika le voulait « d'une
    couleur differente », et l'orange est la seule autre couleur du site. */
 .pl-bouton-filtre .pl-bouton-dessus {
-  background:
-    radial-gradient(ellipse 70% 55% at 38% 28%, rgb(255 255 255 / 0.35), transparent 70%),
-    radial-gradient(circle at 50% 45%, #ff8a3d, var(--accent) 60%, #a83d03);
+  background: radial-gradient(circle at 50% 72%, #ffa266, var(--accent) 58%, #b04505);
 }
 .pl-bouton-filtre .pl-bouton-index::before {
   background: #1c0c02;
@@ -1124,7 +1146,7 @@
   display: grid;
   justify-items: center;
   align-content: start;
-  gap: 9px;
+  gap: 6px;
   padding: 4px 2px 0;
 }
 .pl-maitre {
@@ -1151,7 +1173,7 @@
   gap: 6px;
 }
 .pl-voie-fader.pl-fader-vertical {
-  height: 124px;
+  height: 112px;
 }
 
 /* Le VU : quinze LED, jaunes puis orange puis rouges, qui s'allument en
@@ -1185,6 +1207,109 @@
 }
 .pl-croise-fader.pl-fader-horizontal {
   height: 40px;
+}
+
+/* ═══ LA PETITE PLAYLIST, en bas du deck ═══ Un ecran de plus : le style
+   ou le dossier en tete, des lignes courtes, la touche qui charge. Sur
+   ordinateur elle prend la place qui reste sous le jog ; sur telephone, une
+   hauteur fixe. */
+.pl-playlist {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 120px;
+  min-height: 120px;
+  margin: 4px;
+  padding: 8px 10px;
+  font-family: var(--font-ui);
+}
+.pl-playlist-tete {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgb(246 241 231 / 0.08);
+  font-family: var(--pl-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pl-os-55);
+}
+.pl-playlist-nom {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pl-playlist-note {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--pl-os-55);
+}
+.pl-playlist-liste {
+  flex: 1 1 auto;
+  min-height: 0;
+  margin: 4px -4px 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--pl-os-16) transparent;
+}
+.pl-playlist-ligne {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 3px 4px;
+  border-radius: 4px;
+}
+.pl-playlist-ligne:hover {
+  background: rgb(246 241 231 / 0.05);
+}
+.pl-playlist-ligne[aria-current='true'] {
+  background: var(--accent-voile);
+}
+.pl-playlist-ligne[aria-current='true'] .pl-playlist-titre {
+  color: var(--accent);
+}
+.pl-playlist-titres {
+  display: grid;
+  min-width: 0;
+}
+.pl-playlist-titre,
+.pl-playlist-artiste {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pl-playlist-titre {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.pl-playlist-artiste {
+  font-size: 11px;
+  color: var(--pl-os-55);
+}
+.pl-playlist-bpm {
+  font-family: var(--pl-mono);
+  font-size: 11px;
+  color: var(--pl-os-55);
+}
+.pl-playlist-ligne button {
+  min-width: 28px;
+  min-height: 26px;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.pl-playlist-ligne button:hover {
+  background: var(--accent);
+  color: var(--sur-accent);
 }
 
 /* ═══ LE NAVIGATEUR, DANS LA PLATINE ═══ Il s'ouvre sur la platine dont on a
@@ -1670,6 +1795,20 @@
   .pl-recherche {
     width: 44px;
     height: 44px;
+  }
+  .pl-page {
+    --pl-inclinaison: 7deg;
+  }
+  .pl-playlist {
+    flex: 0 0 auto;
+    height: 268px;
+  }
+  .pl-playlist-ligne {
+    min-height: 48px;
+  }
+  .pl-playlist-ligne button {
+    min-width: 44px;
+    min-height: 44px;
   }
   .pl-jog-zone {
     width: min(100%, 240px);

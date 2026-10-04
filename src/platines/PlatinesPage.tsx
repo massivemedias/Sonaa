@@ -27,6 +27,7 @@ import type { Morceau } from './morceau.ts';
 import { crossfader, gainDuFader, vitesse } from './calculs.ts';
 import { NavigateurVue } from './NavigateurVue.tsx';
 import { PlatineVue, type EtatPlatine } from './PlatineVue.tsx';
+import { PlaylistVue } from './PlaylistVue.tsx';
 import { TableVue } from './TableVue.tsx';
 import './platines.css';
 
@@ -80,9 +81,17 @@ export function PlatinesPage() {
       const dispo = parent && marges ? parent.clientWidth - parseFloat(marges.paddingLeft) - parseFloat(marges.paddingRight) : s.clientWidth;
       const largeur = dispo / Math.max(1, s.scrollWidth);
       const haut = s.getBoundingClientRect().top + window.scrollY;
-      const hauteur = (window.innerHeight - haut - 24) / Math.max(1, s.offsetHeight);
-      const z = Math.max(0.55, Math.min(1, largeur, hauteur));
+      const place = window.innerHeight - haut - 24;
+      /* Deux passes : reduite, la scene donne plus de largeur a chaque deck,
+         qui peut alors passer a sa mise en page large, plus basse. On
+         remesure donc a la premiere echelle avant de fixer la seconde. */
+      let z = Math.max(0.55, Math.min(1, largeur, place / Math.max(1, s.offsetHeight)));
+      if (z < 0.99) {
+        s.style.setProperty('zoom', z.toFixed(3));
+        z = Math.max(0.55, Math.min(1, largeur, place / Math.max(1, s.offsetHeight)));
+      }
       if (z < 0.99) s.style.setProperty('zoom', z.toFixed(3));
+      else s.style.removeProperty('zoom');
     };
     ajuster();
     window.addEventListener('resize', ajuster);
@@ -201,6 +210,7 @@ export function PlatinesPage() {
               onEtat={onEtatA}
               onDeposer={(f) => deposer(f, 0)}
               navigateur={navigateurDe(0)}
+              playlist={<PlaylistVue cible={0} actuel={morceaux[0]?.id ?? null} onChoisir={charger} />}
             />
           </div>
           <div className="pl-panneau">
@@ -214,6 +224,7 @@ export function PlatinesPage() {
               onEtat={onEtatB}
               onDeposer={(f) => deposer(f, 1)}
               navigateur={navigateurDe(1)}
+              playlist={<PlaylistVue cible={1} actuel={morceaux[1]?.id ?? null} onChoisir={charger} />}
             />
           </div>
         </div>
