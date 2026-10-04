@@ -188,8 +188,9 @@ const CalendrierPage = lazy(() =>
 /* LES DECKS SONT PARTIS SUR MAUDITEMACHINE.COM le 4 octobre 2026, ou ils
    sont devenus une machine en trois dimensions a cote du MM-RYTM et du
    MM-ARP (ADR-101). Une adresse publiee ne se retire pas, elle se redirige :
-   #/decks et l'ancienne #/platines menent la-bas. */
-const ADRESSE_DES_DECKS = 'https://mauditemachine.com/';
+   #/decks et l'ancienne #/platines menent la-bas, directement sur la
+   machine (?m=dj ouvre le site sur MM-DECKS, depuis le 4 octobre). */
+const ADRESSE_DES_DECKS = 'https://mauditemachine.com/?m=dj';
 const versLesDecks = (): boolean => /^#\/(decks|platines)\b/.test(window.location.hash);
 if (versLesDecks()) window.location.replace(ADRESSE_DES_DECKS);
 window.addEventListener('hashchange', () => {
