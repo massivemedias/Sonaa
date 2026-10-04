@@ -41,6 +41,7 @@ import { SOURCES } from '../../src/data/news-sources.ts';
    src/reconnaitre/audd.ts. Une copie ici aurait diverge. */
 import { lireReponseAudd } from '../../src/reconnaitre/audd.ts';
 import { soirees, toutesLesSoirees } from './agenda.ts';
+import { PasConfigure, chercher as chercherSoundcloud, flux as fluxSoundcloud, piece as pieceSoundcloud } from './soundcloud.ts';
 import { jourEtHeure, lireLaPage, lireLeLienSeul, sourceDuLien, texteNu } from '../../src/lib/lire-soiree.ts';
 
 interface Env {
@@ -79,6 +80,12 @@ interface Env {
      SUPABASE_SERVICE_ROLE_KEY`. Absente, la route repond 503 et la page
      montre quand meme son resultat. */
   readonly SUPABASE_SERVICE_ROLE_KEY?: string;
+  /* L'APPLICATION SOUNDCLOUD DE MIKA, pour les Decks de mauditemachine.com,
+     posee par `wrangler secret put SOUNDCLOUD_CLIENT_ID` et
+     `SOUNDCLOUD_CLIENT_SECRET`. Absente, les routes api/soundcloud repondent
+     503. Voir soundcloud.ts. */
+  readonly SOUNDCLOUD_CLIENT_ID?: string;
+  readonly SOUNDCLOUD_CLIENT_SECRET?: string;
 }
 
 const aplatirNom = (s: string): string =>
@@ -1184,6 +1191,38 @@ export default {
     /* UN ARTISTE QUE L'INDEX IGNORE. Publique, sans jeton : la question
        « quels styles fait untel » n'appartient a personne. Un jour de cache
        par nom, pour ne pas frapper Discogs a chaque frappe. */
+    /* SOUNDCLOUD, POUR LES DECKS DE MAUDITEMACHINE.COM (4 octobre 2026). Trois
+       routes publiques, sans jeton Supabase : chercher (les seules licences
+       qui autorisent le remix), flux (les morceaux de fichier d'un titre),
+       piece (le relais d'un morceau quand le CDN refuse le navigateur). Rien
+       n'est garde du son. Voir soundcloud.ts. */
+    if (req.method === 'GET' && chemin.startsWith('api/soundcloud/')) {
+      const json = (corps: unknown, extra: Record<string, string> = {}): Response =>
+        new Response(JSON.stringify(corps), { headers: entetes(req, env, { 'content-type': 'application/json', ...extra }) });
+      try {
+        if (chemin === 'api/soundcloud/chercher') {
+          const q = (url.searchParams.get('q') ?? '').trim().slice(0, 80);
+          const cache = caches.default;
+          const cle = new Request(`https://sonaa.ca/api/soundcloud/chercher?q=${encodeURIComponent(q.toLowerCase())}&v=1`);
+          const garde = await cache.match(cle);
+          if (garde) return new Response(garde.body, { headers: entetes(req, env, { 'content-type': 'application/json', 'x-cache': 'garde' }) });
+          const corps = JSON.stringify({ tracks: await chercherSoundcloud(env, q) });
+          await cache.put(cle, new Response(corps, { headers: { 'content-type': 'application/json', 'cache-control': 'max-age=900' } }));
+          return new Response(corps, { headers: entetes(req, env, { 'content-type': 'application/json' }) });
+        }
+        if (chemin === 'api/soundcloud/flux') return json(await fluxSoundcloud(env, url.searchParams.get('urn') ?? ''), { 'cache-control': 'no-store' });
+        if (chemin === 'api/soundcloud/piece') {
+          const r = await pieceSoundcloud(url.searchParams.get('u') ?? '');
+          const h = entetes(req, env, { 'content-type': r.headers.get('content-type') ?? 'audio/mpeg', 'cache-control': 'no-store' });
+          return new Response(r.body, { status: r.status, headers: h });
+        }
+        return refus(req, env, 404, 'route inconnue');
+      } catch (e) {
+        if (e instanceof PasConfigure) return refus(req, env, 503, 'soundcloud non configure');
+        return refus(req, env, 502, e instanceof Error ? e.message : 'soundcloud indisponible');
+      }
+    }
+
     if (req.method === 'GET' && chemin === 'api/artiste') {
       const q = (url.searchParams.get('q') ?? '').trim().slice(0, 80);
       if (q.length < 3) return refus(req, env, 400, 'q trop court');
