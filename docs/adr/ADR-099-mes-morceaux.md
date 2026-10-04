@@ -29,6 +29,15 @@ le BPM est estimé par autocorrélation de l'enveloppe d'amplitude
 
 **Un quart d'heure au plus** par fichier : il est décodé en entier.
 
+**Les dossiers** (3 octobre 2026). Mika range ses morceaux en dossiers dans
+Fichiers, sur son iPhone. Chaque morceau porte le nom de son dossier, et les
+dossiers s'affichent en onglets ; la caisse et le dossier ouvert sont les
+mêmes pour les deux decks. Sur ordinateur, « + Dossier » ouvre le sélecteur
+de dossiers du navigateur, et on peut aussi lâcher un dossier entier sur la
+zone de dépôt. L'iPhone et l'iPad n'ont pas de sélecteur de dossier : on y
+nomme le dossier, puis on choisit tous ses morceaux dans Fichiers. Retirer
+un dossier demande deux pressions.
+
 ## La suite : SoundCloud
 
 L'API de SoundCloud ne filtre pas la recherche par licence, et ne sert plus

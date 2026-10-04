@@ -34,9 +34,24 @@ function clavier(e: KeyboardEvent, r: Reglage): void {
   e.preventDefault();
 }
 
-/* ═══ LE BOUTON ROTATIF ═══ Un capuchon noir sur sa collerette, un repere
-   couleur os. Quand le neutre est au milieu (egaliseur, filtre), un cran
-   serigraphie au-dessus le montre, comme TONE sur la MM-808. */
+/* ═══ LE BOUTON ROTATIF ═══ Une jupe striee qui tourne sous les doigts, un
+   dessus bombe dont le reflet ne bouge pas (la lumiere vient de la piece,
+   pas du bouton), un repere couleur os, et autour, l'echelle serigraphiee :
+   onze traits sur 270 degres, les bouts et le neutre plus longs. */
+const TRAITS = Array.from({ length: 11 }, (_, i) => -135 + i * 27);
+function Echelle({ cran }: { readonly cran: boolean }) {
+  return (
+    <svg className="pl-bouton-echelle" viewBox="-50 -50 100 100" aria-hidden="true">
+      {TRAITS.map((a) => {
+        const long = a === -135 || a === 135 || (cran && a === 0);
+        const r = (a - 90) * (Math.PI / 180);
+        const [r1, r2] = [39, long ? 47 : 44];
+        return <line key={a} x1={r1 * Math.cos(r)} y1={r1 * Math.sin(r)} x2={r2 * Math.cos(r)} y2={r2 * Math.sin(r)} />;
+      })}
+    </svg>
+  );
+}
+
 export function Bouton({
   valeur,
   min,
@@ -80,10 +95,10 @@ export function Bouton({
         onWheel={(e: WheelEvent) => onChange(borne(valeur - Math.sign(e.deltaY) * (max - min) * (e.shiftKey ? 0.01 : 0.02), min, max))}
         onKeyDown={(e) => clavier(e, { valeur, min, max, neutre, onChange, nom })}
       >
-        <span className="pl-bouton-collerette" aria-hidden="true" />
-        <span className="pl-bouton-capuchon" aria-hidden="true" style={{ transform: `rotate(${angle}deg)` }}>
-          <span className="pl-bouton-index" />
-        </span>
+        <Echelle cran={cran} />
+        <span className="pl-bouton-jupe" aria-hidden="true" style={{ transform: `rotate(${angle}deg)` }} />
+        <span className="pl-bouton-dessus" aria-hidden="true" />
+        <span className="pl-bouton-index" aria-hidden="true" style={{ transform: `rotate(${angle}deg)` }} />
       </div>
       {libelle && <span className="pl-bouton-nom">{libelle}</span>}
     </div>

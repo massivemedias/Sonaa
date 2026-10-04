@@ -1,4 +1,4 @@
-/* LES PLATINES : #/platines.
+/* LES DECKS : #/decks (et #/platines, l'ancienne adresse).
  *
  * Mika, le 3 octobre 2026 : « quelque chose de nouveau et revolutionnaire
  * pour sonaa.ca : mixer directement sur des platines. En ordinateur, deux
@@ -63,24 +63,35 @@ export function PlatinesPage() {
     document.title = `${t.platinesTitre} · SONAA`;
   }, []);
 
-  /* TOUT LE MATERIEL TIENT DANS L'ECRAN. Sur un portable de 13 pouces, la
-     fenetre fait moins de 800 px de haut : la table et ses quatre voies n'y
-     tiendraient pas, et mixer en faisant defiler la page, c'est perdre le
-     crossfader de vue. La scene se reduit donc a la hauteur disponible,
-     jamais sous 72 %, comme on recule d'un pas devant les machines. */
+  /* TOUT LE MATERIEL TIENT DANS L'ECRAN, en largeur comme en hauteur. Les
+     machines ont leur largeur de machine (voir platines.css) : sur un
+     portable de 13 pouces, une tablette couchee ou une fenetre etroite, la
+     scene se reduit plutot que de les ecraser, et le crossfader reste en
+     vue. Jamais sous 55 % : en dessous, c'est le telephone, qui fait glisser
+     les machines une a une. */
   useEffect(() => {
     const ajuster = (): void => {
       const s = scene.current;
       if (!s) return;
       s.style.removeProperty('zoom');
       if (window.matchMedia(TELEPHONE).matches) return;
+      const parent = s.parentElement;
+      const marges = parent ? getComputedStyle(parent) : null;
+      const dispo = parent && marges ? parent.clientWidth - parseFloat(marges.paddingLeft) - parseFloat(marges.paddingRight) : s.clientWidth;
+      const largeur = dispo / Math.max(1, s.scrollWidth);
       const haut = s.getBoundingClientRect().top + window.scrollY;
-      const z = Math.max(0.72, Math.min(1, (window.innerHeight - haut - 24) / s.offsetHeight));
+      const hauteur = (window.innerHeight - haut - 24) / Math.max(1, s.offsetHeight);
+      const z = Math.max(0.55, Math.min(1, largeur, hauteur));
       if (z < 0.99) s.style.setProperty('zoom', z.toFixed(3));
     };
     ajuster();
     window.addEventListener('resize', ajuster);
     return () => window.removeEventListener('resize', ajuster);
+  }, []);
+
+  /* L'ancienne adresse #/platines devient #/decks dans la barre d'adresse. */
+  useEffect(() => {
+    if (window.location.hash.startsWith('#/platines')) window.history.replaceState(null, '', '#/decks');
   }, []);
 
   const onEtatA = useCallback((e: EtatPlatine) => setEtats((x) => [e, x[1]]), []);

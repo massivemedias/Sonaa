@@ -607,6 +607,17 @@ interface Dictionnaire {
   readonly navigateurProvenance: string;
   readonly navigateurMesMorceaux: (n: number) => string;
   readonly caisseDeposer: string;
+  readonly caisseAjouterFichiers: string;
+  readonly caisseAjouterDossier: string;
+  readonly caisseNomDossier: string;
+  readonly caisseChoisirMorceaux: string;
+  readonly caisseAnnuler: string;
+  readonly caisseIphone: string;
+  readonly caisseDossiers: string;
+  readonly caisseTout: (n: number) => string;
+  readonly caisseEnVrac: (n: number) => string;
+  readonly caisseRetirerDossier: (nom: string) => string;
+  readonly caisseConfirmer: string;
   readonly caisseLocal: string;
   readonly caisseAnalyse: (fait: number, total: number) => string;
   readonly caisseVide: string;
@@ -1379,15 +1390,15 @@ const FR: Dictionnaire = {
   labelVoirLeStyle: (style) => `La fiche du style ${style}`,
   labelRienDansCeStyle: (style) => `L’atlas n’a pas encore de morceau ${style} de ce label : voici tous les autres.`,
   labelsDuStyleAide: (label, style) => `${label} : ses morceaux de ${style}`,
-  navPlatines: 'Platines',
-  platinesTitre: 'Platines',
-  platinesChapeau: 'Deux platines et une table, dans le navigateur. Les morceaux viennent d’Audius, classés par style.',
+  navPlatines: 'Decks',
+  platinesTitre: 'Decks',
+  platinesChapeau: 'Deux decks et une table, dans le navigateur : les morceaux d’Audius, classés par style, ou tes propres fichiers.',
   platinesFinition: 'Finition des machines',
   platinesFinitionNoire: 'Noire',
   platinesFinitionBlanche: 'Blanche',
   platineRechercheArriere: 'Reculer d’un temps, maintenir pour défiler',
   platineRechercheAvant: 'Avancer d’un temps, maintenir pour défiler',
-  platineNom: (nom) => `Platine ${nom}`,
+  platineNom: (nom) => `Deck ${nom}`,
   platineVide: 'Aucun morceau chargé',
   platineCharger: 'Charger un morceau',
   platineDecodage: 'Décodage…',
@@ -1430,20 +1441,31 @@ const FR: Dictionnaire = {
   navigateurChercher: 'Chercher sur Audius',
   navigateurVide: 'Aucun morceau trouvé.',
   navigateurCharge: 'Recherche…',
-  navigateurSurPlatine: (nom) => `Charger sur la platine ${nom}`,
+  navigateurSurPlatine: (nom) => `Charger sur le deck ${nom}`,
   navigateurSource: 'Morceaux publiés sur Audius par leurs artistes, lus chez Audius.',
   navigateurProvenance: 'Provenance des morceaux',
   navigateurMesMorceaux: (n) => (n > 0 ? `Mes morceaux (${n})` : 'Mes morceaux'),
-  caisseDeposer: 'Glisse tes fichiers audio ici, ou touche pour les choisir',
+  caisseDeposer: 'Glisse ici des fichiers audio ou un dossier entier',
+  caisseAjouterFichiers: '+ Fichiers',
+  caisseAjouterDossier: '+ Dossier',
+  caisseNomDossier: 'Nom du dossier',
+  caisseChoisirMorceaux: 'Choisir les morceaux',
+  caisseAnnuler: 'Annuler',
+  caisseIphone: 'Dans Fichiers, ouvre ton dossier, touche « Sélectionner », puis choisis tous les morceaux.',
+  caisseDossiers: 'Dossiers',
+  caisseTout: (n) => `Tout · ${n}`,
+  caisseEnVrac: (n) => `En vrac · ${n}`,
+  caisseRetirerDossier: (nom) => `Retirer le dossier ${nom}`,
+  caisseConfirmer: 'Touche encore pour retirer le dossier et ses morceaux',
   caisseLocal: 'Tes fichiers restent sur cet appareil : rien n’est envoyé sur internet.',
   caisseAnalyse: (fait, total) => `Analyse du fichier ${fait} sur ${total}…`,
   caisseVide: 'Aucun morceau pour l’instant.',
   caisseRetirer: (titre) => `Retirer ${titre}`,
   caisseIllisible: (nom) => `${nom} ne se lit pas : il faut un MP3, un WAV, un AIFF, un FLAC ou un M4A.`,
-  caisseTropLong: (nom) => `${nom} dure plus de 15 minutes : trop lourd pour les platines.`,
+  caisseTropLong: (nom) => `${nom} dure plus de 15 minutes : trop lourd pour les decks.`,
   platineDeposer: 'Lâche le fichier pour le charger',
   navigateurFermer: 'Fermer',
-  platinesGlisser: 'Glisse pour passer d’une platine à la table.',
+  platinesGlisser: 'Glisse pour passer d’un deck à la table.',
   labelsChapeau: (n) => `${n} labels de musique électronique : leur histoire, leurs disques les plus connus et leurs morceaux dans l’atlas.`,
   labelFonde: (annee) => `Fondé en ${annee}`,
   labelPar: (noms) => `par ${noms.length > 1 ? `${noms.slice(0, -1).join(', ')} et ${noms[noms.length - 1]}` : noms[0] ?? ''}`,
@@ -2224,7 +2246,7 @@ const EN: Dictionnaire = {
   labelsDuStyleAide: (label, style) => `${label}: its ${style} tracks`,
   navPlatines: 'Decks',
   platinesTitre: 'Decks',
-  platinesChapeau: 'Two decks and a mixer, in the browser. Tracks come from Audius, sorted by style.',
+  platinesChapeau: 'Two decks and a mixer, in the browser: Audius tracks sorted by style, or your own files.',
   platinesFinition: 'Machine finish',
   platinesFinitionNoire: 'Black',
   platinesFinitionBlanche: 'White',
@@ -2277,7 +2299,18 @@ const EN: Dictionnaire = {
   navigateurSource: 'Tracks published on Audius by their artists, played from Audius.',
   navigateurProvenance: 'Track source',
   navigateurMesMorceaux: (n) => (n > 0 ? `My tracks (${n})` : 'My tracks'),
-  caisseDeposer: 'Drop your audio files here, or tap to choose them',
+  caisseDeposer: 'Drop audio files or a whole folder here',
+  caisseAjouterFichiers: '+ Files',
+  caisseAjouterDossier: '+ Folder',
+  caisseNomDossier: 'Folder name',
+  caisseChoisirMorceaux: 'Choose the tracks',
+  caisseAnnuler: 'Cancel',
+  caisseIphone: 'In Files, open your folder, tap “Select”, then pick every track.',
+  caisseDossiers: 'Folders',
+  caisseTout: (n) => `All · ${n}`,
+  caisseEnVrac: (n) => `Loose · ${n}`,
+  caisseRetirerDossier: (nom) => `Remove the folder ${nom}`,
+  caisseConfirmer: 'Tap again to remove the folder and its tracks',
   caisseLocal: 'Your files stay on this device: nothing is uploaded.',
   caisseAnalyse: (fait, total) => `Analysing file ${fait} of ${total}…`,
   caisseVide: 'No tracks yet.',

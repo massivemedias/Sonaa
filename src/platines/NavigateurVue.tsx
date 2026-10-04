@@ -13,17 +13,38 @@
  * qu'il veut. Le second onglet montre la caisse de l'appareil (caisse.ts) ;
  * on y glisse ses fichiers, ou on les choisit, et ils restent la. */
 
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { FAMILIES, STRUCTURES } from '../atlas/structures.ts';
 import { t } from '../langue/langue.ts';
 import { chercherAudius, morceauxDuStyle } from './audius.ts';
 import type { Morceau } from './morceau.ts';
-import { FichierRefuse, ajouterFichier, ecouterCaisse, lireCaisse, retirerDeCaisse } from './caisse.ts';
+import {
+  FichierRefuse,
+  ajouterFichier,
+  dossierDuChemin,
+  ecouterCaisse,
+  estUnSon,
+  fichiersDuDepot,
+  lireCaisse,
+  retirerDeCaisse,
+  retirerDossier,
+  type FichierRange,
+} from './caisse.ts';
 import { tempsAffiche, tonaliteCourte } from './calculs.ts';
 
 const CLE_STYLE = 'sonaa-platines-style';
 const CLE_SOURCE = 'sonaa-platines-source';
+const CLE_DOSSIER = 'sonaa-platines-dossier';
 type Source = 'audius' | 'fichiers';
+/* Le dossier ouvert : TOUS montre la caisse entiere, VRAC les morceaux sans
+   dossier, et sinon le nom du dossier. */
+const TOUS = '*';
+const VRAC = '';
+
+/* L'iPhone et l'iPad n'ont pas de selecteur de dossier : on y nomme le
+   dossier, puis on choisit ses morceaux dans Fichiers. */
+const sansSelecteurDeDossier = (): boolean =>
+  /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
 function memoire<T extends string>(cle: string, defaut: T, permis: readonly T[]): T {
   try {
@@ -71,6 +92,35 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
   const [import_, setImport] = useState<{ fait: number; total: number } | null>(null);
   const [refus, setRefus] = useState<readonly string[]>([]);
   const [survol, setSurvol] = useState(false);
+  const [dossierOuvert, setDossierOuvert] = useState<string>(() => {
+    try {
+      return localStorage.getItem(CLE_DOSSIER) ?? TOUS;
+    } catch {
+      return TOUS;
+    }
+  });
+  const [nommer, setNommer] = useState<string | null>(null);
+  const [confirmer, setConfirmer] = useState(false);
+  const fichiersRef = useRef<HTMLInputElement | null>(null);
+  const dossierRef = useRef<HTMLInputElement | null>(null);
+  /* Le dossier ou iront les fichiers que l'on va choisir. */
+  const destination = useRef<string>(VRAC);
+
+  const ouvrirDossier = (d: string): void => {
+    setDossierOuvert(d);
+    setConfirmer(false);
+    retenir(CLE_DOSSIER, d);
+  };
+  const dossierCourant = dossierOuvert === TOUS ? VRAC : dossierOuvert;
+
+  /* Les dossiers de la caisse, avec le nombre de morceaux de chacun. */
+  const dossiers = useMemo(() => {
+    const compte = new Map<string, number>();
+    for (const m of caisse ?? []) compte.set(m.dossier ?? VRAC, (compte.get(m.dossier ?? VRAC) ?? 0) + 1);
+    return [...compte.entries()].filter(([d]) => d !== VRAC).sort((a, b) => a[0].localeCompare(b[0], 'fr'));
+  }, [caisse]);
+  const enVrac = (caisse ?? []).filter((m) => !m.dossier).length;
+  const visibles = (caisse ?? []).filter((m) => dossierOuvert === TOUS || (m.dossier ?? VRAC) === dossierOuvert);
 
   useEffect(() => {
     let vivant = true;
@@ -93,21 +143,30 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
 
   /* Les fichiers entrent un par un : chacun est decode pour sa duree et son
      BPM, et deux decodages a la fois pesent trop sur un telephone. */
-  const importer = async (fichiers: readonly File[]): Promise<void> => {
-    if (fichiers.length === 0) return;
+  const importer = async (fichiers: readonly FichierRange[]): Promise<void> => {
+    const sons = fichiers.filter((x) => estUnSon(x.fichier));
+    if (sons.length === 0) return;
     const refuses: string[] = [];
-    for (let i = 0; i < fichiers.length; i += 1) {
-      const f = fichiers[i];
-      if (!f) continue;
-      setImport({ fait: i + 1, total: fichiers.length });
+    for (let i = 0; i < sons.length; i += 1) {
+      const x = sons[i];
+      if (!x) continue;
+      setImport({ fait: i + 1, total: sons.length });
       try {
-        await ajouterFichier(f);
+        await ajouterFichier(x.fichier, x.dossier);
       } catch (e) {
-        refuses.push(e instanceof FichierRefuse && e.raison === 'trop-long' ? t.caisseTropLong(f.name) : t.caisseIllisible(f.name));
+        refuses.push(e instanceof FichierRefuse && e.raison === 'trop-long' ? t.caisseTropLong(x.fichier.name) : t.caisseIllisible(x.fichier.name));
       }
     }
     setImport(null);
     setRefus(refuses);
+    /* Un dossier qu'on vient d'ajouter s'ouvre, pour voir ce qui est entre. */
+    const premier = sons[0]?.dossier;
+    if (premier) ouvrirDossier(premier);
+  };
+
+  const ajouterDossier = (): void => {
+    if (sansSelecteurDeDossier()) setNommer('');
+    else dossierRef.current?.click();
   };
 
   useEffect(() => {
@@ -187,6 +246,99 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
 
       {source === 'fichiers' ? (
         <>
+          <div className="pl-caisse-actions">
+            <button
+              type="button"
+              className="pl-ecran-touche"
+              onClick={() => {
+                destination.current = dossierCourant;
+                fichiersRef.current?.click();
+              }}
+            >
+              {t.caisseAjouterFichiers}
+            </button>
+            <button type="button" className="pl-ecran-touche" onClick={ajouterDossier}>
+              {t.caisseAjouterDossier}
+            </button>
+            <input
+              ref={fichiersRef}
+              className="pl-cache"
+              type="file"
+              accept="audio/*,.mp3,.wav,.aif,.aiff,.flac,.m4a,.ogg"
+              multiple
+              tabIndex={-1}
+              aria-hidden="true"
+              onChange={(e) => {
+                const dossier = destination.current;
+                void importer([...(e.currentTarget.files ?? [])].map((fichier) => ({ fichier, dossier })));
+                e.currentTarget.value = '';
+              }}
+            />
+            <input
+              ref={(el) => {
+                dossierRef.current = el;
+                el?.setAttribute('webkitdirectory', '');
+              }}
+              className="pl-cache"
+              type="file"
+              multiple
+              tabIndex={-1}
+              aria-hidden="true"
+              onChange={(e) => {
+                void importer([...(e.currentTarget.files ?? [])].map((fichier) => ({ fichier, dossier: dossierDuChemin(fichier) })));
+                e.currentTarget.value = '';
+              }}
+            />
+          </div>
+
+          {nommer !== null && (
+            <form
+              className="pl-caisse-nommer"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const nom = nommer.trim();
+                if (!nom) return;
+                destination.current = nom;
+                setNommer(null);
+                fichiersRef.current?.click();
+              }}
+            >
+              <input
+                value={nommer}
+                onChange={(e) => setNommer(e.target.value)}
+                placeholder={t.caisseNomDossier}
+                aria-label={t.caisseNomDossier}
+                maxLength={60}
+                autoFocus
+              />
+              <button type="submit" className="pl-ecran-touche" disabled={!nommer.trim()}>
+                {t.caisseChoisirMorceaux}
+              </button>
+              <button type="button" className="pl-ecran-touche" onClick={() => setNommer(null)}>
+                {t.caisseAnnuler}
+              </button>
+              <p className="pl-navigateur-note">{t.caisseIphone}</p>
+            </form>
+          )}
+
+          {dossiers.length > 0 && (
+            <div className="pl-dossiers" role="group" aria-label={t.caisseDossiers}>
+              <button type="button" className="pl-ecran-touche" aria-pressed={dossierOuvert === TOUS} onClick={() => ouvrirDossier(TOUS)}>
+                {t.caisseTout(caisse?.length ?? 0)}
+              </button>
+              {dossiers.map(([nom, n]) => (
+                <button key={nom} type="button" className="pl-ecran-touche" aria-pressed={dossierOuvert === nom} onClick={() => ouvrirDossier(nom)}>
+                  {nom} · {n}
+                </button>
+              ))}
+              {enVrac > 0 && (
+                <button type="button" className="pl-ecran-touche" aria-pressed={dossierOuvert === VRAC} onClick={() => ouvrirDossier(VRAC)}>
+                  {t.caisseEnVrac(enVrac)}
+                </button>
+              )}
+            </div>
+          )}
+
           <label
             className="pl-depot-zone"
             data-survol={survol}
@@ -199,21 +351,17 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
             onDrop={(e) => {
               e.preventDefault();
               setSurvol(false);
-              void importer([...e.dataTransfer.files]);
+              void fichiersDuDepot(e.dataTransfer.items, dossierCourant).then(importer);
             }}
           >
-            <input
-              type="file"
-              accept="audio/*,.mp3,.wav,.aif,.aiff,.flac,.m4a,.ogg"
-              multiple
-              onChange={(e) => {
-                void importer([...(e.currentTarget.files ?? [])]);
-                e.currentTarget.value = '';
-              }}
-            />
-            <span className="pl-depot-titre">{import_ ? t.caisseAnalyse(import_.fait, import_.total) : t.caisseDeposer}</span>
+            <span className="pl-depot-titre">{t.caisseDeposer}</span>
             <span className="pl-depot-note">{t.caisseLocal}</span>
           </label>
+          {import_ && (
+            <p className="pl-navigateur-note pl-caisse-analyse" role="status">
+              {t.caisseAnalyse(import_.fait, import_.total)}
+            </p>
+          )}
           {refus.length > 0 && (
             <ul className="pl-refus" role="status">
               {refus.map((r) => (
@@ -221,10 +369,26 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
               ))}
             </ul>
           )}
-          {caisse === null ? null : caisse.length === 0 ? (
+          {caisse === null ? null : visibles.length === 0 ? (
             <p className="pl-navigateur-note">{t.caisseVide}</p>
           ) : (
-            <ul className="pl-morceaux">{caisse.map((m) => ligne(m, true))}</ul>
+            <ul className="pl-morceaux">{visibles.map((m) => ligne(m, true))}</ul>
+          )}
+          {dossierOuvert !== TOUS && dossierOuvert !== VRAC && visibles.length > 0 && (
+            <button
+              type="button"
+              className="pl-caisse-retirer"
+              onClick={() => {
+                if (!confirmer) {
+                  setConfirmer(true);
+                  window.setTimeout(() => setConfirmer(false), 4000);
+                  return;
+                }
+                void retirerDossier(dossierOuvert).then(() => ouvrirDossier(TOUS));
+              }}
+            >
+              {confirmer ? t.caisseConfirmer : t.caisseRetirerDossier(dossierOuvert)}
+            </button>
           )}
         </>
       ) : (

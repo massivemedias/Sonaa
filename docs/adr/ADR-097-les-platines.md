@@ -74,8 +74,21 @@ fait défiler.
 passent par des variables `--m-*` ; les écrans, les capuchons et le plateau
 restent sombres dans les deux. Le site, lui, reste sombre.
 
-**Tout tient dans l'écran.** La scène se réduit à la hauteur de la fenêtre,
-jamais sous 72 %, pour que le crossfader reste visible sur un portable.
+**« Deck », partout** (3 octobre 2026) : Mika veut ce mot en français
+comme en anglais. L'adresse devient `#/decks` ; `#/platines` y mène
+toujours. Le code garde ses noms de fichiers.
+
+**Les potards** : une échelle sérigraphiée de onze traits autour, une jupe
+striée qui tourne, un dessus bombé dont le reflet reste fixe, un repère os.
+
+**Tout tient dans l'écran, à toutes les largeurs.** Un deck ne descend pas
+sous 420 px et la table fait 460 px. Sur ordinateur, quand la fenêtre est
+trop étroite ou trop basse, la scène se réduit en entier (jamais sous 55 %)
+au lieu d'écraser les machines. Sous 900 px, les trois machines glissent une
+à une, chacune limitée à 520 px. Chaque machine se lit à sa propre largeur
+(requêtes de conteneur) : un deck étroit met le jog en grand, le pitch à
+droite, CUE et PLAY dessous. Les Decks font partie du contrôle mobile de
+publication, à huit largeurs.
 
 ## Ce que cela lève
 

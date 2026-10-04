@@ -57,7 +57,6 @@
   --m-pad-bas: #0f0f11;
   --m-pad-flanc: #09090a;
   --m-led-eteinte: #2e3036;
-  --m-collerette: #1a1b1f;
   --m-potard-haut: #2c2c31;
   --m-potard: #101012;
   --m-potard-bas: #09090a;
@@ -68,6 +67,15 @@
   padding: calc(var(--entete-h) + var(--espace-16)) max(var(--marge-page), 2vw) var(--espace-48);
   color: var(--ink-primary);
   font-family: var(--font-ui);
+}
+
+/* LE PIED DE PAGE s'etend sous la marge de sa colonne, qu'il croit etre
+   celle des pages documents (pied.css). Celle des decks est plus large, sur
+   tout l'ecran : il s'etend donc sous la sienne, et garde son contenu dans
+   la colonne commune. */
+.pl-page > .pied {
+  margin-left: calc(-1 * max(var(--marge-page), 2vw));
+  margin-right: calc(-1 * max(var(--marge-page), 2vw));
 }
 
 /* La finition blanche : les valeurs claires du guide (section 2.2). */
@@ -97,7 +105,6 @@
   --m-pad-bas: #dcd8d0;
   --m-pad-flanc: #b9b4aa;
   --m-led-eteinte: #c9c4ba;
-  --m-collerette: #d3cec5;
   --m-potard-haut: #3c3c41;
   --m-potard: #26262a;
   --m-potard-bas: #1b1b1e;
@@ -163,10 +170,13 @@
   background: #f4f1eb;
 }
 
-/* ═══ LA SCENE : A | TABLE | B ═══ */
+/* ═══ LA SCENE : A | TABLE | B ═══ Chaque machine a sa largeur de
+   machine : un deck ne descend pas sous 420 px, la table fait 460 px. Sous
+   la largeur qu'il faut, la scene entiere se reduit (voir PlatinesPage.tsx),
+   comme on recule d'un pas, au lieu d'ecraser les machines. */
 .pl-scene {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(400px, 460px) minmax(0, 1fr);
+  grid-template-columns: minmax(420px, 1fr) 460px minmax(420px, 1fr);
   gap: var(--espace-16);
   align-items: stretch;
 }
@@ -209,6 +219,14 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+}
+/* Chaque machine se lit a sa propre largeur : un deck etroit se
+   reorganise, ou qu'il soit (voir les regles @container plus bas). */
+.pl-platine {
+  container: deck / inline-size;
+}
+.pl-table {
+  container: table / inline-size;
 }
 
 /* La plaque : le logotype de Maudite Machine, le M serigraphie en haut a
@@ -966,69 +984,90 @@
   outline-offset: 4px;
 }
 
-/* Le potard : la collerette, le capuchon sombre et son repere os. */
+/* Le potard : l'echelle serigraphiee, la jupe striee qui tourne, le dessus
+   bombe au reflet fixe, le repere os. Les potards restent sombres dans les
+   deux finitions, comme sur la MM-808 claire. */
 .pl-bouton {
   display: grid;
   justify-items: center;
-  gap: 7px;
+  gap: 9px;
 }
 .pl-bouton-cadran {
   position: relative;
   width: 30px;
   height: 30px;
+  margin-top: 4px;
   border-radius: 50%;
   touch-action: none;
   cursor: ns-resize;
 }
-.pl-bouton[data-cran='true'] .pl-bouton-cadran::before {
-  content: '';
+.pl-bouton-echelle {
   position: absolute;
-  top: -8px;
-  left: 50%;
-  width: 1px;
-  height: 4px;
-  background: var(--m-encre-35);
+  inset: -9px;
+  width: calc(100% + 18px);
+  height: calc(100% + 18px);
+  overflow: visible;
+  stroke: var(--m-encre-35);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  pointer-events: none;
 }
-.pl-bouton-collerette {
-  position: absolute;
-  inset: -3px;
-  border-radius: 50%;
-  background: var(--m-collerette);
-  box-shadow:
-    inset 0 1px 0 var(--m-touche-reflet),
-    0 4px 7px var(--m-touche-ombre);
-}
-.pl-bouton-capuchon {
-  position: absolute;
-  inset: 1px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 28%, var(--m-potard-haut), var(--m-potard) 55%, var(--m-potard-bas));
-  box-shadow:
-    inset 0 -2px 3px rgb(0 0 0 / 0.6),
-    inset 0 1px 0 rgb(255 255 255 / 0.08);
-}
+.pl-bouton-jupe,
+.pl-bouton-dessus,
 .pl-bouton-index {
   position: absolute;
-  top: 9%;
-  left: 50%;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.pl-bouton-jupe {
+  inset: 0;
+  background:
+    radial-gradient(circle, transparent 62%, rgb(0 0 0 / 0.45) 100%),
+    repeating-conic-gradient(#0b0b0d 0 5deg, #26262a 5deg 10deg);
+  box-shadow:
+    0 0 0 1px #000,
+    0 3px 6px rgb(0 0 0 / 0.55),
+    0 1px 0 1px var(--m-chanfrein);
+}
+.pl-bouton-dessus {
+  inset: 15%;
+  background:
+    radial-gradient(ellipse 70% 55% at 38% 28%, rgb(255 255 255 / 0.18), transparent 70%),
+    radial-gradient(circle at 50% 45%, var(--m-potard-haut), var(--m-potard) 62%, var(--m-potard-bas));
+  box-shadow:
+    inset 0 1px 1px rgb(255 255 255 / 0.12),
+    inset 0 -2px 3px rgb(0 0 0 / 0.55),
+    0 1px 2px rgb(0 0 0 / 0.75);
+}
+.pl-bouton-index {
+  inset: 0;
+}
+.pl-bouton-index::before {
+  content: '';
+  position: absolute;
+  top: 5%;
+  left: calc(50% - 1.25px);
   width: 2.5px;
-  height: 34%;
-  margin-left: -1.25px;
-  border-radius: 1px;
+  height: 38%;
+  border-radius: 2px;
   background: var(--pl-os);
+  box-shadow: 0 0 2px rgb(0 0 0 / 0.6);
 }
 .pl-voie .pl-bouton-cadran,
 .pl-maitre .pl-bouton-cadran {
   width: 38px;
   height: 38px;
 }
-/* Le filtre a le capuchon orange de la machine : Mika le voulait « d'une
+/* Le filtre a le dessus orange de la machine : Mika le voulait « d'une
    couleur differente », et l'orange est la seule autre couleur du site. */
-.pl-bouton-filtre .pl-bouton-capuchon {
-  background: radial-gradient(circle at 35% 28%, #ffa266, var(--accent) 52%, #a83d03);
+.pl-bouton-filtre .pl-bouton-dessus {
+  background:
+    radial-gradient(ellipse 70% 55% at 38% 28%, rgb(255 255 255 / 0.35), transparent 70%),
+    radial-gradient(circle at 50% 45%, #ff8a3d, var(--accent) 60%, #a83d03);
 }
-.pl-bouton-filtre .pl-bouton-index {
+.pl-bouton-filtre .pl-bouton-index::before {
   background: #1c0c02;
+  box-shadow: none;
 }
 
 /* ═══ LA TABLE ═══ */
@@ -1359,8 +1398,93 @@
   }
 }
 
-/* ═══ MES MORCEAUX ═══ La zone ou l'on glisse ses fichiers, et le voile qui
-   couvre une platine survolee par un fichier. */
+/* ═══ MES MORCEAUX ═══ Les touches d'ecran pour ajouter des fichiers ou un
+   dossier, les dossiers en onglets, la zone ou l'on glisse ses fichiers, et
+   le voile qui couvre un deck survole par un fichier. */
+.pl-cache {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.pl-ecran-touche {
+  flex: 0 0 auto;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--pl-os-16);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--pl-os-85);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.pl-ecran-touche:hover {
+  border-color: var(--pl-os-55);
+}
+.pl-ecran-touche[aria-pressed='true'] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.pl-ecran-touche:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.pl-caisse-actions {
+  position: relative;
+  display: flex;
+  gap: 8px;
+}
+.pl-caisse-nommer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pl-caisse-nommer input {
+  flex: 1 1 160px;
+  min-width: 0;
+  min-height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--accent);
+  border-radius: 5px;
+  background: rgb(246 241 231 / 0.04);
+  color: var(--pl-os);
+  font: inherit;
+  font-size: 14px;
+}
+.pl-caisse-nommer .pl-navigateur-note {
+  flex: 1 1 100%;
+}
+/* Les dossiers, en onglets qui defilent de cote quand ils sont nombreux. */
+.pl-dossiers {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.pl-dossiers::-webkit-scrollbar {
+  display: none;
+}
+.pl-caisse-retirer {
+  align-self: center;
+  min-height: 32px;
+  padding: 0 10px;
+  border: 0;
+  background: transparent;
+  color: var(--pl-os-55);
+  font: inherit;
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.pl-caisse-retirer:hover {
+  color: var(--accent);
+}
 .pl-depot-zone {
   position: relative;
   display: grid;
@@ -1430,6 +1554,23 @@
   pointer-events: none;
 }
 
+/* Au doigt, on ne glisse pas de fichier : la zone ne garde que sa note. */
+@media (hover: none) {
+  .pl-depot-zone {
+    padding: 0;
+    border: 0;
+    justify-items: start;
+    text-align: left;
+    cursor: default;
+  }
+  .pl-depot-zone:hover {
+    background: transparent;
+  }
+  .pl-depot-titre {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .pl-lecture[data-pret='true'] .pl-touche-led {
     animation: none;
@@ -1441,25 +1582,22 @@
    l'autre deck ». Le defilement horizontal du navigateur, aimante a chaque
    panneau, fait le geste sans une ligne de JavaScript. */
 @media (max-width: 899px) {
-  .pl-page {
-    padding-left: 0;
-    padding-right: 0;
-  }
+  /* La page garde sa marge (le pied de page s'y aligne) ; seule la scene
+     va d'un bord a l'autre, pour que chaque machine ait toute la largeur. */
   .pl-tete {
-    padding: 0 var(--marge-page);
     margin-bottom: var(--espace-12);
   }
   .pl-chapeau {
     display: none;
   }
   .pl-finition button {
-    min-height: 40px;
+    min-height: 44px;
   }
   .pl-onglets {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--espace-8);
-    padding: 0 var(--marge-page) var(--espace-16);
+    padding-bottom: var(--espace-16);
   }
   .pl-onglets button {
     min-height: 44px;
@@ -1482,6 +1620,8 @@
   }
   .pl-scene {
     display: flex;
+    align-items: flex-start;
+    margin-inline: calc(-1 * max(var(--marge-page), 2vw));
     gap: 0;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
@@ -1494,9 +1634,14 @@
   }
   .pl-panneau {
     flex: 0 0 100%;
-    padding: 0 var(--marge-page);
+    padding: 0 12px;
     box-sizing: border-box;
     scroll-snap-align: center;
+  }
+  /* Sur une tablette debout, une machine garde sa largeur de machine. */
+  .pl-panneau > * {
+    max-width: 520px;
+    margin-inline: auto;
   }
   .pl-voie[data-active='false'] {
     display: none;
@@ -1512,9 +1657,15 @@
   .pl-pad {
     min-height: 44px;
   }
+  /* Au doigt, le zoom quitte le coin de l'onde pour une rangee a lui. */
+  .pl-zoom {
+    position: static;
+    justify-content: flex-end;
+    margin-top: 6px;
+  }
   .pl-zoom button {
-    width: 36px;
-    height: 30px;
+    width: 44px;
+    height: 44px;
   }
   .pl-recherche {
     width: 44px;
@@ -1522,12 +1673,6 @@
   }
   .pl-jog-zone {
     width: min(100%, 240px);
-  }
-  /* Sept potards ne tiennent pas sur une rangee de telephone : deux
-     rangees, quatre puis trois. */
-  .pl-effets-potards {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    row-gap: 14px;
   }
   .pl-navigateur-filtres {
     flex-wrap: wrap;
@@ -1538,20 +1683,80 @@
   }
   .pl-platine-navigateur .pl-touche,
   .pl-navigateur-fermer,
-  .pl-morceau-actions button {
+  .pl-morceau-actions button,
+  .pl-ecran-touche,
+  .pl-caisse-retirer,
+  .pl-caisse-nommer input {
     min-height: 44px;
+  }
+  .pl-morceau-actions button {
+    min-width: 44px;
   }
   .pl-navigateur-fermer {
     width: 44px;
   }
+}
+
+/* ═══ UN DECK ETROIT ═══ Le jog prend la largeur, le pitch reste a droite
+   sur toute la hauteur, CUE et PLAY passent dessous, cote a cote, sous le
+   pouce. */
+@container deck (max-width: 420px) {
+  .pl-corps {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'jog pitch'
+      'transport pitch';
+    row-gap: 22px;
+  }
+  .pl-jog-zone {
+    grid-area: jog;
+  }
+  .pl-pitch {
+    grid-area: pitch;
+  }
+  .pl-transport {
+    grid-area: transport;
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+    align-self: start;
+  }
+  .pl-recherche {
+    bottom: -12px;
+  }
   .pl-chiffre-valeur {
-    font-size: 12.5px;
+    font-size: 13px;
   }
   .pl-ecran-chiffres {
     gap: 4px;
   }
-  .pl-effets-temps .pl-touche {
-    font-size: 8.5px;
-    letter-spacing: 0.02em;
+}
+@container deck (max-width: 330px) {
+  .pl-ecran-chiffres {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pl-charger {
+    padding-left: 10px;
+    padding-right: 10px;
+    letter-spacing: 0.08em;
+  }
+  .pl-chauds {
+    gap: 8px;
+  }
+}
+
+/* ═══ UNE TABLE ETROITE ═══ Sept potards d'effets en deux rangees, quatre
+   puis trois, et les six divisions en deux rangees de trois. */
+@container table (max-width: 420px) {
+  .pl-effets-potards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    row-gap: 16px;
+  }
+  .pl-effets-temps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .pl-effets-temps .pl-silk {
+    grid-column: 1 / -1;
+    padding: 0;
   }
 }

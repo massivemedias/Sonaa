@@ -48,7 +48,7 @@ const ENTETE_H = 56;
 const BARRE_BAS_H = 64;
 const CIBLE_MIN = 44;
 
-/* LES DIX PAGES : chacune avec le selecteur qui prouve qu'elle est rendue.
+/* LES ONZE PAGES : chacune avec le selecteur qui prouve qu'elle est rendue.
    Les pages pre-rendues sont visitees par leur chemin, les autres par leur
    ancre. */
 const PAGES: readonly { chemin: string; attend: string; nom: string }[] = [
@@ -64,6 +64,10 @@ const PAGES: readonly { chemin: string; attend: string; nom: string }[] = [
   /* La page d'un label, depuis le 1er octobre 2026 : le nom en tres grand
      et deux colonnes, a verifier sous 400 px. */
   { nom: 'label', chemin: '/labels/f-communications/', attend: '.lb-nom' },
+  /* LES DECKS, depuis le 3 octobre 2026 : Mika les veut parfaits a toutes
+     les largeurs. Trois machines qui glissent sur telephone, une scene qui
+     se reduit au-dela. */
+  { nom: 'decks', chemin: '/#/decks', attend: '.pl-platine' },
 ];
 
 const TYPES: Record<string, string> = {

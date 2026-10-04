@@ -42,13 +42,6 @@ import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import { Apparition } from '../design/mouvement.tsx';
 import { HeroAccueil, type AfficheHero } from './HeroAccueil.tsx';
-import { lazy, Suspense } from 'react';
-import '../reconnaitre/deplie.css';
-import { BoutonTrack } from '../reconnaitre/BoutonTrack.tsx';
-
-/* LE MICRO NE SE CHARGE QU'AU CLIC : son composant tire ensuite TensorFlow
-   et Essentia, et l'accueil n'a pas a les payer. */
-const Reconnaissance = lazy(() => import('../reconnaitre/Reconnaissance.tsx').then((m) => ({ default: m.Reconnaissance })));
 import { ChoixStyles, EST_FAMILLE, LABEL_DE_STYLE } from './ChoixStyles.tsx';
 import { FAMILIES, STRUCTURES } from './structures.ts';
 import { resoudreVille, type Ville } from '../lib/ville-active.ts';
@@ -720,7 +713,6 @@ export function CalendrierPage() {
      attend en revanche que la liste des villes soit la, pour ne pas sauter
      entre deux rendus. */
   const avecHero = !enRecherche && (ville != null || villes.length > 0);
-  const [microOuvert, setMicroOuvert] = useState(false);
 
   const fuseau = ville?.timezone ?? 'America/Toronto';
 
@@ -775,21 +767,10 @@ export function CalendrierPage() {
             onAffiche={(id) => setDepliee(id)}
           />
         )}
-        {/* ═══ LE MICRO, SOUS LA BANNIERE ═══ Mika, le 27 septembre 2026 :
-            « le scan vit sur l'accueil ». Depuis le 30 septembre, le clic
-            lance l'ecoute et la reconnaissance s'ouvre DANS la page, sous le
-            bouton : le calendrier reste visible dessous. Voir deplie.css. */}
-        {avecHero && <BoutonTrack ouvert={microOuvert} onClick={() => setMicroOuvert((o) => !o)} />}
-        {microOuvert && (
-          <section className="rc-deplie" aria-label={t.trackId}>
-            <button type="button" className="rc-deplie-fermer" onClick={() => setMicroOuvert(false)} aria-label={t.fermerLaSurcouche}>
-              ×
-            </button>
-            <Suspense fallback={<p className="rc-note">{t.unInstant}</p>}>
-              <Reconnaissance enLigne demarrer />
-            </Suspense>
-          </section>
-        )}
+        {/* PLUS DE TRACK ID DANS LA PAGE, depuis le 3 octobre 2026. Mika : « je
+            ne vois pas pourquoi Track ID est en plein milieu de cette page,
+            l'icone est en bas de toute facon ». Le micro reste dans la barre
+            du bas et dans l'en-tete. */}
 
         {/* LE CHAPEAU NE SE REPETE PAS SOUS LA BANNIERE. Quand elle est la,
             elle porte le titre de la page et la phrase qui dit ce qu'est

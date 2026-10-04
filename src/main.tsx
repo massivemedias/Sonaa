@@ -222,6 +222,9 @@ const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/tracks')) return 'tracks';
   if (window.location.hash.startsWith('#/reconnaitre')) return 'reconnaitre';
   if (window.location.hash.startsWith('#/labels')) return 'labels';
+  /* LES DECKS : « Deck » partout depuis le 3 octobre 2026 ; l'ancienne
+     adresse #/platines y mene toujours. */
+  if (window.location.hash.startsWith('#/decks')) return 'platines';
   if (window.location.hash.startsWith('#/platines')) return 'platines';
   if (window.location.hash.startsWith('#/panier')) return 'panier';
   if (window.location.hash.startsWith('#/conditions')) return 'conditions';

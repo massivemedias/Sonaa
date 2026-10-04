@@ -7,7 +7,12 @@
  * sur internet. Pas de compte, pas de serveur, pas de droits a negocier.
  *
  * A l'entree, chaque fichier est lu une fois : ses tags (tags.ts), sa duree,
- * et son BPM quand le tag n'en dit rien (estimerBpm). */
+ * et son BPM quand le tag n'en dit rien (estimerBpm).
+ *
+ * LES DOSSIERS, depuis le 3 octobre 2026 : Mika range ses morceaux en
+ * dossiers dans Fichiers, sur son iPhone. Chaque morceau porte le nom de
+ * son dossier (vide s'il est en vrac) ; un dossier n'existe que par ses
+ * morceaux, et la caisse est la meme pour les deux decks. */
 
 import { estimerBpm } from './calculs.ts';
 import type { Morceau } from './morceau.ts';
@@ -33,6 +38,8 @@ interface Entree {
   readonly pochette: Blob | null;
   readonly fichier: Blob;
   readonly ajout: number;
+  /** Absent dans les entrees d'avant les dossiers : en vrac. */
+  readonly dossier?: string;
 }
 
 let base: Promise<IDBDatabase> | null = null;
@@ -77,6 +84,7 @@ function versMorceau(e: Entree): Morceau {
     duree: e.duree,
     pochette,
     lien: null,
+    dossier: e.dossier ?? '',
   };
 }
 
@@ -118,11 +126,29 @@ export class FichierRefuse extends Error {
   }
 }
 
-/** Lit un fichier, le range dans la caisse et rend son morceau. */
-export async function ajouterFichier(f: File): Promise<Morceau> {
+/** Retire tous les morceaux d'un dossier. */
+export async function retirerDossier(dossier: string): Promise<void> {
+  const toutes = await requete<Entree[]>('readonly', (m) => m.getAll());
+  for (const e of toutes) if ((e.dossier ?? '') === dossier) await retirerDeCaisse(e.id);
+}
+
+/* Un dossier contient aussi des pochettes, des textes, des fichiers caches
+   du Mac : on ne garde que le son. */
+const SON = /\.(mp3|wav|aiff?|flac|m4a|aac|ogg|opus)$/i;
+export const estUnSon = (f: File): boolean => f.type.startsWith('audio/') || SON.test(f.name);
+
+/** Lit un fichier, le range dans la caisse (dans `dossier`, ou en vrac) et
+    rend son morceau. Deja la, il change seulement de dossier. */
+export async function ajouterFichier(f: File, dossier = ''): Promise<Morceau> {
   const id = empreinte(f);
   const deja = await requete<Entree | undefined>('readonly', (m) => m.get(id));
-  if (deja) return versMorceau(deja);
+  if (deja) {
+    if (!dossier || deja.dossier === dossier) return versMorceau(deja);
+    const range: Entree = { ...deja, dossier };
+    await requete('readwrite', (m) => m.put(range));
+    window.dispatchEvent(new Event(CHANGEMENT));
+    return versMorceau(range);
+  }
 
   const octets = await f.arrayBuffer();
   const tags = lireTags(octets);
@@ -147,8 +173,48 @@ export async function ajouterFichier(f: File): Promise<Morceau> {
     pochette: tags.pochette ? new Blob([tags.pochette.octets.slice()], { type: tags.pochette.type }) : null,
     fichier: f,
     ajout: Date.now(),
+    dossier,
   };
   await requete('readwrite', (m) => m.put(entree));
   window.dispatchEvent(new Event(CHANGEMENT));
   return versMorceau(entree);
 }
+
+export interface FichierRange {
+  readonly fichier: File;
+  readonly dossier: string;
+}
+
+/* UN DOSSIER LACHE SUR LA CAISSE (ordinateur) : le navigateur le donne comme
+   une arborescence qu'on parcourt. Les entrees se lisent tout de suite, avant
+   la premiere attente : apres, le depot n'est plus lisible. Les sous-dossiers
+   se rangent sous le nom du dossier lache. */
+export function fichiersDuDepot(objets: DataTransferItemList, dossierParDefaut: string): Promise<FichierRange[]> {
+  const entrees = [...objets].map((o) => ({ entree: o.webkitGetAsEntry(), fichier: o.getAsFile() }));
+  const lireDossier = async (d: FileSystemDirectoryEntry, nom: string): Promise<FichierRange[]> => {
+    const lecteur = d.createReader();
+    const tout: FileSystemEntry[] = [];
+    for (;;) {
+      const lot = await new Promise<FileSystemEntry[]>((resolu, rejete) => lecteur.readEntries(resolu, rejete));
+      if (lot.length === 0) break;
+      tout.push(...lot);
+    }
+    const listes = await Promise.all(
+      tout.map(async (e): Promise<FichierRange[]> => {
+        if (e.isDirectory) return lireDossier(e as FileSystemDirectoryEntry, nom);
+        const f = await new Promise<File>((resolu, rejete) => (e as FileSystemFileEntry).file(resolu, rejete));
+        return [{ fichier: f, dossier: nom }];
+      })
+    );
+    return listes.flat();
+  };
+  return Promise.all(
+    entrees.map(async ({ entree, fichier }): Promise<FichierRange[]> => {
+      if (entree?.isDirectory) return lireDossier(entree as FileSystemDirectoryEntry, entree.name);
+      return fichier ? [{ fichier, dossier: dossierParDefaut }] : [];
+    })
+  ).then((l) => l.flat().filter((x) => estUnSon(x.fichier)));
+}
+
+/** Le dossier d'un fichier choisi avec le selecteur de dossiers. */
+export const dossierDuChemin = (f: File): string => (f.webkitRelativePath.split('/')[0] ?? '').trim();

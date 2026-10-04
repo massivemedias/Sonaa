@@ -73,7 +73,7 @@ const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
   { href: '#/mixtapes', id: 'mixtapes', label: t.lesMixtapes },
   /* LES PLATINES, apres les mixtapes, depuis le 3 octobre 2026 : apres
      avoir ecoute les mix des autres, faire le sien. Voir platines/. */
-  { href: '#/platines', id: 'platines', label: t.navPlatines },
+  { href: '#/decks', id: 'platines', label: t.navPlatines },
   /* TRACKS NE S'ANNONCE PAS TANT QUE RIEN NE SE VEND. Voir src/config.ts :
      la porte se ferme, la route et la page restent. */
   ...(MARCHAND_ACTIF ? [{ href: '#/tracks', id: 'tracks' as const, label: t.lesTracks }] : []),
@@ -153,6 +153,7 @@ export function courantDuSite(hash: string): SiteCourant {
   if (hash.startsWith('#/mentions')) return 'legal';
   if (hash.startsWith('#/parcourir')) return 'parcourir';
   if (hash.startsWith('#/labels')) return 'labels';
+  if (hash.startsWith('#/decks')) return 'platines';
   if (hash.startsWith('#/platines')) return 'platines';
   if (hash.startsWith('#/carte')) return 'atlas';
   /* La racine est le Calendar, comme dans main.tsx : les deux doivent dire

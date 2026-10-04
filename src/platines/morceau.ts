@@ -22,6 +22,8 @@ export interface Morceau {
   readonly pochette: string | null;
   /** La page du morceau chez sa source ; aucune pour un fichier. */
   readonly lien: string | null;
+  /** Le dossier d'un fichier de la caisse ; vide s'il est en vrac. */
+  readonly dossier?: string;
 }
 
 /** L'adresse ou la platine va chercher le son, et de quoi la liberer. */
