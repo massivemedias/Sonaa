@@ -554,6 +554,11 @@ interface Dictionnaire {
   readonly navPlatines: string;
   readonly platinesTitre: string;
   readonly platinesChapeau: string;
+  readonly platinesFinition: string;
+  readonly platinesFinitionNoire: string;
+  readonly platinesFinitionBlanche: string;
+  readonly platineRechercheArriere: string;
+  readonly platineRechercheAvant: string;
   readonly platineNom: (nom: string) => string;
   readonly platineVide: string;
   readonly platineCharger: string;
@@ -1377,6 +1382,11 @@ const FR: Dictionnaire = {
   navPlatines: 'Platines',
   platinesTitre: 'Platines',
   platinesChapeau: 'Deux platines et une table, dans le navigateur. Les morceaux viennent d’Audius, classés par style.',
+  platinesFinition: 'Finition des machines',
+  platinesFinitionNoire: 'Noire',
+  platinesFinitionBlanche: 'Blanche',
+  platineRechercheArriere: 'Reculer d’un temps, maintenir pour défiler',
+  platineRechercheAvant: 'Avancer d’un temps, maintenir pour défiler',
   platineNom: (nom) => `Platine ${nom}`,
   platineVide: 'Aucun morceau chargé',
   platineCharger: 'Charger un morceau',
@@ -2215,6 +2225,11 @@ const EN: Dictionnaire = {
   navPlatines: 'Decks',
   platinesTitre: 'Decks',
   platinesChapeau: 'Two decks and a mixer, in the browser. Tracks come from Audius, sorted by style.',
+  platinesFinition: 'Machine finish',
+  platinesFinitionNoire: 'Black',
+  platinesFinitionBlanche: 'White',
+  platineRechercheArriere: 'Back one beat, hold to scan',
+  platineRechercheAvant: 'Forward one beat, hold to scan',
   platineNom: (nom) => `Deck ${nom}`,
   platineVide: 'No track loaded',
   platineCharger: 'Load a track',

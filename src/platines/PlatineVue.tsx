@@ -15,7 +15,7 @@
  * lecture et fait entendre un grain de son, pour trouver un temps a
  * l'oreille. Un tour vaut 1,8 seconde, la vitesse d'un vinyle a 33 tours. */
 
-import { useEffect, useRef, useState, type DragEvent, type PointerEvent } from 'react';
+import { useEffect, useRef, useState, type DragEvent, type PointerEvent, type ReactNode } from 'react';
 import { t } from '../langue/langue.ts';
 import { adresseDuMorceau, type Morceau } from './morceau.ts';
 import { PLAGES_PITCH, bpmAffiche, pitchEnPourcent, tempsAffiche, tonaliteCourte } from './calculs.ts';
@@ -48,13 +48,16 @@ interface Props {
   readonly onEtat: (e: EtatPlatine) => void;
   /** Un fichier audio lache sur la platine. */
   readonly onDeposer: (f: File) => void;
+  /** Le navigateur de morceaux, ouvert dans la platine quand on y charge
+      un morceau, comme l'ecran de navigation d'une CDJ. */
+  readonly navigateur: ReactNode;
 }
 
 /* Glisse-t-on des fichiers ? Pendant le survol, le navigateur ne dit que
    leurs types, pas leurs noms. */
 const porteDesFichiers = (e: DragEvent): boolean => [...(e.dataTransfer?.types ?? [])].includes('Files');
 
-export function PlatineVue({ index, morceau, onCharger, onEtat, onDeposer }: Props) {
+export function PlatineVue({ index, morceau, onCharger, onEtat, onDeposer, navigateur }: Props) {
   const nom = index === 0 ? 'A' : 'B';
   const [chargement, setChargement] = useState<number | null>(null);
   const [erreur, setErreur] = useState(false);
@@ -70,6 +73,7 @@ export function PlatineVue({ index, morceau, onCharger, onEtat, onDeposer }: Pro
   const apercu = useRef<HTMLCanvasElement | null>(null);
   const restant = useRef<HTMLSpanElement | null>(null);
   const plateau = useRef<HTMLDivElement | null>(null);
+  const centre = useRef<HTMLDivElement | null>(null);
   const reperesRef = useRef(reperes);
   reperesRef.current = reperes;
   const [zoomNiveau, setZoomNiveau] = useState(2);
@@ -137,7 +141,14 @@ export function PlatineVue({ index, morceau, onCharger, onEtat, onDeposer }: Pro
       const pos = p?.position() ?? 0;
       const duree = p?.duree ?? 0;
       if (restant.current) restant.current.textContent = p?.charge ? `-${tempsAffiche(duree - pos)}` : '--:--.-';
-      if (plateau.current) plateau.current.style.transform = `rotate(${(pos / SECONDES_PAR_TOUR) * 360}deg)`;
+      const angle = `rotate(${(pos / SECONDES_PAR_TOUR) * 360}deg)`;
+      if (plateau.current) plateau.current.style.transform = angle;
+      /* L'ecran du jog montre ou l'on en est dans le morceau : un anneau qui
+         se remplit, et une aiguille qui tourne avec le plateau. */
+      if (centre.current) {
+        centre.current.style.setProperty('--pl-avance', String(duree > 0 ? pos / duree : 0));
+        centre.current.style.setProperty('--pl-angle', `${(pos / SECONDES_PAR_TOUR) * 360}deg`);
+      }
       dessinerZoom(zoom.current, p?.detail, pos, duree, reperesRef.current, fenetreRef.current);
       dessinerApercu(apercu.current, p?.apercu, pos, duree, reperesRef.current);
     };
@@ -162,6 +173,34 @@ export function PlatineVue({ index, morceau, onCharger, onEtat, onDeposer }: Pro
      d'une CDJ : tirer vers la gauche avance. On entend des grains de son au
      passage, puis CUE pose le point la ou l'on s'est arrete. */
   const tirage = useRef<{ x: number; depart: number; dernierGrain: number } | null>(null);
+
+  /* ═══ LA RECHERCHE ═══ Tenue plus d'un quart de seconde, elle fait
+     defiler le morceau a sept fois et demie sa vitesse, en grains si la
+     platine est en pause. Une simple pression saute d'un temps. */
+  const recherche = useRef<{ sens: 1 | -1; debut: number; longue: boolean; minuterie: number } | null>(null);
+  const deplacer = (secondes: number): void => {
+    const p = platine();
+    const cible = p.position() + secondes;
+    if (p.enLecture) p.aller(cible);
+    else p.grain(cible);
+  };
+  const rechercheBas = (sens: 1 | -1): void => {
+    if (!pret) return;
+    const r = { sens, debut: performance.now(), longue: false, minuterie: 0 };
+    r.minuterie = window.setInterval(() => {
+      if (performance.now() - r.debut < 250) return;
+      r.longue = true;
+      deplacer(sens * 0.6);
+    }, 80);
+    recherche.current = r;
+  };
+  const rechercheHaut = (): void => {
+    const r = recherche.current;
+    if (!r) return;
+    window.clearInterval(r.minuterie);
+    recherche.current = null;
+    if (!r.longue) deplacer(r.sens * (morceau?.bpm ? 60 / morceau.bpm : 0.5));
+  };
 
   /* ═══ LES BOUTONS DE TRANSPORT ═══ */
   const apercuCue = useRef(false);
@@ -251,13 +290,16 @@ export function PlatineVue({ index, morceau, onCharger, onEtat, onDeposer }: Pro
         </div>
       )}
       <header className="pl-plaque">
-        <span className="pl-marque">SONAA</span>
-        <span className="pl-modele">{t.platineNom(nom)}</span>
-        <button type="button" className="pl-touche pl-charger" data-allume={!morceau} onClick={onCharger}>
+        <span className="pl-logo" role="img" aria-label="Maudite Machine" />
+        <span className="pl-modele" aria-hidden="true">
+          {nom}
+        </span>
+        <button type="button" className="pl-touche pl-charger" data-allume={!morceau || navigateur !== null} aria-expanded={navigateur !== null} onClick={onCharger}>
           <span className="pl-touche-led" aria-hidden="true" />
           {t.platineCharger}
         </button>
       </header>
+      {navigateur !== null && <div className="pl-platine-navigateur">{navigateur}</div>}
 
       <div className="pl-ecran">
         <div className="pl-ecran-tete">
@@ -442,55 +484,83 @@ export function PlatineVue({ index, morceau, onCharger, onEtat, onDeposer }: Pro
           </div>
         </div>
 
-        <div
-          className="pl-jog"
-          role="slider"
-          aria-label={t.platineJog}
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={0}
-          tabIndex={-1}
-          onPointerDown={(e) => {
-            if (!pret) return;
-            e.currentTarget.setPointerCapture(e.pointerId);
-            jog.current = { angle: angleDe(e), instant: performance.now(), dernierGrain: 0, relache: null };
-          }}
-          onPointerMove={(e) => {
-            const j = jog.current;
-            if (!j || !pret) return;
-            const a = angleDe(e);
-            let d = a - j.angle;
-            if (d > Math.PI) d -= 2 * Math.PI;
-            if (d < -Math.PI) d += 2 * Math.PI;
-            const maintenant = performance.now();
-            const dt = Math.max(1, maintenant - j.instant);
-            j.angle = a;
-            j.instant = maintenant;
-            const p = platine();
-            const tours = d / (2 * Math.PI);
-            if (p.enLecture) {
-              p.courber((tours / (dt / 1000)) * 0.08);
-              if (j.relache) window.clearTimeout(j.relache);
-              j.relache = window.setTimeout(() => p.courber(0), 90);
-            } else if (maintenant - j.dernierGrain > 35) {
-              j.dernierGrain = maintenant;
-              p.grain(p.position() + tours * SECONDES_PAR_TOUR);
-            }
-          }}
-          onPointerUp={() => {
-            if (jog.current?.relache) window.clearTimeout(jog.current.relache);
-            jog.current = null;
-            if (pret) platine().courber(0);
-          }}
-        >
-          <div className="pl-jog-bague" aria-hidden="true" />
-          <div className="pl-jog-plateau" ref={plateau} aria-hidden="true">
-            <span className="pl-jog-leds" />
-            <span className="pl-jog-repere" />
+        <div className="pl-jog-zone">
+          <div
+            className="pl-jog"
+            role="slider"
+            aria-label={t.platineJog}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={0}
+            tabIndex={-1}
+            onPointerDown={(e) => {
+              if (!pret) return;
+              e.currentTarget.setPointerCapture(e.pointerId);
+              jog.current = { angle: angleDe(e), instant: performance.now(), dernierGrain: 0, relache: null };
+            }}
+            onPointerMove={(e) => {
+              const j = jog.current;
+              if (!j || !pret) return;
+              const a = angleDe(e);
+              let d = a - j.angle;
+              if (d > Math.PI) d -= 2 * Math.PI;
+              if (d < -Math.PI) d += 2 * Math.PI;
+              const maintenant = performance.now();
+              const dt = Math.max(1, maintenant - j.instant);
+              j.angle = a;
+              j.instant = maintenant;
+              const p = platine();
+              const tours = d / (2 * Math.PI);
+              if (p.enLecture) {
+                p.courber((tours / (dt / 1000)) * 0.08);
+                if (j.relache) window.clearTimeout(j.relache);
+                j.relache = window.setTimeout(() => p.courber(0), 90);
+              } else if (maintenant - j.dernierGrain > 35) {
+                j.dernierGrain = maintenant;
+                p.grain(p.position() + tours * SECONDES_PAR_TOUR);
+              }
+            }}
+            onPointerUp={() => {
+              if (jog.current?.relache) window.clearTimeout(jog.current.relache);
+              jog.current = null;
+              if (pret) platine().courber(0);
+            }}
+          >
+            <div className="pl-jog-puits" aria-hidden="true" />
+            <div className="pl-jog-bague" aria-hidden="true" />
+            <div className="pl-jog-lumiere" data-actif={enLecture} aria-hidden="true" />
+            <div className="pl-jog-plateau" ref={plateau} aria-hidden="true">
+              <span className="pl-jog-crans" />
+              <span className="pl-jog-repere" />
+            </div>
+            <div className="pl-jog-reflet" aria-hidden="true" />
+            <div className="pl-jog-centre" ref={centre} aria-hidden="true">
+              {morceau?.pochette ? <img src={morceau.pochette} alt="" draggable={false} /> : null}
+              <span className="pl-jog-aiguille" />
+            </div>
           </div>
-          <div className="pl-jog-centre" aria-hidden="true">
-            {morceau?.pochette ? <img src={morceau.pochette} alt="" draggable={false} /> : null}
-          </div>
+          {/* LA RECHERCHE, au bord du jog : une pression avance ou recule d'un
+              temps, la tenir fait defiler le morceau, comme SEARCH sur une
+              CDJ. */}
+          {([-1, 1] as const).map((sens) => (
+            <button
+              key={sens}
+              type="button"
+              className={`pl-recherche ${sens < 0 ? 'pl-recherche-arriere' : 'pl-recherche-avant'}`}
+              aria-label={sens < 0 ? t.platineRechercheArriere : t.platineRechercheAvant}
+              onPointerDown={(e) => {
+                rechercheBas(sens);
+                /* Garder la main meme si le doigt glisse hors de la touche. */
+                if (e.isPrimary) e.currentTarget.setPointerCapture(e.pointerId);
+              }}
+              onPointerUp={rechercheHaut}
+              onPointerCancel={rechercheHaut}
+            >
+              <svg viewBox="0 0 20 12" aria-hidden="true">
+                {sens < 0 ? <path d="M9 1 L1 6 L9 11 Z M19 1 L11 6 L19 11 Z" /> : <path d="M1 1 L9 6 L1 11 Z M11 1 L19 6 L11 11 Z" />}
+              </svg>
+            </button>
+          ))}
         </div>
 
         <div className="pl-pitch">

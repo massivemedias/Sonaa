@@ -133,8 +133,8 @@ export function TableVue({ bpm, onVolumes }: Props) {
   return (
     <section className="pl-machine pl-table" aria-label={t.tableNom}>
       <header className="pl-plaque">
-        <span className="pl-marque">SONAA</span>
-        <span className="pl-modele">{t.tableNom}</span>
+        <span className="pl-logo" role="img" aria-label="Maudite Machine" />
+        <span className="pl-modele pl-modele-mot">{t.tableNom}</span>
         <span className="pl-plaque-note">4 CH</span>
       </header>
 

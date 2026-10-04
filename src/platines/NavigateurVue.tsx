@@ -6,8 +6,8 @@
  * morceaux chez Audius (voir audius.ts), et une recherche libre trouve
  * n'importe quel morceau du catalogue.
  *
- * Sur ordinateur, chaque ligne porte deux boutons, A et B. Sur telephone,
- * le navigateur s'ouvre depuis une platine et charge sur elle.
+ * Il s'ouvre dans la platine dont on a presse la touche de chargement, et
+ * charge sur elle.
  *
  * MES MORCEAUX, depuis le 3 octobre 2026 : Mika veut que chacun mixe ce
  * qu'il veut. Le second onglet montre la caisse de l'appareil (caisse.ts) ;
@@ -42,10 +42,10 @@ function retenir(cle: string, v: string): void {
 }
 
 interface Props {
-  /** Sur telephone : la platine qui recevra le morceau. */
-  readonly cible: 0 | 1 | null;
+  /** La platine qui recevra le morceau. */
+  readonly cible: 0 | 1;
   readonly onChoisir: (m: Morceau, platine: 0 | 1) => void;
-  readonly onFermer?: () => void;
+  readonly onFermer: () => void;
 }
 
 export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
@@ -153,20 +153,9 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
           <span>{tempsAffiche(m.duree).slice(0, 5)}</span>
         </span>
         <span className="pl-morceau-actions">
-          {cible === null ? (
-            <>
-              <button type="button" aria-label={t.navigateurSurPlatine('A')} onClick={() => onChoisir(m, 0)}>
-                A
-              </button>
-              <button type="button" aria-label={t.navigateurSurPlatine('B')} onClick={() => onChoisir(m, 1)}>
-                B
-              </button>
-            </>
-          ) : (
-            <button type="button" aria-label={t.navigateurSurPlatine(cible === 0 ? 'A' : 'B')} onClick={() => onChoisir(m, cible)}>
-              {cible === 0 ? 'A' : 'B'}
-            </button>
-          )}
+          <button type="button" aria-label={t.navigateurSurPlatine(cible === 0 ? 'A' : 'B')} onClick={() => onChoisir(m, cible)}>
+            {cible === 0 ? 'A' : 'B'}
+          </button>
           {retirer && (
             <button type="button" className="pl-morceau-retirer" aria-label={t.caisseRetirer(m.titre)} onClick={() => void retirerDeCaisse(m.id)}>
               ×
@@ -180,10 +169,7 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
   return (
     <section className="pl-navigateur" aria-label={t.navigateurTitre}>
       <div className="pl-navigateur-tete">
-        <h2 className="pl-navigateur-titre">
-          {t.navigateurTitre}
-          {cible !== null ? ` · ${t.platineNom(cible === 0 ? 'A' : 'B')}` : ''}
-        </h2>
+        <h2 className="pl-navigateur-titre">{t.navigateurTitre}</h2>
         <div className="pl-sources" role="group" aria-label={t.navigateurProvenance}>
           <button type="button" className="pl-touche" aria-pressed={source === 'audius'} onClick={() => choisirSource('audius')}>
             <span className="pl-touche-led" aria-hidden="true" />
@@ -194,11 +180,9 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
             {t.navigateurMesMorceaux(caisse?.length ?? 0)}
           </button>
         </div>
-        {onFermer && (
-          <button type="button" className="pl-navigateur-fermer" onClick={onFermer}>
-            {t.navigateurFermer}
-          </button>
-        )}
+        <button type="button" className="pl-navigateur-fermer" aria-label={t.navigateurFermer} onClick={onFermer}>
+          ×
+        </button>
       </div>
 
       {source === 'fichiers' ? (

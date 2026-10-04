@@ -8,7 +8,14 @@
  * Les morceaux viennent d'Audius et non de l'atlas (voir audius.ts) : le son
  * de YouTube ne se laisse ni filtrer ni ralentir finement. Le son est
  * calcule dans le navigateur (moteur.ts) ; cette page ne fait que poser les
- * trois panneaux et faire circuler l'etat entre eux. */
+ * trois panneaux et faire circuler l'etat entre eux.
+ *
+ * LE NAVIGATEUR S'OUVRE DANS LA PLATINE, depuis le 3 octobre 2026 : Mika ne
+ * voulait plus de la liste sous les machines, mais dans la platine ou il a
+ * clique, comme l'ecran de navigation d'une CDJ.
+ *
+ * LA FINITION : noire, ou blanche comme la version claire de la MM-808. Le
+ * site reste sombre ; seules les machines changent de robe. */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { EnTeteSite } from '../atlas/EnTeteSite.tsx';
@@ -24,6 +31,8 @@ import { TableVue } from './TableVue.tsx';
 import './platines.css';
 
 const TELEPHONE = '(max-width: 899px)';
+const CLE_FINITION = 'sonaa-platines-finition';
+type Finition = 'noire' | 'blanche';
 const ETAT_VIDE: EtatPlatine = { bpm: null, pitch: 0, enLecture: false };
 
 export function PlatinesPage() {
@@ -31,10 +40,24 @@ export function PlatinesPage() {
   const [morceaux, setMorceaux] = useState<[Morceau | null, Morceau | null]>([null, null]);
   const [etats, setEtats] = useState<[EtatPlatine, EtatPlatine]>([ETAT_VIDE, ETAT_VIDE]);
   const [volumes, setVolumes] = useState({ a: 0.8, b: 0.8, croise: 0 });
-  const [feuille, setFeuille] = useState<0 | 1 | null>(null);
+  const [navigateurSur, setNavigateurSur] = useState<0 | 1 | null>(null);
   const [panneau, setPanneau] = useState(0);
   const scene = useRef<HTMLDivElement | null>(null);
-  const bas = useRef<HTMLDivElement | null>(null);
+  const [finition, setFinition] = useState<Finition>(() => {
+    try {
+      return localStorage.getItem(CLE_FINITION) === 'blanche' ? 'blanche' : 'noire';
+    } catch {
+      return 'noire';
+    }
+  });
+  const choisirFinition = (f: Finition): void => {
+    setFinition(f);
+    try {
+      localStorage.setItem(CLE_FINITION, f);
+    } catch {
+      /* rien a retenir */
+    }
+  };
 
   useEffect(() => {
     document.title = `${t.platinesTitre} · SONAA`;
@@ -81,7 +104,7 @@ export function PlatinesPage() {
        fois, c'est un de trop. */
     arreter();
     setMorceaux((avant) => (i === 0 ? [m, avant[1]] : [avant[0], m]));
-    setFeuille(null);
+    setNavigateurSur(null);
     aller(i === 0 ? 0 : 2);
   };
 
@@ -118,20 +141,29 @@ export function PlatinesPage() {
     s.scrollTo({ left: n * s.clientWidth, behavior: 'smooth' });
   };
 
-  const ouvrirNavigateur = (i: 0 | 1): void => {
-    if (window.matchMedia(TELEPHONE).matches) setFeuille(i);
-    else bas.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
+  /* La touche de chargement ouvre le navigateur dans sa platine, et le
+     referme si on la presse encore. */
+  const basculerNavigateur = (i: 0 | 1): void => setNavigateurSur((n) => (n === i ? null : i));
+  const navigateurDe = (i: 0 | 1) =>
+    navigateurSur === i ? <NavigateurVue cible={i} onChoisir={charger} onFermer={() => setNavigateurSur(null)} /> : null;
 
   const onglets = [t.platineNom('A'), t.tableNom, t.platineNom('B')];
 
   return (
     <>
       <EnTeteSite />
-      <main className="pl-page">
+      <main className="pl-page" data-finition={finition}>
         <header className="pl-tete">
           <h1 className="pl-titre">{t.platinesTitre}</h1>
           <p className="pl-chapeau">{t.platinesChapeau}</p>
+          <div className="pl-finition" role="group" aria-label={t.platinesFinition}>
+            {(['noire', 'blanche'] as const).map((f) => (
+              <button key={f} type="button" aria-pressed={finition === f} onClick={() => choisirFinition(f)}>
+                <span className={`pl-finition-pastille pl-finition-${f}`} aria-hidden="true" />
+                {f === 'noire' ? t.platinesFinitionNoire : t.platinesFinitionBlanche}
+              </button>
+            ))}
+          </div>
         </header>
 
         <nav className="pl-onglets" aria-label={t.platinesGlisser}>
@@ -151,29 +183,33 @@ export function PlatinesPage() {
           }}
         >
           <div className="pl-panneau">
-            <PlatineVue index={0} morceau={morceaux[0]} onCharger={() => ouvrirNavigateur(0)} onEtat={onEtatA} onDeposer={(f) => deposer(f, 0)} />
+            <PlatineVue
+              index={0}
+              morceau={morceaux[0]}
+              onCharger={() => basculerNavigateur(0)}
+              onEtat={onEtatA}
+              onDeposer={(f) => deposer(f, 0)}
+              navigateur={navigateurDe(0)}
+            />
           </div>
           <div className="pl-panneau">
             <TableVue bpm={bpm} onVolumes={setVolumes} />
           </div>
           <div className="pl-panneau">
-            <PlatineVue index={1} morceau={morceaux[1]} onCharger={() => ouvrirNavigateur(1)} onEtat={onEtatB} onDeposer={(f) => deposer(f, 1)} />
+            <PlatineVue
+              index={1}
+              morceau={morceaux[1]}
+              onCharger={() => basculerNavigateur(1)}
+              onEtat={onEtatB}
+              onDeposer={(f) => deposer(f, 1)}
+              navigateur={navigateurDe(1)}
+            />
           </div>
         </div>
 
         <p className="pl-annonce" role="status">
           {annonce}
         </p>
-
-        <div className="pl-bas" ref={bas}>
-          <NavigateurVue cible={null} onChoisir={charger} />
-        </div>
-
-        {feuille !== null && (
-          <div className="pl-feuille" role="dialog" aria-modal="true" aria-label={t.navigateurTitre}>
-            <NavigateurVue cible={feuille} onChoisir={charger} onFermer={() => setFeuille(null)} />
-          </div>
-        )}
         <PiedDePage />
       </main>
     </>
