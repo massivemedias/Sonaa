@@ -31,6 +31,18 @@ navigateur accorde, elle refuse. Elle demande aussi que la caisse ne soit
 pas vidée quand l'appareil manque de place. Un fichier de plus de 200 Mo est
 refusé : décodé en entier, il pèserait trop sur un téléphone.
 
+**Sur Chrome et Edge, un dossier est relié, pas copié** (3 octobre 2026,
+Mika : « oui, relie sur Chrome »). Le sélecteur de dossier du navigateur
+(File System Access) rend une poignée sur le dossier ; la caisse garde
+celle du dossier et celle de chaque son, sous-dossiers compris, et lit les
+fichiers là où ils sont. 1 800 morceaux n'y prennent que quelques
+kilo-octets. Après un rechargement, Chrome redemande l'accès au dossier une
+fois, au premier morceau qu'on charge ; d'ici là, les analyses en fond de
+ce dossier attendent. Un dossier lâché sur la zone de dépôt est relié de
+même ; un fichier seul, lui, est copié. Safari et Firefox n'ont pas ce
+sélecteur : ils copient, comme avant. La base passe en version 2, avec un
+magasin `racines` pour les dossiers reliés.
+
 **Un dossier retenu qui n'a plus de morceau montre tout** : la liste ne
 reste plus vide quand la caisse ne l'est pas.
 

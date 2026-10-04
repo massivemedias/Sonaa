@@ -23,7 +23,10 @@ import {
   dossierDuChemin,
   estUnSon,
   fichiersDuDepot,
+  peutRelier,
   placeDisponible,
+  relier,
+  relierDossier,
   retirerDeCaisse,
   retirerDossier,
   type FichierRange,
@@ -115,9 +118,39 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
     if (premier) ouvrirDossier(premier);
   };
 
+  /* RELIER, SUR CHROME ET EDGE : rien n'est copie, la caisse lit les
+     fichiers la ou ils sont. Ailleurs, on copie. */
+  const [bilan, setBilan] = useState<string | null>(null);
+  const relie = (r: { nom: string; relies: number } | null): void => {
+    setImport(null);
+    if (!r) return;
+    setBilan(t.caisseRelies(r.relies, r.nom));
+    if (r.relies > 0) ouvrirDossier(r.nom);
+  };
+  const progres = (fait: number, total: number): void => setImport({ fait, total });
   const ajouterDossier = (): void => {
-    if (sansSelecteurDeDossier()) setNommer('');
+    if (peutRelier()) void relierDossier(progres).then(relie);
+    else if (sansSelecteurDeDossier()) setNommer('');
     else dossierRef.current?.click();
+  };
+  /* Un depot sur Chrome donne des poignees : les dossiers se relient, les
+     fichiers seuls se copient. Elles se demandent pendant le depot meme. */
+  const deposer = (objets: DataTransferItemList): void => {
+    const liste = [...objets];
+    type AvecPoignee = { getAsFileSystemHandle?: () => Promise<FileSystemHandle | null> };
+    if (!peutRelier() || typeof (liste[0] as unknown as AvecPoignee | undefined)?.getAsFileSystemHandle !== 'function') {
+      void fichiersDuDepot(objets, dossierCourant).then((l) => importer(l));
+      return;
+    }
+    const poignees = liste.map((o) => (o as unknown as Required<AvecPoignee>).getAsFileSystemHandle());
+    void (async () => {
+      const seuls: FichierRange[] = [];
+      for (const h of await Promise.all(poignees)) {
+        if (h?.kind === 'directory') relie(await relier(h as FileSystemDirectoryHandle, progres));
+        else if (h?.kind === 'file') seuls.push({ fichier: await (h as FileSystemFileHandle).getFile(), dossier: dossierCourant });
+      }
+      if (seuls.length > 0) await importer(seuls);
+    })();
   };
 
   /* Une recherche libre attend que l'on cesse de taper. */
@@ -296,12 +329,18 @@ export function NavigateurVue({ cible, onChoisir, onFermer }: Props) {
             onDrop={(e) => {
               e.preventDefault();
               setSurvol(false);
-              void fichiersDuDepot(e.dataTransfer.items, dossierCourant).then(importer);
+              deposer(e.dataTransfer.items);
             }}
           >
             <span className="pl-depot-titre">{t.caisseDeposer}</span>
             <span className="pl-depot-note">{t.caisseLocal}</span>
+            {peutRelier() && <span className="pl-depot-note">{t.caisseRelie}</span>}
           </label>
+          {bilan && !import_ && (
+            <p className="pl-navigateur-note" role="status">
+              {bilan}
+            </p>
+          )}
           {aConfirmer && (
             <div className="pl-caisse-nommer" role="group" aria-label={t.caisseCopier}>
               <p className="pl-navigateur-note">{t.caisseGrosImport(aConfirmer.fichiers.length, t.caissePoids(aConfirmer.poids))}</p>

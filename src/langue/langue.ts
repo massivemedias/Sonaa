@@ -632,6 +632,8 @@ interface Dictionnaire {
   readonly caissePasDePlace: (poids: string, libre: string) => string;
   readonly caisseGrosImport: (n: number, poids: string) => string;
   readonly caisseCopier: string;
+  readonly caisseRelie: string;
+  readonly caisseRelies: (n: number, nom: string) => string;
   readonly platineDeposer: string;
   readonly navigateurFermer: string;
   readonly platinesGlisser: string;
@@ -1479,6 +1481,8 @@ const FR: Dictionnaire = {
   caissePasDePlace: (poids, libre) => `Pas assez de place : ces fichiers pèsent ${poids}, et ce navigateur n’en accorde plus que ${libre} sur cet appareil.`,
   caisseGrosImport: (n, poids) => `${n} morceaux, ${poids} : ils seront copiés dans ce navigateur, sur cet appareil. Rien n’est envoyé sur internet.`,
   caisseCopier: 'Copier',
+  caisseRelie: 'Sur Chrome, un dossier est relié, pas copié : tes fichiers restent là où ils sont.',
+  caisseRelies: (n, nom) => (n === 0 ? `Aucun morceau trouvé dans ${nom}.` : `${n} morceau${n > 1 ? 'x' : ''} relié${n > 1 ? 's' : ''} depuis ${nom}.`),
   platineDeposer: 'Lâche le fichier pour le charger',
   navigateurFermer: 'Fermer',
   platinesGlisser: 'Glisse pour passer d’un deck au mixer.',
@@ -2341,6 +2345,8 @@ const EN: Dictionnaire = {
   caissePasDePlace: (poids, libre) => `Not enough room: these files weigh ${poids}, and this browser only allows ${libre} more on this device.`,
   caisseGrosImport: (n, poids) => `${n} tracks, ${poids}: they will be copied into this browser, on this device. Nothing is uploaded.`,
   caisseCopier: 'Copy',
+  caisseRelie: 'On Chrome, a folder is linked, not copied: your files stay where they are.',
+  caisseRelies: (n, nom) => (n === 0 ? `No tracks found in ${nom}.` : `${n} track${n > 1 ? 's' : ''} linked from ${nom}.`),
   platineDeposer: 'Drop the file to load it',
   navigateurFermer: 'Close',
   platinesGlisser: 'Swipe to move between the decks and the mixer.',

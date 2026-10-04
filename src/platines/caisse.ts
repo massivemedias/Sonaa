@@ -13,8 +13,13 @@
  * de suite quand on charge un morceau qui ne l'est pas encore. Un dossier de
  * 1 800 morceaux entre ainsi en quelques secondes, au lieu d'une demi-heure.
  *
- * RIEN N'EST ENVOYE, mais tout est COPIE dans le navigateur : avant un gros
- * import, on dit combien il pese et s'il y a la place (placeDisponible).
+ * RIEN N'EST ENVOYE. Sur Safari et Firefox, tout est COPIE dans le
+ * navigateur : avant un gros import, on dit combien il pese et s'il y a la
+ * place (placeDisponible). SUR CHROME ET EDGE, UN DOSSIER EST RELIE, pas
+ * copie (relierDossier, depuis le 3 octobre 2026, a la demande de Mika) : la
+ * caisse ne garde que l'adresse de chaque fichier sur le disque, et le lit
+ * la ou il est. Apres un rechargement, le navigateur redemande une fois
+ * l'acces au dossier, au premier morceau qu'on charge.
  *
  * LES DOSSIERS, depuis le 3 octobre 2026 : Mika range ses morceaux en
  * dossiers dans Fichiers, sur son iPhone. Chaque morceau porte le nom de
@@ -27,6 +32,9 @@ import { lireTags, tailleDesTags, titreDuNom } from './tags.ts';
 
 const BASE = 'sonaa-caisse';
 const MAGASIN = 'morceaux';
+/* Les dossiers relies : leur poignee, par nom. C'est sur elle qu'on demande
+   l'acces, une fois pour tous ses fichiers. */
+const RACINES = 'racines';
 const CHANGEMENT = 'sonaa-caisse';
 /* Decode en entier, un fichier de plus de 200 Mo (un mix de deux heures)
    pese trop lourd sur un telephone : on le refuse a l'entree. */
@@ -43,7 +51,12 @@ interface Entree {
   readonly tonalite: string | null;
   readonly duree: number;
   readonly pochette: Blob | null;
-  readonly fichier: Blob;
+  /** Le fichier copie dans le navigateur (Safari, Firefox, fichiers seuls). */
+  readonly fichier?: Blob;
+  /** Ou le fichier relie, lu sur le disque (Chrome, Edge). */
+  readonly poignee?: FileSystemFileHandle;
+  /** Le dossier relie qui le contient. */
+  readonly racine?: string;
   readonly ajout: number;
   /** Absent dans les entrees d'avant les dossiers : en vrac. */
   readonly dossier?: string;
@@ -54,19 +67,22 @@ interface Entree {
 let base: Promise<IDBDatabase> | null = null;
 function ouvrir(): Promise<IDBDatabase> {
   base ??= new Promise((resolu, rejete) => {
-    const r = indexedDB.open(BASE, 1);
-    r.onupgradeneeded = () => r.result.createObjectStore(MAGASIN, { keyPath: 'id' });
+    const r = indexedDB.open(BASE, 2);
+    r.onupgradeneeded = () => {
+      if (!r.result.objectStoreNames.contains(MAGASIN)) r.result.createObjectStore(MAGASIN, { keyPath: 'id' });
+      if (!r.result.objectStoreNames.contains(RACINES)) r.result.createObjectStore(RACINES, { keyPath: 'nom' });
+    };
     r.onsuccess = () => resolu(r.result);
     r.onerror = () => rejete(r.error ?? new Error('IndexedDB'));
   });
   return base;
 }
 
-function requete<T>(mode: IDBTransactionMode, faire: (m: IDBObjectStore) => IDBRequest): Promise<T> {
+function requete<T>(mode: IDBTransactionMode, faire: (m: IDBObjectStore) => IDBRequest, magasin = MAGASIN): Promise<T> {
   return ouvrir().then(
     (b) =>
       new Promise<T>((resolu, rejete) => {
-        const r = faire(b.transaction(MAGASIN, mode).objectStore(MAGASIN));
+        const r = faire(b.transaction(magasin, mode).objectStore(magasin));
         r.onsuccess = () => resolu(r.result as T);
         r.onerror = () => rejete(r.error ?? new Error('IndexedDB'));
       })
@@ -104,9 +120,39 @@ export async function lireCaisse(): Promise<Morceau[]> {
   return toutes.sort((a, b) => b.ajout - a.ajout).map(versMorceau);
 }
 
+/* ═══ L'ACCES AUX FICHIERS RELIES ═══ Chrome rend l'acces a un dossier
+   pour la visite ; a la suivante, il faut le redemander, et seulement
+   pendant un geste de l'utilisateur. On le demande donc au chargement d'un
+   morceau (un clic), sur le dossier entier ; les analyses en fond, elles,
+   attendent qu'il soit accorde. */
+interface Permissions {
+  queryPermission(o: { mode: 'read' }): Promise<PermissionState>;
+  requestPermission(o: { mode: 'read' }): Promise<PermissionState>;
+}
+const enAttente = new Set<string>();
+async function autorise(h: FileSystemHandle, demander: boolean): Promise<boolean> {
+  const p = h as unknown as Permissions;
+  if ((await p.queryPermission({ mode: 'read' })) === 'granted') return true;
+  return demander && (await p.requestPermission({ mode: 'read' })) === 'granted';
+}
+
+/** Le contenu d'une entree : copie, ou lu sur le disque s'il est relie et
+    que l'acces est accorde (demande si `demander`). */
+async function contenu(e: Entree, demander: boolean): Promise<Blob | null> {
+  if (e.fichier) return e.fichier;
+  if (!e.poignee) return null;
+  const racine = e.racine ? await requete<{ poignee: FileSystemDirectoryHandle } | undefined>('readonly', (m) => m.get(e.racine ?? ''), RACINES) : undefined;
+  if (!(await autorise(racine?.poignee ?? e.poignee, demander))) return null;
+  if (enAttente.size > 0) {
+    enAttente.clear();
+    void lancerAnalyses();
+  }
+  return e.poignee.getFile();
+}
+
 export async function fichierDe(id: string): Promise<Blob | null> {
   const e = await requete<Entree | undefined>('readonly', (m) => m.get(id));
-  return e?.fichier ?? null;
+  return e ? contenu(e, true) : null;
 }
 
 export async function retirerDeCaisse(id: string): Promise<void> {
@@ -140,6 +186,7 @@ export class FichierRefuse extends Error {
 export async function retirerDossier(dossier: string): Promise<void> {
   const toutes = await requete<Entree[]>('readonly', (m) => m.getAll());
   for (const e of toutes) if ((e.dossier ?? '') === dossier) await retirerDeCaisse(e.id);
+  if (dossier) await requete('readwrite', (m) => m.delete(dossier), RACINES);
 }
 
 /* Un dossier contient aussi des pochettes, des textes, des fichiers caches
@@ -161,13 +208,22 @@ export async function ajouterFichier(f: File, dossier = ''): Promise<Morceau> {
   }
 
   if (f.size > POIDS_MAX) throw new FichierRefuse('trop-lourd');
-  /* Les tags seulement : les dix premiers octets disent leur longueur, et
-     on ne lit que celle-la (8 Mo au plus, une grande pochette comprise). */
+  const entree = await entreeDe(f, id, dossier, { fichier: f });
+  await requete('readwrite', (m) => m.put(entree));
+  window.dispatchEvent(new Event(CHANGEMENT));
+  void lancerAnalyses();
+  return versMorceau(entree);
+}
+
+/* Une entree, d'apres les tags seulement : les dix premiers octets disent
+   leur longueur, et on ne lit que celle-la (8 Mo au plus, une grande
+   pochette comprise). */
+async function entreeDe(f: File, id: string, dossier: string, ou: Pick<Entree, 'fichier' | 'poignee' | 'racine'>): Promise<Entree> {
   const tete = new Uint8Array(await f.slice(0, 10).arrayBuffer());
   const longueur = Math.min(f.size, tailleDesTags(tete), 8 * 1024 * 1024);
   const tags = longueur > 0 ? lireTags(await f.slice(0, longueur).arrayBuffer()) : {};
   const nom = titreDuNom(f.name);
-  const entree: Entree = {
+  return {
     id,
     nom: f.name,
     titre: tags.titre ?? nom.titre,
@@ -178,23 +234,86 @@ export async function ajouterFichier(f: File, dossier = ''): Promise<Morceau> {
     tonalite: tags.tonalite ?? null,
     duree: 0,
     pochette: tags.pochette ? new Blob([tags.pochette.octets.slice()], { type: tags.pochette.type }) : null,
-    fichier: f,
+    ...ou,
     ajout: Date.now(),
     dossier,
   };
-  await requete('readwrite', (m) => m.put(entree));
+}
+
+/* ═══ RELIER UN DOSSIER (Chrome, Edge) ═══ Le navigateur rend une poignee
+   sur le dossier ; on la garde, on parcourt ses sous-dossiers, et chaque
+   son devient une entree qui ne porte que sa propre poignee. Rien n'est
+   copie : 1 800 morceaux ne prennent que quelques kilo-octets. */
+interface Selecteur {
+  showDirectoryPicker?: (o?: { id?: string; mode?: 'read' }) => Promise<FileSystemDirectoryHandle>;
+}
+export const peutRelier = (): boolean => typeof (window as unknown as Selecteur).showDirectoryPicker === 'function';
+
+/** Ouvre le selecteur de dossier ; rend le dossier et le nombre de
+    morceaux relies, ou null si l'on a renonce. */
+export async function relierDossier(progres: (fait: number, total: number) => void): Promise<{ nom: string; relies: number } | null> {
+  const choisir = (window as unknown as Selecteur).showDirectoryPicker;
+  if (!choisir) return null;
+  let dossier: FileSystemDirectoryHandle;
+  try {
+    dossier = await choisir({ id: 'sonaa-caisse', mode: 'read' });
+  } catch {
+    return null;
+  }
+  return relier(dossier, progres);
+}
+
+type Contenu = AsyncIterable<FileSystemHandle>;
+async function sonsDe(d: FileSystemDirectoryHandle): Promise<FileSystemFileHandle[]> {
+  const sons: FileSystemFileHandle[] = [];
+  for await (const h of (d as unknown as { values(): Contenu }).values()) {
+    if (h.kind === 'directory') sons.push(...(await sonsDe(h as FileSystemDirectoryHandle)));
+    else if (SON.test(h.name)) sons.push(h as FileSystemFileHandle);
+  }
+  return sons;
+}
+
+/** Relie un dossier deja choisi (par le selecteur, ou lache sur la page). */
+export async function relier(dossier: FileSystemDirectoryHandle, progres: (fait: number, total: number) => void): Promise<{ nom: string; relies: number }> {
+  await requete('readwrite', (m) => m.put({ nom: dossier.name, poignee: dossier }), RACINES);
+  const sons = await sonsDe(dossier);
+  let relies = 0;
+  for (let i = 0; i < sons.length; i += 1) {
+    const h = sons[i];
+    if (!h) continue;
+    progres(i + 1, sons.length);
+    try {
+      const f = await h.getFile();
+      if (f.size > POIDS_MAX) continue;
+      const id = empreinte(f);
+      const deja = await requete<Entree | undefined>('readonly', (m) => m.get(id));
+      const entree: Entree = deja
+        ? { ...deja, dossier: dossier.name, poignee: h, racine: dossier.name }
+        : await entreeDe(f, id, dossier.name, { poignee: h, racine: dossier.name });
+      await requete('readwrite', (m) => m.put(entree));
+      relies += 1;
+      if (relies % 50 === 0) window.dispatchEvent(new Event(CHANGEMENT));
+    } catch {
+      /* un fichier illisible ou disparu : on passe au suivant */
+    }
+  }
   window.dispatchEvent(new Event(CHANGEMENT));
   void lancerAnalyses();
-  return versMorceau(entree);
+  return { nom: dossier.name, relies };
 }
 
 /* ═══ L'ANALYSE ═══ Decoder un morceau pour sa duree, et pour son BPM si
    le tag n'en donnait pas. A 22 050 Hz : assez pour entendre les coups,
    deux fois moins lourd. */
-async function analyserEntree(e: Entree): Promise<Entree> {
+async function analyserEntree(e: Entree, demander = false): Promise<Entree> {
+  const brut = await contenu(e, demander);
+  if (!brut) {
+    enAttente.add(e.id);
+    return e;
+  }
   let analyse: Entree;
   try {
-    const son = await new OfflineAudioContext(1, 1, 22050).decodeAudioData(await e.fichier.arrayBuffer());
+    const son = await new OfflineAudioContext(1, 1, 22050).decodeAudioData(await brut.arrayBuffer());
     analyse = { ...e, duree: son.duration, bpm: e.bpm ?? estimerBpm(son.getChannelData(0), son.sampleRate) };
   } catch {
     analyse = { ...e, illisible: true };
@@ -209,7 +328,7 @@ async function analyserEntree(e: Entree): Promise<Entree> {
 export async function morceauAnalyse(id: string): Promise<Morceau | null> {
   const e = await requete<Entree | undefined>('readonly', (m) => m.get(id));
   if (!e) return null;
-  return versMorceau(e.duree > 0 || e.illisible ? e : await analyserEntree(e));
+  return versMorceau(e.duree > 0 || e.illisible ? e : await analyserEntree(e, true));
 }
 
 /* LES ANALYSES EN FOND, une a la fois, tant que la page est visible : un
@@ -223,7 +342,7 @@ export async function lancerAnalyses(): Promise<void> {
     for (;;) {
       if (document.hidden) await new Promise<void>((r) => document.addEventListener('visibilitychange', () => r(), { once: true }));
       const toutes = await requete<Entree[]>('readonly', (m) => m.getAll());
-      const suivante = toutes.sort((a, b) => b.ajout - a.ajout).find((e) => e.duree === 0 && !e.illisible);
+      const suivante = toutes.sort((a, b) => b.ajout - a.ajout).find((e) => e.duree === 0 && !e.illisible && !enAttente.has(e.id));
       if (!suivante) break;
       await analyserEntree(suivante);
       await new Promise((r) => window.setTimeout(r, 150));
