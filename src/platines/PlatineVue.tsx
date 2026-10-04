@@ -174,32 +174,33 @@ export function PlatineVue({ index, morceau, onCharger, onEtat, onDeposer, navig
      passage, puis CUE pose le point la ou l'on s'est arrete. */
   const tirage = useRef<{ x: number; depart: number; dernierGrain: number } | null>(null);
 
-  /* ═══ LA RECHERCHE ═══ Tenue plus d'un quart de seconde, elle fait
-     defiler le morceau a sept fois et demie sa vitesse, en grains si la
-     platine est en pause. Une simple pression saute d'un temps. */
-  const recherche = useRef<{ sens: 1 | -1; debut: number; longue: boolean; minuterie: number } | null>(null);
-  const deplacer = (secondes: number): void => {
-    const p = platine();
-    const cible = p.position() + secondes;
-    if (p.enLecture) p.aller(cible);
-    else p.grain(cible);
+  /* ═══ LE PITCH BEND ═══ Mika, le 3 octobre 2026 : ces touches servent,
+     tant qu'on les tient, a deplacer finement le morceau pour l'ajuster et
+     caler les temps. En lecture, elles freinent ou poussent le morceau : un
+     et demi pour cent d'abord, puis davantage si on insiste, jusqu'a six,
+     comme les touches de nudge d'un logiciel de DJ ; relachees, la vitesse
+     revient au pitch. En pause, elles font glisser la tete de lecture tout
+     doucement, en grains, pour poser le cue au poil pres. */
+  const bend = useRef<{ debut: number; minuterie: number } | null>(null);
+  const bendBas = (sens: 1 | -1): void => {
+    if (!pret || bend.current) return;
+    const r = { debut: performance.now(), minuterie: 0 };
+    const pas = (): void => {
+      const p = platine();
+      const tenu = (performance.now() - r.debut) / 1000;
+      if (p.enLecture) p.courber(sens * Math.min(0.06, 0.015 + tenu * 0.03));
+      else p.grain(p.position() + sens * 0.02);
+    };
+    pas();
+    r.minuterie = window.setInterval(pas, 70);
+    bend.current = r;
   };
-  const rechercheBas = (sens: 1 | -1): void => {
-    if (!pret) return;
-    const r = { sens, debut: performance.now(), longue: false, minuterie: 0 };
-    r.minuterie = window.setInterval(() => {
-      if (performance.now() - r.debut < 250) return;
-      r.longue = true;
-      deplacer(sens * 0.6);
-    }, 80);
-    recherche.current = r;
-  };
-  const rechercheHaut = (): void => {
-    const r = recherche.current;
+  const bendHaut = (): void => {
+    const r = bend.current;
     if (!r) return;
     window.clearInterval(r.minuterie);
-    recherche.current = null;
-    if (!r.longue) deplacer(r.sens * (morceau?.bpm ? 60 / morceau.bpm : 0.5));
+    bend.current = null;
+    if (pret) platine().courber(0);
   };
 
   /* ═══ LES BOUTONS DE TRANSPORT ═══ */
@@ -539,22 +540,27 @@ export function PlatineVue({ index, morceau, onCharger, onEtat, onDeposer, navig
               <span className="pl-jog-aiguille" />
             </div>
           </div>
-          {/* LA RECHERCHE, au bord du jog : une pression avance ou recule d'un
-              temps, la tenir fait defiler le morceau, comme SEARCH sur une
-              CDJ. */}
+          {/* LE PITCH BEND, au bord du jog : tenir pour freiner ou pousser. */}
           {([-1, 1] as const).map((sens) => (
             <button
               key={sens}
               type="button"
               className={`pl-recherche ${sens < 0 ? 'pl-recherche-arriere' : 'pl-recherche-avant'}`}
-              aria-label={sens < 0 ? t.platineRechercheArriere : t.platineRechercheAvant}
+              aria-label={sens < 0 ? t.platineFreiner : t.platinePousser}
               onPointerDown={(e) => {
-                rechercheBas(sens);
+                bendBas(sens);
                 /* Garder la main meme si le doigt glisse hors de la touche. */
                 if (e.isPrimary) e.currentTarget.setPointerCapture(e.pointerId);
               }}
-              onPointerUp={rechercheHaut}
-              onPointerCancel={rechercheHaut}
+              onPointerUp={bendHaut}
+              onPointerCancel={bendHaut}
+              onKeyDown={(e) => {
+                if (e.key === ' ' || e.key === 'Enter') {
+                  e.preventDefault();
+                  bendBas(sens);
+                }
+              }}
+              onKeyUp={bendHaut}
             >
               <svg viewBox="0 0 20 12" aria-hidden="true">
                 {sens < 0 ? <path d="M9 1 L1 6 L9 11 Z M19 1 L11 6 L19 11 Z" /> : <path d="M1 1 L9 6 L1 11 Z M11 1 L19 6 L11 11 Z" />}

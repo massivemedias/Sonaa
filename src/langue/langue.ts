@@ -557,8 +557,8 @@ interface Dictionnaire {
   readonly platinesFinition: string;
   readonly platinesFinitionNoire: string;
   readonly platinesFinitionBlanche: string;
-  readonly platineRechercheArriere: string;
-  readonly platineRechercheAvant: string;
+  readonly platineFreiner: string;
+  readonly platinePousser: string;
   readonly platineNom: (nom: string) => string;
   readonly platineVide: string;
   readonly platineCharger: string;
@@ -1396,8 +1396,8 @@ const FR: Dictionnaire = {
   platinesFinition: 'Finition des machines',
   platinesFinitionNoire: 'Noire',
   platinesFinitionBlanche: 'Blanche',
-  platineRechercheArriere: 'Reculer d’un temps, maintenir pour défiler',
-  platineRechercheAvant: 'Avancer d’un temps, maintenir pour défiler',
+  platineFreiner: 'Freiner : maintenir pour ralentir le morceau et caler les temps',
+  platinePousser: 'Pousser : maintenir pour accélérer le morceau et caler les temps',
   platineNom: (nom) => `Deck ${nom}`,
   platineVide: 'Aucun morceau chargé',
   platineCharger: 'Charger un morceau',
@@ -2250,8 +2250,8 @@ const EN: Dictionnaire = {
   platinesFinition: 'Machine finish',
   platinesFinitionNoire: 'Black',
   platinesFinitionBlanche: 'White',
-  platineRechercheArriere: 'Back one beat, hold to scan',
-  platineRechercheAvant: 'Forward one beat, hold to scan',
+  platineFreiner: 'Pitch bend down: hold to slow the track and match the beat',
+  platinePousser: 'Pitch bend up: hold to speed the track up and match the beat',
   platineNom: (nom) => `Deck ${nom}`,
   platineVide: 'No track loaded',
   platineCharger: 'Load a track',

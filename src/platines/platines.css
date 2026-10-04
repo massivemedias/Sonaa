@@ -242,8 +242,8 @@
 }
 .pl-logo {
   flex: 0 0 auto;
-  width: 24px;
-  height: 33px;
+  width: 35px;
+  height: 30px;
   background: var(--m-encre);
   -webkit-mask: url('/brand/mauditemachine-logotype.png') center / contain no-repeat;
   mask: url('/brand/mauditemachine-logotype.png') center / contain no-repeat;
@@ -805,7 +805,7 @@
   box-shadow: 0 0 4px rgb(0 0 0 / 0.8);
 }
 
-/* LA RECHERCHE, aux deux coins bas du jog : deux petites touches rondes. */
+/* LE PITCH BEND, aux deux coins bas du jog : deux petites touches rondes. */
 .pl-recherche {
   position: absolute;
   bottom: -2px;

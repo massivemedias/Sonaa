@@ -55,8 +55,9 @@ tous de la même couleur ; l'os pour l'onde et la sérigraphie. CUE et PLAY
 sont de grosses touches de caoutchouc comme RUN/STOP ; en lecture, PLAY
 s'allume en entier, et rien ne clignote.
 
-**Le logotype de Maudite Machine** (le M de la MM-808,
-`public/brand/mauditemachine-logotype.png`) remplace « SONAA » en tête des
+**Le logotype de Maudite Machine** (la marque de la MM-808,
+`public/brand/mauditemachine-logotype.png`, en entier : le rognage
+automatique l'avait d'abord coupé, le blanc de ses bords pris pour du fond) remplace « SONAA » en tête des
 trois machines ; il sert de masque et prend l'encre de la finition.
 
 **Le navigateur s'ouvre dans la platine** dont on presse la touche de
@@ -67,8 +68,9 @@ sous les machines.
 orange allumé en lecture, un plateau noir à sillons concentriques et à
 tranche crantée (lui seul tourne), un reflet fixe, et un écran rond avec la
 pochette, l'anneau d'avancement du morceau et une aiguille. À ses deux coins
-bas, les touches de recherche : une pression saute d'un temps, la tenir
-fait défiler.
+bas, deux touches de pitch bend, pour caler les temps : tenues en lecture,
+elles freinent ou poussent le morceau (1,5 % d'abord, jusqu'à 6 % si on
+insiste) ; en pause, elles font glisser la tête de lecture tout doucement.
 
 **Deux finitions** : noire, et blanche comme la MM-808 claire. Les matières
 passent par des variables `--m-*` ; les écrans, les capuchons et le plateau
