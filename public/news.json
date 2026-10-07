@@ -1,6 +1,33 @@
 {
- "fait": "2026-10-06T18:28:15.285Z",
+ "fait": "2026-10-07T06:09:51.536Z",
  "articles": [
+  {
+   "source": "musicradar",
+   "titre": "“It was a wild time. We mixed the album in two days on the most primitive console”: How Led Zeppelin created an epic masterpiece",
+   "lien": "https://www.musicradar.com/artists/it-was-a-wild-time-we-mixed-the-album-in-two-days-on-the-most-primitive-console-you-could-imagine-how-led-zeppelin-created-the-masterpiece-that-hit-no-1-on-both-sides-of-the-atlantic-and-defined-a-new-form-of-heavy-rock-music",
+   "date": "2026-10-06T23:10:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/SA43mLyeqiEzvmLrfQp2fh-1920-80.jpg",
+   "resume": "As the ’60s drew to a close, a new order was being established among rock’s elite, and Led Zeppelin were leading the charge. Zeppelin’s rise to power was achieved with almost indecent haste. Their second album –…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "“The ISA preamps deliver superb quality recorded tones”: Focusrite ISA C8X review",
+   "lien": "https://www.musicradar.com/music-tech/audio-interfaces/focusrite-isa-c8x-review",
+   "date": "2026-10-06T21:18:27.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/yvdioeh4Wn4YMQ2RcCh4U6-1920-80.jpg",
+   "resume": "What is it? Back in 1985, Rupert Neve had left Neve Electronics to set up Focusrite and was asked to design a mic preamp and EQ for the console at AIR Studios Montserrat. The result was the now-legendary ISA 110. The…",
+   "integral": true
+  },
+  {
+   "source": "attack",
+   "titre": "Beatport Launches Indie Tech Genre Category",
+   "lien": "https://www.attackmagazine.com/news/beatport-launches-indie-tech-genre-category/",
+   "date": "2026-10-06T19:21:05.000Z",
+   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/10/Attack-Mag-News-Feat-Images-Peel-Stems-1.png?fit=1130%2C387&ssl=1",
+   "resume": "Beatport has launched indie tech, a standalone genre category with its own Top 100 chart, separating it from indie dance. Beatport has added indie tech to its store as a standalone genre, giving the heavier…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "Guitar Journal: Dumble is back with 3 amps!",
@@ -164,15 +191,6 @@
    "integral": true
   },
   {
-   "source": "musicradar",
-   "titre": "“An excellent example ofthe genre’s shifting atmospheric soundscapes”: EarthQuaker Devices Towers review",
-   "lien": "https://www.musicradar.com/guitars/guitar-pedals/dod-drag-analog-delay-review",
-   "date": "2026-10-06T10:59:05.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/pCk9Shd85xScuZG5eDAJdY-1920-80.jpg",
-   "resume": "What is it? Analogue delay pedals continue to be a popular choice for guitar players due to its ability to blend so well with guitar tone. The latest iteration to hit our pages is the Drag from DOD, a brand that has…",
-   "integral": true
-  },
-  {
    "source": "gearnews",
    "titre": "Custom Firmware Is Booming: Mods for Octatrack, SP-404MKII, and More",
    "lien": "https://www.gearnews.com/custom-firmware-is-booming-synths/",
@@ -188,15 +206,6 @@
    "date": "2026-10-06T08:00:45.000Z",
    "image": "https://musictech.com/wp-content/uploads/2026/10/kaelin-ellis-press-hero-mfs@2000x1500.jpg",
    "resume": "Joining us this week on My Forever Studio is multi‑platinum producer, multi-instrumentalist, and sample pack maker Kaelin Ellis. With his 11th studio album, GOVERNER, dropping this year, Ellis has some choice gear picks…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "\"He's so easy to play with, it's really addictive”: Josh Homme sings the praises on Dave Grohl",
-   "lien": "https://www.musicradar.com/artists/guitarists/its-really-addictive-you-play-him-a-riff-and-hell-play-that-riff-back-at-you-on-the-drums-and-then-hell-play-a-drum-counter-melody-that-would-have-been-a-harmony-going-on-josh-homme-sings-dave-grohls-praises",
-   "date": "2026-10-06T07:50:39.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/Kji8teLBKdr66moSzqtXiK-1920-80.jpg",
-   "resume": "Queens Of The Stone Age have a new album at the end of this month and in the run up to the release of Perfecth, Josh Homme has sat down with Rick Beato for a chat. Homme’s long-time compadre Dave Grohl is one of the…",
    "integral": true
   },
   {
@@ -377,15 +386,6 @@
    "date": "2026-09-14T12:33:49.000Z",
    "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/Attack-Mag-Reviews-Bullfrog-Drums-3.png?fit=1130%2C386&ssl=1",
    "resume": "A hands-on sampler and sequencer built with Richie Hawtin, the Bullfrog Drums wears \"educational\" lightly and delivers serious performance power. I've spent thirty-odd years now making noise with devices for a living…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Normal by Proxy Brings Shared, Browser-based Jamming For Up To 8 Players",
-   "lien": "https://www.attackmagazine.com/news/normal-by-proxy-brings-shared-browser-based-jamming-for-up-to-8-players/",
-   "date": "2026-09-11T19:13:43.000Z",
-   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/Attack-Mag-News-Feat-Images-Proxy.jpg?fit=1130%2C387&ssl=1",
-   "resume": "GOGDOG's new browser tool lets groups build tracks together in real time, with no downloads, accounts or saving required. Developer GOGDOG has released Normal by Proxy, a free, browser-based space for making electronic…",
    "integral": true
   },
   {
