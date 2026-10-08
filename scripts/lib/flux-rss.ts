@@ -30,6 +30,9 @@ export interface Article {
       content:encoded), la meme regle que la lecture : voir
       worker/src/index.ts, SEUIL_INTEGRAL. */
   readonly integral?: boolean | undefined;
+  /** Les categories du flux (« Guitars », « Synths »), pour le tri : voir
+      filtre-news.ts. Elles ne sont pas ecrites dans news.json. */
+  readonly etiquettes?: readonly string[] | undefined;
 }
 
 /* ── Le texte ─────────────────────────────────────────────────────────── */
@@ -133,6 +136,14 @@ function dateDe(brut: string | null): string | null {
 /** Les articles d'un flux, dans l'ordre du flux. Rend un tableau vide sur
     un texte qui n'est ni RSS ni Atom, sans lever : une source cassee ne
     doit pas faire tomber les vingt autres. */
+/** Les categories d'un article : <category>Synths</category> en RSS,
+    <category term="Synths"/> en Atom. */
+function categoriesDe(bloc: string): string[] {
+  const rss = [...bloc.matchAll(/<category(?:\s[^>]*)?>([\s\S]*?)<\/category>/gi)].map((m) => texteNu(m[1]));
+  const atom = [...bloc.matchAll(/<category\b[^>]*\bterm=["']([^"']+)["'][^>]*\/?>/gi)].map((m) => texteNu(m[1]));
+  return [...rss, ...atom].filter((c) => c.length > 0);
+}
+
 export function lireFlux(xml: string, source: string): Article[] {
   const items = [...xml.matchAll(/<item(?:\s[^>]*)?>([\s\S]*?)<\/item>/gi)].map((m) => m[1] ?? '');
   const entries = items.length > 0 ? [] : [...xml.matchAll(/<entry(?:\s[^>]*)?>([\s\S]*?)<\/entry>/gi)].map((m) => m[1] ?? '');
@@ -156,6 +167,7 @@ export function lireFlux(xml: string, source: string): Article[] {
       image: imageDe(bloc),
       resume: resumer(texteNu(corps)),
       integral: !atom && texteNu(champ(bloc, 'content:encoded')).length >= 1000,
+      etiquettes: categoriesDe(bloc),
     });
   }
   return out;

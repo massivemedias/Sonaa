@@ -29,6 +29,7 @@
 import { writeFileSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { imageDePage, lireFlux, SOURCES, type Article } from './lib/flux-rss.ts';
+import { pertinent } from './lib/filtre-news.ts';
 
 const SORTIE = fileURLToPath(new URL('../public/news.json', import.meta.url));
 /** Par source : assez pour une journee chargee, pas de quoi noyer les autres. */
@@ -98,8 +99,12 @@ async function main(): Promise<void> {
         const xml = await lire(s.flux ?? '');
         const lus = lireFlux(xml, s.id);
         if (lus.length === 0) throw new Error('aucun article lu');
-        articles.push(...lus.slice(0, PAR_SOURCE));
-        console.log(`  ${s.nom.padEnd(24)} ${lus.length} articles`);
+        /* LE TRI AVANT LA PART : MusicRadar donne cinquante articles, dont
+           une poignee de synthes ; couper a douze avant de trier en
+           laisserait deux. Voir filtre-news.ts. */
+        const gardes = lus.filter(pertinent);
+        articles.push(...gardes.slice(0, PAR_SOURCE).map(({ etiquettes: _e, ...a }) => a));
+        console.log(`  ${s.nom.padEnd(24)} ${lus.length} articles, ${lus.length - gardes.length} hors sujet`);
       } catch (e) {
         const raison = e instanceof Error ? e.message : String(e);
         pannes.push({ id: s.id, raison });
