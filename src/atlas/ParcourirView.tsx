@@ -325,7 +325,7 @@ export function ParcourirView() {
           d'alignement fait juste avant. Le retour, lui, apparait et
           disparait ; s'il etait devant, le logo sauterait de quarante-quatre
           pixels a chaque descente. */}
-      <a className="pv-logo" href="#/parcourir" aria-label={t.retourAtlas}>
+      <a className="pv-logo" href="#/accueil" aria-label={t.retourAtlas}>
         <img src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`} alt="SONAA" draggable={false} />
       </a>
 

@@ -21,7 +21,7 @@ import './entete.css';
 export function EnTeteSite() {
   return (
     <header className="entete-site">
-      <a className="entete-logo" href="#/parcourir" aria-label={t.retourAtlas}>
+      <a className="entete-logo" href="#/accueil" aria-label={t.retourAtlas}>
         <img
           src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`}
           alt="SONAA"

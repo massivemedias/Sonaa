@@ -1,0 +1,576 @@
+/* L'ACCUEIL. Voir Accueil.tsx et Spectre.tsx.
+ *
+ * Le fond reste le granite du site ; l'ouverture tient un ecran, et chaque
+ * section suivante commence par un filet, un numero en orange, un grand
+ * titre et sa porte. Une seule entree en mouvement, celle du site
+ * (Apparition), plus deux qui ne jouent qu'une fois a l'arrivee : le titre
+ * qui monte de sous sa ligne, et les traits du spectre. */
+
+.ac {
+  min-height: 100vh;
+  overflow-x: clip;
+}
+
+/* ═══ L'OUVERTURE ═══ */
+.ac-hero {
+  position: relative;
+  /* L'ECRAN MOINS LA BARRE DU BAS sur telephone (nulle ailleurs) : le
+     spectre se pose sur elle, pas dessous. */
+  min-height: calc(100svh - var(--barre-bas-h, 0px));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(180px, 1fr);
+  padding: clamp(88px, 12vh, 136px) var(--marge-page) 0;
+}
+.ac-hero-texte {
+  width: 100%;
+  max-width: var(--largeur-page);
+  margin: 0 auto;
+}
+.ac-surtitre {
+  margin: 0 0 var(--espace-16);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  color: var(--accent);
+  animation: ac-fondu 600ms 100ms both;
+}
+.ac-titre {
+  margin: 0;
+  font-size: clamp(2.6rem, min(7.4vw, 11vh), 7.2rem);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: var(--serrage);
+  color: var(--encre-vive);
+}
+/* LE TITRE MONTE DE SOUS SA LIGNE : chaque ligne est une fenetre, le texte
+   y entre par le bas. */
+.ac-ligne {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+.ac-ligne > span {
+  display: inline-block;
+  animation: ac-monte 1000ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.ac-ligne:nth-child(2) > span {
+  animation-delay: 140ms;
+  color: var(--accent);
+}
+.ac-chapeau {
+  max-width: 40rem;
+  margin: var(--espace-24) 0 0;
+  font-size: clamp(1rem, 1.35vw, 1.2rem);
+  line-height: 1.5;
+  color: var(--ink-secondary);
+  animation: ac-fondu 700ms 420ms both;
+}
+.ac-gestes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-12);
+  margin: var(--espace-32) 0 0;
+  animation: ac-fondu 700ms 540ms both;
+}
+.ac-geste {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 1.4rem;
+  border-radius: var(--rayon-pilule);
+  border: 1px solid var(--filet-fort);
+  background: var(--verre-fond);
+  color: var(--ink-primary);
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 160ms ease, background 160ms ease, color 160ms ease;
+}
+.ac-geste:hover {
+  border-color: var(--accent);
+}
+.ac-geste-plein {
+  border-color: transparent;
+  background: var(--accent);
+  color: var(--sur-accent);
+}
+.ac-geste-plein:hover {
+  background: var(--accent-jaune);
+}
+.ac-chiffres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-8) var(--espace-24);
+  margin: var(--espace-32) 0 0;
+  font-size: 0.9rem;
+  color: var(--ink-secondary);
+  animation: ac-fondu 700ms 660ms both;
+}
+.ac-chiffres strong {
+  margin-right: var(--espace-4);
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-primary);
+}
+
+/* ═══ LE SPECTRE ═══ Un trait par style, pose sur la ligne du bas de
+   l'ecran. La teinte est celle de la famille (meme formule que les
+   colonnes et les credits), la hauteur le tempo. Le liseré clair en tete
+   de chaque trait est le repere de crete d'un analyseur. */
+.ac-spectre-cadre {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  margin: clamp(24px, 5vh, 64px) calc(-1 * var(--marge-page)) 0;
+}
+.ac-spectre-legende {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--espace-4) var(--espace-12);
+  min-height: 1.5em;
+  max-width: calc(var(--largeur-page) + 2 * var(--marge-page));
+  margin: 0 auto var(--espace-12);
+  padding: 0 var(--marge-page);
+  font-size: 0.8rem;
+  color: var(--ink-secondary);
+}
+.ac-spectre-legende strong {
+  font-size: 1rem;
+  color: var(--ink-primary);
+}
+.ac-spectre {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 100%;
+  min-height: 160px;
+  max-height: 420px;
+  padding: 0 var(--marge-page);
+  border-bottom: 1px solid var(--filet);
+}
+.ac-trait {
+  flex: 1 1 0;
+  min-width: 0;
+  height: calc(var(--h) * 100%);
+  border-radius: 2px 2px 0 0;
+  background: oklch(0.72 0.15 var(--teinte));
+  box-shadow: inset 0 3px 0 oklch(0.9 0.1 var(--teinte));
+  opacity: 0.9;
+  transform-origin: 50% 100%;
+  animation: ac-trait 1100ms cubic-bezier(0.2, 0.9, 0.25, 1.12) both;
+  animation-delay: calc(300ms + var(--i) * 5ms);
+  transition: opacity 160ms ease, background 160ms ease;
+}
+.ac-spectre:hover .ac-trait {
+  opacity: 0.32;
+}
+.ac-spectre:hover .ac-trait[data-actif='true'] {
+  opacity: 1;
+  background: oklch(0.86 0.13 var(--teinte));
+}
+
+@keyframes ac-monte {
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes ac-fondu {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ac-trait {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* ═══ LES SECTIONS ═══ */
+.ac-section {
+  max-width: var(--largeur-page);
+  margin: 0 auto;
+  padding: clamp(56px, 10vh, 112px) var(--marge-page) 0;
+}
+.ac-section-tete {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: end;
+  gap: var(--espace-16) var(--espace-24);
+  margin-bottom: var(--espace-24);
+  padding-top: var(--espace-16);
+  border-top: 1px solid var(--filet);
+}
+.ac-numero {
+  align-self: start;
+  padding-top: 0.55rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+.ac-section-titre {
+  margin: 0;
+  font-size: clamp(2rem, 4.6vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: var(--serrage);
+  color: var(--encre-vive);
+}
+.ac-section-sous {
+  max-width: 42rem;
+  margin: var(--espace-8) 0 0;
+  color: var(--ink-secondary);
+}
+.ac-porte {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--ink-primary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent);
+}
+.ac-porte:hover {
+  color: var(--accent);
+}
+
+/* LES RANGEES DEFILENT AU DOIGT ET A LA ROULETTE, sans barre visible. */
+.ac-rangee {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 var(--espace-8);
+  display: grid;
+  grid-auto-flow: column;
+  gap: var(--espace-16);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.ac-rangee::-webkit-scrollbar {
+  display: none;
+}
+.ac-rangee > li {
+  scroll-snap-align: start;
+}
+
+/* Les soirees */
+.ac-soirees {
+  grid-auto-columns: minmax(200px, 232px);
+}
+.ac-soiree a {
+  display: grid;
+  gap: 4px;
+  color: inherit;
+  text-decoration: none;
+}
+.ac-soiree-affiche,
+.ac-soiree a > .cal-gen {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: var(--espace-8);
+  background: var(--voile-08);
+  transition: transform 220ms ease;
+}
+.ac-soiree a:hover .ac-soiree-affiche {
+  transform: translateY(-4px);
+}
+.ac-soiree-quand {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.ac-soiree-titre {
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--ink-primary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ac-soiree-lieu {
+  font-size: 0.85rem;
+  color: var(--ink-secondary);
+}
+.ac-fantome {
+  aspect-ratio: 4 / 5;
+  border-radius: 14px;
+  background: var(--voile-05);
+}
+.ac-vide {
+  margin: 0;
+}
+
+/* Track ID */
+.ac-trackid {
+  max-width: 34rem;
+}
+
+/* Les familles */
+.ac-familles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: var(--espace-12);
+}
+.ac-famille {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--espace-8);
+  min-height: 96px;
+  padding: var(--espace-16);
+  border-radius: 16px;
+  border: 1px solid var(--filet);
+  background: var(--verre-fond);
+  color: var(--ink-primary);
+  text-decoration: none;
+  overflow: hidden;
+  transition: border-color 180ms ease, transform 180ms ease;
+}
+/* LA TEINTE DE LA FAMILLE en barre d'en tete, comme le trait du spectre. */
+.ac-famille::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: oklch(0.72 0.15 var(--teinte));
+}
+.ac-famille:hover {
+  border-color: oklch(0.72 0.15 var(--teinte));
+  transform: translateY(-3px);
+}
+.ac-famille-nom {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+.ac-famille-n {
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-secondary);
+}
+
+/* Les sorties des labels */
+.ac-sorties {
+  grid-auto-columns: 150px;
+}
+.ac-sortie a,
+.ac-mixtape a {
+  display: grid;
+  gap: 2px;
+  color: inherit;
+  text-decoration: none;
+}
+.ac-sortie img,
+.ac-sortie-vide,
+.ac-mixtape img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: var(--espace-8);
+  background: var(--voile-08);
+  transition: transform 220ms ease;
+}
+.ac-sortie a:hover img,
+.ac-mixtape a:hover img {
+  transform: translateY(-4px);
+}
+.ac-sortie-titre,
+.ac-mixtape-titre {
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--ink-primary);
+}
+.ac-sortie-artiste,
+.ac-mixtape-artiste {
+  font-size: 0.8rem;
+  color: var(--ink-secondary);
+}
+.ac-sortie-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* Les news */
+.ac-news {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--espace-24) var(--espace-16);
+}
+.ac-article a {
+  display: grid;
+  gap: var(--espace-4);
+  color: inherit;
+  text-decoration: none;
+}
+.ac-article img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: var(--espace-8);
+  background: var(--voile-08);
+  transition: transform 220ms ease;
+}
+.ac-article a:hover img {
+  transform: translateY(-4px);
+}
+.ac-article-source {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.ac-article-titre {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--ink-primary);
+}
+
+/* Les mixtapes */
+.ac-mixtapes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--espace-16);
+}
+
+/* SUR ORDINATEUR, LES RANGEES DEVIENNENT DES GRILLES : un defilement de
+   cote se devine au doigt, pas a la roulette. Dix soirees en deux rangs de
+   cinq, dix-huit sorties en trois rangs de six. */
+@media (min-width: 900px) {
+  .ac-rangee {
+    grid-auto-flow: row;
+    overflow: visible;
+  }
+  .ac-soirees {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--espace-32) var(--espace-16);
+  }
+  .ac-sorties {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: var(--espace-24) var(--espace-16);
+  }
+}
+
+/* LE PIED SE DETACHE de la derniere section. Il est pose directement dans
+   la page, qui n'a pas le retrait des pages document : ses marges
+   negatives (voir pied.css) n'ont rien a compenser ici, son retrait
+   interieur suffit a l'aligner sur la colonne. */
+.ac > .pied {
+  margin: clamp(56px, 10vh, 112px) 0 0;
+}
+
+@media (max-width: 899px) {
+  .ac-news {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ac-mixtapes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 720px) {
+  .ac-hero {
+    padding-top: 84px;
+  }
+  .ac-chapeau {
+    margin-top: var(--espace-16);
+    font-size: 0.95rem;
+  }
+  .ac-gestes {
+    margin-top: var(--espace-24);
+    gap: var(--espace-8);
+  }
+  .ac-geste {
+    min-height: 44px;
+    padding: 0 1.1rem;
+    font-size: 0.9rem;
+  }
+  .ac-chiffres {
+    margin-top: var(--espace-24);
+    font-size: 0.8rem;
+  }
+  .ac-chiffres strong {
+    font-size: 1.2rem;
+  }
+  /* AU DOIGT, PAS DE SURVOL : la legende dirait toujours la meme phrase,
+     au-dessus d'un spectre qui la dit deja. */
+  .ac-spectre-legende {
+    display: none;
+  }
+  .ac-spectre-cadre {
+    margin-top: var(--espace-24);
+  }
+  /* SUR TELEPHONE, LES TRAITS SE TOUCHENT : 219 traits et 218 espaces
+     d'un pixel ne tiennent pas dans 335 px. Le spectre devient une bande
+     continue, ou les familles se lisent a leur teinte. */
+  .ac-spectre {
+    gap: 0;
+  }
+  .ac-trait {
+    border-radius: 0;
+    box-shadow: inset 0 2px 0 oklch(0.9 0.1 var(--teinte));
+  }
+  .ac-section-tete {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .ac-porte {
+    grid-column: 2;
+    justify-self: start;
+  }
+  .ac-news {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ac-soirees {
+    grid-auto-columns: 72%;
+  }
+  .ac-familles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ac-surtitre,
+  .ac-ligne > span,
+  .ac-chapeau,
+  .ac-gestes,
+  .ac-chiffres,
+  .ac-trait {
+    animation: none;
+  }
+}

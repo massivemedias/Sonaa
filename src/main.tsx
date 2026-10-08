@@ -182,6 +182,8 @@ const AdminPage = lazy(() => import('./atlas/AdminPage.tsx').then((m) => ({ defa
 const CalendrierPage = lazy(() =>
   import('./atlas/CalendrierPage.tsx').then((module) => ({ default: module.CalendrierPage }))
 );
+/* L'ACCUEIL, A LA RACINE DEPUIS LE 8 OCTOBRE 2026. Voir src/accueil/. */
+const Accueil = lazy(() => import('./accueil/Accueil.tsx').then((m) => ({ default: m.Accueil })));
 
 /* LES DECKS SONT PARTIS SUR MAUDITEMACHINE.COM le 4 octobre 2026, ou ils
    sont devenus une machine en trois dimensions a cote du MM-RYTM et du
@@ -201,7 +203,7 @@ if (!rootElement) {
   throw new Error('Élément racine introuvable.');
 }
 
-type Route = 'labels' | 'reconnaitre' | 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'parcourir' | 'profil' | 'mixtapes' | 'tracks' | 'panier' | 'conditions' | 'confidentialite' | 'mentions' | 'calendrier' | 'news' | 'admin' | 'atlas';
+type Route = 'accueil' | 'labels' | 'reconnaitre' | 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'parcourir' | 'profil' | 'mixtapes' | 'tracks' | 'panier' | 'conditions' | 'confidentialite' | 'mentions' | 'calendrier' | 'news' | 'admin' | 'atlas';
 
 const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/index')) return 'index';
@@ -240,11 +242,13 @@ const routeOf = (): Route => {
      d'accueil revenait a proposer, comme premier ecran, la seule vue que le
      menu ne mentionne pas. */
   if (window.location.hash.startsWith('#/carte')) return 'atlas';
-  /* LA RACINE MENE AU CALENDAR. Decision de Mika du 7 septembre 2026, pour
-     le lancement a Montreal : ce qu'on vient chercher en arrivant, c'est ce
-     qui se joue ce soir, pas la carte des genres. Parcourir reste a un clic,
-     premier dans le menu. */
-  return 'calendrier';
+  /* LA RACINE MENE A L'ACCUEIL depuis le 8 octobre 2026. Elle menait au
+     calendrier depuis le 7 septembre (« ce qu'on vient chercher en arrivant,
+     c'est ce qui se joue ce soir ») ; Mika veut maintenant une porte qui
+     montre toutes les pieces, le calendrier en premier. Il garde son
+     adresse, #/calendrier, et sa place en tete du menu. Toute ancre
+     inconnue tombe aussi ici, comme elle tombait sur le calendrier. */
+  return 'accueil';
 };
 
 const estAtlas = (r: Route): boolean => r === 'atlas';
@@ -253,6 +257,7 @@ const estAtlas = (r: Route): boolean => r === 'atlas';
    comme un document, ou comme Parcourir. Les vues plein ecran gardent leur
    chrome, voir BarreBas.tsx. */
 const PORTE_LA_BARRE: ReadonlySet<Route> = new Set([
+  'accueil',
   'calendrier',
   'labels',
   'admin',
@@ -355,6 +360,8 @@ function App() {
           <MentionsPage />
         ) : route === 'calendrier' ? (
           <CalendrierPage />
+        ) : route === 'accueil' ? (
+          <Accueil />
         ) : route === 'news' ? (
           <NewsPage />
         ) : route === 'admin' ? (

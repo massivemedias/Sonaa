@@ -563,6 +563,9 @@ interface Dictionnaire {
   readonly labelAucunMorceau: string;
   readonly labelSortiesConnues: string;
   readonly labelSortiesAide: string;
+  readonly labelDernieresSorties: string;
+  readonly labelDernieresSortiesAide: string;
+  readonly labelDansLesNews: string;
   readonly labelCollectionneurs: (n: number) => string;
   readonly labelStyles: string;
   readonly labelIntrouvable: string;
@@ -734,6 +737,32 @@ interface Dictionnaire {
   readonly heroWeekend: (n: number) => string;
   readonly heroVilleAutre: string;
   readonly heroChoisirVille: string;
+  /* L'ACCUEIL, voir src/accueil/Accueil.tsx. */
+  readonly accueilOnglet: string;
+  readonly accueilTitre1: string;
+  readonly accueilTitre2: string;
+  readonly accueilChapeau: string;
+  readonly accueilCeSoirA: (ville: string) => string;
+  readonly accueilExplorer: (n: number) => string;
+  readonly accueilStylesMot: string;
+  readonly accueilLabelsMot: string;
+  readonly accueilVillesMot: string;
+  readonly accueilSpectreAide: (n: number) => string;
+  readonly accueilSoireesTitre: string;
+  readonly accueilSoireesSous: (ville: string) => string;
+  readonly accueilSoireesSansVille: string;
+  readonly accueilToutLeCalendrier: string;
+  readonly accueilTrackIdTitre: string;
+  readonly accueilTrackIdSous: string;
+  readonly accueilStylesTitre: (n: number, familles: number) => string;
+  readonly accueilStylesSous: string;
+  readonly accueilOuvrirAtlas: string;
+  readonly accueilLabelsTitre: string;
+  readonly accueilLabelsSous: string;
+  readonly accueilNewsSous: string;
+  readonly accueilToutesLesNews: string;
+  readonly accueilMixtapesSous: string;
+  readonly accueilToutesLesMixtapes: string;
   readonly heroAffiches: string;
   /* ═══ RECONNAITRE ═══ La page qui ecoute ce qui passe dans la piece.
      Voir src/reconnaitre/ et RECONNAITRE.md. */
@@ -1317,6 +1346,9 @@ const FR: Dictionnaire = {
   labelAucunMorceau: 'L’atlas ne contient pas encore de morceau de ce label.',
   labelSortiesConnues: 'Les sorties les plus connues',
   labelSortiesAide: 'Classées par le nombre de collectionneurs qui les possèdent sur Discogs.',
+  labelDernieresSorties: 'Dernières sorties',
+  labelDernieresSortiesAide: 'Les plus récentes chez Discogs, rafraîchies chaque semaine.',
+  labelDansLesNews: 'Dans les news',
   labelCollectionneurs: (n) => `${n.toLocaleString('fr-CA')} collectionneurs`,
   labelStyles: 'Ses styles dans l’atlas',
   labelIntrouvable: 'Ce label n’a pas encore de page.',
@@ -1496,6 +1528,33 @@ const FR: Dictionnaire = {
   heroWeekend: (n) => (n === 0 ? 'Rien en fin de semaine' : n === 1 ? '1 en fin de semaine' : `${n} en fin de semaine`),
   heroVilleAutre: 'Changer de ville',
   heroChoisirVille: 'Choisir votre ville',
+  accueilOnglet: 'Soirées, styles, labels et news de la musique électronique',
+  accueilTitre1: 'Ce soir,',
+  accueilTitre2: 'et tout le reste.',
+  accueilChapeau:
+    'Les soirées de votre ville, les styles de la musique électronique et leur histoire, les labels et leurs sorties, ' +
+    'les news du studio, et Track ID pour nommer ce qui joue.',
+  accueilCeSoirA: (v) => `Ce soir à ${v}`,
+  accueilExplorer: (n) => `Explorer les ${n} styles`,
+  accueilStylesMot: 'styles',
+  accueilLabelsMot: 'labels',
+  accueilVillesMot: 'villes',
+  accueilSpectreAide: (n) => `Chaque trait est un style, ${n} en tout : haut comme son tempo, teinté par sa famille.`,
+  accueilSoireesTitre: 'Ce qui se joue',
+  accueilSoireesSous: (v) => `Les prochaines soirées à ${v}.`,
+  accueilSoireesSansVille: 'Choisissez votre ville pour voir ce qui se joue ce soir.',
+  accueilToutLeCalendrier: 'Tout le calendrier',
+  accueilTrackIdTitre: 'Qu’est-ce qui joue ?',
+  accueilTrackIdSous: 'Le morceau, l’artiste, le label et l’album : dix secondes de micro suffisent.',
+  accueilStylesTitre: (n, f) => `${n} styles, ${f} familles`,
+  accueilStylesSous: 'Leur histoire, leurs morceaux, leurs labels, et un cours pour produire chacun.',
+  accueilOuvrirAtlas: 'Ouvrir l’atlas',
+  accueilLabelsTitre: 'Fraîchement sortis',
+  accueilLabelsSous: 'Les dernières sorties des labels de l’atlas, relevées chez Discogs.',
+  accueilNewsSous: 'Machines, logiciels, studios et scène, relevés deux fois par jour.',
+  accueilToutesLesNews: 'Toutes les news',
+  accueilMixtapesSous: 'Des sets déposés par les DJs, à écouter ici.',
+  accueilToutesLesMixtapes: 'Toutes les mixtapes',
   heroAffiches: 'Les prochaines soirées',
   /* « TRACK ID », LE 1er OCTOBRE 2026, et pas une question. Mika, devant
      « Quelle track ? » : « franchement le titre c'est la merde, trouve autre
@@ -2084,6 +2143,9 @@ const EN: Dictionnaire = {
   labelAucunMorceau: 'The atlas has no track from this label yet.',
   labelSortiesConnues: 'Best-known releases',
   labelSortiesAide: 'Ranked by how many collectors own them on Discogs.',
+  labelDernieresSorties: 'Latest releases',
+  labelDernieresSortiesAide: 'The most recent on Discogs, refreshed every week.',
+  labelDansLesNews: 'In the news',
   labelCollectionneurs: (n) => `${n.toLocaleString('en-CA')} collectors`,
   labelStyles: 'Its styles in the atlas',
   labelIntrouvable: 'This label has no page yet.',
@@ -2262,6 +2324,33 @@ const EN: Dictionnaire = {
   heroWeekend: (n) => (n === 0 ? 'Nothing this weekend' : n === 1 ? '1 this weekend' : `${n} this weekend`),
   heroVilleAutre: 'Change city',
   heroChoisirVille: 'Choose your city',
+  accueilOnglet: 'Electronic music nights, styles, labels and news',
+  accueilTitre1: 'Tonight,',
+  accueilTitre2: 'and everything else.',
+  accueilChapeau:
+    'The nights in your city, the styles of electronic music and their history, the labels and their releases, ' +
+    'news from the studio, and Track ID to name what is playing.',
+  accueilCeSoirA: (v) => `Tonight in ${v}`,
+  accueilExplorer: (n) => `Explore the ${n} styles`,
+  accueilStylesMot: 'styles',
+  accueilLabelsMot: 'labels',
+  accueilVillesMot: 'cities',
+  accueilSpectreAide: (n) => `Each line is a style, ${n} in all: as tall as its tempo, tinted by its family.`,
+  accueilSoireesTitre: 'What’s on',
+  accueilSoireesSous: (v) => `The next nights in ${v}.`,
+  accueilSoireesSansVille: 'Choose your city to see what is on tonight.',
+  accueilToutLeCalendrier: 'The whole calendar',
+  accueilTrackIdTitre: 'What is playing?',
+  accueilTrackIdSous: 'The track, the artist, the label and the album: ten seconds of microphone are enough.',
+  accueilStylesTitre: (n, f) => `${n} styles, ${f} families`,
+  accueilStylesSous: 'Their history, their tracks, their labels, and a lesson on producing each one.',
+  accueilOuvrirAtlas: 'Open the atlas',
+  accueilLabelsTitre: 'Fresh releases',
+  accueilLabelsSous: 'The latest releases from the atlas labels, gathered from Discogs.',
+  accueilNewsSous: 'Machines, software, studios and the scene, gathered twice a day.',
+  accueilToutesLesNews: 'All the news',
+  accueilMixtapesSous: 'Sets uploaded by DJs, to play right here.',
+  accueilToutesLesMixtapes: 'All mixtapes',
   heroAffiches: 'The nights coming up',
   trackId: 'Track ID',
   trackIdSous: 'SONAA listens for ten seconds and tells you what is playing.',

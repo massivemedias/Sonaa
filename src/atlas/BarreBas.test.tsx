@@ -61,8 +61,17 @@ describe('BarreBas', () => {
     expect(courants[0]?.getAttribute('href')).toBe('#/mixtapes');
   });
 
-  it('a la racine, c est le Calendar qui est allume', () => {
+  /* La racine est l'accueil depuis le 8 octobre 2026 : il n'a pas
+     d'onglet, aucun ne s'allume. Le Calendar s'allume sur sa propre ancre. */
+  it('a la racine, aucun onglet n est allume', () => {
     window.location.hash = '';
+    render(<BarreBas />);
+    const courants = screen.getAllByRole('link').filter((l) => l.getAttribute('aria-current') === 'page');
+    expect(courants).toHaveLength(0);
+  });
+
+  it('sur #/calendrier, c est le Calendar qui est allume', () => {
+    window.location.hash = '#/calendrier';
     render(<BarreBas />);
     const courant = screen.getAllByRole('link').find((l) => l.getAttribute('aria-current') === 'page');
     expect(courant?.getAttribute('href')).toBe('#/calendrier');

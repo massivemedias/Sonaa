@@ -41,6 +41,7 @@ type SiteCourant =
   | 'calendrier'
   | 'news'
   | 'profil'
+  | 'accueil'
   | 'autre';
 
 /* ═══ DES MOTS, PLUS DES ICONES ═══
@@ -150,9 +151,10 @@ export function courantDuSite(hash: string): SiteCourant {
   if (hash.startsWith('#/parcourir')) return 'parcourir';
   if (hash.startsWith('#/labels')) return 'labels';
   if (hash.startsWith('#/carte')) return 'atlas';
-  /* La racine est le Calendar, comme dans main.tsx : les deux doivent dire
-     la meme chose, sinon le menu allume « Styles » sur la page d'accueil. */
-  if (hash === '' || hash === '#') return 'calendrier';
+  /* La racine est l'accueil, comme dans main.tsx : les deux doivent dire
+     la meme chose, sinon le menu allume « Styles » sur la page d'accueil.
+     L'accueil n'est pas dans le menu ; le logo y mene. */
+  if (hash === '' || hash === '#' || hash === '#/' || hash.startsWith('#/accueil')) return 'accueil';
   if (hash.startsWith('#/')) return 'parcourir';
   return 'autre';
 }

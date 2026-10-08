@@ -48,11 +48,13 @@ const ENTETE_H = 56;
 const BARRE_BAS_H = 64;
 const CIBLE_MIN = 44;
 
-/* LES DIX PAGES : chacune avec le selecteur qui prouve qu'elle est rendue.
+/* LES ONZE PAGES : chacune avec le selecteur qui prouve qu'elle est rendue.
    Les pages pre-rendues sont visitees par leur chemin, les autres par leur
-   ancre. */
+   ancre. L'accueil est a la racine depuis le 8 octobre 2026, le calendrier
+   a sa propre ancre. */
 const PAGES: readonly { chemin: string; attend: string; nom: string }[] = [
-  { nom: 'accueil', chemin: '/', attend: '.hero-titre' },
+  { nom: 'accueil', chemin: '/', attend: '.ac-titre' },
+  { nom: 'calendrier', chemin: '/#/calendrier', attend: '.hero-titre' },
   { nom: 'styles', chemin: '/styles/', attend: '.pv-tuile' },
   { nom: 'genre', chemin: '/styles/techno/dub-techno/', attend: '.pv-fiche' },
   { nom: 'news', chemin: '/news/', attend: '.news-une, .news-carte, .news-breve' },
