@@ -480,12 +480,42 @@ async function completerParBandcamp(m: MorceauAudd): Promise<MorceauAudd> {
    3. celles de l'ARTISTE sur Last.fm et sur Bandcamp, si le morceau n'en a
       pas assez.
 
-   Discogs aurait donne les styles de la sortie, mais il refuse les
-   adresses de Cloudflare (voir artisteChezDiscogs). Le poids d'une
+   Discogs donne les styles de la sortie, demandes d'abord par la fonction
+   Supabase discogs-styles (voir stylesChezDiscogs). Le poids d'une
    etiquette Last.fm est son score sur 100 divise par 25, comme dans la
    moisson ; celles du morceau comptent double. Les noms sont rendus bruts,
    la page les range dans l'atlas. */
+/* LES STYLES DE LA SORTIE, CHEZ DISCOGS, D'ABORD (8 octobre 2026, Mika :
+   « le style de cette track, ça ne fonctionne pas du tout »). Les genres
+   d'Apple (« Dance », « Electronic ») ne tombent sur aucun genre de l'atlas ;
+   les styles Discogs (Deep House, Tech House, Indie Dance...) y tombent
+   exactement. Discogs refuse les adresses de Cloudflare : la fonction
+   Supabase discogs-styles le lui demande (supabase/functions/discogs-styles).
+   Trouves, ils suffisent ; sinon on retombe sur Apple et Last.fm. */
+const STYLES_DISCOGS = 'https://pqgapyfqkjzvwkulxnhv.supabase.co/functions/v1/discogs-styles';
+
+async function stylesChezDiscogs(m: MorceauAudd): Promise<string[]> {
+  try {
+    const q = new URLSearchParams({ artist: m.artiste, track: m.titre });
+    const r = await fetch(`${STYLES_DISCOGS}?${q.toString()}`, { signal: AbortSignal.timeout(6000) });
+    if (!r.ok) {
+      journalReco.push(`discogs : ${r.status}`);
+      return [];
+    }
+    const j = (await r.json()) as { styles?: { nom: string; part: number }[]; sorties?: number };
+    // Un style qui ne pese presque rien (une sortie lointaine) ne passe pas
+    const styles = (j.styles ?? []).filter((x) => x.part >= 0.08).map((x) => x.nom);
+    journalReco.push(`discogs : ${styles.length} style(s) sur ${j.sorties ?? 0} sortie(s)`);
+    return styles;
+  } catch {
+    journalReco.push('discogs : muet');
+    return [];
+  }
+}
+
 async function completerParEtiquettes(m: MorceauAudd, env: Env): Promise<MorceauAudd> {
+  const discogs = await stylesChezDiscogs(m);
+  if (discogs.length > 0) return { ...m, styles: discogs.slice(0, 6), sourceStyles: 'discogs' };
   const poids = new Map<string, number>();
   const ajouter = (nom: string, n: number): void => {
     const cle = nom.trim();

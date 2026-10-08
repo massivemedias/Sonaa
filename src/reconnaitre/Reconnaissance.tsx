@@ -128,6 +128,7 @@ function stylesSurs(cibles: readonly Cible[]): readonly StyleSur[] {
 
 /* QUI A DONNE LES ETIQUETTES, en noms qu'on reconnait. */
 const NOM_SOURCE: Record<string, string> = {
+  discogs: 'Discogs',
   apple: 'Apple Music',
   'lastfm-morceau': 'Last.fm',
   'lastfm-artiste': 'Last.fm',
