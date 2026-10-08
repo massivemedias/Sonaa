@@ -1,6 +1,15 @@
 {
- "fait": "2026-10-07T18:59:04.941Z",
+ "fait": "2026-10-08T06:16:12.410Z",
  "articles": [
+  {
+   "source": "musicradar",
+   "titre": "Andrew Watt on how producing the Rolling Stones accidentally influenced Pearl Jam's Dark Matter",
+   "lien": "https://www.musicradar.com/artists/keith-had-just-showed-me-so-much-about-open-tunings-and-playing-different-inversions-so-my-hands-were-in-that-mentality-andrew-watt-on-how-producing-the-rolling-stones-accidentally-influenced-pearl-jams-dark-matter",
+   "date": "2026-10-08T00:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/HypCq5JWivdGA7eYCZosHW-1920-80.jpg",
+   "resume": "Producer Andrew Watt has worked with a head-spinning number of rock legends over the past few years – everyone from Ozzy Osbourne and Iggy Pop to the Rolling Stones, Elton John and Paul McCartney. As such, it seems…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "Plugins You Actually Need For Mixing",
@@ -137,15 +146,6 @@
    "integral": true
   },
   {
-   "source": "musicradar",
-   "titre": "UDO does its best Oberheim impression with the release of the expandable DMNO ON desktop synth",
-   "lien": "https://www.musicradar.com/music-tech/synths/udo-does-its-best-oberheim-impression-with-the-release-of-the-expandable-dmno-on-desktop-synth",
-   "date": "2026-10-07T11:48:32.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/A6VgM8FaHdu2KwX4ynaTZ8-1920-80.jpg",
-   "resume": "It’s no secret that we’re big fans of Bristol-based synthesizer developer UDO Audio. The brand’s debut Super 6 scored a 5 star review when it landed in 2021, and UDO’s CS-80-referencing follow-up Super Gemini topped our…",
-   "integral": true
-  },
-  {
    "source": "gearnews",
    "titre": "Softube Limit Pro and Limit Go: Versatile Dynamics Control for Mixing and Mastering",
    "lien": "https://www.gearnews.com/softube-limit-pro-studio/",
@@ -215,15 +215,6 @@
    "date": "2026-10-06T17:30:00.000Z",
    "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/Pentaphonic_1.jpg",
    "resume": "Cherry Audio’s latest synth recreation continues its trend of exploring the quirkier synths of history with the Pentaphonic, a rare synth from the Gleeman brothers! If you only like one thing about Cherry Audio’s…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Roland, Xils Lab, Universal Audio: 3 Strong Plugin Deals for Polysynth Pads, CS-80 Brass, and API Sound",
-   "lien": "https://www.gearnews.com/roland-xils-lab-universal-audio-software-deal/",
-   "date": "2026-10-06T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/Software-Deals-40-2026.jpg",
-   "resume": "Roland is putting the JUPITER-8 on the table for 68.43 Euro, roughly a third of its regular price. Xils Lab follows with The Eighty, a plugin take on the Yamaha CS-80, for 55 Euro. And if you’d rather tweak a signal…",
    "integral": true
   },
   {
