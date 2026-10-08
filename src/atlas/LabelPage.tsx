@@ -28,14 +28,20 @@ import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import { useLecteurPartage } from '../lecture/LecteurContexte.tsx';
 import { peutEcouter } from '../lib/porte-ecoute.ts';
-import { cleDeLabel, estMajor, nomDuPays, ordreDeNotoriete, type EntreeLabel, type FicheLabel } from '../lib/labels.ts';
+import { actuSansReeditions, cleDeLabel, estMajor, nomDuPays, ordreDeNotoriete, type ActuDuLabel, type EntreeLabel, type FicheLabel } from '../lib/labels.ts';
+import { SOURCES } from '../data/news-sources.ts';
 import { slug } from '../lib/chemins.ts';
 import INDEX from '../data/labels-index.json';
+import SORTIES_UNE from '../data/sorties-a-la-une.json';
 import { langue, t } from '../langue/langue.ts';
 import './credits.css';
 import './label.css';
 
 const ENTREES = INDEX as readonly EntreeLabel[];
+/* Les dernieres sorties des labels connus, voir scripts/lib/actu-labels.ts
+   (sortiesALaUne) ; les memes que sur l'accueil. */
+const UNE = (SORTIES_UNE as { sorties: readonly { titre: string; artiste: string; image: string | null; url: string; label: string; slug: string }[] }).sorties;
+const FORMAT_JOUR = new Intl.DateTimeFormat(langue === 'fr' ? 'fr-CA' : 'en-CA', { day: 'numeric', month: 'short', year: 'numeric' });
 const PAQUET_GALERIE = 60;
 
 /* LA FICHE D'UN LABEL, SEULE. Le pre-rendu ecrit /labels/<slug>/fiche.json
@@ -44,7 +50,13 @@ const PAQUET_GALERIE = 60;
    developpement, ou le pre-rendu n'a pas tourne. */
 let toutes: Promise<readonly FicheLabel[]> | null = null;
 const chargerToutes = (): Promise<readonly FicheLabel[]> => {
-  toutes ??= import('../data/labels.json').then((m) => (m.default ?? m) as unknown as readonly FicheLabel[]);
+  /* En developpement, l'actualite est fondue ici, comme le fait le
+     pre-rendu pour la construction. */
+  toutes ??= Promise.all([import('../data/labels.json'), import('../data/labels-actu.json')]).then(([m, a]) => {
+    const fiches = (m.default ?? m) as unknown as readonly FicheLabel[];
+    const actu = (a.default ?? a) as unknown as Record<string, ActuDuLabel>;
+    return fiches.map((f) => ({ ...f, ...actuSansReeditions(actu[f.slug]) }));
+  });
   return toutes;
 };
 async function chargerFiche(slugVoulu: string): Promise<FicheLabel | null> {
@@ -229,6 +241,50 @@ function Fiche({ fiche, style }: { fiche: FicheLabel; style: string | null }) {
               ) : (
                 <p className="lb-source">{t.labelSourceDiscogs}</p>
               )}
+            </section>
+          )}
+
+          {/* ═══ L'ACTUALITE DU LABEL ═══ Mika, le 8 octobre 2026 : « les
+              cinq dernieres tracks de chaque label, et les quelques news ».
+              Ses dernieres sorties chez Discogs, puis les articles des
+              magazines qui le nomment. Voir scripts/lib/actu-labels.ts. */}
+          {(fiche.recentes?.length ?? 0) > 0 && (
+            <section className="lb-bloc">
+              <h2 className="lb-titre">{t.labelDernieresSorties}</h2>
+              <ul className="lb-recentes">
+                {(fiche.recentes ?? []).map((s) => (
+                  <li key={s.url} className="lb-recente">
+                    <a href={s.url} target="_blank" rel="noreferrer noopener">
+                      {s.image ? <img src={s.image} alt="" loading="lazy" /> : <span className="lb-sortie-vide" aria-hidden="true" />}
+                      <span className="lb-recente-titre">{s.titre}</span>
+                      <span className="lb-recente-artiste">{s.artiste}</span>
+                      <span className="lb-recente-annee">{[s.annee, s.format].filter(Boolean).join(' · ')}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <p className="lb-note">{t.labelDernieresSortiesAide}</p>
+            </section>
+          )}
+
+          {(fiche.news?.length ?? 0) > 0 && (
+            <section className="lb-bloc">
+              <h2 className="lb-titre">{t.labelDansLesNews}</h2>
+              <ul className="lb-news">
+                {(fiche.news ?? []).map((n) => (
+                  <li key={n.lien}>
+                    <a href={n.lien} target="_blank" rel="noreferrer noopener">
+                      {n.image && <img src={n.image} alt="" loading="lazy" />}
+                      <span className="lb-news-texte">
+                        <span className="lb-news-titre">{n.titre}</span>
+                        <span className="lb-news-source">
+                          {[SOURCES.find((x) => x.id === n.source)?.nom ?? n.source, n.date ? FORMAT_JOUR.format(new Date(n.date)) : null].filter(Boolean).join(' · ')}
+                        </span>
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </section>
           )}
 
@@ -436,6 +492,23 @@ function Galerie() {
         </div>
       </header>
 
+      {uneVue && UNE.length > 0 && (
+        <div className="lbg-section">
+          <h2 className="lb-titre">{t.accueilLabelsTitre}</h2>
+          <ul className="lb-recentes lbg-recentes">
+            {UNE.map((s) => (
+              <li key={s.url} className="lb-recente">
+                <a href={`#/labels/${s.slug}`}>
+                  {s.image ? <img src={s.image} alt="" loading="lazy" /> : <span className="lb-sortie-vide" aria-hidden="true" />}
+                  <span className="lb-recente-titre">{s.titre}</span>
+                  <span className="lb-recente-artiste">{s.artiste}</span>
+                  <span className="lb-recente-label">{s.label}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       {aLaUne.length > 0 && (
         <div className="lbg-section">
           <h2 className="lb-titre">{t.labelsALaUne}</h2>

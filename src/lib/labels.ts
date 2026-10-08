@@ -23,7 +23,51 @@ export interface SortieConnue {
   readonly url: string;
 }
 
-export interface FicheLabel {
+/** Une des dernieres sorties d'un label, chez Discogs. Voir
+    scripts/moissonner-actu-labels.ts. */
+export interface SortieRecente {
+  readonly titre: string;
+  readonly artiste: string;
+  readonly annee: number | null;
+  readonly image: string | null;
+  readonly url: string;
+  /** « 12", EP » : ce que Discogs dit du support. */
+  readonly format: string | null;
+}
+
+/** Un article de magazine qui nomme le label. Voir scripts/lib/actu-labels.ts. */
+export interface NewsDuLabel {
+  readonly titre: string;
+  readonly lien: string;
+  readonly source: string;
+  readonly date: string | null;
+  readonly image: string | null;
+}
+
+/** Une reedition, un repressage, une compilation : pas une derniere sortie.
+    Discogs separe les mentions par des virgules, et les supports d'un
+    coffret par « + » : « 3x12", Album, RP + 12" ». */
+export function estReedition(format: string | null): boolean {
+  return /(?:^|[,+]\s*)(?:RE|RP|RM|Comp|Unofficial)(?=\s*[,+]|\s*$)/.test(format ?? '');
+}
+
+/** L'actualite d'un label, sans les reeditions que la premiere moisson du
+    8 octobre 2026 gardait encore. */
+export function actuSansReeditions(a: ActuDuLabel | undefined): ActuDuLabel {
+  if (!a) return {};
+  return a.recentes ? { ...a, recentes: a.recentes.filter((s) => !estReedition(s.format)) } : a;
+}
+
+/** L'actualite d'un label : src/data/labels-actu.json, fondue dans la fiche
+    par le pre-rendu. */
+export interface ActuDuLabel {
+  readonly recentes?: readonly SortieRecente[];
+  /** Le jour ou Discogs a ete demande, « 2026-10-08 ». */
+  readonly recentesLe?: string;
+  readonly news?: readonly NewsDuLabel[];
+}
+
+export interface FicheLabel extends ActuDuLabel {
   readonly slug: string;
   readonly nom: string;
   /** Les graphies du nom dans le corpus, pour y retrouver ses morceaux. */

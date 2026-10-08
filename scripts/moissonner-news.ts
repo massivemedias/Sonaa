@@ -26,12 +26,14 @@
  * dire, et la moisson suivante reessaie.
  */
 
-import { writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { imageDePage, lireFlux, SOURCES, type Article } from './lib/flux-rss.ts';
 import { pertinent } from './lib/filtre-news.ts';
+import { ecrireActu, lireActu, rangerLesNews } from './lib/actu-labels.ts';
 
 const SORTIE = fileURLToPath(new URL('../public/news.json', import.meta.url));
+const LABELS = fileURLToPath(new URL('../src/data/labels.json', import.meta.url));
 /** Par source : assez pour une journee chargee, pas de quoi noyer les autres. */
 const PAR_SOURCE = 12;
 /** Au total : ce que la page montre, du plus recent au plus ancien. */
@@ -185,6 +187,14 @@ async function main(): Promise<void> {
      resume ecrit par Claude (ADR-095, abandonne pour son cout) : « je veux
      juste les articles complets, c'est tout ». Un article reste s'il est
      entier dans son flux ; un extrait ne l'est jamais. */
+  /* ═══ LES NEWS DES LABELS ═══ Tous les articles retenus, extraits
+     compris : la page d'un label renvoie au magazine, elle n'affiche pas
+     l'article. Voir scripts/lib/actu-labels.ts. */
+  const fiches = JSON.parse(readFileSync(LABELS, 'utf8')) as { slug: string; nom: string }[];
+  const { actu, ajouts } = rangerLesNews(fiches, tries, lireActu());
+  ecrireActu(actu);
+  console.log(`\n  ${ajouts} article(s) ranges sous les labels qu'ils nomment.`);
+
   const lisibles = tries.filter((a) => a.integral !== false);
   console.log(`\n  ${tries.length - lisibles.length} article(s) en extrait ne sont pas montres.`);
 

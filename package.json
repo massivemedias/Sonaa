@@ -57,6 +57,7 @@
     "deriver:artistes": "tsx scripts/deriver-artistes.ts",
     "moissonner:news": "tsx scripts/moissonner-news.ts",
     "moissonner:labels": "tsx --env-file-if-exists=.env scripts/moissonner-labels.ts",
+    "moissonner:actu-labels": "tsx --env-file-if-exists=.env scripts/moissonner-actu-labels.ts",
     "ingerer:eventbrite": "tsx scripts/ingerer-eventbrite.ts",
     "ingerer:lepointdevente": "tsx scripts/ingerer-lepointdevente.ts",
     "ingerer:ticketmaster": "tsx scripts/ingerer-ticketmaster.ts"

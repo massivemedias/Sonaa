@@ -34,7 +34,7 @@ import { FAMILIES, STRUCTURES, type Genre } from '../src/atlas/structures.ts';
 import { ORIGINE, PREFIXE_ANGLAIS, cheminsDesStyles, slug } from '../src/lib/chemins.ts';
 import { ranger, vocabulaire } from '../src/lib/correspondance-styles.ts';
 import { MARCHAND_ACTIF } from '../src/config.ts';
-import { cleDeLabel, labelsDuStyle, type EntreeLabel, type FicheLabel } from '../src/lib/labels.ts';
+import { actuSansReeditions, cleDeLabel, labelsDuStyle, type ActuDuLabel, type EntreeLabel, type FicheLabel } from '../src/lib/labels.ts';
 
 const DIST = fileURLToPath(new URL('../dist', import.meta.url));
 const RACINE = fileURLToPath(new URL('..', import.meta.url));
@@ -701,10 +701,10 @@ ecrire({
 ecrire({
   chemin: '/reconnaitre/',
   hash: '#/reconnaitre',
-  titre: 'Track ID : identifier un morceau et son style au micro · SONAA',
+  titre: 'Track ID : identifier un morceau au micro · SONAA',
   description:
-    'Faites écouter à SONAA ce qui passe en soirée, à la radio ou dans la pièce : le morceau, son artiste et son style.',
-  corps: `${entete([{ nom: 'Track ID', href: '/reconnaitre/' }])}<h1>Track ID</h1><p>Faites écouter à SONAA ce qui passe en soirée, à la radio ou dans la pièce : le morceau, son artiste et son style.</p><h2>Comment ça marche</h2><p>Le micro écoute dix secondes, après votre accord. Le style est reconnu dans votre navigateur et rattaché aux 219 genres de l’atlas quand il y existe ; le morceau est identifié par AudD, à qui huit secondes de son sont envoyées et qui ne les garde pas.</p><p>Connecté, vous retrouvez vos écoutes d’un appareil à l’autre.</p><p>Le style est une estimation faite sur dix secondes, pas un verdict : une voix, une publicité ou un enchaînement le trompent.</p><p><a href="/styles/">L’atlas des styles</a></p>`,
+    'Faites écouter à SONAA ce qui passe en soirée, à la radio ou dans la pièce : le morceau, son artiste, son label.',
+  corps: `${entete([{ nom: 'Track ID', href: '/reconnaitre/' }])}<h1>Track ID</h1><p>Faites écouter à SONAA ce qui passe en soirée, à la radio ou dans la pièce : le morceau, son artiste, son label.</p><h2>Comment ça marche</h2><p>Le micro écoute dix secondes, après votre accord. Le morceau est identifié par AudD, à qui huit secondes de son sont envoyées et qui ne les garde pas.</p><p>Connecté, vous retrouvez vos écoutes d’un appareil à l’autre.</p><p><a href="/styles/">L’atlas des styles</a></p>`,
   jsonld: [filAriane([{ nom: 'Track ID', href: '/reconnaitre/' }])],
 });
 
@@ -819,8 +819,12 @@ if (existsSync(cheminNews)) {
         .join('')
     : '';
 
+  /* LE MEME TITRE QUE L'ACCUEIL (src/accueil/Accueil.tsx), depuis le
+     8 octobre 2026 : ce bloc se lit avant le script, et l'accueil le
+     remplace ensuite. Qu'ils commencent par la meme phrase evite de voir
+     une page devenir une autre. */
   const corps =
-    `<h1>SONAA</h1><p>Le calendrier des soirées électroniques et l’atlas des 219 styles de musique électronique, avec un cours de production par style.</p>` +
+    `<h1>Ce soir, et tout le reste.</h1><p>Les soirées de votre ville, les 219 styles de la musique électronique et leur histoire, les labels et leurs sorties, les news du studio, et Track ID pour nommer ce qui joue.</p>` +
     (prochaines
       ? `<h2>Les prochaines soirées à ${h(montreal?.name ?? '')}</h2><ul>${prochaines}</ul><p><a href="/soirees/${montreal?.slug ?? ''}/">Tout le calendrier de ${h(montreal?.name ?? '')}</a></p>`
       : '') +
@@ -892,8 +896,17 @@ window.__precharge={};window.__precharge[u]=fetch(u);
    l'atlas en contient, sans attendre l'application. Voir LabelPage.tsx et
    scripts/moissonner-labels.ts. En francais seulement pour l'instant. */
 
+/* L'ACTUALITE D'UN LABEL (ses dernieres sorties, les news qui le nomment)
+   vit dans son propre fichier, refait plus souvent que la fiche : voir
+   scripts/lib/actu-labels.ts. Elle est fondue ici dans la fiche, et la page
+   la lit dans fiche.json avec le reste. */
+const ACTU_LABELS = existsSync(fileURLToPath(new URL('../src/data/labels-actu.json', import.meta.url)))
+  ? (JSON.parse(readFileSync(fileURLToPath(new URL('../src/data/labels-actu.json', import.meta.url)), 'utf8')) as Record<string, ActuDuLabel>)
+  : {};
 const FICHES_LABELS = existsSync(fileURLToPath(new URL('../src/data/labels.json', import.meta.url)))
-  ? (JSON.parse(readFileSync(fileURLToPath(new URL('../src/data/labels.json', import.meta.url)), 'utf8')) as FicheLabel[])
+  ? (JSON.parse(readFileSync(fileURLToPath(new URL('../src/data/labels.json', import.meta.url)), 'utf8')) as FicheLabel[]).map(
+      (f): FicheLabel => ({ ...f, ...actuSansReeditions(ACTU_LABELS[f.slug]) })
+    )
   : [];
 const morceauxParCle = new Map<string, { titre: string; artiste: string; annee: number | null; genre: string; chemin: string }[]>();
 FAMILIES.forEach((f, fi) => {
@@ -939,6 +952,14 @@ for (const f of FICHES_LABELS) {
     corps: `${entete(fil)}<h1>${h(f.nom)}</h1>${faits ? `<p>${h(faits)}.</p>` : ''}${resume ? `<p>${h(resume)}</p>` : ''}${
       morceaux.length > 0
         ? `<h2>Dans l’atlas</h2><ul>${morceaux.map((m) => `<li>${h(m.titre)}, ${h(m.artiste)}${m.annee ? ` (${m.annee})` : ''} : <a href="${h(m.chemin)}">${h(m.genre)}</a></li>`).join('')}</ul>`
+        : ''
+    }${
+      (f.recentes?.length ?? 0) > 0
+        ? `<h2>Les dernières sorties</h2><ol>${(f.recentes ?? []).map((s) => `<li>${h(s.artiste)}, ${h(s.titre)}${s.annee ? ` (${s.annee})` : ''}</li>`).join('')}</ol>`
+        : ''
+    }${
+      (f.news?.length ?? 0) > 0
+        ? `<h2>Dans les news</h2><ul>${(f.news ?? []).map((n) => `<li><a href="${h(n.lien)}" rel="noopener">${h(n.titre)}</a></li>`).join('')}</ul>`
         : ''
     }${
       f.sorties.length > 0

@@ -315,6 +315,120 @@ a.lb-source {
   }
 }
 
+/* ═══ LES DERNIERES SORTIES ═══ Cinq pochettes sur une ligne, qui
+   defilent au doigt sur telephone. Les images de Discogs font 150 px : on
+   ne les montre pas plus grandes. */
+.lb-recentes {
+  list-style: none;
+  margin: 0 0 var(--espace-8);
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 150px));
+  gap: var(--espace-16);
+}
+.lb-recente a {
+  display: grid;
+  gap: 2px;
+  color: inherit;
+  text-decoration: none;
+}
+.lb-recente img,
+.lb-recente .lb-sortie-vide {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 10px;
+  background: var(--voile-08);
+  margin-bottom: var(--espace-4);
+  transition: transform 200ms ease;
+}
+.lb-recente a:hover img {
+  transform: scale(1.03);
+}
+.lb-recente-titre {
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--ink-primary);
+}
+.lb-recente-artiste,
+.lb-recente-annee {
+  font-size: 0.75rem;
+  color: var(--ink-secondary);
+}
+.lb-recente-annee {
+  font-variant-numeric: tabular-nums;
+}
+.lb-recente-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+/* SUR LA GALERIE, la rangee prend toute la largeur. */
+.lbg-recentes {
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+}
+@media (max-width: 720px) {
+  .lb-recentes {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 132px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--espace-8);
+  }
+  .lb-recente {
+    scroll-snap-align: start;
+  }
+}
+
+/* ═══ DANS LES NEWS ═══ Les articles qui nomment le label, du plus recent
+   au plus ancien ; ils s'ouvrent chez le magazine. */
+.lb-news {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--espace-8);
+}
+.lb-news a {
+  display: flex;
+  align-items: center;
+  gap: var(--espace-12);
+  min-height: 44px;
+  padding: var(--espace-8);
+  border-radius: 14px;
+  color: inherit;
+  text-decoration: none;
+  background: var(--verre-fond);
+  border: 1px solid var(--filet);
+}
+.lb-news a:hover {
+  border-color: var(--accent);
+}
+.lb-news img {
+  flex: none;
+  width: 72px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.lb-news-texte {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.lb-news-titre {
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ink-primary);
+}
+.lb-news-source {
+  font-size: 0.75rem;
+  color: var(--ink-secondary);
+}
+
 @media (max-width: 899px) {
   .lb-liens a,
   .lb-styles button,
