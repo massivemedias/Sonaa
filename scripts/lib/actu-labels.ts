@@ -16,6 +16,7 @@
 
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { sansTirets } from './labels-moisson.ts';
 import { estMajor, estReedition, ordreDeNotoriete, type ActuDuLabel, type EntreeLabel, type NewsDuLabel, type SortieRecente } from '../../src/lib/labels.ts';
 
 export { estReedition };
@@ -131,7 +132,7 @@ export function rangerLesNews(labels: readonly { slug: string; nom: string }[], 
     for (const a of articles) {
       const texte = `${a.titre}. ${a.resume}`;
       if (formes.some((f) => nomme(texte, f.forme, f.seul))) {
-        trouves.push({ titre: a.titre, lien: a.lien, source: a.source, date: a.date, image: a.image });
+        trouves.push({ titre: sansTirets(a.titre), lien: a.lien, source: a.source, date: a.date, image: a.image });
       }
     }
     if (trouves.length === 0) continue;

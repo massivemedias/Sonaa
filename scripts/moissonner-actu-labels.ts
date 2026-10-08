@@ -29,6 +29,7 @@ import { fileURLToPath } from 'node:url';
 import type { FicheLabel, SortieRecente } from '../src/lib/labels.ts';
 import { cleDeLabel } from '../src/lib/labels.ts';
 import { ecrireActu, ecrireALaUne, estReedition, lireActu, sortiesALaUne } from './lib/actu-labels.ts';
+import { sansTirets } from './lib/labels-moisson.ts';
 import type { EntreeLabel } from '../src/lib/labels.ts';
 
 const LABELS = fileURLToPath(new URL('../src/data/labels.json', import.meta.url));
@@ -92,8 +93,9 @@ async function dernieres(idLabel: string): Promise<SortieRecente[] | null> {
     .filter((s) => s.title && s.artist)
     .sort((a, b) => (b.year ?? 0) - (a.year ?? 0) || b.id - a.id);
   for (const s of triees) {
-    const artiste = sansNumero(s.artist ?? '');
-    const titre = (s.title ?? '').trim();
+    /* Discogs ecrit les plages d'annees avec un tiret long : le site n'en a pas. */
+    const artiste = sansTirets(sansNumero(s.artist ?? ''));
+    const titre = sansTirets((s.title ?? '').trim());
     const cle = `${cleDeLabel(artiste)}|${cleDeLabel(titre)}`;
     /* Une reedition n'est pas une derniere sortie : Brian Auger en 1971,
        represse par un label distribue par !K7 en 2026, n'en dit rien. */

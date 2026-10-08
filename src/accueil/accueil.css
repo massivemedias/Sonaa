@@ -20,7 +20,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto minmax(180px, 1fr);
-  padding: clamp(88px, 12vh, 136px) var(--marge-page) 0;
+  padding: clamp(88px, 13vh, 140px) var(--marge-page) 0;
 }
 .ac-hero-texte {
   width: 100%;
