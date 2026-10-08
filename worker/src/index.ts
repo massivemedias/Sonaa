@@ -467,103 +467,6 @@ async function completerParBandcamp(m: MorceauAudd): Promise<MorceauAudd> {
   }
 }
 
-/* ═══ LE STYLE D'UN MORCEAU NOMME, PAR CEUX QUI LE CONNAISSENT ═══
-
-   Mika, le 1er octobre 2026 : AudD trouve « Tinnies & Ciggies » d'Amoss,
-   et la page annonce « Famille Ambient, 7 % ». C'est de la drum and bass,
-   sur Flexout Audio. Le reseau qui ecoute dix secondes au micro devine a
-   l'oreille ; quand le morceau a un nom, d'autres le savent. On demande
-   donc, dans l'ordre, et on additionne :
-
-   1. le genre d'Apple Music, deja dans la reponse d'AudD ;
-   2. les etiquettes Last.fm DU MORCEAU, les plus precises (« neurofunk ») ;
-   3. celles de l'ARTISTE sur Last.fm et sur Bandcamp, si le morceau n'en a
-      pas assez.
-
-   Discogs donne les styles de la sortie, demandes d'abord par la fonction
-   Supabase discogs-styles (voir stylesChezDiscogs). Le poids d'une
-   etiquette Last.fm est son score sur 100 divise par 25, comme dans la
-   moisson ; celles du morceau comptent double. Les noms sont rendus bruts,
-   la page les range dans l'atlas. */
-/* LES STYLES DE LA SORTIE, CHEZ DISCOGS, D'ABORD (8 octobre 2026, Mika :
-   « le style de cette track, ça ne fonctionne pas du tout »). Les genres
-   d'Apple (« Dance », « Electronic ») ne tombent sur aucun genre de l'atlas ;
-   les styles Discogs (Deep House, Tech House, Indie Dance...) y tombent
-   exactement. Discogs refuse les adresses de Cloudflare : la fonction
-   Supabase discogs-styles le lui demande (supabase/functions/discogs-styles).
-   Trouves, ils suffisent ; sinon on retombe sur Apple et Last.fm. */
-const STYLES_DISCOGS = 'https://pqgapyfqkjzvwkulxnhv.supabase.co/functions/v1/discogs-styles';
-
-async function stylesChezDiscogs(m: MorceauAudd): Promise<string[]> {
-  try {
-    const q = new URLSearchParams({ artist: m.artiste, track: m.titre });
-    const r = await fetch(`${STYLES_DISCOGS}?${q.toString()}`, { signal: AbortSignal.timeout(6000) });
-    if (!r.ok) {
-      journalReco.push(`discogs : ${r.status}`);
-      return [];
-    }
-    const j = (await r.json()) as { styles?: { nom: string; part: number }[]; sorties?: number };
-    // Un style qui ne pese presque rien (une sortie lointaine) ne passe pas
-    const styles = (j.styles ?? []).filter((x) => x.part >= 0.08).map((x) => x.nom);
-    journalReco.push(`discogs : ${styles.length} style(s) sur ${j.sorties ?? 0} sortie(s)`);
-    return styles;
-  } catch {
-    journalReco.push('discogs : muet');
-    return [];
-  }
-}
-
-async function completerParEtiquettes(m: MorceauAudd, env: Env): Promise<MorceauAudd> {
-  const discogs = await stylesChezDiscogs(m);
-  if (discogs.length > 0) return { ...m, styles: discogs.slice(0, 6), sourceStyles: 'discogs' };
-  const poids = new Map<string, number>();
-  const ajouter = (nom: string, n: number): void => {
-    const cle = nom.trim();
-    if (cle) poids.set(cle, (poids.get(cle) ?? 0) + n);
-  };
-  const sources = new Set<string>();
-  m.styles.forEach((g, i) => ajouter(g, 6 - Math.min(i, 3)));
-  if (m.styles.length > 0) sources.add(m.sourceStyles ?? 'apple');
-
-  if (env.LASTFM_API_KEY) {
-    try {
-      const r = await fetch(
-        `https://ws.audioscrobbler.com/2.0/?method=track.gettoptags&artist=${encodeURIComponent(m.artiste)}&track=${encodeURIComponent(m.titre)}&api_key=${env.LASTFM_API_KEY}&format=json&autocorrect=1`,
-        { headers: { 'user-agent': AGENT_DISCOGS }, signal: AbortSignal.timeout(4000) }
-      );
-      const j = (await r.json()) as { toptags?: { tag?: { name: string; count: number }[] } };
-      const tags = (j.toptags?.tag ?? []).filter((x) => x.count >= 10);
-      for (const x of tags) ajouter(x.name, 2 * Math.max(1, Math.round(x.count / 25)));
-      if (tags.length > 0) sources.add('lastfm-morceau');
-      journalReco.push(`lastfm morceau : ${tags.length} etiquette(s)`);
-    } catch {
-      journalReco.push('lastfm morceau : muet');
-    }
-  }
-  /* L'ARTISTE SEULEMENT S'IL MANQUE QUELQUE CHOSE : un artiste qui touche a
-     trois styles diluerait la reponse precise du morceau. */
-  if (poids.size < 3) {
-    for (const [s, f] of [
-      ['lastfm-artiste', () => artisteChezLastfm(m.artiste, env)],
-      ['bandcamp', () => artisteChezBandcamp(m.artiste)],
-    ] as const) {
-      try {
-        const a = await f();
-        if (!a.trouve) continue;
-        for (const [nom, n] of Object.entries(a.styles)) ajouter(nom, n);
-        sources.add(s);
-      } catch {
-        /* Une source muette n'empeche pas les autres. */
-      }
-    }
-  }
-  const styles = [...poids.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 10)
-    .map(([nom]) => nom);
-  return { ...m, styles, sourceStyles: [...sources].join('+') || null };
-}
-
 function raisonDAudd(brut: Record<string, unknown>): string {
   if (brut['status'] !== 'success') {
     const err = (typeof brut['error'] === 'object' && brut['error'] !== null ? brut['error'] : {}) as Record<string, unknown>;
@@ -1131,12 +1034,11 @@ export default {
         morceau = lireReponseAudd(brut);
         if (!morceau) raison = raisonDAudd(brut);
         /* DEEZER COMPLETE CE QU'AUDD NE DIT PAS : pochette, label, annee.
-           Mika, le 27 septembre 2026 : « que ca affiche l'artiste, le track,
-           le style, le cover et le label ». */
+           Le style n'est plus cherche depuis le 8 octobre 2026 (Mika : « ca
+           sert a rien ») : ni Discogs, ni Last.fm, ni Apple. */
         journalReco.length = 0;
         if (morceau) morceau = await completerParDeezer(morceau);
         if (morceau) morceau = await completerParBandcamp(morceau);
-        if (morceau) morceau = await completerParEtiquettes(morceau, env);
       } catch (e) {
         return new Response(
           JSON.stringify({ morceau: null, raison: e instanceof Error ? e.message : String(e) }),

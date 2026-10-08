@@ -94,11 +94,10 @@
   transition: transform 1s linear;
 }
 
-/* LE POIDS DU MODELE ET L'ENVOI A AUDD : ECRITS, PAS MONTRES. Mika, le 30
-   septembre 2026 : « cache-le mais laisse-le ecrit ». Retires de l'ecran
-   comme on retire un texte reserve aux lecteurs d'ecran : ni `display:
-   none` ni `visibility: hidden`, qui les retireraient aussi de la lecture. */
-.rc-poids,
+/* L'ENVOI A AUDD : ECRIT, PAS MONTRE. Mika, le 30 septembre 2026 :
+   « cache-le mais laisse-le ecrit ». Retire de l'ecran comme on retire un
+   texte reserve aux lecteurs d'ecran : ni `display: none` ni `visibility:
+   hidden`, qui le retireraient aussi de la lecture. */
 .rc .credits-body .rc-envoi {
   position: absolute;
   width: 1px;
@@ -154,42 +153,6 @@
 }
 .rc-effacer:hover {
   color: var(--ink-primary);
-}
-
-.rc-styles {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  max-width: 44rem;
-}
-
-/* CHAQUE STYLE EST UNE CARTE, UN VOILE PLAT SANS FLOU, ET RIEN NE LA
-   CHIFFRE. La jauge et le pourcentage sont partis le 22 septembre 2026 : la
-   sortie du reseau est une sigmoide par classe, et une part qui n'en est pas
-   une n'a pas a se lire. L'ordre des cartes est le classement, du plus
-   probable au moins probable. */
-.rc-style {
-  display: flex;
-  align-items: center;
-  padding: var(--espace-16);
-  margin-bottom: var(--espace-8);
-  border-radius: 18px;
-  background: var(--verre-fond);
-  border: 1px solid var(--filet);
-}
-
-.rc-style-nom {
-  color: var(--ink-primary);
-  font-weight: 600;
-  text-underline-offset: 3px;
-}
-.rc-style-hors {
-  color: var(--ink-secondary);
-  font-weight: 400;
-}
-.rc-hors-mot {
-  font-size: 0.78rem;
-  opacity: 0.8;
 }
 
 
@@ -319,8 +282,7 @@
   color: var(--ink-primary);
   font-weight: 700;
 }
-.rc-passe-artiste,
-.rc-passe-styles {
+.rc-passe-artiste {
   color: var(--ink-secondary);
 }
 .rc-passe-quand {
@@ -413,8 +375,7 @@
   .rc-accord {
     min-height: 44px;
   }
-  .rc-morceau-liens a,
-  a.rc-style-nom {
+  .rc-morceau-liens a {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
@@ -454,13 +415,12 @@
   object-fit: cover;
   background: var(--surface-margin);
 }
-/* LES DEUX INTITULES DE LA FICHE SONT DES ETIQUETTES, pas des titres :
+/* L'INTITULE DE LA FICHE EST UNE ETIQUETTE, pas des titres :
    petites capitales grises, comme « LE MORCEAU » au-dessus de l'ancienne
    carte. Le titre du morceau, lui, est un h2 que credits.css mettrait en
    petites capitales : la regle ci-dessous est plus precise et le garde
    en grand. */
-.rc-fiche-corps > .rc-titre,
-.rc-fiche-styles > .rc-titre {
+.rc-fiche-corps > .rc-titre {
   margin: 0 0 var(--espace-8);
   font-size: 0.72rem;
   font-weight: 600;
@@ -505,109 +465,6 @@
   color: var(--ink-primary);
   font-weight: 500;
 }
-.rc-fiche-styles {
-  margin-top: var(--espace-24);
-}
-/* LE STYLE DU MORCEAU, QUAND SES ETIQUETTES LE DISENT : des pastilles
-   d'accent, qui menent a la fiche du genre. Pas de pourcentage : ce n'est
-   pas une probabilite, c'est ce que disent ceux qui connaissent le morceau. */
-.rc-styles-surs {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--espace-8);
-}
-.rc-style-sur {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  padding: 0 var(--espace-24);
-  border-radius: var(--rayon-pilule);
-  background: var(--accent);
-  color: var(--sur-accent);
-  font-size: 1.05rem;
-  font-weight: 700;
-  text-decoration: none;
-}
-.rc-styles-surs li:not(:first-child) .rc-style-sur {
-  background: var(--accent-voile);
-  color: var(--ink-primary);
-}
-/* CE QUE LE MICRO ENTENDAIT, replie sous la reponse sure. */
-.rc-oreille {
-  margin-top: var(--espace-16);
-}
-.rc-oreille summary {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--ink-secondary);
-  cursor: pointer;
-}
-.rc-oreille[open] summary {
-  margin-bottom: var(--espace-8);
-}
-/* Le chevron dit qu'on peut deplier ; il tourne quand c'est ouvert. */
-.rc-oreille summary::-webkit-details-marker {
-  display: none;
-}
-.rc-oreille summary::before {
-  content: '';
-  width: 0;
-  height: 0;
-  margin-right: var(--espace-8);
-  border-style: solid;
-  border-width: 5px 0 5px 7px;
-  border-color: transparent transparent transparent currentColor;
-  transition: transform 160ms ease;
-}
-.rc-oreille[open] summary::before {
-  transform: rotate(90deg);
-}
-.rc-oreille summary {
-  list-style: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  .rc-oreille summary::before {
-    transition: none;
-  }
-}
-.rc-fiche-styles .rc-styles {
-  max-width: none;
-}
-.rc-fiche-styles .rc-style {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(8rem, 22rem) 8.5rem;
-  gap: var(--espace-16);
-  align-items: center;
-}
-.rc-part {
-  display: block;
-  height: 8px;
-  background: var(--surface-margin);
-  border-radius: 999px;
-  overflow: hidden;
-}
-.rc-part-pleine {
-  display: block;
-  height: 100%;
-  background: var(--accent);
-}
-.rc-pourcent {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-  color: var(--ink-primary);
-  font-weight: 600;
-}
-.rc-pourcent-mot {
-  font-weight: 400;
-  color: var(--ink-secondary);
-  font-size: 0.8rem;
-}
 @media (max-width: 720px) {
   .rc-fiche {
     grid-template-columns: 1fr;
@@ -616,17 +473,11 @@
   .rc-fiche-pochette {
     width: 160px;
   }
-  .rc-fiche-styles .rc-style {
-    grid-template-columns: minmax(0, 1fr) 7rem;
-  }
-  .rc-part {
-    display: none;
-  }
 }
 
-/* LES DEUX GESTES SOUS LE RESULTAT : ouvrir le style, ecouter sur YouTube.
-   Ils vivaient dans la feuille de la surcouche de l'accueil, que la page
-   /reconnaitre/ ne chargeait pas : sur la page, ils sortaient nus. */
+/* LE GESTE SOUS LE RESULTAT : ecouter sur YouTube. Il vivait dans la
+   feuille de la surcouche de l'accueil, que la page /reconnaitre/ ne
+   chargeait pas : sur la page, il sortait nu. */
 .rc-gestes {
   display: flex;
   flex-wrap: wrap;

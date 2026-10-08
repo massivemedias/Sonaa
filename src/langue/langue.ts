@@ -749,14 +749,7 @@ interface Dictionnaire {
   readonly reconnaitreEcouter: string;
   readonly reconnaitreEnEcoute: (s: number) => string;
   readonly reconnaitreAnalyse: string;
-  readonly reconnaitreChargement: (part: number) => string;
-  readonly reconnaitrePoids: (mo: number) => string;
-  readonly reconnaitreLeStyle: string;
-  readonly reconnaitreStyleSource: (sources: readonly string[]) => string;
-  readonly reconnaitreALOreille: string;
   readonly reconnaitreLeMorceau: string;
-  readonly reconnaitreHorsAtlas: string;
-  readonly ouvrirLeStyle: string;
   readonly ecouterSurYoutube: string;
   readonly entenduRecemment: string;
   readonly scansTitre: string;
@@ -770,22 +763,18 @@ interface Dictionnaire {
   readonly reconnaitreAnnee: string;
   readonly reconnaitreDuree: string;
   readonly reconnaitrePosition: string;
-  readonly reconnaitreConfiance: string;
   /** Sous le bouton d ecoute, avant tout clic : le texte avant le lien AudD, puis apres. */
   readonly reconnaitreEnvoiAvant: string;
   readonly reconnaitreEnvoiApres: string;
   readonly reconnaitreEnvoiInterrupteur: string;
   readonly confidentialitePartageCorps: string;
-  /** Quand le reseau ne donne qu une famille : « Famille Techno ». */
-  readonly reconnaitreFamilleSeule: (nom: string) => string;
   readonly reconnaitreSansMorceau: string;
   readonly reconnaitreMorceauNonIdentifie: string;
   readonly reconnaitreSonTropFaible: string;
   /** La raison rendue par le service, telle quelle : un code et sa phrase. */
   readonly reconnaitreServiceRefuse: (raison: string) => string;
-  readonly reconnaitreImprecis: string;
   readonly reconnaitreErreurMicro: string;
-  readonly reconnaitreErreurStyle: string;
+  readonly reconnaitreIndisponible: string;
   readonly reconnaitreRelancer: string;
   readonly reconnaitreHistorique: string;
   readonly reconnaitreAucunHistorique: string;
@@ -1520,21 +1509,11 @@ const FR: Dictionnaire = {
   mesEcoutes: 'Mes écoutes',
   reconnaitreChapeau:
     'Faites écouter à SONAA ce qui passe en soirée, à la radio ou dans la pièce : ' +
-    'le morceau, son artiste et son style.',
+    'le morceau, son artiste, son label.',
   reconnaitreEcouter: 'Écouter',
   reconnaitreEnEcoute: (s) => `Écoute… ${s} s`,
   reconnaitreAnalyse: 'Analyse…',
-  reconnaitreChargement: (part) => `Chargement du modèle… ${Math.round(part * 100)} %`,
-  reconnaitrePoids: (mo) => `Le modèle pèse ${mo} Mo, téléchargés une seule fois puis gardés par le navigateur.`,
-  reconnaitreLeStyle: 'Le style',
-  reconnaitreStyleSource: (s) =>
-    s.length === 0
-      ? 'D’après les étiquettes du morceau.'
-      : `D’après ${s.length === 1 ? s[0] : `${s.slice(0, -1).join(', ')} et ${s[s.length - 1]}`}, pour ce morceau.`,
-  reconnaitreALOreille: 'Ce que le micro entendait',
   reconnaitreLeMorceau: 'Le morceau',
-  reconnaitreHorsAtlas: 'hors atlas',
-  ouvrirLeStyle: 'Ouvrir le style',
   ecouterSurYoutube: 'Écouter sur YouTube',
   entenduRecemment: 'Entendu récemment',
   scansTitre: 'Scans en attente',
@@ -1548,20 +1527,16 @@ const FR: Dictionnaire = {
   reconnaitreAnnee: 'Année',
   reconnaitreDuree: 'Durée',
   reconnaitrePosition: 'Position de l’extrait',
-  reconnaitreConfiance: 'confiance',
   reconnaitreEnvoiAvant: 'Huit secondes de son sont envoyées à ',
   reconnaitreEnvoiApres: ' pour identifier le morceau. Rien n’est conservé.',
   reconnaitreEnvoiInterrupteur: 'Identifier le morceau',
   confidentialitePartageCorps: 'Quand vous utilisez la reconnaissance de musique, huit secondes de son captées par le micro sont envoyées à AudD (audd.io) pour identifier le morceau ; SONAA ne les conserve pas.',
-  reconnaitreFamilleSeule: (nom) => `Famille ${nom}`,
   reconnaitreSansMorceau: 'Aucun morceau reconnu. Cela arrive souvent quand quelqu’un parle par-dessus.',
   reconnaitreMorceauNonIdentifie: 'Morceau non identifié',
   reconnaitreSonTropFaible: 'Son trop faible. Rapprochez l’appareil de la source et réessayez.',
   reconnaitreServiceRefuse: (raison) => `Le service de reconnaissance n’a pas rendu de résultat (${raison}).`,
-  reconnaitreImprecis:
-    'Le style est une estimation faite sur dix secondes, pas un verdict. Une voix, une pub ou un enchaînement le trompent.',
   reconnaitreErreurMicro: 'Le micro n’a pas pu s’ouvrir. Vérifiez l’autorisation du navigateur.',
-  reconnaitreErreurStyle: 'Le modèle n’a pas pu être chargé. Réessayez dans un moment.',
+  reconnaitreIndisponible: 'La reconnaissance est indisponible pour le moment. Réessayez plus tard.',
   reconnaitreRelancer: 'Réécouter',
   reconnaitreHistorique: 'Vos dernières écoutes',
   reconnaitreAucunHistorique: 'Rien encore.',
@@ -1569,7 +1544,7 @@ const FR: Dictionnaire = {
   consentementTitre: 'Avant d’ouvrir le micro',
   consentementMicro: 'SONAA va écouter dix secondes par le micro de cet appareil.',
   consentementLocal:
-    'La reconnaissance du style se fait entièrement sur votre appareil. Le son ne part sur aucun serveur, et rien n’est enregistré.',
+    'Huit secondes de son sont envoyées à AudD (audd.io) pour identifier le morceau. SONAA ne les conserve pas.',
   consentementDuree: 'Le micro se referme tout seul au bout des dix secondes.',
   consentementAccepter: 'J’accepte, écouter',
   consentementRefuser: 'Annuler',
@@ -2294,21 +2269,11 @@ const EN: Dictionnaire = {
   mesEcoutes: 'My listens',
   reconnaitreChapeau:
     'Let SONAA listen to what is playing at a party, on the radio or in the room: ' +
-    'the track, its artist and its style.',
+    'the track, its artist, its label.',
   reconnaitreEcouter: 'Listen',
   reconnaitreEnEcoute: (s) => `Listening… ${s}s`,
   reconnaitreAnalyse: 'Analysing…',
-  reconnaitreChargement: (part) => `Loading the model… ${Math.round(part * 100)}%`,
-  reconnaitrePoids: (mo) => `The model weighs ${mo} MB, downloaded once and then kept by your browser.`,
-  reconnaitreLeStyle: 'The style',
-  reconnaitreStyleSource: (s) =>
-    s.length === 0
-      ? 'According to the track’s tags.'
-      : `According to ${s.length === 1 ? s[0] : `${s.slice(0, -1).join(', ')} and ${s[s.length - 1]}`}, for this track.`,
-  reconnaitreALOreille: 'What the microphone heard',
   reconnaitreLeMorceau: 'The track',
-  reconnaitreHorsAtlas: 'outside the atlas',
-  ouvrirLeStyle: 'Open the style',
   ecouterSurYoutube: 'Listen on YouTube',
   entenduRecemment: 'Heard recently',
   scansTitre: 'Pending scans',
@@ -2322,20 +2287,16 @@ const EN: Dictionnaire = {
   reconnaitreAnnee: 'Year',
   reconnaitreDuree: 'Length',
   reconnaitrePosition: 'Position of the excerpt',
-  reconnaitreConfiance: 'confidence',
   reconnaitreEnvoiAvant: 'Eight seconds of sound are sent to ',
   reconnaitreEnvoiApres: ' to identify the track. Nothing is kept.',
   reconnaitreEnvoiInterrupteur: 'Identify the track',
   confidentialitePartageCorps: 'When you use music recognition, eight seconds of sound captured by the microphone are sent to AudD (audd.io) to identify the track; SONAA does not keep them.',
-  reconnaitreFamilleSeule: (nom) => `${nom} family`,
   reconnaitreSansMorceau: 'No track recognised. That often happens when someone is talking over it.',
   reconnaitreMorceauNonIdentifie: 'Track not identified',
   reconnaitreSonTropFaible: 'Sound too quiet. Move the device closer to the source and try again.',
   reconnaitreServiceRefuse: (raison) => `The recognition service returned no result (${raison}).`,
-  reconnaitreImprecis:
-    'The style is an estimate made on ten seconds, not a verdict. A voice, an advert or a transition will fool it.',
   reconnaitreErreurMicro: 'The microphone could not be opened. Check your browser permission.',
-  reconnaitreErreurStyle: 'The model could not be loaded. Try again in a moment.',
+  reconnaitreIndisponible: 'Recognition is unavailable right now. Try again later.',
   reconnaitreRelancer: 'Listen again',
   reconnaitreHistorique: 'Your recent listens',
   reconnaitreAucunHistorique: 'Nothing yet.',
@@ -2343,7 +2304,7 @@ const EN: Dictionnaire = {
   consentementTitre: 'Before opening the microphone',
   consentementMicro: 'SONAA will listen for ten seconds through this device microphone.',
   consentementLocal:
-    'Style recognition runs entirely on your device. The sound is sent to no server, and nothing is recorded.',
+    'Eight seconds of sound are sent to AudD (audd.io) to identify the track. SONAA does not keep them.',
   consentementDuree: 'The microphone closes on its own after the ten seconds.',
   consentementAccepter: 'I agree, listen',
   consentementRefuser: 'Cancel',

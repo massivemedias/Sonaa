@@ -135,13 +135,11 @@ const MarchandFerme = lazy(() =>
   import('./marchand/MarchandFerme.tsx').then((m) => ({ default: m.MarchandFerme }))
 );
 
-/* RECONNAITRE : la page qui ecoute. Elle est differee comme les autres, et
-   c'est ici que cela compte le plus : elle tire TensorFlow.js et essentia.js,
-   qui pesent plus que tout le reste du site reuni. Personne qui vient lire
-   l'atlas ne doit les payer. Voir src/reconnaitre/. */
 /* LES LABELS : la fiche d'un label et la liste de tous. Voir
    atlas/LabelPage.tsx. Differee : elle tire le corpus et les fiches. */
 const LabelPage = lazy(() => import('./atlas/LabelPage.tsx').then((m) => ({ default: m.LabelPage })));
+/* RECONNAITRE : la page qui ecoute. Differee comme les autres ; voir
+   src/reconnaitre/. */
 const ReconnaitrePage = lazy(() =>
   import('./reconnaitre/ReconnaitrePage.tsx').then((m) => ({ default: m.ReconnaitrePage }))
 );
