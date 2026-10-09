@@ -1,6 +1,15 @@
 {
- "fait": "2026-10-08T17:53:03.623Z",
+ "fait": "2026-10-09T06:19:06.465Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Vinyl DJ 2026: Essential Gear for Perfect Vinyl Sets and DVS",
+   "lien": "https://www.gearnews.com/vinyl-dj-perfect-match/",
+   "date": "2026-10-09T06:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/10/vinyl-dj-2026.jpg",
+   "resume": "Vinyl records are hot again, and maybe your collection is so big that you want to start spinning as a vinyl DJ. If you’re wondering what gear you can really use for that, you’re in the right place. We’ll show you the…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "The Best Rotary Mixers And Boutique Mixing Consoles For DJs",
@@ -92,21 +101,21 @@
    "integral": true
   },
   {
+   "source": "musictech",
+   "titre": "The best new music plugins this week, free and paid",
+   "lien": "https://musictech.com/news/gear/new-plugins-this-week/",
+   "date": "2026-10-08T12:40:52.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2024/11/new-plugins-new-image@2000x1500.jpg",
+   "resume": "Every week, we round up the most exciting new plugin releases — from virtual instruments and creative effects to mixing tools and workflow upgrades. There are tons of plugins released every week, both free and paid, so…",
+   "integral": true
+  },
+  {
    "source": "gearnews",
    "titre": "Teenage Engineering Wants to Stop Making Synths – Really? Oh No!",
    "lien": "https://www.gearnews.com/teenage-engineering-wants-to-stop-making-synths/",
    "date": "2026-10-08T12:29:49.000Z",
    "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/TE-2-T.jpg",
    "resume": "Teenage Engineering wants to stop making synthesizers, including the original OP-1, OP-XY, PO series, and more. Founder and CEO Jesper Kouthoofd says he revealed the plan to his team during a company reorganization…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Melbourne Instruments ROTO-CONTROL: 60+ Free Setups and Open APIs Are Here!",
-   "lien": "https://www.gearnews.com/melbourne-instruments-roto-control-studio/",
-   "date": "2026-10-08T08:32:17.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/01/Melbourne-Exchange-ROTO-CONTROL-T.jpg",
-   "resume": "With Melbourne Exchange, ROTO-CONTROL gets its own home for the community: Owners of the motorized MIDI controller are sharing their setups, integrations, and tools there, completely free. More than 60 user…",
    "integral": true
   },
   {
@@ -242,15 +251,6 @@
    "date": "2026-10-03T23:30:00.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/Vtws6MW8UV8BdtaUr8cWAS-1920-80.png",
    "resume": "Back in 1985, the concept of a professional home studio was still fairly alien. Synthesizers and drum machines were firmly on the agenda, but with digital audio in its infancy, any reasonably substantial studio…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "“It frustrates me to hear people bashing something that’s so amazing”: Todd Edwards is optimistic about AI in music production",
-   "lien": "https://musictech.com/news/music/todd-edwards-is-optimistic-about-ai-in-music-production/",
-   "date": "2026-10-02T11:42:57.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Todd-Edwards-hero@2000x1500.jpg",
-   "resume": "Though now pretty ubiquitous, AI is a topic of serious contention, particularly among musicians and producers. How much of a role should AI play in the creative process, if at all? And is it ethical to use it given some…",
    "integral": true
   },
   {
