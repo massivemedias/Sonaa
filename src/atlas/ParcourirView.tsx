@@ -47,7 +47,7 @@ import { artistesDuGenre, moissonFaiteLe } from '../lib/artistes.ts';
 import { setsDunGenre, type SetDJ } from '../lib/sets.ts';
 import { contributionsActives } from '../lib/config.ts';
 import { aUnCours } from '../lib/cours.ts';
-import { useTexteAnglais } from '../lib/anglais.ts';
+import { nomDeMachine, useFamilleAnglaise, useTexteAnglais } from '../lib/anglais.ts';
 import { CoursDuStyle } from './CoursDuStyle.tsx';
 import { LogoLabel } from './LogoLabel.tsx';
 import { labelsDuStyle, type EntreeLabel } from '../lib/labels.ts';
@@ -297,6 +297,10 @@ export function ParcourirView() {
 
   const genreCourant = niveau.k === 'genre' ? STRUCTURES[niveau.fi]?.genres[niveau.gl] : undefined;
   const familleCourante = niveau.k === 'familles' ? undefined : FAMILIES[niveau.fi];
+  /* Le texte anglais de la famille, quand l'interface est en anglais. */
+  const familleEn = useFamilleAnglaise(familleCourante?.id ?? '');
+  const descriptionFamille = familleEn?.description ?? familleCourante?.description ?? null;
+  const articleFamille = familleEn?.article ?? familleCourante?.article ?? [];
 
   /* --- Rendu ------------------------------------------------------------- */
 
@@ -499,11 +503,11 @@ export function ParcourirView() {
 
                 Ce n'est pas une excuse, c'est une information : le corpus
                 restera en francais, et le dire est la moindre des choses. */}
-            {t.texteEnFrancais && familleCourante.description && (
+            {t.texteEnFrancais && descriptionFamille && !familleEn && (
               <p className="pv-langue">{t.texteEnFrancais}</p>
             )}
-            {familleCourante.description && (
-              <p className="pv-description pv-description-famille">{familleCourante.description}</p>
+            {descriptionFamille && (
+              <p className="pv-description pv-description-famille">{descriptionFamille}</p>
             )}
 
             {/* L'ARTICLE DE LA FAMILLE, sous la description qui l'annonce.
@@ -512,9 +516,9 @@ export function ParcourirView() {
                 meme chose, un texte long en sections avec ses illustrations
                 creditees. Deux rendus pour la meme donnee finiraient par
                 diverger. */}
-            {familleCourante.article.length > 0 && (
+            {articleFamille.length > 0 && (
               <article className="pv-article pv-article-famille">
-                {familleCourante.article.map((section) => (
+                {articleFamille.map((section) => (
                   <section className="pv-article-section" key={section.titre}>
                     <h3 className="pv-article-titre">{section.titre}</h3>
                     {section.image && <FigureArticle cle={section.image} />}
@@ -681,6 +685,12 @@ interface PageGenreProps {
 function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: PageGenreProps) {
   const tracks = genre.tracks;
   const anglais = useTexteAnglais(genre.id);
+  /* EN ANGLAIS, CHAQUE CHAMP SON TEXTE ANGLAIS S'IL EXISTE, le francais
+     sinon (voir anglais.ts). */
+  const sonorites = anglais?.sonorites ?? genre.sonorites;
+  const article = anglais?.article ?? genre.article;
+  const tuto = anglais?.tuto ?? genre.tuto;
+  const motDeLAuteur = anglais?.motDeLAuteur ?? genre.motDeLAuteur;
   const derives = poidsDe(genre.id).descendance;
   const artistes = artistesDuGenre(genre.id);
   const labels = useMemo(
@@ -803,7 +813,7 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
                 <dd className="pv-fait-val">
                   <span className="pv-machines">
                     {genre.machines.map((m) => (
-                      <span className="pv-machine" key={m}>{m}</span>
+                      <span className="pv-machine" key={m}>{nomDeMachine(m)}</span>
                     ))}
                   </span>
                 </dd>
@@ -815,12 +825,12 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
                 disent comment le son se fabrique, ce qui est la deuxieme
                 question du producteur, pas la premiere. Elles ont donc leur
                 ligne au lieu de mentir sur celle d'a cote. */}
-            {genre.sonorites.length > 0 && (
+            {sonorites.length > 0 && (
               <div className="pv-fait">
                 <dt className="pv-fait-cle">{t.sonorites}</dt>
                 <dd className="pv-fait-val">
                   <span className="pv-machines">
-                    {genre.sonorites.map((x) => (
+                    {sonorites.map((x) => (
                       <span className="pv-machine pv-son" key={x}>{x}</span>
                     ))}
                   </span>
@@ -1003,9 +1013,9 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           un seul texte, un onglet unique n'est pas un choix, c'est du decor
           qui coute un clic. */}
 
-      {panneau === 'histoire' && genre.article.length > 0 && (
+      {panneau === 'histoire' && article.length > 0 && (
         <article className="pv-article">
-          {genre.article.map((section) => (
+          {article.map((section) => (
             <section className="pv-article-section" key={section.titre}>
               <h3 className="pv-article-titre">{section.titre}</h3>
               {/* LA PHOTO EST POSEE AVANT LE TEXTE dans le flux, parce qu'elle
@@ -1027,13 +1037,13 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           1er octobre 2026 : le tuto (Acid House, Detroit Techno, ecrits
           depuis le livre scanne) remplace le texte du cours, mais garde ses
           schemas, ses machines et ses etapes. Voir CoursDuStyle.tsx. */}
-      {panneau === 'cours' && <CoursDuStyle genreId={genre.id} tuto={genre.tuto} />}
+      {panneau === 'cours' && <CoursDuStyle genreId={genre.id} tuto={tuto} />}
 
 
-      {genre.motDeLAuteur && (
+      {motDeLAuteur && (
         <blockquote className="pv-mot" style={{ '--pv-hue': famille.hue } as React.CSSProperties}>
           <span className="pv-mot-titre">{t.motDeLAuteur}</span>
-          {genre.motDeLAuteur}
+          {motDeLAuteur}
           <span className="pv-mot-signe">Mika</span>
         </blockquote>
       )}

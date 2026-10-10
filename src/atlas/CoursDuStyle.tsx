@@ -323,7 +323,7 @@ export function CoursDuStyle({ genreId, tuto = [] }: Props) {
                         target="_blank"
                         rel="noreferrer noopener"
                       >
-                        {o.photo.auteur} · {o.photo.licence}
+                        {o.photo.auteur === 'auteur non indique' ? t.auteurNonIndique : o.photo.auteur} · {o.photo.licence}
                       </a>
                     </div>
                   </li>

@@ -13,6 +13,7 @@
  * elle qui dit si le bouton doit exister. */
 
 import IDS from '../data/cours-ids.json';
+import { langue } from '../langue/langue.ts';
 
 export interface Cours {
   readonly tempo: string;
@@ -36,8 +37,20 @@ export function aUnCours(genreId: string): boolean {
 }
 
 let chargement: Promise<Record<string, Cours>> | null = null;
+let chargementEn: Promise<Record<string, Cours>> | null = null;
 
+/* EN ANGLAIS, LE COURS ANGLAIS (cours-en.json, traduit le 10 octobre 2026,
+   voir anglais.ts) ; un cours qui n'y serait pas retombe sur le francais.
+   Chaque langue ne charge que son fichier. */
 export function coursDuGenre(genreId: string): Promise<Cours | null> {
+  if (langue === 'en') {
+    chargementEn ??= import('../data/cours-en.json').then((m) => (m.default ?? m) as Record<string, Cours>);
+    return chargementEn.then((tous) => tous[genreId] ?? null).then((c) => c ?? coursFrancais(genreId));
+  }
+  return coursFrancais(genreId);
+}
+
+function coursFrancais(genreId: string): Promise<Cours | null> {
   chargement ??= import('../data/cours.json').then((m) => (m.default ?? m) as Record<string, Cours>);
   return chargement.then((tous) => tous[genreId] ?? null);
 }

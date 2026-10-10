@@ -536,6 +536,8 @@ interface Dictionnaire {
   readonly memeGenreQue: (nom: string) => string;
   readonly coursEnPreparation: string;
   readonly coursAvis: string;
+  /** Le credit d'une photo de machine dont l'auteur n'est pas connu. */
+  readonly auteurNonIndique: string;
   readonly lesLabels: string;
   readonly navLabels: string;
   readonly labelsChercher: string;
@@ -1320,6 +1322,7 @@ const FR: Dictionnaire = {
   memeGenreQue: (nom) => `Même style que ${nom}`,
   coursEnPreparation: 'Le cours de ce style est en préparation.',
   coursAvis: 'Un cours écrit pour SONAA, en français, à partir des sources citées en bas : un point de départ, pas une recette.',
+  auteurNonIndique: 'auteur non indiqué',
   lesLabels: 'Les labels',
   navLabels: 'Labels',
   labelsChercher: 'Chercher un label',
@@ -2117,7 +2120,8 @@ const EN: Dictionnaire = {
   coursOutils: 'Plugins and machines',
   memeGenreQue: (nom) => `Same style as ${nom}`,
   coursEnPreparation: 'The lesson for this style is in preparation.',
-  coursAvis: 'A lesson written for SONAA, in French, from the sources listed below: a starting point, not a recipe.',
+  coursAvis: 'A lesson written for SONAA from the sources listed below: a starting point, not a recipe.',
+  auteurNonIndique: 'author not stated',
   lesLabels: 'Labels',
   navLabels: 'Labels',
   labelsChercher: 'Search a label',

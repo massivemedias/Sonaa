@@ -1,0 +1,108 @@
+{
+ "ambient": {
+  "description": "Twelve genres for a definition laid down by Brian Eno in 1978: music you must be able to ignore as well as listen to. It is the only family on the map that does not speak to the body. It descends directly from the roots, from the tape recorder and the long loop, and splits according to what it is after: calm for ambient and new age, unease for dark ambient and isolationism, pure texture for drone and lowercase. It then crosses paths with dance music and takes its gear without taking its tempo, which gives IDM and the jagged forms around it."
+ },
+ "bass": {
+  "description": "Nineteen genres united by an idea that is neither rhythm nor melody but BASS, treated as the subject of the track rather than its foundation. It all starts with mid-1990s London garage, which takes New York house, chops it up and makes it limp. 2-step removes the downbeat, dubstep drops an octave and empties out the middle, then the scene fractures: the American version screams, the British version whispers. These genres are the youngest on the map and the fastest to mutate, often in under three years. None of them makes sense without a subwoofer that can reach down to forty hertz."
+ },
+ "breaks": {
+  "description": "Twenty-three genres, the second largest family, all founded on a refusal of the steady four-on-the-floor. The principle is theft: a few seconds of drums lifted from a funk record, looped, sped up. Two bars recorded in 1969 by the Winstons, the famous amen break, have produced more music than most instruments. The family explodes in Britain in the early 1990s, when hardcore raves speed these loops up into jungle, then organize them into drum and bass. It then splits by mood: jazz, darkness, the surgical precision of neurofunk. It is the most British family on the map."
+ },
+ "disco": {
+  "article": [
+   {
+    "image": "studio-54",
+    "texte": "Disco does not begin in a nightclub but in someone's home. On February 14, 1970, David Mancuso opens his Broadway apartment to a private party he calls Love Saves the Day. No liquor license, no doorman, an invitation, and an audiophile sound system built for fidelity rather than volume. The place takes the name The Loft.\n\nWhat gets invented there is not a style of music, it is a way of making people listen to it. Mancuso does not mix in today's sense: he plays whole records, carefully chosen, on a system that delivers the lows and highs that radio cuts. The crowd is mixed, Black and white, gay and straight, at a time when New York clubs are not. That gathering is the first fact of disco, before the first note.",
+    "titre": "A Broadway apartment, Valentine's Day 1970"
+   },
+   {
+    "image": "maxi-45",
+    "texte": "A standard 45 holds three minutes and distorts in the low end: the groove has to be tight to fit the music onto a small record. By cutting a single track onto a twelve-inch disc, the groove widens, the bass comes through, and the track can last eight minutes instead of three.\n\nWest End Records, in New York, is one of the labels that establish this format at the turn of the 1970s. The 12-inch single is not a manufacturing convenience: it is what makes the long development possible, the stretched-out instrumental section, the passage where the vocal disappears and only the rhythm section remains. Without that record, half of what the dance floor invented afterward would have had nowhere to live.",
+    "titre": "The 12-inch single, invented out of necessity"
+   },
+   {
+    "texte": "On July 12, 1979, between two baseball games at Chicago's Comiskey Park, a crate of disco records is blown up in front of the crowd. Disco Demolition Night is billed as a radio prank; it ends in a riot and the second game is canceled. Within a few months the industry removes the word disco from its record sleeves.\n\nThe music itself does not disappear: it changes name and continent. Italy turns it into italo, Germany into Hi-NRG, and Chicago, where the records had just been blown up, turns it into house. The fourteen genres gathered in this family span 1975 to today, from orchestral disco to nu-disco, which replays the same thing with synthesizers.",
+    "titre": "The backlash, and what it missed"
+   }
+  ],
+  "description": "This is where it all starts. Disco is the only family on this map that predates the machine: an orchestra, a rhythm section, strings, and a drummer holding a steady four-on-the-floor for seven minutes because the DJ asks for it. That continuous beat is the invention everything else descends from. From 1979 and the violent backlash against disco in the United States, the music does not disappear, it changes name and continent: Italy turns it into Italo, Germany into Hi-NRG, and Chicago into house. The fourteen genres gathered here span 1975 to today, from orchestral disco to nu-disco, which replays the same thing with synthesizers."
+ },
+ "downtempo": {
+  "description": "Twelve genres defined by a simple subtraction: keep everything, slow it down. Between 80 and 110 beats per minute, which is too slow to dance to and too rhythmic to be ambient. The family takes shape in the rest areas of British raves at the turn of the 1990s, hence the name chill-out, then Bristol gives it its densest form with trip-hop, dub bass and melancholy. It carries on through the bar compilations of the 2000s, then is reborn online with lo-fi hip hop, listened to today by people who know neither its name nor its origin."
+ },
+ "electro": {
+  "description": "Eleven genres that share a drum machine, the Roland TR-808, and an idea that came from Kraftwerk: the voice goes through a machine before it reaches the ear. Electro is born in New York in 1982 with Planet Rock, a direct crossing of funk and German electronics, and spreads immediately: Miami makes it a matter of sub-bass and cars, Detroit draws techno from it, New York draws freestyle and its Latin vocals. It is the smallest family on the map in number of genres, and one of the most fertile: two other entire families descend from what was played here between 1982 and 1985."
+ },
+ "hardcore": {
+  "description": "Nineteen genres organized around a single gesture: saturating a kick until it becomes a note. The family is born around 1990 when Dutch and British raves push techno faster than it can take. Rotterdam gabber gives it its best-known form, the distorted kick re-recorded until it saturates, then the tempos climb, from 160 to 200, then beyond. It is the most misunderstood family on the map, often reduced to a caricature of speed, when its branches diverge completely: hardstyle is slow and melodic, frenchcore rolls, speedcore goes where the kick stops being audible as rhythm."
+ },
+ "house": {
+  "article": [
+   {
+    "image": "hacienda",
+    "texte": "In 1977, a Chicago club opens in a former warehouse on Jefferson Street and brings in a DJ from New York, Frankie Knuckles, trained at the Continental Baths and close to the Loft scene. The club is called the Warehouse. He plays Philadelphia disco, soul, Salsoul, and when the records fall short he extends them himself with a drum machine and a tape recorder.\n\nThe word house comes from there: Chicago record stores file the records you hear at the Warehouse under the label house music. It is a place name turned genre name, which rarely happens and says everything about how this style was born: through dance floor practice, not through a studio project.",
+    "titre": "A warehouse, a New York DJ, and a word that stuck"
+   },
+   {
+    "image": "tr-909",
+    "texte": "Disco was played by an orchestra. House is made with whatever you can find secondhand: a Roland TR-808 or TR-909 that stores sell off cheap because they don't sound like real drums, a cheap keyboard, a four-track recorder.\n\nThat constraint makes the sound. The kick lands on all four beats because that is what the box does best, the hi-hat answers between the beats, and the bass is a looped line rather than a bass player. Jesse Saunders' On and On, in 1984, is generally considered the first house record ever released: it runs on exactly that gear and costs almost nothing to make. That is what opens the door to hundreds of people who would never have paid for a studio.",
+    "titre": "What the machine changed"
+   },
+   {
+    "texte": "In Chicago, house stays a local affair. It is England that turns it into a mass phenomenon: Farley Jackmaster Funk's Love Can't Turn Around enters the British charts in 1986, and Steve Silk Hurley's Jack Your Body reaches number one there in January 1987.\n\nThen Manchester tips over. From 1988, the Haçienda, opened by Factory Records and New Order, becomes the center of a scene that blends Chicago house, acid and English club culture. The house family now brings together twenty-four genres, from the original Chicago sound to South African amapiano: what holds them together is not a tempo but a kick on every beat and a way of making things last.",
+    "titre": "England takes hold of it"
+   }
+  ],
+  "description": "The largest family on the map, twenty-four genres, and for that very reason the hardest to define precisely. What unites them comes down to very little: a four-on-the-floor between 118 and 130, an open hat on the offbeats, and the idea that a track is a mixing tool as much as a song. It all starts in Chicago in the early 1980s, when the DJs at the Warehouse extend disco with drum machines. Then each city adds its own: New York the voice, Detroit the melancholy, London the garage, South Africa the slow tempo. It is the family that has traveled the most, and the one whose name is now used to mean just about anything."
+ },
+ "industrial": {
+  "description": "Fourteen genres that share a view of noise as music, and of the factory as an instrument. Industrial is born around 1976, before almost everything else on this map, in an approach that owes as much to art as to records: doctored magnetic tape, primitive drum machines, vocals processed until unintelligible. It becomes danceable in Belgium in the early 1980s with EBM and new beat, and that shift is what matters for this map: it opens a direct path between the avant-garde and the club. The family then extends toward coldwave, darkwave and the hardest electronic forms, until it crosses paths with techno again."
+ },
+ "minimal": {
+  "article": [
+   {
+    "texte": "Minimal does not try to fill a track: it looks at how much can be taken out before it stops working. A short loop, a tiny variation every sixteen bars, and time does the rest.\n\nIt is born in Detroit in the mid-1990s, with Robert Hood and Daniel Bell, as a reaction to the excess of the raves. Minimal Nation, the album Hood released in 1994, is its founding document: there is almost nothing in it, and that is the point. The question it asks is the question of the whole family, and it is more radical than it looks: at what point a repeated pattern stops being music.",
+    "titre": "Taking away rather than adding"
+   },
+   {
+    "image": "berghain",
+    "texte": "In 1993, a techno record shop opens in Cologne under the name Delirium. Wolfgang Voigt, his brother Reinhard, Jörg Burger and Jürgen Paape run it, soon joined by Michael Mayer. In 1998 they bring their labels, the shop, distribution and party promotion together under a single name: Kompakt.\n\nWhat Cologne adds to Detroit minimal is an almost clinical clarity and an unashamed melancholy. The rhythm section shrinks even further, but one sustained synth chord is enough to make a track warm. Along with Perlon in Frankfurt and Richie Hawtin's M-nus, these labels establish in the early 2000s what all of Europe would simply call minimal.",
+    "titre": "Cologne, and the record shop that became a label"
+   },
+   {
+    "texte": "The last piece came from digital error. In the late 1990s, producers start using as percussion what equipment produces when it fails: the click of a skipping CD player, the crackle of vinyl, the artifact of a compressor pushed too far.\n\nThe compilation Clicks & Cuts, released by Mille Plateaux in 2000, gives this practice a name. Crossed with house, it produces the microhouse of Ricardo Villalobos and Akufen, made of chopped vocal fragments and silences. Tech house, which descends directly from it, would become the most played format in clubs in the 2010s: it is the most austere family on the map, and paradoxically the one that produced the biggest commercial success.",
+    "titre": "The click as raw material"
+   }
+  ],
+  "description": "Eleven genres built on subtraction. Minimal does not try to fill a track but to see how much can be taken out before it stops working. A short loop, a tiny variation every sixteen bars, and time does the rest. It is born around 1994 with Robert Hood in Detroit, then moves to Germany, where Cologne and the Kompakt label make it almost clinical, with clicks and crackles as raw material. It then crosses with house to give tech house, which would become the most played format in clubs in the 2010s. It is the most austere family on the map, and paradoxically the one that produced the biggest commercial success."
+ },
+ "psy": {
+  "description": "Sixteen genres born from a place rather than a city: the beaches of Goa, in India, where European travelers play tapes all night long from the late 1980s on. Psytrance sets itself apart from European trance through its bass, played in continuous, rolling eighth notes, and through an idea of the track as an eight-minute journey with no chorus. Israel becomes its second home in the mid-1990s. The family then splits according to light: full-on for sunrise, dark and forest for the night, and speeds that climb into territory few people visit. It is the most self-contained family on the map, with its own labels, its own festivals and its own audience."
+ },
+ "roots": {
+  "description": "The roots, and that is the exact name. Fourteen genres that precede electronic dance music and make it possible. It all starts in Paris in 1948 with Pierre Schaeffer's musique concrète, which lays down a simple and far-reaching principle: a recorded sound is material you can cut, reverse, loop. The tape recorder becomes an instrument. Then come the electroacoustic music of the studios in Cologne and Milan, and later German krautrock and kosmische musik in the 1970s, which replace song structure with repetition. None of these genres is danced to. All of them turn up in what people dance to today."
+ },
+ "techno": {
+  "article": [
+   {
+    "image": "detroit-skyline",
+    "texte": "Techno is born in Belleville, a suburb southwest of Detroit, among three high school classmates: Juan Atkins, Derrick May and Kevin Saunderson. They listen to a late-night radio show, The Electrifying Mojo, which plays Kraftwerk, Parliament, Prince and the B-52's in the same hour without explaining why.\n\nThat mix is the blueprint. Atkins records with Rick Davis as Cybotron from 1981, and Clear, in 1983, already carries everything: the machine, the funk, and a coldness that is not indifference. The word techno comes from a text by Alvin Toffler, Techno Rebels, which the group reads and remembers.",
+    "titre": "Three Michigan high schoolers"
+   },
+   {
+    "image": "packard-detroit",
+    "texte": "Detroit loses half its population between 1950 and 1990. The car factories close; the Packard plant is abandoned as early as 1958 and rots in place for sixty years. That is the setting, and it is not decorative: Detroit techno is made in a city where industry has disappeared and left its buildings behind.\n\nThe records say it without saying it. They are mechanical and melancholic at once, made of machines in a city the machines have left. Rhythim Is Rhythim's Strings of Life, in 1987, is a piano piece played by a sequencer: nobody touches it, and it is deeply moving.",
+    "titre": "A city emptying out"
+   },
+   {
+    "image": "tresor",
+    "texte": "Detroit techno sells poorly in the United States and finds its audience in Europe. In Berlin, the fall of the Wall in 1989 frees up empty buildings on both sides: Tresor opens in 1991 in the vault of a disused department store, under Leipziger Strasse.\n\nThe label of the same name releases the Detroit producers in Germany and builds the bridge between the two cities. That is where techno as you hear it in clubs today comes from: harder, longer, more linear than the Michigan original. The sixteen genres in this family run from the original Detroit sound to today's hard techno, by way of Basic Channel's dub techno and Birmingham's industrial techno.",
+    "titre": "Berlin, the Wall, and a bank vault"
+   }
+  ],
+  "description": "Sixteen genres that share the same rigor: the machine does not play like a human being, it plays as itself. Born in Detroit around 1981 at the hands of three high school students who listened to Kraftwerk and Parliament on the same radio station, techno sets itself apart from house by what it refuses rather than by what it adds: fewer vocals, less piano, less disco. It crosses the Atlantic in 1988 and Europe hardens it, from Berlin to Rotterdam. The genres in this family range from the most melodic, Detroit techno, to the most stripped-down, all the way to the extreme speeds of schranz. The word has become so broad that it sometimes refers to all electronic music; here it keeps its strict meaning."
+ },
+ "trance": {
+  "description": "Fourteen genres that share the same emotional mechanics: a build-up, a break, a return. Where techno refuses melody, trance makes it its subject. It appears around 1990 in Frankfurt and Berlin, meets Chicago acid and the sequencer arpeggio, then codifies its form to the point where it becomes recognizable within eight bars. The Netherlands and Great Britain take it into stadiums in the late 1990s, which earns it both its widest audience and the greatest contempt from critics. The genres gathered here range from 1993 club trance to recent forms that take everything back to the beginning."
+ }
+}

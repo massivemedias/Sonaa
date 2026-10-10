@@ -22,6 +22,7 @@
    conteneur de premier niveau positionné par mesure, la lecture survit à
    tout, fermeture de colonne comprise (elle devient barre discrète). */
 
+import { nomDeMachine, useTexteAnglais } from '../lib/anglais.ts';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FAMILIES, STRUCTURES, type Track } from './structures.ts';
 import { ProceduralCover } from './ProceduralCover.tsx';
@@ -420,6 +421,8 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
     ? STRUCTURES[panelGenre.familyIndex]?.genres[panelGenre.genreLocal]
     : undefined;
   const panelFamily = panelGenre ? FAMILIES[panelGenre.familyIndex] : undefined;
+  /* En anglais, les textes anglais du genre ouvert (voir anglais.ts). */
+  const panelAnglais = useTexteAnglais(panelGenreData?.id ?? '');
 
   const playingHere =
     Boolean(playback) &&
@@ -1092,7 +1095,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                   </span>
                 )}
                 {panelGenreData.confidence === 'debated' && (
-                  <span className="pcol-badge" title={panelGenreData.note}>{t.filiationDebattueMinuscule}</span>
+                  <span className="pcol-badge" title={panelAnglais?.note ?? panelGenreData.note}>{t.filiationDebattueMinuscule}</span>
                 )}
                 {panelGenreData.redaction === 'brouillon' && (
                   <span className="pcol-badge pcol-badge-draft">{t.ficheARelire}</span>
@@ -1425,7 +1428,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                       <p className="pcol-draft">{t.ficheEnBrouillon}</p>
                     )}
                     {panelGenreData.description && (
-                      <p className="pcol-description">{panelGenreData.description}</p>
+                      <p className="pcol-description">{panelAnglais?.description || panelGenreData.description}</p>
                     )}
                     {/* Le mot de l'auteur : un point de vue assume, pas une
                         donnee. Il porte une signature pour qu'on sache qui
@@ -1437,7 +1440,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                             mur de quatre-vingts mots dans une colonne de
                             420 px. Même séparation que la page À propos, une
                             ligne vide. */}
-                        {panelGenreData.motDeLAuteur.split('\n\n').map((para, i) => (
+                        {(panelAnglais?.motDeLAuteur ?? panelGenreData.motDeLAuteur).split('\n\n').map((para, i) => (
                           <p key={i}>{para}</p>
                         ))}
                         <p className="pcol-mot-signature">Mika</p>
@@ -1446,7 +1449,7 @@ export function PlayerLayer({ panelGenre, demarrer, onReopen, onGoToGenre, onGoT
                     {panelGenreData.machines.length > 0 && (
                       <>
                         <h4>Machines</h4>
-                        <p className="pcol-info-line">{panelGenreData.machines.join(' · ')}</p>
+                        <p className="pcol-info-line">{panelGenreData.machines.map(nomDeMachine).join(' · ')}</p>
                       </>
                     )}
                     {(panelGenreData.labelsHistoriques.length > 0 ||
