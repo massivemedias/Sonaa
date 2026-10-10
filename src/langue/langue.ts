@@ -630,7 +630,8 @@ interface Dictionnaire {
   readonly creerUnCompte: string;
   readonly creerMonCompte: string;
   readonly creerCompteUsage: string;
-  readonly dejaUnCompte: string;
+  readonly usageInscription: string;
+  readonly ouAvecTonCourriel: string;
   readonly compteCree: string;
   readonly pasEncoreDeCompte: string;
   readonly motDePasseOublie: string;
@@ -1414,7 +1415,8 @@ const FR: Dictionnaire = {
   creerUnCompte: 'Créer un compte',
   creerMonCompte: 'Créer mon compte',
   creerCompteUsage: 'Une adresse courriel et un mot de passe d’au moins 8 caractères, c’est tout. Aucun courriel à confirmer.',
-  dejaUnCompte: 'J’ai déjà un compte',
+  usageInscription: 'Un compte pour écouter les sets, garder tes écoutes, proposer des morceaux et voter.',
+  ouAvecTonCourriel: 'ou avec ton courriel',
   compteCree: 'Compte créé, tu es connecté.',
   pasEncoreDeCompte: 'Pas encore de compte ?',
   motDePasseOublie: 'Mot de passe oublié ?',
@@ -2211,7 +2213,8 @@ const EN: Dictionnaire = {
   creerUnCompte: 'Create an account',
   creerMonCompte: 'Create my account',
   creerCompteUsage: 'An email address and a password of at least 8 characters, that is all. No email to confirm.',
-  dejaUnCompte: 'I already have an account',
+  usageInscription: 'An account to play the sets, keep your listens, suggest tracks and vote.',
+  ouAvecTonCourriel: 'or with your email',
   compteCree: 'Account created, you are signed in.',
   pasEncoreDeCompte: 'No account yet?',
   motDePasseOublie: 'Forgot your password?',

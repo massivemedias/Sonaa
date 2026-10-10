@@ -426,14 +426,38 @@
   }
 }
 
-/* DEUX BOUTONS DE MEME POIDS : entrer, ou creer son compte. La personne
-   sait lequel est le sien ; on ne lui fait pas repondre a une question
-   avant. */
-.authb-deux {
+/* DEUX ONGLETS : creer son compte, ou entrer. Depuis le 9 octobre 2026,
+   ils remplacent les deux boutons de meme poids sous le formulaire, ou
+   « Creer un compte » passait pour secondaire. Voir AuthButton.tsx. */
+.authb-onglets {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--espace-8);
-  margin-top: var(--espace-4);
+  gap: var(--espace-4);
+  margin: 0 var(--espace-32) var(--espace-12) 0;
+  padding: var(--espace-4);
+  border-radius: 12px;
+  background: var(--voile-05);
+}
+.authb-panneau .authb-onglets button {
+  min-height: 44px;
+  padding: 0 var(--espace-8);
+  border: 0;
+  border-radius: 9px;
+  background: none;
+  color: var(--ink-secondary, var(--encre-douce));
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.authb-panneau .authb-onglets button[aria-selected='true'] {
+  background: var(--accent);
+  color: var(--sur-accent);
+}
+.authb-aide {
+  margin: var(--espace-4) 0 0;
+  color: var(--ink-secondary, var(--encre-douce));
+  font-size: 0.78rem;
 }
 
 .authb-liens {

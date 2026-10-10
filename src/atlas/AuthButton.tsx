@@ -50,6 +50,31 @@ import './auth-button.css';
    retour. On capture donc le fragment complet, qui porte le genre ouvert. */
 const iciMeme = (): string => window.location.hash || '#/';
 
+/* ═══ L'INSCRIPTION D'ABORD, POUR QUI N'EST JAMAIS VENU ═══
+
+   Mika, le 9 octobre 2026 : « les gens s'enregistrent avec Google, c'est
+   facile, mais il faudrait qu'ils puissent s'enregistrer avec le courriel
+   aussi ». Ils le pouvaient depuis le 10 septembre, et personne ne le
+   faisait : quatorze comptes Google, six par courriel, aucun depuis le
+   24 septembre, et aucune tentative d'inscription dans les journaux du jour.
+   Le panneau s'ouvrait sur « Connexion », un champ de mot de passe, et
+   « Creer un compte » en bouton secondaire a cote de « Se connecter » : qui
+   n'avait pas de compte lisait une porte fermee.
+
+   Le panneau porte donc deux onglets, et un navigateur qui ne s'est jamais
+   connecte ouvre sur « Creer un compte ». Celui qui l'a deja fait ouvre sur
+   « Se connecter ». Google reste en haut des deux : il cree le compte comme
+   il connecte. */
+const CLE_DEJA_CONNECTE = 'sonaa-deja-connecte';
+const dejaConnecteIci = (): boolean => {
+  try {
+    return localStorage.getItem(CLE_DEJA_CONNECTE) === '1';
+  } catch {
+    return false;
+  }
+};
+const modeDOuverture = (): 'mdp' | 'creer' => (dejaConnecteIci() ? 'mdp' : 'creer');
+
 /* LE NOM QU'ON SE VOIT A SOI-MEME, ET LUI SEUL.
 
    DEFAUT SIGNALE SUR CAPTURE IPHONE : le bouton affichait « d78765f0 », c'est
@@ -109,6 +134,15 @@ export function AuthButton() {
   const formulaire = useRef<HTMLFormElement | null>(null);
 
   const connecte = session !== null;
+
+  useEffect(() => {
+    if (!connecte) return;
+    try {
+      localStorage.setItem(CLE_DEJA_CONNECTE, '1');
+    } catch {
+      /* navigation privee : on rouvrira sur l'inscription, sans dommage */
+    }
+  }, [connecte]);
 
   /* LE PORTRAIT DU PROFIL, DANS LE COIN. Mika, le 8 septembre 2026 : « je
      veux que l'image de mon profil s'affiche pareil en haut a droite en
@@ -172,7 +206,7 @@ export function AuthButton() {
       const detail = (e as CustomEvent<unknown>).detail;
       setMotif(detail === MOTIF_ECOUTE ? t.usageEcoute : null);
       setMessage(null);
-      setMode('mdp');
+      setMode(modeDOuverture());
       setOuvert(true);
     };
     const nouveau = (): void => {
@@ -482,7 +516,16 @@ export function AuthButton() {
            mot entier faisait 111 px en francais, et la barre du haut ne
            tenait plus a 320 px : il recouvrait le logo. Le mot reste dans le
            bouton pour l'ordinateur, et dans son nom pour qui lit l'ecran. */
-        <button className="authb-bouton authb-entrer" onClick={() => setOuvert(true)} aria-label={t.seConnecter}>
+        <button
+          className="authb-bouton authb-entrer"
+          onClick={() => {
+            setMotif(null);
+            setMessage(null);
+            setMode(modeDOuverture());
+            setOuvert(true);
+          }}
+          aria-label={t.seConnecter}
+        >
           <FaIcon icon={faUser} className="authb-entrer-icone" />
           <span className="authb-entrer-mot">{t.seConnecter}</span>
         </button>
@@ -502,8 +545,24 @@ export function AuthButton() {
             <button className="authb-fermer" onClick={() => setOuvert(false)} aria-label={t.fermer}>
               ×
             </button>
-            <h2>{mode === 'nouveau' ? t.nouveauMotDePasse : mode === 'creer' ? t.creerUnCompte : t.connexion}</h2>
-            {mode !== 'nouveau' && mode !== 'creer' && <p className="authb-usage">{motif ?? t.usageConnexion}</p>}
+            {mode === 'mdp' || mode === 'creer' ? (
+              <>
+                <div className="authb-onglets" role="tablist" aria-label={t.connexion}>
+                  <button type="button" role="tab" aria-selected={mode === 'creer'} onClick={() => { setMode('creer'); setMessage(null); }}>
+                    {t.creerUnCompte}
+                  </button>
+                  <button type="button" role="tab" aria-selected={mode === 'mdp'} onClick={() => { setMode('mdp'); setMessage(null); }}>
+                    {t.seConnecter}
+                  </button>
+                </div>
+                <p className="authb-usage">{motif ?? (mode === 'creer' ? t.usageInscription : t.usageConnexion)}</p>
+              </>
+            ) : (
+              <>
+                <h2>{mode === 'nouveau' ? t.nouveauMotDePasse : t.connexion}</h2>
+                {mode !== 'nouveau' && <p className="authb-usage">{motif ?? t.usageConnexion}</p>}
+              </>
+            )}
 
             {mode === 'nouveau' ? (
               <form onSubmit={(e) => void parNouveau(e)}>
@@ -525,15 +584,12 @@ export function AuthButton() {
               <>
                 {/* GOOGLE EN PREMIER, ET C'EST DE L'ARITHMÉTIQUE : le lien par
                     courriel est plafonné pour le site entier. Google n'a pas
-                    cette limite. */}
-                {mode !== 'creer' && (
-                  <>
-                    <button className="authb-google" onClick={() => void parGoogle()}>
-                      {t.continuerGoogle}
-                    </button>
-                    <div className="authb-ou"><span>{t.ou}</span></div>
-                  </>
-                )}
+                    cette limite. Il est la dans les deux onglets : il cree le
+                    compte comme il connecte. */}
+                <button className="authb-google" onClick={() => void parGoogle()}>
+                  {t.continuerGoogle}
+                </button>
+                <div className="authb-ou"><span>{mode === 'creer' ? t.ouAvecTonCourriel : t.ou}</span></div>
 
                 {mode === 'mdp' && (
                   <form ref={formulaire} onSubmit={(e) => { e.preventDefault(); void parMotDePasse(false); }}>
@@ -557,14 +613,9 @@ export function AuthButton() {
                       minLength={MOT_DE_PASSE_MIN}
                       required
                     />
-                    <div className="authb-deux">
-                      <button type="submit" disabled={envoi === 'envoi'}>
-                        {envoi === 'envoi' ? t.envoiEnCours : t.seConnecter}
-                      </button>
-                      <button type="button" className="authb-creer" onClick={() => { setMode('creer'); setMessage(null); }}>
-                        {t.creerUnCompte}
-                      </button>
-                    </div>
+                    <button type="submit" className="authb-principal" disabled={envoi === 'envoi'}>
+                      {envoi === 'envoi' ? t.envoiEnCours : t.seConnecter}
+                    </button>
                     {message && <p className="authb-message" role="alert">{message}</p>}
                     <div className="authb-liens">
                       <button type="button" className="authb-lien" onClick={() => { setMode('oubli'); setMessage(null); }}>
@@ -579,7 +630,6 @@ export function AuthButton() {
 
                 {mode === 'creer' && (
                   <form ref={formulaire} className="authb-creation" onSubmit={(e) => { e.preventDefault(); void parMotDePasse(true); }}>
-                    <p className="authb-usage">{t.creerCompteUsage}</p>
                     {message && <p className="authb-message" role="alert">{message}</p>}
                     <label htmlFor="authb-email">{t.tonAdresse}</label>
                     <input
@@ -604,11 +654,7 @@ export function AuthButton() {
                     <button type="submit" className="authb-principal" disabled={envoi === 'envoi'}>
                       {envoi === 'envoi' ? t.envoiEnCours : t.creerMonCompte}
                     </button>
-                    <div className="authb-liens">
-                      <button type="button" className="authb-lien" onClick={() => { setMode('mdp'); setMessage(null); }}>
-                        {t.dejaUnCompte}
-                      </button>
-                    </div>
+                    <p className="authb-aide">{t.creerCompteUsage}</p>
                   </form>
                 )}
 
