@@ -1,12 +1,22 @@
-/* L'ACCUEIL. Voir Accueil.tsx et Spectre.tsx.
+/* L'ACCUEIL. Voir Accueil.tsx, MurDePochettes.tsx et Spectre.tsx.
  *
- * Le fond reste le granite du site ; l'ouverture tient un ecran, et chaque
- * section suivante commence par un filet, un numero en orange, un grand
- * titre et sa porte. Une seule entree en mouvement, celle du site
- * (Apparition), plus deux qui ne jouent qu'une fois a l'arrivee : le titre
- * qui monte de sous sa ligne, et les traits du spectre. */
+ * Deuxieme version, le 10 octobre 2026 (Mika : « quelque chose de plus
+ * attrayant, eventuellement en parallaxe »). L'ouverture est un mur de
+ * pochettes qui derive et monte en parallaxe derriere un titre centre ; les
+ * sections suivantes ont de grands titres qui arrivent de cote, des images
+ * qui glissent dans leur cadre, une bande Track ID a part, des familles en
+ * pochettes et des news en une de magazine.
+ *
+ * LE MOUVEMENT LIE AU DEFILEMENT EST EN CSS (animation-timeline), comme dans
+ * design/parallaxe.css : joue sur le fil de composition, sans JavaScript.
+ * Les navigateurs qui ne le connaissent pas gardent la page immobile, et
+ * quiconque demande moins de mouvement ne voit rien bouger. */
 
 .ac {
+  /* LES DEUX GRANDEURS DE L'ACCUEIL, nommees une fois : la taille des
+     grands titres de section, et le souffle vertical entre les blocs. */
+  --ac-grand-titre: clamp(2.4rem, 6.2vw, 5.4rem);
+  --ac-souffle: clamp(64px, 12.5vh, 132px);
   min-height: 100vh;
   overflow-x: clip;
 }
@@ -14,18 +24,75 @@
 /* ═══ L'OUVERTURE ═══ */
 .ac-hero {
   position: relative;
-  /* L'ECRAN MOINS LA BARRE DU BAS sur telephone (nulle ailleurs) : le
-     spectre se pose sur elle, pas dessous. */
+  /* L'ECRAN MOINS LA BARRE DU BAS sur telephone (nulle ailleurs). */
   min-height: calc(100svh - var(--barre-bas-h, 0px));
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: auto minmax(180px, 1fr);
-  padding: clamp(88px, 13vh, 140px) var(--marge-page) 0;
+  place-items: center;
+  padding: 104px var(--marge-page) 132px;
+  overflow: hidden;
+  isolation: isolate;
 }
+
+/* LE MUR. Des colonnes de pochettes, inclinees de huit degres, qui
+   debordent l'ecran de tous cotes pour que l'inclinaison ne decouvre aucun
+   coin. */
+.ac-mur-cadre {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+}
+.ac-mur {
+  position: absolute;
+  inset: -40% -18%;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  rotate: -8deg;
+}
+.ac-mur-col {
+  flex: 0 0 clamp(120px, 12.5vw, 210px);
+}
+.ac-mur-bande {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: ac-derive var(--d) linear infinite;
+}
+.ac-mur-bande img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 10px;
+  background: var(--voile-05);
+}
+/* La bande porte deux fois la colonne : a la moitie (plus un demi
+   intervalle), elle est revenue au meme dessin. */
+@keyframes ac-derive {
+  to {
+    transform: translateY(calc(-50% - 7px));
+  }
+}
+
+/* LE VOILE. Sombre au milieu, la ou se lit le titre, plus clair sur les
+   bords, ou le mur se voit ; fondu vers la page en bas. */
+.ac-hero-voile {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 48%, oklch(0.12 0.004 70 / 0.94) 0%, oklch(0.12 0.004 70 / 0.8) 50%, oklch(0.12 0.004 70 / 0.46) 100%),
+    linear-gradient(to bottom, oklch(0.12 0.004 70 / 0.55) 0%, transparent 22%, transparent 56%, var(--fond) 93%);
+}
+
 .ac-hero-texte {
   width: 100%;
-  max-width: var(--largeur-page);
-  margin: 0 auto;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 .ac-surtitre {
   margin: 0 0 var(--espace-16);
@@ -37,11 +104,12 @@
 }
 .ac-titre {
   margin: 0;
-  font-size: clamp(2.6rem, min(7.4vw, 11vh), 7.2rem);
+  font-size: clamp(2.8rem, min(8.4vw, 13vh), 8.4rem);
   font-weight: 800;
   line-height: 0.92;
   letter-spacing: var(--serrage);
   color: var(--encre-vive);
+  text-shadow: 0 4px 40px oklch(0.1 0.004 70 / 0.6);
 }
 /* LE TITRE MONTE DE SOUS SA LIGNE : chaque ligne est une fenetre, le texte
    y entre par le bas. */
@@ -60,15 +128,16 @@
 }
 .ac-chapeau {
   max-width: 40rem;
-  margin: var(--espace-24) 0 0;
+  margin: var(--espace-24) auto 0;
   font-size: clamp(1rem, 1.35vw, 1.2rem);
   line-height: 1.5;
-  color: var(--ink-secondary);
+  color: var(--encre-moyenne);
   animation: ac-fondu 700ms 420ms both;
 }
 .ac-gestes {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: var(--espace-12);
   margin: var(--espace-32) 0 0;
   animation: ac-fondu 700ms 540ms both;
@@ -100,6 +169,7 @@
 .ac-chiffres {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: var(--espace-8) var(--espace-24);
   margin: var(--espace-32) 0 0;
   font-size: 0.9rem;
@@ -114,63 +184,49 @@
   color: var(--ink-primary);
 }
 
-/* ═══ LE SPECTRE ═══ Un trait par style, pose sur la ligne du bas de
-   l'ecran. La teinte est celle de la famille (meme formule que les
-   colonnes et les credits), la hauteur le tempo. Le liseré clair en tete
-   de chaque trait est le repere de crete d'un analyseur. */
-.ac-spectre-cadre {
-  position: relative;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  margin: clamp(24px, 5vh, 64px) calc(-1 * var(--marge-page)) 0;
-}
-.ac-spectre-legende {
-  box-sizing: border-box;
-  width: 100%;
+/* L'INVITATION A DESCENDRE : un mot, et un fil d'accent qui coule. */
+.ac-defiler {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  translate: -50% 0;
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--espace-4) var(--espace-12);
-  min-height: 1.5em;
-  max-width: calc(var(--largeur-page) + 2 * var(--marge-page));
-  margin: 0 auto var(--espace-12);
-  padding: 0 var(--marge-page);
-  font-size: 0.8rem;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espace-8);
+  min-height: 44px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
   color: var(--ink-secondary);
+  text-decoration: none;
+  animation: ac-fondu 700ms 900ms both;
 }
-.ac-spectre-legende strong {
-  font-size: 1rem;
-  color: var(--ink-primary);
+.ac-defiler i {
+  display: block;
+  width: 1px;
+  height: 40px;
+  background: var(--accent);
+  transform-origin: 50% 0;
+  animation: ac-goutte 2s ease-in-out infinite;
 }
-.ac-spectre {
-  display: flex;
-  align-items: flex-end;
-  gap: 2px;
-  height: 100%;
-  min-height: 160px;
-  max-height: 420px;
-  padding: 0 var(--marge-page);
-  border-bottom: 1px solid var(--filet);
-}
-.ac-trait {
-  flex: 1 1 0;
-  min-width: 0;
-  height: calc(var(--h) * 100%);
-  border-radius: 2px 2px 0 0;
-  background: oklch(0.72 0.15 var(--teinte));
-  box-shadow: inset 0 3px 0 oklch(0.9 0.1 var(--teinte));
-  opacity: 0.9;
-  transform-origin: 50% 100%;
-  animation: ac-trait 1100ms cubic-bezier(0.2, 0.9, 0.25, 1.12) both;
-  animation-delay: calc(300ms + var(--i) * 5ms);
-  transition: opacity 160ms ease, background 160ms ease;
-}
-.ac-spectre:hover .ac-trait {
-  opacity: 0.32;
-}
-.ac-spectre:hover .ac-trait[data-actif='true'] {
-  opacity: 1;
-  background: oklch(0.86 0.13 var(--teinte));
+@keyframes ac-goutte {
+  0% {
+    transform: scaleY(0);
+    transform-origin: 50% 0;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: 50% 0;
+  }
+  51% {
+    transform-origin: 50% 100%;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: 50% 100%;
+  }
 }
 
 @keyframes ac-monte {
@@ -191,49 +247,41 @@
     transform: none;
   }
 }
-@keyframes ac-trait {
-  from {
-    transform: scaleY(0);
-  }
-  to {
-    transform: scaleY(1);
-  }
-}
 
 /* ═══ LES SECTIONS ═══ */
 .ac-section {
   max-width: var(--largeur-page);
   margin: 0 auto;
-  padding: clamp(56px, 10vh, 112px) var(--marge-page) 0;
+  padding: clamp(64px, 11vh, 120px) var(--marge-page) 0;
 }
 .ac-section-tete {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
   gap: var(--espace-16) var(--espace-24);
-  margin-bottom: var(--espace-24);
-  padding-top: var(--espace-16);
-  border-top: 1px solid var(--filet);
+  margin-bottom: var(--espace-32);
 }
 .ac-numero {
-  align-self: start;
-  padding-top: 0.55rem;
+  grid-column: 1 / -1;
+  margin: 0;
   font-size: 0.8rem;
   font-weight: 700;
+  letter-spacing: 0.2em;
   font-variant-numeric: tabular-nums;
   color: var(--accent);
 }
 .ac-section-titre {
   margin: 0;
-  font-size: clamp(2rem, 4.6vw, 3.6rem);
+  font-size: var(--ac-grand-titre);
   font-weight: 800;
-  line-height: 1;
+  line-height: 0.95;
   letter-spacing: var(--serrage);
   color: var(--encre-vive);
 }
 .ac-section-sous {
   max-width: 42rem;
-  margin: var(--espace-8) 0 0;
+  margin: var(--espace-12) 0 0;
+  font-size: 1.02rem;
   color: var(--ink-secondary);
 }
 .ac-porte {
@@ -248,6 +296,29 @@
 }
 .ac-porte:hover {
   color: var(--accent);
+}
+
+/* LE CADRE : une image plus haute que sa fenetre, qui y glisse au
+   defilement (voir plus bas). */
+.ac-cadre {
+  display: block;
+  overflow: hidden;
+  border-radius: 14px;
+  margin-bottom: var(--espace-8);
+  background: var(--voile-08);
+}
+.ac-cadre > img,
+.ac-cadre > .cal-gen {
+  display: block;
+  width: 100%;
+  height: 114%;
+  margin-top: -7%;
+  object-fit: cover;
+  transition: scale 300ms ease;
+}
+a:hover > .ac-cadre > img,
+a:hover > .ac-cadre > .cal-gen {
+  scale: 1.04;
 }
 
 /* LES RANGEES DEFILENT AU DOIGT ET A LA ROULETTE, sans barre visible. */
@@ -279,19 +350,8 @@
   color: inherit;
   text-decoration: none;
 }
-.ac-soiree-affiche,
-.ac-soiree a > .cal-gen {
-  display: block;
-  width: 100%;
+.ac-soiree .ac-cadre {
   aspect-ratio: 4 / 5;
-  object-fit: cover;
-  border-radius: 14px;
-  margin-bottom: var(--espace-8);
-  background: var(--voile-08);
-  transition: transform 220ms ease;
-}
-.ac-soiree a:hover .ac-soiree-affiche {
-  transform: translateY(-4px);
 }
 .ac-soiree-quand {
   font-size: 0.75rem;
@@ -322,37 +382,196 @@
   margin: 0;
 }
 
-/* Track ID */
-.ac-trackid {
-  max-width: 34rem;
+/* ═══ TRACK ID ═══ Une bande pleine largeur, plus sombre que la page, et
+   le grand rond qui ecoute, entoure de deux ondes. */
+.ac-ecoute {
+  margin-top: var(--ac-souffle);
+  padding: var(--ac-souffle) var(--marge-page);
+  background: var(--creux);
+  border-block: 1px solid var(--filet);
+  overflow: hidden;
+}
+.ac-ecoute-dedans {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.ac-ecoute-titre {
+  margin: var(--espace-8) 0 0;
+  font-size: var(--ac-grand-titre);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: var(--serrage);
+  color: var(--encre-vive);
+}
+.ac-ecoute-sous {
+  max-width: 36rem;
+  margin: var(--espace-16) 0 0;
+  font-size: 1.02rem;
+  color: var(--ink-secondary);
+}
+.ac-micro {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espace-8);
+  width: 176px;
+  height: 176px;
+  margin-top: var(--espace-48, 48px);
+  border: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--sur-accent);
+  font: inherit;
+  cursor: pointer;
+  transition: scale 200ms ease, background 200ms ease;
+}
+.ac-micro:hover {
+  scale: 1.04;
+  background: var(--accent-jaune);
+}
+.ac-micro-icone {
+  font-size: 2.8rem;
+}
+.ac-micro-mot {
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+.ac-micro-onde {
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: ac-onde 2.8s ease-out infinite;
+}
+.ac-micro-onde-2 {
+  animation-delay: 1.4s;
+}
+@keyframes ac-onde {
+  from {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  to {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+.ac-ecoute-resultat {
+  width: 100%;
+  margin-top: var(--espace-32);
+  text-align: left;
 }
 
-/* Les familles */
+/* ═══ LE SPECTRE ═══ Un trait par style, dans la section des styles. La
+   teinte est celle de la famille (meme formule que les colonnes et les
+   credits), la hauteur le tempo. Le liseré clair en tete de chaque trait
+   est le repere de crete d'un analyseur. */
+.ac-spectre-bande {
+  margin-bottom: var(--espace-32);
+}
+.ac-spectre-cadre {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+.ac-spectre-legende {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--espace-4) var(--espace-12);
+  min-height: 1.5em;
+  margin: 0 0 var(--espace-12);
+  font-size: 0.8rem;
+  color: var(--ink-secondary);
+}
+.ac-spectre-legende strong {
+  font-size: 1rem;
+  color: var(--ink-primary);
+}
+.ac-spectre {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: clamp(150px, 28vh, 300px);
+  border-bottom: 1px solid var(--filet);
+}
+.ac-trait {
+  flex: 1 1 0;
+  min-width: 0;
+  height: calc(var(--h) * 100%);
+  border-radius: 2px 2px 0 0;
+  background: oklch(0.72 0.15 var(--teinte));
+  box-shadow: inset 0 3px 0 oklch(0.9 0.1 var(--teinte));
+  opacity: 0.9;
+  transform-origin: 50% 100%;
+  animation: ac-trait 1100ms cubic-bezier(0.2, 0.9, 0.25, 1.12) both;
+  animation-delay: calc(300ms + var(--i) * 5ms);
+  transition: opacity 160ms ease, background 160ms ease;
+}
+.ac-spectre:hover .ac-trait {
+  opacity: 0.32;
+}
+.ac-spectre:hover .ac-trait[data-actif='true'] {
+  opacity: 1;
+  background: oklch(0.86 0.13 var(--teinte));
+}
+@keyframes ac-trait {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* Les familles, chacune sur la pochette de son genre majeur, sa teinte en
+   barre d'en tete et en reflet dans le voile. */
 .ac-familles {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(176px, 1fr));
   gap: var(--espace-12);
 }
 .ac-famille {
   position: relative;
+  isolation: isolate;
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--espace-8);
-  min-height: 96px;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 2px;
+  aspect-ratio: 1;
   padding: var(--espace-16);
   border-radius: 16px;
-  border: 1px solid var(--filet);
-  background: var(--verre-fond);
-  color: var(--ink-primary);
-  text-decoration: none;
   overflow: hidden;
-  transition: border-color 180ms ease, transform 180ms ease;
+  background: var(--leve);
+  color: var(--encre-vive);
+  text-decoration: none;
 }
-/* LA TEINTE DE LA FAMILLE en barre d'en tete, comme le trait du spectre. */
+.ac-famille-image {
+  position: absolute;
+  inset: -7% 0 auto;
+  z-index: -2;
+  width: 100%;
+  height: 114%;
+  object-fit: cover;
+  transition: scale 400ms ease;
+}
+.ac-famille::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, oklch(0.12 0.004 70 / 0.94) 0%, oklch(0.12 0.004 70 / 0.42) 58%, oklch(0.72 0.15 var(--teinte) / 0.22) 100%);
+}
 .ac-famille::before {
   content: '';
   position: absolute;
@@ -360,18 +579,17 @@
   height: 4px;
   background: oklch(0.72 0.15 var(--teinte));
 }
-.ac-famille:hover {
-  border-color: oklch(0.72 0.15 var(--teinte));
-  transform: translateY(-3px);
+.ac-famille:hover .ac-famille-image {
+  scale: 1.07;
 }
 .ac-famille-nom {
-  font-size: 1.15rem;
+  font-size: 1.3rem;
   font-weight: 800;
 }
 .ac-famille-n {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-variant-numeric: tabular-nums;
-  color: var(--ink-secondary);
+  color: var(--encre-douce);
 }
 
 /* Les sorties des labels */
@@ -395,11 +613,11 @@
   border-radius: 10px;
   margin-bottom: var(--espace-8);
   background: var(--voile-08);
-  transition: transform 220ms ease;
+  transition: scale 260ms ease;
 }
 .ac-sortie a:hover img,
 .ac-mixtape a:hover img {
-  transform: translateY(-4px);
+  scale: 1.04;
 }
 .ac-sortie-titre,
 .ac-mixtape-titre {
@@ -419,14 +637,18 @@
   color: var(--accent);
 }
 
-/* Les news */
+/* Les news, en une de magazine : la premiere en grand, les autres autour. */
 .ac-news {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--espace-24) var(--espace-16);
+}
+.ac-article-une {
+  grid-column: span 2;
+  grid-row: span 2;
 }
 .ac-article a {
   display: grid;
@@ -434,17 +656,8 @@
   color: inherit;
   text-decoration: none;
 }
-.ac-article img {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  border-radius: 12px;
-  margin-bottom: var(--espace-8);
-  background: var(--voile-08);
-  transition: transform 220ms ease;
-}
-.ac-article a:hover img {
-  transform: translateY(-4px);
+.ac-article .ac-cadre {
+  aspect-ratio: 16 / 10;
 }
 .ac-article-source {
   font-size: 0.72rem;
@@ -454,10 +667,14 @@
   color: var(--accent);
 }
 .ac-article-titre {
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1.3;
   color: var(--ink-primary);
+}
+.ac-article-une .ac-article-titre {
+  font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+  line-height: 1.15;
 }
 
 /* Les mixtapes */
@@ -506,7 +723,15 @@
 }
 @media (max-width: 720px) {
   .ac-hero {
-    padding-top: 84px;
+    padding: 88px var(--marge-page) 112px;
+  }
+  /* Cinq colonnes au telephone : au-dela, les pochettes deviennent des
+     timbres. */
+  .ac-mur-col {
+    flex-basis: 30vw;
+  }
+  .ac-mur-col:nth-child(n + 6) {
+    display: none;
   }
   .ac-chapeau {
     margin-top: var(--espace-16);
@@ -528,17 +753,20 @@
   .ac-chiffres strong {
     font-size: 1.2rem;
   }
-  /* AU DOIGT, PAS DE SURVOL : la legende dirait toujours la meme phrase,
-     au-dessus d'un spectre qui la dit deja. */
-  .ac-spectre-legende {
-    display: none;
+  .ac-section-tete {
+    grid-template-columns: minmax(0, 1fr);
   }
-  .ac-spectre-cadre {
-    margin-top: var(--espace-24);
+  .ac-porte {
+    justify-self: start;
+  }
+  .ac-micro {
+    width: 148px;
+    height: 148px;
   }
   /* SUR TELEPHONE, LES TRAITS SE TOUCHENT : 219 traits et 218 espaces
      d'un pixel ne tiennent pas dans 335 px. Le spectre devient une bande
-     continue, ou les familles se lisent a leur teinte. */
+     continue, ou les familles se lisent a leur teinte. Pas de legende : au
+     doigt, il n'y a pas de survol. */
   .ac-spectre {
     gap: 0;
   }
@@ -546,15 +774,15 @@
     border-radius: 0;
     box-shadow: inset 0 2px 0 oklch(0.9 0.1 var(--teinte));
   }
-  .ac-section-tete {
-    grid-template-columns: auto minmax(0, 1fr);
-  }
-  .ac-porte {
-    grid-column: 2;
-    justify-self: start;
+  .ac-spectre-legende {
+    display: none;
   }
   .ac-news {
     grid-template-columns: minmax(0, 1fr);
+  }
+  .ac-article-une {
+    grid-column: auto;
+    grid-row: auto;
   }
   .ac-soirees {
     grid-auto-columns: 72%;
@@ -564,12 +792,97 @@
   }
 }
 
+/* ═══ LE PARALLAXE ═══ */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    /* Les colonnes du mur montent a des vitesses differentes pendant que
+       l'ouverture sort de l'ecran, et le mur s'approche. */
+    .ac-mur-col {
+      animation: ac-px-col linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+    @keyframes ac-px-col {
+      to {
+        translate: 0 var(--v);
+      }
+    }
+    .ac-mur {
+      animation: ac-px-mur linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+    @keyframes ac-px-mur {
+      to {
+        scale: 1.12;
+      }
+    }
+    /* Le titre s'eloigne plus vite que le mur : il monte et s'efface. */
+    .ac-hero-texte {
+      animation: ac-px-texte linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 75vh;
+    }
+    @keyframes ac-px-texte {
+      to {
+        translate: 0 -14vh;
+        opacity: 0;
+      }
+    }
+    /* Les grands titres arrivent de cote. */
+    .ac-section-titre,
+    .ac-ecoute-titre {
+      animation: ac-px-titre linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 30%;
+    }
+    @keyframes ac-px-titre {
+      from {
+        translate: -5vw 0;
+        opacity: 0;
+      }
+      to {
+        translate: 0 0;
+        opacity: 1;
+      }
+    }
+    /* Les images glissent dans leur cadre pendant que la carte traverse
+       l'ecran : la profondeur, sans rien deplacer d'autre. */
+    .ac-cadre > img,
+    .ac-cadre > .cal-gen,
+    .ac-famille-image {
+      animation: ac-px-cadre linear both;
+      animation-timeline: view();
+    }
+    @keyframes ac-px-cadre {
+      from {
+        translate: 0 -6%;
+      }
+      to {
+        translate: 0 6%;
+      }
+    }
+    /* Les traits du spectre montent quand la bande entre dans l'ecran,
+       de gauche a droite, au lieu de monter au chargement, hors de vue. */
+    .ac-trait {
+      animation: ac-trait linear both;
+      animation-delay: 0s;
+      animation-timeline: view();
+      animation-range: entry calc(10% + var(--i) * 0.12%) cover calc(30% + var(--i) * 0.12%);
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ac-surtitre,
   .ac-ligne > span,
   .ac-chapeau,
   .ac-gestes,
   .ac-chiffres,
+  .ac-defiler,
+  .ac-defiler i,
+  .ac-mur-bande,
+  .ac-micro-onde,
   .ac-trait {
     animation: none;
   }

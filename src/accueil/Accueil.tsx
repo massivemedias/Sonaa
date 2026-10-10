@@ -9,10 +9,13 @@
  * devient une page qui montre, de haut en bas, un extrait vivant de chaque
  * section, chacun avec sa porte vers la page entiere :
  *
- *   le spectre des 219 styles (l'ouverture, voir Spectre.tsx),
+ *   un mur de pochettes de l'atlas, en parallaxe (l'ouverture, voir
+ *   MurDePochettes.tsx ; c'etait le spectre des styles jusqu'au
+ *   10 octobre 2026, Mika : « j'aime pas la presentation de la premiere
+ *   page, il faut quelque chose de plus attrayant »),
  *   les prochaines soirees de la ville,
- *   Track ID, qui s'ouvre sur place,
- *   les styles par famille,
+ *   Track ID, un grand bouton qui ecoute sur place,
+ *   les styles : le spectre des 219, puis les familles en pochettes,
  *   les dernieres sorties des labels,
  *   les news,
  *   les mixtapes.
@@ -30,11 +33,14 @@ import { langue, t } from '../langue/langue.ts';
 import { ImageDeSoiree } from '../atlas/AfficheGeneree.tsx';
 import { quandEnLettres } from '../lib/date-soiree.ts';
 import { heureLocale } from '../lib/villes.ts';
-import { BoutonTrack } from '../reconnaitre/BoutonTrack.tsx';
+import { FaIcon } from '../atlas/FaIcon.tsx';
+import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import { setsPublics, urlPochette, type SetDJ } from '../lib/sets.ts';
 import { SOURCES } from '../data/news-sources.ts';
 import A_LA_UNE from '../data/sorties-a-la-une.json';
 import { Spectre } from './Spectre.tsx';
+import { MurDePochettes } from './MurDePochettes.tsx';
+import { pochetteDeLaFamille } from './pochettes.ts';
 import { useSoireesAVenir } from './soirees-a-venir.ts';
 import '../atlas/calendrier.css';
 import './accueil.css';
@@ -116,7 +122,7 @@ export function Accueil() {
     let vivant = true;
     void fetch(`${import.meta.env.BASE_URL}news.json`)
       .then((r) => (r.ok ? r.json() : { articles: [] }))
-      .then((d: { articles?: ArticleNews[] }) => vivant && setNews((d.articles ?? []).slice(0, 6)))
+      .then((d: { articles?: ArticleNews[] }) => vivant && setNews((d.articles ?? []).slice(0, 5)))
       .catch(() => undefined);
     void setsPublics()
       .then((s) => vivant && setMixtapes(s.slice(0, 4)))
@@ -137,8 +143,11 @@ export function Accueil() {
     <>
       <EnTeteSite />
       <main className="ac">
-        {/* ═══ L'OUVERTURE ═══ */}
+        {/* ═══ L'OUVERTURE ═══ Le mur de pochettes derriere, le titre
+            devant, centre. Voir MurDePochettes.tsx. */}
         <section className="ac-hero" aria-labelledby="ac-titre">
+          <MurDePochettes />
+          <div className="ac-hero-voile" aria-hidden="true" />
           <div className="ac-hero-texte">
             <p className="ac-surtitre">SONAA</p>
             <h1 className="ac-titre" id="ac-titre">
@@ -172,10 +181,14 @@ export function Accueil() {
               )}
             </p>
           </div>
-          <Spectre />
+          <a className="ac-defiler" href="#ac-soirees">
+            <span>{t.accueilDefiler}</span>
+            <i aria-hidden="true" />
+          </a>
         </section>
 
-        {/* ═══ LES SOIREES ═══ */}
+        {/* ═══ LES SOIREES ═══ Chaque affiche glisse dans son cadre pendant
+            que la carte traverse l'ecran (voir accueil.css). */}
         <Section
           n={1}
           id="ac-soirees"
@@ -189,7 +202,9 @@ export function Accueil() {
               {soirees.map((s, i) => (
                 <Apparition as="li" i={i} key={s.id} className="ac-soiree">
                   <a href="#/calendrier">
-                    <ImageDeSoiree soiree={s} fuseau={fuseau} variante="carte" className="ac-soiree-affiche" />
+                    <span className="ac-cadre">
+                      <ImageDeSoiree soiree={s} fuseau={fuseau} variante="carte" className="ac-soiree-affiche" />
+                    </span>
                     <span className="ac-soiree-quand">{quandEnLettres(s, s.debut ? heureLocale(s.debut, fuseau) : null, fuseau, LOCALE, false)}</span>
                     <span className="ac-soiree-titre">{s.titre}</span>
                     {s.lieu && <span className="ac-soiree-lieu">{s.lieu}</span>}
@@ -212,21 +227,39 @@ export function Accueil() {
           )}
         </Section>
 
-        {/* ═══ TRACK ID ═══ Le bouton ouvre l'ecoute ici meme, comme il le
-            faisait sur l'ancien accueil. */}
-        <Section n={2} id="ac-trackid" titre={t.accueilTrackIdTitre} sous={t.accueilTrackIdSous} lien="/reconnaitre/" libelle={t.trackId}>
-          <Apparition className="ac-trackid">
-            <BoutonTrack onClick={() => setEcoute((x) => !x)} ouvert={ecoute} />
-          </Apparition>
-          {ecoute && (
-            <Suspense fallback={null}>
-              <Reconnaissance enLigne demarrer />
-            </Suspense>
-          )}
-        </Section>
+        {/* ═══ TRACK ID ═══ Une bande a part, sombre, et au milieu le seul
+            objet du site qui ecoute : un grand rond orange qui respire. Le
+            clic lance l'ecoute ici meme. */}
+        <section className="ac-ecoute" id="ac-trackid" aria-labelledby="ac-trackid-titre">
+          <div className="ac-ecoute-dedans">
+            <p className="ac-numero">02</p>
+            <h2 className="ac-ecoute-titre" id="ac-trackid-titre">
+              {t.accueilTrackIdTitre}
+            </h2>
+            <p className="ac-ecoute-sous">{t.accueilTrackIdSous}</p>
+            <button
+              type="button"
+              className="ac-micro"
+              aria-expanded={ecoute}
+              onClick={() => setEcoute(true)}
+            >
+              <span className="ac-micro-onde" aria-hidden="true" />
+              <span className="ac-micro-onde ac-micro-onde-2" aria-hidden="true" />
+              <FaIcon icon={faMicrophone} className="ac-micro-icone" />
+              <span className="ac-micro-mot">{t.trackId}</span>
+            </button>
+            {ecoute && (
+              <div className="ac-ecoute-resultat">
+                <Suspense fallback={null}>
+                  <Reconnaissance enLigne demarrer />
+                </Suspense>
+              </div>
+            )}
+          </div>
+        </section>
 
-        {/* ═══ LES STYLES ═══ Les quatorze familles, chacune dans sa teinte,
-            avec son nombre de styles. */}
+        {/* ═══ LES STYLES ═══ Le spectre des 219, pleine largeur, puis les
+            quatorze familles, chacune sur la pochette de son genre majeur. */}
         <Section
           n={3}
           id="ac-styles"
@@ -235,15 +268,22 @@ export function Accueil() {
           lien="#/parcourir"
           libelle={t.accueilOuvrirAtlas}
         >
+          <div className="ac-spectre-bande">
+            <Spectre />
+          </div>
           <ul className="ac-familles">
-            {FAMILIES.map((f, i) => (
-              <Apparition as="li" i={i} key={f.id}>
-                <a href={`/styles/${slug(f.label)}/`} className="ac-famille" style={{ ['--teinte' as string]: f.hue }}>
-                  <span className="ac-famille-nom">{f.label}</span>
-                  <span className="ac-famille-n">{f.count}</span>
-                </a>
-              </Apparition>
-            ))}
+            {FAMILIES.map((f, i) => {
+              const pochette = pochetteDeLaFamille(i);
+              return (
+                <Apparition as="li" i={i} key={f.id}>
+                  <a href={`/styles/${slug(f.label)}/`} className="ac-famille" style={{ ['--teinte' as string]: f.hue }}>
+                    {pochette && <img className="ac-famille-image" src={pochette} alt="" loading="lazy" decoding="async" />}
+                    <span className="ac-famille-nom">{f.label}</span>
+                    <span className="ac-famille-n">{t.accueilNStyles(f.count)}</span>
+                  </a>
+                </Apparition>
+              );
+            })}
           </ul>
         </Section>
 
@@ -266,15 +306,19 @@ export function Accueil() {
           </Section>
         )}
 
-        {/* ═══ LES NEWS ═══ Les six dernieres ; le titre ouvre l'article dans
+        {/* ═══ LES NEWS ═══ Les cinq dernieres, la premiere en grand ; le titre ouvre l'article dans
             la page News, comme la-bas. */}
         {news.length > 0 && (
           <Section n={sorties.length > 0 ? 5 : 4} id="ac-news" titre={t.leNews} sous={t.accueilNewsSous} lien="#/news" libelle={t.accueilToutesLesNews}>
             <ul className="ac-news">
               {news.map((a, i) => (
-                <Apparition as="li" i={i} key={a.lien} className="ac-article">
+                <Apparition as="li" i={i} key={a.lien} className={i === 0 ? 'ac-article ac-article-une' : 'ac-article'}>
                   <a href={`#/news/lire?u=${encodeURIComponent(a.lien)}`}>
-                    {a.image && <img src={a.image} alt="" loading="lazy" />}
+                    {a.image && (
+                      <span className="ac-cadre">
+                        <img src={a.image} alt="" loading="lazy" />
+                      </span>
+                    )}
                     <span className="ac-article-source">{SOURCES.find((x) => x.id === a.source)?.nom ?? a.source}</span>
                     <span className="ac-article-titre">{a.titre}</span>
                   </a>

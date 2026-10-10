@@ -766,6 +766,8 @@ interface Dictionnaire {
   readonly accueilToutesLesNews: string;
   readonly accueilMixtapesSous: string;
   readonly accueilToutesLesMixtapes: string;
+  readonly accueilDefiler: string;
+  readonly accueilNStyles: (n: number) => string;
   readonly heroAffiches: string;
   /* ═══ RECONNAITRE ═══ La page qui ecoute ce qui passe dans la piece.
      Voir src/reconnaitre/ et RECONNAITRE.md. */
@@ -1560,6 +1562,8 @@ const FR: Dictionnaire = {
   accueilToutesLesNews: 'Toutes les news',
   accueilMixtapesSous: 'Des sets déposés par les DJs, à écouter ici.',
   accueilToutesLesMixtapes: 'Toutes les mixtapes',
+  accueilDefiler: 'Défiler',
+  accueilNStyles: (n) => `${n} style${n > 1 ? 's' : ''}`,
   heroAffiches: 'Les prochaines soirées',
   /* « TRACK ID », LE 1er OCTOBRE 2026, et pas une question. Mika, devant
      « Quelle track ? » : « franchement le titre c'est la merde, trouve autre
@@ -2358,6 +2362,8 @@ const EN: Dictionnaire = {
   accueilToutesLesNews: 'All the news',
   accueilMixtapesSous: 'Sets uploaded by DJs, to play right here.',
   accueilToutesLesMixtapes: 'All mixtapes',
+  accueilDefiler: 'Scroll',
+  accueilNStyles: (n) => `${n} style${n > 1 ? 's' : ''}`,
   heroAffiches: 'The nights coming up',
   trackId: 'Track ID',
   trackIdSous: 'SONAA listens for ten seconds and tells you what is playing.',
