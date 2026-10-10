@@ -34,7 +34,8 @@ import { ImageDeSoiree } from '../atlas/AfficheGeneree.tsx';
 import { quandEnLettres } from '../lib/date-soiree.ts';
 import { heureLocale } from '../lib/villes.ts';
 import { FaIcon } from '../atlas/FaIcon.tsx';
-import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarDays, faHeadphones, faLayerGroup, faMicrophone, faRecordVinyl } from '@fortawesome/free-solid-svg-icons';
+import { BoutonTrack } from '../reconnaitre/BoutonTrack.tsx';
 import { setsPublics, urlPochette, type SetDJ } from '../lib/sets.ts';
 import { SOURCES } from '../data/news-sources.ts';
 import A_LA_UNE from '../data/sorties-a-la-une.json';
@@ -138,6 +139,18 @@ export function Accueil() {
   const nLabels = (A_LA_UNE as { labels: number }).labels;
   const sorties = (A_LA_UNE as { sorties: readonly SortieUne[] }).sorties;
   const fuseau = ville?.timezone ?? 'America/Toronto';
+  /* LES NUMEROS DES SECTIONS suivent celles qui s'affichent : une section
+     sans rien a montrer ne laisse pas de trou dans la suite. */
+  const ordre = [
+    'soirees',
+    'styles',
+    ...(sorties.length > 0 ? ['labels'] : []),
+    ...(mixtapes.length > 0 ? ['mixtapes'] : []),
+    'trackid',
+    ...(news.length > 0 ? ['news'] : []),
+  ];
+  const rang = (id: string): number => ordre.indexOf(id) + 1;
+  const numero = (id: string): string => String(rang(id)).padStart(2, '0');
 
   return (
     <>
@@ -159,27 +172,28 @@ export function Accueil() {
               </span>
             </h1>
             <p className="ac-chapeau">{t.accueilChapeau}</p>
-            <p className="ac-gestes">
-              <a className="ac-geste ac-geste-plein" href="#/calendrier">
-                {ville ? t.accueilCeSoirA(ville.name) : t.heroChoisirVille}
-              </a>
-              <a className="ac-geste" href="#/parcourir">
-                {t.accueilExplorer(nStyles)}
-              </a>
-            </p>
-            <p className="ac-chiffres">
-              <span>
-                <strong>{nStyles}</strong> {t.accueilStylesMot}
-              </span>
-              <span>
-                <strong>{NOMBRE.format(nLabels)}</strong> {t.accueilLabelsMot}
-              </span>
-              {nVilles > 0 && (
-                <span>
-                  <strong>{nVilles}</strong> {t.accueilVillesMot}
-                </span>
-              )}
-            </p>
+            {/* ═══ LES CINQ PORTES ═══ Mika, le 10 octobre 2026 : « axe le site
+                comme une plateforme d'atterrissage pour la musique
+                electronique : les styles, les labels, les mix haute qualite,
+                Track ID, le calendrier ». Chaque porte dit ce qu'il y a
+                derriere, en chiffres quand il y en a. */}
+            <ul className="ac-portes">
+              {[
+                { href: '#/calendrier', icone: faCalendarDays, nom: t.leCalendrier, detail: ville ? t.accueilCeSoirA(ville.name) : t.accueilPorteVilles(nVilles) },
+                { href: '#/parcourir', icone: faLayerGroup, nom: t.lesStyles, detail: t.accueilPorteStyles(nStyles) },
+                { href: '#/labels', icone: faRecordVinyl, nom: t.navLabels, detail: t.accueilPorteLabels(NOMBRE.format(nLabels)) },
+                { href: '#/mixtapes', icone: faHeadphones, nom: t.lesMixtapes, detail: t.accueilPorteMixtapes },
+                { href: '#ac-trackid', icone: faMicrophone, nom: t.trackId, detail: t.accueilPorteTrackId },
+              ].map((p, i) => (
+                <li key={p.href} style={{ ['--rang' as string]: i }}>
+                  <a className="ac-porte-carte" href={p.href}>
+                    <FaIcon icon={p.icone} className="ac-porte-icone" />
+                    <span className="ac-porte-nom">{p.nom}</span>
+                    <span className="ac-porte-detail">{p.detail}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
           <a className="ac-defiler" href="#ac-soirees">
             <span>{t.accueilDefiler}</span>
@@ -190,7 +204,7 @@ export function Accueil() {
         {/* ═══ LES SOIREES ═══ Chaque affiche glisse dans son cadre pendant
             que la carte traverse l'ecran (voir accueil.css). */}
         <Section
-          n={1}
+          n={rang('soirees')}
           id="ac-soirees"
           titre={t.accueilSoireesTitre}
           sous={ville ? t.accueilSoireesSous(ville.name) : t.accueilSoireesSansVille}
@@ -227,42 +241,11 @@ export function Accueil() {
           )}
         </Section>
 
-        {/* ═══ TRACK ID ═══ Une bande a part, sombre, et au milieu le seul
-            objet du site qui ecoute : un grand rond orange qui respire. Le
-            clic lance l'ecoute ici meme. */}
-        <section className="ac-ecoute" id="ac-trackid" aria-labelledby="ac-trackid-titre">
-          <div className="ac-ecoute-dedans">
-            <p className="ac-numero">02</p>
-            <h2 className="ac-ecoute-titre" id="ac-trackid-titre">
-              {t.accueilTrackIdTitre}
-            </h2>
-            <p className="ac-ecoute-sous">{t.accueilTrackIdSous}</p>
-            <button
-              type="button"
-              className="ac-micro"
-              aria-expanded={ecoute}
-              onClick={() => setEcoute(true)}
-            >
-              <span className="ac-micro-onde" aria-hidden="true" />
-              <span className="ac-micro-onde ac-micro-onde-2" aria-hidden="true" />
-              <FaIcon icon={faMicrophone} className="ac-micro-icone" />
-              <span className="ac-micro-mot">{t.trackId}</span>
-            </button>
-            {ecoute && (
-              <div className="ac-ecoute-resultat">
-                <Suspense fallback={null}>
-                  <Reconnaissance enLigne demarrer />
-                </Suspense>
-              </div>
-            )}
-          </div>
-        </section>
-
         {/* ═══ LES STYLES ═══ Les 219 noms qui defilent (voir
             DefileDesStyles.tsx), puis les quatorze familles, chacune sur la
             pochette de son genre majeur. */}
         <Section
-          n={3}
+          n={rang('styles')}
           id="ac-styles"
           titre={t.accueilStylesTitre(nStyles, FAMILIES.length)}
           sous={t.accueilStylesSous}
@@ -289,7 +272,7 @@ export function Accueil() {
         {/* ═══ LES LABELS ═══ Les dernieres sorties, voir
             scripts/lib/actu-labels.ts (sortiesALaUne). */}
         {sorties.length > 0 && (
-          <Section n={4} id="ac-labels" titre={t.accueilLabelsTitre} sous={t.accueilLabelsSous} lien="#/labels" libelle={t.labelTousLesLabels}>
+          <Section n={rang('labels')} id="ac-labels" titre={t.accueilLabelsTitre} sous={t.accueilLabelsSous} lien="#/labels" libelle={t.labelTousLesLabels}>
             <ul className="ac-rangee ac-sorties">
               {sorties.map((s, i) => (
                 <Apparition as="li" i={i} key={s.url} className="ac-sortie">
@@ -305,34 +288,12 @@ export function Accueil() {
           </Section>
         )}
 
-        {/* ═══ LES NEWS ═══ Les cinq dernieres, la premiere en grand ; le titre ouvre l'article dans
-            la page News, comme la-bas. */}
-        {news.length > 0 && (
-          <Section n={sorties.length > 0 ? 5 : 4} id="ac-news" titre={t.leNews} sous={t.accueilNewsSous} lien="#/news" libelle={t.accueilToutesLesNews}>
-            <ul className="ac-news">
-              {news.map((a, i) => (
-                <Apparition as="li" i={i} key={a.lien} className={i === 0 ? 'ac-article ac-article-une' : 'ac-article'}>
-                  <a href={`#/news/lire?u=${encodeURIComponent(a.lien)}`}>
-                    {a.image && (
-                      <span className="ac-cadre">
-                        <img src={a.image} alt="" loading="lazy" />
-                      </span>
-                    )}
-                    <span className="ac-article-source">{SOURCES.find((x) => x.id === a.source)?.nom ?? a.source}</span>
-                    <span className="ac-article-titre">{a.titre}</span>
-                  </a>
-                </Apparition>
-              ))}
-            </ul>
-          </Section>
-        )}
-
         {/* ═══ LES MIXTAPES ═══ */}
         {mixtapes.length > 0 && (
           <Section
-            n={(sorties.length > 0 ? 5 : 4) + (news.length > 0 ? 1 : 0)}
+            n={rang('mixtapes')}
             id="ac-mixtapes"
-            titre={t.lesMixtapes}
+            titre={t.accueilMixtapesTitre}
             sous={t.accueilMixtapesSous}
             lien="#/mixtapes"
             libelle={t.accueilToutesLesMixtapes}
@@ -353,6 +314,54 @@ export function Accueil() {
             </ul>
           </Section>
         )}
+        {/* ═══ TRACK ID ═══ Une bande a part, plus sombre que la page : la
+            question en grand a gauche, le bouton de Track ID a droite (le
+            meme que sur Styles, en plus grand). Il remplace le grand rond au
+            micro du 10 octobre, que Mika a trouve laid le jour meme. */}
+        <section className="ac-ecoute" id="ac-trackid" aria-labelledby="ac-trackid-titre">
+          <div className="ac-ecoute-dedans">
+            <div className="ac-ecoute-mots">
+              <p className="ac-numero">{numero('trackid')}</p>
+              <h2 className="ac-ecoute-titre" id="ac-trackid-titre">
+                {t.accueilTrackIdTitre}
+              </h2>
+              <p className="ac-ecoute-sous">{t.accueilTrackIdSous}</p>
+            </div>
+            <div className="ac-ecoute-bouton">
+              <BoutonTrack onClick={() => setEcoute((x) => !x)} ouvert={ecoute} />
+            </div>
+          </div>
+          {ecoute && (
+            <div className="ac-ecoute-resultat">
+              <Suspense fallback={null}>
+                <Reconnaissance enLigne demarrer />
+              </Suspense>
+            </div>
+          )}
+        </section>
+
+        {/* ═══ LES NEWS ═══ Les cinq dernieres, la premiere en grand ; le titre ouvre l'article dans
+            la page News, comme la-bas. */}
+        {news.length > 0 && (
+          <Section n={rang('news')} id="ac-news" titre={t.leNews} sous={t.accueilNewsSous} lien="#/news" libelle={t.accueilToutesLesNews}>
+            <ul className="ac-news">
+              {news.map((a, i) => (
+                <Apparition as="li" i={i} key={a.lien} className={i === 0 ? 'ac-article ac-article-une' : 'ac-article'}>
+                  <a href={`#/news/lire?u=${encodeURIComponent(a.lien)}`}>
+                    {a.image && (
+                      <span className="ac-cadre">
+                        <img src={a.image} alt="" loading="lazy" />
+                      </span>
+                    )}
+                    <span className="ac-article-source">{SOURCES.find((x) => x.id === a.source)?.nom ?? a.source}</span>
+                    <span className="ac-article-titre">{a.titre}</span>
+                  </a>
+                </Apparition>
+              ))}
+            </ul>
+          </Section>
+        )}
+
         <PiedDePage />
       </main>
     </>

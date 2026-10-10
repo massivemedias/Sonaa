@@ -408,10 +408,16 @@
      chasse le 2 octobre (ADR-096). Sur le granite il fait plus de 7 pour 1
      comme texte ; le texte pose dessus reste --sur-accent, presque noir.
      Le jaune vif de la machine, #FFD75E, dit l'element actif. Voir
-     docs/adr/ADR-098. */
-  --accent: #ff6a13;
+     docs/adr/ADR-098.
+
+     ═══ ORANGE SANGUIN, DEPUIS LE 10 OCTOBRE 2026 ═══ Mika : « la couleur
+     orange est cool mais je prefere orange sanguin ». L'accent descend vers
+     le rouge : #E8441E. Comme texte sur le granite, il fait 4,9 pour 1 ; sous
+     l'encre presque noire de --sur-accent, aussi. Le jaune ne change pas.
+     Voir docs/adr/ADR-102. */
+  --accent: #e8441e;
   --sur-accent: oklch(0.15 0.004 70);
-  --accent-voile: rgb(255 106 19 / 0.16);
+  --accent-voile: rgb(232 68 30 / 0.16);
   --accent-jaune: #ffd75e;
   /* LE SECOND TON DU DEGRADE DE TRACK ID : le jaune. Melange a l'orange,
      il donne un ambre lumineux, et l'encre presque noire garde son

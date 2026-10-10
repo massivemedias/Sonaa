@@ -74,9 +74,10 @@ des métadonnées de panneau et deviennent la géométrie même de la carte.
 > **Remplacée le 28 septembre 2026 par [ADR-089](docs/adr/ADR-089-verre-depoli-sur-sable.md),
 > puis le 29 par [ADR-090](docs/adr/ADR-090-granite-sous-le-verre.md).**
 > Le fond est du granite dans les deux thèmes, l'encre est #3C3C3C en clair,
-> l'accent est l'orange #FF6A13 de la MM-808, avec le jaune #FFD75E pour
-> l'élément actif, depuis le 3 octobre 2026 ([ADR-098](docs/adr/ADR-098-l-orange-et-le-jaune.md) ;
-> il était vert la veille, terracotta avant), et les surfaces sont en verre dépoli. Les
+> l'accent est l'orange sanguin #E8441E depuis le 10 octobre 2026
+> ([ADR-102](docs/adr/ADR-102-orange-sanguin.md) ; l'orange #FF6A13 de la MM-808
+> depuis le 3 octobre, [ADR-098](docs/adr/ADR-098-l-orange-et-le-jaune.md), vert la veille,
+> terracotta avant), avec le jaune #FFD75E pour l'élément actif, et les surfaces sont en verre dépoli. Les
 > quatorze teintes de famille de la section 3.2 restent les seules couleurs
 > vives du site. Ce qui suit est conservé pour mémoire du premier graphite.
 

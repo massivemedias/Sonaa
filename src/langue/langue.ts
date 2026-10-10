@@ -766,6 +766,12 @@ interface Dictionnaire {
   readonly accueilMixtapesSous: string;
   readonly accueilToutesLesMixtapes: string;
   readonly accueilDefiler: string;
+  readonly accueilPorteVilles: (n: number) => string;
+  readonly accueilPorteStyles: (n: number) => string;
+  readonly accueilPorteLabels: (n: string) => string;
+  readonly accueilPorteMixtapes: string;
+  readonly accueilPorteTrackId: string;
+  readonly accueilMixtapesTitre: string;
   readonly accueilNStyles: (n: number) => string;
   readonly heroAffiches: string;
   /* ═══ RECONNAITRE ═══ La page qui ecoute ce qui passe dans la piece.
@@ -1535,11 +1541,11 @@ const FR: Dictionnaire = {
   heroVilleAutre: 'Changer de ville',
   heroChoisirVille: 'Choisir votre ville',
   accueilOnglet: 'Soirées, styles, labels et news de la musique électronique',
-  accueilTitre1: 'Ce soir,',
-  accueilTitre2: 'et tout le reste.',
+  accueilTitre1: 'La musique électronique,',
+  accueilTitre2: 'tout au même endroit.',
   accueilChapeau:
-    'Les soirées de votre ville, les styles de la musique électronique et leur histoire, les labels et leurs sorties, ' +
-    'les news du studio, et Track ID pour nommer ce qui joue.',
+    'Les soirées de votre ville, l’histoire de chaque style, les labels et leurs sorties, ' +
+    'des mixtapes en haute qualité, et Track ID pour nommer ce qui joue.',
   accueilCeSoirA: (v) => `Ce soir à ${v}`,
   accueilExplorer: (n) => `Explorer les ${n} styles`,
   accueilStylesMot: 'styles',
@@ -1558,9 +1564,15 @@ const FR: Dictionnaire = {
   accueilLabelsSous: 'Les dernières sorties des labels de l’atlas, relevées chez Discogs.',
   accueilNewsSous: 'Machines, logiciels, studios et scène, relevés deux fois par jour.',
   accueilToutesLesNews: 'Toutes les news',
-  accueilMixtapesSous: 'Des sets déposés par les DJs, à écouter ici.',
+  accueilMixtapesSous: 'Des sets déposés en WAV par les DJs, à écouter ici en haute qualité.',
   accueilToutesLesMixtapes: 'Toutes les mixtapes',
   accueilDefiler: 'Défiler',
+  accueilPorteVilles: (n) => `Les soirées de ${n} villes`,
+  accueilPorteStyles: (n) => `${n} styles et leur histoire`,
+  accueilPorteLabels: (n) => `${n} labels et leurs sorties`,
+  accueilPorteMixtapes: 'Des sets en haute qualité',
+  accueilPorteTrackId: 'Nommer ce qui joue',
+  accueilMixtapesTitre: 'Mixtapes en haute qualité',
   accueilNStyles: (n) => `${n} style${n > 1 ? 's' : ''}`,
   heroAffiches: 'Les prochaines soirées',
   /* « TRACK ID », LE 1er OCTOBRE 2026, et pas une question. Mika, devant
@@ -2334,11 +2346,11 @@ const EN: Dictionnaire = {
   heroVilleAutre: 'Change city',
   heroChoisirVille: 'Choose your city',
   accueilOnglet: 'Electronic music nights, styles, labels and news',
-  accueilTitre1: 'Tonight,',
-  accueilTitre2: 'and everything else.',
+  accueilTitre1: 'Electronic music,',
+  accueilTitre2: 'all in one place.',
   accueilChapeau:
-    'The nights in your city, the styles of electronic music and their history, the labels and their releases, ' +
-    'news from the studio, and Track ID to name what is playing.',
+    'The nights in your city, the history of every style, the labels and their releases, ' +
+    'high quality mixtapes, and Track ID to name what is playing.',
   accueilCeSoirA: (v) => `Tonight in ${v}`,
   accueilExplorer: (n) => `Explore the ${n} styles`,
   accueilStylesMot: 'styles',
@@ -2357,9 +2369,15 @@ const EN: Dictionnaire = {
   accueilLabelsSous: 'The latest releases from the atlas labels, gathered from Discogs.',
   accueilNewsSous: 'Machines, software, studios and the scene, gathered twice a day.',
   accueilToutesLesNews: 'All the news',
-  accueilMixtapesSous: 'Sets uploaded by DJs, to play right here.',
+  accueilMixtapesSous: 'Sets uploaded as WAV by DJs, to play here in high quality.',
   accueilToutesLesMixtapes: 'All mixtapes',
   accueilDefiler: 'Scroll',
+  accueilPorteVilles: (n) => `Nights in ${n} cities`,
+  accueilPorteStyles: (n) => `${n} styles and their history`,
+  accueilPorteLabels: (n) => `${n} labels and their releases`,
+  accueilPorteMixtapes: 'High quality DJ sets',
+  accueilPorteTrackId: 'Name what is playing',
+  accueilMixtapesTitre: 'High quality mixtapes',
   accueilNStyles: (n) => `${n} style${n > 1 ? 's' : ''}`,
   heroAffiches: 'The nights coming up',
   trackId: 'Track ID',

@@ -128,7 +128,7 @@ export function LecteurSet({ set, compact = false }: Props) {
         .trim();
       ctx.fillStyle =
         frac <= avancee
-          ? accent || '#ff6a13'
+          ? accent || '#e8441e'
           : survolFrac !== null && frac <= survolFrac
             ? 'oklch(0.52 0.03 260)'
             : 'oklch(0.38 0.012 260)';

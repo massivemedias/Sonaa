@@ -88,7 +88,7 @@
 
 .ac-hero-texte {
   width: 100%;
-  max-width: 1000px;
+  max-width: 1180px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -104,7 +104,7 @@
 }
 .ac-titre {
   margin: 0;
-  font-size: clamp(2.8rem, min(8.4vw, 13vh), 8.4rem);
+  font-size: clamp(2.3rem, min(5.5vw, 9.5vh), 5.8rem);
   font-weight: 800;
   line-height: 0.92;
   letter-spacing: var(--serrage);
@@ -134,14 +134,6 @@
   color: var(--encre-moyenne);
   animation: ac-fondu 700ms 420ms both;
 }
-.ac-gestes {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--espace-12);
-  margin: var(--espace-32) 0 0;
-  animation: ac-fondu 700ms 540ms both;
-}
 .ac-geste {
   display: inline-flex;
   align-items: center;
@@ -166,22 +158,60 @@
 .ac-geste-plein:hover {
   background: var(--accent-jaune);
 }
-.ac-chiffres {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--espace-8) var(--espace-24);
+/* LES CINQ PORTES : une rangee de cartes de verre sous le titre, chacune
+   avec son icone, son nom et ce qu'il y a derriere. Elles entrent l'une
+   apres l'autre. */
+.ac-portes {
+  list-style: none;
+  width: 100%;
   margin: var(--espace-32) 0 0;
-  font-size: 0.9rem;
-  color: var(--ink-secondary);
-  animation: ac-fondu 700ms 660ms both;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--espace-12);
 }
-.ac-chiffres strong {
-  margin-right: var(--espace-4);
-  font-size: 1.5rem;
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
+.ac-portes > li {
+  animation: ac-fondu 700ms both;
+  animation-delay: calc(560ms + var(--rang) * 80ms);
+}
+.ac-porte-carte {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  height: 100%;
+  box-sizing: border-box;
+  padding: var(--espace-16);
+  border-radius: 16px;
+  background: oklch(0.16 0.004 70 / 0.62);
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  box-shadow: inset 0 0 0 1px oklch(1 0 0 / 0.1);
   color: var(--ink-primary);
+  text-align: left;
+  text-decoration: none;
+  transition: box-shadow 180ms ease, translate 180ms ease, background 180ms ease;
+}
+.ac-porte-carte:hover {
+  translate: 0 -3px;
+  background: oklch(0.18 0.004 70 / 0.72);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.ac-porte-icone {
+  /* L'ICONE EST UN SVG : sans mesure, elle prend toute la largeur. */
+  width: 22px;
+  height: 22px;
+  margin-bottom: var(--espace-8);
+  color: var(--accent);
+}
+.ac-porte-nom {
+  font-size: 1.02rem;
+  font-weight: 800;
+}
+.ac-porte-detail {
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: var(--ink-secondary);
 }
 
 /* L'INVITATION A DESCENDRE : un mot, et un fil d'accent qui coule. */
@@ -392,12 +422,13 @@ a:hover > .ac-cadre > .cal-gen {
   overflow: hidden;
 }
 .ac-ecoute-dedans {
-  max-width: 1000px;
+  /* La colonne des sections : la largeur de page moins ses deux marges. */
+  max-width: calc(var(--largeur-page) - 2 * var(--marge-page));
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  text-align: center;
+  gap: var(--espace-32) var(--espace-48, 48px);
 }
 .ac-ecoute-titre {
   margin: var(--espace-8) 0 0;
@@ -413,59 +444,15 @@ a:hover > .ac-cadre > .cal-gen {
   font-size: 1.02rem;
   color: var(--ink-secondary);
 }
-.ac-micro {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--espace-8);
-  width: 176px;
-  height: 176px;
-  margin-top: var(--espace-48, 48px);
-  border: 0;
-  border-radius: 50%;
-  background: var(--accent);
-  color: var(--sur-accent);
-  font: inherit;
-  cursor: pointer;
-  transition: scale 200ms ease, background 200ms ease;
-}
-.ac-micro:hover {
-  scale: 1.04;
-  background: var(--accent-jaune);
-}
-.ac-micro-icone {
-  font-size: 2.8rem;
-}
-.ac-micro-mot {
-  font-size: 0.95rem;
-  font-weight: 800;
-}
-.ac-micro-onde {
-  position: absolute;
-  inset: 0;
-  border: 2px solid var(--accent);
-  border-radius: 50%;
-  pointer-events: none;
-  animation: ac-onde 2.8s ease-out infinite;
-}
-.ac-micro-onde-2 {
-  animation-delay: 1.4s;
-}
-@keyframes ac-onde {
-  from {
-    transform: scale(1);
-    opacity: 0.7;
-  }
-  to {
-    transform: scale(1.9);
-    opacity: 0;
-  }
+/* LE BOUTON DE TRACK ID, celui de Styles (bouton-track.css), en plus grand. */
+.ac-ecoute-bouton .bt {
+  min-height: 84px;
+  padding: var(--espace-12) var(--espace-32) var(--espace-12) var(--espace-12);
+  font-size: 1.12rem;
 }
 .ac-ecoute-resultat {
-  width: 100%;
-  margin-top: var(--espace-32);
+  max-width: calc(var(--largeur-page) - 2 * var(--marge-page));
+  margin: var(--espace-32) auto 0;
   text-align: left;
 }
 
@@ -728,21 +715,17 @@ a:hover > .ac-cadre > .cal-gen {
     margin-top: var(--espace-16);
     font-size: 0.95rem;
   }
-  .ac-gestes {
+  /* Deux portes par rang, la cinquieme sur toute la largeur. */
+  .ac-portes {
     margin-top: var(--espace-24);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--espace-8);
   }
-  .ac-geste {
-    min-height: 44px;
-    padding: 0 1.1rem;
-    font-size: 0.9rem;
+  .ac-portes > li:last-child {
+    grid-column: 1 / -1;
   }
-  .ac-chiffres {
-    margin-top: var(--espace-24);
-    font-size: 0.8rem;
-  }
-  .ac-chiffres strong {
-    font-size: 1.2rem;
+  .ac-porte-carte {
+    padding: var(--espace-12);
   }
   .ac-section-tete {
     grid-template-columns: minmax(0, 1fr);
@@ -750,9 +733,12 @@ a:hover > .ac-cadre > .cal-gen {
   .ac-porte {
     justify-self: start;
   }
-  .ac-micro {
-    width: 148px;
-    height: 148px;
+  .ac-ecoute-dedans {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ac-ecoute-bouton .bt {
+    min-height: 72px;
+    font-size: 1rem;
   }
   .ac-news {
     grid-template-columns: minmax(0, 1fr);
@@ -871,12 +857,10 @@ a:hover > .ac-cadre > .cal-gen {
   .ac-surtitre,
   .ac-ligne > span,
   .ac-chapeau,
-  .ac-gestes,
-  .ac-chiffres,
+  .ac-portes > li,
   .ac-defiler,
   .ac-defiler i,
   .ac-mur-bande,
-  .ac-micro-onde,
   .ac-defile-piste {
     animation: none;
   }
