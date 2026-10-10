@@ -1,6 +1,33 @@
 {
- "fait": "2026-10-10T06:01:34.298Z",
+ "fait": "2026-10-10T17:23:17.898Z",
  "articles": [
+  {
+   "source": "midnightrebels",
+   "titre": "Dogs On Acid Grid is a drum and bass production archive with real dates",
+   "lien": "https://midnightrebels.com/dogs-on-acid-grid-forum-producer-guide/",
+   "date": "2026-10-10T16:32:27.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/03/This-Massive-Archive-Just-Saved-the-90s-Underground-Electronic-Scene-on-MTV-120-Minutes.webp?fit=1280%2C720&ssl=1",
+   "resume": "This summer, a producer posted a thank-you on Dogs On Acid to whoever kept the forum running. He was glad to see it “still going after 20 or so years.” He also remembered learning production at 19 from text alone, back…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Ambient Machines: 5 Synths and Devices for Soothing Sonic Wellness",
+   "lien": "https://www.gearnews.com/ambient-machines-synth/",
+   "date": "2026-10-10T16:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/ambient-machines-T.jpg",
+   "resume": "Life running you ragged? Chill out with these ambient machines, five instruments and sound players designed to soothe your nervous system and bring some dopamine back into your barren brain. Ambient Machines Synths and…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Sara Landry’s Company Sues Her Former Management Firm Over Her Name and Hekate Records",
+   "lien": "https://midnightrebels.com/sara-landry-sues-night-department-hekate-records-trademark/",
+   "date": "2026-10-10T12:33:21.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/08/Hard-Technos-Mainstream-Explosion-Pure-Catharsis-or-Creative-Dead-End.webp?fit=2400%2C1350&ssl=1",
+   "resume": "Sara Landry’s company just took her former management firm to federal court, and the fight is about more than a logo. Landry IP LLC filed the lawsuit on October 6, 2026, in Manhattan federal court. The defendants are…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "Behringer Jam and Jam Play: Kick Out the Jams… And Play!",
@@ -110,15 +137,6 @@
    "integral": true
   },
   {
-   "source": "midnightrebels",
-   "titre": "Collective Effervescence Is Dance Music’s Biggest Asset and Its Biggest Risk",
-   "lien": "https://midnightrebels.com/collective-effervescence-dance-music-crowd-safety-electric-picnic/",
-   "date": "2026-10-08T16:13:04.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/07/EDC-Thailand.webp?fit=1280%2C720&ssl=1",
-   "resume": "On the Saturday of Electric Picnic, organisers asked Laois County Council twice to move Duke Dumont to a bigger stage. Their reason was “potentially significant overcrowding.” The council agreed. Dumont still played the…",
-   "integral": true
-  },
-  {
    "source": "musictech",
    "titre": "Teenage Engineering to stop making synths – but what does it mean for the future of the cult brand?",
    "lien": "https://musictech.com/news/industry/teenage-engineering-stop-making-synths/",
@@ -161,15 +179,6 @@
    "date": "2026-10-08T12:40:52.000Z",
    "image": "https://musictech.com/wp-content/uploads/2024/11/new-plugins-new-image@2000x1500.jpg",
    "resume": "Every week, we round up the most exciting new plugin releases — from virtual instruments and creative effects to mixing tools and workflow upgrades. There are tons of plugins released every week, both free and paid, so…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "Googlebooks Look Studio-Ready, So Why Can’t Producers Make Music Yet?",
-   "lien": "https://midnightrebels.com/google-laptops-music-production-daw-vst-limitations/",
-   "date": "2026-10-08T08:23:55.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/What-If-Your-Favorite-Artist-Starts-Showcasing-AI2.webp?fit=2400%2C1350&ssl=1",
-   "resume": "Google’s latest wave of premium laptops is turning heads across the tech landscape. With sleek aluminum builds, vivid 120Hz OLED displays, and internal silicon capable of crushing complex workloads, these flagship…",
    "integral": true
   },
   {
