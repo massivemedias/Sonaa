@@ -750,7 +750,6 @@ interface Dictionnaire {
   readonly accueilStylesMot: string;
   readonly accueilLabelsMot: string;
   readonly accueilVillesMot: string;
-  readonly accueilSpectreAide: (n: number) => string;
   readonly accueilSoireesTitre: string;
   readonly accueilSoireesSous: (ville: string) => string;
   readonly accueilSoireesSansVille: string;
@@ -1546,7 +1545,6 @@ const FR: Dictionnaire = {
   accueilStylesMot: 'styles',
   accueilLabelsMot: 'labels',
   accueilVillesMot: 'villes',
-  accueilSpectreAide: (n) => `Chaque trait est un style, ${n} en tout : haut comme son tempo, teinté par sa famille.`,
   accueilSoireesTitre: 'Ce qui se joue',
   accueilSoireesSous: (v) => `Les prochaines soirées à ${v}.`,
   accueilSoireesSansVille: 'Choisissez votre ville pour voir ce qui se joue ce soir.',
@@ -2346,7 +2344,6 @@ const EN: Dictionnaire = {
   accueilStylesMot: 'styles',
   accueilLabelsMot: 'labels',
   accueilVillesMot: 'cities',
-  accueilSpectreAide: (n) => `Each line is a style, ${n} in all: as tall as its tempo, tinted by its family.`,
   accueilSoireesTitre: 'What’s on',
   accueilSoireesSous: (v) => `The next nights in ${v}.`,
   accueilSoireesSansVille: 'Choose your city to see what is on tonight.',

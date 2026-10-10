@@ -469,66 +469,57 @@ a:hover > .ac-cadre > .cal-gen {
   text-align: left;
 }
 
-/* ═══ LE SPECTRE ═══ Un trait par style, dans la section des styles. La
-   teinte est celle de la famille (meme formule que les colonnes et les
-   credits), la hauteur le tempo. Le liseré clair en tete de chaque trait
-   est le repere de crete d'un analyseur. */
-.ac-spectre-bande {
-  margin-bottom: var(--espace-32);
-}
-.ac-spectre-cadre {
-  position: relative;
+/* ═══ LE DEFILE DES STYLES ═══ Trois rangs de noms qui passent en sens
+   contraires, pleine largeur, fondus sur les bords. Le rang du milieu est en
+   contour. Voir DefileDesStyles.tsx. */
+.ac-defile {
   display: grid;
-  grid-template-rows: auto 1fr;
+  gap: var(--espace-8);
+  margin: 0 calc(-1 * max(var(--marge-page), (100vw - var(--largeur-page)) / 2 + var(--marge-page))) var(--espace-48, 48px);
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
 }
-.ac-spectre-legende {
+.ac-defile-piste {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--espace-4) var(--espace-12);
-  min-height: 1.5em;
-  margin: 0 0 var(--espace-12);
-  font-size: 0.8rem;
-  color: var(--ink-secondary);
+  width: max-content;
+  animation: ac-defile var(--d) linear infinite;
 }
-.ac-spectre-legende strong {
-  font-size: 1rem;
-  color: var(--ink-primary);
+.ac-defile-rang:hover .ac-defile-piste {
+  animation-play-state: paused;
 }
-.ac-spectre {
-  display: flex;
-  align-items: flex-end;
-  gap: 2px;
-  height: clamp(150px, 28vh, 300px);
-  border-bottom: 1px solid var(--filet);
-}
-.ac-trait {
-  flex: 1 1 0;
-  min-width: 0;
-  height: calc(var(--h) * 100%);
-  border-radius: 2px 2px 0 0;
-  background: oklch(0.72 0.15 var(--teinte));
-  box-shadow: inset 0 3px 0 oklch(0.9 0.1 var(--teinte));
-  opacity: 0.9;
-  transform-origin: 50% 100%;
-  animation: ac-trait 1100ms cubic-bezier(0.2, 0.9, 0.25, 1.12) both;
-  animation-delay: calc(300ms + var(--i) * 5ms);
-  transition: opacity 160ms ease, background 160ms ease;
-}
-.ac-spectre:hover .ac-trait {
-  opacity: 0.32;
-}
-.ac-spectre:hover .ac-trait[data-actif='true'] {
-  opacity: 1;
-  background: oklch(0.86 0.13 var(--teinte));
-}
-@keyframes ac-trait {
-  from {
-    transform: scaleY(0);
-  }
+@keyframes ac-defile {
   to {
-    transform: scaleY(1);
+    transform: translateX(-50%);
   }
+}
+.ac-defile-nom {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding-right: 0.7em;
+  font-size: clamp(1.9rem, 4.6vw, 4.4rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: var(--serrage);
+  white-space: nowrap;
+  color: var(--encre-vive);
+  text-decoration: none;
+  transition: color 160ms ease, -webkit-text-stroke-color 160ms ease;
+}
+.ac-defile-nom i {
+  flex: none;
+  width: 0.22em;
+  height: 0.22em;
+  border-radius: 50%;
+  background: oklch(0.72 0.15 var(--teinte));
+}
+.ac-defile-rang-2 .ac-defile-nom {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--encre-douce);
+}
+.ac-defile-nom:hover {
+  color: oklch(0.78 0.15 var(--teinte));
+  -webkit-text-stroke-color: transparent;
 }
 
 /* Les familles, chacune sur la pochette de son genre majeur, sa teinte en
@@ -763,20 +754,6 @@ a:hover > .ac-cadre > .cal-gen {
     width: 148px;
     height: 148px;
   }
-  /* SUR TELEPHONE, LES TRAITS SE TOUCHENT : 219 traits et 218 espaces
-     d'un pixel ne tiennent pas dans 335 px. Le spectre devient une bande
-     continue, ou les familles se lisent a leur teinte. Pas de legende : au
-     doigt, il n'y a pas de survol. */
-  .ac-spectre {
-    gap: 0;
-  }
-  .ac-trait {
-    border-radius: 0;
-    box-shadow: inset 0 2px 0 oklch(0.9 0.1 var(--teinte));
-  }
-  .ac-spectre-legende {
-    display: none;
-  }
   .ac-news {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -862,13 +839,30 @@ a:hover > .ac-cadre > .cal-gen {
         translate: 0 6%;
       }
     }
-    /* Les traits du spectre montent quand la bande entre dans l'ecran,
-       de gauche a droite, au lieu de monter au chargement, hors de vue. */
-    .ac-trait {
-      animation: ac-trait linear both;
-      animation-delay: 0s;
+    /* Les rangs du defile glissent de cote en plus de leur tour, en sens
+       contraires, pendant que la section traverse l'ecran. */
+    .ac-defile-rang {
+      animation: ac-px-rang linear both;
       animation-timeline: view();
-      animation-range: entry calc(10% + var(--i) * 0.12%) cover calc(30% + var(--i) * 0.12%);
+    }
+    .ac-defile-rang-2 {
+      animation-name: ac-px-rang-inverse;
+    }
+    @keyframes ac-px-rang {
+      from {
+        translate: 7vw 0;
+      }
+      to {
+        translate: -7vw 0;
+      }
+    }
+    @keyframes ac-px-rang-inverse {
+      from {
+        translate: -7vw 0;
+      }
+      to {
+        translate: 7vw 0;
+      }
     }
   }
 }
@@ -883,7 +877,7 @@ a:hover > .ac-cadre > .cal-gen {
   .ac-defiler i,
   .ac-mur-bande,
   .ac-micro-onde,
-  .ac-trait {
+  .ac-defile-piste {
     animation: none;
   }
 }

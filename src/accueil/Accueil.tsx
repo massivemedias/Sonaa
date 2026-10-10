@@ -15,7 +15,7 @@
  *   page, il faut quelque chose de plus attrayant »),
  *   les prochaines soirees de la ville,
  *   Track ID, un grand bouton qui ecoute sur place,
- *   les styles : le spectre des 219, puis les familles en pochettes,
+ *   les styles : les 219 noms qui defilent, puis les familles en pochettes,
  *   les dernieres sorties des labels,
  *   les news,
  *   les mixtapes.
@@ -38,7 +38,7 @@ import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import { setsPublics, urlPochette, type SetDJ } from '../lib/sets.ts';
 import { SOURCES } from '../data/news-sources.ts';
 import A_LA_UNE from '../data/sorties-a-la-une.json';
-import { Spectre } from './Spectre.tsx';
+import { DefileDesStyles } from './DefileDesStyles.tsx';
 import { MurDePochettes } from './MurDePochettes.tsx';
 import { pochetteDeLaFamille } from './pochettes.ts';
 import { useSoireesAVenir } from './soirees-a-venir.ts';
@@ -258,8 +258,9 @@ export function Accueil() {
           </div>
         </section>
 
-        {/* ═══ LES STYLES ═══ Le spectre des 219, pleine largeur, puis les
-            quatorze familles, chacune sur la pochette de son genre majeur. */}
+        {/* ═══ LES STYLES ═══ Les 219 noms qui defilent (voir
+            DefileDesStyles.tsx), puis les quatorze familles, chacune sur la
+            pochette de son genre majeur. */}
         <Section
           n={3}
           id="ac-styles"
@@ -268,9 +269,7 @@ export function Accueil() {
           lien="#/parcourir"
           libelle={t.accueilOuvrirAtlas}
         >
-          <div className="ac-spectre-bande">
-            <Spectre />
-          </div>
+          <DefileDesStyles />
           <ul className="ac-familles">
             {FAMILIES.map((f, i) => {
               const pochette = pochetteDeLaFamille(i);
