@@ -22,6 +22,16 @@
    "slug": "anjunabeats"
   },
   {
+   "titre": "Urban Skies",
+   "artiste": "Kebu",
+   "annee": 2026,
+   "image": "https://i.discogs.com/kWorThUd2idgfGL3CTxzjpLzGOT8aoHi9TQscyDzBG8/rs:fit/g:sm/q:90/h:600/w:549/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3NzA5/ODk4LTE3ODIzMTk2/OTMtNDIwNS5qcGVn.jpeg",
+   "url": "https://www.discogs.com/release/37709898",
+   "format": "2xLP, Album, TP",
+   "label": "ZYX Records",
+   "slug": "zyx-records"
+  },
+  {
    "titre": "Bonus Nondi...",
    "artiste": "Nondi_",
    "annee": 2026,
@@ -170,16 +180,6 @@
    "format": "2xFile, MP3, 320",
    "label": "Masters Of Hardcore",
    "slug": "masters-of-hardcore"
-  },
-  {
-   "titre": "Trinity (Live In Adelaide)",
-   "artiste": "Lustmord",
-   "annee": 2026,
-   "image": "https://i.discogs.com/xGii1TedPZ-nBi3o92Bgk6OZBPoyzDfr6_yroncTXHY/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4NTQ3/NjEyLTE3OTA1NzIw/NjctODYyMS5qcGVn.jpeg",
-   "url": "https://www.discogs.com/release/38547612",
-   "format": "File, MP3, Album, Tour, 320",
-   "label": "Ant-Zen",
-   "slug": "ant-zen"
   }
  ]
 }
