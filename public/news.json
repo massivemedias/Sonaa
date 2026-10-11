@@ -1,6 +1,24 @@
 {
- "fait": "2026-10-11T05:58:32.436Z",
+ "fait": "2026-10-11T17:43:02.512Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "TC Electronic 2290: The U2 Delay",
+   "lien": "https://www.gearnews.com/tc-electronic-2290-the-u2-delay-studio/",
+   "date": "2026-10-11T16:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/tc-electronic-2290-ft.jpg",
+   "resume": "The TC Electronic 2290 Dynamic Digital Delay is a legendary studio and guitar effect from the mid-1980s that became an integral part of the U2 sound. In this Article: TC Electronic 2290: How The Edge Approached Delay TC…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Polarity-MEQ, GRNi Lite, Lega Effect: Free Plugins of the Week",
+   "lien": "https://www.gearnews.com/polarity-meq-free-plugins/",
+   "date": "2026-10-11T06:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/polarity-meq-free-plugins-10-11-26.jpg",
+   "resume": "Polarity-MEQ is a free spectral matching plugin that lets you match your audio to a reference track with just a few clicks! This week’s round-up of free plugins also brings you a free granular sampler and a cool lo-fi…",
+   "integral": true
+  },
   {
    "source": "midnightrebels",
    "titre": "Dogs On Acid Grid is a drum and bass production archive with real dates",
@@ -116,15 +134,6 @@
    "date": "2026-10-09T06:00:00.000Z",
    "image": "https://cdn.gearnews.com/wp-content/uploads/2025/10/vinyl-dj-2026.jpg",
    "resume": "Vinyl records are hot again, and maybe your collection is so big that you want to start spinning as a vinyl DJ. If you’re wondering what gear you can really use for that, you’re in the right place. We’ll show you the…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "The Best Rotary Mixers And Boutique Mixing Consoles For DJs",
-   "lien": "https://www.gearnews.com/the-best-rotary-mixers-dj/",
-   "date": "2026-10-08T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/06/best-rotary-mixers-teaser-new.jpg",
-   "resume": "Don’t call it a comeback as rotary mixers have been here for years. Elegant, classy and often with an audiophile flair, rotary mixers offer a different DJ experience than one with a fader. Thinking about making the…",
    "integral": true
   },
   {
@@ -506,10 +515,5 @@
    "integral": true
   }
  ],
- "pannes": [
-  {
-   "id": "cdm",
-   "raison": "aucun article lu"
-  }
- ]
+ "pannes": []
 }
