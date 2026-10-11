@@ -885,6 +885,9 @@ interface Dictionnaire {
   readonly voirLArtiste: string;
   readonly artisteIntrouvable: string;
   readonly retourAuxArtistes: string;
+  /* « ATLAS » DEPUIS LE 11 OCTOBRE 2026, et non plus « Styles ». Mika :
+     « faudrait renommer Style en Atlas finalement, c'est mieux ». Le nom
+     seul change : les adresses /styles/ restent, elles sont indexees. */
   readonly lesStyles: string;
   readonly leCalendrier: string;
   readonly leJeu: string;
@@ -1685,7 +1688,7 @@ const FR: Dictionnaire = {
   voirLArtiste: 'Voir toutes ses mixtapes',
   artisteIntrouvable: 'Cet artiste n’a pas de mixtape publiée.',
   retourAuxArtistes: 'Revenir aux artistes',
-  lesStyles: 'Styles',
+  lesStyles: 'Atlas',
   /* « Calendar » dans les deux langues : c'est le nom de la section, pas un
      mot a traduire. Choix de Mika du 7 septembre 2026. */
   leCalendrier: 'Calendar',
@@ -2483,7 +2486,7 @@ const EN: Dictionnaire = {
   voirLArtiste: 'See all their mixtapes',
   artisteIntrouvable: 'This artist has no published mixtape.',
   retourAuxArtistes: 'Back to artists',
-  lesStyles: 'Styles',
+  lesStyles: 'Atlas',
   leCalendrier: 'Calendar',
   leJeu: 'Game',
   dernieresMixtapes: 'Latest mixtapes',

@@ -183,10 +183,10 @@ ecrire({
      LE LIEN VERS L'INDEX A PLAT EST PARTI d'ici aussi, le 22 septembre
      2026 : Mika ne veut plus aucun lien visible vers lui depuis cette page.
      La route `#/index` reste servie par l'application. */
-  corps: `${entete([{ nom: 'Styles', href: '/styles/' }])}<h1>Les styles de musique électronique</h1><p>219 genres, 14 familles, écrits et vérifiés à la main.</p><ul>${FAMILIES.map(
+  corps: `${entete([{ nom: 'Atlas', href: '/styles/' }])}<h1>Les styles de musique électronique</h1><p>219 genres, 14 familles, écrits et vérifiés à la main.</p><ul>${FAMILIES.map(
     (f, fi) => `<li><a href="/styles/${slug(f.label)}/">${h(f.label)}</a> : ${STRUCTURES[fi]?.genres.length ?? 0} genres</li>`
   ).join('')}</ul>`,
-  jsonld: [filAriane([{ nom: 'Styles', href: '/styles/' }])],
+  jsonld: [filAriane([{ nom: 'Atlas', href: '/styles/' }])],
 });
 
 for (const s of styles) {
@@ -201,10 +201,10 @@ for (const s of styles) {
       hash: s.hash,
       titre: `${famille.label} : les ${struct.genres.length} genres, leur histoire et comment les produire · SONAA`,
       description: couper(desc || `La famille ${famille.label} de la musique électronique : ${struct.genres.length} genres, avec leur histoire, leurs morceaux et un cours de production pour chacun.`, 158),
-      corps: `${entete([{ nom: 'Styles', href: '/styles/' }, { nom: famille.label, href: cheminFamille }])}<h1>${h(famille.label)}</h1>${desc ? `<p>${h(desc)}</p>` : ''}<h2>Les genres</h2><ul>${struct.genres
+      corps: `${entete([{ nom: 'Atlas', href: '/styles/' }, { nom: famille.label, href: cheminFamille }])}<h1>${h(famille.label)}</h1>${desc ? `<p>${h(desc)}</p>` : ''}<h2>Les genres</h2><ul>${struct.genres
         .map((g) => `<li><a href="${cheminDuGenre.get(g.id) ?? '#'}">${h(g.label)}</a>${g.annee > 0 ? ` (${g.annee})` : ''}${g.description ? ` : ${h(couper(g.description, 160))}` : ''}</li>`)
         .join('')}</ul>`,
-      jsonld: [filAriane([{ nom: 'Styles', href: '/styles/' }, { nom: famille.label, href: cheminFamille }])],
+      jsonld: [filAriane([{ nom: 'Atlas', href: '/styles/' }, { nom: famille.label, href: cheminFamille }])],
     });
     continue;
   }
@@ -275,7 +275,7 @@ for (const s of styles) {
     description,
     image: cover,
     corps:
-      `${entete([{ nom: 'Styles', href: '/styles/' }, { nom: famille.label, href: cheminFamille }, { nom: g.label, href: s.chemin }])}` +
+      `${entete([{ nom: 'Atlas', href: '/styles/' }, { nom: famille.label, href: cheminFamille }, { nom: g.label, href: s.chemin }])}` +
       `<h1>${h(g.label)}</h1>` +
       `<p>${h(famille.label)}${g.annee > 0 ? ` · ${g.annee}` : ''}${g.bpmRange ? ` · ${g.bpmRange[0]} à ${g.bpmRange[1]} BPM` : ''}${g.aliases.length ? ` · aussi appelé ${h(g.aliases.join(', '))}` : ''}</p>` +
       (g.description ? `<p>${h(g.description)}</p>` : '') +
@@ -303,7 +303,7 @@ for (const s of styles) {
         dateModified: aujourdhui,
         about: { '@type': 'MusicGenre', name: g.label },
       },
-      filAriane([{ nom: 'Styles', href: '/styles/' }, { nom: famille.label, href: cheminFamille }, { nom: g.label, href: s.chemin }]),
+      filAriane([{ nom: 'Atlas', href: '/styles/' }, { nom: famille.label, href: cheminFamille }, { nom: g.label, href: s.chemin }]),
     ],
   });
 }
@@ -325,10 +325,10 @@ ecrire({
   alterne: '/styles/',
   titre: 'Electronic music styles: 219 genres in 14 families · SONAA',
   description: 'A family tree of electronic music: 219 genres in 14 families, each with its history, reference tracks, machines and a production guide.',
-  corps: `${enteteEn([{ nom: 'Styles', href: cheminEn('/styles/') }])}<h1>Electronic music styles</h1><p>219 genres, 14 families, written and checked by hand.</p><ul>${FAMILIES.map(
+  corps: `${enteteEn([{ nom: 'Atlas', href: cheminEn('/styles/') }])}<h1>Electronic music styles</h1><p>219 genres, 14 families, written and checked by hand.</p><ul>${FAMILIES.map(
     (f, fi) => `<li><a href="${cheminEn(`/styles/${slug(f.label)}/`)}">${h(f.label)}</a>: ${STRUCTURES[fi]?.genres.length ?? 0} genres</li>`
   ).join('')}</ul>`,
-  jsonld: [filAriane([{ nom: 'Styles', href: cheminEn('/styles/') }])],
+  jsonld: [filAriane([{ nom: 'Atlas', href: cheminEn('/styles/') }])],
 });
 
 for (const s of styles) {
@@ -344,10 +344,10 @@ for (const s of styles) {
       alterne: s.chemin,
       titre: `${famille.label}: ${struct.genres.length} genres, their history and how to produce them · SONAA`,
       description: `The ${famille.label} family of electronic music: ${struct.genres.length} genres, each with its history, reference tracks and a production guide.`,
-      corps: `${enteteEn([{ nom: 'Styles', href: cheminEn('/styles/') }, { nom: famille.label, href: cheminFamille }])}<h1>${h(famille.label)}</h1><h2>The genres</h2><ul>${struct.genres
+      corps: `${enteteEn([{ nom: 'Atlas', href: cheminEn('/styles/') }, { nom: famille.label, href: cheminFamille }])}<h1>${h(famille.label)}</h1><h2>The genres</h2><ul>${struct.genres
         .map((g) => `<li><a href="${cheminEn(cheminDuGenre.get(g.id) ?? '/styles/')}">${h(g.label)}</a>${g.annee > 0 ? ` (${g.annee})` : ''}${EN[g.id] ? `: ${h(couper(EN[g.id]?.description ?? '', 160))}` : ''}</li>`)
         .join('')}</ul>`,
-      jsonld: [filAriane([{ nom: 'Styles', href: cheminEn('/styles/') }, { nom: famille.label, href: cheminFamille }])],
+      jsonld: [filAriane([{ nom: 'Atlas', href: cheminEn('/styles/') }, { nom: famille.label, href: cheminFamille }])],
     });
     continue;
   }
@@ -382,7 +382,7 @@ for (const s of styles) {
     description,
     image: cover,
     corps:
-      `${enteteEn([{ nom: 'Styles', href: cheminEn('/styles/') }, { nom: famille.label, href: cheminFamille }, { nom: g.label, href: cheminEn(s.chemin) }])}` +
+      `${enteteEn([{ nom: 'Atlas', href: cheminEn('/styles/') }, { nom: famille.label, href: cheminFamille }, { nom: g.label, href: cheminEn(s.chemin) }])}` +
       `<h1>${h(g.label)}</h1>` +
       `<p>${h(famille.label)}${g.annee > 0 ? ` · ${g.annee}` : ''}${g.bpmRange ? ` · ${g.bpmRange[0]} to ${g.bpmRange[1]} BPM` : ''}${g.aliases.length ? ` · also known as ${h(g.aliases.join(', '))}` : ''}</p>` +
       `<p>${h(en.description)}</p>` +
@@ -409,7 +409,7 @@ for (const s of styles) {
         dateModified: aujourdhui,
         about: { '@type': 'MusicGenre', name: g.label },
       },
-      filAriane([{ nom: 'Styles', href: cheminEn('/styles/') }, { nom: famille.label, href: cheminFamille }, { nom: g.label, href: cheminEn(s.chemin) }]),
+      filAriane([{ nom: 'Atlas', href: cheminEn('/styles/') }, { nom: famille.label, href: cheminFamille }, { nom: g.label, href: cheminEn(s.chemin) }]),
     ],
   });
 }
