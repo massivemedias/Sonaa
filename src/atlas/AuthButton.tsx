@@ -24,6 +24,9 @@ import {
   MOT_DE_PASSE_MIN,
   changerMotDePasse,
   connexionGoogle,
+  connexionOAuth,
+  fournisseursActifs,
+  type FournisseurOAuth,
   connexionMotDePasse,
   creerCompte,
   demanderNouveauMotDePasse,
@@ -39,6 +42,7 @@ import { t } from '../langue/langue.ts';
 import { ChoixLangue } from './ChoixLangue.tsx';
 import { FaIcon } from './FaIcon.tsx';
 import { faMagnifyingGlass, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faApple, faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { EVENEMENT_RECHERCHE } from './RechercheGlobale.tsx';
 import { ADRESSE_HISTORIQUE } from '../reconnaitre/adresses.ts';
 import './auth-button.css';
@@ -263,6 +267,25 @@ export function AuthButton() {
   const parGoogle = useCallback(async () => {
     setMessage(null);
     const r = await connexionGoogle({ route: iciMeme() });
+    if (!r.ok) setMessage(r.message);
+  }, []);
+
+  /* FACEBOOK ET APPLE, quand ils sont actives dans Supabase : leurs boutons
+     n'apparaissent qu'a ce moment-la. Voir fournisseursActifs dans auth.ts. */
+  const [actifs, setActifs] = useState<ReadonlySet<FournisseurOAuth>>(new Set(['google']));
+  useEffect(() => {
+    if (!ouvert) return;
+    let vivant = true;
+    void fournisseursActifs().then((a) => {
+      if (vivant) setActifs(a);
+    });
+    return () => {
+      vivant = false;
+    };
+  }, [ouvert]);
+  const parFournisseur = useCallback(async (f: FournisseurOAuth) => {
+    setMessage(null);
+    const r = await connexionOAuth(f, { route: iciMeme() });
     if (!r.ok) setMessage(r.message);
   }, []);
 
@@ -586,9 +609,24 @@ export function AuthButton() {
                     courriel est plafonné pour le site entier. Google n'a pas
                     cette limite. Il est la dans les deux onglets : il cree le
                     compte comme il connecte. */}
-                <button className="authb-google" onClick={() => void parGoogle()}>
-                  {t.continuerGoogle}
-                </button>
+                <div className="authb-fournisseurs">
+                  <button className="authb-google" onClick={() => void parGoogle()}>
+                    <FaIcon icon={faGoogle} className="authb-logo" />
+                    {t.continuerGoogle}
+                  </button>
+                  {actifs.has('facebook') && (
+                    <button className="authb-google authb-facebook" onClick={() => void parFournisseur('facebook')}>
+                      <FaIcon icon={faFacebook} className="authb-logo" />
+                      {t.continuerFacebook}
+                    </button>
+                  )}
+                  {actifs.has('apple') && (
+                    <button className="authb-google authb-apple" onClick={() => void parFournisseur('apple')}>
+                      <FaIcon icon={faApple} className="authb-logo" />
+                      {t.continuerApple}
+                    </button>
+                  )}
+                </div>
                 <div className="authb-ou"><span>{mode === 'creer' ? t.ouAvecTonCourriel : t.ou}</span></div>
 
                 {mode === 'mdp' && (
@@ -599,7 +637,7 @@ export function AuthButton() {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="toi@exemple.com"
+                      placeholder={t.exempleCourriel}
                       autoComplete="email"
                       required
                     />
@@ -637,7 +675,7 @@ export function AuthButton() {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="toi@exemple.com"
+                      placeholder={t.exempleCourriel}
                       autoComplete="email"
                       required
                     />
@@ -666,7 +704,7 @@ export function AuthButton() {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="toi@exemple.com"
+                      placeholder={t.exempleCourriel}
                       autoComplete="email"
                       required
                     />
@@ -691,7 +729,7 @@ export function AuthButton() {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="toi@exemple.com"
+                      placeholder={t.exempleCourriel}
                       autoComplete="email"
                       required
                     />

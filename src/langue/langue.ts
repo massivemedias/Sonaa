@@ -614,6 +614,10 @@ interface Dictionnaire {
   readonly fermer: string;
   readonly usageConnexion: string;
   readonly continuerGoogle: string;
+  readonly continuerFacebook: string;
+  readonly continuerApple: string;
+  readonly exempleCourriel: string;
+  readonly fournisseurIndisponible: (nom: string) => string;
   readonly ou: string;
   readonly lienParti: string;
   readonly tonAdresse: string;
@@ -1409,6 +1413,10 @@ const FR: Dictionnaire = {
   fermer: 'Fermer',
   usageConnexion: 'Connecte-toi pour proposer des morceaux, voter et commenter.',
   continuerGoogle: 'Continuer avec Google',
+  continuerFacebook: 'Continuer avec Facebook',
+  continuerApple: 'Continuer avec Apple',
+  exempleCourriel: 'toi@exemple.com',
+  fournisseurIndisponible: (nom) => `La connexion ${nom} n’est pas disponible. Utilisez votre courriel ci-dessous.`,
   ou: 'ou',
   lienParti:
     'Un lien de connexion vient de partir. Ouvre-le depuis ce navigateur, tu reviendras exactement ici.',
@@ -2215,6 +2223,10 @@ const EN: Dictionnaire = {
   fermer: 'Close',
   usageConnexion: 'Sign in to suggest tracks, vote and comment.',
   continuerGoogle: 'Continue with Google',
+  continuerFacebook: 'Continue with Facebook',
+  continuerApple: 'Continue with Apple',
+  exempleCourriel: 'you@example.com',
+  fournisseurIndisponible: (nom) => `${nom} sign-in is not available. Use your email below.`,
   ou: 'or',
   lienParti:
     'A sign-in link is on its way. Open it from this browser and you will come back right here.',

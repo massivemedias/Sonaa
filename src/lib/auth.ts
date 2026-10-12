@@ -298,6 +298,44 @@ export function nettoyerUrlDeRetour(): void {
    `hash`, on reviendrait a l'accueil apres s'etre connecte depuis un genre
    ouvert, ce qui est precisement ce qu'on veut eviter. */
 export async function connexionGoogle(intention?: Intention): Promise<ResultatEnvoi> {
+  return connexionOAuth('google', intention);
+}
+
+/* ═══ FACEBOOK ET APPLE, PAR LE MEME CHEMIN QUE GOOGLE ═══
+
+   Mika, le 11 octobre 2026 : « il faut pouvoir se connecter avec Facebook
+   et aussi Apple ». Supabase les connait comme Google : un fournisseur
+   OAuth, active dans la console avec ses identifiants. Le chemin ci-dessous
+   (pre-vol, puis depart) est donc le meme pour les trois, seul le nom
+   change. Tant qu'un fournisseur n'est pas active, son bouton n'existe pas
+   (voir fournisseursActifs) : un bouton qui mene a une erreur est pire que
+   pas de bouton. */
+export type FournisseurOAuth = 'google' | 'facebook' | 'apple';
+
+const NOM_FOURNISSEUR: Record<FournisseurOAuth, string> = { google: 'Google', facebook: 'Facebook', apple: 'Apple' };
+
+let actifs: Promise<ReadonlySet<FournisseurOAuth>> | null = null;
+
+/** Les fournisseurs actives dans la console Supabase, lus une fois par
+    visite sur la route publique des reglages. Google par defaut si la
+    lecture echoue : c'est le seul qui l'a toujours ete. */
+export function fournisseursActifs(): Promise<ReadonlySet<FournisseurOAuth>> {
+  actifs ??= (async () => {
+    const url = import.meta.env.VITE_SUPABASE_URL ?? '';
+    const cle = import.meta.env.VITE_SUPABASE_ANON_KEY ?? '';
+    try {
+      const r = await fetch(`${url}/auth/v1/settings`, { headers: { apikey: cle } });
+      const j = (await r.json()) as { external?: Record<string, boolean> };
+      const ext = j.external ?? {};
+      return new Set((['google', 'facebook', 'apple'] as const).filter((f) => ext[f] === true));
+    } catch {
+      return new Set<FournisseurOAuth>(['google']);
+    }
+  })();
+  return actifs;
+}
+
+export async function connexionOAuth(fournisseur: FournisseurOAuth, intention?: Intention): Promise<ResultatEnvoi> {
   const client = supabase;
   if (!client) return { ok: false, limiteAtteinte: false, message: 'Service indisponible.' };
 
@@ -323,7 +361,7 @@ export async function connexionGoogle(intention?: Intention): Promise<ResultatEn
      origine, verifie en-tetes en main : le pre-vol peut donc lire l'echec au
      lieu de le subir. */
   const { data, error } = await client.auth.signInWithOAuth({
-    provider: 'google',
+    provider: fournisseur,
     options: {
       redirectTo: window.location.origin + window.location.pathname + window.location.hash,
       skipBrowserRedirect: true
@@ -335,7 +373,7 @@ export async function connexionGoogle(intention?: Intention): Promise<ResultatEn
     return {
       ok: false,
       limiteAtteinte: false,
-      message: 'La connexion Google est indisponible. Utilisez votre courriel.'
+      message: t.fournisseurIndisponible(NOM_FOURNISSEUR[fournisseur])
     };
   }
 
@@ -346,11 +384,11 @@ export async function connexionGoogle(intention?: Intention): Promise<ResultatEn
        d'un 400 lisible. */
     const sonde = await fetch(data.url, { method: 'GET', redirect: 'manual', credentials: 'omit' });
     if (sonde.type !== 'opaqueredirect' && sonde.status >= 400) {
-      let message = 'La connexion Google n’est pas disponible. Utilisez votre courriel ci-dessous.';
+      let message = t.fournisseurIndisponible(NOM_FOURNISSEUR[fournisseur]);
       try {
         const corps = (await sonde.json()) as { msg?: string };
         if (typeof corps.msg === 'string' && corps.msg.includes('OAuth')) {
-          message = t.googleNonConfiguree;
+          message = fournisseur === 'google' ? t.googleNonConfiguree : t.fournisseurIndisponible(NOM_FOURNISSEUR[fournisseur]);
         }
       } catch {
         /* Reponse illisible : le message general suffit, il dit quoi faire. */
