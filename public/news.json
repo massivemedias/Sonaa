@@ -1,6 +1,78 @@
 {
- "fait": "2026-10-11T17:43:02.512Z",
+ "fait": "2026-10-12T21:19:04.419Z",
  "articles": [
+  {
+   "source": "midnightrebels",
+   "titre": "Dance and Electronic Music Surges in U.S. Streaming Market Share for 2026",
+   "lien": "https://midnightrebels.com/dance-electronic-fastest-growing-us-genre-2026/",
+   "date": "2026-10-12T19:42:44.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/Collective-Effervescence-Is-Dance-Musics-Biggest-Asset-and-Its-Biggest-Risk.webp?fit=2400%2C1350&ssl=1",
+   "resume": "In the first half of 2026, John Summit logged 295.1 million on-demand audio streams in the U.S., up 59 percent from a year earlier, according to data company Luminate. His numbers sit inside a bigger shift…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "This free pitch editor brings Melodyne-style note editing to Windows, Mac and Linux",
+   "lien": "https://www.musicradar.com/music-tech/this-free-pitch-editor-brings-melodyne-style-note-editing-to-windows-mac-and-linux",
+   "date": "2026-10-12T16:43:37.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/3QjEmmCKtGxdjyT8p4TpPj-1920-80.jpg",
+   "resume": "Celemony’s Melodyne is a pitch-editing application that’s become near-ubiquitous in modern production, owing to its ability to break open audio and allow the user to grab individual notes and edit their pitch, timing…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "The Best Audio Interfaces of 2026: Incredible Entry-Level and High-End Options",
+   "lien": "https://www.gearnews.com/best-audio-interfaces-studio/",
+   "date": "2026-10-12T16:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/focusrite-isa-c8x-interface-ft.jpg",
+   "resume": "It’s that time of year when we look back at the most exciting releases. Here are some of the best audio interfaces introduced in 2025. No matter what style of music you make, an audio interface remains a crucial part of…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "\"Pasta, cereal, toilet roll and tinned fruit\": Matthew Herbert has made an entire album from samples of everyday food items",
+   "lien": "https://www.musicradar.com/music-tech/pasta-cereal-toilet-roll-and-tinned-fruit-matthew-herbert-has-made-an-entire-album-from-samples-of-everyday-food-items",
+   "date": "2026-10-12T11:36:02.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/K7ALjDyPhvdgpyooDyVnA9-1920-80.jpg",
+   "resume": "Matthew Herbert is no stranger to a concept album. Last time we spoke to the British electronic musician, he had just finished off The Horse , a project recorded with custom instruments fashioned from a horse skeleton…",
+   "integral": true
+  },
+  {
+   "source": "attack",
+   "titre": "Ben Turner: “It’s A Thin Line Between True Curation And Gatekeeping”",
+   "lien": "https://www.attackmagazine.com/features/long-read/ben-turner-its-a-thin-line-between-true-curation-and-gatekeeping/",
+   "date": "2026-10-12T11:34:10.000Z",
+   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/10/8d3380eb-e249-499e-9ee9-b6e80d4bb8e2.png?fit=1130%2C386&ssl=1",
+   "resume": "Ben Turner on why promoters have no excuse left, and why nurturing new talent is a long-term investment. Debates about representation in electronic music tend to get heated fast. Comment threads and panel soundbites…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "Recording with a computer – The ultimate beginner's guide to digital audio",
+   "lien": "https://www.musicradar.com/music-tech/software-apps/its-easy-for-someone-who-knows-nothing-about-production-to-identify-a-bad-or-weak-mix-it-will-simply-sound-less-good-than-other-tracks-the-ultimate-beginners-guide-to-recording-digitally",
+   "date": "2026-10-12T07:55:51.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/jnLQrLUZuHKJwDwmrXj2j-1920-80.jpg",
+   "resume": "RECORDING WEEK 2026 : It’s entirely possible to make music on a computer without having the faintest idea of how digital audio works, but a little knowledge can go a long way when it comes to pushing the medium to its…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "No, Kenneth Blume won’t stay in his lane",
+   "lien": "https://musictech.com/features/interviews/kenneth-blume/",
+   "date": "2026-10-12T07:30:44.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/MT-HERO-KENNETH-BLUME-CREDIT-EVAN-TETREAULT@2560x1707.jpg",
+   "resume": "K enneth Blume would like everyone to stop worrying about what to call him. Since the producer began using his given name professionally about a year ago, people have developed a habit of addressing him as Kenny, then…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "MOTU OctaLite: A Compact 8-Pre Interface and Expander",
+   "lien": "https://www.gearnews.com/motu-octalite-studio/",
+   "date": "2026-10-12T07:00:55.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/motu-octalite-ft-3-128x71.jpg",
+   "resume": "The new MOTU OctaLite audio interface packs eight preamps into the same-size chassis as the popular UltraLite mk5, for high-quality mobile recording. When you select an audio interface that offers portability, there is…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "TC Electronic 2290: The U2 Delay",
@@ -56,33 +128,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "ATOV FaderPunk: Now Available at Thomann",
-   "lien": "https://www.gearnews.com/atov-faderpunk-synth/",
-   "date": "2026-10-09T21:39:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/08/atov-faderpunk-new-T.jpg",
-   "resume": "ATOV FaderPunk is at last available from Thomann. It’s never been easier to get your hands on the flexible modulation controller powerhouse. ATOV FaderPunk Now Available! PunkBus Eurorack Breakout Module and New…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "Jeff Mills Answers Rembrandt’s The Night Watch in a New Film",
-   "lien": "https://midnightrebels.com/jeff-mills-rembrandt-night-watch-film-rijksmuseum/",
-   "date": "2026-10-09T20:04:36.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/03/Roland-808-and-909-The-Failed-Drum-Machines-That-Defined-Underground-Club-Culture.png2_.webp?fit=1280%2C720&ssl=1",
-   "resume": "Sign-ups for free tickets to see Jeff Mills answer Rembrandt’s The Night Watch close on October 11 at 23:59 . The ticket drop follows on October 12 at 12:00 CEST. This is not a club night. It is a 50-minute film shot…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "5 of the Best Analog Polysynths: Tones So Fat You Might Gain Weight",
-   "lien": "https://www.gearnews.com/5-of-the-best-analog-polysynths-synth/",
-   "date": "2026-10-09T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/best-analog-polysynths-T.jpg",
-   "resume": "Nothing beats the sound of a gorgeous analog synthesizer in full flight. These are the best analog polysynths on the market today – for all budgets! 5 of the Best Analog Polysynths The Best Analog Polysynths Behringer…",
-   "integral": true
-  },
-  {
    "source": "musictech",
    "titre": "Wanna give your mixes a little analogue flavour? We’ve rounded up the best deals at Plugin Boutique so you don’t have to",
    "lien": "https://musictech.com/news/gear/87-percent-off-analogue-gear-emulations-plugin-boutique-october-2026/",
@@ -125,15 +170,6 @@
    "date": "2026-10-09T11:14:19.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/2WibikjEGBWNYwtbWo3yeR-1920-80.jpg",
    "resume": "You could come up with a very long list of hit songs that were started in Apple’s GarageBand – famously, Rihanna's 2007 smash Umbrella is built on one of its stock drum loops – which makes it all the more surprising…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Vinyl DJ 2026: Essential Gear for Perfect Vinyl Sets and DVS",
-   "lien": "https://www.gearnews.com/vinyl-dj-perfect-match/",
-   "date": "2026-10-09T06:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/10/vinyl-dj-2026.jpg",
-   "resume": "Vinyl records are hot again, and maybe your collection is so big that you want to start spinning as a vinyl DJ. If you’re wondering what gear you can really use for that, you’re in the right place. We’ll show you the…",
    "integral": true
   },
   {
@@ -236,48 +272,12 @@
    "integral": true
   },
   {
-   "source": "musicradar",
-   "titre": "The sound of the underground: Roni Size to play the world’s deepest rave in an abandoned Welsh mine",
-   "lien": "https://www.musicradar.com/artists/djs-producers/its-the-most-underground-of-underground-raves-ever-roni-size-to-play-the-worlds-deepest-rave-in-an-abandoned-welsh-mine",
-   "date": "2026-10-07T08:00:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/duAVnNfBCSBZdEVxqracCn-1920-80.jpg",
-   "resume": "We’ve often heard about the dance music ‘underground’ during its long history in the UK. Well, one of its leading figures is taking that phrase literally and plans to play the world’s deepest rave in an abandoned mine…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "“The ISA preamps deliver superb quality recorded tones”: Focusrite ISA C8X review",
-   "lien": "https://www.musicradar.com/music-tech/audio-interfaces/focusrite-isa-c8x-review",
-   "date": "2026-10-06T21:18:27.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/yvdioeh4Wn4YMQ2RcCh4U6-1920-80.jpg",
-   "resume": "What is it? Back in 1985, Rupert Neve had left Neve Electronics to set up Focusrite and was asked to design a mic preamp and EQ for the console at AIR Studios Montserrat. The result was the now-legendary ISA 110. The…",
-   "integral": true
-  },
-  {
    "source": "attack",
    "titre": "Beatport Launches Indie Tech Genre Category",
    "lien": "https://www.attackmagazine.com/news/beatport-launches-indie-tech-genre-category/",
    "date": "2026-10-06T19:21:05.000Z",
    "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/10/Attack-Mag-News-Feat-Images-Peel-Stems-1.png?fit=1130%2C387&ssl=1",
    "resume": "Beatport has launched indie tech, a standalone genre category with its own Top 100 chart, separating it from indie dance. Beatport has added indie tech to its store as a standalone genre, giving the heavier…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "The LARYNX – a new feature-packed hard synth from AnalogFX – is available now",
-   "lien": "https://musictech.com/news/gear/the-larynx-a-new-feature-packed-hard-synth-from-analogfx-is-available-now/",
-   "date": "2026-10-06T15:21:47.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/LARYNX-2@2000X1500.jpg",
-   "resume": "Dutch synth company AnalogFX has unveiled the LARYNX, a new “performance-focused” analogue synthesizer inspired by the Syrinx, made by long-defunct fellow Dutch brand Synton. A 37-key unit built on AnalogFX’s loved…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Baby Audio HyperWarp wants to be your new quick-fix for glitches, stutters and out-there inspiration",
-   "lien": "https://www.musicradar.com/music-tech/plugins/use-any-input-as-raw-material-for-granular-sound-design-baby-audio-hyperwarp-wants-to-be-your-new-quick-fix-for-glitches-stutters-and-out-there-inspiration",
-   "date": "2026-10-06T15:02:39.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/aazsKnpSfrr6DCr6EPZ4TB-1920-80.png",
-   "resume": "Described as a ‘time-bending granular effect’, Baby Audio’s latest release HyperWarp is a rhythmic multi-effect plugin designed to quickly mangle sounds and inspire new ideas. The plugin’s UI combines a customisable…",
    "integral": true
   },
   {
@@ -341,15 +341,6 @@
    "date": "2026-09-17T13:47:58.000Z",
    "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/Attack-Mag-Long-Read-NBFG-1-.png?fit=1130%2C386&ssl=1",
    "resume": "NOT BAD FOR A GIRL founder Martha Bolton on why balanced lineups start years before the poster, and why \"fewer women DJs\" doesn't hold up. Debates about representation in electronic music tend to get heated fast…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "CRSSD After Dark Returns To San Diego Next Weekend",
-   "lien": "https://www.attackmagazine.com/news/crssd-after-dark-returns-to-san-diego-next-weekend/",
-   "date": "2026-09-16T19:01:40.000Z",
-   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/Attack-Mag-News-Feat-Images-CRSSD-after-dark.jpg?fit=1130%2C387&ssl=1",
-   "resume": "CRSSD Festival's afterparty series returns to San Diego from 25 to 27 September with sets across multiple venues. CRSSD Festival has confirmed the return of CRSSD After Dark, its official afterparty series, for three…",
    "integral": true
   },
   {
