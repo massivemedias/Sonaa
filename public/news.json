@@ -1,6 +1,60 @@
 {
- "fait": "2026-10-13T06:53:09.161Z",
+ "fait": "2026-10-13T19:21:19.383Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "AmpliTube 5 MAX, Hainbach Bundle, AAS Session Bundle: 3 Amazing Software Deals!",
+   "lien": "https://www.gearnews.com/amplitube-5-max-software-deals/",
+   "date": "2026-10-13T16:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/amplitube-software-deals-10-13-26.jpg",
+   "resume": "This week, you can save big on the massive AmpliTube 5 MAX guitar suite from IK Multimedia, AudioThing’s Hainbach Bundle for creative sound design, and the AAS Session Bundle! Save up to 72%! Software Deals 72% off IK…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "iConnectivity PlayAUDIO2D: A New Dante Version of the Flagship Live Interface",
+   "lien": "https://www.gearnews.com/iconnectivity-playaudio2u-live/",
+   "date": "2026-10-13T13:03:49.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/01/iconnectivity-playaudio2d-ft.jpg",
+   "resume": "The iConnectivity PlayAUDIO2D is a digital hybrid audio interface with 8×32 Dante digital audio networking added to the analog foundation of the PlayAUDIO2U. All about the PlayAUDIO2 Series: iConnectivity PlayAUDIO2D…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Daft Punk Retired in 2021. Now They Have a 272-Page Comic",
+   "lien": "https://midnightrebels.com/metal-hurlant-daft-punk-comic/",
+   "date": "2026-10-13T12:55:33.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/image-1.webp?resize=598%2C698&ssl=1",
+   "resume": "Humanoids, the publisher of Métal Hurlant, is giving 272 pages to more than 30 comics artists and writers, and the subject is Daft Punk, the French electronic duo that dressed as robots. The Métal Hurlant Daft Punk…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "Starting to record at home? Grab these essentials to make life a lot easier",
+   "lien": "https://www.musicradar.com/music-tech/recording/starting-to-record-at-home-grab-these-essentials-to-make-life-a-lot-easier",
+   "date": "2026-10-13T11:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/cS2pj8wYRqbosx3wzFocwn-1920-80.png",
+   "resume": "RECORDING WEEK 2026: You've spruced up your computer and acquired the software to record with (your DAW, in other words), and you've even bought a microphone. You’re well on your way to being the next big thing in music…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Universal Audio Empirical Labs FATSO: The Versatile Saturator is Now Native!",
+   "lien": "https://www.gearnews.com/universal-audio-empirical-labs-fatso-studio/",
+   "date": "2026-10-13T08:07:17.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/ua-empirical-labs-fatso-native-ft-128x71.jpg",
+   "resume": "The Universal Audio Empirical Labs FATSO brings the legendary saturation processor to your DAW with the FATSO Sr and FATSO Jr native plugins. Released in the early 2000s, the original FATSO gave studio engineers access…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "10 mic tips for recording drums, piano and other instruments in your DAW",
+   "lien": "https://www.musicradar.com/tutorials/music-production-tutorials/10-mic-tips-for-recording-drums-piano-and-other-instruments-in-your-daw",
+   "date": "2026-10-13T07:45:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/hyxVDB8REfFckjAqXRz8Wk-1920-80.jpg",
+   "resume": "RECORDING WEEK 2026 : Although it requires more effort than doing everything in the box, recording 'real' instruments into your DAW can be extremely rewarding, giving your productions a more organic, human touch. Once…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "Teenage Engineering OP-XY: Multi-Channel USB and Drum Synth Coming Soon? – Review",
@@ -30,20 +84,11 @@
   },
   {
    "source": "musicradar",
-   "titre": "This free pitch editor brings Melodyne-style note editing to Windows, Mac and Linux",
+   "titre": "Bubblegum is a free Melodyne-style note editor for Windows, Mac and Linux",
    "lien": "https://www.musicradar.com/music-tech/this-free-pitch-editor-brings-melodyne-style-note-editing-to-windows-mac-and-linux",
    "date": "2026-10-12T16:43:37.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/3QjEmmCKtGxdjyT8p4TpPj-1920-80.jpg",
    "resume": "Celemony’s Melodyne is a pitch-editing application that’s become near-ubiquitous in modern production, owing to its ability to break open audio and allow the user to grab individual notes and edit their pitch, timing…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "The Best Audio Interfaces of 2026: Incredible Entry-Level and High-End Options",
-   "lien": "https://www.gearnews.com/best-audio-interfaces-studio/",
-   "date": "2026-10-12T16:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/focusrite-isa-c8x-interface-ft.jpg",
-   "resume": "It’s that time of year when we look back at the most exciting releases. Here are some of the best audio interfaces introduced in 2025. No matter what style of music you make, an audio interface remains a crucial part of…",
    "integral": true
   },
   {
@@ -83,57 +128,12 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "MOTU OctaLite: A Compact 8-Pre Interface and Expander",
-   "lien": "https://www.gearnews.com/motu-octalite-studio/",
-   "date": "2026-10-12T07:00:55.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/motu-octalite-ft-3-128x71.jpg",
-   "resume": "The new MOTU OctaLite audio interface packs eight preamps into the same-size chassis as the popular UltraLite mk5, for high-quality mobile recording. When you select an audio interface that offers portability, there is…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "TC Electronic 2290: The U2 Delay",
-   "lien": "https://www.gearnews.com/tc-electronic-2290-the-u2-delay-studio/",
-   "date": "2026-10-11T16:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/tc-electronic-2290-ft.jpg",
-   "resume": "The TC Electronic 2290 Dynamic Digital Delay is a legendary studio and guitar effect from the mid-1980s that became an integral part of the U2 sound. In this Article: TC Electronic 2290: How The Edge Approached Delay TC…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Polarity-MEQ, GRNi Lite, Lega Effect: Free Plugins of the Week",
-   "lien": "https://www.gearnews.com/polarity-meq-free-plugins/",
-   "date": "2026-10-11T06:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/polarity-meq-free-plugins-10-11-26.jpg",
-   "resume": "Polarity-MEQ is a free spectral matching plugin that lets you match your audio to a reference track with just a few clicks! This week’s round-up of free plugins also brings you a free granular sampler and a cool lo-fi…",
-   "integral": true
-  },
-  {
    "source": "midnightrebels",
    "titre": "Dogs On Acid Grid is a drum and bass production archive with real dates",
    "lien": "https://midnightrebels.com/dogs-on-acid-grid-forum-producer-guide/",
    "date": "2026-10-10T16:32:27.000Z",
    "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/03/This-Massive-Archive-Just-Saved-the-90s-Underground-Electronic-Scene-on-MTV-120-Minutes.webp?fit=1280%2C720&ssl=1",
    "resume": "This summer, a producer posted a thank-you on Dogs On Acid to whoever kept the forum running. He was glad to see it “still going after 20 or so years.” He also remembered learning production at 19 from text alone, back…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Ambient Machines: 5 Synths and Devices for Soothing Sonic Wellness",
-   "lien": "https://www.gearnews.com/ambient-machines-synth/",
-   "date": "2026-10-10T16:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/ambient-machines-T.jpg",
-   "resume": "Life running you ragged? Chill out with these ambient machines, five instruments and sound players designed to soothe your nervous system and bring some dopamine back into your barren brain. Ambient Machines Synths and…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "Sara Landry’s Company Sues Her Former Management Firm Over Her Name and Hekate Records",
-   "lien": "https://midnightrebels.com/sara-landry-sues-night-department-hekate-records-trademark/",
-   "date": "2026-10-10T12:33:21.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/08/Hard-Technos-Mainstream-Explosion-Pure-Catharsis-or-Creative-Dead-End.webp?fit=2400%2C1350&ssl=1",
-   "resume": "Sara Landry’s company just took her former management firm to federal court, and the fight is about more than a logo. Landry IP LLC filed the lawsuit on October 6, 2026, in Manhattan federal court. The defendants are…",
    "integral": true
   },
   {
@@ -233,51 +233,6 @@
    "date": "2026-10-08T12:40:52.000Z",
    "image": "https://musictech.com/wp-content/uploads/2024/11/new-plugins-new-image@2000x1500.jpg",
    "resume": "Every week, we round up the most exciting new plugin releases — from virtual instruments and creative effects to mixing tools and workflow upgrades. There are tons of plugins released every week, both free and paid, so…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "The perfect snare sound is the holy grail – and Kaelin Ellis thinks he’s found it",
-   "lien": "https://musictech.com/news/gear/the-perfect-snare-sound-is-the-holy-grail-and-kaelin-ellis-thinks-hes-found-it/",
-   "date": "2026-10-07T16:08:34.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Kaelin-Ellis-hero@2000x1500.jpg",
-   "resume": "When it comes to the most agonised-over component of a mix, the snare often takes the cake. You’ll spend hours crafting a mix thinking you’ve nailed the snare sound, go to bed, wake up the next morning and all of a…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Arturia’s AstroLab gets its biggest firmware update yet, adding deeper sound editing and 67 new presets",
-   "lien": "https://www.musicradar.com/music-tech/arturias-astrolab-gets-its-biggest-update-yet-adding-deeper-sound-editing-and-67-new-presets",
-   "date": "2026-10-07T12:59:51.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/j9WV349k2zMdhojXzx6u8n-1920-80.jpg",
-   "resume": "Arturia has released a major firmware update for the Astrolab series, bringing deeper sound editing, fresh presets and several performance enhancements to this popular stage keyboard. Released in 2024 , AstroLab is a…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Jean-Michel Jarre to release 50th anniversary edition of Oxygene",
-   "lien": "https://www.musicradar.com/artists/the-foundation-for-this-unique-career-was-laid-in-that-kitchen-with-a-broken-mellotron-and-ideas-for-eternity-jean-michel-jarre-to-release-50th-anniversary-edition-of-oxygene-the-homemade-electronic-music-album-that-sold-more-than-18-million-copies",
-   "date": "2026-10-07T12:05:19.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/TXkXxqfZKh42bnXhVZzURG-1920-80.jpg",
-   "resume": "Jean-Michel Jarre has announced a 50th anniversary reissue of Oxygene, the album that turned him into a global electronic music superstar. Oxygene was released in France in 1976, and in the rest of the world a year…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "UDO does its best Oberheim impression with the release of the expandable DMNO ON desktop synth",
-   "lien": "https://www.musicradar.com/music-tech/synths/udo-does-its-best-oberheim-impression-with-the-release-of-the-expandable-dmno-on-desktop-synth",
-   "date": "2026-10-07T11:48:32.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/A6VgM8FaHdu2KwX4ynaTZ8-1920-80.jpg",
-   "resume": "It’s no secret that we’re big fans of Bristol-based synthesizer developer UDO Audio. The brand’s debut Super 6 scored a 5 star review when it landed in 2021, and UDO’s CS-80-referencing follow-up Super Gemini topped our…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "\"It's one of the rarest synthesizers ever made\": Cherry Audio brings a forgotten ‘80s synth back to life",
-   "lien": "https://www.musicradar.com/music-tech/plugins/its-one-of-the-rarest-synthesizers-ever-made-cherry-audio-brings-a-forgotten-80s-synth-back-to-life",
-   "date": "2026-10-07T08:16:55.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/kbwxQqTZzkoLunfvdPmdFc-1920-80.png",
-   "resume": "Cherry Audio has lifted the lid on yet another entry in its rapidly expanding catalogue of vintage synth emulations. This time, however, the Californian developer isn’t taking on a giant like the ARP Odyssey or…",
    "integral": true
   },
   {
