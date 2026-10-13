@@ -1,6 +1,24 @@
 {
- "fait": "2026-10-12T21:19:04.419Z",
+ "fait": "2026-10-13T06:53:09.161Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Teenage Engineering OP-XY: Multi-Channel USB and Drum Synth Coming Soon? – Review",
+   "lien": "https://www.gearnews.com/teenage-engineering-op-xy-review/",
+   "date": "2026-10-12T21:57:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/07/teenage-engineering-op-xy-update-leak-T.jpg",
+   "resume": "Is the Teenage Engineering OP-XY getting multi-channel USB, a new drum synth, and more? According to a leak from a distributor, it sure looks like it… All About the Teenage Engineering OP-XY Teenage Engineering OP-XY –…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "1010music bento – New 1.6 Firmware Brings Automation, Sidechain Ducking and More!",
+   "lien": "https://www.gearnews.com/1010music-bento-synths/",
+   "date": "2026-10-12T21:44:14.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/05/1010music-bento-hero-1.jpg",
+   "resume": "1010music’s Bento just received a new firmware update (v1.6) with even more new features and workflow enhancements! [ UPDATE: October 12th, 2026 ] 1010music continues to enhance and expand its excellent bento with some…",
+   "integral": true
+  },
   {
    "source": "midnightrebels",
    "titre": "Dance and Electronic Music Surges in U.S. Streaming Market Share for 2026",
@@ -116,15 +134,6 @@
    "date": "2026-10-10T12:33:21.000Z",
    "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/08/Hard-Technos-Mainstream-Explosion-Pure-Catharsis-or-Creative-Dead-End.webp?fit=2400%2C1350&ssl=1",
    "resume": "Sara Landry’s company just took her former management firm to federal court, and the fight is about more than a logo. Landry IP LLC filed the lawsuit on October 6, 2026, in Manhattan federal court. The defendants are…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Behringer Jam and Jam Play: Kick Out the Jams… And Play!",
-   "lien": "https://www.gearnews.com/behringer-jam-and-jam-play-synth/",
-   "date": "2026-10-09T23:18:03.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/behringer-jam-and-jam-play-T-128x71.jpg",
-   "resume": "When is a MIDI keyboard controller not a MIDI keyboard controller? When it’s also a synth! Meet the Behringer Jam and Jam Play, two portable controllers with some interesting extras up their sleeves. Behringer Jam and…",
    "integral": true
   },
   {
