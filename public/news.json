@@ -1,6 +1,96 @@
 {
- "fait": "2026-10-14T05:02:21.191Z",
+ "fait": "2026-10-14T17:19:56.354Z",
  "articles": [
+  {
+   "source": "musictech",
+   "titre": "Bubblegum: the free plugin that brings detailed pitch editing to producers on a budget",
+   "lien": "https://musictech.com/news/gear/bubblegum-pitch-editing-plugin/",
+   "date": "2026-10-14T16:41:52.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/Bubblegum-plugin@2000x1500.jpg",
+   "resume": "Bubblegum is a new free plugin that enables music producers the ability to adjust the pitch, timing and duration of individual notes within recorded audio, including notes played simultaneously in chords. Developed by…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Scanner: Library – Raiders of the Lost Tapes – Sounds and Presets",
+   "lien": "https://www.gearnews.com/scanner-library-sounds-presets-synths/",
+   "date": "2026-10-14T16:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/scanner2.jpg",
+   "resume": "This week, we are treated to Robin Rimbaud’s massive tape archive with Scanner: Library, plus sounds for Pentaphonic, a Hurdy-Gurdy and freebies for a Kawai K5! We have a nice variety of offerings in this week’s Sounds…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "“If you buy one piece of music software this month, make it this one”: 5 plugins you need to know about",
+   "lien": "https://www.musicradar.com/music-tech/if-you-buy-one-piece-of-music-software-this-month-make-it-this-one-5-plugins-you-need-to-know-about-from-bonkers-multi-effects-to-fat-saturators",
+   "date": "2026-10-14T15:13:45.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/8DzYguARbCHYrXPdMYVfvB-1920-80.jpg",
+   "resume": "Never has there been a better time to be an in-the-box producer than 2026. Modern processors are lightning-fast , DAWs are more powerful than they’ve ever been, and the sheer breadth and variety of soft synths , virtual…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "\"Anytime I had a little bit of money, I would buy gear” Jack Antonoff talks Taylor Swift’s Midnights",
+   "lien": "https://www.musicradar.com/music-tech/synths/the-perfect-pop-song-is-by-definition-the-imperfect-pop-song-jack-antonoff-on-vintage-gear-analogue-synths-and-taylor-swifts-midnights",
+   "date": "2026-10-14T15:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/WKU8ZbDpCU3Gw7DZCkZpmb-1920-80.jpg",
+   "resume": "RECORDING WEEK 2026 : Jack Antonoff thinks pop music is a paradox. “The irony of pop music is that it's this field that's so rigid, but the only stuff that's successful is the stuff that’s out on the other side of it,”…",
+   "integral": true
+  },
+  {
+   "source": "attack",
+   "titre": "Manifest Audio Release Sonification Tools V3 As VST3, AU, And CLAP Plugins",
+   "lien": "https://www.attackmagazine.com/news/manifest-audio-release-sonification-tools-v3-as-vst3-au-and-clap-plugins/",
+   "date": "2026-10-14T14:47:37.000Z",
+   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/10/Screenshot-2026-10-07-at-19.13.17-1.png?fit=1130%2C387&ssl=1",
+   "resume": "The data-driven suite arrives as a cross-platform plug-in bundle with AU/CLAP/VST3 formats, plus an Ableton Live Extension. Manifest Audio has released Sonification Tools v3 for $199, on sale for $169 until 1 November…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Bitwig now lets you import tracks directly from rekordbox – here’s what you need to know",
+   "lien": "https://musictech.com/news/industry/bitwig-rekordbox-alphatheta-partnership/",
+   "date": "2026-10-14T13:48:03.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/Bitwig-rekordbox-hero@2000x1500.jpg",
+   "resume": "Bitwig has partnered with AlphaTheta in a bid to bridge the gap between DJing and music production, with DJs’ rekordbox libraries usable directly within Bitwig Studio. The Berlin-based company says version 6.1.4 of its…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "“Delivers impressive scale for a speaker of this size”: Eve Audio EXO 24 review",
+   "lien": "https://www.musicradar.com/music-tech/studio-monitors/eve-audio-exo-24-review",
+   "date": "2026-10-14T11:43:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/pwVZwGBUiviZyNPeSsqGhe-1920-80.jpg",
+   "resume": "What is it? Eve Audio has a solid reputation for high-quality studio monitors . Typically equipped with AMT (air motion transformer) tweeters, options include the highly-regarded flagship series, the Eve Audio SC2070…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "Never cleaned your synths? Here's how – and why – to do it properly",
+   "lien": "https://www.musicradar.com/music-tech/synths/6-ways-to-keep-your-synths-and-keyboards-looking-box-fresh-and-why-its-more-important-than-you-might-think",
+   "date": "2026-10-14T11:39:17.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/YncCt5wL7gRcqzetHBq5rf-1920-80.jpg",
+   "resume": "The best day of owning a synth or keyboard is the one it arrives at your doorstep. You've been looking forward to this day for weeks, perhaps saving your hard-earned cash for an instrument which, most likely, will…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "How to connect your audio interface to your computer – for both PC and Mac users",
+   "lien": "https://www.musicradar.com/music-tech/audio-interfaces/how-to-connect-your-audio-interface-to-your-computer-for-both-pc-and-mac-users",
+   "date": "2026-10-14T11:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/uV2vwqXiLxPkcU4xqhCr7Q-1920-80.jpg",
+   "resume": "RECORDING WEEK 2026 : When it comes to making music, there are a lot of elements to consider – each of which have their own separate claim to being the ‘most important part’ of the whole deal. Microphones ? Acoustic…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "How to reamp synths and drum machines to build power and presence",
+   "lien": "https://www.musicradar.com/music-tech/recording/how-to-reamp-synths-and-drum-machines-to-build-power-and-presence-the-whole-thing-has-this-real-sense-of-space-a-sense-that-something-happened-in-a-room-and-i-recorded-it-rather-than-some-guy-with-a-mouse",
+   "date": "2026-10-14T08:58:24.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/qdphghNLDWzCXQJXiCSVLc-1920-80.png",
+   "resume": "RECORDING WEEK 2026: In-the-box music production is undoubtedly incredible. With endless track counts, plugins covering all manner of instruments and effects and instant recall, modern producers are blessed with the…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "AmpliTube 5 MAX, Hainbach Bundle, AAS Session Bundle: 3 Amazing Software Deals!",
@@ -8,15 +98,6 @@
    "date": "2026-10-13T16:00:00.000Z",
    "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/amplitube-software-deals-10-13-26.jpg",
    "resume": "This week, you can save big on the massive AmpliTube 5 MAX guitar suite from IK Multimedia, AudioThing’s Hainbach Bundle for creative sound design, and the AAS Session Bundle! Save up to 72%! Software Deals 72% off IK…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "iConnectivity PlayAUDIO2D: A New Dante Version of the Flagship Live Interface",
-   "lien": "https://www.gearnews.com/iconnectivity-playaudio2u-live/",
-   "date": "2026-10-13T13:03:49.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/01/iconnectivity-playaudio2d-ft.jpg",
-   "resume": "The iConnectivity PlayAUDIO2D is a digital hybrid audio interface with 8×32 Dante digital audio networking added to the analog foundation of the PlayAUDIO2U. All about the PlayAUDIO2 Series: iConnectivity PlayAUDIO2D…",
    "integral": true
   },
   {
@@ -38,39 +119,12 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Universal Audio Empirical Labs FATSO: The Versatile Saturator is Now Native!",
-   "lien": "https://www.gearnews.com/universal-audio-empirical-labs-fatso-studio/",
-   "date": "2026-10-13T08:07:17.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/ua-empirical-labs-fatso-native-ft.jpg",
-   "resume": "The Universal Audio Empirical Labs FATSO brings the legendary saturation processor to your DAW with the FATSO Sr and FATSO Jr native plugins. Released in the early 2000s, the original FATSO gave studio engineers access…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "10 mic tips for recording drums, piano and other instruments in your DAW",
    "lien": "https://www.musicradar.com/tutorials/music-production-tutorials/10-mic-tips-for-recording-drums-piano-and-other-instruments-in-your-daw",
    "date": "2026-10-13T07:45:00.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/hyxVDB8REfFckjAqXRz8Wk-1920-80.jpg",
    "resume": "RECORDING WEEK 2026 : Although it requires more effort than doing everything in the box, recording 'real' instruments into your DAW can be extremely rewarding, giving your productions a more organic, human touch. Once…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Teenage Engineering OP-XY: Multi-Channel USB and Drum Synth Coming Soon? – Review",
-   "lien": "https://www.gearnews.com/teenage-engineering-op-xy-review/",
-   "date": "2026-10-12T21:57:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/07/teenage-engineering-op-xy-update-leak-T.jpg",
-   "resume": "Is the Teenage Engineering OP-XY getting multi-channel USB, a new drum synth, and more? According to a leak from a distributor, it sure looks like it… All About the Teenage Engineering OP-XY Teenage Engineering OP-XY –…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "1010music bento – New 1.6 Firmware Brings Automation, Sidechain Ducking and More!",
-   "lien": "https://www.gearnews.com/1010music-bento-synths/",
-   "date": "2026-10-12T21:44:14.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/05/1010music-bento-hero-1.jpg",
-   "resume": "1010music’s Bento just received a new firmware update (v1.6) with even more new features and workflow enhancements! [ UPDATE: October 12th, 2026 ] 1010music continues to enhance and expand its excellent bento with some…",
    "integral": true
   },
   {
@@ -164,24 +218,6 @@
    "integral": true
   },
   {
-   "source": "musicradar",
-   "titre": "“Sampling is our art form. We’ve accepted that we’re not going to make loads of money from record sales!”: The Avalanches on why clearing samples is harder than ever, working with Jamie xx and swapping hardware samplers for Pro Tools",
-   "lien": "https://www.musicradar.com/artists/sampling-is-our-art-form-weve-accepted-that-were-not-going-to-make-loads-of-money-from-record-sales-the-avalanches-on-why-clearing-samples-is-harder-than-ever-working-with-jamie-xx-and-swapping-hardware-samplers-for-pro-tools",
-   "date": "2026-10-09T11:53:38.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/MaajjMqEEM2dRVHZaFfnqe-1920-80.jpg",
-   "resume": "When The Avalanches released the enduringly influential Since I Left You in 2000, its roughly 3,500 vinyl samples raised the bar for the burgeoning Plunderphonics scene. Twenty-six years on, Robbie Chater, Tony Di Blasi…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Thom Yorke offers an odd response to Harry Styles when he tells him that he uses GarageBand",
-   "lien": "https://www.musicradar.com/artists/you-should-keep-that-to-yourself-dude-thom-yorke-offers-an-odd-response-to-harry-styles-when-he-tells-him-that-he-uses-garageband-to-record-his-song-ideas",
-   "date": "2026-10-09T11:14:19.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/2WibikjEGBWNYwtbWo3yeR-1920-80.jpg",
-   "resume": "You could come up with a very long list of hit songs that were started in Apple’s GarageBand – famously, Rihanna's 2007 smash Umbrella is built on one of its stock drum loops – which makes it all the more surprising…",
-   "integral": true
-  },
-  {
    "source": "musictech",
    "titre": "ADAM Audio reveals Sub8 PRO and Sub10 PRO, designed for precise low-ends in the studio",
    "lien": "https://musictech.com/news/gear/adam-audio-reveals-sub8-pro-and-sub10-pro/",
@@ -191,48 +227,12 @@
    "integral": true
   },
   {
-   "source": "musictech",
-   "titre": "Teenage Engineering to stop making synths – but what does it mean for the future of the cult brand?",
-   "lien": "https://musictech.com/news/industry/teenage-engineering-stop-making-synths/",
-   "date": "2026-10-08T14:24:29.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2023/12/Teenage-Engineering-OP-1-dissected@2000x1500.jpg",
-   "resume": "Turns out making synths was just a phase… because Teenage Engineering is moving on. That’s right, in spite of the success of its synths, like the best-selling OP-1 , the Stockholm-based tech company is cutting ties with…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Teenage Engineering co-founder says the company will stop making synths, and reveals the true meaning of the OP-1",
-   "lien": "https://www.musicradar.com/music-tech/synths/99-percent-percent-of-people-who-buy-synths-dont-use-them-as-a-productive-tool-for-making-music-its-therapy-its-entertainment-teenage-engineering-co-founder-says-the-company-will-stop-making-synths-and-that-the-op-1-was-about-more-than-just-productivity",
-   "date": "2026-10-08T14:14:45.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/FXtNBzGi7emEmfRBv4KbJc-1920-80.jpg",
-   "resume": "Teenage Engineering is going to stop making synthesizers , as it moves away from selling “obvious end products”. This somewhat startling revelation was made by company co-founder Jesper Kouthoofd in an interview with…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Stylophone shrinks its classic stylus-operated synth down to keyring size with the Stylophone Mini",
-   "lien": "https://www.musicradar.com/music-tech/stylophone-shrinks-its-classic-stylus-operated-synth-down-to-keyring-size-with-the-stylophone-mini",
-   "date": "2026-10-08T14:00:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/hRvArNSaJNbks7k8AJRs5a-1920-80.jpg",
-   "resume": "The beloved Stylophone has done a lot of growing up lately. Last year's Gen X-2 brought CV/gate connectivity to the stylus-operated synth, and the Stylophone Voice , unveiled at NAMM in January, turned it into a pocket…",
-   "integral": true
-  },
-  {
    "source": "attack",
    "titre": "How I Play Live: Active Systems",
    "lien": "https://www.attackmagazine.com/features/interview/how-i-play-live-active-systems/",
    "date": "2026-10-08T13:19:44.000Z",
    "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/10/Panoramic-Electronic-Music-Studio-Control-Room.png?fit=1130%2C387&ssl=1",
    "resume": "Active Systems plays live with no laptop in sight: a Cirklon sequencer at the centre, four Intellijel Atlantix modules on bass duty and a 909 keeping time. After sets at Lost and Houghton and the release of The Red EP…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "The best new music plugins this week, free and paid",
-   "lien": "https://musictech.com/news/gear/new-plugins-this-week/",
-   "date": "2026-10-08T12:40:52.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2024/11/new-plugins-new-image@2000x1500.jpg",
-   "resume": "Every week, we round up the most exciting new plugin releases — from virtual instruments and creative effects to mixing tools and workflow upgrades. There are tons of plugins released every week, both free and paid, so…",
    "integral": true
   },
   {
@@ -296,15 +296,6 @@
    "date": "2026-09-21T12:48:23.000Z",
    "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/lcd.png?fit=1130%2C386&ssl=1",
    "resume": "Build a sound inpired by the pumping harmonic drone from LCD Soundsystem's Someone Great with u-he's Diva, then put it to work across several genres. If you’ve followed some of the recent Synth Secrets you’ll know that…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Martha Bolton: “Real Change Happens When Everyone Moves In The Same Direction”",
-   "lien": "https://www.attackmagazine.com/features/long-read/martha-bolton-real-change-happens-when-everyone-moves-in-the-same-direction/",
-   "date": "2026-09-17T13:47:58.000Z",
-   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/Attack-Mag-Long-Read-NBFG-1-.png?fit=1130%2C386&ssl=1",
-   "resume": "NOT BAD FOR A GIRL founder Martha Bolton on why balanced lineups start years before the poster, and why \"fewer women DJs\" doesn't hold up. Debates about representation in electronic music tend to get heated fast…",
    "integral": true
   },
   {
