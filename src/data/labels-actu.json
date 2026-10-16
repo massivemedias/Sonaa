@@ -23215,7 +23215,16 @@
     "format": "12\", W/Lbl"
    }
   ],
-  "recentesLe": "2026-10-11"
+  "recentesLe": "2026-10-11",
+  "news": [
+   {
+    "titre": "Listen to Mia Koden’s new Ilian Tape EP, ‘Decode Vol.2’",
+    "lien": "https://djmag.com/news/listen-mia-kodens-new-ilian-tape-ep-decode-vol2",
+    "source": "djmag",
+    "date": null,
+    "image": "https://djmag.com/sites/default/files/styles/djm_23_1005x565/public/2026-10/miakoden.jpeg.webp?itok=vm9lDgsR426232114"
+   }
+  ]
  },
  "importe-12": {
   "recentes": [
@@ -52285,7 +52294,16 @@
     "format": "7\""
    }
   ],
-  "recentesLe": "2026-10-14"
+  "recentesLe": "2026-10-14",
+  "news": [
+   {
+    "titre": "The myth of Drexciya is coming to the Toronto Biennial, with playlist",
+    "lien": "https://cdm.link/drexciya-toronto/",
+    "source": "cdm",
+    "date": "2026-10-16T14:59:10.000Z",
+    "image": "https://cdm.link/app/uploads/2026/10/TBA_Underground-Resistance-at-JMB_06-Web.jpg"
+   }
+  ]
  },
  "unidisc": {
   "recentes": [
