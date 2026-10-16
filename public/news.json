@@ -1,6 +1,42 @@
 {
- "fait": "2026-10-15T17:09:01.040Z",
+ "fait": "2026-10-16T04:41:09.600Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Sim’N Tonic Nome II & U-SYNC 2.0: Lock Your DAW and Hardware to a MIDI Clock",
+   "lien": "https://www.gearnews.com/simn-tonic-nome-ii-synth/",
+   "date": "2026-10-16T01:49:17.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/simn-tonic-nome-ii-T.jpg",
+   "resume": "Sim’N Tonic has updated its U-SYNC plugin to version 2.0, adding latency auto-detect, presets, support for more DAWs and more. Now you can use the Nome II and Reliq Instruments Reliq in even more setups. Sim’N Tonic…",
+   "integral": true
+  },
+  {
+   "source": "attack",
+   "titre": "Who’s Buying All These Vibe-Coded Plugins?",
+   "lien": "https://www.attackmagazine.com/features/long-read/whos-buying-all-these-vibe-coded-plugins/",
+   "date": "2026-10-15T23:02:15.000Z",
+   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/10/3b83c303-dcf6-4d40-bb9a-7def2f026386.png?fit=1130%2C386&ssl=1",
+   "resume": "Vibe-coded plugins are everywhere but does that mean that they’re actually taking over the market? We look at the trend and speak with two developers working with AI as part of their process. The age of vibe-coded…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Teenage Engineering OP-XY: Update 1.2.0 Features Multi-Channel USB and a New Drum Synth! – Review",
+   "lien": "https://www.gearnews.com/teenage-engineering-op-xy-review/",
+   "date": "2026-10-15T21:28:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/07/teenage-engineering-op-xy-update-leak-T.jpg",
+   "resume": "It’s true! The Teenage Engineering OP-XY now offers multi-channel USB, a new drum synth, and more! Download it now. All About the Teenage Engineering OP-XY Teenage Engineering OP-XY – Highlights Update 1.2.0 Is Here…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Justice Scores Grand Theft Auto VI, Album Due 19 November",
+   "lien": "https://midnightrebels.com/grand-theft-auto-vi-score-justice/",
+   "date": "2026-10-15T18:58:37.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/02/Did-Daft-Punk-Just-Make-a-Fan-Video-Official-for-Human-After-All.webp?fit=1280%2C720&ssl=1",
+   "resume": "Justice composed the Grand Theft Auto VI score. The duo’s new single, “Flower in a Hurricane,” plays under the game’s launch trailer. The track is out now as a standalone single. The track has a groovy, 80s night-drive…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "The Best Plugins For Getting Punchy Drums",
@@ -80,15 +116,6 @@
    "date": "2026-10-15T09:41:53.000Z",
    "image": "https://musictech.com/wp-content/uploads/2026/10/Plugin-Boutique-Membership-hero@2000x1500.jpg",
    "resume": "A regular shopper at Plugin Boutique ? Good – the online plugin marketplace has just launched the Plugin Boutique Membership, its new loyalty programme which rewards you based on your spend in the last 12 months…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "FabFilter Sale: Get Up to 25% Off Top Plugins This Week Only!",
-   "lien": "https://www.gearnews.com/fabfilter-sale-studio/",
-   "date": "2026-10-15T08:26:02.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2024/11/fabfilter-deal-06-2024.jpg",
-   "resume": "In celebration of IMSTA FESTA Toronto, Plugin Boutique is offering an exclusive FabFilter Sale, with discount offers running for this week only! As you may know, FabFilter plugins are among the best in the business…",
    "integral": true
   },
   {
@@ -200,15 +227,6 @@
    "integral": true
   },
   {
-   "source": "midnightrebels",
-   "titre": "Dance and Electronic Music Surges in U.S. Streaming Market Share for 2026",
-   "lien": "https://midnightrebels.com/dance-electronic-fastest-growing-us-genre-2026/",
-   "date": "2026-10-12T19:42:44.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/Collective-Effervescence-Is-Dance-Musics-Biggest-Asset-and-Its-Biggest-Risk.webp?fit=2400%2C1350&ssl=1",
-   "resume": "In the first half of 2026, John Summit logged 295.1 million on-demand audio streams in the U.S., up 59 percent from a year earlier, according to data company Luminate. His numbers sit inside a bigger shift…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "Bubblegum is a free Melodyne-style note editor for Windows, Mac and Linux",
    "lien": "https://www.musicradar.com/music-tech/this-free-pitch-editor-brings-melodyne-style-note-editing-to-windows-mac-and-linux",
@@ -296,15 +314,6 @@
    "date": "2026-09-21T20:52:37.000Z",
    "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/Attack-Mag-QA-Feature-Images-Mike-Taylor.png?fit=1130%2C387&ssl=1",
    "resume": "Mike Taylor's vocals and creative ideas have shaped some of dance music's biggest records. With \"LOVE.\", he puts his own artistry back at the centre. We sat him down for our regular round of questions, some about the…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Making LCD Soundsystem-Style Drones",
-   "lien": "https://www.attackmagazine.com/technique/synth-secrets/making-lcd-soundsystem-style-drones/",
-   "date": "2026-09-21T12:48:23.000Z",
-   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/lcd.png?fit=1130%2C386&ssl=1",
-   "resume": "Build a sound inpired by the pumping harmonic drone from LCD Soundsystem's Someone Great with u-he's Diva, then put it to work across several genres. If you’ve followed some of the recent Synth Secrets you’ll know that…",
    "integral": true
   },
   {
