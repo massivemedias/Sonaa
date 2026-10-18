@@ -23,7 +23,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { contributionsActives, supabase } from '../lib/supabase.ts';
 import {
-  AVATAR_MAX,
+  PHOTO_SOURCE_MAX,
   FORMATS_AUDIO,
   FORMATS_IMAGE,
   GENRES_MAX,
@@ -40,6 +40,7 @@ import {
   deposerPochette,
   urlPochette,
   deposerAudio,
+  alleger,
   deposerAvatar,
   deposerBanniere,
   enregistrerArtiste,
@@ -189,6 +190,19 @@ export function ProfilPage() {
         setLieu(a?.lieu ?? '');
         setBanniere(a?.banniere_path ?? null);
         setLiens(Object.fromEntries(Object.entries(a?.liens ?? {}).map(([k, v]) => [k, adresseCourte(v)])));
+        /* UN PORTRAIT TROP LOURD S'ALLEGE TOUT SEUL : depose avant la
+           compression, il est refait en WebP de 480 px, une fois, sans rien
+           demander. Voir alleger() dans lib/sets.ts. */
+        if (a?.avatar_path) {
+          void alleger(a.avatar_path)
+            .then(async (neuf) => {
+              if (!neuf || !vivant) return;
+              await enregistrerArtiste({ nom: a.nom, avatar_path: neuf });
+              setAvatarPath(neuf);
+              window.dispatchEvent(new Event('sonaa:profil-modifie'));
+            })
+            .catch(() => undefined);
+        }
         const [liste, idAttache, estModo] = await Promise.all([
           toutesLesVilles(),
           villeDattache(),
@@ -234,7 +248,7 @@ export function ProfilPage() {
       setMessageProfil(t.formatImageRefuse);
       return;
     }
-    if (f.size > AVATAR_MAX) {
+    if (f.size > PHOTO_SOURCE_MAX) {
       setMessageProfil(t.imageTropLourde(mo(f.size)));
       return;
     }

@@ -542,14 +542,29 @@ export async function deposerAvatar(fichier: File): Promise<string> {
   if (!supabase) throw new Error('base indisponible');
   const id = await moi();
   if (!id) throw new Error('non connecte');
-  if (fichier.size > AVATAR_MAX) throw new Error('image trop lourde');
-  const ext = (fichier.name.split('.').pop() ?? 'jpg').toLowerCase().slice(0, 5);
-  const chemin = `${id}/${Date.now()}.${ext}`;
+  /* Compresse ici, et non chez l'appelant : aucun portrait ne part plus
+     tel qu'il a ete choisi. */
+  const petit = await compresserPochette(fichier, COTE_AVATAR);
+  if (petit.size > AVATAR_MAX) throw new Error('image trop lourde');
+  const chemin = `${id}/${Date.now()}.webp`;
   const { error } = await supabase.storage
     .from('avatars')
-    .upload(chemin, fichier, { contentType: fichier.type, upsert: false });
+    .upload(chemin, petit, { contentType: 'image/webp', upsert: false, cacheControl: CACHE_UN_AN });
   if (error) throw new Error(error.message);
   return chemin;
+}
+
+/** Recompresse un portrait depose avant le 18 octobre 2026, tel qu'il avait
+    ete choisi (PNG ou JPEG, parfois plus d'un mega-octet), et rend le chemin
+    du nouveau, ou null si rien n'est a faire. Voir ProfilPage, qui l'appelle
+    une fois, sans rien demander, a l'ouverture du profil. */
+export async function alleger(chemin: string | null): Promise<string | null> {
+  const url = urlAvatar(chemin);
+  if (!url || chemin?.endsWith('.webp')) return null;
+  const r = await fetch(url);
+  if (!r.ok) return null;
+  const blob = await r.blob();
+  return deposerAvatar(new File([blob], 'portrait', { type: blob.type || 'image/jpeg' }));
 }
 
 /** Depose la banniere du profil (l'image large en tete de la page publique)
@@ -564,7 +579,7 @@ export async function deposerBanniere(fichier: File): Promise<string> {
   const chemin = `${id}/banniere-${Date.now()}.webp`;
   const { error } = await supabase.storage
     .from('avatars')
-    .upload(chemin, petite, { contentType: 'image/webp', upsert: false });
+    .upload(chemin, petite, { contentType: 'image/webp', upsert: false, cacheControl: CACHE_UN_AN });
   if (error) throw new Error(error.message);
   return chemin;
 }
@@ -682,6 +697,18 @@ const TYPE_PAR_EXTENSION: Record<string, string> = {
     1200 px couvre les deux avec de la marge sur un ecran a haute densite, et
     ne coute qu'environ 200 ko en WebP. */
 export const COTE_POCHETTE = 1200;
+/* LE PORTRAIT, 480 PX DE COTE. Il s'affiche a 176 px au plus (la page
+   d'artiste), 352 sur un ecran retina : 480 laisse de la marge. Il pesait
+   ce qu'on deposait, jusqu'a 1,7 Mo en PNG, et revenait sur chaque page ou
+   il parait ; le 18 octobre 2026, c'etait l'essentiel des 3,5 Go servis par
+   Supabase dans le mois, sur 5 Go gratuits pour toute l'organisation. */
+export const COTE_AVATAR = 480;
+/** Ce qu'on accepte de choisir comme photo, avant compression. */
+export const PHOTO_SOURCE_MAX = 30 * 1024 * 1024;
+/* UN AN DE CACHE. Chaque fichier a un nom neuf a chaque depot (voir
+   deposerAvatar) : il ne change jamais, le navigateur peut le garder. Sans
+   cela, Supabase sert une heure de cache, et chaque visite repaie l'image. */
+const CACHE_UN_AN = '31536000';
 
 /** Recompresse une image, quelle que soit sa taille de depart.
 
@@ -696,12 +723,12 @@ export const COTE_POCHETTE = 1200;
 
     Le WebP a 0,86 est le point ou l'artefact cesse de se voir sur un aplat
     de couleur, ce qui est le cas difficile d'une pochette de disque. */
-export async function compresserPochette(fichier: File): Promise<File> {
+export async function compresserPochette(fichier: File, max = COTE_POCHETTE): Promise<File> {
   const taille = await dimensionsImage(fichier);
-  const bitmap = await creerBitmap(fichier, taille);
+  const bitmap = await creerBitmap(fichier, taille, max);
 
   const cote = Math.max(bitmap.width, bitmap.height);
-  const echelle = cote > COTE_POCHETTE ? COTE_POCHETTE / cote : 1;
+  const echelle = cote > max ? max / cote : 1;
   const l = Math.max(1, Math.round(bitmap.width * echelle));
   const h = Math.max(1, Math.round(bitmap.height * echelle));
 
@@ -786,7 +813,8 @@ async function dimensionsImage(fichier: File): Promise<{ l: number; h: number } 
 
 async function creerBitmap(
   fichier: File,
-  taille: { l: number; h: number } | null
+  taille: { l: number; h: number } | null,
+  max: number
 ): Promise<ImageBitmap> {
   /* SANS DIMENSIONS CONNUES, ON NE REDIMENSIONNE PAS. Un format inattendu
      vaut mieux decode tel quel puis reduit a la toile : c'est plus lourd,
@@ -794,11 +822,11 @@ async function creerBitmap(
   if (!taille) return createImageBitmap(fichier);
 
   const cote = Math.max(taille.l, taille.h);
-  if (cote <= COTE_POCHETTE) return createImageBitmap(fichier);
+  if (cote <= max) return createImageBitmap(fichier);
 
   /* LE COTE LE PLUS LONG COMMANDE, jamais la largeur seule : une image en
      hauteur cadree sur sa largeur grandit au lieu de retrecir. */
-  const echelle = COTE_POCHETTE / cote;
+  const echelle = max / cote;
   try {
     return await createImageBitmap(fichier, {
       resizeWidth: Math.max(1, Math.round(taille.l * echelle)),
@@ -819,7 +847,7 @@ export async function deposerPochette(fichier: File): Promise<string> {
   const chemin = `${id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.webp`;
   const { error } = await supabase.storage
     .from('covers')
-    .upload(chemin, fichier, { contentType: 'image/webp', upsert: false });
+    .upload(chemin, fichier, { contentType: 'image/webp', upsert: false, cacheControl: CACHE_UN_AN });
   if (error) throw new Error(error.message);
   return chemin;
 }
