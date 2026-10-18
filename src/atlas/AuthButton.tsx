@@ -218,7 +218,10 @@ export function AuthButton() {
   useEffect(() => {
     const demande = (e: Event): void => {
       const detail = (e as CustomEvent<unknown>).detail;
-      setMotif(detail === MOTIF_ECOUTE ? t.usageEcoute : null);
+      /* LE MOTIF DIT POURQUOI ON DEMANDE : ecouter, ou une phrase passee par
+         l'appelant (aimer et commenter une mixtape, depuis le 18 octobre
+         2026). */
+      setMotif(detail === MOTIF_ECOUTE ? t.usageEcoute : typeof detail === 'string' && detail !== '' ? detail : null);
       setMessage(null);
       setMode(modeDOuverture());
       setOuvert(true);

@@ -704,6 +704,46 @@ interface Dictionnaire {
   readonly mesMixtapesMenu: string;
   readonly membreSonaa: string;
   readonly moderateurBadge: string;
+  /* LA PAGE D'UNE MIXTAPE, sociale depuis le 18 octobre 2026 :
+     MixtapeSociale.tsx et GenerateurReel.tsx. */
+  readonly compteRequisMixtape: string;
+  readonly jAime: string;
+  readonly nJaime: (n: number) => string;
+  readonly copierLeLien: string;
+  readonly lienCopie: string;
+  readonly partagerAilleurs: string;
+  readonly creerUnReel: string;
+  readonly commentairesMixtape: (n: number) => string;
+  readonly ecrireUnCommentaire: string;
+  readonly aCetInstant: (t: string) => string;
+  readonly commentaireAstuceInstant: string;
+  readonly publierCommentaire: string;
+  readonly aucunCommentaireMixtape: string;
+  readonly ecoutesMot: string;
+  readonly jAimeMot: string;
+  readonly voirLeProfil: string;
+  readonly dAutresMixtapes: string;
+  readonly mixtapeMot: string;
+  readonly reelTitre: string;
+  readonly reelAide: string;
+  readonly reelDebut: (t: string) => string;
+  readonly reelLancer: string;
+  readonly reelEnCours: (s: number) => string;
+  readonly reelPret: string;
+  readonly reelTelecharger: string;
+  readonly reelPartager: string;
+  readonly reelRecommencer: string;
+  readonly reelImpossible: string;
+  readonly reelGarderOuvert: string;
+  readonly ecouterSurSonaa: string;
+  readonly lieuPublic: string;
+  readonly lieuPublicAide: string;
+  readonly banniere: string;
+  readonly banniereAide: string;
+  readonly mesReseaux: string;
+  readonly mesReseauxAide: string;
+  readonly reseauxEnregistres: string;
+  readonly lienInvalide: (reseau: string) => string;
   readonly baseIndisponible: string;
   readonly connexionRequiseProfil: string;
   readonly identitePublique: string;
@@ -1525,6 +1565,46 @@ const FR: Dictionnaire = {
   mesMixtapesMenu: 'Mes mixtapes',
   membreSonaa: 'Membre de SONAA',
   moderateurBadge: 'Modérateur',
+  compteRequisMixtape: 'Créez un compte pour aimer et commenter les mixtapes. C’est gratuit et ça prend dix secondes.',
+  jAime: 'J’aime',
+  nJaime: (n) => (n === 0 ? 'J’aime' : `${n} j’aime`),
+  copierLeLien: 'Copier le lien',
+  lienCopie: 'Lien copié',
+  partagerAilleurs: 'Partager ailleurs…',
+  creerUnReel: 'Créer un reel (Instagram, TikTok)',
+  commentairesMixtape: (n) => (n === 0 ? 'Commentaires' : `${n} commentaire${n > 1 ? 's' : ''}`),
+  ecrireUnCommentaire: 'Écrire un commentaire…',
+  aCetInstant: (x) => `À ${x} du mix`,
+  commentaireAstuceInstant: 'Lancez la mixtape pour commenter un instant précis.',
+  publierCommentaire: 'Publier',
+  aucunCommentaireMixtape: 'Aucun commentaire pour l’instant. Soyez le premier.',
+  ecoutesMot: 'Écoutes',
+  jAimeMot: 'J’aime',
+  voirLeProfil: 'Voir le profil',
+  dAutresMixtapes: 'D’autres mixtapes',
+  mixtapeMot: 'Mixtape',
+  reelTitre: 'Créer un reel',
+  reelAide:
+    'Une vidéo verticale d’une minute, avec la pochette, le titre, la description et un extrait de la mixtape. ' +
+    'Elle se fabrique en direct : comptez une minute, et gardez cet onglet ouvert.',
+  reelDebut: (x) => `L’extrait commence à ${x}`,
+  reelLancer: 'Fabriquer la vidéo',
+  reelEnCours: (s) => `Fabrication… ${s} s sur 60`,
+  reelPret: 'Votre reel est prêt.',
+  reelTelecharger: 'Télécharger la vidéo',
+  reelPartager: 'Partager la vidéo',
+  reelRecommencer: 'Recommencer',
+  reelImpossible: 'Ce navigateur ne sait pas fabriquer de vidéo. Essayez avec Chrome ou Safari à jour.',
+  reelGarderOuvert: 'Gardez cet onglet au premier plan pendant la fabrication.',
+  ecouterSurSonaa: 'Écoutez sur sonaa.ca',
+  lieuPublic: 'Lieu',
+  lieuPublicAide: 'Affiché sur votre page publique, par exemple « Montréal, Canada ». Différent de votre ville d’attache, qui reste privée.',
+  banniere: 'Bannière',
+  banniereAide: 'L’image large en tête de votre page publique. Une image horizontale, au moins 1200 pixels de large.',
+  mesReseaux: 'Mes réseaux',
+  mesReseauxAide: 'Une adresse complète, ou seulement votre identifiant : « maudite-machine » suffit pour SoundCloud.',
+  reseauxEnregistres: 'Réseaux enregistrés.',
+  lienInvalide: (reseau) => `${reseau} : cette adresse n’est pas une adresse web.`,
   baseIndisponible: "Le dépôt de mixtapes n'est pas actif sur cette version du site.",
   connexionRequiseProfil: 'Connectez-vous pour créer votre profil et déposer une mixtape.',
   identitePublique: 'Mon identité publique',
@@ -2351,6 +2431,46 @@ const EN: Dictionnaire = {
   mesMixtapesMenu: 'My mixtapes',
   membreSonaa: 'SONAA member',
   moderateurBadge: 'Moderator',
+  compteRequisMixtape: 'Create an account to like and comment on mixtapes. It is free and takes ten seconds.',
+  jAime: 'Like',
+  nJaime: (n) => (n === 0 ? 'Like' : `${n} like${n > 1 ? 's' : ''}`),
+  copierLeLien: 'Copy link',
+  lienCopie: 'Link copied',
+  partagerAilleurs: 'Share elsewhere…',
+  creerUnReel: 'Make a reel (Instagram, TikTok)',
+  commentairesMixtape: (n) => (n === 0 ? 'Comments' : `${n} comment${n > 1 ? 's' : ''}`),
+  ecrireUnCommentaire: 'Write a comment…',
+  aCetInstant: (x) => `At ${x} in the mix`,
+  commentaireAstuceInstant: 'Play the mixtape to comment on a precise moment.',
+  publierCommentaire: 'Post',
+  aucunCommentaireMixtape: 'No comments yet. Be the first.',
+  ecoutesMot: 'Plays',
+  jAimeMot: 'Likes',
+  voirLeProfil: 'See profile',
+  dAutresMixtapes: 'More mixtapes',
+  mixtapeMot: 'Mixtape',
+  reelTitre: 'Make a reel',
+  reelAide:
+    'A one minute vertical video with the cover, the title, the description and an excerpt of the mixtape. ' +
+    'It is made in real time: allow one minute, and keep this tab open.',
+  reelDebut: (x) => `The excerpt starts at ${x}`,
+  reelLancer: 'Make the video',
+  reelEnCours: (s) => `Making… ${s} s of 60`,
+  reelPret: 'Your reel is ready.',
+  reelTelecharger: 'Download the video',
+  reelPartager: 'Share the video',
+  reelRecommencer: 'Start again',
+  reelImpossible: 'This browser cannot make videos. Try an up to date Chrome or Safari.',
+  reelGarderOuvert: 'Keep this tab in front while the video is being made.',
+  ecouterSurSonaa: 'Listen on sonaa.ca',
+  lieuPublic: 'Location',
+  lieuPublicAide: 'Shown on your public page, for example “Montréal, Canada”. Separate from your home city, which stays private.',
+  banniere: 'Banner',
+  banniereAide: 'The wide image at the top of your public page. A horizontal image, at least 1200 pixels wide.',
+  mesReseaux: 'My social links',
+  mesReseauxAide: 'A full address, or just your handle: “maudite-machine” is enough for SoundCloud.',
+  reseauxEnregistres: 'Links saved.',
+  lienInvalide: (reseau) => `${reseau}: this is not a web address.`,
   baseIndisponible: 'Mixtape uploads are not enabled on this build of the site.',
   connexionRequiseProfil: 'Sign in to create your profile and upload a mixtape.',
   identitePublique: 'My public identity',

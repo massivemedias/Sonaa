@@ -64,6 +64,7 @@
   },
   "dependencies": {
     "@fortawesome/free-brands-svg-icons": "^7.3.1",
+    "@fortawesome/free-regular-svg-icons": "^7.3.1",
     "@fortawesome/free-solid-svg-icons": "^7.3.1",
     "@supabase/supabase-js": "^2.112.2",
     "motion": "^13.4.0",

@@ -1,0 +1,846 @@
+/* LA PAGE D'UNE MIXTAPE ET CELLE D'UN ARTISTE, REFAITES LE 18 OCTOBRE 2026.
+ * Voir SetsPage.tsx (PageDUnSet, PageDUnArtiste), MixtapeSociale.tsx et
+ * GenerateurReel.tsx.
+ *
+ * Un bandeau en tete, sur la pochette floutee ; puis deux tiers et un tiers,
+ * le contenu a gauche, l'artiste a droite. Les cartes prennent le verre et
+ * le filet des autres blocs du site, lus dans les jetons. */
+
+.mx-page a {
+  color: inherit;
+}
+
+/* ═══ LE RETOUR ═══ */
+.mx-retour {
+  margin: 0 0 var(--espace-16);
+}
+.mx-retour a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espace-8);
+  min-height: 36px;
+  padding: 0 var(--espace-12);
+  border-radius: var(--rayon-pilule);
+  background: var(--voile-05);
+  color: var(--ink-secondary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.mx-retour a:hover {
+  color: var(--ink-primary);
+  background: var(--voile-1);
+}
+.mx-retour-icone {
+  width: 12px;
+  height: 12px;
+}
+
+/* ═══ LE BANDEAU D'UNE MIXTAPE ═══ La pochette floutee en fond, assombrie
+   pour que le texte se lise sur n'importe quelle image. */
+.mx-tete {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--espace-32);
+  align-items: center;
+  padding: var(--espace-32);
+  border: 1px solid var(--filet);
+  border-radius: var(--rayon-carte);
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--verre-fond);
+}
+.mx-tete-fond {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+.mx-tete-fond img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(48px) brightness(0.42) saturate(1.3);
+  transform: scale(1.25);
+}
+.mx-tete-fond::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, rgb(13 12 11 / 0.72), rgb(13 12 11 / 0.25));
+}
+.mx-tete-mots {
+  min-width: 0;
+}
+.mx-surtitre {
+  margin: 0 0 var(--espace-8);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.credits .mx-titre {
+  margin: 0;
+  font-size: clamp(1.9rem, 4.3vw, 3.3rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: var(--serrage);
+  text-transform: none;
+  color: var(--encre-vive);
+  overflow-wrap: anywhere;
+}
+.mx-page .mx-tete-artiste {
+  display: inline-block;
+  margin-top: var(--espace-12);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-decoration: none;
+}
+.mx-page .mx-tete-artiste:hover {
+  text-decoration: underline;
+}
+.mx-meta {
+  margin: var(--espace-8) 0 0;
+  font-size: 0.875rem;
+  color: var(--ink-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.mx-styles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-8);
+  margin: var(--espace-16) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.mx-styles a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 var(--espace-12);
+  border-radius: var(--rayon-pilule);
+  background: var(--voile-1);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.mx-styles a:hover {
+  background: var(--accent);
+  color: var(--sur-accent);
+}
+.mx-lecteur {
+  margin-top: var(--espace-16);
+}
+
+/* LA POCHETTE DANS SES PROPORTIONS : ni recadree ni etiree, bornee a une
+   boite de 21 rem de cote. Un clic l'ouvre en grand. */
+.mx-pochette {
+  display: block;
+  padding: 0;
+  border: 0;
+  border-radius: 16px;
+  background: none;
+  cursor: zoom-in;
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.5);
+}
+.mx-pochette img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 21rem;
+  max-height: 21rem;
+  border-radius: 16px;
+}
+
+/* ═══ DEUX TIERS, UN TIERS ═══ */
+.mx-grille {
+  display: grid;
+  gap: var(--espace-32);
+  margin-top: var(--espace-24);
+  align-items: start;
+}
+@media (min-width: 960px) {
+  .mx-grille {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+  .mx-colonne {
+    position: sticky;
+    top: 6rem;
+  }
+}
+.mx-principal {
+  min-width: 0;
+}
+.mx-description {
+  margin-top: var(--espace-24);
+}
+
+/* ═══ LES ACTIONS ═══ */
+.mx-actions,
+.mx-barre {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-8);
+}
+.mx-barre {
+  margin-top: var(--espace-16);
+}
+.mx-action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espace-8);
+  min-height: 40px;
+  padding: 0 var(--espace-16);
+  border: 1px solid var(--filet);
+  border-radius: var(--rayon-pilule);
+  background: var(--verre-fond);
+  color: var(--ink-primary);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.mx-action:hover {
+  background: var(--verre-fond-survol);
+}
+.mx-action-aime {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.mx-action-icone {
+  width: 15px;
+  height: 15px;
+}
+
+.mx-partage {
+  position: relative;
+}
+.mx-partage-menu {
+  position: absolute;
+  top: calc(100% + var(--espace-8));
+  left: 0;
+  z-index: 30;
+  display: grid;
+  min-width: 14rem;
+  padding: var(--espace-8);
+  border: 1px solid var(--filet);
+  border-radius: 14px;
+  background: var(--fond);
+  box-shadow: 0 18px 50px rgb(0 0 0 / 0.55);
+}
+.mx-partage-menu a,
+.mx-partage-menu button {
+  display: flex;
+  align-items: center;
+  gap: var(--espace-12);
+  min-height: 40px;
+  padding: 0 var(--espace-12);
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  color: var(--ink-primary);
+  font: inherit;
+  font-size: 0.875rem;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.mx-partage-menu a:hover,
+.mx-partage-menu button:hover {
+  background: var(--voile-05);
+}
+.mx-partage-icone {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+.mx-partage-menu .mx-partage-reel {
+  margin-top: var(--espace-4);
+  border-top: 1px solid var(--filet);
+  border-radius: 0 0 10px 10px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ═══ LES BLOCS : commentaires, autres mixtapes ═══ */
+.mx-bloc {
+  margin-top: var(--espace-32);
+}
+.credits .mx-bloc-titre {
+  margin: 0 0 var(--espace-16);
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: none;
+}
+.mx-aide {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--ink-secondary);
+}
+.mx-erreur {
+  margin: var(--espace-8) 0 0;
+  font-size: 0.85rem;
+  color: var(--accent);
+}
+.mx-envoyer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 var(--espace-24);
+  border: 0;
+  border-radius: var(--rayon-pilule);
+  background: var(--accent);
+  color: var(--sur-accent);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+.mx-page .mx-envoyer,
+.mx-reel .mx-envoyer {
+  color: var(--sur-accent);
+}
+.mx-envoyer:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.mx-lien {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-secondary);
+  font: inherit;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.mx-ecrire {
+  display: grid;
+  gap: var(--espace-8);
+  margin-bottom: var(--espace-24);
+}
+.mx-ecrire textarea {
+  width: 100%;
+  min-height: 5.5rem;
+  padding: var(--espace-12) var(--espace-16);
+  border: 1px solid var(--filet);
+  border-radius: 14px;
+  background: var(--verre-fond);
+  color: var(--ink-primary);
+  font: inherit;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+.mx-ecrire textarea:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+.mx-ecrire-pied {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espace-12);
+}
+.mx-au-moment {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espace-8);
+  font-size: 0.85rem;
+  color: var(--ink-secondary);
+}
+.mx-au-moment input {
+  accent-color: var(--accent);
+}
+.mx-invitation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espace-16);
+  margin-bottom: var(--espace-24);
+  padding: var(--espace-16) var(--espace-24);
+  border-radius: 16px;
+  background: var(--accent-voile);
+}
+.mx-invitation p {
+  margin: 0;
+  font-weight: 600;
+}
+
+.mx-fil {
+  display: grid;
+  gap: var(--espace-16);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mx-commentaire {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: var(--espace-12);
+}
+.mx-commentaire-portrait {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--voile-1);
+  font-weight: 700;
+}
+.mx-commentaire-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.mx-commentaire-tete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espace-8);
+  margin: 0;
+  font-size: 0.85rem;
+}
+.mx-commentaire-tete a,
+.mx-commentaire-tete strong {
+  font-weight: 700;
+  text-decoration: none;
+}
+.mx-commentaire-tete time {
+  color: var(--ink-secondary);
+}
+.mx-instant {
+  min-height: 22px;
+  padding: 0 var(--espace-8);
+  border: 0;
+  border-radius: var(--rayon-pilule);
+  background: var(--accent-voile);
+  color: var(--accent);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+.mx-commentaire-texte {
+  margin: var(--espace-4) 0 0;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.mx-retirer {
+  margin-top: var(--espace-4);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-secondary);
+  font: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+.mx-retirer:hover {
+  color: var(--accent);
+}
+
+/* ═══ L'ARTISTE, EN COLONNE ═══ */
+.mx-artiste {
+  border: 1px solid var(--filet);
+  border-radius: var(--rayon-carte);
+  overflow: hidden;
+  background: var(--verre-fond);
+}
+.mx-page .mx-artiste-tete {
+  display: grid;
+  justify-items: center;
+  padding-bottom: var(--espace-16);
+  text-align: center;
+  text-decoration: none;
+}
+.mx-artiste-banniere {
+  display: block;
+  width: 100%;
+  height: 6.5rem;
+  background: linear-gradient(120deg, var(--accent-voile), var(--voile-05));
+}
+.mx-artiste-banniere img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.mx-artiste-portrait {
+  display: grid;
+  place-items: center;
+  width: 6rem;
+  height: 6rem;
+  margin-top: -3rem;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--voile-1);
+  box-shadow: 0 0 0 4px var(--fond);
+  font-size: 2.2rem;
+  font-weight: 800;
+}
+.mx-artiste-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.mx-artiste-nom {
+  margin-top: var(--espace-12);
+  padding: 0 var(--espace-16);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+.mx-artiste-lieu {
+  margin-top: var(--espace-4);
+  font-size: 0.85rem;
+  color: var(--ink-secondary);
+}
+.mx-chiffres {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  border-top: 1px solid var(--filet);
+  border-bottom: 1px solid var(--filet);
+}
+.mx-chiffres > div {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  padding: var(--espace-12) var(--espace-4);
+}
+.mx-chiffres > div + div {
+  border-left: 1px solid var(--filet);
+}
+.mx-chiffres dt {
+  font-size: 0.72rem;
+  color: var(--ink-secondary);
+}
+.mx-chiffres dd {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.mx-artiste-bio {
+  margin: 0;
+  padding: var(--espace-16) var(--espace-24) 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ink-secondary);
+  white-space: pre-wrap;
+}
+.mx-artiste .mx-artiste-bio {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 7;
+  line-clamp: 7;
+  overflow: hidden;
+  padding-bottom: 0;
+}
+.mx-liens {
+  display: grid;
+  gap: var(--espace-4);
+  margin: 0;
+  padding: var(--espace-16) var(--espace-16) 0;
+  list-style: none;
+}
+.mx-liens a {
+  display: flex;
+  align-items: center;
+  gap: var(--espace-12);
+  min-height: 36px;
+  padding: 0 var(--espace-8);
+  border-radius: 10px;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+.mx-liens a:hover {
+  background: var(--voile-05);
+}
+.mx-lien-icone {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  color: var(--ink-secondary);
+}
+.mx-page .mx-artiste-voir {
+  display: flex;
+  justify-content: center;
+  margin: var(--espace-16);
+  min-height: 40px;
+  align-items: center;
+  border-radius: var(--rayon-pilule);
+  background: var(--voile-05);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.mx-page .mx-artiste-voir:hover {
+  background: var(--accent);
+  color: var(--sur-accent);
+}
+
+/* ═══ D'AUTRES MIXTAPES ═══ Une grille de pochettes. */
+.mx-autres {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr));
+  gap: var(--espace-24) var(--espace-16);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mx-autres a {
+  display: grid;
+  gap: var(--espace-4);
+  text-decoration: none;
+}
+.mx-autre-image {
+  display: block;
+  aspect-ratio: 1;
+  margin-bottom: var(--espace-4);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--voile-05);
+}
+.mx-autre-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.mx-autres a:hover .mx-autre-image img {
+  transform: scale(1.04);
+}
+.mx-autre-titre {
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.mx-autre-artiste {
+  font-size: 0.8rem;
+  color: var(--ink-secondary);
+}
+
+/* ═══ LA PAGE D'UN ARTISTE ═══ La banniere, le portrait qui la chevauche,
+   le nom et le lieu sur des etiquettes sombres, comme SoundCloud. */
+.mx-profil {
+  position: relative;
+}
+.mx-profil-banniere {
+  height: 15rem;
+  border-radius: var(--rayon-carte);
+  overflow: hidden;
+  background: linear-gradient(120deg, var(--accent-voile), var(--voile-05));
+}
+.mx-profil-banniere img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.mx-profil-banniere-repli img {
+  filter: blur(40px) brightness(0.55) saturate(1.3);
+  transform: scale(1.3);
+}
+.mx-profil-identite {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: var(--espace-24);
+  margin-top: -6.5rem;
+  padding: 0 var(--espace-32);
+}
+.mx-profil-portrait {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 11rem;
+  height: 11rem;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--voile-1);
+  box-shadow: 0 0 0 5px var(--fond);
+  font-size: 4rem;
+  font-weight: 800;
+}
+.mx-profil-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.mx-profil-mots {
+  min-width: 0;
+  padding-bottom: var(--espace-32);
+}
+.credits .mx-profil-mots h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3.6vw, 2.6rem);
+  font-weight: 800;
+  line-height: 1.25;
+  text-transform: none;
+  color: var(--encre-vive);
+}
+.mx-profil-mots h1 span,
+.mx-profil-lieu span {
+  padding: 0.1em 0.35em;
+  background: rgb(13 12 11 / 0.82);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.mx-profil-lieu {
+  margin: var(--espace-8) 0 0;
+  font-size: 1rem;
+  color: var(--ink-secondary);
+}
+.mx-page .mx-colonne > .mx-chiffres {
+  border: 1px solid var(--filet);
+  border-radius: 16px;
+}
+
+/* ═══ LE REEL ═══ Une fenetre par-dessus la page : l'apercu vertical a
+   gauche, les reglages a droite. */
+.mx-reel-voile {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: var(--espace-16);
+  background: rgb(0 0 0 / 0.72);
+}
+.mx-reel {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 20rem);
+  gap: var(--espace-32);
+  align-items: center;
+  max-height: 100%;
+  padding: var(--espace-32);
+  border: 1px solid var(--filet);
+  border-radius: var(--rayon-carte);
+  background: var(--fond);
+  overflow: auto;
+}
+.mx-reel-fermer {
+  position: absolute;
+  top: var(--espace-12);
+  right: var(--espace-12);
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--voile-05);
+  color: var(--ink-primary);
+  cursor: pointer;
+}
+.mx-reel-fermer svg {
+  width: 16px;
+  height: 16px;
+}
+.mx-reel-toile,
+.mx-reel-video {
+  display: block;
+  width: auto;
+  height: min(36rem, 70svh);
+  aspect-ratio: 9 / 16;
+  border-radius: 16px;
+  background: #000;
+}
+.mx-reel-mots {
+  display: grid;
+  gap: var(--espace-16);
+  justify-items: start;
+}
+.mx-reel-mots h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+.mx-reel-mots p {
+  margin: 0;
+}
+.mx-reel-debut {
+  display: grid;
+  gap: var(--espace-8);
+  width: 100%;
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+.mx-reel-debut input {
+  width: 100%;
+  accent-color: var(--accent);
+}
+.mx-reel-avance {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.mx-reel-jauge {
+  display: block;
+  width: 100%;
+  height: 6px;
+  border-radius: var(--rayon-pilule);
+  background: var(--voile-1);
+  overflow: hidden;
+}
+.mx-reel-jauge span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.4s linear;
+}
+
+/* ═══ TELEPHONE ═══ */
+@media (max-width: 720px) {
+  .mx-tete {
+    grid-template-columns: minmax(0, 1fr);
+    padding: var(--espace-16);
+    gap: var(--espace-16);
+  }
+  .mx-pochette {
+    order: -1;
+    justify-self: center;
+  }
+  .mx-pochette img {
+    max-width: 100%;
+    max-height: 19rem;
+  }
+  .mx-profil-banniere {
+    height: 9rem;
+  }
+  .mx-profil-identite {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--espace-12);
+    margin-top: -4rem;
+    padding: 0 var(--espace-16);
+  }
+  .mx-profil-portrait {
+    width: 7.5rem;
+    height: 7.5rem;
+    font-size: 2.8rem;
+  }
+  .mx-profil-mots {
+    padding-bottom: 0;
+  }
+  .mx-reel {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: var(--espace-16);
+    padding: var(--espace-16);
+  }
+  .mx-reel-toile,
+  .mx-reel-video {
+    height: min(26rem, 55svh);
+  }
+}

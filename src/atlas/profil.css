@@ -210,3 +210,113 @@
     padding: var(--espace-16);
   }
 }
+
+/* ═══ LE LIEU, LA BANNIERE ET LES RESEAUX ═══ Ajoutes le 18 octobre 2026,
+   pour la page publique facon SoundCloud. La carte prend toute la largeur
+   de la grille : dix reseaux tiennent en deux colonnes. */
+.pf-aide-champ {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--ink-secondary);
+}
+@media (min-width: 900px) {
+  .pf-carte-large {
+    grid-column: 1 / -1;
+  }
+}
+.pf-banniere-bloc {
+  display: grid;
+  gap: var(--espace-8);
+  margin: var(--espace-16) 0;
+}
+.pf-label-titre {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.zd.pf-banniere {
+  height: 9rem;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 14px;
+  background: linear-gradient(120deg, var(--accent-voile), var(--voile-05));
+}
+.pf-banniere img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pf-banniere-voile {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--rideau-55);
+  color: var(--encre-5);
+  font-size: 0.8rem;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+.pf-banniere-voile.pf-banniere-vide {
+  background: none;
+  opacity: 1;
+}
+.pf-banniere:hover .pf-banniere-voile,
+.pf-banniere:focus-within .pf-banniere-voile,
+.pf-banniere.zd-survol .pf-banniere-voile {
+  opacity: 1;
+}
+.pf-reseaux {
+  display: grid;
+  gap: var(--espace-8) var(--espace-24);
+  margin-bottom: var(--espace-16);
+}
+@media (min-width: 700px) {
+  .pf-reseaux {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.pf-reseau {
+  display: grid;
+  grid-template-columns: 18px 7.5rem minmax(0, 1fr);
+  align-items: center;
+  gap: var(--espace-12);
+}
+.pf-reseau-icone {
+  width: 18px;
+  height: 18px;
+  color: var(--ink-secondary);
+}
+.pf-reseau-nom {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+/* Les champs ont la tenue de ceux de sets.css (.sp-label input). */
+.pf-reseau input {
+  min-width: 0;
+  min-height: 40px;
+  padding: var(--espace-8) var(--espace-12);
+  border: 1px solid var(--filet);
+  border-radius: 12px;
+  background: var(--verre-fond);
+  color: var(--encre-2);
+  font-family: inherit;
+  font-size: 0.9375rem;
+}
+.pf-reseau input:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+.pf-reseau input::placeholder {
+  color: var(--encre-douce-2);
+  opacity: 0.55;
+  font-style: italic;
+}
+@media (max-width: 640px) {
+  .pf-reseau {
+    grid-template-columns: 18px minmax(0, 1fr);
+  }
+  .pf-reseau-nom {
+    display: none;
+  }
+}

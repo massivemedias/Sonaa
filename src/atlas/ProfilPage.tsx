@@ -41,6 +41,7 @@ import {
   urlPochette,
   deposerAudio,
   deposerAvatar,
+  deposerBanniere,
   enregistrerArtiste,
   mesMixtapes,
   mesurerDuree,
@@ -54,6 +55,7 @@ import {
   type SetDJ,
 } from '../lib/sets.ts';
 import { LecteurSet } from './LecteurSet.tsx';
+import { adresseCourte, adresseDuReseau, RESEAUX } from '../lib/reseaux.ts';
 import { ZoneDepot } from './ZoneDepot.tsx';
 import { ChoixStyles } from './ChoixStyles.tsx';
 import { ModifierSet } from './ModifierSet.tsx';
@@ -118,6 +120,13 @@ export function ProfilPage() {
   const [bio, setBio] = useState('');
   const [avatarPath, setAvatarPath] = useState<string | null>(null);
   const [messageProfil, setMessageProfil] = useState<string | null>(null);
+  /* LE LIEU PUBLIC, LA BANNIERE ET LES RESEAUX, depuis le 18 octobre 2026 :
+     ce que montre la page publique, facon SoundCloud. Les reseaux se tapent
+     en adresse ou en simple identifiant ; voir lib/reseaux.ts. */
+  const [lieu, setLieu] = useState('');
+  const [banniere, setBanniere] = useState<string | null>(null);
+  const [liens, setLiens] = useState<Record<string, string>>({});
+  const [messageReseaux, setMessageReseaux] = useState<string | null>(null);
 
   /* LA VILLE D'ATTACHE. C'est le SEUL endroit du site qui l'ecrit en base.
      Le calendrier, lui, ne touche qu'au stockage local et a l'adresse :
@@ -177,6 +186,9 @@ export function ProfilPage() {
         setNom(a?.nom ?? '');
         setBio(a?.bio ?? '');
         setAvatarPath(a?.avatar_path ?? null);
+        setLieu(a?.lieu ?? '');
+        setBanniere(a?.banniere_path ?? null);
+        setLiens(Object.fromEntries(Object.entries(a?.liens ?? {}).map(([k, v]) => [k, adresseCourte(v)])));
         const [liste, idAttache, estModo] = await Promise.all([
           toutesLesVilles(),
           villeDattache(),
@@ -207,8 +219,9 @@ export function ProfilPage() {
         nom: propre,
         bio: bio.trim() || null,
         avatar_path: avatarPath,
+        lieu: lieu.trim() || null,
       });
-      setArtiste({ user_id: '', nom: propre, bio: bio.trim() || null, avatar_path: avatarPath });
+      setArtiste({ user_id: '', nom: propre, bio: bio.trim() || null, avatar_path: avatarPath, lieu: lieu.trim() || null });
       setMessageProfil(t.profilEnregistre);
     } catch (e) {
       setMessageProfil(e instanceof Error ? e.message : String(e));
@@ -238,6 +251,46 @@ export function ProfilPage() {
       setMessageProfil(t.photoEnregistree);
     } catch (e) {
       setMessageProfil(e instanceof Error ? e.message : String(e));
+    }
+  };
+
+  const changerBanniere = async (f: File): Promise<void> => {
+    setMessageReseaux(null);
+    if (!FORMATS_IMAGE.includes(f.type)) {
+      setMessageReseaux(t.formatImageRefuse);
+      return;
+    }
+    try {
+      const chemin = await deposerBanniere(f);
+      setBanniere(chemin);
+      await enregistrerArtiste({ nom: nom.trim() || t.artisteSansNom, banniere_path: chemin });
+      setMessageReseaux(t.photoEnregistree);
+    } catch (e) {
+      setMessageReseaux(e instanceof Error ? e.message : String(e));
+    }
+  };
+
+  /* Chaque champ est relu au moment d'enregistrer : un identifiant devient
+     une adresse, une adresse qui n'est pas du web est refusee en le disant. */
+  const enregistrerReseaux = async (): Promise<void> => {
+    setMessageReseaux(null);
+    const propres: Record<string, string> = {};
+    for (const r of RESEAUX) {
+      const brut = liens[r.id]?.trim() ?? '';
+      if (!brut) continue;
+      const url = adresseDuReseau(r, brut);
+      if (!url) {
+        setMessageReseaux(t.lienInvalide(r.nom));
+        return;
+      }
+      propres[r.id] = url;
+    }
+    try {
+      await enregistrerArtiste({ nom: nom.trim() || t.artisteSansNom, liens: propres });
+      setLiens(Object.fromEntries(Object.entries(propres).map(([k, v]) => [k, adresseCourte(v)])));
+      setMessageReseaux(t.reseauxEnregistres);
+    } catch (e) {
+      setMessageReseaux(e instanceof Error ? e.message : String(e));
     }
   };
 
@@ -511,6 +564,11 @@ export function ProfilPage() {
             />
           </label>
           <label className="sp-label">
+            {t.lieuPublic}
+            <input type="text" maxLength={80} value={lieu} onChange={(e) => setLieu(e.target.value)} placeholder="Montréal, Canada" />
+            <span className="pf-aide-champ">{t.lieuPublicAide}</span>
+          </label>
+          <label className="sp-label">
             <span className="pf-label-ligne">
               {t.presentation}
               <span className="pf-compteur">{bio.length} / 600</span>
@@ -558,6 +616,43 @@ export function ProfilPage() {
           }
         />
         {messageVille && <p className="sp-message">{messageVille}</p>}
+      </section>
+
+      {/* ── La banniere et les reseaux ── */}
+      <section className="sets-bloc pf-carte pf-carte-large">
+        <h2>{t.mesReseaux}</h2>
+        <p className="sp-aide">{t.mesReseauxAide}</p>
+        <div className="pf-banniere-bloc">
+          <span className="pf-label-titre">{t.banniere}</span>
+          <ZoneDepot className="pf-banniere" accept={FORMATS_IMAGE} onFichier={(f) => void changerBanniere(f)}>
+            {urlAvatar(banniere) ? <img src={urlAvatar(banniere) ?? ''} alt="" /> : null}
+            <span className={banniere ? 'pf-banniere-voile' : 'pf-banniere-voile pf-banniere-vide'}>{t.deposerOuCliquer}</span>
+          </ZoneDepot>
+          <span className="pf-aide-champ">{t.banniereAide}</span>
+        </div>
+        <div className="pf-reseaux">
+          {RESEAUX.map((r) => (
+            <label key={r.id} className="pf-reseau">
+              <FaIcon icon={r.icone} className="pf-reseau-icone" />
+              <span className="pf-reseau-nom">{r.nom}</span>
+              <input
+                type="text"
+                inputMode="url"
+                autoComplete="off"
+                spellCheck={false}
+                maxLength={300}
+                value={liens[r.id] ?? ''}
+                onChange={(e) => setLiens((x) => ({ ...x, [r.id]: e.target.value }))}
+                placeholder={r.id === 'site' ? 'monsite.com' : r.id === 'ra' ? 'nom-sur-ra' : '@identifiant'}
+                aria-label={r.nom}
+              />
+            </label>
+          ))}
+        </div>
+        <button className="sp-action" onClick={() => void enregistrerReseaux()}>
+          {t.enregistrer}
+        </button>
+        {messageReseaux && <p className="sp-message">{messageReseaux}</p>}
       </section>
       </div>
       )}

@@ -157,6 +157,13 @@ export interface SetDJ {
   readonly artiste_avatar?: string | null;
 }
 
+/* LES RESEAUX D'UN ARTISTE, depuis le 18 octobre 2026 : Mika veut, comme
+   sur SoundCloud, les liens vers Instagram, Facebook et les autres sur le
+   profil. Un objet { reseau: adresse }, dans la colonne artistes.liens.
+   Voir src/lib/reseaux.ts pour l'ordre, les icones et la lecture d'un
+   simple identifiant. */
+export type Liens = Readonly<Record<string, string>>;
+
 /** Un artiste tel que la page publique le montre : il a au moins un set. */
 export interface ArtistePublic {
   readonly user_id: string;
@@ -166,6 +173,10 @@ export interface ArtistePublic {
   readonly n_sets: number;
   readonly ecoutes: number;
   readonly dernier_set: string;
+  /** Le lieu public, « Montréal, Canada » ; distinct de la ville d'attache. */
+  readonly lieu?: string | null;
+  readonly banniere_path?: string | null;
+  readonly liens?: Liens | null;
 }
 
 export interface Artiste {
@@ -173,6 +184,9 @@ export interface Artiste {
   readonly nom: string;
   readonly avatar_path: string | null;
   readonly bio: string | null;
+  readonly lieu?: string | null;
+  readonly banniere_path?: string | null;
+  readonly liens?: Liens | null;
 }
 
 /* --- Ou vivent les octets. Les deux seules fonctions qui le savent. ------- */
@@ -494,7 +508,7 @@ export async function monArtiste(): Promise<Artiste | null> {
   if (!id) return null;
   const { data } = await supabase
     .from('artistes')
-    .select('user_id, nom, avatar_path, bio')
+    .select('user_id, nom, avatar_path, bio, lieu, banniere_path, liens')
     .eq('user_id', id)
     .maybeSingle();
   return (data as Artiste | null) ?? null;
@@ -504,6 +518,9 @@ export async function enregistrerArtiste(champs: {
   nom: string;
   bio?: string | null;
   avatar_path?: string | null;
+  lieu?: string | null;
+  banniere_path?: string | null;
+  liens?: Liens;
 }): Promise<void> {
   if (!supabase) throw new Error('base indisponible');
   const id = await moi();
@@ -533,6 +550,98 @@ export async function deposerAvatar(fichier: File): Promise<string> {
     .upload(chemin, fichier, { contentType: fichier.type, upsert: false });
   if (error) throw new Error(error.message);
   return chemin;
+}
+
+/** Depose la banniere du profil (l'image large en tete de la page publique)
+    et rend son chemin. Compressee comme une pochette, rangee avec le
+    portrait, sous un nom neuf pour la meme raison que lui. */
+export async function deposerBanniere(fichier: File): Promise<string> {
+  if (!supabase) throw new Error('base indisponible');
+  const id = await moi();
+  if (!id) throw new Error('non connecte');
+  const petite = await compresserPochette(fichier);
+  if (petite.size > AVATAR_MAX) throw new Error('image trop lourde');
+  const chemin = `${id}/banniere-${Date.now()}.webp`;
+  const { error } = await supabase.storage
+    .from('avatars')
+    .upload(chemin, petite, { contentType: 'image/webp', upsert: false });
+  if (error) throw new Error(error.message);
+  return chemin;
+}
+
+/* ═══ LES J'AIME ET LES COMMENTAIRES D'UNE MIXTAPE ═══
+
+   Depuis le 18 octobre 2026 (Mika : « proposer aux users loggés de faire des
+   likes et mettre des commentaires »). Tables set_likes et set_commentaires,
+   voir la migration 20261018150000_mixtapes_sociales. Le compte des j'aime
+   est public, qui a aime ne l'est pas. */
+
+/** Le nombre de j'aime de chaque mixtape demandee. */
+export async function likesDesSets(ids: readonly string[]): Promise<Map<string, number>> {
+  const out = new Map<string, number>();
+  if (!supabase || ids.length === 0) return out;
+  const { data } = await supabase.rpc('likes_des_sets', { ids });
+  for (const l of (data as { set_id: string; n: number }[] | null) ?? []) out.set(l.set_id, Number(l.n));
+  return out;
+}
+
+/** Vrai si la personne connectee aime cette mixtape. */
+export async function jAimeCeSet(setId: string): Promise<boolean> {
+  if (!supabase) return false;
+  const { data } = await supabase.from('set_likes').select('set_id').eq('set_id', setId).maybeSingle();
+  return Boolean(data);
+}
+
+export async function aimerLeSet(setId: string, aime: boolean): Promise<void> {
+  if (!supabase) throw new Error('base indisponible');
+  const id = await moi();
+  if (!id) throw new Error('non connecte');
+  const { error } = aime
+    ? await supabase.from('set_likes').upsert({ set_id: setId, user_id: id }, { onConflict: 'set_id,user_id', ignoreDuplicates: true })
+    : await supabase.from('set_likes').delete().eq('set_id', setId).eq('user_id', id);
+  if (error) throw new Error(error.message);
+}
+
+export interface CommentaireSet {
+  readonly id: string;
+  readonly set_id: string;
+  readonly texte: string;
+  /** L'instant du mix vise, en secondes ; null pour l'ensemble. */
+  readonly position_s: number | null;
+  readonly created_at: string;
+  /** Le nom d'artiste de l'auteur, ou son pseudonyme. */
+  readonly nom: string;
+  readonly avatar_path: string | null;
+  /** Le compte de l'auteur s'il a une page d'artiste, pour y mener. */
+  readonly artiste_id: string | null;
+  readonly a_moi: boolean;
+}
+
+export async function commentairesDuSet(setId: string): Promise<CommentaireSet[]> {
+  if (!supabase) return [];
+  const { data } = await supabase
+    .from('set_commentaires_publics')
+    .select('*')
+    .eq('set_id', setId)
+    .order('created_at', { ascending: false })
+    .limit(200);
+  return (data as CommentaireSet[] | null) ?? [];
+}
+
+export async function commenterLeSet(setId: string, texte: string, positionS: number | null): Promise<void> {
+  if (!supabase) throw new Error('base indisponible');
+  const id = await moi();
+  if (!id) throw new Error('non connecte');
+  const { error } = await supabase
+    .from('set_commentaires')
+    .insert({ set_id: setId, user_id: id, texte: texte.trim(), position_s: positionS });
+  if (error) throw new Error(error.message);
+}
+
+export async function retirerCommentaireSet(id: string): Promise<void> {
+  if (!supabase) throw new Error('base indisponible');
+  const { error } = await supabase.from('set_commentaires').delete().eq('id', id);
+  if (error) throw new Error(error.message);
 }
 
 export interface Progres {
