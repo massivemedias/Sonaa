@@ -1,0 +1,212 @@
+/* LE PROFIL, REFAIT LE 18 OCTOBRE 2026. Voir ProfilPage.tsx.
+ *
+ * Un en-tete (le portrait en grand, le nom, ce qu'on a fait sur SONAA), des
+ * onglets en pastilles avec leur icone, et des cartes. Les champs et les
+ * zones de depot gardent les regles de sets.css ; cette feuille ne dessine
+ * que la mise en page et ce qui est nouveau. */
+
+/* ═══ L'EN-TETE ═══ */
+.pf-tete {
+  display: flex;
+  align-items: center;
+  gap: var(--espace-32);
+  padding: var(--espace-32) 0 var(--espace-24);
+}
+.zd-avatar.pf-portrait {
+  flex: none;
+  width: 9.5rem;
+  height: 9.5rem;
+  box-shadow: 0 0 0 3px var(--fond), 0 0 0 5px var(--accent);
+}
+.pf-portrait img,
+.pf-portrait .sp-avatar-vide {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.pf-portrait .sp-avatar-vide {
+  font-size: 3.2rem;
+}
+.pf-tete-mots {
+  min-width: 0;
+}
+.pf-surtitre {
+  margin: 0 0 var(--espace-4);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.credits .pf-nom {
+  margin: 0;
+  font-size: clamp(2rem, 5.2vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: var(--serrage);
+  text-transform: none;
+  color: var(--encre-vive);
+  overflow-wrap: anywhere;
+}
+.pf-faits {
+  margin: var(--espace-12) 0 0;
+  color: var(--ink-secondary);
+}
+.pf-aide-photo {
+  margin: var(--espace-4) 0 0;
+  font-size: 0.75rem;
+  color: var(--ink-secondary);
+}
+.pf-public {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: var(--espace-8);
+  font-weight: 600;
+  color: var(--ink-primary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent);
+}
+.pf-public:hover {
+  color: var(--accent);
+}
+
+/* ═══ LES ONGLETS ═══ Des pastilles dans une gouttiere, comme les onglets
+   du panneau de connexion : l'actif sur l'accent. */
+.pf .pf-menu {
+  display: inline-flex;
+  /* La page est une colonne flexible : sans cela, la gouttiere des onglets
+     s'etirait sur toute la largeur. */
+  align-self: flex-start;
+  flex-wrap: wrap;
+  gap: var(--espace-4);
+  margin: 0 0 var(--espace-8);
+  padding: var(--espace-4);
+  border-radius: 14px;
+  background: var(--voile-05);
+}
+.pf .pf-onglet {
+  gap: var(--espace-8);
+  min-height: 44px;
+  padding: 0 var(--espace-16);
+  border: 0;
+  border-radius: 10px;
+  color: var(--ink-secondary);
+}
+.pf .pf-onglet:hover {
+  color: var(--ink-primary);
+  background: var(--voile-05);
+}
+.pf .pf-onglet[aria-current='page'] {
+  background: var(--accent);
+  color: var(--sur-accent);
+}
+.pf-onglet-icone {
+  width: 15px;
+  height: 15px;
+}
+
+/* ═══ LES CARTES ═══ Deux colonnes pour le compte sur un grand ecran :
+   l'identite et la ville se lisent cote a cote. */
+.pf-grille {
+  display: grid;
+  gap: var(--espace-16);
+  align-items: start;
+}
+@media (min-width: 900px) {
+  .pf-grille {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  }
+}
+.pf .pf-carte {
+  margin-top: var(--espace-16);
+  padding: var(--espace-24);
+  border-radius: 18px;
+}
+.pf-grille > .pf-carte {
+  margin-top: var(--espace-16);
+}
+.pf .pf-carte h2 {
+  font-size: 1.15rem;
+}
+.pf-label-ligne {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--espace-8);
+}
+.pf-compteur {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-secondary);
+}
+
+/* ═══ LE DEPOT ═══ La regle du site en tete, sur un voile d'accent. */
+.pf-depot {
+  border-color: var(--accent-voile);
+}
+.pf-regle {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espace-12);
+  margin: 0 0 var(--espace-16);
+  padding: var(--espace-12) var(--espace-16);
+  border-radius: 12px;
+  background: var(--accent-voile);
+  color: var(--ink-primary);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+.pf-regle-icone {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  color: var(--accent);
+}
+.pf-requis {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--accent);
+}
+
+/* ═══ MES MIXTAPES ═══ L'etat en pastille : en ligne sur l'accent, brouillon
+   en gris. */
+.pf-item-faits {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espace-8);
+}
+.pf-puce {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 0 var(--espace-8);
+  border-radius: var(--rayon-pilule);
+  background: var(--voile-1);
+  color: var(--ink-primary);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.pf-puce-en-ligne {
+  background: var(--accent);
+  color: var(--sur-accent);
+}
+
+@media (max-width: 640px) {
+  .pf-tete {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--espace-16);
+    padding-top: var(--espace-16);
+  }
+  .zd-avatar.pf-portrait {
+    width: 7rem;
+    height: 7rem;
+  }
+  .pf .pf-carte {
+    padding: var(--espace-16);
+  }
+}

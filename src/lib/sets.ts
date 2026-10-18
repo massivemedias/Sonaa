@@ -47,8 +47,13 @@ import { supabase } from './supabase.ts';
    et un WAV de trois heures pese autant. Au-dela de 10 Go de total, R2 facture
    1,5 cent par gigaoctet et par mois, soit une quinzaine de cents pour dix
    sets de plus. Le plafond n'est donc plus la pour proteger une facture mais
-   pour attraper le fichier depose par erreur. */
-export const TAILLE_MAX = 2 * 1024 * 1024 * 1024;
+   pour attraper le fichier depose par erreur.
+
+   4 GO DEPUIS LE 18 OCTOBRE 2026 : Mika n'a pas pu deposer un WAV de 3,5 Go.
+   4 Go est la limite du format WAV lui-meme (sa taille est ecrite sur 32
+   bits). La base porte le meme plafond (contrainte dj_sets_taille_o_check,
+   migration 20261018120000_sets_quatre_go). */
+export const TAILLE_MAX = 4 * 1024 * 1024 * 1024;
 
 /** Taille d'une tranche d'envoi. Sous les 100 Mo que Cloudflare accepte par
     requete, avec de la marge pour les entetes. */

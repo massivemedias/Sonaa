@@ -9,7 +9,16 @@
    L'identite publique (un nom, une photo) et le depot d'un set sont
    inseparables : un set sans nom d'artiste s'affiche « sans nom » sur la
    page publique, ce qui se voit et se repare tout de suite si les deux
-   formulaires se touchent. */
+   formulaires se touchent.
+
+   ═══ LA REFONTE DU 18 OCTOBRE 2026 ═══ Mika : « fais une meilleure
+   interface pour les profils et leurs mises a jour ». La page s'ouvre sur un
+   en-tete : le portrait en grand (on y depose la photo), le nom, la ville, le
+   nombre de mixtapes et d'ecoutes, et le lien vers la page publique. Les
+   onglets sont des pastilles, et chaque bloc est une carte. Le depot d'une
+   mixtape dit la regle du site : la musique electronique seulement, au
+   moins un style de l'atlas, faute de quoi le set est supprime (un set de
+   trap y avait ete depose le 17 octobre). */
 
 import { useCallback, useEffect, useState } from 'react';
 import { contributionsActives, supabase } from '../lib/supabase.ts';
@@ -61,8 +70,11 @@ import { suisJeModerateur } from '../lib/proposals.ts';
 import { PiedDePage } from './PiedDePage.tsx';
 
 import { t } from '../langue/langue.ts';
+import { FaIcon } from './FaIcon.tsx';
+import { faHeadphones, faCalendarPlus, faUser, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import './credits.css';
 import './sets.css';
+import './profil.css';
 
 /* « 1024,0 Mo » est une facon de compter, pas une facon de lire. Au-dela du
    millier on passe au gigaoctet, comme le fait n'importe quel systeme. */
@@ -91,15 +103,16 @@ const lireOnglet = (): Onglet => {
   return 'compte';
 };
 
-const ONGLETS: readonly { id: Onglet; label: string }[] = [
-  { id: 'compte', label: t.ongletCompte },
-  { id: 'sets', label: t.ongletMixtapes },
-  { id: 'evenements', label: t.ongletEvenements },
-];
+const ONGLETS = [
+  { id: 'compte', label: t.ongletCompte, icone: faUser },
+  { id: 'sets', label: t.ongletMixtapes, icone: faHeadphones },
+  { id: 'evenements', label: t.ongletEvenements, icone: faCalendarPlus },
+] as const;
 
 export function ProfilPage() {
   const [pret, setPret] = useState(false);
   const [connecte, setConnecte] = useState(false);
+  const [moi, setMoi] = useState<string | null>(null);
   const [artiste, setArtiste] = useState<Artiste | null>(null);
   const [nom, setNom] = useState('');
   const [bio, setBio] = useState('');
@@ -156,6 +169,7 @@ export function ProfilPage() {
       if (!vivant) return;
       const ok = Boolean(data.user);
       setConnecte(ok);
+      setMoi(data.user?.id ?? null);
       if (ok) {
         const a = await monArtiste();
         if (!vivant) return;
@@ -410,7 +424,7 @@ export function ProfilPage() {
       .then(() => setMessageVille(t.villeDattacheEnregistree(v.name)))
       .catch((e: unknown) => {
         setVilleAttache(null);
-        setMessageVille(e instanceof Error ? e.message : 'Enregistrement impossible.');
+        setMessageVille(e instanceof Error ? e.message : t.enregistrementImpossible);
       });
   };
 
@@ -421,19 +435,51 @@ export function ProfilPage() {
     setVilleAttache(null);
     setMessageVille(null);
     void enregistrerVilleDattache(null)
-      .then(() => setMessageVille('Ville retirée de votre profil.'))
+      .then(() => setMessageVille(t.villeRetiree))
       .catch((e: unknown) =>
-        setMessageVille(e instanceof Error ? e.message : 'Effacement impossible.')
+        setMessageVille(e instanceof Error ? e.message : t.effacementImpossible)
       );
   };
+
+  const ecoutesTotales = sets.reduce((n, x) => n + (x.publie ? x.ecoutes : 0), 0);
+  const faits = [
+    villeAttache?.name ?? null,
+    t.nMixtapes(sets.length),
+    sets.some((x) => x.publie) ? t.nEcoutes(ecoutesTotales) : null,
+  ].filter((x): x is string => Boolean(x));
 
   return (
     <>
       <EnTeteSite />
-      <main className="credits sets-page">
-      <h1>{t.monProfil}</h1>
+      <main className="credits sets-page pf">
+      {/* ═══ L'EN-TETE ═══ Le portrait est la zone de depot de la photo,
+          comme avant dans le bloc d'identite : on lache sur ce qu'on
+          remplace. */}
+      <header className="pf-tete">
+        <ZoneDepot className="zd-avatar pf-portrait" accept={FORMATS_IMAGE} onFichier={(f) => void changerAvatar(f)}>
+          {urlAvatar(avatarPath) ? (
+            <img src={urlAvatar(avatarPath) ?? ''} alt="" />
+          ) : (
+            <span className="sp-avatar-vide" aria-hidden="true">
+              {(nom.trim()[0] ?? '?').toUpperCase()}
+            </span>
+          )}
+          <span className="zd-avatar-voile">{t.deposerOuCliquer}</span>
+        </ZoneDepot>
+        <div className="pf-tete-mots">
+          <p className="pf-surtitre">{t.monProfil}</p>
+          <h1 className="pf-nom">{nom.trim() || t.artisteSansNom}</h1>
+          {faits.length > 0 && <p className="pf-faits">{faits.join(' · ')}</p>}
+          <p className="pf-aide-photo">{t.photoLimite}</p>
+          {moi && sets.some((x) => x.publie) && (
+            <a className="pf-public" href={`#/mixtapes/a/${moi}`}>
+              {t.voirMaPagePublique}
+            </a>
+          )}
+        </div>
+      </header>
 
-      {/* LE MENU DU PROFIL. Voir `Onglet` plus haut pour le pourquoi. */}
+      {/* LE MENU DU PROFIL.Voir `Onglet` plus haut pour le pourquoi. */}
       <nav className="pf-menu" aria-label={t.monProfil}>
         {ONGLETS.map((o) => (
           <a
@@ -442,92 +488,67 @@ export function ProfilPage() {
             className="pf-onglet"
             aria-current={onglet === o.id ? 'page' : undefined}
           >
+            <FaIcon icon={o.icone} className="pf-onglet-icone" />
             {o.label}
           </a>
         ))}
       </nav>
 
       {onglet === 'compte' && (
-      <>
+      <div className="pf-grille">
       {/* ── L'identite publique ── */}
-      <section className="sets-bloc">
+      <section className="sets-bloc pf-carte">
         <h2>{t.identitePublique}</h2>
-        <div className="sp-identite">
-          <div className="sp-avatar">
-            {/* LA PHOTO EST ELLE-MEME LA ZONE DE DEPOT. Un cadre en pointilles
-                a cote d'un portrait aurait double la cible sans rien clarifier :
-                on lache sur la photo qu'on remplace. Le clic marche toujours,
-                le clavier aussi. */}
-            <ZoneDepot
-              className="zd-avatar"
-              accept={FORMATS_IMAGE}
-              onFichier={(f) => void changerAvatar(f)}
-            >
-              {urlAvatar(avatarPath) ? (
-                <img src={urlAvatar(avatarPath) ?? ''} alt="" />
-              ) : (
-                <span className="sp-avatar-vide" aria-hidden="true">
-                  {(nom.trim()[0] ?? '?').toUpperCase()}
-                </span>
-              )}
-              <span className="zd-avatar-voile">{t.deposerOuCliquer}</span>
-            </ZoneDepot>
-            <p className="sp-aide">{t.photoLimite}</p>
-          </div>
-
-          <div className="sp-champs">
-            <label className="sp-label">
-              {t.nomDArtiste}
-              <input
-                type="text"
-                maxLength={60}
-                value={nom}
-                onChange={(e) => setNom(e.target.value)}
-                placeholder={t.nomDArtistePlaceholder}
-              />
-            </label>
-            <label className="sp-label">
+        <div className="sp-champs">
+          <label className="sp-label">
+            {t.nomDArtiste}
+            <input
+              type="text"
+              maxLength={60}
+              value={nom}
+              onChange={(e) => setNom(e.target.value)}
+              placeholder={t.nomDArtistePlaceholder}
+            />
+          </label>
+          <label className="sp-label">
+            <span className="pf-label-ligne">
               {t.presentation}
-              {/* SIX LIGNES ET NON TROIS. La biographie de Mika en fait sept :
-                  a trois lignes on ecrivait dans une meurtriere, en relisant
-                  par un tiers a la fois. Six montrent presque tout d'un coup,
-                  et la zone reste redimensionnable pour le reste. */}
-              <textarea
-                maxLength={600}
-                rows={6}
-                value={bio}
-                onChange={(e) => setBio(e.target.value)}
-              />
-            </label>
-            <button className="sp-action" onClick={() => void enregistrerProfil()}>
-              {artiste ? t.enregistrer : t.creerMonProfil}
-            </button>
-            {messageProfil && <p className="sp-message">{messageProfil}</p>}
-          </div>
+              <span className="pf-compteur">{bio.length} / 600</span>
+            </span>
+            {/* SIX LIGNES ET NON TROIS. La biographie de Mika en fait sept :
+                a trois lignes on ecrivait dans une meurtriere, en relisant
+                par un tiers a la fois. Six montrent presque tout d'un coup,
+                et la zone reste redimensionnable pour le reste. */}
+            <textarea
+              maxLength={600}
+              rows={6}
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+            />
+          </label>
+          <button className="sp-action" onClick={() => void enregistrerProfil()}>
+            {artiste ? t.enregistrer : t.creerMonProfil}
+          </button>
+          {messageProfil && <p className="sp-message">{messageProfil}</p>}
         </div>
       </section>
 
       {/* ── La ville d'attache ── */}
-      <section className="sets-bloc">
+      <section className="sets-bloc pf-carte">
         <h2>{t.votreVille}</h2>
-        <p className="sp-aide">
-          Elle sert à ouvrir le calendrier sur les bonnes soirées, sur tous vos appareils. Elle
-          n&apos;est montrée à personne. Vous pouvez la changer ou la retirer quand vous voulez.
-        </p>
+        <p className="sp-aide">{t.villeAide}</p>
         <SelecteurVille
           villes={villes}
           choisie={villeAttache}
           onChoisir={choisirVilleDattache}
-          etiquette="Ville d'attache"
+          etiquette={t.villeEtiquette}
           enDessous={
             <div className="sp-ville-pied">
               {villeAttache ? (
                 <>
-                  <span className="sp-aide">
-                    Actuellement : <strong>{villeAttache.name}</strong>
-                  </span>
+                  <span className="sp-aide">{t.villeActuellement(villeAttache.name)}</span>
                   <button className="sp-action sp-action-sobre" onClick={effacerVilleDattache}>
-                    Retirer ma ville
+                    {t.retirerMaVille}
                   </button>
                 </>
               ) : (
@@ -538,7 +559,7 @@ export function ProfilPage() {
         />
         {messageVille && <p className="sp-message">{messageVille}</p>}
       </section>
-      </>
+      </div>
       )}
 
       {onglet === 'evenements' && (
@@ -549,79 +570,17 @@ export function ProfilPage() {
 
       {onglet === 'sets' && (
       <>
-      {/* ── Mes sets ── */}
-      <section className="sets-bloc">
-        <h2>{t.mesMixtapes(sets.length)}</h2>
-        {sets.length === 0 ? (
-          <p className="sp-aide">{t.aucuneMixtapeDeposee}</p>
-        ) : (
-          <ul className="sp-liste">
-            {sets.map((s) => (
-              <li key={s.id} className="sp-item">
-                <div className="sp-item-tete">
-                  <div className="sp-item-titre">
-                    {/* LA POCHETTE, OU LE PORTRAIT A DEFAUT : la page publique
-                        des sons fait pareil, et un set sans pochette y montre
-                        deja le visage de son auteur. Ici il restait un trou. */}
-                    {(urlPochette(s.cover_path) ?? urlAvatar(avatarPath)) && (
-                      <img
-                        className="sp-pochette"
-                        src={urlPochette(s.cover_path) ?? urlAvatar(avatarPath) ?? ''}
-                        alt=""
-                      />
-                    )}
-                    <div>
-                    <h3>{s.titre}</h3>
-                    <p className="sp-aide">
-                      {s.duree_s ? mmss(s.duree_s) : t.dureeInconnue}
-                      {' · '}
-                      {s.publie ? t.publie : t.brouillon}
-                      {s.publie ? ` · ${t.nEcoutes(s.ecoutes)}` : ''}
-                    </p>
-                    </div>
-                  </div>
-                  <div className="sp-item-actions">
-                    <button onClick={() => setEnModif(enModif === s.id ? null : s.id)}>
-                      {enModif === s.id ? t.annuler : t.modifier}
-                    </button>
-                    <button
-                      onClick={() => {
-                        void basculerPublication(s.id, !s.publie).then(recharger);
-                      }}
-                    >
-                      {s.publie ? t.depublier : t.publier}
-                    </button>
-                    <button
-                      className="sp-danger"
-                      onClick={() => {
-                        if (!window.confirm(t.confirmerSuppression(s.titre))) return;
-                        void supprimerSet(s.id, s.audio_path).then(recharger);
-                      }}
-                    >
-                      {t.supprimer}
-                    </button>
-                  </div>
-                </div>
-                {enModif === s.id ? (
-                  <ModifierSet
-                    set={s}
-                    onFini={() => {
-                      setEnModif(null);
-                      void recharger();
-                    }}
-                    onAnnuler={() => setEnModif(null)}
-                  />
-                ) : (
-                  <LecteurSet set={s} compact />
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
       {/* ── Deposer ── */}
-      <section className="sets-bloc">
+      <section className="sets-bloc pf-carte pf-depot">
         <h2>{t.deposerUneMixtape}</h2>
+        {/* LA REGLE DU SITE, AVANT LE FICHIER. Mika, le 18 octobre 2026,
+            apres un set de trap : « preciser que c'est juste pour la musique
+            electronique, tout autre style qui reste en dehors de l'atlas sera
+            supprime ». Le style devient obligatoire plus bas. */}
+        <p className="pf-regle">
+          <FaIcon icon={faCircleInfo} className="pf-regle-icone" />
+          <span>{t.regleElectronique}</span>
+        </p>
         <p className="sp-aide">{t.limitesDepot(mo(TAILLE_MAX))}</p>
         {/* LA PLACE RESTANTE SE DIT AVANT, PAS APRES UN REFUS. Quelqu'un qui
             depose un fichier d'un gigaoctet met plusieurs minutes a
@@ -698,6 +657,7 @@ export function ProfilPage() {
         )}
 
         <ChoixStyles choisis={genres} onChange={setGenres} max={GENRES_MAX} />
+        {genres.length === 0 && fichier && <p className="pf-requis">{t.styleRequis}</p>}
 
         <label className="sp-label">
           {t.descriptionFacultative}
@@ -711,7 +671,7 @@ export function ProfilPage() {
 
         <button
           className="sp-action"
-          disabled={!fichier || !titre.trim() || occupe}
+          disabled={!fichier || !titre.trim() || genres.length === 0 || occupe}
           onClick={() => void deposer()}
         >
           {etape === 'onde'
@@ -728,6 +688,75 @@ export function ProfilPage() {
         {messageDepot && <p className="sp-message">{messageDepot}</p>}
       </section>
 
+      {/* ── Mes sets ── */}
+      <section className="sets-bloc pf-carte">
+        <h2>{t.mesMixtapes(sets.length)}</h2>
+        {sets.length === 0 ? (
+          <p className="sp-aide">{t.aucuneMixtapeDeposee}</p>
+        ) : (
+          <ul className="sp-liste">
+            {sets.map((s) => (
+              <li key={s.id} className="sp-item">
+                <div className="sp-item-tete">
+                  <div className="sp-item-titre">
+                    {/* LA POCHETTE, OU LE PORTRAIT A DEFAUT : la page publique
+                        des sons fait pareil, et un set sans pochette y montre
+                        deja le visage de son auteur. Ici il restait un trou. */}
+                    {(urlPochette(s.cover_path) ?? urlAvatar(avatarPath)) && (
+                      <img
+                        className="sp-pochette"
+                        src={urlPochette(s.cover_path) ?? urlAvatar(avatarPath) ?? ''}
+                        alt=""
+                      />
+                    )}
+                    <div>
+                    <h3>{s.titre}</h3>
+                    <p className="sp-aide pf-item-faits">
+                      <span className={s.publie ? 'pf-puce pf-puce-en-ligne' : 'pf-puce'}>{s.publie ? t.publie : t.brouillon}</span>
+                      {s.duree_s ? mmss(s.duree_s) : t.dureeInconnue}
+                      {s.publie ? ` · ${t.nEcoutes(s.ecoutes)}` : ''}
+                    </p>
+                    </div>
+                  </div>
+                  <div className="sp-item-actions">
+                    <button onClick={() => setEnModif(enModif === s.id ? null : s.id)}>
+                      {enModif === s.id ? t.annuler : t.modifier}
+                    </button>
+                    <button
+                      onClick={() => {
+                        void basculerPublication(s.id, !s.publie).then(recharger);
+                      }}
+                    >
+                      {s.publie ? t.depublier : t.publier}
+                    </button>
+                    <button
+                      className="sp-danger"
+                      onClick={() => {
+                        if (!window.confirm(t.confirmerSuppression(s.titre))) return;
+                        void supprimerSet(s.id, s.audio_path).then(recharger);
+                      }}
+                    >
+                      {t.supprimer}
+                    </button>
+                  </div>
+                </div>
+                {enModif === s.id ? (
+                  <ModifierSet
+                    set={s}
+                    onFini={() => {
+                      setEnModif(null);
+                      void recharger();
+                    }}
+                    onAnnuler={() => setEnModif(null)}
+                  />
+                ) : (
+                  <LecteurSet set={s} compact />
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
       </>
       )}
       <PiedDePage />

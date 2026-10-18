@@ -691,6 +691,19 @@ interface Dictionnaire {
   /* ── Les sets DJ ── */
   readonly lesMixtapesTitre: string;
   readonly monProfil: string;
+  /* LE PROFIL ET LE MENU DU COMPTE, refaits le 18 octobre 2026. */
+  readonly voirMaPagePublique: string;
+  readonly villeAide: string;
+  readonly villeEtiquette: string;
+  readonly villeActuellement: (ville: string) => string;
+  readonly retirerMaVille: string;
+  readonly villeRetiree: string;
+  readonly effacementImpossible: string;
+  readonly regleElectronique: string;
+  readonly styleRequis: string;
+  readonly mesMixtapesMenu: string;
+  readonly membreSonaa: string;
+  readonly moderateurBadge: string;
   readonly baseIndisponible: string;
   readonly connexionRequiseProfil: string;
   readonly identitePublique: string;
@@ -1496,6 +1509,22 @@ const FR: Dictionnaire = {
 
   lesMixtapesTitre: 'Les mixtapes',
   monProfil: 'Mon profil',
+  voirMaPagePublique: 'Voir ma page publique',
+  villeAide:
+    'Elle sert à ouvrir le calendrier sur les bonnes soirées, sur tous vos appareils. Elle n’est montrée à personne. ' +
+    'Vous pouvez la changer ou la retirer quand vous voulez.',
+  villeEtiquette: 'Ville d’attache',
+  villeActuellement: (v) => `Actuellement : ${v}`,
+  retirerMaVille: 'Retirer ma ville',
+  villeRetiree: 'Ville retirée de votre profil.',
+  effacementImpossible: 'Effacement impossible.',
+  regleElectronique:
+    'SONAA est réservé à la musique électronique. Choisissez au moins un style de l’atlas : ' +
+    'un set ou une track hors des styles de l’atlas sera supprimé.',
+  styleRequis: 'Choisissez au moins un style de l’atlas pour déposer.',
+  mesMixtapesMenu: 'Mes mixtapes',
+  membreSonaa: 'Membre de SONAA',
+  moderateurBadge: 'Modérateur',
   baseIndisponible: "Le dépôt de mixtapes n'est pas actif sur cette version du site.",
   connexionRequiseProfil: 'Connectez-vous pour créer votre profil et déposer une mixtape.',
   identitePublique: 'Mon identité publique',
@@ -1514,10 +1543,10 @@ const FR: Dictionnaire = {
   imageTropLourde: (taille) => `Image de ${taille} : la limite est de 2 Mo.`,
   deposerUneMixtape: 'Déposer une mixtape',
   limitesDepot: (max) =>
-    `FLAC, WAV, MP3, M4A ou OGG, ${max} au plus par fichier, soit environ six heures ` +
-    `de FLAC sans perte ou deux heures de WAV. Aucun fichier n’est réencodé : ce que vous déposez est ` +
-    `exactement ce qui sera joué, octet pour octet. ` +
-    `La mixtape est en ligne dès le dépôt ; vous pouvez le dépublier à tout moment.`,
+    `FLAC, WAV, MP3, M4A ou OGG, ${max} au plus par fichier, soit environ douze heures ` +
+    `de FLAC sans perte ou six heures de WAV. Votre fichier est gardé tel quel ; l’écoute en ligne passe ` +
+    `par une copie AAC à 192 kbit/s, plus légère à charger. ` +
+    `La mixtape est en ligne dès le dépôt ; vous pouvez la dépublier à tout moment.`,
   fichierAudio: 'Fichier audio',
   titreDeLaMixtape: 'Titre',
   genresDeLaMixtape: (n) => `Styles, pour la ranger dans l’atlas (${n} au plus)`,
@@ -2306,6 +2335,22 @@ const EN: Dictionnaire = {
 
   lesMixtapesTitre: 'Mixtapes',
   monProfil: 'My profile',
+  voirMaPagePublique: 'See my public page',
+  villeAide:
+    'It opens the calendar on the right nights, on all your devices. It is shown to no one. ' +
+    'You can change or remove it whenever you like.',
+  villeEtiquette: 'Home city',
+  villeActuellement: (v) => `Currently: ${v}`,
+  retirerMaVille: 'Remove my city',
+  villeRetiree: 'City removed from your profile.',
+  effacementImpossible: 'Could not remove it.',
+  regleElectronique:
+    'SONAA is for electronic music only. Pick at least one style from the atlas: ' +
+    'a set or track outside the atlas styles will be removed.',
+  styleRequis: 'Pick at least one style from the atlas to upload.',
+  mesMixtapesMenu: 'My mixtapes',
+  membreSonaa: 'SONAA member',
+  moderateurBadge: 'Moderator',
   baseIndisponible: 'Mixtape uploads are not enabled on this build of the site.',
   connexionRequiseProfil: 'Sign in to create your profile and upload a mixtape.',
   identitePublique: 'My public identity',
@@ -2324,8 +2369,8 @@ const EN: Dictionnaire = {
   imageTropLourde: (taille) => `Image is ${taille}: the limit is 2 MB.`,
   deposerUneMixtape: 'Upload a mixtape',
   limitesDepot: (max) =>
-    `FLAC, WAV, MP3, M4A or OGG, ${max} max per file, about six hours of lossless FLAC or two hours of WAV. ` +
-    `No file is re-encoded: what you upload is exactly what plays, byte for byte. ` +
+    `FLAC, WAV, MP3, M4A or OGG, ${max} max per file, about twelve hours of lossless FLAC or six hours of WAV. ` +
+    `Your file is kept as it is; online playback uses a 192 kbit/s AAC copy that loads faster. ` +
     `The mixtape is live as soon as it is uploaded; you can unpublish it at any time.`,
   fichierAudio: 'Audio file',
   titreDeLaMixtape: 'Title',

@@ -41,7 +41,17 @@ import { monArtiste, urlAvatar } from '../lib/sets.ts';
 import { t } from '../langue/langue.ts';
 import { ChoixLangue } from './ChoixLangue.tsx';
 import { FaIcon } from './FaIcon.tsx';
-import { faMagnifyingGlass, faUser } from '@fortawesome/free-solid-svg-icons';
+import {
+  faArrowRightFromBracket,
+  faCalendarPlus,
+  faGavel,
+  faHeadphones,
+  faLightbulb,
+  faMagnifyingGlass,
+  faMicrophone,
+  faShieldHalved,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons';
 import { faApple, faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { EVENEMENT_RECHERCHE } from './RechercheGlobale.tsx';
 import { ADRESSE_HISTORIQUE } from '../reconnaitre/adresses.ts';
@@ -490,45 +500,78 @@ export function AuthButton() {
               {(nomAffiche(session) ?? pseudo ?? '?').slice(0, 1)}
             </span>
           </button>
+          {/* ═══ LE MENU DU COMPTE, refait le 18 octobre 2026 ═══ Mika : « le
+              menu est moche ». Une tete (le portrait, le nom, membre ou
+              moderateur), puis les destinations avec leur icone, et la
+              deconnexion a part, sous un filet. */}
           {menu && (
             <div className="authb-menu" role="menu">
-              <a href="#/profil" role="menuitem" onClick={() => setMenu(false)}>Profil</a>
+              <div className="authb-menu-tete">
+                <span className="authb-menu-portrait" aria-hidden="true">
+                  {avatar ? <img src={avatar} alt="" /> : (nomAffiche(session) ?? pseudo ?? '?').slice(0, 1).toUpperCase()}
+                </span>
+                <span className="authb-menu-qui">
+                  <strong>{nomAffiche(session) ?? pseudo ?? '…'}</strong>
+                  <span className={moderateur ? 'authb-menu-role authb-menu-role-modo' : 'authb-menu-role'}>
+                    {moderateur ? t.moderateurBadge : t.membreSonaa}
+                  </span>
+                </span>
+              </div>
+              <a href="#/profil" role="menuitem" onClick={() => setMenu(false)}>
+                <FaIcon icon={faUser} className="authb-menu-icone" />
+                {t.monProfil}
+              </a>
+              <a href="#/profil/sets" role="menuitem" onClick={() => setMenu(false)}>
+                <FaIcon icon={faHeadphones} className="authb-menu-icone" />
+                {t.mesMixtapesMenu}
+              </a>
               {/* LES ECOUTES DU COMPTE, depuis le 30 septembre 2026 : Mika veut
                   « un menu historique de ses recherches quand la personne est
                   connectee ». Elles vivent sur la page de reconnaissance ;
                   cette entree y descend directement. */}
               <a href={ADRESSE_HISTORIQUE} role="menuitem" onClick={() => setMenu(false)}>
+                <FaIcon icon={faMicrophone} className="authb-menu-icone" />
                 {t.mesEcoutes}
               </a>
               <a href="#/profil/evenements" role="menuitem" onClick={() => setMenu(false)}>
+                <FaIcon icon={faCalendarPlus} className="authb-menu-icone" />
                 {t.ajouterUneSoiree}
               </a>
               {PROPOSITIONS_OUVERTES && (
                 <a href="#/propositions" role="menuitem" onClick={() => setMenu(false)}>
+                  <FaIcon icon={faLightbulb} className="authb-menu-icone" />
                   {t.mesPropositions}
                 </a>
               )}
               {moderateur && (
-                <a href="#/admin" role="menuitem" onClick={() => setMenu(false)}>
-                  {t.adminMenu}
-                </a>
+                <>
+                  <hr className="authb-menu-filet" />
+                  <a href="#/admin" role="menuitem" onClick={() => setMenu(false)}>
+                    <FaIcon icon={faShieldHalved} className="authb-menu-icone" />
+                    {t.adminMenu}
+                  </a>
+                  {PROPOSITIONS_OUVERTES && (
+                    /* #/admin n'a jamais existe : la route s'appelle #/moderation
+                       depuis le premier jour, et ce lien retombait donc sur la
+                       page d'accueil. Meme panne que #/profil avant lui, au meme
+                       endroit. */
+                    <a href="#/moderation" role="menuitem" onClick={() => setMenu(false)}>
+                      <FaIcon icon={faGavel} className="authb-menu-icone" />
+                      {t.moderationMenu}
+                    </a>
+                  )}
+                </>
               )}
-              {PROPOSITIONS_OUVERTES && moderateur && (
-                /* #/admin n'a jamais existe : la route s'appelle #/moderation
-                   depuis le premier jour, et ce lien retombait donc sur la
-                   page d'accueil. Meme panne que #/profil avant lui, au meme
-                   endroit. */
-                <a href="#/moderation" role="menuitem" onClick={() => setMenu(false)}>
-                  {t.moderationMenu}
-                </a>
-              )}
+              <hr className="authb-menu-filet" />
               <button
                 role="menuitem"
+                className="authb-menu-sortie"
                 onClick={() => {
                   setMenu(false);
                   void seDeconnecter();
                 }}
               >
+                <FaIcon icon={faArrowRightFromBracket} className="authb-menu-icone" />
                 {t.deconnexion}
               </button>
             </div>
