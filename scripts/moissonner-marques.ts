@@ -64,7 +64,9 @@ function fixerLesBudgets(): void {
   BUDGET_REDDIT = Number(option('reddit') ?? (PLEIN ? 40 : 12));
 }
 
-const URL_BASE = (process.env['VITE_SUPABASE_URL'] ?? process.env['SUPABASE_URL'] ?? '').replace(/\/$/, '');
+/* L'adresse du projet est publique (elle est dans le site) : seule la cle
+   de service est un secret, et c'est la seule chose a poser dans GitHub. */
+const URL_BASE = (process.env['VITE_SUPABASE_URL'] || process.env['SUPABASE_URL'] || 'https://pqgapyfqkjzvwkulxnhv.supabase.co').replace(/\/$/, '');
 const CLE_SERVICE = process.env['SUPABASE_SERVICE_ROLE_KEY'] ?? '';
 const CLE_YOUTUBE = process.env['YOUTUBE_API_KEY'] ?? '';
 
