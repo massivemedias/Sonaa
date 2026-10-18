@@ -1,6 +1,15 @@
 {
- "fait": "2026-10-17T15:42:41.743Z",
+ "fait": "2026-10-18T04:43:57.985Z",
  "articles": [
+  {
+   "source": "midnightrebels",
+   "titre": "E-FEST Camp and JAOU Biennale 2026: Tunisia packs over 60 acts in an intense month of international celebration of the arts",
+   "lien": "https://midnightrebels.com/e-fest-camp-and-jaou-biennale-2026-tunisia/",
+   "date": "2026-10-17T23:25:34.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/JAOU-Biennale-flyer.webp?resize=1160%2C1450&ssl=1",
+   "resume": "From October 23rd to November 22nd, Tunisia hosts two of its biggest festivals: JAOU Tunis Biennale (8th edition) and E-FEST Camp in Tataouine (second edition of the camp, following the iconic E-Fest Project). During…",
+   "integral": true
+  },
   {
    "source": "midnightrebels",
    "titre": "Nora en Pure Takes Nelly Furtado’s Faded Into Melodic House",
@@ -17,15 +26,6 @@
    "date": "2026-10-17T15:21:19.000Z",
    "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/09/Inside-the-Stage-Failure-That-Flipped-The-Chainsmokers-Vanderbilt-Crowd-Upside-Down.webp?fit=2400%2C1350&ssl=1",
    "resume": "“After 11 amazing years, we are now independent artists.” That is how The Chainsmokers, the duo of Alex Pall and Drew Taggart, announced on 13 October 2026 that they were leaving Columbia/Disruptor. The Chainsmokers…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "Galantis Reworks The Killers’ When You Were Young on New EP",
-   "lien": "https://midnightrebels.com/galantis-devils-tax-return-volume-1/",
-   "date": "2026-10-17T14:19:26.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/pasted-photo-featured-81250.webp?fit=1920%2C1080&ssl=1",
-   "resume": "“The Killers one was extremely hard,” said Christian Karlsson, the Swedish producer who records as Galantis. He reworked The Killers’ “When You Were Young” for Galantis The Devil’s Tax Return: Volume 1, a six-track EP…",
    "integral": true
   },
   {
@@ -497,10 +497,5 @@
    "integral": true
   }
  ],
- "pannes": [
-  {
-   "id": "digitaldjtips",
-   "raison": "fetch failed"
-  }
- ]
+ "pannes": []
 }
