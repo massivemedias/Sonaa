@@ -1,0 +1,710 @@
+/* LES NEWS PAR MARQUE. Voir MarquesNews.tsx.
+ *
+ * L'annuaire en tuiles par rayon, la page d'une marque avec ses machines en
+ * pastilles, les videos en grille de vignettes, les articles en lignes avec
+ * leur image, les discussions en lignes nues. Les couleurs et les rayons
+ * sont ceux des jetons, comme le reste des news. */
+
+.mq-page a,
+.mq-annuaire a,
+.mq-vues a,
+.mq-fenetre a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Sur les vues des marques, la manchette ne porte que le titre : le filet
+   est celui des onglets, juste dessous. */
+.news-manchette.mq-manchette {
+  margin-bottom: 0;
+  padding-bottom: var(--espace-8);
+  border-bottom: 0;
+}
+
+/* ═══ LES VUES DES NEWS ═══ Trois onglets soulignes, sous la manchette. */
+.mq-vues {
+  display: flex;
+  gap: var(--espace-24);
+  margin: 0 0 var(--espace-24);
+  border-bottom: 1px solid var(--filet);
+}
+.mq-vue {
+  position: relative;
+  /* Une cible de 44 px au moins : « Le fil » est un mot court. */
+  min-width: 44px;
+  text-align: center;
+  padding: var(--espace-8) 0 var(--espace-12);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink-secondary);
+}
+.mq-vues .mq-vue[aria-current='page'] {
+  color: var(--ink-primary);
+}
+.mq-vue[aria-current='page']::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--accent);
+}
+.mq-vues .mq-vue:hover {
+  color: var(--ink-primary);
+}
+
+.mq-titre-vue {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: var(--serrage);
+}
+.mq-lede {
+  max-width: 46rem;
+  margin: var(--espace-8) 0 var(--espace-24);
+  line-height: 1.55;
+  color: var(--ink-secondary);
+}
+.mq-note {
+  margin: var(--espace-16) 0;
+  color: var(--ink-secondary);
+}
+
+/* ═══ L'ANNUAIRE ═══ */
+.mq-chercher {
+  position: relative;
+  display: block;
+  max-width: 30rem;
+  margin-bottom: var(--espace-32);
+}
+.mq-chercher input {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 var(--espace-16) 0 2.6rem;
+  border: 1px solid var(--filet);
+  border-radius: var(--rayon-pilule);
+  background: var(--verre-fond);
+  color: var(--ink-primary);
+  font: inherit;
+  font-size: 0.95rem;
+}
+.mq-chercher input:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+.mq-chercher-icone {
+  position: absolute;
+  top: 50%;
+  left: var(--espace-16);
+  width: 15px;
+  height: 15px;
+  color: var(--ink-secondary);
+  transform: translateY(-50%);
+}
+.mq-rayon {
+  margin-bottom: var(--espace-32);
+}
+.mq-rayon-titre {
+  margin: 0 0 var(--espace-12);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.mq-tuiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  gap: var(--espace-12);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mq-tuile {
+  display: grid;
+  gap: var(--espace-4);
+  height: 100%;
+  padding: var(--espace-16);
+  border: 1px solid var(--filet);
+  border-radius: 16px;
+  background: var(--verre-fond);
+  transition: border-color 160ms ease, background 160ms ease;
+}
+.mq-tuile:hover {
+  border-color: var(--accent);
+  background: var(--verre-fond-survol);
+}
+.mq-tuile-nom {
+  display: flex;
+  align-items: center;
+  gap: var(--espace-8);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--ink-primary);
+}
+.mq-tuile-suivie {
+  width: 13px;
+  height: 13px;
+  color: var(--accent);
+}
+.mq-tuile-produits {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--ink-secondary);
+}
+.mq-tuile-pied {
+  margin-top: var(--espace-4);
+  font-size: 0.75rem;
+  color: var(--ink-secondary);
+}
+.mq-tuile-pied strong {
+  color: var(--accent);
+  font-weight: 700;
+}
+.mq-machines-trouvees {
+  margin-bottom: var(--espace-32);
+}
+
+/* ═══ LES PASTILLES ═══ Machines d'une marque, resultats de recherche,
+   ce qu'on suit. */
+.mq-puces,
+.mq-produits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-8);
+  padding: 0;
+  list-style: none;
+}
+.mq-puces {
+  margin: 0;
+}
+.mq-produits {
+  margin: var(--espace-24) 0 var(--espace-16);
+}
+.mq-puce {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espace-8);
+  min-height: 34px;
+  padding: 0 var(--espace-12);
+  border: 1px solid var(--filet);
+  border-radius: var(--rayon-pilule);
+  background: var(--verre-fond);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+a.mq-puce:hover {
+  border-color: var(--accent);
+}
+.mq-produits .mq-puce[aria-current='page'] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--sur-accent);
+}
+.mq-puce-marque {
+  color: var(--ink-secondary);
+  font-weight: 500;
+}
+.mq-puce-suivie {
+  width: 11px;
+  height: 11px;
+  color: var(--accent);
+}
+.mq-puce[aria-current='page'] .mq-puce-suivie {
+  color: inherit;
+}
+.mq-puce-suivi {
+  padding-right: var(--espace-4);
+}
+.mq-puce-retirer {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--ink-secondary);
+  cursor: pointer;
+}
+.mq-puce-retirer:hover {
+  background: var(--voile-1);
+  color: var(--ink-primary);
+}
+.mq-puce-retirer svg {
+  width: 11px;
+  height: 11px;
+}
+.mq-mes-suivis {
+  margin-bottom: var(--espace-16);
+}
+
+/* ═══ UNE MARQUE ═══ */
+.mq-retour {
+  margin: 0 0 var(--espace-16);
+}
+.mq-retour a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espace-8);
+  min-height: 36px;
+  padding: 0 var(--espace-12);
+  border-radius: var(--rayon-pilule);
+  background: var(--voile-05);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--ink-secondary);
+}
+.mq-retour a:hover {
+  background: var(--voile-1);
+  color: var(--ink-primary);
+}
+.mq-retour-icone {
+  width: 12px;
+  height: 12px;
+}
+.mq-tete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--espace-16);
+  padding: var(--espace-32);
+  border: 1px solid var(--filet);
+  border-radius: var(--rayon-carte);
+  background: radial-gradient(120% 140% at 0% 0%, var(--accent-voile), transparent 60%), var(--verre-fond);
+}
+.mq-surtitre {
+  margin: 0 0 var(--espace-8);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.mq-titre-marque {
+  margin: 0;
+  font-size: 3.2rem;
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: var(--serrage);
+  color: var(--encre-vive);
+}
+.mq-titre-produit {
+  color: var(--accent);
+}
+.mq-tete-faits {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espace-16);
+  margin: var(--espace-12) 0 0;
+  font-size: 0.875rem;
+  color: var(--ink-secondary);
+}
+.mq-site {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espace-4);
+  font-weight: 600;
+  border-bottom: 1px solid var(--accent);
+}
+.mq-page .mq-site {
+  color: var(--ink-primary);
+}
+.mq-site-icone {
+  width: 11px;
+  height: 11px;
+}
+.mq-tete-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-8);
+}
+.mq-suivre {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espace-8);
+  min-height: 42px;
+  padding: 0 var(--espace-24);
+  border: 1px solid var(--accent);
+  border-radius: var(--rayon-pilule);
+  background: var(--accent);
+  color: var(--sur-accent);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.mq-page a.mq-suivre {
+  color: var(--sur-accent);
+}
+.mq-suivre[aria-pressed='true'] {
+  background: transparent;
+  color: var(--accent);
+}
+.mq-suivre-petit {
+  padding: 0 var(--espace-16);
+  border-color: var(--filet);
+  background: var(--verre-fond);
+  color: var(--ink-primary);
+}
+.mq-suivre-icone {
+  width: 13px;
+  height: 13px;
+}
+
+.mq-genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-4);
+  width: fit-content;
+  margin: 0 0 var(--espace-24);
+  padding: var(--espace-4);
+  border-radius: 14px;
+  background: var(--voile-05);
+}
+.mq-genre {
+  min-height: 38px;
+  padding: 0 var(--espace-16);
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  color: var(--ink-secondary);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.mq-genre:hover {
+  color: var(--ink-primary);
+}
+.mq-genre[aria-selected='true'] {
+  background: var(--accent);
+  color: var(--sur-accent);
+}
+
+.mq-bloc {
+  margin-bottom: var(--espace-32);
+}
+.mq-bloc-tete {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--espace-16);
+}
+.mq-voir-tout {
+  padding: var(--espace-8) var(--espace-16);
+  border: 1px solid var(--filet);
+  border-radius: var(--rayon-pilule);
+  background: var(--verre-fond);
+  color: var(--ink-primary);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.mq-voir-tout:hover {
+  border-color: var(--accent);
+}
+.mq-plus {
+  display: flex;
+  justify-content: center;
+  margin: var(--espace-24) 0;
+}
+
+.mq-meta {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espace-4);
+  font-size: 0.75rem;
+  color: var(--ink-secondary);
+}
+.mq-meta a {
+  border-bottom: 1px solid var(--accent);
+}
+.mq-meta-icone {
+  width: 12px;
+  height: 12px;
+}
+.mq-etiquettes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-4);
+  margin-top: var(--espace-4);
+}
+.mq-etiquette {
+  padding: 1px var(--espace-8);
+  border-radius: var(--rayon-pilule);
+  background: var(--accent-voile);
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+/* ═══ LES VIDEOS ═══ Des vignettes 16:9, quatre par rangee. */
+.mq-videos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  gap: var(--espace-24) var(--espace-16);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mq-video {
+  display: grid;
+  gap: var(--espace-8);
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-primary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.mq-video-image,
+.mq-article-image {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--voile-05);
+}
+.mq-video-image {
+  aspect-ratio: 16 / 9;
+}
+.mq-video-image img,
+.mq-article-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.mq-video:hover .mq-video-image img,
+.mq-article:hover .mq-article-image img {
+  transform: scale(1.04);
+}
+.mq-video-jouer {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgb(13 12 11 / 0.72);
+  color: #fff;
+  transition: background 160ms ease;
+}
+.mq-video-jouer svg {
+  width: 15px;
+  height: 15px;
+  margin-left: 2px;
+}
+.mq-video:hover .mq-video-jouer,
+.mq-article-video:hover .mq-video-jouer {
+  background: var(--accent);
+}
+.mq-video-titre {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* ═══ LES ARTICLES ═══ */
+.mq-articles,
+.mq-discussions,
+.mq-melange {
+  display: grid;
+  gap: var(--espace-8);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mq-article {
+  display: grid;
+  grid-template-columns: 11rem minmax(0, 1fr);
+  gap: var(--espace-16);
+  align-items: start;
+  width: 100%;
+  padding: var(--espace-12);
+  border: 0;
+  border-radius: 14px;
+  background: none;
+  color: var(--ink-primary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.mq-article:hover,
+.mq-discussion:hover {
+  background: var(--voile-05);
+}
+.mq-article-image {
+  aspect-ratio: 16 / 10;
+}
+.mq-sans-image {
+  width: 26px;
+  height: 26px;
+  color: var(--ink-secondary);
+}
+.mq-article-corps,
+.mq-discussion-corps {
+  display: grid;
+  gap: var(--espace-4);
+  min-width: 0;
+}
+.mq-article-titre {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.mq-article-resume {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--ink-secondary);
+}
+
+/* ═══ LES DISCUSSIONS ═══ */
+.mq-discussion {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: var(--espace-12);
+  align-items: start;
+  padding: var(--espace-12);
+  border-radius: 12px;
+}
+.mq-discussion-icone {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  color: var(--accent);
+}
+.mq-discussion-titre {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.mq-invitation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espace-16);
+  padding: var(--espace-16) var(--espace-24);
+  border-radius: 16px;
+  background: var(--accent-voile);
+}
+.mq-invitation p {
+  max-width: 40rem;
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* ═══ LA VIDEO, ICI ═══ */
+.mq-fenetre-voile {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: var(--espace-16);
+  background: rgb(0 0 0 / 0.8);
+}
+.mq-fenetre {
+  position: relative;
+  width: min(100%, 62rem);
+  border: 1px solid var(--filet);
+  border-radius: var(--rayon-carte);
+  overflow: hidden;
+  background: var(--fond);
+}
+.mq-fenetre-fermer {
+  position: absolute;
+  top: var(--espace-8);
+  right: var(--espace-8);
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(13 12 11 / 0.72);
+  color: #fff;
+  cursor: pointer;
+}
+.mq-fenetre-fermer svg {
+  width: 16px;
+  height: 16px;
+}
+.mq-fenetre-video {
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+.mq-fenetre-video iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.mq-fenetre-pied {
+  display: grid;
+  gap: var(--espace-4);
+  padding: var(--espace-16) var(--espace-24);
+}
+.mq-fenetre-titre {
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+/* ═══ TELEPHONE ═══ */
+@media (max-width: 640px) {
+  .mq-tete {
+    padding: var(--espace-16);
+  }
+  .mq-titre-marque {
+    font-size: 2.2rem;
+  }
+  .mq-article {
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    gap: var(--espace-12);
+    padding: var(--espace-8) 0;
+  }
+  .mq-article-resume {
+    display: none;
+  }
+  .mq-vues {
+    gap: var(--espace-16);
+  }
+  /* Au doigt, chaque cible fait 44 px. */
+  .mq-puce,
+  .mq-genre,
+  .mq-voir-tout,
+  .mq-retour a {
+    min-height: 44px;
+  }
+  .mq-puce-retirer {
+    width: 40px;
+    height: 40px;
+  }
+}

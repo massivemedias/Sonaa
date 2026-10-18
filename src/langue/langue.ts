@@ -707,6 +707,44 @@ interface Dictionnaire {
   /* LA PAGE D'UNE MIXTAPE, sociale depuis le 18 octobre 2026 :
      MixtapeSociale.tsx et GenerateurReel.tsx. */
   readonly compteRequisMixtape: string;
+  /* ═══ LES NEWS PAR MARQUE ═══ Voir MarquesNews.tsx. */
+  readonly newsVueFil: string;
+  readonly newsVueMarques: string;
+  readonly newsVueSuivis: string;
+  readonly newsVues: string;
+  readonly marquesTitre: string;
+  readonly marquesLede: string;
+  readonly chercherMarque: string;
+  readonly groupeSynthes: string;
+  readonly groupeDj: string;
+  readonly groupeLogiciels: string;
+  readonly groupePlugins: string;
+  readonly nProduits: (n: number) => string;
+  readonly nCeMois: (n: number) => string;
+  readonly nActus: (n: number) => string;
+  readonly toutesLesMarques: string;
+  readonly siteOfficiel: string;
+  readonly suiviMarque: string;
+  readonly suivreQuoi: (nom: string) => string;
+  readonly nePlusSuivre: (nom: string) => string;
+  readonly compteRequisSuivi: string;
+  readonly genreTout: string;
+  readonly genreArticles: string;
+  readonly genreVideos: string;
+  readonly genreDiscussions: string;
+  readonly toutesLesMachines: string;
+  readonly voirTout: string;
+  readonly afficherPlus: string;
+  readonly aucuneActuMarque: string;
+  readonly mesMachinesTitre: string;
+  readonly mesMachinesLede: string;
+  readonly aucunSuivi: string;
+  readonly parcourirLesMarques: string;
+  readonly voirSurYoutube: string;
+  readonly marqueIntrouvable: string;
+  readonly lesMachines: string;
+  readonly machinesTrouvees: string;
+  readonly aucuneMarqueTrouvee: string;
   readonly jAime: string;
   readonly nJaime: (n: number) => string;
   readonly copierLeLien: string;
@@ -1570,6 +1608,43 @@ const FR: Dictionnaire = {
   membreSonaa: 'Membre de SONAA',
   moderateurBadge: 'Modérateur',
   compteRequisMixtape: 'Créez un compte pour aimer et commenter les mixtapes. C’est gratuit et ça prend dix secondes.',
+  newsVueFil: 'Le fil',
+  newsVueMarques: 'Marques',
+  newsVueSuivis: 'Mes machines',
+  newsVues: 'Vues des news',
+  marquesTitre: 'Les marques',
+  marquesLede: 'Constructeurs, éditeurs et fabricants de plugins. Pour chacun, les articles, les vidéos et les discussions, machine par machine. Suivez celles que vous aimez : leurs news arrivent dans « Mes machines ».',
+  chercherMarque: 'Chercher une marque ou une machine',
+  groupeSynthes: 'Synthés, boîtes à rythmes et samplers',
+  groupeDj: 'Matériel DJ',
+  groupeLogiciels: 'Éditeurs de logiciels',
+  groupePlugins: 'Plugins',
+  nProduits: (n) => `${n} produit${n > 1 ? 's' : ''}`,
+  nCeMois: (n) => `${n} ce mois-ci`,
+  nActus: (n) => `${n} article${n > 1 ? 's' : ''}, vidéos et discussions`,
+  toutesLesMarques: 'Toutes les marques',
+  siteOfficiel: 'Site officiel',
+  suiviMarque: 'Suivi',
+  suivreQuoi: (nom) => `Suivre ${nom}`,
+  nePlusSuivre: (nom) => `Ne plus suivre ${nom}`,
+  compteRequisSuivi: 'Créez un compte pour suivre vos marques et vos machines : leurs news arrivent dans « Mes machines ».',
+  genreTout: 'Tout',
+  genreArticles: 'Articles',
+  genreVideos: 'Vidéos',
+  genreDiscussions: 'Discussions',
+  toutesLesMachines: 'Toutes',
+  voirTout: 'Voir tout',
+  afficherPlus: 'Afficher plus',
+  aucuneActuMarque: 'Rien pour l’instant. La moisson passe deux fois par jour.',
+  mesMachinesTitre: 'Mes machines',
+  mesMachinesLede: 'Les news des marques et des machines que vous suivez, au même endroit.',
+  aucunSuivi: 'Vous ne suivez encore rien. Ouvrez une marque et appuyez sur « Suivre », pour elle entière ou pour une seule machine.',
+  parcourirLesMarques: 'Parcourir les marques',
+  voirSurYoutube: 'Voir sur YouTube',
+  marqueIntrouvable: 'Cette marque n’est pas encore dans la liste.',
+  lesMachines: 'Les machines',
+  machinesTrouvees: 'Machines',
+  aucuneMarqueTrouvee: 'Aucune marque ni machine de ce nom.',
   jAime: 'J’aime',
   nJaime: (n) => (n === 0 ? 'J’aime' : `${n} j’aime`),
   copierLeLien: 'Copier le lien',
@@ -2440,6 +2515,43 @@ const EN: Dictionnaire = {
   membreSonaa: 'SONAA member',
   moderateurBadge: 'Moderator',
   compteRequisMixtape: 'Create an account to like and comment on mixtapes. It is free and takes ten seconds.',
+  newsVueFil: 'The feed',
+  newsVueMarques: 'Brands',
+  newsVueSuivis: 'My gear',
+  newsVues: 'News views',
+  marquesTitre: 'Brands',
+  marquesLede: 'Hardware makers, software developers and plugin companies. For each one, articles, videos and discussions, product by product. Follow yours: their news land in “My gear”.',
+  chercherMarque: 'Search a brand or a product',
+  groupeSynthes: 'Synths, drum machines and samplers',
+  groupeDj: 'DJ gear',
+  groupeLogiciels: 'Software makers',
+  groupePlugins: 'Plugins',
+  nProduits: (n) => `${n} product${n > 1 ? 's' : ''}`,
+  nCeMois: (n) => `${n} this month`,
+  nActus: (n) => `${n} articles, videos and discussions`,
+  toutesLesMarques: 'All brands',
+  siteOfficiel: 'Official site',
+  suiviMarque: 'Following',
+  suivreQuoi: (nom) => `Follow ${nom}`,
+  nePlusSuivre: (nom) => `Unfollow ${nom}`,
+  compteRequisSuivi: 'Create an account to follow your brands and your gear: their news land in “My gear”.',
+  genreTout: 'All',
+  genreArticles: 'Articles',
+  genreVideos: 'Videos',
+  genreDiscussions: 'Discussions',
+  toutesLesMachines: 'All',
+  voirTout: 'See all',
+  afficherPlus: 'Show more',
+  aucuneActuMarque: 'Nothing yet. We check twice a day.',
+  mesMachinesTitre: 'My gear',
+  mesMachinesLede: 'News from the brands and the products you follow, in one place.',
+  aucunSuivi: 'You are not following anything yet. Open a brand and press “Follow”, for the whole brand or for a single product.',
+  parcourirLesMarques: 'Browse brands',
+  voirSurYoutube: 'Watch on YouTube',
+  marqueIntrouvable: 'This brand is not in the list yet.',
+  lesMachines: 'Products',
+  machinesTrouvees: 'Products',
+  aucuneMarqueTrouvee: 'No brand or product by that name.',
   jAime: 'Like',
   nJaime: (n) => (n === 0 ? 'Like' : `${n} like${n > 1 ? 's' : ''}`),
   copierLeLien: 'Copy link',

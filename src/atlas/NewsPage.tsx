@@ -46,6 +46,7 @@ import { Apparition } from '../design/mouvement.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import { LectureArticle } from './LectureArticle.tsx';
 import { ColonneLecture, type ArticleVoisin } from './ColonneLecture.tsx';
+import { lireVueMarques, MarquesNews, VuesNews } from './MarquesNews.tsx';
 import { SOURCES, type Categorie } from '../data/news-sources.ts';
 import { langue, t } from '../langue/langue.ts';
 import './credits.css';
@@ -385,9 +386,17 @@ export function NewsPage() {
     return () => window.removeEventListener('hashchange', suivre);
   }, []);
   const urlEnLecture = ancre.startsWith('#/news/lire?') ? new URLSearchParams(ancre.slice('#/news/lire?'.length)).get('u') : null;
+  /* LES NEWS PAR MARQUE (#/news/marques, #/news/suivis) : voir
+     MarquesNews.tsx. Elles partagent la manchette et les onglets du fil. */
+  const vueMarques = lireVueMarques(ancre);
+  /* Les vues des marques posent leur propre titre ; le fil reprend le sien
+     quand on y revient. */
+  const surLeFil = vueMarques === null;
+  useEffect(() => {
+    if (surLeFil) document.title = `News · SONAA`;
+  }, [surLeFil]);
 
   useEffect(() => {
-    document.title = `News · SONAA`;
     /* Le fichier est a cote du site, refait par la moisson : une requete,
        jamais vers un tiers. */
     fetch(`${import.meta.env.BASE_URL}news.json`, { cache: 'no-cache' })
@@ -467,7 +476,17 @@ export function NewsPage() {
             </>
           );
         })()}
-        {!urlEnLecture && <>
+        {!urlEnLecture && vueMarques && (
+          <>
+            <header className="news-manchette mq-manchette">
+              <h1>News</h1>
+            </header>
+            <VuesNews actif={vueMarques.k === 'suivis' ? 'suivis' : 'marques'} />
+            <MarquesNews vue={vueMarques} />
+            <PiedDePage />
+          </>
+        )}
+        {!urlEnLecture && !vueMarques && <>
         {/* LA MANCHETTE : le titre, la date de l'edition, et une ligne qui
             dit ce que c'est. Comme en haut d'un journal. */}
         <header className="news-manchette">
@@ -475,6 +494,7 @@ export function NewsPage() {
           <p className="news-edition">{dateDeLEdition()}</p>
           <p className="news-lede intro-page">{t.ledeNews}</p>
         </header>
+        <VuesNews actif="fil" />
 
         <div className="news-filtres" role="tablist" aria-label={t.newsRayons}>
           {(['tout', 'production', 'djing', 'scene'] as const).map((f) => (

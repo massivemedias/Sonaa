@@ -44,16 +44,25 @@
 
 import { writeFileSync } from 'node:fs';
 import { imageDePage, lireFlux, resumer, texteNu, type Article } from './lib/flux-rss.ts';
+import { sansTirets } from './lib/labels-moisson.ts';
 import { SOURCES } from '../src/data/news-sources.ts';
 import { MARQUES, reconnaitreMarques, type GroupeMarque, type Marque, type Produit } from '../src/data/marques.ts';
 
 const args = process.argv.slice(2);
 const option = (nom: string): string | null => args.find((a) => a.startsWith(`--${nom}=`))?.slice(nom.length + 3) ?? null;
-const PLEIN = args.includes('--plein');
+/* LA PREMIERE PASSE SE DECIDE SEULE : tant que l'archive est presque vide
+   (moins de 3 000 lignes), la passe remonte le passe, sans qu'on ait a la
+   demander. Voir main(). */
+let PLEIN = args.includes('--plein');
 const SORTIE = option('sortie');
-const BUDGET_YOUTUBE = Number(option('youtube') ?? (PLEIN ? 45 : 25));
-const BUDGET_RECHERCHE = Number(option('recherches') ?? (PLEIN ? 100000 : 24));
-const BUDGET_REDDIT = Number(option('reddit') ?? (PLEIN ? 40 : 12));
+let BUDGET_YOUTUBE = 0;
+let BUDGET_RECHERCHE = 0;
+let BUDGET_REDDIT = 0;
+function fixerLesBudgets(): void {
+  BUDGET_YOUTUBE = Number(option('youtube') ?? (PLEIN ? 45 : 25));
+  BUDGET_RECHERCHE = Number(option('recherches') ?? (PLEIN ? 100000 : 24));
+  BUDGET_REDDIT = Number(option('reddit') ?? (PLEIN ? 40 : 12));
+}
 
 const URL_BASE = (process.env['VITE_SUPABASE_URL'] ?? process.env['SUPABASE_URL'] ?? '').replace(/\/$/, '');
 const CLE_SERVICE = process.env['SUPABASE_SERVICE_ROLE_KEY'] ?? '';
@@ -216,6 +225,10 @@ function lienPropre(lien: string): string {
 /** Range une ligne, en reunissant ce qu'on sait deja de ce lien. */
 function garder(l: Ligne): void {
   if (l.marques.length === 0) return;
+  /* Aucun tiret long sur le site, meme dans un titre venu d'ailleurs. */
+  /* Le resume repasse au nettoyage : certains flux (Discourse) echappent
+     leur HTML, et la premiere passe ne fait qu'en decoder les balises. */
+  l = { ...l, titre: sansTirets(l.titre), resume: resumer(sansTirets(texteNu(l.resume))), source: sansTirets(l.source) };
   const lien = lienPropre(l.lien);
   const image = l.image && l.image.startsWith('https://') ? l.image : null;
   const deja = lignes.get(lien);
@@ -405,7 +418,9 @@ let refusReddit = 0;
 async function lireReddit(url: string, source: string, imposee?: Marque): Promise<void> {
   if (refusReddit >= 3) return;
   try {
-    for (const a of lireFlux(await lire(url), source)) depuisArticle({ ...a, image: null }, source, 'discussion', imposee);
+    /* Le resume d'un fil Reddit n'est que du balisage (« submitted by... ») :
+       le titre suffit. */
+    for (const a of lireFlux(await lire(url), source)) depuisArticle({ ...a, image: null, resume: '' }, source, 'discussion', imposee);
     refusReddit = 0;
   } catch (e) {
     const m = (e as Error).message;
@@ -465,8 +480,24 @@ async function verser(toutes: readonly Ligne[]): Promise<void> {
   }
 }
 
+/** Le nombre de lignes de l'archive, ou null sans acces a la base. */
+async function tailleDeLArchive(): Promise<number | null> {
+  if (!CLE_SERVICE || !URL_BASE || SORTIE) return null;
+  const r = await fetch(`${URL_BASE}/rest/v1/actu_marques?select=lien&limit=1`, {
+    headers: { apikey: CLE_SERVICE, authorization: `Bearer ${CLE_SERVICE}`, prefer: 'count=exact' },
+  });
+  const total = r.headers.get('content-range')?.split('/')[1];
+  return total && /^\d+$/.test(total) ? Number(total) : null;
+}
+
 async function main(): Promise<void> {
   const debut = Date.now();
+  const taille = await tailleDeLArchive();
+  if (taille !== null && taille < 3000 && !PLEIN) {
+    PLEIN = true;
+    console.log(`Archive de ${taille} lignes : premiere passe complete.`);
+  }
+  fixerLesBudgets();
   await Promise.all([articlesDesFlux(), videosDesChaines(), discussions()]);
   await articlesParRecherche();
   await videosParRecherche();

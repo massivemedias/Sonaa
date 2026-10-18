@@ -18,6 +18,14 @@ on:
   schedule:
     # 7 h 47 et 19 h 47 a Montreal (heure d'ete), loin des autres moissons.
     - cron: '47 11,23 * * *'
+  # QUAND LE CATALOGUE OU LA MOISSON CHANGENT, elle repasse tout de suite :
+  # une marque ajoutee a ses news le jour meme. C'est aussi ce qui lance la
+  # toute premiere passe, complete d'elle-meme tant que l'archive est vide.
+  push:
+    branches: [main]
+    paths:
+      - 'src/data/marques.ts'
+      - 'scripts/moissonner-marques.ts'
   workflow_dispatch:
     inputs:
       plein:
