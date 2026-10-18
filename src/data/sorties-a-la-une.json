@@ -32,6 +32,16 @@
    "slug": "zyx-records"
   },
   {
+   "titre": "Merging Oceans / Train",
+   "artiste": "Rotersand",
+   "annee": 2026,
+   "image": "https://i.discogs.com/-r1mMoPCNIaeF-daOnhBUHmpycPiWxLFI-jOQT447a8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4NzM3/NzM3LTE3OTIxNTgx/MTgtODMxNS5qcGVn.jpeg",
+   "url": "https://www.discogs.com/release/38737737",
+   "format": "4xFile, MP3, Single, 320",
+   "label": "Metropolis",
+   "slug": "metropolis"
+  },
+  {
    "titre": "Tango N' Vectif",
    "artiste": "µ-Ziq",
    "annee": 2026,
@@ -170,16 +180,6 @@
    "format": "2xFile, WAV",
    "label": "Dragonfly Records",
    "slug": "dragonfly-records"
-  },
-  {
-   "titre": "Nothing Truly Dies",
-   "artiste": "Level One X Exit Real1ty X MC Robs",
-   "annee": 2026,
-   "image": "https://i.discogs.com/ZS487al1ZBWfr_0EtEQ3-hBGvK_zDWY4P_wtBrgVxBQ/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4NjY1/MDMyLTE3OTE1NzMy/OTctNzY5My5qcGVn.jpeg",
-   "url": "https://www.discogs.com/release/38665032",
-   "format": "2xFile, MP3, 320",
-   "label": "Masters Of Hardcore",
-   "slug": "masters-of-hardcore"
   }
  ]
 }
