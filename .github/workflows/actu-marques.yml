@@ -1,0 +1,51 @@
+# LA MOISSON DES NEWS PAR MARQUE, DEUX FOIS PAR JOUR.
+#
+# Elle lit les flux des magazines du materiel et des plugins, les chaines
+# YouTube des marques et des testeurs, les forums, et une tranche de
+# recherches par machine (scripts/moissonner-marques.ts). Elle verse le tout
+# dans la table actu_marques de Supabase : RIEN N'EST COMMIS ET RIEN N'EST
+# PUBLIE, la page News lit la base directement.
+#
+# LES SECRETS sont ceux des autres moissons : SUPABASE_URL et
+# SUPABASE_SERVICE_ROLE_KEY (moissons.yml), YOUTUBE_API_KEY (vues.yml).
+# La recherche YouTube coute 100 unites par machine : 25 par passe, deux
+# passes, 5 000 unites sur les 10 000 du jour ; le releve des vues en prend
+# 36.
+
+name: Moisson des news par marque
+
+on:
+  schedule:
+    # 7 h 47 et 19 h 47 a Montreal (heure d'ete), loin des autres moissons.
+    - cron: '47 11,23 * * *'
+  workflow_dispatch:
+    inputs:
+      plein:
+        description: 'Premiere passe : toutes les machines, et le passe des flux'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: actu-marques
+  cancel-in-progress: false
+
+jobs:
+  moissonner:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Moissonner
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: npm run moissonner:marques -- ${{ inputs.plein && '--plein' || '' }}
