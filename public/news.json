@@ -1,31 +1,40 @@
 {
- "fait": "2026-10-18T04:43:57.985Z",
+ "fait": "2026-10-18T15:57:55.378Z",
  "articles": [
   {
    "source": "midnightrebels",
-   "titre": "E-FEST Camp and JAOU Biennale 2026: Tunisia packs over 60 acts in an intense month of international celebration of the arts",
-   "lien": "https://midnightrebels.com/e-fest-camp-and-jaou-biennale-2026-tunisia/",
-   "date": "2026-10-17T23:25:34.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/JAOU-Biennale-flyer.webp?resize=1160%2C1450&ssl=1",
-   "resume": "From October 23rd to November 22nd, Tunisia hosts two of its biggest festivals: JAOU Tunis Biennale (8th edition) and E-FEST Camp in Tataouine (second edition of the camp, following the iconic E-Fest Project). During…",
+   "titre": "Black Music Events in London’s Diverse Boroughs Face Refusals",
+   "lien": "https://midnightrebels.com/black-music-events-london-licensing-bias/",
+   "date": "2026-10-18T15:30:42.000Z",
+   "image": "https://midnightrebels.com/wp-content/uploads/2025/11/Ottawas-PlantainsCaviar-Takes-on-Electronic-Musics-Whitewashing-Problem.avif",
+   "resume": "Some music genres in London are “assumed to be a risk despite evidence to the contrary,” a new study found. The same research says Black music events in London are more likely to be cancelled, restricted or shut down…",
    "integral": true
   },
   {
    "source": "midnightrebels",
-   "titre": "Nora en Pure Takes Nelly Furtado’s Faded Into Melodic House",
-   "lien": "https://midnightrebels.com/nora-en-pure-faded-remix/",
-   "date": "2026-10-17T15:30:13.000Z",
-   "image": "https://midnightrebels.com/wp-content/uploads/2025/04/boysnoize-budots.avif",
-   "resume": "Nora en Pure’s ‘Faded’ remix is out now, and it leaves the singing alone. Her version of HAYLA and Nelly Furtado’s ‘Faded’ is available through UMG Recordings . The vocals stay where they were, and the new work happens…",
+   "titre": "Nas Blames Music’s Business for Forgetting Its Foundation",
+   "lien": "https://midnightrebels.com/nas-open-letter-music-pioneers/",
+   "date": "2026-10-18T10:18:07.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/image-7.webp?resize=493%2C577&ssl=1",
+   "resume": "“The music game forgets or doesn’t compensate the foundation.” That line sits inside a long Instagram post that Nas shared on 15 October 2026 , signed “Nasir Jones, BLAK MUSIC 2026.” The Nas open letter makes one…",
    "integral": true
   },
   {
    "source": "midnightrebels",
-   "titre": "The Chainsmokers Launch Independent Label Secondhand Happiness",
-   "lien": "https://midnightrebels.com/chainsmokers-independent-label-secondhand-happiness/",
-   "date": "2026-10-17T15:21:19.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/09/Inside-the-Stage-Failure-That-Flipped-The-Chainsmokers-Vanderbilt-Crowd-Upside-Down.webp?fit=2400%2C1350&ssl=1",
-   "resume": "“After 11 amazing years, we are now independent artists.” That is how The Chainsmokers, the duo of Alex Pall and Drew Taggart, announced on 13 October 2026 that they were leaving Columbia/Disruptor. The Chainsmokers…",
+   "titre": "OP-XY firmware 1.2.0 adds multi channel USB audio",
+   "lien": "https://midnightrebels.com/op-xy-firmware-update-drum-synth/",
+   "date": "2026-10-18T08:32:50.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/Black-Music-Events-in-Londons-Diverse-Boroughs-Face-Refusals.webp?fit=2400%2C1350&ssl=1",
+   "resume": "The OP-XY firmware update, version 1.2.0, adds a new drum synth and multi channel USB audio. Owners can get it from the official Teenage Engineering site, which dates the file 15 October 2026 . Firmware is the software…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "TapeEngine, Colony, edgeRunner retrograde: Free Plugins of the Week",
+   "lien": "https://www.gearnews.com/tapeengine-free-plugins/",
+   "date": "2026-10-18T06:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/tapeengine-free-plugins-10-18-26.jpg",
+   "resume": "TapeEngine delivers tasty tape saturation and lo-fi sounds, Colony is a vintage-style multi-effect with heaps of energy, and edgeRunner retrograde breathes analog character into modern productions: Free Plugins of the…",
    "integral": true
   },
   {
@@ -134,15 +143,6 @@
    "date": "2026-10-15T23:02:15.000Z",
    "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/10/3b83c303-dcf6-4d40-bb9a-7def2f026386.png?fit=1130%2C386&ssl=1",
    "resume": "Vibe-coded plugins are everywhere but does that mean that they’re actually taking over the market? We look at the trend and speak with two developers working with AI as part of their process. The age of vibe-coded…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Teenage Engineering OP-XY: Update 1.2.0 Features Multi-Channel USB and a New Drum Synth! – Review",
-   "lien": "https://www.gearnews.com/teenage-engineering-op-xy-review/",
-   "date": "2026-10-15T21:28:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/07/teenage-engineering-op-xy-update-leak-T.jpg",
-   "resume": "It’s true! The Teenage Engineering OP-XY now offers multi-channel USB, a new drum synth, and more! Download it now. All About the Teenage Engineering OP-XY Teenage Engineering OP-XY – Highlights Update 1.2.0 Is Here…",
    "integral": true
   },
   {
