@@ -565,7 +565,7 @@ export function ProfilPage() {
           </label>
           <label className="sp-label">
             {t.lieuPublic}
-            <input type="text" maxLength={80} value={lieu} onChange={(e) => setLieu(e.target.value)} placeholder="Montréal, Canada" />
+            <input type="text" maxLength={80} value={lieu} onChange={(e) => setLieu(e.target.value)} placeholder={t.lieuExemple} />
             <span className="pf-aide-champ">{t.lieuPublicAide}</span>
           </label>
           <label className="sp-label">
@@ -643,7 +643,7 @@ export function ProfilPage() {
                 maxLength={300}
                 value={liens[r.id] ?? ''}
                 onChange={(e) => setLiens((x) => ({ ...x, [r.id]: e.target.value }))}
-                placeholder={r.id === 'site' ? 'monsite.com' : r.id === 'ra' ? 'nom-sur-ra' : '@identifiant'}
+                placeholder={r.id === 'site' ? t.siteExemple : r.id === 'ra' ? t.raExemple : t.identifiantExemple}
                 aria-label={r.nom}
               />
             </label>

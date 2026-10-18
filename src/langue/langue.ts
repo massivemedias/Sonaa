@@ -744,6 +744,10 @@ interface Dictionnaire {
   readonly mesReseauxAide: string;
   readonly reseauxEnregistres: string;
   readonly lienInvalide: (reseau: string) => string;
+  readonly lieuExemple: string;
+  readonly identifiantExemple: string;
+  readonly siteExemple: string;
+  readonly raExemple: string;
   readonly baseIndisponible: string;
   readonly connexionRequiseProfil: string;
   readonly identitePublique: string;
@@ -1605,6 +1609,10 @@ const FR: Dictionnaire = {
   mesReseauxAide: 'Une adresse complète, ou seulement votre identifiant : « maudite-machine » suffit pour SoundCloud.',
   reseauxEnregistres: 'Réseaux enregistrés.',
   lienInvalide: (reseau) => `${reseau} : cette adresse n’est pas une adresse web.`,
+  lieuExemple: 'Montréal, Canada',
+  identifiantExemple: '@identifiant',
+  siteExemple: 'monsite.com',
+  raExemple: 'nom-sur-ra',
   baseIndisponible: "Le dépôt de mixtapes n'est pas actif sur cette version du site.",
   connexionRequiseProfil: 'Connectez-vous pour créer votre profil et déposer une mixtape.',
   identitePublique: 'Mon identité publique',
@@ -2471,6 +2479,10 @@ const EN: Dictionnaire = {
   mesReseauxAide: 'A full address, or just your handle: “maudite-machine” is enough for SoundCloud.',
   reseauxEnregistres: 'Links saved.',
   lienInvalide: (reseau) => `${reseau}: this is not a web address.`,
+  lieuExemple: 'Montreal, Canada',
+  identifiantExemple: '@handle',
+  siteExemple: 'mysite.com',
+  raExemple: 'name-on-ra',
   baseIndisponible: 'Mixtape uploads are not enabled on this build of the site.',
   connexionRequiseProfil: 'Sign in to create your profile and upload a mixtape.',
   identitePublique: 'My public identity',
