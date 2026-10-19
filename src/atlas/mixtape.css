@@ -781,6 +781,35 @@
   width: 100%;
   accent-color: var(--accent);
 }
+/* Le choix du fond : trois pastilles, l'actif sur l'accent. */
+.mx-reel-fonds {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espace-8);
+  width: 100%;
+}
+.mx-reel-fonds-titre {
+  width: 100%;
+  font-size: 0.875rem;
+}
+.mx-reel-fond {
+  min-height: 40px;
+  padding: 0 var(--espace-16);
+  border: 1px solid var(--filet);
+  border-radius: var(--rayon-pilule);
+  background: var(--verre-fond);
+  color: var(--ink-primary);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.mx-reel-fond[aria-checked='true'] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--sur-accent);
+}
 .mx-reel-avance {
   font-weight: 700;
   font-variant-numeric: tabular-nums;

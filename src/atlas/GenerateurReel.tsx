@@ -21,7 +21,7 @@
  * n'existe pas. Sur telephone, la video se partage directement (Web Share
  * avec fichier) ; ailleurs, elle se telecharge. */
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FaIcon } from './FaIcon.tsx';
 import { mmss, urlAudio, urlAvatar, urlPochette, type SetDJ } from '../lib/sets.ts';
@@ -83,35 +83,72 @@ function rectArrondi(ctx: CanvasRenderingContext2D, x: number, y: number, l: num
   ctx.closePath();
 }
 
+/* LE FOND, AU CHOIX. Mika, le 18 octobre 2026 : « ce serait bien que le
+   background soit le cover pas mal flouté, ou qu'on ait ce choix ».
+   - flou   : la pochette tres floutee, assez claire pour qu'on y voie ses
+              couleurs (par defaut) ;
+   - sombre : la meme, assombrie, pour une pochette tres claire ;
+   - noir   : l'encre du site, rien d'autre. */
+type Fond = 'flou' | 'sombre' | 'noir';
+
+/* LE FOND SE PREPARE UNE FOIS, et non a chaque image : un flou de cette
+   taille sur 1080 x 1920, trente fois par seconde, ralentissait la
+   fabrication. La pochette est d'abord reduite a 54 x 96, puis agrandie
+   avec lissage : c'est deja un flou tres large, qui marche meme ou le
+   filtre des toiles n'existe pas (Safari avant la 18) ; le filtre, quand
+   il existe, adoucit ce qui reste et ravive les couleurs. */
+function preparerFond(pochette: HTMLImageElement | null, fond: Fond): HTMLCanvasElement {
+  const c = document.createElement('canvas');
+  c.width = L;
+  c.height = H;
+  const ctx = c.getContext('2d');
+  if (!ctx) return c;
+  ctx.fillStyle = '#0d0c0b';
+  ctx.fillRect(0, 0, L, H);
+  if (pochette && fond !== 'noir') {
+    const petit = document.createElement('canvas');
+    petit.width = 54;
+    petit.height = 96;
+    const p = petit.getContext('2d');
+    if (p) {
+      const e = Math.max(petit.width / pochette.width, petit.height / pochette.height);
+      const pl = pochette.width * e;
+      const ph = pochette.height * e;
+      p.drawImage(pochette, (petit.width - pl) / 2, (petit.height - ph) / 2, pl, ph);
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.filter = fond === 'flou' ? 'blur(24px) saturate(1.35)' : 'blur(24px) saturate(1.2)';
+      /* Un debord de tous cotes : le flou ne laisse pas de bord sombre. */
+      ctx.drawImage(petit, -60, -60, L + 120, H + 120);
+      ctx.filter = 'none';
+      ctx.fillStyle = fond === 'flou' ? 'rgba(13,12,11,0.18)' : 'rgba(13,12,11,0.58)';
+      ctx.fillRect(0, 0, L, H);
+    }
+  }
+  /* Le bas s'assombrit toujours : c'est la que se lisent le titre, la
+     description et les barres. */
+  const voile = ctx.createLinearGradient(0, 0, 0, H);
+  voile.addColorStop(0, 'rgba(13,12,11,0.1)');
+  voile.addColorStop(0.5, 'rgba(13,12,11,0.2)');
+  voile.addColorStop(1, 'rgba(13,12,11,0.88)');
+  ctx.fillStyle = voile;
+  ctx.fillRect(0, 0, L, H);
+  return c;
+}
+
 /** Une image de la video : `barres` de 0 a 1, `avance` de 0 a 1, `pouls`
     de 0 a 1 (l'energie des basses). */
 function dessiner(
   ctx: CanvasRenderingContext2D,
   set: SetDJ,
   pochette: HTMLImageElement | null,
+  fond: HTMLCanvasElement,
   barres: readonly number[],
   avance: number,
   pouls: number
 ): void {
   ctx.save();
-  ctx.fillStyle = '#0d0c0b';
-  ctx.fillRect(0, 0, L, H);
-
-  /* Le fond : la pochette qui couvre tout, floutee et sombre. */
-  if (pochette) {
-    const e = Math.max(L / pochette.width, H / pochette.height) * 1.15;
-    const pl = pochette.width * e;
-    const ph = pochette.height * e;
-    ctx.filter = 'blur(60px) brightness(0.38) saturate(1.25)';
-    ctx.drawImage(pochette, (L - pl) / 2, (H - ph) / 2, pl, ph);
-    ctx.filter = 'none';
-  }
-  const voile = ctx.createLinearGradient(0, 0, 0, H);
-  voile.addColorStop(0, 'rgba(13,12,11,0.35)');
-  voile.addColorStop(0.55, 'rgba(13,12,11,0.25)');
-  voile.addColorStop(1, 'rgba(13,12,11,0.92)');
-  ctx.fillStyle = voile;
-  ctx.fillRect(0, 0, L, H);
+  ctx.drawImage(fond, 0, 0);
 
   /* La pochette, dans ses proportions, qui bat avec les basses. */
   let basPochette = 230;
@@ -202,6 +239,8 @@ export function GenerateurReel({ set, onFermer }: { set: SetDJ; onFermer: () => 
   const [secondes, setSecondes] = useState(0);
   const [video, setVideo] = useState<{ url: string; fichier: File } | null>(null);
   const [pochette, setPochette] = useState<HTMLImageElement | null>(null);
+  const [choixFond, setChoixFond] = useState<Fond>('flou');
+  const fond = useMemo(() => preparerFond(pochette, choixFond), [pochette, choixFond]);
   const arret = useRef<() => void>(() => undefined);
   const possible = typeof MediaRecorder !== 'undefined' && typeof HTMLCanvasElement.prototype.captureStream === 'function';
 
@@ -223,8 +262,8 @@ export function GenerateurReel({ set, onFermer }: { set: SetDJ; onFermer: () => 
     const c = toile.current;
     const ctx = c?.getContext('2d');
     if (!c || !ctx || etape !== 'reglage') return;
-    dessiner(ctx, set, pochette, Array.from({ length: 48 }, (_, i) => 0.15 + 0.12 * Math.sin(i * 0.7)), 0, 0);
-  }, [pochette, set, etape]);
+    dessiner(ctx, set, pochette, fond, Array.from({ length: 48 }, (_, i) => 0.15 + 0.12 * Math.sin(i * 0.7)), 0, 0);
+  }, [pochette, fond, set, etape]);
 
   useEffect(() => () => {
     if (video) URL.revokeObjectURL(video.url);
@@ -294,7 +333,7 @@ export function GenerateurReel({ set, onFermer }: { set: SetDJ; onFermer: () => 
         }
         const pouls = ((donnees[1] ?? 0) + (donnees[2] ?? 0) + (donnees[3] ?? 0)) / (3 * 255);
         const ecoule = (performance.now() - t0) / 1000;
-        dessiner(ctx, set, pochette, barres, ecoule / DUREE, pouls);
+        dessiner(ctx, set, pochette, fond, barres, ecoule / DUREE, pouls);
         setSecondes(Math.min(DUREE, Math.floor(ecoule)));
         if (ecoule >= DUREE) {
           vivant = false;
@@ -352,6 +391,27 @@ export function GenerateurReel({ set, onFermer }: { set: SetDJ; onFermer: () => 
           ) : etape === 'reglage' ? (
             <>
               <p className="mx-aide">{t.reelAide}</p>
+              <div className="mx-reel-fonds" role="radiogroup" aria-label={t.reelFond}>
+                <span className="mx-reel-fonds-titre">{t.reelFond}</span>
+                {(
+                  [
+                    ['flou', t.reelFondFlou],
+                    ['sombre', t.reelFondSombre],
+                    ['noir', t.reelFondNoir],
+                  ] as const
+                ).map(([id, nom]) => (
+                  <button
+                    key={id}
+                    type="button"
+                    role="radio"
+                    aria-checked={choixFond === id}
+                    className="mx-reel-fond"
+                    onClick={() => setChoixFond(id)}
+                  >
+                    {nom}
+                  </button>
+                ))}
+              </div>
               {duree > DUREE && (
                 <label className="mx-reel-debut">
                   {t.reelDebut(mmss(debut))}

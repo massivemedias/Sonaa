@@ -765,6 +765,10 @@ interface Dictionnaire {
   readonly reelTitre: string;
   readonly reelAide: string;
   readonly reelDebut: (t: string) => string;
+  readonly reelFond: string;
+  readonly reelFondFlou: string;
+  readonly reelFondSombre: string;
+  readonly reelFondNoir: string;
   readonly reelLancer: string;
   readonly reelEnCours: (s: number) => string;
   readonly reelPret: string;
@@ -1667,6 +1671,10 @@ const FR: Dictionnaire = {
     'Une vidéo verticale d’une minute, avec la pochette, le titre, la description et un extrait de la mixtape. ' +
     'Elle se fabrique en direct : comptez une minute, et gardez cet onglet ouvert.',
   reelDebut: (x) => `L’extrait commence à ${x}`,
+  reelFond: 'Fond',
+  reelFondFlou: 'Pochette floutée',
+  reelFondSombre: 'Pochette sombre',
+  reelFondNoir: 'Noir',
   reelLancer: 'Fabriquer la vidéo',
   reelEnCours: (s) => `Fabrication… ${s} s sur 60`,
   reelPret: 'Votre reel est prêt.',
@@ -2574,6 +2582,10 @@ const EN: Dictionnaire = {
     'A one minute vertical video with the cover, the title, the description and an excerpt of the mixtape. ' +
     'It is made in real time: allow one minute, and keep this tab open.',
   reelDebut: (x) => `The excerpt starts at ${x}`,
+  reelFond: 'Background',
+  reelFondFlou: 'Blurred cover',
+  reelFondSombre: 'Dark cover',
+  reelFondNoir: 'Black',
   reelLancer: 'Make the video',
   reelEnCours: (s) => `Making… ${s} s of 60`,
   reelPret: 'Your reel is ready.',
