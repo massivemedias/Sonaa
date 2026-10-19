@@ -1,6 +1,51 @@
 {
- "fait": "2026-10-19T04:51:44.883Z",
+ "fait": "2026-10-19T18:45:44.560Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "First LOVE FM Synthesizer – Available to Order Now!",
+   "lien": "https://www.gearnews.com/first-love-fm-synthesizer-fm-synthesis-made-fun/",
+   "date": "2026-10-19T17:53:53.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2024/05/FirstLove-FM_1.jpg",
+   "resume": "Source: GEARNEWS Nearly two and a half years after it debuted at Superbooth 24, the First LOVE FM is ready to order in two delicious colours! Place Your Orders Now! [UPDATE: 19th October, 2026] It has taken a couple of…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "The Best Mono Synths under $500 for Leads and Basslines",
+   "lien": "https://www.gearnews.com/best-mono-synths-under-500/",
+   "date": "2026-10-19T17:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2024/07/best-mono-synths-under.jpg",
+   "resume": "These days, you don’t have to spend a fortune to get your hands on a great-sounding synth, especially if you opt for a monophonic one! We check out the best mono synths under $500. With the included software synths of…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "The Bob Moog Foundation is hosting an online fundraising auction – here’s what’s up for grabs",
+   "lien": "https://musictech.com/news/music/the-bob-moog-foundation-is-hosting-an-online-fundraising-auction-heres-whats-up-for-grabs/",
+   "date": "2026-10-19T14:53:36.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/Bob-Moog-online-auction-hero@2000x1500.jpg",
+   "resume": "The Bob Moog Foundation – the nonprofit launched in 2006 following the death of pioneering synth maker Bob Moog – is set to hold an online auction to raise funds for various causes, including Dr. Bob’s SoundSchool, the…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Granular plugins reward producers who sit with one sample",
+   "lien": "https://midnightrebels.com/granular-synthesis-plugins-producers-home-studio/",
+   "date": "2026-10-19T10:54:50.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/08/AI-Plugins-Are-Here-and-Nobody-Can-Agree-If-Thats-Good.webp?fit=2400%2C1350&ssl=1",
+   "resume": "Baby Audio’s Grainferno went on sale on 11 March 2026 at an introductory price of $79, against a list price of $129. It is one of several granular synthesis plugins that reached producers this year, and a few of them…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Locked Club’s PZDC Turns Distortion Into a Double LP",
+   "lien": "https://midnightrebels.com/locked-club-pzdc-album-review/",
+   "date": "2026-10-19T09:03:29.000Z",
+   "image": "https://midnightrebels.com/wp-content/uploads/2025/04/boysnoize-budots.avif",
+   "resume": "Sixteen tracks is a lot of distortion. Locked Club’s PZDC came out on 2 October 2026 on ONES AND ZEROS, the imprint Boys Noize runs. Locked Club has been one of the faces of the Russian electro and breakbeats movement…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "Is The Humanity of Instruments Under Threat from AI?",
@@ -20,24 +65,6 @@
    "integral": true
   },
   {
-   "source": "midnightrebels",
-   "titre": "Nas Blames Music’s Business for Forgetting Its Foundation",
-   "lien": "https://midnightrebels.com/nas-open-letter-music-pioneers/",
-   "date": "2026-10-18T10:18:07.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/image-7.webp?resize=493%2C577&ssl=1",
-   "resume": "“The music game forgets or doesn’t compensate the foundation.” That line sits inside a long Instagram post that Nas shared on 15 October 2026 , signed “Nasir Jones, BLAK MUSIC 2026.” The Nas open letter makes one…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "OP-XY firmware 1.2.0 adds multi channel USB audio",
-   "lien": "https://midnightrebels.com/op-xy-firmware-update-drum-synth/",
-   "date": "2026-10-18T08:32:50.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/Black-Music-Events-in-Londons-Diverse-Boroughs-Face-Refusals.webp?fit=2400%2C1350&ssl=1",
-   "resume": "The OP-XY firmware update, version 1.2.0, adds a new drum synth and multi channel USB audio. Owners can get it from the official Teenage Engineering site, which dates the file 15 October 2026 . Firmware is the software…",
-   "integral": true
-  },
-  {
    "source": "gearnews",
    "titre": "TapeEngine, Colony, edgeRunner retrograde: Free Plugins of the Week",
    "lien": "https://www.gearnews.com/tapeengine-free-plugins/",
@@ -47,39 +74,12 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Deals of the Week: Amazing Offers from Moog, SSL and Roland",
-   "lien": "https://www.gearnews.com/moog-ssl-deals/",
-   "date": "2026-10-17T06:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/moog-ssl-deals-10-17-26.jpg",
-   "resume": "Grab the Moog Messenger, SSL audio interfaces, and a brand-new digital piano from Roland at amazing prices: Deals of the Week! Deals of the Week Moog Messenger on Sale: Save on the Next-Generation Analog Monosynth! SSL…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Union Audio AREA.6 Puts CV Control in a Performance-Oriented Mixer: Now Available!",
-   "lien": "https://www.gearnews.com/union-audio-area-6-synth/",
-   "date": "2026-10-16T20:47:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/04/union-audio-area.6-new-T.jpg",
-   "resume": "Union Audio’s unique AREA.6 mixer is finally available! Grab the Eurorack-ready mixer with filter, compression and CV control now. All About Union Audio AREA.6 Now Available AREA.6 Puts CV Control in a…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "“Sets a new benchmark for what a digital piano can be in a modern home”: Roland Kiyola KF-20 review",
    "lien": "https://www.musicradar.com/music-tech/keyboards-pianos/roland-kiyola-kf-20-review",
    "date": "2026-10-16T17:05:58.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/TXa69NicRAkYUHpexf6cgN-1920-80.jpg",
    "resume": "What is it? The Roland Kiyola KF-20 is not your typical digital piano . It is the result of a long-standing collaboration between Roland and Karimoku, one of Japan's most respected wood furniture manufacturers…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Casio CZ-101: The Classic Synth That Went Head to Head With the DX7",
-   "lien": "https://www.gearnews.com/casio-cz-101/",
-   "date": "2026-10-16T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2024/10/Casio-CZ-101-lead.jpg",
-   "resume": "The Casio CZ-101 may look like a toy but it made polyphony affordable in 1984. And you could actually program it, unlike the DX7. Phase distortion for everyone! All About the Casio CZ-101 Casio CZ-101 Not Frequency…",
    "integral": true
   },
   {
@@ -110,30 +110,12 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Plugin Boutique Membership: A New Tiered Ecosystem",
-   "lien": "https://www.gearnews.com/plugin-boutique-membership/",
-   "date": "2026-10-16T10:06:16.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/plugin-boutique-membership-program-ft.jpg",
-   "resume": "The Plugin Boutique Membership has replaced the old token-based loyalty program with a tiered system with an optional subscription plan. Loyalty rewards have been around on Plugin Boutique for years, letting you…",
-   "integral": true
-  },
-  {
    "source": "musictech",
    "titre": "Audient smashes its way into the high-end interface market with Horizon",
    "lien": "https://musictech.com/reviews/studio-recording-gear/audient-horizon-review/",
    "date": "2026-10-16T08:00:37.000Z",
    "image": "https://musictech.com/wp-content/uploads/2026/10/Audient-Horizon-hero-credit-press@2000x1500.jpg",
    "resume": "Horizon 8P: £2,199 / €2,499 / $3,499 Horizon 16: £2,199 / €2,499 / $3,499 Horizon 32: £2,799 / €3,299 / $4,299 audient.com The Audient ASP8024 large format console came a bit late to the large format console party…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "1980s Synth Pop Production with Modern Budget Hardware – Perfect Match!",
-   "lien": "https://www.gearnews.com/1980s-synth-pop-production-perfect-match/",
-   "date": "2026-10-16T06:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/synth-pop-production-ft.jpg",
-   "resume": "Is it possible to put together an authentic 1980s synth pop production using affordable hardware? We’ve found gear that could be a Perfect Match! In this Article: 1980s Synth Pop Production: Behringer LmDrum 1980s Synth…",
    "integral": true
   },
   {
@@ -182,15 +164,6 @@
    "integral": true
   },
   {
-   "source": "musictech",
-   "titre": "Bubblegum: the free plugin that brings detailed pitch editing to producers on a budget",
-   "lien": "https://musictech.com/news/gear/bubblegum-pitch-editing-plugin/",
-   "date": "2026-10-14T16:41:52.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Bubblegum-plugin@2000x1500.jpg",
-   "resume": "Bubblegum is a new free plugin that enables music producers the ability to adjust the pitch, timing and duration of individual notes within recorded audio, including notes played simultaneously in chords. Developed by…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "“If you buy one piece of music software this month, make it this one”: 5 plugins you need to know about",
    "lien": "https://www.musicradar.com/music-tech/if-you-buy-one-piece-of-music-software-this-month-make-it-this-one-5-plugins-you-need-to-know-about-from-bonkers-multi-effects-to-fat-saturators",
@@ -200,66 +173,12 @@
    "integral": true
   },
   {
-   "source": "musicradar",
-   "titre": "\"Anytime I had a little bit of money, I would buy gear”: Jack Antonoff talks Taylor Swift’s Midnights",
-   "lien": "https://www.musicradar.com/music-tech/synths/the-perfect-pop-song-is-by-definition-the-imperfect-pop-song-jack-antonoff-on-vintage-gear-analogue-synths-and-taylor-swifts-midnights",
-   "date": "2026-10-14T15:00:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/WKU8ZbDpCU3Gw7DZCkZpmb-1920-80.jpg",
-   "resume": "RECORDING WEEK 2026 : Jack Antonoff thinks pop music is a paradox. “The irony of pop music is that it's this field that's so rigid, but the only stuff that's successful is the stuff that’s out on the other side of it,”…",
-   "integral": true
-  },
-  {
    "source": "attack",
    "titre": "Manifest Audio Release Sonification Tools V3 As VST3, AU, And CLAP Plugins",
    "lien": "https://www.attackmagazine.com/news/manifest-audio-release-sonification-tools-v3-as-vst3-au-and-clap-plugins/",
    "date": "2026-10-14T14:47:37.000Z",
    "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/10/Screenshot-2026-10-07-at-19.13.17-1.png?fit=1130%2C387&ssl=1",
    "resume": "The data-driven suite arrives as a cross-platform plug-in bundle with AU/CLAP/VST3 formats, plus an Ableton Live Extension. Manifest Audio has released Sonification Tools v3 for $199, on sale for $169 until 1 November…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Bitwig now lets you import tracks directly from rekordbox – here’s what you need to know",
-   "lien": "https://musictech.com/news/industry/bitwig-rekordbox-alphatheta-partnership/",
-   "date": "2026-10-14T13:48:03.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Bitwig-rekordbox-hero@2000x1500.jpg",
-   "resume": "Bitwig has partnered with AlphaTheta in a bid to bridge the gap between DJing and music production, with DJs’ rekordbox libraries usable directly within Bitwig Studio. The Berlin-based company says version 6.1.4 of its…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "“Delivers impressive scale for a speaker of this size”: Eve Audio EXO 24 review",
-   "lien": "https://www.musicradar.com/music-tech/studio-monitors/eve-audio-exo-24-review",
-   "date": "2026-10-14T11:43:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/pwVZwGBUiviZyNPeSsqGhe-1920-80.jpg",
-   "resume": "What is it? Eve Audio has a solid reputation for high-quality studio monitors . Typically equipped with AMT (air motion transformer) tweeters, options include the highly-regarded flagship series, the Eve Audio SC2070…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Never cleaned your synths? Here's how – and why – to do it properly",
-   "lien": "https://www.musicradar.com/music-tech/synths/6-ways-to-keep-your-synths-and-keyboards-looking-box-fresh-and-why-its-more-important-than-you-might-think",
-   "date": "2026-10-14T11:39:17.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/YncCt5wL7gRcqzetHBq5rf-1920-80.jpg",
-   "resume": "The best day of owning a synth or keyboard is the one it arrives at your doorstep. You've been looking forward to this day for weeks, perhaps saving your hard-earned cash for an instrument which, most likely, will…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "How to connect your audio interface to your computer – for both PC and Mac users",
-   "lien": "https://www.musicradar.com/music-tech/audio-interfaces/how-to-connect-your-audio-interface-to-your-computer-for-both-pc-and-mac-users",
-   "date": "2026-10-14T11:00:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/uV2vwqXiLxPkcU4xqhCr7Q-1920-80.jpg",
-   "resume": "RECORDING WEEK 2026 : When it comes to making music, there are a lot of elements to consider – each of which have their own separate claim to being the ‘most important part’ of the whole deal. Microphones ? Acoustic…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "How to reamp synths and drum machines to build power and presence",
-   "lien": "https://www.musicradar.com/music-tech/recording/how-to-reamp-synths-and-drum-machines-to-build-power-and-presence-the-whole-thing-has-this-real-sense-of-space-a-sense-that-something-happened-in-a-room-and-i-recorded-it-rather-than-some-guy-with-a-mouse",
-   "date": "2026-10-14T08:58:24.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/qdphghNLDWzCXQJXiCSVLc-1920-80.png",
-   "resume": "RECORDING WEEK 2026: In-the-box music production is undoubtedly incredible. With endless track counts, plugins covering all manner of instruments and effects and instant recall, modern producers are blessed with the…",
    "integral": true
   },
   {
