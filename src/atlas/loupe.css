@@ -1,0 +1,40 @@
+/* LA LOUPE : une image en grand, par-dessus la page. Voir Loupe.tsx.
+   Deplacee de sets.css le 18 octobre 2026, quand le calendrier s'en est
+   servi pour ses affiches. Au-dessus de la fiche d'une soiree (z-index 40),
+   d'ou le 50. */
+.loupe {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  /* MARGE EN REM ET NON EN PROPORTION D'ECRAN. La premiere version prenait
+     5vw, ce qui redisait une grandeur deja nommee ailleurs dans le projet, et
+     le controle des constantes l'a refuse. Il a raison : ce n'est pas une
+     decoupe d'ecran qu'on veut ici, c'est un simple retrait autour de
+     l'image, et le haut est plus grand pour laisser passer le bouton de
+     fermeture. */
+  padding: var(--espace-64) var(--espace-16) var(--espace-24);
+  background: var(--panneau-88);
+  cursor: zoom-out;
+}
+.loupe img {
+  max-width: 100%;
+  max-height: 90vh;
+  border-radius: 10px;
+  cursor: default;
+}
+.loupe-fermer {
+  position: absolute;
+  top: max(var(--espace-16), env(safe-area-inset-top, 0px));
+  right: var(--espace-16);
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: var(--voile-12);
+  color: var(--encre-vive);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}

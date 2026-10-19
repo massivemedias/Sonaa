@@ -58,6 +58,9 @@ import {
 import { soireesManuelles, supprimerSoiree, type SoireeManuelle } from '../lib/soirees-manuelles.ts';
 import { sansDoublons } from '../lib/sans-doublons.ts';
 import { ImageDeSoiree } from './AfficheGeneree.tsx';
+import { Loupe } from './Loupe.tsx';
+import { FaIcon } from './FaIcon.tsx';
+import { faMagnifyingGlassPlus } from '@fortawesome/free-solid-svg-icons';
 import { quandEnLettres } from '../lib/date-soiree.ts';
 import { AjouterSoiree } from './AjouterSoiree.tsx';
 import { PartageSoiree } from './PartageSoiree.tsx';
@@ -283,6 +286,13 @@ function FicheSoiree({
   const fin = soiree.fin ? heureLocale(soiree.fin, fuseau) : null;
   const rien =
     !soiree.description && !soiree.adresse && !soiree.prix && soiree.artistes.length === 0;
+  /* L'AFFICHE EN GRAND. Mika, le 18 octobre 2026 : « un clic sur le cover
+     pour l'ouvrir en grand et voir les details de l'affiche ». Dans la
+     fiche, elle est recadree pour tenir dans la feuille ; la loupe la
+     montre entiere. Seulement pour une vraie affiche : celle qu'on dessine
+     n'a rien de plus a montrer. */
+  const [loupe, setLoupe] = useState(false);
+  const fermerLoupe = useCallback(() => setLoupe(false), []);
 
   /* ECHAP FERME, ET LE FOND DE PAGE NE DEFILE PLUS DERRIERE. Sans le second,
      on scrolle la liste en croyant scroller la fiche, et on ressort ailleurs. */
@@ -321,7 +331,17 @@ function FicheSoiree({
           de remplacement : le titre est deja juste au-dessus. */}
       {/* LA FICHE A TOUJOURS UNE IMAGE : l'affiche, ou celle qu'on dessine
           a partir de la soiree. Voir AfficheGeneree.tsx. */}
-      <ImageDeSoiree soiree={soiree} fuseau={fuseau} variante="fiche" className="cal-fiche-affiche" />
+      {soiree.affiche ? (
+        <button type="button" className="cal-fiche-agrandir" onClick={() => setLoupe(true)} aria-label={t.voirLAfficheEnGrand}>
+          <ImageDeSoiree soiree={soiree} fuseau={fuseau} variante="fiche" className="cal-fiche-affiche" />
+          <span className="cal-fiche-loupe" aria-hidden="true">
+            <FaIcon icon={faMagnifyingGlassPlus} />
+          </span>
+        </button>
+      ) : (
+        <ImageDeSoiree soiree={soiree} fuseau={fuseau} variante="fiche" className="cal-fiche-affiche" />
+      )}
+      {loupe && soiree.affiche && <Loupe url={soiree.affiche} legende={soiree.titre} onFermer={fermerLoupe} />}
       <dl className="cal-fiche-faits">
         {soiree.artistes.length > 0 && (
           <div>

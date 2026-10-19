@@ -12,6 +12,9 @@
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { t } from '../langue/langue.ts';
+/* SES STYLES VOYAGENT AVEC ELLE depuis qu'elle sert aussi au calendrier,
+   qui ne charge pas sets.css. */
+import './loupe.css';
 
 interface Props {
   readonly url: string;
@@ -21,16 +24,21 @@ interface Props {
 
 export function Loupe({ url, legende, onFermer }: Props) {
   useEffect(() => {
+    /* ECHAP NE FERME QU'ELLE. Ouverte par-dessus la fiche d'une soiree, qui
+       ecoute aussi Echap, elle l'intercepte avant (phase de capture) : sans
+       cela, une touche fermait l'affiche et la fiche d'un coup. */
     const auClavier = (e: KeyboardEvent): void => {
-      if (e.key === 'Escape') onFermer();
+      if (e.key !== 'Escape') return;
+      e.stopImmediatePropagation();
+      onFermer();
     };
-    window.addEventListener('keydown', auClavier);
+    window.addEventListener('keydown', auClavier, true);
     /* LE FOND NE DEFILE PAS DERRIERE LA COUCHE. Sans cela, la molette fait
        glisser la liste sous l'image et on la retrouve ailleurs en fermant. */
     const avant = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => {
-      window.removeEventListener('keydown', auClavier);
+      window.removeEventListener('keydown', auClavier, true);
       document.body.style.overflow = avant;
     };
   }, [onFermer]);

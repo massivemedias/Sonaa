@@ -822,6 +822,7 @@ interface Dictionnaire {
   readonly retirerLaPochette: string;
   readonly pochetteCompressee: (avant: string, apres: string) => string;
   readonly fermerLImage: string;
+  readonly voirLAfficheEnGrand: string;
   readonly modifier: string;
   readonly annuler: string;
   readonly titreRequis: string;
@@ -1732,6 +1733,7 @@ const FR: Dictionnaire = {
   retirerLaPochette: 'Retirer la pochette',
   pochetteCompressee: (avant, apres) => `Pochette prête : ${avant} → ${apres}`,
   fermerLImage: 'Fermer l’image',
+  voirLAfficheEnGrand: 'Voir l’affiche en grand',
   modifier: 'Modifier',
   annuler: 'Annuler',
   titreRequis: 'Il faut un titre.',
@@ -2642,6 +2644,7 @@ const EN: Dictionnaire = {
   retirerLaPochette: 'Remove artwork',
   pochetteCompressee: (avant, apres) => `Artwork ready: ${avant} → ${apres}`,
   fermerLImage: 'Close image',
+  voirLAfficheEnGrand: 'View the poster full size',
   modifier: 'Edit',
   annuler: 'Cancel',
   titreRequis: 'A title is required.',
