@@ -1,6 +1,15 @@
 {
- "fait": "2026-10-18T15:57:55.378Z",
+ "fait": "2026-10-19T04:51:44.883Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Is The Humanity of Instruments Under Threat from AI?",
+   "lien": "https://www.gearnews.com/humanity-instruments-ai-threat-synths/",
+   "date": "2026-10-18T16:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/AI-Human.jpg",
+   "resume": "The surge in vibe-coded instrument plugins has been overwhelming, but do we risk losing the most important feature, humanity? It’s been an interesting few weeks in the music technology world, and on a personal level…",
+   "integral": true
+  },
   {
    "source": "midnightrebels",
    "titre": "Black Music Events in London’s Diverse Boroughs Face Refusals",
@@ -125,15 +134,6 @@
    "date": "2026-10-16T06:00:00.000Z",
    "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/synth-pop-production-ft.jpg",
    "resume": "Is it possible to put together an authentic 1980s synth pop production using affordable hardware? We’ve found gear that could be a Perfect Match! In this Article: 1980s Synth Pop Production: Behringer LmDrum 1980s Synth…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Sim’N Tonic Nome II & U-SYNC 2.0: Lock Your DAW and Hardware to a MIDI Clock",
-   "lien": "https://www.gearnews.com/simn-tonic-nome-ii-synth/",
-   "date": "2026-10-16T01:49:17.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/simn-tonic-nome-ii-T.jpg",
-   "resume": "Sim’N Tonic has updated its U-SYNC plugin to version 2.0, adding latency auto-detect, presets, support for more DAWs and more. Now you can use the Nome II and Reliq Instruments Reliq in even more setups. Sim’N Tonic…",
    "integral": true
   },
   {
