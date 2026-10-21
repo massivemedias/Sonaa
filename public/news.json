@@ -1,49 +1,148 @@
 {
- "fait": "2026-10-21T04:59:16.139Z",
+ "fait": "2026-10-21T17:20:46.344Z",
  "articles": [
   {
+   "source": "midnightrebels",
+   "titre": "Ragga Twins Mark 35 Years With Electric Brixton Night",
+   "lien": "https://midnightrebels.com/ragga-twins-electric-brixton-35-years/",
+   "date": "2026-10-21T17:13:53.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/image-11.webp?resize=1000%2C1000&ssl=1",
+   "resume": "The Ragga Twins Electric Brixton show is set for Saturday 5 December 2026. Deman Rocker and Flinty Badman are the brothers behind the Ragga Twins, and they are marking 35 years in music. The event runs from 2pm to 10pm…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Technics introduces a new flagship model in its SL-1200 turntable series – here’s what you need to know",
+   "lien": "https://musictech.com/news/gear/technics-sl-1210mkx/",
+   "date": "2026-10-21T16:55:15.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/Technics-hero@2000x1500.jpg",
+   "resume": "Technics has launched the SL-1210MKX, the latest flagship model in the SL-1200 series. Sitting above the SL-1210MK7, the MKX features a heavier chassis, a first ever ± 4% pitch range and a new ± 50% setting. It goes on…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Why did Apple buy AI music startup Samplab, and how might this impact Logic Pro?",
+   "lien": "https://musictech.com/news/industry/why-did-apple-buy-ai-music-startup-samplab-and-how-might-this-impact-logic-pro/",
+   "date": "2026-10-21T16:40:58.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/Apple-Samplab@2000x1500.jpg",
+   "resume": "Apple is well known for buying startups and smaller tech companies that have developed something it feels it can usefully incorporate into its own products. Why do it all from scratch when you can just buy a company…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "This programme turns the Sony PlayStation 2 into a real-time experimental noise synthesiser",
+   "lien": "https://musictech.com/news/gear/this-programme-turns-the-sony-playstation-2-into-a-real-time-experimental-noise-synthesiser/",
+   "date": "2026-10-21T16:33:18.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/PS2-Synth-hero@2000x1500.jpg",
+   "resume": "Independent artist and developer Tomohiro Ogawa, working as studio vivi, has released PULSE MODS v1.4, an experimental noise synthesizer that runs on original Sony Playstation 2 hardware and turns the console into a…",
+   "integral": true
+  },
+  {
    "source": "gearnews",
-   "titre": "Erica Synths PERKONS HD-01: Firmware Update 1.3 Hits You With a Chord Algorithm, Real-Time Voice Quantizer, More",
-   "lien": "https://www.gearnews.com/erica-synths-perkons-hd-01-drum/",
-   "date": "2026-10-21T01:01:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2024/12/erica-synths-perkons-new-T.jpg",
-   "resume": "The PERKONS HD-01 from Erica Synths just keeps getting better, with firmware 1.3 bringing a new algorithm, quantizer, samples per bank, and more. And it’s free! What are you waiting for? All About Erica Synths PERKONS…",
+   "titre": "Bought an Arturia MiniFreak 49? Max It Out with New Sounds! – Sounds and Presets",
+   "lien": "https://www.gearnews.com/minifreak-49-sounds-presets-synths/",
+   "date": "2026-10-21T16:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/MF49_Lifestyle-2.jpg",
+   "resume": "Did you just drop some cash on the Arturia MiniFreak 49? Here are some of my favourite sound banks to help you fill it up! Arturia dropped the MiniFreak 49 yesterday , a new, larger version of their hit synth with more…",
    "integral": true
   },
   {
-   "source": "midnightrebels",
-   "titre": "Sound systems from Kingston shaped UK bass music",
-   "lien": "https://midnightrebels.com/jamaican-sound-system-uk-bass-origins/",
-   "date": "2026-10-20T19:19:43.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/image-10.webp?resize=650%2C457&ssl=1",
-   "resume": "Shut Up And Dance started as a reggae sound system. “When we started we were a reggae sound system,” says Smiley, one half of the East London duo, in his account of the group’s early years . That Jamaican sound system…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "Budots Pioneer DJ Love Brings Davao’s Club History to Michael Palin’s Travel Series",
-   "lien": "https://midnightrebels.com/budots-pioneer-dj-love-michael-palin/",
-   "date": "2026-10-20T17:47:03.000Z",
-   "image": "https://midnightrebels.com/wp-content/uploads/2025/04/boysnoize-budots.avif",
-   "resume": "“ I loved his lair ,” Michael Palin says over a clip of his studio visit with budots pioneer DJ Love. The clip went up on Instagram on 14 October 2026 , and it puts a Davao City club sound in front of a British…",
+   "source": "musicradar",
+   "titre": "Daft Punk say 'non' to One More Time – duo turned down “unlimited budget” to reunite for GTA VI soundtrack",
+   "lien": "https://www.musicradar.com/artists/singles-albums/did-daft-punk-say-non-turning-down-an-unlimited-budget-to-reunite-for-grand-theft-auto-vi-soundtrack",
+   "date": "2026-10-21T15:18:22.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/TMPyb4p7ttWJw9Fr2gru3P-1920-80.jpg",
+   "resume": "As the gamers of the world wait for the release of Grand Theft Auto VI next month, it’s been reported that Rockstar Games tried to throw a whole load of money at Daft Punk to score the game’s soundtrack. Last week it…",
    "integral": true
   },
   {
    "source": "gearnews",
-   "titre": "Zynaptiq Pitchmap, UVI Falcon, and AIR Music Technology Synths: 3 Insane Plugin Deals with up to 65% off!",
-   "lien": "https://www.gearnews.com/zynaptiq-pitchmap-software-deals/",
-   "date": "2026-10-20T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/Softwaredeals_261020.jpg",
-   "resume": "It’s a crazy time in the world of plugins. It’s being overrun by vibe-coded masses; prices are dropping, but quality and support often go with them. So, many (including me) are turning to the tried-and-true companies…",
+   "titre": "Get GForce Axxess and M-Tron Select 2 for FREE and Save up to 70% on Plugins!",
+   "lien": "https://www.gearnews.com/gforce-free-plugins-sale/",
+   "date": "2026-10-21T13:24:15.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/gforce-free-plugins-sale.jpg",
+   "resume": "Here’s an awesome deal from GForce Software: Until December 1st, you can grab the Axxess and M-Tron Select 2 software synths for FREE and save up to 70% on the developer’s other plugins! Free Plugins and up to 70% Off…",
    "integral": true
   },
   {
    "source": "midnightrebels",
-   "titre": "EDSea 2027 lineup spans nine stages on the Norwegian Joy",
-   "lien": "https://midnightrebels.com/edsea-2027-lineup-announced/",
-   "date": "2026-10-20T16:22:16.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/Mau-P-and-Loco-Dice-Lead-Official-EDC-Thailand-2026-Warm-Up-Event.webp?fit=2400%2C1350&ssl=1",
-   "resume": "Insomniac released the EDSea 2027 lineup on 20 October 2026, and Boys Noize, Fatboy Slim and NGHTMRE are on it . The names came after the tickets were gone. EDSea sold out without naming a single DJ. EDSea is a cruise…",
+   "titre": "Above The Noise Puts the Music First, and Says So",
+   "lien": "https://midnightrebels.com/above-the-noise-atn-live-2/",
+   "date": "2026-10-21T13:01:42.000Z",
+   "image": "https://midnightrebels.com/wp-content/uploads/2023/07/lift-off.avif",
+   "resume": "On 17 October, 200 people came to S9 Poblacion in Makati for one night with five artists. That night was ATN LIVE 001, the first live event from Above The Noise, and it grew out of a much smaller idea: recorded DJ sets…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "zplane TONIC 2: Improved Workflow and MIDI Integration",
+   "lien": "https://www.gearnews.com/zplane-tonic-studio/",
+   "date": "2026-10-21T12:50:26.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/zplane-tonic-2-ft.jpg",
+   "resume": "The new zplane TONIC 2 key detection plugin has been updated with some useful new features that can really speed up your songwriting process. The German developer zplane has a reputation for creating utilitarian plugins…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "HAAi is a producer striving to stay “on the edge of being uncomfortable”",
+   "lien": "https://musictech.com/features/interviews/haai-interview-digitise/",
+   "date": "2026-10-21T12:19:26.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/HAAi-hero-credit-Lamia-Karic@2000x1500.jpg",
+   "resume": "From playing guitar and singing in shoegaze indie bands to DJing techno-melters at festivals around the world, the London-based artist HAAi, real name Teneil Throssell, has been on an eclectic musical adventure…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "Technics’ new SL-1210MKX turntable promises greater stability and finer pitch control",
+   "lien": "https://www.musicradar.com/music-tech/turntables/built-for-djing-in-the-most-demanding-environments-technics-new-sl-1210mkx-promises-greater-stability-and-finer-pitch-control",
+   "date": "2026-10-21T12:14:39.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/tjrdDbmb8BTaJS3fvNFtdh-1920-80.jpg",
+   "resume": "Technics has unveiled the SL-1210MKX, the latest evolution of its classic SL-1200 direct-drive DJ turntable . Designed specifically for people who mix in demanding club, festival and other live performance environments…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Technics SL-1210MKX Brings the DJ Classic Up to Date",
+   "lien": "https://www.gearnews.com/technics-sl-1210mkx-dj/",
+   "date": "2026-10-21T10:25:14.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/Technics-SL-1210MK-X-T-128x71.jpg",
+   "resume": "More pitch adjustment ranges, reverse playback and other improvements make the new Technics SL-1210MKX the DJ turntable to get. Better make that two of them. Technics SL-1210MKX Are you sitting down? You’re going to…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Stop sending me vibecoded AI plugins, I’m begging you",
+   "lien": "https://musictech.com/features/opinion-analysis/stop-sending-me-vibecoded-ai-plugins/",
+   "date": "2026-10-21T10:04:18.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/vibecoded-ai-plugin-hero@2000x1500.jpg",
+   "resume": "It’s an honour to share the outstanding work of so many talented audio developers with MusicTech readers. Spotlighting small brands like Baby Audio and products by giants like Universal Audio brings me genuine joy…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Nastia Says She Won’t Play the US Until Ukraine Policy Shifts",
+   "lien": "https://midnightrebels.com/nastia-us-tour-cancellation-ukraine/",
+   "date": "2026-10-21T08:37:05.000Z",
+   "image": "https://midnightrebels.com/wp-content/uploads/2025/10/Ukrainian-DJ-Hit-with-Fake-Blood-at-Boiler-Room-Lisbon-During-Pro-Palestine-Protest.avif",
+   "resume": "On 19 October, Ukrainian DJ Nastia cancelled her US tour, and the shows were not public yet. In a video and a written statement, she said she won’t play in the United States until the government changes its approach to…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Yamaha CK Series: CK76 Joins the Lineup While OS 2.0 Adds New Sounds and Live Sets",
+   "lien": "https://www.gearnews.com/yamaha-ck-series-synth/",
+   "date": "2026-10-21T08:24:55.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2023/03/yamaha-ck-series-update-t.jpg",
+   "resume": "Yamaha’s CK series gets a brush-up with a new 76-keyboard model plus fresh sounds, live sets and more. All About the Yamaha CK Series Yamaha CK Series: CK76 & OS 2.0 All Round Studio and Stage Keyboards CK Series Layout…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Genki Instruments Katla Plugin: Now the Lava Synth Is in Your DAW",
+   "lien": "https://www.gearnews.com/genki-instruments-katla-plugin-synth/",
+   "date": "2026-10-21T06:21:30.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/genki-katla-app-T.jpg",
+   "resume": "The free Katla plugin allows you to control your Genki Instruments Katla synth from your computer – including as a plugin in your DAW. Genki Katla Plugin One of the most talked-about synthesizers of recent years has to…",
    "integral": true
   },
   {
@@ -65,30 +164,12 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Arturia MiniFreak 49: Is Bigger Better? – Review",
-   "lien": "https://www.gearnews.com/arturia-minifreak-49-is-bigger-better-review/",
-   "date": "2026-10-20T16:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/MF49_Lifestyle-1.jpg",
-   "resume": "Arturia’s deliciously good MiniFreak has had a growth spurt, but is the MiniFreak 49 what we were hoping for? When Arturia debuted the MiniFreak, a leap forward from its smaller sibling, the MicroFreak, I and many…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
-   "titre": "Apple has made a secret AI acquisition – could this mean generative AI is coming to Logic Pro?",
+   "titre": "Apple’s latest acquisition suggests Logic Pro is getting Melodyne-style polyphonic note editing",
    "lien": "https://www.musicradar.com/music-tech/apple-has-made-a-secret-ai-acquisition-could-this-mean-generative-ai-is-coming-to-logic-pro",
    "date": "2026-10-20T15:26:42.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/ZMG596F5iiJQWEjxuP35SW-1920-80.jpg",
    "resume": "Apple has acquired Samplab, the Swiss company behind AI audio editing software capable of polyphonic note editing, stem separation and chord detection. The deal came to light when the EU’s List of Acquisitions website…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Ohma World Ohmie: A Modern Condenser with 2 Voltage Modes",
-   "lien": "https://www.gearnews.com/ohma-world-ohmie-studio/",
-   "date": "2026-10-20T15:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/ohma-world-ohmie-ft-2.jpg",
-   "resume": "The Ohma World Ohmie is a new cardioid condenser mic with two voltage settings for getting different characteristics from your sound sources. The Ohmie is a transformerless mic with a “finished” sound profile, ideal for…",
    "integral": true
   },
   {
@@ -128,39 +209,12 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Groove Synthesis 3rd Wave Terminal Lets You Make Your Own Wavetables",
-   "lien": "https://www.gearnews.com/namm-2022-groove-synthesis-3rd-wave-wavetable-synth-full-details/",
-   "date": "2026-10-20T09:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/08/groove-synthesis-3rd-wave-terminal-T.jpg",
-   "resume": "3rd Wave Terminal from Groove Synthesis brings 3rd Wave synth control to your computer. And it’s free! All About Groove Synthesis 3rd Wave 3rd Wave Terminal Update: New Shimmer Reverb, New Wavemaker Mode & More Groove…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "My Forever Studio: Robert Henke’s forever DAW isn’t a DAW",
-   "lien": "https://musictech.com/shows/podcasts/my-forever-studio/my-forever-studio-robert-henkes-forever-daw-isnt-a-daw/",
-   "date": "2026-10-20T07:30:30.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/s8-e6-henke-article@2000x1500.jpg",
-   "resume": "In this episode of My Forever Studio , brought to you in partnership with Audient , we’re joined by Ableton co-founder and legendary electronic music creator Robert Henke. You may also know him for Monolake , where he’s…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "Roland unveils two new Boutiques: a Jupiter-8 tribute and an all-new wavetable synth",
    "lien": "https://www.musicradar.com/music-tech/roland-unveils-a-new-jupiter-8-inspired-boutique-in-celebration-of-the-originals-45th-birthday-and-drops-an-all-new-wavetable-synth-too",
    "date": "2026-10-20T07:00:00.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/eBqEHSvU9yhsZqyhs3HpD9-1920-80.jpg",
    "resume": "It’s a big day for Roland fans, as the Japanese manufacturer has announced the release of not one, but two new synthesizers in its compact and affordable Boutique series: a 32-voice take on the Jupiter-8 and an all-new…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "The Bob Moog Foundation is hosting an online fundraising auction – here’s what’s up for grabs",
-   "lien": "https://musictech.com/news/music/the-bob-moog-foundation-is-hosting-an-online-fundraising-auction-heres-whats-up-for-grabs/",
-   "date": "2026-10-19T14:53:36.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Bob-Moog-online-auction-hero@2000x1500.jpg",
-   "resume": "The Bob Moog Foundation – the nonprofit launched in 2006 following the death of pioneering synth maker Bob Moog – is set to hold an online auction to raise funds for various causes, including Dr. Bob’s SoundSchool, the…",
    "integral": true
   },
   {
@@ -173,39 +227,12 @@
    "integral": true
   },
   {
-   "source": "musictech",
-   "titre": "Excite Audio bundle bargains – save on these huge plugin bundles at Plugin Boutique with up to 62% off",
-   "lien": "https://musictech.com/news/gear/excite-audio-bundle-deals-plugin-boutique/",
-   "date": "2026-10-16T16:20:12.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Excite-Audio-PB-hero@2000x1500.jpg",
-   "resume": "Until the end of October, you can save on some huge bundle deals from Excite Audio at Plugin Boutique . With discounts ranging from 49 to up to 62 percent off, you can grab a themed bundle to meet your desires or needs…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Time to revamp your studio? Find huge savings on equipment across Sweetwater’s Studio & Recording deals event",
-   "lien": "https://musictech.com/news/gear/sweetwater-studio-recording-gear-deals-2026/",
-   "date": "2026-10-16T14:35:18.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2025/11/Ableton-Move-1-8-@2000x1500.jpg",
-   "resume": "[Editor’s note: Sweetwater predominantly serves the US. If you’re outside the US, you’ll be shown similar deals.] With the end of 2026 looming ahead, you might be thinking of ways to refresh your studio space for the…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "Revisit dance music's golden era with this free pack of 371 old-school house and techno samples",
    "lien": "https://www.musicradar.com/music-tech/samples/revisit-dance-musics-golden-era-with-this-free-pack-of-371-old-school-house-and-techno-samples",
    "date": "2026-10-16T12:30:56.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/vCczHTUhGs9pCt7GZm3h4m-1920-80.jpg",
    "resume": "Dance music is now the fastest-growing genre in the United States, and it's the UK's second most popular genre too, with styles like house and techno fueling its domination. However, many younger listeners may not be…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Audient smashes its way into the high-end interface market with Horizon",
-   "lien": "https://musictech.com/reviews/studio-recording-gear/audient-horizon-review/",
-   "date": "2026-10-16T08:00:37.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Audient-Horizon-hero-credit-press@2000x1500.jpg",
-   "resume": "Horizon 8P: £2,199 / €2,499 / $3,499 Horizon 16: £2,199 / €2,499 / $3,499 Horizon 32: £2,799 / €3,299 / $4,299 audient.com The Audient ASP8024 large format console came a bit late to the large format console party…",
    "integral": true
   },
   {
