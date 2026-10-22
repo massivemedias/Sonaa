@@ -1,6 +1,42 @@
 {
- "fait": "2026-10-21T17:20:46.344Z",
+ "fait": "2026-10-22T05:00:17.284Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Roland TR-1000: Massive Update 1.50 Brings Keyboard Mode, New Analog Audio Routings, New Effects and So Much More",
+   "lien": "https://www.gearnews.com/roland-tr-1000-synth/",
+   "date": "2026-10-22T03:51:43.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/roland-tr-1000-update-1.5-T.jpg",
+   "resume": "Use your Roland TR-1000 step buttons like a keyboard controller. That plus tons of new features in update 1.50. Now available! Roland TR-1000 Rhythm Creator Update 1.50 Available Again! Now Back in Stock Roland TR-1000…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Did Rockstar Offer Daft Punk an Unlimited GTA 6 Budget?",
+   "lien": "https://midnightrebels.com/daft-punk-gta-6-soundtrack-offer/",
+   "date": "2026-10-21T20:41:03.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/pasted-photo-featured-81250.webp?fit=1920%2C1080&ssl=1",
+   "resume": "An unconfirmed rumor says Daft Punk’s management was pitched “a final comeback” of the duo for a Daft Punk GTA 6 soundtrack. The music leak account @hasitleaked put it on X, saying the offer came with essentially an…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "“They deliver an experience that feels considerably more ambitious than the price might suggest”: M-Audio Forty Sixty review",
+   "lien": "https://www.musicradar.com/music-tech/studio-monitors/m-audio-forty-sixty-review",
+   "date": "2026-10-21T19:48:58.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/Ya48gGTTecbnZZopynDgiY-1920-80.jpg",
+   "resume": "What is it? There’s a certain point in every home studio’s evolution where the limitations of smaller speakers become difficult to ignore. You can only ask so much of a compact set of budget monitors , particularly when…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Sleeper Vintage Recording Gear to Spice Up Your Studio",
+   "lien": "https://www.gearnews.com/sleeper-vintage-recording-gear-studio/",
+   "date": "2026-10-21T18:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/binson-ecorec-2-ft-atb.jpg",
+   "resume": "We explore the world of sleeper vintage recording gear, including a selection of discontinued and current production pieces with signature sounds. In this Article: Sleeper Vintage Recording Gear: Thermionic Culture…",
+   "integral": true
+  },
   {
    "source": "midnightrebels",
    "titre": "Ragga Twins Mark 35 Years With Electric Brixton Night",
@@ -105,7 +141,7 @@
    "titre": "Technics SL-1210MKX Brings the DJ Classic Up to Date",
    "lien": "https://www.gearnews.com/technics-sl-1210mkx-dj/",
    "date": "2026-10-21T10:25:14.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/Technics-SL-1210MK-X-T-128x71.jpg",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/Technics-SL-1210MK-X-T.jpg",
    "resume": "More pitch adjustment ranges, reverse playback and other improvements make the new Technics SL-1210MKX the DJ turntable to get. Better make that two of them. Technics SL-1210MKX Are you sitting down? You’re going to…",
    "integral": true
   },
@@ -119,30 +155,12 @@
    "integral": true
   },
   {
-   "source": "midnightrebels",
-   "titre": "Nastia Says She Won’t Play the US Until Ukraine Policy Shifts",
-   "lien": "https://midnightrebels.com/nastia-us-tour-cancellation-ukraine/",
-   "date": "2026-10-21T08:37:05.000Z",
-   "image": "https://midnightrebels.com/wp-content/uploads/2025/10/Ukrainian-DJ-Hit-with-Fake-Blood-at-Boiler-Room-Lisbon-During-Pro-Palestine-Protest.avif",
-   "resume": "On 19 October, Ukrainian DJ Nastia cancelled her US tour, and the shows were not public yet. In a video and a written statement, she said she won’t play in the United States until the government changes its approach to…",
-   "integral": true
-  },
-  {
    "source": "gearnews",
    "titre": "Yamaha CK Series: CK76 Joins the Lineup While OS 2.0 Adds New Sounds and Live Sets",
    "lien": "https://www.gearnews.com/yamaha-ck-series-synth/",
    "date": "2026-10-21T08:24:55.000Z",
    "image": "https://cdn.gearnews.com/wp-content/uploads/2023/03/yamaha-ck-series-update-t.jpg",
    "resume": "Yamaha’s CK series gets a brush-up with a new 76-keyboard model plus fresh sounds, live sets and more. All About the Yamaha CK Series Yamaha CK Series: CK76 & OS 2.0 All Round Studio and Stage Keyboards CK Series Layout…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Genki Instruments Katla Plugin: Now the Lava Synth Is in Your DAW",
-   "lien": "https://www.gearnews.com/genki-instruments-katla-plugin-synth/",
-   "date": "2026-10-21T06:21:30.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/genki-katla-app-T.jpg",
-   "resume": "The free Katla plugin allows you to control your Genki Instruments Katla synth from your computer – including as a plugin in your DAW. Genki Katla Plugin One of the most talked-about synthesizers of recent years has to…",
    "integral": true
   },
   {
