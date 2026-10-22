@@ -1,6 +1,96 @@
 {
- "fait": "2026-10-22T05:00:17.284Z",
+ "fait": "2026-10-22T17:18:07.918Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Synth Journal: Modular News from Make Noise, Erica Synths, and Doepfer",
+   "lien": "https://www.gearnews.com/synth-journal-make-noise-erica-synths/",
+   "date": "2026-10-22T16:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/make-noise-synth-journal-10-22-26.jpg",
+   "resume": "In this week’s Synth Journal, we check out a fancy new Eurorack case from Make Noise, a not-so-DIY drum machine from Erica Synths, and a slew of new 1U modules from Eurorack inventor Doepfer. Synth Journal Make Noise 7U…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "Akai's MPK Mini Plus II is here: the $169 MIDI controller takes a step up with second-gen upgrade",
+   "lien": "https://www.musicradar.com/music-tech/akais-mpk-mini-plus-ii-is-here-the-usd169-midi-controller-takes-a-step-up-with-second-gen-upgrade",
+   "date": "2026-10-22T15:02:44.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/U9YU6qpeNxBJ7G2imvkfwm-1920-80.jpg",
+   "resume": "Released in 2022, the MPK Mini Plus is a plus-sized version of the MPK Mini, a budget MIDI keyboard that delivers a respectable amount of functionality in a compact and affordable package. With more keys, more control…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Akai just launched its next-gen MPK Mini Plus keyboard controller – here’s what’s new",
+   "lien": "https://musictech.com/news/gear/akai-mpk-mini-plus-ii/",
+   "date": "2026-10-22T14:54:26.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/Akai-1@2000x1500.jpg",
+   "resume": "Akai Professional has launched the MPK Mini Plus II, the next generation of its acclaimed 37-key MIDI keyboard. The next-gen MPK Mini Plus brings a number of new creative tools “designed to help producers develop ideas…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "The best new music plugins this week, free and paid",
+   "lien": "https://musictech.com/news/gear/new-plugins-this-week/",
+   "date": "2026-10-22T14:46:52.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/Mixing-engineer-hero@2000x1500.jpg",
+   "resume": "Every week, we round up the most exciting new plugin releases — from virtual instruments and creative effects to mixing tools and workflow upgrades. There are tons of plugins released every week, both free and paid, so…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Daft Punk x LEGO: New creative partnership sees viral pyramid stage LEGO Ideas submission brought to life",
+   "lien": "https://musictech.com/news/music/daft-punk-x-lego-new-creative-partnership/",
+   "date": "2026-10-22T14:31:21.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/Daft-Punk-LEGO-hero@2000x1500.jpg",
+   "resume": "Daft Punk have partnered with the LEGO Group in an unexpected new partnership spanning “product, content and brand experiences”, starting with a new film which presents the robots – Thomas Bangalter and Guy-Manuel de…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Akai MPK Mini Plus II: Can You Say MPC Integration?",
+   "lien": "https://www.gearnews.com/akai-mpk-mini-plus-ii-synth/",
+   "date": "2026-10-22T14:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/akai-mpk-mini-plus-ii-T1-128x71.jpg",
+   "resume": "The new MPK Mini Plus II from Akai Professional not only improves the keys and pads and adds generative modes, the controller also integrates directly with MPC Standalone and MPC Desktop. It’s a whole new world! Akai…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "What the ultimate nostalgia gig showed me about the future of live sound",
+   "lien": "https://musictech.com/features/interviews/l-acoustics-carlos-mosquera-interview-backstreet-boys-l-isa-spatial-audio/",
+   "date": "2026-10-22T13:35:13.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/l-acoustics-backstreet-boys-hero@2000x1500.jpg",
+   "resume": "Disclaimer: MusicTech was invited as a guest to Düsseldorf’s Merkur Spiel-Arena by L-Acoustics. The Backstreet Boys have me surrounded. No matter which way I turn, an expanse of white singlets, pants, and jackets spread…",
+   "integral": true
+  },
+  {
+   "source": "attack",
+   "titre": "Lars Huismann: “Instead Of Writing A Melody, I Use Filters”",
+   "lien": "https://www.attackmagazine.com/features/my-studio/lars-huismann-my-studio/",
+   "date": "2026-10-22T12:29:47.000Z",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/Attack-Mag-My-Studio-Room-3-1130x484.jpg",
+   "resume": "With System Collapse out now on Dax J’s Monnom Black, Berlin’s Lars Huismann shows us around the attic studio where it was made. The eight-track release follows his 2024 Monnom Black debut, Mechanized, and the Sounds…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Electro-Voice EVOLVE G2: A Major Power Upgrade with Streamlined Control",
+   "lien": "https://www.gearnews.com/electro-voice-evolve-g2-live/",
+   "date": "2026-10-22T12:21:01.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/electro-voice-evolve-g2-ft.jpg",
+   "resume": "The Electro-Voice EVOLVE G2 gets a serious power increase as well as hi-res color LCD displays, ergonomic enhancements, and the QuickSmart mobile app. The EVOLVE G2 brings in three new models, including the 30M and 50M…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "\"People in the industry assumed I didn’t make my own music\": Martin Garrix reflects on his journey from bedroom producer to EDM superstar on \"debut pop album\"",
+   "lien": "https://www.musicradar.com/artists/people-in-the-industry-assumed-i-didnt-make-my-own-music-of-course-i-make-all-my-own-stuff-martin-garrix-reflects-on-his-journey-from-bedroom-producer-to-edm-superstar-on-debut-pop-album-marty",
+   "date": "2026-10-22T11:32:28.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/5UBZ2i6yVPXYUk9oqdfDVX-1920-80.png",
+   "resume": "Until now, you'd be most likely to see Martin Garrix behind a pair of CDJs or a mixing desk, but with the release of his next project, the chart-topping dutch DJ and producer will be stepping behind the microphone for…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "Roland TR-1000: Massive Update 1.50 Brings Keyboard Mode, New Analog Audio Routings, New Effects and So Much More",
@@ -74,15 +164,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Bought an Arturia MiniFreak 49? Max It Out with New Sounds! – Sounds and Presets",
-   "lien": "https://www.gearnews.com/minifreak-49-sounds-presets-synths/",
-   "date": "2026-10-21T16:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/MF49_Lifestyle-2.jpg",
-   "resume": "Did you just drop some cash on the Arturia MiniFreak 49? Here are some of my favourite sound banks to help you fill it up! Arturia dropped the MiniFreak 49 yesterday , a new, larger version of their hit synth with more…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "Daft Punk say 'non' to One More Time – duo turned down “unlimited budget” to reunite for GTA VI soundtrack",
    "lien": "https://www.musicradar.com/artists/singles-albums/did-daft-punk-say-non-turning-down-an-unlimited-budget-to-reunite-for-grand-theft-auto-vi-soundtrack",
@@ -92,30 +173,12 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Get GForce Axxess and M-Tron Select 2 for FREE and Save up to 70% on Plugins!",
-   "lien": "https://www.gearnews.com/gforce-free-plugins-sale/",
-   "date": "2026-10-21T13:24:15.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/gforce-free-plugins-sale.jpg",
-   "resume": "Here’s an awesome deal from GForce Software: Until December 1st, you can grab the Axxess and M-Tron Select 2 software synths for FREE and save up to 70% on the developer’s other plugins! Free Plugins and up to 70% Off…",
-   "integral": true
-  },
-  {
    "source": "midnightrebels",
    "titre": "Above The Noise Puts the Music First, and Says So",
    "lien": "https://midnightrebels.com/above-the-noise-atn-live-2/",
    "date": "2026-10-21T13:01:42.000Z",
    "image": "https://midnightrebels.com/wp-content/uploads/2023/07/lift-off.avif",
    "resume": "On 17 October, 200 people came to S9 Poblacion in Makati for one night with five artists. That night was ATN LIVE 001, the first live event from Above The Noise, and it grew out of a much smaller idea: recorded DJ sets…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "zplane TONIC 2: Improved Workflow and MIDI Integration",
-   "lien": "https://www.gearnews.com/zplane-tonic-studio/",
-   "date": "2026-10-21T12:50:26.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/zplane-tonic-2-ft.jpg",
-   "resume": "The new zplane TONIC 2 key detection plugin has been updated with some useful new features that can really speed up your songwriting process. The German developer zplane has a reputation for creating utilitarian plugins…",
    "integral": true
   },
   {
@@ -137,42 +200,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Technics SL-1210MKX Brings the DJ Classic Up to Date",
-   "lien": "https://www.gearnews.com/technics-sl-1210mkx-dj/",
-   "date": "2026-10-21T10:25:14.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/Technics-SL-1210MK-X-T.jpg",
-   "resume": "More pitch adjustment ranges, reverse playback and other improvements make the new Technics SL-1210MKX the DJ turntable to get. Better make that two of them. Technics SL-1210MKX Are you sitting down? You’re going to…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Stop sending me vibecoded AI plugins, I’m begging you",
-   "lien": "https://musictech.com/features/opinion-analysis/stop-sending-me-vibecoded-ai-plugins/",
-   "date": "2026-10-21T10:04:18.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/vibecoded-ai-plugin-hero@2000x1500.jpg",
-   "resume": "It’s an honour to share the outstanding work of so many talented audio developers with MusicTech readers. Spotlighting small brands like Baby Audio and products by giants like Universal Audio brings me genuine joy…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Yamaha CK Series: CK76 Joins the Lineup While OS 2.0 Adds New Sounds and Live Sets",
-   "lien": "https://www.gearnews.com/yamaha-ck-series-synth/",
-   "date": "2026-10-21T08:24:55.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2023/03/yamaha-ck-series-update-t.jpg",
-   "resume": "Yamaha’s CK series gets a brush-up with a new 76-keyboard model plus fresh sounds, live sets and more. All About the Yamaha CK Series Yamaha CK Series: CK76 & OS 2.0 All Round Studio and Stage Keyboards CK Series Layout…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Arturia unveils 49-key MiniFreak – with an all-new XYZ touch control matrix",
-   "lien": "https://musictech.com/news/gear/arturia-minifreak-49/",
-   "date": "2026-10-20T16:14:06.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Arturia-MiniFreak-3@2000x1500.jpg",
-   "resume": "After introducing its major new 5.0 update for the MiniFreak last month – offering producers the opportunity to import their own samples and wavetables – Arturia is once again showing the MiniFreak some love, this time…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "\"One of my favourite synths just got a little bit better\": Arturia MiniFreak 49 review",
    "lien": "https://www.musicradar.com/music-tech/hybrid-synths/one-of-my-favourite-synths-just-got-a-little-bit-better-who-could-complain-about-that-arturia-minifreak-49-review",
@@ -191,15 +218,6 @@
    "integral": true
   },
   {
-   "source": "musictech",
-   "titre": "This standalone DJ mixer with spatial audio control could change the game – here’s how",
-   "lien": "https://musictech.com/news/gear/ambrio-spatial-performance-mixer/",
-   "date": "2026-10-20T14:55:04.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Ambrio-SPM-1@2000x1500.jpg",
-   "resume": "Brussels-based music technology company Ambrio has unveiled the Spatial Performance Mixer (SPM), a standalone DJ mixer that puts real-time spatial sound control next to everything you would typically expect from a…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "“Inspiration is everywhere” as Serato makes the jump to mobile with Serato DJ for iOS",
    "lien": "https://www.musicradar.com/music-tech/dj-software/inspiration-is-everywhere-as-serato-makes-the-jump-to-mobile-with-serato-dj-for-ios",
@@ -213,17 +231,8 @@
    "titre": "Create Syncopated 2-Step Grooves Like A Pirate",
    "lien": "https://www.attackmagazine.com/technique/beat-dissected/create-syncopated-2-step-grooves-like-a-pirate/",
    "date": "2026-10-20T10:43:33.000Z",
-   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/10/dagar.png?fit=1130%2C403&ssl=1",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/dagar-1130x403.png",
    "resume": "Inspired by the swung grooves that have travelled from home studios and pirate radio to global festivals, let’s see how to make tight, timeless 2-step beats. UK garage has seen a big resurgence, with names like Sammy…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Roland celebrates 45 years of the JUPITER-08 with a new uber-compact addition to the Boutique series – plus a brand-new wavetable synth",
-   "lien": "https://musictech.com/news/gear/roland-boutique-jupiter-08-nvision/",
-   "date": "2026-10-20T09:55:14.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Jupiter-08-hero@2000x1500.jpg",
-   "resume": "Introduced in 2015, Roland ’s Boutique series comprises uber-compact and portable desktop synthesizers using Analogue Circuit Behaviour (ACB) and digital modelling to faithfully recreate vintage Roland hardware. So far…",
    "integral": true
   },
   {
@@ -236,29 +245,11 @@
    "integral": true
   },
   {
-   "source": "musicradar",
-   "titre": "“Sets a new benchmark for what a digital piano can be in a modern home”: Roland Kiyola KF-20 review",
-   "lien": "https://www.musicradar.com/music-tech/keyboards-pianos/roland-kiyola-kf-20-review",
-   "date": "2026-10-16T17:05:58.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/TXa69NicRAkYUHpexf6cgN-1920-80.jpg",
-   "resume": "What is it? The Roland Kiyola KF-20 is not your typical digital piano . It is the result of a long-standing collaboration between Roland and Karimoku, one of Japan's most respected wood furniture manufacturers…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Revisit dance music's golden era with this free pack of 371 old-school house and techno samples",
-   "lien": "https://www.musicradar.com/music-tech/samples/revisit-dance-musics-golden-era-with-this-free-pack-of-371-old-school-house-and-techno-samples",
-   "date": "2026-10-16T12:30:56.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/vCczHTUhGs9pCt7GZm3h4m-1920-80.jpg",
-   "resume": "Dance music is now the fastest-growing genre in the United States, and it's the UK's second most popular genre too, with styles like house and techno fueling its domination. However, many younger listeners may not be…",
-   "integral": true
-  },
-  {
    "source": "attack",
    "titre": "Who’s Buying All These Vibe-Coded Plugins?",
    "lien": "https://www.attackmagazine.com/features/long-read/whos-buying-all-these-vibe-coded-plugins/",
    "date": "2026-10-15T23:02:15.000Z",
-   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/10/3b83c303-dcf6-4d40-bb9a-7def2f026386.png?fit=1130%2C386&ssl=1",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/3b83c303-dcf6-4d40-bb9a-7def2f026386-1130x386.png",
    "resume": "Vibe-coded plugins are everywhere but does that mean that they’re actually taking over the market? We look at the trend and speak with two developers working with AI as part of their process. The age of vibe-coded…",
    "integral": true
   },
@@ -267,7 +258,7 @@
    "titre": "Manifest Audio Release Sonification Tools V3 As VST3, AU, And CLAP Plugins",
    "lien": "https://www.attackmagazine.com/news/manifest-audio-release-sonification-tools-v3-as-vst3-au-and-clap-plugins/",
    "date": "2026-10-14T14:47:37.000Z",
-   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/10/Screenshot-2026-10-07-at-19.13.17-1.png?fit=1130%2C387&ssl=1",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/Screenshot-2026-10-07-at-19.13.17-1-1130x387.png",
    "resume": "The data-driven suite arrives as a cross-platform plug-in bundle with AU/CLAP/VST3 formats, plus an Ableton Live Extension. Manifest Audio has released Sonification Tools v3 for $199, on sale for $169 until 1 November…",
    "integral": true
   },
@@ -276,7 +267,7 @@
    "titre": "Ben Turner: “It’s A Thin Line Between True Curation And Gatekeeping”",
    "lien": "https://www.attackmagazine.com/features/long-read/ben-turner-its-a-thin-line-between-true-curation-and-gatekeeping/",
    "date": "2026-10-12T11:34:10.000Z",
-   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/10/8d3380eb-e249-499e-9ee9-b6e80d4bb8e2.png?fit=1130%2C386&ssl=1",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/8d3380eb-e249-499e-9ee9-b6e80d4bb8e2-1130x386.png",
    "resume": "Ben Turner on why promoters have no excuse left, and why nurturing new talent is a long-term investment. Debates about representation in electronic music tend to get heated fast. Comment threads and panel soundbites…",
    "integral": true
   },
@@ -285,7 +276,7 @@
    "titre": "How I Play Live: Active Systems",
    "lien": "https://www.attackmagazine.com/features/interview/how-i-play-live-active-systems/",
    "date": "2026-10-08T13:19:44.000Z",
-   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/10/Panoramic-Electronic-Music-Studio-Control-Room.png?fit=1130%2C387&ssl=1",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/Panoramic-Electronic-Music-Studio-Control-Room-1130x387.png",
    "resume": "Active Systems plays live with no laptop in sight: a Cirklon sequencer at the centre, four Intellijel Atlantix modules on bass duty and a 909 keeping time. After sets at Lost and Houghton and the release of The Red EP…",
    "integral": true
   },
@@ -294,7 +285,7 @@
    "titre": "Beatport Launches Indie Tech Genre Category",
    "lien": "https://www.attackmagazine.com/news/beatport-launches-indie-tech-genre-category/",
    "date": "2026-10-06T19:21:05.000Z",
-   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/10/Attack-Mag-News-Feat-Images-Peel-Stems-1.png?fit=1130%2C387&ssl=1",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/Attack-Mag-News-Feat-Images-Peel-Stems-1-1130x387.png",
    "resume": "Beatport has launched indie tech, a standalone genre category with its own Top 100 chart, separating it from indie dance. Beatport has added indie tech to its store as a standalone genre, giving the heavier…",
    "integral": true
   },
@@ -303,7 +294,7 @@
    "titre": "Synchro Arts VocAlign 7 Pro Review: Come Together",
    "lien": "https://www.attackmagazine.com/reviews/gear-software/synchro-arts-vocalign-7-pro-review-come-together/",
    "date": "2026-10-01T15:51:12.000Z",
-   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/10/Attack-Mag-Reviews-VocAlign.png?fit=1130%2C386&ssl=1",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/Attack-Mag-Reviews-VocAlign-1130x386.png",
    "resume": "VocAlign 7 is the latest version of the popular and long-running vocal alignment software. It’s as good as you expect, but does version seven bring enough new features to the table to make it worth the upgrade? Since…",
    "integral": true
   },
@@ -312,7 +303,7 @@
    "titre": "Keleigh Batchelor: “Good Music Thrives On Diverse Influences”",
    "lien": "https://www.attackmagazine.com/features/long-read/keleigh-batchelor-good-music-thrives-on-diverse-influences/",
    "date": "2026-10-01T15:38:31.000Z",
-   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/6ab44ad8-a209-41b4-b0df-0003b6e9610f.png?fit=1130%2C386&ssl=1",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/09/6ab44ad8-a209-41b4-b0df-0003b6e9610f-1130x386.png",
    "resume": "Keleigh Batchelor on why balanced lineups start years before the poster, and why \"fewer women DJs\" doesn't hold up. Debates about representation in electronic music tend to get heated fast. Comment threads and panel…",
    "integral": true
   },
@@ -321,107 +312,8 @@
    "titre": "Antares Launches AutoTune Advanced",
    "lien": "https://www.attackmagazine.com/news/antares-launches-autotune-advanced/",
    "date": "2026-09-29T10:51:51.000Z",
-   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/Attack-Mag-News-Feat-Images-AutoTune-Advanced.jpg?fit=1130%2C387&ssl=1",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/09/Attack-Mag-News-Feat-Images-AutoTune-Advanced-1130x387.jpg",
    "resume": "Antares has released AutoTune Advanced, a new flagship real-time pitch correction plugin built around a vibrato-preserving engine called DVA. Antares Audio Technologies has added a new top tier to its AutoTune range…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Steven Braines: “Diversity Isn’t A Problem; It Can Be Powerful If You Embrace It”",
-   "lien": "https://www.attackmagazine.com/features/long-read/steven-braines-diversity-isnt-a-problem-it-can-be-powerful-if-you-embrace-it/",
-   "date": "2026-09-24T08:54:42.000Z",
-   "image": "https://i0.wp.com/www.attackmagazine.com/wp-content/uploads/2026/09/Gemini_Generated_Image_ymsvi5ymsvi5ymsv-scaled.jpg?fit=1130%2C390&ssl=1",
-   "resume": "Steven Braines on why balanced lineups start years before the poster, and why \"fewer women DJs\" doesn't hold up. Debates about representation in electronic music tend to get heated fast. Comment threads and panel…",
-   "integral": true
-  },
-  {
-   "source": "ni",
-   "titre": "Behind the synth: A. G. Cook on stacked sawtooths and the creation of Super*Saw",
-   "lien": "https://blog.native-instruments.com/super-star-saw/",
-   "date": "2026-07-16T14:30:14.000Z",
-   "image": "https://blog.native-instruments.com/wp-content/uploads/dynamic/2026/07/ag-cook-1-1200x0-c-default.jpeg",
-   "resume": "There are few sounds in electronic music and sound design as immediately recognizable as the stacked sawtooth wave. Emerging from the digital, virtual analog revolution of the 1990s, the supersaw became the driving…",
-   "integral": true
-  },
-  {
-   "source": "ni",
-   "titre": "Inside the evolution of orchestral sampling: an interview with ProjectSAM",
-   "lien": "https://blog.native-instruments.com/projectsam/",
-   "date": "2026-06-25T15:07:44.000Z",
-   "image": "https://blog.native-instruments.com/wp-content/uploads/dynamic/2026/06/2026-Lineage-Strings-session-recordings-2-1200x0-c-default.jpeg",
-   "resume": "Orchestral sampling has come a long way from the early days of rigid, dry sample blocks. For over two decades, ProjectSAM has been at the forefront of this evolution, pioneering an ensemble-recording philosophy that…",
-   "integral": true
-  },
-  {
-   "source": "ni",
-   "titre": "How New Constellations turn emotion into sound with Massive X",
-   "lien": "https://blog.native-instruments.com/new-constellations/",
-   "date": "2026-06-22T16:55:02.000Z",
-   "image": "https://blog.native-instruments.com/wp-content/uploads/dynamic/2026/06/image-01-New-Constellations-Press-1-1200x0-c-default.jpeg",
-   "resume": "Portland-based duo New Constellations write with an instinct that feels personal, grounded, and deeply human. Lifelong friends Harlee Case and Josh Smith have spent more than fifteen years creating together, shaping a…",
-   "integral": true
-  },
-  {
-   "source": "ni",
-   "titre": "Citizen Kain on building emotion and space with Replika",
-   "lien": "https://blog.native-instruments.com/citizen-kain/",
-   "date": "2026-06-18T13:16:09.000Z",
-   "image": "https://blog.native-instruments.com/wp-content/uploads/dynamic/2026/06/image-06-Citizen-Kain-Making-my-synth-wider-then-i-put-the-low-ends-in-mono-and-control-my-width-with-a-stereo-imager-1200x0-c-default.jpeg",
-   "resume": "Citizen Kain’s new single “Moments,” featuring Kaps signals a defining step in his career as both producer and label founder. The track introduces Eversun Records , a new platform dedicated to emotion, energy, and…",
-   "integral": true
-  },
-  {
-   "source": "ni",
-   "titre": "The organic precision behind Calcou’s Anjuna release featuring Reaktor",
-   "lien": "https://blog.native-instruments.com/calcou/",
-   "date": "2026-06-08T15:34:07.000Z",
-   "image": "https://blog.native-instruments.com/wp-content/uploads/dynamic/2026/06/press-3-calcou-1200x0-c-default.jpg",
-   "resume": "For Calcou , collaboration marks the start of a new era. With Now, What? , the Berlin-based producer expands his solo project into a full-fledged duo, joined by vocalist and songwriter Thea. The record captures the…",
-   "integral": true
-  },
-  {
-   "source": "ni",
-   "titre": "14 NKS instruments that will change the way you create music",
-   "lien": "https://blog.native-instruments.com/nks-instruments/",
-   "date": "2026-06-05T06:52:13.000Z",
-   "image": "https://blog.native-instruments.com/wp-content/uploads/2025/09/NKS-Month-Blog-featured-1.jpg",
-   "resume": "Good music is the outcome of a fluid process. When you’re in the flow, you need the right sounds at your fingertips – and the minimum of distractions. That’s the thinking behind Native Kontrol Standard , the technology…",
-   "integral": true
-  },
-  {
-   "source": "ni",
-   "titre": "Parallelle on crafting living basslines with Reaktor and TRK-01",
-   "lien": "https://blog.native-instruments.com/parallelle/",
-   "date": "2026-06-02T14:02:31.000Z",
-   "image": "https://blog.native-instruments.com/wp-content/uploads/dynamic/2026/06/image-04-REAKTOR-PARALLELLE-2048x1169-1-1200x0-c-default.jpeg",
-   "resume": "For French brothers Thomas and Julien, better known as Parallelle , the creative process has always been guided by feel rather than formula. Their new album, 11th Avenue, captures that philosophy perfectly, blending…",
-   "integral": true
-  },
-  {
-   "source": "ni",
-   "titre": "Where will your sound lead you? Explore the Native Instruments Summer Sale",
-   "lien": "https://blog.native-instruments.com/ni-summer-sale/",
-   "date": "2026-06-01T14:04:18.000Z",
-   "image": "https://blog.native-instruments.com/wp-content/uploads/dynamic/2026/06/NI-Summer-Sale-Blog-hero-1200x0-c-default.jpg",
-   "resume": "The Native Instruments Summer Sale is here – and it’s simpler than ever. Whether you’re taking the scenic route through a project, following a late-night spark, or taking your sound off-road, we have the tools to keep…",
-   "integral": true
-  },
-  {
-   "source": "ni",
-   "titre": "How Mr. Bill builds sonic worlds in Massive X",
-   "lien": "https://blog.native-instruments.com/mr-bill/",
-   "date": "2026-05-29T13:53:57.000Z",
-   "image": "https://blog.native-instruments.com/wp-content/uploads/dynamic/2026/05/image-01-Mr-Bill-Press-1-Mr.Bill-Armory-11.1.25-10-by-Ethan-Klement-1200x0-c-default.jpeg",
-   "resume": "Mr. Bill’s Mr. Melanzana brings together technique, curiosity, and emotion in equal measure. The album was written alongside his audiovisual performance Sequenza di Melanzane , created for Tipper’s final Red Rocks show…",
-   "integral": true
-  },
-  {
-   "source": "ni",
-   "titre": "How Father Funk builds low-end energy with Kontakt instruments",
-   "lien": "https://blog.native-instruments.com/father-funk/",
-   "date": "2026-05-28T14:32:39.000Z",
-   "image": "https://blog.native-instruments.com/wp-content/uploads/dynamic/2026/05/image-02-Father-Funk-Live-1-1200x0-c-default.jpeg",
-   "resume": "Few producers blur the line between musician and electronic artist like Father Funk . His new album, Funk The System, captures the chaos and color of live performance inside a bass-heavy electronic framework. Each track…",
    "integral": true
   },
   {
@@ -497,5 +389,10 @@
    "integral": true
   }
  ],
- "pannes": []
+ "pannes": [
+  {
+   "id": "ni",
+   "raison": "aucun article lu"
+  }
+ ]
 }
