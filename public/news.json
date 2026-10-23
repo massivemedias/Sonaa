@@ -1,6 +1,51 @@
 {
- "fait": "2026-10-23T05:01:32.904Z",
+ "fait": "2026-10-23T17:16:03.016Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Synths of City Pop: 5 Synthesizers That Made the Sounds of the City",
+   "lien": "https://www.gearnews.com/synths-of-city-pop-synth/",
+   "date": "2026-10-23T17:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/jupiter-8-city-pop-T.jpg",
+   "resume": "The Japanese genre of city pop blended smooth rhythms, jazzy chords and sumptuous vocals into a potent mix of urban cool. Have you ever wondered what keyboards the top session musicians were playing on all those hits?…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Loopmasters’ sampling powerhouse Loopcloud just got a massive update – here’s what’s new",
+   "lien": "https://musictech.com/news/gear/loopmasters-loopcloud-8/",
+   "date": "2026-10-23T15:17:15.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/Loopcloud-8-1@2000x1500.jpg",
+   "resume": "Loopmasters has launched Loopcloud 8, the latest and most feature-packed version of its sample subscription and production platform. Heading up the new features are Inspire and Listen – described as “intelligent tools…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "“Do I really believe that at the end, I have a result that justifies the effort?” Inside the strict decision-making process of Ableton founder and Monolake musician Robert Henke",
+   "lien": "https://musictech.com/news/music/robert-henke-on-his-creative-decision-making-process/",
+   "date": "2026-10-23T11:57:29.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/Robert-Henke@2000x1500.jpg",
+   "resume": "As one of the founders of Ableton – and a successful solo artist in his own right under the moniker Monolake – German musician and pioneer Robert Henke has to be specific about where he spends his time and effort…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "D16 Group Echolite: A Flexible Free Delay Plugin!",
+   "lien": "https://www.gearnews.com/d16-group-echolite-studio/",
+   "date": "2026-10-23T07:55:47.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/d16-group-echolite-ft-1-128x71.jpg",
+   "resume": "With D16 Group Echolite, you get a free delay plugin for your DAW, capable of producing modern and classic echo sounds for any style of music. Not every DAW comes with a great delay plugin, and even the best stock…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Isla Electronics ASYX – The Andromeda A6 Reborn in Software",
+   "lien": "https://www.gearnews.com/isla-electronics-asyx-synths/",
+   "date": "2026-10-23T06:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/ASYX_2.jpg",
+   "resume": "ASYX is Isla Electronics first foray into the world of synth plugins, and they’ve chosen something special to get the ball rolling. Isla Electronics, as they are now known since their relocation back to the U.K., are…",
+   "integral": true
+  },
   {
    "source": "midnightrebels",
    "titre": "Ambrozic Productions debuts Converge at Amsterdam Dance Event",
@@ -38,15 +83,6 @@
    "integral": true
   },
   {
-   "source": "musicradar",
-   "titre": "Akai's MPK Mini Plus II is here: the $169 MIDI controller takes a step up with second-gen upgrade",
-   "lien": "https://www.musicradar.com/music-tech/akais-mpk-mini-plus-ii-is-here-the-usd169-midi-controller-takes-a-step-up-with-second-gen-upgrade",
-   "date": "2026-10-22T15:02:44.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/U9YU6qpeNxBJ7G2imvkfwm-1920-80.jpg",
-   "resume": "Released in 2022, the MPK Mini Plus is a plus-sized version of the MPK Mini, a budget MIDI keyboard that delivers a respectable amount of functionality in a compact and affordable package. With more keys, more control…",
-   "integral": true
-  },
-  {
    "source": "musictech",
    "titre": "Akai just launched its next-gen MPK Mini Plus keyboard controller – here’s what’s new",
    "lien": "https://musictech.com/news/gear/akai-mpk-mini-plus-ii/",
@@ -74,15 +110,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Akai MPK Mini Plus II: Can You Say MPC Integration?",
-   "lien": "https://www.gearnews.com/akai-mpk-mini-plus-ii-synth/",
-   "date": "2026-10-22T14:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/akai-mpk-mini-plus-ii-T1.jpg",
-   "resume": "The new MPK Mini Plus II from Akai Professional not only improves the keys and pads and adds generative modes, the controller also integrates directly with MPC Standalone and MPC Desktop. It’s a whole new world! Akai…",
-   "integral": true
-  },
-  {
    "source": "musictech",
    "titre": "What the ultimate nostalgia gig showed me about the future of live sound",
    "lien": "https://musictech.com/features/interviews/l-acoustics-carlos-mosquera-interview-backstreet-boys-l-isa-spatial-audio/",
@@ -101,21 +128,12 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Electro-Voice EVOLVE G2: A Major Power Upgrade with Streamlined Control",
-   "lien": "https://www.gearnews.com/electro-voice-evolve-g2-live/",
-   "date": "2026-10-22T12:21:01.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/electro-voice-evolve-g2-ft.jpg",
-   "resume": "The Electro-Voice EVOLVE G2 gets a serious power increase as well as hi-res color LCD displays, ergonomic enhancements, and the QuickSmart mobile app. The EVOLVE G2 brings in three new models, including the 30M and 50M…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "\"People in the industry assumed I didn’t make my own music\": Martin Garrix reflects on his journey from bedroom producer to EDM superstar on \"debut pop album\"",
-   "lien": "https://www.musicradar.com/artists/people-in-the-industry-assumed-i-didnt-make-my-own-music-of-course-i-make-all-my-own-stuff-martin-garrix-reflects-on-his-journey-from-bedroom-producer-to-edm-superstar-on-debut-pop-album-marty",
-   "date": "2026-10-22T11:32:28.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/5UBZ2i6yVPXYUk9oqdfDVX-1920-80.png",
-   "resume": "Until now, you'd be most likely to see Martin Garrix behind a pair of CDJs or a mixing desk, but with the release of his next project, the chart-topping dutch DJ and producer will be stepping behind the microphone for…",
+   "source": "musictech",
+   "titre": "TIEKS on why he chose Focusrite’s latest ISA C8X interface for his new London studio",
+   "lien": "https://musictech.com/features/interviews/tieks-interview-focusrite-isa-c8x-interface-studio/",
+   "date": "2026-10-22T11:00:21.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/Focusrite-TIEKS-hero-credit-press@2000x1500.jpg",
+   "resume": "Ad feature with Focusrite “When I was a kid, I had a dream that I was in a studio ,” recalls TIEKS , real name Mark Anthony Tieku. “Whitney Houston was in the vocal booth, while I adjusted some gear. I’m not even sure…",
    "integral": true
   },
   {
@@ -128,111 +146,12 @@
    "integral": true
   },
   {
-   "source": "musicradar",
-   "titre": "“They deliver an experience that feels considerably more ambitious than the price might suggest”: M-Audio Forty Sixty review",
-   "lien": "https://www.musicradar.com/music-tech/studio-monitors/m-audio-forty-sixty-review",
-   "date": "2026-10-21T19:48:58.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/Ya48gGTTecbnZZopynDgiY-1920-80.jpg",
-   "resume": "What is it? There’s a certain point in every home studio’s evolution where the limitations of smaller speakers become difficult to ignore. You can only ask so much of a compact set of budget monitors , particularly when…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Technics introduces a new flagship model in its SL-1200 turntable series – here’s what you need to know",
-   "lien": "https://musictech.com/news/gear/technics-sl-1210mkx/",
-   "date": "2026-10-21T16:55:15.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Technics-hero@2000x1500.jpg",
-   "resume": "Technics has launched the SL-1210MKX, the latest flagship model in the SL-1200 series. Sitting above the SL-1210MK7, the MKX features a heavier chassis, a first ever ± 4% pitch range and a new ± 50% setting. It goes on…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Why did Apple buy AI music startup Samplab, and how might this impact Logic Pro?",
-   "lien": "https://musictech.com/news/industry/why-did-apple-buy-ai-music-startup-samplab-and-how-might-this-impact-logic-pro/",
-   "date": "2026-10-21T16:40:58.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Apple-Samplab@2000x1500.jpg",
-   "resume": "Apple is well known for buying startups and smaller tech companies that have developed something it feels it can usefully incorporate into its own products. Why do it all from scratch when you can just buy a company…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "This programme turns the Sony PlayStation 2 into a real-time experimental noise synthesiser",
-   "lien": "https://musictech.com/news/gear/this-programme-turns-the-sony-playstation-2-into-a-real-time-experimental-noise-synthesiser/",
-   "date": "2026-10-21T16:33:18.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/PS2-Synth-hero@2000x1500.jpg",
-   "resume": "Independent artist and developer Tomohiro Ogawa, working as studio vivi, has released PULSE MODS v1.4, an experimental noise synthesizer that runs on original Sony Playstation 2 hardware and turns the console into a…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Daft Punk say 'non' to One More Time – duo turned down “unlimited budget” to reunite for GTA VI soundtrack",
-   "lien": "https://www.musicradar.com/artists/singles-albums/did-daft-punk-say-non-turning-down-an-unlimited-budget-to-reunite-for-grand-theft-auto-vi-soundtrack",
-   "date": "2026-10-21T15:18:22.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/TMPyb4p7ttWJw9Fr2gru3P-1920-80.jpg",
-   "resume": "As the gamers of the world wait for the release of Grand Theft Auto VI next month, it’s been reported that Rockstar Games tried to throw a whole load of money at Daft Punk to score the game’s soundtrack. Last week it…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "HAAi is a producer striving to stay “on the edge of being uncomfortable”",
-   "lien": "https://musictech.com/features/interviews/haai-interview-digitise/",
-   "date": "2026-10-21T12:19:26.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/HAAi-hero-credit-Lamia-Karic@2000x1500.jpg",
-   "resume": "From playing guitar and singing in shoegaze indie bands to DJing techno-melters at festivals around the world, the London-based artist HAAi, real name Teneil Throssell, has been on an eclectic musical adventure…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Technics’ new SL-1210MKX turntable promises greater stability and finer pitch control",
-   "lien": "https://www.musicradar.com/music-tech/turntables/built-for-djing-in-the-most-demanding-environments-technics-new-sl-1210mkx-promises-greater-stability-and-finer-pitch-control",
-   "date": "2026-10-21T12:14:39.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/tjrdDbmb8BTaJS3fvNFtdh-1920-80.jpg",
-   "resume": "Technics has unveiled the SL-1210MKX, the latest evolution of its classic SL-1200 direct-drive DJ turntable . Designed specifically for people who mix in demanding club, festival and other live performance environments…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "\"One of my favourite synths just got a little bit better\": Arturia MiniFreak 49 review",
-   "lien": "https://www.musicradar.com/music-tech/hybrid-synths/one-of-my-favourite-synths-just-got-a-little-bit-better-who-could-complain-about-that-arturia-minifreak-49-review",
-   "date": "2026-10-20T16:12:23.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/dR5wj8YZZ3suHrVox3QzdG-1920-80.jpg",
-   "resume": "What is it? Arturia’s MiniFreak 49 is a new expanded model of one of my favourite hardware synthesizers of recent years. Arriving in late 2022, the original MiniFreak was a 6-voice hybrid polysynth that combined two…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Apple’s latest acquisition suggests Logic Pro is getting Melodyne-style polyphonic note editing",
-   "lien": "https://www.musicradar.com/music-tech/apple-has-made-a-secret-ai-acquisition-could-this-mean-generative-ai-is-coming-to-logic-pro",
-   "date": "2026-10-20T15:26:42.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/ZMG596F5iiJQWEjxuP35SW-1920-80.jpg",
-   "resume": "Apple has acquired Samplab, the Swiss company behind AI audio editing software capable of polyphonic note editing, stem separation and chord detection. The deal came to light when the EU’s List of Acquisitions website…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "“Inspiration is everywhere” as Serato makes the jump to mobile with Serato DJ for iOS",
-   "lien": "https://www.musicradar.com/music-tech/dj-software/inspiration-is-everywhere-as-serato-makes-the-jump-to-mobile-with-serato-dj-for-ios",
-   "date": "2026-10-20T10:50:49.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/c3zeZdfhizyxhihLj73H8X-1920-80.jpg",
-   "resume": "Digital DJing platform Serato has arrived on mobile for the first time with the launch of Serato DJ for iOS, a new app for both iPhone and iPad. iOS DJ apps are hardly a new phenomenon. The likes of Algoriddim djay…",
-   "integral": true
-  },
-  {
    "source": "attack",
    "titre": "Create Syncopated 2-Step Grooves Like A Pirate",
    "lien": "https://www.attackmagazine.com/technique/beat-dissected/create-syncopated-2-step-grooves-like-a-pirate/",
    "date": "2026-10-20T10:43:33.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/dagar-1130x403.png",
    "resume": "Inspired by the swung grooves that have travelled from home studios and pirate radio to global festivals, let’s see how to make tight, timeless 2-step beats. UK garage has seen a big resurgence, with names like Sammy…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Roland unveils two new Boutiques: a Jupiter-8 tribute and an all-new wavetable synth",
-   "lien": "https://www.musicradar.com/music-tech/roland-unveils-a-new-jupiter-8-inspired-boutique-in-celebration-of-the-originals-45th-birthday-and-drops-an-all-new-wavetable-synth-too",
-   "date": "2026-10-20T07:00:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/eBqEHSvU9yhsZqyhs3HpD9-1920-80.jpg",
-   "resume": "It’s a big day for Roland fans, as the Japanese manufacturer has announced the release of not one, but two new synthesizers in its compact and affordable Boutique series: a 32-voice take on the Jupiter-8 and an all-new…",
    "integral": true
   },
   {
@@ -381,6 +300,10 @@
   }
  ],
  "pannes": [
+  {
+   "id": "musicradar",
+   "raison": "aucun article lu"
+  },
   {
    "id": "ni",
    "raison": "aucun article lu"
