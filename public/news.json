@@ -1,6 +1,24 @@
 {
- "fait": "2026-10-24T04:46:25.808Z",
+ "fait": "2026-10-24T16:03:40.771Z",
  "articles": [
+  {
+   "source": "musicradar",
+   "titre": "How a Roland TR-909 and a modular rig provided the spark of inspiration for Harry Styles' most euphoric No 1 single",
+   "lien": "https://www.musicradar.com/artists/everyone-thinks-its-a-guitar-but-actually-they-dont-know-its-my-modular-synth-how-a-roland-tr-909-and-a-modular-rig-provided-the-spark-of-inspiration-for-harry-styles-most-euphoric-no-1-single",
+   "date": "2026-10-24T12:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/aNbrZvyriGAdUmH7n6aZW7-1920-80.jpg",
+   "resume": "As it builds to its euphoric coda, you’d never imagine that Harry Styles’ 2026 single Aperture was born in a moment when the energy in the studio had fallen flat. Speaking to Spotify for its Songlore series, though…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Deals of the Week: Offers from Arturia, Zoom, and PreSonus!",
+   "lien": "https://www.gearnews.com/deals-of-the-week-arturia-zoom-presonus/",
+   "date": "2026-10-24T06:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/deals-arturia-zoom-presonus-ft.jpg",
+   "resume": "In this edition of Deals of the Week, you can find offers on synths and recording gear from respected brands like Arturia, Zoom, and PreSonus. This Week’s Deals: Deals of the Week: Arturia MiniFreak (10% Off) Deals of…",
+   "integral": true
+  },
   {
    "source": "musicradar",
    "titre": "\"It’s often said that limitations breed creativity – is there anything more limited than a one-button synth?\": Cyma Forma RND review",
@@ -98,15 +116,6 @@
    "date": "2026-10-22T17:28:46.000Z",
    "image": "https://midnightrebels.com/wp-content/uploads/2025/08/plur2.avif",
    "resume": "One eBay listing offered a lot of six kandi bracelets for US $7.50, with US $7.90 shipping from Richmond, Indiana. Four of the lot had already sold , and the seller was a private account rather than a shop. Kandi grew…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Synth Journal: Modular News from Make Noise, Erica Synths, and Doepfer",
-   "lien": "https://www.gearnews.com/synth-journal-make-noise-erica-synths/",
-   "date": "2026-10-22T16:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/make-noise-synth-journal-10-22-26.jpg",
-   "resume": "In this week’s Synth Journal, we check out a fancy new Eurorack case from Make Noise, a not-so-DIY drum machine from Erica Synths, and a slew of new 1U modules from Eurorack inventor Doepfer. Synth Journal Make Noise 7U…",
    "integral": true
   },
   {
@@ -236,30 +245,12 @@
    "integral": true
   },
   {
-   "source": "musicradar",
-   "titre": "“Inspiration is everywhere” as Serato makes the jump to mobile with Serato DJ for iOS",
-   "lien": "https://www.musicradar.com/music-tech/dj-software/inspiration-is-everywhere-as-serato-makes-the-jump-to-mobile-with-serato-dj-for-ios",
-   "date": "2026-10-20T10:50:49.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/c3zeZdfhizyxhihLj73H8X-1920-80.jpg",
-   "resume": "Digital DJing platform Serato has arrived on mobile for the first time with the launch of Serato DJ for iOS, a new app for both iPhone and iPad. iOS DJ apps are hardly a new phenomenon. The likes of Algoriddim djay…",
-   "integral": true
-  },
-  {
    "source": "attack",
    "titre": "Create Syncopated 2-Step Grooves Like A Pirate",
    "lien": "https://www.attackmagazine.com/technique/beat-dissected/create-syncopated-2-step-grooves-like-a-pirate/",
    "date": "2026-10-20T10:43:33.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/dagar-1130x403.png",
    "resume": "Inspired by the swung grooves that have travelled from home studios and pirate radio to global festivals, let’s see how to make tight, timeless 2-step beats. UK garage has seen a big resurgence, with names like Sammy…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Roland unveils two new Boutiques: a Jupiter-8 tribute and an all-new wavetable synth",
-   "lien": "https://www.musicradar.com/music-tech/roland-unveils-a-new-jupiter-8-inspired-boutique-in-celebration-of-the-originals-45th-birthday-and-drops-an-all-new-wavetable-synth-too",
-   "date": "2026-10-20T07:00:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/eBqEHSvU9yhsZqyhs3HpD9-1920-80.jpg",
-   "resume": "It’s a big day for Roland fans, as the Japanese manufacturer has announced the release of not one, but two new synthesizers in its compact and affordable Boutique series: a 32-voice take on the Jupiter-8 and an all-new…",
    "integral": true
   },
   {
