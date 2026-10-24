@@ -1,6 +1,24 @@
 {
- "fait": "2026-10-23T17:16:03.016Z",
+ "fait": "2026-10-24T04:46:25.808Z",
  "articles": [
+  {
+   "source": "musicradar",
+   "titre": "\"It’s often said that limitations breed creativity – is there anything more limited than a one-button synth?\": Cyma Forma RND review",
+   "lien": "https://www.musicradar.com/music-tech/synths/its-often-said-that-limitations-breed-creativity-is-there-anything-more-limited-than-a-one-button-synth-cyma-forma-rnd-review",
+   "date": "2026-10-24T00:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/Gy3ZhndTjc4r9UWe9WnMvi-1920-80.jpg",
+   "resume": "What is it? At first glance, RND doesn’t look much like a synthesizer – it looks like a big black button set in a square of orange plastic. But what exactly is it? An eccentric doorbell? A sci-fi thermostat? A nuclear…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Erica Synths LXR-02 Desktop Drum Synthesizer: Now Open Source!",
+   "lien": "https://www.gearnews.com/erica-synths-lxr-02-synth/",
+   "date": "2026-10-23T21:05:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2021/06/erica-synths-lxr-02-T.jpg",
+   "resume": "Erica Synths makes their LXR-02 digital drum machine open source and invites everyone to go crazy vibe-hacking it. Is this the new FM-1? All About Erica Synths LXR-02 LXR-02 Goes Open Source Updated With Video! LXR-02…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "Synths of City Pop: 5 Synthesizers That Made the Sounds of the City",
@@ -8,6 +26,15 @@
    "date": "2026-10-23T17:00:00.000Z",
    "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/jupiter-8-city-pop-T.jpg",
    "resume": "The Japanese genre of city pop blended smooth rhythms, jazzy chords and sumptuous vocals into a potent mix of urban cool. Have you ever wondered what keyboards the top session musicians were playing on all those hits?…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "Stevie Wonder’s '70s synth guru Robert Margouleff on the moment he knew their partnership was over",
+   "lien": "https://www.musicradar.com/artists/i-love-stevie-but-when-that-happened-the-angels-left-the-building-it-was-really-over-stevie-wonders-70s-synth-guru-robert-margouleff-remembers-the-moment-he-knew-their-partnership-was-over-and-explains-the-problem-with-todays-music",
+   "date": "2026-10-23T16:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/mJnPCkHgyjWfrvJ5TWuiZj-1920-80.jpg",
+   "resume": "Stevie Wonder’s four-album run in the early ‘70s is widely considered to be one of the greatest in music history, but he didn’t create these records in isolation. Working alongside Wonder were Robert Margouleff and…",
    "integral": true
   },
   {
@@ -83,6 +110,15 @@
    "integral": true
   },
   {
+   "source": "musicradar",
+   "titre": "Akai's MPK Mini Plus II is here: the $169 MIDI controller takes a step up with second-gen upgrade",
+   "lien": "https://www.musicradar.com/music-tech/akais-mpk-mini-plus-ii-is-here-the-usd169-midi-controller-takes-a-step-up-with-second-gen-upgrade",
+   "date": "2026-10-22T15:02:44.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/U9YU6qpeNxBJ7G2imvkfwm-1920-80.jpg",
+   "resume": "Released in 2022, the MPK Mini Plus is a plus-sized version of the MPK Mini, a budget MIDI keyboard that delivers a respectable amount of functionality in a compact and affordable package. With more keys, more control…",
+   "integral": true
+  },
+  {
    "source": "musictech",
    "titre": "Akai just launched its next-gen MPK Mini Plus keyboard controller – here’s what’s new",
    "lien": "https://musictech.com/news/gear/akai-mpk-mini-plus-ii/",
@@ -128,6 +164,15 @@
    "integral": true
   },
   {
+   "source": "musicradar",
+   "titre": "\"People in the industry assumed I didn’t make my own music\": Martin Garrix reflects on his journey from bedroom producer to EDM superstar on \"debut pop album\"",
+   "lien": "https://www.musicradar.com/artists/people-in-the-industry-assumed-i-didnt-make-my-own-music-of-course-i-make-all-my-own-stuff-martin-garrix-reflects-on-his-journey-from-bedroom-producer-to-edm-superstar-on-debut-pop-album-marty",
+   "date": "2026-10-22T11:32:28.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/5UBZ2i6yVPXYUk9oqdfDVX-1920-80.png",
+   "resume": "Until now, you'd be most likely to see Martin Garrix behind a pair of CDJs or a mixing desk, but with the release of his next project, the chart-topping dutch DJ and producer will be stepping behind the microphone for…",
+   "integral": true
+  },
+  {
    "source": "musictech",
    "titre": "TIEKS on why he chose Focusrite’s latest ISA C8X interface for his new London studio",
    "lien": "https://musictech.com/features/interviews/tieks-interview-focusrite-isa-c8x-interface-studio/",
@@ -146,12 +191,75 @@
    "integral": true
   },
   {
+   "source": "musicradar",
+   "titre": "“They deliver an experience that feels considerably more ambitious than the price might suggest”: M-Audio Forty Sixty review",
+   "lien": "https://www.musicradar.com/music-tech/studio-monitors/m-audio-forty-sixty-review",
+   "date": "2026-10-21T19:48:58.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/Ya48gGTTecbnZZopynDgiY-1920-80.jpg",
+   "resume": "What is it? There’s a certain point in every home studio’s evolution where the limitations of smaller speakers become difficult to ignore. You can only ask so much of a compact set of budget monitors , particularly when…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "Daft Punk say 'non' to One More Time – duo turned down “unlimited budget” to reunite for GTA VI soundtrack",
+   "lien": "https://www.musicradar.com/artists/singles-albums/did-daft-punk-say-non-turning-down-an-unlimited-budget-to-reunite-for-grand-theft-auto-vi-soundtrack",
+   "date": "2026-10-21T15:18:22.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/TMPyb4p7ttWJw9Fr2gru3P-1920-80.jpg",
+   "resume": "As the gamers of the world wait for the release of Grand Theft Auto VI next month, it’s been reported that Rockstar Games tried to throw a whole load of money at Daft Punk to score the game’s soundtrack. Last week it…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "Technics’ new SL-1210MKX turntable promises greater stability and finer pitch control",
+   "lien": "https://www.musicradar.com/music-tech/turntables/built-for-djing-in-the-most-demanding-environments-technics-new-sl-1210mkx-promises-greater-stability-and-finer-pitch-control",
+   "date": "2026-10-21T12:14:39.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/tjrdDbmb8BTaJS3fvNFtdh-1920-80.jpg",
+   "resume": "Technics has unveiled the SL-1210MKX, the latest evolution of its classic SL-1200 direct-drive DJ turntable . Designed specifically for people who mix in demanding club, festival and other live performance environments…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "\"One of my favourite synths just got a little bit better\": Arturia MiniFreak 49 review",
+   "lien": "https://www.musicradar.com/music-tech/hybrid-synths/one-of-my-favourite-synths-just-got-a-little-bit-better-who-could-complain-about-that-arturia-minifreak-49-review",
+   "date": "2026-10-20T16:12:23.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/dR5wj8YZZ3suHrVox3QzdG-1920-80.jpg",
+   "resume": "What is it? Arturia’s MiniFreak 49 is a new expanded model of one of my favourite hardware synthesizers of recent years. Arriving in late 2022, the original MiniFreak was a 6-voice hybrid polysynth that combined two…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "Apple’s latest acquisition suggests Logic Pro is getting Melodyne-style polyphonic note editing",
+   "lien": "https://www.musicradar.com/music-tech/apple-has-made-a-secret-ai-acquisition-could-this-mean-generative-ai-is-coming-to-logic-pro",
+   "date": "2026-10-20T15:26:42.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/ZMG596F5iiJQWEjxuP35SW-1920-80.jpg",
+   "resume": "Apple has acquired Samplab, the Swiss company behind AI audio editing software capable of polyphonic note editing, stem separation and chord detection. The deal came to light when the EU’s List of Acquisitions website…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "“Inspiration is everywhere” as Serato makes the jump to mobile with Serato DJ for iOS",
+   "lien": "https://www.musicradar.com/music-tech/dj-software/inspiration-is-everywhere-as-serato-makes-the-jump-to-mobile-with-serato-dj-for-ios",
+   "date": "2026-10-20T10:50:49.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/c3zeZdfhizyxhihLj73H8X-1920-80.jpg",
+   "resume": "Digital DJing platform Serato has arrived on mobile for the first time with the launch of Serato DJ for iOS, a new app for both iPhone and iPad. iOS DJ apps are hardly a new phenomenon. The likes of Algoriddim djay…",
+   "integral": true
+  },
+  {
    "source": "attack",
    "titre": "Create Syncopated 2-Step Grooves Like A Pirate",
    "lien": "https://www.attackmagazine.com/technique/beat-dissected/create-syncopated-2-step-grooves-like-a-pirate/",
    "date": "2026-10-20T10:43:33.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/dagar-1130x403.png",
    "resume": "Inspired by the swung grooves that have travelled from home studios and pirate radio to global festivals, let’s see how to make tight, timeless 2-step beats. UK garage has seen a big resurgence, with names like Sammy…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "Roland unveils two new Boutiques: a Jupiter-8 tribute and an all-new wavetable synth",
+   "lien": "https://www.musicradar.com/music-tech/roland-unveils-a-new-jupiter-8-inspired-boutique-in-celebration-of-the-originals-45th-birthday-and-drops-an-all-new-wavetable-synth-too",
+   "date": "2026-10-20T07:00:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/eBqEHSvU9yhsZqyhs3HpD9-1920-80.jpg",
+   "resume": "It’s a big day for Roland fans, as the Japanese manufacturer has announced the release of not one, but two new synthesizers in its compact and affordable Boutique series: a 32-voice take on the Jupiter-8 and an all-new…",
    "integral": true
   },
   {
@@ -300,10 +408,6 @@
   }
  ],
  "pannes": [
-  {
-   "id": "musicradar",
-   "raison": "aucun article lu"
-  },
   {
    "id": "ni",
    "raison": "aucun article lu"
