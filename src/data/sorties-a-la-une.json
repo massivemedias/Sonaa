@@ -102,6 +102,16 @@
    "slug": "tresor"
   },
   {
+   "titre": "The Meaning Of Flowers",
+   "artiste": "Agnes Obel",
+   "annee": 2026,
+   "image": "https://i.discogs.com/ekdTK5PFyXSrzASmHAOoabxaDa7VcrIR-J4OpFLToek/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4ODA3/Mzk3LTE3OTI3ODMy/MTgtOTIxOC5qcGVn.jpeg",
+   "url": "https://www.discogs.com/release/38807397",
+   "format": "12xFile, FLAC, Album, 24b",
+   "label": "Deutsche Grammophon",
+   "slug": "deutsche-grammophon"
+  },
+  {
    "titre": "Laniakea",
    "artiste": "Martin Nonstatic",
    "annee": 2026,
@@ -170,16 +180,6 @@
    "format": "LP, Album, Ltd, Num, Bei",
    "label": "Big Beat",
    "slug": "big-beat"
-  },
-  {
-   "titre": "1995",
-   "artiste": "Psyko Disko Vs Spies",
-   "annee": 2026,
-   "image": "https://i.discogs.com/GMvDO-nTpijsJ5Tq8Is0pYaR-1mG99OI1_ACcN4njuw/rs:fit/g:sm/q:90/h:600/w:594/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4NjEy/OTcwLTE3OTExMjEy/NTYtNDQ4OS5qcGVn.jpeg",
-   "url": "https://www.discogs.com/release/38612970",
-   "format": "2xFile, WAV",
-   "label": "Dragonfly Records",
-   "slug": "dragonfly-records"
   }
  ]
 }
