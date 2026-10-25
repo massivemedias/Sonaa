@@ -1,6 +1,24 @@
 {
- "fait": "2026-10-25T04:53:34.322Z",
+ "fait": "2026-10-25T16:32:30.171Z",
  "articles": [
+  {
+   "source": "midnightrebels",
+   "titre": "Jean-Michel Jarre Announces Oxygene & Beyond Tour for 2027",
+   "lien": "https://midnightrebels.com/jean-michel-jarre-oxygene-beyond-european-tour/",
+   "date": "2026-10-25T15:13:56.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/pasted-photo-featured-87277.webp?fit=1920%2C1080&ssl=1",
+   "resume": "Katowice opens the run on 21 September 2027. That is the first stop on the Oxygene & Beyond tour, which Jean-Michel Jarre, the French electronic music pioneer, put on his official website on 21 October 2026. The shows…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Gluecomp-3B, Coalesce, Hardstop: Free Plugins of the Week",
+   "lien": "https://www.gearnews.com/gluecomp-3b-free-plugins/",
+   "date": "2026-10-25T07:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/gluecomp-free-plugins-10-25-26.jpg",
+   "resume": "This week’s collection of free plugins brings you an adaptive multiband compressor, a versatile delay, and a hard clipper that means business: Gluecomp-3B, Coalesce, and Hardstop! Free Plugins of the Week DYMAI Sound…",
+   "integral": true
+  },
   {
    "source": "midnightrebels",
    "titre": "WORSHIP Is on a North American Arena Tour in October 2026",
@@ -110,24 +128,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "AKAI MPC 3.10 Update: Download This Before You Buy a New MPK Mini Plus II!",
-   "lien": "https://www.gearnews.com/akai-mpc-3-synth/",
-   "date": "2026-10-23T00:53:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/06/akai-mpc-3-10-update-ft.jpg",
-   "resume": "The latest update for MPC 3 brings some love to Standalone models, to MPC Desktop, and provides crucial integration for the new MPK Mini Plus II controller. It’s free so get thee to ye olde MPC website. All About the…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "From Trading to Buying: What Resale Listings Show About Kandi",
-   "lien": "https://midnightrebels.com/paying-for-kandi-bracelets/",
-   "date": "2026-10-22T17:28:46.000Z",
-   "image": "https://midnightrebels.com/wp-content/uploads/2025/08/plur2.avif",
-   "resume": "One eBay listing offered a lot of six kandi bracelets for US $7.50, with US $7.90 shipping from Richmond, Indiana. Four of the lot had already sold , and the seller was a private account rather than a shop. Kandi grew…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "Akai's MPK Mini Plus II is here: the $169 MIDI controller takes a step up with second-gen upgrade",
    "lien": "https://www.musicradar.com/music-tech/akais-mpk-mini-plus-ii-is-here-the-usd169-midi-controller-takes-a-step-up-with-second-gen-upgrade",
@@ -224,24 +224,6 @@
    "date": "2026-10-21T12:14:39.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/tjrdDbmb8BTaJS3fvNFtdh-1920-80.jpg",
    "resume": "Technics has unveiled the SL-1210MKX, the latest evolution of its classic SL-1200 direct-drive DJ turntable . Designed specifically for people who mix in demanding club, festival and other live performance environments…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "\"One of my favourite synths just got a little bit better\": Arturia MiniFreak 49 review",
-   "lien": "https://www.musicradar.com/music-tech/hybrid-synths/one-of-my-favourite-synths-just-got-a-little-bit-better-who-could-complain-about-that-arturia-minifreak-49-review",
-   "date": "2026-10-20T16:12:23.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/dR5wj8YZZ3suHrVox3QzdG-1920-80.jpg",
-   "resume": "What is it? Arturia’s MiniFreak 49 is a new expanded model of one of my favourite hardware synthesizers of recent years. Arriving in late 2022, the original MiniFreak was a 6-voice hybrid polysynth that combined two…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Apple’s latest acquisition suggests Logic Pro is getting Melodyne-style polyphonic note editing",
-   "lien": "https://www.musicradar.com/music-tech/apple-has-made-a-secret-ai-acquisition-could-this-mean-generative-ai-is-coming-to-logic-pro",
-   "date": "2026-10-20T15:26:42.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/ZMG596F5iiJQWEjxuP35SW-1920-80.jpg",
-   "resume": "Apple has acquired Samplab, the Swiss company behind AI audio editing software capable of polyphonic note editing, stem separation and chord detection. The deal came to light when the EU’s List of Acquisitions website…",
    "integral": true
   },
   {
