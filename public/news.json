@@ -1,6 +1,15 @@
 {
- "fait": "2026-10-25T16:32:30.171Z",
+ "fait": "2026-10-26T04:57:37.953Z",
  "articles": [
+  {
+   "source": "midnightrebels",
+   "titre": "The Dekmantel 2026 RADAR Stage Runs on Its Scene, Not Its Poster",
+   "lien": "https://midnightrebels.com/dekmantel-radar-stage-uk-underground-closing/",
+   "date": "2026-10-25T17:03:22.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/07/Skrillex-shares-his-honest-opinion-on-the-future-of-AI-in-the-music-industry.webp?fit=1280%2C720&ssl=1",
+   "resume": "The Dekmantel 2026 RADAR stage ran in the Amsterdamse Bos from Friday 31 July to Sunday 2 August. On the closing night, Ben UFO, Objekt, Call Super and Pariah played a much-hyped four-way back-to-back elsewhere in the…",
+   "integral": true
+  },
   {
    "source": "midnightrebels",
    "titre": "Jean-Michel Jarre Announces Oxygene & Beyond Tour for 2027",
@@ -116,15 +125,6 @@
    "date": "2026-10-23T06:00:00.000Z",
    "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/ASYX_2.jpg",
    "resume": "ASYX is Isla Electronics first foray into the world of synth plugins, and they’ve chosen something special to get the ball rolling. Isla Electronics, as they are now known since their relocation back to the U.K., are…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "Ambrozic Productions debuts Converge at Amsterdam Dance Event",
-   "lien": "https://midnightrebels.com/converge-ade-amsterdam/",
-   "date": "2026-10-23T04:57:28.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/03/Top-Cities-for-DJs-in-2026-Talent-Fees-Nightlife-and-Cost-of-Living.webp?fit=1280%2C720&ssl=1",
-   "resume": "Six artists, one room, six hours. That is the plan for Converge ADE 2026, the first time the Canadian EDM events company Ambrozic Productions Inc. has taken its hard dance brand to Amsterdam Dance Event . ADE is short…",
    "integral": true
   },
   {
@@ -299,15 +299,6 @@
    "integral": true
   },
   {
-   "source": "attack",
-   "titre": "Antares Launches AutoTune Advanced",
-   "lien": "https://www.attackmagazine.com/news/antares-launches-autotune-advanced/",
-   "date": "2026-09-29T10:51:51.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/09/Attack-Mag-News-Feat-Images-AutoTune-Advanced-1130x387.jpg",
-   "resume": "Antares has released AutoTune Advanced, a new flagship real-time pitch correction plugin built around a vibrato-preserving engine called DVA. Antares Audio Technologies has added a new top tier to its AutoTune range…",
-   "integral": true
-  },
-  {
    "source": "xlr8r",
    "titre": "Get Physical and M.A.N.D.Y. Co-Founder Philipp Jung Has Passed Away",
    "lien": "https://xlr8r.com/news/get-physical-and-m-a-n-d-y-co-founder-philipp-jung-has-passed-away/",
@@ -384,6 +375,10 @@
   {
    "id": "ni",
    "raison": "aucun article lu"
+  },
+  {
+   "id": "digitaldjtips",
+   "raison": "fetch failed"
   }
  ]
 }
