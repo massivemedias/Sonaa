@@ -1,22 +1,121 @@
 {
- "fait": "2026-10-27T05:15:06.162Z",
+ "fait": "2026-10-27T18:04:39.360Z",
  "articles": [
   {
    "source": "gearnews",
-   "titre": "Befaco x Tesseract ARK: Sequencer, Synth and Sample Player for Eurorack – Now Available!",
-   "lien": "https://www.gearnews.com/befaco-x-tesseract-ark-sequencer/",
-   "date": "2026-10-26T23:41:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/05/befaco-tesseract-ark-t.jpg",
-   "resume": "Befaco and Tesseract Modular’s ARK is a 16-track sequencer, synth and sample player. Get it now! All About Befaco x Tesseract ARK Now Available! Sequencer, Synth and Sample Player for Eurorack Befaco x Tesseract ARK…",
+   "titre": "SSL Fusion, Softube Bundle, and Baby Audio Humanoid: 3 DAW Plugin Deals for Pro Mixing Effects with up to 89% off!",
+   "lien": "https://www.gearnews.com/ssl-fusion-softube-humanoid-deals/",
+   "date": "2026-10-27T17:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/Softwaredeals.jpg",
+   "resume": "As we’re closing in on the annual sale madness that is Cyber Week and black friday, there are already quite a few software deals out there where you can save a lot. This week, it’s three heavyweights. First, you can get…",
    "integral": true
   },
   {
    "source": "gearnews",
-   "titre": "The Best Studio Gear 2026 for Recording and Mixing",
-   "lien": "https://www.gearnews.com/best-studio-gear/",
-   "date": "2026-10-26T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/11/wesaudio-ngomnibox-ft-02.jpg",
-   "resume": "We check out the most exciting preamps, signal processors, and DAW controllers released this year. Here’s the Best Studio Gear of 2026! In this Article: The Best Studio Gear Of 2026 The Best Studio Gear of 2026: Softube…",
+   "titre": "Apple MacBook Pro M6 and iMac M6 Arrive with 12-Core Power!",
+   "lien": "https://www.gearnews.com/apple-macbook-pro-m6-tech/",
+   "date": "2026-10-27T16:30:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/apple-macbook-pro-m6-ft.jpg",
+   "resume": "Introducing the 14-inch Apple MacBook Pro M6 and the 24-inch iMac M6, offering some improved specs for DAW-based music production. Whether you need a compact mobile production workstation or a more permanent desktop…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "This new plugin lets you mix your music in 3D",
+   "lien": "https://musictech.com/news/gear/art-dsp-canvas-2/",
+   "date": "2026-10-27T16:00:25.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/Canvas-2-her@2000x1500.jpg",
+   "resume": "Art DSP has released Canvas 2.0, a visual mixing plugin that allows producers to shape their mixes by positioning audio sources in a virtual three-dimensional space. Available now for macOS and Windows, the plugin…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Teenage Engineering APC-2: Feel Like A Teenager Again… For $70,000!",
+   "lien": "https://www.gearnews.com/teenage-engineering-apc-2-tech/",
+   "date": "2026-10-27T15:30:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/06/teenage-engineering-apc-2-ft.jpg",
+   "resume": "The good news is you can now order your Teenage Engineering APC-2 record cutter; the bad news is you may have to mortgage your house first. All about the APC-2: Teenage Engineering APC-2: Now Available for Order Teenage…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Behringer RD-765: I NEED You Tonight!",
+   "lien": "https://www.gearnews.com/behringer-rd-765-synth/",
+   "date": "2026-10-27T14:30:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/behringer-rd-765-ft.jpg",
+   "resume": "The Behringer RD-765 is a flexible digital drum machine with a powerful sequencer and an analog filter section for shaping your sounds and rhythms. A TR-707 clone? Well, not quite. Although it looks alike, the RD-765…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Massive XL: Native Instruments’ next-gen flagship soft synth has arrived – here’s everything you need to know",
+   "lien": "https://musictech.com/news/gear/native-instruments-massive-xl-everything-you-need-to-know/",
+   "date": "2026-10-27T14:11:49.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/Massive-XL-hero@2000x1500.jpg",
+   "resume": "Native Instruments has released Massive XL , the latest version of its coveted software synth, and the first major release since joining the InMusic conglomerate. Since its 2006 launch, Massive has battled Sylenth1…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "Massive XL is here: Native Instruments supersizes its flagship soft synth with AI-powered preset generation, custom wavetables and much more",
+   "lien": "https://www.musicradar.com/music-tech/massive-xl-is-here-native-instruments-supersizes-its-flagship-soft-synth-with-ai-powered-preset-generation-custom-wavetables-and-much-more",
+   "date": "2026-10-27T14:10:25.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/m8Dyd4QeFBbPdomvykgtZm-1920-80.jpg",
+   "resume": "Released two decades ago this month, Native Instruments’ Massive became one of the most influential soft synths of its era and a staple in the toolbox of countless producers, before a belated sequel, Massive X, was…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Native Instruments Massive XL: Massive X Gets King-Sized",
+   "lien": "https://www.gearnews.com/native-instruments-massive-xl-synth/",
+   "date": "2026-10-27T14:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/native-instruments-massive-xl-t-128x71.jpg",
+   "resume": "Massive XL brings animated modulations, user wavetable import and other much-requested features to Massive X. But is it too little, too late? Native Instruments Massive XL Native Instruments is making up for lost time…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "FL Studio announces FL Studio Mobile 5 update, bringing a library of over two million samples to your pocket",
+   "lien": "https://musictech.com/news/gear/fl-studio-mobile-5-update/",
+   "date": "2026-10-27T13:38:33.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/FL-Studio-Mobile-5.jpg",
+   "resume": "Ten years ago, FL Studio went mobile, porting the power of the iconic DAW into a game-changing phone app. In that time, FL Studio Mobile has become a staple production tool, allowing musicians to edit and produce on the…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Cliff Fluet’s ADE 2026 Roundtable Asked What AI Deals Should Look Like",
+   "lien": "https://midnightrebels.com/cliff-fluet-ade-2026-ai-independence/",
+   "date": "2026-10-27T13:12:13.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/pasted-photo-featured-15423.webp?fit=1920%2C1080&ssl=1",
+   "resume": "“It was about who owns the relationship with the fan.” Cliff Fluet, co-head of media and entertainment at Lewis Silkin, said that during a talk at ADE 2026 . The festival ran from 21 to 25 October in Amsterdam, and this…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "Donner Music’s leaked handheld sampler is real - say hello to the battery-powered Sample Boy",
+   "lien": "https://www.musicradar.com/music-tech/samplers/donner-musics-leaked-handheld-sampler-is-real-say-hello-to-the-battery-powered-sample-boy",
+   "date": "2026-10-27T12:38:03.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/tkiAASYxVQNrhdQjjthRYc-1920-80.png",
+   "resume": "Portable hardware samplers are well and truly in vogue at the moment, and leaping into the competitive fray with a tasty-looking new offering comes the feature-packed Sample Boy from Donner Music . Introduced at this…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "My Forever Studio: Kaitlyn Aurelia Smith doesn’t share stems",
+   "lien": "https://musictech.com/shows/podcasts/my-forever-studio/my-forever-studio-kaitlyn-aurelia-smith/",
+   "date": "2026-10-27T12:24:04.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/s8-ep7-kas-hero@2000x1500.jpg",
+   "resume": "Joining us this time on My Forever Studio , brought to you in partnership with Audeint, is Kailtlyn Aurelia Smith, the electronic musician, composer, performer, and producer whose serendipitous run-in with a Buchla 100…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Behringer Polyeight: The Korg Polysix Clone Is Now Available!",
+   "lien": "https://www.gearnews.com/behringer-polyeight-synth/",
+   "date": "2026-10-27T11:13:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2021/04/behringer-polyeight-t-128x71.jpg",
+   "resume": "Behringer’s long-awaited Polyeight is finally here – and it sounds glorious! All About Behringer Polyeight Behringer Polyeight Now Available Behringer teases an enhanced Korg Polysix clone Polyeight More information…",
    "integral": true
   },
   {
@@ -38,48 +137,12 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Loopmasters Loopcloud 8: New Workflow Tools, with New Plugins and a Mobile App",
-   "lien": "https://www.gearnews.com/loopmasters-loopcloud-studio/",
-   "date": "2026-10-26T15:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/loopmasters-loopcloud-8-ft.jpg",
-   "resume": "In Loopmasters Loopcloud 8, there is a major update that links your local library with the online Loopcloud sample database in different ways. The Loopcloud platform has always been a convenient way to get exciting new…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Synthfest UK 2026: 5 Awesome Booths You May Have Missed",
-   "lien": "https://www.gearnews.com/synthfest-uk-2026-5-booths-you-may-have-missed/",
-   "date": "2026-10-26T15:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/Synthfest-UK-teaser-.jpg",
-   "resume": "Synthfest UK 2026 is home to thousands of like-minded synthesiser enthusiasts. From startup projects to big companies, here are 5 stands that you may have missed. 5 Booths From Synthfest UK 2026: Pro Synth Network…",
-   "integral": true
-  },
-  {
    "source": "midnightrebels",
    "titre": "Boris Brejcha Says the Joker Chapter Closes at the End of 2028",
    "lien": "https://midnightrebels.com/boris-brejcha-ends-joker-chapter-2028/",
    "date": "2026-10-26T10:40:26.000Z",
    "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/pasted-photo-featured-3484-2.webp?fit=1920%2C1080&ssl=1",
    "resume": "“My dad always used to say that you should stop when things are at their best,” Boris Brejcha said in an Instagram post . The German DJ and producer will end the Joker project in 2028 , and the news broke on 25 October…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "The Dekmantel 2026 RADAR Stage Runs on Its Scene, Not Its Poster",
-   "lien": "https://midnightrebels.com/dekmantel-radar-stage-uk-underground-closing/",
-   "date": "2026-10-25T17:03:22.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/07/Skrillex-shares-his-honest-opinion-on-the-future-of-AI-in-the-music-industry.webp?fit=1280%2C720&ssl=1",
-   "resume": "The Dekmantel 2026 RADAR stage ran in the Amsterdamse Bos from Friday 31 July to Sunday 2 August. On the closing night, Ben UFO, Objekt, Call Super and Pariah played a much-hyped four-way back-to-back elsewhere in the…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Gluecomp-3B, Coalesce, Hardstop: Free Plugins of the Week",
-   "lien": "https://www.gearnews.com/gluecomp-3b-free-plugins/",
-   "date": "2026-10-25T07:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/gluecomp-free-plugins-10-25-26.jpg",
-   "resume": "This week’s collection of free plugins brings you an adaptive multiband compressor, a versatile delay, and a hard clipper that means business: Gluecomp-3B, Coalesce, and Hardstop! Free Plugins of the Week DYMAI Sound…",
    "integral": true
   },
   {
@@ -137,75 +200,12 @@
    "integral": true
   },
   {
-   "source": "musictech",
-   "titre": "Akai just launched its next-gen MPK Mini Plus keyboard controller – here’s what’s new",
-   "lien": "https://musictech.com/news/gear/akai-mpk-mini-plus-ii/",
-   "date": "2026-10-22T14:54:26.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Akai-1@2000x1500.jpg",
-   "resume": "Akai Professional has launched the MPK Mini Plus II, the next generation of its acclaimed 37-key MIDI keyboard. The next-gen MPK Mini Plus brings a number of new creative tools “designed to help producers develop ideas…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "The best new music plugins this week, free and paid",
-   "lien": "https://musictech.com/news/gear/new-plugins-this-week/",
-   "date": "2026-10-22T14:46:52.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Mixing-engineer-hero@2000x1500.jpg",
-   "resume": "Every week, we round up the most exciting new plugin releases — from virtual instruments and creative effects to mixing tools and workflow upgrades. There are tons of plugins released every week, both free and paid, so…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Daft Punk x LEGO: New creative partnership sees viral pyramid stage LEGO Ideas submission brought to life",
-   "lien": "https://musictech.com/news/music/daft-punk-x-lego-new-creative-partnership/",
-   "date": "2026-10-22T14:31:21.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Daft-Punk-LEGO-hero@2000x1500.jpg",
-   "resume": "Daft Punk have partnered with the LEGO Group in an unexpected new partnership spanning “product, content and brand experiences”, starting with a new film which presents the robots – Thomas Bangalter and Guy-Manuel de…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "What the ultimate nostalgia gig showed me about the future of live sound",
-   "lien": "https://musictech.com/features/interviews/l-acoustics-carlos-mosquera-interview-backstreet-boys-l-isa-spatial-audio/",
-   "date": "2026-10-22T13:35:13.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/l-acoustics-backstreet-boys-hero@2000x1500.jpg",
-   "resume": "Disclaimer: MusicTech was invited as a guest to Düsseldorf’s Merkur Spiel-Arena by L-Acoustics. The Backstreet Boys have me surrounded. No matter which way I turn, an expanse of white singlets, pants, and jackets spread…",
-   "integral": true
-  },
-  {
    "source": "attack",
    "titre": "Lars Huismann: “Instead Of Writing A Melody, I Use Filters”",
    "lien": "https://www.attackmagazine.com/features/my-studio/lars-huismann-my-studio/",
    "date": "2026-10-22T12:29:47.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/Attack-Mag-My-Studio-Room-3-1130x484.jpg",
    "resume": "With System Collapse out now on Dax J’s Monnom Black, Berlin’s Lars Huismann shows us around the attic studio where it was made. The eight-track release follows his 2024 Monnom Black debut, Mechanized, and the Sounds…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "\"People in the industry assumed I didn’t make my own music\": Martin Garrix reflects on his journey from bedroom producer to EDM superstar on \"debut pop album\"",
-   "lien": "https://www.musicradar.com/artists/people-in-the-industry-assumed-i-didnt-make-my-own-music-of-course-i-make-all-my-own-stuff-martin-garrix-reflects-on-his-journey-from-bedroom-producer-to-edm-superstar-on-debut-pop-album-marty",
-   "date": "2026-10-22T11:32:28.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/5UBZ2i6yVPXYUk9oqdfDVX-1920-80.png",
-   "resume": "Until now, you'd be most likely to see Martin Garrix behind a pair of CDJs or a mixing desk, but with the release of his next project, the chart-topping dutch DJ and producer will be stepping behind the microphone for…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "“They deliver an experience that feels considerably more ambitious than the price might suggest”: M-Audio Forty Sixty review",
-   "lien": "https://www.musicradar.com/music-tech/studio-monitors/m-audio-forty-sixty-review",
-   "date": "2026-10-21T19:48:58.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/Ya48gGTTecbnZZopynDgiY-1920-80.jpg",
-   "resume": "What is it? There’s a certain point in every home studio’s evolution where the limitations of smaller speakers become difficult to ignore. You can only ask so much of a compact set of budget monitors , particularly when…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Daft Punk say 'non' to One More Time – duo turned down “unlimited budget” to reunite for GTA VI soundtrack",
-   "lien": "https://www.musicradar.com/artists/singles-albums/did-daft-punk-say-non-turning-down-an-unlimited-budget-to-reunite-for-grand-theft-auto-vi-soundtrack",
-   "date": "2026-10-21T15:18:22.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/TMPyb4p7ttWJw9Fr2gru3P-1920-80.jpg",
-   "resume": "As the gamers of the world wait for the release of Grand Theft Auto VI next month, it’s been reported that Rockstar Games tried to throw a whole load of money at Daft Punk to score the game’s soundtrack. Last week it…",
    "integral": true
   },
   {
