@@ -26,7 +26,7 @@ import { lngLat } from './fond-de-carte.ts';
 const LOCALE = langue === 'fr' ? 'fr-CA' : 'en-CA';
 /* La teinte de l'accent, en clair : le dessin de la carte ne lit pas les
    variables CSS. */
-const ACCENT = '#F07A50';
+const ACCENT = '#FF7A1A';
 const SOURCE = 'sonaa-itineraire';
 const REDEPART_KM = 0.3;
 

@@ -31,7 +31,7 @@ import { t } from '../langue/langue.ts';
 const L = 1080;
 const H = 1920;
 const DUREE = 60;
-const ACCENT = '#f07a50';
+const ACCENT = '#ff7a1a';
 const TYPES = ['video/mp4;codecs=avc1.42E01E,mp4a.40.2', 'video/mp4', 'video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm'];
 
 type Etape = 'reglage' | 'fabrication' | 'pret' | 'erreur';

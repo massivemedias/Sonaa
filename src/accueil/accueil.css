@@ -82,8 +82,8 @@
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(ellipse 70% 60% at 50% 48%, oklch(0.12 0.004 70 / 0.94) 0%, oklch(0.12 0.004 70 / 0.8) 50%, oklch(0.12 0.004 70 / 0.46) 100%),
-    linear-gradient(to bottom, oklch(0.12 0.004 70 / 0.55) 0%, transparent 22%, transparent 56%, var(--fond) 93%);
+    radial-gradient(ellipse 70% 60% at 50% 48%, oklch(0.08 0.004 70 / 0.94) 0%, oklch(0.08 0.004 70 / 0.8) 50%, oklch(0.08 0.004 70 / 0.46) 100%),
+    linear-gradient(to bottom, oklch(0.08 0.004 70 / 0.55) 0%, transparent 22%, transparent 56%, var(--fond) 93%);
 }
 
 .ac-hero-texte {
@@ -125,6 +125,21 @@
 .ac-ligne:nth-child(2) > span {
   animation-delay: 140ms;
   color: var(--accent);
+}
+/* L'ORANGE QUI COULE DANS LE JAUNE. Mika, le 27 octobre 2026 : « un peu
+   plus orange qui pop, je veux du jaune et du orange ». La seconde ligne du
+   titre passe de l'accent au jaune, de gauche a droite. L'ombre du titre
+   salirait un texte decoupe dans son fond : elle devient une ombre portee
+   de la forme, sous le degrade. */
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .ac-ligne:nth-child(2) > span {
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent) 22%, var(--accent-jaune) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: none;
+    filter: drop-shadow(0 4px 30px oklch(0.08 0.004 70 / 0.7));
+  }
 }
 .ac-chapeau {
   max-width: 40rem;
@@ -548,7 +563,7 @@ a:hover > .ac-cadre > .cal-gen {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(to top, oklch(0.12 0.004 70 / 0.94) 0%, oklch(0.12 0.004 70 / 0.42) 58%, oklch(0.72 0.15 var(--teinte) / 0.22) 100%);
+  background: linear-gradient(to top, oklch(0.08 0.004 70 / 0.94) 0%, oklch(0.08 0.004 70 / 0.42) 58%, oklch(0.72 0.15 var(--teinte) / 0.22) 100%);
 }
 .ac-famille::before {
   content: '';

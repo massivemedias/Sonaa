@@ -100,6 +100,8 @@
 .sitenav-lien[data-current='true']::after,
 .sitenav-lien[aria-current='page']::after {
   transform: scaleX(1);
+  /* Le jaune dit ou l'on est ; l'orange reste au survol. */
+  background: var(--accent-jaune);
 }
 
 @media (prefers-reduced-motion: reduce) {
