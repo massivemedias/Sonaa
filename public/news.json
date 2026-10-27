@@ -1,6 +1,15 @@
 {
- "fait": "2026-10-26T18:43:30.963Z",
+ "fait": "2026-10-27T05:15:06.162Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Befaco x Tesseract ARK: Sequencer, Synth and Sample Player for Eurorack – Now Available!",
+   "lien": "https://www.gearnews.com/befaco-x-tesseract-ark-sequencer/",
+   "date": "2026-10-26T23:41:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/05/befaco-tesseract-ark-t.jpg",
+   "resume": "Befaco and Tesseract Modular’s ARK is a 16-track sequencer, synth and sample player. Get it now! All About Befaco x Tesseract ARK Now Available! Sequencer, Synth and Sample Player for Eurorack Befaco x Tesseract ARK…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "The Best Studio Gear 2026 for Recording and Mixing",
@@ -300,15 +309,6 @@
   },
   {
    "source": "xlr8r",
-   "titre": "Podcast 873: Andy Graham",
-   "lien": "https://xlr8r.com/podcasts/podcast-873-andy-graham/",
-   "date": "2024-10-23T19:53:54.000Z",
-   "image": "https://xlr8r.com/wp-content/uploads/2024/10/ANDY_GRAHAM_PODCAST_HERO6-scaled.jpg",
-   "resume": "Andy Graham is a Glasgow, Scotland-born electronic music producer who is known for his innovative approach to ambient soundscapes and cinematic atmospheres. Before studying audio technology in college and university, he…",
-   "integral": true
-  },
-  {
-   "source": "xlr8r",
    "titre": "Beatrice Dillon to Launch Label with Double-Single",
    "lien": "https://xlr8r.com/news/beatrice-dillon-to-launch-label-with-double-single/",
    "date": "2024-10-23T08:37:18.000Z",
@@ -323,15 +323,6 @@
    "date": "2024-10-22T12:44:51.000Z",
    "image": "https://xlr8r.com/wp-content/uploads/2024/10/0016586174_10-765x1024.jpg",
    "resume": "The Mole will release a new album next month. High Hopes is the Canadian artist’s fifth solo album and his second for Circus Company , following The River Widens in 2023. High Hopes comprises 17 songs that sound nothing…",
-   "integral": true
-  },
-  {
-   "source": "xlr8r",
-   "titre": "Podcast 872: Tadleeh",
-   "lien": "https://xlr8r.com/podcasts/podcast-872-tadleeh/",
-   "date": "2024-10-16T17:07:56.000Z",
-   "image": "https://xlr8r.com/wp-content/uploads/2024/10/TADLEEH_PODCAST_HERO6-scaled.jpg",
-   "resume": "Tadleeh is the project of Indian-born, Italy-based musician Hazina Francia. Her route into electronic music began when she was a teenager and discovered techno and drum & bass. “Then I’ve moved forward exploring more…",
    "integral": true
   },
   {
