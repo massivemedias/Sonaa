@@ -108,5 +108,10 @@ export function hashDuChemin(chemin: string): string | null {
   if (c === '/confidentialite/') return '#/confidentialite';
   if (c === '/mentions/') return '#/mentions';
   if (c === '/news/') return '#/news';
+  /* LES NEWS PAR MARQUE, depuis le 27 octobre 2026 : /news/marques/,
+     /news/marques/<marque>/ et /news/marques/<marque>/<machine>/. */
+  if (c === '/news/marques/') return '#/news/marques';
+  const marque = c.match(/^\/news\/marques\/([a-z0-9-]+)\/(?:([a-z0-9-]+)\/)?$/);
+  if (marque) return `#/news/marques/${marque[1]}${marque[2] ? `/${marque[2]}` : ''}`;
   return null;
 }

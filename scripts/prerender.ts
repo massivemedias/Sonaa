@@ -35,6 +35,7 @@ import { ORIGINE, PREFIXE_ANGLAIS, cheminsDesStyles, slug } from '../src/lib/che
 import { ranger, vocabulaire } from '../src/lib/correspondance-styles.ts';
 import { MARCHAND_ACTIF } from '../src/config.ts';
 import { actuSansReeditions, cleDeLabel, labelsDuStyle, type ActuDuLabel, type EntreeLabel, type FicheLabel } from '../src/lib/labels.ts';
+import { MARQUES, type GroupeMarque } from '../src/data/marques.ts';
 
 const DIST = fileURLToPath(new URL('../dist', import.meta.url));
 const RACINE = fileURLToPath(new URL('..', import.meta.url));
@@ -780,7 +781,7 @@ if (existsSync(cheminNews)) {
     titre: 'News : production musicale, DJing et scène électronique, relues matin et soir · SONAA',
     description: 'Ce qui se dit en ce moment dans la musique électronique : les machines et logiciels qui sortent, les techniques de production, le monde du DJing, la scène. Vingt magazines relus matin et soir.',
     image: articles[0]?.image ?? undefined,
-    corps: `${entete([{ nom: 'News', href: '/news/' }])}<h1>News</h1><p>Vingt magazines de la musique électronique, relus matin et soir ; chaque titre mène à son site.</p><ul>${articles
+    corps: `${entete([{ nom: 'News', href: '/news/' }])}<h1>News</h1><p>Vingt magazines de la musique électronique, relus matin et soir ; chaque titre mène à son site. Les news de chaque marque et de chaque machine sont <a href="/news/marques/">rangées par marque</a>.</p><ul>${articles
       .map((a) => `<li><a href="${h(a.lien)}" rel="noopener">${h(titreFr(a))}</a>${resumeFr(a) ? ` : ${h(resumeFr(a))}` : ''}</li>`)
       .join('')}</ul>`,
     jsonld: [filAriane([{ nom: 'News', href: '/news/' }])],
@@ -828,7 +829,7 @@ if (existsSync(cheminNews)) {
     (prochaines
       ? `<h2>Les prochaines soirées à ${h(montreal?.name ?? '')}</h2><ul>${prochaines}</ul><p><a href="/soirees/${montreal?.slug ?? ''}/">Tout le calendrier de ${h(montreal?.name ?? '')}</a></p>`
       : '') +
-    `<h2>Les soirées ailleurs</h2><ul>${villes}</ul><h2>Les styles</h2><ul><li><a href="/styles/">Tous les styles</a></li>${familles}</ul><h2>Et aussi</h2><ul><li><a href="/mixtapes/">Les mixtapes des DJs</a></li>${MARCHAND_ACTIF ? '<li><a href="/tracks/">Les tracks à acheter</a></li>' : ''}<li><a href="/news/">Les news</a></li><li><a href="${PREFIXE_ANGLAIS}/styles/" hreflang="en">Electronic music styles, in English</a></li></ul>`;
+    `<h2>Les soirées ailleurs</h2><ul>${villes}</ul><h2>Les styles</h2><ul><li><a href="/styles/">Tous les styles</a></li>${familles}</ul><h2>Et aussi</h2><ul><li><a href="/mixtapes/">Les mixtapes des DJs</a></li>${MARCHAND_ACTIF ? '<li><a href="/tracks/">Les tracks à acheter</a></li>' : ''}<li><a href="/news/">Les news</a></li><li><a href="/news/marques/">Les news par marque et par machine</a></li><li><a href="${PREFIXE_ANGLAIS}/styles/" hreflang="en">Electronic music styles, in English</a></li></ul>`;
 
   /* ═══ LA REQUETE PART AVANT LE BUNDLE ═══
    *
@@ -1001,6 +1002,132 @@ for (const f of FICHES_LABELS) {
   }
 }
 
+/* ═══ LES NEWS PAR MARQUE ET PAR MACHINE ═══
+ *
+ * Mika, le 27 octobre 2026, devant le constat que trop peu de monde passe
+ * par sonaa.ca : la plus grande reserve de pages utiles du site, c'est
+ * l'archive des news par marque (src/data/marques.ts, table actu_marques),
+ * refaite deux fois par jour. Chaque marque et chaque machine y gagne une
+ * vraie page : quelqu'un qui cherche « Analog Rytm news » ou « Digitakt
+ * firmware » tombe sur la sienne, avec les derniers articles, videos et
+ * discussions, et l'app prend le relais.
+ *
+ * UNE PAGE MINCE NE S'ECRIT PAS. Une machine n'a sa page qu'a partir de
+ * trois elements ; une marque en dessous de trois reste servie mais hors
+ * index, comme les petits labels plus haut. */
+interface ActuPrerendu {
+  lien: string;
+  genre: 'article' | 'video' | 'discussion';
+  titre: string;
+  source: string;
+  date: string | null;
+  image: string | null;
+  marques: string[];
+  produits: string[];
+}
+const actusMarques: ActuPrerendu[] = [];
+for (let depuis = 0; depuis < 50_000; depuis += 1000) {
+  const lot = await lire<ActuPrerendu>(
+    `actu_marques?select=lien,genre,titre,source,date,image,marques,produits&order=date.desc.nullslast&limit=1000&offset=${depuis}`
+  );
+  actusMarques.push(...lot);
+  if (lot.length < 1000) break;
+}
+
+if (actusMarques.length > 0) {
+  const NOM_DU_RAYON: Record<GroupeMarque, string> = {
+    synthes: 'Synthés, boîtes à rythmes et samplers',
+    dj: 'Matériel DJ',
+    logiciels: 'Éditeurs de logiciels',
+    plugins: 'Plugins',
+  };
+  const NOM_DU_GENRE = { article: 'article', video: 'vidéo', discussion: 'discussion' } as const;
+  const jour = (iso: string | null): string =>
+    iso ? new Date(iso).toLocaleDateString('fr-CA', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Toronto' }) : '';
+  const ligne = (a: ActuPrerendu): string =>
+    `<li><a href="${h(a.lien)}" rel="noopener">${h(a.titre)}</a> (${NOM_DU_GENRE[a.genre]}, ${h(a.source)}${a.date ? `, ${jour(a.date)}` : ''})</li>`;
+  const parMarque = new Map<string, ActuPrerendu[]>();
+  const parProduit = new Map<string, ActuPrerendu[]>();
+  for (const a of actusMarques) {
+    for (const m of a.marques) parMarque.set(m, [...(parMarque.get(m) ?? []), a]);
+    for (const p of a.produits) parProduit.set(p, [...(parProduit.get(p) ?? []), a]);
+  }
+  const SEUIL = 3;
+  /* « de Korg », mais « d’Elektron » et « d’Arturia ». */
+  const de = (nom: string): string => (/^[aeiouyhéèêàâîôû]/i.test(nom) ? `d’${nom}` : `de ${nom}`);
+  const filMarques = { nom: 'Marques', href: '/news/marques/' };
+
+  /* L'annuaire. */
+  ecrire({
+    chemin: '/news/marques/',
+    hash: '#/news/marques',
+    titre: `News par marque : ${MARQUES.length} constructeurs, éditeurs et fabricants de plugins · SONAA`,
+    description: `Les news de ${MARQUES.length} marques de la musique électronique (Elektron, Roland, Korg, Moog, Ableton, FabFilter...) : articles, vidéos et discussions, machine par machine, relus deux fois par jour.`,
+    corps: `${entete([{ nom: 'News', href: '/news/' }, filMarques])}<h1>Les news par marque</h1><p>Constructeurs, éditeurs et fabricants de plugins : pour chacun, les articles, les vidéos et les discussions, machine par machine.</p>${(
+      Object.keys(NOM_DU_RAYON) as GroupeMarque[]
+    )
+      .map(
+        (g) =>
+          `<h2>${NOM_DU_RAYON[g]}</h2><ul>${MARQUES.filter((m) => m.groupe === g)
+            .sort((a, b) => a.nom.localeCompare(b.nom))
+            .map((m) => `<li><a href="/news/marques/${m.id}/">${h(m.nom)}</a> : ${h(m.produits.slice(0, 5).map((p) => p.nom).join(', '))}</li>`)
+            .join('')}</ul>`
+      )
+      .join('')}`,
+    jsonld: [filAriane([{ nom: 'News', href: '/news/' }, filMarques])],
+  });
+
+  for (const m of MARQUES) {
+    const siennes = parMarque.get(m.id) ?? [];
+    const machines = m.produits
+      .map((p) => ({ p, actus: parProduit.get(`${m.id}:${p.id}`) ?? [] }))
+      .filter((x) => x.actus.length >= SEUIL);
+    const filMarque = [{ nom: 'News', href: '/news/' }, filMarques, { nom: m.nom, href: `/news/marques/${m.id}/` }];
+    const exemples = (machines.length > 0 ? machines.map((x) => x.p.nom) : m.produits.map((p) => p.nom)).slice(0, 4).join(', ');
+    ecrire({
+      chemin: `/news/marques/${m.id}/`,
+      hash: `#/news/marques/${m.id}`,
+      titre: `${m.nom} : news, vidéos et discussions (${exemples}) · SONAA`,
+      description: couper(
+        `Toutes les news ${m.nom} : ${siennes.length} articles, vidéos et discussions sur ${exemples}, rassemblés depuis les magazines, YouTube et les forums, deux fois par jour.`,
+        158
+      ),
+      image: siennes.find((a) => a.image)?.image ?? undefined,
+      corps: `${entete(filMarque)}<h1>${h(m.nom)} : les news</h1><p>${h(NOM_DU_RAYON[m.groupe])}. Les articles, les vidéos et les discussions qui parlent ${h(de(m.nom))}, rassemblés deux fois par jour. <a href="${h(m.site)}" rel="noopener">Site officiel</a>.</p>${
+        machines.length > 0
+          ? `<h2>Les machines</h2><ul>${machines.map((x) => `<li><a href="/news/marques/${m.id}/${x.p.id}/">${h(m.nom)} ${h(x.p.nom)}</a> (${x.actus.length})</li>`).join('')}</ul>`
+          : ''
+      }${siennes.length > 0 ? `<h2>Les dernières news</h2><ul>${siennes.slice(0, 40).map(ligne).join('')}</ul>` : ''}<p><a href="/news/marques/">Toutes les marques</a></p>`,
+      jsonld: [filAriane(filMarque), { '@context': 'https://schema.org', '@type': 'CollectionPage', name: `${m.nom} : news`, about: { '@type': 'Brand', name: m.nom, url: m.site } }],
+      noindex: siennes.length < SEUIL,
+    });
+
+    for (const { p, actus } of machines) {
+      const nom = `${m.nom} ${p.nom}`;
+      const fil = [...filMarque, { nom: p.nom, href: `/news/marques/${m.id}/${p.id}/` }];
+      const genres = (['video', 'article', 'discussion'] as const).map((g) => ({ g, liste: actus.filter((a) => a.genre === g) }));
+      ecrire({
+        chemin: `/news/marques/${m.id}/${p.id}/`,
+        hash: `#/news/marques/${m.id}/${p.id}`,
+        titre: `${nom} : news, vidéos, mises à jour et discussions · SONAA`,
+        description: couper(
+          `Tout sur ${nom} : ${actus.length} articles, vidéos et discussions (mises à jour, tests, astuces, jams), rassemblés depuis les magazines, YouTube et les forums.`,
+          158
+        ),
+        image: actus.find((a) => a.image)?.image ?? undefined,
+        corps: `${entete(fil)}<h1>${h(nom)} : les news</h1><p>Les articles, les vidéos et les discussions qui parlent ${h(de(nom))}, rassemblés deux fois par jour.</p>${genres
+          .filter((x) => x.liste.length > 0)
+          .map(
+            (x) =>
+              `<h2>${x.g === 'video' ? 'Les vidéos' : x.g === 'article' ? 'Les articles' : 'Les discussions'}</h2><ul>${x.liste.slice(0, 30).map(ligne).join('')}</ul>`
+          )
+          .join('')}<p><a href="/news/marques/${m.id}/">Toutes les news ${h(m.nom)}</a></p>`,
+        jsonld: [filAriane(fil), { '@context': 'https://schema.org', '@type': 'CollectionPage', name: `${nom} : news`, about: { '@type': 'Thing', name: nom } }],
+      });
+    }
+  }
+}
+
 /* ═══ LE PLAN DU SITE ET LES ROBOTS ═══ */
 
 const urls = ['/', ...pages.filter((p) => !p.noindex && !p.canonique).map((p) => p.chemin)].filter(
@@ -1029,6 +1156,7 @@ const nStyles = pages.filter((p) => p.chemin.startsWith('/styles/')).length;
 const nSoirees = pages.filter((p) => p.chemin.startsWith('/soirees/')).length;
 const nMixtapes = pages.filter((p) => p.chemin.startsWith('/mixtapes/')).length;
 const nLabels = pages.filter((p) => p.chemin.startsWith('/labels/')).length;
-console.log(`Pre-rendu : ${pages.length} pages (${nStyles} styles, ${nSoirees} soirees, ${nMixtapes} mixtapes, ${nLabels} labels), sitemap de ${urls.length} adresses.`);
+const nMarques = pages.filter((p) => p.chemin.startsWith('/news/marques/')).length;
+console.log(`Pre-rendu : ${pages.length} pages (${nStyles} styles, ${nSoirees} soirees, ${nMixtapes} mixtapes, ${nLabels} labels, ${nMarques} marques et machines), sitemap de ${urls.length} adresses.`);
 if (!SUPABASE_URL || !SUPABASE_KEY) console.log('  (sans base : pas de pages de soirees ni de sets)');
 if (!existsSync(join(DIST, 'styles', 'techno', 'dub-techno', 'index.html'))) throw new Error('la page temoin /styles/techno/dub-techno/ manque');

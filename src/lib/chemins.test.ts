@@ -56,6 +56,10 @@ describe('hashDuChemin', () => {
     expect(hashDuChemin('/panier/')).toBe('#/panier');
     expect(hashDuChemin('/conditions/')).toBe('#/conditions');
     expect(hashDuChemin('/news/')).toBe('#/news');
+    expect(hashDuChemin('/news/marques/')).toBe('#/news/marques');
+    expect(hashDuChemin('/news/marques/elektron/')).toBe('#/news/marques/elektron');
+    expect(hashDuChemin('/news/marques/elektron/analog-rytm/')).toBe('#/news/marques/elektron/analog-rytm');
+    expect(hashDuChemin('/news/marques/elektron/analog-rytm')).toBe('#/news/marques/elektron/analog-rytm');
   });
 
   it('rend null pour un chemin qui n est pas du site', () => {
