@@ -1254,3 +1254,143 @@
     padding-right: var(--espace-64);
   }
 }
+
+/* ═══ LA MISE EN AVANT PAYANTE ═══ Voir lib/mise-en-avant.ts et ADR-109.
+
+   LA MENTION SE LIT SANS SE CRIER : une pastille jaune, la meme partout
+   (liste, bande, fiche, panneau de la carte), pour qu'un visiteur sache
+   qu'une soiree est en tete parce qu'on a paye. */
+.cal-vedette {
+  display: inline-block;
+  margin: 0 var(--espace-8) var(--espace-4) 0;
+  padding: 1px var(--espace-8);
+  border: 1px solid color-mix(in oklab, var(--accent-jaune) 55%, transparent);
+  border-radius: 999px;
+  color: var(--accent-jaune);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: var(--serrage);
+  text-transform: uppercase;
+  vertical-align: 0.12em;
+  white-space: nowrap;
+}
+.cal-feuille-titre .cal-vedette {
+  margin-bottom: 0;
+}
+.cal-vedettes {
+  margin-bottom: var(--espace-24);
+}
+.cal-vedettes-note {
+  margin: calc(-1 * var(--espace-8)) 0 var(--espace-16);
+  color: var(--ink-secondary);
+  font-size: 0.78rem;
+}
+/* Dans la bande, les dates melangent les jours : le jour reste ecrit sur
+   l'affiche, sans attendre le survol. */
+.cal-vedettes .cal-quand-survol {
+  opacity: 1;
+  transform: none;
+}
+.cal-avis-payee {
+  color: var(--accent-jaune);
+}
+
+/* LE FORMULAIRE, au pied de la fiche. Replie, une ligne discrete. */
+.mav-ouvrir {
+  display: block;
+  margin-top: var(--espace-24);
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--ink-secondary);
+  font: inherit;
+  font-size: 0.78rem;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+.mav-ouvrir:hover {
+  color: var(--accent-jaune);
+}
+@media (max-width: 899px) {
+  .mav-ouvrir {
+    min-height: 44px;
+  }
+}
+.mav {
+  margin-top: var(--espace-24);
+  padding: var(--espace-16);
+  border: 1px solid color-mix(in oklab, var(--accent-jaune) 35%, transparent);
+  border-radius: 14px;
+}
+.mav h4 {
+  margin: 0 0 var(--espace-8);
+  color: var(--accent-jaune);
+  font-size: 0.72rem;
+  font-weight: var(--weight-data);
+  letter-spacing: var(--serrage-ui);
+  text-transform: uppercase;
+}
+.mav-texte {
+  margin: 0;
+  max-width: 62ch;
+  font-size: 0.875rem;
+}
+.mav-prix {
+  margin: var(--espace-8) 0 var(--espace-16);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.mav-form {
+  display: grid;
+  gap: var(--espace-12);
+}
+.mav-form label {
+  display: grid;
+  gap: var(--espace-4);
+  color: var(--ink-secondary);
+  font-size: 0.8125rem;
+}
+.mav-form input,
+.mav-form textarea {
+  padding: var(--espace-8) var(--espace-12);
+  border: 1px solid var(--filet);
+  border-radius: 12px;
+  background: var(--verre-fond);
+  color: var(--encre-2);
+  font-family: inherit;
+  font-size: 0.9375rem;
+}
+.mav-form textarea {
+  resize: vertical;
+  line-height: calc(1em + 2px);
+}
+.mav-envoyer {
+  justify-self: start;
+  min-height: 44px;
+  padding: 0 var(--espace-24);
+  border: none;
+  border-radius: var(--rayon-pilule);
+  background: var(--accent-jaune);
+  color: var(--fond);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.mav-envoyer:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+.mav-note,
+.mav-conditions {
+  margin: 0;
+  color: var(--ink-secondary);
+  font-size: 0.75rem;
+}
+.mav-merci {
+  margin: 0;
+  color: var(--accent-jaune);
+  font-size: 0.875rem;
+}

@@ -67,6 +67,14 @@
     0 0 0 2px var(--fond),
     0 0 22px color-mix(in oklab, var(--accent-jaune) 60%, transparent);
 }
+/* Une salle qui porte une soiree mise en avant : un anneau jaune autour
+   de la pastille. Voir lib/mise-en-avant.ts. */
+.carte-pin-vedette {
+  box-shadow:
+    0 0 0 2px var(--fond),
+    0 0 0 4px var(--accent-jaune),
+    0 0 22px color-mix(in oklab, var(--accent-jaune) 50%, transparent);
+}
 /* Ce soir, la salle bat. */
 .carte-pin-vif::after {
   content: '';

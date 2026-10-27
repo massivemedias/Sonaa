@@ -927,6 +927,41 @@ interface Dictionnaire {
   readonly itineraireEtapes: string;
   readonly itineraireRetour: string;
   readonly itineraireFermer: string;
+  readonly miseBadge: string;
+  readonly miseALAffiche: string;
+  readonly miseALAfficheNote: string;
+  readonly miseOffre: string;
+  readonly miseTitre: string;
+  readonly miseExplication: (ville: string, jusqua: string) => string;
+  readonly misePrix: (prix: string, jours: number) => string;
+  readonly miseNom: string;
+  readonly miseCourriel: string;
+  readonly miseMessage: string;
+  readonly misePayer: (prix: string) => string;
+  readonly miseEnvoyer: string;
+  readonly miseConditionsPaiement: string;
+  readonly miseConditionsDemande: string;
+  readonly miseRecue: (courriel: string) => string;
+  readonly miseEnvoi: string;
+  readonly miseVersPaiement: string;
+  readonly miseEchec: string;
+  readonly miseTropTard: string;
+  readonly misePayee: string;
+  readonly miseAttente: string;
+  readonly adminMises: string;
+  readonly adminMisesExplication: string;
+  readonly adminMisesAucune: string;
+  readonly adminMiseStatut: (statut: string) => string;
+  readonly adminMiseOffrir: string;
+  readonly adminMiseRetirer: string;
+  readonly adminMiseVerifier: string;
+  readonly adminMiseSoiree: string;
+  readonly adminMiseOrganisateur: string;
+  readonly adminMiseMontant: string;
+  readonly adminMiseJusqua: string;
+  readonly adminMiseDemandee: string;
+  readonly adminMiseEtat: string;
+  readonly adminMiseConfirmerRetrait: (titre: string) => string;
   readonly etape: (type: string, sens: string | null, rue: string | null, sortie: number | null) => string;
   readonly carteChargement: string;
   readonly modifier: string;
@@ -1943,6 +1978,46 @@ const FR: Dictionnaire = {
   itineraireEtapes: 'Les étapes',
   itineraireRetour: 'Retour aux soirées',
   itineraireFermer: 'Fermer l’itinéraire',
+  miseBadge: 'Mise en avant',
+  miseALAffiche: 'À l’affiche',
+  miseALAfficheNote: 'Des soirées mises en avant par leurs organisateurs.',
+  miseOffre: 'Vous organisez cette soirée ? Mettez-la en avant',
+  miseTitre: 'Mettre cette soirée en avant',
+  miseExplication: (ville, jusqua) =>
+    `En tête du calendrier de ${ville}, dans la bannière d’accueil et sur la carte, avec la mention « Mise en avant », jusqu’au ${jusqua}.`,
+  misePrix: (prix, jours) => `${prix} pour ${jours} jour${jours > 1 ? 's' : ''}`,
+  miseNom: 'Votre nom ou celui du collectif',
+  miseCourriel: 'Votre courriel',
+  miseMessage: 'Un mot pour nous (facultatif)',
+  misePayer: (prix) => `Payer ${prix}`,
+  miseEnvoyer: 'Envoyer la demande',
+  miseConditionsPaiement:
+    'Paiement unique par Stripe, sans abonnement. La mise en avant s’arrête après la soirée. SONAA peut refuser une soirée, et la rembourse alors.',
+  miseConditionsDemande:
+    'Nous vous écrivons sous 24 heures pour le paiement. La mise en avant commence dès qu’il est reçu et s’arrête après la soirée.',
+  miseRecue: (courriel) => `Demande reçue. Nous vous écrivons sous 24 heures à ${courriel}.`,
+  miseEnvoi: 'Envoi…',
+  miseVersPaiement: 'Ouverture du paiement…',
+  miseEchec: 'La demande n’a pas pu être envoyée. Réessayez dans un instant.',
+  miseTropTard: 'Cette soirée est passée : elle ne peut plus être mise en avant.',
+  misePayee: 'Paiement reçu. Votre soirée est maintenant en tête du calendrier. Merci.',
+  miseAttente: 'Stripe n’a pas encore confirmé le paiement. Si vous avez payé, la soirée passera en tête sous peu.',
+  adminMises: 'Mises en avant',
+  adminMisesExplication:
+    'Offrir active une mise en avant sans paiement en ligne (Interac, échange, cadeau). Retirer l’enlève du calendrier ; un remboursement se fait dans Stripe.',
+  adminMisesAucune: 'Aucune demande pour l’instant.',
+  adminMiseStatut: (statut) =>
+    ({ demandee: 'En attente du paiement', payee: 'Payée', offerte: 'Offerte', retiree: 'Retirée' })[statut] ?? statut,
+  adminMiseOffrir: 'Offrir',
+  adminMiseRetirer: 'Retirer',
+  adminMiseVerifier: 'Vérifier le paiement',
+  adminMiseSoiree: 'Soirée',
+  adminMiseOrganisateur: 'Organisateur',
+  adminMiseMontant: 'Prix',
+  adminMiseJusqua: 'Jusqu’au',
+  adminMiseDemandee: 'Demandée le',
+  adminMiseEtat: 'État',
+  adminMiseConfirmerRetrait: (titre) => `Retirer la mise en avant de « ${titre} » ?`,
   etape: (type, sens, rue, sortie) => {
     const sur = rue ? ` sur ${rue}` : '';
     if (type === 'depart') return `Partez${sur}`;
@@ -2976,6 +3051,46 @@ const EN: Dictionnaire = {
   itineraireEtapes: 'Step by step',
   itineraireRetour: 'Back to the nights',
   itineraireFermer: 'Close directions',
+  miseBadge: 'Promoted',
+  miseALAffiche: 'Featured',
+  miseALAfficheNote: 'Nights promoted by their organizers.',
+  miseOffre: 'Organizing this night? Promote it',
+  miseTitre: 'Promote this night',
+  miseExplication: (ville, jusqua) =>
+    `At the top of the ${ville} calendar, in the home banner and on the map, marked "Promoted", until ${jusqua}.`,
+  misePrix: (prix, jours) => `${prix} for ${jours} day${jours > 1 ? 's' : ''}`,
+  miseNom: 'Your name or your crew’s',
+  miseCourriel: 'Your email',
+  miseMessage: 'A note for us (optional)',
+  misePayer: (prix) => `Pay ${prix}`,
+  miseEnvoyer: 'Send the request',
+  miseConditionsPaiement:
+    'One-time payment through Stripe, no subscription. The promotion ends after the night. SONAA may decline a night, and refunds it if so.',
+  miseConditionsDemande:
+    'We will email you within 24 hours about payment. The promotion starts once it is received and ends after the night.',
+  miseRecue: (courriel) => `Request received. We will email you within 24 hours at ${courriel}.`,
+  miseEnvoi: 'Sending…',
+  miseVersPaiement: 'Opening payment…',
+  miseEchec: 'The request could not be sent. Try again in a moment.',
+  miseTropTard: 'This night is over: it can no longer be promoted.',
+  misePayee: 'Payment received. Your night is now at the top of the calendar. Thank you.',
+  miseAttente: 'Stripe has not confirmed the payment yet. If you paid, the night will move to the top shortly.',
+  adminMises: 'Promotions',
+  adminMisesExplication:
+    'Grant turns a promotion on without online payment (Interac, trade, gift). Remove takes it off the calendar; refunds are made in Stripe.',
+  adminMisesAucune: 'No request yet.',
+  adminMiseStatut: (statut) =>
+    ({ demandee: 'Awaiting payment', payee: 'Paid', offerte: 'Granted', retiree: 'Removed' })[statut] ?? statut,
+  adminMiseOffrir: 'Grant',
+  adminMiseRetirer: 'Remove',
+  adminMiseVerifier: 'Check payment',
+  adminMiseSoiree: 'Night',
+  adminMiseOrganisateur: 'Organizer',
+  adminMiseMontant: 'Price',
+  adminMiseJusqua: 'Until',
+  adminMiseDemandee: 'Requested',
+  adminMiseEtat: 'Status',
+  adminMiseConfirmerRetrait: (titre) => `Remove the promotion of "${titre}"?`,
   etape: (type, sens, rue, sortie) => {
     const sur = rue ? ` onto ${rue}` : '';
     if (type === 'depart') return `Head out${rue ? ` on ${rue}` : ''}`;

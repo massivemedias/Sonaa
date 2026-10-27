@@ -64,6 +64,8 @@ import { faMagnifyingGlassPlus, faMap, faRoute } from '@fortawesome/free-solid-s
 import { quandEnLettres } from '../lib/date-soiree.ts';
 import { AjouterSoiree } from './AjouterSoiree.tsx';
 import { PartageSoiree } from './PartageSoiree.tsx';
+import { MettreEnAvant } from './MettreEnAvant.tsx';
+import { confirmerMise, enAvantDabord, misesEnAvant, sessionDeLAdresse } from '../lib/mise-en-avant.ts';
 import { useSession } from '../lib/useSession.ts';
 import {
   agenda,
@@ -278,6 +280,7 @@ function FicheSoiree({
   ville,
   villeNom,
   moi,
+  vedette,
   onFermer,
   onRetiree,
 }: {
@@ -288,6 +291,8 @@ function FicheSoiree({
   villeNom: string | null;
   /** Le compte connecte, pour savoir si cette soiree est la sienne. */
   moi: string | null;
+  /** Mise en avant en ce moment : la fiche le dit, et ne la propose plus. */
+  vedette: boolean;
   onFermer: () => void;
   onRetiree: () => void;
 }) {
@@ -310,6 +315,9 @@ function FicheSoiree({
      pas que les gens sortent du site ». Voir ItineraireSoiree.tsx. */
   const [itineraire, setItineraire] = useState(false);
   const situable = (soiree.lat != null && soiree.lon != null) || Boolean(soiree.lieu || soiree.adresse);
+  /* LA MISE EN AVANT NE SE PROPOSE QUE POUR UNE SOIREE A VENIR, dans une
+     ville connue, et qui ne l'est pas deja. Voir MettreEnAvant.tsx. */
+  const aVenir = soiree.date.slice(0, 10) >= cleDuJour(new Date());
 
   /* ECHAP FERME, ET LE FOND DE PAGE NE DEFILE PLUS DERRIERE. Sans le second,
      on scrolle la liste en croyant scroller la fiche, et on ressort ailleurs. */
@@ -337,7 +345,10 @@ function FicheSoiree({
     >
       <div className="cal-feuille-tete">
         <span className="cal-feuille-poignee" aria-hidden="true" />
-        <h3 className="cal-feuille-titre">{soiree.titre}</h3>
+        <h3 className="cal-feuille-titre">
+          {vedette && <span className="cal-vedette">{t.miseBadge}</span>}
+          {soiree.titre}
+        </h3>
         <button type="button" className="cal-feuille-fermer" onClick={onFermer} aria-label={t.fermerLaFiche}>
           ×
         </button>
@@ -428,6 +439,8 @@ function FicheSoiree({
         </a>
       )}
 
+      {ville && aVenir && !vedette && <MettreEnAvant soiree={soiree} ville={ville} />}
+
       {laMienne && (
         <PartageSoiree
           soiree={soiree}
@@ -503,6 +516,11 @@ export function CalendrierPage() {
   };
   const { session } = useSession();
   const moi = session?.user.id ?? null;
+  /* LES SOIREES MISES EN AVANT de la ville regardee, et le retour d'un
+     paiement Stripe. Voir lib/mise-en-avant.ts. */
+  const [vedettes, setVedettes] = useState<ReadonlySet<string>>(() => new Set());
+  const [avisMise, setAvisMise] = useState<'payee' | 'attente' | null>(null);
+  const [tourMise, setTourMise] = useState(0);
 
   useEffect(() => {
     const t = setTimeout(() => setRechercheRetardee(recherche.trim()), 350);
@@ -662,6 +680,34 @@ export function CalendrierPage() {
 
   useEffect(charger, [charger]);
 
+  const slugVille = ville?.slug ?? null;
+  useEffect(() => {
+    if (!slugVille) return;
+    let vivant = true;
+    void misesEnAvant(slugVille).then((v) => {
+      if (vivant) setVedettes(v);
+    });
+    return () => {
+      vivant = false;
+    };
+  }, [slugVille, tourMise]);
+
+  /* LE RETOUR DE STRIPE porte ?mise=<session> dans l'adresse. La passerelle
+     verifie chez Stripe ; l'adresse est nettoyee pour qu'un rechargement ou
+     un partage ne la repose pas. */
+  useEffect(() => {
+    const session = sessionDeLAdresse(window.location.search);
+    if (!session) return;
+    const p = new URLSearchParams(window.location.search);
+    p.delete('mise');
+    const reste = p.toString();
+    window.history.replaceState(window.history.state, '', `${window.location.pathname}${reste ? `?${reste}` : ''}${window.location.hash}`);
+    void confirmerMise(session).then((ok) => {
+      setAvisMise(ok ? 'payee' : 'attente');
+      if (ok) setTourMise((n) => n + 1);
+    });
+  }, []);
+
   /* CHANGER DE VILLE ICI N'ECRIT PAS DANS LE PROFIL. Le local et l'adresse,
      rien de plus : regarder Berlin un mardi soir ne rend berlinois personne.
      Le profil ne se modifie que depuis le profil, et c'est verifie par un
@@ -767,14 +813,23 @@ export function CalendrierPage() {
          du mois, sous deux adresses d'image differentes : comparer les
          adresses ne le voyait pas. Une affiche par salle, la premiere en
          date. */
-      (soirees ?? [])
+      /* LES SOIREES MISES EN AVANT PASSENT DEVANT : c'est une partie de ce
+         que l'organisateur a paye. */
+      enAvantDabord(soirees ?? [], vedettes)
         .filter((s): s is Soiree & { affiche: string } => Boolean(s.affiche))
         .filter((s, i, tous) => tous.findIndex((x) => x.affiche === s.affiche) === i)
         .filter((s, i, tous) => !s.lieu || tous.findIndex((x) => x.lieu?.trim().toLowerCase() === s.lieu?.trim().toLowerCase()) === i)
         .slice(0, 5)
         .map((s) => ({ id: s.id, titre: s.titre, affiche: s.affiche })),
-    [soirees]
+    [soirees, vedettes]
   );
+
+  /* LA BANDE « A L'AFFICHE » : les soirees mises en avant et a venir, en
+     tete de la liste quelle que soit la tranche regardee. */
+  const aLAffiche = useMemo(() => {
+    const aujourdhui = cleDuJour(new Date());
+    return (soirees ?? []).filter((s) => vedettes.has(s.id) && s.date.slice(0, 10) >= aujourdhui);
+  }, [soirees, vedettes]);
 
   /* LA BANNIERE S'AFFICHE MEME SANS VILLE. Elle ne disparait que pendant une
      recherche : on cherche une salle, on ne decouvre plus le site. Elle
@@ -805,6 +860,100 @@ export function CalendrierPage() {
           : t.quandSuite;
 
   const enAttente = !prete && villes.length === 0;
+
+  /* UNE CARTE DE SOIREE, pour la liste par jour et pour la bande « A
+     l'affiche ». Une soiree mise en avant porte la mention, partout. */
+  const carteDeSoiree = (s: Soiree, rang: number) => {
+    const h = s.debut ? heureLocale(s.debut, fuseau) : null;
+    const sigle = ailleurs && s.debut ? sigleFuseau(s.debut, fuseau) : null;
+    return (
+      <Apparition as="li" key={s.id} i={rang} className={vedettes.has(s.id) ? 'cal-soiree cal-soiree-vedette' : 'cal-soiree'}>
+        {/* LA CARTE ENTIERE OUVRE LA FICHE, POCHETTE COMPRISE.
+            Elle etait un lien vers un autre site : on
+            cliquait sur un titre et on quittait SONAA
+            pour lire ce que SONAA avait deja en base.
+            La pochette, elle, n'etait cliquable nulle
+            part, ce qui est le premier endroit ou l'on
+            clique dans une grille d'affiches.
+
+            C'est un bouton et non un lien : il n'emmene
+            nulle part, il deplie. Un lien qui ne
+            navigue pas ment a la barre d'etat, au clic
+            du milieu et au clavier. */}
+        <button
+          type="button"
+          className="cal-ouvre"
+          onClick={() => setDepliee((v) => (v === s.id ? null : s.id))}
+          aria-expanded={depliee === s.id}
+          aria-controls={`detail-${s.id}`}
+        >
+          <ImageDeSoiree soiree={s} fuseau={fuseau} variante="carte" className="cal-affiche" />
+          {/* LE JOUR SUR L'AFFICHE, AU SURVOL. Mika, le 30
+              septembre 2026 : « faut que je cherche quand
+              c'est ». Le jour n'etait ecrit qu'en tete de
+              section, des ecrans plus haut. Il s'affiche
+              sur l'image quand on la survole, et en
+              permanence au doigt, qui n'a pas de survol.
+              Il est aussi le nom de ce bouton. */}
+          <span className="cal-quand-survol">
+            <span className="cal-quand-long">{quandEnLettres(s, h, fuseau, LOCALE, false)}</span>
+            <span className="cal-quand-court" aria-hidden="true">
+              {jourCourt(s.date, fuseau)}
+              {h ? ` - ${h}` : ''}
+            </span>
+          </span>
+        </button>
+        <div className="cal-texte">
+          {vedettes.has(s.id) && <span className="cal-vedette">{t.miseBadge}</span>}
+          <button
+            type="button"
+            className="cal-titre cal-titre-bouton"
+            onClick={() => setDepliee((v) => (v === s.id ? null : s.id))}
+            aria-expanded={depliee === s.id}
+            aria-controls={`detail-${s.id}`}
+          >
+            {s.titre}
+          </button>
+          {/* LES NOMS AVANT LE LIEU. C'est le line-up
+              qu'on cherche des yeux en parcourant une
+              grille, la salle ne vient qu'ensuite, quand
+              on a decide que la soiree l'interessait. */}
+          {s.artistes.length > 0 && (
+            <p className="cal-artistes">{s.artistes.slice(0, 6).join(', ')}</p>
+          )}
+          <p className="cal-lieu">
+            {/* LA PROVENANCE SE DIT, ET SEULEMENT
+                QUAND ELLE APPREND QUELQUE CHOSE.
+                Resident Advisor est deja nomme en tete
+                de page ; le repeter sur chaque ligne
+                serait du bruit. Une soiree ajoutee a
+                la main, elle, ne vient pas de la, et
+                celui qui la lit doit pouvoir le
+                savoir. */}
+            {s.origine && s.origine !== 'ra' && (
+              <span className="cal-origine">{NOM_DE_SOURCE[s.origine]}</span>
+            )}
+            {s.lieu ?? t.lieuNonAnnonce}
+            {/* L'HEURE NE SE COUPE PAS : « 22 h » en fin de
+                ligne et « 00 » sous elle, vu sur une
+                carte de telephone le 30 septembre 2026. */}
+            {h && (
+              <>
+                {' · '}
+                <span className="cal-heure">
+                  {h}
+                  {sigle ? ` ${sigle}` : ''}
+                </span>
+              </>
+            )}
+          </p>
+          {s.genres.length > 0 && (
+            <p className="cal-genres">{s.genres.join(' · ')}</p>
+          )}
+        </div>
+      </Apparition>
+    );
+  };
 
   return (
     <>
@@ -1039,6 +1188,7 @@ export function CalendrierPage() {
                   ville={ville ?? null}
                   villeNom={ville?.name ?? null}
                   moi={moi}
+                  vedette={vedettes.has(s.id)}
                   onFermer={() => setDepliee(null)}
                   onRetiree={() => {
                     setDepliee(null);
@@ -1108,6 +1258,20 @@ export function CalendrierPage() {
                 )}
               </>
 
+              {avisMise && (
+                <p className={`cal-note cal-avis-mise${avisMise === 'payee' ? ' cal-avis-payee' : ''}`} role="status">
+                  {avisMise === 'payee' ? t.misePayee : t.miseAttente}
+                </p>
+              )}
+
+              {!enRecherche && !enCarte && !chargement && aLAffiche.length > 0 && (
+                <section className="cal-jour cal-vedettes" aria-label={t.miseALAffiche}>
+                  <h3>{t.miseALAffiche}</h3>
+                  <p className="cal-vedettes-note">{t.miseALAfficheNote}</p>
+                  <ul className="cal-liste">{aLAffiche.map((s, rang) => carteDeSoiree(s, rang))}</ul>
+                </section>
+              )}
+
               {zoneRa == null ? (
                 <p className="cal-note">
                   {t.raNeCouvrePas(ville.name)}
@@ -1168,6 +1332,7 @@ export function CalendrierPage() {
                           const h = s.debut ? heureLocale(s.debut, fuseau) : null;
                           return `${jourCourt(s.date, fuseau)}${h ? ` - ${h}` : ''}`;
                         }}
+                        vedettes={vedettes}
                         onOuvrir={(id) => setDepliee(id)}
                       />
                     </Suspense>
@@ -1219,96 +1384,7 @@ export function CalendrierPage() {
                     <section key={date} className="cal-jour">
                       <h3>{jour(date, fuseau)}</h3>
                       <ul className="cal-liste">
-                        {liste.map((s, rang) => {
-                          const h = s.debut ? heureLocale(s.debut, fuseau) : null;
-                          const sigle = ailleurs && s.debut ? sigleFuseau(s.debut, fuseau) : null;
-                          return (
-                            <Apparition as="li" key={s.id} i={rang} className="cal-soiree">
-                              {/* LA CARTE ENTIERE OUVRE LA FICHE, POCHETTE COMPRISE.
-                                  Elle etait un lien vers un autre site : on
-                                  cliquait sur un titre et on quittait SONAA
-                                  pour lire ce que SONAA avait deja en base.
-                                  La pochette, elle, n'etait cliquable nulle
-                                  part, ce qui est le premier endroit ou l'on
-                                  clique dans une grille d'affiches.
-
-                                  C'est un bouton et non un lien : il n'emmene
-                                  nulle part, il deplie. Un lien qui ne
-                                  navigue pas ment a la barre d'etat, au clic
-                                  du milieu et au clavier. */}
-                              <button
-                                type="button"
-                                className="cal-ouvre"
-                                onClick={() => setDepliee((v) => (v === s.id ? null : s.id))}
-                                aria-expanded={depliee === s.id}
-                                aria-controls={`detail-${s.id}`}
-                              >
-                                <ImageDeSoiree soiree={s} fuseau={fuseau} variante="carte" className="cal-affiche" />
-                                {/* LE JOUR SUR L'AFFICHE, AU SURVOL. Mika, le 30
-                                    septembre 2026 : « faut que je cherche quand
-                                    c'est ». Le jour n'etait ecrit qu'en tete de
-                                    section, des ecrans plus haut. Il s'affiche
-                                    sur l'image quand on la survole, et en
-                                    permanence au doigt, qui n'a pas de survol.
-                                    Il est aussi le nom de ce bouton. */}
-                                <span className="cal-quand-survol">
-                                  <span className="cal-quand-long">{quandEnLettres(s, h, fuseau, LOCALE, false)}</span>
-                                  <span className="cal-quand-court" aria-hidden="true">
-                                    {jourCourt(s.date, fuseau)}
-                                    {h ? ` - ${h}` : ''}
-                                  </span>
-                                </span>
-                              </button>
-                              <div className="cal-texte">
-                                <button
-                                  type="button"
-                                  className="cal-titre cal-titre-bouton"
-                                  onClick={() => setDepliee((v) => (v === s.id ? null : s.id))}
-                                  aria-expanded={depliee === s.id}
-                                  aria-controls={`detail-${s.id}`}
-                                >
-                                  {s.titre}
-                                </button>
-                                {/* LES NOMS AVANT LE LIEU. C'est le line-up
-                                    qu'on cherche des yeux en parcourant une
-                                    grille, la salle ne vient qu'ensuite, quand
-                                    on a decide que la soiree l'interessait. */}
-                                {s.artistes.length > 0 && (
-                                  <p className="cal-artistes">{s.artistes.slice(0, 6).join(', ')}</p>
-                                )}
-                                <p className="cal-lieu">
-                                  {/* LA PROVENANCE SE DIT, ET SEULEMENT
-                                      QUAND ELLE APPREND QUELQUE CHOSE.
-                                      Resident Advisor est deja nomme en tete
-                                      de page ; le repeter sur chaque ligne
-                                      serait du bruit. Une soiree ajoutee a
-                                      la main, elle, ne vient pas de la, et
-                                      celui qui la lit doit pouvoir le
-                                      savoir. */}
-                                  {s.origine && s.origine !== 'ra' && (
-                                    <span className="cal-origine">{NOM_DE_SOURCE[s.origine]}</span>
-                                  )}
-                                  {s.lieu ?? t.lieuNonAnnonce}
-                                  {/* L'HEURE NE SE COUPE PAS : « 22 h » en fin de
-                                      ligne et « 00 » sous elle, vu sur une
-                                      carte de telephone le 30 septembre 2026. */}
-                                  {h && (
-                                    <>
-                                      {' · '}
-                                      <span className="cal-heure">
-                                        {h}
-                                        {sigle ? ` ${sigle}` : ''}
-                                      </span>
-                                    </>
-                                  )}
-                                </p>
-                                {s.genres.length > 0 && (
-                                  <p className="cal-genres">{s.genres.join(' · ')}</p>
-                                )}
-                              </div>
-                            </Apparition>
-                          );
-                        })}
+                        {enAvantDabord(liste, vedettes).map((s, rang) => carteDeSoiree(s, rang))}
                       </ul>
                     </section>
                     ))

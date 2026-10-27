@@ -22,12 +22,14 @@ import { ImageDeSoiree } from './AfficheGeneree.tsx';
 import { t } from '../langue/langue.ts';
 import { creerCarte, lngLat } from './fond-de-carte.ts';
 import { ItineraireSurLaCarte } from './Itineraire.tsx';
+import { enAvantDabord } from '../lib/mise-en-avant.ts';
 
 export function CarteDesSoirees({
   soirees,
   ville,
   fuseau,
   quand,
+  vedettes,
   onOuvrir,
 }: {
   soirees: readonly Soiree[];
@@ -35,6 +37,9 @@ export function CarteDesSoirees({
   fuseau: string;
   /** « sam. 1 nov. - 23 h », la meme ecriture que la liste. */
   quand: (s: Soiree) => string;
+  /** Les soirees mises en avant : leur salle porte un anneau, et elles
+      passent en tete de son panneau. */
+  vedettes: ReadonlySet<string>;
   onOuvrir: (id: string) => void;
 }) {
   const boite = useRef<HTMLDivElement>(null);
@@ -100,6 +105,7 @@ export function CarteDesSoirees({
       const n = s.soirees.length;
       const taille = Math.round(24 + Math.min(16, Math.sqrt(n - 1) * 6));
       const vif = s.soirees.some((x) => x.date.slice(0, 10) === ceSoir);
+      const vedette = s.soirees.some((x) => vedettes.has(x.id));
       const nom = s.nom ?? t.lieuNonAnnonce;
       const bouton = document.createElement('div');
       bouton.className = 'carte-repere';
@@ -107,7 +113,7 @@ export function CarteDesSoirees({
       bouton.setAttribute('role', 'button');
       bouton.setAttribute('aria-label', t.carteSalleEtNombre(nom, n));
       const pin = document.createElement('span');
-      pin.className = ['carte-pin', vif ? 'carte-pin-vif' : '', s.cle === choisie ? 'carte-pin-choisi' : ''].filter(Boolean).join(' ');
+      pin.className = ['carte-pin', vif ? 'carte-pin-vif' : '', vedette ? 'carte-pin-vedette' : '', s.cle === choisie ? 'carte-pin-choisi' : ''].filter(Boolean).join(' ');
       pin.style.setProperty('--t', `${taille}px`);
       pin.textContent = n > 1 ? String(n) : '';
       const bulle = document.createElement('span');
@@ -139,7 +145,7 @@ export function CarteDesSoirees({
       });
       reperes.current.push(new Marker({ element: bouton }).setLngLat(lngLat(s.point)).addTo(m));
     }
-  }, [liste, choisie]);
+  }, [liste, choisie, vedettes]);
 
   /* LE CADRAGE suit l'ensemble des salles, pas la salle choisie : choisir
      ne doit pas faire sauter la carte. */
@@ -199,13 +205,16 @@ export function CarteDesSoirees({
           ) : (
             <>
               <ul className="carte-soirees">
-                {salle.soirees.map((s) => (
+                {enAvantDabord(salle.soirees, vedettes).map((s) => (
                   <li key={s.id}>
                     <button type="button" className="carte-soiree" onClick={() => onOuvrir(s.id)}>
                       <ImageDeSoiree soiree={s} fuseau={fuseau} variante="ligne" className="cal-ligne-affiche" />
                       <span className="carte-soiree-texte">
                         <span className="carte-soiree-quand">{quand(s)}</span>
-                        <span className="carte-soiree-titre">{s.titre}</span>
+                        <span className="carte-soiree-titre">
+                          {vedettes.has(s.id) && <span className="cal-vedette">{t.miseBadge}</span>}
+                          {s.titre}
+                        </span>
                       </span>
                     </button>
                   </li>

@@ -42,6 +42,7 @@ import { SOURCES } from '../../src/data/news-sources.ts';
 import { lireReponseAudd } from '../../src/reconnaitre/audd.ts';
 import { soirees, toutesLesSoirees } from './agenda.ts';
 import { lireDemande, situer } from './lieux.ts';
+import { confirmer as confirmerMise, demande as demanderMise, devis as devisMise } from './mise-en-avant.ts';
 import { PasConfigure, chercher as chercherSoundcloud, connexion as connexionSoundcloud, deconnexion as deconnexionSoundcloud, flux as fluxSoundcloud, mesMorceaux, morceauxMm, piece as pieceSoundcloud, rappel as rappelSoundcloud, seance as seanceSoundcloud } from './soundcloud.ts';
 import { jourEtHeure, lireLaPage, lireLeLienSeul, sourceDuLien, texteNu } from '../../src/lib/lire-soiree.ts';
 
@@ -60,7 +61,7 @@ interface Env {
   /** Les noms qu'aucune source n'a resolus, pour la moisson du lendemain. */
   readonly DEMANDES?: KVNamespace;
   /** L'envoi de courriel de Cloudflare (Email Sending), domaine sonaa.ca. */
-  readonly EMAIL?: { send: (m: { to: string; from: { email: string; name: string }; subject: string; text: string; html?: string }) => Promise<unknown> };
+  readonly EMAIL?: { send: (m: { to: string; from: { email: string; name: string }; replyTo?: string; subject: string; text: string; html?: string }) => Promise<unknown> };
   /** Le secret que la base presente pour avoir le droit de faire ecrire un
       courriel, pose par `wrangler secret put NOTIFIER_SECRET`. */
   /* LA CLE D'AUDD, POUR LA RECONNAISSANCE DE MORCEAU. Facultative : sans
@@ -85,6 +86,11 @@ interface Env {
      STATS_SECRET`. Seule son empreinte est en base (table mesure_cle) : la
      fonction mesurer n'ecrit que pour qui le presente. Voir api/mesure. */
   readonly STATS_SECRET?: string;
+  /* LA CLE SECRETE STRIPE DE MIKA, pour la mise en avant payante d'une
+     soiree (27 octobre 2026), posee par Mika lui-meme avec `wrangler secret
+     put STRIPE_SECRET_KEY`. Absente, les demandes arrivent par courriel et
+     se reglent a la main. Voir mise-en-avant.ts. */
+  readonly STRIPE_SECRET_KEY?: string;
   /* L'APPLICATION SOUNDCLOUD DE MIKA, pour les Decks de mauditemachine.com,
      posee par `wrangler secret put SOUNDCLOUD_CLIENT_ID` et
      `SOUNDCLOUD_CLIENT_SECRET`. Absente, les routes api/soundcloud repondent
@@ -788,6 +794,25 @@ export default {
       const h = entetes(req, env);
       h.set('content-type', 'application/json');
       return new Response(JSON.stringify({ points }), { headers: h });
+    }
+
+    /* LA MISE EN AVANT PAYANTE D'UNE SOIREE : voir mise-en-avant.ts. */
+    if (chemin.startsWith('api/mise-en-avant/') && req.method !== 'OPTIONS') {
+      if (!origineAutorisee(req, env)) return refus(req, env, 403, 'origine refusee');
+      const route = chemin.slice('api/mise-en-avant/'.length);
+      let r = null;
+      if (req.method === 'GET' && route === 'devis') r = await devisMise(env, url.searchParams.get('quand'));
+      else if (req.method === 'POST' && (route === 'demande' || route === 'confirmer')) {
+        let corps: unknown = null;
+        try {
+          corps = JSON.parse(await req.text());
+        } catch {
+          corps = null;
+        }
+        r = route === 'demande' ? await demanderMise(env, ctx, corps) : await confirmerMise(env, ctx, (corps as { session?: unknown } | null)?.session);
+      }
+      if (!r) return refus(req, env, 404, 'route inconnue');
+      return new Response(JSON.stringify(r.corps), { status: r.statut, headers: entetes(req, env, { 'content-type': 'application/json' }) });
     }
 
     if (req.method === 'POST' && chemin === 'api/mesure') {

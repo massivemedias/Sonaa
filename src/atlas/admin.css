@@ -56,3 +56,32 @@
   text-underline-offset: 3px;
   cursor: pointer;
 }
+
+/* LES MISES EN AVANT : le mot de l'organisateur se lit en entier, sous son
+   adresse, et les gestes se rangent cote a cote. Voir MisesAdmin.tsx. */
+.admin-mise-message {
+  display: block;
+  max-width: 36ch;
+  margin-top: var(--espace-4);
+  white-space: normal;
+}
+.admin-mise-gestes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-8);
+}
+.admin-mise-gestes button {
+  padding: var(--espace-4) var(--espace-12);
+  border: 1px solid var(--voile-16);
+  border-radius: 999px;
+  background: none;
+  color: var(--encre-forte-2);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+@media (max-width: 899px) {
+  .admin-mise-gestes button {
+    min-height: 44px;
+  }
+}
