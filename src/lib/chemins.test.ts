@@ -7,7 +7,7 @@
  * anciennes adresses continuent de repondre. */
 
 import { describe, expect, it } from 'vitest';
-import { hashDuChemin, langueDuChemin, slug } from './chemins.ts';
+import { cheminAligne, cheminDuHash, hashDuChemin, langueDuChemin, slug } from './chemins.ts';
 
 describe('slug', () => {
   it('met en minuscules, retire les accents et joint par un tiret', () => {
@@ -71,5 +71,62 @@ describe('hashDuChemin', () => {
     expect(langueDuChemin('/en/styles/techno/')).toBe('en');
     expect(langueDuChemin('/styles/techno/')).toBe('fr');
     expect(hashDuChemin('/en/styles/techno/dub-techno/')).toBe(hashDuChemin('/styles/techno/dub-techno/'));
+  });
+});
+
+/* LE LIEN COPIE DANS LA BARRE EST CELUI QU'ON COLLE SUR FACEBOOK, qui ne lit
+   pas l'ancre. Le 27 octobre 2026, sonaa.ca/#/mixtapes/<id> y montrait
+   l'accueil au lieu de la mixtape. */
+describe('cheminDuHash', () => {
+  const id = '0fc7a483-fbd6-4662-8086-90f609574969';
+
+  it('donne la page d une mixtape, meme par l ancienne ancre', () => {
+    expect(cheminDuHash(`#/mixtapes/${id}`)).toBe(`/mixtapes/${id}/`);
+    expect(cheminDuHash(`#/mixtapes/${id}?t=120`)).toBe(`/mixtapes/${id}/`);
+    expect(cheminDuHash(`#/sets/${id}`)).toBe(`/mixtapes/${id}/`);
+    expect(cheminDuHash('#/mixtapes')).toBe('/mixtapes/');
+  });
+
+  it('refait le chemin d un style a partir de son ancre', () => {
+    const genre = hashDuChemin('/styles/techno/dub-techno/') ?? '';
+    const famille = hashDuChemin('/styles/techno/') ?? '';
+    expect(cheminDuHash(genre)).toBe('/styles/techno/dub-techno/');
+    expect(cheminDuHash(famille)).toBe('/styles/techno/');
+    expect(cheminDuHash('#/parcourir')).toBe('/styles/');
+  });
+
+  it('fait l aller retour avec hashDuChemin', () => {
+    for (const chemin of ['/labels/', '/labels/f-communications/', '/news/', '/news/marques/elektron/analog-rytm/', '/tracks/', '/mentions/']) {
+      expect(cheminDuHash(hashDuChemin(chemin) ?? '')).toBe(chemin);
+    }
+  });
+
+  it('rend la racine pour le calendrier et pour une ancre sans page', () => {
+    expect(cheminDuHash('#/calendrier?city=montreal-ca')).toBe('/');
+    expect(cheminDuHash('#/profil/xyz')).toBe('/');
+    expect(cheminDuHash('')).toBe('/');
+  });
+});
+
+describe('cheminAligne', () => {
+  const id = '0fc7a483-fbd6-4662-8086-90f609574969';
+
+  it('met le chemin de la mixtape quand on y arrive depuis l accueil', () => {
+    expect(cheminAligne(`#/mixtapes/${id}`, '/')).toBe(`/mixtapes/${id}/`);
+    expect(cheminAligne(`#/mixtapes/${id}`, '/styles/techno/')).toBe(`/mixtapes/${id}/`);
+  });
+
+  it('garde un chemin qui mene deja a la meme page', () => {
+    expect(cheminAligne(`#/mixtapes/${id}`, `/sons/${id}/`)).toBe(`/sons/${id}/`);
+    const genre = hashDuChemin('/styles/techno/dub-techno/') ?? '';
+    expect(cheminAligne(genre, '/en/styles/techno/dub-techno/')).toBe('/en/styles/techno/dub-techno/');
+    expect(cheminAligne('#/calendrier?city=montreal-ca', '/soirees/montreal-ca/123/')).toBe('/soirees/montreal-ca/123/');
+    expect(cheminAligne('', '/')).toBe('/');
+    expect(cheminAligne('', '/games/isoku/')).toBe('/games/isoku/');
+  });
+
+  it('revient a la racine en quittant une page qui a un chemin', () => {
+    expect(cheminAligne('#/calendrier', `/mixtapes/${id}/`)).toBe('/');
+    expect(cheminAligne('#/profil/xyz', '/labels/')).toBe('/');
   });
 });

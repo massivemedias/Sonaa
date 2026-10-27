@@ -77,7 +77,11 @@ export function poserVilleDansLien(slug: string | null): void {
   if (slug) p.set('city', slug);
   else p.delete('city');
   const q = p.toString();
-  history.replaceState(null, '', `${window.location.pathname}${base}${q ? `?${q}` : ''}`);
+  /* Entre par /soirees/montreal-ca/ puis passe a Toulouse : le chemin
+     nommerait encore Montreal dans un lien partage. */
+  const villeDuChemin = /^\/soirees\/([a-z-]+)\//.exec(window.location.pathname)?.[1];
+  const chemin = villeDuChemin && villeDuChemin !== slug ? (slug ? `/soirees/${slug}/` : '/soirees/') : window.location.pathname;
+  history.replaceState(null, '', `${chemin}${base}${q ? `?${q}` : ''}`);
 }
 
 /* ── La ville d'attache, en base ──────────────────────────────────────────── */

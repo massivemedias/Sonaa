@@ -9,7 +9,7 @@ import { MotionRacine } from './design/mouvement.tsx';
 import { LecteurProvider } from './lecture/LecteurContexte.tsx';
 import { MARCHAND_ACTIF } from './config.ts';
 import { compterLaVisite, enregistrerLeServiceWorker, purgerSiDemande } from './lib/pwa.ts';
-import { hashDuChemin } from './lib/chemins.ts';
+import { cheminAligne, hashDuChemin } from './lib/chemins.ts';
 import { demarrerMesure } from './lib/mesure.ts';
 import { PwaLayer } from './atlas/PwaLayer.tsx';
 import { AuthButton } from './atlas/AuthButton.tsx';
@@ -37,12 +37,21 @@ if (!window.location.hash) {
   const ancre = hashDuChemin(window.location.pathname);
   if (ancre) window.history.replaceState(null, '', window.location.pathname + window.location.search + ancre);
 }
+/* ET LE CHEMIN SUIT L'ANCRE. Le lien copie dans la barre d'adresse est
+   celui qu'on colle sur Facebook, qui ne lit pas l'ancre : il doit nommer
+   la page ouverte, pas celle par ou l'on est entre. Voir chemins.ts. */
+function alignerLeChemin(): void {
+  const chemin = cheminAligne(window.location.hash, window.location.pathname);
+  if (chemin !== window.location.pathname) window.history.replaceState(window.history.state, '', chemin + window.location.search + window.location.hash);
+}
+alignerLeChemin();
+window.addEventListener('hashchange', alignerLeChemin);
 if (new URLSearchParams(window.location.search).get('nocache') === '1') {
   /* La page va se recharger : on n'enregistre pas le worker qu'on vient de
      retirer. Le reste de l'application démarre quand même, la purge peut
      échouer et il vaut mieux une page vivante qu'un écran blanc. */
   void purgerSiDemande();
-} else if (/^\/games?\//.test(window.location.pathname)) {
+} else if (/^\/games?\//.test(window.location.pathname) && !document.querySelector('meta[name="sonaa-introuvable"]')) {
   /* LA COQUILLE DE L'APPLICATION A ETE SERVIE POUR UNE PAGE A PART.
 
      /game/ et /games/ sont des pages autonomes, hors de l'application. Si

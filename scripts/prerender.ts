@@ -1152,6 +1152,22 @@ writeFileSync(
 writeFileSync(join(DIST, 'indexnow.json'), JSON.stringify({ host: 'sonaa.ca', key: '64a555bdafa38ed40c635a4617d2200c', keyLocation: `${ORIGINE}/64a555bdafa38ed40c635a4617d2200c.txt`, urlList: urls.map((u) => ORIGINE + u) }), 'utf8');
 writeFileSync(join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${ORIGINE}/sitemap.xml\n`, 'utf8');
 
+/* ═══ UNE ADRESSE SANS PAGE OUVRE QUAND MEME LE SITE ═══ Depuis le
+   27 octobre 2026, la barre d'adresse porte le chemin de la page ouverte
+   (chemins.ts). Une mixtape deposee apres la derniere construction n'a pas
+   encore sa page : recharger affichait la 404 de GitHub. GitHub sert ce
+   fichier a sa place, avec le code 404 que les moteurs doivent lire, et
+   l'app traduit le chemin en ancre comme partout ailleurs. La balise
+   sonaa-introuvable dit a main.tsx de ne pas prendre /games/ pour un vieux
+   service worker, ce qui rechargerait sans fin. */
+writeFileSync(
+  join(DIST, '404.html'),
+  gabarit
+    .replace(/<link\s+rel="canonical"[^>]*>\n?/g, '')
+    .replace(/<title>[^<]*<\/title>/, (t) => `${t}\n    <meta name="robots" content="noindex" />\n    <meta name="sonaa-introuvable" content="1" />`),
+  'utf8'
+);
+
 const nStyles = pages.filter((p) => p.chemin.startsWith('/styles/')).length;
 const nSoirees = pages.filter((p) => p.chemin.startsWith('/soirees/')).length;
 const nMixtapes = pages.filter((p) => p.chemin.startsWith('/mixtapes/')).length;

@@ -115,3 +115,46 @@ export function hashDuChemin(chemin: string): string | null {
   if (marque) return `#/news/marques/${marque[1]}${marque[2] ? `/${marque[2]}` : ''}`;
   return null;
 }
+
+/* ═══ ET DANS L'AUTRE SENS : LE CHEMIN D'UNE ANCRE ═══
+
+   Mika, le 27 octobre 2026 : une mixtape partagee sur Facebook affichait la
+   couverture de l'evenement au lieu de la mixtape. Le lien copie dans la
+   barre d'adresse etait sonaa.ca/#/mixtapes/<id>, et un robot de partage
+   ne lit jamais ce qui suit le croisillon : pour lui, c'etait l'accueil.
+
+   La page a partager existe pourtant, /mixtapes/<id>/, avec son titre et sa
+   pochette (scripts/prerender.ts). L'app y met donc le chemin a chaque
+   changement d'ancre, et l'adresse copiee porte toujours la page ouverte. */
+
+let ancresDesStyles: Map<string, string> | null = null;
+
+/** Le chemin de la page qu'ouvre une ancre, ou la racine si l'ancre n'a pas
+    de page a elle. Le calendrier rend la racine, qui est sa page. */
+export function cheminDuHash(hash: string): string {
+  const [base = ''] = hash.split('?');
+  const mixtape = base.match(/^#\/(?:mixtapes|sets)\/([0-9a-f-]{36})(?:\/|$)/);
+  if (mixtape) return `/mixtapes/${mixtape[1]}/`;
+  if (/^#\/(?:mixtapes|sets)\/?$/.test(base)) return '/mixtapes/';
+  const style = base.match(/^#\/parcourir(?:\/(\d+)(?:\/(\d+))?)?(?:\/|$)/);
+  if (style) {
+    if (!style[1]) return '/styles/';
+    ancresDesStyles ??= new Map(Object.entries(CHEMINS_STYLES as Record<string, string>).map(([chemin, ancre]) => [ancre, chemin]));
+    return ancresDesStyles.get(`#/parcourir/${style[1]}/${style[2] ?? ''}`.replace(/\/$/, '')) ?? ancresDesStyles.get(`#/parcourir/${style[1]}`) ?? '/styles/';
+  }
+  const label = base.match(/^#\/labels(?:\/([a-z0-9-]+))?(?:\/|$)/);
+  if (label) return label[1] ? `/labels/${label[1]}/` : '/labels/';
+  const marque = base.match(/^#\/news\/marques(?:\/([a-z0-9-]+)(?:\/([a-z0-9-]+))?)?(?:\/|$)/);
+  if (marque) return `/news/marques/${marque[1] ? `${marque[1]}/` : ''}${marque[2] ? `${marque[2]}/` : ''}`;
+  const simple = base.match(/^#\/(news|tracks|reconnaitre|panier|conditions|confidentialite|mentions)(?:\/|$)/);
+  if (simple) return `/${simple[1]}/`;
+  return '/';
+}
+
+/** Le chemin a mettre dans la barre pour l'ancre en cours. Celui qui y est
+    reste quand il mene a la meme page : /sons/<id>/, /en/styles/... ou la
+    page d'une soiree ouverte depuis un moteur ne sont pas des erreurs. */
+export function cheminAligne(hash: string, cheminActuel: string): string {
+  const voulu = cheminDuHash(hash);
+  return cheminDuHash(hashDuChemin(cheminActuel) ?? '') === voulu ? cheminActuel : voulu;
+}
