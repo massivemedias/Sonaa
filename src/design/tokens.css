@@ -414,10 +414,17 @@
      orange est cool mais je prefere orange sanguin ». L'accent descend vers
      le rouge : #E8441E. Comme texte sur le granite, il fait 4,9 pour 1 ; sous
      l'encre presque noire de --sur-accent, aussi. Le jaune ne change pas.
-     Voir docs/adr/ADR-102. */
-  --accent: #e8441e;
+     Voir docs/adr/ADR-102.
+
+     ═══ PLUS CLAIR, DEPUIS LE 27 OCTOBRE 2026 ═══ Mika, devant la page
+     d'une mixtape : « le rouge est vraiment trop rouge, peut-etre plus
+     clair, moins flashy ». L'accent remonte en clarte et tire un peu vers
+     l'orange : #F07A50. Il reste vif, pour ne pas tomber dans le terracotta
+     sourd qu'il a refuse. Comme texte sur le granite, environ 7 pour 1 ;
+     sous l'encre presque noire de --sur-accent, aussi. Voir ADR-104. */
+  --accent: #f07a50;
   --sur-accent: oklch(0.15 0.004 70);
-  --accent-voile: rgb(232 68 30 / 0.16);
+  --accent-voile: rgb(240 122 80 / 0.16);
   --accent-jaune: #ffd75e;
   /* LE SECOND TON DU DEGRADE DE TRACK ID : le jaune. Melange a l'orange,
      il donne un ambre lumineux, et l'encre presque noire garde son
