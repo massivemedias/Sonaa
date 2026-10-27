@@ -1,0 +1,288 @@
+/* LES STATISTIQUES. Voir Statistiques.tsx.
+ *
+ * Une seule teinte pour les barres, l'accent ; les chiffres dans l'encre du
+ * texte. Barres fines, bouts arrondis de 4 px poses sur la ligne de base,
+ * 2 px d'ecart entre elles ; la grille se reduit a la valeur maximale, ecrite
+ * en haut. */
+
+.st {
+  display: grid;
+  gap: var(--espace-24);
+  margin-top: var(--espace-16);
+}
+.st-tete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espace-12);
+}
+.st-grand-titre {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+.st-note {
+  margin: calc(var(--espace-16) * -1) 0 0;
+  max-width: 52rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--ink-secondary);
+}
+.st-direct {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espace-8);
+  margin: 0;
+  font-weight: 700;
+}
+.st-direct-villes {
+  font-weight: 400;
+  color: var(--ink-secondary);
+}
+.st-point {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: oklch(0.72 0.17 145);
+}
+.st-periode {
+  display: inline-flex;
+  gap: var(--espace-4);
+  padding: var(--espace-4);
+  border-radius: 12px;
+  background: var(--voile-05);
+}
+.st-periode-choix {
+  min-height: 36px;
+  padding: 0 var(--espace-12);
+  border: 0;
+  border-radius: 9px;
+  background: none;
+  color: var(--ink-secondary);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.st-periode-choix[aria-selected='true'] {
+  background: var(--accent);
+  color: var(--sur-accent);
+}
+
+/* ═══ LES TUILES ═══ */
+.st-tuiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 11rem), 1fr));
+  gap: var(--espace-12);
+}
+.st-tuile {
+  display: grid;
+  gap: var(--espace-4);
+  padding: var(--espace-16);
+  border: 1px solid var(--filet);
+  border-radius: 16px;
+  background: var(--verre-fond);
+}
+.st-tuile-libelle {
+  font-size: 0.75rem;
+  color: var(--ink-secondary);
+}
+.st-tuile-valeur {
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-primary);
+}
+.st-tuile-ecart {
+  font-size: 0.72rem;
+  color: var(--ink-secondary);
+}
+
+/* ═══ LES BARRES PAR JOUR ═══ */
+.st-figure {
+  margin: 0;
+  padding: var(--espace-16) var(--espace-16) var(--espace-12);
+  border: 1px solid var(--filet);
+  border-radius: 18px;
+  background: var(--verre-fond);
+}
+.st-titre {
+  margin: 0 0 var(--espace-12);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+}
+.st-barres-cadre {
+  position: relative;
+  padding-top: var(--espace-16);
+  border-top: 1px dashed var(--filet);
+}
+.st-barres-max {
+  position: absolute;
+  top: var(--espace-4);
+  left: 0;
+  font-size: 0.68rem;
+  color: var(--ink-secondary);
+}
+.st-barres {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 11rem;
+  margin-top: var(--espace-8);
+  border-bottom: 1px solid var(--filet);
+}
+.st-barre {
+  display: flex;
+  flex: 1 1 0;
+  align-items: flex-end;
+  height: 100%;
+  min-width: 2px;
+  cursor: default;
+}
+.st-barre:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.st-barre-plein {
+  display: block;
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  background: var(--accent);
+  opacity: 0.85;
+}
+.st-barre:hover .st-barre-plein,
+.st-barre:focus .st-barre-plein {
+  opacity: 1;
+}
+.st-infobulle {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  display: grid;
+  gap: 2px;
+  padding: var(--espace-8) var(--espace-12);
+  border: 1px solid var(--filet);
+  border-radius: 10px;
+  background: var(--fond);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.5);
+  font-size: 0.78rem;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.st-infobulle span {
+  color: var(--ink-secondary);
+}
+.st-barres-axe {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--espace-4);
+  font-size: 0.68rem;
+  color: var(--ink-secondary);
+}
+
+/* ═══ LES CLASSEMENTS ═══ */
+.st-grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+  gap: var(--espace-12);
+}
+.st-classement {
+  padding: var(--espace-16);
+  border: 1px solid var(--filet);
+  border-radius: 18px;
+  background: var(--verre-fond);
+}
+.st-classement ol {
+  display: grid;
+  gap: var(--espace-8);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.st-classement li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px var(--espace-12);
+  font-size: 0.85rem;
+}
+.st-ligne-nom {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.st-ligne-valeur {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.st-ligne-detail {
+  font-weight: 400;
+  color: var(--ink-secondary);
+}
+.st-ligne-barre {
+  grid-column: 1 / -1;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--voile-05);
+}
+.st-ligne-barre span {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: var(--accent);
+}
+.st-vide {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--ink-secondary);
+}
+
+/* ═══ LE TABLEAU PAR MIXTAPE ═══ */
+.st-defile {
+  overflow-x: auto;
+}
+.st-tableau table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+.st-tableau th,
+.st-tableau td {
+  padding: var(--espace-8) var(--espace-12);
+  border-bottom: 1px solid var(--filet);
+  text-align: right;
+  white-space: nowrap;
+}
+.st-tableau thead th {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ink-secondary);
+}
+.st-tableau tbody th {
+  max-width: 18rem;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+.st-tableau tbody th a {
+  color: inherit;
+}
+.st-tableau thead th:first-child {
+  text-align: left;
+}
+
+/* Lu par les lecteurs d'ecran, invisible a l'oeil. */
+.st-cache {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

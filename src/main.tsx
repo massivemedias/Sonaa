@@ -10,6 +10,7 @@ import { LecteurProvider } from './lecture/LecteurContexte.tsx';
 import { MARCHAND_ACTIF } from './config.ts';
 import { compterLaVisite, enregistrerLeServiceWorker, purgerSiDemande } from './lib/pwa.ts';
 import { hashDuChemin } from './lib/chemins.ts';
+import { demarrerMesure } from './lib/mesure.ts';
 import { PwaLayer } from './atlas/PwaLayer.tsx';
 import { AuthButton } from './atlas/AuthButton.tsx';
 import { ouvrirDansAtlas } from './atlas/ouvrir-genre.ts';
@@ -27,6 +28,8 @@ import { ouvrirDansAtlas } from './atlas/ouvrir-genre.ts';
    celui qu'on vient de retirer. Le chemin normal, lui, reste entièrement
    synchrone : le worker doit prendre la main le plus tôt possible. */
 compterLaVisite();
+/* La mesure des pages vues, pour les statistiques : voir lib/mesure.ts. */
+demarrerMesure();
 /* UN CHEMIN LISIBLE DEVIENT UNE ANCRE. /styles/techno/dub-techno/ est une
    page reelle (voir scripts/prerender.ts) ; l'app, elle, route sur l'ancre.
    On la pose avant de lire l'adresse, le chemin reste dans la barre. */

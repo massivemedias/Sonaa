@@ -23,6 +23,7 @@
 
 import { useSyncExternalStore } from 'react';
 import { compterEcoute, urlAudio, urlAvatar, urlPochette, type SetDJ } from './sets.ts';
+import { mesurerEcoute } from './mesure.ts';
 
 export type SourceDeLecture = 'set' | 'youtube';
 
@@ -115,11 +116,40 @@ function poserLesGestes(): void {
   });
 }
 
+/* LE TEMPS REELLEMENT ECOUTE, pour les statistiques de l'artiste (voir
+   lib/mesure.ts). On additionne les petits pas de la lecture, jamais les
+   sauts : chercher a une heure du debut n'est pas avoir ecoute une heure.
+   L'envoi part toutes les trente secondes d'ecoute, a la pause, a la fin,
+   et quand l'onglet se cache. */
+let ecouteAccumulee = 0;
+let dernierInstant: number | null = null;
+function envoyerLEcoute(): void {
+  const id = etat.set?.id;
+  if (id && ecouteAccumulee >= 1) mesurerEcoute(id, ecouteAccumulee);
+  ecouteAccumulee = 0;
+}
+
 /** La balise, creee au premier besoin et jamais detruite. */
 function balise(): HTMLAudioElement {
   if (audio) return audio;
   const a = new Audio();
   a.preload = 'metadata';
+  a.addEventListener('timeupdate', () => {
+    if (!a.paused && dernierInstant !== null) {
+      const pas = a.currentTime - dernierInstant;
+      if (pas > 0 && pas < 2) ecouteAccumulee += pas;
+      if (ecouteAccumulee >= 30) envoyerLEcoute();
+    }
+    dernierInstant = a.currentTime;
+  });
+  a.addEventListener('seeked', () => {
+    dernierInstant = a.currentTime;
+  });
+  a.addEventListener('pause', envoyerLEcoute);
+  a.addEventListener('ended', envoyerLEcoute);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') envoyerLEcoute();
+  });
   a.addEventListener('timeupdate', () => publier({ ...etat, position: a.currentTime }));
   const surDuree = (): void => {
     if (Number.isFinite(a.duration)) publier({ ...etat, duree: a.duration });
@@ -143,6 +173,9 @@ function balise(): HTMLAudioElement {
 export function jouerLeSet(set: SetDJ): void {
   const a = balise();
   if (etat.set?.id !== set.id) {
+    /* Ce qui a ete ecoute de la precedente part avec elle. */
+    envoyerLEcoute();
+    dernierInstant = null;
     /* L'AAC QUAND IL EXISTE, LE WAV SINON. Mika, le 24 septembre 2026 : un
        set d'une heure passe de 600 Mo a 85. Le WAV reste le master et son
        adresse ne change pas. */

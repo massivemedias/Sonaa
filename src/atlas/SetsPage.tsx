@@ -31,7 +31,7 @@ import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import { FaIcon } from './FaIcon.tsx';
 import { FAMILIES, STRUCTURES } from './structures.ts';
-import { adresseDuSet, AutresMixtapes, BoutonJaime, BoutonPartager, CarteArtiste, Commentaires } from './MixtapeSociale.tsx';
+import { adresseDuSet, AutresMixtapes, BoutonJaime, BoutonPartager, CarteArtiste, Commentaires, FicheMixtape, Tracklist } from './MixtapeSociale.tsx';
 import { adresseCourte, liensAffiches } from '../lib/reseaux.ts';
 import { slug } from '../lib/chemins.ts';
 import { langue, t } from '../langue/langue.ts';
@@ -535,6 +535,8 @@ function PageDUnSet({ id }: { id: string }) {
               <BoutonPartager url={adresseDuSet(set)} titre={`${set.titre}${set.artiste_nom ? ` · ${set.artiste_nom}` : ''}`} set={set} />
             </div>
             {set.description && <p className="sp-description mx-description">{set.description}</p>}
+            <Tracklist set={set} />
+            <FicheMixtape set={set} />
             <Commentaires set={set} />
             <AutresMixtapes set={set} />
           </div>

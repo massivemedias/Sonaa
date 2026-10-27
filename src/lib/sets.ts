@@ -152,6 +152,8 @@ export interface SetDJ {
   readonly created_at: string;
   readonly user_id: string;
   readonly genre_ids: string[] | null;
+  /** Une ligne par morceau ; « 12:34 » en tete de ligne devient un lien. */
+  readonly tracklist?: string | null;
   readonly publie?: boolean;
   readonly artiste_nom?: string | null;
   readonly artiste_avatar?: string | null;
@@ -956,7 +958,7 @@ export async function mesMixtapes(): Promise<SetDJ[]> {
   if (!id) return [];
   const { data } = await supabase
     .from('dj_sets')
-    .select('id, titre, description, audio_path, audio_aac_path, cover_path, duree_s, onde, ecoutes, created_at, user_id, genre_ids, publie')
+    .select('id, titre, description, audio_path, audio_aac_path, cover_path, duree_s, onde, ecoutes, created_at, user_id, genre_ids, publie, tracklist')
     .eq('user_id', id)
     .order('created_at', { ascending: false });
   return (data as SetDJ[] | null) ?? [];
@@ -1039,6 +1041,7 @@ export async function modifierSet(
     description?: string | null;
     genre_ids?: string[] | null;
     cover_path?: string | null;
+    tracklist?: string | null;
   },
   ancienneCover?: string | null
 ): Promise<void> {
@@ -1106,4 +1109,42 @@ export function mmss(s: number): string {
   return h > 0
     ? `${h}:${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`
     : `${m}:${String(sec).padStart(2, '0')}`;
+}
+
+/* ═══ LA TRACKLIST ═══ Une ligne par morceau. Un temps en tete de ligne
+   (« 12:34 », « 1:02:03 », « [12:34] ») en est separe et devient un
+   bouton qui mene a cet instant. */
+export interface LigneDeTracklist {
+  readonly temps: number | null;
+  readonly texte: string;
+}
+
+export function lireTracklist(brut: string | null | undefined): LigneDeTracklist[] {
+  if (!brut) return [];
+  return brut
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter((l) => l !== '')
+    .map((l) => {
+      const m = l.match(/^\[?(\d{1,2}):(\d{2})(?::(\d{2}))?\]?\s*[-.):]?\s*(.*)$/);
+      if (!m) return { temps: null, texte: l };
+      const [a, b, c] = [Number(m[1]), Number(m[2]), m[3] !== undefined ? Number(m[3]) : null];
+      const temps = c === null ? a * 60 + b : a * 3600 + b * 60 + c;
+      return { temps, texte: (m[4] ?? '').trim() || l };
+    });
+}
+
+/* ═══ CE QUE LA PAGE D'UNE MIXTAPE DIT DE SON ECOUTE ═══ Des totaux : voir
+   stats_publiques_set dans supabase/migrations/20261027120000_mesure.sql. */
+export interface StatsPubliquesSet {
+  readonly auditeurs: number;
+  readonly minutes: number;
+  readonly pays: number;
+}
+
+export async function statsPubliquesSet(id: string): Promise<StatsPubliquesSet | null> {
+  if (!supabase) return null;
+  const { data, error } = await supabase.rpc('stats_publiques_set', { set_id: id });
+  if (error || !data) return null;
+  return data as StatsPubliquesSet;
 }

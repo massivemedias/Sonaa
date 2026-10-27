@@ -80,6 +80,10 @@ interface Env {
      SUPABASE_SERVICE_ROLE_KEY`. Absente, la route repond 503 et la page
      montre quand meme son resultat. */
   readonly SUPABASE_SERVICE_ROLE_KEY?: string;
+  /* LE SECRET DE LA MESURE (27 octobre 2026), pose par `wrangler secret put
+     STATS_SECRET`. Seule son empreinte est en base (table mesure_cle) : la
+     fonction mesurer n'ecrit que pour qui le presente. Voir api/mesure. */
+  readonly STATS_SECRET?: string;
   /* L'APPLICATION SOUNDCLOUD DE MIKA, pour les Decks de mauditemachine.com,
      posee par `wrangler secret put SOUNDCLOUD_CLIENT_ID` et
      `SOUNDCLOUD_CLIENT_SECRET`. Absente, les routes api/soundcloud repondent
@@ -701,12 +705,104 @@ async function salleALAdresse(adresse: string, env: Env): Promise<string | null>
   return trouvee?.lieu ?? null;
 }
 
+/* --- La mesure ------------------------------------------------------------- */
+
+/* LA MESURE DU SITE, SANS COOKIE ET SANS ADRESSE IP (27 octobre 2026). Mika :
+ * « je veux des stats completes de consultation du site », et pour chaque
+ * artiste « d'ou viennent ses listeners ». Le navigateur envoie la page vue
+ * ou les secondes ecoutees ; la passerelle y ajoute ce qu'elle seule sait (le
+ * pays, la region et la ville que Cloudflare lit dans la requete, le type
+ * d'appareil) et un identifiant de visiteur qui ne se relie a personne :
+ * l'empreinte de l'adresse, du navigateur, du jour et d'un sel tire au sort
+ * chaque jour, oublie le surlendemain. L'adresse elle-meme n'est jamais
+ * gardee ni transmise. Voir supabase/migrations/20261027120000_mesure.sql. */
+const ROBOT = /bot|crawl|spider|slurp|facebookexternalhit|preview|headless|lighthouse|pingdom|monitor|curl|wget|python|node-fetch|go-http/i;
+
+function appareilDe(ua: string): 'mobile' | 'tablette' | 'ordinateur' {
+  if (/ipad|tablet/i.test(ua)) return 'tablette';
+  if (/mobi|android|iphone|ipod/i.test(ua)) return 'mobile';
+  return 'ordinateur';
+}
+
+const texteBorne = (x: unknown, n: number): string | null => (typeof x === 'string' && x !== '' ? x.slice(0, n) : null);
+
+async function empreinteDuVisiteur(req: Request, env: Env, jour: string, ua: string): Promise<string> {
+  let sel = 'sans-sel';
+  if (env.DEMANDES) {
+    const cle = `sel-mesure:${jour}`;
+    const deja = await env.DEMANDES.get(cle);
+    if (deja) sel = deja;
+    else {
+      sel = crypto.randomUUID();
+      await env.DEMANDES.put(cle, sel, { expirationTtl: 172800 });
+    }
+  }
+  const ip = req.headers.get('cf-connecting-ip') ?? '';
+  const octets = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(`${ip}|${ua}|${jour}|${sel}`));
+  return [...new Uint8Array(octets)].map((b) => b.toString(16).padStart(2, '0')).join('').slice(0, 24);
+}
+
+/** Un evenement du navigateur, verifie champ par champ, ou rien. */
+function evenementDeMesure(e: unknown, commun: Record<string, string | null>): Record<string, unknown>[] {
+  if (!e || typeof e !== 'object') return [];
+  const x = e as Record<string, unknown>;
+  const referent = texteBorne(x['referent'], 120);
+  if (x['type'] === 'vue') {
+    const chemin = texteBorne(x['chemin'], 200);
+    if (!chemin || !/^[#/]/.test(chemin)) return [];
+    return [{ type: 'vue', ...commun, chemin, referent, langue: texteBorne(x['langue'], 12), entree: x['entree'] === true }];
+  }
+  if (x['type'] === 'ecoute') {
+    const setId = texteBorne(x['set_id'], 36);
+    const secondes = Number(x['secondes']);
+    if (!setId || !/^[0-9a-f-]{36}$/.test(setId) || !Number.isFinite(secondes)) return [];
+    return [{ type: 'ecoute', ...commun, set_id: setId, secondes: Math.max(0, Math.min(600, Math.round(secondes))), referent }];
+  }
+  return [];
+}
+
 /* --- Le service ----------------------------------------------------------- */
 
 export default {
-  async fetch(req: Request, env: Env): Promise<Response> {
+  async fetch(req: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(req.url);
     const chemin = decodeURIComponent(url.pathname.replace(/^\//, ''));
+
+    /* LA MESURE : voir plus haut. Elle repond tout de suite, sans corps, et
+       ecrit ensuite ; un refus (robot, origine etrangere, lot vide) repond
+       pareil, sans rien ecrire. */
+    if (req.method === 'POST' && chemin === 'api/mesure') {
+      const vide = new Response(null, { status: 204, headers: entetes(req, env) });
+      const ua = req.headers.get('user-agent') ?? '';
+      if (!env.STATS_SECRET || !env.SUPABASE_ANON_KEY || ROBOT.test(ua) || !origineAutorisee(req, env)) return vide;
+      let corps: { evenements?: unknown } = {};
+      try {
+        corps = JSON.parse(await req.text()) as { evenements?: unknown };
+      } catch {
+        return vide;
+      }
+      const liste = Array.isArray(corps.evenements) ? corps.evenements.slice(0, 20) : [];
+      if (liste.length === 0) return vide;
+      const cf = (req as Request & { cf?: Record<string, unknown> }).cf ?? {};
+      const jour = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Toronto' });
+      const commun = {
+        visiteur: await empreinteDuVisiteur(req, env, jour, ua),
+        pays: texteBorne(cf['country'], 2),
+        region: texteBorne(cf['region'], 80),
+        ville: texteBorne(cf['city'], 80),
+        appareil: appareilDe(ua),
+      };
+      const evenements = liste.flatMap((e) => evenementDeMesure(e, commun));
+      if (evenements.length === 0) return vide;
+      ctx.waitUntil(
+        fetch(`${env.SUPABASE_URL}/rest/v1/rpc/mesurer`, {
+          method: 'POST',
+          headers: { apikey: env.SUPABASE_ANON_KEY, Authorization: `Bearer ${env.SUPABASE_ANON_KEY}`, 'content-type': 'application/json' },
+          body: JSON.stringify({ secret: env.STATS_SECRET, evenements }),
+        }).then(() => undefined, () => undefined)
+      );
+      return vide;
+    }
 
     /* LE DEPOT D'AFFICHE VIENT D'UNE ORIGINE QU'ON NE PEUT PAS ECRIRE D'AVANCE.
        Les pages de facebook.com interdisent a leurs scripts d'appeler d'autres

@@ -59,6 +59,7 @@ import { LecteurSet } from './LecteurSet.tsx';
 import { adresseCourte, adresseDuReseau, RESEAUX } from '../lib/reseaux.ts';
 import { ZoneDepot } from './ZoneDepot.tsx';
 import { ChoixStyles } from './ChoixStyles.tsx';
+import { StatsArtiste } from './Statistiques.tsx';
 import { ModifierSet } from './ModifierSet.tsx';
 import { EnTeteSite } from './EnTeteSite.tsx';
 import { SelecteurVille } from './SelecteurVille.tsx';
@@ -74,7 +75,7 @@ import { PiedDePage } from './PiedDePage.tsx';
 
 import { t } from '../langue/langue.ts';
 import { FaIcon } from './FaIcon.tsx';
-import { faHeadphones, faCalendarPlus, faUser, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { faHeadphones, faCalendarPlus, faChartColumn, faUser, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import './credits.css';
 import './sets.css';
 import './profil.css';
@@ -97,18 +98,22 @@ type Etape = 'repos' | 'onde' | 'envoi' | 'ligne';
    EVENEMENTS. Le panneau des moderateurs y a vecu jusqu'au 1er octobre
    2026 ; il ne vit plus que dans l'administration, et l'onglet ne garde
    pour eux qu'un lien. Voir MesSoirees.tsx. */
-type Onglet = 'compte' | 'sets' | 'evenements';
+type Onglet = 'compte' | 'sets' | 'stats' | 'evenements';
 
 const lireOnglet = (): Onglet => {
   const h = window.location.hash;
   if (h.startsWith('#/profil/sets')) return 'sets';
   if (h.startsWith('#/profil/evenements')) return 'evenements';
+  if (h.startsWith('#/profil/stats')) return 'stats';
   return 'compte';
 };
 
 const ONGLETS = [
   { id: 'compte', label: t.ongletCompte, icone: faUser },
   { id: 'sets', label: t.ongletMixtapes, icone: faHeadphones },
+  /* LES ECOUTES DE SES MIXTAPES, depuis le 27 octobre 2026 : voir
+     Statistiques.tsx. */
+  { id: 'stats', label: t.ongletStats, icone: faChartColumn },
   { id: 'evenements', label: t.ongletEvenements, icone: faCalendarPlus },
 ] as const;
 
@@ -670,6 +675,8 @@ export function ProfilPage() {
       </section>
       </div>
       )}
+
+      {onglet === 'stats' && <StatsArtiste />}
 
       {onglet === 'evenements' && (
       <>

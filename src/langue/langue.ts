@@ -707,6 +707,86 @@ interface Dictionnaire {
   /* LA PAGE D'UNE MIXTAPE, sociale depuis le 18 octobre 2026 :
      MixtapeSociale.tsx et GenerateurReel.tsx. */
   readonly compteRequisMixtape: string;
+  /* ═══ LES STATISTIQUES (27 octobre 2026) ═══ Voir Statistiques.tsx. */
+  readonly statsInconnu: string;
+  readonly statsMobile: string;
+  readonly statsTablette: string;
+  readonly statsOrdinateur: string;
+  readonly statsPeriode: string;
+  readonly statsUnAn: string;
+  readonly statsNJours: (n: number) => string;
+  readonly statsVsAvant: string;
+  readonly statsRienEncore: string;
+  readonly pagesDuSite: {
+    readonly accueil: string;
+    readonly mixtape: string;
+    readonly artiste: string;
+    readonly mixtapes: string;
+    readonly marques: string;
+    readonly suivis: string;
+    readonly lecture: string;
+    readonly news: string;
+    readonly calendrier: string;
+    readonly atlas: string;
+    readonly labels: string;
+    readonly profil: string;
+    readonly admin: string;
+    readonly trackid: string;
+  };
+  readonly statsDirect: string;
+  readonly pageEtDetail: (page: string, detail: string) => string;
+  readonly statsEnCeMoment: (n: number) => string;
+  readonly statsNoteSite: string;
+  readonly statsVisiteurs: string;
+  readonly statsPagesVues: string;
+  readonly statsSessions: string;
+  readonly statsPagesParSession: string;
+  readonly statsVisiteursParJour: string;
+  readonly statsVisiteursMot: string;
+  readonly statsDetailJour: (visiteurs: number, vues: number) => string;
+  readonly statsPages: string;
+  readonly statsSources: string;
+  readonly statsPays: string;
+  readonly statsVilles: string;
+  readonly statsAppareils: string;
+  readonly statsLangues: string;
+  readonly statsMixtapesEcoutees: string;
+  readonly statsMinutesCourt: (m: number) => string;
+  readonly statsHeures: string;
+  readonly statsPagesVuesMot: string;
+  readonly statsDetailHeure: (v: number) => string;
+  readonly statsMesEcoutes: string;
+  readonly statsNoteArtiste: string;
+  readonly statsEcoutesTotal: string;
+  readonly statsAuditeurs: string;
+  readonly statsMinutesEcoutees: string;
+  readonly statsDureeMoyenne: string;
+  readonly statsEcoutesCompletes: string;
+  readonly statsVuesDeMesPages: string;
+  readonly statsCommentaires: string;
+  readonly statsAuditeursParJour: string;
+  readonly statsAuditeursMot: string;
+  readonly statsDetailEcoute: (auditeurs: number, minutes: number) => string;
+  readonly statsSourcesEcoute: string;
+  readonly statsParMixtape: string;
+  readonly statsMixtape: string;
+  readonly adminStats: string;
+  readonly ongletStats: string;
+  readonly formatSansPerte: (format: string) => string;
+  readonly ficheDuree: string;
+  readonly ficheMiseEnLigne: string;
+  readonly ficheEcoutes: string;
+  readonly ficheAuditeurs: string;
+  readonly ficheMinutes: string;
+  readonly fichePays: string;
+  readonly ficheFichier: string;
+  readonly ficheEcoute: string;
+  readonly ficheAac: string;
+  readonly ficheMixtape: string;
+  readonly tracklistTitre: string;
+  readonly tracklistFacultative: string;
+  readonly tracklistExemple: string;
+  readonly tracklistAide: string;
   /* ═══ LES NEWS PAR MARQUE ═══ Voir MarquesNews.tsx. */
   readonly newsVueFil: string;
   readonly newsVueMarques: string;
@@ -1613,6 +1693,85 @@ const FR: Dictionnaire = {
   membreSonaa: 'Membre de SONAA',
   moderateurBadge: 'Modérateur',
   compteRequisMixtape: 'Créez un compte pour aimer et commenter les mixtapes. C’est gratuit et ça prend dix secondes.',
+  statsInconnu: 'Inconnu',
+  statsMobile: 'Téléphone',
+  statsTablette: 'Tablette',
+  statsOrdinateur: 'Ordinateur',
+  statsPeriode: 'Période',
+  statsUnAn: '1 an',
+  statsNJours: (n) => `${n} jours`,
+  statsVsAvant: 'par rapport à la période d’avant',
+  statsRienEncore: 'Rien encore sur cette période.',
+  pagesDuSite: {
+    accueil: 'Accueil',
+    mixtape: 'Mixtape',
+    artiste: 'Page d’artiste',
+    mixtapes: 'Mixtapes',
+    marques: 'News par marque',
+    suivis: 'Mes machines',
+    lecture: 'Lecture d’un article',
+    news: 'News',
+    calendrier: 'Calendrier',
+    atlas: 'Atlas',
+    labels: 'Labels',
+    profil: 'Profil',
+    admin: 'Administration',
+    trackid: 'Track ID',
+  },
+  statsDirect: 'Accès direct',
+  pageEtDetail: (page, detail) => `${page} · ${detail}`,
+  statsEnCeMoment: (n) => `${n} ${n > 1 ? 'onglets ouverts' : 'onglet ouvert'} en ce moment`,
+  statsNoteSite: 'Mesuré depuis le 27 octobre 2026, sans cookie ni adresse IP gardée. Un visiteur est une personne d’un jour : la même personne trois jours de suite compte pour trois. Les robots ne sont pas comptés.',
+  statsVisiteurs: 'Visiteurs',
+  statsPagesVues: 'Pages vues',
+  statsSessions: 'Visites',
+  statsPagesParSession: 'Pages par visite',
+  statsVisiteursParJour: 'Visiteurs par jour',
+  statsVisiteursMot: 'visiteurs',
+  statsDetailJour: (v, p) => `${v} visiteur${v > 1 ? 's' : ''}, ${p} page${p > 1 ? 's' : ''} vue${p > 1 ? 's' : ''}`,
+  statsPages: 'Pages les plus vues',
+  statsSources: 'D’où arrivent les visites',
+  statsPays: 'Pays',
+  statsVilles: 'Villes',
+  statsAppareils: 'Appareils',
+  statsLangues: 'Langues du navigateur',
+  statsMixtapesEcoutees: 'Mixtapes les plus écoutées (auditeurs)',
+  statsMinutesCourt: (m) => `· ${m} min`,
+  statsHeures: 'Pages vues selon l’heure (Montréal)',
+  statsPagesVuesMot: 'pages vues',
+  statsDetailHeure: (v) => `${v} page${v > 1 ? 's' : ''} vue${v > 1 ? 's' : ''}`,
+  statsMesEcoutes: 'Les écoutes de mes mixtapes',
+  statsNoteArtiste: 'Mesuré depuis le 27 octobre 2026, sans cookie ni adresse IP gardée. Un auditeur est une personne d’un jour ; seules les secondes vraiment écoutées comptent, pas les sauts dans la mixtape. Personne ne voit ces chiffres à part toi.',
+  statsEcoutesTotal: 'Écoutes (depuis le dépôt)',
+  statsAuditeurs: 'Auditeurs',
+  statsMinutesEcoutees: 'Minutes écoutées',
+  statsDureeMoyenne: 'Durée moyenne d’écoute',
+  statsEcoutesCompletes: 'Écoutes jusqu’au bout',
+  statsVuesDeMesPages: 'Vues de mes pages',
+  statsCommentaires: 'Commentaires',
+  statsAuditeursParJour: 'Auditeurs par jour',
+  statsAuditeursMot: 'auditeurs',
+  statsDetailEcoute: (a, m) => `${a} auditeur${a > 1 ? 's' : ''}, ${m} min écoutée${m > 1 ? 's' : ''}`,
+  statsSourcesEcoute: 'D’où viennent les auditeurs',
+  statsParMixtape: 'Par mixtape',
+  statsMixtape: 'Mixtape',
+  adminStats: 'Statistiques',
+  ongletStats: 'Statistiques',
+  formatSansPerte: (f) => `Sans perte (${f})`,
+  ficheDuree: 'Durée',
+  ficheMiseEnLigne: 'Mise en ligne',
+  ficheEcoutes: 'Écoutes',
+  ficheAuditeurs: 'Auditeurs',
+  ficheMinutes: 'Minutes écoutées',
+  fichePays: 'Pays',
+  ficheFichier: 'Fichier déposé',
+  ficheEcoute: 'Écoute',
+  ficheAac: 'AAC 192 kbit/s',
+  ficheMixtape: 'La fiche',
+  tracklistTitre: 'Tracklist',
+  tracklistFacultative: 'Tracklist (facultative)',
+  tracklistExemple: '0:00 Artiste - Titre\n4:32 Artiste - Titre',
+  tracklistAide: 'Une ligne par morceau. Un temps en début de ligne devient un lien vers cet instant.',
   newsVueFil: 'Le fil',
   newsVueMarques: 'Marques',
   newsVueSuivis: 'Mes machines',
@@ -2525,6 +2684,85 @@ const EN: Dictionnaire = {
   membreSonaa: 'SONAA member',
   moderateurBadge: 'Moderator',
   compteRequisMixtape: 'Create an account to like and comment on mixtapes. It is free and takes ten seconds.',
+  statsInconnu: 'Unknown',
+  statsMobile: 'Phone',
+  statsTablette: 'Tablet',
+  statsOrdinateur: 'Computer',
+  statsPeriode: 'Period',
+  statsUnAn: '1 year',
+  statsNJours: (n) => `${n} days`,
+  statsVsAvant: 'vs the previous period',
+  statsRienEncore: 'Nothing yet for this period.',
+  pagesDuSite: {
+    accueil: 'Home',
+    mixtape: 'Mixtape',
+    artiste: 'Artist page',
+    mixtapes: 'Mixtapes',
+    marques: 'News by brand',
+    suivis: 'My gear',
+    lecture: 'Article reader',
+    news: 'News',
+    calendrier: 'Calendar',
+    atlas: 'Atlas',
+    labels: 'Labels',
+    profil: 'Profile',
+    admin: 'Admin',
+    trackid: 'Track ID',
+  },
+  statsDirect: 'Direct',
+  pageEtDetail: (page, detail) => `${page} · ${detail}`,
+  statsEnCeMoment: (n) => `${n} open tab${n > 1 ? 's' : ''} right now`,
+  statsNoteSite: 'Measured since October 27, 2026, with no cookie and no IP address kept. A visitor is a person on a given day: the same person three days in a row counts as three. Bots are not counted.',
+  statsVisiteurs: 'Visitors',
+  statsPagesVues: 'Page views',
+  statsSessions: 'Visits',
+  statsPagesParSession: 'Pages per visit',
+  statsVisiteursParJour: 'Visitors per day',
+  statsVisiteursMot: 'visitors',
+  statsDetailJour: (v, p) => `${v} visitor${v > 1 ? 's' : ''}, ${p} page view${p > 1 ? 's' : ''}`,
+  statsPages: 'Most viewed pages',
+  statsSources: 'Where visits come from',
+  statsPays: 'Countries',
+  statsVilles: 'Cities',
+  statsAppareils: 'Devices',
+  statsLangues: 'Browser languages',
+  statsMixtapesEcoutees: 'Most played mixtapes (listeners)',
+  statsMinutesCourt: (m) => `· ${m} min`,
+  statsHeures: 'Page views by hour (Montreal)',
+  statsPagesVuesMot: 'page views',
+  statsDetailHeure: (v) => `${v} page view${v > 1 ? 's' : ''}`,
+  statsMesEcoutes: 'Plays of my mixtapes',
+  statsNoteArtiste: 'Measured since October 27, 2026, with no cookie and no IP address kept. A listener is a person on a given day; only seconds actually heard count, not jumps within the mixtape. Nobody but you sees these numbers.',
+  statsEcoutesTotal: 'Plays (since upload)',
+  statsAuditeurs: 'Listeners',
+  statsMinutesEcoutees: 'Minutes listened',
+  statsDureeMoyenne: 'Average listening time',
+  statsEcoutesCompletes: 'Played to the end',
+  statsVuesDeMesPages: 'Views of my pages',
+  statsCommentaires: 'Comments',
+  statsAuditeursParJour: 'Listeners per day',
+  statsAuditeursMot: 'listeners',
+  statsDetailEcoute: (a, m) => `${a} listener${a > 1 ? 's' : ''}, ${m} min listened`,
+  statsSourcesEcoute: 'Where listeners come from',
+  statsParMixtape: 'By mixtape',
+  statsMixtape: 'Mixtape',
+  adminStats: 'Statistics',
+  ongletStats: 'Statistics',
+  formatSansPerte: (f) => `Lossless (${f})`,
+  ficheDuree: 'Length',
+  ficheMiseEnLigne: 'Uploaded',
+  ficheEcoutes: 'Plays',
+  ficheAuditeurs: 'Listeners',
+  ficheMinutes: 'Minutes listened',
+  fichePays: 'Countries',
+  ficheFichier: 'Uploaded file',
+  ficheEcoute: 'Streaming',
+  ficheAac: 'AAC 192 kbps',
+  ficheMixtape: 'Details',
+  tracklistTitre: 'Tracklist',
+  tracklistFacultative: 'Tracklist (optional)',
+  tracklistExemple: '0:00 Artist - Title\n4:32 Artist - Title',
+  tracklistAide: 'One line per track. A time at the start of a line becomes a link to that moment.',
   newsVueFil: 'The feed',
   newsVueMarques: 'Brands',
   newsVueSuivis: 'My gear',

@@ -24,11 +24,12 @@ import { artistesDemandes, listerMembres, listerTousLesSets, type Membre, type S
 import { basculerPublication, mmss, supprimerSet, urlPochette } from '../lib/sets.ts';
 import { langue, t } from '../langue/langue.ts';
 import { ScansModeration } from '../reconnaitre/ScansModeration.tsx';
+import { StatsSite } from './Statistiques.tsx';
 import './credits.css';
 import './sets.css';
 import './admin.css';
 
-type Onglet = 'membres' | 'sets' | 'soirees' | 'commentaires' | 'artistes' | 'scans';
+type Onglet = 'stats' | 'membres' | 'sets' | 'soirees' | 'commentaires' | 'artistes' | 'scans';
 
 const lireOnglet = (): Onglet => {
   const h = window.location.hash;
@@ -37,11 +38,15 @@ const lireOnglet = (): Onglet => {
   if (h.startsWith('#/admin/commentaires')) return 'commentaires';
   if (h.startsWith('#/admin/artistes')) return 'artistes';
   if (h.startsWith('#/admin/scans')) return 'scans';
+  if (h.startsWith('#/admin/stats')) return 'stats';
   return 'membres';
 };
 
 const ONGLETS: readonly { id: Onglet; label: () => string }[] = [
   { id: 'membres', label: () => t.adminMembres },
+  /* LES STATISTIQUES DU SITE, depuis le 27 octobre 2026 : voir
+     Statistiques.tsx et lib/mesure.ts. */
+  { id: 'stats', label: () => t.adminStats },
   { id: 'sets', label: () => t.adminMixtapes },
   { id: 'soirees', label: () => t.adminSoirees },
   { id: 'commentaires', label: () => t.adminCommentaires },
@@ -114,6 +119,7 @@ export function AdminPage() {
               ))}
             </nav>
             {onglet === 'membres' && <Membres />}
+            {onglet === 'stats' && <StatsSite />}
             {onglet === 'sets' && <Sets />}
             {onglet === 'soirees' && <SoireesAdmin />}
             {onglet === 'commentaires' && <CommentsModeration />}

@@ -873,3 +873,60 @@
     height: min(26rem, 55svh);
   }
 }
+
+/* ═══ LA FICHE ET LA TRACKLIST (27 octobre 2026) ═══ */
+.mx-fiche {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr));
+  gap: var(--espace-8);
+  margin: 0;
+}
+.mx-fiche > div {
+  display: grid;
+  gap: var(--espace-4);
+  padding: var(--espace-12) var(--espace-16);
+  border: 1px solid var(--filet);
+  border-radius: 14px;
+  background: var(--verre-fond);
+}
+.mx-fiche dt {
+  font-size: 0.72rem;
+  color: var(--ink-secondary);
+}
+.mx-fiche dd {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.mx-tracklist {
+  display: grid;
+  gap: var(--espace-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mx-piste {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--espace-12);
+  padding: var(--espace-8) var(--espace-12);
+  border-radius: 10px;
+}
+.mx-piste-en-cours {
+  background: var(--accent-voile);
+}
+.mx-piste-num {
+  font-size: 0.8rem;
+  color: var(--ink-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.mx-piste .mx-instant {
+  justify-self: start;
+}
+.mx-piste-texte {
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+

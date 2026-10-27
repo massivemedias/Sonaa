@@ -41,6 +41,7 @@ const memesListes = (a: readonly string[], b: readonly string[]): boolean =>
 export function ModifierSet({ set, onFini, onAnnuler }: Props) {
   const [titre, setTitre] = useState(set.titre);
   const [description, setDescription] = useState(set.description ?? '');
+  const [tracklist, setTracklist] = useState(set.tracklist ?? '');
   const [genres, setGenres] = useState<string[]>([...(set.genre_ids ?? [])]);
   const [pochette, setPochette] = useState<{ fichier: File; apercu: string } | null>(null);
   const [pochetteRetiree, setPochetteRetiree] = useState(false);
@@ -50,6 +51,7 @@ export function ModifierSet({ set, onFini, onAnnuler }: Props) {
   const change =
     titre.trim() !== set.titre ||
     description.trim() !== (set.description ?? '') ||
+    tracklist.trim() !== (set.tracklist ?? '') ||
     !memesListes(genres, set.genre_ids ?? []) ||
     pochette !== null ||
     pochetteRetiree;
@@ -92,6 +94,7 @@ export function ModifierSet({ set, onFini, onAnnuler }: Props) {
           description: description.trim() || null,
           genre_ids: genres.length > 0 ? genres : null,
           cover_path: cover,
+          tracklist: tracklist.trim() || null,
         },
         set.cover_path
       );
@@ -158,6 +161,20 @@ export function ModifierSet({ set, onFini, onAnnuler }: Props) {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+      </label>
+
+      {/* LA TRACKLIST, une ligne par morceau ; un temps en tete de ligne
+          devient un lien vers cet instant sur la page de la mixtape. */}
+      <label className="sp-label">
+        {t.tracklistFacultative}
+        <textarea
+          maxLength={6000}
+          rows={8}
+          value={tracklist}
+          onChange={(e) => setTracklist(e.target.value)}
+          placeholder={t.tracklistExemple}
+        />
+        <span className="sp-aide">{t.tracklistAide}</span>
       </label>
 
       <div className="sp-modif-actions">

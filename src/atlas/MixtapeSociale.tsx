@@ -26,8 +26,10 @@ import {
   commenterLeSet,
   jAimeCeSet,
   likesDesSets,
+  lireTracklist,
   mmss,
   retirerCommentaireSet,
+  statsPubliquesSet,
   setsPublics,
   unArtiste,
   urlAvatar,
@@ -35,6 +37,7 @@ import {
   type ArtistePublic,
   type CommentaireSet,
   type SetDJ,
+  type StatsPubliquesSet,
 } from '../lib/sets.ts';
 import { chercherDansLeSet, jouerLeSet, useLectureSet } from '../lib/lecture-set.ts';
 import { adresseCourte, liensAffiches } from '../lib/reseaux.ts';
@@ -444,6 +447,98 @@ export function AutresMixtapes({ set }: { set: SetDJ }) {
           );
         })}
       </ul>
+    </section>
+  );
+}
+
+/* ═══ LA FICHE D'UNE MIXTAPE ═══ Mika, le 27 octobre 2026 : « l'affichage
+   est bon, mais il y a des infos en plus qu'il faudrait ». Ce qu'on sait
+   d'un mix sans rien demander a personne : sa duree, sa date, la qualite du
+   fichier depose, et comment il s'ecoute (combien de personnes, combien de
+   minutes, dans combien de pays : voir stats_publiques_set). Rien n'y dit
+   qui ecoute. */
+const FORMAT_DE_DATE = new Intl.DateTimeFormat(langue === 'fr' ? 'fr-CA' : 'en-CA', { day: 'numeric', month: 'long', year: 'numeric' });
+
+function formatDuFichier(set: SetDJ): string {
+  const ext = (set.audio_path.split('.').pop() ?? '').toLowerCase();
+  const nom = ext === 'aif' || ext === 'aiff' ? 'AIFF' : ext.toUpperCase();
+  return ['wav', 'flac', 'aif', 'aiff'].includes(ext) ? t.formatSansPerte(nom) : nom;
+}
+
+export function FicheMixtape({ set }: { set: SetDJ }) {
+  const [stats, setStats] = useState<StatsPubliquesSet | null>(null);
+  useEffect(() => {
+    let vivant = true;
+    void statsPubliquesSet(set.id).then((x) => vivant && setStats(x));
+    return () => {
+      vivant = false;
+    };
+  }, [set.id]);
+  const faits: { nom: string; valeur: string }[] = [
+    ...(set.duree_s ? [{ nom: t.ficheDuree, valeur: mmss(set.duree_s) }] : []),
+    { nom: t.ficheMiseEnLigne, valeur: FORMAT_DE_DATE.format(new Date(set.created_at)) },
+    { nom: t.ficheEcoutes, valeur: String(set.ecoutes) },
+    ...(stats && stats.auditeurs > 0
+      ? [
+          { nom: t.ficheAuditeurs, valeur: String(stats.auditeurs) },
+          { nom: t.ficheMinutes, valeur: String(stats.minutes) },
+          { nom: t.fichePays, valeur: String(stats.pays) },
+        ]
+      : []),
+    { nom: t.ficheFichier, valeur: formatDuFichier(set) },
+    ...(set.audio_aac_path ? [{ nom: t.ficheEcoute, valeur: t.ficheAac }] : []),
+  ];
+  return (
+    <section className="mx-bloc" aria-labelledby="mx-fiche-titre">
+      <h2 id="mx-fiche-titre" className="mx-bloc-titre">
+        {t.ficheMixtape}
+      </h2>
+      <dl className="mx-fiche">
+        {faits.map((f) => (
+          <div key={f.nom}>
+            <dt>{f.nom}</dt>
+            <dd>{f.valeur}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+  );
+}
+
+/* ═══ LA TRACKLIST ═══ Les temps en tete de ligne menent a l'instant, comme
+   les commentaires datés. */
+export function Tracklist({ set }: { set: SetDJ }) {
+  const lecture = useLectureSet();
+  const lignes = useMemo(() => lireTracklist(set.tracklist), [set.tracklist]);
+  if (lignes.length === 0) return null;
+  const ici = lecture.set?.id === set.id;
+  const allerA = (s: number): void => {
+    if (!ici) jouerLeSet(set);
+    window.setTimeout(() => chercherDansLeSet(s), ici ? 0 : 400);
+  };
+  /* Le morceau en cours : le dernier dont le temps est passe. */
+  const enCours = ici
+    ? lignes.reduce<number>((k, l, i) => (l.temps !== null && l.temps <= lecture.position ? i : k), -1)
+    : -1;
+  return (
+    <section className="mx-bloc" aria-labelledby="mx-tracklist-titre">
+      <h2 id="mx-tracklist-titre" className="mx-bloc-titre">
+        {t.tracklistTitre}
+      </h2>
+      <ol className="mx-tracklist">
+        {lignes.map((l, i) => (
+          <li key={i} className={i === enCours ? 'mx-piste mx-piste-en-cours' : 'mx-piste'}>
+            {l.temps !== null ? (
+              <button type="button" className="mx-instant" onClick={() => allerA(l.temps ?? 0)}>
+                {mmss(l.temps)}
+              </button>
+            ) : (
+              <span className="mx-piste-num">{i + 1}</span>
+            )}
+            <span className="mx-piste-texte">{l.texte}</span>
+          </li>
+        ))}
+      </ol>
     </section>
   );
 }
