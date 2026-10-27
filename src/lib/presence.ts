@@ -7,10 +7,17 @@
  * stocke : un onglet qui se ferme disparait du compte en quelques
  * secondes. Aucun compte n'est necessaire, la cle publique suffit.
  *
- * Un identifiant par onglet, tire au sort : deux onglets d'une meme
- * personne comptent pour deux, ce qui est la verite d'un « en ce moment
- * sur le site ». Sans base (build local sans variables), le compte est
- * nul et le pied n'affiche rien. */
+ * UNE PERSONNE COMPTE UNE FOIS, depuis le 27 octobre 2026. Mika, devant
+ * « 4 en ligne » : « est-ce que c'est vrai ? ». C'etait vrai, mais pour des
+ * onglets : chaque onglet tirait sa propre cle, et ses trois onglets
+ * comptaient pour trois. Il a choisi de compter les personnes. Tous les
+ * onglets d'un meme navigateur partagent maintenant une cle (gardee dans ce
+ * navigateur, jamais ecrite en base), et le canal de presence range sous une
+ * seule cle tout ce qui la porte. Connecte, la cle est l'empreinte du compte
+ * et du jour : le telephone et l'ordinateur d'une meme personne comptent
+ * pour une, sans que l'identifiant du compte circule sur le canal. Sans base
+ * (build local sans variables), le compte est nul et le pied n'affiche
+ * rien. */
 
 import { useEffect, useState } from 'react';
 import { supabase } from './supabase.ts';
@@ -39,10 +46,45 @@ async function maVille(): Promise<string | null> {
   }
 }
 
+/** La cle de presence de ce navigateur, la meme pour tous ses onglets. */
+function cleDuNavigateur(): string {
+  try {
+    const deja = localStorage.getItem('sonaa.presence');
+    if (deja) return deja;
+    const neuve = Math.random().toString(36).slice(2) + Date.now().toString(36);
+    localStorage.setItem('sonaa.presence', neuve);
+    return neuve;
+  } catch {
+    return Math.random().toString(36).slice(2) + Date.now().toString(36);
+  }
+}
+
+/** Connecte : l'empreinte du compte et du jour, la meme sur tous ses
+    appareils, illisible pour qui ecoute le canal. Sinon, celle du
+    navigateur. */
+async function cleDePresence(): Promise<string> {
+  try {
+    const { data } = (await supabase?.auth.getSession()) ?? { data: { session: null } };
+    const id = data.session?.user.id;
+    if (id) {
+      const jour = new Date().toISOString().slice(0, 10);
+      const octets = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(`sonaa-presence|${id}|${jour}`));
+      return [...new Uint8Array(octets)].map((b) => b.toString(16).padStart(2, '0')).join('').slice(0, 20);
+    }
+  } catch {
+    /* on retombe sur le navigateur */
+  }
+  return cleDuNavigateur();
+}
+
 function ouvrirLeCanal(): void {
   if (canalOuvert || !supabase) return;
   canalOuvert = true;
-  const cle = Math.random().toString(36).slice(2) + Date.now().toString(36);
+  void cleDePresence().then(rejoindre);
+}
+
+function rejoindre(cle: string): void {
+  if (!supabase) return;
   const canal = supabase.channel('sonaa-presence', { config: { presence: { key: cle } } });
   canal
     .on('presence', { event: 'sync' }, () => {
