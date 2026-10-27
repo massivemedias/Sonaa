@@ -27,8 +27,10 @@
  * elle manque (build local sans .env), ces pages sont simplement absentes
  * et le script le dit. Rien n'est invente. */
 
+import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import sharp from 'sharp';
 import { fileURLToPath } from 'node:url';
 import { FAMILIES, STRUCTURES, type Genre } from '../src/atlas/structures.ts';
 import { ORIGINE, PREFIXE_ANGLAIS, cheminsDesStyles, slug } from '../src/lib/chemins.ts';
@@ -65,6 +67,9 @@ interface Page {
   corps: string;
   jsonld: unknown[];
   image?: string | undefined;
+  /** Les dimensions de l'image quand on les connait : Facebook affiche
+      l'apercu des le premier partage au lieu d'attendre de l'avoir mesuree. */
+  imageTaille?: readonly [number, number] | undefined;
   /** 'en' pour une page sous /en/ ; le francais est la langue par defaut. */
   langue?: 'en' | undefined;
   /** Le chemin de la meme page dans l'autre langue, pour hreflang. */
@@ -93,6 +98,7 @@ function ecrire(p: Page): void {
     `<meta property="og:url" content="${h(url)}" />`,
     `<meta property="og:type" content="article" />`,
     p.image ? `<meta property="og:image" content="${h(p.image)}" />` : '',
+    p.image && p.imageTaille ? `<meta property="og:image:width" content="${p.imageTaille[0]}" />\n    <meta property="og:image:height" content="${p.imageTaille[1]}" />` : '',
     `<meta name="twitter:card" content="summary_large_image" />`,
     /* LES DEUX LANGUES SE DECLARENT L'UNE L'AUTRE : sans cela, un moteur
        prend la page anglaise pour un doublon de la francaise. */
@@ -588,6 +594,40 @@ if (sets.length > 0) {
     c ? `${SUPABASE_URL}/storage/v1/object/public/covers/${c}` : undefined;
   const dureeIso = (s: number | null): string | undefined => (s ? `PT${Math.floor(s / 60)}M${s % 60}S` : undefined);
 
+  /* ═══ L'IMAGE DE PARTAGE, EN JPEG ═══ Les pochettes sont deposees en WebP,
+     et la documentation de Facebook ne cite que JPEG, PNG et GIF. Mika, le
+     27 octobre 2026 : « fais la copie JPEG des pochettes ». Chaque mixtape
+     recoit donc une image de 1200 sur 630, le format de l'apercu : la
+     pochette entiere au centre, sur un fond fait d'elle-meme, floute et
+     assombri, pour qu'aucun cadrage ne coupe son texte. Le nom porte une
+     empreinte du chemin de la pochette : une pochette changee change
+     d'adresse, et Facebook ne ressert pas l'ancienne de son cache. Si la
+     pochette ne se lit pas, la page garde le WebP. */
+  const TAILLE_OG = [1200, 630] as const;
+  const MARGE_OG = 40;
+  const imagesDePartage = new Map<string, string>();
+  const fabriquerImage = async (s: Set): Promise<void> => {
+    const source = pochette(s.cover_path);
+    if (!source || !s.cover_path) return;
+    try {
+      const r = await fetch(source);
+      if (!r.ok) return;
+      const brut = Buffer.from(await r.arrayBuffer());
+      const [l, ht] = TAILLE_OG;
+      const fond = await sharp(brut).resize(l, ht, { fit: 'cover' }).blur(36).modulate({ brightness: 0.4 }).toBuffer();
+      const devant = await sharp(brut).resize(l - 2 * MARGE_OG, ht - 2 * MARGE_OG, { fit: 'inside' }).toBuffer();
+      const nom = `${s.id}-${createHash('sha1').update(s.cover_path).digest('hex').slice(0, 8)}.jpg`;
+      mkdirSync(join(DIST, 'og', 'mixtapes'), { recursive: true });
+      await sharp(fond).composite([{ input: devant, gravity: 'center' }]).jpeg({ quality: 84, mozjpeg: true }).toFile(join(DIST, 'og', 'mixtapes', nom));
+      imagesDePartage.set(s.id, `${ORIGINE}/og/mixtapes/${nom}`);
+    } catch {
+      /* la page garde la pochette d'origine */
+    }
+  };
+  /* Six a la fois : assez pour ne pas attendre, pas assez pour se faire
+     refuser par le stockage. */
+  for (let i = 0; i < sets.length; i += 6) await Promise.all(sets.slice(i, i + 6).map(fabriquerImage));
+
   /* ═══ MIXTAPES, ET /sons/ QUI Y MENE ═══
    *
    * La section s'appelait Sons jusqu'au 17 septembre 2026. Ses 4 adresses
@@ -625,7 +665,8 @@ if (sets.length > 0) {
       hash: `#/mixtapes/${s.id}`,
       titre: `${s.titre} par ${s.artiste_nom ?? 'un membre de SONAA'} : mixtape à écouter · SONAA`,
       description: couper(`${s.titre}, une mixtape de ${s.artiste_nom ?? 'un membre de SONAA'}${s.duree_s ? ` (${Math.round(s.duree_s / 60)} min)` : ''}${genres.length ? `, ${genres.join(', ')}` : ''}.${s.description ? ` ${s.description}` : ''}`, 158),
-      image: pochette(s.cover_path),
+      image: imagesDePartage.get(s.id) ?? pochette(s.cover_path),
+      imageTaille: imagesDePartage.has(s.id) ? TAILLE_OG : undefined,
       corps: `${entete([{ nom: 'Mixtapes', href: '/mixtapes/' }, { nom: s.titre, href: `/mixtapes/${s.id}/` }])}<h1>${h(s.titre)}</h1><p>${h(s.artiste_nom ?? '')}${s.duree_s ? ` · ${Math.round(s.duree_s / 60)} min` : ''}${genres.length ? ` · ${h(genres.join(', '))}` : ''}</p>${s.description ? `<p>${h(s.description)}</p>` : ''}<p><a href="/mixtapes/${s.id}/#/mixtapes/${s.id}">Écouter cette mixtape</a></p>`,
       jsonld: [
         {
@@ -1172,7 +1213,8 @@ const nStyles = pages.filter((p) => p.chemin.startsWith('/styles/')).length;
 const nSoirees = pages.filter((p) => p.chemin.startsWith('/soirees/')).length;
 const nMixtapes = pages.filter((p) => p.chemin.startsWith('/mixtapes/')).length;
 const nLabels = pages.filter((p) => p.chemin.startsWith('/labels/')).length;
+const nImagesOg = pages.filter((p) => p.chemin.startsWith('/mixtapes/') && p.image?.endsWith('.jpg')).length;
 const nMarques = pages.filter((p) => p.chemin.startsWith('/news/marques/')).length;
-console.log(`Pre-rendu : ${pages.length} pages (${nStyles} styles, ${nSoirees} soirees, ${nMixtapes} mixtapes, ${nLabels} labels, ${nMarques} marques et machines), sitemap de ${urls.length} adresses.`);
+console.log(`Pre-rendu : ${pages.length} pages (${nStyles} styles, ${nSoirees} soirees, ${nMixtapes} mixtapes, ${nLabels} labels, ${nMarques} marques et machines), sitemap de ${urls.length} adresses, ${nImagesOg} images de partage en JPEG.`);
 if (!SUPABASE_URL || !SUPABASE_KEY) console.log('  (sans base : pas de pages de soirees ni de sets)');
 if (!existsSync(join(DIST, 'styles', 'techno', 'dub-techno', 'index.html'))) throw new Error('la page temoin /styles/techno/dub-techno/ manque');
