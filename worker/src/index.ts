@@ -41,6 +41,7 @@ import { SOURCES } from '../../src/data/news-sources.ts';
    src/reconnaitre/audd.ts. Une copie ici aurait diverge. */
 import { lireReponseAudd } from '../../src/reconnaitre/audd.ts';
 import { soirees, toutesLesSoirees } from './agenda.ts';
+import { lireDemande, situer } from './lieux.ts';
 import { PasConfigure, chercher as chercherSoundcloud, connexion as connexionSoundcloud, deconnexion as deconnexionSoundcloud, flux as fluxSoundcloud, mesMorceaux, morceauxMm, piece as pieceSoundcloud, rappel as rappelSoundcloud, seance as seanceSoundcloud } from './soundcloud.ts';
 import { jourEtHeure, lireLaPage, lireLeLienSeul, sourceDuLien, texteNu } from '../../src/lib/lire-soiree.ts';
 
@@ -586,8 +587,9 @@ async function qui(req: Request, env: Env): Promise<string | null> {
 /* La forme de la reponse de l'agenda. A incrementer des qu'elle change.
    3 depuis le 30 septembre 2026 : une ligne par soiree (voir agenda.ts). Les
    reponses gardees avant portaient les doublons de RA, et elles ne doivent
-   plus etre servies. */
-const FORME_REPONSE = 3;
+   plus etre servies. 5 depuis le 27 octobre 2026 : la position et l'adresse
+   de la salle, pour la carte. */
+const FORME_REPONSE = 5;
 
 /* --- Ou se trouve le visiteur -------------------------------------------- */
 
@@ -771,6 +773,23 @@ export default {
     /* LA MESURE : voir plus haut. Elle repond tout de suite, sans corps, et
        ecrit ensuite ; un refus (robot, origine etrangere, lot vide) repond
        pareil, sans rien ecrire. */
+    /* OU SONT LES SALLES, pour la carte du calendrier. Voir lieux.ts. */
+    if (req.method === 'POST' && chemin === 'api/lieux') {
+      if (!origineAutorisee(req, env) || !env.DEMANDES) return refus(req, env, 403, 'origine refusee');
+      let demande = null;
+      try {
+        demande = lireDemande(JSON.parse(await req.text()));
+      } catch {
+        demande = null;
+      }
+      if (!demande) return refus(req, env, 400, 'demande illisible');
+      const { points, ensuite } = await situer(demande, env.DEMANDES);
+      if (ensuite) ctx.waitUntil(ensuite());
+      const h = entetes(req, env);
+      h.set('content-type', 'application/json');
+      return new Response(JSON.stringify({ points }), { headers: h });
+    }
+
     if (req.method === 'POST' && chemin === 'api/mesure') {
       const vide = new Response(null, { status: 204, headers: entetes(req, env) });
       const ua = req.headers.get('user-agent') ?? '';

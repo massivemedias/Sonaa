@@ -1,0 +1,287 @@
+/* LA CARTE DES SOIREES. Voir CarteDesSoirees.tsx.
+ *
+ * Une seule teinte pour les salles, l'accent ; le jaune pour celle qu'on
+ * regarde, comme tout element actif. Le fond de carte se tait : il est
+ * sombre, desature, et ne fait que situer. */
+
+.carte {
+  position: relative;
+  /* Les couches de Leaflet montent a 1000 : elles restent dans ce cadre, et
+     la fiche d'une soiree passe par-dessus la carte entiere. */
+  isolation: isolate;
+  margin-top: var(--espace-12);
+}
+.carte-boite {
+  height: clamp(22rem, 64dvh, 44rem);
+  border: 1px solid var(--filet);
+  border-radius: 18px;
+  overflow: hidden;
+}
+.carte-boite.leaflet-container {
+  background: var(--fond);
+  font: inherit;
+}
+
+/* LES TUILES D'OPENSTREETMAP SONT CLAIRES. Passees en negatif, puis
+   retournees sur le cercle des teintes pour que l'eau reste bleue et les
+   parcs verts, et presque eteintes : la carte situe, elle ne decore pas. */
+.carte-tuiles {
+  filter: invert(1) hue-rotate(180deg) brightness(0.82) contrast(0.92) saturate(0.22);
+}
+
+/* ═══ LES SALLES ═══ */
+.carte-pin-boite {
+  border: 0;
+  background: none;
+}
+.carte-pin {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--t);
+  height: var(--t);
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--sur-accent);
+  font-size: 0.72rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  box-shadow:
+    0 0 0 2px var(--fond),
+    0 0 18px color-mix(in oklab, var(--accent) 55%, transparent);
+  transition: transform 160ms ease;
+}
+.leaflet-marker-icon:hover .carte-pin,
+.leaflet-marker-icon:focus-visible .carte-pin {
+  transform: scale(1.12);
+}
+.leaflet-marker-icon:focus-visible {
+  outline: none;
+}
+.leaflet-marker-icon:focus-visible .carte-pin {
+  box-shadow:
+    0 0 0 2px var(--fond),
+    0 0 0 4px var(--accent-jaune);
+}
+.carte-pin-choisi {
+  background: var(--accent-jaune);
+  box-shadow:
+    0 0 0 2px var(--fond),
+    0 0 22px color-mix(in oklab, var(--accent-jaune) 60%, transparent);
+}
+/* Ce soir, la salle bat. */
+.carte-pin-vif::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  animation: carte-pouls 1.8s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes carte-pouls {
+  from {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+
+/* Le nom au survol. */
+.carte-bulle.leaflet-tooltip {
+  padding: var(--espace-4) var(--espace-8);
+  border: 1px solid var(--filet);
+  border-radius: 8px;
+  background: var(--fond);
+  color: var(--ink-primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.45);
+}
+.carte-bulle.leaflet-tooltip-top::before {
+  border-top-color: var(--filet);
+}
+
+/* ═══ LES COMMANDES DE LEAFLET, DANS LA MATIERE DU SITE ═══ */
+.carte .leaflet-bar {
+  overflow: hidden;
+  border: 1px solid var(--filet);
+  border-radius: 12px;
+  box-shadow: none;
+}
+.carte .leaflet-bar a {
+  border-bottom-color: var(--filet);
+  background: var(--fond);
+  color: var(--ink-primary);
+}
+.carte .leaflet-bar a:hover {
+  background: var(--voile-05);
+}
+.carte .leaflet-control-attribution {
+  background: color-mix(in oklab, var(--fond) 82%, transparent);
+  color: var(--ink-secondary);
+  font-size: 0.66rem;
+}
+.carte .leaflet-control-attribution a {
+  border-bottom: 0;
+  color: inherit;
+}
+
+/* ═══ LA SALLE CHOISIE ═══ */
+.carte-panneau {
+  position: absolute;
+  bottom: var(--espace-12);
+  left: var(--espace-12);
+  z-index: 1100;
+  display: grid;
+  gap: var(--espace-12);
+  width: min(22rem, calc(100% - 2 * var(--espace-12)));
+  max-height: calc(100% - 2 * var(--espace-12) - 2.5rem);
+  overflow-y: auto;
+  padding: var(--espace-16);
+  border: 1px solid var(--filet);
+  border-radius: 16px;
+  background: var(--fond);
+  box-shadow: 0 18px 40px rgb(0 0 0 / 0.55);
+}
+.carte-panneau-tete {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--espace-8);
+}
+.carte-panneau-titre {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+.carte-adresse {
+  margin: 2px 0 0;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--ink-secondary);
+}
+.carte-fermer {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--voile-05);
+  color: var(--ink-primary);
+  cursor: pointer;
+}
+.carte-soirees {
+  display: grid;
+  gap: var(--espace-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.carte-soiree {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  align-items: center;
+  gap: var(--espace-12);
+  width: 100%;
+  padding: var(--espace-4);
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.carte-soiree:hover,
+.carte-soiree:focus-visible {
+  background: var(--voile-05);
+}
+.carte-soiree-texte {
+  display: grid;
+  min-width: 0;
+}
+.carte-soiree-quand {
+  font-size: 0.72rem;
+  color: var(--ink-secondary);
+}
+.carte-soiree-titre {
+  overflow: hidden;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.carte .carte-itineraire {
+  justify-self: start;
+  border-bottom-color: color-mix(in oklab, var(--accent) 45%, transparent);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* ═══ SOUS LA CARTE ═══ */
+.carte-pied {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-4) var(--espace-16);
+  margin: var(--espace-8) 0 0;
+  font-size: 0.78rem;
+  color: var(--ink-secondary);
+}
+.carte-pied:empty {
+  display: none;
+}
+.carte-legende {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espace-8);
+}
+.carte-legende-pin {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-voile);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carte-pin-vif::after {
+    animation: none;
+    opacity: 0;
+  }
+  .carte-pin {
+    transition: none;
+  }
+}
+
+/* Sous 900 px, tout ce qui se touche fait 44 px. */
+@media (max-width: 899px) {
+  .carte .leaflet-bar a {
+    width: 44px;
+    height: 44px;
+    line-height: 44px;
+  }
+  .carte-fermer {
+    width: 44px;
+    height: 44px;
+  }
+  .carte-soiree {
+    min-height: 44px;
+  }
+  .carte .carte-itineraire {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .carte-panneau {
+    right: var(--espace-12);
+    width: auto;
+  }
+}

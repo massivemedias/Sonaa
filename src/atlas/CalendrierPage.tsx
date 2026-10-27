@@ -37,7 +37,7 @@
  * dans le Worker.
  */
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useMemo, useState } from 'react';
 import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import { Apparition } from '../design/mouvement.tsx';
@@ -60,7 +60,7 @@ import { sansDoublons } from '../lib/sans-doublons.ts';
 import { ImageDeSoiree } from './AfficheGeneree.tsx';
 import { Loupe } from './Loupe.tsx';
 import { FaIcon } from './FaIcon.tsx';
-import { faMagnifyingGlassPlus } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlassPlus, faMap } from '@fortawesome/free-solid-svg-icons';
 import { quandEnLettres } from '../lib/date-soiree.ts';
 import { AjouterSoiree } from './AjouterSoiree.tsx';
 import { PartageSoiree } from './PartageSoiree.tsx';
@@ -81,6 +81,13 @@ import {
 } from '../lib/fenetre-agenda.ts';
 import './credits.css';
 import './calendrier.css';
+
+/* LA CARTE NE PESE QUE SI ON L'OUVRE : Leaflet vit dans son propre morceau.
+   Voir CarteDesSoirees.tsx. */
+const CarteDesSoirees = lazy(() =>
+  import('./CarteDesSoirees.tsx').then((module) => ({ default: module.CarteDesSoirees }))
+);
+const CLE_CARTE = 'sonaa.calendrier.carte';
 import { langue, t } from '../langue/langue.ts';
 
 /* LES DATES SUIVENT LA LANGUE, ET C'EST LA MOITIE DU TRAVAIL DE TRADUCTION.
@@ -453,6 +460,25 @@ export function CalendrierPage() {
      la fiche d'une soiree. Demande de Mika du 7 septembre 2026. */
   const [ouvrirAjout, setOuvrirAjout] = useState(false);
   const [ouvrirRecherche, setOuvrirRecherche] = useState(false);
+  /* LISTE OU CARTE, garde sur cette machine : qui prefere la carte la
+     retrouve a la visite suivante. */
+  const [enCarte, setEnCarte] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem(CLE_CARTE) === '1';
+    } catch {
+      return false;
+    }
+  });
+  const basculerCarte = () => {
+    setEnCarte((v) => {
+      try {
+        localStorage.setItem(CLE_CARTE, v ? '0' : '1');
+      } catch {
+        /* sans stockage, le choix vaut pour la visite */
+      }
+      return !v;
+    });
+  };
   const { session } = useSession();
   const moi = session?.user.id ?? null;
 
@@ -921,6 +947,17 @@ export function CalendrierPage() {
                     </button>
                   ))}
 
+                  <button
+                    type="button"
+                    className={`cal-vue cal-carte-bouton${enCarte ? ' cal-vue-active' : ''}`}
+                    onClick={basculerCarte}
+                    aria-pressed={enCarte}
+                    title={t.carteVoirLaCarte}
+                  >
+                    <FaIcon icon={faMap} className="cal-carte-icone" />
+                    {t.carteBouton}
+                  </button>
+
                   {ouvrirRecherche ? (
                     <input
                       type="search"
@@ -1097,7 +1134,21 @@ export function CalendrierPage() {
                    * En recherche, la date passe donc DANS la ligne, et les
                    * lignes s'enchainent comme un horaire. Rien ne se perd :
                    * on lit la meme chose, en un tiers de la hauteur. */}
-                  {enRecherche ? (
+                  {enCarte ? (
+                    <Suspense fallback={<p className="cal-attente">{t.carteChargement}</p>}>
+                      <CarteDesSoirees
+                        key={ville.slug}
+                        soirees={filtrees ?? []}
+                        ville={ville}
+                        fuseau={fuseau}
+                        quand={(s) => {
+                          const h = s.debut ? heureLocale(s.debut, fuseau) : null;
+                          return `${jourCourt(s.date, fuseau)}${h ? ` - ${h}` : ''}`;
+                        }}
+                        onOuvrir={(id) => setDepliee(id)}
+                      />
+                    </Suspense>
+                  ) : enRecherche ? (
                     <ul className="cal-horaire">
                       {(filtrees ?? []).map((s) => {
                         const h = s.debut ? heureLocale(s.debut, fuseau) : null;

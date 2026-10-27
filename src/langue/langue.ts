@@ -903,6 +903,17 @@ interface Dictionnaire {
   readonly pochetteCompressee: (avant: string, apres: string) => string;
   readonly fermerLImage: string;
   readonly voirLAfficheEnGrand: string;
+  readonly carteBouton: string;
+  readonly carteVoirLaCarte: string;
+  readonly carteDesSoireesA: (ville: string) => string;
+  readonly carteSalleEtNombre: (salle: string, n: number) => string;
+  readonly carteSansLieu: (n: number) => string;
+  readonly carteCeSoirBat: string;
+  readonly carteItineraire: string;
+  readonly carteZoomPlus: string;
+  readonly carteZoomMoins: string;
+  readonly carteAttribution: string;
+  readonly carteChargement: string;
   readonly modifier: string;
   readonly annuler: string;
   readonly titreRequis: string;
@@ -1893,6 +1904,17 @@ const FR: Dictionnaire = {
   pochetteCompressee: (avant, apres) => `Pochette prête : ${avant} → ${apres}`,
   fermerLImage: 'Fermer l’image',
   voirLAfficheEnGrand: 'Voir l’affiche en grand',
+  carteBouton: 'Carte',
+  carteVoirLaCarte: 'Voir les soirées sur une carte',
+  carteDesSoireesA: (ville) => `Carte des soirées à ${ville}`,
+  carteSalleEtNombre: (salle, n) => `${salle}, ${n} soirée${n > 1 ? 's' : ''}`,
+  carteSansLieu: (n) => (n > 1 ? `${n} soirées sans adresse connue ne sont pas sur la carte.` : 'Une soirée sans adresse connue n’est pas sur la carte.'),
+  carteCeSoirBat: 'La salle bat : il s’y joue quelque chose ce soir.',
+  carteItineraire: 'Itinéraire',
+  carteZoomPlus: 'Rapprocher',
+  carteZoomMoins: 'Éloigner',
+  carteAttribution: '© les contributeurs d’<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a>',
+  carteChargement: 'La carte se prépare…',
   modifier: 'Modifier',
   annuler: 'Annuler',
   titreRequis: 'Il faut un titre.',
@@ -2883,6 +2905,17 @@ const EN: Dictionnaire = {
   pochetteCompressee: (avant, apres) => `Artwork ready: ${avant} → ${apres}`,
   fermerLImage: 'Close image',
   voirLAfficheEnGrand: 'View the poster full size',
+  carteBouton: 'Map',
+  carteVoirLaCarte: 'See the events on a map',
+  carteDesSoireesA: (ville) => `Map of events in ${ville}`,
+  carteSalleEtNombre: (salle, n) => `${salle}, ${n} event${n > 1 ? 's' : ''}`,
+  carteSansLieu: (n) => (n > 1 ? `${n} events without a known address are not on the map.` : 'One event without a known address is not on the map.'),
+  carteCeSoirBat: 'A pulsing venue has something on tonight.',
+  carteItineraire: 'Directions',
+  carteZoomPlus: 'Zoom in',
+  carteZoomMoins: 'Zoom out',
+  carteAttribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> contributors',
+  carteChargement: 'Loading the map…',
   modifier: 'Edit',
   annuler: 'Cancel',
   titreRequis: 'A title is required.',

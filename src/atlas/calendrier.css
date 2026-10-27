@@ -1139,6 +1139,11 @@
 .cal-loupe svg {
   display: block;
 }
+/* Le bouton Carte : l'icone a la hauteur du texte. */
+.cal-carte-icone {
+  width: 14px;
+  height: 14px;
+}
 .cal-chercher-barre {
   flex: 0 1 14rem;
   min-width: 9rem;

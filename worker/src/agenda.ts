@@ -44,7 +44,7 @@ const REQUETE = `query GET_EVENT_LISTINGS($filters: FilterInputDtoInput, $filter
       genres { id name }
       images { filename type }
       artists { id name }
-      venue { id name contentUrl }
+      venue { id name contentUrl address location { latitude longitude } }
     } }
     totalResults
   }
@@ -61,6 +61,12 @@ export interface Soiree {
   readonly affiche: string | null;
   readonly lien: string;
   readonly interesses: number;
+  /* OU EST LA SALLE, pour la carte. Absent quand RA ne le sait pas. */
+  readonly lat?: number;
+  readonly lon?: number;
+  /* L'adresse de la salle : la fiche l'affiche, et la carte s'en sert quand
+     RA ne donne pas la position. */
+  readonly adresse?: string;
 }
 
 interface EvenementRa {
@@ -74,7 +80,19 @@ interface EvenementRa {
   attending?: number | null;
   genres?: { name: string }[] | null;
   artists?: { name: string }[] | null;
-  venue?: { name?: string | null } | null;
+  venue?: { name?: string | null; address?: string | null; location?: { latitude?: number | null; longitude?: number | null } | null } | null;
+}
+
+/* LA POSITION D'UNE SALLE, QUAND ELLE EST CREDIBLE. Mesure le 27 octobre
+   2026 sur Cologne : une salle a « 51, 7 », deux entiers, soit un champ au
+   milieu de la Rhenanie. Des coordonnees rondes aux deux axes sont un
+   remplissage, pas une adresse ; on les ecarte. */
+function position(e: EvenementRa): { lat: number; lon: number } | null {
+  const lat = e.venue?.location?.latitude;
+  const lon = e.venue?.location?.longitude;
+  if (typeof lat !== 'number' || typeof lon !== 'number' || !Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+  if (Number.isInteger(lat) && Number.isInteger(lon)) return null;
+  return { lat, lon };
 }
 
 function affiche(e: EvenementRa): string | null {
@@ -83,7 +101,13 @@ function affiche(e: EvenementRa): string | null {
 }
 
 function enSoiree(e: EvenementRa): Soiree {
+  const ou = position(e);
+  /* RA separe parfois par des points-virgules : « Auenweg 173; 51063
+     Cologne; Germany ». */
+  const adresse = e.venue?.address?.replace(/\s*;\s*/g, ', ').trim();
   return {
+    ...(ou ?? {}),
+    ...(adresse ? { adresse } : {}),
     id: e.id,
     titre: e.title,
     date: e.date,

@@ -45,6 +45,10 @@ export interface Soiree {
   readonly adresse?: string | null;
   readonly prix?: string | null;
   readonly organisateur?: string | null;
+  /* OU EST LA SALLE, pour la carte. Resident Advisor le donne ; les autres
+     sources passent par la passerelle, voir lib/carte.ts. */
+  readonly lat?: number;
+  readonly lon?: number;
 }
 
 export interface Zone {

@@ -29,7 +29,7 @@ export async function toutesLesVilles(): Promise<Ville[]> {
   if (!supabase) return [];
   const { data, error } = await supabase
     .from('villes')
-    .select('id, slug, name, name_ascii, admin_region, country_code, timezone, population, ra_area_id')
+    .select('id, slug, name, name_ascii, admin_region, country_code, timezone, population, ra_area_id, latitude, longitude')
     .eq('is_active', true)
     .order('population', { ascending: false, nullsFirst: false });
   if (error) return [];

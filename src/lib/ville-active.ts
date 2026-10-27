@@ -46,6 +46,10 @@ export interface Ville {
   readonly timezone: string;
   readonly population: number | null;
   readonly ra_area_id: number | null;
+  /* Le centre de la ville, pour la carte. Facultatif : les villes ecrites
+     dans les tests n'en ont pas besoin. */
+  readonly latitude?: number | null;
+  readonly longitude?: number | null;
 }
 
 /** D'ou vient la ville affichee. La page le dit a l'ecran quand c'est une
