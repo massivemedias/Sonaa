@@ -32,3 +32,12 @@ titre ni la pochette. La page à partager existait pourtant,
   demanderait de réécrire le routage entier.
 - Une mixtape n'a d'aperçu Facebook qu'après la construction suivante, qui
   a lieu plusieurs fois par jour (moissons et news la relancent).
+
+## Révision du 27 octobre 2026, au soir
+
+Les profils publics d'artistes ont aussi leur page, `/artistes/<compte>/`,
+qui répond à l'ancre `#/mixtapes/a/<compte>`, et leur bouton de partage
+donne cette adresse. Chaque mixtape et chaque artiste a une image d'aperçu
+en JPEG de 1200 sur 630 (`/og/`), faite à la construction par sharp : la
+pochette, la bannière ou le portrait entier, sur un fond fait de lui-même,
+flouté et assombri.

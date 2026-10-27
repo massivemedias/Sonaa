@@ -87,6 +87,12 @@ describe('cheminDuHash', () => {
     expect(cheminDuHash('#/mixtapes')).toBe('/mixtapes/');
   });
 
+  it('donne la page publique d un artiste', () => {
+    const compte = '9b2f6c1e-3d4a-4f5b-8c7d-1e2f3a4b5c6d';
+    expect(cheminDuHash(`#/mixtapes/a/${compte}`)).toBe(`/artistes/${compte}/`);
+    expect(hashDuChemin(`/artistes/${compte}/`)).toBe(`#/mixtapes/a/${compte}`);
+  });
+
   it('refait le chemin d un style a partir de son ancre', () => {
     const genre = hashDuChemin('/styles/techno/dub-techno/') ?? '';
     const famille = hashDuChemin('/styles/techno/') ?? '';

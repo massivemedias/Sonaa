@@ -60,7 +60,7 @@ import { sansDoublons } from '../lib/sans-doublons.ts';
 import { ImageDeSoiree } from './AfficheGeneree.tsx';
 import { Loupe } from './Loupe.tsx';
 import { FaIcon } from './FaIcon.tsx';
-import { faMagnifyingGlassPlus, faMap } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlassPlus, faMap, faRoute } from '@fortawesome/free-solid-svg-icons';
 import { quandEnLettres } from '../lib/date-soiree.ts';
 import { AjouterSoiree } from './AjouterSoiree.tsx';
 import { PartageSoiree } from './PartageSoiree.tsx';
@@ -82,10 +82,13 @@ import {
 import './credits.css';
 import './calendrier.css';
 
-/* LA CARTE NE PESE QUE SI ON L'OUVRE : Leaflet vit dans son propre morceau.
-   Voir CarteDesSoirees.tsx. */
+/* LA CARTE NE PESE QUE SI ON L'OUVRE : MapLibre vit dans son propre
+   morceau. Voir CarteDesSoirees.tsx. L'itineraire d'une fiche aussi. */
 const CarteDesSoirees = lazy(() =>
   import('./CarteDesSoirees.tsx').then((module) => ({ default: module.CarteDesSoirees }))
+);
+const ItineraireSoiree = lazy(() =>
+  import('./ItineraireSoiree.tsx').then((module) => ({ default: module.ItineraireSoiree }))
 );
 const CLE_CARTE = 'sonaa.calendrier.carte';
 import { langue, t } from '../langue/langue.ts';
@@ -272,6 +275,7 @@ function jourCourt(iso: string, fuseau: string): string {
 function FicheSoiree({
   soiree,
   fuseau,
+  ville,
   villeNom,
   moi,
   onFermer,
@@ -279,6 +283,8 @@ function FicheSoiree({
 }: {
   soiree: Soiree;
   fuseau: string;
+  /** Pour situer la salle quand la source ne donne pas sa position. */
+  ville: Ville | null;
   villeNom: string | null;
   /** Le compte connecte, pour savoir si cette soiree est la sienne. */
   moi: string | null;
@@ -300,6 +306,10 @@ function FicheSoiree({
      n'a rien de plus a montrer. */
   const [loupe, setLoupe] = useState(false);
   const fermerLoupe = useCallback(() => setLoupe(false), []);
+  /* L'ITINERAIRE RESTE DANS LE SITE. Mika, le 27 octobre 2026 : « je veux
+     pas que les gens sortent du site ». Voir ItineraireSoiree.tsx. */
+  const [itineraire, setItineraire] = useState(false);
+  const situable = (soiree.lat != null && soiree.lon != null) || Boolean(soiree.lieu || soiree.adresse);
 
   /* ECHAP FERME, ET LE FOND DE PAGE NE DEFILE PLUS DERRIERE. Sans le second,
      on scrolle la liste en croyant scroller la fiche, et on ressort ailleurs. */
@@ -364,6 +374,12 @@ function FicheSoiree({
               {soiree.adresse && soiree.adresse !== soiree.lieu && (
                 <span className="cal-fiche-adresse">{soiree.adresse}</span>
               )}
+              {situable && (
+                <button type="button" className="cal-fiche-itineraire" aria-expanded={itineraire} onClick={() => setItineraire((x) => !x)}>
+                  <FaIcon icon={faRoute} />
+                  {itineraire ? t.itineraireFermer : t.carteItineraire}
+                </button>
+              )}
             </dd>
           </div>
         )}
@@ -390,6 +406,12 @@ function FicheSoiree({
           </div>
         )}
       </dl>
+
+      {itineraire && (
+        <Suspense fallback={<p className="cal-attente">{t.carteChargement}</p>}>
+          <ItineraireSoiree soiree={soiree} ville={ville} />
+        </Suspense>
+      )}
 
       {soiree.description && (
         <div className="cal-fiche-texte">
@@ -1014,6 +1036,7 @@ export function CalendrierPage() {
                 <FicheSoiree
                   soiree={s}
                   fuseau={fuseau}
+                  ville={ville ?? null}
                   villeNom={ville?.name ?? null}
                   moi={moi}
                   onFermer={() => setDepliee(null)}

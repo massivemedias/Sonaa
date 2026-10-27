@@ -432,7 +432,8 @@ interface Soiree {
   organisateur: string | null; description: string | null; ville_id: string; prix: string | null; created_at: string;
 }
 interface Ville { id: string; slug: string; name: string; country_code: string; timezone: string }
-interface Set { id: string; titre: string; description: string | null; duree_s: number | null; cover_path: string | null; artiste_nom: string | null; created_at: string; genre_ids: string[] | null }
+interface ArtisteDuSite { user_id: string; nom: string; bio: string | null; lieu: string | null; avatar_path: string | null; banniere_path: string | null; liens: Record<string, string> | null; n_sets: number }
+interface Set { id: string; user_id: string; titre: string; description: string | null; duree_s: number | null; cover_path: string | null; artiste_nom: string | null; created_at: string; genre_ids: string[] | null }
 
 async function lire<T>(chemin: string): Promise<T[]> {
   if (!SUPABASE_URL || !SUPABASE_KEY) return [];
@@ -588,7 +589,7 @@ if (soirees.length > 0) {
   }
 }
 
-const sets = await lire<Set>('sets_publics?select=id,titre,description,duree_s,cover_path,artiste_nom,created_at,genre_ids&order=created_at.desc&limit=500');
+const sets = await lire<Set>('sets_publics?select=id,user_id,titre,description,duree_s,cover_path,artiste_nom,created_at,genre_ids&order=created_at.desc&limit=500');
 if (sets.length > 0) {
   const pochette = (c: string | null): string | undefined =>
     c ? `${SUPABASE_URL}/storage/v1/object/public/covers/${c}` : undefined;
@@ -605,28 +606,35 @@ if (sets.length > 0) {
      pochette ne se lit pas, la page garde le WebP. */
   const TAILLE_OG = [1200, 630] as const;
   const MARGE_OG = 40;
-  const imagesDePartage = new Map<string, string>();
-  const fabriquerImage = async (s: Set): Promise<void> => {
-    const source = pochette(s.cover_path);
-    if (!source || !s.cover_path) return;
+  /** L'image de partage d'une image source, ecrite sous /og/<dossier>/ ;
+      son adresse publique, ou null si la source ne se lit pas. */
+  const fabriquerImage = async (source: string, chemin: string, dossier: string, cle: string): Promise<string | null> => {
     try {
       const r = await fetch(source);
-      if (!r.ok) return;
+      if (!r.ok) return null;
       const brut = Buffer.from(await r.arrayBuffer());
       const [l, ht] = TAILLE_OG;
       const fond = await sharp(brut).resize(l, ht, { fit: 'cover' }).blur(36).modulate({ brightness: 0.4 }).toBuffer();
       const devant = await sharp(brut).resize(l - 2 * MARGE_OG, ht - 2 * MARGE_OG, { fit: 'inside' }).toBuffer();
-      const nom = `${s.id}-${createHash('sha1').update(s.cover_path).digest('hex').slice(0, 8)}.jpg`;
-      mkdirSync(join(DIST, 'og', 'mixtapes'), { recursive: true });
-      await sharp(fond).composite([{ input: devant, gravity: 'center' }]).jpeg({ quality: 84, mozjpeg: true }).toFile(join(DIST, 'og', 'mixtapes', nom));
-      imagesDePartage.set(s.id, `${ORIGINE}/og/mixtapes/${nom}`);
+      const nom = `${cle}-${createHash('sha1').update(chemin).digest('hex').slice(0, 8)}.jpg`;
+      mkdirSync(join(DIST, 'og', dossier), { recursive: true });
+      await sharp(fond).composite([{ input: devant, gravity: 'center' }]).jpeg({ quality: 84, mozjpeg: true }).toFile(join(DIST, 'og', dossier, nom));
+      return `${ORIGINE}/og/${dossier}/${nom}`;
     } catch {
-      /* la page garde la pochette d'origine */
+      return null;
     }
   };
   /* Six a la fois : assez pour ne pas attendre, pas assez pour se faire
      refuser par le stockage. */
-  for (let i = 0; i < sets.length; i += 6) await Promise.all(sets.slice(i, i + 6).map(fabriquerImage));
+  const parSix = async <T,>(liste: readonly T[], f: (x: T) => Promise<void>): Promise<void> => {
+    for (let i = 0; i < liste.length; i += 6) await Promise.all(liste.slice(i, i + 6).map(f));
+  };
+  const imagesDePartage = new Map<string, string>();
+  await parSix(sets, async (s) => {
+    const source = pochette(s.cover_path);
+    const image = source && s.cover_path ? await fabriquerImage(source, s.cover_path, 'mixtapes', s.id) : null;
+    if (image) imagesDePartage.set(s.id, image);
+  });
 
   /* ═══ MIXTAPES, ET /sons/ QUI Y MENE ═══
    *
@@ -679,6 +687,53 @@ if (sets.length > 0) {
           image: pochette(s.cover_path),
           datePublished: s.created_at.slice(0, 10),
           url: `${ORIGINE}/mixtapes/${s.id}/`,
+        },
+      ],
+    });
+  }
+  /* ═══ LES ARTISTES, depuis le 27 octobre 2026 ═══ Mika : « fais pareil
+     pour les profils d'artistes ». La page publique d'un artiste vivait
+     sous #/mixtapes/a/<compte>, une ancre qu'aucun robot de partage ne lit.
+     Elle a maintenant son chemin, /artistes/<compte>/, et son image de
+     partage : la banniere si l'artiste en a une, sinon son portrait, sur le
+     meme fond floute que les pochettes. */
+  const artistes = await lire<ArtisteDuSite>('artistes_publics?select=user_id,nom,bio,lieu,avatar_path,banniere_path,liens,n_sets&order=dernier_set.desc&limit=500');
+  const portrait = (c: string | null): string | undefined =>
+    c ? `${SUPABASE_URL}/storage/v1/object/public/avatars/${c}` : undefined;
+  const imagesDArtistes = new Map<string, string>();
+  await parSix(artistes, async (a) => {
+    const chemin = a.banniere_path ?? a.avatar_path;
+    const source = portrait(chemin);
+    const image = source && chemin ? await fabriquerImage(source, chemin, 'artistes', a.user_id) : null;
+    if (image) imagesDArtistes.set(a.user_id, image);
+  });
+  for (const a of artistes) {
+    const siens = sets.filter((s) => s.user_id === a.user_id);
+    const n = siens.length || a.n_sets;
+    const liens = Object.values(a.liens ?? {}).filter((u) => /^https:\/\//.test(u));
+    ecrire({
+      chemin: `/artistes/${a.user_id}/`,
+      hash: `#/mixtapes/a/${a.user_id}`,
+      titre: `${a.nom} : ${n > 1 ? `${n} mixtapes` : 'mixtape'} à écouter · SONAA`,
+      description: couper(`${a.nom}${a.lieu ? `, ${a.lieu}` : ''}. ${a.bio ? a.bio : `${n > 1 ? `${n} mixtapes` : 'Une mixtape'} à écouter en entier sur SONAA.`}`, 158),
+      image: imagesDArtistes.get(a.user_id) ?? portrait(a.banniere_path ?? a.avatar_path),
+      imageTaille: imagesDArtistes.has(a.user_id) ? TAILLE_OG : undefined,
+      corps:
+        `${entete([{ nom: 'Mixtapes', href: '/mixtapes/' }, { nom: a.nom, href: `/artistes/${a.user_id}/` }])}<h1>${h(a.nom)}</h1>` +
+        (a.lieu ? `<p>${h(a.lieu)}</p>` : '') +
+        (a.bio ? `<p>${h(a.bio)}</p>` : '') +
+        (siens.length ? `<h2>Ses mixtapes</h2><ul>${siens.map((s) => `<li><a href="/mixtapes/${s.id}/">${h(s.titre)}</a></li>`).join('')}</ul>` : '') +
+        `<p><a href="/artistes/${a.user_id}/#/mixtapes/a/${a.user_id}">Écouter sur SONAA</a></p>`,
+      jsonld: [
+        filAriane([{ nom: 'Mixtapes', href: '/mixtapes/' }, { nom: a.nom, href: `/artistes/${a.user_id}/` }]),
+        {
+          '@context': 'https://schema.org',
+          '@type': 'MusicGroup',
+          name: a.nom,
+          ...(a.bio ? { description: a.bio } : {}),
+          ...(a.avatar_path ? { image: portrait(a.avatar_path) } : {}),
+          ...(liens.length ? { sameAs: liens } : {}),
+          url: `${ORIGINE}/artistes/${a.user_id}/`,
         },
       ],
     });
@@ -1213,8 +1268,9 @@ const nStyles = pages.filter((p) => p.chemin.startsWith('/styles/')).length;
 const nSoirees = pages.filter((p) => p.chemin.startsWith('/soirees/')).length;
 const nMixtapes = pages.filter((p) => p.chemin.startsWith('/mixtapes/')).length;
 const nLabels = pages.filter((p) => p.chemin.startsWith('/labels/')).length;
-const nImagesOg = pages.filter((p) => p.chemin.startsWith('/mixtapes/') && p.image?.endsWith('.jpg')).length;
+const nImagesOg = pages.filter((p) => /^\/(mixtapes|artistes)\//.test(p.chemin) && p.image?.endsWith('.jpg')).length;
+const nArtistes = pages.filter((p) => p.chemin.startsWith('/artistes/')).length;
 const nMarques = pages.filter((p) => p.chemin.startsWith('/news/marques/')).length;
-console.log(`Pre-rendu : ${pages.length} pages (${nStyles} styles, ${nSoirees} soirees, ${nMixtapes} mixtapes, ${nLabels} labels, ${nMarques} marques et machines), sitemap de ${urls.length} adresses, ${nImagesOg} images de partage en JPEG.`);
+console.log(`Pre-rendu : ${pages.length} pages (${nStyles} styles, ${nSoirees} soirees, ${nMixtapes} mixtapes, ${nArtistes} artistes, ${nLabels} labels, ${nMarques} marques et machines), sitemap de ${urls.length} adresses, ${nImagesOg} images de partage en JPEG.`);
 if (!SUPABASE_URL || !SUPABASE_KEY) console.log('  (sans base : pas de pages de soirees ni de sets)');
 if (!existsSync(join(DIST, 'styles', 'techno', 'dub-techno', 'index.html'))) throw new Error('la page temoin /styles/techno/dub-techno/ manque');

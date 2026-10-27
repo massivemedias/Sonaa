@@ -285,7 +285,7 @@ function PageDUnArtiste({ compte }: { compte: string }) {
         </header>
 
         <div className="mx-barre">
-          <BoutonPartager url={`https://sonaa.ca/#/mixtapes/a/${artiste.user_id}`} titre={artiste.nom} />
+          <BoutonPartager url={`https://sonaa.ca/artistes/${artiste.user_id}/`} titre={artiste.nom} />
         </div>
 
         <div className="mx-grille">

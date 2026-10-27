@@ -98,6 +98,9 @@ export function hashDuChemin(chemin: string): string | null {
      ouvrent la meme page, et le pre-rendu dit laquelle est la bonne par un
      canonique. Retirer une adresse publiee coute une semaine de reindexation
      pour rien. */
+  /* LES ARTISTES, depuis le 27 octobre 2026 : /artistes/<compte>/. */
+  const artiste = c.match(/^\/artistes\/([0-9a-f-]{36})\/$/);
+  if (artiste) return `#/mixtapes/a/${artiste[1]}`;
   const mixtape = c.match(/^\/(?:mixtapes|sons)\/([0-9a-f-]{36})\/$/);
   if (mixtape) return `#/mixtapes/${mixtape[1]}`;
   if (c === '/mixtapes/' || c === '/sons/') return '#/mixtapes';
@@ -133,6 +136,8 @@ let ancresDesStyles: Map<string, string> | null = null;
     de page a elle. Le calendrier rend la racine, qui est sa page. */
 export function cheminDuHash(hash: string): string {
   const [base = ''] = hash.split('?');
+  const artiste = base.match(/^#\/(?:mixtapes|sets)\/a\/([0-9a-f-]{36})(?:\/|$)/);
+  if (artiste) return `/artistes/${artiste[1]}/`;
   const mixtape = base.match(/^#\/(?:mixtapes|sets)\/([0-9a-f-]{36})(?:\/|$)/);
   if (mixtape) return `/mixtapes/${mixtape[1]}/`;
   if (/^#\/(?:mixtapes|sets)\/?$/.test(base)) return '/mixtapes/';

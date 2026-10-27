@@ -27,7 +27,34 @@ type Point = readonly [number, number];
 /* Ce qui est garde : une position, ou la date d'un echec. Un echec se
    retente apres deux semaines, le temps qu'OpenStreetMap apprenne la salle
    ou que la source corrige l'adresse. */
-type Garde = { readonly p: Point } | { readonly echec: number };
+type Garde = { readonly p: Point; readonly v?: number } | { readonly echec: number };
+
+/* LE CODE POSTAL TRANCHE. Le 27 octobre 2026, Subterra, « 25 Rue
+   Saint-Jacques, Montreal, QC H2Y 1M6 », etait place a Lachine : Nominatim
+   ignore le code postal d'une recherche libre, et Montreal a deux rues
+   Saint-Jacques. Une position trouvee sans verifier le code est refaite
+   (version 2), et l'ancienne sert en attendant. */
+const VERSION = 2;
+
+/** Le code postal d'une adresse, sans espace et en majuscules : H2Y1M6 au
+    Canada, 31000 en France. Ailleurs, rien : cinq chiffres a Montreal sont
+    un numero de rue. */
+export function codePostal(adresse: string | null, pays: string): string | null {
+  if (!adresse) return null;
+  if (pays === 'CA') {
+    const ca = adresse.match(/\b([A-Z]\d[A-Z])\s?(\d[A-Z]\d)\b/i);
+    return ca ? `${ca[1]}${ca[2]}`.toUpperCase() : null;
+  }
+  if (pays === 'FR') return adresse.match(/\b(\d{5})\b(?!.*\b\d{5}\b)/)?.[1] ?? null;
+  return null;
+}
+
+/** Le meme secteur : les trois premiers caracteres au Canada (le quartier),
+    le code entier ailleurs. */
+function memeSecteur(attendu: string, trouve: string | undefined): boolean {
+  const t = (trouve ?? '').replace(/\s+/g, '').toUpperCase();
+  return /^[A-Z]/.test(attendu) ? t.slice(0, 3) === attendu.slice(0, 3) : t === attendu;
+}
 type Carnet = Record<string, Garde>;
 
 const NOMINATIM = 'https://nominatim.openstreetmap.org/search';
@@ -57,7 +84,7 @@ function distanceKm(a: Point, b: Point): number {
 /** Les formulations a essayer, de la plus precise a la plus vague.
     Facebook ecrit souvent « Club Soda, 1225 boul. Saint-Laurent, Montreal » :
     le nom en tete fait echouer Nominatim, on le retire au second essai. */
-function formulations(l: Lieu): string[] {
+function formulations(l: Lieu, pays: string): string[] {
   const essais: string[] = [];
   const a = l.adresse?.trim();
   if (a) {
@@ -67,19 +94,24 @@ function formulations(l: Lieu): string[] {
   }
   const n = l.nom?.trim();
   if (n) essais.push(n);
+  /* En dernier, le code postal seul : au Canada, il situe un pate de
+     maisons, assez pour un itineraire. */
+  const code = codePostal(l.adresse, pays);
+  if (code && /^[A-Z]/.test(code)) essais.push(`${code.slice(0, 3)} ${code.slice(3)}`);
   return [...new Set(essais)].filter((x) => x.length >= 3);
 }
 
 const dormir = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms));
 
-async function nominatim(q: string, pays: string, centre: Point): Promise<Point | null> {
+async function nominatim(q: string, pays: string, centre: Point, code: string | null): Promise<Point | null> {
   /* La boite de recherche fait environ 45 km de cote autour du centre, et
      elle est STRICTE : « Newspeak » ne doit pas rendre une rue de l'Oregon. */
   const d = 0.4;
   const p = new URLSearchParams({
     q,
     format: 'jsonv2',
-    limit: '1',
+    limit: code ? '5' : '1',
+    addressdetails: code ? '1' : '0',
     countrycodes: pays.toLowerCase(),
     viewbox: `${centre[1] - d},${centre[0] + d},${centre[1] + d},${centre[0] - d}`,
     bounded: '1',
@@ -87,9 +119,12 @@ async function nominatim(q: string, pays: string, centre: Point): Promise<Point 
   try {
     const r = await fetch(`${NOMINATIM}?${p.toString()}`, { headers: { 'user-agent': AGENT, referer: 'https://sonaa.ca/' } });
     if (!r.ok) return null;
-    const liste = (await r.json()) as { lat?: string; lon?: string }[];
-    const lat = Number(liste[0]?.lat);
-    const lon = Number(liste[0]?.lon);
+    const liste = (await r.json()) as { lat?: string; lon?: string; address?: { postcode?: string } }[];
+    /* Avec un code postal, le premier resultat de son secteur ; sans, le
+       premier tout court. */
+    const choisi = code ? liste.find((x) => memeSecteur(code, x.address?.postcode)) : liste[0];
+    const lat = Number(choisi?.lat);
+    const lon = Number(choisi?.lon);
     if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
     const point: Point = [Math.round(lat * 1e5) / 1e5, Math.round(lon * 1e5) / 1e5];
     return distanceKm(point, centre) <= RAYON_KM ? point : null;
@@ -138,9 +173,14 @@ export async function situer(
   const inconnus: Lieu[] = [];
   const points = d.lieux.map((l) => {
     const g = carnet[cleDuLieu(l)];
-    if (g && 'p' in g) return g.p;
+    if (g && 'p' in g) {
+      /* Trouvee avant la verification du code postal : on la sert, et on la
+         refait. */
+      if (g.v !== VERSION && codePostal(l.adresse, d.pays) && !inconnus.some((x) => cleDuLieu(x) === cleDuLieu(l))) inconnus.push(l);
+      return g.p;
+    }
     if (!g || maintenant - g.echec > RETENTE_MS) {
-      if (!inconnus.some((x) => cleDuLieu(x) === cleDuLieu(l)) && formulations(l).length > 0) inconnus.push(l);
+      if (!inconnus.some((x) => cleDuLieu(x) === cleDuLieu(l)) && formulations(l, d.pays).length > 0) inconnus.push(l);
     }
     return null;
   });
@@ -153,18 +193,25 @@ export async function situer(
       if (budget <= 0) break;
       let trouve: Point | null = null;
       let essais = 0;
-      const toutes = formulations(l);
+      const toutes = formulations(l, d.pays);
+      const code = codePostal(l.adresse, d.pays);
       for (const q of toutes) {
         if (budget <= 0) break;
         budget -= 1;
         essais += 1;
-        trouve = await nominatim(q, d.pays, d.centre);
+        trouve = await nominatim(q, d.pays, d.centre, code);
         await dormir(PAUSE_MS);
         if (trouve) break;
       }
       /* Un echec ne s'ecrit que si toutes les formulations ont ete
          essayees : une salle coupee par le budget reste a chercher. */
-      if (trouve) carnet[cleDuLieu(l)] = { p: trouve };
+      const avant = carnet[cleDuLieu(l)];
+      if (trouve) carnet[cleDuLieu(l)] = { p: trouve, v: VERSION };
+      /* Une ancienne position que la verification ne retrouve pas reste
+         servie : mieux vaut une salle peut-etre mal placee qu'une salle
+         absente. Elle est marquee pour ne pas etre recherchee a chaque
+         visite. */
+      else if (avant && 'p' in avant && essais === toutes.length) carnet[cleDuLieu(l)] = { p: avant.p, v: VERSION };
       else if (essais === toutes.length) carnet[cleDuLieu(l)] = { echec: Date.now() };
       else continue;
       ecrit = true;

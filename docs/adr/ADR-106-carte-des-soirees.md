@@ -40,3 +40,11 @@ introuvable est retentée après deux semaines.
 - Ouvrir la carte charge des tuiles depuis openstreetmap.org : le serveur
   d'OpenStreetMap voit l'adresse du visiteur, comme pour toute image tierce.
   La politique de confidentialité doit le mentionner.
+
+## Révision du 27 octobre 2026, au soir
+
+Mika : « plus visible, plus par rue que par satellite », et zoomer en
+pinçant directement dans la carte. Leaflet et les tuiles d'OpenStreetMap
+passées en négatif sont remplacés par MapLibre et les tuiles vectorielles
+d'OpenFreeMap, dans un style sombre retouché (voir ADR-108). C'est désormais
+tiles.openfreemap.org qui voit l'adresse du visiteur quand la carte s'ouvre.

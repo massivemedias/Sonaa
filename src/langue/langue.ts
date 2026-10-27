@@ -912,7 +912,22 @@ interface Dictionnaire {
   readonly carteItineraire: string;
   readonly carteZoomPlus: string;
   readonly carteZoomMoins: string;
-  readonly carteAttribution: string;
+  readonly carteAideMolette: string;
+  readonly carteAideMac: string;
+  readonly carteAideDoigts: string;
+  readonly itineraireModes: string;
+  readonly itineraireMode: (mode: 'pied' | 'velo' | 'auto') => string;
+  readonly itineraireVous: string;
+  readonly itineraireConfidentialite: string;
+  readonly itineraireDemandePosition: string;
+  readonly itinerairePositionRefusee: string;
+  readonly itineraireCalcul: string;
+  readonly itineraireEchec: string;
+  readonly itineraireSalleIntrouvable: string;
+  readonly itineraireEtapes: string;
+  readonly itineraireRetour: string;
+  readonly itineraireFermer: string;
+  readonly etape: (type: string, sens: string | null, rue: string | null, sortie: number | null) => string;
   readonly carteChargement: string;
   readonly modifier: string;
   readonly annuler: string;
@@ -1913,7 +1928,39 @@ const FR: Dictionnaire = {
   carteItineraire: 'Itinéraire',
   carteZoomPlus: 'Rapprocher',
   carteZoomMoins: 'Éloigner',
-  carteAttribution: '© les contributeurs d’<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a>',
+  carteAideMolette: 'Ctrl et la molette pour zoomer dans la carte',
+  carteAideMac: 'Pincez le trackpad, ou ⌘ et la molette, pour zoomer dans la carte',
+  carteAideDoigts: 'Deux doigts pour déplacer la carte',
+  itineraireModes: 'Comment y aller',
+  itineraireMode: (mode) => ({ pied: 'À pied', velo: 'Vélo', auto: 'Voiture' })[mode],
+  itineraireVous: 'Vous êtes ici',
+  itineraireConfidentialite: 'Votre position sert seulement à tracer le trajet. SONAA ne la garde pas.',
+  itineraireDemandePosition: 'Autorisez votre position pour voir le chemin depuis là où vous êtes.',
+  itinerairePositionRefusee: 'Sans votre position, la carte montre seulement la salle. Autorisez-la dans votre navigateur pour voir le chemin.',
+  itineraireCalcul: 'Calcul du trajet…',
+  itineraireEchec: 'Le trajet n’a pas pu être calculé. Réessayez dans un instant.',
+  itineraireSalleIntrouvable: 'Cette salle n’est pas encore située sur la carte. Réessayez dans quelques secondes.',
+  itineraireEtapes: 'Les étapes',
+  itineraireRetour: 'Retour aux soirées',
+  itineraireFermer: 'Fermer l’itinéraire',
+  etape: (type, sens, rue, sortie) => {
+    const sur = rue ? ` sur ${rue}` : '';
+    if (type === 'depart') return `Partez${sur}`;
+    if (type === 'arrive') return 'Vous êtes arrivé';
+    if (type === 'roundabout' || type === 'rotary') return `Au rond-point, prenez la ${sortie ?? 1}${sortie === 1 || sortie == null ? 're' : 'e'} sortie${sur}`;
+    if (sens === 'uturn') return `Faites demi-tour${sur}`;
+    const cote: Record<string, string> = {
+      right: 'à droite',
+      left: 'à gauche',
+      'slight right': 'légèrement à droite',
+      'slight left': 'légèrement à gauche',
+      'sharp right': 'franchement à droite',
+      'sharp left': 'franchement à gauche',
+    };
+    if (type === 'fork' && sens && cote[sens]) return `À l’embranchement, restez ${cote[sens]}${sur}`;
+    if (sens && cote[sens] && type !== 'new name' && type !== 'continue') return `Tournez ${cote[sens]}${sur}`;
+    return `Continuez${rue ? ` sur ${rue}` : ' tout droit'}`;
+  },
   carteChargement: 'La carte se prépare…',
   modifier: 'Modifier',
   annuler: 'Annuler',
@@ -2914,7 +2961,39 @@ const EN: Dictionnaire = {
   carteItineraire: 'Directions',
   carteZoomPlus: 'Zoom in',
   carteZoomMoins: 'Zoom out',
-  carteAttribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> contributors',
+  carteAideMolette: 'Ctrl and scroll to zoom the map',
+  carteAideMac: 'Pinch the trackpad, or ⌘ and scroll, to zoom the map',
+  carteAideDoigts: 'Use two fingers to move the map',
+  itineraireModes: 'How to get there',
+  itineraireMode: (mode) => ({ pied: 'Walk', velo: 'Bike', auto: 'Car' })[mode],
+  itineraireVous: 'You are here',
+  itineraireConfidentialite: 'Your location is only used to draw the route. SONAA does not keep it.',
+  itineraireDemandePosition: 'Allow your location to see the way from where you are.',
+  itinerairePositionRefusee: 'Without your location, the map only shows the venue. Allow it in your browser to see the way.',
+  itineraireCalcul: 'Finding the way…',
+  itineraireEchec: 'The route could not be found. Try again in a moment.',
+  itineraireSalleIntrouvable: 'This venue is not on the map yet. Try again in a few seconds.',
+  itineraireEtapes: 'Step by step',
+  itineraireRetour: 'Back to the nights',
+  itineraireFermer: 'Close directions',
+  etape: (type, sens, rue, sortie) => {
+    const sur = rue ? ` onto ${rue}` : '';
+    if (type === 'depart') return `Head out${rue ? ` on ${rue}` : ''}`;
+    if (type === 'arrive') return 'You have arrived';
+    if (type === 'roundabout' || type === 'rotary') return `At the roundabout, take exit ${sortie ?? 1}${sur}`;
+    if (sens === 'uturn') return `Make a U-turn${sur}`;
+    const cote: Record<string, string> = {
+      right: 'right',
+      left: 'left',
+      'slight right': 'slightly right',
+      'slight left': 'slightly left',
+      'sharp right': 'sharp right',
+      'sharp left': 'sharp left',
+    };
+    if (type === 'fork' && sens && cote[sens]) return `At the fork, keep ${cote[sens]}${sur}`;
+    if (sens && cote[sens] && type !== 'new name' && type !== 'continue') return `Turn ${cote[sens]}${sur}`;
+    return `Continue${rue ? ` on ${rue}` : ' straight'}`;
+  },
   carteChargement: 'Loading the map…',
   modifier: 'Edit',
   annuler: 'Cancel',

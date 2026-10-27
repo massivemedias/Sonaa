@@ -6,8 +6,8 @@
 
 .carte {
   position: relative;
-  /* Les couches de Leaflet montent a 1000 : elles restent dans ce cadre, et
-     la fiche d'une soiree passe par-dessus la carte entiere. */
+  /* La carte reste dans ce cadre : la fiche d'une soiree passe par-dessus
+     la carte entiere. */
   isolation: isolate;
   margin-top: var(--espace-12);
 }
@@ -17,22 +17,20 @@
   border-radius: 18px;
   overflow: hidden;
 }
-.carte-boite.leaflet-container {
+.carte-boite.maplibregl-map {
   background: var(--fond);
   font: inherit;
 }
 
-/* LES TUILES D'OPENSTREETMAP SONT CLAIRES. Passees en negatif, puis
-   retournees sur le cercle des teintes pour que l'eau reste bleue et les
-   parcs verts, et presque eteintes : la carte situe, elle ne decore pas. */
-.carte-tuiles {
-  filter: invert(1) hue-rotate(180deg) brightness(0.82) contrast(0.92) saturate(0.22);
-}
-
 /* ═══ LES SALLES ═══ */
-.carte-pin-boite {
-  border: 0;
-  background: none;
+.carte-repere {
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.carte-repere:hover,
+.carte-repere:focus-visible {
+  z-index: 2;
 }
 .carte-pin {
   position: relative;
@@ -51,14 +49,14 @@
     0 0 18px color-mix(in oklab, var(--accent) 55%, transparent);
   transition: transform 160ms ease;
 }
-.leaflet-marker-icon:hover .carte-pin,
-.leaflet-marker-icon:focus-visible .carte-pin {
+.carte-repere:hover .carte-pin,
+.carte-repere:focus-visible .carte-pin {
   transform: scale(1.12);
 }
-.leaflet-marker-icon:focus-visible {
+.carte-repere:focus-visible {
   outline: none;
 }
-.leaflet-marker-icon:focus-visible .carte-pin {
+.carte-repere:focus-visible .carte-pin {
   box-shadow:
     0 0 0 2px var(--fond),
     0 0 0 4px var(--accent-jaune);
@@ -90,8 +88,11 @@
   }
 }
 
-/* Le nom au survol. */
-.carte-bulle.leaflet-tooltip {
+/* Le nom au survol, au-dessus de la pastille. */
+.carte-bulle {
+  position: absolute;
+  bottom: calc(100% + var(--espace-8));
+  left: 50%;
   padding: var(--espace-4) var(--espace-8);
   border: 1px solid var(--filet);
   border-radius: 8px;
@@ -99,35 +100,54 @@
   color: var(--ink-primary);
   font-size: 0.8rem;
   font-weight: 600;
+  white-space: nowrap;
   box-shadow: 0 8px 24px rgb(0 0 0 / 0.45);
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: opacity 120ms ease;
+  pointer-events: none;
 }
-.carte-bulle.leaflet-tooltip-top::before {
-  border-top-color: var(--filet);
+.carte-repere:hover .carte-bulle,
+.carte-repere:focus-visible .carte-bulle {
+  opacity: 1;
 }
 
-/* ═══ LES COMMANDES DE LEAFLET, DANS LA MATIERE DU SITE ═══ */
-.carte .leaflet-bar {
+/* ═══ LES COMMANDES DE MAPLIBRE, DANS LA MATIERE DU SITE ═══
+   Leurs icones sont dessinees en sombre pour un fond clair : on les
+   retourne. */
+:is(.carte, .iti-fiche) .maplibregl-ctrl-group {
   overflow: hidden;
   border: 1px solid var(--filet);
   border-radius: 12px;
+  background: var(--fond);
   box-shadow: none;
 }
-.carte .leaflet-bar a {
-  border-bottom-color: var(--filet);
-  background: var(--fond);
-  color: var(--ink-primary);
+:is(.carte, .iti-fiche) .maplibregl-ctrl-group button + button {
+  border-top-color: var(--filet);
 }
-.carte .leaflet-bar a:hover {
+:is(.carte, .iti-fiche) .maplibregl-ctrl-group button:hover {
   background: var(--voile-05);
 }
-.carte .leaflet-control-attribution {
+:is(.carte, .iti-fiche) .maplibregl-ctrl-icon,
+:is(.carte, .iti-fiche) .maplibregl-ctrl-attrib-button {
+  filter: invert(1);
+}
+:is(.carte, .iti-fiche) .maplibregl-ctrl-attrib {
   background: color-mix(in oklab, var(--fond) 82%, transparent);
   color: var(--ink-secondary);
   font-size: 0.66rem;
 }
-.carte .leaflet-control-attribution a {
+:is(.carte, .iti-fiche) .maplibregl-ctrl-attrib.maplibregl-compact {
+  background: var(--fond);
+}
+:is(.carte, .iti-fiche) .maplibregl-ctrl-attrib a {
   border-bottom: 0;
   color: inherit;
+}
+:is(.carte, .iti-fiche) .maplibregl-cooperative-gesture-screen {
+  background: rgb(0 0 0 / 0.55);
+  font-size: 0.95rem;
+  font-weight: 600;
 }
 
 /* ═══ LA SALLE CHOISIE ═══ */
@@ -220,7 +240,12 @@
 }
 .carte .carte-itineraire {
   justify-self: start;
-  border-bottom-color: color-mix(in oklab, var(--accent) 45%, transparent);
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid color-mix(in oklab, var(--accent) 45%, transparent);
+  background: none;
+  font-family: inherit;
+  cursor: pointer;
   font-size: 0.82rem;
   font-weight: 600;
   color: var(--accent);
@@ -251,6 +276,114 @@
   box-shadow: 0 0 0 3px var(--accent-voile);
 }
 
+/* ═══ L'ITINERAIRE ═══ Voir Itineraire.tsx. */
+.iti-vous {
+  width: 16px;
+  height: 16px;
+  border: 3px solid var(--fond);
+  border-radius: 50%;
+  background: var(--ink-primary);
+  box-shadow: 0 0 0 7px color-mix(in oklab, var(--ink-primary) 22%, transparent);
+}
+.iti {
+  display: grid;
+  gap: var(--espace-8);
+}
+.iti-modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-4);
+}
+.iti-mode {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--espace-8);
+  padding: var(--espace-4) var(--espace-12);
+  border: 1px solid var(--filet);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-primary);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.iti-mode[aria-checked='true'] {
+  border-color: var(--accent);
+  background: var(--accent-voile);
+}
+.iti-mode-duree {
+  color: var(--ink-secondary);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.iti-resume {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--ink-secondary);
+}
+.iti-resume strong {
+  color: var(--ink-primary);
+  font-size: 1.05rem;
+}
+.iti-note,
+.iti-confidentialite {
+  margin: 0;
+  color: var(--ink-secondary);
+  line-height: 1.45;
+}
+.iti-note {
+  font-size: 0.76rem;
+}
+.iti-confidentialite {
+  font-size: 0.7rem;
+}
+.iti-etapes summary {
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.iti-etapes ol {
+  display: grid;
+  gap: var(--espace-4);
+  margin: var(--espace-8) 0 0;
+  padding-left: var(--espace-16);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+.iti-etapes li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--espace-12);
+}
+.iti-etape-distance {
+  flex: none;
+  color: var(--ink-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.iti-fiche {
+  display: grid;
+  gap: var(--espace-12);
+  margin: var(--espace-12) 0;
+}
+.iti-fiche-carte {
+  height: clamp(16rem, 42dvh, 24rem);
+  border: 1px solid var(--filet);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.carte-panneau-retour {
+  justify-self: start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-secondary);
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .carte-pin-vif::after {
     animation: none;
@@ -263,10 +396,9 @@
 
 /* Sous 900 px, tout ce qui se touche fait 44 px. */
 @media (max-width: 899px) {
-  .carte .leaflet-bar a {
+  :is(.carte, .iti-fiche) .maplibregl-ctrl-group button {
     width: 44px;
     height: 44px;
-    line-height: 44px;
   }
   .carte-fermer {
     width: 44px;
@@ -275,7 +407,9 @@
   .carte-soiree {
     min-height: 44px;
   }
-  .carte .carte-itineraire {
+  .carte .carte-itineraire,
+  .iti-mode,
+  .carte-panneau-retour {
     display: inline-flex;
     align-items: center;
     min-height: 44px;

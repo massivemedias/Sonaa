@@ -988,6 +988,36 @@
   color: var(--ink-secondary);
   font-size: 0.76rem;
 }
+/* L'ITINERAIRE, sous l'adresse : il la prolonge. */
+.cal-fiche-itineraire {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espace-8);
+  margin-top: var(--espace-8);
+  padding: var(--espace-4) var(--espace-12);
+  border: 1px solid color-mix(in oklab, var(--accent) 45%, transparent);
+  border-radius: 999px;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.cal-fiche-itineraire svg {
+  width: 13px;
+  height: 13px;
+}
+.cal-fiche-itineraire:hover,
+.cal-fiche-itineraire[aria-expanded='true'] {
+  background: var(--accent-voile);
+}
+@media (max-width: 899px) {
+  .cal-fiche-itineraire {
+    min-height: 44px;
+  }
+}
 
 .cal-fiche-texte h4 {
   margin: 0 0 var(--espace-8);

@@ -6,28 +6,22 @@
  * (la tranche, les styles, la recherche) : une pastille par salle, son
  * nombre de soirees dedans, et celles de ce soir qui battent.
  *
- * CHARGEE A LA DEMANDE. Leaflet et sa feuille de style ne pesent rien sur
+ * CHARGEE A LA DEMANDE. MapLibre et sa feuille de style ne pesent rien sur
  * le reste du site : ce module n'est importe que quand on ouvre la carte.
  *
- * LES TUILES SONT CELLES D'OPENSTREETMAP, passees en negatif par un filtre
- * pour tenir dans un site sombre. Aucune cle, aucun compte ; l'attribution
- * est en bas a droite, comme le demande leur licence.
- *
- * LA MOLETTE NE ZOOME PAS TANT QU'ON N'A PAS CLIQUE. Une carte qui avale le
- * defilement de la page est le premier piege d'une carte dans une page. */
+ * LE FOND DE CARTE, les rues sombres et le zoom au pincement sont dans
+ * fond-de-carte.ts, partages avec l'itineraire d'une fiche. */
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-import './carte.css';
+import { LngLatBounds, Marker, type Map as CarteGL } from 'maplibre-gl';
 import type { Soiree } from '../lib/agenda.ts';
 import type { Ville } from '../lib/ville-active.ts';
 import { lieuxASituer, salles, situerLesLieux, type Point } from '../lib/carte.ts';
 import { cleDuJour } from '../lib/fenetre-agenda.ts';
 import { ImageDeSoiree } from './AfficheGeneree.tsx';
 import { t } from '../langue/langue.ts';
-
-const TUILES = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+import { creerCarte, lngLat } from './fond-de-carte.ts';
+import { ItineraireSurLaCarte } from './Itineraire.tsx';
 
 export function CarteDesSoirees({
   soirees,
@@ -44,8 +38,8 @@ export function CarteDesSoirees({
   onOuvrir: (id: string) => void;
 }) {
   const boite = useRef<HTMLDivElement>(null);
-  const carte = useRef<L.Map | null>(null);
-  const couche = useRef<L.LayerGroup | null>(null);
+  const carte = useRef<CarteGL | null>(null);
+  const reperes = useRef<Marker[]>([]);
   const [choisie, setChoisie] = useState<string | null>(null);
 
   const centre = useMemo<Point | null>(
@@ -72,31 +66,22 @@ export function CarteDesSoirees({
     [soirees, situes, centre]
   );
   const salle = liste.find((s) => s.cle === choisie) ?? null;
+  /* LE TRAJET SE DESSINE SUR CETTE CARTE, sans quitter le site. Changer de
+     salle le referme. */
+  const [enRoute, setEnRoute] = useState(false);
+  const [panneau, setPanneau] = useState<HTMLElement | null>(null);
+  useEffect(() => setEnRoute(false), [choisie]);
 
   /* LA CARTE, une fois par ville : le parent la remonte quand la ville
      change (key). */
   useEffect(() => {
     if (!boite.current) return;
-    const m = L.map(boite.current, {
-      center: centre ? [centre[0], centre[1]] : [20, 0],
-      zoom: centre ? 12 : 2,
-      zoomControl: false,
-      scrollWheelZoom: false,
-    });
-    L.control.zoom({ position: 'topright', zoomInTitle: t.carteZoomPlus, zoomOutTitle: t.carteZoomMoins }).addTo(m);
-    L.tileLayer(TUILES, { maxZoom: 19, attribution: t.carteAttribution, className: 'carte-tuiles' }).addTo(m);
-    m.attributionControl.setPrefix(false);
-    m.on('click', () => {
-      m.scrollWheelZoom.enable();
-      setChoisie(null);
-    });
-    m.on('mouseout', () => m.scrollWheelZoom.disable());
-    couche.current = L.layerGroup().addTo(m);
+    const m = creerCarte(boite.current, centre);
+    m.on('click', () => setChoisie(null));
     carte.current = m;
     return () => {
       m.remove();
       carte.current = null;
-      couche.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -106,49 +91,53 @@ export function CarteDesSoirees({
      arrive de sources exterieures : il passe par textContent, jamais par du
      HTML. */
   useEffect(() => {
-    const c = couche.current;
-    if (!c) return;
-    c.clearLayers();
+    const m = carte.current;
+    if (!m) return;
+    for (const r of reperes.current) r.remove();
+    reperes.current = [];
     const ceSoir = cleDuJour(new Date());
     for (const s of liste) {
       const n = s.soirees.length;
       const taille = Math.round(24 + Math.min(16, Math.sqrt(n - 1) * 6));
       const vif = s.soirees.some((x) => x.date.slice(0, 10) === ceSoir);
-      const classes = ['carte-pin', vif ? 'carte-pin-vif' : '', s.cle === choisie ? 'carte-pin-choisi' : ''].filter(Boolean).join(' ');
-      const icone = L.divIcon({
-        className: 'carte-pin-boite',
-        html: `<span class="${classes}" style="--t:${taille}px">${n > 1 ? n : ''}</span>`,
-        iconSize: [taille, taille],
-        iconAnchor: [taille / 2, taille / 2],
-      });
       const nom = s.nom ?? t.lieuNonAnnonce;
-      const repere = L.marker(s.point as [number, number], { icon: icone, title: t.carteSalleEtNombre(nom, n), riseOnHover: true, keyboard: true });
+      const bouton = document.createElement('div');
+      bouton.className = 'carte-repere';
+      bouton.tabIndex = 0;
+      bouton.setAttribute('role', 'button');
+      bouton.setAttribute('aria-label', t.carteSalleEtNombre(nom, n));
+      const pin = document.createElement('span');
+      pin.className = ['carte-pin', vif ? 'carte-pin-vif' : '', s.cle === choisie ? 'carte-pin-choisi' : ''].filter(Boolean).join(' ');
+      pin.style.setProperty('--t', `${taille}px`);
+      pin.textContent = n > 1 ? String(n) : '';
       const bulle = document.createElement('span');
+      bulle.className = 'carte-bulle';
       bulle.textContent = nom;
-      repere.bindTooltip(bulle, { direction: 'top', offset: [0, -taille / 2], className: 'carte-bulle' });
+      bouton.append(pin, bulle);
       /* DES SALLES SE CHEVAUCHENT AU CENTRE-VILLE. Un clic sur un paquet
          rapproche d'abord la carte sur lui ; un clic sur une salle seule
          l'ouvre. */
-      repere.on('click', () => {
-        const m = carte.current;
-        if (m && m.getZoom() < 17) {
-          const ici = m.latLngToContainerPoint(s.point as [number, number]);
-          const voisines = liste.filter((x) => {
-            if (x.cle === s.cle) return false;
-            const ecart = m.latLngToContainerPoint(x.point as [number, number]).distanceTo(ici);
-            return taille > ecart;
-          });
+      const ouvrir = (): void => {
+        if (m.getZoom() < 17) {
+          const ici = m.project(lngLat(s.point));
+          const voisines = liste.filter((x) => x.cle !== s.cle && taille > m.project(lngLat(x.point)).dist(ici));
           if (voisines.length > 0) {
-            m.flyToBounds(L.latLngBounds([s, ...voisines].map((x) => x.point as [number, number])).pad(0.6), { maxZoom: 17, duration: 0.5 });
+            const cadre = new LngLatBounds();
+            for (const x of [s, ...voisines]) cadre.extend(lngLat(x.point));
+            m.fitBounds(cadre, { padding: 120, maxZoom: 17, duration: 500 });
             return;
           }
         }
         setChoisie(s.cle);
+      };
+      bouton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        ouvrir();
       });
-      repere.on('keypress', (e) => {
-        if ((e as L.LeafletKeyboardEvent).originalEvent.key === 'Enter') setChoisie(s.cle);
+      bouton.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') setChoisie(s.cle);
       });
-      c.addLayer(repere);
+      reperes.current.push(new Marker({ element: bouton }).setLngLat(lngLat(s.point)).addTo(m));
     }
   }, [liste, choisie]);
 
@@ -159,11 +148,12 @@ export function CarteDesSoirees({
     const m = carte.current;
     if (!m) return;
     if (liste.length === 0) {
-      if (centre) m.setView([centre[0], centre[1]], 12, { animate: false });
+      if (centre) m.jumpTo({ center: lngLat(centre), zoom: 12 });
       return;
     }
-    const cadre = L.latLngBounds(liste.map((s) => s.point as [number, number]));
-    m.fitBounds(cadre.pad(0.12), { maxZoom: 15, animate: false });
+    const cadre = new LngLatBounds();
+    for (const s of liste) cadre.extend(lngLat(s.point));
+    m.fitBounds(cadre, { padding: 48, maxZoom: 15, duration: 0 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [empreinte, centre]);
 
@@ -187,7 +177,7 @@ export function CarteDesSoirees({
     <div className="carte">
       <div ref={boite} className="carte-boite" role="region" aria-label={t.carteDesSoireesA(ville.name)} />
       {salle && (
-        <section className="carte-panneau" aria-label={salle.nom ?? t.lieuNonAnnonce}>
+        <section ref={setPanneau} className="carte-panneau" aria-label={salle.nom ?? t.lieuNonAnnonce}>
           <div className="carte-panneau-tete">
             <div>
               <h3 className="carte-panneau-titre">{salle.nom ?? t.lieuNonAnnonce}</h3>
@@ -199,27 +189,33 @@ export function CarteDesSoirees({
               </svg>
             </button>
           </div>
-          <ul className="carte-soirees">
-            {salle.soirees.map((s) => (
-              <li key={s.id}>
-                <button type="button" className="carte-soiree" onClick={() => onOuvrir(s.id)}>
-                  <ImageDeSoiree soiree={s} fuseau={fuseau} variante="ligne" className="cal-ligne-affiche" />
-                  <span className="carte-soiree-texte">
-                    <span className="carte-soiree-quand">{quand(s)}</span>
-                    <span className="carte-soiree-titre">{s.titre}</span>
-                  </span>
-                </button>
-              </li>
-            ))}
-          </ul>
-          <a
-            className="carte-itineraire"
-            href={`https://www.google.com/maps/dir/?api=1&destination=${salle.point[0]},${salle.point[1]}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {t.carteItineraire}
-          </a>
+          {enRoute ? (
+            <>
+              <button type="button" className="carte-panneau-retour" onClick={() => setEnRoute(false)}>
+                {`← ${t.itineraireRetour}`}
+              </button>
+              <ItineraireSurLaCarte carte={carte.current} destination={salle.point} masque={panneau} />
+            </>
+          ) : (
+            <>
+              <ul className="carte-soirees">
+                {salle.soirees.map((s) => (
+                  <li key={s.id}>
+                    <button type="button" className="carte-soiree" onClick={() => onOuvrir(s.id)}>
+                      <ImageDeSoiree soiree={s} fuseau={fuseau} variante="ligne" className="cal-ligne-affiche" />
+                      <span className="carte-soiree-texte">
+                        <span className="carte-soiree-quand">{quand(s)}</span>
+                        <span className="carte-soiree-titre">{s.titre}</span>
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              <button type="button" className="carte-itineraire" onClick={() => setEnRoute(true)}>
+                {t.carteItineraire}
+              </button>
+            </>
+          )}
         </section>
       )}
       <p className="carte-pied">
