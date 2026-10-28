@@ -1,6 +1,60 @@
 {
- "fait": "2026-10-27T18:04:39.360Z",
+ "fait": "2026-10-28T05:53:46.557Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "AKAI Sample Key: The MPC Sample Gets a Keyboard and Surprise! It’s Open Source!",
+   "lien": "https://www.gearnews.com/akai-sample-key-mpc-sample-synth/",
+   "date": "2026-10-28T01:39:41.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/Akai-sample-key-T1-128x71.jpg",
+   "resume": "What could make this day even better? That would be the announcement of the AKAI Sample Key, a keyboard sampler based with an open-source operating system. This thing can run Massive! AKAI Sample Key Shots fired! The…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Waldorf Neptun: Is the New Desktop Waldorf a Percussion Synth?",
+   "lien": "https://www.gearnews.com/waldorf-neptun-synth/",
+   "date": "2026-10-28T00:47:11.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/waldorf-neptun-T.jpg",
+   "resume": "What is the Waldorf Neptun? Is it Steichfett 2? Is it a VA synth? Is it even called Neptun? Waldorf Neptun What a time to be alive. If you’re a synth head, that is. After a long, slow and hot summer, we’re back in the…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Behringer 1601 Sequencer Now Available",
+   "lien": "https://www.gearnews.com/behringer-1601-sequencer-synth/",
+   "date": "2026-10-27T23:13:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2021/12/behringer-1601-sequencer-T-128x71.jpg",
+   "resume": "Behringer’s 1601 analog sequencer is at last here. Time to get your steps in. All About the Behringer 1601 Sequencer Behringer 1601 Sequencer Behringer Proposes the ARP 1601 Sequencer for Your Consideration ARP 1601…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "LD Systems MAUI G3: Powerful Column Systems with up to 18-inch Subs",
+   "lien": "https://www.gearnews.com/ld-systems-maui-g3-live/",
+   "date": "2026-10-27T19:35:44.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/ld-systems-maui-44-g3-mix-66-g3-ft2.jpg",
+   "resume": "The LD Systems MAUI G3 column speaker series has expanded with a range of high-performance options for different applications and venue sizes. The new MAUI 44 G3, MAUI 44 G3 MIX, and MAUI 66 G3 active 4-way systems…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Tracktion Waveform Pro 14.1 Update Adds AI-Assisted Plugin Creation",
+   "lien": "https://www.gearnews.com/tracktion-waveform-pro-studio/",
+   "date": "2026-10-27T18:30:57.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2022/03/tracktion-waveform-14-1-plugin-generation.jpg",
+   "resume": "With the version 14.1 update, Tracktion Waveform Pro allows you to build your own instruments and effects with AI-assisted code generation. This free 14.1 update may seem minor, but it’s actually rather exciting with…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Carl Cox and IWEAR.LEGEND Launch Frequency on 27 October 2026",
+   "lien": "https://midnightrebels.com/carl-cox-iwear-legend-sunglasses-collection/",
+   "date": "2026-10-27T18:24:49.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/image-14.webp?resize=1024%2C955&ssl=1",
+   "resume": "Each of the two sunglasses in the Carl Cox x IWEAR.LEGEND collection comes in a run of 500 numbered copies . The Frequency range launched on 27 October 2026, and it goes well past the frames. Cox has put his name on a…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "SSL Fusion, Softube Bundle, and Baby Audio Humanoid: 3 DAW Plugin Deals for Pro Mixing Effects with up to 89% off!",
@@ -38,15 +92,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Behringer RD-765: I NEED You Tonight!",
-   "lien": "https://www.gearnews.com/behringer-rd-765-synth/",
-   "date": "2026-10-27T14:30:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/behringer-rd-765-ft.jpg",
-   "resume": "The Behringer RD-765 is a flexible digital drum machine with a powerful sequencer and an analog filter section for shaping your sounds and rhythms. A TR-707 clone? Well, not quite. Although it looks alike, the RD-765…",
-   "integral": true
-  },
-  {
    "source": "musictech",
    "titre": "Massive XL: Native Instruments’ next-gen flagship soft synth has arrived – here’s everything you need to know",
    "lien": "https://musictech.com/news/gear/native-instruments-massive-xl-everything-you-need-to-know/",
@@ -65,15 +110,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Native Instruments Massive XL: Massive X Gets King-Sized",
-   "lien": "https://www.gearnews.com/native-instruments-massive-xl-synth/",
-   "date": "2026-10-27T14:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/native-instruments-massive-xl-t-128x71.jpg",
-   "resume": "Massive XL brings animated modulations, user wavetable import and other much-requested features to Massive X. But is it too little, too late? Native Instruments Massive XL Native Instruments is making up for lost time…",
-   "integral": true
-  },
-  {
    "source": "musictech",
    "titre": "FL Studio announces FL Studio Mobile 5 update, bringing a library of over two million samples to your pocket",
    "lien": "https://musictech.com/news/gear/fl-studio-mobile-5-update/",
@@ -87,7 +123,7 @@
    "titre": "Cliff Fluet’s ADE 2026 Roundtable Asked What AI Deals Should Look Like",
    "lien": "https://midnightrebels.com/cliff-fluet-ade-2026-ai-independence/",
    "date": "2026-10-27T13:12:13.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/pasted-photo-featured-15423.webp?fit=1920%2C1080&ssl=1",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/pasted-photo-featured-57611.webp?fit=1920%2C1080&ssl=1",
    "resume": "“It was about who owns the relationship with the fan.” Cliff Fluet, co-head of media and entertainment at Lewis Silkin, said that during a talk at ADE 2026 . The festival ran from 21 to 25 October in Amsterdam, and this…",
    "integral": true
   },
@@ -110,15 +146,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Behringer Polyeight: The Korg Polysix Clone Is Now Available!",
-   "lien": "https://www.gearnews.com/behringer-polyeight-synth/",
-   "date": "2026-10-27T11:13:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2021/04/behringer-polyeight-t-128x71.jpg",
-   "resume": "Behringer’s long-awaited Polyeight is finally here – and it sounds glorious! All About Behringer Polyeight Behringer Polyeight Now Available Behringer teases an enhanced Korg Polysix clone Polyeight More information…",
-   "integral": true
-  },
-  {
    "source": "musictech",
    "titre": "Another blow for AI music? Anthropic hit with $41 million lawsuit by owners of Elvis Presley’s catalogue",
    "lien": "https://musictech.com/news/industry/elvis-presley-catalogue-owners-sue-anthropic-for-41-million-over-alleged-ai-training/",
@@ -134,15 +161,6 @@
    "date": "2026-10-26T15:18:03.000Z",
    "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/pasted-photo-featured-69462-1.webp?fit=1920%2C1080&ssl=1",
    "resume": "A dance night in New Delhi asked guests to pay what they could. The money buys first-aid kits for frontline protesters and legal defence for detained students. The night is one small part of India’s Gen Z protests over…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "Boris Brejcha Says the Joker Chapter Closes at the End of 2028",
-   "lien": "https://midnightrebels.com/boris-brejcha-ends-joker-chapter-2028/",
-   "date": "2026-10-26T10:40:26.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/pasted-photo-featured-3484-2.webp?fit=1920%2C1080&ssl=1",
-   "resume": "“My dad always used to say that you should stop when things are at their best,” Boris Brejcha said in an Instagram post . The German DJ and producer will end the Joker project in 2028 , and the news broke on 25 October…",
    "integral": true
   },
   {
@@ -309,6 +327,15 @@
   },
   {
    "source": "xlr8r",
+   "titre": "Podcast 873: Andy Graham",
+   "lien": "https://xlr8r.com/podcasts/podcast-873-andy-graham/",
+   "date": "2024-10-23T19:53:54.000Z",
+   "image": "https://xlr8r.com/wp-content/uploads/2024/10/ANDY_GRAHAM_PODCAST_HERO6-scaled.jpg",
+   "resume": "Andy Graham is a Glasgow, Scotland-born electronic music producer who is known for his innovative approach to ambient soundscapes and cinematic atmospheres. Before studying audio technology in college and university, he…",
+   "integral": true
+  },
+  {
+   "source": "xlr8r",
    "titre": "Beatrice Dillon to Launch Label with Double-Single",
    "lien": "https://xlr8r.com/news/beatrice-dillon-to-launch-label-with-double-single/",
    "date": "2024-10-23T08:37:18.000Z",
@@ -323,6 +350,15 @@
    "date": "2024-10-22T12:44:51.000Z",
    "image": "https://xlr8r.com/wp-content/uploads/2024/10/0016586174_10-765x1024.jpg",
    "resume": "The Mole will release a new album next month. High Hopes is the Canadian artist’s fifth solo album and his second for Circus Company , following The River Widens in 2023. High Hopes comprises 17 songs that sound nothing…",
+   "integral": true
+  },
+  {
+   "source": "xlr8r",
+   "titre": "Podcast 872: Tadleeh",
+   "lien": "https://xlr8r.com/podcasts/podcast-872-tadleeh/",
+   "date": "2024-10-16T17:07:56.000Z",
+   "image": "https://xlr8r.com/wp-content/uploads/2024/10/TADLEEH_PODCAST_HERO6-scaled.jpg",
+   "resume": "Tadleeh is the project of Indian-born, Italy-based musician Hazina Francia. Her route into electronic music began when she was a teenager and discovered techno and drum & bass. “Then I’ve moved forward exploring more…",
    "integral": true
   },
   {
