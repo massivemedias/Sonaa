@@ -439,3 +439,36 @@
     transition: none;
   }
 }
+
+/* ═══ LE LIEN D'ACHAT ═══ Voir lib/affiliation.ts. Une petite pilule jaune
+   sous l'outil, et une ligne qui dit franchement ce qu'est ce lien. */
+.cours-acheter {
+  justify-self: start;
+  grid-column: 1 / -1;
+  display: inline-flex;
+  align-items: center;
+  margin-top: var(--espace-4);
+  padding: 1px var(--espace-8);
+  border: 1px solid color-mix(in oklab, var(--accent-jaune) 50%, transparent);
+  border-radius: 999px;
+  color: var(--accent-jaune);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.cours-acheter:hover,
+.cours-acheter:focus-visible {
+  background: color-mix(in oklab, var(--accent-jaune) 14%, transparent);
+}
+@media (max-width: 899px) {
+  .cours-acheter {
+    min-height: 32px;
+  }
+}
+.cours-affiliation {
+  margin: var(--espace-12) 0 0;
+  color: var(--ink-secondary);
+  font-size: 0.6875rem;
+  line-height: 1.5;
+}

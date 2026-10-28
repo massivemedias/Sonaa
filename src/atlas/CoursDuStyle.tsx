@@ -33,6 +33,7 @@ import {
 } from "../lib/cours.ts";
 import { jouerMotif } from "../lib/boite-a-rythmes.ts";
 import { t } from "../langue/langue.ts";
+import { NOM_DE_BOUTIQUE, lienDAchat, type LienDAchat } from "../lib/affiliation.ts";
 import MACHINES from "../data/machines.json";
 import "./cours.css";
 
@@ -255,8 +256,14 @@ export function CoursDuStyle({ genreId, tuto = [] }: Props) {
       type: string;
       pourquoi: string;
       photo: Photo;
+      achat: LienDAchat | null;
     }[] = [];
-    const autres: { nom: string; type: string; pourquoi: string }[] = [];
+    const autres: {
+      nom: string;
+      type: string;
+      pourquoi: string;
+      achat: LienDAchat | null;
+    }[] = [];
     const vues = new Set<string>();
     for (const o of cours.outils ?? []) {
       const cle =
@@ -264,10 +271,13 @@ export function CoursDuStyle({ genreId, tuto = [] }: Props) {
           ? photoDeMachine(o.nom, CLES)
           : null;
       const photo = cle ? CATALOGUE[cle] : undefined;
+      /* LE LIEN D'ACHAT, quand la boutique qui vend l'outil est branchee.
+         Voir lib/affiliation.ts. */
+      const achat = lienDAchat(o.nom, o.type);
       if (photo && cle && !vues.has(cle)) {
         vues.add(cle);
-        photos.push({ ...o, photo });
-      } else autres.push(o);
+        photos.push({ ...o, photo, achat });
+      } else autres.push({ ...o, achat });
     }
     return { photos, autres };
   }, [cours]);
@@ -317,6 +327,16 @@ export function CoursDuStyle({ genreId, tuto = [] }: Props) {
                       <span className="cours-machine-pourquoi">
                         {o.pourquoi}
                       </span>
+                      {o.achat && (
+                        <a
+                          className="cours-acheter"
+                          href={o.achat.url}
+                          target="_blank"
+                          rel="sponsored noopener noreferrer"
+                        >
+                          {t.voirChez(NOM_DE_BOUTIQUE[o.achat.boutique])}
+                        </a>
+                      )}
                       <a
                         className="cours-machine-credit"
                         href={o.photo.source}
@@ -329,6 +349,9 @@ export function CoursDuStyle({ genreId, tuto = [] }: Props) {
                   </li>
                 ))}
               </ul>
+              {outils.photos.some((o) => o.achat) && (
+                <p className="cours-affiliation">{t.affiliationAvis}</p>
+              )}
             </div>
           )}
         </aside>
@@ -377,9 +400,22 @@ export function CoursDuStyle({ genreId, tuto = [] }: Props) {
                         {NOM_OUTIL[o.type] ?? o.type}
                       </span>
                       <span className="cours-outil-pourquoi">{o.pourquoi}</span>
+                      {o.achat && (
+                        <a
+                          className="cours-acheter"
+                          href={o.achat.url}
+                          target="_blank"
+                          rel="sponsored noopener noreferrer"
+                        >
+                          {t.voirChez(NOM_DE_BOUTIQUE[o.achat.boutique])}
+                        </a>
+                      )}
                     </li>
                   ))}
                 </ul>
+                {outils.autres.some((o) => o.achat) && (
+                  <p className="cours-affiliation">{t.affiliationAvis}</p>
+                )}
               </section>
             )}
 

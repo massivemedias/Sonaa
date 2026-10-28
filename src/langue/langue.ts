@@ -804,6 +804,8 @@ interface Dictionnaire {
   readonly nActus: (n: number) => string;
   readonly toutesLesMarques: string;
   readonly siteOfficiel: string;
+  readonly voirChez: (boutique: string) => string;
+  readonly affiliationAvis: string;
   readonly suiviMarque: string;
   readonly suivreQuoi: (nom: string) => string;
   readonly nePlusSuivre: (nom: string) => string;
@@ -1849,6 +1851,9 @@ const FR: Dictionnaire = {
   nActus: (n) => `${n} article${n > 1 ? 's' : ''}, vidéos et discussions`,
   toutesLesMarques: 'Toutes les marques',
   siteOfficiel: 'Site officiel',
+  voirChez: (boutique) => `Voir chez ${boutique}`,
+  affiliationAvis:
+    'Les liens « Voir chez » sont des liens d’affiliation : un achat fait par eux rapporte une petite commission à SONAA, sans frais pour vous.',
   suiviMarque: 'Suivi',
   suivreQuoi: (nom) => `Suivre ${nom}`,
   nePlusSuivre: (nom) => `Ne plus suivre ${nom}`,
@@ -2923,6 +2928,9 @@ const EN: Dictionnaire = {
   nActus: (n) => `${n} articles, videos and discussions`,
   toutesLesMarques: 'All brands',
   siteOfficiel: 'Official site',
+  voirChez: (boutique) => `See at ${boutique}`,
+  affiliationAvis:
+    'The "See at" links are affiliate links: a purchase made through them earns SONAA a small commission, at no cost to you.',
   suiviMarque: 'Following',
   suivreQuoi: (nom) => `Follow ${nom}`,
   nePlusSuivre: (nom) => `Unfollow ${nom}`,

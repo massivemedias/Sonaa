@@ -708,3 +708,15 @@ a.mq-puce:hover {
     height: 40px;
   }
 }
+
+/* LE LIEN D'ACHAT DE LA MACHINE, a cote du site officiel, souligne de
+   jaune ; la ligne d'aveu dessous. Voir lib/affiliation.ts. */
+.mq-page .mq-acheter {
+  border-bottom-color: var(--accent-jaune);
+  color: var(--accent-jaune);
+}
+.mq-affiliation {
+  margin: var(--espace-8) 0 0;
+  color: var(--ink-secondary);
+  font-size: 0.6875rem;
+}

@@ -48,6 +48,7 @@ import {
   type Suivi,
 } from '../lib/actu-marques.ts';
 import { useSession } from '../lib/useSession.ts';
+import { NOM_DE_BOUTIQUE, lienDAchat, typeDuGroupe } from '../lib/affiliation.ts';
 import { EVENEMENT_CONNEXION } from '../lib/porte-ecoute.ts';
 import { annoncerLecture } from '../lib/lecture-set.ts';
 import { langue, t } from '../langue/langue.ts';
@@ -317,6 +318,9 @@ function PageMarque({
 
   const filtre: Filtre = { marque: m.id, ...(pr ? { produit: `${m.id}:${pr.id}` } : {}) };
   const cle = `${m.id}/${pr?.id ?? ''}`;
+  /* LE LIEN D'ACHAT de la machine, ou de la marque entiere : voir
+     lib/affiliation.ts. Rien tant que la boutique n'est pas branchee. */
+  const achat = lienDAchat(pr ? `${m.nom} ${pr.nom}` : m.nom, typeDuGroupe(m.groupe));
 
   return (
     <section className="mq-page" aria-labelledby="mq-marque-titre">
@@ -334,7 +338,14 @@ function PageMarque({
               {t.siteOfficiel}
               <FaIcon icon={faArrowUpRightFromSquare} className="mq-site-icone" />
             </a>
+            {achat && (
+              <a href={achat.url} target="_blank" rel="sponsored noopener noreferrer" className="mq-site mq-acheter" title={t.affiliationAvis}>
+                {t.voirChez(NOM_DE_BOUTIQUE[achat.boutique])}
+                <FaIcon icon={faArrowUpRightFromSquare} className="mq-site-icone" />
+              </a>
+            )}
           </p>
+          {achat && <p className="mq-affiliation">{t.affiliationAvis}</p>}
         </div>
         <div className="mq-tete-actions">
           {pr && <BoutonSuivre suivis={suivis} suivi={{ marque: m.id, produit: pr.id }} nom={pr.nom} />}
