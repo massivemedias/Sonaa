@@ -1014,7 +1014,6 @@ interface Dictionnaire {
   readonly accueilToutesLesNews: string;
   readonly accueilMixtapesSous: string;
   readonly accueilToutesLesMixtapes: string;
-  readonly accueilDefiler: string;
   readonly accueilPorteVilles: (n: number) => string;
   readonly accueilPorteStyles: (n: number) => string;
   readonly accueilPorteLabels: (n: string) => string;
@@ -2068,11 +2067,9 @@ const FR: Dictionnaire = {
   heroVilleAutre: 'Changer de ville',
   heroChoisirVille: 'Choisir votre ville',
   accueilOnglet: 'Soirées, styles, labels et news de la musique électronique',
-  accueilTitre1: 'La musique électronique,',
-  accueilTitre2: 'tout au même endroit.',
-  accueilChapeau:
-    'Les soirées de votre ville, l’histoire de chaque style, les labels et leurs sorties, ' +
-    'des mixtapes en haute qualité, et Track ID pour nommer ce qui joue.',
+  accueilTitre1: 'Ce soir,',
+  accueilTitre2: 'on sort où ?',
+  accueilChapeau: 'Les soirées électro de votre ville, et de quoi comprendre ce qu’on y entend.',
   accueilCeSoirA: (v) => `Ce soir à ${v}`,
   accueilExplorer: (n) => `Explorer les ${n} styles`,
   accueilStylesMot: 'styles',
@@ -2093,7 +2090,6 @@ const FR: Dictionnaire = {
   accueilToutesLesNews: 'Toutes les news',
   accueilMixtapesSous: 'Des sets déposés en WAV par les DJs, à écouter ici en haute qualité.',
   accueilToutesLesMixtapes: 'Toutes les mixtapes',
-  accueilDefiler: 'Défiler',
   accueilPorteVilles: (n) => `Les soirées de ${n} villes`,
   accueilPorteStyles: (n) => `${n} styles et leur histoire`,
   accueilPorteLabels: (n) => `${n} labels et leurs sorties`,
@@ -3148,11 +3144,9 @@ const EN: Dictionnaire = {
   heroVilleAutre: 'Change city',
   heroChoisirVille: 'Choose your city',
   accueilOnglet: 'Electronic music nights, styles, labels and news',
-  accueilTitre1: 'Electronic music,',
-  accueilTitre2: 'all in one place.',
-  accueilChapeau:
-    'The nights in your city, the history of every style, the labels and their releases, ' +
-    'high quality mixtapes, and Track ID to name what is playing.',
+  accueilTitre1: 'Where to',
+  accueilTitre2: 'tonight?',
+  accueilChapeau: 'Electronic music nights in your city, and the background on what you hear there.',
   accueilCeSoirA: (v) => `Tonight in ${v}`,
   accueilExplorer: (n) => `Explore the ${n} styles`,
   accueilStylesMot: 'styles',
@@ -3173,7 +3167,6 @@ const EN: Dictionnaire = {
   accueilToutesLesNews: 'All the news',
   accueilMixtapesSous: 'Sets uploaded as WAV by DJs, to play here in high quality.',
   accueilToutesLesMixtapes: 'All mixtapes',
-  accueilDefiler: 'Scroll',
   accueilPorteVilles: (n) => `Nights in ${n} cities`,
   accueilPorteStyles: (n) => `${n} styles and their history`,
   accueilPorteLabels: (n) => `${n} labels and their releases`,

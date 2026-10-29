@@ -71,7 +71,6 @@ interface ArticleNews {
 
 /** Une section de l'accueil : un numero, un titre, une phrase, une porte. */
 function Section({
-  n,
   id,
   titre,
   sous,
@@ -79,7 +78,6 @@ function Section({
   libelle,
   children,
 }: {
-  readonly n: number;
   readonly id: string;
   readonly titre: string;
   readonly sous: string;
@@ -90,9 +88,6 @@ function Section({
   return (
     <section className="ac-section" id={id} aria-labelledby={`${id}-titre`}>
       <Apparition className="ac-section-tete">
-        <span className="ac-numero" aria-hidden="true">
-          {String(n).padStart(2, '0')}
-        </span>
         <div className="ac-section-mots">
           <h2 className="ac-section-titre" id={`${id}-titre`}>
             {titre}
@@ -139,18 +134,6 @@ export function Accueil() {
   const nLabels = (A_LA_UNE as { labels: number }).labels;
   const sorties = (A_LA_UNE as { sorties: readonly SortieUne[] }).sorties;
   const fuseau = ville?.timezone ?? 'America/Toronto';
-  /* LES NUMEROS DES SECTIONS suivent celles qui s'affichent : une section
-     sans rien a montrer ne laisse pas de trou dans la suite. */
-  const ordre = [
-    'soirees',
-    'styles',
-    ...(sorties.length > 0 ? ['labels'] : []),
-    ...(mixtapes.length > 0 ? ['mixtapes'] : []),
-    'trackid',
-    ...(news.length > 0 ? ['news'] : []),
-  ];
-  const rang = (id: string): number => ordre.indexOf(id) + 1;
-  const numero = (id: string): string => String(rang(id)).padStart(2, '0');
 
   return (
     <>
@@ -162,7 +145,6 @@ export function Accueil() {
           <MurDePochettes />
           <div className="ac-hero-voile" aria-hidden="true" />
           <div className="ac-hero-texte">
-            <p className="ac-surtitre">SONAA</p>
             <h1 className="ac-titre" id="ac-titre">
               <span className="ac-ligne">
                 <span>{t.accueilTitre1}</span>
@@ -195,16 +177,11 @@ export function Accueil() {
               ))}
             </ul>
           </div>
-          <a className="ac-defiler" href="#ac-soirees">
-            <span>{t.accueilDefiler}</span>
-            <i aria-hidden="true" />
-          </a>
         </section>
 
         {/* ═══ LES SOIREES ═══ Chaque affiche glisse dans son cadre pendant
             que la carte traverse l'ecran (voir accueil.css). */}
         <Section
-          n={rang('soirees')}
           id="ac-soirees"
           titre={t.accueilSoireesTitre}
           sous={ville ? t.accueilSoireesSous(ville.name) : t.accueilSoireesSansVille}
@@ -245,7 +222,6 @@ export function Accueil() {
             DefileDesStyles.tsx), puis les quatorze familles, chacune sur la
             pochette de son genre majeur. */}
         <Section
-          n={rang('styles')}
           id="ac-styles"
           titre={t.accueilStylesTitre(nStyles, FAMILIES.length)}
           sous={t.accueilStylesSous}
@@ -272,7 +248,7 @@ export function Accueil() {
         {/* ═══ LES LABELS ═══ Les dernieres sorties, voir
             scripts/lib/actu-labels.ts (sortiesALaUne). */}
         {sorties.length > 0 && (
-          <Section n={rang('labels')} id="ac-labels" titre={t.accueilLabelsTitre} sous={t.accueilLabelsSous} lien="#/labels" libelle={t.labelTousLesLabels}>
+          <Section id="ac-labels" titre={t.accueilLabelsTitre} sous={t.accueilLabelsSous} lien="#/labels" libelle={t.labelTousLesLabels}>
             <ul className="ac-rangee ac-sorties">
               {sorties.map((s, i) => (
                 <Apparition as="li" i={i} key={s.url} className="ac-sortie">
@@ -291,7 +267,6 @@ export function Accueil() {
         {/* ═══ LES MIXTAPES ═══ */}
         {mixtapes.length > 0 && (
           <Section
-            n={rang('mixtapes')}
             id="ac-mixtapes"
             titre={t.accueilMixtapesTitre}
             sous={t.accueilMixtapesSous}
@@ -321,7 +296,6 @@ export function Accueil() {
         <section className="ac-ecoute" id="ac-trackid" aria-labelledby="ac-trackid-titre">
           <div className="ac-ecoute-dedans">
             <div className="ac-ecoute-mots">
-              <p className="ac-numero">{numero('trackid')}</p>
               <h2 className="ac-ecoute-titre" id="ac-trackid-titre">
                 {t.accueilTrackIdTitre}
               </h2>
@@ -343,7 +317,7 @@ export function Accueil() {
         {/* ═══ LES NEWS ═══ Les cinq dernieres, la premiere en grand ; le titre ouvre l'article dans
             la page News, comme la-bas. */}
         {news.length > 0 && (
-          <Section n={rang('news')} id="ac-news" titre={t.leNews} sous={t.accueilNewsSous} lien="#/news" libelle={t.accueilToutesLesNews}>
+          <Section id="ac-news" titre={t.leNews} sous={t.accueilNewsSous} lien="#/news" libelle={t.accueilToutesLesNews}>
             <ul className="ac-news">
               {news.map((a, i) => (
                 <Apparition as="li" i={i} key={a.lien} className={i === 0 ? 'ac-article ac-article-une' : 'ac-article'}>
