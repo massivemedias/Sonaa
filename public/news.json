@@ -1,6 +1,51 @@
 {
- "fait": "2026-10-28T18:23:35.535Z",
+ "fait": "2026-10-29T05:58:00.632Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Behringer KICK: Can I Kick it? Yes You Can!",
+   "lien": "https://www.gearnews.com/behringer-kick-sampler-synth/",
+   "date": "2026-10-29T01:13:24.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/Behringer_Kick_T-128x71.jpg",
+   "resume": "The Behringer KICK is an upcoming sampler groovebox with some surprising functionality like an AI camera. It will also be open-source and the code is already online. It sure looks familiar though… Behringer KICK Unless…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "The best new music plugins this week, free and paid",
+   "lien": "https://musictech.com/news/gear/new-plugins-this-week/",
+   "date": "2026-10-29T00:00:52.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/Mixing-engineer-hero@2000x1500.jpg",
+   "resume": "Every week, we round up the most exciting new plugin releases — from virtual instruments and creative effects to mixing tools and workflow upgrades. There are tons of plugins released every week, both free and paid, so…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "AKAI MPC Sample Review: The Sample Is Going Open Source",
+   "lien": "https://www.gearnews.com/akai-mpc-sample-review/",
+   "date": "2026-10-28T23:36:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/07/akai-mpc-sample-new-T.jpg",
+   "resume": "Fancy a chiptune synth on your MPC Sample? How about a wavetable one? That and much more will be possible when AKAI makes it open source. But when will this happen? AKAI MPC Sample AKAI MPC Sample Is Going Open Source…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Apple MacBook Pro PROLED XDR Display: The Ultimate Touchscreen Laptop?",
+   "lien": "https://www.gearnews.com/apple-macbook-pro-proled-xdr-tech/",
+   "date": "2026-10-28T19:19:37.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/apple-macbook-pro-proled-xdr-ft-02.jpg",
+   "resume": "The Apple MacBook Pro PROLED XDR is the latest and greatest mobile workstation from Apple with an intuitive touchscreen display in 14- and 16-inch options. Have you been dreaming of producing music with a multi-touch…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Softube Flow Studio: 3rd-Party Plugin Support Added!",
+   "lien": "https://www.gearnews.com/softube-flow-studio/",
+   "date": "2026-10-28T18:30:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/04/Softube_Flow_Studio_Update_T.jpg",
+   "resume": "The latest update for the Softube Flow Studio controller adds compatibility with a range of popular 3rd-party plugins, giving you hands-on control. All about the Flow Studio controller: Softube Flow Studio Update…",
+   "integral": true
+  },
   {
    "source": "musicradar",
    "titre": "Behringer Kick is a sampler with vibe-coded firmware at its core: Is this really the future we want?",
@@ -62,24 +107,6 @@
    "date": "2026-10-28T11:59:22.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/iLi7FjMijjSqkC2PWKZ2YS-1920-80.jpg",
    "resume": "It’s been a busy month for Apple: following the release of the iPhone Duo last week, the tech giant has dropped a major iPad Mini update and launched the next generation of MacBook Pro and iMac with M6 chips onboard…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Soma Warp Version 1.2 Grungifies Everything With Lo-Fi Mode",
-   "lien": "https://www.gearnews.com/soma-warp-synth/",
-   "date": "2026-10-28T08:40:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/12/soma-warp-T-1.jpg",
-   "resume": "Get down and dirty with Lo-Fi Mode for Soma Warp with the new firmware update. All About Soma Warp Version 1.2 and Lo-Fi Mode Soma Warp Is Packed With 15 Crazy Effects Soma Warp 15 Effects Connects and Processing…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Apple Logic Pro 13: Enhanced Drum Separation and a New AI Assistant",
-   "lien": "https://www.gearnews.com/apple-logic-pro-studio/",
-   "date": "2026-10-28T08:30:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/01/apple-logic-pro-12-ft.jpg",
-   "resume": "An exciting new version of Apple Logic Pro is on its way next month, as Apple announced a major update to its Creator Studio subscription. The latest version of Logic Pro brings in a snazzy new interface redesign that…",
    "integral": true
   },
   {
