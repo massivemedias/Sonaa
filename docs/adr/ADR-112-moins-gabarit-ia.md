@@ -45,9 +45,21 @@ si le passage s'allonge de plus de 60 caractères. Le corpus passe par
 `scripts/lib/corpus-store.ts`. Une seule correction a été écartée, parce
 qu'elle effaçait un fait : le raggacore n'est pas en 4/4 régulier.
 
+## L'interface et le menu
+
+Le 29 octobre 2026, même grille sur les textes de l'interface, en français et
+en anglais : 16 chaînes réécrites. Ainsi, « Ce n'est pas une ville sans
+soirées : c'est la source qui est muette » devient « les soirées de cette
+ville ne peuvent pas s'afficher pour l'instant », et « Les incontournables »
+devient « À la une ». Deux propositions passaient du tutoiement au
+vouvoiement : ce ne sont pas des tics d'IA, elles ont été écartées.
+
+Le menu passe en français. « Calendar » devient « Calendrier » : Mika
+revient sur son choix du 7 septembre, qui gardait le mot anglais dans les
+deux langues. « News » devient « Actus », dans le menu, la barre du bas, le
+titre de la page, l'onglet du navigateur et les phrases qui en parlent.
+
 ## Ce que cela ne fait pas
 
-- Les textes de l'interface (`src/langue/langue.ts`) ne sont pas relus,
-  sauf ceux de l'accueil.
 - Les notes de filiation (`note`), visibles seulement au survol d'un badge,
   ne sont pas relues.

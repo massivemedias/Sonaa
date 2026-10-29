@@ -393,7 +393,7 @@ export function NewsPage() {
      quand on y revient. */
   const surLeFil = vueMarques === null;
   useEffect(() => {
-    if (surLeFil) document.title = `News · SONAA`;
+    if (surLeFil) document.title = `${t.leNews} · SONAA`;
   }, [surLeFil]);
 
   useEffect(() => {
@@ -479,7 +479,7 @@ export function NewsPage() {
         {!urlEnLecture && vueMarques && (
           <>
             <header className="news-manchette mq-manchette">
-              <h1>News</h1>
+              <h1>{t.leNews}</h1>
             </header>
             <VuesNews actif={vueMarques.k === 'suivis' ? 'suivis' : 'marques'} />
             <MarquesNews vue={vueMarques} />
@@ -490,7 +490,7 @@ export function NewsPage() {
         {/* LA MANCHETTE : le titre, la date de l'edition, et une ligne qui
             dit ce que c'est. Comme en haut d'un journal. */}
         <header className="news-manchette">
-          <h1>News</h1>
+          <h1>{t.leNews}</h1>
           <p className="news-edition">{dateDeLEdition()}</p>
           <p className="news-lede intro-page">{t.ledeNews}</p>
         </header>

@@ -203,7 +203,7 @@ function Annuaire({ suivis }: { suivis: EtatSuivis }) {
   const [comptes, setComptes] = useState<ReadonlyMap<string, CompteMarque>>(new Map());
   const [q, setQ] = useState('');
   useEffect(() => {
-    document.title = `${t.marquesTitre} · News · SONAA`;
+    document.title = `${t.marquesTitre} · ${t.leNews} · SONAA`;
     void comptesDesMarques().then(setComptes);
   }, []);
 
@@ -303,7 +303,7 @@ function PageMarque({
 
   useEffect(() => {
     if (!m) return;
-    document.title = `${pr ? `${m.nom} ${pr.nom}` : m.nom} · News · SONAA`;
+    document.title = `${pr ? `${m.nom} ${pr.nom}` : m.nom} · ${t.leNews} · SONAA`;
     void comptesDesMarques().then((x) => setCompte(x.get(m.id) ?? null));
   }, [m, pr]);
 
@@ -635,7 +635,7 @@ function ListeMelangee({ actus: liste, onVideo }: { actus: readonly ActuMarque[]
 function MesMachines({ suivis, onVideo }: { suivis: EtatSuivis; onVideo: (a: ActuMarque) => void }) {
   const [genre, setGenre] = useState<GenreActu | null>(null);
   useEffect(() => {
-    document.title = `${t.mesMachinesTitre} · News · SONAA`;
+    document.title = `${t.mesMachinesTitre} · ${t.leNews} · SONAA`;
   }, []);
   const cle = [...suivis.cles].sort().join(',');
 
