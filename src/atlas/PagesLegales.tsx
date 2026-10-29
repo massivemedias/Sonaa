@@ -100,7 +100,15 @@ export function MentionsPage() {
   return (
     <PageLegale
       titre={t.mentionsTitre}
-      sections={[t.mentionsEditeur, t.mentionsHebergement, t.mentionsContact, t.mentionsPropriete]}
+      sections={[
+        t.mentionsEditeur,
+        t.mentionsHebergement,
+        t.mentionsContact,
+        /* LA SEULE SECTION DEJA ECRITE : les liens d'affiliation (ADR-111), et
+           la phrase que le contrat des Partenaires Amazon exige sur le site. */
+        { titre: t.mentionsAffiliation, corps: t.mentionsAffiliationCorps },
+        t.mentionsPropriete,
+      ]}
     />
   );
 }

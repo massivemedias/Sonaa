@@ -1112,6 +1112,9 @@ interface Dictionnaire {
   readonly mentionsHebergement: string;
   readonly mentionsContact: string;
   readonly mentionsPropriete: string;
+  /** Les liens d'affiliation et la phrase qu'Amazon exige aussi sur le site. */
+  readonly mentionsAffiliation: string;
+  readonly mentionsAffiliationCorps: string;
   readonly juridiqueEnRedaction: string;
   readonly piedIndex: string;
   readonly piedPropositions: string;
@@ -2190,6 +2193,9 @@ const FR: Dictionnaire = {
   mentionsHebergement: 'L’hébergement',
   mentionsContact: 'Contact',
   mentionsPropriete: 'Propriété intellectuelle',
+  mentionsAffiliation: 'Liens d’affiliation',
+  mentionsAffiliationCorps:
+    'Les liens « Voir chez » des cours et des pages de marques mènent à des boutiques partenaires : Plugin Boutique, Reverb (par le réseau Awin) et Amazon.ca. Un achat fait par eux rapporte une petite commission à SONAA, sans frais pour l’acheteur. En tant que Partenaire Amazon, SONAA réalise un bénéfice sur les achats remplissant les conditions requises.',
   juridiqueEnRedaction: 'Texte juridique en rédaction, à recevoir de l’avocat.',
   piedIndex: 'Index des 219 genres',
   piedPropositions: 'Propositions du public',
@@ -3260,6 +3266,9 @@ const EN: Dictionnaire = {
   mentionsHebergement: 'Hosting',
   mentionsContact: 'Contact',
   mentionsPropriete: 'Intellectual property',
+  mentionsAffiliation: 'Affiliate links',
+  mentionsAffiliationCorps:
+    'The "See at" links in the courses and brand pages lead to partner stores: Plugin Boutique, Reverb (through the Awin network) and Amazon.ca. A purchase made through them earns SONAA a small commission, at no cost to the buyer. As an Amazon Associate, SONAA earns from qualifying purchases.',
   juridiqueEnRedaction: 'Legal text being drafted, to come from the lawyer.',
   piedIndex: 'Index of all 219 genres',
   piedPropositions: 'Public proposals',

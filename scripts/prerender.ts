@@ -822,7 +822,7 @@ ecrire({
   jsonld: [],
 });
 
-const LEGALES: readonly { chemin: string; hash: string; titre: string; description: string; sections: readonly string[] }[] = [
+const LEGALES: readonly { chemin: string; hash: string; titre: string; description: string; sections: readonly (string | { titre: string; corps: string })[] }[] = [
   {
     chemin: '/conditions/',
     hash: '#/conditions',
@@ -841,8 +841,21 @@ const LEGALES: readonly { chemin: string; hash: string; titre: string; descripti
     chemin: '/mentions/',
     hash: '#/mentions',
     titre: 'Mentions légales · SONAA',
-    description: 'L’éditeur de SONAA, son hébergement, son contact et la propriété intellectuelle.',
-    sections: ['L’éditeur', 'L’hébergement', 'Contact', 'Propriété intellectuelle'],
+    description: 'L’éditeur de SONAA, son hébergement, son contact, ses liens d’affiliation et la propriété intellectuelle.',
+    sections: [
+      'L’éditeur',
+      'L’hébergement',
+      'Contact',
+      /* LA SECTION DEJA ECRITE, en clair pour les robots aussi : le contrat
+         des Partenaires Amazon exige sa phrase sur le site. Meme texte que
+         mentionsAffiliationCorps dans src/langue/langue.ts. */
+      {
+        titre: 'Liens d’affiliation',
+        corps:
+          'Les liens « Voir chez » des cours et des pages de marques mènent à des boutiques partenaires : Plugin Boutique, Reverb (par le réseau Awin) et Amazon.ca. Un achat fait par eux rapporte une petite commission à SONAA, sans frais pour l’acheteur. En tant que Partenaire Amazon, SONAA réalise un bénéfice sur les achats remplissant les conditions requises.',
+      },
+      'Propriété intellectuelle',
+    ],
   },
 ];
 const EN_REDACTION = 'Texte juridique en rédaction, à recevoir de l’avocat.';
@@ -854,7 +867,10 @@ for (const l of LEGALES) {
     description: l.description,
     corps:
       `${entete([{ nom: l.titre.replace(/ · SONAA$/, ''), href: l.chemin }])}<h1>${h(l.titre.replace(/ · SONAA$/, ''))}</h1><p>${EN_REDACTION}</p>` +
-      l.sections.map((x) => `<h2>${h(x)}</h2><p>${EN_REDACTION}</p>`).join(''),
+      l.sections
+        .map((x) => (typeof x === 'string' ? { titre: x, corps: EN_REDACTION } : x))
+        .map((x) => `<h2>${h(x.titre)}</h2><p>${h(x.corps)}</p>`)
+        .join(''),
     jsonld: [filAriane([{ nom: l.titre.replace(/ · SONAA$/, ''), href: l.chemin }])],
   });
 }
