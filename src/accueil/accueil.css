@@ -162,47 +162,42 @@
   width: 100%;
   margin: var(--espace-32) 0 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: var(--espace-12);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: var(--espace-12);
 }
 .ac-portes > li {
   animation: ac-fondu 700ms both;
   animation-delay: calc(560ms + var(--rang) * 80ms);
 }
-.ac-porte-carte {
+/* Un filet fin entre deux liens, pas avant le premier. */
+.ac-portes > li + li {
+  border-left: 1px solid oklch(1 0 0 / 0.16);
+}
+.ac-porte-lien {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 2px;
-  height: 100%;
-  box-sizing: border-box;
-  padding: var(--espace-16);
-  border-radius: 16px;
-  background: oklch(0.16 0.004 70 / 0.62);
-  backdrop-filter: blur(14px) saturate(1.3);
-  -webkit-backdrop-filter: blur(14px) saturate(1.3);
-  box-shadow: inset 0 0 0 1px oklch(1 0 0 / 0.1);
+  min-height: 44px;
+  padding: var(--espace-4) var(--espace-24);
   color: var(--ink-primary);
-  text-align: left;
   text-decoration: none;
-  transition: box-shadow 180ms ease, translate 180ms ease, background 180ms ease;
-}
-.ac-porte-carte:hover {
-  translate: 0 -3px;
-  background: oklch(0.18 0.004 70 / 0.72);
-  box-shadow: inset 0 0 0 1px var(--accent);
-}
-.ac-porte-icone {
-  /* L'ICONE EST UN SVG : sans mesure, elle prend toute la largeur. */
-  width: 22px;
-  height: 22px;
-  margin-bottom: var(--espace-8);
-  color: var(--accent);
 }
 .ac-porte-nom {
   font-size: 1.02rem;
   font-weight: 800;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 2px;
+  transition: text-decoration-color 160ms ease, color 160ms ease;
+}
+.ac-porte-lien:hover .ac-porte-nom,
+.ac-porte-lien:focus-visible .ac-porte-nom {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
 }
 .ac-porte-detail {
   font-size: 0.8rem;
@@ -657,17 +652,24 @@ a:hover > .ac-cadre > .cal-gen {
     margin-top: var(--espace-16);
     font-size: 0.95rem;
   }
-  /* Deux portes par rang, la cinquieme sur toute la largeur. */
+  /* Au telephone, une liste en colonne, un lien par ligne, le filet
+     passe dessus. */
   .ac-portes {
     margin-top: var(--espace-24);
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--espace-8);
+    flex-direction: column;
+    align-items: stretch;
+    row-gap: 0;
   }
-  .ac-portes > li:last-child {
-    grid-column: 1 / -1;
+  .ac-portes > li + li {
+    border-left: 0;
+    border-top: 1px solid oklch(1 0 0 / 0.12);
   }
-  .ac-porte-carte {
-    padding: var(--espace-12);
+  .ac-porte-lien {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--espace-12);
+    padding: var(--espace-12) 0;
   }
   .ac-section-tete {
     grid-template-columns: minmax(0, 1fr);

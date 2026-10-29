@@ -23,10 +23,11 @@ de l'écran.
   Cela tranche l'arbitrage ouvert par ADR-110.
 - Le surtitre « SONAA » disparaît : le logo est déjà dans l'en-tête.
 - Les numéros de section et l'invitation à défiler disparaissent.
+- Les cinq cartes à icône sous le titre deviennent de simples liens (le nom,
+  puis ce qu'il y a derrière), séparés d'un filet fin, sans icône ni verre
+  dépoli. Au téléphone, ils forment une liste, un lien par ligne. Mika l'a
+  choisi le 28 octobre.
 
 ## Ce que cela ne fait pas
 
-- Les cinq cartes à icône sous le titre restent. C'est le dernier motif de
-  gabarit de l'ouverture, mais aussi la porte d'entrée vers chaque partie
-  du site : leur forme est un arbitrage de Mika.
 - Les autres pages ne sont pas encore relues.

@@ -33,8 +33,6 @@ import { langue, t } from '../langue/langue.ts';
 import { ImageDeSoiree } from '../atlas/AfficheGeneree.tsx';
 import { quandEnLettres } from '../lib/date-soiree.ts';
 import { heureLocale } from '../lib/villes.ts';
-import { FaIcon } from '../atlas/FaIcon.tsx';
-import { faCalendarDays, faHeadphones, faLayerGroup, faMicrophone, faRecordVinyl } from '@fortawesome/free-solid-svg-icons';
 import { BoutonTrack } from '../reconnaitre/BoutonTrack.tsx';
 import { setsPublics, urlPochette, type SetDJ } from '../lib/sets.ts';
 import { SOURCES } from '../data/news-sources.ts';
@@ -158,18 +156,20 @@ export function Accueil() {
                 comme une plateforme d'atterrissage pour la musique
                 electronique : les styles, les labels, les mix haute qualite,
                 Track ID, le calendrier ». Chaque porte dit ce qu'il y a
-                derriere, en chiffres quand il y en a. */}
+                derriere, en chiffres quand il y en a. Depuis le 28 octobre 2026, de
+                simples liens separes d'un filet, sans icone ni carte de verre :
+                la grille de cinq cartes a icone etait la signature d'un gabarit
+                (ADR-112). */}
             <ul className="ac-portes">
               {[
-                { href: '#/calendrier', icone: faCalendarDays, nom: t.leCalendrier, detail: ville ? t.accueilCeSoirA(ville.name) : t.accueilPorteVilles(nVilles) },
-                { href: '#/parcourir', icone: faLayerGroup, nom: t.lesStyles, detail: t.accueilPorteStyles(nStyles) },
-                { href: '#/labels', icone: faRecordVinyl, nom: t.navLabels, detail: t.accueilPorteLabels(NOMBRE.format(nLabels)) },
-                { href: '#/mixtapes', icone: faHeadphones, nom: t.lesMixtapes, detail: t.accueilPorteMixtapes },
-                { href: '#ac-trackid', icone: faMicrophone, nom: t.trackId, detail: t.accueilPorteTrackId },
+                { href: '#/calendrier', nom: t.leCalendrier, detail: ville ? t.accueilCeSoirA(ville.name) : t.accueilPorteVilles(nVilles) },
+                { href: '#/parcourir', nom: t.lesStyles, detail: t.accueilPorteStyles(nStyles) },
+                { href: '#/labels', nom: t.navLabels, detail: t.accueilPorteLabels(NOMBRE.format(nLabels)) },
+                { href: '#/mixtapes', nom: t.lesMixtapes, detail: t.accueilPorteMixtapes },
+                { href: '#ac-trackid', nom: t.trackId, detail: t.accueilPorteTrackId },
               ].map((p, i) => (
                 <li key={p.href} style={{ ['--rang' as string]: i }}>
-                  <a className="ac-porte-carte" href={p.href}>
-                    <FaIcon icon={p.icone} className="ac-porte-icone" />
+                  <a className="ac-porte-lien" href={p.href}>
                     <span className="ac-porte-nom">{p.nom}</span>
                     <span className="ac-porte-detail">{p.detail}</span>
                   </a>
