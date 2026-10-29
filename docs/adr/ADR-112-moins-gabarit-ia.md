@@ -56,8 +56,10 @@ vouvoiement : ce ne sont pas des tics d'IA, elles ont été écartées.
 
 Le menu passe en français. « Calendar » devient « Calendrier » : Mika
 revient sur son choix du 7 septembre, qui gardait le mot anglais dans les
-deux langues. « News » devient « Actus », dans le menu, la barre du bas, le
-titre de la page, l'onglet du navigateur et les phrases qui en parlent.
+deux langues. « News » est passé à « Actus » le même jour, puis Mika a
+préféré garder « News » : le mot reste anglais dans les deux langues, dans
+le menu, la barre du bas, le titre de la page, l'onglet du navigateur et les
+phrases qui en parlent.
 
 ## Ce que cela ne fait pas
 
