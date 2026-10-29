@@ -28,6 +28,26 @@ de l'écran.
   dépoli. Au téléphone, ils forment une liste, un lien par ligne. Mika l'a
   choisi le 28 octobre.
 
+## La relecture du corpus
+
+Le même jour, Mika a demandé de relire tout le corpus. Les histoires des 219
+styles et des 14 familles, en français et en anglais, ont été relues en
+entier. Dans les cours, seuls les passages qui portaient une tournure à
+risque ont été relus. La grille retire d'abord les « ce n'est pas X, c'est
+Y », puis les phrases-slogans de fin de paragraphe (« la filiation Detroit
+reste la conscience du genre entier »), les formules qui font profond
+(« la signature », « le secret », « l'ADN »), l'emphase (« mythique »,
+« incontournable ») et les triades décoratives.
+
+884 passages ont été réécrits dans 724 champs. Chaque correctif remplace un
+passage exact. Il est refusé si un chiffre change, si un tiret long entre ou
+si le passage s'allonge de plus de 60 caractères. Le corpus passe par
+`scripts/lib/corpus-store.ts`. Une seule correction a été écartée, parce
+qu'elle effaçait un fait : le raggacore n'est pas en 4/4 régulier.
+
 ## Ce que cela ne fait pas
 
-- Les autres pages ne sont pas encore relues.
+- Les textes de l'interface (`src/langue/langue.ts`) ne sont pas relus,
+  sauf ceux de l'accueil.
+- Les notes de filiation (`note`), visibles seulement au survol d'un badge,
+  ne sont pas relues.
