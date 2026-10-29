@@ -442,12 +442,18 @@
 
 /* ═══ LE LIEN D'ACHAT ═══ Voir lib/affiliation.ts. Une petite pilule jaune
    sous l'outil, et une ligne qui dit franchement ce qu'est ce lien. */
-.cours-acheter {
-  justify-self: start;
+/* Les pilules d'un meme outil, cote a cote, sur toute la largeur de la
+   ligne. */
+.cours-achats {
   grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-4) var(--espace-8);
+  margin-top: var(--espace-4);
+}
+.cours-acheter {
   display: inline-flex;
   align-items: center;
-  margin-top: var(--espace-4);
   padding: 1px var(--espace-8);
   border: 1px solid color-mix(in oklab, var(--accent-jaune) 50%, transparent);
   border-radius: 999px;

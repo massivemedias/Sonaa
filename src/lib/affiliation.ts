@@ -19,7 +19,7 @@
  * sont ecrits en clair dans chaque lien. Mika les obtient en s'inscrivant
  * lui-meme aux deux programmes. */
 
-export type Boutique = 'pluginboutique' | 'reverb';
+export type Boutique = 'pluginboutique' | 'reverb' | 'amazon';
 
 export interface Identifiants {
   /** L'identifiant d'affilie Plugin Boutique, le parametre `a_aid` de ses liens. */
@@ -28,12 +28,16 @@ export interface Identifiants {
   readonly awinEditeur: string;
   /** Et l'identifiant de Reverb comme annonceur chez Awin (`awinmid`). */
   readonly awinReverb: string;
+  /** L'identifiant de suivi Partenaires Amazon.ca de Mika, le parametre `tag`
+      (de la forme `xxxx-20`). */
+  readonly amazon: string;
 }
 
 export const IDENTIFIANTS: Identifiants = {
   pluginboutique: '',
   awinEditeur: '3138255',
   awinReverb: '67144',
+  amazon: '',
 };
 
 export interface LienDAchat {
@@ -68,6 +72,26 @@ export function lienDAchat(nom: string, type: string, ids: Identifiants = IDENTI
   return null;
 }
 
+/* AMAZON.CA EN SECOND, POUR LES MACHINES SEULEMENT. Mika, le 28 octobre
+   2026 : « branche aussi Amazon.ca ». Reverb reste le premier lien, parce
+   que les machines des cours sont souvent vintage ; Amazon vend le materiel
+   neuf (controleurs, interfaces, casques, synthes actuels) et livre vite au
+   Canada. Il ne vend presque pas de plugins : pas de lien Amazon pour eux. */
+export function lienAmazon(nom: string, type: string, ids: Identifiants = IDENTIFIANTS): LienDAchat | null {
+  const q = nom.trim();
+  if (!q || !ids.amazon) return null;
+  if (type !== 'machine' && type !== 'materiel') return null;
+  return {
+    boutique: 'amazon',
+    url: `https://www.amazon.ca/s?k=${encodeURIComponent(q)}&tag=${encodeURIComponent(ids.amazon)}`,
+  };
+}
+
+/** Tous les liens d'achat d'un outil, la boutique principale d'abord. */
+export function liensDAchat(nom: string, type: string, ids: Identifiants = IDENTIFIANTS): LienDAchat[] {
+  return [lienDAchat(nom, type, ids), lienAmazon(nom, type, ids)].filter((l): l is LienDAchat => l !== null);
+}
+
 /** Le type d'outil d'une marque des news : les editeurs de plugins et de
     logiciels vendent des plugins, les autres des machines. */
 export function typeDuGroupe(groupe: string): 'plugin' | 'machine' {
@@ -77,4 +101,5 @@ export function typeDuGroupe(groupe: string): 'plugin' | 'machine' {
 export const NOM_DE_BOUTIQUE: Record<Boutique, string> = {
   pluginboutique: 'Plugin Boutique',
   reverb: 'Reverb',
+  amazon: 'Amazon',
 };

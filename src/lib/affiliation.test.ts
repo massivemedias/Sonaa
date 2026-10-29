@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { lienDAchat, typeDuGroupe } from './affiliation.ts';
+import { lienAmazon, lienDAchat, liensDAchat, typeDuGroupe } from './affiliation.ts';
 
-const IDS = { pluginboutique: 'pb123', awinEditeur: '9999', awinReverb: '67144' };
+const IDS = { pluginboutique: 'pb123', awinEditeur: '9999', awinReverb: '67144', amazon: 'sonaa-20' };
 
 describe('liens d achat', () => {
   it('ne propose rien tant que les identifiants manquent', () => {
-    expect(lienDAchat('Xfer Serum', 'plugin', { pluginboutique: '', awinEditeur: '', awinReverb: '' })).toBeNull();
+    expect(lienDAchat('Xfer Serum', 'plugin', { pluginboutique: '', awinEditeur: '', awinReverb: '', amazon: '' })).toBeNull();
     expect(lienDAchat('Roland TR-909', 'machine', { ...IDS, awinEditeur: '' })).toBeNull();
   });
 
@@ -32,6 +32,17 @@ describe('liens d achat', () => {
     expect(u.searchParams.get('awinmid')).toBe('67144');
     expect(u.searchParams.get('awinaffid')).toBe('9999');
     expect(u.searchParams.get('ued')).toBe('https://reverb.com/marketplace?query=Roland%20TR-909');
+  });
+
+  it('ajoute Amazon.ca en second pour les machines, jamais pour les plugins', () => {
+    expect(lienAmazon('Roland TR-909', 'machine', IDS)).toEqual({
+      boutique: 'amazon',
+      url: 'https://www.amazon.ca/s?k=Roland%20TR-909&tag=sonaa-20',
+    });
+    expect(lienAmazon('Xfer Serum', 'plugin', IDS)).toBeNull();
+    expect(lienAmazon('Roland TR-909', 'machine', { ...IDS, amazon: '' })).toBeNull();
+    expect(liensDAchat('Roland TR-909', 'machine', IDS).map((l) => l.boutique)).toEqual(['reverb', 'amazon']);
+    expect(liensDAchat('Xfer Serum', 'plugin', IDS).map((l) => l.boutique)).toEqual(['pluginboutique']);
   });
 
   it('range les marques des news par ce qu elles vendent', () => {

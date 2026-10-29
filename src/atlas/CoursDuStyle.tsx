@@ -33,7 +33,7 @@ import {
 } from "../lib/cours.ts";
 import { jouerMotif } from "../lib/boite-a-rythmes.ts";
 import { t } from "../langue/langue.ts";
-import { NOM_DE_BOUTIQUE, lienDAchat, type LienDAchat } from "../lib/affiliation.ts";
+import { NOM_DE_BOUTIQUE, liensDAchat, type LienDAchat } from "../lib/affiliation.ts";
 import MACHINES from "../data/machines.json";
 import "./cours.css";
 
@@ -224,6 +224,39 @@ interface Props {
   readonly tuto?: readonly { readonly titre: string; readonly texte: string }[];
 }
 
+/* LES LIENS D'ACHAT D'UN OUTIL, en pilules cote a cote : la boutique
+   principale d'abord, Amazon.ca ensuite pour les machines. Voir
+   lib/affiliation.ts. */
+function Achats({ achats }: { achats: readonly LienDAchat[] }) {
+  return (
+    <span className="cours-achats">
+      {achats.map((a) => (
+        <a
+          key={a.boutique}
+          className="cours-acheter"
+          href={a.url}
+          target="_blank"
+          rel="sponsored noopener noreferrer"
+        >
+          {t.voirChez(NOM_DE_BOUTIQUE[a.boutique])}
+        </a>
+      ))}
+    </span>
+  );
+}
+
+/* LA LIGNE D'AVEU, sous la liste. Amazon exige en plus sa propre phrase,
+   mot pour mot, des qu'un de ses liens est affiche. */
+function AvisAffiliation({ achats }: { achats: readonly LienDAchat[] }) {
+  if (achats.length === 0) return null;
+  return (
+    <p className="cours-affiliation">
+      {t.affiliationAvis}
+      {achats.some((a) => a.boutique === "amazon") && ` ${t.amazonAvis}`}
+    </p>
+  );
+}
+
 export function CoursDuStyle({ genreId, tuto = [] }: Props) {
   const [cours, setCours] = useState<Cours | null | "chargement">("chargement");
   const [motif, setMotif] = useState<readonly PisteDeMotif[] | null>(null);
@@ -256,13 +289,13 @@ export function CoursDuStyle({ genreId, tuto = [] }: Props) {
       type: string;
       pourquoi: string;
       photo: Photo;
-      achat: LienDAchat | null;
+      achats: LienDAchat[];
     }[] = [];
     const autres: {
       nom: string;
       type: string;
       pourquoi: string;
-      achat: LienDAchat | null;
+      achats: LienDAchat[];
     }[] = [];
     const vues = new Set<string>();
     for (const o of cours.outils ?? []) {
@@ -271,13 +304,13 @@ export function CoursDuStyle({ genreId, tuto = [] }: Props) {
           ? photoDeMachine(o.nom, CLES)
           : null;
       const photo = cle ? CATALOGUE[cle] : undefined;
-      /* LE LIEN D'ACHAT, quand la boutique qui vend l'outil est branchee.
+      /* LES LIENS D'ACHAT, des boutiques branchees qui vendent l'outil.
          Voir lib/affiliation.ts. */
-      const achat = lienDAchat(o.nom, o.type);
+      const achats = liensDAchat(o.nom, o.type);
       if (photo && cle && !vues.has(cle)) {
         vues.add(cle);
-        photos.push({ ...o, photo, achat });
-      } else autres.push({ ...o, achat });
+        photos.push({ ...o, photo, achats });
+      } else autres.push({ ...o, achats });
     }
     return { photos, autres };
   }, [cours]);
@@ -327,16 +360,7 @@ export function CoursDuStyle({ genreId, tuto = [] }: Props) {
                       <span className="cours-machine-pourquoi">
                         {o.pourquoi}
                       </span>
-                      {o.achat && (
-                        <a
-                          className="cours-acheter"
-                          href={o.achat.url}
-                          target="_blank"
-                          rel="sponsored noopener noreferrer"
-                        >
-                          {t.voirChez(NOM_DE_BOUTIQUE[o.achat.boutique])}
-                        </a>
-                      )}
+                      {o.achats.length > 0 && <Achats achats={o.achats} />}
                       <a
                         className="cours-machine-credit"
                         href={o.photo.source}
@@ -349,9 +373,7 @@ export function CoursDuStyle({ genreId, tuto = [] }: Props) {
                   </li>
                 ))}
               </ul>
-              {outils.photos.some((o) => o.achat) && (
-                <p className="cours-affiliation">{t.affiliationAvis}</p>
-              )}
+              <AvisAffiliation achats={outils.photos.flatMap((o) => o.achats)} />
             </div>
           )}
         </aside>
@@ -400,22 +422,11 @@ export function CoursDuStyle({ genreId, tuto = [] }: Props) {
                         {NOM_OUTIL[o.type] ?? o.type}
                       </span>
                       <span className="cours-outil-pourquoi">{o.pourquoi}</span>
-                      {o.achat && (
-                        <a
-                          className="cours-acheter"
-                          href={o.achat.url}
-                          target="_blank"
-                          rel="sponsored noopener noreferrer"
-                        >
-                          {t.voirChez(NOM_DE_BOUTIQUE[o.achat.boutique])}
-                        </a>
-                      )}
+                      {o.achats.length > 0 && <Achats achats={o.achats} />}
                     </li>
                   ))}
                 </ul>
-                {outils.autres.some((o) => o.achat) && (
-                  <p className="cours-affiliation">{t.affiliationAvis}</p>
-                )}
+                <AvisAffiliation achats={outils.autres.flatMap((o) => o.achats)} />
               </section>
             )}
 

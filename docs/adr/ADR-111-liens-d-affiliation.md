@@ -29,6 +29,13 @@ comme une réclame.
   `src/lib/affiliation.ts`. Ce ne sont pas des secrets, puisqu'ils figurent
   en clair dans chaque lien. Tant qu'ils sont vides, rien ne s'affiche : un
   lien qui fait sortir du site sans rien rapporter n'a pas sa place.
+- Ajout du 28 octobre 2026, à la demande de Mika : Amazon.ca vient en
+  second lien sur les machines et le matériel, après Reverb, avec une
+  recherche `amazon.ca/s?k=` et son identifiant `tag`. Amazon vend le
+  matériel neuf et livre vite au Canada. Il ne vend presque pas de plugins,
+  donc il n'a pas de lien sur eux. Dès qu'un lien Amazon est affiché, la
+  ligne d'aveu reprend mot pour mot la phrase qu'exige le contrat des
+  Partenaires Amazon.
 
 ## Ce que cela ne fait pas
 

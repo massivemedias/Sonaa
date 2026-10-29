@@ -806,6 +806,8 @@ interface Dictionnaire {
   readonly siteOfficiel: string;
   readonly voirChez: (boutique: string) => string;
   readonly affiliationAvis: string;
+  /** La phrase qu'Amazon exige, mot pour mot, a cote de ses liens. */
+  readonly amazonAvis: string;
   readonly suiviMarque: string;
   readonly suivreQuoi: (nom: string) => string;
   readonly nePlusSuivre: (nom: string) => string;
@@ -1854,6 +1856,7 @@ const FR: Dictionnaire = {
   voirChez: (boutique) => `Voir chez ${boutique}`,
   affiliationAvis:
     'Les liens « Voir chez » sont des liens d’affiliation : un achat fait par eux rapporte une petite commission à SONAA, sans frais pour vous.',
+  amazonAvis: 'En tant que Partenaire Amazon, SONAA réalise un bénéfice sur les achats remplissant les conditions requises.',
   suiviMarque: 'Suivi',
   suivreQuoi: (nom) => `Suivre ${nom}`,
   nePlusSuivre: (nom) => `Ne plus suivre ${nom}`,
@@ -2931,6 +2934,7 @@ const EN: Dictionnaire = {
   voirChez: (boutique) => `See at ${boutique}`,
   affiliationAvis:
     'The "See at" links are affiliate links: a purchase made through them earns SONAA a small commission, at no cost to you.',
+  amazonAvis: 'As an Amazon Associate, SONAA earns from qualifying purchases.',
   suiviMarque: 'Following',
   suivreQuoi: (nom) => `Follow ${nom}`,
   nePlusSuivre: (nom) => `Unfollow ${nom}`,
