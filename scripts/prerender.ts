@@ -937,7 +937,7 @@ if (existsSync(cheminNews)) {
      remplace ensuite. Qu'ils commencent par la meme phrase evite de voir
      une page devenir une autre. */
   const corps =
-    `<h1>Ce soir, et tout le reste.</h1><p>Les soirées de votre ville, les 219 styles de la musique électronique et leur histoire, les labels et leurs sorties, les news du studio, et Track ID pour nommer ce qui joue.</p>` +
+    `<h1>Ce soir, on sort où ?</h1><p>Les soirées électro de votre ville, et de quoi comprendre ce qu’on y entend : l’histoire des 219 styles de la musique électronique, les sorties des labels, les news du studio, et Track ID pour nommer le morceau qui joue.</p>` +
     (prochaines
       ? `<h2>Les prochaines soirées à ${h(montreal?.name ?? '')}</h2><ul>${prochaines}</ul><p><a href="/soirees/${montreal?.slug ?? ''}/">Tout le calendrier de ${h(montreal?.name ?? '')}</a></p>`
       : '') +
