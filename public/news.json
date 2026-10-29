@@ -1,13 +1,103 @@
 {
- "fait": "2026-10-29T05:58:00.632Z",
+ "fait": "2026-10-29T18:32:39.917Z",
  "articles": [
   {
    "source": "gearnews",
-   "titre": "Behringer KICK: Can I Kick it? Yes You Can!",
-   "lien": "https://www.gearnews.com/behringer-kick-sampler-synth/",
-   "date": "2026-10-29T01:13:24.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/Behringer_Kick_T-128x71.jpg",
-   "resume": "The Behringer KICK is an upcoming sampler groovebox with some surprising functionality like an AI camera. It will also be open-source and the code is already online. It sure looks familiar though… Behringer KICK Unless…",
+   "titre": "Plugins For Fixing Muddy Mixes: Stuck In The Mud?",
+   "lien": "https://www.gearnews.com/fixing-muddy-mixes-studio/",
+   "date": "2026-10-29T18:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/01/aubrey-odom-muddy-mix-ft.jpg",
+   "resume": "Have you ever spent hours on one of your tracks and ended up making it sound worse? These plugins will help you with fixing muddy mixes. In this Article: Fixing Muddy Mixes: Wavesfactory Trackspacer Fixing Muddy Mixes…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Serato DJ for iOS launches on iPhone and iPad",
+   "lien": "https://midnightrebels.com/serato-dj-ios-iphone-ipad/",
+   "date": "2026-10-29T17:06:33.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/08/Pioneer-CDJ-and-Rekordbox-Security-Flaw-What-DJs-Need-to-Know.webp?fit=2400%2C1350&ssl=1",
+   "resume": "Serato DJ for iOS went live on 20 October 2026, and DJs can now mix from an iPhone or iPad without a laptop. The app is free to download from the App Store . Some features cost extra, and the app also streams from…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Analogue Solutions Series 700 Remakes Roland’s System-700, More: Synth Journal",
+   "lien": "https://www.gearnews.com/analogue-solutions-series-700-synth/",
+   "date": "2026-10-29T17:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/analogue-solutions-700-T.jpg",
+   "resume": "One of the best modular systems ever gets remade as the Analogue Solutions Series 700, plus a software version of the Oberheim TEO-5 and… a walking disembodied Eurorack hand?! Synth Journal Analogue Solutions Series 700…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "2026 DMC World DJ Championships will see A-Trak, Skratch Bastid and more perform at KOKO London",
+   "lien": "https://musictech.com/news/events/dmc-2026-world-dj-championships/",
+   "date": "2026-10-29T16:13:20.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/dmc-world-championship-k-swizz@2000x1500.jpg",
+   "resume": "The 2026 DMC World DJ Championships return to London on Friday 13 and Saturday 14 November at Camden’s KOKO. DMC41 will see the next generation of championship DJs battle for the crown of 2026 DMC World Champion…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "Apple puts Logic Pro front and centre as it launches its first MacBook Pro with a touchscreen",
+   "lien": "https://www.musicradar.com/music-tech/the-macbook-pro-with-proled-xdr-display-has-the-touchscreen-of-your-dreams-but-will-using-it-with-logic-pro-be-as-fun-as-apple-is-making-it-look",
+   "date": "2026-10-29T16:04:24.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/RG8VHEq59RDoMG8fPSkvAJ-1920-80.jpg",
+   "resume": "A touchscreen MacBook has long been talked about, but when Apple launched the iPad, in 2010, the assumption for many years was that the company wouldn’t put touch on a laptop for fear of cannibalising sales of that…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Pittsburgh Modular Microvolt 3901: An East Meets West Modular Synth Plugin",
+   "lien": "https://www.gearnews.com/pittsburgh-modular-microvolt-3901-synth/",
+   "date": "2026-10-29T14:53:55.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/pittsburgh-modular-microvolt-3901-ft.jpg",
+   "resume": "The Pittsburgh Modular Microvolt 3901 is a plugin version of the Microvolt 3900 experimental semi-modular analog synth for desktop and iPad. Introduced in 2018, the Microvolt 3900 brought traditional East Coast elements…",
+   "integral": true
+  },
+  {
+   "source": "attack",
+   "titre": "Is Private Equity Destroying Music Production?",
+   "lien": "https://www.attackmagazine.com/features/long-read/is-private-equity-destroying-music-production/",
+   "date": "2026-10-29T14:00:34.000Z",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/blur-main-1130x403.png",
+   "resume": "Native Instruments was only the tip of the iceberg. Private equity is pervasive in the music production industry, tied up with hardware, software and music distribution companies. How is this affecting the music you…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Waldorf Crema: Get on Top With This String and Pad Synthesizer",
+   "lien": "https://www.gearnews.com/waldorf-crema-pad-synth/",
+   "date": "2026-10-29T14:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/waldorf-crema-T.jpg",
+   "resume": "Waldorf Crema wants to be your new pad machine with a string ensemble from Streichfett, wavetables, FM and virtual analog engines plus a shimmer reverb and arpeggiator. I Crema therefore I ambient. All About Waldorf…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "HEDD TYPE 40 System: A $50,000 Modular Monitoring System",
+   "lien": "https://www.gearnews.com/hedd-type-40-system-studio/",
+   "date": "2026-10-29T13:16:09.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/hedd-type-40-ft-128x71.jpg",
+   "resume": "The HEDD TYPE 40 System is a scalable modular active studio monitoring system that uses the TYPE 40 Main and up to three XTD modules. The TYPE 40 Main uses a triamplified (1300 W) 3-way sealed cabinet design with a…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Behringer IGNITE is an Open-Source Hardware Sequencer that can be Anything You Want",
+   "lien": "https://www.gearnews.com/behringer-ignite-sequencer/",
+   "date": "2026-10-29T10:48:25.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/behringer-ignite-t-128x71.jpg",
+   "resume": "Behringer IGNITE is a 64-track sequencer that invites you to transform it into anything you like – thanks to open-source firmware and plenty of I/O. Behringer IGNITE Open-Source Sequencer 16 Tracks and Ample…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Justice and Gesaffelstein release Pusher, a GTA VI score track",
+   "lien": "https://midnightrebels.com/justice-gesaffelstein-pusher-gta-vi/",
+   "date": "2026-10-29T09:18:12.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/pasted-photo-featured-52453.webp?fit=1920%2C1080&ssl=1",
+   "resume": "French electronic duo Justice and producer Gesaffelstein have a new song called Pusher, and it’s out now. It’s the second track from Justice’s official score for GTA VI, the Rockstar video game. The song runs about…",
    "integral": true
   },
   {
@@ -17,33 +107,6 @@
    "date": "2026-10-29T00:00:52.000Z",
    "image": "https://musictech.com/wp-content/uploads/2026/10/Mixing-engineer-hero@2000x1500.jpg",
    "resume": "Every week, we round up the most exciting new plugin releases — from virtual instruments and creative effects to mixing tools and workflow upgrades. There are tons of plugins released every week, both free and paid, so…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "AKAI MPC Sample Review: The Sample Is Going Open Source",
-   "lien": "https://www.gearnews.com/akai-mpc-sample-review/",
-   "date": "2026-10-28T23:36:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/07/akai-mpc-sample-new-T.jpg",
-   "resume": "Fancy a chiptune synth on your MPC Sample? How about a wavetable one? That and much more will be possible when AKAI makes it open source. But when will this happen? AKAI MPC Sample AKAI MPC Sample Is Going Open Source…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Apple MacBook Pro PROLED XDR Display: The Ultimate Touchscreen Laptop?",
-   "lien": "https://www.gearnews.com/apple-macbook-pro-proled-xdr-tech/",
-   "date": "2026-10-28T19:19:37.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/apple-macbook-pro-proled-xdr-ft-02.jpg",
-   "resume": "The Apple MacBook Pro PROLED XDR is the latest and greatest mobile workstation from Apple with an intuitive touchscreen display in 14- and 16-inch options. Have you been dreaming of producing music with a multi-touch…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Softube Flow Studio: 3rd-Party Plugin Support Added!",
-   "lien": "https://www.gearnews.com/softube-flow-studio/",
-   "date": "2026-10-28T18:30:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/04/Softube_Flow_Studio_Update_T.jpg",
-   "resume": "The latest update for the Softube Flow Studio controller adds compatibility with a range of popular 3rd-party plugins, giving you hands-on control. All about the Flow Studio controller: Softube Flow Studio Update…",
    "integral": true
   },
   {
@@ -65,15 +128,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "A Huge Arturian Cornucopia of Sounds and Presets",
-   "lien": "https://www.gearnews.com/arturian-cornucopia-sounds-presets-synths/",
-   "date": "2026-10-28T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/MF49_Lifestyle-6.jpg",
-   "resume": "It’s a great time to be an Arturia user at the moment, especially if you’re a MiniFreak fan. This week, we unapologetically cover a glut of banks for Arturia instruments! I have long held the opinion that Arturia are…",
-   "integral": true
-  },
-  {
    "source": "midnightrebels",
    "titre": "Charlotte de Witte Puts an AI-Generated Vocalist on Azadi EP",
    "lien": "https://midnightrebels.com/ai-generated-vocalist-nava-azadi-ep/",
@@ -83,39 +137,12 @@
    "integral": true
   },
   {
-   "source": "midnightrebels",
-   "titre": "Fatboy Slim’s Two Sold-Out Quarters Shows Raise £50,000 for Charity",
-   "lien": "https://midnightrebels.com/fatboy-slim-brighton-charity-quarters-shows/",
-   "date": "2026-10-28T13:50:48.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/06/Six-Time-Grammy-Nominee-Fatboy-Slim-Shares-Turning-Point-in-Sobriety.webp?fit=1280%2C720&ssl=1",
-   "resume": "Eight hundred people a night filled one small room at Quarters on Brighton’s seafront, and every pound raised went to charity. Norman Cook, known as Fatboy Slim, played the venue on 13 and 14 October 2026 and raised…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Behringer ANIMA DJ Controller: A Powerful “Open Hardware” DJ Performance System",
-   "lien": "https://www.gearnews.com/behringer-anima-dj-controller/",
-   "date": "2026-10-28T12:46:54.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/behringer-dj-controller-ft-128x71.jpg",
-   "resume": "A prototype Behringer ANIMA DJ Controller has just been teased on the manufacturer’s Facebook page, and it will cost under $400 when it arrives. According to Behringer, “ THE DJ INDUSTRY IS ABOUT TO CHANGE FOREVER. ”…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "Apple goes all in on AI with Logic Pro 13, introducing an intelligent assistant that can control your DAW",
    "lien": "https://www.musicradar.com/music-tech/apple-goes-all-in-on-ai-with-logic-pro-13-introducing-an-intelligent-assistant-that-can-control-your-daw",
    "date": "2026-10-28T11:59:22.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/iLi7FjMijjSqkC2PWKZ2YS-1920-80.jpg",
    "resume": "It’s been a busy month for Apple: following the release of the iPhone Duo last week, the tech giant has dropped a major iPad Mini update and launched the next generation of MacBook Pro and iMac with M6 chips onboard…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "Carl Cox and IWEAR.LEGEND Launch Frequency on 27 October 2026",
-   "lien": "https://midnightrebels.com/carl-cox-iwear-legend-sunglasses-collection/",
-   "date": "2026-10-27T18:24:49.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/image-14.webp?resize=1024%2C955&ssl=1",
-   "resume": "Each of the two sunglasses in the Carl Cox x IWEAR.LEGEND collection comes in a run of 500 numbered copies . The Frequency range launched on 27 October 2026, and it goes well past the frames. Cox has put his name on a…",
    "integral": true
   },
   {
@@ -179,42 +206,6 @@
    "date": "2026-10-26T16:40:42.000Z",
    "image": "https://musictech.com/wp-content/uploads/2026/10/Elvis-Presley-hero@2000x1500.jpg",
    "resume": "The owners of Elvis Presley’s music catalogue have sued AI company Anthropic, claiming its Claude models were trained on 274 of his songs without permission. The plaintiffs are seeking $41.1 million in copyright…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "How a Roland TR-909 and a modular rig provided the spark of inspiration for Harry Styles' most euphoric No 1 single",
-   "lien": "https://www.musicradar.com/artists/everyone-thinks-its-a-guitar-but-actually-they-dont-know-its-my-modular-synth-how-a-roland-tr-909-and-a-modular-rig-provided-the-spark-of-inspiration-for-harry-styles-most-euphoric-no-1-single",
-   "date": "2026-10-24T12:00:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/aNbrZvyriGAdUmH7n6aZW7-1920-80.jpg",
-   "resume": "As it builds to its euphoric coda, you’d never imagine that Harry Styles’ 2026 single Aperture was born in a moment when the energy in the studio had fallen flat. Speaking to Spotify for its Songlore series, though…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "\"It’s often said that limitations breed creativity – is there anything more limited than a one-button synth?\": Cyma Forma RND review",
-   "lien": "https://www.musicradar.com/music-tech/synths/its-often-said-that-limitations-breed-creativity-is-there-anything-more-limited-than-a-one-button-synth-cyma-forma-rnd-review",
-   "date": "2026-10-24T00:00:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/Gy3ZhndTjc4r9UWe9WnMvi-1920-80.jpg",
-   "resume": "What is it? At first glance, RND doesn’t look much like a synthesizer – it looks like a big black button set in a square of orange plastic. But what exactly is it? An eccentric doorbell? A sci-fi thermostat? A nuclear…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Stevie Wonder’s '70s synth guru Robert Margouleff on the moment he knew their partnership was over",
-   "lien": "https://www.musicradar.com/artists/i-love-stevie-but-when-that-happened-the-angels-left-the-building-it-was-really-over-stevie-wonders-70s-synth-guru-robert-margouleff-remembers-the-moment-he-knew-their-partnership-was-over-and-explains-the-problem-with-todays-music",
-   "date": "2026-10-23T16:00:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/mJnPCkHgyjWfrvJ5TWuiZj-1920-80.jpg",
-   "resume": "Stevie Wonder’s four-album run in the early ‘70s is widely considered to be one of the greatest in music history, but he didn’t create these records in isolation. Working alongside Wonder were Robert Margouleff and…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Loopmasters’ sampling powerhouse Loopcloud just got a massive update – here’s what’s new",
-   "lien": "https://musictech.com/news/gear/loopmasters-loopcloud-8/",
-   "date": "2026-10-23T15:17:15.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Loopcloud-8-1@2000x1500.jpg",
-   "resume": "Loopmasters has launched Loopcloud 8, the latest and most feature-packed version of its sample subscription and production platform. Heading up the new features are Inspire and Listen – described as “intelligent tools…",
    "integral": true
   },
   {
@@ -287,15 +278,6 @@
    "date": "2026-10-01T15:51:12.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/Attack-Mag-Reviews-VocAlign-1130x386.png",
    "resume": "VocAlign 7 is the latest version of the popular and long-running vocal alignment software. It’s as good as you expect, but does version seven bring enough new features to the table to make it worth the upgrade? Since…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Keleigh Batchelor: “Good Music Thrives On Diverse Influences”",
-   "lien": "https://www.attackmagazine.com/features/long-read/keleigh-batchelor-good-music-thrives-on-diverse-influences/",
-   "date": "2026-10-01T15:38:31.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/09/6ab44ad8-a209-41b4-b0df-0003b6e9610f-1130x386.png",
-   "resume": "Keleigh Batchelor on why balanced lineups start years before the poster, and why \"fewer women DJs\" doesn't hold up. Debates about representation in electronic music tend to get heated fast. Comment threads and panel…",
    "integral": true
   },
   {
@@ -372,10 +354,6 @@
   }
  ],
  "pannes": [
-  {
-   "id": "digitaldjtips",
-   "raison": "HTTP 403"
-  },
   {
    "id": "ni",
    "raison": "aucun article lu"
