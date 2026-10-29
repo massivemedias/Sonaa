@@ -32,8 +32,8 @@ export interface Identifiants {
 
 export const IDENTIFIANTS: Identifiants = {
   pluginboutique: '',
-  awinEditeur: '',
-  awinReverb: '',
+  awinEditeur: '3138255',
+  awinReverb: '67144',
 };
 
 export interface LienDAchat {
