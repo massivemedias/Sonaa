@@ -37,7 +37,7 @@ export const IDENTIFIANTS: Identifiants = {
   pluginboutique: '',
   awinEditeur: '3138255',
   awinReverb: '67144',
-  amazon: '',
+  amazon: 'sonaa-20',
 };
 
 export interface LienDAchat {
