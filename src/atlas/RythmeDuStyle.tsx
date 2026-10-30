@@ -8,8 +8,9 @@
    rythme/son.ts, les motifs dans data/rythmes.json (voir lib/rythmes.ts).
 
    « Ecouter » et la video jouent le morceau construit (rythme/arrangement.ts) :
-   les pistes entrent une a une, la montee, un temps de silence, le drop. Au
-   repos, l'affiche tourne sur le motif entier, sans le son.
+   le drop, la montee, un temps de silence, le drop qui revient. Au repos,
+   l'affiche tourne sur le motif entier, sans le son. Les sons enregistres du
+   style (rythme/echantillons.ts) se chargent au premier clic.
 
    LE MOUVEMENT S'ARRETE HORS DE L'ECRAN, et quand le visiteur a demande moins
    de mouvement : l'affiche reste alors posee sur le premier temps, et ne
@@ -36,7 +37,7 @@ const mouvementReduit = (): boolean => typeof matchMedia === 'function' && match
 /* La tonalite s'ecrit avec les vrais signes : Eb devient E♭, F#m devient F♯m. */
 const tonaliteLisible = (x: string): string => x.replace(/^([A-G])b/, '$1\u266d').replace('#', '\u266f');
 
-function textesDe(motif: Motif, titre: string, famille: string, teinte: number): TextesAffiche {
+function textesDe(motif: Motif, titre: string, famille: string): TextesAffiche {
   const l = langue === 'fr' ? 'fr' : 'en';
   return {
     titre,
@@ -48,7 +49,6 @@ function textesDe(motif: Motif, titre: string, famille: string, teinte: number):
     signature: 'SONAA.CA',
     langue: l,
     sections: t.rythmeSections,
-    teinte,
   };
 }
 
@@ -63,9 +63,9 @@ function telecharger(blob: Blob, nom: string): void {
   window.setTimeout(() => URL.revokeObjectURL(url), 4000);
 }
 
-export function RythmeDuStyle({ genreId, titre, famille, teinte }: { genreId: string; titre: string; famille: string; teinte: number }) {
+export function RythmeDuStyle({ genreId, titre, famille, familleId }: { genreId: string; titre: string; famille: string; familleId: string }) {
   const [motif, setMotif] = useState<Motif | null>(null);
-  const [joue, setJoue] = useState(false);
+  const [joue, setJoue] = useState<'non' | 'chargement' | 'oui'>('non');
   const [video, setVideo] = useState<'non' | number | 'echec'>('non');
   const toile = useRef<HTMLCanvasElement | null>(null);
   const lecteur = useRef<Lecteur | null>(null);
@@ -78,7 +78,7 @@ export function RythmeDuStyle({ genreId, titre, famille, teinte }: { genreId: st
       vivant = false;
       lecteur.current?.arreter();
       lecteur.current = null;
-      setJoue(false);
+      setJoue('non');
     };
   }, [genreId]);
 
@@ -90,7 +90,7 @@ export function RythmeDuStyle({ genreId, titre, famille, teinte }: { genreId: st
     if (!motif || !c) return;
     const ctx = c.getContext('2d');
     if (!ctx) return;
-    const textes = textesDe(motif, titre, famille, teinte);
+    const textes = textesDe(motif, titre, famille);
     const duree = dureeDuPas(motif);
     const cycles = plan(motif);
     const t0 = performance.now();
@@ -129,10 +129,10 @@ export function RythmeDuStyle({ genreId, titre, famille, teinte }: { genreId: st
       observateur.disconnect();
       window.removeEventListener('resize', auRedimensionnement);
     };
-  }, [motif, titre, famille, teinte, joue]);
+  }, [motif, titre, famille, joue]);
 
   if (!motif) return null;
-  const textes = textesDe(motif, titre, famille, teinte);
+  const textes = textesDe(motif, titre, famille);
   const cycles = plan(motif);
   const nomFichier = `${slug(titre) || genreId}-rythme-sonaa`;
 
@@ -140,11 +140,15 @@ export function RythmeDuStyle({ genreId, titre, famille, teinte }: { genreId: st
     if (lecteur.current) {
       lecteur.current.arreter();
       lecteur.current = null;
-      setJoue(false);
-    } else {
-      lecteur.current = jouer(motif, { construire: true });
-      setJoue(true);
+      setJoue('non');
+      return;
     }
+    if (joue === 'chargement') return;
+    setJoue('chargement');
+    void jouer(motif, { famille: familleId, construire: true }).then((l) => {
+      lecteur.current = l;
+      setJoue('oui');
+    });
   };
 
   const image = (): void => {
@@ -175,7 +179,7 @@ export function RythmeDuStyle({ genreId, titre, famille, teinte }: { genreId: st
     c.height = HAUTEUR_RYTHME;
     const ctx = c.getContext('2d');
     if (!ctx) throw new Error('toile');
-    const son = jouer(motif, { enregistrer: true, construire: true });
+    const son = await jouer(motif, { famille: familleId, enregistrer: true, construire: true });
     try {
       const flux = c.captureStream(30);
       for (const piste of son.sortie?.stream.getAudioTracks() ?? []) flux.addTrack(piste);
@@ -209,7 +213,7 @@ export function RythmeDuStyle({ genreId, titre, famille, teinte }: { genreId: st
     const types = possible ? TYPES.filter((x) => MediaRecorder.isTypeSupported(x)) : [];
     lecteur.current?.arreter();
     lecteur.current = null;
-    setJoue(false);
+    setJoue('non');
     const duree = dureeDuPlan(motif, cycles) + QUEUE_VIDEO;
     for (const type of types) {
       try {
@@ -236,9 +240,9 @@ export function RythmeDuStyle({ genreId, titre, famille, teinte }: { genreId: st
         aria-label={t.rythmeAria(titre, motif.bpm, textes.resume)}
       />
       <div className="ry-actions">
-        <button type="button" className="ry-bouton ry-bouton-jouer" aria-pressed={joue} onClick={basculer} disabled={typeof video === 'number'}>
-          <FaIcon icon={joue ? faStop : faPlay} />
-          {joue ? t.rythmeArreter : t.rythmeEcouter}
+        <button type="button" className="ry-bouton ry-bouton-jouer" aria-pressed={joue === 'oui'} onClick={basculer} disabled={typeof video === 'number' || joue === 'chargement'}>
+          <FaIcon icon={joue === 'oui' ? faStop : faPlay} />
+          {joue === 'oui' ? t.rythmeArreter : joue === 'chargement' ? t.rythmeChargement : t.rythmeEcouter}
         </button>
         <button type="button" className="ry-bouton" onClick={image}>
           <FaIcon icon={faDownload} />

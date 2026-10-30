@@ -883,7 +883,7 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
 
       {/* L'AFFICHE DE RYTHME, avec la fiche et avant les morceaux : le motif
           du style, qui se joue et se telecharge (RythmeDuStyle.tsx). */}
-      <RythmeDuStyle genreId={genre.id} titre={genre.label} famille={famille.label} teinte={famille.hue} />
+      <RythmeDuStyle genreId={genre.id} titre={genre.label} famille={famille.label} familleId={famille.id} />
       </div>
 
       {/* LA DESCRIPTION AVANT LA LISTE, LE RESTE APRES.

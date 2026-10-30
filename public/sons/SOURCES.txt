@@ -1,0 +1,16 @@
+SONAA - les sons des affiches de rythme (ADR-113)
+
+Tous ces fichiers sont libres de droits. Ils ont ete convertis en mono,
+coupes, et leur crete ramenee a -1 dB ; rien d'autre n'a ete change.
+
+Domaine public, via le depot oramics/sampled (github.com/oramics/sampled) :
+  lm2-*.wav    LinnDrum LM-2, source machines.hyperreal.org (Public Domain)
+  tr505-*.wav  Roland TR-505, source progsounds.com (Public Domain)
+  cr78-*.wav   Roland CompuRhythm CR-78, source boxedear.com (Public Domain)
+
+CC0 1.0, Versilian Community Sample Library (github.com/sgossner/VCSL) :
+  vcsl-piano-c3.wav, vcsl-piano-c4.wav      Upright Piano, Yamaha (do 3 = MIDI 60)
+  vcsl-fmpiano-c3.wav, vcsl-fmpiano-c4.wav  TX81Z FM Piano (do 3 = MIDI 48)
+  vcsl-marimba-c4.wav                       Marimba (MIDI 72)
+  vcsl-claves.wav, vcsl-shaker.wav, vcsl-conga.wav, vcsl-bongo.wav,
+  vcsl-brakedrum.wav, vcsl-woodblock.wav

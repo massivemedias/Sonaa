@@ -35,9 +35,8 @@ sonaa ».
   sable #E8CF8A. Une lueur ambre très faible éclaire le haut des pages. Les
   cinq teintes de piste sont des jetons, `--piste-1` à `--piste-5`, dans un
   ordre fixe : ambre, vert, orange brûlé, sable, brun.
-- Le titre et la devise de l'affiche sont en serif. L'interdit du serif à
-  fort contraste tient pour l'interface, qui reste en Inter. Il est levé pour
-  cette image, qui est faite pour Instagram.
+- Le titre et la devise de l'affiche étaient en serif ; depuis la troisième
+  passe, ils sont en Inter comme le reste du site.
 
 ## Le son, seconde passe
 
@@ -71,6 +70,42 @@ Mesuré hors ligne sur les 219 styles, six secondes chacun : aucune valeur
 invalide, crête maximale 0,77, niveau moyen médian -16 dB, et 80 % des
 styles entre -19 et -12 dB. Les styles saturés sortaient jusqu'à 10 dB
 au-dessus des autres : le volume général baisse avec le grain.
+
+## Troisième passe : des samples, le drop d'abord, le thème du site
+
+Mika, le 30 octobre 2026 au soir : « dès que je clique sur play j'entends
+juste le kick, je veux quelque chose de complet ; importe des samples
+one-shot, ce n'est pas un problème ; le fond dans le thème de SONAA, et les
+écritures aussi ».
+
+- L'écoute et la vidéo ouvrent sur le drop complet, puis viennent la
+  montée sans kick, un temps de silence et le drop qui revient. Les
+  instruments n'entrent plus un à un. La ligne sous la grille dit « drop,
+  montée, silence, drop ».
+- 36 sons enregistrés, libres de droits, sont servis depuis `public/sons/`
+  (1,3 Mo en tout). Les boîtes à rythmes LinnDrum LM-2, Roland TR-505 et
+  CR-78 sont dans le domaine public (dépôt oramics/sampled). Le piano droit,
+  le piano FM TX81Z, le marimba et les percussions acoustiques viennent de
+  la Versilian Community Sample Library, en CC0. La provenance de chaque
+  fichier est dans `public/sons/SOURCES.txt`.
+- Il y a un kit par famille : la LinnDrum pour le disco, la house, les
+  breaks, l'electro et le downtempo, la CR-78 pour l'ambient, la TR-505
+  pour le reste. Le kick de la techno reste fabriqué, car celui de la
+  TR-505 n'a pas de grave. Les instruments accordés jouent leur note
+  enregistrée la plus proche, ralentie ou accélérée. Un style ne télécharge
+  que ses fichiers, au premier clic, et le synthétiseur reprend toute voix
+  dont le fichier manque.
+- Le fond de l'affiche est le brun presque noir du site, avec sa lueur
+  ambre. Les textes sont en Inter, en crème et en ambre. Seules les pistes
+  gardent les cinq teintes de l'outil. Le fond par famille et le serif
+  disparaissent. Le cercle descend pour que le « 1 » ne touche plus la
+  ligne technique.
+
+Les 219 styles ont été rendus hors ligne avec leurs samples, six secondes
+chacun. Il n'y a aucune valeur invalide, la crête maximale est de 0,74, le
+niveau médian de -12 dB, et 80 % des styles se situent entre -15 et -11 dB.
+Aucun style n'est muet dans sa première demi-seconde. La vidéo de Psy-Prog
+sort en MP4 de 9,1 secondes, 1080 x 1350, avec le son.
 
 ## Ce qui a été mesuré
 

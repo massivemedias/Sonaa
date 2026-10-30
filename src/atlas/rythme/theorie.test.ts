@@ -31,26 +31,22 @@ describe('la theorie du synthetiseur', () => {
 describe('la construction d une ecoute', () => {
   const motif = (RYTHMES as unknown as Record<string, Motif>)['acidhouse'];
 
-  it('fait entrer les pistes une a une, monte sans kick, puis lache le drop', () => {
+  it('ouvre sur le drop complet, monte sans kick, puis le drop revient', () => {
     if (!motif) throw new Error('acidhouse manque');
     const cycles = plan(motif);
-    expect(cycles.map((c) => c.section)).toEqual([
-      ...Array(motif.pistes.length - 1).fill('intro'),
-      'montee',
-      'drop',
-      'drop',
-    ]);
-    expect(cycles[0]?.actives.filter(Boolean)).toHaveLength(1);
-    expect(cycles.find((c) => c.section === 'montee')?.actives[0]).toBe(false);
+    expect(cycles.map((c) => c.section)).toEqual(['drop', 'drop', 'montee', 'drop', 'drop']);
+    expect(cycles[0]?.actives.every(Boolean)).toBe(true);
+    expect(cycles[2]?.actives[0]).toBe(false);
   });
 
   it('se tait sur le dernier temps de la montee et frappe au premier du drop', () => {
     if (!motif) throw new Error('acidhouse manque');
     const cycles = plan(motif);
-    const montee = cycles.findIndex((c) => c.section === 'montee');
-    expect(etatAu(motif, cycles, montee * 16 + 15).silence).toBe(true);
-    expect(etatAu(motif, cycles, montee * 16 + 11).silence).toBe(false);
-    expect(etatAu(motif, cycles, (montee + 1) * 16).impact).toBe(true);
+    expect(etatAu(motif, cycles, 0).etape).toBe(0);
+    expect(etatAu(motif, cycles, 2 * 16 + 11)).toMatchObject({ etape: 1, silence: false });
+    expect(etatAu(motif, cycles, 2 * 16 + 15)).toMatchObject({ etape: 2, silence: true });
+    expect(etatAu(motif, cycles, 3 * 16)).toMatchObject({ etape: 3, impact: true });
+    expect(etatAu(motif, cycles, 40 * 16).etape).toBe(3);
     expect(dureeDuPas(motif)).toBeCloseTo(60 / motif.bpm / 4);
   });
 });

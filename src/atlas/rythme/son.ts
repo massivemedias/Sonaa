@@ -25,6 +25,7 @@ import type { Motif, Piste, Voix } from '../../lib/rythmes.ts';
 import { VOIX_D_ACCORD, VOIX_MELODIQUES } from '../../lib/rythmes.ts';
 import { accord, degre, demiTons, frequence } from './theorie.ts';
 import { dureeDuPas, etatAu, pasParTemps, plan, type Cycle } from './arrangement.ts';
+import { accordeDe, charger, fichierDe, fichiersDuMotif, kitDeFamille, plusProche, type Kit } from './echantillons.ts';
 
 export { dureeDuPas } from './arrangement.ts';
 
@@ -71,6 +72,9 @@ interface Studio {
   readonly pompe: GainNode;
   /** La derniere hauteur jouee par piste, pour les glissandos de la 303. */
   readonly derniere: Map<number, number>;
+  /** Les sons enregistres decodes (echantillons.ts), et le kit du style. */
+  readonly banque: Map<string, AudioBuffer>;
+  readonly kit: Kit;
 }
 
 function bruitBlanc(ac: BaseAudioContext): AudioBuffer {
@@ -102,7 +106,7 @@ function courbe(k: number): Float32Array<ArrayBuffer> {
   return c;
 }
 
-function monterStudio(ac: BaseAudioContext, motif: Motif, sortie: AudioNode): Studio {
+function monterStudio(ac: BaseAudioContext, motif: Motif, sortie: AudioNode, banque: Map<string, AudioBuffer>, kit: Kit): Studio {
   const espace = motif.espace ?? 0.4;
   const grain = motif.grain ?? 0.2;
 
@@ -171,7 +175,7 @@ function monterStudio(ac: BaseAudioContext, motif: Motif, sortie: AudioNode): St
     sortieCanal.connect(envoiE).connect(echo);
     canaux[nom] = g;
   }
-  return { ac, bruit: bruitBlanc(ac), canaux, pompe, derniere: new Map() };
+  return { ac, bruit: bruitBlanc(ac), canaux, pompe, derniere: new Map(), banque, kit };
 }
 
 /* ── Les briques ─────────────────────────────────────────────────────── */
@@ -236,9 +240,59 @@ interface Coup {
   /** Les hauteurs MIDI : une note, ou l'accord. */
   readonly midi: readonly number[];
   readonly piste: number;
+  readonly p: Piste;
+}
+
+/* LES SONS ENREGISTRES passent avant le synthetiseur quand ils sont la. Une
+   frappe joue son fichier tel quel, a la force du pas ; un instrument
+   accorde (piano, piano FM, marimba) joue la note enregistree la plus
+   proche, accelere ou ralenti jusqu'a la hauteur voulue, et s'eteint a la
+   frappe suivante de sa piste. */
+function lireFichier(s: Studio, nom: string, sortie: AudioNode, t: number, niveau: number, vitesse = 1, fin?: number): boolean {
+  const b = s.banque.get(nom);
+  if (!b) return false;
+  const src = s.ac.createBufferSource();
+  src.buffer = b;
+  src.playbackRate.value = vitesse;
+  const g = s.ac.createGain();
+  g.gain.setValueAtTime(niveau, t);
+  if (fin !== undefined) {
+    g.gain.setValueAtTime(niveau, fin);
+    g.gain.exponentialRampToValueAtTime(0.0001, fin + 0.25);
+  }
+  src.connect(g).connect(sortie);
+  src.start(t);
+  if (fin !== undefined) src.stop(fin + 0.3);
+  return true;
+}
+
+function jouerEnregistre(s: Studio, voix: Voix, c: Coup): boolean {
+  const sortie = s.canaux[CANAL[voix]];
+  const a = accordeDe(c.p);
+  if (a) {
+    let joue = false;
+    const niveau = (0.55 / Math.sqrt(c.midi.length)) * c.force;
+    for (const m of c.midi) {
+      const n = plusProche(a, m);
+      joue = lireFichier(s, n.nom, sortie, c.t, niveau, n.vitesse, c.t + Math.min(n.tenue, Math.max(0.3, c.duree * 1.5))) || joue;
+    }
+    return joue;
+  }
+  const nom = fichierDe(voix, s.kit);
+  if (!nom) return false;
+  const niveau = (voix === 'hat' || voix === 'shaker' ? 0.7 : 0.9) * c.force;
+  if (!lireFichier(s, nom, sortie, c.t, niveau)) return false;
+  /* Le kick enregistre de la LinnDrum ou de la CR-78 est maigre dans le
+     grave : une sinusoide courte le double, sous lui. */
+  if (voix === 'kick') {
+    const o = oscillateur(s, 'sine', 110, c.t, c.t + 0.4, enveloppe(s, c.t, 0.55 * c.force, 0.003, 0.3, sortie));
+    o.frequency.exponentialRampToValueAtTime(46, c.t + 0.08);
+  }
+  return true;
 }
 
 function jouerVoix(s: Studio, voix: Voix, c: Coup): void {
+  if (jouerEnregistre(s, voix, c)) return;
   const { t, force, duree } = c;
   const sortie = s.canaux[CANAL[voix]];
   const f0 = frequence(c.midi[0] ?? 45);
@@ -589,6 +643,7 @@ function programmerLePas(s: Studio, motif: Motif, cycles: readonly Cycle[] | nul
       duree: jusquALaSuivante(piste, pas, duree),
       midi: hauteurs(motif, piste, pas, mesure),
       piste: i,
+      p: piste,
     };
     jouerVoix(s, piste.voix, coup);
     if (piste.voix === 'kick') {
@@ -603,13 +658,18 @@ function programmerLePas(s: Studio, motif: Motif, cycles: readonly Cycle[] | nul
 /** Joue le motif. Avec `construire`, il suit la forme d'un morceau (entrees,
     montee, silence, drop) puis tourne sur le drop ; sans, il boucle tel
     quel. `enregistrer` ajoute une sortie lisible par MediaRecorder. */
-export function jouer(motif: Motif, options: { enregistrer?: boolean; construire?: boolean } = {}): Lecteur {
+export async function jouer(motif: Motif, options: { famille: string; enregistrer?: boolean; construire?: boolean }): Promise<Lecteur> {
+  /* Le contexte nait et reprend dans le geste du visiteur, avant toute
+     attente : Safari refuse de faire sonner un contexte cree apres. */
   const ac = new AudioContext({ latencyHint: 'playback' });
+  if (ac.state === 'suspended') void ac.resume();
+  const kit = kitDeFamille(options.famille);
+  const banque = await charger(ac, fichiersDuMotif(motif, kit));
   const sortie = options.enregistrer ? ac.createMediaStreamDestination() : null;
   const bus = ac.createGain();
   bus.connect(ac.destination);
   if (sortie) bus.connect(sortie);
-  const s = monterStudio(ac, motif, bus);
+  const s = monterStudio(ac, motif, bus, banque, kit);
   const cycles = options.construire ? plan(motif) : null;
 
   const duree = dureeDuPas(motif);
@@ -623,7 +683,6 @@ export function jouer(motif: Motif, options: { enregistrer?: boolean; construire
   };
   programmer();
   const minuteur = window.setInterval(programmer, PERIODE_MS);
-  if (ac.state === 'suspended') void ac.resume();
 
   return {
     position: () => Math.max(0, (ac.currentTime - debut) / duree),
@@ -636,9 +695,10 @@ export function jouer(motif: Motif, options: { enregistrer?: boolean; construire
 }
 
 /** Le meme morceau rendu hors ligne, pour mesurer ce qui sort. */
-export async function rendre(motif: Motif, secondes: number, construire = true): Promise<AudioBuffer> {
+export async function rendre(motif: Motif, secondes: number, famille: string, construire = true): Promise<AudioBuffer> {
   const ac = new OfflineAudioContext(2, Math.round(44100 * secondes), 44100);
-  const s = monterStudio(ac, motif, ac.destination);
+  const kit = kitDeFamille(famille);
+  const s = monterStudio(ac, motif, ac.destination, await charger(ac, fichiersDuMotif(motif, kit)), kit);
   const cycles = construire ? plan(motif) : null;
   const duree = dureeDuPas(motif);
   for (let p = 0; p * duree < secondes; p += 1) programmerLePas(s, motif, cycles, p, 0.05 + p * duree);

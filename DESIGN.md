@@ -676,11 +676,10 @@ terracotta, et l'autre moitié tient, la police reste une linéale. Les cartes
 n'ont plus d'ombre portée, seules les surfaces qui flottent en ont une, très
 diffuse.
 
-Ce qui reste interdit, et n'a pas été rouvert : serif à fort contraste dans
-l'interface. L'affiche de rythme d'un style ([ADR-113](docs/adr/ADR-113-affiches-de-rythme.md))
-en porte un sur son titre et sa devise : c'est une image faite pour Instagram,
-dessinée sur une toile, et Mika l'a demandée telle quelle le 30 octobre 2026.
-L'interface, elle, reste en Inter.
+Ce qui reste interdit, et n'a pas été rouvert : serif à fort contraste.
+L'affiche de rythme d'un style ([ADR-113](docs/adr/ADR-113-affiches-de-rythme.md))
+en a porté un quelques heures le 30 octobre 2026 ; Mika l'a voulue dans le
+thème du site, elle est en Inter.
 Emoji dans l'interface. Illustration 3D (l'exception des machines des
 Decks, [ADR-100](docs/adr/ADR-100-un-peu-de-3d.md), est partie avec eux le
 4 octobre 2026, voir [ADR-101](docs/adr/ADR-101-les-decks-partent.md)). Un fond noir pur (l'accent acide,

@@ -811,6 +811,7 @@ interface Dictionnaire {
   /* L'affiche de rythme d'un style (atlas/RythmeDuStyle.tsx). */
   readonly rythmeEcouter: string;
   readonly rythmeArreter: string;
+  readonly rythmeChargement: string;
   readonly rythmeImage: string;
   readonly rythmeVideo: string;
   readonly rythmeFabrication: (secondes: number) => string;
@@ -1871,12 +1872,13 @@ const FR: Dictionnaire = {
   amazonAvis: 'En tant que Partenaire Amazon, SONAA réalise un bénéfice sur les achats remplissant les conditions requises.',
   rythmeEcouter: 'Écouter le motif',
   rythmeArreter: 'Arrêter',
+  rythmeChargement: 'Chargement des sons',
   rythmeImage: 'Télécharger l’image',
   rythmeVideo: 'Télécharger la vidéo',
   rythmeFabrication: (s) => `Enregistrement de la vidéo, encore ${s} s`,
   rythmeEchec: 'Ce navigateur ne sait pas enregistrer la vidéo. Essayez avec Chrome ou Safari.',
   rythmeMesure: 'MESURE',
-  rythmeSections: ['INTRO', 'MONTÉE', 'SILENCE', 'DROP'],
+  rythmeSections: ['DROP', 'MONTÉE', 'SILENCE', 'DROP'],
   rythmeAria: (nom, bpm, resume) => `Le motif rythmique de ${nom}, à ${bpm} BPM : ${resume.toLowerCase()}.`,
   suiviMarque: 'Suivi',
   suivreQuoi: (nom) => `Suivre ${nom}`,
@@ -2959,12 +2961,13 @@ const EN: Dictionnaire = {
   amazonAvis: 'As an Amazon Associate, SONAA earns from qualifying purchases.',
   rythmeEcouter: 'Play the pattern',
   rythmeArreter: 'Stop',
+  rythmeChargement: 'Loading sounds',
   rythmeImage: 'Download the image',
   rythmeVideo: 'Download the video',
   rythmeFabrication: (s) => `Recording the video, ${s} s left`,
   rythmeEchec: 'This browser cannot record the video. Try Chrome or Safari.',
   rythmeMesure: 'BAR',
-  rythmeSections: ['INTRO', 'BUILD', 'SILENCE', 'DROP'],
+  rythmeSections: ['DROP', 'BUILD', 'SILENCE', 'DROP'],
   rythmeAria: (nom, bpm, resume) => `The rhythm pattern of ${nom}, at ${bpm} BPM: ${resume.toLowerCase()}.`,
   suiviMarque: 'Following',
   suivreQuoi: (nom) => `Follow ${nom}`,
