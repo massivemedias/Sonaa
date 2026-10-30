@@ -1,6 +1,69 @@
 {
- "fait": "2026-10-30T05:59:06.308Z",
+ "fait": "2026-10-30T18:04:37.117Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "The Top 5 Best-Rated Behringer Synths: The Stars Are Out Tonight",
+   "lien": "https://www.gearnews.com/the-top-5-best-rated-behringer-synths/",
+   "date": "2026-10-30T18:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/best-rated-behringer-synths-T.jpg",
+   "resume": "With so many synthesizers in its stable, how do you know which Behringer instrument is worth your hard-earned money? These are the best-rated Behringer synths. The Top 5 Best-Rated Behringer Synths The Best-Rated…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "HEDD Audio launches TYPE 40 Main and modular XTD system for full-range monitoring",
+   "lien": "https://musictech.com/news/gear/hedd-audio-type-40/",
+   "date": "2026-10-30T16:12:29.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/Hedd-Audio-1@2000x1500.jpg",
+   "resume": "HEDD Audio has launched the TYPE 40 Main, a compact sealed three-way active monitor and the TYPE 40 System, a modular platform that lets studios add bass output and directional control by stacking XTD modules beneath…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "One giant leap for synthkind: Analogue Solutions launches the Series 700, a £33,000 recreation of the Roland System 700",
+   "lien": "https://musictech.com/news/gear/one-giant-leap-for-synthkind-analogue-solutions-launches-the-series-700-a-33000-recreation-of-the-roland-system-700/",
+   "date": "2026-10-30T15:55:51.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/AS-1@2000x1500.jpg",
+   "resume": "British synth builder Analogue Solutions has launched the Series 700, a recreation of Roland’s rarely-seen System 700. A full six-block system doesn’t come cheap though, priced at a princely £33,000… Built to the…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Yaeltex unveils next-gen custom MIDI controllers – now with full-colour displays",
+   "lien": "https://musictech.com/news/gear/yaeltex-v3/",
+   "date": "2026-10-30T14:55:48.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/Yaeltex-1@2000x1500.jpg",
+   "resume": "Buenos Aires company Yaeltex has unveiled V3, a new and improved take on its custom MIDI controller platform that finally adds full-colour displays to improve workflow. Yaeltex’s V3 controllers replace the system the…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "EXIT Festival Return Set for 2027 After Serbia Election",
+   "lien": "https://midnightrebels.com/exit-festival-return-serbia-2027/",
+   "date": "2026-10-30T14:53:37.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/pasted-photo-featured-15991-1.webp?fit=1160%2C653&ssl=1",
+   "resume": "Organizers confirmed on 29 October 2026 that Petrovaradin Fortress will host the gathering again after a forced hiatus. The official EXIT Festival return starts with a special edition in 2027, followed by a full-scale…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "Behringer is coming for your wallet with a $200 open-source SP-1200 clone, an eight-voice take on the Korg Polysix and a Roland-inspired drum machine",
+   "lien": "https://www.musicradar.com/music-tech/behringer-is-coming-for-your-wallet-with-a-usd200-open-source-sp-1200-clone-an-eight-voice-take-on-the-korg-polysix-and-a-roland-inspired-drum-machine",
+   "date": "2026-10-30T14:48:44.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/eSTBdTLLJS5yE8pwujmDzH-1920-80.jpg",
+   "resume": "Back in May, a leak appeared to reveal 14 unreleased products from Behringer, including an E-mu SP-1200 clone and a Roland-inspired, hybrid drum machine/sampler called the RD-765, prompting budget-minded gearheads to…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Zeds Dead on two decades of sampling: “The interest is in the history; AI has no history”",
+   "lien": "https://musictech.com/features/interviews/zeds-dead-interview-sampling-ai/",
+   "date": "2026-10-30T09:00:08.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/Zeds-Dead-hero-credit-Max-Thompson@2000x1500.jpg",
+   "resume": "Zeds Dead are equal parts historians and musicians. Hooks (Zachary Rapp-Rovan) and DC (Dylan Mamid) have been running their production partnership and alternative electronic project for nearly 20 years, and their…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "Plugins For Fixing Muddy Mixes: Stuck In The Mud?",
@@ -74,24 +137,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "HEDD TYPE 40 System: A $50,000 Modular Monitoring System",
-   "lien": "https://www.gearnews.com/hedd-type-40-system-studio/",
-   "date": "2026-10-29T13:16:09.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/hedd-type-40-ft-128x71.jpg",
-   "resume": "The HEDD TYPE 40 System is a scalable modular active studio monitoring system that uses the TYPE 40 Main and up to three XTD modules. The TYPE 40 Main uses a triamplified (1300 W) 3-way sealed cabinet design with a…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Behringer IGNITE is an Open-Source Hardware Sequencer that can be Anything You Want",
-   "lien": "https://www.gearnews.com/behringer-ignite-sequencer/",
-   "date": "2026-10-29T10:48:25.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/behringer-ignite-t-128x71.jpg",
-   "resume": "Behringer IGNITE is a 64-track sequencer that invites you to transform it into anything you like – thanks to open-source firmware and plenty of I/O. Behringer IGNITE Open-Source Sequencer 16 Tracks and Ample…",
-   "integral": true
-  },
-  {
    "source": "midnightrebels",
    "titre": "Justice and Gesaffelstein release Pusher, a GTA VI score track",
    "lien": "https://midnightrebels.com/justice-gesaffelstein-pusher-gta-vi/",
@@ -128,15 +173,6 @@
    "integral": true
   },
   {
-   "source": "midnightrebels",
-   "titre": "Charlotte de Witte Puts an AI-Generated Vocalist on Azadi EP",
-   "lien": "https://midnightrebels.com/ai-generated-vocalist-nava-azadi-ep/",
-   "date": "2026-10-28T14:20:00.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/pasted-photo-featured-43707.webp?fit=1160%2C653&ssl=1",
-   "resume": "NAVA is not a person, yet it is about to share a record with Charlotte de Witte. The Belgian techno artist has teamed up with this AI-generated vocalist for her Azadi EP. The three-track release is due in November on…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "Apple goes all in on AI with Logic Pro 13, introducing an intelligent assistant that can control your DAW",
    "lien": "https://www.musicradar.com/music-tech/apple-goes-all-in-on-ai-with-logic-pro-13-introducing-an-intelligent-assistant-that-can-control-your-daw",
@@ -155,15 +191,6 @@
    "integral": true
   },
   {
-   "source": "musictech",
-   "titre": "Massive XL: Native Instruments’ next-gen flagship soft synth has arrived – here’s everything you need to know",
-   "lien": "https://musictech.com/news/gear/native-instruments-massive-xl-everything-you-need-to-know/",
-   "date": "2026-10-27T14:11:49.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Massive-XL-hero@2000x1500.jpg",
-   "resume": "Native Instruments has released Massive XL , the latest version of its coveted software synth, and the first major release since joining the InMusic conglomerate. Since its 2006 launch, Massive has battled Sylenth1…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "Massive XL is here: Native Instruments supersizes its flagship soft synth with AI-powered preset generation, custom wavetables and much more",
    "lien": "https://www.musicradar.com/music-tech/massive-xl-is-here-native-instruments-supersizes-its-flagship-soft-synth-with-ai-powered-preset-generation-custom-wavetables-and-much-more",
@@ -173,39 +200,12 @@
    "integral": true
   },
   {
-   "source": "musictech",
-   "titre": "FL Studio announces FL Studio Mobile 5 update, bringing a library of over two million samples to your pocket",
-   "lien": "https://musictech.com/news/gear/fl-studio-mobile-5-update/",
-   "date": "2026-10-27T13:38:33.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/FL-Studio-Mobile-5.jpg",
-   "resume": "Ten years ago, FL Studio went mobile, porting the power of the iconic DAW into a game-changing phone app. In that time, FL Studio Mobile has become a staple production tool, allowing musicians to edit and produce on the…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "Donner Music’s leaked handheld sampler is real - say hello to the battery-powered Sample Boy",
    "lien": "https://www.musicradar.com/music-tech/samplers/donner-musics-leaked-handheld-sampler-is-real-say-hello-to-the-battery-powered-sample-boy",
    "date": "2026-10-27T12:38:03.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/tkiAASYxVQNrhdQjjthRYc-1920-80.png",
    "resume": "Portable hardware samplers are well and truly in vogue at the moment, and leaping into the competitive fray with a tasty-looking new offering comes the feature-packed Sample Boy from Donner Music . Introduced at this…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "My Forever Studio: Kaitlyn Aurelia Smith doesn’t share stems",
-   "lien": "https://musictech.com/shows/podcasts/my-forever-studio/my-forever-studio-kaitlyn-aurelia-smith/",
-   "date": "2026-10-27T12:24:04.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/s8-ep7-kas-hero@2000x1500.jpg",
-   "resume": "Joining us this time on My Forever Studio , brought to you in partnership with Audeint, is Kailtlyn Aurelia Smith, the electronic musician, composer, performer, and producer whose serendipitous run-in with a Buchla 100…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Another blow for AI music? Anthropic hit with $41 million lawsuit by owners of Elvis Presley’s catalogue",
-   "lien": "https://musictech.com/news/industry/elvis-presley-catalogue-owners-sue-anthropic-for-41-million-over-alleged-ai-training/",
-   "date": "2026-10-26T16:40:42.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Elvis-Presley-hero@2000x1500.jpg",
-   "resume": "The owners of Elvis Presley’s music catalogue have sued AI company Anthropic, claiming its Claude models were trained on 274 of his songs without permission. The plaintiffs are seeking $41.1 million in copyright…",
    "integral": true
   },
   {

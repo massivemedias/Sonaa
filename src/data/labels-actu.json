@@ -53888,7 +53888,16 @@
     "format": "12xFile, WAV, Album"
    }
   ],
-  "recentesLe": "2026-10-29"
+  "recentesLe": "2026-10-29",
+  "news": [
+   {
+    "titre": "Unreleased Daft Punk mix from 1997 discovered by DJ Ralph Lawson",
+    "lien": "https://mixmag.net/read/unreleased-daft-punk-mix-from-1997-discovered-dj-ralph-lawson-news",
+    "source": "mixmag",
+    "date": null,
+    "image": "https://cdn.craft.cloud/0bfe5635-ac77-4d17-9f4e-811b54bed2f3/assets/images/Daft-Punk-Lawson.png?fit=cover&width=660&s=NItu7ex_VO-pkaZk-szccoxscj9BSHbRsgofOLHklyc"
+   }
+  ]
  },
  "vitamin-d": {
   "recentes": [
