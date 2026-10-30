@@ -13,6 +13,7 @@
    grille du bas dit la meme chose a plat, pour qui lit mieux une ligne. */
 
 import type { Motif } from '../../lib/rythmes.ts';
+import type { Etat, Section } from './arrangement.ts';
 
 export const LARGEUR_RYTHME = 1080;
 export const HAUTEUR_RYTHME = 1350;
@@ -40,12 +41,20 @@ export interface TextesAffiche {
   readonly signature: string | null;
   /** La langue des noms de piste. */
   readonly langue: 'fr' | 'en';
+  /** Les noms des sections, dans l'ordre : intro, montee, silence, drop. */
+  readonly sections: readonly [string, string, string, string];
+  /** La teinte de la famille du style (0 a 360, en OKLCH) : elle colore le
+      fond et la lueur, comme chaque affiche de la serie a la sienne. */
+  readonly teinte: number;
 }
 
 /** L'etat du dessin a un instant : ou en est la tete de lecture, en pas
     fractionnaires depuis le debut (12,5 = au milieu du treizieme pas). */
 export interface Instant {
   readonly position: number;
+  /** Ou en est le morceau quand il se construit (rythme/arrangement.ts) ;
+      absent, le motif tourne entier, comme au drop. */
+  readonly etat?: Etat | null;
 }
 
 const rad = (pas: number, n: number): number => -Math.PI / 2 + (pas / n) * Math.PI * 2;
@@ -91,20 +100,31 @@ export function dessinerAffiche(ctx: CanvasRenderingContext2D, motif: Motif, tex
   const pasCourant = Math.floor(instant.position) % n;
   const dansLePas = instant.position - Math.floor(instant.position);
 
-  /* LE FOND : un brun presque noir, et la lueur ambre derriere le cercle. */
+  const etat = instant.etat ?? null;
+  const section: Section | 'silence' = etat ? (etat.silence ? 'silence' : etat.section) : 'drop';
+  /* LA LUMIERE suit le morceau : elle monte avec la tension, s'eteint au
+     silence, et eclate au premier temps du drop. */
+  const eclat = etat?.impact ? 1 - dansLePas : 0;
+  const lumiere = section === 'silence' ? 0.35 : 1 + (etat?.tension ?? 0) * 0.6 + eclat * 0.8;
+
+  /* LE FOND : presque noir, teinte de la famille du style, et une lueur de
+     la meme teinte derriere le cercle. La couleur passe par oklch() ; un
+     navigateur qui ne le lit pas garde le brun ecrit juste avant. */
+  const h = textes.teinte;
   ctx.fillStyle = '#0b0805';
+  ctx.fillStyle = `oklch(0.13 0.025 ${h})`;
   ctx.fillRect(0, 0, W, H);
   const cx = W / 2;
   const cy = 560;
-  const lueur = ctx.createRadialGradient(cx, cy, 0, cx, cy, 560);
-  lueur.addColorStop(0, 'rgba(233, 162, 59, 0.20)');
-  lueur.addColorStop(0.45, 'rgba(233, 162, 59, 0.07)');
-  lueur.addColorStop(1, 'rgba(233, 162, 59, 0)');
+  const lueur = ctx.createRadialGradient(cx, cy, 0, cx, cy, 600);
+  lueur.addColorStop(0, `oklch(0.62 0.14 ${h} / ${(0.24 * lumiere).toFixed(3)})`);
+  lueur.addColorStop(0.45, `oklch(0.5 0.1 ${h} / ${(0.08 * lumiere).toFixed(3)})`);
+  lueur.addColorStop(1, `oklch(0.2 0.05 ${h} / 0)`);
   ctx.fillStyle = lueur;
   ctx.fillRect(0, 0, W, H);
   const bas = ctx.createLinearGradient(0, H * 0.62, 0, H);
-  bas.addColorStop(0, 'rgba(11, 8, 5, 0)');
-  bas.addColorStop(1, 'rgba(26, 17, 8, 0.85)');
+  bas.addColorStop(0, `oklch(0.1 0.02 ${h} / 0)`);
+  bas.addColorStop(1, `oklch(0.16 0.04 ${h} / 0.85)`);
   ctx.fillStyle = bas;
   ctx.fillRect(0, H * 0.62, W, H * 0.38);
 
@@ -152,33 +172,46 @@ export function dessinerAffiche(ctx: CanvasRenderingContext2D, motif: Motif, tex
     ctx.fillText(String((b % 4) + 1), cx + Math.cos(a) * R * 1.24, cy + Math.sin(a) * R * 1.24);
   }
 
+  /* LA PRESENCE DE CHAQUE PISTE. Pendant l'intro, une piste qui n'est pas
+     encore entree reste en fil tres pale, et celle qui entre se dessine sur
+     son premier temps. Au silence, tout baisse. */
+  const pistes = motif.pistes.slice(0, 5);
+  const presence = pistes.map((_, p) => {
+    if (!etat) return 1;
+    if (etat.silence) return 0.3;
+    if (!etat.actives[p]) return 0.1;
+    if (etat.nouvelles[p]) return Math.min(1, 0.1 + (etat.pas + dansLePas) / parTemps);
+    return 1;
+  });
+  const joue = (p: number): boolean => !etat || (!etat.silence && (etat.actives[p] ?? false));
+
   /* LES FIGURES, de la piste la plus interieure a la plus exterieure, pour
      que le kick soit dessine par-dessus. */
-  const pistes = motif.pistes.slice(0, 5);
   for (let p = pistes.length - 1; p >= 0; p -= 1) {
     const piste = pistes[p];
     if (!piste) continue;
     const r = R * (rayons[p] ?? 0.3);
     const teinte = TEINTES[p] ?? CREME;
+    const a = presence[p] ?? 1;
     const sommets = piste.pas.flatMap((v, i) => (v > 0 ? [{ i, v, x: cx + Math.cos(rad(i, n)) * r, y: cy + Math.sin(rad(i, n)) * r }] : []));
     if (sommets.length >= 2) {
       ctx.beginPath();
       sommets.forEach((s, k) => (k === 0 ? ctx.moveTo(s.x, s.y) : ctx.lineTo(s.x, s.y)));
       ctx.closePath();
-      ctx.globalAlpha = 0.07;
+      ctx.globalAlpha = 0.07 * a;
       ctx.fillStyle = teinte;
       ctx.fill();
-      ctx.globalAlpha = 0.6;
+      ctx.globalAlpha = 0.6 * a;
       ctx.strokeStyle = teinte;
       ctx.lineWidth = 2.5;
       ctx.stroke();
       ctx.globalAlpha = 1;
     }
     for (const s of sommets) {
-      const frappe = s.i === pasCourant;
+      const frappe = s.i === pasCourant && joue(p);
       const taille = (s.v === 2 ? 8 : 5.5) * (frappe ? 1.5 : 1);
       ctx.fillStyle = teinte;
-      ctx.globalAlpha = s.v === 2 ? 1 : 0.7;
+      ctx.globalAlpha = (s.v === 2 ? 1 : 0.7) * a;
       ctx.beginPath();
       ctx.arc(s.x, s.y, taille, 0, Math.PI * 2);
       ctx.fill();
@@ -233,7 +266,7 @@ export function dessinerAffiche(ctx: CanvasRenderingContext2D, motif: Motif, tex
   espace(ctx, textes.mesure, cx, cy + 58, 3);
 
   /* LA GRILLE. */
-  const haut = 900;
+  const haut = 884;
   const ligne = pistes.length > 4 ? 36 : 42;
   const gauche = 300;
   const droite = W - 120;
@@ -242,6 +275,7 @@ export function dessinerAffiche(ctx: CanvasRenderingContext2D, motif: Motif, tex
   pistes.forEach((piste, p) => {
     const y = haut + p * ligne;
     const teinte = TEINTES[p] ?? CREME;
+    ctx.globalAlpha = Math.max(0.35, presence[p] ?? 1);
     ctx.textAlign = 'left';
     ctx.fillStyle = teinte;
     ctx.font = `700 22px ${SANS}`;
@@ -257,19 +291,20 @@ export function dessinerAffiche(ctx: CanvasRenderingContext2D, motif: Motif, tex
       }
       const l = Math.min(largeurPas - (n === 32 ? 3 : 8), 34);
       ctx.fillStyle = teinte;
-      ctx.globalAlpha = (v === 2 ? 0.95 : 0.5) * (i === pasCourant ? 1 : 0.9);
+      ctx.globalAlpha = (v === 2 ? 0.95 : 0.5) * (presence[p] ?? 1);
       pave(ctx, x - l / 2, y - 11, l, 22, 5);
       ctx.fill();
-      ctx.globalAlpha = 1;
-      if (i === pasCourant) {
+      ctx.globalAlpha = Math.max(0.35, presence[p] ?? 1);
+      if (i === pasCourant && joue(p)) {
         ctx.strokeStyle = '#fbf6ea';
         ctx.globalAlpha = 0.7 * (1 - dansLePas);
         ctx.lineWidth = 2;
         pave(ctx, x - l / 2 - 3, y - 14, l + 6, 28, 7);
         ctx.stroke();
-        ctx.globalAlpha = 1;
+        ctx.globalAlpha = Math.max(0.35, presence[p] ?? 1);
       }
     });
+    ctx.globalAlpha = 1;
   });
   /* Le curseur de la grille. */
   const xc = gauche + (instant.position % n) * largeurPas;
@@ -280,18 +315,34 @@ export function dessinerAffiche(ctx: CanvasRenderingContext2D, motif: Motif, tex
   ctx.lineTo(xc, haut + (pistes.length - 1) * ligne + 24);
   ctx.stroke();
 
-  /* LE BAS : le resume en vert, l'origine en italique, la signature. */
+  /* LES SECTIONS du morceau, la courante allumee. */
   ctx.textAlign = 'center';
   ctx.textBaseline = 'alphabetic';
+  const courante = ['intro', 'montee', 'silence', 'drop'].indexOf(section);
+  ctx.font = `700 18px ${SANS}`;
+  const morceaux = textes.sections.flatMap((x, i) => (i === 0 ? [x] : ['·', x]));
+  const ecart = 3;
+  const largeurDe = (x: string): number => [...x].reduce((t, c) => t + ctx.measureText(c).width + ecart, -ecart);
+  const blanc = 18;
+  const total = morceaux.reduce((t, x) => t + largeurDe(x), 0) + blanc * (morceaux.length - 1);
+  let x0 = cx - total / 2;
+  morceaux.forEach((x, k) => {
+    const l = largeurDe(x);
+    ctx.fillStyle = k % 2 === 1 ? CREME_PALE : k / 2 === courante ? AMBRE : 'rgba(239, 231, 216, 0.38)';
+    espace(ctx, x, x0 + l / 2, 1112, ecart);
+    x0 += l + blanc;
+  });
+
+  /* LE BAS : le resume en vert, l'origine en italique, la signature. */
   ctx.fillStyle = VERT;
   ajuster(ctx, textes.resume, (t) => `700 ${t}px ${SANS}`, 24, W - 200);
-  espace(ctx, textes.resume, cx, 1162, 4);
+  espace(ctx, textes.resume, cx, 1170, 4);
   ctx.fillStyle = 'rgba(239, 231, 216, 0.82)';
   ajuster(ctx, textes.racine, (t) => `italic 500 ${t}px ${SERIF}`, 36, W - 140);
-  ctx.fillText(textes.racine, cx, 1232);
+  ctx.fillText(textes.racine, cx, 1236);
   if (textes.signature) {
     ctx.fillStyle = 'rgba(239, 231, 216, 0.45)';
     ctx.font = `600 20px ${SANS}`;
-    espace(ctx, textes.signature, cx, 1302, 5);
+    espace(ctx, textes.signature, cx, 1304, 5);
   }
 }

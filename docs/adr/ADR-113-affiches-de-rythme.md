@@ -39,6 +39,39 @@ sonaa ».
   fort contraste tient pour l'interface, qui reste en Inter. Il est levé pour
   cette image, qui est faite pour Instagram.
 
+## Le son, seconde passe
+
+Mika, après la première version : « renseigne-toi sur cette page pour avoir le
+complet, avec les sons, parce que c'est ça qui fait la différence ». Les
+légendes de la série qui l'inspire disent ce qui fait la différence : de
+vrais accords (Rhodes en neuvièmes, Am F C G), une basse qui joue des notes,
+une mélodie dans la gamme du style, et la forme d'un morceau de club, avec
+une montée, un temps de silence et le drop. Rien n'est repris de cette série :
+ni ses sons, ni ses images. Tout est fabriqué ici.
+
+- Chaque style reçoit une tonalité, une gamme (mineure, dorienne,
+  phrygienne, pentatonique, hirajoshi...), de un à quatre accords qui
+  tournent une mesure chacun, des notes en degrés pour ses voix mélodiques,
+  et trois réglages de caractère : le swing, l'espace (réverbération et
+  écho) et le grain (saturation). Une piste secondaire peut céder sa place à
+  l'instrument qui signe le style : le Rhodes de la deep house, les cordes de
+  la Detroit techno, le log drum de l'amapiano.
+- Le synthétiseur a 32 voix, toutes fabriquées avec des oscillateurs et du
+  bruit : charleys en six carrés désaccordés comme une 808, Rhodes en
+  modulation de fréquence, 303 avec glissando, reese désaccordée, hoover qui
+  monte de deux demi-tons. Une réverbération générée, un écho à la croche
+  pointée, la pompe du kick sur tout ce qui est tenu, une saturation dosée
+  par style.
+- « Écouter » et la vidéo jouent un morceau construit : les pistes entrent
+  une à une et leur anneau se dessine, la montée retire le kick, roule la
+  caisse et ouvre un bruit blanc, un temps de silence, puis le drop deux
+  fois. Le fond de chaque affiche prend la teinte de la famille du style.
+
+Mesuré hors ligne sur les 219 styles, six secondes chacun : aucune valeur
+invalide, crête maximale 0,77, niveau moyen médian -16 dB, et 80 % des
+styles entre -19 et -12 dB. Les styles saturés sortaient jusqu'à 10 dB
+au-dessus des autres : le volume général baisse avec le grain.
+
 ## Ce qui a été mesuré
 
 Dans un Chromium 152, `MediaRecorder.isTypeSupported` répond oui pour le MP4
@@ -49,7 +82,5 @@ refait avec le format suivant. Le MP4 du navigateur a alors rendu 7,8 Mo,
 
 ## Ce que cela ne fait pas
 
-- La fondamentale du synthétiseur est un la grave pour tous les styles : la
-  page ne connaît pas la tonalité des morceaux.
 - L'affiche n'est pas encore l'image de partage des pages pré-rendues. Il
   faudrait la dessiner au moment de la construction.

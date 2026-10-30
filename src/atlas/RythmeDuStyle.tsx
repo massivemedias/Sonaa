@@ -7,6 +7,10 @@
    vais en faire la pub ». Le dessin vit dans rythme/dessin.ts, le son dans
    rythme/son.ts, les motifs dans data/rythmes.json (voir lib/rythmes.ts).
 
+   « Ecouter » et la video jouent le morceau construit (rythme/arrangement.ts) :
+   les pistes entrent une a une, la montee, un temps de silence, le drop. Au
+   repos, l'affiche tourne sur le motif entier, sans le son.
+
    LE MOUVEMENT S'ARRETE HORS DE L'ECRAN, et quand le visiteur a demande moins
    de mouvement : l'affiche reste alors posee sur le premier temps, et ne
    bouge que si on la fait jouer. */
@@ -19,16 +23,20 @@ import { slug } from '../lib/chemins.ts';
 import { motifDuStyle, type Motif } from '../lib/rythmes.ts';
 import { dessinerAffiche, HAUTEUR_RYTHME, LARGEUR_RYTHME, type TextesAffiche } from './rythme/dessin.ts';
 import { dureeDuPas, jouer, type Lecteur } from './rythme/son.ts';
+import { dureeDuPlan, etatAu, plan } from './rythme/arrangement.ts';
 import './rythme.css';
 
 const TYPES = ['video/mp4;codecs=avc1.42E01E,mp4a.40.2', 'video/mp4', 'video/webm;codecs=vp9,opus', 'video/webm'];
-/* Une douzaine de secondes, arrondies a des mesures entieres : assez pour
-   qu'on entende le motif revenir, assez court pour une story. */
-const SECONDES_VIDEO = 12;
+/* La video dure le morceau construit, et une demi-seconde de plus pour que
+   la reverberation du dernier coup ne soit pas coupee net. */
+const QUEUE_VIDEO = 0.5;
 
 const mouvementReduit = (): boolean => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-function textesDe(motif: Motif, titre: string, famille: string): TextesAffiche {
+/* La tonalite s'ecrit avec les vrais signes : Eb devient E♭, F#m devient F♯m. */
+const tonaliteLisible = (x: string): string => x.replace(/^([A-G])b/, '$1\u266d').replace('#', '\u266f');
+
+function textesDe(motif: Motif, titre: string, famille: string, teinte: number): TextesAffiche {
   const l = langue === 'fr' ? 'fr' : 'en';
   return {
     titre,
@@ -36,9 +44,11 @@ function textesDe(motif: Motif, titre: string, famille: string): TextesAffiche {
     entete: `${famille.toUpperCase()} · ${motif.bpm} BPM · ${motif.instruments[l]}`,
     resume: motif.resume[l],
     racine: motif.racine[l],
-    mesure: `BPM · ${t.rythmeMesure} ${motif.mesure}`,
+    mesure: `BPM · ${t.rythmeMesure} ${motif.mesure}${motif.tonalite ? ` · ${tonaliteLisible(motif.tonalite)}` : ''}`,
     signature: 'SONAA.CA',
     langue: l,
+    sections: t.rythmeSections,
+    teinte,
   };
 }
 
@@ -53,7 +63,7 @@ function telecharger(blob: Blob, nom: string): void {
   window.setTimeout(() => URL.revokeObjectURL(url), 4000);
 }
 
-export function RythmeDuStyle({ genreId, titre, famille }: { genreId: string; titre: string; famille: string }) {
+export function RythmeDuStyle({ genreId, titre, famille, teinte }: { genreId: string; titre: string; famille: string; teinte: number }) {
   const [motif, setMotif] = useState<Motif | null>(null);
   const [joue, setJoue] = useState(false);
   const [video, setVideo] = useState<'non' | number | 'echec'>('non');
@@ -80,8 +90,9 @@ export function RythmeDuStyle({ genreId, titre, famille }: { genreId: string; ti
     if (!motif || !c) return;
     const ctx = c.getContext('2d');
     if (!ctx) return;
-    const textes = textesDe(motif, titre, famille);
+    const textes = textesDe(motif, titre, famille, teinte);
     const duree = dureeDuPas(motif);
+    const cycles = plan(motif);
     const t0 = performance.now();
     let visible = true;
     let image = 0;
@@ -95,9 +106,10 @@ export function RythmeDuStyle({ genreId, titre, famille }: { genreId: string; ti
     };
     const dessiner = (): void => {
       dimensionner();
-      const position = lecteur.current ? lecteur.current.position() : mouvementReduit() ? 0 : (performance.now() - t0) / 1000 / duree;
+      const l = lecteur.current;
+      const position = l ? l.position() : mouvementReduit() ? 0 : (performance.now() - t0) / 1000 / duree;
       ctx.setTransform(c.width / LARGEUR_RYTHME, 0, 0, c.width / LARGEUR_RYTHME, 0, 0);
-      dessinerAffiche(ctx, motif, textes, { position });
+      dessinerAffiche(ctx, motif, textes, { position, etat: l ? etatAu(motif, cycles, position) : null });
     };
     const boucle = (): void => {
       dessiner();
@@ -117,10 +129,11 @@ export function RythmeDuStyle({ genreId, titre, famille }: { genreId: string; ti
       observateur.disconnect();
       window.removeEventListener('resize', auRedimensionnement);
     };
-  }, [motif, titre, famille, joue]);
+  }, [motif, titre, famille, teinte, joue]);
 
   if (!motif) return null;
-  const textes = textesDe(motif, titre, famille);
+  const textes = textesDe(motif, titre, famille, teinte);
+  const cycles = plan(motif);
   const nomFichier = `${slug(titre) || genreId}-rythme-sonaa`;
 
   const basculer = (): void => {
@@ -129,7 +142,7 @@ export function RythmeDuStyle({ genreId, titre, famille }: { genreId: string; ti
       lecteur.current = null;
       setJoue(false);
     } else {
-      lecteur.current = jouer(motif);
+      lecteur.current = jouer(motif, { construire: true });
       setJoue(true);
     }
   };
@@ -140,7 +153,7 @@ export function RythmeDuStyle({ genreId, titre, famille }: { genreId: string; ti
     c.height = HAUTEUR_RYTHME;
     const ctx = c.getContext('2d');
     if (!ctx) return;
-    /* Arretee sur le premier temps, quand toutes les figures sont au repos. */
+    /* Arretee sur le premier temps du motif entier, figures au repos. */
     dessinerAffiche(ctx, motif, textes, { position: 0.0001 });
     c.toBlob((b) => b && telecharger(b, `${nomFichier}.png`), 'image/png');
   };
@@ -162,7 +175,7 @@ export function RythmeDuStyle({ genreId, titre, famille }: { genreId: string; ti
     c.height = HAUTEUR_RYTHME;
     const ctx = c.getContext('2d');
     if (!ctx) throw new Error('toile');
-    const son = jouer(motif, true);
+    const son = jouer(motif, { enregistrer: true, construire: true });
     try {
       const flux = c.captureStream(30);
       for (const piste of son.sortie?.stream.getAudioTracks() ?? []) flux.addTrack(piste);
@@ -175,7 +188,8 @@ export function RythmeDuStyle({ genreId, titre, famille }: { genreId: string; ti
       await new Promise<void>((ok) => {
         const pas = (): void => {
           const ecoule = (performance.now() - t0) / 1000;
-          dessinerAffiche(ctx, motif, textes, { position: son.position() });
+          const position = son.position();
+          dessinerAffiche(ctx, motif, textes, { position, etat: etatAu(motif, cycles, position) });
           setVideo(Math.max(0, Math.ceil(duree - ecoule)));
           if (ecoule >= duree) ok();
           else requestAnimationFrame(pas);
@@ -196,8 +210,7 @@ export function RythmeDuStyle({ genreId, titre, famille }: { genreId: string; ti
     lecteur.current?.arreter();
     lecteur.current = null;
     setJoue(false);
-    const cycle = motif.pas * dureeDuPas(motif);
-    const duree = Math.max(1, Math.round(SECONDES_VIDEO / cycle)) * cycle;
+    const duree = dureeDuPlan(motif, cycles) + QUEUE_VIDEO;
     for (const type of types) {
       try {
         const blob = await enregistrer(type, duree);

@@ -816,6 +816,7 @@ interface Dictionnaire {
   readonly rythmeFabrication: (secondes: number) => string;
   readonly rythmeEchec: string;
   readonly rythmeMesure: string;
+  readonly rythmeSections: readonly [string, string, string, string];
   readonly rythmeAria: (nom: string, bpm: number, resume: string) => string;
   readonly suiviMarque: string;
   readonly suivreQuoi: (nom: string) => string;
@@ -1875,6 +1876,7 @@ const FR: Dictionnaire = {
   rythmeFabrication: (s) => `Enregistrement de la vidéo, encore ${s} s`,
   rythmeEchec: 'Ce navigateur ne sait pas enregistrer la vidéo. Essayez avec Chrome ou Safari.',
   rythmeMesure: 'MESURE',
+  rythmeSections: ['INTRO', 'MONTÉE', 'SILENCE', 'DROP'],
   rythmeAria: (nom, bpm, resume) => `Le motif rythmique de ${nom}, à ${bpm} BPM : ${resume.toLowerCase()}.`,
   suiviMarque: 'Suivi',
   suivreQuoi: (nom) => `Suivre ${nom}`,
@@ -2962,6 +2964,7 @@ const EN: Dictionnaire = {
   rythmeFabrication: (s) => `Recording the video, ${s} s left`,
   rythmeEchec: 'This browser cannot record the video. Try Chrome or Safari.',
   rythmeMesure: 'BAR',
+  rythmeSections: ['INTRO', 'BUILD', 'SILENCE', 'DROP'],
   rythmeAria: (nom, bpm, resume) => `The rhythm pattern of ${nom}, at ${bpm} BPM: ${resume.toLowerCase()}.`,
   suiviMarque: 'Following',
   suivreQuoi: (nom) => `Follow ${nom}`,

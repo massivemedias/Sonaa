@@ -13,6 +13,11 @@ describe('les motifs rythmiques', () => {
     expect(manquants).toEqual([]);
   });
 
+  it('ont tous leur musique : tonalite, gamme, accords, caractere', () => {
+    const sans = Object.entries(motifs).filter(([, m]) => !m.gamme || !m.accords?.length || !m.tonalite).map(([id]) => id);
+    expect(sans).toEqual([]);
+  });
+
   it('sont tous bien formes', () => {
     const fautes = Object.entries(motifs).flatMap(([id, m]) => {
       const d = defautsDuMotif(m);
