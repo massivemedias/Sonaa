@@ -42,6 +42,9 @@ body,
 body {
   margin: 0;
   background-color: var(--surface-plate);
+  /* La lueur ambre du haut de page (tokens.css, --lueur-chaude). */
+  background-image: var(--lueur-chaude);
+  background-repeat: no-repeat;
   color: var(--ink-primary);
   font-family: var(--police);
   letter-spacing: var(--serrage);

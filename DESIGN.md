@@ -73,7 +73,12 @@ des métadonnées de panneau et deviennent la géométrie même de la carte.
 
 > **Remplacée le 28 septembre 2026 par [ADR-089](docs/adr/ADR-089-verre-depoli-sur-sable.md),
 > puis le 29 par [ADR-090](docs/adr/ADR-090-granite-sous-le-verre.md).**
-> Le fond est du granite dans les deux thèmes, l'encre est #3C3C3C en clair,
+> **Depuis le 30 octobre 2026, [ADR-113](docs/adr/ADR-113-affiches-de-rythme.md) :** les couleurs
+> des affiches de rythme. Le granite se réchauffe en brun presque noir, l'encre
+> vire à la crème, l'accent est l'ambre #E9A23B et l'élément actif le sable
+> #E8CF8A. Cinq teintes de piste, dans un ordre fixe : ambre, vert #7DC383,
+> orange brûlé #E2683C, sable, brun #A37B55. Avant cela :
+> le fond est du granite dans les deux thèmes, l'encre est #3C3C3C en clair,
 > l'accent est l'orange franc #FF7A1A sur un fond presque noir #050403 depuis le
 > 27 octobre 2026 ([ADR-110](docs/adr/ADR-110-orange-jaune-noir.md) ; le saumon #F07A50 le
 > matin même, l'orange sanguin #E8441E depuis le 10 octobre,
@@ -671,7 +676,11 @@ terracotta, et l'autre moitié tient, la police reste une linéale. Les cartes
 n'ont plus d'ombre portée, seules les surfaces qui flottent en ont une, très
 diffuse.
 
-Ce qui reste interdit, et n'a pas été rouvert : serif à fort contraste.
+Ce qui reste interdit, et n'a pas été rouvert : serif à fort contraste dans
+l'interface. L'affiche de rythme d'un style ([ADR-113](docs/adr/ADR-113-affiches-de-rythme.md))
+en porte un sur son titre et sa devise : c'est une image faite pour Instagram,
+dessinée sur une toile, et Mika l'a demandée telle quelle le 30 octobre 2026.
+L'interface, elle, reste en Inter.
 Emoji dans l'interface. Illustration 3D (l'exception des machines des
 Decks, [ADR-100](docs/adr/ADR-100-un-peu-de-3d.md), est partie avec eux le
 4 octobre 2026, voir [ADR-101](docs/adr/ADR-101-les-decks-partent.md)). Un fond noir pur (l'accent acide,

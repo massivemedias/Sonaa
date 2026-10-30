@@ -691,7 +691,7 @@
   box-sizing: border-box;
   padding: var(--espace-4) var(--espace-12);
   border-radius: var(--rayon-pilule);
-  background: oklch(0.15 0.004 70 / 0.82);
+  background: oklch(0.15 0.014 70 / 0.82);
   color: oklch(0.97 0.004 80);
   font-size: 0.8125rem;
   font-weight: 600;

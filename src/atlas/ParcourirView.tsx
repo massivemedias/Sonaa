@@ -49,6 +49,7 @@ import { contributionsActives } from '../lib/config.ts';
 import { aUnCours } from '../lib/cours.ts';
 import { nomDeMachine, useFamilleAnglaise, useTexteAnglais } from '../lib/anglais.ts';
 import { CoursDuStyle } from './CoursDuStyle.tsx';
+import { RythmeDuStyle } from './RythmeDuStyle.tsx';
 import { LogoLabel } from './LogoLabel.tsx';
 import { labelsDuStyle, type EntreeLabel } from '../lib/labels.ts';
 import INDEX_LABELS from '../data/labels-index.json';
@@ -780,6 +781,9 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           2026 : plus de bouton, plus d'etat ouvert ou ferme, le panneau est
           la, deplie, sous la description et avant les morceaux. Son intitule
           part avec le bouton : sans rien a ouvrir, il ne nommait plus rien. */}
+      {/* LA FICHE ET L'AFFICHE DE RYTHME COTE A COTE sur un grand ecran,
+          l'une sous l'autre sur telephone (rythme.css). */}
+      <div className="pv-fiche-et-rythme">
         <section className="pv-fiche" style={{ '--pv-hue': famille.hue } as React.CSSProperties}>
           {/* PLUS DE PHOTO DE MACHINE ICI, NI AILLEURS.
 
@@ -877,6 +881,10 @@ function PageGenre({ genre, famille, lecture, jouer, basculer, allerFamille }: P
           </dl>
         </section>
 
+      {/* L'AFFICHE DE RYTHME, avec la fiche et avant les morceaux : le motif
+          du style, qui se joue et se telecharge (RythmeDuStyle.tsx). */}
+      <RythmeDuStyle genreId={genre.id} titre={genre.label} famille={famille.label} />
+      </div>
 
       {/* LA DESCRIPTION AVANT LA LISTE, LE RESTE APRES.
 

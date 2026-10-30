@@ -141,48 +141,48 @@
      dans ce site et du noir ». La page descend de 0,15 a 0,11, #050403 :
      presque noire, encore teintee de granite. Les surfaces levees suivent
      de trois centiemes, les filets de deux, pour garder leur relief. */
-  --creux: oklch(0.06 0.004 70);
-  --creux-2: oklch(0.07 0.004 70);
-  --creux-3: oklch(0.08 0.004 70);
-  --fond: oklch(0.09 0.004 70);
-  --plaque: oklch(0.105 0.004 70);
-  --plaque-2: oklch(0.11 0.004 70);
-  --plaque-3: oklch(0.12 0.004 70);
-  --leve: oklch(0.15 0.004 70);
-  --leve-2: oklch(0.16 0.004 70);
-  --leve-3: oklch(0.17 0.004 70);
-  --leve-4: oklch(0.19 0.004 70);
-  --filet-fantome: oklch(0.22 0.004 70);
-  --filet-fantome-2: oklch(0.24 0.004 70);
-  --filet: oklch(0.26 0.004 70);
-  --filet-2: oklch(0.27 0.004 70);
-  --filet-3: oklch(0.3 0.004 70);
-  --filet-fort: oklch(0.38 0.004 70);
-  --filet-fort-2: oklch(0.4 0.004 70);
-  --encre-effacee: oklch(0.62 0.006 80);
-  --encre-effacee-2: oklch(0.64 0.006 80);
-  --encre-effacee-3: oklch(0.66 0.006 80);
-  --encre-tierce: oklch(0.68 0.006 80);
-  --encre-tierce-2: oklch(0.7 0.006 80);
-  --encre-tierce-3: oklch(0.72 0.006 80);
-  --encre-douce: oklch(0.76 0.006 80);
-  --encre-douce-2: oklch(0.78 0.006 80);
-  --encre-douce-3: oklch(0.8 0.006 80);
-  --encre-moyenne: oklch(0.82 0.006 80);
-  --encre-moyenne-2: oklch(0.84 0.006 80);
-  --encre-moyenne-3: oklch(0.86 0.006 80);
-  --encre-forte: oklch(0.88 0.006 80);
-  --encre-forte-2: oklch(0.9 0.006 80);
-  --encre-forte-3: oklch(0.91 0.006 80);
-  --encre-forte-4: oklch(0.92 0.006 80);
-  --encre: oklch(0.93 0.006 80);
-  --encre-2: oklch(0.935 0.006 80);
-  --encre-3: oklch(0.94 0.006 80);
-  --encre-4: oklch(0.95 0.006 80);
-  --encre-5: oklch(0.96 0.006 80);
-  --encre-vive: oklch(0.97 0.006 80);
-  --encre-vive-2: oklch(0.98 0.006 80);
-  --encre-vive-3: oklch(0.99 0.005 80);
+  --creux: oklch(0.06 0.014 70);
+  --creux-2: oklch(0.07 0.014 70);
+  --creux-3: oklch(0.08 0.014 70);
+  --fond: oklch(0.09 0.014 70);
+  --plaque: oklch(0.105 0.014 70);
+  --plaque-2: oklch(0.11 0.014 70);
+  --plaque-3: oklch(0.12 0.014 70);
+  --leve: oklch(0.15 0.014 70);
+  --leve-2: oklch(0.16 0.014 70);
+  --leve-3: oklch(0.17 0.014 70);
+  --leve-4: oklch(0.19 0.014 70);
+  --filet-fantome: oklch(0.22 0.014 70);
+  --filet-fantome-2: oklch(0.24 0.014 70);
+  --filet: oklch(0.26 0.014 70);
+  --filet-2: oklch(0.27 0.014 70);
+  --filet-3: oklch(0.3 0.014 70);
+  --filet-fort: oklch(0.38 0.014 70);
+  --filet-fort-2: oklch(0.4 0.014 70);
+  --encre-effacee: oklch(0.62 0.022 85);
+  --encre-effacee-2: oklch(0.64 0.022 85);
+  --encre-effacee-3: oklch(0.66 0.022 85);
+  --encre-tierce: oklch(0.68 0.022 85);
+  --encre-tierce-2: oklch(0.7 0.022 85);
+  --encre-tierce-3: oklch(0.72 0.022 85);
+  --encre-douce: oklch(0.76 0.022 85);
+  --encre-douce-2: oklch(0.78 0.022 85);
+  --encre-douce-3: oklch(0.8 0.022 85);
+  --encre-moyenne: oklch(0.82 0.022 85);
+  --encre-moyenne-2: oklch(0.84 0.022 85);
+  --encre-moyenne-3: oklch(0.86 0.022 85);
+  --encre-forte: oklch(0.88 0.022 85);
+  --encre-forte-2: oklch(0.9 0.022 85);
+  --encre-forte-3: oklch(0.91 0.022 85);
+  --encre-forte-4: oklch(0.92 0.022 85);
+  --encre: oklch(0.93 0.022 85);
+  --encre-2: oklch(0.935 0.022 85);
+  --encre-3: oklch(0.94 0.022 85);
+  --encre-4: oklch(0.95 0.022 85);
+  --encre-5: oklch(0.96 0.022 85);
+  --encre-vive: oklch(0.97 0.022 85);
+  --encre-vive-2: oklch(0.98 0.022 85);
+  --encre-vive-3: oklch(0.99 0.02 85);
 
   --voile-02: oklch(1 0 0 / 0.02);
   --voile-025: oklch(1 0 0 / 0.025);
@@ -234,12 +234,12 @@
   --rideau-85: oklch(0.0 0 0 / 0.85);
   --rideau-95: oklch(0.0 0 0 / 0.95);
 
-  --panneau-88: oklch(0.15 0.004 70 / 0.88);
-  --panneau-9: oklch(0.15 0.004 70 / 0.9);
-  --panneau-94: oklch(0.15 0.004 70 / 0.94);
-  --panneau-96: oklch(0.15 0.004 70 / 0.96);
-  --panneau-97: oklch(0.15 0.004 70 / 0.97);
-  --panneau-98: oklch(0.15 0.004 70 / 0.98);
+  --panneau-88: oklch(0.15 0.014 70 / 0.88);
+  --panneau-9: oklch(0.15 0.014 70 / 0.9);
+  --panneau-94: oklch(0.15 0.014 70 / 0.94);
+  --panneau-96: oklch(0.15 0.014 70 / 0.96);
+  --panneau-97: oklch(0.15 0.014 70 / 0.97);
+  --panneau-98: oklch(0.15 0.014 70 / 0.98);
 
   --lt-26: 0.26;
   --lt-28: 0.28;
@@ -277,7 +277,7 @@
      une surface de verre, un gris opaque ferait une tache, une encre
      translucide prend la couleur de ce qu'elle recouvre. Mesure sur le fond
      sombre : 6,8 pour 1. */
-  --ink-secondary: oklch(0.94 0.006 80 / 0.65);
+  --ink-secondary: oklch(0.94 0.022 85 / 0.65);
 
   /* CE QUE LE NAVIGATEUR DOIT SAVOIR : la couleur des barres de defilement,
      des champs natifs et des menus deroulants du systeme. */
@@ -433,10 +433,35 @@
      saumon #F07A50 remonte vers l'orange franc, #FF7A1A : plus sature,
      moins rouge que l'orange sanguin qu'il avait trouve trop rouge. Sur le
      noir de la page, 7,9 pour 1 comme texte. */
-  --accent: #ff7a1a;
-  --sur-accent: oklch(0.15 0.004 70);
-  --accent-voile: rgb(255 122 26 / 0.16);
-  --accent-jaune: #ffd75e;
+
+  /* ═══ LES COULEURS DES AFFICHES DE RYTHME, DEPUIS LE 30 OCTOBRE 2026 ═══
+     Mika, devant une affiche de rythme publiee sur Instagram (cercle de
+     polygones, grille de pas, fond brun presque noir) : « je veux les
+     couleurs de ces publications dans tout sonaa ». Le granite se rechauffe
+     (chroma 0,014 au lieu de 0,004, meme teinte 70), les encres virent a la
+     creme (0,022 a la teinte 85), l'accent devient l'ambre de ces affiches
+     et le jaune devient leur sable. Sur le fond, l'ambre fait 9,6 pour 1
+     comme texte, le sable 13,5 ; --sur-accent tient 9,1 sous l'ambre.
+
+     LES CINQ TEINTES DE PISTE, dans un ordre fixe, jamais tourne : ambre,
+     vert, orange brule, sable, brun. La premiere piste d'un motif (le kick,
+     le plus souvent) prend toujours l'ambre. Les cinq tiennent plus de
+     5 pour 1 sur le fond, et chacune porte aussi son nom de piste en clair :
+     la couleur n'est jamais seule a dire l'instrument. */
+  --accent: #e9a23b;
+  --sur-accent: oklch(0.15 0.014 70);
+  --accent-voile: rgb(233 162 59 / 0.16);
+  --accent-jaune: #e8cf8a;
+  --piste-1: #e9a23b;
+  --piste-2: #7dc383;
+  --piste-3: #e2683c;
+  --piste-4: #e8cf8a;
+  --piste-5: #a37b55;
+  /* LA LUEUR CHAUDE DERRIERE LA PAGE, comme celle qui eclaire le cercle des
+     affiches : un ambre a 7 %, en haut de l'ecran, qui s'eteint avant le
+     milieu. Elle ne bouge pas et ne porte aucune donnee : c'est la seule
+     exception a la regle du haut de ce fichier, demandee avec la palette. */
+  --lueur-chaude: radial-gradient(ellipse 90% 55% at 50% 0%, rgb(233 162 59 / 0.07) 0%, transparent 70%);
   /* LE SECOND TON DU DEGRADE DE TRACK ID : le jaune. Melange a l'orange,
      il donne un ambre lumineux, et l'encre presque noire garde son
      contraste sur toute la longueur. */
@@ -444,8 +469,8 @@
   /* LE FOND DE LA SURFACE, et non celui de la page : a la couleur exacte
      du fond, un verre disparait dans le granite des qu'il n'a rien dessous.
      La surface levee du theme, a 40 % en sombre et 55 % en clair. */
-  --verre-fond: oklch(0.17 0.004 70 / 0.4);
-  --verre-fond-survol: oklch(0.21 0.004 70 / 0.5);
+  --verre-fond: oklch(0.17 0.014 70 / 0.4);
+  --verre-fond-survol: oklch(0.21 0.014 70 / 0.5);
   --verre-filet: inset 0 0 0 1px oklch(1 0 0 / 0.08);
   /* Le meme flou dans les deux themes : 24 px et une saturation de 1,4. */
   --verre-flou: blur(24px) saturate(1.4);

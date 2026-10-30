@@ -1,0 +1,84 @@
+/* L'AFFICHE DE RYTHME D'UN STYLE (RythmeDuStyle.tsx).
+
+   La toile garde le format portrait d'Instagram, 4 sur 5, et ne depasse pas
+   520 px de large : au-dela, le cercle prendrait tout l'ecran d'un
+   ordinateur et repousserait les morceaux hors de vue. Sur telephone, elle
+   prend la largeur de la colonne. */
+
+.ry {
+  margin: var(--espace-24) 0 0;
+}
+
+/* A PARTIR DE 1024 PX, la fiche a gauche et l'affiche a droite, alignees en
+   haut : la fiche est une liste courte, et l'affiche remplissait seule une
+   colonne de 520 px au milieu d'une page de 1240. */
+@media (min-width: 1024px) {
+  .pv-fiche-et-rythme {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 480px);
+    gap: var(--espace-32);
+    align-items: start;
+  }
+}
+
+.ry-toile {
+  display: block;
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 4 / 5;
+  height: auto;
+  border-radius: 18px;
+  background: #0b0805;
+}
+
+.ry-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-8);
+  margin-top: var(--espace-12);
+  max-width: 520px;
+}
+
+/* La meme grammaire que les onglets de la page : contour fin au repos,
+   plein a l'ambre quand le motif joue. */
+.ry-bouton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espace-8);
+  min-height: 44px;
+  padding: 0 var(--espace-16);
+  border: 1px solid var(--voile-16);
+  border-radius: 22px;
+  background: transparent;
+  color: var(--encre-moyenne);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+/* L'icone a la taille du texte : sans mesure, le SVG prend toute la place. */
+.ry-bouton svg {
+  flex: none;
+  width: 14px;
+  height: 14px;
+}
+.ry-bouton:hover:not(:disabled) {
+  border-color: var(--voile-34);
+  color: var(--encre);
+}
+.ry-bouton:disabled {
+  cursor: progress;
+  opacity: var(--lt-60);
+}
+.ry-bouton-jouer[aria-pressed='true'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--sur-accent);
+}
+
+.ry-echec {
+  margin: var(--espace-8) 0 0;
+  font-size: 0.8125rem;
+  color: var(--encre-douce);
+}

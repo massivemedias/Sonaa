@@ -82,8 +82,8 @@
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(ellipse 70% 60% at 50% 48%, oklch(0.08 0.004 70 / 0.94) 0%, oklch(0.08 0.004 70 / 0.8) 50%, oklch(0.08 0.004 70 / 0.46) 100%),
-    linear-gradient(to bottom, oklch(0.08 0.004 70 / 0.55) 0%, transparent 22%, transparent 56%, var(--fond) 93%);
+    radial-gradient(ellipse 70% 60% at 50% 48%, oklch(0.08 0.014 70 / 0.94) 0%, oklch(0.08 0.014 70 / 0.8) 50%, oklch(0.08 0.014 70 / 0.46) 100%),
+    linear-gradient(to bottom, oklch(0.08 0.014 70 / 0.55) 0%, transparent 22%, transparent 56%, var(--fond) 93%);
 }
 
 .ac-hero-texte {
@@ -101,7 +101,7 @@
   line-height: 0.92;
   letter-spacing: var(--serrage);
   color: var(--encre-vive);
-  text-shadow: 0 4px 40px oklch(0.1 0.004 70 / 0.6);
+  text-shadow: 0 4px 40px oklch(0.1 0.014 70 / 0.6);
 }
 /* LE TITRE MONTE DE SOUS SA LIGNE : chaque ligne est une fenetre, le texte
    y entre par le bas. */
@@ -485,7 +485,7 @@ a:hover > .ac-cadre > .cal-gen {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(to top, oklch(0.08 0.004 70 / 0.94) 0%, oklch(0.08 0.004 70 / 0.42) 58%, oklch(0.72 0.15 var(--teinte) / 0.22) 100%);
+  background: linear-gradient(to top, oklch(0.08 0.014 70 / 0.94) 0%, oklch(0.08 0.014 70 / 0.42) 58%, oklch(0.72 0.15 var(--teinte) / 0.22) 100%);
 }
 .ac-famille::before {
   content: '';

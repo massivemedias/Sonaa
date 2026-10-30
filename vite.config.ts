@@ -63,8 +63,8 @@ export default defineConfig({
         scope: '/',
         display: 'standalone',
         orientation: 'any',
-        background_color: '#050403',
-        theme_color: '#050403',
+        background_color: '#070401',
+        theme_color: '#070401',
         categories: ['music', 'education', 'reference'],
         icons: [
           { src: 'brand/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
