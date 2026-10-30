@@ -665,10 +665,13 @@ export async function jouer(motif: Motif, options: { famille: string; enregistre
   if (ac.state === 'suspended') void ac.resume();
   const kit = kitDeFamille(options.famille);
   const banque = await charger(ac, fichiersDuMotif(motif, kit));
+  /* L'ENREGISTREMENT SE FAIT EN SILENCE : le son va dans la video, pas dans
+     les haut-parleurs. Mika, le 30 octobre 2026 : « arrete de jouer la
+     musique dans les speakers ». La sortie d'enregistrement suffit a faire
+     tourner le graphe audio. */
   const sortie = options.enregistrer ? ac.createMediaStreamDestination() : null;
   const bus = ac.createGain();
-  bus.connect(ac.destination);
-  if (sortie) bus.connect(sortie);
+  bus.connect(sortie ?? ac.destination);
   const s = monterStudio(ac, motif, bus, banque, kit);
   const cycles = options.construire ? plan(motif) : null;
 

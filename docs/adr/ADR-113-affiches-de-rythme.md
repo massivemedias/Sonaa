@@ -107,6 +107,19 @@ niveau médian de -12 dB, et 80 % des styles se situent entre -15 et -11 dB.
 Aucun style n'est muet dans sa première demi-seconde. La vidéo de Psy-Prog
 sort en MP4 de 9,1 secondes, 1080 x 1350, avec le son.
 
+## Le format des Reels
+
+Mika : « ajoute aussi la version 9:16 pour les reels ». L'affiche se
+télécharge en deux vidéos : 4:5 pour le fil (1080 x 1350) et 9:16 pour les
+Reels et les Stories (1080 x 1920). En 9:16, le fond couvre tout l'écran,
+et l'affiche est réduite à 94 % et posée entre 230 et 1500 px. Le haut et
+surtout le bas restent libres, car l'interface d'Instagram les recouvre.
+
+L'enregistrement se fait en silence : le son va dans le fichier, pas dans
+les haut-parleurs. Seul le bouton « Écouter » fait sonner la page. Mesuré :
+Reel d'Afro House en MP4, 10,3 secondes, 1080 x 1920, son présent dans le
+fichier, rien entendu pendant l'enregistrement.
+
 ## Ce qui a été mesuré
 
 Dans un Chromium 152, `MediaRecorder.isTypeSupported` répond oui pour le MP4

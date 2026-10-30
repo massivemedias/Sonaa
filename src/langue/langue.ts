@@ -814,6 +814,7 @@ interface Dictionnaire {
   readonly rythmeChargement: string;
   readonly rythmeImage: string;
   readonly rythmeVideo: string;
+  readonly rythmeReel: string;
   readonly rythmeFabrication: (secondes: number) => string;
   readonly rythmeEchec: string;
   readonly rythmeMesure: string;
@@ -1874,7 +1875,8 @@ const FR: Dictionnaire = {
   rythmeArreter: 'Arrêter',
   rythmeChargement: 'Chargement des sons',
   rythmeImage: 'Télécharger l’image',
-  rythmeVideo: 'Télécharger la vidéo',
+  rythmeVideo: 'Vidéo 4:5 pour le fil',
+  rythmeReel: 'Vidéo 9:16 pour les Reels',
   rythmeFabrication: (s) => `Enregistrement de la vidéo, encore ${s} s`,
   rythmeEchec: 'Ce navigateur ne sait pas enregistrer la vidéo. Essayez avec Chrome ou Safari.',
   rythmeMesure: 'MESURE',
@@ -2963,7 +2965,8 @@ const EN: Dictionnaire = {
   rythmeArreter: 'Stop',
   rythmeChargement: 'Loading sounds',
   rythmeImage: 'Download the image',
-  rythmeVideo: 'Download the video',
+  rythmeVideo: '4:5 video for the feed',
+  rythmeReel: '9:16 video for Reels',
   rythmeFabrication: (s) => `Recording the video, ${s} s left`,
   rythmeEchec: 'This browser cannot record the video. Try Chrome or Safari.',
   rythmeMesure: 'BAR',

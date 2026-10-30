@@ -18,6 +18,20 @@ import type { Etat } from './arrangement.ts';
 export const LARGEUR_RYTHME = 1080;
 export const HAUTEUR_RYTHME = 1350;
 
+/* DEUX FORMATS. Le fil d'Instagram prend le portrait 4:5, 1080 x 1350 ; les
+   Reels et les Stories prennent l'ecran entier, 9:16, 1080 x 1920. En 9:16,
+   l'interface d'Instagram couvre le haut (environ 220 px) et surtout le bas
+   (la legende et les boutons, environ 420 px) : l'affiche y est reduite a
+   94 % et posee dans la bande qui reste visible, sur un fond qui, lui, couvre
+   tout l'ecran. Mika, le 30 octobre 2026 : « ajoute aussi la version 9:16
+   pour les reels ». */
+export type FormatAffiche = 'fil' | 'reel';
+export const HAUTEUR_REEL = 1920;
+const CADRAGE: Record<FormatAffiche, { hauteur: number; echelle: number; haut: number }> = {
+  fil: { hauteur: HAUTEUR_RYTHME, echelle: 1, haut: 0 },
+  reel: { hauteur: HAUTEUR_REEL, echelle: 0.94, haut: 230 },
+};
+
 /* Les cinq teintes de piste, dans l'ordre fixe des jetons --piste-1 a
    --piste-5 (tokens.css). La toile ne lit pas les variables CSS : elles sont
    recopiees ici, et le test du fichier verifie qu'elles n'ont pas diverge. */
@@ -93,9 +107,8 @@ function pave(ctx: CanvasRenderingContext2D, x: number, y: number, l: number, h:
   ctx.closePath();
 }
 
-export function dessinerAffiche(ctx: CanvasRenderingContext2D, motif: Motif, textes: TextesAffiche, instant: Instant): void {
+export function dessinerAffiche(ctx: CanvasRenderingContext2D, motif: Motif, textes: TextesAffiche, instant: Instant, format: FormatAffiche = 'fil'): void {
   const W = LARGEUR_RYTHME;
-  const H = HAUTEUR_RYTHME;
   const n = motif.pas;
   const pasCourant = Math.floor(instant.position) % n;
   const dansLePas = instant.position - Math.floor(instant.position);
@@ -107,12 +120,16 @@ export function dessinerAffiche(ctx: CanvasRenderingContext2D, motif: Motif, tex
   const lumiere = etat?.silence ? 0.35 : 1 + (etat?.tension ?? 0) * 0.6 + eclat * 0.8;
 
   /* LE FOND, CELUI DU SITE : le brun presque noir de SONAA, et la lueur
-     ambre de ses pages, ici derriere le cercle. */
-  ctx.fillStyle = '#0a0704';
-  ctx.fillRect(0, 0, W, H);
+     ambre de ses pages, ici derriere le cercle. Il couvre toute la toile,
+     quel que soit le format ; le reste est dessine dans le cadre. */
+  const cadre = CADRAGE[format];
+  const H = cadre.hauteur;
   const cx = W / 2;
   const cy = 580;
-  const lueur = ctx.createRadialGradient(cx, cy, 0, cx, cy, 600);
+  const cyFond = cadre.haut + cy * cadre.echelle;
+  ctx.fillStyle = '#0a0704';
+  ctx.fillRect(0, 0, W, H);
+  const lueur = ctx.createRadialGradient(cx, cyFond, 0, cx, cyFond, 600);
   lueur.addColorStop(0, `rgba(233, 162, 59, ${(0.17 * lumiere).toFixed(3)})`);
   lueur.addColorStop(0.45, `rgba(233, 162, 59, ${(0.05 * lumiere).toFixed(3)})`);
   lueur.addColorStop(1, 'rgba(233, 162, 59, 0)');
@@ -123,6 +140,10 @@ export function dessinerAffiche(ctx: CanvasRenderingContext2D, motif: Motif, tex
   haut.addColorStop(1, 'rgba(233, 162, 59, 0)');
   ctx.fillStyle = haut;
   ctx.fillRect(0, 0, W, H * 0.5);
+
+  ctx.save();
+  ctx.translate((W * (1 - cadre.echelle)) / 2, cadre.haut);
+  ctx.scale(cadre.echelle, cadre.echelle);
 
   /* LE HAUT : le nom, la devise, la ligne technique, en Inter comme le site. */
   ctx.textAlign = 'center';
@@ -342,4 +363,5 @@ export function dessinerAffiche(ctx: CanvasRenderingContext2D, motif: Motif, tex
     ctx.font = `600 20px ${SANS}`;
     espace(ctx, textes.signature, cx, 1304, 5);
   }
+  ctx.restore();
 }

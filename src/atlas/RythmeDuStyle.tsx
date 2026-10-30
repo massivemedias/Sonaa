@@ -17,12 +17,12 @@
    bouge que si on la fait jouer. */
 
 import { useEffect, useRef, useState } from 'react';
-import { faDownload, faPlay, faStop, faVideo } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faMobileScreen, faPlay, faStop, faVideo } from '@fortawesome/free-solid-svg-icons';
 import { FaIcon } from './FaIcon.tsx';
 import { langue, t } from '../langue/langue.ts';
 import { slug } from '../lib/chemins.ts';
 import { motifDuStyle, type Motif } from '../lib/rythmes.ts';
-import { dessinerAffiche, HAUTEUR_RYTHME, LARGEUR_RYTHME, type TextesAffiche } from './rythme/dessin.ts';
+import { dessinerAffiche, HAUTEUR_REEL, HAUTEUR_RYTHME, LARGEUR_RYTHME, type FormatAffiche, type TextesAffiche } from './rythme/dessin.ts';
 import { dureeDuPas, jouer, type Lecteur } from './rythme/son.ts';
 import { dureeDuPlan, etatAu, plan } from './rythme/arrangement.ts';
 import './rythme.css';
@@ -67,6 +67,8 @@ export function RythmeDuStyle({ genreId, titre, famille, familleId }: { genreId:
   const [motif, setMotif] = useState<Motif | null>(null);
   const [joue, setJoue] = useState<'non' | 'chargement' | 'oui'>('non');
   const [video, setVideo] = useState<'non' | number | 'echec'>('non');
+  /* Le format en cours de fabrication : son bouton porte le decompte. */
+  const [enCours, setEnCours] = useState<FormatAffiche>('fil');
   const toile = useRef<HTMLCanvasElement | null>(null);
   const lecteur = useRef<Lecteur | null>(null);
 
@@ -173,10 +175,10 @@ export function RythmeDuStyle({ genreId, titre, famille, familleId }: { genreId:
      parce que l'encodeur AAC manque. Le fichier est donc juge sur pieces :
      sous 100 ko pour une douzaine de secondes, il est refait avec le format
      suivant. */
-  const enregistrer = async (type: string, duree: number): Promise<Blob> => {
+  const enregistrer = async (type: string, duree: number, format: FormatAffiche): Promise<Blob> => {
     const c = document.createElement('canvas');
     c.width = LARGEUR_RYTHME;
-    c.height = HAUTEUR_RYTHME;
+    c.height = format === 'reel' ? HAUTEUR_REEL : HAUTEUR_RYTHME;
     const ctx = c.getContext('2d');
     if (!ctx) throw new Error('toile');
     const son = await jouer(motif, { famille: familleId, enregistrer: true, construire: true });
@@ -193,7 +195,7 @@ export function RythmeDuStyle({ genreId, titre, famille, familleId }: { genreId:
         const pas = (): void => {
           const ecoule = (performance.now() - t0) / 1000;
           const position = son.position();
-          dessinerAffiche(ctx, motif, textes, { position, etat: etatAu(motif, cycles, position) });
+          dessinerAffiche(ctx, motif, textes, { position, etat: etatAu(motif, cycles, position) }, format);
           setVideo(Math.max(0, Math.ceil(duree - ecoule)));
           if (ecoule >= duree) ok();
           else requestAnimationFrame(pas);
@@ -208,7 +210,8 @@ export function RythmeDuStyle({ genreId, titre, famille, familleId }: { genreId:
     }
   };
 
-  const filmer = async (): Promise<void> => {
+  const filmer = async (format: FormatAffiche): Promise<void> => {
+    setEnCours(format);
     const possible = typeof MediaRecorder !== 'undefined' && typeof HTMLCanvasElement.prototype.captureStream === 'function';
     const types = possible ? TYPES.filter((x) => MediaRecorder.isTypeSupported(x)) : [];
     lecteur.current?.arreter();
@@ -217,9 +220,9 @@ export function RythmeDuStyle({ genreId, titre, famille, familleId }: { genreId:
     const duree = dureeDuPlan(motif, cycles) + QUEUE_VIDEO;
     for (const type of types) {
       try {
-        const blob = await enregistrer(type, duree);
+        const blob = await enregistrer(type, duree, format);
         if (blob.size < 100_000) continue;
-        telecharger(blob, `${nomFichier}.${type.includes('mp4') ? 'mp4' : 'webm'}`);
+        telecharger(blob, `${nomFichier}${format === 'reel' ? '-reel' : ''}.${type.includes('mp4') ? 'mp4' : 'webm'}`);
         setVideo('non');
         return;
       } catch {
@@ -248,9 +251,13 @@ export function RythmeDuStyle({ genreId, titre, famille, familleId }: { genreId:
           <FaIcon icon={faDownload} />
           {t.rythmeImage}
         </button>
-        <button type="button" className="ry-bouton" onClick={() => void filmer()} disabled={typeof video === 'number'}>
+        <button type="button" className="ry-bouton" onClick={() => void filmer('fil')} disabled={typeof video === 'number'}>
           <FaIcon icon={faVideo} />
-          {typeof video === 'number' ? t.rythmeFabrication(video) : t.rythmeVideo}
+          {typeof video === 'number' && enCours === 'fil' ? t.rythmeFabrication(video) : t.rythmeVideo}
+        </button>
+        <button type="button" className="ry-bouton" onClick={() => void filmer('reel')} disabled={typeof video === 'number'}>
+          <FaIcon icon={faMobileScreen} />
+          {typeof video === 'number' && enCours === 'reel' ? t.rythmeFabrication(video) : t.rythmeReel}
         </button>
       </div>
       {video === 'echec' && <p className="ry-echec">{t.rythmeEchec}</p>}
