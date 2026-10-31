@@ -31,6 +31,7 @@ import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import sharp from 'sharp';
+import { TAILLE_CARTE, fabriquerCarte } from './lib/image-de-partage.ts';
 import { fileURLToPath } from 'node:url';
 import { FAMILIES, STRUCTURES, type Genre } from '../src/atlas/structures.ts';
 import { ORIGINE, PREFIXE_ANGLAIS, cheminsDesStyles, slug } from '../src/lib/chemins.ts';
@@ -111,6 +112,11 @@ const pages: Page[] = [];
 
 function ecrire(p: Page): void {
   const url = ORIGINE + p.chemin;
+  /* Une page sans image prend la carte de repli : sans og:image, Facebook
+     prend le logotype du corps et le pose sur du gris. */
+  const repli = p.langue === 'en' ? REPLI.en : REPLI.fr;
+  const image = p.image ?? repli ?? undefined;
+  const taille = p.image ? p.imageTaille : repli ? TAILLE_CARTE : undefined;
   const meta = [
     `<title>${h(p.titre)}</title>`,
     `<meta name="description" content="${h(p.description)}" />`,
@@ -120,8 +126,8 @@ function ecrire(p: Page): void {
     `<meta property="og:description" content="${h(p.description)}" />`,
     `<meta property="og:url" content="${h(url)}" />`,
     `<meta property="og:type" content="article" />`,
-    p.image ? `<meta property="og:image" content="${h(p.image)}" />` : '',
-    p.image && p.imageTaille ? `<meta property="og:image:width" content="${p.imageTaille[0]}" />\n    <meta property="og:image:height" content="${p.imageTaille[1]}" />` : '',
+    image ? `<meta property="og:image" content="${h(image)}" />` : '',
+    image && taille ? `<meta property="og:image:width" content="${taille[0]}" />\n    <meta property="og:image:height" content="${taille[1]}" />` : '',
     `<meta name="twitter:card" content="summary_large_image" />`,
     /* LES DEUX LANGUES SE DECLARENT L'UNE L'AUTRE : sans cela, un moteur
        prend la page anglaise pour un doublon de la francaise. */
@@ -161,6 +167,22 @@ function ecrire(p: Page): void {
   writeFileSync(join(dossier, 'index.html'), html, 'utf8');
   pages.push(p);
 }
+
+/* ═══ LES CARTES DE PARTAGE ═══ Mika, le 31 octobre 2026, devant l'apercu
+   Facebook d'une page de soirees : « l'image est sacrement pourrie ». Voir
+   scripts/lib/image-de-partage.ts. La grille de chaque carte est celle du
+   motif de rythme du premier style de la famille qui en a un. */
+const motifDeFamille = (id: string): { motif: Motif | undefined; nomDuMotif: string | undefined } => {
+  const fi = FAMILIES.findIndex((f) => f.id === id);
+  const g = (STRUCTURES[fi]?.genres ?? []).find((x) => RYTHMES[x.id]);
+  return { motif: g ? RYTHMES[g.id] : undefined, nomDuMotif: g?.label };
+};
+const NOMBRE_DE_STYLES = STRUCTURES.reduce((n, s) => n + s.genres.length, 0);
+const REPLI = {
+  fr: await fabriquerCarte({ titre: 'SONAA', phrase: `${NOMBRE_DE_STYLES} styles de musique électronique, et où les danser`, ...motifDeFamille('house') }, DIST, ORIGINE, 'pages', 'sonaa-fr'),
+  en: await fabriquerCarte({ titre: 'SONAA', phrase: `${NOMBRE_DE_STYLES} electronic music styles, and where to dance to them`, ...motifDeFamille('house') }, DIST, ORIGINE, 'pages', 'sonaa-en'),
+};
+if (!REPLI.fr || !REPLI.en) console.warn('Carte de repli non fabriquee : les pages sans image partent sans og:image.');
 
 /* ═══ LES STYLES ═══ */
 
@@ -544,8 +566,13 @@ const evenementDe = (s: Soiree, v: Ville, cheminVille: string): unknown => {
 
 if (soirees.length > 0) {
   const villesAvecSoirees = villesConnues.filter((v) => soirees.some((s) => s.ville_id === v.id));
+  const carteSoirees = (titre: string, phrase: string, familleId: string, cle: string): Promise<string | null> =>
+    fabriquerCarte({ titre, phrase, ...motifDeFamille(familleId) }, DIST, ORIGINE, 'soirees', cle);
+  const carteIndex = await carteSoirees('Soirées électroniques', 'Ville par ville, ce soir et les prochains jours', 'techno', 'toutes');
   ecrire({
     chemin: '/soirees/',
+    image: carteIndex ?? undefined,
+    imageTaille: carteIndex ? TAILLE_CARTE : undefined,
     hash: '#/calendrier',
     titre: 'Les soirées de musique électronique, ville par ville · SONAA',
     description: `Le calendrier des soirées électroniques dans ${villesAvecSoirees.length} villes : techno, house, drum and bass, trance. Relevé chaque jour, avec la salle, l’heure et les billets.`,
@@ -563,18 +590,23 @@ if (soirees.length > 0) {
     const parFamille = new Map<string, Soiree[]>();
     for (const s of liste) for (const f of famillesDeLaSoiree(s)) parFamille.set(f, [...(parFamille.get(f) ?? []), s]);
     const famillesIci = FAMILIES.filter((f) => (parFamille.get(f.id)?.length ?? 0) >= 2);
+    const dominante = [...parFamille.entries()].sort((a, b) => b[1].length - a[1].length)[0]?.[0] ?? 'techno';
     const liensFamilles = famillesIci.length
       ? `<h2>Par style</h2><ul>${famillesIci.map((f) => `<li><a href="${cheminVille}${slug(f.label)}/">Soirées ${h(f.label.toLowerCase())} à ${h(v.name)}</a> : ${parFamille.get(f.id)?.length ?? 0}</li>`).join('')}</ul>`
       : '';
     for (const f of famillesIci) {
       const sous = parFamille.get(f.id) ?? [];
       const cheminFamille = `${cheminVille}${slug(f.label)}/`;
+      /* La carte plutot que l'affiche d'une soiree : l'affiche d'une seule
+         date ferait croire que la page ne parle que d'elle. */
+      const carte = await carteSoirees(v.name, `Les soirées ${f.label.toLowerCase()} de ce soir et des prochains jours`, f.id, `${v.slug}-${slug(f.label)}`);
       ecrire({
         chemin: cheminFamille,
         hash: `#/calendrier?city=${v.slug}`,
         titre: `Soirées ${f.label.toLowerCase()} à ${v.name} : ${sous.length} dates à venir · SONAA`,
         description: `${sous.length} soirées ${f.label.toLowerCase()} à ${v.name} dans les 60 prochains jours, avec la salle, l’heure, les artistes et les billets. Relevé chaque jour.`,
-        image: sous.find((s) => s.affiche)?.affiche ?? undefined,
+        image: carte ?? sous.find((s) => s.affiche)?.affiche ?? undefined,
+        imageTaille: carte ? TAILLE_CARTE : undefined,
         corps: `${entete([{ nom: 'Soirées', href: '/soirees/' }, { nom: v.name, href: cheminVille }, { nom: f.label, href: cheminFamille }])}<h1>Soirées ${h(f.label.toLowerCase())} à ${h(v.name)}</h1><p>${sous.length} dates à venir. <a href="/styles/${slug(f.label)}/">Ce qu’est la ${h(f.label.toLowerCase())}</a>, et ses genres.</p><ul>${sous
           .map((s) => `<li><a href="${cheminVille}${s.id}/">${h(s.titre)}</a> : ${h(quandLisible(s.debut, v.timezone))}${s.lieu ? `, ${h(s.lieu)}` : ''}${s.artistes?.length ? `, avec ${h(s.artistes.slice(0, 4).join(', '))}` : ''}</li>`)
           .join('')}</ul><p><a href="${cheminVille}">Toutes les soirées à ${h(v.name)}</a></p>`,
@@ -582,8 +614,11 @@ if (soirees.length > 0) {
       });
     }
     const evenement = (s: Soiree): unknown => evenementDe(s, v, cheminVille);
+    const carteVille = await carteSoirees(v.name, 'Les soirées électroniques de ce soir et des prochains jours', dominante, v.slug);
     ecrire({
       chemin: cheminVille,
+      image: carteVille ?? undefined,
+      imageTaille: carteVille ? TAILLE_CARTE : undefined,
       hash: `#/calendrier?city=${v.slug}`,
       titre: `Soirées électroniques à ${v.name} : le calendrier des prochains jours · SONAA`,
       description: `${liste.length} soirées de musique électronique à ${v.name} dans les 60 prochains jours : techno, house, drum and bass, avec la salle, l’heure et les billets.`,
