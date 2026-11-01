@@ -1,6 +1,33 @@
 {
- "fait": "2026-11-01T06:21:15.972Z",
+ "fait": "2026-11-01T17:58:03.681Z",
  "articles": [
+  {
+   "source": "musicradar",
+   "titre": "Pioneering techno producer Juan Atkins has died aged 64",
+   "lien": "https://www.musicradar.com/music-tech/pioneering-techno-producer-juan-atkins-has-died-aged-64",
+   "date": "2026-11-01T17:00:53.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/hd64TKfFXfKzCvQiqAbTcW-1920-80.jpg",
+   "resume": "Pioneering techno producer Juan Atkins has died aged 64, his management company has confirmed . Atkins was due to perform at Mexico City’s Yu Yu Club on the night of 31 October, but is reported to have been found…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Amnesia Ibiza’s gold medallion costs €14,000 for lifetime access",
+   "lien": "https://midnightrebels.com/amnesia-ibiza-gold-vip-medallion/",
+   "date": "2026-11-01T16:06:21.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/pasted-photo-featured-51056.webp?fit=800%2C450&ssl=1",
+   "resume": "Inside a 9ct gold pyramid sits a small RFID chip, and that chip is the whole pass. Amnesia Ibiza’s gold VIP medallion went on sale for €14,000 , and by 1 November 2026 it was sold out . The price buys lifetime VIP…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "DigiTape, Timetravel, The Machine: Free Plugins of the Week",
+   "lien": "https://www.gearnews.com/digitape-free-plugins/",
+   "date": "2026-11-01T07:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/digitape-free-plugins-11-01-26.jpg",
+   "resume": "This week’s round-up of free plugins brings you not one, but two tape simulations: DigiTape and The Machine. We’ve also got an emulation of a popular reverse delay pedal. Free Plugins of the Week Pulsar Audio DigiTape…",
+   "integral": true
+  },
   {
    "source": "midnightrebels",
    "titre": "Sam Altman Says PC RAM Is a Poor Use of Scarce Memory",
@@ -26,15 +53,6 @@
    "date": "2026-10-31T16:01:58.000Z",
    "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/pasted-photo-featured-43707.webp?fit=800%2C450&ssl=1",
    "resume": "The John Legend electric piano is now a playable sound in Splice INSTRUMENT. Splice released its John Legend: Electric Piano pack on 27 October 2026 . This is Legend’s second pack with Splice. The first was the Ordinary…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "Boys Noize Turned Down Commercial EDM Hooks He Found Soulless",
-   "lien": "https://midnightrebels.com/commercial-edm-boys-noize-stayed-underground/",
-   "date": "2026-10-31T16:01:20.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/pasted-photo-featured-52453.webp?fit=1920%2C1080&ssl=1",
-   "resume": "“Most of the music you hear out there is just copies and copies.” That line came from Alexander Ridha, the Berlin producer known as Boys Noize, in 2012, in the middle of the commercial EDM boom . He had already turned…",
    "integral": true
   },
   {
@@ -101,15 +119,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Analogue Solutions Series 700 Remakes Roland’s System 700, More: Synth Journal",
-   "lien": "https://www.gearnews.com/analogue-solutions-series-700-synth/",
-   "date": "2026-10-29T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/analogue-solutions-700-T.jpg",
-   "resume": "One of the best modular systems ever gets remade as the Analogue Solutions Series 700, plus a software version of the Oberheim TEO-5 and… a walking disembodied Eurorack hand?! Synth Journal Analogue Solutions Series 700…",
-   "integral": true
-  },
-  {
    "source": "musictech",
    "titre": "2026 DMC World DJ Championships will see A-Trak, Skratch Bastid and more perform at KOKO London",
    "lien": "https://musictech.com/news/events/dmc-2026-world-dj-championships/",
@@ -125,15 +134,6 @@
    "date": "2026-10-29T16:04:24.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/RG8VHEq59RDoMG8fPSkvAJ-1920-80.jpg",
    "resume": "A touchscreen MacBook has long been talked about, but when Apple launched the iPad, in 2010, the assumption for many years was that the company wouldn’t put touch on a laptop for fear of cannibalising sales of that…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Pittsburgh Modular Microvolt 3901: An East Meets West Modular Synth Plugin",
-   "lien": "https://www.gearnews.com/pittsburgh-modular-microvolt-3901-synth/",
-   "date": "2026-10-29T14:53:55.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/pittsburgh-modular-microvolt-3901-ft.jpg",
-   "resume": "The Pittsburgh Modular Microvolt 3901 is a plugin version of the Microvolt 3900 experimental semi-modular analog synth for desktop and iPad. Introduced in 2018, the Microvolt 3900 brought traditional East Coast elements…",
    "integral": true
   },
   {
