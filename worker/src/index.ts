@@ -1453,6 +1453,28 @@ export default {
       });
     }
 
+    /* L'IMAGE D'UN REEL (ADR-115). Le reel du jeudi se fabrique dans un
+       canvas : une affiche ou une photo d'un autre site, servie sans en-tete
+       CORS, salirait le canvas et l'enregistreur refuserait de filmer. La
+       passerelle va donc la chercher et la rend avec l'en-tete. Reservee a
+       la moderation, pour ne pas devenir un relais ouvert ; images
+       seulement, moins de 6 Mo. */
+    if (req.method === 'GET' && chemin === 'api/image-reel') {
+      if (!(await estModerateur(req, env))) return refus(req, env, 403, 'reserve a la moderation');
+      const adresse = url.searchParams.get('u') ?? '';
+      if (!/^https:\/\/[^/]+\//.test(adresse)) return refus(req, env, 400, 'adresse illisible');
+      try {
+        const r = await fetch(adresse, { headers: { 'user-agent': NAVIGATEUR_LECTURE, accept: 'image/*' }, signal: AbortSignal.timeout(10000) });
+        const type = (r.headers.get('content-type') ?? '').split(';')[0]?.trim() ?? '';
+        if (!r.ok || !/^image\/(jpeg|png|webp|gif|avif)$/.test(type)) return refus(req, env, 415, 'pas une image');
+        const corps = await r.arrayBuffer();
+        if (corps.byteLength === 0 || corps.byteLength > 6 * 1024 * 1024) return refus(req, env, 413, 'image trop lourde');
+        return new Response(corps, { headers: entetes(req, env, { 'content-type': type, 'cache-control': 'private, max-age=3600' }) });
+      } catch {
+        return refus(req, env, 502, 'image injoignable');
+      }
+    }
+
     if (req.method === 'GET' && chemin === 'api/artistes-demandes') {
       if (!env.DEMANDES) return refus(req, env, 503, 'file non configuree');
       const liste = await env.DEMANDES.list({ limit: 1000 });

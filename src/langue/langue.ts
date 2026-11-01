@@ -965,6 +965,28 @@ interface Dictionnaire {
   readonly misePayee: string;
   readonly miseAttente: string;
   readonly adminMises: string;
+  readonly adminReel: string;
+  readonly reelDuJeudi: (jeudi: string) => string;
+  readonly reelChapeau: (ville: string, dates: string) => string;
+  readonly reelDates: (du: string, au: string) => string;
+  readonly reelOuverture: string;
+  readonly reelSoirees: string;
+  readonly reelNews: string;
+  readonly reelMixtapes: string;
+  readonly reelLabel: string;
+  readonly reelStyle: string;
+  readonly reelFin: string;
+  readonly reelFinSous: string;
+  readonly reelChargement: string;
+  readonly reelRien: string;
+  readonly reelChoixStyle: string;
+  readonly reelPourquoi: (vues: number, mentions: number) => string;
+  readonly reelApercu: string;
+  readonly reelArreter: string;
+  readonly reelFabriquer: (secondes: number) => string;
+  readonly reelFabrication: (secondes: number) => string;
+  readonly reelSilence: string;
+  readonly reelEchec: string;
   readonly adminMisesExplication: string;
   readonly adminMisesAucune: string;
   readonly adminMiseStatut: (statut: string) => string;
@@ -2036,6 +2058,32 @@ const FR: Dictionnaire = {
   misePayee: 'Paiement reçu. Votre soirée est maintenant en tête du calendrier. Merci.',
   miseAttente: 'Stripe n’a pas encore confirmé le paiement. Si vous avez payé, la soirée passera en tête sous peu.',
   adminMises: 'Mises en avant',
+  adminReel: 'Reel du jeudi',
+  reelDuJeudi: (jeudi) => `Le reel du jeudi ${jeudi}`,
+  reelChapeau: (ville, dates) =>
+    `Les soirées de la fin de semaine à ${ville} (${dates}), les news de la semaine, les mixtapes les plus écoutées et le label de la semaine. Décochez ce qui ne doit pas y être, puis fabriquez la vidéo.`,
+  reelDates: (du, au) => `du ${du} au ${au}`,
+  reelOuverture: 'Cette fin de semaine à',
+  reelSoirees: 'Les soirées',
+  reelNews: 'Les news de la semaine',
+  reelMixtapes: 'Les mixtapes de SONAA',
+  reelLabel: 'Le label de la semaine',
+  reelStyle: 'Son style :',
+  reelFin: 'Tout est sur',
+  reelFinSous: 'Les soirées de ta ville, chaque soir',
+  reelChargement: 'Préparation du reel…',
+  reelRien: 'Rien cette semaine.',
+  reelChoixStyle: 'Le style qui joue',
+  reelPourquoi: (vues, mentions) =>
+    vues === 0 && mentions === 0
+      ? 'à son tour cette semaine'
+      : [vues ? `${vues} vue${vues > 1 ? 's' : ''} sur SONAA` : '', mentions ? `cité dans ${mentions} news` : ''].filter(Boolean).join(', '),
+  reelApercu: 'Aperçu muet',
+  reelArreter: 'Arrêter',
+  reelFabriquer: (secondes) => `Fabriquer le reel (${secondes} s)`,
+  reelFabrication: (secondes) => `Fabrication, encore ${secondes} s`,
+  reelSilence: 'La fabrication est muette : la musique va dans le fichier, pas dans les haut-parleurs.',
+  reelEchec: 'La vidéo n’a pas pu être fabriquée dans ce navigateur. Essayez avec Chrome.',
   adminMisesExplication:
     'Offrir active une mise en avant sans paiement en ligne (Interac, échange, cadeau). Retirer l’enlève du calendrier ; un remboursement se fait dans Stripe.',
   adminMisesAucune: 'Aucune demande pour l’instant.',
@@ -3125,6 +3173,32 @@ const EN: Dictionnaire = {
   misePayee: 'Payment received. Your night is now at the top of the calendar. Thank you.',
   miseAttente: 'Stripe has not confirmed the payment yet. If you paid, the night will move to the top shortly.',
   adminMises: 'Promotions',
+  adminReel: 'Thursday reel',
+  reelDuJeudi: (jeudi) => `The reel for Thursday ${jeudi}`,
+  reelChapeau: (ville, dates) =>
+    `This weekend’s nights in ${ville} (${dates}), the week’s news, the most played mixtapes and the label of the week. Untick what should not be in it, then make the video.`,
+  reelDates: (du, au) => `${du} to ${au}`,
+  reelOuverture: 'This weekend in',
+  reelSoirees: 'Nights out',
+  reelNews: 'This week’s news',
+  reelMixtapes: 'SONAA mixtapes',
+  reelLabel: 'Label of the week',
+  reelStyle: 'Its style:',
+  reelFin: 'It’s all on',
+  reelFinSous: 'Your city’s nights, every night',
+  reelChargement: 'Preparing the reel…',
+  reelRien: 'Nothing this week.',
+  reelChoixStyle: 'The style that plays',
+  reelPourquoi: (vues, mentions) =>
+    vues === 0 && mentions === 0
+      ? 'its turn this week'
+      : [vues ? `${vues} view${vues > 1 ? 's' : ''} on SONAA` : '', mentions ? `in ${mentions} news stor${mentions > 1 ? 'ies' : 'y'}` : ''].filter(Boolean).join(', '),
+  reelApercu: 'Silent preview',
+  reelArreter: 'Stop',
+  reelFabriquer: (secondes) => `Make the reel (${secondes} s)`,
+  reelFabrication: (secondes) => `Making it, ${secondes} s left`,
+  reelSilence: 'Making it is silent: the music goes into the file, not the speakers.',
+  reelEchec: 'The video could not be made in this browser. Try Chrome.',
   adminMisesExplication:
     'Grant turns a promotion on without online payment (Interac, trade, gift). Remove takes it off the calendar; refunds are made in Stripe.',
   adminMisesAucune: 'No request yet.',

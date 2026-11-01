@@ -19,49 +19,20 @@
 import { useEffect, useRef, useState } from 'react';
 import { faDownload, faMobileScreen, faPlay, faStop, faVideo } from '@fortawesome/free-solid-svg-icons';
 import { FaIcon } from './FaIcon.tsx';
-import { langue, t } from '../langue/langue.ts';
+import { t } from '../langue/langue.ts';
 import { slug } from '../lib/chemins.ts';
 import { motifDuStyle, type Motif } from '../lib/rythmes.ts';
-import { dessinerAffiche, HAUTEUR_REEL, HAUTEUR_RYTHME, LARGEUR_RYTHME, type FormatAffiche, type TextesAffiche } from './rythme/dessin.ts';
+import { dessinerAffiche, HAUTEUR_REEL, HAUTEUR_RYTHME, LARGEUR_RYTHME, type FormatAffiche } from './rythme/dessin.ts';
 import { dureeDuPas, jouer, type Lecteur } from './rythme/son.ts';
 import { dureeDuPlan, etatAu, plan } from './rythme/arrangement.ts';
+import { TYPES, telecharger, textesDe } from './rythme/video.ts';
 import './rythme.css';
 
-const TYPES = ['video/mp4;codecs=avc1.42E01E,mp4a.40.2', 'video/mp4', 'video/webm;codecs=vp9,opus', 'video/webm'];
 /* La video dure le morceau construit, et une demi-seconde de plus pour que
    la reverberation du dernier coup ne soit pas coupee net. */
 const QUEUE_VIDEO = 0.5;
 
 const mouvementReduit = (): boolean => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-/* La tonalite s'ecrit avec les vrais signes : Eb devient E♭, F#m devient F♯m. */
-const tonaliteLisible = (x: string): string => x.replace(/^([A-G])b/, '$1\u266d').replace('#', '\u266f');
-
-function textesDe(motif: Motif, titre: string, famille: string): TextesAffiche {
-  const l = langue === 'fr' ? 'fr' : 'en';
-  return {
-    titre,
-    devise: motif.devise[l],
-    entete: `${famille.toUpperCase()} · ${motif.bpm} BPM · ${motif.instruments[l]}`,
-    resume: motif.resume[l],
-    racine: motif.racine[l],
-    mesure: `BPM · ${t.rythmeMesure} ${motif.mesure}${motif.tonalite ? ` · ${tonaliteLisible(motif.tonalite)}` : ''}`,
-    signature: 'SONAA.CA',
-    langue: l,
-    sections: t.rythmeSections,
-  };
-}
-
-function telecharger(blob: Blob, nom: string): void {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = nom;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  window.setTimeout(() => URL.revokeObjectURL(url), 4000);
-}
 
 export function RythmeDuStyle({ genreId, titre, famille, familleId }: { genreId: string; titre: string; famille: string; familleId: string }) {
   const [motif, setMotif] = useState<Motif | null>(null);

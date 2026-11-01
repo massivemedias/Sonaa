@@ -85,3 +85,89 @@
     min-height: 44px;
   }
 }
+
+/* LE REEL DU JEUDI (ADR-115) : les choix a gauche, l'apercu a droite, qui
+   reste en vue pendant qu'on coche. Sur telephone, l'apercu passe dessous. */
+.rj-chapeau {
+  max-width: 62ch;
+  margin: 0 0 var(--espace-24);
+  color: var(--encre-forte-2);
+}
+.rj-grille {
+  display: grid;
+  gap: var(--espace-32);
+}
+@media (min-width: 900px) {
+  .rj-grille {
+    grid-template-columns: minmax(0, 1fr) 300px;
+    align-items: start;
+  }
+  .rj-apercu {
+    position: sticky;
+    top: var(--espace-24);
+  }
+}
+.rj-choix fieldset {
+  margin: 0 0 var(--espace-24);
+  padding: 0;
+  border: 0;
+}
+.rj-choix legend {
+  margin-bottom: var(--espace-8);
+  font-weight: 700;
+}
+.rj-ligne {
+  display: flex;
+  gap: var(--espace-12);
+  align-items: flex-start;
+  padding: var(--espace-8) 0;
+  border-top: 1px solid var(--filet);
+  cursor: pointer;
+}
+.rj-ligne input {
+  margin-top: 0.3em;
+  accent-color: var(--accent);
+}
+.rj-ligne span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.rj-ligne small,
+.rj-rien,
+.rj-note {
+  color: var(--encre-forte-2);
+  font-size: 0.8125rem;
+}
+.rj-style {
+  display: grid;
+  gap: var(--espace-4);
+  margin-top: var(--espace-12);
+}
+.rj-style select {
+  max-width: 100%;
+  padding: var(--espace-8);
+  border: 1px solid var(--voile-16);
+  border-radius: 8px;
+  background: var(--verre-fond);
+  color: inherit;
+  font: inherit;
+}
+.rj-toile {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: 9 / 16;
+  height: auto;
+  border-radius: 14px;
+  background: #0a0704;
+}
+.rj-gestes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-8);
+  margin-top: var(--espace-12);
+}
+.rj-attente {
+  margin-top: var(--espace-32);
+}

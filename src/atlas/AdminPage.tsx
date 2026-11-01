@@ -13,7 +13,7 @@
  * pas su resoudre. Chaque onglet reutilise ce qui existait quand ca
  * existait : SoireesAdmin et CommentsModeration ne sont pas reecrits. */
 
-import { useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { EnTeteSite } from './EnTeteSite.tsx';
 import { PiedDePage } from './PiedDePage.tsx';
 import { SoireesAdmin } from './SoireesAdmin.tsx';
@@ -30,13 +30,18 @@ import './credits.css';
 import './sets.css';
 import './admin.css';
 
-type Onglet = 'stats' | 'membres' | 'sets' | 'soirees' | 'mises' | 'commentaires' | 'artistes' | 'scans';
+/* LE REEL DU JEUDI (ADR-115) se charge a part : il amene le synthetiseur
+   des affiches de rythme et l'index des labels. */
+const ReelDuJeudi = lazy(() => import('./ReelDuJeudi.tsx').then((m) => ({ default: m.ReelDuJeudi })));
+
+type Onglet = 'stats' | 'membres' | 'sets' | 'soirees' | 'mises' | 'reel' | 'commentaires' | 'artistes' | 'scans';
 
 const lireOnglet = (): Onglet => {
   const h = window.location.hash;
   if (h.startsWith('#/admin/sets')) return 'sets';
   if (h.startsWith('#/admin/soirees')) return 'soirees';
   if (h.startsWith('#/admin/mises')) return 'mises';
+  if (h.startsWith('#/admin/reel')) return 'reel';
   if (h.startsWith('#/admin/commentaires')) return 'commentaires';
   if (h.startsWith('#/admin/artistes')) return 'artistes';
   if (h.startsWith('#/admin/scans')) return 'scans';
@@ -54,6 +59,8 @@ const ONGLETS: readonly { id: Onglet; label: () => string }[] = [
   /* LES MISES EN AVANT PAYANTES, depuis le 27 octobre 2026 : voir
      MisesAdmin.tsx. */
   { id: 'mises', label: () => t.adminMises },
+  /* LE REEL DU JEUDI, depuis le 31 octobre 2026 : voir ReelDuJeudi.tsx. */
+  { id: 'reel', label: () => t.adminReel },
   { id: 'commentaires', label: () => t.adminCommentaires },
   { id: 'artistes', label: () => t.adminArtistes },
   /* LES SCANS DU MICRO : la moderation des morceaux entendus, reservee a
@@ -128,6 +135,11 @@ export function AdminPage() {
             {onglet === 'sets' && <Sets />}
             {onglet === 'soirees' && <SoireesAdmin />}
             {onglet === 'mises' && <MisesAdmin />}
+            {onglet === 'reel' && (
+              <Suspense fallback={<p className="sp-aide">{t.chargement}</p>}>
+                <ReelDuJeudi />
+              </Suspense>
+            )}
             {onglet === 'commentaires' && <CommentsModeration />}
             {onglet === 'artistes' && <Artistes />}
             {onglet === 'scans' && session?.user.email === 'mauditemachine@gmail.com' && <ScansModeration />}
