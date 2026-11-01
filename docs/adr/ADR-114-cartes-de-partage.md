@@ -20,6 +20,11 @@ image du corps, le logotype blanc, et l'a posée sur un fond gris clair.
 - Une page de style par famille et par ville prend la carte plutôt que
   l'affiche d'une de ses soirées : avec l'affiche d'une seule date, on
   croirait que la page ne parle que de cette soirée.
+- Chaque page de style, en français et en anglais, a sa carte : le nom du
+  style, la devise de son motif, sa grille, ses instruments et son tempo.
+  Elle passe devant la pochette du morceau de référence, qui ne disait pas
+  de quel style on parle (Mika, le 31 octobre 2026 : « fais pareil pour
+  les pages de style avec leur rythme »). Chaque famille a la sienne.
 - Toute autre page sans image prend une carte de repli SONAA, en français
   ou en anglais selon la page.
 - La carte ne dit rien qui vieillit : ni nombre de soirées, ni jour.

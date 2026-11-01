@@ -221,6 +221,39 @@ function labelsEnLiens(g: { tracks: readonly { release?: { label?: string | null
 const cheminDuGenre = new Map<string, string>();
 for (const s of styles) if (s.gl !== null) cheminDuGenre.set((STRUCTURES[s.fi]?.genres[s.gl] as Genre).id, s.chemin);
 
+/* LES CARTES DES STYLES. Mika, le 31 octobre 2026 : « fais pareil pour les
+   pages de style avec leur rythme ». Chaque style a sa carte : son nom, la
+   devise de son motif, sa grille et ses instruments. La carte passe devant
+   la pochette du morceau de reference, qui ne disait pas de quel style on
+   parle. Chaque famille a la sienne, avec la grille de son premier style.
+   Six a la fois. */
+const capitale = (x: string): string => x.charAt(0).toLocaleUpperCase('fr') + x.slice(1);
+const CARTES_DE_STYLE = new Map<string, string>();
+const fabrications: (() => Promise<void>)[] = [];
+for (const langue of ['fr', 'en'] as const) {
+  FAMILIES.forEach((f, fi) => {
+    const n = STRUCTURES[fi]?.genres.length ?? 0;
+    fabrications.push(async () => {
+      const phrase = langue === 'fr' ? `${n} styles, leur histoire et leur rythme` : `${n} styles, their history and their rhythm`;
+      const url = await fabriquerCarte({ titre: f.label, phrase, ...motifDeFamille(f.id) }, DIST, ORIGINE, 'styles', `famille-${slug(f.label)}-${langue}`);
+      if (url) CARTES_DE_STYLE.set(`${langue}:famille:${f.id}`, url);
+    });
+    for (const g of STRUCTURES[fi]?.genres ?? []) {
+      const motif = RYTHMES[g.id];
+      if (!motif) continue;
+      fabrications.push(async () => {
+        const url = await fabriquerCarte({ titre: g.label, phrase: capitale(motif.devise[langue]), motif, nomDuMotif: motif.instruments[langue] }, DIST, ORIGINE, 'styles', `${g.id}-${langue}`);
+        if (url) CARTES_DE_STYLE.set(`${langue}:${g.id}`, url);
+      });
+    }
+  });
+}
+for (let i = 0; i < fabrications.length; i += 6) await Promise.all(fabrications.slice(i, i + 6).map((f) => f()));
+const carteDeStyle = (langue: 'fr' | 'en', cle: string): { image?: string; imageTaille?: readonly [number, number] } => {
+  const image = CARTES_DE_STYLE.get(`${langue}:${cle}`);
+  return image ? { image, imageTaille: TAILLE_CARTE } : {};
+};
+
 ecrire({
   chemin: '/styles/',
   hash: '#/parcourir',
@@ -251,6 +284,7 @@ for (const s of styles) {
     ecrire({
       chemin: s.chemin,
       hash: s.hash,
+      ...carteDeStyle('fr', `famille:${famille.id}`),
       titre: `${famille.label} : les ${struct.genres.length} genres, leur histoire et comment les produire · SONAA`,
       description: couper(desc || `La famille ${famille.label} de la musique électronique : ${struct.genres.length} genres, avec leur histoire, leurs morceaux et un cours de production pour chacun.`, 158),
       corps: `${entete([{ nom: 'Atlas', href: '/styles/' }, { nom: famille.label, href: cheminFamille }])}<h1>${h(famille.label)}</h1>${desc ? `<p>${h(desc)}</p>` : ''}<h2>Les genres</h2><ul>${struct.genres
@@ -325,7 +359,8 @@ for (const s of styles) {
     hash: s.hash,
     titre,
     description,
-    image: cover,
+    ...carteDeStyle('fr', g.id),
+    image: carteDeStyle('fr', g.id).image ?? cover,
     corps:
       `${entete([{ nom: 'Atlas', href: '/styles/' }, { nom: famille.label, href: cheminFamille }, { nom: g.label, href: s.chemin }])}` +
       `<h1>${h(g.label)}</h1>` +
@@ -396,6 +431,7 @@ for (const s of styles) {
       langue: 'en',
       alterne: s.chemin,
       titre: `${famille.label}: ${struct.genres.length} genres, their history and how to produce them · SONAA`,
+      ...carteDeStyle('en', `famille:${famille.id}`),
       description: `The ${famille.label} family of electronic music: ${struct.genres.length} genres, each with its history, reference tracks and a production guide.`,
       corps: `${enteteEn([{ nom: 'Atlas', href: cheminEn('/styles/') }, { nom: famille.label, href: cheminFamille }])}<h1>${h(famille.label)}</h1><h2>The genres</h2><ul>${struct.genres
         .map((g) => `<li><a href="${cheminEn(cheminDuGenre.get(g.id) ?? '/styles/')}">${h(g.label)}</a>${g.annee > 0 ? ` (${g.annee})` : ''}${EN[g.id] ? `: ${h(couper(EN[g.id]?.description ?? '', 160))}` : ''}</li>`)
@@ -433,7 +469,8 @@ for (const s of styles) {
     alterne: s.chemin,
     titre,
     description,
-    image: cover,
+    ...carteDeStyle('en', g.id),
+    image: carteDeStyle('en', g.id).image ?? cover,
     corps:
       `${enteteEn([{ nom: 'Atlas', href: cheminEn('/styles/') }, { nom: famille.label, href: cheminFamille }, { nom: g.label, href: cheminEn(s.chemin) }])}` +
       `<h1>${h(g.label)}</h1>` +

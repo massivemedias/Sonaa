@@ -78,9 +78,12 @@ function fondEtGrille(motif: Motif | undefined, haut: number, bas: number): stri
   const ecartLigne = 10;
   const hauteurCase = pistes.length ? Math.min(30, (bas - haut - (pistes.length - 1) * ecartLigne) / pistes.length) : 0;
   const parTemps = n === 12 ? 3 : 4;
+  /* Moins de cinq pistes : la grille se centre dans sa bande au lieu de
+     laisser un trou en bas. */
+  const decalage = (bas - haut - (pistes.length * hauteurCase + Math.max(0, pistes.length - 1) * ecartLigne)) / 2;
   const cases: string[] = [];
   pistes.forEach((p, ligne) => {
-    const y = haut + ligne * (hauteurCase + ecartLigne);
+    const y = haut + decalage + ligne * (hauteurCase + ecartLigne);
     const teinte = TEINTES[ligne % TEINTES.length] ?? AMBRE;
     for (let i = 0; i < n; i++) {
       const x = MARGE + i * (largeurCase + ecart);
@@ -132,7 +135,9 @@ export async function fabriquerCarte(carte: Carte, dist: string, origine: string
     const titre = await titreAjuste(carte.titre);
     const phrase = await texte(carte.phrase, MOYEN, 36, CREME, 66);
     const signature = await texte('sonaa.ca', GRAS, 30, AMBRE);
-    const nomDuMotif = carte.nomDuMotif && carte.motif ? await texte(`${carte.nomDuMotif.toUpperCase()}  ·  ${carte.motif.bpm} BPM`, MOYEN, 20, CREME, 45, 2) : null;
+    const mention = carte.nomDuMotif && carte.motif ? await texte(`${carte.nomDuMotif.toUpperCase()}  ·  ${carte.motif.bpm} BPM`, MOYEN, 20, CREME, 45, 2) : null;
+    /* La ligne du bas ne doit pas toucher la signature : trop longue, elle part. */
+    const nomDuMotif = mention && mention.largeur <= l - 2 * MARGE - signature.largeur - 48 ? mention : null;
 
     const hautTitre = 70;
     const hautPhrase = hautTitre + titre.hauteur + 20;
