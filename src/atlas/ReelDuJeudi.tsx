@@ -54,6 +54,7 @@ interface Donnees {
   readonly du: Date;
   readonly au: Date;
   readonly soirees: Soiree[];
+  readonly vedettes: ReadonlySet<string>;
   readonly news: ArticleNews[];
   readonly mixtapes: SetDJ[];
   readonly labels: LabelClasse[];
@@ -66,6 +67,10 @@ const STYLE = new Map(STRUCTURES.flatMap((s, fi) => s.genres.map((g) => [g.id, {
 
 const lieuDe = (s: Soiree): string => s.lieu ?? '';
 const fmt = (o: Intl.DateTimeFormatOptions): Intl.DateTimeFormat => new Intl.DateTimeFormat(langue === 'fr' ? 'fr-CA' : 'en-CA', o);
+
+/** « 7 novembre », et « 1er novembre » en francais. */
+const jourLong = (d: Date): string =>
+  langue === 'fr' ? `${d.getDate() === 1 ? '1er' : d.getDate()} ${fmt({ month: 'long' }).format(d)}` : fmt({ month: 'long', day: 'numeric' }).format(d);
 
 /** L'heure au mur : celles de Resident Advisor arrivent sans fuseau, celles
     de la base avec ; on les ramene toutes a l'heure locale, sans fuseau. */
@@ -124,6 +129,7 @@ async function rassembler(): Promise<Donnees | null> {
     du,
     au,
     soirees: classerSoirees(sansDoublons([...(ra?.soirees ?? []), ...ajoutees]).filter(dansLaFenetre), vedettes, 12),
+    vedettes,
     news: classerNews(articles, maintenant, 6),
     mixtapes: classerMixtapes(sets, chiffres.mixtapes, maintenant, 6),
     labels: classerLabels(index, chiffres.labels, articles, maintenant),
@@ -149,7 +155,9 @@ export function ReelDuJeudi() {
       if (!vivant) return;
       setDonnees(d);
       if (!d) return;
-      setSoirees(new Set(d.soirees.slice(0, 6).map((s) => s.id)));
+      /* Cochees : les six premieres du classement, pas les six premieres
+         dates (la liste, elle, se lit dans l'ordre des dates). */
+      setSoirees(new Set(classerSoirees(d.soirees, d.vedettes, 6).map((s) => s.id)));
       setNews(new Set(d.news.slice(0, 3).map((a) => a.lien)));
       setMixtapes(new Set(d.mixtapes.slice(0, 2).map((m) => m.id)));
       setLabel(d.labels[0]?.label.s ?? null);
@@ -188,10 +196,9 @@ export function ReelDuJeudi() {
       ]);
       await document.fonts?.load(`700 40px Inter`).catch(() => undefined);
       if (!vivant) return;
-      const jour = fmt({ day: 'numeric', month: 'long' });
       setContenu({
         ville: d.ville,
-        dates: t.reelDates(jour.format(d.du), jour.format(d.au)),
+        dates: t.reelDates(jourLong(d.du), jourLong(d.au)),
         soirees: choisies.map((s, i) => ({ jour: jourDe(s), titre: s.titre, lieu: lieuDe(s), image: imgSoirees[i] ?? null })),
         news: lues.map((a, i) => ({ source: SOURCES.find((x) => x.id === a.source)?.nom ?? a.source, titre: a.titre, image: imgNews[i] ?? null })),
         mixtapes: sets.map((m, i) => ({ titre: m.titre, artiste: m.artiste_nom ?? '', image: imgSets[i] ?? null })),
@@ -319,14 +326,13 @@ export function ReelDuJeudi() {
   if (donnees === 'chargement') return <p className="rj-attente">{t.reelChargement}</p>;
   if (!d) return <p className="rj-attente">{t.reelEchec}</p>;
 
-  const jeudi = fmt({ day: 'numeric', month: 'long' }).format(jeudiDeLaSemaine(new Date()));
-  const jourCourt = fmt({ day: 'numeric', month: 'long' });
+  const jeudi = jourLong(jeudiDeLaSemaine(new Date()));
   const occupe = video !== 'non' && video !== 'echec';
 
   return (
     <section className="sets-bloc rj">
       <h2>{t.reelDuJeudi(jeudi)}</h2>
-      <p className="rj-chapeau">{t.reelChapeau(d.ville, t.reelDates(jourCourt.format(d.du), jourCourt.format(d.au)))}</p>
+      <p className="rj-chapeau">{t.reelChapeau(d.ville, t.reelDates(jourLong(d.du), jourLong(d.au)))}</p>
       <div className="rj-grille">
         <div className="rj-choix">
           <fieldset>
