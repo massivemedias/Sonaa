@@ -27,8 +27,9 @@
   max-width: 520px;
   aspect-ratio: 4 / 5;
   height: auto;
-  border-radius: 18px;
-  background: #0b0805;
+  border-radius: 12px;
+  border: 1px solid var(--filet);
+  background: #0a0704;
 }
 
 .ry-actions {

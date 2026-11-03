@@ -39,7 +39,6 @@ export const TEINTES = ['#e9a23b', '#7dc383', '#e2683c', '#e8cf8a', '#a37b55'] a
 const CREME = '#efe7d8';
 const CREME_DOUCE = 'rgba(239, 231, 216, 0.62)';
 const CREME_PALE = 'rgba(239, 231, 216, 0.22)';
-const VERT = TEINTES[1];
 const AMBRE = TEINTES[0];
 /* LA POLICE DU SITE, Inter, et non plus un serif : Mika, le 30 octobre
    2026, « le background dans le theme de Sonaa, et les ecritures aussi ».
@@ -114,101 +113,115 @@ export function dessinerAffiche(ctx: CanvasRenderingContext2D, motif: Motif, tex
   const dansLePas = instant.position - Math.floor(instant.position);
 
   const etat = instant.etat ?? null;
-  /* LA LUMIERE suit le morceau : elle monte avec la tension, s'eteint au
-     silence, et eclate au premier temps du drop qui revient. */
   const eclat = etat?.impact ? 1 - dansLePas : 0;
-  const lumiere = etat?.silence ? 0.35 : 1 + (etat?.tension ?? 0) * 0.6 + eclat * 0.8;
 
-  /* LE FOND, CELUI DU SITE : le brun presque noir de SONAA, et la lueur
-     ambre de ses pages, ici derriere le cercle. Il couvre toute la toile,
-     quel que soit le format ; le reste est dessine dans le cadre. */
+  /* LE FOND : mat et sobre, le brun presque noir de SONAA, sans halo ni lueur
+     radiale. Une planche de releve ou chaque trait porte une donnee. */
   const cadre = CADRAGE[format];
   const H = cadre.hauteur;
   const cx = W / 2;
-  const cy = 580;
-  const cyFond = cadre.haut + cy * cadre.echelle;
+  const cy = 548;
+  const M = 84;
   ctx.fillStyle = '#0a0704';
   ctx.fillRect(0, 0, W, H);
-  const lueur = ctx.createRadialGradient(cx, cyFond, 0, cx, cyFond, 600);
-  lueur.addColorStop(0, `rgba(233, 162, 59, ${(0.17 * lumiere).toFixed(3)})`);
-  lueur.addColorStop(0.45, `rgba(233, 162, 59, ${(0.05 * lumiere).toFixed(3)})`);
-  lueur.addColorStop(1, 'rgba(233, 162, 59, 0)');
-  ctx.fillStyle = lueur;
-  ctx.fillRect(0, 0, W, H);
-  const haut = ctx.createRadialGradient(cx, 0, 0, cx, 0, 700);
-  haut.addColorStop(0, 'rgba(233, 162, 59, 0.08)');
-  haut.addColorStop(1, 'rgba(233, 162, 59, 0)');
-  ctx.fillStyle = haut;
-  ctx.fillRect(0, 0, W, H * 0.5);
 
   ctx.save();
   ctx.translate((W * (1 - cadre.echelle)) / 2, cadre.haut);
   ctx.scale(cadre.echelle, cadre.echelle);
 
-  /* LE HAUT : le nom, la devise, la ligne technique, en Inter comme le site. */
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'alphabetic';
-  ctx.fillStyle = CREME;
-  ajuster(ctx, textes.titre, (t) => `700 ${t}px ${SANS}`, 88, W - 120);
-  ctx.fillText(textes.titre, cx, 116);
-  ctx.fillStyle = AMBRE;
-  ajuster(ctx, textes.devise, (t) => `500 ${t}px ${SANS}`, 38, W - 160);
-  ctx.fillText(textes.devise, cx, 170);
-  ctx.fillStyle = CREME_DOUCE;
-  ajuster(ctx, textes.entete, (t) => `600 ${t}px ${SANS}`, 22, W - 220);
-  espace(ctx, textes.entete, cx, 216, 4);
+  const filet = (y: number, alpha = 0.14): void => {
+    ctx.fillStyle = `rgba(239, 231, 216, ${alpha})`;
+    ctx.fillRect(M, y, W - 2 * M, 1);
+  };
 
-  /* LE CERCLE, assez bas pour que le « 1 » du premier temps ne touche plus
-     la ligne technique, assez petit pour que le « 3 » ne touche pas la
-     grille. */
-  const R = 235;
-  const rayons = [1, 0.8, 0.62, 0.46, 0.32];
-  ctx.lineWidth = 1.5;
-  ctx.strokeStyle = 'rgba(239, 231, 216, 0.10)';
-  for (const k of [1.12, 1, 0.62, 0.32]) {
-    ctx.beginPath();
-    ctx.arc(cx, cy, R * k, 0, Math.PI * 2);
-    ctx.stroke();
+  /* L'EN-TETE DE PLANCHE : la famille et les machines en haut, le titre du
+     style et sa devise poses au-dessus d'un filet fin. */
+  ctx.textBaseline = 'alphabetic';
+  ctx.textAlign = 'left';
+  ctx.fillStyle = CREME_DOUCE;
+  ajuster(ctx, textes.entete, (t) => `500 ${t}px ${SANS}`, 20, W - 2 * M - 180);
+  ctx.fillText(textes.entete, M, 84);
+  if (textes.signature) {
+    ctx.textAlign = 'right';
+    ctx.fillStyle = 'rgba(239, 231, 216, 0.42)';
+    ctx.font = `600 19px ${SANS}`;
+    ctx.fillText(textes.signature.toLowerCase(), W - M, 84);
   }
-  /* Les pas en pointille autour, les temps en chiffres. */
-  /* Un temps vaut quatre doubles croches, ou trois croches en 12/8 ; sur
-     deux mesures, les temps se comptent deux fois de 1 a 4. */
+  filet(104, 0.16);
+
+  ctx.textAlign = 'left';
+  ctx.fillStyle = CREME;
+  ajuster(ctx, textes.titre, (t) => `700 ${t}px ${SANS}`, 74, W - 2 * M);
+  ctx.fillText(textes.titre, M, 184);
+  ctx.fillStyle = AMBRE;
+  ajuster(ctx, textes.devise, (t) => `500 ${t}px ${SANS}`, 30, W - 2 * M);
+  ctx.fillText(textes.devise, M, 226);
+  filet(252, 0.12);
+
+  /* LE CADRAN : un anneau par piste active, graduations fines des pas sur la
+     couronne exterieure, chiffres des quatre temps. */
+  const pistes = motif.pistes.slice(0, 5);
+  const R = 216;
+  const rayons = [1, 0.81, 0.63, 0.46, 0.31];
+
+  /* Couronne exterieure et graduations des pas. */
+  const rCouronne = R * 1.1;
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = 'rgba(239, 231, 216, 0.12)';
+  ctx.beginPath();
+  ctx.arc(cx, cy, rCouronne, 0, Math.PI * 2);
+  ctx.stroke();
+
   const parTemps = n === 12 ? 3 : 4;
   for (let i = 0; i < n; i += 1) {
     const a = rad(i, n);
     const temps = i % parTemps === 0;
-    ctx.fillStyle = temps ? 'rgba(239, 231, 216, 0.55)' : CREME_PALE;
+    const rInterne = rCouronne - (temps ? 10 : 5);
+    const rExterne = rCouronne + (temps ? 4 : 1);
+    ctx.strokeStyle = temps ? 'rgba(239, 231, 216, 0.48)' : 'rgba(239, 231, 216, 0.18)';
+    ctx.lineWidth = temps ? 1.5 : 1;
     ctx.beginPath();
-    ctx.arc(cx + Math.cos(a) * R * 1.12, cy + Math.sin(a) * R * 1.12, temps ? 4 : 2.5, 0, Math.PI * 2);
-    ctx.fill();
+    ctx.moveTo(cx + Math.cos(a) * rInterne, cy + Math.sin(a) * rInterne);
+    ctx.lineTo(cx + Math.cos(a) * rExterne, cy + Math.sin(a) * rExterne);
+    ctx.stroke();
   }
-  ctx.font = `500 30px ${SANS}`;
-  ctx.fillStyle = CREME_DOUCE;
+
+  /* Les chiffres des temps, discrets et nets. */
+  ctx.font = `500 21px ${SANS}`;
+  ctx.fillStyle = 'rgba(239, 231, 216, 0.45)';
+  ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   const nTemps = n / parTemps;
   for (let b = 0; b < nTemps; b += 1) {
     const a = rad(b * parTemps, n);
-    ctx.fillText(String((b % 4) + 1), cx + Math.cos(a) * R * 1.24, cy + Math.sin(a) * R * 1.24);
+    ctx.fillText(String((b % 4) + 1), cx + Math.cos(a) * R * 1.21, cy + Math.sin(a) * R * 1.21);
   }
 
-  /* LA PRESENCE DE CHAQUE PISTE. Pendant l'intro, une piste qui n'est pas
-     encore entree reste en fil tres pale, et celle qui entre se dessine sur
-     son premier temps. Au silence, tout baisse. */
-  const pistes = motif.pistes.slice(0, 5);
+  /* Un anneau capillaire pour chaque piste du motif. */
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = 'rgba(239, 231, 216, 0.07)';
+  for (let p = 0; p < pistes.length; p += 1) {
+    const r = R * (rayons[p] ?? 0.31);
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+
+  /* LA PRESENCE DE CHAQUE PISTE. */
   const presence = pistes.map((_, p) => {
     if (!etat) return 1;
-    if (etat.silence) return 0.3;
+    if (etat.silence) return 0.25;
     if (!etat.actives[p]) return 0.12;
     return 1;
   });
   const joue = (p: number): boolean => !etat || (!etat.silence && (etat.actives[p] ?? false));
 
-  /* LES FIGURES, de la piste la plus interieure a la plus exterieure, pour
-     que le kick soit dessine par-dessus. */
+  /* LES FIGURES GEOMETRIQUES, de la piste la plus interieure a la plus
+     exterieure, tracees au trait fin sans halo flou. */
   for (let p = pistes.length - 1; p >= 0; p -= 1) {
     const piste = pistes[p];
     if (!piste) continue;
-    const r = R * (rayons[p] ?? 0.3);
+    const r = R * (rayons[p] ?? 0.31);
     const teinte = TEINTES[p] ?? CREME;
     const a = presence[p] ?? 1;
     const sommets = piste.pas.flatMap((v, i) => (v > 0 ? [{ i, v, x: cx + Math.cos(rad(i, n)) * r, y: cy + Math.sin(rad(i, n)) * r }] : []));
@@ -216,79 +229,90 @@ export function dessinerAffiche(ctx: CanvasRenderingContext2D, motif: Motif, tex
       ctx.beginPath();
       sommets.forEach((s, k) => (k === 0 ? ctx.moveTo(s.x, s.y) : ctx.lineTo(s.x, s.y)));
       ctx.closePath();
-      ctx.globalAlpha = 0.07 * a;
+      ctx.globalAlpha = 0.045 * a;
       ctx.fillStyle = teinte;
       ctx.fill();
-      ctx.globalAlpha = 0.6 * a;
+      ctx.globalAlpha = 0.72 * a;
       ctx.strokeStyle = teinte;
-      ctx.lineWidth = 2.5;
+      ctx.lineWidth = 1.75;
       ctx.stroke();
       ctx.globalAlpha = 1;
     }
     for (const s of sommets) {
       const frappe = s.i === pasCourant && joue(p);
-      const taille = (s.v === 2 ? 8 : 5.5) * (frappe ? 1.5 : 1);
+      const taille = (s.v === 2 ? 6.5 : 4.5) * (frappe ? 1.35 : 1);
       ctx.fillStyle = teinte;
-      ctx.globalAlpha = (s.v === 2 ? 1 : 0.7) * a;
+      ctx.globalAlpha = (s.v === 2 ? 1 : 0.72) * a;
       ctx.beginPath();
       ctx.arc(s.x, s.y, taille, 0, Math.PI * 2);
       ctx.fill();
       ctx.globalAlpha = 1;
       if (frappe) {
-        /* L'onde de la frappe : un anneau qui s'ouvre et s'eteint pendant
-           la duree du pas. */
         ctx.strokeStyle = teinte;
-        ctx.globalAlpha = 0.85 * (1 - dansLePas);
-        ctx.lineWidth = 2.5;
+        ctx.globalAlpha = 0.75 * (1 - dansLePas);
+        ctx.lineWidth = 1.5;
         ctx.beginPath();
-        ctx.arc(s.x, s.y, taille + 6 + dansLePas * 46, 0, Math.PI * 2);
+        ctx.arc(s.x, s.y, taille + 4 + dansLePas * 22, 0, Math.PI * 2);
         ctx.stroke();
         ctx.globalAlpha = 1;
       }
     }
   }
 
-  /* LA TETE DE LECTURE : un rayon, et un point lumineux sur le bord. */
+  /* L'AIGUILLE DE LECTURE : un rayon fin et un repere net sur la couronne,
+     sans boule lumineuse verte. */
   const aTete = rad(instant.position % n, n);
-  const tx = cx + Math.cos(aTete) * R * 1.12;
-  const ty = cy + Math.sin(aTete) * R * 1.12;
-  ctx.strokeStyle = 'rgba(239, 231, 216, 0.22)';
-  ctx.lineWidth = 1.5;
+  const tx = cx + Math.cos(aTete) * rCouronne;
+  const ty = cy + Math.sin(aTete) * rCouronne;
+  ctx.strokeStyle = 'rgba(239, 231, 216, 0.32)';
+  ctx.lineWidth = 1.25;
   ctx.beginPath();
-  ctx.moveTo(cx, cy);
+  ctx.moveTo(cx + Math.cos(aTete) * 80, cy + Math.sin(aTete) * 80);
   ctx.lineTo(tx, ty);
   ctx.stroke();
-  const halo = ctx.createRadialGradient(tx, ty, 0, tx, ty, 54);
-  halo.addColorStop(0, 'rgba(125, 195, 131, 0.55)');
-  halo.addColorStop(1, 'rgba(125, 195, 131, 0)');
-  ctx.fillStyle = halo;
-  ctx.beginPath();
-  ctx.arc(tx, ty, 54, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = '#fbf6ea';
-  ctx.beginPath();
-  ctx.arc(tx, ty, 8, 0, Math.PI * 2);
-  ctx.fill();
-
-  /* LE CENTRE : le tempo, et la mesure dessous. */
-  ctx.fillStyle = 'rgba(11, 8, 5, 0.55)';
-  ctx.beginPath();
-  ctx.arc(cx, cy, 92, 0, Math.PI * 2);
-  ctx.fill();
   ctx.fillStyle = CREME;
-  ctx.font = `600 96px ${SANS}`;
-  ctx.textBaseline = 'alphabetic';
-  ctx.fillText(String(motif.bpm), cx, cy + 22);
-  ctx.fillStyle = VERT;
-  ctx.font = `700 20px ${SANS}`;
-  espace(ctx, textes.mesure, cx, cy + 58, 3);
+  ctx.beginPath();
+  ctx.arc(tx, ty, 5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = AMBRE;
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.arc(tx, ty, 9 + eclat * 6, 0, Math.PI * 2);
+  ctx.stroke();
 
-  /* LA GRILLE. */
-  const hautGrille = 906;
-  const ligne = pistes.length > 4 ? 36 : 40;
-  const gauche = 300;
-  const droite = W - 120;
+  /* LE CENTRE : disque mat encadre d'un filet fin, tempo et tonalite. */
+  ctx.fillStyle = '#0a0704';
+  ctx.beginPath();
+  ctx.arc(cx, cy, 88, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(239, 231, 216, 0.14)';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  ctx.fillStyle = CREME;
+  ctx.font = `600 72px ${SANS}`;
+  ctx.textBaseline = 'alphabetic';
+  ctx.fillText(String(motif.bpm), cx, cy + 12);
+  ctx.fillStyle = CREME_DOUCE;
+  const sousCentre = `${motif.mesure}${motif.tonalite ? ` · ${motif.tonalite}` : ''}`;
+  ctx.font = `600 15px ${SANS}`;
+  espace(ctx, sousCentre, cx, cy + 40, 2);
+
+  /* LA GRILLE DE SEQUENCAGE : barres franches a coins nets (2 px), repere de
+     temps tous les 4 pas, curseur capillaire. */
+  filet(836, 0.12);
+  const hautGrille = 874;
+  const ligne = pistes.length > 4 ? 38 : 42;
+  const gauche = 292;
+  const droite = W - M;
   const largeurPas = (droite - gauche) / n;
+
+  /* Reperes verticaux des temps dans la grille. */
+  for (let b = 0; b < n; b += parTemps) {
+    const xb = gauche + b * largeurPas;
+    ctx.fillStyle = 'rgba(239, 231, 216, 0.06)';
+    ctx.fillRect(xb, hautGrille - 16, 1, (pistes.length - 1) * ligne + 32);
+  }
+
   ctx.textBaseline = 'middle';
   pistes.forEach((piste, p) => {
     const y = hautGrille + p * ligne;
@@ -296,72 +320,81 @@ export function dessinerAffiche(ctx: CanvasRenderingContext2D, motif: Motif, tex
     ctx.globalAlpha = Math.max(0.35, presence[p] ?? 1);
     ctx.textAlign = 'left';
     ctx.fillStyle = teinte;
-    ctx.font = `700 22px ${SANS}`;
-    ctx.fillText(textes.langue === 'fr' ? piste.fr : piste.en, 120, y);
+    ctx.font = `600 19px ${SANS}`;
+    ctx.fillText(textes.langue === 'fr' ? piste.fr : piste.en, M, y);
     piste.pas.forEach((v, i) => {
       const x = gauche + i * largeurPas + largeurPas / 2;
       if (v === 0) {
-        ctx.fillStyle = CREME_PALE;
-        ctx.beginPath();
-        ctx.arc(x, y, 2.5, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.fillStyle = 'rgba(239, 231, 216, 0.16)';
+        ctx.fillRect(x - 1, y - 1, 2, 2);
         return;
       }
-      const l = Math.min(largeurPas - (n === 32 ? 3 : 8), 34);
+      const l = Math.min(largeurPas - (n === 32 ? 3 : 7), 32);
+      const hBarre = v === 2 ? 18 : 12;
       ctx.fillStyle = teinte;
-      ctx.globalAlpha = (v === 2 ? 0.95 : 0.5) * (presence[p] ?? 1);
-      pave(ctx, x - l / 2, y - 11, l, 22, 5);
+      ctx.globalAlpha = (v === 2 ? 0.95 : 0.48) * (presence[p] ?? 1);
+      pave(ctx, x - l / 2, y - hBarre / 2, l, hBarre, 2);
       ctx.fill();
       ctx.globalAlpha = Math.max(0.35, presence[p] ?? 1);
       if (i === pasCourant && joue(p)) {
-        ctx.strokeStyle = '#fbf6ea';
-        ctx.globalAlpha = 0.7 * (1 - dansLePas);
-        ctx.lineWidth = 2;
-        pave(ctx, x - l / 2 - 3, y - 14, l + 6, 28, 7);
+        ctx.strokeStyle = CREME;
+        ctx.globalAlpha = 0.85 * (1 - dansLePas);
+        ctx.lineWidth = 1.5;
+        pave(ctx, x - l / 2 - 2, y - hBarre / 2 - 2, l + 4, hBarre + 4, 3);
         ctx.stroke();
         ctx.globalAlpha = Math.max(0.35, presence[p] ?? 1);
       }
     });
     ctx.globalAlpha = 1;
   });
+
   /* Le curseur de la grille. */
   const xc = gauche + (instant.position % n) * largeurPas;
-  ctx.strokeStyle = 'rgba(239, 231, 216, 0.45)';
-  ctx.lineWidth = 2;
+  ctx.strokeStyle = 'rgba(239, 231, 216, 0.55)';
+  ctx.lineWidth = 1.5;
   ctx.beginPath();
-  ctx.moveTo(xc, hautGrille - 24);
-  ctx.lineTo(xc, hautGrille + (pistes.length - 1) * ligne + 24);
+  ctx.moveTo(xc, hautGrille - 18);
+  ctx.lineTo(xc, hautGrille + (pistes.length - 1) * ligne + 18);
   ctx.stroke();
 
-  /* LES ETAPES du morceau, la courante allumee ; au repos, le premier drop. */
-  ctx.textAlign = 'center';
+  /* LES ETAPES DU MORCEAU ET LE PIED EDITORIAL. */
+  filet(1068, 0.12);
   ctx.textBaseline = 'alphabetic';
   const courante = etat?.etape ?? 0;
-  ctx.font = `700 18px ${SANS}`;
-  const morceaux = textes.sections.flatMap((x, i) => (i === 0 ? [x] : ['·', x]));
-  const ecart = 3;
-  const largeurDe = (x: string): number => [...x].reduce((t, c) => t + ctx.measureText(c).width + ecart, -ecart);
-  const blanc = 18;
-  const total = morceaux.reduce((t, x) => t + largeurDe(x), 0) + blanc * (morceaux.length - 1);
-  let x0 = cx - total / 2;
-  morceaux.forEach((x, k) => {
-    const l = largeurDe(x);
-    ctx.fillStyle = k % 2 === 1 ? CREME_PALE : k / 2 === courante ? AMBRE : 'rgba(239, 231, 216, 0.38)';
-    espace(ctx, x, x0 + l / 2, 1112, ecart);
-    x0 += l + blanc;
+  ctx.font = `600 16px ${SANS}`;
+  ctx.textAlign = 'left';
+  let xEtape = M;
+  textes.sections.forEach((sec, idx) => {
+    if (idx > 0) {
+      ctx.fillStyle = CREME_PALE;
+      ctx.fillText('·', xEtape, 1104);
+      xEtape += ctx.measureText('·').width + 14;
+    }
+    ctx.fillStyle = idx === courante ? AMBRE : 'rgba(239, 231, 216, 0.38)';
+    ctx.fillText(sec, xEtape, 1104);
+    xEtape += ctx.measureText(sec).width + 14;
   });
 
-  /* LE BAS : le resume en vert, l'origine en italique, la signature. */
-  ctx.fillStyle = VERT;
-  ajuster(ctx, textes.resume, (t) => `700 ${t}px ${SANS}`, 24, W - 200);
-  espace(ctx, textes.resume, cx, 1170, 4);
-  ctx.fillStyle = 'rgba(239, 231, 216, 0.78)';
-  ajuster(ctx, textes.racine, (t) => `400 ${t}px ${SANS}`, 28, W - 140);
-  ctx.fillText(textes.racine, cx, 1232);
+  ctx.textAlign = 'left';
+  ctx.fillStyle = CREME;
+  ajuster(ctx, textes.resume, (t) => `600 ${t}px ${SANS}`, 23, W - 2 * M);
+  ctx.fillText(textes.resume, M, 1164);
+
+  ctx.fillStyle = CREME_DOUCE;
+  ajuster(ctx, textes.racine, (t) => `400 ${t}px ${SANS}`, 25, W - 2 * M);
+  ctx.fillText(textes.racine, M, 1212);
+
+  filet(1254, 0.14);
   if (textes.signature) {
-    ctx.fillStyle = 'rgba(239, 231, 216, 0.45)';
-    ctx.font = `600 20px ${SANS}`;
-    espace(ctx, textes.signature, cx, 1304, 5);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = 'rgba(239, 231, 216, 0.55)';
+    ctx.font = `600 18px ${SANS}`;
+    ctx.fillText(textes.signature.toLowerCase(), M, 1292);
   }
+  ctx.textAlign = 'right';
+  ctx.fillStyle = 'rgba(239, 231, 216, 0.42)';
+  ctx.font = `500 18px ${SANS}`;
+  ctx.fillText(`${motif.bpm} BPM · ${motif.mesure}${motif.tonalite ? ` · ${motif.tonalite}` : ''}`, W - M, 1292);
+
   ctx.restore();
 }

@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import RYTHMES from '../../data/rythmes.json';
 import CORPUS from '../../data/corpus.json';
 import type { Motif } from '../../lib/rythmes.ts';
-import { accordeDe, fichiersDuMotif, kitDeFamille, plusProche } from './echantillons.ts';
+import { accordeDe, fichiersDuMotif, kitDeFamille, kitDuMotif, plusProche } from './echantillons.ts';
 
 const motifs = RYTHMES as unknown as Record<string, Motif>;
 
@@ -13,9 +13,20 @@ describe('les sons enregistres', () => {
     for (const g of CORPUS.genres) {
       const m = motifs[g.id];
       if (!m) continue;
+      for (const nom of fichiersDuMotif(m, kitDuMotif(m, g.family))) if (!existsSync(`public/sons/${nom}.wav`)) manquants.add(nom);
       for (const nom of fichiersDuMotif(m, kitDeFamille(g.family))) if (!existsSync(`public/sons/${nom}.wav`)) manquants.add(nom);
     }
     expect([...manquants]).toEqual([]);
+  });
+
+  it('choisit le kit selon les machines du motif et garde les breaks et clics au synthetiseur', () => {
+    const electro = motifs['electrohouse'];
+    const italo = motifs['italodisco'];
+    const micro = motifs['microhouse'];
+    if (!electro || !italo || !micro) throw new Error('motifs');
+    expect(kitDuMotif(electro, 'house')).toBe('roland');
+    expect(kitDuMotif(italo, 'disco')).toBe('linn');
+    expect(fichiersDuMotif(micro, kitDuMotif(micro, 'minimal'))).toEqual([]);
   });
 
   it('donnent leur provenance et leur licence', () => {
