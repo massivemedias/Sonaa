@@ -25,9 +25,9 @@
   display: block;
   width: 100%;
   max-width: 520px;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 1080 / 580;
   height: auto;
-  border-radius: 12px;
+  border-radius: 18px;
   border: 1px solid var(--filet);
   background: #0a0704;
 }

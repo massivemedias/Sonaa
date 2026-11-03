@@ -22,7 +22,7 @@ import { FaIcon } from './FaIcon.tsx';
 import { t } from '../langue/langue.ts';
 import { slug } from '../lib/chemins.ts';
 import { motifDuStyle, type Motif } from '../lib/rythmes.ts';
-import { dessinerAffiche, HAUTEUR_REEL, HAUTEUR_RYTHME, LARGEUR_RYTHME, type FormatAffiche } from './rythme/dessin.ts';
+import { dessinerAffiche, HAUTEUR_PAGE, HAUTEUR_REEL, HAUTEUR_RYTHME, LARGEUR_RYTHME, type FormatAffiche } from './rythme/dessin.ts';
 import { dureeDuPas, jouer, type Lecteur } from './rythme/son.ts';
 import { dureeDuPlan, etatAu, plan } from './rythme/arrangement.ts';
 import { TYPES, telecharger, textesDe } from './rythme/video.ts';
@@ -74,7 +74,7 @@ export function RythmeDuStyle({ genreId, titre, famille, familleId }: { genreId:
       const l = Math.round(c.clientWidth * Math.min(2, window.devicePixelRatio || 1));
       if (l > 0 && c.width !== l) {
         c.width = l;
-        c.height = Math.round((l * HAUTEUR_RYTHME) / LARGEUR_RYTHME);
+        c.height = Math.round((l * HAUTEUR_PAGE) / LARGEUR_RYTHME);
       }
     };
     const dessiner = (): void => {
@@ -82,7 +82,7 @@ export function RythmeDuStyle({ genreId, titre, famille, familleId }: { genreId:
       const l = lecteur.current;
       const position = l ? l.position() : mouvementReduit() ? 0 : (performance.now() - t0) / 1000 / duree;
       ctx.setTransform(c.width / LARGEUR_RYTHME, 0, 0, c.width / LARGEUR_RYTHME, 0, 0);
-      dessinerAffiche(ctx, motif, textes, { position, etat: l ? etatAu(motif, cycles, position) : null });
+      dessinerAffiche(ctx, motif, textes, { position, etat: l ? etatAu(motif, cycles, position) : null }, 'page');
     };
     const boucle = (): void => {
       dessiner();
@@ -209,7 +209,7 @@ export function RythmeDuStyle({ genreId, titre, famille, familleId }: { genreId:
         ref={toile}
         className="ry-toile"
         width={LARGEUR_RYTHME / 2}
-        height={HAUTEUR_RYTHME / 2}
+        height={HAUTEUR_PAGE / 2}
         role="img"
         aria-label={t.rythmeAria(titre, motif.bpm, textes.resume)}
       />

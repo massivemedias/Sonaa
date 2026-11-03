@@ -270,6 +270,10 @@ function lireFichier(s: Studio, nom: string, sortie: AudioNode, t: number, nivea
 
 function jouerEnregistre(s: Studio, voix: Voix, c: Coup): boolean {
   const sortie = s.canaux[CANAL[voix]];
+  /* Les kicks de gabber, hardcore ou psytrance sont synthetises sur mesure. */
+  if (voix === 'kick' && (s.famille === 'hardcore' || s.famille === 'psy' || (s.motif.grain ?? 0) >= 0.85)) {
+    return false;
+  }
   const a = accordeDe(c.p);
   if (a) {
     let joue = false;
@@ -282,13 +286,13 @@ function jouerEnregistre(s: Studio, voix: Voix, c: Coup): boolean {
   }
   const nom = fichierDe(voix, s.kit, c.p);
   if (!nom) return false;
-  const niveau = (voix === 'hat' || voix === 'shaker' ? 0.7 : 0.9) * c.force;
+  const niveau = (voix === 'hat' || voix === 'shaker' ? 0.65 : 0.88) * c.force;
   if (!lireFichier(s, nom, sortie, c.t, niveau)) return false;
-  /* Le kick enregistre de la LinnDrum ou de la CR-78 est maigre dans le
-     grave : une sinusoide courte le double, sous lui. */
+  /* Un kick enregistre gagne en assise de club avec une courte sous-basse
+     sinusoidale sous son attaque. */
   if (voix === 'kick') {
-    const o = oscillateur(s, 'sine', 110, c.t, c.t + 0.4, enveloppe(s, c.t, 0.55 * c.force, 0.003, 0.3, sortie));
-    o.frequency.exponentialRampToValueAtTime(46, c.t + 0.08);
+    const o = oscillateur(s, 'sine', 105, c.t, c.t + 0.36, enveloppe(s, c.t, 0.42 * c.force, 0.003, 0.28, sortie));
+    o.frequency.exponentialRampToValueAtTime(47, c.t + 0.075);
   }
   return true;
 }
@@ -459,6 +463,26 @@ function jouerVoix(s: Studio, voix: Voix, c: Coup): void {
     case 'conga':
     case 'bongo':
     case 'perc': {
+      if (/BOUCLE|LOOP/.test(etik)) {
+        /* Boucle percussive / chug industriel (schranz, hardgroove, techno) :
+           impulsion basse saturee et souffle metallique court qui pompe. */
+        const tenue = Math.min(0.14, Math.max(0.07, duree * 0.72));
+        const g = enveloppe(s, t, 0.58 * force, 0.002, tenue, sortie);
+        const bp = filtre(s, 'bandpass', 480 + 420 * force, 2.4, g);
+        const o = oscillateur(s, 'sawtooth', 135, t, t + tenue + 0.03, bp);
+        o.frequency.exponentialRampToValueAtTime(78, t + tenue);
+        souffle(s, sortie, t, 0.46 * force, tenue * 0.85, 'bandpass', 1850, 1.8, 0.003);
+        break;
+      }
+      if (/BANDE|TAPE|MACHINE|LFO|PORTI|CAR DOOR|CLIQUETIS|RATTLE|TICK/.test(etik)) {
+        /* Texture mecanique, boucle de bande ou LFO rythmique. */
+        const tenue = Math.min(0.18, Math.max(0.06, duree * 0.65));
+        const fCentre = /BANDE|TAPE/.test(etik) ? 950 : /PORTI|CAR DOOR/.test(etik) ? 320 : 2400;
+        souffle(s, sortie, t, 0.42 * force, tenue, 'bandpass', fCentre, 2.6, 0.004);
+        const o = oscillateur(s, 'triangle', fCentre * 0.45, t, t + tenue + 0.03, enveloppe(s, t, 0.34 * force, 0.001, tenue * 0.7, sortie));
+        o.frequency.exponentialRampToValueAtTime(fCentre * 0.22, t + tenue * 0.7);
+        break;
+      }
       if (/AMEN|BREAK/.test(etik)) {
         /* Tranche de breakbeat : alternance de caisse fantome et de charley. */
         if (force > 0.75) {
@@ -703,20 +727,36 @@ function jouerVoix(s: Studio, voix: Voix, c: Coup): void {
     case 'strings':
     case 'pad': {
       const estSupersaw = /SUPERSAW|JP-8000|VIRUS/.test(etik) || (s.famille === 'trance' && (voix === 'chord' || voix === 'stab'));
-      const estDub = /DUB/.test(etik);
+      const estDub = /DUB|SKANK/.test(etik);
+      const estCuivre = /CUIVRE|BRASS/.test(etik);
+      const estOrch = /ORCH/.test(etik);
+      const estGuitare = /GUITAR|CLAVINET/.test(etik);
       const reglages = {
-        stab: { forme: 'sawtooth' as const, attaque: 0.003, tenue: estDub ? 0.12 : 0.16, coupe: estDub ? 1900 : 2800, niveau: 0.11 },
-        chord: { forme: 'sawtooth' as const, attaque: 0.01, tenue: Math.max(0.25, duree), coupe: estSupersaw ? 3400 : 1600, niveau: 0.09 },
-        organ: { forme: 'sine' as const, attaque: 0.005, tenue: Math.max(0.18, duree * 0.88), coupe: 4200, niveau: 0.085 },
+        stab: {
+          forme: 'sawtooth' as const,
+          attaque: estCuivre ? 0.028 : 0.003,
+          tenue: estOrch ? 0.28 : estDub ? 0.12 : estCuivre ? 0.22 : 0.16,
+          coupe: estOrch ? 3600 : estDub ? 1900 : estCuivre ? 2400 : 2800,
+          niveau: estOrch ? 0.14 : 0.11,
+        },
+        chord: {
+          forme: estGuitare ? ('square' as const) : ('sawtooth' as const),
+          attaque: estGuitare ? 0.003 : 0.01,
+          tenue: estDub || estGuitare ? Math.min(0.18, duree * 0.7) : Math.max(0.25, duree),
+          coupe: estSupersaw ? 3400 : estGuitare ? 2600 : 1600,
+          niveau: 0.095,
+        },
+        organ: { forme: 'sine' as const, attaque: 0.005, tenue: estDub ? 0.14 : Math.max(0.18, duree * 0.88), coupe: 4200, niveau: 0.085 },
         strings: { forme: 'sawtooth' as const, attaque: 0.18, tenue: Math.max(0.6, duree), coupe: 2200, niveau: 0.07 },
-        pad: { forme: 'sawtooth' as const, attaque: 0.35, tenue: Math.max(1.2, duree), coupe: 1150, niveau: 0.08 },
+        pad: { forme: 'sawtooth' as const, attaque: 0.35, tenue: Math.max(1.2, duree), coupe: /MELLOTRON/.test(etik) ? 1650 : 1150, niveau: 0.08 },
       }[voix];
       const fin = t + reglages.attaque + reglages.tenue;
       const lp = s.ac.createBiquadFilter();
       lp.type = 'lowpass';
-      lp.Q.value = estDub ? 4.5 : 1.4;
+      lp.Q.value = estDub ? 4.5 : estGuitare ? 2.8 : 1.4;
       lp.frequency.setValueAtTime(voix === 'stab' ? reglages.coupe * 1.6 : reglages.coupe, t);
-      if (voix === 'stab') lp.frequency.exponentialRampToValueAtTime(estDub ? 480 : 700, t + 0.14);
+      if (voix === 'stab' || estGuitare) lp.frequency.exponentialRampToValueAtTime(estDub ? 480 : 700, t + 0.14);
+      if (estOrch) souffle(s, sortie, t, 0.28 * force, 0.14, 'bandpass', 2400, 1.2, 0.002);
       const g = s.ac.createGain();
       g.gain.setValueAtTime(0.0001, t);
       g.gain.exponentialRampToValueAtTime(reglages.niveau * force, t + reglages.attaque);
@@ -818,9 +858,20 @@ function jouerVoix(s: Studio, voix: Voix, c: Coup): void {
           o.frequency.exponentialRampToValueAtTime(f0 * 0.7, fin);
           break;
         }
-        /* Une voix hachee : deux formants de « a » sur une dent de scie. */
-        const f1 = filtre(s, 'bandpass', 750, 7, g);
-        const f2 = filtre(s, 'bandpass', 1200, 7, g);
+        if (/CRIS|SCREAM/.test(etik) || s.famille === 'hardcore' || grain >= 0.7) {
+          /* Voix / cri percussif techno ou hardcore : formants tendus et souffle. */
+          const f1 = filtre(s, 'bandpass', 920, 5.5, g);
+          const f2 = filtre(s, 'bandpass', 1850, 5.5, g);
+          for (const d of [-11, 11]) {
+            const o = oscillateur(s, 'sawtooth', f0, t, fin + 0.08, f1, d);
+            o.connect(f2);
+          }
+          souffle(s, sortie, t, 0.22 * force, Math.min(0.12, duree * 0.7), 'bandpass', 1600, 2.2, 0.004);
+          break;
+        }
+        /* Une voix hachee / talkbox : deux formants de voyelle sur une dent de scie. */
+        const f1 = filtre(s, 'bandpass', /TALKBOX/.test(etik) ? 620 : 750, 7, g);
+        const f2 = filtre(s, 'bandpass', /TALKBOX/.test(etik) ? 1480 : 1200, 7, g);
         const o = oscillateur(s, 'sawtooth', f0, t, fin + 0.1, f1);
         o.connect(f2);
         break;

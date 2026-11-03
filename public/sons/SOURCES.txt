@@ -3,7 +3,11 @@ SONAA - les sons des affiches de rythme (ADR-113)
 Tous ces fichiers sont libres de droits. Ils ont ete convertis en mono,
 coupes, et leur crete ramenee a -1 dB ; rien d'autre n'a ete change.
 
-Domaine public, via le depot oramics/sampled (github.com/oramics/sampled) :
+Domaine public et licences libres, via le depot oramics/sampled (github.com/oramics/sampled) :
+  tr909-*.wav  Roland TR-909 Detroit, enregistree via API et Neve (F9 Audio / oramics)
+  sp909-*.wav  Roland TR-909 passee dans un E-mu SP-1200 (F9 Audio / oramics)
+  tr808-*.wav  Roland TR-808, collection oramics/sampled (Public Domain)
+  break-*.wav  Pearl Master Studio Acoustic Drum Kit par enoe (oramics/sampled)
   lm2-*.wav    LinnDrum LM-2, source machines.hyperreal.org (Public Domain)
   tr505-*.wav  Roland TR-505, source progsounds.com (Public Domain)
   cr78-*.wav   Roland CompuRhythm CR-78, source boxedear.com (Public Domain)

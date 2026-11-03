@@ -19,14 +19,20 @@ describe('les sons enregistres', () => {
     expect([...manquants]).toEqual([]);
   });
 
-  it('choisit le kit selon les machines du motif et garde les breaks et clics au synthetiseur', () => {
-    const electro = motifs['electrohouse'];
+  it('choisit le kit selon les machines du motif et garde les bruits et clics au synthetiseur', () => {
+    const detroit = motifs['detroittechno'];
+    const acidHouse = motifs['acidhouse'];
+    const french = motifs['frenchhouse'];
+    const jungle = motifs['jungle'];
     const italo = motifs['italodisco'];
     const micro = motifs['microhouse'];
-    if (!electro || !italo || !micro) throw new Error('motifs');
-    expect(kitDuMotif(electro, 'house')).toBe('roland');
+    if (!detroit || !acidHouse || !french || !jungle || !italo || !micro) throw new Error('motifs');
+    expect(kitDuMotif(detroit, 'techno')).toBe('tr909');
+    expect(kitDuMotif(acidHouse, 'house')).toBe('tr808');
+    expect(kitDuMotif(french, 'house')).toBe('sp909');
+    expect(kitDuMotif(jungle, 'breaks')).toBe('breaks');
     expect(kitDuMotif(italo, 'disco')).toBe('linn');
-    expect(fichiersDuMotif(micro, kitDuMotif(micro, 'minimal'))).toEqual([]);
+    expect(fichiersDuMotif(micro, kitDuMotif(micro, 'minimal'))).toEqual(['tr909-kick']);
   });
 
   it('donnent leur provenance et leur licence', () => {

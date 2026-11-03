@@ -1,54 +1,89 @@
 /* LES SONS ENREGISTRES DES AFFICHES DE RYTHME.
 
    Mika, le 30 octobre 2026 : « importe des samples one-shot, ce n'est pas un
-   probleme ». Les batteries et les instruments acoustiques sonnent mieux
-   enregistres que fabriques : une caisse de LinnDrum, un charley de TR-505,
-   une conga, un piano, un marimba. Le synthetiseur (son.ts) garde ce qu'il
-   fait bien, les basses, les nappes, la 303, et reprend la main sur toute
-   voix dont le fichier manque.
+   probleme », puis le 2 novembre 2026 : « faut arranger surtout les samples,
+   faire des recherches quand meme basiques concernant le style selectionne ».
 
-   TOUS LES FICHIERS SONT LIBRES : domaine public pour les trois boites a
-   rythmes, CC0 pour la bibliotheque Versilian. La provenance de chacun est
-   dans public/sons/SOURCES.txt.
+   Les batteries et les instruments acoustiques sonnent mieux enregistres que
+   fabriques : une vraie TR-909, une TR-909 passee dans un SP-1200, une vraie
+   TR-808, une LinnDrum LM-2, une batterie acoustique de breakbeat, une
+   TR-505, une CR-78, un piano, un piano FM DX7/TX81Z, un marimba. Le
+   synthetiseur (son.ts) garde les basses, les nappes, la 303, le kick gabber
+   ou psytrance, et double les kicks enregistres d'une sous-basse accordee.
 
-   UN KIT PAR FAMILLE. Le disco, la house et le downtempo prennent la LinnDrum,
-   la machine des disques de 1982 a 1988 ; la techno, la trance et la bass
-   music prennent la TR-505, plus seche ; l'ambient prend la CR-78, la plus
-   douce. Le kick de la techno reste fabrique : celui de la TR-505 n'a pas
-   de grave. */
+   TOUS LES FICHIERS SONT LIBRES : domaine public ou licence libre (depot
+   oramics/sampled pour TR-909, TR-909 SP-1200, TR-808, LinnDrum LM-2, TR-505,
+   CR-78 et Pearl Master Studio ; CC0 pour la bibliotheque Versilian). La
+   provenance de chacun est dans public/sons/SOURCES.txt. */
 
 import type { Motif, Piste, Voix } from '../../lib/rythmes.ts';
 
-export type Kit = 'linn' | 'roland' | 'cr78';
+export type Kit = 'tr909' | 'sp909' | 'tr808' | 'linn' | 'breaks' | 'tr505' | 'cr78';
 
 const KIT_DE_FAMILLE: Record<string, Kit> = {
-  disco: 'linn', roots: 'linn', downtempo: 'linn',
+  disco: 'linn',
+  house: 'tr909',
+  techno: 'tr909',
+  minimal: 'tr909',
+  trance: 'tr909',
+  psy: 'tr909',
+  hardcore: 'tr909',
+  industrial: 'tr909',
+  roots: 'linn',
+  breaks: 'breaks',
+  electro: 'tr808',
+  bass: 'tr808',
+  downtempo: 'sp909',
   ambient: 'cr78',
 };
 
-export const kitDeFamille = (famille: string): Kit => KIT_DE_FAMILLE[famille] ?? 'roland';
+export const kitDeFamille = (famille: string): Kit => KIT_DE_FAMILLE[famille] ?? 'tr909';
 
 /** Choisit le kit d'un motif selon les machines qu'il cite et sa famille :
-    une 808 ou une 909 se fabrique au synthetiseur (roland), la LinnDrum,
-    la DMX ou la 707 gardent les fichiers de la LM-2 (linn), et la CR-78
-    reste pour l'ambient et les boites analogiques douces. */
+    TR-808, TR-909, SP-1200/MPC, LinnDrum/DMX, batterie/break Amen, TR-505
+    ou CR-78. */
 export function kitDuMotif(motif: Motif, famille: string): Kit {
   const inst = `${motif.instruments.fr} ${motif.instruments.en}`.toUpperCase();
   if (/CR-78|COMPURYTHM/.test(inst)) return 'cr78';
-  if (/LINN|LM-1|LM-2|DMX|OBERHEIM|707|BATTERIE|DRUMS|LIVE|DISCO/.test(inst)) return 'linn';
-  if (/808|909|606|MACHINEDRUM|DIGITAKT|MODULAIRE|MODULAR|SERUM|MASSIVE|SYLENTH|VIRUS|NORD/.test(inst)) return 'roland';
+  if (/505|626/.test(inst)) return 'tr505';
+  if (/LINN|LM-1|LM-2|DMX|OBERHEIM|707/.test(inst)) return 'linn';
+  if (/SP-1200|MPC|FILTERED LOOP|BOUCLE FILTR/.test(inst)) return 'sp909';
+  if (/808|606/.test(inst)) return 'tr808';
+  if (/909/.test(inst)) return 'tr909';
+  if (/AMEN|BREAKBEAT|BREAKS|BATTERIE|LIVE DRUM|JUNGLE|SAMPLER AKAI|S950|S1000|S3000/.test(inst)) return 'breaks';
   return kitDeFamille(famille);
 }
 
 const PAR_KIT: Record<Kit, Partial<Record<Voix, string>>> = {
+  tr909: {
+    kick: 'tr909-kick', snare: 'tr909-snare', clap: 'tr909-clap', rim: 'tr909-rim',
+    hat: 'tr909-hat', openhat: 'tr909-openhat', ride: 'tr909-ride', tom: 'tr909-tom',
+    cowbell: 'tr808-cowbell',
+  },
+  sp909: {
+    kick: 'sp909-kick', snare: 'sp909-snare', clap: 'sp909-clap', rim: 'tr909-rim',
+    hat: 'sp909-hat', openhat: 'sp909-openhat', ride: 'tr909-ride', tom: 'tr909-tom',
+    cowbell: 'lm2-cowbell', shaker: 'lm2-cabasa',
+  },
+  tr808: {
+    kick: 'tr808-kick', snare: 'tr808-snare', clap: 'tr808-clap', rim: 'tr808-rim',
+    hat: 'tr808-hat', openhat: 'tr808-openhat', cowbell: 'tr808-cowbell',
+    conga: 'tr808-conga', tom: 'tr808-tom', shaker: 'tr808-maracas', clave: 'tr808-claves',
+    ride: 'tr909-ride',
+  },
   linn: {
     kick: 'lm2-kick', snare: 'lm2-snare', clap: 'lm2-clap', rim: 'lm2-stick', hat: 'lm2-hat', openhat: 'lm2-openhat',
     ride: 'lm2-ride', cowbell: 'lm2-cowbell', conga: 'lm2-conga', tom: 'lm2-tom', perc: 'lm2-tamb', shaker: 'lm2-cabasa',
   },
-  /* Les boites de club (808, 909, techno, house, breaks, electro, bass) sont
-     fabriquees sur mesure par style dans son.ts ; seules les percussions de
-     bois et de peau gardent un enregistrement. */
-  roland: {},
+  breaks: {
+    kick: 'break-kick', snare: 'break-snare', clap: 'tr909-clap', rim: 'tr909-rim',
+    hat: 'break-hat', openhat: 'break-openhat', ride: 'break-ride', tom: 'break-tom',
+    perc: 'break-ghost',
+  },
+  tr505: {
+    kick: 'tr909-kick', snare: 'tr505-snare', clap: 'tr505-clap', rim: 'tr505-rim',
+    hat: 'tr505-hat', openhat: 'tr505-openhat', ride: 'tr505-ride', cowbell: 'tr505-cowbell', tom: 'tr505-tom',
+  },
   cr78: {
     kick: 'cr78-kick', snare: 'cr78-snare', rim: 'cr78-rim', hat: 'cr78-hat', bongo: 'cr78-bongo',
     perc: 'vcsl-woodblock', clap: 'lm2-clap', openhat: 'lm2-openhat', ride: 'lm2-ride', tom: 'lm2-tom', cowbell: 'lm2-cowbell',
@@ -87,9 +122,18 @@ export function accordeDe(piste: Piste): Accorde | null {
 export function fichierDe(voix: Voix, kit: Kit, piste?: Piste): string | null {
   if (piste) {
     const etik = `${piste.fr} ${piste.en}`.toUpperCase();
-    /* Une piste qui nomme un break, un bruit, un clic, un glitch ou un LFO
-       est synthetisee dans son.ts plutot que remplacee par un woodblock. */
-    if (/BREAK|AMEN|BRUIT|NOISE|CLIC|CLICK|GLITCH|GRAIN|LFO|IMPULS|BOUCLE|LOOP|PAPIER|PAPER|ROBINET|TAP|PORTI|BED|SQUEAK|TAPE|BANDE|MACHINE/.test(etik)) {
+    /* Kicks speciaux (gabber, hardcore, 808 explicite, break Amen). */
+    if (voix === 'kick') {
+      if (/GABBER|HARDCORE|TERROR|UPTEMPO|SPEEDCORE/.test(etik)) return null;
+      if (/808/.test(etik)) return 'tr808-kick';
+      if (/AMEN|BREAK/.test(etik)) return 'break-kick';
+    }
+    if (voix === 'snare' && /AMEN|BREAK/.test(etik)) return 'break-snare';
+    if (voix === 'hat' && /AMEN|BREAK/.test(etik)) return 'break-hat';
+    if (voix === 'perc' && /AMEN|BREAK/.test(etik)) return 'break-ghost';
+    /* Une piste qui nomme un bruit, un clic, un glitch, une boucle techno ou
+       un LFO est synthetisee dans son.ts plutot que remplacee par un woodblock. */
+    if (/BRUIT|NOISE|CLIC|CLICK|GLITCH|GRAIN|LFO|IMPULS|BOUCLE|LOOP|PAPIER|PAPER|ROBINET|TAP|PORTI|BED|SQUEAK|TAPE|BANDE|MACHINE|SCRATCH/.test(etik)) {
       return null;
     }
     if (/WOOD\s?BLOCK/.test(etik)) return 'vcsl-woodblock';
