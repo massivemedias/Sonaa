@@ -44,6 +44,7 @@ import type { Motif } from '../src/lib/rythmes.ts';
 const DIST = fileURLToPath(new URL('../dist', import.meta.url));
 const RACINE = fileURLToPath(new URL('..', import.meta.url));
 const COURS = JSON.parse(readFileSync(fileURLToPath(new URL('../src/data/cours.json', import.meta.url)), 'utf8')) as Record<string, Cours>;
+const COURS_EN = JSON.parse(readFileSync(fileURLToPath(new URL('../src/data/cours-en.json', import.meta.url)), 'utf8')) as Record<string, Cours>;
 const RYTHMES = JSON.parse(readFileSync(fileURLToPath(new URL('../src/data/rythmes.json', import.meta.url)), 'utf8')) as Record<string, Motif>;
 
 /* LE MOTIF RYTHMIQUE EN TEXTE (ADR-113). La page l'anime sur une toile, que
@@ -443,11 +444,29 @@ for (const s of styles) {
   const g = struct.genres[s.gl] as Genre;
   const en = EN[g.id];
   if (!en) continue;
+  const coursEn = COURS_EN[g.id];
   const artistes = ARTISTES[g.id] ?? [];
   const voisins = struct.genres.filter((x) => x.id !== g.id).slice(0, 12);
+  const parentLocal = g.parent >= 0 ? struct.genres[g.parent] : undefined;
+  const parentsEn: { label: string; href: string | null }[] = [
+    ...(parentLocal ? [{ label: parentLocal.label, href: cheminDuGenre.get(parentLocal.id) ? cheminEn(cheminDuGenre.get(parentLocal.id)!) : null }] : []),
+    ...g.externalParents.map((x) => {
+      const fam = FAMILIES[x.family];
+      const trouve = STRUCTURES[x.family]?.genres.find((y) => y.label === x.label);
+      return {
+        label: `${x.label}${fam && fam.label !== x.label ? ` (${fam.label})` : ''}`,
+        href: trouve && cheminDuGenre.get(trouve.id) ? cheminEn(cheminDuGenre.get(trouve.id)!) : fam ? cheminEn(`/styles/${slug(fam.label)}/`) : null,
+      };
+    }),
+  ];
+  const enfantsEn = g.children.map((i) => struct.genres[i]).filter((x): x is Genre => !!x);
+  const lienEn = (x: { label: string; href: string | null }) => (x.href ? `<a href="${x.href}">${h(x.label)}</a>` : h(x.label));
+  const filiationEn =
+    (parentsEn.length ? `<h3>Came from</h3><ul>${parentsEn.map((x) => `<li>${lienEn(x)}</li>`).join('')}</ul>` : '') +
+    (enfantsEn.length ? `<h3>Led to</h3><ul>${enfantsEn.map((x) => `<li>${lienEn({ label: x.label, href: cheminDuGenre.get(x.id) ? cheminEn(cheminDuGenre.get(x.id)!) : null })}</li>`).join('')}</ul>` : '');
   const brut = g.tracks.find((t) => t.cover)?.cover;
   const cover = brut ? (brut.startsWith('http') ? brut : `${ORIGINE}/${brut.replace(/^\/+/, '')}`) : undefined;
-  const titre = `${g.label}: history, key tracks and how to produce it · SONAA`;
+  const titre = `${g.label}: history, key tracks and production guide · SONAA`;
   const description = couper(en.description, 158);
   const fiche = [
     g.bpmRange ? `<li>Tempo: ${g.bpmRange[0]} to ${g.bpmRange[1]} BPM</li>` : '',
@@ -459,9 +478,32 @@ for (const s of styles) {
   ].join('');
   const questions: [string, string][] = [
     [`What is ${g.label}?`, couper(en.description, 300)],
-    ...(g.bpmRange ? [[`What tempo is ${g.label} played at?`, `Between ${g.bpmRange[0]} and ${g.bpmRange[1]} BPM.`] as [string, string]] : []),
+    ...(g.bpmRange ? [[`What tempo is ${g.label} played at?`, `Between ${g.bpmRange[0]} and ${g.bpmRange[1]} BPM.${coursEn ? ` ${couper(coursEn.tempo, 240)}` : ''}`] as [string, string]] : []),
     ...(g.artistesCles.length ? [[`Who are the key ${g.label} artists?`, g.artistesCles.join(', ') + '.'] as [string, string]] : []),
+    ...(g.machines.length || coursEn?.outils?.length
+      ? [[`What gear and plugins are used to produce ${g.label}?`, [...g.machines, ...(coursEn?.outils ?? []).map((o) => o.nom)].filter((x, i, a) => a.indexOf(x) === i).slice(0, 10).join(', ') + '.'] as [string, string]]
+      : []),
   ];
+  const rubriquesEn = coursEn
+    ? (
+        [
+          ['Tempo and groove', coursEn.tempo],
+          ['Drums and rhythm', coursEn.rythme],
+          ['Bass', coursEn.basse],
+          ['Sounds and synthesis', coursEn.sons],
+          ['Arrangement', coursEn.arrangement],
+          ['Mix and mastering', coursEn.mix],
+        ] as [string, string][]
+      )
+        .map(([t, x]) => `<h3>${h(t)}</h3><p>${h(x)}</p>`)
+        .join('') +
+      (coursEn.outils?.length
+        ? `<h3>Plugins and hardware</h3><ul>${coursEn.outils.map((o) => `<li><strong>${h(o.nom)}</strong> (${h(o.type)}): ${h(o.pourquoi)}</li>`).join('')}</ul>`
+        : '') +
+      `<h3>Getting started</h3><ol>${coursEn.etapes.map((e) => `<li>${h(e)}</li>`).join('')}</ol>` +
+      `<h3>Reference listening</h3><ul>${coursEn.reperes.map((r) => `<li>${h(r)}</li>`).join('')}</ul>` +
+      `<p>Sources: ${h([...coursEn.sources, ...(coursEn.sourcesOutils ?? [])].filter((x, i, a) => a.indexOf(x) === i).join(' · '))}</p>`
+    : '';
   ecrire({
     chemin: cheminEn(s.chemin),
     hash: s.hash,
@@ -479,8 +521,8 @@ for (const s of styles) {
       (g.tracks.length ? `<h2>${g.tracks.length} reference tracks</h2><ol>${g.tracks.map((t) => `<li>${h(t.artist)}: ${h(t.title)}${t.year ? ` (${t.year})` : ''}</li>`).join('')}</ol>` : '') +
       (fiche ? `<h2>At a glance</h2><ul>${fiche}</ul>` : '') +
       motifEnTexte(g.id, 'en') +
-      `<h2>Producing ${h(g.label)}</h2><p>${h(en.production)}</p>` +
-      (COURS[g.id] ? `<p><a href="${s.chemin}">The full production course, in French</a>: tempo, drums, bass, sounds, arrangement, mix, plugins and machines, and a step by step start.</p>` : '') +
+      `<h2>Producing ${h(g.label)}</h2><p>${h(en.production)}</p>${rubriquesEn}` +
+      (filiationEn ? `<h2>Lineage</h2>${filiationEn}` : '') +
       (artistes.length ? `<h2>Artists</h2><p>${h(artistes.slice(0, 30).join(', '))}</p>` : '') +
       `<h2>Frequently asked</h2>${questions.map(([q, r]) => `<h3>${h(q)}</h3><p>${h(r)}</p>`).join('')}` +
       (voisins.length ? `<h2>In the same family</h2><ul>${voisins.map((v) => `<li><a href="${cheminEn(cheminDuGenre.get(v.id) ?? '/styles/')}">${h(v.label)}</a></li>`).join('')}</ul>` : '') +
@@ -514,8 +556,9 @@ interface Soiree {
   id: string; titre: string; debut: string; fin: string | null; lieu: string | null; adresse: string | null;
   lien: string | null; affiche: string | null; artistes: string[] | null; genres: string[] | null;
   organisateur: string | null; description: string | null; ville_id: string; prix: string | null; created_at: string;
+  manuelle?: boolean | undefined;
 }
-interface Ville { id: string; slug: string; name: string; country_code: string; timezone: string }
+interface Ville { id: string; slug: string; name: string; country_code: string; timezone: string; ra_area_id: number | null }
 interface ArtisteDuSite { user_id: string; nom: string; bio: string | null; lieu: string | null; avatar_path: string | null; banniere_path: string | null; liens: Record<string, string> | null; n_sets: number }
 interface Set { id: string; user_id: string; titre: string; description: string | null; duree_s: number | null; cover_path: string | null; artiste_nom: string | null; created_at: string; genre_ids: string[] | null }
 
@@ -530,14 +573,92 @@ async function lire<T>(chemin: string): Promise<T[]> {
   }
 }
 
-const quandLisible = (iso: string, fuseau: string): string =>
-  new Intl.DateTimeFormat('fr-CA', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: fuseau }).format(new Date(iso));
+const aFuseau = (iso: string): boolean => /(?:Z|[+-]\d{2}:\d{2})$/.test(iso);
+const quandLisible = (iso: string, fuseau: string, loc: 'fr-CA' | 'en-CA' = 'fr-CA'): string => {
+  const d = new Date(aFuseau(iso) ? iso : `${iso}Z`);
+  return new Intl.DateTimeFormat(loc, {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: aFuseau(iso) ? fuseau : 'UTC',
+  }).format(d);
+};
 
-const villesConnues = await lire<Ville>('villes?select=id,slug,name,country_code,timezone&is_active=eq.true');
+const sansTirets = (x: string | null | undefined): string | null =>
+  x ? x.replace(/[\u2013\u2014]/g, '-') : null;
+
+const villesConnues = await lire<Ville>('villes?select=id,slug,name,country_code,timezone,ra_area_id&is_active=eq.true');
 const dans60Jours = new Date(Date.now() + 60 * 24 * 3600 * 1000).toISOString();
-const soirees = await lire<Soiree>(
-  `soirees_manuelles?select=id,titre,debut,fin,lieu,adresse,lien,affiche,artistes,genres,organisateur,description,ville_id,prix,created_at&publiee=eq.true&debut=gte.${new Date().toISOString()}&debut=lte.${dans60Jours}&order=debut.asc&limit=1000`
-);
+const soireesManuelles = (
+  await lire<Soiree>(
+    `soirees_manuelles?select=id,titre,debut,fin,lieu,adresse,lien,affiche,artistes,genres,organisateur,description,ville_id,prix,created_at&publiee=eq.true&debut=gte.${new Date().toISOString()}&debut=lte.${dans60Jours}&order=debut.asc&limit=1000`
+  )
+).map((s): Soiree => ({ ...s, manuelle: true }));
+
+/* LES SOIREES DE RESIDENT ADVISOR, VILLE PAR VILLE. Sans elles, seules les
+   villes qui ont une ligne dans soirees_manuelles recevaient une page
+   /soirees/<ville>/, et dix-neuf villes actives sur vingt-trois restaient
+   absentes du plan du site. On interroge la passerelle pour chaque ville
+   active, on dedoublonne avec soirees_manuelles, et chaque ville comme chaque
+   croisement ville x famille recoit sa page en francais et en anglais. */
+interface SoireeRA {
+  id: string;
+  titre: string;
+  date?: string;
+  debut?: string | null;
+  lieu?: string | null;
+  adresse?: string | null;
+  artistes?: string[];
+  genres?: string[];
+  affiche?: string | null;
+  lien?: string | null;
+}
+const soireesRA: Soiree[] = [];
+for (let i = 0; i < villesConnues.length; i += 6) {
+  await Promise.all(
+    villesConnues.slice(i, i + 6).map(async (v) => {
+      if (!v.ra_area_id) return;
+      try {
+        const u = `https://sonaa-sets.massivemedias.workers.dev/api/agenda?zone=${v.ra_area_id}&du=${aujourdhui}&au=${dans60Jours.slice(0, 10)}&pages=3`;
+        const r = await fetch(u, { headers: { Origin: ORIGINE } });
+        if (!r.ok) return;
+        const j = (await r.json()) as { soirees?: SoireeRA[] };
+        const deja = soireesManuelles.filter((m) => m.ville_id === v.id);
+        for (const x of j.soirees ?? []) {
+          const debut = x.debut ?? x.date;
+          if (!debut || !x.titre) continue;
+          const jour = debut.slice(0, 10);
+          const cleTitre = slug(x.titre);
+          if (deja.some((m) => m.debut.slice(0, 10) === jour && slug(m.titre) === cleTitre)) continue;
+          soireesRA.push({
+            id: `ra-${x.id}`,
+            titre: sansTirets(x.titre) ?? x.titre,
+            debut,
+            fin: null,
+            lieu: sansTirets(x.lieu),
+            adresse: sansTirets(x.adresse),
+            lien: x.lien ?? null,
+            affiche: x.affiche ?? null,
+            artistes: (x.artistes ?? []).map((a) => sansTirets(a) ?? a),
+            genres: x.genres ?? [],
+            organisateur: sansTirets(x.lieu),
+            description: null,
+            ville_id: v.id,
+            prix: null,
+            created_at: aujourdhui,
+            manuelle: false,
+          });
+        }
+      } catch {
+        /* Si la passerelle ne repond pas pour une ville, on continue avec ce qu'on a. */
+      }
+    })
+  );
+}
+const soirees: Soiree[] = [...soireesManuelles, ...soireesRA].sort((a, b) => a.debut.localeCompare(b.debut));
 /* LA FAMILLE D'UNE SOIREE, depuis ses styles en texte libre (« HARD TECHNO »,
    « Deep House ») : le meme rangement que pour les artistes. Une soiree peut
    tenir de plusieurs familles ; elle apparait dans chacune. */
@@ -570,9 +691,10 @@ const prixLisible = (p: string | null): number | null => {
   const m = p.replace(',', '.').match(/(\d+(?:\.\d+)?)/);
   return m ? Number(m[1]) : null;
 };
-const finPresumee = (debut: string): string => new Date(new Date(debut).getTime() + 6 * 3600 * 1000).toISOString();
+const finPresumee = (debut: string): string => new Date(new Date(aFuseau(debut) ? debut : `${debut}Z`).getTime() + 6 * 3600 * 1000).toISOString();
 const evenementDe = (s: Soiree, v: Ville, cheminVille: string): unknown => {
   const prix = prixLisible(s.prix);
+  const urlPropre = s.manuelle ? ORIGINE + `${cheminVille}${s.id}/` : (s.lien ?? ORIGINE + cheminVille);
   return {
     '@context': 'https://schema.org',
     '@type': 'MusicEvent',
@@ -592,12 +714,12 @@ const evenementDe = (s: Soiree, v: Ville, cheminVille: string): unknown => {
             '@type': 'Offer',
             price: prix,
             priceCurrency: monnaieDe(v.country_code),
-            url: s.lien ?? ORIGINE + `${cheminVille}${s.id}/`,
+            url: urlPropre,
             availability: 'https://schema.org/InStock',
             validFrom: s.created_at.slice(0, 10),
           }
         : undefined,
-    url: ORIGINE + `${cheminVille}${s.id}/`,
+    url: urlPropre,
   };
 };
 
@@ -605,9 +727,13 @@ if (soirees.length > 0) {
   const villesAvecSoirees = villesConnues.filter((v) => soirees.some((s) => s.ville_id === v.id));
   const carteSoirees = (titre: string, phrase: string, familleId: string, cle: string): Promise<string | null> =>
     fabriquerCarte({ titre, phrase, ...motifDeFamille(familleId) }, DIST, ORIGINE, 'soirees', cle);
-  const carteIndex = await carteSoirees('Soirées électroniques', 'Ville par ville, ce soir et les prochains jours', 'techno', 'toutes');
+  const [carteIndex, carteIndexEn] = await Promise.all([
+    carteSoirees('Soirées électroniques', 'Ville par ville, ce soir et les prochains jours', 'techno', 'toutes'),
+    carteSoirees('Electronic music events', 'City by city, tonight and upcoming nights', 'techno', 'toutes-en'),
+  ]);
   ecrire({
     chemin: '/soirees/',
+    alterne: cheminEn('/soirees/'),
     image: carteIndex ?? undefined,
     imageTaille: carteIndex ? TAILLE_CARTE : undefined,
     hash: '#/calendrier',
@@ -618,53 +744,121 @@ if (soirees.length > 0) {
       .join('')}</ul>`,
     jsonld: [filAriane([{ nom: 'Soirées', href: '/soirees/' }])],
   });
+  ecrire({
+    chemin: cheminEn('/soirees/'),
+    langue: 'en',
+    alterne: '/soirees/',
+    image: carteIndexEn ?? undefined,
+    imageTaille: carteIndexEn ? TAILLE_CARTE : undefined,
+    hash: '#/calendrier',
+    titre: `Electronic music events and club nights in ${villesAvecSoirees.length} cities · SONAA`,
+    description: `Upcoming electronic music events across ${villesAvecSoirees.length} cities: techno, house, drum and bass, trance, ambient. Updated daily with venues, lineups and tickets.`,
+    corps: `${enteteEn([{ nom: 'Events', href: cheminEn('/soirees/') }])}<h1>Electronic music events, city by city</h1><ul>${villesAvecSoirees
+      .map((v) => `<li><a href="${cheminEn(`/soirees/${v.slug}/`)}">${h(v.name)}</a>: ${soirees.filter((s) => s.ville_id === v.id).length} upcoming events</li>`)
+      .join('')}</ul>`,
+    jsonld: [filAriane([{ nom: 'Events', href: cheminEn('/soirees/') }])],
+  });
+
+  const cartesParVille = new Map<string, { fr: string | null; en: string | null }>();
+  for (let i = 0; i < villesAvecSoirees.length; i += 6) {
+    await Promise.all(
+      villesAvecSoirees.slice(i, i + 6).map(async (v) => {
+        const [fr, en] = await Promise.all([
+          carteSoirees(v.name, 'Les soirées électroniques de ce soir et des prochains jours', 'techno', v.slug),
+          carteSoirees(v.name, 'Tonight and upcoming electronic music nights', 'techno', `${v.slug}-en`),
+        ]);
+        cartesParVille.set(v.slug, { fr, en });
+      })
+    );
+  }
+
+  const ligneSoireeFr = (s: Soiree, v: Ville, cheminVille: string): string => {
+    const titreHtml = s.manuelle ? `<a href="${cheminVille}${s.id}/">${h(s.titre)}</a>` : `<strong>${h(s.titre)}</strong>`;
+    return `<li>${titreHtml} : ${h(quandLisible(s.debut, v.timezone, 'fr-CA'))}${s.lieu ? `, ${h(s.lieu)}` : ''}${s.artistes?.length ? `, avec ${h(s.artistes.slice(0, 4).join(', '))}` : ''}</li>`;
+  };
+  const ligneSoireeEn = (s: Soiree, v: Ville, cheminVille: string): string => {
+    const titreHtml = s.manuelle ? `<a href="${cheminVille}${s.id}/">${h(s.titre)}</a>` : `<strong>${h(s.titre)}</strong>`;
+    return `<li>${titreHtml}: ${h(quandLisible(s.debut, v.timezone, 'en-CA'))}${s.lieu ? `, ${h(s.lieu)}` : ''}${s.artistes?.length ? `, with ${h(s.artistes.slice(0, 4).join(', '))}` : ''}</li>`;
+  };
+
   for (const v of villesConnues) {
     const liste = soirees.filter((s) => s.ville_id === v.id);
     if (liste.length === 0) continue;
     const cheminVille = `/soirees/${v.slug}/`;
+    const cheminVilleEn = cheminEn(cheminVille);
+    const cartesVille = cartesParVille.get(v.slug) ?? { fr: null, en: null };
     /* UNE PAGE PAR FAMILLE ET PAR VILLE, quand elle a au moins deux dates :
        « soirées techno à Montréal », c'est ce que les gens tapent. */
     const parFamille = new Map<string, Soiree[]>();
     for (const s of liste) for (const f of famillesDeLaSoiree(s)) parFamille.set(f, [...(parFamille.get(f) ?? []), s]);
     const famillesIci = FAMILIES.filter((f) => (parFamille.get(f.id)?.length ?? 0) >= 2);
-    const dominante = [...parFamille.entries()].sort((a, b) => b[1].length - a[1].length)[0]?.[0] ?? 'techno';
     const liensFamilles = famillesIci.length
       ? `<h2>Par style</h2><ul>${famillesIci.map((f) => `<li><a href="${cheminVille}${slug(f.label)}/">Soirées ${h(f.label.toLowerCase())} à ${h(v.name)}</a> : ${parFamille.get(f.id)?.length ?? 0}</li>`).join('')}</ul>`
+      : '';
+    const liensFamillesEn = famillesIci.length
+      ? `<h2>By style</h2><ul>${famillesIci.map((f) => `<li><a href="${cheminVilleEn}${slug(f.label)}/">${h(f.label)} events in ${h(v.name)}</a>: ${parFamille.get(f.id)?.length ?? 0}</li>`).join('')}</ul>`
       : '';
     for (const f of famillesIci) {
       const sous = parFamille.get(f.id) ?? [];
       const cheminFamille = `${cheminVille}${slug(f.label)}/`;
-      /* La carte plutot que l'affiche d'une soiree : l'affiche d'une seule
-         date ferait croire que la page ne parle que d'elle. */
-      const carte = await carteSoirees(v.name, `Les soirées ${f.label.toLowerCase()} de ce soir et des prochains jours`, f.id, `${v.slug}-${slug(f.label)}`);
+      const cheminFamilleEn = cheminEn(cheminFamille);
       ecrire({
         chemin: cheminFamille,
+        alterne: cheminFamilleEn,
         hash: `#/calendrier?city=${v.slug}`,
         titre: `Soirées ${f.label.toLowerCase()} à ${v.name} : ${sous.length} dates à venir · SONAA`,
         description: `${sous.length} soirées ${f.label.toLowerCase()} à ${v.name} dans les 60 prochains jours, avec la salle, l’heure, les artistes et les billets. Relevé chaque jour.`,
-        image: carte ?? sous.find((s) => s.affiche)?.affiche ?? undefined,
-        imageTaille: carte ? TAILLE_CARTE : undefined,
+        image: cartesVille.fr ?? sous.find((s) => s.affiche)?.affiche ?? undefined,
+        imageTaille: cartesVille.fr ? TAILLE_CARTE : undefined,
         corps: `${entete([{ nom: 'Soirées', href: '/soirees/' }, { nom: v.name, href: cheminVille }, { nom: f.label, href: cheminFamille }])}<h1>Soirées ${h(f.label.toLowerCase())} à ${h(v.name)}</h1><p>${sous.length} dates à venir. <a href="/styles/${slug(f.label)}/">Ce qu’est la ${h(f.label.toLowerCase())}</a>, et ses genres.</p><ul>${sous
-          .map((s) => `<li><a href="${cheminVille}${s.id}/">${h(s.titre)}</a> : ${h(quandLisible(s.debut, v.timezone))}${s.lieu ? `, ${h(s.lieu)}` : ''}${s.artistes?.length ? `, avec ${h(s.artistes.slice(0, 4).join(', '))}` : ''}</li>`)
-          .join('')}</ul><p><a href="${cheminVille}">Toutes les soirées à ${h(v.name)}</a></p>`,
+          .map((s) => ligneSoireeFr(s, v, cheminVille))
+          .join('')}</ul><p><a href="${cheminVille}">Toutes les soirées à ${h(v.name)}</a> · <a href="${cheminFamilleEn}" hreflang="en">In English</a></p>`,
         jsonld: [filAriane([{ nom: 'Soirées', href: '/soirees/' }, { nom: v.name, href: cheminVille }, { nom: f.label, href: cheminFamille }]), ...sous.slice(0, 50).map((s) => evenementDe(s, v, cheminVille))],
+      });
+      ecrire({
+        chemin: cheminFamilleEn,
+        langue: 'en',
+        alterne: cheminFamille,
+        hash: `#/calendrier?city=${v.slug}`,
+        titre: `${f.label} events in ${v.name}: ${sous.length} upcoming nights · SONAA`,
+        description: `${sous.length} upcoming ${f.label.toLowerCase()} events and club nights in ${v.name} over the next 60 days, with venues, hours, lineups and tickets. Updated daily.`,
+        image: cartesVille.en ?? sous.find((s) => s.affiche)?.affiche ?? undefined,
+        imageTaille: cartesVille.en ? TAILLE_CARTE : undefined,
+        corps: `${enteteEn([{ nom: 'Events', href: cheminEn('/soirees/') }, { nom: v.name, href: cheminVilleEn }, { nom: f.label, href: cheminFamilleEn }])}<h1>${h(f.label)} events in ${h(v.name)}</h1><p>${sous.length} upcoming dates. <a href="${cheminEn(`/styles/${slug(f.label)}/`)}">Explore ${h(f.label)}</a> and its subgenres.</p><ul>${sous
+          .map((s) => ligneSoireeEn(s, v, cheminVille))
+          .join('')}</ul><p><a href="${cheminVilleEn}">All events in ${h(v.name)}</a> · <a href="${cheminFamille}" hreflang="fr">En français</a></p>`,
+        jsonld: [filAriane([{ nom: 'Events', href: cheminEn('/soirees/') }, { nom: v.name, href: cheminVilleEn }, { nom: f.label, href: cheminFamilleEn }]), ...sous.slice(0, 50).map((s) => evenementDe(s, v, cheminVille))],
       });
     }
     const evenement = (s: Soiree): unknown => evenementDe(s, v, cheminVille);
-    const carteVille = await carteSoirees(v.name, 'Les soirées électroniques de ce soir et des prochains jours', dominante, v.slug);
     ecrire({
       chemin: cheminVille,
-      image: carteVille ?? undefined,
-      imageTaille: carteVille ? TAILLE_CARTE : undefined,
+      alterne: cheminVilleEn,
+      image: cartesVille.fr ?? undefined,
+      imageTaille: cartesVille.fr ? TAILLE_CARTE : undefined,
       hash: `#/calendrier?city=${v.slug}`,
       titre: `Soirées électroniques à ${v.name} : le calendrier des prochains jours · SONAA`,
       description: `${liste.length} soirées de musique électronique à ${v.name} dans les 60 prochains jours : techno, house, drum and bass, avec la salle, l’heure et les billets.`,
       corps: `${entete([{ nom: 'Soirées', href: '/soirees/' }, { nom: v.name, href: cheminVille }])}<h1>Soirées électroniques à ${h(v.name)}</h1><p>${liste.length} soirées à venir, relevées chaque jour.</p>${liensFamilles}<h2>Toutes les dates</h2><ul>${liste
-        .map((s) => `<li><a href="${cheminVille}${s.id}/">${h(s.titre)}</a> : ${h(quandLisible(s.debut, v.timezone))}${s.lieu ? `, ${h(s.lieu)}` : ''}</li>`)
-        .join('')}</ul>`,
+        .map((s) => ligneSoireeFr(s, v, cheminVille))
+        .join('')}</ul><p><a href="${cheminVilleEn}" hreflang="en">Electronic music events in ${h(v.name)} (English)</a></p>`,
       jsonld: [filAriane([{ nom: 'Soirées', href: '/soirees/' }, { nom: v.name, href: cheminVille }]), ...liste.slice(0, 50).map(evenement)],
     });
-    for (const s of liste) {
+    ecrire({
+      chemin: cheminVilleEn,
+      langue: 'en',
+      alterne: cheminVille,
+      image: cartesVille.en ?? undefined,
+      imageTaille: cartesVille.en ? TAILLE_CARTE : undefined,
+      hash: `#/calendrier?city=${v.slug}`,
+      titre: `Electronic music events in ${v.name}: tonight and upcoming club nights · SONAA`,
+      description: `${liste.length} upcoming electronic music events in ${v.name} over the next 60 days: techno, house, drum and bass, trance, with venues, hours and tickets.`,
+      corps: `${enteteEn([{ nom: 'Events', href: cheminEn('/soirees/') }, { nom: v.name, href: cheminVilleEn }])}<h1>Electronic music events in ${h(v.name)}</h1><p>${liste.length} upcoming nights, updated daily.</p>${liensFamillesEn}<h2>All upcoming dates</h2><ul>${liste
+        .map((s) => ligneSoireeEn(s, v, cheminVille))
+        .join('')}</ul><p><a href="${cheminVille}" hreflang="fr">Soirées électroniques à ${h(v.name)} (français)</a></p>`,
+      jsonld: [filAriane([{ nom: 'Events', href: cheminEn('/soirees/') }, { nom: v.name, href: cheminVilleEn }]), ...liste.slice(0, 50).map(evenement)],
+    });
+    for (const s of liste.filter((x) => x.manuelle)) {
       const quand = quandLisible(s.debut, v.timezone);
       ecrire({
         chemin: `${cheminVille}${s.id}/`,
@@ -986,6 +1180,7 @@ if (existsSync(cheminNews)) {
   const articles = livre.articles.filter((a) => a.image).slice(0, 80);
   ecrire({
     chemin: '/news/',
+    alterne: cheminEn('/news/'),
     hash: '#/news',
     titre: 'News : production musicale, DJing et scène électronique, relues matin et soir · SONAA',
     description: 'Ce qui se dit en ce moment dans la musique électronique : les machines et logiciels qui sortent, les techniques de production, le monde du DJing, la scène. Vingt magazines relus matin et soir.',
@@ -995,6 +1190,19 @@ if (existsSync(cheminNews)) {
       .join('')}</ul>`,
     jsonld: [filAriane([{ nom: 'News', href: '/news/' }])],
   });
+  ecrire({
+    chemin: cheminEn('/news/'),
+    langue: 'en',
+    alterne: '/news/',
+    hash: '#/news',
+    titre: 'Electronic music news: synths, studio gear, DJing and club scene · SONAA',
+    description: 'What is happening right now in electronic music: new synths, drum machines, plugins, production techniques, DJ gear and club culture from twenty magazines, updated twice daily.',
+    image: articles[0]?.image ?? undefined,
+    corps: `${enteteEn([{ nom: 'News', href: cheminEn('/news/') }])}<h1>Electronic music news</h1><p>Twenty electronic music magazines, read morning and evening. News for each synth manufacturer and plugin developer are <a href="${cheminEn('/news/marques/')}">indexed by brand and machine</a>.</p><ul>${articles
+      .map((a) => `<li><a href="${h(a.lien)}" rel="noopener">${h(a.titre)}</a>${a.resume ? `: ${h(a.resume)}` : ''}</li>`)
+      .join('')}</ul>`,
+    jsonld: [filAriane([{ nom: 'News', href: cheminEn('/news/') }])],
+  });
 }
 
 /* ═══ L'ACCUEIL ═══ La racine garde sa propre tete (index.html) ; elle
@@ -1002,8 +1210,13 @@ if (existsSync(cheminNews)) {
    un moteur qui arrive par la porte doit trouver les couloirs. */
 {
   const familles = FAMILIES.map((f) => `<li><a href="/styles/${slug(f.label)}/">${h(f.label)}</a></li>`).join('');
+  const famillesEn = FAMILIES.map((f) => `<li><a href="${cheminEn(`/styles/${slug(f.label)}/`)}">${h(f.label)}</a></li>`).join('');
   const villes = pages
     .filter((p) => /^\/soirees\/[a-z-]+\/$/.test(p.chemin))
+    .map((p) => `<li><a href="${p.chemin}">${h(p.titre.replace(/ · SONAA$/, ''))}</a></li>`)
+    .join('');
+  const villesEn = pages
+    .filter((p) => /^\/en\/soirees\/[a-z-]+\/$/.test(p.chemin))
     .map((p) => `<li><a href="${p.chemin}">${h(p.titre.replace(/ · SONAA$/, ''))}</a></li>`)
     .join('');
   /* ═══ LES VINGT PROCHAINES SOIREES DE MONTREAL, DANS LE HTML ═══
@@ -1022,10 +1235,20 @@ if (existsSync(cheminNews)) {
     ? soirees
         .filter((x) => x.ville_id === montreal.id)
         .slice(0, 20)
-        .map(
-          (x) =>
-            `<li><a href="/soirees/${montreal.slug}/${x.id}/">${h(x.titre)}</a> : ${h(quandLisible(x.debut, montreal.timezone))}${x.lieu ? `, ${h(x.lieu)}` : ''}</li>`
-        )
+        .map((x) => {
+          const titreHtml = x.manuelle ? `<a href="/soirees/${montreal.slug}/${x.id}/">${h(x.titre)}</a>` : `<strong>${h(x.titre)}</strong>`;
+          return `<li>${titreHtml} : ${h(quandLisible(x.debut, montreal.timezone))}${x.lieu ? `, ${h(x.lieu)}` : ''}</li>`;
+        })
+        .join('')
+    : '';
+  const prochainesEn = montreal
+    ? soirees
+        .filter((x) => x.ville_id === montreal.id)
+        .slice(0, 20)
+        .map((x) => {
+          const titreHtml = x.manuelle ? `<a href="/soirees/${montreal.slug}/${x.id}/">${h(x.titre)}</a>` : `<strong>${h(x.titre)}</strong>`;
+          return `<li>${titreHtml}: ${h(quandLisible(x.debut, montreal.timezone, 'en-CA'))}${x.lieu ? `, ${h(x.lieu)}` : ''}</li>`;
+        })
         .join('')
     : '';
 
@@ -1038,7 +1261,33 @@ if (existsSync(cheminNews)) {
     (prochaines
       ? `<h2>Les prochaines soirées à ${h(montreal?.name ?? '')}</h2><ul>${prochaines}</ul><p><a href="/soirees/${montreal?.slug ?? ''}/">Tout le calendrier de ${h(montreal?.name ?? '')}</a></p>`
       : '') +
-    `<h2>Les soirées ailleurs</h2><ul>${villes}</ul><h2>Les styles</h2><ul><li><a href="/styles/">Tous les styles</a></li>${familles}</ul><h2>Et aussi</h2><ul><li><a href="/mixtapes/">Les mixtapes des DJs</a></li>${MARCHAND_ACTIF ? '<li><a href="/tracks/">Les tracks à acheter</a></li>' : ''}<li><a href="/news/">Les news</a></li><li><a href="/news/marques/">Les news par marque et par machine</a></li><li><a href="${PREFIXE_ANGLAIS}/styles/" hreflang="en">Electronic music styles, in English</a></li></ul>`;
+    `<h2>Les soirées ailleurs</h2><ul>${villes}</ul><h2>Les styles</h2><ul><li><a href="/styles/">Tous les styles</a></li>${familles}</ul><h2>Et aussi</h2><ul><li><a href="/labels/">Les labels</a></li><li><a href="/mixtapes/">Les mixtapes des DJs</a></li>${MARCHAND_ACTIF ? '<li><a href="/tracks/">Les tracks à acheter</a></li>' : ''}<li><a href="/news/">Les news</a></li><li><a href="/news/marques/">Les news par marque et par machine</a></li><li><a href="${PREFIXE_ANGLAIS}/" hreflang="en">SONAA in English</a></li></ul>`;
+
+  ecrire({
+    chemin: `${PREFIXE_ANGLAIS}/`,
+    langue: 'en',
+    alterne: '/',
+    hash: '',
+    titre: 'SONAA · Electronic music events calendar and atlas of 219 styles',
+    description: 'The complete electronic music calendar: tonight and upcoming club nights in your city, by style, plus the genealogical atlas of 219 genres and production guides.',
+    corps:
+      `<h1>Where are we going out tonight?</h1><p>Electronic music events in your city, and everything to understand what you hear: the history of 219 electronic music styles, record labels, studio gear news, and Track ID.</p>` +
+      (prochainesEn
+        ? `<h2>Upcoming events in ${h(montreal?.name ?? '')}</h2><ul>${prochainesEn}</ul><p><a href="${cheminEn(`/soirees/${montreal?.slug ?? ''}/`)}">Full calendar for ${h(montreal?.name ?? '')}</a></p>`
+        : '') +
+      `<h2>Events in other cities</h2><ul>${villesEn}</ul><h2>Electronic music styles</h2><ul><li><a href="${cheminEn('/styles/')}">All 219 styles</a></li>${famillesEn}</ul><h2>More on SONAA</h2><ul><li><a href="${cheminEn('/labels/')}">Record labels</a></li><li><a href="/mixtapes/">DJ mixtapes</a></li><li><a href="${cheminEn('/news/')}">Electronic music news</a></li><li><a href="${cheminEn('/news/marques/')}">News by synth brand and machine</a></li><li><a href="/" hreflang="fr">SONAA en français</a></li></ul>`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        '@id': 'https://sonaa.ca/en/#site',
+        url: 'https://sonaa.ca/en/',
+        name: 'SONAA',
+        inLanguage: 'en',
+        description: 'Electronic music events calendar and genealogical atlas of 219 electronic music styles, with a production course for each style.',
+      },
+    ],
+  });
 
   /* ═══ LA REQUETE PART AVANT LE BUNDLE ═══
    *
@@ -1092,10 +1341,16 @@ window.__precharge={};window.__precharge[u]=fetch(u);
     }
   }
   if (profondeur !== 0) throw new Error('racine : fermeture du conteneur introuvable');
-  const racine =
+  const hreflangRacine =
+    `<link rel="canonical" href="https://sonaa.ca/" />\n    ` +
+    `<link rel="alternate" hreflang="fr" href="https://sonaa.ca/" />\n    ` +
+    `<link rel="alternate" hreflang="en" href="https://sonaa.ca/en/" />\n    ` +
+    `<link rel="alternate" hreflang="x-default" href="https://sonaa.ca/" />`;
+  const racine = (
     gabarit.slice(0, ouvre) +
     `${precharge}${CONTENEUR}<main class="prerendu">${corps}</main></div>` +
-    gabarit.slice(i);
+    gabarit.slice(i)
+  ).replace('<link rel="canonical" href="https://sonaa.ca/" />', hreflangRacine);
   writeFileSync(join(DIST, 'index.html'), racine, 'utf8');
 }
 
@@ -1104,7 +1359,7 @@ window.__precharge={};window.__precharge[u]=fetch(u);
    Une vraie page par label, comme pour les styles : un moteur de recherche
    lit le nom, l'histoire, les disques les plus connus et les morceaux que
    l'atlas en contient, sans attendre l'application. Voir LabelPage.tsx et
-   scripts/moissonner-labels.ts. En francais seulement pour l'instant. */
+   scripts/moissonner-labels.ts. */
 
 /* L'ACTUALITE D'UN LABEL (ses dernieres sorties, les news qui le nomment)
    vit dans son propre fichier, refait plus souvent que la fiche : voir
@@ -1137,11 +1392,22 @@ FAMILIES.forEach((f, fi) => {
 if (FICHES_LABELS.length > 0) {
   ecrire({
     chemin: '/labels/',
+    alterne: cheminEn('/labels/'),
     hash: '#/labels',
     titre: `Les labels de musique électronique : ${FICHES_LABELS.length} labels, leur histoire et leurs disques · SONAA`,
     description: `${FICHES_LABELS.length} labels de musique électronique : leur histoire, leurs disques les plus connus et leurs morceaux dans l’atlas.`,
     corps: `${entete([{ nom: 'Labels', href: '/labels/' }])}<h1>Les labels</h1><ul>${FICHES_LABELS.map((f) => `<li><a href="/labels/${h(f.slug)}/">${h(f.nom)}</a>${f.pays ? `, ${h(f.pays)}` : ''}${f.annee ? `, ${f.annee}` : ''}</li>`).join('')}</ul>`,
     jsonld: [filAriane([{ nom: 'Labels', href: '/labels/' }])],
+  });
+  ecrire({
+    chemin: cheminEn('/labels/'),
+    langue: 'en',
+    alterne: '/labels/',
+    hash: '#/labels',
+    titre: `Electronic music record labels: ${FICHES_LABELS.length} labels, history and key releases · SONAA`,
+    description: `${FICHES_LABELS.length} electronic music record labels: their history, founders, most collected Discogs releases and reference tracks in the SONAA atlas.`,
+    corps: `${enteteEn([{ nom: 'Labels', href: cheminEn('/labels/') }])}<h1>Electronic music record labels</h1><ul>${FICHES_LABELS.map((f) => `<li><a href="${f.resume.en ? cheminEn(`/labels/${h(f.slug)}/`) : `/labels/${h(f.slug)}/`}">${h(f.nom)}</a>${f.pays ? `, ${h(f.pays)}` : ''}${f.annee ? `, ${f.annee}` : ''}</li>`).join('')}</ul>`,
+    jsonld: [filAriane([{ nom: 'Labels', href: cheminEn('/labels/') }])],
   });
 }
 
@@ -1149,13 +1415,24 @@ for (const f of FICHES_LABELS) {
   const morceaux = f.cles.flatMap((k) => morceauxParCle.get(k) ?? []);
   const faits = [f.pays, f.annee ? `fondé en ${f.annee}` : null, f.fondateurs.length > 0 ? `par ${f.fondateurs.join(', ')}` : null].filter(Boolean).join(', ');
   const resume = f.resume.fr ?? f.resume.en ?? f.profil ?? '';
+  const aPageEn = Boolean(f.resume.en);
   const fil = [
     { nom: 'Labels', href: '/labels/' },
     { nom: f.nom, href: `/labels/${f.slug}/` },
   ];
   const premiere = resume.split(/(?<=\.)\s/)[0] ?? '';
+  const orgLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: f.nom,
+    ...(f.annee ? { foundingDate: String(f.annee) } : {}),
+    ...(f.fondateurs.length > 0 ? { founder: f.fondateurs.map((n) => ({ '@type': 'Person', name: n })) } : {}),
+    ...(f.site ? { url: f.site } : {}),
+    sameAs: [f.wiki.fr, f.wiki.en, f.discogs].filter(Boolean),
+  };
   const page = {
     chemin: `/labels/${f.slug}/`,
+    alterne: aPageEn ? cheminEn(`/labels/${f.slug}/`) : undefined,
     hash: `#/labels/${f.slug}`,
     titre: `${f.nom} : label${f.pays ? ` (${f.pays})` : ''}${f.annee ? `, fondé en ${f.annee}` : ''}, ses disques les plus connus · SONAA`,
     description: couper(premiere || `${f.nom} : son histoire, ses disques les plus connus et ses morceaux dans l’atlas des musiques électroniques.`, 158),
@@ -1175,25 +1452,48 @@ for (const f of FICHES_LABELS) {
       f.sorties.length > 0
         ? `<h2>Les sorties les plus connues</h2><ol>${f.sorties.map((s) => `<li>${h(s.artiste)}, ${h(s.titre)}${s.annee ? ` (${s.annee})` : ''}</li>`).join('')}</ol>`
         : ''
-    }<p><a href="/labels/">Tous les labels</a></p>`,
-    jsonld: [
-      filAriane(fil),
-      {
-        '@context': 'https://schema.org',
-        '@type': 'Organization',
-        name: f.nom,
-        ...(f.annee ? { foundingDate: String(f.annee) } : {}),
-        ...(f.fondateurs.length > 0 ? { founder: f.fondateurs.map((n) => ({ '@type': 'Person', name: n })) } : {}),
-        ...(f.site ? { url: f.site } : {}),
-        sameAs: [f.wiki.fr, f.wiki.en, f.discogs].filter(Boolean),
-      },
-    ],
+    }<p><a href="/labels/">Tous les labels</a>${aPageEn ? ` · <a href="${cheminEn(`/labels/${f.slug}/`)}" hreflang="en">In English</a>` : ''}</p>`,
+    jsonld: [filAriane(fil), orgLd],
   };
   /* UNE PAGE MINCE NE S'INDEXE PAS. Avec les petits labels, des fiches n'ont
      ni presentation ni sortie connue : un nom et un morceau. Elles restent
      servies, mais un moteur qui en lirait sept cents jugerait le site sur
      elles. */
   ecrire({ ...page, noindex: !resume && f.sorties.length === 0 });
+  if (aPageEn && f.resume.en) {
+    const faitsEn = [f.pays, f.annee ? `founded in ${f.annee}` : null, f.fondateurs.length > 0 ? `by ${f.fondateurs.join(', ')}` : null].filter(Boolean).join(', ');
+    const filEn = [
+      { nom: 'Labels', href: cheminEn('/labels/') },
+      { nom: f.nom, href: cheminEn(`/labels/${f.slug}/`) },
+    ];
+    const premiereEn = f.resume.en.split(/(?<=\.)\s/)[0] ?? '';
+    ecrire({
+      chemin: cheminEn(`/labels/${f.slug}/`),
+      langue: 'en',
+      alterne: `/labels/${f.slug}/`,
+      hash: `#/labels/${f.slug}`,
+      titre: `${f.nom}: record label${f.pays ? ` (${f.pays})` : ''}${f.annee ? `, founded in ${f.annee}` : ''}, history and key releases · SONAA`,
+      description: couper(premiereEn || `${f.nom}: label history, key releases and reference tracks in the SONAA electronic music atlas.`, 158),
+      corps: `${enteteEn(filEn)}<h1>${h(f.nom)}</h1>${faitsEn ? `<p>${h(faitsEn)}.</p>` : ''}<p>${h(f.resume.en)}</p>${
+        morceaux.length > 0
+          ? `<h2>In the atlas</h2><ul>${morceaux.map((m) => `<li>${h(m.titre)}, ${h(m.artiste)}${m.annee ? ` (${m.annee})` : ''}: <a href="${h(cheminEn(m.chemin))}">${h(m.genre)}</a></li>`).join('')}</ul>`
+          : ''
+      }${
+        (f.recentes?.length ?? 0) > 0
+          ? `<h2>Recent releases</h2><ol>${(f.recentes ?? []).map((s) => `<li>${h(s.artiste)}, ${h(s.titre)}${s.annee ? ` (${s.annee})` : ''}</li>`).join('')}</ol>`
+          : ''
+      }${
+        (f.news?.length ?? 0) > 0
+          ? `<h2>In the news</h2><ul>${(f.news ?? []).map((n) => `<li><a href="${h(n.lien)}" rel="noopener">${h(n.titre)}</a></li>`).join('')}</ul>`
+          : ''
+      }${
+        f.sorties.length > 0
+          ? `<h2>Most collected releases</h2><ol>${f.sorties.map((s) => `<li>${h(s.artiste)}, ${h(s.titre)}${s.annee ? ` (${s.annee})` : ''}</li>`).join('')}</ol>`
+          : ''
+      }<p><a href="${cheminEn('/labels/')}">All record labels</a> · <a href="/labels/${f.slug}/" hreflang="fr">En français</a></p>`,
+      jsonld: [filAriane(filEn), orgLd],
+    });
+  }
   /* LA FICHE SEULE, A COTE DE SA PAGE. Avec plus de mille labels, le fichier
      entier pese plusieurs mega-octets : la page d'un label ne charge que la
      sienne (voir chargerFiche dans LabelPage.tsx). */
@@ -1206,7 +1506,7 @@ for (const f of FICHES_LABELS) {
   /* L'adresse d'une graphie fondue dans ce label reste servie, avec ce
      label pour canonique : un lien deja partage ne tombe pas sur une 404. */
   for (const a of f.anciens ?? []) {
-    ecrire({ ...page, chemin: `/labels/${a}/`, canonique: page.chemin });
+    ecrire({ ...page, alterne: undefined, chemin: `/labels/${a}/`, canonique: page.chemin });
     ecrireFiche(a);
   }
 }
@@ -1250,11 +1550,20 @@ if (actusMarques.length > 0) {
     logiciels: 'Éditeurs de logiciels',
     plugins: 'Plugins',
   };
+  const NOM_DU_RAYON_EN: Record<GroupeMarque, string> = {
+    synthes: 'Synthesizers, drum machines and samplers',
+    dj: 'DJ gear',
+    logiciels: 'DAWs and music software',
+    plugins: 'Plugins and virtual instruments',
+  };
   const NOM_DU_GENRE = { article: 'article', video: 'vidéo', discussion: 'discussion' } as const;
-  const jour = (iso: string | null): string =>
-    iso ? new Date(iso).toLocaleDateString('fr-CA', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Toronto' }) : '';
+  const NOM_DU_GENRE_EN = { article: 'article', video: 'video', discussion: 'discussion' } as const;
+  const jour = (iso: string | null, loc: 'fr-CA' | 'en-CA' = 'fr-CA'): string =>
+    iso ? new Date(iso).toLocaleDateString(loc, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Toronto' }) : '';
   const ligne = (a: ActuPrerendu): string =>
-    `<li><a href="${h(a.lien)}" rel="noopener">${h(a.titre)}</a> (${NOM_DU_GENRE[a.genre]}, ${h(a.source)}${a.date ? `, ${jour(a.date)}` : ''})</li>`;
+    `<li><a href="${h(a.lien)}" rel="noopener">${h(a.titre)}</a> (${NOM_DU_GENRE[a.genre]}, ${h(a.source)}${a.date ? `, ${jour(a.date, 'fr-CA')}` : ''})</li>`;
+  const ligneEn = (a: ActuPrerendu): string =>
+    `<li><a href="${h(a.lien)}" rel="noopener">${h(a.titre)}</a> (${NOM_DU_GENRE_EN[a.genre]}, ${h(a.source)}${a.date ? `, ${jour(a.date, 'en-CA')}` : ''})</li>`;
   const parMarque = new Map<string, ActuPrerendu[]>();
   const parProduit = new Map<string, ActuPrerendu[]>();
   for (const a of actusMarques) {
@@ -1265,10 +1574,12 @@ if (actusMarques.length > 0) {
   /* « de Korg », mais « d’Elektron » et « d’Arturia ». */
   const de = (nom: string): string => (/^[aeiouyhéèêàâîôû]/i.test(nom) ? `d’${nom}` : `de ${nom}`);
   const filMarques = { nom: 'Marques', href: '/news/marques/' };
+  const filMarquesEn = { nom: 'Brands', href: cheminEn('/news/marques/') };
 
   /* L'annuaire. */
   ecrire({
     chemin: '/news/marques/',
+    alterne: cheminEn('/news/marques/'),
     hash: '#/news/marques',
     titre: `News par marque : ${MARQUES.length} constructeurs, éditeurs et fabricants de plugins · SONAA`,
     description: `Les news de ${MARQUES.length} marques de la musique électronique (Elektron, Roland, Korg, Moog, Ableton, FabFilter...) : articles, vidéos et discussions, machine par machine, relus deux fois par jour.`,
@@ -1285,6 +1596,26 @@ if (actusMarques.length > 0) {
       .join('')}`,
     jsonld: [filAriane([{ nom: 'News', href: '/news/' }, filMarques])],
   });
+  ecrire({
+    chemin: cheminEn('/news/marques/'),
+    langue: 'en',
+    alterne: '/news/marques/',
+    hash: '#/news/marques',
+    titre: `Synth, DJ gear and plugin news by brand: ${MARQUES.length} manufacturers · SONAA`,
+    description: `News across ${MARQUES.length} electronic music brands (Elektron, Roland, Korg, Moog, Ableton, FabFilter...): articles, videos and forum discussions indexed machine by machine, updated twice daily.`,
+    corps: `${enteteEn([{ nom: 'News', href: cheminEn('/news/') }, filMarquesEn])}<h1>News by brand and machine</h1><p>Synth manufacturers, software developers and plugin makers: articles, videos and community discussions indexed machine by machine.</p>${(
+      Object.keys(NOM_DU_RAYON_EN) as GroupeMarque[]
+    )
+      .map(
+        (g) =>
+          `<h2>${NOM_DU_RAYON_EN[g]}</h2><ul>${MARQUES.filter((m) => m.groupe === g)
+            .sort((a, b) => a.nom.localeCompare(b.nom))
+            .map((m) => `<li><a href="${cheminEn(`/news/marques/${m.id}/`)}">${h(m.nom)}</a>: ${h(m.produits.slice(0, 5).map((p) => p.nom).join(', '))}</li>`)
+            .join('')}</ul>`
+      )
+      .join('')}`,
+    jsonld: [filAriane([{ nom: 'News', href: cheminEn('/news/') }, filMarquesEn])],
+  });
 
   for (const m of MARQUES) {
     const siennes = parMarque.get(m.id) ?? [];
@@ -1292,9 +1623,13 @@ if (actusMarques.length > 0) {
       .map((p) => ({ p, actus: parProduit.get(`${m.id}:${p.id}`) ?? [] }))
       .filter((x) => x.actus.length >= SEUIL);
     const filMarque = [{ nom: 'News', href: '/news/' }, filMarques, { nom: m.nom, href: `/news/marques/${m.id}/` }];
+    const filMarqueEn = [{ nom: 'News', href: cheminEn('/news/') }, filMarquesEn, { nom: m.nom, href: cheminEn(`/news/marques/${m.id}/`) }];
     const exemples = (machines.length > 0 ? machines.map((x) => x.p.nom) : m.produits.map((p) => p.nom)).slice(0, 4).join(', ');
+    const cheminM = `/news/marques/${m.id}/`;
+    const cheminMEn = cheminEn(cheminM);
     ecrire({
-      chemin: `/news/marques/${m.id}/`,
+      chemin: cheminM,
+      alterne: cheminMEn,
       hash: `#/news/marques/${m.id}`,
       titre: `${m.nom} : news, vidéos et discussions (${exemples}) · SONAA`,
       description: couper(
@@ -1310,13 +1645,36 @@ if (actusMarques.length > 0) {
       jsonld: [filAriane(filMarque), { '@context': 'https://schema.org', '@type': 'CollectionPage', name: `${m.nom} : news`, about: { '@type': 'Brand', name: m.nom, url: m.site } }],
       noindex: siennes.length < SEUIL,
     });
+    ecrire({
+      chemin: cheminMEn,
+      langue: 'en',
+      alterne: cheminM,
+      hash: `#/news/marques/${m.id}`,
+      titre: `${m.nom}: news, videos and discussions (${exemples}) · SONAA`,
+      description: couper(
+        `All ${m.nom} news: ${siennes.length} articles, videos and forum discussions covering ${exemples}, gathered twice daily from magazines, YouTube and synth communities.`,
+        158
+      ),
+      image: siennes.find((a) => a.image)?.image ?? undefined,
+      corps: `${enteteEn(filMarqueEn)}<h1>${h(m.nom)} news</h1><p>${h(NOM_DU_RAYON_EN[m.groupe])}. Articles, videos and community discussions about ${h(m.nom)}, updated twice daily. <a href="${h(m.site)}" rel="noopener">Official website</a>.</p>${
+        machines.length > 0
+          ? `<h2>Gear and software</h2><ul>${machines.map((x) => `<li><a href="${cheminEn(`/news/marques/${m.id}/${x.p.id}/`)}">${h(m.nom)} ${h(x.p.nom)}</a> (${x.actus.length})</li>`).join('')}</ul>`
+          : ''
+      }${siennes.length > 0 ? `<h2>Latest news</h2><ul>${siennes.slice(0, 40).map(ligneEn).join('')}</ul>` : ''}<p><a href="${cheminEn('/news/marques/')}">All brands</a></p>`,
+      jsonld: [filAriane(filMarqueEn), { '@context': 'https://schema.org', '@type': 'CollectionPage', name: `${m.nom} news`, about: { '@type': 'Brand', name: m.nom, url: m.site } }],
+      noindex: siennes.length < SEUIL,
+    });
 
     for (const { p, actus } of machines) {
       const nom = `${m.nom} ${p.nom}`;
-      const fil = [...filMarque, { nom: p.nom, href: `/news/marques/${m.id}/${p.id}/` }];
+      const cheminP = `/news/marques/${m.id}/${p.id}/`;
+      const cheminPEn = cheminEn(cheminP);
+      const fil = [...filMarque, { nom: p.nom, href: cheminP }];
+      const filEn = [...filMarqueEn, { nom: p.nom, href: cheminPEn }];
       const genres = (['video', 'article', 'discussion'] as const).map((g) => ({ g, liste: actus.filter((a) => a.genre === g) }));
       ecrire({
-        chemin: `/news/marques/${m.id}/${p.id}/`,
+        chemin: cheminP,
+        alterne: cheminPEn,
         hash: `#/news/marques/${m.id}/${p.id}`,
         titre: `${nom} : news, vidéos, mises à jour et discussions · SONAA`,
         description: couper(
@@ -1333,6 +1691,26 @@ if (actusMarques.length > 0) {
           .join('')}<p><a href="/news/marques/${m.id}/">Toutes les news ${h(m.nom)}</a></p>`,
         jsonld: [filAriane(fil), { '@context': 'https://schema.org', '@type': 'CollectionPage', name: `${nom} : news`, about: { '@type': 'Thing', name: nom } }],
       });
+      ecrire({
+        chemin: cheminPEn,
+        langue: 'en',
+        alterne: cheminP,
+        hash: `#/news/marques/${m.id}/${p.id}`,
+        titre: `${nom}: news, videos, firmware updates and discussions · SONAA`,
+        description: couper(
+          `Everything on ${nom}: ${actus.length} articles, videos and community discussions (firmware updates, reviews, tips, jams) gathered from magazines, YouTube and forums.`,
+          158
+        ),
+        image: actus.find((a) => a.image)?.image ?? undefined,
+        corps: `${enteteEn(filEn)}<h1>${h(nom)} news</h1><p>Articles, videos and community discussions about ${h(nom)}, updated twice daily.</p>${genres
+          .filter((x) => x.liste.length > 0)
+          .map(
+            (x) =>
+              `<h2>${x.g === 'video' ? 'Videos' : x.g === 'article' ? 'Articles' : 'Discussions'}</h2><ul>${x.liste.slice(0, 30).map(ligneEn).join('')}</ul>`
+          )
+          .join('')}<p><a href="${cheminMEn}">All ${h(m.nom)} news</a></p>`,
+        jsonld: [filAriane(filEn), { '@context': 'https://schema.org', '@type': 'CollectionPage', name: `${nom} news`, about: { '@type': 'Thing', name: nom } }],
+      });
     }
   }
 }
@@ -1347,9 +1725,11 @@ writeFileSync(
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls
     .map((u) => {
       const page = pages.find((p) => p.chemin === u);
-      const alt = page?.alterne
-        ? `<xhtml:link rel="alternate" hreflang="${page.langue === 'en' ? 'fr' : 'en'}" href="${h(ORIGINE + page.alterne)}"/><xhtml:link rel="alternate" hreflang="${page.langue === 'en' ? 'en' : 'fr'}" href="${h(ORIGINE + u)}"/>`
-        : '';
+      const alt = u === '/'
+        ? `<xhtml:link rel="alternate" hreflang="en" href="${h(ORIGINE + '/en/')}"/><xhtml:link rel="alternate" hreflang="fr" href="${h(ORIGINE + '/')}"/><xhtml:link rel="alternate" hreflang="x-default" href="${h(ORIGINE + '/')}"/>`
+        : page?.alterne
+          ? `<xhtml:link rel="alternate" hreflang="${page.langue === 'en' ? 'fr' : 'en'}" href="${h(ORIGINE + page.alterne)}"/><xhtml:link rel="alternate" hreflang="${page.langue === 'en' ? 'en' : 'fr'}" href="${h(ORIGINE + u)}"/><xhtml:link rel="alternate" hreflang="x-default" href="${h(ORIGINE + (page.langue === 'en' ? page.alterne : u))}"/>`
+          : '';
       return `  <url><loc>${h(ORIGINE + u)}</loc><lastmod>${aujourdhui}</lastmod>${alt}</url>`;
     })
     .join('\n')}\n</urlset>\n`,

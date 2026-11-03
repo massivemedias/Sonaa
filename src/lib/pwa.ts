@@ -106,8 +106,13 @@ export async function purgerSiDemande(): Promise<boolean> {
 export function enregistrerLeServiceWorker(): void {
   /* En développement, aucun service worker : un cache qui survit aux
      rechargements pendant qu'on modifie le code fait perdre plus de temps
-     qu'il n'en fait gagner. */
+     qu'il n'en fait gagner. Et pour un robot de moteur de recherche, aucun
+     service worker non plus : il doit toujours recevoir la page HTML
+     pre-rendue du serveur, jamais la coquille mise en cache. */
   if (import.meta.env.DEV) return;
+  if (typeof navigator !== 'undefined' && /bot|crawl|spider|slurp|googleother|inspectiontool|lighthouse/i.test(navigator.userAgent)) {
+    return;
+  }
 
   appliquer = registerSW({
     /* On demande au service worker de verifier une mise a jour toutes les

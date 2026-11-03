@@ -41,8 +41,19 @@ if (!window.location.hash) {
    celui qu'on colle sur Facebook, qui ne lit pas l'ancre : il doit nommer
    la page ouverte, pas celle par ou l'on est entre. Voir chemins.ts. */
 function alignerLeChemin(): void {
-  const chemin = cheminAligne(window.location.hash, window.location.pathname);
-  if (chemin !== window.location.pathname) window.history.replaceState(window.history.state, '', chemin + window.location.search + window.location.hash);
+  const precedent = window.location.pathname;
+  const chemin = cheminAligne(window.location.hash, precedent);
+  if (chemin !== precedent) window.history.replaceState(window.history.state, '', chemin + window.location.search + window.location.hash);
+  const canonique = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+  if (canonique && !document.head.querySelector('meta[name="sonaa-introuvable"]')) {
+    /* Si la coquille de la racine (canonique /) a ete servie pour une autre
+       adresse, ou si la navigation vient de changer de page, le canonique
+       suit l'adresse officielle de la page ouverte. */
+    if (chemin !== precedent || (canonique.getAttribute('href') === 'https://sonaa.ca/' && chemin !== '/')) {
+      const officiel = chemin === '/sons/' ? '/mixtapes/' : chemin.replace(/^\/sons\//, '/mixtapes/');
+      canonique.setAttribute('href', `https://sonaa.ca${officiel}`);
+    }
+  }
 }
 alignerLeChemin();
 window.addEventListener('hashchange', alignerLeChemin);
