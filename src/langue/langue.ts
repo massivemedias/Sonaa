@@ -2323,7 +2323,7 @@ const FR: Dictionnaire = {
   voirLArtiste: 'Voir toutes ses mixtapes',
   artisteIntrouvable: 'Cet artiste n’a pas de mixtape publiée.',
   retourAuxArtistes: 'Revenir aux artistes',
-  lesStyles: 'Atlas',
+  lesStyles: 'Styles',
   /* « Calendrier » en francais depuis le 29 octobre 2026 : Mika veut le menu
      en francais (il gardait « Calendar » dans les deux langues depuis le
      7 septembre). */
@@ -2370,15 +2370,15 @@ const FR: Dictionnaire = {
     `${minutesWav} minutes de WAV ou ${minutesFlac} minutes de FLAC. Au-delà, ` +
     `c'est le total de stockage gratuit qui se remplit : exportez en FLAC, ` +
     `sans perte et deux fois plus léger.`,
-  lesClubsEtFestivals: 'Clubs & Festivals',
-  clubsMenu: 'Clubs',
-  clubsEtFestivalsTitre: 'Clubs & Festivals',
+  lesClubsEtFestivals: 'Atlas · Clubs & Festivals',
+  clubsMenu: 'Atlas',
+  clubsEtFestivalsTitre: 'Atlas des clubs et festivals',
   clubsEtFestivalsChapeau: (nClubs, nVilles, nFestivals, nPays) =>
     `${nClubs} clubs de référence dans les ${nVilles} villes du calendrier SONAA et ${nFestivals} grands festivals électroniques (1 000+ personnes) classés dans ${nPays} pays, réunis sur une carte interactive mondiale.`,
   clubsTout: 'Tout',
   clubsSeulement: (n) => `Clubs (${n})`,
   festivalsSeulement: (n) => `Festivals (${n})`,
-  clubsCarteMondiale: 'Carte interactive mondiale',
+  clubsCarteMondiale: 'Carte interactive mondiale · Clubs & Festivals',
   clubsCarteVueMonde: 'Vue mondiale',
   clubsTousLesPays: 'Tous les pays',
   clubsToutesLesVilles: 'Toutes les villes',
@@ -3466,7 +3466,7 @@ const EN: Dictionnaire = {
   voirLArtiste: 'See all their mixtapes',
   artisteIntrouvable: 'This artist has no published mixtape.',
   retourAuxArtistes: 'Back to artists',
-  lesStyles: 'Atlas',
+  lesStyles: 'Styles',
   leCalendrier: 'Calendar',
   leJeu: 'Game',
   dernieresMixtapes: 'Latest mixtapes',
@@ -3508,15 +3508,15 @@ const EN: Dictionnaire = {
     `File is ${taille}, and the limit is ${max}. That covers about ` +
     `${minutesWav} minutes of WAV or ${minutesFlac} minutes of FLAC. Beyond that ` +
     `it is the free storage total that fills up: export to FLAC, lossless and half the size.`,
-  lesClubsEtFestivals: 'Clubs & Festivals',
-  clubsMenu: 'Clubs',
-  clubsEtFestivalsTitre: 'Clubs & Festivals',
+  lesClubsEtFestivals: 'Atlas · Clubs & Festivals',
+  clubsMenu: 'Atlas',
+  clubsEtFestivalsTitre: 'Atlas of clubs and festivals',
   clubsEtFestivalsChapeau: (nClubs, nVilles, nFestivals, nPays) =>
     `${nClubs} essential electronic music clubs across SONAA’s ${nVilles} cities and ${nFestivals} major electronic festivals (1,000+ capacity) across ${nPays} countries, mapped on an interactive world view.`,
   clubsTout: 'All',
   clubsSeulement: (n) => `Clubs (${n})`,
   festivalsSeulement: (n) => `Festivals (${n})`,
-  clubsCarteMondiale: 'Interactive world map',
+  clubsCarteMondiale: 'Interactive world map · Clubs & Festivals',
   clubsCarteVueMonde: 'World view',
   clubsTousLesPays: 'All countries',
   clubsToutesLesVilles: 'All cities',

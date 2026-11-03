@@ -1726,14 +1726,14 @@ ecrire({
   chemin: '/clubs/',
   alterne: cheminEn('/clubs/'),
   hash: '#/clubs',
-  titre: `Clubs et festivals de musique électronique : ${VILLES_CLUBS.length} villes et ${PAYS_LIEUX.length} pays · SONAA`,
+  titre: `Atlas des clubs et festivals de musique électronique : ${VILLES_CLUBS.length} villes et ${PAYS_LIEUX.length} pays · SONAA`,
   description: couper(
     `Carte interactive mondiale des ${clubsPre.length} meilleurs clubs de musique électronique dans ${VILLES_CLUBS.length} villes et des ${festivalsPre.length} grands festivals (1 000+ personnes) dans ${PAYS_LIEUX.length} pays.`,
     158
   ),
   corps:
-    `${entete([{ nom: 'Clubs & Festivals', href: '/clubs/' }])}` +
-    `<h1>Clubs et festivals de musique électronique</h1>` +
+    `${entete([{ nom: 'Atlas · Clubs & Festivals', href: '/clubs/' }])}` +
+    `<h1>Atlas des clubs et festivals</h1>` +
     `<p>${clubsPre.length} clubs de référence dans les ${VILLES_CLUBS.length} villes du calendrier SONAA et ${festivalsPre.length} grands festivals électroniques (1 000+ personnes) classés dans ${PAYS_LIEUX.length} pays.</p>` +
     `<h2>Les meilleurs clubs par ville</h2>` +
     VILLES_CLUBS.map((v) => {
@@ -1765,14 +1765,14 @@ ecrire({
   langue: 'en',
   alterne: '/clubs/',
   hash: '#/clubs',
-  titre: `Electronic music clubs and festivals: ${VILLES_CLUBS.length} cities and ${PAYS_LIEUX.length} countries · SONAA`,
+  titre: `Atlas of electronic music clubs and festivals: ${VILLES_CLUBS.length} cities and ${PAYS_LIEUX.length} countries · SONAA`,
   description: couper(
     `Interactive world map of ${clubsPre.length} essential electronic music clubs across ${VILLES_CLUBS.length} cities and ${festivalsPre.length} major festivals (1,000+ capacity) across ${PAYS_LIEUX.length} countries.`,
     158
   ),
   corps:
-    `${enteteEn([{ nom: 'Clubs & Festivals', href: cheminEn('/clubs/') }])}` +
-    `<h1>Electronic music clubs and festivals</h1>` +
+    `${enteteEn([{ nom: 'Atlas · Clubs & Festivals', href: cheminEn('/clubs/') }])}` +
+    `<h1>Atlas of clubs and festivals</h1>` +
     `<p>${clubsPre.length} essential clubs across SONAA’s ${VILLES_CLUBS.length} cities and ${festivalsPre.length} major electronic festivals (1,000+ capacity) across ${PAYS_LIEUX.length} countries.</p>` +
     `<h2>Best clubs by city</h2>` +
     VILLES_CLUBS.map((v) => {
