@@ -1,5 +1,53 @@
 /* L'administration : voir AdminPage.tsx. */
 
+/* LE MENU D'ADMINISTRATION A GAUCHE SUR ORDINATEUR.
+   Mika, le 2 novembre 2026 : « j'aimerais que le menu d'administration en
+   desktop soit dans le cote gauche ». Au telephone, les pastilles restent
+   en haut ; a partir de 900 px, elles forment une colonne fixe a gauche. */
+@media (min-width: 900px) {
+  .admin-corps {
+    display: grid;
+    grid-template-columns: 13.5rem minmax(0, 1fr);
+    gap: var(--espace-32);
+    align-items: start;
+    margin-top: var(--espace-16);
+  }
+  .admin-menu {
+    position: sticky;
+    top: var(--espace-24);
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: var(--espace-4);
+    margin: 0;
+    padding: var(--espace-8);
+    border: 1px solid var(--filet);
+    border-radius: var(--rayon-carte);
+    background: var(--verre-fond);
+  }
+  .admin-menu .pf-onglet {
+    width: 100%;
+    min-height: 2.5rem;
+    padding: var(--espace-8) var(--espace-12);
+    border: 0;
+    border-radius: 10px;
+    justify-content: flex-start;
+  }
+  .admin-menu .pf-onglet:hover {
+    background: var(--voile-05);
+  }
+  .admin-menu .pf-onglet[aria-current='page'] {
+    background: var(--accent);
+    color: var(--sur-accent);
+  }
+  .admin-contenu {
+    min-width: 0;
+  }
+  .admin-contenu > .sets-bloc:first-child,
+  .admin-contenu > .ev-colonnes > .sets-bloc {
+    margin-top: 0;
+  }
+}
+
 .admin-defile {
   overflow-x: auto;
 }

@@ -23,6 +23,8 @@ import { useSession } from '../lib/useSession.ts';
 import { suisJeModerateur } from '../lib/proposals.ts';
 import { artistesDemandes, listerMembres, listerTousLesSets, type Membre, type SetAdmin } from '../lib/admin.ts';
 import { basculerPublication, mmss, supprimerSet, urlPochette } from '../lib/sets.ts';
+import { toutesLesSoireesManuelles } from '../lib/soirees-manuelles.ts';
+import { toutesLesVilles } from '../lib/villes.ts';
 import { langue, t } from '../langue/langue.ts';
 import { ScansModeration } from '../reconnaitre/ScansModeration.tsx';
 import { StatsSite } from './Statistiques.tsx';
@@ -117,8 +119,8 @@ export function AdminPage() {
             )}
           </p>
         ) : (
-          <>
-            <nav className="pf-menu" aria-label={t.adminTitre}>
+          <div className="admin-corps">
+            <nav className="pf-menu admin-menu" aria-label={t.adminTitre}>
               {ONGLETS.filter((o) => o.id !== 'scans' || session?.user.email === 'mauditemachine@gmail.com').map((o) => (
                 <a
                   key={o.id}
@@ -130,20 +132,22 @@ export function AdminPage() {
                 </a>
               ))}
             </nav>
-            {onglet === 'membres' && <Membres />}
-            {onglet === 'stats' && <StatsSite />}
-            {onglet === 'sets' && <Sets />}
-            {onglet === 'soirees' && <SoireesAdmin />}
-            {onglet === 'mises' && <MisesAdmin />}
-            {onglet === 'reel' && (
-              <Suspense fallback={<p className="sp-aide">{t.chargement}</p>}>
-                <ReelDuJeudi />
-              </Suspense>
-            )}
-            {onglet === 'commentaires' && <CommentsModeration />}
-            {onglet === 'artistes' && <Artistes />}
-            {onglet === 'scans' && session?.user.email === 'mauditemachine@gmail.com' && <ScansModeration />}
-          </>
+            <div className="admin-contenu">
+              {onglet === 'membres' && <Membres />}
+              {onglet === 'stats' && <StatsSite />}
+              {onglet === 'sets' && <Sets />}
+              {onglet === 'soirees' && <SoireesAdmin />}
+              {onglet === 'mises' && <MisesAdmin />}
+              {onglet === 'reel' && (
+                <Suspense fallback={<p className="sp-aide">{t.chargement}</p>}>
+                  <ReelDuJeudi />
+                </Suspense>
+              )}
+              {onglet === 'commentaires' && <CommentsModeration />}
+              {onglet === 'artistes' && <Artistes />}
+              {onglet === 'scans' && session?.user.email === 'mauditemachine@gmail.com' && <ScansModeration />}
+            </div>
+          </div>
         )}
         <PiedDePage />
       </main>
@@ -153,9 +157,22 @@ export function AdminPage() {
 
 function Membres() {
   const [membres, setMembres] = useState<Membre[] | null>(null);
+  const [villesSoirees, setVillesSoirees] = useState<ReadonlyMap<string, string>>(new Map());
   const [erreur, setErreur] = useState<string | null>(null);
   useEffect(() => {
     listerMembres().then(setMembres).catch((e: unknown) => setErreur(e instanceof Error ? e.message : t.adminLectureImpossible));
+    void Promise.all([toutesLesSoireesManuelles(null), toutesLesVilles()])
+      .then(([soirees, villes]) => {
+        const parId = new Map(villes.map((v) => [v.id, `${v.name}${v.country_code ? `, ${v.country_code}` : ''}`]));
+        const parMembre = new Map<string, string>();
+        for (const s of soirees) {
+          if (!s.ajoutee_par || parMembre.has(s.ajoutee_par)) continue;
+          const nom = parId.get(s.ville_id);
+          if (nom) parMembre.set(s.ajoutee_par, nom);
+        }
+        setVillesSoirees(parMembre);
+      })
+      .catch(() => undefined);
   }, []);
   if (erreur) return <p className="sp-aide">{erreur}</p>;
   if (!membres) return <p className="sp-aide">{t.chargement}</p>;
@@ -184,8 +201,8 @@ function Membres() {
                   {m.moderateur && <span className="admin-etiquette">{t.moderationMenu}</span>}
                 </td>
                 <td>{m.artiste_nom ? <a href={`#/mixtapes/a/${m.user_id}`}>{m.artiste_nom}</a> : '·'}</td>
-                {/* La ville d'attache que la personne a choisie ; vide sinon, jamais devinee */}
-                <td>{m.ville ? `${m.ville}${m.pays ? `, ${m.pays}` : ''}` : '·'}</td>
+                {/* La ville choisie dans la liste ou le profil, ou celle d'une soiree que la personne a deposee */}
+                <td>{m.ville ? `${m.ville}${m.pays ? `, ${m.pays}` : ''}` : (villesSoirees.get(m.user_id) ?? '·')}</td>
                 <td>{quand(m.inscrit_le)}</td>
                 <td>{quand(m.derniere_connexion)}</td>
                 <td>{m.fournisseurs ?? '·'}</td>

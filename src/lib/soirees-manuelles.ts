@@ -119,15 +119,16 @@ export async function soireesManuelles(
   return (data ?? []) as SoireeManuelle[];
 }
 
-/** Toutes celles d'une ville, publiees ou non. Pour le panneau d'administration,
-    qui doit voir ce qu'il a mis de cote. */
-export async function toutesLesSoireesManuelles(villeId: string): Promise<SoireeManuelle[]> {
+/** Toutes celles d'une ville (ou de toutes les villes si `villeId` est absent),
+    publiees ou non. Pour le panneau d'administration, qui doit voir ce qu'il a
+    mis de cote et ce que les membres ont depose partout. */
+export async function toutesLesSoireesManuelles(villeId?: string | null): Promise<SoireeManuelle[]> {
   if (!supabase) return [];
-  const { data, error } = await supabase
+  const requete = supabase
     .from('soirees_manuelles')
     .select(CHAMPS)
-    .eq('ville_id', villeId)
     .order('debut', { ascending: true });
+  const { data, error } = villeId ? await requete.eq('ville_id', villeId) : await requete;
   if (error) throw new Error(error.message);
   return (data ?? []) as SoireeManuelle[];
 }

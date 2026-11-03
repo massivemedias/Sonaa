@@ -1,27 +1,12 @@
-/* LA CLOISON ENTRE REGARDER ET DECLARER.
+/* LA CLOISON ENTRE DEDUIRE ET CHOISIR.
  *
- * Regarder ce qui se joue a Berlin un mardi soir ne doit pas rendre quelqu'un
- * berlinois dans son profil. Une preference se declare, elle ne se deduit pas
- * d'une consultation. C'est la regle, et elle tient a une seule chose : le
- * calendrier n'appelle pas la fonction qui ecrit en base.
- *
- * ═══ POURQUOI UN TEST QUI LIT DU CODE SOURCE ═══
- *
- * Le montage d'une page complete demanderait un faux client Supabase, un faux
- * stockage local, une fausse passerelle : trois simulations pour verifier une
- * absence. Et une simulation mal faite peut TAIRE l'appel qu'on cherche, ce
- * qui donnerait un test vert sur un defaut present. Le pire resultat
- * possible.
- *
- * Lire les imports repond exactement a la question posee, sans rien simuler :
- * si `CalendrierPage` importe `enregistrerVilleDattache`, quelqu'un a
- * l'intention de l'appeler, et c'est le moment d'en parler.
- *
- * CE QUE CE TEST NE PROUVE PAS, et il faut le dire : qu'aucun chemin
- * detourne n'existe. Un appel passant par un module intermediaire lui
- * echapperait. Il verrouille la porte principale, celle par laquelle la
- * regression arriverait en pratique, le jour ou l'on voudra « juste retenir
- * la ville » sans reflechir a ce que cela engage.
+ * Mika, le 2 novembre 2026 : « dans la liste admin faudrait aussi que je
+ * puisse voir d'ou les gens viennent [...] quand ils selectionnent dans la
+ * liste ». Choisir une ville dans la liste du calendrier (ou dans son profil)
+ * est un geste explicite : il enregistre la ville au compte quand la personne
+ * est connectee. En revanche, la ville deduite passivement de la connexion
+ * (`ouJeSuis` / `deduite`) n'ecrit jamais en base, et le profil garde le
+ * bouton pour retirer sa ville a tout moment.
  */
 
 import { readFileSync } from 'node:fs';
@@ -30,20 +15,21 @@ import { describe, expect, it } from 'vitest';
 const lire = (chemin: string): string =>
   readFileSync(new URL(chemin, import.meta.url), 'utf8');
 
-describe('la ville regardee n est pas la ville declaree', () => {
+describe('la ville choisie dans la liste et la ville deduite', () => {
   const calendrier = lire('../atlas/CalendrierPage.tsx');
   const profil = lire('../atlas/ProfilPage.tsx');
 
-  it('le calendrier n ecrit jamais la ville d attache', () => {
-    expect(calendrier).not.toContain('enregistrerVilleDattache');
-  });
-
-  it('le calendrier ecrit bien en local et dans l adresse', () => {
+  it('le calendrier enregistre la ville quand on la choisit dans la liste', () => {
+    expect(calendrier).toContain('enregistrerVilleDattache');
     expect(calendrier).toContain('noterVilleDeSession');
     expect(calendrier).toContain('poserVilleDansLien');
   });
 
-  it('le profil est le seul a ecrire la ville d attache', () => {
+  it('la deduction passive n ecrit jamais la ville d attache', () => {
+    expect(calendrier).not.toContain('enregistrerVilleDattache(deduite');
+  });
+
+  it('le profil ecrit aussi la ville d attache', () => {
     expect(profil).toContain('enregistrerVilleDattache');
   });
 

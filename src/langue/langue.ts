@@ -501,6 +501,13 @@ interface Dictionnaire {
   readonly morceauPasDansAtlas: string;
   readonly rienNeCorrespond: string;
   readonly soireesAjouteesMain: string;
+  readonly toutesLesVilles: string;
+  readonly provenanceLibelle: string;
+  readonly provenanceToutes: (n: number) => string;
+  readonly provenanceMembres: (n: number) => string;
+  readonly provenancePasses: (n: number) => string;
+  readonly ajouteeParMembre: (qui: string | null) => string;
+  readonly ajouteeParPasse: (source: string) => string;
   readonly chercherUneSoiree: string;
   readonly aucuneSoireeDansLaVille: string;
   readonly retirerCourt: string;
@@ -1583,7 +1590,14 @@ const FR: Dictionnaire = {
   chercherGenreArtisteTrackLabel: "Chercher un genre, un artiste, un track ou un label",
   morceauPasDansAtlas: "Ce morceau n’est pas encore dans l’atlas.",
   rienNeCorrespond: "Rien ne correspond.",
-  soireesAjouteesMain: "Soirées ajoutées à la main",
+  soireesAjouteesMain: "Soirées hors Resident Advisor",
+  toutesLesVilles: "Toutes les villes",
+  provenanceLibelle: "Origine",
+  provenanceToutes: (n) => `Toutes (${n})`,
+  provenanceMembres: (n) => `Par les membres (${n})`,
+  provenancePasses: (n) => `Passes et scripts (${n})`,
+  ajouteeParMembre: (qui) => (qui ? `Ajoutée par ${qui}` : "Ajoutée par un membre"),
+  ajouteeParPasse: (source) => `Passe ${source}`,
   chercherUneSoiree: "Chercher un titre ou une salle",
   aucuneSoireeDansLaVille: "Aucune soirée à venir ici.",
   retirerCourt: "Retirer",
@@ -2063,14 +2077,14 @@ const FR: Dictionnaire = {
   reelChapeau: (ville, dates) =>
     `Les soirées de la fin de semaine à ${ville} (${dates}), les news de la semaine, les mixtapes les plus écoutées et le label de la semaine. Décochez ce qui ne doit pas y être, puis fabriquez la vidéo.`,
   reelDates: (du, au) => `du ${du} au ${au}`,
-  reelOuverture: 'Cette fin de semaine à',
-  reelSoirees: 'Les soirées',
-  reelNews: 'Les news de la semaine',
-  reelMixtapes: 'Les mixtapes de SONAA',
-  reelLabel: 'Le label de la semaine',
-  reelStyle: 'Son style :',
-  reelFin: 'Tout est sur',
-  reelFinSous: 'Les soirées de ta ville, chaque soir',
+  reelOuverture: 'Agenda',
+  reelSoirees: 'Soirées',
+  reelNews: 'News',
+  reelMixtapes: 'Mixtapes',
+  reelLabel: 'Label',
+  reelStyle: 'Style :',
+  reelFin: 'Calendrier complet',
+  reelFinSous: 'Soirées, mixtapes et 219 styles',
   reelChargement: 'Préparation du reel…',
   reelRien: 'Rien cette semaine.',
   reelChoixStyle: 'Le style qui joue',
@@ -2249,7 +2263,7 @@ const FR: Dictionnaire = {
   confidentialiteTitre: 'Politique de confidentialité',
   confidentialiteCollecte: 'Ce qui est collecté',
   confidentialiteCollecteCorps:
-    'Si vous choisissez une ville d’attache dans votre profil, la modération de SONAA la voit dans la liste des comptes, avec votre adresse courriel. Elle n’est jamais publiée, et vous pouvez la retirer à tout moment. Sans ville choisie, SONAA ne cherche pas à savoir d’où vous êtes : ni adresse IP, ni mesure d’audience.',
+    'Si vous choisissez une ville dans votre profil ou dans la liste du calendrier, la modération de SONAA la voit dans la liste des comptes, avec votre adresse courriel. Elle n’est jamais publiée, et vous pouvez la retirer à tout moment depuis votre profil. Sans ville choisie, votre compte n’est rattaché à aucune ville.',
   confidentialiteUsage: 'À quoi cela sert',
   confidentialitePartage: 'Ce qui est partagé',
   confidentialiteConservation: 'Combien de temps',
@@ -2698,7 +2712,14 @@ const EN: Dictionnaire = {
   chercherGenreArtisteTrackLabel: "Search a genre, an artist, a track or a label",
   morceauPasDansAtlas: "This track is not in the atlas yet.",
   rienNeCorrespond: "Nothing matches.",
-  soireesAjouteesMain: "Nights added by hand",
+  soireesAjouteesMain: "Nights outside Resident Advisor",
+  toutesLesVilles: "All cities",
+  provenanceLibelle: "Origin",
+  provenanceToutes: (n) => `All (${n})`,
+  provenanceMembres: (n) => `By members (${n})`,
+  provenancePasses: (n) => `Passes and scripts (${n})`,
+  ajouteeParMembre: (qui) => (qui ? `Added by ${qui}` : "Added by a member"),
+  ajouteeParPasse: (source) => `${source} pass`,
   chercherUneSoiree: "Search a title or a venue",
   aucuneSoireeDansLaVille: "No upcoming night here.",
   retirerCourt: "Remove",
@@ -3178,14 +3199,14 @@ const EN: Dictionnaire = {
   reelChapeau: (ville, dates) =>
     `This weekend’s nights in ${ville} (${dates}), the week’s news, the most played mixtapes and the label of the week. Untick what should not be in it, then make the video.`,
   reelDates: (du, au) => `${du} to ${au}`,
-  reelOuverture: 'This weekend in',
-  reelSoirees: 'Nights out',
-  reelNews: 'This week’s news',
-  reelMixtapes: 'SONAA mixtapes',
-  reelLabel: 'Label of the week',
-  reelStyle: 'Its style:',
-  reelFin: 'It’s all on',
-  reelFinSous: 'Your city’s nights, every night',
+  reelOuverture: 'Lineup',
+  reelSoirees: 'Nights',
+  reelNews: 'News',
+  reelMixtapes: 'Mixtapes',
+  reelLabel: 'Label',
+  reelStyle: 'Style:',
+  reelFin: 'Full calendar',
+  reelFinSous: 'Nights, mixtapes and 219 styles',
   reelChargement: 'Preparing the reel…',
   reelRien: 'Nothing this week.',
   reelChoixStyle: 'The style that plays',
@@ -3357,7 +3378,7 @@ const EN: Dictionnaire = {
   confidentialiteTitre: 'Privacy policy',
   confidentialiteCollecte: 'What is collected',
   confidentialiteCollecteCorps:
-    'If you choose a home city in your profile, SONAA’s moderators see it in the list of accounts, with your email address. It is never published, and you can remove it at any time. Without a chosen city, SONAA does not try to find out where you are: no IP address, no audience tracking.',
+    'If you choose a city in your profile or in the calendar list, SONAA’s moderators see it in the list of accounts, with your email address. It is never published, and you can remove it at any time from your profile. Without a chosen city, your account is not linked to any city.',
   confidentialiteUsage: 'What it is used for',
   confidentialitePartage: 'What is shared',
   confidentialiteConservation: 'How long it is kept',

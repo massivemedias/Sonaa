@@ -24,6 +24,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FormulaireSoiree } from "./FormulaireSoiree.tsx";
+import { listerMembres } from "../lib/admin.ts";
 import { toutesLesVilles } from "../lib/villes.ts";
 import type { Ville } from "../lib/ville-active.ts";
 import { quandEnLettres } from "../lib/affiche-insta.ts";
@@ -45,6 +46,11 @@ const NOM_DE_SOURCE: Record<string, string> = {
   main: t.sourceMain,
 };
 
+type Provenance = "toutes" | "membres" | "passes";
+
+const estDeMembre = (s: SoireeManuelle): boolean =>
+  Boolean(s.ajoutee_par) || s.source === "membre";
+
 const sansAccents = (s: string): string =>
   s
     .normalize("NFD")
@@ -53,8 +59,13 @@ const sansAccents = (s: string): string =>
 
 export function SoireesAdmin() {
   const [villes, setVilles] = useState<Ville[]>([]);
+  /* `null` designe « Toutes les villes », pour voir d'un coup d'oeil ce que
+     les membres ont depose hors de Montreal. Par defaut : Montreal. */
   const [ville, setVille] = useState<Ville | null>(null);
+  const [toutesVilles, setToutesVilles] = useState(false);
+  const [provenance, setProvenance] = useState<Provenance>("toutes");
   const [liste, setListe] = useState<SoireeManuelle[]>([]);
+  const [nomsMembres, setNomsMembres] = useState<ReadonlyMap<string, string>>(new Map());
   const [terme, setTerme] = useState("");
   const [message, setMessage] = useState<string | null>(null);
 
@@ -65,20 +76,32 @@ export function SoireesAdmin() {
          constate les manques. */
       setVille(v.find((x) => x.slug === "montreal-ca") ?? v[0] ?? null);
     });
+    void listerMembres()
+      .then((membres) => {
+        setNomsMembres(
+          new Map(membres.map((m) => [m.user_id, m.artiste_nom ?? m.courriel])),
+        );
+      })
+      .catch(() => undefined);
   }, []);
 
   const recharger = useCallback(() => {
-    if (!ville) return;
-    void toutesLesSoireesManuelles(ville.id)
+    if (!toutesVilles && !ville) return;
+    void toutesLesSoireesManuelles(toutesVilles ? null : ville?.id)
       .then(setListe)
       .catch((e: unknown) =>
         setMessage(e instanceof Error ? e.message : t.lectureImpossible),
       );
-  }, [ville]);
+  }, [ville, toutesVilles]);
 
   useEffect(recharger, [recharger]);
 
-  const aVenir = useMemo(() => {
+  const villesParId = useMemo(
+    () => new Map(villes.map((v) => [v.id, v])),
+    [villes],
+  );
+
+  const aVenirBrut = useMemo(() => {
     const maintenant = Date.now();
     const cherche = sansAccents(terme.trim());
     return liste
@@ -86,9 +109,30 @@ export function SoireesAdmin() {
       .filter(
         (s) =>
           !cherche ||
-          sansAccents(`${s.titre} ${s.lieu ?? ""}`).includes(cherche),
+          sansAccents(`${s.titre} ${s.lieu ?? ""} ${s.note ?? ""}`).includes(cherche),
       );
   }, [liste, terme]);
+
+  const nMembres = useMemo(
+    () => aVenirBrut.filter(estDeMembre).length,
+    [aVenirBrut],
+  );
+  const nPasses = aVenirBrut.length - nMembres;
+
+  const aVenir = useMemo(() => {
+    if (provenance === "membres") return aVenirBrut.filter(estDeMembre);
+    if (provenance === "passes") return aVenirBrut.filter((s) => !estDeMembre(s));
+    return aVenirBrut;
+  }, [aVenirBrut, provenance]);
+
+  const origineDe = (s: SoireeManuelle): string => {
+    if (estDeMembre(s)) {
+      const qui = s.ajoutee_par ? (nomsMembres.get(s.ajoutee_par) ?? null) : null;
+      return t.ajouteeParMembre(qui);
+    }
+    const base = t.ajouteeParPasse(NOM_DE_SOURCE[s.source] ?? s.source);
+    return s.note ? `${base} (${s.note.replace(/\.$/, "")})` : base;
+  };
 
   const retirer = (s: SoireeManuelle): void => {
     setMessage(null);
@@ -129,16 +173,41 @@ export function SoireesAdmin() {
           <label className="fs-champ">
             <span>{t.villeLibelle}</span>
             <select
-              value={ville?.id ?? ""}
-              onChange={(e) =>
-                setVille(villes.find((v) => v.id === e.target.value) ?? null)
-              }
+              value={toutesVilles ? "toutes" : (ville?.id ?? "")}
+              onChange={(e) => {
+                if (e.target.value === "toutes") {
+                  setToutesVilles(true);
+                } else {
+                  setToutesVilles(false);
+                  setVille(villes.find((v) => v.id === e.target.value) ?? null);
+                }
+              }}
             >
+              <option value="toutes">{t.toutesLesVilles}</option>
               {villes.map((v) => (
                 <option key={v.id} value={v.id}>
                   {v.name}
                 </option>
               ))}
+            </select>
+          </label>
+          <label className="fs-champ">
+            <span>{t.provenanceLibelle}</span>
+            <select
+              value={provenance}
+              onChange={(e) => {
+                const p = e.target.value as Provenance;
+                setProvenance(p);
+                /* Si on filtre les membres et qu'il n'y en a aucun dans la
+                   ville choisie, on elargit a toutes les villes. */
+                if (p === "membres" && nMembres === 0 && !toutesVilles) {
+                  setToutesVilles(true);
+                }
+              }}
+            >
+              <option value="toutes">{t.provenanceToutes(aVenirBrut.length)}</option>
+              <option value="membres">{t.provenanceMembres(nMembres)}</option>
+              <option value="passes">{t.provenancePasses(nPasses)}</option>
             </select>
           </label>
           <label className="fs-champ">
@@ -154,43 +223,50 @@ export function SoireesAdmin() {
           <p className="ev-vide">{t.aucuneSoireeDansLaVille}</p>
         ) : (
           <ul className="ev-rangees">
-            {aVenir.map((s) => (
-              <li key={s.id} className="ev-rangee">
-                {s.affiche ? (
-                  <img
-                    className="ev-rangee-affiche"
-                    src={s.affiche}
-                    alt=""
-                    loading="lazy"
-                  />
-                ) : (
-                  <span className="ev-rangee-affiche" aria-hidden="true" />
-                )}
-                <div className="ev-texte">
-                  <span className="ev-quand">
-                    {quandEnLettres(
-                      s.debut,
-                      ville?.timezone ?? "America/Toronto",
-                      langue,
-                    )}
-                  </span>
-                  <strong className="ev-titre">{s.titre}</strong>
-                  <span className="ev-ou">
-                    {[s.lieu, NOM_DE_SOURCE[s.source] ?? s.source]
-                      .filter(Boolean)
-                      .join(" · ")}
-                    {!s.publiee && <> · {t.soireeDepubliee}</>}
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  className="fs-secondaire ev-retirer"
-                  onClick={() => retirer(s)}
-                >
-                  {t.retirerCourt}
-                </button>
-              </li>
-            ))}
+            {aVenir.map((s) => {
+              const villeSoiree = villesParId.get(s.ville_id);
+              return (
+                <li key={s.id} className="ev-rangee">
+                  {s.affiche ? (
+                    <img
+                      className="ev-rangee-affiche"
+                      src={s.affiche}
+                      alt=""
+                      loading="lazy"
+                    />
+                  ) : (
+                    <span className="ev-rangee-affiche" aria-hidden="true" />
+                  )}
+                  <div className="ev-texte">
+                    <span className="ev-quand">
+                      {quandEnLettres(
+                        s.debut,
+                        villeSoiree?.timezone ?? ville?.timezone ?? "America/Toronto",
+                        langue,
+                      )}
+                    </span>
+                    <strong className="ev-titre">{s.titre}</strong>
+                    <span className="ev-ou">
+                      {[
+                        toutesVilles ? villeSoiree?.name : null,
+                        s.lieu,
+                        origineDe(s),
+                      ]
+                        .filter(Boolean)
+                        .join(" · ")}
+                      {!s.publiee && <> · {t.soireeDepubliee}</>}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    className="fs-secondaire ev-retirer"
+                    onClick={() => retirer(s)}
+                  >
+                    {t.retirerCourt}
+                  </button>
+                </li>
+              );
+            })}
           </ul>
         )}
       </section>

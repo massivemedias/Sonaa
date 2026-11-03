@@ -839,9 +839,12 @@
    le retrait a droite. Une recherche et la ville au-dessus. */
 .ev-filtres {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
   gap: var(--espace-12);
   margin-bottom: var(--espace-16);
+}
+.ev-filtres > .fs-champ:nth-child(3) {
+  grid-column: 1 / -1;
 }
 .ev-rangees {
   list-style: none;

@@ -150,7 +150,8 @@ function dessiner(
   ctx.save();
   ctx.drawImage(fond, 0, 0);
 
-  /* La pochette, dans ses proportions, qui bat avec les basses. */
+  /* La pochette, dans ses proportions, fixe et encadree d'un filet fin
+     (sans rebond sur les basses ni angles tres arrondis). */
   let basPochette = 230;
   if (pochette) {
     /* Une boite de 920 x 860 : une pochette en largeur prend toute la
@@ -158,23 +159,21 @@ function dessiner(
     const boiteL = L - 160;
     const boiteH = 860;
     const e = Math.min(boiteL / pochette.width, boiteH / pochette.height);
-    const echelle = 1 + pouls * 0.035;
-    const pl = pochette.width * e * echelle;
-    const ph = pochette.height * e * echelle;
+    void pouls;
+    const pl = pochette.width * e;
+    const ph = pochette.height * e;
     const x = (L - pl) / 2;
     const y = 200 + (boiteH - ph) / 2;
     ctx.save();
-    ctx.shadowColor = 'rgba(0,0,0,0.55)';
-    ctx.shadowBlur = 70;
-    ctx.shadowOffsetY = 24;
-    rectArrondi(ctx, x, y, pl, ph, 34);
-    ctx.fillStyle = '#000';
-    ctx.fill();
-    ctx.restore();
-    ctx.save();
-    rectArrondi(ctx, x, y, pl, ph, 34);
+    rectArrondi(ctx, x, y, pl, ph, 4);
     ctx.clip();
     ctx.drawImage(pochette, x, y, pl, ph);
+    ctx.restore();
+    ctx.save();
+    rectArrondi(ctx, x + 0.5, y + 0.5, pl - 1, ph - 1, 4);
+    ctx.strokeStyle = 'rgba(245,242,236,0.22)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
     ctx.restore();
     basPochette = y + ph;
   }
@@ -182,51 +181,53 @@ function dessiner(
   /* Le titre, l'artiste, la description. */
   const marge = 80;
   const largeur = L - marge * 2;
-  let y = Math.max(basPochette + 100, 1160);
+  let y = Math.max(basPochette + 96, 1150);
+  ctx.fillStyle = 'rgba(245,242,236,0.18)';
+  ctx.fillRect(marge, y - 54, largeur, 1);
   ctx.textAlign = 'left';
   ctx.textBaseline = 'alphabetic';
   ctx.fillStyle = '#f5f2ec';
-  ctx.font = '800 72px Inter, system-ui, sans-serif';
+  ctx.font = '700 68px Inter, system-ui, sans-serif';
   for (const l of lignes(ctx, set.titre, largeur, 2)) {
     ctx.fillText(l, marge, y);
-    y += 82;
+    y += 78;
   }
   ctx.fillStyle = ACCENT;
-  ctx.font = '700 44px Inter, system-ui, sans-serif';
-  ctx.fillText(set.artiste_nom ?? '', marge, y + 6);
-  y += 70;
+  ctx.font = '600 42px Inter, system-ui, sans-serif';
+  ctx.fillText(set.artiste_nom ?? '', marge, y + 4);
+  y += 66;
   if (set.description) {
-    ctx.fillStyle = 'rgba(245,242,236,0.78)';
-    ctx.font = '400 34px Inter, system-ui, sans-serif';
+    ctx.fillStyle = 'rgba(245,242,236,0.74)';
+    ctx.font = '400 32px Inter, system-ui, sans-serif';
     for (const l of lignes(ctx, set.description, largeur, 4)) {
       ctx.fillText(l, marge, y);
-      y += 46;
+      y += 44;
     }
   }
 
-  /* Les barres qui suivent la musique, puis l'avancee de la minute. */
+  /* Traits fins de spectre, facon vu-metre de studio, et filet d'avancee. */
   const nb = barres.length;
   const pas = largeur / nb;
-  const baseBarres = 1700;
-  ctx.fillStyle = ACCENT;
+  const baseBarres = 1710;
   for (let i = 0; i < nb; i += 1) {
-    const h = 8 + (barres[i] ?? 0) * 150;
-    rectArrondi(ctx, marge + i * pas + pas * 0.18, baseBarres - h, pas * 0.64, h, Math.min(6, pas * 0.3));
-    ctx.fill();
+    const h = 4 + (barres[i] ?? 0) * 116;
+    const parcouru = i / nb <= avance;
+    ctx.fillStyle = parcouru ? ACCENT : 'rgba(245,242,236,0.38)';
+    ctx.fillRect(marge + i * pas + pas * 0.35, baseBarres - h, Math.max(2, pas * 0.25), h);
   }
-  ctx.fillStyle = 'rgba(245,242,236,0.18)';
-  ctx.fillRect(marge, baseBarres + 26, largeur, 6);
-  ctx.fillStyle = '#f5f2ec';
-  ctx.fillRect(marge, baseBarres + 26, largeur * Math.min(1, Math.max(0, avance)), 6);
+  ctx.fillStyle = 'rgba(245,242,236,0.16)';
+  ctx.fillRect(marge, baseBarres + 20, largeur, 2);
+  ctx.fillStyle = ACCENT;
+  ctx.fillRect(marge, baseBarres + 20, largeur * Math.min(1, Math.max(0, avance)), 2);
 
   /* La signature. */
   ctx.fillStyle = '#f5f2ec';
-  ctx.font = '800 46px Inter, system-ui, sans-serif';
-  ctx.fillText('SONAA', marge, 1840);
+  ctx.font = '700 38px Inter, system-ui, sans-serif';
+  ctx.fillText('sonaa.ca', marge, 1836);
   ctx.textAlign = 'right';
-  ctx.fillStyle = 'rgba(245,242,236,0.7)';
-  ctx.font = '500 32px Inter, system-ui, sans-serif';
-  ctx.fillText(t.ecouterSurSonaa, L - marge, 1838);
+  ctx.fillStyle = 'rgba(245,242,236,0.62)';
+  ctx.font = '500 30px Inter, system-ui, sans-serif';
+  ctx.fillText(t.ecouterSurSonaa, L - marge, 1836);
   ctx.restore();
 }
 

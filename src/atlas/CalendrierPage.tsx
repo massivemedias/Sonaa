@@ -46,6 +46,7 @@ import { ChoixStyles, EST_FAMILLE, LABEL_DE_STYLE } from './ChoixStyles.tsx';
 import { FAMILIES, STRUCTURES } from './structures.ts';
 import { resoudreVille, type Ville } from '../lib/ville-active.ts';
 import {
+  enregistrerVilleDattache,
   heureLocale,
   noterVilleDeSession,
   poserVilleDansLien,
@@ -708,14 +709,28 @@ export function CalendrierPage() {
     });
   }, []);
 
-  /* CHANGER DE VILLE ICI N'ECRIT PAS DANS LE PROFIL. Le local et l'adresse,
-     rien de plus : regarder Berlin un mardi soir ne rend berlinois personne.
-     Le profil ne se modifie que depuis le profil, et c'est verifie par un
-     test. */
+  /* CHOISIR UNE VILLE DANS LA LISTE L'ENREGISTRE AUSSI AU COMPTE.
+     Mika, le 2 novembre 2026 : « dans la liste admin faudrait aussi que je
+     puisse voir d'ou les gens viennent [...] quand ils selectionnent dans la
+     liste ». Seul le choix explicite dans la liste (ici ou garde de la
+     session quand le profil n'en a pas encore) ecrit dans `profiles` : la
+     ville deduite de la connexion (`deduite`) n'ecrit jamais rien en base. */
+  useEffect(() => {
+    if (!moi || idProfil !== null || !slugSession || villes.length === 0) return;
+    const choisie = villes.find((v) => v.slug === slugSession);
+    if (!choisie) return;
+    setIdProfil(choisie.id);
+    void enregistrerVilleDattache(choisie.id).catch(() => undefined);
+  }, [moi, idProfil, slugSession, villes]);
+
   const choisirVille = (v: Ville) => {
     setSlugSession(v.slug);
     noterVilleDeSession(v.slug);
     poserVilleDansLien(v.slug);
+    if (moi) {
+      setIdProfil(v.id);
+      void enregistrerVilleDattache(v.id).catch(() => undefined);
+    }
   };
 
   const changerStyles = (ids: string[]) => {
