@@ -1739,7 +1739,94 @@ writeFileSync(
    Seznam, qui partagent le protocole, a chaque publication. Google ne le suit
    pas ; lui lit le plan du site. */
 writeFileSync(join(DIST, 'indexnow.json'), JSON.stringify({ host: 'sonaa.ca', key: '64a555bdafa38ed40c635a4617d2200c', keyLocation: `${ORIGINE}/64a555bdafa38ed40c635a4617d2200c.txt`, urlList: urls.map((u) => ORIGINE + u) }), 'utf8');
-writeFileSync(join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${ORIGINE}/sitemap.xml\n`, 'utf8');
+
+/* LA TABLE DES MATIERES POUR LES ASSISTANTS IA (/llms.txt).
+   ChatGPT (OAI-SearchBot, ChatGPT-User), Claude et Perplexity lisent ce
+   fichier a la racine du domaine pour decouvrir d'un coup l'atlas des 219
+   styles, les cours de production, les soirees par ville, les labels et les
+   machines. */
+const lignesLlms: string[] = [
+  '# SONAA',
+  '',
+  '> Electronic music atlas, production courses, rhythm patterns, record labels, synth and DJ gear news, and club/rave calendar (Montréal and 22 international cities). Bilingual French and English.',
+  '',
+  'SONAA (https://sonaa.ca) is an independent reference platform for electronic music created in Montréal by Michael Sanchez (Maudite Machine). Every page is pre-rendered in plain HTML in French and English (`/en/`):',
+  '',
+  '- **219 electronic music genres across 14 families**: history, key artists, machines, reference tracks, interactive 16-step rhythm pattern with audio synthesis, and a full step-by-step music production course.',
+  '- **Electronic music events calendar**: upcoming club nights, raves and festivals in Montréal and 22 cities worldwide, filtered by genre family.',
+  '- **314 record labels**: discographies, reference tracks, founding year, country and recent releases.',
+  '- **Synth, drum machine and DJ gear news**: daily curated articles, videos and discussions for 34 brands and 400+ hardware/software instruments.',
+  '- **Mixtapes**: full-length DJ sets and live recordings by community artists.',
+  '',
+  '## Main sections',
+  '',
+  `- [Home / Electronic music calendar (FR)](${ORIGINE}/)`,
+  `- [Home / Electronic music calendar (EN)](${ORIGINE}/en/)`,
+  `- [Atlas of 219 electronic music styles (FR)](${ORIGINE}/styles/)`,
+  `- [Atlas of 219 electronic music styles (EN)](${ORIGINE}/en/styles/)`,
+  `- [Upcoming electronic events by city (FR)](${ORIGINE}/soirees/)`,
+  `- [Upcoming electronic events by city (EN)](${ORIGINE}/en/soirees/)`,
+  `- [Electronic music record labels (FR)](${ORIGINE}/labels/)`,
+  `- [Electronic music record labels (EN)](${ORIGINE}/en/labels/)`,
+  `- [Synth, drum machine and DJ gear news (FR)](${ORIGINE}/news/marques/)`,
+  `- [Synth, drum machine and DJ gear news (EN)](${ORIGINE}/en/news/marques/)`,
+  `- [Community mixtapes and DJ sets](${ORIGINE}/mixtapes/)`,
+  `- [Track & style recognition in the browser](${ORIGINE}/reconnaitre/)`,
+  '',
+  '## Electronic events by city (Calendrier des soirées)',
+  '',
+  ...villesConnues.map(
+    (v) => `- [${v.name} (${v.country_code})](${ORIGINE}/soirees/${v.slug}/) · [EN](${ORIGINE}/en/soirees/${v.slug}/)`
+  ),
+  '',
+  '## The 14 families and 219 electronic music styles (history, rhythm pattern & production course)',
+  '',
+  ...FAMILIES.flatMap((f, fi) => {
+    const s = STRUCTURES[fi];
+    if (!s) return [];
+    const fSlug = slug(f.label);
+    return [
+      `### [${f.label}](${ORIGINE}/styles/${fSlug}/) ([EN](${ORIGINE}/en/styles/${fSlug}/))`,
+      '',
+      ...s.genres.map((g) => {
+        const ch = cheminDuGenre.get(g.id) ?? `/styles/${fSlug}/${slug(g.label)}/`;
+        const bpm = g.bpmRange ? `, ${g.bpmRange[0]}-${g.bpmRange[1]} BPM` : '';
+        const an = g.annee > 0 ? ` (${g.annee}${bpm})` : '';
+        return `- [${g.label}](${ORIGINE}${ch})${an} · [EN](${ORIGINE}/en${ch})`;
+      }),
+      '',
+    ];
+  }),
+  '## Synth, drum machine & DJ gear brands',
+  '',
+  ...MARQUES.map(
+    (m) => `- [${m.nom}](${ORIGINE}/news/marques/${m.id}/) · [EN](${ORIGINE}/en/news/marques/${m.id}/)`
+  ),
+  '',
+];
+writeFileSync(join(DIST, 'llms.txt'), lignesLlms.join('\n'), 'utf8');
+
+writeFileSync(
+  join(DIST, 'robots.txt'),
+  [
+    'User-agent: *',
+    'Allow: /',
+    '',
+    'User-agent: GPTBot',
+    'User-agent: OAI-SearchBot',
+    'User-agent: ChatGPT-User',
+    'User-agent: ClaudeBot',
+    'User-agent: Claude-SearchBot',
+    'User-agent: PerplexityBot',
+    'User-agent: Google-Extended',
+    'User-agent: Applebot-Extended',
+    'Allow: /',
+    '',
+    `Sitemap: ${ORIGINE}/sitemap.xml`,
+    '',
+  ].join('\n'),
+  'utf8'
+);
 
 /* ═══ UNE ADRESSE SANS PAGE OUVRE QUAND MEME LE SITE ═══ Depuis le
    27 octobre 2026, la barre d'adresse porte le chemin de la page ouverte
