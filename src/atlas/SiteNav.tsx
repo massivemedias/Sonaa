@@ -25,6 +25,7 @@ type SiteCourant =
   | 'atlas'
   | 'parcourir'
   | 'labels'
+  | 'clubs'
   | 'mixtapes'
   | 'tracks'
   | 'reconnaitre'
@@ -70,6 +71,7 @@ const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
      de ranger la meme musique, par son genre et par la maison qui l'a sortie.
      Voir LabelPage.tsx. */
   { href: '#/labels', id: 'labels', label: t.navLabels },
+  { href: '#/clubs', id: 'clubs', label: t.clubsMenu },
   { href: '#/mixtapes', id: 'mixtapes', label: t.lesMixtapes },
   /* TRACKS NE S'ANNONCE PAS TANT QUE RIEN NE SE VEND. Voir src/config.ts :
      la porte se ferme, la route et la page restent. */
@@ -150,6 +152,7 @@ export function courantDuSite(hash: string): SiteCourant {
   if (hash.startsWith('#/mentions')) return 'legal';
   if (hash.startsWith('#/parcourir')) return 'parcourir';
   if (hash.startsWith('#/labels')) return 'labels';
+  if (hash.startsWith('#/clubs')) return 'clubs';
   if (hash.startsWith('#/carte')) return 'atlas';
   /* La racine est l'accueil, comme dans main.tsx : les deux doivent dire
      la meme chose, sinon le menu allume « Styles » sur la page d'accueil.

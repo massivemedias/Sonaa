@@ -161,6 +161,7 @@ const MarchandFerme = lazy(() =>
 /* LES LABELS : la fiche d'un label et la liste de tous. Voir
    atlas/LabelPage.tsx. Differee : elle tire le corpus et les fiches. */
 const LabelPage = lazy(() => import('./atlas/LabelPage.tsx').then((m) => ({ default: m.LabelPage })));
+const LieuxPage = lazy(() => import('./atlas/LieuxPage.tsx').then((m) => ({ default: m.LieuxPage })));
 /* RECONNAITRE : la page qui ecoute. Differee comme les autres ; voir
    src/reconnaitre/. */
 const ReconnaitrePage = lazy(() =>
@@ -226,7 +227,7 @@ if (!rootElement) {
   throw new Error('Élément racine introuvable.');
 }
 
-type Route = 'accueil' | 'labels' | 'reconnaitre' | 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'parcourir' | 'profil' | 'mixtapes' | 'tracks' | 'panier' | 'conditions' | 'confidentialite' | 'mentions' | 'calendrier' | 'news' | 'admin' | 'atlas';
+type Route = 'accueil' | 'labels' | 'clubs' | 'reconnaitre' | 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'parcourir' | 'profil' | 'mixtapes' | 'tracks' | 'panier' | 'conditions' | 'confidentialite' | 'mentions' | 'calendrier' | 'news' | 'admin' | 'atlas';
 
 const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/index')) return 'index';
@@ -253,6 +254,7 @@ const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/tracks')) return 'tracks';
   if (window.location.hash.startsWith('#/reconnaitre')) return 'reconnaitre';
   if (window.location.hash.startsWith('#/labels')) return 'labels';
+  if (window.location.hash.startsWith('#/clubs')) return 'clubs';
   if (window.location.hash.startsWith('#/panier')) return 'panier';
   if (window.location.hash.startsWith('#/conditions')) return 'conditions';
   if (window.location.hash.startsWith('#/confidentialite')) return 'confidentialite';
@@ -283,6 +285,7 @@ const PORTE_LA_BARRE: ReadonlySet<Route> = new Set([
   'accueil',
   'calendrier',
   'labels',
+  'clubs',
   'admin',
   'news',
   'parcourir',
@@ -373,6 +376,8 @@ function App() {
           <ReconnaitrePage />
         ) : route === 'labels' ? (
           <LabelPage />
+        ) : route === 'clubs' ? (
+          <LieuxPage />
         ) : route === 'panier' ? (
           MARCHAND_ACTIF ? <PanierEcran /> : <MarchandFerme />
         ) : route === 'conditions' ? (

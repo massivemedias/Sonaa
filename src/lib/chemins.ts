@@ -82,6 +82,7 @@ export function hashDuChemin(chemin: string): string | null {
   if (c === '/styles/') return '#/parcourir';
   /* LES LABELS, depuis le 1er octobre 2026 : /labels/ et /labels/<slug>/. */
   if (c === '/labels/') return '#/labels';
+  if (c === '/clubs/') return '#/clubs';
   const label = c.match(/^\/labels\/([a-z0-9-]+)\/$/);
   if (label) return `#/labels/${label[1]}`;
   const style = (CHEMINS_STYLES as Record<string, string>)[c];
@@ -151,7 +152,7 @@ export function cheminDuHash(hash: string): string {
   if (label) return label[1] ? `/labels/${label[1]}/` : '/labels/';
   const marque = base.match(/^#\/news\/marques(?:\/([a-z0-9-]+)(?:\/([a-z0-9-]+))?)?(?:\/|$)/);
   if (marque) return `/news/marques/${marque[1] ? `${marque[1]}/` : ''}${marque[2] ? `${marque[2]}/` : ''}`;
-  const simple = base.match(/^#\/(news|tracks|reconnaitre|panier|conditions|confidentialite|mentions)(?:\/|$)/);
+  const simple = base.match(/^#\/(news|tracks|reconnaitre|panier|conditions|confidentialite|mentions|clubs)(?:\/|$)/);
   if (simple) return `/${simple[1]}/`;
   return '/';
 }

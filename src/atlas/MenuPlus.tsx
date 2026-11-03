@@ -71,6 +71,7 @@ export function MenuPlus() {
     /* LES LABELS, depuis le 1er octobre 2026 : la barre du bas est pleine
        (quatre onglets et Track ID), ils entrent donc ici. Voir LabelPage. */
     { href: '#/labels', label: t.navLabels, id: 'labels' },
+    { href: '#/clubs', label: t.lesClubsEtFestivals, id: 'clubs' },
     { href: '#/profil', label: t.monProfil, id: 'profil' },
     { href: '#/a-propos', label: t.aPropos, id: 'apropos' },
   ];

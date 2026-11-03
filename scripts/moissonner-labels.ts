@@ -76,7 +76,7 @@ const PAS_DES_LABELS = new Set(['alchemy mastering', 'mixmag', 'xlr8r', 'knowled
 const NOMS_ECARTES = new Set(
   [
     'Acid Test', 'Blackout', 'Coyote', 'Cyber', 'DAT Records', 'Evolution', 'Formation', 'FUSE', 'Guidance', 'Insomniac Records',
-    'Jazzanova', 'King Street', 'Les Disques du Soleil', 'Lost & Found', "Movin'", 'Mystic Sound', 'Noise Maker', 'People', 'Polaris',
+    'Jazzanova', 'King Street', 'Les Disques du Soleil', 'Lost & Found', "Movin'", 'Mystic Sound', 'Noise Maker', 'People',
     'PPU', 'Pure Trance', 'Slip-N-Slide', 'Southern Fried', 'Subculture', 'Sudbeats', 'TCP', 'Tesco', 'Things To Come', 'Transmission',
     'VIM', 'Wild Bunch',
   ].map(cleDeLabel)
@@ -90,6 +90,13 @@ const AUTRES_NOMS: Readonly<Record<string, readonly string[]>> = {
   'd j international records': ['dj international'],
   'pias recordings': ['play it again sam'],
   'esl music': ['eighteenth street lounge'],
+  diynamic: ['diynamic music'],
+  'stil vor talent': ['still vor talent'],
+  'jeahmon records': ['jeahmon'],
+  'la dame noir records': ['la dame noir'],
+  'melopee records': ['melopee'],
+  'manta recordings': ['manta'],
+  ximena: ['ximena records'],
 };
 const DEJA_NOMMES = new Set(Object.values(AUTRES_NOMS).flat());
 
@@ -124,8 +131,199 @@ for (const l of parCle.values()) l.nom = [...l.graphies.entries()].sort((a, b) =
    de Mika : l'atlas ne cite aucun morceau de son auteur (ADR-050), mais la
    galerie est un annuaire, et Mika veut y trouver son label (1er octobre
    2026). Sa fiche vient de Discogs comme celle des autres. */
-const AJOUTS: readonly { nom: string; pays: string; fondateurs: string[]; site: string }[] = [
+interface AjoutLabel {
+  readonly nom: string;
+  readonly pays: string;
+  readonly annee?: number;
+  readonly fondateurs: readonly string[];
+  readonly site: string;
+  readonly discogsId?: number;
+  readonly discogsArtistId?: number;
+  readonly cles?: readonly string[];
+  readonly anciens?: readonly string[];
+  readonly resume?: { readonly fr: string; readonly en: string };
+}
+
+const AJOUTS: readonly AjoutLabel[] = [
   { nom: 'VRSTL Records', pays: 'Canada', fondateurs: ['Maudite Machine'], site: 'https://vrstlrecords.com' },
+  {
+    nom: 'JEAHMON! Records',
+    pays: 'Allemagne',
+    annee: 2014,
+    fondateurs: ['Marc DePulse'],
+    site: 'https://www.jeahmon.de',
+    discogsId: 417421,
+    cles: ['jeahmon', 'jeahmon records'],
+    anciens: ['jeahmon'],
+    resume: {
+      fr: "Label basé à Leipzig fondé en 2014 par Marc DePulse, dédié à l'indie dance, à la melodic house et à la techno mélodique.",
+      en: 'Leipzig-based record label founded in 2014 by Marc DePulse, dedicated to indie dance, melodic house and melodic techno.',
+    },
+  },
+  {
+    nom: 'La Dame Noir Records',
+    pays: 'France',
+    annee: 2011,
+    fondateurs: ['Phred Noir'],
+    site: 'https://ladamenoir.bandcamp.com',
+    discogsId: 728007,
+    cles: ['la dame noir', 'la dame noir records'],
+    anciens: ['la-dame-noir'],
+    resume: {
+      fr: "Label et collectif marseillais fondé en 2011 par Phred Noir, figure de la dark disco, de la slow techno et de l'indie dance.",
+      en: 'Marseille-based label and collective founded in 2011 by Phred Noir, a cornerstone of dark disco, slow techno and indie dance.',
+    },
+  },
+  {
+    nom: 'Phantasy Sound',
+    pays: 'Royaume-Uni',
+    annee: 2007,
+    fondateurs: ['Erol Alkan'],
+    site: 'https://phantasysound.co.uk',
+    discogsId: 94402,
+    cles: ['phantasy sound', 'phantasy'],
+    anciens: ['phantasy'],
+    resume: {
+      fr: 'Label londonien fondé en 2007 par Erol Alkan, croisant électro, acid, indie dance et techno psychédélique (Daniel Avery, Boys Noize, Connan Mockasin, Red Axes).',
+      en: 'London-based record label founded in 2007 by Erol Alkan, bridging electro, acid, indie dance and psychedelic techno (Daniel Avery, Boys Noize, Connan Mockasin, Red Axes).',
+    },
+  },
+  {
+    nom: 'Stil vor Talent',
+    pays: 'Allemagne',
+    annee: 2005,
+    fondateurs: ['Oliver Koletzki'],
+    site: 'https://www.stilvortalent.de',
+    discogsId: 46433,
+    cles: ['stil vor talent', 'still vor talent'],
+    anciens: ['still-vor-talent'],
+    resume: {
+      fr: "Label berlinois fondé en 2005 par Oliver Koletzki, pilier de la melodic house, de l'indie dance et de la techno mélodique.",
+      en: 'Berlin-based record label founded in 2005 by Oliver Koletzki, a pillar of melodic house, indie dance and melodic techno.',
+    },
+  },
+  {
+    nom: 'Polaris',
+    pays: 'France',
+    annee: 2022,
+    fondateurs: ['Darlyn Vlys'],
+    site: 'https://polarisrecords.bandcamp.com',
+    discogsId: 3992946,
+    cles: ['polaris', 'polaris records', 'polaris label'],
+    resume: {
+      fr: "Label fondé en 2022 par le producteur français Darlyn Vlys, consacré à l'indie dance et à la dark disco (Damon Jee, AFFKT, Panthera, MMYYLO).",
+      en: 'Record label founded in 2022 by French producer Darlyn Vlys, focused on indie dance and dark disco (Damon Jee, AFFKT, Panthera, MMYYLO).',
+    },
+  },
+  {
+    nom: 'Diynamic',
+    pays: 'Allemagne',
+    annee: 2006,
+    fondateurs: ['Solomun', 'Adriano Trolio'],
+    site: 'https://www.diynamic.com',
+    discogsId: 62555,
+    cles: ['diynamic', 'diynamic music'],
+    anciens: ['diynamic-music'],
+    resume: {
+      fr: "Label hambourgeois fondé en 2006 par Solomun et Adriano Trolio (Diynamic Music, Do It Yourself), référence mondiale de la melodic house, de l'indie dance et de la deep house.",
+      en: 'Hamburg-based label founded in 2006 by Solomun and Adriano Trolio (Diynamic Music, Do It Yourself), a leading imprint for melodic house, indie dance and deep house.',
+    },
+  },
+  {
+    nom: 'Permanent Vacation',
+    pays: 'Allemagne',
+    annee: 2006,
+    fondateurs: ['Tom Bioly', 'Benjamin Fröhlich'],
+    site: 'https://perm-vac.com',
+    discogsId: 63501,
+    cles: ['permanent vacation'],
+    resume: {
+      fr: "Label munichois fondé en 2006 par Tom Bioly et Benjamin Fröhlich, au carrefour du nu-disco, de l'italo, de la balearic et de l'indie dance (John Talabot, Tensnake, Todd Terje, Mano Le Tough).",
+      en: 'Munich-based label founded in 2006 by Tom Bioly and Benjamin Fröhlich, at the crossroads of nu-disco, Italo, balearic and indie dance (John Talabot, Tensnake, Todd Terje, Mano Le Tough).',
+    },
+  },
+  {
+    nom: 'Hivern Discs',
+    pays: 'Espagne',
+    annee: 2008,
+    fondateurs: ['John Talabot'],
+    site: 'https://hiverndiscs.bandcamp.com',
+    discogsId: 446528,
+    cles: ['hivern discs', 'hivern'],
+    resume: {
+      fr: 'Label barcelonais fondé en 2008 par John Talabot, reconnu pour ses sorties électroniques aventureuses mêlant house hypnotique, leftfield, techno et dark disco.',
+      en: 'Barcelona-based label founded in 2008 by John Talabot, acclaimed for its leftfield electronic releases blending hypnotic house, techno and dark disco.',
+    },
+  },
+  {
+    nom: 'Mélopée Records',
+    pays: 'France',
+    annee: 2019,
+    fondateurs: ['Bamboo', 'Thomas M'],
+    site: 'https://melopeerecords.bandcamp.com',
+    discogsId: 1829941,
+    cles: ['melopee records', 'melopee'],
+    anciens: ['melopee'],
+    resume: {
+      fr: "Label français fondé à Lyon en 2019, spécialisé dans l'indie dance, la melodic techno et les grooves électroniques hybrides.",
+      en: 'French record label founded in Lyon in 2019, specializing in indie dance, melodic techno and hybrid club grooves.',
+    },
+  },
+  {
+    nom: 'Dust & Blood',
+    pays: 'France',
+    annee: 2020,
+    fondateurs: ['Damon Jee'],
+    site: 'https://dustandblood.bandcamp.com',
+    discogsId: 2731130,
+    cles: ['dust and blood'],
+    anciens: ['dust-and-blood'],
+    resume: {
+      fr: "Label français fondé par Damon Jee, dédié à la dark disco, à l'indie dance et aux textures électro-rock saturées.",
+      en: 'French record label founded by Damon Jee, dedicated to dark disco, indie dance and saturated electro-rock club tracks.',
+    },
+  },
+  {
+    nom: 'Eskimo Recordings',
+    pays: 'Belgique',
+    annee: 2000,
+    fondateurs: ['Dirk De Ruyck', 'Stefaan Vandenberghe'],
+    site: 'https://www.eskimorecordings.be',
+    discogsId: 6059,
+    cles: ['eskimo recordings', 'eskimo'],
+    resume: {
+      fr: "Label belge fondé à Gand en 2000 dans le sillage des soirées Eskimo, pionnier du nu-disco, de la balearic et de l'indie dance (Lindstrøm, Aeroplane, Satin Jackets, Psychemagik).",
+      en: 'Belgian label founded in Ghent in 2000 out of the legendary Eskimo parties, a pioneer of nu-disco, balearic and indie dance (Lindstrøm, Aeroplane, Satin Jackets, Psychemagik).',
+    },
+  },
+  {
+    nom: 'Ximena',
+    pays: 'Mexique',
+    annee: 2018,
+    fondateurs: ['Ximena', 'Ali X'],
+    site: 'https://soundcloud.com/ximena-delascurain',
+    discogsArtistId: 6837202,
+    cles: ['ximena', 'ximena records'],
+    anciens: ['ximena-records'],
+    resume: {
+      fr: 'Projet et étiquette indie dance et dark disco basés à Mexico autour de Ximena et Ali X, mêlant synthés 80s, EBM et rythmes club.',
+      en: 'Mexico City-based indie dance and dark disco imprint and project around Ximena and Ali X, blending 80s synth aesthetics, EBM and dark club rhythms.',
+    },
+  },
+  {
+    nom: 'Manta Recordings',
+    pays: 'États-Unis',
+    annee: 2023,
+    fondateurs: ['IDORU', 'Sian'],
+    site: 'https://www.beatport.com/label/manta-recordings/116415',
+    discogsId: 3984072,
+    cles: ['manta recordings', 'manta'],
+    anciens: ['manta'],
+    resume: {
+      fr: 'Label fondé à Detroit en 2023 par Ashley Taylor (IDORU) et Sian, orienté indie dance, nu-disco, house et techno.',
+      en: 'Detroit-based electronic music label founded in 2023 by Ashley Taylor (IDORU) and Sian, focused on indie dance, nu-disco, house and techno.',
+    },
+  },
 ];
 const AJOUTE = new Map(AJOUTS.map((a) => [cleDeLabel(a.nom), a]));
 for (const a of AJOUTS) {
@@ -272,7 +470,7 @@ const acceptable = (c: Candidat, cle: string): boolean => {
 };
 /* LES HOMONYMES : le Wikidata d'un autre label du meme nom. Titanic Records
    y est un label americain de 1973, celui du corpus sort du hardstyle. */
-const HOMONYMES = new Set(['titanic records']);
+const HOMONYMES = new Set(['titanic records', 'polaris']);
 const tousRetenus = labels
   .map((l) => ({
     l,
@@ -478,6 +676,54 @@ async function sortiesDuGenre(nomDiscogs: string, cle: string, genre: string | n
   return sorties;
 }
 
+async function sortiesDuLabelId(id: number): Promise<SortieConnue[]> {
+  const j = (await discogs(`/labels/${id}/releases?per_page=30&sort=year&sort_order=desc`)) as {
+    releases?: { id?: number; title?: string; artist?: string; year?: number; thumb?: string; stats?: { community?: { in_collection?: number } } }[];
+  } | null;
+  const sorties: SortieConnue[] = [];
+  for (const x of j?.releases ?? []) {
+    if (!x.artist || !x.title) continue;
+    const url = `https://www.discogs.com/release/${x.id ?? ''}`;
+    if (sorties.some((s) => s.url === url || `${s.artiste} - ${s.titre}` === `${x.artist} - ${x.title}`)) continue;
+    const image = x.thumb && !x.thumb.includes('spacer.gif') && !suspecte(x.thumb) ? x.thumb : null;
+    sorties.push({
+      titre: sansTirets(x.title.trim()),
+      artiste: sansTirets(x.artist.replace(/\*$/, '').replace(/\s\(\d+\)$/, '').trim()),
+      annee: x.year && x.year > 1900 ? x.year : null,
+      possedee: Math.max(1, x.stats?.community?.in_collection ?? 1),
+      electronique: true,
+      image,
+      url,
+    });
+    if (sorties.length >= 8) break;
+  }
+  return sorties.sort((a, b) => b.possedee - a.possedee);
+}
+
+async function sortiesDeLArtisteId(id: number): Promise<SortieConnue[]> {
+  const j = (await discogs(`/artists/${id}/releases?per_page=30&sort=year&sort_order=desc`)) as {
+    releases?: { id?: number; type?: string; title?: string; artist?: string; year?: number; thumb?: string; stats?: { community?: { in_collection?: number } } }[];
+  } | null;
+  const sorties: SortieConnue[] = [];
+  for (const x of j?.releases ?? []) {
+    if (!x.artist || !x.title) continue;
+    const url = `https://www.discogs.com/${x.type === 'master' ? 'master' : 'release'}/${x.id ?? ''}`;
+    if (sorties.some((s) => s.url === url || `${s.artiste} - ${s.titre}` === `${x.artist} - ${x.title}`)) continue;
+    const image = x.thumb && !x.thumb.includes('spacer.gif') && !suspecte(x.thumb) ? x.thumb : null;
+    sorties.push({
+      titre: sansTirets(x.title.trim()),
+      artiste: sansTirets(x.artist.replace(/\*$/, '').replace(/\s\(\d+\)$/, '').trim()),
+      annee: x.year && x.year > 1900 ? x.year : null,
+      possedee: Math.max(1, x.stats?.community?.in_collection ?? 1),
+      electronique: true,
+      image,
+      url,
+    });
+    if (sorties.length >= 8) break;
+  }
+  return sorties.sort((a, b) => b.possedee - a.possedee);
+}
+
 /* ── 5. L'ecriture, en reprenant ce qui est deja fait ─────────────────── */
 
 const deja: Map<string, FicheLabel> = new Map(
@@ -494,21 +740,45 @@ for (const { l, wd } of retenus) {
   while (slugsPris.has(s)) s = `${s}-2`;
   slugsPris.add(s);
   const avant = deja.get(s);
+  const ajout = AJOUTE.get(l.cle);
+  const ajoutChange = Boolean(
+    ajout &&
+      (!avant ||
+        avant.sorties.length === 0 ||
+        (ajout.pays && avant.pays !== ajout.pays) ||
+        (ajout.discogsId && !avant.discogs?.includes(`/${ajout.discogsId}`)) ||
+        (ajout.resume?.fr && !avant.resume.fr))
+  );
   /* Une fiche se reprend telle quelle, sauf si son element Wikidata a change
      depuis : les regles de reconnaissance ont pu la corriger. */
-  if (avant && !SEULEMENT && (avant.wikidata ?? null) === (wd?.item ?? null) && !(TRANCHE && dansLaTranche(l.cle))) {
-    fiches.set(s, { ...avant, n: l.n, cles: [...new Set([l.cle, ...[...l.graphies.keys()].map(cleDeLabel), ...(AUTRES_NOMS[l.cle] ?? [])])], anciens: anciens.get(l.cle) ?? [] });
+  if (avant && !SEULEMENT && !ajoutChange && (avant.wikidata ?? null) === (wd?.item ?? null) && !(TRANCHE && dansLaTranche(l.cle))) {
+    fiches.set(s, {
+      ...avant,
+      n: l.n,
+      pays: avant.pays ?? ajout?.pays ?? null,
+      annee: avant.annee ?? ajout?.annee ?? null,
+      fondateurs: avant.fondateurs.length > 0 ? avant.fondateurs : (ajout?.fondateurs ?? []),
+      site: avant.site ?? ajout?.site ?? null,
+      resume: {
+        ...((avant.resume.fr ?? ajout?.resume?.fr) ? { fr: (avant.resume.fr ?? ajout?.resume?.fr) as string } : {}),
+        ...((avant.resume.en ?? ajout?.resume?.en) ? { en: (avant.resume.en ?? ajout?.resume?.en) as string } : {}),
+      },
+      cles: [...new Set([l.cle, ...[...l.graphies.keys()].map(cleDeLabel), ...(AUTRES_NOMS[l.cle] ?? []), ...(ajout?.cles ?? [])])],
+      anciens: [...new Set([...(anciens.get(l.cle) ?? []), ...(ajout?.anciens ?? [])])],
+    });
     continue;
   }
   if (TRANCHE && !avant && l.n === 0 && NOMMES.has(l.cle) && !dansLaTranche(l.cle)) continue;
+  if (!REFAIRE && !SEULEMENT && !TRANCHE && !avant && !ajout && l.n === 0 && NOMMES.has(l.cle)) continue;
 
   let nomDiscogs = l.nom;
   let profil: string | null = null;
   let urlDiscogs: string | null = null;
   let imageDiscogs: string | null = null;
+  const idDiscogsConnu = ajout?.discogsId ? String(ajout.discogsId) : wd?.discogs ?? null;
   if (DISCOGS && !DISCOGS_HOMONYMES.has(l.cle)) {
-    const fiche = wd?.discogs
-      ? ((await discogs(`/labels/${wd.discogs}`)) as { name?: string; profile?: string; uri?: string; images?: { type?: string; uri?: string }[] } | null)
+    const fiche = idDiscogsConnu
+      ? ((await discogs(`/labels/${idDiscogsConnu}`)) as { name?: string; profile?: string; uri?: string; images?: { type?: string; uri?: string }[] } | null)
       : null;
     if (fiche?.name) {
       nomDiscogs = fiche.name;
@@ -531,21 +801,32 @@ for (const { l, wd } of retenus) {
       }
     }
   }
-  const sorties = DISCOGS ? await sortiesConnues(nomDiscogs, l.cle) : [];
-  const [resumeFr, resumeEn] = await Promise.all([resume(wd?.frwiki ?? null), resume(wd?.enwiki ?? null)]);
+  let sorties = DISCOGS && (!ajout?.discogsId || ![2731130, 3992946, 3984072].includes(ajout.discogsId)) ? await sortiesConnues(nomDiscogs, l.cle) : [];
+  if (DISCOGS && sorties.length < 4 && ajout?.discogsId) {
+    const duLabel = await sortiesDuLabelId(ajout.discogsId);
+    if (duLabel.length > sorties.length) sorties = duLabel;
+  }
+  if (DISCOGS && sorties.length === 0 && ajout?.discogsArtistId) {
+    sorties = await sortiesDeLArtisteId(ajout.discogsArtistId);
+    urlDiscogs ??= `https://www.discogs.com/artist/${ajout.discogsArtistId}`;
+    imageDiscogs ??= sorties.find((x) => x.image)?.image ?? null;
+  }
+  const [resumeFrWiki, resumeEnWiki] = await Promise.all([resume(wd?.frwiki ?? null), resume(wd?.enwiki ?? null)]);
+  const resumeFr = resumeFrWiki ?? ajout?.resume?.fr;
+  const resumeEn = resumeEnWiki ?? ajout?.resume?.en;
   /* Un label nomme qu'on ne trouve nulle part n'a rien a montrer. */
-  if (l.n === 0 && !urlDiscogs && !resumeFr && !resumeEn && !AJOUTE.has(l.cle)) continue;
+  if (l.n === 0 && !urlDiscogs && !resumeFr && !resumeEn && !ajout) continue;
 
   fiches.set(s, {
     slug: s,
     nom: l.nom,
-    cles: [...new Set([l.cle, ...[...l.graphies.keys()].map(cleDeLabel), ...(AUTRES_NOMS[l.cle] ?? [])])],
-    anciens: anciens.get(l.cle) ?? [],
+    cles: [...new Set([l.cle, ...[...l.graphies.keys()].map(cleDeLabel), ...(AUTRES_NOMS[l.cle] ?? []), ...(ajout?.cles ?? [])])],
+    anciens: [...new Set([...(anciens.get(l.cle) ?? []), ...(ajout?.anciens ?? [])])],
     n: l.n,
-    pays: wd?.pays ?? AJOUTE.get(l.cle)?.pays ?? null,
-    annee: wd?.annee ?? null,
-    fondateurs: wd ? (fondateurs.get(wd.item) ?? []) : (AJOUTE.get(l.cle)?.fondateurs ?? []),
-    site: wd?.site ?? AJOUTE.get(l.cle)?.site ?? null,
+    pays: wd?.pays ?? ajout?.pays ?? null,
+    annee: wd?.annee ?? ajout?.annee ?? null,
+    fondateurs: wd && (fondateurs.get(wd.item)?.length ?? 0) > 0 ? (fondateurs.get(wd.item) ?? []) : (ajout?.fondateurs ?? []),
+    site: wd?.site ?? ajout?.site ?? null,
     wiki: { ...(wd?.frwiki ? { fr: wd.frwiki } : {}), ...(wd?.enwiki ? { en: wd.enwiki } : {}) },
     resume: { ...(resumeFr ? { fr: resumeFr } : {}), ...(resumeEn ? { en: resumeEn } : {}) },
     profil: resumeFr || resumeEn ? null : profil,

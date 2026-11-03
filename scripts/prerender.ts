@@ -38,6 +38,7 @@ import { ORIGINE, PREFIXE_ANGLAIS, cheminsDesStyles, slug } from '../src/lib/che
 import { ranger, vocabulaire } from '../src/lib/correspondance-styles.ts';
 import { MARCHAND_ACTIF } from '../src/config.ts';
 import { actuSansReeditions, cleDeLabel, labelsDuStyle, type ActuDuLabel, type EntreeLabel, type FicheLabel } from '../src/lib/labels.ts';
+import { LIEUX_ET_FESTIVALS, PAYS_LIEUX, VILLES_CLUBS } from '../src/data/lieux-et-festivals.ts';
 import { MARQUES, type GroupeMarque } from '../src/data/marques.ts';
 import type { Motif } from '../src/lib/rythmes.ts';
 
@@ -1715,6 +1716,90 @@ if (actusMarques.length > 0) {
   }
 }
 
+/* ═══ LES CLUBS ET LES FESTIVALS (/clubs/) ═══ */
+
+const clubsPre = LIEUX_ET_FESTIVALS.filter((l) => l.type === 'club');
+const festivalsPre = LIEUX_ET_FESTIVALS.filter((l) => l.type === 'festival');
+const paysNomMap = new Map(PAYS_LIEUX.map((p) => [p.code, p]));
+
+ecrire({
+  chemin: '/clubs/',
+  alterne: cheminEn('/clubs/'),
+  hash: '#/clubs',
+  titre: `Clubs et festivals de musique électronique : ${VILLES_CLUBS.length} villes et ${PAYS_LIEUX.length} pays · SONAA`,
+  description: couper(
+    `Carte interactive mondiale des ${clubsPre.length} meilleurs clubs de musique électronique dans ${VILLES_CLUBS.length} villes et des ${festivalsPre.length} grands festivals (1 000+ personnes) dans ${PAYS_LIEUX.length} pays.`,
+    158
+  ),
+  corps:
+    `${entete([{ nom: 'Clubs & Festivals', href: '/clubs/' }])}` +
+    `<h1>Clubs et festivals de musique électronique</h1>` +
+    `<p>${clubsPre.length} clubs de référence dans les ${VILLES_CLUBS.length} villes du calendrier SONAA et ${festivalsPre.length} grands festivals électroniques (1 000+ personnes) classés dans ${PAYS_LIEUX.length} pays.</p>` +
+    `<h2>Les meilleurs clubs par ville</h2>` +
+    VILLES_CLUBS.map((v) => {
+      const cs = clubsPre.filter((c) => c.villeSlug === v.slug);
+      return `<h3>${h(v.nom.fr)} (<a href="/soirees/${v.slug}/">Calendrier des soirées</a>)</h3><ul>${cs
+        .map((c) => `<li><strong>${h(c.nom)}</strong> (${c.capacite.toLocaleString('fr-CA')} places${c.annee ? `, depuis ${c.annee}` : ''}) : ${h(c.description.fr)}</li>`)
+        .join('')}</ul>`;
+    }).join('') +
+    `<h2>Les meilleurs festivals par pays (1 000+ personnes)</h2>` +
+    PAYS_LIEUX.map((p) => {
+      const fs = festivalsPre.filter((f) => f.paysCode === p.code);
+      return `<h3>${h(p.nom.fr)}</h3><ul>${fs
+        .map((f) => `<li><strong>${h(f.nom)}</strong> (${h(f.ville.fr)}, ${f.capacite.toLocaleString('fr-CA')} places${f.mois ? `, ${h(f.mois.fr)}` : ''}) : ${h(f.description.fr)}</li>`)
+        .join('')}</ul>`;
+    }).join(''),
+  jsonld: [
+    filAriane([{ nom: 'Clubs & Festivals', href: '/clubs/' }]),
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: 'Clubs et festivals de musique électronique · SONAA',
+      url: `${ORIGINE}/clubs/`,
+    },
+  ],
+});
+
+ecrire({
+  chemin: cheminEn('/clubs/'),
+  langue: 'en',
+  alterne: '/clubs/',
+  hash: '#/clubs',
+  titre: `Electronic music clubs and festivals: ${VILLES_CLUBS.length} cities and ${PAYS_LIEUX.length} countries · SONAA`,
+  description: couper(
+    `Interactive world map of ${clubsPre.length} essential electronic music clubs across ${VILLES_CLUBS.length} cities and ${festivalsPre.length} major festivals (1,000+ capacity) across ${PAYS_LIEUX.length} countries.`,
+    158
+  ),
+  corps:
+    `${enteteEn([{ nom: 'Clubs & Festivals', href: cheminEn('/clubs/') }])}` +
+    `<h1>Electronic music clubs and festivals</h1>` +
+    `<p>${clubsPre.length} essential clubs across SONAA’s ${VILLES_CLUBS.length} cities and ${festivalsPre.length} major electronic festivals (1,000+ capacity) across ${PAYS_LIEUX.length} countries.</p>` +
+    `<h2>Best clubs by city</h2>` +
+    VILLES_CLUBS.map((v) => {
+      const cs = clubsPre.filter((c) => c.villeSlug === v.slug);
+      const pays = paysNomMap.get(v.paysCode);
+      return `<h3>${h(v.nom.en)}${pays ? `, ${h(pays.nom.en)}` : ''} (<a href="${cheminEn(`/soirees/${v.slug}/`)}">Upcoming nights</a>)</h3><ul>${cs
+        .map((c) => `<li><strong>${h(c.nom)}</strong> (${c.capacite.toLocaleString('en-CA')} capacity${c.annee ? `, since ${c.annee}` : ''}): ${h(c.description.en)}</li>`)
+        .join('')}</ul>`;
+    }).join('') +
+    `<h2>Best festivals by country (1,000+ capacity)</h2>` +
+    PAYS_LIEUX.map((p) => {
+      const fs = festivalsPre.filter((f) => f.paysCode === p.code);
+      return `<h3>${h(p.nom.en)}</h3><ul>${fs
+        .map((f) => `<li><strong>${h(f.nom)}</strong> (${h(f.ville.en)}, ${f.capacite.toLocaleString('en-CA')} capacity${f.mois ? `, ${h(f.mois.en)}` : ''}): ${h(f.description.en)}</li>`)
+        .join('')}</ul>`;
+    }).join(''),
+  jsonld: [
+    filAriane([{ nom: 'Clubs & Festivals', href: cheminEn('/clubs/') }]),
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: 'Electronic music clubs and festivals · SONAA',
+      url: `${ORIGINE}/en/clubs/`,
+    },
+  ],
+});
+
 /* ═══ LE PLAN DU SITE ET LES ROBOTS ═══ */
 
 const urls = ['/', ...pages.filter((p) => !p.noindex && !p.canonique).map((p) => p.chemin)].filter(
@@ -1768,6 +1853,8 @@ const lignesLlms: string[] = [
   `- [Upcoming electronic events by city (EN)](${ORIGINE}/en/soirees/)`,
   `- [Electronic music record labels (FR)](${ORIGINE}/labels/)`,
   `- [Electronic music record labels (EN)](${ORIGINE}/en/labels/)`,
+  `- [Best electronic music clubs by city & 1,000+ festivals by country + world map (FR)](${ORIGINE}/clubs/)`,
+  `- [Best electronic music clubs by city & 1,000+ festivals by country + world map (EN)](${ORIGINE}/en/clubs/)`,
   `- [Synth, drum machine and DJ gear news (FR)](${ORIGINE}/news/marques/)`,
   `- [Synth, drum machine and DJ gear news (EN)](${ORIGINE}/en/news/marques/)`,
   `- [Community mixtapes and DJ sets](${ORIGINE}/mixtapes/)`,

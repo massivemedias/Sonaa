@@ -164,6 +164,17 @@
    ne tiennent plus ensemble entre 900 et 1180 px. Le nom reste dans
    l'etiquette et dans la bulle. */
 @media (max-width: 1179px) {
+  .sitenav,
+  .sitenav-groupe {
+    gap: 2px;
+  }
+  .sitenav-lien {
+    padding: 0 8px;
+  }
+  .sitenav-lien::after {
+    left: 8px;
+    right: 8px;
+  }
   .sitenav-track {
     padding: 0 11px;
   }

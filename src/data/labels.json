@@ -30589,9 +30589,12 @@
   "slug": "diynamic",
   "nom": "Diynamic",
   "cles": [
-   "diynamic"
+   "diynamic",
+   "diynamic music"
   ],
-  "anciens": [],
+  "anciens": [
+   "diynamic-music"
+  ],
   "n": 0,
   "pays": "Allemagne",
   "annee": 2006,
@@ -30603,13 +30606,92 @@
    "en": "https://en.wikipedia.org/wiki/Diynamic"
   },
   "resume": {
+   "fr": "Label hambourgeois fondé en 2006 par Solomun et Adriano Trolio (Diynamic Music, Do It Yourself), référence mondiale de la melodic house, de l'indie dance et de la deep house.",
    "en": "Diynamic is an underground electronic music label based in Hamburg, Germany. The DJ, producer and three time DJ Awards winner for Best Producer and Best Deep House DJ, Mladen Solomun is one of the founders along with Adriano Trolio."
   },
   "profil": null,
-  "discogs": null,
+  "discogs": "https://www.discogs.com/label/62555-Diynamic-Music",
   "wikidata": "Q28196067",
-  "logo": null,
-  "sorties": []
+  "logo": {
+   "url": "https://i.discogs.com/Gs5kBlglSI4LHsJBpv1t-VqRiV75RlcE7OGMQ4qHLU0/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTYyNTU1/LTE0NTk1MzI4NjQt/MjgxNC5qcGVn.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/62555-Diynamic-Music"
+  },
+  "sorties": [
+   {
+    "titre": "Sry I'm Late EP",
+    "artiste": "Kollektiv Turmstrasse",
+    "annee": 2015,
+    "possedee": 1259,
+    "electronique": true,
+    "image": "https://i.discogs.com/rbaDCpAa_FD-6HycsHenngaFmngZcfnqEGsro6-YSBU/rs:fit/g:sm/q:90/h:590/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTcwOTA4/OTktMTQ4OTI2MjA5/MS03MjA1LmpwZWc.jpeg",
+    "url": "https://www.discogs.com/master/844904-Kollektiv-Turmstrasse-Sry-Im-Late-EP"
+   },
+   {
+    "titre": "Una Pena EP",
+    "artiste": "Stimming",
+    "annee": 2008,
+    "possedee": 602,
+    "electronique": true,
+    "image": "https://i.discogs.com/RhWuj80qR0DObgTU5dizbPgKzsaRiLRsi9UiSuG3A88/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI0NzYx/NDMtMTMwNjY5Nzg5/Ni5qcGVn.jpeg",
+    "url": "https://www.discogs.com/master/141967-Stimming-Una-Pena-EP"
+   },
+   {
+    "titre": "Abenteuer Alltag EP",
+    "artiste": "Kollektiv Turmstrasse",
+    "annee": 2007,
+    "possedee": 593,
+    "electronique": true,
+    "image": "https://i.discogs.com/ZUAlrL8CaQY79rB7-5Cw_UYRTccJh84eEMZJAW38thc/rs:fit/g:sm/q:90/h:602/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNzI2/NzctMTM1MDQ0NDcz/OC01NzY0LmpwZWc.jpeg",
+    "url": "https://www.discogs.com/master/12492-Kollektiv-Turmstrasse-Abenteuer-Alltag-EP"
+   },
+   {
+    "titre": "Alpe Lusia",
+    "artiste": "Stimming",
+    "annee": 2016,
+    "possedee": 571,
+    "electronique": true,
+    "image": "https://i.discogs.com/sgHyt09_vfdaMtCh1YkV_m-b-oYK0mIJCgMVwqYhMIw/rs:fit/g:sm/q:90/h:537/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg0NTQz/MDUtMTU5MDY3MDQ5/NS0yNjk5LmpwZWc.jpeg",
+    "url": "https://www.discogs.com/master/993842-Stimming-Alpe-Lusia"
+   },
+   {
+    "titre": "Feuer & Eis EP",
+    "artiste": "Solomun & Stimming",
+    "annee": 2007,
+    "possedee": 537,
+    "electronique": true,
+    "image": "https://i.discogs.com/1MQVEqgfKSZb1139LAaWkLs9isCaryijSgMkVMjOaiI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTk2ODk5/Ni0xMTgyMzM4ODg1/LmpwZWc.jpeg",
+    "url": "https://www.discogs.com/master/1634760-Solomun-Stimming-Feuer-Eis-EP"
+   },
+   {
+    "titre": "Peace Of Conscience EP",
+    "artiste": "David August",
+    "annee": 2011,
+    "possedee": 426,
+    "electronique": true,
+    "image": "https://i.discogs.com/qsybepNzI-49ls91bMKW7fn3npu654wQNsrea2pQwUw/rs:fit/g:sm/q:90/h:349/w:349/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI2NDE4/OTgtMTI5NDU5Mzg0/NC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/master/299944-David-August-Peace-Of-Conscience-EP"
+   },
+   {
+    "titre": "Selected Remixes 2009 - 2015",
+    "artiste": "Solomun",
+    "annee": 2016,
+    "possedee": 430,
+    "electronique": true,
+    "image": "https://i.discogs.com/jd9JpqOQECqZfnn2TYTjR1OLcTDrLeWCOYdAEFAyvPQ/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg3NjA1/MjEtMTQ2ODE3NTc1/NC0xODYwLmpwZWc.jpeg",
+    "url": "https://www.discogs.com/master/1064079-Solomun-Selected-Remixes-2009-2015"
+   },
+   {
+    "titre": "Trilogy EP",
+    "artiste": "Stimming / H.O.S.H. / Solomun",
+    "annee": 2008,
+    "possedee": 430,
+    "electronique": true,
+    "image": "https://i.discogs.com/qk2hBfHC0JwNv5Z7vIWfsbC0w6gw8-JI0bJX7b2M92w/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNDAx/MjgtMTIwMzI4NDA4/MS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/master/12533-Stimming-HOSH-Solomun-Trilogy-EP"
+   }
+  ]
  },
  {
   "slug": "dj-s-club-records",
@@ -32354,15 +32436,22 @@
   "cles": [
    "dust and blood"
   ],
-  "anciens": [],
+  "anciens": [
+   "dust-and-blood"
+  ],
   "n": 1,
-  "pays": null,
-  "annee": null,
-  "fondateurs": [],
-  "site": null,
+  "pays": "France",
+  "annee": 2020,
+  "fondateurs": [
+   "Damon Jee"
+  ],
+  "site": "https://dustandblood.bandcamp.com",
   "wiki": {},
-  "resume": {},
-  "profil": "French electronic music label founded by .",
+  "resume": {
+   "fr": "Label français fondé par Damon Jee, dédié à la dark disco, à l'indie dance et aux textures électro-rock saturées.",
+   "en": "French record label founded by Damon Jee, dedicated to dark disco, indie dance and saturated electro-rock club tracks."
+  },
+  "profil": null,
   "discogs": "https://www.discogs.com/label/2731130-Dust-Blood",
   "wikidata": null,
   "logo": {
@@ -32378,8 +32467,8 @@
     "annee": 2020,
     "possedee": 3,
     "electronique": true,
-    "image": "https://i.discogs.com/ODLDvOnSZMhCGxEgVoCYOhT4mkTycwPm9tvsc66ZH0w/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIyOTkx/OTI0LTE2NTA3OTAx/MDUtNTg3My5qcGVn.jpeg",
-    "url": "https://www.discogs.com/release/22991924-Darlyn-Vlys-Modelo-303"
+    "image": "https://i.discogs.com/mzCbVnF0XMGUcBxIFK_TWPpt4Yksg_6TCfQQ1ZfYzaI/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIyOTkx/OTI0LTE2NTA3OTAx/MDUtNTg3My5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/22991924"
    }
   ]
  },
@@ -36390,18 +36479,23 @@
   "slug": "eskimo-recordings",
   "nom": "Eskimo Recordings",
   "cles": [
-   "eskimo recordings"
+   "eskimo recordings",
+   "eskimo"
   ],
   "anciens": [],
   "n": 0,
   "pays": "Belgique",
   "annee": 2000,
-  "fondateurs": [],
+  "fondateurs": [
+   "Dirk De Ruyck",
+   "Stefaan Vandenberghe"
+  ],
   "site": "http://www.eskimorecordings.be",
   "wiki": {
    "en": "https://en.wikipedia.org/wiki/Eskimo_Recordings"
   },
   "resume": {
+   "fr": "Label belge fondé à Gand en 2000 dans le sillage des soirées Eskimo, pionnier du nu-disco, de la balearic et de l'indie dance (Lindstrøm, Aeroplane, Satin Jackets, Psychemagik).",
    "en": "Eskimo Recordings are a Ghent-based record label that grew out of the eclectic parties that took place during the late nineties in the Eskimo Fabriek in Ghent. These underground parties got famous for mixing synthpop, new wave, acid house, funk and rock ‘n’ roll into a new and fresh sound, setting new standards for the Belgian club culture. International as well as local talented DJs such as Mo & Benoelie, TLP and The Flying Dewale Brothers were usual guests at the turntables. As the Eskimo Fabriek needed refurbishment at the turn of the century, the Eskimo parties moved on to the Culture Club, and the temporary Belmondo concept at the S.M.A.K museum."
   },
   "profil": null,
@@ -36418,7 +36512,7 @@
     "titre": "Ritual Chants",
     "artiste": "Psychemagik",
     "annee": 2016,
-    "possedee": 2209,
+    "possedee": 2205,
     "electronique": true,
     "image": "https://i.discogs.com/ts2Zt4TO1ae6uiAT9uGQJ22slhRJnWgBViVSfI4o-Eo/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkzODMz/MzItMTQ3OTYwODQ0/Ni0xMzk4LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/4220235-Psychemagik-Ritual-Chants"
@@ -36427,7 +36521,7 @@
     "titre": "Lindstrøm & Prins Thomas",
     "artiste": "Lindstrøm & Prins Thomas",
     "annee": 2005,
-    "possedee": 1543,
+    "possedee": 1545,
     "electronique": true,
     "image": "https://i.discogs.com/zQlpssly-SFQMlIdDfOfepun29EHgEY41Z0l55CZOL4/rs:fit/g:sm/q:90/h:537/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU2MDUw/NS0xNTcwNDgyMjEy/LTk5NTkucG5n.jpeg",
     "url": "https://www.discogs.com/master/78033-Lindstr%C3%B8m-Prins-Thomas-Lindstr%C3%B8m-Prins-Thomas"
@@ -36436,7 +36530,7 @@
     "titre": "Next Wave Acid Punx Deux",
     "artiste": "Various",
     "annee": 2023,
-    "possedee": 1200,
+    "possedee": 1203,
     "electronique": true,
     "image": "https://i.discogs.com/yruNOeAuMbCWYA3VJYxH6P4X_-OZCATX6QtoEV0s61E/rs:fit/g:sm/q:90/h:521/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4OTg3/NDUwLTE3MDQxMjkz/NDUtNDc5OC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/3460325-Various-Next-Wave-Acid-Punx-Deux"
@@ -36445,7 +36539,7 @@
     "titre": "Cosmo Galactic Prism",
     "artiste": "Prins Thomas",
     "annee": 2007,
-    "possedee": 1068,
+    "possedee": 1071,
     "electronique": true,
     "image": "https://i.discogs.com/55xSWZDZZf4Uv-vwyaNV6I5_W2JHgHcYIMZWJlVnvKU/rs:fit/g:sm/q:90/h:535/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwMDAx/NDgtMTQ5MTgwNTU1/Ny05MjYyLmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/357465-Prins-Thomas-Cosmo-Galactic-Prism"
@@ -36463,7 +36557,7 @@
     "titre": "We Can't Fly",
     "artiste": "Aeroplane",
     "annee": 2010,
-    "possedee": 807,
+    "possedee": 809,
     "electronique": true,
     "image": "https://i.discogs.com/xuYTFmzxA8j03SVcgGUsnvcfobZ2ecjHuRZUIzCaDN8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI0OTAz/NTktMTY4NjA0NDU4/OC0yMTQ5LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/281127-Aeroplane-We-Cant-Fly"
@@ -36472,7 +36566,7 @@
     "titre": "\"Cosmic Disco?!\" Cosmic Rock!!!\"",
     "artiste": "Baldelli* & Dionigi",
     "annee": 2008,
-    "possedee": 813,
+    "possedee": 817,
     "electronique": true,
     "image": "https://i.discogs.com/atFswdw30f7GwbkPP0fX18Bl-0laDpPNSfTM09Vuo9k/rs:fit/g:sm/q:90/h:438/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzMzIz/MzItMTQ3Mzk0MzQ3/NS00MzcwLmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/334781-Baldelli-Dionigi-Cosmic-Disco-Cosmic-Rock"
@@ -36481,7 +36575,7 @@
     "titre": "Death Disco",
     "artiste": "Ivan Smagghe",
     "annee": 2004,
-    "possedee": 776,
+    "possedee": 777,
     "electronique": true,
     "image": "https://i.discogs.com/vnZv9BDMgbb4p13Mfe4tBhBZ04ob4bbACtSRC37j3Mg/rs:fit/g:sm/q:90/h:442/w:464/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIyMjAw/Ny0xMTk4NjIwMTUy/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/87608-Ivan-Smagghe-Death-Disco"
@@ -49058,6 +49152,110 @@
   ]
  },
  {
+  "slug": "hivern-discs",
+  "nom": "Hivern Discs",
+  "cles": [
+   "hivern discs",
+   "hivern"
+  ],
+  "anciens": [],
+  "n": 0,
+  "pays": "Espagne",
+  "annee": 2008,
+  "fondateurs": [
+   "John Talabot"
+  ],
+  "site": "https://hiverndiscs.bandcamp.com",
+  "wiki": {},
+  "resume": {
+   "fr": "Label barcelonais fondé en 2008 par John Talabot, reconnu pour ses sorties électroniques aventureuses mêlant house hypnotique, leftfield, techno et dark disco.",
+   "en": "Barcelona-based label founded in 2008 by John Talabot, acclaimed for its leftfield electronic releases blending hypnotic house, techno and dark disco."
+  },
+  "profil": null,
+  "discogs": "https://www.discogs.com/label/446528-Hivern-Discs",
+  "wikidata": "Q118744827",
+  "logo": {
+   "url": "https://i.discogs.com/hTvqlaevbbw0dn5NoZxvCvfAP2c0j6-e0ah5aWXpMd0/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTQ0NjUy/OC0xNTEyNjMwNTk5/LTQ4NzkucG5n.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/446528-Hivern-Discs"
+  },
+  "sorties": [
+   {
+    "titre": "Irrbloss",
+    "artiste": "Dorisburg",
+    "annee": 2016,
+    "possedee": 732,
+    "electronique": true,
+    "image": "https://i.discogs.com/gQRjh-ldqH5p50nX5NoYIWWOP1WAmiL2M-MJ8wDhUcM/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTgxNjcw/MzItMTQ1NjQwNTgx/My05MTM1LmpwZWc.jpeg",
+    "url": "https://www.discogs.com/master/993996-Dorisburg-Irrbloss"
+   },
+   {
+    "titre": "Impossible Holiday",
+    "artiste": "Khidja",
+    "annee": 2017,
+    "possedee": 632,
+    "electronique": true,
+    "image": "https://i.discogs.com/sLQdcfE5B8xwPy4mS45JVIcUQUskuNjbG9rla2EW0hA/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTk3ODc5/MDMtMTQ5NjA1ODg1/MS00Nzg2LmpwZWc.jpeg",
+    "url": "https://www.discogs.com/master/1440667-Khidja-Impossible-Holiday"
+   },
+   {
+    "titre": "Sideral",
+    "artiste": "Talaboman",
+    "annee": 2014,
+    "possedee": 469,
+    "electronique": true,
+    "image": "https://i.discogs.com/NNH08gmx-_Y-TLwPUK-eExteQ8VSjNgZNDWBGeO_ZW8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYwMDIx/NDUtMTQwODUzMTI5/NS03MTU0LmpwZWc.jpeg",
+    "url": "https://www.discogs.com/master/1845291-Talaboman-Sideral"
+   },
+   {
+    "titre": "El Túnel / Proceso",
+    "artiste": "C.P.I.",
+    "annee": 2014,
+    "possedee": 405,
+    "electronique": true,
+    "image": "https://i.discogs.com/YSRVbirLINWrsweDnk84SEPJL4hLTMUTp4e-Iod2OjM/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTY0NTcw/MjktMTQxOTcxMzQy/OS00OTIyLmpwZWc.jpeg",
+    "url": "https://www.discogs.com/master/776184-CPI-El-T%C3%BAnel-Proceso"
+   },
+   {
+    "titre": "Mirage / Rain",
+    "artiste": "Quentin",
+    "annee": 2016,
+    "possedee": 400,
+    "electronique": true,
+    "image": "https://i.discogs.com/UsJu9ZqBq4Q-hCN7S7t7l_Ivoba_gx8rmmKElhueK34/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkxODky/NTYtMTQ3NjM0OTE2/Mi0zNzc3LmpwZWc.jpeg",
+    "url": "https://www.discogs.com/master/1075280-Quentin-Mirage-Rain"
+   },
+   {
+    "titre": "Egoísta",
+    "artiste": "Marvin & Guy",
+    "annee": 2015,
+    "possedee": 350,
+    "electronique": true,
+    "image": "https://i.discogs.com/__1WkD3Ie1FFtgAngxije1K7E0B09DXX8X7YUUpb8P8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTcwNzMy/MzUtMTQzMzA4Mjk0/OS0yOTc1LmpwZWc.jpeg",
+    "url": "https://www.discogs.com/master/851294-Marvin-Guy-Ego%C3%ADsta"
+   },
+   {
+    "titre": "Parple #1",
+    "artiste": "Parple",
+    "annee": 2016,
+    "possedee": 329,
+    "electronique": true,
+    "image": "https://i.discogs.com/0pjpiMlG-p0iobz6LVvgTeh-A1z60errgTXa19Y3fbM/rs:fit/g:sm/q:90/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTgyOTA3/MjktMTQ1ODc0NDY2/Ny04MzQ5LmpwZWc.jpeg",
+    "url": "https://www.discogs.com/master/1003507-Parple-Parple-1-"
+   },
+   {
+    "titre": "Cheaters",
+    "artiste": "Teengirl Fantasy",
+    "annee": 2011,
+    "possedee": 335,
+    "electronique": true,
+    "image": "https://i.discogs.com/pjwwrT9ySUxnoKhGpWXooUcEtploDV-fY_MWiorbwig/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4MTQ2/NTEtMTQ0NzU0MzU0/Ni05MTQzLmpwZWc.jpeg",
+    "url": "https://www.discogs.com/master/451840-Teengirl-Fantasy-Cheaters"
+   }
+  ]
+ },
+ {
   "slug": "hog-loft-records",
   "nom": "Hog Loft Records",
   "cles": [
@@ -55541,6 +55739,112 @@
   ]
  },
  {
+  "slug": "jeahmon-records",
+  "nom": "JEAHMON! Records",
+  "cles": [
+   "jeahmon records",
+   "jeahmon"
+  ],
+  "anciens": [
+   "jeahmon"
+  ],
+  "n": 0,
+  "pays": "Allemagne",
+  "annee": 2014,
+  "fondateurs": [
+   "Marc DePulse"
+  ],
+  "site": "https://www.jeahmon.de",
+  "wiki": {},
+  "resume": {
+   "fr": "Label basé à Leipzig fondé en 2014 par Marc DePulse, dédié à l'indie dance, à la melodic house et à la techno mélodique.",
+   "en": "Leipzig-based record label founded in 2014 by Marc DePulse, dedicated to indie dance, melodic house and melodic techno."
+  },
+  "profil": null,
+  "discogs": "https://www.discogs.com/label/417421-JEAHMON!",
+  "wikidata": null,
+  "logo": {
+   "url": "https://i.discogs.com/8A5ofj9geFliOuc7UJcIt6pPbf8dywjNB2jsWOy88n8/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTQxNzQy/MS0xNDE4NTUwMjQ5/LTU3MjguanBlZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/417421-JEAHMON!"
+  },
+  "sorties": [
+   {
+    "titre": "Ningelprinz",
+    "artiste": "Jeahmon",
+    "annee": 2012,
+    "possedee": 47,
+    "electronique": true,
+    "image": "https://i.discogs.com/8jgEx4puXjqligpY097IS0u121Alivk_sfn0w0R7uSw/rs:fit/g:sm/q:90/h:480/w:480/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3MzQ2/MDEtMTM0MjI1NTIy/Mi04MTMyLmpwZWc.jpeg",
+    "url": "https://www.discogs.com/release/3734601-Jeahmon-Ningelprinz"
+   },
+   {
+    "titre": "Sonnette",
+    "artiste": "Mathias Ache & muLe",
+    "annee": 2013,
+    "possedee": 41,
+    "electronique": true,
+    "image": "https://i.discogs.com/53Kr2QqLZEdOMIHrzddP_Dwr4ye6ZVsbGUuefXDceus/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ5NTIx/OTUtMTM4MDM5OTY3/MC04MTgwLmpwZWc.jpeg",
+    "url": "https://www.discogs.com/release/4952195-Mathias-Ache-muLe-Sonnette"
+   },
+   {
+    "titre": "Nachtmensch",
+    "artiste": "Marc DePulse Feat. Boe Van Berg",
+    "annee": 2013,
+    "possedee": 42,
+    "electronique": true,
+    "image": "https://i.discogs.com/vx0tG-2jaMf1iw4R1a_WqwKca34oQewIoIt-zSf-q6Y/rs:fit/g:sm/q:90/h:600/w:599/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ2MzI0/MDUtMTM3MTY0MTMy/Mi04NDk3LmpwZWc.jpeg",
+    "url": "https://www.discogs.com/release/4632405-Marc-DePulse-Feat-Boe-Van-Berg-Nachtmensch"
+   },
+   {
+    "titre": "Tenamon",
+    "artiste": "Various",
+    "annee": 2023,
+    "possedee": 36,
+    "electronique": true,
+    "image": "https://i.discogs.com/Z8ndMSsm0cqat9AIVjtdfKllx8Xgx2oSevcxMMr6kPc/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5MDE3/ODE5LTE3MDA5MzAx/NDItNzUxNC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/29017819-Various-Tenamon"
+   },
+   {
+    "titre": "Bunte Kiste",
+    "artiste": "Various",
+    "annee": 2014,
+    "possedee": 33,
+    "electronique": true,
+    "image": "https://i.discogs.com/R9v8guMF9Ixhq2Jy8sGQJg4jg5d_01Nr9G9fFl2igzQ/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYzOTcw/NTctMTQxODU1MTAw/NS00NTI3LmpwZWc.jpeg",
+    "url": "https://www.discogs.com/release/6397057-Various-Bunte-Kiste"
+   },
+   {
+    "titre": "Black Drop",
+    "artiste": "Einsauszwei",
+    "annee": 2012,
+    "possedee": 27,
+    "electronique": true,
+    "image": "https://i.discogs.com/kutxzYEktET6CM5SItM5hzSibSZfLMVX-eM-yiRHDq0/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5NTgz/OTMtMTM1MDUxODM4/OS0xNDc0LmpwZWc.jpeg",
+    "url": "https://www.discogs.com/release/3958393-Einsauszwei-Black-Drop"
+   },
+   {
+    "titre": "Fingerprint Vol. 1",
+    "artiste": "Marc DePulse",
+    "annee": 2024,
+    "possedee": 22,
+    "electronique": true,
+    "image": "https://i.discogs.com/jrenk-TypkwObyBy9XAAauGI3GPhSQJrm6ZOnAsJpU0/rs:fit/g:sm/q:90/h:585/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMxNDI2/MzA0LTE3MjMwNjI0/MjYtNjM1OC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/31426304-Marc-DePulse-Fingerprint-Vol-1"
+   },
+   {
+    "titre": "Sharks",
+    "artiste": "Several Definitions & Marc DePulse",
+    "annee": 2018,
+    "possedee": 3,
+    "electronique": true,
+    "image": "https://i.discogs.com/42yCXnU9I9_ao1P5Vqbly9UrYprkdw4MdchhZKDaOGU/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0OTcw/ODE1LTE1ODQ4OTgw/NzUtNjEyNi5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/14970815-Several-Definitions-Marc-DePulse-Sharks"
+   }
+  ]
+ },
+ {
   "slug": "jeffree-s",
   "nom": "Jeffree's",
   "cles": [
@@ -59942,6 +60246,112 @@
     "electronique": true,
     "image": "https://i.discogs.com/zy8GJnDyM5s66hS8tg9uW-9YovAav8rIRfaIgKtE1-8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE4Mjk5/ODMtMTI0NjY1OTk1/MS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/144997-Stvn-Wlsn-Nsrgnts-Rmxs"
+   }
+  ]
+ },
+ {
+  "slug": "la-dame-noir-records",
+  "nom": "La Dame Noir Records",
+  "cles": [
+   "la dame noir records",
+   "la dame noir"
+  ],
+  "anciens": [
+   "la-dame-noir"
+  ],
+  "n": 0,
+  "pays": "France",
+  "annee": 2011,
+  "fondateurs": [
+   "Phred Noir"
+  ],
+  "site": "https://ladamenoir.bandcamp.com",
+  "wiki": {},
+  "resume": {
+   "fr": "Label et collectif marseillais fondé en 2011 par Phred Noir, figure de la dark disco, de la slow techno et de l'indie dance.",
+   "en": "Marseille-based label and collective founded in 2011 by Phred Noir, a cornerstone of dark disco, slow techno and indie dance."
+  },
+  "profil": null,
+  "discogs": "https://www.discogs.com/label/728007-La-dame-Noir-Records",
+  "wikidata": null,
+  "logo": {
+   "url": "https://i.discogs.com/IAgkNslBhgZ1UH497-4L9caV9sQPHG25FywsXHvtp5I/rs:fit/g:sm/q:90/h:598/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTcyODAw/Ny0xNDQyNTcyMjYz/LTM1MTkuanBlZw.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/728007-La-dame-Noir-Records"
+  },
+  "sorties": [
+   {
+    "titre": "Masterpiece: Created By Andrew Weatherall",
+    "artiste": "Andrew Weatherall",
+    "annee": 2012,
+    "possedee": 757,
+    "electronique": true,
+    "image": "https://i.discogs.com/rkOa4T6exrjJjKAChc31xgZ0cbZnXmP6zKBrVQCGrSI/rs:fit/g:sm/q:90/h:533/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM1NjU1/MjgtMTYwMzU0MTM5/Mi00NjgzLmpwZWc.jpeg",
+    "url": "https://www.discogs.com/release/3565528-Andrew-Weatherall-Masterpiece-Created-By-Andrew-Weatherall"
+   },
+   {
+    "titre": "Darkness Has Never Been So Bright",
+    "artiste": "Various",
+    "annee": 2016,
+    "possedee": 84,
+    "electronique": true,
+    "image": "https://i.discogs.com/9F8eDFN9S3uQO5CY813iqnTxIHaAWup5zCVT3zUVZfw/rs:fit/g:sm/q:90/h:601/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTk0OTE0/MTctMTQ4MTg1MTQ4/Mi0yMjI0LmpwZWc.jpeg",
+    "url": "https://www.discogs.com/release/9491417-Various-Darkness-Has-Never-Been-So-Bright"
+   },
+   {
+    "titre": "First Date",
+    "artiste": "Date With Elvis",
+    "annee": 2017,
+    "possedee": 4,
+    "electronique": false,
+    "image": "https://i.discogs.com/NvgUf1Go4bev-lnzEGN-uvfulLi-15WnYRY7MLGtpAU/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzNDUy/MDA5LTE1NTQ0Nzkx/NTctMjUzNy5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/13452009-Date-With-Elvis-First-Date"
+   },
+   {
+    "titre": "The Long Long Summer · Liste Noir #1",
+    "artiste": "Various",
+    "annee": 2014,
+    "possedee": 4,
+    "electronique": true,
+    "image": "https://i.discogs.com/ttHGqLuW0jinqTAMsqKaaRoAflKVsWTX-GBGFy1QH6A/rs:fit/g:sm/q:90/h:512/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMwMjg1/Mzc3LTE3MTM5MTgw/ODctMzU5NC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/30285377-Various-The-Long-Long-Summer-Liste-Noir-1"
+   },
+   {
+    "titre": "Cowboys & Indians",
+    "artiste": "Zombies In Miami",
+    "annee": 2014,
+    "possedee": 3,
+    "electronique": true,
+    "image": "https://i.discogs.com/I5254ACOfLRn5yeK37uuZlC402tYba5gh6wUU-iYEP8/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYwMDM0/ODYtMTQwODU1MTQ4/Mi01ODQyLmpwZWc.jpeg",
+    "url": "https://www.discogs.com/release/6003486-Zombies-In-Miami-Cowboys-Indians"
+   },
+   {
+    "titre": "Back In The Light",
+    "artiste": "Darkness Has Never Been So Bright",
+    "annee": 2019,
+    "possedee": 2,
+    "electronique": true,
+    "image": null,
+    "url": "https://www.discogs.com/release/35117711-Darkness-Has-Never-Been-So-Bright-Back-In-The-Light"
+   },
+   {
+    "titre": "Edible Thoughts",
+    "artiste": "Tronik Youth",
+    "annee": 2014,
+    "possedee": 2,
+    "electronique": true,
+    "image": "https://i.discogs.com/HBBNrH_eqXrZwsv2dQtVp4z7-I60uZYS8DGV6a3NcZY/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYxOTYw/NTgtMTQxMzQ1Njg1/OS03NzYyLmpwZWc.jpeg",
+    "url": "https://www.discogs.com/release/6196058-Tronik-Youth-Edible-Thoughts"
+   },
+   {
+    "titre": "The Fall",
+    "artiste": "Amevicious",
+    "annee": 2015,
+    "possedee": 2,
+    "electronique": true,
+    "image": "https://i.discogs.com/k4sBRhpmmGKiWZXn0bS64DTBp8ogYH22wCPESuYlIb4/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc1ODgx/MTItMTQ0NDYzMjk1/Ni04NzgxLmpwZWc.jpeg",
+    "url": "https://www.discogs.com/release/7588112-Amevicious-The-Fall"
    }
   ]
  },
@@ -64911,6 +65321,95 @@
   ]
  },
  {
+  "slug": "manta-recordings",
+  "nom": "Manta Recordings",
+  "cles": [
+   "manta recordings",
+   "manta"
+  ],
+  "anciens": [
+   "manta"
+  ],
+  "n": 0,
+  "pays": "États-Unis",
+  "annee": 2023,
+  "fondateurs": [
+   "IDORU",
+   "Sian"
+  ],
+  "site": "https://www.beatport.com/label/manta-recordings/116415",
+  "wiki": {},
+  "resume": {
+   "fr": "Label fondé à Detroit en 2023 par Ashley Taylor (IDORU) et Sian, orienté indie dance, nu-disco, house et techno.",
+   "en": "Detroit-based electronic music label founded in 2023 by Ashley Taylor (IDORU) and Sian, focused on indie dance, nu-disco, house and techno."
+  },
+  "profil": null,
+  "discogs": "https://www.discogs.com/label/3984072-Manta-Recordings-2",
+  "wikidata": null,
+  "logo": {
+   "url": "https://i.discogs.com/V5E1H_r65djysN1gRjeNRNp33-VJkB64cDdFuGk9MjA/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTM5ODQw/NzItMTczNzU0MTMw/MC03MTczLmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/3984072-Manta-Recordings-2"
+  },
+  "sorties": [
+   {
+    "titre": "Violent",
+    "artiste": "SIIE & Idoru",
+    "annee": 2024,
+    "possedee": 5,
+    "electronique": true,
+    "image": "https://i.discogs.com/dJ7rNU_8BPXsgom3wgorldf9f2S0cQW3O76Y2wIU608/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0ODkz/NjM4LTE3NTU4ODgy/NzItOTExMS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/34893638"
+   },
+   {
+    "titre": "5ème Avenue",
+    "artiste": "SIIE",
+    "annee": 2023,
+    "possedee": 3,
+    "electronique": true,
+    "image": "https://i.discogs.com/taN9fyYcmIVwo9P1xFJOGRimBtukJq3LpetMN-P5nso/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0ODk3/NDMzLTE3NTU5MzA2/MDYtOTEzMC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/34897433"
+   },
+   {
+    "titre": "À Travers",
+    "artiste": "SIIE",
+    "annee": 2023,
+    "possedee": 3,
+    "electronique": true,
+    "image": "https://i.discogs.com/XhPf4r92J-Fcz3zyW3uTb3eCawjYKcGgRicyqRKGPfg/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0ODk3/MzUyLTE3NTU5Mjk3/MDktMjY2Ni5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/34897352"
+   },
+   {
+    "titre": "Le Sept",
+    "artiste": "SIIE",
+    "annee": 2023,
+    "possedee": 2,
+    "electronique": true,
+    "image": "https://i.discogs.com/e2l7uKebrlaUC6pE5RfHHWfe6Go1pV-IRhQAUpHoC-4/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0ODk3/NDc4LTE3NTU5MzA5/NzAtNzYzMy5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/34897478"
+   },
+   {
+    "titre": "Vapor",
+    "artiste": "IDORU",
+    "annee": 2023,
+    "possedee": 2,
+    "electronique": true,
+    "image": "https://i.discogs.com/RqquBYi2_n05ukMKTn2x-903OBDSDs9Y5tCMKiLfiLE/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4MDk3/MTg4LTE2OTMxNzcx/MDQtNzU2My5wbmc.jpeg",
+    "url": "https://www.discogs.com/release/28097188"
+   },
+   {
+    "titre": "Russian Roulette",
+    "artiste": "Silicodisco",
+    "annee": 2024,
+    "possedee": 1,
+    "electronique": true,
+    "image": "https://i.discogs.com/-m8EDjmVxoq3eiZ9BiqIZfoXJq-uuliiX3Ekf_0BS-M/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4ODg1/MTYzLTE3OTMzODQ4/MTEtMzM4NC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/38885163"
+   }
+  ]
+ },
+ {
   "slug": "mantra-mantra",
   "nom": "Mantra Mantra",
   "cles": [
@@ -66757,6 +67256,113 @@
     "electronique": true,
     "image": "https://i.discogs.com/EXDQSlU96Oi9aaAsQusrXujBKU34FN6dcBr20OvAO1k/rs:fit/g:sm/q:90/h:598/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExMzIx/LTEyODE4MTgzOTEu/anBlZw.jpeg",
     "url": "https://www.discogs.com/master/64265-Pita-Get-Out"
+   }
+  ]
+ },
+ {
+  "slug": "melopee-records",
+  "nom": "Mélopée Records",
+  "cles": [
+   "melopee records",
+   "melopee"
+  ],
+  "anciens": [
+   "melopee"
+  ],
+  "n": 0,
+  "pays": "France",
+  "annee": 2019,
+  "fondateurs": [
+   "Bamboo",
+   "Thomas M"
+  ],
+  "site": "https://melopeerecords.bandcamp.com",
+  "wiki": {},
+  "resume": {
+   "fr": "Label français fondé à Lyon en 2019, spécialisé dans l'indie dance, la melodic techno et les grooves électroniques hybrides.",
+   "en": "French record label founded in Lyon in 2019, specializing in indie dance, melodic techno and hybrid club grooves."
+  },
+  "profil": null,
+  "discogs": "https://www.discogs.com/label/1829941-Mélopée-Records",
+  "wikidata": null,
+  "logo": {
+   "url": "https://i.discogs.com/woKgZrNO7gj3kqJ8iZbqlO4OskhSTnLswwaiR8MntXI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTE4Mjk5/NDEtMTcxMzc4NzYy/OC04NzU5LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/1829941-Mélopée-Records"
+  },
+  "sorties": [
+   {
+    "titre": "VA.2",
+    "artiste": "Various",
+    "annee": 2021,
+    "possedee": 80,
+    "electronique": true,
+    "image": "https://i.discogs.com/pql0evMOrusaIDilAr_W8MpV7d2_70omdLrSu1I7hPE/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIxMzA3/NTM3LTE2Mzk4Mjc1/ODctOTA4NC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/21307537-Various-VA2"
+   },
+   {
+    "titre": "Retrofutur 3",
+    "artiste": "Various",
+    "annee": 2025,
+    "possedee": 18,
+    "electronique": true,
+    "image": "https://i.discogs.com/zzlyhZoG3eASriiyNHOYfXh5UfhJiCefDbCZ3HNOG70/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM1OTA2/NzIyLTE3NjU1NDcx/ODMtNTIxMy5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/35906722-Various-Retrofutur-3"
+   },
+   {
+    "titre": "Neon Disco",
+    "artiste": "Italoconnection",
+    "annee": 2021,
+    "possedee": 8,
+    "electronique": true,
+    "image": "https://i.discogs.com/FhtG6-iepRG8DL__qm7Q5vcwrKx00J_okesBtI47ses/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE4MTM1/OTQ5LTE2MTc0NjE2/NDgtOTcyMy5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/18135949-Italoconnection-Neon-Disco"
+   },
+   {
+    "titre": "Okänt Universum",
+    "artiste": "Marcus Christiansen",
+    "annee": 2023,
+    "possedee": 4,
+    "electronique": true,
+    "image": "https://i.discogs.com/nveSSGagEH6j9lRbQknacy6yJ8i113sivnyfFn_QXh0/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI2MTcw/MjgwLTE2NzY5MjIy/MDMtNjM1OC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/26170280-Marcus-Christiansen-Ok%C3%A4nt-Universum"
+   },
+   {
+    "titre": "RetroFutur",
+    "artiste": "Various",
+    "annee": 2022,
+    "possedee": 2,
+    "electronique": true,
+    "image": "https://i.discogs.com/OOKj0AeoBzf6OnGO08K00kjGymifpPyXJZtJ0vppO9M/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI2Nzkz/Mjk2LTE2ODE3NjMw/MjctNDQxNy5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/26793296-Various-RetroFutur"
+   },
+   {
+    "titre": "Future Is Your Love",
+    "artiste": "Kiko & David Carretta Feat. Gigi Succes",
+    "annee": 2025,
+    "possedee": 3,
+    "electronique": true,
+    "image": "https://i.discogs.com/EUpw6DoZS8eZx2-0Ggxdc1rZ9LL6itsVsXVDm1JsP2A/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0MzEw/OTAyLTE3NTAzMjc4/MjQtODMyMS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/34310902-Kiko-David-Carretta-Feat-Gigi-Succes-Future-Is-Your-Love"
+   },
+   {
+    "titre": "Analog Dream",
+    "artiste": "Atmoss (SP)",
+    "annee": 2023,
+    "possedee": 2,
+    "electronique": true,
+    "image": "https://i.discogs.com/yLlvVFXVItDFy_Xc8MSqvufFlGuOx3PcRaeFHX8GlHo/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMwNDcy/MTM5LTE3MTM3ODc5/NjEtMzU4My5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/30472139-Atmoss-SP-Analog-Dream"
+   },
+   {
+    "titre": "Body Work",
+    "artiste": "Electrosexual",
+    "annee": 2026,
+    "possedee": 2,
+    "electronique": true,
+    "image": "https://i.discogs.com/4xyAX_q9qadB_Ek7NpRL1pL86dHmZ0uOsQVM01y-u04/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3MTk1/NTYwLTE3NzczNjU2/NjctNjQxNy5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/37195560-Electrosexual-Body-Work"
    }
   ]
  },
@@ -82773,13 +83379,19 @@
   ],
   "anciens": [],
   "n": 1,
-  "pays": null,
-  "annee": null,
-  "fondateurs": [],
-  "site": null,
+  "pays": "Allemagne",
+  "annee": 2006,
+  "fondateurs": [
+   "Tom Bioly",
+   "Benjamin Fröhlich"
+  ],
+  "site": "https://perm-vac.com",
   "wiki": {},
-  "resume": {},
-  "profil": "A record label, based in Munich, Germany. \nThe label owners are Tom Bioly and Benjamin Fröhlich.",
+  "resume": {
+   "fr": "Label munichois fondé en 2006 par Tom Bioly et Benjamin Fröhlich, au carrefour du nu-disco, de l'italo, de la balearic et de l'indie dance (John Talabot, Tensnake, Todd Terje, Mano Le Tough).",
+   "en": "Munich-based label founded in 2006 by Tom Bioly and Benjamin Fröhlich, at the crossroads of nu-disco, Italo, balearic and indie dance (John Talabot, Tensnake, Todd Terje, Mano Le Tough)."
+  },
+  "profil": null,
   "discogs": "https://www.discogs.com/label/63501-Permanent-Vacation",
   "wikidata": null,
   "logo": {
@@ -82965,17 +83577,25 @@
   "slug": "phantasy-sound",
   "nom": "Phantasy Sound",
   "cles": [
-   "phantasy sound"
+   "phantasy sound",
+   "phantasy"
   ],
-  "anciens": [],
+  "anciens": [
+   "phantasy"
+  ],
   "n": 1,
-  "pays": null,
-  "annee": null,
-  "fondateurs": [],
-  "site": null,
+  "pays": "Royaume-Uni",
+  "annee": 2007,
+  "fondateurs": [
+   "Erol Alkan"
+  ],
+  "site": "https://phantasysound.co.uk",
   "wiki": {},
-  "resume": {},
-  "profil": "Erol Alkan's label. Based in London, UK.",
+  "resume": {
+   "fr": "Label londonien fondé en 2007 par Erol Alkan, croisant électro, acid, indie dance et techno psychédélique (Daniel Avery, Boys Noize, Connan Mockasin, Red Axes).",
+   "en": "London-based record label founded in 2007 by Erol Alkan, bridging electro, acid, indie dance and psychedelic techno (Daniel Avery, Boys Noize, Connan Mockasin, Red Axes)."
+  },
+  "profil": null,
   "discogs": "https://www.discogs.com/label/94402-Phantasy-Sound",
   "wikidata": null,
   "logo": {
@@ -82989,7 +83609,7 @@
     "titre": "Future Past",
     "artiste": "Duran Duran",
     "annee": 2021,
-    "possedee": 12490,
+    "possedee": 12504,
     "electronique": true,
     "image": "https://i.discogs.com/thQCWgoXgGxylLAWpIbS0ikQXIpARpji-nxU1sl3Crc/rs:fit/g:sm/q:90/h:529/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIwNjg4/MTAwLTE2NDcxMjA0/NjMtMTQ3NS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/2347705-Duran-Duran-Future-Past"
@@ -82998,7 +83618,7 @@
     "titre": "Drone Logic",
     "artiste": "Daniel Avery",
     "annee": 2013,
-    "possedee": 4670,
+    "possedee": 4674,
     "electronique": true,
     "image": "https://i.discogs.com/of5qR_XuYvuBzhzyQEyOA0BelbEixBu0eHQNwagDPP0/rs:fit/g:sm/q:90/h:599/w:597/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTUwMDM2/OTQtMTM4MzYzNDY4/Ny01Mzc5LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/606732-Daniel-Avery-Drone-Logic"
@@ -83007,7 +83627,7 @@
     "titre": "Song For Alpha",
     "artiste": "Daniel Avery",
     "annee": 2018,
-    "possedee": 2091,
+    "possedee": 2093,
     "electronique": true,
     "image": "https://i.discogs.com/3melMYwLT2WtPKcYHwPWds4B3qlR6Fia3XVssoinhJg/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExODE4/OTE5LTE1MjI5NDcx/MjUtNjI0OS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1343310-Daniel-Avery-Song-For-Alpha"
@@ -83016,7 +83636,7 @@
     "titre": "Illusion Of Time",
     "artiste": "Daniel Avery + Alessandro Cortini",
     "annee": 2020,
-    "possedee": 1718,
+    "possedee": 1720,
     "electronique": true,
     "image": "https://i.discogs.com/jnTQRT2BAMVBq09NP7oiy-UKk68MHvjvdQqHzJleJh8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1MDAy/NjQ2LTE2ODExNzAy/MTktNTA0MC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1706704-Daniel-Avery-Alessandro-Cortini-Illusion-Of-Time"
@@ -83025,7 +83645,7 @@
     "titre": "Ultra Truth",
     "artiste": "Daniel Avery",
     "annee": 2022,
-    "possedee": 1731,
+    "possedee": 1734,
     "electronique": true,
     "image": "https://i.discogs.com/w4XwQSyfPppNA8ulDYHBVaJ8i80MXAn5v7bL-vdRWXg/rs:fit/g:sm/q:90/h:587/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI1MDQ5/ODA2LTE2Njc1Njk4/NjQtOTU0My5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/2851183-Daniel-Avery-Ultra-Truth"
@@ -83034,7 +83654,7 @@
     "titre": "Love + Light",
     "artiste": "Daniel Avery",
     "annee": 2020,
-    "possedee": 1589,
+    "possedee": 1590,
     "electronique": true,
     "image": "https://i.discogs.com/6yddxCKybcxFxChlbnHe1jW4MuMWpEPCDY-IjhTTDS8/rs:fit/g:sm/q:90/h:590/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE2MTQx/MTUwLTE2MDQzODQz/MDItNDQ1NS5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1833283-Daniel-Avery-Love-Light"
@@ -84705,6 +85325,48 @@
     "electronique": true,
     "image": "https://i.discogs.com/Q-dxVcmYBh9niDuuexZAP0lWBz9vYBCLHAynLeIM-y4/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ0NDM1/OS0xMjE3NzcyODU2/LmpwZWc.jpeg",
     "url": "https://www.discogs.com/master/299801-Trentem%C3%B8ller-Polar-Shift"
+   }
+  ]
+ },
+ {
+  "slug": "polaris",
+  "nom": "Polaris",
+  "cles": [
+   "polaris",
+   "polaris records",
+   "polaris label"
+  ],
+  "anciens": [],
+  "n": 0,
+  "pays": "France",
+  "annee": 2022,
+  "fondateurs": [
+   "Darlyn Vlys"
+  ],
+  "site": "https://polarisrecords.bandcamp.com",
+  "wiki": {},
+  "resume": {
+   "fr": "Label fondé en 2022 par le producteur français Darlyn Vlys, consacré à l'indie dance et à la dark disco (Damon Jee, AFFKT, Panthera, MMYYLO).",
+   "en": "Record label founded in 2022 by French producer Darlyn Vlys, focused on indie dance and dark disco (Damon Jee, AFFKT, Panthera, MMYYLO)."
+  },
+  "profil": null,
+  "discogs": "https://www.discogs.com/label/3992946-Polaris-16",
+  "wikidata": null,
+  "logo": {
+   "url": "https://i.discogs.com/drKpVIgl7Yfe1Zw2gZS9tfZreK1fXUjX1DHHlxEpiqA/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTM5OTI5/NDYtMTczODEwNTA5/Mi03NTE0LmpwZWc.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/3992946-Polaris-16"
+  },
+  "sorties": [
+   {
+    "titre": "Bodypa",
+    "artiste": "AFFKT",
+    "annee": 2024,
+    "possedee": 1,
+    "electronique": true,
+    "image": "https://i.discogs.com/aYU19ZZaVI-fEBMLhTT4PpIwlgvQKn8OWYwVX0V4PCQ/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMyOTgy/MDk5LTE3MzgxMDQy/ODMtNTg4OS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/32982099"
    }
   ]
  },
@@ -103026,6 +103688,112 @@
     "electronique": true,
     "image": "https://i.discogs.com/3xi02WQnQvVlEtyIVo-ml3N5fRSWipUewQgxTa9H6e0/rs:fit/g:sm/q:90/h:336/w:448/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE4NzAy/NDctMTI0OTA2ODE5/OC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/193430-Chus-Ceballos-vs-Tedd-Patterson-In-Stereo"
+   }
+  ]
+ },
+ {
+  "slug": "stil-vor-talent",
+  "nom": "Stil vor Talent",
+  "cles": [
+   "stil vor talent",
+   "still vor talent"
+  ],
+  "anciens": [
+   "still-vor-talent"
+  ],
+  "n": 0,
+  "pays": "Allemagne",
+  "annee": 2005,
+  "fondateurs": [
+   "Oliver Koletzki"
+  ],
+  "site": "https://www.stilvortalent.de",
+  "wiki": {},
+  "resume": {
+   "fr": "Label berlinois fondé en 2005 par Oliver Koletzki, pilier de la melodic house, de l'indie dance et de la techno mélodique.",
+   "en": "Berlin-based record label founded in 2005 by Oliver Koletzki, a pillar of melodic house, indie dance and melodic techno."
+  },
+  "profil": null,
+  "discogs": "https://www.discogs.com/label/46433-Stil-Vor-Talent",
+  "wikidata": null,
+  "logo": {
+   "url": "https://i.discogs.com/0ABSh4d-U2wiuLLd0emO_PeY7Cd4KGiQIDFe0gqgO-Y/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9MLTQ2NDMz/LTE3Mzc0NzU3NzMt/NzYyNi5qcGVn.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/label/46433-Stil-Vor-Talent"
+  },
+  "sorties": [
+   {
+    "titre": "Drei Tage Wach",
+    "artiste": "Lützenkirchen",
+    "annee": 2008,
+    "possedee": 1778,
+    "electronique": true,
+    "image": "https://i.discogs.com/fXK8pW1IDgy94z15-ITB2HzgqOkiUMYHLjgOyQnY-VU/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNDE1/NzAtMTIwNTA4MTI4/MC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/master/46659-L%C3%BCtzenkirchen-Drei-Tage-Wach"
+   },
+   {
+    "titre": "Sonnentanz",
+    "artiste": "Klangkarussell",
+    "annee": 2012,
+    "possedee": 1451,
+    "electronique": true,
+    "image": "https://i.discogs.com/J39I9X5uZmpNL0MZdNbVOUsyLjW8bK5Nl5lLzpClA5U/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM5MDk2/MzgtMTM2NzU5NjM3/MC05NTQ0LmpwZWc.jpeg",
+    "url": "https://www.discogs.com/master/479489-Klangkarussell-Sonnentanz"
+   },
+   {
+    "titre": "Trialog",
+    "artiste": "Hvob",
+    "annee": 2015,
+    "possedee": 1104,
+    "electronique": true,
+    "image": "https://i.discogs.com/kfFkQ53nkJMbHZnTPmRher2u68ELsvk1RNcJ0quuZQ0/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTY5MTIw/NjktMTQzMDMyMTA0/OS03MjIyLmpwZWc.jpeg",
+    "url": "https://www.discogs.com/master/826430-Hvob-Trialog"
+   },
+   {
+    "titre": "Vivian Wheeler",
+    "artiste": "Format: B",
+    "annee": 2007,
+    "possedee": 712,
+    "electronique": true,
+    "image": "https://i.discogs.com/xB5LHh-3nlKVLYR8YjtKdCMPo4sZXDks0-mkdqPIakg/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNDM5/NDgtMTM4MDQwMzQ0/Ni01NTM5LmpwZWc.jpeg",
+    "url": "https://www.discogs.com/master/11300-Format-B-Vivian-Wheeler"
+   },
+   {
+    "titre": "Großstadtmärchen",
+    "artiste": "Oliver Koletzki",
+    "annee": 2009,
+    "possedee": 708,
+    "electronique": true,
+    "image": "https://i.discogs.com/r5j7qZfsbTXRG774YdHAOsg8r_qGYpAiEw2GS4W7JxI/rs:fit/g:sm/q:90/h:542/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI2Nzkw/MDYtMTI5NjI0NDA0/Ni5qcGVn.jpeg",
+    "url": "https://www.discogs.com/master/340917-Oliver-Koletzki-Gro%C3%9Fstadtm%C3%A4rchen"
+   },
+   {
+    "titre": "The Arc Of Tension",
+    "artiste": "Oliver Koletzki",
+    "annee": 2017,
+    "possedee": 710,
+    "electronique": true,
+    "image": "https://i.discogs.com/Gbcl7puZOlzDYNyb7WzQjv2-GUdxq1EaNPKWcoIkHbY/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwMzE3/NzQ4LTE0OTUyMjg5/MjktNDE0Mi5qcGVn.jpeg",
+    "url": "https://www.discogs.com/master/1183323-Oliver-Koletzki-The-Arc-Of-Tension"
+   },
+   {
+    "titre": "Hypnotized",
+    "artiste": "Oliver Koletzki Feat. Fran",
+    "annee": 2009,
+    "possedee": 500,
+    "electronique": true,
+    "image": "https://i.discogs.com/r_hfUuzuFzL0fBXBvQEz4SN6Qpi4z8KzoUvUjVrXcuA/rs:fit/g:sm/q:90/h:600/w:592/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE4ODU2/ODktMTI1MDc4MTcw/OS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/master/178186-Oliver-Koletzki-Feat-Fran-Hypnotized"
+   },
+   {
+    "titre": "Romantic Thrills",
+    "artiste": "Niconé & Sascha Braemer",
+    "annee": 2011,
+    "possedee": 495,
+    "electronique": true,
+    "image": "https://i.discogs.com/JGEjPUnCVVtyiBk2n13TZYmS87eTlzmJk2hKR-TmChY/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMzNzc4/ODQtMTU3MDE4MjI1/Ni0yNDEyLmpwZWc.jpeg",
+    "url": "https://www.discogs.com/master/865412-Nicon%C3%A9-Sascha-Braemer-Romantic-Thrills"
    }
   ]
  },
@@ -122327,6 +123095,113 @@
     "electronique": true,
     "image": "https://i.discogs.com/ER21jniilwP6vkUUp4ff4OkwBd_Grg3v5PzCsloiixk/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzOTAy/MzA4LTE1NjM2OTA0/NjctMTE3NC5qcGVn.jpeg",
     "url": "https://www.discogs.com/master/1936602-Qnete-Devils-In-The-Dust"
+   }
+  ]
+ },
+ {
+  "slug": "ximena",
+  "nom": "Ximena",
+  "cles": [
+   "ximena",
+   "ximena records"
+  ],
+  "anciens": [
+   "ximena-records"
+  ],
+  "n": 0,
+  "pays": "Mexique",
+  "annee": 2018,
+  "fondateurs": [
+   "Ximena",
+   "Ali X"
+  ],
+  "site": "https://soundcloud.com/ximena-delascurain",
+  "wiki": {},
+  "resume": {
+   "fr": "Projet et étiquette indie dance et dark disco basés à Mexico autour de Ximena et Ali X, mêlant synthés 80s, EBM et rythmes club.",
+   "en": "Mexico City-based indie dance and dark disco imprint and project around Ximena and Ali X, blending 80s synth aesthetics, EBM and dark club rhythms."
+  },
+  "profil": null,
+  "discogs": "https://www.discogs.com/artist/6837202",
+  "wikidata": null,
+  "logo": {
+   "url": "https://i.discogs.com/XCn8-Iklzujb9PEj7QI4wH5VoU1YJLlIorggpE9VYro/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzNDMz/MDcyLTE1NTQxMjAx/MjMtMzU0Mi5qcGVn.jpeg",
+   "source": "discogs",
+   "credit": null,
+   "page": "https://www.discogs.com/artist/6837202"
+  },
+  "sorties": [
+   {
+    "titre": "Welcome To My World EP",
+    "artiste": "Ali X x Ximena",
+    "annee": 2018,
+    "possedee": 23,
+    "electronique": true,
+    "image": "https://i.discogs.com/XCn8-Iklzujb9PEj7QI4wH5VoU1YJLlIorggpE9VYro/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzNDMz/MDcyLTE1NTQxMjAx/MjMtMzU0Mi5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/13433072"
+   },
+   {
+    "titre": "Solo En La Pista EP",
+    "artiste": "Shit",
+    "annee": 2018,
+    "possedee": 22,
+    "electronique": true,
+    "image": "https://i.discogs.com/QuZStPGoqHPKlMVeY2kxVOqQ15AnS6I2jBmCGWQ_LCM/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyMjYw/NTc2LTE1Mzc4NzEx/ODctNDQxMC5wbmc.jpeg",
+    "url": "https://www.discogs.com/release/12260576"
+   },
+   {
+    "titre": "Pastillitas",
+    "artiste": "Ali x X Ximena X Palomo",
+    "annee": 2018,
+    "possedee": 4,
+    "electronique": true,
+    "image": "https://i.discogs.com/O0x6Aq33sp3cafKh8srJbNbMVyhkCcpu0X3UeLdXm4M/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyMTA5/MjE4LTE1Mjg0ODQ3/MTAtNzc1OS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/master/1575684"
+   },
+   {
+    "titre": "Backyard #001: Compilation By Rodion",
+    "artiste": "Various",
+    "annee": 2020,
+    "possedee": 3,
+    "electronique": true,
+    "image": "https://i.discogs.com/scs1YTobT7UIgi69tLy1pGTXsifrsgPTm-KyzndlBHU/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE2MDYx/NTYwLTE2MDI3NTgy/MTgtOTE0NS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/16061560"
+   },
+   {
+    "titre": "Mil Heridas",
+    "artiste": "Ali X x Ximena",
+    "annee": 2021,
+    "possedee": 2,
+    "electronique": true,
+    "image": "https://i.discogs.com/9Fhm5PrR-o1ZYJdcmcKqSPgIK5hFiyUMJFxGtMDc_m0/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIyNDYx/NjYxLTE2NDY5NDA0/NTUtNzgyOC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/22461661"
+   },
+   {
+    "titre": "Down",
+    "artiste": "Ali X x Ximena",
+    "annee": 2018,
+    "possedee": 2,
+    "electronique": true,
+    "image": "https://i.discogs.com/Wi4hHjuU39cTcNDzgwbu1byQAOLwM1BN8cqjfD8N8O0/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyODYw/MzQ0LTE1NDMzNDM0/MTAtNjcwOC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/12860344"
+   },
+   {
+    "titre": "Double Torus",
+    "artiste": "Diego Montiel",
+    "annee": 2023,
+    "possedee": 1,
+    "electronique": true,
+    "image": "https://i.discogs.com/gyvaqWXp8LCujFCN6yRQgzc5rl4ZsUjuf9PzJMz1V78/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI1NTk0/MjU1LTE2NzIyNDkx/ODAtODEwMC5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/25594255"
+   },
+   {
+    "titre": "Sonder EP",
+    "artiste": "Steady State",
+    "annee": 2018,
+    "possedee": 1,
+    "electronique": true,
+    "image": "https://i.discogs.com/094b6amAR5IxGmrlno8R8FnOwJjfG53qnpzhDdZTAoo/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0NTA0/MzYyLTE1NzU4OTEy/OTMtODEyNS5qcGVn.jpeg",
+    "url": "https://www.discogs.com/release/14504362"
    }
   ]
  },

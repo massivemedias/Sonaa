@@ -1224,6 +1224,33 @@ interface Dictionnaire {
     minutesWav: number,
     minutesFlac: number
   ) => string;
+  readonly lesClubsEtFestivals: string;
+  readonly clubsMenu: string;
+  readonly clubsEtFestivalsTitre: string;
+  readonly clubsEtFestivalsChapeau: (nClubs: number, nVilles: number, nFestivals: number, nPays: number) => string;
+  readonly clubsTout: string;
+  readonly clubsSeulement: (n: number) => string;
+  readonly festivalsSeulement: (n: number) => string;
+  readonly clubsCarteMondiale: string;
+  readonly clubsCarteVueMonde: string;
+  readonly clubsTousLesPays: string;
+  readonly clubsToutesLesVilles: string;
+  readonly clubsChercherLieu: string;
+  readonly clubsSectionTitre: string;
+  readonly clubsSectionSousTitre: (nVilles: number) => string;
+  readonly festivalsSectionTitre: string;
+  readonly festivalsSectionSousTitre: (nPays: number) => string;
+  readonly lieuTypeClub: string;
+  readonly lieuTypeFestival: string;
+  readonly lieuCapacite: (n: number) => string;
+  readonly lieuDepuis: (annee: number) => string;
+  readonly lieuSiteOfficiel: string;
+  readonly lieuVoirCalendrierVille: (ville: string) => string;
+  readonly lieuCentrerCarte: string;
+  readonly lieuAucunResultat: string;
+  readonly lieuReinitialiserFiltres: string;
+  readonly lieuNClubs: (n: number) => string;
+  readonly lieuNFestivals: (n: number) => string;
 }
 
 const FR: Dictionnaire = {
@@ -2342,7 +2369,35 @@ const FR: Dictionnaire = {
     `Fichier de ${taille}, et la limite est de ${max}. Cela couvre environ ` +
     `${minutesWav} minutes de WAV ou ${minutesFlac} minutes de FLAC. Au-delà, ` +
     `c'est le total de stockage gratuit qui se remplit : exportez en FLAC, ` +
-    `sans perte et deux fois plus léger.`
+    `sans perte et deux fois plus léger.`,
+  lesClubsEtFestivals: 'Clubs & Festivals',
+  clubsMenu: 'Clubs',
+  clubsEtFestivalsTitre: 'Clubs & Festivals',
+  clubsEtFestivalsChapeau: (nClubs, nVilles, nFestivals, nPays) =>
+    `${nClubs} clubs de référence dans les ${nVilles} villes du calendrier SONAA et ${nFestivals} grands festivals électroniques (1 000+ personnes) classés dans ${nPays} pays, réunis sur une carte interactive mondiale.`,
+  clubsTout: 'Tout',
+  clubsSeulement: (n) => `Clubs (${n})`,
+  festivalsSeulement: (n) => `Festivals (${n})`,
+  clubsCarteMondiale: 'Carte interactive mondiale',
+  clubsCarteVueMonde: 'Vue mondiale',
+  clubsTousLesPays: 'Tous les pays',
+  clubsToutesLesVilles: 'Toutes les villes',
+  clubsChercherLieu: 'Chercher un club, un festival, une ville, un style…',
+  clubsSectionTitre: 'Les meilleurs clubs par ville',
+  clubsSectionSousTitre: (nVilles) => `Sélection dans les ${nVilles} villes proposées par le calendrier de SONAA, avec accès direct aux soirées à venir.`,
+  festivalsSectionTitre: 'Les meilleurs festivals par pays (1 000+ personnes)',
+  festivalsSectionSousTitre: (nPays) => `Grands rassemblements de musique électronique de plus de 1 000 personnes dans ${nPays} pays.`,
+  lieuTypeClub: 'Club',
+  lieuTypeFestival: 'Festival',
+  lieuCapacite: (n) => `${n.toLocaleString('fr-CA')} places`,
+  lieuDepuis: (annee) => `Depuis ${annee}`,
+  lieuSiteOfficiel: 'Site officiel',
+  lieuVoirCalendrierVille: (ville) => `Soirées à ${ville}`,
+  lieuCentrerCarte: 'Voir sur la carte',
+  lieuAucunResultat: 'Aucun club ni festival ne correspond à ces filtres.',
+  lieuReinitialiserFiltres: 'Réinitialiser les filtres',
+  lieuNClubs: (n) => `${n} club${n > 1 ? 's' : ''}`,
+  lieuNFestivals: (n) => `${n} festival${n > 1 ? 's' : ''}`
 };
 
 const EN: Dictionnaire = {
@@ -3452,7 +3507,35 @@ const EN: Dictionnaire = {
   sansPerteTropLourd: (taille, max, minutesWav, minutesFlac) =>
     `File is ${taille}, and the limit is ${max}. That covers about ` +
     `${minutesWav} minutes of WAV or ${minutesFlac} minutes of FLAC. Beyond that ` +
-    `it is the free storage total that fills up: export to FLAC, lossless and half the size.`
+    `it is the free storage total that fills up: export to FLAC, lossless and half the size.`,
+  lesClubsEtFestivals: 'Clubs & Festivals',
+  clubsMenu: 'Clubs',
+  clubsEtFestivalsTitre: 'Clubs & Festivals',
+  clubsEtFestivalsChapeau: (nClubs, nVilles, nFestivals, nPays) =>
+    `${nClubs} essential electronic music clubs across SONAA’s ${nVilles} cities and ${nFestivals} major electronic festivals (1,000+ capacity) across ${nPays} countries, mapped on an interactive world view.`,
+  clubsTout: 'All',
+  clubsSeulement: (n) => `Clubs (${n})`,
+  festivalsSeulement: (n) => `Festivals (${n})`,
+  clubsCarteMondiale: 'Interactive world map',
+  clubsCarteVueMonde: 'World view',
+  clubsTousLesPays: 'All countries',
+  clubsToutesLesVilles: 'All cities',
+  clubsChercherLieu: 'Search a club, festival, city, style…',
+  clubsSectionTitre: 'Best clubs by city',
+  clubsSectionSousTitre: (nVilles) => `Curated clubs across the ${nVilles} cities featured in the SONAA calendar, with direct links to upcoming nights.`,
+  festivalsSectionTitre: 'Best festivals by country (1,000+ capacity)',
+  festivalsSectionSousTitre: (nPays) => `Major electronic music festivals with a capacity of 1,000+ attendees across ${nPays} countries.`,
+  lieuTypeClub: 'Club',
+  lieuTypeFestival: 'Festival',
+  lieuCapacite: (n) => `${n.toLocaleString('en-CA')} capacity`,
+  lieuDepuis: (annee) => `Since ${annee}`,
+  lieuSiteOfficiel: 'Official website',
+  lieuVoirCalendrierVille: (ville) => `Nights in ${ville}`,
+  lieuCentrerCarte: 'Show on map',
+  lieuAucunResultat: 'No club or festival matches these filters.',
+  lieuReinitialiserFiltres: 'Reset filters',
+  lieuNClubs: (n) => `${n} club${n === 1 ? '' : 's'}`,
+  lieuNFestivals: (n) => `${n} festival${n === 1 ? '' : 's'}`
 };
 
 export const t: Dictionnaire = langue === 'en' ? EN : FR;
