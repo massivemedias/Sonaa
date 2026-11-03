@@ -32,6 +32,28 @@ import './credits.css';
 import './lieux.css';
 
 type FiltreType = 'tout' | 'club' | 'festival';
+type ZoneCarte = 'atlantique' | 'amerique' | 'europe' | 'monde';
+
+/* Cadrages serres sur les zones ou se concentrent les clubs et festivals :
+   pas de Groenland en haut ni d'Afrique du Sud en bas. */
+const CADRES_ZONES: Record<ZoneCarte, [[number, number], [number, number]]> = {
+  atlantique: [
+    [-99.5, 20.0],
+    [25.5, 53.5],
+  ],
+  amerique: [
+    [-123.5, 19.0],
+    [-63.0, 51.5],
+  ],
+  europe: [
+    [-9.2, 36.8],
+    [28.8, 54.5],
+  ],
+  monde: [
+    [-124.0, -38.0],
+    [146.0, 54.5],
+  ],
+};
 
 const normaliser = (s: string): string =>
   s
@@ -41,6 +63,7 @@ const normaliser = (s: string): string =>
 
 export function LieuxPage() {
   const [filtreType, setFiltreType] = useState<FiltreType>('tout');
+  const [zoneCarte, setZoneCarte] = useState<ZoneCarte>('atlantique');
   const [paysActif, setPaysActif] = useState<string>('');
   const [villeActive, setVilleActive] = useState<string>('');
   const [requete, setRequete] = useState<string>('');
@@ -116,7 +139,12 @@ export function LieuxPage() {
     let annule = false;
     let carte: CarteMapLibre | null = null;
     try {
-      carte = creerCarte(conteneur, [5, 22], 1.55);
+      carte = creerCarte(conteneur, [39.5, -36], 2.45);
+      carte.setMaxBounds([
+        [-175, -44],
+        [175, 59.5],
+      ]);
+      carte.fitBounds(CADRES_ZONES.atlantique, { padding: 28, duration: 0 });
       carteRef.current = carte;
     } catch {
       /* En environnement sans WebGL, la liste reste pleinement utilisable. */
@@ -180,11 +208,12 @@ export function LieuxPage() {
     }
   }, [selection, lieuxFiltres]);
 
-  const vueMondiale = (): void => {
+  const choisirZone = (zone: ZoneCarte): void => {
+    setZoneCarte(zone);
     setSelection(null);
     setPaysActif('');
     setVilleActive('');
-    carteRef.current?.flyTo({ center: [5, 22], zoom: 1.55, duration: 700, essential: true });
+    carteRef.current?.fitBounds(CADRES_ZONES[zone], { padding: 32, maxZoom: 6.5, duration: 650 });
   };
 
   const choisirPays = (code: string): void => {
@@ -192,7 +221,7 @@ export function LieuxPage() {
     setVilleActive('');
     setSelection(null);
     if (!code) {
-      carteRef.current?.flyTo({ center: [5, 22], zoom: 1.55, duration: 700, essential: true });
+      carteRef.current?.fitBounds(CADRES_ZONES[zoneCarte], { padding: 32, maxZoom: 6.5, duration: 650 });
       return;
     }
     const duPays = LIEUX_ET_FESTIVALS.filter((l) => l.paysCode === code);
@@ -236,11 +265,12 @@ export function LieuxPage() {
 
   const reinitialiser = (): void => {
     setFiltreType('tout');
+    setZoneCarte('atlantique');
     setPaysActif('');
     setVilleActive('');
     setRequete('');
     setSelection(null);
-    carteRef.current?.flyTo({ center: [5, 22], zoom: 1.55, duration: 700, essential: true });
+    carteRef.current?.fitBounds(CADRES_ZONES.atlantique, { padding: 28, duration: 650 });
   };
 
   return (
@@ -339,9 +369,40 @@ export function LieuxPage() {
                 {t.lieuNFestivals(lieuxFiltres.filter((x) => x.type === 'festival').length)}
               </span>
             </div>
-            <button type="button" className="lx-vue-monde" onClick={vueMondiale}>
-              {t.clubsCarteVueMonde}
-            </button>
+            <div className="lx-zones-carte">
+              <button
+                type="button"
+                className="lx-vue-monde"
+                aria-pressed={zoneCarte === 'atlantique' && !paysActif && !villeActive}
+                onClick={() => choisirZone('atlantique')}
+              >
+                {t.clubsZoneAtlantique}
+              </button>
+              <button
+                type="button"
+                className="lx-vue-monde"
+                aria-pressed={zoneCarte === 'amerique' && !paysActif && !villeActive}
+                onClick={() => choisirZone('amerique')}
+              >
+                {t.clubsZoneAmerique}
+              </button>
+              <button
+                type="button"
+                className="lx-vue-monde"
+                aria-pressed={zoneCarte === 'europe' && !paysActif && !villeActive}
+                onClick={() => choisirZone('europe')}
+              >
+                {t.clubsZoneEurope}
+              </button>
+              <button
+                type="button"
+                className="lx-vue-monde"
+                aria-pressed={zoneCarte === 'monde' && !paysActif && !villeActive}
+                onClick={() => choisirZone('monde')}
+              >
+                {t.clubsCarteVueMonde}
+              </button>
+            </div>
           </div>
 
           <div className="lx-carte-enveloppe">

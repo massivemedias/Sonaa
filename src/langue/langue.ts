@@ -1233,6 +1233,9 @@ interface Dictionnaire {
   readonly festivalsSeulement: (n: number) => string;
   readonly clubsCarteMondiale: string;
   readonly clubsCarteVueMonde: string;
+  readonly clubsZoneAtlantique: string;
+  readonly clubsZoneAmerique: string;
+  readonly clubsZoneEurope: string;
   readonly clubsTousLesPays: string;
   readonly clubsToutesLesVilles: string;
   readonly clubsChercherLieu: string;
@@ -2379,7 +2382,10 @@ const FR: Dictionnaire = {
   clubsSeulement: (n) => `Clubs (${n})`,
   festivalsSeulement: (n) => `Festivals (${n})`,
   clubsCarteMondiale: 'Carte interactive mondiale · Clubs & Festivals',
-  clubsCarteVueMonde: 'Vue mondiale',
+  clubsCarteVueMonde: 'Monde',
+  clubsZoneAtlantique: 'Am. du Nord & Europe',
+  clubsZoneAmerique: 'Amérique du Nord',
+  clubsZoneEurope: 'Europe',
   clubsTousLesPays: 'Tous les pays',
   clubsToutesLesVilles: 'Toutes les villes',
   clubsChercherLieu: 'Chercher un club, un festival, une ville, un style…',
@@ -3517,7 +3523,10 @@ const EN: Dictionnaire = {
   clubsSeulement: (n) => `Clubs (${n})`,
   festivalsSeulement: (n) => `Festivals (${n})`,
   clubsCarteMondiale: 'Interactive world map · Clubs & Festivals',
-  clubsCarteVueMonde: 'World view',
+  clubsCarteVueMonde: 'World',
+  clubsZoneAtlantique: 'N. America & Europe',
+  clubsZoneAmerique: 'North America',
+  clubsZoneEurope: 'Europe',
   clubsTousLesPays: 'All countries',
   clubsToutesLesVilles: 'All cities',
   clubsChercherLieu: 'Search a club, festival, city, style…',
