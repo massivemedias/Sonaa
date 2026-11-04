@@ -128,8 +128,24 @@
 }
 
 .lx-select {
-  min-width: 150px;
+  appearance: none;
+  -webkit-appearance: none;
+  min-width: 172px;
+  padding: 0 44px 0 16px;
   cursor: pointer;
+  background-color: #120f0d;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%23e8a848' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6L8 10.5L12.5 6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px 16px;
+  transition: border-color 0.16s ease, background-color 0.16s ease;
+}
+
+.lx-select:hover,
+.lx-select:focus-visible {
+  border-color: rgba(232, 168, 72, 0.5);
+  background-color: #181411;
+  outline: none;
 }
 
 .lx-recherche {
