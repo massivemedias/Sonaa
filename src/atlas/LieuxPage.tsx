@@ -189,12 +189,6 @@ export function LieuxPage() {
       el.addEventListener('click', (e) => {
         e.stopPropagation();
         setSelection(lieu);
-        carte.flyTo({
-          center: [lieu.longitude, lieu.latitude],
-          zoom: Math.max(carte.getZoom(), 11),
-          duration: 650,
-          essential: true,
-        });
       });
 
       const marker = new Marker({ element: el, anchor: 'center' })
@@ -258,10 +252,8 @@ export function LieuxPage() {
   const centrerSurLieu = (lieu: LieuOuFestival): void => {
     setSelection(lieu);
     blocCarteRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    carteRef.current?.flyTo({
-      center: [lieu.longitude, lieu.latitude],
-      zoom: 12.5,
-      duration: 750,
+    carteRef.current?.panTo([lieu.longitude, lieu.latitude], {
+      duration: 500,
       essential: true,
     });
   };
