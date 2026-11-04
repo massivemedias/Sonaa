@@ -11333,4 +11333,804 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
       "en": "Downtown Austin underground club dedicated to late-night house and techno sessions."
     }
   },
+  {
+    "id": "pz-city-club-montpellier",
+    "nom": "PZ City Club",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier",
+      "en": "Montpellier"
+    },
+    "latitude": 43.6142,
+    "longitude": 3.8784,
+    "capacite": 350,
+    "annee": 2013,
+    "styles": [
+      "House",
+      "Minimal",
+      "Microhouse",
+      "Techno"
+    ],
+    "site": "https://pzcityclub.fr",
+    "description": {
+      "fr": "Institution souterraine du Quai du Verdanson en plein coeur de Montpellier, dédiée sur deux niveaux à la house, à la minimal, à la micro-house et à la techno pointue.",
+      "en": "Underground institution on Quai du Verdanson in central Montpellier, dedicated across two levels to house, minimal, microhouse and cutting-edge techno."
+    }
+  },
+  {
+    "id": "halle-tropisme-montpellier",
+    "nom": "Halle Tropisme (Club Tropisme)",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier",
+      "en": "Montpellier"
+    },
+    "latitude": 43.6004,
+    "longitude": 3.8618,
+    "capacite": 1000,
+    "annee": 2019,
+    "styles": [
+      "House",
+      "Electro",
+      "Techno",
+      "Global Club"
+    ],
+    "site": "https://tropisme.coop",
+    "description": {
+      "fr": "Friche industrielle et culturelle de 10 000 m² dans les anciens ateliers militaires de Fontcouverte à Montpellier, épicentre des soirées Club Tropisme, des open airs et du festival Dernier Cri.",
+      "en": "10,000-square-meter industrial cultural compound inside former military workshops in Montpellier, the epicenter of Club Tropisme nights, open-airs and the Dernier Cri festival."
+    }
+  },
+  {
+    "id": "la-dune-grande-motte",
+    "nom": "La Dune Club",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier (La Grande-Motte)",
+      "en": "Montpellier (La Grande-Motte)"
+    },
+    "latitude": 43.5568,
+    "longitude": 4.0412,
+    "capacite": 2000,
+    "annee": 1998,
+    "styles": [
+      "Tech House",
+      "House",
+      "Melodic Techno",
+      "Techno"
+    ],
+    "site": "https://laduneclub.com",
+    "description": {
+      "fr": "Club en bord de mer mythique du Grand Travers aux portes de Montpellier, accueillant tout l’été les plus grandes têtes d’affiche house, tech house et techno internationales.",
+      "en": "Mythic beachfront club at Grand Travers near Montpellier, hosting major international house, tech house and techno headliners all summer long."
+    }
+  },
+  {
+    "id": "heat-club-montpellier",
+    "nom": "Heat Club",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier (Saint-Jean-de-Védas)",
+      "en": "Montpellier (Saint-Jean-de-Védas)"
+    },
+    "latitude": 43.5682,
+    "longitude": 3.8354,
+    "capacite": 1200,
+    "annee": 2014,
+    "styles": [
+      "Tech House",
+      "House",
+      "Electro",
+      "Techno"
+    ],
+    "site": "https://heatclub.tv",
+    "description": {
+      "fr": "Grand club du complexe Le Colisée au sud-ouest de Montpellier, équipé d’un mur LED monumental et d’un système L-Acoustics accueillant DJs internationaux tech house et électro.",
+      "en": "Large club in the Colisée complex southwest of Montpellier, outfitted with a monumental LED wall and L-Acoustics sound system hosting international tech house and electro DJs."
+    }
+  },
+  {
+    "id": "victoire-2-montpellier",
+    "nom": "Victoire 2",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier (Domaine du Mas de Grille)",
+      "en": "Montpellier (Mas de Grille)"
+    },
+    "latitude": 43.5698,
+    "longitude": 3.8292,
+    "capacite": 700,
+    "annee": 1991,
+    "styles": [
+      "Electro",
+      "Techno",
+      "Bass",
+      "Live Electronic"
+    ],
+    "site": "https://victoire2.com",
+    "description": {
+      "fr": "Scène des musiques actuelles de la métropole de Montpellier, accueillant lives électroniques, nuits techno, bass music et résidences de producteurs locaux.",
+      "en": "Contemporary music venue of Greater Montpellier hosting live electronic acts, techno nights, bass music and local producer showcases."
+    }
+  },
+  {
+    "id": "panama-club-montpellier",
+    "nom": "Panama Club",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier",
+      "en": "Montpellier"
+    },
+    "latitude": 43.6054,
+    "longitude": 3.8789,
+    "capacite": 500,
+    "annee": 2015,
+    "styles": [
+      "House",
+      "Tech House",
+      "Afro House",
+      "Disco"
+    ],
+    "site": "https://www.instagram.com/panamaclubmtp/",
+    "description": {
+      "fr": "Club nocturne central près de la gare Saint-Roch à Montpellier, prisé pour ses nuits house, tech house et afro house jusqu’au matin.",
+      "en": "Central nightclub near Saint-Roch station in Montpellier, popular for its all-night house, tech house and afro house sessions."
+    }
+  },
+  {
+    "id": "l-entrepot-montpellier",
+    "nom": "L’Entrepôt",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier (Lattes)",
+      "en": "Montpellier (Lattes)"
+    },
+    "latitude": 43.5752,
+    "longitude": 3.8964,
+    "capacite": 600,
+    "annee": 2012,
+    "styles": [
+      "Dub",
+      "Drum & Bass",
+      "Techno",
+      "Bass"
+    ],
+    "site": "https://www.instagram.com/lentrepot.montpellier/",
+    "description": {
+      "fr": "Hangar alternatif de l’agglomération montpelliéraine à Lattes accueillant raves, soirées bass music, dub sound system, drum & bass et techno.",
+      "en": "Alternative warehouse venue in Lattes on the southern edge of Montpellier hosting raves, bass music, dub sound systems, drum & bass and techno."
+    }
+  },
+  {
+    "id": "paloma-nimes-montpellier",
+    "nom": "Paloma",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Nîmes / Montpellier",
+      "en": "Nîmes / Montpellier"
+    },
+    "latitude": 43.8492,
+    "longitude": 4.4058,
+    "capacite": 1350,
+    "annee": 2012,
+    "styles": [
+      "Techno",
+      "Electro",
+      "House",
+      "Experimental"
+    ],
+    "site": "https://paloma-nimes.fr",
+    "description": {
+      "fr": "Grand complexe architectural des musiques actuelles entre Montpellier et Nîmes doté d’une nef de 1 350 places et d’un club, haut lieu des nuits électroniques régionales.",
+      "en": "Landmark contemporary music complex between Montpellier and Nîmes featuring a 1,350-capacity hall and club room dedicated to electronic and independent nights."
+    }
+  },
+  {
+    "id": "worldwide-festival-sete",
+    "nom": "Worldwide Festival Sète",
+    "type": "festival",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Sète / Montpellier (Théâtre de la Mer)",
+      "en": "Sète / Montpellier (Théâtre de la Mer)"
+    },
+    "latitude": 43.3928,
+    "longitude": 3.6932,
+    "capacite": 8000,
+    "annee": 2006,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "House",
+      "Broken Beat",
+      "Leftfield",
+      "Nu Jazz",
+      "Techno"
+    ],
+    "site": "https://worldwidefestival.com",
+    "description": {
+      "fr": "Festival culte fondé par Gilles Peterson à Sète aux portes de Montpellier, entre l’amphithéâtre du Théâtre de la Mer suspendu au-dessus de la Méditerranée et les scènes de plage.",
+      "en": "Iconic festival founded by Gilles Peterson in Sète near Montpellier, staged between the cliffside Théâtre de la Mer amphitheater above the Mediterranean and daytime beach stages."
+    }
+  },
+  {
+    "id": "i-love-techno-europe-montpellier",
+    "nom": "I Love Techno Europe",
+    "type": "festival",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier (Parc des Expositions)",
+      "en": "Montpellier (Parc des Expositions)"
+    },
+    "latitude": 43.5724,
+    "longitude": 3.9518,
+    "capacite": 35000,
+    "annee": 2011,
+    "mois": {
+      "fr": "Décembre / Printemps",
+      "en": "December / Spring"
+    },
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Drum & Bass",
+      "Electro"
+    ],
+    "site": "https://ilovetechnoeurope.com",
+    "description": {
+      "fr": "Édition française du légendaire festival belge qui transforme les immenses halls du Parc des Expositions de Montpellier en capitale européenne de la techno et de la drum & bass.",
+      "en": "French edition of the legendary Belgian festival transforming the massive halls of Montpellier’s Parc des Expositions into a European techno and drum & bass capital."
+    }
+  },
+  {
+    "id": "festival-dernier-cri-montpellier",
+    "nom": "Festival Dernier Cri",
+    "type": "festival",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier (Halle Tropisme, Dieze & clubs)",
+      "en": "Montpellier (Halle Tropisme, Dieze & clubs)"
+    },
+    "latitude": 43.6008,
+    "longitude": 3.8624,
+    "capacite": 8000,
+    "annee": 2019,
+    "mois": {
+      "fr": "Octobre - Novembre",
+      "en": "October - November"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Electro",
+      "Leftfield"
+    ],
+    "site": "https://festivalderniercri.com",
+    "description": {
+      "fr": "Festival montpelliérain dédié aux musiques électroniques indépendantes et aux cultures club, investissant simultanément la Halle Tropisme, le Rockstore, le Dieze Warehouse et le PZ City Club.",
+      "en": "Montpellier festival dedicated to independent electronic music and club culture, taking over Halle Tropisme, Rockstore, Dieze Warehouse and PZ City Club across the city."
+    }
+  },
+  {
+    "id": "tohu-bohu-montpellier",
+    "nom": "Festival Tohu-Bohu",
+    "type": "festival",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier (Promenade du Peyrou)",
+      "en": "Montpellier (Promenade du Peyrou)"
+    },
+    "latitude": 43.6114,
+    "longitude": 3.8704,
+    "capacite": 12000,
+    "annee": 2001,
+    "mois": {
+      "fr": "Juillet",
+      "en": "July"
+    },
+    "styles": [
+      "Electro",
+      "Techno",
+      "House",
+      "Electronica"
+    ],
+    "site": "https://lefestival.eu",
+    "description": {
+      "fr": "Rendez-vous électronique estival gratuit en plein air au coeur de Montpellier dans le cadre du Festival Radio France Occitanie Montpellier.",
+      "en": "Free open-air summer electronic music festival in the historic heart of Montpellier staged as part of Festival Radio France Occitanie Montpellier."
+    }
+  },
+  {
+    "id": "club-peyrou-montpellier",
+    "nom": "Club Peyrou (Open Air)",
+    "type": "festival",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier (Place Royale du Peyrou)",
+      "en": "Montpellier (Place Royale du Peyrou)"
+    },
+    "latitude": 43.6118,
+    "longitude": 3.8698,
+    "capacite": 5000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Juin - Août",
+      "en": "June - August"
+    },
+    "styles": [
+      "House",
+      "Disco",
+      "Techno",
+      "Indie Dance"
+    ],
+    "site": "https://www.montpellier-tourisme.fr",
+    "description": {
+      "fr": "Grands open airs électroniques organisés sur l’esplanade royale du Peyrou face à l’aqueduc Saint-Clément à Montpellier, mêlant house, disco et techno au coucher du soleil.",
+      "en": "Large open-air electronic gatherings on Montpellier’s historic Place Royale du Peyrou facing the Saint-Clément aqueduct, blending house, disco and techno at sunset."
+    }
+  },
+  {
+    "id": "madame-loyal-montpellier",
+    "nom": "Madame Loyal Montpellier",
+    "type": "festival",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier",
+      "en": "Montpellier"
+    },
+    "latitude": 43.6148,
+    "longitude": 3.9284,
+    "capacite": 12000,
+    "annee": 2023,
+    "mois": {
+      "fr": "Mai & Septembre",
+      "en": "May & September"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Trance",
+      "Hard Techno"
+    ],
+    "site": "https://madameloyal.com",
+    "description": {
+      "fr": "Fête foraine électronique géante sous chapiteaux de cirque à Montpellier, réunissant manèges, arts du cirque et plusieurs scènes house, techno et trance.",
+      "en": "Open-air electronic funfair and circus festival in Montpellier combining carnival rides, circus performers and multiple house, techno and trance stages."
+    }
+  },
+  {
+    "id": "laut-barcelone",
+    "nom": "LAUT",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Poble-sec)",
+      "en": "Barcelona (Poble-sec)"
+    },
+    "latitude": 41.3742,
+    "longitude": 2.1694,
+    "capacite": 250,
+    "annee": 2016,
+    "styles": [
+      "Techno",
+      "Electro",
+      "Leftfield",
+      "Experimental"
+    ],
+    "site": "https://laut.es",
+    "description": {
+      "fr": "Sanctuaire audiophile du quartier de Poble-sec à Barcelone, dédié aux musiques électroniques d’avant-garde, à la techno hypnotique et à l’electro avec un système Kasen sur mesure.",
+      "en": "Audiophile sanctuary in Barcelona’s Poble-sec district dedicated to cutting-edge electronic music, hypnotic techno and electro on a custom Kasen sound system."
+    }
+  },
+  {
+    "id": "la-terrrazza-barcelone",
+    "nom": "La Terrrazza",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Montjuïc)",
+      "en": "Barcelona (Montjuïc)"
+    },
+    "latitude": 41.3688,
+    "longitude": 2.1482,
+    "capacite": 1200,
+    "annee": 1995,
+    "styles": [
+      "House",
+      "Tech House",
+      "Deep House",
+      "Techno"
+    ],
+    "site": "https://laterrrazza.com",
+    "description": {
+      "fr": "Club à ciel ouvert mythique niché dans une hacienda du Poble Espanyol sur la colline de Montjuïc à Barcelone, célébrant la house et la techno sous les étoiles de mai à octobre.",
+      "en": "Iconic open-air club set inside a manor courtyard of Poble Espanyol on Montjuïc hill in Barcelona, celebrating house and techno under the stars from May to October."
+    }
+  },
+  {
+    "id": "les-enfants-brillantes-barcelone",
+    "nom": "Les Enfants Brillantes",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (El Raval)",
+      "en": "Barcelona (El Raval)"
+    },
+    "latitude": 41.3774,
+    "longitude": 2.1748,
+    "capacite": 400,
+    "annee": 1965,
+    "styles": [
+      "Minimal",
+      "House",
+      "Electro",
+      "Tech House"
+    ],
+    "site": "https://lesenfantsclub.com",
+    "description": {
+      "fr": "Plus ancien club en activité près de La Rambla dans le Raval à Barcelone, métamorphosé en repaire underground hi-fi équipé L-Acoustics pour la minimal, l’electro et la house.",
+      "en": "Barcelona’s oldest operating club off Las Ramblas in El Raval, reborn as a hi-fi underground hub with L-Acoustics sound dedicated to minimal, electro and house."
+    }
+  },
+  {
+    "id": "sala-upload-barcelone",
+    "nom": "Sala Upload",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Montjuïc)",
+      "en": "Barcelona (Montjuïc)"
+    },
+    "latitude": 41.3692,
+    "longitude": 2.1476,
+    "capacite": 500,
+    "annee": 2011,
+    "styles": [
+      "Techno",
+      "Acid",
+      "Trance",
+      "Experimental"
+    ],
+    "site": "https://sala-upload.com",
+    "description": {
+      "fr": "Salle indépendante du Poble Espanyol à Barcelone dotée d’un système Funktion-One, prisée des collectifs techno queer (Maricas), acid et électroniques expérimentaux.",
+      "en": "Independent venue inside Poble Espanyol in Barcelona outfitted with Funktion-One sound, favored by queer techno collectives (Maricas), acid and experimental raves."
+    }
+  },
+  {
+    "id": "m7-club-barcelone",
+    "nom": "M7 Club",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Sants-Montjuïc)",
+      "en": "Barcelona (Sants-Montjuïc)"
+    },
+    "latitude": 41.3718,
+    "longitude": 2.1504,
+    "capacite": 450,
+    "annee": 2018,
+    "styles": [
+      "Hard Techno",
+      "Techno",
+      "Hard Groove",
+      "Industrial"
+    ],
+    "site": "https://m7club.es",
+    "description": {
+      "fr": "Bastion brut de Sants-Montjuïc à Barcelone dédié aux tempos rapides, à la hard techno, au hard groove et aux collectifs rave locaux.",
+      "en": "Raw underground stronghold in Barcelona’s Sants-Montjuïc district dedicated to fast tempos, hard techno, hard groove and local rave collectives."
+    }
+  },
+  {
+    "id": "garage-442-barcelone",
+    "nom": "Garage 442",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Eixample)",
+      "en": "Barcelona (Eixample)"
+    },
+    "latitude": 41.3972,
+    "longitude": 2.1584,
+    "capacite": 200,
+    "annee": 2016,
+    "styles": [
+      "House",
+      "Electro",
+      "Disco",
+      "Minimal"
+    ],
+    "site": "https://garage442.com",
+    "description": {
+      "fr": "Micro-club audiophile logé au rez-de-chaussée de la moderniste Casa Comalat sur l’Avinguda Diagonal à Barcelone, où le DJ mixe à hauteur de piste sur un système Funktion-One.",
+      "en": "Intimate audiophile micro-club on the ground floor of the modernist Casa Comalat on Avinguda Diagonal in Barcelona, featuring a floor-level booth and Funktion-One sound."
+    }
+  },
+  {
+    "id": "la-paloma-barcelone",
+    "nom": "La Paloma",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (El Raval)",
+      "en": "Barcelona (El Raval)"
+    },
+    "latitude": 41.3826,
+    "longitude": 2.1636,
+    "capacite": 900,
+    "annee": 1903,
+    "styles": [
+      "House",
+      "Disco",
+      "Electro",
+      "Indie Dance"
+    ],
+    "site": "https://lapalomabcn.com",
+    "description": {
+      "fr": "Plus ancienne salle de bal d’Europe ouverte en 1903 dans le Raval à Barcelone, dont le décor baroque doré et le lustre monumental accueillent des nuits house, disco et électroniques.",
+      "en": "Europe’s oldest operating dance hall opened in 1903 in Barcelona’s El Raval, whose gilded baroque interior and grand chandelier host curated house, disco and electronic nights."
+    }
+  },
+  {
+    "id": "city-hall-barcelone",
+    "nom": "City Hall",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Plaça de Catalunya)",
+      "en": "Barcelona (Plaça de Catalunya)"
+    },
+    "latitude": 41.3879,
+    "longitude": 2.1692,
+    "capacite": 500,
+    "annee": 2005,
+    "styles": [
+      "Techno",
+      "Tech House",
+      "House",
+      "Minimal"
+    ],
+    "site": "https://cityhallbarcelona.com",
+    "description": {
+      "fr": "Ancien théâtre du XIXe siècle au pied de la Plaça de Catalunya à Barcelone reconverti en club techno et house avec jardin-terrasse et système Martin Audio.",
+      "en": "Nineteenth-century former theater at the foot of Plaça de Catalunya in Barcelona converted into a techno and house club with a garden terrace and Martin Audio sound."
+    }
+  },
+  {
+    "id": "elrow-row14-barcelone",
+    "nom": "elrow (Row 14 Viladecans)",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Viladecans)",
+      "en": "Barcelona (Viladecans)"
+    },
+    "latitude": 41.2842,
+    "longitude": 2.0368,
+    "capacite": 3500,
+    "annee": 2008,
+    "styles": [
+      "Tech House",
+      "House",
+      "Techno",
+      "Hard Techno"
+    ],
+    "site": "https://elrow.com",
+    "description": {
+      "fr": "Berceau historique d’elrow aux portes sud de Barcelone à Viladecans, où sont nées les célèbres matinées immersives et théâtrales de la famille Arnau.",
+      "en": "Historic birthplace of elrow just south of Barcelona in Viladecans, where the Arnau family launched their world-famous theatrical daytime-to-night raves."
+    }
+  },
+  {
+    "id": "sala-meteoro-barcelone",
+    "nom": "Sala Meteoro",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Poble-sec)",
+      "en": "Barcelona (Poble-sec)"
+    },
+    "latitude": 41.3728,
+    "longitude": 2.1712,
+    "capacite": 150,
+    "annee": 2016,
+    "styles": [
+      "Experimental",
+      "EBM",
+      "Industrial",
+      "Bass"
+    ],
+    "site": "https://meteorobcn.com",
+    "description": {
+      "fr": "Laboratoire contre-culturel et club autogéré de Poble-sec à Barcelone, épicentre des soirées expérimentales, EBM, club déconstruit et techno industrielle.",
+      "en": "Countercultural laboratory and self-run venue in Barcelona’s Poble-sec district, an epicenter for experimental electronics, EBM, deconstructed club and industrial techno."
+    }
+  },
+  {
+    "id": "primavera-bits-barcelone",
+    "nom": "Primavera Sound (Primavera Bits & Warehouse)",
+    "type": "festival",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Parc del Fòrum)",
+      "en": "Barcelona (Parc del Fòrum)"
+    },
+    "latitude": 41.4102,
+    "longitude": 2.2254,
+    "capacite": 25000,
+    "annee": 2016,
+    "mois": {
+      "fr": "Mai - Juin",
+      "en": "May - June"
+    },
+    "styles": [
+      "Techno",
+      "House",
+      "Electronica",
+      "Leftfield",
+      "IDM"
+    ],
+    "site": "https://primaverasound.com",
+    "description": {
+      "fr": "Volet électronique monumental de Primavera Sound au Parc del Fòrum de Barcelone, réunissant les scènes en bord de mer et le hangar Warehouse dédiés à la techno, à la house et aux lives jusqu’au lever du soleil.",
+      "en": "Monumental electronic wing of Primavera Sound at Barcelona’s Parc del Fòrum, uniting seaside dance stages and the subterranean Warehouse for techno, house and live electronics until sunrise."
+    }
+  },
+  {
+    "id": "mutek-barcelona",
+    "nom": "MUTEK Barcelona",
+    "type": "festival",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Sala Apolo, Roca Umbert & Estrella Damm)",
+      "en": "Barcelona"
+    },
+    "latitude": 41.3746,
+    "longitude": 2.1698,
+    "capacite": 5000,
+    "annee": 2010,
+    "mois": {
+      "fr": "Mars - Avril",
+      "en": "March - April"
+    },
+    "styles": [
+      "Experimental",
+      "Ambient",
+      "Techno",
+      "Electronica"
+    ],
+    "site": "https://barcelona.mutek.org",
+    "description": {
+      "fr": "Antenne catalane du festival international MUTEK dédiée à la créativité numérique, aux performances audiovisuelles et aux musiques électroniques d’avant-garde à Barcelone.",
+      "en": "Catalan edition of the international MUTEK festival dedicated to digital creativity, audiovisual live performances and avant-garde electronic music across Barcelona."
+    }
+  },
+  {
+    "id": "ombra-festival-barcelone",
+    "nom": "Ombra Festival",
+    "type": "festival",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Fabra i Coats & Utopia 126)",
+      "en": "Barcelona (Fabra i Coats & Utopia 126)"
+    },
+    "latitude": 41.4328,
+    "longitude": 2.1904,
+    "capacite": 3000,
+    "annee": 2018,
+    "mois": {
+      "fr": "Novembre - Décembre",
+      "en": "November - December"
+    },
+    "styles": [
+      "EBM",
+      "Industrial",
+      "Electro",
+      "Darkwave"
+    ],
+    "site": "https://ombrafestival.com",
+    "description": {
+      "fr": "Festival de référence en Europe pour l’EBM, l’electro sombre, la minimal synth et la techno industrielle, investi dans d’anciennes usines textiles de Barcelone.",
+      "en": "Europe’s premier gathering for EBM, dark electro, minimal synth and industrial techno, staged inside historic former textile factories in Barcelona."
+    }
+  },
+  {
+    "id": "soundit-barcelone",
+    "nom": "SOUNDIT Festival",
+    "type": "festival",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Plaça Monumental & Parc Nou)",
+      "en": "Barcelona (Monumental & Parc Nou)"
+    },
+    "latitude": 41.4002,
+    "longitude": 2.1812,
+    "capacite": 8000,
+    "annee": 2014,
+    "mois": {
+      "fr": "Mai - Novembre",
+      "en": "May - November"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Disco",
+      "UK Bass"
+    ],
+    "site": "https://soundit.es",
+    "description": {
+      "fr": "Série d’open airs et festival électronique barcelonais reconnu pour la finesse de sa direction artistique house, techno, disco et bass music en plein air.",
+      "en": "Barcelona open-air electronic series and festival acclaimed for its curatorial depth across house, techno, disco and bass music."
+    }
+  },
+  {
+    "id": "piknic-electronik-barcelone",
+    "nom": "Piknic Électronik Barcelona",
+    "type": "festival",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Jardins de Joan Brossa, Montjuïc)",
+      "en": "Barcelona (Montjuïc)"
+    },
+    "latitude": 41.3682,
+    "longitude": 2.1642,
+    "capacite": 6000,
+    "annee": 2012,
+    "mois": {
+      "fr": "Mai - Septembre",
+      "en": "May - September"
+    },
+    "styles": [
+      "House",
+      "Techno",
+      "Tech House",
+      "Melodic Techno"
+    ],
+    "site": "https://piknicelectronik.es",
+    "description": {
+      "fr": "Édition barcelonaise du rendez-vous dominical montréalais dans les jardins ombragés de Montjuïc, devenue l’institution des dimanches électroniques en plein air à Barcelone.",
+      "en": "Barcelona edition of the Montreal Sunday open-air ritual held in the shaded gardens of Montjuïc, a summer institution for daytime house and techno."
+    }
+  },
 ];
