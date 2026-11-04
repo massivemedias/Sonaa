@@ -91,7 +91,7 @@ export function LieuxPage() {
 
   const lieuxFiltres = useMemo(() => {
     const q = normaliser(requete.trim());
-    const qCompact = q.replace(/[\s\-'.]+/g, '');
+    const qCompact = q.replace(/\b(and|et)\b/g, '').replace(/[\s\-'&.+]+/g, '');
     return LIEUX_ET_FESTIVALS.filter((l) => {
       if (filtreType !== 'tout' && l.type !== filtreType) return false;
       if (paysActif && l.paysCode !== paysActif) return false;
@@ -111,7 +111,10 @@ export function LieuxPage() {
         ].join(' ')
       );
       if (texte.includes(q)) return true;
-      return qCompact.length > 0 && texte.replace(/[\s\-'.]+/g, '').includes(qCompact);
+      return (
+        qCompact.length > 0 &&
+        texte.replace(/\b(and|et)\b/g, '').replace(/[\s\-'&.+]+/g, '').includes(qCompact)
+      );
     });
   }, [filtreType, paysActif, villeActive, requete, paysMap]);
 

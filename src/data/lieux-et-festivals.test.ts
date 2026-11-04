@@ -43,6 +43,10 @@ describe('Atlas des clubs et festivals', () => {
     expect(futureForest).toBeDefined();
     expect(futureForest?.nom).toBe('Future Forest');
 
+    const grooveBass = festivals.find((f) => f.id === 'groove-and-bass-festival-quebec');
+    expect(grooveBass).toBeDefined();
+    expect(grooveBass?.nom).toBe('Groove & Bass Festival');
+
     for (const f of festivals) {
       expect(f.capacite).toBeGreaterThanOrEqual(1000);
       expect(f.latitude).toBeGreaterThanOrEqual(-45);
