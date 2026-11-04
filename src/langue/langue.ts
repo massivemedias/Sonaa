@@ -1256,6 +1256,9 @@ interface Dictionnaire {
   readonly lieuNFestivals: (n: number) => string;
   readonly lieuChercherDansZone: string;
   readonly lieuZoneVisibleActive: string;
+  readonly lieuClassementFrequentation: string;
+  readonly lieuVoirToutClassement: (nAutres: number, debut: number, fin: number) => string;
+  readonly lieuReduireTop5: string;
 }
 
 const FR: Dictionnaire = {
@@ -2407,7 +2410,11 @@ const FR: Dictionnaire = {
   lieuNClubs: (n) => `${n} club${n > 1 ? 's' : ''}`,
   lieuNFestivals: (n) => `${n} festival${n > 1 ? 's' : ''}`,
   lieuChercherDansZone: 'Chercher dans cette zone',
-  lieuZoneVisibleActive: 'Zone visible · Tout afficher'
+  lieuZoneVisibleActive: 'Zone visible · Tout afficher',
+  lieuClassementFrequentation: 'Classés par fréquentation',
+  lieuVoirToutClassement: (nAutres, debut, fin) =>
+    `Afficher les ${nAutres} autres lieux classés (#${String(debut).padStart(2, '0')} à #${String(fin).padStart(2, '0')})`,
+  lieuReduireTop5: 'Réduire au top 5'
 };
 
 const EN: Dictionnaire = {
@@ -3550,7 +3557,11 @@ const EN: Dictionnaire = {
   lieuNClubs: (n) => `${n} club${n === 1 ? '' : 's'}`,
   lieuNFestivals: (n) => `${n} festival${n === 1 ? '' : 's'}`,
   lieuChercherDansZone: 'Search this area',
-  lieuZoneVisibleActive: 'Visible area · Show all'
+  lieuZoneVisibleActive: 'Visible area · Show all',
+  lieuClassementFrequentation: 'Ranked by attendance',
+  lieuVoirToutClassement: (nAutres, debut, fin) =>
+    `Show ${nAutres} more ranked venues (#${String(debut).padStart(2, '0')} to #${String(fin).padStart(2, '0')})`,
+  lieuReduireTop5: 'Collapse to top 5'
 };
 
 export const t: Dictionnaire = langue === 'en' ? EN : FR;

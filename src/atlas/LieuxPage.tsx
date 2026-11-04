@@ -74,6 +74,42 @@ export function LieuxPage() {
     est: number;
     nord: number;
   } | null>(null);
+  const [lieuxOuverts, setLieuxOuverts] = useState<Set<string>>(
+    () =>
+      new Set([
+        'new-city-gas-montreal',
+        'stereo-montreal',
+        'razzmatazz-barcelone',
+        'dieze-warehouse-montpellier',
+        'veld-toronto',
+        'sonar-barcelona',
+      ])
+  );
+  const [groupesDeplies, setGroupesDeplies] = useState<Set<string>>(() => new Set());
+
+  const basculerLieu = (id: string): void => {
+    setLieuxOuverts((prev) => {
+      const suivant = new Set(prev);
+      if (suivant.has(id)) {
+        suivant.delete(id);
+      } else {
+        suivant.add(id);
+      }
+      return suivant;
+    });
+  };
+
+  const basculerGroupe = (cle: string): void => {
+    setGroupesDeplies((prev) => {
+      const suivant = new Set(prev);
+      if (suivant.has(cle)) {
+        suivant.delete(cle);
+      } else {
+        suivant.add(cle);
+      }
+      return suivant;
+    });
+  };
 
   const cadreCarteRef = useRef<HTMLDivElement | null>(null);
   const carteRef = useRef<CarteMapLibre | null>(null);
@@ -148,7 +184,9 @@ export function LieuxPage() {
     return VILLES_CLUBS.map((ville) => ({
       ville,
       pays: paysMap.get(ville.paysCode),
-      clubs: clubs.filter((c) => c.villeSlug === ville.slug),
+      clubs: clubs
+        .filter((c) => c.villeSlug === ville.slug)
+        .sort((a, b) => b.capacite - a.capacite),
     })).filter((g) => g.clubs.length > 0);
   }, [lieuxFiltres, paysMap]);
 
@@ -570,87 +608,160 @@ export function LieuxPage() {
         {clubsParVille.length > 0 && (
           <section className="lx-bloc" aria-labelledby="titre-clubs-villes">
             <header className="lx-bloc-entete">
-              <h2 id="titre-clubs-villes" className="lx-bloc-titre">
-                {t.clubsSectionTitre}
-              </h2>
+              <div className="lx-bloc-entete-ligne">
+                <h2 id="titre-clubs-villes" className="lx-bloc-titre">
+                  {t.clubsSectionTitre}
+                </h2>
+                <span className="lx-badge-classement">{t.lieuClassementFrequentation}</span>
+              </div>
               <p className="lx-bloc-soustitre">{t.clubsSectionSousTitre(VILLES_CLUBS.length)}</p>
             </header>
 
             <div className="lx-groupes">
-              {clubsParVille.map(({ ville, pays, clubs }) => (
-                <article key={ville.slug} className="lx-groupe">
-                  <header className="lx-groupe-entete">
-                    <div>
-                      <h3 className="lx-groupe-titre">
-                        {ville.nom[langue]}
-                        {pays ? <span className="lx-groupe-pays"> · {pays.nom[langue]}</span> : null}
-                      </h3>
-                    </div>
-                    <div className="lx-groupe-liens">
+              {clubsParVille.map(({ ville, pays, clubs }) => {
+                const maxCap = Math.max(...clubs.map((c) => c.capacite), 1);
+                const filtreActif = Boolean(villeActive || paysActif || requete.trim());
+                const cleGroupe = `ville:${ville.slug}`;
+                const toutAfficher = filtreActif || groupesDeplies.has(cleGroupe);
+                const clubsVisibles = toutAfficher ? clubs : clubs.slice(0, 5);
+
+                return (
+                  <article key={ville.slug} className="lx-groupe">
+                    <header className="lx-groupe-entete">
+                      <div className="lx-groupe-titre-bloc">
+                        <h3 className="lx-groupe-titre">
+                          {ville.nom[langue]}
+                          {pays ? <span className="lx-groupe-pays"> · {pays.nom[langue]}</span> : null}
+                        </h3>
+                        <span className="lx-groupe-compteur">{t.lieuNClubs(clubs.length)}</span>
+                      </div>
+                      <div className="lx-groupe-liens">
+                        <button
+                          type="button"
+                          className="lx-lien-carte"
+                          onClick={() => {
+                            choisirVille(ville.slug);
+                            blocCarteRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                          }}
+                        >
+                          {t.lieuCentrerCarte}
+                        </button>
+                        {ville.aCalendrier && (
+                          <a
+                            className="lx-lien-calendrier"
+                            href={`#/calendrier?city=${ville.slug}`}
+                          >
+                            {t.lieuVoirCalendrierVille(ville.nom[langue])}
+                          </a>
+                        )}
+                      </div>
+                    </header>
+
+                    <ol className="lx-palmares">
+                      {clubsVisibles.map((club, idx) => {
+                        const rang = idx + 1;
+                        const estOuvert = lieuxOuverts.has(club.id);
+                        const pct = Math.max(14, Math.round((club.capacite / maxCap) * 100));
+
+                        return (
+                          <li
+                            key={club.id}
+                            className={`lx-rang ${estOuvert ? 'est-ouvert' : ''} ${rang <= 3 ? 'est-podium' : ''}`}
+                          >
+                            <button
+                              type="button"
+                              className="lx-rang-entete"
+                              aria-expanded={estOuvert}
+                              onClick={() => basculerLieu(club.id)}
+                            >
+                              <span className="lx-rang-num">#{String(rang).padStart(2, '0')}</span>
+                              <span className="lx-rang-identite">
+                                <span className="lx-carte-nom">{club.nom}</span>
+                                <span className="lx-carte-meta">
+                                  {[
+                                    club.ville[langue],
+                                    club.annee ? t.lieuDepuis(club.annee) : null,
+                                  ]
+                                    .filter(Boolean)
+                                    .join(' · ')}
+                                </span>
+                              </span>
+                              <span className="lx-rang-apercu-styles" aria-hidden="true">
+                                {club.styles.slice(0, 3).map((s) => (
+                                  <span key={s} className="lx-tag-apercu">
+                                    {s}
+                                  </span>
+                                ))}
+                              </span>
+                              <span className="lx-rang-jauge">
+                                <span className="lx-capacite">{t.lieuCapacite(club.capacite)}</span>
+                                <span className="lx-jauge-piste" aria-hidden="true">
+                                  <span className="lx-jauge-barre" style={{ width: `${pct}%` }} />
+                                </span>
+                              </span>
+                              <span className="lx-rang-chevron" aria-hidden="true">
+                                <svg
+                                  viewBox="0 0 16 16"
+                                  width="14"
+                                  height="14"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="1.8"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                >
+                                  <path d="M4 6l4 4 4-4" />
+                                </svg>
+                              </span>
+                            </button>
+
+                            {estOuvert && (
+                              <div className="lx-rang-corps">
+                                <p className="lx-carte-desc">{club.description[langue]}</p>
+                                <ul className="lx-styles">
+                                  {club.styles.map((s) => (
+                                    <li key={s}>{s}</li>
+                                  ))}
+                                </ul>
+                                <div className="lx-carte-bas">
+                                  <a
+                                    className="lx-lien-site"
+                                    href={club.site}
+                                    target="_blank"
+                                    rel="noreferrer noopener"
+                                  >
+                                    {t.lieuSiteOfficiel}
+                                  </a>
+                                  <button
+                                    type="button"
+                                    className="lx-lien-carte"
+                                    onClick={() => centrerSurLieu(club)}
+                                  >
+                                    {t.lieuCentrerCarte}
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                          </li>
+                        );
+                      })}
+                    </ol>
+
+                    {clubs.length > 5 && !filtreActif && (
                       <button
                         type="button"
-                        className="lx-lien-carte"
-                        onClick={() => {
-                          choisirVille(ville.slug);
-                          blocCarteRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }}
+                        className="lx-voir-plus"
+                        aria-expanded={toutAfficher}
+                        onClick={() => basculerGroupe(cleGroupe)}
                       >
-                        {t.lieuCentrerCarte}
+                        {toutAfficher
+                          ? t.lieuReduireTop5
+                          : t.lieuVoirToutClassement(clubs.length - 5, 6, clubs.length)}
                       </button>
-                      {ville.aCalendrier && (
-                        <a
-                          className="lx-lien-calendrier"
-                          href={`#/calendrier?city=${ville.slug}`}
-                        >
-                          {t.lieuVoirCalendrierVille(ville.nom[langue])}
-                        </a>
-                      )}
-                    </div>
-                  </header>
-
-                  <ul className="lx-grille">
-                    {clubs.map((club) => (
-                      <li key={club.id} className="lx-carte">
-                        <div className="lx-carte-haut">
-                          <h4 className="lx-carte-nom">{club.nom}</h4>
-                          <span className="lx-capacite">{t.lieuCapacite(club.capacite)}</span>
-                        </div>
-                        <p className="lx-carte-meta">
-                          {[
-                            club.ville[langue],
-                            club.annee ? t.lieuDepuis(club.annee) : null,
-                          ]
-                            .filter(Boolean)
-                            .join(' · ')}
-                        </p>
-                        <p className="lx-carte-desc">{club.description[langue]}</p>
-                        <ul className="lx-styles">
-                          {club.styles.map((s) => (
-                            <li key={s}>{s}</li>
-                          ))}
-                        </ul>
-                        <div className="lx-carte-bas">
-                          <a
-                            className="lx-lien-site"
-                            href={club.site}
-                            target="_blank"
-                            rel="noreferrer noopener"
-                          >
-                            {t.lieuSiteOfficiel}
-                          </a>
-                          <button
-                            type="button"
-                            className="lx-lien-carte"
-                            onClick={() => centrerSurLieu(club)}
-                          >
-                            {t.lieuCentrerCarte}
-                          </button>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-              ))}
+                    )}
+                  </article>
+                );
+              })}
             </div>
           </section>
         )}
@@ -659,92 +770,171 @@ export function LieuxPage() {
         {festivalsParPays.length > 0 && (
           <section className="lx-bloc" aria-labelledby="titre-festivals-pays">
             <header className="lx-bloc-entete">
-              <h2 id="titre-festivals-pays" className="lx-bloc-titre">
-                {t.festivalsSectionTitre}
-              </h2>
+              <div className="lx-bloc-entete-ligne">
+                <h2 id="titre-festivals-pays" className="lx-bloc-titre">
+                  {t.festivalsSectionTitre}
+                </h2>
+                <span className="lx-badge-classement lx-badge-classement-festival">
+                  {t.lieuClassementFrequentation}
+                </span>
+              </div>
               <p className="lx-bloc-soustitre">{t.festivalsSectionSousTitre(PAYS_LIEUX.length)}</p>
             </header>
 
             <div className="lx-groupes">
-              {festivalsParPays.map(({ pays, festivals }) => (
-                <article key={pays.code} className="lx-groupe">
-                  <header className="lx-groupe-entete">
-                    <div>
-                      <h3 className="lx-groupe-titre">
-                        {pays.nom[langue]}
-                        <span className="lx-groupe-pays"> · {t.lieuNFestivals(festivals.length)}</span>
-                      </h3>
-                    </div>
-                    <div className="lx-groupe-liens">
+              {festivalsParPays.map(({ pays, festivals }) => {
+                const maxCap = Math.max(...festivals.map((f) => f.capacite), 1);
+                const filtreActif = Boolean(villeActive || paysActif || requete.trim());
+                const cleGroupe = `pays:${pays.code}`;
+                const toutAfficher = filtreActif || groupesDeplies.has(cleGroupe);
+                const festivalsVisibles = toutAfficher ? festivals : festivals.slice(0, 5);
+
+                return (
+                  <article key={pays.code} className="lx-groupe">
+                    <header className="lx-groupe-entete">
+                      <div className="lx-groupe-titre-bloc">
+                        <h3 className="lx-groupe-titre">{pays.nom[langue]}</h3>
+                        <span className="lx-groupe-compteur lx-groupe-compteur-festival">
+                          {t.lieuNFestivals(festivals.length)}
+                        </span>
+                      </div>
+                      <div className="lx-groupe-liens">
+                        <button
+                          type="button"
+                          className="lx-lien-carte"
+                          onClick={() => {
+                            choisirPays(pays.code);
+                            blocCarteRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                          }}
+                        >
+                          {t.lieuCentrerCarte}
+                        </button>
+                      </div>
+                    </header>
+
+                    <ol className="lx-palmares">
+                      {festivalsVisibles.map((fest, idx) => {
+                        const rang = idx + 1;
+                        const estOuvert = lieuxOuverts.has(fest.id);
+                        const pct = Math.max(14, Math.round((fest.capacite / maxCap) * 100));
+
+                        return (
+                          <li
+                            key={fest.id}
+                            className={`lx-rang lx-rang-festival ${estOuvert ? 'est-ouvert' : ''} ${rang <= 3 ? 'est-podium' : ''}`}
+                          >
+                            <button
+                              type="button"
+                              className="lx-rang-entete"
+                              aria-expanded={estOuvert}
+                              onClick={() => basculerLieu(fest.id)}
+                            >
+                              <span className="lx-rang-num lx-rang-num-festival">
+                                #{String(rang).padStart(2, '0')}
+                              </span>
+                              <span className="lx-rang-identite">
+                                <span className="lx-carte-nom">{fest.nom}</span>
+                                <span className="lx-carte-meta">
+                                  {[
+                                    fest.ville[langue],
+                                    fest.mois ? fest.mois[langue] : null,
+                                    fest.annee ? t.lieuDepuis(fest.annee) : null,
+                                  ]
+                                    .filter(Boolean)
+                                    .join(' · ')}
+                                </span>
+                              </span>
+                              <span className="lx-rang-apercu-styles" aria-hidden="true">
+                                {fest.styles.slice(0, 3).map((s) => (
+                                  <span key={s} className="lx-tag-apercu">
+                                    {s}
+                                  </span>
+                                ))}
+                              </span>
+                              <span className="lx-rang-jauge">
+                                <span className="lx-capacite lx-capacite-festival">
+                                  {t.lieuCapacite(fest.capacite)}
+                                </span>
+                                <span className="lx-jauge-piste" aria-hidden="true">
+                                  <span
+                                    className="lx-jauge-barre lx-jauge-barre-festival"
+                                    style={{ width: `${pct}%` }}
+                                  />
+                                </span>
+                              </span>
+                              <span className="lx-rang-chevron" aria-hidden="true">
+                                <svg
+                                  viewBox="0 0 16 16"
+                                  width="14"
+                                  height="14"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="1.8"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                >
+                                  <path d="M4 6l4 4 4-4" />
+                                </svg>
+                              </span>
+                            </button>
+
+                            {estOuvert && (
+                              <div className="lx-rang-corps">
+                                <p className="lx-carte-desc">{fest.description[langue]}</p>
+                                <ul className="lx-styles">
+                                  {fest.styles.map((s) => (
+                                    <li key={s}>{s}</li>
+                                  ))}
+                                </ul>
+                                <div className="lx-carte-bas">
+                                  <a
+                                    className="lx-lien-site"
+                                    href={fest.site}
+                                    target="_blank"
+                                    rel="noreferrer noopener"
+                                  >
+                                    {t.lieuSiteOfficiel}
+                                  </a>
+                                  {fest.villeSlug && villeMap.get(fest.villeSlug)?.aCalendrier && (
+                                    <a
+                                      className="lx-lien-calendrier"
+                                      href={`#/calendrier?city=${fest.villeSlug}`}
+                                    >
+                                      {t.lieuVoirCalendrierVille(
+                                        villeMap.get(fest.villeSlug)?.nom[langue] ?? fest.ville[langue]
+                                      )}
+                                    </a>
+                                  )}
+                                  <button
+                                    type="button"
+                                    className="lx-lien-carte"
+                                    onClick={() => centrerSurLieu(fest)}
+                                  >
+                                    {t.lieuCentrerCarte}
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                          </li>
+                        );
+                      })}
+                    </ol>
+
+                    {festivals.length > 5 && !filtreActif && (
                       <button
                         type="button"
-                        className="lx-lien-carte"
-                        onClick={() => {
-                          choisirPays(pays.code);
-                          blocCarteRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }}
+                        className="lx-voir-plus lx-voir-plus-festival"
+                        aria-expanded={toutAfficher}
+                        onClick={() => basculerGroupe(cleGroupe)}
                       >
-                        {t.lieuCentrerCarte}
+                        {toutAfficher
+                          ? t.lieuReduireTop5
+                          : t.lieuVoirToutClassement(festivals.length - 5, 6, festivals.length)}
                       </button>
-                    </div>
-                  </header>
-
-                  <ul className="lx-grille">
-                    {festivals.map((fest) => (
-                      <li key={fest.id} className="lx-carte lx-carte-festival">
-                        <div className="lx-carte-haut">
-                          <h4 className="lx-carte-nom">{fest.nom}</h4>
-                          <span className="lx-capacite lx-capacite-festival">
-                            {t.lieuCapacite(fest.capacite)}
-                          </span>
-                        </div>
-                        <p className="lx-carte-meta">
-                          {[
-                            fest.ville[langue],
-                            fest.mois ? fest.mois[langue] : null,
-                            fest.annee ? t.lieuDepuis(fest.annee) : null,
-                          ]
-                            .filter(Boolean)
-                            .join(' · ')}
-                        </p>
-                        <p className="lx-carte-desc">{fest.description[langue]}</p>
-                        <ul className="lx-styles">
-                          {fest.styles.map((s) => (
-                            <li key={s}>{s}</li>
-                          ))}
-                        </ul>
-                        <div className="lx-carte-bas">
-                          <a
-                            className="lx-lien-site"
-                            href={fest.site}
-                            target="_blank"
-                            rel="noreferrer noopener"
-                          >
-                            {t.lieuSiteOfficiel}
-                          </a>
-                          {fest.villeSlug && villeMap.get(fest.villeSlug)?.aCalendrier && (
-                            <a
-                              className="lx-lien-calendrier"
-                              href={`#/calendrier?city=${fest.villeSlug}`}
-                            >
-                              {t.lieuVoirCalendrierVille(
-                                villeMap.get(fest.villeSlug)?.nom[langue] ?? fest.ville[langue]
-                              )}
-                            </a>
-                          )}
-                          <button
-                            type="button"
-                            className="lx-lien-carte"
-                            onClick={() => centrerSurLieu(fest)}
-                          >
-                            {t.lieuCentrerCarte}
-                          </button>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-              ))}
+                    )}
+                  </article>
+                );
+              })}
             </div>
           </section>
         )}
