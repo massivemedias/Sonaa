@@ -25,17 +25,22 @@ describe('Atlas des clubs et festivals', () => {
     }
   });
 
-  it('recense au moins 130 festivals de 1 000+ places dans 22 pays', () => {
+  it('recense au moins 240 festivals de 1 000+ places dans 33 pays, dont le Suti Festival au Portugal', () => {
     const festivals = LIEUX_ET_FESTIVALS.filter((l) => l.type === 'festival');
-    expect(PAYS_LIEUX.length).toBeGreaterThanOrEqual(22);
-    expect(festivals.length).toBeGreaterThanOrEqual(130);
+    expect(PAYS_LIEUX.length).toBeGreaterThanOrEqual(33);
+    expect(festivals.length).toBeGreaterThanOrEqual(240);
+
+    const suti = festivals.find((f) => f.id === 'suti-festival-portugal');
+    expect(suti).toBeDefined();
+    expect(suti?.nom).toBe('Suti Festival');
+    expect(suti?.paysCode).toBe('PT');
 
     for (const f of festivals) {
       expect(f.capacite).toBeGreaterThanOrEqual(1000);
       expect(f.latitude).toBeGreaterThanOrEqual(-45);
       expect(f.latitude).toBeLessThanOrEqual(60);
       expect(f.longitude).toBeGreaterThanOrEqual(-130);
-      expect(f.longitude).toBeLessThanOrEqual(150);
+      expect(f.longitude).toBeLessThanOrEqual(155);
     }
   });
 });
