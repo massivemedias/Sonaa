@@ -82,6 +82,7 @@ export function LieuxPage() {
   const totalFestivals = useMemo(() => LIEUX_ET_FESTIVALS.filter((x) => x.type === 'festival').length, []);
 
   const paysMap = useMemo(() => new Map(PAYS_LIEUX.map((p) => [p.code, p])), []);
+  const villeMap = useMemo(() => new Map(VILLES_CLUBS.map((v) => [v.slug, v])), []);
 
   const villesFiltreesParPays = useMemo(
     () => (paysActif ? VILLES_CLUBS.filter((v) => v.paysCode === paysActif) : VILLES_CLUBS),
@@ -90,6 +91,7 @@ export function LieuxPage() {
 
   const lieuxFiltres = useMemo(() => {
     const q = normaliser(requete.trim());
+    const qCompact = q.replace(/[\s\-'.]+/g, '');
     return LIEUX_ET_FESTIVALS.filter((l) => {
       if (filtreType !== 'tout' && l.type !== filtreType) return false;
       if (paysActif && l.paysCode !== paysActif) return false;
@@ -108,7 +110,8 @@ export function LieuxPage() {
           l.description.en,
         ].join(' ')
       );
-      return texte.includes(q);
+      if (texte.includes(q)) return true;
+      return qCompact.length > 0 && texte.replace(/[\s\-'.]+/g, '').includes(qCompact);
     });
   }, [filtreType, paysActif, villeActive, requete, paysMap]);
 
@@ -454,7 +457,9 @@ export function LieuxPage() {
                       className="lx-lien-secondaire"
                       href={`#/calendrier?city=${selection.villeSlug}`}
                     >
-                      {t.lieuVoirCalendrierVille(selection.ville[langue])}
+                      {t.lieuVoirCalendrierVille(
+                        villeMap.get(selection.villeSlug)?.nom[langue] ?? selection.ville[langue]
+                      )}
                     </a>
                   )}
                 </div>
@@ -631,7 +636,9 @@ export function LieuxPage() {
                               className="lx-lien-calendrier"
                               href={`#/calendrier?city=${fest.villeSlug}`}
                             >
-                              {t.lieuVoirCalendrierVille(fest.ville[langue])}
+                              {t.lieuVoirCalendrierVille(
+                                villeMap.get(fest.villeSlug)?.nom[langue] ?? fest.ville[langue]
+                              )}
                             </a>
                           )}
                           <button

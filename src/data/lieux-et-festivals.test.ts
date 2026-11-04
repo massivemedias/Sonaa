@@ -35,6 +35,14 @@ describe('Atlas des clubs et festivals', () => {
     expect(suti?.nom).toBe('Suti Festival');
     expect(suti?.paysCode).toBe('PT');
 
+    const timeless = festivals.find((f) => f.id === 'timeless-festival-quebec');
+    expect(timeless).toBeDefined();
+    expect(timeless?.nom).toBe('Timeless Festival');
+
+    const futureForest = festivals.find((f) => f.id === 'future-forest-canada');
+    expect(futureForest).toBeDefined();
+    expect(futureForest?.nom).toBe('Future Forest');
+
     for (const f of festivals) {
       expect(f.capacite).toBeGreaterThanOrEqual(1000);
       expect(f.latitude).toBeGreaterThanOrEqual(-45);
