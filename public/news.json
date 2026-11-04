@@ -1,6 +1,24 @@
 {
- "fait": "2026-11-03T19:36:02.837Z",
+ "fait": "2026-11-04T06:39:11.580Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Polyend Tracker Updates: Everything Open Source Plus New Synths!",
+   "lien": "https://www.gearnews.com/polyend-tracker-synth/",
+   "date": "2026-11-04T00:33:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/06/polyend-tracker-update-open-T.jpg",
+   "resume": "Polyend Tracker owners, attention! The Tracker family is going wide open with the latest update, plus a host of cool new features for Tracker+ and Tracker Mini. Polyend Tracker Series Updates Tracker Goes Open Source…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Dreadbox Alecto: Analog Drum Machine From the Blood of Uranus",
+   "lien": "https://www.gearnews.com/dreadbox-alecto-analog-drum-machine-synth/",
+   "date": "2026-11-04T00:02:38.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/dreadbox-alecto-t.jpg",
+   "resume": "Alecto is a two-voice analog percussion synthesizer from Dreadbox with a polymetric sequencer. And because it’s Dreadbox, you know it sounds goooooood. Dreadbox Alecto Dreadbox has flirted with drums before, like Drips…",
+   "integral": true
+  },
   {
    "source": "midnightrebels",
    "titre": "Japanese DJ Mao Details Terrifying Nightclub Drugging After Regaining Consciousness",
@@ -57,7 +75,7 @@
   },
   {
    "source": "musicradar",
-   "titre": "\"Choose your model and let the magic happen\": iZotope launches Photon, the company's first plugin developed with new owners Boris FX",
+   "titre": "\"Choose your model and let the magic happen\": iZotope launches Photon, the company's first plugin developed with new owner Boris FX",
    "lien": "https://www.musicradar.com/music-tech/choose-your-model-let-the-magic-happen-export-and-youre-done-izotope-launches-photon-the-companys-first-plugin-developed-with-new-owners-boris-fx",
    "date": "2026-11-03T16:00:00.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/y4oLzzUeYqNeTfukjEQghm-1920-80.jpg",
@@ -164,15 +182,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "The Best Pocket Synths: 5 Ways to Get Creative on the Go",
-   "lien": "https://www.gearnews.com/best-pocket-synths/",
-   "date": "2026-11-02T18:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/09/best-pocket-synths.jpg",
-   "resume": "Ever have a creative itch to scratch while traveling, or just looking to geek out affordably after work? We’ve selected some of the best pocket synths that are not only light and compact, but also won’t hurt your pocket…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "“The tape had sat in a box for nearly 30 years”: Lost '90s Daft Punk mix unearthed by British DJ Ralph Lawson",
    "lien": "https://www.musicradar.com/artists/the-tape-had-sat-in-a-box-for-nearly-30-years-lost-90s-daft-punk-mix-unearthed-by-british-dj",
@@ -233,15 +242,6 @@
    "date": "2026-10-30T14:48:44.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/eSTBdTLLJS5yE8pwujmDzH-1920-80.jpg",
    "resume": "Back in May, a leak appeared to reveal 14 unreleased products from Behringer, including an E-mu SP-1200 clone and a Roland-inspired, hybrid drum machine/sampler called the RD-765, prompting budget-minded gearheads to…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Zeds Dead on two decades of sampling: “The interest is in the history; AI has no history”",
-   "lien": "https://musictech.com/features/interviews/zeds-dead-interview-sampling-ai/",
-   "date": "2026-10-30T09:00:08.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Zeds-Dead-hero-credit-Max-Thompson@2000x1500.jpg",
-   "resume": "Zeds Dead are equal parts historians and musicians. Hooks (Zachary Rapp-Rovan) and DC (Dylan Mamid) have been running their production partnership and alternative electronic project for nearly 20 years, and their…",
    "integral": true
   },
   {
@@ -402,10 +402,6 @@
   {
    "id": "ni",
    "raison": "aucun article lu"
-  },
-  {
-   "id": "synthtopia",
-   "raison": "This operation was aborted"
   }
  ]
 }
