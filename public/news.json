@@ -1,6 +1,96 @@
 {
- "fait": "2026-11-04T06:39:11.580Z",
+ "fait": "2026-11-04T19:52:09.849Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "5 of the Best Saturation Plugins: The Coloring and the Shaping",
+   "lien": "https://www.gearnews.com/best-saturation-plugins-studio/",
+   "date": "2026-11-04T18:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/fabfilter-saturn-saturation-ft.jpg",
+   "resume": "We explore some of the best saturation plugins for adding harmonic color and texture to different areas of your mix in any style of music. In this Article: The Best Saturation Plugins: Softube Saturation Knob The Best…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Cubase 16 Leans on Workflow Fixes More Than New Sounds",
+   "lien": "https://midnightrebels.com/cubase-16-steinberg-new-features/",
+   "date": "2026-11-04T17:37:33.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/08/opendaw_8k.webp?fit=800%2C502&ssl=1",
+   "resume": "Steinberg has released Cubase 16 with no countdown. Matthias Quellmann, Senior Marketing Manager at Steinberg, says many of the changes are “directly inspired by feedback from our community.” The update adds…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Big High 5 with Pentaphonic Presets and More – Sounds and Presets",
+   "lien": "https://www.gearnews.com/high-5-pentaphonic-sounds-presets-synths/",
+   "date": "2026-11-04T17:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/SB79Penta.jpg",
+   "resume": "This week we have a couple of banks for Cherry Audio’s latest synth, the Pentaphonic, plus sounds for MiniFreak 49, Hydrasynth and the JD-Xi! One indication of how popular a synth has become is seeing the number of 3rd…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Did Steinberg just surprise-release Cubase 16? Here’s everything you need to know",
+   "lien": "https://musictech.com/news/gear/steinberg-cubase-16/",
+   "date": "2026-11-04T16:22:33.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/Cubase-16-3@2000x1500.jpg",
+   "resume": "It’s been a year since Steinberg surprise-released Cubase 15 . So perhaps we shouldn’t be all that surprised that the Hamburg-based company has opted for the same launch strategy this time around for Cubase 16. Still…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "With 86% off the Abbey Road Collection, Waves' early Black Friday sale just made upgrading your DAW way cheaper",
+   "lien": "https://www.musicradar.com/music-tech/plugins/waves-black-friday-sale-2026",
+   "date": "2026-11-04T15:15:00.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/Ueq4oGUkgn6nFrgCuzXKKD-1920-80.jpg",
+   "resume": "There’s no better time than Black Friday to pick up a plugin deal, and Waves has decided to start the festivities early. The company has launched its Black Friday plugin deals now, so you can expand your arsenal earlier…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Steinberg Cubase 16: Exciting New Creative Production Features",
+   "lien": "https://www.gearnews.com/steinberg-cubase-daw-studio/",
+   "date": "2026-11-04T12:49:54.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/steinberg-cubase-16-ft1.jpg",
+   "resume": "In Steinberg Cubase 16, the professional DAW offers intelligent upgrades across the board, from audio and MIDI editing to flexible processing tools. With highlights like Instrument Stacks and Drumchain, as well as…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "ROLI – the innovative company specialising in touch-sensitive electronic instruments – has entered administration",
+   "lien": "https://musictech.com/news/industry/roli-enters-administration/",
+   "date": "2026-11-04T11:42:51.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2024/07/ROLI-Seaboard-Block-M-commercial-hero-credit-Simon-Vinall@2000x1500.jpg",
+   "resume": "ROLI – the innovative music technology company specialising in touch-sensitive electronic instruments like the Seaboard Block M and the Airwave – has collapsed into administration, it has been revealed. Earlier this…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Allen & Heath Qu-3 and Qu-3D: The Same Powerful Mixing Platform in a Compact Format",
+   "lien": "https://www.gearnews.com/allen-heath-qu-series-live/",
+   "date": "2026-11-04T11:29:54.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/allen-heath-qu-3-ft.jpg",
+   "resume": "With the new Allen & Heath Qu-3 and Qu-3D digital mixers, you get upgraded hardware, 96 kHz XCVI processing, flexible I/O, and improved workflow features. All about the Qu Series: Allen & Heath Qu-3 and Qu-3D Allen &…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "Waves is dropping a brand new plugin for exactly $0 - here's how to claim yours before licenses run out",
+   "lien": "https://www.musicradar.com/music-tech/plugins/waves-free-plugin-black-friday-2026",
+   "date": "2026-11-04T10:19:09.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/PddVYFgPqWzeKpwhGx8ATM-1920-80.jpg",
+   "resume": "The annual free Waves plugin has become a bit of a tradition for music makers, and the company has just announced that its latest freebie will launch on November 27. To get in on the action, all you need to do is head…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Game-Changing Synths: 7 Modern Synthesizers That Have Transformed Music Making",
+   "lien": "https://www.gearnews.com/game-changing-synths-1/",
+   "date": "2026-11-04T07:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2024/11/7-game-changing-T.jpg",
+   "resume": "These modern game-changing synths are changing the way we make and play music. Game-Changing Synths Korg Volca Bass Korg MS-20 Mini Arturia MiniBrute Behringer Model D Doepfer A-100 Expressive E Osmose Melbourne…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "Polyend Tracker Updates: Everything Open Source Plus New Synths!",
@@ -26,24 +116,6 @@
    "date": "2026-11-03T18:50:43.000Z",
    "image": "https://midnightrebels.com/wp-content/uploads/2025/09/How-I-Lost-a-Paid-Gig-to-a-DJ-Working-for-Exposure-800x450.avif",
    "resume": "Mao Hamasaki, known as DJ Mao, was taken to intensive care in Hong Kong early on Sunday 1 November 2026 after a suspected drink spiking. She was discharged on Monday 2 November 2026 . Hamasaki, 33, is a former Japanese…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "JBL 3 Series MKIII: A Front-Firing Redesign and No More Hiss!",
-   "lien": "https://www.gearnews.com/jbl-3-series-mkiii-studio/",
-   "date": "2026-11-03T17:32:25.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/jbl-3-series-mkiii-ft-02.jpg",
-   "resume": "The JBL 3 Series MKIII is the latest version of the popular budget studio monitors and subwoofer with a refreshed design and new DSP features. Despite its shortcomings, the JBL 3 Series has always held a special place…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Sonnox Inflator Deal, Steven Slate Plugins, and Master Plan 2: Save up to 74% on These Amazing Software Deals!",
-   "lien": "https://www.gearnews.com/sonnox-inflator-deal/",
-   "date": "2026-11-03T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/GN_SoftwareDeals_261103.jpg",
-   "resume": "Welcome to another edition of our weekly software deals ! As we’re all (and our wallets) gearing up for the Black Friday madness, there are already some amazing deals to be made. To start with, there is a great Sonnox…",
    "integral": true
   },
   {
@@ -83,15 +155,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "iZotope Photon: GPU-Powered Stem Separation",
-   "lien": "https://www.gearnews.com/izotope-photon-studio/",
-   "date": "2026-11-03T16:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/izotope-photon-ft.jpg",
-   "resume": "iZotope Photon is a new ARA plugin and desktop app for stem splitting that runs on your GPU and also has built-in audio restoration features. While stem separation may still be something of a gimmick in the context of…",
-   "integral": true
-  },
-  {
    "source": "midnightrebels",
    "titre": "DJ Crate Digging, Track ID Culture and the Prestige of Playing It First",
    "lien": "https://midnightrebels.com/modern-dj-crate-digging-performative-or-personal/",
@@ -119,15 +182,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Reason Studios Sale: Get Over 60% Off!",
-   "lien": "https://www.gearnews.com/reason-studios-sale-deal/",
-   "date": "2026-11-03T13:14:59.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2022/12/reason-bf-sale-ft.jpg",
-   "resume": "Right now, with the Reason Studios Sale, you can get discounts of over 60% on Reason, Reason Rack, Reason Complete, and selected upgrade offers. It’s that crazy time of the year when you can save a ton on your favorite…",
-   "integral": true
-  },
-  {
    "source": "musictech",
    "titre": "“I get really intense feelings, not emotions”: Kaitlyn Aurelia Smith on how synaesthesia shapes her creative process",
    "lien": "https://musictech.com/news/music/kaitlyn-aurelia-smith-on-how-synaesthesia-shapes-her-creative-process/",
@@ -146,15 +200,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "XLN Audio RC-20 Retro Color v2 Update: A Wide World of New Effects!",
-   "lien": "https://www.gearnews.com/xln-audio-rc-20-retro-color-studio/",
-   "date": "2026-11-03T11:00:47.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2022/02/xln-audio-rc-20-retro-color-v2-ft.jpg",
-   "resume": "Now in version 2, XLN Audio RC-20 Retro Color expands with a range of different effects across its various modules and an improved workflow. Since its introduction a decade ago, RC-20 Retro Color has become a firm…",
-   "integral": true
-  },
-  {
    "source": "musictech",
    "titre": "Love Synthesizers’ First Love is an FM synth you can learn without words, numbers or a manual",
    "lien": "https://musictech.com/news/gear/love-synthesizers-first-love/",
@@ -170,15 +215,6 @@
    "date": "2026-11-02T20:51:57.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/mZbmXAbM3Yp2D3kDP6hZbj-1920-80.jpg",
    "resume": "What is it? The original Roland TD-07KV kit was released back in late 2020, closely followed by three additional ‘07’ configurations the following year. The TD-07KX, KVX and DMK models each offered a compact yet capable…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "Police Detain 417 People in Kuala Lumpur Nightclub Raid",
-   "lien": "https://midnightrebels.com/kuala-lumpur-nightclub-raid/",
-   "date": "2026-11-02T19:15:12.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/02/The-2026-EDM-Festival-Drug-Crisis-Nitazenes-Medetomidine-and-Harm-Reduction.webp?fit=800%2C450&ssl=1",
-   "resume": "How many people does one nightclub raid detain? In the Kuala Lumpur nightclub raid on Sunday, 1 November 2026, police detained 417 people , and the operation ran from 2:30am to 10:30am. The outlet sits on Jalan Sultan…",
    "integral": true
   },
   {
@@ -218,39 +254,12 @@
    "integral": true
   },
   {
-   "source": "musictech",
-   "titre": "One giant leap for synthkind: Analogue Solutions launches the Series 700, a £33,000 recreation of the Roland System 700",
-   "lien": "https://musictech.com/news/gear/one-giant-leap-for-synthkind-analogue-solutions-launches-the-series-700-a-33000-recreation-of-the-roland-system-700/",
-   "date": "2026-10-30T15:55:51.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/AS-1@2000x1500.jpg",
-   "resume": "British synth builder Analogue Solutions has launched the Series 700, a recreation of Roland’s rarely-seen System 700. A full six-block system doesn’t come cheap though, priced at a princely £33,000… Built to the…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Yaeltex unveils next-gen custom MIDI controllers – now with full-colour displays",
-   "lien": "https://musictech.com/news/gear/yaeltex-v3/",
-   "date": "2026-10-30T14:55:48.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Yaeltex-1@2000x1500.jpg",
-   "resume": "Buenos Aires company Yaeltex has unveiled V3, a new and improved take on its custom MIDI controller platform that finally adds full-colour displays to improve workflow. Yaeltex’s V3 controllers replace the system the…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "Behringer is coming for your wallet with a $200 open-source SP-1200 clone, an eight-voice take on the Korg Polysix and a Roland-inspired drum machine",
    "lien": "https://www.musicradar.com/music-tech/behringer-is-coming-for-your-wallet-with-a-usd200-open-source-sp-1200-clone-an-eight-voice-take-on-the-korg-polysix-and-a-roland-inspired-drum-machine",
    "date": "2026-10-30T14:48:44.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/eSTBdTLLJS5yE8pwujmDzH-1920-80.jpg",
    "resume": "Back in May, a leak appeared to reveal 14 unreleased products from Behringer, including an E-mu SP-1200 clone and a Roland-inspired, hybrid drum machine/sampler called the RD-765, prompting budget-minded gearheads to…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Apple puts Logic Pro front and centre as it launches its first MacBook Pro with a touchscreen",
-   "lien": "https://www.musicradar.com/music-tech/the-macbook-pro-with-proled-xdr-display-has-the-touchscreen-of-your-dreams-but-will-using-it-with-logic-pro-be-as-fun-as-apple-is-making-it-look",
-   "date": "2026-10-29T16:04:24.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/RG8VHEq59RDoMG8fPSkvAJ-1920-80.jpg",
-   "resume": "A touchscreen MacBook has long been talked about, but when Apple launched the iPad, in 2010, the assumption for many years was that the company wouldn’t put touch on a laptop for fear of cannibalising sales of that…",
    "integral": true
   },
   {
