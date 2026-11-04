@@ -1,9 +1,16 @@
 import { describe, expect, it } from 'vitest';
-import { lienAmazon, lienDAchat, liensDAchat, typeDuGroupe } from './affiliation.ts';
+import { IDENTIFIANTS, lienAmazon, lienDAchat, liensDAchat, typeDuGroupe } from './affiliation.ts';
 
 const IDS = { pluginboutique: 'pb123', awinEditeur: '9999', awinReverb: '67144', amazon: 'sonaa-20' };
 
 describe('liens d achat', () => {
+  it('active par defaut l identifiant Plugin Boutique iv1iqqdzeisit en production', () => {
+    expect(IDENTIFIANTS.pluginboutique).toBe('iv1iqqdzeisit');
+    expect(lienDAchat('Xfer Serum', 'plugin')).toEqual({
+      boutique: 'pluginboutique',
+      url: 'https://www.pluginboutique.com/search?q=Xfer%20Serum&a_aid=iv1iqqdzeisit',
+    });
+  });
   it('ne propose rien tant que les identifiants manquent', () => {
     expect(lienDAchat('Xfer Serum', 'plugin', { pluginboutique: '', awinEditeur: '', awinReverb: '', amazon: '' })).toBeNull();
     expect(lienDAchat('Roland TR-909', 'machine', { ...IDS, awinEditeur: '' })).toBeNull();

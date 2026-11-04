@@ -34,7 +34,7 @@ export interface Identifiants {
 }
 
 export const IDENTIFIANTS: Identifiants = {
-  pluginboutique: '',
+  pluginboutique: 'iv1iqqdzeisit',
   awinEditeur: '3138255',
   awinReverb: '67144',
   amazon: 'sonaa-20',
