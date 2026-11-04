@@ -414,43 +414,46 @@
 .lx-groupes {
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 44px;
 }
 
 .lx-groupe {
-  padding: 20px;
-  border-radius: 16px;
-  background: rgba(22, 18, 15, 0.72);
-  border: 1px solid rgba(255, 245, 230, 0.08);
+  padding: 0;
+}
+
+.lx-groupe + .lx-groupe {
+  padding-top: 28px;
+  border-top: 1px solid rgba(255, 245, 230, 0.14);
 }
 
 .lx-groupe-entete {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .lx-groupe-titre {
   margin: 0;
-  font-size: 1.24rem;
-  font-weight: 700;
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
   color: #f6f1ea;
 }
 
 .lx-groupe-pays {
-  font-weight: 400;
+  font-weight: 500;
   font-size: 0.95rem;
-  color: rgba(246, 241, 234, 0.56);
+  color: rgba(246, 241, 234, 0.52);
 }
 
 .lx-groupe-liens {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
+  gap: 18px;
 }
 
 .lx-grille {
@@ -458,75 +461,90 @@
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 310px), 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 430px), 1fr));
+  gap: 0 44px;
 }
 
 .lx-carte {
   display: flex;
   flex-direction: column;
-  padding: 16px 18px;
-  border-radius: 12px;
-  background: rgba(14, 11, 9, 0.82);
-  border: 1px solid rgba(255, 245, 230, 0.08);
-  transition: border-color 140ms ease;
+  padding: 20px 6px 20px 20px;
+  border-left: 2px solid rgba(232, 168, 72, 0.34);
+  border-bottom: 1px solid rgba(255, 245, 230, 0.08);
+  background: transparent;
+  transition: border-left-color 160ms ease, background 160ms ease;
+}
+
+.lx-carte-festival {
+  border-left-color: rgba(82, 199, 154, 0.38);
 }
 
 .lx-carte:hover {
-  border-color: rgba(232, 168, 72, 0.35);
+  border-left-color: #e8a848;
+  background: linear-gradient(90deg, rgba(232, 168, 72, 0.045), transparent 85%);
 }
 
 .lx-carte-festival:hover {
-  border-color: rgba(82, 199, 154, 0.38);
+  border-left-color: #52c79a;
+  background: linear-gradient(90deg, rgba(82, 199, 154, 0.045), transparent 85%);
 }
 
 .lx-carte-haut {
   display: flex;
-  align-items: flex-start;
+  align-items: baseline;
   justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 6px;
+  gap: 12px;
+  margin-bottom: 4px;
 }
 
 .lx-carte-nom {
   margin: 0;
-  font-size: 1.06rem;
+  font-size: 1.14rem;
   font-weight: 700;
+  letter-spacing: -0.01em;
   color: #f6f1ea;
 }
 
 .lx-capacite {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   flex-shrink: 0;
-  padding: 3px 9px;
-  border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  background: rgba(232, 168, 72, 0.14);
   color: #f2be68;
 }
 
+.lx-capacite::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.85;
+}
+
 .lx-capacite-festival {
-  background: rgba(82, 199, 154, 0.14);
   color: #6ee0b4;
 }
 
 .lx-carte-meta {
   margin: 0 0 8px;
   font-size: 0.82rem;
-  color: rgba(246, 241, 234, 0.58);
+  color: rgba(246, 241, 234, 0.54);
 }
 
 .lx-carte-desc {
   margin: 0 0 12px;
-  font-size: 0.88rem;
-  line-height: 1.54;
-  color: rgba(246, 241, 234, 0.8);
+  font-size: 0.9rem;
+  line-height: 1.56;
+  color: rgba(246, 241, 234, 0.82);
   flex: 1;
 }
 
 .lx-styles {
   list-style: none;
-  margin: 0 0 12px;
+  margin: 0 0 10px;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
@@ -534,22 +552,19 @@
 }
 
 .lx-styles li {
-  padding: 3px 9px;
+  padding: 2px 10px;
   border-radius: 999px;
-  background: rgba(255, 245, 230, 0.06);
-  border: 1px solid rgba(255, 245, 230, 0.09);
+  background: rgba(255, 245, 230, 0.055);
   font-size: 0.74rem;
-  color: rgba(246, 241, 234, 0.78);
+  color: rgba(246, 241, 234, 0.72);
 }
 
 .lx-carte-bas {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
+  gap: 18px;
   margin-top: auto;
-  padding-top: 8px;
-  border-top: 1px solid rgba(255, 245, 230, 0.06);
 }
 
 .lx-lien-site,
@@ -557,45 +572,45 @@
 .lx-lien-carte {
   display: inline-flex;
   align-items: center;
-  min-height: 44px;
-  padding: 0 11px;
-  border-radius: 8px;
+  min-height: 34px;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  background: transparent;
   font: inherit;
-  font-size: 0.8rem;
+  font-size: 0.81rem;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
+  transition: color 140ms ease, border-color 140ms ease;
 }
 
 .lx-lien-site {
-  background: rgba(255, 245, 230, 0.05);
-  border: 1px solid rgba(255, 245, 230, 0.14);
   color: #f6f1ea;
+  border-bottom-color: rgba(246, 241, 234, 0.32);
 }
 
 .lx-lien-site:hover {
-  border-color: rgba(255, 245, 230, 0.32);
+  border-bottom-color: #f6f1ea;
 }
 
 .lx-lien-calendrier {
-  background: rgba(232, 168, 72, 0.12);
-  border: 1px solid rgba(232, 168, 72, 0.35);
   color: #f2be68;
+  border-bottom-color: rgba(232, 168, 72, 0.45);
 }
 
 .lx-lien-calendrier:hover {
-  border-color: rgba(232, 168, 72, 0.65);
+  border-bottom-color: #f2be68;
 }
 
 .lx-lien-carte {
-  background: transparent;
-  border: 1px solid rgba(255, 245, 230, 0.12);
-  color: rgba(246, 241, 234, 0.74);
+  color: rgba(246, 241, 234, 0.62);
+  border-bottom-color: rgba(246, 241, 234, 0.18);
 }
 
 .lx-lien-carte:hover {
-  border-color: rgba(255, 245, 230, 0.28);
   color: #f6f1ea;
+  border-bottom-color: rgba(246, 241, 234, 0.55);
 }
 
 @media (max-width: 900px) {
@@ -622,7 +637,13 @@
     width: 100%;
   }
 
-  .lx-groupe {
-    padding: 16px 14px;
+  .lx-groupe + .lx-groupe {
+    padding-top: 20px;
+  }
+
+  .lx-lien-site,
+  .lx-lien-calendrier,
+  .lx-lien-carte {
+    min-height: 44px;
   }
 }
