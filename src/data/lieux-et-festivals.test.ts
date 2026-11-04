@@ -2,10 +2,11 @@ import { describe, expect, it } from 'vitest';
 import { LIEUX_ET_FESTIVALS, PAYS_LIEUX, VILLES_CLUBS } from './lieux-et-festivals.ts';
 
 describe('Atlas des clubs et festivals', () => {
-  it('couvre les 23 villes avec au moins 18 salles a Montreal et 120 clubs au total', () => {
+  it('couvre au moins 60 villes électroniques (dont les 23 villes du calendrier SONAA), 18 salles à Montréal et 235 clubs au total', () => {
     const clubs = LIEUX_ET_FESTIVALS.filter((l) => l.type === 'club');
-    expect(VILLES_CLUBS.length).toBe(23);
-    expect(clubs.length).toBeGreaterThanOrEqual(120);
+    expect(VILLES_CLUBS.length).toBeGreaterThanOrEqual(60);
+    expect(VILLES_CLUBS.filter((v) => v.aCalendrier).length).toBe(23);
+    expect(clubs.length).toBeGreaterThanOrEqual(235);
 
     const montreal = clubs.filter((c) => c.villeSlug === 'montreal-ca');
     expect(montreal.length).toBeGreaterThanOrEqual(18);
@@ -25,10 +26,10 @@ describe('Atlas des clubs et festivals', () => {
     }
   });
 
-  it('recense au moins 240 festivals de 1 000+ places dans 33 pays, dont le Suti Festival au Portugal', () => {
+  it('recense au moins 290 festivals de 1 000+ places dans 33 pays, dont le Suti Festival au Portugal', () => {
     const festivals = LIEUX_ET_FESTIVALS.filter((l) => l.type === 'festival');
     expect(PAYS_LIEUX.length).toBeGreaterThanOrEqual(33);
-    expect(festivals.length).toBeGreaterThanOrEqual(240);
+    expect(festivals.length).toBeGreaterThanOrEqual(290);
 
     const suti = festivals.find((f) => f.id === 'suti-festival-portugal');
     expect(suti).toBeDefined();

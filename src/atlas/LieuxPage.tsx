@@ -68,11 +68,18 @@ export function LieuxPage() {
   const [villeActive, setVilleActive] = useState<string>('');
   const [requete, setRequete] = useState<string>('');
   const [selection, setSelection] = useState<LieuOuFestival | null>(null);
+  const [cadreVisible, setCadreVisible] = useState<{
+    ouest: number;
+    sud: number;
+    est: number;
+    nord: number;
+  } | null>(null);
 
   const cadreCarteRef = useRef<HTMLDivElement | null>(null);
   const carteRef = useRef<CarteMapLibre | null>(null);
   const marqueursRef = useRef<Map<string, { marker: Marker; bouton: HTMLButtonElement }>>(new Map());
   const blocCarteRef = useRef<HTMLElement | null>(null);
+  const mouvementProgrammatiqueRef = useRef<boolean>(false);
 
   useEffect(() => {
     document.title = `${t.clubsEtFestivalsTitre} · SONAA`;
@@ -89,13 +96,13 @@ export function LieuxPage() {
     [paysActif]
   );
 
-  const lieuxFiltres = useMemo(() => {
+  /* Lieux correspondant au type (Tout / Clubs / Festivals) et a la recherche textuelle :
+     tous leurs marqueurs restent visibles sur la carte meme quand on zoome ou dezoome. */
+  const lieuxPourCarte = useMemo(() => {
     const q = normaliser(requete.trim());
     const qCompact = q.replace(/\b(and|et)\b/g, '').replace(/[\s\-'&.+]+/g, '');
     return LIEUX_ET_FESTIVALS.filter((l) => {
       if (filtreType !== 'tout' && l.type !== filtreType) return false;
-      if (paysActif && l.paysCode !== paysActif) return false;
-      if (villeActive && l.villeSlug !== villeActive) return false;
       if (!q) return true;
       const pays = paysMap.get(l.paysCode);
       const texte = normaliser(
@@ -116,7 +123,25 @@ export function LieuxPage() {
         texte.replace(/\b(and|et)\b/g, '').replace(/[\s\-'&.+]+/g, '').includes(qCompact)
       );
     });
-  }, [filtreType, paysActif, villeActive, requete, paysMap]);
+  }, [filtreType, requete, paysMap]);
+
+  const lieuxFiltres = useMemo(() => {
+    return lieuxPourCarte.filter((l) => {
+      if (paysActif && l.paysCode !== paysActif) return false;
+      if (villeActive && l.villeSlug !== villeActive) return false;
+      if (cadreVisible) {
+        if (
+          l.longitude < cadreVisible.ouest ||
+          l.longitude > cadreVisible.est ||
+          l.latitude < cadreVisible.sud ||
+          l.latitude > cadreVisible.nord
+        ) {
+          return false;
+        }
+      }
+      return true;
+    });
+  }, [lieuxPourCarte, paysActif, villeActive, cadreVisible]);
 
   const clubsParVille = useMemo(() => {
     const clubs = lieuxFiltres.filter((l) => l.type === 'club');
@@ -150,7 +175,23 @@ export function LieuxPage() {
         [-175, -44],
         [175, 59.5],
       ]);
+      mouvementProgrammatiqueRef.current = true;
+      carte.once('moveend', () => {
+        mouvementProgrammatiqueRef.current = false;
+      });
       carte.fitBounds(CADRES_ZONES.atlantique, { padding: 28, duration: 0 });
+      carte.on('moveend', () => {
+        if (mouvementProgrammatiqueRef.current || !carte) return;
+        const b = carte.getBounds();
+        setPaysActif('');
+        setVilleActive('');
+        setCadreVisible({
+          ouest: b.getWest(),
+          sud: b.getSouth(),
+          est: b.getEast(),
+          nord: b.getNorth(),
+        });
+      });
       carteRef.current = carte;
     } catch {
       /* En environnement sans WebGL, la liste reste pleinement utilisable. */
@@ -170,7 +211,8 @@ export function LieuxPage() {
     };
   }, []);
 
-  /* Mise a jour des marqueurs selon les lieux filtres. */
+  /* Mise a jour des marqueurs : tous les lieux correspondant au type et a la recherche
+     restent affiches sur la carte pour permettre l'exploration libre au dezoom. */
   useEffect(() => {
     const carte = carteRef.current;
     if (!carte) return;
@@ -178,7 +220,7 @@ export function LieuxPage() {
     for (const { marker } of marqueursRef.current.values()) marker.remove();
     marqueursRef.current.clear();
 
-    for (const lieu of lieuxFiltres) {
+    for (const lieu of lieuxPourCarte) {
       const el = document.createElement('button');
       el.type = 'button';
       el.className = `lx-pin lx-pin-${lieu.type}`;
@@ -199,65 +241,106 @@ export function LieuxPage() {
         .addTo(carte);
       marqueursRef.current.set(lieu.id, { marker, bouton: el });
     }
-  }, [lieuxFiltres]);
+  }, [lieuxPourCarte]);
 
   /* Surbrillance du marqueur selectionne. */
   useEffect(() => {
     for (const [id, { bouton }] of marqueursRef.current.entries()) {
       bouton.classList.toggle('est-actif', selection?.id === id);
     }
-  }, [selection, lieuxFiltres]);
+  }, [selection, lieuxPourCarte]);
+
+  const lancerMouvementCarte = (action: (carte: CarteMapLibre) => void): void => {
+    const carte = carteRef.current;
+    if (!carte) return;
+    mouvementProgrammatiqueRef.current = true;
+    carte.once('moveend', () => {
+      mouvementProgrammatiqueRef.current = false;
+    });
+    action(carte);
+  };
+
+  const chercherDansZone = (): void => {
+    const carte = carteRef.current;
+    if (!carte) return;
+    const b = carte.getBounds();
+    setPaysActif('');
+    setVilleActive('');
+    setSelection(null);
+    setCadreVisible({
+      ouest: b.getWest(),
+      sud: b.getSouth(),
+      est: b.getEast(),
+      nord: b.getNorth(),
+    });
+  };
 
   const choisirZone = (zone: ZoneCarte): void => {
     setZoneCarte(zone);
     setSelection(null);
     setPaysActif('');
     setVilleActive('');
-    carteRef.current?.fitBounds(CADRES_ZONES[zone], { padding: 32, maxZoom: 6.5, duration: 650 });
+    setCadreVisible(null);
+    lancerMouvementCarte((carte) => {
+      carte.fitBounds(CADRES_ZONES[zone], { padding: 32, maxZoom: 6.5, duration: 650 });
+    });
   };
 
   const choisirPays = (code: string): void => {
     setPaysActif(code);
     setVilleActive('');
+    setCadreVisible(null);
     setSelection(null);
     if (!code) {
-      carteRef.current?.fitBounds(CADRES_ZONES[zoneCarte], { padding: 32, maxZoom: 6.5, duration: 650 });
+      lancerMouvementCarte((carte) => {
+        carte.fitBounds(CADRES_ZONES[zoneCarte], { padding: 32, maxZoom: 6.5, duration: 650 });
+      });
       return;
     }
     const duPays = LIEUX_ET_FESTIVALS.filter((l) => l.paysCode === code);
     const carte = carteRef.current;
     if (!carte || duPays.length === 0) return;
     if (duPays.length === 1 && duPays[0]) {
-      carte.flyTo({ center: [duPays[0].longitude, duPays[0].latitude], zoom: 6, duration: 700, essential: true });
+      const unique = duPays[0];
+      lancerMouvementCarte((c) => {
+        c.flyTo({ center: [unique.longitude, unique.latitude], zoom: 6, duration: 700, essential: true });
+      });
       return;
     }
     const lngs = duPays.map((d) => d.longitude);
     const lats = duPays.map((d) => d.latitude);
-    carte.fitBounds(
-      [
-        [Math.min(...lngs), Math.min(...lats)],
-        [Math.max(...lngs), Math.max(...lats)],
-      ],
-      { padding: 64, maxZoom: 7, duration: 700 }
-    );
+    lancerMouvementCarte((c) => {
+      c.fitBounds(
+        [
+          [Math.min(...lngs), Math.min(...lats)],
+          [Math.max(...lngs), Math.max(...lats)],
+        ],
+        { padding: 64, maxZoom: 7, duration: 700 }
+      );
+    });
   };
 
   const choisirVille = (slugVille: string): void => {
     setVilleActive(slugVille);
+    setCadreVisible(null);
     setSelection(null);
     if (!slugVille) return;
     const v = VILLES_CLUBS.find((x) => x.slug === slugVille);
     if (v) {
-      carteRef.current?.flyTo({ center: [v.longitude, v.latitude], zoom: 11.5, duration: 700, essential: true });
+      lancerMouvementCarte((carte) => {
+        carte.flyTo({ center: [v.longitude, v.latitude], zoom: 11.5, duration: 700, essential: true });
+      });
     }
   };
 
   const centrerSurLieu = (lieu: LieuOuFestival): void => {
     setSelection(lieu);
     blocCarteRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    carteRef.current?.panTo([lieu.longitude, lieu.latitude], {
-      duration: 500,
-      essential: true,
+    lancerMouvementCarte((carte) => {
+      carte.panTo([lieu.longitude, lieu.latitude], {
+        duration: 500,
+        essential: true,
+      });
     });
   };
 
@@ -266,9 +349,12 @@ export function LieuxPage() {
     setZoneCarte('atlantique');
     setPaysActif('');
     setVilleActive('');
+    setCadreVisible(null);
     setRequete('');
     setSelection(null);
-    carteRef.current?.fitBounds(CADRES_ZONES.atlantique, { padding: 28, duration: 650 });
+    lancerMouvementCarte((carte) => {
+      carte.fitBounds(CADRES_ZONES.atlantique, { padding: 28, duration: 650 });
+    });
   };
 
   return (
@@ -370,8 +456,16 @@ export function LieuxPage() {
             <div className="lx-zones-carte">
               <button
                 type="button"
+                className="lx-vue-monde lx-chercher-zone"
+                aria-pressed={Boolean(cadreVisible)}
+                onClick={() => (cadreVisible ? setCadreVisible(null) : chercherDansZone())}
+              >
+                {cadreVisible ? t.lieuZoneVisibleActive : t.lieuChercherDansZone}
+              </button>
+              <button
+                type="button"
                 className="lx-vue-monde"
-                aria-pressed={zoneCarte === 'atlantique' && !paysActif && !villeActive}
+                aria-pressed={zoneCarte === 'atlantique' && !paysActif && !villeActive && !cadreVisible}
                 onClick={() => choisirZone('atlantique')}
               >
                 {t.clubsZoneAtlantique}
@@ -379,7 +473,7 @@ export function LieuxPage() {
               <button
                 type="button"
                 className="lx-vue-monde"
-                aria-pressed={zoneCarte === 'amerique' && !paysActif && !villeActive}
+                aria-pressed={zoneCarte === 'amerique' && !paysActif && !villeActive && !cadreVisible}
                 onClick={() => choisirZone('amerique')}
               >
                 {t.clubsZoneAmerique}
@@ -387,7 +481,7 @@ export function LieuxPage() {
               <button
                 type="button"
                 className="lx-vue-monde"
-                aria-pressed={zoneCarte === 'europe' && !paysActif && !villeActive}
+                aria-pressed={zoneCarte === 'europe' && !paysActif && !villeActive && !cadreVisible}
                 onClick={() => choisirZone('europe')}
               >
                 {t.clubsZoneEurope}
@@ -395,7 +489,7 @@ export function LieuxPage() {
               <button
                 type="button"
                 className="lx-vue-monde"
-                aria-pressed={zoneCarte === 'monde' && !paysActif && !villeActive}
+                aria-pressed={zoneCarte === 'monde' && !paysActif && !villeActive && !cadreVisible}
                 onClick={() => choisirZone('monde')}
               >
                 {t.clubsCarteVueMonde}
@@ -447,7 +541,7 @@ export function LieuxPage() {
                   >
                     {t.lieuSiteOfficiel}
                   </a>
-                  {selection.villeSlug && (
+                  {selection.villeSlug && villeMap.get(selection.villeSlug)?.aCalendrier && (
                     <a
                       className="lx-lien-secondaire"
                       href={`#/calendrier?city=${selection.villeSlug}`}
@@ -503,12 +597,14 @@ export function LieuxPage() {
                       >
                         {t.lieuCentrerCarte}
                       </button>
-                      <a
-                        className="lx-lien-calendrier"
-                        href={`#/calendrier?city=${ville.slug}`}
-                      >
-                        {t.lieuVoirCalendrierVille(ville.nom[langue])}
-                      </a>
+                      {ville.aCalendrier && (
+                        <a
+                          className="lx-lien-calendrier"
+                          href={`#/calendrier?city=${ville.slug}`}
+                        >
+                          {t.lieuVoirCalendrierVille(ville.nom[langue])}
+                        </a>
+                      )}
                     </div>
                   </header>
 
@@ -626,7 +722,7 @@ export function LieuxPage() {
                           >
                             {t.lieuSiteOfficiel}
                           </a>
-                          {fest.villeSlug && (
+                          {fest.villeSlug && villeMap.get(fest.villeSlug)?.aCalendrier && (
                             <a
                               className="lx-lien-calendrier"
                               href={`#/calendrier?city=${fest.villeSlug}`}

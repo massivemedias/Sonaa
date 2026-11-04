@@ -222,6 +222,18 @@
   background: rgba(232, 168, 72, 0.14);
 }
 
+.lx-chercher-zone {
+  border-color: rgba(82, 199, 154, 0.45);
+  background: rgba(82, 199, 154, 0.1);
+  color: #f6f1ea;
+}
+
+.lx-chercher-zone:hover,
+.lx-chercher-zone[aria-pressed='true'] {
+  border-color: rgba(82, 199, 154, 0.85);
+  background: rgba(82, 199, 154, 0.22);
+}
+
 .lx-carte-enveloppe {
   position: relative;
   width: 100%;

@@ -1254,6 +1254,8 @@ interface Dictionnaire {
   readonly lieuReinitialiserFiltres: string;
   readonly lieuNClubs: (n: number) => string;
   readonly lieuNFestivals: (n: number) => string;
+  readonly lieuChercherDansZone: string;
+  readonly lieuZoneVisibleActive: string;
 }
 
 const FR: Dictionnaire = {
@@ -2377,7 +2379,7 @@ const FR: Dictionnaire = {
   clubsMenu: 'Atlas',
   clubsEtFestivalsTitre: 'Atlas des clubs et festivals',
   clubsEtFestivalsChapeau: (nClubs, nVilles, nFestivals, nPays) =>
-    `${nClubs} clubs de référence dans les ${nVilles} villes du calendrier SONAA et ${nFestivals} grands festivals électroniques (1 000+ personnes) classés dans ${nPays} pays, réunis sur une carte interactive mondiale.`,
+    `${nClubs} clubs de référence dans ${nVilles} villes et ${nFestivals} grands festivals électroniques (1 000+ personnes) classés dans ${nPays} pays, réunis sur une carte interactive mondiale.`,
   clubsTout: 'Tout',
   clubsSeulement: (n) => `Clubs (${n})`,
   festivalsSeulement: (n) => `Festivals (${n})`,
@@ -2390,7 +2392,7 @@ const FR: Dictionnaire = {
   clubsToutesLesVilles: 'Toutes les villes',
   clubsChercherLieu: 'Chercher un club, un festival, une ville, un style…',
   clubsSectionTitre: 'Les meilleurs clubs par ville',
-  clubsSectionSousTitre: (nVilles) => `Sélection dans les ${nVilles} villes proposées par le calendrier de SONAA, avec accès direct aux soirées à venir.`,
+  clubsSectionSousTitre: (nVilles) => `Sélection dans ${nVilles} grandes villes électroniques, avec accès direct aux soirées à venir du calendrier de SONAA.`,
   festivalsSectionTitre: 'Les meilleurs festivals par pays (1 000+ personnes)',
   festivalsSectionSousTitre: (nPays) => `Grands rassemblements de musique électronique de plus de 1 000 personnes dans ${nPays} pays.`,
   lieuTypeClub: 'Club',
@@ -2403,7 +2405,9 @@ const FR: Dictionnaire = {
   lieuAucunResultat: 'Aucun club ni festival ne correspond à ces filtres.',
   lieuReinitialiserFiltres: 'Réinitialiser les filtres',
   lieuNClubs: (n) => `${n} club${n > 1 ? 's' : ''}`,
-  lieuNFestivals: (n) => `${n} festival${n > 1 ? 's' : ''}`
+  lieuNFestivals: (n) => `${n} festival${n > 1 ? 's' : ''}`,
+  lieuChercherDansZone: 'Chercher dans cette zone',
+  lieuZoneVisibleActive: 'Zone visible · Tout afficher'
 };
 
 const EN: Dictionnaire = {
@@ -3518,7 +3522,7 @@ const EN: Dictionnaire = {
   clubsMenu: 'Atlas',
   clubsEtFestivalsTitre: 'Atlas of clubs and festivals',
   clubsEtFestivalsChapeau: (nClubs, nVilles, nFestivals, nPays) =>
-    `${nClubs} essential electronic music clubs across SONAA’s ${nVilles} cities and ${nFestivals} major electronic festivals (1,000+ capacity) across ${nPays} countries, mapped on an interactive world view.`,
+    `${nClubs} essential electronic music clubs across ${nVilles} cities and ${nFestivals} major electronic festivals (1,000+ capacity) across ${nPays} countries, mapped on an interactive world view.`,
   clubsTout: 'All',
   clubsSeulement: (n) => `Clubs (${n})`,
   festivalsSeulement: (n) => `Festivals (${n})`,
@@ -3531,7 +3535,7 @@ const EN: Dictionnaire = {
   clubsToutesLesVilles: 'All cities',
   clubsChercherLieu: 'Search a club, festival, city, style…',
   clubsSectionTitre: 'Best clubs by city',
-  clubsSectionSousTitre: (nVilles) => `Curated clubs across the ${nVilles} cities featured in the SONAA calendar, with direct links to upcoming nights.`,
+  clubsSectionSousTitre: (nVilles) => `Curated clubs across ${nVilles} electronic music capitals, with direct links to upcoming nights on SONAA.`,
   festivalsSectionTitre: 'Best festivals by country (1,000+ capacity)',
   festivalsSectionSousTitre: (nPays) => `Major electronic music festivals with a capacity of 1,000+ attendees across ${nPays} countries.`,
   lieuTypeClub: 'Club',
@@ -3544,7 +3548,9 @@ const EN: Dictionnaire = {
   lieuAucunResultat: 'No club or festival matches these filters.',
   lieuReinitialiserFiltres: 'Reset filters',
   lieuNClubs: (n) => `${n} club${n === 1 ? '' : 's'}`,
-  lieuNFestivals: (n) => `${n} festival${n === 1 ? '' : 's'}`
+  lieuNFestivals: (n) => `${n} festival${n === 1 ? '' : 's'}`,
+  lieuChercherDansZone: 'Search this area',
+  lieuZoneVisibleActive: 'Visible area · Show all'
 };
 
 export const t: Dictionnaire = langue === 'en' ? EN : FR;

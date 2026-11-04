@@ -1738,7 +1738,8 @@ ecrire({
     `<h2>Les meilleurs clubs par ville</h2>` +
     VILLES_CLUBS.map((v) => {
       const cs = clubsPre.filter((c) => c.villeSlug === v.slug);
-      return `<h3>${h(v.nom.fr)} (<a href="/soirees/${v.slug}/">Calendrier des soirées</a>)</h3><ul>${cs
+      const lienCal = v.aCalendrier ? ` (<a href="/soirees/${v.slug}/">Calendrier des soirées</a>)` : '';
+      return `<h3>${h(v.nom.fr)}${lienCal}</h3><ul>${cs
         .map((c) => `<li><strong>${h(c.nom)}</strong> (${c.capacite.toLocaleString('fr-CA')} places${c.annee ? `, depuis ${c.annee}` : ''}) : ${h(c.description.fr)}</li>`)
         .join('')}</ul>`;
     }).join('') +
@@ -1778,7 +1779,8 @@ ecrire({
     VILLES_CLUBS.map((v) => {
       const cs = clubsPre.filter((c) => c.villeSlug === v.slug);
       const pays = paysNomMap.get(v.paysCode);
-      return `<h3>${h(v.nom.en)}${pays ? `, ${h(pays.nom.en)}` : ''} (<a href="${cheminEn(`/soirees/${v.slug}/`)}">Upcoming nights</a>)</h3><ul>${cs
+      const lienCal = v.aCalendrier ? ` (<a href="${cheminEn(`/soirees/${v.slug}/`)}">Upcoming nights</a>)` : '';
+      return `<h3>${h(v.nom.en)}${pays ? `, ${h(pays.nom.en)}` : ''}${lienCal}</h3><ul>${cs
         .map((c) => `<li><strong>${h(c.nom)}</strong> (${c.capacite.toLocaleString('en-CA')} capacity${c.annee ? `, since ${c.annee}` : ''}): ${h(c.description.en)}</li>`)
         .join('')}</ul>`;
     }).join('') +
