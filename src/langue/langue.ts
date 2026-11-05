@@ -1261,6 +1261,12 @@ interface Dictionnaire {
   readonly lieuClassementFrequentation: string;
   readonly lieuVoirToutClassement: (nAutres: number, debut: number, fin: number) => string;
   readonly lieuReduireTop5: string;
+  readonly menuHamburgerOuvrir: string;
+  readonly menuHamburgerFermer: string;
+  readonly menuSectionEspace: string;
+  readonly menuSectionLegal: string;
+  readonly menuCarte3d: string;
+  readonly menuRechercher: string;
 }
 
 const FR: Dictionnaire = {
@@ -2383,43 +2389,49 @@ const FR: Dictionnaire = {
     `${minutesWav} minutes de WAV ou ${minutesFlac} minutes de FLAC. Au-delà, ` +
     `c'est le total de stockage gratuit qui se remplit : exportez en FLAC, ` +
     `sans perte et deux fois plus léger.`,
-  lesClubsEtFestivals: 'Atlas · Clubs & Festivals',
+  lesClubsEtFestivals: 'Atlas · Clubs, salles & festivals',
   clubsMenu: 'Atlas',
-  clubsEtFestivalsTitre: 'Atlas des clubs et festivals',
+  clubsEtFestivalsTitre: 'Atlas des clubs, salles et festivals',
   clubsEtFestivalsChapeau: (nClubs, nVilles, nFestivals, nPays) =>
-    `${nClubs} clubs de référence dans ${nVilles} villes et ${nFestivals} grands festivals électroniques (1 000+ personnes) classés dans ${nPays} pays, réunis sur une carte interactive mondiale.`,
+    `${nClubs} clubs et salles de référence dans ${nVilles} villes et ${nFestivals} grands festivals électroniques (1 000+ personnes) classés dans ${nPays} pays, réunis sur une carte interactive mondiale.`,
   clubsTout: 'Tout',
-  clubsSeulement: (n) => `Clubs (${n})`,
+  clubsSeulement: (n) => `Clubs & salles (${n})`,
   festivalsSeulement: (n) => `Festivals (${n})`,
-  clubsCarteMondiale: 'Carte interactive mondiale · Clubs & Festivals',
+  clubsCarteMondiale: 'Carte interactive mondiale · Clubs, salles & festivals',
   clubsCarteVueMonde: 'Monde',
   clubsZoneAtlantique: 'Am. du Nord & Europe',
   clubsZoneAmerique: 'Amérique du Nord',
   clubsZoneEurope: 'Europe',
   clubsTousLesPays: 'Tous les pays',
   clubsToutesLesVilles: 'Toutes les villes',
-  clubsChercherLieu: 'Chercher un club, un festival, une ville, un style…',
-  clubsSectionTitre: 'Les meilleurs clubs par ville',
-  clubsSectionSousTitre: (nVilles) => `Sélection dans ${nVilles} grandes villes électroniques, avec accès direct aux soirées à venir du calendrier de SONAA.`,
+  clubsChercherLieu: 'Chercher un club, une salle, un festival, une ville, un style…',
+  clubsSectionTitre: 'Les meilleurs clubs et salles par ville',
+  clubsSectionSousTitre: (nVilles) => `Sélection de clubs et salles dans ${nVilles} grandes villes électroniques, avec accès direct aux soirées à venir du calendrier de SONAA.`,
   festivalsSectionTitre: 'Les meilleurs festivals par pays (1 000+ personnes)',
   festivalsSectionSousTitre: (nPays) => `Grands rassemblements de musique électronique de plus de 1 000 personnes dans ${nPays} pays.`,
-  lieuTypeClub: 'Club',
+  lieuTypeClub: 'Club · Salle',
   lieuTypeFestival: 'Festival',
   lieuCapacite: (n) => `${n.toLocaleString('fr-CA')} places`,
   lieuDepuis: (annee) => `Depuis ${annee}`,
   lieuSiteOfficiel: 'Site officiel',
   lieuVoirCalendrierVille: (ville) => `Soirées à ${ville}`,
   lieuCentrerCarte: 'Voir sur la carte',
-  lieuAucunResultat: 'Aucun club ni festival ne correspond à ces filtres.',
+  lieuAucunResultat: 'Aucun club, salle ni festival ne correspond à ces filtres.',
   lieuReinitialiserFiltres: 'Réinitialiser les filtres',
-  lieuNClubs: (n) => `${n} club${n > 1 ? 's' : ''}`,
+  lieuNClubs: (n) => `${n} club${n > 1 ? 's' : ''} & salle${n > 1 ? 's' : ''}`,
   lieuNFestivals: (n) => `${n} festival${n > 1 ? 's' : ''}`,
   lieuChercherDansZone: 'Chercher dans cette zone',
   lieuZoneVisibleActive: 'Zone visible · Tout afficher',
   lieuClassementFrequentation: 'Classés par fréquentation',
   lieuVoirToutClassement: (nAutres, debut, fin) =>
     `Afficher les ${nAutres} autres lieux classés (#${String(debut).padStart(2, '0')} à #${String(fin).padStart(2, '0')})`,
-  lieuReduireTop5: 'Réduire au top 5'
+  lieuReduireTop5: 'Réduire au top 5',
+  menuHamburgerOuvrir: 'Ouvrir le menu',
+  menuHamburgerFermer: 'Fermer le menu',
+  menuSectionEspace: 'Espace & outils',
+  menuSectionLegal: 'Informations légales',
+  menuCarte3d: 'Carte 3D',
+  menuRechercher: 'Rechercher'
 };
 
 const EN: Dictionnaire = {
@@ -3533,43 +3545,49 @@ const EN: Dictionnaire = {
     `File is ${taille}, and the limit is ${max}. That covers about ` +
     `${minutesWav} minutes of WAV or ${minutesFlac} minutes of FLAC. Beyond that ` +
     `it is the free storage total that fills up: export to FLAC, lossless and half the size.`,
-  lesClubsEtFestivals: 'Atlas · Clubs & Festivals',
+  lesClubsEtFestivals: 'Atlas · Clubs, Venues & Festivals',
   clubsMenu: 'Atlas',
-  clubsEtFestivalsTitre: 'Atlas of clubs and festivals',
+  clubsEtFestivalsTitre: 'Atlas of clubs, venues and festivals',
   clubsEtFestivalsChapeau: (nClubs, nVilles, nFestivals, nPays) =>
-    `${nClubs} essential electronic music clubs across ${nVilles} cities and ${nFestivals} major electronic festivals (1,000+ capacity) across ${nPays} countries, mapped on an interactive world view.`,
+    `${nClubs} essential electronic music clubs and concert venues across ${nVilles} cities and ${nFestivals} major electronic festivals (1,000+ capacity) across ${nPays} countries, mapped on an interactive world view.`,
   clubsTout: 'All',
-  clubsSeulement: (n) => `Clubs (${n})`,
+  clubsSeulement: (n) => `Clubs & venues (${n})`,
   festivalsSeulement: (n) => `Festivals (${n})`,
-  clubsCarteMondiale: 'Interactive world map · Clubs & Festivals',
+  clubsCarteMondiale: 'Interactive world map · Clubs, Venues & Festivals',
   clubsCarteVueMonde: 'World',
   clubsZoneAtlantique: 'N. America & Europe',
   clubsZoneAmerique: 'North America',
   clubsZoneEurope: 'Europe',
   clubsTousLesPays: 'All countries',
   clubsToutesLesVilles: 'All cities',
-  clubsChercherLieu: 'Search a club, festival, city, style…',
-  clubsSectionTitre: 'Best clubs by city',
-  clubsSectionSousTitre: (nVilles) => `Curated clubs across ${nVilles} electronic music capitals, with direct links to upcoming nights on SONAA.`,
+  clubsChercherLieu: 'Search a club, venue, festival, city, style…',
+  clubsSectionTitre: 'Best clubs and venues by city',
+  clubsSectionSousTitre: (nVilles) => `Curated clubs and concert halls across ${nVilles} electronic music capitals, with direct links to upcoming nights on SONAA.`,
   festivalsSectionTitre: 'Best festivals by country (1,000+ capacity)',
   festivalsSectionSousTitre: (nPays) => `Major electronic music festivals with a capacity of 1,000+ attendees across ${nPays} countries.`,
-  lieuTypeClub: 'Club',
+  lieuTypeClub: 'Club · Venue',
   lieuTypeFestival: 'Festival',
   lieuCapacite: (n) => `${n.toLocaleString('en-CA')} capacity`,
   lieuDepuis: (annee) => `Since ${annee}`,
   lieuSiteOfficiel: 'Official website',
   lieuVoirCalendrierVille: (ville) => `Nights in ${ville}`,
   lieuCentrerCarte: 'Show on map',
-  lieuAucunResultat: 'No club or festival matches these filters.',
+  lieuAucunResultat: 'No club, venue or festival matches these filters.',
   lieuReinitialiserFiltres: 'Reset filters',
-  lieuNClubs: (n) => `${n} club${n === 1 ? '' : 's'}`,
+  lieuNClubs: (n) => `${n} club${n === 1 ? '' : 's'} & venue${n === 1 ? '' : 's'}`,
   lieuNFestivals: (n) => `${n} festival${n === 1 ? '' : 's'}`,
   lieuChercherDansZone: 'Search this area',
   lieuZoneVisibleActive: 'Visible area · Show all',
   lieuClassementFrequentation: 'Ranked by attendance',
   lieuVoirToutClassement: (nAutres, debut, fin) =>
     `Show ${nAutres} more ranked venues (#${String(debut).padStart(2, '0')} to #${String(fin).padStart(2, '0')})`,
-  lieuReduireTop5: 'Collapse to top 5'
+  lieuReduireTop5: 'Collapse to top 5',
+  menuHamburgerOuvrir: 'Open menu',
+  menuHamburgerFermer: 'Close menu',
+  menuSectionEspace: 'Account & tools',
+  menuSectionLegal: 'Legal information',
+  menuCarte3d: '3D Map',
+  menuRechercher: 'Search'
 };
 
 export const t: Dictionnaire = langue === 'en' ? EN : FR;

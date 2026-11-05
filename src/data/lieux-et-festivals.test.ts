@@ -2,24 +2,28 @@ import { describe, expect, it } from 'vitest';
 import { LIEUX_ET_FESTIVALS, PAYS_LIEUX, VILLES_CLUBS } from './lieux-et-festivals.ts';
 
 describe('Atlas des clubs et festivals', () => {
-  it('couvre au moins 60 villes électroniques (dont les 23 villes du calendrier SONAA), 18 salles à Montréal, 15 à Barcelone, 12 à Montpellier et 255 clubs au total', () => {
+  it('couvre au moins 60 villes électroniques (dont les 23 villes du calendrier SONAA), 38 salles et clubs à Montréal, 30 à Barcelone, 22 à Montpellier et 295 au total', () => {
     const clubs = LIEUX_ET_FESTIVALS.filter((l) => l.type === 'club');
     expect(VILLES_CLUBS.length).toBeGreaterThanOrEqual(60);
     expect(VILLES_CLUBS.filter((v) => v.aCalendrier).length).toBe(23);
-    expect(clubs.length).toBeGreaterThanOrEqual(255);
+    expect(clubs.length).toBeGreaterThanOrEqual(295);
 
     const montpellierClubs = clubs.filter((c) => c.villeSlug === 'montpellier-fr');
-    expect(montpellierClubs.length).toBeGreaterThanOrEqual(12);
+    expect(montpellierClubs.length).toBeGreaterThanOrEqual(22);
     expect(montpellierClubs.map((c) => c.nom)).toContain('PZ City Club');
     expect(montpellierClubs.map((c) => c.nom)).toContain('Halle Tropisme (Club Tropisme)');
+    expect(montpellierClubs.map((c) => c.nom)).toContain('Zénith Sud Montpellier');
+    expect(montpellierClubs.map((c) => c.nom)).toContain('Secret Place');
 
     const barceloneClubs = clubs.filter((c) => c.villeSlug === 'barcelone-es');
-    expect(barceloneClubs.length).toBeGreaterThanOrEqual(15);
+    expect(barceloneClubs.length).toBeGreaterThanOrEqual(30);
     expect(barceloneClubs.map((c) => c.nom)).toContain('LAUT');
     expect(barceloneClubs.map((c) => c.nom)).toContain('La Terrrazza');
+    expect(barceloneClubs.map((c) => c.nom)).toContain('Sant Jordi Club');
+    expect(barceloneClubs.map((c) => c.nom)).toContain('Paral·lel 62');
 
     const montreal = clubs.filter((c) => c.villeSlug === 'montreal-ca');
-    expect(montreal.length).toBeGreaterThanOrEqual(18);
+    expect(montreal.length).toBeGreaterThanOrEqual(38);
     const nomsMtl = montreal.map((c) => c.nom);
     expect(nomsMtl).toContain('Stereo');
     expect(nomsMtl).toContain('StereoBar');
@@ -29,6 +33,9 @@ describe('Atlas des clubs et festivals', () => {
     expect(nomsMtl).toContain('Le Red Room');
     expect(nomsMtl).toContain('New City Gas');
     expect(nomsMtl).toContain('MTELUS');
+    expect(nomsMtl).toContain('Théâtre Beanfield');
+    expect(nomsMtl).toContain('L’Olympia de Montréal');
+    expect(nomsMtl).toContain('La Sala Rossa');
 
     for (const v of VILLES_CLUBS) {
       const deLaVille = clubs.filter((c) => c.villeSlug === v.slug);

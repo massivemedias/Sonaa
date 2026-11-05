@@ -40,6 +40,7 @@ import { monPseudonyme, suisJeModerateur } from '../lib/proposals.ts';
 import { monArtiste, urlAvatar } from '../lib/sets.ts';
 import { t } from '../langue/langue.ts';
 import { ChoixLangue } from './ChoixLangue.tsx';
+import { MenuHamburger } from './MenuHamburger.tsx';
 import { FaIcon } from './FaIcon.tsx';
 import {
   faArrowRightFromBracket,
@@ -599,6 +600,7 @@ export function AuthButton() {
           <span className="authb-entrer-mot">{t.seConnecter}</span>
         </button>
       )}
+      <MenuHamburger />
 
       {ouvert && (!connecte || mode === 'nouveau') && (
         <div className="authb-voile" onClick={() => setOuvert(false)}>

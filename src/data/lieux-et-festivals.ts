@@ -12133,4 +12133,1174 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
       "en": "Barcelona edition of the Montreal Sunday open-air ritual held in the shaded gardens of Montjuïc, a summer institution for daytime house and techno."
     }
   },
+  {
+    "id": "centre-bell-montreal",
+    "nom": "Centre Bell",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Centre-ville)",
+      "en": "Montreal (Downtown)"
+    },
+    "latitude": 45.4961,
+    "longitude": -73.5693,
+    "capacite": 21000,
+    "annee": 1996,
+    "styles": [
+      "Progressive House",
+      "Techno",
+      "Melodic Techno",
+      "Electro"
+    ],
+    "site": "https://www.centrebell.ca",
+    "description": {
+      "fr": "Le plus grand amphithéâtre couvert de Montréal, hôte des tournées mondiales d’aréna des géants de la musique électronique (Justice, Fred again.., Rüfüs Du Sol, Deadmau5, Kraftwerk).",
+      "en": "Montreal’s largest indoor arena, hosting world-touring electronic music headliners such as Justice, Fred again.., Rüfüs Du Sol, Deadmau5 and Kraftwerk."
+    }
+  },
+  {
+    "id": "grand-quai-montreal",
+    "nom": "Grand Quai du Port de Montréal",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Vieux-Port)",
+      "en": "Montreal (Old Port)"
+    },
+    "latitude": 45.5021,
+    "longitude": -73.5518,
+    "capacite": 5000,
+    "annee": 2018,
+    "styles": [
+      "House",
+      "Techno",
+      "Tech House",
+      "Progressive House"
+    ],
+    "site": "https://www.port-montreal.com/fr/grand-quai",
+    "description": {
+      "fr": "Esplanade maritime et terminal contemporain sur le fleuve Saint-Laurent au Vieux-Port, scène des grands événements électroniques en plein air, d’Igloofest et des productions estivales.",
+      "en": "Waterfront esplanade and contemporary terminal on the Saint Lawrence River in the Old Port, staging major open-air electronic events, Igloofest and summer showcases."
+    }
+  },
+  {
+    "id": "esplanade-tranquille-montreal",
+    "nom": "Esplanade Tranquille (Quartier des spectacles)",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Quartier des spectacles)",
+      "en": "Montreal (Quartier des spectacles)"
+    },
+    "latitude": 45.5089,
+    "longitude": -73.5653,
+    "capacite": 5000,
+    "annee": 2021,
+    "styles": [
+      "Techno",
+      "IDM",
+      "Ambient",
+      "Electro"
+    ],
+    "site": "https://www.quartierdesspectacles.com",
+    "description": {
+      "fr": "Grande place publique au coeur du Quartier des spectacles accueillant chaque été la scène extérieure gratuite de MUTEK Montréal et de nombreuses performances audiovisuelles.",
+      "en": "Central public plaza in the Quartier des spectacles hosting MUTEK Montreal’s free outdoor stage and major audiovisual performances every summer."
+    }
+  },
+  {
+    "id": "auditorium-verdun-montreal",
+    "nom": "Auditorium de Verdun",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Verdun)",
+      "en": "Montreal (Verdun)"
+    },
+    "latitude": 45.4596,
+    "longitude": -73.5644,
+    "capacite": 4100,
+    "annee": 1939,
+    "styles": [
+      "Bass",
+      "Techno",
+      "Electro",
+      "Drum & Bass"
+    ],
+    "site": "https://auditoriumdeverdun.com",
+    "description": {
+      "fr": "Aréna historique des berges de Verdun entièrement rénové, accueillant de grandes productions électroniques, concerts bass music et tournées internationales.",
+      "en": "Historic riverside arena in Verdun, fully renovated and hosting large-scale electronic productions, bass music concerts and international tours."
+    }
+  },
+  {
+    "id": "olympia-montreal",
+    "nom": "L’Olympia de Montréal",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Village)",
+      "en": "Montreal (Village)"
+    },
+    "latitude": 45.5162,
+    "longitude": -73.5579,
+    "capacite": 2400,
+    "annee": 1925,
+    "styles": [
+      "Electro",
+      "House",
+      "Techno",
+      "Indie Dance"
+    ],
+    "site": "https://www.olympiamontreal.com",
+    "description": {
+      "fr": "Ancien palais du cinéma de 1925 sur la rue Sainte-Catherine Est, grande salle de spectacle privilégiée pour les tournées live électroniques (Caribou, Polo & Pan, Disclosure, Moderat).",
+      "en": "Former 1925 movie palace on Sainte-Catherine Street East, a premier concert hall for major live electronic tours including Caribou, Polo & Pan, Disclosure and Moderat."
+    }
+  },
+  {
+    "id": "theatre-beanfield-montreal",
+    "nom": "Théâtre Beanfield",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Petite-Bourgogne)",
+      "en": "Montreal (Little Burgundy)"
+    },
+    "latitude": 45.4822,
+    "longitude": -73.5754,
+    "capacite": 1500,
+    "annee": 1912,
+    "styles": [
+      "Electronica",
+      "IDM",
+      "UK Garage",
+      "Deep House"
+    ],
+    "site": "https://www.theatrebeanfield.ca",
+    "description": {
+      "fr": "Ancien Théâtre Corona de la Petite-Bourgogne, salle à l’acoustique chaleureuse où se produisent les lives électroniques majeurs (Overmono, Floating Points, Bonobo, Four Tet).",
+      "en": "Formerly the Corona Theatre in Little Burgundy, an acoustically warm 1912 hall hosting leading live electronic acts such as Overmono, Floating Points, Bonobo and Four Tet."
+    }
+  },
+  {
+    "id": "yoko-luna-montreal",
+    "nom": "Yoko Luna",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Centre-ville)",
+      "en": "Montreal (Downtown)"
+    },
+    "latitude": 45.4968,
+    "longitude": -73.5741,
+    "capacite": 800,
+    "annee": 2022,
+    "styles": [
+      "House",
+      "Tech House",
+      "Afro House",
+      "Deep House"
+    ],
+    "site": "https://www.yokoluna.com",
+    "description": {
+      "fr": "Grand club et salle nocturne de la rue de la Montagne au centre-ville, accueillant DJ internationaux house, afro house et tech house dans un décor scénographié.",
+      "en": "Large nightlife venue on De la Montagne Street in downtown Montreal, hosting international house, afro house and tech house DJs."
+    }
+  },
+  {
+    "id": "studio-td-montreal",
+    "nom": "Le Studio TD",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Quartier des spectacles)",
+      "en": "Montreal (Quartier des spectacles)"
+    },
+    "latitude": 45.5059,
+    "longitude": -73.5681,
+    "capacite": 650,
+    "annee": 2011,
+    "styles": [
+      "Electronica",
+      "Synthwave",
+      "Techno",
+      "Bass"
+    ],
+    "site": "https://www.lestudiotd.com",
+    "description": {
+      "fr": "Salle de concert moderne sur la rue Sainte-Catherine Ouest (ancien Astral), étape régulière de MUTEK et des tournées synthwave, electronica, drum & bass et techno.",
+      "en": "Modern concert hall on Sainte-Catherine Street West (formerly L’Astral), a regular stage for MUTEK and international synthwave, electronica and bass music tours."
+    }
+  },
+  {
+    "id": "la-voute-montreal",
+    "nom": "La Voûte",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Vieux-Montréal)",
+      "en": "Montreal (Old Montreal)"
+    },
+    "latitude": 45.5024,
+    "longitude": -73.5592,
+    "capacite": 600,
+    "annee": 2017,
+    "styles": [
+      "Afro House",
+      "Melodic Techno",
+      "Deep House",
+      "House"
+    ],
+    "site": "https://lavoutemontreal.com",
+    "description": {
+      "fr": "Installé dans l’ancienne salle des coffres de la Banque Royale (1928) rue Saint-Jacques au Vieux-Montréal, ce club souterrain mise sur l’afro house, la melodic techno et la deep house.",
+      "en": "Set inside the historic 1928 Royal Bank vault on Saint-Jacques Street in Old Montreal, this subterranean club focuses on afro house, melodic techno and deep house."
+    }
+  },
+  {
+    "id": "soubois-montreal",
+    "nom": "Soubois",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Centre-ville)",
+      "en": "Montreal (Downtown)"
+    },
+    "latitude": 45.5008,
+    "longitude": -73.5751,
+    "capacite": 450,
+    "annee": 2015,
+    "styles": [
+      "Deep House",
+      "Afro House",
+      "Tech House",
+      "House"
+    ],
+    "site": "https://soubois.com",
+    "description": {
+      "fr": "Club souterrain du boulevard de Maisonneuve Ouest reconnu pour ses nuits deep house, afro house et tech house prolongées jusqu’à 3 heures du matin.",
+      "en": "Subterranean club on De Maisonneuve Boulevard West known for its late-night deep house, afro house and tech house sessions."
+    }
+  },
+  {
+    "id": "bain-mathieu-montreal",
+    "nom": "Bain Mathieu",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Hochelaga-Maisonneuve)",
+      "en": "Montreal (Hochelaga-Maisonneuve)"
+    },
+    "latitude": 45.5376,
+    "longitude": -73.5491,
+    "capacite": 400,
+    "annee": 1931,
+    "styles": [
+      "Techno",
+      "Hard Techno",
+      "Rave",
+      "Bass"
+    ],
+    "site": "https://bainmathieu.ca",
+    "description": {
+      "fr": "Ancienne piscine municipale Art déco de 1931 rue Ontario Est dont le bassin vidé accueille raves techno, soirées immersives et collectifs underground montréalais.",
+      "en": "Former 1931 Art Deco municipal bathhouse on Ontario Street East whose drained pool hosts techno raves, immersive nights and Montreal underground collectives."
+    }
+  },
+  {
+    "id": "sala-rossa-montreal",
+    "nom": "La Sala Rossa",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Mile End)",
+      "en": "Montreal (Mile End)"
+    },
+    "latitude": 45.5221,
+    "longitude": -73.5912,
+    "capacite": 250,
+    "annee": 2001,
+    "styles": [
+      "IDM",
+      "Ambient",
+      "Experimental",
+      "Electro"
+    ],
+    "site": "https://casadelpopolo.com",
+    "description": {
+      "fr": "Salle historique du Mile End boulevard Saint-Laurent, lieu phare du festival Suoni Per Il Popolo, de MUTEK et des musiques électroniques expérimentales et indépendantes.",
+      "en": "Historic Mile End concert hall on Saint-Laurent Boulevard, a flagship venue for Suoni Per Il Popolo, MUTEK and independent experimental electronic music."
+    }
+  },
+  {
+    "id": "le-ministere-montreal",
+    "nom": "Le Ministère",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Plateau Mont-Royal)",
+      "en": "Montreal (Plateau Mont-Royal)"
+    },
+    "latitude": 45.5202,
+    "longitude": -73.5861,
+    "capacite": 250,
+    "annee": 2016,
+    "styles": [
+      "Synthwave",
+      "Electro",
+      "Indie Dance",
+      "IDM"
+    ],
+    "site": "https://leministere.ca",
+    "description": {
+      "fr": "Salle de spectacle et laboratoire sonore boulevard Saint-Laurent sur le Plateau, prisée pour son acoustique soignée lors des lives synth-pop, electro et modulaires.",
+      "en": "Live venue and sonic laboratory on Saint-Laurent Boulevard in the Plateau, prized for its tuned acoustics during synth-pop, electro and modular live sets."
+    }
+  },
+  {
+    "id": "cabaret-berlin-montreal",
+    "nom": "Cabaret Berlin",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Village)",
+      "en": "Montreal (Village)"
+    },
+    "latitude": 45.5186,
+    "longitude": -73.5554,
+    "capacite": 200,
+    "annee": 1991,
+    "styles": [
+      "EBM",
+      "Industrial Techno",
+      "Dark Disco",
+      "Techno"
+    ],
+    "site": "https://www.instagram.com/cabaretberlinmtl",
+    "description": {
+      "fr": "Repaire nocturne alternatif de la rue Sainte-Catherine Est dans le Village, dédié aux nuits EBM, techno industrielle, darkwave, post-punk et collectifs raves locaux.",
+      "en": "Alternative underground venue on Sainte-Catherine Street East in the Village, dedicated to EBM, industrial techno, darkwave and local rave collectives."
+    }
+  },
+  {
+    "id": "la-sotterenea-montreal",
+    "nom": "La Sotterenea",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Mile End)",
+      "en": "Montreal (Mile End)"
+    },
+    "latitude": 45.522,
+    "longitude": -73.5913,
+    "capacite": 150,
+    "annee": 2017,
+    "styles": [
+      "Electro",
+      "Bass",
+      "Breaks",
+      "Leftfield"
+    ],
+    "site": "https://casadelpopolo.com",
+    "description": {
+      "fr": "Salle souterraine logée sous La Sala Rossa boulevard Saint-Laurent, dédiée aux formats club underground, lives électroniques obliques et nuits bass music du Mile End.",
+      "en": "Subterranean room beneath La Sala Rossa on Saint-Laurent Boulevard, hosting underground club nights, leftfield live electronics and bass music in the Mile End."
+    }
+  },
+  {
+    "id": "casa-del-popolo-montreal",
+    "nom": "Casa del Popolo",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Mile End)",
+      "en": "Montreal (Mile End)"
+    },
+    "latitude": 45.5223,
+    "longitude": -73.5915,
+    "capacite": 100,
+    "annee": 2000,
+    "styles": [
+      "Ambient",
+      "Experimental",
+      "IDM",
+      "Leftfield"
+    ],
+    "site": "https://casadelpopolo.com",
+    "description": {
+      "fr": "Institution indépendante du Mile End fondée en 2000 boulevard Saint-Laurent, laboratoire intime des scènes ambient, synthétiseurs modulaires, drone et électronique expérimentale.",
+      "en": "Independent Mile End institution founded in 2000 on Saint-Laurent Boulevard, an intimate laboratory for ambient, modular synth, drone and experimental electronics."
+    }
+  },
+  {
+    "id": "place-des-arts-montreal",
+    "nom": "Place des Arts (Théâtre Maisonneuve & Salle Wilfrid-Pelletier)",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Quartier des spectacles)",
+      "en": "Montreal (Quartier des spectacles)"
+    },
+    "latitude": 45.5081,
+    "longitude": -73.5668,
+    "capacite": 2982,
+    "annee": 1963,
+    "styles": [
+      "Ambient",
+      "IDM",
+      "Electronica",
+      "Experimental"
+    ],
+    "site": "https://placedesarts.com",
+    "description": {
+      "fr": "Grand complexe culturel du Quartier des spectacles accueillant les soirées de gala A/VISIONS de MUTEK au Théâtre Maisonneuve ainsi que les grands concerts électroniques et néo-classiques.",
+      "en": "Landmark performing arts complex in the Quartier des spectacles hosting MUTEK’s flagship A/VISIONS audiovisual galas at Théâtre Maisonneuve and major electronic concerts."
+    }
+  },
+  {
+    "id": "monument-national-montreal",
+    "nom": "Monument-National (Salle Ludger-Duvernay & Hydro-Québec)",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Quartier des spectacles)",
+      "en": "Montreal (Quartier des spectacles)"
+    },
+    "latitude": 45.5091,
+    "longitude": -73.5631,
+    "capacite": 800,
+    "annee": 1893,
+    "styles": [
+      "IDM",
+      "Ambient",
+      "Experimental",
+      "Techno"
+    ],
+    "site": "https://monumentnational.com",
+    "description": {
+      "fr": "Plus ancien théâtre en activité au Québec sur le boulevard Saint-Laurent, quartier général historique du festival MUTEK Montréal pour ses séries Nocturne et Métropolis.",
+      "en": "Quebec’s oldest operating theater on Saint-Laurent Boulevard, serving as a historic headquarters for MUTEK Montreal’s Nocturne and audiovisual series."
+    }
+  },
+  {
+    "id": "usine-c-montreal",
+    "nom": "Usine C",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Centre-Sud)",
+      "en": "Montreal (Centre-Sud)"
+    },
+    "latitude": 45.5228,
+    "longitude": -73.5562,
+    "capacite": 450,
+    "annee": 1995,
+    "styles": [
+      "Experimental",
+      "Ambient",
+      "IDM",
+      "Electro"
+    ],
+    "site": "https://usine-c.com",
+    "description": {
+      "fr": "Ancienne usine de confiserie Raymond reconvertie en centre de création pluridisciplinaire dans le Centre-Sud, hôte de créations audiovisuelles, d’Akousma et de concerts électroniques.",
+      "en": "Former Raymond jam factory transformed into a multidisciplinary creation center in Centre-Sud, hosting audiovisual premieres, Akousma electroacoustic nights and live electronics."
+    }
+  },
+  {
+    "id": "escogriffe-montreal",
+    "nom": "L’Escogriffe Bar Spectacle",
+    "type": "club",
+    "paysCode": "CA",
+    "villeSlug": "montreal-ca",
+    "ville": {
+      "fr": "Montréal (Plateau Mont-Royal)",
+      "en": "Montreal (Plateau Mont-Royal)"
+    },
+    "latitude": 45.5249,
+    "longitude": -73.5831,
+    "capacite": 200,
+    "annee": 1999,
+    "styles": [
+      "EBM",
+      "Synthwave",
+      "Electro",
+      "Dark Disco"
+    ],
+    "site": "https://lescogriffe.com",
+    "description": {
+      "fr": "Salle indépendante de la rue Saint-Denis sur le Plateau Mont-Royal, repaire des concerts synth-wave, EBM, electro-punk et des collectifs nocturnes montréalais.",
+      "en": "Independent live room on Saint-Denis Street in the Plateau Mont-Royal, a staple for synthwave, EBM, electro-punk and late-night Montreal collectives."
+    }
+  },
+  {
+    "id": "zenith-sud-montpellier",
+    "nom": "Zénith Sud Montpellier",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier (Domaine de Grammont)",
+      "en": "Montpellier (Grammont)"
+    },
+    "latitude": 43.6138,
+    "longitude": 3.9298,
+    "capacite": 6300,
+    "annee": 1986,
+    "styles": [
+      "Techno",
+      "Electro",
+      "Trance",
+      "Hard Techno"
+    ],
+    "site": "https://www.zenithsud-montpellier.com",
+    "description": {
+      "fr": "Grande salle de spectacle du Domaine de Grammont à Montpellier, accueillant les tournées électroniques majeures et les grandes nuits techno en format aréna.",
+      "en": "Major concert hall at Domaine de Grammont in Montpellier, hosting headline electronic tours and large-scale arena techno nights."
+    }
+  },
+  {
+    "id": "le-corum-montpellier",
+    "nom": "Le Corum (Opéra Berlioz)",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier (Esplanade Charles-de-Gaulle)",
+      "en": "Montpellier (City Center)"
+    },
+    "latitude": 43.6141,
+    "longitude": 3.8824,
+    "capacite": 2000,
+    "annee": 1990,
+    "styles": [
+      "Electronica",
+      "Ambient",
+      "IDM",
+      "Melodic Techno"
+    ],
+    "site": "https://www.opera-orchestre-montpellier.fr",
+    "description": {
+      "fr": "Grand auditorium dessiné par Claude Vasconi au bout de l’Esplanade, cadre de créations électroniques symphoniques et de concerts audiovisuels (Jeff Mills, Rone, Thylacine, Max Cooper).",
+      "en": "Landmark auditorium designed by Claude Vasconi at the end of the Esplanade, staging symphonic electronic works and audiovisual concerts (Jeff Mills, Rone, Thylacine, Max Cooper)."
+    }
+  },
+  {
+    "id": "domaine-do-montpellier",
+    "nom": "Domaine d’O (Amphithéâtre d’O)",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier (Malbosc)",
+      "en": "Montpellier (Domaine d’O)"
+    },
+    "latitude": 43.6336,
+    "longitude": 3.8392,
+    "capacite": 1800,
+    "annee": 1979,
+    "styles": [
+      "Electronica",
+      "House",
+      "Techno",
+      "Experimental"
+    ],
+    "site": "https://www.domainedo.fr",
+    "description": {
+      "fr": "Domaine culturel entouré de pins au nord-ouest de Montpellier, dont l’amphithéâtre en plein air et le théâtre Jean-Claude Carrière accueillent lives électroniques et nuits d’été.",
+      "en": "Pine-shaded cultural estate in northwestern Montpellier whose open-air amphitheater and Jean-Claude Carrière theater host live electronic acts and summer nights."
+    }
+  },
+  {
+    "id": "effet-mer-montpellier",
+    "nom": "Effet Mer",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier (La Grande-Motte)",
+      "en": "Montpellier (La Grande-Motte)"
+    },
+    "latitude": 43.5562,
+    "longitude": 4.0518,
+    "capacite": 1000,
+    "annee": 2008,
+    "styles": [
+      "House",
+      "Tech House",
+      "Deep House",
+      "Afro House"
+    ],
+    "site": "https://effetmer.com",
+    "description": {
+      "fr": "Scène open-air et club de plage du Grand Travers sur le littoral montpelliérain, rendez-vous estival des programmations house, afro house et tech house face à la Méditerranée.",
+      "en": "Open-air stage and beach club at Grand Travers on the Montpellier coast, a summer fixture for house, afro house and tech house facing the Mediterranean."
+    }
+  },
+  {
+    "id": "paillote-paradise-montpellier",
+    "nom": "Paillote Paradise",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier (Lattes)",
+      "en": "Montpellier (Lattes)"
+    },
+    "latitude": 43.5684,
+    "longitude": 3.9142,
+    "capacite": 800,
+    "annee": 2019,
+    "styles": [
+      "Tech House",
+      "Techno",
+      "House",
+      "Minimal"
+    ],
+    "site": "https://www.instagram.com/pailloteparadise",
+    "description": {
+      "fr": "Espace open-air aux portes sud de Montpellier à Lattes, accueillant les formats United Open Air et des journées techno, tech house et house du printemps à l’automne.",
+      "en": "Open-air venue on the southern edge of Montpellier in Lattes, hosting United Open Air events and daytime techno, tech house and house sessions from spring to autumn."
+    }
+  },
+  {
+    "id": "le-jam-montpellier",
+    "nom": "Le Jam",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier (Prés d’Arènes)",
+      "en": "Montpellier (Prés d’Arènes)"
+    },
+    "latitude": 43.5912,
+    "longitude": 3.8819,
+    "capacite": 350,
+    "annee": 1981,
+    "styles": [
+      "Dub",
+      "Broken Beat",
+      "Electronica",
+      "Downtempo"
+    ],
+    "site": "https://www.lejam.com",
+    "description": {
+      "fr": "Salle de concert indépendante et école de musique fondée en 1981 à Montpellier, ouverte aux croisements entre jazz électronique, dub, broken beat et musiques actuelles.",
+      "en": "Independent concert hall and music school founded in 1981 in Montpellier, championing crossovers between electronic jazz, dub, broken beat and contemporary sounds."
+    }
+  },
+  {
+    "id": "secret-place-montpellier",
+    "nom": "Secret Place",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier (Saint-Jean-de-Védas)",
+      "en": "Montpellier (Saint-Jean-de-Védas)"
+    },
+    "latitude": 43.5664,
+    "longitude": 3.8358,
+    "capacite": 300,
+    "annee": 2006,
+    "styles": [
+      "Industrial Techno",
+      "Hardcore",
+      "EBM",
+      "Darkwave"
+    ],
+    "site": "https://www.toutafond.com",
+    "description": {
+      "fr": "Salle associative autogérée de la zone industrielle de la Lauze à Saint-Jean-de-Védas, bastion montpelliérain des cultures underground, darkwave, EBM, indus et hardcore.",
+      "en": "Self-run associative venue in the La Lauze industrial zone of Saint-Jean-de-Védas, Montpellier’s stronghold for underground darkwave, EBM, industrial and hardcore scenes."
+    }
+  },
+  {
+    "id": "jungle-pub-montpellier",
+    "nom": "Jungle Pub",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier (Avenue de Palavas)",
+      "en": "Montpellier (Avenue de Palavas)"
+    },
+    "latitude": 43.5918,
+    "longitude": 3.8936,
+    "capacite": 300,
+    "annee": 2003,
+    "styles": [
+      "Drum & Bass",
+      "Dubstep",
+      "Trance",
+      "Techno"
+    ],
+    "site": "https://www.junglepub.org",
+    "description": {
+      "fr": "Club et salle nocturne de l’avenue de Palavas à Montpellier, repaire historique des collectifs drum & bass, dubstep, psytrance et techno locaux.",
+      "en": "Late-night venue and club on Avenue de Palavas in Montpellier, a longtime hub for local drum & bass, dubstep, psytrance and techno collectives."
+    }
+  },
+  {
+    "id": "maison-des-choeurs-montpellier",
+    "nom": "Maison des Chœurs",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier (Place Albert 1er)",
+      "en": "Montpellier (Place Albert 1er)"
+    },
+    "latitude": 43.6152,
+    "longitude": 3.8738,
+    "capacite": 250,
+    "annee": 1663,
+    "styles": [
+      "Ambient",
+      "Experimental",
+      "IDM",
+      "Drone"
+    ],
+    "site": "https://www.montpellier.fr",
+    "description": {
+      "fr": "Ancienne chapelle du XVIIe siècle place Albert 1er, dont la réverbération naturelle sert d’écrin aux concerts ambient, électroacoustiques et expérimentaux à Montpellier.",
+      "en": "Seventeenth-century former chapel on Place Albert 1er whose natural reverberation frames ambient, electroacoustic and experimental concerts in Montpellier."
+    }
+  },
+  {
+    "id": "qg-club-montpellier",
+    "nom": "Le Quartier Général (QG)",
+    "type": "club",
+    "paysCode": "FR",
+    "villeSlug": "montpellier-fr",
+    "ville": {
+      "fr": "Montpellier (Écusson)",
+      "en": "Montpellier (Old Town)"
+    },
+    "latitude": 43.6068,
+    "longitude": 3.8804,
+    "capacite": 250,
+    "annee": 2015,
+    "styles": [
+      "House",
+      "Tech House",
+      "Disco",
+      "Electro"
+    ],
+    "site": "https://www.instagram.com/le_qg_club_montpellier",
+    "description": {
+      "fr": "Club voûté du centre historique de Montpellier à deux pas de la place de la Comédie, animé par les collectifs house, tech house et disco de la ville.",
+      "en": "Vaulted club in Montpellier’s historic center steps from Place de la Comédie, hosting local house, tech house and disco collectives."
+    }
+  },
+  {
+    "id": "palau-sant-jordi-barcelone",
+    "nom": "Palau Sant Jordi",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Montjuïc)",
+      "en": "Barcelona (Montjuïc)"
+    },
+    "latitude": 41.3634,
+    "longitude": 2.1526,
+    "capacite": 17000,
+    "annee": 1990,
+    "styles": [
+      "Techno",
+      "Progressive House",
+      "Electro",
+      "Electronica"
+    ],
+    "site": "https://palausantjordi.barcelona",
+    "description": {
+      "fr": "Aréna olympique conçu par Arata Isozaki sur la colline de Montjuïc, théâtre des plus grandes productions électroniques en salle d’Espagne.",
+      "en": "Olympic arena designed by Arata Isozaki on Montjuïc hill, staging Spain’s largest indoor electronic music productions."
+    }
+  },
+  {
+    "id": "sant-jordi-club-barcelone",
+    "nom": "Sant Jordi Club",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Montjuïc)",
+      "en": "Barcelona (Montjuïc)"
+    },
+    "latitude": 41.3626,
+    "longitude": 2.1538,
+    "capacite": 4600,
+    "annee": 1990,
+    "styles": [
+      "Electronica",
+      "Techno",
+      "House",
+      "UK Garage"
+    ],
+    "site": "https://palausantjordi.barcelona/es/sant-jordi-club",
+    "description": {
+      "fr": "Grande salle de concert attenante au Palau Sant Jordi sur Montjuïc, étape privilégiée des tournées live électroniques internationales (Bicep, The Chemical Brothers, Peggy Gou, Jamie xx).",
+      "en": "Concert hall adjoining Palau Sant Jordi on Montjuïc, a premier stop for major international electronic tours including Bicep, The Chemical Brothers, Peggy Gou and Jamie xx."
+    }
+  },
+  {
+    "id": "opium-barcelone",
+    "nom": "Opium Barcelona",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Barceloneta)",
+      "en": "Barcelona (Barceloneta)"
+    },
+    "latitude": 41.3854,
+    "longitude": 2.1966,
+    "capacite": 2500,
+    "annee": 2007,
+    "styles": [
+      "House",
+      "Tech House",
+      "Progressive House",
+      "Melodic Techno"
+    ],
+    "site": "https://opiumbarcelona.com",
+    "description": {
+      "fr": "Le plus vaste club du front de mer de la Barceloneta, hôte du cycle estival WEDJS et des grandes têtes d’affiche house, progressive et tech house internationales.",
+      "en": "The largest beachfront club on the Barceloneta boardwalk, home to the summer WEDJS series and international house, progressive and tech house headliners."
+    }
+  },
+  {
+    "id": "lauditori-barcelone",
+    "nom": "L’Auditori",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Glòries)",
+      "en": "Barcelona (Glòries)"
+    },
+    "latitude": 41.3982,
+    "longitude": 2.1856,
+    "capacite": 2200,
+    "annee": 1999,
+    "styles": [
+      "Ambient",
+      "IDM",
+      "Experimental",
+      "Electronica"
+    ],
+    "site": "https://www.auditori.cat",
+    "description": {
+      "fr": "Complexe musical contemporain dessiné par Rafael Moneo, partenaire historique de Sónar et de MIRA pour les créations électroniques immersives, ambient et électroacoustiques.",
+      "en": "Contemporary music complex designed by Rafael Moneo, a key partner of Sónar and MIRA for immersive electronic, ambient and electroacoustic premieres."
+    }
+  },
+  {
+    "id": "pacha-barcelone",
+    "nom": "Pacha Barcelona",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Barceloneta)",
+      "en": "Barcelona (Barceloneta)"
+    },
+    "latitude": 41.3859,
+    "longitude": 2.1972,
+    "capacite": 1800,
+    "annee": 2014,
+    "styles": [
+      "Techno",
+      "Tech House",
+      "House",
+      "Melodic Techno"
+    ],
+    "site": "https://pachabarcelona.es",
+    "description": {
+      "fr": "Grand club face à la plage de la Barceloneta, reconnu pour sa résidence dominicale Sight dédiée à la techno et à la tech house ainsi que ses showcases OffWeek.",
+      "en": "Beachfront superclub on the Barceloneta promenade, renowned for its Sunday Sight residency dedicated to techno and tech house as well as OffWeek showcases."
+    }
+  },
+  {
+    "id": "parallel-62-barcelone",
+    "nom": "Paral·lel 62",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (El Paral·lel)",
+      "en": "Barcelona (El Paral·lel)"
+    },
+    "latitude": 41.3751,
+    "longitude": 2.1684,
+    "capacite": 1450,
+    "annee": 2022,
+    "styles": [
+      "Electronica",
+      "IDM",
+      "Techno",
+      "Ambient"
+    ],
+    "site": "https://parallel62.cat",
+    "description": {
+      "fr": "Grande salle coopérative de l’avenue del Paral·lel (ancienne Sala Barts), lieu central de MUTEK Barcelona et des concerts électroniques et audiovisuels en salle.",
+      "en": "Cooperative concert hall on Avinguda del Paral·lel (formerly Sala Barts), a central stage for MUTEK Barcelona and live audiovisual electronic performances."
+    }
+  },
+  {
+    "id": "shoko-barcelone",
+    "nom": "Shôko Barcelona",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Barceloneta)",
+      "en": "Barcelona (Barceloneta)"
+    },
+    "latitude": 41.3856,
+    "longitude": 2.1969,
+    "capacite": 1200,
+    "annee": 2004,
+    "styles": [
+      "Tech House",
+      "House",
+      "Afro House",
+      "Deep House"
+    ],
+    "site": "https://shoko.biz",
+    "description": {
+      "fr": "Club du front de mer de la Barceloneta ouvert sept nuits par semaine, accueillant labels house, tech house et afro house lors de la semaine Sónar et tout l’été.",
+      "en": "Barceloneta beachfront club open seven nights a week, hosting house, tech house and afro house label showcases during Sónar Week and throughout the summer."
+    }
+  },
+  {
+    "id": "fabra-i-coats-barcelone",
+    "nom": "Fabra i Coats (Fàbrica de Creació)",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Sant Andreu)",
+      "en": "Barcelona (Sant Andreu)"
+    },
+    "latitude": 41.4328,
+    "longitude": 2.1904,
+    "capacite": 1000,
+    "annee": 2008,
+    "styles": [
+      "IDM",
+      "Ambient",
+      "Experimental",
+      "Electro"
+    ],
+    "site": "https://www.barcelona.cat/fabraicoats",
+    "description": {
+      "fr": "Ancienne filature textile du XIXe siècle à Sant Andreu reconvertie en fabrique de création municipale, berceau des festivals MIRA et Ombra et de l’art sonore barcelonais.",
+      "en": "Nineteenth-century textile mill in Sant Andreu converted into a municipal creation factory, home to the MIRA and Ombra festivals and Barcelona’s sound art scene."
+    }
+  },
+  {
+    "id": "la-2-apolo-barcelone",
+    "nom": "La (2) de Apolo",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Poble-sec)",
+      "en": "Barcelona (Poble-sec)"
+    },
+    "latitude": 41.3742,
+    "longitude": 2.1697,
+    "capacite": 900,
+    "annee": 2008,
+    "styles": [
+      "Electro",
+      "EBM",
+      "Leftfield",
+      "Techno"
+    ],
+    "site": "https://www.sala-apolo.com",
+    "description": {
+      "fr": "Deuxième salle du complexe Apolo au rez-de-chaussée, dédiée aux lives électroniques, à la synth-pop, à l’EBM et au second dancefloor plus brut des nuits Nitsa.",
+      "en": "Ground-floor second room of the Apolo complex, dedicated to live electronic acts, synth-pop, EBM and the rawer second dancefloor of Nitsa nights."
+    }
+  },
+  {
+    "id": "cccb-barcelone",
+    "nom": "CCCB (Centre de Cultura Contemporània)",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (El Raval)",
+      "en": "Barcelona (El Raval)"
+    },
+    "latitude": 41.3837,
+    "longitude": 2.1668,
+    "capacite": 800,
+    "annee": 1994,
+    "styles": [
+      "IDM",
+      "Experimental",
+      "Ambient",
+      "Electronica"
+    ],
+    "site": "https://www.cccb.org",
+    "description": {
+      "fr": "Centre culturel du Raval qui fut le berceau historique de Sónar de Día pendant près de vingt ans et demeure un foyer majeur des arts numériques et des musiques électroniques à Barcelone.",
+      "en": "Cultural center in El Raval that served as the historic home of Sónar by Day for nearly twenty years and remains a hub for digital arts and electronic music in Barcelona."
+    }
+  },
+  {
+    "id": "sala-wolf-barcelone",
+    "nom": "Sala Wolf",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Poblenou)",
+      "en": "Barcelona (Poblenou)"
+    },
+    "latitude": 41.3961,
+    "longitude": 2.1912,
+    "capacite": 800,
+    "annee": 2019,
+    "styles": [
+      "Techno",
+      "Electro",
+      "Indie Dance",
+      "House"
+    ],
+    "site": "https://salawolf.com",
+    "description": {
+      "fr": "Salle de concerts et club de la rue dels Almogàvers au coeur industriel de Poblenou, prisée pour ses lives synthétiques en soirée et ses nuits club jusqu’au matin.",
+      "en": "Live venue and club on Carrer dels Almogàvers in industrial Poblenou, favored for evening synth live shows and all-night club sessions."
+    }
+  },
+  {
+    "id": "jamboree-barcelone",
+    "nom": "Jamboree Dance Club",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Plaça Reial)",
+      "en": "Barcelona (Plaça Reial)"
+    },
+    "latitude": 41.3797,
+    "longitude": 2.1755,
+    "capacite": 400,
+    "annee": 1960,
+    "styles": [
+      "Broken Beat",
+      "House",
+      "Disco",
+      "UK Garage"
+    ],
+    "site": "https://jamboreebarcelona.com",
+    "description": {
+      "fr": "Cave voûtée légendaire de la Plaça Reial fondée en 1960, où les concerts en soirée laissent place aux nuits électroniques, broken beat, funk, disco et UK garage.",
+      "en": "Legendary vaulted cellar on Plaça Reial founded in 1960, where early concerts give way to late-night broken beat, house, disco and UK garage sessions."
+    }
+  },
+  {
+    "id": "sidecar-barcelone",
+    "nom": "Sidecar",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Plaça Reial)",
+      "en": "Barcelona (Plaça Reial)"
+    },
+    "latitude": 41.3802,
+    "longitude": 2.1749,
+    "capacite": 300,
+    "annee": 1982,
+    "styles": [
+      "Indie Dance",
+      "Dark Disco",
+      "Electro",
+      "Synthwave"
+    ],
+    "site": "https://www.sidecar.es",
+    "description": {
+      "fr": "Sous-sol mythique de la Plaça Reial depuis 1982, tremplin historique des scènes indie-electronic, dark disco, post-punk et electro barcelonaises.",
+      "en": "Iconic basement venue under Plaça Reial since 1982, a historic springboard for Barcelona’s indie-electronic, dark disco, post-punk and electro scenes."
+    }
+  },
+  {
+    "id": "red58-barcelone",
+    "nom": "RED58",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Eixample)",
+      "en": "Barcelona (Eixample)"
+    },
+    "latitude": 41.3888,
+    "longitude": 2.1621,
+    "capacite": 250,
+    "annee": 2017,
+    "styles": [
+      "Minimal",
+      "House",
+      "Electro",
+      "Tech House"
+    ],
+    "site": "https://red58.org",
+    "description": {
+      "fr": "Club intimiste du quartier de l’Eixample fondé en 2017 avec politique sans photo, dédié aux sélections vinyles minimal, micro-house et electro sur système audiophile.",
+      "en": "Intimate Eixample club founded in 2017 with a no-photo policy, dedicated to vinyl-driven minimal, micro-house and electro on a tuned audiophile sound system."
+    }
+  },
+  {
+    "id": "sala-vol-barcelone",
+    "nom": "Sala Vol",
+    "type": "club",
+    "paysCode": "ES",
+    "villeSlug": "barcelone-es",
+    "ville": {
+      "fr": "Barcelone (Poblenou)",
+      "en": "Barcelona (Poblenou)"
+    },
+    "latitude": 41.3988,
+    "longitude": 2.1934,
+    "capacite": 150,
+    "annee": 2018,
+    "styles": [
+      "Experimental",
+      "Ambient",
+      "IDM",
+      "Leftfield"
+    ],
+    "site": "https://salavol.com",
+    "description": {
+      "fr": "Salle coopérative à jauge réduite du quartier de Poblenou, repaire des concerts électroniques expérimentaux, synthétiseurs modulaires et labels indépendants catalans.",
+      "en": "Small-capacity cooperative room in Poblenou, a haven for experimental electronic concerts, modular synth performances and independent Catalan labels."
+    }
+  },
 ];

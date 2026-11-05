@@ -31,6 +31,7 @@ import { FaIcon } from './FaIcon.tsx';
 import { t } from '../langue/langue.ts';
 import { MARCHAND_ACTIF } from '../config.ts';
 import { courantDuSite } from './SiteNav.tsx';
+import { EVENEMENT_BASCULER_MENU } from './MenuHamburger.tsx';
 import './menu-plus.css';
 
 export function MenuPlus() {
@@ -92,7 +93,13 @@ export function MenuPlus() {
         className="menu-plus-bouton"
         aria-expanded={ouvert}
         aria-label={ouvert ? t.fermerLeMenu : t.plusDeLiens}
-        onClick={() => setOuvert((v) => !v)}
+        onClick={() => {
+          if (typeof document !== 'undefined' && document.getElementById('sonaa-burger-top')) {
+            window.dispatchEvent(new Event(EVENEMENT_BASCULER_MENU));
+            return;
+          }
+          setOuvert((v) => !v);
+        }}
       >
         <span className="barre-bas-pastille">
           <FaIcon icon={faEllipsis} className="barre-bas-icone" />
