@@ -1,9 +1,9 @@
 /* LA MISE EN PAGE DES CLUBS, DES FESTIVALS ET DE LA CARTE MONDIALE. */
 
 .page-lieux .lx-main {
-  max-width: 1180px;
+  max-width: 1380px;
   margin: 0 auto;
-  padding: 40px 24px 96px;
+  padding: 36px 28px 96px;
 }
 
 .lx-entete {
@@ -237,7 +237,7 @@
 .lx-carte-enveloppe {
   position: relative;
   width: 100%;
-  height: 500px;
+  height: 680px;
 }
 
 .lx-carte-canevas {

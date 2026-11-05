@@ -27,6 +27,14 @@ import {
   VILLES_CLUBS,
   type LieuOuFestival,
 } from '../data/lieux-et-festivals.ts';
+import { ouJeSuis, type OuJeSuis } from '../lib/agenda.ts';
+import {
+  noterVilleDeSession,
+  toutesLesVilles,
+  villeDattache,
+  villeDeSession,
+  villeDuLien,
+} from '../lib/villes.ts';
 import { langue, t } from '../langue/langue.ts';
 import './credits.css';
 import './lieux.css';
@@ -61,11 +69,181 @@ const normaliser = (s: string): string =>
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase();
 
+const trouverSlugVilleClub = (slug: string | null | undefined): string => {
+  if (!slug) return '';
+  return VILLES_CLUBS.some((v) => v.slug === slug) ? slug : '';
+};
+
+const BANLIEUES_VERS_VILLE: Record<string, string> = {
+  laval: 'montreal-ca',
+  longueuil: 'montreal-ca',
+  brossard: 'montreal-ca',
+  terrebonne: 'montreal-ca',
+  repentigny: 'montreal-ca',
+  blainville: 'montreal-ca',
+  boucherville: 'montreal-ca',
+  dorval: 'montreal-ca',
+  verdun: 'montreal-ca',
+  lachine: 'montreal-ca',
+  lasalle: 'montreal-ca',
+  levis: 'quebec-ca',
+  gatineau: 'ottawa-ca',
+  mississauga: 'toronto-ca',
+  brampton: 'toronto-ca',
+  markham: 'toronto-ca',
+  oakville: 'toronto-ca',
+  burnaby: 'vancouver-ca',
+  surrey: 'vancouver-ca',
+  richmond: 'vancouver-ca',
+  lattes: 'montpellier-fr',
+  perols: 'montpellier-fr',
+  'castelnau-le-lez': 'montpellier-fr',
+  'saint-jean-de-vedas': 'montpellier-fr',
+  'la grande-motte': 'montpellier-fr',
+  sete: 'montpellier-fr',
+  nimes: 'montpellier-fr',
+  badalona: 'barcelone-es',
+  'hospitalet de llobregat': 'barcelone-es',
+  "l'hospitalet de llobregat": 'barcelone-es',
+  viladecans: 'barcelone-es',
+  'el prat de llobregat': 'barcelone-es',
+  montreuil: 'paris-fr',
+  'saint-denis': 'paris-fr',
+  pantin: 'paris-fr',
+  'boulogne-billancourt': 'paris-fr',
+  nanterre: 'paris-fr',
+};
+
+const FUSEAU_VERS_VILLE: Record<string, string> = {
+  'America/Montreal': 'montreal-ca',
+  'America/Toronto': langue === 'fr' ? 'montreal-ca' : 'toronto-ca',
+  'America/Vancouver': 'vancouver-ca',
+  'America/Edmonton': 'calgary-ca',
+  'America/New_York': 'new-york-us',
+  'America/Detroit': 'detroit-us',
+  'America/Chicago': 'chicago-us',
+  'America/Denver': 'denver-us',
+  'America/Los_Angeles': 'los-angeles-us',
+  'America/Mexico_City': 'mexico-mx',
+  'America/Cancun': 'tulum-mx',
+  'America/Bogota': 'bogota-co',
+  'America/Sao_Paulo': 'sao-paulo-br',
+  'America/Argentina/Buenos_Aires': 'buenos-aires-ar',
+  'America/Santiago': 'santiago-cl',
+  'Europe/Paris': 'paris-fr',
+  'Europe/Madrid': 'barcelone-es',
+  'Europe/Berlin': 'berlin-de',
+  'Europe/London': 'londres-uk',
+  'Europe/Amsterdam': 'amsterdam-nl',
+  'Europe/Brussels': 'bruxelles-be',
+  'Europe/Lisbon': 'lisbonne-pt',
+  'Europe/Rome': 'milan-it',
+  'Europe/Zurich': 'zurich-ch',
+  'Europe/Vienna': 'vienne-at',
+  'Europe/Prague': 'prague-cz',
+  'Europe/Warsaw': 'varsovie-pl',
+  'Europe/Budapest': 'budapest-hu',
+  'Europe/Bucharest': 'bucarest-ro',
+  'Europe/Belgrade': 'belgrade-rs',
+  'Europe/Athens': 'athenes-gr',
+  'Europe/Stockholm': 'stockholm-se',
+  'Europe/Copenhagen': 'copenhague-dk',
+  'Europe/Dublin': 'dublin-ie',
+  'Europe/Istanbul': 'istanbul-tr',
+  'Asia/Tokyo': 'tokyo-jp',
+  'Asia/Seoul': 'seoul-kr',
+  'Asia/Bangkok': 'bangkok-th',
+  'Asia/Singapore': 'singapour-sg',
+  'Asia/Taipei': 'taipei-tw',
+  'Australia/Sydney': 'sydney-au',
+  'Australia/Melbourne': 'melbourne-au',
+};
+
+async function ouJeSuisAvecSecours(): Promise<OuJeSuis> {
+  const premier = await ouJeSuis();
+  if (premier.ville || premier.pays || premier.zone) return premier;
+  try {
+    const r = await fetch('https://get.geojs.io/v1/ip/geo.json');
+    if (!r.ok) return premier;
+    const j = (await r.json()) as { city?: string; country_code?: string };
+    return {
+      ville: typeof j.city === 'string' && j.city ? j.city : null,
+      pays: typeof j.country_code === 'string' && j.country_code ? j.country_code : null,
+      zone: null,
+    };
+  } catch {
+    return premier;
+  }
+}
+
+const devinerSlugDepuisIp = (
+  ou: OuJeSuis,
+  villesActives: readonly { slug: string; ra_area_id: number | null }[]
+): string => {
+  if (ou.zone?.id != null) {
+    const parZone = villesActives.find((v) => v.ra_area_id === ou.zone?.id);
+    const slugZone = trouverSlugVilleClub(parZone?.slug);
+    if (slugZone) return slugZone;
+  }
+  const candidats = [ou.ville, ou.zone?.nom].filter((x): x is string => Boolean(x));
+  for (const brut of candidats) {
+    const n = normaliser(brut.trim());
+    if (!n) continue;
+    const banlieue = BANLIEUES_VERS_VILLE[n];
+    if (banlieue) return banlieue;
+    const exacte = VILLES_CLUBS.find(
+      (v) =>
+        normaliser(v.nom.fr) === n ||
+        normaliser(v.nom.en) === n ||
+        v.slug === n ||
+        v.slug.startsWith(`${n}-`)
+    );
+    if (exacte) return exacte.slug;
+    const partielle = VILLES_CLUBS.find(
+      (v) => normaliser(v.nom.fr).includes(n) || normaliser(v.nom.en).includes(n)
+    );
+    if (partielle) return partielle.slug;
+  }
+  const fuseau = (() => {
+    try {
+      return Intl.DateTimeFormat().resolvedOptions().timeZone;
+    } catch {
+      return '';
+    }
+  })();
+  if (ou.pays) {
+    const code = ou.pays.toUpperCase();
+    const parFuseau = fuseau ? FUSEAU_VERS_VILLE[fuseau] : undefined;
+    if (parFuseau && VILLES_CLUBS.find((v) => v.slug === parFuseau)?.paysCode === code) {
+      return parFuseau;
+    }
+    const duPays = VILLES_CLUBS.find((v) => v.paysCode === code);
+    if (duPays) return duPays.slug;
+  }
+  if (fuseau && FUSEAU_VERS_VILLE[fuseau]) {
+    return FUSEAU_VERS_VILLE[fuseau];
+  }
+  return '';
+};
+
+const ouvrirPremierClubDeLaVille = (slug: string, precedent: Set<string>): Set<string> => {
+  if (!slug) return precedent;
+  const premier = LIEUX_ET_FESTIVALS.filter((l) => l.type === 'club' && l.villeSlug === slug).sort(
+    (a, b) => b.capacite - a.capacite
+  )[0];
+  if (!premier) return precedent;
+  const suivant = new Set(precedent);
+  suivant.add(premier.id);
+  return suivant;
+};
+
 export function LieuxPage() {
   const [filtreType, setFiltreType] = useState<FiltreType>('tout');
   const [zoneCarte, setZoneCarte] = useState<ZoneCarte>('atlantique');
   const [paysActif, setPaysActif] = useState<string>('');
-  const [villeActive, setVilleActive] = useState<string>('');
+  const [villeActive, setVilleActive] = useState<string>(
+    () => trouverSlugVilleClub(villeDuLien()) || trouverSlugVilleClub(villeDeSession())
+  );
   const [requete, setRequete] = useState<string>('');
   const [selection, setSelection] = useState<LieuOuFestival | null>(null);
   const [cadreVisible, setCadreVisible] = useState<{
@@ -74,18 +252,20 @@ export function LieuxPage() {
     est: number;
     nord: number;
   } | null>(null);
-  const [lieuxOuverts, setLieuxOuverts] = useState<Set<string>>(
-    () =>
-      new Set([
-        'new-city-gas-montreal',
-        'stereo-montreal',
-        'razzmatazz-barcelone',
-        'dieze-warehouse-montpellier',
-        'veld-toronto',
-        'sonar-barcelona',
-      ])
-  );
+  const [lieuxOuverts, setLieuxOuverts] = useState<Set<string>>(() => {
+    const base = new Set([
+      'new-city-gas-montreal',
+      'stereo-montreal',
+      'razzmatazz-barcelone',
+      'dieze-warehouse-montpellier',
+      'veld-toronto',
+      'sonar-barcelona',
+    ]);
+    const initSlug = trouverSlugVilleClub(villeDuLien()) || trouverSlugVilleClub(villeDeSession());
+    return ouvrirPremierClubDeLaVille(initSlug, base);
+  });
   const [groupesDeplies, setGroupesDeplies] = useState<Set<string>>(() => new Set());
+  const interactionUtilisateurRef = useRef<boolean>(false);
 
   const basculerLieu = (id: string): void => {
     setLieuxOuverts((prev) => {
@@ -217,9 +397,15 @@ export function LieuxPage() {
       carte.once('moveend', () => {
         mouvementProgrammatiqueRef.current = false;
       });
-      carte.fitBounds(CADRES_ZONES.atlantique, { padding: 28, duration: 0 });
-      carte.on('moveend', () => {
-        if (mouvementProgrammatiqueRef.current || !carte) return;
+      const vInit = VILLES_CLUBS.find((x) => x.slug === villeActive);
+      if (vInit) {
+        carte.jumpTo({ center: [vInit.longitude, vInit.latitude], zoom: 11.5 });
+      } else {
+        carte.fitBounds(CADRES_ZONES.atlantique, { padding: 28, duration: 0 });
+      }
+      carte.on('moveend', (e: { originalEvent?: unknown }) => {
+        if (mouvementProgrammatiqueRef.current || !carte || !e.originalEvent) return;
+        interactionUtilisateurRef.current = true;
         const b = carte.getBounds();
         setPaysActif('');
         setVilleActive('');
@@ -246,6 +432,42 @@ export function LieuxPage() {
         carte.remove();
       }
       carteRef.current = null;
+    };
+  }, []);
+
+  /* Ville par defaut : si l'utilisateur n'a pas deja choisi une ville en lien ou en session,
+     on verifie la ville d'attache de son profil puis on la devine par son adresse IP. */
+  useEffect(() => {
+    if (villeActive) return;
+    let annule = false;
+
+    void Promise.all([toutesLesVilles(), villeDattache(), ouJeSuisAvecSecours()]).then(
+      ([villesActives, idProfil, ou]) => {
+        if (annule || interactionUtilisateurRef.current) return;
+        const slugProfil = idProfil
+          ? trouverSlugVilleClub(villesActives.find((v) => v.id === idProfil)?.slug)
+          : '';
+        const slugResolu = slugProfil || devinerSlugDepuisIp(ou, villesActives);
+        if (!slugResolu) return;
+
+        setVilleActive(slugResolu);
+        setLieuxOuverts((prev) => ouvrirPremierClubDeLaVille(slugResolu, prev));
+        const v = VILLES_CLUBS.find((x) => x.slug === slugResolu);
+        if (v) {
+          lancerMouvementCarte((c) => {
+            c.flyTo({
+              center: [v.longitude, v.latitude],
+              zoom: 11.5,
+              duration: 700,
+              essential: true,
+            });
+          });
+        }
+      }
+    );
+
+    return () => {
+      annule = true;
     };
   }, []);
 
@@ -299,6 +521,7 @@ export function LieuxPage() {
   };
 
   const chercherDansZone = (): void => {
+    interactionUtilisateurRef.current = true;
     const carte = carteRef.current;
     if (!carte) return;
     const b = carte.getBounds();
@@ -314,6 +537,7 @@ export function LieuxPage() {
   };
 
   const choisirZone = (zone: ZoneCarte): void => {
+    interactionUtilisateurRef.current = true;
     setZoneCarte(zone);
     setSelection(null);
     setPaysActif('');
@@ -325,6 +549,7 @@ export function LieuxPage() {
   };
 
   const choisirPays = (code: string): void => {
+    interactionUtilisateurRef.current = true;
     setPaysActif(code);
     setVilleActive('');
     setCadreVisible(null);
@@ -359,10 +584,18 @@ export function LieuxPage() {
   };
 
   const choisirVille = (slugVille: string): void => {
+    interactionUtilisateurRef.current = true;
+    noterVilleDeSession(slugVille || null);
     setVilleActive(slugVille);
     setCadreVisible(null);
     setSelection(null);
-    if (!slugVille) return;
+    if (!slugVille) {
+      lancerMouvementCarte((carte) => {
+        carte.fitBounds(CADRES_ZONES[zoneCarte], { padding: 32, maxZoom: 6.5, duration: 650 });
+      });
+      return;
+    }
+    setLieuxOuverts((prev) => ouvrirPremierClubDeLaVille(slugVille, prev));
     const v = VILLES_CLUBS.find((x) => x.slug === slugVille);
     if (v) {
       lancerMouvementCarte((carte) => {
@@ -372,6 +605,7 @@ export function LieuxPage() {
   };
 
   const centrerSurLieu = (lieu: LieuOuFestival): void => {
+    interactionUtilisateurRef.current = true;
     setSelection(lieu);
     blocCarteRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     lancerMouvementCarte((carte) => {
@@ -383,6 +617,7 @@ export function LieuxPage() {
   };
 
   const reinitialiser = (): void => {
+    interactionUtilisateurRef.current = true;
     setFiltreType('tout');
     setZoneCarte('atlantique');
     setPaysActif('');
