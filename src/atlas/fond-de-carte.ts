@@ -78,9 +78,9 @@ export function creerCarte(conteneur: HTMLElement, centre: Point | null, zoom = 
     center: centre ? lngLat(centre) : [0, 20],
     zoom: centre ? zoom : 1.5,
     maxZoom: 18,
-    /* L'attribution vient des tuiles elles-memes : OpenFreeMap,
-       OpenMapTiles, OpenStreetMap. */
-    attributionControl: { compact: true },
+    /* L'attribution (OpenFreeMap, OpenMapTiles, OpenStreetMap) figure dans la
+       page Mentions du pied de page pour ne pas charger la carte d'un bandeau blanc. */
+    attributionControl: false,
     cooperativeGestures: true,
     dragRotate: false,
     pitchWithRotate: false,

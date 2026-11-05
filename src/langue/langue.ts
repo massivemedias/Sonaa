@@ -1155,6 +1155,8 @@ interface Dictionnaire {
   /** Les liens d'affiliation et la phrase qu'Amazon exige aussi sur le site. */
   readonly mentionsAffiliation: string;
   readonly mentionsAffiliationCorps: string;
+  readonly mentionsCartographie: string;
+  readonly mentionsCartographieCorps: string;
   readonly juridiqueEnRedaction: string;
   readonly piedIndex: string;
   readonly piedPropositions: string;
@@ -2312,6 +2314,9 @@ const FR: Dictionnaire = {
   mentionsAffiliation: 'Liens d’affiliation',
   mentionsAffiliationCorps:
     'Les liens « Voir chez » des cours et des pages de marques mènent à des boutiques partenaires : Plugin Boutique, Reverb (par le réseau Awin) et Amazon.ca. Un achat fait par eux rapporte une petite commission à SONAA, sans frais pour l’acheteur. En tant que Partenaire Amazon, SONAA réalise un bénéfice sur les achats remplissant les conditions requises.',
+  mentionsCartographie: 'Cartographie',
+  mentionsCartographieCorps:
+    'Les cartes interactives de SONAA sont rendues avec MapLibre GL à partir des tuiles vectorielles d’OpenFreeMap (© OpenMapTiles). Les données géographiques proviennent d’OpenStreetMap (© les contributeurs d’OpenStreetMap, sous licence ODbL).',
   juridiqueEnRedaction: 'Texte juridique en rédaction, à recevoir de l’avocat.',
   piedIndex: 'Index des 219 genres',
   piedPropositions: 'Propositions du public',
@@ -3464,6 +3469,9 @@ const EN: Dictionnaire = {
   mentionsAffiliation: 'Affiliate links',
   mentionsAffiliationCorps:
     'The "See at" links in the courses and brand pages lead to partner stores: Plugin Boutique, Reverb (through the Awin network) and Amazon.ca. A purchase made through them earns SONAA a small commission, at no cost to the buyer. As an Amazon Associate, SONAA earns from qualifying purchases.',
+  mentionsCartographie: 'Cartography',
+  mentionsCartographieCorps:
+    'Interactive maps on SONAA are rendered with MapLibre GL using vector tiles from OpenFreeMap (© OpenMapTiles). Geographic data is provided by OpenStreetMap (© OpenStreetMap contributors, under the ODbL license).',
   juridiqueEnRedaction: 'Legal text being drafted, to come from the lawyer.',
   piedIndex: 'Index of all 219 genres',
   piedPropositions: 'Public proposals',

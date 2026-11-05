@@ -107,6 +107,7 @@ export function MentionsPage() {
         /* LA SEULE SECTION DEJA ECRITE : les liens d'affiliation (ADR-111), et
            la phrase que le contrat des Partenaires Amazon exige sur le site. */
         { titre: t.mentionsAffiliation, corps: t.mentionsAffiliationCorps },
+        { titre: t.mentionsCartographie, corps: t.mentionsCartographieCorps },
         t.mentionsPropriete,
       ]}
     />

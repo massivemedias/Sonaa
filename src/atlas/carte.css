@@ -123,36 +123,36 @@
 /* ═══ LES COMMANDES DE MAPLIBRE, DANS LA MATIERE DU SITE ═══
    Leurs icones sont dessinees en sombre pour un fond clair : on les
    retourne. */
-:is(.carte, .iti-fiche) .maplibregl-ctrl-group {
+:is(.carte, .iti-fiche, .lx-carte-enveloppe) .maplibregl-ctrl-group {
   overflow: hidden;
   border: 1px solid var(--filet);
   border-radius: 12px;
   background: var(--fond);
   box-shadow: none;
 }
-:is(.carte, .iti-fiche) .maplibregl-ctrl-group button + button {
+:is(.carte, .iti-fiche, .lx-carte-enveloppe) .maplibregl-ctrl-group button + button {
   border-top-color: var(--filet);
 }
-:is(.carte, .iti-fiche) .maplibregl-ctrl-group button:hover {
+:is(.carte, .iti-fiche, .lx-carte-enveloppe) .maplibregl-ctrl-group button:hover {
   background: var(--voile-05);
 }
-:is(.carte, .iti-fiche) .maplibregl-ctrl-icon,
-:is(.carte, .iti-fiche) .maplibregl-ctrl-attrib-button {
+:is(.carte, .iti-fiche, .lx-carte-enveloppe) .maplibregl-ctrl-icon,
+:is(.carte, .iti-fiche, .lx-carte-enveloppe) .maplibregl-ctrl-attrib-button {
   filter: invert(1);
 }
-:is(.carte, .iti-fiche) .maplibregl-ctrl-attrib {
+:is(.carte, .iti-fiche, .lx-carte-enveloppe) .maplibregl-ctrl-attrib {
   background: color-mix(in oklab, var(--fond) 82%, transparent);
   color: var(--ink-secondary);
   font-size: 0.66rem;
 }
-:is(.carte, .iti-fiche) .maplibregl-ctrl-attrib.maplibregl-compact {
+:is(.carte, .iti-fiche, .lx-carte-enveloppe) .maplibregl-ctrl-attrib.maplibregl-compact {
   background: var(--fond);
 }
-:is(.carte, .iti-fiche) .maplibregl-ctrl-attrib a {
+:is(.carte, .iti-fiche, .lx-carte-enveloppe) .maplibregl-ctrl-attrib a {
   border-bottom: 0;
   color: inherit;
 }
-:is(.carte, .iti-fiche) .maplibregl-cooperative-gesture-screen {
+:is(.carte, .iti-fiche, .lx-carte-enveloppe) .maplibregl-cooperative-gesture-screen {
   background: rgb(0 0 0 / 0.55);
   font-size: 0.95rem;
   font-weight: 600;

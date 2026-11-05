@@ -1146,6 +1146,11 @@ const LEGALES: readonly { chemin: string; hash: string; titre: string; descripti
         corps:
           'Les liens « Voir chez » des cours et des pages de marques mènent à des boutiques partenaires : Plugin Boutique, Reverb (par le réseau Awin) et Amazon.ca. Un achat fait par eux rapporte une petite commission à SONAA, sans frais pour l’acheteur. En tant que Partenaire Amazon, SONAA réalise un bénéfice sur les achats remplissant les conditions requises.',
       },
+      {
+        titre: 'Cartographie',
+        corps:
+          'Les cartes interactives de SONAA sont rendues avec MapLibre GL à partir des tuiles vectorielles d’OpenFreeMap (© OpenMapTiles). Les données géographiques proviennent d’OpenStreetMap (© les contributeurs d’OpenStreetMap, sous licence ODbL).',
+      },
       'Propriété intellectuelle',
     ],
   },
