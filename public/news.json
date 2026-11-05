@@ -1,6 +1,15 @@
 {
- "fait": "2026-11-04T19:52:09.849Z",
+ "fait": "2026-11-05T06:58:57.321Z",
  "articles": [
+  {
+   "source": "musictech",
+   "titre": "The best new music plugins this week, free and paid",
+   "lien": "https://musictech.com/news/gear/new-plugins-this-week/",
+   "date": "2026-11-05T00:00:52.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/10/Mixing-engineer-hero@2000x1500.jpg",
+   "resume": "Every week, we round up the most exciting new plugin releases — from virtual instruments and creative effects to mixing tools and workflow upgrades. There are tons of plugins released every week, both free and paid, so…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "5 of the Best Saturation Plugins: The Coloring and the Shaping",
@@ -242,15 +251,6 @@
    "date": "2026-11-01T17:00:53.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/hd64TKfFXfKzCvQiqAbTcW-1920-80.jpg",
    "resume": "Pioneering techno producer Juan Atkins has died aged 64, his management company has confirmed . Atkins was due to perform at Mexico City’s Yu Yu Club on the night of 31 October, but is reported to have been found…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "HEDD Audio launches TYPE 40 Main and modular XTD system for full-range monitoring",
-   "lien": "https://musictech.com/news/gear/hedd-audio-type-40/",
-   "date": "2026-10-30T16:12:29.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Hedd-Audio-1@2000x1500.jpg",
-   "resume": "HEDD Audio has launched the TYPE 40 Main, a compact sealed three-way active monitor and the TYPE 40 System, a modular platform that lets studios add bass output and directional control by stacking XTD modules beneath…",
    "integral": true
   },
   {
