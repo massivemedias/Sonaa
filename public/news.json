@@ -1,6 +1,168 @@
 {
- "fait": "2026-11-05T06:58:57.321Z",
+ "fait": "2026-11-05T20:04:53.922Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "3 of the Best DJ DAWs: Perfect and Polish Your DJ Mixes",
+   "lien": "https://www.gearnews.com/the-best-3-dj-daws/",
+   "date": "2026-11-05T18:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/03/DJ_DAWs_T.jpg",
+   "resume": "Craft the perfect studio mix with DJ DAWs, purpose-built digital audio workstations for DJs. After reading this, you’ll wonder how you ever got along without one. All About DJ DAWs The Best DJ DAWs Why Do You Need a DJ…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Ableton Live 13 Leak Shows Drum Synth and Step Sequencer",
+   "lien": "https://midnightrebels.com/ableton-live-13-leak/",
+   "date": "2026-11-05T17:43:05.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/image-1.webp?resize=1160%2C653&ssl=1",
+   "resume": "A small plus button in Ableton’s device rack opens a tiny browser. It is one of the features in a video of Ableton Live 13 that reached YouTube before Ableton announced anything. A forum thread was already discussing…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "JBL launches its latest line of studio monitors, the 3 Series MKIII – here’s what’s new",
+   "lien": "https://musictech.com/news/gear/jbl-3-series-mkiii/",
+   "date": "2026-11-05T17:14:29.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/JBL-1@2000x1500.jpg",
+   "resume": "JBL has launched its 3 Series MKIII line of powered studio monitors. The range includes three sizes ranging from 5″ to 8″ drivers: the 305P MkIII, 306P MkIII and 308P MkIII. The series is completed by the 310S MKIII…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Your Passage to Deeper, More Powerful Expression – Synth Journal",
+   "lien": "https://www.gearnews.com/passage-to-expression-synth-journal-synths/",
+   "date": "2026-11-05T17:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/passage.jpg",
+   "resume": "This week, we look at the new plugin expression tool, Passage, from Keysolutions Sounds, hardware controllers for vintage synths and a pedal that thinks it’s a synth! It’s another week in the world of synths and another…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "Splice’s new AI DAW feels like a cheat code for music production – but it left us with one big question",
+   "lien": "https://www.musicradar.com/music-tech/splices-new-ai-daw-feels-like-a-cheat-code-for-music-production-but-it-left-us-with-one-big-question",
+   "date": "2026-11-05T15:36:29.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/MKxdBMTbkaGpg7vnhZevTo-1920-80.png",
+   "resume": "Splice is best known for its three-million strong sample library, a vast collection of sounds that have made their way into thousands of popular songs by everyone from Sabrina Carpenter to Kendrick Lamar. In recent…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Universal Audio Capitol Studios: Room, Mic, and Gear Modeling from the Iconic Studio",
+   "lien": "https://www.gearnews.com/universal-audio-capitol-studios/",
+   "date": "2026-11-05T15:36:11.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/universal-audio-capitol-studios-ft.jpg",
+   "resume": "The Universal Audio Capitol Studios plugin lets you place your recordings in the fabled recording studio with stacks of customization options. The Capitol Studios plugin puts the sounds from your DAW into a legendary…",
+   "integral": true
+  },
+  {
+   "source": "attack",
+   "titre": "Getting Started With Emulators: How To Run Real Hardware Synths In Your DAW",
+   "lien": "https://www.attackmagazine.com/features/long-read/getting-started-with-emulators-how-to-run-real-hardware-synths-in-your-daw/",
+   "date": "2026-11-05T15:30:56.000Z",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/waver-1130x392.png",
+   "resume": "It may seem like some kind of crazy dream but you really can load actual hardware synthesizers into your DAW now. Here’s how to do it – but aren’t emulators illegal? How amazing would it be to load up a Roland JP-8000…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Splice just released an entirely new DAW, Splice Create – here’s everything you need to know",
+   "lien": "https://musictech.com/news/music/splice-create-daw-announced/",
+   "date": "2026-11-05T15:28:03.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/Splice-Create-DAW.jpeg",
+   "resume": "Splice has steadily been releasing new tools, from generative AI tools to last year’s launch of Splice INSTRUMENT , a new flagship virtual instruments player. But Splice has another, bigger surprise up its sleeve –…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Ringtone-Era Dance Hits: Where the Producers Are Now",
+   "lien": "https://midnightrebels.com/ringtone-era-dance-hits-where-are-they-now/",
+   "date": "2026-11-05T15:03:06.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/Ableton-Live-13-Leak-Shows-Drum-Synth-and-Step-Sequencer.webp?fit=2400%2C1350&ssl=1",
+   "resume": "For a few years around the turn of the millennium, one dance track could take over every phone, radio and playground. Some of those songs were built for ringtones. Others just sounded like them. The people behind them…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Welsh DJ duo powerhouse Overmono just launched a bus processor built around their own mixing workflow",
+   "lien": "https://musictech.com/news/gear/overmono-diamond-cut/",
+   "date": "2026-11-05T14:24:44.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/Overmono-Diamond-Cut@2000x1500.jpg",
+   "resume": "Welsh electronic music duo Overmono have released Diamond Cut, a bus processor developed in collaboration with Finnish plugin company Project Miracle. Built specifically around their own mixing workflow, and designed to…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Daft Punk are transformed into tiny minifigures for new Pyramid Stage LEGO set",
+   "lien": "https://musictech.com/news/music/lego-daft-punk-pyramid-stage-set/",
+   "date": "2026-11-05T12:46:40.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/LEGO-x-Daft-Punk-Pyramid-Set.jpg",
+   "resume": "Back in 2020, a father and son from Luxembourg dreamed of combining the worlds of LEGO and Daft Punk . Taking to the LEGO Ideas community page, the pair pitched the concept of a Daft Punk Pyramid Stage LEGO set inspired…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Ableton Live 13 LEAK: A Funky New Step Sequencer and Multiple Devices!",
+   "lien": "https://www.gearnews.com/ableton-live-13-studio/",
+   "date": "2026-11-05T12:40:08.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/ableton-live-13-leak-ft.jpg",
+   "resume": "Videos of Ableton Live 13, which is still unreleased at this point, have leaked on YouTube, giving us some insight into some of the new features. It’s been a MINUTE since Live 12 was officially launched- almost three…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "GForce Software Oberheim Matrix-12 – Big, Official and Built for the 21st Century",
+   "lien": "https://www.gearnews.com/gforce-software-oberheim-matrix-12-synths/",
+   "date": "2026-11-05T11:30:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/Matrix-12_1.jpg",
+   "resume": "Oberheim’s finest hour receives its only official software version as GForce Software take on the Matrix-12, with the help of one of its original designers. The year is 1985, and the synth world is going all in on the…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "\"The real revelation was the improvements it made to my workflow\": Audient Horizon 8P review",
+   "lien": "https://www.musicradar.com/music-tech/audio-interfaces/the-real-revelation-was-the-improvements-it-made-to-my-workflow-audient-horizon-8p-review",
+   "date": "2026-11-05T11:17:31.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/jrwDaGNLYaGnjcVrCqqWCU-1920-80.jpg",
+   "resume": "What is it? My current desktop interface still sounds good. It might be quite long in the tooth, and have the odd dent in it, but it does a job for me. The problem is that, over time, I’ve accumulated more instruments…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "Stylophone launches its battery-powered On-The-Fly Performance Sequencer",
+   "lien": "https://www.musicradar.com/music-tech/gear-gadgets/no-screens-no-menu-diving-no-clutter-nothing-in-the-way-between-your-ideas-and-sound-stylophone-launches-its-battery-powered-on-the-fly-performance-sequencer",
+   "date": "2026-11-05T10:51:58.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/CfhbasddmmDt66MMAwr4VB-1920-80.png",
+   "resume": "Earlier this year, we were wowed by Dubreq Stylophone ’s growing stable of wares at NAMM . While we were having endless fun with its handheld orange pocket sampler, Stylophone Voice, we also clocked a rather…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Best Controller Deals for Cyber Deals 2026: Native Instruments, Arturia, AKAI & More!",
+   "lien": "https://www.gearnews.com/controller-deals-cyber-deals/",
+   "date": "2026-11-05T10:20:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/11/2610_Gearnews_Cyber_Deals_2026_1540x850_Controller_v02_EN.jpg",
+   "resume": "Thomann’s massive Cyber Deals sale is the perfect opportunity to save on synths, controllers, drum machines and other exciting gear for your studio or live set. Check out these awesome controller deals for Cyber Deals…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Live and DJ Gear: Up to 70% Off with Thomann Cyber Deals 2026",
+   "lien": "https://www.gearnews.com/pa-live-deals-thomann-cyberweek/",
+   "date": "2026-11-05T10:10:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/11/cyber-deals-2026-live-dj-ft.jpg",
+   "resume": "Thomann’s Cyber Deals sale has started! For this post, we’ve picked out some of the Live and DJ deals for your next concert, party, or event. Save on mixers, in-ear monitoring, speakers, and even lighting . Check out…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Why Jersey’s debut album is supposed to be performed live",
+   "lien": "https://musictech.com/features/interviews/jersey-interview-nothings-fake/",
+   "date": "2026-11-05T09:00:49.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/Jersey-Avalon-Cafe-hero-credit-press@2000x1500.jpg",
+   "resume": "It’s 9 pm at London’s Avalon Cafe, a tiny backroom sweatbox in Bermondsey, and several tables full of audio gear sit at the centre of the 250-person venue. Surrounded by a young, uninhibited audience who await the…",
+   "integral": true
+  },
   {
    "source": "musictech",
    "titre": "The best new music plugins this week, free and paid",
@@ -11,30 +173,12 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "5 of the Best Saturation Plugins: The Coloring and the Shaping",
-   "lien": "https://www.gearnews.com/best-saturation-plugins-studio/",
-   "date": "2026-11-04T18:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/fabfilter-saturn-saturation-ft.jpg",
-   "resume": "We explore some of the best saturation plugins for adding harmonic color and texture to different areas of your mix in any style of music. In this Article: The Best Saturation Plugins: Softube Saturation Knob The Best…",
-   "integral": true
-  },
-  {
    "source": "midnightrebels",
    "titre": "Cubase 16 Leans on Workflow Fixes More Than New Sounds",
    "lien": "https://midnightrebels.com/cubase-16-steinberg-new-features/",
    "date": "2026-11-04T17:37:33.000Z",
    "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/08/opendaw_8k.webp?fit=800%2C502&ssl=1",
    "resume": "Steinberg has released Cubase 16 with no countdown. Matthias Quellmann, Senior Marketing Manager at Steinberg, says many of the changes are “directly inspired by feedback from our community.” The update adds…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Big High 5 with Pentaphonic Presets and More – Sounds and Presets",
-   "lien": "https://www.gearnews.com/high-5-pentaphonic-sounds-presets-synths/",
-   "date": "2026-11-04T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/SB79Penta.jpg",
-   "resume": "This week we have a couple of banks for Cherry Audio’s latest synth, the Pentaphonic, plus sounds for MiniFreak 49, Hydrasynth and the JD-Xi! One indication of how popular a synth has become is seeing the number of 3rd…",
    "integral": true
   },
   {
@@ -56,15 +200,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Steinberg Cubase 16: Exciting New Creative Production Features",
-   "lien": "https://www.gearnews.com/steinberg-cubase-daw-studio/",
-   "date": "2026-11-04T12:49:54.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/09/steinberg-cubase-16-ft1.jpg",
-   "resume": "In Steinberg Cubase 16, the professional DAW offers intelligent upgrades across the board, from audio and MIDI editing to flexible processing tools. With highlights like Instrument Stacks and Drumchain, as well as…",
-   "integral": true
-  },
-  {
    "source": "musictech",
    "titre": "ROLI – the innovative company specialising in touch-sensitive electronic instruments – has entered administration",
    "lien": "https://musictech.com/news/industry/roli-enters-administration/",
@@ -74,75 +209,12 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Allen & Heath Qu-3 and Qu-3D: The Same Powerful Mixing Platform in a Compact Format",
-   "lien": "https://www.gearnews.com/allen-heath-qu-series-live/",
-   "date": "2026-11-04T11:29:54.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/allen-heath-qu-3-ft.jpg",
-   "resume": "With the new Allen & Heath Qu-3 and Qu-3D digital mixers, you get upgraded hardware, 96 kHz XCVI processing, flexible I/O, and improved workflow features. All about the Qu Series: Allen & Heath Qu-3 and Qu-3D Allen &…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "Waves is dropping a brand new plugin for exactly $0 - here's how to claim yours before licenses run out",
    "lien": "https://www.musicradar.com/music-tech/plugins/waves-free-plugin-black-friday-2026",
    "date": "2026-11-04T10:19:09.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/PddVYFgPqWzeKpwhGx8ATM-1920-80.jpg",
    "resume": "The annual free Waves plugin has become a bit of a tradition for music makers, and the company has just announced that its latest freebie will launch on November 27. To get in on the action, all you need to do is head…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Game-Changing Synths: 7 Modern Synthesizers That Have Transformed Music Making",
-   "lien": "https://www.gearnews.com/game-changing-synths-1/",
-   "date": "2026-11-04T07:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2024/11/7-game-changing-T.jpg",
-   "resume": "These modern game-changing synths are changing the way we make and play music. Game-Changing Synths Korg Volca Bass Korg MS-20 Mini Arturia MiniBrute Behringer Model D Doepfer A-100 Expressive E Osmose Melbourne…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Polyend Tracker Updates: Everything Open Source Plus New Synths!",
-   "lien": "https://www.gearnews.com/polyend-tracker-synth/",
-   "date": "2026-11-04T00:33:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/06/polyend-tracker-update-open-T.jpg",
-   "resume": "Polyend Tracker owners, attention! The Tracker family is going wide open with the latest update, plus a host of cool new features for Tracker+ and Tracker Mini. Polyend Tracker Series Updates Tracker Goes Open Source…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Dreadbox Alecto: Analog Drum Machine From the Blood of Uranus",
-   "lien": "https://www.gearnews.com/dreadbox-alecto-analog-drum-machine-synth/",
-   "date": "2026-11-04T00:02:38.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/dreadbox-alecto-t.jpg",
-   "resume": "Alecto is a two-voice analog percussion synthesizer from Dreadbox with a polymetric sequencer. And because it’s Dreadbox, you know it sounds goooooood. Dreadbox Alecto Dreadbox has flirted with drums before, like Drips…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "Japanese DJ Mao Details Terrifying Nightclub Drugging After Regaining Consciousness",
-   "lien": "https://midnightrebels.com/mao-hamasaki-drink-spiking-hong-kong/",
-   "date": "2026-11-03T18:50:43.000Z",
-   "image": "https://midnightrebels.com/wp-content/uploads/2025/09/How-I-Lost-a-Paid-Gig-to-a-DJ-Working-for-Exposure-800x450.avif",
-   "resume": "Mao Hamasaki, known as DJ Mao, was taken to intensive care in Hong Kong early on Sunday 1 November 2026 after a suspected drink spiking. She was discharged on Monday 2 November 2026 . Hamasaki, 33, is a former Japanese…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "iZotope Photon is a local stem separation and denoising tool that runs off your GPU",
-   "lien": "https://musictech.com/news/gear/izotope-photon/",
-   "date": "2026-11-03T16:45:13.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/iZotope-Photon-hero@2000x1500.jpg",
-   "resume": "iZotope has launched Photon, an AI-powered stem separation and audio cleanup tool that’s powered by 12 custom-trained models and processes audio locally on your computer’s GPU rather than uploading files to the cloud…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "How Juan Atkins reimagined the electronic sounds of tomorrow",
-   "lien": "https://musictech.com/features/juan-atkins-dies-techno-legacy/",
-   "date": "2026-11-03T16:25:47.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/juan-atkins-hero@2000x1500.jpg",
-   "resume": "“Juan was the originator of techno, a true visionary who opened the door for so many of us, myself included,” shared Detroit legend and fellow member of ‘The Belleville Three’ Kevin Saunderson after the news of Juan…",
    "integral": true
   },
   {
@@ -164,15 +236,6 @@
    "integral": true
   },
   {
-   "source": "midnightrebels",
-   "titre": "DJ Crate Digging, Track ID Culture and the Prestige of Playing It First",
-   "lien": "https://midnightrebels.com/modern-dj-crate-digging-performative-or-personal/",
-   "date": "2026-11-03T15:05:26.000Z",
-   "image": "https://midnightrebels.com/wp-content/uploads/2025/09/How-I-Lost-a-Paid-Gig-to-a-DJ-Working-for-Exposure.avif",
-   "resume": "In May, Beatport launched Track ID, a tool that tries to name the song playing in a club recording. Beatport’s chief revenue officer, Helen Sartory, called track identification “a hotly debated topic amongst DJs”…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "Why spend big on a mini synth stand when this clever Ikea hack means you can build you own for just €11?",
    "lien": "https://www.musicradar.com/music-tech/synths/why-spend-big-on-a-mini-synth-stand-when-this-clever-ikea-hack-means-you-can-build-you-own-for-just-eur11",
@@ -191,30 +254,12 @@
    "integral": true
   },
   {
-   "source": "musictech",
-   "titre": "“I get really intense feelings, not emotions”: Kaitlyn Aurelia Smith on how synaesthesia shapes her creative process",
-   "lien": "https://musictech.com/news/music/kaitlyn-aurelia-smith-on-how-synaesthesia-shapes-her-creative-process/",
-   "date": "2026-11-03T12:49:45.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/Kaitlyn-Aurelia-Smith-hero@2000x1500.jpg",
-   "resume": "Synaesthesia is an uncommon but harmless condition in which the stimulation of one of the senses triggers a reaction in one of the other senses. For example, a person with synaesthesia might see specific colours when…",
-   "integral": true
-  },
-  {
    "source": "attack",
    "titre": "Catz ‘n Dogz: “We Were Completely Overstimulated”",
    "lien": "https://www.attackmagazine.com/features/interview/catz-n-dogz-we-were-completely-overstimulated/",
    "date": "2026-11-03T11:11:03.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/Attack-Mag-Interviews-Editorial-Catz-n-Dogz-1-1130x386.jpg",
    "resume": "We talk to Grzegorz Demiańczuk of Catz ‘n Dogz about escaping the algorithms and making their most human album, Finally. After more than 20 years making electronic music, Polish house outfit Catz ‘n Dogz decided to…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Love Synthesizers’ First Love is an FM synth you can learn without words, numbers or a manual",
-   "lien": "https://musictech.com/news/gear/love-synthesizers-first-love/",
-   "date": "2026-11-03T10:32:31.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/Love-Synths-1@2000x1500.jpg",
-   "resume": "Love Synthesizers has begun shipping First Love, an award-winning standalone FM synthesizer with an intuitive touchscreen interface that uses no text or numerical readouts and champions interactivity. Winner of Best…",
    "integral": true
   },
   {
@@ -236,30 +281,12 @@
    "integral": true
   },
   {
-   "source": "musictech",
-   "titre": "Tamber 2.0 Review: “This suite is exactly the kind of thing we’ve been waiting to see”",
-   "lien": "https://musictech.com/reviews/software-instruments/tamber-2/",
-   "date": "2026-11-02T12:44:51.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Tamber-2.0-Gestures-interface-hero-credit-Clovis-McEvoy@2000x1500.jpg",
-   "resume": "$9.99 per month or $99 annually, tamber.music I have to admit, the backstory of Tamber is hard to resist. Small teams of music lovers making slightly odd, quite specific, but genuinely powerful tools? Sign me up. The…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "Pioneering techno producer Juan Atkins has died aged 64",
    "lien": "https://www.musicradar.com/music-tech/pioneering-techno-producer-juan-atkins-has-died-aged-64",
    "date": "2026-11-01T17:00:53.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/hd64TKfFXfKzCvQiqAbTcW-1920-80.jpg",
    "resume": "Pioneering techno producer Juan Atkins has died aged 64, his management company has confirmed . Atkins was due to perform at Mexico City’s Yu Yu Club on the night of 31 October, but is reported to have been found…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Behringer is coming for your wallet with a $200 open-source SP-1200 clone, an eight-voice take on the Korg Polysix and a Roland-inspired drum machine",
-   "lien": "https://www.musicradar.com/music-tech/behringer-is-coming-for-your-wallet-with-a-usd200-open-source-sp-1200-clone-an-eight-voice-take-on-the-korg-polysix-and-a-roland-inspired-drum-machine",
-   "date": "2026-10-30T14:48:44.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/eSTBdTLLJS5yE8pwujmDzH-1920-80.jpg",
-   "resume": "Back in May, a leak appeared to reveal 14 unreleased products from Behringer, including an E-mu SP-1200 clone and a Roland-inspired, hybrid drum machine/sampler called the RD-765, prompting budget-minded gearheads to…",
    "integral": true
   },
   {
@@ -323,15 +350,6 @@
    "date": "2026-10-08T13:19:44.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/Panoramic-Electronic-Music-Studio-Control-Room-1130x387.png",
    "resume": "Active Systems plays live with no laptop in sight: a Cirklon sequencer at the centre, four Intellijel Atlantix modules on bass duty and a 909 keeping time. After sets at Lost and Houghton and the release of The Red EP…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Beatport Launches Indie Tech Genre Category",
-   "lien": "https://www.attackmagazine.com/news/beatport-launches-indie-tech-genre-category/",
-   "date": "2026-10-06T19:21:05.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/Attack-Mag-News-Feat-Images-Peel-Stems-1-1130x387.png",
-   "resume": "Beatport has launched indie tech, a standalone genre category with its own Top 100 chart, separating it from indie dance. Beatport has added indie tech to its store as a standalone genre, giving the heavier…",
    "integral": true
   },
   {
