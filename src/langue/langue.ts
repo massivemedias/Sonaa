@@ -1246,6 +1246,7 @@ interface Dictionnaire {
   readonly festivalsSectionTitre: string;
   readonly festivalsSectionSousTitre: (nPays: number) => string;
   readonly lieuTypeClub: string;
+  readonly lieuTypeSalle: string;
   readonly lieuTypeFestival: string;
   readonly lieuCapacite: (n: number) => string;
   readonly lieuDepuis: (annee: number) => string;
@@ -1255,6 +1256,10 @@ interface Dictionnaire {
   readonly lieuAucunResultat: string;
   readonly lieuReinitialiserFiltres: string;
   readonly lieuNClubs: (n: number) => string;
+  readonly lieuNClubsSeuls: (n: number) => string;
+  readonly lieuNSallesSeules: (n: number) => string;
+  readonly lieuSallesSecondairesTitre: (n: number) => string;
+  readonly lieuSallesSecondairesBadge: string;
   readonly lieuNFestivals: (n: number) => string;
   readonly lieuChercherDansZone: string;
   readonly lieuZoneVisibleActive: string;
@@ -2409,7 +2414,8 @@ const FR: Dictionnaire = {
   clubsSectionSousTitre: (nVilles) => `Sélection de clubs et salles dans ${nVilles} grandes villes électroniques, avec accès direct aux soirées à venir du calendrier de SONAA.`,
   festivalsSectionTitre: 'Les meilleurs festivals par pays (1 000+ personnes)',
   festivalsSectionSousTitre: (nPays) => `Grands rassemblements de musique électronique de plus de 1 000 personnes dans ${nPays} pays.`,
-  lieuTypeClub: 'Club · Salle',
+  lieuTypeClub: 'Club',
+  lieuTypeSalle: 'Salle · Location',
   lieuTypeFestival: 'Festival',
   lieuCapacite: (n) => `${n.toLocaleString('fr-CA')} places`,
   lieuDepuis: (annee) => `Depuis ${annee}`,
@@ -2419,6 +2425,10 @@ const FR: Dictionnaire = {
   lieuAucunResultat: 'Aucun club, salle ni festival ne correspond à ces filtres.',
   lieuReinitialiserFiltres: 'Réinitialiser les filtres',
   lieuNClubs: (n) => `${n} club${n > 1 ? 's' : ''} & salle${n > 1 ? 's' : ''}`,
+  lieuNClubsSeuls: (n) => `${n} club${n > 1 ? 's' : ''}`,
+  lieuNSallesSeules: (n) => `${n} salle${n > 1 ? 's' : ''}`,
+  lieuSallesSecondairesTitre: (n) => `Salles de spectacle & espaces en location (${n})`,
+  lieuSallesSecondairesBadge: 'Info salles & locations',
   lieuNFestivals: (n) => `${n} festival${n > 1 ? 's' : ''}`,
   lieuChercherDansZone: 'Chercher dans cette zone',
   lieuZoneVisibleActive: 'Zone visible · Tout afficher',
@@ -3565,7 +3575,8 @@ const EN: Dictionnaire = {
   clubsSectionSousTitre: (nVilles) => `Curated clubs and concert halls across ${nVilles} electronic music capitals, with direct links to upcoming nights on SONAA.`,
   festivalsSectionTitre: 'Best festivals by country (1,000+ capacity)',
   festivalsSectionSousTitre: (nPays) => `Major electronic music festivals with a capacity of 1,000+ attendees across ${nPays} countries.`,
-  lieuTypeClub: 'Club · Venue',
+  lieuTypeClub: 'Club',
+  lieuTypeSalle: 'Venue · Rental',
   lieuTypeFestival: 'Festival',
   lieuCapacite: (n) => `${n.toLocaleString('en-CA')} capacity`,
   lieuDepuis: (annee) => `Since ${annee}`,
@@ -3575,6 +3586,10 @@ const EN: Dictionnaire = {
   lieuAucunResultat: 'No club, venue or festival matches these filters.',
   lieuReinitialiserFiltres: 'Reset filters',
   lieuNClubs: (n) => `${n} club${n === 1 ? '' : 's'} & venue${n === 1 ? '' : 's'}`,
+  lieuNClubsSeuls: (n) => `${n} club${n === 1 ? '' : 's'}`,
+  lieuNSallesSeules: (n) => `${n} venue${n === 1 ? '' : 's'}`,
+  lieuSallesSecondairesTitre: (n) => `Concert halls & rental venues (${n})`,
+  lieuSallesSecondairesBadge: 'Venue & rental info',
   lieuNFestivals: (n) => `${n} festival${n === 1 ? '' : 's'}`,
   lieuChercherDansZone: 'Search this area',
   lieuZoneVisibleActive: 'Visible area · Show all',

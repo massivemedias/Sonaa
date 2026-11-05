@@ -772,6 +772,107 @@
   background: rgba(82, 199, 154, 0.09);
 }
 
+/* ── Salles de spectacle & espaces en location (bloc secondaire) ────── */
+
+.lx-salles-secondaires {
+  margin-top: 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 245, 230, 0.08);
+  background: rgba(255, 245, 230, 0.02);
+  overflow: hidden;
+}
+
+.lx-salles-bascule {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 16px;
+  border: 0;
+  background: transparent;
+  color: rgba(246, 241, 234, 0.78);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 140ms ease, color 140ms ease;
+}
+
+.lx-salles-bascule:hover {
+  background: rgba(255, 245, 230, 0.04);
+  color: #f6f1ea;
+}
+
+.lx-salles-secondaires.est-ouvert .lx-salles-bascule {
+  border-bottom: 1px solid rgba(255, 245, 230, 0.08);
+  color: #f6f1ea;
+}
+
+.lx-salles-secondaires.est-ouvert > .lx-salles-bascule .lx-rang-chevron {
+  transform: rotate(180deg);
+}
+
+.lx-salles-bascule-gauche {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.lx-salles-bascule-titre {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: rgba(246, 241, 234, 0.84);
+}
+
+.lx-salles-bascule-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 245, 230, 0.14);
+  background: rgba(255, 245, 230, 0.04);
+  color: rgba(246, 241, 234, 0.64);
+  font-size: 0.71rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.lx-salles-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 10px 12px 12px;
+  list-style: none;
+}
+
+.lx-rang.lx-rang-salle {
+  border-color: rgba(255, 245, 230, 0.07);
+  background: rgba(16, 13, 11, 0.55);
+}
+
+.lx-salle-pastille {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 245, 230, 0.14);
+  background: rgba(255, 245, 230, 0.04);
+  color: rgba(246, 241, 234, 0.65);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.lx-capacite.lx-capacite-salle {
+  color: rgba(246, 241, 234, 0.72);
+}
+
 .lx-lien-site,
 .lx-lien-calendrier,
 .lx-lien-carte {

@@ -37,6 +37,15 @@ describe('Atlas des clubs et festivals', () => {
     expect(nomsMtl).toContain('L’Olympia de Montréal');
     expect(nomsMtl).toContain('La Sala Rossa');
 
+    const salles = clubs.filter((c) => c.estSalle);
+    expect(salles.length).toBeGreaterThanOrEqual(42);
+    for (const s of salles) {
+      expect(s.styles).toEqual([]);
+    }
+
+    const clubsDediesMtl = montreal.filter((c) => !c.estSalle);
+    expect(clubsDediesMtl.length).toBeGreaterThanOrEqual(15);
+
     for (const v of VILLES_CLUBS) {
       const deLaVille = clubs.filter((c) => c.villeSlug === v.slug);
       expect(deLaVille.length).toBeGreaterThanOrEqual(3);

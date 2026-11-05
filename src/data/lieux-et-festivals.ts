@@ -31,6 +31,8 @@ export interface LieuOuFestival {
   readonly id: string;
   readonly nom: string;
   readonly type: 'club' | 'festival';
+  /** Salle de spectacle ou lieu en location (secondaire, sans styles attribues). */
+  readonly estSalle?: boolean;
   readonly paysCode: string;
   /** Slug parmi les 23 villes de SONAA quand le lieu s'y trouve. */
   readonly villeSlug?: string;
@@ -651,7 +653,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     longitude: 3.8814,
     capacite: 850,
     annee: 1986,
-    styles: ['Electro', 'Techno', 'House', 'Indie Dance'],
+    estSalle: true,
+    styles: [],
     site: 'https://www.rockstore.fr',
     description: {
       fr: 'Salle mythique à la Cadillac rouge encastrée rue de Verdun, où les nuits électroniques prennent le relais à minuit jusqu’à l’aube.',
@@ -2237,7 +2240,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     longitude: -73.5631,
     capacite: 2300,
     annee: 1997,
-    styles: ["Electro","Techno","House","Live Electronic"],
+    estSalle: true,
+    styles: [],
     site: "https://mtelus.com",
     description: {
       fr: "Grande salle historique de la rue Sainte-Catherine Est (anciennement Metropolis) au coeur du Quartier des spectacles, scène reine des tournées live électroniques et des grandes nuits MUTEK.",
@@ -2255,7 +2259,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     longitude: -73.5637,
     capacite: 900,
     annee: 1982,
-    styles: ["Electro","House","Techno","Bass"],
+    estSalle: true,
+    styles: [],
     site: "https://clubsoda.ca",
     description: {
       fr: "Salle emblématique à la marquise lumineuse boulevard Saint-Laurent, accueillant depuis 1982 les lives électroniques, les nuits MUTEK et les soirées club internationales.",
@@ -2273,7 +2278,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     longitude: -73.5624,
     capacite: 700,
     annee: 1983,
-    styles: ["Industrial","Drum & Bass","Dubstep","Hard Techno"],
+    estSalle: true,
+    styles: [],
     site: "https://foufouneselectriques.com",
     description: {
       fr: "Institution contre-culturelle montréalaise fondée en 1983 rue Sainte-Catherine Est, accueillant sur plusieurs niveaux raves, soirées industrielles, EBM, drum and bass et dubstep.",
@@ -2291,7 +2297,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     longitude: -73.6012,
     capacite: 400,
     annee: 2018,
-    styles: ["Techno","Electro","Bass","Experimental"],
+    estSalle: true,
+    styles: [],
     site: "https://ausgangplaza.com",
     description: {
       fr: "Espace brut et salle pluridisciplinaire de la rue Saint-Hubert prisée par les collectifs rave indépendants, les vitrines techno et les lancements audiovisuels.",
@@ -2309,7 +2316,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     longitude: -73.6174,
     capacite: 250,
     annee: 2014,
-    styles: ["Industrial","Ambient","Techno","Experimental"],
+    estSalle: true,
+    styles: [],
     site: "https://barleritzpdb.com",
     description: {
       fr: "Salle autogérée de la rue Jean-Talon Ouest dans le Mile-Ex (anciennement Il Motore), épicentre des nuits expérimentales, EBM, techno industrielle, synthwave et ambient.",
@@ -2363,7 +2371,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     longitude: -73.5975,
     capacite: 500,
     annee: 2015,
-    styles: ["House","Electro","Indie Dance","Bass"],
+    estSalle: true,
+    styles: [],
     site: "https://theatrefairmount.com",
     description: {
       fr: "Salle de 500 places de l’avenue du Parc dans le Mile End, accueillant les tournées électroniques internationales, les DJ sets prolongés et les soirées disco et house.",
@@ -2417,7 +2426,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     longitude: -79.3125,
     capacite: 2500,
     annee: 2021,
-    styles: ["House","Melodic Techno","Drum & Bass","Bass"],
+    estSalle: true,
+    styles: [],
     site: "https://www.historytoronto.com",
     description: {
       fr: "Grande salle de 2 500 places dans les Beaches sur Queen Street East, accueillant les grandes tournées électroniques et les têtes d’affiche house, techno et bass.",
@@ -2543,7 +2553,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     longitude: -75.7048,
     capacite: 1000,
     annee: 1995,
-    styles: ["House","Techno","Dubstep","Trance"],
+    estSalle: true,
+    styles: [],
     site: "https://bronsoncentre.ca",
     description: {
       fr: "Grande salle de l’avenue Bronson accueillant les productions électroniques grand format et les afterparties d’Escapade à Ottawa.",
@@ -2561,7 +2572,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     longitude: -114.0666,
     capacite: 1000,
     annee: 1921,
-    styles: ["House","Techno","Bass","Drum & Bass"],
+    estSalle: true,
+    styles: [],
     site: "https://thepalacetheatre.ca",
     description: {
       fr: "Théâtre historique de 1921 sur Stephen Avenue transformé en grande salle électronique équipée d’un système PK Sound monumental.",
@@ -2597,7 +2609,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     longitude: -97.1438,
     capacite: 350,
     annee: 2005,
-    styles: ["Electro","House","Techno","Bass"],
+    estSalle: true,
+    styles: [],
     site: "https://myparktheatre.com",
     description: {
       fr: "Salle indépendante de South Osborne à Winnipeg accueillant les tournées électroniques, les soirées synth et les collectifs DJ locaux.",
@@ -2651,7 +2664,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     longitude: -63.5754,
     capacite: 800,
     annee: 2021,
-    styles: ["House","Techno","Drum & Bass","Bass"],
+    estSalle: true,
+    styles: [],
     site: "https://www.lighthouseartscentre.ca",
     description: {
       fr: "Pôle culturel et salle électronique d’Argyle Street au centre-ville d’Halifax, accueillant les tournées DJ et les nuits rave des Maritimes.",
@@ -11451,12 +11465,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 3.8292,
     "capacite": 700,
     "annee": 1991,
-    "styles": [
-      "Electro",
-      "Techno",
-      "Bass",
-      "Live Electronic"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://victoire2.com",
     "description": {
       "fr": "Scène des musiques actuelles de la métropole de Montpellier, accueillant lives électroniques, nuits techno, bass music et résidences de producteurs locaux.",
@@ -11529,12 +11539,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 4.4058,
     "capacite": 1350,
     "annee": 2012,
-    "styles": [
-      "Techno",
-      "Electro",
-      "House",
-      "Experimental"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://paloma-nimes.fr",
     "description": {
       "fr": "Grand complexe architectural des musiques actuelles entre Montpellier et Nîmes doté d’une nef de 1 350 places et d’un club, haut lieu des nuits électroniques régionales.",
@@ -11814,12 +11820,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1476,
     "capacite": 500,
     "annee": 2011,
-    "styles": [
-      "Techno",
-      "Acid",
-      "Trance",
-      "Experimental"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://sala-upload.com",
     "description": {
       "fr": "Salle indépendante du Poble Espanyol à Barcelone dotée d’un système Funktion-One, prisée des collectifs techno queer (Maricas), acid et électroniques expérimentaux.",
@@ -12147,12 +12149,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5693,
     "capacite": 21000,
     "annee": 1996,
-    "styles": [
-      "Progressive House",
-      "Techno",
-      "Melodic Techno",
-      "Electro"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://www.centrebell.ca",
     "description": {
       "fr": "Le plus grand amphithéâtre couvert de Montréal, hôte des tournées mondiales d’aréna des géants de la musique électronique (Justice, Fred again.., Rüfüs Du Sol, Deadmau5, Kraftwerk).",
@@ -12173,12 +12171,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5518,
     "capacite": 5000,
     "annee": 2018,
-    "styles": [
-      "House",
-      "Techno",
-      "Tech House",
-      "Progressive House"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://www.port-montreal.com/fr/grand-quai",
     "description": {
       "fr": "Esplanade maritime et terminal contemporain sur le fleuve Saint-Laurent au Vieux-Port, scène des grands événements électroniques en plein air, d’Igloofest et des productions estivales.",
@@ -12199,12 +12193,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5653,
     "capacite": 5000,
     "annee": 2021,
-    "styles": [
-      "Techno",
-      "IDM",
-      "Ambient",
-      "Electro"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://www.quartierdesspectacles.com",
     "description": {
       "fr": "Grande place publique au coeur du Quartier des spectacles accueillant chaque été la scène extérieure gratuite de MUTEK Montréal et de nombreuses performances audiovisuelles.",
@@ -12225,12 +12215,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5644,
     "capacite": 4100,
     "annee": 1939,
-    "styles": [
-      "Bass",
-      "Techno",
-      "Electro",
-      "Drum & Bass"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://auditoriumdeverdun.com",
     "description": {
       "fr": "Aréna historique des berges de Verdun entièrement rénové, accueillant de grandes productions électroniques, concerts bass music et tournées internationales.",
@@ -12251,12 +12237,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5579,
     "capacite": 2400,
     "annee": 1925,
-    "styles": [
-      "Electro",
-      "House",
-      "Techno",
-      "Indie Dance"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://www.olympiamontreal.com",
     "description": {
       "fr": "Ancien palais du cinéma de 1925 sur la rue Sainte-Catherine Est, grande salle de spectacle privilégiée pour les tournées live électroniques (Caribou, Polo & Pan, Disclosure, Moderat).",
@@ -12277,12 +12259,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5754,
     "capacite": 1500,
     "annee": 1912,
-    "styles": [
-      "Electronica",
-      "IDM",
-      "UK Garage",
-      "Deep House"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://www.theatrebeanfield.ca",
     "description": {
       "fr": "Ancien Théâtre Corona de la Petite-Bourgogne, salle à l’acoustique chaleureuse où se produisent les lives électroniques majeurs (Overmono, Floating Points, Bonobo, Four Tet).",
@@ -12329,12 +12307,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5681,
     "capacite": 650,
     "annee": 2011,
-    "styles": [
-      "Electronica",
-      "Synthwave",
-      "Techno",
-      "Bass"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://www.lestudiotd.com",
     "description": {
       "fr": "Salle de concert moderne sur la rue Sainte-Catherine Ouest (ancien Astral), étape régulière de MUTEK et des tournées synthwave, electronica, drum & bass et techno.",
@@ -12407,12 +12381,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5491,
     "capacite": 400,
     "annee": 1931,
-    "styles": [
-      "Techno",
-      "Hard Techno",
-      "Rave",
-      "Bass"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://bainmathieu.ca",
     "description": {
       "fr": "Ancienne piscine municipale Art déco de 1931 rue Ontario Est dont le bassin vidé accueille raves techno, soirées immersives et collectifs underground montréalais.",
@@ -12433,12 +12403,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5912,
     "capacite": 250,
     "annee": 2001,
-    "styles": [
-      "IDM",
-      "Ambient",
-      "Experimental",
-      "Electro"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://casadelpopolo.com",
     "description": {
       "fr": "Salle historique du Mile End boulevard Saint-Laurent, lieu phare du festival Suoni Per Il Popolo, de MUTEK et des musiques électroniques expérimentales et indépendantes.",
@@ -12459,12 +12425,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5861,
     "capacite": 250,
     "annee": 2016,
-    "styles": [
-      "Synthwave",
-      "Electro",
-      "Indie Dance",
-      "IDM"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://leministere.ca",
     "description": {
       "fr": "Salle de spectacle et laboratoire sonore boulevard Saint-Laurent sur le Plateau, prisée pour son acoustique soignée lors des lives synth-pop, electro et modulaires.",
@@ -12511,12 +12473,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5913,
     "capacite": 150,
     "annee": 2017,
-    "styles": [
-      "Electro",
-      "Bass",
-      "Breaks",
-      "Leftfield"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://casadelpopolo.com",
     "description": {
       "fr": "Salle souterraine logée sous La Sala Rossa boulevard Saint-Laurent, dédiée aux formats club underground, lives électroniques obliques et nuits bass music du Mile End.",
@@ -12537,12 +12495,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5915,
     "capacite": 100,
     "annee": 2000,
-    "styles": [
-      "Ambient",
-      "Experimental",
-      "IDM",
-      "Leftfield"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://casadelpopolo.com",
     "description": {
       "fr": "Institution indépendante du Mile End fondée en 2000 boulevard Saint-Laurent, laboratoire intime des scènes ambient, synthétiseurs modulaires, drone et électronique expérimentale.",
@@ -12563,12 +12517,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5668,
     "capacite": 2982,
     "annee": 1963,
-    "styles": [
-      "Ambient",
-      "IDM",
-      "Electronica",
-      "Experimental"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://placedesarts.com",
     "description": {
       "fr": "Grand complexe culturel du Quartier des spectacles accueillant les soirées de gala A/VISIONS de MUTEK au Théâtre Maisonneuve ainsi que les grands concerts électroniques et néo-classiques.",
@@ -12589,12 +12539,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5631,
     "capacite": 800,
     "annee": 1893,
-    "styles": [
-      "IDM",
-      "Ambient",
-      "Experimental",
-      "Techno"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://monumentnational.com",
     "description": {
       "fr": "Plus ancien théâtre en activité au Québec sur le boulevard Saint-Laurent, quartier général historique du festival MUTEK Montréal pour ses séries Nocturne et Métropolis.",
@@ -12615,12 +12561,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5562,
     "capacite": 450,
     "annee": 1995,
-    "styles": [
-      "Experimental",
-      "Ambient",
-      "IDM",
-      "Electro"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://usine-c.com",
     "description": {
       "fr": "Ancienne usine de confiserie Raymond reconvertie en centre de création pluridisciplinaire dans le Centre-Sud, hôte de créations audiovisuelles, d’Akousma et de concerts électroniques.",
@@ -12641,12 +12583,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": -73.5831,
     "capacite": 200,
     "annee": 1999,
-    "styles": [
-      "EBM",
-      "Synthwave",
-      "Electro",
-      "Dark Disco"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://lescogriffe.com",
     "description": {
       "fr": "Salle indépendante de la rue Saint-Denis sur le Plateau Mont-Royal, repaire des concerts synth-wave, EBM, electro-punk et des collectifs nocturnes montréalais.",
@@ -12667,12 +12605,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 3.9298,
     "capacite": 6300,
     "annee": 1986,
-    "styles": [
-      "Techno",
-      "Electro",
-      "Trance",
-      "Hard Techno"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://www.zenithsud-montpellier.com",
     "description": {
       "fr": "Grande salle de spectacle du Domaine de Grammont à Montpellier, accueillant les tournées électroniques majeures et les grandes nuits techno en format aréna.",
@@ -12693,12 +12627,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 3.8824,
     "capacite": 2000,
     "annee": 1990,
-    "styles": [
-      "Electronica",
-      "Ambient",
-      "IDM",
-      "Melodic Techno"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://www.opera-orchestre-montpellier.fr",
     "description": {
       "fr": "Grand auditorium dessiné par Claude Vasconi au bout de l’Esplanade, cadre de créations électroniques symphoniques et de concerts audiovisuels (Jeff Mills, Rone, Thylacine, Max Cooper).",
@@ -12719,12 +12649,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 3.8392,
     "capacite": 1800,
     "annee": 1979,
-    "styles": [
-      "Electronica",
-      "House",
-      "Techno",
-      "Experimental"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://www.domainedo.fr",
     "description": {
       "fr": "Domaine culturel entouré de pins au nord-ouest de Montpellier, dont l’amphithéâtre en plein air et le théâtre Jean-Claude Carrière accueillent lives électroniques et nuits d’été.",
@@ -12797,12 +12723,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 3.8819,
     "capacite": 350,
     "annee": 1981,
-    "styles": [
-      "Dub",
-      "Broken Beat",
-      "Electronica",
-      "Downtempo"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://www.lejam.com",
     "description": {
       "fr": "Salle de concert indépendante et école de musique fondée en 1981 à Montpellier, ouverte aux croisements entre jazz électronique, dub, broken beat et musiques actuelles.",
@@ -12823,12 +12745,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 3.8358,
     "capacite": 300,
     "annee": 2006,
-    "styles": [
-      "Industrial Techno",
-      "Hardcore",
-      "EBM",
-      "Darkwave"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://www.toutafond.com",
     "description": {
       "fr": "Salle associative autogérée de la zone industrielle de la Lauze à Saint-Jean-de-Védas, bastion montpelliérain des cultures underground, darkwave, EBM, indus et hardcore.",
@@ -12875,12 +12793,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 3.8738,
     "capacite": 250,
     "annee": 1663,
-    "styles": [
-      "Ambient",
-      "Experimental",
-      "IDM",
-      "Drone"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://www.montpellier.fr",
     "description": {
       "fr": "Ancienne chapelle du XVIIe siècle place Albert 1er, dont la réverbération naturelle sert d’écrin aux concerts ambient, électroacoustiques et expérimentaux à Montpellier.",
@@ -12927,12 +12841,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1526,
     "capacite": 17000,
     "annee": 1990,
-    "styles": [
-      "Techno",
-      "Progressive House",
-      "Electro",
-      "Electronica"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://palausantjordi.barcelona",
     "description": {
       "fr": "Aréna olympique conçu par Arata Isozaki sur la colline de Montjuïc, théâtre des plus grandes productions électroniques en salle d’Espagne.",
@@ -12953,12 +12863,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1538,
     "capacite": 4600,
     "annee": 1990,
-    "styles": [
-      "Electronica",
-      "Techno",
-      "House",
-      "UK Garage"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://palausantjordi.barcelona/es/sant-jordi-club",
     "description": {
       "fr": "Grande salle de concert attenante au Palau Sant Jordi sur Montjuïc, étape privilégiée des tournées live électroniques internationales (Bicep, The Chemical Brothers, Peggy Gou, Jamie xx).",
@@ -13005,12 +12911,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1856,
     "capacite": 2200,
     "annee": 1999,
-    "styles": [
-      "Ambient",
-      "IDM",
-      "Experimental",
-      "Electronica"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://www.auditori.cat",
     "description": {
       "fr": "Complexe musical contemporain dessiné par Rafael Moneo, partenaire historique de Sónar et de MIRA pour les créations électroniques immersives, ambient et électroacoustiques.",
@@ -13057,12 +12959,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1684,
     "capacite": 1450,
     "annee": 2022,
-    "styles": [
-      "Electronica",
-      "IDM",
-      "Techno",
-      "Ambient"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://parallel62.cat",
     "description": {
       "fr": "Grande salle coopérative de l’avenue del Paral·lel (ancienne Sala Barts), lieu central de MUTEK Barcelona et des concerts électroniques et audiovisuels en salle.",
@@ -13109,12 +13007,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1904,
     "capacite": 1000,
     "annee": 2008,
-    "styles": [
-      "IDM",
-      "Ambient",
-      "Experimental",
-      "Electro"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://www.barcelona.cat/fabraicoats",
     "description": {
       "fr": "Ancienne filature textile du XIXe siècle à Sant Andreu reconvertie en fabrique de création municipale, berceau des festivals MIRA et Ombra et de l’art sonore barcelonais.",
@@ -13135,12 +13029,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1697,
     "capacite": 900,
     "annee": 2008,
-    "styles": [
-      "Electro",
-      "EBM",
-      "Leftfield",
-      "Techno"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://www.sala-apolo.com",
     "description": {
       "fr": "Deuxième salle du complexe Apolo au rez-de-chaussée, dédiée aux lives électroniques, à la synth-pop, à l’EBM et au second dancefloor plus brut des nuits Nitsa.",
@@ -13161,12 +13051,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1668,
     "capacite": 800,
     "annee": 1994,
-    "styles": [
-      "IDM",
-      "Experimental",
-      "Ambient",
-      "Electronica"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://www.cccb.org",
     "description": {
       "fr": "Centre culturel du Raval qui fut le berceau historique de Sónar de Día pendant près de vingt ans et demeure un foyer majeur des arts numériques et des musiques électroniques à Barcelone.",
@@ -13187,12 +13073,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1912,
     "capacite": 800,
     "annee": 2019,
-    "styles": [
-      "Techno",
-      "Electro",
-      "Indie Dance",
-      "House"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://salawolf.com",
     "description": {
       "fr": "Salle de concerts et club de la rue dels Almogàvers au coeur industriel de Poblenou, prisée pour ses lives synthétiques en soirée et ses nuits club jusqu’au matin.",
@@ -13239,12 +13121,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1749,
     "capacite": 300,
     "annee": 1982,
-    "styles": [
-      "Indie Dance",
-      "Dark Disco",
-      "Electro",
-      "Synthwave"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://www.sidecar.es",
     "description": {
       "fr": "Sous-sol mythique de la Plaça Reial depuis 1982, tremplin historique des scènes indie-electronic, dark disco, post-punk et electro barcelonaises.",
@@ -13291,12 +13169,8 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
     "longitude": 2.1934,
     "capacite": 150,
     "annee": 2018,
-    "styles": [
-      "Experimental",
-      "Ambient",
-      "IDM",
-      "Leftfield"
-    ],
+    estSalle: true,
+    styles: [],
     "site": "https://salavol.com",
     "description": {
       "fr": "Salle coopérative à jauge réduite du quartier de Poblenou, repaire des concerts électroniques expérimentaux, synthétiseurs modulaires et labels indépendants catalans.",

@@ -228,9 +228,9 @@ const devinerSlugDepuisIp = (
 
 const ouvrirPremierClubDeLaVille = (slug: string, precedent: Set<string>): Set<string> => {
   if (!slug) return precedent;
-  const premier = LIEUX_ET_FESTIVALS.filter((l) => l.type === 'club' && l.villeSlug === slug).sort(
-    (a, b) => b.capacite - a.capacite
-  )[0];
+  const premier = LIEUX_ET_FESTIVALS.filter(
+    (l) => l.type === 'club' && !l.estSalle && l.villeSlug === slug
+  ).sort((a, b) => b.capacite - a.capacite)[0];
   if (!premier) return precedent;
   const suivant = new Set(precedent);
   suivant.add(premier.id);
@@ -360,14 +360,20 @@ export function LieuxPage() {
   }, [lieuxPourCarte, paysActif, villeActive, cadreVisible]);
 
   const clubsParVille = useMemo(() => {
-    const clubs = lieuxFiltres.filter((l) => l.type === 'club');
-    return VILLES_CLUBS.map((ville) => ({
-      ville,
-      pays: paysMap.get(ville.paysCode),
-      clubs: clubs
-        .filter((c) => c.villeSlug === ville.slug)
-        .sort((a, b) => b.capacite - a.capacite),
-    })).filter((g) => g.clubs.length > 0);
+    const tousLesLieuxVille = lieuxFiltres.filter((l) => l.type === 'club');
+    return VILLES_CLUBS.map((ville) => {
+      const deLaVille = tousLesLieuxVille.filter((c) => c.villeSlug === ville.slug);
+      return {
+        ville,
+        pays: paysMap.get(ville.paysCode),
+        clubs: deLaVille
+          .filter((c) => !c.estSalle)
+          .sort((a, b) => b.capacite - a.capacite),
+        salles: deLaVille
+          .filter((c) => Boolean(c.estSalle))
+          .sort((a, b) => b.capacite - a.capacite),
+      };
+    }).filter((g) => g.clubs.length > 0 || g.salles.length > 0);
   }, [lieuxFiltres, paysMap]);
 
   const festivalsParPays = useMemo(() => {
@@ -777,7 +783,11 @@ export function LieuxPage() {
               <aside className="lx-fiche-carte" aria-live="polite">
                 <div className="lx-fiche-entete">
                   <span className={`lx-badge lx-badge-${selection.type}`}>
-                    {selection.type === 'club' ? t.lieuTypeClub : t.lieuTypeFestival}
+                    {selection.type === 'club'
+                      ? selection.estSalle
+                        ? t.lieuTypeSalle
+                        : t.lieuTypeClub
+                      : t.lieuTypeFestival}
                   </span>
                   <button
                     type="button"
@@ -800,11 +810,13 @@ export function LieuxPage() {
                     .join(' · ')}
                 </p>
                 <p className="lx-fiche-desc">{selection.description[langue]}</p>
-                <ul className="lx-styles">
-                  {selection.styles.map((s) => (
-                    <li key={s}>{s}</li>
-                  ))}
-                </ul>
+                {selection.styles.length > 0 && (
+                  <ul className="lx-styles">
+                    {selection.styles.map((s) => (
+                      <li key={s}>{s}</li>
+                    ))}
+                  </ul>
+                )}
                 <div className="lx-fiche-actions">
                   <a
                     className="lx-lien-action"
@@ -852,13 +864,15 @@ export function LieuxPage() {
               <p className="lx-bloc-soustitre">{t.clubsSectionSousTitre(VILLES_CLUBS.length)}</p>
             </header>
 
-            <div className="lx-groupes">
-              {clubsParVille.map(({ ville, pays, clubs }) => {
+            <div id="lx-liste-resultats" className="lx-groupes">
+              {clubsParVille.map(({ ville, pays, clubs, salles }) => {
                 const maxCap = Math.max(...clubs.map((c) => c.capacite), 1);
                 const filtreActif = Boolean(villeActive || paysActif || requete.trim());
                 const cleGroupe = `ville:${ville.slug}`;
+                const cleSalles = `salles:${ville.slug}`;
                 const toutAfficher = filtreActif || groupesDeplies.has(cleGroupe);
                 const clubsVisibles = toutAfficher ? clubs : clubs.slice(0, 5);
+                const sallesOuvertes = Boolean(requete.trim()) || groupesDeplies.has(cleSalles);
 
                 return (
                   <article key={ville.slug} className="lx-groupe">
@@ -868,7 +882,11 @@ export function LieuxPage() {
                           {ville.nom[langue]}
                           {pays ? <span className="lx-groupe-pays"> · {pays.nom[langue]}</span> : null}
                         </h3>
-                        <span className="lx-groupe-compteur">{t.lieuNClubs(clubs.length)}</span>
+                        <span className="lx-groupe-compteur">
+                          {salles.length > 0
+                            ? `${t.lieuNClubsSeuls(clubs.length)} · ${t.lieuNSallesSeules(salles.length)}`
+                            : t.lieuNClubsSeuls(clubs.length)}
+                        </span>
                       </div>
                       <div className="lx-groupe-liens">
                         <button
@@ -892,95 +910,101 @@ export function LieuxPage() {
                       </div>
                     </header>
 
-                    <ol className="lx-palmares">
-                      {clubsVisibles.map((club, idx) => {
-                        const rang = idx + 1;
-                        const estOuvert = lieuxOuverts.has(club.id);
-                        const pct = Math.max(14, Math.round((club.capacite / maxCap) * 100));
+                    {clubsVisibles.length > 0 && (
+                      <ol className="lx-palmares">
+                        {clubsVisibles.map((club, idx) => {
+                          const rang = idx + 1;
+                          const estOuvert = lieuxOuverts.has(club.id);
+                          const pct = Math.max(14, Math.round((club.capacite / maxCap) * 100));
 
-                        return (
-                          <li
-                            key={club.id}
-                            className={`lx-rang ${estOuvert ? 'est-ouvert' : ''} ${rang <= 3 ? 'est-podium' : ''}`}
-                          >
-                            <button
-                              type="button"
-                              className="lx-rang-entete"
-                              aria-expanded={estOuvert}
-                              onClick={() => basculerLieu(club.id)}
+                          return (
+                            <li
+                              key={club.id}
+                              className={`lx-rang ${estOuvert ? 'est-ouvert' : ''} ${rang <= 3 ? 'est-podium' : ''}`}
                             >
-                              <span className="lx-rang-num">#{String(rang).padStart(2, '0')}</span>
-                              <span className="lx-rang-identite">
-                                <span className="lx-carte-nom">{club.nom}</span>
-                                <span className="lx-carte-meta">
-                                  {[
-                                    club.ville[langue],
-                                    club.annee ? t.lieuDepuis(club.annee) : null,
-                                  ]
-                                    .filter(Boolean)
-                                    .join(' · ')}
-                                </span>
-                              </span>
-                              <span className="lx-rang-apercu-styles" aria-hidden="true">
-                                {club.styles.slice(0, 3).map((s) => (
-                                  <span key={s} className="lx-tag-apercu">
-                                    {s}
+                              <button
+                                type="button"
+                                className="lx-rang-entete"
+                                aria-expanded={estOuvert}
+                                onClick={() => basculerLieu(club.id)}
+                              >
+                                <span className="lx-rang-num">#{String(rang).padStart(2, '0')}</span>
+                                <span className="lx-rang-identite">
+                                  <span className="lx-carte-nom">{club.nom}</span>
+                                  <span className="lx-carte-meta">
+                                    {[
+                                      club.ville[langue],
+                                      club.annee ? t.lieuDepuis(club.annee) : null,
+                                    ]
+                                      .filter(Boolean)
+                                      .join(' · ')}
                                   </span>
-                                ))}
-                              </span>
-                              <span className="lx-rang-jauge">
-                                <span className="lx-capacite">{t.lieuCapacite(club.capacite)}</span>
-                                <span className="lx-jauge-piste" aria-hidden="true">
-                                  <span className="lx-jauge-barre" style={{ width: `${pct}%` }} />
                                 </span>
-                              </span>
-                              <span className="lx-rang-chevron" aria-hidden="true">
-                                <svg
-                                  viewBox="0 0 16 16"
-                                  width="14"
-                                  height="14"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="1.8"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <path d="M4 6l4 4 4-4" />
-                                </svg>
-                              </span>
-                            </button>
+                                {club.styles.length > 0 && (
+                                  <span className="lx-rang-apercu-styles" aria-hidden="true">
+                                    {club.styles.slice(0, 3).map((s) => (
+                                      <span key={s} className="lx-tag-apercu">
+                                        {s}
+                                      </span>
+                                    ))}
+                                  </span>
+                                )}
+                                <span className="lx-rang-jauge">
+                                  <span className="lx-capacite">{t.lieuCapacite(club.capacite)}</span>
+                                  <span className="lx-jauge-piste" aria-hidden="true">
+                                    <span className="lx-jauge-barre" style={{ width: `${pct}%` }} />
+                                  </span>
+                                </span>
+                                <span className="lx-rang-chevron" aria-hidden="true">
+                                  <svg
+                                    viewBox="0 0 16 16"
+                                    width="14"
+                                    height="14"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="1.8"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  >
+                                    <path d="M4 6l4 4 4-4" />
+                                  </svg>
+                                </span>
+                              </button>
 
-                            {estOuvert && (
-                              <div className="lx-rang-corps">
-                                <p className="lx-carte-desc">{club.description[langue]}</p>
-                                <ul className="lx-styles">
-                                  {club.styles.map((s) => (
-                                    <li key={s}>{s}</li>
-                                  ))}
-                                </ul>
-                                <div className="lx-carte-bas">
-                                  <a
-                                    className="lx-lien-site"
-                                    href={club.site}
-                                    target="_blank"
-                                    rel="noreferrer noopener"
-                                  >
-                                    {t.lieuSiteOfficiel}
-                                  </a>
-                                  <button
-                                    type="button"
-                                    className="lx-lien-carte"
-                                    onClick={() => centrerSurLieu(club)}
-                                  >
-                                    {t.lieuCentrerCarte}
-                                  </button>
+                              {estOuvert && (
+                                <div className="lx-rang-corps">
+                                  <p className="lx-carte-desc">{club.description[langue]}</p>
+                                  {club.styles.length > 0 && (
+                                    <ul className="lx-styles">
+                                      {club.styles.map((s) => (
+                                        <li key={s}>{s}</li>
+                                      ))}
+                                    </ul>
+                                  )}
+                                  <div className="lx-carte-bas">
+                                    <a
+                                      className="lx-lien-site"
+                                      href={club.site}
+                                      target="_blank"
+                                      rel="noreferrer noopener"
+                                    >
+                                      {t.lieuSiteOfficiel}
+                                    </a>
+                                    <button
+                                      type="button"
+                                      className="lx-lien-carte"
+                                      onClick={() => centrerSurLieu(club)}
+                                    >
+                                      {t.lieuCentrerCarte}
+                                    </button>
+                                  </div>
                                 </div>
-                              </div>
-                            )}
-                          </li>
-                        );
-                      })}
-                    </ol>
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ol>
+                    )}
 
                     {clubs.length > 5 && !filtreActif && (
                       <button
@@ -993,6 +1017,116 @@ export function LieuxPage() {
                           ? t.lieuReduireTop5
                           : t.lieuVoirToutClassement(clubs.length - 5, 6, clubs.length)}
                       </button>
+                    )}
+
+                    {salles.length > 0 && (
+                      <div className={`lx-salles-secondaires ${sallesOuvertes ? 'est-ouvert' : ''}`}>
+                        <button
+                          type="button"
+                          className="lx-salles-bascule"
+                          aria-expanded={sallesOuvertes}
+                          onClick={() => basculerGroupe(cleSalles)}
+                        >
+                          <span className="lx-salles-bascule-gauche">
+                            <span className="lx-salles-bascule-titre">
+                              {t.lieuSallesSecondairesTitre(salles.length)}
+                            </span>
+                            <span className="lx-salles-bascule-badge">
+                              {t.lieuSallesSecondairesBadge}
+                            </span>
+                          </span>
+                          <span className="lx-rang-chevron" aria-hidden="true">
+                            <svg
+                              viewBox="0 0 16 16"
+                              width="14"
+                              height="14"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.8"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <path d="M4 6l4 4 4-4" />
+                            </svg>
+                          </span>
+                        </button>
+
+                        {sallesOuvertes && (
+                          <ul className="lx-salles-liste">
+                            {salles.map((salle) => {
+                              const estOuvert = lieuxOuverts.has(salle.id);
+                              return (
+                                <li
+                                  key={salle.id}
+                                  className={`lx-rang lx-rang-salle ${estOuvert ? 'est-ouvert' : ''}`}
+                                >
+                                  <button
+                                    type="button"
+                                    className="lx-rang-entete"
+                                    aria-expanded={estOuvert}
+                                    onClick={() => basculerLieu(salle.id)}
+                                  >
+                                    <span className="lx-salle-pastille">{t.lieuTypeSalle}</span>
+                                    <span className="lx-rang-identite">
+                                      <span className="lx-carte-nom">{salle.nom}</span>
+                                      <span className="lx-carte-meta">
+                                        {[
+                                          salle.ville[langue],
+                                          salle.annee ? t.lieuDepuis(salle.annee) : null,
+                                        ]
+                                          .filter(Boolean)
+                                          .join(' · ')}
+                                      </span>
+                                    </span>
+                                    <span className="lx-rang-jauge">
+                                      <span className="lx-capacite lx-capacite-salle">
+                                        {t.lieuCapacite(salle.capacite)}
+                                      </span>
+                                    </span>
+                                    <span className="lx-rang-chevron" aria-hidden="true">
+                                      <svg
+                                        viewBox="0 0 16 16"
+                                        width="14"
+                                        height="14"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="1.8"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      >
+                                        <path d="M4 6l4 4 4-4" />
+                                      </svg>
+                                    </span>
+                                  </button>
+
+                                  {estOuvert && (
+                                    <div className="lx-rang-corps">
+                                      <p className="lx-carte-desc">{salle.description[langue]}</p>
+                                      <div className="lx-carte-bas">
+                                        <a
+                                          className="lx-lien-site"
+                                          href={salle.site}
+                                          target="_blank"
+                                          rel="noreferrer noopener"
+                                        >
+                                          {t.lieuSiteOfficiel}
+                                        </a>
+                                        <button
+                                          type="button"
+                                          className="lx-lien-carte"
+                                          onClick={() => centrerSurLieu(salle)}
+                                        >
+                                          {t.lieuCentrerCarte}
+                                        </button>
+                                      </div>
+                                    </div>
+                                  )}
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        )}
+                      </div>
                     )}
                   </article>
                 );
