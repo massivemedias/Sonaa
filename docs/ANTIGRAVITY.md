@@ -42,7 +42,7 @@ Ouvre ces pages et relève tous les liens de la forme `https://www.facebook.com/
 
 a) https://www.facebook.com/events/calendar/ (participations et « intéressé »).
 b) https://www.facebook.com/events/invites/ : fais défiler trois fois, deux secondes entre chaque.
-c) Les salles, sur `https://www.facebook.com/<slug>/upcoming_hosted_events` : FoufounesElectriques, newspeakmtl, satmontreal, PiknicElectronik, igloofest. Une page vide ou intitulée seulement « Facebook » : passe à la suivante et note le slug.
+c) Les salles, sur `https://www.facebook.com/<slug>/upcoming_hosted_events` : FoufounesElectriques, newspeakmtl, satmontreal, PiknicElectronik, igloofest, lesalondaome (le Salon Daomé : salondaome répond vide), Cabaret.Berlin, YokoLunaMTL. Une page de salle liste aussi des événements co-organisés ailleurs : c'est le lieu de l'événement qui compte. Une page vide ou intitulée seulement « Facebook » : passe à la suivante et note le slug.
 d) La recherche : `https://www.facebook.com/events/search/?q=<requête>` pour « techno montréal », « house montréal », « rave montréal », « drum and bass montréal », « trance montréal », « electro montréal », « dj set montréal », « afters montréal », « hardcore montréal », « psytrance montréal », « minimal montréal », « disco montréal ». Fais défiler deux fois. Les résultats mêlent passé et hors-sujet : on trie à l'étape 4.
 
 Garde les identifiants au fur et à mesure dans un fichier de travail hors du dépôt (par exemple `/tmp/facebook-passe.json`) : une page qui se recharge perd ce qu'elle tenait.
@@ -67,7 +67,7 @@ Ouvre `https://www.facebook.com/events/<id>/`, clique « Afficher plus » s'il e
 
 On garde UNIQUEMENT les soirées de musique électronique dans le Grand Montréal (Laval, Longueuil, Verdun, Rive-Sud et Rive-Nord proches), dans les 90 prochains jours : techno, house, drum and bass, jungle, trance, hardcore, electro, breaks, bass, dub, ambient, rave, DJ set, club, afters, soirée avec DJs nommés, festival électronique.
 
-On écarte sans hésiter : rock, métal, punk, chanson, humour, théâtre, cinéma, vernissage, brunch, marché, sport, anniversaire privé, yoga ou « rave sobre », burlesque, karaoké, hommage, soirée de rencontres. Un doute est un non : Mika ne veut pas de bruit dans son calendrier.
+On écarte TOUT événement privé (les détails disent « Privé » ou « Uniquement les personnes invitées ») : un calendrier public ne montre que ceux marqués « Public ». On écarte sans hésiter : rock, métal, punk, chanson, humour, théâtre, cinéma, vernissage, brunch, marché, sport, anniversaire privé, yoga ou « rave sobre », burlesque, karaoké, hommage, soirée de rencontres. Un doute est un non : Mika ne veut pas de bruit dans son calendrier.
 
 Pièges déjà rencontrés : des soirées à Québec, Ottawa ou Vancouver présentées comme montréalaises (vérifie l'adresse) ; un événement créé par une fan qui double l'officiel ; « Jungle party » qui est une soirée de rencontres.
 
