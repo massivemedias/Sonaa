@@ -128,7 +128,7 @@ async function rassembler(): Promise<Donnees | null> {
     ville: ville.name,
     du,
     au,
-    soirees: classerSoirees(sansDoublons([...(ra?.soirees ?? []), ...ajoutees]).filter(dansLaFenetre), vedettes, 12),
+    soirees: classerSoirees(sansDoublons([...(ra?.soirees ?? []), ...ajoutees], ville.timezone).filter(dansLaFenetre), vedettes, 12),
     vedettes,
     news: classerNews(articles, maintenant, 6),
     mixtapes: classerMixtapes(sets, chiffres.mixtapes, maintenant, 6),

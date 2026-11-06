@@ -72,7 +72,7 @@ export function useSoireesAVenir(combien: number): SoireesAVenir {
         lien: m.lien ?? '',
         interesses: 0,
       }));
-      const tout = sansDoublons([...(r?.soirees ?? []), ...ajoutees]).sort((a, b) => a.date.localeCompare(b.date));
+      const tout = sansDoublons([...(r?.soirees ?? []), ...ajoutees], ville.timezone).sort((a, b) => a.date.localeCompare(b.date));
       /* LES AFFICHES D'ABORD : une rangee de cartes sans image ressemble a
          une liste d'attente. Celles qui en ont passent devant, dans l'ordre
          des dates, et les autres completent s'il en manque. */
