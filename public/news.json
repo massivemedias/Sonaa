@@ -1,6 +1,24 @@
 {
- "fait": "2026-11-05T20:04:53.922Z",
+ "fait": "2026-11-06T06:58:26.532Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "SHIK S32 MIDI Controller: Now Available!",
+   "lien": "https://www.gearnews.com/shik-s32-synth/",
+   "date": "2026-11-05T23:55:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/05/shik-s32-new-T.jpg",
+   "resume": "The SHIK S32 controller has built-in MIDI effects, 32 macro knobs and a companion MIDI-to-CV Eurorack module. And it’s available now! Control I’m here! All About SHIK S32 Now Available SHIK S32: Every Knob Is a Macro…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Stylophone On-The-Fly Performance Sequencer With Up to 64 Steps: Now Available!",
+   "lien": "https://www.gearnews.com/stylophone-on-the-fly-performance-sequencer-synth/",
+   "date": "2026-11-05T23:42:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/01/stylophone-on-the-fly-T.jpg",
+   "resume": "Stylophone’s On-The-Fly Performance Sequencer is finally here. The 64-step Eurorack-compatible sequencer is now available to buy. All About Stylophone On-The-Fly Now Available Stylophone On-The-Fly: Tweak Everything!…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "3 of the Best DJ DAWs: Perfect and Polish Your DJ Mixes",
@@ -134,24 +152,6 @@
    "date": "2026-11-05T10:51:58.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/CfhbasddmmDt66MMAwr4VB-1920-80.png",
    "resume": "Earlier this year, we were wowed by Dubreq Stylophone ’s growing stable of wares at NAMM . While we were having endless fun with its handheld orange pocket sampler, Stylophone Voice, we also clocked a rather…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Best Controller Deals for Cyber Deals 2026: Native Instruments, Arturia, AKAI & More!",
-   "lien": "https://www.gearnews.com/controller-deals-cyber-deals/",
-   "date": "2026-11-05T10:20:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/11/2610_Gearnews_Cyber_Deals_2026_1540x850_Controller_v02_EN.jpg",
-   "resume": "Thomann’s massive Cyber Deals sale is the perfect opportunity to save on synths, controllers, drum machines and other exciting gear for your studio or live set. Check out these awesome controller deals for Cyber Deals…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Live and DJ Gear: Up to 70% Off with Thomann Cyber Deals 2026",
-   "lien": "https://www.gearnews.com/pa-live-deals-thomann-cyberweek/",
-   "date": "2026-11-05T10:10:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/11/cyber-deals-2026-live-dj-ft.jpg",
-   "resume": "Thomann’s Cyber Deals sale has started! For this post, we’ve picked out some of the Live and DJ deals for your next concert, party, or event. Save on mixers, in-ear monitoring, speakers, and even lighting . Check out…",
    "integral": true
   },
   {
