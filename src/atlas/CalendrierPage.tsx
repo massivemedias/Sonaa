@@ -663,7 +663,7 @@ export function CalendrierPage() {
       if (!r) {
         setPanne(true);
         /* Meme sans RA, ce qu'on a saisi reste affichable. */
-        const seules = sansDoublons(ajoutees);
+        const seules = sansDoublons(ajoutees, ville?.timezone ?? 'America/Toronto');
         setSoirees(seules.length > 0 ? seules : null);
         setTotal(seules.length);
       } else {
@@ -671,7 +671,7 @@ export function CalendrierPage() {
            qui a ete ecarte, sinon « les 201 premieres sur 217 » ferait
            croire qu'il en manque. */
         const brut = [...r.soirees, ...ajoutees];
-        const tout = sansDoublons(brut).sort((a, b) => a.date.localeCompare(b.date));
+        const tout = sansDoublons(brut, ville?.timezone ?? 'America/Toronto').sort((a, b) => a.date.localeCompare(b.date));
         setSoirees(tout);
         setTotal(Math.max(tout.length, r.total + ajoutees.length - (brut.length - tout.length)));
       }
