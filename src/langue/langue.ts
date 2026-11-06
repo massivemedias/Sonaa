@@ -1233,6 +1233,7 @@ interface Dictionnaire {
   readonly clubsTout: string;
   readonly clubsSeulement: (n: number) => string;
   readonly festivalsSeulement: (n: number) => string;
+  readonly sallesSeulement: (n: number) => string;
   readonly clubsCarteMondiale: string;
   readonly clubsCarteVueMonde: string;
   readonly clubsZoneAtlantique: string;
@@ -1245,6 +1246,8 @@ interface Dictionnaire {
   readonly clubsSectionSousTitre: (nVilles: number) => string;
   readonly festivalsSectionTitre: string;
   readonly festivalsSectionSousTitre: (nPays: number) => string;
+  readonly sallesSectionTitre: string;
+  readonly sallesSectionSousTitre: string;
   readonly lieuTypeClub: string;
   readonly lieuTypeSalle: string;
   readonly lieuTypeFestival: string;
@@ -1260,6 +1263,11 @@ interface Dictionnaire {
   readonly lieuNSallesSeules: (n: number) => string;
   readonly lieuSallesSecondairesTitre: (n: number) => string;
   readonly lieuSallesSecondairesBadge: string;
+  readonly lieuProchainesSoirees: string;
+  readonly lieuNSoireesAVenir: (n: number) => string;
+  readonly lieuChargementSoirees: string;
+  readonly lieuAucuneSoireeAnnoncee: string;
+  readonly lieuVoirToutesSoireesLieu: (n: number) => string;
   readonly lieuNFestivals: (n: number) => string;
   readonly lieuChercherDansZone: string;
   readonly lieuZoneVisibleActive: string;
@@ -2400,35 +2408,43 @@ const FR: Dictionnaire = {
   clubsEtFestivalsChapeau: (nClubs, nVilles, nFestivals, nPays) =>
     `${nClubs} clubs et salles de référence dans ${nVilles} villes et ${nFestivals} grands festivals électroniques (1 000+ personnes) classés dans ${nPays} pays, réunis sur une carte interactive mondiale.`,
   clubsTout: 'Tout',
-  clubsSeulement: (n) => `Clubs & salles (${n})`,
+  clubsSeulement: (n) => `Clubs & bars musicaux (${n})`,
   festivalsSeulement: (n) => `Festivals (${n})`,
-  clubsCarteMondiale: 'Carte interactive mondiale · Clubs, salles & festivals',
+  sallesSeulement: (n) => `Salles à louer (${n})`,
+  clubsCarteMondiale: 'Carte interactive mondiale · Clubs, bars musicaux & festivals',
   clubsCarteVueMonde: 'Monde',
   clubsZoneAtlantique: 'Am. du Nord & Europe',
   clubsZoneAmerique: 'Amérique du Nord',
   clubsZoneEurope: 'Europe',
   clubsTousLesPays: 'Tous les pays',
   clubsToutesLesVilles: 'Toutes les villes',
-  clubsChercherLieu: 'Chercher un club, une salle, un festival, une ville, un style…',
-  clubsSectionTitre: 'Les meilleurs clubs et salles par ville',
-  clubsSectionSousTitre: (nVilles) => `Sélection de clubs et salles dans ${nVilles} grandes villes électroniques, avec accès direct aux soirées à venir du calendrier de SONAA.`,
+  clubsChercherLieu: 'Chercher un club, un bar musical, un festival, une salle, une ville…',
+  clubsSectionTitre: 'Les meilleurs clubs et bars musicaux par ville',
+  clubsSectionSousTitre: (nVilles) => `Sélection des clubs, afterhours et bars musicaux électroniques de référence dans ${nVilles} villes, avec leurs prochaines soirées à l’affiche.`,
   festivalsSectionTitre: 'Les meilleurs festivals par pays (1 000+ personnes)',
   festivalsSectionSousTitre: (nPays) => `Grands rassemblements de musique électronique de plus de 1 000 personnes dans ${nPays} pays.`,
-  lieuTypeClub: 'Club',
-  lieuTypeSalle: 'Salle · Location',
+  sallesSectionTitre: 'Salles à louer et salles de spectacle par ville',
+  sallesSectionSousTitre: 'Espaces événementiels, entrepôts et salles de concert disponibles en location pour les promoteurs et productions.',
+  lieuTypeClub: 'Club · Bar musical',
+  lieuTypeSalle: 'Salle à louer',
   lieuTypeFestival: 'Festival',
   lieuCapacite: (n) => `${n.toLocaleString('fr-CA')} places`,
   lieuDepuis: (annee) => `Depuis ${annee}`,
   lieuSiteOfficiel: 'Site officiel',
   lieuVoirCalendrierVille: (ville) => `Soirées à ${ville}`,
   lieuCentrerCarte: 'Voir sur la carte',
-  lieuAucunResultat: 'Aucun club, salle ni festival ne correspond à ces filtres.',
+  lieuAucunResultat: 'Aucun club, bar musical, salle ni festival ne correspond à ces filtres.',
   lieuReinitialiserFiltres: 'Réinitialiser les filtres',
-  lieuNClubs: (n) => `${n} club${n > 1 ? 's' : ''} & salle${n > 1 ? 's' : ''}`,
-  lieuNClubsSeuls: (n) => `${n} club${n > 1 ? 's' : ''}`,
-  lieuNSallesSeules: (n) => `${n} salle${n > 1 ? 's' : ''}`,
-  lieuSallesSecondairesTitre: (n) => `Salles de spectacle & espaces en location (${n})`,
-  lieuSallesSecondairesBadge: 'Info salles & locations',
+  lieuNClubs: (n) => `${n} club${n > 1 ? 's' : ''} & bar${n > 1 ? 's' : ''} musica${n > 1 ? 'ux' : 'l'}`,
+  lieuNClubsSeuls: (n) => `${n} club${n > 1 ? 's' : ''} & bar${n > 1 ? 's' : ''}`,
+  lieuNSallesSeules: (n) => `${n} salle${n > 1 ? 's' : ''} à louer`,
+  lieuSallesSecondairesTitre: (n) => `Salles à louer & salles de spectacle (${n})`,
+  lieuSallesSecondairesBadge: 'Location & salles',
+  lieuProchainesSoirees: 'Prochaines soirées',
+  lieuNSoireesAVenir: (n) => `${n} soirée${n > 1 ? 's' : ''} à venir`,
+  lieuChargementSoirees: 'Chargement des prochaines soirées…',
+  lieuAucuneSoireeAnnoncee: 'Aucune soirée annoncée pour le moment dans ce lieu.',
+  lieuVoirToutesSoireesLieu: (n) => `Voir les ${n} soirées au calendrier`,
   lieuNFestivals: (n) => `${n} festival${n > 1 ? 's' : ''}`,
   lieuChercherDansZone: 'Chercher dans cette zone',
   lieuZoneVisibleActive: 'Zone visible · Tout afficher',
@@ -3561,35 +3577,43 @@ const EN: Dictionnaire = {
   clubsEtFestivalsChapeau: (nClubs, nVilles, nFestivals, nPays) =>
     `${nClubs} essential electronic music clubs and concert venues across ${nVilles} cities and ${nFestivals} major electronic festivals (1,000+ capacity) across ${nPays} countries, mapped on an interactive world view.`,
   clubsTout: 'All',
-  clubsSeulement: (n) => `Clubs & venues (${n})`,
+  clubsSeulement: (n) => `Clubs & music bars (${n})`,
   festivalsSeulement: (n) => `Festivals (${n})`,
-  clubsCarteMondiale: 'Interactive world map · Clubs, Venues & Festivals',
+  sallesSeulement: (n) => `Rental venues (${n})`,
+  clubsCarteMondiale: 'Interactive world map · Clubs, music bars & festivals',
   clubsCarteVueMonde: 'World',
   clubsZoneAtlantique: 'N. America & Europe',
   clubsZoneAmerique: 'North America',
   clubsZoneEurope: 'Europe',
   clubsTousLesPays: 'All countries',
   clubsToutesLesVilles: 'All cities',
-  clubsChercherLieu: 'Search a club, venue, festival, city, style…',
-  clubsSectionTitre: 'Best clubs and venues by city',
-  clubsSectionSousTitre: (nVilles) => `Curated clubs and concert halls across ${nVilles} electronic music capitals, with direct links to upcoming nights on SONAA.`,
+  clubsChercherLieu: 'Search a club, music bar, festival, venue, city…',
+  clubsSectionTitre: 'Best clubs and music bars by city',
+  clubsSectionSousTitre: (nVilles) => `Curated electronic music clubs, afterhours and music bars across ${nVilles} cities, with their upcoming nights.`,
   festivalsSectionTitre: 'Best festivals by country (1,000+ capacity)',
   festivalsSectionSousTitre: (nPays) => `Major electronic music festivals with a capacity of 1,000+ attendees across ${nPays} countries.`,
-  lieuTypeClub: 'Club',
-  lieuTypeSalle: 'Venue · Rental',
+  sallesSectionTitre: 'Rental venues and concert halls by city',
+  sallesSectionSousTitre: 'Event spaces, warehouses and concert halls available for rental by promoters and productions.',
+  lieuTypeClub: 'Club · Music bar',
+  lieuTypeSalle: 'Rental venue',
   lieuTypeFestival: 'Festival',
   lieuCapacite: (n) => `${n.toLocaleString('en-CA')} capacity`,
   lieuDepuis: (annee) => `Since ${annee}`,
   lieuSiteOfficiel: 'Official website',
   lieuVoirCalendrierVille: (ville) => `Nights in ${ville}`,
   lieuCentrerCarte: 'Show on map',
-  lieuAucunResultat: 'No club, venue or festival matches these filters.',
+  lieuAucunResultat: 'No club, music bar, venue or festival matches these filters.',
   lieuReinitialiserFiltres: 'Reset filters',
-  lieuNClubs: (n) => `${n} club${n === 1 ? '' : 's'} & venue${n === 1 ? '' : 's'}`,
-  lieuNClubsSeuls: (n) => `${n} club${n === 1 ? '' : 's'}`,
-  lieuNSallesSeules: (n) => `${n} venue${n === 1 ? '' : 's'}`,
-  lieuSallesSecondairesTitre: (n) => `Concert halls & rental venues (${n})`,
-  lieuSallesSecondairesBadge: 'Venue & rental info',
+  lieuNClubs: (n) => `${n} club${n === 1 ? '' : 's'} & music bar${n === 1 ? '' : 's'}`,
+  lieuNClubsSeuls: (n) => `${n} club${n === 1 ? '' : 's'} & bar${n === 1 ? '' : 's'}`,
+  lieuNSallesSeules: (n) => `${n} rental venue${n === 1 ? '' : 's'}`,
+  lieuSallesSecondairesTitre: (n) => `Rental venues & concert halls (${n})`,
+  lieuSallesSecondairesBadge: 'Rental & venue info',
+  lieuProchainesSoirees: 'Upcoming nights',
+  lieuNSoireesAVenir: (n) => `${n} upcoming night${n === 1 ? '' : 's'}`,
+  lieuChargementSoirees: 'Loading upcoming nights…',
+  lieuAucuneSoireeAnnoncee: 'No upcoming night listed at this venue right now.',
+  lieuVoirToutesSoireesLieu: (n) => `See all ${n} nights in calendar`,
   lieuNFestivals: (n) => `${n} festival${n === 1 ? '' : 's'}`,
   lieuChercherDansZone: 'Search this area',
   lieuZoneVisibleActive: 'Visible area · Show all',
