@@ -119,7 +119,7 @@ export function soireesPourLieu(
   const courtes = new Set(candidats.map(cleCourtLieu).filter((c) => c.length >= 3));
   const estStereoPrincipal = lieu.id === 'stereo-montreal';
 
-  return soirees
+  const filtrees = soirees
     .filter((s) => {
       if (s.date.slice(0, 10) < aujourdhui) return false;
       if (lieu.type === 'festival') {
@@ -146,4 +146,28 @@ export function soireesPourLieu(
       return false;
     })
     .sort((a, b) => a.date.localeCompare(b.date));
+
+  /* Dedoublonne deux annonces d'un meme soir dans la meme salle dont l'une
+     ajoute le nom de la ville ou un prefixe entre crochets au titre. */
+  const titreDedup = (t: string): string => cleExacte(t.replace(/^\[[^\]]+\]\s*/, ''));
+  const uniques: Soiree[] = [];
+  for (const s of filtrees) {
+    const jour = s.date.slice(0, 10);
+    const titreCourt = titreDedup(s.titre);
+    const indexExistant = uniques.findIndex((u) => {
+      if (u.date.slice(0, 10) !== jour) return false;
+      const tU = titreDedup(u.titre);
+      if (!tU || !titreCourt) return false;
+      return tU === titreCourt || tU.startsWith(`${titreCourt} `) || titreCourt.startsWith(`${tU} `);
+    });
+    if (indexExistant < 0) {
+      uniques.push(s);
+    } else {
+      const deja = uniques[indexExistant];
+      if (deja && s.artistes.length > deja.artistes.length) {
+        uniques[indexExistant] = s;
+      }
+    }
+  }
+  return uniques;
 }
