@@ -307,7 +307,7 @@ export function LieuxPage() {
           lien: m.lien ?? '',
           interesses: 0,
         }));
-        const tout = sansDoublons([...(r?.soirees ?? []), ...ajoutees]).sort((a, b) =>
+        const tout = sansDoublons([...(r?.soirees ?? []), ...ajoutees], config.fuseau).sort((a, b) =>
           a.date.localeCompare(b.date)
         );
         setSoireesParVille((prev) => ({ ...prev, [slugVille]: tout }));
