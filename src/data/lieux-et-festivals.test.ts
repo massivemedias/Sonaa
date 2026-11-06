@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { LIEUX_ET_FESTIVALS, PAYS_LIEUX, VILLES_CLUBS } from './lieux-et-festivals.ts';
+import { soireesPourLieu } from '../atlas/soirees-du-lieu.ts';
+import type { Soiree } from '../lib/agenda.ts';
 
 describe('Atlas des clubs et festivals', () => {
   it('couvre au moins 60 villes électroniques (dont les 23 villes du calendrier SONAA), 38 salles et clubs à Montréal, 30 à Barcelone, 22 à Montpellier et 295 au total', () => {
@@ -81,5 +83,87 @@ describe('Atlas des clubs et festivals', () => {
       expect(f.longitude).toBeGreaterThanOrEqual(-130);
       expect(f.longitude).toBeLessThanOrEqual(155);
     }
+  });
+
+  it('associe les prochaines soirées aux clubs, bars musicaux et salles (Newspeak, Stereo, StereoBar, Salon Daomé, SAT, MTELUS)', () => {
+    const newspeak = LIEUX_ET_FESTIVALS.find((l) => l.id === 'newspeak-montreal');
+    const stereo = LIEUX_ET_FESTIVALS.find((l) => l.id === 'stereo-montreal');
+    const stereobar = LIEUX_ET_FESTIVALS.find((l) => l.id === 'stereobar-montreal');
+    const daome = LIEUX_ET_FESTIVALS.find((l) => l.id === 'salon-daome-montreal');
+    const sat = LIEUX_ET_FESTIVALS.find((l) => l.id === 'sat-montreal');
+    expect(newspeak).toBeDefined();
+    expect(stereo).toBeDefined();
+    expect(stereobar).toBeDefined();
+    expect(daome).toBeDefined();
+    expect(sat).toBeDefined();
+
+    const echantillon: Soiree[] = [
+      {
+        id: 'ra-1',
+        titre: 'Nuit Techno Newspeak',
+        date: '2026-11-14T22:00:00.000',
+        debut: '2026-11-14T22:00:00.000',
+        lieu: 'Newspeak',
+        artistes: ['Dasha Rush', 'Priori'],
+        genres: ['Techno'],
+        affiche: null,
+        lien: 'https://ra.co/events/1',
+        interesses: 120,
+      },
+      {
+        id: 'ra-2',
+        titre: 'Afterhours Stereo',
+        date: '2026-11-15T02:00:00.000',
+        debut: '2026-11-15T02:00:00.000',
+        lieu: 'Stereo',
+        artistes: ['Hernan Cattaneo'],
+        genres: ['Progressive House'],
+        affiche: null,
+        lien: 'https://ra.co/events/2',
+        interesses: 340,
+      },
+      {
+        id: 'ra-3',
+        titre: 'StereoBar Intimate Night',
+        date: '2026-11-15T22:00:00.000',
+        debut: '2026-11-15T22:00:00.000',
+        lieu: 'StereoBar',
+        artistes: [' Ostrich'],
+        genres: ['House'],
+        affiche: null,
+        lien: 'https://ra.co/events/3',
+        interesses: 85,
+      },
+      {
+        id: 'ra-4',
+        titre: 'Vendredi au Daomé',
+        date: '2026-11-13T22:00:00.000',
+        debut: '2026-11-13T22:00:00.000',
+        lieu: 'Salon Daomé',
+        artistes: ['Gene Tellem'],
+        genres: ['House'],
+        affiche: null,
+        lien: 'https://ra.co/events/4',
+        interesses: 64,
+      },
+      {
+        id: 'ra-5',
+        titre: 'Dôme immersif SAT',
+        date: '2026-11-20T21:00:00.000',
+        debut: '2026-11-20T21:00:00.000',
+        lieu: 'Société des arts technologiques',
+        artistes: ['Max Cooper'],
+        genres: ['IDM'],
+        affiche: null,
+        lien: 'https://ra.co/events/5',
+        interesses: 210,
+      },
+    ];
+
+    expect(soireesPourLieu(newspeak!, echantillon, '2026-11-06').map((s) => s.id)).toEqual(['ra-1']);
+    expect(soireesPourLieu(stereo!, echantillon, '2026-11-06').map((s) => s.id)).toEqual(['ra-2']);
+    expect(soireesPourLieu(stereobar!, echantillon, '2026-11-06').map((s) => s.id)).toEqual(['ra-3']);
+    expect(soireesPourLieu(daome!, echantillon, '2026-11-06').map((s) => s.id)).toEqual(['ra-4']);
+    expect(soireesPourLieu(sat!, echantillon, '2026-11-06').map((s) => s.id)).toEqual(['ra-5']);
   });
 });

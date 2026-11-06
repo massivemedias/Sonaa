@@ -1,4 +1,5 @@
-/* LA PAGE DES MEILLEURS CLUBS (PAR VILLE) ET FESTIVALS (PAR PAYS, 1 000+ PLACES).
+/* LA PAGE DES MEILLEURS CLUBS & BARS MUSICAUX (PAR VILLE), FESTIVALS (PAR PAYS,
+ * 1 000+ PLACES) ET SALLES A LOUER (SEPAREES).
  *
  * Mika, le 3 novembre 2026 : « une page avec les meilleurs clubs et festivals
  * dans les villes que je propose pour les clubs et les festivals c'est par
@@ -6,16 +7,13 @@
  * une capacite de plus de 1000 personnes et je voudrais aussi que tu fasses
  * une carte interactive mondiale ».
  *
- * TROIS BLOCS :
- * 1. La carte interactive mondiale (MapLibre + OpenFreeMap sombre), avec
- *    marqueurs distincts pour les clubs et les festivals, centrage par pays ou
- *    ville, et fiche detaillee au clic.
- * 2. Les meilleurs clubs classes dans les 23 villes du calendrier SONAA,
- *    chacun relie a l'agenda /soirees/<ville>/ de sa ville.
- * 3. Les meilleurs festivals classes par pays (capacite 1 000+ personnes, plus
- *    Be Tulum et Nomade Tulum au Mexique). */
+ * Mika, le 6 novembre 2026 : « dans atlas sur la carte comme sur les tuiles je
+ * veux qu'on puisse voir aussi les prochaines soirees qu'il y a par exemple
+ * quand nous cliquons sur newspeak on voit les infos de cette salle mais aussi
+ * les prochains events. Je veux qu'on separe les salles a louer des clubs. et
+ * mettre en avant les clubs.. ou bar musicales ». */
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Marker, type Map as CarteMapLibre } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { EnTeteSite } from './EnTeteSite.tsx';
@@ -27,20 +25,29 @@ import {
   VILLES_CLUBS,
   type LieuOuFestival,
 } from '../data/lieux-et-festivals.ts';
-import { ouJeSuis, type OuJeSuis } from '../lib/agenda.ts';
+import { ZONES_RA_PAR_VILLE, soireesPourLieu } from './soirees-du-lieu.ts';
+import { agenda, ouJeSuis, type OuJeSuis, type Soiree } from '../lib/agenda.ts';
+import { quandEnLettres } from '../lib/date-soiree.ts';
+import { fenetreDe } from '../lib/fenetre-agenda.ts';
+import { sansDoublons } from '../lib/sans-doublons.ts';
+import { soireesManuelles } from '../lib/soirees-manuelles.ts';
 import {
+  heureLocale,
   noterVilleDeSession,
   toutesLesVilles,
   villeDattache,
   villeDeSession,
   villeDuLien,
+  type Ville,
 } from '../lib/villes.ts';
 import { langue, t } from '../langue/langue.ts';
 import './credits.css';
 import './lieux.css';
 
-type FiltreType = 'tout' | 'club' | 'festival';
+type FiltreType = 'tout' | 'club' | 'festival' | 'salle';
 type ZoneCarte = 'atlantique' | 'amerique' | 'europe' | 'monde';
+
+const LOCALE = langue === 'fr' ? 'fr-CA' : 'en-CA';
 
 /* Cadrages serres sur les zones ou se concentrent les clubs et festivals :
    pas de Groenland en haut ni d'Afrique du Sud en bas. */
@@ -119,21 +126,17 @@ const FUSEAU_VERS_VILLE: Record<string, string> = {
   'America/Toronto': langue === 'fr' ? 'montreal-ca' : 'toronto-ca',
   'America/Vancouver': 'vancouver-ca',
   'America/Edmonton': 'calgary-ca',
-  'America/New_York': 'new-york-us',
+  'America/New_York': 'newyork-us',
   'America/Detroit': 'detroit-us',
   'America/Chicago': 'chicago-us',
   'America/Denver': 'denver-us',
-  'America/Los_Angeles': 'los-angeles-us',
+  'America/Los_Angeles': 'losangeles-us',
   'America/Mexico_City': 'mexico-mx',
-  'America/Cancun': 'tulum-mx',
-  'America/Bogota': 'bogota-co',
-  'America/Sao_Paulo': 'sao-paulo-br',
-  'America/Argentina/Buenos_Aires': 'buenos-aires-ar',
-  'America/Santiago': 'santiago-cl',
+  'America/Sao_Paulo': 'saopaulo-br',
   'Europe/Paris': 'paris-fr',
   'Europe/Madrid': 'barcelone-es',
   'Europe/Berlin': 'berlin-de',
-  'Europe/London': 'londres-uk',
+  'Europe/London': 'londres-gb',
   'Europe/Amsterdam': 'amsterdam-nl',
   'Europe/Brussels': 'bruxelles-be',
   'Europe/Lisbon': 'lisbonne-pt',
@@ -143,19 +146,7 @@ const FUSEAU_VERS_VILLE: Record<string, string> = {
   'Europe/Prague': 'prague-cz',
   'Europe/Warsaw': 'varsovie-pl',
   'Europe/Budapest': 'budapest-hu',
-  'Europe/Bucharest': 'bucarest-ro',
-  'Europe/Belgrade': 'belgrade-rs',
-  'Europe/Athens': 'athenes-gr',
-  'Europe/Stockholm': 'stockholm-se',
-  'Europe/Copenhagen': 'copenhague-dk',
-  'Europe/Dublin': 'dublin-ie',
-  'Europe/Istanbul': 'istanbul-tr',
   'Asia/Tokyo': 'tokyo-jp',
-  'Asia/Seoul': 'seoul-kr',
-  'Asia/Bangkok': 'bangkok-th',
-  'Asia/Singapore': 'singapour-sg',
-  'Asia/Taipei': 'taipei-tw',
-  'Australia/Sydney': 'sydney-au',
   'Australia/Melbourne': 'melbourne-au',
 };
 
@@ -228,13 +219,20 @@ const devinerSlugDepuisIp = (
 
 const ouvrirPremierClubDeLaVille = (slug: string, precedent: Set<string>): Set<string> => {
   if (!slug) return precedent;
-  const premier = LIEUX_ET_FESTIVALS.filter(
+  const premiers = LIEUX_ET_FESTIVALS.filter(
     (l) => l.type === 'club' && !l.estSalle && l.villeSlug === slug
-  ).sort((a, b) => b.capacite - a.capacite)[0];
-  if (!premier) return precedent;
+  ).sort((a, b) => b.capacite - a.capacite);
+  if (premiers.length === 0) return precedent;
   const suivant = new Set(precedent);
-  suivant.add(premier.id);
+  if (premiers[0]) suivant.add(premiers[0].id);
   return suivant;
+};
+
+const correspondAuFiltreType = (lieu: LieuOuFestival, filtre: FiltreType): boolean => {
+  if (filtre === 'tout') return true;
+  if (filtre === 'festival') return lieu.type === 'festival';
+  if (filtre === 'salle') return lieu.type === 'club' && Boolean(lieu.estSalle);
+  return lieu.type === 'club' && !lieu.estSalle;
 };
 
 export function LieuxPage() {
@@ -254,8 +252,8 @@ export function LieuxPage() {
   } | null>(null);
   const [lieuxOuverts, setLieuxOuverts] = useState<Set<string>>(() => {
     const base = new Set([
-      'new-city-gas-montreal',
       'stereo-montreal',
+      'newspeak-montreal',
       'razzmatazz-barcelone',
       'dieze-warehouse-montpellier',
       'veld-toronto',
@@ -265,7 +263,80 @@ export function LieuxPage() {
     return ouvrirPremierClubDeLaVille(initSlug, base);
   });
   const [groupesDeplies, setGroupesDeplies] = useState<Set<string>>(() => new Set());
+  const [soireesParVille, setSoireesParVille] = useState<Record<string, readonly Soiree[]>>({});
+  const [chargementParVille, setChargementParVille] = useState<Record<string, boolean>>({});
+  const villesDemandeesRef = useRef<Set<string>>(new Set());
+  const villesSupabaseRef = useRef<Promise<Ville[]> | null>(null);
   const interactionUtilisateurRef = useRef<boolean>(false);
+
+  const obtenirVillesSupabase = useCallback((): Promise<Ville[]> => {
+    if (!villesSupabaseRef.current) {
+      villesSupabaseRef.current = toutesLesVilles().catch(() => []);
+    }
+    return villesSupabaseRef.current;
+  }, []);
+
+  const chargerSoireesVille = useCallback(
+    (slugVille: string | undefined): void => {
+      if (!slugVille || villesDemandeesRef.current.has(slugVille)) return;
+      const config = ZONES_RA_PAR_VILLE[slugVille];
+      if (!config) return;
+
+      villesDemandeesRef.current.add(slugVille);
+      setChargementParVille((prev) => ({ ...prev, [slugVille]: true }));
+
+      const { du, au } = fenetreDe('suite', null, new Date());
+      const promesseRa = agenda({ zone: config.zone, du, au, pages: 8 }).catch(() => null);
+      const promesseManuelles = obtenirVillesSupabase()
+        .then((villes) => {
+          const v = villes.find((x) => x.slug === slugVille);
+          return v ? soireesManuelles(v.id, du, au) : [];
+        })
+        .catch(() => []);
+
+      void Promise.all([promesseRa, promesseManuelles]).then(([r, mains]) => {
+        const ajoutees: Soiree[] = mains.map((m) => ({
+          id: `main:${m.id}`,
+          titre: m.titre,
+          date: m.debut,
+          debut: m.debut,
+          lieu: m.lieu,
+          artistes: m.artistes,
+          genres: m.genres,
+          affiche: m.affiche,
+          lien: m.lien ?? '',
+          interesses: 0,
+        }));
+        const tout = sansDoublons([...(r?.soirees ?? []), ...ajoutees], config.fuseau).sort((a, b) =>
+          a.date.localeCompare(b.date)
+        );
+        setSoireesParVille((prev) => ({ ...prev, [slugVille]: tout }));
+        setChargementParVille((prev) => ({ ...prev, [slugVille]: false }));
+      });
+    },
+    [obtenirVillesSupabase]
+  );
+
+  useEffect(() => {
+    if (villeActive) {
+      chargerSoireesVille(villeActive);
+    }
+  }, [villeActive, chargerSoireesVille]);
+
+  useEffect(() => {
+    if (selection?.villeSlug) {
+      chargerSoireesVille(selection.villeSlug);
+    }
+  }, [selection, chargerSoireesVille]);
+
+  useEffect(() => {
+    for (const id of lieuxOuverts) {
+      const lieu = LIEUX_ET_FESTIVALS.find((l) => l.id === id);
+      if (lieu?.villeSlug) {
+        chargerSoireesVille(lieu.villeSlug);
+      }
+    }
+  }, [lieuxOuverts, chargerSoireesVille]);
 
   const basculerLieu = (id: string): void => {
     setLieuxOuverts((prev) => {
@@ -301,8 +372,18 @@ export function LieuxPage() {
     document.title = `${t.clubsEtFestivalsTitre} · SONAA`;
   }, []);
 
-  const totalClubs = useMemo(() => LIEUX_ET_FESTIVALS.filter((x) => x.type === 'club').length, []);
-  const totalFestivals = useMemo(() => LIEUX_ET_FESTIVALS.filter((x) => x.type === 'festival').length, []);
+  const totalClubs = useMemo(
+    () => LIEUX_ET_FESTIVALS.filter((x) => x.type === 'club' && !x.estSalle).length,
+    []
+  );
+  const totalSalles = useMemo(
+    () => LIEUX_ET_FESTIVALS.filter((x) => x.type === 'club' && Boolean(x.estSalle)).length,
+    []
+  );
+  const totalFestivals = useMemo(
+    () => LIEUX_ET_FESTIVALS.filter((x) => x.type === 'festival').length,
+    []
+  );
 
   const paysMap = useMemo(() => new Map(PAYS_LIEUX.map((p) => [p.code, p])), []);
   const villeMap = useMemo(() => new Map(VILLES_CLUBS.map((v) => [v.slug, v])), []);
@@ -312,13 +393,13 @@ export function LieuxPage() {
     [paysActif]
   );
 
-  /* Lieux correspondant au type (Tout / Clubs / Festivals) et a la recherche textuelle :
+  /* Lieux correspondant au type (Tout / Clubs & bars / Festivals / Salles) et a la recherche textuelle :
      tous leurs marqueurs restent visibles sur la carte meme quand on zoome ou dezoome. */
   const lieuxPourCarte = useMemo(() => {
     const q = normaliser(requete.trim());
     const qCompact = q.replace(/\b(and|et)\b/g, '').replace(/[\s\-'&.+]+/g, '');
     return LIEUX_ET_FESTIVALS.filter((l) => {
-      if (filtreType !== 'tout' && l.type !== filtreType) return false;
+      if (!correspondAuFiltreType(l, filtreType)) return false;
       if (!q) return true;
       const pays = paysMap.get(l.paysCode);
       const texte = normaliser(
@@ -360,20 +441,25 @@ export function LieuxPage() {
   }, [lieuxPourCarte, paysActif, villeActive, cadreVisible]);
 
   const clubsParVille = useMemo(() => {
-    const tousLesLieuxVille = lieuxFiltres.filter((l) => l.type === 'club');
-    return VILLES_CLUBS.map((ville) => {
-      const deLaVille = tousLesLieuxVille.filter((c) => c.villeSlug === ville.slug);
-      return {
-        ville,
-        pays: paysMap.get(ville.paysCode),
-        clubs: deLaVille
-          .filter((c) => !c.estSalle)
-          .sort((a, b) => b.capacite - a.capacite),
-        salles: deLaVille
-          .filter((c) => Boolean(c.estSalle))
-          .sort((a, b) => b.capacite - a.capacite),
-      };
-    }).filter((g) => g.clubs.length > 0 || g.salles.length > 0);
+    const clubsDedies = lieuxFiltres.filter((l) => l.type === 'club' && !l.estSalle);
+    return VILLES_CLUBS.map((ville) => ({
+      ville,
+      pays: paysMap.get(ville.paysCode),
+      clubs: clubsDedies
+        .filter((c) => c.villeSlug === ville.slug)
+        .sort((a, b) => b.capacite - a.capacite),
+    })).filter((g) => g.clubs.length > 0);
+  }, [lieuxFiltres, paysMap]);
+
+  const sallesParVille = useMemo(() => {
+    const sallesLocation = lieuxFiltres.filter((l) => l.type === 'club' && Boolean(l.estSalle));
+    return VILLES_CLUBS.map((ville) => ({
+      ville,
+      pays: paysMap.get(ville.paysCode),
+      salles: sallesLocation
+        .filter((s) => s.villeSlug === ville.slug)
+        .sort((a, b) => b.capacite - a.capacite),
+    })).filter((g) => g.salles.length > 0);
   }, [lieuxFiltres, paysMap]);
 
   const festivalsParPays = useMemo(() => {
@@ -447,7 +533,7 @@ export function LieuxPage() {
     if (villeActive) return;
     let annule = false;
 
-    void Promise.all([toutesLesVilles(), villeDattache(), ouJeSuisAvecSecours()]).then(
+    void Promise.all([obtenirVillesSupabase(), villeDattache(), ouJeSuisAvecSecours()]).then(
       ([villesActives, idProfil, ou]) => {
         if (annule || interactionUtilisateurRef.current) return;
         const slugProfil = idProfil
@@ -475,10 +561,10 @@ export function LieuxPage() {
     return () => {
       annule = true;
     };
-  }, []);
+  }, [obtenirVillesSupabase]);
 
-  /* Mise a jour des marqueurs : tous les lieux correspondant au type et a la recherche
-     restent affiches sur la carte pour permettre l'exploration libre au dezoom. */
+  /* Mise a jour des marqueurs : les salles a louer sont ajoutees d'abord en arriere-plan,
+     puis les festivals et enfin les clubs et bars musicaux au premier plan. */
   useEffect(() => {
     const carte = carteRef.current;
     if (!carte) return;
@@ -486,10 +572,21 @@ export function LieuxPage() {
     for (const { marker } of marqueursRef.current.values()) marker.remove();
     marqueursRef.current.clear();
 
-    for (const lieu of lieuxPourCarte) {
+    const triesPourOrdre = [...lieuxPourCarte].sort((a, b) => {
+      const poids = (x: LieuOuFestival): number => (x.estSalle ? 0 : x.type === 'festival' ? 1 : 2);
+      return poids(a) - poids(b);
+    });
+
+    for (const lieu of triesPourOrdre) {
+      const classePin =
+        lieu.type === 'festival'
+          ? 'lx-pin-festival'
+          : lieu.estSalle
+            ? 'lx-pin-salle'
+            : 'lx-pin-club';
       const el = document.createElement('button');
       el.type = 'button';
-      el.className = `lx-pin lx-pin-${lieu.type}`;
+      el.className = `lx-pin ${classePin}`;
       el.setAttribute('aria-label', `${lieu.nom} (${lieu.ville[langue]})`);
       el.title = `${lieu.nom} · ${lieu.ville[langue]}`;
 
@@ -636,6 +733,74 @@ export function LieuxPage() {
     });
   };
 
+  const obtenirSoireesDuLieu = (lieu: LieuOuFestival): Soiree[] => {
+    const slug = lieu.villeSlug ?? '';
+    const deLaVille = slug ? soireesParVille[slug] : undefined;
+    if (!deLaVille) return [];
+    return soireesPourLieu(lieu, deLaVille);
+  };
+
+  const rendreProchainesSoirees = (lieu: LieuOuFestival, compact = false) => {
+    const slug = lieu.villeSlug ?? '';
+    const config = slug ? ZONES_RA_PAR_VILLE[slug] : undefined;
+    if (!config) return null;
+
+    const deLaVille = soireesParVille[slug];
+    const enChargement = Boolean(chargementParVille[slug] && !deLaVille);
+    const soireesLieu = deLaVille ? soireesPourLieu(lieu, deLaVille) : [];
+    const maxAffichees = compact ? 3 : 5;
+    const visibles = soireesLieu.slice(0, maxAffichees);
+
+    return (
+      <div className={`lx-soirees-bloc ${compact ? 'lx-soirees-bloc-carte' : ''}`}>
+        <div className="lx-soirees-entete">
+          <span className="lx-soirees-titre">{t.lieuProchainesSoirees}</span>
+          {soireesLieu.length > 0 && (
+            <span className="lx-soirees-compteur">{t.lieuNSoireesAVenir(soireesLieu.length)}</span>
+          )}
+        </div>
+        {enChargement ? (
+          <p className="lx-soirees-etat">{t.lieuChargementSoirees}</p>
+        ) : visibles.length > 0 ? (
+          <>
+            <ul className="lx-soirees-liste">
+              {visibles.map((s) => {
+                const h = s.debut ? heureLocale(s.debut, config.fuseau) : null;
+                const dateStr = quandEnLettres(s, h, config.fuseau, LOCALE, false);
+                const externe = Boolean(s.lien && s.lien.startsWith('http'));
+                const href = externe ? s.lien : `#/calendrier?city=${slug}`;
+                return (
+                  <li key={s.id} className="lx-soiree-item">
+                    <a
+                      className="lx-soiree-lien"
+                      href={href}
+                      {...(externe ? { target: '_blank', rel: 'noreferrer noopener' } : {})}
+                    >
+                      <span className="lx-soiree-date">{dateStr}</span>
+                      <span className="lx-soiree-nom">{s.titre}</span>
+                      {s.artistes.length > 0 && (
+                        <span className="lx-soiree-artistes">
+                          {s.artistes.slice(0, 4).join(', ')}
+                        </span>
+                      )}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+            {soireesLieu.length > maxAffichees && (
+              <a className="lx-soirees-toutes" href={`#/calendrier?city=${slug}`}>
+                {t.lieuVoirToutesSoireesLieu(soireesLieu.length)} →
+              </a>
+            )}
+          </>
+        ) : (
+          <p className="lx-soirees-etat">{t.lieuAucuneSoireeAnnoncee}</p>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="page-credits page-lieux">
       <EnTeteSite />
@@ -644,7 +809,12 @@ export function LieuxPage() {
           <p className="lx-surtitre">{t.clubsCarteMondiale}</p>
           <h1 className="lx-titre">{t.clubsEtFestivalsTitre}</h1>
           <p className="lx-chapeau">
-            {t.clubsEtFestivalsChapeau(totalClubs, VILLES_CLUBS.length, totalFestivals, PAYS_LIEUX.length)}
+            {t.clubsEtFestivalsChapeau(
+              totalClubs + totalSalles,
+              VILLES_CLUBS.length,
+              totalFestivals,
+              PAYS_LIEUX.length
+            )}
           </p>
         </header>
 
@@ -676,6 +846,15 @@ export function LieuxPage() {
             >
               <span className="lx-puce lx-puce-festival" aria-hidden="true" />
               {t.festivalsSeulement(totalFestivals)}
+            </button>
+            <button
+              type="button"
+              className="lx-mode lx-mode-salle"
+              aria-pressed={filtreType === 'salle'}
+              onClick={() => setFiltreType('salle')}
+            >
+              <span className="lx-puce lx-puce-salle" aria-hidden="true" />
+              {t.sallesSeulement(totalSalles)}
             </button>
           </div>
 
@@ -725,11 +904,17 @@ export function LieuxPage() {
             <div className="lx-legende">
               <span className="lx-legende-item">
                 <span className="lx-puce lx-puce-club" aria-hidden="true" />
-                {t.lieuNClubs(lieuxFiltres.filter((x) => x.type === 'club').length)}
+                {t.lieuNClubs(lieuxFiltres.filter((x) => x.type === 'club' && !x.estSalle).length)}
               </span>
               <span className="lx-legende-item">
                 <span className="lx-puce lx-puce-festival" aria-hidden="true" />
                 {t.lieuNFestivals(lieuxFiltres.filter((x) => x.type === 'festival').length)}
+              </span>
+              <span className="lx-legende-item">
+                <span className="lx-puce lx-puce-salle" aria-hidden="true" />
+                {t.lieuNSallesSeules(
+                  lieuxFiltres.filter((x) => x.type === 'club' && Boolean(x.estSalle)).length
+                )}
               </span>
             </div>
             <div className="lx-zones-carte">
@@ -782,7 +967,15 @@ export function LieuxPage() {
             {selection && (
               <aside className="lx-fiche-carte" aria-live="polite">
                 <div className="lx-fiche-entete">
-                  <span className={`lx-badge lx-badge-${selection.type}`}>
+                  <span
+                    className={`lx-badge ${
+                      selection.type === 'festival'
+                        ? 'lx-badge-festival'
+                        : selection.estSalle
+                          ? 'lx-badge-salle'
+                          : 'lx-badge-club'
+                    }`}
+                  >
                     {selection.type === 'club'
                       ? selection.estSalle
                         ? t.lieuTypeSalle
@@ -817,6 +1010,7 @@ export function LieuxPage() {
                     ))}
                   </ul>
                 )}
+                {rendreProchainesSoirees(selection, true)}
                 <div className="lx-fiche-actions">
                   <a
                     className="lx-lien-action"
@@ -851,7 +1045,7 @@ export function LieuxPage() {
           </div>
         )}
 
-        {/* SECTION 1 : LES MEILLEURS CLUBS PAR VILLE */}
+        {/* SECTION 1 (EN VEDETTE) : LES MEILLEURS CLUBS ET BARS MUSICAUX PAR VILLE */}
         {clubsParVille.length > 0 && (
           <section className="lx-bloc" aria-labelledby="titre-clubs-villes">
             <header className="lx-bloc-entete">
@@ -865,14 +1059,12 @@ export function LieuxPage() {
             </header>
 
             <div id="lx-liste-resultats" className="lx-groupes">
-              {clubsParVille.map(({ ville, pays, clubs, salles }) => {
+              {clubsParVille.map(({ ville, pays, clubs }) => {
                 const maxCap = Math.max(...clubs.map((c) => c.capacite), 1);
                 const filtreActif = Boolean(villeActive || paysActif || requete.trim());
                 const cleGroupe = `ville:${ville.slug}`;
-                const cleSalles = `salles:${ville.slug}`;
                 const toutAfficher = filtreActif || groupesDeplies.has(cleGroupe);
                 const clubsVisibles = toutAfficher ? clubs : clubs.slice(0, 5);
-                const sallesOuvertes = Boolean(requete.trim()) || groupesDeplies.has(cleSalles);
 
                 return (
                   <article key={ville.slug} className="lx-groupe">
@@ -883,9 +1075,7 @@ export function LieuxPage() {
                           {pays ? <span className="lx-groupe-pays"> · {pays.nom[langue]}</span> : null}
                         </h3>
                         <span className="lx-groupe-compteur">
-                          {salles.length > 0
-                            ? `${t.lieuNClubsSeuls(clubs.length)} · ${t.lieuNSallesSeules(salles.length)}`
-                            : t.lieuNClubsSeuls(clubs.length)}
+                          {t.lieuNClubsSeuls(clubs.length)}
                         </span>
                       </div>
                       <div className="lx-groupe-liens">
@@ -910,101 +1100,114 @@ export function LieuxPage() {
                       </div>
                     </header>
 
-                    {clubsVisibles.length > 0 && (
-                      <ol className="lx-palmares">
-                        {clubsVisibles.map((club, idx) => {
-                          const rang = idx + 1;
-                          const estOuvert = lieuxOuverts.has(club.id);
-                          const pct = Math.max(14, Math.round((club.capacite / maxCap) * 100));
+                    <ol className="lx-palmares">
+                      {clubsVisibles.map((club, idx) => {
+                        const rang = idx + 1;
+                        const estOuvert = lieuxOuverts.has(club.id);
+                        const pct = Math.max(14, Math.round((club.capacite / maxCap) * 100));
+                        const nbSoirees = obtenirSoireesDuLieu(club).length;
 
-                          return (
-                            <li
-                              key={club.id}
-                              className={`lx-rang ${estOuvert ? 'est-ouvert' : ''} ${rang <= 3 ? 'est-podium' : ''}`}
+                        return (
+                          <li
+                            key={club.id}
+                            className={`lx-rang ${estOuvert ? 'est-ouvert' : ''} ${rang <= 3 ? 'est-podium' : ''}`}
+                          >
+                            <button
+                              type="button"
+                              className="lx-rang-entete"
+                              aria-expanded={estOuvert}
+                              onClick={() => basculerLieu(club.id)}
                             >
-                              <button
-                                type="button"
-                                className="lx-rang-entete"
-                                aria-expanded={estOuvert}
-                                onClick={() => basculerLieu(club.id)}
-                              >
-                                <span className="lx-rang-num">#{String(rang).padStart(2, '0')}</span>
-                                <span className="lx-rang-identite">
-                                  <span className="lx-carte-nom">{club.nom}</span>
-                                  <span className="lx-carte-meta">
-                                    {[
-                                      club.ville[langue],
-                                      club.annee ? t.lieuDepuis(club.annee) : null,
-                                    ]
-                                      .filter(Boolean)
-                                      .join(' · ')}
-                                  </span>
+                              <span className="lx-rang-num">#{String(rang).padStart(2, '0')}</span>
+                              <span className="lx-rang-identite">
+                                <span className="lx-carte-nom">{club.nom}</span>
+                                <span className="lx-carte-meta">
+                                  {[
+                                    club.ville[langue],
+                                    club.annee ? t.lieuDepuis(club.annee) : null,
+                                  ]
+                                    .filter(Boolean)
+                                    .join(' · ')}
                                 </span>
-                                {club.styles.length > 0 && (
-                                  <span className="lx-rang-apercu-styles" aria-hidden="true">
-                                    {club.styles.slice(0, 3).map((s) => (
-                                      <span key={s} className="lx-tag-apercu">
-                                        {s}
-                                      </span>
-                                    ))}
+                                {nbSoirees > 0 && (
+                                  <span className="lx-badge-soirees">
+                                    {t.lieuNSoireesAVenir(nbSoirees)}
                                   </span>
                                 )}
-                                <span className="lx-rang-jauge">
-                                  <span className="lx-capacite">{t.lieuCapacite(club.capacite)}</span>
-                                  <span className="lx-jauge-piste" aria-hidden="true">
-                                    <span className="lx-jauge-barre" style={{ width: `${pct}%` }} />
-                                  </span>
+                              </span>
+                              {club.styles.length > 0 && (
+                                <span className="lx-rang-apercu-styles" aria-hidden="true">
+                                  {club.styles.slice(0, 3).map((s) => (
+                                    <span key={s} className="lx-tag-apercu">
+                                      {s}
+                                    </span>
+                                  ))}
                                 </span>
-                                <span className="lx-rang-chevron" aria-hidden="true">
-                                  <svg
-                                    viewBox="0 0 16 16"
-                                    width="14"
-                                    height="14"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="1.8"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  >
-                                    <path d="M4 6l4 4 4-4" />
-                                  </svg>
-                                </span>
-                              </button>
-
-                              {estOuvert && (
-                                <div className="lx-rang-corps">
-                                  <p className="lx-carte-desc">{club.description[langue]}</p>
-                                  {club.styles.length > 0 && (
-                                    <ul className="lx-styles">
-                                      {club.styles.map((s) => (
-                                        <li key={s}>{s}</li>
-                                      ))}
-                                    </ul>
-                                  )}
-                                  <div className="lx-carte-bas">
-                                    <a
-                                      className="lx-lien-site"
-                                      href={club.site}
-                                      target="_blank"
-                                      rel="noreferrer noopener"
-                                    >
-                                      {t.lieuSiteOfficiel}
-                                    </a>
-                                    <button
-                                      type="button"
-                                      className="lx-lien-carte"
-                                      onClick={() => centrerSurLieu(club)}
-                                    >
-                                      {t.lieuCentrerCarte}
-                                    </button>
-                                  </div>
-                                </div>
                               )}
-                            </li>
-                          );
-                        })}
-                      </ol>
-                    )}
+                              <span className="lx-rang-jauge">
+                                <span className="lx-capacite">{t.lieuCapacite(club.capacite)}</span>
+                                <span className="lx-jauge-piste" aria-hidden="true">
+                                  <span className="lx-jauge-barre" style={{ width: `${pct}%` }} />
+                                </span>
+                              </span>
+                              <span className="lx-rang-chevron" aria-hidden="true">
+                                <svg
+                                  viewBox="0 0 16 16"
+                                  width="14"
+                                  height="14"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="1.8"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                >
+                                  <path d="M4 6l4 4 4-4" />
+                                </svg>
+                              </span>
+                            </button>
+
+                            {estOuvert && (
+                              <div className="lx-rang-corps">
+                                <p className="lx-carte-desc">{club.description[langue]}</p>
+                                {club.styles.length > 0 && (
+                                  <ul className="lx-styles">
+                                    {club.styles.map((s) => (
+                                      <li key={s}>{s}</li>
+                                    ))}
+                                  </ul>
+                                )}
+                                {rendreProchainesSoirees(club)}
+                                <div className="lx-carte-bas">
+                                  <a
+                                    className="lx-lien-site"
+                                    href={club.site}
+                                    target="_blank"
+                                    rel="noreferrer noopener"
+                                  >
+                                    {t.lieuSiteOfficiel}
+                                  </a>
+                                  {ville.aCalendrier && (
+                                    <a
+                                      className="lx-lien-calendrier"
+                                      href={`#/calendrier?city=${ville.slug}`}
+                                    >
+                                      {t.lieuVoirCalendrierVille(ville.nom[langue])}
+                                    </a>
+                                  )}
+                                  <button
+                                    type="button"
+                                    className="lx-lien-carte"
+                                    onClick={() => centrerSurLieu(club)}
+                                  >
+                                    {t.lieuCentrerCarte}
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                          </li>
+                        );
+                      })}
+                    </ol>
 
                     {clubs.length > 5 && !filtreActif && (
                       <button
@@ -1017,116 +1220,6 @@ export function LieuxPage() {
                           ? t.lieuReduireTop5
                           : t.lieuVoirToutClassement(clubs.length - 5, 6, clubs.length)}
                       </button>
-                    )}
-
-                    {salles.length > 0 && (
-                      <div className={`lx-salles-secondaires ${sallesOuvertes ? 'est-ouvert' : ''}`}>
-                        <button
-                          type="button"
-                          className="lx-salles-bascule"
-                          aria-expanded={sallesOuvertes}
-                          onClick={() => basculerGroupe(cleSalles)}
-                        >
-                          <span className="lx-salles-bascule-gauche">
-                            <span className="lx-salles-bascule-titre">
-                              {t.lieuSallesSecondairesTitre(salles.length)}
-                            </span>
-                            <span className="lx-salles-bascule-badge">
-                              {t.lieuSallesSecondairesBadge}
-                            </span>
-                          </span>
-                          <span className="lx-rang-chevron" aria-hidden="true">
-                            <svg
-                              viewBox="0 0 16 16"
-                              width="14"
-                              height="14"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.8"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            >
-                              <path d="M4 6l4 4 4-4" />
-                            </svg>
-                          </span>
-                        </button>
-
-                        {sallesOuvertes && (
-                          <ul className="lx-salles-liste">
-                            {salles.map((salle) => {
-                              const estOuvert = lieuxOuverts.has(salle.id);
-                              return (
-                                <li
-                                  key={salle.id}
-                                  className={`lx-rang lx-rang-salle ${estOuvert ? 'est-ouvert' : ''}`}
-                                >
-                                  <button
-                                    type="button"
-                                    className="lx-rang-entete"
-                                    aria-expanded={estOuvert}
-                                    onClick={() => basculerLieu(salle.id)}
-                                  >
-                                    <span className="lx-salle-pastille">{t.lieuTypeSalle}</span>
-                                    <span className="lx-rang-identite">
-                                      <span className="lx-carte-nom">{salle.nom}</span>
-                                      <span className="lx-carte-meta">
-                                        {[
-                                          salle.ville[langue],
-                                          salle.annee ? t.lieuDepuis(salle.annee) : null,
-                                        ]
-                                          .filter(Boolean)
-                                          .join(' · ')}
-                                      </span>
-                                    </span>
-                                    <span className="lx-rang-jauge">
-                                      <span className="lx-capacite lx-capacite-salle">
-                                        {t.lieuCapacite(salle.capacite)}
-                                      </span>
-                                    </span>
-                                    <span className="lx-rang-chevron" aria-hidden="true">
-                                      <svg
-                                        viewBox="0 0 16 16"
-                                        width="14"
-                                        height="14"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="1.8"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                      >
-                                        <path d="M4 6l4 4 4-4" />
-                                      </svg>
-                                    </span>
-                                  </button>
-
-                                  {estOuvert && (
-                                    <div className="lx-rang-corps">
-                                      <p className="lx-carte-desc">{salle.description[langue]}</p>
-                                      <div className="lx-carte-bas">
-                                        <a
-                                          className="lx-lien-site"
-                                          href={salle.site}
-                                          target="_blank"
-                                          rel="noreferrer noopener"
-                                        >
-                                          {t.lieuSiteOfficiel}
-                                        </a>
-                                        <button
-                                          type="button"
-                                          className="lx-lien-carte"
-                                          onClick={() => centrerSurLieu(salle)}
-                                        >
-                                          {t.lieuCentrerCarte}
-                                        </button>
-                                      </div>
-                                    </div>
-                                  )}
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        )}
-                      </div>
                     )}
                   </article>
                 );
@@ -1186,6 +1279,7 @@ export function LieuxPage() {
                         const rang = idx + 1;
                         const estOuvert = lieuxOuverts.has(fest.id);
                         const pct = Math.max(14, Math.round((fest.capacite / maxCap) * 100));
+                        const nbSoirees = obtenirSoireesDuLieu(fest).length;
 
                         return (
                           <li
@@ -1212,6 +1306,11 @@ export function LieuxPage() {
                                     .filter(Boolean)
                                     .join(' · ')}
                                 </span>
+                                {nbSoirees > 0 && (
+                                  <span className="lx-badge-soirees">
+                                    {t.lieuNSoireesAVenir(nbSoirees)}
+                                  </span>
+                                )}
                               </span>
                               <span className="lx-rang-apercu-styles" aria-hidden="true">
                                 {fest.styles.slice(0, 3).map((s) => (
@@ -1255,6 +1354,7 @@ export function LieuxPage() {
                                     <li key={s}>{s}</li>
                                   ))}
                                 </ul>
+                                {rendreProchainesSoirees(fest)}
                                 <div className="lx-carte-bas">
                                   <a
                                     className="lx-lien-site"
@@ -1299,6 +1399,157 @@ export function LieuxPage() {
                         {toutAfficher
                           ? t.lieuReduireTop5
                           : t.lieuVoirToutClassement(festivals.length - 5, 6, festivals.length)}
+                      </button>
+                    )}
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
+        {/* SECTION 3 (SEPAREE EN BAS) : SALLES A LOUER ET SALLES DE SPECTACLE PAR VILLE */}
+        {sallesParVille.length > 0 && (
+          <section className="lx-bloc lx-bloc-salles" aria-labelledby="titre-salles-villes">
+            <header className="lx-bloc-entete">
+              <div className="lx-bloc-entete-ligne">
+                <h2 id="titre-salles-villes" className="lx-bloc-titre">
+                  {t.sallesSectionTitre}
+                </h2>
+                <span className="lx-badge-classement lx-badge-classement-salle">
+                  {t.lieuSallesSecondairesBadge}
+                </span>
+              </div>
+              <p className="lx-bloc-soustitre">{t.sallesSectionSousTitre}</p>
+            </header>
+
+            <div className="lx-groupes">
+              {sallesParVille.map(({ ville, pays, salles }) => {
+                const filtreActif = Boolean(
+                  villeActive || paysActif || requete.trim() || filtreType === 'salle'
+                );
+                const cleSalles = `salles:${ville.slug}`;
+                const toutAfficher = filtreActif || groupesDeplies.has(cleSalles);
+                const sallesVisibles = toutAfficher ? salles : salles.slice(0, 5);
+
+                return (
+                  <article key={ville.slug} className="lx-groupe">
+                    <header className="lx-groupe-entete">
+                      <div className="lx-groupe-titre-bloc">
+                        <h3 className="lx-groupe-titre">
+                          {ville.nom[langue]}
+                          {pays ? <span className="lx-groupe-pays"> · {pays.nom[langue]}</span> : null}
+                        </h3>
+                        <span className="lx-groupe-compteur lx-groupe-compteur-salle">
+                          {t.lieuNSallesSeules(salles.length)}
+                        </span>
+                      </div>
+                      <div className="lx-groupe-liens">
+                        <button
+                          type="button"
+                          className="lx-lien-carte"
+                          onClick={() => {
+                            choisirVille(ville.slug);
+                            blocCarteRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                          }}
+                        >
+                          {t.lieuCentrerCarte}
+                        </button>
+                      </div>
+                    </header>
+
+                    <ul className="lx-palmares">
+                      {sallesVisibles.map((salle) => {
+                        const estOuvert = lieuxOuverts.has(salle.id);
+                        const nbSoirees = obtenirSoireesDuLieu(salle).length;
+
+                        return (
+                          <li
+                            key={salle.id}
+                            className={`lx-rang lx-rang-salle ${estOuvert ? 'est-ouvert' : ''}`}
+                          >
+                            <button
+                              type="button"
+                              className="lx-rang-entete"
+                              aria-expanded={estOuvert}
+                              onClick={() => basculerLieu(salle.id)}
+                            >
+                              <span className="lx-salle-pastille">{t.lieuTypeSalle}</span>
+                              <span className="lx-rang-identite">
+                                <span className="lx-carte-nom">{salle.nom}</span>
+                                <span className="lx-carte-meta">
+                                  {[
+                                    salle.ville[langue],
+                                    salle.annee ? t.lieuDepuis(salle.annee) : null,
+                                  ]
+                                    .filter(Boolean)
+                                    .join(' · ')}
+                                </span>
+                                {nbSoirees > 0 && (
+                                  <span className="lx-badge-soirees">
+                                    {t.lieuNSoireesAVenir(nbSoirees)}
+                                  </span>
+                                )}
+                              </span>
+                              <span className="lx-rang-jauge">
+                                <span className="lx-capacite lx-capacite-salle">
+                                  {t.lieuCapacite(salle.capacite)}
+                                </span>
+                              </span>
+                              <span className="lx-rang-chevron" aria-hidden="true">
+                                <svg
+                                  viewBox="0 0 16 16"
+                                  width="14"
+                                  height="14"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="1.8"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                >
+                                  <path d="M4 6l4 4 4-4" />
+                                </svg>
+                              </span>
+                            </button>
+
+                            {estOuvert && (
+                              <div className="lx-rang-corps">
+                                <p className="lx-carte-desc">{salle.description[langue]}</p>
+                                {rendreProchainesSoirees(salle)}
+                                <div className="lx-carte-bas">
+                                  <a
+                                    className="lx-lien-site"
+                                    href={salle.site}
+                                    target="_blank"
+                                    rel="noreferrer noopener"
+                                  >
+                                    {t.lieuSiteOfficiel}
+                                  </a>
+                                  <button
+                                    type="button"
+                                    className="lx-lien-carte"
+                                    onClick={() => centrerSurLieu(salle)}
+                                  >
+                                    {t.lieuCentrerCarte}
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                          </li>
+                        );
+                      })}
+                    </ul>
+
+                    {salles.length > 5 && !filtreActif && (
+                      <button
+                        type="button"
+                        className="lx-voir-plus lx-voir-plus-salle"
+                        aria-expanded={toutAfficher}
+                        onClick={() => basculerGroupe(cleSalles)}
+                      >
+                        {toutAfficher
+                          ? t.lieuReduireTop5
+                          : t.lieuVoirToutClassement(salles.length - 5, 6, salles.length)}
                       </button>
                     )}
                   </article>
