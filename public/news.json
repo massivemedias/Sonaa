@@ -1,6 +1,15 @@
 {
- "fait": "2026-11-06T19:30:25.727Z",
+ "fait": "2026-11-07T06:10:38.294Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "AKAI Force G2 Leak: The Force Awakens",
+   "lien": "https://www.gearnews.com/akai-force-g2-synth/",
+   "date": "2026-11-06T22:44:38.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/akai-force-g2-leak-t-128x71.jpg",
+   "resume": "AKAI’s clip launcher groovebox appears to be getting a new model, with a leaked video showing a box for the Force G2. AKAI Force G2 AKAI Force G2 Leak New Force, Who Dis? More Information AKAI Force G2 Leak AKAI’s Force…",
+   "integral": true
+  },
   {
    "source": "musicradar",
    "titre": "“I’m not sure it’s even possible”: James Hype says he’s going to try to mix 1,000 tracks in two hours",
@@ -89,15 +98,6 @@
    "date": "2026-11-05T23:55:00.000Z",
    "image": "https://cdn.gearnews.com/wp-content/uploads/2026/05/shik-s32-new-T.jpg",
    "resume": "The SHIK S32 controller has built-in MIDI effects, 32 macro knobs and a companion MIDI-to-CV Eurorack module. And it’s available now! Control I’m here! All About SHIK S32 Now Available SHIK S32: Every Knob Is a Macro…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Stylophone On-The-Fly Performance Sequencer With Up to 64 Steps: Now Available!",
-   "lien": "https://www.gearnews.com/stylophone-on-the-fly-performance-sequencer-synth/",
-   "date": "2026-11-05T23:42:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/01/stylophone-on-the-fly-T.jpg",
-   "resume": "Stylophone’s On-The-Fly Performance Sequencer is finally here. The 64-step Eurorack-compatible sequencer is now available to buy. All About Stylophone On-The-Fly Now Available Stylophone On-The-Fly: Tweak Everything!…",
    "integral": true
   },
   {
