@@ -1,6 +1,24 @@
 {
- "fait": "2026-11-07T06:10:38.294Z",
+ "fait": "2026-11-07T17:47:16.771Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "5 Forgotten Synths: Lost to Time",
+   "lien": "https://www.gearnews.com/5-forgotten-synths/",
+   "date": "2026-11-07T17:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/forgotten-synths-T.jpg",
+   "resume": "Not every synth can be a classic. For every CS-80 and Jupiter-8, there are countless that, while not bad, never make it into the musician collective unconscious. These are five of those forgotten synths. 5 Forgotten…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Charlotte de Witte Releases Azadi EP Ahead of EDC Thailand",
+   "lien": "https://midnightrebels.com/charlotte-de-witte-edc-thailand-2026-genoa-free-show/",
+   "date": "2026-11-07T12:45:01.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/pasted-photo-featured-43707.webp?fit=1920%2C1080&ssl=1",
+   "resume": "On November 5, 2026, Charlotte de Witte released the Azadi EP on her KNTXT label . The three-track release features NAVA, an AI-generated singer who voices lyrics written in Farsi, and all proceeds go to Femena, a…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "AKAI Force G2 Leak: The Force Awakens",
@@ -69,7 +87,7 @@
    "titre": "James Hype’s Project 1000 Turns a DJ Set Into a Speed Test",
    "lien": "https://midnightrebels.com/james-hype-project-1000/",
    "date": "2026-11-06T12:43:23.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/Ministry-of-Sounds-Old-Sound-System-Is-Up-for-Sale.webp?fit=2400%2C1350&ssl=1",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/2026-11-07-pasted-photo-featured-1.webp?fit=1920%2C1080&ssl=1",
    "resume": "“In December 2026, I’m attempting something I think is impossible.” That’s how James Hype introduced Project 1000 , a two-hour show built from 1,000 tracks. The Liverpool-born DJ and producer will need a transition…",
    "integral": true
   },
@@ -89,24 +107,6 @@
    "date": "2026-11-06T10:03:54.000Z",
    "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/splice-create-ft-01.jpg",
    "resume": "With Splice Create, you have access to an endless collection of sounds, with instruments and effects to turn your ideas into fully-fledged productions. The Splice library is already an integral part of the modern music…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "SHIK S32 MIDI Controller: Now Available!",
-   "lien": "https://www.gearnews.com/shik-s32-synth/",
-   "date": "2026-11-05T23:55:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/05/shik-s32-new-T.jpg",
-   "resume": "The SHIK S32 controller has built-in MIDI effects, 32 macro knobs and a companion MIDI-to-CV Eurorack module. And it’s available now! Control I’m here! All About SHIK S32 Now Available SHIK S32: Every Knob Is a Macro…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "Ableton Live 13 Leak Shows Drum Synth and Step Sequencer",
-   "lien": "https://midnightrebels.com/ableton-live-13-leak/",
-   "date": "2026-11-05T17:43:05.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/image-1.webp?resize=1160%2C653&ssl=1",
-   "resume": "A small plus button in Ableton’s device rack opens a tiny browser. It is one of the features in a video of Ableton Live 13 that reached YouTube before Ableton announced anything. A forum thread was already discussing…",
    "integral": true
   },
   {
