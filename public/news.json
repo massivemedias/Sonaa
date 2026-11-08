@@ -1,22 +1,112 @@
 {
- "fait": "2026-11-05T20:04:53.922Z",
+ "fait": "2026-11-07T17:47:16.771Z",
  "articles": [
   {
    "source": "gearnews",
-   "titre": "3 of the Best DJ DAWs: Perfect and Polish Your DJ Mixes",
-   "lien": "https://www.gearnews.com/the-best-3-dj-daws/",
-   "date": "2026-11-05T18:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/03/DJ_DAWs_T.jpg",
-   "resume": "Craft the perfect studio mix with DJ DAWs, purpose-built digital audio workstations for DJs. After reading this, you’ll wonder how you ever got along without one. All About DJ DAWs The Best DJ DAWs Why Do You Need a DJ…",
+   "titre": "5 Forgotten Synths: Lost to Time",
+   "lien": "https://www.gearnews.com/5-forgotten-synths/",
+   "date": "2026-11-07T17:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/forgotten-synths-T.jpg",
+   "resume": "Not every synth can be a classic. For every CS-80 and Jupiter-8, there are countless that, while not bad, never make it into the musician collective unconscious. These are five of those forgotten synths. 5 Forgotten…",
    "integral": true
   },
   {
    "source": "midnightrebels",
-   "titre": "Ableton Live 13 Leak Shows Drum Synth and Step Sequencer",
-   "lien": "https://midnightrebels.com/ableton-live-13-leak/",
-   "date": "2026-11-05T17:43:05.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/image-1.webp?resize=1160%2C653&ssl=1",
-   "resume": "A small plus button in Ableton’s device rack opens a tiny browser. It is one of the features in a video of Ableton Live 13 that reached YouTube before Ableton announced anything. A forum thread was already discussing…",
+   "titre": "Charlotte de Witte Releases Azadi EP Ahead of EDC Thailand",
+   "lien": "https://midnightrebels.com/charlotte-de-witte-edc-thailand-2026-genoa-free-show/",
+   "date": "2026-11-07T12:45:01.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/pasted-photo-featured-43707.webp?fit=1920%2C1080&ssl=1",
+   "resume": "On November 5, 2026, Charlotte de Witte released the Azadi EP on her KNTXT label . The three-track release features NAVA, an AI-generated singer who voices lyrics written in Farsi, and all proceeds go to Femena, a…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "AKAI Force G2 Leak: The Force Awakens",
+   "lien": "https://www.gearnews.com/akai-force-g2-synth/",
+   "date": "2026-11-06T22:44:38.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/akai-force-g2-leak-t-128x71.jpg",
+   "resume": "AKAI’s clip launcher groovebox appears to be getting a new model, with a leaked video showing a box for the Force G2. AKAI Force G2 AKAI Force G2 Leak New Force, Who Dis? More Information AKAI Force G2 Leak AKAI’s Force…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "“I’m not sure it’s even possible”: James Hype says he’s going to try to mix 1,000 tracks in two hours",
+   "lien": "https://www.musicradar.com/artists/djs-producers/im-not-sure-its-even-possible-but-were-going-to-try-dj-james-hype-says-hes-going-to-try-to-mix-1-000-tracks-in-just-two-hours",
+   "date": "2026-11-06T18:37:04.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/BNX4eHympurHhUbDC2V4jB-1920-80.jpg",
+   "resume": "DJs – how many tracks do you think you could fit into a two-hour set? Thirty? Forty even? Pah! James Hype has given himself a challenge which - if it comes off - will knock even the most nifty-fingered jocks into a…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Modern Synth Classics: 9 Incredible Synthesizers We’ll Still Be Talking About in 30 Years",
+   "lien": "https://www.gearnews.com/modern-synth-classics-synth/",
+   "date": "2026-11-06T18:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2024/09/modern-synth-classics-ASM-hydrasynth.jpg",
+   "resume": "These are the modern synth classics that we’ll wax nostalgic over in decades to come. Did your favorite make the list? Modern Synth Classics Arturia PolyBrute 12 Moog Grandmother Ashun Sound Machines Hydrasynth Groove…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "A Baby Audio plugin for just £4? Plugin Boutique’s early Black Friday deals are here – and you can get up to 96% off",
+   "lien": "https://musictech.com/news/gear/up-to-96-percent-off-plugin-boutique-early-black-friday-deals-2026/",
+   "date": "2026-11-06T16:51:24.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/Baby-Audio-Crystalline-hero@2000x1500.jpg",
+   "resume": "Black Friday has landed early at Plugin Boutique , with reductions of up to 96%. All throughout November and into December, you can save on plugins and bundle deals from brands like IK Multimedia , Baby Audio…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Native Instruments channels the resonance of one of the grandest concert pianos ever built with its new instrument, Vertikal",
+   "lien": "https://musictech.com/news/music/native-instruments-vertikal-grand-piano-virtual/",
+   "date": "2026-11-06T15:49:21.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/Native-Instruments-Vertikal-plugin.jpg",
+   "resume": "You’ve heard of a grand piano – but what about a monumental piano? That’s what sits inside of Saal 3, a recording studio in Berlin Funkhaus production complex. Standing at 4.5 meters tall, this vertical concert grand is…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Ministry of Sound’s Old Sound System Is Up for Sale",
+   "lien": "https://midnightrebels.com/ministry-of-sound-sound-system-for-sale/",
+   "date": "2026-11-06T15:07:38.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/image-2.webp?resize=547%2C365&ssl=1",
+   "resume": "Six stacks of Martin Audio speakers filled the main room at London’s Ministry of Sound for well over a decade. Now the club is selling them . The club retired the Martin Audio rig in January 2026 for a custom four-point…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "NoiseWorks Black Friday Deals: Up to 40% OFF!",
+   "lien": "https://www.gearnews.com/noiseworks-black-friday-deal/",
+   "date": "2026-11-06T13:46:05.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/11/noiseworks-complete-bundle.jpg",
+   "resume": "Until 30 November, you can save up to 40% on essential audio production plugins with the NoiseWorks Black Friday sale. Don’t miss out on this! The NoiseWorks Black Friday sale has kicked off with opportunities to save…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "James Hype’s Project 1000 Turns a DJ Set Into a Speed Test",
+   "lien": "https://midnightrebels.com/james-hype-project-1000/",
+   "date": "2026-11-06T12:43:23.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/2026-11-07-pasted-photo-featured-1.webp?fit=1920%2C1080&ssl=1",
+   "resume": "“In December 2026, I’m attempting something I think is impossible.” That’s how James Hype introduced Project 1000 , a two-hour show built from 1,000 tracks. The Liverpool-born DJ and producer will need a transition…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Take 5: The Search For Sound is a new audio-driven game that breaks through creative blocks",
+   "lien": "https://musictech.com/news/music/take-5-five-the-search-for-sound-ableton-live-game/",
+   "date": "2026-11-06T11:37:36.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/Take-5-The-Search-For-Sound.jpg",
+   "resume": "When you hit a wall in the creative process, taking a break is often the best solution. But what if taking five minutes away from your project was guaranteed to inspire you? That’s where Take 5 comes in. The new Ableton…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Splice Create: A Flexible New Splice-Powered DAW",
+   "lien": "https://www.gearnews.com/splice-create-studio/",
+   "date": "2026-11-06T10:03:54.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/splice-create-ft-01.jpg",
+   "resume": "With Splice Create, you have access to an endless collection of sounds, with instruments and effects to turn your ideas into fully-fledged productions. The Splice library is already an integral part of the modern music…",
    "integral": true
   },
   {
@@ -29,30 +119,12 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Your Passage to Deeper, More Powerful Expression – Synth Journal",
-   "lien": "https://www.gearnews.com/passage-to-expression-synth-journal-synths/",
-   "date": "2026-11-05T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/passage.jpg",
-   "resume": "This week, we look at the new plugin expression tool, Passage, from Keysolutions Sounds, hardware controllers for vintage synths and a pedal that thinks it’s a synth! It’s another week in the world of synths and another…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "Splice’s new AI DAW feels like a cheat code for music production – but it left us with one big question",
    "lien": "https://www.musicradar.com/music-tech/splices-new-ai-daw-feels-like-a-cheat-code-for-music-production-but-it-left-us-with-one-big-question",
    "date": "2026-11-05T15:36:29.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/MKxdBMTbkaGpg7vnhZevTo-1920-80.png",
    "resume": "Splice is best known for its three-million strong sample library, a vast collection of sounds that have made their way into thousands of popular songs by everyone from Sabrina Carpenter to Kendrick Lamar. In recent…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Universal Audio Capitol Studios: Room, Mic, and Gear Modeling from the Iconic Studio",
-   "lien": "https://www.gearnews.com/universal-audio-capitol-studios/",
-   "date": "2026-11-05T15:36:11.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/universal-audio-capitol-studios-ft.jpg",
-   "resume": "The Universal Audio Capitol Studios plugin lets you place your recordings in the fabled recording studio with stacks of customization options. The Capitol Studios plugin puts the sounds from your DAW into a legendary…",
    "integral": true
   },
   {
@@ -74,15 +146,6 @@
    "integral": true
   },
   {
-   "source": "midnightrebels",
-   "titre": "Ringtone-Era Dance Hits: Where the Producers Are Now",
-   "lien": "https://midnightrebels.com/ringtone-era-dance-hits-where-are-they-now/",
-   "date": "2026-11-05T15:03:06.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/Ableton-Live-13-Leak-Shows-Drum-Synth-and-Step-Sequencer.webp?fit=2400%2C1350&ssl=1",
-   "resume": "For a few years around the turn of the millennium, one dance track could take over every phone, radio and playground. Some of those songs were built for ringtones. Others just sounded like them. The people behind them…",
-   "integral": true
-  },
-  {
    "source": "musictech",
    "titre": "Welsh DJ duo powerhouse Overmono just launched a bus processor built around their own mixing workflow",
    "lien": "https://musictech.com/news/gear/overmono-diamond-cut/",
@@ -98,24 +161,6 @@
    "date": "2026-11-05T12:46:40.000Z",
    "image": "https://musictech.com/wp-content/uploads/2026/11/LEGO-x-Daft-Punk-Pyramid-Set.jpg",
    "resume": "Back in 2020, a father and son from Luxembourg dreamed of combining the worlds of LEGO and Daft Punk . Taking to the LEGO Ideas community page, the pair pitched the concept of a Daft Punk Pyramid Stage LEGO set inspired…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Ableton Live 13 LEAK: A Funky New Step Sequencer and Multiple Devices!",
-   "lien": "https://www.gearnews.com/ableton-live-13-studio/",
-   "date": "2026-11-05T12:40:08.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/ableton-live-13-leak-ft.jpg",
-   "resume": "Videos of Ableton Live 13, which is still unreleased at this point, have leaked on YouTube, giving us some insight into some of the new features. It’s been a MINUTE since Live 12 was officially launched- almost three…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "GForce Software Oberheim Matrix-12 – Big, Official and Built for the 21st Century",
-   "lien": "https://www.gearnews.com/gforce-software-oberheim-matrix-12-synths/",
-   "date": "2026-11-05T11:30:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/Matrix-12_1.jpg",
-   "resume": "Oberheim’s finest hour receives its only official software version as GForce Software take on the Matrix-12, with the help of one of its original designers. The year is 1985, and the synth world is going all in on the…",
    "integral": true
   },
   {
@@ -137,24 +182,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Best Controller Deals for Cyber Deals 2026: Native Instruments, Arturia, AKAI & More!",
-   "lien": "https://www.gearnews.com/controller-deals-cyber-deals/",
-   "date": "2026-11-05T10:20:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/11/2610_Gearnews_Cyber_Deals_2026_1540x850_Controller_v02_EN.jpg",
-   "resume": "Thomann’s massive Cyber Deals sale is the perfect opportunity to save on synths, controllers, drum machines and other exciting gear for your studio or live set. Check out these awesome controller deals for Cyber Deals…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Live and DJ Gear: Up to 70% Off with Thomann Cyber Deals 2026",
-   "lien": "https://www.gearnews.com/pa-live-deals-thomann-cyberweek/",
-   "date": "2026-11-05T10:10:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/11/cyber-deals-2026-live-dj-ft.jpg",
-   "resume": "Thomann’s Cyber Deals sale has started! For this post, we’ve picked out some of the Live and DJ deals for your next concert, party, or event. Save on mixers, in-ear monitoring, speakers, and even lighting . Check out…",
-   "integral": true
-  },
-  {
    "source": "musictech",
    "titre": "Why Jersey’s debut album is supposed to be performed live",
    "lien": "https://musictech.com/features/interviews/jersey-interview-nothings-fake/",
@@ -173,39 +200,12 @@
    "integral": true
   },
   {
-   "source": "midnightrebels",
-   "titre": "Cubase 16 Leans on Workflow Fixes More Than New Sounds",
-   "lien": "https://midnightrebels.com/cubase-16-steinberg-new-features/",
-   "date": "2026-11-04T17:37:33.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/08/opendaw_8k.webp?fit=800%2C502&ssl=1",
-   "resume": "Steinberg has released Cubase 16 with no countdown. Matthias Quellmann, Senior Marketing Manager at Steinberg, says many of the changes are “directly inspired by feedback from our community.” The update adds…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Did Steinberg just surprise-release Cubase 16? Here’s everything you need to know",
-   "lien": "https://musictech.com/news/gear/steinberg-cubase-16/",
-   "date": "2026-11-04T16:22:33.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/Cubase-16-3@2000x1500.jpg",
-   "resume": "It’s been a year since Steinberg surprise-released Cubase 15 . So perhaps we shouldn’t be all that surprised that the Hamburg-based company has opted for the same launch strategy this time around for Cubase 16. Still…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "With 86% off the Abbey Road Collection, Waves' early Black Friday sale just made upgrading your DAW way cheaper",
    "lien": "https://www.musicradar.com/music-tech/plugins/waves-black-friday-sale-2026",
    "date": "2026-11-04T15:15:00.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/Ueq4oGUkgn6nFrgCuzXKKD-1920-80.jpg",
    "resume": "There’s no better time than Black Friday to pick up a plugin deal, and Waves has decided to start the festivities early. The company has launched its Black Friday plugin deals now, so you can expand your arsenal earlier…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "ROLI – the innovative company specialising in touch-sensitive electronic instruments – has entered administration",
-   "lien": "https://musictech.com/news/industry/roli-enters-administration/",
-   "date": "2026-11-04T11:42:51.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2024/07/ROLI-Seaboard-Block-M-commercial-hero-credit-Simon-Vinall@2000x1500.jpg",
-   "resume": "ROLI – the innovative music technology company specialising in touch-sensitive electronic instruments like the Seaboard Block M and the Airwave – has collapsed into administration, it has been revealed. Earlier this…",
    "integral": true
   },
   {
@@ -269,24 +269,6 @@
    "date": "2026-11-02T20:51:57.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/mZbmXAbM3Yp2D3kDP6hZbj-1920-80.jpg",
    "resume": "What is it? The original Roland TD-07KV kit was released back in late 2020, closely followed by three additional ‘07’ configurations the following year. The TD-07KX, KVX and DMK models each offered a compact yet capable…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "“The tape had sat in a box for nearly 30 years”: Lost '90s Daft Punk mix unearthed by British DJ Ralph Lawson",
-   "lien": "https://www.musicradar.com/artists/the-tape-had-sat-in-a-box-for-nearly-30-years-lost-90s-daft-punk-mix-unearthed-by-british-dj",
-   "date": "2026-11-02T13:38:42.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/ZPTLL2qVmQVQNcTd3XtysU-1920-80.jpg",
-   "resume": "Daft Punk officially hung up their helmets in 2021 after a 28-year run that brought them from obscurity to chart-storming, Grammy-winning global success. The Parisian duo has since released archival reissues and remix…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Pioneering techno producer Juan Atkins has died aged 64",
-   "lien": "https://www.musicradar.com/music-tech/pioneering-techno-producer-juan-atkins-has-died-aged-64",
-   "date": "2026-11-01T17:00:53.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/hd64TKfFXfKzCvQiqAbTcW-1920-80.jpg",
-   "resume": "Pioneering techno producer Juan Atkins has died aged 64, his management company has confirmed . Atkins was due to perform at Mexico City’s Yu Yu Club on the night of 31 October, but is reported to have been found…",
    "integral": true
   },
   {
