@@ -1605,6 +1605,24 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
       en: 'European season opener at Amsterdam’s former NDSM shipyards, a pioneer in circular and zero-waste festival production.',
     },
   },
+  {
+    id: 'solstice-ruigoord-pays-bas',
+    nom: 'Solstice Festival',
+    type: 'festival',
+    paysCode: 'NL',
+    villeSlug: 'amsterdam-nl',
+    ville: { fr: 'Amsterdam (Ruigoord)', en: 'Amsterdam (Ruigoord)' },
+    latitude: 52.4106,
+    longitude: 4.7536,
+    capacite: 3000,
+    mois: { fr: 'Juin (solstice)', en: 'June (solstice)' },
+    styles: ['Psy', 'Progressive Trance', 'Ambient'],
+    site: 'https://www.instagram.com/solstice_festival_ruigoord/',
+    description: {
+      fr: 'Une journée de psytrance au village libre de Ruigoord, en bordure d’Amsterdam, le samedi du solstice d’été, organisée par Trance Orient Express : scène principale, piste psychédélique et espace chill-out.',
+      en: 'A one-day psytrance gathering in the free village of Ruigoord, on the edge of Amsterdam, on the summer solstice Saturday, run by Trance Orient Express: main stage, psychedelic floor and chill-out space.',
+    },
+  },
 
   /* Espagne (ES) */
   {
@@ -12303,16 +12321,16 @@ export const LIEUX_ET_FESTIVALS: readonly LieuOuFestival[] = [
       "fr": "Montréal (Quartier des spectacles)",
       "en": "Montreal (Quartier des spectacles)"
     },
-    "latitude": 45.5059,
-    "longitude": -73.5681,
-    "capacite": 650,
-    "annee": 2011,
+    "latitude": 45.5078,
+    "longitude": -73.5671,
+    "capacite": 700,
+    "annee": 2009,
     estSalle: true,
     styles: [],
     "site": "https://www.lestudiotd.com",
     "description": {
-      "fr": "Salle de concert moderne sur la rue Sainte-Catherine Ouest (ancien Astral), étape régulière de MUTEK et des tournées synthwave, electronica, drum & bass et techno.",
-      "en": "Modern concert hall on Sainte-Catherine Street West (formerly L’Astral), a regular stage for MUTEK and international synthwave, electronica and bass music tours."
+      "fr": "Salle de spectacle de la Maison du Festival, au 305 rue Sainte-Catherine Ouest (L’Astral jusqu’en 2022), de 300 places assises à 700 debout, étape régulière de MUTEK et des tournées electronica, drum & bass et techno.",
+      "en": "Performance hall inside the Maison du Festival at 305 Sainte-Catherine Street West (L’Astral until 2022), from 300 seated to 700 standing, a regular stage for MUTEK and electronica, drum & bass and techno tours."
     }
   },
   {
