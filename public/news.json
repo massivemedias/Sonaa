@@ -1,6 +1,15 @@
 {
- "fait": "2026-11-07T17:47:16.771Z",
+ "fait": "2026-11-08T17:58:20.695Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "ZL Limiter, ClassicQlite, simpleTapeStop: Free Plugins of the Week",
+   "lien": "https://www.gearnews.com/zl-limiter-free-plugins/",
+   "date": "2026-11-08T07:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/zl-limiter-free-plugins-11-08-26.jpg",
+   "resume": "ZL Limiter is a free limiter plugin from the creator of the excellent ZL Equalizer, ClassicQlite delivers the sound of classic British EQs, and simpleTapeStop does just what it says: Free Plugins of the Week! Free…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "5 Forgotten Synths: Lost to Time",
@@ -98,15 +107,6 @@
    "date": "2026-11-06T11:37:36.000Z",
    "image": "https://musictech.com/wp-content/uploads/2026/11/Take-5-The-Search-For-Sound.jpg",
    "resume": "When you hit a wall in the creative process, taking a break is often the best solution. But what if taking five minutes away from your project was guaranteed to inspire you? That’s where Take 5 comes in. The new Ableton…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Splice Create: A Flexible New Splice-Powered DAW",
-   "lien": "https://www.gearnews.com/splice-create-studio/",
-   "date": "2026-11-06T10:03:54.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/splice-create-ft-01.jpg",
-   "resume": "With Splice Create, you have access to an endless collection of sounds, with instruments and effects to turn your ideas into fully-fledged productions. The Splice library is already an integral part of the modern music…",
    "integral": true
   },
   {
