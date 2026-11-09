@@ -96,33 +96,9 @@ jobs:
       - name: Contrôler les doublons CSS
         run: npm run check:css
 
-      # DEUX CORRECTIONS CONTINUES SUR LA CAMERA SE TIRENT DESSUS, chacune vers
-      # sa propre idee du bon cadrage, et la carte derive sans que personne ne
-      # l'ait demande. C'est arrive DEUX FOIS en deux jours, et le motif est
-      # invisible a la lecture : chaque correcteur, pris seul, est raisonnable.
-      # Seul un compte les attrape. Toute ecriture sur l'etat de camera dans la
-      # boucle de rendu doit desormais etre declaree, avec sa raison.
-      - name: Contrôler les corrections de caméra
-        run: npm run check:camera
-
-      # LE SEUL MOTIF DE CE PROJET QUI RESISTE A LA DOCUMENTATION : deux
-      # endroits ecrivent la meme valeur, le dernier gagne, et rien ne le
-      # signale parce que chaque ligne est correcte prise seule. Ce qui est
-      # faux n'est dans aucune des deux, il est dans leur ORDRE, et l'ordre ne
-      # s'ecrit nulle part. Trois occurrences en une session, la regle etant
-      # deja ecrite avant la deuxieme. Ce controle oblige a DECLARER l'ordre,
-      # donc a se demander lequel doit gagner, donc a voir le conflit.
-      - name: Contrôler les écritures concurrentes
-        run: npm run check:ecritures
-
-      # UNE REGLE VIOLEE DEUX FOIS PAR CELUI QUI L'A ECRITE N'EST PAS UNE REGLE,
-      # c'est un souhait. « Le cadrage est un geste, pas un asservissement
-      # permanent » a ete ecrit apres six tours de recherche, puis reintroduit
-      # trois jours plus tard en corrigeant autre chose. Le controle exige
-      # desormais que tout recadrage declare QUAND IL S'ARRETE : un temps
-      # ecoule, une constante en millisecondes, ou un drapeau a un coup.
-      - name: Contrôler les recadrages sans fin
-        run: npm run check:cadrage
+      # LES CONTROLES DE CAMERA, D'ECRITURES CONCURRENTES ET DE RECADRAGES
+      # portaient sur le moteur de la carte en trois dimensions, supprime le
+      # 9 novembre 2026 (ADR-116). Ils sont retires avec lui.
 
       # LA MEME GRANDEUR ECRITE DANS DEUX FICHIERS. Le controle des doublons CSS
       # ne voyait que deux declarations de la meme propriete dans la meme regle.

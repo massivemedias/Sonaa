@@ -35,7 +35,7 @@ paragraphe, et seulement ce que Mika doit faire lui-même.
 ## Publier
 
 Uniquement par `npm run publier`. Il refuse si l'arbre git n'est pas propre ou
-si l'un des vingt et un contrôles échoue. Ensuite, vérifier que le
+si l'un des vingt contrôles échoue. Ensuite, vérifier que le
 déploiement est vert, puis vérifier en ligne avec `?nocache=1`. Ne jamais
 revenir à un ancien commit.
 

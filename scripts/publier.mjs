@@ -25,8 +25,6 @@ const CONTROLES = [
   ['compilation', 'npx tsc --noEmit'],
   ['corpus', 'npm run validate:data --silent'],
   ['css', 'npm run check:css --silent'],
-  ['camera', 'npm run check:camera --silent'],
-  ['cadrage', 'npm run check:cadrage --silent'],
   ['constantes', 'npm run check:constantes --silent'],
   /* BLOQUANT DEPUIS QUE SA DETECTION EST JUSTE. Il est reste rouge pendant des
      jours parce qu'il accusait a tort : il enumerait des FORMES d'appel et
@@ -34,7 +32,6 @@ const CONTROLES = [
      comme valeur. Un controle qu'on peut ignorer finit par etre ignore, et un
      controle qui crie a tort se fait desactiver. Repare, il entre ici. */
   ['exports', 'npm run check:exports --silent'],
-  ['ecritures', 'npm run check:ecritures --silent'],
   ['tirets', 'npm run check:tirets --silent'],
   /* VENU DU DEPLOIEMENT, ou il ne pouvait pas passer : il sonde YouTube et
      YouTube bloque les adresses de centre de donnees. Il a bloque un commit

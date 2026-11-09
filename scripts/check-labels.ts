@@ -6,7 +6,8 @@
    contrôle rend la récidive impossible : il échoue si un site d'appel compose
    le texte d'un label au lieu de passer le nom nu.
 
-   Trois contrôles, tous bloquants en CI :
+   Un contrôle, bloquant en CI (les deux premiers portaient sur le moteur de
+   la carte en trois dimensions, supprimé le 9 novembre 2026) :
 
    1. Dans le moteur, chaque appel à add() doit passer exactement `slot.label`,
       `family.label` ou `anchor.label` comme texte. Ni gabarit, ni
@@ -27,91 +28,9 @@ const ATLAS = fileURLToPath(new URL('../src/atlas', import.meta.url));
 
 const errors: string[] = [];
 
-// --- 1. Les sites d'appel de add() -----------------------------------------
-
-/* UN SEUL moteur depuis le retrait de la vue « 3D fixe » : webgl.ts a été
-   supprimé avec elle. La liste reste une liste, et le contrôle continue de
-   parcourir chaque entrée : ce qui est vérifié ici est une règle du projet,
-   pas une propriété d'un fichier, et un second moteur qui reviendrait
-   s'ajouterait ici sans passe-droit. */
-const ENGINES = ['webgl-orbit.ts'];
-const webgl = ENGINES.map((f) => readFileSync(`${ATLAS}/${f}`, 'utf8')).join('\n');
-
-/* On repère chaque appel `add(` puis on lit son deuxième argument. L'analyse
-   est volontairement naïve : les appels sont sur une ou plusieurs lignes, mais
-   les arguments sont simples. Si la forme du code change au point de casser ce
-   parseur, c'est le moment de re-regarder les labels de toute façon. */
-/* `\badd\(` attrapait AUSSI les methodes nommees add : `centre.clone().add(
-   vecteur(a, R))` etait lu comme un site d'appel de labels et le controle
-   accusait un label compose nomme « R ». Le point qui precede est
-   exclu explicitement : ce controle porte sur le helper local `add(...)` de
-   la passe de labels, pas sur Vector3.add. */
-const callSites = [...webgl.matchAll(/(?<![.\w])add\(\s*([\s\S]{0,200}?)\)/g)];
-// Plus d'ensembles (ADR-053) : familles et genres seulement, noms nus.
-const ALLOWED_TEXT = new Set(['slot.label', 'family.label']);
-
-let checked = 0;
-for (const call of callSites) {
-  const args = call[1] ?? '';
-  // Découpe grossière au premier niveau : les arguments ne contiennent pas de
-  // parenthèses imbriquées sauf new Vector3(), qu'on neutralise d'abord.
-  const flat = args.replace(/new Vector3\([^)]*\)/g, 'VEC');
-  const parts = flat.split(',').map((p) => p.trim());
-  if (parts.length < 2) continue;
-  const text = parts[1] ?? '';
-  checked += 1;
-  if (!ALLOWED_TEXT.has(text)) {
-    errors.push(
-      `${ENGINES.join(', ')} : un label est composé au lieu d'être le nom nu : « ${text} ». ` +
-        `Le label affiche le nom seul, l'information vit dans la fiche.`
-    );
-  }
-}
-if (checked === 0) {
-  errors.push(`${ENGINES.join(', ')} : aucun site d'appel add() trouvé, le parseur du contrôle est cassé.`);
-}
-
-// --- 2. L'opacité ne dépend jamais du survol ni du focus ---------------------
-
-/* On isole la passe de labels : de sa déclaration au marqueur de section
-   suivant. Toute mention du survol dedans est une régression de la règle.
-   Le focus a le droit d'AJOUTER des noms (le sous-arbre courant est nommé),
-   jamais d'en moduler l'opacité : on vérifie donc aussi que chaque add()
-   passe l'opacité 1, littérale. */
-for (const engine of ENGINES) {
-  const source = readFileSync(`${ATLAS}/${engine}`, 'utf8');
-  const start = source.indexOf('const projectLabels');
-  const end = source.indexOf('rendu', start);
-  if (start < 0 || end < 0) {
-    errors.push(`${engine} : la passe de labels est introuvable, le contrôle est cassé.`);
-    continue;
-  }
-  const pass = source.slice(start, end);
-  if (/hover/i.test(pass)) {
-    errors.push(
-      `${engine} : la passe de labels mentionne le survol. ` +
-        'Le survol met en valeur, il ne révèle ni ne masque JAMAIS un nom.'
-    );
-  }
-  /* L'opacité est LITTÉRALE à chaque site d'appel : la position de
-     l'argument diffère entre moteurs, on exige simplement qu'aucun argument
-     d'opacité ne soit une expression. Repérage : l'argument juste après le
-     genre ('family'/'genre'/'ensemble'/lhWorld) qui n'est ni un nombre ni
-     un identifiant simple de slot déclenche l'erreur s'il contient un
-     opérateur ou un accès d'état. */
-  for (const call of pass.matchAll(/\badd\(\s*([\s\S]{0,260}?)\)/g)) {
-    const args = (call[1] ?? '').split(',').map((p) => p.trim());
-    for (const arg of args) {
-      if (/hovered|highlighted/.test(arg)) {
-        errors.push(`${engine} : un add() de label lit l'état de survol : « ${arg} ».`);
-      }
-    }
-    const suspicious = args.filter((a) => /opacity|\?\s*1\s*:/.test(a));
-    for (const a of suspicious) {
-      errors.push(`${engine} : un label reçoit une opacité calculée (« ${a} »).`);
-    }
-  }
-}
+/* LES REGLES 1 ET 2 PORTAIENT SUR LE MOTEUR DE LA CARTE EN TROIS DIMENSIONS,
+   supprime le 9 novembre 2026 (ADR-116) : ses appels add() et l'opacite de
+   ses labels. Reste la regle 3, qui vaut pour tout src/atlas. */
 
 // --- 3. Les marqueurs de l'ancien suffixe -----------------------------------
 
@@ -139,4 +58,4 @@ if (errors.length > 0) {
   for (const e of errors) console.error(`ERREUR ${e}`);
   process.exit(1);
 }
-console.log(`Labels : ${checked} site(s) d'appel vérifiés, nom nu partout.`);
+console.log('Labels : aucun ancien suffixe dans src/atlas, nom nu partout.');
