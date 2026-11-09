@@ -32,16 +32,6 @@
    "slug": "zyx-records"
   },
   {
-   "titre": "Merging Oceans / Train",
-   "artiste": "Rotersand",
-   "annee": 2026,
-   "image": "https://i.discogs.com/-r1mMoPCNIaeF-daOnhBUHmpycPiWxLFI-jOQT447a8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4NzM3/NzM3LTE3OTIxNTgx/MTgtODMxNS5qcGVn.jpeg",
-   "url": "https://www.discogs.com/release/38737737",
-   "format": "4xFile, MP3, Single, 320",
-   "label": "Metropolis",
-   "slug": "metropolis"
-  },
-  {
    "titre": "Nondi...",
    "artiste": "Nondi_",
    "annee": 2026,
@@ -152,12 +142,12 @@
    "slug": "novamute"
   },
   {
-   "titre": "Stamina",
-   "artiste": "Leyo & Thierry Ganz",
+   "titre": "House Masters - Deetron Sampler",
+   "artiste": "Deetron",
    "annee": 2026,
-   "image": "https://i.discogs.com/JuobjBla1kww8CAWE4oGvmNpwWdcraPcamrebmn7UeQ/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4MzU2/MzY1LTE3ODg3MTk1/MDktMTM3Mi5wbmc.jpeg",
-   "url": "https://www.discogs.com/release/38356365",
-   "format": "File, MP3, 320",
+   "image": "https://i.discogs.com/cDBkc1GjnZmlGhRcHpFswurKFF7wdj4eewOnZlGI_hM/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4OTAy/OTIzLTE3OTM1NDU4/NTktMjE3MS5wbmc.jpeg",
+   "url": "https://www.discogs.com/release/38902923",
+   "format": "2xFile, MP3, 320",
    "label": "Defected",
    "slug": "defected"
   },
@@ -180,6 +170,16 @@
    "format": "2xFile, WAV",
    "label": "Dragonfly Records",
    "slug": "dragonfly-records"
+  },
+  {
+   "titre": "Live Ammunition (Nosferatu Remix)",
+   "artiste": "Evil Activities",
+   "annee": 2026,
+   "image": "https://i.discogs.com/JAXdSQzdamIrF98wNBV4jb9enhqeVGinVaiTqGWnz98/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4NzQ2/NjM1LTE3OTIyMzc2/NjktMTU5OS5qcGVn.jpeg",
+   "url": "https://www.discogs.com/release/38746635",
+   "format": "2xFile, MP3, 320",
+   "label": "Masters Of Hardcore",
+   "slug": "masters-of-hardcore"
   }
  ]
 }
