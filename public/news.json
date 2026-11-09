@@ -1,6 +1,60 @@
 {
- "fait": "2026-11-09T06:49:11.694Z",
+ "fait": "2026-11-09T22:29:37.360Z",
  "articles": [
+  {
+   "source": "midnightrebels",
+   "titre": "GTA VI: The Festival Books Justice, Skream and Three B2B Sets in Miami",
+   "lien": "https://midnightrebels.com/gta-vi-the-festival-miami-dj-lineup/",
+   "date": "2026-11-09T21:57:57.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/image-4.webp?resize=1080%2C1080&ssl=1",
+   "resume": "Rockstar has announced a festival for the launch of Grand Theft Auto VI, and four DJ sets are on the bill. Below are the date, the venue, who is playing and how tickets work. Every detail comes from Consequence’s report…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Neumann KH 310 II review: “I’ve found my perfect pair of sub-£5,000 three-ways”",
+   "lien": "https://musictech.com/reviews/studio-recording-gear/neumann-kh-310-ii-review/",
+   "date": "2026-11-09T18:28:57.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/Neumann-KH-310-II-hero-credit-Simon-Vinall@2000x1500.jpg",
+   "resume": "£4,800 per pair (street) £279 MA1 room measurement mic kit neumann.com I’ve been on the hunt for the perfect sub-£5,000 pair of three-way monitors for a few years now. I’m looking for low levels of distortion, decent…",
+   "integral": true
+  },
+  {
+   "source": "attack",
+   "titre": "Erica Synths: The Best Hardware FX For Electronic Music",
+   "lien": "https://www.attackmagazine.com/reviews/the-best/erica-synths-the-best-hardware-fx-for-electronic-music/",
+   "date": "2026-11-09T17:12:47.000Z",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/alien-boy-1130x424.png",
+   "resume": "Producer Eraldo Bernocchi is no stranger to hardware effects. We asked him to explain how he gets his unique sound, both on guitar and other instruments, and he came back with recommendations for four Erica Synths…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "The Best Plugins of 2026: From Essential to Experimental",
+   "lien": "https://www.gearnews.com/best-plugins-studio/",
+   "date": "2026-11-09T17:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/12/plugins-2026-ft.jpg",
+   "resume": "We look back at some of the best plugins designed for music production, mixing, and sound design released over the course of this year. In this Article: The Best Plugins of 2026 The Best Plugins of 2026: FabFilter Pro…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "What Akai’s MPC Open-Source Repository Actually Contains",
+   "lien": "https://midnightrebels.com/akai-mpc-open-source-github/",
+   "date": "2026-11-09T15:23:42.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/GTA-VI-The-Festival-Books-Justice-Skream-and-Three-B2B-Sets-in-Miami.webp?fit=2400%2C1350&ssl=1",
+   "resume": "Akai’s MPC line now has a public GitHub page, and some of the headlines are running ahead of the files. inMusic, Akai’s parent company, has posted a repository of open-source components used in MPC hardware. Below is…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "Neumann is out to earn your trust with the KH 350 and KH 310 II",
+   "lien": "https://musictech.com/features/interviews/neumann-kh-series/",
+   "date": "2026-11-09T08:30:16.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/MT-HERO-NEUMANN-KH-SERIES-CREDIT-SIMON-VINALL@2560x1707.jpg",
+   "resume": "A sk any reputable recording engineer what’s in their mic locker, and you’ll surely hear them mention Neumann . The 98-year-old German brand’s U 87 and U 47 microphones are essential to any storied studio, and they’ve…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "ZL Limiter, ClassicQlite, simpleTapeStop: Free Plugins of the Week",
@@ -20,39 +74,12 @@
    "integral": true
   },
   {
-   "source": "midnightrebels",
-   "titre": "Charlotte de Witte Releases Azadi EP Ahead of EDC Thailand",
-   "lien": "https://midnightrebels.com/charlotte-de-witte-edc-thailand-2026-genoa-free-show/",
-   "date": "2026-11-07T12:45:01.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/10/pasted-photo-featured-43707.webp?fit=1920%2C1080&ssl=1",
-   "resume": "On November 5, 2026, Charlotte de Witte released the Azadi EP on her KNTXT label . The three-track release features NAVA, an AI-generated singer who voices lyrics written in Farsi, and all proceeds go to Femena, a…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "AKAI Force G2 Leak: The Force Awakens",
-   "lien": "https://www.gearnews.com/akai-force-g2-synth/",
-   "date": "2026-11-06T22:44:38.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/akai-force-g2-leak-t-128x71.jpg",
-   "resume": "AKAI’s clip launcher groovebox appears to be getting a new model, with a leaked video showing a box for the Force G2. AKAI Force G2 AKAI Force G2 Leak New Force, Who Dis? More Information AKAI Force G2 Leak AKAI’s Force…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "“I’m not sure it’s even possible”: James Hype says he’s going to try to mix 1,000 tracks in two hours",
    "lien": "https://www.musicradar.com/artists/djs-producers/im-not-sure-its-even-possible-but-were-going-to-try-dj-james-hype-says-hes-going-to-try-to-mix-1-000-tracks-in-just-two-hours",
    "date": "2026-11-06T18:37:04.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/BNX4eHympurHhUbDC2V4jB-1920-80.jpg",
    "resume": "DJs – how many tracks do you think you could fit into a two-hour set? Thirty? Forty even? Pah! James Hype has given himself a challenge which - if it comes off - will knock even the most nifty-fingered jocks into a…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Modern Synth Classics: 9 Incredible Synthesizers We’ll Still Be Talking About in 30 Years",
-   "lien": "https://www.gearnews.com/modern-synth-classics-synth/",
-   "date": "2026-11-06T18:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2024/09/modern-synth-classics-ASM-hydrasynth.jpg",
-   "resume": "These are the modern synth classics that we’ll wax nostalgic over in decades to come. Did your favorite make the list? Modern Synth Classics Arturia PolyBrute 12 Moog Grandmother Ashun Sound Machines Hydrasynth Groove…",
    "integral": true
   },
   {
@@ -71,24 +98,6 @@
    "date": "2026-11-06T15:49:21.000Z",
    "image": "https://musictech.com/wp-content/uploads/2026/11/Native-Instruments-Vertikal-plugin.jpg",
    "resume": "You’ve heard of a grand piano – but what about a monumental piano? That’s what sits inside of Saal 3, a recording studio in Berlin Funkhaus production complex. Standing at 4.5 meters tall, this vertical concert grand is…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "Ministry of Sound’s Old Sound System Is Up for Sale",
-   "lien": "https://midnightrebels.com/ministry-of-sound-sound-system-for-sale/",
-   "date": "2026-11-06T15:07:38.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/image-2.webp?resize=547%2C365&ssl=1",
-   "resume": "Six stacks of Martin Audio speakers filled the main room at London’s Ministry of Sound for well over a decade. Now the club is selling them . The club retired the Martin Audio rig in January 2026 for a custom four-point…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "NoiseWorks Black Friday Deals: Up to 40% OFF!",
-   "lien": "https://www.gearnews.com/noiseworks-black-friday-deal/",
-   "date": "2026-11-06T13:46:05.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/11/noiseworks-complete-bundle.jpg",
-   "resume": "Until 30 November, you can save up to 40% on essential audio production plugins with the NoiseWorks Black Friday sale. Don’t miss out on this! The NoiseWorks Black Friday sale has kicked off with opportunities to save…",
    "integral": true
   },
   {
@@ -146,15 +155,6 @@
    "integral": true
   },
   {
-   "source": "musictech",
-   "titre": "Daft Punk are transformed into tiny minifigures for new Pyramid Stage LEGO set",
-   "lien": "https://musictech.com/news/music/lego-daft-punk-pyramid-stage-set/",
-   "date": "2026-11-05T12:46:40.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/LEGO-x-Daft-Punk-Pyramid-Set.jpg",
-   "resume": "Back in 2020, a father and son from Luxembourg dreamed of combining the worlds of LEGO and Daft Punk . Taking to the LEGO Ideas community page, the pair pitched the concept of a Daft Punk Pyramid Stage LEGO set inspired…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "\"The real revelation was the improvements it made to my workflow\": Audient Horizon 8P review",
    "lien": "https://www.musicradar.com/music-tech/audio-interfaces/the-real-revelation-was-the-improvements-it-made-to-my-workflow-audient-horizon-8p-review",
@@ -170,24 +170,6 @@
    "date": "2026-11-05T10:51:58.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/CfhbasddmmDt66MMAwr4VB-1920-80.png",
    "resume": "Earlier this year, we were wowed by Dubreq Stylophone ’s growing stable of wares at NAMM . While we were having endless fun with its handheld orange pocket sampler, Stylophone Voice, we also clocked a rather…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Why Jersey’s debut album is supposed to be performed live",
-   "lien": "https://musictech.com/features/interviews/jersey-interview-nothings-fake/",
-   "date": "2026-11-05T09:00:49.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/Jersey-Avalon-Cafe-hero-credit-press@2000x1500.jpg",
-   "resume": "It’s 9 pm at London’s Avalon Cafe, a tiny backroom sweatbox in Bermondsey, and several tables full of audio gear sit at the centre of the 250-person venue. Surrounded by a young, uninhibited audience who await the…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "The best new music plugins this week, free and paid",
-   "lien": "https://musictech.com/news/gear/new-plugins-this-week/",
-   "date": "2026-11-05T00:00:52.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/10/Mixing-engineer-hero@2000x1500.jpg",
-   "resume": "Every week, we round up the most exciting new plugin releases — from virtual instruments and creative effects to mixing tools and workflow upgrades. There are tons of plugins released every week, both free and paid, so…",
    "integral": true
   },
   {
@@ -236,30 +218,12 @@
    "integral": true
   },
   {
-   "source": "musicradar",
-   "titre": "Polyend’s Tracker, Tracker Mini and Tracker+ are the latest hardware devices to go open source",
-   "lien": "https://www.musicradar.com/music-tech/samplers/polyends-tracker-tracker-mini-and-tracker-are-the-latest-hardware-devices-to-go-open-source",
-   "date": "2026-11-03T13:24:58.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/8ByfvroQvVFUMcZZwdK27R-1920-80.jpg",
-   "resume": "Polyend’s range of Tracker samplers are the latest hardware instruments to go open source, as the developer makes their code available on GitHub to coincide with what it’s calling the range’s “biggest update yet”. The…",
-   "integral": true
-  },
-  {
    "source": "attack",
    "titre": "Catz ‘n Dogz: “We Were Completely Overstimulated”",
    "lien": "https://www.attackmagazine.com/features/interview/catz-n-dogz-we-were-completely-overstimulated/",
    "date": "2026-11-03T11:11:03.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/Attack-Mag-Interviews-Editorial-Catz-n-Dogz-1-1130x386.jpg",
    "resume": "We talk to Grzegorz Demiańczuk of Catz ‘n Dogz about escaping the algorithms and making their most human album, Finally. After more than 20 years making electronic music, Polish house outfit Catz ‘n Dogz decided to…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "“This new rack trims the often labour-intensive task of setting up an e-kit by a fair margin”: Roland TD-07KV2 review",
-   "lien": "https://www.musicradar.com/drums/electronic-drums/this-new-rack-trims-the-often-labour-intensive-task-of-setting-up-an-e-kit-by-a-fair-margin-roland-td-07kv2-review",
-   "date": "2026-11-02T20:51:57.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/mZbmXAbM3Yp2D3kDP6hZbj-1920-80.jpg",
-   "resume": "What is it? The original Roland TD-07KV kit was released back in late 2020, closely followed by three additional ‘07’ configurations the following year. The TD-07KX, KVX and DMK models each offered a compact yet capable…",
    "integral": true
   },
   {
@@ -314,15 +278,6 @@
    "date": "2026-10-12T11:34:10.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/8d3380eb-e249-499e-9ee9-b6e80d4bb8e2-1130x386.png",
    "resume": "Ben Turner on why promoters have no excuse left, and why nurturing new talent is a long-term investment. Debates about representation in electronic music tend to get heated fast. Comment threads and panel soundbites…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "How I Play Live: Active Systems",
-   "lien": "https://www.attackmagazine.com/features/interview/how-i-play-live-active-systems/",
-   "date": "2026-10-08T13:19:44.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/Panoramic-Electronic-Music-Studio-Control-Room-1130x387.png",
-   "resume": "Active Systems plays live with no laptop in sight: a Cirklon sequencer at the centre, four Intellijel Atlantix modules on bass duty and a 909 keeping time. After sets at Lost and Houghton and the release of The Red EP…",
    "integral": true
   },
   {
