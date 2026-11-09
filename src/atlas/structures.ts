@@ -752,21 +752,6 @@ const buildStructure = (familyIndex: number): Structure => {
   };
 };
 
-/** Chaîne de la racine jusqu'au genre, pour le fil d'Ariane. */
-export const pathToGenre = (familyIndex: number, local: number): number[] => {
-  const genres = STRUCTURES[familyIndex]?.genres;
-  if (!genres) return [];
-  const out: number[] = [];
-  let cursor = local;
-  let guard = 0;
-  while (cursor >= 0 && guard < 32) {
-    out.unshift(cursor);
-    cursor = genres[cursor]?.parent ?? -1;
-    guard += 1;
-  }
-  return out;
-};
-
 export const STRUCTURES: readonly Structure[] = FAMILIES.map((_, i) => buildStructure(i));
 
 /* Deuxième passe des charnières : toutes les structures existent, on peut
@@ -915,10 +900,6 @@ export const FAMILY_CENTERS: readonly (readonly [number, number, number])[] = ((
 
   return pos.map((p) => [p[0], p[1], p[2]] as const);
 })();
-
-/** Rayon réservé d'une famille selon son état. */
-export const familyRadius = (i: number, deployed: boolean): number =>
-  (deployed ? STRUCTURES[i]?.deployedRadius : STRUCTURES[i]?.compactRadius) ?? 6;
 
 /* Rayon englobant de l'atlas, centre inclus. Sert à calculer la distance de
    cadrage par défaut : les 14 familles doivent occuper environ 70 pour cent de

@@ -404,6 +404,11 @@
 
 /* Sous 900 px, tout ce qui se touche fait 44 px. */
 @media (max-width: 899px) {
+  /* PLUS BASSE AU TELEPHONE : a 64 % de l'ecran, il fallait defiler
+     longtemps pour retrouver les soirees (Mika, le 9 novembre 2026). */
+  .carte-boite {
+    height: clamp(15rem, 42dvh, 22rem);
+  }
   :is(.carte, .iti-fiche) .maplibregl-ctrl-group button {
     width: 44px;
     height: 44px;

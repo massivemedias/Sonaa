@@ -63,10 +63,10 @@ export function AProposPage() {
         <section aria-labelledby="apropos-lire">
           <h2 id="apropos-lire">Comment le lire</h2>
           <p>
-            Les {FAMILIES.length} familles sont les continents de la carte. Un clic sur une
-            famille la déploie, un clic sur un genre ouvre sa fiche et ses tracks, et chaque
-            filiation se remonte ou se descend d&apos;un clic. L&apos;écoute ne s&apos;interrompt
-            jamais pendant la navigation.
+            Les {FAMILIES.length} familles ouvrent la page des styles. Une famille montre ses
+            genres, un genre ouvre sa fiche : son histoire, ses machines, son rythme et ses
+            morceaux de référence. Chaque filiation se remonte ou se descend d&apos;un clic, et
+            l&apos;écoute ne s&apos;interrompt pas quand on change de page.
           </p>
         </section>
 

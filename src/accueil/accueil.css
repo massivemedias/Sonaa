@@ -24,8 +24,7 @@
 /* ═══ L'OUVERTURE ═══ */
 .ac-hero {
   position: relative;
-  /* L'ECRAN MOINS LA BARRE DU BAS sur telephone (nulle ailleurs). */
-  min-height: calc(100svh - var(--barre-bas-h, 0px));
+  min-height: 100svh;
   display: grid;
   place-items: center;
   padding: 104px var(--marge-page) 132px;

@@ -13,7 +13,6 @@ import { createPortal } from 'react-dom';
 import {
   faArrowRight,
   faCircleInfo,
-  faCompass,
   faMagnifyingGlass,
   faMicrophone,
   faUser,
@@ -94,7 +93,6 @@ export function MenuHamburger() {
         window.dispatchEvent(new Event(EVENEMENT_RECHERCHE));
       },
     },
-    { id: 'atlas', label: t.menuCarte3d, href: '#/carte', icone: faCompass },
   ];
 
   const liensLegaux: readonly { href: string; label: string }[] = [

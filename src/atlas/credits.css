@@ -222,23 +222,6 @@
   border-bottom: 1px solid transparent;
 }
 
-.credits-replay {
-  font-family: var(--font-ui);
-  font-size: 0.8125rem;
-  font-weight: 400;
-  color: var(--ink-secondary);
-  background: transparent;
-  border: 0;
-  padding: 0;
-  cursor: pointer;
-  border-bottom: 1px solid transparent;
-}
-
-.credits-replay:hover {
-  color: var(--ink-primary);
-  border-bottom-color: var(--ink-primary);
-}
-
 /* LE TEXTE D'AUTEUR, à la première personne, sous la ligne qui dit qui a fait
    le site. Écrit au « je », il se distingue du reste de la page, qui est à la
    troisième personne : filet vertical et italique, la même grammaire que le
@@ -275,10 +258,9 @@
   margin-top: auto;
 }
 
-/* CIBLES TACTILES : sous 900 px, le bouton et les liens-boutons du pied de
+/* CIBLES TACTILES : sous 900 px, les liens-boutons du pied de
    page font au moins 44 px de haut. */
 @media (max-width: 899px) {
-  .credits-replay,
   .credits-foot a {
     display: inline-flex;
     align-items: center;

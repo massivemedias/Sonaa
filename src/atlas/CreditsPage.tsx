@@ -173,18 +173,6 @@ export function CreditsPage() {
 
       <PiedDePage />
 
-      <footer className="credits-foot">
-        <button
-          className="credits-replay"
-          onClick={() => {
-            localStorage.removeItem('sonaa-intro-seen');
-            window.location.hash = '#/carte';
-            window.location.reload();
-          }}
-        >
-          Revoir l&apos;intro
-        </button>
-      </footer>
     </main>
     </>
   );

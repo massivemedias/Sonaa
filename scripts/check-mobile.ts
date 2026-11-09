@@ -18,8 +18,9 @@
  * 2. LA BARRE DU HAUT fait exactement `--entete-h` (56 px), elle est fixee
  *    et floutee (le verre est bien la), et le premier contenu commence
  *    sous elle.
- * 3. LA BARRE DU BAS, sous 900 px, fait exactement `--barre-bas-hauteur`
- *    (64 px), touche le bord bas, et body reserve au moins cette place.
+ * 3. PAS DE BARRE DU BAS : elle est retiree depuis le 9 novembre 2026
+ *    (ADR-116). Sous 900 px, le bouton du menu hamburger est visible dans
+ *    l'en-tete, et c'est lui qui porte toute la navigation.
  * 4. LES CIBLES TACTILES, sous 900 px : tout bouton, selecteur ou lien qui
  *    n'est pas dans une phrase fait au moins 44 px de haut et de large.
  *    Et dans la barre du haut, rien ne se chevauche : le logo, le titre,
@@ -45,7 +46,6 @@ const ORIGINE = process.env.SONAA_URL ?? `http://127.0.0.1:${PORT}`;
 const LARGEURS = [320, 375, 390, 430, 768, 1024, 1440, 1920] as const;
 const SEUIL_TELEPHONE = 900;
 const ENTETE_H = 56;
-const BARRE_BAS_H = 64;
 const CIBLE_MIN = 44;
 
 /* LES ONZE PAGES : chacune avec le selecteur qui prouve qu'elle est rendue.
@@ -123,8 +123,8 @@ interface Mesure {
   readonly pvClient: number | null;
   readonly coupables: readonly Coupable[];
   readonly entete: { readonly hauteur: number; readonly haut: number; readonly position: string; readonly flou: string; readonly alpha: number } | null;
-  readonly bas: { readonly hauteur: number; readonly bord: number; readonly flou: string } | null;
-  readonly retraitBas: number;
+  readonly bas: boolean;
+  readonly burger: boolean;
   readonly premierContenu: number | null;
   readonly cibles: readonly Cible[];
   readonly chevauchements: readonly string[];
@@ -158,6 +158,7 @@ const SCRIPT_MESURE = `(() => {
   const pv = q('.pv-corps');
   const entete = q('.entete-site, .pv-tete');
   const bas = q('.barre-bas');
+  const burger = q('#sonaa-burger-top');
   const cv = document.createElement('canvas'); cv.width = cv.height = 1; const cx = cv.getContext('2d', { willReadFrequently: true }); const alpha = (c) => { cx.clearRect(0, 0, 1, 1); cx.fillStyle = 'rgba(0,0,0,0)'; cx.fillStyle = c; cx.fillRect(0, 0, 1, 1); return cx.getImageData(0, 0, 1, 1).data[3] / 255; };
   const flouDe = (e) => { const s = getComputedStyle(e); return s.backdropFilter && s.backdropFilter !== 'none' ? s.backdropFilter : (s.webkitBackdropFilter || 'none'); };
   const main = q('main.credits') || pv;
@@ -207,8 +208,8 @@ const SCRIPT_MESURE = `(() => {
     pvClient: pv ? pv.clientWidth : null,
     coupables,
     entete: entete ? { hauteur: Math.round(entete.getBoundingClientRect().height), haut: Math.round(entete.getBoundingClientRect().top), position: getComputedStyle(entete).position, flou: flouDe(entete), alpha: alpha(getComputedStyle(entete).backgroundColor) } : null,
-    bas: bas && getComputedStyle(bas).display !== 'none' ? { hauteur: Math.round(bas.getBoundingClientRect().height), bord: Math.round(ih - bas.getBoundingClientRect().bottom), flou: flouDe(bas) } : null,
-    retraitBas: Math.round(parseFloat(getComputedStyle(document.body).paddingBottom)),
+    bas: !!bas && getComputedStyle(bas).display !== 'none',
+    burger: !!burger && getComputedStyle(burger).display !== 'none' && burger.getBoundingClientRect().width > 0,
     premierContenu,
     cibles,
   });
@@ -295,18 +296,13 @@ for (const page_ of PAGES) {
       if (m.premierContenu !== null && m.premierContenu < ENTETE_H) erreurs.push(`${ou} : le contenu commence a ${m.premierContenu} px, sous la barre du haut`);
     }
     if (largeur < SEUIL_TELEPHONE) {
-      if (!m.bas) erreurs.push(`${ou} : pas de barre du bas`);
-      else {
-        if (Math.abs(m.bas.hauteur - BARRE_BAS_H) > 1) erreurs.push(`${ou} : la barre du bas fait ${m.bas.hauteur} px au lieu de ${BARRE_BAS_H}`);
-        if (m.bas.bord !== 0) erreurs.push(`${ou} : la barre du bas est a ${m.bas.bord} px du bord`);
-        if (!/blur\(24px\)/.test(m.bas.flou)) erreurs.push(`${ou} : la barre du bas n'est pas en verre (${m.bas.flou})`);
-        if (m.retraitBas < BARRE_BAS_H) erreurs.push(`${ou} : body ne reserve que ${m.retraitBas} px sous la page pour une barre de ${BARRE_BAS_H}`);
-      }
+      if (m.bas) erreurs.push(`${ou} : une barre du bas est affichee, elle est retiree (ADR-116)`);
+      if (!m.burger) erreurs.push(`${ou} : pas de bouton de menu hamburger dans l'en-tete`);
       if (m.cibles.length > 0) erreurs.push(`${ou} : ${m.cibles.length} cible(s) sous ${CIBLE_MIN} px : ${m.cibles.slice(0, 12).map((c) => `${c.sel} ${c.w}x${c.h}`).join(' ; ')}`);
     } else if (m.bas) {
-      erreurs.push(`${ou} : la barre du bas est affichee sur un grand ecran`);
+      erreurs.push(`${ou} : une barre du bas est affichee, elle est retiree (ADR-116)`);
     }
-    lignes.push(`  ${ou} : document ${m.docScroll}/${m.innerWidth}, haut ${m.entete ? m.entete.hauteur : '-'}, bas ${m.bas ? m.bas.hauteur : '-'}, contenu a ${m.premierContenu ?? '-'}, cibles courtes ${m.cibles.length}`);
+    lignes.push(`  ${ou} : document ${m.docScroll}/${m.innerWidth}, haut ${m.entete ? m.entete.hauteur : '-'}, menu ${m.burger ? 'oui' : '-'}, contenu a ${m.premierContenu ?? '-'}, cibles courtes ${m.cibles.length}`);
    }
   }
 }
@@ -371,21 +367,24 @@ let repli = '';
    defilement de la precedente (le calendrier s'ouvrait a 391 px), et
    l'accueil defilait dans une boite au lieu de la page, ce qui empeche
    Safari de replier sa barre d'adresse et la fait bouger d'un onglet a
-   l'autre. */
+   l'autre. Depuis ADR-116, on change de page par le menu hamburger : la
+   barre du bas est retiree. */
 let parcours = '';
 {
   const contexte = await navigateur.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
   const page = await contexte.newPage();
   await page.goto(`${ORIGINE}/#/news`, { waitUntil: 'load', timeout: 30000 });
-  await page.waitForSelector('a.barre-bas-onglet', { timeout: 20000 });
+  await page.waitForSelector('#sonaa-burger-top', { timeout: 20000 });
   await page.waitForTimeout(600);
   await page.evaluate('window.scrollTo(0, 1500)');
   await page.waitForTimeout(150);
-  await page.click('a.barre-bas-onglet[href="#/calendrier"]');
+  await page.click('#sonaa-burger-top');
+  await page.click('a.sonaa-mm-page[href="#/calendrier"]');
   await page.waitForTimeout(900);
   const yCalendrier = Number(await page.evaluate('Math.round(window.scrollY)'));
   if (yCalendrier !== 0) erreurs.push(`onglets : de News descendu, le calendrier s'ouvre a ${yCalendrier} px au lieu du haut`);
-  await page.click('a.barre-bas-onglet[href="#/parcourir"]');
+  await page.click('#sonaa-burger-top');
+  await page.click('a.sonaa-mm-page[href="#/parcourir"]');
   await page.waitForSelector('.pv-corps', { timeout: 20000 });
   await page.waitForTimeout(900);
   const accueil = JSON.parse(String(await page.evaluate(`JSON.stringify({ doc: document.documentElement.scrollHeight, ecran: innerHeight, debord: getComputedStyle(document.querySelector('.pv-corps')).overflowY, y: Math.round(scrollY) })`))) as { doc: number; ecran: number; debord: string; y: number };
@@ -406,4 +405,4 @@ if (erreurs.length > 0) {
   console.error(`MOBILE : ${erreurs.length} defaut(s) mesure(s).\n` + erreurs.map((e) => `  ${e}`).join('\n') + '\n\nMesures :\n' + lignes.join('\n'));
   process.exit(1);
 }
-console.log(`Mobile : ${mesures} mesures, aucun debordement, barres de ${ENTETE_H} et ${BARRE_BAS_H} px, cibles de ${CIBLE_MIN} px. Repli : ${repli} Onglets : ${parcours}\n${lignes.join('\n')}`);
+console.log(`Mobile : ${mesures} mesures, aucun debordement, barre du haut de ${ENTETE_H} px, aucune barre du bas, cibles de ${CIBLE_MIN} px. Repli : ${repli} Onglets : ${parcours}\n${lignes.join('\n')}`);

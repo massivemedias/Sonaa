@@ -22,7 +22,6 @@ import { ADRESSE_ECOUTER } from '../reconnaitre/adresses.ts';
 import './site-nav.css';
 
 type SiteCourant =
-  | 'atlas'
   | 'parcourir'
   | 'labels'
   | 'clubs'
@@ -59,10 +58,9 @@ type SiteCourant =
  * dit aujourd'hui, d'ou ca vient, ce qui s'ecoute, ce qui s'achete. Puis, a
  * part, ce qui appartient au visiteur : son panier et son compte.
  *
- * SUR TELEPHONE, CETTE RANGEE N'EXISTE PAS. Sous 900 px c'est la barre du bas
- * qui porte la navigation, et ce menu est cache par la feuille de style. Les
- * portes qui ne tiennent pas dans les cinq onglets sont dans le bouton
- * « Plus » de l'en-tete. Voir BarreBas.tsx et MenuPlus.tsx. */
+ * SUR TELEPHONE, CETTE RANGEE N'EXISTE PAS. Sous 900 px c'est le menu
+ * hamburger de l'en-tete qui porte toute la navigation, et cette rangee est
+ * cachee par la feuille de style. Voir MenuHamburger.tsx et ADR-116. */
 const VUES: readonly { href: string; id: SiteCourant; label: string }[] = [
   { href: '#/calendrier', id: 'calendrier', label: t.leCalendrier },
   { href: '#/news', id: 'news', label: t.leNews },
@@ -153,7 +151,6 @@ export function courantDuSite(hash: string): SiteCourant {
   if (hash.startsWith('#/parcourir')) return 'parcourir';
   if (hash.startsWith('#/labels')) return 'labels';
   if (hash.startsWith('#/clubs')) return 'clubs';
-  if (hash.startsWith('#/carte')) return 'atlas';
   /* La racine est l'accueil, comme dans main.tsx : les deux doivent dire
      la meme chose, sinon le menu allume « Styles » sur la page d'accueil.
      L'accueil n'est pas dans le menu ; le logo y mene. */

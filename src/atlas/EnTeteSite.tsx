@@ -29,10 +29,8 @@ export function EnTeteSite() {
         />
       </a>
       <SiteNav variant="overlay" />
-      {/* SOUS 900 PX, cette rangee est cachee et la barre du bas prend le
-          relais, « Plus » compris : il y est le cinquieme onglet depuis le
-          22 septembre 2026, parce qu'ici il recouvrait les controles fixes.
-          Voir BarreBas.tsx et MenuPlus.tsx. */}
+      {/* SOUS 900 PX, cette rangee est cachee et le menu hamburger prend le
+          relais : il porte toutes les pages. Voir MenuHamburger.tsx. */}
     </header>
   );
 }

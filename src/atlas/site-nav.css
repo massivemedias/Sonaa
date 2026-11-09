@@ -14,8 +14,16 @@
    posee par Mika le 7 septembre (« pas de highlight sur les liens »), et le
    trait suffit a dire ou est le focus.
 
-   CETTE RANGÉE N'EXISTE PAS SOUS 900 px : la barre du bas la remplace, et
-   c'est barre-bas.css qui l'efface. */
+   CETTE RANGÉE N'EXISTE PAS SOUS 900 px : le menu hamburger de l'en-tete la
+   remplace (ADR-116), et la regle qui l'efface est juste en dessous. */
+
+/* QUALIFIEE PAR `body` : `.sitenav` declare son `display` plus bas, et a
+   poids egal c'est lui qui gagnerait. */
+@media (max-width: 899px) {
+  body .sitenav-overlay {
+    display: none;
+  }
+}
 
 .sitenav {
   display: flex;

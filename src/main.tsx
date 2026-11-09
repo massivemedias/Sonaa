@@ -13,7 +13,7 @@ import { cheminAligne, hashDuChemin } from './lib/chemins.ts';
 import { demarrerMesure } from './lib/mesure.ts';
 import { PwaLayer } from './atlas/PwaLayer.tsx';
 import { AuthButton } from './atlas/AuthButton.tsx';
-import { ouvrirDansAtlas } from './atlas/ouvrir-genre.ts';
+import { ouvrirLeStyle } from './atlas/ouvrir-genre.ts';
 
 /* LA PURGE PASSE AVANT TOUT LE RESTE, ET ELLE N'ÉTAIT APPELÉE NULLE PART.
 
@@ -79,15 +79,6 @@ if (new URLSearchParams(window.location.search).get('nocache') === '1') {
 } else {
   enregistrerLeServiceWorker();
 }
-
-/* L'atlas EST le produit. La racine du site l'ouvre directement, il n'y a plus
-   de page d'accueil intermédiaire à traverser.
-
-   Chargé en lazy quand même : Three.js pèse l'essentiel du bundle, et la vue
-   liste sous #/index doit pouvoir s'ouvrir sans le charger du tout. */
-const AtlasPage = lazy(() =>
-  import('./atlas/AtlasPage.tsx').then((module) => ({ default: module.AtlasPage }))
-);
 
 /* Vue alternative accessible. Chemin de première classe, pas un repli. */
 const IndexPage = lazy(() =>
@@ -186,7 +177,6 @@ const MentionsPage = lazy(() =>
 /* LA BARRE DU BAS ET LE MINI LECTEUR NE SONT PAS DIFFERES : ils sont sur
    toutes les pages, petits, et un menu qui arrive apres la page est un menu
    qui saute. */
-import { BarreBas } from './atlas/BarreBas.tsx';
 import { MiniLecteur } from './atlas/MiniLecteur.tsx';
 import { RechercheGlobale } from './atlas/RechercheGlobale.tsx';
 
@@ -227,7 +217,7 @@ if (!rootElement) {
   throw new Error('Élément racine introuvable.');
 }
 
-type Route = 'accueil' | 'labels' | 'clubs' | 'reconnaitre' | 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'parcourir' | 'profil' | 'mixtapes' | 'tracks' | 'panier' | 'conditions' | 'confidentialite' | 'mentions' | 'calendrier' | 'news' | 'admin' | 'atlas';
+type Route = 'accueil' | 'labels' | 'clubs' | 'reconnaitre' | 'index' | 'credits' | 'apropos' | 'propositions' | 'moderation' | 'chronologie' | 'heatmap' | 'arbre' | 'parcourir' | 'profil' | 'mixtapes' | 'tracks' | 'panier' | 'conditions' | 'confidentialite' | 'mentions' | 'calendrier' | 'news' | 'admin';
 
 const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/index')) return 'index';
@@ -259,14 +249,13 @@ const routeOf = (): Route => {
   if (window.location.hash.startsWith('#/conditions')) return 'conditions';
   if (window.location.hash.startsWith('#/confidentialite')) return 'confidentialite';
   if (window.location.hash.startsWith('#/mentions')) return 'mentions';
-  /* LA CARTE EN TROIS DIMENSIONS A SON PROPRE CHEMIN, #/carte.
-
-     Elle occupait la racine, et c'est ce qui faisait tomber Mika sur elle a
-     chaque ouverture, en vue colonnes puisque ce mode est memorise. Elle
-     n'est plus dans le menu depuis qu'il l'en a retiree ; la laisser en page
-     d'accueil revenait a proposer, comme premier ecran, la seule vue que le
-     menu ne mentionne pas. */
-  if (window.location.hash.startsWith('#/carte')) return 'atlas';
+  /* LA CARTE EN TROIS DIMENSIONS EST SUPPRIMEE (Mika, le 9 novembre 2026 :
+     « je veux plus la voir »). Son ancienne adresse, #/carte, mene aux
+     styles, qui montrent le meme corpus en pages qui se lisent. */
+  if (window.location.hash.startsWith('#/carte')) {
+    window.history.replaceState(null, '', '#/parcourir');
+    return 'parcourir';
+  }
   /* LA RACINE MENE A L'ACCUEIL depuis le 8 octobre 2026. Elle menait au
      calendrier depuis le 7 septembre (« ce qu'on vient chercher en arrivant,
      c'est ce qui se joue ce soir ») ; Mika veut maintenant une porte qui
@@ -276,39 +265,8 @@ const routeOf = (): Route => {
   return 'accueil';
 };
 
-const estAtlas = (r: Route): boolean => r === 'atlas';
-
-/* Les routes qui portent la barre du bas sur telephone : celles qui defilent
-   comme un document, ou comme Parcourir. Les vues plein ecran gardent leur
-   chrome, voir BarreBas.tsx. */
-const PORTE_LA_BARRE: ReadonlySet<Route> = new Set([
-  'accueil',
-  'calendrier',
-  'labels',
-  'clubs',
-  'admin',
-  'news',
-  'parcourir',
-  'mixtapes',
-  'tracks',
-  'reconnaitre',
-  'conditions',
-  'confidentialite',
-  'mentions',
-  'profil',
-  'index',
-  'credits',
-  'apropos',
-  'propositions',
-  'moderation',
-]);
-
-/* Un changement qui TRAVERSE l'atlas recharge la page. C'est brutal mais
-   honnête : le contexte WebGL et le lecteur YouTube ne se démontent pas
-   proprement.
-
-   Entre deux vues SANS WebGL, plus de rechargement : chronologie → index →
-   crédits était un flash blanc à chaque clic, pour rien. */
+/* Aucune vue ne porte plus de scene WebGL depuis la suppression de la carte
+   en trois dimensions : un changement de route ne recharge jamais la page. */
 function App() {
   const [route, setRoute] = useState<Route>(routeOf);
   const routeRef = useRef(route);
@@ -319,10 +277,6 @@ function App() {
       const next = routeOf();
       const actuelle = routeRef.current;
       if (next === actuelle) return;
-      if (estAtlas(next) !== estAtlas(actuelle)) {
-        window.location.reload();
-        return;
-      }
       setRoute(next);
     };
     window.addEventListener('hashchange', auChangement);
@@ -361,11 +315,11 @@ function App() {
         ) : route === 'moderation' ? (
           <ModerationPage />
         ) : route === 'chronologie' ? (
-          <ChronologyView onOpen={ouvrirDansAtlas} />
+          <ChronologyView onOpen={ouvrirLeStyle} />
         ) : route === 'heatmap' ? (
-          <HeatmapView onOpen={ouvrirDansAtlas} />
+          <HeatmapView onOpen={ouvrirLeStyle} />
         ) : route === 'arbre' ? (
-          <AccordeonView onOpen={ouvrirDansAtlas} />
+          <AccordeonView onOpen={ouvrirLeStyle} />
         ) : route === 'profil' ? (
           <ProfilPage />
         ) : route === 'mixtapes' ? (
@@ -394,22 +348,19 @@ function App() {
           <NewsPage />
         ) : route === 'admin' ? (
           <AdminPage />
-        ) : route === 'parcourir' ? (
-          <ParcourirView />
         ) : (
-          <AtlasPage />
+          <ParcourirView />
         )}
       </Suspense>
       {/* Hors de toute page : on doit pouvoir se connecter depuis n'importe
           quelle vue, pas seulement depuis l'atlas. */}
       <AuthButton />
-      {/* LE SON ET LA BARRE DU BAS VIVENT ICI, HORS DES ROUTES : c'est ce qui
-          leur permet de rester quand la page change. La barre d'onglets
-          relit l'adresse a chaque rendu de App, qui a lieu a chaque
-          changement de route. */}
+      {/* LE SON VIT ICI, HORS DES ROUTES : c'est ce qui lui permet de rester
+          quand la page change. La barre d'onglets du bas est retiree depuis
+          le 9 novembre 2026 : au telephone, tout passe par le menu hamburger
+          (ADR-116). */}
       <MiniLecteur />
       <RechercheGlobale />
-      {PORTE_LA_BARRE.has(route) && <BarreBas />}
       {/* Hors du Suspense : un bandeau « hors ligne » doit pouvoir s'afficher
           même si le chunk de la page en cours n'a pas pu être chargé. */}
       <PwaLayer />

@@ -1,17 +1,30 @@
 /* LA BARRE D'ECOUTE. Voir MiniLecteur.tsx.
 
-   Elle se pose sur la barre du bas quand celle-ci existe, sur le bord de
-   l'ecran sinon : `--barre-bas-h` vaut zero hors du telephone. Sa hauteur,
-   `--mini-h`, est declaree dans barre-bas.css avec celle de la barre, la ou
-   les deux grandeurs vivent ensemble et sont additionnees. Sa matiere, son
-   filet et son ombre vers le haut viennent de design/verre.css. */
+   Elle se pose sur le bord bas de l'ecran. Sa hauteur, `--mini-h`, est
+   declaree ici, et le corps de page la reserve sous son contenu : c'est
+   la seule chose fixee en bas depuis que la barre d'onglets est retiree
+   (9 novembre 2026, ADR-116). Sa matiere, son filet et son ombre vers le
+   haut viennent de design/verre.css. */
+body {
+  --mini-h: 0px;
+  padding-bottom: var(--mini-h);
+}
+body.avec-mini-lecteur {
+  --mini-h: 64px;
+}
+/* PARCOURIR LIT LA MEME GRANDEUR. Son corps a son propre defilement, donc le
+   retrait de `body` ne l'atteint pas. Selecteur qualifie par `body` :
+   parcourir.css arrive avec la vue, apres cette feuille, et a poids egal
+   c'est lui qui gagnerait. */
+body .pv-corps {
+  padding-bottom: calc(var(--espace-24) + var(--mini-h));
+}
 .mini {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: var(--barre-bas-h, 0px);
-  /* Au meme etage que la barre du bas, qu'elle ne croise pas : au-dessus de
-     l'en-tete (12), sous les voiles. Voir barre-bas.css. */
+  bottom: 0;
+  /* Au-dessus de l'en-tete (12), sous les voiles. */
   z-index: 13;
   display: flex;
   align-items: center;

@@ -11,7 +11,7 @@
 import { useMemo } from 'react';
 import { FAMILIES, FAMILY_LINKS, STRUCTURES } from './structures.ts';
 import { SiteNav } from './SiteNav.tsx';
-import { ouvrirDansAtlas } from './ouvrir-genre.ts';
+import { ouvrirLeStyle } from './ouvrir-genre.ts';
 import './index-view.css';
 import { t } from '../langue/langue.ts';
 
@@ -95,7 +95,7 @@ export function IndexPage() {
                             <button
                               type="button"
                               className="index-genre-lien"
-                              onClick={() => ouvrirDansAtlas(familyIndex, genreLocal)}
+                              onClick={() => ouvrirLeStyle(familyIndex, genreLocal)}
                             >
                               {genre.label}
                             </button>

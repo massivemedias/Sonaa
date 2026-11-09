@@ -79,6 +79,8 @@ import { faHeadphones, faCalendarPlus, faChartColumn, faUser, faCircleInfo } fro
 import './credits.css';
 import './sets.css';
 import './profil.css';
+/* le bouton « Se connecter » porte le style des boutons principaux */
+import './contribute.css';
 
 /* « 1024,0 Mo » est une facon de compter, pas une facon de lire. Au-dela du
    millier on passe au gigaoctet, comme le fait n'importe quel systeme. */
@@ -465,8 +467,8 @@ export function ProfilPage() {
       <main className="credits sets-page">
         <h1>{t.monProfil}</h1>
         <p>{t.connexionRequiseProfil}</p>
-        {/* LE BOUTON EST ICI, PAS SEULEMENT EN HAUT A DROITE. Depuis la barre
-            du bas on arrive sur cette page sans compte, et un texte qui dit
+        {/* LE BOUTON EST ICI, PAS SEULEMENT EN HAUT A DROITE. Depuis le menu
+            on arrive sur cette page sans compte, et un texte qui dit
             « connectez-vous » sans rien a presser renvoie chercher ou. Il
             demande le panneau commun plutot que d'en dessiner un second. */}
         <p>

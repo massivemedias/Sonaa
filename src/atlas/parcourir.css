@@ -1440,7 +1440,7 @@ a.pv-label:focus-visible {
 
    Sous 900 px, la vue devient donc une page comme les autres : elle defile
    avec le document, l'en-tete est fixe comme celui des pages, et le retrait
-   bas est celui de body (voir barre-bas.css). L'ordinateur garde sa boite :
+   bas est celui de body (voir mini-lecteur.css). L'ordinateur garde sa boite :
    sa barre d'adresse ne bouge pas. */
 @media (max-width: 899px) {
   .pv {

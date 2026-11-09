@@ -1009,6 +1009,8 @@ interface Dictionnaire {
   readonly adminMiseConfirmerRetrait: (titre: string) => string;
   readonly etape: (type: string, sens: string | null, rue: string | null, sortie: number | null) => string;
   readonly carteChargement: string;
+  readonly calALaUne: string;
+  readonly calLesAutres: string;
   readonly modifier: string;
   readonly annuler: string;
   readonly titreRequis: string;
@@ -1278,7 +1280,6 @@ interface Dictionnaire {
   readonly menuHamburgerFermer: string;
   readonly menuSectionEspace: string;
   readonly menuSectionLegal: string;
-  readonly menuCarte3d: string;
   readonly menuRechercher: string;
 }
 
@@ -2188,6 +2189,8 @@ const FR: Dictionnaire = {
     return `Continuez${rue ? ` sur ${rue}` : ' tout droit'}`;
   },
   carteChargement: 'La carte se prépare…',
+  calALaUne: 'À ne pas manquer',
+  calLesAutres: 'Toutes les autres soirées',
   modifier: 'Modifier',
   annuler: 'Annuler',
   titreRequis: 'Il faut un titre.',
@@ -2456,7 +2459,6 @@ const FR: Dictionnaire = {
   menuHamburgerFermer: 'Fermer le menu',
   menuSectionEspace: 'Espace & outils',
   menuSectionLegal: 'Informations légales',
-  menuCarte3d: 'Carte 3D',
   menuRechercher: 'Rechercher'
 };
 
@@ -3369,6 +3371,8 @@ const EN: Dictionnaire = {
     return `Continue${rue ? ` on ${rue}` : ' straight'}`;
   },
   carteChargement: 'Loading the map…',
+  calALaUne: 'Don’t miss',
+  calLesAutres: 'All the other nights',
   modifier: 'Edit',
   annuler: 'Cancel',
   titreRequis: 'A title is required.',
@@ -3625,7 +3629,6 @@ const EN: Dictionnaire = {
   menuHamburgerFermer: 'Close menu',
   menuSectionEspace: 'Account & tools',
   menuSectionLegal: 'Legal information',
-  menuCarte3d: '3D Map',
   menuRechercher: 'Search'
 };
 

@@ -460,6 +460,19 @@ function FicheSoiree({
 }
 
 
+/** Les trois soirees les plus pertinentes : les mises en avant d'abord,
+    puis les plus suivies chez Resident Advisor, puis la plus proche. */
+function troisEnTete(liste: readonly Soiree[], vedettes: ReadonlySet<string>): Soiree[] {
+  return [...liste]
+    .sort(
+      (a, b) =>
+        Number(vedettes.has(b.id)) - Number(vedettes.has(a.id)) ||
+        b.interesses - a.interesses ||
+        a.date.localeCompare(b.date)
+    )
+    .slice(0, 3);
+}
+
 export function CalendrierPage() {
   const [villes, setVilles] = useState<Ville[]>([]);
   const [slugSession, setSlugSession] = useState<string | null>(null);
@@ -850,6 +863,11 @@ export function CalendrierPage() {
      recherche : on cherche une salle, on ne decouvre plus le site. Elle
      attend en revanche que la liste des villes soit la, pour ne pas sauter
      entre deux rendus. */
+  /* EN MODE CARTE : les trois plus pertinentes en tete, les autres apres la
+     carte, dans l'ordre des dates. Voir troisEnTete. */
+  const enTete = enCarte ? troisEnTete(filtrees ?? [], vedettes) : [];
+  const lesAutres = enCarte ? (filtrees ?? []).filter((s) => !enTete.includes(s)) : [];
+
   /* L'HORAIRE : une soiree par ligne, la date dedans. Il sert a la recherche
      et sous la carte. */
   const horaire = (liste: readonly Soiree[]) => (
@@ -1384,27 +1402,41 @@ export function CalendrierPage() {
                    * lignes s'enchainent comme un horaire. Rien ne se perd :
                    * on lit la meme chose, en un tiers de la hauteur. */}
                   {enCarte ? (
-                    <Suspense fallback={<p className="cal-attente">{t.carteChargement}</p>}>
-                      <CarteDesSoirees
-                        key={ville.slug}
-                        soirees={filtrees ?? []}
-                        ville={ville}
-                        fuseau={fuseau}
-                        quand={(s) => {
-                          const h = s.debut ? heureLocale(s.debut, fuseau) : null;
-                          return `${jourCourt(s.date, fuseau)}${h ? ` - ${h}` : ''}`;
-                        }}
-                        vedettes={vedettes}
-                        onOuvrir={(id) => setDepliee(id)}
-                      />
-                      {/* LES SOIREES SOUS LA CARTE. Mika, le 8 novembre 2026,
-                          sur son telephone : « je vois pas les events ». La
-                          carte ne montrait que des pastilles, et il fallait
-                          deviner qu'on touche une salle pour lire ce qui s'y
-                          joue. L'horaire de la recherche suit donc la carte :
-                          la carte situe, la liste se lit. */}
-                      {(filtrees?.length ?? 0) > 0 && horaire(filtrees ?? [])}
-                    </Suspense>
+                    /* TROIS SOIREES, LA CARTE, PUIS LES AUTRES. Mika, le 9
+                       novembre 2026, sur son telephone : « la carte est un
+                       peu grande, faut scroller pas mal pour voir les
+                       events ; montre-moi les trois plus pertinents, ensuite
+                       la carte, ensuite les autres ». Pertinent : les mises
+                       en avant d'abord, puis les plus suivies chez Resident
+                       Advisor, puis la plus proche. */
+                    <>
+                      {enTete.length > 0 && (
+                        <>
+                          <h3 className="cal-carte-intertitre">{t.calALaUne}</h3>
+                          {horaire(enTete)}
+                        </>
+                      )}
+                      <Suspense fallback={<p className="cal-attente">{t.carteChargement}</p>}>
+                        <CarteDesSoirees
+                          key={ville.slug}
+                          soirees={filtrees ?? []}
+                          ville={ville}
+                          fuseau={fuseau}
+                          quand={(s) => {
+                            const h = s.debut ? heureLocale(s.debut, fuseau) : null;
+                            return `${jourCourt(s.date, fuseau)}${h ? ` - ${h}` : ''}`;
+                          }}
+                          vedettes={vedettes}
+                          onOuvrir={(id) => setDepliee(id)}
+                        />
+                      </Suspense>
+                      {lesAutres.length > 0 && (
+                        <>
+                          <h3 className="cal-carte-intertitre">{t.calLesAutres}</h3>
+                          {horaire(lesAutres)}
+                        </>
+                      )}
+                    </>
                   ) : enRecherche ? (
                     horaire(filtrees ?? [])
                   ) : (

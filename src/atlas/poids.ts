@@ -45,8 +45,6 @@
    influence a saute les frontieres de famille. */
 
 import corpus from '../data/corpus.json' with { type: 'json' };
-import vuesBrutes from '../data/vues.json' with { type: 'json' };
-import lastfmBrutes from '../data/lastfm.json' with { type: 'json' };
 import type { Corpus } from '../data/schema.ts';
 
 const CORPUS = corpus as unknown as Corpus;
@@ -61,8 +59,6 @@ const CORPUS = corpus as unknown as Corpus;
 
    On passe donc par `unknown` et on verifie a l'execution. Le fichier est une
    donnee, pas un contrat. */
-const VUES = vuesBrutes as unknown as { releve?: unknown; genres?: unknown };
-const LASTFM = lastfmBrutes as unknown as { releve?: unknown; genres?: unknown };
 
 /* ── L'arbre structurel : un parent au plus, celui qui positionne ────────── */
 
@@ -177,30 +173,4 @@ export const poidsDe = (id: string): PoidsGenre =>
    genre, en clair et datees, parce qu'une donnee biaisee pour dimensionner
    peut rester lisible comme information. */
 
-const MESURES_VUES: Record<string, number> =
-  VUES.genres !== null && typeof VUES.genres === 'object' ? (VUES.genres as Record<string, number>) : {};
-const MESURES_REACH: Record<string, number> =
-  LASTFM.genres !== null && typeof LASTFM.genres === 'object' ? (LASTFM.genres as Record<string, number>) : {};
 
-export const releveVues = typeof VUES.releve === 'string' ? VUES.releve : null;
-export const releveReach = typeof LASTFM.releve === 'string' ? LASTFM.releve : null;
-
-/* SOUS CENT AUDITEURS DISTINCTS, ON N'ECRIT PAS LE CHIFFRE.
-
-   Trente-sept genres sont dans ce cas. Ecrire « connu de 24 auditeurs »
-   donnerait a vingt-quatre personnes l'autorite d'un releve, alors que c'est
-   du bruit. On dit donc que la source est pauvre sur ce genre, ce qui est
-   l'information vraie. */
-export const SEUIL_REACH = 100;
-
-export interface Ecoute {
-  /** Utilisateurs distincts ayant tague ce genre sur Last.fm. 0 si inconnu. */
-  readonly reach: number;
-  /** Mediane des vues YouTube des morceaux du genre. 0 si inconnue. */
-  readonly vues: number;
-}
-
-export const ecouteDe = (id: string): Ecoute => ({
-  reach: MESURES_REACH[id] ?? 0,
-  vues: MESURES_VUES[id] ?? 0
-});
