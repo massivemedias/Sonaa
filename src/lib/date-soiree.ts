@@ -48,3 +48,20 @@ export function quandEnLettres(
   const jour = dateLongue(soiree.debut ?? soiree.date, fuseau, locale, avecAnnee);
   return heure ? `${jour} - ${heure}` : jour;
 }
+
+/** Le jour de la soiree, « AAAA-MM-JJ », dans le fuseau de sa ville. Couper
+    la chaine aux dix premiers caracteres donne le jour UTC pour une soiree
+    de la base : 22 h 30 a Montreal le 12 y devient le 13. */
+export function jourDeSoiree(s: { readonly date: string; readonly debut: string | null }, fuseau: string): string {
+  /* une date au mur (Resident Advisor) garde son jour tel qu'il est ecrit */
+  if (estSansFuseau(s.date) || /^\d{4}-\d{2}-\d{2}$/.test(s.date)) return s.date.slice(0, 10);
+  const iso = s.debut ?? s.date;
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso.slice(0, 10);
+  try {
+    /* en-CA ecrit les dates en AAAA-MM-JJ */
+    return new Intl.DateTimeFormat('en-CA', { timeZone: fuseau, year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
+  } catch {
+    return iso.slice(0, 10);
+  }
+}

@@ -46,6 +46,16 @@
   padding-right: var(--marge-page);
 }
 
+/* DANS L'ATLAS DES CLUBS, LE PIED EST DEJA PLEINE LARGEUR : `.page-lieux`
+   n'a aucun retrait, et les marges negatives ci-dessus le faisaient deborder
+   de vingt pixels de chaque cote. Sur iPhone, la page entiere s'elargissait
+   d'autant et le bouton « Plus » de la barre du bas sortait de l'ecran (vu
+   le 8 novembre 2026). Le retrait interieur, lui, reste celui de la colonne. */
+.page-lieux > .pied {
+  margin-left: 0;
+  margin-right: 0;
+}
+
 .pied-ligne {
   display: flex;
   align-items: center;

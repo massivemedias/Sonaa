@@ -160,8 +160,12 @@ export function ItineraireSurLaCarte({ carte, destination, masque }: { carte: Ca
     if (!masque || !carte) return MARGE;
     const m = masque.getBoundingClientRect();
     const c = carte.getContainer().getBoundingClientRect();
-    /* Large, le panneau est a gauche ; etroit, il occupe le bas. */
-    return m.width < c.width * 0.8 ? { top: MARGE, right: MARGE, bottom: MARGE, left: MARGE + m.right - c.left } : { top: MARGE, right: MARGE, left: MARGE, bottom: MARGE + c.bottom - m.top };
+    /* Large, le panneau est a gauche ; etroit, il occupe le bas. Au
+       telephone il passe SOUS la carte et ne couvre rien : le recouvrement
+       ne descend jamais sous zero. */
+    return m.width < c.width * 0.8
+      ? { top: MARGE, right: MARGE, bottom: MARGE, left: MARGE + Math.max(0, m.right - c.left) }
+      : { top: MARGE, right: MARGE, left: MARGE, bottom: MARGE + Math.max(0, c.bottom - m.top) };
   });
 
   if (etat !== 'connue') return <p className="iti-note">{etat === 'refusee' ? t.itinerairePositionRefusee : t.itineraireDemandePosition}</p>;

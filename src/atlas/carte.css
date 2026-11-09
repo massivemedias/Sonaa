@@ -422,8 +422,17 @@
     align-items: center;
     min-height: 44px;
   }
+  /* AU TELEPHONE, LA FICHE DE LA SALLE PASSE SOUS LA CARTE. Posee par-dessus,
+     elle couvrait presque toute la carte, son nom glissait sous l'en-tete et
+     « Itineraire » etait coupe en bas (vu sur iPhone le 8 novembre 2026). */
   .carte-panneau {
-    right: var(--espace-12);
+    position: static;
     width: auto;
+    max-height: none;
+    margin-top: var(--espace-12);
+    overflow: visible;
+    box-shadow: none;
+    scroll-margin-top: 72px;
+    scroll-margin-bottom: 84px;
   }
 }

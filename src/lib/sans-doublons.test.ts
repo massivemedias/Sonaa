@@ -62,4 +62,25 @@ describe('sansDoublons', () => {
     const b = soiree('2', 'Techno', '2026-10-06T00:00:00.000', 'Belmont Bar');
     expect(sansDoublons([a, b], MTL)).toHaveLength(2);
   });
+
+  it('fusionne un titre qui commence par un autre, le meme soir dans la meme salle (Nina Kraviz)', () => {
+    const ra = soiree('2570001', 'Nina Kraviz [DAY RAVE]', '2026-11-08T00:00:00.000', 'Le Studio TD', 'ra.jpg');
+    const tm = soiree('main:tm1', 'Nina Kraviz', '2026-11-08T20:00:00+00:00', 'Le Studio TD', 'tm.jpg');
+    const deplacee = soiree('main:tm2', 'Nina Kraviz a Été Déplacée Au Studio TD', '2026-11-08T20:00:00+00:00', 'Le Studio TD', 'tm.jpg');
+    expect(sansDoublons([ra, tm, deplacee], MTL)).toEqual([ra]);
+  });
+
+  it('ne fusionne pas un titre trop court ni un titre qui ne commence pas par l autre', () => {
+    const a = soiree('1', 'Bal', '2026-10-06T00:00:00.000', 'Stereo');
+    const b = soiree('2', 'Bal masque techno', '2026-10-06T00:00:00.000', 'Stereo');
+    const c = soiree('3', 'Afterhours Dinamo', '2026-10-06T00:00:00.000', 'Stereo');
+    const d = soiree('4', 'Dinamo', '2026-10-06T00:00:00.000', 'Stereo');
+    expect(sansDoublons([a, b, c, d], MTL)).toHaveLength(4);
+  });
+
+  it("ignore le prefixe de promoteur entre crochets", () => {
+    const a = soiree('1', '[DSTRKT] Layton Giordani', '2026-11-28T00:00:00.000', 'New City Gas', 'a.jpg');
+    const b = soiree('main:2', 'Layton Giordani', '2026-11-29T03:00:00+00:00', 'New City Gas');
+    expect(sansDoublons([a, b], MTL)).toEqual([a]);
+  });
 });

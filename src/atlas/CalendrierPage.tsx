@@ -850,6 +850,53 @@ export function CalendrierPage() {
      recherche : on cherche une salle, on ne decouvre plus le site. Elle
      attend en revanche que la liste des villes soit la, pour ne pas sauter
      entre deux rendus. */
+  /* L'HORAIRE : une soiree par ligne, la date dedans. Il sert a la recherche
+     et sous la carte. */
+  const horaire = (liste: readonly Soiree[]) => (
+    <ul className="cal-horaire">
+      {liste.map((s) => {
+        const h = s.debut ? heureLocale(s.debut, fuseau) : null;
+        const sigle = ailleurs && s.debut ? sigleFuseau(s.debut, fuseau) : null;
+        return (
+          <li key={s.id} className="cal-ligne">
+            <span className="cal-ligne-quand">
+              <span className="cal-ligne-jour">{jourCourt(s.date, fuseau)}</span>
+              {h && (
+                <span className="cal-ligne-heure">
+                  {h}
+                  {sigle ? ` ${sigle}` : ''}
+                </span>
+              )}
+            </span>
+            <ImageDeSoiree soiree={s} fuseau={fuseau} variante="ligne" className="cal-ligne-affiche" />
+            <span className="cal-ligne-texte">
+              <a className="cal-titre" href={s.lien} target="_blank" rel="noreferrer">
+                {s.titre}
+              </a>
+              {s.artistes.length > 0 && (
+                <span className="cal-artistes">
+                  {s.artistes.slice(0, 5).join(', ')}
+                </span>
+              )}
+              <span className="cal-lieu">
+                {/* Le marqueur vit dans LES DEUX gabarits.
+                    Il n'etait que dans les cartes, et la
+                    recherche, qui affiche un horaire
+                    compact, ne le montrait pas : une soiree
+                    ajoutee a la main y passait pour une
+                    soiree de Resident Advisor. */}
+                {s.origine && s.origine !== 'ra' && (
+                  <span className="cal-origine">{NOM_DE_SOURCE[s.origine]}</span>
+                )}
+                {s.lieu ?? t.lieuNonAnnonce}
+              </span>
+            </span>
+          </li>
+        );
+      })}
+    </ul>
+  );
+
   const avecHero = !enRecherche && (ville != null || villes.length > 0);
 
   const fuseau = ville?.timezone ?? 'America/Toronto';
@@ -1350,50 +1397,16 @@ export function CalendrierPage() {
                         vedettes={vedettes}
                         onOuvrir={(id) => setDepliee(id)}
                       />
+                      {/* LES SOIREES SOUS LA CARTE. Mika, le 8 novembre 2026,
+                          sur son telephone : « je vois pas les events ». La
+                          carte ne montrait que des pastilles, et il fallait
+                          deviner qu'on touche une salle pour lire ce qui s'y
+                          joue. L'horaire de la recherche suit donc la carte :
+                          la carte situe, la liste se lit. */}
+                      {(filtrees?.length ?? 0) > 0 && horaire(filtrees ?? [])}
                     </Suspense>
                   ) : enRecherche ? (
-                    <ul className="cal-horaire">
-                      {(filtrees ?? []).map((s) => {
-                        const h = s.debut ? heureLocale(s.debut, fuseau) : null;
-                        const sigle = ailleurs && s.debut ? sigleFuseau(s.debut, fuseau) : null;
-                        return (
-                          <li key={s.id} className="cal-ligne">
-                            <span className="cal-ligne-quand">
-                              <span className="cal-ligne-jour">{jourCourt(s.date, fuseau)}</span>
-                              {h && (
-                                <span className="cal-ligne-heure">
-                                  {h}
-                                  {sigle ? ` ${sigle}` : ''}
-                                </span>
-                              )}
-                            </span>
-                            <ImageDeSoiree soiree={s} fuseau={fuseau} variante="ligne" className="cal-ligne-affiche" />
-                            <span className="cal-ligne-texte">
-                              <a className="cal-titre" href={s.lien} target="_blank" rel="noreferrer">
-                                {s.titre}
-                              </a>
-                              {s.artistes.length > 0 && (
-                                <span className="cal-artistes">
-                                  {s.artistes.slice(0, 5).join(', ')}
-                                </span>
-                              )}
-                              <span className="cal-lieu">
-                                {/* Le marqueur vit dans LES DEUX gabarits.
-                                    Il n'etait que dans les cartes, et la
-                                    recherche, qui affiche un horaire
-                                    compact, ne le montrait pas : une soiree
-                                    ajoutee a la main y passait pour une
-                                    soiree de Resident Advisor. */}
-                                {s.origine && s.origine !== 'ra' && (
-                                  <span className="cal-origine">{NOM_DE_SOURCE[s.origine]}</span>
-                                )}
-                                {s.lieu ?? t.lieuNonAnnonce}
-                              </span>
-                            </span>
-                          </li>
-                        );
-                      })}
-                    </ul>
+                    horaire(filtrees ?? [])
                   ) : (
                     parJour.map(([date, liste]) => (
                     <section key={date} className="cal-jour">

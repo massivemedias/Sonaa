@@ -50,8 +50,14 @@
     }
 
     /* ═══ 2. LA BANNIERE DE L'ACCUEIL ═══ Sur les 80 premiers pour cent de
-       l'ecran de defilement : au-dela, elle est sortie. */
-    .hero-mots {
+       l'ecran de defilement : au-dela, elle est sortie.
+       SUR LES ENFANTS, PAS SUR LE BLOC. `.hero-mots` est aussi une Apparition
+       (mouvement.tsx), qui fait passer son opacite de 0 a 1 au chargement.
+       Deux animations d'opacite sur le meme element : le moteur de rendu
+       gardait le 0 de depart comme point de depart de l'effacement, et le
+       titre du calendrier restait invisible (mesure le 8 novembre 2026 dans
+       Chromium, et Safari joue aussi ces animations depuis iOS 26). */
+    .hero-mots > * {
       animation: px-hero-mots linear both;
       animation-timeline: scroll(root);
       animation-range: 0 80vh;

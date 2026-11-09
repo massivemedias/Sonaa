@@ -17,12 +17,17 @@ import { LngLatBounds, Marker, type Map as CarteGL } from 'maplibre-gl';
 import type { Soiree } from '../lib/agenda.ts';
 import type { Ville } from '../lib/ville-active.ts';
 import { lieuxASituer, salles, situerLesLieux, type Point } from '../lib/carte.ts';
-import { cleDuJour } from '../lib/fenetre-agenda.ts';
+import { jourDeSoiree } from '../lib/date-soiree.ts';
 import { ImageDeSoiree } from './AfficheGeneree.tsx';
 import { t } from '../langue/langue.ts';
 import { creerCarte, lngLat } from './fond-de-carte.ts';
 import { ItineraireSurLaCarte } from './Itineraire.tsx';
 import { enAvantDabord } from '../lib/mise-en-avant.ts';
+
+/** Aujourd'hui, « AAAA-MM-JJ », dans le fuseau de la ville. */
+function aujourdhuiA(fuseau: string): string {
+  return jourDeSoiree({ date: new Date().toISOString(), debut: null }, fuseau);
+}
 
 export function CarteDesSoirees({
   soirees,
@@ -100,11 +105,11 @@ export function CarteDesSoirees({
     if (!m) return;
     for (const r of reperes.current) r.remove();
     reperes.current = [];
-    const ceSoir = cleDuJour(new Date());
+    const ceSoir = aujourdhuiA(fuseau);
     for (const s of liste) {
       const n = s.soirees.length;
       const taille = Math.round(24 + Math.min(16, Math.sqrt(n - 1) * 6));
-      const vif = s.soirees.some((x) => x.date.slice(0, 10) === ceSoir);
+      const vif = s.soirees.some((x) => jourDeSoiree(x, fuseau) === ceSoir);
       const vedette = s.soirees.some((x) => vedettes.has(x.id));
       const nom = s.nom ?? t.lieuNonAnnonce;
       const bouton = document.createElement('div');
@@ -145,7 +150,7 @@ export function CarteDesSoirees({
       });
       reperes.current.push(new Marker({ element: bouton }).setLngLat(lngLat(s.point)).addTo(m));
     }
-  }, [liste, choisie, vedettes]);
+  }, [liste, choisie, vedettes, fuseau]);
 
   /* LE CADRAGE suit l'ensemble des salles, pas la salle choisie : choisir
      ne doit pas faire sauter la carte. */
@@ -176,8 +181,22 @@ export function CarteDesSoirees({
     return () => window.removeEventListener('keydown', fermer, true);
   }, [choisie]);
 
-  const vifs = liste.some((s) => s.soirees.some((x) => x.date.slice(0, 10) === cleDuJour(new Date())));
-  const tousCeSoir = liste.every((s) => s.soirees.every((x) => x.date.slice(0, 10) === cleDuJour(new Date())));
+  /* LE JOUR SE LIT DANS LE FUSEAU DE LA VILLE : une soiree de la base porte
+     un instant UTC, et 22 h a Montreal y tombe deja le lendemain. Couper la
+     chaine faisait battre la salle d'une soiree de demain soir. */
+  const ceSoir = aujourdhuiA(fuseau);
+  const vifs = liste.some((s) => s.soirees.some((x) => jourDeSoiree(x, fuseau) === ceSoir));
+  const tousCeSoir = liste.every((s) => s.soirees.every((x) => jourDeSoiree(x, fuseau) === ceSoir));
+
+  /* AU TELEPHONE, LA FICHE DE LA SALLE PASSE SOUS LA CARTE (voir carte.css) :
+     on l'amene sous les yeux quand on touche une salle, sinon le toucher
+     semble ne rien faire. */
+  useEffect(() => {
+    if (!panneau || typeof window.matchMedia !== 'function') return;
+    if (!window.matchMedia('(max-width: 899px)').matches) return;
+    const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    panneau.scrollIntoView({ block: 'nearest', behavior: reduit ? 'auto' : 'smooth' });
+  }, [panneau, choisie]);
 
   return (
     <div className="carte">

@@ -504,6 +504,9 @@
    Une soiree par ligne, la date dedans. Deux colonnes des qu'il y a la
    place : les lignes sont courtes, une seule colonne laisserait la moitie
    de la page vide, ce qui etait deja le reproche fait a la grille. */
+.carte ~ .cal-horaire {
+  margin-top: var(--espace-24);
+}
 .cal-horaire {
   list-style: none;
   margin: var(--espace-8) 0 0;
