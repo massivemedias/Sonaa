@@ -475,6 +475,7 @@ function troisEnTete(liste: readonly Soiree[], vedettes: ReadonlySet<string>): S
 
 export function CalendrierPage() {
   const [villes, setVilles] = useState<Ville[]>([]);
+  const [villesChargees, setVillesChargees] = useState(false);
   const [slugSession, setSlugSession] = useState<string | null>(null);
   const [idProfil, setIdProfil] = useState<string | null>(null);
   const [zoneDeduite, setZoneDeduite] = useState<number | null>(null);
@@ -549,7 +550,9 @@ export function CalendrierPage() {
 
   useEffect(() => {
     setSlugSession(villeDeSession());
-    void toutesLesVilles().then(setVilles);
+    void toutesLesVilles()
+      .then(setVilles)
+      .finally(() => setVillesChargees(true));
     void villeDattache().then(setIdProfil);
     void ouJeSuis().then((ou) => {
       setNomDeduit(ou.ville);
@@ -915,7 +918,10 @@ export function CalendrierPage() {
     </ul>
   );
 
-  const avecHero = !enRecherche && (ville != null || villes.length > 0);
+  /* LA BANNIERE EST LA DES LE PREMIER RENDU, pas seulement une fois les villes
+     connues : elle arrivait apres coup et poussait toute la page de 400 px
+     sur telephone (mesure le 10 novembre 2026). */
+  const avecHero = !enRecherche && (!villesChargees || ville != null || villes.length > 0);
 
   const fuseau = ville?.timezone ?? 'America/Toronto';
 
@@ -1062,6 +1068,7 @@ export function CalendrierPage() {
             }}
             onVille={() => document.querySelector<HTMLSelectElement>('.cal-ville select')?.focus()}
             onAffiche={(id) => setDepliee(id)}
+            enAttente={chargement || !villesChargees}
           />
         )}
         {/* PLUS DE TRACK ID DANS LA PAGE, depuis le 3 octobre 2026. Mika : « je

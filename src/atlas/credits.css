@@ -40,6 +40,14 @@
   background: transparent;
 }
 
+/* UNE LISTE QUI CHARGE GARDE LA PLACE D'UN ECRAN. Le pied de page, ou ce
+   qui suit la liste, s'affichait au milieu de l'ecran puis filait vers le
+   bas a son arrivee : decalage de mise en page de 0,3 mesure le 10 novembre
+   2026 sur Mixtapes et News. */
+.attente-ecran {
+  min-height: 100svh;
+}
+
 .credits-skip {
   position: absolute;
   /* Hors ecran jusqu'au focus : ce n'est pas un decalage de mise en page. */

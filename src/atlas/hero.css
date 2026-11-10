@@ -151,6 +151,14 @@
 .hero-affiche:focus-visible {
   transform: scale(1.04);
 }
+.hero-affiche-vide {
+  display: block;
+  aspect-ratio: 4 / 5;
+  cursor: default;
+}
+.hero-affiche-vide:hover {
+  transform: none;
+}
 .hero-affiche img {
   display: block;
   width: 100%;

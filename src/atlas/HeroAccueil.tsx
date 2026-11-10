@@ -42,6 +42,9 @@ interface Props {
   readonly onWeekend: () => void;
   readonly onVille: () => void;
   readonly onAffiche: (id: string) => void;
+  /** Vrai tant que les soirees chargent : la rangee d'affiches garde sa
+      place, vide, au lieu d'arriver plus tard en poussant la page. */
+  readonly enAttente?: boolean;
 }
 
 /* CINQ AFFICHES, ET PAS UNE DE PLUS : c'est la largeur d'une rangee droite
@@ -57,6 +60,7 @@ export function HeroAccueil({
   onWeekend,
   onVille,
   onAffiche,
+  enAttente = false,
 }: Props) {
   return (
     <section className="hero" aria-label={t.heroTitre}>
@@ -91,6 +95,17 @@ export function HeroAccueil({
         </div>
       </Apparition>
 
+      {/* LA PLACE DES AFFICHES EST GARDEE PENDANT LE CHARGEMENT. Elles
+          arrivaient apres les soirees et poussaient tout le calendrier vers
+          le bas (decalage de mise en page mesure a 0,46 le 10 novembre
+          2026). */}
+      {affiches.length === 0 && enAttente && (
+        <div className="hero-collage" aria-hidden="true">
+          {Array.from({ length: N_AFFICHES }, (_, i) => (
+            <span key={i} className="hero-affiche hero-affiche-vide" />
+          ))}
+        </div>
+      )}
       {affiches.length > 0 && (
         <Apparition i={1} className="hero-collage" aria-label={t.heroAffiches}>
           {affiches.slice(0, N_AFFICHES).map((a) => (

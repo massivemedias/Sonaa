@@ -139,7 +139,9 @@ function ListeDesArtistes() {
       <h2 className="sp-sous-titre sp-sous-titre-premier">{t.lesArtistes}</h2>
 
       {artistes === null ? (
-        <p className="sp-aide">{t.chargement}</p>
+        /* la place d'un ecran est gardee : sans elle, le pied s'affichait au
+           milieu puis filait vers le bas a l'arrivee de la liste */
+        <p className="sp-aide attente-ecran">{t.chargement}</p>
       ) : artistes.length === 0 ? (
         <p className="sp-aide">{t.aucunArtiste}</p>
       ) : (

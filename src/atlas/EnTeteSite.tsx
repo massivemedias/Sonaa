@@ -25,6 +25,8 @@ export function EnTeteSite() {
         <img
           src={`${import.meta.env.BASE_URL}brand/sonaa-logo.png`}
           alt="SONAA"
+          width={1800}
+          height={783}
           draggable={false}
         />
       </a>

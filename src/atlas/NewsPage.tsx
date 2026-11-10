@@ -525,7 +525,9 @@ export function NewsPage() {
         </div>
 
         {panne && <p className="news-note">{t.newsIndisponibles}</p>}
-        {!panne && !livre && <p className="news-note">{t.lectureEnCours}</p>}
+        {/* la place d'un ecran est gardee pendant la lecture : les sources,
+            plus bas, s'affichaient puis filaient a l'arrivee du fil */}
+        {!panne && !livre && <p className="news-note attente-ecran">{t.lectureEnCours}</p>}
         {livre && articles.length === 0 && <p className="news-note">{t.aucunArticle}</p>}
 
         {edition.une && (
