@@ -156,6 +156,14 @@ function ecrire(p: Page): void {
     .replace(/<meta\s+property="og:(?:title|description|url|type|image|image:width|image:height|image:alt)"\s+content="[^"]*"\s*\/>\n?/g, '')
     .replace(/<meta\s+name="twitter:[^"]*"\s+content="[^"]*"\s*\/>\n?/g, '')
     .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\n?/g, '');
+  /* LES ECRANS DE DEMARRAGE D'iOS RESTENT A LA RACINE. Vingt-six balises,
+     5,3 Ko, soit presque la moitie de l'en-tete d'une page de label, et iOS
+     ne les lit qu'au lancement de l'app installee, qui part toujours de « / »
+     (start_url du manifeste). Recopiees dans 3 650 pages, elles pesaient
+     19 Mo a chaque deploiement (mesure le 10 novembre 2026). */
+  if (p.chemin !== '/' && p.chemin !== '') {
+    html = html.replace(/<link\s+rel="apple-touch-startup-image"[^>]*>\n?/g, '');
+  }
   html = html.replace(/<title>[^<]*<\/title>/, () => meta);
   if (p.langue === 'en') {
     html = html.replace('<html lang="fr">', '<html lang="en">').replace('property="og:locale" content="fr_FR"', 'property="og:locale" content="en_CA"');

@@ -157,7 +157,11 @@ export async function fabriquerCarte(carte: Carte, dist: string, origine: string
       ])
       .flatten({ background: FOND })
       .resize(l, ht)
-      .jpeg({ quality: 88, mozjpeg: true })
+      /* QUALITE 78 ET NON 88 : un tiers de moins par carte (41 Ko -> 27 Ko
+         environ), sans difference visible sur un aplat sombre et du texte, et
+         Facebook recompresse de toute facon. Les 522 cartes pesaient 22 Mo
+         du site construit (10 novembre 2026). */
+      .jpeg({ quality: 78, mozjpeg: true })
       .toFile(join(dist, 'og', dossier, nom));
     return `${origine}/og/${dossier}/${nom}`;
   } catch {

@@ -12,6 +12,23 @@ export default defineConfig({
   base: '/',
   plugins: [
     react(),
+    /* LE GABARIT PART SANS SES NOTES. index.html est documente en commentaires
+       francais, et le pre-rendu le recopie dans chacune des 3 700 pages : 18,6
+       Mo de commentaires sur 94,6 Mo de HTML, que personne ne lit en ligne et
+       que GitHub Pages devait synchroniser a chaque deploiement (mesure le 10
+       novembre 2026). Ils restent dans la source ; la page servie les perd,
+       avec l'indentation de son en-tete. Le corps n'est pas touche : un
+       espace y peut compter. */
+    {
+      name: 'sonaa-gabarit-sans-notes',
+      transformIndexHtml: {
+        order: 'post',
+        handler(html: string): string {
+          const sansNotes = html.replace(/<!--[\s\S]*?-->/g, '');
+          return sansNotes.replace(/<head>[\s\S]*?<\/head>/, (tete) => tete.replace(/\n\s+/g, '\n'));
+        },
+      },
+    },
     /* TAILWIND, DEPUIS LE 21 SEPTEMBRE 2026, ET SANS SON RESET. La feuille
        src/design/v2.css n'importe que le theme et les utilitaires : le
        « preflight » remettrait a zero les boutons, les listes et les titres
