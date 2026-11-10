@@ -14,6 +14,7 @@
     "check:matcher": "tsx scripts/check-matcher.ts",
     "check:labels": "tsx scripts/check-labels.ts",
     "crop:covers": "bash scripts/crop-covers.sh",
+    "alleger:covers": "tsx scripts/alleger-covers.ts",
     "fetch:release": "tsx scripts/fetch-release-data.ts",
     "fetch:key": "tsx scripts/fetch-key.ts",
     "check:writes": "tsx scripts/check-corpus-writes.ts",

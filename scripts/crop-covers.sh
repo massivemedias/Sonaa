@@ -19,3 +19,8 @@ for f in *.jpg; do
   esac
 done
 echo "$n43 vignettes 4:3 debandees, $nsq recadrees au centre, $skip deja en 400x400"
+
+# Puis l'allegement : qualite 72, progressif, sans metadonnees. Voir
+# scripts/alleger-covers.ts. Idempotent, comme ce recadrage.
+cd ../..
+npx tsx scripts/alleger-covers.ts
