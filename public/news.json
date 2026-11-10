@@ -1,6 +1,69 @@
 {
- "fait": "2026-11-09T22:29:37.360Z",
+ "fait": "2026-11-10T19:51:01.419Z",
  "articles": [
+  {
+   "source": "midnightrebels",
+   "titre": "Why Dancing in Sync Makes Strangers Feel Close, According to Oxford",
+   "lien": "https://midnightrebels.com/dancing-in-sync-bonding-pain-threshold-oxford-study/",
+   "date": "2026-11-10T19:19:44.000Z",
+   "image": "https://midnightrebels.com/wp-content/uploads/2025/09/Post-Festival-Depression.avif",
+   "resume": "Everyone has felt it. A stranger next to you hits the same step on the same drop, and for a few seconds you are friends. Oxford researchers tested that feeling in controlled studies. Here is what the papers show, what…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Baby Audio Crystalline is 94% off, Slate Digital Virtual Mixing Rack and Aberrant DSP Digitalis are on sale, too: 3 Great Plugin Deals!",
+   "lien": "https://www.gearnews.com/baby-audio-crystalline-plugin-deals/",
+   "date": "2026-11-10T17:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/PluginDeals_261110.jpg",
+   "resume": "Thomann’s Cyber Deals are in full swing, and there are loads of amazing bargains to be made. But that doesn’t mean there are no other plugin deals to be found. Quite the contrary! One of the best deals at the moment is…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "One of Logic Pro 13’s biggest new features can only be had on subscription: is that fair, and should you care?",
+   "lien": "https://www.musicradar.com/music-tech/one-of-logic-pro-13s-biggest-new-features-can-only-be-had-on-subscription-is-that-fair-and-should-you-care",
+   "date": "2026-11-10T12:52:30.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/ECGQwDdiVLM7KoAnx2Rs9P-1920-80.jpg",
+   "resume": "When Apple announced Logic Pro 13 late last month , the most headline-grabbing new feature was undoubtedly the AI-powered intelligent assistant that's designed to help you out with various production tasks as you make…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Melbourne Instruments NINA End of Year Discount!",
+   "lien": "https://www.gearnews.com/melbourne-instruments-nina-synth/",
+   "date": "2026-11-10T10:02:30.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/04/melbourne-instruments-nina-t.jpg",
+   "resume": "Melbourne Instruments NINA has been one of the surprise hits of the last few years, with its fancy motorised knobs. Now it comes with a chunk of change off the price too! Melbourne Instruments NINA NINA Gets a Healthy…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "Ableton Live 13 is here: everything you need to know about Live’s latest update",
+   "lien": "https://www.musicradar.com/music-tech/ableton-live-13-is-here-everything-you-need-to-know-about-lives-latest-update",
+   "date": "2026-11-10T09:59:22.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/N9zwriK7Zqz5RVEeECjbFP-1920-80.png",
+   "resume": "Ableton has unveiled the public beta of Live 13, the next version of its flagship DAW, a major update that the Berlin-based developer promises will “help music-makers keep ideas moving and shape sound in new ways”…",
+   "integral": true
+  },
+  {
+   "source": "attack",
+   "titre": "Live 13 Introduces Step Sequencer, Drum Synth, ARA 2 & New Racks",
+   "lien": "https://www.attackmagazine.com/news/live-13-introduces-step-sequencer-drum-synth-ara-2-new-racks/",
+   "date": "2026-11-10T09:59:09.000Z",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/Attack-Mag-News-Feat-Images-Live-13-1-1130x387.png",
+   "resume": "Ableton has announced Live 13, with a Step Sequencer, Drum Synth, Multiband Racks and ARA 2 support. A public beta is available now. Ableton has unveiled Live 13. The headline additions are a Step Sequencer with…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Ableton Live 13: ARA 2, Step Sequencer, New Devices and More!",
+   "lien": "https://www.gearnews.com/ableton-live-13-studio/",
+   "date": "2026-11-10T09:48:55.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/ableton-live-13-teaser.jpg",
+   "resume": "Ableton Live 13 has arrived with exciting new features, along with a new update for Push 3, and a 20% Off Sale on Live, Move, and Push. Now available in public beta, Live 13 is due for official release in early 2027…",
+   "integral": true
+  },
   {
    "source": "midnightrebels",
    "titre": "GTA VI: The Festival Books Justice, Skream and Three B2B Sets in Miami",
@@ -42,7 +105,7 @@
    "titre": "What Akai’s MPC Open-Source Repository Actually Contains",
    "lien": "https://midnightrebels.com/akai-mpc-open-source-github/",
    "date": "2026-11-09T15:23:42.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/GTA-VI-The-Festival-Books-Justice-Skream-and-Three-B2B-Sets-in-Miami.webp?fit=2400%2C1350&ssl=1",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/Why-Dancing-in-Sync-Makes-Strangers-Feel-Close-According-to-Oxford.webp?fit=2400%2C1350&ssl=1",
    "resume": "Akai’s MPC line now has a public GitHub page, and some of the headlines are running ahead of the files. inMusic, Akai’s parent company, has posted a repository of open-source components used in MPC hardware. Below is…",
    "integral": true
   },
@@ -53,24 +116,6 @@
    "date": "2026-11-09T08:30:16.000Z",
    "image": "https://musictech.com/wp-content/uploads/2026/11/MT-HERO-NEUMANN-KH-SERIES-CREDIT-SIMON-VINALL@2560x1707.jpg",
    "resume": "A sk any reputable recording engineer what’s in their mic locker, and you’ll surely hear them mention Neumann . The 98-year-old German brand’s U 87 and U 47 microphones are essential to any storied studio, and they’ve…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "ZL Limiter, ClassicQlite, simpleTapeStop: Free Plugins of the Week",
-   "lien": "https://www.gearnews.com/zl-limiter-free-plugins/",
-   "date": "2026-11-08T07:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/zl-limiter-free-plugins-11-08-26.jpg",
-   "resume": "ZL Limiter is a free limiter plugin from the creator of the excellent ZL Equalizer, ClassicQlite delivers the sound of classic British EQs, and simpleTapeStop does just what it says: Free Plugins of the Week! Free…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "5 Forgotten Synths: Lost to Time",
-   "lien": "https://www.gearnews.com/5-forgotten-synths/",
-   "date": "2026-11-07T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/forgotten-synths-T.jpg",
-   "resume": "Not every synth can be a classic. For every CS-80 and Jupiter-8, there are countless that, while not bad, never make it into the musician collective unconscious. These are five of those forgotten synths. 5 Forgotten…",
    "integral": true
   },
   {
@@ -137,24 +182,6 @@
    "integral": true
   },
   {
-   "source": "musictech",
-   "titre": "Splice just released an entirely new DAW, Splice Create – here’s everything you need to know",
-   "lien": "https://musictech.com/news/music/splice-create-daw-announced/",
-   "date": "2026-11-05T15:28:03.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/Splice-Create-DAW.jpeg",
-   "resume": "Splice has steadily been releasing new tools, from generative AI tools to last year’s launch of Splice INSTRUMENT , a new flagship virtual instruments player. But Splice has another, bigger surprise up its sleeve –…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Welsh DJ duo powerhouse Overmono just launched a bus processor built around their own mixing workflow",
-   "lien": "https://musictech.com/news/gear/overmono-diamond-cut/",
-   "date": "2026-11-05T14:24:44.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/Overmono-Diamond-Cut@2000x1500.jpg",
-   "resume": "Welsh electronic music duo Overmono have released Diamond Cut, a bus processor developed in collaboration with Finnish plugin company Project Miracle. Built specifically around their own mixing workflow, and designed to…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "\"The real revelation was the improvements it made to my workflow\": Audient Horizon 8P review",
    "lien": "https://www.musicradar.com/music-tech/audio-interfaces/the-real-revelation-was-the-improvements-it-made-to-my-workflow-audient-horizon-8p-review",
@@ -179,42 +206,6 @@
    "date": "2026-11-04T15:15:00.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/Ueq4oGUkgn6nFrgCuzXKKD-1920-80.jpg",
    "resume": "There’s no better time than Black Friday to pick up a plugin deal, and Waves has decided to start the festivities early. The company has launched its Black Friday plugin deals now, so you can expand your arsenal earlier…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Waves is dropping a brand new plugin for exactly $0 - here's how to claim yours before licenses run out",
-   "lien": "https://www.musicradar.com/music-tech/plugins/waves-free-plugin-black-friday-2026",
-   "date": "2026-11-04T10:19:09.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/PddVYFgPqWzeKpwhGx8ATM-1920-80.jpg",
-   "resume": "The annual free Waves plugin has become a bit of a tradition for music makers, and the company has just announced that its latest freebie will launch on November 27. To get in on the action, all you need to do is head…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "\"We weren’t going to make just another reverb – that would be boring\": We tested 7 of the weirdest reverb plugins",
-   "lien": "https://www.musicradar.com/music-tech/we-werent-going-to-make-just-another-reverb-that-would-be-boring-we-tested-7-of-the-weirdest-reverb-plugins",
-   "date": "2026-11-03T16:04:49.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/DAF4HS4ujLNqMPm2iZmxSR-1920-80.jpg",
-   "resume": "Reverb is an essential and ubiquitous effect. It provides a sense of depth and distance that allows us to stage our music in realistic – or surrealistic – acoustic spaces. It can bring shape, movement and life to a…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "\"Choose your model and let the magic happen\": iZotope launches Photon, the company's first plugin developed with new owner Boris FX",
-   "lien": "https://www.musicradar.com/music-tech/choose-your-model-let-the-magic-happen-export-and-youre-done-izotope-launches-photon-the-companys-first-plugin-developed-with-new-owners-boris-fx",
-   "date": "2026-11-03T16:00:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/y4oLzzUeYqNeTfukjEQghm-1920-80.jpg",
-   "resume": "iZotope has launched Photon, the company’s first software release since it was acquired by Boris FX in July, following the sale of iZotope’s former parent company Native Instruments to InMusic. A stem separation tool…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Why spend big on a mini synth stand when this clever Ikea hack means you can build you own for just €11?",
-   "lien": "https://www.musicradar.com/music-tech/synths/why-spend-big-on-a-mini-synth-stand-when-this-clever-ikea-hack-means-you-can-build-you-own-for-just-eur11",
-   "date": "2026-11-03T14:24:22.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/hoG2i53ZAPzHXJpNeAg5h4-1920-80.jpg",
-   "resume": "Why fork out loads of cash on a fancy synth stand? One crafty Dutch musician has constructed one from bits and bobs they purchased from Ikea. The individual in question is a YouTuber called, mysteriously, WhenZenEnds…",
    "integral": true
   },
   {
@@ -269,15 +260,6 @@
    "date": "2026-10-14T14:47:37.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/Screenshot-2026-10-07-at-19.13.17-1-1130x387.png",
    "resume": "The data-driven suite arrives as a cross-platform plug-in bundle with AU/CLAP/VST3 formats, plus an Ableton Live Extension. Manifest Audio has released Sonification Tools v3 for $199, on sale for $169 until 1 November…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Ben Turner: “It’s A Thin Line Between True Curation And Gatekeeping”",
-   "lien": "https://www.attackmagazine.com/features/long-read/ben-turner-its-a-thin-line-between-true-curation-and-gatekeeping/",
-   "date": "2026-10-12T11:34:10.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/8d3380eb-e249-499e-9ee9-b6e80d4bb8e2-1130x386.png",
-   "resume": "Ben Turner on why promoters have no excuse left, and why nurturing new talent is a long-term investment. Debates about representation in electronic music tend to get heated fast. Comment threads and panel soundbites…",
    "integral": true
   },
   {
