@@ -233,9 +233,16 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # TRENTE MINUTES ET NON DIX. Le site fait 254 Mo en 8 650 fichiers, et
+      # GitHub met parfois plus de dix minutes a les synchroniser : l'envoi
+      # restait sur « syncing_files » et l'action abandonnait a sa limite par
+      # defaut, construction verte. Quatre deploiements sur vingt sont tombes
+      # exactement la (n° 901, 902, 919, 920, novembre 2026).
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          timeout: 1800000
 
       # LES MOTEURS SONT PREVENUS A CHAQUE PUBLICATION. IndexNow est un
       # protocole ouvert (Bing, Yandex, Naver, Seznam) : une seule requete
