@@ -1936,8 +1936,8 @@ writeFileSync(
    encore sa page : recharger affichait la 404 de GitHub. GitHub sert ce
    fichier a sa place, avec le code 404 que les moteurs doivent lire, et
    l'app traduit le chemin en ancre comme partout ailleurs. La balise
-   sonaa-introuvable dit a main.tsx de ne pas prendre /games/ pour un vieux
-   service worker, ce qui rechargerait sans fin. */
+   sonaa-introuvable dit a main.tsx de ne pas poser d'adresse canonique sur
+   une page qui n'existe pas. */
 writeFileSync(
   join(DIST, '404.html'),
   gabarit

@@ -35,29 +35,6 @@ export default defineConfig({
        de trente-cinq feuilles ecrites a la main, et c'est exactement ce
        qu'on ne veut pas. Voir ADR-086. */
     tailwindcss(),
-    /* LE JEU S'OUVRE AUSSI EN DEVELOPPEMENT.
-     *
-     * SONAA Label Tycoon vit dans public/game/, en page a part. GitHub Pages
-     * sert l'index d'un dossier tout seul : « /game/ » ouvre le jeu en
-     * production. Le serveur de developpement, lui, ne resout pas l'index
-     * d'un sous-dossier de public/ et laisse la demande filer vers le
-     * repli de l'application d'une page : « /game/ » y rendait l'atlas.
-     *
-     * Mesure : en developpement, /game/ rend « SONAA » et /game/index.html
-     * rend « SONAA - Label Tycoon » ; en production les deux rendent le jeu.
-     * Un lien du menu qui marche en ligne et pas en local est exactement le
-     * genre d'ecart qui fait chercher un defaut la ou il n'y en a pas.
-     *
-     * Trois lignes de reecriture suffisent a aligner les deux. */
-    {
-      name: 'sonaa-index-du-jeu',
-      configureServer(serveur) {
-        serveur.middlewares.use((req, _res, next) => {
-          if (req.url === '/game' || req.url === '/game/') req.url = '/game/index.html';
-          next();
-        });
-      },
-    },
     VitePWA({
       /* « prompt » et non « autoUpdate », mais ce n'est plus la personne qui
          appuie : c'est PwaLayer qui applique la version en attente au
@@ -105,56 +82,21 @@ export default defineConfig({
         /* Les 1263 pochettes pèsent 39 Mo. Les précharger imposerait ce
            téléchargement à toute personne qui ouvre le site une fois, sur
            son forfait. Elles sont mises en cache à l'usage, ci-dessous. */
-        /* LE JEU N'EST PAS PRECACHE, ET C'EST UNE CORRECTION.
-
-           Il l'etait : les vingt fichiers de game/ figuraient dans le
-           manifeste du service worker. Consequence, quelqu'un qui a deja
-           ouvert sonaa.ca recevait le jeu depuis le cache, pas depuis le
-           serveur, et n'en voyait la version suivante qu'apres avoir accepte
-           la banniere de mise a jour. Or cette banniere vit dans
-           l'application React ; /game/ est une page a part, sans banniere et
-           sans la sortie ?nocache=1. Le jeu pouvait donc rester indefiniment
-           en arriere, et une correction deployee etait jugee sur une copie
-           qui ne la contenait pas.
-
-           Il est desormais servi par le reseau, avec le cache pour seul
-           filet hors ligne : voir la regle NetworkFirst plus bas. */
-        globIgnores: ['**/covers/**', '**/node_modules/**', '**/game/**', '**/games/**'],
+        globIgnores: ['**/covers/**', '**/node_modules/**'],
         navigateFallback: 'index.html',
-        /* /game/ est une page autonome, pas une route de l'application :
-           lui repondre index.html afficherait le site a la place du jeu.
-           /games/ aussi : c'est la que vivent les autres jeux (Isoku). Le
-           7 septembre 2026, un telephone qui avait deja le service worker
-           tombait sur l'accueil en ouvrant /games/isoku/, parce que ce
-           dossier n'etait pas ici.
+        /* LES JEUX /game/ ET /games/ SONT SUPPRIMES depuis le 10 novembre 2026
+           (Mika : « il a pas rapport »), avec leurs exceptions ici.
 
            /v2/ Y A VECU UN JOUR, le 21 septembre 2026 : le prototype de
            comparaison qui a decide du portage. Il n'existe plus, le site
            entier EST la v2. Voir ADR-086. */
-        navigateFallbackDenylist: [/^\/covers\//, /^\/game\//, /^\/games\//],
+        navigateFallbackDenylist: [/^\/covers\//],
         cleanupOutdatedCaches: true,
         /* Le chunk des structures pèse 680 Ko : au-dessus du défaut, et il
            n'est pas question de le laisser hors du cache, c'est le corpus. */
         maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
 
         runtimeCaching: [
-          {
-            /* LE JEU : le reseau d'abord, le cache pour seul filet.
-
-               NetworkFirst et non CacheFirst parce que le jeu change
-               plusieurs fois par jour et qu'une version en retard d'une
-               journee ne se voit pas : on croit regarder la derniere. La
-               reponse du reseau est gardee, donc le jeu reste jouable hors
-               ligne ; simplement, des qu'il y a du reseau, c'est la version
-               deployee qui gagne. */
-            urlPattern: ({ url }) => url.pathname.startsWith('/game/') || url.pathname.startsWith('/games/'),
-            handler: 'NetworkFirst',
-            options: {
-              cacheName: 'sonaa-jeu',
-              expiration: { maxEntries: 60, maxAgeSeconds: 60 * 60 * 24 * 30 },
-              cacheableResponse: { statuses: [0, 200] },
-            },
-          },
           {
             /* Pochettes : une fois vue, toujours disponible. CacheFirst car
                une pochette ne change jamais · si elle change, c'est un

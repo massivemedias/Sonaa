@@ -24,8 +24,8 @@ const RACINE = fileURLToPath(new URL('..', import.meta.url));
 
 /* TROIS ZONES NE SUFFISAIENT PAS, ET LE JEU L'A PROUVE.
 
-   Le controle ne regardait que `src`, `scripts` et `index.html`. Le jeu vit
-   dans `public/game/`, avec son propre index, ses propres scripts et son
+   Le controle ne regardait que `src`, `scripts` et `index.html`. Le jeu
+   vivait alors dans `public/game/` (supprime le 10 novembre 2026), avec son propre index, ses propres scripts et son
    propre texte : il etait donc hors de portee, et son sous-titre annoncait
    « de la chambre au major (cadratin) un simulateur de label » sur le
    premier ecran que voit un joueur. Mika l'a vu la ou le controle ne

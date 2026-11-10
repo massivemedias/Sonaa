@@ -110,23 +110,11 @@ const PAGES: readonly { href: string; id: SiteCourant; label: string }[] = [
   { href: '#/profil', id: 'profil', label: t.monProfil },
 ];
 
-/* ═══ LE JEU N'EST PLUS DANS LE MENU ═══
- *
- * Il y a ete, en fin de rangee, avec cette particularite d'etre la seule
- * entree qui QUITTE l'application pour une autre page du meme site.
- *
- * Il en sort a la demande de Mika. Ce n'est pas une suppression : le jeu
- * vit toujours dans public/game/ et repond toujours a sonaa.ca/game/. Il
- * n'est simplement plus annonce depuis l'atlas, le temps que son graphisme
- * soit a la hauteur du reste du site. Remettre le lien tient en une ligne
- * ici et une dans le pied de page.
- *
- * Rien d'autre n'a bouge : `courantOf` ne l'a jamais reconnu, puisqu'une
- * adresse n'est pas une route, et le menu n'est de toute facon pas rendu
- * quand on est dans le jeu. */
+/* LES JEUX SONT SUPPRIMES depuis le 10 novembre 2026 : public/game/ et
+   public/games/ n'avaient pas de rapport avec SONAA (Mika). */
 
-/** Quelle porte du site une adresse ouvre. Exporte pour la barre du bas, qui
-    doit allumer le meme onglet que ce menu : une seule lecture des adresses. */
+/** Quelle porte du site une adresse ouvre. Exporte pour le menu hamburger,
+    qui doit allumer la meme page que ce menu : une seule lecture des adresses. */
 export function courantDuSite(hash: string): SiteCourant {
   if (hash.startsWith('#/index')) return 'index';
   if (hash.startsWith('#/profil')) return 'profil';

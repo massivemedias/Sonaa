@@ -128,7 +128,7 @@ describe('cheminAligne', () => {
     expect(cheminAligne(genre, '/en/styles/techno/dub-techno/')).toBe('/en/styles/techno/dub-techno/');
     expect(cheminAligne('#/calendrier?city=montreal-ca', '/soirees/montreal-ca/123/')).toBe('/soirees/montreal-ca/123/');
     expect(cheminAligne('', '/')).toBe('/');
-    expect(cheminAligne('', '/games/isoku/')).toBe('/games/isoku/');
+    expect(cheminAligne('', '/page/inconnue/')).toBe('/page/inconnue/');
   });
 
   it('revient a la racine en quittant une page qui a un chemin', () => {
