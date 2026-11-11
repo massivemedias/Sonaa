@@ -1,6 +1,42 @@
 {
- "fait": "2026-11-10T19:51:01.419Z",
+ "fait": "2026-11-11T06:41:34.827Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "Neuzeit Instruments Drop Update: It’s Modulation Time",
+   "lien": "https://www.gearnews.com/neuzeit-instruments-drop-synth/",
+   "date": "2026-11-11T05:33:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/10/neuzeit-instruments-drop-update-T.jpg",
+   "resume": "Firmware 2.03 brings massive new features to the Neuzeit Instruments Drop MIDI control center, including (at last!) modulation. All About Neuzeit Instruments Drop Drop Update Now Available Neuzeit Instruments Drop Now…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Schmidt Vi: The World’s Most Luxurious Synthesizer Now in Your DAW",
+   "lien": "https://www.gearnews.com/schmidt-vi-synth/",
+   "date": "2026-11-11T00:36:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/05/schmidt-vi-t-1.jpg",
+   "resume": "The virtual Schmidt synthesizer is finally here as the Schmidt Vi plugin. Save almost $25,000 compared to the hardware! All About Schmidt Vi Schmidt Vi Is Here Schmidt Final Series: Take a Bow, Eightvoice The $25,000…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Embodme Erae 2: Update 2.1.0 Adds Step Sequencer, Custom Scales & More",
+   "lien": "https://www.gearnews.com/embodme-erae-2-review-studio/",
+   "date": "2026-11-11T00:06:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/01/embodme-erae-2-update-T.jpg",
+   "resume": "Erae 2, the polyphonic MIDI controller and looper from Embodme, has just gotten even more powerful thanks to a new update that adds a step sequencer, custom scales and lots more. The Most Important Features at a Glance…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Ableton Push 3: Live 13 Updates Coming With Step Sequencer, More",
+   "lien": "https://www.gearnews.com/ableton-push-3-standalone-studio/",
+   "date": "2026-11-10T23:35:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/05/ableton-push-13-update-T.jpg",
+   "resume": "Live 13 updates are coming to the two Ableton Push 3 devices with the step sequencer leading the way. Ableton Push 3 Standalone – Key Facts Ableton Live 12 (every version) standalone Mobile DAW and Controller Battery…",
+   "integral": true
+  },
   {
    "source": "midnightrebels",
    "titre": "Why Dancing in Sync Makes Strangers Feel Close, According to Oxford",
@@ -56,15 +92,6 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Ableton Live 13: ARA 2, Step Sequencer, New Devices and More!",
-   "lien": "https://www.gearnews.com/ableton-live-13-studio/",
-   "date": "2026-11-10T09:48:55.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/ableton-live-13-teaser.jpg",
-   "resume": "Ableton Live 13 has arrived with exciting new features, along with a new update for Push 3, and a 20% Off Sale on Live, Move, and Push. Now available in public beta, Live 13 is due for official release in early 2027…",
-   "integral": true
-  },
-  {
    "source": "midnightrebels",
    "titre": "GTA VI: The Festival Books Justice, Skream and Three B2B Sets in Miami",
    "lien": "https://midnightrebels.com/gta-vi-the-festival-miami-dj-lineup/",
@@ -89,15 +116,6 @@
    "date": "2026-11-09T17:12:47.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/alien-boy-1130x424.png",
    "resume": "Producer Eraldo Bernocchi is no stranger to hardware effects. We asked him to explain how he gets his unique sound, both on guitar and other instruments, and he came back with recommendations for four Erica Synths…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "The Best Plugins of 2026: From Essential to Experimental",
-   "lien": "https://www.gearnews.com/best-plugins-studio/",
-   "date": "2026-11-09T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2025/12/plugins-2026-ft.jpg",
-   "resume": "We look back at some of the best plugins designed for music production, mixing, and sound design released over the course of this year. In this Article: The Best Plugins of 2026 The Best Plugins of 2026: FabFilter Pro…",
    "integral": true
   },
   {
