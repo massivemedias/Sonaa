@@ -1,6 +1,123 @@
 {
- "fait": "2026-11-11T06:41:34.827Z",
+ "fait": "2026-11-11T19:42:41.833Z",
  "articles": [
+  {
+   "source": "gearnews",
+   "titre": "GForce Plugins Get the MPE Treatment, RIP A.KAV – Sounds and Presets",
+   "lien": "https://www.gearnews.com/gforce-mpe-rip-a-kav-sounds-presets-synths/",
+   "date": "2026-11-11T17:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/gforce-expressive-e.jpg",
+   "resume": "This week, we’ve got some great presets for two brilliant GForce Software synths, yet more MiniFreak sounds, and we bring you some sad news from the world of sound design. May the GForce be With You GForce Collection…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "AlphaTheta’s newest four-channel mixer comes as a budget answer to the DJM-A9",
+   "lien": "https://musictech.com/news/gear/djm-a7-alphatheta-mixer/",
+   "date": "2026-11-11T16:47:43.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/AlphaTheta-hero@2000x1500.jpg",
+   "resume": "Here at MusicTech , we love the DJM-A9 . Thankfully, AlphaTheta does too – and that’s why the brand’s latest four-channel mixer, the DJM-A7, is cut from the same cloth as its beloved sibling. Harnessing the same…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Malaysia Reviews The Weeknd’s Kuala Lumpur Shows Over a Golden Robot Statue",
+   "lien": "https://midnightrebels.com/malaysia-reviews-the-weeknds-kuala-lumpur-shows-over-a-golden-robot-statue/",
+   "date": "2026-11-11T16:35:49.000Z",
+   "image": "https://midnightrebels.com/wp-content/uploads/2025/11/Pope-Leo-XIV-Blesses-Holy-Rave-as-DJ-Priest-Performs-at-600-Year-Old-Gothic-Cathedral.avif",
+   "resume": "The Weeknd played two nights at Bukit Jalil National Stadium in Kuala Lumpur on November 4 and 5. A few days later, Malaysia’s religious authorities were looking into the shows. Here is what has been alleged, what…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "KORG Pa5X OS Update 1.5.0: 40 New Styles and a Bunch of new Features",
+   "lien": "https://www.gearnews.com/korg-pa5x-professional-arranger/",
+   "date": "2026-11-11T15:37:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2024/07/korg_pa5x_teaser2026.jpg",
+   "resume": "KORG has released a major update for the Pa5X flagship arranger workstation. The new OS comes with 40 new styles, flexible MIDI Import into styles, editing improvements, and more. All about the KORG Pa5X Professional…",
+   "integral": true
+  },
+  {
+   "source": "musicradar",
+   "titre": "AlphaTheta’s DJM-A7 is a 4-channel DJ mixer that can be ‘tuned’ to suit the room it’s in",
+   "lien": "https://www.musicradar.com/music-tech/mixers/alphathetas-djm-a7-is-a-4-channel-dj-mixer-that-can-be-tuned-to-suit-the-room-its-in",
+   "date": "2026-11-11T13:28:16.000Z",
+   "image": "https://cdn.mos.cms.futurecdn.net/BiYgVokDaUhYTPowb3gNC6-1920-80.jpg",
+   "resume": "AlphaTheta’s latest 4-channel DJ mixer is all about adaptability. Based around the same layout and channel strips as Pioneer DJ’s flagship DJM-A9, the A7 incorporates a variety of connectivity and customisation options…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "DJ.Studio 5.0: DJ DAW Now Has Phrase Detection, Smart Beatgrid & More",
+   "lien": "https://www.gearnews.com/dj-studio/",
+   "date": "2026-11-11T13:00:28.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2024/12/dj.studio-5.0-T.jpg",
+   "resume": "DJ.Studio 5.0 is here. The DJ DAW levels up to 5.0, with Phrase Detection to help keep every transition on the beat. Plus lots more. All About DJ.Studio DJ.Studio 5.0 3.0: New Updates Make This DJ DAW Even Better…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Universal Audio Cooper Time Cube: The Garden Hose Delay is Now Native!",
+   "lien": "https://www.gearnews.com/universal-audio-cooper-time-cube-studio/",
+   "date": "2026-11-11T12:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/uad-cooper-time-cube-ft-02.jpg",
+   "resume": "It’s been a favorite amongst Apollo users for years, and now the Universal Audio Cooper Time Cube plugin is available for all DAW users. The Cooper Time Cube is a rare electromechanical delay unit produced in very…",
+   "integral": true
+  },
+  {
+   "source": "musictech",
+   "titre": "One of YouTube’s top producers recalls the moment his Neve console overheated while working with a big-time band – and how he dealt with it",
+   "lien": "https://musictech.com/news/music/one-of-youtubes-top-producers-recalls-the-moment-his-neve-console-overheated-while-working-with-a-big-time-band-and-how-he-dealt-with-it/",
+   "date": "2026-11-11T11:59:25.000Z",
+   "image": "https://musictech.com/wp-content/uploads/2026/11/Warren-Huart-hero@2000x1500.jpg",
+   "resume": "Warren Huart is the founder and face of one of the biggest music production YouTube channels, Produce Like A Pro. And everything he’s learned has come from a lengthy and successful career working with huge names…",
+   "integral": true
+  },
+  {
+   "source": "attack",
+   "titre": "Building Beats With Ableton Live 13",
+   "lien": "https://www.attackmagazine.com/technique/tutorials/building-beats-with-ableton-live-13/",
+   "date": "2026-11-11T11:18:35.000Z",
+   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/ableton-live-13-fig-5-simple-beat-v2-1130x800.jpg",
+   "resume": "Ableton Live 13 is now in public beta. We put the new Drum Synth, Step Sequencer, Transient Shaper, and Clipper to work and build a beat from scratch. Three years after Live 10, Live 11 arrived. Three years after Live…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "Yamaha URX, MGX, and CC1 Update: Deeper Integration and Customization Features",
+   "lien": "https://www.gearnews.com/yamaha-urx-cc1-studio/",
+   "date": "2026-11-11T11:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/yamaha-urx-mgx-cc1-update-11-2026-ft-02.jpg",
+   "resume": "With this new update, there are new features and improvements for the Yamaha URX audio interfaces, the MGX digital mixers, and the CC1 controllers. All about the Yamaha URX, MGX, and CC1: Yamaha URX, MGX, and CC1 Update…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Dom Dolla in 2026 With Good Fortune Records, DANGER DANGER and EDC Thailand",
+   "lien": "https://midnightrebels.com/dom-dolla-in-2026-with-good-fortune-records-danger-danger-and-edc-thailand/",
+   "date": "2026-11-11T10:07:34.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/Malaysia-Reviews-The-Weeknds-Kuala-Lumpur-Shows-Over-a-Golden-Robot-Statue.webp?fit=2400%2C1350&ssl=1",
+   "resume": "Dom Dolla has packed a lot into 2026, with a sold-out stadium night in Melbourne, a single with Solomun and Skepta and now a label of his own. Here is what he has put out lately, what is coming next, and where he plays…",
+   "integral": true
+  },
+  {
+   "source": "midnightrebels",
+   "titre": "Carl Cox Receives His OBE From Prince William at Windsor Castle",
+   "lien": "https://midnightrebels.com/carl-cox-receives-his-obe-from-prince-william-at-windsor-castle/",
+   "date": "2026-11-11T10:06:04.000Z",
+   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/image-5.webp?resize=660%2C440&ssl=1",
+   "resume": "Carl Cox has collected his OBE. On Tuesday, November 10, Prince William presented the honour to the British DJ at Windsor Castle, five months after it was announced. Here is what happened at the ceremony, what the…",
+   "integral": true
+  },
+  {
+   "source": "gearnews",
+   "titre": "5 of the Best Affordable Synthesizers – For Every Budget",
+   "lien": "https://www.gearnews.com/the-best-affordable-synthesizers-1/",
+   "date": "2026-11-11T07:00:00.000Z",
+   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/10/MiniFreak49_4.jpg",
+   "resume": "It can be tough shopping for a new synthesizer when you’re on a budget. However, there are plenty of surprisingly affordable synths out there. And the best news? You don’t have to sacrifice functionality for financial…",
+   "integral": true
+  },
   {
    "source": "gearnews",
    "titre": "Neuzeit Instruments Drop Update: It’s Modulation Time",
@@ -11,66 +128,12 @@
    "integral": true
   },
   {
-   "source": "gearnews",
-   "titre": "Schmidt Vi: The World’s Most Luxurious Synthesizer Now in Your DAW",
-   "lien": "https://www.gearnews.com/schmidt-vi-synth/",
-   "date": "2026-11-11T00:36:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/05/schmidt-vi-t-1.jpg",
-   "resume": "The virtual Schmidt synthesizer is finally here as the Schmidt Vi plugin. Save almost $25,000 compared to the hardware! All About Schmidt Vi Schmidt Vi Is Here Schmidt Final Series: Take a Bow, Eightvoice The $25,000…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Embodme Erae 2: Update 2.1.0 Adds Step Sequencer, Custom Scales & More",
-   "lien": "https://www.gearnews.com/embodme-erae-2-review-studio/",
-   "date": "2026-11-11T00:06:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/01/embodme-erae-2-update-T.jpg",
-   "resume": "Erae 2, the polyphonic MIDI controller and looper from Embodme, has just gotten even more powerful thanks to a new update that adds a step sequencer, custom scales and lots more. The Most Important Features at a Glance…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Ableton Push 3: Live 13 Updates Coming With Step Sequencer, More",
-   "lien": "https://www.gearnews.com/ableton-push-3-standalone-studio/",
-   "date": "2026-11-10T23:35:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/05/ableton-push-13-update-T.jpg",
-   "resume": "Live 13 updates are coming to the two Ableton Push 3 devices with the step sequencer leading the way. Ableton Push 3 Standalone – Key Facts Ableton Live 12 (every version) standalone Mobile DAW and Controller Battery…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "Why Dancing in Sync Makes Strangers Feel Close, According to Oxford",
-   "lien": "https://midnightrebels.com/dancing-in-sync-bonding-pain-threshold-oxford-study/",
-   "date": "2026-11-10T19:19:44.000Z",
-   "image": "https://midnightrebels.com/wp-content/uploads/2025/09/Post-Festival-Depression.avif",
-   "resume": "Everyone has felt it. A stranger next to you hits the same step on the same drop, and for a few seconds you are friends. Oxford researchers tested that feeling in controlled studies. Here is what the papers show, what…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Baby Audio Crystalline is 94% off, Slate Digital Virtual Mixing Rack and Aberrant DSP Digitalis are on sale, too: 3 Great Plugin Deals!",
-   "lien": "https://www.gearnews.com/baby-audio-crystalline-plugin-deals/",
-   "date": "2026-11-10T17:00:00.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/11/PluginDeals_261110.jpg",
-   "resume": "Thomann’s Cyber Deals are in full swing, and there are loads of amazing bargains to be made. But that doesn’t mean there are no other plugin deals to be found. Quite the contrary! One of the best deals at the moment is…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "One of Logic Pro 13’s biggest new features can only be had on subscription: is that fair, and should you care?",
    "lien": "https://www.musicradar.com/music-tech/one-of-logic-pro-13s-biggest-new-features-can-only-be-had-on-subscription-is-that-fair-and-should-you-care",
    "date": "2026-11-10T12:52:30.000Z",
    "image": "https://cdn.mos.cms.futurecdn.net/ECGQwDdiVLM7KoAnx2Rs9P-1920-80.jpg",
    "resume": "When Apple announced Logic Pro 13 late last month , the most headline-grabbing new feature was undoubtedly the AI-powered intelligent assistant that's designed to help you out with various production tasks as you make…",
-   "integral": true
-  },
-  {
-   "source": "gearnews",
-   "titre": "Melbourne Instruments NINA End of Year Discount!",
-   "lien": "https://www.gearnews.com/melbourne-instruments-nina-synth/",
-   "date": "2026-11-10T10:02:30.000Z",
-   "image": "https://cdn.gearnews.com/wp-content/uploads/2026/04/melbourne-instruments-nina-t.jpg",
-   "resume": "Melbourne Instruments NINA has been one of the surprise hits of the last few years, with its fancy motorised knobs. Now it comes with a chunk of change off the price too! Melbourne Instruments NINA NINA Gets a Healthy…",
    "integral": true
   },
   {
@@ -92,15 +155,6 @@
    "integral": true
   },
   {
-   "source": "midnightrebels",
-   "titre": "GTA VI: The Festival Books Justice, Skream and Three B2B Sets in Miami",
-   "lien": "https://midnightrebels.com/gta-vi-the-festival-miami-dj-lineup/",
-   "date": "2026-11-09T21:57:57.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/image-4.webp?resize=1080%2C1080&ssl=1",
-   "resume": "Rockstar has announced a festival for the launch of Grand Theft Auto VI, and four DJ sets are on the bill. Below are the date, the venue, who is playing and how tickets work. Every detail comes from Consequence’s report…",
-   "integral": true
-  },
-  {
    "source": "musictech",
    "titre": "Neumann KH 310 II review: “I’ve found my perfect pair of sub-£5,000 three-ways”",
    "lien": "https://musictech.com/reviews/studio-recording-gear/neumann-kh-310-ii-review/",
@@ -116,15 +170,6 @@
    "date": "2026-11-09T17:12:47.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/alien-boy-1130x424.png",
    "resume": "Producer Eraldo Bernocchi is no stranger to hardware effects. We asked him to explain how he gets his unique sound, both on guitar and other instruments, and he came back with recommendations for four Erica Synths…",
-   "integral": true
-  },
-  {
-   "source": "midnightrebels",
-   "titre": "What Akai’s MPC Open-Source Repository Actually Contains",
-   "lien": "https://midnightrebels.com/akai-mpc-open-source-github/",
-   "date": "2026-11-09T15:23:42.000Z",
-   "image": "https://i0.wp.com/midnightrebels.com/wp-content/uploads/2026/11/Why-Dancing-in-Sync-Makes-Strangers-Feel-Close-According-to-Oxford.webp?fit=2400%2C1350&ssl=1",
-   "resume": "Akai’s MPC line now has a public GitHub page, and some of the headlines are running ahead of the files. inMusic, Akai’s parent company, has posted a repository of open-source components used in MPC hardware. Below is…",
    "integral": true
   },
   {
@@ -146,42 +191,6 @@
    "integral": true
   },
   {
-   "source": "musictech",
-   "titre": "A Baby Audio plugin for just £4? Plugin Boutique’s early Black Friday deals are here – and you can get up to 96% off",
-   "lien": "https://musictech.com/news/gear/up-to-96-percent-off-plugin-boutique-early-black-friday-deals-2026/",
-   "date": "2026-11-06T16:51:24.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/Baby-Audio-Crystalline-hero@2000x1500.jpg",
-   "resume": "Black Friday has landed early at Plugin Boutique , with reductions of up to 96%. All throughout November and into December, you can save on plugins and bundle deals from brands like IK Multimedia , Baby Audio…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Native Instruments channels the resonance of one of the grandest concert pianos ever built with its new instrument, Vertikal",
-   "lien": "https://musictech.com/news/music/native-instruments-vertikal-grand-piano-virtual/",
-   "date": "2026-11-06T15:49:21.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/Native-Instruments-Vertikal-plugin.jpg",
-   "resume": "You’ve heard of a grand piano – but what about a monumental piano? That’s what sits inside of Saal 3, a recording studio in Berlin Funkhaus production complex. Standing at 4.5 meters tall, this vertical concert grand is…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "Take 5: The Search For Sound is a new audio-driven game that breaks through creative blocks",
-   "lien": "https://musictech.com/news/music/take-5-five-the-search-for-sound-ableton-live-game/",
-   "date": "2026-11-06T11:37:36.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/Take-5-The-Search-For-Sound.jpg",
-   "resume": "When you hit a wall in the creative process, taking a break is often the best solution. But what if taking five minutes away from your project was guaranteed to inspire you? That’s where Take 5 comes in. The new Ableton…",
-   "integral": true
-  },
-  {
-   "source": "musictech",
-   "titre": "JBL launches its latest line of studio monitors, the 3 Series MKIII – here’s what’s new",
-   "lien": "https://musictech.com/news/gear/jbl-3-series-mkiii/",
-   "date": "2026-11-05T17:14:29.000Z",
-   "image": "https://musictech.com/wp-content/uploads/2026/11/JBL-1@2000x1500.jpg",
-   "resume": "JBL has launched its 3 Series MKIII line of powered studio monitors. The range includes three sizes ranging from 5″ to 8″ drivers: the 305P MkIII, 306P MkIII and 308P MkIII. The series is completed by the 310S MKIII…",
-   "integral": true
-  },
-  {
    "source": "musicradar",
    "titre": "Splice’s new AI DAW feels like a cheat code for music production – but it left us with one big question",
    "lien": "https://www.musicradar.com/music-tech/splices-new-ai-daw-feels-like-a-cheat-code-for-music-production-but-it-left-us-with-one-big-question",
@@ -197,33 +206,6 @@
    "date": "2026-11-05T15:30:56.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/11/waver-1130x392.png",
    "resume": "It may seem like some kind of crazy dream but you really can load actual hardware synthesizers into your DAW now. Here’s how to do it – but aren’t emulators illegal? How amazing would it be to load up a Roland JP-8000…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "\"The real revelation was the improvements it made to my workflow\": Audient Horizon 8P review",
-   "lien": "https://www.musicradar.com/music-tech/audio-interfaces/the-real-revelation-was-the-improvements-it-made-to-my-workflow-audient-horizon-8p-review",
-   "date": "2026-11-05T11:17:31.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/jrwDaGNLYaGnjcVrCqqWCU-1920-80.jpg",
-   "resume": "What is it? My current desktop interface still sounds good. It might be quite long in the tooth, and have the odd dent in it, but it does a job for me. The problem is that, over time, I’ve accumulated more instruments…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "Stylophone launches its battery-powered On-The-Fly Performance Sequencer",
-   "lien": "https://www.musicradar.com/music-tech/gear-gadgets/no-screens-no-menu-diving-no-clutter-nothing-in-the-way-between-your-ideas-and-sound-stylophone-launches-its-battery-powered-on-the-fly-performance-sequencer",
-   "date": "2026-11-05T10:51:58.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/CfhbasddmmDt66MMAwr4VB-1920-80.png",
-   "resume": "Earlier this year, we were wowed by Dubreq Stylophone ’s growing stable of wares at NAMM . While we were having endless fun with its handheld orange pocket sampler, Stylophone Voice, we also clocked a rather…",
-   "integral": true
-  },
-  {
-   "source": "musicradar",
-   "titre": "With 86% off the Abbey Road Collection, Waves' early Black Friday sale just made upgrading your DAW way cheaper",
-   "lien": "https://www.musicradar.com/music-tech/plugins/waves-black-friday-sale-2026",
-   "date": "2026-11-04T15:15:00.000Z",
-   "image": "https://cdn.mos.cms.futurecdn.net/Ueq4oGUkgn6nFrgCuzXKKD-1920-80.jpg",
-   "resume": "There’s no better time than Black Friday to pick up a plugin deal, and Waves has decided to start the festivities early. The company has launched its Black Friday plugin deals now, so you can expand your arsenal earlier…",
    "integral": true
   },
   {
@@ -269,15 +251,6 @@
    "date": "2026-10-15T23:02:15.000Z",
    "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/3b83c303-dcf6-4d40-bb9a-7def2f026386-1130x386.png",
    "resume": "Vibe-coded plugins are everywhere but does that mean that they’re actually taking over the market? We look at the trend and speak with two developers working with AI as part of their process. The age of vibe-coded…",
-   "integral": true
-  },
-  {
-   "source": "attack",
-   "titre": "Manifest Audio Release Sonification Tools V3 As VST3, AU, And CLAP Plugins",
-   "lien": "https://www.attackmagazine.com/news/manifest-audio-release-sonification-tools-v3-as-vst3-au-and-clap-plugins/",
-   "date": "2026-10-14T14:47:37.000Z",
-   "image": "https://www.attackmagazine.com/wp-content/uploads/2026/10/Screenshot-2026-10-07-at-19.13.17-1-1130x387.png",
-   "resume": "The data-driven suite arrives as a cross-platform plug-in bundle with AU/CLAP/VST3 formats, plus an Ableton Live Extension. Manifest Audio has released Sonification Tools v3 for $199, on sale for $169 until 1 November…",
    "integral": true
   },
   {
