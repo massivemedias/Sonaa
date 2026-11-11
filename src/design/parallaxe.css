@@ -103,20 +103,18 @@
        une zone de defilement : la vue de l'image s'y mesurait, immobile, et
        l'affiche ne bougeait pas. On nomme donc le passage de la CARTE dans
        l'ecran, et l'image le suit. */
-    .cal-soiree {
-      view-timeline-name: --px-carte;
-    }
+    /* PLUS DANS LES CARTES DU CALENDRIER, depuis le 11 novembre 2026 : leur
+       affiche n'a pas de cadre a elle, la carte seule coupe ses bords, et
+       l'image grossie qui descendait passait sur le titre (Mika : « trop
+       serre, le titre sur l'image »). Seules les affiches de la banniere,
+       dans leur bouton qui coupe, glissent encore. */
     .hero-affiche {
       view-timeline-name: --px-affiche;
     }
-    .cal-affiche,
     .hero-affiche img {
       scale: 1.12;
       animation: px-cadre linear both;
       animation-range: cover;
-    }
-    .cal-affiche {
-      animation-timeline: --px-carte;
     }
     .hero-affiche img {
       animation-timeline: --px-affiche;

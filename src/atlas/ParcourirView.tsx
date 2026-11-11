@@ -56,6 +56,7 @@ import INDEX_LABELS from '../data/labels-index.json';
 import { BoutonTrack } from '../reconnaitre/BoutonTrack.tsx';
 import { ADRESSE_ECOUTER } from '../reconnaitre/adresses.ts';
 import './parcourir.css';
+import { pochetteDeLaFamille } from '../accueil/pochettes.ts';
 
 /* --- L'adresse ------------------------------------------------------------ */
 
@@ -430,12 +431,20 @@ export function ParcourirView() {
                 Quand, puis combien. */}
             <p className="pv-intro">{t.famillesAppuyez(FAMILIES.length)}</p>
             <div className="pv-grille">
-              {FAMILIES.map((f, fi) => (
+              {FAMILIES.map((f, fi) => {
+                /* LA TUILE D'UNE FAMILLE PORTE SA POCHETTE ET SA COULEUR, comme
+                   sur l'accueil. Mika, le 11 novembre 2026, devant quatorze
+                   cartes sombres et vides : « on voit rien, prends quelque
+                   chose de plus imposant ». */
+                const pochette = pochetteDeLaFamille(fi);
+                return (
                 <button
                   key={f.id}
-                  className="pv-tuile pv-tuile-genre"
+                  className="pv-tuile pv-tuile-genre pv-tuile-famille"
+                  style={{ ['--teinte' as string]: f.hue }}
                   onClick={() => aller({ k: 'famille', fi })}
                 >
+                  {pochette && <img className="pv-tuile-image" src={pochette} alt="" loading="lazy" decoding="async" />}
                   <span className="pv-tuile-carte">
                     <span className="pv-tuile-bloc">
                       <span className="pv-tuile-nom" data-long={motLong(f.label)}>
@@ -448,7 +457,8 @@ export function ParcourirView() {
                     </span>
                   </span>
                 </button>
-              ))}
+                );
+              })}
             </div>
           </>
         )}
@@ -456,7 +466,7 @@ export function ParcourirView() {
         {niveau.k === 'famille' && familleCourante && (
           <>
             <p className="pv-intro">{t.genresAppuyez(familleCourante.count)}</p>
-            <div className="pv-grille">
+            <div className="pv-grille" style={{ ['--teinte' as string]: familleCourante.hue }}>
               {/* UNE TUILE DE PLUS POUR UN NOM QU'ON CHERCHE. Mika, le 14 septembre
                   2026 : Deep Techno et Hypnotic Techno sont le meme genre, mais
                   quelqu'un qui cherche l'un des deux noms doit le voir dans la

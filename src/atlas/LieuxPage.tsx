@@ -751,52 +751,61 @@ export function LieuxPage() {
     const maxAffichees = compact ? 3 : 5;
     const visibles = soireesLieu.slice(0, maxAffichees);
 
-    return (
-      <div className={`lx-soirees-bloc ${compact ? 'lx-soirees-bloc-carte' : ''}`}>
-        <div className="lx-soirees-entete">
-          <span className="lx-soirees-titre">{t.lieuProchainesSoirees}</span>
-          {soireesLieu.length > 0 && (
-            <span className="lx-soirees-compteur">{t.lieuNSoireesAVenir(soireesLieu.length)}</span>
-          )}
-        </div>
-        {enChargement ? (
-          <p className="lx-soirees-etat">{t.lieuChargementSoirees}</p>
-        ) : visibles.length > 0 ? (
-          <>
-            <ul className="lx-soirees-liste">
-              {visibles.map((s) => {
-                const h = s.debut ? heureLocale(s.debut, config.fuseau) : null;
-                const dateStr = quandEnLettres(s, h, config.fuseau, LOCALE, false);
-                const externe = Boolean(s.lien && s.lien.startsWith('http'));
-                const href = externe ? s.lien : `#/calendrier?city=${slug}`;
-                return (
-                  <li key={s.id} className="lx-soiree-item">
-                    <a
-                      className="lx-soiree-lien"
-                      href={href}
-                      {...(externe ? { target: '_blank', rel: 'noreferrer noopener' } : {})}
-                    >
-                      <span className="lx-soiree-date">{dateStr}</span>
-                      <span className="lx-soiree-nom">{s.titre}</span>
-                      {s.artistes.length > 0 && (
-                        <span className="lx-soiree-artistes">
-                          {s.artistes.slice(0, 4).join(', ')}
-                        </span>
-                      )}
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-            {soireesLieu.length > maxAffichees && (
-              <a className="lx-soirees-toutes" href={`#/calendrier?city=${slug}`}>
-                {t.lieuVoirToutesSoireesLieu(soireesLieu.length)} →
-              </a>
-            )}
-          </>
-        ) : (
-          <p className="lx-soirees-etat">{t.lieuAucuneSoireeAnnoncee}</p>
+    const entete = (
+      <>
+        <span className="lx-soirees-titre">{t.lieuProchainesSoirees}</span>
+        {soireesLieu.length > 0 && (
+          <span className="lx-soirees-compteur">{t.lieuNSoireesAVenir(soireesLieu.length)}</span>
         )}
+      </>
+    );
+    const classe = `lx-soirees-bloc ${compact ? 'lx-soirees-bloc-carte' : ''}`;
+
+    /* LES SOIREES SE DEPLIENT AU CLIC. Mika, le 11 novembre 2026 : « on voit
+       les soirees quand on clique, sinon ca reste ferme ; la carte est trop
+       grande ». Cinq dates ouvertes d'office doublaient la hauteur de chaque
+       fiche. Un <details> natif : il se plie sans etat, au clavier comme au
+       doigt, et le compteur dit ce qu'il y a dedans. */
+    if (!enChargement && visibles.length > 0) {
+      return (
+        <details className={`${classe} lx-soirees-repli`}>
+          <summary className="lx-soirees-entete">{entete}</summary>
+          <ul className="lx-soirees-liste">
+            {visibles.map((s) => {
+              const h = s.debut ? heureLocale(s.debut, config.fuseau) : null;
+              const dateStr = quandEnLettres(s, h, config.fuseau, LOCALE, false);
+              const externe = Boolean(s.lien && s.lien.startsWith('http'));
+              const href = externe ? s.lien : `#/calendrier?city=${slug}`;
+              return (
+                <li key={s.id} className="lx-soiree-item">
+                  <a
+                    className="lx-soiree-lien"
+                    href={href}
+                    {...(externe ? { target: '_blank', rel: 'noreferrer noopener' } : {})}
+                  >
+                    <span className="lx-soiree-date">{dateStr}</span>
+                    <span className="lx-soiree-nom">{s.titre}</span>
+                    {s.artistes.length > 0 && (
+                      <span className="lx-soiree-artistes">{s.artistes.slice(0, 4).join(', ')}</span>
+                    )}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+          {soireesLieu.length > maxAffichees && (
+            <a className="lx-soirees-toutes" href={`#/calendrier?city=${slug}`}>
+              {t.lieuVoirToutesSoireesLieu(soireesLieu.length)} →
+            </a>
+          )}
+        </details>
+      );
+    }
+
+    return (
+      <div className={classe}>
+        <div className="lx-soirees-entete">{entete}</div>
+        <p className="lx-soirees-etat">{enChargement ? t.lieuChargementSoirees : t.lieuAucuneSoireeAnnoncee}</p>
       </div>
     );
   };

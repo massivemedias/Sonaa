@@ -176,7 +176,7 @@
   height: 46px;
   padding: 0 var(--espace-16);
   border: 0;
-  border-radius: 23px;
+  border-radius: var(--rayon-carte);
   background: var(--leve-4);
   color: inherit;
   font: inherit;
@@ -333,7 +333,7 @@ body:has(.pwa-bandeau) .pv-corps {
   align-items: flex-start;
   gap: var(--espace-4);
   padding: var(--espace-12) var(--espace-12);
-  border-radius: 20px;
+  border-radius: var(--rayon-carte);
   background: var(--verre-fond);
   border: 1px solid var(--filet);
 }
@@ -448,7 +448,7 @@ body:has(.pwa-bandeau) .pv-corps {
   /* LA TUILE EST EN VERRE, DEPUIS ADR-089 : la matiere de la plaque exterieure
      vient de design/verre.css, sans bordure ni ombre portee, et la tuile se
      souleve au survol. La forme, la hauteur fixe et la grille ne bougent pas. */
-  border-radius: 26px;
+  border-radius: var(--rayon-carte);
   color: var(--encre-vive-3);
   font: inherit;
   text-align: left;
@@ -481,7 +481,7 @@ body:has(.pwa-bandeau) .pv-corps {
   gap: 0;
   box-sizing: border-box;
   padding: var(--espace-16) var(--espace-16);
-  border-radius: 22px;
+  border-radius: var(--rayon-carte);
   /* Un degrade a peine perceptible, comme sur la maquette : la carte est un
      peu plus claire en haut. Assez pour donner une matiere, pas assez pour
      faire un effet. */
@@ -550,9 +550,10 @@ body:has(.pwa-bandeau) .pv-corps {
      comprimer par defaut, et deux pixels suffisent a rendre un nom faux. */
   flex: none;
   font-family: inherit;
-  font-size: 1.3125rem;
+  /* en condensee depuis ADR-117 : plus grande pour la meme largeur */
+  font-size: 1.9rem;
   font-weight: 700;
-  line-height: 1.08;
+  line-height: 0.95;
   /* LE NOM PASSE A LA LIGNE, MAIS PAS N'IMPORTE OU.
 
      Il portait `overflow-wrap: anywhere`, qui coupe un mot a la lettre pres :
@@ -582,10 +583,10 @@ body:has(.pwa-bandeau) .pv-corps {
    espaces ; « Electroacoustique » en fait dix-sept d'un seul tenant et ne
    se coupe nulle part. C'est le mot insecable qui decide. */
 .pv-tuile-nom[data-long='1'] {
-  font-size: 0.9375rem;
+  font-size: 1.35rem;
 }
 .pv-tuile-genre .pv-tuile-nom[data-long='1'] {
-  font-size: 0.875rem;
+  font-size: 1.25rem;
 }
 .pv-tuile-detail {
   letter-spacing: var(--serrage);
@@ -605,7 +606,84 @@ body:has(.pwa-bandeau) .pv-corps {
    du nom reste plus petit, parce qu'un nom de genre est plus long qu'un nom
    de famille. */
 .pv-tuile-genre .pv-tuile-nom {
-  font-size: 1.0625rem;
+  font-size: 1.6rem;
+}
+/* UN GENRE PORTE LE FILET DE SA FAMILLE, a gauche de sa carte. */
+.pv-tuile-genre:not(.pv-tuile-famille) .pv-tuile-carte {
+  box-shadow: inset 4px 0 0 oklch(0.72 0.15 var(--teinte, 60));
+}
+
+/* ═══ LA TUILE D'UNE FAMILLE : POCHETTE, COULEUR, NOM EN GRAND ═══
+   Mika, le 11 novembre 2026 : « on voit rien, prends quelque chose de plus
+   imposant ». La recette de l'accueil (ac-famille) : la pochette de la
+   famille en fond, un voile qui assombrit le bas ou se lit le nom, la couleur
+   de la famille en haut, et le nom en condensee, tres grand. */
+.pv-tuile-famille {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 210px;
+  padding: 0;
+  background: oklch(0.2 0.04 var(--teinte));
+}
+.pv-tuile-image {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: scale 400ms ease;
+}
+.pv-tuile-famille::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, oklch(0.08 0.014 70 / 0.94) 0%, oklch(0.08 0.014 70 / 0.4) 62%, oklch(0.72 0.15 var(--teinte) / 0.22) 100%);
+}
+.pv-tuile-famille::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 6px;
+  background: oklch(0.72 0.15 var(--teinte));
+}
+.pv-tuile-famille .pv-tuile-carte {
+  justify-content: flex-end;
+  padding: var(--espace-16) var(--espace-20, 20px);
+  background: none;
+}
+.pv-tuile-famille .pv-tuile-nom {
+  font-size: clamp(2.2rem, 3.4vw, 3.2rem);
+  line-height: 0.88;
+}
+.pv-tuile-famille .pv-tuile-detail {
+  margin-top: var(--espace-8);
+  font-family: var(--police-mono);
+  font-size: 0.7rem;
+  letter-spacing: var(--chasse-mono);
+  text-transform: uppercase;
+}
+@media (hover: hover) and (pointer: fine) {
+  .pv-tuile-famille:hover .pv-tuile-image {
+    scale: 1.06;
+  }
+  .pv-tuile-famille:hover .pv-tuile-carte {
+    background: none;
+  }
+  .pv-tuile-famille:hover .pv-tuile-nom,
+  .pv-tuile-famille:hover .pv-tuile-detail {
+    color: var(--accent);
+  }
+}
+@media (max-width: 699px) {
+  .pv-tuile-famille {
+    min-height: 150px;
+  }
+  .pv-tuile-famille .pv-tuile-nom {
+    font-size: 2rem;
+  }
 }
 
 /* --- La page d'un genre --------------------------------------------------- */
@@ -784,7 +862,7 @@ body:has(.pwa-bandeau) .pv-corps {
 .pv-fiche {
   margin: var(--espace-24) 0 0;
   padding: var(--espace-16) var(--espace-16) var(--espace-16);
-  border-radius: 18px;
+  border-radius: var(--rayon-carte);
 }
 .pv-fiche-titre {
   margin: 0 0 var(--espace-16);

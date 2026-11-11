@@ -129,10 +129,10 @@
 .ac-chapeau {
   max-width: 34rem;
   margin: var(--espace-24) 0 0;
-  /* en mono, comme le texte court de Kraken : une phrase, pas un article */
-  font-family: var(--police-mono);
-  font-size: clamp(0.88rem, 1.05vw, 1rem);
-  line-height: 1.65;
+  /* EN INTER, PAS EN MONO : Mika, le 11 novembre 2026, devant la phrase en
+     mono, « je n'aime pas cette police ». La mono reste aux libelles. */
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  line-height: 1.55;
   color: var(--encre-moyenne);
   animation: ac-fondu 700ms 420ms both;
 }
@@ -281,9 +281,8 @@
 .ac-section-sous {
   max-width: 42rem;
   margin: var(--espace-16) 0 0;
-  font-family: var(--police-mono);
-  font-size: 0.85rem;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.55;
   color: var(--ink-secondary);
 }
 .ac-porte {
@@ -434,9 +433,8 @@ a:hover > .ac-cadre > .cal-gen {
 .ac-ecoute-sous {
   max-width: 36rem;
   margin: var(--espace-16) 0 0;
-  font-family: var(--police-mono);
-  font-size: 0.85rem;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.55;
   color: var(--ink-secondary);
 }
 /* LE BOUTON DE TRACK ID, celui de Styles (bouton-track.css), en plus grand. */

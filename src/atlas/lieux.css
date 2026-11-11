@@ -838,8 +838,8 @@
 
 .lx-soirees-bloc {
   margin: 12px 0 14px;
-  padding: 12px 14px;
-  border-radius: 12px;
+  padding: 4px 14px;
+  border-radius: var(--rayon-carte);
   border: 1px solid rgba(232, 168, 72, 0.22);
   background: rgba(232, 168, 72, 0.045);
 }
@@ -858,6 +858,40 @@
   margin-bottom: 8px;
 }
 
+/* LE BLOC REPLIE : l'en-tete est le bouton, 44 px de haut, une fleche qui
+   tourne a l'ouverture. Voir LieuxPage.tsx. */
+.lx-soirees-repli > summary {
+  min-height: 44px;
+  margin-bottom: 0;
+  list-style: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.lx-soirees-repli > summary::-webkit-details-marker {
+  display: none;
+}
+.lx-soirees-repli > summary::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  margin-left: 4px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  rotate: 45deg;
+  translate: 0 -2px;
+  color: var(--accent);
+  transition: rotate 160ms ease;
+}
+.lx-soirees-repli[open] > summary::after {
+  rotate: 225deg;
+  translate: 0 2px;
+}
+.lx-soirees-repli[open] {
+  padding-bottom: 12px;
+}
+.lx-soirees-repli[open] > summary {
+  margin-bottom: 4px;
+}
 .lx-soirees-titre {
   font-size: 0.74rem;
   font-weight: 700;
@@ -867,6 +901,7 @@
 }
 
 .lx-soirees-compteur {
+  margin-left: auto;
   font-size: 0.74rem;
   font-weight: 600;
   color: rgba(246, 241, 234, 0.72);

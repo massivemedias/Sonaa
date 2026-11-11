@@ -255,7 +255,8 @@
   }
 }
 .cal-soiree .cal-texte {
-  padding: var(--espace-4) var(--espace-16) var(--espace-16);
+  /* de l'air sous l'affiche avant le titre (Mika, 11 novembre 2026) */
+  padding: var(--espace-12) var(--espace-16) var(--espace-16);
 }
 
 .cal-affiche {
@@ -441,8 +442,11 @@
 
 .cal-lieu,
 .cal-artistes {
-  margin: 2px 0 0;
-  font-size: 0.92rem;
+  margin: 4px 0 0;
+  /* plus petit que le titre d'un vrai cran : « font plus petite pour le
+     texte en dessous du titre » (Mika, 11 novembre 2026) */
+  font-size: 0.8rem;
+  line-height: 1.4;
 }
 
 /* Les noms passent en premier et un peu plus clairs : c'est la ligne qu'on
@@ -665,7 +669,7 @@
   .cal-lieu,
   .cal-artistes,
   .cal-genres {
-    font-size: 0.78rem;
+    font-size: 0.74rem;
   }
 }
 
