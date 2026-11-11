@@ -291,6 +291,12 @@ body :is(
   letter-spacing: var(--chasse-mono);
 }
 
+/* LA NAVIGATION DU HAUT, PLUS SERREE. Six mots et Track ID doivent tenir a
+   cote de la loupe et des langues des 1024 px (check:mobile les mesure). */
+body :is(.sitenav-lien, .sitenav-track-mot) {
+  letter-spacing: 0.04em;
+}
+
 /* ═══ UNE IMAGE CASSEE NE SE VOIT PAS ═══ Voir le script en tete
    d'index.html, qui marque `data-cassee` sur toute image en echec. Elle
    garde sa place, pour que rien ne saute, et son icone de navigateur

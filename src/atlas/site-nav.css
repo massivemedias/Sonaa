@@ -60,7 +60,7 @@
   background: transparent;
   color: var(--ink-secondary);
   /* 13 PX ET NON 14,4, le 28 septembre 2026 : « les fonts plus petites ». */
-  font-size: 0.8125rem;
+  font-size: 0.72rem;
   font-weight: 500;
   text-transform: none;
   text-decoration: none;
@@ -149,7 +149,7 @@
   border-radius: var(--rayon-pilule);
   background: var(--accent);
   color: var(--sur-accent);
-  font-size: 0.8125rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.01em;
   white-space: nowrap;
@@ -178,6 +178,12 @@
   }
   .sitenav-lien {
     padding: 0 8px;
+  }
+  /* la mono en capitales est plus large qu'Inter : sous 1180 px, elle se
+     resserre pour tenir a cote du titre d'une page de style (ADR-117) */
+  .sitenav .sitenav-lien {
+    font-size: 0.66rem;
+    letter-spacing: 0.01em;
   }
   .sitenav-lien::after {
     left: 8px;
