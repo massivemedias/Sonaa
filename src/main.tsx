@@ -1,5 +1,7 @@
 import { StrictMode, lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import '@fontsource-variable/big-shoulders-display';
+import '@fontsource-variable/geist-mono';
 import './design/tokens.css';
 import './design/base.css';
 import './design/v2.css';

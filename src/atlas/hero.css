@@ -40,9 +40,10 @@
      lignes, et sans equilibrage la seconde ne porte qu'un mot. */
   /* PLUS PETIT DEPUIS LE 28 SEPTEMBRE 2026 : « j'aimerais les fonts plus
      petites ». Le plafond passe de 70 a 56 px, le plancher de 35 a 32. */
-  font-size: clamp(2rem, 4.8vw, 3.5rem);
+  /* condensee depuis ADR-117 : plus haute pour la meme largeur */
+  font-size: clamp(2.9rem, 6.8vw, 5.6rem);
   font-weight: 800;
-  line-height: 1.02;
+  line-height: 0.88;
   letter-spacing: -0.025em;
   text-wrap: balance;
   color: var(--ink-primary);
@@ -69,13 +70,12 @@
 .hero-bouton {
   min-height: 44px;
   padding: 0 var(--espace-24);
-  border: 0;
+  border: 1px solid var(--filet-fort);
   border-radius: var(--rayon-pilule);
-  background: var(--verre-fond);
-  box-shadow: var(--verre-filet);
+  background: transparent;
   color: var(--ink-primary);
   font-family: var(--font-ui);
-  font-size: 0.875rem;
+  font-size: 0.72rem;
   font-weight: 600;
   white-space: nowrap;
   cursor: pointer;

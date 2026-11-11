@@ -15,6 +15,18 @@
      sont partis avec ce choix, pour qu'aucune requete ne les cherche. */
   --police: 'Inter', system-ui, -apple-system, sans-serif;
 
+  /* L'AFFICHE DE CLUB, depuis le 11 novembre 2026 (ADR-117). Mika a classe
+     trois sites qu'il aime, Kraken Industries en tete : une condensee grasse
+     en capitales pour les titres, une mono pour tout ce qui est petit
+     (libelles, dates, boutons, menus). Inter reste pour le texte qu'on lit
+     longtemps. Les deux sont libres (OFL) et auto-hebergees par Fontsource,
+     importees dans main.tsx : aucun appel tiers. */
+  --police-titre: 'Big Shoulders Display Variable', 'Arial Narrow', sans-serif;
+  --police-mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
+  /* l'ecartement des libelles en mono : la seule exception au serrage
+     unique, parce qu'une mono en capitales serrees devient illisible */
+  --chasse-mono: 0.12em;
+
   /* LE SERRAGE : -0,3 px, UNE seule valeur, pour tout le site.
 
      L'HISTOIRE DE CE JETON EN DIT PLUS QUE SA VALEUR. Il a porte -4px, puis
@@ -477,17 +489,18 @@
   --verre-opaque: var(--leve-2);
   --ombre-flottante: 0 12px 40px -16px oklch(0 0 0 / 0.6);
   --ombre-flottante-haut: 0 -12px 40px -16px oklch(0 0 0 / 0.6);
-  --rayon-carte: 24px;
-  /* LES AFFICHES DE LA BANNIERE, a 16 px : plus serre que les cartes, parce
-     qu'une affiche est une image et non un conteneur. */
-  --rayon-affiche: 16px;
-  --rayon-pilule: 999px;
+  /* LES COINS DROITS, depuis ADR-117 : une affiche de club ne s'arrondit pas.
+     Deux pixels, pour que le bord reste net sans couper au rasoir. */
+  --rayon-carte: 2px;
+  --rayon-affiche: 2px;
+  --rayon-pilule: 2px;
   /* LA TAILLE D'UN TITRE DE SECTION, ecrite ici et lue par toutes les
      pages : check:constantes a refuse la meme decoupe ecrite en clair dans
      trois feuilles, et il avait raison, c'est la meme grandeur. */
   /* PLUS PETIT DEPUIS LE 28 SEPTEMBRE 2026, Mika : « j'aimerais les fonts
      plus petites ». Le plafond passe de 45 a 36 px, le plancher de 28 a 24. */
-  --titre-section: clamp(1.5rem, 6vw, 2.25rem);
+  /* en condensee depuis ADR-117 : plus haute pour la meme largeur */
+  --titre-section: clamp(2.4rem, 8vw, 3.75rem);
   /* LE PLAFOND D'UNE IMAGE D'ARTICLE, demande par Mika le 22 septembre
      2026 : certaines images de flux font plusieurs milliers de pixels de
      haut et occupaient plusieurs ecrans a elles seules. */

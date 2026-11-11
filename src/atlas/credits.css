@@ -141,7 +141,7 @@
   font-size: var(--titre-section);
   font-weight: 800;
   letter-spacing: -0.02em;
-  line-height: 1.05;
+  line-height: 0.9;
   color: var(--ink-primary);
 }
 

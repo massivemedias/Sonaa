@@ -15,10 +15,12 @@
 .ac {
   /* LES DEUX GRANDEURS DE L'ACCUEIL, nommees une fois : la taille des
      grands titres de section, et le souffle vertical entre les blocs. */
-  --ac-grand-titre: clamp(2.4rem, 6.2vw, 5.4rem);
+  /* en condensee depuis ADR-117 : plus haute pour la meme largeur */
+  --ac-grand-titre: clamp(2.9rem, 7.8vw, 7.2rem);
   --ac-souffle: clamp(64px, 12.5vh, 132px);
   min-height: 100vh;
   overflow-x: clip;
+  counter-reset: ac-rang;
 }
 
 /* ═══ L'OUVERTURE ═══ */
@@ -43,11 +45,12 @@
 }
 .ac-mur {
   position: absolute;
-  inset: -40% -18%;
+  /* A DROITE ET DROIT depuis ADR-117 : le titre tient la gauche, comme
+     l'affiche tient la sienne sur Kraken. */
+  inset: -30% -6% -30% 36%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 14px;
-  rotate: -8deg;
 }
 .ac-mur-col {
   flex: 0 0 clamp(120px, 12.5vw, 210px);
@@ -63,7 +66,7 @@
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: var(--rayon-affiche);
   background: var(--voile-05);
 }
 /* La bande porte deux fois la colonne : a la moitie (plus un demi
@@ -81,32 +84,34 @@
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(ellipse 70% 60% at 50% 48%, oklch(0.08 0.014 70 / 0.94) 0%, oklch(0.08 0.014 70 / 0.8) 50%, oklch(0.08 0.014 70 / 0.46) 100%),
-    linear-gradient(to bottom, oklch(0.08 0.014 70 / 0.55) 0%, transparent 22%, transparent 56%, var(--fond) 93%);
+    linear-gradient(to right, oklch(0.08 0.014 70 / 0.97) 0%, oklch(0.08 0.014 70 / 0.9) 34%, oklch(0.08 0.014 70 / 0.45) 64%, oklch(0.08 0.014 70 / 0.2) 100%),
+    linear-gradient(to bottom, oklch(0.08 0.014 70 / 0.55) 0%, transparent 22%, transparent 60%, var(--fond) 96%);
 }
 
 .ac-hero-texte {
   width: 100%;
-  max-width: 1180px;
+  max-width: calc(var(--largeur-page) - 2 * var(--marge-page));
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  align-items: flex-start;
+  text-align: left;
 }
 .ac-titre {
   margin: 0;
-  font-size: clamp(2.3rem, min(5.5vw, 9.5vh), 5.8rem);
+  font-size: clamp(3.6rem, min(10.5vw, 17vh), 10.5rem);
   font-weight: 800;
-  line-height: 0.92;
-  letter-spacing: var(--serrage);
+  line-height: 0.84;
   color: var(--encre-vive);
-  text-shadow: 0 4px 40px oklch(0.1 0.014 70 / 0.6);
 }
 /* LE TITRE MONTE DE SOUS SA LIGNE : chaque ligne est une fenetre, le texte
    y entre par le bas. */
 .ac-ligne {
   display: block;
   overflow: hidden;
+  /* la fenetre s'ouvre au-dessus des capitales : l'accent de « OÙ » y
+     depassait et etait coupe avec l'interligne serre de la condensee */
+  padding-top: 0.16em;
+  margin-top: -0.16em;
   padding-bottom: 0.08em;
 }
 .ac-ligne > span {
@@ -122,10 +127,12 @@
    pages generees ; la seconde ligne reste d'un orange franc, le jaune vit
    ailleurs (le trait du menu, les liens d'achat). */
 .ac-chapeau {
-  max-width: 40rem;
-  margin: var(--espace-24) auto 0;
-  font-size: clamp(1rem, 1.35vw, 1.2rem);
-  line-height: 1.5;
+  max-width: 34rem;
+  margin: var(--espace-24) 0 0;
+  /* en mono, comme le texte court de Kraken : une phrase, pas un article */
+  font-family: var(--police-mono);
+  font-size: clamp(0.88rem, 1.05vw, 1rem);
+  line-height: 1.65;
   color: var(--encre-moyenne);
   animation: ac-fondu 700ms 420ms both;
 }
@@ -136,8 +143,9 @@
   padding: 0 1.4rem;
   border-radius: var(--rayon-pilule);
   border: 1px solid var(--filet-fort);
-  background: var(--verre-fond);
+  background: transparent;
   color: var(--ink-primary);
+  font-size: 0.78rem;
   font-weight: 600;
   text-decoration: none;
   transition: border-color 160ms ease, background 160ms ease, color 160ms ease;
@@ -159,12 +167,16 @@
 .ac-portes {
   list-style: none;
   width: 100%;
-  margin: var(--espace-32) 0 0;
+  margin: var(--espace-48, 48px) 0 0;
   padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  row-gap: var(--espace-12);
+  /* UNE GRILLE NUMEROTEE, depuis ADR-117 : cinq cases separees de filets,
+     comme les etapes 01, 02, 03 de Kraken. */
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  /* la moitie gauche, celle du titre : le mur garde la droite */
+  max-width: 52rem;
+  border-block: 1px solid var(--filet-fort);
+  counter-reset: ac-porte;
 }
 .ac-portes > li {
   animation: ac-fondu 700ms both;
@@ -172,35 +184,44 @@
 }
 /* Un filet fin entre deux liens, pas avant le premier. */
 .ac-portes > li + li {
-  border-left: 1px solid oklch(1 0 0 / 0.16);
+  border-left: 1px solid var(--filet-fort);
 }
 .ac-porte-lien {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 2px;
+  align-items: flex-start;
+  gap: var(--espace-8);
   min-height: 44px;
-  padding: var(--espace-4) var(--espace-24);
+  height: 100%;
+  box-sizing: border-box;
+  padding: var(--espace-16) var(--espace-16) var(--espace-24);
   color: var(--ink-primary);
   text-decoration: none;
+  transition: background 160ms ease;
+}
+.ac-porte-lien::before {
+  counter-increment: ac-porte;
+  content: counter(ac-porte, decimal-leading-zero);
+  font-family: var(--police-mono);
+  font-size: 0.72rem;
+  letter-spacing: var(--chasse-mono);
+  color: var(--accent);
+}
+.ac-porte-lien:hover {
+  background: var(--voile-04);
 }
 .ac-porte-nom {
-  font-size: 1.02rem;
-  font-weight: 800;
-  text-decoration: underline;
-  text-decoration-color: transparent;
-  text-underline-offset: 0.2em;
-  text-decoration-thickness: 2px;
-  transition: text-decoration-color 160ms ease, color 160ms ease;
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  line-height: 1;
+  transition: color 160ms ease;
 }
 .ac-porte-lien:hover .ac-porte-nom,
 .ac-porte-lien:focus-visible .ac-porte-nom {
   color: var(--accent);
-  text-decoration-color: var(--accent);
 }
 .ac-porte-detail {
-  font-size: 0.8rem;
-  line-height: 1.35;
+  font-size: 0.68rem;
+  line-height: 1.5;
   color: var(--ink-secondary);
 }
 
@@ -235,28 +256,44 @@
   align-items: end;
   gap: var(--espace-16) var(--espace-24);
   margin-bottom: var(--espace-32);
+  /* un filet sur toute la largeur de la colonne, au-dessus du numero */
+  padding-top: var(--espace-24);
+  border-top: 1px solid var(--filet-fort);
+}
+/* LE NUMERO DE SECTION, 01 a 05, en mono et en orange. */
+.ac-section-mots::before {
+  counter-increment: ac-rang;
+  content: counter(ac-rang, decimal-leading-zero) ' /';
+  display: block;
+  margin-bottom: var(--espace-16);
+  font-family: var(--police-mono);
+  font-size: 0.75rem;
+  letter-spacing: var(--chasse-mono);
+  color: var(--accent);
 }
 .ac-section-titre {
   margin: 0;
   font-size: var(--ac-grand-titre);
   font-weight: 800;
-  line-height: 0.95;
-  letter-spacing: var(--serrage);
+  line-height: 0.86;
   color: var(--encre-vive);
 }
 .ac-section-sous {
   max-width: 42rem;
-  margin: var(--espace-12) 0 0;
-  font-size: 1.02rem;
+  margin: var(--espace-16) 0 0;
+  font-family: var(--police-mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
   color: var(--ink-secondary);
 }
 .ac-porte {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
+  font-size: 0.75rem;
   font-weight: 600;
   white-space: nowrap;
-  color: var(--ink-primary);
+  color: var(--accent);
   text-decoration: none;
   border-bottom: 1px solid var(--accent);
 }
@@ -269,7 +306,7 @@
 .ac-cadre {
   display: block;
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: var(--rayon-affiche);
   margin-bottom: var(--espace-8);
   background: var(--voile-08);
 }
@@ -341,7 +378,7 @@ a:hover > .ac-cadre > .cal-gen {
 }
 .ac-fantome {
   aspect-ratio: 4 / 5;
-  border-radius: 14px;
+  border-radius: var(--rayon-affiche);
   background: var(--voile-05);
 }
 .ac-vide {
@@ -357,6 +394,27 @@ a:hover > .ac-cadre > .cal-gen {
   border-block: 1px solid var(--filet);
   overflow: hidden;
 }
+/* L'APLAT ORANGE, depuis ADR-117 : le bandeau plein de Kraken. Il ne vaut
+   que tant que l'ecoute n'a rien affiche ; son resultat est dessine pour le
+   fond sombre, la bande y revient alors. */
+.ac-ecoute:not(:has(.ac-ecoute-resultat)) {
+  background: var(--accent);
+  border-color: transparent;
+}
+.ac-ecoute:not(:has(.ac-ecoute-resultat)) :is(.ac-ecoute-titre, .ac-ecoute-sous) {
+  color: var(--sur-accent);
+}
+.ac-ecoute:not(:has(.ac-ecoute-resultat)) .bt {
+  background: var(--sur-accent);
+  color: var(--accent);
+}
+.ac-ecoute:not(:has(.ac-ecoute-resultat)) .bt-micro {
+  background: var(--accent);
+  color: var(--sur-accent);
+}
+.ac-ecoute:not(:has(.ac-ecoute-resultat)) .bt-micro::before {
+  border-color: var(--accent);
+}
 .ac-ecoute-dedans {
   /* La colonne des sections : la largeur de page moins ses deux marges. */
   max-width: calc(var(--largeur-page) - 2 * var(--marge-page));
@@ -370,14 +428,15 @@ a:hover > .ac-cadre > .cal-gen {
   margin: var(--espace-8) 0 0;
   font-size: var(--ac-grand-titre);
   font-weight: 800;
-  line-height: 0.95;
-  letter-spacing: var(--serrage);
+  line-height: 0.86;
   color: var(--encre-vive);
 }
 .ac-ecoute-sous {
   max-width: 36rem;
   margin: var(--espace-16) 0 0;
-  font-size: 1.02rem;
+  font-family: var(--police-mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
   color: var(--ink-secondary);
 }
 /* LE BOUTON DE TRACK ID, celui de Styles (bouton-track.css), en plus grand. */
@@ -420,7 +479,7 @@ a:hover > .ac-cadre > .cal-gen {
   align-items: center;
   gap: 0.35em;
   padding-right: 0.7em;
-  font-size: clamp(1.9rem, 4.6vw, 4.4rem);
+  font-size: clamp(2.6rem, 6.6vw, 6.2rem);
   font-weight: 800;
   line-height: 1.12;
   letter-spacing: var(--serrage);
@@ -464,7 +523,7 @@ a:hover > .ac-cadre > .cal-gen {
   gap: 2px;
   aspect-ratio: 1;
   padding: var(--espace-16);
-  border-radius: 16px;
+  border-radius: var(--rayon-affiche);
   overflow: hidden;
   background: var(--leve);
   color: var(--encre-vive);
@@ -490,14 +549,15 @@ a:hover > .ac-cadre > .cal-gen {
   content: '';
   position: absolute;
   inset: 0 0 auto 0;
-  height: 4px;
+  height: 6px;
   background: oklch(0.72 0.15 var(--teinte));
 }
 .ac-famille:hover .ac-famille-image {
   scale: 1.07;
 }
 .ac-famille-nom {
-  font-size: 1.3rem;
+  font-size: 1.9rem;
+  line-height: 0.9;
   font-weight: 800;
 }
 .ac-famille-n {
@@ -524,7 +584,7 @@ a:hover > .ac-cadre > .cal-gen {
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: var(--rayon-affiche);
   margin-bottom: var(--espace-8);
   background: var(--voile-08);
   transition: scale 260ms ease;
@@ -653,22 +713,36 @@ a:hover > .ac-cadre > .cal-gen {
   }
   /* Au telephone, une liste en colonne, un lien par ligne, le filet
      passe dessus. */
+  /* le mur passe derriere tout le texte, et le voile s'epaissit d'autant */
+  .ac-mur {
+    inset: -30% -20% -30% 8%;
+  }
+  .ac-hero-voile {
+    background:
+      linear-gradient(to right, oklch(0.08 0.014 70 / 0.94) 0%, oklch(0.08 0.014 70 / 0.82) 100%),
+      linear-gradient(to bottom, transparent 60%, var(--fond) 96%);
+  }
   .ac-portes {
-    margin-top: var(--espace-24);
-    flex-direction: column;
-    align-items: stretch;
-    row-gap: 0;
+    margin-top: var(--espace-32);
+    grid-template-columns: minmax(0, 1fr);
   }
   .ac-portes > li + li {
     border-left: 0;
-    border-top: 1px solid oklch(1 0 0 / 0.12);
+    border-top: 1px solid var(--filet-fort);
   }
+  /* une ligne par porte : le numero, le nom, puis le detail a droite */
   .ac-porte-lien {
     flex-direction: row;
-    justify-content: space-between;
     align-items: baseline;
     gap: var(--espace-12);
     padding: var(--espace-12) 0;
+  }
+  .ac-porte-lien::before {
+    flex: 0 0 2.2em;
+  }
+  .ac-porte-detail {
+    margin-left: auto;
+    text-align: right;
   }
   .ac-section-tete {
     grid-template-columns: minmax(0, 1fr);

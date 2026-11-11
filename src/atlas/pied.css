@@ -24,12 +24,16 @@
   margin-top: var(--espace-48);
   /* EN VERRE DEPOLI, depuis ADR-089 : la matiere vient de design/verre.css,
      et le filet du haut est le filet interieur du verre. */
-  font-family: var(--font-ui);
-  /* TREIZE PIXELS, EN PIXELS. Mika, le 22 septembre 2026 : le pied cassait
+  /* EN MONO DEPUIS ADR-117, avec une chasse plus serree que les autres
+     libelles : la rangee doit tenir sur une ligne a 1024 px (check:pied). */
+  font-family: var(--police-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  /* ONZE PIXELS EN MONO DEPUIS ADR-117 (treize en Inter avant). EN PIXELS. Mika, le 22 septembre 2026 : le pied cassait
      sur deux lignes a 1240 px en francais. La rangee est mesuree au pixel
      par scripts/check-pied.ts, et une taille en rem y bougerait avec le
      reglage du navigateur pendant que la colonne, elle, reste a 1240. */
-  font-size: 13px;
+  font-size: 11px;
   margin-left: calc(-1 * max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2)));
   margin-right: calc(-1 * max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2)));
   padding-left: max(var(--marge-page), calc((100vw - var(--largeur-page)) / 2));

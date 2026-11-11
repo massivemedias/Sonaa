@@ -254,6 +254,43 @@ h3 {
   text-wrap: balance;
 }
 
+/* ═══ LES DEUX ROLES DE L'AFFICHE DE CLUB (ADR-117) ═══
+
+   Ecrits ici une fois pour tout le site, et non dans chaque feuille : un
+   role typographique est une decision de charte, pas un reglage de page.
+   Les feuilles de page gardent la taille et l'interligne ; elles ne disent
+   plus quelle police.
+
+   QUALIFIES PAR `body` : plusieurs feuilles de page posent leur propre
+   serrage, et arrivent apres celle-ci. `body :is(...)` gagne sur une classe
+   seule sans depasser une regle a deux classes.
+
+   1. LE TITRE D'AFFICHE : condensee grasse, en capitales. Les titres de page,
+      de section, de bloc, et les noms qu'on lit de loin. */
+body :is(
+  .ac-titre, .ac-section-titre, .ac-ecoute-titre, .ac-porte-nom, .ac-famille-nom, .ac-defile-nom,
+  .hero-titre, .credits-head h1, .news-manchette h1, .sp-tete-set h1, .sp-tete-artiste h1,
+  .index-head h1, .sets-page > h1, .cal-jour h3, .cal-tete-courte h2, .sonaa-mm-label,
+  .cal-carte-intertitre, .lx-titre, .pv-tete-titre, .pv-hero-nom, .pv-tuile-nom, .lb-nom, .cal-gen-jour) {
+  font-family: var(--police-titre);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+}
+
+/* 2. LE LIBELLE MONO : tout ce qui est petit et se lit d'un coup d'oeil,
+      dates, sources, compteurs, menus, boutons. En capitales espacees. */
+body :is(
+  .ac-porte-detail, .ac-porte, .ac-soiree-quand, .ac-article-source, .ac-sortie-label, .ac-famille-n,
+  .ac-geste, .hero-bouton, .hero-ville-mot, .sitenav-lien, .sitenav-track-mot,
+  .sonaa-mm-num, .sonaa-mm-kicker, .sonaa-mm-pill, .sonaa-mm-track-cta, .sonaa-mm-legal-lien,
+  .news-edition, .cal-ligne-quand, .cal-origine, .cal-vue, .cal-ville-mot, .credits-foot a, .bt-titre,
+  .authb-entrer-mot, .authb-principal, .contrib-primaire, .cal-gen-semaine, .cal-gen-heure, .cal-gen-mois) {
+  font-family: var(--police-mono);
+  text-transform: uppercase;
+  letter-spacing: var(--chasse-mono);
+}
+
 /* ═══ UNE IMAGE CASSEE NE SE VOIT PAS ═══ Voir le script en tete
    d'index.html, qui marque `data-cassee` sur toute image en echec. Elle
    garde sa place, pour que rien ne saute, et son icone de navigateur

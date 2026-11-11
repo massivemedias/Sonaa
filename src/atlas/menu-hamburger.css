@@ -197,9 +197,9 @@
 
 .sonaa-mm-label {
   font-family: var(--font-display, var(--font-ui));
-  font-size: 1.92rem;
-  font-weight: 700;
-  line-height: 1.04;
+  font-size: 2.7rem;
+  font-weight: 800;
+  line-height: 0.92;
   letter-spacing: -0.015em;
   text-transform: uppercase;
 }
