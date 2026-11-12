@@ -1,4 +1,4 @@
-/* L'ADAPTATEUR SHOTGUN : les soirees de Montpellier et de Toulouse.
+/* L'ADAPTATEUR SHOTGUN : les soirees des cinq villes francaises du calendrier.
  *
  * Usage : npm run ingerer:shotgun -- --lire        (montre, n'ecrit rien)
  *         SUPABASE_SERVICE_ROLE_KEY=... npm run ingerer:shotgun
@@ -72,13 +72,27 @@ interface Ville {
   readonly shotgun: string;
   /** Le slug dans notre table `villes`. */
   readonly sonaa: string;
+  /** Un plafond de pages plus bas que le plafond general, pour une ville
+      ou Shotgun annonce plus que ce que le calendrier peut montrer. */
+  readonly pages?: number;
 }
 
-/* DEUX VILLES, PARCE QUE LE GAIN Y EST DU MEME ORDRE. En ajouter une revient
-   a ajouter une ligne ici, a condition que la ville existe dans `villes`. */
+/* LES CINQ VILLES FRANCAISES DU CALENDRIER, depuis le 12 novembre 2026
+   (ADR-118 et ADR-119). Shotgun est la billetterie de la nuit francaise, et
+   Resident Advisor s'effondre hors de Paris. Marseille s'appelle
+   « aix-marseille » chez eux et y melange Aix-en-Provence, que l'atlas range
+   deja dans la banlieue de Marseille.
+
+   PARIS EST PLAFONNEE A DIX PAGES. Shotgun y annonce environ deux mille cinq
+   cents soirees ; a trois secondes la fiche, la moisson durerait deux heures,
+   et RA couvre deja bien Paris. Dix pages, cent cinquante soirees, les plus
+   proches, c'est le complement utile. */
 const VILLES: readonly Ville[] = [
   { shotgun: 'montpellier', sonaa: 'montpellier-fr' },
   { shotgun: 'toulouse', sonaa: 'toulouse-fr' },
+  { shotgun: 'lyon', sonaa: 'lyon-fr' },
+  { shotgun: 'aix-marseille', sonaa: 'marseille-fr' },
+  { shotgun: 'paris', sonaa: 'paris-fr', pages: 10 },
 ];
 
 interface Fiche {
@@ -131,11 +145,12 @@ const dormir = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, m
     confiance au compteur annonce, qui compte parfois des dates passees. */
 async function listerLaVille(
   page: Page,
-  slug: string
+  slug: string,
+  plafond: number
 ): Promise<Map<string, string[]>> {
   const cartes = new Map<string, string[]>();
 
-  for (let n = 0; n < PAGES_MAX; n += 1) {
+  for (let n = 0; n < plafond; n += 1) {
     const adresse = `https://shotgun.live/fr/cities/${slug}${n === 0 ? '' : `?page=${n}`}`;
     await page.goto(adresse, { waitUntil: 'domcontentloaded', timeout: 45_000 });
     await page.waitForTimeout(2500);
@@ -379,7 +394,7 @@ async function main(): Promise<void> {
 
     for (const ville of villes) {
       console.log(`\n${ville.shotgun.toUpperCase()}`);
-      const cartes = await listerLaVille(page, ville.shotgun);
+      const cartes = await listerLaVille(page, ville.shotgun, Math.min(PAGES_MAX, ville.pages ?? PAGES_MAX));
       console.log(`  ${cartes.size} fiches à lire`);
 
       const fiches: Fiche[] = [];

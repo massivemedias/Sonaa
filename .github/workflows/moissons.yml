@@ -65,21 +65,15 @@ jobs:
         continue-on-error: true
         run: npm run ingerer:ticketmaster -- --toutes
 
-      # Eventbrite refuse les machines de GitHub (405) depuis la fin d'octobre
-      # 2026 : l'etape echoue alors en le disant, et la moisson continue.
-      - name: Eventbrite (vingt villes)
-        continue-on-error: true
-        run: npm run ingerer:eventbrite -- --toutes --pages=10
+      # Eventbrite (405 depuis la fin d'octobre 2026) et Shotgun (controle
+      # Vercel depuis septembre) refusent les machines de GitHub : ils se
+      # moissonnent sur le Mac de Mika chaque matin, scripts/mac/ (ADR-119).
 
-      # Lepointdevente et Shotgun pilotent le Chrome de la machine ; le
-      # runner Ubuntu de GitHub en a un.
+      # Lepointdevente pilote le Chrome de la machine ; le runner Ubuntu de
+      # GitHub en a un.
       - name: Lepointdevente
         continue-on-error: true
         run: npm run ingerer:lepointdevente
-
-      - name: Shotgun
-        continue-on-error: true
-        run: npm run ingerer:shotgun
 
       # ── Les artistes ─────────────────────────────────────────────────
       - name: Releve des artistes (cache d'une nuit a l'autre)

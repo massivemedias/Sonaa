@@ -59,7 +59,9 @@
     "moissonner:actu-labels": "tsx --env-file-if-exists=.env scripts/moissonner-actu-labels.ts",
     "ingerer:eventbrite": "tsx scripts/ingerer-eventbrite.ts",
     "ingerer:lepointdevente": "tsx scripts/ingerer-lepointdevente.ts",
-    "ingerer:ticketmaster": "tsx scripts/ingerer-ticketmaster.ts"
+    "ingerer:ticketmaster": "tsx scripts/ingerer-ticketmaster.ts",
+    "planifier:mac": "bash scripts/mac/planifier.sh",
+    "deplanifier:mac": "bash scripts/mac/deplanifier.sh"
   },
   "dependencies": {
     "@fontsource-variable/big-shoulders-display": "^5.3.0",
